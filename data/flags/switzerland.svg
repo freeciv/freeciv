@@ -1,19 +1,21 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg
    xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:cc="http://creativecommons.org/ns#"
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
    xmlns:xlink="http://www.w3.org/1999/xlink"
-   xmlns:sodipodi="http://inkscape.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    version="1"
    x="0"
    y="0"
-   width="595.28000pt"
-   height="140mm"
-   id="svg378">
+   width="196.87645mm"
+   height="131.24998mm"
+   id="svg378"
+   sodipodi:docname="switzerland.svg"
+   inkscape:version="1.0.2 (e86c870879, 2021-01-15)">
   <metadata
      id="metadata1462">
     <rdf:RDF>
@@ -29,12 +31,15 @@
      id="base"
      inkscape:zoom="0.69346032"
      inkscape:cx="372.05002"
-     inkscape:cy="248.03149"
-     inkscape:window-width="701"
-     inkscape:window-height="507"
-     inkscape:window-x="31"
-     inkscape:window-y="120"
-     inkscape:current-layer="svg378" />
+     inkscape:cy="248.03148"
+     inkscape:window-width="879"
+     inkscape:window-height="647"
+     inkscape:window-x="469"
+     inkscape:window-y="60"
+     inkscape:current-layer="svg378"
+     inkscape:document-rotation="0"
+     showgrid="false"
+     inkscape:window-maximized="0" />
   <defs
      id="defs380">
     <linearGradient
@@ -55,29 +60,29 @@
   <rect
      width="744.09998"
      height="496.06296"
-     x="0.0000000"
-     y="9.0000003e-06"
-     style="font-size:12.000000px;fill:#fa000b;fill-rule:evenodd;stroke-width:1.0000000pt"
+     x="0"
+     y="0"
+     style="font-size:12px;fill:#fa000b;fill-rule:evenodd;stroke-width:1pt"
      id="rect171" />
   <rect
-     style="font-size:12;fill:#808080;fill-rule:evenodd;stroke-width:1pt;"
+     style="font-size:12px;fill:#808080;fill-rule:evenodd;stroke-width:1pt"
      id="rect554"
      width="0.79385376"
      height="0"
-     x="338.981903"
-     y="183.120010" />
+     x="338.9819"
+     y="183.12" />
   <g
      id="g566"
-     transform="matrix(0.700000,0.000000,0.000000,0.700000,-2.578735e-3,6.332397e-4)">
+     transform="matrix(0.7,0,0,0.7,-0.00257873,6.242397e-4)">
     <rect
-       style="font-size:12.000000px;fill:#ffffff;fill-opacity:1.0000000;fill-rule:evenodd;stroke-width:1.0000000pt"
+       style="font-size:12px;fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke-width:1pt"
        id="rect557"
        width="442.91342"
        height="132.87405"
-       x="310.03940"
-       y="287.89310" />
+       x="310.0394"
+       y="287.8931" />
     <rect
-       style="font-size:12.000000px;fill:#ffffff;fill-opacity:1.0000000;fill-rule:evenodd;stroke-width:1.0000000pt"
+       style="font-size:12px;fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke-width:1pt"
        id="rect565"
        width="132.87401"
        height="442.91339"
