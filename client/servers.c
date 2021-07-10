@@ -487,7 +487,13 @@ static bool begin_lanserver_scan(struct server_scan *scan)
 
   /* Create a socket for broadcasting to servers. */
   if ((send_sock = socket(family, SOCK_DGRAM, 0)) < 0) {
-    log_error("socket failed: %s", fc_strerror(fc_get_errno()));
+    char errstr[2048];
+
+    fc_snprintf(errstr, sizeof(errstr),
+                _("Opening socket for sending LAN announcement request failed:\n%s"),
+                fc_strerror(fc_get_errno()));
+    scan->error_func(scan, errstr);
+
     return FALSE;
   }
 
@@ -519,14 +525,28 @@ static bool begin_lanserver_scan(struct server_scan *scan)
   ttl = SERVER_LAN_TTL;
   if (setsockopt(send_sock, IPPROTO_IP, IP_MULTICAST_TTL, (const char*)&ttl, 
                  sizeof(ttl))) {
-    log_error("setsockopt failed: %s", fc_strerror(fc_get_errno()));
+    char errstr[2048];
+
+    fc_snprintf(errstr, sizeof(errstr),
+                _("Setting Time-to-Live failed:\n%s"),
+                fc_strerror(fc_get_errno()));
+    scan->error_func(scan, errstr);
+
+    /* FIXME: Is this really supposed to be an hard error, or should we
+     *        just continue? After all, Windows builds do not even attempt this. */
     return FALSE;
   }
 #endif /* FREECIV_HAVE_WINSOCK */
 
   if (setsockopt(send_sock, SOL_SOCKET, SO_BROADCAST, (const char*)&opt, 
                  sizeof(opt))) {
-    log_error("setsockopt failed: %s", fc_strerror(fc_get_errno()));
+    char errstr[2048];
+
+    fc_snprintf(errstr, sizeof(errstr),
+                _("Setting Broadcast option failed:\n%s"),
+                fc_strerror(fc_get_errno()));
+    scan->error_func(scan, errstr);
+
     return FALSE;
   }
 
@@ -537,10 +557,14 @@ static bool begin_lanserver_scan(struct server_scan *scan)
 
   if (sendto(send_sock, buffer, size, 0, &addr.saddr,
              sockaddr_size(&addr)) < 0) {
-    /* This can happen when there's no network connection - it should
-     * give an in-game message. */
-    log_error("lanserver scan sendto failed: %s",
-              fc_strerror(fc_get_errno()));
+    /* This can happen when there's no network connection */
+    char errstr[2048];
+
+    fc_snprintf(errstr, sizeof(errstr),
+                _("Sending LAN announcement request failed:\n%s"),
+                fc_strerror(fc_get_errno()));
+    scan->error_func(scan, errstr);
+
     return FALSE;
   } else {
     log_debug("Sending request for server announcement on LAN.");
