@@ -1,8 +1,8 @@
-noinst_LTLIBRARIES = libtinycthread.la
+noinst_LTLIBRARIES = libfctinycthread.la
 
-libtinycthread_la_SOURCES = \
-	tinycthread.c	\
-	tinycthread.h
+libfctinycthread_la_SOURCES =	\
+	fc_tinycthread.c	\
+	fc_tinycthread.h
 
 EXTRA_DIST = README.txt \
 	Version.txt
