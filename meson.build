@@ -462,7 +462,7 @@ tolua_signal = custom_target('tolua_signal',
                                        files('common/scriptcore/tolua_signal.pkg')])
 
 if host_system == 'windows'
-  tinycthr_files = files('dependencies/tinycthread/tinycthread.c')
+  tinycthr_files = files('dependencies/tinycthread/fc_tinycthread.c')
 else
   tinycthr_files = files()
 endif

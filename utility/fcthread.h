@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -25,7 +25,7 @@ extern "C" {
 #include "support.h" /* bool */
 
 #ifdef FREECIV_HAVE_TINYCTHR
-#include "tinycthread.h"
+#include "fc_tinycthread.h"
 #define FREECIV_C11_THR
 #else
 #ifdef FREECIV_HAVE_C11_THREADS

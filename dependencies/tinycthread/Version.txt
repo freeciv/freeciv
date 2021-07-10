@@ -4,3 +4,5 @@ commit 6957fc8383d6c7db25b60b8c849b29caab1caaee
 Fri Sep 30 12:47:32 2016 -0400
 
 Only files needed by freeciv have been included here.
+Source files have been renamed to distinguish freeciv copy
+from a version in crosser environment.
