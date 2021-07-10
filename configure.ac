@@ -821,7 +821,7 @@ if test "x$fctinycthr" = "xyes" ; then
   AC_DEFINE([FREECIV_HAVE_THREAD_COND], [1], [Has thread condition variable implementation])
   thread_cond=true
 
-  TINYCTHR_LIBS="\$(top_builddir)/dependencies/tinycthread/libtinycthread.la"
+  TINYCTHR_LIBS="\$(top_builddir)/dependencies/tinycthread/libfctinycthread.la"
   AC_SUBST([TINYCTHR_LIBS])
 
   AC_MSG_RESULT([tinycthread])
