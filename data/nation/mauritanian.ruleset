@@ -1,9 +1,9 @@
 [nation_mauritanian]
 
-name=_("Mauritanian")
-plural=_("?plural:Mauritanians")
-groups="African", "Modern"
-legend=_("Mauritania is a country in North West Africa, where the Arab\
+name   = _("Mauritanian")
+plural = _("?plural:Mauritanians")
+groups = "African", "Modern"
+legend = _("Mauritania is a country in North West Africa, where the Arab\
  and Sub-Saharan African worlds meet. Mauritania became Islamized from\
  the 11th century onwards. Colonized by France in the 19th century, the\
  country became an independent republic in 1960.")
@@ -22,13 +22,13 @@ ruler_titles = {
  "Fundamentalism", _("Imam %s"),   _("Imama %s")
 }
 
-flag="mauritania"
+flag = "mauritania"
 flag_alt = "-"
 style = "babylonian"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
 civilwar_nations = "sahrawi", "jolof", "amazigh"
 

@@ -1,9 +1,9 @@
 [nation_moluccas]
 
-name=_("Moluccan")
-plural=_("?plural:Moluccans")
-groups="Asian"
-legend=_("The Moluccas, known as the Spice Islands during the era of\
+name   = _("Moluccan")
+plural = _("?plural:Moluccans")
+groups = "Asian"
+legend = _("The Moluccas, known as the Spice Islands during the era of\
  colonizations, are an island group in the Indonesian archipelago.\
  Inhabited by Malay peoples, the islands were contested by the Spanish,\
  Portuguese and English but ended up under firm Dutch control by the 16th\
@@ -32,15 +32,15 @@ ruler_titles = {
  "Monarchy",        _("Sultan %s"),    _("Sultana %s")
 }
 
-flag="moluccas"
+flag = "moluccas"
 flag_alt = "-"
 style = "Asian"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-civilwar_nations="indonesian", "dutch"
+civilwar_nations = "indonesian", "dutch"
 
 cities =
  "Ambon",
@@ -85,5 +85,3 @@ cities =
  "Manuk",
  "Seram",
  "Serua"
-
-

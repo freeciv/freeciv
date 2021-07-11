@@ -1,9 +1,9 @@
 [nation_moroccan]
 
-name=_("Moroccan")
-plural=_("?plural:Moroccans")
-groups="Medieval", "Early Modern", "Modern", "African"
-legend=_("Modern Morocco gained independence in 1956. However, the area\
+name   = _("Moroccan")
+plural = _("?plural:Moroccans")
+groups = "Medieval", "Early Modern", "Modern", "African"
+legend = _("Modern Morocco gained independence in 1956. However, the area\
  has been inhabited since at least 8000 BCE. In classical times the region\
  was known as Mauretania.")
 
@@ -30,14 +30,15 @@ ruler_titles = {
  "Republic",        _("Vizier %s"),          _("?female:Vizier %s")
 }
 
-flag="morocco"
+flag = "morocco"
 flag_alt = "-"
 style = "Classical"
 
-init_techs=""
-init_buildings=""
-init_units=""
-civilwar_nations="Amazigh", "Riffian", "Sahrawi"
+init_techs = ""
+init_buildings = ""
+init_units = ""
+
+civilwar_nations = "Amazigh", "Riffian", "Sahrawi"
 
 cities =
  "Rabat",

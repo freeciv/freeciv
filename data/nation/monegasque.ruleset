@@ -1,9 +1,9 @@
 [nation_monegasque]
 
-name = _("Monegasque")
+name   = _("Monegasque")
 plural = _("?plural:Monegasque")
-groups="European", "Modern", "Early Modern", "Medieval"
-legend=_("With only two square kilometers, Monaco is the second smallest\
+groups = "European", "Modern", "Early Modern", "Medieval"
+legend = _("With only two square kilometers, Monaco is the second smallest\
  country in the world. It has been ruled by the Grimaldi dynasty ever\
  since the country was founded in 1297. In 1861 Monaco lost more than 95\
  percent of its territory to France. The principality is noted for its\
@@ -35,11 +35,11 @@ flag = "monaco_alternative"
 flag_alt = "indonesia" ;the regular flag is identical to the Indonesian flag
 style = "Classical"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-civilwar_nations="italian", "french"
+civilwar_nations = "italian", "french"
 
 cities =
 ;traditional quarters

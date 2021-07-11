@@ -1,9 +1,9 @@
 [nation_manchu]
 
-name=_("Manchu")
-plural=_("?plural:Manchus")
-groups="Medieval", "Asian", "Early Modern"
-legend=_("The Manchus were a semi-nomadic people originating from the region\
+name   = _("Manchu")
+plural = _("?plural:Manchus")
+groups = "Medieval", "Asian", "Early Modern"
+legend = _("The Manchus were a semi-nomadic people originating from the region\
  called Manchuria in Northeast Asia. In the 17th century they conquered and\
  ruled China as the Manchu Empire until 1911.")
 
@@ -26,39 +26,40 @@ ruler_titles = {
  "Monarchy",        _("Emperor %s"),   _("Empress Dowager %s")
 }
 
-flag="manchuria"
+flag = "manchuria"
 flag_alt = "-"
 style = "Asian"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
+
 civilwar_nations = "mongol", "korean", "chinese"
 
 cities =
- "Mukden",		; Shenyang
+ "Mukden",              ; Shenyang
  "Harbin",
- "Cicigar",		; Qiqihar
- "Aihun",		; Aigun
- "Giyamusi",		; Jiamusi
- "Ninguta",		; Ning`an
- "Ishangga Gashan",	; Yingkou
- "Mudan Bira (river)",	; Mudanjiang
- "Alchuka",		; Acheng
+ "Cicigar",             ; Qiqihar
+ "Aihun",               ; Aigun
+ "Giyamusi",            ; Jiamusi
+ "Ninguta",             ; Ning`an
+ "Ishangga Gashan",     ; Yingkou
+ "Mudan Bira (river)",  ; Mudanjiang
+ "Alchuka",             ; Acheng
  "Sahaliyan Ula (river)",; Heihe
- "Girin",		; Jilin
- "Huncun",		; Hunchun
- "Abkai Imiyangga",	; Fengtianfu
- "Non Ula (river)",	; Nenjiang
- "Imiyangga Jase",	; Zhangjiakou
- "Hulun",		; Hailar
+ "Girin",               ; Jilin
+ "Huncun",              ; Hunchun
+ "Abkai Imiyangga",     ; Fengtianfu
+ "Non Ula (river)",     ; Nenjiang
+ "Imiyangga Jase",      ; Zhangjiakou
+ "Hulun",               ; Hailar
  "Gioro",
- "Erdemu Be Aliha",	; Chengde
+ "Erdemu Be Aliha",     ; Chengde
  "Tumen Ula (river)",
- "Kiyaktu",		; Kyakhta
- "Nibcu",		; Nerchinsk
- "Usuri Ula (river)",	; Ussuri
+ "Kiyaktu",             ; Kyakhta
+ "Nibcu",               ; Nerchinsk
+ "Usuri Ula (river)",   ; Ussuri
  "Yalu Ula (river)",
- "Nibcu Bira (river)",	; Nercha
+ "Nibcu Bira (river)",  ; Nercha
  "Sunggari Ula (river)",; Songhua
- "Ilan Boo"		; Sanjiazi
+ "Ilan Boo"             ; Sanjiazi

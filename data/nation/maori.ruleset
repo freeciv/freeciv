@@ -1,9 +1,9 @@
 [nation_maori]
 
-name=_("Maori")
-plural=_("?plural:Maori")
-groups="Oceanian"
-legend=_("The Maori are a Polynesian people that migrated to and settled the\
+name   = _("Maori")
+plural = _("?plural:Maori")
+groups = "Oceanian"
+legend = _("The Maori are a Polynesian people that migrated to and settled the\
  island group that is now New Zealand. According to archeological evidence,\
  the migration commenced in the 900s and continued until the 1400s.")
 
@@ -26,17 +26,18 @@ ruler_titles = {
  "Fundamentalism",  _("Elder %s"),           _("?female:Elder %s")
 }
 
-flag="maori"
+flag = "maori"
 flag_alt = "-"
 style = "Tropical"
 
-init_techs=""
-init_buildings=""
-init_units=""
-civilwar_nations="new zealand", "papuan"
+init_techs = ""
+init_buildings = ""
+init_units = ""
+
+civilwar_nations = "new zealand", "papuan"
 
 cities =
- "Tamaki (hills, ocean)",	; Auckland (Maorification: Ākarana)
+ "Tamaki (hills, ocean)",       ; Auckland (Maorification: Ākarana)
  "Rotorua (swamp, river, !ocean)",
  "Ngaruawahia",
  "Manukau (grassland, ocean)",
@@ -45,9 +46,9 @@ cities =
  "Kataia",
  "Whangarei", 
  "Te Puke",
- "Te Whanganui (hills, ocean)",	; Wellington; alt. Maori: Poneke
- "Otautahi (plains, ocean)",	; Christchurch
- "Otepoti (ocean)",		; Dunedin
+ "Te Whanganui (hills, ocean)", ; Wellington; alt. Maori: Poneke
+ "Otautahi (plains, ocean)",    ; Christchurch
+ "Otepoti (ocean)",             ; Dunedin
  "Waitakere",
  "Waiheke (ocean)",
  "Matakana",

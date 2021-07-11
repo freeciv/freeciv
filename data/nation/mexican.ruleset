@@ -1,9 +1,9 @@
 [nation_mexican]
 
-name=_("Mexican")
-plural=_("?plural:Mexicans")
-groups="Modern", "American"
-legend=_("Mexico borrows its name from the Mexica people, another name for\
+name   = _("Mexican")
+plural = _("?plural:Mexicans")
+groups = "Modern", "American"
+legend = _("Mexico borrows its name from the Mexica people, another name for\
  the Aztecs. It achieved independence from Spain in 1821. For most of the\
  19th century the country was wrecked by rebellions and foreign invasions\
  losing more than half of its territory to the United States. A liberal\
@@ -53,14 +53,15 @@ ruler_titles = {
  "Monarchy",        _("Emperor %s"),    _("Empress %s")
 }
 
-flag="mexico"
+flag = "mexico"
 flag_alt = "-"
 style = "Babylonian"
 
-init_techs=""
-init_buildings=""
-init_units=""
-civilwar_nations="texan", "californian", "yucatecan", "central american", "chiapanec"
+init_techs = ""
+init_buildings = ""
+init_units = ""
+
+civilwar_nations = "texan", "californian", "yucatecan", "central american", "chiapanec"
 
 cities =
  "Ciudad de México (mountains, swamp, lake)",
@@ -189,4 +190,3 @@ cities =
  "Chapala (hills, lake)",
  "Tlaxiaco (mountains)",
  "Linares (plains)"
-

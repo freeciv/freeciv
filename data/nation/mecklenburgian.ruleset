@@ -1,9 +1,9 @@
 [nation_mecklenburgian]
 
-name = _("Mecklenburgian")
+name   = _("Mecklenburgian")
 plural = _("?plural:Mecklenburgians")
-groups="European", "Medieval", "Early Modern"
-legend=_("Mecklenburg was erected in the 12th century. Its ruling house,\
+groups = "European", "Medieval", "Early Modern"
+legend = _("Mecklenburg was erected in the 12th century. Its ruling house,\
  the Obrodites, were of Slavic origin - unique amongst the German\
  states. The dynasty remained in power for eight centuries. The Duchy was\
  divided into Mecklenburg-Strelitz and Mecklenburg-Schwerin. In the 19th\
@@ -11,6 +11,7 @@ legend=_("Mecklenburg was erected in the 12th century. Its ruling house,\
  German states; its feudal institutions were abolished only at the\
  downfall of the monarchy in 1918. Currently Mecklenburg forms the western\
  two thirds of the German state of Mecklenburg-Cispomerania.")
+
 leaders = {
  "name",		"sex"
  "Niklot",		"male"
@@ -37,11 +38,11 @@ flag = "mecklenburg"
 flag_alt = "-"
 style = "European"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-civilwar_nations="western pomeranian", "saxon", "brandenburgian"
+civilwar_nations = "western pomeranian", "saxon", "brandenburgian"
 
 cities =
  "Schwerin",

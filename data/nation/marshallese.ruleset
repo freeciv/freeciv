@@ -1,9 +1,9 @@
 [nation_marshallese]
 
-name = _("Marshallese")
+name   = _("Marshallese")
 plural = _("?plural:Marshallese")
-groups="Oceanian", "Modern"
-legend=_("The Marshall Islands is a country in the Western Pacific, just\
+groups = "Oceanian", "Modern"
+legend = _("The Marshall Islands is a country in the Western Pacific, just\
  north of the Equator, consisting of a large number of islands and\
  atolls. Populated primarily by Micronesians, the islands became an\
  independent republic in free association with the United States in 1986.\
@@ -24,15 +24,15 @@ ruler_titles = {
  "Monarchy",   _("Paramount Chief %s"), _("?female:Paramount Chief %s")
 }
 
-flag="marshall_islands"
-flag_alt="-"
+flag = "marshall_islands"
+flag_alt = "-"
 style = "tropical"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-civilwar_nations="micronesian", "kiribati"
+civilwar_nations = "micronesian", "kiribati"
 
 cities =
  "Majuro",

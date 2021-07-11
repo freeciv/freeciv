@@ -1,6 +1,6 @@
 [nation_malaysian]
 
-name = _("Malaysian")
+name   = _("Malaysian")
 plural = _("?plural:Malaysians")
 groups = "Modern", "Asian"
 legend = _("Malaysia was started with the founding of Malacca (Melaka) by\

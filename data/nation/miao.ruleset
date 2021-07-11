@@ -1,9 +1,9 @@
 [nation_miao]
 
-name=_("Miao")
-plural=_("?plural:Miao")
-groups="Asian", "Ancient"
-legend=_("According to Chinese legend, the Yellow Emperor of Huaxia\
+name   = _("Miao")
+plural = _("?plural:Miao")
+groups = "Asian", "Ancient"
+legend = _("According to Chinese legend, the Yellow Emperor of Huaxia\
  battled and defeated Chi You, leader of the Nine Li tribe, at the Battle\
  of Zhuolu in the 26th century BCE. For the Miao people of modern-day China,\
  Chi You - whom they refer to as \"Txiv Yawg\" - is a mythical king and\
@@ -22,13 +22,13 @@ leaders = {
  "Txiv Yawg",           "Male"
 }
 
-flag="hainan"
-flag_alt="-"
+flag = "hainan"
+flag_alt = "-"
 style = "Asian"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
 civilwar_nations = "Cantonese", "Vietnamese", "Thai", "Laotian"
 

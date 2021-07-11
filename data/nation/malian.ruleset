@@ -1,9 +1,9 @@
 [nation_malian]
 
-name=_("Malian")
-plural=_("?plural:Malians")
-groups="Modern", "African"
-legend=_("Mali is a large country in Western Africa. Once part of French\
+name   = _("Malian")
+plural = _("?plural:Malians")
+groups = "Modern", "African"
+legend = _("Mali is a large country in Western Africa. Once part of French\
  Sudan, it gained independence together with Senegal in 1959.")
 
 leaders = {
@@ -20,16 +20,16 @@ ruler_titles = {
  "Monarchy",        _("Mansa %s"),        _("?female:Mansa %s")
 }
 
-flag="mali"
+flag = "mali"
 flag_alt = "-"
 style = "Classical"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-conflicts_with="Mali"
-civilwar_nations="Burkinabe", "Senegalese", "tuareg"
+conflicts_with = "Mali"
+civilwar_nations = "Burkinabe", "Senegalese", "tuareg"
 
 ; City list based on http://de.wikipedia.org/wiki/Liste_der_Städte_in_Mali
 cities =

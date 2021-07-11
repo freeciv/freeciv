@@ -1,9 +1,9 @@
 [nation_maldivian]
 
-name=_("Maldivian")
-plural=_("?plural:Maldivians")
-groups="Medieval", "Early Modern", "Modern", "Asian"
-legend=_("The Maldives are an archipelago in the Indian Ocean and the\
+name   = _("Maldivian")
+plural = _("?plural:Maldivians")
+groups = "Medieval", "Early Modern", "Modern", "Asian"
+legend = _("The Maldives are an archipelago in the Indian Ocean and the\
  smallest country of Asia. According to tradition, the Maldives became\
  a united sultanate when the Cholas were expelled in the 12th century.\
  The islands were a British protectorate from 1887 to 1965. The monarchy\
@@ -32,13 +32,14 @@ ruler_titles = {
  "Monarchy",       _("Sultan %s"), _("Sultana %s")
 }
 
-flag="maldives"
+flag = "maldives"
 flag_alt = "-"
 style = "Babylonian"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
+
 civilwar_nations = "lankese" ;suvadive
 
 cities =

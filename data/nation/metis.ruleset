@@ -1,11 +1,11 @@
 [nation_metis]
 
-name=_("Métis")
+name   = _("Métis")
 ; pre-2.6 had plain ASCII names
-rule_name="Metis"
-plural=_("?plural:Métis")
-groups="American"
-legend=_("The Métis are a people of mixed First Nations (Native American)\
+rule_name = "Metis"
+plural = _("?plural:Métis")
+groups = "American"
+legend = _("The Métis are a people of mixed First Nations (Native American)\
  and European (mostly French) descent living mainly in the Canadian\
  prairie provinces. Together with the First Nations and the Inuit they\
  form one of the three indigenous groups of Canada. In the 19th century\
@@ -21,15 +21,15 @@ leaders = {
  "Blanche Brillon Macdonald",   "Female"
 }
 
-flag="metis"
-flag_alt="-"
+flag = "metis"
+flag_alt = "-"
 style = "Celtic"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-civilwar_nations="quebecois", "cree", "acadian"
+civilwar_nations = "quebecois", "cree", "acadian"
 
 cities =
  "Batoche",
@@ -61,5 +61,3 @@ cities =
  "Portage la Prairie",
  "Seven Oaks",
  "Fort Frances"
-
-

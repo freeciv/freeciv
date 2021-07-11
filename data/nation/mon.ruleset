@@ -1,9 +1,9 @@
-[nation_mon] 
+[nation_mon]
 
-name=_("Mon")
-plural=_("?plural:Mons")
-groups="Medieval", "Early Modern", "Asian"
-legend=_("The Mon people were among the earliest inhabitants of Southeast\
+name   = _("Mon")
+plural = _("?plural:Mons")
+groups = "Medieval", "Early Modern", "Asian"
+legend = _("The Mon people were among the earliest inhabitants of Southeast\
  Asia and instrumental in the spread of Buddhism in the region.")
 
 leaders = {
@@ -16,15 +16,15 @@ leaders = {
  "Jamadevi",            "Female"
 }
 
-flag="mon"
-flag_alt="-"
+flag = "mon"
+flag_alt = "-"
 style = "Asian"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-civilwar_nations="Cambodian", "Burmese"
+civilwar_nations = "Cambodian", "Burmese"
 
 cities =
  "Thaton",

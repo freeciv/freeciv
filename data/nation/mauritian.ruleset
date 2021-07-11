@@ -1,9 +1,9 @@
 [nation_mauritian]
 
-name = _("Mauritian")
+name   = _("Mauritian")
 plural = _("?plural:Mauritians")
-groups="African", "Modern"
-legend=_("Mauritius is an island in the Indian Ocean. It was first settled\
+groups = "African", "Modern"
+legend = _("Mauritius is an island in the Indian Ocean. It was first settled\
  by the Dutch, who named it after Maurice of Nassau. The island is famous\
  for being the habitat of the dodo, which was was brought to extinction\
  within a century after its discovery. The Dutch abandoned the island in\
@@ -27,11 +27,11 @@ flag = "mauritius"
 flag_alt = "-"
 style = "Asian"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-civilwar_nations="malagasy", "seychellois"
+civilwar_nations = "malagasy", "seychellois"
 
 cities =
  "Port Louis",

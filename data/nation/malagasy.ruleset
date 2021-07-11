@@ -1,9 +1,9 @@
 [nation_malagasy]
 
-name=_("Malagasy")
-plural=_("?plural:Malagasies")
-groups="Medieval", "Modern", "African"
-legend=_("The Malagasy are the people of Madagascar. For centuries, tribes\
+name   = _("Malagasy")
+plural = _("?plural:Malagasies")
+groups = "Medieval", "Modern", "African"
+legend = _("The Malagasy are the people of Madagascar. For centuries, tribes\
  from Indonesia, East Africa and the Arab world have gathered on the\
  island.")
 
@@ -22,14 +22,15 @@ ruler_titles = {
  "Republic",   _("High Commissioner %s"), _("?female:High Commissioner %s")
 }
 
-flag="madagascar"
+flag = "madagascar"
 flag_alt = "-"
 style = "Tropical"
 
-init_techs=""
-init_buildings=""
-init_units=""
-civilwar_nations="indonesian", "mauritian", "comorian"
+init_techs = ""
+init_buildings = ""
+init_units = ""
+
+civilwar_nations = "indonesian", "mauritian", "comorian"
 
 ; City list based on data from this page:
 ; http://de.wikipedia.org/wiki/Liste_der_Städte_in_Madagaskar

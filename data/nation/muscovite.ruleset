@@ -1,9 +1,9 @@
 [nation_muscovite]
 
-name=_("Muscovite")
-plural=_("?plural:Muscovites")
-groups="Medieval", "European"
-legend=_("Moscow emerged as a regional power and successor to the Kievan\
+name   = _("Muscovite")
+plural = _("?plural:Muscovites")
+groups = "Medieval", "European"
+legend = _("Moscow emerged as a regional power and successor to the Kievan\
  Rus' in the 12th century CE. Under the Rurikid dynasty, the Muscovites\
  consolidated power through alliances with the Golden Horde and the\
  Orthodox Church, eventually subduing surrounding cities and principalities\
@@ -25,16 +25,16 @@ ruler_titles = {
  "Fundamentalism",  _("Patriarch %s"), _("Matriarch %s")
 }
 
-flag="moscow"
-flag_alt="russia"
+flag = "moscow"
+flag_alt = "russia"
 style = "European"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-conflicts_with="Russian", "Soviet" ; states based in Moscow
-civilwar_nations="Novgorodian"
+conflicts_with = "Russian", "Soviet" ; states based in Moscow
+civilwar_nations = "Novgorodian"
 
 cities =
  "Moskva",

@@ -1,9 +1,9 @@
 [nation_mozambican]
 
-name = _("Mozambican")
+name   = _("Mozambican")
 plural = _("?plural:Mozambicans")
-groups="African", "Modern"
-legend=_("Mozambique is a country in Southeast Africa. It gained\
+groups = "African", "Modern"
+legend = _("Mozambique is a country in Southeast Africa. It gained\
  independence from Portugal in 1975.")
 
 leaders = {
@@ -20,11 +20,11 @@ flag = "mozambique"
 flag_alt = "-"
 style = "Tropical"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-civilwar_nations="Swazi", "Swahili", "Zulu"
+civilwar_nations = "Swazi", "Swahili", "Zulu"
 
 cities =
  "Maputo",
@@ -63,4 +63,3 @@ cities =
  "Vilanculos",
  "Ponta d'Ouro",
  "Palma"
-

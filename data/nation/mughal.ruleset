@@ -1,10 +1,11 @@
 [nation_mughal]
 
-name=_("Mughal")
-plural=_("?plural:Mughals")
-groups="Early Modern", "Asian"
-legend=_("The Mughal Empire ruled most of the Indian subcontinent\
+name   = _("Mughal")
+plural = _("?plural:Mughals")
+groups = "Early Modern", "Asian"
+legend = _("The Mughal Empire ruled most of the Indian subcontinent\
  throughout the early modern era.")
+
 leaders = {
  "name",        "sex"
  "Aurangzeb",   "Male"
@@ -21,17 +22,17 @@ ruler_titles = {
  "Fundamentalism",  _("Grand Mufti %s"), _("?female:Grand Mufti %s")
 }
 
-flag="mughal"
+flag = "mughal"
 flag_alt="-"
 style = "Asian"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-civilwar_nations="Sikh", "Kashmiri", "Pashtun", "Bengali", "Pakistani", "Marathi"
+civilwar_nations = "Sikh", "Kashmiri", "Pashtun", "Bengali", "Pakistani", "Marathi"
 
-cities=
+cities =
  "Agra",
  "Delhi",
  "Lahore",

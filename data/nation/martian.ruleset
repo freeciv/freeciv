@@ -1,9 +1,9 @@
 [nation_martian]
 
-name=_("Martian")
-plural=_("?plural:Martians")
-groups="Imaginary"
-legend=_("Marsmen landed on Earth in 4000 BCE!")
+name   = _("Martian")
+plural = _("?plural:Martians")
+groups = "Imaginary"
+legend = _("Marsmen landed on Earth in 4000 BCE!")
 
 leaders = {
  "name",                        "sex"
@@ -18,15 +18,15 @@ leaders = {
  "H. G. Wells",                 "Male"
 }
 
-flag="mars"
+flag = "mars"
 flag_alt = "-"
 style = "Babylonian"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-civilwar_nations="atlantean"
+civilwar_nations = "atlantean"
 
 cities =
 	"Olympus Mons", "Utopia Planitia", "Hellas Planitia",

@@ -1,9 +1,9 @@
 [nation_micronesian]
 
-name=_("Micronesian")
-plural=_("?plural:Micronesian")
-groups= "Oceanian", "Modern"
-legend=_("Micronesia is located in the Central Western Pacific. The site\
+name   = _("Micronesian")
+plural = _("?plural:Micronesian")
+groups = "Oceanian", "Modern"
+legend = _("Micronesia is located in the Central Western Pacific. The site\
  of several ancient seafaring cultures, nowadays most of the region is\
  governed by the Federated States of Micronesia.")
 
@@ -21,13 +21,13 @@ ruler_titles = {
  "Democracy",     _("Commissioner %s"),  _("?female:Commissioner %s")
 }
 
-flag="micronesia"
+flag = "micronesia"
 flag_alt = "-"
 style = "Tropical"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
 civilwar_nations = "fijian", "papuan"
 

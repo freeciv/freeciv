@@ -1,9 +1,9 @@
 [nation_mazovian]
 
-name=_("Mazovian")
-plural=_("?plural:Mazovians")
-groups="European", "Medieval"
-legend=_("Mazovia is a historic and geographic region of central-eastern Poland.")
+name   = _("Mazovian")
+plural = _("?plural:Mazovians")
+groups = "European", "Medieval"
+legend = _("Mazovia is a historic and geographic region of central-eastern Poland.")
 
 leaders = {
  "name",                        "sex"
@@ -29,54 +29,55 @@ ruler_titles = {
 flag = "mazovia"
 flag_alt = "-"
 style = "European"
-init_techs=""
-init_buildings=""
-init_units=""
+
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
 civilwar_nations = "polish", "cuyavian"
 
 cities =
-  "Czersk",
-"Płock",
-"Warszawa",
-"Łomża",
-"Rawa",
-"Dobrzyń",
-"Sierpc",
-"Mława",
-"Żarnów",
-"Radom",
-"Zakroczym",
-"Sochaczew",
-"Gostynin",
-"Wizna",
-"Liw",
-"Płońsk",
-"Kuczbork",
-"Niedzbórz",
-"Szreńsk",
-"Nur",
-"Wyszogród",
-"Grójec",
-"Ciechanów",
-"Przasnysz",
-"Ostrołęka",
-"Zambrów",
-"Drohiczyn",
-"Żuromin",
-"Pułtusk",
-"Kozienice",
-"Żyrardów",
-"Pruszków",
-"Otwock",
-"Siedlce",
-"Garwolin",
-"Zwoleń",
-"Skierniewice",
-"Łowicz",
-"Wyszków",
-"Radzymin",
-"Warka",
-"Iłża",
-"Różan",
-"Serock"
+ "Czersk",
+ "Płock",
+ "Warszawa",
+ "Łomża",
+ "Rawa",
+ "Dobrzyń",
+ "Sierpc",
+ "Mława",
+ "Żarnów",
+ "Radom",
+ "Zakroczym",
+ "Sochaczew",
+ "Gostynin",
+ "Wizna",
+ "Liw",
+ "Płońsk",
+ "Kuczbork",
+ "Niedzbórz",
+ "Szreńsk",
+ "Nur",
+ "Wyszogród",
+ "Grójec",
+ "Ciechanów",
+ "Przasnysz",
+ "Ostrołęka",
+ "Zambrów",
+ "Drohiczyn",
+ "Żuromin",
+ "Pułtusk",
+ "Kozienice",
+ "Żyrardów",
+ "Pruszków",
+ "Otwock",
+ "Siedlce",
+ "Garwolin",
+ "Zwoleń",
+ "Skierniewice",
+ "Łowicz",
+ "Wyszków",
+ "Radzymin",
+ "Warka",
+ "Iłża",
+ "Różan",
+ "Serock"

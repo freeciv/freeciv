@@ -1,9 +1,9 @@
 [nation_mordvin]
 
-name=_("Mordvin")
-plural=_("?plural:Mordvins")
-groups="European"
-legend=_("The Mordvins are a Finnic people consisting of two subgroups: the\
+name   = _("Mordvin")
+plural = _("?plural:Mordvins")
+groups = "European"
+legend = _("The Mordvins are a Finnic people consisting of two subgroups: the\
  Erzya and the Moksha. Mordvins live mainly in the Republic of Mordovia,\
  a subdivision of the Russian Federation.")
 
@@ -15,21 +15,21 @@ leaders = {
  "Puresh",              "Male" ; Пуреш - Mokshan Prince
 }
 
-ruler_titles={
+ruler_titles = {
  "government",      "male_title",      "female_title"
  "Despotism",       _("Prince %s"),    _("Princess %s")
 }
 
-flag="mordovia" ; flag of the Republic of Mordovia
-flag_alt="-"
+flag = "mordovia" ; flag of the Republic of Mordovia
+flag_alt = "-"
 style = "European"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-conflicts_with="Russian", "Soviet"
-civilwar_nations="Russian", "Finnish", "Karelian"
+conflicts_with = "Russian", "Soviet"
+civilwar_nations = "Russian", "Finnish", "Karelian"
 
 cities =
 ; Major settlements, in order of population

@@ -1,9 +1,9 @@
 [nation_montenegrin]
 
-name=_("Montenegrin")
-plural=_("?plural:Montenegrins")
-groups="Modern", "Early Modern", "Medieval", "European"
-legend=_("Montenegro is a small country on the Balkans, the last to be\
+name   = _("Montenegrin")
+plural = _("?plural:Montenegrins")
+groups = "Modern", "Early Modern", "Medieval", "European"
+legend = _("Montenegro is a small country on the Balkans, the last to be\
  conquered by the Ottomans and the first to become independent again.\
  Part of Yugoslavia in the 20th century, it dissolved its union\
  with Serbia in 2006.")
@@ -29,13 +29,13 @@ ruler_titles = {
  "Monarchy",        _("Grand Prince %s"),   _("Grand Princess %s")
 }
 
-flag="montenegro"
+flag = "montenegro"
 flag_alt = "-"
 style = "European"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
 civilwar_nations = "serbian", "bosnian-herzegovinian", "albanian", "italian"
 
@@ -85,4 +85,3 @@ cities =
  "Zelenika",
  "Beran Zelo",
  "Rastovac"
-

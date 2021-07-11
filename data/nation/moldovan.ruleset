@@ -1,9 +1,9 @@
 [nation_moldovan]
 
-name=_("Moldovan")
-plural=_("?plural:Moldovans")
-groups="Modern", "European"
-legend=_("Moldova was conquered by the Ottomans in the 16th century.\
+name   = _("Moldovan")
+plural = _("?plural:Moldovans")
+groups = "Modern", "European"
+legend = _("Moldova was conquered by the Ottomans in the 16th century.\
  Then in 1812 Moldova became part of the Russian Empire.\
  From 1918 Moldova was part of Romania until inclusion\
  in the Soviet Union in 1940. The modern Republic of Moldova\
@@ -24,13 +24,13 @@ ruler_titles = {
  "Fundamentalism",  _("Patriarch %s"),   _("Matriarch %s")
 }
 
-flag="moldova"
+flag = "moldova"
 flag_alt = "-"
 style = "European"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
 civilwar_nations = "romanian", "transnistrian", "turkish"
 

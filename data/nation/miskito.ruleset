@@ -1,9 +1,9 @@
 [nation_miskito] 
 
-name=_("Miskito") 
-plural=_("?plural:Miskito") 
-groups="American", "Early Modern"
-legend=_("Living along the eponymous Miskito Coast of Nicaragua and\
+name   = _("Miskito")
+plural = _("?plural:Miskito")
+groups = "American", "Early Modern"
+legend = _("Living along the eponymous Miskito Coast of Nicaragua and\
  Honduras, the Miskito now number around 200,000 people. In 1625, the\
  Miskito came into a long-lasting political relationship with the British\
  Empire, whose interests in the Caribbean were contrary to those of the\
@@ -11,7 +11,7 @@ legend=_("Living along the eponymous Miskito Coast of Nicaragua and\
  that year and a dynasty established by kings who went by English names\
  and came under formal British protectorate status in 1740. Official\
  protectorate status ended a century later and in 1894 the Nicaraguan\
- government incorporated the territory.") 
+ government incorporated the territory.")
 
 leaders = {
  "name",                        "sex"
@@ -23,62 +23,61 @@ leaders = {
  "Robert Henry Clarence",       "Male"
 }
 
-flag = "miskito" 
-flag_alt = "-" 
+flag = "miskito"
+flag_alt = "-"
 style = "Tropical"
 
-ruler_titles =
-{ "government",     "male_title",       "female_title"
+ruler_titles = {
+ "government",     "male_title",       "female_title"
  "Communism",      _("Comandante %s"), _("Comandanta %s")
  "Democracy",      _("Judge %s"),      _("?female:Judge %s")
  "Fundamentalism", _("Reverend %s"),   _("?female:Reverend %s")
  "Republic",       _("Governor %s"),   _("?female:Governor %s")
 }
 
-init_techs="" 
-init_buildings="" 
-init_units="" 
+init_techs = ""
+init_buildings = ""
+init_units = ""
+
 civilwar_nations = "Tairona", "Mayan", "Mwiska"
 
-cities = 
-"Bilwi",
-"Kara", 
-"Belén", 
-"Layasiksa", 
-"Payabila", 
-"Dakura", 
-"Awastara", 
-"Walpa", 
-"Kuamwatla", 
-"Ibans", 
-"Baltiltuk", 
-"Yulu", 
-"Prinzapolka", 
-"Braka Dusa", 
-"Waspam", 
-"Raitipura", 
-"Twapi", 
-"Plaplaya", 
-"Sisin", 
-"Tasbapauni", 
-"Franciasirpe", 
-"Kuakil", 
-"Batil", 
-"Klampa", 
-"Dakban", 
-"Tasba Pri", 
-"Tuara", 
-"Wounta", 
-"Rais Ta", 
-"Bihmuna", 
-"Turswani",
-"Waslala",
-"Bonanza",
-"Auya Yari",
-"Raya",
-"Siuna",
-"Karawala",
-"Iralaya",
-"Usibila"
-
-
+cities =
+ "Bilwi",
+ "Kara",
+ "Belén",
+ "Layasiksa",
+ "Payabila",
+ "Dakura",
+ "Awastara",
+ "Walpa",
+ "Kuamwatla",
+ "Ibans",
+ "Baltiltuk",
+ "Yulu",
+ "Prinzapolka",
+ "Braka Dusa",
+ "Waspam",
+ "Raitipura",
+ "Twapi",
+ "Plaplaya",
+ "Sisin",
+ "Tasbapauni",
+ "Franciasirpe",
+ "Kuakil",
+ "Batil",
+ "Klampa",
+ "Dakban",
+ "Tasba Pri",
+ "Tuara",
+ "Wounta",
+ "Rais Ta",
+ "Bihmuna",
+ "Turswani",
+ "Waslala",
+ "Bonanza",
+ "Auya Yari",
+ "Raya",
+ "Siuna",
+ "Karawala",
+ "Iralaya",
+ "Usibila"

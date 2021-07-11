@@ -1,9 +1,9 @@
 [nation_manx] 
 
-name=_("Manx") 
-plural=_("?plural:Manx") 
-groups="Medieval", "European" 
-legend=_("The Isle of Man is an island in the British Isles located\
+name   = _("Manx")
+plural = _("?plural:Manx")
+groups = "Medieval", "European"
+legend = _("The Isle of Man is an island in the British Isles located\
  between Britain and Ireland. Formally not a part of United Kingdom, it\
  is a self-governing British Crown Dependency. In the Middle Ages it was\
  the center of the Kingdom of Mann and the Isles, and later of the\
@@ -36,17 +36,18 @@ ruler_titles = {
  "Despotism",  _("Lord %s"),           _("Lady %s")
 }
 
-flag= "man" 
-flag_alt = "-" 
-style = "Celtic" 
-init_techs="" 
-init_buildings="" 
-init_units="" 
+flag = "man"
+flag_alt = "-"
+style = "Celtic"
 
-conflicts_with="british"
-civilwar_nations="english", "scottish", "scottish gaelic"
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-cities=
+conflicts_with = "british"
+civilwar_nations = "english", "scottish", "scottish gaelic"
+
+cities =
   "Doolish",
   "Balley Chashtal",
   "Purt ny h-Inshey",

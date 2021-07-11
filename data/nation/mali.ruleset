@@ -1,11 +1,11 @@
 [nation_mali]
 
-translation_domain="freeciv"
+translation_domain = "freeciv"
 
-name=_("Mali")
-plural=_("?plural:Malis")
-groups="Medieval", "African", "Core"
-legend=_("Sub-Saharan Africa has been a cultural and ethnical melting pot\
+name   = _("Mali")
+plural = _("?plural:Malis")
+groups = "Medieval", "African", "Core"
+legend = _("Sub-Saharan Africa has been a cultural and ethnical melting pot\
  for millennia. In medieval times, the region was home to a succession of\
  empires called the Sahelian kingdoms. Of these, the Islamic Mali Empire\
  was the most influential. This empire reigned from the 14th to the 17th\
@@ -28,17 +28,17 @@ ruler_titles = {
  "Monarchy",        _("Mansa %s"),        _("?female:Mansa %s")
 }
 
-flag="mali_ancient"
+flag = "mali_ancient"
 flag_alt = "mali"
 style = "Classical"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-civilwar_nations="Jolof", "Songhai", "Fulani"
+civilwar_nations = "Jolof", "Songhai", "Fulani"
 
-cities=
+cities =
  "Niani",
  "Ka-ba",
  "Jenne",

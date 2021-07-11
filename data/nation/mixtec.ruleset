@@ -1,9 +1,9 @@
 [nation_mixtec]
 
-name=_("Mixtec")
-plural=_("?plural:Mixtecs")
-groups="Ancient", "Medieval", "American"
-legend=_("The Mixtecs or Ñuu Savi were one of the major Mesoamerican\
+name   = _("Mixtec")
+plural = _("?plural:Mixtecs")
+groups = "Ancient", "Medieval", "American"
+legend = _("The Mixtecs or Ñuu Savi were one of the major Mesoamerican\
  civilizations. The Mixtec territory was formed by a large number of\
  city states. The Mixtec ruler Eight Deer 'Jaguar Claw', who ruled\
  Tilantongo around 1100 CE, was famous in all of ancient Mexico. In the\
@@ -31,13 +31,14 @@ ruler_titles = {
  "Despotism",       _("Lord %s"),      _("Lady %s")
 }
 
-flag="mixtec"
+flag = "mixtec"
 flag_alt = "-"
 style = "Babylonian"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
+
 conflicts_with = "mexican"
 civilwar_nations = "zapotec", "aztec"
 
@@ -83,9 +84,3 @@ cities =
  "Ita Ita", ;Xochapa
  "Ñuu Yuta Ndio'oan", ;Puebla
  "Ñuu Ko'yo"	;México DF
-
-
-
-
-
-

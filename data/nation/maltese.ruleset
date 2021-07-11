@@ -1,9 +1,9 @@
 [nation_maltese]
 
-name=_("Maltese")
-plural=_("?plural:Maltese")
-groups="European", "Modern", "Early Modern"
-legend=_("Malta was first settled around 5200 BCE. Over the centuries,\
+name   = _("Maltese")
+plural = _("?plural:Maltese")
+groups = "European", "Modern", "Early Modern"
+legend = _("Malta was first settled around 5200 BCE. Over the centuries,\
  the islands have been ruled by the Phoenicians, Romans, Fatimids,\
  Sicilians, Knights Hospitaller, French, and British. Malta became\
  independent in 1964 and joined the EU in 2004.")
@@ -28,28 +28,29 @@ ruler_titles = {
  "Monarchy",         _("Grand Master %s"),  _("Grand Mistress %s")
 }
 
-flag="malta"
+flag = "malta"
 flag_alt = "europe"
                     
 style = "Classical"
 
-init_techs=""
-init_buildings=""
-init_units=""
-civilwar_nations="sicilian", "carthaginian" 
+init_techs = ""
+init_buildings = ""
+init_units = ""
+
+civilwar_nations = "sicilian", "carthaginian"
 
 cities =
- "Valletta",		; capital city
- "Birkirkara",		; largest city
- "Għar Dalam",		; stone age habitation
- "Ġgantija",		; site of Neolithic temple/habitation
- "Ħaġar Qim",		; site of Neolithic temple/habitation
- "Mnajdra",		; site of Neolithic temple/habitation
- "Mdina",		; old capital of Malta
- "Maleth",		; Phoenician city
- "Żebbuġ",	; built in Knights Hospitaller period (aka Citta Rohan)
- "Ħaż-Żabbar",	; built in Knights Hospitaller period (aka Citta Hompesch)
- "Dingli",		; near the highest point of Malta
+ "Valletta",            ; capital city
+ "Birkirkara",          ; largest city
+ "Għar Dalam",          ; stone age habitation
+ "Ġgantija",            ; site of Neolithic temple/habitation
+ "Ħaġar Qim",           ; site of Neolithic temple/habitation
+ "Mnajdra",             ; site of Neolithic temple/habitation
+ "Mdina",               ; old capital of Malta
+ "Maleth",              ; Phoenician city
+ "Żebbuġ",      ; built in Knights Hospitaller period (aka Citta Rohan)
+ "Ħaż-Żabbar",  ; built in Knights Hospitaller period (aka Citta Hompesch)
+ "Dingli",              ; near the highest point of Malta
  "Żejtun",
  "Mosta",
  "Ħal Qormi",

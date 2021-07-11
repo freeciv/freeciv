@@ -1,9 +1,9 @@
 [nation_muskogee]
 
-name=_("Muskogee")
-plural=_("?plural:Muskogee")
-groups="American"
-legend=_("The Muskogee was a confederacy of North American tribes,\
+name   = _("Muskogee")
+plural = _("?plural:Muskogee")
+groups = "American"
+legend = _("The Muskogee was a confederacy of North American tribes,\
  including the Creek, Seminole, Choctaw, and Chickasaw. They were based in\
  the area now encompassed by the U.S. states of Georgia and Alabama. Creek\
  and Seminole tribes briefly formed a sovereign state known as the \"State\
@@ -32,23 +32,24 @@ ruler_titles = {
  "Democracy",       _("Principal Chief %s"), _("?female:Principal Chief %s")
 }
 
-flag="muskogee"
+flag = "muskogee"
 flag_alt = "-"
 style = "Celtic"
 
-init_techs=""
-init_buildings=""
-init_units=""
-civilwar_nations="choctaw", "chickasaw", "seminole"
+init_techs = ""
+init_buildings = ""
+init_units = ""
+
+civilwar_nations = "choctaw", "chickasaw", "seminole"
 
 ; City list based on data from this page:
 ; http://www.accessgenealogy.com/native/tribes/creek/creektowns.htm
 cities =
- "Kusa", 	; Historical Upper Creek principal town
- "Kawita", 	; Historical Lower Creek principal town
- "Mikasuke",	; Capital of the State of Muskogee
- "Tukabatchi",	; The historically most populous town
- "Oakfuskee", 	; Current Creek nation capital
+ "Kusa",        ; Historical Upper Creek principal town
+ "Kawita",      ; Historical Lower Creek principal town
+ "Mikasuke",    ; Capital of the State of Muskogee
+ "Tukabatchi",  ; The historically most populous town
+ "Oakfuskee",   ; Current Creek nation capital
  "Abihka", 
  "Abikudshi", 
  "Alkehatchee", 

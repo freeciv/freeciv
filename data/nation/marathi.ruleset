@@ -1,12 +1,13 @@
 [nation_marathi]
 
-name=_("Marathi")
-plural=_("?plural:Marathis")
-groups="Asian", "Early Modern"
-legend=_("The Marathi are people who inhabit the state of Maharashtra in\
+name   = _("Marathi")
+plural = _("?plural:Marathis")
+groups = "Asian", "Early Modern"
+legend = _("The Marathi are people who inhabit the state of Maharashtra in\
  India. In the 17th century, the Marathi prince Shivaji established the\
  Maratha confederacy, waging war on the Moghul empire and eventually\
  replacing the Moghuls as the main power on the Indian subcomtinent.")
+
 leaders = {
  "name",                         "sex"
  "Shivaji I",                    "Male"
@@ -26,7 +27,8 @@ leaders = {
  "Amritrao",                     "Male"
  "Nana Sahib",                   "Male"
 }
-flag="marathi"
+
+flag = "marathi"
 flag_alt = "-"
 style = "Asian"
 
@@ -37,12 +39,12 @@ ruler_titles = {
  "Fundamentalism",  _("High Brahmin %s"), _("?female:High Brahmin %s")
 }
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-conflicts_with="vedic", "gupta", "mughal", "indian", "pakistani",
-               "bangladeshi", "bengali"
+conflicts_with = "vedic", "gupta", "mughal", "indian", "pakistani",
+                 "bangladeshi", "bengali"
 civilwar_nations = "mughal", "sikh", "indian"
 
 cities =
@@ -89,4 +91,3 @@ cities =
  "Barsi", 
  "Badlapur",
  "Nandurbar"
-
