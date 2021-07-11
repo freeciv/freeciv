@@ -1,6 +1,5 @@
 /Makefile
 /Makefile.in
-/civserver
 /freeciv-server
 /.deps
 /libcivserver.a
