@@ -1848,14 +1848,30 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
     agents_unit_changed(punit);
     editgui_notify_object_changed(OBJTYPE_UNIT, punit->id, FALSE);
 
-    punit->action_decision_tile = packet_unit->action_decision_tile;
-    if (punit->action_decision_want != packet_unit->action_decision_want
+    if ((punit->action_decision_want != packet_unit->action_decision_want
+         || (punit->action_decision_tile
+             != packet_unit->action_decision_tile))
         && should_ask_server_for_actions(packet_unit)) {
       /* The unit wants the player to decide. */
-      action_decision_request(punit);
-      check_focus = TRUE;
+      if (action_selection_actor_unit() != punit->id) {
+        /* Pop up an action selection dialog if the unit has focus or give
+         * the unit higher priority in the focus queue if not. */
+        punit->action_decision_tile = packet_unit->action_decision_tile;
+        action_decision_request(punit);
+        check_focus = TRUE;
+      } else {
+        /* Refresh already open action selection dialog. */
+        dsend_packet_unit_get_actions(&client.conn,
+                                      action_selection_actor_unit(),
+                                      action_selection_target_unit(),
+                                      tile_index(
+                                        packet_unit->action_decision_tile),
+                                      action_selection_target_extra(),
+                                      REQEST_BACKGROUND_REFRESH);
+      }
     }
     punit->action_decision_want = packet_unit->action_decision_want;
+    punit->action_decision_tile = packet_unit->action_decision_tile;
   } else {
     /*** Create new unit ***/
     punit = packet_unit;
