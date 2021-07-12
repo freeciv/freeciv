@@ -76,19 +76,6 @@ bool territory_claiming_base(const struct base_type *pbase);
 void base_type_init(struct extra_type *pextra, int idx);
 void base_types_free(void);
 
-#define base_deps_iterate(_reqs, _dep)                                 \
-{                                                                      \
-  requirement_vector_iterate(_reqs, preq) {                            \
-    if (preq->source.kind == VUT_EXTRA                                 \
-        && preq->present                                               \
-        && is_extra_caused_by(preq->source.value.extra, EC_BASE)) {    \
-      struct base_type *_dep = extra_base_get(preq->source.value.extra);
-
-#define base_deps_iterate_end                                           \
-    }                                                                   \
-  } requirement_vector_iterate_end;                                     \
-}
-
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */
