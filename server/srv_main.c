@@ -376,6 +376,7 @@ bool check_for_game_over(void)
     notify_conn(game.est_connections, NULL, E_GAME_END, ftc_server,
                 /* TRANS: There can be several winners listed */
                 _("Scenario victory to %s."), astr_str(&str));
+    log_normal(_("Scenario victory to %s."), astr_str(&str));
     astr_free(&str);
     return TRUE;
   }
@@ -404,6 +405,7 @@ bool check_for_game_over(void)
   if (0 == candidates) {
     notify_conn(game.est_connections, NULL, E_GAME_END, ftc_server,
                 _("Game is over."));
+    log_normal(_("Game is over."));
     return TRUE;
   } else if (0 < defeated) {
     /* If nobody conceded the game, it mays be a solo game or a single team
@@ -438,6 +440,7 @@ bool check_for_game_over(void)
           notify_conn(game.est_connections, NULL, E_GAME_END, ftc_server,
                       _("Team victory to %s."),
                       team_name_translation(pteam));
+          log_normal(_("Team victory to %s."), team_name_translation(pteam));
           /* All players of the team win, even dead and surrended ones. */
           player_list_iterate(members, pplayer) {
             pplayer->is_winner = TRUE;
@@ -494,6 +497,7 @@ bool check_for_game_over(void)
         notify_conn(game.est_connections, NULL, E_GAME_END, ftc_server,
                     /* TRANS: There can be several winners listed */
                     _("Allied victory to %s."), astr_str(&str));
+        log_normal(_("Allied victory to %s."), astr_str(&str));
         astr_free(&str);
         player_list_destroy(winner_list);
         return TRUE;
@@ -520,6 +524,7 @@ bool check_for_game_over(void)
       if (found) {
         notify_conn(game.est_connections, NULL, E_GAME_END, ftc_server,
                     _("Game ended in conquest victory for %s."), player_name(victor));
+        log_normal(_("Game ended in conquest victory for %s."), player_name(victor));
         victor->is_winner = TRUE;
         return TRUE;
       }
@@ -551,6 +556,8 @@ bool check_for_game_over(void)
       notify_conn(game.est_connections, NULL, E_GAME_END, ftc_server,
                   _("Game ended in cultural domination victory for %s."),
                   player_name(best));
+      log_normal(_("Game ended in cultural domination victory for %s."),
+                 player_name(best));
       best->is_winner = TRUE;
 
       return TRUE;
@@ -561,6 +568,7 @@ bool check_for_game_over(void)
   if (game.info.turn > game.server.end_turn) {
     notify_conn(game.est_connections, NULL, E_GAME_END, ftc_server,
                 _("Game ended as the turn limit was exceeded."));
+    log_normal(_("Game ended as the turn limit was exceeded."));
     return TRUE;
   } else if (game.info.turn == game.server.end_turn) {
     /* Give them a chance to decide to extend the game */
