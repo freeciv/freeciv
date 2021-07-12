@@ -64,6 +64,7 @@ static struct {
   char *combat_rules_nuke_defender_survival;
   char *auto_attack;
   char *actions_ui_names;
+  char *actions_dc_initial_odds;
 } comments_storage;
 
 /**********************************************************************//**
@@ -161,6 +162,8 @@ bool comments_load(void)
                "entrydoc.auto_attack");
   comment_load(comments_storage.actions_ui_names, comment_file,
                "entrydoc.ui_names");
+  comment_load(comments_storage.actions_dc_initial_odds, comment_file,
+               "entrydoc.dc_initial_odds");
 
   secfile_check_unused(comment_file);
   secfile_destroy(comment_file);
@@ -518,4 +521,13 @@ void comment_auto_attack(struct section_file *sfile)
 void comment_actions_ui_names(struct section_file *sfile)
 {
   comment_entry_write(sfile, comments_storage.actions_ui_names, "actions");
+}
+
+/**********************************************************************//**
+  Write actions diplchance_initial_odds settings header.
+**************************************************************************/
+void comment_actions_dc_initial_odds(struct section_file *sfile)
+{
+  comment_entry_write(sfile, comments_storage.actions_dc_initial_odds,
+                      "actions");
 }

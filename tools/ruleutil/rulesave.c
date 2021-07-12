@@ -1290,6 +1290,7 @@ static bool save_game_ruleset(const char *filename, const char *name)
                      "auto_attack", "if_attacker");
   }
 
+  comment_actions_dc_initial_odds(sfile);
   if (!save_bv_actions(sfile, game.info.diplchance_initial_odds,
                        "actions.diplchance_initial_odds")) {
     return FALSE;

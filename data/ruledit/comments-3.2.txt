@@ -1298,3 +1298,11 @@ ui_names = "\n\
 ; the following character as a mnemonic in its graphical toolkit.\n\
 ; The second \%s marks where extra details should be inserted.\n\
 "
+
+dc_initial_odds = "\n\
+; Some actions have a action dice roll before the action starts where it can\n\
+; fail. The initial probability of success is 100% unless the action appears\n\
+; in the following list. Then the initial probability comes from the setting\n\
+; diplchance. The initial probability of success is modified by the\n\
+; Action_Odds_Pct effect before the roll happens.\n\
+"
