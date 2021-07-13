@@ -1109,7 +1109,11 @@ void action_selection_refresh(struct unit *actor_unit,
                               struct tile *target_tile,
                               const struct act_prob *act_probs)
 {
-  /* TODO: port me. */
+  action_selection_close();
+  popup_action_selection(actor_unit,
+                         target_city, target_unit,
+                         target_tile,
+                         act_probs);
 }
 
 /****************************************************************
