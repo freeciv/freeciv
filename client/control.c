@@ -374,7 +374,7 @@ static void ask_server_for_actions(struct unit *punit)
                                 IDENTITY_NUMBER_ZERO,
                                 tile_index(punit->action_decision_tile),
                                 EXTRA_NONE,
-                                TRUE);
+                                REQEST_PLAYER_INITIATED);
 }
 
 /**********************************************************************//**
@@ -1696,7 +1696,7 @@ void request_action_details(action_id action, int actor_id,
                                  /* Users that need the answer in the
                                   * background should send the packet them
                                   * self. At least for now. */
-                                 TRUE);
+                                 REQEST_PLAYER_INITIATED);
 }
 
 /**********************************************************************//**

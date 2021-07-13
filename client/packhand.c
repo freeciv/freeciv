@@ -134,6 +134,9 @@ extern const char forced_tileset_name[];
 
 static int last_turn = 0;
 
+/* Refresh the action selection dialog */
+#define REQEST_BACKGROUND_REFRESH (1)
+
 /************************************************************************//**
   Called below, and by client/client_main.c client_game_free()
 ****************************************************************************/
@@ -895,7 +898,7 @@ void handle_city_info(const struct packet_city_info *packet)
                                   action_selection_target_unit(),
                                   city_tile(pcity)->index,
                                   action_selection_target_extra(),
-                                  FALSE);
+                                  REQEST_BACKGROUND_REFRESH);
   }
 
   if (gui_options.draw_city_trade_routes
@@ -2666,7 +2669,7 @@ void handle_player_diplstate(const struct packet_player_diplstate *packet)
                                     action_selection_target_unit(),
                                     tgt_tile->index,
                                     action_selection_target_extra(),
-                                    FALSE);
+                                    REQEST_BACKGROUND_REFRESH);
     }
   }
 }
@@ -4636,7 +4639,7 @@ void handle_city_name_suggestion_info(int unit_id, const char *name)
 ****************************************************************************/
 void handle_unit_action_answer(int actor_id, int target_id, int cost,
                                action_id action_type,
-                               bool disturb_player)
+                               int request_kind)
 {
   struct city *pcity = game_city_by_number(target_id);
   struct unit *punit = game_unit_by_number(target_id);
@@ -4649,7 +4652,7 @@ void handle_unit_action_answer(int actor_id, int target_id, int cost,
     log_error("handle_unit_action_answer() the action %d doesn't exist.",
               action_type);
 
-    if (disturb_player) {
+    if (request_kind == REQEST_PLAYER_INITIATED) {
       action_selection_no_longer_in_progress(actor_id);
       action_decision_clear_want(actor_id);
       action_selection_next_in_focus(actor_id);
@@ -4661,7 +4664,7 @@ void handle_unit_action_answer(int actor_id, int target_id, int cost,
   if (!pactor) {
     log_debug("Bad actor %d.", actor_id);
 
-    if (disturb_player) {
+    if (request_kind == REQEST_PLAYER_INITIATED) {
       action_selection_no_longer_in_progress(actor_id);
       action_selection_next_in_focus(actor_id);
     }
@@ -4673,7 +4676,7 @@ void handle_unit_action_answer(int actor_id, int target_id, int cost,
   case ACTION_SPY_BRIBE_UNIT:
     if (punit && client.conn.playing
         && is_human(client.conn.playing)) {
-      if (disturb_player) {
+      if (request_kind == REQEST_PLAYER_INITIATED) {
         /* Focus on the unit so the player knows where it is */
         unit_focus_set(pactor);
 
@@ -4684,7 +4687,7 @@ void handle_unit_action_answer(int actor_id, int target_id, int cost,
       }
     } else {
       log_debug("Bad target %d.", target_id);
-      if (disturb_player) {
+      if (request_kind == REQEST_PLAYER_INITIATED) {
         action_selection_no_longer_in_progress(actor_id);
         action_decision_clear_want(actor_id);
         action_selection_next_in_focus(actor_id);
@@ -4695,7 +4698,7 @@ void handle_unit_action_answer(int actor_id, int target_id, int cost,
   case ACTION_SPY_INCITE_CITY_ESC:
     if (pcity && client.conn.playing
         && is_human(client.conn.playing)) {
-      if (disturb_player) {
+      if (request_kind == REQEST_PLAYER_INITIATED) {
         /* Focus on the unit so the player knows where it is */
         unit_focus_set(pactor);
 
@@ -4706,7 +4709,7 @@ void handle_unit_action_answer(int actor_id, int target_id, int cost,
       }
     } else {
       log_debug("Bad target %d.", target_id);
-      if (disturb_player) {
+      if (request_kind == REQEST_PLAYER_INITIATED) {
         action_selection_no_longer_in_progress(actor_id);
         action_decision_clear_want(actor_id);
         action_selection_next_in_focus(actor_id);
@@ -4728,7 +4731,7 @@ void handle_unit_action_answer(int actor_id, int target_id, int cost,
     break;
   case ACTION_NONE:
     log_debug("Server didn't respond to query.");
-    if (disturb_player) {
+    if (request_kind == REQEST_PLAYER_INITIATED) {
       action_selection_no_longer_in_progress(actor_id);
       action_decision_clear_want(actor_id);
       action_selection_next_in_focus(actor_id);
@@ -4737,7 +4740,7 @@ void handle_unit_action_answer(int actor_id, int target_id, int cost,
   default:
     log_error("handle_unit_action_answer() invalid action_type (%d).",
               action_type);
-    if (disturb_player) {
+    if (request_kind == REQEST_PLAYER_INITIATED) {
       action_selection_no_longer_in_progress(actor_id);
       action_decision_clear_want(actor_id);
       action_selection_next_in_focus(actor_id);
@@ -4898,8 +4901,8 @@ static action_id auto_attack_act(const struct act_prob *act_probs)
 /************************************************************************//**
   Handle reply to possible actions.
 
-  Note that a reply to a foreground request (a reply where disturb_player
-  is true) must result in its clean up.
+  Note that a reply to a foreground request (a reply where
+  request_kind is REQEST_PLAYER_INITIATED) must result in its clean up.
 ****************************************************************************/
 void handle_unit_actions(const struct packet_unit_actions *packet)
 {
@@ -4913,7 +4916,7 @@ void handle_unit_actions(const struct packet_unit_actions *packet)
 
   const struct act_prob *act_probs = packet->action_probabilities;
 
-  bool disturb_player = packet->disturb_player;
+  int request_kind = packet->request_kind;
   bool valid = FALSE;
 
   /* The dead can't act */
@@ -4927,74 +4930,78 @@ void handle_unit_actions(const struct packet_unit_actions *packet)
     } action_iterate_end;
   }
 
-  if (valid && disturb_player) {
-    /* The player can select an action and should be informed. */
+  switch (request_kind) {
+  case REQEST_PLAYER_INITIATED:
+    if (valid) {
+      /* The player can select an action and should be informed. */
 
-    action_id auto_action;
+      action_id auto_action;
 
-    if (gui_options.popup_attack_actions) {
-      /* Pop up the action selection dialog no matter what. */
-      auto_action = ACTION_NONE;
-    } else {
-      /* Pop up the action selection dialog unless the only interesting
-       * action the unit may be able to do is an attack action. */
-      auto_action = auto_attack_act(act_probs);
-    }
-
-    if (auto_action != ACTION_NONE) {
-      /* No interesting actions except a single attack action has been
-       * found. The player wants it performed without questions. */
-
-      /* The order requests below doesn't send additional details. */
-      fc_assert(!action_id_requires_details(auto_action));
-
-      /* Give the order. */
-      switch (action_id_get_target_kind(auto_action)) {
-      case ATK_TILE:
-      case ATK_UNITS:
-      case ATK_EXTRAS:
-        request_do_action(auto_action,
-                          packet->actor_unit_id, packet->target_tile_id,
-                          0, "");
-        break;
-      case ATK_CITY:
-        request_do_action(auto_action,
-                          packet->actor_unit_id, packet->target_city_id,
-                          0, "");
-        break;
-      case ATK_UNIT:
-        request_do_action(auto_action,
-                          packet->actor_unit_id, packet->target_unit_id,
-                          0, "");
-        break;
-      case ATK_SELF:
-        request_do_action(auto_action,
-                          packet->actor_unit_id, packet->actor_unit_id,
-                          0, "");
-        break;
-      case ATK_COUNT:
-        fc_assert(action_id_get_target_kind(auto_action) != ATK_COUNT);
-        break;
+      if (gui_options.popup_attack_actions) {
+        /* Pop up the action selection dialog no matter what. */
+        auto_action = ACTION_NONE;
+      } else {
+        /* Pop up the action selection dialog unless the only interesting
+         * action the unit may be able to do is an attack action. */
+        auto_action = auto_attack_act(act_probs);
       }
 
-      /* Clean up. */
+      if (auto_action != ACTION_NONE) {
+        /* No interesting actions except a single attack action has been
+         * found. The player wants it performed without questions. */
+
+        /* The order requests below doesn't send additional details. */
+        fc_assert(!action_id_requires_details(auto_action));
+
+        /* Give the order. */
+        switch (action_id_get_target_kind(auto_action)) {
+        case ATK_TILE:
+        case ATK_UNITS:
+        case ATK_EXTRAS:
+          request_do_action(auto_action,
+                            packet->actor_unit_id, packet->target_tile_id,
+                            0, "");
+          break;
+        case ATK_CITY:
+          request_do_action(auto_action,
+                            packet->actor_unit_id, packet->target_city_id,
+                            0, "");
+          break;
+        case ATK_UNIT:
+          request_do_action(auto_action,
+                            packet->actor_unit_id, packet->target_unit_id,
+                            0, "");
+          break;
+        case ATK_SELF:
+          request_do_action(auto_action,
+                            packet->actor_unit_id, packet->actor_unit_id,
+                            0, "");
+          break;
+        case ATK_COUNT:
+          fc_assert(action_id_get_target_kind(auto_action) != ATK_COUNT);
+          break;
+        }
+
+        /* Clean up. */
+        action_selection_no_longer_in_progress(packet->actor_unit_id);
+        action_decision_clear_want(packet->actor_unit_id);
+        action_selection_next_in_focus(packet->actor_unit_id);
+      } else {
+        /* Show the client specific action dialog */
+        popup_action_selection(actor_unit,
+                               target_city, target_unit,
+                               target_tile, target_extra,
+                               act_probs);
+      }
+    } else {
+      /* Nothing to do. */
       action_selection_no_longer_in_progress(packet->actor_unit_id);
       action_decision_clear_want(packet->actor_unit_id);
       action_selection_next_in_focus(packet->actor_unit_id);
-    } else {
-      /* Show the client specific action dialog */
-      popup_action_selection(actor_unit,
-                             target_city, target_unit,
-                             target_tile, target_extra,
-                             act_probs);
     }
-  } else if (disturb_player) {
-    /* Nothing to do. */
-    action_selection_no_longer_in_progress(packet->actor_unit_id);
-    action_decision_clear_want(packet->actor_unit_id);
-    action_selection_next_in_focus(packet->actor_unit_id);
-  } else {
-    /* This was a background request. */
+    break;
+  case REQEST_BACKGROUND_REFRESH:
+    /* This was a background action selection dialog refresh. */
 
     if (action_selection_actor_unit() == actor_unit->id) {
       /* The situation may have changed. */
@@ -5003,6 +5010,10 @@ void handle_unit_actions(const struct packet_unit_actions *packet)
                                target_tile, target_extra,
                                act_probs);
     }
+    break;
+  default:
+    log_warn("Unknown request_kind %d in reply", request_kind);
+    break;
   }
 }
 
@@ -5012,7 +5023,7 @@ void handle_unit_actions(const struct packet_unit_actions *packet)
 void handle_city_sabotage_list(int actor_id, int city_id,
                                bv_imprs improvements,
                                action_id act_id,
-                               bool disturb_player)
+                               int request_kind)
 {
   struct city *pcity = game_city_by_number(city_id);
   struct unit *pactor = player_unit_by_number(client_player(), actor_id);
@@ -5021,7 +5032,7 @@ void handle_city_sabotage_list(int actor_id, int city_id,
   if (!pactor) {
     log_debug("Bad diplomat %d.", actor_id);
 
-    if (disturb_player) {
+    if (request_kind == REQEST_PLAYER_INITIATED) {
       action_selection_no_longer_in_progress(actor_id);
       action_selection_next_in_focus(actor_id);
     }
@@ -5032,7 +5043,7 @@ void handle_city_sabotage_list(int actor_id, int city_id,
   if (!pcity) {
     log_debug("Bad city %d.", city_id);
 
-    if (disturb_player) {
+    if (request_kind == REQEST_PLAYER_INITIATED) {
       action_selection_no_longer_in_progress(actor_id);
       action_decision_clear_want(actor_id);
       action_selection_next_in_focus(actor_id);
@@ -5048,7 +5059,7 @@ void handle_city_sabotage_list(int actor_id, int city_id,
                                               improvement_index(pimprove)));
     } improvement_iterate_end;
 
-    if (disturb_player) {
+    if (request_kind == REQEST_PLAYER_INITIATED) {
       /* Focus on the unit so the player knows where it is */
       unit_focus_set(pactor);
 
@@ -5059,7 +5070,7 @@ void handle_city_sabotage_list(int actor_id, int city_id,
     }
   } else {
     log_debug("Can't issue orders");
-    if (disturb_player) {
+    if (request_kind == REQEST_PLAYER_INITIATED) {
       action_selection_no_longer_in_progress(actor_id);
       action_decision_clear_want(actor_id);
     }

@@ -64,6 +64,11 @@ struct data_in;
  */
 #define ATTRIBUTE_CHUNK_SIZE    (1400)
 
+/* Indicates that the player initiated a request.
+ *
+ * Used in network protocol. */
+#define REQEST_PLAYER_INITIATED (0)
+
 /* Used in network protocol. */
 enum report_type {
   REPORT_WONDERS_OF_THE_WORLD,

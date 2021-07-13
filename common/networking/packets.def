@@ -858,7 +858,7 @@ PACKET_CITY_SABOTAGE_LIST = 45; sc, lsend
   BV_IMPRS improvements;
   ACTION_ID act_id;
 
-  BOOL disturb_player;
+  UINT8 request_kind;
 end
 
 PACKET_CITY_RALLY_POINT = 138; cs
@@ -1112,7 +1112,7 @@ PACKET_UNIT_ACTION_QUERY = 82; cs, handle-per-conn, dsend
   ACTION_TGT target_id;   # city_id or unit_id
   ACTION_ID action_type;
 
-  BOOL disturb_player;
+  UINT8 request_kind;
 end
 
 PACKET_UNIT_TYPE_UPGRADE = 83; cs, dsend
@@ -1133,7 +1133,7 @@ PACKET_UNIT_ACTION_ANSWER = 85; sc, dsend
   GOLD cost;
   ACTION_ID action_type;
 
-  BOOL disturb_player;
+  UINT8 request_kind;
 end
 
 PACKET_UNIT_GET_ACTIONS = 87; cs, handle-per-conn, dsend
@@ -1142,7 +1142,7 @@ PACKET_UNIT_GET_ACTIONS = 87; cs, handle-per-conn, dsend
   TILE target_tile_id;
   EXTRA target_extra_id;
 
-  BOOL disturb_player;
+  UINT8 request_kind;
 end
 
 PACKET_UNIT_ACTIONS = 90; sc, dsend
@@ -1152,7 +1152,7 @@ PACKET_UNIT_ACTIONS = 90; sc, dsend
   TILE target_tile_id;
   EXTRA target_extra_id;
 
-  BOOL disturb_player;
+  UINT8 request_kind;
 
   /* How to interpret action probabilities is documented in fc_types.h */
   ACT_PROB action_probabilities[MAX_NUM_ACTIONS];

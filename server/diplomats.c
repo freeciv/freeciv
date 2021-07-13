@@ -410,7 +410,7 @@ bool diplomat_investigate(struct player *pplayer, struct unit *pdiplomat,
 void spy_send_sabotage_list(struct connection *pc, struct unit *pdiplomat,
                             struct city *pcity,
                             const struct action *paction,
-                            bool disturb_player)
+                            int request_kind)
 {
   struct packet_city_sabotage_list packet;
 
@@ -445,7 +445,7 @@ void spy_send_sabotage_list(struct connection *pc, struct unit *pdiplomat,
   packet.actor_id = pdiplomat->id;
   packet.city_id = pcity->id;
   packet.act_id = paction->id;
-  packet.disturb_player = disturb_player;
+  packet.request_kind = request_kind;
   send_packet_city_sabotage_list(pc, &packet);
 }
 

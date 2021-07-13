@@ -1648,7 +1648,7 @@ void choice_dialog::switch_target()
                                 targeted_unit->id,
                                 targeted_unit->tile->index,
                                 action_selection_target_extra(),
-                                TRUE);
+                                REQEST_PLAYER_INITIATED);
   layout->addLayout(unit_skip);
 }
 
