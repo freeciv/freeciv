@@ -1030,14 +1030,14 @@ static void tgt_unit_change_callback(GtkWidget *dlg, gint arg)
                                       IDENTITY_NUMBER_ZERO,
                                       tgt_tile->index,
                                       action_selection_target_extra(),
-                                      TRUE);
+                                      REQEST_PLAYER_INITIATED);
       } else {
         dsend_packet_unit_get_actions(&client.conn,
                                       actor->id,
                                       tgt_id,
                                       tgt_tile->index,
                                       action_selection_target_extra(),
-                                      TRUE);
+                                      REQEST_PLAYER_INITIATED);
       }
     }
   } else {
@@ -1101,14 +1101,14 @@ static void tgt_extra_change_callback(GtkWidget *dlg, gint arg)
                                       /* Let the server choose the target
                                        * extra. */
                                       action_selection_target_extra(),
-                                      TRUE);
+                                      REQEST_PLAYER_INITIATED);
       } else {
         dsend_packet_unit_get_actions(&client.conn,
                                       actor->id,
                                       action_selection_target_unit(),
                                       tgt_tile->index,
                                       tgt_id,
-                                      TRUE);
+                                      REQEST_PLAYER_INITIATED);
       }
     }
   } else {

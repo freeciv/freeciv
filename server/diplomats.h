@@ -23,7 +23,7 @@ bool diplomat_investigate(struct player *pplayer, struct unit *pdiplomat,
 void spy_send_sabotage_list(struct connection *pc, struct unit *pdiplomat,
                             struct city *pcity,
                             const struct action *paction,
-                            bool disturb_player);
+                            int request_kind);
 bool spy_poison(struct player *pplayer, struct unit *pdiplomat,
                 struct city *pcity, const struct action *paction);
 bool spy_spread_plague(struct player *act_player, struct unit *act_unit,
