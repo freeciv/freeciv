@@ -42,7 +42,7 @@ enum unit_orders {
   ORDER_FULL_MP = 2,
   /* Move; if necessary prompt for action/target when order executed (dir) */
   ORDER_ACTION_MOVE = 3,
-  /* Perform pre-specified action (action, target, extra, dir) */
+  /* Perform pre-specified action (action, target tile, sub target) */
   ORDER_PERFORM_ACTION = 4,
   /* and plenty more for later... */
   ORDER_LAST
