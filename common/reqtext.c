@@ -1771,13 +1771,13 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
         fc_strlcat(buf, prefix, bufsz);
         if (preq->present) {
           cat_snprintf(buf, bufsz,
-                       /* %s is numeric move points; it may have a
+                       /* TRANS: %s is numeric move points; it may have a
                         * fractional part ("1 1/3 MP"). */
                        _("Requires that the unit has at least %s MP left."),
                        move_points_text(preq->source.value.minmoves, TRUE));
         } else {
           cat_snprintf(buf, bufsz,
-                       /* %s is numeric move points; it may have a
+                       /* TRANS: %s is numeric move points; it may have a
                         * fractional part ("1 1/3 MP"). */
                        _("Requires that the unit has less than %s MP left."),
                        move_points_text(preq->source.value.minmoves, TRUE));
