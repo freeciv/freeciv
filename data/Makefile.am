@@ -54,6 +54,7 @@ endif
 pkgdata_DATA = $(SERVER_FILES) $(CLIENT_FILES)
 
 EXTRA_DIST = \
+	$(SRV_RE_FILES) \
 	freeciv-client.png \
 	gtk3.22_menus.xml	\
 	gtk4_menus.xml	\
@@ -68,15 +69,7 @@ EXTRA_DIST = \
 	trident.tilespec	\
 	stdmusic.musicspec	\
 	stdsounds.soundspec	\
-	helpdata.txt	\
-	civ1.serv	\
-	civ2.serv	\
-	classic.serv	\
-	default.serv	\
-	multiplayer.serv \
-	alien.serv \
-	civ2civ3.serv \
-	sandbox.serv
+	helpdata.txt
 
 if CLIENT
 CLIENTDATADIRS = amplio2 misc flags buildings cimpletoon isotrident trident\
