@@ -163,6 +163,7 @@ static void caravan_result_init(struct caravan_result *result,
 
   result->value = 0;
   result->help_wonder = FALSE;
+  /* FIXME: required_boat field is never used. */
   if ((src != NULL) && (dest != NULL)) {
     if (tile_continent(src->tile) != tile_continent(dest->tile)) {
       result->required_boat = TRUE;
@@ -262,7 +263,7 @@ static double windfall_benefit(const struct unit *caravan,
     int bonus = get_caravan_enter_city_trade_bonus(src, dest,
                                                    can_establish);
 
-    /* bonus goes to both sci and gold. */
+    /* bonus goes to both sci and gold FIXME: not always */
     bonus *= 2;
 
     return bonus;
@@ -499,8 +500,6 @@ static bool get_discounted_reward(const struct unit *caravan,
     return FALSE;
   }
 
-  trade = trade_benefit(pplayer_src, src, dest, parameter);
-  windfall = windfall_benefit(caravan, src, dest, parameter);
   if (consider_wonder) {
     wonder = wonder_benefit(caravan, arrival_time, dest, parameter);
     /* we want to aid for wonder building */
@@ -512,6 +511,7 @@ static bool get_discounted_reward(const struct unit *caravan,
   }
 
   if (consider_trade) {
+    trade = trade_benefit(pplayer_src, src, dest, parameter);
     if (parameter->horizon == FC_INFINITY) {
       trade = perpetuity(trade, discount);
     } else {
@@ -523,12 +523,16 @@ static bool get_discounted_reward(const struct unit *caravan,
   }
 
   if (consider_windfall) {
+    windfall = windfall_benefit(caravan, src, dest, parameter);
     windfall = presentvalue(windfall, arrival_time, discount);
   } else {
     windfall = 0.0;
   }
-
-  if (consider_trade && trade + windfall >= wonder) {
+  /* Try founding a trade route
+   * unless the caravan can only enter marketplaces */
+  if ((consider_trade
+       || (consider_windfall && !parameter->consider_trade)
+      ) && trade + windfall >= wonder) {
     result->value = trade + windfall;
     result->help_wonder = FALSE;
   } else if (consider_wonder) {
