@@ -2053,22 +2053,20 @@ void request_unit_load(struct unit *pcargo, struct unit *ptrans,
   if (ptrans
       && can_client_issue_orders()
       && could_unit_load(pcargo, ptrans)) {
-    if (same_pos(unit_tile(pcargo), ptile)) {
-      request_do_action(ACTION_TRANSPORT_BOARD,
-                        pcargo->id, ptrans->id, 0, "");
-    } else {
-      action_by_result_iterate(paction, act_id, ACTRES_TRANSPORT_EMBARK) {
-        if (action_prob_possible(action_prob_vs_unit(pcargo, paction->id,
-                                                     ptrans))) {
-          /* Try the first action that may be legal. */
-          /* Implement something like do_disband_alternative() if a ruleset
-           * appears where this isn't good enough. */
-          request_do_action(paction->id,
-                            pcargo->id, ptrans->id, 0, "");
-          break;
-        }
-      } action_by_result_iterate_end;
-    }
+    action_by_result_iterate(paction, act_id,
+                             same_pos(unit_tile(pcargo), ptile)
+                             ? ACTRES_TRANSPORT_BOARD
+                             : ACTRES_TRANSPORT_EMBARK) {
+      if (action_prob_possible(action_prob_vs_unit(pcargo, paction->id,
+                                                   ptrans))) {
+        /* Try the first action that may be legal. */
+        /* Implement something like do_disband_alternative() if a ruleset
+         * appears where this isn't good enough. */
+        request_do_action(paction->id,
+                          pcargo->id, ptrans->id, 0, "");
+        break;
+      }
+    } action_by_result_iterate_end;
 
     /* Sentry the unit. */
     /* FIXME: Should not sentry if above loading fails (transport moved away,
