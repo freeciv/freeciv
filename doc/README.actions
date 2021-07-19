@@ -660,6 +660,16 @@ Actions done by a unit against another unit
  * loading won't cause a situation with more than 5 recursive transports
  * target must be visible to the actor.
 
+"Transport Load 2" - Load the target unit into the actor unit.
+ * UI name can be set using ui_name_transport_load_2
+ * A copy of "Transport Load".
+ * See "Transport Load" for everything else.
+
+"Transport Load 3" - Load the target unit into the actor unit.
+ * UI name can be set using ui_name_transport_load_3
+ * A copy of "Transport Load".
+ * See "Transport Load" for everything else.
+
 "Transport Board" - Enter target transport on the same tile.
  * UI name can be set using ui_name_transport_board
  * the actor unit can't currently be transported by the target unit.
@@ -682,6 +692,16 @@ Actions done by a unit against another unit
  * the target must be transporting fewer units than its unit type's
    transport_cap field.
  * target must be visible to the actor.
+
+"Transport Board 2" - Enter target transport on the same tile.
+ * UI name can be set using ui_name_transport_board_2
+ * A copy of "Transport Board".
+ * See "Transport Board" for everything else.
+
+"Transport Board 3" - Enter target transport on the same tile.
+ * UI name can be set using ui_name_transport_board_3
+ * A copy of "Transport Board".
+ * See "Transport Board" for everything else.
 
 "Transport Embark" - Enter target transport on a different tile.
  * UI name can be set using ui_name_transport_embark
@@ -725,6 +745,11 @@ Actions done by a unit against another unit
 
 "Transport Embark 3" - Enter target transport on a different tile.
  * UI name can be set using ui_name_transport_embark_3
+ * A copy of "Transport Embark".
+ * See "Transport Embark" for everything else.
+
+"Transport Embark 4" - Enter target transport on a different tile.
+ * UI name can be set using ui_name_transport_embark_4
  * A copy of "Transport Embark".
  * See "Transport Embark" for everything else.
 

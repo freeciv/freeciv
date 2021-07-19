@@ -182,6 +182,12 @@ static bool adv_unit_move(struct unit *punit, struct tile *ptile)
                                                punit, ptrans)) {
     /* "Transport Embark 3". */
     paction = action_by_number(ACTION_TRANSPORT_EMBARK3);
+  } else if (!can_unit_survive_at_tile(&(wld.map), punit, ptile)
+             && ptrans != NULL
+             && is_action_enabled_unit_on_unit(ACTION_TRANSPORT_EMBARK4,
+                                               punit, ptrans)) {
+    /* "Transport Embark 4". */
+    paction = action_by_number(ACTION_TRANSPORT_EMBARK4);
   } else if (is_action_enabled_unit_on_tile(ACTION_TRANSPORT_DISEMBARK1,
                                             punit, ptile, NULL)) {
     /* "Transport Disembark". */

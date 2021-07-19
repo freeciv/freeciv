@@ -160,12 +160,17 @@ static void conquer_extras2(QVariant data1, QVariant data2);
 static void heal_unit(QVariant data1, QVariant data2);
 static void heal_unit2(QVariant data1, QVariant data2);
 static void transport_board(QVariant data1, QVariant data2);
+static void transport_board2(QVariant data1, QVariant data2);
+static void transport_board3(QVariant data1, QVariant data2);
 static void transport_embark(QVariant data1, QVariant data2);
 static void transport_embark2(QVariant data1, QVariant data2);
 static void transport_embark3(QVariant data1, QVariant data2);
+static void transport_embark4(QVariant data1, QVariant data2);
 static void transport_alight(QVariant data1, QVariant data2);
 static void transport_unload(QVariant data1, QVariant data2);
 static void transport_load(QVariant data1, QVariant data2);
+static void transport_load2(QVariant data1, QVariant data2);
+static void transport_load3(QVariant data1, QVariant data2);
 static void keep_moving(QVariant data1, QVariant data2);
 static void pillage_something(QVariant data1, QVariant data2);
 static void action_entry(choice_dialog *cd,
@@ -249,10 +254,15 @@ static const QHash<action_id, pfcn_void> af_map_init(void)
   action_function[ACTION_TRANSPORT_ALIGHT] = transport_alight;
   action_function[ACTION_TRANSPORT_UNLOAD] = transport_unload;
   action_function[ACTION_TRANSPORT_LOAD] = transport_load;
+  action_function[ACTION_TRANSPORT_LOAD2] = transport_load2;
+  action_function[ACTION_TRANSPORT_LOAD3] = transport_load3;
   action_function[ACTION_TRANSPORT_BOARD] = transport_board;
+  action_function[ACTION_TRANSPORT_BOARD2] = transport_board2;
+  action_function[ACTION_TRANSPORT_BOARD3] = transport_board3;
   action_function[ACTION_TRANSPORT_EMBARK] = transport_embark;
   action_function[ACTION_TRANSPORT_EMBARK2] = transport_embark2;
   action_function[ACTION_TRANSPORT_EMBARK3] = transport_embark3;
+  action_function[ACTION_TRANSPORT_EMBARK4] = transport_embark4;
 
   /* Unit acting against all units at a tile. */
   action_function[ACTION_CAPTURE_UNITS] = capture_units;
@@ -2470,6 +2480,28 @@ static void transport_board(QVariant data1, QVariant data2)
 }
 
 /***********************************************************************//**
+  Action "Transport Board 2" for choice dialog
+***************************************************************************/
+static void transport_board2(QVariant data1, QVariant data2)
+{
+  int actor_id = data1.toInt();
+  int target_id = data2.toInt();
+
+  request_do_action(ACTION_TRANSPORT_BOARD2, actor_id, target_id, 0, "");
+}
+
+/***********************************************************************//**
+  Action "Transport Board 3" for choice dialog
+***************************************************************************/
+static void transport_board3(QVariant data1, QVariant data2)
+{
+  int actor_id = data1.toInt();
+  int target_id = data2.toInt();
+
+  request_do_action(ACTION_TRANSPORT_BOARD3, actor_id, target_id, 0, "");
+}
+
+/***********************************************************************//**
   Action "Transport Embark" for choice dialog
 ***************************************************************************/
 static void transport_embark(QVariant data1, QVariant data2)
@@ -2503,6 +2535,17 @@ static void transport_embark3(QVariant data1, QVariant data2)
 }
 
 /***********************************************************************//**
+  Action "Transport Embark 4" for choice dialog
+***************************************************************************/
+static void transport_embark4(QVariant data1, QVariant data2)
+{
+  int actor_id = data1.toInt();
+  int target_id = data2.toInt();
+
+  request_do_action(ACTION_TRANSPORT_EMBARK4, actor_id, target_id, 0, "");
+}
+
+/***********************************************************************//**
   Action "Transport Unload" for choice dialog
 ***************************************************************************/
 static void transport_unload(QVariant data1, QVariant data2)
@@ -2522,6 +2565,28 @@ static void transport_load(QVariant data1, QVariant data2)
   int target_id = data2.toInt();
 
   request_do_action(ACTION_TRANSPORT_LOAD, actor_id, target_id, 0, "");
+}
+
+/***********************************************************************//**
+  Action "Transport Load 2" for choice dialog
+***************************************************************************/
+static void transport_load2(QVariant data1, QVariant data2)
+{
+  int actor_id = data1.toInt();
+  int target_id = data2.toInt();
+
+  request_do_action(ACTION_TRANSPORT_LOAD2, actor_id, target_id, 0, "");
+}
+
+/***********************************************************************//**
+  Action "Transport Load 3" for choice dialog
+***************************************************************************/
+static void transport_load3(QVariant data1, QVariant data2)
+{
+  int actor_id = data1.toInt();
+  int target_id = data2.toInt();
+
+  request_do_action(ACTION_TRANSPORT_LOAD3, actor_id, target_id, 0, "");
 }
 
 /***********************************************************************//**

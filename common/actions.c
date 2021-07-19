@@ -1375,12 +1375,28 @@ static void hard_code_actions(void)
       unit_action_new(ACTION_TRANSPORT_BOARD, ACTRES_TRANSPORT_BOARD,
                       TRUE, FALSE,
                       MAK_STAYS, 0, 0, FALSE);
+  actions[ACTION_TRANSPORT_BOARD2] =
+      unit_action_new(ACTION_TRANSPORT_BOARD2, ACTRES_TRANSPORT_BOARD,
+                      TRUE, FALSE,
+                      MAK_STAYS, 0, 0, FALSE);
+  actions[ACTION_TRANSPORT_BOARD3] =
+      unit_action_new(ACTION_TRANSPORT_BOARD3, ACTRES_TRANSPORT_BOARD,
+                      TRUE, FALSE,
+                      MAK_STAYS, 0, 0, FALSE);
   actions[ACTION_TRANSPORT_UNLOAD] =
       unit_action_new(ACTION_TRANSPORT_UNLOAD, ACTRES_TRANSPORT_UNLOAD,
                       TRUE, FALSE,
                       MAK_STAYS, 0, 0, FALSE);
   actions[ACTION_TRANSPORT_LOAD] =
       unit_action_new(ACTION_TRANSPORT_LOAD, ACTRES_TRANSPORT_LOAD,
+                      TRUE, FALSE,
+                      MAK_STAYS, 0, 0, FALSE);
+  actions[ACTION_TRANSPORT_LOAD2] =
+      unit_action_new(ACTION_TRANSPORT_LOAD2, ACTRES_TRANSPORT_LOAD,
+                      TRUE, FALSE,
+                      MAK_STAYS, 0, 0, FALSE);
+  actions[ACTION_TRANSPORT_LOAD3] =
+      unit_action_new(ACTION_TRANSPORT_LOAD3, ACTRES_TRANSPORT_LOAD,
                       TRUE, FALSE,
                       MAK_STAYS, 0, 0, FALSE);
   actions[ACTION_TRANSPORT_DISEMBARK1] =
@@ -1413,6 +1429,10 @@ static void hard_code_actions(void)
                       MAK_REGULAR, 1, 1, FALSE);
   actions[ACTION_TRANSPORT_EMBARK3] =
       unit_action_new(ACTION_TRANSPORT_EMBARK3, ACTRES_TRANSPORT_EMBARK,
+                      TRUE, TRUE,
+                      MAK_REGULAR, 1, 1, FALSE);
+  actions[ACTION_TRANSPORT_EMBARK4] =
+      unit_action_new(ACTION_TRANSPORT_EMBARK4, ACTRES_TRANSPORT_EMBARK,
                       TRUE, TRUE,
                       MAK_REGULAR, 1, 1, FALSE);
   actions[ACTION_SPY_ATTACK] =
@@ -7619,16 +7639,26 @@ const char *action_ui_name_ruleset_var_name(int act)
     return "ui_name_transport_alight";
   case ACTION_TRANSPORT_BOARD:
     return "ui_name_transport_board";
+  case ACTION_TRANSPORT_BOARD2:
+    return "ui_name_transport_board_2";
+  case ACTION_TRANSPORT_BOARD3:
+    return "ui_name_transport_board_3";
   case ACTION_TRANSPORT_EMBARK:
     return "ui_name_transport_embark";
   case ACTION_TRANSPORT_EMBARK2:
     return "ui_name_transport_embark_2";
   case ACTION_TRANSPORT_EMBARK3:
     return "ui_name_transport_embark_3";
+  case ACTION_TRANSPORT_EMBARK4:
+    return "ui_name_transport_embark_4";
   case ACTION_TRANSPORT_UNLOAD:
     return "ui_name_transport_unload";
   case ACTION_TRANSPORT_LOAD:
     return "ui_name_transport_load";
+  case ACTION_TRANSPORT_LOAD2:
+    return "ui_name_transport_load_2";
+  case ACTION_TRANSPORT_LOAD3:
+    return "ui_name_transport_load_3";
   case ACTION_TRANSPORT_DISEMBARK1:
     return "ui_name_transport_disembark";
   case ACTION_TRANSPORT_DISEMBARK2:
@@ -7924,17 +7954,22 @@ const char *action_ui_name_default(int act)
     /* TRANS: _Alight (100% chance of success). */
     return N_("%sAlight%s");
   case ACTION_TRANSPORT_BOARD:
+  case ACTION_TRANSPORT_BOARD2:
+  case ACTION_TRANSPORT_BOARD3:
     /* TRANS: _Board (100% chance of success). */
     return N_("%sBoard%s");
   case ACTION_TRANSPORT_EMBARK:
   case ACTION_TRANSPORT_EMBARK2:
   case ACTION_TRANSPORT_EMBARK3:
+  case ACTION_TRANSPORT_EMBARK4:
     /* TRANS: _Embark (100% chance of success). */
     return N_("%sEmbark%s");
   case ACTION_TRANSPORT_UNLOAD:
     /* TRANS: _Unload (100% chance of success). */
     return N_("%sUnload%s");
   case ACTION_TRANSPORT_LOAD:
+  case ACTION_TRANSPORT_LOAD2:
+  case ACTION_TRANSPORT_LOAD3:
     /* TRANS: _Load (100% chance of success). */
     return N_("%sLoad%s");
   case ACTION_TRANSPORT_DISEMBARK1:
@@ -8064,11 +8099,16 @@ const char *action_min_range_ruleset_var_name(int act)
   case ACTION_IRRIGATE:
   case ACTION_TRANSPORT_ALIGHT:
   case ACTION_TRANSPORT_BOARD:
+  case ACTION_TRANSPORT_BOARD2:
+  case ACTION_TRANSPORT_BOARD3:
   case ACTION_TRANSPORT_EMBARK:
   case ACTION_TRANSPORT_EMBARK2:
   case ACTION_TRANSPORT_EMBARK3:
+  case ACTION_TRANSPORT_EMBARK4:
   case ACTION_TRANSPORT_UNLOAD:
   case ACTION_TRANSPORT_LOAD:
+  case ACTION_TRANSPORT_LOAD2:
+  case ACTION_TRANSPORT_LOAD3:
   case ACTION_TRANSPORT_DISEMBARK1:
   case ACTION_TRANSPORT_DISEMBARK2:
   case ACTION_TRANSPORT_DISEMBARK3:
@@ -8277,11 +8317,16 @@ const char *action_max_range_ruleset_var_name(int act)
   case ACTION_IRRIGATE:
   case ACTION_TRANSPORT_ALIGHT:
   case ACTION_TRANSPORT_BOARD:
+  case ACTION_TRANSPORT_BOARD2:
+  case ACTION_TRANSPORT_BOARD3:
   case ACTION_TRANSPORT_EMBARK:
   case ACTION_TRANSPORT_EMBARK2:
   case ACTION_TRANSPORT_EMBARK3:
+  case ACTION_TRANSPORT_EMBARK4:
   case ACTION_TRANSPORT_UNLOAD:
   case ACTION_TRANSPORT_LOAD:
+  case ACTION_TRANSPORT_LOAD2:
+  case ACTION_TRANSPORT_LOAD3:
   case ACTION_TRANSPORT_DISEMBARK1:
   case ACTION_TRANSPORT_DISEMBARK2:
   case ACTION_TRANSPORT_DISEMBARK3:
@@ -8507,11 +8552,16 @@ const char *action_target_kind_ruleset_var_name(int act)
   case ACTION_IRRIGATE:
   case ACTION_TRANSPORT_ALIGHT:
   case ACTION_TRANSPORT_BOARD:
+  case ACTION_TRANSPORT_BOARD2:
+  case ACTION_TRANSPORT_BOARD3:
   case ACTION_TRANSPORT_EMBARK:
   case ACTION_TRANSPORT_EMBARK2:
   case ACTION_TRANSPORT_EMBARK3:
+  case ACTION_TRANSPORT_EMBARK4:
   case ACTION_TRANSPORT_UNLOAD:
   case ACTION_TRANSPORT_LOAD:
+  case ACTION_TRANSPORT_LOAD2:
+  case ACTION_TRANSPORT_LOAD3:
   case ACTION_TRANSPORT_DISEMBARK1:
   case ACTION_TRANSPORT_DISEMBARK2:
   case ACTION_TRANSPORT_DISEMBARK3:
@@ -9021,11 +9071,16 @@ const char *action_actor_consuming_always_ruleset_var_name(action_id act)
   case ACTION_IRRIGATE:
   case ACTION_TRANSPORT_ALIGHT:
   case ACTION_TRANSPORT_BOARD:
+  case ACTION_TRANSPORT_BOARD2:
+  case ACTION_TRANSPORT_BOARD3:
   case ACTION_TRANSPORT_EMBARK:
   case ACTION_TRANSPORT_EMBARK2:
   case ACTION_TRANSPORT_EMBARK3:
+  case ACTION_TRANSPORT_EMBARK4:
   case ACTION_TRANSPORT_UNLOAD:
   case ACTION_TRANSPORT_LOAD:
+  case ACTION_TRANSPORT_LOAD2:
+  case ACTION_TRANSPORT_LOAD3:
   case ACTION_TRANSPORT_DISEMBARK1:
   case ACTION_TRANSPORT_DISEMBARK2:
   case ACTION_TRANSPORT_DISEMBARK3:
@@ -9188,11 +9243,16 @@ const char *action_blocked_by_ruleset_var_name(const struct action *act)
   case ACTION_IRRIGATE:
   case ACTION_TRANSPORT_ALIGHT:
   case ACTION_TRANSPORT_BOARD:
+  case ACTION_TRANSPORT_BOARD2:
+  case ACTION_TRANSPORT_BOARD3:
   case ACTION_TRANSPORT_EMBARK:
   case ACTION_TRANSPORT_EMBARK2:
   case ACTION_TRANSPORT_EMBARK3:
+  case ACTION_TRANSPORT_EMBARK4:
   case ACTION_TRANSPORT_UNLOAD:
   case ACTION_TRANSPORT_LOAD:
+  case ACTION_TRANSPORT_LOAD2:
+  case ACTION_TRANSPORT_LOAD3:
   case ACTION_TRANSPORT_DISEMBARK1:
   case ACTION_TRANSPORT_DISEMBARK2:
   case ACTION_TRANSPORT_DISEMBARK3:
@@ -9323,11 +9383,16 @@ action_post_success_forced_ruleset_var_name(const struct action *act)
   case ACTION_IRRIGATE:
   case ACTION_TRANSPORT_ALIGHT:
   case ACTION_TRANSPORT_BOARD:
+  case ACTION_TRANSPORT_BOARD2:
+  case ACTION_TRANSPORT_BOARD3:
   case ACTION_TRANSPORT_EMBARK:
   case ACTION_TRANSPORT_EMBARK2:
   case ACTION_TRANSPORT_EMBARK3:
+  case ACTION_TRANSPORT_EMBARK4:
   case ACTION_TRANSPORT_UNLOAD:
   case ACTION_TRANSPORT_LOAD:
+  case ACTION_TRANSPORT_LOAD2:
+  case ACTION_TRANSPORT_LOAD3:
   case ACTION_TRANSPORT_DISEMBARK1:
   case ACTION_TRANSPORT_DISEMBARK2:
   case ACTION_TRANSPORT_DISEMBARK3:

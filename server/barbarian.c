@@ -418,6 +418,11 @@ bool unleash_barbarians(struct tile *ptile)
               /* Load */
               unit_do_action(unit_owner(punit2), punit2->id, boat->id,
                              0, "", ACTION_TRANSPORT_EMBARK3);
+            } else if (is_action_enabled_unit_on_unit(ACTION_TRANSPORT_EMBARK4,
+                                                      punit2, boat)) {
+              /* Load */
+              unit_do_action(unit_owner(punit2), punit2->id, boat->id,
+                             0, "", ACTION_TRANSPORT_EMBARK4);
             }
           }
         } unit_list_iterate_safe_end;

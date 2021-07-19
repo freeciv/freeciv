@@ -5351,6 +5351,14 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
     return unit_perform_action(pplayer, punit->id, ptrans->id,
                                NO_TARGET, "", ACTION_TRANSPORT_EMBARK3,
                                ACT_REQ_PLAYER);
+  } else if (!can_unit_survive_at_tile(&(wld.map), punit, pdesttile)
+             && ((ptrans = transporter_for_unit_at(punit, pdesttile)))
+             && is_action_enabled_unit_on_unit(ACTION_TRANSPORT_EMBARK4,
+                                               punit, ptrans)) {
+    /* "Transport Embark 4". */
+    return unit_perform_action(pplayer, punit->id, ptrans->id,
+                               NO_TARGET, "", ACTION_TRANSPORT_EMBARK4,
+                               ACT_REQ_PLAYER);
   } else if (is_action_enabled_unit_on_tile(ACTION_TRANSPORT_DISEMBARK1,
                                             punit, pdesttile, NULL)) {
     /* "Transport Disembark". */
