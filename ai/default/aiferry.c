@@ -830,9 +830,17 @@ bool aiferry_gobyboat(struct ai_type *ait, struct player *pplayer,
       return FALSE;
     }
 
-    handle_unit_do_action(pplayer, punit->id, ferryboat->id, 0, "",
-                          /* FIXME: don't hard code action id. */
-                          ACTION_TRANSPORT_BOARD);
+    action_by_result_iterate(paction, act_id, ACTRES_TRANSPORT_BOARD) {
+      if (action_prob_possible(action_prob_vs_unit(punit,
+                                                   paction->id,
+                                                   ferryboat))) {
+        if (unit_perform_action(pplayer,
+                                punit->id, ferryboat->id, 0, "",
+                                paction->id, ACT_REQ_PLAYER)) {
+          break;
+        }
+      }
+    } action_by_result_iterate_end;
     fc_assert(unit_transported(punit));
   }
 
@@ -874,13 +882,18 @@ bool aiferry_gobyboat(struct ai_type *ait, struct player *pplayer,
       if (bodyguard) {
         fc_assert(same_pos(unit_tile(punit), unit_tile(bodyguard)));
 
-        /* We don't need to check if this is legal beforehand.
-         * It fails if it fails, and there's no other things we would
-         * want to do in that case - bodyguard either uses the same boat
-         * or none at all. */
-        handle_unit_do_action(pplayer, bodyguard->id, ferryboat->id, 0, "",
-                              /* FIXME: don't hard code action id. */
-                              ACTION_TRANSPORT_BOARD);
+        /* Bodyguard either uses the same boat or none at all. */
+        action_by_result_iterate(paction, act_id, ACTRES_TRANSPORT_BOARD) {
+          if (action_prob_possible(action_prob_vs_unit(bodyguard,
+                                                       paction->id,
+                                                       ferryboat))) {
+            if (unit_perform_action(pplayer,
+                                    bodyguard->id, ferryboat->id, 0, "",
+                                    paction->id, ACT_REQ_PLAYER)) {
+              break;
+            }
+          }
+        } action_by_result_iterate_end;
       }
       if (!aiferry_goto_amphibious(ait, ferryboat, punit, dest_tile)) {
         /* died */
