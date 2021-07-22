@@ -359,7 +359,7 @@ bool unleash_barbarians(struct tile *ptile)
           int rdir = random_unchecked_direction(land_tiles - checked_count, checked);
 
           if (unit_can_move_to_tile(&(wld.map), punit2, dir_tiles[rdir],
-                                    TRUE, FALSE)) {
+                                    TRUE, FALSE, FALSE)) {
             /* Move */
             (void) unit_move_pay(punit2, dir_tiles[rdir]);
             log_debug("Moved barbarian unit from (%d, %d) to (%d, %d)", 
@@ -439,7 +439,7 @@ bool unleash_barbarians(struct tile *ptile)
             rdir = random_unchecked_direction(land_tiles - checked_count, checked);
 
             if (unit_can_move_to_tile(&(wld.map), punit2, dir_tiles[rdir],
-                                      TRUE, FALSE)) {
+                                      TRUE, FALSE, FALSE)) {
               /* Move */
               (void) unit_move_pay(punit2, dir_tiles[rdir]);
               dest_found = TRUE;

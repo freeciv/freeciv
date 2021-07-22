@@ -544,11 +544,13 @@ bool unit_can_move_to_tile(const struct civ_map *nmap,
                            const struct unit *punit,
                            const struct tile *dst_tile,
                            bool igzoc,
+                           bool enter_transport,
                            bool enter_enemy_city)
 {
   return (MR_OK == unit_move_to_tile_test(nmap, punit,
                                           punit->activity, unit_tile(punit),
-                                          dst_tile, igzoc, NULL,
+                                          dst_tile, igzoc,
+                                          enter_transport, NULL,
                                           enter_enemy_city));
 }
 
@@ -581,7 +583,7 @@ unit_move_to_tile_test(const struct civ_map *nmap,
                        enum unit_activity activity,
                        const struct tile *src_tile,
                        const struct tile *dst_tile, bool igzoc,
-                       struct unit *embark_to,
+                       bool enter_transport, struct unit *embark_to,
                        bool enter_enemy_city)
 {
   bool zoc;
@@ -626,7 +628,8 @@ unit_move_to_tile_test(const struct civ_map *nmap,
       return MR_NO_TRANSPORTER_CAPACITY;
     }
   } else if (!(can_exist_at_tile(nmap, punittype, dst_tile)
-               || unit_could_load_at(punit, dst_tile))) {
+               || (enter_transport
+                   && unit_could_load_at(punit, dst_tile)))) {
     return MR_NO_TRANSPORTER_CAPACITY;
   }
 
