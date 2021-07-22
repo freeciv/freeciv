@@ -1426,7 +1426,7 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
                                                punit->activity,
                                                unit_tile(punit),
                                                city_tile(target_city),
-                                               FALSE, NULL, TRUE);
+                                               FALSE, FALSE, NULL, TRUE);
       } else {
         action_custom = MR_OK;
       }
@@ -1437,7 +1437,7 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
                                                punit->activity,
                                                unit_tile(punit),
                                                unit_tile(target_unit),
-                                               FALSE, NULL, FALSE);
+                                               FALSE, TRUE, NULL, FALSE);
       } else {
         action_custom = MR_OK;
       }
@@ -1452,7 +1452,7 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
                                                punit->activity,
                                                unit_tile(punit),
                                                target_tile,
-                                               FALSE, NULL, FALSE);
+                                               FALSE, FALSE, NULL, FALSE);
       } else {
         action_custom = MR_OK;
       }
@@ -5134,7 +5134,7 @@ static bool can_unit_move_to_tile_with_notify(struct unit *punit,
   struct tile *src_tile = unit_tile(punit);
   enum unit_move_result reason =
     unit_move_to_tile_test(&(wld.map), punit, punit->activity,
-                           src_tile, dest_tile, igzoc, embark_to,
+                           src_tile, dest_tile, igzoc, TRUE, embark_to,
                            enter_enemy_city);
 
   switch (reason) {
@@ -5275,7 +5275,7 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
   if (!move_do_not_act) {
     const bool can_not_move = !unit_can_move_to_tile(&(wld.map),
                                                      punit, pdesttile,
-                                                     FALSE, FALSE);
+                                                     FALSE, FALSE, FALSE);
     bool one_action_may_be_legal
         =  action_tgt_unit(punit, pdesttile, can_not_move)
         || action_tgt_city(punit, pdesttile, can_not_move)

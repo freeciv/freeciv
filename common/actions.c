@@ -4185,7 +4185,7 @@ is_action_possible(const action_id wanted_action,
   case ACTRES_CONQUER_CITY:
     /* Reason: "Conquer City" involves moving into the city. */
     if (!unit_can_move_to_tile(&(wld.map), actor_unit, target_tile,
-                               FALSE, TRUE)) {
+                               FALSE, FALSE, TRUE)) {
       return TRI_NO;
     }
 
@@ -4194,7 +4194,7 @@ is_action_possible(const action_id wanted_action,
   case ACTRES_CONQUER_EXTRAS:
     /* Reason: "Conquer Extras" involves moving to the tile. */
     if (!unit_can_move_to_tile(&(wld.map), actor_unit, target_tile,
-                               FALSE, FALSE)) {
+                               FALSE, FALSE, FALSE)) {
       return TRI_NO;
     }
     /* Reason: Must have something to claim. The more specific restriction
@@ -4504,7 +4504,7 @@ is_action_possible(const action_id wanted_action,
 
   case ACTRES_TRANSPORT_DISEMBARK:
     if (!unit_can_move_to_tile(&(wld.map), actor_unit, target_tile,
-                               FALSE, FALSE)) {
+                               FALSE, FALSE, FALSE)) {
       /* Reason: involves moving to the tile. */
       return TRI_NO;
     }
@@ -4535,7 +4535,7 @@ is_action_possible(const action_id wanted_action,
       return TRI_NO;
     }
     if (!unit_can_move_to_tile(&(wld.map), actor_unit, target_tile,
-                               FALSE, FALSE)) {
+                               FALSE, TRUE, FALSE)) {
       /* Reason: involves moving to the tile. */
       return TRI_NO;
     }
@@ -4597,7 +4597,7 @@ is_action_possible(const action_id wanted_action,
   case ACTRES_HUT_FRIGHTEN:
     /* Reason: involves moving to the tile. */
     if (!unit_can_move_to_tile(&(wld.map), actor_unit, target_tile,
-                               FALSE, FALSE)) {
+                               FALSE, FALSE, FALSE)) {
       return TRI_NO;
     }
     if (!unit_can_displace_hut(actor_unit, target_tile)) {
@@ -4609,7 +4609,7 @@ is_action_possible(const action_id wanted_action,
   case ACTRES_UNIT_MOVE:
     /* Reason: is moving to the tile. */
     if (!unit_can_move_to_tile(&(wld.map), actor_unit, target_tile,
-                               FALSE, FALSE)) {
+                               FALSE, FALSE, FALSE)) {
       return TRI_NO;
     }
 
