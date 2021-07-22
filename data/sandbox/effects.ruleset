@@ -4670,6 +4670,30 @@ reqs    =
       "UnitClassFlag", "TerrainSpeed",          "Local", TRUE
     }
 
+[effect_action_success_move_cost_transport_to_transport_board]
+type    = "Action_Success_Actor_Move_Cost"
+value   = 65535
+reqs    =
+    { "type",   "name",             "range"
+      "Action", "Transport Board 2", "Local"
+    }
+
+[effect_action_success_move_cost_transport_to_transport_load]
+type    = "Action_Success_Target_Move_Cost"
+value   = 65535
+reqs    =
+    { "type",   "name",             "range"
+      "Action", "Transport Load 2", "Local"
+    }
+
+[effect_action_success_move_cost_transport_to_transport_embark]
+type    = "Action_Success_Actor_Move_Cost"
+value   = 65535
+reqs    =
+    { "type",   "name",               "range"
+      "Action", "Transport Embark 4", "Local"
+    }
+
 [effect_action_success_attack_one_attack]
 type    = "Action_Success_Actor_Move_Cost"
 value   = 65535

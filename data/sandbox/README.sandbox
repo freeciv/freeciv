@@ -118,6 +118,10 @@ Transporters can Load
 Units capable of transporting other units can pick up domestic and allied
 cargo units located at the same tile.
 
+Transport to transport transfer
+A unit can switch transport max one time per turn. Transport to transport
+transfer spends all remaining movement and requires remaining movement.
+
 Goods:
 Trade routes can carry many kinds of goods. There is production chains
 like that city with Mine can trade Ore to a city that then can trade

@@ -677,6 +677,15 @@ ui_name_unit_move = _("%sKeep moving%s")
 ; /* TRANS: _Wipe Defenders (100% chance of success). */
 ui_name_wipe_units = _("%sWipe Defenders%s")
 
+; /* TRANS: _Transfer Cargo (100% chance of success). */
+ui_name_transport_load_2 = _("%sTransfer Cargo%s")
+
+; /* TRANS: _Switch Transporter (100% chance of success). */
+ui_name_transport_board_2 = _("%sSwitch Transporter%s")
+
+; /* TRANS: _Switch Transporter (100% chance of success). */
+ui_name_transport_embark_4 = _("%sSwitch Transporter%s")
+
 ; Blank ruleset defined user actions.
 ; See the section "Ruleset defined actions" is doc/README.actions
 
@@ -2810,12 +2819,26 @@ target_reqs    =
 [actionenabler_board]
 action        = "Transport Board"
 actor_reqs    =
-    { "type",    "name",       "range", "present"
-      "DiplRel", "Armistice",  "Local", FALSE
-      "DiplRel", "War",        "Local", FALSE
-      "DiplRel", "Cease-fire", "Local", FALSE
-      "DiplRel", "Peace",      "Local", FALSE
-      "DiplRel", "Never met",  "Local", FALSE
+    { "type",      "name",        "range", "present"
+      "UnitState", "Transported", "Local", FALSE
+      "DiplRel",   "Armistice",   "Local", FALSE
+      "DiplRel",   "War",         "Local", FALSE
+      "DiplRel",   "Cease-fire",  "Local", FALSE
+      "DiplRel",   "Peace",       "Local", FALSE
+      "DiplRel",   "Never met",   "Local", FALSE
+    }
+
+[actionenabler_board_transport_switch]
+action        = "Transport Board 2"
+actor_reqs    =
+    { "type",         "name",        "range", "present"
+      "UnitState",    "Transported", "Local", TRUE
+      "MinMoveFrags", "1",           "Local", TRUE
+      "DiplRel",      "Armistice",   "Local", FALSE
+      "DiplRel",      "War",         "Local", FALSE
+      "DiplRel",      "Cease-fire",  "Local", FALSE
+      "DiplRel",      "Peace",       "Local", FALSE
+      "DiplRel",      "Never met",   "Local", FALSE
     }
 
 [actionenabler_unload]
@@ -2839,6 +2862,26 @@ actor_reqs    =
       "DiplRel", "Cease-fire", "Local", FALSE
       "DiplRel", "Peace",      "Local", FALSE
       "DiplRel", "Never met",  "Local", FALSE
+    }
+target_reqs    =
+    { "type",      "name",        "range", "present"
+      "UnitState", "Transported", "Local", FALSE
+    }
+
+[actionenabler_load_transport_switch]
+action        = "Transport Load 2"
+actor_reqs    =
+    { "type",         "name",       "range", "present"
+      "MinMoveFrags", "1",          "Local", TRUE
+      "DiplRel",      "Armistice",  "Local", FALSE
+      "DiplRel",      "War",        "Local", FALSE
+      "DiplRel",      "Cease-fire", "Local", FALSE
+      "DiplRel",      "Peace",      "Local", FALSE
+      "DiplRel",      "Never met",  "Local", FALSE
+    }
+target_reqs    =
+    { "type",      "name",        "range", "present"
+      "UnitState", "Transported", "Local", TRUE
     }
 
 [actionenabler_disembark_from_native_tile]
@@ -2872,13 +2915,27 @@ actor_reqs    =
 [actionenabler_embark]
 action        = "Transport Embark"
 actor_reqs    =
-    { "type",         "name",       "range", "present"
-      "MinMoveFrags", "1",          "Local", TRUE
-      "DiplRel",      "Armistice",  "Local", FALSE
-      "DiplRel",      "War",        "Local", FALSE
-      "DiplRel",      "Cease-fire", "Local", FALSE
-      "DiplRel",      "Peace",      "Local", FALSE
-      "DiplRel",      "Never met",  "Local", FALSE
+    { "type",         "name",        "range", "present"
+      "UnitState",    "Transported", "Local", FALSE
+      "MinMoveFrags", "1",           "Local", TRUE
+      "DiplRel",      "Armistice",   "Local", FALSE
+      "DiplRel",      "War",         "Local", FALSE
+      "DiplRel",      "Cease-fire",  "Local", FALSE
+      "DiplRel",      "Peace",       "Local", FALSE
+      "DiplRel",      "Never met",   "Local", FALSE
+    }
+
+[actionenabler_embark_transport_switch]
+action        = "Transport Embark 4"
+actor_reqs    =
+    { "type",         "name",        "range", "present"
+      "UnitState",    "Transported", "Local", TRUE
+      "MinMoveFrags", "1",           "Local", TRUE
+      "DiplRel",      "Armistice",   "Local", FALSE
+      "DiplRel",      "War",         "Local", FALSE
+      "DiplRel",      "Cease-fire",  "Local", FALSE
+      "DiplRel",      "Peace",       "Local", FALSE
+      "DiplRel",      "Never met",   "Local", FALSE
     }
 
 [actionenabler_regular_move]
