@@ -6386,6 +6386,8 @@ struct act_prob action_speculate_unit_on_city(const action_id act_id,
       return ACTPROB_IMPOSSIBLE;
     }
   } else {
+    /* FIXME: this branch result depends _directly_ on actor's position.
+     * I.e., like, not adjacent, no action. Other branch ignores radius. */
     return action_prob_vs_city_full(actor, actor_home, actor_tile,
                                     act_id, target);
   }
