@@ -587,6 +587,24 @@ const char *api_methods_research_name_translation(lua_State *L,
 }
 
 /**********************************************************************//**
+  Return Lua list of all players
+  FIXME: safe function, no reason to hide
+**************************************************************************/
+lua_Object api_methods_private_list_players(lua_State *L)
+{
+  lua_Object result = 0;
+  int i = 0;
+
+  LUASCRIPT_CHECK_STATE(L, 0);
+  lua_createtable(L, player_count(), 0);
+  result = lua_gettop(L);
+  players_iterate(pplayer) {
+    tolua_pushfieldusertype(L, result, ++i, pplayer, "Player");
+  } players_iterate_end;
+  return result;
+}
+
+/**********************************************************************//**
   Return list head for unit list for Player
 **************************************************************************/
 Unit_List_Link *api_methods_private_player_unit_list_head(lua_State *L,
