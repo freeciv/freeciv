@@ -991,6 +991,9 @@ void rscompat_postprocess(struct rscompat_info *info)
     paction->actor_consuming_always = TRUE;
     paction->min_distance = 1;
 
+    paction = action_by_number(ACTION_FOUND_CITY);
+    paction->actor_consuming_always = TRUE;
+
     enabler = action_enabler_new();
     enabler->action = ACTION_PILLAGE;
     e_req = req_from_str("UnitClassFlag", "Local", FALSE, TRUE, FALSE,
