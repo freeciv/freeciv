@@ -9029,7 +9029,6 @@ const char *action_actor_consuming_always_ruleset_var_name(action_id act)
   case ACTION_HELP_WONDER:
   case ACTION_CAPTURE_UNITS:
   case ACTION_EXPEL_UNIT:
-  case ACTION_FOUND_CITY:
   case ACTION_JOIN_CITY:
   case ACTION_SPY_NUKE:
   case ACTION_SPY_NUKE_ESC:
@@ -9108,6 +9107,8 @@ const char *action_actor_consuming_always_ruleset_var_name(action_id act)
   case ACTION_SPY_ESCAPE:
     /* actor consuming always is not ruleset changeable */
     return NULL;
+  case ACTION_FOUND_CITY:
+    return "found_city_consuming_always";
   case ACTION_NUKE:
     return "explode_nuclear_consuming_always";
   case ACTION_NUKE_CITY:
