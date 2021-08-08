@@ -2087,7 +2087,7 @@ static void city_dialog_update_building(struct city_dialog *pdialog)
 *****************************************************************/
 static void city_dialog_update_improvement_list(struct city_dialog *pdialog)
 {
-  int total, item, targets_used;
+  int item, targets_used;
   struct universal targets[MAX_NUM_PRODUCTION_TARGETS];
   struct item items[MAX_NUM_PRODUCTION_TARGETS];
   GtkTreeModel *model;
@@ -2107,7 +2107,6 @@ static void city_dialog_update_improvement_list(struct city_dialog *pdialog)
 
   gtk_list_store_clear(store);  
 
-  total = 0;
   for (item = 0; item < targets_used; item++) {
     GdkPixbuf *pix;
     GtkTreeIter it;
@@ -2137,8 +2136,6 @@ static void city_dialog_update_improvement_list(struct city_dialog *pdialog)
                              tooltip_small_wonder : tooltip_sellable),
                        -1);
     g_object_unref(G_OBJECT(pix));
-
-    total += upkeep;
   }
 }
 
