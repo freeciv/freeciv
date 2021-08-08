@@ -735,35 +735,48 @@ adv_want settler_evaluate_improvements(struct unit *punit,
                   }
                 } road_deps_iterate_end;
 
-                base_deps_iterate(&(pextra->reqs), pdep) {
-                  struct extra_type *dep_tgt;
+                extra_deps_iterate(&(pextra->reqs), pdep) {
+                  /* Roads handled above already */
+                  if (!is_extra_caused_by(pdep, EC_ROAD)) {
+                    enum unit_activity eval_dep_act = ACTIVITY_LAST;
 
-                  dep_tgt = base_extra_get(pdep);
-                  if (action_prob_possible(
-                        action_speculate_unit_on_tile(ACTION_BASE,
-                                                      punit, unit_home(punit), ptile,
-                                                      parameter.omniscience,
-                                                      ptile, dep_tgt))) {
-                    /* Consider building dependency base for later upgrade to
-                     * target extra. See similar road implementation above for
-                     * extended commentary. */
-                    int dep_turns = turns + get_turns_for_activity_at(punit,
-                                                                      ACTIVITY_BASE,
-                                                                      ptile,
-                                                                      dep_tgt);
-                    int dep_value = base_value + adv_city_worker_extra_get(pcity,
-                                                                           cindex,
-                                                                           dep_tgt);
+                    as_extra_action_iterate(try_act) {
+                      struct action *taction = action_by_number(try_act);
 
-                    consider_settler_action(pplayer, ACTIVITY_BASE, dep_tgt,
-                                            0.0, dep_value, oldv, in_use,
-                                            dep_turns, &best_newv, &best_oldv,
-                                            &best_extra, &improve_worked,
-                                            &best_delay,
-                                            best_act, best_target,
-                                            best_tile, ptile);
+                      if (is_extra_caused_by_action(pdep, taction)) {
+                        eval_dep_act = action_id_get_activity(try_act);
+                        break;
+                      }
+                    } as_extra_action_iterate_end;
+
+                    if (eval_dep_act != ACTIVITY_LAST) {
+                      if (action_prob_possible(
+                            action_speculate_unit_on_tile(eval_dep_act,
+                                                          punit, unit_home(punit), ptile,
+                                                          parameter.omniscience,
+                                                          ptile, pdep))) {
+                        /* Consider building dependency extra for later upgrade to
+                         * target extra. See similar road implementation above for
+                         * extended commentary. */
+                        int dep_turns = turns + get_turns_for_activity_at(punit,
+                                                                          eval_dep_act,
+                                                                          ptile,
+                                                                          pdep);
+                        int dep_value = base_value + adv_city_worker_extra_get(pcity,
+                                                                               cindex,
+                                                                               pdep);
+
+                        consider_settler_action(pplayer, eval_dep_act, pdep,
+                                                0.0, dep_value, oldv, in_use,
+                                                dep_turns, &best_newv, &best_oldv,
+                                                &best_extra, &improve_worked,
+                                                &best_delay,
+                                                best_act, best_target,
+                                                best_tile, ptile);
+                      }
+                    }
                   }
-                } base_deps_iterate_end;
+                } extra_deps_iterate_end;
               }
             }
           } extra_type_iterate_end;
