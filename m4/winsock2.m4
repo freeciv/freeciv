@@ -3,7 +3,6 @@
 # serial 1
 
 # Prepend winsock2.h to default includes if possible.
-# Set HAVE_WINSOCK2 if winsock2.h was found.
 #
 # FC_WINSOCK2_INCLUDE([ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]])
 #
