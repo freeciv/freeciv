@@ -136,6 +136,80 @@ static int last_turn = 0;
 
 /* Refresh the action selection dialog */
 #define REQEST_BACKGROUND_REFRESH (1)
+/* Get possible actions for fast auto attack. */
+#define REQEST_BACKGROUND_FAST_AUTO_ATTACK (2)
+
+/* A unit will auto attack with the following actions. */
+const action_id auto_attack_actions[] = {
+  ACTION_CAPTURE_UNITS,
+  ACTION_BOMBARD, ACTION_BOMBARD2, ACTION_BOMBARD3,
+  ACTION_BOMBARD_LETHAL,
+  ACTION_NUKE, ACTION_NUKE_CITY, ACTION_NUKE_UNITS,
+  ACTION_ATTACK, ACTION_SUICIDE_ATTACK,
+  ACTION_WIPE_UNITS,
+  ACTION_CONQUER_CITY, ACTION_CONQUER_CITY2,
+  ACTION_CONQUER_CITY3, ACTION_CONQUER_CITY4,
+  ACTION_STRIKE_PRODUCTION,
+  ACTION_CONQUER_EXTRAS, ACTION_CONQUER_EXTRAS2,
+  ACTION_CONQUER_EXTRAS3, ACTION_CONQUER_EXTRAS4,
+  /* End the action list. */
+  ACTION_NONE
+};
+
+/* A unit will not auto attack if any of there actions are legal. */
+const action_id auto_attack_blockers[] = {
+  ACTION_ESTABLISH_EMBASSY, ACTION_ESTABLISH_EMBASSY_STAY,
+  ACTION_SPY_INVESTIGATE_CITY, ACTION_INV_CITY_SPEND,
+  ACTION_SPY_POISON, ACTION_SPY_POISON_ESC,
+  ACTION_SPY_STEAL_GOLD, ACTION_SPY_STEAL_GOLD_ESC,
+  ACTION_SPY_SPREAD_PLAGUE,
+  ACTION_SPY_SABOTAGE_CITY, ACTION_SPY_SABOTAGE_CITY_ESC,
+  ACTION_SPY_TARGETED_SABOTAGE_CITY,
+  ACTION_SPY_TARGETED_SABOTAGE_CITY_ESC,
+  ACTION_SPY_SABOTAGE_CITY_PRODUCTION,
+  ACTION_SPY_SABOTAGE_CITY_PRODUCTION_ESC,
+  ACTION_SPY_STEAL_TECH, ACTION_SPY_STEAL_TECH_ESC,
+  ACTION_SPY_TARGETED_STEAL_TECH,
+  ACTION_SPY_TARGETED_STEAL_TECH_ESC,
+  ACTION_SPY_INCITE_CITY, ACTION_SPY_INCITE_CITY_ESC,
+  ACTION_TRADE_ROUTE, ACTION_MARKETPLACE,
+  ACTION_HELP_WONDER,
+  ACTION_SPY_BRIBE_UNIT,
+  ACTION_SPY_SABOTAGE_UNIT, ACTION_SPY_SABOTAGE_UNIT_ESC,
+  ACTION_SPY_ATTACK,
+  ACTION_FOUND_CITY,
+  ACTION_JOIN_CITY,
+  ACTION_STEAL_MAPS, ACTION_STEAL_MAPS_ESC,
+  ACTION_SPY_NUKE, ACTION_SPY_NUKE_ESC,
+  ACTION_DESTROY_CITY,
+  ACTION_EXPEL_UNIT,
+  ACTION_RECYCLE_UNIT,
+  ACTION_HOME_CITY,
+  ACTION_HOMELESS,
+  ACTION_UPGRADE_UNIT,
+  ACTION_PARADROP, ACTION_PARADROP_CONQUER, ACTION_PARADROP_FRIGHTEN,
+  ACTION_PARADROP_FRIGHTEN_CONQUER, ACTION_PARADROP_ENTER,
+  ACTION_PARADROP_ENTER_CONQUER,
+  ACTION_AIRLIFT,
+  ACTION_HEAL_UNIT, ACTION_HEAL_UNIT2,
+  ACTION_TRANSFORM_TERRAIN,
+  ACTION_CULTIVATE,
+  ACTION_PLANT,
+  ACTION_PILLAGE,
+  ACTION_CLEAN_POLLUTION,
+  ACTION_CLEAN_FALLOUT,
+  ACTION_ROAD,
+  ACTION_BASE,
+  ACTION_MINE,
+  ACTION_IRRIGATE,
+  ACTION_HUT_ENTER, ACTION_HUT_ENTER2, ACTION_HUT_ENTER3, ACTION_HUT_ENTER4,
+  ACTION_HUT_FRIGHTEN, ACTION_HUT_FRIGHTEN2,
+  ACTION_HUT_FRIGHTEN3, ACTION_HUT_FRIGHTEN4,
+  /* Actually an attack but it needs a target to be specified. */
+  ACTION_STRIKE_BUILDING,
+  /* End the action list. */
+  ACTION_NONE
+};
 
 /************************************************************************//**
   Called below, and by client/client_main.c client_game_free()
@@ -1555,6 +1629,33 @@ void handle_unit_info(const struct packet_unit_info *packet)
   }
 }
 
+/**********************************************************************//**
+  Request that the player makes a decision for the specified unit unless
+  it may be an automatic decision. In that case check if one of the auto
+  actions are enabled.
+**************************************************************************/
+static void action_decision_handle(struct unit *punit)
+{
+  if (!gui_options.popup_attack_actions) {
+    action_list_iterate(auto_attack_actions, act_id) {
+      if (utype_can_do_action(unit_type_get(punit), act_id)) {
+        /* An auto action like auto attack could be legal. Check for those
+         * at once so they won't have to wait for player focus. */
+        dsend_packet_unit_get_actions(&client.conn,
+                                      punit->id,
+                                      IDENTITY_NUMBER_ZERO,
+                                      tile_index(punit->action_decision_tile),
+                                      EXTRA_NONE,
+                                      REQEST_BACKGROUND_FAST_AUTO_ATTACK);
+        return;
+      }
+    } action_list_iterate_end;
+  }
+
+  /* This should be done in the foreground */
+  action_decision_request(punit);
+}
+
 /************************************************************************//**
   Called to do basic handling for a unit_info or short_unit_info packet.
 
@@ -1857,7 +1958,7 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
         /* Pop up an action selection dialog if the unit has focus or give
          * the unit higher priority in the focus queue if not. */
         punit->action_decision_tile = packet_unit->action_decision_tile;
-        action_decision_request(punit);
+        action_decision_handle(punit);
         check_focus = TRUE;
       } else {
         /* Refresh already open action selection dialog. */
@@ -1914,7 +2015,7 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
 
     if (should_ask_server_for_actions(punit)) {
       /* The unit wants the player to decide. */
-      action_decision_request(punit);
+      action_decision_handle(punit);
       check_focus = TRUE;
     }
 
@@ -4773,150 +4874,86 @@ static action_id auto_attack_act(const struct act_prob *act_probs)
 {
   action_id attack_action = ACTION_NONE;
 
-  action_iterate(act) {
-    if (action_prob_possible(act_probs[act])) {
-      switch ((enum gen_action)act) {
-      case ACTION_DISBAND_UNIT:
-      case ACTION_FORTIFY:
-      case ACTION_CONVERT:
-      case ACTION_TRANSPORT_ALIGHT:
-      case ACTION_TRANSPORT_BOARD:
-      case ACTION_TRANSPORT_BOARD2:
-      case ACTION_TRANSPORT_BOARD3:
-      case ACTION_TRANSPORT_EMBARK:
-      case ACTION_TRANSPORT_EMBARK2:
-      case ACTION_TRANSPORT_EMBARK3:
-      case ACTION_TRANSPORT_EMBARK4:
-      case ACTION_TRANSPORT_UNLOAD:
-      case ACTION_TRANSPORT_LOAD:
-      case ACTION_TRANSPORT_LOAD2:
-      case ACTION_TRANSPORT_LOAD3:
-      case ACTION_TRANSPORT_DISEMBARK1:
-      case ACTION_TRANSPORT_DISEMBARK2:
-      case ACTION_TRANSPORT_DISEMBARK3:
-      case ACTION_TRANSPORT_DISEMBARK4:
-      case ACTION_UNIT_MOVE:
-      case ACTION_UNIT_MOVE2:
-      case ACTION_UNIT_MOVE3:
-      case ACTION_SPY_ESCAPE:
-        /* Not interesting. */
-        break;
-      case ACTION_USER_ACTION1:
-      case ACTION_USER_ACTION2:
-      case ACTION_USER_ACTION3:
-        /* No idea. Assume not interesting. */
-        break;
-      case ACTION_CAPTURE_UNITS:
-      case ACTION_BOMBARD:
-      case ACTION_BOMBARD2:
-      case ACTION_BOMBARD3:
-      case ACTION_BOMBARD_LETHAL:
-      case ACTION_NUKE:
-      case ACTION_NUKE_CITY:
-      case ACTION_NUKE_UNITS:
-      case ACTION_ATTACK:
-      case ACTION_SUICIDE_ATTACK:
-      case ACTION_WIPE_UNITS:
-      case ACTION_CONQUER_CITY:
-      case ACTION_CONQUER_CITY2:
-      case ACTION_CONQUER_CITY3:
-      case ACTION_CONQUER_CITY4:
-      case ACTION_STRIKE_PRODUCTION:
-      case ACTION_CONQUER_EXTRAS:
-      case ACTION_CONQUER_EXTRAS2:
-      case ACTION_CONQUER_EXTRAS3:
-      case ACTION_CONQUER_EXTRAS4:
-        /* An attack. */
-        if (attack_action == ACTION_NONE) {
-          /* No previous attack action found. */
-          attack_action = act;
-        } else {
-          /* More than one legal attack action found. */
-          return ACTION_NONE;
-        }
-        break;
-      case ACTION_ESTABLISH_EMBASSY:
-      case ACTION_ESTABLISH_EMBASSY_STAY:
-      case ACTION_SPY_INVESTIGATE_CITY:
-      case ACTION_INV_CITY_SPEND:
-      case ACTION_SPY_POISON:
-      case ACTION_SPY_POISON_ESC:
-      case ACTION_SPY_STEAL_GOLD:
-      case ACTION_SPY_STEAL_GOLD_ESC:
-      case ACTION_SPY_SPREAD_PLAGUE:
-      case ACTION_SPY_SABOTAGE_CITY:
-      case ACTION_SPY_SABOTAGE_CITY_ESC:
-      case ACTION_SPY_TARGETED_SABOTAGE_CITY:
-      case ACTION_SPY_TARGETED_SABOTAGE_CITY_ESC:
-      case ACTION_SPY_SABOTAGE_CITY_PRODUCTION:
-      case ACTION_SPY_SABOTAGE_CITY_PRODUCTION_ESC:
-      case ACTION_SPY_STEAL_TECH:
-      case ACTION_SPY_STEAL_TECH_ESC:
-      case ACTION_SPY_TARGETED_STEAL_TECH:
-      case ACTION_SPY_TARGETED_STEAL_TECH_ESC:
-      case ACTION_SPY_INCITE_CITY:
-      case ACTION_SPY_INCITE_CITY_ESC:
-      case ACTION_TRADE_ROUTE:
-      case ACTION_MARKETPLACE:
-      case ACTION_HELP_WONDER:
-      case ACTION_SPY_BRIBE_UNIT:
-      case ACTION_SPY_SABOTAGE_UNIT:
-      case ACTION_SPY_SABOTAGE_UNIT_ESC:
-      case ACTION_SPY_ATTACK:
-      case ACTION_FOUND_CITY:
-      case ACTION_JOIN_CITY:
-      case ACTION_STEAL_MAPS:
-      case ACTION_STEAL_MAPS_ESC:
-      case ACTION_SPY_NUKE:
-      case ACTION_SPY_NUKE_ESC:
-      case ACTION_DESTROY_CITY:
-      case ACTION_EXPEL_UNIT:
-      case ACTION_RECYCLE_UNIT:
-      case ACTION_HOME_CITY:
-      case ACTION_HOMELESS:
-      case ACTION_UPGRADE_UNIT:
-      case ACTION_PARADROP:
-      case ACTION_PARADROP_CONQUER:
-      case ACTION_PARADROP_FRIGHTEN:
-      case ACTION_PARADROP_FRIGHTEN_CONQUER:
-      case ACTION_PARADROP_ENTER:
-      case ACTION_PARADROP_ENTER_CONQUER:
-      case ACTION_AIRLIFT:
-      case ACTION_HEAL_UNIT:
-      case ACTION_HEAL_UNIT2:
-      case ACTION_TRANSFORM_TERRAIN:
-      case ACTION_CULTIVATE:
-      case ACTION_PLANT:
-      case ACTION_PILLAGE:
-      case ACTION_CLEAN_POLLUTION:
-      case ACTION_CLEAN_FALLOUT:
-      case ACTION_ROAD:
-      case ACTION_BASE:
-      case ACTION_MINE:
-      case ACTION_IRRIGATE:
-      case ACTION_HUT_ENTER:
-      case ACTION_HUT_ENTER2:
-      case ACTION_HUT_ENTER3:
-      case ACTION_HUT_ENTER4:
-      case ACTION_HUT_FRIGHTEN:
-      case ACTION_HUT_FRIGHTEN2:
-      case ACTION_HUT_FRIGHTEN3:
-      case ACTION_HUT_FRIGHTEN4:
-        /* An interesting non attack action has been found. */
+  action_list_iterate(auto_attack_actions, act_id) {
+    if (action_prob_possible(act_probs[act_id])) {
+      /* An attack. */
+      if (attack_action == ACTION_NONE) {
+        /* No previous attack action found. */
+        attack_action = act_id;
+      } else {
+        /* More than one legal attack action found. */
         return ACTION_NONE;
-        break;
-      case ACTION_STRIKE_BUILDING:
-        /* Needs a target to be specified. */
-        return ACTION_NONE;
-        break;
-      case ACTION_COUNT:
-        fc_assert(act != ACTION_COUNT);
-        break;
       }
     }
-  } action_iterate_end;
+  } action_list_iterate_end;
+  action_list_iterate(auto_attack_blockers, act_id) {
+    if (action_prob_possible(act_probs[act_id])) {
+      /* An interesting non attack action has been found. */
+      return ACTION_NONE;
+    }
+  } action_list_iterate_end;
 
   return attack_action;
+}
+
+/**********************************************************************//**
+  Do an auto action or request that the player makes a decision for the
+  specified unit.
+**************************************************************************/
+static void action_decision_maybe_auto(struct unit *actor_unit,
+                                       const struct act_prob *act_probs,
+                                       struct unit *target_unit,
+                                       struct city *target_city,
+                                       struct tile *target_tile)
+{
+  action_id auto_action;
+
+  fc_assert_ret(actor_unit);
+
+  auto_action = auto_attack_act(act_probs);
+
+  if (auto_action != ACTION_NONE) {
+    /* No interesting actions except a single attack action has been
+     * found. The player wants it performed without questions. */
+
+    /* The order requests below doesn't send additional details. */
+    fc_assert(!action_id_requires_details(auto_action));
+
+    /* Give the order. */
+    switch (action_id_get_target_kind(auto_action)) {
+    case ATK_TILE:
+    case ATK_UNITS:
+    case ATK_EXTRAS:
+      request_do_action(auto_action,
+                        actor_unit->id, tile_index(target_tile),
+                        0, "");
+      break;
+    case ATK_CITY:
+      request_do_action(auto_action,
+                        actor_unit->id, target_city->id,
+                        0, "");
+      break;
+    case ATK_UNIT:
+      request_do_action(auto_action,
+                        actor_unit->id, target_unit->id,
+                        0, "");
+      break;
+    case ATK_SELF:
+      request_do_action(auto_action,
+                        actor_unit->id, actor_unit->id,
+                        0, "");
+      break;
+    case ATK_COUNT:
+      fc_assert(action_id_get_target_kind(auto_action) != ATK_COUNT);
+      break;
+    }
+
+    /* Clean up. */
+    action_decision_clear_want(actor_unit->id);
+  } else {
+    /* This should be done in the foreground */
+    action_decision_request(actor_unit);
+  }
 }
 
 /************************************************************************//**
@@ -4956,64 +4993,11 @@ void handle_unit_actions(const struct packet_unit_actions *packet)
     if (valid) {
       /* The player can select an action and should be informed. */
 
-      action_id auto_action;
-
-      if (gui_options.popup_attack_actions) {
-        /* Pop up the action selection dialog no matter what. */
-        auto_action = ACTION_NONE;
-      } else {
-        /* Pop up the action selection dialog unless the only interesting
-         * action the unit may be able to do is an attack action. */
-        auto_action = auto_attack_act(act_probs);
-      }
-
-      if (auto_action != ACTION_NONE) {
-        /* No interesting actions except a single attack action has been
-         * found. The player wants it performed without questions. */
-
-        /* The order requests below doesn't send additional details. */
-        fc_assert(!action_id_requires_details(auto_action));
-
-        /* Give the order. */
-        switch (action_id_get_target_kind(auto_action)) {
-        case ATK_TILE:
-        case ATK_UNITS:
-        case ATK_EXTRAS:
-          request_do_action(auto_action,
-                            packet->actor_unit_id, packet->target_tile_id,
-                            0, "");
-          break;
-        case ATK_CITY:
-          request_do_action(auto_action,
-                            packet->actor_unit_id, packet->target_city_id,
-                            0, "");
-          break;
-        case ATK_UNIT:
-          request_do_action(auto_action,
-                            packet->actor_unit_id, packet->target_unit_id,
-                            0, "");
-          break;
-        case ATK_SELF:
-          request_do_action(auto_action,
-                            packet->actor_unit_id, packet->actor_unit_id,
-                            0, "");
-          break;
-        case ATK_COUNT:
-          fc_assert(action_id_get_target_kind(auto_action) != ATK_COUNT);
-          break;
-        }
-
-        /* Clean up. */
-        action_selection_no_longer_in_progress(packet->actor_unit_id);
-        action_decision_clear_want(packet->actor_unit_id);
-        action_selection_next_in_focus(packet->actor_unit_id);
-      } else {
-        /* Show the client specific action dialog */
-        popup_action_selection(actor_unit,
-                               target_city, target_unit,
-                               target_tile, target_extra,
-                               act_probs);
-      }
+      /* Show the client specific action dialog */
+      popup_action_selection(actor_unit,
+                             target_city, target_unit,
+                             target_tile, target_extra,
+                             act_probs);
     } else {
       /* Nothing to do. */
       action_selection_no_longer_in_progress(packet->actor_unit_id);
@@ -5031,6 +5015,10 @@ void handle_unit_actions(const struct packet_unit_actions *packet)
                                target_tile, target_extra,
                                act_probs);
     }
+    break;
+  case REQEST_BACKGROUND_FAST_AUTO_ATTACK:
+    action_decision_maybe_auto(actor_unit, act_probs,
+                               target_unit, target_city, target_tile);
     break;
   default:
     log_warn("Unknown request_kind %d in reply", request_kind);
