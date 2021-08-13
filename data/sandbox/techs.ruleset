@@ -270,8 +270,8 @@ flags    = ""
 graphic     = "a.construction"
 graphic_alt = "-"
 helptext = _("\
-Allows Settlers, Migrants, Workers and Engineers to build forts and \
-fortresses.\
+Allows Settlers, Migrants, Workers, Engineers, and military infantry \
+units to build forts and fortresses.\
 ")
 
 [advance_currency]
@@ -656,7 +656,8 @@ flags    = ""
 graphic     = "a.radio"
 graphic_alt = "-"
 helptext = _("\
-Allows Workers and Engineers to build airstrips, airbases and buoys.\
+Allows Settlers, Migrants, Workers and Engineers to build airstrips, \
+airbases and buoys. Allows Transports to build buoys.\
 ")
 
 [advance_railroad]

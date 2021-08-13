@@ -107,6 +107,10 @@ CORE CHANGES:
   in one single turn. The bases no longer protect full stacks from being
   killed when one unit is defeated.
 
+- All military infantry units can build fortresses. All worker units can
+  build airbases. The working time required to build a base is 2 times
+  the movement cost of the terrain.
+
 - Specialists output reduced to 2 (same as civ2). There are wonders that
   increase it to 3 for all players.
 
