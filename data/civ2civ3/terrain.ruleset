@@ -407,7 +407,7 @@ resources            = "Ivory", "Oil"
 road_food_incr_pct   = 0
 road_shield_incr_pct = 0
 road_trade_incr_pct  = 0
-base_time            = 1
+base_time            = 2
 road_time            = 4
 cultivate_result     = "no"
 cultivate_time       = 0
@@ -510,7 +510,7 @@ resources            = "Pheasant", "Silk"
 road_food_incr_pct   = 0
 road_shield_incr_pct = 0
 road_trade_incr_pct  = 0
-base_time            = 1
+base_time            = 2
 road_time            = 4
 cultivate_result     = "Plains"
 cultivate_time       = 10
@@ -605,7 +605,7 @@ resources            = "Coal", "Wine"
 road_food_incr_pct   = 0
 road_shield_incr_pct = 0
 road_trade_incr_pct  = 0
-base_time            = 1
+base_time            = 2
 road_time            = 4
 cultivate_result     = "no"
 cultivate_time       = 0
@@ -655,7 +655,7 @@ resources            = "Gems", "Fruit"
 road_food_incr_pct   = 0
 road_shield_incr_pct = 0
 road_trade_incr_pct  = 0
-base_time            = 1
+base_time            = 2
 road_time            = 4
 cultivate_result     = "Swamp"
 cultivate_time       = 10
@@ -704,7 +704,7 @@ resources            = "Gold", "Iron"
 road_food_incr_pct   = 0
 road_shield_incr_pct = 0
 road_trade_incr_pct  = 0
-base_time            = 1
+base_time            = 3
 road_time            = 6
 cultivate_result     = "no"
 cultivate_time       = 0
@@ -802,7 +802,7 @@ resources            = "Peat", "Spice"
 road_food_incr_pct   = 0
 road_shield_incr_pct = 0
 road_trade_incr_pct  = 0
-base_time            = 1
+base_time            = 2
 road_time            = 4
 cultivate_result     = "no"
 cultivate_time       = 0
@@ -1476,11 +1476,11 @@ reqs           =
     { "type", "name", "range", "present", "quiet"
       "Tech", "Construction", "Player", TRUE, FALSE
       "TerrainClass", "Land", "Local", TRUE, FALSE
-      "UnitFlag", "Settlers", "Local", TRUE, FALSE
-      "UnitClass", "Sea", "Local", FALSE, TRUE
+      "UnitFlag", "Fortress", "Local", TRUE, FALSE
       "CityTile", "Center", "Local", FALSE, TRUE
     }
-build_time     = 2
+build_time     = 0
+build_time_factor = 2
 removal_time   = 0
 native_to      = "Land", "Small Land", "Merchant", "Big Land"
 conflicts      = "Airstrip", "Airbase"
@@ -1510,12 +1510,12 @@ reqs           =
       "Extra", "Fort", "Local", TRUE, FALSE
       "Tech", "Construction", "Player", TRUE, FALSE
       "TerrainClass", "Land", "Local", TRUE, FALSE
-      "UnitFlag", "Settlers", "Local", TRUE, FALSE
-      "UnitClass", "Sea", "Local", FALSE, TRUE
+      "UnitFlag", "Fortress", "Local", TRUE, FALSE
       "CityTile", "Center", "Local", FALSE, TRUE
       "Extra", "River", "Local", FALSE, FALSE
     }
-build_time     = 2
+build_time     = 0
+build_time_factor = 2
 removal_time   = 0
 native_to      = "Land", "Small Land", "Merchant", "Big Land"
 conflicts      = "Airstrip", "Airbase"
@@ -1553,10 +1553,11 @@ reqs           =
     { "type", "name", "range", "present", "quiet"
       "Tech", "Radio", "Player", TRUE, FALSE
       "TerrainClass", "Land", "Local", TRUE, FALSE
-      "UnitFlag", "Airbase", "Local", TRUE, FALSE
+      "UnitFlag", "Settlers", "Local", TRUE, FALSE
       "CityTile", "Center", "Local", FALSE, TRUE
     }
-build_time     = 2
+build_time     = 0
+build_time_factor = 2
 removal_time   = 0
 native_to      = "Air", "Helicopter", "Missile"
 conflicts      = "Fort", "Fortress"
@@ -1594,11 +1595,12 @@ reqs           =
       "Extra", "Airstrip", "Local", TRUE, FALSE
       "Tech", "Radio", "Player", TRUE, FALSE
       "TerrainClass", "Land", "Local", TRUE, FALSE
-      "UnitFlag", "Airbase", "Local", TRUE, FALSE
+      "UnitFlag", "Settlers", "Local", TRUE, FALSE
       "CityTile", "Center", "Local", FALSE, TRUE
       "Extra", "River", "Local", FALSE, FALSE
     }
-build_time     = 2
+build_time     = 0
+build_time_factor = 2
 removal_time   = 0
 native_to      = "Air", "Helicopter", "Missile"
 conflicts      = "Fort", "Fortress"
@@ -1633,7 +1635,7 @@ reqs           =
     { "type", "name", "range", "present", "quiet"
       "Tech", "Radio", "Player", TRUE, FALSE
       "TerrainClass", "Oceanic", "Local", TRUE, FALSE
-      "UnitFlag", "Airbase", "Local", TRUE, FALSE
+      "UnitFlag", "Settlers", "Local", TRUE, FALSE
       "CityTile", "Center", "Local", FALSE, TRUE
     }
 build_time     = 3
@@ -1641,8 +1643,8 @@ removal_time   = 0
 conflicts      = "Oil Platform"
 flags          = "ShowFlag"
 helptext       = _("\
-Buoys may be built in the ocean (by units on a sea-going vessel) to \
-allow their owner to see the surrounding tiles.\
+Buoys may be built in the ocean by Transports (or by worker units on a \
+sea-going vessel) to allow their owner to see the surrounding tiles.\
 ")
 
 [extra_ruins]
