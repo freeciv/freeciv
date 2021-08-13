@@ -187,7 +187,8 @@ function place_map_labels()
     elseif tname == "Deep Ocean" then
       selected_deep = selected_deep - 1
       if selected_deep == 0 then
-        if random(1, 100) <= 50 then
+        if surrounded_by(place, "Deep Ocean") then
+          -- Fully surrounded
           place:set_label(_("Deep Trench"))
         else
           place:set_label(_("Thermal Vent"))
@@ -197,11 +198,14 @@ function place_map_labels()
       selected_ocean = selected_ocean - 1
       if selected_ocean == 0 then
         if surrounded_by(place, "Ocean") then
+          -- Fully surrounded
           place:set_label(_("Atoll Chain"))
+        elseif adjacent_to(place, "Glacier") then
+          place:set_label(_("Glacier Bay"))
         elseif adjacent_to(place, "Deep Ocean") then
           place:set_label(_("Great Barrier Reef"))
         else
-          -- Coast
+          -- Coast (not adjacent to glacier nor deep ocean)
           place:set_label(_("Great Blue Hole"))
         end
       end
@@ -209,6 +213,7 @@ function place_map_labels()
       selected_lake = selected_lake - 1
       if selected_lake == 0 then
         if surrounded_by(place, "Lake") then
+          -- Fully surrounded
           place:set_label(_("Great Lakes"))
         elseif not adjacent_to(place, "Lake") then
           -- Isolated
@@ -221,8 +226,10 @@ function place_map_labels()
       selected_swamp = selected_swamp - 1
       if selected_swamp == 0 then
         if not adjacent_to(place, "Swamp") then
+          -- Isolated
           place:set_label(_("Grand Prismatic Spring"))
         elseif adjacent_to(place, "Ocean") then
+          -- Coast
           place:set_label(_("Mangrove Forest"))
         else
           place:set_label(_("Cenotes"))
@@ -232,11 +239,14 @@ function place_map_labels()
       selected_glacier = selected_glacier - 1
       if selected_glacier == 0 then
         if surrounded_by(place, "Glacier") then
+          -- Fully surrounded
           place:set_label(_("Ice Sheet"))
         elseif not adjacent_to(place, "Glacier") then
+          -- Isolated
           place:set_label(_("Frozen Lake"))
         elseif adjacent_to(place, "Ocean") then
-          place:set_label(_("Glacier Bay"))
+          -- Coast
+          place:set_label(_("Ice Shelf"))
         else
           place:set_label(_("Advancing Glacier"))
         end
@@ -250,8 +260,10 @@ function place_map_labels()
       selected_desert = selected_desert - 1
       if selected_desert == 0 then
         if surrounded_by(place, "Desert") then
+          -- Fully surrounded
           place:set_label(_("Sand Sea"))
         elseif not adjacent_to(place, "Desert") then
+          -- Isolated
           place:set_label(_("Salt Flat"))
         elseif random(1, 100) <= 50 then
           place:set_label(_("Singing Dunes"))
@@ -263,9 +275,10 @@ function place_map_labels()
       selected_plain = selected_plain - 1
       if selected_plain == 0 then
         if adjacent_to(place, "Ocean") then
+          -- Coast
           place:set_label(_("Long Beach"))
         elseif random(1, 100) <= 50 then
-          place:set_label(_("Mud Volcanoes"))
+          place:set_label(_("Valley of Geysers"))
         else
           place:set_label(_("Rock Pillars"))
         end
@@ -274,6 +287,7 @@ function place_map_labels()
       selected_grassland = selected_grassland - 1
       if selected_grassland == 0 then
         if adjacent_to(place, "Ocean") then
+          -- Coast
           place:set_label(_("White Cliffs"))
         elseif random(1, 100) <= 50 then
           place:set_label(_("Giant Cave"))
@@ -285,8 +299,10 @@ function place_map_labels()
       selected_jungle = selected_jungle - 1
       if selected_jungle == 0 then
         if surrounded_by(place, "Jungle") then
+          -- Fully surrounded
           place:set_label(_("Rainforest"))
         elseif adjacent_to(place, "Ocean") then
+          -- Coast
           place:set_label(_("Subterranean River"))
         else
           place:set_label(_("Sinkholes"))
@@ -297,7 +313,8 @@ function place_map_labels()
       if selected_forest == 0 then
         if adjacent_to(place, "Mountains") then
           place:set_label(_("Stone Forest"))
-        elseif random(1, 100) <= 50 then
+        elseif surrounded_by(place, "Forest") then
+          -- Fully surrounded
           place:set_label(_("Sequoia Forest"))
         else
           place:set_label(_("Millenary Trees"))
@@ -308,24 +325,29 @@ function place_map_labels()
       if selected_hill == 0 then
         if not adjacent_to(place, "Hills") then
           if adjacent_to(place, "Mountains") then
+            -- Isolated (but adjacent to mountains)
             place:set_label(_("Table Mountain"))
           else
+            -- Isolated (not adjacent to hills nor mountains)
             place:set_label(_("Inselberg"))
           end
         elseif random(1, 100) <= 50 then
           place:set_label(_("Karst Landscape"))
         else
-          place:set_label(_("Valley of Geysers"))
+          place:set_label(_("Mud Volcanoes"))
         end
       end
     elseif tname == "Mountains" then
       selected_mountain = selected_mountain - 1
       if selected_mountain == 0 then
         if surrounded_by(place, "Mountains") then
+          -- Fully surrounded
           place:set_label(_("Highest Peak"))
         elseif not adjacent_to(place, "Mountains") then
+          -- Isolated
           place:set_label(_("Sacred Mount"))
         elseif adjacent_to(place, "Ocean") then
+          -- Coast
           place:set_label(_("Cliff Coast"))
         elseif random(1, 100) <= 50 then
           place:set_label(_("Active Volcano"))
