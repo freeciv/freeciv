@@ -2250,9 +2250,8 @@ Many covert actions may be attempted even in peacetime, but the more\
 If a foreign unit is alone on a tile, you may attempt to bribe it\
  with your Diplomat. By paying a sum of gold the unit will immediately\
  become yours; the exact sum depends on the status of the unit and\
- that of the civilization owning it. However, units belonging to\
- Republican or Democratic governments cannot be bribed. Bribery when\
- not at war will cause a diplomatic incident.\
+ that of the civilization owning it. Bribery when not at war will cause\
+ a diplomatic incident.\
 "), _("\
 Diplomats can also perform a number of actions in another player's\
  city, although each Diplomat may attempt only one action. Most of\
@@ -2294,9 +2293,8 @@ The actions available to Diplomats in a city are:\
  remain in the enemy's control, but units outside cities are lost to\
  both players. The exact sum depends on the status of the city and\
  that of the civilization that owns it. It is not possible to incite\
- a rebellion in a capital, or in any city governed by a Federation or\
- Democracy. Incitement may be attempted in peacetime, but will cause a\
- diplomatic incident.\
+ a rebellion in a capital, or in any city with Courthouse. Incitement\
+ may be attempted in peacetime, but will cause a diplomatic incident.\
 "), _("\
 In some game strategies, hordes of Diplomats can be used to wreak\
  havoc on the enemy.  Little wonder that Diplomats are often\
@@ -2304,6 +2302,19 @@ In some game strategies, hordes of Diplomats can be used to wreak\
 "), _("\
 Diplomats built under Communist or Federation governments will\
  start at the first veteran level (secretary).\
+"),
+; /* xgettext:no-c-format */
+_("\
+The cost to bribe units or incite cities increases +50% for each 1000 \
+culture points accumulated by the target player, up to +500% (as if \
+the distance to the capital was 6 times lower) when the player reaches \
+10000 culture points.\
+"),
+; /* xgettext:no-c-format */
+_("\
+A city gets +5% resistance in diplomatic fights against enemy agents for \
+each 100 culture points, up to +50% when the city reaches 1000 culture \
+points.\
 ")
 
 [unit_spy]

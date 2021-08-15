@@ -126,11 +126,23 @@ CORE CHANGES:
 - No holes allowed in the tech tree. To acquire a tech you must know
   its prerequisites, and you cannot lose a tech that another depends on.
 
-- Some buildings, and all wonders, generate culture points in your
-  cities; certain achievements such as mapping the world also generate
-  culture points. By default, this only affects score; it also affects
-  migration (which is not enabled by default), and a cultural victory
-  can optionally be enabled.
+- Enabled culture points, generated in your cities by wonders
+  (proportional to their build cost), and by certain buildings
+  (proportional to their upkeep cost): Temple, Amphitheatre,
+  Cathedral, Library, University, Research Lab, and Palaces.
+
+  The culture accumulated by each city increases its resistance in
+  diplomatic fights against enemy agents (+5% for each 100 culture
+  points, up to +50%).
+
+  The culture accumulated by your nation increases the cost to bribe
+  your units or incite your cities (+50% for each 1000 culture points,
+  up to +500%).
+
+- Certain achievements give extra culture points: Metropolis (city reaches
+  size 20), Cultured City (city reaches 1000 culture points), Multicultural
+  (2 nationalities), Literate (libraries in every city), Land Ahoy (2nd
+  continent sighted), Entire Map Known, and Spaceship Launch.
 
 - Enabled risk of plague at cities with population greater than 4.
   Chances reduced by the buildings Aqueduct and Sewer System, the tech
@@ -396,9 +408,9 @@ Martial Law      +1        0       +1       +1        0        0        0       
 
 Civil war %       99%      90%      80%      70%      60%      40%      30%      20%      50%
 Empire Size       0        /12      /10      /14      /20      /16      /32      /24      /28
-Special          +NoUpkeep +Veteran +75%Gold +50%Gold +Tithes  +Bribe  +Brib/Sub +Subvert +NoUpkeep
-                 -50%Lux  (Land/Mil)(Palace) (Palace) -50%Sci  -Revolt -Rev/Sen  -Senate  (Cost=1)
-                 -NoTaxes +Content                    +Fanatic         +Partisan +Luxury  +Partisan
+Special          +NoUpkeep +Veteran +75%Gold +50%Gold +Tithes  -Revolt -Revolt   +Luxury  +NoUpkeep
+                 -50%Lux  (Land/Mil)(Palace) (Palace) -50%Sci          -Senate   -Senate  (Cost=1)
+                 -NoTaxes +Content                    +Fanatic         +Partisan          +Partisan
 
 Base Corruption   0%       30%      20%      10%      15%      25%      5%       0%       30%
 Base Waste        30%      0%       10%      20%      15%      5%       25%      30%      0
@@ -443,9 +455,8 @@ By Distance *    +1%      +1%      +1%      +1%      +1%      +1%      +1%      
 - The bonus "+1 Trade" (for every worked tile that is already producing
   trade) under Republic and Democracy does not affect oceanic tiles.
 
-- Republic gets "Revolution when unhappy" effect and has unbribable
-  units. Federation gets "Has senate" effect and has unincitable cities.
-  Democracy gets all them.
+- Republic gets "Revolution when unhappy" effect. Federation gets
+  "Has senate" effect. Democracy gets both effects.
 
 - Spies and Diplomats built under Communism or Federation will start at
   the first veteran level. Federation gets +2 Luxury points in every city.
@@ -559,8 +570,8 @@ BUILDINGS:
   that acts as a second center of government that lowers corruption and
   waste.
 
-- Courthouse: Makes 1 citizen content, and halves any kind of waste
-  (Trade, Production or Food).
+- Courthouse: Makes 1 citizen content, makes the city immune to incite
+  actions, and halves any kind of waste (Trade, Production or Food).
 
   Added new effect: Food wasted by distance to Palace is -1% Food each
   2 tiles. For example, cities at distance 10 of the Palace lose -5%
