@@ -864,8 +864,7 @@ actor_reqs    =
     }
 target_reqs  =
     { "type",     "name",                  "range", "present"
-      "Gov",      "Federation",            "Player", FALSE
-      "Gov",      "Democracy",             "Player", FALSE
+      "Building", "Courthouse",            "City",   FALSE
       "Building", "Palace",                "City",   FALSE
       "Building", "Ecclesiastical Palace", "City",   FALSE
       "Building", "Mausoleum of Mausolos", "Player", FALSE
@@ -884,8 +883,7 @@ actor_reqs    =
     }
 target_reqs  =
     { "type",     "name",                  "range", "present"
-      "Gov",      "Federation",            "Player", FALSE
-      "Gov",      "Democracy",             "Player", FALSE
+      "Building", "Courthouse",            "City",   FALSE
       "Building", "Palace",                "City",   FALSE
       "Building", "Ecclesiastical Palace", "City",   FALSE
       "Building", "Mausoleum of Mausolos", "Player", FALSE
@@ -906,8 +904,6 @@ target_reqs    =
     { "type",   "name", "range", "present"
       "UnitFlag", "Unbribable", "Local", FALSE
       "CityTile", "Center", "Local", FALSE
-      "Gov", "Republic", "Player", FALSE
-      "Gov", "Democracy", "Player", FALSE
       "MaxUnitsOnTile", "1", "Local", TRUE
     }
 
@@ -1741,7 +1737,7 @@ free_tech_method = "Cheapest"
 victory_min_points = 20000
 
 ; How big lead relative to second best player is needed for victory
-victory_lead_pct   = 33
+victory_lead_pct   = 100
 
 ; How much existing history grows each turn. This makes older history
 ; of the same original value more valuable as newer history, as it has
@@ -1870,7 +1866,7 @@ effects        = "ReducePopulation", "Fallout"
 name           = _("Spaceship Launch")
 type           = "Spaceship"
 unique         = FALSE
-culture        = 10000
+culture        = 5000
 first_msg      = _("You're the first one to launch a spaceship towards Alpha Centauri!");
 cons_msg       = _("You have launched a spaceship towards Alpha Centauri!")
 
@@ -1897,7 +1893,7 @@ name           = _("Literate")
 type           = "Literate"
 unique         = FALSE
 value          = 100
-culture        = 100
+culture        = 1000
 ; /* xgettext:no-c-format */
 first_msg      = _("Your nation is the first to reach 100% literacy!")
 ; /* xgettext:no-c-format */
@@ -1908,7 +1904,7 @@ name           = _("Multicultural")
 type           = "Multicultural"
 unique         = FALSE
 value          = 2
-culture        = 100
+culture        = 1000
 first_msg      = _("You're the first nation to have citizens of multiple nationalities!")
 cons_msg       = _("Your nation now has citizens of multiple nationalities!")
 
@@ -1917,7 +1913,7 @@ name           = _("Metropolis")
 type           = "Metropolis"
 unique         = FALSE
 value          = 20
-culture        = 100
+culture        = 1000
 first_msg      = _("Your nation is the first with a city of population 20!")
 cons_msg       = _("One of your cities has reached population 20!")
 
@@ -1926,7 +1922,7 @@ name           = _("Cultured City")
 type           = "Cultured_City"
 unique         = FALSE
 value          = 1000
-culture        = 100
+culture        = 1000
 first_msg      = _("Your nation is the first with a city of 1000 culture points!")
 cons_msg       = _("One of your cities has 1000 culture points!")
 

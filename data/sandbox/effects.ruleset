@@ -2146,39 +2146,14 @@ reqs    =
       "Building", "Courthouse", "City"
     }
 
-[effect_courthouse_incite]
+; any city with Courthouse immune to incite (see game.ruleset)
+; any non empty city gets +100% incite cost
+[effect_incite_cost_not_empty]
 type    = "Incite_Cost_Pct"
-value	= 300
-reqs	=
+value   = 100
+reqs    =
     { "type", "name", "range", "present"
-      "Building", "Courthouse", "City", TRUE
       "MaxUnitsOnTile", "0", "Local", FALSE
-    }
-
-[effect_incite_cost_empty_courthouse]
-type = "Incite_Cost_Pct"
-value = 100
-reqs	=
-    { "type", "name", "range", "present"
-      "MaxUnitsOnTile", "0", "Local", TRUE
-      "Building", "Courthouse", "City", TRUE
-    }
-
-[effect_diplomat_defense_extra]
-type    = "Spy_Resistant"
-value	= 25
-reqs	=
-    { "type",      "name",            "range"
-      "ExtraFlag", "DiplomatDefense", "Local"
-    }
-
-[effect_incite_cost_empty]
-type = "Incite_Cost_Pct"
-value = -50
-reqs	=
-    { "type", "name", "range", "present"
-      "MaxUnitsOnTile", "0", "Local", TRUE
-      "Building", "Courthouse", "City", FALSE
     }
 
 [effect_factory]
@@ -4362,6 +4337,260 @@ value	= 65535
 reqs	=
     { "type", "name", "range", "present"
       "Action", "Nuke Units", "Local", TRUE
+    }
+
+[effect_diplomat_defense_extra]
+type    = "Spy_Resistant"
+value   = 25
+reqs    =
+    { "type", "name", "range"
+      "ExtraFlag", "DiplomatDefense", "Local"
+    }
+
+; Spy resistant: +5% for each 100 culture points of the city
+[effect_culture_spy_resistant_1]
+type    = "Spy_Resistant"
+value   = 5
+reqs    =
+    { "type", "name", "range"
+      "MinCulture", "100", "City"
+    }
+
+[effect_culture_spy_resistant_2]
+type    = "Spy_Resistant"
+value   = 5
+reqs    =
+    { "type", "name", "range"
+      "MinCulture", "200", "City"
+    }
+
+[effect_culture_spy_resistant_3]
+type    = "Spy_Resistant"
+value   = 5
+reqs    =
+    { "type", "name", "range"
+      "MinCulture", "300", "City"
+    }
+
+[effect_culture_spy_resistant_4]
+type    = "Spy_Resistant"
+value   = 5
+reqs    =
+    { "type", "name", "range"
+      "MinCulture", "400", "City"
+    }
+
+[effect_culture_spy_resistant_5]
+type    = "Spy_Resistant"
+value   = 5
+reqs    =
+    { "type", "name", "range"
+      "MinCulture", "500", "City"
+    }
+
+[effect_culture_spy_resistant_6]
+type    = "Spy_Resistant"
+value   = 5
+reqs    =
+    { "type", "name", "range"
+      "MinCulture", "600", "City"
+    }
+
+[effect_culture_spy_resistant_7]
+type    = "Spy_Resistant"
+value   = 5
+reqs    =
+    { "type", "name", "range"
+      "MinCulture", "700", "City"
+    }
+
+[effect_culture_spy_resistant_8]
+type    = "Spy_Resistant"
+value   = 5
+reqs    =
+    { "type", "name", "range"
+      "MinCulture", "800", "City"
+    }
+
+[effect_culture_spy_resistant_9]
+type    = "Spy_Resistant"
+value   = 5
+reqs    =
+    { "type", "name", "range"
+      "MinCulture", "900", "City"
+    }
+
+; 5 * 10 = +50%
+[effect_culture_spy_resistant_10]
+type    = "Spy_Resistant"
+value   = 5
+reqs    =
+    { "type", "name", "range"
+      "MinCulture", "1000", "City"
+    }
+
+; Cost to bribe: +50% for each 1000 culture points of the player
+[effect_culture_bribe_1]
+type    = "Unit_Bribe_Cost_Pct"
+value   = 50
+reqs    =
+    { "type", "name", "range"
+      "MinCulture", "1000", "Player"
+    }
+
+[effect_culture_bribe_2]
+type    = "Unit_Bribe_Cost_Pct"
+value   = 50
+reqs    =
+    { "type", "name", "range"
+      "MinCulture", "2000", "Player"
+    }
+
+[effect_culture_bribe_3]
+type    = "Unit_Bribe_Cost_Pct"
+value   = 50
+reqs    =
+    { "type", "name", "range"
+      "MinCulture", "3000", "Player"
+    }
+
+[effect_culture_bribe_4]
+type    = "Unit_Bribe_Cost_Pct"
+value   = 50
+reqs    =
+    { "type", "name", "range"
+      "MinCulture", "4000", "Player"
+    }
+
+[effect_culture_bribe_5]
+type    = "Unit_Bribe_Cost_Pct"
+value   = 50
+reqs    =
+    { "type", "name", "range"
+      "MinCulture", "5000", "Player"
+    }
+
+[effect_culture_bribe_6]
+type    = "Unit_Bribe_Cost_Pct"
+value   = 50
+reqs    =
+    { "type", "name", "range"
+      "MinCulture", "6000", "Player"
+    }
+
+[effect_culture_bribe_7]
+type    = "Unit_Bribe_Cost_Pct"
+value   = 50
+reqs    =
+    { "type", "name", "range"
+      "MinCulture", "7000", "Player"
+    }
+
+[effect_culture_bribe_8]
+type    = "Unit_Bribe_Cost_Pct"
+value   = 50
+reqs    =
+    { "type", "name", "range"
+      "MinCulture", "8000", "Player"
+    }
+
+[effect_culture_bribe_9]
+type    = "Unit_Bribe_Cost_Pct"
+value   = 50
+reqs    =
+    { "type", "name", "range"
+      "MinCulture", "9000", "Player"
+    }
+
+; 50 * 10 = +500%
+[effect_culture_bribe_10]
+type    = "Unit_Bribe_Cost_Pct"
+value   = 50
+reqs    =
+    { "type", "name", "range"
+      "MinCulture", "10000", "Player"
+    }
+
+; Cost to incite: +50% for each 1000 culture points of the player
+[effect_culture_incite_1]
+type    = "Incite_Cost_Pct"
+value   = 50
+reqs    =
+    { "type", "name", "range"
+      "MinCulture", "1000", "Player"
+    }
+
+[effect_culture_incite_2]
+type    = "Incite_Cost_Pct"
+value   = 50
+reqs    =
+    { "type", "name", "range"
+      "MinCulture", "2000", "Player"
+    }
+
+[effect_culture_incite_3]
+type    = "Incite_Cost_Pct"
+value   = 50
+reqs    =
+    { "type", "name", "range"
+      "MinCulture", "3000", "Player"
+    }
+
+[effect_culture_incite_4]
+type    = "Incite_Cost_Pct"
+value   = 50
+reqs    =
+    { "type", "name", "range"
+      "MinCulture", "4000", "Player"
+    }
+
+[effect_culture_incite_5]
+type    = "Incite_Cost_Pct"
+value   = 50
+reqs    =
+    { "type", "name", "range"
+      "MinCulture", "5000", "Player"
+    }
+
+[effect_culture_incite_6]
+type    = "Incite_Cost_Pct"
+value   = 50
+reqs    =
+    { "type", "name", "range"
+      "MinCulture", "6000", "Player"
+    }
+
+[effect_culture_incite_7]
+type    = "Incite_Cost_Pct"
+value   = 50
+reqs    =
+    { "type", "name", "range"
+      "MinCulture", "7000", "Player"
+    }
+
+[effect_culture_incite_8]
+type    = "Incite_Cost_Pct"
+value   = 50
+reqs    =
+    { "type", "name", "range"
+      "MinCulture", "8000", "Player"
+    }
+
+[effect_culture_incite_9]
+type    = "Incite_Cost_Pct"
+value   = 50
+reqs    =
+    { "type", "name", "range"
+      "MinCulture", "9000", "Player"
+    }
+
+; 50 * 10 = +500%
+[effect_culture_incite_10]
+type    = "Incite_Cost_Pct"
+value   = 50
+reqs    =
+    { "type", "name", "range"
+      "MinCulture", "10000", "Player"
     }
 
 ; Double (+100%) buy cost for Great Wonders

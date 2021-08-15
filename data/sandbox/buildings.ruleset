@@ -443,8 +443,9 @@ eliminated. A Granary together with a Courthouse in a city will \
 eliminate food waste.\
 "), _("\
 Also makes one unhappy citizen content (unless that citizen is unhappy \
-about military activity), and makes the revolt cost of the city 4 times \
-bigger.\
+about military activity).\
+"), _("\
+A city with a Courthouse cannot be incited to revolt.\
 ")
 
 [building_factory]
