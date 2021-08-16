@@ -29,12 +29,20 @@ struct counter
   const char *rule_name;
   enum counter_type type;
   enum counter_target target;
-  int id;     /* id in global counters array */
   int index;  /* index in specific (city/player/world) array */
 };
 
 void counters_init(void);
 void counters_free(void);
+
+struct counter *counter_by_id(int id);
+int counter_id(struct counter *pcount);
+
+struct counter *counter_by_rule_name(const char *name);
+const char *counter_rule_name(struct counter *pcount);
+
+int counter_index(struct counter *pcount);
+struct counter *counter_by_index(int index, enum counter_target target);
 
 #ifdef __cplusplus
 }
