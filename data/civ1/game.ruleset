@@ -967,8 +967,6 @@ actor_reqs    =
       "CityTile",     "Center",      "Local", FALSE
     }
 
-; TODO: was transferring from a transport to a transport on an adjacent tile
-; legal?
 [actionenabler_embark]
 action        = "Transport Embark"
 actor_reqs    =
