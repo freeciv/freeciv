@@ -69,6 +69,11 @@
 
 #include "daimilitary.h"
 
+/* Size 1 city gets destroyed when conquered. It's still a good thing
+ * stop enemy from having it. */
+#define CITY_CONQUEST_WORTH(_city_, _data_) \
+  (_data_->worth * 0.9 + (city_size_get(_city_) - 0.5) * 10)
+
 static unsigned int assess_danger(struct ai_type *ait, struct city *pcity);
 
 /**************************************************************************
@@ -1040,7 +1045,7 @@ static void process_attacker_want(struct ai_type *ait,
           && (utype_class(punittype)->adv.land_move == MOVE_NONE
               || 0 < utype_fuel(punittype))) {
         desire = 0;
-        
+
       } else {
         if (acity
             && utype_can_take_over(punittype)
@@ -1052,7 +1057,7 @@ static void process_attacker_want(struct ai_type *ait,
           if (owner_size <= FINISH_HIM_CITY_COUNT) {
             finishing_factor = (2 - (float)owner_size / FINISH_HIM_CITY_COUNT);
           }
-          desire = acity_data->worth * 10 * finishing_factor;
+          desire = CITY_CONQUEST_WORTH(acity, acity_data) * 10 * finishing_factor;
         } else {
           desire = 0;
         }
@@ -1258,7 +1263,7 @@ static struct adv_choice *kill_something_with(struct ai_type *ait, struct player
       if (owner_size <= FINISH_HIM_CITY_COUNT) {
         finishing_factor = (2 - (float)owner_size / FINISH_HIM_CITY_COUNT);
       }
-      benefit += acity_data->worth * finishing_factor / 3;
+      benefit += CITY_CONQUEST_WORTH(acity, acity_data) * finishing_factor / 3;
     }
 
     /* end dealing with cities */
