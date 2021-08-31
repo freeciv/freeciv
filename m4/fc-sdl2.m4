@@ -7,15 +7,17 @@
 #
 # Changelog:
 # * also look for SDL2.framework under Mac OS X
+# * removed HP/UX 9 support.
+# * updated for newer autoconf.
 # * Taken to Freeciv from SDL release 2.0.10 - modified to work together with sdl1.2
 
-# serial 1.0.2
+# serial 2.0.1
 
 dnl AM_PATH_SDL2([MINIMUM-VERSION, [ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]]])
 dnl Test for SDL2, and define SDL2_CFLAGS and SDL2_LIBS
 dnl
 AC_DEFUN([AM_PATH_SDL2],
-[dnl 
+[dnl
 dnl Get the cflags and libraries from the sdl2-config script
 dnl
 AC_ARG_WITH([sdl2-prefix],
@@ -120,38 +122,16 @@ dnl
       AC_RUN_IFELSE([AC_LANG_SOURCE([[
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 #include "SDL.h"
-
-char*
-my_strdup (char *str)
-{
-  char *new_str;
-  
-  if (str)
-    {
-      new_str = (char *)malloc ((strlen (str) + 1) * sizeof(char));
-      strcpy (new_str, str);
-    }
-  else
-    new_str = NULL;
-  
-  return new_str;
-}
 
 int main (int argc, char *argv[])
 {
   int major, minor, micro;
-  char *tmp_version;
+  FILE *fp = fopen("conf.sdltest", "w");
 
-  /* This hangs on some systems (?)
-  system ("touch conf.sdl2test");
-  */
-  { FILE *fp = fopen("conf.sdl2test", "a"); if ( fp ) fclose(fp); }
+  if (fp) fclose(fp);
 
-  /* HP/UX 9 writes to sscanf strings */
-  tmp_version = my_strdup("$min_sdl2_version");
-  if (sscanf(tmp_version, "%d.%d.%d", &major, &minor, &micro) != 3) {
+  if (sscanf("$min_sdl_version", "%d.%d.%d", &major, &minor, &micro) != 3) {
      printf("%s, bad version string\n", "$min_sdl2_version");
      exit(1);
    }
