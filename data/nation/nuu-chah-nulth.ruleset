@@ -1,10 +1,10 @@
 [nation_nuu-chah-nulth]
 
-name=_("Nuu-chah-nulth")
-plural=_("?plural:Nuu-chah-nulth")
-groups="American"
+name   = _("Nuu-chah-nulth")
+plural = _("?plural:Nuu-chah-nulth")
+groups = "American"
 
-legend=_("The Nuu-chah-nulth are a Pacific Northwest people, one of the few\
+legend = _("The Nuu-chah-nulth are a Pacific Northwest people, one of the few\
  Native American peoples to travel in the open ocean and hunt whales. They\
  inhabited most of what is now western Vancouver Island and now number over\
  8,000 individuals. Like other people of the Pacific Northwest, they built\
@@ -28,11 +28,11 @@ flag         = "nuu-chah-nulth"
 flag_alt     = "-"
 style        = "Celtic"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-civilwar_nations="salishan", "sioux", "chinook"
+civilwar_nations = "salishan", "sioux", "chinook"
 
 cities =
  "Ahousaht",

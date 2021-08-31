@@ -1,9 +1,9 @@
 [nation_nicaraguan]
 
-name = _("Nicaraguan")
+name   = _("Nicaraguan")
 plural = _("?plural:Nicaraguans")
-groups= "Modern", "American"
-legend=_("The largest of the Central American republics, Nicaragua is\
+groups = "Modern", "American"
+legend = _("The largest of the Central American republics, Nicaragua is\
  known for its turbulent history. The country lived through numerous\
  civil wars and foreign interventions until Anastasio Somoza established\
  a notoriously corrupt dictatorship in the 1930s. His family continued\
@@ -37,9 +37,10 @@ flag = "nicaragua"
 flag_alt = ""
 style = "Tropical"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
+
 civilwar_nations = "costa rican", "miskito"
 
 cities =

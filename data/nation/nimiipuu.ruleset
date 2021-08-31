@@ -1,11 +1,11 @@
 [nation_nimiipuu]
 
-name=_("Nimíipuu")
+name      = _("Nimíipuu")
 ; pre-2.6 had plain ASCII names
-rule_name="Nimiipuu"
-plural=_("?plural:Nimíipuu")
-groups="American"
-legend=_("The Nimíipuu, or the 'Real People', in their own language,\
+rule_name = "Nimiipuu"
+plural    = _("?plural:Nimíipuu")
+groups    = "American"
+legend    = _("The Nimíipuu, or the 'Real People', in their own language,\
  are better known as the 'Nez Percé'. This Native American nation\
  covered parts of Washington, Oregon, Montana and Idaho and consisted\
  of more than 70 permanent villages in 1800. At this time the population\
@@ -64,13 +64,13 @@ ruler_titles = {
  "Communism",       _("Chairman %s"),     _("Chairwoman %s")
 }
 
-flag="nez_perce"
+flag = "nez_perce"
 flag_alt = "-"
 style = "Celtic"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
 civilwar_nations = "Salishan", "Sioux", "Nuu-chah-nulth"
 

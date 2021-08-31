@@ -1,9 +1,9 @@
 [nation_newzealand]
 
-name=_("New Zealand")
-plural=_("?plural:New Zealanders")
-groups="Modern", "Oceanian"
-legend=_("The island group of New Zealand was annexed by Britain in 1840.\
+name   = _("New Zealand")
+plural = _("?plural:New Zealanders")
+groups = "Modern", "Oceanian"
+legend = _("The island group of New Zealand was annexed by Britain in 1840.\
  Following a royal proclamation in 1907, the country became an independent\
  dominion within the Commonwealth of Nations.")
 
@@ -20,17 +20,17 @@ ruler_titles = {
  "Fundamentalism",  _("Bishop %s"),         _("?female:Bishop %s")
 }
 
-flag="newzealand"
+flag = "newzealand"
 flag_alt = "australia"
 style = "Tropical"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
 ; Similar flags
-conflicts_with="australian"
-civilwar_nations="maori", "british"
+conflicts_with = "australian"
+civilwar_nations = "maori", "british"
 
 cities =
  "Wellington (hills, ocean)",

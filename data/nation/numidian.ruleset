@@ -1,10 +1,10 @@
 [nation_numidian]
 
-name=_("Numidian")
-plural=_("?plural:Numidians")
-groups="Ancient", "African"
+name   = _("Numidian")
+plural = _("?plural:Numidians")
+groups = "Ancient", "African"
 
-legend=_("The Numidians were an ancient Berber people renowned for their\
+legend = _("The Numidians were an ancient Berber people renowned for their\
  horsemanship who were composed of two main tribes in modern Algeria and\
  Tunisia: the Massyli in the east and the Massaesyli in the west. They were\
  united under King Massinissa, whose position was guaranteed by his Roman\
@@ -23,15 +23,15 @@ leaders = {
  "Gala",        "Male"
 }
 
-flag="numidia"
+flag = "numidia"
 flag_alt = "-"
 style = "Babylonian"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-civilwar_nations="carthaginian", "algerian"
+civilwar_nations = "carthaginian", "algerian"
 
 cities =
  "Cirta",

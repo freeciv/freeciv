@@ -1,9 +1,9 @@
 [nation_navajo]
 
-name=_("Navajo")
-plural=_("?plural:Navajo")
-groups="American"
-legend=_("The Navajo or Diné are the most populous Native American\
+name   = _("Navajo")
+plural = _("?plural:Navajo")
+groups = "American"
+legend = _("The Navajo or Diné are the most populous Native American\
  nation of the United States. They are closely related to the Apache.\
  Their language is famous for being one of the world's most\
  complex.")
@@ -28,15 +28,15 @@ ruler_titles = {
  "Monarchy",        _("Great Chief %s"),     _("?female:Great Chief %s")
 }
 
-flag="navajo"
+flag = "navajo"
 flag_alt = "-"
 style = "Celtic"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-civilwar_nations= "hopi", "apache"
+civilwar_nations = "hopi", "apache"
 
 cities =
  "Tségháhoodzání",
@@ -109,6 +109,3 @@ cities =
  "Naʼazísí Toʼí",
  "Naʼníʼá Hátsoh",
  "Taahóóteel"
-
-
-

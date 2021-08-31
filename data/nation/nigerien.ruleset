@@ -1,9 +1,9 @@
 [nation_nigerien]
 
-name = _("Nigerien")
+name   = _("Nigerien")
 plural = _("?plural:Nigeriens")
-groups="African", "Modern"
-legend=_("Niger is a country in the Sahel region of West Africa, named\
+groups = "African", "Modern"
+legend = _("Niger is a country in the Sahel region of West Africa, named\
  after the Niger river. It achieved independence from France in 1960.\
  Since then it has been ruled intermittently by civil and military\
  governments. One of the poorest countries in the world, Niger ranks rock\
@@ -23,16 +23,17 @@ ruler_titles = {
  "Despotism",        _("Colonel %s"),     _("?female:Colonel %s")
  "Fundamentalism",   _("Grand Mufti %s"), _("?female:Grand Mufti %s")
 }
+
 flag = "niger"
 flag_alt = "-"
 style = "Celtic"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-conflicts_with="indian" ;similar flag
-civilwar_nations="fulani", "kanem-bornu", "songhai", "tuareg"
+conflicts_with = "indian" ;similar flag
+civilwar_nations = "fulani", "kanem-bornu", "songhai", "tuareg"
 
 cities =
  "Niamey",
@@ -75,4 +76,3 @@ cities =
  "Ouallam",
  "Loga",
  "Bagountara"
-

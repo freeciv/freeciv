@@ -1,9 +1,9 @@
 [nation_nigerian]
 
-name=_("Nigerian")
-plural=_("?plural:Nigerians")
-groups="Modern", "African"
-legend=_("Nigeria won full independence from British rule in 1960. It is\
+name   = _("Nigerian")
+plural = _("?plural:Nigerians")
+groups = "Modern", "African"
+legend = _("Nigeria won full independence from British rule in 1960. It is\
  the most populous country of Africa.")
 
 leaders = {
@@ -14,16 +14,16 @@ leaders = {
  "Sani Abacha",                 "Male"
 }
 
-flag="nigeria"
+flag = "nigeria"
 flag_alt = "-"
 style = "Tropical"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-conflicts_with="Kanem-Bornu"
-civilwar_nations="Biafran", "Fulani"
+conflicts_with = "Kanem-Bornu"
+civilwar_nations = "Biafran", "Fulani"
 
 cities =
  "Abuja",
@@ -64,4 +64,3 @@ cities =
  "Ado",
  "Ilesha",
  "Minna"
-

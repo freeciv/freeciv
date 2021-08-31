@@ -1,9 +1,9 @@
 [nation_norwegian]
 
-name=_("Norwegian")
-plural=_("?plural:Norwegians")
-groups="Medieval", "Modern", "European"
-legend=_("After centuries of Danish rule, the Norwegians made their\
+name   = _("Norwegian")
+plural = _("?plural:Norwegians")
+groups = "Medieval", "Modern", "European"
+legend = _("After centuries of Danish rule, the Norwegians made their\
  own constitution in Eidsvoll, 1814 CE. Finally, in 1905 CE the Norwegians\
  got their independence after a union with Sweden.")
 
@@ -30,28 +30,28 @@ ruler_titles = {
  "Fundamentalism",  _("Bishop %s"),         _("?female:Bishop %s")
 }
 
-flag="norway"
+flag = "norway"
 flag_alt = "denmark"  ; Now used by Danish
 style = "European"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-civilwar_nations="Icelandic", "Sami"
+civilwar_nations = "Icelandic", "Sami"
 
 ; Norwegian places listed up in the order it struck my mind.
 
 cities =
  "Oslo (grassland, ocean, !mountains)",
  "Bergen (ocean, grassland, !river)",
- "Stavanger (ocean, plains, !river)", 
- "Trondheim (river, grassland, ocean)", 
- "Narvik (ocean)", 
+ "Stavanger (ocean, plains, !river)",
+ "Trondheim (river, grassland, ocean)",
+ "Narvik (ocean)",
  "Tromsø (ocean)",
  "Harstad (ocean)",
  "Fagernes (ocean)",
- "Tønsberg (grassland)", 
+ "Tønsberg (grassland)",
  "Kirkenes (tundra, ocean)",
  "Hamar (river)",
  "Fredrikstad (hills)",
@@ -63,34 +63,34 @@ cities =
  "Sandnes (desert)",
  "Arendal (plains)",
  "Vardø (tundra)",
- "Vadsø (tundra)", 
+ "Vadsø (tundra)",
  "Haugesund (ocean)",
  "Sarpsborg (hills)",
- "Kongsberg (hills)", 
+ "Kongsberg (hills)",
  "Kongsvinger (hills)",
  "Gjøvik (river, forest)",
  "Bardufoss (river)",
  "Skjold (mountains)",
  "Setermoen (mountains)",
  "Lillehammer (river)",
- "Lillestrøm (river)", 
+ "Lillestrøm (river)",
  "Strømmen (river)",
  "Halden (hills)",
  "Oppdal (mountains)",
  "Rjukan (mountains)",
  "Karmøy (ocean)",
  "Kragerø (ocean)",
- "Fauske (plains)", 
+ "Fauske (plains)",
  "Bodø (hills, ocean)",
  "Andenes (tundra, ocean)",
  "Stokmarknes (ocean)",
  "Svolvær (plains)",
  "Sortland (plains)",
  "Moss (ocean, grassland)",
- "Honningsvåg (ocean)", 
+ "Honningsvåg (ocean)",
  "Hammerfest (ocean, hills)",
- "Ås (hills)", 
- "Os (hills)", 
+ "Ås (hills)",
+ "Os (hills)",
  "Tynset (grassland)",
  "Longyearbyen (ocean)",
  "Mandal (plains)",

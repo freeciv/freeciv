@@ -1,9 +1,9 @@
 [nation_neapolitan]
 
-name=_("Neapolitan")
-plural=_("?plural:Neapolitans")
-groups="European", "Medieval", "Early Modern"
-legend=_("For centuries the Kingdom of Naples was the largest country\
+name   = _("Neapolitan")
+plural = _("?plural:Neapolitans")
+groups = "European", "Medieval", "Early Modern"
+legend = _("For centuries the Kingdom of Naples was the largest country\
  on the Italian Peninsula. Many European powers showed interest in the\
  kingdom and its throne changed hands many times. After the Napoleonic\
  Era it was merged with the Kingdom of Sicily.")
@@ -26,14 +26,14 @@ ruler_titles = {
  "Fundamentalism",  _("Cardinal %s"),       _("Madre %s")
 }
 
-flag="naples"
+flag = "naples"
 flag_alt = "sicily"
 style = "Classical"
 
-init_techs=""
-init_buildings=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-init_units=""
 civilwar_nations = "sicilian", "italian"
 
 cities =
@@ -96,5 +96,3 @@ cities =
  "Trani (ocean)",
  "Castrovillari",
  "Pizzo"
-
-

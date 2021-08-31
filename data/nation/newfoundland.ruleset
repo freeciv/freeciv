@@ -1,10 +1,10 @@
 [nation_newfoundlander]
 
-name=_("Newfoundland")
-plural=_("?plural:Newfoundlanders")
-groups="American"
+name   = _("Newfoundland")
+plural = _("?plural:Newfoundlanders")
+groups = "American"
 
-legend=_("In precolumbian times Newfoundland and Labrador were settled\
+legend = _("In precolumbian times Newfoundland and Labrador were settled\
  by the Beothuk, though around 1000 CE for a short time Vikings also\
  settled there. From the late 15th century onward Newfoundland was visited\
  by the Portuguese and English. England and France contested the island\
@@ -32,15 +32,15 @@ ruler_titles = {
  "Fundamentalism",  _("Bishop %s"),         _("?female:Bishop %s")
 }
 
-flag="newfoundland"
+flag = "newfoundland"
 flag_alt = "canada_old"
 style = "Celtic"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-civilwar_nations= "british", "cree", "acadian"
+civilwar_nations = "british", "cree", "acadian"
 
 cities =
  "St. John's",
@@ -148,5 +148,3 @@ cities =
  "Isle aux Morts (ocean)",
  "Meadows",
  "Rocky Harbour (ocean)"
-
-

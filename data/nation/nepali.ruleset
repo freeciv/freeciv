@@ -1,9 +1,9 @@
 [nation_nepali]
 
-name=_("Nepali")
-plural=_("?plural:Nepalis")
-groups="Medieval", "Early Modern", "Modern", "Asian"
-legend=_("Nepal is a landlocked country located in the Himalayas. Long a\
+name   = _("Nepali")
+plural = _("?plural:Nepalis")
+groups = "Medieval", "Early Modern", "Modern", "Asian"
+legend = _("Nepal is a landlocked country located in the Himalayas. Long a\
  multi-cultural and multi-lingual nation, its history is characterized by\
  its location between India and China. The Nepalese principalities were\
  united into one kingdom in the 18th century. Nepal became a republic in\
@@ -29,15 +29,15 @@ ruler_titles = {
  "Despotism",       _("Prince %s"),         _("Princess %s")
 }
 
-flag= "nepal"
+flag = "nepal"
 flag_alt = "-"
 style = "Asian" 
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-civilwar_nations="sherpa", "sikkimese"
+civilwar_nations = "sherpa", "sikkimese"
 
 cities = 
  "Kathmandu",
@@ -76,4 +76,3 @@ cities =
  "Byas",
  "Lahan",
  "Putalibazar"
- 

@@ -1,9 +1,9 @@
 [nation_nauruan]
 
-name=_("Nauruan")
-plural=_("?plural:Nauruans")
-groups= "Oceanian", "Modern"
-legend=_("Called Pleasant Island by the European colonizers, Nauru is an\
+name   = _("Nauruan")
+plural = _("?plural:Nauruans")
+groups = "Oceanian", "Modern"
+legend = _("Called Pleasant Island by the European colonizers, Nauru is an\
  island in the South Pacific. The island was first settled by Austronesian\
  peoples around 1000 BCE. European contacts led to internecine tribal\
  warfare which decimated the population. Nauru was annexed by the German\
@@ -33,13 +33,13 @@ ruler_titles = {
  "Monarchy",   _("Paramount Chief %s"), _("?female:Paramount Chief %s")
 }
 
-flag="nauru"
+flag = "nauru"
 flag_alt = "-"
 style = "Tropical"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
 civilwar_nations = "micronesian" ; marshallese
 
@@ -71,4 +71,3 @@ cities =
  "Ronave",
  "Anabar",
  "Ganokoro"
-

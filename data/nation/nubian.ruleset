@@ -1,9 +1,9 @@
 [nation_nubian]
 
-name=_("Nubian")
-plural=_("?plural:Nubians")
-groups="Ancient", "African"
-legend=_("A succession of kingdoms stretching roughly from the 1st to the\
+name   = _("Nubian")
+plural = _("?plural:Nubians")
+groups = "Ancient", "African"
+legend = _("A succession of kingdoms stretching roughly from the 1st to the\
  6th cataracts of the Nile river in modern Sudan and Egypt, Nubia was ancient\
  Egypt's perennial neighbor, competitor, trading partner, enemy, and\
  source of gold, slaves and soldiers to the south. The border between the\
@@ -34,15 +34,15 @@ ruler_titles = {
  "Monarchy",        _("Great Pharaoh %s"), _("?female:Great Pharaoh %s")
 }
 
-flag="nubia"
+flag = "nubia"
 flag_alt = "-"
 style = "Babylonian"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-civilwar_nations="egyptian", "sudanese"
+civilwar_nations = "egyptian", "sudanese"
 
 cities =
  "Napata",
