@@ -1,5 +1,5 @@
 #!/bin/bash
-#/**********************************************************************
+#/***********************************************************************
 # Freeciv - Copyright (C) 2010
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -31,7 +31,7 @@ basename=`basename ${scriptname}`
 
 # check for required tools (convert)
 have_convert=TRUE
-prog_convert=`which convert`
+prog_convert=`command -v convert`
 RES=$?
 if [ $RES -ne 0 ]; then
   # without this tool nothing can be done
@@ -41,7 +41,7 @@ fi
 
 # check for required tools (ffmpeg)
 have_ffmpef=TRUE
-prog_ffmpeg=`which ffmpeg`
+prog_ffmpeg=`command -v ffmpeg`
 RES=$?
 if [ $RES -ne 0 ]; then
   have_ffmpef=FALSE

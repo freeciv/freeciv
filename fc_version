@@ -65,7 +65,7 @@ if test "x$FREECIV_LABEL_FORCE" != "x" ; then
   VERSION_LABEL=$(echo $FREECIV_LABEL_FORCE | sed "s/<base>/$VERSION_LABEL/g")
 fi
 
-if test x$VERSION_REVTYPE = xgit && which git > /dev/null ; then
+if test x$VERSION_REVTYPE = xgit && command -v git > /dev/null ; then
   VERSION_REV="$(git rev-parse --short HEAD)"
 else
   VERSION_REV=""
