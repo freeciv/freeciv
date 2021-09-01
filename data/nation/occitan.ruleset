@@ -1,9 +1,9 @@
 [nation_occitan]
 
-name=_("Occitan")
-plural=_("?plural:Occitans")
-groups="Medieval", "European"
-legend=_("Although Occitania never had a real political unity (it\
+name   = _("Occitan")
+plural = _("?plural:Occitans")
+groups = "Medieval", "European"
+legend = _("Although Occitania never had a real political unity (it\
  consisted of several counties and duchies in today's southern France),\
  its culture enjoyed great prestige all over Europe during the 11th, 12th\
  and 13th centuries, Occitan being the language of troubadours. Its\
@@ -30,13 +30,13 @@ ruler_titles = {
  "Fundamentalism",  _("Bishop %s"),        _("?female:Bishop %s")
 }
 
-flag="occitania"
+flag = "occitania"
 flag_alt = "-"
 style = "European"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
 conflicts_with = "French"
 civilwar_nations = "Catalan", "French", "Monegasque"

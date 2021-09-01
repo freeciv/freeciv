@@ -1,11 +1,11 @@
 [nation_ozite]
 
-name=_("Ozite")
-plural=_("?plural:Ozites")
-groups="Imaginary"
+name   = _("Ozite")
+plural = _("?plural:Ozites")
+groups = "Imaginary"
 ; Baum’s books were published before 1923 and are therefore out of
 ; copyright.
-legend=_("The land of Oz was created by L. Frank Baum in 1900 in 'The\
+legend = _("The land of Oz was created by L. Frank Baum in 1900 in 'The\
  Wonderful Wizard of Oz' and was subsequently embellished in a number\
  of other books. The country consists of four main territories: Winkie\
  Country, Quadling Country, Munchkin Country, and Gillikin Country. Oz\
@@ -26,12 +26,12 @@ ruler_titles = {
  "Despotism",       _("Wizard %s"),      _("Witch %s")
 }
 
-flag="oz"
+flag = "oz"
 style = "European"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
 cities =
  "Emerald City",

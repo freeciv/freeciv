@@ -1,12 +1,12 @@
 [nation_otomi]
 
-name=_("Otomí")
+name      = _("Otomí")
 ; pre-2.6 had plain ASCII names
 rule_name = "Otomi"
-plural=_("?plural:Otomíes")
-groups="American", "Ancient", "Medieval"
+plural    = _("?plural:Otomíes")
+groups    = "American", "Ancient", "Medieval"
 
-legend=_("The Otomí are one of the most ancient peoples of Mexico. They\
+legend    = _("The Otomí are one of the most ancient peoples of Mexico. They\
  have lived in Central Mexico ever since the development of agriculture\
  or even longer. A warlike people, they served as mercenaries in the\
  armies of many Mesoamerican civilizations and got their name from the\
@@ -33,36 +33,37 @@ flag = "otomi"
 flag_alt = "-"
 style = "Celtic"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
+
 civilwar_nations = "aztec", "zapotec", "mixtec"
 
 cities =
- "Nts'ütkani",	;Ixmiquilpan
- "Nxamado",	;Huichapan
- "Mähñem'i",	;Tula
- "Mäñ'uts'i",	;Actopan
- "Ndoxei",	;Tlaxcala
- "Mbado",	;Atlacomulco
- "Ngühmu",	;Tulancingo
- "Ndema",	;Puebla
- "Njünthe",	;Pachuca
- "Ndäthe",	;Tamazunchale
- "Magats'i",	;Real del Monte
- "Ndämxei",	;Querétaro
- "Ndathi",	;Celaya
- "Mbixe",	;Tequixquiac
- "Mb'oñ'u",	;Orizaba
- "Xamige", 	;Acambay
- "Ndänuë",	;Guanajuato
- "Tsinäkua",	;Silao
- "Nzehni",	;Toluca
- "T'axt'öhö",	;Chapultepec
- "Xido",	;Salamanca
- "M'onda",	;México DF
- "Nmiñ'u",	;San Luis Potosí
- "Huaxk'anda",	;Aguascalientes
+ "Nts'ütkani",  ; Ixmiquilpan
+ "Nxamado",     ; Huichapan
+ "Mähñem'i",    ; Tula
+ "Mäñ'uts'i",   ; Actopan
+ "Ndoxei",      ; Tlaxcala
+ "Mbado",       ; Atlacomulco
+ "Ngühmu",      ; Tulancingo
+ "Ndema",       ; Puebla
+ "Njünthe",     ; Pachuca
+ "Ndäthe",      ; Tamazunchale
+ "Magats'i",    ; Real del Monte
+ "Ndämxei",     ; Querétaro
+ "Ndathi",      ; Celaya
+ "Mbixe",       ; Tequixquiac
+ "Mb'oñ'u",     ; Orizaba
+ "Xamige",      ; Acambay
+ "Ndänuë",      ; Guanajuato
+ "Tsinäkua",    ; Silao
+ "Nzehni",      ; Toluca
+ "T'axt'öhö",   ; Chapultepec
+ "Xido",        ; Salamanca
+ "M'onda",      ; México DF
+ "Nmiñ'u",      ; San Luis Potosí
+ "Huaxk'anda",  ; Aguascalientes
  "Nxamti",
  "Pixkuai",
  "B'anxu",
@@ -99,4 +100,3 @@ cities =
  "Nänxu",
  "Mämüi",
  "Mäböza"
-

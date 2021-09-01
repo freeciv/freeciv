@@ -1,9 +1,9 @@
 [nation_oldenburgian]
 
-name=_("Oldenburgian")
-plural=_("?plural:Oldenburgians")
-groups="Medieval", "Early Modern", "European"
-legend=_("Initially a vassal of the dukes of Saxony, Oldenburg became\
+name   = _("Oldenburgian")
+plural = _("?plural:Oldenburgians")
+groups = "Medieval", "Early Modern", "European"
+legend = _("Initially a vassal of the dukes of Saxony, Oldenburg became\
  a county directly suzerain to the Holy Roman Emperor in the 12th\
  century. In 1450, when count Christian VI became king Christian I of\
  Denmark, the country entered into a personal union with Denmark. A second\
@@ -13,6 +13,7 @@ legend=_("Initially a vassal of the dukes of Saxony, Oldenburg became\
  it was the first German state to vote the Nazi Party into power. After\
  World War II, Oldenburg was merged with Hanover to form the state of\
  Lower Saxony.")
+
 leaders = {
  "name",			"sex"
  "Egilmar",			"male"
@@ -34,14 +35,16 @@ ruler_titles = {
  "Democracy",  _("Minister-President %s"), _("?female:Minister-President %s")
 }
 
-flag="oldenburg"
+flag = "oldenburg"
 flag_alt = "-"
 style = "European"
 
-init_techs=""
-init_buildings=""
-init_units=""
-civilwar_nations = "schleswig-holsteinian", "hanoverian", "frisian", "palatinate" ;latter because of Birkenfeld
+init_techs = ""
+init_buildings = ""
+init_units = ""
+
+civilwar_nations = "schleswig-holsteinian", "hanoverian",
+                   "frisian", "palatinate" ;latter because of Birkenfeld
 
 cities =
  "Oldenburg",
@@ -81,4 +84,3 @@ cities =
  "Berne",
  "Hooksiel",
  "Wilhelmshaven"
-

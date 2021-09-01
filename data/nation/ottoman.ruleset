@@ -1,9 +1,9 @@
 [nation_ottoman]
 
-name=_("Ottoman")
-plural=_("?plural:Ottomans")
-groups="Medieval", "Early Modern", "Asian", "European"
-legend=_("In the beginning of the 14th century Osman, a leader of a\
+name   = _("Ottoman")
+plural = _("?plural:Ottomans")
+groups = "Medieval", "Early Modern", "Asian", "European"
+legend = _("In the beginning of the 14th century Osman, a leader of a\
  minor Turkish tribe in western Anatolia, conquered all his neighboring\
  tribes. A century later the Byzantine capital fell to\
  Turkish rule which gave the Ottoman empire access to Europe. The\
@@ -30,16 +30,16 @@ ruler_titles = {
  "Republic",        _("Vizier %s"),   _("?female:Vizier %s")
 }
 
-flag ="ottoman"
+flag = "ottoman"
 flag_alt = "turkey"
 style = "Classical"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-conflicts_with="turkish"
-civilwar_nations="arab", "armenian", "hellenic", "crimean tatar"
+conflicts_with = "turkish"
+civilwar_nations = "arab", "armenian", "hellenic", "crimean tatar"
 
 ; Cities from all over the empire
 cities =

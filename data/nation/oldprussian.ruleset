@@ -1,12 +1,13 @@
 [nation_oldprussian]
 
-name=_("Old Prussian")
-plural=_("?plural:Old Prussians")
-groups="Medieval", "European"
-legend=_("The Prussians were Baltic peoples inhabiting the area between\
+name   = _("Old Prussian")
+plural = _("?plural:Old Prussians")
+groups = "Medieval", "European"
+legend = _("The Prussians were Baltic peoples inhabiting the area between\
  the Pomerania, Mazovia, Lithuania and the Baltic Sea (Baltic coast between\
  the lower Vistula and lower Nemen). They were conquered and germanized by\
  the Teutonic Order.")
+
 leaders = {
  "name",                "sex"
  "Auktuma",             "Male"
@@ -16,38 +17,39 @@ leaders = {
  "Glapas",              "Male"
  "Komantas",            "Male"
 }
-flag="prusai"
+
+flag = "prusai"
 flag_alt = "-"
 style = "Celtic"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-conflicts_with="prussian"
+conflicts_with = "prussian"
 civilwar_nations = "lithuanian" ; polanian
 
 cities =
-  "Truso",
-"Sirgune",
-"Graudings",  
-"Elbings",
-"Regneta",
-"Orneta",
-"Wangus",
-"Kunnegsgarbs",       ; Königsberg/Kaliningrad
-"Salpwange",
-"Weluwa",
-"Wiskiauten",
-"Rast",
-"Alna",
-"Kwedins",
-"Iluwa",
-"Berents",
-"Nydda",
-"Wurmen",
-"Kele",
-"Susse",
-"Pukis",
-"Tuga",
-"Laba"
+ "Truso",
+ "Sirgune",
+ "Graudings",
+ "Elbings",
+ "Regneta",
+ "Orneta",
+ "Wangus",
+ "Kunnegsgarbs",       ; Königsberg/Kaliningrad
+ "Salpwange",
+ "Weluwa",
+ "Wiskiauten",
+ "Rast",
+ "Alna",
+ "Kwedins",
+ "Iluwa",
+ "Berents",
+ "Nydda",
+ "Wurmen",
+ "Kele",
+ "Susse",
+ "Pukis",
+ "Tuga",
+ "Laba"
