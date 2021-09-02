@@ -1369,8 +1369,8 @@ static int sell_imprvm_dlg_ok_callback(struct widget *ok_button)
 
     city_sell_improvement(pcity_dlg->pcity, MAX_ID - 3000 - tmp->id);
 
-    /* popdown, we don't redraw and flush becouse this is make by redraw city dlg.
-       when response from server come */
+    /* popdown, we don't redraw and flush because this is made by redraw city dlg.
+       when response from server comes */
     popdown_window_group_dialog(pcity_dlg->begin_city_menu_widget_list,
                                 pcity_dlg->end_city_menu_widget_list);
 
