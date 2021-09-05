@@ -618,10 +618,6 @@ int main(int argc, char *argv[])
 
     for (i = 1; i <= ui_options; i++) {
       if (is_option("--help", argv[i])) {
-        fc_fprintf(stderr,
-             _("This modpack installer accepts the standard Gtk command-line options\n"
-               "after '--'. See the Gtk documentation.\n\n"));
-
         /* TRANS: No full stop after the URL, could cause confusion. */
         fc_fprintf(stderr, _("Report bugs at %s\n"), BUG_URL);
 
