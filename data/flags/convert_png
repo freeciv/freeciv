@@ -22,9 +22,9 @@ SHIELD_HEIGHT=14
 SHIELD_WIDTH_LARGE=19
 SHIELD_HEIGHT_LARGE=19
 
-which $RENDERER >/dev/null \
+command -v $RENDERER >/dev/null \
   || (echo "You need $RENDERER to render the SVG files.")
-(which convert >/dev/null && which composite >/dev/null) \
+(command -v convert >/dev/null && command -v composite >/dev/null) \
   || (echo "You need ImageMagick to manipulate the images."; err=yes)
 
 for file0 in $files; do
