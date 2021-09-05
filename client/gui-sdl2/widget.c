@@ -572,7 +572,7 @@ struct widget *get_widget_pointer_from_id(const struct widget *gui_list,
 }
 
 /**************************************************************************
-  Find ID in MAIN Widget's List ( pBeginWidgetList ) and return pointer to
+  Find ID in MAIN widgets list ( pBeginWidgetList ) and return pointer to
   this Widgets.
 **************************************************************************/
 struct widget *get_widget_pointer_from_main_list(Uint16 ID)
@@ -581,7 +581,7 @@ struct widget *get_widget_pointer_from_main_list(Uint16 ID)
 }
 
 /**************************************************************************
-  Add Widget to Main Widget's List ( pBeginWidgetList )
+  Add Widget to Main widgets list ( pBeginWidgetList )
 **************************************************************************/
 void add_to_gui_list(Uint16 ID, struct widget *pGUI)
 {
@@ -597,7 +597,7 @@ void add_to_gui_list(Uint16 ID, struct widget *pGUI)
 }
 
 /**************************************************************************
-  Add Widget to Widget's List at pAdd_Dock position on 'prev' slot.
+  Add Widget to widgets list at pAdd_Dock position on 'prev' slot.
 **************************************************************************/
 void DownAdd(struct widget *pNew_Widget, struct widget *pAdd_Dock)
 {
@@ -613,7 +613,7 @@ void DownAdd(struct widget *pNew_Widget, struct widget *pAdd_Dock)
 }
 
 /**************************************************************************
-  Delete Widget from Main Widget's List ( pBeginWidgetList )
+  Delete Widget from Main widgets list ( pBeginWidgetList )
 
   NOTE: This function does not destroy Widget, only remove his pointer from
   list. To destroy this Widget totaly ( free mem... ) call macro:
@@ -686,7 +686,7 @@ void move_widget_to_front_of_gui_list(struct widget *pGUI)
 }
 
 /**************************************************************************
-  Delete Main Widget's List.
+  Delete Main widgets list.
 **************************************************************************/
 void del_main_list(void)
 {
