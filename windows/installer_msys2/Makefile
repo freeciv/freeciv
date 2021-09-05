@@ -553,7 +553,7 @@ clean-install-ruledit-qt6:
 	./cleanup_checkout.sh ../..
 
 clean-installer-common:
-	rm -f Output/Freeciv-*-$(GUI)-setup.exe
+	rm -f Output/Freeciv-*-$(CLIENT)-setup.exe
 	rm -f Freeciv-*-$(GUI).nsi
 
 clean-installer-ruledit-qt5:
@@ -565,8 +565,8 @@ clean-installer-ruledit-qt6:
 	rm -f Freeciv-*-ruledit-qt6.nsi
 
 clean:
-	make GUI=gtk3.22 clean-build-common clean-install-common clean-installer-common
-	make GUI=sdl2 clean-build-common clean-install-common clean-installer-common
-	make GUI=qt5 clean-build-common clean-install-common clean-installer-common
+	make GUI=gtk3.22 CLIENT=gtk3.22 clean-build-common clean-install-common clean-installer-common
+	make GUI=sdl2 CLIENT=sdl2 clean-build-common clean-install-common clean-installer-common
+	make GUI=qt5 CLIENT=qt clean-build-common clean-install-common clean-installer-common
 	make clean-build-ruledit-qt5 clean-install-ruledit-qt5 clean-installer-ruledit-qt5
 	make clean-build-ruledit-qt6 clean-install-ruledit-qt6 clean-installer-ruledit-qt6
