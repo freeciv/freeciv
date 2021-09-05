@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- Created with Inkscape (http://www.inkscape.org/) -->
 <svg
    xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:cc="http://creativecommons.org/ns#"
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
@@ -12,10 +11,9 @@
    height="1200"
    id="svg2044"
    sodipodi:version="0.32"
-   inkscape:version="0.44"
+   inkscape:version="1.0.2 (e86c870879, 2021-01-15)"
    version="1.0"
-   sodipodi:docbase="C:\flags"
-   sodipodi:docname="Flag of the Ainu people.svg">
+   sodipodi:docname="ainu.svg">
   <defs
      id="defs2046" />
   <sodipodi:namedview
@@ -35,10 +33,13 @@
      inkscape:current-layer="layer1"
      height="1200px"
      width="1800px"
-     inkscape:window-width="847"
-     inkscape:window-height="579"
-     inkscape:window-x="44"
-     inkscape:window-y="58" />
+     inkscape:window-width="865"
+     inkscape:window-height="606"
+     inkscape:window-x="791"
+     inkscape:window-y="129"
+     inkscape:document-rotation="0"
+     showgrid="false"
+     inkscape:window-maximized="0" />
   <metadata
      id="metadata2049">
     <rdf:RDF>
@@ -47,6 +48,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
