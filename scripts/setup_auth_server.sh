@@ -18,7 +18,7 @@
 # I know that this will not work with bare sh. Tested with bash,
 # so I set it in use above. 
 
-if which basename >/dev/null
+if command -v basename >/dev/null
 then
   PROGRAM_NAME="$(basename $0)"
 else
@@ -190,7 +190,7 @@ fi
 echo
 echo "First we populate the player database on the MySQL server"
 
-if ! which mysql >/dev/null
+if ! command -v mysql >/dev/null
 then
   echo "mysql command not found. Aborting!"
   exit 1
