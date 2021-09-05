@@ -1,11 +1,11 @@
 [nation_persian]
 
-translation_domain="freeciv"
+translation_domain = "freeciv"
 
-name=_("Persian")
-plural=_("?plural:Persians")
-groups="Ancient", "Medieval", "Early Modern", "Asian", "Core"
-legend=_("The first Persian (Achaemenid) Empire lasted from 550 BCE to 330\
+name   = _("Persian")
+plural = _("?plural:Persians")
+groups = "Ancient", "Medieval", "Early Modern", "Asian", "Core"
+legend = _("The first Persian (Achaemenid) Empire lasted from 550 BCE to 330\
  BCE; the second (Sassanid) from 226 CE to 642 CE.")
 
 leaders = {
@@ -26,31 +26,31 @@ ruler_titles = {
  "Fundamentalism",  _("Ayatollah %s"),    _("?female:Ayatollah %s")
 }
 
-flag="iran_ancient"
+flag = "iran_ancient"
 flag_alt = "iran"
 style = "Classical"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-civilwar_nations="Khwarezmian", "Elamite"
+civilwar_nations = "Khwarezmian", "Elamite"
 
 ; Sources:
 ; http://www.livius.org/persia.html
 ; http://www.iranian.com/GuiveMirfendereski/2005/May/Saka/
 cities =
 ; Ancient cities first; Latin rendering in comment
- "Parsa",	; Persepolis
+ "Parsa",       ; Persepolis
  "Susa",
- "Hagmatana",	; Ecbatana
- "Pathragada",	; Pasaradae
- "Raga",	; Rhagae
- "Margush",	; Margiane
+ "Hagmatana",   ; Ecbatana
+ "Pathragada",  ; Pasaradae
+ "Raga",        ; Rhagae
+ "Margush",     ; Margiane
  "Baktra",
- "Takshasila",	; Taxila
- "Gaba",	; Gabae
- "Sakarta",	; Zadrakarta
+ "Takshasila",  ; Taxila
+ "Gaba",        ; Gabae
+ "Sakarta",     ; Zadrakarta
  "Herat",
  "Drapsaka",
  "Karmana",

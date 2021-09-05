@@ -1,12 +1,13 @@
 [nation_parthian]
 
-name=_("Parthian")
-plural=_("?plural:Parthians")
-groups="Ancient", "Asian"
-legend=_("The Parthians were originally a nomadic people from Central Asia\
+name   = _("Parthian")
+plural = _("?plural:Parthians")
+groups = "Ancient", "Asian"
+legend = _("The Parthians were originally a nomadic people from Central Asia\
  who inhabited the Parthia region of the Seleucid Empire. Under the\
  leadership of the satrap Arsakes they drove the Seleucids from Iran, where\
  they created their own strong empire. Their culture was Hellenistic.")
+
 leaders = {
  "name",                "sex"
  "Andragoras",          "Male"
@@ -24,7 +25,8 @@ leaders = {
  "Osroes I",            "Male"
  "Artabanos IV",        "Male"
 }
-flag="parthia"
+
+flag = "parthia"
 flag_alt = "iran"
 style = "Classical"
 
@@ -35,11 +37,11 @@ ruler_titles = {
  "Monarchy",      _("Shah %s"),      _("Shahbanu %s")
 }
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-conflicts_with="Iranian", "Persian", "Iraqi", "Kurdish", "Turkmen",
+conflicts_with = "Iranian", "Persian", "Iraqi", "Kurdish", "Turkmen",
  "Seljuk", "Ghaznavid", "Babylonian", "Assyrian" ; Median
 civilwar_nations = "Saka", "Persian", "Kurdish", "Seleucid", "Armenian"
 

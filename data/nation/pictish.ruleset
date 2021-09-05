@@ -1,14 +1,15 @@
 [nation_pictish]
 
-name = _("Pictish")
+name   = _("Pictish")
 plural = _("?plural:Picts")
-groups="European", "Ancient", "Medieval"
-legend=_("The Picts were the indigenous inhabitants of Caledonia, Ancient\
+groups = "European", "Ancient", "Medieval"
+legend = _("The Picts were the indigenous inhabitants of Caledonia, Ancient\
  Scotland. They were probably Celtic or maybe Celticized pre-Indo-Europeans.\
  They were given the name Picts, \'painted people\', by the Romans because of\
  their custom of tattooing their bodies. The Picts survived until well into\
  the Middle Ages but by the 11th century they had been assimilated by the\
  Gaelic Scots.")
+
 leaders = {
  "name",     "sex"
  "Drest",    "male"
@@ -30,12 +31,12 @@ flag = "pict"
 flag_alt = "scotland"
 style = "Celtic"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-conflicts_with="scottish"
-civilwar_nations="gaelic", "briton", "scottish"
+conflicts_with = "scottish"
+civilwar_nations = "gaelic", "briton", "scottish"
 
 cities =
  "Circinn",

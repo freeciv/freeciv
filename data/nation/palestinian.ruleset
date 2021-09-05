@@ -1,9 +1,9 @@
 [nation_palestinian]
 
-name=_("Palestinian")
-plural=_("?plural:Palestinian")
-groups= "Asian", "Modern"
-legend=_("Palestinians are the Arab inhabitants of the former British\
+name   = _("Palestinian")
+plural = _("?plural:Palestinian")
+groups = "Asian", "Modern"
+legend = _("Palestinians are the Arab inhabitants of the former British\
  mandate of Palestine.")
 
 leaders = {
@@ -23,13 +23,13 @@ ruler_titles = {
  "Communism",       _("Chairman %s"),     _("Chairwoman %s")
 }
 
-flag="palestine"
+flag = "palestine"
 flag_alt = "-"
 style = "Classical"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
 civilwar_nations = "israeli", "egyptian", "jordanian"
 

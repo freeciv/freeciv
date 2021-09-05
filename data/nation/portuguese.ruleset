@@ -1,11 +1,11 @@
 [nation_portuguese]
 
-translation_domain="freeciv"
+translation_domain = "freeciv"
 
-name=_("Portuguese")
-plural=_("?plural:Portuguese")
-groups="Medieval", "Early Modern", "Modern", "European", "Core"
-legend=_("Portugal founded the first of the great mercantile empires\
+name   = _("Portuguese")
+plural = _("?plural:Portuguese")
+groups = "Medieval", "Early Modern", "Modern", "European", "Core"
+legend = _("Portugal founded the first of the great mercantile empires\
  in the 1400s on the shipbuilding advances funded by Prince Henry the\
  Navigator.")
 
@@ -29,13 +29,14 @@ ruler_titles = {
  "Fundamentalism",  _("Patriarch %s"),      _("Mother Superior %s")
 }
 
-flag="portugal"
+flag = "portugal"
 flag_alt = "-"
 style = "Classical"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
+
 civilwar_nations = "brazilian", "angolan",  "bissau-guinean", "cape verdean",
  "east timorese", "mozambican", "santomean"
 

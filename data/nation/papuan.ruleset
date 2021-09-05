@@ -1,9 +1,9 @@
 [nation_papuan]
 
-name=_("Papuan")
-plural=_("?plural:Papuans")
-groups="Asian", "Oceanian"
-legend=_("The Papuans are the indigenous inhabitants of the island of New\
+name   = _("Papuan")
+plural = _("?plural:Papuans")
+groups = "Asian", "Oceanian"
+legend = _("The Papuans are the indigenous inhabitants of the island of New\
  Guinea. They are the descendants of the people who first settled the\
  island 40,000 years ago. Agriculture was developed in the New Guinean\
  Highlands about 6,000 years ago, though many Papuan tribes, especially\
@@ -35,9 +35,9 @@ flag = "west_papua"
 flag_alt = "-"
 style = "Tropical"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
 conflicts_with = "cham" ;similar flag
 civilwar_nations = "papua new guinean", "australian aboriginal"

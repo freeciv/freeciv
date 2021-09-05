@@ -1,9 +1,9 @@
 [nation_piedmontese]
 
-name = _("Piedmontese")
+name   = _("Piedmontese")
 plural = _("?plural:Piedmontese")
-groups="European", "Early Modern"
-legend=_("Piedmont was formed when the Duchy of Savoy elevated itself to\
+groups = "European", "Early Modern"
+legend = _("Piedmont was formed when the Duchy of Savoy elevated itself to\
  the status of a kingdom in 1720. Officially it was a constituent part of\
  the Kingdom of Sardinia-Piedmont. The area was occupied by Napoleon in\
  1796 but reasserted its independence in 1814. Sardinia-Piedmont was one\
@@ -37,23 +37,23 @@ flag = "piedmont"
 flag_alt = "italy"
 style = "European"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-conflicts_with="savoyard"
-civilwar_nations="italian", "savoyard", "genoese", "sardinian"
+conflicts_with = "savoyard"
+civilwar_nations = "italian", "savoyard", "genoese", "sardinian"
 
 cities =
  "Torino (river, plains)",
  "Genova (ocean, hills)",
- "Nizza (ocean)",		;Nice
+ "Nizza (ocean)",               ; Nice
  "Novara (plains)",
  "Alessandria (plains)",
  "La Spezia (ocean)",
  "Asti (hills)",
  "Sanremo (ocean)",
- "Ciamberì (mountains)",	;Chambéry
+ "Ciamberì (mountains)",        ; Chambéry
  "Savona (ocean, hills)",
  "Cuneo",
  "Moncalieri",
@@ -70,14 +70,14 @@ cities =
  "Casale Monferrato (river)",
  "Pinerolo",
  "Venaria Reale",
- "Aosta (river, mountains)",	;Aoste
+ "Aosta (river, mountains)",    ; Aoste
  "Rapallo",
  "Verbania",
- "Mentone",			;Menton
+ "Mentone",                     ; Menton
  "Alba",
  "Bra",
  "Novi Ligure",
- "Bagni d'Aix",			;Aix-les-Bains
+ "Bagni d'Aix",                 ; Aix-les-Bains
  "Annemasse",
  "Carmagnola",
  "Ventimiglia",
@@ -94,16 +94,16 @@ cities =
  "Saluzzo",
  "Chamonix",
  "Bonneville",
- "San Giovanni di Moriana",	;Saint-Jean-de-Maurienne
- "San Giulano di Geneva",	;Saint-Julien-en-Genevois
+ "San Giovanni di Moriana",     ; Saint-Jean-de-Maurienne
+ "San Giulano di Geneva",       ; Saint-Julien-en-Genevois
  "Borgo San Dalmazzo",
  "Cherasco",
  "Varallo", 
  "Susa",
  "Cavour",
  "Dogliani",
- "Modana",			;Modane
+ "Modana",                      ; Modane
  "Moutiers",
- "Cormaiore",			;Courmayeur
- "Tenda",			;Tende
+ "Cormaiore",                   ; Courmayeur
+ "Tenda",                       ; Tende
  "Demonte"

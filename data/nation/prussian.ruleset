@@ -1,10 +1,10 @@
 [nation_prussian]
 
-name=_("Prussian")
-plural=_("?plural:Prussians")
-groups="Early Modern", "European"
+name   = _("Prussian")
+plural = _("?plural:Prussians")
+groups = "Early Modern", "European"
 
-legend=_("Prussia was originally the name of a pagan Baltic people, who in\
+legend = _("Prussia was originally the name of a pagan Baltic people, who in\
  the 13th century were conquered by the German Teutonic Knight order. The\
  knights established an independent state in this land, and in 1561 Grand\
  Master Albrecht I proclaimed himself hereditary Duke of Prussia. Evolving\
@@ -34,9 +34,9 @@ flag         = "prussia"
 flag_alt     = "-"
 style        = "European"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
 civilwar_nations = "german", "polish", "lithuanian", "brandenburgian"
 

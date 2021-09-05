@@ -1,9 +1,9 @@
 [nation_palatinate]
 
-name=_("Palatinate")
-plural=_("?plural:Palatinate Germans")
-groups="Medieval", "Early Modern", "European"
-legend=_("The Electoral Palatinate was one of the electorates of the Holy\
+name   = _("Palatinate")
+plural = _("?plural:Palatinate Germans")
+groups = "Medieval", "Early Modern", "European"
+legend = _("The Electoral Palatinate was one of the electorates of the Holy\
  Roman Empire, located on the banks of the Rhine. It had a volatile\
  political history, continuously splitting and reuniting. Elector\
  Frederick V's capture of the Bohemian throne sparked the Thirty Years\
@@ -32,13 +32,14 @@ ruler_titles = {
  "Democracy",  _("Minister-President %s"), _("?female:Minister-President %s")
 }
 
-flag="palatinate"
+flag = "palatinate"
 flag_alt = "-"
 style = "European"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
+
 civilwar_nations = "lorrain", "bavarian", "badian", "rhenish"
 
 cities =
@@ -87,5 +88,3 @@ cities =
  "Traben-Trarbach",
  "Göllheim",
  "Kirchheimbolanden"
-
-

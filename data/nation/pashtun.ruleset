@@ -1,9 +1,9 @@
 [nation_pashtun]
 
-name=_("Pashtun")
-plural=_("?plural:Pashtuns")
-groups="Early Modern", "Asian"
-legend=_("The Pashtuns are an ethnic group that lives mainly in Afghanistan\
+name   = _("Pashtun")
+plural = _("?plural:Pashtuns")
+groups = "Early Modern", "Asian"
+legend = _("The Pashtuns are an ethnic group that lives mainly in Afghanistan\
  and Pakistan. They speak Pashto, a language closely related to Persian, and\
  live by an age-old code of honor known as Pashtunwali.")
 
@@ -24,16 +24,16 @@ ruler_titles = {
  "Fundamentalism",  _("Mullah %s"),    _("?female:Mullah %s")
 }
 
-flag="pashtun"
-flag_alt=""
+flag = "pashtun"
+flag_alt = ""
 style = "Classical"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-conflicts_with="Afghani"
-civilwar_nations="Afghani", "Pakistani", "Iranian"
+conflicts_with = "Afghani"
+civilwar_nations = "Afghani", "Pakistani", "Iranian"
 
 cities =
  "Kandahar",

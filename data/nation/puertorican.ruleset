@@ -1,9 +1,9 @@
 [nation_puertorican]
 
-name=_("Puerto Rican")
-plural=_("?plural:Puerto Ricans")
-groups="American"
-legend=_("The smallest of the Greater Antilles, Puerto Rico was inhabited\
+name   = _("Puerto Rican")
+plural = _("?plural:Puerto Ricans")
+groups = "American"
+legend = _("The smallest of the Greater Antilles, Puerto Rico was inhabited\
  by the indigenous Taino people when it was conquered by the Spanish. It\
  was conquered by the United States in 1898, just one year after Spain\
  had granted autonomy to the island. Currently it is a US commonwealth,\
@@ -30,13 +30,13 @@ ruler_titles = {
  "Republic",        _("Governor %s"),        _("?female:Governor %s")
 }
 
-flag="puerto_rico"
+flag = "puerto_rico"
 flag_alt = "-"
 style = "Tropical"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
 civilwar_nations = "taino", "dominicano", "cuban"
 
@@ -96,4 +96,3 @@ cities =
  "Vieques",
  "Culebra",
  "Mona"
-

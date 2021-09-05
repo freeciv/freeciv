@@ -1,9 +1,9 @@
 [nation_palmyrene]
 
-name=_("Palmyrene")
-plural=_("?plural:Palmyrenes")
-groups= "Asian", "Ancient"
-legend=_("Palmyra was a breakaway Roman state in Asia governed by queen\
+name   = _("Palmyrene")
+plural = _("?plural:Palmyrenes")
+groups = "Asian", "Ancient"
+legend = _("Palmyra was a breakaway Roman state in Asia governed by queen\
  Zenobia. In 273 CE Aurelian brought it back under Roman control.")
 
 leaders = {
@@ -21,13 +21,13 @@ ruler_titles = {
  "Republic",        _("Consul %s"),    _("?female:Consul %s")
 }
 
-flag="palmyra"
+flag = "palmyra"
 flag_alt = "-"
 style = "Classical"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
 conflicts_with = "byzantine", "syrian", "aramean"
 civilwar_nations = "roman", "aramean", "israelite"
