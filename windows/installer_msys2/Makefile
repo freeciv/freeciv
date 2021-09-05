@@ -207,7 +207,7 @@ SOUND_DLLS := \
 	libvorbisenc-2.dll \
 	libvorbisfile-3.dll \
 	libogg-0.dll \
-	libportaudio-2.dll \
+	libportaudio.dll \
 	libsndfile-1.dll \
 	libmpg123-0.dll \
 	libopusfile-0.dll \
@@ -251,8 +251,8 @@ COMMON_DLLS := \
 	libxml2-2.dll \
 	zlib1.dll \
 	libwinpthread-1.dll \
-	libicuuc68.dll \
-	libicudt68.dll \
+	libicuuc69.dll \
+	libicudt69.dll \
 	libsqlite3-0.dll \
 	exchndl.dll \
 	mgwhelp.dll \
@@ -318,16 +318,18 @@ SDL2_DLLS := \
 	libtiff-5.dll \
 	libwebp-7.dll \
 	libzstd.dll \
-	libdeflate.dll
+	libdeflate.dll \
+	libjbig-0.dll \
+	libLerc.dll
 
 install-env-sdl2: install-env-default-fcmp
 	# add DLLs
 	cp -R $(addprefix $(DLLPATH_PREFIX), $(SDL2_DLLS)) install-$(WINARCH)-$(GUI)/
 
 QT5_DLLS := \
-	libicuin68.dll \
-	libicuuc68.dll \
-	libicudt68.dll \
+	libicuin69.dll \
+	libicuuc69.dll \
+	libicudt69.dll \
 	libpcre16-0.dll \
 	libharfbuzz-0.dll \
 	libsqlite3-0.dll \
@@ -341,7 +343,8 @@ QT5_DLLS := \
 	libbrotlidec.dll \
 	libbrotlicommon.dll \
 	libdouble-conversion.dll \
-	libzstd.dll
+	libzstd.dll \
+	libmd4c.dll
 
 install-env-qt5: install-env-common
 	# add DLLs
@@ -352,9 +355,9 @@ install-env-qt5: install-env-common
 	find install-$(WINARCH)-$(GUI)/share/locale -type f -not -name "freeciv*.mo" -delete
 
 QT6_DLLS := \
-	libicuin68.dll \
-	libicuuc68.dll \
-	libicudt68.dll \
+	libicuin69.dll \
+	libicuuc69.dll \
+	libicudt69.dll \
 	Qt6Core.dll \
 	Qt6Gui.dll \
 	Qt6Widgets.dll \
@@ -419,7 +422,8 @@ RULEDIT_QT5_DLLS := \
 	libltdl-7.dll \
 	libraqm-0.dll \
 	libexpat-1.dll \
-	libfribidi-0.dll
+	libfribidi-0.dll \
+	libmd4c.dll
 
 install-env-ruledit-qt5:
 	# add DLLs
