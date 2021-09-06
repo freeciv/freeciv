@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- Created with Inkscape (http://www.inkscape.org/) -->
 <svg
    xmlns:dc="http://purl.org/dc/elements/1.1/"
    xmlns:cc="http://creativecommons.org/ns#"
@@ -15,9 +14,8 @@
    x="0.00000000"
    version="1.0"
    sodipodi:version="0.32"
-   inkscape:version="0.46"
+   inkscape:version="1.0.2 (e86c870879, 2021-01-15)"
    sodipodi:docname="akwe.svg"
-   sodipodi:docbase="C:\freeciv"
    inkscape:output_extension="org.inkscape.output.svg.inkscape">
   <metadata
      id="metadata10">
@@ -27,6 +25,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -43,12 +42,14 @@
      pagecolor="#ffffff"
      id="base"
      inkscape:zoom="0.26928571"
-     inkscape:cx="524.37133"
+     inkscape:cx="1090.516"
      inkscape:cy="688.60134"
      inkscape:window-x="199"
      inkscape:window-y="71"
      inkscape:current-layer="svg2"
-     showgrid="false" />
+     showgrid="false"
+     inkscape:document-rotation="0"
+     inkscape:window-maximized="0" />
   <defs
      id="defs3">
     <inkscape:perspective
