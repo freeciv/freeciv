@@ -68,6 +68,7 @@ void comment_combat_rules_nuke_defender_survival(struct section_file *sfile);
 void comment_auto_attack(struct section_file *sfile);
 void comment_actions_ui_names(struct section_file *sfile);
 void comment_actions_dc_initial_odds(struct section_file *sfile);
+void comment_borders_radius_permanent(struct section_file *sfile);
 
 #ifdef __cplusplus
 }

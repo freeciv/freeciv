@@ -65,6 +65,7 @@ static struct {
   char *auto_attack;
   char *actions_ui_names;
   char *actions_dc_initial_odds;
+  char *borders_radius_permanent;
 } comments_storage;
 
 /**********************************************************************//**
@@ -164,6 +165,8 @@ bool comments_load(void)
                "entrydoc.ui_names");
   comment_load(comments_storage.actions_dc_initial_odds, comment_file,
                "entrydoc.dc_initial_odds");
+  comment_load(comments_storage.borders_radius_permanent, comment_file,
+               "entrydoc.radius_permanent");
 
   secfile_check_unused(comment_file);
   secfile_destroy(comment_file);
@@ -530,4 +533,13 @@ void comment_actions_dc_initial_odds(struct section_file *sfile)
 {
   comment_entry_write(sfile, comments_storage.actions_dc_initial_odds,
                       "actions");
+}
+
+/**********************************************************************//**
+  Write borders radius_sq_city_permanent settings header.
+**************************************************************************/
+void comment_borders_radius_permanent(struct section_file *sfile)
+{
+  comment_entry_write(sfile, comments_storage.borders_radius_permanent,
+                      "borders");
 }

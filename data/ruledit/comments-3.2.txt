@@ -1306,3 +1306,14 @@ dc_initial_odds = "\n\
 ; diplchance. The initial probability of success is modified by the\n\
 ; Action_Odds_Pct effect before the roll happens.\n\
 "
+
+radius_permanent = "\n\
+; Difference between city workable area and area permanently claimed by\n\
+; city (these tiles cannot be stolen by stronger border sources).\n\
+; 0 means exactly city workable area is immune to border stealing.\n\
+; Negative value means outer workable tiles can be stolen; highly negative\n\
+; value (more than max city radius_sq) means any workable tile can be stolen.\n\
+; If City_Radius_Sq is variable, so is the set of locked tiles; this is\n\
+; a squared value, so the radius of the ring of tiles which are workable\n\
+; but not locked (or vice versa) varies but the area is constant.\n\
+"

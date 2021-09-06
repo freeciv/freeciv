@@ -1412,6 +1412,10 @@ static bool save_game_ruleset(const char *filename, const char *name)
   save_default_int(sfile, game.info.border_size_effect,
                    RS_DEFAULT_BORDER_SIZE_EFFECT,
                    "borders.size_effect", NULL);
+  if (game.info.border_city_permanent_radius_sq
+      != RS_DEFAULT_BORDER_RADIUS_SQ_CITY_PERMANENT) {
+    comment_borders_radius_permanent(sfile);
+  }
   save_default_int(sfile, game.info.border_city_permanent_radius_sq,
                    RS_DEFAULT_BORDER_RADIUS_SQ_CITY_PERMANENT,
                    "borders.radius_sq_city_permanent", NULL);
