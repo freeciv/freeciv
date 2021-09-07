@@ -13,7 +13,7 @@
    viewBox="-350 -250 700 500"
    id="svg2"
    sodipodi:version="0.32"
-   inkscape:version="0.46"
+   inkscape:version="1.0.2 (e86c870879, 2021-01-15)"
    sodipodi:docname="albania.svg"
    inkscape:output_extension="org.inkscape.output.svg.inkscape"
    version="1.0">
@@ -25,6 +25,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title>Flag of Albania</dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -39,8 +40,8 @@
        id="perspective16" />
   </defs>
   <sodipodi:namedview
-     inkscape:window-height="729"
-     inkscape:window-width="1280"
+     inkscape:window-height="626"
+     inkscape:window-width="844"
      inkscape:pageshadow="2"
      inkscape:pageopacity="0.0"
      guidetolerance="10.0"
@@ -54,9 +55,11 @@
      inkscape:zoom="0.77714286"
      inkscape:cx="350"
      inkscape:cy="250"
-     inkscape:window-x="0"
-     inkscape:window-y="0"
-     inkscape:current-layer="svg2" />
+     inkscape:window-x="390"
+     inkscape:window-y="83"
+     inkscape:current-layer="svg2"
+     inkscape:document-rotation="0"
+     inkscape:window-maximized="0" />
   <title
      id="title4">Flag of Albania</title>
   <rect
