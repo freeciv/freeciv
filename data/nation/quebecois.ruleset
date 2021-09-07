@@ -1,9 +1,9 @@
 [nation_quebecois]
 
-name=_("Quebecois")
-plural=_("?plural:Quebecois")
-groups= "American"
-legend=_("Quebec is the largest province of Canada, housing the majority of\
+name   = _("Quebecois")
+plural = _("?plural:Quebecois")
+groups = "American"
+legend = _("Quebec is the largest province of Canada, housing the majority of\
  the Francophone population of America.")
 
 leaders = {
@@ -26,18 +26,19 @@ flag = "quebec"
 flag_alt = "-"
 style = "Celtic"
 
-init_techs=""
-init_buildings=""
-init_units=""
-civilwar_nations="canadian", "inuit"
+init_techs = ""
+init_buildings = ""
+init_units = ""
+
+civilwar_nations = "canadian", "inuit"
 
 cities =
-  "Québec", "Montréal", "Trois-Rivières", "Sherbrooke", "Lévis", "Sorel", 
-  "Chicoutimi", "Jonquière", "Rimouski", "Châteauguay", "Gatineau", 
-  "Tadoussac", "Chambly", "Iberville", "St-Jean", "Verchères", "St-Denis", 
+  "Québec", "Montréal", "Trois-Rivières", "Sherbrooke", "Lévis", "Sorel",
+  "Chicoutimi", "Jonquière", "Rimouski", "Châteauguay", "Gatineau",
+  "Tadoussac", "Chambly", "Iberville", "St-Jean", "Verchères", "St-Denis",
   "St-Eustache", "Rivière-du-Loup", "Matane", "Gaspé", "Roberval", "Alma",
-  "St-Hyacinthe", "Drummondville", "La Malbaie", "St-Georges", "Montmagny", 
+  "St-Hyacinthe", "Drummondville", "La Malbaie", "St-Georges", "Montmagny",
   "Tracy", "Mont-Joli", "Trois-Pistoles", "Cap-de-la-Madeleine",
   "Sept-Iles", "Baie-Comeau", "Rouyn-Noranda", "Val d'Or", "Granby",
-  "Varennes", "Lachute", "St-Jérome", "Mont-Laurier", 
-  "Maniwaki", "Shawinigan", "La Tuque", "Havre-St-Pierre", "Chibougamau" 
+  "Varennes", "Lachute", "St-Jérome", "Mont-Laurier",
+  "Maniwaki", "Shawinigan", "La Tuque", "Havre-St-Pierre", "Chibougamau"

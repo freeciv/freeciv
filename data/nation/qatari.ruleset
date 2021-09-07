@@ -1,9 +1,9 @@
 [nation_qatari]
 
-name=_("Qatari")
-plural=_("?plural:Qataris")
-groups="Asian", "Modern"
-legend=_("Qatar is an emirate located on a peninsula on the Persian Gulf.\
+name   = _("Qatari")
+plural = _("?plural:Qataris")
+groups = "Asian", "Modern"
+legend = _("Qatar is an emirate located on a peninsula on the Persian Gulf.\
  It is one of the wealthiest countries of the world in terms of GDP per\
  capita. Qatar is one of the world's few absolute monarchies.")
 
@@ -23,15 +23,15 @@ ruler_titles = {
  "Republic",       _("Vizier %s"),      _("?female:Vizier %s")
 }
 
-flag="qatar"
+flag = "qatar"
 flag_alt = ""
 style = "Classical"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-civilwar_nations="emirati", "saudi"
+civilwar_nations = "emirati", "saudi"
 
 cities =
  "Ad-Dawha",
