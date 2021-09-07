@@ -2,6 +2,7 @@
 /Makefile
 /.deps
 /meta_conversion_log.cpp
+/meta_edit_impr.cpp
 /meta_edit_utype.cpp
 /meta_effect_edit.cpp
 /meta_req_edit.cpp
@@ -14,6 +15,7 @@
 /meta_tab_good.cpp
 /meta_tab_gov.cpp
 /meta_tab_misc.cpp
+/meta_tab_multiplier.cpp
 /meta_tab_nation.cpp
 /meta_tab_tech.cpp
 /meta_tab_terrains.cpp
