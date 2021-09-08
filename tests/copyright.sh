@@ -6,7 +6,6 @@ files=`find $1 -name "*.c" -o -name "*.h" -o -name "*.cpp" \
        | fgrep -v "_gen." \
        | grep -v "fc_config.h" \
        | grep -v gtkpixcomm \
-       | grep -v pixcomm \
        | grep -v dependencies \
        | grep -v utility/md5\.. `
 
