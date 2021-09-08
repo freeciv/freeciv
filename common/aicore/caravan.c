@@ -263,8 +263,11 @@ static double windfall_benefit(const struct unit *caravan,
     int bonus = get_caravan_enter_city_trade_bonus(src, dest,
                                                    can_establish);
 
-    /* bonus goes to both sci and gold FIXME: not always */
-    bonus *= 2;
+    /* when bonus goes to both sci and gold, double it */
+    if (TBONUS_BOTH == trade_route_settings_by_type
+        (cities_trade_route_type(src, dest))->bonus_type) {
+      bonus *= 2;
+    }
 
     return bonus;
   }
