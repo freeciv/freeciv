@@ -36,6 +36,8 @@ else
 QT6_MOCCMD="$(MOCCMD)"
 endif
 
+ICUVER=69
+
 INSTSUB=${ARCHDIR}
 
 # msys2 has dlls in...
@@ -251,8 +253,8 @@ COMMON_DLLS := \
 	libxml2-2.dll \
 	zlib1.dll \
 	libwinpthread-1.dll \
-	libicuuc69.dll \
-	libicudt69.dll \
+	libicuuc${ICUVER}.dll \
+	libicudt${ICUVER}.dll \
 	libsqlite3-0.dll \
 	exchndl.dll \
 	mgwhelp.dll \
@@ -327,9 +329,9 @@ install-env-sdl2: install-env-default-fcmp
 	cp -R $(addprefix $(DLLPATH_PREFIX), $(SDL2_DLLS)) install-$(WINARCH)-$(GUI)/
 
 QT5_DLLS := \
-	libicuin69.dll \
-	libicuuc69.dll \
-	libicudt69.dll \
+	libicuin${ICUVER}.dll \
+	libicuuc${ICUVER}.dll \
+	libicudt${ICUVER}.dll \
 	libpcre16-0.dll \
 	libharfbuzz-0.dll \
 	libsqlite3-0.dll \
@@ -355,9 +357,9 @@ install-env-qt5: install-env-common
 	find install-$(WINARCH)-$(GUI)/share/locale -type f -not -name "freeciv*.mo" -delete
 
 QT6_DLLS := \
-	libicuin69.dll \
-	libicuuc69.dll \
-	libicudt69.dll \
+	libicuin${ICUVER}.dll \
+	libicuuc${ICUVER}.dll \
+	libicudt${ICUVER}.dll \
 	Qt6Core.dll \
 	Qt6Gui.dll \
 	Qt6Widgets.dll \
