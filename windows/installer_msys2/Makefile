@@ -30,6 +30,8 @@ ifeq ($(MAKE_PARAMS),)
 MAKE_PARAMS="-j$(shell nproc)"
 endif
 
+ICUVER=68
+
 INSTSUB=${ARCHDIR}
 
 # msys2 has dlls in...
@@ -199,8 +201,8 @@ COMMON_DLLS := \
 	libxml2-2.dll \
 	zlib1.dll \
 	libwinpthread-1.dll \
-	libicuuc68.dll \
-	libicudt68.dll \
+	libicuuc${ICUVER}.dll \
+	libicudt${ICUVER}.dll \
 	libsqlite3-0.dll \
 	exchndl.dll \
 	mgwhelp.dll \
@@ -292,9 +294,9 @@ install-env-sdl2: install-env-default-fcmp
 	cp -R $(addprefix $(DLLPATH_PREFIX), $(SDL2_DLLS)) install-$(WINARCH)-$(GUI)/
 
 QT_DLLS := \
-	libicuin68.dll \
-	libicuuc68.dll \
-	libicudt68.dll \
+	libicuin${ICUVER}.dll \
+	libicuuc${ICUVER}.dll \
+	libicudt${ICUVER}.dll \
 	libpcre16-0.dll \
 	libharfbuzz-0.dll \
 	libsqlite3-0.dll \
