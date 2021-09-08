@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- Created with Inkscape (http://www.inkscape.org/) -->
 <svg
    xmlns:dc="http://purl.org/dc/elements/1.1/"
    xmlns:cc="http://creativecommons.org/ns#"
@@ -12,9 +11,8 @@
    height="600"
    id="svg2"
    sodipodi:version="0.32"
-   inkscape:version="0.46"
+   inkscape:version="1.0.2 (e86c870879, 2021-01-15)"
    version="1.0"
-   sodipodi:docbase="C:\Users\Daniel\Documents\freeciv"
    sodipodi:docname="aleut.svg"
    inkscape:output_extension="org.inkscape.output.svg.inkscape">
   <defs
@@ -44,11 +42,13 @@
      inkscape:current-layer="layer1"
      width="900px"
      height="600px"
-     inkscape:window-width="1166"
-     inkscape:window-height="728"
-     inkscape:window-x="108"
-     inkscape:window-y="0"
-     showgrid="false" />
+     inkscape:window-width="860"
+     inkscape:window-height="653"
+     inkscape:window-x="526"
+     inkscape:window-y="141"
+     showgrid="false"
+     inkscape:document-rotation="0"
+     inkscape:window-maximized="0" />
   <metadata
      id="metadata7">
     <rdf:RDF>
@@ -57,6 +57,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
