@@ -431,7 +431,8 @@ int get_current_construction_bonus(const struct city *pcity,
 int get_potential_improvement_bonus(struct impr_type *pimprove,
                                     const struct city *pcity,
                                     enum effect_type effect_type,
-                                    const enum req_problem_type prob_type);
+                                    const enum req_problem_type prob_type,
+                                    bool consider_multipliers);
 
 struct effect_list *get_effects(enum effect_type effect_type);
 

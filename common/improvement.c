@@ -560,7 +560,7 @@ static bool improvement_has_effects(const struct city *pcity,
 
   effect_list_iterate(plist, peffect) {
     if (0 != get_potential_improvement_bonus(pimprove, pcity,
-                                             peffect->type, RPT_CERTAIN)) {
+                                             peffect->type, RPT_CERTAIN, TRUE)) {
       return TRUE;
     }
   } effect_list_iterate_end;
