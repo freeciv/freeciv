@@ -1035,8 +1035,9 @@ int get_current_construction_bonus(const struct city *pcity,
 
   if (VUT_IMPROVEMENT == pcity->production.kind) {
     return get_potential_improvement_bonus(pcity->production.value.building,
-                                           pcity, effect_type, prob_type);
+                                           pcity, effect_type, prob_type, TRUE);
   }
+
   return 0;
 }
 
@@ -1049,11 +1050,17 @@ int get_current_construction_bonus(const struct city *pcity,
 int get_potential_improvement_bonus(const struct impr_type *pimprove,
                                     const struct city *pcity,
                                     enum effect_type effect_type,
-                                    const enum req_problem_type prob_type)
+                                    const enum req_problem_type prob_type,
+                                    bool consider_multipliers)
 {
   struct universal source = { .kind = VUT_IMPROVEMENT,
                               .value = {.building = pimprove}};
   struct effect_list *plist = get_req_source_effects(&source);
+  struct player *owner = NULL;
+
+  if (pcity != NULL) {
+    owner = city_owner(pcity);
+  }
 
   if (plist) {
     int power = 0;
@@ -1073,25 +1080,34 @@ int get_potential_improvement_bonus(const struct impr_type *pimprove,
           continue;
         }
 
-        if (!is_req_active(city_owner(pcity), NULL, pcity, pimprove,
+        if (!is_req_active(owner, NULL, pcity, pimprove,
                            NULL, NULL, NULL, NULL, NULL, NULL,
                            preq, prob_type)) {
           useful = FALSE;
           break;
-        } 
+        }
       } requirement_vector_iterate_end;
 
       if (useful) {
+        int val;
+
         if (present) {
-          power += peffect->value;
+          val = peffect->value;
         } else {
-          power -= peffect->value;
+          val = -peffect->value;
         }
+
+        if (consider_multipliers && peffect->multiplier) {
+          val = val * player_multiplier_effect_value(owner, peffect->multiplier) / 100;
+        }
+
+        power += val;
       }
     } effect_list_iterate_end;
 
     return power;
   }
+
   return 0;
 }
 
