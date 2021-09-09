@@ -18,7 +18,11 @@
 extern "C" {
 #endif /* __cplusplus */
 
-void bugreport_request(const char *reason_format, ...);
+/* utility */
+#include "support.h"
+
+void bugreport_request(const char *reason_format, ...)
+  fc__attribute((__format__ (__printf__, 1, 2)));
 
 #ifdef __cplusplus
 }
