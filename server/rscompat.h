@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -48,6 +48,7 @@ int rscompat_check_capabilities(struct section_file *file, const char *filename,
 
 bool rscompat_names(struct rscompat_info *info);
 
+void rscompat_adjust_pre_sanity(struct rscompat_info *info);
 void rscompat_postprocess(struct rscompat_info *info);
 
 /* Functions specific to 2.6 -> 3.0 transition */

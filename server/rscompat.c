@@ -348,6 +348,34 @@ static bool effect_list_compat_cb(struct effect *peffect, void *data)
   return TRUE;
 }
 
+
+/**************************************************************************
+  Do compatibility things after regular ruleset loading, but before
+  sanity checking.
+**************************************************************************/
+void rscompat_adjust_pre_sanity(struct rscompat_info *info)
+{
+  if (!info->compat_mode) {
+    /* There isn't anything here yet that should be done outside of compat
+     * mode. */
+    return;
+  }
+
+  if (info->ver_buildings < 10) {
+    improvement_iterate(pimprove) {
+      if (pimprove->genus != IG_SPECIAL
+          && (get_potential_improvement_bonus(pimprove, NULL, EFT_SS_STRUCTURAL,
+                                              RPT_POSSIBLE, FALSE)
+              || get_potential_improvement_bonus(pimprove, NULL, EFT_SS_COMPONENT,
+                                                 RPT_POSSIBLE, FALSE)
+              || get_potential_improvement_bonus(pimprove, NULL, EFT_SS_MODULE,
+                                                 RPT_POSSIBLE, FALSE))) {
+        pimprove->genus = IG_SPECIAL;
+      }
+    } improvement_iterate_end;
+  }
+}
+
 /**************************************************************************
   Do compatibility things after regular ruleset loading.
 **************************************************************************/

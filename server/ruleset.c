@@ -8034,6 +8034,8 @@ static bool load_rulesetdir(const char *rsdir, bool compat_mode,
   }
 
   if (ok) {
+    rscompat_adjust_pre_sanity(&compat_info);
+
     /* Init nations we just loaded. */
     update_nations_with_startpos();
 
@@ -8095,7 +8097,6 @@ static bool load_rulesetdir(const char *rsdir, bool compat_mode,
   }
 
   if (ok) {
-    
     char **buffer = buffer_script ? &script_buffer : NULL;
 
     script_server_free();
