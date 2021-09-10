@@ -644,6 +644,17 @@ static bool rs_buildings(void)
 
       return FALSE;
     }
+    if (pimprove->genus != IG_SPECIAL
+        && (get_potential_improvement_bonus(pimprove, NULL, EFT_SS_STRUCTURAL,
+                                            RPT_POSSIBLE, FALSE)
+            || get_potential_improvement_bonus(pimprove, NULL, EFT_SS_COMPONENT,
+                                               RPT_POSSIBLE, FALSE)
+            || get_potential_improvement_bonus(pimprove, NULL, EFT_SS_MODULE,
+                                               RPT_POSSIBLE, FALSE))) {
+      ruleset_error(LOG_ERROR,
+                    "Space part with genus other than \"Special\"");
+      return FALSE;
+    }
   } improvement_iterate_end;
 
   return TRUE;
