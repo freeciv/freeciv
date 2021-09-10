@@ -1584,6 +1584,7 @@ struct extra_type *rscompat_extra_from_resource_3_0(struct section_file *sfile,
     strcpy(pextra->act_gfx_alt, "-");
     strcpy(pextra->rmact_gfx, "None");
     strcpy(pextra->rmact_gfx_alt, "-");
+    pextra->generated = TRUE;
 
     return pextra;
   }
