@@ -1548,7 +1548,7 @@ void rscompat_postprocess(struct rscompat_info *info)
 }
 
 /**************************************************************************
-  Created one required good for rulesets lacking one.
+  Create one required good for rulesets lacking one.
 **************************************************************************/
 void rscompat_goods_3_0(void)
 {
