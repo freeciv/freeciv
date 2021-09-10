@@ -4,7 +4,7 @@ Installing Freeciv:
 
 This file describes how to compile and install Freeciv. Last time we
 made sure this file is up to date was 16-Jul-06.
-Last minor update was 10-May-21.
+Last minor update was 10-Sep-21.
 
 There may be a localized version of this file in the ./doc directory,
 named INSTALL.<locale> (e.g., INSTALL.de).
@@ -493,7 +493,7 @@ following order: pkg-config, Glib, Atk, Pango, Gdk-Pixbuf, Gtk+.
    Qt's Meta Object Compiler is a command usually called 'moc', or
    'moc-qt5' in some systems. Freeciv needs Qt5 version.
    You may want install 'qtchooser' to find correct moc version for you
-   when you have both multiple Qt versions installed in parallel.
+   when you have multiple Qt versions installed in parallel.
 
    If configure does not find (correct) moc, you can give it with
    environment variable MOCCMD, e.g.,
