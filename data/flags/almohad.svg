@@ -13,7 +13,7 @@
    height="444"
    id="svg2384"
    sodipodi:version="0.32"
-   inkscape:version="0.46"
+   inkscape:version="1.0.2 (e86c870879, 2021-01-15)"
    sodipodi:docname="almohad.svg"
    inkscape:output_extension="org.inkscape.output.svg.inkscape">
   <metadata
@@ -24,12 +24,13 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
   <sodipodi:namedview
-     inkscape:window-height="729"
-     inkscape:window-width="1280"
+     inkscape:window-height="660"
+     inkscape:window-width="804"
      inkscape:pageshadow="2"
      inkscape:pageopacity="0.0"
      guidetolerance="10.0"
@@ -42,10 +43,12 @@
      showgrid="false"
      inkscape:zoom="0.8447205"
      inkscape:cx="322"
-     inkscape:cy="181.49287"
-     inkscape:window-x="0"
-     inkscape:window-y="0"
-     inkscape:current-layer="layer1" />
+     inkscape:cy="214.69579"
+     inkscape:window-x="443"
+     inkscape:window-y="27"
+     inkscape:current-layer="layer1"
+     inkscape:document-rotation="0"
+     inkscape:window-maximized="0" />
   <defs
      id="defs2386">
     <inkscape:perspective
