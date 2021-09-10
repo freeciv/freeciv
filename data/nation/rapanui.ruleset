@@ -1,9 +1,9 @@
 [nation_rapanui]
 
-name=_("Rapa Nui")
-plural=_("?plural:Rapa Nui")
-groups="Oceanian", "Medieval", "Early Modern"
-legend=_("The Rapa Nui are the native Polynesian inhabitants of Easter\
+name   = _("Rapa Nui")
+plural = _("?plural:Rapa Nui")
+groups = "Oceanian", "Medieval", "Early Modern"
+legend = _("The Rapa Nui are the native Polynesian inhabitants of Easter\
  Island. They have inhabited the island since the end of the first\
  millennium CE. They are famous for having built large statues called\
  moai. This civilization was destroyed due to internal conflicts; in 1888\
@@ -26,18 +26,17 @@ leaders = {
  "Nga'ara",                       "Male"
  "Koreto",                        "Female"
  "Rukunga",                       "Male"
-
-
 }
-flag="rapa_nui"
+
+flag = "rapa_nui"
 flag_alt = "-"
 style = "Tropical"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-conflicts_with="chilean"
+conflicts_with = "chilean"
 civilwar_nations = "tahitian", "chilean"
 
 cities =

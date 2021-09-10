@@ -1,9 +1,9 @@
 [nation_riffian]
 
-name=_("Riffian")
-plural=_("?plural:Riffians")
-groups="African"
-legend=_("The Confederal Republic of the Tribes of the Rif was a short-lived\
+name   = _("Riffian")
+plural = _("?plural:Riffians")
+groups = "African"
+legend = _("The Confederal Republic of the Tribes of the Rif was a short-lived\
  nation founded in September 1921 when Riffians revolted against the Spanish\
  and Moroccans. The country was conquered by the Spanish and French in\
  1926. The area is now part of Morocco.")
@@ -17,20 +17,20 @@ leaders = {
 
 ruler_titles = {
  "government",     "male_title",         "female_title"
- "Fundamentalism", _("Imam %s"),            _("Imama %s")
- "Monarchy",       _("Emir %s"),            _("Emira %s")
- "Despotism",      _("%s Pasha"),           _("?female:%s Pasha")
+ "Fundamentalism", _("Imam %s"),         _("Imama %s")
+ "Monarchy",       _("Emir %s"),         _("Emira %s")
+ "Despotism",      _("%s Pasha"),        _("?female:%s Pasha")
 }
 
-flag="rif"
+flag = "rif"
 flag_alt = "-"
 style = "Classical"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-civilwar_nations="Spanish", "French", "Moroccan"
+civilwar_nations = "Spanish", "French", "Moroccan"
 
 cities =
  "Ajdir",

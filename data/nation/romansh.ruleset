@@ -1,9 +1,9 @@
 [nation_rumantsch]
 
-name=_("Romansh")
-plural=_("?plural:Romansh")
-groups= "European", "Medieval"
-legend=_("The Rumantsch or Romansh people are inhabitants of the Swiss\
+name   = _("Romansh")
+plural = _("?plural:Romansh")
+groups = "European", "Medieval"
+legend = _("The Rumantsch or Romansh people are inhabitants of the Swiss\
  canton of Grisons who speak Romansh, a Romance language that retains\
  some unique characteristics and with a rich oral tradition. Although\
  Romansh is one of the four national languages of Switzerland and\
@@ -29,15 +29,15 @@ ruler_titles = {
  "Fundamentalism",  _("Bishop %s"),          _("Mother Superior %s")
 }
 
-flag="grisons"
+flag = "grisons"
 flag_alt = "-"
 style = "European"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-civilwar_nations= "liechtensteiner", "friulian"
+civilwar_nations = "liechtensteiner", "friulian"
 
 cities =
  "Cuira",

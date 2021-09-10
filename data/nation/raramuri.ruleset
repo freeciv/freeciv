@@ -1,11 +1,11 @@
 [nation_raramuri]
 
-name=_("Rarámuri")
+name      = _("Rarámuri")
 ; pre-2.6 had plain ASCII names
-rule_name="Raramuri"
-plural=_("?plural:Rarámuris")
-groups= "American"
-legend=_("The Rarámuri or Tarahumara live in the canyons of the Sierra\
+rule_name = "Raramuri"
+plural    = _("?plural:Rarámuris")
+groups    = "American"
+legend    = _("The Rarámuri or Tarahumara live in the canyons of the Sierra\
  Madre Occidental in the north of Mexico. They are well known for their\
  endurance; their traditions include running long distances while\
  kicking wooden balls in races that last up to several days. In 1891 a\
@@ -25,13 +25,13 @@ ruler_titles = {
  "Fundamentalism",  _("Shaman %s"),    _("?female:Shaman %s")
 }
 
-flag="raramuri"
+flag = "raramuri"
 flag_alt = "-"
 style = "Celtic"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
 civilwar_nations = "hopi", "aztec"
 
@@ -76,4 +76,3 @@ cities =
  "Bakanora",
  "Tosanachi",
  "Tabaráopa"
-

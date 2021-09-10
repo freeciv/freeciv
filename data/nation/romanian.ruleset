@@ -1,9 +1,9 @@
 [nation_romanian]
 
-name=_("Romanian")
-plural=_("?plural:Romanians")
-groups="Modern", "Medieval", "European"
-legend=_("Romania as a nation was formed at the beginning of the 20th\
+name   = _("Romanian")
+plural = _("?plural:Romanians")
+groups = "Modern", "Medieval", "European"
+legend = _("Romania as a nation was formed at the beginning of the 20th\
  century, when the states of Transylvania, Wallachia, and Moldavia merged.\
  It is a country inhabited by people speaking a language reminiscent from\
  the time of ancient Rome. Its history is convoluted as it was always at\
@@ -32,13 +32,13 @@ ruler_titles = {
  "Fundamentalism",  _("Director-President %s"),_("?female:Director-President %s")
 }
 
-flag="romania"
+flag = "romania"
 flag_alt = "-"
 style = "Classical"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
 conflicts_with = "roman"
 civilwar_nations = "transylvanian", "moldovan"

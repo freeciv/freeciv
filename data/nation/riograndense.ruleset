@@ -1,9 +1,9 @@
 [nation_riograndense]
 
-name=_("Rio-Grandense")
-plural=_("?plural:Rio-Grandenses")
-groups="American"
-legend=_("The Rio-Grandense Republic or Piratini Republic existed in the\
+name   = _("Rio-Grandense")
+plural = _("?plural:Rio-Grandenses")
+groups = "American"
+legend = _("The Rio-Grandense Republic or Piratini Republic existed in the\
  Brazilian state of Rio Grande do Sul from 1836 to 1845. It fought the\
  War of Tatters against the Brazilian Imperial Army and was supported by\
  Giuseppe Garibaldi amongst others.")
@@ -20,13 +20,15 @@ ruler_titles = {
  "government",      "male_title",   "female_title"
  "Fundamentalism",  _("Bishop %s"), _("Mother Superior %s")
 }
+
 flag = "piratini"
 flag_alt = "-"
 style = "European"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
+
 civilwar_nations = "Brazilian", "Argentine", "Uruguayan", "Tupi"
 
 cities =
@@ -76,4 +78,3 @@ cities =
  "Santiago",
  "Estância Velha",
  "Venâncio Aires"
-
