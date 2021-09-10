@@ -105,6 +105,7 @@ MinHitPoints:    Local
 MinSize is the minimum size of a city required.
 AI is ai player difficulty level.
 TerrainClass is either "Land" or "Oceanic".
+TerrainAlter is "CanIrrigate", "CanMine", or "CanRoad".
 CityTile is "Center" (city center), "Claimed" (tile owned) or
 "Extras Owned" (extra on tile owned).
 CityStatus is "OwnedByOriginal"
