@@ -2508,6 +2508,7 @@ static bool save_terrain_ruleset(const char *filename, const char *name)
     int flagi;
     int causei;
     int set_count;
+    bool worker_cause;
 
     fc_snprintf(path, sizeof(path), "extra_%d", sect_idx++);
 
@@ -2567,7 +2568,9 @@ static bool save_terrain_ruleset(const char *filename, const char *name)
     save_reqs_vector(sfile, &(pextra->appearance_reqs), path, "appearance_reqs");
     save_reqs_vector(sfile, &(pextra->disappearance_reqs), path, "disappearance_reqs");
 
-    if (!pextra->buildable || !is_extra_caused_by_worker_action(pextra)) {
+    worker_cause = is_extra_caused_by_worker_action(pextra);
+    if ((!pextra->buildable && worker_cause)
+        || (pextra->buildable && !worker_cause)) {
       secfile_insert_bool(sfile, pextra->buildable, "%s.buildable", path);
     }
     if (!pextra->generated) {
