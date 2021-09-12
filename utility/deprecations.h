@@ -29,7 +29,8 @@ void deprecation_warn_cb_set(deprecation_warn_callback new_cb);
 void deprecation_warnings_enable(void);
 bool are_deprecation_warnings_enabled(void);
 
-void do_log_deprecation(const char *format, ...);
+void do_log_deprecation(const char *format, ...)
+  fc__attribute((__format__ (__printf__, 1, 2)));
 
 #define log_deprecation(message, ...) \
   do { \
