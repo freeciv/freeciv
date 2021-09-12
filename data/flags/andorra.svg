@@ -12,7 +12,7 @@
    height="666.66998"
    id="Flag of Andorra"
    sodipodi:version="0.32"
-   inkscape:version="0.46"
+   inkscape:version="1.0.2 (e86c870879, 2021-01-15)"
    sodipodi:docname="andorra.svg"
    inkscape:output_extension="org.inkscape.output.svg.inkscape">
   <metadata
@@ -23,6 +23,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -37,8 +38,8 @@
        id="perspective147" />
   </defs>
   <sodipodi:namedview
-     inkscape:window-height="729"
-     inkscape:window-width="1280"
+     inkscape:window-height="732"
+     inkscape:window-width="946"
      inkscape:pageshadow="2"
      inkscape:pageopacity="0.0"
      borderopacity="1.0"
@@ -48,10 +49,12 @@
      inkscape:zoom="0.70910507"
      inkscape:cx="500"
      inkscape:cy="350"
-     inkscape:window-x="0"
-     inkscape:window-y="0"
+     inkscape:window-x="163"
+     inkscape:window-y="40"
      inkscape:current-layer="Flag of Andorra"
-     showgrid="false" />
+     showgrid="false"
+     inkscape:document-rotation="0"
+     inkscape:window-maximized="0" />
   <rect
      width="320"
      height="666.66998"
@@ -872,44 +875,38 @@
      style="font-size:12px;fill:#d81c3f;fill-rule:evenodd;stroke:#7a3f28;stroke-width:0.40025476" />
   <text
      id="text844"
-     sodipodi:linespacing="100%"
      space="default"
-     style="font-size:20.51456451px;font-style:normal;font-weight:normal;line-height:100%;writing-mode:lr-tb;text-anchor:start;fill:#7a3f28;fill-opacity:1;stroke:none;stroke-width:1pt;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Times New Roman"
+     style="font-style:normal;font-weight:normal;line-height:0%;font-family:'Times New Roman';writing-mode:lr-tb;text-anchor:start;fill:#7a3f28;fill-opacity:1;stroke:none;stroke-width:1pt;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
      transform="scale(0.9670789,1.0340418)"
      x="482.28482"
-     y="439.37036">
-    <tspan
+     y="439.37036"><tspan
        id="tspan857"
        sodipodi:role="line"
        x="482.28482"
-       y="439.37036">VNITA</tspan>
-  </text>
+       y="439.37036"
+       style="font-size:20.5146px;line-height:1">VNITA</tspan></text>
   <text
      id="text847"
-     sodipodi:linespacing="100%"
      space="default"
-     style="font-size:20.14103889px;font-style:normal;font-weight:normal;line-height:100%;writing-mode:lr-tb;text-anchor:start;fill:#7a3f28;fill-opacity:1;stroke:none;stroke-width:1pt;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Times New Roman"
+     style="font-style:normal;font-weight:normal;line-height:0%;font-family:'Times New Roman';writing-mode:lr-tb;text-anchor:start;fill:#7a3f28;fill-opacity:1;stroke:none;stroke-width:1pt;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
      transform="matrix(0.9395061,-0.137177,0.152202,1.0421661,0,0)"
      x="485.02853"
-     y="498.5134">
-    <tspan
+     y="498.5134"><tspan
        id="tspan855"
        sodipodi:role="line"
        x="485.02853"
-       y="498.5134">FORTIOR</tspan>
-  </text>
+       y="498.5134"
+       style="font-size:20.141px;line-height:1">FORTIOR</tspan></text>
   <text
      id="text850"
-     sodipodi:linespacing="100%"
      space="default"
-     style="font-size:20.29247856px;font-style:normal;font-weight:normal;line-height:100%;writing-mode:lr-tb;text-anchor:start;fill:#7a3f28;fill-opacity:1;stroke:none;stroke-width:1pt;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Times New Roman"
+     style="font-style:normal;font-weight:normal;line-height:0%;font-family:'Times New Roman';writing-mode:lr-tb;text-anchor:start;fill:#7a3f28;fill-opacity:1;stroke:none;stroke-width:1pt;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
      transform="matrix(0.9202452,0.2345221,-0.2601031,1.0203803,0,0)"
      x="513.79468"
-     y="310.62637">
-    <tspan
+     y="310.62637"><tspan
        id="tspan853"
        sodipodi:role="line"
        x="513.79468"
-       y="310.62637">VIRTVS</tspan>
-  </text>
+       y="310.62637"
+       style="font-size:20.2925px;line-height:1">VIRTVS</tspan></text>
 </svg>
