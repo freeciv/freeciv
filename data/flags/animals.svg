@@ -1,6 +1,4 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- Created with Inkscape (http://www.inkscape.org/) -->
-
 <svg
    xmlns:dc="http://purl.org/dc/elements/1.1/"
    xmlns:cc="http://creativecommons.org/ns#"
@@ -13,8 +11,8 @@
    height="200"
    id="svg2"
    version="1.1"
-   inkscape:version="0.48.3.1 r9886"
-   sodipodi:docname="eyes.svg">
+   inkscape:version="1.0.2 (e86c870879, 2021-01-15)"
+   sodipodi:docname="animals.svg">
   <defs
      id="defs4" />
   <sodipodi:namedview
@@ -25,17 +23,18 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="1.4"
-     inkscape:cx="262.06707"
-     inkscape:cy="53.423791"
+     inkscape:cx="158.8197"
+     inkscape:cy="101.27435"
      inkscape:document-units="px"
      inkscape:current-layer="layer2"
-     showgrid="true"
-     showguides="true"
-     inkscape:window-width="1680"
-     inkscape:window-height="1001"
-     inkscape:window-x="0"
-     inkscape:window-y="25"
-     inkscape:window-maximized="1">
+     showgrid="false"
+     showguides="false"
+     inkscape:window-width="786"
+     inkscape:window-height="575"
+     inkscape:window-x="547"
+     inkscape:window-y="229"
+     inkscape:window-maximized="0"
+     inkscape:document-rotation="0">
     <inkscape:grid
        type="xygrid"
        id="grid2985"
