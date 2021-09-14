@@ -676,11 +676,14 @@ bool terrain_can_support_alteration(const struct terrain *pterrain,
      return (pterrain->mining_time > 0);
    case TA_CAN_ROAD:
      return (pterrain->road_time > 0);
+   case TA_CAN_BASE:
+     return (pterrain->base_time > 0);
    default:
      break;
   }
 
   fc_assert(FALSE);
+
   return FALSE;
 }
 

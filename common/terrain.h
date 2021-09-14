@@ -95,6 +95,9 @@ struct resource_type {
 /* Can build roads and/or railroads */
 #define SPECENUM_VALUE2 TA_CAN_ROAD
 #define SPECENUM_VALUE2NAME N_("CanRoad")
+/* Can build military base */
+#define SPECENUM_VALUE3 TA_CAN_BASE
+#define SPECENUM_VALUE3NAME N_("CanBase")
 #define SPECENUM_COUNT  TA_COUNT
 #include "specenum_gen.h"
 
