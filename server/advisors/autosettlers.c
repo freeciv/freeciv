@@ -739,11 +739,13 @@ adv_want settler_evaluate_improvements(struct unit *punit,
                   /* Roads handled above already */
                   if (!is_extra_caused_by(pdep, EC_ROAD)) {
                     enum unit_activity eval_dep_act = ACTIVITY_LAST;
+                    action_id eval_dep_action;
 
                     as_extra_action_iterate(try_act) {
                       struct action *taction = action_by_number(try_act);
 
                       if (is_extra_caused_by_action(pdep, taction)) {
+                        eval_dep_action = try_act;
                         eval_dep_act = action_id_get_activity(try_act);
                         break;
                       }
@@ -751,7 +753,7 @@ adv_want settler_evaluate_improvements(struct unit *punit,
 
                     if (eval_dep_act != ACTIVITY_LAST) {
                       if (action_prob_possible(
-                            action_speculate_unit_on_tile(eval_dep_act,
+                            action_speculate_unit_on_tile(eval_dep_action,
                                                           punit, unit_home(punit), ptile,
                                                           parameter.omniscience,
                                                           ptile, pdep))) {
