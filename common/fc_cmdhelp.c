@@ -24,9 +24,6 @@
 #include "shared.h"
 #include "support.h"
 
-/* common */
-#include "version.h"
-
 #include "fc_cmdhelp.h"
 
 struct cmdarg {
