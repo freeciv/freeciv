@@ -101,7 +101,9 @@ bool client_is_observer(void);
 bool client_is_global_observer(void);
 int client_player_number(void);
 bool client_has_player(void);
-struct player *client_player(void);
+
+#define client_player() client.conn.playing
+
 bool client_map_is_known_and_seen(const struct tile *ptile,
                                   const struct player *pplayer,
                                   enum vision_layer vlayer);
