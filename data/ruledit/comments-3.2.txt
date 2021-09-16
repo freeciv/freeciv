@@ -1340,3 +1340,9 @@ tech_cost_style = "\
 ;                     where reqs == number of requirement for tech, counted\n\
 ;                     recursively.\
 "
+
+base_tech_cost = "\n\
+; Base research cost. Used in tech cost styles where tech cost is generated.\n\
+; In other words: used everywhere unless the cost of *all* techs are\n\
+; specified and the tech cost style is \"Experimental+\" or \"Classic+\".\
+"

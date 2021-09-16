@@ -1423,6 +1423,9 @@ static bool save_game_ruleset(const char *filename, const char *name)
   comment_research_tech_cost_style(sfile);
   secfile_insert_str(sfile, tech_cost_style_name(game.info.tech_cost_style),
                      "research.tech_cost_style");
+  if (game.info.base_tech_cost != RS_DEFAULT_BASE_TECH_COST) {
+    comment_research_base_tech_cost(sfile);
+  }
   save_default_int(sfile, game.info.base_tech_cost,
                    RS_DEFAULT_BASE_TECH_COST,
                    "research.base_tech_cost", NULL);

@@ -70,6 +70,7 @@ void comment_actions_ui_names(struct section_file *sfile);
 void comment_actions_dc_initial_odds(struct section_file *sfile);
 void comment_borders_radius_permanent(struct section_file *sfile);
 void comment_research_tech_cost_style(struct section_file *sfile);
+void comment_research_base_tech_cost(struct section_file *sfile);
 
 #ifdef __cplusplus
 }

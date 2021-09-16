@@ -67,6 +67,7 @@ static struct {
   char *actions_dc_initial_odds;
   char *borders_radius_permanent;
   char *research_tech_cost_style;
+  char *research_base_tech_cost;
 } comments_storage;
 
 /**********************************************************************//**
@@ -170,6 +171,8 @@ bool comments_load(void)
                "entrydoc.radius_permanent");
   comment_load(comments_storage.research_tech_cost_style, comment_file,
                "entrydoc.tech_cost_style");
+  comment_load(comments_storage.research_base_tech_cost, comment_file,
+               "entrydoc.base_tech_cost");
 
   secfile_check_unused(comment_file);
   secfile_destroy(comment_file);
@@ -553,5 +556,14 @@ void comment_borders_radius_permanent(struct section_file *sfile)
 void comment_research_tech_cost_style(struct section_file *sfile)
 {
   comment_entry_write(sfile, comments_storage.research_tech_cost_style,
+                      "research");
+}
+
+/**********************************************************************//**
+  Write research base_tech_cost settings header.
+**************************************************************************/
+void comment_research_base_tech_cost(struct section_file *sfile)
+{
+  comment_entry_write(sfile, comments_storage.research_base_tech_cost,
                       "research");
 }
