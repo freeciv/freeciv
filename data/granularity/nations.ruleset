@@ -22,7 +22,7 @@ nationlist = "default/nationlist.ruleset"
 
 ; List of nations to embed to main nations.ruleset despite separate nationlist
 ; being used for other nations.
-embedded_nations = "barbarian"
+embedded_nations = "Barbarian"
 
 [default_traits]
 ; Default values for the AI traits. These are used if nation specific
