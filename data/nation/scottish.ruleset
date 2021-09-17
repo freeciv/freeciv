@@ -1,9 +1,9 @@
 [nation_scottish]
 
-name=_("Scottish")
-plural=_("?plural:Scots")
-groups="Medieval", "Early Modern", "European"
-legend=_("Scotland, originally settled in late Roman times by Irish\
+name   = _("Scottish")
+plural = _("?plural:Scots")
+groups = "Medieval", "Early Modern", "European"
+legend = _("Scotland, originally settled in late Roman times by Irish\
  raiders who displaced the native Picts, was an independent kingdom from\
  around 1034 CE to the Union of Crowns with England in 1701.")
 
@@ -26,47 +26,48 @@ ruler_titles = {
  "Democracy",   _("First Minister %s"), _("?female:First Minister %s")
 }
 
-flag="scotland"
+flag = "scotland"
 flag_alt = "united_kingdom"
 style = "Celtic"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
+
 civilwar_nations = "scottish gaelic", "irish", "american"
 
 cities =
  "Edinburgh",
- "Glesga (river)",		; Glasgow
- "Aiberdeen (ocean, river)",	; Aberdeen
+ "Glesga (river)",              ; Glasgow
+ "Aiberdeen (ocean, river)",    ; Aberdeen
  "Perth (river)",
  "Dundee (ocean, river)",
- "Stirlin (hills)",		; Stirling
- "Innerness (river)",		; Inverness
+ "Stirlin (hills)",             ; Stirling
+ "Innerness (river)",           ; Inverness
  "Hamilton",
- "Mitherwall",			; Motherwell
+ "Mitherwall",                  ; Motherwell
  "Dunfermline",
- "Fawkirk",			; Falkirk
+ "Fawkirk",                     ; Falkirk
  "Kilmarnock",
  "Dumfries (river)",
  "East Kilbride (hills)",
  "Coatbridge (river)", 
  "Dumbarton (ocean)",
  "Irvine (ocean, river)",
- "Lanrick (river)",		; Lanark
- "Saunt Andras (ocean,river)",	; St Andrews
+ "Lanrick (river)",             ; Lanark
+ "Saunt Andras (ocean,river)",  ; St Andrews
  "Kirkcaldy (ocean)",
- "Fort William (ocean)", 
+ "Fort William (ocean)",
  "Bathgate",
  "Cumbernauld",
- "Port Glesga (ocean)",		; Port Glasgow
+ "Port Glesga (ocean)",         ; Port Glasgow
  "Johnstone",
- "Leevinston (river)",		; Livingston
+ "Leevinston (river)",          ; Livingston
  "Lockerbie",
  "Oban (ocean)",
  "Leven (ocean)",
  "Paisley (ocean, river)",
- "Peterheid (ocean)",		; Peterhead
+ "Peterheid (ocean)",           ; Peterhead
  "Prestwick (ocean)",
  "Stranraer (ocean)",
  "Airdrie (hills)",
@@ -77,7 +78,7 @@ cities =
  "Lerwick (ocean)", 
  "Largs (ocean, river)",
  "Bellshill (hills)",
- "Week (ocean)",		; Wick
+ "Week (ocean)",                ; Wick
  "Larkhall (river)",
  "Cowdenbeath",
  "Gretna (ocean, river)", 
@@ -85,44 +86,44 @@ cities =
  "Helensburgh (ocean)",
  "Dunblane (river)", 
  "Montrose (ocean, river)",
- "Kilwinnin",			; Kilwinning
- "Monifieth (ocean)", 
+ "Kilwinnin",                   ; Kilwinning
+ "Monifieth (ocean)",
  "Dunbar (ocean, river)",
  "Cumnock",
  "Stornoway (ocean)",
  "Callander (river)", 
  "Portree (ocean)",
- "Kelsae (river)",		; Kelso
+ "Kelsae (river)",              ; Kelso
  "Whitebridge (river)",
- "Kirkintilloch", 
+ "Kirkintilloch",
  "Mallaig (ocean)",
  "Braemar (hills)",
- "Jeddart (river)",		; Jedburgh
+ "Jeddart (river)",             ; Jedburgh
  "Alloa (river)",
  "Newton Stewart (river)",
- "Wigtoun",			; Wigtown
- "Girvan (ocean, river)", 
+ "Wigtoun",                     ; Wigtown
+ "Girvan (ocean, river)",
  "Fort Augustus (ocean, river)",
  "Arbroath (ocean)",
  "Shotts (hills)",
  "Kinghorn (ocean)",
- "Cauldstream (river)",		; Coldstream
- "Hymooth (ocean, river)",	; Eyemouth
- "Wishae",			; Wishaw
- "Kirkwaa (ocean)",		; Kirkwall
- "Hadentoun (grassland)",	; Haddington
+ "Cauldstream (river)",         ; Coldstream
+ "Hymooth (ocean, river)",      ; Eyemouth
+ "Wishae",                      ; Wishaw
+ "Kirkwaa (ocean)",             ; Kirkwall
+ "Hadentoun (grassland)",       ; Haddington
  "Glencoe (river, hills)",
  "Rothesay (ocean)",
  "Culross (ocean)",
  "Gourock (ocean)",
- "Copshie (hills)",		; Newcastleton
- "Burghstounness (ocean)",	; /* Bo'ness */
+ "Copshie (hills)",             ; Newcastleton
+ "Burghstounness (ocean)",      ; /* Bo'ness */
  "Fraserburgh (ocean)",
  "Nairn (ocean, river)",
  "Annan (ocean, river)",
- "Dervel (hills)",		; Darvel
+ "Dervel (hills)",              ; Darvel
  "Huntly (hills)",
  "Inverurie (river)",
- "Peebles (river)", 
+ "Peebles (river)",
  "Elgin (river)",
  "Dunkeld (river, grassland)"

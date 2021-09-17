@@ -1,9 +1,9 @@
 [nation_saudi]
 
-name=_("Saudi")
-plural=_("?plural:Saudis")
-groups="Asian", "Early Modern", "Modern"
-legend=_("Saudi Arabia is located on the Arabian Peninsula and includes\
+name   = _("Saudi")
+plural = _("?plural:Saudis")
+groups = "Asian", "Early Modern", "Modern"
+legend = _("Saudi Arabia is located on the Arabian Peninsula and includes\
  Mecca and Medina, the holiest sites of Islam. The First Saudi state was\
  established in 1744. Current Saudi Arabia dates from the union of Hejaz\
  and Nejd in 1925. Named after its ruling dynasty, the house of Saud,\
@@ -27,20 +27,21 @@ ruler_titles = {
  "Republic",        _("Vizier %s"),    _("?female:Vizier %s")
 }
 
-flag="saudi_arabia"
+flag = "saudi_arabia"
 flag_alt = "arab"
 style = "Babylonian"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
 civilwar_nations = "emirati", "bahraini"
+
 cities =
- "Ar-Riyadh",	;Riyadh
- "Makka",	;Mecca
- "Al-Madina",	;Medina
- "Jidda",	;Jeddah
+ "Ar-Riyadh",   ; Riyadh
+ "Makka",       ; Mecca
+ "Al-Madina",   ; Medina
+ "Jidda",       ; Jeddah
  "Ad-Dammam",
  "At-Ta'if",
  "Tabuk",

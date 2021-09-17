@@ -1,9 +1,9 @@
 [nation_silesian]
 
-name=_("Silesian")
-plural=_("?plural:Silesians")
-groups="Medieval", "European"
-legend=_("Silesia is a region of southern Poland that was at one time an\
+name   = _("Silesian")
+plural = _("?plural:Silesians")
+groups = "Medieval", "European"
+legend = _("Silesia is a region of southern Poland that was at one time an\
  independent kingdom.")
 
 leaders = {
@@ -23,13 +23,14 @@ ruler_titles = {
  "Fundamentalism",   _("Bishop %s"),        _("Mother Superior %s")
 }
 
-flag="silesia"
+flag = "silesia"
 flag_alt = "-"
 style = "European"
-init_techs=""
-init_buildings=""
 
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
+
 civilwar_nations = "polish", "sorbian", "moravian"
 
 ; if you want your favourite city to be in more prominent place, go ahead

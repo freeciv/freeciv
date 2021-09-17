@@ -1,9 +1,9 @@
 [nation_saxon]
 
-name=_("Saxon")
-plural=_("?plural:Saxons")
-groups="Medieval", "Early Modern", "European"
-legend=_("The Electorate of Saxony was an independent hereditary electorate\
+name   = _("Saxon")
+plural = _("?plural:Saxons")
+groups = "Medieval", "Early Modern", "European"
+legend = _("The Electorate of Saxony was an independent hereditary electorate\
  of the Holy Roman Empire from 1356-1806.")
 
 leaders = {
@@ -22,13 +22,14 @@ ruler_titles = {
  "Fundamentalism",   _("Bishop %s"),     _("?female:Bishop %s")
 }
 
-flag="saxony"
+flag = "saxony"
 flag_alt = "-"
 style = "European"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
+
 civilwar_nations = "sorbian", "hanoverian", "thuringian", "anhaltian"
 
 cities =

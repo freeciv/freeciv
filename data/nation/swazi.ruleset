@@ -1,9 +1,9 @@
 [nation_swazi]
 
-name=_("Swazi")
-plural=_("?plural:Swazis")
-groups="Modern", "African"
-legend=_("The Swazi are a Bantu people of southern Africa. Under the\
+name   = _("Swazi")
+plural = _("?plural:Swazis")
+groups = "Modern", "African"
+legend = _("The Swazi are a Bantu people of southern Africa. Under the\
  leadership of Mswati II (1820 - 1868), the Swazis expanded their territory\
  and stabilized the southern frontier with the Zulus.")
 
@@ -23,14 +23,15 @@ ruler_titles = {
  "Democracy",      _("Principal Chief %s"), _("?female:Principal Chief %s")
 }
 
-flag="swaziland"
+flag = "swaziland"
 flag_alt = "rwanda"
 style = "Tropical"
 
-init_techs=""
-init_buildings=""
-init_units=""
-civilwar_nations="zulu", "xhosa"
+init_techs = ""
+init_buildings = ""
+init_units = ""
+
+civilwar_nations = "zulu", "xhosa"
 
 ; The two capitals at top and the rest in order of population as of 2005
 ; http://de.wikipedia.org/wiki/Liste_der_Städte_in_Swasiland

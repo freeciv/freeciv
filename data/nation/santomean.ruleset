@@ -1,9 +1,9 @@
 [nation_santomean]
 
-name = _("Santomean")
+name   = _("Santomean")
 plural = _("?plural:Santomeans")
-groups="African", "Modern"
-legend=_("São Tomé and Príncipe are two islands in the Atlantic Ocean off\
+groups = "African", "Modern"
+legend = _("São Tomé and Príncipe are two islands in the Atlantic Ocean off\
  the coast of Africa. The main island was named after Saint Thomas by the\
  Portuguese sailors who first discovered the island on the saint's feast\
  day around 1470. The islands turned into the first major European\
@@ -30,11 +30,11 @@ flag = "sao_tome_and_principe"
 flag_alt = "-"
 style = "Tropical"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-civilwar_nations="cape verdean", "angolan"
+civilwar_nations = "cape verdean", "angolan"
 
 cities =
  "São Tomé",

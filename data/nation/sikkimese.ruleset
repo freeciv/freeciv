@@ -1,19 +1,19 @@
 [nation_sikkimese]
 
-name=_("Sikkimese")
-plural=_("?plural:Sikkimese")
-groups="Asian", "Medieval", "Early Modern"
-legend=_("Wedged between Nepal and Bhutan, the Himalayan kingdom\
+name   = _("Sikkimese")
+plural = _("?plural:Sikkimese")
+groups = "Asian", "Medieval", "Early Modern"
+legend = _("Wedged between Nepal and Bhutan, the Himalayan kingdom\
  of Sikkim was ruled by a lineage of monarchs known as chogyals for\
  centuries, until becoming the 22nd state of India in 1975.")
 
 leaders = {
- "name",                "sex"
-"Tashi Namgyal",        "Male"
-"Tshudpud Namgyal",     "Male"
-"Pendiongmu",           "Female"
-"Phuntsog Namgyal",     "Male"
-"Khye Bumsa",           "Male"
+ "name",                 "sex"
+ "Tashi Namgyal",        "Male"
+ "Tshudpud Namgyal",     "Male"
+ "Pendiongmu",           "Female"
+ "Phuntsog Namgyal",     "Male"
+ "Khye Bumsa",           "Male"
 }
 
 ruler_titles = {
@@ -23,15 +23,15 @@ ruler_titles = {
  "Monarchy",        _("Maharaja %s"),  _("Maharani %s")
 }
 
-flag="sikkim"
-flag_alt="-"
+flag = "sikkim"
+flag_alt = "-"
 style = "Asian"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-civilwar_nations="Bhutanese", "Nepali", "Indian"
+civilwar_nations = "Bhutanese", "Nepali", "Indian"
 
 cities =
  "Yuksom",

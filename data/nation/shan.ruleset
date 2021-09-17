@@ -1,9 +1,9 @@
 [nation_shan]
 
-name=_("Shan")
-plural=_("?plural:Shans")
-groups="Medieval", "Early Modern", "Asian"
-legend=_("The Shans are an ethnic group related to the Thais and the\
+name   = _("Shan")
+plural = _("?plural:Shans")
+groups = "Medieval", "Early Modern", "Asian"
+legend = _("The Shans are an ethnic group related to the Thais and the\
  Laotians. After the fall of the Burmese dominated Bagan Kingdom to the\
  Mongols in 1287, a succession of Shan kingdoms known by historians\
  as the Shan States controlled much of today's Myanmar, Laos, Thailand,\
@@ -18,15 +18,15 @@ leaders = {
  "Sawlon",              "Male"
 }
 
-flag="shan"
-flag_alt="-"
+flag = "shan"
+flag_alt = "-"
 style = "Asian"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-civilwar_nations="Assamese", "Laotian", "Thai"
+civilwar_nations = "Assamese", "Laotian", "Thai"
 
 cities =
 ; /* Historical polities; in most cases also modern settlements */

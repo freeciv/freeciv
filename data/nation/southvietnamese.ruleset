@@ -1,9 +1,9 @@
 [nation_southvietnamese]
 
-name=_("South Vietnamese")
-plural=_("?plural:South Vietnamese")
-groups="Asian"
-legend=_("South Vietnam, officially the Republic of Vietnam, was the\
+name   = _("South Vietnamese")
+plural = _("?plural:South Vietnamese")
+groups = "Asian"
+legend = _("South Vietnam, officially the Republic of Vietnam, was the\
  American-backed state during the Vietnam War. The country was reunited\
  with North Vietnam after it was conquered by communist forces in 1975.")
 
@@ -25,13 +25,14 @@ ruler_titles = {
  "Monarchy",        _("Emperor %s"),      _("Empress %s")
 }
 
-flag="rvn"
+flag = "rvn"
 flag_alt = "vietnam"
 style = "Asian"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
+
 conflicts_with = "badian", "catalan" ;similar flags , "cham"
 civilwar_nations = "vietnamese"
 

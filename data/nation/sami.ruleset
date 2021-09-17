@@ -1,9 +1,9 @@
 [nation_sami]
 
-name=_("Sami")
-plural=_("?plural:Sami")
-groups="European"
-legend=_("The Sami are a people of northern Scandinavia. Their nation spans\
+name   = _("Sami")
+plural = _("?plural:Sami")
+groups = "European"
+legend = _("The Sami are a people of northern Scandinavia. Their nation spans\
  over the northernmost regions of the Scandinavian countries and\
  northwestern Russia.")
 
@@ -23,14 +23,15 @@ ruler_titles = {
  "Republic",        _("Spokesman %s"),   _("Spokeswoman %s")
 }
 
-flag="sapmi"
+flag = "sapmi"
 flag_alt = "-"
 style = "European"
 
-init_techs=""
-init_buildings=""
-init_units=""
-civilwar_nations="finnish", "swedish", "norwegian", "russian"
+init_techs = ""
+init_buildings = ""
+init_units = ""
+
+civilwar_nations = "finnish", "swedish", "norwegian", "russian"
 
 ; Sami city names are taken from the northernmost regions of Norway 
 ; (Finnmark) Sweden and Finland (Lapland) and also a few from Russia.
@@ -42,23 +43,23 @@ civilwar_nations="finnish", "swedish", "norwegian", "russian"
 ; http://www.fjallen.nu/besoka/karta.htm
 
 cities =
- "Guovdageaidnu", 		; Kautokeino (Norway)
- "Kárášjohka (river)",		; Karasjok (Norway)
- "Giron",			; Kiruna (Sweden)
- "Anar",			; Inari (Finland)
- "Lujávri (river, swamp)",	; Lovozero (Russia)
- "Garesavvon",			; Karesuando (Sweden)
- "Dálvvadis",			; Jokkmokk (Sweden)
- "Álaheaju",			; Alta (Norway)
- "Váhtjer (mountains)",		; Gällivare (Sweden)
- "Guojkkajåhkkå (river)",	; Kvikkjokk (Sweden)
- "Muorjek (swamp, river)",	; Murjek (Sweden)
- "Avvil",			; Ivalo (Finland)
- "Ohcejohka (river)",		; Utsjoki (Finland)
- "Bårjås",			; Porjus (Sweden)
- "Ábeskovvu (ocean)",		; Abisko (Sweden)
- "Jäggeluokta (ocean)",		; Jäkkvik (Sweden)
- "Njoammelsasskam",		; Harsprånget (Sweden)
+ "Guovdageaidnu",               ; Kautokeino (Norway)
+ "Kárášjohka (river)",          ; Karasjok (Norway)
+ "Giron",                       ; Kiruna (Sweden)
+ "Anar",                        ; Inari (Finland)
+ "Lujávri (river, swamp)",      ; Lovozero (Russia)
+ "Garesavvon",                  ; Karesuando (Sweden)
+ "Dálvvadis",                   ; Jokkmokk (Sweden)
+ "Álaheaju",                    ; Alta (Norway)
+ "Váhtjer (mountains)",         ; Gällivare (Sweden)
+ "Guojkkajåhkkå (river)",       ; Kvikkjokk (Sweden)
+ "Muorjek (swamp, river)",      ; Murjek (Sweden)
+ "Avvil",                       ; Ivalo (Finland)
+ "Ohcejohka (river)",           ; Utsjoki (Finland)
+ "Bårjås",                      ; Porjus (Sweden)
+ "Ábeskovvu (ocean)",           ; Abisko (Sweden)
+ "Jäggeluokta (ocean)",         ; Jäkkvik (Sweden)
+ "Njoammelsasskam",             ; Harsprånget (Sweden)
  "Karagasnjarga",
  "Noarvas",
  "Aiddejavvre (river, swamp)",

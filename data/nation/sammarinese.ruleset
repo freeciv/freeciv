@@ -1,9 +1,9 @@
 [nation_sammarinese]
 
-name = _("Sammarinese")
+name   = _("Sammarinese")
 plural = _("?plural:Sammarinese")
-groups="European", "Modern", "Early Modern", "Medieval"
-legend=_("San Marino is a tiny landlocked country on the Italian Peninsula.\
+groups = "European", "Modern", "Early Modern", "Medieval"
+legend = _("San Marino is a tiny landlocked country on the Italian Peninsula.\
  It is the oldest independent republic in the world. According to legend,\
  it was founded by Saint Marinus in 301 CE.")
 
@@ -30,11 +30,11 @@ flag = "san_marino"
 flag_alt = "-"
 style = "European"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-civilwar_nations="Italian", "Papal"
+civilwar_nations = "Italian", "Papal"
 
 cities =
  "San Marino",

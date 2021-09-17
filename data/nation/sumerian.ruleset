@@ -1,11 +1,11 @@
 [nation_sumerian]
 
-translation_domain="freeciv"
+translation_domain = "freeciv"
 
-name=_("Sumerian")
-plural=_("?plural:Sumerians")
-groups="Ancient", "Asian", "Core"
-legend=_("Sumer controlled southern Mesopotamia until the rise of\
+name   = _("Sumerian")
+plural = _("?plural:Sumerians")
+groups = "Ancient", "Asian", "Core"
+legend = _("Sumer controlled southern Mesopotamia until the rise of\
  Babylonia. Tablets of Sumerian writing some 5500 years old have been\
  found, pre-dating every other writing in history.")
 
@@ -33,10 +33,11 @@ flag = "sumeria"
 flag_alt = "-"
 style = "Babylonian"
 
-init_techs=""
-init_buildings=""
-init_units=""
-civilwar_nations="assyrian", "egyptian", "babylonian"
+init_techs = ""
+init_buildings = ""
+init_units = ""
+
+civilwar_nations = "assyrian", "egyptian", "babylonian"
 
 cities =
  "Unug", ; Uruk

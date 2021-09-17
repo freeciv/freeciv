@@ -1,9 +1,9 @@
 [nation_syrian]
 
-name=_("Syrian")
-plural=_("?plural:Syrians")
-groups="Modern", "Asian"
-legend=_("The modern Syrian Arab Republic was formed from a French mandate\
+name   = _("Syrian")
+plural = _("?plural:Syrians")
+groups = "Modern", "Asian"
+legend = _("The modern Syrian Arab Republic was formed from a French mandate\
  and gradually gained independence during the 1940s.")
 
 leaders = {
@@ -22,25 +22,25 @@ ruler_titles = {
  "Monarchy",       _("Emir %s"),              _("Emira %s")
 }
 
-flag="syria"
+flag = "syria"
 flag_alt = "-"
 style = "Classical"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
 ; Similar flags:
-conflicts_with="iraqi"
-civilwar_nations="turkish", "israeli", "lebanese"
+conflicts_with = "iraqi"
+civilwar_nations = "turkish", "israeli", "lebanese"
 
 ; http://pl.wikipedia.org/wiki/Miasta_Syrii
 cities =
- "Dimashq ash-Sham",	; Damascus
- "Halab",		; Aleppo
- "Hims",		; Homs
+ "Dimashq ash-Sham",    ; Damascus
+ "Halab",               ; Aleppo
+ "Hims",                ; Homs
  "Hama",
- "Al-Ladhiqiya",	; Latakia
+ "Al-Ladhiqiya",        ; Latakia
  "Dayr as-Zawr",
  "Ar-Raqqa",
  "Al-Bab",
@@ -62,7 +62,7 @@ cities =
  "Al-Mayadin",
  "Nawa",
  "Ar-Rastan",
- "Tadmor",		; Palmyra
+ "Tadmor",              ; Palmyra
  "Ayn al-Arab",
  "Afrin",
  "Khan Shaykhun"

@@ -1,9 +1,9 @@
 [nation_salvadoran]
 
-name=_("Salvadoran")
-plural=_("?plural:Salvadorans")
-groups="American", "Modern"
-legend=_("Originally inhabited by Pipil Indians, in the 16th century El\
+name   = _("Salvadoran")
+plural = _("?plural:Salvadorans")
+groups = "American", "Modern"
+legend = _("Originally inhabited by Pipil Indians, in the 16th century El\
  Salvador was conquered by the Spanish. It joined the Central American\
  federation upon independence and became a fully independent republic in\
  1840. Although formally El Salvador has been a democracy for most of its\
@@ -39,9 +39,9 @@ flag         = "el_salvador"
 flag_alt     = "-"
 style        = "Tropical"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
 conflicts_with = "nicaraguan" ;similar flag
 civilwar_nations = "guatemalan", "honduran"

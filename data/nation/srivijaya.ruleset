@@ -1,8 +1,8 @@
 [nation_srivijaya]
 
-name=_("Sri Vijaya")
-plural=_("?plural:Sri Vijaya")
-groups="Asian", "Medieval"
+name   = _("Sri Vijaya")
+plural = _("?plural:Sri Vijaya")
+groups = "Asian", "Medieval"
 
 legend=_("Sri Vijaya was an empire centered on Palembang in eastern\
  Sumatra and extended its control through much of the coastal regions of\
@@ -30,11 +30,11 @@ flag         = "srivijaya"
 flag_alt     = "-"
 style        = "Tropical"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-civilwar_nations="Majapahit", "indonesian", "malaysian"
+civilwar_nations = "Majapahit", "indonesian", "malaysian"
 
 cities =
  "Palembang",

@@ -1,9 +1,9 @@
 [nation_seychellois]
 
-name=_("Seychellois")
-plural=_("?plural:Seychellois")
-groups="African", "Modern"
-legend=_("The Seychelles is an archipelagic country off the coast of\
+name   = _("Seychellois")
+plural = _("?plural:Seychellois")
+groups = "African", "Modern"
+legend = _("The Seychelles is an archipelagic country off the coast of\
  Eastern Africa in the Indian Ocean. The Islands have been visited by\
  Austronesian, Maldivian and Arab merchants in antiquity but by the\
  time of the European discoveries the Seychelles had no indigenous\
@@ -21,12 +21,13 @@ leaders = {
  "France-Albert René", "Male"
 }
 
-flag ="seychelles"
+flag = "seychelles"
 style = "tropical"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
+
 civilwar_nations = "comorian", "mauritian", "maldivian"
 
 cities =

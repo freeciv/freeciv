@@ -1,9 +1,9 @@
 [nation_sierraleonean]
 
-name=_("Sierra Leonean")
-plural=_("?plural:Sierra Leoneans")
-groups="African", "Modern"
-legend=_("Sierra Leone is a country in West Africa. It was founded in\
+name   = _("Sierra Leonean")
+plural = _("?plural:Sierra Leoneans")
+groups = "African", "Modern"
+legend = _("Sierra Leone is a country in West Africa. It was founded in\
  1792 as a home for liberated slaves and quickly passed to become a\
  British dependency. Sierra Leone has been an independent republic since\
  1961. In the 1990s the country passed through a civil war. Today, Sierra\
@@ -24,13 +24,13 @@ leaders = {
  "Valentine Strasser",     "Male"
 }
 
-flag="sierra_leone"
+flag = "sierra_leone"
 flag_alt = "-"
 style = "tropical"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
 civilwar_nations = "liberian", "fulani"
 

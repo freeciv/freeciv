@@ -1,18 +1,18 @@
 [nation_spanish]
 
-translation_domain="freeciv"
+translation_domain = "freeciv"
 
-name=_("Spanish")
-plural=_("?plural:Spanish")
-groups="Early Modern", "Modern", "European", "Core"
-legend=_("The modern Spanish nation was formed when the rulers of the\
+name   = _("Spanish")
+plural = _("?plural:Spanish")
+groups = "Early Modern", "Modern", "European", "Core"
+legend = _("The modern Spanish nation was formed when the rulers of the\
  kingdoms of Castile and Aragon led the recapture of the Iberian\
  peninsula from the Moslems. The Reconquista was completed in 1492,\
  the same year Columbus sailed. Spain then went on to create an empire\
  on which the sun never set.")
 
 leaders = {
- "name",                         "sex" 
+ "name",                         "sex"
  "Pelayo",                       "Male"
  "Rodrigo Díaz de Vivar",        "Male"
  "Alfonso el Sabio",             "Male"
@@ -43,17 +43,17 @@ ruler_titles = {
  "Fundamentalism", _("Cardinal %s"),       _("Mother Superior %s")
 }
 
-flag="spain"
+flag = "spain"
 flag_alt = "-"
 style = "Classical"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-conflicts_with="aragonese", "asturian", "castilian", "galician", "leonese"
+conflicts_with = "aragonese", "asturian", "castilian", "galician", "leonese"
 
-civilwar_nations=
+civilwar_nations =
 ; Sub-national nations
  "aragonese", "asturian", "basque", "castilian", "catalan", "galician",
  "leonese",

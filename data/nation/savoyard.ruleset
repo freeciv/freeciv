@@ -1,9 +1,9 @@
 [nation_savoyard]
 
-name=_("Savoyard")
-plural=_("?plural:Savoyards")
-groups="Medieval", "Early Modern", "European"
-legend=_("Savoy emerged in the Western Alps after the disintegration of\
+name   = _("Savoyard")
+plural = _("?plural:Savoyards")
+groups = "Medieval", "Early Modern", "European"
+legend = _("Savoy emerged in the Western Alps after the disintegration of\
  the Burgundian Kingdom. Its dynasty established control over Sardinia\
  and Piedmont and later all of Italy. Savoy's growth and survival over\
  the centuries were not based on spectacular conquests, but on gradual\
@@ -22,7 +22,7 @@ leaders = {
  "Antoine Louis Albitte",       "Male"
 }
 
-flag="savoy"
+flag = "savoy"
 flag_alt = "-"
 style = "European"
 
@@ -32,9 +32,10 @@ ruler_titles = {
  "Fundamentalism",  _("Bishop %s"),         _("Mother Superior %s")
 }
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
+
 conflicts_with = "danish" ;similar flag
 civilwar_nations = "burgundian", "piedmontese"
 
@@ -91,4 +92,3 @@ cities =
  "Megève",
  "Sciez",
  "Barberaz"
-

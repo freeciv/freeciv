@@ -1,9 +1,9 @@
-[nation_scythian] 
+[nation_scythian]
 
-name=_("Scythian") 
-plural=_("?plural:Scythians") 
-groups="Ancient", "European", "Asian"
-legend=_("The Scythians or Scyths were an Ancient Iranian people of\
+name   = _("Scythian")
+plural = _("?plural:Scythians")
+groups = "Ancient", "European", "Asian"
+legend = _("The Scythians or Scyths were an Ancient Iranian people of\
  horse-riding nomadic pastoralists who throughout Classical Antiquity\
  dominated the Pontic-Caspian steppe, known at the time as Scythia. By\
  Late Antiquity the closely-related Sarmatians came to dominate the\
@@ -33,16 +33,16 @@ leaders = {
  "Zarina",      "Female"
 }
 
-flag= "scythia" 
-flag_alt = "-" 
-style = "Celtic" 
+flag = "scythia"
+flag_alt = "-"
+style = "Celtic"
 
-init_techs="" 
-init_buildings="" 
-init_units="" 
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-conflicts_with="russian", "ukrainian", "ruthenian"
-civilwar_nations="thracian", "persian", "tocharian", "ossetian", "sarmatian", "saka"
+conflicts_with = "russian", "ukrainian", "ruthenian"
+civilwar_nations = "thracian", "persian", "tocharian", "ossetian", "sarmatian", "saka"
 
 cities =
  "Tanais",
@@ -76,4 +76,3 @@ cities =
  "Orlat",
  "Solokha",
  "Histria"
-

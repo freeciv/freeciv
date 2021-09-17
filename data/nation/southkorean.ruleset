@@ -1,9 +1,9 @@
 [nation_southkorean]
 
-name=_("South Korean")
-plural=_("?plural:South Koreans")
-groups="Modern", "Asian"
-legend=_("Formerly the site of a unified Korean state, the Korean\
+name   = _("South Korean")
+plural = _("?plural:South Koreans")
+groups = "Modern", "Asian"
+legend = _("Formerly the site of a unified Korean state, the Korean\
  peninsula is today divided into two states - North and South Korea -\
  as a result of the stalemate after the Korean War in 1953. The South\
  Korean government was formed from the nationalist and anti-communist\
@@ -19,13 +19,13 @@ leaders = {
  "Park Geun-hye",       "Female"
 }
 
-flag="korea"
+flag = "korea"
 flag_alt = "-"
 style = "Asian"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
 civilwar_nations = "North Korean"
 

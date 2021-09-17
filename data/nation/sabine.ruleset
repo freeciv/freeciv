@@ -1,13 +1,14 @@
 [nation_sabine]
 
-name=_("Sabine")
-plural=_("?plural:Sabines")
-groups="Ancient", "European"
-legend=_("The Sabines were an Italic tribe whose language was closest to\
+name   = _("Sabine")
+plural = _("?plural:Sabines")
+groups = "Ancient", "European"
+legend = _("The Sabines were an Italic tribe whose language was closest to\
  Umbrian. They had an impact on the history of Rome. The Sabines and\
  the early Roman Republic regularly warred against each other, but\
  eventually the Sabines were assimilated into the Roman culture. Several\
  Roman families prided themselves on their Sabine origins.")
+
 leaders = {
  "name",                         "sex"
  "Titus Tatius",                 "Male"
@@ -21,21 +22,23 @@ leaders = {
  "Claudia",                      "Female"
  "Valeria",                      "Female"
 }
+
 ruler_titles = {
  "government",      "male_title",      "female_title"
  "Anarchy",         _("Usurper %s"),   _("?female:Usurper %s")
  "Democracy",       _("Tribune %s"),   _("?female:Tribune %s")
  "Republic",        _("Consul %s"),    _("?female:Consul %s")
 }
-flag="sabinium"
+
+flag = "sabinium"
 flag_alt = "rome"
 style = "Celtic"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-conflicts_with="Western Roman", "Italian", "Papal", "Ostrogothic"
+conflicts_with = "Western Roman", "Italian", "Papal", "Ostrogothic"
                ; "Langobardic"
 civilwar_nations = "Roman", "Samnite"
 

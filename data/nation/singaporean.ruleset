@@ -12,10 +12,10 @@
 ; import trading parters: Japan, Saudi Arabia, U.S.A., Malaysia
 ; above data are for 1986, trying to find newer data
 
-name=_("Singaporean")
-plural=_("?plural:Singaporeans")
-groups="Modern", "Asian"
-legend=_("Singapore is a mercantile city-state located at the southernmost\
+name   = _("Singaporean")
+plural = _("?plural:Singaporeans")
+groups = "Modern", "Asian"
+legend = _("Singapore is a mercantile city-state located at the southernmost\
  tip of the Malaysian Peninsula.")
 
 leaders = {
@@ -32,14 +32,15 @@ ruler_titles = {
  "Monarchy",    _("Sultan %s"),         _("Sultana %s")
 }
 
-flag="singapore"
+flag = "singapore"
 flag_alt = "-"
 style = "Asian"
 
-init_techs=""
-init_buildings=""
-init_units=""
-civilwar_nations="malaysian"
+init_techs = ""
+init_buildings = ""
+init_units = ""
+
+civilwar_nations = "malaysian"
 
 cities =
   "Singapore", "Esplanade", "Tumasik", "Raffles Place", "Keppel", "Chinatown",

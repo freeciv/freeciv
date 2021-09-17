@@ -1,9 +1,9 @@
 [nation_slovak]
 
-name=_("Slovakian")
-plural=_("?plural:Slovakians")
-groups="Medieval", "Modern", "European"
-legend=_("Slovakia is a country in the heart of Europe. Formerly part of\
+name   = _("Slovakian")
+plural = _("?plural:Slovakians")
+groups = "Medieval", "Modern", "European"
+legend = _("Slovakia is a country in the heart of Europe. Formerly part of\
  Czechoslovakia, until 1918 it was part of the Austro-Hungarian Empire.")
 
 leaders = {
@@ -25,15 +25,16 @@ ruler_titles = {
  "Communism",   _("General Secretary %s"), _("?female:General Secretary %s")
 }
 
-flag="slovakia"
+flag = "slovakia"
 flag_alt = "-" ; former CzechoSlovakia has the same flag as Czech
                ; - the blue triangle in it means Slovakia
 style = "European"
 
-init_techs=""
-init_buildings=""
-init_units=""
-civilwar_nations="hungarian", "rusyn"
+init_techs = ""
+init_buildings = ""
+init_units = ""
+
+civilwar_nations = "hungarian", "rusyn"
 
 cities =
  "Bratislava",

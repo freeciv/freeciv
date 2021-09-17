@@ -1,9 +1,9 @@
 [nation_swahili]
 
-name=_("Swahili")
-plural=_("?plural:Swahili")
-groups="African", "Medieval"
-legend=_("The Swahili are a Bantu ethnic group living along the Eastern\
+name   = _("Swahili")
+plural = _("?plural:Swahili")
+groups = "African", "Medieval"
+legend = _("The Swahili are a Bantu ethnic group living along the Eastern\
  Coast of Africa. From about the 9th century onwards the region, at the\
  crossroads of Islamic and African cultural influences, saw the rise of\
  Swahili city states, including Zanzibar, Kilwa Kisiwani, Mozambique and\
@@ -26,18 +26,19 @@ leaders = {
  "Tippu Tip",              "Male"
 }
 
-flag ="swahili"
-style = "babylonian"
-
 ruler_titles = {
  "government",      "male_title",            "female_title"
  "Fundamentalism",  _("Mullah %s"),          _("?female:Mullah %s")
  "Monarchy",        _("Sultan %s"),          _("Sultana %s")
 }
 
-init_techs=""
-init_buildings=""
-init_units=""
+flag = "swahili"
+style = "babylonian"
+
+init_techs = ""
+init_buildings = ""
+init_units = ""
+
 civilwar_nations = "zanzibari", "comorian", "mozambican", "tanganyikan", "kenyan"
 conflicts_with = "zanzibari", "comorian", "mozambican", "tanganyikan", "kenyan",
  "tanzanian", "ugandan"

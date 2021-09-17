@@ -1,6 +1,6 @@
 [nation_slavic]
 
-name = _("Slavic")
+name   = _("Slavic")
 plural = _("?plural:Slavs")
 groups = "Ancient", "European"
 legend = _("The Slavs are a modern linguistic group of several nations in\

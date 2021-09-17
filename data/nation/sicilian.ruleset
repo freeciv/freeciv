@@ -1,9 +1,9 @@
 [nation_sicilian]
 
-name=_("Sicilian")
-plural=_("?plural:Sicilians")
-groups="Medieval", "Early Modern", "European"
-legend=_("Sicily is the largest island of Italy. It has been ruled by\
+name   = _("Sicilian")
+plural = _("?plural:Sicilians")
+groups = "Medieval", "Early Modern", "European"
+legend = _("Sicily is the largest island of Italy. It has been ruled by\
  Greeks, Carthaginians, Romans, Vandals, Ostrogoths, Byzantines and\
  Arabs. In the 11th century the Normans founded the Kingdom of Sicily\
  which gradually became one of Italy's more powerful states. In 1816 it\
@@ -30,14 +30,14 @@ ruler_titles = {
  "Fundamentalism",  _("Fra %s"),       _("Madre %s")
 }
 
-flag="sicily"
+flag = "sicily"
 flag_alt = "-"
 style = "Classical"
 
-init_techs=""
-init_buildings=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-init_units=""
 civilwar_nations = "neapolitan", "maltese"
 
 cities =

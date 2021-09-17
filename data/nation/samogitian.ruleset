@@ -1,9 +1,9 @@
 [nation_samogitian]
 
-name=_("Samogitian")
-plural=_("?plural:Samogitians")
-groups="Medieval", "European"
-legend=_("Samogitia - historical country near the Baltic Sea - home to the\
+name   = _("Samogitian")
+plural = _("?plural:Samogitians")
+groups = "Medieval", "European"
+legend = _("Samogitia - historical country near the Baltic Sea - home to the\
  last pagans in Europe (official until 1413). Today, Samogitia is a region\
  of Lithuania.")
 
@@ -21,13 +21,13 @@ ruler_titles = {
  "Despotism",       _("Duke %s"),         _("Duchess %s")
 }
 
-flag="samogitia"
+flag = "samogitia"
 flag_alt = "-"
 style = "European"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
 conflicts_with = "lithuanian"
 civilwar_nations = "lithuanian", "latvian"

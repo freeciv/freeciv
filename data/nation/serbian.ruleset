@@ -1,9 +1,9 @@
 [nation_serbian]
 
-name=_("Serbian")
-plural=_("?plural:Serbians")
-groups="Modern", "Medieval", "European"
-legend=_("Serbia is part of the region of the Southern Slavs that was\
+name   = _("Serbian")
+plural = _("?plural:Serbians")
+groups = "Modern", "Medieval", "European"
+legend = _("Serbia is part of the region of the Southern Slavs that was\
  conquered by the Ottomans after the collapse of the Byzantine Empire. \
  During most of the 20th century it was part of the Yugoslav Federation.")
 
@@ -35,13 +35,13 @@ ruler_titles = {
  "Fundamentalism",  _("Patriarch %s"), _("Matriarch %s")
 }
 
-flag="serbia"
+flag = "serbia"
 flag_alt = "-"
 style = "European"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
 civilwar_nations = "montenegrin", "croatian", "bosnian-herzegovinian", "kosovar"
 

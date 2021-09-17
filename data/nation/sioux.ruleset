@@ -1,11 +1,11 @@
 [nation_sioux]
 
-translation_domain="freeciv"
+translation_domain = "freeciv"
 
-name=_("Sioux")
-plural=_("?plural:Sioux")
-groups="Medieval", "American", "Core"
-legend=_("The Sioux was a North American nation that fought several\
+name   = _("Sioux")
+plural = _("?plural:Sioux")
+groups = "Medieval", "American", "Core"
+legend = _("The Sioux was a North American nation that fought several\
  decisive battles against the United States. It consisted of three distinct\
  groups of tribes: the Lakota, the Dakota and the Nakota.")
 
@@ -32,13 +32,14 @@ ruler_titles = {
  "Fundamentalism",  _("Shaman %s"),          _("?female:Shaman %s")
 }
 
-flag="cheyenne"
+flag = "cheyenne"
 flag_alt = "-"
 style = "Celtic"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
+
 civilwar_nations = "iroquois", "hopi", "cree"
 
 ; City names are tribes. List based on data from this page:

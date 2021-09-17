@@ -1,9 +1,9 @@
 [nation_saintlucian]
 
-name=_("Saint Lucian")
-plural=_("?plural:Saint Lucian")
-groups="Modern", "American"
-legend=_("Saint Lucia is an island nation in the Eastern Caribbean. During\
+name   = _("Saint Lucian")
+plural = _("?plural:Saint Lucian")
+groups = "Modern", "American"
+legend = _("Saint Lucia is an island nation in the Eastern Caribbean. During\
  the colonial era, Saint Lucia changed hands between France and Britain no\
  less than fourteen times until the British finally secured it in 1814. The\
  island became independent in 1979. It a member both of the Commonwealth\
@@ -23,15 +23,16 @@ ruler_titles = {
  "government",      "male_title",    "female_title"
  "Fundamentalism",  _("Bishop %s"),  _("Mother Superior %s")
 }
-flag="saint_lucia"
+
+flag = "saint_lucia"
 flag_alt = "-"
 style = "Tropical"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-civilwar_nations="Barbadian", "Vincentian" ; martinican
+civilwar_nations = "Barbadian", "Vincentian" ; martinican
 
 cities =
  "Castries",

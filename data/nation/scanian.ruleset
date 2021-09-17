@@ -1,9 +1,9 @@
 [nation_scanian]
 
-name=_("Scanian")
-plural=_("?plural:Scanians")
-groups="Medieval", "European"
-legend=_("Scania is the southernmost region of Sweden. Historically one of\
+name   = _("Scanian")
+plural = _("?plural:Scanians")
+groups = "Medieval", "European"
+legend = _("Scania is the southernmost region of Sweden. Historically one of\
  many petty kingdoms in Viking age Scandinavia, it became in medieval times\
  part of Denmark but was ceded to Sweden through the Treaty of Roskilde in\
  1658. Scania saw something of a national revival in the late 20th century\
@@ -26,16 +26,16 @@ ruler_titles = {
  "Despotism",    _("Earl %s"),           _("?female:Earl %s")
 }
 
-flag="scania"
-flag_alt="-"
+flag = "scania"
+flag_alt = "-"
 style = "European"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-conflicts_with="Danish" ; Similar flag
-civilwar_nations="Swedish"
+conflicts_with = "Danish" ; Similar flag
+civilwar_nations = "Swedish"
 
 ; Cities in Skåne unless otherwise noted
 ; Danish/Scanian forms with Swedish in comment

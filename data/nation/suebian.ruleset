@@ -1,9 +1,9 @@
 [nation_suebian]
 
-name=_("Suebian")
-plural=_("?plural:Suebians")
-groups="Ancient", "Medieval", "European"
-legend=_("The Suebians were an ancient West Germanic tribal confederation,\
+name   = _("Suebian")
+plural = _("?plural:Suebians")
+groups = "Ancient", "Medieval", "European"
+legend = _("The Suebians were an ancient West Germanic tribal confederation,\
  which may have been formed by Ariovistus for his expedition to Gaul.\
  The Suebians included the Germanic tribes from the Elbe river basin\
  belonging to the Herminonic language group, such as the Marcomanni and\
@@ -14,6 +14,7 @@ legend=_("The Suebians were an ancient West Germanic tribal confederation,\
  the Vandals and the Alans. They settled in the northwest of the Iberian\
  Peninsula, where they established their own kingdom, which was conquered\
  by the Visigoths in 585 CE.")
+
 leaders = {
  "name",                "sex"
  "Ariovistus",          "Male"        ;probably a suebian chieftain, known in
@@ -40,45 +41,46 @@ leaders = {
  "Andeka",              "Male"
  "Malarik",             "Male"
 }
-flag="suebian"
+
+flag = "suebian"
 flag_alt = "-"
 style = "Celtic"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-conflicts_with="spanish", "portuguese", "galician", "asturian", "german",
+conflicts_with = "spanish", "portuguese", "galician", "asturian", "german",
  "czech", "east german", "thuringian"
 civilwar_nations = "Visigothic", "Western Roman"
 
 cities =
- "Bracara Augusta",	;Braga
- "Portus Cale",		;Porto
- "Lucus Augusti",	;Lugo
- "Asturica Augusta",	;Astorga
- "Corunium",		;A Coruña
- "Campus Stellae",	;Santiago de Compostela
- "Conimbriga",		;Coimbra
- "Vicus",		;Vigo
- "Brigantia",		;Bragança
- "Legio",		;León
- "Aquae Urentes",	;Ourense
- "Lamecum",		;Lamego
- "Flavium Brigantium",	;Betanzos
- "Iria Flavia",		;Padrón
- "Tude",		;Tui
- "Pons Veteris",	;Pontevedra
+ "Bracara Augusta",     ; Braga
+ "Portus Cale",         ; Porto
+ "Lucus Augusti",       ; Lugo
+ "Asturica Augusta",    ; Astorga
+ "Corunium",            ; A Coruña
+ "Campus Stellae",      ; Santiago de Compostela
+ "Conimbriga",          ; Coimbra
+ "Vicus",               ; Vigo
+ "Brigantia",           ; Bragança
+ "Legio",               ; León
+ "Aquae Urentes",       ; Ourense
+ "Lamecum",             ; Lamego
+ "Flavium Brigantium",  ; Betanzos
+ "Iria Flavia",         ; Padrón
+ "Tude",                ; Tui
+ "Pons Veteris",        ; Pontevedra
  "Britonia",
- "Viso",		;Viseu
+ "Viso",                ; Viseu
  "Nemetobriga",
- "Aquae Flaviae",	;Chaves
- "Aegitania",		;Idanha
+ "Aquae Flaviae",       ; Chaves
+ "Aegitania",           ; Idanha
  "Aquae Querquennae",
- "Dactonium",		;Monforte de Lemos
- "Lamaecus",		;Lamego
+ "Dactonium",           ; Monforte de Lemos
+ "Lamaecus",            ; Lamego
  "Sabaria",
- "Forum Limicorum",	;Ginzo de Limia
- "Villa Alba",		;Vilalba
- "Querculus",		;O Carballiño
- "Libunca"		;Ribadeo
+ "Forum Limicorum",     ; Ginzo de Limia
+ "Villa Alba",          ; Vilalba
+ "Querculus",           ; O Carballiño
+ "Libunca"              ; Ribadeo

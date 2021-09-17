@@ -1,11 +1,11 @@
 [nation_swedish]
 
-translation_domain="freeciv"
+translation_domain = "freeciv"
 
-name=_("Swedish")
-plural=_("?plural:Swedes")
-groups="Medieval", "Early Modern", "Modern", "European", "Core"
-legend=_("The Kingdom of Sweden was christianized and consolidated as a\
+name   = _("Swedish")
+plural = _("?plural:Swedes")
+groups = "Medieval", "Early Modern", "Modern", "European", "Core"
+legend = _("The Kingdom of Sweden was christianized and consolidated as a\
  political entity by the 12th century CE. The country rose to prominence as\
  one of the great powers of Europe in the 17th century, following\
  substantial military conquests by the so called Warrior Kings. However,\
@@ -34,14 +34,16 @@ ruler_titles = {
  "Despotism",       _("Earl %s"),           _("?female:Earl %s")
 }
 
-flag="sweden"
+flag = "sweden"
 flag_alt = "-"
 style = "European"
 
-init_techs=""
-init_buildings=""
-init_units=""
-civilwar_nations = "viking", "danish", "norwegian", "sami", "scanian", "western pomeranian"
+init_techs = ""
+init_buildings = ""
+init_units = ""
+
+civilwar_nations = "viking", "danish", "norwegian", "sami", "scanian",
+                   "western pomeranian"
 
 ; /* <-- avoid gettext warnings
 ;

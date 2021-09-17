@@ -1,9 +1,9 @@
 [nation_solomonislander]
 
-name = _("Solomon Islander")
+name   = _("Solomon Islander")
 plural = _("?plural:Solomon Islanders")
-groups="Oceanian", "Modern"
-legend=_("Solomon Islands is a country in Melanesia, located between\
+groups = "Oceanian", "Modern"
+legend = _("Solomon Islands is a country in Melanesia, located between\
  Papua New Guinea and Vanuatu. Inhabited by Austronesian peoples since\
  4000 BCE, the islands became a British protectorate in the 19th century.\
  The islands were the site of some fierce fighting during World War II,\
@@ -23,11 +23,11 @@ flag = "solomon_islands"
 flag_alt = "-"
 style = "Tropical"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-civilwar_nations="papua new guinean", "vanuatuan"
+civilwar_nations = "papua new guinean", "vanuatuan"
 
 cities =
  "Honiara",

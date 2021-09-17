@@ -1,9 +1,9 @@
 [nation_sotho]
 
-name=_("Sotho")
-plural=_("?plural:Basotho")
-groups="African"
-legend=_("A Bantu people in Southern Africa, the ancestors of the Basotho\
+name   = _("Sotho")
+plural = _("?plural:Basotho")
+groups = "African"
+legend = _("A Bantu people in Southern Africa, the ancestors of the Basotho\
  first arrived in the region by the end of the first millennium CE. The\
  Basotho first formed a unified polity in the early 19th century under\
  king Moshoeshoe I. Today, there are about 2 million Sotho in the Kingdom\
@@ -21,15 +21,15 @@ leaders = {
  "Kenneth Mopeli",           "Male"
 }
 
-flag="lesotho_old"
+flag = "lesotho_old"
 flag_alt = "-"
 style = "Celtic"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-civilwar_nations="tswana", "lesothoan", "south african"
+civilwar_nations = "tswana", "lesothoan", "south african"
 
 cities =
 ;alternating cities in Lesotho and South Africa
