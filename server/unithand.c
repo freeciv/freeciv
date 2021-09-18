@@ -5226,6 +5226,7 @@ static bool unit_do_help_build(struct player *pplayer,
   const char *prod;
   int shields;
   const struct unit_type *act_utype;
+  struct player *cowner;
 
   /* Sanity check: The actor still exists. */
   fc_assert_ret_val(pplayer, FALSE);
@@ -5256,7 +5257,9 @@ static bool unit_do_help_build(struct player *pplayer,
     pcity_dest->disbanded_shields += shields;
   }
 
-  conn_list_do_buffer(pplayer->connections);
+  cowner = city_owner(pcity_dest);
+
+  conn_list_do_buffer(cowner->connections);
 
   if (action_has_result(paction, ACTRES_HELP_WONDER)) {
     /* Let the player that just donated shields with "Help Wonder" know
@@ -5295,15 +5298,13 @@ static bool unit_do_help_build(struct player *pplayer,
                 work);
 
   /* May cause an incident */
-  action_consequence_success(paction, pplayer, act_utype,
-                             city_owner(pcity_dest),
+  action_consequence_success(paction, pplayer, act_utype, cowner,
                              city_tile(pcity_dest), city_link(pcity_dest));
 
-  if (city_owner(pcity_dest) != unit_owner(punit)) {
+  if (cowner != unit_owner(punit)) {
     /* Tell the city owner about the gift he just received. */
 
-    send_city_info(city_owner(pcity_dest), pcity_dest);
-    notify_player(city_owner(pcity_dest), city_tile(pcity_dest),
+    notify_player(cowner, city_tile(pcity_dest),
                   E_CARAVAN_ACTION, ftc_server,
                   /* TRANS: Help building the Pyramids in Bergen received
                    * from Persian Caravan (4 surplus). */
@@ -5317,9 +5318,9 @@ static bool unit_do_help_build(struct player *pplayer,
                   work);
   }
 
-  send_player_info_c(pplayer, pplayer->connections);
-  send_city_info(pplayer, pcity_dest);
-  conn_list_do_unbuffer(pplayer->connections);
+  send_player_info_c(cowner, pplayer->connections);
+  send_city_info(cowner, pcity_dest);
+  conn_list_do_unbuffer(cowner->connections);
 
   return TRUE;
 }
