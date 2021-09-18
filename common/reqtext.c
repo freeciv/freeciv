@@ -2588,6 +2588,8 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
         /* Not supported. */
         break;
       }
+
+      break;
     }
 
   case VUT_COUNT:
