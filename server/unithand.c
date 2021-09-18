@@ -2897,6 +2897,7 @@ static void do_unit_help_build_wonder(struct player *pplayer,
                                       struct city *pcity_dest)
 {
   const char *work;
+  struct player *cowner;
 
   /* Sanity check: The actor still exists. */
   fc_assert_ret(pplayer);
@@ -2908,7 +2909,9 @@ static void do_unit_help_build_wonder(struct player *pplayer,
   pcity_dest->shield_stock += unit_build_shield_cost(punit);
   pcity_dest->caravan_shields += unit_build_shield_cost(punit);
 
-  conn_list_do_buffer(pplayer->connections);
+  cowner = city_owner(pcity_dest);
+
+  conn_list_do_buffer(cowner->connections);
 
   if (build_points_left(pcity_dest) >= 0) {
     /* TRANS: Your Caravan helps build the Pyramids in Bergen (4
@@ -2937,15 +2940,13 @@ static void do_unit_help_build_wonder(struct player *pplayer,
                 work);
 
   /* May cause an incident */
-  action_consequence_success(ACTION_HELP_WONDER, pplayer,
-                             city_owner(pcity_dest),
+  action_consequence_success(ACTION_HELP_WONDER, pplayer, cowner,
                              city_tile(pcity_dest), city_link(pcity_dest));
 
-  if (city_owner(pcity_dest) != unit_owner(punit)) {
+  if (cowner != unit_owner(punit)) {
     /* Tell the city owner about the gift he just received. */
 
-    send_city_info(city_owner(pcity_dest), pcity_dest);
-    notify_player(city_owner(pcity_dest), city_tile(pcity_dest),
+    notify_player(cowner, city_tile(pcity_dest),
                   E_CARAVAN_ACTION, ftc_server,
                   /* TRANS: Help building the Pyramids in Bergen received
                    * from Persian Caravan (4 surplus). */
@@ -2961,9 +2962,9 @@ static void do_unit_help_build_wonder(struct player *pplayer,
   }
 
   wipe_unit(punit, ULR_USED, NULL);
-  send_player_info_c(pplayer, pplayer->connections);
-  send_city_info(pplayer, pcity_dest);
-  conn_list_do_unbuffer(pplayer->connections);
+  send_player_info_c(cowner, cowner->connections);
+  send_city_info(cowner, pcity_dest);
+  conn_list_do_unbuffer(cowner->connections);
 }
 
 /**************************************************************************
