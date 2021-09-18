@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- Created with Inkscape (http://www.inkscape.org/) -->
 <svg
    xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:cc="http://creativecommons.org/ns#"
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
@@ -14,9 +13,8 @@
    height="600"
    id="svg548"
    sodipodi:version="0.32"
-   inkscape:version="0.44"
-   sodipodi:docname="aram.svg"
-   sodipodi:docbase="C:\freeciv">
+   inkscape:version="1.0.2 (e86c870879, 2021-01-15)"
+   sodipodi:docname="aram.svg">
   <metadata
      id="metadata2203">
     <rdf:RDF>
@@ -25,12 +23,13 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
   <sodipodi:namedview
-     inkscape:window-height="589"
-     inkscape:window-width="847"
+     inkscape:window-height="616"
+     inkscape:window-width="871"
      inkscape:pageshadow="2"
      inkscape:pageopacity="0.0"
      borderopacity="1.0"
@@ -40,13 +39,16 @@
      inkscape:zoom="0.645"
      inkscape:cx="450"
      inkscape:cy="300"
-     inkscape:window-x="189"
-     inkscape:window-y="174"
+     inkscape:window-x="711"
+     inkscape:window-y="110"
      inkscape:current-layer="svg548"
      showguides="true"
      inkscape:guide-bbox="true"
      width="900px"
-     height="600px" />
+     height="600px"
+     inkscape:document-rotation="0"
+     showgrid="false"
+     inkscape:window-maximized="0" />
   <defs
      id="defs550">
     <linearGradient
