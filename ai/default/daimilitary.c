@@ -125,20 +125,6 @@ struct unit_type *dai_choose_defender_versus(struct city *pcity,
   return bestunit;
 }
 
-/********************************************************************** 
-This function should assign a value to choice and want, where want is a value
-between 1 and 100.
-
-If choice is A_UNSET, this advisor doesn't want any particular tech
-researched at the moment.
-***********************************************************************/
-void military_advisor_choose_tech(struct player *pplayer,
-				  struct adv_choice *choice)
-{
-  /* This function hasn't been implemented yet. */
-  adv_init_choice(choice);
-}
-
 /**************************************************************************
   Choose best attacker based on movement type. It chooses based on unit
   desirability without regard to cost, unless costs are equal. This is
