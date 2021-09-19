@@ -33,8 +33,6 @@ typedef struct unit_list *(player_unit_list_getter)(struct player *pplayer);
 
 struct unit_type *dai_choose_defender_versus(struct city *pcity,
                                              struct unit *attacker);
-void military_advisor_choose_tech(struct player *pplayer,
-                                  struct adv_choice *choice);
 struct adv_choice *military_advisor_choose_build(struct ai_type *ait,
                                                  struct player *pplayer,
                                                  struct city *pcity,
