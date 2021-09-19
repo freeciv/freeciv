@@ -1346,3 +1346,17 @@ base_tech_cost = "\n\
 ; In other words: used everywhere unless the cost of *all* techs are\n\
 ; specified and the tech cost style is \"Experimental+\" or \"Classic+\".\
 "
+
+tech_leakage = "\n\
+; Technology leak from other civilizations\n\
+; \"None\"           - No reduction of the technology cost.\n\
+; \"Embassies\"      - Technology cost is reduced depending on the number of\n\
+;                    players which already know the tech and you have an\n\
+;                    embassy with.\n\
+; \"All Players\"    - Technology cost is reduced depending on the number of\n\
+;                    all players (human, AI and barbarians) which already\n\
+;                    know the tech.\n\
+; \"Normal Players\" - Technology cost is reduced depending on the number of\n\
+;                    normal players (human and AI) which already know the\n\
+;                    tech.\
+"

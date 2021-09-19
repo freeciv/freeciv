@@ -68,6 +68,7 @@ static struct {
   char *borders_radius_permanent;
   char *research_tech_cost_style;
   char *research_base_tech_cost;
+  char *research_tech_leakage;
 } comments_storage;
 
 /**********************************************************************//**
@@ -173,6 +174,8 @@ bool comments_load(void)
                "entrydoc.tech_cost_style");
   comment_load(comments_storage.research_base_tech_cost, comment_file,
                "entrydoc.base_tech_cost");
+  comment_load(comments_storage.research_tech_leakage, comment_file,
+               "entrydoc.tech_leakage");
 
   secfile_check_unused(comment_file);
   secfile_destroy(comment_file);
@@ -565,5 +568,14 @@ void comment_research_tech_cost_style(struct section_file *sfile)
 void comment_research_base_tech_cost(struct section_file *sfile)
 {
   comment_entry_write(sfile, comments_storage.research_base_tech_cost,
+                      "research");
+}
+
+/**********************************************************************//**
+  Write research tech_leakage settings header.
+**************************************************************************/
+void comment_research_tech_leakage(struct section_file *sfile)
+{
+  comment_entry_write(sfile, comments_storage.research_tech_leakage,
                       "research");
 }
