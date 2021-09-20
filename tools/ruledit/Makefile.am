@@ -32,15 +32,15 @@ MOC_FILES = \
 	    meta_req_vec_fix.cpp	\
             meta_requirers_dlg.cpp \
             meta_ruledit_qt.cpp \
+            meta_tab_building.cpp \
             meta_tab_enablers.cpp \
 	    meta_tab_extras.cpp	\
+	    meta_tab_good.cpp	\
+	    meta_tab_gov.cpp	\
             meta_tab_misc.cpp	\
             meta_tab_nation.cpp	\
             meta_tab_tech.cpp	\
 	    meta_tab_terrains.cpp \
-            meta_tab_building.cpp \
-	    meta_tab_good.cpp	\
-	    meta_tab_gov.cpp	\
             meta_tab_unit.cpp
 
 freeciv_ruledit_SOURCES =	\
