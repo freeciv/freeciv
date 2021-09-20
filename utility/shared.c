@@ -506,7 +506,7 @@ size_t loud_strlcpy(char *buffer, const char *str, size_t len,
 }
 
 /****************************************************************************
-  Convert 'str' to it's int reprentation if possible. 'pint' can be NULL,
+  Convert 'str' to its int reprentation if possible. 'pint' can be NULL,
   then it will only test 'str' only contains an integer number.
 ****************************************************************************/
 bool str_to_int(const char *str, int *pint)
