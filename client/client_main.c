@@ -1333,14 +1333,6 @@ bool client_has_player(void)
 }
 
 /****************************************************************************
-  Either controlling or observing.
-****************************************************************************/
-struct player *client_player(void)
-{
-  return client.conn.playing;
-}
-
-/****************************************************************************
   Return the vision of the player on a tile. Client version of
   ./server/maphand/map_is_known_and_seen().
 ****************************************************************************/
