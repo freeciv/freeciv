@@ -611,11 +611,12 @@ command. This creates a trade route between the unit's home city (which \
 might be different from the city that originally produced it) and the \
 destination.\
 "), _("\
-The origin civilization of the unit gains immediate revenue in gold \
-and science from selling its trade goods at the destination city. The \
-initial revenue depends on the trade already produced by the two \
-cities involved and their distance apart. The destination civilization \
-learns about the location of the origin city, if it is not already known.\
+Depending on the ruleset, the origin civilization of the unit may \
+gain immediate revenue in gold, science, or both from selling its \
+trade goods at the destination city. The initial revenue depends on \
+the trade already produced by the two cities involved and their \
+distance apart. The destination civilization learns about \
+the location of the origin city, if it is not already known.\
 "), _("\
 The ongoing trade route that is established benefits both its \
 origin and destination cities equally by generating trade points for \
