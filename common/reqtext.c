@@ -2746,6 +2746,9 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
       case CITYT_EXTRAS_OWNED:
         tile_property = _("owned extras");
         break;
+      case CITYT_WORKED:
+        tile_property = _("worked tiles");
+        break;
       case CITYT_LAST:
         fc_assert(preq->source.value.citytile != CITYT_LAST);
         break;
