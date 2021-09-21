@@ -11,9 +11,10 @@
    height="1000"
    id="svg2"
    sodipodi:version="0.32"
-   inkscape:version="0.46"
+   inkscape:version="1.0.2 (e86c870879, 2021-01-15)"
    sodipodi:docname="atlantis.svg"
-   inkscape:output_extension="org.inkscape.output.svg.inkscape">
+   inkscape:output_extension="org.inkscape.output.svg.inkscape"
+   version="1.1">
   <metadata
      id="metadata9">
     <rdf:RDF>
@@ -22,6 +23,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -36,8 +38,8 @@
        id="perspective11" />
   </defs>
   <sodipodi:namedview
-     inkscape:window-height="729"
-     inkscape:window-width="1280"
+     inkscape:window-height="594"
+     inkscape:window-width="801"
      inkscape:pageshadow="2"
      inkscape:pageopacity="0.0"
      guidetolerance="10.0"
@@ -51,9 +53,11 @@
      inkscape:zoom="0.36266667"
      inkscape:cx="750"
      inkscape:cy="500"
-     inkscape:window-x="0"
-     inkscape:window-y="0"
-     inkscape:current-layer="svg2" />
+     inkscape:window-x="334"
+     inkscape:window-y="85"
+     inkscape:current-layer="svg2"
+     inkscape:document-rotation="0"
+     inkscape:window-maximized="0" />
   <rect
      style="opacity:1;fill:#00ccff;fill-opacity:1"
      id="rect2388"
