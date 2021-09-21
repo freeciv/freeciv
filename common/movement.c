@@ -684,7 +684,7 @@ unit_move_to_tile_test(const struct civ_map *nmap,
 
   /* 10) */
   if (utype_has_flag(punittype, UTYF_COAST_STRICT)
-      && !is_safe_ocean(&(wld.map), dst_tile)) {
+      && !pcity && !is_safe_ocean(&(wld.map), dst_tile)) {
     return MR_TRIREME;
   }
 
