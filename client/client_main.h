@@ -101,7 +101,9 @@ bool client_is_observer(void);
 bool client_is_global_observer(void);
 int client_player_number(void);
 bool client_has_player(void);
-struct player *client_player(void);
+
+#define client_player() client.conn.playing
+
 void set_seconds_to_turndone(double seconds);
 int get_seconds_to_turndone(void);
 bool is_waiting_turn_change(void);
