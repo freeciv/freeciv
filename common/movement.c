@@ -650,7 +650,8 @@ unit_move_to_tile_test(const struct unit *punit,
   }
 
   /* 10) */
-  if (utype_has_flag(punittype, UTYF_COAST_STRICT) && !is_safe_ocean(dst_tile)) {
+  if (utype_has_flag(punittype, UTYF_COAST_STRICT)
+      && !pcity && !is_safe_ocean(dst_tile)) {
     return MR_TRIREME;
   }
 
