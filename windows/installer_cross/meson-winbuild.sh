@@ -8,7 +8,7 @@
 #
 
 MESON_WINBUILD_VERSION="3.0.0-beta"
-CROSSER_FEATURE_LEVEL=2.0
+CROSSER_FEATURE_LEVEL=2.1
 
 if test "x$1" = x || test "x$1" = "x-h" || test "x$1" = "x--help" ; then
   echo "Usage: $0 <crosser dir>"

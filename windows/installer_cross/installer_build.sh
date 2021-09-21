@@ -28,13 +28,14 @@ add_gtk3_env() {
   cp $1/bin/libfribidi-0.dll $2/ &&
   cp $1/bin/libpango-1.0-0.dll $2/ &&
   cp $1/bin/libpangocairo-1.0-0.dll $2/ &&
-  cp $1/bin/libffi-7.dll $2/ &&
+  cp $1/bin/libffi-8.dll $2/ &&
   cp $1/bin/libatk-1.0-0.dll $2/ &&
   cp $1/bin/libgmodule-2.0-0.dll $2/ &&
   cp $1/bin/libpangowin32-1.0-0.dll $2/ &&
   cp $1/bin/libfontconfig-1.dll $2/ &&
   cp $1/bin/libpangoft2-1.0-0.dll $2/ &&
   cp $1/bin/libxml2-2.dll $2/ &&
+  cp $1/bin/libjpeg-9.dll $2/ &&
   mkdir -p $2/bin &&
   cp $1/bin/gdk-pixbuf-query-loaders.exe $2/bin/ &&
   cp $1/bin/gtk-update-icon-cache.exe $2/bin/ &&
@@ -59,8 +60,7 @@ add_sdl2_mixer_env() {
 add_sdl2_env() {
   cp $1/bin/SDL2_image.dll $2/ &&
   cp $1/bin/SDL2_ttf.dll $2/ &&
-  cp $1/bin/libtiff-5.dll $2/ &&
-  cp $1/bin/libjpeg-9.dll $2/
+  cp $1/bin/libtiff-5.dll $2/
 }
 
 add_qt_env() {
@@ -80,12 +80,11 @@ add_common_env() {
   cp $1/bin/libsqlite3-0.dll $2/ &&
   cp $1/bin/libiconv-2.dll $2/ &&
   cp $1/bin/libz.dll.1.2.11 $2/ &&
-  cp $1/lib/icuuc63.dll     $2/ &&
-  cp $1/lib/icudt63.dll     $2/ &&
+  cp $1/lib/icuuc64.dll     $2/ &&
+  cp $1/lib/icudt64.dll     $2/ &&
   cp $1/bin/libpng16-16.dll $2/ &&
   cp $1/bin/libfreetype-6.dll $2/ &&
   cp $1/bin/libharfbuzz-0.dll $2/ &&
-  cp $1/bin/libpcre-1.dll   $2/ &&
   add_glib_env $1 $2
 }
 
