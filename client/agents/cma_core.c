@@ -66,7 +66,7 @@
  */
 
 /****************************************************************************
- defines, structs, globals, forward declarations
+  Defines, structs, globals, forward declarations
 *****************************************************************************/
 
 #define log_apply_result                log_debug
@@ -78,7 +78,7 @@
 #define SHOW_APPLY_RESULT_ON_SERVER_ERRORS              FALSE
 #define ALWAYS_APPLY_AT_SERVER                          FALSE
 
-#define SAVED_PARAMETER_SIZE				29
+#define SAVED_PARAMETER_SIZE                            29
 
 /*
  * Misc statistic to analyze performance.
@@ -87,7 +87,6 @@ static struct {
   struct timer *wall_timer;
   int apply_result_ignored, apply_result_applied, refresh_forced;
 } stats;
-
 
 /************************************************************************//**
   Returns TRUE iff the two results are equal. Both results have to be
@@ -121,6 +120,7 @@ static bool fc_results_are_equal(const struct cm_result *result1,
     if (result1->worker_positions[cindex]
         != result2->worker_positions[cindex]) {
       log_results_are_equal("worker_positions");
+
       return FALSE;
     }
   } city_map_iterate_end;
@@ -129,7 +129,6 @@ static bool fc_results_are_equal(const struct cm_result *result1,
 
 #undef T
 }
-
 
 /************************************************************************//**
   Returns TRUE if the city is valid for CMA. Fills parameter if TRUE
@@ -151,6 +150,7 @@ static struct city *check_city(int city_id, struct cm_parameter *parameter)
 
   if (city_owner(pcity) != client.conn.playing) {
     cma_release_city(pcity);
+
     return NULL;
   }
 
@@ -164,9 +164,9 @@ static struct city *check_city(int city_id, struct cm_parameter *parameter)
 static bool apply_result_on_server(struct city *pcity,
                                    const struct cm_result *result)
 {
-  int first_request_id = 0, last_request_id = 0, i;
+  int first_request_id = 0, last_request_id = 0;
   int city_radius_sq = city_map_radius_sq_get(pcity);
-  struct cm_result *current_state = cm_result_new(pcity);;
+  struct cm_result *current_state = cm_result_new(pcity);
   bool success;
   struct tile *pcenter = city_tile(pcity);
 
@@ -176,6 +176,7 @@ static bool apply_result_on_server(struct city *pcity,
   if (fc_results_are_equal(current_state, result)
       && !ALWAYS_APPLY_AT_SERVER) {
     stats.apply_result_ignored++;
+
     return TRUE;
   }
 
@@ -185,6 +186,7 @@ static bool apply_result_on_server(struct city *pcity,
               pcity->id, city_name_get(pcity));
     cm_print_city(pcity);
     cm_print_result(result);
+
     return FALSE;
   }
 
@@ -213,6 +215,8 @@ static bool apply_result_on_server(struct city *pcity,
 
   /* Change the excess non-default specialists to default. */
   specialist_type_iterate(sp) {
+    int i;
+
     if (sp == DEFAULT_SPECIALIST) {
       continue;
     }
@@ -221,9 +225,9 @@ static bool apply_result_on_server(struct city *pcity,
       log_apply_result("Change specialist from %d to %d.",
                        sp, DEFAULT_SPECIALIST);
       last_request_id = city_change_specialist(pcity,
-					       sp, DEFAULT_SPECIALIST);
+                                               sp, DEFAULT_SPECIALIST);
       if (first_request_id == 0) {
-	first_request_id = last_request_id;
+        first_request_id = last_request_id;
       }
     }
   } specialist_type_iterate_end;
@@ -236,7 +240,7 @@ static bool apply_result_on_server(struct city *pcity,
   city_tile_iterate_skip_free_worked(city_radius_sq, pcenter, ptile, idx,
                                      x, y) {
     if (NULL == tile_worked(ptile)
-     && result->worker_positions[idx]) {
+        && result->worker_positions[idx]) {
       log_apply_result("Putting worker at {%d,%d}.", x, y);
       fc_assert_action(city_can_work_tile(pcity, ptile), break);
 
@@ -244,7 +248,7 @@ static bool apply_result_on_server(struct city *pcity,
         dsend_packet_city_make_worker(&client.conn,
                                       pcity->id, ptile->index);
       if (first_request_id == 0) {
-	first_request_id = last_request_id;
+        first_request_id = last_request_id;
       }
     }
   } city_tile_iterate_skip_free_worked_end;
@@ -252,6 +256,8 @@ static bool apply_result_on_server(struct city *pcity,
   /* Set all specialists except DEFAULT_SPECIALIST (all the unchanged
    * ones remain as DEFAULT_SPECIALIST). */
   specialist_type_iterate(sp) {
+    int i;
+
     if (sp == DEFAULT_SPECIALIST) {
       continue;
     }
@@ -260,9 +266,9 @@ static bool apply_result_on_server(struct city *pcity,
       log_apply_result("Changing specialist from %d to %d.",
                        DEFAULT_SPECIALIST, sp);
       last_request_id = city_change_specialist(pcity,
-					       DEFAULT_SPECIALIST, sp);
+                                               DEFAULT_SPECIALIST, sp);
       if (first_request_id == 0) {
-	first_request_id = last_request_id;
+        first_request_id = last_request_id;
       }
     }
   } specialist_type_iterate_end;
@@ -277,7 +283,7 @@ static bool apply_result_on_server(struct city *pcity,
        * PACKET_CITY_REFRESH to bring them in sync.
        */
     first_request_id = last_request_id =
-	dsend_packet_city_refresh(&client.conn, pcity->id);
+      dsend_packet_city_refresh(&client.conn, pcity->id);
     stats.refresh_forced++;
   }
 
@@ -318,6 +324,7 @@ static bool apply_result_on_server(struct city *pcity,
   cm_result_destroy(current_state);
 
   log_apply_result("apply_result_on_server() return %d.", (int) success);
+
   return success;
 }
 
@@ -349,7 +356,7 @@ static void release_city(int city_id)
 }
 
 /****************************************************************************
-                           algorithmic functions
+                           Algorithmic functions
 ****************************************************************************/
 
 /************************************************************************//**
@@ -377,7 +384,7 @@ static void handle_city(struct city *pcity)
     log_handle_city2("  try %d", i);
 
     if (pcity != check_city(city_id, &parameter)) {
-      handled = TRUE;	
+      handled = TRUE;
       break;
     }
 
@@ -497,10 +504,12 @@ void cma_init(void)
 bool cma_apply_result(struct city *pcity, const struct cm_result *result)
 {
   fc_assert(!cma_is_city_under_agent(pcity, NULL));
+
   if (result->found_a_valid) {
     return apply_result_on_server(pcity, result);
-  } else
+  } else {
     return TRUE; /* ???????? */
+  }
 }
 
 /************************************************************************//**
@@ -546,6 +555,7 @@ bool cma_is_city_under_agent(const struct city *pcity,
   if (parameter) {
     memcpy(parameter, &my_parameter, sizeof(struct cm_parameter));
   }
+
   return TRUE;
 }
 
