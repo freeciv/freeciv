@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- Created with Inkscape (http://www.inkscape.org/) -->
 <svg
    xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:cc="http://creativecommons.org/ns#"
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
@@ -12,9 +11,8 @@
    height="600"
    id="svg1885"
    sodipodi:version="0.32"
-   inkscape:version="0.44"
+   inkscape:version="1.0.2 (e86c870879, 2021-01-15)"
    version="1.0"
-   sodipodi:docbase="C:\freeciv"
    sodipodi:docname="aymara.svg">
   <defs
      id="defs1887" />
@@ -29,16 +27,19 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.35"
-     inkscape:cx="152.14286"
+     inkscape:cx="442.82104"
      inkscape:cy="311.07143"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      width="900px"
      height="600px"
-     inkscape:window-width="847"
-     inkscape:window-height="579"
-     inkscape:window-x="43"
-     inkscape:window-y="257" />
+     inkscape:window-width="794"
+     inkscape:window-height="459"
+     inkscape:window-x="439"
+     inkscape:window-y="106"
+     inkscape:document-rotation="0"
+     showgrid="false"
+     inkscape:window-maximized="0" />
   <metadata
      id="metadata1890">
     <rdf:RDF>
@@ -47,6 +48,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
