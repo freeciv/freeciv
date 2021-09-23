@@ -1362,3 +1362,11 @@ tech_leakage = "\n\
 ;                    normal players (human and AI) which already know the\n\
 ;                    tech.\
 "
+
+tech_upkeep_style = "\n\
+; Method of paying tech upkeep\n\
+; \"None\"   - no upkeep\n\
+; \"Basic\"  - upkeep is calculated as:\n\
+;     <Cost of technology> / tech_upkeep_divider - tech_upkeep_free\n\
+; \"Cities\" - upkeep is calculated like \"Basic\", but multiplied by number of cities\
+"

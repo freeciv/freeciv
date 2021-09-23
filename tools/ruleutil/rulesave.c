@@ -1432,6 +1432,7 @@ static bool save_game_ruleset(const char *filename, const char *name)
   comment_research_tech_leakage(sfile);
   secfile_insert_str(sfile, tech_leakage_style_name(game.info.tech_leakage),
                      "research.tech_leakage");
+  comment_research_upkeep_style(sfile);
   secfile_insert_str(sfile, tech_upkeep_style_name(game.info.tech_upkeep_style),
                      "research.tech_upkeep_style");
   save_default_int(sfile, game.info.tech_upkeep_divider,
