@@ -25,11 +25,11 @@ Guinea, Honduras, Israel, Jamaica, Jordan, and Romania Flags</dc:title>
 -->
 <svg
    xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:cc="http://creativecommons.org/ns#"
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://inkscape.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    version="1.0"
    x="0"
@@ -38,9 +38,8 @@ Guinea, Honduras, Israel, Jamaica, Jordan, and Romania Flags</dc:title>
    height="500"
    id="svg618"
    sodipodi:version="0.32"
-   inkscape:version="0.42"
-   sodipodi:docname="azerbaijan.svg"
-   sodipodi:docbase="/Users/daniel/Desktop">
+   inkscape:version="1.0.2 (e86c870879, 2021-01-15)"
+   sodipodi:docname="azerbaijan.svg">
   <metadata
      id="metadata5326">
     <rdf:RDF>
@@ -49,24 +48,28 @@ Guinea, Honduras, Israel, Jamaica, Jordan, and Romania Flags</dc:title>
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
   <sodipodi:namedview
-     inkscape:window-height="507"
-     inkscape:window-width="701"
+     inkscape:window-height="534"
+     inkscape:window-width="773"
      inkscape:pageshadow="2"
      inkscape:pageopacity="0.0"
      borderopacity="1.0"
      bordercolor="#666666"
      pagecolor="#ffffff"
      id="base"
-     inkscape:zoom="0.60700000"
-     inkscape:cx="500.00000"
-     inkscape:cy="239.71109"
-     inkscape:window-x="56"
-     inkscape:window-y="140"
-     inkscape:current-layer="svg618" />
+     inkscape:zoom="0.607"
+     inkscape:cx="358.67655"
+     inkscape:cy="254.8135"
+     inkscape:window-x="767"
+     inkscape:window-y="153"
+     inkscape:current-layer="svg618"
+     inkscape:document-rotation="0"
+     showgrid="false"
+     inkscape:window-maximized="0" />
   <defs
      id="defs620" />
   <g
