@@ -36,7 +36,15 @@ else
 QT6_MOCCMD="$(MOCCMD)"
 endif
 
+ifeq ($(CI),yes)
+ICUVER=68
+LERC=
+MD4C=
+else
 ICUVER=69
+LERC=libLerc.dll
+MD4C=libmd4c.dll
+endif
 
 INSTSUB=${ARCHDIR}
 
@@ -85,7 +93,7 @@ snapshot:
 
 ci:
 	cd ../.. ; ./autogen.sh --no-configure-run
-	# make VERSION_REVTYPE="git" CI=yes EXTRA_CONFIG="--enable-gitrev --with-project-definition=../../../bootstrap/snapshot.project CFLAGS=\\\"-Werror $$CFLAGS\\\" CXXFLAGS=\\\"-Werror $$CXXFLAGS\\\"" all
+	make VERSION_REVTYPE="git" CI=yes EXTRA_CONFIG="--enable-gitrev --with-project-definition=../../../bootstrap/snapshot.project CFLAGS=\\\"-Werror $$CFLAGS\\\" CXXFLAGS=\\\"-Werror $$CXXFLAGS\\\"" all
 
 # configure Freeciv
 
@@ -322,7 +330,7 @@ SDL2_DLLS := \
 	libzstd.dll \
 	libdeflate.dll \
 	libjbig-0.dll \
-	libLerc.dll
+	${LERC}
 
 install-env-sdl2: install-env-default-fcmp
 	# add DLLs
@@ -346,7 +354,7 @@ QT5_DLLS := \
 	libbrotlicommon.dll \
 	libdouble-conversion.dll \
 	libzstd.dll \
-	libmd4c.dll
+	${MD4C}
 
 install-env-qt5: install-env-common
 	# add DLLs
@@ -425,7 +433,7 @@ RULEDIT_QT5_DLLS := \
 	libraqm-0.dll \
 	libexpat-1.dll \
 	libfribidi-0.dll \
-	libmd4c.dll
+	${MD4C}
 
 install-env-ruledit-qt5:
 	# add DLLs
