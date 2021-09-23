@@ -931,13 +931,12 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
     case ATK_UNITS:                                                       \
     case ATK_SELF:                                                        \
       return FALSE;                                                       \
-      break;                                                              \
     case ATK_COUNT:                                                       \
-      fc_assert(action_target_kind_is_valid(                              \
-                  action_get_target_kind(paction)));                      \
-      return FALSE;                                                       \
-      break;                                                              \
+      break; /* Handle outside switch */                                  \
     }                                                                     \
+    fc_assert(action_target_kind_is_valid(                                \
+                action_get_target_kind(paction)));                        \
+    return FALSE;                                                         \
   }
 
   switch (activity) {
