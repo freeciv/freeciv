@@ -229,7 +229,8 @@ void techs_precalc_data(void);
 #define advance_index_iterate(_start, _index)				\
 {									\
   Tech_type_id _index = (_start);					\
-  for (; _index < advance_count(); _index++) {
+  Tech_type_id _aco_##_index = advance_count();                         \
+  for (; _index < _aco_##_index; _index++) {
 
 #define advance_index_iterate_end					\
   }									\
