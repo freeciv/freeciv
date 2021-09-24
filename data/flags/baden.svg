@@ -12,7 +12,7 @@
    height="300"
    id="svg2"
    sodipodi:version="0.32"
-   inkscape:version="0.46"
+   inkscape:version="1.0.2 (e86c870879, 2021-01-15)"
    sodipodi:docname="baden.svg"
    inkscape:output_extension="org.inkscape.output.svg.inkscape">
   <metadata
@@ -23,6 +23,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -37,8 +38,8 @@
        id="perspective11" />
   </defs>
   <sodipodi:namedview
-     inkscape:window-height="654"
-     inkscape:window-width="640"
+     inkscape:window-height="558"
+     inkscape:window-width="773"
      inkscape:pageshadow="2"
      inkscape:pageopacity="0.0"
      guidetolerance="10.0"
@@ -50,11 +51,13 @@
      id="base"
      showgrid="false"
      inkscape:zoom="1.088"
-     inkscape:cx="250"
+     inkscape:cx="232.68612"
      inkscape:cy="150"
      inkscape:window-x="634"
-     inkscape:window-y="0"
-     inkscape:current-layer="svg2" />
+     inkscape:window-y="32"
+     inkscape:current-layer="svg2"
+     inkscape:document-rotation="0"
+     inkscape:window-maximized="0" />
   <rect
      width="450"
      height="300"
