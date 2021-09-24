@@ -1,9 +1,9 @@
 [nation_toltec]
 
-name=_("Toltec")
-plural=_("?plural:Toltecs")
-groups="Medieval", "American"
-legend=_("The Toltecs were a Meso-American civilization that existed from\
+name   = _("Toltec")
+plural = _("?plural:Toltecs")
+groups = "Medieval", "American"
+legend = _("The Toltecs were a Meso-American civilization that existed from\
  the 10th to the 12th century. The Toltec Empire was founded by Ce\
  Tecpatl Mixcoatl, who led his nomadic people from the north to settle on\
  the Mexican High Plain. Mixcoatl was murdered by his enemies but was\
@@ -34,13 +34,14 @@ ruler_titles = {
  "Monarchy",    _("Emperor %s"),         _("Empress %s")
 }
 
-flag="toltec"
+flag = "toltec"
 flag_alt = "aztec"
 style = "Classical"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
+
 conflicts_with = "mexican", "aztec"
 civilwar_nations = "aztec", "mayan"
 
@@ -92,6 +93,3 @@ cities =
  "Pochtlan",
  "Xochimilco",
  "Xolotlan"
-
-
-

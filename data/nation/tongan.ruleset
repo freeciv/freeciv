@@ -1,9 +1,9 @@
 [nation_tongan]
 
-name=_("Tongan")
-plural=_("?plural:Tongans")
-groups="Medieval", "Modern", "Oceanian"
-legend=_("An island group in the Southern Pacific, Tonga was settled by\
+name   = _("Tongan")
+plural = _("?plural:Tongans")
+groups = "Medieval", "Modern", "Oceanian"
+legend = _("An island group in the Southern Pacific, Tonga was settled by\
  Polynesians around 1000 BCE. Although the islands became a British\
  protectorate in the 19th century, they are the only country in Oceania\
  to have escaped actual colonization.")
@@ -22,15 +22,15 @@ ruler_titles = {
  "Fundamentalism", _("Elder %s"),          _("?female:Elder %s")
 }
 
-flag= "tonga"
+flag = "tonga"
 flag_alt = "-"
 style = "Tropical"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-civilwar_nations="samoan", "fijian"
+civilwar_nations = "samoan", "fijian"
 
 cities =
  "Nuku'alofa",

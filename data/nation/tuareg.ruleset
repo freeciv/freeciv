@@ -1,13 +1,14 @@
 [nation_tuareg]
 
-name=_("Tuareg")
-plural=_("?plural:Tuaregs")
-groups="African"
-legend=_("The Tuareg or Imuhagh are a pastoralist nomadic Berber people\
+name   = _("Tuareg")
+plural = _("?plural:Tuaregs")
+groups = "African"
+legend = _("The Tuareg or Imuhagh are a pastoralist nomadic Berber people\
  inhabiting the interior of the Sahara Desert, mostly in Algeria, Niger\
  and Mali. Despite their matrilineal organization they are followers of\
  Islam. For many centuries they engaged in slave hunting, even influencing\
  the slave trade to the Americas.")
+
 leaders = {
  "name",                           "sex"
  "Amattaza",                       "Male"
@@ -28,7 +29,7 @@ leaders = {
  "Khamzata Ag Makhammad",          "Male"
 }
 
-flag="tuareg"
+flag = "tuareg"
 flag_alt = "-"
 style = "Tropical"
 
@@ -39,11 +40,11 @@ ruler_titles = {
  "Fundamentalism",  _("Caliph %s"),       _("Calipha %s")
 }
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-conflicts_with="malian", "nigerien", "algerian", "libyan", "burkinabe"
+conflicts_with = "malian", "nigerien", "algerian", "libyan", "burkinabe"
 civilwar_nations = "songhai", "malian", "nigerien", "algerian", "libyan", "burkinabe"
 
 cities =

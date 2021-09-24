@@ -1,9 +1,9 @@
 [nation_thuringian]
 
-name=_("Thuringian")
-plural=_("?plural:Thuringians")
-groups="Medieval", "European"
-legend=_("The Thuringians were an ancient Germanic confederation in what\
+name   = _("Thuringian")
+plural = _("?plural:Thuringians")
+groups = "Medieval", "European"
+legend = _("The Thuringians were an ancient Germanic confederation in what\
  is now Central Germany, established after the defeat of the Huns.\
  Defeated by the Franks in the 8th century, Thuringia later became a\
  landgraviate of the Holy Roman Empire. After the extinction of the ruling\
@@ -44,29 +44,31 @@ ruler_titles = {
  "Monarchy",        _("Grand Duke %s"),      _("Grand Duchess %s")
  "Democracy",  _("Minister-President %s"), _("?female:Minister-President %s")
 }
-flag="thuringia"
+
+flag = "thuringia"
 flag_alt = "-"
 style = "European"
 
-init_techs=""
-init_buildings=""
-init_units=""
-civilwar_nations="saxon", "hessian", "franconian"
+init_techs = ""
+init_buildings = ""
+init_units = ""
+
+civilwar_nations = "saxon", "hessian", "franconian"
 
 cities =
 ;Capitals of Thuringian states
- "Weimar",		;Interwar Thuringia, Saxe-Weimar-Eisenach
- "Erfurt",		;Modern Thuringia
- "Gera",		;Reuss Younger Line
- "Gotha",		;Saxe-Gotha
- "Coburg",		;Saxe-Coburg
- "Altenburg",		;Saxe-Altenburg
- "Rudolstadt",		;Schwarzburg-Rudolstadt
- "Sondershausen",	;Schwarzburg-Sondershausen
- "Greiz",		;Reuss Elder Line
- "Meinigen",		;Saxe-Meiningen
- "Hildburghausen",	;Saxe-Hildburghausen
- "Saalfeld",    	;Saxe-Saalfeld
+ "Weimar",              ; Interwar Thuringia, Saxe-Weimar-Eisenach
+ "Erfurt",              ; Modern Thuringia
+ "Gera",                ; Reuss Younger Line
+ "Gotha",               ; Saxe-Gotha
+ "Coburg",              ; Saxe-Coburg
+ "Altenburg",           ; Saxe-Altenburg
+ "Rudolstadt",          ; Schwarzburg-Rudolstadt
+ "Sondershausen",       ; Schwarzburg-Sondershausen
+ "Greiz",               ; Reuss Elder Line
+ "Meinigen",            ; Saxe-Meiningen
+ "Hildburghausen",      ; Saxe-Hildburghausen
+ "Saalfeld",            ; Saxe-Saalfeld
 ;Cities in interwar Thuringia
  "Jena",
  "Eisenach",

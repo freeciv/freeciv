@@ -1,10 +1,10 @@
 [nation_taino]
 
-translation_domain="freeciv"
+translation_domain = "freeciv"
 
-name=_("Taino")
-plural=_("?plural:Taino")
-groups="American", "Core"
+name   = _("Taino")
+plural = _("?plural:Taino")
+groups = "American", "Core"
 
 legend=_("Native inhabitants of the Bahamas, Cuba, Hispaniola, Puerto Rico,\
  Jamaica, and other Caribbean islands who gave us the root words for\
@@ -27,17 +27,19 @@ leaders = {
  "Loquillo",    "Male"
  "Hatuey",      "Male"
 }
+
 ruler_titles = {
  "government",      "male_title",            "female_title"
  "Monarchy",        _("Great Chief %s"),     _("?female:Great Chief %s")
 }
+
 flag         = "taino"
 flag_alt     = "-"
 style        = "Tropical"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings =""
+init_units = ""
 
 conflicts_with = "cuban", "haitian", "dominicano", "puerto rican"
 civilwar_nations = "tupi", "tairona", "puerto rican"

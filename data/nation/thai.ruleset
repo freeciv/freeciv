@@ -1,11 +1,11 @@
 [nation_thai]
 
-translation_domain="freeciv"
+translation_domain = "freeciv"
 
-name=_("Thai")
-plural=_("?plural:Thai")
-groups="Modern", "Early Modern", "Medieval", "Asian", "Core"
-legend=_("The Thai kingdom was the only country in Southeast Asia to\
+name   = _("Thai")
+plural = _("?plural:Thai")
+groups = "Modern", "Early Modern", "Medieval", "Asian", "Core"
+legend = _("The Thai kingdom was the only country in Southeast Asia to\
  preserve its independence through the colonial era of the 18th and\
  19th centuries CE.")
 
@@ -19,14 +19,15 @@ leaders = {
  "Seni Pramoya",        "Male"
 }
 
-flag="thailand"
+flag = "thailand"
 flag_alt = "-"
 style = "Asian"
 
-init_techs=""
-init_buildings=""
-init_units=""
-civilwar_nations="shan", "khmer", "laotian"
+init_techs = ""
+init_buildings = ""
+init_units = ""
+
+civilwar_nations = "shan", "khmer", "laotian"
 
 cities =
  "Bangkok",

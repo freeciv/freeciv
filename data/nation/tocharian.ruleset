@@ -1,10 +1,10 @@
 [nation_tocharian]
 
-name=_("Tocharian")
-plural=_("?plural:Tocharians")
-groups="Asian"
+name   = _("Tocharian")
+plural = _("?plural:Tocharians")
+groups = "Asian"
 
-legend=_("The Tocharians were an Indo-European people living in what is now\
+legend = _("The Tocharians were an Indo-European people living in what is now\
  Xinjiang in western China. Because of their unique geopolitical position,\
  their kingdoms of Shanshan, Kucha, and Khotan (as well as other, smaller\
  ones) were influenced by Chinese, Persian, Indian, Sogdian, Scythian, and\
@@ -33,11 +33,11 @@ flag         = "tocharian"
 flag_alt     = "-"
 style        = "Babylonian"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-civilwar_nations="uyghur", "khwarezmian", "saka", "kushan"
+civilwar_nations = "uyghur", "khwarezmian", "saka", "kushan"
 
 cities =
  "Khotan",

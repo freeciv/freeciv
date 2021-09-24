@@ -1,9 +1,9 @@
 [nation_tyrolian]
 
-name=_("Tyrolian")
-plural=_("?plural:Tyrolians")
-groups="Medieval", "European"
-legend=_("Tyrol was a county in the Alps. In the 16th century its own\
+name   = _("Tyrolian")
+plural = _("?plural:Tyrolians")
+groups = "Medieval", "European"
+legend = _("Tyrol was a county in the Alps. In the 16th century its own\
  dynasty died out and the region passed to Habsburg Austria. The\
  southern part was annexed by Italy after World War I.")
 
@@ -25,14 +25,15 @@ ruler_titles = {
  "Republic",       _("Stadtholder %s"),     _("Stadtholdress %s")
 }
 
-flag="tyrol"
+flag = "tyrol"
 flag_alt = "austria"
 style = "European"
 
-init_techs=""
-init_buildings=""
-init_units=""
-civilwar_nations="bavarian", "austrian", "venetian"
+init_techs = ""
+init_buildings = ""
+init_units = ""
+
+civilwar_nations = "bavarian", "austrian", "venetian"
 
 cities =
  "Meran",

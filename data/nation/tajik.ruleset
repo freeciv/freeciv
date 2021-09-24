@@ -1,9 +1,9 @@
 [nation_tajik]
 
-name=_("Tajik")
-plural=_("?plural:Tajiks")
-groups="Modern", "Asian"
-legend=_("Tajikistan is a nation in Central Asia. The Tajiks trace the\
+name   = _("Tajik")
+plural = _("?plural:Tajiks")
+groups = "Modern", "Asian"
+legend = _("Tajikistan is a nation in Central Asia. The Tajiks trace the\
  foundation of their nation back to the Samanid Empire, one of the first\
  Persian states to appear after the Arab conquest.")
 
@@ -22,16 +22,16 @@ ruler_titles = {
  "Communism",       _("First Secretary %s"), _("?female:First Secretary %s")
 }
 
-flag="tajikistan"
+flag = "tajikistan"
 flag_alt = "-"
 style = "Classical"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-conflicts_with="Hungarian" ;similar-looking flag
-civilwar_nations="Iranian", "Pakistani", "Afghani"
+conflicts_with = "Hungarian" ;similar-looking flag
+civilwar_nations = "Iranian", "Pakistani", "Afghani"
 
 cities =
  "Dushanbe",

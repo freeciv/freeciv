@@ -1,9 +1,9 @@
 [nation_trinidadian]
 
-name=_("Trinidadian and Tobagonian")
-plural=_("?plural:Trinidadians and Tobagonians")
-groups="Modern", "American"
-legend=_("Trinidad and Tobago is a country in the Caribbean, consisting\
+name   = _("Trinidadian and Tobagonian")
+plural = _("?plural:Trinidadians and Tobagonians")
+groups = "Modern", "American"
+legend = _("Trinidad and Tobago is a country in the Caribbean, consisting\
  of the two eponymous islands. It is the most populous country of the\
  Lesser Antilles. Trinidad was sighted by Columbus in 1498, and remained\
  a Spanish colony until it was conquered by the British during the\
@@ -25,13 +25,14 @@ leaders = {
  "Kamla Persad-Bissessar", "Female"
 }
 
-flag="trinidad_and_tobago"
+flag = "trinidad_and_tobago"
 flag_alt = "-"
 style = "Tropical"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
+
 civilwar_nations = "jamaican", "guyanese", "grenadian"
 
 cities =

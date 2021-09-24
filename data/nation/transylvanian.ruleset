@@ -1,9 +1,9 @@
 [nation_transylvanian]
 
-name=_("Transylvanian")
-plural=_("?plural:Transylvanians")
-groups="Early Modern", "European"
-legend=_("Transylvania is a historical territory in what is now Romania,\
+name   = _("Transylvanian")
+plural = _("?plural:Transylvanians")
+groups = "Early Modern", "European"
+legend = _("Transylvania is a historical territory in what is now Romania,\
  inhabited by Romanians, Hungarians and Saxon Germans. Transylvania became\
  a principality under nominal Hungarian suzereignty when that country\
  started to crumble under the Ottoman incursions. During the Reformation,\
@@ -29,13 +29,13 @@ ruler_titles = {
  "Monarchy",        _("Grand Prince %s"), _("Grand Princess %s")
 }
 
-flag="transylvania"
+flag = "transylvania"
 flag_alt = "-"
 style = "European"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
 civilwar_nations = "romanian", "hungarian", "vampire"
 

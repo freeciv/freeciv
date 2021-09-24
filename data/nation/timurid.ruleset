@@ -1,9 +1,9 @@
 [nation_timurid]
 
-name=_("Timurid")
-plural=_("?plural:Timurids")
-groups="Medieval", "Asian"
-legend=_("Timur was a military genius who claimed lineage from Chinggis\
+name   = _("Timurid")
+plural = _("?plural:Timurids")
+groups = "Medieval", "Asian"
+legend = _("Timur was a military genius who claimed lineage from Chinggis\
  Khan and from his capital in Samarkand conquered all of Central Asia as\
  well as parts of the Middle East and India. The court culture of Timurid\
  Empire was heavily Persianized, while the imperial administration and\
@@ -27,15 +27,15 @@ ruler_titles = {
  "Fundamentalism",  _("Caliph %s"),    _("Calipha %s")
 }
 
-flag="timur"
-flag_alt="-"
+flag = "timur"
+flag_alt = "-"
 style = "Classical"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-civilwar_nations="Uzbek", "Tajik", "Iranian", "Afghani", "Mughal"
+civilwar_nations = "Uzbek", "Tajik", "Iranian", "Afghani", "Mughal"
 
 cities =
  "Samarkand",

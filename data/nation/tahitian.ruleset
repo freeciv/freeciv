@@ -1,9 +1,9 @@
 [nation_tahitian]
 
-name=_("Tahitian")
-plural=_("?plural:Tahitians")
-groups="Oceanian"
-legend=_("The islands of what is now French Polynesia were first settled\
+name   = _("Tahitian")
+plural = _("?plural:Tahitians")
+groups = "Oceanian"
+legend = _("The islands of what is now French Polynesia were first settled\
  by Polynesian peoples in the 3rd century CE. France established a\
  protectorate over Tahiti, the main island of the archipelago, in 1842.\
  In 1889 the entire area was declared a French colony. The islands remain\
@@ -28,13 +28,13 @@ ruler_titles = {
  "Monarchy",       _("Paramount Chief %s"), _("?female:Paramount Chief %s")
 }
 
-flag="french_polynesia"
+flag = "french_polynesia"
 flag_alt = "-"
 style = "tropical"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
 civilwar_nations = "hawaiian", "rapa nui" ;wallisan and futunan
 

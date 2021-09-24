@@ -1,9 +1,9 @@
 [nation_taiwanese]
 
-name=_("Taiwanese")
-plural=_("?plural:Taiwanese")
-groups="Modern", "Asian"
-legend=_("The Republic of China was established in 1912 as the successor\
+name   = _("Taiwanese")
+plural = _("?plural:Taiwanese")
+groups = "Modern", "Asian"
+legend = _("The Republic of China was established in 1912 as the successor\
  state of the Qing Empire, ending over two millennia of imperial rule in\
  China. When the Chinese Nationalists who ruled the Republic lost a\
  civil war against the Chinese Communists in 1949, the Nationalist\
@@ -21,18 +21,19 @@ leaders = {
 
 ruler_titles = {
  "government",      "male_title",      "female_title"
- "Monarchy",        _("Emperor %s"),      _("Empress Dowager %s")
- "Communism",       _("Chairman %s"),     _("Chairwoman %s")
+ "Monarchy",        _("Emperor %s"),   _("Empress Dowager %s")
+ "Communism",       _("Chairman %s"),  _("Chairwoman %s")
 }
 
-flag="taiwan"
+flag = "taiwan"
 flag_alt = "-"
 style = "Asian"
 
-init_techs=""
-init_buildings=""
-init_units=""
-civilwar_nations="chinese", "formosan"
+init_techs = ""
+init_buildings = ""
+init_units = ""
+
+civilwar_nations = "chinese", "formosan"
 
 ; These names used to be spelled differently (Taipeh instead of Taipei).
 ; The new names are better but may not be canonical.

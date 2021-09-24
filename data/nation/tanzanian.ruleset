@@ -1,9 +1,9 @@
 [nation_tanzanian]
 
-name=_("Tanzanian")
-plural=_("?plural:Tanzanians")
-groups="African", "Modern"
-legend=_("Tanzania was formed as a merger of the former British colonies\
+name   = _("Tanzanian")
+plural = _("?plural:Tanzanians")
+groups = "African", "Modern"
+legend = _("Tanzania was formed as a merger of the former British colonies\
  of Tanganyika and Zanzibar in 1964. For two decades the country was\
  ruled by Julius Nyerere, who followed the tenets of African socialism.\
  In 1985 Nyerere was the first African head of state to voluntarily step\
@@ -16,13 +16,13 @@ leaders = {
  "Ali Hassan Mwinyi",   "Male"
 }
 
-flag="tanzania"
+flag = "tanzania"
 flag_alt = "-"
 style = "Tropical"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
 civilwar_nations = "tanganyikan", "zanzibari", "maasai"
 conflicts_with = "tanganyikan", "zanzibari"

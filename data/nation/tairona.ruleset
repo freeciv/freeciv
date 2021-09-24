@@ -1,10 +1,10 @@
 [nation_tairona]
 
-name=_("Tairona")
-plural=_("?plural:Tairona")
-groups="American"
+name   = _("Tairona")
+plural = _("?plural:Tairona")
+groups = "American"
 
-legend=_("A Chibchan-speaking people related to the Kuna of Panama and the\
+legend = _("A Chibchan-speaking people related to the Kuna of Panama and the\
  Muisca of central Colombia, the Tairona inhabit the modern Magdalena and\
  La Guajira Departments of northern Colombia. Their city of Teyuna was\
  founded sometime around 500 BCE. The Tairona, living in a mountainous\
@@ -30,9 +30,9 @@ flag         = "tairona"
 flag_alt     = "-"
 style        = "Tropical"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
 civilwar_nations = "inca", "kuna", "mwiska"
 
