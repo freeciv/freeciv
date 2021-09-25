@@ -1203,7 +1203,15 @@ enum spaceship_place_type {
 typedef float adv_want;
 #define ADV_WANT_PRINTF "%f"
 
-enum setting_default_level { SETDEF_INTERNAL, SETDEF_RULESET, SETDEF_CHANGED };
+/* Used in the network protocol. */
+#define SPECENUM_NAME setting_default_level
+#define SPECENUM_VALUE0 SETDEF_INTERNAL
+#define SPECENUM_VALUE0NAME "Internal"
+#define SPECENUM_VALUE1 SETDEF_RULESET
+#define SPECENUM_VALUE1NAME "Ruleset"
+#define SPECENUM_VALUE2 SETDEF_CHANGED
+#define SPECENUM_VALUE2NAME "Changed"
+#include "specenum_gen.h"
 
 /* Used in the network protocol. */
 #define SPECENUM_NAME capital_type
