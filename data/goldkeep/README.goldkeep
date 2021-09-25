@@ -132,7 +132,7 @@ this file.
 To play a game with the goldkeep rules, start the server with:
        ./fcser -r data/goldkeep.serv
 or a single player game with
-       ./freeciv-gtk3 -r data/goldkeep.serv
+       ./freeciv-gtk3.22 -r data/goldkeep.serv
 (and any other command-line arguments you normally use)
 
 Start the client normally.  The client must be network-compatible
