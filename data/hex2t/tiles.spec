@@ -144,7 +144,7 @@ tiles = { "row", "column","tag"
   7, 2, "mask.tile"
   7, 3, "t.coast_color"
 
-  7, 4, "user.attention"
+  7, 4, "user.attention", "user.infratile"
   7, 5, "tx.fog"
 
 ; darkness

@@ -59,6 +59,8 @@ bool mapdeco_is_gotoline_set(const struct tile *ptile,
                              enum direction8 dir);
 void mapdeco_clear_gotoroutes(void);
 
+struct tile *client_infratile(void);
+void client_infratile_set(struct tile *ptile);
 
 extern struct view mapview;
 

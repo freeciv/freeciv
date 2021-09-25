@@ -148,7 +148,7 @@ tiles = { "row", "column","tag"
   0, 2, "t.unknown1"
   0, 3, "t.blend.ocean"
   0, 3, "t.blend.coast"
-  0, 4, "user.attention"
+  0, 4, "user.attention", "user.infratile"
   0, 5, "tx.fog"
 
   1, 0, "path.step"            ; turn boundary within path

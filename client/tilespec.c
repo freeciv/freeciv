@@ -318,6 +318,7 @@ struct named_sprites {
   } path;
   struct {
     struct sprite *attention;
+    struct sprite *infratile;
   } user;
   struct {
     struct sprite
@@ -3192,6 +3193,7 @@ static void tileset_lookup_sprite_tags(struct tileset *t)
   t->max_upkeep_height = calculate_max_upkeep_height(t);
 
   SET_SPRITE(user.attention, "user.attention");
+  SET_SPRITE(user.infratile, "user.infratile");
 
   SET_SPRITE_OPT(path.s[GTS_MP_LEFT].specific, "path.normal");
   SET_SPRITE_OPT(path.s[GTS_EXHAUSTED_MP].specific, "path.exhausted_mp");
@@ -6065,13 +6067,18 @@ int fill_sprite_array(struct tileset *t,
     break;
 
   case LAYER_INFRAWORK:
-    if (ptile != NULL && ptile->placing != NULL) {
-      const int id = extra_index(ptile->placing);
+    if (ptile != NULL) {
+      if (ptile->placing != NULL) {
+        const int id = extra_index(ptile->placing);
 
-      if (t->sprites.extras[id].activity != NULL) {
-        ADD_SPRITE(t->sprites.extras[id].activity,
-                   TRUE, FULL_TILE_X_OFFSET + t->activity_offset_x,
-                   FULL_TILE_Y_OFFSET + t->activity_offset_y);
+        if (t->sprites.extras[id].activity != NULL) {
+          ADD_SPRITE(t->sprites.extras[id].activity,
+                     TRUE, FULL_TILE_X_OFFSET + t->activity_offset_x,
+                     FULL_TILE_Y_OFFSET + t->activity_offset_y);
+        }
+      }
+      if (client_infratile() == ptile) {
+        ADD_SPRITE_SIMPLE(t->sprites.user.infratile);
       }
     }
     break;
