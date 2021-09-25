@@ -1,4 +1,3 @@
-
 ; Modifying this file:
 ; You should not modify this file except to make bugfixes or
 ; for other "maintenance".  If you want to make custom changes
@@ -111,12 +110,12 @@ hidden=true
 
 [nation_american]
 
-translation_domain="freeciv"
+translation_domain = "freeciv"
 
-name=_("American")
-plural=_("?plural:Americans")
-groups="Modern"
-legend=_("Formally named the United States of America.  Independent from\
+name   = _("American")
+plural = _("?plural:Americans")
+groups = "Modern"
+legend = _("Formally named the United States of America.  Independent from\
  Great Britain after a revolution in 1776-1783 AD.")
 
 leaders = {
@@ -129,106 +128,106 @@ ruler_titles = {
  "Republic",        _("Speaker %s"),      _("?female:Speaker %s")
 }
 
-flag="usa"
-flag_alt="-"
+flag = "usa"
+flag_alt = "-"
 style = "Celtic"
 
 color.r = 115
 color.g = 255
 color.b = 255
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
 cities =
- "Washington (ocean, river, swamp, !desert)", 
- "New York (ocean, river, forest, !desert, !jungle)", 
- "Boston (ocean, forest, !desert, !jungle)", 
- "Philadelphia (ocean, river, forest, !desert)", 
+ "Washington (ocean, river, swamp, !desert)",
+ "New York (ocean, river, forest, !desert, !jungle)",
+ "Boston (ocean, forest, !desert, !jungle)",
+ "Philadelphia (ocean, river, forest, !desert)",
  "Los Angeles (ocean, desert, plains)",
- "Atlanta (!ocean, forest, !desert)", 
- "Chicago (!ocean, forest, !desert, !jungle)", 
- "St. Louis (river, grassland, !desert)", 
+ "Atlanta (!ocean, forest, !desert)",
+ "Chicago (!ocean, forest, !desert, !jungle)",
+ "St. Louis (river, grassland, !desert)",
  "Detroit (!ocean, forest, !desert, !jungle)",
- "New Orleans (ocean, river, swamp, !desert)", 
- "Baltimore (ocean, river, swamp, !desert)", 
- "Denver (!ocean, hills, mountains)", 
- "Cincinnati (!ocean, forest, !desert)", 
+ "New Orleans (ocean, river, swamp, !desert)",
+ "Baltimore (ocean, river, swamp, !desert)",
+ "Denver (!ocean, hills, mountains)",
+ "Cincinnati (!ocean, forest, !desert)",
  "Dallas (!ocean, desert, plains)",
- "Houston (ocean, desert, plains)", 
- "San Antonio (!ocean, desert, plains)", 
+ "Houston (ocean, desert, plains)",
+ "San Antonio (!ocean, desert, plains)",
  "San Francisco (ocean, hills)",
- "Fresno (hills, plains)", 
+ "Fresno (hills, plains)",
  "Seattle (ocean, hills, forest, !desert, !jungle)",
- "Portland (river, forest, !desert, !jungle)", 
- "Miami (ocean, jungle, swamp, !desert, !tundra, !hills, !mountains)", 
+ "Portland (river, forest, !desert, !jungle)",
+ "Miami (ocean, jungle, swamp, !desert, !tundra, !hills, !mountains)",
  "Las Vegas (!ocean, desert)",
  "Cleveland (!ocean, forest, !desert)",
- "Toledo (!ocean, forest, !desert)", 
+ "Toledo (!ocean, forest, !desert)",
  "Pittsburgh (!ocean, river, forest, hills, !desert)",
- "Salt Lake City (!ocean, plains, desert)", 
- "San Diego (ocean, plains, desert)", 
- "Phoenix (!ocean, desert)", 
+ "Salt Lake City (!ocean, plains, desert)",
+ "San Diego (ocean, plains, desert)",
+ "Phoenix (!ocean, desert)",
  "Minneapolis (!ocean, !hills, !mountains, !desert, !jungle)",
- "St. Paul (!ocean, !hills, !mountains, !desert, !jungle)", 
+ "St. Paul (!ocean, !hills, !mountains, !desert, !jungle)",
  "Kansas City (!ocean, river, !hills, !mountains)",
  "Buffalo (!ocean, !desert, !jungle)",
- "Syracuse (!ocean, !desert)", 
- "Wichita (!ocean, !forest, !jungle, !hills, !mountains)", 
+ "Syracuse (!ocean, !desert)",
+ "Wichita (!ocean, !forest, !jungle, !hills, !mountains)",
  "Indianapolis (!ocean, forest, !desert)",
- "Orlando (swamp, jungle, !hills, !mountains)", 
- "Omaha (!ocean, river, !hills, !mountains)", 
- "Baton Rouge (river, swamp, !desert, !hills, !mountains)", 
- "Milwaukee (!ocean, !jungle, !desert)", 
- "Honolulu (ocean, swamp, jungle, !desert)", 
- "Boise (!ocean, hills, mountains, !jungle)", 
- "Fargo (!ocean, tundra, !hills, !mountains, !jungle)", 
+ "Orlando (swamp, jungle, !hills, !mountains)",
+ "Omaha (!ocean, river, !hills, !mountains)",
+ "Baton Rouge (river, swamp, !desert, !hills, !mountains)",
+ "Milwaukee (!ocean, !jungle, !desert)",
+ "Honolulu (ocean, swamp, jungle, !desert)",
+ "Boise (!ocean, hills, mountains, !jungle)",
+ "Fargo (!ocean, tundra, !hills, !mountains, !jungle)",
  "Springfield (!ocean, !desert)",
- "Nashville (!ocean, !desert)", 
- "Hartford (ocean, !desert)", 
+ "Nashville (!ocean, !desert)",
+ "Hartford (ocean, !desert)",
  "Charlotte (forest, !desert)",
  "Raleigh (forest, !desert)",
  "Charleston (ocean, river, swamp, !desert)",
  "Savannah (ocean, swamp, !desert)",
  "Mobile (ocean, river, swamp, !desert)",
- "El Paso (!ocean, desert, plains)", 
+ "El Paso (!ocean, desert, plains)",
  "Anchorage (ocean, tundra, !jungle)",
  "Fairbanks (!ocean, tundra, !jungle)",
- "Spokane (!ocean, plains, !jungle)", 
- "Tacoma (ocean, river, swamp, forest, !desert, !jungle)", 
- "Fort Worth (!ocean, desert, plains)", 
- "Austin (!ocean, desert, plains)", 
- "Sacramento (!ocean, grassland)", 
+ "Spokane (!ocean, plains, !jungle)",
+ "Tacoma (ocean, river, swamp, forest, !desert, !jungle)",
+ "Fort Worth (!ocean, desert, plains)",
+ "Austin (!ocean, desert, plains)",
+ "Sacramento (!ocean, grassland)",
  "Oklahoma City (!ocean, !forest, !hills, !mountains)",
- "Jacksonville (jungle, swamp, !hills, !mountains)", 
- "Sioux Falls (!ocean, !jungle)", 
- "Madison (!ocean, !jungle)", 
+ "Jacksonville (jungle, swamp, !hills, !mountains)",
+ "Sioux Falls (!ocean, !jungle)",
+ "Madison (!ocean, !jungle)",
  "Lubbock (!ocean, desert, plains)",
- "Amarillo (!ocean, desert, plains)", 
- "Little Rock (!ocean, !desert)", 
+ "Amarillo (!ocean, desert, plains)",
+ "Little Rock (!ocean, !desert)",
  "Tucson (!ocean, desert)",
- "Erie (!ocean, !desert, !jungle)", 
- "Flint (!ocean, !desert, !jungle)", 
- "Trenton (ocean, forest, !desert)", 
- "Newark (ocean, forest, !desert)",  
+ "Erie (!ocean, !desert, !jungle)",
+ "Flint (!ocean, !desert, !jungle)",
+ "Trenton (ocean, forest, !desert)",
+ "Newark (ocean, forest, !desert)",
  "Richmond (!ocean, forest, !desert)",
  "Reno (!ocean, !forest, desert)",
  "Santa Fe (!ocean, desert, hills, mountains)",
  "San Jose (hills, plains)",
- "Tulsa (!ocean, !forest, !hills, !mountains)", 
- "Annapolis (ocean, river, swamp, forest, !desert)", 
- "Akron (!ocean, forest, !desert)", 
+ "Tulsa (!ocean, !forest, !hills, !mountains)",
+ "Annapolis (ocean, river, swamp, forest, !desert)",
+ "Akron (!ocean, forest, !desert)",
  "Urbana-Champaign (!ocean, forest, !desert)"
 
 [nation_aztec]
 
-translation_domain="freeciv"
+translation_domain = "freeciv"
 
-name=_("Aztec")
-plural=_("?plural:Aztecs")
-groups="Ancient"
-legend=_("The Azteca, a Nahuatl speaking people from the Sonoran desert,\
+name   = _("Aztec")
+plural = _("?plural:Aztecs")
+groups = "Ancient"
+legend = _("The Azteca, a Nahuatl speaking people from the Sonoran desert,\
  seized control of the Toltec-derived civilizations of Central Mexico\
  during the 15th century, reviving the practice of human sacrifice.\
  They were conquered by the Spanish under Cortés in 1521.")
@@ -241,19 +240,19 @@ leaders = {
 ruler_titles = {
  "government",  "male_title",            "female_title"
  "Republic",    _("Speaker %s"),         _("?female:Speaker %s")
-} 
+}
 
-flag="aztec"
-flag_alt="-"
+flag = "aztec"
+flag_alt = "-"
 style = "Tropical"
 
 color.r = 230
 color.g = 230
 color.b = 74
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
 cities =
  "Mexihco Tenochtitlan (swamp, mountains)",
@@ -316,19 +315,19 @@ cities =
  "Cihuatlan",
  "Tlaxquiauhco",
  "Huexotla",
- "Tziuhcoac", 
+ "Tziuhcoac",
  "Ocuillan",
  "Axocopan",
  "Nopallan"
 
 [nation_babylonian]
 
-translation_domain="freeciv"
+translation_domain = "freeciv"
 
-name=_("Babylonian")
-plural=_("?plural:Babylonians")
-groups="Ancient"
-legend=_("Babylon was the dominant city of Mesopotamia from the 18th to\
+name   = _("Babylonian")
+plural = _("?plural:Babylonians")
+groups = "Ancient"
+legend = _("Babylon was the dominant city of Mesopotamia from the 18th to\
  7th centuries BC under a succession of peoples including Amorites,\
  Kassites, Assyrians, and Chaldeans.")
 
@@ -342,19 +341,19 @@ ruler_titles =
  ; /* TRANS: Lugal = Great Man */
  "Monarchy",   _("%s Lugal"),   _("?female:%s Lugal")
  "Communism",  _("%s Ensi"),    _("?female:%s Ensi")
-} 
+}
 
-flag="babylon"
-flag_alt="-"
+flag = "babylon"
+flag_alt = "-"
 style = "Babylonian"
 
 color.r = 115
 color.g = 255
 color.b = 67
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
 cities =
  "Babilum", ; Babylon
@@ -390,12 +389,12 @@ cities =
 
 [nation_chinese]
 
-translation_domain="freeciv"
+translation_domain = "freeciv"
 
-name=_("Chinese")
-plural=_("?plural:Chinese")
-groups="Modern"
-legend=_("China is the oldest major civilization that is still in\
+name   = _("Chinese")
+plural = _("?plural:Chinese")
+groups = "Modern"
+legend = _("China is the oldest major civilization that is still in\
  existence today, with written records dating back over 3,500 years.\
  After first being unified by the Qin dynasty in 221 BC, China alternated\
  between periods of unity and disunity, and was occasionally conquered by\
@@ -415,7 +414,7 @@ ruler_titles = {
  "Communism",       _("Chairman %s"),  _("Chairperson %s")
 }
 
-flag="han"
+flag = "han"
 flag_alt="-"
 style = "Asian"
 
@@ -423,115 +422,115 @@ color.r = 90
 color.g = 230
 color.b = 230
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
 cities =
  "Beijing",
  "Shanghai",
  "Guangzhou",
  "Tianjin",
- "Nanjing", 
+ "Nanjing",
  "Xi'an",
  "Chongqing",
  "Chengdu",
  "Jinan",
- "Shijiazhuang", 
+ "Shijiazhuang",
  "Taiyuan",
  "Zhengzhou",
  "Wuhan",
  "Changsha",
- "Nanchang", 
+ "Nanchang",
  "Hangzhou",
  "Fuzhou",
  "Hefei",
  "Guiyang",
- "Lanzhou", 
+ "Lanzhou",
  "Kunming",
  "Xining",
  "Nanning",
  "Yinchuan",
- "Shenyang", 
+ "Shenyang",
  "Changchun",
  "Harbin",
  "Luoyang",
  "Kaifeng",
- "Qingdao", 
+ "Qingdao",
  "Suzhou",
  "Wuxi",
  "Xiamen",
  "Haikou",
- "Hong Kong", 
+ "Hong Kong",
  "Datong",
  "Anyang",
  "Shangqiu",
  "Nanyang",
- "Dengfeng", 
+ "Dengfeng",
  "Handan",
  "Baoding",
  "Chengde",
  "Tangshan",
- "Zhangjiakou", 
+ "Zhangjiakou",
  "Yantai",
  "Zibo",
  "Jining",
  "Dezhou",
- "Qinhuangdao", 
+ "Qinhuangdao",
  "Changshu",
  "Gaoyou",
  "Nantong",
  "Zhenjiang",
- "Lianyungang", 
+ "Lianyungang",
  "Yangzhou",
  "Xuzhou",
  "Changzhou",
  "Wenzhou",
- "Huzhou", 
+ "Huzhou",
  "Shaoxing",
  "Jiaxing",
  "Ningbo",
  "Zhangzhou",
- "Quanzhou", 
+ "Quanzhou",
  "Shantou",
  "Foshan",
  "Shenzhen",
  "Zhuhai",
- "Zhongshan", 
+ "Zhongshan",
  "Huizhou",
  "Chaozhou",
  "Ganzhou",
  "Jiujiang",
- "Jingdezhen", 
+ "Jingdezhen",
  "Zhanjiang",
  "Liuzhou",
  "Beihai",
  "Guilin",
- "Yichang", 
+ "Yichang",
  "Xiangtan",
  "Zhuzhou",
  "Shaoyang",
  "Hengyang",
- "Yueyang", 
+ "Yueyang",
  "Mianyang",
  "Zigong",
  "Xianyang",
  "Baoji",
- "Gejiu", 
+ "Gejiu",
  "Tianshui",
  "Jiuquan",
  "Baiyin",
  "Dunhuang",
- "Jiayuguan", 
+ "Jiayuguan",
  "Dalian",
  "Anshan",
  "Fushun",
  "Jilin",
- "Mudanjiang", 
+ "Mudanjiang",
  "Liaoyang",
  "Dandong",
  "Baotou",
- "Heihe", 
+ "Heihe",
  "Bengbu",
  "Wuhu",
  "Anqing",
@@ -539,12 +538,12 @@ cities =
 
 [nation_egyptian]
 
-translation_domain="freeciv"
+translation_domain = "freeciv"
 
-name=_("Egyptian")
-plural=_("?plural:Egyptians")
-groups="Ancient"
-legend=_("Egypt was the second-oldest of the world's civilizations.  Since\
+name   = _("Egyptian")
+plural = _("?plural:Egyptians")
+groups = "Ancient"
+legend = _("Egypt was the second-oldest of the world's civilizations.  Since\
  ancient times it has been unusually urbanized, supporting a large\
  population on silt deposited by the annual floodings of the Nile.")
 
@@ -559,50 +558,50 @@ ruler_titles = {
  "Monarchy",        _("Great Pharaoh %s"), _("?female:Great Pharaoh %s")
 }
 
-flag="egypt_ancient"
-flag_alt="-"
+flag = "egypt_ancient"
+flag_alt = "-"
 style = "Babylonian"
 
 color.r = 255
 color.g = 255
 color.b = 99
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
 cities =
- "Waset",	; No-Amon, Diospolis Magna, Thebes, Luxor, Karnak
- "Ineb-Hedj",	; Men-Nefer, Memphis, Mit Rahina
- "Yunu",	; On, Heliopolis, el-Matariya
- "Suentet",	; Syene, Asuan
- "Sheresi",	; Merwer, Shedyt, Crokodilopolis, Arsinoe, Medinet el-Fayum
- "Per-Bastet",	; Bubastis, Tell Basta
- "Rakote",	; Alexandria
- "Behdet",	; Sam-Behutkhet, Pa-khen-em-Amon, Hu, Diospolis Parva etc.
- "Sa",		; Sais, San el-Hagar
- "Hardai",	; Cynopolis
- "This",	; Tjeny, Thinis, Girga
- "Ipu",		; Ipu-Khent-Min, Khemmis Panopolis, Akhmim
- "Djeuka",	; Antaeopolis, Kaw el-Kebir
- "Yuni",	; Hermonthis, Armant
- "Khem",	; Letopolis, Kom Ausim
- "Henen-Nesut",	; Heracleopolis, Ehnasije el-Medine
- "Per-Medjed",	; Oxyrynkhos, el-Bahnasa
- "Per-Usiri",	; Djedu, Busiris, Taposiris Magna, Abusir Bana
- "Imu",		; Kom el-Hisn
- "Itji-Tawi",	; el-Lisht
- "Sauti",	; Lycopolis, Asyut
- "Akhet-Aton",	; el-Amarna
- "Chaswu",	; Xois, Sakha
- "Pi-Rameses",	; Qantir
- "Abdju",	; Osiris, Abydos
- "Djanenet",	; Hut-Waret, Tanis, Awaris, San el-Hagar
+ "Waset",       ; No-Amon, Diospolis Magna, Thebes, Luxor, Karnak
+ "Ineb-Hedj",   ; Men-Nefer, Memphis, Mit Rahina
+ "Yunu",        ; On, Heliopolis, el-Matariya
+ "Suentet",     ; Syene, Asuan
+ "Sheresi",     ; Merwer, Shedyt, Crokodilopolis, Arsinoe, Medinet el-Fayum
+ "Per-Bastet",  ; Bubastis, Tell Basta
+ "Rakote",      ; Alexandria
+ "Behdet",      ; Sam-Behutkhet, Pa-khen-em-Amon, Hu, Diospolis Parva etc.
+ "Sa",          ; Sais, San el-Hagar
+ "Hardai",      ; Cynopolis
+ "This",        ; Tjeny, Thinis, Girga
+ "Ipu",         ; Ipu-Khent-Min, Khemmis Panopolis, Akhmim
+ "Djeuka",      ; Antaeopolis, Kaw el-Kebir
+ "Yuni",        ; Hermonthis, Armant
+ "Khem",        ; Letopolis, Kom Ausim
+ "Henen-Nesut", ; Heracleopolis, Ehnasije el-Medine
+ "Per-Medjed",  ; Oxyrynkhos, el-Bahnasa
+ "Per-Usiri",   ; Djedu, Busiris, Taposiris Magna, Abusir Bana
+ "Imu",         ; Kom el-Hisn
+ "Itji-Tawi",   ; el-Lisht
+ "Sauti",       ; Lycopolis, Asyut
+ "Akhet-Aton",  ; el-Amarna
+ "Chaswu",      ; Xois, Sakha
+ "Pi-Rameses",  ; Qantir
+ "Abdju",       ; Osiris, Abydos
+ "Djanenet",    ; Hut-Waret, Tanis, Awaris, San el-Hagar
  "Per-Banebdjedet", ; Mendes, Tema el-Amdid
- "Tjeb-Neter",	; Sebennythos, Samanud
+ "Tjeb-Neter",  ; Sebennythos, Samanud
  "Anpet-Djedet", ; Tmuis
- "Gebtiu",	; Koptos, Kuft
- "Taminhor", 	; Hermopolis Parva, Damanhur
+ "Gebtiu",      ; Koptos, Kuft
+ "Taminhor",    ; Hermopolis Parva, Damanhur
 
 ; Cities without Old Egyptian name; Probably founded by Greeks or Romans
  "Pelusium",
@@ -621,12 +620,12 @@ cities =
 
 [nation_english]
 
-translation_domain="freeciv"
+translation_domain = "freeciv"
 
-name=_("English")
-plural=_("?plural:English")
-groups="Modern"
-legend=_("England was unified by Alfred the Great of Wessex in the late\
+name   = _("English")
+plural = _("?plural:English")
+groups = "Modern"
+legend = _("England was unified by Alfred the Great of Wessex in the late\
  9th century, only to be conquered by William of Normandy a century\
  later, in the last successful invasion of the country.")
 
@@ -640,17 +639,17 @@ ruler_titles = {
  "Democracy",       _("Prime Minister %s"), _("?female:Prime Minister %s")
 }
 
-flag="england"
-flag_alt="-"
+flag = "england"
+flag_alt = "-"
 style = "European"
 
 color.r = 230
 color.g = 138
 color.b = 10
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
 cities =
  "London",
@@ -734,12 +733,12 @@ cities =
 
 [nation_french]
 
-translation_domain="freeciv"
+translation_domain = "freeciv"
 
-name=_("French")
-plural=_("?plural:French")
-groups="Modern"
-legend=_("France has long been a major power in Europe. French conquerors\
+name   = _("French")
+plural = _("?plural:French")
+groups = "Modern"
+legend = _("France has long been a major power in Europe. French conquerors\
  like Emperor Napoleon and King Charlemagne united large parts of\
  Europe under the French flag.")
 
@@ -754,17 +753,17 @@ ruler_titles = {
  "Democracy",       _("Premier %s"),      _("?female:Premier %s")
 }
 
-flag="france_old"
-flag_alt="-"
+flag = "france_old"
+flag_alt = "-"
 style = "Celtic"
 
 color.r = 90
 color.g = 42
 color.b = 230
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
 cities =
  "Paris",
@@ -859,11 +858,11 @@ cities =
 
 [nation_german]
 
-translation_domain="freeciv"
+translation_domain = "freeciv"
 
 name   = _("German")
 plural = _("?plural:Germans")
-groups  = "Modern"
+groups = "Modern"
 
 legend = _("Germany was united in 1871 by the Prussian military \
 force. After World War I it became a republic, but fell into \
@@ -890,23 +889,23 @@ color.g = 67
 color.b = 255
 
 init_techs = ""
-init_buildings=""
-init_units=""
+init_buildings = ""
+init_units = ""
 
 cities =
- "Berlin (grassland, !mountains)", 
+ "Berlin (grassland, !mountains)",
  "Hamburg (grassland, swamp, ocean, river, !mountains)",
- "München (hills, mountains, !ocean)", 
- "Köln (plains, hills, river)", 
+ "München (hills, mountains, !ocean)",
+ "Köln (plains, hills, river)",
  "Frankfurt am Main (grassland, hills, river, !ocean)",
- "Essen (grassland, hills, !river)", 
+ "Essen (grassland, hills, !river)",
  "Dortmund (grassland, hills)",
- "Stuttgart (hills, !ocean)", 
- "Düsseldorf (grassland, hills, river)", 
+ "Stuttgart (hills, !ocean)",
+ "Düsseldorf (grassland, hills, river)",
  "Bremen (grassland, plains, swamp, ocean, river, !mountains)",
  "Duisburg (grassland, hills, river)",
  "Hannover (grassland, plains, !mountains)",
- "Nürnberg (hills, mountains, river, !ocean)", 
+ "Nürnberg (hills, mountains, river, !ocean)",
  "Leipzig (grassland, plains, hills, !ocean)",
  "Dresden (plains, hills, river, !ocean)",
  "Bochum (grassland, plains, hills, !river)",
@@ -921,7 +920,7 @@ cities =
  "Wiesbaden (plains, hills, river, !ocean)",
  "Magdeburg (grassland, plains, river)",
  "Münster (grassland, plains, !river)",
- "Mönchengladbach (grassland, plains, !river)", 
+ "Mönchengladbach (grassland, plains, !river)",
  "Augsburg (forest, hills, mountains, river, !ocean)",
  "Braunschweig (grassland, plains)",
  "Krefeld (grassland, plains, !river)",
@@ -966,7 +965,7 @@ cities =
  "Offenbach am Main (grassland, hills, river, !ocean)",
  "Ulm (forest, hills, river, !ocean)",
  "Siegen (forest, hills, river)",
- "Koblenz (forest, hills, river, !ocean)", 
+ "Koblenz (forest, hills, river, !ocean)",
  "Ingolstadt (hills, river, !ocean)",
  "Fürth (hills, !ocean)",
  "Zwickau (forest, hills, !ocean)",
@@ -1015,12 +1014,12 @@ cities =
 
 [nation_greek]
 
-translation_domain="freeciv"
+translation_domain = "freeciv"
 
-name=_("Greek")
-plural=_("?plural:Greeks")
-groups="Modern"
-legend=_("The ancient Greeks, between Mycenae and the Roman conquest.")
+name   = _("Greek")
+plural = _("?plural:Greeks")
+groups = "Modern"
+legend = _("The ancient Greeks, between Mycenae and the Roman conquest.")
 
 leaders = {
  "name",                "sex"
@@ -1033,17 +1032,17 @@ ruler_titles = {
  "Democracy",       _("Prime Minister %s"), _("?female:Prime Minister %s")
 }
 
-flag="greece_ancient"
-flag_alt="-"
+flag = "greece_ancient"
+flag_alt = "-"
 style = "Classical"
 
 color.r = 255
 color.g = 163
 color.b = 35
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
 cities =
 ; Original city list with native Greek orthography
@@ -1087,7 +1086,7 @@ cities =
  "Atalanti",
  "Oropos",
  "Livadeia",
- "Larisa (river)", 
+ "Larisa (river)",
  "Iolkos",
  "Amfiklaia",
  "Kyzikos",
@@ -1102,7 +1101,7 @@ cities =
  "Thira (ocean)",
  "Panormos",
  "Ortygia",
- "Milos (ocean)", 
+ "Milos (ocean)",
  "Lykosoura",
  "Amyklai",
  "Klazomenai",
@@ -1110,35 +1109,35 @@ cities =
  "Distomon (hills, mountains)",
 ; Additional cities sorted in joint population/chronology order
  "Smyrni (ocean)",
- "Alexandreia (ocean)", 
+ "Alexandreia (ocean)",
  "Nikomideia",
  "Trapezous (ocean)",
- "Chania", 
- "Knossos", 
+ "Chania",
+ "Knossos",
  "Pafos",
  "Mitylini (ocean)",
- "Chios", 
+ "Chios",
  "Sinopi",
  "Rodos (ocean)",
  "Adrianoupolis (river)",
- "Volos", 
+ "Volos",
  "Neapolis",
  "Ammostochos",
- "Arta (river)", 
+ "Arta (river)",
  "Serrai",
  "Katerini",
  "Trikala",
  "Lamia",
- "Agrinion", 
+ "Agrinion",
  "Xanthi",
  "Veroia",
  "Drama",
- "Komotini", 
+ "Komotini",
  "Troia",
- "Kozani", 
+ "Kozani",
  "Karditsa (!ocean)",
  "Samos",
- "Pirgos", 
+ "Pirgos",
  "Tripolis (mountains)",
  "Rethymnon",
  "Kastoria",
@@ -1147,17 +1146,17 @@ cities =
  "Preveza",
  "Kilkis",
  "Ayios Nikolaos",
- "Zakynthos (ocean)", 
+ "Zakynthos (ocean)",
  "Igoumenotsa",
  "Mesolongion",
- "Lefkosia", 
+ "Lefkosia",
  "Grevena",
  "Argostolion (ocean)",
  "Karpenisi",
- "Lefkas", 
+ "Lefkas",
  "Militos",
  "Polygyros",
- "Kalamai", 
+ "Kalamai",
  "Kariai (mountains)",
  "Ermoupolis",
  "Ydra (ocean)",
@@ -1167,12 +1166,12 @@ cities =
 
 [nation_indian]
 
-translation_domain="freeciv"
+translation_domain = "freeciv"
 
-name=_("Indian")
-plural=_("?plural:Indians")
-groups="Modern"
-legend=_("The cradle of Ancient Indian civilization lay in the Indus river\
+name   = _("Indian")
+plural = _("?plural:Indians")
+groups = "Modern"
+legend = _("The cradle of Ancient Indian civilization lay in the Indus river\
  valley in modern-day Pakistan.")
 
 leaders = {
@@ -1187,34 +1186,34 @@ ruler_titles = {
  "Republic",        _("Mahatma %s"),   _("?female:Mahatma %s")
 }
 
-flag="india"
-flag_alt="-"
+flag = "india"
+flag_alt = "-"
 style = "Asian"
 
 color.r = 255
 color.g = 51
 color.b = 255
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
 cities =
  "Delhi",
- "Mumbai",		; Bombay
- "Chennai",		; Madras
+ "Mumbai",              ; Bombay
+ "Chennai",             ; Madras
  "Bangalore",
- "Kolkata",		; Calcutta
- "Ahmedabad",		; Ahmadabad
+ "Kolkata",             ; Calcutta
+ "Ahmedabad",           ; Ahmadabad
  "Kanpur",
  "Hyderabad",
  "Lucknow",
- "Varanasi",		; Benares
+ "Varanasi",            ; Benares
  "Chandigarh",
  "Madurai",
  "Coimbatore",
- "Kozhikode",		; Calicut
- "Thiruvananthapuram",	; Trivandrum
+ "Kozhikode",           ; Calicut
+ "Thiruvananthapuram",  ; Trivandrum
  "Nagpur",
  "Amritsar",
  "Srinagar",
@@ -1229,8 +1228,8 @@ cities =
  "Mysore",
  "Raipur",
  "Gaya",
- "Kanpur",		; Cawnpore
- "Pune (hills)",	; Poona
+ "Kanpur",              ; Cawnpore
+ "Pune (hills)",        ; Poona
  "Ranchi",
  "Bhubaneswar",
  "Thiruvananthapuram",
@@ -1264,19 +1263,19 @@ cities =
 
 [nation_mongol]
 
-translation_domain="freeciv"
+translation_domain = "freeciv"
 
-name=_("Mongol")
-plural=_("?plural:Mongols")
-groups="Modern"
-legend=_("In the centuries after their unification by Chinggis Khan, the\
+name   = _("Mongol")
+plural = _("?plural:Mongols")
+groups = "Modern"
+legend = _("In the centuries after their unification by Chinggis Khan, the\
  Mongols conquered the largest empire in human history, encompassing most\
  of the continent of Asia. They became notorious for their utter\
  ruthlessness in warfare.")
 
 leaders = {
  "name",        "sex"
- "Chinggis",	"Male" ; Genghis / Чингис
+ "Chinggis",    "Male" ; Genghis / Чингис
 }
 
 ruler_titles = {
@@ -1285,19 +1284,19 @@ ruler_titles = {
  "Monarchy",        _("%s Khagan"),    _("?female:%s Khagan")
 }
 
-flag="mongolia"
-flag_alt="-"
+flag = "mongolia"
+flag_alt = "-"
 style = "Asian"
 
 color.r = 230
 color.g = 26
 color.b = 230
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-cities=
+cities =
  "Karakorum", ; Каракорум
  "Ulaanbaatar", ; Улаанбаатар
  "Sainshand", ; Сайншанд
@@ -1331,12 +1330,12 @@ cities=
 
 [nation_roman]
 
-translation_domain="freeciv"
+translation_domain = "freeciv"
 
-name=_("Roman")
-plural=_("?plural:Romans")
-groups="Ancient"
-legend=_("Rome was, in legend, founded by Romulus in 753 BC. At its\
+name   = _("Roman")
+plural = _("?plural:Romans")
+groups = "Ancient"
+legend = _("Rome was, in legend, founded by Romulus in 753 BC. At its\
  height, Rome controlled nearly all of Europe, northern Africa and\
  Mesopotamia.")
 
@@ -1353,17 +1352,17 @@ ruler_titles = {
  "Anarchy",         _("Usurper %s"),   _("?female:Usurper %s")
 }
 
-flag="rome"
-flag_alt="-"
+flag = "rome"
+flag_alt = "-"
 style = "Classical"
 
 color.r = 255
 color.g = 255
 color.b = 255
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
 cities =
   "Roma", "Capua", "Veii", "Beneventum", "Corfinium", "Ancona",
@@ -1386,12 +1385,12 @@ cities =
 
 [nation_russian]
 
-translation_domain="freeciv"
+translation_domain = "freeciv"
 
-name=_("Russian")
-plural=_("?plural:Russians")
-groups="Modern"
-legend=_("According to legend, Slavic and Finnic tribes of Novgorod\
+name   = _("Russian")
+plural = _("?plural:Russians")
+groups = "Modern"
+legend = _("According to legend, Slavic and Finnic tribes of Novgorod\
  invited in the year 862 the Varangian (Viking) king Rurik to bring order\
  to their land. Rurik established Kievan Rus' in this realm, the first\
  Russian state. By the 11th century, Kievan Rus' had disintegrated into\
@@ -1413,7 +1412,7 @@ ruler_titles = {
  "Monarchy",        _("Tsar %s"),      _("Tsaritsa %s")
 }
 
-flag="kiev"
+flag = "kiev"
 flag_alt = "-"
 style = "European"
 
@@ -1421,9 +1420,9 @@ color.r = 230
 color.g = 230
 color.b = 230
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
 cities =
  "Moskva",
@@ -1483,12 +1482,12 @@ cities =
 
 [nation_zulu]
 
-translation_domain="freeciv"
+translation_domain = "freeciv"
 
-name=_("Zulu")
-plural=_("?plural:Zulus")
-groups="Ancient"
-legend=_("The Zulus are a warlike Bantu people who migrated from\
+name   = _("Zulu")
+plural = _("?plural:Zulus")
+groups = "Ancient"
+legend = _("The Zulus are a warlike Bantu people who migrated from\
  west-central Africa into southern Africa beginning in the early 1700s,\
  conquering the native Khoisan peoples and clashing with European settlers.")
 
@@ -1504,23 +1503,23 @@ ruler_titles = {
  "Democracy",       _("Principal Chief %s"), _("?female:Principal Chief %s")
 }
 
-flag="zulu"
-flag_alt="-"
+flag = "zulu"
+flag_alt = "-"
 style = "Tropical"
 
 color.r = 90
 color.g = 230
 color.b = 42
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
 cities =
  "Zimbabwe",
  "Ulundi",
- "Ethekwini",	; Boer name: Durban
- "Tshwane",	; Boer name: Pretoria
+ "Ethekwini",   ; Boer name: Durban
+ "Tshwane",     ; Boer name: Pretoria
  "Harare",
  "Maputo",
  "Bulaweyo",
@@ -1555,12 +1554,12 @@ cities =
 
 [nation_barbarian]
 
-translation_domain="freeciv"
+translation_domain = "freeciv"
 
-name=_("Barbarian")
-plural=_("?plural:Barbarians")
-groups="Barbarian"
-legend=_("Since the dawn of civilization, barbarians have been a threat to\
+name   = _("Barbarian")
+plural = _("?plural:Barbarians")
+groups = "Barbarian"
+legend = _("Since the dawn of civilization, barbarians have been a threat to\
  cultured peoples everywhere.")
 
 leaders = {
@@ -1573,7 +1572,7 @@ leaders = {
  "Boadicea",    "Female"
 }
 
-flag="barbarian"
+flag = "barbarian"
 flag_alt = "-"
 style = "European"
 
@@ -1581,9 +1580,9 @@ color.r = 255
 color.g = 67
 color.b = 67
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
 cities = "Barbaricum"
 
@@ -1596,12 +1595,12 @@ barbarian_type = "LandAndSea"
 ; Freeciv should always pick the one "LandAndSea" barbarian in new games.
 [nation_pirate]
 
-translation_domain="freeciv"
+translation_domain = "freeciv"
 
-name=_("Pirate")
-plural=_("?plural:Pirates")
-groups="Barbarian"
-legend=_("As long as honest men have sailed the seas, pirates have been a\
+name   = _("Pirate")
+plural = _("?plural:Pirates")
+groups = "Barbarian"
+legend = _("As long as honest men have sailed the seas, pirates have been a\
  scourge of them and of all coastal dwelling peoples.")
 
 leaders = {
@@ -1615,7 +1614,7 @@ leaders = {
  "Bartolomeo Portugues",        "Male"
 }
 
-flag="pirate"
+flag = "pirate"
 flag_alt = "-"
 style = "European"
 
@@ -1623,14 +1622,14 @@ color.r = 255
 color.g = 67
 color.b = 67
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
 ; Various pirate havens
 cities =
  "New Providence",
- "Port Royal", 
+ "Port Royal",
  "Tortuga"
 
 is_playable = FALSE
