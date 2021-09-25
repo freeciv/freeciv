@@ -27,6 +27,7 @@
 /* client */
 #include "client_main.h"
 #include "dialogs_g.h"
+#include "mapview_common.h"
 
 /* client/gui-gtk3.22 */
 #include "gui_main.h"
@@ -61,6 +62,8 @@ static void infra_response_callback(GtkWidget *dlg, gint arg)
   instruction_label = NULL;
   points_label = NULL;
   infra_rows = 0;
+
+  client_infratile_set(NULL);
 
   gtk_widget_destroy(dlg);
 }
@@ -164,6 +167,8 @@ void infra_placement_set_tile(struct tile *ptile)
   if (!client_map_is_known_and_seen(ptile, client.conn.playing, V_MAIN)) {
     return;
   }
+
+  client_infratile_set(ptile);
 
   extra_type_iterate(pextra) {
     if (player_can_place_extra(pextra, client.conn.playing, ptile)) {

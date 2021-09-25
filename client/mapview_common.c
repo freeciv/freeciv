@@ -78,6 +78,8 @@ static bool frame_by_frame_animation = FALSE;
 
 struct tile *center_tile = NULL;
 
+struct tile *infratile = NULL;
+
 static void base_canvas_to_map_pos(int *map_x, int *map_y,
                                    float canvas_x, float canvas_y);
 
@@ -4025,4 +4027,29 @@ const char *describe_topology(int topo)
 void set_frame_by_frame_animation(void)
 {
   frame_by_frame_animation = TRUE;
+}
+
+/************************************************************************//**
+  Return currently selected infratile, if any
+****************************************************************************/
+struct tile *client_infratile(void)
+{
+  return infratile;
+}
+
+/************************************************************************//**
+  Select specific infratile
+****************************************************************************/
+void client_infratile_set(struct tile *ptile)
+{
+  struct tile *old_tile = infratile;
+
+  infratile = ptile;
+
+  if (old_tile != NULL) {
+    refresh_tile_mapcanvas(old_tile, FALSE, TRUE);
+  }
+  if (ptile != NULL) {
+    refresh_tile_mapcanvas(ptile, FALSE, TRUE);
+  }
 }

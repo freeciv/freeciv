@@ -134,7 +134,7 @@ tiles = { "row", "column","tag"
   5,    0, "t.blend.ocean"
   5,    1, "t.dither_tile"
   5,    1, "tx.darkness"
-  5,    3, "user.attention"
+  5,    3, "user.attention", "user.infratile"
   5,    4, "tx.fog"
   5,    5, "mask.tile"
 

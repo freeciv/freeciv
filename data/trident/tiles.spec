@@ -576,7 +576,7 @@ tiles = { "row", "column", "tag"
   5, 16, "unit.tired"
   5, 16, "unit.lowfuel"
   5, 17, "unit.loaded"
-  5, 18, "user.attention"	; Variously crosshair/red-square/arrows
+  5, 18, "user.attention", "user.infratile" ; Variously crosshair/red-square/arrows
   5, 19, "unit.stack"
 
 ; Goto path:
