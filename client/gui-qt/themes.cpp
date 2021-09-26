@@ -107,7 +107,7 @@ void qtg_gui_clear_theme()
   if (!load_theme(FC_QT_DEFAULT_THEME_NAME)) {
     /* TRANS: No full stop after the URL, could cause confusion. */
     log_fatal(_("No Qt-client theme was found. For instructions on how to "
-                "get one, please visit %s"), WIKI_URL);
+                "get one, please visit %s"), HOMEPAGE_URL);
     exit(EXIT_FAILURE);
   }
 }

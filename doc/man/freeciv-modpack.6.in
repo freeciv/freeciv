@@ -56,7 +56,7 @@ regarding the operation of
 .B freeciv-mp-XXX
 see README.modpack_installer in the Freeciv distribution, and the
 documentation at
-.UR @WIKI_URL@
+.UR @HOMEPAGE_URL@
 the Freeciv website
 .UE
 .
@@ -148,7 +148,7 @@ the Freeciv bug tracker
 
 .SH "MORE INFO"
 See the
-.UR @WIKI_URL@
+.UR @HOMEPAGE_URL@
 Freeciv homepage
 .UE
 \&.

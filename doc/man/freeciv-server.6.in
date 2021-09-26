@@ -64,7 +64,7 @@ This manual page only lists the command line arguments. For details
 of the directives necessary to configure
 .B freeciv-server
 see the Server Manual which can be found at
-.UR @WIKI_URL@
+.UR @HOMEPAGE_URL@
 the Freeciv website
 .UE
 as well as the documentation which is part of the Freeciv distribution.
@@ -402,7 +402,7 @@ the Freeciv bug tracker
 
 .SH "MORE INFO"
 See the
-.UR @WIKI_URL@
+.UR @HOMEPAGE_URL@
 Freeciv homepage
 .UE
 \&.

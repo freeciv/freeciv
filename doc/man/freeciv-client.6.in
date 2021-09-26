@@ -71,7 +71,7 @@ This manual page only lists the command line arguments. For more details
 about using \fBfreeciv-gtk3.22\fP,
 \fBfreeciv-sdl2\fP, or \fBfreeciv-qt\fP,
 see the Client Manual which can be found at
-.UR @WIKI_URL@
+.UR @HOMEPAGE_URL@
 the Freeciv website
 .UE
 as well as the documentation which is part of the Freeciv distribution.
@@ -326,7 +326,7 @@ the Freeciv bug tracker
 
 .SH "MORE INFO"
 See the
-.UR @WIKI_URL@
+.UR @HOMEPAGE_URL@
 Freeciv homepage
 .UE
 \&.

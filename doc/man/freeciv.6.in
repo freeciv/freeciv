@@ -79,7 +79,7 @@ metaserver.
 .SH BUGS
 Please report bugs to the Freeciv bug tracker, @BUG_URL@ .
 .SH "MORE INFO"
-There is a great deal more information at the Freeciv homepage, @WIKI_URL@ .
+There is a great deal more information at the Freeciv homepage, @HOMEPAGE_URL@ .
 Updates and new info are first posted there.
 A Client Manual, a Server Manual, and a wiki on many topics, 
 are published there. 
