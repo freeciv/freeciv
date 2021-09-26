@@ -420,6 +420,8 @@ flags         = "Unreachable", "DoesntOccupyTile", "CanPillage",
 ; "NeverProtects" = doesn't protect reachable units on its tile from enemy
 ;                 attackers, even if the unreachableprotects server setting
 ;                 is enabled and the unit class is unreachable
+; "RandomMovement" = Unit makes random movements in the beginning of the turn,
+;                 player has no control over its movement
 ;
 ; Following actions require extra fields:
 ;  "Attack" and "Suicide Attack"

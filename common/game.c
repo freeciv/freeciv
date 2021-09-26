@@ -429,6 +429,7 @@ static void game_defaults(bool keep_ruleset_value)
     game.server.turnblock         = GAME_DEFAULT_TURNBLOCK;
     game.server.unitwaittime      = GAME_DEFAULT_UNITWAITTIME;
     game.server.plr_colors        = NULL;
+    game.server.random_move_time  = NULL;
   } else {
     /* Client side takes care of itself in client_main() */
   }

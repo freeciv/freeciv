@@ -268,6 +268,8 @@ struct civ_game {
 
       struct trait_limits default_traits[TRAIT_COUNT];
 
+      struct player *random_move_time;
+
       struct {
         char *description_file;
         char *nationlist;

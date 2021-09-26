@@ -1578,7 +1578,14 @@ struct unit *unit_virtual_create(struct player *pplayer, struct city *pcity,
   /* A unit new and fresh ... */
   punit->fuel = utype_fuel(unit_type_get(punit));
   punit->hp = unit_type_get(punit)->hp;
-  punit->moves_left = unit_move_rate(punit);
+  if (utype_has_flag(punittype, UTYF_RANDOM_MOVEMENT)) {
+    /* Random moves units start with zero movement as their first movement
+     * will be only after their moves have been reset in the beginning of
+     * the next turn. */
+    punit->moves_left = 0;
+  } else {
+    punit->moves_left = unit_move_rate(punit);
+  }
   punit->moved = FALSE;
 
   punit->ssa_controller = SSA_NONE;

@@ -47,6 +47,7 @@ enum unit_move_result {
   MR_NON_NATIVE_MOVE,  /* Usually RMM_RELAXED road diagonally without link */
   MR_ANIMAL_DISALLOWED,
   MR_UNIT_STAY,
+  MR_RANDOM_ONLY,
   MR_NOT_ALLOWED
 };
 

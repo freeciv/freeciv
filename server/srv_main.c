@@ -1260,6 +1260,7 @@ static void begin_phase(bool is_new_phase)
     /* Execute orders after activities have been completed (roads built,
      * pillage done, etc.). */
     phase_players_iterate(pplayer) {
+      random_movements(pplayer);
       execute_unit_orders(pplayer);
       flush_packets();
     } phase_players_iterate_end;

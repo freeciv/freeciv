@@ -93,6 +93,7 @@ bool is_airunit_refuel_point(const struct tile *ptile,
 /* turn update related */
 void player_restore_units(struct player *pplayer);
 void update_unit_activities(struct player *pplayer);
+void random_movements(struct player *pplayer);
 void execute_unit_orders(struct player *pplayer);
 void finalize_unit_phase_beginning(struct player *pplayer);
 

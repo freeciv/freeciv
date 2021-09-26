@@ -576,20 +576,21 @@ bool unit_can_move_to_tile(const struct civ_map *nmap,
   The unit can move if:
     1) The unit is idle or on server goto.
     2) Unit is not prohibited from moving by scenario
-    3) The target location is next to the unit.
-    4) There are no non-allied units on the target tile.
-    5) Animals cannot move out from home terrains
-    6) Unit can move to a tile where it can't survive on its own if there
+    3) Unit is not a "random movement only" one, or this is random movement
+    4) The target location is next to the unit.
+    5) There are no non-allied units on the target tile.
+    6) Animals cannot move out from home terrains
+    7) Unit can move to a tile where it can't survive on its own if there
        is free transport capacity.
-    7) There are no peaceful but non-allied units on the target tile.
-    8) There is not a non-allied city on the target tile when
+    8) There are no peaceful but non-allied units on the target tile.
+    9) There is not a non-allied city on the target tile when
        enter_enemy_city is false. When enter_enemy_city is true a non
        peaceful city is also accepted.
-    9) There is no non-allied unit blocking (zoc) [or igzoc is true].
-   10) Triremes cannot move out of sight from land.
-   11) It is not the territory of a player we are at peace with.
-   12) The unit is unable to disembark from current transporter.
-   13) The unit is making a non-native move (e.g. lack of road)
+   10) There is no non-allied unit blocking (zoc) [or igzoc is true].
+   11) Triremes cannot move out of sight from land.
+   12) It is not the territory of a player we are at peace with.
+   13) The unit is unable to disembark from current transporter.
+   14) The unit is making a non-native move (e.g. lack of road)
 ****************************************************************************/
 enum unit_move_result
 unit_move_to_tile_test(const struct civ_map *nmap,
@@ -618,25 +619,31 @@ unit_move_to_tile_test(const struct civ_map *nmap,
   }
 
   /* 3) */
+  if ((!is_server() || game.server.random_move_time != puowner)
+      && utype_has_flag(punittype, UTYF_RANDOM_MOVEMENT)) {
+    return MR_RANDOM_ONLY;
+  }
+
+  /* 4) */
   if (!is_tiles_adjacent(src_tile, dst_tile)) {
     /* Of course you can only move to adjacent positions. */
     return MR_BAD_DESTINATION;
   }
 
-  /* 4) */
+  /* 5) */
   if (is_non_allied_unit_tile(dst_tile, puowner)) {
     /* You can't move onto a tile with non-allied units on it (try
      * attacking instead). */
     return MR_DESTINATION_OCCUPIED_BY_NON_ALLIED_UNIT;
   }
 
-  /* 5) */
+  /* 6) */
   if (puowner->ai_common.barbarian_type == ANIMAL_BARBARIAN
       && dst_tile->terrain->animal != punittype) {
     return MR_ANIMAL_DISALLOWED;
   }
 
-  /* 6) */
+  /* 7) */
   if (embark_to != NULL) {
     if (!could_unit_load(punit, embark_to)) {
       return MR_NO_TRANSPORTER_CAPACITY;
@@ -647,7 +654,7 @@ unit_move_to_tile_test(const struct civ_map *nmap,
     return MR_NO_TRANSPORTER_CAPACITY;
   }
 
-  /* 7) */
+  /* 8) */
   if (is_non_attack_unit_tile(dst_tile, puowner)) {
     /* You can't move into a non-allied tile.
      *
@@ -656,7 +663,7 @@ unit_move_to_tile_test(const struct civ_map *nmap,
     return MR_NO_WAR;
   }
 
-  /* 8) */
+  /* 9) */
   if ((pcity = tile_city(dst_tile))) {
     if (enter_enemy_city) {
       if (pplayers_non_attack(city_owner(pcity), puowner)) {
@@ -674,7 +681,7 @@ unit_move_to_tile_test(const struct civ_map *nmap,
     }
   }
 
-  /* 9) */
+  /* 10) */
   zoc = igzoc
     || can_step_taken_wrt_to_zoc(punittype, puowner, src_tile, dst_tile, nmap);
   if (!zoc) {
@@ -682,25 +689,25 @@ unit_move_to_tile_test(const struct civ_map *nmap,
     return MR_ZOC;
   }
 
-  /* 10) */
+  /* 11) */
   if (utype_has_flag(punittype, UTYF_COAST_STRICT)
       && !pcity && !is_safe_ocean(&(wld.map), dst_tile)) {
     return MR_TRIREME;
   }
 
-  /* 11) */
+  /* 12) */
   if (!utype_has_flag(punittype, UTYF_CIVILIAN)
       && !player_can_invade_tile(puowner, dst_tile)) {
     return MR_PEACE;
   }
 
-  /* 12) */
+  /* 13) */
   if (unit_transported(punit)
      && !can_unit_unload(punit, unit_transport_get(punit))) {
     return MR_CANNOT_DISEMBARK;
   }
 
-  /* 13) */
+  /* 14) */
   if (!(is_native_move(utype_class(punittype), src_tile, dst_tile)
         /* Allow non-native moves into cities or boarding transport. */
         || pcity
