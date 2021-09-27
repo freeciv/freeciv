@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- Created with Sodipodi ("http://www.sodipodi.com/") -->
 <svg
    xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:cc="http://creativecommons.org/ns#"
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
@@ -11,14 +10,13 @@
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    height="750"
    id="svg378"
-   sodipodi:docbase="C:\Documents and Settings\David Nelson\Archives\Svg"
-   sodipodi:docname="Flag_of_Bolivia_(state).svg"
+   sodipodi:docname="bolivia.svg"
    sodipodi:version="0.32"
    version="1.0"
    width="1125"
    x="0"
    y="0"
-   inkscape:version="0.44.1">
+   inkscape:version="1.0.2 (e86c870879, 2021-01-15)">
   <sodipodi:namedview
      id="base"
      inkscape:zoom="0.64266667"
@@ -26,13 +24,16 @@
      inkscape:cy="375"
      inkscape:window-width="1024"
      inkscape:window-height="678"
-     inkscape:window-x="-4"
-     inkscape:window-y="-4"
+     inkscape:window-x="0"
+     inkscape:window-y="32"
      inkscape:current-layer="svg378"
      showguides="true"
      inkscape:guide-bbox="true"
      width="1100px"
-     height="750px" />
+     height="750px"
+     inkscape:document-rotation="0"
+     showgrid="false"
+     inkscape:window-maximized="0" />
   <defs
      id="defs380">
     <linearGradient
@@ -265,7 +266,7 @@
     <rdf:RDF>
       <cc:Work
          rdf:about="">
-        <dc:title>Ecuador</dc:title>
+        <dc:title></dc:title>
         <dc:description />
         <dc:subject>
           <rdf:Bag>
