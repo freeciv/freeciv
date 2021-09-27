@@ -709,11 +709,11 @@ void races_dialog::leader_selected(int index)
   if (leader_name->itemData(index).toBool()) {
     is_male->setChecked(true);
     is_female->setChecked(false);
-    selected_sex=0;
+    selected_sex = 1;
   } else {
     is_male->setChecked(false);
     is_female->setChecked(true);
-    selected_sex=1;
+    selected_sex = 0;
   }
 }
 
