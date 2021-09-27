@@ -344,11 +344,12 @@ extern struct terrain_misc terrain_control;
 
 /* See iterate_outward_dxy() */
 #define iterate_outward(start_tile, max_dist, itr_tile)			    \
-  iterate_outward_dxy(start_tile, max_dist, itr_tile, _dx_itr, _dy_itr)
+  iterate_outward_dxy(start_tile, max_dist, itr_tile,                       \
+                      _dx_itr##itr_tile, _dy_itr##itr_tile)
 
 #define iterate_outward_end iterate_outward_dxy_end
 
-/* 
+/*
  * Iterate through all tiles in a square with given center and radius.
  * The position (x_itr, y_itr) that is returned will be normalized;
  * unreal positions will be automatically discarded. (dx_itr, dy_itr)
