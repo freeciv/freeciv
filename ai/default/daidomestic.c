@@ -193,6 +193,7 @@ static void dai_choose_trade_route(struct ai_type *ait, struct city *pcity,
   bool prefer_different_cont;
   int pct = 0;
   int trader_trait;
+  bool can_move_ic = FALSE, has_boats = TRUE;
   bool need_boat = FALSE;
   int trade_action;
 
@@ -205,80 +206,6 @@ static void dai_choose_trade_route(struct ai_type *ait, struct city *pcity,
   if (num_role_units(action_id_get_role(ACTION_TRADE_ROUTE)) == 0
       && num_role_units(action_id_get_role(ACTION_MARKETPLACE)) == 0) {
     /* No such units available in the ruleset */
-    return;
-  }
-
-  if (trade_route_type_trade_pct(TRT_NATIONAL_IC) >
-      trade_route_type_trade_pct(TRT_NATIONAL)) {
-    prefer_different_cont = TRUE;
-  } else {
-    prefer_different_cont = FALSE;
-  }
-
-  /* Look for proper destination city for trade. */
-  if (trade_route_type_trade_pct(TRT_NATIONAL) > 0
-      || trade_route_type_trade_pct(TRT_NATIONAL_IC) > 0) {
-    /* National traderoutes have value */
-    city_list_iterate(pplayer->cities, acity) {
-      if (can_cities_trade(pcity, acity)) {
-        dest_city_found = TRUE;
-        if (tile_continent(acity->tile) != continent) {
-          dest_city_nat_different_cont = TRUE;
-          if (prefer_different_cont) {
-            break;
-          }
-        } else {
-          dest_city_nat_same_cont = TRUE;
-          if (!prefer_different_cont) {
-            break;
-          }
-        }
-      }
-    } city_list_iterate_end;
-  }
-
-  /* FIXME: This check should consider more about relative
-   * income from different traderoute types. This works just
-   * with more typical ruleset setups. */
-  if (prefer_different_cont && !dest_city_nat_different_cont) {
-    if (trade_route_type_trade_pct(TRT_IN_IC) >
-        trade_route_type_trade_pct(TRT_IN)) {
-      prefer_different_cont = TRUE;
-    } else {
-      prefer_different_cont = FALSE;
-    }
-
-    players_iterate(aplayer) {
-      if (aplayer == pplayer || !aplayer->is_alive) {
-	continue;
-      }
-      if (pplayers_allied(pplayer, aplayer)) {
-        city_list_iterate(aplayer->cities, acity) {
-          if (can_cities_trade(pcity, acity)) {
-            dest_city_found = TRUE;
-            if (tile_continent(acity->tile) != continent) {
-              dest_city_in_different_cont = TRUE;
-              if (prefer_different_cont) {
-                break;
-              }
-            } else {
-              dest_city_in_same_cont = TRUE;
-              if (!prefer_different_cont) {
-                break;
-              }
-            }
-          }
-        } city_list_iterate_end;
-      }
-      if ((dest_city_in_different_cont && prefer_different_cont)
-          || (dest_city_in_same_cont && !prefer_different_cont)) {
-        break;
-      }
-    } players_iterate_end;
-  }
-
-  if (!dest_city_found) {
-    /* No proper destination city. */
     return;
   }
 
@@ -309,6 +236,99 @@ static void dai_choose_trade_route(struct ai_type *ait, struct city *pcity,
 
   fc_assert_msg(unit_type,
                 "Non existance of trade unit not caught");
+
+  if (unit_type) {
+    struct unit_class *pclass = utype_class(unit_type);
+
+    /* Hope there is no "water cities in lakes" ruleset? */
+    can_move_ic = pclass->adv.sea_move != MOVE_NONE;
+    has_boats = pclass->adv.ferry_types > 0;
+  }
+
+  if (trade_route_type_trade_pct(TRT_NATIONAL_IC) >
+      trade_route_type_trade_pct(TRT_NATIONAL)
+      && (can_move_ic || has_boats)) {
+    prefer_different_cont = TRUE;
+  } else {
+    prefer_different_cont = FALSE;
+  }
+
+  /* Look for proper destination city for trade. */
+  if (trade_route_type_trade_pct(TRT_NATIONAL) > 0
+      || trade_route_type_trade_pct(TRT_NATIONAL_IC) > 0) {
+    /* National traderoutes have value */
+    city_list_iterate(pplayer->cities, acity) {
+      if (can_cities_trade(pcity, acity)) {
+        if (tile_continent(acity->tile) != continent) {
+          if (!(can_move_ic || has_boats)) {
+            /* FIXME: get by roads/rivers? */
+            continue;
+          }
+          dest_city_found = TRUE;
+          dest_city_nat_different_cont = TRUE;
+          if (prefer_different_cont) {
+            break;
+          }
+        } else {
+          dest_city_found = TRUE;
+          dest_city_nat_same_cont = TRUE;
+          if (!prefer_different_cont) {
+            break;
+          }
+        }
+      }
+    } city_list_iterate_end;
+  }
+
+  /* FIXME: This check should consider more about relative
+   * income from different traderoute types. This works just
+   * with more typical ruleset setups. */
+  if (prefer_different_cont && !dest_city_nat_different_cont) {
+    if (trade_route_type_trade_pct(TRT_IN_IC) >
+        trade_route_type_trade_pct(TRT_IN)) {
+      prefer_different_cont = TRUE;
+    } else {
+      prefer_different_cont = FALSE;
+    }
+
+    players_iterate(aplayer) {
+      if (aplayer == pplayer || !aplayer->is_alive) {
+	continue;
+      }
+      if (pplayers_allied(pplayer, aplayer)) {
+        city_list_iterate(aplayer->cities, acity) {
+          if (can_cities_trade(pcity, acity)) {
+            if (tile_continent(acity->tile) != continent) {
+              if (!(can_move_ic || has_boats)) {
+                /* FIXME: get by roads/rivers? */
+                continue;
+              }
+              dest_city_found = TRUE;
+              dest_city_in_different_cont = TRUE;
+              if (prefer_different_cont) {
+                break;
+              }
+            } else {
+              dest_city_found = TRUE;
+              dest_city_in_same_cont = TRUE;
+              if (!prefer_different_cont) {
+                break;
+              }
+            }
+          }
+        } city_list_iterate_end;
+      }
+      if ((dest_city_in_different_cont && prefer_different_cont)
+          || (dest_city_in_same_cont && !prefer_different_cont)) {
+        break;
+      }
+    } players_iterate_end;
+  }
+
+  if (!dest_city_found) {
+    /* No proper destination city. */
+    return;
+  }
 
   trade_routes = city_num_trade_routes(pcity);
   /* Count also caravans enroute to establish traderoutes */
@@ -377,6 +397,7 @@ static void dai_choose_trade_route(struct ai_type *ait, struct city *pcity,
     }
   }
 
+  need_boat = need_boat && !can_move_ic;
   income = pct * income / 100;
 
   want = income * ai->gold_priority + income * ai->science_priority;
@@ -437,7 +458,9 @@ static void dai_choose_trade_route(struct ai_type *ait, struct city *pcity,
                                       want);
     }
 
-    if (unit_type != NULL) {
+    /* We don't want to build caravan that wouldn't be able to reach the
+     * destination by any means. It would be useless. */
+    if (unit_type != NULL && (!need_boat || has_boats)) {
       choice->want = want;
       choice->type = CT_CIVILIAN;
       choice->value.utype = unit_type;

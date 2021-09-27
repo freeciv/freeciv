@@ -1917,6 +1917,43 @@ static bool dai_find_boat_for_unit(struct ai_type *ait, struct unit *punit)
 }
 
 /*************************************************************************
+  If a unit of pclass needs some transport or road
+  to go from ctile to ptile, maybe omitting way ends.
+  Maybe it should return fc_tristate?
+*************************************************************************/
+bool uclass_need_trans_between(struct unit_class *pclass,
+                               struct tile *ctile, struct tile *ptile)
+{
+  /* We usually have Inaccessible terrain, so not testing MOVE_FULL == */
+  bool lm = MOVE_NONE != pclass->adv.land_move,
+    sm = MOVE_NONE != pclass->adv.sea_move;
+
+  if (lm && sm) {
+    return FALSE;
+  }
+
+  /* We could use adjc_iterate() but likely often tiles are on the same
+   * continent and it will be more time to find where they connect */
+  iterate_outward(ctile, 1, atile) {
+    Continent_id acont = tile_continent(atile);
+
+    if (is_ocean_tile(atile) ? sm : lm) {
+      iterate_outward(ptile, 1, btile) {
+        if (tile_continent(btile) == acont) {
+          return FALSE;
+        }
+      } iterate_outward_end;
+    }
+  } iterate_outward_end;
+
+  if (is_tiles_adjacent(ctile, ptile)) {
+    return FALSE;
+  }
+
+  return TRUE;
+}
+
+/*************************************************************************
   Send the caravan to the specified city, or make it help the wonder /
   trade, if it's already there.  After this call, the unit may no longer
   exist (it might have been used up, or may have died travelling).
@@ -1950,14 +1987,16 @@ static void dai_caravan_goto(struct ai_type *ait, struct player *pplayer,
       } else {
         /* if we are not being transported then ask for a boat again */
         alive = TRUE;
-        if (!unit_transported(punit) &&
-            (tile_continent(unit_tile(punit))
-             != tile_continent(dest_city->tile))) {
+        if (!unit_transported(punit)
+            && uclass_need_trans_between(unit_class_get(punit),
+                                         unit_tile(punit), dest_city->tile)) {
           alive = dai_find_boat_for_unit(ait, punit);
         }
       }
       if (alive)  {
-	alive = dai_gothere(ait, pplayer, punit, dest_city->tile);
+        /* FIXME: sometimes we get FALSE here just because
+         * a trireme that we've boarded can't go over an ocean. */
+        alive = dai_gothere(ait, pplayer, punit, dest_city->tile);
       }
     } else {
       /* to trade without boat */
@@ -2068,7 +2107,7 @@ static bool dai_is_unit_tired_waiting_boat(struct ai_type *ait,
     if (src == NULL || dest == NULL) {
       return FALSE;
     }
-    /* if we're not at home continent */
+    /* if we're not at home continent (FIXME: well, why?) */
     if (tile_continent(src) != tile_continent(src_home_city)) {
       return FALSE;
     }
@@ -2100,15 +2139,22 @@ static bool dai_is_unit_tired_waiting_boat(struct ai_type *ait,
 
 /*****************************************************************************
   Check if a caravan can make a trade route to a city on a different
-  continent.
+  continent (means, need a boat).
+  FIXME: in a one-continent game it can be much more advantageous
+  to cross straits on a trireme than to march through all the world.
 *****************************************************************************/
 static bool dai_caravan_can_trade_cities_diff_cont(struct player *pplayer,
-                                                   struct unit *punit) {
+                                                   struct unit *punit)
+{
   struct city *pcity = game_city_by_number(punit->homecity);
   Continent_id continent;
 
   fc_assert(pcity != NULL);
 
+  if (unit_class_get(punit)->adv.ferry_types <= 0) {
+    /* There is just no possible transporters. */
+    return FALSE;
+  }
   continent = tile_continent(pcity->tile);
 
   /* Look for proper destination city at different continent. */
@@ -2187,6 +2233,9 @@ static void dai_manage_caravan(struct ai_type *ait, struct player *pplayer,
   const struct city *homecity;
   const struct city *dest = NULL;
   struct unit_ai *unit_data;
+  struct unit_class *pclass = unit_class_get(punit);
+  bool expect_boats = pclass->adv.ferry_types > 0;
+  /* TODO: will pplayer have a boat for punit in a reasonable time? */
   bool help_wonder = FALSE;
   bool required_boat = FALSE;
   bool request_boat = FALSE;
@@ -2252,7 +2301,7 @@ static void dai_manage_caravan(struct ai_type *ait, struct player *pplayer,
                unit_rule_name(punit), punit->id, TILE_XY(unit_tile(punit)));
     } else {
       /* destination valid, are we tired of waiting for a boat? */
-      if (dai_is_unit_tired_waiting_boat(ait, punit)) {
+      if (expect_boats && dai_is_unit_tired_waiting_boat(ait, punit)) {
         aiferry_clear_boat(ait, punit);
         dai_unit_new_task(ait, punit, AIUNIT_NONE, NULL);
         log_base(LOG_CARAVAN2, "%s %s[%d](%d,%d) unit tired of waiting!",
@@ -2262,8 +2311,7 @@ static void dai_manage_caravan(struct ai_type *ait, struct player *pplayer,
       } else {
         dest = city_dest;
         help_wonder = (unit_data->task == AIUNIT_WONDER) ? TRUE : FALSE;
-        required_boat = (tile_continent(unit_tile(punit)) == 
-                         tile_continent(dest->tile)) ? FALSE : TRUE;
+        required_boat = uclass_need_trans_between(pclass, unit_tile(punit), dest->tile);
         request_boat = FALSE;
       }
     }
@@ -2310,8 +2358,7 @@ static void dai_manage_caravan(struct ai_type *ait, struct player *pplayer,
       /* we did find a new destination for the unit */
       dest = result.dest;
       help_wonder = result.help_wonder;
-      required_boat = (tile_continent(unit_tile(punit)) ==
-                       tile_continent(dest->tile)) ? FALSE : TRUE;
+      required_boat = uclass_need_trans_between(pclass, unit_tile(punit), dest->tile);
       request_boat = required_boat;
       dai_unit_new_task(ait, punit,
                         (help_wonder) ? AIUNIT_WONDER : AIUNIT_TRADE,
@@ -2319,6 +2366,11 @@ static void dai_manage_caravan(struct ai_type *ait, struct player *pplayer,
     } else {
       dest = NULL;
     }
+  }
+
+  if (required_boat && !expect_boats) {
+    /* Would require boat, but can't have them. Render destination invalid. */
+    dest = NULL;
   }
 
   if (dest != NULL) {
