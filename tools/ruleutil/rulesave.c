@@ -1438,6 +1438,7 @@ static bool save_game_ruleset(const char *filename, const char *name)
   save_default_int(sfile, game.info.tech_upkeep_divider,
                    RS_DEFAULT_TECH_UPKEEP_DIVIDER,
                    "research.tech_upkeep_divider", NULL);
+  comment_research_free_tech_method(sfile);
   secfile_insert_str(sfile, free_tech_method_name(game.info.free_tech_method),
                      "research.free_tech_method");
 

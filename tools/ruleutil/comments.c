@@ -70,6 +70,7 @@ static struct {
   char *research_base_tech_cost;
   char *research_tech_leakage;
   char *research_upkeep_style;
+  char *research_free_tech_method;
 } comments_storage;
 
 /**********************************************************************//**
@@ -179,6 +180,8 @@ bool comments_load(void)
                "entrydoc.tech_leakage");
   comment_load(comments_storage.research_upkeep_style, comment_file,
                "entrydoc.tech_upkeep_style");
+  comment_load(comments_storage.research_free_tech_method, comment_file,
+               "entrydoc.free_tech_method");
 
   secfile_check_unused(comment_file);
   secfile_destroy(comment_file);
@@ -589,5 +592,14 @@ void comment_research_tech_leakage(struct section_file *sfile)
 void comment_research_upkeep_style(struct section_file *sfile)
 {
   comment_entry_write(sfile, comments_storage.research_upkeep_style,
+                      "research");
+}
+
+/**********************************************************************//**
+  Write research free_tech_method settings header.
+**************************************************************************/
+void comment_research_free_tech_method(struct section_file *sfile)
+{
+  comment_entry_write(sfile, comments_storage.research_free_tech_method,
                       "research");
 }

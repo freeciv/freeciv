@@ -1370,3 +1370,10 @@ tech_upkeep_style = "\n\
 ;     <Cost of technology> / tech_upkeep_divider - tech_upkeep_free\n\
 ; \"Cities\" - upkeep is calculated like \"Basic\", but multiplied by number of cities\
 "
+
+free_tech_method = "\n\
+; Method of selecting techs given for free\n\
+; \"Goal\"     - Towards player`s goal, random if no goal\n\
+; \"Random\"   - Random researchable tech\n\
+; \"Cheapest\" - Cheapest researchable tech, random among equal cost ones\
+"
