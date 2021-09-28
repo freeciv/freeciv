@@ -1,9 +1,9 @@
 [nation_uyghur]
 
-name=_("Uyghur")
-plural=_("?plural:Uyghurs")
-groups="Medieval", "Early Modern", "Asian"
-legend=_("Uyghur was an east Turk empire and civilization. At its height in\
+name   = _("Uyghur")
+plural = _("?plural:Uyghurs")
+groups = "Medieval", "Early Modern", "Asian"
+legend = _("Uyghur was an east Turk empire and civilization. At its height in\
  820 CE it controlled most of Central and North Asia. After clashing with\
  the Chinese for several centuries, they were finally subdued by the Qing\
  dynasty in the 1700s. Today, descendants of the Uyghur form the\
@@ -29,13 +29,14 @@ ruler_titles = {
  "Monarchy",        _("%s Khagan"),    _("?female:%s Khagan")
 }
 
-flag="uyghur"
+flag = "uyghur"
 flag_alt = "-"
 style = "Classical"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
+
 civilwar_nations = "turkish", "tocharian"
 
 cities =

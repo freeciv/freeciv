@@ -1,9 +1,9 @@
 [nation_uruguayan]
 
-name=_("Uruguayan")
-plural=_("?plural:Uruguayans")
-groups="Modern", "American"
-legend=_("Uruguay, a small South American country sometimes referred to as\
+name   = _("Uruguayan")
+plural = _("?plural:Uruguayans")
+groups = "Modern", "American"
+legend = _("Uruguay, a small South American country sometimes referred to as\
  \"Switzerland of the Americas\" due to its once highly developed social\
  welfare system.")
 
@@ -23,14 +23,16 @@ ruler_titles = {
  "Despotism",      _("General %s"),     _("?female:General %s")
  "Fundamentalism", _("Bishop %s"),      _("Mother Superior %s")
 }
-flag="uruguay"
+
+flag = "uruguay"
 flag_alt = "-"
 style = "European"
 
-init_techs=""
-init_buildings=""
-init_units=""
-civilwar_nations="argentine", "brazilian"
+init_techs = ""
+init_buildings = ""
+init_units = ""
+
+civilwar_nations = "argentine", "brazilian"
 
 cities =
  "Montevideo",

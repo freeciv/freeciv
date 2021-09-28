@@ -1,9 +1,9 @@
 [nation_urartian]
 
-name=_("Urartian")
-plural=_("?plural:Urartians")
-groups="Ancient", "Asian"
-legend=_("Urartu was an ancient Hurrian state located around Lake Van in\
+name   = _("Urartian")
+plural = _("?plural:Urartians")
+groups = "Ancient", "Asian"
+legend = _("Urartu was an ancient Hurrian state located around Lake Van in\
  the eastern part of Anatolia. The earliest historical mention of Urartu\
  comes from texts of the Assyrian king Shalmaneser I dating from the 13th\
  century BCE. It is thought that Urartu was a multiethnic state in which\
@@ -27,9 +27,6 @@ leaders = {
  "Sarduri IV",          "Male"
  "Rusa IV",             "Male"
 }
-flag="urartu"
-flag_alt = "-"
-style = "Babylonian"
 
 ruler_titles = {
  "government",      "male_title",         "female_title"
@@ -40,12 +37,16 @@ ruler_titles = {
  "Democracy",       _("Speaker %s"),      _("?female:Speaker %s")
 }
 
-init_techs=""
-init_buildings=""
-init_units=""
+flag = "urartu"
+flag_alt = "-"
+style = "Babylonian"
 
-conflicts_with="Mitanni", "Armenian", "Kurdish", "Seleucid", "Turkish",
-               "Ottoman"
+init_techs = ""
+init_buildings = ""
+init_units = ""
+
+conflicts_with = "Mitanni", "Armenian", "Kurdish", "Seleucid", "Turkish",
+                 "Ottoman"
 civilwar_nations = "Mitanni", "Assyrian", "Median", "Armenian"
 
 cities =

@@ -1,9 +1,9 @@
 [nation_un]
 
-name=_("UN")
-plural=_("?plural:UN")
-groups="Imaginary"
-legend=_("The United Nations believe in human rights and the protection of\
+name   = _("UN")
+plural = _("?plural:UN")
+groups = "Imaginary"
+legend = _("The United Nations believe in human rights and the protection of\
  the weak.")
 
 leaders = {
@@ -24,15 +24,15 @@ ruler_titles = {
  "Communism", _("Secretary-General %s"), _("?female:Secretary-General %s")
 }
 
-flag="united_nations"
+flag = "united_nations"
 flag_alt = "-"
 style = "Classical"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-cities=
+cities =
  "Security Council",
  "General Assembly",
  "ECOSOC",
