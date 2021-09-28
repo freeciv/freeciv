@@ -358,7 +358,7 @@ government_ruler_title_new(struct government *pgovern,
 }
 
 /**********************************************************************//**
-  Return the nation of the rule title. Returns NULL if this is default.
+  Return the nation of the ruler title. Returns NULL if this is default.
 **************************************************************************/
 const struct nation_type *
 ruler_title_nation(const struct ruler_title *pruler_title)
@@ -367,7 +367,7 @@ ruler_title_nation(const struct ruler_title *pruler_title)
 }
 
 /**********************************************************************//**
-  Return the male rule title name.
+  Return the male ruler title name.
 **************************************************************************/
 const char *
 ruler_title_male_untranslated_name(const struct ruler_title *pruler_title)
@@ -376,7 +376,7 @@ ruler_title_male_untranslated_name(const struct ruler_title *pruler_title)
 }
 
 /**********************************************************************//**
-  Return the female rule title name.
+  Return the female ruler title name.
 **************************************************************************/
 const char *
 ruler_title_female_untranslated_name(const struct ruler_title *pruler_title)
@@ -397,10 +397,10 @@ const char *ruler_title_for_player(const struct player *pplayer,
   fc_assert_ret_val(NULL != buf, NULL);
   fc_assert_ret_val(0 < buf_len, NULL);
 
-  /* Try specific nation rule title. */
+  /* Try specific nation ruler title. */
   if (!ruler_title_hash_lookup(pgovern->ruler_titles,
                                pnation, &pruler_title)
-      /* Try default rule title. */
+      /* Try default ruler title. */
       && !ruler_title_hash_lookup(pgovern->ruler_titles,
                                   NULL, &pruler_title)) {
     log_error("Missing title for government \"%s\" (nb %d) "
