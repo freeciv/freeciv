@@ -54,6 +54,7 @@
 #include "requirements.h"
 #include "rgbcolor.h"
 #include "road.h"
+#include "sex.h"
 #include "specialist.h"
 #include "style.h"
 #include "tech.h"
@@ -5026,7 +5027,8 @@ static bool load_ruleset_nations(struct section_file *file,
 
       /* Nation leaders. */
       for (j = 0; j < MAX_NUM_LEADERS; j++) {
-        const char *sex;
+        const char *sexstr;
+        int sex;
         bool is_male = FALSE;
 
         name = secfile_lookup_str(file, "%s.leaders%d.name", sec_name, j);
@@ -5046,22 +5048,34 @@ static bool load_ruleset_nations(struct section_file *file,
           break;
         }
 
-        sex = secfile_lookup_str(file, "%s.leaders%d.sex", sec_name, j);
-        if (NULL == sex) {
+        sexstr = secfile_lookup_str(file, "%s.leaders%d.sex", sec_name, j);
+        if (NULL == sexstr) {
           ruleset_error(LOG_ERROR, "Nation %s: leader \"%s\": %s.",
                         nation_rule_name(pnation), name, secfile_error());
           ok = FALSE;
           break;
-        } else if (0 == fc_strcasecmp("Male", sex)) {
+        }
+
+        sex = sex_by_name(sexstr);
+
+        switch (sex) {
+        case SEX_MALE:
           is_male = TRUE;
-        } else if (0 != fc_strcasecmp("Female", sex)) {
+          break;
+        case SEX_FEMALE:
+          is_male = FALSE;
+          break;
+        case SEX_UNKNOWN:
           ruleset_error(LOG_ERROR, "Nation %s: leader \"%s\" has unsupported "
                         "sex variant \"%s\".",
-                        nation_rule_name(pnation), name, sex);
+                        nation_rule_name(pnation), name, sexstr);
           ok = FALSE;
           break;
         }
-        (void) nation_leader_new(pnation, name, is_male);
+
+        if (ok) {
+          (void) nation_leader_new(pnation, name, is_male);
+        }
       }
       if (!ok) {
         break;

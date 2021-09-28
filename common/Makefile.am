@@ -98,6 +98,8 @@ libfreeciv_la_SOURCES = \
 		road.h		\
 		server_settings.h \
 		server_settings.c \
+		sex.c		\
+		sex.h		\
 		spaceship.c	\
 		spaceship.h	\
 		specialist.c	\
