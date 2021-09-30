@@ -101,6 +101,8 @@ ruler_title_female_untranslated_name(const struct ruler_title *pruler_title);
 
 const char *ruler_title_for_player(const struct player *pplayer,
                                    char *buf, size_t buf_len);
+const char *default_title_for_player(const struct player *pplayer,
+                                     char *buf, size_t buf_len);
 
 /* Ancillary routines */
 bool can_change_to_government(struct player *pplayer,

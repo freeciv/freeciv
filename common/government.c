@@ -407,11 +407,7 @@ const char *ruler_title_for_player(const struct player *pplayer,
               "nation \"%s\" (nb %d).",
               government_rule_name(pgovern), government_number(pgovern),
               nation_rule_name(pnation), nation_number(pnation));
-    if (pplayer->is_male) {
-      fc_snprintf(buf, buf_len, _("Mr. %s"), player_name(pplayer));
-    } else {
-      fc_snprintf(buf, buf_len, _("Ms. %s"), player_name(pplayer));
-    }
+    default_title_for_player(pplayer, buf, buf_len);
   } else {
     fc_snprintf(buf, buf_len,
                 name_translation_get(pplayer->is_male
@@ -423,6 +419,20 @@ const char *ruler_title_for_player(const struct player *pplayer,
   return buf;
 }
 
+/**********************************************************************//**
+  Return default ruler title of the player (translated).
+**************************************************************************/
+const char *default_title_for_player(const struct player *pplayer,
+                                     char *buf, size_t buf_len)
+{
+  if (pplayer->is_male) {
+    fc_snprintf(buf, buf_len, _("Mr. %s"), player_name(pplayer));
+  } else {
+    fc_snprintf(buf, buf_len, _("Ms. %s"), player_name(pplayer));
+  }
+
+  return buf;
+}
 
 /****************************************************************************
   Government iterator.

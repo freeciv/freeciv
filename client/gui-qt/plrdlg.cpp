@@ -489,7 +489,7 @@ void plr_widget::nation_selected(const QItemSelection &sl,
     QString("<table><tr><td><b>") + _("Nation") + QString("</b></td><td>")
     + QString(nation_adjective_for_player(pplayer)).toHtmlEscaped()
     + QString("</td><tr><td><b>") + _("Ruler:") + QString("</b></td><td>")
-    + QString(ruler_title_for_player(pplayer, tbuf, sizeof(tbuf)))
+    + QString(title_for_player(pplayer, tbuf, sizeof(tbuf)))
       .toHtmlEscaped()
     + QString("</td></tr><tr><td><b>") + _("Government:")
     + QString("</b></td><td>") + egov.toHtmlEscaped()
