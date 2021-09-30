@@ -2140,8 +2140,9 @@ static struct setting settings[] = {
           SSET_RULES, SSET_ECONOMICS, SSET_RARE, ALLOW_NONE, ALLOW_BASIC,
           N_("Trade revenue style"),
           N_("The formula for the trade a city receives from a traderoute. "
-             "CLASSIC revenues depend on distance and trade with "
-             "multipliers for overseas and international routes. "
+             "CLASSIC revenues are given by the sum of the two city sizes "
+             "plus the distance between them, with multipliers for overseas "
+             "and international routes. "
              "SIMPLE revenues are proportional to the average trade of the "
              "two cities."),
 	  NULL, NULL, NULL, traderevenuestyle_name,
