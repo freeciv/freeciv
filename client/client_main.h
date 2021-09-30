@@ -119,6 +119,8 @@ bool can_client_issue_orders(void);
 bool can_client_change_view(void);
 bool can_meet_with_player(const struct player *pplayer);
 bool can_intel_with_player(const struct player *pplayer);
+const char *title_for_player(const struct player *pplayer,
+                             char *buf, size_t buf_len);
 
 void client_exit(void);
 
