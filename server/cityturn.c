@@ -2582,11 +2582,7 @@ static bool city_build_unit(struct player *pplayer, struct city *pcity)
 
     if (city_exist(saved_city_id)) {
       if (pcity->rally_point.length && !pcity->rally_point.persistent) {
-        pcity->rally_point.length = 0;
-        pcity->rally_point.persistent = FALSE;
-        pcity->rally_point.vigilant = FALSE;
-        free(pcity->rally_point.orders);
-        pcity->rally_point.orders = NULL;
+        city_rally_point_clear(pcity);
       }
 
       /* Done building this unit; time to move on to the next. */
