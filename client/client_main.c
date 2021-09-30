@@ -1265,8 +1265,23 @@ bool can_meet_with_player(const struct player *pplayer)
 bool can_intel_with_player(const struct player *pplayer)
 {
   return (client_is_observer()
-	  || (NULL != client.conn.playing
-	      && could_intel_with_player(client.conn.playing, pplayer)));
+          || (NULL != client.conn.playing
+              && could_intel_with_player(client_player(), pplayer)));
+}
+
+/**********************************************************************//**
+  Fill best possible title for the player to the given buffer, and
+  return that buffer.
+**************************************************************************/
+const char *title_for_player(const struct player *pplayer,
+                             char *buf, size_t buf_len)
+{
+  if (client_player() == pplayer || can_intel_with_player(pplayer)) {
+    /* Knows the government to construct correct title */
+    return ruler_title_for_player(pplayer, buf, buf_len);
+  }
+
+  return default_title_for_player(pplayer, buf, buf_len);
 }
 
 /**************************************************************************
