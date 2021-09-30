@@ -1445,10 +1445,15 @@ void tilespec_reread_callback(struct option *poption)
   const char *tileset_name;
   enum client_states state = client_state();
 
-  if ((state == C_S_RUNNING || state == C_S_OVER)
-      && option_get_cb_data(poption) != (wld.map.topology_id & (TF_ISO | TF_HEX))) {
-    /* Changed option was not for current topology */
-    return;
+  if (state == C_S_RUNNING || state == C_S_OVER) {
+    int opt = option_get_cb_data(poption);
+
+    /* Also iso map topology counts as 'square' tileset topology */
+    if (opt != (wld.map.topology_id & (TF_ISO | TF_HEX))
+        && (opt != 0 || ((wld.map.topology_id & TF_HEX) == TF_HEX))) {
+      /* Changed option was not for current topology */
+      return;
+    }
   }
 
   tileset_name = option_str_get(poption);
