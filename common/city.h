@@ -805,6 +805,8 @@ void *city_ai_data(const struct city *pcity, const struct ai_type *ai);
 void city_set_ai_data(struct city *pcity, const struct ai_type *ai,
                       void *data);
 
+void city_rally_point_clear(struct city *pcity);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

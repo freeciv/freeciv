@@ -3354,6 +3354,7 @@ void destroy_city_virtual(struct city *pcity)
 
   citizens_free(pcity);
 
+  /* Free worker tasks */
   while (worker_task_list_size(pcity->task_reqs) > 0) {
     struct worker_task *ptask = worker_task_list_get(pcity->task_reqs, 0);
 
@@ -3362,6 +3363,9 @@ void destroy_city_virtual(struct city *pcity)
     free(ptask);
   }
   worker_task_list_destroy(pcity->task_reqs);
+
+  /* Free rally points */
+  city_rally_point_clear(pcity);
 
   unit_list_destroy(pcity->units_supported);
   trade_route_list_destroy(pcity->routes);
@@ -3443,4 +3447,19 @@ void city_set_ai_data(struct city *pcity, const struct ai_type *ai,
                       void *data)
 {
   pcity->server.ais[ai_type_number(ai)] = data;
+}
+
+/**********************************************************************//**
+  Clear rally point set for the city.
+**************************************************************************/
+void city_rally_point_clear(struct city *pcity)
+{
+  /* Free rally points */
+  if (pcity->rally_point.length > 0) {
+    pcity->rally_point.length = 0;
+    pcity->rally_point.persistent = FALSE;
+    pcity->rally_point.vigilant = FALSE;
+    free(pcity->rally_point.orders);
+    pcity->rally_point.orders = NULL;
+  }
 }
