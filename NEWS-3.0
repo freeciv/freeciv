@@ -1,10 +1,225 @@
 ==============================
-Welcome to Freeciv 3.0.0-beta2
+Welcome to Freeciv 3.0.0-beta3
 ==============================
 
 The changes in the 3.0.x series are summarised below.
 For changes prior to 3.0, see NEWS. For more detailed changes,
 see the ChangeLog file.
+
+
+CHANGES FROM 3.0.0-beta2 to 3.0.0-beta3
+---------------------------------------
+
+   (from <http://www.freeciv.org/wiki/NEWS-3.0.0-beta3>, 2021-10-01)
+
+3.0.0-beta3 fixes some issues still seen with beta2, and is expected
+to be the last beta release before stable 3.0.0 release.
+
+Server / General
+Changes affecting players (supplied rulesets)
+
+    * Ransom is given for each barbarian leader when there's more
+      than one in the same tile (but no other units to defend them).
+      The old behavior was not to give ransom at all as they were
+      considered to be defending each other. osdn#42020
+    * Fixed server setting tradeworldrelpct to affect also
+      the initial one time bonus of the trade route. osdn#42097
+    * Server correctly informs client when loading a savegame fails.
+      It used to always claim that load was succesfull to the client
+      osdn#42189
+    * Game refuses paradropping to a tile with known enemy unit
+      as that would only be certain death for the paradropping unit
+      HRM#869995 osdn#42433 osdn#42434 osdn#42435
+    * Fixed a bug that when player providing shared vision was removed,
+      the vision would remain for the other players HRM#883225
+    * Corrected bribe cost of units with build cost not multiple of ten.
+      Especially this makes bribe cost of units with build cost
+      less than ten not to be zero. HRM#929034
+    * Avoid server getting stuck when loading ruleset that has
+      unit obsoletion loop osdn#42301
+    * Fixed loading a savegame with multiresearch server setting
+      turned on osdn#42499
+    * Fixed server crash when number of cities and units in the game
+      is larger than 65534 HRM#927510
+
+    * civ2civ3 & sandbox
+         + Ships with zero attack power no longer cause unhappiness,
+           fighters with fuel over one turn do osdn#42078
+         + civ2civ3 only Welcome message points directs user to find
+           more information from About Current Ruleset osdn#42329
+         + Reworked the way labels get assigned to the map
+           when it's generated osdn#42708
+
+    * civ1
+         + Made traderoute one-time-bonus gold only osdn#42317
+         + Savepalace server setting is disabled by default osdn#42266
+
+    * civ2
+         + Savepalace server setting is disabled by default osdn#42266
+
+    * alien
+         + Clean format by always setting irrigation_time / plant_time
+           to zero when the activity in question is disabled by
+           relevant _result field. This does not change how
+           the ruleset behaves, but is less confusing to read osdn#42211
+
+    * italy scenario
+         + Wrap map from the correct point so that leftmost part
+           of the map is connected to the rest HRM#691812
+
+    * british isles scenario
+         + Scenario now uses nationset all, so the correct nations
+           from the isles are available and get placed,
+           instead of completely random nations from the core nationset
+           osdn#42939
+
+Changes affecting other rulesets / modders
+
+    * Terrain transform time of zero now really disables transforming,
+      as documented osdn#42120
+    * When action success probability range to show is calculated,
+      TerrainAlter requirements are known to be known for sure osdn#42512
+    * Fixed handling of multipliers (especially one with value of zero)
+      in relation to space part effects osdn#42836
+    * Sanity check that space parts have Special genus HRM#824590
+    * Update city owner's info on clients when caravan
+      helps finish foreign wonder HRM#908746
+    * Fixed helptext trouble with CityTile requirements involved osdn#42872
+    * CoastStrict units can now enter Ocean cities,
+      and cities on 1x1 islands (with no surrounding land tile) osdn#42600
+
+General
+
+    * Minor optimizations osdn#42331 osdn#42865 osdn#42883
+    * Various internal changes which should only affect developers
+      osdn#42117 osdn#42171 osdn#42142 osdn#42146 osdn#42192 osdn#42151
+      osdn#42325 osdn#42043 osdn#41947 osdn#42438 osdn#42340 HRM#909607
+      osdn#42421 osdn#42461 osdn#42456 osdn#42527 osdn#42330 osdn#42477
+      osdn#42505 osdn#42505 osdn#42460 osdn#42504 osdn#42455 osdn#42623
+      osdn#42488 osdn#42577 osdn#42779 osdn#42557 osdn#42843 osdn#42579
+      osdn#42835 osdn#42841 osdn#42868 osdn#42227 osdn#42886
+
+AI
+
+    * AI puts more weight on potential improvement's
+      gold effect (including upkeep) when it's short of gold osdn#42195
+    * Corrected actual AI's use of advisor when it's
+      evaluating governments osdn#42231
+    * Stopped fueled units from unnecessary hopping between bases
+      when they should regenerate HRM#924328
+    * Fixed rare AI crash when tech upkeep was enabled and a player
+      had researched zero techs osdn#42409
+    * AI can again build Fighters (units with fuel of one) HRM#658896
+    * Fixed a problem causing fueled ferries to get stuck osdn#41970
+    * Fixed a problem causing AI to think its income is lower
+      than it actually is, when it plans for a balanced budget osdn#42193
+    * Increased AI's want to conquer cities that
+      have no buildings at all osdn#42778
+    * Improved handling of caravans that can only enter marketplace,
+      not establish trade routes osdn#42518
+    * Corrected AI's estimate of immediate bonus of establishing
+      a trade route when bonus type is not "Both" osdn#42641
+
+Clients
+
+    * Don't promise that there's a one time trade bonus
+      when there is not osdn#42087
+    * Improved indentation of entries in the left panel
+      of the city dialog osdn#42298
+    * Fixed handling of the change of tile that action selection
+      is waited for osdn#42621 osdn#42622
+    * Consistently disable help links to space parts when
+      spacerace disabled HRM#853869
+
+    * gtk3 & gtk3.22
+         + Make sure scrollbar does not hide rightmost column
+           in units and economy reports osdn#42167
+         + gtk3.22 only: Get information from correct display
+           on multi-display setup when user interacts with
+           city's improvement list. It used to always assume
+           default display. osdn#42183
+         + gtk3.22 only: Made tab notice color different
+           from alert color osdn#42295
+         + Fixed pillaging of the default target osdn#42168
+         + Fixed loading unit to the default transport osdn#42303
+
+Tools
+Ruledit
+
+    * Improvements when ruledit compiled in experimental mode
+      for having item removal support
+         + Removal of dependant items was erronously blocked
+           by already removed items osdn#42173
+         + Display name of the action requiring the object
+           that one tries to remove osdn#42464
+    * New editable properties:
+         + Unit attack and defense value osdn#42386
+         + Improvement upkeep osdn#42487
+    * Display enabler count in ruleset stats osdn#42176
+
+Modpack installer
+
+    * freeciv-mp-gtk4 now quits cleanly osdn#42412
+    * freeciv-mp-gtk4 no longer claims to support standard
+      gtk commandline options, that gtk4 does not have osdn#42415
+
+Ruleup
+
+    * Make 2.6 resources turned to extras generator placed osdn#42847
+    * Make sure extra.buildable is always saved when it
+      has a nondefault value osdn#42848
+
+Tilesets, Art, etc
+
+    * Added graphics for Castle HRM#919768 osdn#42440
+    * Fixed amplio2 default city and city_wall sprites to be blank osdn#42441
+    * Corrected/updated flag file formats
+      osdn#42163 osdn#42188 osdn#42208 osdn#42255 osdn#42267 osdn#42291
+      osdn#42300 osdn#42308 osdn#42315 osdn#42326 osdn#42339 osdn#42345
+      osdn#42370 osdn#42378 osdn#42384 osdn#42393 osdn#42399 osdn#42404
+      osdn#42410 osdn#42418 osdn#42432 osdn#42442 osdn#42444 osdn#42463
+      osdn#42469 osdn#42472 osdn#42475 osdn#42481 osdn#42489 osdn#42496
+      osdn#42503 osdn#42507 osdn#42519 osdn#42521 osdn#42526 osdn#42530
+      osdn#42535 osdn#42542 osdn#42546 osdn#42550 osdn#42559 osdn#42564
+      osdn#42566 osdn#42570 osdn#42576 osdn#42590 osdn#42596 osdn#42603
+      osdn#42604 osdn#42608 osdn#42615 osdn#42619 osdn#42636 osdn#42765
+      osdn#42718 osdn#42770
+
+Help / Documentation
+
+    * Freenode network has been replaced by Libera.Chat network
+      as the official freeciv IRC channel osdn#42541
+    * Made man page links to work in MacOS osdn#42178
+    * Added man page freeciv osdn#42138
+    * Document new freeciv-tickets mailing list for developers osdn#42491
+    * Miscellaneous improvements to in-game text and user documentation
+      osdn#42260 osdn#42207 osdn#42337 osdn#42119 osdn#42403 osdn#42558
+      osdn#42539 osdn#42392 osdn#42782 osdn#42652
+    * Miscellaneous changes to developer/install/ruleset docs
+      osdn#42126 osdn#42143 osdn#42217 osdn#42373 osdn#42411 osdn#42318
+      osdn#42842 osdn#42844 osdn#42695 osdn#42918 osdn#42926
+
+Translations
+
+    * Updated translations: Catalan, Esperanto, Finnish, French
+
+Build/portability
+    * Make sure that freeciv's configuration header does not cause
+      trouble when building liblua as part of freeciv.
+      Problems were reported specifically in MacOS build.
+      By default liblua is not built, but existing library is used
+      from the system. osdn#42114
+    * Fixed MacOS build problem where files documenting Version
+      of dependencies was mistaken for a system header osdn#42271
+    * Respect user set MOCCMD on MacOS build osdn#42342
+    * Fixed build on older OSX versions osdn#42439
+    * Qt meta object source generation now respects
+      automake's silent mode osdn#42458
+    * Crosser environment used in crosser based Windows installers
+      updated to version 2.1 osdn#42607 osdn#42067
+    * Fixed compiler warning with clang-13 osdn#42698
+    * Avoid use of depracated 'which' command in scripts osdn#42769
+    * Silenced false-positive gcc-12 compiler warning osdn#42885
 
 
 CHANGES FROM 3.0.0-beta1 to 3.0.0-beta2
