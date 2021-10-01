@@ -22,7 +22,7 @@ MAJOR CHANGES FROM 3.0.x to 3.1.0
 MAJOR CHANGES FROM 2.6.x to 3.0.0
 ---------------------------------
 
-   (from <http://www.freeciv.org/wiki/NEWS-3.0.0>, 2021-05-05)
+   (from <http://www.freeciv.org/wiki/NEWS-3.0.0>, 2021-10-01)
 
    The major changes in Freeciv 3.0 are civ2civ3 being the default ruleset,
    addition of the alien ruleset, hex maps as the default topology on
@@ -75,6 +75,10 @@ Miscellaneous rule changes affecting all or most rulesets:
        when user request an action by accident HRM#879104
      * Intelligence gained from an embassy is shared between team members
        HRM#878898
+     * Ransom is given for each barbarian leader when there's more than
+       one in the same tile (but no other units to defend them).
+       The old behavior was not to give ransom at all as they were
+       considered to be defending each other. osdn#42020
 
      * New / Changed game settings
           + There's a new fracture map generator GNAPATCH#6882
@@ -102,6 +106,8 @@ Rule changes to specific rulesets:
             33% more culture points than second best player,
             but a minimum of 20000 points, to win by culture victory.
             Culture victory is not enabled by default. HRM#830181
+          + Ships with zero attack power no longer cause unhappiness,
+            fighters with fuel over one turn do osdn#42078
 
      * All of classic / multiplayer / experimental rulesets
           + Fighters' defense has been doubled against bombers HRM#922015
@@ -126,6 +132,7 @@ Rule changes to specific rulesets:
           + (civ1) Units cannot be upgraded HRM#741525
           + (civ2) Fighters have defense bonuses against Bombers to
             mimic civ2 scramble mechanics HRM#865085
+          + Savepalace server setting is disabled by default osdn#42266
 
      * sandbox
           + Barbarians have been enabled. There is one barbarian type that
@@ -178,6 +185,11 @@ Rule changes to specific rulesets:
             Culture victory is not enabled by default. HRM#830181
           + Paradropping to a transport is made possible osdn#41740
           + Added Mechanic unit that can fix certain other units osdn#41845
+
+     * british isles scenario
+          + Scenario now uses nationset all, so the correct nations from
+            the isles are available and get placed, instead of completely
+            random nations from the core nationset osdn#42939
 
 Changes affecting other rulesets / modders
 
@@ -538,8 +550,8 @@ Help / Documentation
 
 Translations
 
-     * Updated translations: Catalan, Finnish, French, Polish, Russian,
-                             Traditional Chinese
+     * Updated translations: Catalan, Esperanto, Finnish, French, Polish,
+                             Russian, Traditional Chinese
 
 Build/portability
 
