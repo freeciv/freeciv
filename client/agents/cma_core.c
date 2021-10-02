@@ -79,6 +79,8 @@
 
 #define SAVED_PARAMETER_SIZE				29
 
+#define CMA_ATTR_VERSION                                2
+
 /*
  * Misc statistic to analyze performance.
  */
@@ -577,7 +579,11 @@ bool cma_get_parameter(enum attr_city attr, int city_id,
   dio_input_init(&din, buffer, len);
 
   dio_get_uint8_raw(&din, &version);
-  fc_assert_ret_val(version == 2, FALSE);
+  if (version != CMA_ATTR_VERSION) {
+    log_error("CMA data has a wrong version %d (expected %d)",
+              version, CMA_ATTR_VERSION);
+    return FALSE;
+  }
 
   /* Initialize the parameter (includes some AI-only fields that aren't
    * touched below). */
@@ -609,7 +615,7 @@ void cma_set_parameter(enum attr_city attr, int city_id,
 
   dio_output_init(&dout, buffer, sizeof(buffer));
 
-  dio_put_uint8_raw(&dout, 2);
+  dio_put_uint8_raw(&dout, CMA_ATTR_VERSION);
 
   output_type_iterate(i) {
     dio_put_sint16_raw(&dout, parameter->minimal_surplus[i]);
