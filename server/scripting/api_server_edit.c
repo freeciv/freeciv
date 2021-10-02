@@ -755,6 +755,52 @@ void api_edit_tile_set_label(lua_State *L, Tile *ptile, const char *label)
 }
 
 /**********************************************************************//**
+  Reveal tile as it is currently to the player.
+**************************************************************************/
+void api_edit_tile_show(lua_State *L, Tile *ptile, Player *pplayer)
+{
+  LUASCRIPT_CHECK_STATE(L);
+  LUASCRIPT_CHECK_SELF(L, ptile);
+  LUASCRIPT_CHECK_ARG_NIL(L, pplayer, 3, Player);
+
+  map_show_tile(pplayer, ptile);
+}
+
+/**********************************************************************//**
+  Try to hide tile from player.
+**************************************************************************/
+bool api_edit_tile_hide(lua_State *L, Tile *ptile, Player *pplayer)
+{
+  struct city *pcity;
+
+  LUASCRIPT_CHECK_STATE(L, FALSE);
+  LUASCRIPT_CHECK_SELF(L, ptile, FALSE);
+  LUASCRIPT_CHECK_ARG_NIL(L, pplayer, 3, Player, FALSE);
+
+  if (map_is_known_and_seen(ptile, pplayer, V_MAIN)) {
+    /* Can't hide currently seen tile */
+    return FALSE;
+  }
+
+  pcity = tile_city(ptile);
+
+  if (pcity != NULL) {
+    trade_partners_iterate(pcity, partner) {
+      if (really_gives_vision(pplayer, city_owner(partner))) {
+        /* Can't remove vision about trade partner */
+        return FALSE;
+      }
+    } trade_partners_iterate_end;
+  }
+
+  dbv_clr(&pplayer->tile_known, tile_index(ptile));
+
+  send_tile_info(pplayer->connections, ptile, TRUE);
+
+  return TRUE;
+}
+
+/**********************************************************************//**
   Global climate change.
 **************************************************************************/
 void api_edit_climate_change(lua_State *L, enum climate_change_type type,
