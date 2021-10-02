@@ -526,6 +526,10 @@ adv_want dai_effect_value(struct player *pplayer, struct government *gov,
     /* This is based on average base upgrade price of 50. */
     v -= adv->stats.units.upgradeable * amount / 2;
     break;
+  case EFT_BORDER_STRENGTH_PCT:
+    v += amount / 4;
+    break;
+
   /* Currently not supported for building AI - wait for modpack users */
   case EFT_CITY_UNHAPPY_SIZE:
   case EFT_UNHAPPY_FACTOR:

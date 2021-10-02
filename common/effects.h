@@ -318,15 +318,17 @@ extern "C" {
 #define SPECENUM_VALUE127NAME "Heal_Unit_Pct"
 #define SPECENUM_VALUE128 EFT_NUKE_BLAST_RADIUS_1_SQ
 #define SPECENUM_VALUE128NAME "Nuke_Blast_Radius_1_Sq"
+#define SPECENUM_VALUE129 EFT_BORDER_STRENGTH_PCT
+#define SPECENUM_VALUE129NAME "Border_Strength_Pct"
 /* Ruleset specific effects for use from Lua scripts */
-#define SPECENUM_VALUE129 EFT_USER_EFFECT_1
-#define SPECENUM_VALUE129NAME "User_Effect_1"
-#define SPECENUM_VALUE130 EFT_USER_EFFECT_2
-#define SPECENUM_VALUE130NAME "User_Effect_2"
-#define SPECENUM_VALUE131 EFT_USER_EFFECT_3
-#define SPECENUM_VALUE131NAME "User_Effect_3"
-#define SPECENUM_VALUE132 EFT_USER_EFFECT_4
-#define SPECENUM_VALUE132NAME "User_Effect_4"
+#define SPECENUM_VALUE130 EFT_USER_EFFECT_1
+#define SPECENUM_VALUE130NAME "User_Effect_1"
+#define SPECENUM_VALUE131 EFT_USER_EFFECT_2
+#define SPECENUM_VALUE131NAME "User_Effect_2"
+#define SPECENUM_VALUE132 EFT_USER_EFFECT_3
+#define SPECENUM_VALUE132NAME "User_Effect_3"
+#define SPECENUM_VALUE133 EFT_USER_EFFECT_4
+#define SPECENUM_VALUE133NAME "User_Effect_4"
 /* keep this last */
 #define SPECENUM_COUNT EFT_COUNT
 #include "specenum_gen.h"
@@ -404,6 +406,7 @@ bool is_building_replaced(const struct city *pcity,
 int get_world_bonus(enum effect_type effect_type);
 int get_player_bonus(const struct player *plr, enum effect_type effect_type);
 int get_city_bonus(const struct city *pcity, enum effect_type effect_type);
+int get_tile_bonus(const struct tile *ptile, enum effect_type effect_type);
 int get_city_specialist_output_bonus(const struct city *pcity,
 				     const struct specialist *pspecialist,
 				     const struct output_type *poutput,

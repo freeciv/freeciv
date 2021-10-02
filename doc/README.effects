@@ -274,6 +274,10 @@ Border_Vision
     Does nothing unless the borders setting is set to "Enabled". You can
     lock it if border vision rules are important to your ruleset.
 
+Border_Strength_Pct
+    Percentage bonus to a border strength of the border source on
+    target city or tile.
+
 Incite_Cost_Pct
     Increases revolt cost by amount percent.
 

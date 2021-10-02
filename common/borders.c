@@ -76,13 +76,15 @@ int tile_border_source_strength(struct tile *ptile)
   pcity = tile_city(ptile);
 
   if (pcity) {
-    strength = city_size_get(pcity) + 2;
+    strength = (city_size_get(pcity) + 2)
+      * (100 + get_city_bonus(pcity, EFT_BORDER_STRENGTH_PCT)) / 100;
   } else {
     extra_type_by_cause_iterate(EC_BASE, pextra) {
       struct base_type *pbase = extra_base_get(pextra);
 
       if (tile_has_extra(ptile, pextra) && territory_claiming_base(pbase)) {
-        strength = 1;
+        /* Base strength 100/100 = 1 */
+        strength = (100 + get_tile_bonus(ptile, EFT_BORDER_STRENGTH_PCT)) / 100;
         break;
       }
     } extra_type_by_cause_iterate_end;

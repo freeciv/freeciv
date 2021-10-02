@@ -58,6 +58,7 @@ static bool initialized = FALSE;
   * get_player_bonus
   * get_city_bonus
   * get_city_tile_bonus
+  * get_tile_bonus
   * get_building_bonus
 
   These functions require as arguments the target and the effect type to be
@@ -762,6 +763,25 @@ int get_city_bonus(const struct city *pcity, enum effect_type effect_type)
   return get_target_bonus_effects(NULL,
                                   city_owner(pcity), NULL, pcity, NULL,
                                   city_tile(pcity), NULL, NULL, NULL, NULL,
+                                  NULL, effect_type);
+}
+
+/**********************************************************************//**
+  Returns the effect bonus at a tile.
+  Even if the tile has a city, player requirements are not about city owner
+  but tile owner.
+**************************************************************************/
+int get_tile_bonus(const struct tile *ptile, enum effect_type effect_type)
+{
+  struct city *pcity = tile_city(ptile);
+
+  if (!initialized) {
+    return 0;
+  }
+
+  return get_target_bonus_effects(NULL,
+                                  tile_owner(ptile), NULL, pcity, NULL,
+                                  ptile, NULL, NULL, NULL, NULL,
                                   NULL, effect_type);
 }
 
