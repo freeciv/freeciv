@@ -86,6 +86,8 @@ void api_edit_create_road(lua_State *L, Tile *ptile, const char *name);
 void api_edit_remove_extra(lua_State *L, Tile *ptile, const char *name);
 
 void api_edit_tile_set_label(lua_State *L, Tile *ptile, const char *label);
+void api_edit_tile_show(lua_State *L, Tile *ptile, Player *pplayer);
+bool api_edit_tile_hide(lua_State *L, Tile *ptile, Player *pplayer);
 
 void api_edit_climate_change(lua_State *L, enum climate_change_type type,
                              int effect);

@@ -147,6 +147,10 @@ module edit {
     @ remove_extra (lua_State *L, Tile *ptile, const char *name);
   void api_edit_tile_set_label
     @ tile_set_label (lua_State *L, Tile *ptile, const char *label);
+  void api_edit_tile_show
+    @ tile_show (lua_State *L, Tile *ptile, Player *pplayer);
+  bool api_edit_tile_hide
+    @ tile_hide (lua_State *L, Tile *ptile, Player *pplayer);
   Player *api_edit_create_player
     @ create_player(lua_State *L, const char *username, Nation_Type *nation,
                     const char *ai);
@@ -456,6 +460,14 @@ end
 
 function Tile:set_label(label)
   edit.tile_set_label(self, label)
+end
+
+function Tile:show(player)
+  edit.tile_show(self, player)
+end
+
+function Tile:hide(player)
+  return edit.tile_hide(self, player)
 end
 
 $]
