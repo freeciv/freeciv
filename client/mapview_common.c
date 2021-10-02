@@ -1637,8 +1637,10 @@ static void draw_trade_routes_for_city(const struct city *pcity_src)
   }
 
   trade_partners_iterate(pcity_src, pcity_dest) {
-    draw_trade_route_line(city_tile(pcity_src), city_tile(pcity_dest),
-                          COLOR_MAPVIEW_TRADE_ROUTE_LINE);
+    if (pcity_dest != NULL) {
+      draw_trade_route_line(city_tile(pcity_src), city_tile(pcity_dest),
+                            COLOR_MAPVIEW_TRADE_ROUTE_LINE);
+    }
   } trade_partners_iterate_end;
 }
 
