@@ -1,8 +1,8 @@
 [nation_madmen]
 
-translation_domain="freeciv"
+translation_domain = "freeciv"
 
-name = _("Madmen")
+name   = _("Madmen")
 plural = _("?plural:Madmen")
 groups = "Barbarian"
 legend = _("They have escaped society, and attack it for no sane reason.")

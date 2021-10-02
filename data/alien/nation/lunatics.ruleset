@@ -1,8 +1,8 @@
 [nation_lunatic]
 
-translation_domain="freeciv"
+translation_domain = "freeciv"
 
-name = _("Lunatic")
+name   = _("Lunatic")
 plural = _("?plural:Lunatics")
 groups = "Barbarian"
 legend = _("Something drove them crazy, made them escape the society to seas.")
@@ -20,9 +20,9 @@ color.r = 139
 color.g =   0
 color.b =   0
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
 cities = "Bottom of the Sea"
 

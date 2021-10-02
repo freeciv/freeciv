@@ -1,8 +1,8 @@
 [nation_math_club]
 
-translation_domain="freeciv"
+translation_domain = "freeciv"
 
-name = _("Math Club")
+name   = _("Math Club")
 plural = _("?plural:Mathematicians")
 ; /* xgettext:no-c-format */
 legend = _("Math Club was traveling home from Math Competition when Deneb 7 \
@@ -23,13 +23,9 @@ color.r =   0
 color.g = 255
 color.b = 255
 
-init_techs=""
-init_buildings=""
-init_units=""
-
-; /* <-- avoid gettext warnings
-;
-; */
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
 cities =
  "Alpha", "Beta", "Gamma", "Delta", "Epsilon", "Zeta", "Eta",

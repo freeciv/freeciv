@@ -1,8 +1,8 @@
 [nation_galactic_sound]
 
-translation_domain="freeciv"
+translation_domain = "freeciv"
 
-name = _("Galactic Sound")
+name   = _("Galactic Sound")
 plural = _("?plural:Fans")
 legend = _("Shipful of music fans originally heading to big concert happening.\n\n\
 * Three unhappy citizens in each city becomes content")
@@ -21,13 +21,9 @@ color.r = 255
 color.g = 165
 color.b =   0
 
-init_techs=""
-init_buildings=""
-init_units=""
-
-; /* <-- avoid gettext warnings
-;
-; */
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
 cities =
  "Rock", "Metal", "Gem", "Classic", "Galactic", "Blues",

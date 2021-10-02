@@ -1,8 +1,8 @@
 [nation_team_gladiators]
 
-translation_domain="freeciv"
+translation_domain = "freeciv"
 
-name = _("Team Gladiators")
+name   = _("Team Gladiators")
 plural = _("?plural:Athletes")
 legend = _("Spaceball is sport of massive teams. Team Gladiators ship contained \
 enough players to start entire planetary faction.\n\n\
@@ -23,18 +23,14 @@ color.r = 255
 color.g =   0
 color.b =   0
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
 trait_trader_min       = 35
 trait_trader_max       = 35
 trait_expansionist_min = 40
 trait_expansionist_max = 40
-
-; /* <-- avoid gettext warnings
-;
-; */
 
 cities =
   "Spaceball", "Diving", "Tennis", "Hunting", "Racing",

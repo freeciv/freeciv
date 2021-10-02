@@ -1,8 +1,8 @@
 [nation_jw]
 
-translation_domain="freeciv"
+translation_domain = "freeciv"
 
-name = _("J&W Corporation")
+name   = _("J&W Corporation")
 plural = _("?plural:JeeWees")
 ; /* xgettext:no-c-format */
 legend = _("J&W Corporation ship was heading to establish another \
@@ -19,9 +19,9 @@ flag = "jw"
 flag_alt = "russia"
 style = "Human"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
 color.r = 255
 color.g = 255
@@ -31,10 +31,6 @@ trait_trader_min       = 300
 trait_trader_max       = 300
 trait_expansionist_min = 70
 trait_expansionist_max = 70
-
-; /* <-- avoid gettext warnings
-;
-; */
 
 cities =
   "Marketing", "Production", "Development", "Sales", "Support",
