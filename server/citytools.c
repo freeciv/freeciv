@@ -991,7 +991,7 @@ static void reestablish_city_trade_routes(struct city *pcity)
 
     /* Give the new owner infos about the city which has a trade route
      * with the transferred city. */
-    reality_check_city(city_owner(pcity), partner->tile);
+    map_show_tile(city_owner(pcity), partner->tile);
     update_dumb_city(city_owner(pcity), partner);
     send_city_info(city_owner(pcity), partner);
   } trade_routes_iterate_safe_end;

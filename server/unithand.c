@@ -5833,9 +5833,9 @@ static bool do_unit_establish_trade(struct player *pplayer,
     /* Notify each player about the other cities so that they know about
      * its size for the trade calculation. */
     if (pplayer != partner_player) {
-      reality_check_city(partner_player, city_tile(pcity_homecity));
+      map_show_tile(partner_player, city_tile(pcity_homecity));
       send_city_info(partner_player, pcity_homecity);
-      reality_check_city(pplayer, city_tile(pcity_dest));
+      map_show_tile(pplayer, city_tile(pcity_dest));
       send_city_info(pplayer, pcity_dest);
     }
 
