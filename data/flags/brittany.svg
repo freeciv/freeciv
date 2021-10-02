@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- Created with Inkscape (http://www.inkscape.org/) -->
 <svg
    xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:cc="http://creativecommons.org/ns#"
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
@@ -13,9 +12,8 @@
    height="600"
    id="svg14595"
    sodipodi:version="0.32"
-   inkscape:version="0.44"
-   sodipodi:docname="Flag of Brittany (traditional).svg"
-   sodipodi:docbase="C:\Documents and Settings\Owner\Desktop\SVG work\Flags">
+   inkscape:version="1.0.2 (e86c870879, 2021-01-15)"
+   sodipodi:docname="brittany.svg">
   <metadata
      id="metadata60">
     <rdf:RDF>
@@ -24,12 +22,13 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
   <sodipodi:namedview
-     inkscape:window-height="689"
-     inkscape:window-width="1015"
+     inkscape:window-height="452"
+     inkscape:window-width="777"
      inkscape:pageshadow="2"
      inkscape:pageopacity="0.0"
      guidetolerance="10.0"
@@ -40,11 +39,14 @@
      pagecolor="#ffffff"
      id="base"
      inkscape:zoom="0.35355339"
-     inkscape:cx="803.05497"
-     inkscape:cy="497.98486"
-     inkscape:window-x="96"
-     inkscape:window-y="-13"
-     inkscape:current-layer="svg14595" />
+     inkscape:cx="452.43886"
+     inkscape:cy="297.30079"
+     inkscape:window-x="595"
+     inkscape:window-y="100"
+     inkscape:current-layer="svg14595"
+     inkscape:document-rotation="0"
+     showgrid="false"
+     inkscape:window-maximized="0" />
   <defs
      id="defs14597" />
   <rect
