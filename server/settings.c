@@ -171,6 +171,7 @@ struct setting {
 
   /* It's not "default", even if value is the same as default */
   enum setting_default_level setdef;
+  enum setting_default_level game_setdef;
 };
 
 static struct {
@@ -4407,6 +4408,8 @@ static void setting_game_set(struct setting *pset, bool init)
     fc_assert(setting_type(pset) != SST_COUNT);
     break;
   }
+
+  pset->game_setdef = pset->setdef;
 }
 
 /************************************************************************//**
@@ -4430,6 +4433,11 @@ static void setting_game_restore(struct setting *pset)
   if (!setting_is_changeable(pset, NULL, reject_msg, sizeof(reject_msg))) {
     log_debug("Can't restore '%s': %s", setting_name(pset),
               reject_msg);
+    return;
+  }
+
+  if (pset->game_setdef == SETDEF_INTERNAL) {
+    setting_set_to_default(pset);
     return;
   }
 
@@ -4549,6 +4557,8 @@ void settings_game_save(struct section_file *file, const char *section)
                            "%s.set%d.gamestart", section, set_count);
         break;
       }
+      secfile_insert_str(file, setting_default_level_name(pset->game_setdef),
+                         "%s.set%d.gamesetdef", section, set_count);
       set_count++;
     }
   } settings_iterate_end;
@@ -4760,6 +4770,8 @@ void settings_game_load(struct section_file *file, const char *section)
       }
 
       if (game.server.settings_gamestart_valid) {
+        const char *sdname;
+
         /* Load the value of the setting at the start of the game. */
         switch (pset->stype) {
         case SST_BOOL:
@@ -4801,7 +4813,18 @@ void settings_game_load(struct section_file *file, const char *section)
           break;
         }
 
-        pset->setdef = SETDEF_CHANGED;
+        sdname
+          = secfile_lookup_str_default(file,
+                                   setting_default_level_name(SETDEF_CHANGED),
+                                       "%s.set%d.gamesetdef", section, i);
+        pset->game_setdef = setting_default_level_by_name(sdname,
+                                                          fc_strcasecmp);
+
+        if (!setting_default_level_is_valid(pset->game_setdef)) {
+          log_error("Setting %s has invalid gamesetdef value %s",
+                    setting_name(pset), sdname);
+          pset->game_setdef = SETDEF_CHANGED;
+        }
       }
     } settings_iterate_end;
   }
