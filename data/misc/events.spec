@@ -73,6 +73,7 @@ tiles = { "row", "column", "tag"
   2,  5, "e_hut_settler"
   2,  6, "e_hut_tech"
   2,  7, "e_hut_barb_city_near"
+  4, 10, "e_hut_map"
 
   2,  8, "e_tech_gain"
   2,  9, "e_tech_learned"

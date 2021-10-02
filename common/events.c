@@ -224,6 +224,7 @@ static struct {
   GEN_EV(E_UNIT_ACTION_TARGET_HOSTILE, E_S_UNIT, N_("Unit did to you")),
   GEN_EV(E_UNIT_ACTION_TARGET_OTHER,   E_S_UNIT, N_("Unit did")),
   GEN_EV(E_INFRAPOINTS,         E_S_NATION,      N_("Infrapoints")),
+  GEN_EV(E_HUT_MAP,             E_S_HUT,         N_("Map found from a hut")),
   /* The sound system also generates "e_game_quit", although there's no
    * corresponding identifier E_GAME_QUIT. */
 };

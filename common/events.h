@@ -172,6 +172,7 @@ extern "C" {
 #define SPECENUM_VALUE133 E_UNIT_ACTION_TARGET_OTHER
 #define SPECENUM_VALUE134 E_UNIT_ACTION_TARGET_HOSTILE
 #define SPECENUM_VALUE135 E_INFRAPOINTS
+#define SPECENUM_VALUE136 E_HUT_MAP
 /*
  * Note: If you add a new event, make sure you make a similar change
  * to the events array in "common/events.c" using GEN_EV, to
