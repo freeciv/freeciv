@@ -66,4 +66,16 @@ guint gdk_button_event_get_button(GdkEvent *ev)
   return button;
 }
 
+/************************************************************************//**
+  Version of gdk_scroll_event_get_direction() for gtk < 3.98
+****************************************************************************/
+GdkScrollDirection gdk_scroll_event_get_direction(GdkEvent *ev)
+{
+  GdkScrollDirection direction;
+
+  gdk_event_get_scroll_direction(ev, &direction);
+
+  return direction;
+}
+
 #endif /* GTK version < 3.98 */

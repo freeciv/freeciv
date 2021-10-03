@@ -29,6 +29,7 @@ GtkWidget *compat_window_new_wrapper(void);
 guint gdk_key_event_get_keyval(GdkEvent *ev);
 GdkModifierType gdk_event_get_modifier_state(GdkEvent *ev);
 guint gdk_button_event_get_button(GdkEvent *ev);
+GdkScrollDirection gdk_scroll_event_get_direction(GdkEvent *ev);
 #define gdk_event_get_position(_ev_, _x_, _y_) gdk_event_get_coords(_ev_, _x_, _y_)
 
 /* Wrap GtkNative away */
