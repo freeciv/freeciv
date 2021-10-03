@@ -1,9 +1,9 @@
 [nation_vistulan]
 
-name=_("Vistulan")
-plural=_("?plural:Vistulans")
-groups="European", "Medieval"
-legend=_("Vistulans were a West Slavic tribe inhabiting what is today\
+name   = _("Vistulan")
+plural = _("?plural:Vistulans")
+groups = "European", "Medieval"
+legend = _("Vistulans were a West Slavic tribe inhabiting what is today\
  the area of Lesser Poland. Little is known about their history. Many\
  historians agree that throughout the early Middle Ages Vistulans were\
  one of the strongest Slavic tribes of today's Poland, but conflicts\
@@ -31,16 +31,16 @@ flag = "vistulan"
 flag_alt = "-"
 style = "Celtic"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
 conflicts_with =
  "polish",
  "milanese"
 
-civilwar_nations = 
- "silesian", 
+civilwar_nations =
+ "silesian",
  "polish"
 
 cities =
@@ -73,4 +73,3 @@ cities =
  "Dębica",
  "Jasło",
  "Tarnobrzeg"
-

@@ -1,9 +1,9 @@
 [nation_vedic]
 
-name=_("Vedic")
-plural=_("?plural:Vedics")
-groups="Ancient", "Asian"
-legend=_("The cradle of Ancient Indian civilization lay in the Indus river\
+name   = _("Vedic")
+plural = _("?plural:Vedics")
+groups = "Ancient", "Asian"
+legend = _("The cradle of Ancient Indian civilization lay in the Indus river\
  valley in modern-day Pakistan.")
 
 leaders = {
@@ -26,16 +26,16 @@ ruler_titles = {
  "Republic",        _("Mahatma %s"),   _("?female:Mahatma %s")
 }
 
-flag="vedic"
-flag_alt="-"
+flag = "vedic"
+flag_alt = "-"
 style = "Asian"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-conflicts_with="Indian", "Pakistani"
-civilwar_nations="Gupta", "Sikh", "Kashmiri"
+conflicts_with = "Indian", "Pakistani"
+civilwar_nations = "Gupta", "Sikh", "Kashmiri"
 
 cities =
  "Varanasi",

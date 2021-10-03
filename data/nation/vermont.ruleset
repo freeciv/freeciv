@@ -1,9 +1,9 @@
 [nation_vermont]
 
-name=_("Vermont")
-plural=_("?plural:Vermonters")
-groups="American", "Early Modern"
-legend=_("Vermont was an independent state for 14 years before it joined\
+name   = _("Vermont")
+plural = _("?plural:Vermonters")
+groups = "American", "Early Modern"
+legend = _("Vermont was an independent state for 14 years before it joined\
  the United States in 1791. Currently it is one of the smallest states of\
  the United States, both in population and area. Vermont is famous for\
  its dairy products and maple syrup.")
@@ -27,15 +27,15 @@ ruler_titles = {
  "Fundamentalism",  _("Reverend %s"),  _("?female:Reverend %s")
 }
 
-flag="vermont"
+flag = "vermont"
 flag_alt = "usa"
 style = "European"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-civilwar_nations="american", "iroquois", "quebecois"
+civilwar_nations = "american", "iroquois", "quebecois"
 
 cities =
  "Windsor",
@@ -90,4 +90,3 @@ cities =
  "Guildhall",
  "South Burlington",
  "Dummerston"
-

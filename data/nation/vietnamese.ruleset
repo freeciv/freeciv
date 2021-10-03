@@ -1,9 +1,9 @@
 [nation_vietnamese]
 
-name=_("Vietnamese")
-plural=_("?plural:Vietnamese")
-groups="Medieval", "Early Modern", "Modern", "Asian"
-legend=_("The Vietnamese nation was founded in the first century CE by\
+name   = _("Vietnamese")
+plural = _("?plural:Vietnamese")
+groups = "Medieval", "Early Modern", "Modern", "Asian"
+legend = _("The Vietnamese nation was founded in the first century CE by\
  twin sisters who became the war leaders of a revolt against a Chinese\
  military governor.")
 
@@ -22,13 +22,14 @@ ruler_titles = {
  "Monarchy",        _("Emperor %s"),   _("Empress %s")
 }
 
-flag="vietnam"
+flag = "vietnam"
 flag_alt = "-"
 style = "Asian"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
+
 civilwar_nations = "south vietnamese", "cham"
 
 ; City order from:
@@ -38,7 +39,7 @@ civilwar_nations = "south vietnamese", "cham"
 
 cities =
   "Hà Nội",
-  "Thành phố Hồ Chí Minh",	; alt. "Sài Gòn"
+  "Thành phố Hồ Chí Minh",      ; alt. "Sài Gòn"
   "Hải Phòng",
   "Đà Nẵng",
   "Biên Hòa",
@@ -51,7 +52,7 @@ cities =
   "Nam Định",
   "Phan Thiết",
   "Long Xuyên",
-  "Hạ Long",			; alt. "Hong Gai"
+  "Hạ Long",                    ; alt. "Hong Gai"
   "Buôn Mê Thuột",
   "Cam Ranh",
   "Cẩm Phả",

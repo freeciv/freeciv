@@ -1,9 +1,9 @@
 [nation_venezuelan]
 
-name=_("Venezuelan")
-plural=_("?plural:Venezuelans")
-groups="American", "Modern"
-legend=_("Venezuela is the northernmost country in South America. Having\
+name   = _("Venezuelan")
+plural = _("?plural:Venezuelans")
+groups = "American", "Modern"
+legend = _("Venezuela is the northernmost country in South America. Having\
  been a Spanish colony since the 16th century, the country gained\
  independence on July 5th 1811 under the leadership of El Libertador Simón\
  Bolivar - The Liberator. Venezuela has one of the largest proven oil and\
@@ -31,17 +31,17 @@ ruler_titles = {
  "Fundamentalism", _("Bishop %s"),     _("Mother Superior %s")
 }
 
-flag="venezuela"
+flag = "venezuela"
 flag_alt = "-"
 style = "Tropical"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
 ; Similar flags:
-conflicts_with="colombian"
-civilwar_nations="cuban", "colombian", "guyanese"
+conflicts_with = "colombian"
+civilwar_nations = "cuban", "colombian", "guyanese"
 
 cities =
  "Caracas",

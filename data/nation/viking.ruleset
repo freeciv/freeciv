@@ -1,11 +1,11 @@
 [nation_viking]
 
-translation_domain="freeciv"
+translation_domain = "freeciv"
 
-name=_("Viking")
-plural=_("?plural:Vikings")
-groups="Medieval", "European", "Core"
-legend=_("The Vikings raided and traded along the coasts of Europe\
+name   = _("Viking")
+plural = _("?plural:Vikings")
+groups = "Medieval", "European", "Core"
+legend = _("The Vikings raided and traded along the coasts of Europe\
  between 800 CE and 1100 CE. Viking raiders eventually became the rulers\
  of Normandy, Russia, and a short-lived kingdom in Sicily.")
 
@@ -29,19 +29,19 @@ ruler_titles = {
  "Despotism",    _("Earl %s"),           _("?female:Earl %s")
 }
 
-flag="viking"
-flag_alt="norway"	; Used previously
+flag = "viking"
+flag_alt = "norway"     ; Used previously
 style = "European"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
 ; We do not want the Vikings to start together with any Scandinavian nation.
-conflicts_with="Danish", "Icelandic", "Norwegian", "Swedish", "Alander",
+conflicts_with = "Danish", "Icelandic", "Norwegian", "Swedish", "Alander",
  "Scanian", "Faroese"
 
-civilwar_nations=
+civilwar_nations =
 ; Scandinavian nations
  "Danish", "Icelandic", "Norwegian", "Swedish",
 ; Other nations claiming viking heritage
