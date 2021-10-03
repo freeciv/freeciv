@@ -1224,9 +1224,7 @@ static void act_sel_cancel_callback(GtkWidget *w, gpointer data)
 /**********************************************************************//**
   Action selection dialog has been closed
 **************************************************************************/
-static void act_sel_close_callback(GtkWidget *w,
-                                   gint response_id,
-                                   gpointer data)
+static void act_sel_close_callback(GtkWidget *w, gpointer data)
 {
   gtk_widget_destroy(act_sel_dialog);
   free(act_sel_dialog_data);
@@ -1559,7 +1557,7 @@ void popup_action_selection(struct unit *actor_unit,
   choice_dialog_set_hide(shl, TRUE);
   g_signal_connect(shl, "destroy",
                    G_CALLBACK(act_sel_destroy_callback), NULL);
-  g_signal_connect(shl, "delete_event",
+  g_signal_connect(shl, "close-request",
                    G_CALLBACK(act_sel_close_callback),
                    GINT_TO_POINTER(ACTION_NONE));
 

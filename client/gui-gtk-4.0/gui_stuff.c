@@ -343,8 +343,7 @@ static void gui_dialog_destroy_handler(GtkWidget *w, struct gui_dialog *dlg)
   needs to know when a deletion took place.
   Popup dialog version
 **************************************************************************/
-static gint gui_dialog_delete_handler(GtkWidget *widget,
-                                      GdkEventAny *ev, gpointer data)
+static gint gui_dialog_delete_handler(GtkWidget *widget, gpointer data)
 {
   struct gui_dialog *dlg = data;
 
@@ -463,7 +462,7 @@ static void gui_dialog_detach(struct gui_dialog* dlg)
 
   gtk_container_add(GTK_CONTAINER(window), dlg->vbox);
   dlg->v.window = window;
-  g_signal_connect(window, "delete_event",
+  g_signal_connect(window, "close-request",
                    G_CALLBACK(gui_dialog_delete_handler), dlg);
 
   gtk_window_set_default_size(GTK_WINDOW(dlg->v.window),
@@ -577,7 +576,7 @@ void gui_dialog_new(struct gui_dialog **pdlg, GtkNotebook *notebook,
 
       gtk_container_add(GTK_CONTAINER(window), vbox);
       dlg->v.window = window;
-      g_signal_connect(window, "delete_event",
+      g_signal_connect(window, "close-request",
         G_CALLBACK(gui_dialog_delete_handler), dlg);
 
     }
