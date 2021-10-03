@@ -1873,7 +1873,6 @@ AC_MSG_NOTICE([
 
   Maintained client frontends:
     Gtk-3.22 $gui_gtk3_22
-    Gtk-3.0: $gui_gtk3
     SDL2:    $gui_sdl2
     QT:      $gui_qt
     Stub:    $gui_stub
@@ -1881,6 +1880,9 @@ AC_MSG_NOTICE([
   In-development client frontends:
    (these are not yet ready for general use)
     Gtk-3x:  $gui_gtk3x
+
+  Not maintained client frontends:
+    Gtk-3.0: $gui_gtk3
 
   == Server ==
   Build freeciv server:  $server
