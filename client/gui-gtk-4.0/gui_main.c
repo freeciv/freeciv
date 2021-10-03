@@ -363,36 +363,6 @@ gboolean map_canvas_focus(void)
 }
 
 /**********************************************************************//**
-  In GTK keyboard events are recursively propagated from the hierarchy
-  parent down to its children. Sometimes this is not what we want.
-  E.g. The inputline is active, the user presses the 's' key, we want it
-  to be sent to the inputline, but because the main menu is further up
-  the hierarchy, it wins and the inputline never gets anything!
-  This function ensures an entry widget (like the inputline) always gets
-  first dibs at handling a keyboard event.
-**************************************************************************/
-static gboolean toplevel_handler(GtkWidget *w, GdkEventKey *ev, gpointer data)
-{
-  GtkWidget *focus;
-
-  focus = gtk_window_get_focus(GTK_WINDOW(toplevel));
-  if (focus) {
-    if (GTK_IS_ENTRY(focus)
-        || (GTK_IS_TEXT_VIEW(focus)
-            && gtk_text_view_get_editable(GTK_TEXT_VIEW(focus)))) {
-      /* Propagate event to currently focused entry widget. */
-      if (gtk_widget_event(focus, (GdkEvent *) ev)) {
-	/* Do not propagate event to our children. */
-	return TRUE;
-      }
-    }
-  }
-
-  /* Continue propagating event to our children. */
-  return FALSE;
-}
-
-/**********************************************************************//**
   Handle keypress events when map canvas is in focus
 **************************************************************************/
 static gboolean key_press_map_canvas(GtkWidget *w, GdkEvent *ev,
@@ -774,16 +744,6 @@ static void tearoff_destroy(GtkWidget *w, gpointer data)
 }
 
 /**********************************************************************//**
-  Propagates a keypress in a tearoff back to the toplevel window.
-**************************************************************************/
-static gboolean propagate_keypress(GtkWidget *w, GdkEventKey *ev)
-{
-  gtk_widget_event(toplevel, (GdkEvent *)ev);
-
-  return FALSE;
-}
-
-/**********************************************************************//**
   Callback for the toggle button in the detachable widget: causes the
   widget to detach or reattach.
 **************************************************************************/
@@ -802,8 +762,6 @@ static void tearoff_callback(GtkWidget *b, gpointer data)
     gtk_widget_set_name(w, "Freeciv");
     gtk_window_set_title(GTK_WINDOW(w), _("Freeciv"));
     g_signal_connect(w, "destroy", G_CALLBACK(tearoff_destroy), box);
-    g_signal_connect(w, "key_press_event",
-	G_CALLBACK(propagate_keypress), NULL);
 
     g_object_set_data(G_OBJECT(w), "parent", gtk_widget_get_parent(box));
     g_object_set_data(G_OBJECT(w), "toggle", b);
@@ -1838,8 +1796,6 @@ static void activate_gui(GtkApplication *app, gpointer data)
   if (vmode.width > 0 && vmode.height > 0) {
     gtk_window_resize(GTK_WINDOW(toplevel), vmode.width, vmode.height);
   }
-  g_signal_connect(toplevel, "key_press_event",
-                   G_CALLBACK(toplevel_handler), NULL);
 
   gtk_widget_realize(toplevel);
   gtk_widget_set_name(toplevel, "Freeciv");
