@@ -1813,7 +1813,7 @@ static void activate_gui(GtkApplication *app, gpointer data)
 
   gtk_window_set_title(GTK_WINDOW(toplevel), _("Freeciv"));
 
-  g_signal_connect(toplevel, "delete_event",
+  g_signal_connect(toplevel, "close-request",
                    G_CALLBACK(quit_dialog_callback), NULL);
 
   /* Disable GTK cursor key focus movement */
