@@ -335,14 +335,18 @@ static void luaconsole_load_file_callback(GtkWidget *widget, gint response,
                                           gpointer data)
 {
   if (response == GTK_RESPONSE_OK) {
-    gchar *filename = g_filename_to_utf8(gtk_file_chooser_get_filename
-                                         (GTK_FILE_CHOOSER(widget)),
-                                         -1, NULL, NULL, NULL);
+    GFile *file = gtk_file_chooser_get_file(GTK_FILE_CHOOSER(widget));
 
-    if (NULL != filename) {
-      luaconsole_printf(ftc_luaconsole_input, "(file)> %s", filename);
-      script_client_do_file(filename);
-      g_free(filename);
+    if (file != NULL) {
+      gchar *filename = g_file_get_parse_name(file);
+
+      if (NULL != filename) {
+        luaconsole_printf(ftc_luaconsole_input, "(file)> %s", filename);
+        script_client_do_file(filename);
+        g_free(filename);
+      }
+
+      g_object_unref(file);
     }
   }
   gtk_widget_destroy(widget);
