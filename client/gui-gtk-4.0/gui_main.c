@@ -709,7 +709,7 @@ static gboolean mouse_scroll_mapcanvas(GtkWidget *w, GdkEvent *ev)
   get_mapview_scroll_pos(&scroll_x, &scroll_y);
   get_mapview_scroll_step(&xstep, &ystep);
 
-  gdk_event_get_scroll_direction(ev, &direction);
+  direction = gdk_scroll_event_get_direction(ev);
   switch (direction) {
     case GDK_SCROLL_UP:
       scroll_y -= ystep*2;
