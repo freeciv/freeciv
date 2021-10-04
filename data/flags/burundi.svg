@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
+
 <svg:svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://web.resource.org/cc/"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    version="1.0"
    x="0.0000000"
    y="0.0000000"
@@ -14,12 +9,17 @@
    height="300"
    id="svg1"
    sodipodi:version="0.32"
-   inkscape:version="0.44"
+   inkscape:version="1.1.1 (3bf5ae0d25, 2021-09-20)"
    sodipodi:docname="burundi.svg"
-   sodipodi:docbase="C:\flags">
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
   <sodipodi:namedview
-     inkscape:window-height="579"
-     inkscape:window-width="847"
+     inkscape:window-height="636"
+     inkscape:window-width="845"
      inkscape:pageshadow="2"
      inkscape:pageopacity="0.0"
      guidetolerance="10.0"
@@ -31,11 +31,14 @@
      id="base"
      width="450px"
      inkscape:zoom="1.2566667"
-     inkscape:cx="250"
+     inkscape:cx="229.17771"
      inkscape:cy="150"
-     inkscape:window-x="22"
-     inkscape:window-y="29"
-     inkscape:current-layer="svg1" />
+     inkscape:window-x="765"
+     inkscape:window-y="80"
+     inkscape:current-layer="svg1"
+     inkscape:pagecheckerboard="0"
+     showgrid="false"
+     inkscape:window-maximized="0" />
   <svg:defs
      id="defs3" />
   <svg:metadata
