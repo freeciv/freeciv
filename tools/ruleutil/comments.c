@@ -71,6 +71,7 @@ static struct {
   char *research_tech_leakage;
   char *research_upkeep_style;
   char *research_free_tech_method;
+  char *culture_history_interest;
 } comments_storage;
 
 /**********************************************************************//**
@@ -182,6 +183,8 @@ bool comments_load(void)
                "entrydoc.tech_upkeep_style");
   comment_load(comments_storage.research_free_tech_method, comment_file,
                "entrydoc.free_tech_method");
+  comment_load(comments_storage.culture_history_interest, comment_file,
+               "entrydoc.history_interest_pml");
 
   secfile_check_unused(comment_file);
   secfile_destroy(comment_file);
@@ -602,4 +605,13 @@ void comment_research_free_tech_method(struct section_file *sfile)
 {
   comment_entry_write(sfile, comments_storage.research_free_tech_method,
                       "research");
+}
+
+/**********************************************************************//**
+  Write culture history_interest_pml settings header.
+**************************************************************************/
+void comment_culture_history_interest(struct section_file *sfile)
+{
+  comment_entry_write(sfile, comments_storage.culture_history_interest,
+                      "culture");
 }

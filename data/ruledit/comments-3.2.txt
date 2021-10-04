@@ -1377,3 +1377,9 @@ free_tech_method = "\n\
 ; \"Random\"   - Random researchable tech\n\
 ; \"Cheapest\" - Cheapest researchable tech, random among equal cost ones\
 "
+
+history_interest_pml = "\n\
+; How much existing history grows each turn. This makes older history\n\
+; of the same original value more valuable as newer history, as it has\n\
+; gained more interest.\
+"
