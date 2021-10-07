@@ -679,8 +679,8 @@ const char *req_to_fstring(const struct requirement *req)
   Pass this some values like "Building", "Factory".
 ****************************************************************************/
 struct requirement req_from_str(const char *type, const char *range,
-				bool survives, bool present, bool quiet,
-				const char *value)
+                                bool survives, bool present, bool quiet,
+                                const char *value)
 {
   struct requirement req;
   bool invalid;
@@ -788,9 +788,11 @@ struct requirement req_from_str(const char *type, const char *range,
       break;
     case VUT_MINSIZE:
     case VUT_NATIONALITY:
-    case VUT_GOOD:
       invalid = (req.range != REQ_RANGE_CITY
                  && req.range != REQ_RANGE_TRADEROUTE);
+      break;
+    case VUT_GOOD:
+      invalid = (req.range != REQ_RANGE_CITY);
       break;
     case VUT_MINCULTURE:
       invalid = (req.range != REQ_RANGE_CITY
