@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ca\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2021-06-07 00:34+0200\n"
-"PO-Revision-Date: 2021-06-07 00:47+0200\n"
+"POT-Creation-Date: 2021-10-08 12:49+0200\n"
+"PO-Revision-Date: 2021-10-08 12:50+0200\n"
 "Last-Translator: Joan Creus <joan.creusandreu at gmail dot com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -31,15 +31,25 @@ msgstr "Tancar"
 msgid "Old ruleset to a new format"
 msgstr "Joc de regles antic a format nou"
 
-#: tools/ruledit/edit_impr.cpp:46 tools/ruledit/edit_utype.cpp:63
-#| msgid "Buildings"
+#: tools/ruledit/edit_impr.cpp:47 tools/ruledit/edit_utype.cpp:64
 msgid "Build Cost"
 msgstr "Cost de Construcció"
 
-#: tools/ruledit/edit_utype.cpp:48
-#| msgid "Requirements"
+#: tools/ruledit/edit_impr.cpp:58
+msgid "Upkeep"
+msgstr "Manteniment"
+
+#: tools/ruledit/edit_utype.cpp:49
 msgid "Requirement"
 msgstr "Requeriment"
+
+#: tools/ruledit/edit_utype.cpp:74
+msgid "Attack Strength"
+msgstr "Força d'Atac"
+
+#: tools/ruledit/edit_utype.cpp:84
+msgid "Defense Strength"
+msgstr "Força Defensiva"
 
 #. TRANS: Trying to fix a requirement vector problem but can't find
 #. * any.
@@ -60,7 +70,6 @@ msgid "Accept selected solution"
 msgstr "Acceptar solució seleccionada"
 
 #: tools/ruledit/req_vec_fix.cpp:158
-#| msgid "Requirements"
 msgid "Requirement problem"
 msgstr "Problema de requeriments"
 
@@ -77,8 +86,8 @@ msgid ""
 "Undo all accepted solutions since you started or since last time you ordered "
 "all accepted changes done."
 msgstr ""
-"Desfer totes les solucions acceptades des de l'inici o des de l'última vegada"
-" que hagis donat l'ordre de fer tots els canvis acceptats."
+"Desfer totes les solucions acceptades des de l'inici o des de l'última "
+"vegada que hagis donat l'ordre de fer tots els canvis acceptats."
 
 #. TRANS: Perform all the changes to the ruleset item the user has
 #. * accepted. Button text in the requirement vector fixer dialog.
@@ -93,9 +102,9 @@ msgid ""
 "Perform all the changes you have accepted to the ruleset item. You can then "
 "fix the current issue by hand and come back here to find the next issue."
 msgstr ""
-"Executar tots els canvis que has acceptat a l'objecte del joc de regles."
-" Llavors pots solucionar el problema actual a mà i tornar aquí per trobar el"
-" proper problema."
+"Executar tots els canvis que has acceptat a l'objecte del joc de regles. "
+"Llavors pots solucionar el problema actual a mà i tornar aquí per trobar el "
+"proper problema."
 
 #: tools/ruledit/req_vec_fix.cpp:278
 msgid "Unable to apply solution"
@@ -283,39 +292,32 @@ msgid "A building with that rule name already exists!"
 msgstr "Ja existeix un edifici amb aquest nom de regla!"
 
 #: tools/ruledit/tab_enablers.cpp:113
-#| msgid "Type:"
 msgid "Type"
 msgstr "Tipus"
 
 #: tools/ruledit/tab_enablers.cpp:136
-#| msgid "Requirements"
 msgid "Actor Requirements"
 msgstr "Requeriments d'Actor"
 
 #: tools/ruledit/tab_enablers.cpp:143
-#| msgid "Requirements"
 msgid "Target Requirements"
 msgstr "Requeriments d'Objectiu"
 
 #: tools/ruledit/tab_enablers.cpp:150
-#| msgid "Action Enabler"
 msgid "Add Enabler"
 msgstr "Afegir Facilitador"
 
 #: tools/ruledit/tab_enablers.cpp:155
-#| msgid "Remove this tech"
 msgid "Remove this Enabler"
 msgstr "Treure aquest Facilitador"
 
 #. TRANS: Fix an error in an action enabler.
 #: tools/ruledit/tab_enablers.cpp:225
-#| msgid "Action Enabler"
 msgid "Repair Enabler"
 msgstr "Reparar Facilitador"
 
 #. TRANS: Fix a non error issue in an action enabler.
 #: tools/ruledit/tab_enablers.cpp:230
-#| msgid "Action Enabler"
 msgid "Improve Enabler"
 msgstr "Millorar Facilitador"
 
@@ -333,22 +335,18 @@ msgstr "Facilitador (actor)"
 
 #: tools/ruledit/tab_enablers.cpp:417
 #, c-format
-#| msgid "Action Enabler"
 msgid "action enabler for %s"
 msgstr "facilitador d'accions per a %s"
 
 #: tools/ruledit/tab_extras.cpp:87
-#| msgid "Extras"
 msgid "Add Extra"
 msgstr "Afegir Extra"
 
 #: tools/ruledit/tab_extras.cpp:92
-#| msgid "Remove this tech"
 msgid "Remove this Extra"
 msgstr "Treure aquest Extra"
 
 #: tools/ruledit/tab_extras.cpp:177
-#| msgid "A tech with that rule name already exists!"
 msgid "An extra with that rule name already exists!"
 msgstr "Ja existeix una extra amb aquest nom de regla!"
 
@@ -365,17 +363,14 @@ msgid "A good with that rule name already exists!"
 msgstr "Ja existeix un bé amb aquest nom de regla!"
 
 #: tools/ruledit/tab_gov.cpp:87
-#| msgid "Governments"
 msgid "Add Government"
 msgstr "Afegir Govern"
 
 #: tools/ruledit/tab_gov.cpp:92
-#| msgid "Remove this Good"
 msgid "Remove this Government"
 msgstr "Treure aquest Govern"
 
 #: tools/ruledit/tab_gov.cpp:177
-#| msgid "A good with that rule name already exists!"
 msgid "A government with that rule name already exists!"
 msgstr "Ja existeix un govern amb aquest nom de regla!"
 
@@ -432,59 +427,63 @@ msgid "?stat:Unit Types"
 msgstr "Tipus d'Unitats"
 
 #: tools/ruledit/tab_misc.cpp:134
+#| msgid "Enablers"
+msgid "?stat:Enablers"
+msgstr "Facilitadors"
+
+#: tools/ruledit/tab_misc.cpp:138
 msgid "?stat:Buildings"
 msgstr "Edificis"
 
-#: tools/ruledit/tab_misc.cpp:138
+#: tools/ruledit/tab_misc.cpp:142
 msgid "?stat:Nations"
 msgstr "Nacions"
 
-#: tools/ruledit/tab_misc.cpp:142
+#: tools/ruledit/tab_misc.cpp:146
 msgid "?stat:Styles"
 msgstr "Estils"
 
-#: tools/ruledit/tab_misc.cpp:146
+#: tools/ruledit/tab_misc.cpp:150
 msgid "?stat:Specialists"
 msgstr "Especialistes"
 
-#: tools/ruledit/tab_misc.cpp:150
+#: tools/ruledit/tab_misc.cpp:154
 msgid "?stat:Governments"
 msgstr "Governs"
 
-#: tools/ruledit/tab_misc.cpp:154
+#: tools/ruledit/tab_misc.cpp:158
 msgid "?stat:Disasters"
 msgstr "Desastres"
 
-#: tools/ruledit/tab_misc.cpp:158
+#: tools/ruledit/tab_misc.cpp:162
 msgid "?stat:Achievements"
 msgstr "Fites"
 
-#: tools/ruledit/tab_misc.cpp:162
+#: tools/ruledit/tab_misc.cpp:166
 msgid "?stat:Extras"
 msgstr "Extres"
 
-#: tools/ruledit/tab_misc.cpp:166
+#: tools/ruledit/tab_misc.cpp:170
 msgid "?stat:Bases"
 msgstr "Bases"
 
-#: tools/ruledit/tab_misc.cpp:170
+#: tools/ruledit/tab_misc.cpp:174
 msgid "?stat:Roads"
 msgstr "Camins"
 
-#: tools/ruledit/tab_misc.cpp:174
+#: tools/ruledit/tab_misc.cpp:178
 msgid "?stat:Goods"
 msgstr "Béns"
 
-#: tools/ruledit/tab_misc.cpp:178
-#| msgid "?stat:Styles"
+#: tools/ruledit/tab_misc.cpp:182
 msgid "?stat:Multipliers"
 msgstr "Multiplicadors"
 
-#: tools/ruledit/tab_misc.cpp:186
+#: tools/ruledit/tab_misc.cpp:190
 msgid "Refresh Stats"
 msgstr "Refrescar Estadístiques"
 
-#: tools/ruledit/tab_misc.cpp:268
+#: tools/ruledit/tab_misc.cpp:272
 msgid "Ruleset saved"
 msgstr "Joc de regles desat"
 
@@ -525,17 +524,14 @@ msgid "A tech with that rule name already exists!"
 msgstr "Ja existeix una tecnologia amb aquest nom de regla!"
 
 #: tools/ruledit/tab_terrains.cpp:83
-#| msgid "Terrains"
 msgid "Add Terrain"
 msgstr "Afegir Terreny"
 
 #: tools/ruledit/tab_terrains.cpp:88
-#| msgid "Remove this tech"
 msgid "Remove this Terrain"
 msgstr "Treure aquest Terreny"
 
 #: tools/ruledit/tab_terrains.cpp:173
-#| msgid "A tech with that rule name already exists!"
 msgid "A terrain with that rule name already exists!"
 msgstr "Ja existeix un terreny amb aquest nom de regla!"
 
@@ -569,7 +565,6 @@ msgstr "Permet"
 
 #: tools/ruledit/req_edit.cpp:124 tools/ruledit/req_edit.cpp:314
 #: tools/ruledit/req_edit.cpp:362
-#| msgid "Requirements"
 msgid "Prevents"
 msgstr "Evita"
 
@@ -590,19 +585,21 @@ msgstr "%s evita"
 msgid "Effect"
 msgstr "Efecte"
 
-#: tools/ruledit/validity.c:120
-msgid "Action Enabler"
-msgstr "Habilitador d'Accions"
+#: tools/ruledit/validity.c:122
+#, c-format
+#| msgid "Action Enabler"
+msgid "%s action enabler"
+msgstr "%s facilitador d'accions"
 
-#: tools/ruledit/validity.c:140
+#: tools/ruledit/validity.c:144
 msgid "Music Style"
 msgstr "Estil Musical"
 
-#: tools/ruledit/validity.c:254
+#: tools/ruledit/validity.c:265
 msgid "Conflicting extra"
 msgstr "Extra en conflicte"
 
-#: tools/ruledit/validity.c:257
+#: tools/ruledit/validity.c:268
 msgid "Hidden extra"
 msgstr "Extra amagat"
 
