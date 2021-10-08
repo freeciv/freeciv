@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 2.4.99-dev\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2021-05-14 13:23+0300\n"
+"POT-Creation-Date: 2021-09-16 18:19+0300\n"
 "PO-Revision-Date: 2015-03-30 14:26+0800\n"
 "Last-Translator: Zhang Xiaowei <zero00072@gmail.com>\n"
 "Language-Team: Chinese (Traditional) <zero00072@gmail.com>\n"
@@ -25,14 +25,26 @@ msgstr "關閉"
 msgid "Old ruleset to a new format"
 msgstr ""
 
-#: tools/ruledit/edit_impr.cpp:46 tools/ruledit/edit_utype.cpp:63
+#: tools/ruledit/edit_impr.cpp:47 tools/ruledit/edit_utype.cpp:64
 #, fuzzy
 #| msgid "Buildings"
 msgid "Build Cost"
 msgstr "建築"
 
-#: tools/ruledit/edit_utype.cpp:48
+#: tools/ruledit/edit_impr.cpp:58
+msgid "Upkeep"
+msgstr ""
+
+#: tools/ruledit/edit_utype.cpp:49
 msgid "Requirement"
+msgstr ""
+
+#: tools/ruledit/edit_utype.cpp:74
+msgid "Attack Strength"
+msgstr ""
+
+#: tools/ruledit/edit_utype.cpp:84
+msgid "Defense Strength"
 msgstr ""
 
 #. TRANS: Trying to fix a requirement vector problem but can't find
@@ -458,81 +470,87 @@ msgstr "單位類型"
 
 #: tools/ruledit/tab_misc.cpp:134
 #, fuzzy
+#| msgid "Action Enabler"
+msgid "?stat:Enablers"
+msgstr "行為啟用者"
+
+#: tools/ruledit/tab_misc.cpp:138
+#, fuzzy
 #| msgid "Buildings"
 msgid "?stat:Buildings"
 msgstr "建築"
 
-#: tools/ruledit/tab_misc.cpp:138
+#: tools/ruledit/tab_misc.cpp:142
 #, fuzzy
 #| msgid "Nations"
 msgid "?stat:Nations"
 msgstr "國族"
 
-#: tools/ruledit/tab_misc.cpp:142
+#: tools/ruledit/tab_misc.cpp:146
 #, fuzzy
 #| msgid "Styles"
 msgid "?stat:Styles"
 msgstr "樣式"
 
-#: tools/ruledit/tab_misc.cpp:146
+#: tools/ruledit/tab_misc.cpp:150
 #, fuzzy
 #| msgid "Specialists"
 msgid "?stat:Specialists"
 msgstr "專家"
 
-#: tools/ruledit/tab_misc.cpp:150
+#: tools/ruledit/tab_misc.cpp:154
 #, fuzzy
 #| msgid "Governments"
 msgid "?stat:Governments"
 msgstr "政府"
 
-#: tools/ruledit/tab_misc.cpp:154
+#: tools/ruledit/tab_misc.cpp:158
 #, fuzzy
 #| msgid "Disasters"
 msgid "?stat:Disasters"
 msgstr "天災"
 
-#: tools/ruledit/tab_misc.cpp:158
+#: tools/ruledit/tab_misc.cpp:162
 #, fuzzy
 #| msgid "Achievements"
 msgid "?stat:Achievements"
 msgstr "成就"
 
-#: tools/ruledit/tab_misc.cpp:162
+#: tools/ruledit/tab_misc.cpp:166
 #, fuzzy
 #| msgid "Extras"
 msgid "?stat:Extras"
 msgstr "額外"
 
-#: tools/ruledit/tab_misc.cpp:166
+#: tools/ruledit/tab_misc.cpp:170
 #, fuzzy
 #| msgid "Bases"
 msgid "?stat:Bases"
 msgstr "基礎"
 
-#: tools/ruledit/tab_misc.cpp:170
+#: tools/ruledit/tab_misc.cpp:174
 #, fuzzy
 #| msgid "Roads"
 msgid "?stat:Roads"
 msgstr "道路"
 
-#: tools/ruledit/tab_misc.cpp:174
+#: tools/ruledit/tab_misc.cpp:178
 #, fuzzy
 #| msgid "Roads"
 msgid "?stat:Goods"
 msgstr "道路"
 
-#: tools/ruledit/tab_misc.cpp:178
+#: tools/ruledit/tab_misc.cpp:182
 #, fuzzy
 #| msgid "Styles"
 msgid "?stat:Multipliers"
 msgstr "樣式"
 
-#: tools/ruledit/tab_misc.cpp:186
+#: tools/ruledit/tab_misc.cpp:190
 msgid "Refresh Stats"
 msgstr "更新狀態"
 
-#: tools/ruledit/tab_misc.cpp:268
+#: tools/ruledit/tab_misc.cpp:272
 msgid "Ruleset saved"
 msgstr "已儲存劇本"
 
@@ -643,18 +661,20 @@ msgid "Effect"
 msgstr "有效"
 
 #: tools/ruledit/validity.c:122
-msgid "Action Enabler"
+#, fuzzy, c-format
+#| msgid "Action Enabler"
+msgid "%s action enabler"
 msgstr "行為啟用者"
 
-#: tools/ruledit/validity.c:142
+#: tools/ruledit/validity.c:144
 msgid "Music Style"
 msgstr "音樂風格"
 
-#: tools/ruledit/validity.c:256
+#: tools/ruledit/validity.c:265
 msgid "Conflicting extra"
 msgstr ""
 
-#: tools/ruledit/validity.c:259
+#: tools/ruledit/validity.c:268
 msgid "Hidden extra"
 msgstr ""
 

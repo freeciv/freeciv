@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.4\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2021-05-14 13:23+0300\n"
+"POT-Creation-Date: 2021-09-16 18:19+0300\n"
 "PO-Revision-Date: 2012-07-26 20:54+0100\n"
 "Last-Translator: Dadan Haryana <dadanhrn@gmail.com>\n"
 "Language-Team: Indonesian <>\n"
@@ -32,12 +32,24 @@ msgstr ""
 msgid "Old ruleset to a new format"
 msgstr ""
 
-#: tools/ruledit/edit_impr.cpp:46 tools/ruledit/edit_utype.cpp:63
+#: tools/ruledit/edit_impr.cpp:47 tools/ruledit/edit_utype.cpp:64
 msgid "Build Cost"
 msgstr ""
 
-#: tools/ruledit/edit_utype.cpp:48
+#: tools/ruledit/edit_impr.cpp:58
+msgid "Upkeep"
+msgstr ""
+
+#: tools/ruledit/edit_utype.cpp:49
 msgid "Requirement"
+msgstr ""
+
+#: tools/ruledit/edit_utype.cpp:74
+msgid "Attack Strength"
+msgstr ""
+
+#: tools/ruledit/edit_utype.cpp:84
+msgid "Defense Strength"
 msgstr ""
 
 #. TRANS: Trying to fix a requirement vector problem but can't find
@@ -417,58 +429,62 @@ msgid "?stat:Unit Types"
 msgstr ""
 
 #: tools/ruledit/tab_misc.cpp:134
-msgid "?stat:Buildings"
+msgid "?stat:Enablers"
 msgstr ""
 
 #: tools/ruledit/tab_misc.cpp:138
-msgid "?stat:Nations"
+msgid "?stat:Buildings"
 msgstr ""
 
 #: tools/ruledit/tab_misc.cpp:142
-msgid "?stat:Styles"
+msgid "?stat:Nations"
 msgstr ""
 
 #: tools/ruledit/tab_misc.cpp:146
-msgid "?stat:Specialists"
+msgid "?stat:Styles"
 msgstr ""
 
 #: tools/ruledit/tab_misc.cpp:150
-msgid "?stat:Governments"
+msgid "?stat:Specialists"
 msgstr ""
 
 #: tools/ruledit/tab_misc.cpp:154
-msgid "?stat:Disasters"
+msgid "?stat:Governments"
 msgstr ""
 
 #: tools/ruledit/tab_misc.cpp:158
-msgid "?stat:Achievements"
+msgid "?stat:Disasters"
 msgstr ""
 
 #: tools/ruledit/tab_misc.cpp:162
-msgid "?stat:Extras"
+msgid "?stat:Achievements"
 msgstr ""
 
 #: tools/ruledit/tab_misc.cpp:166
-msgid "?stat:Bases"
+msgid "?stat:Extras"
 msgstr ""
 
 #: tools/ruledit/tab_misc.cpp:170
-msgid "?stat:Roads"
+msgid "?stat:Bases"
 msgstr ""
 
 #: tools/ruledit/tab_misc.cpp:174
-msgid "?stat:Goods"
+msgid "?stat:Roads"
 msgstr ""
 
 #: tools/ruledit/tab_misc.cpp:178
+msgid "?stat:Goods"
+msgstr ""
+
+#: tools/ruledit/tab_misc.cpp:182
 msgid "?stat:Multipliers"
 msgstr ""
 
-#: tools/ruledit/tab_misc.cpp:186
+#: tools/ruledit/tab_misc.cpp:190
 msgid "Refresh Stats"
 msgstr ""
 
-#: tools/ruledit/tab_misc.cpp:268
+#: tools/ruledit/tab_misc.cpp:272
 msgid "Ruleset saved"
 msgstr ""
 
@@ -571,18 +587,19 @@ msgid "Effect"
 msgstr ""
 
 #: tools/ruledit/validity.c:122
-msgid "Action Enabler"
+#, c-format
+msgid "%s action enabler"
 msgstr ""
 
-#: tools/ruledit/validity.c:142
+#: tools/ruledit/validity.c:144
 #, fuzzy
 msgid "Music Style"
 msgstr "Gaya Kota:"
 
-#: tools/ruledit/validity.c:256
+#: tools/ruledit/validity.c:265
 msgid "Conflicting extra"
 msgstr ""
 
-#: tools/ruledit/validity.c:259
+#: tools/ruledit/validity.c:268
 msgid "Hidden extra"
 msgstr ""

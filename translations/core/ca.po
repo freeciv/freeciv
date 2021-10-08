@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ca\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2021-10-08 12:44+0200\n"
+"POT-Creation-Date: 2021-10-07 08:53+0300\n"
 "PO-Revision-Date: 2021-10-08 12:48+0200\n"
 "Last-Translator: Joan Creus <joan.creusandreu at gmail dot com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -14296,9 +14296,6 @@ msgstr ""
 
 #: client/servers.c:493
 #, c-format
-#| msgid ""
-#| "Opening socket to listen LAN announcements failed:\n"
-#| "%s"
 msgid ""
 "Opening socket for sending LAN announcement request failed:\n"
 "%s"
@@ -14308,7 +14305,6 @@ msgstr ""
 
 #: client/servers.c:531
 #, c-format
-#| msgid "Saved settings to file %s"
 msgid ""
 "Setting Time-to-Live failed:\n"
 "%s"
@@ -14318,7 +14314,6 @@ msgstr ""
 
 #: client/servers.c:546
 #, c-format
-#| msgid "Saved settings to file %s"
 msgid ""
 "Setting Broadcast option failed:\n"
 "%s"
@@ -14328,9 +14323,6 @@ msgstr ""
 
 #: client/servers.c:564
 #, c-format
-#| msgid ""
-#| "Binding socket to listen LAN announcements failed:\n"
-#| "%s"
 msgid ""
 "Sending LAN announcement request failed:\n"
 "%s"
@@ -29148,7 +29140,6 @@ msgid "Ice Sheet"
 msgstr "Placa de Gel"
 
 #: data/sandbox/script.lua:285 data/civ2civ3/script.lua:249
-#| msgid "Ice Sheet"
 msgid "Ice Shelf"
 msgstr "Plataforma de Gel"
 
@@ -34467,12 +34458,6 @@ msgstr ""
 "l'havia produïda originalment) i el destí."
 
 #: data/helpdata.txt:613
-#| msgid ""
-#| "The origin civilization of the unit gains immediate revenue in gold and "
-#| "science from selling its trade goods at the destination city. The initial "
-#| "revenue depends on the trade already produced by the two cities involved "
-#| "and their distance apart. The destination civilization learns about the "
-#| "location of the origin city, if it is not already known."
 msgid ""
 "Depending on the ruleset, the origin civilization of the unit may gain "
 "immediate revenue in gold, science, or both from selling its trade goods at "
@@ -34481,12 +34466,12 @@ msgid ""
 "destination civilization learns about the location of the origin city, if it "
 "is not already known."
 msgstr ""
-"Depenent del joc de regles, la civilització origen de la unitat pot obtenir"
-" una renda immediata en or, ciència o totes dues coses "
-"en vendre els seus béns comercials a la ciutat de destinació. La renda "
-"inicial depèn del comerç que ja s'estigui produint per les dues ciutats "
-"implicades i de la distància que les separa. La civilització destí aprèn la "
-"ubicació de la ciutat origen, si encara no era coneguda."
+"Depenent del joc de regles, la civilització origen de la unitat pot obtenir "
+"una renda immediata en or, ciència o totes dues coses en vendre els seus "
+"béns comercials a la ciutat de destinació. La renda inicial depèn del comerç "
+"que ja s'estigui produint per les dues ciutats implicades i de la distància "
+"que les separa. La civilització destí aprèn la ubicació de la ciutat origen, "
+"si encara no era coneguda."
 
 #: data/helpdata.txt:620
 msgid ""
@@ -39143,7 +39128,6 @@ msgid "Paolo Sammicheli"
 msgstr "Paolo Sammicheli"
 
 #: data/scenarios/italy.sav:7
-#| msgid "Overhead 100x100 map of Italy."
 msgid "Overhead 114x100 map of Italy."
 msgstr "Mapa de vista superior 114x100 d'Itàlia."
 

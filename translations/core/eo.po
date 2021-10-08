@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: it\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2021-09-28 02:02+0300\n"
+"POT-Creation-Date: 2021-10-07 08:53+0300\n"
 "PO-Revision-Date: 2021-09-27 13:20+0200\n"
 "Last-Translator: Kristjan SCHMIDT <kristjan.schmidt@googlemail.com>\n"
 "Language-Team: Esperanto <eo@li.org>\n"
@@ -12551,19 +12551,19 @@ msgstr "Kopiu %sn en la poŝon."
 msgid "Clipboard is empty."
 msgstr "La poŝo estas malplena."
 
-#: client/mapview_common.c:4010
+#: client/mapview_common.c:4012
 msgid "ISO|Hex"
 msgstr ""
 
-#: client/mapview_common.c:4012 common/fc_types.h:357
+#: client/mapview_common.c:4014 common/fc_types.h:357
 msgid "ISO"
 msgstr ""
 
-#: client/mapview_common.c:4015 common/fc_types.h:359
+#: client/mapview_common.c:4017 common/fc_types.h:359
 msgid "Hex"
 msgstr ""
 
-#: client/mapview_common.c:4018 client/tilespec.h:49
+#: client/mapview_common.c:4020 client/tilespec.h:49
 #, fuzzy
 msgid "Overhead"
 msgstr "Guberniestro"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.1.0-beta3\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2021-05-14 13:23+0300\n"
+"POT-Creation-Date: 2021-09-16 18:19+0300\n"
 "PO-Revision-Date: 2011-02-02 11:49-0200\n"
 "Last-Translator: Djavan Fagundes <djavan@comum.org>\n"
 "Language-Team: Brazilian Portuguese <gnome-pt_br-list@gnome.org>\n"
@@ -28,12 +28,24 @@ msgstr ""
 msgid "Old ruleset to a new format"
 msgstr ""
 
-#: tools/ruledit/edit_impr.cpp:46 tools/ruledit/edit_utype.cpp:63
+#: tools/ruledit/edit_impr.cpp:47 tools/ruledit/edit_utype.cpp:64
 msgid "Build Cost"
 msgstr ""
 
-#: tools/ruledit/edit_utype.cpp:48
+#: tools/ruledit/edit_impr.cpp:58
+msgid "Upkeep"
+msgstr ""
+
+#: tools/ruledit/edit_utype.cpp:49
 msgid "Requirement"
+msgstr ""
+
+#: tools/ruledit/edit_utype.cpp:74
+msgid "Attack Strength"
+msgstr ""
+
+#: tools/ruledit/edit_utype.cpp:84
+msgid "Defense Strength"
 msgstr ""
 
 #. TRANS: Trying to fix a requirement vector problem but can't find
@@ -424,59 +436,64 @@ msgid "?stat:Unit Types"
 msgstr ""
 
 #: tools/ruledit/tab_misc.cpp:134
+#, fuzzy
+msgid "?stat:Enablers"
+msgstr "_Tecs"
+
+#: tools/ruledit/tab_misc.cpp:138
 msgid "?stat:Buildings"
 msgstr ""
 
-#: tools/ruledit/tab_misc.cpp:138
+#: tools/ruledit/tab_misc.cpp:142
 msgid "?stat:Nations"
 msgstr ""
 
-#: tools/ruledit/tab_misc.cpp:142
+#: tools/ruledit/tab_misc.cpp:146
 msgid "?stat:Styles"
 msgstr ""
 
-#: tools/ruledit/tab_misc.cpp:146
+#: tools/ruledit/tab_misc.cpp:150
 msgid "?stat:Specialists"
 msgstr ""
 
-#: tools/ruledit/tab_misc.cpp:150
+#: tools/ruledit/tab_misc.cpp:154
 msgid "?stat:Governments"
 msgstr ""
 
-#: tools/ruledit/tab_misc.cpp:154
+#: tools/ruledit/tab_misc.cpp:158
 msgid "?stat:Disasters"
 msgstr ""
 
-#: tools/ruledit/tab_misc.cpp:158
+#: tools/ruledit/tab_misc.cpp:162
 msgid "?stat:Achievements"
 msgstr ""
 
-#: tools/ruledit/tab_misc.cpp:162
+#: tools/ruledit/tab_misc.cpp:166
 msgid "?stat:Extras"
 msgstr ""
 
-#: tools/ruledit/tab_misc.cpp:166
+#: tools/ruledit/tab_misc.cpp:170
 msgid "?stat:Bases"
 msgstr ""
 
-#: tools/ruledit/tab_misc.cpp:170
+#: tools/ruledit/tab_misc.cpp:174
 msgid "?stat:Roads"
 msgstr ""
 
-#: tools/ruledit/tab_misc.cpp:174
+#: tools/ruledit/tab_misc.cpp:178
 #, fuzzy
 msgid "?stat:Goods"
 msgstr "_Tecs"
 
-#: tools/ruledit/tab_misc.cpp:178
+#: tools/ruledit/tab_misc.cpp:182
 msgid "?stat:Multipliers"
 msgstr ""
 
-#: tools/ruledit/tab_misc.cpp:186
+#: tools/ruledit/tab_misc.cpp:190
 msgid "Refresh Stats"
 msgstr ""
 
-#: tools/ruledit/tab_misc.cpp:268
+#: tools/ruledit/tab_misc.cpp:272
 #, fuzzy
 msgid "Ruleset saved"
 msgstr "Deserto"
@@ -583,18 +600,19 @@ msgid "Effect"
 msgstr ""
 
 #: tools/ruledit/validity.c:122
-msgid "Action Enabler"
+#, c-format
+msgid "%s action enabler"
 msgstr ""
 
-#: tools/ruledit/validity.c:142
+#: tools/ruledit/validity.c:144
 #, fuzzy
 msgid "Music Style"
 msgstr "_Estilo da Cidade:"
 
-#: tools/ruledit/validity.c:256
+#: tools/ruledit/validity.c:265
 msgid "Conflicting extra"
 msgstr ""
 
-#: tools/ruledit/validity.c:259
+#: tools/ruledit/validity.c:268
 msgid "Hidden extra"
 msgstr ""

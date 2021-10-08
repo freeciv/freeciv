@@ -29,7 +29,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 3.0\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2021-09-28 02:02+0300\n"
+"POT-Creation-Date: 2021-10-07 08:53+0300\n"
 "PO-Revision-Date: 2021-09-28 02:08+0300\n"
 "Last-Translator: Sini Ruohomaa <sini.ruohomaa@iki.fi>\n"
 "Language-Team: None <freeciv-i18n@freelists.org>\n"
@@ -12398,19 +12398,19 @@ msgstr "Kopioi %s leikepöydälle."
 msgid "Clipboard is empty."
 msgstr "Leikepöytä on tyhjä."
 
-#: client/mapview_common.c:4010
+#: client/mapview_common.c:4012
 msgid "ISO|Hex"
 msgstr "isometrinen|heksa"
 
-#: client/mapview_common.c:4012 common/fc_types.h:357
+#: client/mapview_common.c:4014 common/fc_types.h:357
 msgid "ISO"
 msgstr "isometrinen"
 
-#: client/mapview_common.c:4015 common/fc_types.h:359
+#: client/mapview_common.c:4017 common/fc_types.h:359
 msgid "Hex"
 msgstr "heksa"
 
-#: client/mapview_common.c:4018 client/tilespec.h:49
+#: client/mapview_common.c:4020 client/tilespec.h:49
 msgid "Overhead"
 msgstr "Ylhäältä katsottu"
 
@@ -34366,7 +34366,13 @@ msgid ""
 "produced by the two cities involved and their distance apart. The "
 "destination civilization learns about the location of the origin city, if it "
 "is not already known."
-msgstr "Sääntökokoelmasta riippuen tuotteiden myyminen kohdekaupungissa kerryttää kauppayksikön kotisivilisaatiolle välittömästi tuottona kultaa, tutkimuspanosta tai molempia. Välittömän tuoton suuruus riippuu molempien kaupunkien tuottamista kauppapisteistä ja niiden välisestä etäisyydestä. Kauppareitin toisen pään omistava pelaaja näkee aina myös kauppareitin toisessa päässä olevan kaupungin sijainnin."
+msgstr ""
+"Sääntökokoelmasta riippuen tuotteiden myyminen kohdekaupungissa kerryttää "
+"kauppayksikön kotisivilisaatiolle välittömästi tuottona kultaa, "
+"tutkimuspanosta tai molempia. Välittömän tuoton suuruus riippuu molempien "
+"kaupunkien tuottamista kauppapisteistä ja niiden välisestä etäisyydestä. "
+"Kauppareitin toisen pään omistava pelaaja näkee aina myös kauppareitin "
+"toisessa päässä olevan kaupungin sijainnin."
 
 #: data/helpdata.txt:620
 msgid ""
