@@ -272,7 +272,7 @@ obsolete_by	=
     { "type", "name", "range"
     }
 build_cost	= 80
-upkeep		= 1
+upkeep		= 0
 sabotage	= 0
 sound		= "b_palace"
 sound_alt	= "b_generic"
@@ -316,7 +316,7 @@ obsolete_by	=
     { "type", "name", "range"
     }
 build_cost	= 280
-upkeep		= 1
+upkeep		= 0
 sabotage	= 100
 sound		= "w_isaac_newtons_college"
 sound_alt	= "w_generic"
