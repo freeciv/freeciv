@@ -519,7 +519,7 @@ static void create_help_dialog(void)
   col = gtk_tree_view_column_new_with_attributes(NULL, rend, "text", 0, NULL);
   gtk_tree_view_append_column(GTK_TREE_VIEW(help_view), col);
 
-  help_view_sw = gtk_scrolled_window_new(NULL, NULL);
+  help_view_sw = gtk_scrolled_window_new();
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(help_view_sw),
   			  GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
   gtk_widget_set_size_request(help_view_sw, 190, -1);
@@ -666,7 +666,7 @@ static void create_help_dialog(void)
   help_text = gtk_text_view_get_buffer(GTK_TEXT_VIEW(text));
   gtk_widget_show(text);
 
-  help_text_sw = gtk_scrolled_window_new(NULL, NULL);
+  help_text_sw = gtk_scrolled_window_new();
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(help_text_sw),
 				 GTK_POLICY_AUTOMATIC, GTK_POLICY_ALWAYS);
   gtk_container_add(GTK_CONTAINER(help_text_sw), text);
@@ -708,7 +708,7 @@ static void create_help_dialog(void)
   gtk_tree_view_append_column(GTK_TREE_VIEW(help_tree), col);
 
 
-  help_tree_sw = gtk_scrolled_window_new(NULL, NULL);
+  help_tree_sw = gtk_scrolled_window_new();
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(help_tree_sw),
 				 GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
   gtk_container_add(GTK_CONTAINER(help_tree_sw), help_tree);

@@ -98,7 +98,7 @@ void popup_find_dialog(void)
     gtk_tree_view_column_set_sort_order(column, GTK_SORT_ASCENDING);
     gtk_tree_view_append_column(GTK_TREE_VIEW(find_view), column);
 
-    sw = gtk_scrolled_window_new(NULL, NULL);
+    sw = gtk_scrolled_window_new();
     g_object_set(sw, "margin", 2, NULL);
     gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(sw),
 	GTK_SHADOW_ETCHED_IN);

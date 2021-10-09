@@ -79,3 +79,17 @@ GdkScrollDirection gdk_scroll_event_get_direction(GdkEvent *ev)
 }
 
 #endif /* GTK version < 3.98 */
+
+
+#if !GTK_CHECK_VERSION(3,99,0)
+
+/************************************************************************//**
+  Compatibility wrapper for dropping parameter from
+  gtk_scrolled_window_new() calls
+****************************************************************************/
+GtkWidget *compat_scrolled_window_new_wrapper(void)
+{
+  return gtk_scrolled_window_new(NULL, NULL);
+}
+
+#endif /* GTK version < 3.99.0 */

@@ -202,7 +202,7 @@ static void luaconsole_dialog_create(struct luaconsole_data *pdialog)
                                  GTK_ORIENTATION_VERTICAL);
   gtk_container_add(GTK_CONTAINER(box), vbox);
 
-  sw = gtk_scrolled_window_new(NULL, NULL);
+  sw = gtk_scrolled_window_new();
   gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(sw),
                                       GTK_SHADOW_ETCHED_IN);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),

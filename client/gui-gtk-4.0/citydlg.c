@@ -413,7 +413,7 @@ static void city_dialog_map_create(struct city_dialog *pdialog,
 {
   GtkWidget *sw, *darea;
 
-  sw = gtk_scrolled_window_new(NULL, NULL);
+  sw = gtk_scrolled_window_new();
   gtk_scrolled_window_set_min_content_width(GTK_SCROLLED_WINDOW(sw),
                                             CITYMAP_WIDTH);
   gtk_scrolled_window_set_min_content_height(GTK_SCROLLED_WINDOW(sw),
@@ -1003,7 +1003,7 @@ static void create_and_append_overview_page(struct city_dialog *pdialog)
                          "xalign", 0.0, "yalign", 0.5, NULL);
     gtk_container_add(GTK_CONTAINER(vbox), label);
 
-    sw = gtk_scrolled_window_new(NULL, NULL);
+    sw = gtk_scrolled_window_new();
     gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(sw),
                                         GTK_SHADOW_ETCHED_IN);
     gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
@@ -1047,7 +1047,7 @@ static void create_and_append_overview_page(struct city_dialog *pdialog)
                     pdialog->overview.present_units_frame);
 
   /* supported units */
-  sw = gtk_scrolled_window_new(NULL, NULL);
+  sw = gtk_scrolled_window_new();
   gtk_widget_set_hexpand(sw, TRUE);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
                                  GTK_POLICY_AUTOMATIC, GTK_POLICY_NEVER);
@@ -1071,7 +1071,7 @@ static void create_and_append_overview_page(struct city_dialog *pdialog)
   unit_node_vector_init(&pdialog->overview.supported_units);
 
   /* present units */
-  sw = gtk_scrolled_window_new(NULL, NULL);
+  sw = gtk_scrolled_window_new();
   gtk_widget_set_hexpand(sw, TRUE);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
                                  GTK_POLICY_AUTOMATIC, GTK_POLICY_NEVER);

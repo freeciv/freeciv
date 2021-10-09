@@ -258,7 +258,7 @@ struct cma_dialog *create_cma_dialog(struct city *pcity, bool tiny)
   gtk_grid_set_row_spacing(GTK_GRID(pdialog->shell), 2);
   gtk_container_add(GTK_CONTAINER(page), vbox);
 
-  sw = gtk_scrolled_window_new(NULL, NULL);
+  sw = gtk_scrolled_window_new();
   gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(sw),
                                       GTK_SHADOW_ETCHED_IN);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),

@@ -257,7 +257,7 @@ static GtkWidget *create_worklists_report(void)
   gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(list), -1, NULL,
                                               rend, "text", 0, NULL);
 
-  sw = gtk_scrolled_window_new(NULL, NULL);
+  sw = gtk_scrolled_window_new();
   gtk_scrolled_window_set_min_content_height(GTK_SCROLLED_WINDOW(sw), 200);
   gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(sw),
 				      GTK_SHADOW_ETCHED_IN);
@@ -1100,7 +1100,7 @@ GtkWidget *create_worklist(void)
 
   group = gtk_size_group_new(GTK_SIZE_GROUP_HORIZONTAL);
 
-  sw = gtk_scrolled_window_new(NULL, NULL);
+  sw = gtk_scrolled_window_new();
   gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(sw),
                                       GTK_SHADOW_ETCHED_IN);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
@@ -1192,7 +1192,7 @@ GtkWidget *create_worklist(void)
                            G_CALLBACK(queue_remove), ptr);
   gtk_widget_set_sensitive(ptr->remove_cmd, FALSE);
 
-  sw = gtk_scrolled_window_new(NULL, NULL);
+  sw = gtk_scrolled_window_new();
   gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(sw),
                                       GTK_SHADOW_ETCHED_IN);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),

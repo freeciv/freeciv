@@ -621,8 +621,8 @@ static void create_advances_list(struct player *pplayer,
     "yalign", 0.5,
     NULL);
   gtk_container_add(GTK_CONTAINER(vbox), label);
-  
-  sw = gtk_scrolled_window_new(NULL, NULL);
+
+  sw = gtk_scrolled_window_new();
   gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(sw),
 				      GTK_SHADOW_ETCHED_IN);
   gtk_container_add(GTK_CONTAINER(sw), view);
@@ -808,8 +808,8 @@ static void create_improvements_list(struct player *pplayer,
     "yalign", 0.5,
     NULL);
   gtk_container_add(GTK_CONTAINER(vbox), label);
-  
-  sw = gtk_scrolled_window_new(NULL, NULL);
+
+  sw = gtk_scrolled_window_new();
   gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(sw),
 				      GTK_SHADOW_ETCHED_IN);
   gtk_container_add(GTK_CONTAINER(sw), view);

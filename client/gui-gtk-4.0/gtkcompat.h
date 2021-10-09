@@ -41,4 +41,15 @@ GdkScrollDirection gdk_scroll_event_get_direction(GdkEvent *ev);
 
 #endif  /* GTK version < 3.98 */
 
+#if !GTK_CHECK_VERSION(3,99,0)
+/* Compatibility mode */
+
+GtkWidget *compat_scrolled_window_new_wrapper(void);
+
+#ifndef GTKCOMPAT_ITSELF
+#define gtk_scrolled_window_new() compat_scrolled_window_new_wrapper()
+#endif  /* GTKCOMPAT_ITSELF */
+
+#endif  /* GTK version < 3.99 */
+
 #endif  /* FC__GTKCOMPAT_H */

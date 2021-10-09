@@ -495,7 +495,7 @@ static void option_dialog_option_add(struct option_dialog *pdialog,
   if (NULL == pdialog->vboxes[category]) {
     GtkWidget *sw;
 
-    sw = gtk_scrolled_window_new(NULL, NULL);
+    sw = gtk_scrolled_window_new();
     gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
                                    GTK_POLICY_NEVER,
                                    GTK_POLICY_AUTOMATIC);
