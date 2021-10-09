@@ -1558,6 +1558,33 @@ static void compat_load_030100(struct loaddata *loading,
     }
   } player_slots_iterate_end;
 
+  /* Server setting migration. */
+  {
+    int set_count;
+
+    if (secfile_lookup_int(loading->file, &set_count, "settings.set_count")) {
+      int i;
+      bool gamestart_valid
+        = secfile_lookup_bool_default(loading->file, FALSE,
+                                      "settings.gamestart_valid");
+
+      /* Only add gamesetdef if gamestart is valid at all */
+      if (gamestart_valid) {
+        for (i = 0; i < set_count; i++) {
+          const char *name
+            = secfile_lookup_str(loading->file, "settings.set%d.name", i);
+
+          if (!name) {
+            continue;
+          }
+
+          secfile_insert_str(loading->file, setting_default_level_name(SETDEF_CHANGED),
+                             "settings.set%d.gamesetdef", i);
+        }
+      }
+    }
+  }
+
   /* Explicit server side agent was new in 3.1 */
   insert_server_side_agent(loading, format_class);
 }
