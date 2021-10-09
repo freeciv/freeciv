@@ -13,6 +13,7 @@ artists = "
     CapTVK
     GriffonSpade
     Gyubal Wahazar
+    Canik
 "
 
 [file]
@@ -129,8 +130,9 @@ tiles = { "row", "column", "tag"
   7,  0, "t.blend.arctic" ;ice over neighbors
  15,  3, "t.blend.coast"
  15,  3, "t.blend.lake"
- 15,  4, "user.attention", "user.infratile"
+ 15,  4, "user.attention"
  15,  5, "tx.fog"
+ 15,  6, "user.infratile"
 
 ;goto path sprites
  14,  7, "path.step"            ; turn boundary within path
