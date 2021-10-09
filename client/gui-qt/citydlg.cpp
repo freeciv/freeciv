@@ -526,19 +526,19 @@ void impr_info::wheelEvent(QWheelEvent *event)
 
   p = parentWidget()->parentWidget()->pos();
   p = mapToGlobal(p);
-#ifdef FC_QT6_MODE
+#ifndef FC_QT5_MODE
   QWheelEvent new_event(QPoint(5, 5), p + QPoint(5,5), event->pixelDelta(),
 			event->angleDelta(),
 			event->buttons(),
 			event->modifiers(),
 			event->phase(), false, event->source());
-#else  /* FC_QT6_MODE */
+#else  /* FC_QT5_MODE */
   QWheelEvent new_event(QPoint(5, 5), p + QPoint(5,5), event->pixelDelta(),
                         event->angleDelta(),
                         event->angleDelta().y(),
                         Qt::Horizontal, event->buttons(),
                         event->modifiers(), event->phase(), event->source());
-#endif /* FC_QT6_MODE */
+#endif /* FC_QT5_MODE */
   QApplication::sendEvent(parentWidget(), &new_event);
 }
 
@@ -583,19 +583,19 @@ void impr_item::wheelEvent(QWheelEvent *event)
 
   p = parentWidget()->parentWidget()->pos();
   p = mapToGlobal(p);
-#ifdef FC_QT6_MODE
+#ifndef FC_QT5_MODE
   QWheelEvent new_event(QPoint(5, 5), p + QPoint(5,5), event->pixelDelta(),
                         event->angleDelta(),
 			event->buttons(),
 			event->modifiers(),
 			event->phase(), false, event->source());
-#else  /* FC_QT6_MODE */
+#else  /* FC_QT5_MODE */
   QWheelEvent new_event(QPoint(5, 5), p + QPoint(5,5), event->pixelDelta(),
                         event->angleDelta(),
                         event->angleDelta().y(),
                         Qt::Horizontal, event->buttons(),
                         event->modifiers(), event->phase(), event->source());
-#endif /* FC_QT6_MODE */
+#endif /* FC_QT5_MODE */
   QApplication::sendEvent(parentWidget()->parentWidget(),
                           &new_event);
 }
@@ -993,19 +993,19 @@ void unit_item::wheelEvent(QWheelEvent *event)
 
   p = parentWidget()->parentWidget()->pos();
   p = mapToGlobal(p);
-#ifdef FC_QT6_MODE
+#ifndef FC_QT5_MODE
   QWheelEvent new_event(QPoint(5, 5), p + QPoint(5,5), event->pixelDelta(),
                         event->angleDelta(),
 			event->buttons(),
 			event->modifiers(),
 			event->phase(), false, event->source());
-#else  /* FC_QT6_MODE */
+#else  /* FC_QT5_MODE */
   QWheelEvent new_event(QPoint(5, 5), p + QPoint(5,5), event->pixelDelta(),
                         event->angleDelta(),
                         event->angleDelta().y(),
                         Qt::Horizontal, event->buttons(),
                         event->modifiers(), event->phase(), event->source());
-#endif /* FC_QT6_MODE */
+#endif /* FC_QT5_MODE */
   QApplication::sendEvent(parentWidget()->parentWidget(),
                           &new_event);
 }
@@ -1081,19 +1081,19 @@ void unit_info::wheelEvent(QWheelEvent *event)
 
   p = parentWidget()->parentWidget()->pos();
   p = mapToGlobal(p);
-#ifdef FC_QT6_MODE
+#ifndef FC_QT5_MODE
   QWheelEvent new_event(QPoint(5, 5), p + QPoint(5,5), event->pixelDelta(),
                         event->angleDelta(),
 			event->buttons(),
 			event->modifiers(),
 			event->phase(), false, event->source());
-#else  /* FC_QT6_MODE */
+#else  /* FC_QT5_MODE */
   QWheelEvent new_event(QPoint(5, 5), p + QPoint(5,5), event->pixelDelta(),
                         event->angleDelta(),
                         event->angleDelta().y(),
                         Qt::Horizontal, event->buttons(),
                         event->modifiers(), event->phase(), event->source());
-#endif /* FC_QT6_MODE */
+#endif /* FC_QT5_MODE */
   QApplication::sendEvent(parentWidget(), &new_event);
 }
 

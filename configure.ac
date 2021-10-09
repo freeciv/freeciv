@@ -661,10 +661,13 @@ dnl when setting compiler flags.
 AC_ARG_WITH([qt6],
   AS_HELP_STRING([--with-qt6], [build Qt6 versions of Qt programs]),
 [case "${withval}" in
- yes) qt_ver="Qt6"
-      AC_DEFINE([FC_QT6_MODE], [1], [this is Qt6 based build]) ;;
+ yes) qt_ver="Qt6" ;;
  *)   qt_ver="Qt5" ;;
 esac], [qt_ver="Qt5"])
+
+if test "x$qt_ver" = "xQt5" ; then
+  AC_DEFINE([FC_QT5_MODE], [1], [this is Qt5 based build])
+fi
 
 FC_WORKING_CXX
 
