@@ -39,6 +39,8 @@ GdkScrollDirection gdk_scroll_event_get_direction(GdkEvent *ev);
 
 #define gtk_label_set_wrap(_wdg_, _wrap_) gtk_label_set_line_wrap(_wdg_, _wrap_)
 
+#define gtk_menu_button_new() gtk_menu_new()
+
 #endif  /* GTK version < 3.98 */
 
 #if !GTK_CHECK_VERSION(3,99,0)
