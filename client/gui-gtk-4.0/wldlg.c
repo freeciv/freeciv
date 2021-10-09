@@ -449,6 +449,7 @@ static void worklist_destroy(GtkWidget *editor, gpointer data)
   free(ptr);
 }
 
+#ifdef MENUS_GTK3
 /************************************************************************//**
   Item activated from menu
 ****************************************************************************/
@@ -515,6 +516,7 @@ static void popup_add_menu(GtkMenuShell *menu, gpointer data)
   g_signal_connect(item, "activate",
   		   G_CALLBACK(popup_worklists_report), NULL);
 }
+#endif /* MENUS_GTK3 */
 
 /************************************************************************//**
   Help button clicked
@@ -1067,7 +1069,10 @@ GtkWidget *create_worklist(void)
 {
   GtkWidget *editor, *table, *sw, *bbox;
   GtkWidget *src_view, *dst_view, *label, *button;
-  GtkWidget *menubar, *item, *menu;
+  GtkWidget *menubar;
+#ifdef MENUS_GTK3
+  GtkWidget *item, *menu;
+#endif /* MENUS_GTK3 */
   GtkWidget *table2, *arrow, *check;
   GtkSizeGroup *group;
   GtkListStore *src_store, *dst_store;
@@ -1224,7 +1229,8 @@ GtkWidget *create_worklist(void)
   menubar = gtk_aux_menu_bar_new();
   gtk_container_add(GTK_CONTAINER(bbox), menubar);
 
-  menu = gtk_menu_new();
+#ifdef MENUS_GTK3
+  menu = gtk_menu_button_new();
 
   item = gtk_menu_item_new_with_mnemonic(_("_Add Global Worklist"));
   gtk_menu_item_set_submenu(GTK_MENU_ITEM(item), menu);
@@ -1232,6 +1238,7 @@ GtkWidget *create_worklist(void)
   g_signal_connect(menu, "show",
                    G_CALLBACK(popup_add_menu), ptr);
   ptr->add_cmd = item;
+#endif /* MENUS_GTK3 */
   gtk_widget_set_sensitive(ptr->add_cmd, FALSE);
 
   button = icon_label_button_new("help-browser", _("Help"));

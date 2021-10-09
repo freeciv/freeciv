@@ -235,6 +235,7 @@ void gtk_tree_view_focus(GtkTreeView *view)
 **************************************************************************/
 GtkWidget *gtk_aux_menu_bar_new(void)
 {
+#ifdef MENUS_GTK3
   GtkWidget *menubar = gtk_menu_bar_new();
 
   /*
@@ -250,6 +251,9 @@ GtkWidget *gtk_aux_menu_bar_new(void)
   }
 
   return menubar;
+#else  /* MENUS_GTK3 */
+  return NULL;
+#endif /* MENUS_GTK3 */
 }
 
 /**********************************************************************//**

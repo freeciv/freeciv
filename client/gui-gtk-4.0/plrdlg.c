@@ -70,6 +70,7 @@ static GtkListStore *players_dialog_store;
 #define PLR_DLG_COL_ID          (2 + num_player_dlg_columns)
 
 static void create_players_dialog(void);
+#ifdef MENUS_GTK3
 static void players_meet_callback(GtkMenuItem *item, gpointer data);
 static void players_war_callback(GtkMenuItem *item, gpointer data);
 static void players_vision_callback(GtkMenuItem *item, gpointer data);
@@ -77,7 +78,7 @@ static void players_intel_callback(GtkMenuItem *item, gpointer data);
 static void players_sship_callback(GtkMenuItem *item, gpointer data);
 static void players_ai_toggle_callback(GtkMenuItem *item, gpointer data);
 static void players_ai_skill_callback(GtkMenuItem *item, gpointer data);
-
+#endif /* MENUS_GTK3 */
 
 static void update_views(void);
 
@@ -309,6 +310,7 @@ static GtkListStore *players_dialog_store_new(void)
   return store;
 }
 
+#ifdef MENUS_GTK3
 /**********************************************************************//**
   Toggled column visibility
 **************************************************************************/
@@ -338,7 +340,7 @@ static GtkWidget *create_diplomacy_menu(void)
 {
   GtkWidget *menu, *item;
 
-  menu = gtk_menu_new();
+  menu = gtk_menu_button_new();
 
   item = gtk_menu_item_new_with_mnemonic(_("_Meet"));
   g_signal_connect(item, "activate",
@@ -369,7 +371,7 @@ static GtkWidget *create_intelligence_menu(void)
 {
   GtkWidget *menu, *item;
 
-  menu = gtk_menu_new();
+  menu = gtk_menu_button_new();
 
   item = gtk_menu_item_new_with_mnemonic(_("_Report"));
   g_signal_connect(item, "activate",
@@ -389,12 +391,12 @@ static GtkWidget *create_intelligence_menu(void)
 /**********************************************************************//**
   Create 'show' menu for player dialog
 **************************************************************************/
-static GtkWidget* create_show_menu(void)
+static GtkWidget *create_show_menu(void)
 {
   int i;
-  GtkWidget *menu = gtk_menu_new();
-  GtkWidget *item;    
-  
+  GtkWidget *menu = gtk_menu_button_new();
+  GtkWidget *item;
+
   /* index starting at one (1) here to force playername to always be shown */
   for (i = 1; i < num_player_dlg_columns; i++) {
     struct player_dlg_column *pcol;
@@ -417,6 +419,7 @@ static GtkWidget* create_show_menu(void)
 
   return menu;
 }
+#endif /* MENUS_GTK3 */
 
 /**********************************************************************//**
   Create all of player dialog
@@ -425,8 +428,12 @@ void create_players_dialog(void)
 {
   int i;
   GtkWidget *sep, *sw;
-  GtkWidget *menubar, *menu, *item, *vbox;
+  GtkWidget *menubar;
+#ifdef MENUS_GTK3
+  GtkWidget *menu, *item;
   enum ai_level level;
+#endif /* MENUS_GTK3 */
+  GtkWidget *vbox;
 
   gui_dialog_new(&players_dialog_shell, GTK_NOTEBOOK(top_notebook), NULL,
                  TRUE);
@@ -533,9 +540,9 @@ void create_players_dialog(void)
   menubar = gtk_aux_menu_bar_new();
   gtk_container_add(GTK_CONTAINER(vbox), menubar);
 
-
   gui_dialog_add_widget(players_dialog_shell, vbox);
 
+#ifdef MENUS_GTK3
   item = gtk_menu_item_new_with_mnemonic(_("Di_plomacy"));
   menu = create_diplomacy_menu();
   gtk_menu_item_set_submenu(GTK_MENU_ITEM(item), menu);
@@ -554,7 +561,7 @@ void create_players_dialog(void)
   item = gtk_menu_item_new_with_mnemonic(_("_AI"));
   gtk_menu_shell_append(GTK_MENU_SHELL(menubar), item);
 
-  menu = gtk_menu_new();
+  menu = gtk_menu_button_new();
   gtk_menu_item_set_submenu(GTK_MENU_ITEM(item), menu);
 
   item = gtk_menu_item_new_with_mnemonic(_("_Toggle AI Mode"));
@@ -577,6 +584,7 @@ void create_players_dialog(void)
     }
   }
   gtk_widget_show(menu);
+#endif /* MENUS_GTK3 */
 
   gui_dialog_show_all(players_dialog_shell);
 
@@ -748,6 +756,7 @@ void real_players_dialog_update(void *unused)
   update_views();
 }
 
+#ifdef MENUS_GTK3
 /**********************************************************************//**
   Callback for diplomatic meetings button. This button is enabled iff
   we can meet with the other player.
@@ -928,6 +937,7 @@ static void players_ai_skill_callback(GtkMenuItem *item, gpointer data)
                      player_name(player_by_number(plrno)));
   }
 }
+#endif /* MENUS_GTK3 */
 
 /**********************************************************************//**
   Refresh players dialog views.

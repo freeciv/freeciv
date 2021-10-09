@@ -269,6 +269,7 @@ static gboolean present_unit_middle_callback(GtkWidget *w,
                                              GdkEvent *ev,
                                              gpointer data);
 
+#ifdef MENUS_GTK3
 static void unit_center_callback(GtkWidget *w, gpointer data);
 static void unit_activate_callback(GtkWidget *w, gpointer data);
 static void supported_unit_activate_close_callback(GtkWidget *w,
@@ -282,6 +283,7 @@ static void unit_fortify_callback(GtkWidget * w, gpointer data);
 static void unit_disband_callback(GtkWidget * w, gpointer data);
 static void unit_homecity_callback(GtkWidget * w, gpointer data);
 static void unit_upgrade_callback(GtkWidget * w, gpointer data);
+#endif /* MENUS_GTK3 */
 
 static gboolean citizens_callback(GtkWidget *w, GdkEvent *ev,
                                   gpointer data);
@@ -1573,7 +1575,7 @@ static struct city_dialog *create_city_dialog(struct city *pcity)
                               GUI_GTK_OPTION(citydlg_xsize),
                               GUI_GTK_OPTION(citydlg_ysize));
 
-  pdialog->popup_menu = gtk_menu_new();
+  pdialog->popup_menu = gtk_menu_button_new();
 
   vbox = gtk_dialog_get_content_area(GTK_DIALOG(pdialog->shell));
   hbox = gtk_grid_new();
@@ -2381,6 +2383,7 @@ static void show_units_response(void *data)
   }
 }
 
+#ifdef MENUS_GTK3
 /***********************************************************************//**
   Destroy widget -callback
 ***************************************************************************/
@@ -2388,6 +2391,7 @@ static void destroy_func(GtkWidget *w, gpointer data)
 {
   gtk_widget_destroy(w);
 }
+#endif /* MENUS_GTK3 */
 
 /***********************************************************************//**
   Pop-up menu to change attributes of supported units
@@ -2395,7 +2399,6 @@ static void destroy_func(GtkWidget *w, gpointer data)
 static gboolean supported_unit_callback(GtkWidget *w, GdkEvent *ev,
                                         gpointer data)
 {
-  GtkWidget *menu, *item;
   struct city_dialog *pdialog;
   struct city *pcity;
   struct unit *punit =
@@ -2415,6 +2418,9 @@ static gboolean supported_unit_callback(GtkWidget *w, GdkEvent *ev,
       return FALSE;
     }
 
+#ifdef MENUS_GTK3
+    GtkWidget *menu, *item;
+
     menu = pdialog->popup_menu;
 
     gtk_menu_popdown(GTK_MENU(menu));
@@ -2425,7 +2431,7 @@ static gboolean supported_unit_callback(GtkWidget *w, GdkEvent *ev,
       G_CALLBACK(unit_center_callback),
       GINT_TO_POINTER(punit->id));
     gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-    
+
     item = gtk_menu_item_new_with_mnemonic(_("_Activate unit"));
     g_signal_connect(item, "activate",
       G_CALLBACK(unit_activate_callback),
@@ -2451,6 +2457,7 @@ static gboolean supported_unit_callback(GtkWidget *w, GdkEvent *ev,
     gtk_widget_show(menu);
 
     gtk_menu_popup_at_pointer(GTK_MENU(menu), NULL);
+#endif /* MENUS_GTK3 */
   }
 
   return TRUE;
@@ -2462,7 +2469,6 @@ static gboolean supported_unit_callback(GtkWidget *w, GdkEvent *ev,
 static gboolean present_unit_callback(GtkWidget *w, GdkEvent *ev,
                                       gpointer data)
 {
-  GtkWidget *menu, *item;
   struct city_dialog *pdialog;
   struct city *pcity;
   struct unit *punit =
@@ -2481,6 +2487,9 @@ static gboolean present_unit_callback(GtkWidget *w, GdkEvent *ev,
     if (button == 2 || button == 3 || !can_client_issue_orders()) {
       return FALSE;
     }
+
+#ifdef MENUS_GTK3
+    GtkWidget *menu, *item;
 
     menu = pdialog->popup_menu;
 
@@ -2575,6 +2584,7 @@ static gboolean present_unit_callback(GtkWidget *w, GdkEvent *ev,
     gtk_widget_show(menu);
 
     gtk_menu_popup_at_pointer(GTK_MENU(menu), NULL);
+#endif /* MENUS_GTK3 */
   }
 
   return TRUE;
@@ -2640,6 +2650,7 @@ static gboolean supported_unit_middle_callback(GtkWidget *w,
   return TRUE;
 }
 
+#ifdef MENUS_GTK3
 /***********************************************************************//**
   User has requested centering to unit
 ***************************************************************************/
@@ -2818,6 +2829,7 @@ static void unit_upgrade_callback(GtkWidget *w, gpointer data)
   popup_upgrade_dialog(punits);
   unit_list_destroy(punits);
 }
+#endif /* MENUS_GTK3 */
 
 /******** Callbacks for citizen bar, map funcs that are not update ********/
 

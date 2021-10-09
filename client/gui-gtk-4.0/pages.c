@@ -1526,6 +1526,7 @@ static void client_take_player(struct player *pplayer)
                                            client_aitoggle_player, data);
 }
 
+#ifdef MENUS_GTK3
 /**********************************************************************//**
   Connect the object to the player and the connection.
 **************************************************************************/
@@ -1571,6 +1572,7 @@ static bool object_extract(GObject *object, struct player **ppplayer,
 
   return ret;
 }
+#endif /* MENUS_GTK3 */
 
 /**********************************************************************//**
   Request the game options dialog.
@@ -1673,6 +1675,7 @@ void update_start_page(void)
   conn_list_dialog_update();
 }
 
+#ifdef MENUS_GTK3
 /**********************************************************************//**
   Callback for when a team is chosen from the conn menu.
 **************************************************************************/
@@ -1812,7 +1815,7 @@ static GtkWidget *create_conn_menu(struct player *pplayer,
   GtkWidget *item;
   gchar *buf;
 
-  menu = gtk_menu_new();
+  menu = gtk_menu_button_new();
   object_put(G_OBJECT(menu), pplayer, pconn);
 
   buf = g_strdup_printf(_("%s info"),
@@ -1962,6 +1965,7 @@ static GtkWidget *create_conn_menu(struct player *pplayer,
 
   return menu;
 }
+#endif /* MENUS_GTK3 */
 
 /**********************************************************************//**
   Unselect a tree path.
@@ -2013,6 +2017,7 @@ static gboolean connection_list_event(GtkWidget *widget,
       return FALSE;     /* Return now, don't free the path. */
     }
   } else if (3 == button) {
+#ifdef MENUS_GTK3
     GtkTreeModel *model = gtk_tree_view_get_model(tree);
     GtkTreeIter iter;
     GtkWidget *menu;
@@ -2033,6 +2038,7 @@ static gboolean connection_list_event(GtkWidget *widget,
 
     menu = create_conn_menu(pplayer, pconn);
     gtk_menu_popup_at_pointer(GTK_MENU(menu), NULL);
+#endif /* MENUS_GTK3 */
     ret = TRUE;
   }
 

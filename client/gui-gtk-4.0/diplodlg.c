@@ -85,6 +85,8 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
 
 static struct Diplomacy_dialog *find_diplomacy_dialog(int other_player_id);
 static void popup_diplomacy_dialog(int other_player_id, int initiated_from);
+
+#ifdef MENUS_GTK3
 static void diplomacy_dialog_map_callback(GtkWidget *w, gpointer data);
 static void diplomacy_dialog_seamap_callback(GtkWidget *w, gpointer data);
 static void diplomacy_dialog_tech_callback(GtkWidget *w, gpointer data);
@@ -94,6 +96,8 @@ static void diplomacy_dialog_peace_callback(GtkWidget *w, gpointer data);
 static void diplomacy_dialog_alliance_callback(GtkWidget *w, gpointer data);
 static void diplomacy_dialog_vision_callback(GtkWidget *w, gpointer data);
 static void diplomacy_dialog_embassy_callback(GtkWidget *w, gpointer data);
+#endif /* MENUS_GTK3 */
+
 static void close_diplomacy_dialog(struct Diplomacy_dialog *pdialog);
 static void update_diplomacy_dialog(struct Diplomacy_dialog *pdialog);
 static void diplo_dialog_returnkey(GtkWidget *w, gpointer data);
@@ -216,6 +220,7 @@ static void popup_diplomacy_dialog(int other_player_id, int initiated_from)
   }
 }
 
+#ifdef MENUS_GTK3
 /************************************************************************//**
   Utility for g_list_sort(). See below.
 ****************************************************************************/
@@ -249,7 +254,7 @@ static void popup_add_menu(GtkMenuShell *parent, gpointer data)
 
 
   /* Maps. */
-  menu = gtk_menu_new();
+  menu = gtk_menu_button_new();
   item = gtk_menu_item_new_with_mnemonic(_("World-map"));
   gtk_menu_shell_append(GTK_MENU_SHELL(menu),item);
   g_object_set_data(G_OBJECT(item), "plr", pgiver);
@@ -298,7 +303,7 @@ static void popup_add_menu(GtkMenuShell *parent, gpointer data)
       const struct advance *padvance;
 
       sorting_list = g_list_sort(sorting_list, sort_advance_names);
-      menu = gtk_menu_new();
+      menu = gtk_menu_button_new();
 
       /* TRANS: All technologies menu item in the diplomatic dialog. */
       item = gtk_menu_item_new_with_label(_("All advances"));
@@ -364,7 +369,7 @@ static void popup_add_menu(GtkMenuShell *parent, gpointer data)
 
     qsort(city_list_ptrs, i, sizeof(struct city *), city_name_compare);
 
-    menu = gtk_menu_new();
+    menu = gtk_menu_button_new();
 
     for (j = 0; j < i; j++) {
       item = gtk_menu_item_new_with_label(city_name_get(city_list_ptrs[j]));
@@ -419,7 +424,7 @@ static void popup_add_menu(GtkMenuShell *parent, gpointer data)
 
     ds = player_diplstate_get(pgiver, pother)->type;
 
-    menu = gtk_menu_new();
+    menu = gtk_menu_button_new();
     item = gtk_menu_item_new_with_mnemonic(Q_("?diplomatic_state:Cease-fire"));
     gtk_menu_shell_append(GTK_MENU_SHELL(menu),item);
     g_signal_connect(item, "activate",
@@ -444,6 +449,7 @@ static void popup_add_menu(GtkMenuShell *parent, gpointer data)
     gtk_widget_show(item);
   }
 }
+#endif /* MENUS_GTK3 */
 
 /************************************************************************//**
   Some clause activated
@@ -623,7 +629,11 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   struct Diplomacy_notebook *dipl_dialog;
   GtkWidget *vbox, *hbox, *table, *mainbox;
   GtkWidget *label, *sw, *view, *image, *spin;
-  GtkWidget *menubar, *menuitem, *menu, *notebook;
+  GtkWidget *menu;
+#ifdef MENUS_GTK3
+  GtkWidget *menuitem;
+#endif /* MENUS_GTK3 */
+  GtkWidget *menubar, *notebook;
   struct sprite *flag_spr;
   GtkListStore *store;
   GtkCellRenderer *rend;
@@ -730,14 +740,16 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   /* Menu for clauses: we. */
   menubar = gtk_aux_menu_bar_new();
 
-  menu = gtk_menu_new();
+  menu = gtk_menu_button_new();
   pdialog->menu0 = menu;
 
+#ifdef MENUS_GTK3
   menuitem = gtk_menu_item_new_with_label(_("Add Clause..."));
   gtk_menu_item_set_submenu(GTK_MENU_ITEM(menuitem), menu);
   gtk_menu_shell_append(GTK_MENU_SHELL(menubar), menuitem);
   g_object_set_data(G_OBJECT(menu), "plr", plr0);
   g_signal_connect(menu, "show", G_CALLBACK(popup_add_menu), pdialog);
+#endif /* MENUS_GTK3 */
 
   /* Main table for clauses and (if activated) gold trading: we. */
   table = gtk_grid_new();
@@ -815,14 +827,16 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   /* Menu for clauses: they. */
   menubar = gtk_aux_menu_bar_new();
 
-  menu = gtk_menu_new();
+  menu = gtk_menu_button_new();
   pdialog->menu1 = menu;
 
+#ifdef MENUS_GTK3
   menuitem = gtk_menu_item_new_with_label(_("Add Clause..."));
   gtk_menu_item_set_submenu(GTK_MENU_ITEM(menuitem), menu);
   gtk_menu_shell_append(GTK_MENU_SHELL(menubar), menuitem);
   g_object_set_data(G_OBJECT(menu), "plr", plr1);
   g_signal_connect(menu, "show", G_CALLBACK(popup_add_menu), pdialog);
+#endif /* MENUS_GTK3 */
 
   /* Main table for clauses and (if activated) gold trading: they. */
   table = gtk_grid_new();
@@ -942,6 +956,7 @@ static void update_diplomacy_dialog(struct Diplomacy_dialog *pdialog)
   g_object_unref(G_OBJECT(pixbuf));
 }
 
+#ifdef MENUS_GTK3
 /************************************************************************//**
   Callback for the diplomatic dialog: give tech.
 ****************************************************************************/
@@ -1107,6 +1122,7 @@ static void diplomacy_dialog_embassy_callback(GtkWidget *w, gpointer data)
                                            player_number(pgiver), CLAUSE_EMBASSY,
                                            0);
 }
+#endif /* MENUS_GTK3 */
 
 /************************************************************************//**
   Close diplomacy dialog

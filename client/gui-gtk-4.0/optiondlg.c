@@ -137,6 +137,7 @@ static void option_dialog_destroy_callback(GtkWidget *object, gpointer data)
   }
 }
 
+#ifdef MENUS_GTK3
 /************************************************************************//**
   Option refresh requested from menu.
 ****************************************************************************/
@@ -175,6 +176,7 @@ static void option_apply_callback(GtkMenuItem *menuitem, gpointer data)
     option_dialog_option_apply(poption);
   }
 }
+#endif /* MENUS_GTK3 */
 
 /************************************************************************//**
   Called when a button is pressed on a option.
@@ -184,7 +186,9 @@ static gboolean option_button_press_callback(GtkWidget *widget,
                                              gpointer data)
 {
   struct option *poption = (struct option *) data;
+#ifdef MENUS_GTK3
   GtkWidget *menu, *item;
+#endif /* MENUS_GTK3 */
   GdkEventType type;
   guint button;
 
@@ -199,7 +203,8 @@ static gboolean option_button_press_callback(GtkWidget *widget,
     return FALSE;
   }
 
-  menu = gtk_menu_new();
+#ifdef MENUS_GTK3
+  menu = gtk_menu_button_new();
 
   item = gtk_menu_item_new_with_label(_("Refresh this option"));
   gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
@@ -218,6 +223,7 @@ static gboolean option_button_press_callback(GtkWidget *widget,
 
   gtk_widget_show(menu);
   gtk_menu_popup_at_pointer(GTK_MENU(menu), NULL);
+#endif /* MENUS_GTK3 */
 
   return TRUE;
 }

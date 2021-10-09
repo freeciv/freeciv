@@ -75,6 +75,7 @@
 
 static GtkBuilder *ui_builder = NULL;
 
+#ifdef MENUS_GTK3
 static void menu_entry_set_active(const char *key,
                                   gboolean is_active);
 static void menu_entry_set_sensitive(const char *key,
@@ -1910,6 +1911,7 @@ static void menu_entry_init(GtkBuildable *item)
   /* temporary naming solution */
   gtk_menu_item_set_label(GTK_MENU_ITEM(item), key);
 }
+#endif /* MENUS_GTK3 */
 
 /************************************************************************//**
   Returns the name of the file readable by the GtkUIManager.
@@ -1951,6 +1953,7 @@ GtkWidget *setup_menus(GtkWidget *window)
     next = entries;
 
     while (next != NULL) {
+#ifdef MENUS_GTK3
       GObject *obj = next->data;
 
       if (GTK_IS_MENU_ITEM(obj)) {
@@ -1974,6 +1977,8 @@ GtkWidget *setup_menus(GtkWidget *window)
         }
       }
 
+#endif /* MENUS_GTK3 */
+
       next = next->next;
     }
 
@@ -1991,6 +1996,7 @@ GtkWidget *setup_menus(GtkWidget *window)
   return menubar;
 }
 
+#ifdef MENUS_GTK3
 /************************************************************************//**
   Find menu entry constrution data
 ****************************************************************************/
@@ -2130,6 +2136,7 @@ static const char *get_tile_change_menu_text(struct tile *ptile,
   tile_virtual_destroy(newtile);
   return text;
 }
+#endif /* MENUS_GTK3 */
 
 /************************************************************************//**
   Updates the menus.
@@ -2137,6 +2144,7 @@ static const char *get_tile_change_menu_text(struct tile *ptile,
 void real_menus_update(void)
 {
   struct unit_list *punits = NULL;
+#ifdef MENUS_GTK3
   bool units_all_same_tile = TRUE, units_all_same_type = TRUE;
   GtkMenu *menu;
   char acttext[128], irrtext[128], mintext[128], transtext[128];
@@ -2145,11 +2153,13 @@ void real_menus_update(void)
   bool conn_possible;
   struct road_type *proad;
   struct extra_type_list *extras;
+#endif /* MENUS_GTK3 */
 
   if (ui_builder == NULL || !can_client_change_view()) {
     return;
   }
 
+#ifdef MENUS_GTK3
   if (get_num_units_in_focus() > 0) {
     const struct tile *ptile = NULL;
     const struct unit_type *ptype = NULL;
@@ -2202,11 +2212,13 @@ void real_menus_update(void)
       menus_rename("CONNECT_RAIL", road_buf);
     }
   }
+#endif /* MENUS_GTK3 */
 
   if (!can_client_issue_orders()) {
     return;
   }
 
+#ifdef MENUS_GTK3
   /* Set government sensitivity. */
   if ((menu = find_menu("<MENU>/GOVERNMENT"))) {
     GList *list, *iter;
@@ -2227,6 +2239,7 @@ void real_menus_update(void)
     }
     g_list_free(list);
   }
+#endif /* MENUS_GTK3 */
 
   if (!punits) {
     return;
@@ -2234,6 +2247,7 @@ void real_menus_update(void)
 
   /* Remaining part of this function: Update Unit, Work, and Combat menus */
 
+#ifdef MENUS_GTK3
   /* Set base sensitivity. */
   if ((menu = find_menu("<MENU>/BUILD_BASE"))) {
     GList *list, *iter;
@@ -2596,8 +2610,11 @@ void real_menus_update(void)
 
   menus_rename("UNIT_HOMECITY",
                action_get_ui_name_mnemonic(ACTION_HOME_CITY, "_"));
+
+#endif /* MENUS_GTK3 */
 }
 
+#ifdef MENUS_GTK3
 /************************************************************************//**
   Add an accelerator to an item in the "Go to and..." menu.
 ****************************************************************************/
@@ -2640,6 +2657,7 @@ static void menu_remove_previous_entries(GtkMenu *menu)
   }
   g_list_free(list);
 }
+#endif /* MENUS_GTK3 */
 
 /************************************************************************//**
   Initialize menus (sensitivity, name, etc.) based on the
@@ -2647,11 +2665,12 @@ static void menu_remove_previous_entries(GtkMenu *menu)
 ****************************************************************************/
 void real_menus_init(void)
 {
-  GtkMenu *menu;
-
   if (ui_builder == NULL) {
     return;
   }
+
+#ifdef MENUS_GTK3
+  GtkMenu *menu;
 
   menu_entry_set_sensitive("GAME_SAVE_AS",
                            can_client_access_hack()
@@ -2787,7 +2806,7 @@ void real_menus_init(void)
         g_object_set_data(G_OBJECT(item), "end_action", paction);
 
         if (action_id_has_complex_target(act_id)) {
-          GtkWidget *sub_target_menu = gtk_menu_new();
+          GtkWidget *sub_target_menu = gtk_menu_button_new();
 
 #define CREATE_SUB_ITEM(_sub_target_, _sub_target_key_, _sub_target_name_) \
   GtkWidget *sub_item = gtk_menu_item_new_with_label(_sub_target_name_);   \
@@ -2926,4 +2945,6 @@ void real_menus_init(void)
   view_menu_update_sensitivity();
 
   menu_entry_set_active("FULL_SCREEN", GUI_GTK_OPTION(fullscreen));
+
+#endif /* MENUS_GTK3 */
 }

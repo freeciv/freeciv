@@ -84,9 +84,12 @@ static void city_command_callback(struct gui_dialog *dlg, int response,
                                   gpointer data);
 
 static void city_selection_changed_callback(GtkTreeSelection *selection);
+#ifdef MENUS_GTK3
 static void city_clear_worklist_callback(GtkMenuItem *item, gpointer data);
+#endif /* MENUS_GTK3 */
 static void update_total_buy_cost(void);
 
+#ifdef MENUS_GTK3
 static void create_select_menu(GtkWidget *item);
 static void create_change_menu(GtkWidget *item);
 static void create_last_menu(GtkWidget *item);
@@ -94,6 +97,7 @@ static void create_first_menu(GtkWidget *item);
 static void create_next_menu(GtkWidget *item);
 static void create_next_to_last_menu(GtkWidget *item);
 static void create_sell_menu(GtkWidget *item);
+#endif /* MENUS_GTK3 */
 
 static struct gui_dialog *city_dialog_shell = NULL;
 
@@ -106,6 +110,7 @@ static GtkTreeSelection *city_selection;
 static GtkListStore *city_model;
 #define CRD_COL_CITY_ID (0 + NUM_CREPORT_COLS)
 
+#ifdef MENUS_GTK3
 static void popup_select_menu(GtkMenuShell *menu, gpointer data);
 static void popup_change_menu(GtkMenuShell *menu, gpointer data);
 static void popup_last_menu(GtkMenuShell *menu, gpointer data);
@@ -114,15 +119,19 @@ static void popup_next_menu(GtkMenuShell *menu, gpointer data);
 static void popup_next_to_last_menu(GtkMenuShell *menu, gpointer data);
 
 static void recreate_sell_menu(void);
+#endif /* MENUS_GTK3 */
 
 static GtkWidget *city_center_command;
 static GtkWidget *city_popup_command;
 static GtkWidget *city_buy_command;
+#ifdef MENUS_GTK3
 static GtkWidget *city_production_command;
 static GtkWidget *city_governor_command;
 static GtkWidget *city_sell_command;
+#endif /* MENUS_GTK3 */
 static GtkWidget *city_total_buy_cost_label;
 
+#ifdef MENUS_GTK3
 static GtkWidget *change_improvements_item;
 static GtkWidget *change_units_item;
 static GtkWidget *change_wonders_item;
@@ -158,6 +167,7 @@ static GtkWidget *select_improvements_item;
 static GtkWidget *select_units_item;
 static GtkWidget *select_wonders_item;
 static GtkWidget *select_cma_item;
+#endif /* MENUS_GTK3 */
 
 static int city_dialog_shell_is_modal;
 
@@ -316,6 +326,7 @@ void city_report_dialog_popdown(void)
   }
 }
 
+#ifdef MENUS_GTK3
 /************************************************************************//**
   Make submenu listing possible build targets
 ****************************************************************************/
@@ -342,7 +353,7 @@ static void append_impr_or_unit_to_menu_item(GtkMenuItem *parent_item,
     ""
   };
 
-  menu = gtk_menu_new();
+  menu = gtk_menu_button_new();
   gtk_menu_item_set_submenu(parent_item, menu);
 
   if (city_operation != CO_NONE) {
@@ -763,7 +774,7 @@ static void append_cma_to_menu_item(GtkMenuItem *parent_item, bool change_cma)
     gtk_menu_item_set_submenu(parent_item, NULL);
     return;
   }
-  menu = gtk_menu_new();
+  menu = gtk_menu_button_new();
   gtk_menu_item_set_submenu(parent_item, menu);
 
   if (change_cma) {
@@ -952,7 +963,7 @@ static void production_menu_shown(GtkWidget *widget, gpointer data)
   }
 
   if (menu == NULL) {
-    menu = gtk_menu_new();
+    menu = gtk_menu_button_new();
     gtk_menu_item_set_submenu(parent_item, menu);
   }
 
@@ -1023,7 +1034,7 @@ static void update_view_menu(GtkWidget *show_item)
   struct city_report_spec *spec;
   int i;
 
-  menu = gtk_menu_new();
+  menu = gtk_menu_button_new();
   for (i = 0, spec = city_report_specs + i; i < NUM_CREPORT_COLS; i++, spec++) {
     item = gtk_check_menu_item_new_with_label(spec->explanation);
     gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
@@ -1032,13 +1043,15 @@ static void update_view_menu(GtkWidget *show_item)
   }
   gtk_menu_item_set_submenu(GTK_MENU_ITEM(show_item), menu);
 }
+#endif /* MENUS_GTK3 */
 
 /************************************************************************//**
   Create menubar for city report
 ****************************************************************************/
 static GtkWidget *create_city_report_menubar(void)
 {
-  GtkWidget *vbox, *sep, *menubar, *menu, *item;
+  GtkWidget *vbox, *sep;
+  GtkWidget *menubar;
 
   vbox = gtk_grid_new();
   gtk_orientable_set_orientation(GTK_ORIENTABLE(vbox),
@@ -1048,12 +1061,15 @@ static GtkWidget *create_city_report_menubar(void)
 
   menubar = gtk_aux_menu_bar_new();
   gtk_container_add(GTK_CONTAINER(vbox), menubar);
-  
+
+#ifdef MENUS_GTK3
+  GtkWidget *menu, *item;
+
   item = gtk_menu_item_new_with_mnemonic(_("_Production"));
   city_production_command = item;
   gtk_menu_shell_append(GTK_MENU_SHELL(menubar), item);
 
-  menu = gtk_menu_new();
+  menu = gtk_menu_button_new();
   gtk_menu_item_set_submenu(GTK_MENU_ITEM(item), menu);
 
   item = gtk_menu_item_new_with_mnemonic(_("Chan_ge"));
@@ -1113,6 +1129,8 @@ static GtkWidget *create_city_report_menubar(void)
   item = gtk_menu_item_new_with_mnemonic(_("_Display"));
   gtk_menu_shell_append(GTK_MENU_SHELL(menubar), item);
   update_view_menu(item);
+#endif /* MENUS_GTK3 */
+
   return vbox;
 }
 
@@ -1234,6 +1252,7 @@ static void create_city_report_dialog(bool make_modal)
   city_selection_changed_callback(city_selection);
 }
 
+#ifdef MENUS_GTK3
 /************************************************************************//**
   User has chosen to select all cities
 ****************************************************************************/
@@ -1344,6 +1363,7 @@ static void city_select_building_callback(GtkMenuItem *item, gpointer data)
     }
   }
 }
+#endif /* MENUS_GTK3 */
 
 /************************************************************************//**
   Buy the production in one single city.
@@ -1472,9 +1492,11 @@ void real_city_report_dialog_update(void *unused)
   city_model_fill(city_model, city_selection, selected);
   g_hash_table_destroy(selected);
 
+#ifdef MENUS_GTK3
   if (gtk_widget_get_sensitive(city_governor_command)) {
     append_cma_to_menu_item(GTK_MENU_ITEM(city_governor_command), TRUE);
   }
+#endif /* MENUS_GTK3 */
 
   select_menu_cached = FALSE;
 }
@@ -1498,6 +1520,7 @@ void real_city_report_update_city(struct city *pcity)
   update_total_buy_cost();
 }
 
+#ifdef MENUS_GTK3
 /************************************************************************//**
   Create submenu for changing production target
 ****************************************************************************/
@@ -1505,7 +1528,7 @@ static void create_change_menu(GtkWidget *item)
 {
   GtkWidget *menu;
 
-  menu = gtk_menu_new();
+  menu = gtk_menu_button_new();
   gtk_menu_item_set_submenu(GTK_MENU_ITEM(item), menu);
   g_signal_connect(menu, "show", G_CALLBACK(popup_change_menu), NULL);
 
@@ -1524,7 +1547,7 @@ static void create_last_menu(GtkWidget *item)
 {
   GtkWidget *menu;
 
-  menu = gtk_menu_new();
+  menu = gtk_menu_button_new();
   gtk_menu_item_set_submenu(GTK_MENU_ITEM(item), menu);
   g_signal_connect(menu, "show", G_CALLBACK(popup_last_menu), NULL);
 
@@ -1543,7 +1566,7 @@ static void create_first_menu(GtkWidget *item)
 {
   GtkWidget *menu;
 
-  menu = gtk_menu_new();
+  menu = gtk_menu_button_new();
   gtk_menu_item_set_submenu(GTK_MENU_ITEM(item), menu);
   g_signal_connect(menu, "show", G_CALLBACK(popup_first_menu), NULL);
 
@@ -1562,7 +1585,7 @@ static void create_next_menu(GtkWidget *item)
 {
   GtkWidget *menu;
 
-  menu = gtk_menu_new();
+  menu = gtk_menu_button_new();
   gtk_menu_item_set_submenu(GTK_MENU_ITEM(item), menu);
   g_signal_connect(menu, "show", G_CALLBACK(popup_next_menu), NULL);
 
@@ -1581,7 +1604,7 @@ static void create_next_to_last_menu(GtkWidget *parent_item)
 {
   GtkWidget *menu, *item;
 
-  menu = gtk_menu_new();
+  menu = gtk_menu_button_new();
   gtk_menu_item_set_submenu(GTK_MENU_ITEM(parent_item), menu);
   g_signal_connect(menu, "show",
                    G_CALLBACK(popup_next_to_last_menu), NULL);
@@ -1606,7 +1629,7 @@ static void create_sell_menu(GtkWidget *item)
 {
   GtkWidget *menu;
 
-  menu = gtk_menu_new();
+  menu = gtk_menu_button_new();
   gtk_menu_item_set_submenu(GTK_MENU_ITEM(item), menu);
 }
 
@@ -1767,7 +1790,7 @@ static void create_select_menu(GtkWidget *item)
 {
   GtkWidget *menu;
 
-  menu = gtk_menu_new();
+  menu = gtk_menu_button_new();
   gtk_menu_item_set_submenu(GTK_MENU_ITEM(item), menu);
   g_signal_connect(menu, "show", G_CALLBACK(popup_select_menu), NULL);
 
@@ -1895,8 +1918,9 @@ static void popup_select_menu(GtkMenuShell *menu, gpointer data)
 {
   int n;
 
-  if (select_menu_cached)
+  if (select_menu_cached) {
     return;
+  }
 
   n = gtk_tree_selection_count_selected_rows(city_selection);
   gtk_widget_set_sensitive(select_island_item, (n > 0));
@@ -1947,6 +1971,7 @@ static void popup_select_menu(GtkMenuShell *menu, gpointer data)
 
   select_menu_cached = TRUE;
 }
+#endif /* MENUS_GTK3 */
 
 /************************************************************************//**
   Update the value displayed by the "total buy cost" label in the city
@@ -2000,6 +2025,7 @@ static void update_total_buy_cost(void)
 ****************************************************************************/
 static void city_selection_changed_callback(GtkTreeSelection *selection)
 {
+#ifdef MENUS_GTK3
   int n;
   bool obs_may, plr_may;
 
@@ -2017,10 +2043,12 @@ static void city_selection_changed_callback(GtkTreeSelection *selection)
   } else {
     gtk_widget_set_sensitive(city_sell_command, FALSE);
   }
+#endif /* MENUS_GTK3 */
 
   update_total_buy_cost();
 }
 
+#ifdef MENUS_GTK3
 /************************************************************************//**
   Clear the worklist in one selected city in the city report.
 ****************************************************************************/
@@ -2053,6 +2081,7 @@ static void city_clear_worklist_callback(GtkMenuItem *item, gpointer data)
                                       clear_worklist_foreach_func, NULL);
   connection_do_unbuffer(pconn);
 }
+#endif /* MENUS_GTK3 */
 
 /************************************************************************//**
   After a selection rectangle is defined, make the cities that
