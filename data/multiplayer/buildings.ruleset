@@ -90,7 +90,7 @@ Two cities with Airports can airlift one unit per turn. \
 ")
 
 ; "Colosseum" renamed to "Amphitheater" as suggested by
-; mrstarware (http://forum.freeciv.org/viewtopic.php?t=5813)
+; mrstarware
 ;
 [building_amphitheatre]
 name            = _("Amphitheater")
