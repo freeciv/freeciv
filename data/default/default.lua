@@ -127,9 +127,20 @@ function _deflua_hut_get_barbarians(unit)
   return alive
 end
 
+-- Reveal map around the hut
+function _deflua_hut_reveal_map(unit)
+  local owner = unit.owner
+
+  notify.event(owner, unit.tile, E.HUT_MAP,
+               _("You find a map of the surrounding terrain."))
+  for revealtile in unit.tile:circle_iterate(30) do
+    revealtile:show(owner)
+  end
+end
+
 -- Randomly choose a hut event
 function _deflua_hut_enter_callback(unit)
-  local chance = random(0, 11)
+  local chance = random(0, 13)
   local alive = true
 
   if chance == 0 then
@@ -150,6 +161,8 @@ function _deflua_hut_enter_callback(unit)
     if not _deflua_hut_get_city(unit) then
       _deflua_hut_consolation_prize(unit)
     end
+  elseif chance == 12 or chance == 13 then
+    _deflua_hut_reveal_map(unit)
   end
 
   -- continue processing if unit is alive

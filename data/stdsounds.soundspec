@@ -254,6 +254,7 @@ e_bad_command = "stdsounds/illegal.ogg" ; [fcol]
 ;e_hut_merc = ""
 ;e_hut_settler = ""
 ;e_hut_tech = ""
+;e_hut_map = ""
 ;e_imp_auctioned = ""
 ;e_imp_auto = ""
 ;e_imp_build = ""
