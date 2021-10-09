@@ -1892,12 +1892,6 @@ static void explain_why_no_action_enabled(struct unit *punit,
                   unit_name_translation(punit));
     break;
   case ANEK_ACT_NOT_ENOUGH_MONEY:
-    notify_player(pplayer, target_tile, E_BAD_COMMAND, ftc_server,
-                  /* TRANS: Spy ... 154 */
-                  _("You can't afford having your %s do anything."
-                    " %d gold needed."),
-                  unit_name_translation(punit), explnat->gold_needed);
-    break;
     {
       char tbuf[MAX_LEN_MSG];
 
@@ -1917,6 +1911,7 @@ static void explain_why_no_action_enabled(struct unit *punit,
                     unit_name_translation(punit),
                     explnat->gold_needed, tbuf);
     }
+    break;
   case ANEK_TRIREME_MOVE:
     notify_player(pplayer, target_tile, E_BAD_COMMAND, ftc_server,
                   _("%s cannot move that far from the coast line."),
