@@ -1,9 +1,9 @@
 [nation_westindian]
 
-name=_("West Indian")
-plural=_("?plural:West Indians")
-groups="American"
-legend=_("The West Indies, known for pirates, rum, cricket and beaches.\
+name   = _("West Indian")
+plural = _("?plural:West Indians")
+groups = "American"
+legend = _("The West Indies, known for pirates, rum, cricket and beaches.\
  The British West Indies formed the short-lived West Indies Federation in\
  1958. The federation failed to consolidate because of tensions between\
  Trinidad, Jamaica and the smaller members. The federation fell apart in\
@@ -25,13 +25,14 @@ ruler_titles = {
  "Republic",        _("Governor %s"),        _("?female:Governor %s")
 }
 
-flag="west_indies_federation"
+flag = "west_indies_federation"
 flag_alt = "-"
 style = "Tropical"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
+
 conflicts_with = "antiguan and barbudan", "barbadian", "dominican", "grenadian",
  "jamaican", "kittitian and nevisian", "saint lucian", "trinidadian and tobagonian",
  "vincentian"

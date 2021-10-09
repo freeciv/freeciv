@@ -1,9 +1,9 @@
 [nation_welsh]
 
-name=_("Welsh")
-plural=_("?plural:Welsh")
-groups= "Medieval", "European"
-legend=_("The Welsh at one time controlled all of what is now England\
+name   = _("Welsh")
+plural = _("?plural:Welsh")
+groups = "Medieval", "European"
+legend = _("The Welsh at one time controlled all of what is now England\
  until being driven into the mountainous western reaches by invading\
  Saxons.")
 
@@ -20,48 +20,46 @@ ruler_titles = {
  "Despotism",       _("Chieftain %s"),      _("?female:Chieftain %s")
 }
 
-flag="wales"
+flag = "wales"
 flag_alt = "united_kingdom"
 style = "Celtic"
 
-;names = "Yr Ymerodreath Gymreig"          "empire"            (depotism)
+;names = "Yr Ymerodreath Gymreig"          "empire"            (despotism)
 ;      = "Y Twysysogaeth Cymru"            "principality"      (monarchy)
 ;      = "Y Gwerinaeth Pobl Cymru"         "people's republic" (communism)
 ;    = "Yr Ymerodrath Scantaidd Cymreig" "holy welsh empire" (fundamentalism)
 ;      = "Y Gweriniaeth Cymru"           "republic"     (republic, democracy)
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-civilwar_nations="Breton", "Irish", "Cornish"
+civilwar_nations = "Breton", "Irish", "Cornish"
 
 cities =
- "Caerdydd",		; Cardiff
- "Abertawe",		; Swansea
- "Casnewydd",		; Newport
- "Y Barri",		; Barry
- "Aberafan",		; Port Talbot
- "Caerfyrddin",		; Carmarthen
- "Caerffili",		; Caerphilly
- "Merthyr Tudful",	; Merthyr Tydfil
- "Penfro",		; Pembroke
- "Abergwaun",		; Fishguard
+ "Caerdydd",            ; Cardiff
+ "Abertawe",            ; Swansea
+ "Casnewydd",           ; Newport
+ "Y Barri",             ; Barry
+ "Aberafan",            ; Port Talbot
+ "Caerfyrddin",         ; Carmarthen
+ "Caerffili",           ; Caerphilly
+ "Merthyr Tudful",      ; Merthyr Tydfil
+ "Penfro",              ; Pembroke
+ "Abergwaun",           ; Fishguard
  "Aberystwyth",
- "Llambed",		; Lampeter
- "Llanymddyfri",	; Llandovery
- "Aberhonddu",		; Brecon
- "Y Fflint",		; Flint
+ "Llambed",             ; Lampeter
+ "Llanymddyfri",        ; Llandovery
+ "Aberhonddu",          ; Brecon
+ "Y Fflint",            ; Flint
  "Caernarfon",
  "Llanfyllin",
- "Caergybi",		; Holyhead
+ "Caergybi",            ; Holyhead
  "Tywyn",
  "Llandeilo",
- "Cwmbrân",		; Cwmbran
- "Y Rhondda",		; Rhondda
+ "Cwmbrân",             ; Cwmbran
+ "Y Rhondda",           ; Rhondda
  "Llanelli",
- "Castell Nedd",	;Neath
- "Wrecsam",		;Wrexham
+ "Castell Nedd",        ; Neath
+ "Wrecsam",             ; Wrexham
  "Llanfairpwllgwyngyll"
-
-

@@ -1,9 +1,9 @@
 [nation_westernpomeranian]
 
-name=_("Western Pomeranian")
-plural=_("?plural:Western Pomeranians")
-groups="European", "Medieval"
-legend=_("Western Pomerania is a geographical and historical region in\
+name   = _("Western Pomeranian")
+plural = _("?plural:Western Pomeranians")
+groups = "European", "Medieval"
+legend = _("Western Pomerania is a geographical and historical region in\
  North West Poland and the extreme North East of Germany. Initially an\
  independent Slavic state, Western Pomerania was twice conquered by the\
  Polish. Later, Western Pomerania succumbed to Germanization and was\
@@ -35,48 +35,48 @@ flag = "pomerania"
 flag_alt = "-"
 style = "European"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
 conflicts_with = "german"
 civilwar_nations = "polish", "greater polish", "prussian", "kashubian"
 
 cities =
-  "Szczecin",
-"Wolin",
-"Kamień Pomorski",
-"Stargard Szczeciński",
-"Kołobrzeg",
-"Koszalin",
-"Arkona",
-"Darłowo",
-"Słupsk",
-"Wołogoszcz",   ;Wolgast
-"Pyrzyce",
-"Szczecinek",
-"Lębork",
-"Bytów",
-"Łeba",
-"Strzałów",      ;Stralsund
-"Świnoujście",
-"Białogard",
-"Świdwin",
-"Nowogard",
-"Sławno",
-"Ustka",
-"Bardo",
-"Człuchów",
-"Police",
-"Złocieniec",
-"Drawsko Pomorskie",
-"Choszczno",
-"Tuczno",
-"Nakło",     ;Anklam
-"Cedynia",
-"Nowe Warpno",
-"Trzebiatów",
-"Pęzino",
-"Trzęsacz",
-"Kołbacz",
-"Krąg"
+ "Szczecin",
+ "Wolin",
+ "Kamień Pomorski",
+ "Stargard Szczeciński",
+ "Kołobrzeg",
+ "Koszalin",
+ "Arkona",
+ "Darłowo",
+ "Słupsk",
+ "Wołogoszcz",   ;Wolgast
+ "Pyrzyce",
+ "Szczecinek",
+ "Lębork",
+ "Bytów",
+ "Łeba",
+ "Strzałów",      ;Stralsund
+ "Świnoujście",
+ "Białogard",
+ "Świdwin",
+ "Nowogard",
+ "Sławno",
+ "Ustka",
+ "Bardo",
+ "Człuchów",
+ "Police",
+ "Złocieniec",
+ "Drawsko Pomorskie",
+ "Choszczno",
+ "Tuczno",
+ "Nakło",     ;Anklam
+ "Cedynia",
+ "Nowe Warpno",
+ "Trzebiatów",
+ "Pęzino",
+ "Trzęsacz",
+ "Kołbacz",
+ "Krąg"

@@ -1,9 +1,9 @@
 [nation_westphalian]
 
-name=_("Westphalian")
-plural=_("?plural:Westphalians")
-groups="Medieval", "European"
-legend=_("Westphalia, before becoming a Prussian province, was the western\
+name   = _("Westphalian")
+plural = _("?plural:Westphalians")
+groups = "Medieval", "European"
+legend = _("Westphalia, before becoming a Prussian province, was the western\
  region of the Duchy of Saxony. Today it makes up the northern part of\
  the largest German federal state, North Rhine-Westphalia.")
 
@@ -22,24 +22,23 @@ leaders = {
  "Annette von Droste Hülshoff", "Female"
 }
 
-flag="westphalia"
-flag_alt = "germany"
-style = "European"
-
 ruler_titles = {
  "government",     "male_title",            "female_title"
  "Despotism",      _("Duke %s"),            _("Duchess %s")
  "Fundamentalism", _("Prince-Bishop %s"),   _("Princess-Bishop %s")
  "Monarchy",       _("Grand Duke %s"),      _("Grand Duchess %s")
- "Republic",       _("Burgomaster %s"),     _("?female:Burgomaster %s") 
+ "Republic",       _("Burgomaster %s"),     _("?female:Burgomaster %s")
 }
 
+flag = "westphalia"
+flag_alt = "germany"
+style = "European"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-civilwar_nations="Hanoverian", "Lippian", "Saxon", "Rhenish"
+civilwar_nations = "Hanoverian", "Lippian", "Saxon", "Rhenish"
 
 cities =
  "Münster",
@@ -47,7 +46,7 @@ cities =
  "Bochum",
  "Bielefeld",
  "Gelsenkirchen",
- "Hagen", 
+ "Hagen",
  "Hamm",
  "Herne",
  "Paderborn",
@@ -90,4 +89,3 @@ cities =
  "Bad Oeynhausen",
  "Winterberg",
  "Warstein"
-

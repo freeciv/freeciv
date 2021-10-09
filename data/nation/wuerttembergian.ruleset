@@ -1,9 +1,9 @@
 [nation_wuerttembergian]
 
-name=_("Wuerttembergian")
-plural=_("?plural:Wuerttembergians")
-groups="Medieval", "Early Modern", "European"
-legend=_("Wuerttemberg was a country in Swabia, in southwestern Germany.\
+name   = _("Wuerttembergian")
+plural = _("?plural:Wuerttembergians")
+groups = "Medieval", "Early Modern", "European"
+legend = _("Wuerttemberg was a country in Swabia, in southwestern Germany.\
  After World War II it was merged with Baden and Hohenzollern to form\
  the land of Baden-Wuerttemberg.")
 
@@ -24,13 +24,13 @@ ruler_titles = {
  "Fundamentalism",  _("Bishop %s"),      _("?female:Bishop %s")
 }
 
-flag="wuerttemberg"
+flag = "wuerttemberg"
 flag_alt = "germany"
 style = "European"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
 civilwar_nations = "badian", "bavarian", "franconian", "swiss"
 

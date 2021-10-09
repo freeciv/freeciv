@@ -1,10 +1,10 @@
 [nation_werewolf]
 
 ; To avoid any trademark complaints, no modern fictional works are used.
-name=_("Werewolf")
-plural=_("?plural:Werewolves")
-groups="Imaginary"
-legend=_("A werewolf is a human who under certain circumstances is\
+name   = _("Werewolf")
+plural = _("?plural:Werewolves")
+groups = "Imaginary"
+legend = _("A werewolf is a human who under certain circumstances is\
  transformed into a wolf-like beast. During the Middle Ages in Europe,\
  werewolves were believed to terrorize villages in search of human flesh\
  and were often blamed for unexplained or particularly brutal killings.")
@@ -29,31 +29,31 @@ leaders = {
 
 ruler_titles = {
  "government",      "male_title",      "female_title"
- "Republic",        _("%s Alpha"),        _("?female:%s Alpha")
+ "Republic",        _("%s Alpha"),     _("?female:%s Alpha")
 }
 
-flag="luna"
-flag_alt="-"
+flag = "luna"
+flag_alt = "-"
 style = "European"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-civilwar_nations="Chananean"
+civilwar_nations = "Chananean"
 
 cities =
  "Lycopolis",
  "Arcadia",
 
 ; Cities associated with werewolf incursion
- "Magdeburg",		; associated with the Wolf of Magdeburg
- "Langogne",		; associated with the Beast of Gévaudan
- "Bedburg",		; associated with Peter Stumpp 
- "Dole",		; associated with Gilles Garnier
- "Jurgenburg",		; associated with Theiss
- "Elkhorn",		; associated with the Beast of Bray Road
- "Vastemoisa",		; associated with Libbe Matz
+ "Magdeburg",           ; associated with the Wolf of Magdeburg
+ "Langogne",            ; associated with the Beast of Gévaudan
+ "Bedburg",             ; associated with Peter Stumpp
+ "Dole",                ; associated with Gilles Garnier
+ "Jurgenburg",          ; associated with Theiss
+ "Elkhorn",             ; associated with the Beast of Bray Road
+ "Vastemoisa",          ; associated with Libbe Matz
 
 ; Sites of noted wolf attacks
  "Kirov",
@@ -67,7 +67,7 @@ cities =
  "Sarlat",
 
 ; Wolfs in mythology
- "Roma",		; Romulus and Remus were raised by a wolf
- "Ötüken",		; Göktürks
- "Járnviðr",		; Forest inhabited by wolfs in Norse mythology
- "Gubbio"		; Francis of Assisi tamed a wolf there
+ "Roma",                ; Romulus and Remus were raised by a wolf
+ "Ötüken",              ; Göktürks
+ "Járnviðr",            ; Forest inhabited by wolfs in Norse mythology
+ "Gubbio"               ; Francis of Assisi tamed a wolf there

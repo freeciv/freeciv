@@ -1,8 +1,8 @@
 [nation_walloon]
 
-name=_("Walloon")
-plural=_("?plural:Walloons")
-groups="European"
+name   = _("Walloon")
+plural = _("?plural:Walloons")
+groups = "European"
 legend = _("The Walloons are the French speaking inhabitants of Belgium.\
  In the 19th century, Wallonia was first region on the European\
  continent to industrialize and the second in the world after England.\
@@ -28,14 +28,15 @@ ruler_titles = {
  "Republic",        _("Stadtholder %s"),    _("Stadtholdress %s")
 }
 
-flag="wallonia"
+flag = "wallonia"
 flag_alt = "belgium"
 style = "european"
 
-init_techs=""
-init_buildings=""
-init_units=""
-civilwar_nations="german belgian", "luxembourgish"
+init_techs = ""
+init_buildings = ""
+init_units = ""
+
+civilwar_nations = "german belgian", "luxembourgish"
 
 cities =
  "Namur (river)",
