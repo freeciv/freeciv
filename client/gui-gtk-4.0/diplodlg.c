@@ -488,7 +488,7 @@ static struct Diplomacy_notebook *diplomacy_main_create(void)
                              GTK_POS_RIGHT);
     gtk_notebook_set_scrollable(GTK_NOTEBOOK(dipl_main->notebook), TRUE);
 
-    dipl_sw = gtk_scrolled_window_new(NULL, NULL);
+    dipl_sw = gtk_scrolled_window_new();
     g_object_set(dipl_sw, "margin", 2, NULL);
     gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(dipl_sw),
                                    GTK_POLICY_AUTOMATIC,
@@ -871,7 +871,7 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(view), -1, NULL,
     rend, "text", 0, NULL);
 
-  sw = gtk_scrolled_window_new(NULL, NULL);
+  sw = gtk_scrolled_window_new();
   g_object_set(sw, "margin", 2, NULL);
   gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(sw),
                                       GTK_SHADOW_ETCHED_IN);

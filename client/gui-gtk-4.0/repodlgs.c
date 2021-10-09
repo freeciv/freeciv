@@ -645,7 +645,7 @@ static void science_report_init(struct science_report *preport)
   preport->button_show_all = show_all_button;
 
   /* Science diagram. */
-  sw = gtk_scrolled_window_new(NULL, NULL);
+  sw = gtk_scrolled_window_new();
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
                                  GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
   gtk_container_add(vbox, sw);
@@ -1097,7 +1097,7 @@ static void economy_report_init(struct economy_report *preport)
   gui_dialog_set_title(preport->shell, _("Economy"));
   vbox = GTK_CONTAINER(preport->shell->vbox);
 
-  sw = gtk_scrolled_window_new(NULL, NULL);
+  sw = gtk_scrolled_window_new();
   gtk_widget_set_halign(sw, GTK_ALIGN_CENTER);
   gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(sw),
                                       GTK_SHADOW_ETCHED_IN);
@@ -1631,7 +1631,7 @@ static void units_report_init(struct units_report *preport)
   gui_dialog_set_title(preport->shell, _("Units"));
   vbox = GTK_CONTAINER(preport->shell->vbox);
 
-  sw = gtk_scrolled_window_new(NULL,NULL);
+  sw = gtk_scrolled_window_new();
   gtk_widget_set_halign(sw, GTK_ALIGN_CENTER);
   gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(sw),
                                       GTK_SHADOW_ETCHED_IN);
@@ -1913,7 +1913,7 @@ static void endgame_report_init(struct endgame_report *preport)
   gui_dialog_set_default_size(preport->shell, 700, 420);
 
   /* Setup the layout. */
-  sw = gtk_scrolled_window_new(NULL, NULL);
+  sw = gtk_scrolled_window_new();
   gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(sw),
                                       GTK_SHADOW_ETCHED_IN);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),

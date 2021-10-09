@@ -341,7 +341,7 @@ static void meswin_dialog_init(struct meswin_dialog *pdialog)
   gui_dialog_set_title(pdialog->shell, _("Messages"));
   vbox = GTK_CONTAINER(pdialog->shell->vbox);
 
-  sw = gtk_scrolled_window_new(NULL, NULL);
+  sw = gtk_scrolled_window_new();
   gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(sw),
                                       GTK_SHADOW_ETCHED_IN);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),

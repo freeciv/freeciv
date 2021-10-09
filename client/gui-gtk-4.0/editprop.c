@@ -3615,7 +3615,7 @@ static struct extviewer *extviewer_new(struct objprop *op)
   ev->view_label = label;
 
   if (store || textbuf) {
-    scrollwin = gtk_scrolled_window_new(NULL, NULL);
+    scrollwin = gtk_scrolled_window_new();
     gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(scrollwin),
                                         GTK_SHADOW_ETCHED_IN);
     gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrollwin),
@@ -4775,7 +4775,7 @@ property_page_new(enum editor_object_type objtype,
   gtk_widget_set_margin_bottom(vbox, 4);
   gtk_paned_pack1(GTK_PANED(paned), vbox, TRUE, TRUE);
 
-  scrollwin = gtk_scrolled_window_new(NULL, NULL);
+  scrollwin = gtk_scrolled_window_new();
   gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(scrollwin),
                                       GTK_SHADOW_ETCHED_IN);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrollwin),
@@ -4933,7 +4933,7 @@ property_page_new(enum editor_object_type objtype,
   gtk_widget_set_size_request(frame, 256, -1);
   gtk_container_add(GTK_CONTAINER(vbox), frame);
 
-  scrollwin = gtk_scrolled_window_new(NULL, NULL);
+  scrollwin = gtk_scrolled_window_new();
   gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(scrollwin),
                                       GTK_SHADOW_NONE);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrollwin),

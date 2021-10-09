@@ -457,7 +457,7 @@ static void usdlg_tab_select(struct unit_select_dialog *pdialog,
     gtk_tree_view_append_column(GTK_TREE_VIEW(view), column);
   }
 
-  sw = gtk_scrolled_window_new(NULL, NULL);
+  sw = gtk_scrolled_window_new();
   gtk_scrolled_window_set_min_content_height(GTK_SCROLLED_WINDOW(sw), 300);
   gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(sw),
                                       GTK_SHADOW_ETCHED_IN);

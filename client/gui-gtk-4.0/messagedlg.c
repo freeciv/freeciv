@@ -152,7 +152,7 @@ static void create_messageopt_dialog(void)
                                                 -1, _("Pop"), renderer,
                                                 "active", 2, NULL);
 
-    sw = gtk_scrolled_window_new(NULL, NULL);
+    sw = gtk_scrolled_window_new();
     gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(sw),
 					GTK_SHADOW_ETCHED_IN);
     gtk_container_add(GTK_CONTAINER(sw), view);

@@ -15,7 +15,6 @@
 #include <fc_config.h>
 #endif
 
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -29,6 +28,7 @@
 #include "player.h"
 
 /* client/gui-gtk-4.0 */
+#include "gtkcompat.h"
 #include "gui_stuff.h"
 #include "plrdlg.h"
 
@@ -241,7 +241,7 @@ static struct citizens_dialog *citizens_dialog_create(const struct city *pcity)
   gtk_widget_set_hexpand(GTK_WIDGET(pdialog->list), TRUE);
   gtk_widget_set_vexpand(GTK_WIDGET(pdialog->list), TRUE);
 
-  sw = gtk_scrolled_window_new(NULL, NULL);
+  sw = gtk_scrolled_window_new();
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
                                  GTK_POLICY_AUTOMATIC,
                                  GTK_POLICY_AUTOMATIC);

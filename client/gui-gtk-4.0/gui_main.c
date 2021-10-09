@@ -1095,7 +1095,7 @@ static void setup_widgets(void)
 
   /* *** everything in the top *** */
 
-  page = gtk_scrolled_window_new(NULL, NULL);
+  page = gtk_scrolled_window_new();
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(page),
                                  GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
   gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(page),
@@ -1155,7 +1155,7 @@ static void setup_widgets(void)
   gtk_container_add(GTK_CONTAINER(vgrid), ahbox);
   avbox = detached_widget_fill(ahbox);
 
-  overview_scrolled_window = gtk_scrolled_window_new(NULL, NULL);
+  overview_scrolled_window = gtk_scrolled_window_new();
   gtk_widget_set_margin_start(overview_scrolled_window, 1);
   gtk_widget_set_margin_end(overview_scrolled_window, 1);
   gtk_widget_set_margin_top(overview_scrolled_window, 1);
@@ -1332,7 +1332,7 @@ static void setup_widgets(void)
   unit_info_frame = gtk_frame_new("");
   gtk_container_add(GTK_CONTAINER(unit_info_box), unit_info_frame);
 
-  sw = gtk_scrolled_window_new(NULL, NULL);
+  sw = gtk_scrolled_window_new();
   gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(sw),
                                       GTK_SHADOW_OUT);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
@@ -1499,7 +1499,7 @@ static void setup_widgets(void)
   gtk_orientable_set_orientation(GTK_ORIENTABLE(vgrid),
                                  GTK_ORIENTATION_VERTICAL);
 
-  sw = gtk_scrolled_window_new(NULL, NULL);
+  sw = gtk_scrolled_window_new();
   gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(sw),
 				      GTK_SHADOW_ETCHED_IN);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw), GTK_POLICY_AUTOMATIC,
