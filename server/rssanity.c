@@ -599,6 +599,14 @@ static bool rs_buildings(void)
                     "Space part with genus other than \"Special\"");
       return FALSE;
     }
+
+    if (is_wonder(pimprove) && pimprove->upkeep != 0) {
+      /* Not treating this as a hard error for the sake of the rulesets
+       * already in the wild. */
+      log_deprecation("Ignoring nonzero upkeep value of %s as it's a wonder",
+                      improvement_rule_name(pimprove));
+      pimprove->upkeep = 0; /* Forced also in city_improvement_upkeep() */
+    }
   } improvement_iterate_end;
 
   return TRUE;
