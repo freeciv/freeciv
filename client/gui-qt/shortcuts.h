@@ -116,16 +116,17 @@ class fc_shortcuts
 {
   Q_DISABLE_COPY(fc_shortcuts);
   fc_shortcuts();
-  static fc_shortcuts* m_instance;
+  static fc_shortcuts *m_instance;
 
 public:
   ~fc_shortcuts();
-  static fc_shortcuts* sc();
+  static fc_shortcuts *sc();
+  static bool is_instantiated();
   static void drop();
   static QMap<shortcut_id, fc_shortcut*> hash;
 public:
   static void init_default(bool read);
-  fc_shortcut* get_shortcut(shortcut_id id);
+  fc_shortcut *get_shortcut(shortcut_id id);
   shortcut_id get_id(fc_shortcut *sc);
   void set_shortcut(fc_shortcut *sc);
   QString get_desc(shortcut_id id);
