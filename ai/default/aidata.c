@@ -568,7 +568,7 @@ void dai_gov_value(struct ai_type *ait, struct player *pplayer,
                               nplayers);
 
         if (!present) {
-          /* Tech removes the effect */
+          /* Government removes the effect */
           *val -= v1;
         } else {
           *val += v1;
