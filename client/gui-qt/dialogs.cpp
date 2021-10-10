@@ -45,6 +45,7 @@
 #include "movement.h"
 #include "nation.h"
 #include "research.h"
+#include "sex.h"
 
 // client
 #include "audio.h"
@@ -473,9 +474,9 @@ races_dialog::races_dialog(struct player *pplayer,
   leader_name = new QComboBox(no_name);
   sex_buttons = new QButtonGroup(no_name);
   is_male = new QRadioButton(no_name);
-  sex_buttons->addButton(is_male, 1);
+  sex_buttons->addButton(is_male, SEX_MALE);
   is_female = new QRadioButton(no_name);
-  sex_buttons->addButton(is_female, 0);
+  sex_buttons->addButton(is_female, SEX_FEMALE);
 
   leader_name->setEditable(true);
   qgroupbox_layout->addWidget(leader_name, 1, 0, 1, 2);
