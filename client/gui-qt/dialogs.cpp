@@ -17,6 +17,7 @@
 
 // Qt
 #include <QApplication>
+#include <QButtonGroup>
 #include <QComboBox>
 #include <QGroupBox>
 #include <QHeaderView>
@@ -270,7 +271,6 @@ races_dialog::races_dialog(struct player *pplayer,
 
   selected_nation = -1;
   selected_style = -1;
-  selected_sex = -1;
   setWindowTitle(_("Select Nation"));
   selected_nation_tabs->setRowCount(0);
   selected_nation_tabs->setColumnCount(1);
@@ -304,8 +304,11 @@ races_dialog::races_dialog(struct player *pplayer,
   qgroupbox_layout = new QGridLayout;
   no_name = new QGroupBox(parent);
   leader_name = new QComboBox(no_name);
+  sex_buttons = new QButtonGroup(no_name);
   is_male = new QRadioButton(no_name);
+  sex_buttons->addButton(is_male, 1);
   is_female = new QRadioButton(no_name);
+  sex_buttons->addButton(is_female, 0);
 
   leader_name->setEditable(true);
   qgroupbox_layout->addWidget(leader_name, 1, 0, 1, 2);
@@ -642,11 +645,9 @@ void races_dialog::leader_selected(int index)
   if (leader_name->itemData(index).toBool()) {
     is_male->setChecked(true);
     is_female->setChecked(false);
-    selected_sex = 1;
   } else {
     is_male->setChecked(false);
     is_female->setChecked(true);
-    selected_sex = 0;
   }
 }
 
@@ -659,11 +660,6 @@ void races_dialog::ok_pressed()
   QByteArray ln_bytes;
 
   if (selected_nation == -1) {
-    return;
-  }
-
-  if (selected_sex == -1) {
-    output_window_append(ftc_client, _("You must select your sex."));
     return;
   }
 
@@ -682,9 +678,10 @@ void races_dialog::ok_pressed()
                          _("Nation has been chosen by other player"));
     return;
   }
+
   ln_bytes = leader_name->currentText().toUtf8();
   dsend_packet_nation_select_req(&client.conn, player_number(tplayer),
-                                 selected_nation, selected_sex,
+                                 selected_nation, sex_buttons->checkedId(),
                                  ln_bytes.data(),
                                  selected_style);
   close();
