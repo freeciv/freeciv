@@ -442,9 +442,12 @@ bool fc_client::event(QEvent *event)
 /************************************************************************//**
   Closes main window
 ****************************************************************************/
-void fc_client::closeEvent(QCloseEvent *event) {
-  popup_quit_dialog();
-  event->ignore();
+void fc_client::closeEvent(QCloseEvent *event)
+{
+  if (!is_client_quitting()) {
+    popup_quit_dialog();
+    event->ignore();
+  }
 }
 
 /************************************************************************//**
