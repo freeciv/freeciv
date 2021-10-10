@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -41,6 +41,7 @@ class edit_utype : public QDialog
     QSpinBox *bcost;
     QSpinBox *attack;
     QSpinBox *defense;
+    QSpinBox *move_rate;
 
   protected:
     void closeEvent(QCloseEvent *cevent);
@@ -50,6 +51,7 @@ class edit_utype : public QDialog
     void set_bcost_value(int value);
     void set_attack_value(int value);
     void set_defense_value(int value);
+    void set_move_rate(int value);
 };
 
 #endif // FC__EDIT_UTYPE_H

@@ -91,6 +91,16 @@ edit_utype::edit_utype(ruledit_gui *ui_in, struct unit_type *utype_in) : QDialog
   unit_layout->addWidget(label, row, 0);
   unit_layout->addWidget(defense, row++, 1);
 
+  label = new QLabel(QString::fromUtf8(R__("Move Rate")));
+  label->setParent(this);
+
+  move_rate = new QSpinBox(this);
+  move_rate->setRange(0, 50);
+  connect(move_rate, SIGNAL(valueChanged(int)), this, SLOT(set_move_rate(int)));
+
+  unit_layout->addWidget(label, row, 0);
+  unit_layout->addWidget(move_rate, row++, 1);
+
   refresh();
 
   main_layout->addLayout(unit_layout);
@@ -115,6 +125,7 @@ void edit_utype::refresh()
   bcost->setValue(utype->build_cost);
   attack->setValue(utype->attack_strength);
   defense->setValue(utype->defense_strength);
+  move_rate->setValue(utype->move_rate);
 }
 
 /**********************************************************************//**
@@ -157,4 +168,12 @@ void edit_utype::set_attack_value(int value)
 void edit_utype::set_defense_value(int value)
 {
   utype->defense_strength = value;
+}
+
+/**********************************************************************//**
+  Read move rater from spinbox
+**************************************************************************/
+void edit_utype::set_move_rate(int value)
+{
+  utype->move_rate = value;
 }
