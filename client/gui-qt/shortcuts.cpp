@@ -240,6 +240,7 @@ shortcut_id fc_shortcuts::get_id(fc_shortcut *sc)
 void fc_shortcuts::set_shortcut(fc_shortcut *s)
 {
   fc_shortcut *sc;
+
   sc = hash.value(s->id);
   sc->key = s->key;
   sc->mod = s->mod;
@@ -253,7 +254,7 @@ void fc_shortcuts::drop()
 {
   if (m_instance) {
     delete m_instance;
-    m_instance = 0;
+    m_instance = nullptr;
   }
 }
 
@@ -262,9 +263,20 @@ void fc_shortcuts::drop()
 **************************************************************************/
 fc_shortcuts *fc_shortcuts::sc()
 {
-  if (!m_instance)
+  if (!m_instance) {
     m_instance = new fc_shortcuts;
+  }
+
   return m_instance;
+}
+
+/**************************************************************************
+  Check, without instantiating it in the process, if shortcuts system
+  has been instantiated already.
+**************************************************************************/
+bool fc_shortcuts::is_instantiated()
+{
+  return m_instance != nullptr;
 }
 
 /**************************************************************************
@@ -765,6 +777,13 @@ void write_shortcuts()
   QMap<shortcut_id, fc_shortcut*> h = fc_shortcuts::hash;
   QSettings s(QSettings::IniFormat, QSettings::UserScope,
               "freeciv-qt-client");
+
+  if (!fc_shortcuts::is_instantiated()) {
+    // Shortcuts not even initialized yet. Happens e.g. when we quit from
+    // the main menu without ever visiting the game.
+    return;
+  }
+
   s.beginWriteArray("Shortcuts");
   for (int i = 0; i < num_shortcuts; ++i) {
     s.setArrayIndex(i);
