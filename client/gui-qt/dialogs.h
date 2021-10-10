@@ -32,6 +32,7 @@ extern "C" {
 #include "hudwidget.h"
 #include "mapview.h"
 
+class QButtonGroup;
 class QComboBox;
 class QGridLayout;
 class QGroupBox;
@@ -101,7 +102,7 @@ private slots:
 };
 
 /***************************************************************************
- Dialog for goto popup
+  Dialog for goto popup
 ***************************************************************************/
 class notify_goto : public QMessageBox
 {
@@ -121,7 +122,7 @@ private slots:
 };
 
 /***************************************************************************
- Dialog for selecting nation, style and leader leader
+  Dialog for selecting nation, style and leader leader
 ***************************************************************************/
 class races_dialog:public qfc_dialog
 {
@@ -132,6 +133,7 @@ class races_dialog:public qfc_dialog
   QTableWidget *selected_nation_tabs;
   QComboBox *leader_name;
   QComboBox *qnation_set;
+  QButtonGroup *sex_buttons;
   QRadioButton *is_male;
   QRadioButton *is_female;
   QTableWidget *styles;
@@ -159,14 +161,13 @@ private slots:
 private:
   int selected_nation;
   int selected_style;
-  int selected_sex;
   struct player *tplayer;
   int last_index;
 };
 
 /***************************************************************************
- Widget around map view to display informations like demographics report,
- top 5 cities, traveler's report.
+  Widget around map view to display informations like demographics report,
+  top 5 cities, traveler's report.
 ***************************************************************************/
 class notify_dialog:public fcwidget
 {
@@ -195,7 +196,7 @@ private:
 };
 
 /***************************************************************************
- Transparent widget for selecting units
+  Transparent widget for selecting units
 ***************************************************************************/
 class units_select: public fcwidget
 {
