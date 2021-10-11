@@ -61,6 +61,7 @@ libgui_gtk3x_la_SOURCES = \
 	helpdlg.c	\
 	helpdlg.h	\
 	infradlg.c	\
+	infradlg.h	\
 	inputdlg.c	\
 	inputdlg.h	\
 	inteldlg.c	\
