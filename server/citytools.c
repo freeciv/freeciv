@@ -2343,11 +2343,11 @@ void send_city_info_at_tile(struct player *pviewer, struct conn_list *dest,
     }
   } else {
     /* send info to non-owner */
-    if (!pviewer) {	/* observer */
+    if (!pviewer) {  /* observer */
       if (pcity) {
         routes = traderoute_packet_list_new();
 
-	package_city(pcity, &packet, &web_packet, routes, FALSE); /* should be dumb_city info? */
+        package_city(pcity, &packet, &web_packet, routes, FALSE); /* should be dumb_city info? */
         lsend_packet_city_info(dest, &packet, FALSE);
         web_lsend_packet(city_info_addition, dest, &web_packet, FALSE);
         traderoute_packet_list_iterate(routes, route_packet) {
@@ -2355,21 +2355,18 @@ void send_city_info_at_tile(struct player *pviewer, struct conn_list *dest,
         } traderoute_packet_list_iterate_end;
       }
     } else {
-      if (!map_is_known(ptile, pviewer)) {
-	/* Without the conditional we'd have an infinite loop here. */
-	map_show_tile(pviewer, ptile);
-      }
       if (map_is_known_and_seen(ptile, pviewer, V_MAIN)) {
-	if (pcity) {		/* it's there and we see it; update and send */
-	  update_dumb_city(pviewer, pcity);
-	  package_dumb_city(pviewer, ptile, &sc_pack);
-	  lsend_packet_city_short_info(dest, &sc_pack);
-	}
-      } else {			/* not seen; send old info */
-	if (NULL != map_get_player_site(ptile, pviewer)) {
-	  package_dumb_city(pviewer, ptile, &sc_pack);
-	  lsend_packet_city_short_info(dest, &sc_pack);
-	}
+        if (pcity) {  /* it's there and we see it; update and send */
+          update_dumb_city(pviewer, pcity);
+          package_dumb_city(pviewer, ptile, &sc_pack);
+          lsend_packet_city_short_info(dest, &sc_pack);
+        }
+      } else {        /* not seen; send old info */
+        if (map_is_known(ptile, pviewer)
+            && map_get_player_site(ptile, pviewer) != NULL) {
+          package_dumb_city(pviewer, ptile, &sc_pack);
+          lsend_packet_city_short_info(dest, &sc_pack);
+        }
       }
     }
   }
