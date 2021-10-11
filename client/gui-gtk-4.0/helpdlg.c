@@ -411,7 +411,7 @@ static void activated_topic(GtkTreeView *view, gpointer data)
   if (!path) {
     return;
   }
-  
+
   gtk_tree_model_get(model, &it, 1, &pitem, -1);
 
   if (help_history_pos >= 0
@@ -794,7 +794,7 @@ static void help_update_improvement(const struct help_item *pitem,
     gtk_label_set_text(GTK_LABEL(help_ilabel[3]), buf);
 
     /* FIXME: this should show ranges, negated reqs, and all the
-     * MAX_NUM_REQS reqs. 
+     * MAX_NUM_REQS reqs.
      * Currently it's limited to 1 req but this code is partially prepared
      * to be extended.  Remember MAX_NUM_REQS is a compile-time
      * definition. */
@@ -840,7 +840,7 @@ static void help_update_wonder(const struct help_item *pitem,
     gtk_label_set_text(GTK_LABEL(help_wlabel[1]), buf);
 
     /* FIXME: this should show ranges, negated reqs, and all the
-     * MAX_NUM_REQS reqs. 
+     * MAX_NUM_REQS reqs.
      * Currently it's limited to 1 req but this code is partially prepared
      * to be extended.  Remember MAX_NUM_REQS is a compile-time
      * definition. */
@@ -1497,7 +1497,7 @@ static void help_update_dialog(const struct help_item *pitem)
     break;
   case HELP_TEXT:
   default:
-    /* it was a pure text item */ 
+    /* it was a pure text item */
     gtk_text_buffer_set_text(help_text, pitem->text, -1);
     gtk_widget_show(help_text_sw);
     break;

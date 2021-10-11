@@ -184,7 +184,7 @@ static void help_callback(GtkWidget *w, gpointer data)
 }
 
 /**********************************************************************//**
-  Cell data function for cma dialog 
+  Cell data function for cma dialog
 **************************************************************************/
 static void cell_data_func(GtkTreeViewColumn *col, GtkCellRenderer *cell,
                            GtkTreeModel *model, GtkTreeIter *it, gpointer data)
@@ -694,7 +694,7 @@ static void cma_preset_remove_response(GtkWidget *w, gint response,
     city_report_dialog_update();
   }
   gtk_widget_destroy(w);
-  
+
   pdialog->preset_remove_shell = NULL;
 }
 

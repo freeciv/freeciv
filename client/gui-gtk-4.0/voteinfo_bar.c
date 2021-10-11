@@ -56,7 +56,7 @@ static void voteinfo_bar_do_vote_callback(GtkWidget *w, gpointer userdata)
 {
   enum client_vote_type vote;
   struct voteinfo *vi;
-  
+
   vote = GPOINTER_TO_INT(userdata);
   vi = voteinfo_queue_get_current(NULL);
 

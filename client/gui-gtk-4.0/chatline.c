@@ -623,7 +623,7 @@ static gboolean event_after(GtkWidget *text_view, GdkEvent *event)
   }
 
   gdk_event_get_position(event, &e_x, &e_y);
-  gtk_text_view_window_to_buffer_coords(GTK_TEXT_VIEW (text_view), 
+  gtk_text_view_window_to_buffer_coords(GTK_TEXT_VIEW (text_view),
                                         GTK_TEXT_WINDOW_WIDGET,
                                         e_x, e_y, &x, &y);
 
@@ -748,7 +748,7 @@ static gboolean motion_notify_event(GtkWidget *text_view,
   gdouble e_x, e_y;
 
   gdk_event_get_position(event, &e_x, &e_y);
-  gtk_text_view_window_to_buffer_coords(GTK_TEXT_VIEW(text_view), 
+  gtk_text_view_window_to_buffer_coords(GTK_TEXT_VIEW(text_view),
                                         GTK_TEXT_WINDOW_WIDGET,
                                         e_x, e_y, &x, &y);
   set_cursor_if_appropriate(GTK_TEXT_VIEW(text_view), x, y);
@@ -868,7 +868,7 @@ void apply_text_tag(const struct text_tag *ptag, GtkTextBuffer *buf,
         break; /* Not a valid link type case. */
       }
 
-      tag = gtk_text_buffer_create_tag(buf, NULL, 
+      tag = gtk_text_buffer_create_tag(buf, NULL,
                                        "foreground-rgba", &pcolor->color,
                                        "underline", PANGO_UNDERLINE_SINGLE,
                                        NULL);

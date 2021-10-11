@@ -166,7 +166,7 @@ void tstore_append(GtkTreeStore *store, ITree *it, ITree *parent)
 }
 
 /**********************************************************************//**
-  Return whether current itree item is selected 
+  Return whether current itree item is selected
 **************************************************************************/
 gboolean itree_is_selected(GtkTreeSelection *selection, ITree *it)
 {
@@ -349,7 +349,7 @@ static gint gui_dialog_delete_handler(GtkWidget *widget, gpointer data)
 
   /* emit response signal. */
   gui_dialog_response(dlg, GTK_RESPONSE_DELETE_EVENT);
-                                                                               
+
   /* do the destroy by default. */
   return FALSE;
 }
@@ -369,7 +369,7 @@ static gint gui_dialog_delete_tab_handler(struct gui_dialog* dlg)
   if (gtk_notebook_get_nth_page(GTK_NOTEBOOK(notebook), n)
       != dlg->v.tab.child) {
     gui_dialog_set_return_dialog(dlg, NULL);
-  }			                                  
+  }
 
   /* emit response signal. */
   gui_dialog_response(dlg, GTK_RESPONSE_DELETE_EVENT);
@@ -467,7 +467,7 @@ static void gui_dialog_detach(struct gui_dialog* dlg)
 
   gtk_window_set_default_size(GTK_WINDOW(dlg->v.window),
                               dlg->default_width,
-                              dlg->default_height);    
+                              dlg->default_height);
   gtk_widget_show(window);
 }
 

@@ -249,7 +249,7 @@ static GtkWidget *create_worklists_report(void)
   gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(list), FALSE);
 
   worklists_list = list;
-  
+
   rend = gtk_cell_renderer_text_new();
   g_object_set(rend, "editable", TRUE, NULL);
   g_signal_connect(rend, "edited",
@@ -743,7 +743,7 @@ static void src_row_callback(GtkTreeView *view, GtkTreePath *path,
   if (!gtk_widget_is_sensitive(ptr->dst_view)) {
     return;
   }
-  
+
   src_model = GTK_TREE_MODEL(ptr->src);
   dst_model = GTK_TREE_MODEL(ptr->dst);
 
@@ -916,7 +916,7 @@ static void dst_selection_callback(GtkTreeSelection *selection, gpointer data)
       } while (gtk_tree_model_iter_next(GTK_TREE_MODEL(ptr->dst), &it));
     }
     if (num_rows > 1) {
-      gtk_widget_set_sensitive(ptr->remove_cmd, TRUE);      
+      gtk_widget_set_sensitive(ptr->remove_cmd, TRUE);
     } else {
       gtk_widget_set_sensitive(ptr->remove_cmd, FALSE);
     }
@@ -1084,7 +1084,7 @@ GtkWidget *create_worklist(void)
   ptr->dst = dst_store;
   ptr->future = FALSE;
 
-  /* create shell. */ 
+  /* create shell. */
   editor = gtk_grid_new();
   gtk_grid_set_row_spacing(GTK_GRID(editor), 6);
   gtk_orientable_set_orientation(GTK_ORIENTABLE(editor),

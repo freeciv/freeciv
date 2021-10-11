@@ -129,14 +129,14 @@ GtkWidget *choice_dialog_start(GtkWindow *parent, const gchar *name,
 
   bbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 2);
   gtk_container_add(GTK_CONTAINER(vbox), bbox);
-  
+
   g_object_set_data(G_OBJECT(dshell), "bbox", bbox);
   g_object_set_data(G_OBJECT(dshell), "nbuttons", GINT_TO_POINTER(0));
   g_object_set_data(G_OBJECT(dshell), "hide", GINT_TO_POINTER(FALSE));
-  
+
   gtk_widget_show(vbox);
   gtk_widget_show(dlabel);
-  
+
   return dshell;
 }
 
@@ -199,7 +199,7 @@ void choice_dialog_end(GtkWidget *dshell)
   bbox = g_object_get_data(G_OBJECT(dshell), "bbox");
 
   gtk_widget_show(bbox);
-  gtk_widget_show(dshell);  
+  gtk_widget_show(dshell);
 }
 
 /*******************************************************************//**
@@ -221,7 +221,7 @@ GtkWidget *popup_choice_dialog(GtkWindow *parent, const gchar *dialogname,
   gchar *name;
 
   dshell = choice_dialog_start(parent, dialogname, text);
-  
+
   va_start(args, text);
 
   while ((name = va_arg(args, gchar *))) {

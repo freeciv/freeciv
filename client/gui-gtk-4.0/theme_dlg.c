@@ -83,6 +83,6 @@ bool popup_theme_suggestion_dialog(const char *theme_name)
   gtk_dialog_run(GTK_DIALOG(dialog));
 
   gtk_widget_destroy(dialog);
-  
+
   return load_theme;
 }

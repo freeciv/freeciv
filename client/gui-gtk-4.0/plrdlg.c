@@ -107,7 +107,7 @@ void popdown_players_dialog(void)
 
 /**********************************************************************//**
   Create a small colored square representing the player color, for use
-  in player lists. 
+  in player lists.
   May return NULL if the player has no color yet.
 **************************************************************************/
 GdkPixbuf *create_player_icon(const struct player *plr)
@@ -256,11 +256,11 @@ static gint plrdlg_sort_func(GtkTreeModel *model,
   gtk_tree_model_get_value(model, a, PLR_DLG_COL_ID, &value);
   player1 = player_by_number(g_value_get_int(&value));
   g_value_unset(&value);
-  
+
   gtk_tree_model_get_value(model, b, PLR_DLG_COL_ID, &value);
   player2 = player_by_number(g_value_get_int(&value));
   g_value_unset(&value);
-  
+
   return player_dlg_columns[n].sort_func(player1, player2);
 }
 
@@ -325,7 +325,7 @@ static void toggle_view(GtkCheckMenuItem* item, gpointer data)
 **************************************************************************/
 static void toggle_dead_players(GtkCheckMenuItem* item, gpointer data)
 {
-  gui_options.player_dlg_show_dead_players = 
+  gui_options.player_dlg_show_dead_players =
     gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(item));
   real_players_dialog_update(NULL);
 }
@@ -505,7 +505,7 @@ void create_players_dialog(void)
       gtk_tree_view_column_set_alignment(col, 1.0);
       break;
     }
-    
+
     if (col) {
       gtk_tree_view_append_column(GTK_TREE_VIEW(players_list), col);
     }
@@ -526,7 +526,7 @@ void create_players_dialog(void)
   vbox = gtk_grid_new();
   gtk_orientable_set_orientation(GTK_ORIENTABLE(vbox),
                                  GTK_ORIENTATION_VERTICAL);
-  
+
   sep = gtk_separator_new(GTK_ORIENTATION_HORIZONTAL);
   gtk_container_add(GTK_CONTAINER(vbox), sep);
 

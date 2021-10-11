@@ -50,7 +50,7 @@
 #include "tilespec.h"
 
 /* client/agents */
-#include "cma_fec.h" 
+#include "cma_fec.h"
 
 /* client/gui-gtk-4.0 */
 #include "choice_dialog.h"
@@ -1236,7 +1236,7 @@ static void create_and_append_buildings_page(struct city_dialog *pdialog)
 }
 
 /***********************************************************************//**
-                    **** Production Page **** 
+                    **** Production Page ****
 ***************************************************************************/
 static void create_and_append_worklist_page(struct city_dialog *pdialog)
 {
@@ -1378,7 +1378,7 @@ static void create_and_append_cma_page(struct city_dialog *pdialog)
 }
 
 /***********************************************************************//**
-                    **** Misc. Settings Page **** 
+                    **** Misc. Settings Page ****
 ***************************************************************************/
 static void create_and_append_settings_page(struct city_dialog *pdialog)
 {
@@ -1419,9 +1419,9 @@ static void create_and_append_settings_page(struct city_dialog *pdialog)
   gtk_widget_set_margin_end(page, 8);
   gtk_widget_set_margin_top(page, 8);
   gtk_widget_set_margin_bottom(page, 8);
-  
+
   size = gtk_size_group_new(GTK_SIZE_GROUP_BOTH);
-  
+
   label = gtk_label_new_with_mnemonic(tab_title);
 
   gtk_notebook_append_page(GTK_NOTEBOOK(pdialog->notebook), page, label);
@@ -1461,7 +1461,7 @@ static void create_and_append_settings_page(struct city_dialog *pdialog)
 
   intl_slist(ARRAY_SIZE(misc_whichtab_label), misc_whichtab_label,
              &misc_whichtab_label_done);
-  
+
   group = NULL;
   for (i = 0; i < ARRAY_SIZE(misc_whichtab_label); i++) {
     button = gtk_radio_button_new_with_mnemonic(group, misc_whichtab_label[i]);
@@ -1490,7 +1490,7 @@ static void create_and_append_settings_page(struct city_dialog *pdialog)
 		   G_CALLBACK(rename_callback), pdialog);
 
   gtk_widget_set_sensitive(button, can_client_issue_orders());
-  
+
   /* the disband-city-on-unit-production button */
   button = gtk_check_button_new_with_mnemonic(_(disband_label));
   pdialog->misc.disband_on_settler = button;
@@ -2010,7 +2010,7 @@ static void city_dialog_update_building(struct city_dialog *pdialog)
     gtk_list_store_clear(pdialog->overview.change_production_store);
 
     targets_used
-      = collect_eventually_buildable_targets(targets, pdialog->pcity, FALSE);  
+      = collect_eventually_buildable_targets(targets, pdialog->pcity, FALSE);
     name_and_sort_items(targets, targets_used, items, FALSE, pcity);
 
     for (item = 0; item < targets_used; item++) {
@@ -2069,11 +2069,11 @@ static void city_dialog_update_improvement_list(struct city_dialog *pdialog)
   model =
     gtk_tree_view_get_model(GTK_TREE_VIEW(pdialog->overview.improvement_list));
   store = GTK_LIST_STORE(model);
-  
+
   targets_used = collect_already_built_targets(targets, pdialog->pcity);
   name_and_sort_items(targets, targets_used, items, FALSE, pdialog->pcity);
 
-  gtk_list_store_clear(store);  
+  gtk_list_store_clear(store);
 
   for (item = 0; item < targets_used; item++) {
     GdkPixbuf *pix;
@@ -2267,7 +2267,7 @@ static void city_dialog_update_present_units(struct city_dialog *pdialog)
   i = 0;
   unit_list_iterate(units, punit) {
     struct unit_node *pnode;
-    
+
     pnode = unit_node_vector_get(nodes, i);
     if (pnode) {
       GtkWidget *cmd, *pix;
@@ -3141,7 +3141,7 @@ static void sell_callback(struct impr_type *pimprove, gpointer data)
   struct city_dialog *pdialog = (struct city_dialog *) data;
   pdialog->sell_id = improvement_number(pimprove);
   int price;
-  
+
   if (!can_client_issue_orders()) {
     return;
   }
@@ -3161,12 +3161,12 @@ static void sell_callback(struct impr_type *pimprove, gpointer data)
     city_improvement_name_translation(pdialog->pcity, pimprove), price);
   setup_dialog(shl, pdialog->shell);
   pdialog->sell_shell = shl;
-  
+
   gtk_window_set_title(GTK_WINDOW(shl), _("Sell It!"));
 
   g_signal_connect(shl, "response",
 		   G_CALLBACK(sell_callback_response), pdialog);
-  
+
   gtk_window_present(GTK_WINDOW(shl));
 }
 
@@ -3181,7 +3181,7 @@ static void sell_callback_response(GtkWidget *w, gint response, gpointer data)
     city_sell_improvement(pdialog->pcity, pdialog->sell_id);
   }
   gtk_widget_destroy(w);
-  
+
   pdialog->sell_shell = NULL;
 }
 

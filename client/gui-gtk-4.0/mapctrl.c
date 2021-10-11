@@ -157,7 +157,7 @@ gboolean butt_release_mapcanvas(GtkWidget *w, GdkEvent *ev, gpointer data)
 {
   guint button;
   gdouble e_x, e_y;
-  
+
   if (editor_is_active()) {
     return handle_edit_mouse_button_release(ev);
   }
@@ -265,7 +265,7 @@ gboolean butt_down_mapcanvas(GtkWidget *w, GdkEvent *ev, gpointer data)
                && clipboard_copy_production(ptile)) {
       /* <SHIFT> + RMB on city/unit: Copy Production. */
       /* If nothing to copy, fall through to rectangle selection. */
-      
+
       /* Already done the copy */
     } else if (state & GDK_CONTROL_MASK) {
       /* <CONTROL> + RMB : Quickselect a land unit. */
