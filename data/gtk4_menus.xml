@@ -75,6 +75,9 @@
               <object class="GtkMenuItem" id="WORKLISTS" />
             </child>
             <child>
+              <object class="GtkMenuItem" id="INFRA_DLG" />
+            </child>
+            <child>
               <object class="GtkSeparatorMenuItem" />
             </child>
             <child>

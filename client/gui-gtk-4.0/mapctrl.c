@@ -50,6 +50,7 @@
 #include "editgui.h"
 #include "graphics.h"
 #include "gui_main.h"
+#include "infradlg.h"
 #include "inputdlg.h"
 #include "mapview.h"
 #include "menu.h"
@@ -229,6 +230,8 @@ gboolean butt_down_mapcanvas(GtkWidget *w, GdkEvent *ev, gpointer data)
       if (ptile) {
         toggle_tile_hilite(ptile);
       }
+    } else if (infra_placement_mode()) {
+      infra_placement_set_tile(ptile);
     } else {
       /* Plain LMB click. */
       action_button_pressed(e_x, e_y, SELECT_POPUP);
