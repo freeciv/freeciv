@@ -503,7 +503,7 @@ void popup_bribe_dialog(struct unit *actor, struct unit *punit, int cost,
     setup_dialog(shell, toplevel);
   }
   gtk_window_present(GTK_WINDOW(shell));
-  
+
   g_signal_connect(shell, "response", G_CALLBACK(bribe_response),
                    act_data(paction->id, actor->id,
                             0, punit->id, 0,
@@ -556,12 +556,12 @@ static void spy_advances_callback(GtkTreeSelection *select,
 
   if (gtk_tree_selection_get_selected(select, &model, &it)) {
     gtk_tree_model_get(model, &it, 1, &(args->target_tech_id), -1);
-    
+
     gtk_dialog_set_response_sensitive(GTK_DIALOG(spy_tech_shell),
       GTK_RESPONSE_ACCEPT, TRUE);
   } else {
     args->target_tech_id = 0;
-	  
+
     gtk_dialog_set_response_sensitive(GTK_DIALOG(spy_tech_shell),
       GTK_RESPONSE_ACCEPT, FALSE);
   }
@@ -573,7 +573,7 @@ static void spy_advances_callback(GtkTreeSelection *select,
 static void create_advances_list(struct player *pplayer,
 				 struct player *pvictim,
 				 struct action_data *args)
-{  
+{
   GtkWidget *sw, *label, *vbox, *view;
   GtkListStore *store;
   GtkCellRenderer *rend;
@@ -599,7 +599,7 @@ static void create_advances_list(struct player *pplayer,
                                  GTK_ORIENTATION_VERTICAL);
   gtk_grid_set_row_spacing(GTK_GRID(vbox), 6);
   gtk_container_add(GTK_CONTAINER(label), vbox);
-      
+
   store = gtk_list_store_new(2, G_TYPE_STRING, G_TYPE_INT);
 
   view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(store));
@@ -630,7 +630,7 @@ static void create_advances_list(struct player *pplayer,
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
     GTK_POLICY_NEVER, GTK_POLICY_ALWAYS);
   gtk_widget_set_size_request(sw, -1, 200);
-  
+
   gtk_container_add(GTK_CONTAINER(vbox), sw);
 
   /* Now populate the list */
@@ -677,14 +677,14 @@ static void create_advances_list(struct player *pplayer,
 
   gtk_dialog_set_response_sensitive(GTK_DIALOG(spy_tech_shell),
     GTK_RESPONSE_ACCEPT, FALSE);
-  
+
   gtk_widget_show(gtk_dialog_get_content_area(GTK_DIALOG(spy_tech_shell)));
 
   g_signal_connect(gtk_tree_view_get_selection(GTK_TREE_VIEW(view)), "changed",
                    G_CALLBACK(spy_advances_callback), args);
   g_signal_connect(spy_tech_shell, "response",
                    G_CALLBACK(spy_advances_response), args);
-  
+
   args->target_tech_id = 0;
 
   gtk_tree_view_focus(GTK_TREE_VIEW(view));
@@ -742,12 +742,12 @@ static void spy_improvements_callback(GtkTreeSelection *select, gpointer data)
 
   if (gtk_tree_selection_get_selected(select, &model, &it)) {
     gtk_tree_model_get(model, &it, 1, &(args->target_building_id), -1);
-    
+
     gtk_dialog_set_response_sensitive(GTK_DIALOG(spy_sabotage_shell),
       GTK_RESPONSE_ACCEPT, TRUE);
   } else {
     args->target_building_id = -2;
-	  
+
     gtk_dialog_set_response_sensitive(GTK_DIALOG(spy_sabotage_shell),
       GTK_RESPONSE_ACCEPT, FALSE);
   }
@@ -759,7 +759,7 @@ static void spy_improvements_callback(GtkTreeSelection *select, gpointer data)
 static void create_improvements_list(struct player *pplayer,
 				     struct city *pcity,
 				     struct action_data *args)
-{  
+{
   GtkWidget *sw, *label, *vbox, *view;
   GtkListStore *store;
   GtkCellRenderer *rend;
@@ -767,7 +767,7 @@ static void create_improvements_list(struct player *pplayer,
   GtkTreeIter it;
 
   struct unit *actor_unit = game_unit_by_number(args->actor_unit_id);
-  
+
   spy_sabotage_shell = gtk_dialog_new_with_buttons(_("Sabotage Improvements"),
                                                    NULL, 0,
                                                    _("_Cancel"), GTK_RESPONSE_CANCEL,
@@ -786,7 +786,7 @@ static void create_improvements_list(struct player *pplayer,
                                  GTK_ORIENTATION_VERTICAL);
   gtk_grid_set_row_spacing(GTK_GRID(vbox), 6);
   gtk_container_add(GTK_CONTAINER(label), vbox);
-      
+
   store = gtk_list_store_new(2, G_TYPE_STRING, G_TYPE_INT);
 
   view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(store));
@@ -817,7 +817,7 @@ static void create_improvements_list(struct player *pplayer,
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
     GTK_POLICY_NEVER, GTK_POLICY_ALWAYS);
   gtk_scrolled_window_set_min_content_height(GTK_SCROLLED_WINDOW(sw), 200);
-  
+
   gtk_container_add(GTK_CONTAINER(vbox), sw);
 
   /* Now populate the list */
@@ -835,7 +835,7 @@ static void create_improvements_list(struct player *pplayer,
                          0, city_improvement_name_translation(pcity, pimprove),
                          1, improvement_number(pimprove),
                          -1);
-    }  
+    }
   } city_built_iterate_end;
 
   if (action_prob_possible(actor_unit->client.act_prob_cache[
@@ -863,7 +863,7 @@ static void create_improvements_list(struct player *pplayer,
                    G_CALLBACK(spy_improvements_response), args);
 
   args->target_building_id = -2;
-	  
+
   gtk_tree_view_focus(GTK_TREE_VIEW(view));
 }
 
@@ -998,7 +998,7 @@ void popup_incite_dialog(struct unit *actor, struct city *pcity, int cost,
     setup_dialog(shell, toplevel);
   }
   gtk_window_present(GTK_WINDOW(shell));
-  
+
   g_signal_connect(shell, "response", G_CALLBACK(incite_response),
                    act_data(paction->id, actor->id,
                             pcity->id, 0, 0,

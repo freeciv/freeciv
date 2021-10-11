@@ -54,7 +54,7 @@
 struct Diplomacy_dialog {
   struct Treaty treaty;
   struct gui_dialog* dialog;
-  
+
   GtkWidget *menu0;
   GtkWidget *menu1;
 
@@ -80,7 +80,7 @@ struct Diplomacy_notebook {
 static struct dialog_list *dialog_list;
 static struct Diplomacy_notebook *dipl_main;
 
-static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0, 
+static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
 						 struct player *plr1);
 
 static struct Diplomacy_dialog *find_diplomacy_dialog(int other_player_id);
@@ -161,7 +161,7 @@ void handle_diplomacy_create_clause(int counterpart, int giver,
 
   add_clause(&pdialog->treaty, player_by_number(giver), type, value);
   update_diplomacy_dialog(pdialog);
-  gui_dialog_alert(pdialog->dialog);  
+  gui_dialog_alert(pdialog->dialog);
 }
 
 /************************************************************************//**
@@ -182,7 +182,7 @@ void handle_diplomacy_remove_clause(int counterpart, int giver,
 }
 
 /************************************************************************//**
-  Popup the dialog 10% inside the main-window 
+  Popup the dialog 10% inside the main-window
 ****************************************************************************/
 static void popup_diplomacy_dialog(int other_player_id, int initiated_from)
 {
@@ -340,8 +340,8 @@ static void popup_add_menu(GtkMenuShell *parent, gpointer data)
 
   /****************************************************************
   Creates a sorted list of plr0's cities, excluding the capital and
-  any cities not visible to plr1.  This means that you can only trade 
-  cities visible to requesting player.  
+  any cities not visible to plr1.  This means that you can only trade
+  cities visible to requesting player.
 
 			      - Kris Bubendorfer
   *****************************************************************/
@@ -457,7 +457,7 @@ static void row_callback(GtkTreeView *view, GtkTreePath *path,
 
   index = gtk_tree_path_get_indices(path);
 
-  i = 0; 
+  i = 0;
   clause_list_iterate(pdialog->treaty.clauses, pclause) {
     if (i == index[0]) {
       dsend_packet_diplomacy_remove_clause_req(&client.conn,
@@ -1160,7 +1160,7 @@ static void diplo_dialog_returnkey(GtkWidget *w, gpointer data)
   struct player *pgiver =
       (struct player *) g_object_get_data(G_OBJECT(w), "plr");
   int amount = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(w));
-  
+
   if (amount >= 0 && amount <= pgiver->economic.gold) {
     dsend_packet_diplomacy_create_clause_req(&client.conn,
                                              player_number(pdialog->treaty.plr1),

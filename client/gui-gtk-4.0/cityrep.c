@@ -293,7 +293,7 @@ void city_report_dialog_popup(bool raise)
 {
   if (!city_dialog_shell) {
     city_dialog_shell_is_modal = FALSE;
-    
+
     create_city_report_dialog(FALSE);
 
     select_menu_cached = FALSE;
@@ -322,8 +322,8 @@ void city_report_dialog_popdown(void)
 static void append_impr_or_unit_to_menu_item(GtkMenuItem *parent_item,
                                              bool append_units,
                                              bool append_wonders,
-                                             enum city_operation_type 
-                                             city_operation, 
+                                             enum city_operation_type
+                                             city_operation,
                                              TestCityFunc test_func,
                                              GCallback callback,
                                              int size)
@@ -440,7 +440,7 @@ static void append_impr_or_unit_to_menu_item(GtkMenuItem *parent_item,
     g_signal_connect(menu_item, "activate", callback,
 		     GINT_TO_POINTER(cid_encode(target)));
   }
-  
+
   for (i = 0; i < 3; i++) {
     g_object_unref(group[i]);
   }
@@ -548,7 +548,7 @@ static void worklist_next_to_last_impr_or_unit_iterate(GtkTreeModel *model,
 static void sell_impr_iterate(GtkTreeModel *model, GtkTreePath *path,
                               GtkTreeIter *iter, gpointer data)
 {
-  struct sell_data *sd = (struct sell_data *) data; 
+  struct sell_data *sd = (struct sell_data *) data;
   struct city *pcity = city_model_get(model, iter);
 
   if (NULL != pcity
@@ -569,7 +569,7 @@ static void select_impr_or_unit_callback(GtkWidget *wdg, gpointer data)
   struct universal target = cid_decode(GPOINTER_TO_INT(data));
   GObject *parent = G_OBJECT(gtk_widget_get_parent(wdg));
   TestCityFunc test_func = g_object_get_data(parent, "freeciv_test_func");
-  enum city_operation_type city_operation = 
+  enum city_operation_type city_operation =
     GPOINTER_TO_INT(g_object_get_data(parent, "freeciv_city_operation"));
 
   /* if this is not a city operation: */
@@ -799,7 +799,7 @@ static void append_cma_to_menu_item(GtkMenuItem *parent_item, bool change_cma)
                        GINT_TO_POINTER(CMA_NONE));
     }
 
-    /* 
+    /*
      * Search for a city that's under custom (not preset) agent. Might
      * take a lonnggg time.
      */
@@ -1864,7 +1864,7 @@ static void create_select_menu(GtkWidget *item)
   item = gtk_separator_menu_item_new();
   gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
 
-  
+
   select_units_item =
 	gtk_menu_item_new_with_label(_("Available Units"));
   gtk_menu_shell_append(GTK_MENU_SHELL(menu), select_units_item);

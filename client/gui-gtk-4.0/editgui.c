@@ -526,7 +526,7 @@ static struct editbar *editbar_create(void)
   GtkCellRenderer *cell;
   GdkPixbuf *pixbuf;
   const struct editor_sprites *sprites;
-  
+
   eb = fc_calloc(1, sizeof(struct editbar));
 
   hbox = gtk_grid_new();
@@ -1131,7 +1131,7 @@ static void editinfobox_spin_button_value_changed(GtkSpinButton *spinbutton,
   struct editinfobox *ei;
   int which, value;
   enum editor_tool_type ett;
-  
+
   ei = editgui_get_editinfobox();
 
   if (!ei) {
@@ -1294,7 +1294,7 @@ static struct editinfobox *editinfobox_create(void)
   ei->size_spin_button = spin;
   label = gtk_label_new(_("Size"));
   gtk_container_add(GTK_CONTAINER(hbox), label);
-  
+
   hbox = gtk_grid_new();
   gtk_grid_set_column_spacing(GTK_GRID(hbox), 8);
   gtk_container_add(GTK_CONTAINER(vbox), hbox);

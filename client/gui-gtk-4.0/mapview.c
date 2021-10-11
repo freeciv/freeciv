@@ -228,7 +228,7 @@ static gboolean anim_cursor_cb(gpointer data)
   if (cursor_type == CURSOR_DEFAULT) {
     gtk_widget_set_cursor(toplevel, NULL);
     cursor_timer_id = 0;
-    return FALSE; 
+    return FALSE;
   }
 
   gtk_widget_set_cursor(toplevel,
@@ -492,7 +492,7 @@ void put_unit_image(struct unit *punit, GtkImage *p, int height)
   FIXME:
   For now only two food, two gold one shield and two masks can be drawn per
   unit, the proper way to do this is probably something like what Civ II does.
-  (One food/shield/mask drawn N times, possibly one top of itself. -- SKi 
+  (One food/shield/mask drawn N times, possibly one top of itself. -- SKi
 **************************************************************************/
 void put_unit_image_city_overlays(struct unit *punit, GtkImage *p,
                                   int height,
