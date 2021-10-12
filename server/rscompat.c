@@ -710,6 +710,27 @@ bool rscompat_old_effect_3_1(const char *type, struct section_file *file,
 }
 
 /**********************************************************************//**
+  Do compatibility things after regular ruleset loading, but before
+  sanity checking.
+**************************************************************************/
+void rscompat_adjust_pre_sanity(struct rscompat_info *info)
+{
+  if (!info->compat_mode) {
+    /* There isn't anything here that should be done outside of compat
+     * mode. */
+    return;
+  }
+
+  if (info->ver_buildings < RSFORMAT_3_1) {
+    improvement_iterate(pimprove) {
+      if (pimprove->upkeep != 0 && is_wonder(pimprove)) {
+        pimprove->upkeep = 0;
+      }
+    } improvement_iterate_end;
+  }
+}
+
+/**********************************************************************//**
   Do compatibility things after regular ruleset loading.
 **************************************************************************/
 void rscompat_postprocess(struct rscompat_info *info)

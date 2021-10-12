@@ -48,6 +48,7 @@ int rscompat_check_capabilities(struct section_file *file, const char *filename,
 
 bool rscompat_names(struct rscompat_info *info);
 
+void rscompat_adjust_pre_sanity(struct rscompat_info *info);
 void rscompat_postprocess(struct rscompat_info *info);
 
 /* General upgrade functions that should be kept to avoid regressions in
