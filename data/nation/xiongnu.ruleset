@@ -1,15 +1,16 @@
 [nation_xiongnu]
 
-name=_("Xiongnu")
-plural=_("?plural:Xiongnu")
-groups="Ancient", "Asian"
-legend=_("The Xiongnu, also known as Asiatic Huns, were an ancient tribal\
+name   = _("Xiongnu")
+plural = _("?plural:Xiongnu")
+groups = "Ancient", "Asian"
+legend = _("The Xiongnu, also known as Asiatic Huns, were an ancient tribal\
  confederation of mixed origin. Their language is unknown; it may have\
  belonged to the Altaic or Yeniseian language family. The Xiongnu created\
  a strong state in the plains of the eastern part of Central Asia, which\
  was an important threat to China. From the second century onwards the\
  northern wing of the Xiongnu was known as Xianbei, while another group of\
  the Xiongnu emigrated to the west.")
+
 leaders = {
  "name",                  "sex"
  "Touman",                "Male"
@@ -29,10 +30,7 @@ leaders = {
  "Zhizhi",                "Male"
  "Huahanye",              "Male"
  "Cheniu",                "Male"
- }
-flag="xiongnu"
-flag_alt = "-"
-style = "Asian"
+}
 
 ruler_titles = {
  "government",      "male_title",    "female_title"
@@ -40,12 +38,16 @@ ruler_titles = {
  "Monarchy",        _("%s Khagan"),  _("?female:%s Khagan")
 }
 
-init_techs=""
-init_buildings=""
-init_units=""
+flag = "xiongnu"
+flag_alt = "-"
+style = "Asian"
 
-conflicts_with= "Russian", "Soviet", "Manchu", "Kazakh", "Gokturk",
-                "Uyghur", "Buryat", "Chinese", "Tuvan"
+init_techs = ""
+init_buildings = ""
+init_units = ""
+
+conflicts_with = "Russian", "Soviet", "Manchu", "Kazakh", "Gokturk",
+                 "Uyghur", "Buryat", "Chinese", "Tuvan"
 civilwar_nations = "Gokturk", "Saka", "Mongol", "Han", "Tocharian"
 
 cities =
