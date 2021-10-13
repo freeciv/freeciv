@@ -1931,7 +1931,11 @@ static struct setting settings[] = {
   GEN_INT("techleak", game.info.tech_leak_pct,
           SSET_RULES, SSET_SCIENCE, SSET_RARE, ALLOW_NONE, ALLOW_BASIC,
           N_("Tech leakage percent"),
-          N_("The rate of the tech leakage."),
+          N_("The rate of the tech leakage. This multiplied by the "
+             "percentage of players who know the tech tell which "
+             "percentage of tech's bulb cost gets leaked each turn. "
+             "This setting has no effect if the ruleset has disabled "
+             "tech leakage."),
           NULL, NULL, NULL, GAME_MIN_TECHLEAK, GAME_MAX_TECHLEAK,
           GAME_DEFAULT_TECHLEAK)
 
