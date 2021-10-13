@@ -135,7 +135,7 @@ name          = _("?unitclass:Air")
 min_speed     = 1
 hp_loss_pct   = 0
 hut_behavior  = "Nothing"
-flags         = "Unreachable", "DoesntOccupyTile"
+flags         = "Unreachable"
 
 [unitclass_missile]
 ; /* TRANS: Unit class: used adjectivally */
@@ -143,7 +143,7 @@ name          = _("?unitclass:Missile")
 min_speed     = 1
 hp_loss_pct   = 0
 hut_behavior  = "Nothing"
-flags         = "Missile", "Unreachable", "DoesntOccupyTile"
+flags         = "Missile", "Unreachable"
 
 ; /* <-- avoid gettext warnings
 ;
