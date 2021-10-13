@@ -703,7 +703,6 @@ struct requirement req_from_str(const char *type, const char *range,
       case VUT_IMPROVEMENT:
       case VUT_IMPR_GENUS:
       case VUT_EXTRA:
-      case VUT_GOOD:
       case VUT_TERRAIN:
       case VUT_TERRFLAG:
       case VUT_UTYPE:
@@ -730,6 +729,7 @@ struct requirement req_from_str(const char *type, const char *range,
       case VUT_MINSIZE:
       case VUT_MINCULTURE:
       case VUT_NATIONALITY:
+      case VUT_GOOD:
         req.range = REQ_RANGE_CITY;
         break;
       case VUT_GOVERNMENT:
