@@ -73,6 +73,7 @@ static struct {
   char *research_upkeep_style;
   char *research_free_tech_method;
   char *culture_history_interest;
+  char *culture_migration_pml;
 } comments_storage;
 
 /**********************************************************************//**
@@ -188,6 +189,8 @@ bool comments_load(void)
                "entrydoc.free_tech_method");
   comment_load(comments_storage.culture_history_interest, comment_file,
                "entrydoc.history_interest_pml");
+  comment_load(comments_storage.culture_migration_pml, comment_file,
+               "entrydoc.migration_pml");
 
   secfile_check_unused(comment_file);
   secfile_destroy(comment_file);
@@ -626,5 +629,13 @@ void comment_research_free_tech_method(struct section_file *sfile)
 void comment_culture_history_interest(struct section_file *sfile)
 {
   comment_entry_write(sfile, comments_storage.culture_history_interest,
+                      "culture");
+}
+/**********************************************************************//**
+  Write culture migration_pml settings header.
+**************************************************************************/
+void comment_culture_migration_pml(struct section_file *sfile)
+{
+  comment_entry_write(sfile, comments_storage.culture_migration_pml,
                       "culture");
 }

@@ -1390,3 +1390,9 @@ history_interest_pml = "\n\
 ; of the same original value more valuable as newer history, as it has\n\
 ; gained more interest.\
 "
+
+migration_pml = "\n\
+; How much each culture point affects the migration\n\
+; from/to the city. Each culture point count as this many permilles\n\
+; of a migration point.\
+"

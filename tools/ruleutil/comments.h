@@ -76,6 +76,7 @@ void comment_research_tech_leakage(struct section_file *sfile);
 void comment_research_upkeep_style(struct section_file *sfile);
 void comment_research_free_tech_method(struct section_file *sfile);
 void comment_culture_history_interest(struct section_file *sfile);
+void comment_culture_migration_pml(struct section_file *sfile);
 
 #ifdef __cplusplus
 }
