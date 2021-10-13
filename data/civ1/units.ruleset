@@ -145,14 +145,14 @@ Can launch attack from non-native tiles.\
 name          = _("?unitclass:Air")
 min_speed     = 1
 hp_loss_pct   = 0
-flags         = "Unreachable", "DoesntOccupyTile", "HutNothing"
+flags         = "Unreachable", "HutNothing"
 
 [unitclass_missile]
 ; /* TRANS: Unit class: used adjectivally */
 name          = _("?unitclass:Missile")
 min_speed     = 1
 hp_loss_pct   = 0
-flags         = "Missile", "Unreachable", "DoesntOccupyTile", "HutNothing"
+flags         = "Missile", "Unreachable", "HutNothing"
 
 ; /* <-- avoid gettext warnings
 ;
