@@ -628,6 +628,12 @@ void update_intel_wonder_dialog(struct player *p)
   struct intel_wonder_dialog *pdialog = get_intel_wonder_dialog(p);
 
   if (pdialog != NULL) {
+    gchar *title = g_strdup_printf(_("Wonders of %s Empire"),
+                                   nation_adjective_for_player(p));
+
+    gtk_window_set_title(GTK_WINDOW(pdialog->shell), title);
+    g_free(title);
+
     gtk_list_store_clear(pdialog->wonders);
 
     improvement_iterate(impr) {
