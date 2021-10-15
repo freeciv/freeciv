@@ -628,6 +628,89 @@ static void paratroopers_mr_sub_to_effect(struct unit_type *putype,
 }
 
 /**********************************************************************//**
+  Helper for effect_to_enabler(). Is this requirement meant for target
+  rather than actor?
+**************************************************************************/
+static bool ete_is_target_req(struct requirement *preq)
+{
+  switch (preq->source.kind) {
+  /* World range only - listed in actor reqs */
+  case VUT_MINYEAR:
+  case VUT_TOPO:
+  case VUT_MINCALFRAG:
+  case VUT_SERVERSETTING:
+    return FALSE;
+
+  /* Actor ones */
+  case VUT_ADVANCE:
+  case VUT_GOVERNMENT:
+  case VUT_NATION:
+  case VUT_UTYPE:
+  case VUT_UTFLAG:
+  case VUT_UCLASS:
+  case VUT_UCFLAG:
+  case VUT_AI_LEVEL:
+  case VUT_NATIONALITY:
+  case VUT_TECHFLAG:
+  case VUT_ACHIEVEMENT:
+  case VUT_DIPLREL:
+  case VUT_STYLE:
+  case VUT_MINCULTURE:
+  case VUT_UNITSTATE:
+  case VUT_MINMOVES:
+  case VUT_MINVETERAN:
+  case VUT_MINHP:
+  case VUT_NATIONGROUP:
+  case VUT_ACTION:
+  case VUT_MINTECHS:
+  case VUT_ACTIVITY:
+  case VUT_DIPLREL_UNITANY:   /* ? */
+  case VUT_DIPLREL_UNITANY_O: /* ? */
+    return FALSE;
+
+  /* Target ones */
+  case VUT_IMPROVEMENT:
+  case VUT_TERRAIN:
+  case VUT_MINSIZE:
+  case VUT_TERRAINCLASS:
+  case VUT_TERRAINALTER:
+  case VUT_CITYTILE:
+  case VUT_TERRFLAG:
+  case VUT_ROADFLAG:
+  case VUT_EXTRA:
+  case VUT_MAXTILEUNITS:
+  case VUT_EXTRAFLAG:
+  case VUT_CITYSTATUS:
+  case VUT_MINFOREIGNPCT:
+  case VUT_DIPLREL_TILE:      /* ? */
+  case VUT_DIPLREL_TILE_O:    /* ? */
+    return TRUE;
+
+  /* Ones that are actor reqs at some range, target reqs at another range */
+  case VUT_AGE:
+    if (preq->range == REQ_RANGE_CITY) {
+      return TRUE;
+    }
+    return FALSE;
+
+  /* Ones that make equally little sense both as actor and target req */
+  case VUT_NONE:
+  case VUT_OTYPE:
+  case VUT_SPECIALIST:
+  case VUT_GOOD:
+  case VUT_IMPR_GENUS:
+    return FALSE;
+  case VUT_COUNT:
+    fc_assert(preq->source.kind != VUT_COUNT);
+    return FALSE;
+  }
+
+  fc_assert(FALSE);
+
+  return FALSE;
+}
+
+/**********************************************************************//**
   Turn old effect to an action enabler.
 **************************************************************************/
 static void effect_to_enabler(action_id action, struct section_file *file,
@@ -648,9 +731,13 @@ static void effect_to_enabler(action_id action, struct section_file *file,
 
     reqs = lookup_req_list(file, compat, sec_name, "reqs", "old effect");
 
-    /* TODO: Divide requirements to actor_reqs and target_reqs depending
-     *       their type. */
-    requirement_vector_copy(&enabler->actor_reqs, reqs);
+    requirement_vector_iterate(reqs, preq) {
+      if (ete_is_target_req(preq)) {
+        requirement_vector_append(&enabler->target_reqs, *preq);
+      } else {
+        requirement_vector_append(&enabler->actor_reqs, *preq);
+      }
+    } requirement_vector_iterate_end;
 
     settler_req = req_from_values(VUT_UTFLAG, REQ_RANGE_LOCAL, FALSE, TRUE, FALSE,
                                   UTYF_SETTLERS);
