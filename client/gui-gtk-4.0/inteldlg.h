@@ -19,4 +19,8 @@
 void intel_dialog_init(void);
 void intel_dialog_done(void);
 
+void popup_intel_wonder_dialog(struct player *p);
+void update_intel_wonder_dialog(struct player *p);
+void close_intel_wonder_dialog(struct player *p);
+
 #endif  /* FC__INTELDLG_H */
