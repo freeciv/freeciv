@@ -48,10 +48,10 @@ extern struct city_report_spec *city_report_specs;
    what's going to be next to what.
    
    Here specify width, and leading space, although different clients
-   may interpret these differently (gui-gtk and gui-mui ignore space
+   may interpret these differently (gui-gtk ignore space
    field, handling columns without additional spacing).
    For some clients negative width means left justified (gui-gtk
-   always treats width as negative; gui-mui ignores width field).
+   always treats width as negative).
 */
 
 /* Following are wanted to save/load options; use wrappers rather
