@@ -60,6 +60,7 @@
 #include "optiondlg.h"
 #include "pages.h"
 #include "plrdlg.h"
+#include "rallypointdlg.h"
 #include "ratesdlg.h"
 #include "repodlgs.h"
 #include "sprite.h"
@@ -209,6 +210,7 @@ static void select_same_type_tile_callback(GtkMenuItem *item, gpointer data);
 static void select_same_type_cont_callback(GtkMenuItem *item, gpointer data);
 static void select_same_type_callback(GtkMenuItem *item, gpointer data);
 static void select_dialog_callback(GtkMenuItem *item, gpointer data);
+static void rally_dialog_callback(GtkMenuItem *item, gpointer data);
 static void infra_dialog_callback(GtkMenuItem *item, gpointer data);
 static void unit_wait_callback(GtkMenuItem *item, gpointer data);
 static void unit_done_callback(GtkMenuItem *item, gpointer data);
@@ -287,6 +289,8 @@ static struct menu_entry_info menu_entries[] =
     G_CALLBACK(find_city_callback), MGROUP_SAFE },
   { "WORKLISTS", N_("Work_lists"), GDK_KEY_l, GDK_CONTROL_MASK,
     G_CALLBACK(worklists_callback), MGROUP_SAFE },
+  { "RALLY_DLG", N_("Rally point dialog"), GDK_KEY_r, GDK_CONTROL_MASK,
+    G_CALLBACK(rally_dialog_callback), MGROUP_SAFE },
   { "INFRA_DLG", N_("Infra dialog"), GDK_KEY_i, GDK_CONTROL_MASK,
     G_CALLBACK(infra_dialog_callback), MGROUP_SAFE },
   { "CLIENT_LUA_SCRIPT", N_("Client _Lua Script"), 0, 0,
@@ -1367,6 +1371,14 @@ static void select_dialog_callback(GtkMenuItem *item, gpointer data)
 }
 
 /************************************************************************//**
+  Open rally point dialog.
+****************************************************************************/
+static void rally_dialog_callback(GtkMenuItem *item, gpointer data)
+{
+  rally_dialog_popup();
+}
+
+/************************************************************************//**
   Open infra placement dialog.
 ****************************************************************************/
 static void infra_dialog_callback(GtkMenuItem *item, gpointer data)
@@ -2183,6 +2195,7 @@ void real_menus_update(void)
   menu_entry_set_sensitive("EDIT_MODE",
                            can_conn_enable_editing(&client.conn));
   editgui_refresh();
+  menu_entry_set_sensitive("RALLY_DLG", can_client_issue_orders());
   menu_entry_set_sensitive("INFRA_DLG", terrain_control.infrapoints);
 
   {

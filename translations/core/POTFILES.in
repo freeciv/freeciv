@@ -49,6 +49,7 @@ client/gui-gtk-3.22/messagewin.c
 client/gui-gtk-3.22/optiondlg.c
 client/gui-gtk-3.22/pages.c
 client/gui-gtk-3.22/plrdlg.c
+client/gui-gtk-3.22/rallypointdlg.c
 client/gui-gtk-3.22/repodlgs.c
 client/gui-gtk-3.22/soundset_dlg.c
 client/gui-gtk-3.22/spaceshipdlg.c
