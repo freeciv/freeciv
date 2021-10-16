@@ -201,43 +201,70 @@ static void selection_callback(GtkTreeSelection *selection, gpointer data)
 }
 
 /**********************************************************************//**
-  Button pressed on player list
+  Left button pressed on player list
 **************************************************************************/
-static gboolean button_press_callback(GtkTreeView *view, GdkEvent *ev)
+static gboolean left_button_press_callback(GtkGestureClick *gesture, int n_press,
+                                           double x, double y)
 {
-  if (gdk_event_get_event_type(ev) == GDK_BUTTON_PRESS) {
-    guint click_count;
+  GtkTreeView *view
+    = GTK_TREE_VIEW(gtk_event_controller_get_widget(GTK_EVENT_CONTROLLER(gesture)));
 
-    gdk_event_get_click_count(ev, &click_count);
+  if (n_press == 2) {
+    GtkTreePath *path;
 
-    if (click_count == 2) {
-      GtkTreePath *path;
+    gtk_tree_view_get_cursor(view, &path, NULL);
+    if (path) {
+      GtkTreeModel *model = gtk_tree_view_get_model(view);
+      GtkTreeIter it;
+      gint id;
+      struct player *plr;
 
-      gtk_tree_view_get_cursor(view, &path, NULL);
-      if (path) {
-        GtkTreeModel *model = gtk_tree_view_get_model(view);
-        GtkTreeIter it;
-        gint id;
-        struct player *plr;
-        guint button;
+      gtk_tree_model_get_iter(model, &it, path);
+      gtk_tree_path_free(path);
 
-        gtk_tree_model_get_iter(model, &it, path);
-        gtk_tree_path_free(path);
+      gtk_tree_model_get(model, &it, PLR_DLG_COL_ID, &id, -1);
+      plr = player_by_number(id);
 
-        gtk_tree_model_get(model, &it, PLR_DLG_COL_ID, &id, -1);
-        plr = player_by_number(id);
-
-        button = gdk_button_event_get_button(ev);
-        if (button == 1) {
-          if (can_intel_with_player(plr)) {
-            popup_intel_dialog(plr);
-          }
-        } else if (can_meet_with_player(plr)) {
-          dsend_packet_diplomacy_init_meeting_req(&client.conn, id);
-        }
+      if (can_intel_with_player(plr)) {
+        popup_intel_dialog(plr);
       }
     }
   }
+
+  return FALSE;
+}
+
+/**********************************************************************//**
+  Right button pressed on player list
+**************************************************************************/
+static gboolean right_button_press_callback(GtkGestureClick *gesture, int n_press,
+                                            double x, double y)
+{
+  GtkTreeView *view
+    = GTK_TREE_VIEW(gtk_event_controller_get_widget(GTK_EVENT_CONTROLLER(gesture)));
+
+  if (n_press == 2) {
+    GtkTreePath *path;
+
+    gtk_tree_view_get_cursor(view, &path, NULL);
+    if (path) {
+      GtkTreeModel *model = gtk_tree_view_get_model(view);
+      GtkTreeIter it;
+      gint id;
+      struct player *plr;
+
+      gtk_tree_model_get_iter(model, &it, path);
+      gtk_tree_path_free(path);
+
+      gtk_tree_model_get(model, &it, PLR_DLG_COL_ID, &id, -1);
+      plr = player_by_number(id);
+
+      if (can_meet_with_player(plr)) {
+        dsend_packet_diplomacy_init_meeting_req(&client.conn, id);
+      }
+    }
+  }
+
   return FALSE;
 }
 
@@ -434,6 +461,9 @@ void create_players_dialog(void)
   enum ai_level level;
 #endif /* MENUS_GTK3 */
   GtkWidget *vbox;
+  GtkEventController *left_controller;
+  GtkEventController *right_controller;
+  GtkGesture *gesture;
 
   gui_dialog_new(&players_dialog_shell, GTK_NOTEBOOK(top_notebook), NULL,
                  TRUE);
@@ -457,8 +487,17 @@ void create_players_dialog(void)
   players_selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(players_list));
   g_signal_connect(players_selection, "changed",
       G_CALLBACK(selection_callback), NULL);
-  g_signal_connect(players_list, "button_press_event",
-      G_CALLBACK(button_press_callback), NULL);
+  gesture = gtk_gesture_click_new();
+  left_controller = GTK_EVENT_CONTROLLER(gesture);
+  g_signal_connect(left_controller, "pressed",
+                   G_CALLBACK(left_button_press_callback), NULL);
+  gtk_widget_add_controller(players_list, left_controller);
+  gesture = gtk_gesture_click_new();
+  gtk_gesture_single_set_button(GTK_GESTURE_SINGLE(gesture), 3);
+  right_controller = GTK_EVENT_CONTROLLER(gesture);
+  g_signal_connect(right_controller, "pressed",
+                   G_CALLBACK(right_button_press_callback), NULL);
+  gtk_widget_add_controller(players_list, right_controller);
 
   for (i = 0; i < num_player_dlg_columns; i++) {
     struct player_dlg_column *pcol;
