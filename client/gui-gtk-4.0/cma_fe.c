@@ -140,34 +140,26 @@ struct cma_dialog *get_cma_dialog(struct city *pcity)
 /**********************************************************************//**
   User has pressed button in cma dialog
 **************************************************************************/
-static gboolean button_press_callback(GtkTreeView *view, GdkEvent *ev,
-				      gpointer data)
+static gboolean button_press_callback(GtkGestureClick *gesture, int n_press,
+                                      double x, double y)
 {
+  GtkWidget *widget = gtk_event_controller_get_widget(GTK_EVENT_CONTROLLER(gesture));
+  struct cma_dialog *pdialog
+    = (struct cma_dialog *) g_object_get_data(G_OBJECT(widget), "dialog");
   GtkTreePath *path;
   GtkTreeViewColumn *column;
-  gdouble e_x, e_y;
 
-  gdk_event_get_position(ev, &e_x, &e_y);
-  if (gtk_tree_view_get_path_at_pos(GTK_TREE_VIEW(view),
-	e_x, e_y, &path, &column, NULL, NULL)) {
-    GdkEventType type;
+  if (gtk_tree_view_get_path_at_pos(GTK_TREE_VIEW(pdialog->preset_list),
+                                    x, y, &path, &column, NULL, NULL)) {
+    if (n_press == 1) {
+      cma_activate_preset_callback(GTK_TREE_VIEW(pdialog->preset_list),
+                                   path, column, pdialog);
+    } else if (n_press == 2) {
+      struct cm_parameter param;
 
-    type = gdk_event_get_event_type(ev);
-    if (type == GDK_BUTTON_PRESS) {
-      guint click_count;
-
-      gdk_event_get_click_count(ev, &click_count);
-
-      if (click_count == 1) {
-        cma_activate_preset_callback(view, path, column, data);
-      } else if (click_count == 2) {
-        struct cma_dialog *pdialog = (struct cma_dialog *) data;
-        struct cm_parameter param;
-
-        cmafec_get_fe_parameter(pdialog->pcity, &param);
-        cma_put_city_under_agent(pdialog->pcity, &param);
-        refresh_city_dialog(pdialog->pcity);
-      }
+      cmafec_get_fe_parameter(pdialog->pcity, &param);
+      cma_put_city_under_agent(pdialog->pcity, &param);
+      refresh_city_dialog(pdialog->pcity);
     }
   }
   gtk_tree_path_free(path);
@@ -233,6 +225,7 @@ struct cma_dialog *create_cma_dialog(struct city *pcity, bool tiny)
   GtkWidget *view;
   GtkTreeViewColumn *column;
   gint layout_width;
+  GtkEventController *controller;
 
   cmafec_get_fe_parameter(pcity, &param);
   pdialog = fc_malloc(sizeof(struct cma_dialog));
@@ -275,8 +268,11 @@ struct cma_dialog *create_cma_dialog(struct city *pcity, bool tiny)
   pdialog->preset_list = view;
   pdialog->selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(view));
 
-  g_signal_connect(pdialog->preset_list, "button_press_event",
-                   G_CALLBACK(button_press_callback), pdialog);
+  g_object_set_data(G_OBJECT(pdialog->preset_list), "dialog", pdialog);
+  controller = GTK_EVENT_CONTROLLER(gtk_gesture_click_new());
+  g_signal_connect(controller, "pressed",
+                   G_CALLBACK(button_press_callback), NULL);
+  gtk_widget_add_controller(pdialog->preset_list, controller);
 
   gtk_widget_set_tooltip_text(view,
                               _("For information on\n"
