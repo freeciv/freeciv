@@ -29,8 +29,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 3.1\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2021-09-28 02:11+0300\n"
-"PO-Revision-Date: 2021-09-28 02:27+0300\n"
+"POT-Creation-Date: 2021-10-16 03:54+0300\n"
+"PO-Revision-Date: 2021-10-16 04:18+0300\n"
 "Last-Translator: Sini Ruohomaa <sini.ruohomaa@iki.fi>\n"
 "Language-Team: None <freeciv-i18n@freelists.org>\n"
 "Language: fi\n"
@@ -528,7 +528,8 @@ msgstr "Voi vaihtaa kapungin tuotantotyyppiä ilman rangaistuksia."
 
 #: ai/handicaps.c:131
 msgid "Limits the distance to search for threatening enemy units."
-msgstr "Rajoittaa kuinka kaukana olevien vihollisyksiköiden liikkeitä ennakoidaan."
+msgstr ""
+"Rajoittaa kuinka kaukana olevien vihollisyksiköiden liikkeitä ennakoidaan."
 
 #: ai/threaded/threadedai.c:565
 msgid ""
@@ -546,7 +547,7 @@ msgstr ""
 "Tässä Freeciv-käännöksessä ei ole täyttä säikeiden tukea, säikeistettyä "
 "tekoälymodulia (AI) 'tex' ei voida käyttää."
 
-#: client/agents/cma_core.c:391 server/cityturn.c:411
+#: client/agents/cma_core.c:400 server/cityturn.c:411
 #, c-format
 msgid ""
 "The citizen governor can't fulfill the requirements for %s. Passing back "
@@ -554,7 +555,7 @@ msgid ""
 msgstr ""
 "Käskynhaltija ei voi täyttää vaatimuksia kaupungissa %s. Palautan hallinnan."
 
-#: client/agents/cma_core.c:400 client/agents/cma_core.c:420
+#: client/agents/cma_core.c:409 client/agents/cma_core.c:429
 #, c-format
 msgid ""
 "The citizen governor has gotten confused dealing with %s.  You may want to "
@@ -2208,7 +2209,7 @@ msgstr "(nimetön)"
 #: client/gui-qt/dialogs.cpp:3532 client/gui-qt/dialogs.cpp:3595
 #: client/gui-qt/repodlgs.cpp:214 client/gui-sdl2/action_dialog.c:1637
 #: client/gui-sdl2/action_dialog.c:1900 client/gui-sdl2/citydlg.c:1169
-#: client/gui-sdl2/repodlgs.c:211 client/text.c:1298 common/unit.c:1963
+#: client/gui-sdl2/repodlgs.c:211 client/text.c:1298 common/unit.c:1962
 #: server/unithand.c:1906 server/unithand.c:2607
 #, c-format
 msgid "Treasury contains %d gold."
@@ -2697,7 +2698,7 @@ msgstr "Kaupungin kartta"
 #. TRANS: Overview tab in city dialog
 #. TRANS: Overview tab of foreign intelligence report dialog
 #: client/gui-gtk-3.0/citydlg.c:915 client/gui-gtk-3.0/inteldlg.c:210
-#: client/gui-gtk-3.22/citydlg.c:952 client/gui-gtk-3.22/inteldlg.c:210
+#: client/gui-gtk-3.22/citydlg.c:952 client/gui-gtk-3.22/inteldlg.c:282
 msgid "_Overview"
 msgstr "_Yleiskatsaus"
 
@@ -3160,7 +3161,7 @@ msgid "_Select"
 msgstr "Va_litse"
 
 #: client/gui-gtk-3.0/cityrep.c:1114 client/gui-gtk-3.0/plrdlg.c:543
-#: client/gui-gtk-3.22/cityrep.c:1113 client/gui-gtk-3.22/plrdlg.c:541
+#: client/gui-gtk-3.22/cityrep.c:1113 client/gui-gtk-3.22/plrdlg.c:547
 msgid "_Display"
 msgstr "_Näytä"
 
@@ -3913,7 +3914,7 @@ msgstr "Vältä kansakuntia"
 #. TRANS: Nations report action
 #. TRANS: Nations report title
 #: client/gui-gtk-3.0/editprop.c:4445 client/gui-gtk-3.0/plrdlg.c:428
-#: client/gui-gtk-3.22/editprop.c:4444 client/gui-gtk-3.22/plrdlg.c:426
+#: client/gui-gtk-3.22/editprop.c:4444 client/gui-gtk-3.22/plrdlg.c:432
 #: client/gui-qt/pages.cpp:730 client/gui-sdl2/mapctrl.c:1703
 #: client/gui-sdl2/plrdlg.c:686
 msgid "Nations"
@@ -4561,9 +4562,9 @@ msgstr " kanssa)"
 #. TRANS: missing value
 #: client/gui-gtk-3.0/helpdlg.c:1227 client/gui-gtk-3.0/helpdlg.c:1334
 #: client/gui-gtk-3.0/inteldlg.c:439 client/gui-gtk-3.22/helpdlg.c:1227
-#: client/gui-gtk-3.22/helpdlg.c:1334 client/gui-gtk-3.22/inteldlg.c:439
+#: client/gui-gtk-3.22/helpdlg.c:1334 client/gui-gtk-3.22/inteldlg.c:588
 #: client/gui-qt/plrdlg.cpp:490 client/gui-sdl2/inteldlg.c:340
-#: common/requirements.c:4363
+#: common/requirements.c:4365
 #, c-format
 msgid "(none)"
 msgstr "(ei mitään)"
@@ -4658,16 +4659,16 @@ msgstr "Vero:"
 msgid "Researching:"
 msgstr "Tutkimuskohde:"
 
-#: client/gui-gtk-3.0/inteldlg.c:256 client/gui-gtk-3.22/inteldlg.c:256
+#: client/gui-gtk-3.0/inteldlg.c:256 client/gui-gtk-3.22/inteldlg.c:328
 msgid "_Diplomacy"
 msgstr "_Diplomatia"
 
-#: client/gui-gtk-3.0/inteldlg.c:290 client/gui-gtk-3.22/inteldlg.c:290
+#: client/gui-gtk-3.0/inteldlg.c:290 client/gui-gtk-3.22/inteldlg.c:362
 msgid "_Techs"
 msgstr "_Teknologiat"
 
 # Foreign Intelligence: Polish Empire.
-#: client/gui-gtk-3.0/inteldlg.c:318 client/gui-gtk-3.22/inteldlg.c:318
+#: client/gui-gtk-3.0/inteldlg.c:318 client/gui-gtk-3.22/inteldlg.c:467
 #, c-format
 msgid "Foreign Intelligence: %s Empire"
 msgstr "Ulkomaantiedustelu: %s valtakunta"
@@ -4682,11 +4683,11 @@ msgstr "Ulkomaantiedustelu: %s valtakunta"
 #: client/gui-gtk-3.0/inteldlg.c:403 client/gui-gtk-3.0/inteldlg.c:410
 #: client/gui-gtk-3.0/inteldlg.c:417 client/gui-gtk-3.0/inteldlg.c:424
 #: client/gui-gtk-3.0/inteldlg.c:434 client/gui-gtk-3.0/inteldlg.c:441
-#: client/gui-gtk-3.0/inteldlg.c:458 client/gui-gtk-3.22/inteldlg.c:391
-#: client/gui-gtk-3.22/inteldlg.c:397 client/gui-gtk-3.22/inteldlg.c:403
-#: client/gui-gtk-3.22/inteldlg.c:410 client/gui-gtk-3.22/inteldlg.c:417
-#: client/gui-gtk-3.22/inteldlg.c:424 client/gui-gtk-3.22/inteldlg.c:434
-#: client/gui-gtk-3.22/inteldlg.c:441 client/gui-gtk-3.22/inteldlg.c:458
+#: client/gui-gtk-3.0/inteldlg.c:458 client/gui-gtk-3.22/inteldlg.c:540
+#: client/gui-gtk-3.22/inteldlg.c:546 client/gui-gtk-3.22/inteldlg.c:552
+#: client/gui-gtk-3.22/inteldlg.c:559 client/gui-gtk-3.22/inteldlg.c:566
+#: client/gui-gtk-3.22/inteldlg.c:573 client/gui-gtk-3.22/inteldlg.c:583
+#: client/gui-gtk-3.22/inteldlg.c:590 client/gui-gtk-3.22/inteldlg.c:607
 #: client/gui-qt/plrdlg.cpp:486 client/gui-qt/plrdlg.cpp:492
 #: client/gui-qt/plrdlg.cpp:508 client/gui-qt/plrdlg.cpp:509
 #: client/gui-qt/plrdlg.cpp:510 client/gui-qt/plrdlg.cpp:511
@@ -5115,7 +5116,7 @@ msgid "_Policies..."
 msgstr "Linjaukset..."
 
 #: client/gui-gtk-3.0/menu.c:436 client/gui-gtk-3.0/plrdlg.c:374
-#: client/gui-gtk-3.22/menu.c:439 client/gui-gtk-3.22/plrdlg.c:372
+#: client/gui-gtk-3.22/menu.c:439 client/gui-gtk-3.22/plrdlg.c:378
 msgid "_Spaceship"
 msgstr "_Avaruusalus"
 
@@ -5323,7 +5324,7 @@ msgstr "_Vallankumous..."
 
 #: client/gui-gtk-3.0/menu.c:566 client/gui-gtk-3.0/pages.c:140
 #: client/gui-gtk-3.22/menu.c:569 client/gui-gtk-3.22/pages.c:140
-#: client/gui-qt/fc_client.cpp:829 client/gui-qt/menu.cpp:988
+#: client/gui-qt/fc_client.cpp:832 client/gui-qt/menu.cpp:988
 msgid "Set local options"
 msgstr "Muokkaa paikallisia asetuksia"
 
@@ -5728,7 +5729,7 @@ msgid "<%s AI>"
 msgstr "<%s AI>"
 
 #: client/gui-gtk-3.0/pages.c:2398 client/gui-gtk-3.22/pages.c:2399
-#: client/gui-qt/dialogs.cpp:534 client/gui-qt/fc_client.cpp:1223
+#: client/gui-qt/dialogs.cpp:534 client/gui-qt/fc_client.cpp:1226
 #: client/gui-qt/pages.cpp:1690
 msgid "Random"
 msgstr "Satunnainen"
@@ -5856,67 +5857,67 @@ msgstr "Tallennetut karttakuvat:"
 msgid "Save _Map Images:"
 msgstr "Tallenna karttakuvat:"
 
-#: client/gui-gtk-3.0/plrdlg.c:337 client/gui-gtk-3.22/plrdlg.c:335
+#: client/gui-gtk-3.0/plrdlg.c:337 client/gui-gtk-3.22/plrdlg.c:336
 msgid "_Meet"
 msgstr "Tapaa"
 
-#: client/gui-gtk-3.0/plrdlg.c:343 client/gui-gtk-3.22/plrdlg.c:341
+#: client/gui-gtk-3.0/plrdlg.c:343 client/gui-gtk-3.22/plrdlg.c:342
 msgid "Cancel _Treaty"
 msgstr "Pura _sopimus"
 
-#: client/gui-gtk-3.0/plrdlg.c:349 client/gui-gtk-3.22/plrdlg.c:347
+#: client/gui-gtk-3.0/plrdlg.c:349 client/gui-gtk-3.22/plrdlg.c:348
 msgid "_Withdraw Vision"
 msgstr "_Lopeta näkymä"
 
-#: client/gui-gtk-3.0/plrdlg.c:368 client/gui-gtk-3.22/plrdlg.c:366
+#: client/gui-gtk-3.0/plrdlg.c:368 client/gui-gtk-3.22/plrdlg.c:367
 msgid "_Report"
 msgstr "_Raportoi"
 
-#: client/gui-gtk-3.0/plrdlg.c:406 client/gui-gtk-3.22/plrdlg.c:404
+#: client/gui-gtk-3.0/plrdlg.c:406 client/gui-gtk-3.22/plrdlg.c:410
 msgid "?show:Dead Players"
 msgstr "Kuolleet pelaajat"
 
-#: client/gui-gtk-3.0/plrdlg.c:533 client/gui-gtk-3.22/plrdlg.c:531
+#: client/gui-gtk-3.0/plrdlg.c:533 client/gui-gtk-3.22/plrdlg.c:537
 msgid "Di_plomacy"
 msgstr "Di_plomatia"
 
-#: client/gui-gtk-3.0/plrdlg.c:538 client/gui-gtk-3.22/plrdlg.c:536
+#: client/gui-gtk-3.0/plrdlg.c:538 client/gui-gtk-3.22/plrdlg.c:542
 msgid "_Intelligence"
 msgstr "Tiedustelupalvelu"
 
-#: client/gui-gtk-3.0/plrdlg.c:548 client/gui-gtk-3.22/plrdlg.c:546
+#: client/gui-gtk-3.0/plrdlg.c:548 client/gui-gtk-3.22/plrdlg.c:552
 msgid "_AI"
 msgstr "_AI"
 
-#: client/gui-gtk-3.0/plrdlg.c:554 client/gui-gtk-3.22/plrdlg.c:552
+#: client/gui-gtk-3.0/plrdlg.c:554 client/gui-gtk-3.22/plrdlg.c:558
 msgid "_Toggle AI Mode"
 msgstr "Aseta AI-_tila"
 
 #. TRANS: %s is a diplomatic state: "Cancel Cease-fire"
-#: client/gui-gtk-3.0/plrdlg.c:813 client/gui-gtk-3.22/plrdlg.c:811
+#: client/gui-gtk-3.0/plrdlg.c:813 client/gui-gtk-3.22/plrdlg.c:817
 #, c-format
 msgid "Cancel %s"
 msgstr "Peru %s"
 
-#: client/gui-gtk-3.0/plrdlg.c:816 client/gui-gtk-3.22/plrdlg.c:814
+#: client/gui-gtk-3.0/plrdlg.c:816 client/gui-gtk-3.22/plrdlg.c:820
 #, c-format
 msgid "Really declare war on the %s?"
 msgstr "Haluatko varmasti kohdata %s sotatantereella?"
 
 #. TRANS: "Cancel Belgian Alliance? ... will be Armistice."
-#: client/gui-gtk-3.0/plrdlg.c:820 client/gui-gtk-3.22/plrdlg.c:818
+#: client/gui-gtk-3.0/plrdlg.c:820 client/gui-gtk-3.22/plrdlg.c:824
 #, c-format
 msgid "Cancel %s %s? New diplomatic state will be %s."
 msgstr "Perutaanko %2$s %1$s kanssa? Uusi tila tulisi olemaan %3$s."
 
 # TODO: Needs capitalization tag.
 #. TRANS: "...from the Belgians?"
-#: client/gui-gtk-3.0/plrdlg.c:850 client/gui-gtk-3.22/plrdlg.c:848
+#: client/gui-gtk-3.0/plrdlg.c:850 client/gui-gtk-3.22/plrdlg.c:854
 #, c-format
 msgid "Withdraw shared vision from the %s?"
 msgstr "Eivätkö %s saa enää saada meiltä näkymää?"
 
-#: client/gui-gtk-3.0/plrdlg.c:854 client/gui-gtk-3.22/plrdlg.c:852
+#: client/gui-gtk-3.0/plrdlg.c:854 client/gui-gtk-3.22/plrdlg.c:858
 msgid "Withdraw Shared Vision"
 msgstr "Lopeta näkymän jakaminen"
 
@@ -6343,7 +6344,7 @@ msgid "create"
 msgstr "luo"
 
 #: client/gui-gtk-3.0/unitselextradlg.c:130
-#: client/gui-gtk-3.0/unitselunitdlg.c:94 client/gui-gtk-3.22/infradlg.c:94
+#: client/gui-gtk-3.0/unitselunitdlg.c:94 client/gui-gtk-3.22/infradlg.c:97
 #: client/gui-gtk-3.22/unitselextradlg.c:130
 #: client/gui-gtk-3.22/unitselunitdlg.c:94 client/gui-qt/helpdlg.cpp:167
 msgid "Close"
@@ -6483,12 +6484,13 @@ msgstr "Hyväksy"
 #: client/gui-gtk-3.22/dialogs.c:203 client/gui-gtk-3.22/dialogs.c:212
 #: client/gui-gtk-3.22/dialogs.c:217 client/gui-gtk-3.22/dialogs.c:254
 #: client/gui-gtk-3.22/editprop.c:4912 client/gui-gtk-3.22/gamedlgs.c:326
-#: client/gui-gtk-3.22/helpdlg.c:461 client/gui-gtk-3.22/inteldlg.c:185
-#: client/gui-gtk-3.22/luaconsole.c:242 client/gui-gtk-3.22/messagewin.c:379
-#: client/gui-gtk-3.22/plrdlg.c:428 client/gui-gtk-3.22/repodlgs.c:556
-#: client/gui-gtk-3.22/repodlgs.c:1161 client/gui-gtk-3.22/repodlgs.c:1689
-#: client/gui-gtk-3.22/spaceshipdlg.c:230 client/gui-gtk-3.22/unitselect.c:281
-#: client/gui-gtk-3.22/wldlg.c:226 client/gui-gtk-3.22/wldlg.c:401
+#: client/gui-gtk-3.22/helpdlg.c:461 client/gui-gtk-3.22/inteldlg.c:257
+#: client/gui-gtk-3.22/inteldlg.c:388 client/gui-gtk-3.22/luaconsole.c:242
+#: client/gui-gtk-3.22/messagewin.c:379 client/gui-gtk-3.22/plrdlg.c:434
+#: client/gui-gtk-3.22/repodlgs.c:556 client/gui-gtk-3.22/repodlgs.c:1161
+#: client/gui-gtk-3.22/repodlgs.c:1689 client/gui-gtk-3.22/spaceshipdlg.c:230
+#: client/gui-gtk-3.22/unitselect.c:281 client/gui-gtk-3.22/wldlg.c:226
+#: client/gui-gtk-3.22/wldlg.c:401
 msgid "_Close"
 msgstr "Sulje (_C)"
 
@@ -6522,39 +6524,47 @@ msgstr "Palaa (_B)"
 msgid "_Forward"
 msgstr "Eteenpäin (_F)"
 
-#: client/gui-gtk-3.22/infradlg.c:93
+#: client/gui-gtk-3.22/infradlg.c:96
 #, fuzzy
 #| msgid "Basic Infrastructure"
 msgid "Place infrastructure"
 msgstr "Perusinfrastruktuuri"
 
-#: client/gui-gtk-3.22/infradlg.c:105
+#: client/gui-gtk-3.22/infradlg.c:108
 msgid "First click a tile."
 msgstr "Aloita napauttamalla ruutua."
 
-#: client/gui-gtk-3.22/infradlg.c:111
+#: client/gui-gtk-3.22/infradlg.c:114
 #, fuzzy
 #| msgid " point"
 #| msgid_plural " points"
 msgid "- infrapoints"
 msgstr " piste"
 
-#: client/gui-gtk-3.22/infradlg.c:140
+#: client/gui-gtk-3.22/infradlg.c:143
 #, fuzzy, c-format
 #| msgid " point"
 #| msgid_plural " points"
 msgid "%d infrapoints"
 msgstr " piste"
 
-#: client/gui-gtk-3.22/infradlg.c:184
+#: client/gui-gtk-3.22/infradlg.c:189
 #, fuzzy
 #| msgid "No visible unit on this tile."
 msgid "No infra possible. Select another tile."
 msgstr "Ei yksikköä näkyvissä tässä ruudussa."
 
-#: client/gui-gtk-3.22/infradlg.c:187
+#: client/gui-gtk-3.22/infradlg.c:192
 msgid "Select infra for the tile, or another tile."
 msgstr "Valitse ruudulle tuleva infra, tai vaihda ruutua."
+
+#: client/gui-gtk-3.22/inteldlg.c:645
+msgid "(unknown city)"
+msgstr "(tuntematon kaupunki)"
+
+#: client/gui-gtk-3.22/inteldlg.c:651
+msgid "(lost)"
+msgstr "(menetetty)"
 
 #: client/gui-gtk-3.22/luaconsole.c:318 client/gui-gtk-3.22/pages.c:455
 msgid "_Open"
@@ -6577,6 +6587,10 @@ msgstr "Poistu (_X)"
 #: client/gui-qt/pages.cpp:1243
 msgid "Players"
 msgstr "Pelaajat"
+
+#: client/gui-gtk-3.22/plrdlg.c:373
+msgid "_Wonders"
+msgstr "_Ihmeet"
 
 #: client/gui-gtk-3.22/wldlg.c:220
 msgid "_New"
@@ -7116,36 +7130,36 @@ msgstr "Tervetuloa pelaamaan Freeciviä"
 msgid "This is Qt-client for Freeciv."
 msgstr "Freecivin Qt-pohjainen asiakasohjelma."
 
-#: client/gui-qt/fc_client.cpp:516 client/gui-qt/pages.cpp:1868
+#: client/gui-qt/fc_client.cpp:519 client/gui-qt/pages.cpp:1868
 msgid "Don't Observe"
 msgstr "Älä tarkkaile"
 
-#: client/gui-qt/fc_client.cpp:519 client/gui-qt/pages.cpp:672
+#: client/gui-qt/fc_client.cpp:522 client/gui-qt/pages.cpp:672
 #: client/gui-qt/pages.cpp:1870 client/gui-qt/pages.cpp:1971
 msgid "Observe"
 msgstr "Tarkkaile"
 
-#: client/gui-qt/fc_client.cpp:1122
+#: client/gui-qt/fc_client.cpp:1125
 msgid "Client Options"
 msgstr "Asiakasohjelman asetukset"
 
-#: client/gui-qt/fc_client.cpp:1150
+#: client/gui-qt/fc_client.cpp:1153
 msgid "More Game Options"
 msgstr "Enemmän peliasetuksia..."
 
-#: client/gui-qt/fc_client.cpp:1156
+#: client/gui-qt/fc_client.cpp:1159
 msgid "Nation:"
 msgstr "Kansakunta:"
 
-#: client/gui-qt/fc_client.cpp:1157
+#: client/gui-qt/fc_client.cpp:1160
 msgid "Rules:"
 msgstr "Säännöt:"
 
-#: client/gui-qt/fc_client.cpp:1162
+#: client/gui-qt/fc_client.cpp:1165
 msgid "Players:"
 msgstr "Pelaajat:"
 
-#: client/gui-qt/fc_client.cpp:1298
+#: client/gui-qt/fc_client.cpp:1301
 msgid "Set server options"
 msgstr "Muuta palvelimen asetuksia."
 
@@ -7202,13 +7216,17 @@ msgstr ""
 msgid ""
 "\n"
 "Built in Qt6 mode."
-msgstr "\nTehty Qt6 moodissa."
+msgstr ""
+"\n"
+"Tehty Qt6 moodissa."
 
 #: client/gui-qt/gui_main.cpp:552
 msgid ""
 "\n"
 "Built in Qt5 mode."
-msgstr "\nTehty Qt5 moodissa."
+msgstr ""
+"\n"
+"Tehty Qt5 moodissa."
 
 #: client/gui-qt/helpdlg.cpp:163
 msgid "About Qt"
@@ -9718,7 +9736,7 @@ msgid "Loading theme \"%s\"."
 msgstr "Lataan teemaa \"%s\"."
 
 #: client/gui-sdl2/themespec.c:494 client/gui-sdl2/themespec.c:528
-#: client/tilespec.c:1527 client/tilespec.c:1559
+#: client/tilespec.c:1533 client/tilespec.c:1565
 #, c-format
 msgid ""
 "Could not open '%s':\n"
@@ -10935,12 +10953,12 @@ msgstr ""
 #, c-format
 msgid ""
 "  * can never destroy city completely (%d%% of size 1 rounds down to 0).\n"
-msgstr ""
+msgstr "  · Ei voi koskaan täysin tuhota kaupunkia (%d%% koosta yksi pyöristyy alas nollaan)\n"
 
 #: client/helpdata.c:2721
 #, c-format
 msgid "  * can even destroy city completely (%d%% of size 1 rounds up to 1).\n"
-msgstr ""
+msgstr "  · Voi tuhota kaupungin jopa kokonaan (%d%% koosta yksi pyöristyy ylös yhdeksi)\n"
 
 #: client/helpdata.c:2728
 msgid "  * all units caught in the open by the nuclear blast dies.\n"
@@ -10956,7 +10974,7 @@ msgstr ""
 
 #: client/helpdata.c:2737
 msgid "  * all units caught in the nuclear blast dies.\n"
-msgstr ""
+msgstr "  · Kaikki yksiköt räjähdyksen alueella kuolevat.\n"
 
 #: client/helpdata.c:2746
 #, fuzzy
@@ -12014,19 +12032,19 @@ msgstr "Kopioi %s leikepöydälle."
 msgid "Clipboard is empty."
 msgstr "Leikepöytä on tyhjä."
 
-#: client/mapview_common.c:4011
+#: client/mapview_common.c:4015
 msgid "ISO|Hex"
 msgstr "isometrinen|heksa"
 
-#: client/mapview_common.c:4013 common/fc_types.h:553
+#: client/mapview_common.c:4017 common/fc_types.h:553
 msgid "ISO"
 msgstr "isometrinen"
 
-#: client/mapview_common.c:4016 common/fc_types.h:555
+#: client/mapview_common.c:4020 common/fc_types.h:555
 msgid "Hex"
 msgstr "heksa"
 
-#: client/mapview_common.c:4019 client/tilespec.h:49
+#: client/mapview_common.c:4023 client/tilespec.h:49
 msgid "Overhead"
 msgstr "Ylhäältä katsottu"
 
@@ -12046,13 +12064,13 @@ msgid "Merged"
 msgstr "Yhdistetty"
 
 #. TRANS: enum value for 'gui_popup_tech_help'
-#: client/options.c:1834 server/settings.c:381
+#: client/options.c:1834 server/settings.c:382
 msgid "Enabled"
 msgstr "Käytössä"
 
 #. TRANS: enum value for 'gui_popup_tech_help'
-#: client/options.c:1836 server/settings.c:316 server/settings.c:336
-#: server/settings.c:380
+#: client/options.c:1836 server/settings.c:317 server/settings.c:337
+#: server/settings.c:381
 msgid "Disabled"
 msgstr "Ei käytössä"
 
@@ -13739,7 +13757,7 @@ msgstr "Aloitetaan kierros %d"
 msgid "Welcome"
 msgstr "Tervetuloa"
 
-#: client/packhand.c:2187 client/tilespec.c:1385
+#: client/packhand.c:2187 client/tilespec.c:1386
 #, c-format
 msgid "Map topology (%s) and tileset (%s) incompatible."
 msgstr ""
@@ -14849,129 +14867,129 @@ msgstr "Sotilasyksiköillä ei ole vaikutusta onnellisuuteen. "
 msgid "Luxury: %d total."
 msgstr "Luksus: %d kaikkiaan."
 
-#: client/tilespec.c:1264
+#: client/tilespec.c:1265
 msgid "No usable default tileset found, aborting!"
 msgstr "Käyttökelpoista oletuskuvitusta ei löydy, lopetan!"
 
-#: client/tilespec.c:1308
+#: client/tilespec.c:1309
 #, c-format
 msgid "Loading tileset \"%s\"."
 msgstr "Lataan kuvitusta \"%s\"."
 
-#: client/tilespec.c:1532
+#: client/tilespec.c:1538
 msgid "Incompatible tileset capabilities"
 msgstr "Epäyhteensopiva kuvitus"
 
-#: client/tilespec.c:1540
+#: client/tilespec.c:1546
 #, c-format
 msgid "Could not load gfx file for the spec file \"%s\"."
 msgstr "Ei voi ladata grafiikkatiedostoa spec-tiedostolle \"%s\"."
 
-#: client/tilespec.c:1563
+#: client/tilespec.c:1569
 #, c-format
 msgid "Specfile %s has incompatible capabilities"
 msgstr "Spec-tiedosto %s on epäyhteensopiva"
 
-#: client/tilespec.c:1734
+#: client/tilespec.c:1740
 #, c-format
 msgid "Couldn't find a supported gfx file extension for \"%s\"."
 msgstr "Ei löydy tuettua tiedostopäätettä grafiikalle \"%s\"."
 
 #. TRANS: "Overhead" or "Isometric"
-#: client/tilespec.c:1926
+#: client/tilespec.c:1932
 #, c-format
 msgid "Client does not support %s tilesets."
 msgstr "Asiakasohjelma ei tue tyypin %s kuvitusta."
 
-#: client/tilespec.c:1928
+#: client/tilespec.c:1934
 msgid "Using default tileset instead."
 msgstr "Käytetään sen sijaan oletuskuvitusta."
 
-#: client/tilespec.c:2196
+#: client/tilespec.c:2202
 #, c-format
 msgid "[layer%d] match_types: \"%s\" initial ('%c') is not unique."
 msgstr "[layer%d] match_types: \"%s\" aloittava ('%c') ei ole yksilöivä."
 
-#: client/tilespec.c:2208
+#: client/tilespec.c:2214
 #, c-format
 msgid "No [%s] sections supported by tileset \"%s\"."
 msgstr "Kuvituksessa \"%2$s\" ei ole [%1$s] osioita."
 
-#: client/tilespec.c:2228
+#: client/tilespec.c:2234
 #, c-format
 msgid "No terrain tag given in section [%s]."
 msgstr "Maaston grafiikkatagia ei ole annettu osiossa [%s]."
 
-#: client/tilespec.c:2581
+#: client/tilespec.c:2587
 #, c-format
 msgid "Couldn't load gfx file \"%s\" for sprite '%s'."
 msgstr ""
 "Grafiikkatiedoston \"%s\" avaaminen kuvan '%s' löytämiseksi epäonnistui."
 
-#: client/tilespec.c:2591
+#: client/tilespec.c:2597
 #, c-format
 msgid "Sprite '%s' in file \"%s\" isn't within the image!"
 msgstr "Kuva '%s' tiedostossa \"%s\" ei ole kuva-alalla!"
 
-#: client/tilespec.c:2668 client/tilespec.c:2677 client/tilespec.c:2685
+#: client/tilespec.c:2674 client/tilespec.c:2683 client/tilespec.c:2691
 #, c-format
 msgid "Sprite for tag '%s' missing."
 msgstr "Ei löydy tunnisteen '%s' viittaamaa kuvaa."
 
-#: client/tilespec.c:2697
+#: client/tilespec.c:2703
 #, c-format
 msgid "Sprite for tags '%s' and alternate '%s' are both missing."
 msgstr ""
 "Ei löydy sen enempää tunnisteen '%s' kuin vaihtoehtoisen tunnisteen '%s' "
 "viittaamaa kuvaa."
 
-#: client/tilespec.c:2775
+#: client/tilespec.c:2781
 #, c-format
 msgid "No graphics for specialist \"%s\"."
 msgstr "Ei grafiikkaa \"%s\" erikoisosaajalle."
 
-#: client/tilespec.c:2800
+#: client/tilespec.c:2806
 #, c-format
 msgid "No graphics for citizen \"%s\"."
 msgstr "Ei grafiikkaa \"%s\" kansalaiselle."
 
-#: client/tilespec.c:3094
+#: client/tilespec.c:3100
 msgid "Missing necessary citybar.occupancy_N sprites."
 msgstr "Ei löydy tarvittavia citybar.occupancy_N kuvia."
 
-#: client/tilespec.c:3215
+#: client/tilespec.c:3222
 msgid "Missing overlay-color sprite colors.overlay_0."
 msgstr "Päällysväri kuvaa colors.overlay_0 ei löydy."
 
-#: client/tilespec.c:3288
+#: client/tilespec.c:3295
 msgid "Sprite tx.darkness missing."
 msgstr "Kuva tx.darkness puuttuu."
 
-#: client/tilespec.c:3429
+#: client/tilespec.c:3436
 #, c-format
 msgid "Don't have graphics tags \"%s\" or \"%s\" for %s \"%s\"."
 msgstr ""
 "Ei löydy grafiikkatagia \"%s\" tai \"%s\". Jomman kumman tarvitsisi %s \"%s"
 "\"."
 
-#: client/tilespec.c:3527
+#: client/tilespec.c:3534
 #, c-format
 msgid "Missing %s unit sprite for tags \"%s\" and alternative \"%s\"."
 msgstr ""
 "Ei löydy tunnisteen \"%2$s\" tai vaihtoehtoisen tunnisteen \"%3$s\" "
 "viittaama yksikön %1$s kuvaa."
 
-#: client/tilespec.c:3600
+#: client/tilespec.c:3607
 #, c-format
 msgid "No extra style for \"%s\" or \"%s\"."
 msgstr "Ei ruutulisätyyliä määritetty tunnisteelle \"%s\" tai \"%s\"."
 
-#: client/tilespec.c:3656
+#: client/tilespec.c:3663
 #, c-format
 msgid "No cardinal-style graphics \"%s*\" for extra \"%s\""
 msgstr "Ei rinnakkaisten ruutujen grafiikkaa \"%s*\" ruutulisätyypille \"%s\""
 
-#: client/tilespec.c:3682
+#: client/tilespec.c:3689
 #, c-format
 msgid ""
 "Missing %s building activity sprite for tags \"%s\" and alternatives \"%s\" "
@@ -14980,7 +14998,7 @@ msgstr ""
 "Ei löydy toimintoikonia näytettäväksi kun rakennetaan %s. Sen pitäisi löytyä "
 "tunnisteella \"%s\", \"%s\" tai \"%s\"."
 
-#: client/tilespec.c:3697
+#: client/tilespec.c:3704
 #, c-format
 msgid ""
 "Missing %s removal activity sprite for tags \"%s\" and alternative \"%s\"."
@@ -14988,34 +15006,34 @@ msgstr ""
 "Ei löydy toimintoikonia näytettäväksi kun poistetaan %s. Sen pitäisi löytyä "
 "tunnisteella \"%s\" tai \"%s\"."
 
-#: client/tilespec.c:3786
+#: client/tilespec.c:3793
 #, c-format
 msgid "No river-style graphics \"%s*\" for extra \"%s\""
 msgstr "Ei joki-grafiikkaa \"%s*\" ruutulisätyypille \"%s\""
 
-#: client/tilespec.c:3845
+#: client/tilespec.c:3852
 #, c-format
 msgid "No graphics with tag \"%s_bg/mg/fg\" for extra \"%s\""
 msgstr "Ei grafiikkaa tunnisteella \"%s_bg/mg/fg\" ruutulisätyypille \"%s\""
 
-#: client/tilespec.c:3864
+#: client/tilespec.c:3871
 #, c-format
 msgid "Terrain \"%s\": no graphic tile \"%s\" or \"%s\"."
 msgstr ""
 "Maastotyypille \"%s\" ei löydy grafiikkaa tunnisteella \"%s\" tai \"%s\"."
 
 #. TRANS: 'base' means 'base of terrain gfx', not 'military base'
-#: client/tilespec.c:3899
+#: client/tilespec.c:3906
 #, c-format
 msgid "Missing base sprite for tag \"%s\"."
 msgstr "Ei löydy maaston pohjakuvaa tunnisteelle \"%s\"."
 
-#: client/tilespec.c:4152
+#: client/tilespec.c:4159
 #, c-format
 msgid "Nation %s: no national flag."
 msgstr "Kansan \"%s\" lippua ei löydy."
 
-#: client/tilespec.c:5409
+#: client/tilespec.c:5416
 #, c-format
 msgid ""
 "Tileset \"%s\" doesn't support long goto paths, such as %d. Path not "
@@ -15024,7 +15042,7 @@ msgstr ""
 "Kuvitus \"%s\" ei tue %d ruudun pituisia reittinuolia. Reittinuolia ei "
 "välttämättä voida näyttää tavalliseen tapaan."
 
-#: client/tilespec.c:5954
+#: client/tilespec.c:5961
 #, c-format
 msgid ""
 "Tileset \"%s\" doesn't support big cities size, such as %d. Size not "
@@ -15033,19 +15051,19 @@ msgstr ""
 "Kuvitus \"%s\" ei tue %d kokoisia kaupunkeja. Kaupungin kokoa ei voida "
 "näyttää tavalliseen tapaan."
 
-#: client/tilespec.c:6122
+#: client/tilespec.c:6134
 #, c-format
 msgid "City style \"%s\": no city graphics."
 msgstr "Kaupunkityylille \"%s\" ei löydy grafiikoita."
 
-#: client/tilespec.c:6126
+#: client/tilespec.c:6138
 #, c-format
 msgid "City style \"%s\": no occupied graphics."
 msgstr ""
 "Kaupunkityylille \"%s\" ei löydy grafiikka, joka osoittaa kaupungissa olevan "
 "miehitystä."
 
-#: client/tilespec.h:51 server/settings.c:253
+#: client/tilespec.h:51 server/settings.c:254
 msgid "Isometric"
 msgstr "Isometrinen"
 
@@ -15894,10 +15912,9 @@ msgstr "%sHyökkäys%s"
 
 #. TRANS: _Suicide Attack (100% chance of success).
 #: common/actions.c:7738
-#, fuzzy, c-format
-#| msgid "%sAttack%s"
+#, c-format
 msgid "%sSuicide Attack%s"
-msgstr "%sHyökkäys%s"
+msgstr "%sItsemurhahyökkäys%s"
 
 #. TRANS: Surgical Str_ike Building (100% chance of success).
 #: common/actions.c:7741
@@ -16133,10 +16150,9 @@ msgstr "Vihollisdiplomaatti: %s"
 #: data/classic/game.ruleset:603 data/sandbox/game.ruleset:647
 #: data/civ2civ3/game.ruleset:619 data/alien/game.ruleset:547
 #: data/multiplayer/game.ruleset:597 data/multiplayer/game.ruleset:600
-#, fuzzy, c-format
-#| msgid "Enter %sMarketplace%s"
+#, c-format
 msgid "Enter %sHut%s"
-msgstr "%sAstu torille%s"
+msgstr "%sAstu mökkiin%s"
 
 #. TRANS: Frighten _Hut (100% chance of success).
 #: common/actions.c:7837 data/civ2/game.ruleset:568
@@ -16145,32 +16161,31 @@ msgstr "%sAstu torille%s"
 #: data/multiplayer/game.ruleset:606
 #, c-format
 msgid "Frighten %sHut%s"
-msgstr ""
+msgstr "Pelota %smökki%s"
 
 #. TRANS: Regular _Move (100% chance of success).
 #: common/actions.c:7842
-#, fuzzy, c-format
-#| msgid "Regular"
+#, c-format
 msgid "Regular %sMove%s"
-msgstr "Tavallinen"
+msgstr "Tavallinen %sliikkuminen%s"
 
 #. TRANS: _User Action 1 (100% chance of success).
 #: common/actions.c:7845
 #, c-format
 msgid "%sUser Action 1%s"
-msgstr ""
+msgstr "%sKäyttäjän toimi 1%s"
 
 #. TRANS: _User Action 2 (100% chance of success).
 #: common/actions.c:7848
 #, c-format
 msgid "%sUser Action 2%s"
-msgstr ""
+msgstr "%sKäyttäjän toimi 2%s"
 
 #. TRANS: _User Action 3 (100% chance of success).
 #: common/actions.c:7851
 #, c-format
 msgid "%sUser Action 3%s"
-msgstr ""
+msgstr "%sKäyttäjän toimi 3%s"
 
 #: common/actions.h:28
 msgid "a unit"
@@ -16256,10 +16271,8 @@ msgid "teleport"
 msgstr "Raportti"
 
 #: common/actions.h:313
-#, fuzzy
-#| msgid "Escape"
 msgid "escape"
-msgstr "Pako"
+msgstr "pako"
 
 #: common/actions.h:315
 msgid "forced"
@@ -16284,20 +16297,16 @@ msgid "a server agent"
 msgstr "palvelinpään asiamies"
 
 #: common/actions.h:353
-#, fuzzy
-#| msgid "Temple"
 msgid "simple"
-msgstr "Temppeli"
+msgstr "yksinkertainen"
 
 #: common/actions.h:360
 msgid "flexible"
-msgstr ""
+msgstr "joustava"
 
 #: common/actions.h:367
-#, fuzzy
-#| msgid "Factory"
 msgid "mandatory"
-msgstr "Tehdas"
+msgstr "pakollinen"
 
 #: common/ai.c:301
 #, c-format
@@ -16877,14 +16886,12 @@ msgid "Unit did to you"
 msgstr "Yksikkö paransi"
 
 #: common/events.c:225
-#, fuzzy
-#| msgid "Unit did heal"
 msgid "Unit did"
-msgstr "Yksikkö paransi"
+msgstr "Yksikkö toimi"
 
 #: common/events.c:226
 msgid "Infrapoints"
-msgstr ""
+msgstr "Infrapisteet"
 
 #: common/extras.h:30
 msgid "?extraflag:NativeTile"
@@ -17048,12 +17055,12 @@ msgstr "jaa."
 msgid "BC"
 msgstr "eaa."
 
-#: common/government.c:411
+#: common/government.c:429
 #, c-format
 msgid "Mr. %s"
 msgstr "Herra %s"
 
-#: common/government.c:413
+#: common/government.c:431
 #, c-format
 msgid "Ms. %s"
 msgstr "Rouva %s"
@@ -18987,12 +18994,12 @@ msgstr[1] ""
 #: common/reqtext.c:2066
 #, c-format
 msgid "At least %d%% of the citizens of the city must be foreign."
-msgstr ""
+msgstr "Ulkomaalaisia täytyy olla vähintään %d%% kaupungin asukkaista."
 
 #: common/reqtext.c:2071
 #, c-format
 msgid "Less than %d%% of the citizens of the city must be foreign."
-msgstr ""
+msgstr "Ulkomaalaisia täytyy olla vähemmän kuin %d%% kaupungin asukkaista."
 
 #: common/reqtext.c:2080
 #, fuzzy, c-format
@@ -19544,7 +19551,7 @@ msgstr "Ei päde \"%s\" ruuduissa eikä niiden vieressä olevissa ruuduissa."
 
 #: common/reqtext.c:2816
 msgid "owned by original"
-msgstr ""
+msgstr "alkuperäisen omistuksessa"
 
 #. TRANS: city property ("owned by original", etc)
 #: common/reqtext.c:2828
@@ -19576,7 +19583,7 @@ msgstr "Ei päde \"%s\" ruuduissa eikä niiden vieressä olevissa ruuduissa."
 
 #. TRANS: default description of a requirement vector
 #. * (used in ruledit)
-#: common/requirements.c:3694
+#: common/requirements.c:3696
 msgid "the requirement vector"
 msgstr "edellytysten lista"
 
@@ -19586,7 +19593,7 @@ msgstr "edellytysten lista"
 #. * The second %s is the requirement.
 #. * The third %s is a description of the requirement vector,
 #. * like "actor_reqs"
-#: common/requirements.c:3708
+#: common/requirements.c:3710
 #, c-format
 msgid "%s %s from %s"
 msgstr "%s %s listasta %s"
@@ -19597,7 +19604,7 @@ msgstr "%s %s listasta %s"
 #. * The second %s is the requirement.
 #. * The third %s is a description of the requirement vector,
 #. * like "actor_reqs"
-#: common/requirements.c:3721
+#: common/requirements.c:3723
 #, c-format
 msgid "%s %s to %s"
 msgstr "%s %s listaan %s"
@@ -19605,98 +19612,98 @@ msgstr "%s %s listaan %s"
 #. TRANS: do nothing to a requirement vector (in ruledit).
 #. * The first %s is a description of the requirement vector,
 #. * like "actor_reqs"
-#: common/requirements.c:3731
+#: common/requirements.c:3733
 #, c-format
 msgid "Do nothing to %s"
 msgstr "Älä tee mitään listalle %s"
 
-#: common/requirements.c:3893
+#: common/requirements.c:3895
 #, c-format
 msgid "Requirements {%s} and {%s} contradict each other."
 msgstr "Vaatimukset {%s} ja {%s} ovat keskenään ristiriidassa."
 
-#: common/requirements.c:3980
+#: common/requirements.c:3982
 #, fuzzy, c-format
 #| msgid "Requirements {%s} and {%s} contradict each other."
 msgid "Requirement {%s} requires %s but it will never be there."
 msgstr "Vaatimukset {%s} ja {%s} ovat keskenään ristiriidassa."
 
-#: common/requirements.c:3987
+#: common/requirements.c:3989
 #, fuzzy, c-format
 #| msgid "Requirements {%s} and {%s} contradict each other."
 msgid "Requirement {%s} mentions %s but it will never be there."
 msgstr "Vaatimukset {%s} ja {%s} ovat keskenään ristiriidassa."
 
-#: common/requirements.c:4045
+#: common/requirements.c:4047
 #, fuzzy, c-format
 #| msgid "Requirements {%s} and {%s} contradict each other."
 msgid "Requirements {%s} and {%s} are the same."
 msgstr "Vaatimukset {%s} ja {%s} ovat keskenään ristiriidassa."
 
-#: common/requirements.c:4369
+#: common/requirements.c:4371
 #, c-format
 msgid "\"%s\" tech"
 msgstr "teknologia \"%s\""
 
-#: common/requirements.c:4411
+#: common/requirements.c:4413
 #, c-format
 msgid "%s citizens"
 msgstr "kansan %s asukkaita"
 
 #. TRANS: Unit type flag
-#: common/requirements.c:4428
+#: common/requirements.c:4430
 #, c-format
 msgid "?utflag:\"%s\" units"
 msgstr "ominaisuuden \"%s\" yksiköt"
 
 # unitclass: %s on "maavoimien" jne.
 #. TRANS: Unit class
-#: common/requirements.c:4435
+#: common/requirements.c:4437
 #, c-format
 msgid "%s units"
 msgstr "%s yksikköjä"
 
 #. TRANS: Unit class flag
-#: common/requirements.c:4441
+#: common/requirements.c:4443
 #, c-format
 msgid "?ucflag:\"%s\" units"
 msgstr "ominaisuuden \"%s\" yksiköt"
 
-#: common/requirements.c:4447
+#: common/requirements.c:4449
 #, c-format
 msgid "Veteran level >=%d"
 msgstr "Veteraanitaso vähintään %d"
 
 #. TRANS: unit state. (appears in strings like "Missile+Transported")
-#: common/requirements.c:4454
+#: common/requirements.c:4456
 msgid "Transported"
 msgstr "Matkustaja"
 
 #. TRANS: unit state. (appears in strings like
 #. * "Missile+On livable tile")
-#: common/requirements.c:4460
+#: common/requirements.c:4462
 msgid "On livable tile"
 msgstr "Ruudussa, jossa selviää"
 
 #. TRANS: unit state. (appears in strings like "Missile+Transported")
-#: common/requirements.c:4464
+#: common/requirements.c:4466
 msgid "Transporting"
 msgstr "Kuljettaa yksikköä"
 
 #. TRANS: unit state. (appears in strings like "Missile+Has a home city")
-#: common/requirements.c:4468
+#: common/requirements.c:4470
 msgid "Has a home city"
 msgstr "omaa kotikaupungin"
 
 #. TRANS: unit state. (appears in strings like
 #. * "Missile+On native tile")
-#: common/requirements.c:4474
+#: common/requirements.c:4476
 msgid "On native tile"
 msgstr "ruudussa, jossa selviää"
 
 #. TRANS: unit state. (appears in strings like
 #. * "Missile+In native extra")
-#: common/requirements.c:4480
+#: common/requirements.c:4482
 #, fuzzy
 #| msgid "On native tile"
 msgid "In native extra"
@@ -19704,11 +19711,11 @@ msgstr "ruudussa, jossa selviää"
 
 #. TRANS: unit state. (appears in strings like
 #. * "Missile+Has moved this turn")
-#: common/requirements.c:4485
+#: common/requirements.c:4487
 msgid "Has moved this turn"
 msgstr "On liikkunut tällä kierroksella"
 
-#: common/requirements.c:4494
+#: common/requirements.c:4496
 #, fuzzy, c-format
 #| msgid "Any activity"
 msgid "%s activity"
@@ -19716,50 +19723,50 @@ msgstr "Mikä hyvänsä toiminta"
 
 #. TRANS: Minimum unit movement points left for requirement to be met
 #. * (%s is a string like "1" or "2 1/3")
-#: common/requirements.c:4500
+#: common/requirements.c:4502
 #, c-format
 msgid "%s MP"
 msgstr "%s liikepistettä"
 
 #. TRANS: HP = hit points
-#: common/requirements.c:4505
+#: common/requirements.c:4507
 #, c-format
 msgid "%d HP"
 msgstr "%d osumapistettä"
 
-#: common/requirements.c:4509
+#: common/requirements.c:4511
 #, c-format
 msgid "Age %d"
 msgstr "Ikä %d"
 
-#: common/requirements.c:4513
+#: common/requirements.c:4515
 #, c-format
 msgid "%d Techs"
 msgstr "%d teknologiaa"
 
-#: common/requirements.c:4529
+#: common/requirements.c:4531
 #, c-format
 msgid "Size %d"
 msgstr "Koko %d"
 
-#: common/requirements.c:4533
+#: common/requirements.c:4535
 #, c-format
 msgid "Culture %d"
 msgstr "Kulttuuria %d"
 
-#: common/requirements.c:4537
+#: common/requirements.c:4539
 #, c-format
 msgid "%d%% Foreigners"
 msgstr "%d%% Ulkomaalaisia"
 
 #. TRANS: "Hard AI"
-#: common/requirements.c:4542
+#: common/requirements.c:4544
 #, c-format
 msgid "%s AI"
 msgstr "%s AI"
 
 #. TRANS: here <= means 'less than or equal'
-#: common/requirements.c:4547
+#: common/requirements.c:4549
 #, c-format
 msgid "<=%d unit"
 msgid_plural "<=%d units"
@@ -19767,68 +19774,68 @@ msgstr[0] "<= %d yksikkö"
 msgstr[1] "<= %d yksikköä"
 
 #. TRANS: Terrain class: "Land terrain"
-#: common/requirements.c:4553
+#: common/requirements.c:4555
 #, c-format
 msgid "%s terrain"
 msgstr "maastotyyppi: %s"
 
 #. TRANS: Terrain flag
-#: common/requirements.c:4559
+#: common/requirements.c:4561
 #, c-format
 msgid "?terrflag:\"%s\" terrain"
 msgstr "ominaisuuden \"%s\" maasto"
 
 #. TRANS: Road flag
-#: common/requirements.c:4566
+#: common/requirements.c:4568
 #, c-format
 msgid "?roadflag:\"%s\" road"
 msgstr "ominaisuuden \"%s\" polkutyyppi"
 
 #. TRANS: Extra flag
-#: common/requirements.c:4572
+#: common/requirements.c:4574
 #, c-format
 msgid "?extraflag:\"%s\" extra"
 msgstr "ominaisuuden \"%s\" ruutulisä"
 
-#: common/requirements.c:4576
+#: common/requirements.c:4578
 #, c-format
 msgid "After %s"
 msgstr "Vuodesta %s alkaen"
 
 #. TRANS: here >= means 'greater than or equal'.
 #. * %s identifies a calendar fragment (may be bare number).
-#: common/requirements.c:4582
+#: common/requirements.c:4584
 #, c-format
 msgid ">=%s"
 msgstr ">=%s"
 
 #. TRANS: topology flag name ("WrapX", "ISO", etc)
-#: common/requirements.c:4587
+#: common/requirements.c:4589
 #, c-format
 msgid "%s map"
 msgstr "%s kartta"
 
 #. TRANS: "Irrigation possible"
-#: common/requirements.c:4596
+#: common/requirements.c:4598
 #, c-format
 msgid "%s possible"
 msgstr "%s mahdollinen"
 
-#: common/requirements.c:4602
+#: common/requirements.c:4604
 msgid "City center"
 msgstr "Kaupungin keskusta"
 
-#: common/requirements.c:4605
+#: common/requirements.c:4607
 msgid "Tile claimed"
 msgstr "Ruudulla hallitsija"
 
-#: common/requirements.c:4608
+#: common/requirements.c:4610
 #, fuzzy
 #| msgid "Extras"
 msgid "Extras owned"
 msgstr "Ruutulisät"
 
-#: common/requirements.c:4619
+#: common/requirements.c:4621
 msgid "Owned by original"
 msgstr "Alkuperäisen omistuksessa"
 
@@ -19884,11 +19891,11 @@ msgstr "HyppyKohde"
 msgid "%s is %s"
 msgstr "%s: %s"
 
-#: common/server_settings.c:193 server/settings.c:576
+#: common/server_settings.c:193 server/settings.c:577
 msgid "enabled"
 msgstr "käytössä"
 
-#: common/server_settings.c:193 server/settings.c:575
+#: common/server_settings.c:193 server/settings.c:576
 msgid "disabled"
 msgstr "ei käytössä"
 
@@ -20014,16 +20021,16 @@ msgid "Explore"
 msgstr "Tutki"
 
 # *** '(s/he/it) moves' ***
-#: common/unit.c:1179 common/unit.c:1184
+#: common/unit.c:1178 common/unit.c:1183
 msgid "Moves"
 msgstr "Liikkuu"
 
-#: common/unit.c:1252
+#: common/unit.c:1251
 msgid "Food/Shield/Gold:"
 msgstr "Ruoka/Tuotanto/Kulta:"
 
 #. TRANS: Last %s is pre-pluralised "Treasury contains %d gold."
-#: common/unit.c:1973
+#: common/unit.c:1972
 #, c-format
 msgid ""
 "Upgrade %s to %s for %d gold?\n"
@@ -20038,13 +20045,13 @@ msgstr[1] ""
 "Ajanmukaista %s yksiköksi %s, kustannus on %d kultaa?\n"
 "%s"
 
-#: common/unit.c:1982
+#: common/unit.c:1981
 #, c-format
 msgid "Sorry, cannot upgrade %s (yet)."
 msgstr "Valitan: yksikköä %s ei voi (vielä) ajanmukaistaa."
 
 #. TRANS: Last %s is pre-pluralised "Treasury contains %d gold."
-#: common/unit.c:1988
+#: common/unit.c:1987
 #, c-format
 msgid ""
 "Upgrading %s to %s costs %d gold.\n"
@@ -20059,24 +20066,24 @@ msgstr[1] ""
 "Yksikön %s ajanmukaistaminen yksiköksi %s maksaa %d kultaa.\n"
 "%s"
 
-#: common/unit.c:1998
+#: common/unit.c:1997
 msgid "You can only upgrade units in your cities."
 msgstr "Voit ajanmukaistaa yksiköitä vain omissa kaupungeissasi."
 
-#: common/unit.c:2002
+#: common/unit.c:2001
 #, c-format
 msgid "Upgrading this %s would strand units it transports."
 msgstr ""
 "Jos ajanmukaistaisit yksikön %s, sen kuljettamat yksiköt jäisivät rannalle."
 
-#: common/unit.c:2007
+#: common/unit.c:2006
 #, c-format
 msgid ""
 "Upgrading this %s would result in a %s which can not survive at this place."
 msgstr ""
 "Ajanmukaistettu yksikkö %1$.0s%2$s ei tulisi toimeen tällaisessa maastossa."
 
-#: common/unit.c:2014
+#: common/unit.c:2013
 #, c-format
 msgid ""
 "Upgrading this %s would result in a %s which its current transport, %s, "
@@ -21513,10 +21520,9 @@ msgstr "Räjäytä %sydinlataus%s"
 #: data/classic/game.ruleset:537 data/sandbox/game.ruleset:571
 #: data/civ2civ3/game.ruleset:559 data/alien/game.ruleset:490
 #: data/multiplayer/game.ruleset:531
-#, fuzzy, c-format
-#| msgid "Explode %sNuclear%s"
+#, c-format
 msgid "%sExplode Missile%s"
-msgstr "Räjäytä %sydinlataus%s"
+msgstr "Räjäytä %sohjus%s"
 
 #. TRANS: Enter _Hut from transport (100% chance of success).
 #: data/civ1/game.ruleset:517
@@ -27055,7 +27061,7 @@ msgstr "%sMyy kauppatavarat%s"
 #. TRANS: _Conquer City from non native (100% chance of success).
 #: data/classic/game.ruleset:543 data/sandbox/game.ruleset:577
 #: data/civ2civ3/game.ruleset:565 data/multiplayer/game.ruleset:537
-#: server/rscompat.c:1827
+#: server/rscompat.c:1848
 #, fuzzy, c-format
 #| msgid "%sConquer City%s"
 msgid "%sConquer City from non native%s"
@@ -27077,7 +27083,7 @@ msgstr ""
 #. TRANS: _Disembark from non native (100% chance of success).
 #: data/classic/game.ruleset:597 data/sandbox/game.ruleset:631
 #: data/civ2civ3/game.ruleset:613 data/alien/game.ruleset:541
-#: data/multiplayer/game.ruleset:591 server/rscompat.c:1816
+#: data/multiplayer/game.ruleset:591 server/rscompat.c:1837
 #, c-format
 msgid "%sDisembark from non native%s"
 msgstr ""
@@ -27929,7 +27935,7 @@ msgstr ""
 
 #: data/sandbox/buildings.ruleset:447 data/civ2civ3/buildings.ruleset:444
 msgid "A city with a Courthouse cannot be incited to revolt."
-msgstr ""
+msgstr "Kaupunkia, jossa on käräjätalo, ei voida lietsoa kapinaan."
 
 #: data/sandbox/buildings.ruleset:469 data/civ2civ3/buildings.ruleset:466
 #, no-c-format
@@ -28153,7 +28159,7 @@ msgstr ""
 
 #: data/sandbox/buildings.ruleset:833
 msgid "Amêzârâkian Mysteries"
-msgstr ""
+msgstr "Amêzârâkin mysteerit"
 
 #: data/sandbox/buildings.ruleset:850
 msgid ""
@@ -28379,7 +28385,7 @@ msgstr ""
 
 #: data/sandbox/buildings.ruleset:1428
 msgid "Chichen Itza"
-msgstr ""
+msgstr "Chichen Itza"
 
 #: data/sandbox/buildings.ruleset:1445
 msgid ""
@@ -40430,7 +40436,7 @@ msgstr "Talleta tulos hakemistoon HAKEMISTO"
 
 #: tools/ruleup.c:81
 msgid "Clean up the ruleset before saving it."
-msgstr ""
+msgstr "Siisti sääntökokoelma ennen tallentamista."
 
 #: tools/ruleup.c:94
 msgid "Multiple rulesets requested. Only one ruleset at time supported.\n"
@@ -42007,62 +42013,62 @@ msgid_plural "%s cost %d population. %s shrinks to size %d."
 msgstr[0] "%s vaatii väestöä %d kokoluokan, %s kutistuu kokoon %d."
 msgstr[1] "%s vaatii väestöä %d kokoluokkaa, %s kutistuu kokoon %d."
 
-#: server/cityturn.c:2652
+#: server/cityturn.c:2648
 #, c-format
 msgid "Can't afford to maintain %s in %s, building sold!"
 msgstr "%s myyty kaupungissa %s, koska ylläpitoon ei ollut varaa!"
 
-#: server/cityturn.c:2799
+#: server/cityturn.c:2795
 #, c-format
 msgid "Not enough gold. %s disbanded."
 msgstr "Rahasi eivät riitä. %s hajotettiin."
 
-#: server/cityturn.c:3040 server/cityturn.c:3860
+#: server/cityturn.c:3036 server/cityturn.c:3856
 #, c-format
 msgid "Pollution near %s."
 msgstr "%s raportoi saasteista lähistöllään."
 
-#: server/cityturn.c:3214
+#: server/cityturn.c:3210
 #, c-format
 msgid "Celebrations in your honor in %s."
 msgstr "%s järjestää villiä juhlintaa kunniaksesi."
 
-#: server/cityturn.c:3220
+#: server/cityturn.c:3216
 #, c-format
 msgid "Celebrations canceled in %s."
 msgstr "%s palaa arkeen, juhlallisuudet peruttu."
 
 #. TRANS: preserve leading space; this string will be appended to
 #. * another sentence
-#: server/cityturn.c:3297
+#: server/cityturn.c:3293
 msgid " Unrest threatens to spread beyond the city."
 msgstr " Levottomuudet uhkaavat levittäytyä kaupungin ulkopuolelle."
 
 #. TRANS: second %s is an optional extra sentence
-#: server/cityturn.c:3304
+#: server/cityturn.c:3300
 #, c-format
 msgid "Civil disorder in %s.%s"
 msgstr "%s kärsii levottomuuksista.%s"
 
 #. TRANS: second %s is an optional extra sentence
-#: server/cityturn.c:3309
+#: server/cityturn.c:3305
 #, c-format
 msgid "CIVIL DISORDER CONTINUES in %s.%s"
 msgstr "%s: LEVOTTOMUUDET JATKUVAT.%s"
 
-#: server/cityturn.c:3315
+#: server/cityturn.c:3311
 #, c-format
 msgid "Order restored in %s."
 msgstr "%s: Järjestys on palannut kaupunkiin."
 
 # government - e.g. Yksinvalta
 #. TRANS: %s - government form, e.g., Democracy
-#: server/cityturn.c:3327
+#: server/cityturn.c:3323
 #, c-format
 msgid "The people have overthrown your %s, your country is in turmoil."
 msgstr "%s kaatui kansannousussa, valtio natisee liitoksissaan."
 
-#: server/cityturn.c:3371
+#: server/cityturn.c:3367
 #, c-format
 msgid "%s can't build %s yet, as we can't disband our only city."
 msgstr ""
@@ -42070,13 +42076,13 @@ msgstr ""
 "lakkauttaa."
 
 #. TRANS: "<city> is disbanded into Settler."
-#: server/cityturn.c:3400
+#: server/cityturn.c:3396
 #, c-format
 msgid "%s is disbanded into %s."
 msgstr "%s lakkautettiin, kun %s koottiin."
 
 #. TRANS: From <city1> to <city2>.
-#: server/cityturn.c:3605
+#: server/cityturn.c:3601
 #, c-format
 msgid ""
 "Migrants from %s can't go to %s because there is not enough food available!"
@@ -42085,7 +42091,7 @@ msgstr ""
 "syödään jo pettua!"
 
 #. TRANS: From <city1> to <city2> (<city2 nation adjective>).
-#: server/cityturn.c:3612
+#: server/cityturn.c:3608
 #, c-format
 msgid ""
 "Migrants from %s can't go to %s (%s) because there is not enough food "
@@ -42095,7 +42101,7 @@ msgstr ""
 "(%s) syödään jo pettua!"
 
 #. TRANS: From <city1> (<city1 nation adjective>) to <city2>.
-#: server/cityturn.c:3617
+#: server/cityturn.c:3613
 #, c-format
 msgid ""
 "Migrants from %s (%s) can't go to %s because there is not enough food "
@@ -42105,7 +42111,7 @@ msgstr ""
 "%s syödään jo pettua!"
 
 #. TRANS: From <city1> to <city2>.
-#: server/cityturn.c:3632
+#: server/cityturn.c:3628
 #, c-format
 msgid ""
 "Migrants from %s can't go to %s because it needs an improvement to grow!"
@@ -42114,7 +42120,7 @@ msgstr ""
 "parannuksen kasvaakseen!"
 
 #. TRANS: From <city1> to <city2> of <city2 nation adjective>.
-#: server/cityturn.c:3639
+#: server/cityturn.c:3635
 #, c-format
 msgid ""
 "Migrants from %s can't go to %s (%s) because it needs an improvement to grow!"
@@ -42123,7 +42129,7 @@ msgstr ""
 "vaatii parannuksen kasvaakseen!"
 
 #. TRANS: From <city1> (<city1 nation adjective>) to <city2>.
-#: server/cityturn.c:3644
+#: server/cityturn.c:3640
 #, c-format
 msgid ""
 "Migrants from %s (%s) can't go to %s because it needs an improvement to grow!"
@@ -42131,77 +42137,77 @@ msgstr ""
 "Siirtolaiset kaupungista %s (%s) eivät voi muuttaa, koska kohdekaupunki %s "
 "vaatii parannuksen kasvaakseen!"
 
-#: server/cityturn.c:3693
+#: server/cityturn.c:3689
 #, c-format
 msgid "%s was disbanded by its citizens."
 msgstr "%s on tyhjentynyt asukkaista."
 
 #. TRANS: From <city1> to <city2>.
-#: server/cityturn.c:3731
+#: server/cityturn.c:3727
 #, c-format
 msgid "Migrants from %s moved to %s in search of a better life."
 msgstr "Siirtolaisia kaupungista %1$s on saapunut kaupunkiin %2$s."
 
 #. TRANS: From <city1> to <city2> (<city2 nation adjective>).
-#: server/cityturn.c:3737
+#: server/cityturn.c:3733
 #, c-format
 msgid "Migrants from %s moved to %s (%s) in search of a better life."
 msgstr "Siirtolaisia kaupungistasi %1$s on päätynyt %3$s kaupunkiin %2$s."
 
 #. TRANS: From <city1> (<city1 nation adjective>) to <city2>.
-#: server/cityturn.c:3742
+#: server/cityturn.c:3738
 #, c-format
 msgid "Migrants from %s (%s) moved to %s in search of a better life."
 msgstr "Siirtolaisia %2$s kaupungista %1$s on saapunut kaupunkiisi %3$s."
 
 #. TRANS: %s is a city name
-#: server/cityturn.c:3832
+#: server/cityturn.c:3828
 #, c-format
 msgid "All stored food destroyed in %s."
 msgstr "Kaikki ruokavarastot tuhoutuivat kaupungissa %s."
 
 #. TRANS: Disasters such as Earthquake
-#: server/cityturn.c:3854
+#: server/cityturn.c:3850
 #, c-format
 msgid "%s was hit by %s."
 msgstr "%2$s iski kaupunkiin %1$s."
 
-#: server/cityturn.c:3868
+#: server/cityturn.c:3864
 #, c-format
 msgid "Fallout near %s."
 msgstr "Ydinlaskeumaa lähellä kaupunkia %s."
 
 #. TRANS: "Industrial Accident destroys Bogota entirely."
-#: server/cityturn.c:3879
+#: server/cityturn.c:3875
 #, c-format
 msgid "%s destroys %s entirely."
 msgstr "%s aiheuttaa kaupungin %s tuhon."
 
 #. TRANS: "Nuclear Accident ... Montreal."
-#: server/cityturn.c:3885
+#: server/cityturn.c:3881
 #, c-format
 msgid "%s causes population loss in %s."
 msgstr "%s vähensi väkilukua kaupungissa %s."
 
 #. TRANS: second %s is the name of a city improvement
-#: server/cityturn.c:3910
+#: server/cityturn.c:3906
 #, c-format
 msgid "%s destroys %s in %s."
 msgstr "%s tuhosi kohteen %s kaupungissa %s."
 
 #. TRANS: "Production of Colossus in Rhodes destroyed."
-#: server/cityturn.c:3935
+#: server/cityturn.c:3931
 #, c-format
 msgid "Production of %s in %s destroyed."
 msgstr "Kohteen %s tuotanto tuhoutui kaupungissa %s."
 
-#: server/cityturn.c:4105
+#: server/cityturn.c:4101
 #, c-format
 msgid "Citizens of %s are thinking about migrating to %s for a better life."
 msgstr "%s ei houkuta. Sen asukkaat harkitsevat muuttoa kaupunkiin %s."
 
 #. TRANS: <city1> to <city2> (<city2 nation adjective>).
-#: server/cityturn.c:4127
+#: server/cityturn.c:4123
 #, c-format
 msgid ""
 "Citizens of %s are thinking about migrating to %s (%s) for a better life."
@@ -43270,10 +43276,8 @@ msgid "playernation <player-name> [nation] [is-male] [leader] [style]"
 msgstr ""
 
 #: server/commands.c:522
-#, fuzzy
-#| msgid "Define the color of a player."
 msgid "Define the nation of a player."
-msgstr "Määrittele pelaajan väri."
+msgstr "Määrittele pelaajan valtio."
 
 #: server/commands.c:523
 msgid ""
@@ -45603,43 +45607,43 @@ msgstr "  · Voi turmella infrastruktuuria.\n"
 msgid "Does nothing to huts."
 msgstr "Älä tee mitään listalle %s"
 
-#: server/rscompat.c:911
+#: server/rscompat.c:932
 msgid ""
 "Preparing user effects to help you port edit.unit_move() and edit."
 "unit_teleport() Lua calls."
 msgstr ""
 
-#: server/rscompat.c:913
+#: server/rscompat.c:934
 msgid ""
 "It is safe to delete the effects if you don't use unit_move() or "
 "unit_teleport() or if you want to fill in the new parameters with your own "
 "values."
 msgstr ""
 
-#: server/rscompat.c:916
+#: server/rscompat.c:937
 msgid ""
 "Use effects.unit_bonus() and effects.unit_vs_tile_bonus() to get the value "
 "of the user effects if you wish to use them."
 msgstr ""
 
-#: server/rscompat.c:921
+#: server/rscompat.c:942
 msgid "User_Effect_1 is now if a unit can conquer a city."
 msgstr ""
 
-#: server/rscompat.c:942
+#: server/rscompat.c:963
 msgid "User_Effect_2 is now if a unit can conquer an extra."
 msgstr ""
 
-#: server/rscompat.c:954
+#: server/rscompat.c:975
 msgid "User_Effect_3 is now if a unit can enter a hut."
 msgstr ""
 
-#: server/rscompat.c:964
+#: server/rscompat.c:985
 msgid "User_Effect_4 is now if a unit can frighten a hut."
 msgstr ""
 
 #. TRANS: _Enter Hut from non native (100% chance of success).
-#: server/rscompat.c:1838
+#: server/rscompat.c:1859
 #, fuzzy, c-format
 #| msgid "Cannot conquer from a non-native tile."
 msgid "%sConquer Extras from non native%s"
@@ -45648,13 +45652,13 @@ msgstr ""
 "liikkua."
 
 #. TRANS: _Enter Hut from non native (100% chance of success).
-#: server/rscompat.c:1849
+#: server/rscompat.c:1870
 #, c-format
 msgid "%sEnter Hut from non native%s"
 msgstr ""
 
 #. TRANS: _Frighten Hut from non native (100% chance of success).
-#: server/rscompat.c:1859
+#: server/rscompat.c:1880
 #, c-format
 msgid "%sFrighten Hut from non native%s"
 msgstr ""
@@ -45927,331 +45931,331 @@ msgid "Running"
 msgstr "Käynnissä"
 
 #. TRANS: Game state for local server
-#: server/sernet.c:1578 server/settings.c:365
+#: server/sernet.c:1578 server/settings.c:366
 msgid "Game over"
 msgstr "Peli loppui"
 
 #. TRANS: Description of caravan bonus style setting value.
 #. TRANS: Description of trade revenue style setting value.
-#: server/settings.c:224 server/settings.c:266
+#: server/settings.c:225 server/settings.c:267
 msgid "Classic Freeciv"
 msgstr "Freecivin perinteinen"
 
-#: server/settings.c:225
+#: server/settings.c:226
 msgid "Log^2 N style"
 msgstr "Log^2 N kaava"
 
-#: server/settings.c:238
+#: server/settings.c:239
 msgid "Number of tiles"
 msgstr "Ruutujen määrä"
 
-#: server/settings.c:239
+#: server/settings.c:240
 msgid "Tiles per player"
 msgstr "Ruutuja pelaajaa kohden"
 
-#: server/settings.c:240
+#: server/settings.c:241
 msgid "Width and height"
 msgstr "Leveys ja korkeus"
 
-#: server/settings.c:251
+#: server/settings.c:252
 msgid "Wrap East-West"
 msgstr "Yhdistä kartan itä- ja länsireunat"
 
-#: server/settings.c:252
+#: server/settings.c:253
 msgid "Wrap North-South"
 msgstr "Yhdistä kartan pohjois- ja eteläreunat"
 
-#: server/settings.c:254
+#: server/settings.c:255
 msgid "Hexagonal"
 msgstr "Heksagoninen"
 
-#: server/settings.c:267
+#: server/settings.c:268
 msgid "Proportional to tile trade"
 msgstr "Suhteellinen ruutujen kauppaan"
 
-#: server/settings.c:279
+#: server/settings.c:280
 msgid "Scenario map"
 msgstr "Skenaario"
 
-#: server/settings.c:280
+#: server/settings.c:281
 msgid "Fully random height"
 msgstr "Täysin satunnainen korkeus"
 
-#: server/settings.c:281
+#: server/settings.c:282
 msgid "Pseudo-fractal height"
 msgstr "Pseudo-fraktaalinen korkeus"
 
-#: server/settings.c:282
+#: server/settings.c:283
 msgid "Island-based"
 msgstr "Saariin perustuva"
 
-#: server/settings.c:283
+#: server/settings.c:284
 msgid "Fair islands"
 msgstr "Tasaväkiset saaret"
 
-#: server/settings.c:284
+#: server/settings.c:285
 msgid "Fracture map"
 msgstr "Pirstaloitu kartta"
 
-#: server/settings.c:296
+#: server/settings.c:297
 msgid "Generator's choice"
 msgstr "Generaattorin valitsema"
 
-#: server/settings.c:298
+#: server/settings.c:299
 msgid "One player per continent"
 msgstr "Yksi pelaaja mannerta kohden"
 
-#: server/settings.c:300
+#: server/settings.c:301
 msgid "Two or three players per continent"
 msgstr "Pari-kolme pelaajaa mannerta kohden"
 
-#: server/settings.c:302
+#: server/settings.c:303
 msgid "All players on a single continent"
 msgstr "Kaikki pelaajat samalla mantereella"
 
-#: server/settings.c:304
+#: server/settings.c:305
 msgid "Depending on size of continents"
 msgstr "Mantereen koosta riippuva"
 
-#: server/settings.c:318
+#: server/settings.c:319
 msgid "As close as possible"
 msgstr "Mahdollisimman lähekkäin"
 
-#: server/settings.c:320
+#: server/settings.c:321
 msgid "On the same continent"
 msgstr "Samalla mantereella"
 
-#: server/settings.c:322
+#: server/settings.c:323
 msgid "Horizontal placement"
 msgstr "Itä-länsi"
 
-#: server/settings.c:324
+#: server/settings.c:325
 msgid "Vertical placement"
 msgstr "Pohjois-etelä"
 
-#: server/settings.c:338
+#: server/settings.c:339
 msgid "As long as connected"
 msgstr "Niin kauan kuin yhteys pysyy auki"
 
-#: server/settings.c:350
+#: server/settings.c:351
 msgid "Spacerace"
 msgstr "Avaruuden kilpajuoksu"
 
-#: server/settings.c:351
+#: server/settings.c:352
 msgid "Allied victory"
 msgstr "Liittoutuneiden voitto"
 
-#: server/settings.c:352
+#: server/settings.c:353
 msgid "Culture victory"
 msgstr "Kulttuurivoitto"
 
-#: server/settings.c:364
+#: server/settings.c:365
 msgid "New turn"
 msgstr "Uusi vuoro"
 
-#: server/settings.c:366
+#: server/settings.c:367
 msgid "No player connections"
 msgstr "Ei pelaajayhteyksiä"
 
-#: server/settings.c:367
+#: server/settings.c:368
 msgid "Server interrupted"
 msgstr "Palvelin keskeytetty"
 
-#: server/settings.c:368
+#: server/settings.c:369
 msgid "Timer"
 msgstr "Ajastin"
 
-#: server/settings.c:383
+#: server/settings.c:384
 msgid "See everything inside borders"
 msgstr "Esteetön näkyvyys rajojen sisäpuolella"
 
-#: server/settings.c:385
+#: server/settings.c:386
 msgid "Borders expand to unknown, revealing tiles"
 msgstr "Rajat laajenevat paljastaen tutkimattomat ruudut"
 
-#: server/settings.c:396
+#: server/settings.c:397
 msgid "Fixed"
 msgstr "Kiinteä"
 
-#: server/settings.c:397
+#: server/settings.c:398
 msgid "Even"
 msgstr "Tasainen"
 
-#: server/settings.c:408
+#: server/settings.c:409
 msgid "Per-player, in order"
 msgstr "Pelaajakohtaisesti, järjestyksessä"
 
-#: server/settings.c:409
+#: server/settings.c:410
 msgid "Per-player, random"
 msgstr "Pelaajakohtaisesti, satunnaisesti"
 
-#: server/settings.c:410
+#: server/settings.c:411
 msgid "Set manually"
 msgstr "Käsisäätö"
 
-#: server/settings.c:411
+#: server/settings.c:412
 msgid "Per-team, in order"
 msgstr "Joukkuekohtaisesti, järjestyksessä"
 
-#: server/settings.c:412
+#: server/settings.c:413
 msgid "Per-nation, in order"
 msgstr "Kansakohtaisesti, järjestyksessä"
 
-#: server/settings.c:423
+#: server/settings.c:424
 msgid "Borders are not helping"
 msgstr "Valtioiden rajat eivät vaikuta"
 
-#: server/settings.c:424
+#: server/settings.c:425
 msgid "Happy within own borders"
 msgstr "Tyytyväinen omien rajojen sisällä"
 
-#: server/settings.c:425
+#: server/settings.c:426
 msgid "Happy within allied borders"
 msgstr "Tyytyväinen liittolaisten rajojen sisällä"
 
-#: server/settings.c:436
+#: server/settings.c:437
 msgid "Enabled for everyone"
 msgstr "Kaikkien pelaajien kesken"
 
-#: server/settings.c:438
+#: server/settings.c:439
 msgid "Only allowed between human players"
 msgstr "Vain ihmispelaajien kesken"
 
-#: server/settings.c:439
+#: server/settings.c:440
 msgid "Only allowed between AI players"
 msgstr "Vain AI-pelaajien kesken"
 
-#: server/settings.c:440
+#: server/settings.c:441
 msgid "Only allowed when human involved"
 msgstr "Sallittu vain kun mukana ihmisosapuoli"
 
-#: server/settings.c:441
+#: server/settings.c:442
 msgid "Only allowed between two humans, or two AI players"
 msgstr "Vain kahden ihmispelaajan tai kahden AI-pelaajan kesken"
 
-#: server/settings.c:442
+#: server/settings.c:443
 msgid "Restricted to teams"
 msgstr "Vain joukkueen jäsenten kesken"
 
-#: server/settings.c:443
+#: server/settings.c:444
 msgid "Disabled for everyone"
 msgstr "Ei käytössä"
 
-#: server/settings.c:454
+#: server/settings.c:455
 msgid "No restrictions"
 msgstr "Ei rajoituksia"
 
-#: server/settings.c:455
+#: server/settings.c:456
 msgid "Unique to a player"
 msgstr "Pelaajalla ei samannimisiä"
 
-#: server/settings.c:456
+#: server/settings.c:457
 msgid "Globally unique"
 msgstr "Maailmassa ei samannimisiä"
 
-#: server/settings.c:457
+#: server/settings.c:458
 msgid "No city name stealing"
 msgstr "Ei toisen kansakunnan nimiä"
 
-#: server/settings.c:468
+#: server/settings.c:469
 msgid "No barbarians"
 msgstr "Ei barbaareja"
 
-#: server/settings.c:469
+#: server/settings.c:470
 msgid "Only in huts"
 msgstr "Barbaareita vain majoissa"
 
-#: server/settings.c:470
+#: server/settings.c:471
 msgid "Normal rate of appearance"
 msgstr "Normaalitaso"
 
-#: server/settings.c:471
+#: server/settings.c:472
 msgid "Frequent barbarian uprising"
 msgstr "Lukuisia barbaarihyökkäyksiä"
 
-#: server/settings.c:472
+#: server/settings.c:473
 msgid "Raging hordes"
 msgstr "Käsittämättömiä kansainvaelluksia"
 
-#: server/settings.c:483
+#: server/settings.c:484
 msgid "Fixed to 'revolen' turns"
 msgstr "Kierrosten määrä aina 'revolen'"
 
-#: server/settings.c:484
+#: server/settings.c:485
 msgid "Randomly 1-'revolen' turns"
 msgstr "Satunnainen kierrosmäärä väliltä 1-'revolen'"
 
-#: server/settings.c:485
+#: server/settings.c:486
 msgid "First time 'revolen', then always quicker"
 msgstr "Ensimmäisellä kerralla 'revolen' kierrosta, sitten aina vain nopeampi"
 
-#: server/settings.c:486
+#: server/settings.c:487
 msgid "Random, max always quicker"
 msgstr "Satunnainen, maksimipituus kerta kerralta lyhyempi"
 
-#: server/settings.c:497
+#: server/settings.c:498
 msgid "Reveal map at game start"
 msgstr "Paljasta kartta pelin alussa"
 
-#: server/settings.c:498
+#: server/settings.c:499
 msgid "Unfog map for dead players"
 msgstr "Poista näkyvyyden hämärrys kuolleilta pelaajilta"
 
-#: server/settings.c:510
+#: server/settings.c:511
 msgid "Allows units to be airlifted from allied cities"
 msgstr "Ilmasilta liittolaisten kaupungeista"
 
-#: server/settings.c:512
+#: server/settings.c:513
 msgid "Allows units to be airlifted to allied cities"
 msgstr "Ilmasilta liittolaisten kaupunkeihin"
 
-#: server/settings.c:514
+#: server/settings.c:515
 msgid "Unlimited units from source city"
 msgstr "Rajaton lähtevien yksiköiden määrä"
 
-#: server/settings.c:516
+#: server/settings.c:517
 msgid "Unlimited units to destination city"
 msgstr "Rajaton saapuvien yksiköiden määrä"
 
-#: server/settings.c:527
+#: server/settings.c:528
 msgid "All players move concurrently"
 msgstr "Pelaajien siirrot samanaikaisesti"
 
-#: server/settings.c:529
+#: server/settings.c:530
 msgid "All players alternate movement"
 msgstr "Pelaajien siirrot vuorotellen"
 
-#: server/settings.c:530
+#: server/settings.c:531
 msgid "Team alternate movement"
 msgstr "Joukkueiden siirrot vuorotellen"
 
-#: server/settings.c:542
+#: server/settings.c:543
 msgid "All players"
 msgstr "Kaikki pelaajat"
 
-#: server/settings.c:543
+#: server/settings.c:544
 msgid "Human players only"
 msgstr "Vain ihmispelaajat"
 
-#: server/settings.c:555
+#: server/settings.c:556
 msgid "No compression"
 msgstr "ei pakkausta"
 
-#: server/settings.c:557
+#: server/settings.c:558
 msgid "Using zlib (gzip format)"
 msgstr "zlib-pakkaus (gzip-muoto)"
 
-#: server/settings.c:560
+#: server/settings.c:561
 #, fuzzy
 #| msgid "Using bzip2"
 msgid "Using bzip2 (deprecated)"
 msgstr "bzip2-pakkaus"
 
-#: server/settings.c:563
+#: server/settings.c:564
 msgid "Using xz"
 msgstr "xz-pakkaus"
 
-#: server/settings.c:596
+#: server/settings.c:597
 #, c-format
 msgid ""
 "This setting controls whether players may make moves at the same time during "
@@ -46262,7 +46266,7 @@ msgstr ""
 "vuoron sisällä. Asetuksen muutos astuu voimaan seuraavalla siirrolla. "
 "Ainakin tämän kierroksen loppuun asti voimassa oleva asetus on \"%s\"."
 
-#: server/settings.c:615
+#: server/settings.c:616
 #, c-format
 msgid ""
 "%s\n"
@@ -46276,35 +46280,35 @@ msgstr ""
 "mihin hyvänsä arvoon vaihtaa käyttöön kartan kokoon suhteutettavan "
 "laskentavan."
 
-#: server/settings.c:651 server/settings.c:653
+#: server/settings.c:652 server/settings.c:654
 #, c-format
 msgid "Warning: aifill not met: %s."
 msgstr "Varoitus: pyydettyä määrää tietokonepelaajia ei voitu luoda: %s."
 
-#: server/settings.c:683
+#: server/settings.c:684
 msgid "Warning: not enough nations in this nation set for all current players."
 msgstr ""
 "Varoitus: Pelaajille ei ole tarpeeksi kansakuntia tässä kansavalikoimassa."
 
-#: server/settings.c:814
+#: server/settings.c:815
 #, c-format
 msgid "Invalid save name definition: '%s' (resolves to '%s')."
 msgstr "Asetus 'savename' ('%s') ei kelpaa (tuloksena on '%s')."
 
-#: server/settings.c:833
+#: server/settings.c:834
 msgid "You cannot disable the map generator."
 msgstr "Kartan generaattoria ei voi ottaa pois käytöstä."
 
-#: server/settings.c:840
+#: server/settings.c:841
 msgid "You cannot require a map generator when a map is loaded."
 msgstr "Kartan generaattoria ei voi ottaa käyttöön kartan lataamisen jälkeen."
 
-#: server/settings.c:857
+#: server/settings.c:858
 #, c-format
 msgid "Invalid score name definition: '%s'."
 msgstr "Asetus 'scorefile ei kelpaa: '%s'. Katso \"/help scorefile\"."
 
-#: server/settings.c:880
+#: server/settings.c:881
 #, c-format
 msgid ""
 "Demography string validation failed at character: '%c'. Try \"/help "
@@ -46313,7 +46317,7 @@ msgstr ""
 "Asetuksessa 'demography' on sopimaton merkki '%c'. Katso \"/help demography"
 "\"."
 
-#: server/settings.c:945
+#: server/settings.c:946
 #, c-format
 msgid ""
 "Allowed take string validation failed at character: '%c'. Try \"/help "
@@ -46321,7 +46325,7 @@ msgid ""
 msgstr ""
 "Asetuksessa 'allowtake' on kelvoton merkki '%c'. Katso \"/help allowtake\"."
 
-#: server/settings.c:976
+#: server/settings.c:977
 #, c-format
 msgid ""
 "Starting units string validation failed at character '%c'. Try \"/help "
@@ -46329,7 +46333,7 @@ msgid ""
 msgstr ""
 "Asetuksessa 'startunits' on kelvoton merkki '%c'. Katso \"/help startunits\"."
 
-#: server/settings.c:996
+#: server/settings.c:997
 msgid ""
 "The first starting unit must be native to at least one \"Starter\" terrain. "
 "Try \"/help startunits\"."
@@ -46338,13 +46342,13 @@ msgstr ""
 "luontainen maastotyyppi, jolla on \"Starter\" lippu.\n"
 "Kokeile \"help startunits\"."
 
-#: server/settings.c:1015
+#: server/settings.c:1016
 msgid "Cannot set endturn earlier than current turn."
 msgstr ""
 "Asetusta 'endturn' (lopetusvuoro) ei voi asettaa kuluvaa vuoroa "
 "aikaisemmaksi."
 
-#: server/settings.c:1029
+#: server/settings.c:1030
 #, c-format
 msgid ""
 "Number of players (%d) is higher than requested value (%d). Keeping old "
@@ -46353,7 +46357,7 @@ msgstr ""
 "Pelaajien lukumäärä (%d) on asetuksen 'maxplayers' pyydettyä arvoa (%d) "
 "suurempi; pidän vanhan arvon."
 
-#: server/settings.c:1038
+#: server/settings.c:1039
 #, c-format
 msgid ""
 "Requested value (%d) is greater than number of available start positions "
@@ -46363,19 +46367,19 @@ msgstr ""
 "olevien aloituspaikkojen määrä (%d); pidän vanhan arvon."
 
 #. TRANS: do not translate 'list nationsets'
-#: server/settings.c:1062
+#: server/settings.c:1063
 #, c-format
 msgid "Unknown nation set \"%s\". See '%slist nationsets' for possible values."
 msgstr ""
 "Tuntematon kansavalikoima \"%s\". Listaa mahdolliset arvot käskyllä '%slist "
 "nationsets'."
 
-#: server/settings.c:1078 server/settings.c:1116
+#: server/settings.c:1079 server/settings.c:1117
 msgid "You are not allowed to set timeout values less than 30 seconds."
 msgstr "Et voi asettaa aikarajoja alle 30 sekunnin."
 
 #. TRANS: Do not translate setting names in ''.
-#: server/settings.c:1087 server/settings.c:1133
+#: server/settings.c:1088 server/settings.c:1134
 msgid ""
 "For autogames ('timeout' = -1) 'unitwaittime' should be deactivated (= 0)."
 msgstr ""
@@ -46383,7 +46387,7 @@ msgstr ""
 "käytöstä (=0)."
 
 #. TRANS: Do not translate setting names in ''.
-#: server/settings.c:1097
+#: server/settings.c:1098
 #, c-format
 msgid ""
 "'timeout' can not be lower than 3/2 of the 'unitwaittime' setting (= %d). "
@@ -46393,7 +46397,7 @@ msgstr ""
 "arvo (%d). Vaihda ensin asetusta 'unitwaittime'."
 
 #. TRANS: Do not translate setting names in ''.
-#: server/settings.c:1141
+#: server/settings.c:1142
 #, c-format
 msgid ""
 "'unitwaittime' has to be lower than 2/3 of the 'timeout' setting (= %d). "
@@ -46402,35 +46406,35 @@ msgstr ""
 "Asetuksen 'unitwaittime' pitää olla alle 2/3 asetuksen 'unitwaittime' "
 "arvosta (%d). Vaihda ensin asetusta 'timeout."
 
-#: server/settings.c:1161 server/settings.c:1219 server/settings.c:1239
+#: server/settings.c:1162 server/settings.c:1220 server/settings.c:1240
 msgid "For an isometric or hexagonal map the ysize must be even."
 msgstr "Isometrisen tai heksagonaalisen kartan 'ysize' pitää olla parillinen."
 
-#: server/settings.c:1179 server/settings.c:1204
+#: server/settings.c:1180 server/settings.c:1205
 #, c-format
 msgid "The map size (%d * %d = %d) must be larger than %d tiles."
 msgstr "Kartan koon (%d × %d = %d) pitää olla %d ruutua laajempi."
 
-#: server/settings.c:1185 server/settings.c:1210
+#: server/settings.c:1186 server/settings.c:1211
 #, c-format
 msgid "The map size (%d * %d = %d) must be lower than %d tiles."
 msgstr "Kartan koon (%d × %d = %d) pitää olla %d ruutua pienempi."
 
-#: server/settings.c:1255
+#: server/settings.c:1256
 msgid "Freeciv-web doesn't support this topology."
 msgstr "Freeciv-web ei tue kyseistä topologiaa."
 
-#: server/settings.c:1273
+#: server/settings.c:1274
 msgid "Bzip2 is deprecated as compresstype. Consider other options."
 msgstr "Bzip2 on vanhentunut pakkaustapa. Harkitse muita vaihtoehtoja."
 
-#: server/settings.c:1296
+#: server/settings.c:1297
 msgid "No nations in the currently loaded ruleset have associated colors."
 msgstr ""
 "Käytössä olevassa sääntökokoelmassa yhdellekään kansalle ei ole määritetty "
 "tunnusväriä."
 
-#: server/settings.c:1362
+#: server/settings.c:1363
 msgid "Map size definition"
 msgstr "Kartan koon määrittely"
 
@@ -46439,7 +46443,7 @@ msgstr "Kartan koon määrittely"
 #. * quotes are setting names and shouldn't be translated. The
 #. * strings between parentheses and in uppercase must stay as
 #. * untranslated.
-#: server/settings.c:1368
+#: server/settings.c:1369
 msgid ""
 "Chooses the method used to define the map size. Other options specify the "
 "parameters for each method.\n"
@@ -46457,7 +46461,7 @@ msgstr ""
 "- \"Leveys ja korkeus\" (XYSIZE):\n"
 "   kartan leveys ja korkeus ruutuina (asetukset 'xsize' ja 'ysize')."
 
-#: server/settings.c:1379
+#: server/settings.c:1380
 msgid "Map area (in thousands of tiles)"
 msgstr "Kartan koko (tuhansina ruutuina)"
 
@@ -46466,7 +46470,7 @@ msgstr "Kartan koko (tuhansina ruutuina)"
 #. * quotes are setting names and shouldn't be translated. The
 #. * strings between parentheses and in uppercase must stay as
 #. * untranslated.
-#: server/settings.c:1385
+#: server/settings.c:1386
 msgid ""
 "This value is used to determine the map area.\n"
 "  size = 4 is a normal map of 4,000 tiles (default)\n"
@@ -46480,7 +46484,7 @@ msgstr ""
 "Asetus otetaan käyttöön asettamalla \"Kartan koon määrittely\" ('mapsize') "
 "arvoon \"Ruutujen määrä\" (FULLSIZE)."
 
-#: server/settings.c:1395
+#: server/settings.c:1396
 msgid "Number of (land) tiles per player"
 msgstr "Maaruutuja pelaajaa kohden"
 
@@ -46489,7 +46493,7 @@ msgstr "Maaruutuja pelaajaa kohden"
 #. * quotes are setting names and shouldn't be translated. The
 #. * strings between parentheses and in uppercase must stay as
 #. * untranslated.
-#: server/settings.c:1401
+#: server/settings.c:1402
 msgid ""
 "This value is used to determine the map dimensions. It calculates the map "
 "size at game start based on the number of players and the value of the "
@@ -46502,7 +46506,7 @@ msgstr ""
 "Asetus otetaan käyttöön asettamalla \"Kartan koon määrittely\" ('mapsize') "
 "arvoon \"Ruutuja pelaajaa kohden\" (PLAYER)."
 
-#: server/settings.c:1412
+#: server/settings.c:1413
 msgid "Map width in tiles"
 msgstr "Kartan leveys ruutuina"
 
@@ -46511,7 +46515,7 @@ msgstr "Kartan leveys ruutuina"
 #. * quotes are setting names and shouldn't be translated. The
 #. * strings between parentheses and in uppercase must stay as
 #. * untranslated.
-#: server/settings.c:1418
+#: server/settings.c:1419
 msgid ""
 "Defines the map width.\n"
 "For this option to take effect, the \"Map size definition\" option "
@@ -46521,7 +46525,7 @@ msgstr ""
 "Asetus otetaan käyttöön asettamalla \"Kartan koon määrittely\" ('mapsize') "
 "arvoon \"Leveys ja korkeus\" (XYSIZE)."
 
-#: server/settings.c:1426
+#: server/settings.c:1427
 msgid "Map height in tiles"
 msgstr "Kartan korkeus ruutuina"
 
@@ -46530,7 +46534,7 @@ msgstr "Kartan korkeus ruutuina"
 #. * quotes are setting names and shouldn't be translated. The
 #. * strings between parentheses and in uppercase must stay as
 #. * untranslated.
-#: server/settings.c:1432
+#: server/settings.c:1433
 msgid ""
 "Defines the map height.\n"
 "For this option to take effect, the \"Map size definition\" option "
@@ -46540,12 +46544,12 @@ msgstr ""
 "Asetus otetaan käyttöön asettamalla \"Kartan koon määrittely\" ('mapsize') "
 "arvoon \"Leveys ja korkeus\" (XYSIZE)."
 
-#: server/settings.c:1441
+#: server/settings.c:1442
 msgid "Map topology"
 msgstr "Kartan topologia"
 
 #. TRANS: Freeciv-web version of the help text.
-#: server/settings.c:1444
+#: server/settings.c:1445
 msgid ""
 "Freeciv-web maps are always two-dimensional. They may wrap at the east-west "
 "directions to form a flat map or a cylinder.\n"
@@ -46554,7 +46558,7 @@ msgstr ""
 "itä-länsi -suunnassa muodostaakseen sylinterin.\n"
 
 #. TRANS: do not edit the ugly ASCII art
-#: server/settings.c:1449
+#: server/settings.c:1450
 msgid ""
 "Freeciv maps are always two-dimensional. They may wrap at the north-south "
 "and east-west directions to form a flat map, a cylinder, or a torus (donut). "
@@ -46594,7 +46598,7 @@ msgstr ""
 "   | | | | | | |            / \\_/ \\_/ \\_/ \\_/ \\\n"
 "   \\/\\/\\/\\/\\/\\/             \\_/ \\_/ \\_/ \\_/ \\_/\n"
 
-#: server/settings.c:1475
+#: server/settings.c:1476
 msgid "Method used to generate map"
 msgstr "Kartanluontitapa"
 
@@ -46603,7 +46607,7 @@ msgstr "Kartanluontitapa"
 #. * quotes (except 'fair') are setting names and shouldn't be
 #. * translated. The strings between parentheses and in uppercase
 #. * must stay as untranslated.
-#: server/settings.c:1481
+#: server/settings.c:1482
 msgid ""
 "Specifies the algorithm used to generate the map. If the default value of "
 "the 'startpos' option is used, then the chosen generator chooses an "
@@ -46650,7 +46654,7 @@ msgstr ""
 "Palvelin voi käyttää toista generaattoria jos valittu generaattori ei sovi "
 "yhteen muiden palvelimen asetusten kanssa."
 
-#: server/settings.c:1511
+#: server/settings.c:1512
 msgid "Method used to choose start positions"
 msgstr "Menetelmä aloitussijaintien valintaan"
 
@@ -46659,7 +46663,7 @@ msgstr "Menetelmä aloitussijaintien valintaan"
 #. * quotes (except 'best') are setting names and shouldn't be
 #. * translated. The strings between parentheses and in uppercase
 #. * must stay as untranslated.
-#: server/settings.c:1517
+#: server/settings.c:1518
 msgid ""
 "The method used to choose where each player's initial units start on the "
 "map. (For scenarios which include pre-set start positions, this setting is "
@@ -46702,7 +46706,7 @@ msgstr ""
 "kartalla olevien mantereiden määrä generoidaan ottaen huomioon tämän "
 "asetuksen arvo ja pelaajien määrä.)"
 
-#: server/settings.c:1546
+#: server/settings.c:1547
 msgid "Method used for placement of team mates"
 msgstr "Joukkuetovereiden aloituspaikkojen valintatapa"
 
@@ -46711,7 +46715,7 @@ msgstr "Joukkuetovereiden aloituspaikkojen valintatapa"
 #. * quotes are setting names and shouldn't be translated. The
 #. * strings between parentheses and in uppercase must stay as
 #. * untranslated.
-#: server/settings.c:1552
+#: server/settings.c:1553
 msgid ""
 "After start positions have been generated thanks to the 'startpos' setting, "
 "this setting controls how the start positions will be assigned to the "
@@ -46740,11 +46744,11 @@ msgstr ""
 "- \"Pohjois-etelä\" (VERTICAL): Joukkueen jäsenet sijoitetaan pohjois-etelä "
 "suunnassa."
 
-#: server/settings.c:1571
+#: server/settings.c:1572
 msgid "Presence of 1x1 islands"
 msgstr "Sallitaanko 1×1-saaret"
 
-#: server/settings.c:1572
+#: server/settings.c:1573
 msgid ""
 "This setting controls whether the map generator is allowed to make islands "
 "of one only tile size."
@@ -46752,21 +46756,21 @@ msgstr ""
 "Jos asetus on käytössä, karttageneraattori voi luoda myös vain yhden ruudun "
 "kokoisia saaria."
 
-#: server/settings.c:1579
+#: server/settings.c:1580
 msgid "Whether the poles are separate continents"
 msgstr "Ovatko navat erillisiä mantereita"
 
-#: server/settings.c:1580
+#: server/settings.c:1581
 msgid "If this setting is disabled, the continents may attach to poles."
 msgstr ""
 "Jos asetus ei käytössä, mantereet voivat olla maayhteydessä napa-alueisiin."
 
-#: server/settings.c:1585
+#: server/settings.c:1586
 msgid "How much the land at the poles is flattened"
 msgstr "Kuinka laajalti maa on tasaista napojen ympäristössä"
 
 #. TRANS: The strings in quotes shouldn't be translated.
-#: server/settings.c:1587
+#: server/settings.c:1588
 msgid ""
 "Controls how much the height of the poles is flattened during map "
 "generation, preventing a diversity of land terrain there. 0 is no "
@@ -46778,11 +46782,11 @@ msgstr ""
 "tasaamista tehdä ollenkaan, 100 on suurin mahdollinen tasaaminen. Tämä "
 "asetus vaikuttaa vain kun 'generator' asetus on 'RANDOM' tai 'FRACTAL'."
 
-#: server/settings.c:1598
+#: server/settings.c:1599
 msgid "Whether there's just one pole generated"
 msgstr "Luodaanko kartalle vain yksi napa-alue"
 
-#: server/settings.c:1599
+#: server/settings.c:1600
 msgid ""
 "If this setting is enabled, only one side of the map will have a pole. This "
 "setting has no effect if the map wraps both directions."
@@ -46791,11 +46795,11 @@ msgstr ""
 "Asetuksella ei ole mitään vaikutusta jos kartta kiertyy ympärit molempiin "
 "suuntiin, eikä sillä täten ole reunoja."
 
-#: server/settings.c:1605
+#: server/settings.c:1606
 msgid "All the map is temperate"
 msgstr "Koko kartta-alue on lauhaa"
 
-#: server/settings.c:1606
+#: server/settings.c:1607
 msgid ""
 "If this setting is enabled, the temperature will be equivalent everywhere on "
 "the map. As a result, the poles won't be generated."
@@ -46803,11 +46807,11 @@ msgstr ""
 "Jos asetus on käytössä, kartalla ei ole lämpötilaeroja. Kartalle ei "
 "generoida napa-alueita."
 
-#: server/settings.c:1614
+#: server/settings.c:1615
 msgid "Average temperature of the planet"
 msgstr "Planeetan keskilämpötila"
 
-#: server/settings.c:1615
+#: server/settings.c:1616
 msgid ""
 "Small values will give a cold map, while larger values will give a hotter "
 "map.\n"
@@ -46832,22 +46836,22 @@ msgstr ""
 "0 vastaa hyvin kylmää planeettaa, jossa on laajat napajääalueet eikä "
 "lainkaan trooppisia alueita"
 
-#: server/settings.c:1633
+#: server/settings.c:1634
 msgid "Percentage of the map that is land"
 msgstr "Maa-alueiden osuus kartasta prosentteina"
 
-#: server/settings.c:1634
+#: server/settings.c:1635
 msgid ""
 "This setting gives the approximate percentage of the map that will be made "
 "into land."
 msgstr ""
 "Tämä arvo asettaa maa-alueiden likimääräisen prosenttiosuuden kartalla."
 
-#: server/settings.c:1641
+#: server/settings.c:1642
 msgid "Amount of hills/mountains"
 msgstr "Kukkuloiden/vuorien määrä"
 
-#: server/settings.c:1642
+#: server/settings.c:1643
 msgid ""
 "Small values give flat maps, while higher values give a steeper map with "
 "more hills and mountains."
@@ -46855,11 +46859,11 @@ msgstr ""
 "Pienet arvot luovat tasaisia karttoja, korkeat arvot jyrkempiä karttoja, "
 "joissa on enemmän kukkuloita ja vuoria."
 
-#: server/settings.c:1650
+#: server/settings.c:1651
 msgid "Amount of water on landmasses"
 msgstr "Veden määrä maa-alueilla"
 
-#: server/settings.c:1651
+#: server/settings.c:1652
 msgid ""
 "Small values mean lots of dry, desert-like land; higher values give a wetter "
 "map with more swamps, jungles, and rivers."
@@ -46867,11 +46871,11 @@ msgstr ""
 "Pienet arvot vastaavat suurta määrää kuivaa, aavikkomaista maastoa; "
 "korkeammat arvot lisäävät karttaan enemmän soita, viidakkoa ja jokia."
 
-#: server/settings.c:1658
+#: server/settings.c:1659
 msgid "Global warming"
 msgstr "Ilmastonmuutos"
 
-#: server/settings.c:1659
+#: server/settings.c:1660
 msgid ""
 "If turned off, global warming will not occur as a result of pollution. This "
 "setting does not affect pollution."
@@ -46879,36 +46883,36 @@ msgstr ""
 "Jos asetus ei ole käytössä, saastumisesta ei voi seurata ilmastonmuutosta. "
 "Asetus ei vaikuta saastumiseen."
 
-#: server/settings.c:1666
+#: server/settings.c:1667
 msgid "Global warming percent"
 msgstr "Kasvihuoneilmiöprosentti"
 
-#: server/settings.c:1667
+#: server/settings.c:1668
 msgid "This is a multiplier for the rate of accumulation of global warming."
 msgstr "Tämä on kerroin kasvihuoneilmiön kertymiselle."
 
-#: server/settings.c:1675
+#: server/settings.c:1676
 msgid "Nuclear winter"
 msgstr "Ydintalvi"
 
-#: server/settings.c:1676
+#: server/settings.c:1677
 msgid ""
 "If turned off, nuclear winter will not occur as a result of nuclear war."
 msgstr "Jos asetus ei ole käytössä, ydinsodasta ei voi seurata ydintalvea."
 
-#: server/settings.c:1682
+#: server/settings.c:1683
 msgid "Nuclear winter percent"
 msgstr "Ydintalviprosentti"
 
-#: server/settings.c:1683
+#: server/settings.c:1684
 msgid "This is a multiplier for the rate of accumulation of nuclear winter."
 msgstr "Tämä on kerroin ydintalven kertymiselle."
 
-#: server/settings.c:1696
+#: server/settings.c:1697
 msgid "Map generation random seed"
 msgstr "Kartanluonnin siemenluku ('seed')"
 
-#: server/settings.c:1697
+#: server/settings.c:1698
 msgid ""
 "The same seed will always produce the same map; for zero (the default) a "
 "seed will be generated randomly, based on gameseed. If also gameseed is "
@@ -46919,11 +46923,11 @@ msgstr ""
 "sekä kartan siemenluku että yleinen siemenluku ovat 0, kartan luonti on "
 "täysin sattumanvarainen."
 
-#: server/settings.c:1716
+#: server/settings.c:1717
 msgid "Game random seed"
 msgstr "Yleinen siemenluku ('seed')"
 
-#: server/settings.c:1717
+#: server/settings.c:1718
 msgid ""
 "For zero (the default) a seed will be chosen based on system entropy or, "
 "failing that, the current time."
@@ -46932,11 +46936,11 @@ msgstr ""
 "perusteella tai, sen ollessa mahdotonta, tarkan kellonajan perusteella."
 
 # Not really specials, but resources, apparently.
-#: server/settings.c:1724
+#: server/settings.c:1725
 msgid "Amount of \"special\" resource tiles"
 msgstr "Erityisiä luonnonvaroja sisältävien ruutujen osuus"
 
-#: server/settings.c:1725
+#: server/settings.c:1726
 msgid ""
 "Special resources improve the basic terrain type they are on. The server "
 "variable's scale is parts per thousand."
@@ -46944,11 +46948,11 @@ msgstr ""
 "Erityisluonnonvarat parantavat maa-aluetta jolla ne ovat. Palvelinmuuttujan "
 "yksikkö on promille (tuhannesosa)."
 
-#: server/settings.c:1732
+#: server/settings.c:1733
 msgid "Amount of huts (bonus extras)"
 msgstr "Majojen (bonus-tyyppisten ruutulisien) määrä"
 
-#: server/settings.c:1733
+#: server/settings.c:1734
 #, fuzzy
 #| msgid ""
 #| "Huts are tile extras that may be investigated by units. The server "
@@ -46960,11 +46964,11 @@ msgstr ""
 "Majat ovat ruutulisiä, joita yksiköt voivat käydä tutkimassa. Tämä "
 "palvelinasetus kertoo montako majaa kartalla on tuhatta ruutua kohden."
 
-#: server/settings.c:1741
+#: server/settings.c:1742
 msgid "Amount of animals"
 msgstr "Eläinten määrä"
 
-#: server/settings.c:1742
+#: server/settings.c:1743
 msgid ""
 "Number of animals initially created on terrains defined for them in the "
 "ruleset (if the ruleset supports it). The server variable's scale is animals "
@@ -46973,11 +46977,11 @@ msgstr ""
 "Pelin alussa luotujen eläinten määrä tuhatta ruutua kohti, maastotyypeille "
 "joille niitä on sääntökokoelmassa määritelty, jos ollenkaan."
 
-#: server/settings.c:1754
+#: server/settings.c:1755
 msgid "Minimum number of players"
 msgstr "Pienin sallittu pelaajamäärä"
 
-#: server/settings.c:1755
+#: server/settings.c:1756
 msgid ""
 "There must be at least this many players (connected human players) before "
 "the game can start."
@@ -46985,11 +46989,11 @@ msgstr ""
 "Peli ei voi alkaa ennen kuin vähintään näin moni (yhteydessä oleva ihmis-) "
 "pelaaja on liittynyt."
 
-#: server/settings.c:1762
+#: server/settings.c:1763
 msgid "Maximum number of players"
 msgstr "Suurin sallittu pelaajamäärä"
 
-#: server/settings.c:1763
+#: server/settings.c:1764
 msgid ""
 "The maximal number of human and AI players who can be in the game. When this "
 "number of players are connected in the pregame state, any new players who "
@@ -47003,11 +47007,11 @@ msgstr ""
 "Pelatessa skenaariota joka määrittelee pelaajien aloituspaikat, tätä "
 "asetusta ei voi asettaa aloituspaikkojen määrää suuremmaksi."
 
-#: server/settings.c:1775
+#: server/settings.c:1776
 msgid "Limited number of AI players"
 msgstr "Rajattu määrä AI-pelaajia"
 
-#: server/settings.c:1776
+#: server/settings.c:1777
 msgid ""
 "If set to a positive value, then AI players will be automatically created or "
 "removed to keep the total number of players at this amount. As more players "
@@ -47019,11 +47023,11 @@ msgstr ""
 "liittyessä AI-pelaajien määrää vähennetään. Jos arvo on 0, kaikki AI-"
 "pelaajat poistetaan."
 
-#: server/settings.c:1786
+#: server/settings.c:1787
 msgid "When the Readiness of a player gets autotoggled off"
 msgstr "Milloin pelaajan ilmoittama valmius automaattisesti unohdetaan"
 
-#: server/settings.c:1787
+#: server/settings.c:1788
 msgid ""
 "In pre-game, usually when new players join or old ones leave, those who have "
 "already accepted game to start by toggling \"Ready\" get that autotoggled "
@@ -47036,12 +47040,12 @@ msgstr ""
 "tilanteessa. Tällä asetuksella voidaan määrittää että pelin alun hyväksyntä "
 "pysyy voimassa muuttuneissakin olosuhteissa."
 
-#: server/settings.c:1796
+#: server/settings.c:1797
 msgid "Set of nations to choose from"
 msgstr "Kansavalikoima, josta kansat valitaan"
 
 #. TRANS: do not translate '/list nationsets'
-#: server/settings.c:1798
+#: server/settings.c:1799
 msgid ""
 "Controls the set of nations allowed in the game. The choices are defined by "
 "the ruleset.\n"
@@ -47059,11 +47063,11 @@ msgstr ""
 "'/list nationsets' listaa käytössä olevan sääntökokoelman tukemat "
 "kansavalikoimat."
 
-#: server/settings.c:1812
+#: server/settings.c:1813
 msgid "Event cache for this number of turns"
 msgstr "Viestipuskuri näin moneksi vuoroksi"
 
-#: server/settings.c:1813
+#: server/settings.c:1814
 msgid ""
 "Event messages are saved for this number of turns. A value of 0 deactivates "
 "the event cache."
@@ -47071,30 +47075,30 @@ msgstr ""
 "Viestit talletetaan näin monelta kierrokselta. Arvo 0 poistaa puskurin "
 "käytöstä."
 
-#: server/settings.c:1821
+#: server/settings.c:1822
 msgid "Size of the event cache"
 msgstr "Viestipuskurin koko"
 
-#: server/settings.c:1822
+#: server/settings.c:1823
 msgid "This defines the maximal number of events in the event cache."
 msgstr "Tallennettavien viestien enimmäismäärä."
 
-#: server/settings.c:1829
+#: server/settings.c:1830
 msgid "Save chat messages in the event cache"
 msgstr "Säilytä keskustelu viestipuskurissa"
 
-#: server/settings.c:1830
+#: server/settings.c:1831
 msgid "If turned on, chat messages will be saved in the event cache."
 msgstr ""
 "Jos valinta on päällä, pelaajien välinen keskustelu tallennetaan "
 "viestipuskuriin."
 
-#: server/settings.c:1836
+#: server/settings.c:1837
 msgid "Print turn and time for each cached event"
 msgstr "Tulosta kunkin tallennetun viestin aika ja vuoronumero"
 
 #. TRANS: Don't translate the text between single quotes.
-#: server/settings.c:1838
+#: server/settings.c:1839
 msgid ""
 "If turned on, all cached events will be marked by the turn and time of the "
 "event like '(T2 - 15:29:52)'."
@@ -47102,11 +47106,11 @@ msgstr ""
 "Jos valinta on käytössä, tallennettujen viestien kanssa tulostetaan vuoron "
 "numero ja ajankohta, esimerkiksi '(T2 - 15:29:52)'."
 
-#: server/settings.c:1848
+#: server/settings.c:1849
 msgid "List of players' initial units"
 msgstr "Pelaajien aloitusyksiköiden luettelo"
 
-#: server/settings.c:1849
+#: server/settings.c:1850
 msgid ""
 "This should be a string of characters, each of which specifies a unit role. "
 "The first character must be native to at least one \"Starter\" terrain. The "
@@ -47136,11 +47140,11 @@ msgstr ""
 "    a   = Nopea hyökkäysyksikkö (esim. Hevospartio)\n"
 "    A   = Vahva hyökkäysyksikkö (esim. Katapultti)\n"
 
-#: server/settings.c:1868
+#: server/settings.c:1869
 msgid "Whether player starts with a city"
 msgstr "Aloittaako pelaaja valmiiksi perustetun kaupungin kanssa"
 
-#: server/settings.c:1869
+#: server/settings.c:1870
 msgid ""
 "If this is set, game will start with player's first city already founded to "
 "starting location."
@@ -47148,43 +47152,43 @@ msgstr ""
 "Jos tämä on asetettu, pelaajat saavat pelin alkaessa automaattisesti "
 "aloitusruutuunsa perustetun kaupungin."
 
-#: server/settings.c:1876
+#: server/settings.c:1877
 msgid "Area where initial units are located"
 msgstr "Aloitusyksiköiden hajonta-alue"
 
-#: server/settings.c:1877
+#: server/settings.c:1878
 msgid "This is the radius within which the initial units are dispersed."
 msgstr ""
 "Aloitusyksiköt hajautetaan alueelle, jonka säde on tämän asetuksen mukainen."
 
-#: server/settings.c:1885
+#: server/settings.c:1886
 msgid "Starting gold per player"
 msgstr "Kullan määrä pelaajaa kohti pelin alussa"
 
-#: server/settings.c:1886
+#: server/settings.c:1887
 msgid "At the beginning of the game, each player is given this much gold."
 msgstr "Kullekin pelaajalle annetaan arvon mukainen määrä kultaa pelin alussa."
 
-#: server/settings.c:1893
+#: server/settings.c:1894
 #, fuzzy
 #| msgid "Starting gold per player"
 msgid "Starting infrapoints per player"
 msgstr "Kullan määrä pelaajaa kohti pelin alussa"
 
-#: server/settings.c:1894
+#: server/settings.c:1895
 #, fuzzy
 #| msgid "At the beginning of the game, each player is given this much gold."
 msgid ""
 "At the beginning of the game, each player is given this many infrapoints."
 msgstr "Kullekin pelaajalle annetaan arvon mukainen määrä kultaa pelin alussa."
 
-#: server/settings.c:1901
+#: server/settings.c:1902
 msgid "Number of initial techs per player"
 msgstr "Pelaajien aloitusteknologioiden määrä"
 
 #. TRANS: The string between single quotes is a setting name and
 #. * should not be translated.
-#: server/settings.c:1904
+#: server/settings.c:1905
 msgid ""
 "At the beginning of the game, each player is given this many technologies. "
 "The technologies chosen are random for each player. Depending on the value "
@@ -47196,11 +47200,11 @@ msgstr ""
 "Sääntökokoelman tech_cost_style-arvosta riippuen korkea techlevel-arvo voi "
 "tehdä seuraavista teknologioista erittäin kalliita."
 
-#: server/settings.c:1914
+#: server/settings.c:1915
 msgid "Technology cost multiplier percentage"
 msgstr "Teknologiahinnan kerrannaisprosentti"
 
-#: server/settings.c:1915
+#: server/settings.c:1916
 msgid ""
 "This affects how quickly players can research new technology. All tech costs "
 "are multiplied by this amount (as a percentage). The base tech costs are "
@@ -47211,11 +47215,11 @@ msgstr ""
 "tulkittuna). Perusteknologiakustannukset määritetään sääntökokoelmassa tai "
 "muiden pelin asetusten kautta."
 
-#: server/settings.c:1924
+#: server/settings.c:1925
 msgid "Allow researching multiple technologies"
 msgstr "Salli useiden teknologioiden tutkiminen rinnakkain"
 
-#: server/settings.c:1925
+#: server/settings.c:1926
 msgid ""
 "Allows switching to any technology without wasting old research. Bulbs are "
 "never transfered to new technology. Techpenalty options are inefective after "
@@ -47225,11 +47229,11 @@ msgstr ""
 "tutkimusta. Yhden teknologian tutkimukseen sijoitettuja lamppuja ei koskaan "
 "siirretä toisen tutkimukseen. Siitä ei myöskään rankaista."
 
-#: server/settings.c:1933
+#: server/settings.c:1934
 msgid "Percentage penalty when changing tech"
 msgstr "Prosentuaalinen menetys tutkimuskohdetta muutettaessa"
 
-#: server/settings.c:1934
+#: server/settings.c:1935
 msgid ""
 "If you change your current research technology, and you have positive "
 "research points, you lose this percentage of those research points. This "
@@ -47239,21 +47243,21 @@ msgstr ""
 "positiivisia, menetät näin monta prosenttia tutkimuspisteistäsi. Menetystä "
 "ei tapahdu jos olet juuri tehnyt uuden edistysaskeleen tällä vuorolla."
 
-#: server/settings.c:1943
+#: server/settings.c:1944
 msgid "Chance to lose a technology while receiving it"
 msgstr "Mahdollisuus menettää saatava teknologia"
 
-#: server/settings.c:1944
+#: server/settings.c:1945
 msgid "The chance that learning a technology by treaty or theft will fail."
 msgstr ""
 "Mahdollisuus että sopimusteitse tai varastamalla saatavan teknologian "
 "oppiminen epäonnistuu."
 
-#: server/settings.c:1951
+#: server/settings.c:1952
 msgid "Chance to lose a technology while giving it"
 msgstr "Mahdollisuus menettää teknologia sitä muille annettaessa"
 
-#: server/settings.c:1952
+#: server/settings.c:1953
 msgid ""
 "The chance that your civilization will lose a technology if you teach it to "
 "someone else by treaty, or if it is stolen from you."
@@ -47261,19 +47265,19 @@ msgstr ""
 "Mahdollisuus että teknologian alkuperäinen tuntija menettää sen opettaessaan "
 "sen toiselle pelaajalle, tai toisen pelaajan varastaessa sen."
 
-#: server/settings.c:1960
+#: server/settings.c:1961
 msgid "Tech leakage percent"
 msgstr "Teknologiavuotoprosentti"
 
-#: server/settings.c:1961
+#: server/settings.c:1962
 msgid "The rate of the tech leakage."
 msgstr "Teknologiavuodon nopeus."
 
-#: server/settings.c:1967
+#: server/settings.c:1968
 msgid "Team pooled research"
 msgstr "Joukkueen tutkimuksen yhdistäminen"
 
-#: server/settings.c:1968
+#: server/settings.c:1969
 msgid ""
 "If this setting is turned on, then the team mates will share the science "
 "research. Else, every player of the team will have to make its own."
@@ -47281,11 +47285,11 @@ msgstr ""
 "Jos asetus on käytössä, joukkueen jäsenet jakavat tutkimustulokset. Muutoin "
 "jokaisen jäsenen pitää erikseen saavuttaa edistyaskeleet."
 
-#: server/settings.c:1975
+#: server/settings.c:1976
 msgid "Penalty when getting tech from treaty"
 msgstr "Sopimusteitse saadun teknologian menetys"
 
-#: server/settings.c:1976
+#: server/settings.c:1977
 msgid ""
 "For each technology you gain from a diplomatic treaty, you lose research "
 "points equal to this percentage of the cost to research a new technology. If "
@@ -47295,11 +47299,11 @@ msgstr ""
 "näin monta prosenttia uuden edistysaskeleen vaatimista tutkimuspisteistä - "
 "voit siis päätyä pakkasen puolelle tutkimuspisteissäsi, jos arvo ei ole 0."
 
-#: server/settings.c:1985
+#: server/settings.c:1986
 msgid "Penalty when getting gold from treaty"
 msgstr "Sopimusteitse saadun kullan menetys"
 
-#: server/settings.c:1986
+#: server/settings.c:1987
 msgid ""
 "When transferring gold in diplomatic treaties, this percentage of the agreed "
 "sum is lost to both parties; it is deducted from the donor but not received "
@@ -47309,22 +47313,22 @@ msgstr ""
 "prosenttimäärä rahasta menetetään kokonaan. Se vähennetään antajalta, mutta "
 "ei päädy vastaanottajalle."
 
-#: server/settings.c:1994
+#: server/settings.c:1995
 msgid "Probability of gold loss during inciting revolt"
 msgstr ""
 
-#: server/settings.c:1995
+#: server/settings.c:1996
 msgid ""
 "When unit trying to incite revolt is eliminated, half of the gold (or "
 "quarter, if unit was caught), prepared to bribe citizens, can be lost or "
 "captured by enemy."
 msgstr ""
 
-#: server/settings.c:2004
+#: server/settings.c:2005
 msgid "Probability of gold capture during inciting revolt"
 msgstr ""
 
-#: server/settings.c:2005
+#: server/settings.c:2006
 msgid ""
 "When unit trying to incite revolt is eliminated and lose its gold, there is "
 "chance that this gold would be captured by city defender. Transfer tax would "
@@ -47332,11 +47336,11 @@ msgid ""
 "is zero."
 msgstr ""
 
-#: server/settings.c:2015
+#: server/settings.c:2016
 msgid "Penalty when getting tech from conquering"
 msgstr "Prosentuaalinen menetys valloituksen kautta saadun teknologian takia"
 
-#: server/settings.c:2016
+#: server/settings.c:2017
 msgid ""
 "For each technology you gain by conquering an enemy city, you lose research "
 "points equal to this percentage of the cost to research a new technology. If "
@@ -47346,13 +47350,13 @@ msgstr ""
 "näin monta prosenttia uuden edistysaskeleen vaatimista tutkimuspisteistä - "
 "voit siis päätyä pakkasen puolelle tutkimuspisteissäsi, jos arvo ei ole 0."
 
-#: server/settings.c:2026
+#: server/settings.c:2027
 msgid "Penalty when getting a free tech"
 msgstr "Prosentuaalinen menetys ilmaisen teknologian saamisen takia"
 
 #. TRANS: The strings between single quotes are setting names and
 #. * shouldn't be translated.
-#: server/settings.c:2029
+#: server/settings.c:2030
 msgid ""
 "For each technology you gain \"for free\" (other than covered by 'diplcost' "
 "or 'conquercost': for instance, from huts or from Great Library effects), "
@@ -47366,13 +47370,13 @@ msgstr ""
 "näin monta prosenttia uuden edistysaskeleen vaatimista tutkimuspisteistä – "
 "voit siis päätyä pakkasen puolelle tutkimuspisteissäsi."
 
-#: server/settings.c:2040
+#: server/settings.c:2041
 msgid "Research point debt threshold for losing tech"
 msgstr ""
 "Kuinka paljon tutkimuspisteet saavat olla alle nollan ennen kuin teknologia "
 "menetetään"
 
-#: server/settings.c:2041
+#: server/settings.c:2042
 msgid ""
 "When you have negative research points, and your shortfall is greater than "
 "this percentage of the cost of your current research, you forget a "
@@ -47385,12 +47389,12 @@ msgstr ""
 "tunnettu teknologia menetetään.\n"
 "Arvo '-1' poistaa teknologioiden menettämisen kokonaan käytöstä."
 
-#: server/settings.c:2052
+#: server/settings.c:2053
 msgid "Research points restored after losing a tech"
 msgstr ""
 "Paljonko tutkimuspisteitä palautetaan teknologian menettämisen yhteydessä"
 
-#: server/settings.c:2053
+#: server/settings.c:2054
 msgid ""
 "When you lose a technology due to a negative research balance (see "
 "'techlossforgiveness'), this percentage of its research cost is credited to "
@@ -47404,11 +47408,11 @@ msgstr ""
 "Arvo '-1' aiheuttaa tutkimuspisteiden määrän palauttamisen aina arvoon 0, "
 "riippumatta siitä kuinka paljon vajausta oli."
 
-#: server/settings.c:2066
+#: server/settings.c:2067
 msgid "Food required for a city to grow"
 msgstr "Kaupungin kasvuun tarvittava ruokamäärä"
 
-#: server/settings.c:2067
+#: server/settings.c:2068
 msgid ""
 "This is the base amount of food required to grow a city. This value is "
 "multiplied by another factor that comes from the ruleset and is dependent on "
@@ -47417,11 +47421,11 @@ msgstr ""
 "Tämä on kaupungin kasvuun tarvittava perusruokamäärä. Se kerrotaan "
 "sääntökokoelman määräämällä tekijällä, joka riippuu kaupungin koosta."
 
-#: server/settings.c:2075
+#: server/settings.c:2076
 msgid "Percentage food lost when city can't grow"
 msgstr "Prosentuaalinen ruokavarojen menetys kun kaupunki ei voi kasvaa"
 
-#: server/settings.c:2076
+#: server/settings.c:2077
 msgid ""
 "If a city would expand, but it can't because it lacks some prerequisite "
 "(traditionally an Aqueduct or Sewer System), this is the base percentage of "
@@ -47433,11 +47437,11 @@ msgstr ""
 "ruokavaroistaan kierroksessa; sääntökokoelmasta riippuen kaupungissa olevat "
 "rakennukset tai muut tekijät saattavat vaikuttaa lopulliseen prosenttiin."
 
-#: server/settings.c:2088
+#: server/settings.c:2089
 msgid "Multiplier percentage for production costs"
 msgstr "Tuotantohinnan kerroin"
 
-#: server/settings.c:2089
+#: server/settings.c:2090
 msgid ""
 "This affects how quickly units and buildings can be produced.  The base "
 "costs are multiplied by this value (as a percentage)."
@@ -47446,13 +47450,13 @@ msgstr ""
 "tuottaa. Perushinnat kerrotaan tällä arvolla (tulkittuna "
 "prosenttiyksiköiksi)."
 
-#: server/settings.c:2103
+#: server/settings.c:2104
 msgid "Minimum city size to get full trade"
 msgstr "Kaupungin minimikoko kaupan maksimoinniksi"
 
 #. TRANS: The strings between single quotes are setting names and
 #. * shouldn't be translated.
-#: server/settings.c:2106
+#: server/settings.c:2107
 msgid ""
 "There is a trade penalty in all cities smaller than this. The penalty is "
 "100% (no trade at all) for sizes up to 'notradesize', and decreases "
@@ -47464,13 +47468,13 @@ msgstr ""
 "lievenee asteettain 0 %:iin (ei lainkaan leikkuria tavanomaista korruptiota "
 "lukuunottamatta) kokoon 'fulltradesize' asti. Katso myös 'notradesize'."
 
-#: server/settings.c:2116
+#: server/settings.c:2117
 msgid "Maximum size of a city without trade"
 msgstr "Kaupattoman kaupungin maksimikoko"
 
 #. TRANS: The strings between single quotes are setting names and
 #. * shouldn't be translated.
-#: server/settings.c:2119
+#: server/settings.c:2120
 msgid ""
 "Cities do not produce any trade at all unless their size is larger than this "
 "amount. The produced trade increases gradually for cities larger than "
@@ -47480,7 +47484,7 @@ msgstr ""
 "lisääntyy vähitellen kunnes saavutetaan 'fulltradesize', täyden kaupan "
 "tuottava koko. Katso myös 'fulltradesize'."
 
-#: server/settings.c:2129
+#: server/settings.c:2130
 msgid "How largely trade distance is relative to world size"
 msgstr ""
 "Kuinka suurelta osin kartan koko vaikuttaa kauppareitin laskennalliseen "
@@ -47488,7 +47492,7 @@ msgstr ""
 
 #. TRANS: The strings between single quotes are setting names and
 #. * shouldn't be translated.
-#: server/settings.c:2132
+#: server/settings.c:2133
 msgid ""
 "When determining trade between cities, the distance factor can be partly or "
 "fully relative to world size. This setting determines how big percentage of "
@@ -47501,11 +47505,11 @@ msgstr ""
 "ja kuinka suurelta osin se jää laskettavaksi suoraan ruutumääräisen "
 "etäisyyden mukaan."
 
-#: server/settings.c:2144
+#: server/settings.c:2145
 msgid "Minimum distance between cities"
 msgstr "Kaupunkien välinen minimietäisyys"
 
-#: server/settings.c:2145
+#: server/settings.c:2146
 msgid ""
 "When a player attempts to found a new city, it is prevented if the distance "
 "from any existing city is less than this setting. For example, when this "
@@ -47518,42 +47522,42 @@ msgstr ""
 "vähintään 2 tyhjää ruutua joka suunnassa. Asetuksen arvo 1 poistaa "
 "rajoituksen, jolloin kaupunkeja voi perustaa jopa vierekkäisiin ruutuihin."
 
-#: server/settings.c:2157
+#: server/settings.c:2158
 msgid "Technology trading"
 msgstr "Teknologian vaihto"
 
-#: server/settings.c:2158
+#: server/settings.c:2159
 msgid ""
 "If turned off, trading technologies in the diplomacy dialog is not allowed."
 msgstr ""
 "Jos asetus ei ole käytössä, diplomatiadialogissa ei voi siirtää "
 "teknologioita kansakunnalta toiselle."
 
-#: server/settings.c:2164
+#: server/settings.c:2165
 msgid "Gold trading"
 msgstr "Kullan vaihto"
 
-#: server/settings.c:2165
+#: server/settings.c:2166
 msgid "If turned off, trading gold in the diplomacy dialog is not allowed."
 msgstr ""
 "Jos asetus ei ole käytössä, diplomatiadialogissa ei voi siirtää kultaa "
 "kansakunnalta toiselle."
 
-#: server/settings.c:2171
+#: server/settings.c:2172
 msgid "City trading"
 msgstr "Kaupunkien vaihto"
 
-#: server/settings.c:2172
+#: server/settings.c:2173
 msgid "If turned off, trading cities in the diplomacy dialog is not allowed."
 msgstr ""
 "Jos asetus ei ole käytössä, diplomatiadialogissa ei voi siirtää kaupunkeja "
 "kansakunnalta toiselle."
 
-#: server/settings.c:2178
+#: server/settings.c:2179
 msgid "Caravan bonus style"
 msgstr "Karavaanien bonuskaava"
 
-#: server/settings.c:2179
+#: server/settings.c:2180
 msgid ""
 "The formula for the bonus when a caravan enters a city. CLASSIC bonuses are "
 "proportional to distance and trade of source and destination with "
@@ -47566,27 +47570,23 @@ msgstr ""
 "tai kahden eri valtion välillä. LOGARITHMIC bonus on suhteessa kaavaan "
 "log^2(etäisyys + kauppa)."
 
-#: server/settings.c:2189
+#: server/settings.c:2190
 msgid "Trade revenue style"
 msgstr "Kauppatulokaava"
 
-#: server/settings.c:2190
+#: server/settings.c:2191
 msgid ""
 "The formula for the trade a city receives from a traderoute. CLASSIC "
-"revenues depend on distance and trade with multipliers for overseas and "
-"international routes. SIMPLE revenues are proportional to the average trade "
-"of the two cities."
-msgstr ""
-"Kaava kauppareitistä jatkuvasti saatavan tuoton laskemiseen. CLASSIC tuotto "
-"riippuu kauppareitin pituudesta ja kaupunkien peruskaupasta, lisäkertoimin "
-"mikäli reitti on meren yli tai kahden eri valtion välillä. SIMPLE tuotto on "
-"suhteessa kaupunkien peruskauppaan."
+"revenues are given by the sum of the two city sizes plus the distance "
+"between them, with multipliers for overseas and international routes. SIMPLE "
+"revenues are proportional to the average trade of the two cities."
+msgstr "Kaava kauppareitistä jatkuvasti saatavan tuoton laskemiseen. CLASSIC tuotto riippuu kauppareitin pituudesta ja kaupunkien koosta, lisäkertoimin mikäli reitti on meren yli tai kahden eri valtion välillä. SIMPLE tuotto on suhteessa kaupunkien peruskauppaan."
 
-#: server/settings.c:2200
+#: server/settings.c:2202
 msgid "Minimum distance for trade routes"
 msgstr "Kauppareittien perustamiseksi tarvittava minimietäisyys"
 
-#: server/settings.c:2201
+#: server/settings.c:2203
 msgid ""
 "In order for two cities in the same civilization to establish a trade route, "
 "they must be at least this far apart on the map. For square grids, the "
@@ -47598,11 +47598,11 @@ msgstr ""
 "Neliöruuduilla välimatka lasketaan \"taksimiehen geometrialla\", toisin "
 "sanoen, laskemalla yhteen kaupunkien välimatka x- ja y- akselien suunnassa."
 
-#: server/settings.c:2212
+#: server/settings.c:2214
 msgid "Number of turns between rapture effect"
 msgstr "Vuorojen määrä hurmion vaikutusten välillä"
 
-#: server/settings.c:2213
+#: server/settings.c:2215
 msgid ""
 "Sets the number of turns between rapture growth of a city. If set to n a "
 "city will grow after celebrating for n+1 turns."
@@ -47610,11 +47610,11 @@ msgstr ""
 "Asettaa vuorojen määrän, joiden välein hurmiossa oleva kaupunki kasvaa. Jos "
 "arvo on n, kaupunki kasvaa juhlittuaan n+1 vuoroa."
 
-#: server/settings.c:2223
+#: server/settings.c:2225
 msgid "Frequency of disasters"
 msgstr "Onnettomuuksien esiintymistiheys"
 
-#: server/settings.c:2224
+#: server/settings.c:2226
 msgid ""
 "Affects how often random disasters happen to cities, if any are defined by "
 "the ruleset. The relative frequency of disaster types is set by the ruleset. "
@@ -47626,19 +47626,19 @@ msgstr ""
 "on asetettu sääntökokoelmassa. Arvo '0' poistaa onnettomuudet kokonaan "
 "käytöstä."
 
-#: server/settings.c:2234
+#: server/settings.c:2236
 msgid "AI trait distribution method"
 msgstr "Tietokonepelaajien ominaisuuksien jakautumistapa"
 
-#: server/settings.c:2235
+#: server/settings.c:2237
 msgid "How trait values are given to AI players."
 msgstr "Miten ominaisuusarvot jakautuvat tietokonepelaajille."
 
-#: server/settings.c:2240
+#: server/settings.c:2242
 msgid "Chance for conquered building destruction"
 msgstr "Valloitetun rakennuksen tuhoutumisriski"
 
-#: server/settings.c:2241
+#: server/settings.c:2243
 msgid ""
 "When a player conquers a city, each city improvement has this percentage "
 "chance to be destroyed."
@@ -47646,11 +47646,11 @@ msgstr ""
 "Kun pelaaja valloittaa kaupungin, kullakin kaupungin rakennuksista on näin "
 "monen prosentin todennäköisyys tuhoutua."
 
-#: server/settings.c:2247
+#: server/settings.c:2249
 msgid "Chance of moving into tile after attack"
 msgstr "Todennäköisyys ruutuun liikkumiselle hyökkäyksen jälkeen"
 
-#: server/settings.c:2248
+#: server/settings.c:2250
 msgid ""
 "If set to 0, combat is Civ1/2-style (when you attack, you remain in place). "
 "If set to 100, attacking units will always move into the tile they attacked "
@@ -47664,11 +47664,11 @@ msgstr ""
 "yksiköitä jäljellä ruudussa). Jos arvo on 0:n ja 100:n välillä, se tulkitaan "
 "maa-alueen \"valtaamisen\" prosentuaaliseksi todennäköisyydeksi."
 
-#: server/settings.c:2260
+#: server/settings.c:2262
 msgid "Turn on/off server-side autoattack"
 msgstr "Aseta palvelinpään automaattihyökkäys päälle/pois päältä"
 
-#: server/settings.c:2261
+#: server/settings.c:2263
 msgid ""
 "If set to on, units with moves left will automatically consider attacking "
 "enemy units that move adjacent to them."
@@ -47677,11 +47677,11 @@ msgstr ""
 "harkitsevat automaattisesti niiden viereen liikkuvien vihollisyksiköiden "
 "kimppuun hyökkäämistä."
 
-#: server/settings.c:2268
+#: server/settings.c:2270
 msgid "Do all units in tile die with defender"
 msgstr "Kuolevatko kaikki ruudun yksiköt puolustajan mukana"
 
-#: server/settings.c:2269
+#: server/settings.c:2271
 msgid ""
 "If this is enabled, each time a defender unit loses in combat, and is not "
 "inside a city or suitable base, all units in the same tile are destroyed "
@@ -47693,11 +47693,11 @@ msgstr ""
 "kerralla. Jos tätä ei ole asetettu, vain puolustustaistelun käynyt yksikkö "
 "tuhoutuu."
 
-#: server/settings.c:2277
+#: server/settings.c:2279
 msgid "Reduce city population after attack"
 msgstr "Vähennä kaupungin väestöä hyökkäyksen jälkeen"
 
-#: server/settings.c:2278
+#: server/settings.c:2280
 msgid ""
 "This flag indicates whether a city's population is reduced after a "
 "successful attack by an enemy unit. If this is disabled, population is never "
@@ -47708,11 +47708,11 @@ msgstr ""
 "Vaikka tämä olisikin päällä, vain tietyt yksiköt aiheuttavat väestön "
 "vähentymistä onnistuttuaan hyökkäyksessä."
 
-#: server/settings.c:2286
+#: server/settings.c:2288
 msgid "Slowly kill units without home cities (e.g., starting units)"
 msgstr "Tapa hitaasti yksiköt joilla ei ole kotikaupunkia"
 
-#: server/settings.c:2287
+#: server/settings.c:2289
 msgid ""
 "If greater than 0, then every unit without a homecity will lose hitpoints "
 "each turn. The number of hitpoints lost is given by 'killunhomed' percent of "
@@ -47725,11 +47725,11 @@ msgstr ""
 "maksimivoimapisteistä. Joka vuorolla menetetään ainakin yksi voimapiste "
 "kunnes yksikkö tuhoutuu."
 
-#: server/settings.c:2298
+#: server/settings.c:2300
 msgid "National borders"
 msgstr "Valtioiden rajat"
 
-#: server/settings.c:2299
+#: server/settings.c:2301
 msgid ""
 "If this is not disabled, then any land tiles around a city or border-"
 "claiming extra (like the classic ruleset's Fortress base) will be owned by "
@@ -47744,11 +47744,11 @@ msgstr ""
 "näkyviksi. Arvo ENABLED voi antaa saman näkyvyyden sääntökokoelman "
 "määrittämien ehtojen täyttyessä."
 
-#: server/settings.c:2310
+#: server/settings.c:2312
 msgid "Units inside borders cause no unhappiness"
 msgstr "Sotilasyksiköt rajojen sisäpuolella eivät aiheuta tyytymättömyyttä"
 
-#: server/settings.c:2311
+#: server/settings.c:2313
 msgid ""
 "If this is set, units will not cause unhappiness when inside your borders, "
 "or even allies borders, depending on value."
@@ -47758,24 +47758,24 @@ msgstr ""
 "sisäpuolella, tai eivät aiheuta tyytymättömyyttä liittolaistesi rajojen "
 "sisäpuolella."
 
-#: server/settings.c:2319
+#: server/settings.c:2321
 msgid "Ability to do diplomacy with other players"
 msgstr "Diplomatia muiden pelaajien kanssa"
 
-#: server/settings.c:2320
+#: server/settings.c:2322
 msgid "This setting controls the ability to do diplomacy with other players."
 msgstr ""
 "Asetus säätelee mahdollisuutta käydä diplomaattisia keskusteluja muiden "
 "pelaajien kanssa."
 
-#: server/settings.c:2326
+#: server/settings.c:2328
 msgid "Allowed city names"
 msgstr "Sallitut kaupunkien nimet"
 
 #. TRANS: The strings between double quotes are also translated
 #. * separately (they must match!). The strings between parentheses
 #. * and in uppercase must not be translated.
-#: server/settings.c:2330
+#: server/settings.c:2332
 msgid ""
 "- \"No restrictions\" (NO_RESTRICTIONS): players can have multiple cities "
 "with the same names.\n"
@@ -47798,7 +47798,7 @@ msgstr ""
 "eivät voi myöskään kuulua muiden kansakuntien oletusnimistöön ellei nimi "
 "kuulu myös pelaajan omaan oletusnimistöön."
 
-#: server/settings.c:2344
+#: server/settings.c:2346
 msgid "How to pick player colors"
 msgstr "Miten pelaajien värit valitaan"
 
@@ -47806,7 +47806,7 @@ msgstr "Miten pelaajien värit valitaan"
 #. * separately (they must match!). The strings between single quotes
 #. * are setting names and shouldn't be translated. The strings
 #. * between parentheses and in uppercase must not be translated.
-#: server/settings.c:2349
+#: server/settings.c:2351
 msgid ""
 "This setting determines how player colors are chosen. Player colors are used "
 "in the Nations report, for national borders on the map, and so on.\n"
@@ -47848,13 +47848,13 @@ msgstr ""
 "Riippumatta tämän asetuksen arvosta, yksittäisten pelaajien värejä voi "
 "vaihtaa pelin aloituksen jälkeen komennolla 'playercolor'."
 
-#: server/settings.c:2391
+#: server/settings.c:2393
 msgid "Barbarian appearance frequency"
 msgstr "Barbaarien aktiivisuustaso"
 
 #. TRANS: The string between single quotes is a setting name and
 #. * should not be translated.
-#: server/settings.c:2394
+#: server/settings.c:2396
 msgid ""
 "This setting controls how frequently the barbarians appear in the game. See "
 "also the 'onsetbarbs' setting."
@@ -47862,19 +47862,19 @@ msgstr ""
 "Asetus ohjaa barbaarien esiintymistodennäköisyyttä. Katso myös asetusta "
 "'onsetbarbs'."
 
-#: server/settings.c:2401
+#: server/settings.c:2403
 msgid "Barbarian onset turn"
 msgstr "Barbaarien ilmaantumisvuoro"
 
-#: server/settings.c:2402
+#: server/settings.c:2404
 msgid "Barbarians will not appear before this turn."
 msgstr "Barbaareja ei ilmaannu ennen tätä vuoroa."
 
-#: server/settings.c:2409
+#: server/settings.c:2411
 msgid "Way to determine revolution length"
 msgstr "Tapa jolla vallankumouksen pituus määräytyy"
 
-#: server/settings.c:2410
+#: server/settings.c:2412
 msgid ""
 "Which method is used in determining how long period of anarchy lasts when "
 "changing government. The actual value is set with 'revolen' setting. The "
@@ -47889,11 +47889,11 @@ msgstr ""
 "yhteensä), eli hallitusmuotoon siirtyminen muuttuu sitä helpommaksi mitä "
 "enemmän siitä on maailmassa kokemusta."
 
-#: server/settings.c:2421
+#: server/settings.c:2423
 msgid "Length of revolution"
 msgstr "Vallankumouksen kesto"
 
-#: server/settings.c:2422
+#: server/settings.c:2424
 msgid ""
 "When changing governments, a period of anarchy will occur. Value of this "
 "setting, used the way 'revolentype' setting dictates, defines the length of "
@@ -47903,11 +47903,11 @@ msgstr ""
 "määrittää, tulkittuna 'revolentype' asetuksen määrittämällä tavalla, kuinka "
 "kauan anarkia kestää."
 
-#: server/settings.c:2431
+#: server/settings.c:2433
 msgid "Whether to enable fog of war"
 msgstr "Rajoita näkyvyyttä (\"fog of war\")"
 
-#: server/settings.c:2432
+#: server/settings.c:2434
 msgid ""
 "If this is enabled, only those units and cities within the vision range of "
 "your own units and cities will be revealed to you. You will not see new "
@@ -47917,11 +47917,11 @@ msgstr ""
 "kaupunkiesi näkökentässä olevat yksiköt ja kaupungit. Et näe uusia "
 "kaupunkeja tai maaston muutoksia ruuduissa joita et tarkkaile."
 
-#: server/settings.c:2440
+#: server/settings.c:2442
 msgid "Whether fog of war applies to border changes"
 msgstr "Rajoita rajojen näkyvyyttä (koskeeko\"fog of war\" myös rajoja)"
 
-#: server/settings.c:2441
+#: server/settings.c:2443
 msgid ""
 "If this setting is enabled, players will not be able to see changes in tile "
 "ownership if they do not have direct sight of the affected tiles. Otherwise, "
@@ -47934,7 +47934,7 @@ msgstr ""
 "näkevät kaikki valtiorajojen muutokset, jos ovat joskus nähneet kyseiset "
 "ruudut."
 
-#: server/settings.c:2450
+#: server/settings.c:2452
 msgid "Airlifting style"
 msgstr "Ilmasillan käyttö"
 
@@ -47942,7 +47942,7 @@ msgstr "Ilmasillan käyttö"
 #. * translated separately (they must match!). The strings
 #. * between parenthesis and in uppercase must not be
 #. * translated.
-#: server/settings.c:2455
+#: server/settings.c:2457
 #, fuzzy
 #| msgid ""
 #| "This setting affects airlifting units between cities. It can be a set of "
@@ -47976,11 +47976,11 @@ msgstr ""
 "- \"Rajaton saapuvien yksiköiden määrä\" (DEST_UNLIMITED).\n"
 "   Kohdekaupungissa ei tarvita lentokenttää."
 
-#: server/settings.c:2474
+#: server/settings.c:2476
 msgid "Base chance for diplomats and spies to succeed"
 msgstr "Perustodennäköisyys sille, että diplomaatit ja vakoojat onnistuvat"
 
-#: server/settings.c:2475
+#: server/settings.c:2477
 #, fuzzy
 #| msgid ""
 #| "The base chance of a spy returning from a successful mission and the base "
@@ -48003,7 +48003,7 @@ msgstr ""
 "yksikön sabotoiminen eivät käytä. Lisäksi monet rauhanomaiset tehtävät "
 "onnistuvat aina, riippumatta tästä asetuksesta."
 
-#: server/settings.c:2488
+#: server/settings.c:2490
 msgid "What kinds of victories are possible"
 msgstr "Millaiset voittotavat ovat mahdollisia"
 
@@ -48012,7 +48012,7 @@ msgstr "Millaiset voittotavat ovat mahdollisia"
 #. * quotes are setting names and shouldn't be translated. The
 #. * strings between parentheses and in uppercase must stay as
 #. * untranslated.
-#: server/settings.c:2494
+#: server/settings.c:2496
 msgid ""
 "This setting controls how game can be won. One can always win by conquering "
 "entire planet, but other victory conditions can be enabled or disabled:\n"
@@ -48033,11 +48033,11 @@ msgstr ""
 "- \"Kulttuuri\" (CULTURE): Pelaaja on saavuttanut kulttuurisen valta-aseman. "
 "Sääntökokoelma määrittää mikä katsotaan valta-asemaksi.\n"
 
-#: server/settings.c:2507
+#: server/settings.c:2509
 msgid "Should the game end if the spaceship arrives?"
 msgstr "Loppuuko peli avaruusaluksen päästessä perille?"
 
-#: server/settings.c:2508
+#: server/settings.c:2510
 msgid ""
 "If this option is turned on, the game will end with the arrival of a "
 "spaceship at Alpha Centauri."
@@ -48045,11 +48045,11 @@ msgstr ""
 "Jos asetus on käytössä, peli päättyy kun avaruusalus pääsee perille Alfa "
 "Centauriin."
 
-#: server/settings.c:2515
+#: server/settings.c:2517
 msgid "Percentage to multiply spaceship travel time by"
 msgstr "Prosentti, jolla avaruusaluksen matka-aika kerrotaan"
 
-#: server/settings.c:2516
+#: server/settings.c:2518
 msgid ""
 "This percentage is multiplied onto the time it will take for a spaceship to "
 "arrive at Alpha Centauri."
@@ -48057,11 +48057,11 @@ msgstr ""
 "Tämä prosentti toimii kertoimena ajalle, jonka avaruusalukselta kestää "
 "päästä perille Alfa Centauriin."
 
-#: server/settings.c:2524
+#: server/settings.c:2526
 msgid "Minimum number of cities for civil war"
 msgstr "Pienin määrä kaupunkeja sisällissodan syttymiseen"
 
-#: server/settings.c:2525
+#: server/settings.c:2527
 msgid ""
 "A civil war is triggered when a player has at least this many cities and the "
 "player's capital is captured. If this option is set to the maximum value, "
@@ -48071,11 +48071,11 @@ msgstr ""
 "tämä määrä kaupunkeja. Jos arvo on suurin mahdollinen, sisällissotia ei syty "
 "lainkaan."
 
-#: server/settings.c:2535
+#: server/settings.c:2537
 msgid "Restrict the use of the infrastructure for enemy units"
 msgstr "Estä vihollisyksiköiden infrastruktuurin käyttö"
 
-#: server/settings.c:2536
+#: server/settings.c:2538
 msgid ""
 "If this option is enabled, the use of roads and rails will be restricted for "
 "enemy units."
@@ -48083,11 +48083,11 @@ msgstr ""
 "Jos asetus on käytössä, vihollisyksiköt eivät voi käyttää teitä ja "
 "rautateitä."
 
-#: server/settings.c:2543
+#: server/settings.c:2545
 msgid "Does unreachable unit protect reachable ones"
 msgstr "Suojeleeko tavoittamattomissa oleva yksikkö muita"
 
-#: server/settings.c:2544
+#: server/settings.c:2546
 #, fuzzy
 #| msgid ""
 #| "This option controls whether tiles with both unreachable and reachable "
@@ -48107,11 +48107,11 @@ msgstr ""
 "yksikkö. Jos asetus on käytössä, ruutuihin ei voi hyökätä, jos niissä on "
 "tavoittamattomissa oleva yksikkö."
 
-#: server/settings.c:2555
+#: server/settings.c:2557
 msgid "Turns until player contact is lost"
 msgstr "Vuorojen määrä ennen kuin pelaajayhteys menetetään"
 
-#: server/settings.c:2556
+#: server/settings.c:2558
 msgid ""
 "Players may meet for diplomacy this number of turns after their units have "
 "last met, even when they do not have an embassy. If set to zero, then "
@@ -48122,11 +48122,11 @@ msgstr ""
 "Yhteyden aikana he voivat tehdä diplomaattisen sopimuksen. Jos arvo on 0, "
 "pelaajat eivät voi tavata ilman lähetystöä."
 
-#: server/settings.c:2567
+#: server/settings.c:2569
 msgid "Rebuild palace whenever capital is conquered"
 msgstr "Rakenna palatsi uudelleen jos pääkaupunki vallataan"
 
-#: server/settings.c:2568
+#: server/settings.c:2570
 msgid ""
 "If this is turned on, when the capital is conquered the palace is "
 "automatically rebuilt for free in another randomly chosen city. This is "
@@ -48139,13 +48139,13 @@ msgstr ""
 "Asetukselle antaa lisäpainoa se, että palatsin rakentamisen "
 "teknologiavaatimukset jätetään huomiotta."
 
-#: server/settings.c:2579
+#: server/settings.c:2581
 msgid "Give caught units a homecity"
 msgstr "Anna kotikaupunki valloitetun kaupungin yksiköille"
 
 #. TRANS: The string between single quotes is a setting name and
 #. * should not be translated.
-#: server/settings.c:2582
+#: server/settings.c:2584
 msgid ""
 "If unset, caught units will have no homecity and will be subject to the "
 "'killunhomed' option."
@@ -48153,11 +48153,11 @@ msgstr ""
 "Jos asetus ei ole päällä, valloitetun kaupungin mukana tulleilla yksiköillä "
 "ei ole kotikaupunkia ja ne ovat asetuksen 'killunhomed' kohteena."
 
-#: server/settings.c:2589
+#: server/settings.c:2591
 msgid "Whether to use natural city names"
 msgstr "Käytetäänkö luonnollisia kaupunkien nimiä"
 
-#: server/settings.c:2590
+#: server/settings.c:2592
 msgid ""
 "If enabled, the default city names will be determined based on the "
 "surrounding terrain."
@@ -48165,13 +48165,13 @@ msgstr ""
 "Jos tämä on valittu, kaupunkien oletusnimet valitaan niiden ympäristön "
 "perusteella."
 
-#: server/settings.c:2597
+#: server/settings.c:2599
 msgid "Whether to enable citizen migration"
 msgstr "Mahdollistetaanko asukkaiden muuttoliikkeet"
 
 #. TRANS: The strings between single quotes are setting names
 #. * and should not be translated.
-#: server/settings.c:2600
+#: server/settings.c:2602
 msgid ""
 "This is the master setting that controls whether citizen migration is active "
 "in the game. If enabled, citizens may automatically move from less desirable "
@@ -48199,12 +48199,12 @@ msgstr ""
 "  mgr_worldchance  – Todennäköisyys muuttoon ulkomaille.\n"
 "  mgr_nationchance – Todennäköisyys muuttoon valtion sisällä."
 
-#: server/settings.c:2619
+#: server/settings.c:2621
 msgid "Number of turns between migrations from a city"
 msgstr "Vuorojen määrä kaupungista muuttojen välillä"
 
 #. TRANS: Do not translate 'migration' setting name.
-#: server/settings.c:2621
+#: server/settings.c:2623
 msgid ""
 "This setting controls the number of turns between migration checks for a "
 "given city. The interval is calculated from the founding turn of the city. "
@@ -48220,12 +48220,12 @@ msgstr ""
 "kuitenkaan lähde heti kaupungin perustamisvuorolla. Asetuksella ei ole "
 "vaikutusta, ellei muuttoliikkeitä ole mahdollistettu 'migration'-asetuksella."
 
-#: server/settings.c:2636
+#: server/settings.c:2638
 msgid "Whether migration is limited by food"
 msgstr "Rajoittaako ruoka muuttoja"
 
 #. TRANS: Do not translate 'migration' setting name.
-#: server/settings.c:2638
+#: server/settings.c:2640
 msgid ""
 "If this setting is enabled, citizens will not migrate to cities which would "
 "not have enough food to support them. This setting has no effect unless "
@@ -48235,12 +48235,12 @@ msgstr ""
 "riittävästi ruokaa uusien asukkaiden ruokkimiseen. Asetuksella ei ole "
 "vaikutusta, ellei muuttoliikkeitä ole mahdollistettu 'migration'-asetuksella."
 
-#: server/settings.c:2647
+#: server/settings.c:2649
 msgid "Maximum distance citizens may migrate"
 msgstr "Maksimietäisyys, jonka siirtolaiset voivat muuttaa"
 
 #. TRANS: Do not translate 'migration' setting name.
-#: server/settings.c:2649
+#: server/settings.c:2651
 msgid ""
 "This setting controls how far citizens may look for a suitable migration "
 "destination when deciding which city to migrate to. The value is added to "
@@ -48258,12 +48258,12 @@ msgstr ""
 "kohdekaupungin työskentelyalueen säteellä. Asetuksella ei ole vaikutusta, "
 "ellei muuttoliikkeitä ole mahdollistettu 'migration'-asetuksella."
 
-#: server/settings.c:2665
+#: server/settings.c:2667
 msgid "Percent probability for migration within the same nation"
 msgstr "Todennäköisyys (%) maassamuuttoon"
 
 #. TRANS: Do not translate 'migration' setting name.
-#: server/settings.c:2667
+#: server/settings.c:2669
 msgid ""
 "This setting controls how likely it is for citizens to migrate between "
 "cities owned by the same player. Zero indicates migration will never occur, "
@@ -48277,12 +48277,12 @@ msgstr ""
 "sopivan kohdekaupungin muuttovuorollaan. Asetuksella ei ole vaikutusta, "
 "ellei muuttoliikkeitä ole mahdollistettu 'migration'-asetuksella."
 
-#: server/settings.c:2680
+#: server/settings.c:2682
 msgid "Percent probability for migration between foreign cities"
 msgstr "Todennäköisyys (%) maastamuuttoon"
 
 #. TRANS: Do not translate 'migration' setting name.
-#: server/settings.c:2682
+#: server/settings.c:2684
 msgid ""
 "This setting controls how likely it is for migration to occur between cities "
 "owned by different players. Zero indicates migration will never occur, 100 "
@@ -48296,13 +48296,13 @@ msgstr ""
 "sopivan kohdekaupungin muuttovuorollaan. Asetuksella ei ole vaikutusta, "
 "ellei muuttoliikkeitä ole mahdollistettu 'migration'-asetuksella."
 
-#: server/settings.c:2701
+#: server/settings.c:2703
 msgid "Players that users are allowed to take"
 msgstr "Pelaajat, joihin käyttäjät voivat kytkeytyä"
 
 #. TRANS: the strings in double quotes are server command names
 #. * and should not be translated.
-#: server/settings.c:2704
+#: server/settings.c:2706
 msgid ""
 "This should be a string of characters, each of which specifies a type or "
 "status of a civilization (player).\n"
@@ -48359,11 +48359,11 @@ msgstr ""
 "syrjäyttää;\n"
 "          4 = hallintaa ei sallita, tarkkailijat sallitaan"
 
-#: server/settings.c:2740
+#: server/settings.c:2742
 msgid "Whether AI-status toggles with connection"
 msgstr "Muuttuuko AI-tila yhteyden mukaan"
 
-#: server/settings.c:2741
+#: server/settings.c:2743
 msgid ""
 "If enabled, AI status is turned off when a player connects, and on when a "
 "player disconnects."
@@ -48371,15 +48371,15 @@ msgstr ""
 "Jos asetus on käytössä, AI-tilasta poistutaan kun pelaaja on yhteydessä ja "
 "siihen palataan kun pelaaja katkaisee yhteyden."
 
-#: server/settings.c:2747
+#: server/settings.c:2749
 msgid "Turn the game ends"
 msgstr "Pelin päättymisvuoro"
 
-#: server/settings.c:2748
+#: server/settings.c:2750
 msgid "The game will end at the end of the given turn."
 msgstr "Peli päättyy annetun vuoron lopussa."
 
-#: server/settings.c:2754
+#: server/settings.c:2756
 msgid "Reveal the map"
 msgstr "Kartan paljastus"
 
@@ -48388,7 +48388,7 @@ msgstr "Kartan paljastus"
 #. * quotes are setting names and shouldn't be translated. The
 #. * strings between parentheses and in uppercase must not be
 #. * translated.
-#: server/settings.c:2760
+#: server/settings.c:2762
 msgid ""
 "If \"Reveal map at game start\" (START) is set, the initial state of the "
 "entire map will be known to all players from the start of the game, although "
@@ -48403,7 +48403,7 @@ msgstr ""
 "hävitetyt pelaajat voivat nähdä koko kartan täydellisesti, jos he ovat yksin "
 "joukkueessaan."
 
-#: server/settings.c:2771
+#: server/settings.c:2773
 msgid "Maximum seconds per turn"
 msgstr "Suurin sallittu aika kierrosta kohti (sekunteina)"
 
@@ -48411,7 +48411,7 @@ msgstr "Suurin sallittu aika kierrosta kohti (sekunteina)"
 #. * translated separately, the translation should be the same.
 #. * \"timeoutincrease\" is a command name and must not to be
 #. * translated.
-#: server/settings.c:2776
+#: server/settings.c:2778
 msgid ""
 "If all players have not hit \"Turn Done\" before this time is up, then the "
 "turn ends automatically. Zero means there is no timeout. In servers compiled "
@@ -48430,13 +48430,13 @@ msgstr ""
 "Ensimmäinen vuoro on erikoistapaus, sitä säädetään asetuksella "
 "'first_timeout' (Ensimmäisen vuoron aikakatkaisu)."
 
-#: server/settings.c:2790
+#: server/settings.c:2792
 msgid "First turn timeout"
 msgstr "Ensimmäisen vuoron aikakatkaisu"
 
 #. TRANS: The strings between single quotes are setting names and
 #. * should not be translated.
-#: server/settings.c:2793
+#: server/settings.c:2795
 msgid ""
 "If greater than 0, T1 will last for 'first_timeout' seconds.\n"
 "If set to 0, T1 will not have a timeout.\n"
@@ -48449,11 +48449,11 @@ msgstr ""
 "Jos asetettu arvoon -1, ensimmäisen vuoron erityinen kohtelu on poistettu.\n"
 "Katso myös asetus 'timeout' (Suurin sallittu aika kierrosta kohti)"
 
-#: server/settings.c:2803
+#: server/settings.c:2805
 msgid "Timeout at least n seconds when enemy moved"
 msgstr "Aikakatkaisu vähintään n sekuntia, kun vihollinen on liikkunut"
 
-#: server/settings.c:2804
+#: server/settings.c:2806
 msgid ""
 "Any time a unit moves while in sight of an enemy player, the remaining "
 "timeout is increased to this value."
@@ -48461,13 +48461,13 @@ msgstr ""
 "Aina kun yksikkö liikkuu vihollispelaajan näköpiirissä, jäljellä olevaa "
 "siirtoaikaa korotetaan tähän arvoon."
 
-#: server/settings.c:2812
+#: server/settings.c:2814
 msgid "Minimum time between unit actions over turn change"
 msgstr "Vähimmäisaika yksikön siirtojen välillä vuoronvaihdon molemmin puolin"
 
 #. TRANS: The string between single quotes is a setting name and
 #. * should not be translated.
-#: server/settings.c:2815
+#: server/settings.c:2817
 msgid ""
 "This setting gives the minimum amount of time in seconds between unit moves "
 "and other significant actions (such as building cities) after a turn change "
@@ -48484,11 +48484,11 @@ msgstr ""
 "kuljetusyksikön sisällä. Asetuksen arvo on korkeintaan 2/3 asetuksen "
 "'timeout' arvosta."
 
-#: server/settings.c:2831
+#: server/settings.c:2833
 msgid "Control of simultaneous player/team phases"
 msgstr "Pelaajien/joukkueiden vuorottainen liikkuminen"
 
-#: server/settings.c:2832
+#: server/settings.c:2834
 msgid ""
 "This setting controls whether players may make moves at the same time during "
 "a turn. Change in setting takes effect next turn."
@@ -48496,11 +48496,11 @@ msgstr ""
 "Tällä asetuksella määrätään, tekevätkö pelaajat siirtonsa samaan aikaan "
 "vuoron sisällä. Asetuksen muutos astuu voimaan seuraavalla siirrolla."
 
-#: server/settings.c:2839
+#: server/settings.c:2841
 msgid "Seconds to let a client's network connection block"
 msgstr "Kuinka kauan asiakkaan verkkoyhteyttä odotetaan (s)"
 
-#: server/settings.c:2840
+#: server/settings.c:2842
 msgid ""
 "If a network connection is blocking for a time greater than this value, then "
 "the connection is closed. Zero means there is no timeout (although "
@@ -48510,11 +48510,11 @@ msgstr ""
 "suljetaan. Jos arvo on nolla, yhteyttä ei suljeta tällä perusteella (tosin "
 "yhteydet sulkeutuvat automaattisesti lopulta joka tapauksessa)."
 
-#: server/settings.c:2849
+#: server/settings.c:2851
 msgid "Max seconds for network buffers to drain"
 msgstr "Verkkopuskureiden tyhjenemisen maksimiodotusaika sekunteina"
 
-#: server/settings.c:2850
+#: server/settings.c:2852
 msgid ""
 "The server will wait for up to the value of this parameter in seconds, for "
 "all client connection network buffers to unblock. Zero means the server will "
@@ -48524,11 +48524,11 @@ msgstr ""
 "verkkopuskureiden vapautumista (unblock). Jos arvo on nolla, palvelin ei "
 "odota lainkaan."
 
-#: server/settings.c:2858
+#: server/settings.c:2860
 msgid "Seconds between PINGs"
 msgstr "Tauko yhteystarkistusten välillä (s)"
 
-#: server/settings.c:2859
+#: server/settings.c:2861
 msgid ""
 "The server will poll the clients with a PING request each time this period "
 "elapses."
@@ -48536,22 +48536,22 @@ msgstr ""
 "Aika palvelimen asiakasohjelmille lähettämien yhteystarkistusviestien "
 "välillä."
 
-#: server/settings.c:2866
+#: server/settings.c:2868
 msgid "Time to cut a client"
 msgstr "Aika yhteyden katkaisuun"
 
-#: server/settings.c:2867
+#: server/settings.c:2869
 msgid ""
 "If a client doesn't reply to a PING in this time the client is disconnected."
 msgstr ""
 "Jos asiakasohjelma ei vastaa yhteystarkistukseen tässä ajassa, yhteys "
 "katkaistaan."
 
-#: server/settings.c:2874
+#: server/settings.c:2876
 msgid "Turn-blocking game play mode"
 msgstr "Kierroksen vaihtumisen esto"
 
-#: server/settings.c:2875
+#: server/settings.c:2877
 msgid ""
 "If this is turned on, the game turn is not advanced until all players have "
 "finished their turn, including disconnected players."
@@ -48559,13 +48559,13 @@ msgstr ""
 "Jos asetus on käytössä, pelin vuoro ei vaihdu ennen kuin kaikki pelaajat "
 "ovat päättäneet omat vuoronsa, mukaanlukien pelaajat joiden yhteys on poikki."
 
-#: server/settings.c:2883
+#: server/settings.c:2885
 msgid "Fixed-length turns play mode"
 msgstr "Tasapitkät kierrokset"
 
 #. TRANS: \"Turn Done\" refers to the client button; it is also
 #. * translated separately, the translation should be the same.
-#: server/settings.c:2886
+#: server/settings.c:2888
 msgid ""
 "If this is turned on the game turn will not advance until the timeout has "
 "expired, even after all players have clicked on \"Turn Done\"."
@@ -48573,13 +48573,13 @@ msgstr ""
 "Jos asetus on käytössä, uusi kierros ei ala ennen kuin asetettu kierrosaika "
 "on kulunut, vaikka kaikki olisivat painaneet \"Vuoro valmis\"."
 
-#: server/settings.c:2894
+#: server/settings.c:2896
 msgid "What is in the Demographics report"
 msgstr "Mitä väestökatsaus sisältää"
 
 #. TRANS: The strings between double quotes should be
 #. * translated.
-#: server/settings.c:2897
+#: server/settings.c:2899
 msgid ""
 "This should be a string of characters, each of which specifies the inclusion "
 "of a line of information in the Demographics report.\n"
@@ -48621,14 +48621,14 @@ msgstr ""
 "    b = näytä paras valtio\n"
 "(Kirjainten järjestyksellä ei ole merkitystä, mutta niiden koolla (P/p) on.)"
 
-#: server/settings.c:2922
+#: server/settings.c:2924
 msgid "Turns per auto-save"
 msgstr "Vuoroja automaattista tallennusta kohden"
 
 #. TRANS: The string between double quotes is also translated
 #. * separately (it must match!). The string between single
 #. * quotes is a setting name and shouldn't be translated.
-#: server/settings.c:2926
+#: server/settings.c:2928
 msgid ""
 "How many turns elapse between automatic game saves. This setting only has an "
 "effect when the 'autosaves' setting includes \"New turn\"."
@@ -48637,14 +48637,14 @@ msgstr ""
 "asetuksella on vaikutusta vain jos asetus 'autosaves' pitää sisällään vivun "
 "\"Vuoron vaihtuessa\"."
 
-#: server/settings.c:2933
+#: server/settings.c:2935
 msgid "Minutes per auto-save"
 msgstr "Monenko minuutin välein automaattinen talletus tapahtuu"
 
 #. TRANS: The string between double quotes is also translated
 #. * separately (it must match!). The string between single
 #. * quotes is a setting name and shouldn't be translated.
-#: server/settings.c:2937
+#: server/settings.c:2939
 msgid ""
 "How many minutes elapse between automatic game saves. Unlike other save "
 "types, this save is only meant as backup for computer memory, and it always "
@@ -48658,7 +48658,7 @@ msgstr ""
 "tallennuskerralla. Tällä asetuksella on vaikutusta vain jos asetus "
 "'autosaves' pitää sisällään vivun \"Ajastin\"."
 
-#: server/settings.c:2946
+#: server/settings.c:2948
 msgid "Which savegames are generated automatically"
 msgstr "Mitä automaattisia pelitallennuksia luodaan"
 
@@ -48667,7 +48667,7 @@ msgstr "Mitä automaattisia pelitallennuksia luodaan"
 #. * quotes are setting names and shouldn't be translated. The
 #. * strings between parentheses and in uppercase must stay as
 #. * untranslated.
-#: server/settings.c:2952
+#: server/settings.c:2954
 msgid ""
 "This setting controls which autosave types get generated:\n"
 "- \"New turn\" (TURN): Save when turn begins, once every 'saveturns' turns.\n"
@@ -48689,13 +48689,13 @@ msgstr ""
 "- \"Ajastin\" (TIMER): Tallenna peli jokaisen 'savefrequency' asetuksen "
 "mukaisen minuuttimäärän kulututua."
 
-#: server/settings.c:2965
+#: server/settings.c:2967
 msgid "Whether to do saving in separate thread"
 msgstr "Hoidetaanko pelin tallentaminen erillisessä säikeessä"
 
 #. TRANS: The string between single quotes is a setting name and
 #. * should not be translated.
-#: server/settings.c:2968
+#: server/settings.c:2970
 msgid ""
 "If this is turned in, compressing and saving the actual file containing the "
 "game situation takes place in the background while game otherwise continues. "
@@ -48706,12 +48706,12 @@ msgstr ""
 "etenee. Näin käyttäjien ei tarvitse odottaa näiden toimenpiteiden "
 "valmistumista ennen pelin jatkumista."
 
-#: server/settings.c:2976
+#: server/settings.c:2978
 msgid "Savegame compression level"
 msgstr "Tallennetun pelin pakkaustaso"
 
 #. TRANS: 'compresstype' setting name should not be translated.
-#: server/settings.c:2978
+#: server/settings.c:2980
 msgid ""
 "If non-zero, saved games will be compressed depending on the 'compresstype' "
 "setting. Larger values will give better compression but take longer."
@@ -48720,22 +48720,22 @@ msgstr ""
 "'compresstype' määrittämällä tavalla. Suuremmilla arvoilla pakkaus tehostuu "
 "mutta vie enemmän aikaa."
 
-#: server/settings.c:2986
+#: server/settings.c:2988
 msgid "Savegame compression algorithm"
 msgstr "Tallennetun pelin pakkausalgoritmi"
 
-#: server/settings.c:2987
+#: server/settings.c:2989
 msgid "Compression library to use for savegames."
 msgstr "Pakkauskirjasto jota käytetään pelien tallentamiseen"
 
-#: server/settings.c:2992
+#: server/settings.c:2994
 msgid "Definition of the save file name"
 msgstr "Tallennustiedoston nimen määritys"
 
 #. TRANS: %R, %S, %T and %Y must not be translated. The
 #. * strings (examples and setting names) between single quotes
 #. * neither. The strings between <> should be translated.
-#: server/settings.c:2997
+#: server/settings.c:2999
 #, no-c-format
 msgid ""
 "Within the string the following custom formats are allowed:\n"
@@ -48762,13 +48762,13 @@ msgstr ""
 "pelitallennukset kirjoitetaan vanhojen päälle. Jos asetuksessa ei ole mitään "
 "edelläolevista erikoismerkinnöistä, '-T%04T-Y%05Y-%R' liitetään sen perään."
 
-#: server/settings.c:3020
+#: server/settings.c:3022
 msgid "Whether to log player statistics"
 msgstr "Pidetäänkö pelaajatilastoista kirjaa"
 
 #. TRANS: The string between single quotes is a setting name and
 #. * should not be translated.
-#: server/settings.c:3023
+#: server/settings.c:3025
 msgid ""
 "If this is turned on, player statistics are appended to the file defined by "
 "the option 'scorefile' every turn. These statistics can be used to create "
@@ -48778,11 +48778,11 @@ msgstr ""
 "määriteltyyn tiedostoon joka vuoro. Tilastoja voidaan käyttää valta/voima-"
 "kuvaajien luomiseen pelin päätyttyä."
 
-#: server/settings.c:3031
+#: server/settings.c:3033
 msgid "Scorelog level"
 msgstr "Tulostiedoston sisältö"
 
-#: server/settings.c:3032
+#: server/settings.c:3034
 msgid ""
 "Whether scores are logged for all players including AIs, or only for human "
 "players."
@@ -48790,20 +48790,20 @@ msgstr ""
 "Kirjataanko pistelogeihin myös tietokonepelaajien vai ainostaan "
 "ihmispelaajien pisteet."
 
-#: server/settings.c:3040
+#: server/settings.c:3042
 msgid "Name for the score log file"
 msgstr "Tulostiedoston nimi"
 
 #. TRANS: Don't translate the string in single quotes.
-#: server/settings.c:3042
+#: server/settings.c:3044
 msgid "The default name for the score log file is 'freeciv-score.log'."
 msgstr "Oletusarvo tulostiedoston nimelle on 'freeciv-score.log'."
 
-#: server/settings.c:3050
+#: server/settings.c:3052
 msgid "Maximum number of connections to the server per host"
 msgstr "Yhdeltä koneelta tulevien yhteyksien maksimimäärä"
 
-#: server/settings.c:3051
+#: server/settings.c:3053
 msgid ""
 "New connections from a given host will be rejected if the total number of "
 "connections from the very same host equals or exceeds this value. A value of "
@@ -48815,13 +48815,13 @@ msgstr ""
 "tarkoittaa, ettei rajoituksia ole, kunhan palvelimen kokonaisuudessaan "
 "sallimien yhteyksien määrän raja ei tule vastaan."
 
-#: server/settings.c:3062
+#: server/settings.c:3064
 msgid "Time before a kicked user can reconnect"
 msgstr "Jäähyaika"
 
 #. TRANS: the string in double quotes is a server command name and
 #. * should not be translated
-#: server/settings.c:3065
+#: server/settings.c:3067
 msgid ""
 "Gives the time in seconds before a user kicked using the \"kick\" command "
 "may reconnect. Changing this setting will affect users kicked in the past."
@@ -48830,11 +48830,11 @@ msgstr ""
 "laitettu käyttäjä joutuu odottamaan ennen uutta yhteydenottoa palvelimeen. "
 "Asetuksen muuttaminen vaikuttaa myös nykyisten jäähyllä olevien jäähyaikaan."
 
-#: server/settings.c:3072
+#: server/settings.c:3074
 msgid "Metaserver info line"
 msgstr "Metapalvelimella näkyvä infoteksti"
 
-#: server/settings.c:3073
+#: server/settings.c:3075
 msgid ""
 "User defined metaserver info line. For most of the time a user defined "
 "metamessage will be used instead of an automatically generated message. Set "
@@ -48846,104 +48846,104 @@ msgstr ""
 "tietojen sijaan. Aseta tyhjäksi (\"\") jos haluat että automaattisesti luotu "
 "infoteksti on jatkuvasti käytössä."
 
-#: server/settings.c:3193
+#: server/settings.c:3195
 #, c-format
 msgid "The setting '%s' can't be modified after the map is fixed."
 msgstr "Asetusta '%s' ei voida muuttaa kartan generoinnin jälkeen."
 
-#: server/settings.c:3229
+#: server/settings.c:3231
 #, c-format
 msgid "The setting '%s' can't be modified after the game has started."
 msgstr "Asetusta '%s' ei voida muuttaa pelin alettua."
 
-#: server/settings.c:3241
+#: server/settings.c:3243
 msgid "Internal error."
 msgstr "Sisäinen virhe"
 
-#: server/settings.c:3258
+#: server/settings.c:3260
 #, c-format
 msgid "You are not allowed to change the setting '%s'."
 msgstr "Sinulla ei ole tarvittavia oikeuksia asetuksen '%s' muuttamiseen."
 
-#: server/settings.c:3266
+#: server/settings.c:3268
 #, c-format
 msgid "The setting '%s' is locked by the ruleset."
 msgstr "Asetus '%s' on lukittu sääntökokoelmassa."
 
-#: server/settings.c:3366
+#: server/settings.c:3368
 #, c-format
 msgid "\"%s\" prefix is ambiguous. Candidates are: %s."
 msgstr "Alku \"%s\" vastaa useampaa kandidaattia: %s."
 
-#: server/settings.c:3373
+#: server/settings.c:3375
 msgid "Missing value."
 msgstr "Puuttuva arvo."
 
-#: server/settings.c:3382
+#: server/settings.c:3384
 #, c-format
 msgid "No match for \"%s\"."
 msgstr "Alulla \"%s\" ei löydy osumia."
 
-#: server/settings.c:3420
+#: server/settings.c:3422
 msgid "This setting is not a boolean."
 msgstr "Asetus ei ole kaksiarvoinen."
 
-#: server/settings.c:3551
+#: server/settings.c:3553
 msgid "This setting is not an integer."
 msgstr "Asetus ei ole kokonaisluku."
 
-#: server/settings.c:3557
+#: server/settings.c:3559
 #, c-format
 msgid "Value out of range: %d (min: %d; max: %d)."
 msgstr "Arvo %d ei ole välillä %d–%d."
 
-#: server/settings.c:3622
+#: server/settings.c:3624
 msgid "This setting is not a string."
 msgstr "Asetus ei ole merkkijono."
 
-#: server/settings.c:3628
+#: server/settings.c:3630
 #, c-format
 msgid "String value too long (max length: %lu)."
 msgstr "Merkkijonoarvo saa olla korkeintaa %lu merkkiä pitkä"
 
-#: server/settings.c:3716
+#: server/settings.c:3718
 msgid "This setting is not an enumerator."
 msgstr "Asetus ei ole enumeraatio."
 
 #. TRANS: only emphasizing a string.
-#: server/settings.c:3885
+#: server/settings.c:3887
 #, c-format
 msgid "\"%s\""
 msgstr "\"%s\""
 
 #. TRANS: Bitwise setting has no bits set.
-#: server/settings.c:3894
+#: server/settings.c:3896
 msgid "empty value"
 msgstr "tyhjä arvo"
 
-#: server/settings.c:3946
+#: server/settings.c:3948
 msgid "This setting is not a bitwise."
 msgstr "Asetus ei ole arvojoukko."
 
-#: server/settings.c:4229 server/settings.c:4249 server/settings.c:4269
-#: server/settings.c:4293 server/settings.c:4317
+#: server/settings.c:4231 server/settings.c:4251 server/settings.c:4271
+#: server/settings.c:4295 server/settings.c:4319
 #, c-format
 msgid "Ruleset: '%s' has been set to %s."
 msgstr "Sääntökokoelma: '%s' on asetettu arvoon %s."
 
-#: server/settings.c:4340
+#: server/settings.c:4342
 #, c-format
 msgid "Ruleset: '%s' has been locked by the ruleset."
 msgstr "Sääntökokoelma: '%s' on lukittu."
 
-#: server/settings.c:4628 server/settings.c:4660 server/settings.c:4689
-#: server/settings.c:4723 server/settings.c:4757
+#: server/settings.c:4639 server/settings.c:4671 server/settings.c:4700
+#: server/settings.c:4734 server/settings.c:4768
 #, c-format
 msgid "Savegame: '%s' has been set to %s."
 msgstr "Ladattu peli: '%s' on asetettu arvoon %s."
 
-#: server/settings.c:4636 server/settings.c:4668 server/settings.c:4697
-#: server/settings.c:4731 server/settings.c:4765
+#: server/settings.c:4647 server/settings.c:4679 server/settings.c:4708
+#: server/settings.c:4742 server/settings.c:4776
 #, c-format
 msgid "Savegame: '%s' explicitly set to value same as default."
 msgstr "Talletus: '%s' erikseen asetettu samaan arvoon kuin oletusarvo."
