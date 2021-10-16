@@ -1101,20 +1101,23 @@ create_tool_value_selector(struct editbar *eb,
 /************************************************************************//**
   Handle a mouse click on the tool image area in the editor info box.
 ****************************************************************************/
-static gboolean editinfobox_handle_tool_image_button_press(GtkWidget *evbox,
-                                                           GdkEventButton *ev,
-                                                           gpointer data)
+static gboolean editinfobox_handle_tool_image_button_press(
+                                                    GtkGestureClick *gesture,
+                                                    int n_press,
+                                                    double x, double y)
 {
   editgui_run_tool_selection(editor_get_tool());
+
   return TRUE;
 }
 
 /************************************************************************//**
   Handle a mouse click on the mode image area in the editor info box.
 ****************************************************************************/
-static gboolean editinfobox_handle_mode_image_button_press(GtkWidget *evbox,
-                                                           GdkEventButton *ev,
-                                                           gpointer data)
+static gboolean editinfobox_handle_mode_image_button_press(
+                                                    GtkGestureClick *gesture,
+                                                    int n_press,
+                                                    double x, double y)
 {
   editor_tool_cycle_mode(editor_get_tool());
   editgui_refresh();
@@ -1192,6 +1195,7 @@ static struct editinfobox *editinfobox_create(void)
   GtkWidget *spin, *combo;
   GtkListStore *store;
   GtkCellRenderer *cell;
+  GtkEventController *controller;
   struct editinfobox *ei;
   char buf[128];
 
@@ -1221,8 +1225,13 @@ static struct editinfobox *editinfobox_create(void)
 
   image = gtk_image_new();
   gtk_widget_set_tooltip_text(image, _("Click to change value if applicable."));
-  g_signal_connect(image, "button_press_event",
-      G_CALLBACK(editinfobox_handle_tool_image_button_press), NULL);
+
+  controller = GTK_EVENT_CONTROLLER(gtk_gesture_click_new());
+  g_signal_connect(controller, "pressed",
+                   G_CALLBACK(editinfobox_handle_tool_image_button_press),
+                   NULL);
+  gtk_widget_add_controller(image, controller);
+
   gtk_container_add(GTK_CONTAINER(hbox), image);
   ei->tool_image = image;
 
@@ -1251,8 +1260,13 @@ static struct editinfobox *editinfobox_create(void)
 
   image = gtk_image_new();
   gtk_widget_set_tooltip_text(image, _("Click to change tool mode."));
-  g_signal_connect(image, "button_press_event",
-      G_CALLBACK(editinfobox_handle_mode_image_button_press), NULL);
+
+  controller = GTK_EVENT_CONTROLLER(gtk_gesture_click_new());
+  g_signal_connect(controller, "pressed",
+                   G_CALLBACK(editinfobox_handle_mode_image_button_press),
+                   NULL);
+  gtk_widget_add_controller(image, controller);
+
   gtk_container_add(GTK_CONTAINER(hbox), image);
   ei->mode_image = image;
 
