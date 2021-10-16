@@ -2146,19 +2146,22 @@ void broadcast_city_info(struct city *pcity)
   struct packet_web_city_info_addition web_packet;
   struct packet_city_short_info sc_pack;
   struct player *powner = city_owner(pcity);
-  struct traderoute_packet_list *routes = traderoute_packet_list_new();
+  struct traderoute_packet_list *routes;
 
   /* Send to everyone who can see the city. */
-  if (pcity->server.needs_arrange == CNA_NOT) {
+
+  if (pcity->server.needs_arrange != CNA_NOT) {
     /* Send city only when it's in sane state.
      * If it's not, it will be sent to everyone once
      * rearrangement has been finished. */
-    package_city(pcity, &packet, &web_packet, routes, FALSE);
-  } else {
     pcity->server.needs_arrange = CNA_BROADCAST_PENDING;
 
     return;
   }
+
+  routes = traderoute_packet_list_new();
+  package_city(pcity, &packet, &web_packet, routes, FALSE);
+
   players_iterate(pplayer) {
     if (can_player_see_city_internals(pplayer, pcity)) {
       if (!send_city_suppressed || pplayer != powner) {
