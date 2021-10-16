@@ -1232,10 +1232,16 @@ static void setup_widgets(void)
   econ_widget = table2;
 
   for (i = 0; i < 10; i++) {
+    GtkEventController *controller;
+
     spr = i < 5 ? get_tax_sprite(tileset, O_SCIENCE) : get_tax_sprite(tileset, O_GOLD);
     econ_label[i] = image_new_from_surface(spr->surface);
-    g_signal_connect(econ_label[i], "button_press_event",
-                     G_CALLBACK(taxrates_callback), GINT_TO_POINTER(i));
+
+    g_object_set_data(G_OBJECT(econ_label[i]), "rate_button", GUINT_TO_POINTER(i));
+    controller = GTK_EVENT_CONTROLLER(gtk_gesture_click_new());
+    g_signal_connect(controller, "pressed",
+                     G_CALLBACK(taxrates_callback), NULL);
+    gtk_widget_add_controller(econ_label[i], controller);
     gtk_grid_attach(GTK_GRID(table2), econ_label[i], i, 0, 1, 1);
   }
 
