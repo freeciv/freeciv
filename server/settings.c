@@ -4845,6 +4845,8 @@ void settings_game_load(struct section_file *file, const char *section)
                     setting_name(pset), sdname);
           pset->game_setdef = SETDEF_CHANGED;
         }
+      } else {
+        pset->game_setdef = SETDEF_CHANGED;
       }
     } settings_iterate_end;
   }
