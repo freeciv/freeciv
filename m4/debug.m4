@@ -71,7 +71,8 @@ if test "x$enable_debug" = "xchecks"; then
   dnl flags (see http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=148766)
   dnl temporary fixing the problem by patching this file to compile freeciv
   dnl with this option set
-  FC_C_FLAGS([-Wstrict-prototypes], [], [EXTRA_DEBUG_CFLAGS])
+  FC_C_FLAGS([-Wstrict-prototypes -Wimplicit-fallthrough],
+             [], [EXTRA_DEBUG_CFLAGS])
 fi
 
 dnl ==========================================================================
