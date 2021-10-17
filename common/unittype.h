@@ -375,36 +375,36 @@ struct unit_class {
 /* sea raider unit, global tech required */
 #define SPECENUM_VALUE87 L_BARBARIAN_SEA_TECH
 #define SPECENUM_VALUE87NAME N_("?unitflag:BarbarianSeaTech")
-/* Startunit: Cities */
+/* StartUnit: Cities */
 #define SPECENUM_VALUE88 L_START_CITIES
-#define SPECENUM_VALUE88NAME N_("?unitflag:CitiesStartunit")
-/* Startunit: Worker */
+#define SPECENUM_VALUE88NAME N_("?unitflag:CitiesStartUnit")
+/* StartUnit: Worker */
 #define SPECENUM_VALUE89 L_START_WORKER
-#define SPECENUM_VALUE89NAME N_("?unitflag:WorkerStartunit")
-/* Startunit: Explorer */
+#define SPECENUM_VALUE89NAME N_("?unitflag:WorkerStartUnit")
+/* StartUnit: Explorer */
 #define SPECENUM_VALUE90 L_START_EXPLORER
-#define SPECENUM_VALUE90NAME N_("?unitflag:ExplorerStartunit")
-/* Startunit: King */
+#define SPECENUM_VALUE90NAME N_("?unitflag:ExplorerStartUnit")
+/* StartUnit: King */
 #define SPECENUM_VALUE91 L_START_KING
-#define SPECENUM_VALUE91NAME N_("?unitflag:KingStartunit")
-/* Startunit: Diplomat */
+#define SPECENUM_VALUE91NAME N_("?unitflag:KingStartUnit")
+/* StartUnit: Diplomat */
 #define SPECENUM_VALUE92 L_START_DIPLOMAT
-#define SPECENUM_VALUE92NAME N_("?unitflag:DiplomatStartunit")
-/* Startunit: Ferryboat */
+#define SPECENUM_VALUE92NAME N_("?unitflag:DiplomatStartUnit")
+/* StartUnit: Ferryboat */
 #define SPECENUM_VALUE93 L_START_FERRY
-#define SPECENUM_VALUE93NAME N_("?unitflag:FerryStartunit")
-/* Startunit: DefendOk */
+#define SPECENUM_VALUE93NAME N_("?unitflag:FerryStartUnit")
+/* StartUnit: DefendOk */
 #define SPECENUM_VALUE94 L_START_DEFEND_OK
-#define SPECENUM_VALUE94NAME N_("?unitflag:DefendOkStartunit")
-/* Startunit: DefendGood */
+#define SPECENUM_VALUE94NAME N_("?unitflag:DefendOkStartUnit")
+/* StartUnit: DefendGood */
 #define SPECENUM_VALUE95 L_START_DEFEND_GOOD
-#define SPECENUM_VALUE95NAME N_("?unitflag:DefendGoodStartunit")
-/* Startunit: AttackFast */
+#define SPECENUM_VALUE95NAME N_("?unitflag:DefendGoodStartUnit")
+/* StartUnit: AttackFast */
 #define SPECENUM_VALUE96 L_START_ATTACK_FAST
-#define SPECENUM_VALUE96NAME N_("?unitflag:AttackFastStartunit")
-/* Startunit: AttackStrong */
+#define SPECENUM_VALUE96NAME N_("?unitflag:AttackFastStartUnit")
+/* StartUnit: AttackStrong */
 #define SPECENUM_VALUE97 L_START_ATTACK_STRONG
-#define SPECENUM_VALUE97NAME N_("?unitflag:AttackStrongStartunit")
+#define SPECENUM_VALUE97NAME N_("?unitflag:AttackStrongStartUnit")
 /* AI hunter type unit */
 #define SPECENUM_VALUE98 L_HUNTER
 #define SPECENUM_VALUE98NAME N_("?unitflag:Hunter")
