@@ -129,6 +129,10 @@ module edit {
   void api_edit_create_city
     @ create_city (lua_State *L, Player *pplayer, Tile *ptile,
                    const char *name);
+  void api_edit_create_building
+    @ create_building (lua_State *L, City *pcity, Building_Type *impr);
+  void api_edit_remove_building
+    @ remove_building (lua_State *L, City *pcity, Building_Type *impr);
   void api_edit_create_owned_extra
     @ create_owned_extra (lua_State *L, Tile *ptile,
                           const char *name, Player *pplayer);
@@ -358,6 +362,14 @@ end
 -- Server functions for City module
 function City:add_history(amount)
   edit.add_city_history(self, amount)
+end
+
+function City:create_building(impr)
+  edit.create_building(self, impr)
+end
+
+function City:remove_building(impr)
+  edit.remove_building(self, impr)
 end
 
 -- Server functions for Unit module
