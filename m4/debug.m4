@@ -67,7 +67,8 @@ dnl ==========================================================================
 dnl debug level >= checks
 if test "x$enable_debug" = "xchecks"; then
   dnl Add additional flags for 'checks' debug level
-  FC_C_FLAGS([-Wstrict-prototypes], [], [EXTRA_DEBUG_CFLAGS])
+  FC_C_FLAGS([-Wstrict-prototypes -Wimplicit-fallthrough],
+             [], [EXTRA_DEBUG_CFLAGS])
 fi
 
 dnl ==========================================================================
