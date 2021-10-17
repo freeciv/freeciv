@@ -34,6 +34,7 @@
 #include "barbarian.h"
 #include "citytools.h"
 #include "console.h" /* enum rfc_status */
+#include "gamehand.h"
 #include "maphand.h"
 #include "notify.h"
 #include "plrhand.h"
@@ -605,6 +606,72 @@ void api_edit_create_city(lua_State *L, Player *pplayer, Tile *ptile,
 
   /* TODO: Allow initial citizen to be of nationality other than owner */
   create_city(pplayer, ptile, name, pplayer);
+}
+
+/**********************************************************************//**
+  Create a building to a city
+**************************************************************************/
+void api_edit_create_building(lua_State *L, City *pcity, Building_Type *impr)
+{
+  LUASCRIPT_CHECK_STATE(L);
+  LUASCRIPT_CHECK_ARG_NIL(L, pcity, 2, City);
+  LUASCRIPT_CHECK_ARG_NIL(L, impr, 3, Building_Type);
+
+  if (!city_has_building(pcity, impr)) {
+    bool need_game_info = FALSE;
+    bool need_plr_info = FALSE;
+
+    if (is_great_wonder(impr)) {
+      if (city_from_great_wonder(impr) != NULL) {
+        /* Can't rebuild great wonders */
+        return;
+      }
+
+      need_game_info = TRUE;
+      need_plr_info = TRUE;
+    } else if (is_small_wonder(impr)) {
+      struct city *oldcity = city_from_small_wonder(city_owner(pcity), impr);
+
+      /* Since we already checked that pcity does not have the building,
+       * we can be sure it's not the same as oldcity. */
+      city_remove_improvement(oldcity, impr);
+      send_city_info(NULL, oldcity);
+
+      need_plr_info = TRUE;
+    }
+
+    city_add_improvement(pcity, impr);
+    send_city_info(NULL, pcity);
+
+    if (need_game_info) {
+      send_game_info(NULL);
+    }
+    if (need_plr_info) {
+      send_player_info_c(city_owner(pcity), NULL);
+    }
+  }
+}
+
+/**********************************************************************//**
+  Remove a building from a city
+**************************************************************************/
+void api_edit_remove_building(lua_State *L, City *pcity, Building_Type *impr)
+{
+  LUASCRIPT_CHECK_STATE(L);
+  LUASCRIPT_CHECK_ARG_NIL(L, pcity, 2, City);
+  LUASCRIPT_CHECK_ARG_NIL(L, impr, 3, Building_Type);
+
+  if (city_has_building(pcity, impr)) {
+    city_remove_improvement(pcity, impr);
+    send_city_info(NULL, pcity);
+
+    if (is_wonder(impr)) {
+      if (is_great_wonder(impr)) {
+        send_game_info(NULL);
+      }
+      send_player_info_c(city_owner(pcity), NULL);
+    }
+  }
 }
 
 /**********************************************************************//**
