@@ -99,6 +99,7 @@
 #include "packets.h"
 #include "research.h"
 #include "rgbcolor.h"
+#include "sex.h"
 #include "specialist.h"
 #include "unit.h"
 #include "unitlist.h"
@@ -4062,7 +4063,7 @@ static void sg_load_player_main(struct loaddata *loading,
                                     "player%d.idle_turns", plrno),
                  "%s", secfile_error());
   kind = secfile_lookup_str(loading->file, "player%d.kind", plrno);
-  if (!strcmp("male", kind)) {
+  if (sex_by_name(kind) == SEX_MALE) {
     plr->is_male = TRUE;
   } else {
     plr->is_male = FALSE;
@@ -4399,10 +4400,10 @@ static void sg_save_player_main(struct savedata *saving,
   secfile_insert_int(saving->file, plr->nturns_idle,
                      "player%d.idle_turns", plrno);
   if (plr->is_male) {
-    secfile_insert_str(saving->file, "male",
+    secfile_insert_str(saving->file, sex_rule_name(SEX_MALE),
                        "player%d.kind", plrno);
   } else {
-    secfile_insert_str(saving->file, "female",
+    secfile_insert_str(saving->file, sex_rule_name(SEX_FEMALE),
                        "player%d.kind", plrno);
   }
   secfile_insert_bool(saving->file, plr->is_alive,

@@ -22,6 +22,7 @@ extern "C" {
 #define SEX_UNKNOWN  -1
 
 int sex_by_name(const char *name);
+const char *sex_rule_name(int kind);
 
 #ifdef __cplusplus
 }

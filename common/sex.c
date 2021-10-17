@@ -35,3 +35,18 @@ int sex_by_name(const char *name)
 
   return SEX_UNKNOWN;
 }
+
+/************************************************************************//**
+  Return name of the sex.
+****************************************************************************/
+const char *sex_rule_name(int kind)
+{
+  switch (kind) {
+  case SEX_MALE:
+    return "Male";
+  case SEX_FEMALE:
+    return "Female";
+  }
+
+  return NULL;
+}
