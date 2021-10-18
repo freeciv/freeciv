@@ -168,7 +168,7 @@ Actions done by a unit against a city
  * target must be foreign. (!)
 
 "Establish Embassy Stay" - Establish a real embassy to the target player
- * UI name can be set using ui_name_establish_embassy
+ * UI name can be set using ui_name_establish_embassy_stay
  * spends the actor unit
  * actor must be aware that the target exists
  * actor can't have a real embassy to the target player
@@ -182,7 +182,7 @@ Actions done by a unit against a city
  * target must be foreign. (!)
 
 "Investigate City Spend Unit" - Look at the city dialog of a foreign city
- * UI name can be set using ui_name_investigate_city
+ * UI name can be set using ui_name_investigate_city_spend_unit
  * spends the actor unit
  * actor must be aware that the target exists
  * actor must be on the same tile as the target or on the tile next to it.
