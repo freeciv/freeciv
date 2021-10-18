@@ -2,19 +2,21 @@
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    id="svg3753"
    version="1.1"
-   inkscape:version="0.47 r22583"
+   inkscape:version="1.1.1 (3bf5ae0d25, 2021-09-20)"
    width="600"
    height="400"
-   sodipodi:docname="cham.svg">
+   sodipodi:docname="cham.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <defs
+     id="defs15" />
   <metadata
      id="metadata3759">
     <rdf:RDF>
@@ -23,7 +25,6 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -36,17 +37,18 @@
      guidetolerance="10"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:window-width="1012"
-     inkscape:window-height="927"
+     inkscape:window-width="929"
+     inkscape:window-height="714"
      id="namedview3755"
      showgrid="false"
      inkscape:zoom="1.0741483"
-     inkscape:cx="249.5"
-     inkscape:cy="182.47761"
+     inkscape:cx="306.28918"
+     inkscape:cy="202.48601"
      inkscape:window-x="10"
      inkscape:window-y="35"
      inkscape:window-maximized="0"
-     inkscape:current-layer="svg3753" />
+     inkscape:current-layer="svg3753"
+     inkscape:pagecheckerboard="0" />
   <rect
      style="fill:#0060ee;fill-opacity:1;stroke:none"
      id="rect4327-6"
