@@ -907,7 +907,7 @@ static int convert_modifiers(int gdk_event_state)
   if (gdk_event_state & GDK_CONTROL_MASK) {
     modifiers |= EKM_CTRL;
   }
-  if (gdk_event_state & GDK_MOD1_MASK) {
+  if (gdk_event_state & GDK_ALT_MASK) {
     modifiers |= EKM_ALT;
   }
 

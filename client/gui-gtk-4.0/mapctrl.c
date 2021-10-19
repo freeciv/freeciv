@@ -220,7 +220,7 @@ gboolean butt_down_mapcanvas(GtkWidget *w, GdkEvent *ev, gpointer data)
     } else if (ptile && (state & GDK_SHIFT_MASK)) {
       /* <SHIFT> + LMB: Append focus unit. */
       action_button_pressed(e_x, e_y, SELECT_APPEND);
-    } else if (ptile && (state & GDK_MOD1_MASK)) {
+    } else if (ptile && (state & GDK_ALT_MASK)) {
       /* <ALT> + LMB: popit (same as middle-click) */
       /* FIXME: we need a general mechanism for letting freeciv work with
        * 1- or 2-button mice. */
@@ -253,10 +253,10 @@ gboolean butt_down_mapcanvas(GtkWidget *w, GdkEvent *ev, gpointer data)
 
     /* <CONTROL> + <ALT> + RMB : insert city or tile chat link. */
     /* <CONTROL> + <ALT> + <SHIFT> + RMB : insert unit chat link. */
-    if (ptile && (state & GDK_MOD1_MASK)
+    if (ptile && (state & GDK_ALT_MASK)
         && (state & GDK_CONTROL_MASK)) {
       inputline_make_chat_link(ptile, (state & GDK_SHIFT_MASK) != 0);
-    } else if ((state & GDK_SHIFT_MASK) && (state & GDK_MOD1_MASK)) {
+    } else if ((state & GDK_SHIFT_MASK) && (state & GDK_ALT_MASK)) {
       /* <SHIFT> + <ALT> + RMB : Show/hide workers. */
       key_city_overlay(e_x, e_y);
     } else if ((state & GDK_SHIFT_MASK) && (state & GDK_CONTROL_MASK)
