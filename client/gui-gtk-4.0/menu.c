@@ -271,7 +271,7 @@ static struct menu_entry_info menu_entries[] =
   { "SAVE_OPTIONS", N_("Save Options _Now"), 0, 0,
     G_CALLBACK(save_options_callback), MGROUP_SAFE },
   { "RELOAD_TILESET", N_("_Reload Tileset"),
-    GDK_KEY_r, GDK_MOD1_MASK | GDK_CONTROL_MASK,
+    GDK_KEY_r, GDK_ALT_MASK | GDK_CONTROL_MASK,
     G_CALLBACK(reload_tileset_callback), MGROUP_SAFE },
   { "GAME_SAVE", N_("_Save Game"), GDK_KEY_s, GDK_CONTROL_MASK,
     G_CALLBACK(save_game_callback), MGROUP_SAFE },
@@ -416,7 +416,7 @@ static struct menu_entry_info menu_entries[] =
     G_CALLBACK(show_focus_unit_callback), MGROUP_SAFE },
   { "SHOW_FOG_OF_WAR", N_("Fog of _War"), 0, 0,
     G_CALLBACK(show_fog_of_war_callback), MGROUP_SAFE },
-  { "FULL_SCREEN", N_("_Fullscreen"), GDK_KEY_Return, GDK_MOD1_MASK,
+  { "FULL_SCREEN", N_("_Fullscreen"), GDK_KEY_Return, GDK_ALT_MASK,
     G_CALLBACK(full_screen_callback), MGROUP_SAFE },
 
   { "RECALC_BORDERS", N_("Recalculate _Borders"), 0, 0,

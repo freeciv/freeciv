@@ -851,11 +851,11 @@ static gboolean dst_key_press_callback(GtkWidget *w, GdkEvent *ev,
     }
     return TRUE;
 
-  } else if ((state & GDK_MOD1_MASK) && keyval == GDK_KEY_Up) {
+  } else if ((state & GDK_ALT_MASK) && keyval == GDK_KEY_Up) {
     queue_bubble_up(ptr);
     return TRUE;
 
-  } else if ((state & GDK_MOD1_MASK) && keyval == GDK_KEY_Down) {
+  } else if ((state & GDK_ALT_MASK) && keyval == GDK_KEY_Down) {
     queue_bubble_down(ptr);
     return TRUE;
 
