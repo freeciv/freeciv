@@ -19,6 +19,4 @@
 
 GtkWidget *setup_menus(GtkWidget *window);
 
-extern GtkAccelGroup *toplevel_accel;
-
 #endif  /* FC__MENU_H */
