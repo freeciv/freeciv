@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -15,10 +15,9 @@
 
 #include <gtk/gtk.h>
 
+/* client/include */
 #include "menu_g.h"
 
 GtkWidget *setup_menus(GtkWidget *window);
-
-extern GtkAccelGroup *toplevel_accel;
 
 #endif  /* FC__MENU_H */
