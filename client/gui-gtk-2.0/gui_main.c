@@ -1711,6 +1711,7 @@ void ui_main(int argc, char **argv)
   cma_fe_done();
   free_unit_table();
   gtk_widget_destroy(toplevel_tabs);
+  gtk_widget_destroy(toplevel);
   message_buffer = NULL; /* Result of destruction of everything */
   tileset_free_tiles(tileset);
 }
