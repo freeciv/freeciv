@@ -1,9 +1,9 @@
 [nation_yucatecan]
 
-name=_("Yucatecan")
-plural=_("?plural:Yucatecans")
-groups="American"
-legend=_("Yucatán is a peninsula of Mexico, famous for its Maya heritage\
+name   = _("Yucatecan")
+plural = _("?plural:Yucatecans")
+groups = "American"
+legend = _("Yucatán is a peninsula of Mexico, famous for its Maya heritage\
  and its white beaches. Its name is often claimed to mean \"we don't\
  understand you\" in Yucatec Maya. On two occasions in the 19th century\
  Yucatán declared independence from Mexico. Currently it is divided into\
@@ -22,19 +22,20 @@ leaders = {
  "Carlos Sansores Pérez",       "Male"
  "Ivonne Ortega",               "Female"
 }
+
 ruler_titles = {
  "government",      "male_title",            "female_title"
  "Despotism",       _("Captain General %s"), _("?female:Captain General %s")
  "Fundamentalism",  _("Bishop %s"),          _("Mother Superior %s")
 }
 
-flag="yucatan"
+flag = "yucatan"
 flag_alt = "-"
 style = "Classical"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
 civilwar_nations = "mayan"
 
@@ -50,7 +51,7 @@ cities =
  "Cancún (ocean, jungle)",
  "Ciudad del Carmen (ocean, swamp)",
  "Champotón (ocean)",
- "San Miguel (ocean)",		;Cozumel
+ "San Miguel (ocean)",          ; Cozumel
  "Playa del Carmen (ocean)",
  "Bacalar (lake, jungle)",
  "Celestún (swamp)",
@@ -67,7 +68,7 @@ cities =
  "Peto (jungle)",
  "Xpujil (jungle)",
  "Umán",
- "Felipe Carrillo Puerto",	;Chan Santa Cruz
+ "Felipe Carrillo Puerto",      ; Chan Santa Cruz
  "Candelaria (river, swamp)",
  "Isla Mujeres (ocean)",
  "Dzemul",
@@ -87,7 +88,7 @@ cities =
  "Dzitbalché",
  "Bolonchén",
  "Zoh Laguna",
- "Punta Allen (ocean)",		;Javier Rojo Gómez
+ "Punta Allen (ocean)",         ; Javier Rojo Gómez
  "Tecoh",
  "Komchén",
  "Seybaplaya (ocean)",

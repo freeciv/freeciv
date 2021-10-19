@@ -1,9 +1,9 @@
 [nation_yakut]
 
-name=_("Yakut")
-plural=_("?plural:Yakuts")
-groups="Asian", "Early Modern"
-legend=_("Oral tradition indicates that the Yakuts - or Sakha as they call\
+name   = _("Yakut")
+plural = _("?plural:Yakuts")
+groups = "Asian", "Early Modern"
+legend = _("Oral tradition indicates that the Yakuts - or Sakha as they call\
  themselves - migrated north from the Central Asian steppes to the shores\
  of Lake Baikal in the 10th century CE. They intermarried with the native\
  population and established a nation along the Lena river, having\
@@ -25,20 +25,22 @@ leaders = {
  "Tuyaara",             "Female" ; Туйаара
  "Kùnnèy",              "Female" ; Күннэй
 }
+
 ruler_titles = {
  "government",      "male_title",            "female_title"
  "Fundamentalism",  _("Shaman %s"),          _("?female:Shaman %s")
 }
-flag="sakha"
+
+flag = "sakha"
 flag_alt = "-"
 style = "European"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-conflicts_with="Russian"
-civilwar_nations="Siberian", "Tuvan"
+conflicts_with = "Russian"
+civilwar_nations = "Siberian", "Tuvan"
 
 cities =
 ; Latinized Sakha - Russian-based English name - Cyrillic Sakha
