@@ -54,6 +54,13 @@ void gtk_scrolled_window_set_has_frame(GtkScrolledWindow *wnd, bool shadow);
 #endif  /* GTK version < 3.98.3 */
 
 
+#if !GTK_CHECK_VERSION(3,98,4)
+
+#define gtk_window_destroy(_wnd_) gtk_widget_destroy(_wnd_)
+
+#endif  /* GTK version < 3.98.4 */
+
+
 #if !GTK_CHECK_VERSION(3,99,0)
 /* Compatibility mode */
 
