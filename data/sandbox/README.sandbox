@@ -243,3 +243,6 @@ it can be conquered with just one move.
 
 Post attack city destruction
 A size 1 city is destroyed with its last defender.
+
+Wonder visibility
+Opponents are aware of player's Small Wonders only if they have an embassy.
