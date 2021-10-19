@@ -2,19 +2,19 @@
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    id="svg3312"
    version="1.1"
-   inkscape:version="0.47 r22583"
+   inkscape:version="1.1.1 (3bf5ae0d25, 2021-09-20)"
    width="1800"
    height="1200"
-   sodipodi:docname="chananea.svg">
+   sodipodi:docname="chananea.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
   <metadata
      id="metadata3318">
     <rdf:RDF>
@@ -23,7 +23,6 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -53,17 +52,18 @@
      guidetolerance="10"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:window-width="1221"
-     inkscape:window-height="723"
+     inkscape:window-width="838"
+     inkscape:window-height="612"
      id="namedview3314"
      showgrid="false"
      inkscape:zoom="0.30314331"
-     inkscape:cx="994.5"
-     inkscape:cy="611.6146"
-     inkscape:window-x="0"
-     inkscape:window-y="0"
+     inkscape:cx="892.31723"
+     inkscape:cy="608.62303"
+     inkscape:window-x="459"
+     inkscape:window-y="88"
      inkscape:window-maximized="0"
-     inkscape:current-layer="svg3312" />
+     inkscape:current-layer="svg3312"
+     inkscape:pagecheckerboard="0" />
   <rect
      style="fill:#333333;fill-opacity:1;stroke:none"
      id="rect4114"
