@@ -126,8 +126,7 @@ void popup_notify_dialog(const char *caption, const char *headline,
   gtk_widget_set_valign(headline_label, GTK_ALIGN_START);
 
   sw = gtk_scrolled_window_new();
-  gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(sw),
-				      GTK_SHADOW_ETCHED_IN);
+  gtk_scrolled_window_set_has_frame(GTK_SCROLLED_WINDOW(sw), TRUE);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
 				 GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
   label = gtk_label_new(lines);
@@ -653,8 +652,7 @@ static GtkWidget* create_list_of_nations_in_group(struct nation_group* group,
           NULL, NULL);
 
       sw = gtk_scrolled_window_new();
-      gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(sw),
-          GTK_SHADOW_ETCHED_IN);
+      gtk_scrolled_window_set_has_frame(GTK_SCROLLED_WINDOW(sw), TRUE);
       gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
           GTK_POLICY_NEVER, GTK_POLICY_ALWAYS);
       gtk_container_add(GTK_CONTAINER(sw), list);
@@ -1111,8 +1109,7 @@ static void create_races_dialog(struct player *pplayer)
 
   sw = gtk_scrolled_window_new();
   gtk_widget_set_margin_top(sw, 6);
-  gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(sw),
-      GTK_SHADOW_ETCHED_IN);
+  gtk_scrolled_window_set_has_frame(GTK_SCROLLED_WINDOW(sw), TRUE);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
       GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
   gtk_container_add(GTK_CONTAINER(sw), list);

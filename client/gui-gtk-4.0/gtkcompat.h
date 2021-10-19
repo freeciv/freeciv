@@ -43,6 +43,15 @@ GdkScrollDirection gdk_scroll_event_get_direction(GdkEvent *ev);
 
 #endif  /* GTK version < 3.98 */
 
+
+#if !GTK_CHECK_VERSION(3,98,3)
+/* Compatibility mode */
+
+void gtk_scrolled_window_set_has_frame(GtkScrolledWindow *wnd, bool shadow);
+
+#endif  /* GTK version < 3.98.3 */
+
+
 #if !GTK_CHECK_VERSION(3,99,0)
 /* Compatibility mode */
 

@@ -81,6 +81,23 @@ GdkScrollDirection gdk_scroll_event_get_direction(GdkEvent *ev)
 #endif /* GTK version < 3.98 */
 
 
+#if !GTK_CHECK_VERSION(3,98,3)
+
+/************************************************************************//**
+  Version of gtk_scrolled_window_set_has_frame() for gtk < 3.98.3
+****************************************************************************/
+void gtk_scrolled_window_set_has_frame(GtkScrolledWindow *wnd, bool shadow)
+{
+  if (shadow) {
+    gtk_scrolled_window_set_shadow_type(wnd, GTK_SHADOW_ETCHED_IN);
+  } else {
+    gtk_scrolled_window_set_shadow_type(wnd, GTK_SHADOW_NONE);
+  }
+}
+
+#endif  /* GTK version < 3.98.3 */
+
+
 #if !GTK_CHECK_VERSION(3,99,0)
 
 /************************************************************************//**

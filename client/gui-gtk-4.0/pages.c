@@ -625,8 +625,7 @@ static GtkWidget *save_dialog_new(const char *title, const char *savelabel,
   sw = gtk_scrolled_window_new();
   gtk_scrolled_window_set_min_content_width(GTK_SCROLLED_WINDOW(sw), 300);
   gtk_scrolled_window_set_min_content_height(GTK_SCROLLED_WINDOW(sw), 300);
-  gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(sw),
-                                      GTK_SHADOW_ETCHED_IN);
+  gtk_scrolled_window_set_has_frame(GTK_SCROLLED_WINDOW(sw), TRUE);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
                                  GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
   gtk_container_add(GTK_CONTAINER(sw), view);
@@ -1246,8 +1245,7 @@ GtkWidget *create_network_page(void)
   gtk_widget_set_margin_end(sw, 4);
   gtk_widget_set_margin_top(sw, 4);
   gtk_widget_set_margin_bottom(sw, 4);
-  gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(sw),
-				      GTK_SHADOW_ETCHED_IN);
+  gtk_scrolled_window_set_has_frame(GTK_SCROLLED_WINDOW(sw), TRUE);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
 				 GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
   gtk_container_add(GTK_CONTAINER(sw), view);
@@ -1294,8 +1292,7 @@ GtkWidget *create_network_page(void)
   gtk_widget_set_margin_end(sw, 4);
   gtk_widget_set_margin_top(sw, 4);
   gtk_widget_set_margin_bottom(sw, 4);
-  gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(sw),
-				      GTK_SHADOW_ETCHED_IN);
+  gtk_scrolled_window_set_has_frame(GTK_SCROLLED_WINDOW(sw), TRUE);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
 				 GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
   gtk_container_add(GTK_CONTAINER(sw), view);
@@ -1416,8 +1413,7 @@ GtkWidget *create_network_page(void)
   server_playerlist_view = view;
 
   sw = gtk_scrolled_window_new();
-  gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(sw),
-				      GTK_SHADOW_ETCHED_IN);
+  gtk_scrolled_window_set_has_frame(GTK_SCROLLED_WINDOW(sw), TRUE);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
 				 GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
   gtk_container_add(GTK_CONTAINER(sw), view);
@@ -2785,8 +2781,7 @@ GtkWidget *create_start_page(void)
                    GINT_TO_POINTER(FALSE));
 
   sw = gtk_scrolled_window_new();
-  gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(sw),
-				      GTK_SHADOW_ETCHED_IN);
+  gtk_scrolled_window_set_has_frame(GTK_SCROLLED_WINDOW(sw), TRUE);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
                                  GTK_POLICY_AUTOMATIC,
                                  GTK_POLICY_ALWAYS);
@@ -2796,8 +2791,7 @@ GtkWidget *create_start_page(void)
 
 
   sw = gtk_scrolled_window_new();
-  gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(sw),
-				      GTK_SHADOW_ETCHED_IN);
+  gtk_scrolled_window_set_has_frame(GTK_SCROLLED_WINDOW(sw), TRUE);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
                                  GTK_POLICY_AUTOMATIC,
                                  GTK_POLICY_ALWAYS);
@@ -2965,8 +2959,7 @@ GtkWidget *create_load_page(void)
 
   sw = gtk_scrolled_window_new();
   gtk_scrolled_window_set_min_content_width(GTK_SCROLLED_WINDOW(sw), 300);
-  gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(sw),
-				      GTK_SHADOW_ETCHED_IN);
+  gtk_scrolled_window_set_has_frame(GTK_SCROLLED_WINDOW(sw), TRUE);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw), GTK_POLICY_AUTOMATIC,
   				 GTK_POLICY_AUTOMATIC);
   gtk_container_add(GTK_CONTAINER(sw), view);
@@ -3240,8 +3233,7 @@ GtkWidget *create_scenario_page(void)
   gtk_grid_set_column_spacing(GTK_GRID(hbox), 12);
 
   sw = gtk_scrolled_window_new();
-  gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(sw),
-				      GTK_SHADOW_ETCHED_IN);
+  gtk_scrolled_window_set_has_frame(GTK_SCROLLED_WINDOW(sw), TRUE);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw), GTK_POLICY_AUTOMATIC,
   				 GTK_POLICY_AUTOMATIC);
   gtk_container_add(GTK_CONTAINER(sw), view);
@@ -3256,8 +3248,7 @@ GtkWidget *create_scenario_page(void)
   scenario_description = text;
 
   sw = gtk_scrolled_window_new();
-  gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(sw),
-				      GTK_SHADOW_ETCHED_IN);
+  gtk_scrolled_window_set_has_frame(GTK_SCROLLED_WINDOW(sw), TRUE);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw), GTK_POLICY_AUTOMATIC,
   				 GTK_POLICY_AUTOMATIC);
   gtk_container_add(GTK_CONTAINER(sw), text);
@@ -3271,8 +3262,7 @@ GtkWidget *create_scenario_page(void)
   scenario_authors = text;
 
   swa = gtk_scrolled_window_new();
-  gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(swa),
-                                      GTK_SHADOW_ETCHED_IN);
+  gtk_scrolled_window_set_has_frame(GTK_SCROLLED_WINDOW(swa), TRUE);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(swa), GTK_POLICY_AUTOMATIC,
                                  GTK_POLICY_AUTOMATIC);
   gtk_container_add(GTK_CONTAINER(swa), text);

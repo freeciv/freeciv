@@ -321,8 +321,7 @@ static struct intel_dialog *create_intel_dialog(struct player *p)
   gtk_tree_view_expand_all(GTK_TREE_VIEW(view));
 
   sw = gtk_scrolled_window_new();
-  gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(sw),
-				      GTK_SHADOW_ETCHED_IN);
+  gtk_scrolled_window_set_has_frame(GTK_SCROLLED_WINDOW(sw), TRUE);
   gtk_container_add(GTK_CONTAINER(sw), view);
 
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
@@ -358,8 +357,7 @@ static struct intel_dialog *create_intel_dialog(struct player *p)
   gtk_tree_view_append_column(GTK_TREE_VIEW(view), col);
 
   sw = gtk_scrolled_window_new();
-  gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(sw),
-				      GTK_SHADOW_ETCHED_IN);
+  gtk_scrolled_window_set_has_frame(GTK_SCROLLED_WINDOW(sw), TRUE);
   gtk_container_add(GTK_CONTAINER(sw), view);
 
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
@@ -437,8 +435,7 @@ static struct intel_wonder_dialog *create_intel_wonder_dialog(struct player *p)
                                               NULL);
 
   sw = gtk_scrolled_window_new();
-  gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(sw),
-                                      GTK_SHADOW_ETCHED_IN);
+  gtk_scrolled_window_set_has_frame(GTK_SCROLLED_WINDOW(sw), TRUE);
   gtk_container_add(GTK_CONTAINER(sw), view);
 
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),

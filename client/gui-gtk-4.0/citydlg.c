@@ -422,8 +422,7 @@ static void city_dialog_map_create(struct city_dialog *pdialog,
                                              CITYMAP_HEIGHT);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
                                  GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-  gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(sw),
-                                      GTK_SHADOW_NONE);
+  gtk_scrolled_window_set_has_frame(GTK_SCROLLED_WINDOW(sw), FALSE);
 
   darea = gtk_drawing_area_new();
   gtk_widget_set_size_request(darea, CITYMAP_WIDTH, CITYMAP_HEIGHT);
@@ -1006,8 +1005,7 @@ static void create_and_append_overview_page(struct city_dialog *pdialog)
     gtk_container_add(GTK_CONTAINER(vbox), label);
 
     sw = gtk_scrolled_window_new();
-    gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(sw),
-                                        GTK_SHADOW_ETCHED_IN);
+    gtk_scrolled_window_set_has_frame(GTK_SCROLLED_WINDOW(sw), TRUE);
     gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
                                    GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
     gtk_container_add(GTK_CONTAINER(vbox), sw);
@@ -1053,8 +1051,7 @@ static void create_and_append_overview_page(struct city_dialog *pdialog)
   gtk_widget_set_hexpand(sw, TRUE);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
                                  GTK_POLICY_AUTOMATIC, GTK_POLICY_NEVER);
-  gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(sw),
-                                      GTK_SHADOW_NONE);
+  gtk_scrolled_window_set_has_frame(GTK_SCROLLED_WINDOW(sw), FALSE);
   gtk_container_add(GTK_CONTAINER(pdialog->overview.supported_units_frame),
                                   sw);
 
@@ -1077,8 +1074,7 @@ static void create_and_append_overview_page(struct city_dialog *pdialog)
   gtk_widget_set_hexpand(sw, TRUE);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
                                  GTK_POLICY_AUTOMATIC, GTK_POLICY_NEVER);
-  gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(sw),
-                                      GTK_SHADOW_NONE);
+  gtk_scrolled_window_set_has_frame(GTK_SCROLLED_WINDOW(sw), FALSE);
   gtk_container_add(GTK_CONTAINER(pdialog->overview.present_units_frame), sw);
 
   table = gtk_grid_new();
