@@ -459,8 +459,7 @@ static void usdlg_tab_select(struct unit_select_dialog *pdialog,
 
   sw = gtk_scrolled_window_new();
   gtk_scrolled_window_set_min_content_height(GTK_SCROLLED_WINDOW(sw), 300);
-  gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(sw),
-                                      GTK_SHADOW_ETCHED_IN);
+  gtk_scrolled_window_set_has_frame(GTK_SCROLLED_WINDOW(sw), TRUE);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
                                  GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
   gtk_container_add(GTK_CONTAINER(sw), view);

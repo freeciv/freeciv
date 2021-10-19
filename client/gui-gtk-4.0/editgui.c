@@ -1041,8 +1041,7 @@ create_tool_value_selector(struct editbar *eb,
   tvs->store = store;
 
   scrollwin = gtk_scrolled_window_new();
-  gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(scrollwin),
-                                      GTK_SHADOW_ETCHED_IN);
+  gtk_scrolled_window_set_has_frame(GTK_SCROLLED_WINDOW(scrollwin), TRUE);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrollwin),
                                  GTK_POLICY_NEVER,
                                  GTK_POLICY_AUTOMATIC);

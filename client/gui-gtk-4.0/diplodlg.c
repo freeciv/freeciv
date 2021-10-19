@@ -887,8 +887,7 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
 
   sw = gtk_scrolled_window_new();
   g_object_set(sw, "margin", 2, NULL);
-  gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(sw),
-                                      GTK_SHADOW_ETCHED_IN);
+  gtk_scrolled_window_set_has_frame(GTK_SCROLLED_WINDOW(sw), TRUE);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
                                  GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
   gtk_container_add(GTK_CONTAINER(sw), view);

@@ -245,8 +245,7 @@ static struct citizens_dialog *citizens_dialog_create(const struct city *pcity)
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
                                  GTK_POLICY_AUTOMATIC,
                                  GTK_POLICY_AUTOMATIC);
-  gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(sw),
-                                      GTK_SHADOW_NONE);
+  gtk_scrolled_window_set_has_frame(GTK_SCROLLED_WINDOW(sw), FALSE);
   gtk_container_add(GTK_CONTAINER(sw), pdialog->list);
 
   frame = gtk_frame_new(_("Citizens"));

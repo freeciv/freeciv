@@ -3616,8 +3616,8 @@ static struct extviewer *extviewer_new(struct objprop *op)
 
   if (store || textbuf) {
     scrollwin = gtk_scrolled_window_new();
-    gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(scrollwin),
-                                        GTK_SHADOW_ETCHED_IN);
+    gtk_scrolled_window_set_has_frame(GTK_SCROLLED_WINDOW(scrollwin),
+                                      TRUE);
     gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrollwin),
                                    GTK_POLICY_AUTOMATIC,
                                    GTK_POLICY_AUTOMATIC);
@@ -4776,8 +4776,8 @@ property_page_new(enum editor_object_type objtype,
   gtk_paned_pack1(GTK_PANED(paned), vbox, TRUE, TRUE);
 
   scrollwin = gtk_scrolled_window_new();
-  gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(scrollwin),
-                                      GTK_SHADOW_ETCHED_IN);
+  gtk_scrolled_window_set_has_frame(GTK_SCROLLED_WINDOW(scrollwin),
+                                    TRUE);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrollwin),
                                  GTK_POLICY_AUTOMATIC,
                                  GTK_POLICY_AUTOMATIC);
@@ -4934,8 +4934,8 @@ property_page_new(enum editor_object_type objtype,
   gtk_container_add(GTK_CONTAINER(vbox), frame);
 
   scrollwin = gtk_scrolled_window_new();
-  gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(scrollwin),
-                                      GTK_SHADOW_NONE);
+  gtk_scrolled_window_set_has_frame(GTK_SCROLLED_WINDOW(scrollwin),
+                                    FALSE);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrollwin),
                                  GTK_POLICY_AUTOMATIC,
                                  GTK_POLICY_AUTOMATIC);

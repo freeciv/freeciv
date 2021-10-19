@@ -1099,8 +1099,7 @@ static void economy_report_init(struct economy_report *preport)
 
   sw = gtk_scrolled_window_new();
   gtk_widget_set_halign(sw, GTK_ALIGN_CENTER);
-  gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(sw),
-                                      GTK_SHADOW_ETCHED_IN);
+  gtk_scrolled_window_set_has_frame(GTK_SCROLLED_WINDOW(sw), TRUE);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
                                  GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
   gtk_container_add(GTK_CONTAINER(vbox), sw);
@@ -1633,8 +1632,7 @@ static void units_report_init(struct units_report *preport)
 
   sw = gtk_scrolled_window_new();
   gtk_widget_set_halign(sw, GTK_ALIGN_CENTER);
-  gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(sw),
-                                      GTK_SHADOW_ETCHED_IN);
+  gtk_scrolled_window_set_has_frame(GTK_SCROLLED_WINDOW(sw), TRUE);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
                                  GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
   gtk_container_add(GTK_CONTAINER(vbox), sw);
@@ -1914,8 +1912,7 @@ static void endgame_report_init(struct endgame_report *preport)
 
   /* Setup the layout. */
   sw = gtk_scrolled_window_new();
-  gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(sw),
-                                      GTK_SHADOW_ETCHED_IN);
+  gtk_scrolled_window_set_has_frame(GTK_SCROLLED_WINDOW(sw), TRUE);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
                                  GTK_POLICY_AUTOMATIC, GTK_POLICY_ALWAYS);
   gtk_container_add(GTK_CONTAINER(preport->shell->vbox), sw);
