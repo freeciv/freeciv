@@ -456,7 +456,8 @@ static bool rs_buildings(void)
     if (improvement_has_flag(pimprove, IF_GOLD)
         && pimprove->genus != IG_SPECIAL) {
       ruleset_error(LOG_ERROR,
-                    "Gold producing improvement with genus other than \"Special\"");
+                    "Gold producing improvement %s with genus other than \"Special\"",
+                    improvement_rule_name(pimprove));
 
       return FALSE;
     }
