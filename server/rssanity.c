@@ -633,14 +633,16 @@ static bool rs_buildings(void)
     if (improvement_has_flag(pimprove, IF_GOLD)
         && pimprove->genus != IG_SPECIAL) {
       ruleset_error(LOG_ERROR,
-                    "Gold producing improvement with genus other than \"Special\"");
+                    "Gold producing improvement %s with genus other than \"Special\"",
+                    improvement_rule_name(pimprove));
 
       return FALSE;
     }
     if (improvement_has_flag(pimprove, IF_DISASTER_PROOF)
         && pimprove->genus != IG_IMPROVEMENT) {
       ruleset_error(LOG_ERROR,
-                    "Disasterproof improvement with genus other than \"Improvement\"");
+                    "Disasterproof improvement %s with genus other than \"Improvement\"",
+                    improvement_rule_name(pimprove));
 
       return FALSE;
     }
@@ -652,7 +654,8 @@ static bool rs_buildings(void)
             || get_potential_improvement_bonus(pimprove, NULL, EFT_SS_MODULE,
                                                RPT_POSSIBLE, FALSE))) {
       ruleset_error(LOG_ERROR,
-                    "Space part with genus other than \"Special\"");
+                    "Space part %s with genus other than \"Special\"",
+                    improvement_rule_name(pimprove));
       return FALSE;
     }
 
