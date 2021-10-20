@@ -13,3 +13,14 @@
 -- ruleset. When freeciv loads a ruleset, it also loads script
 -- file called 'default.lua'. The one loaded if your ruleset
 -- does not provide an override is default/default.lua.
+
+function clear_city_spot(city, loser, destroyer)
+  city.tile:remove_extra("Railroad")
+  city.tile:remove_extra("Road")
+  city.tile:remove_extra("Irrigation")
+  city.tile:remove_extra("Mine")
+  -- continue processing
+  return false
+end
+
+signal.connect("city_destroyed", "clear_city_spot")
