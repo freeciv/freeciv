@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -74,6 +74,7 @@ static void players_meet_callback(GtkMenuItem *item, gpointer data);
 static void players_war_callback(GtkMenuItem *item, gpointer data);
 static void players_vision_callback(GtkMenuItem *item, gpointer data);
 static void players_intel_callback(GtkMenuItem *item, gpointer data);
+static void players_intel_wonder_callback(GtkMenuItem *item, gpointer data);
 static void players_sship_callback(GtkMenuItem *item, gpointer data);
 static void players_ai_toggle_callback(GtkMenuItem *item, gpointer data);
 static void players_ai_skill_callback(GtkMenuItem *item, gpointer data);
@@ -370,6 +371,11 @@ static GtkWidget *create_intelligence_menu(void)
                    G_CALLBACK(players_intel_callback), NULL);
   gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
   players_int_command = item;
+
+  item = gtk_menu_item_new_with_mnemonic(_("_Wonders"));
+  g_signal_connect(item, "activate",
+                   G_CALLBACK(players_intel_wonder_callback), NULL);
+  gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
 
   item = gtk_menu_item_new_with_mnemonic(_("_Spaceship"));
   g_signal_connect(item, "activate",
@@ -872,6 +878,23 @@ void players_intel_callback(GtkMenuItem *item, gpointer data)
     if (can_intel_with_player(player_by_number(plrno))) {
       popup_intel_dialog(player_by_number(plrno));
     }
+  }
+}
+
+/**************************************************************************
+  Wonders list report query
+**************************************************************************/
+void players_intel_wonder_callback(GtkMenuItem *item, gpointer data)
+{
+  GtkTreeModel *model;
+  GtkTreeIter it;
+
+  if (gtk_tree_selection_get_selected(players_selection, &model, &it)) {
+    gint plrno;
+
+    gtk_tree_model_get(model, &it, PLR_DLG_COL_ID, &plrno, -1);
+
+    popup_intel_wonder_dialog(player_by_number(plrno));
   }
 }
 

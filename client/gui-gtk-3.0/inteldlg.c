@@ -91,8 +91,25 @@ struct intel_dialog {
     TYPED_LIST_ITERATE(struct intel_dialog, dialoglist, pdialog)
 #define dialog_list_iterate_end  LIST_ITERATE_END
 
+struct intel_wonder_dialog {
+  struct player *pplayer;
+  GtkWidget *shell;
+
+  GtkListStore *wonders;
+};
+
+#define SPECLIST_TAG wonder_dialog
+#define SPECLIST_TYPE struct intel_wonder_dialog
+#include "speclist.h"
+
+#define wonder_dialog_list_iterate(dialoglist, pdialog) \
+    TYPED_LIST_ITERATE(struct intel_wonder_dialog, dialoglist, pdialog)
+#define wonder_dialog_list_iterate_end  LIST_ITERATE_END
+
 static struct dialog_list *dialog_list;
 static struct intel_dialog *create_intel_dialog(struct player *p);
+static struct wonder_dialog_list *wonder_dialogs;
+static struct intel_wonder_dialog *create_intel_wonder_dialog(struct player *p);
 
 /****************************************************************
   Initialize intelligenze dialogs
@@ -100,6 +117,7 @@ static struct intel_dialog *create_intel_dialog(struct player *p);
 void intel_dialog_init(void)
 {
   dialog_list = dialog_list_new();
+  wonder_dialogs = wonder_dialog_list_new();
 }
 
 /****************************************************************
@@ -108,6 +126,7 @@ void intel_dialog_init(void)
 void intel_dialog_done(void)
 {
   dialog_list_destroy(dialog_list);
+  wonder_dialog_list_destroy(wonder_dialogs);
 }
 
 /****************************************************************
@@ -121,6 +140,21 @@ static struct intel_dialog *get_intel_dialog(struct player *pplayer)
       return pdialog;
     }
   } dialog_list_iterate_end;
+
+  return NULL;
+}
+
+/**************************************************************************
+  Get wonder list dialog between client user and other player
+  passed as parameter.
+**************************************************************************/
+static struct intel_wonder_dialog *get_intel_wonder_dialog(struct player *pplayer)
+{
+  wonder_dialog_list_iterate(wonder_dialogs, pdialog) {
+    if (pdialog->pplayer == pplayer) {
+      return pdialog;
+    }
+  } wonder_dialog_list_iterate_end;
 
   return NULL;
 }
@@ -141,6 +175,22 @@ void popup_intel_dialog(struct player *p)
   gtk_window_present(GTK_WINDOW(pdialog->shell));
 }
 
+/**************************************************************************
+  Open wonder list dialog
+**************************************************************************/
+void popup_intel_wonder_dialog(struct player *p)
+{
+  struct intel_wonder_dialog *pdialog;
+
+  if (!(pdialog = get_intel_wonder_dialog(p))) {
+    pdialog = create_intel_wonder_dialog(p);
+  }
+
+  update_intel_wonder_dialog(p);
+
+  gtk_window_present(GTK_WINDOW(pdialog->shell));
+}
+
 /****************************************************************
   Intelligenze dialog destruction requested
 *****************************************************************/
@@ -154,12 +204,34 @@ static void intel_destroy_callback(GtkWidget *w, gpointer data)
 }
 
 /**************************************************************************
+  Wonders list dialog destruction requested
+**************************************************************************/
+static void intel_wonder_destroy_callback(GtkWidget *w, gpointer data)
+{
+  struct intel_wonder_dialog *pdialog = (struct intel_wonder_dialog *)data;
+
+  wonder_dialog_list_remove(wonder_dialogs, pdialog);
+
+  free(pdialog);
+}
+
+/**************************************************************************
   Close an intelligence dialog for the given player.
 **************************************************************************/
 void close_intel_dialog(struct player *p)
 {
   struct intel_dialog *pdialog = get_intel_dialog(p);
   intel_destroy_callback(NULL, pdialog);
+}
+
+/**************************************************************************
+  Close an wonders list dialog for the given player.
+**************************************************************************/
+void close_intel_wonder_dialog(struct player *p)
+{
+  struct intel_wonder_dialog *pdialog = get_intel_wonder_dialog(p);
+
+  intel_wonder_destroy_callback(NULL, pdialog);
 }
 
 /****************************************************************
@@ -293,6 +365,83 @@ static struct intel_dialog *create_intel_dialog(struct player *p)
   gtk_widget_show_all(gtk_dialog_get_content_area(GTK_DIALOG(shell)));
 
   dialog_list_prepend(dialog_list, pdialog);
+
+  return pdialog;
+}
+
+/**************************************************************************
+  Create new wonders list dialog between client user and player
+  given as parameter.
+**************************************************************************/
+static struct intel_wonder_dialog *create_intel_wonder_dialog(struct player *p)
+{
+  struct intel_wonder_dialog *pdialog;
+  GtkWidget *shell, *sw, *view;
+  GtkCellRenderer *rend;
+
+  pdialog = fc_malloc(sizeof(*pdialog));
+  pdialog->pplayer = p;
+
+  shell = gtk_dialog_new_with_buttons(NULL,
+                                      NULL,
+                                      0,
+                                      _("_Close"),
+                                      GTK_RESPONSE_CLOSE,
+                                      NULL);
+  pdialog->shell = shell;
+  gtk_window_set_default_size(GTK_WINDOW(shell), 350, 350);
+  setup_dialog(shell, toplevel);
+  gtk_dialog_set_default_response(GTK_DIALOG(shell), GTK_RESPONSE_CLOSE);
+
+  g_signal_connect(shell, "destroy",
+                   G_CALLBACK(intel_wonder_destroy_callback), pdialog);
+  g_signal_connect(shell, "response",
+                   G_CALLBACK(gtk_widget_destroy), NULL);
+
+  /* columns: 0 - wonder name, 1 - location (city/unknown/lost),
+   * 2 - strikethrough (for lost or obsolete),
+   * 3 - font weight (great wonders in bold) */
+  pdialog->wonders = gtk_list_store_new(4, G_TYPE_STRING,
+                                        G_TYPE_STRING,
+                                        G_TYPE_BOOLEAN,
+                                        G_TYPE_INT);
+  gtk_tree_sortable_set_sort_column_id(GTK_TREE_SORTABLE(pdialog->wonders),
+                                       3, GTK_SORT_DESCENDING);
+  view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(pdialog->wonders));
+  g_object_set(view, "margin", 6, NULL);
+  gtk_widget_set_hexpand(view, TRUE);
+  gtk_widget_set_vexpand(view, TRUE);
+  g_object_unref(pdialog->wonders);
+  gtk_container_set_border_width(GTK_CONTAINER(view), 6);
+  gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(view), FALSE);
+
+  rend = gtk_cell_renderer_text_new();
+  gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(view), -1, NULL,
+                                              rend, "text", 0,
+                                              "strikethrough", 2,
+                                              "weight", 3,
+                                              NULL);
+
+  rend = gtk_cell_renderer_text_new();
+  gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(view), -1, NULL,
+                                              rend, "text", 1,
+                                              NULL);
+
+  sw = gtk_scrolled_window_new(NULL, NULL);
+  gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(sw),
+                                      GTK_SHADOW_ETCHED_IN);
+  gtk_container_add(GTK_CONTAINER(sw), view);
+
+  gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
+                                 GTK_POLICY_AUTOMATIC,
+                                 GTK_POLICY_AUTOMATIC);
+
+  gtk_container_add(GTK_CONTAINER(gtk_dialog_get_content_area(GTK_DIALOG(shell))),
+                    sw);
+
+  gtk_widget_show_all(gtk_dialog_get_content_area(GTK_DIALOG(shell)));
+
+  wonder_dialog_list_prepend(wonder_dialogs, pdialog);
 
   return pdialog;
 }
@@ -466,5 +615,61 @@ void update_intel_dialog(struct player *p)
         }
       }
     }
+  }
+
+  /* Update also wonders list dialog */
+  update_intel_wonder_dialog(p);
+}
+
+/**********************************************************************//**
+  Update the wonders list dialog for the given player.
+**************************************************************************/
+void update_intel_wonder_dialog(struct player *p)
+{
+  struct intel_wonder_dialog *pdialog = get_intel_wonder_dialog(p);
+
+  if (pdialog != NULL) {
+    gchar *title = g_strdup_printf(_("Wonders of %s Empire"),
+                                   nation_adjective_for_player(p));
+
+    gtk_window_set_title(GTK_WINDOW(pdialog->shell), title);
+    g_free(title);
+
+    gtk_list_store_clear(pdialog->wonders);
+
+    improvement_iterate(impr) {
+      if (is_wonder(impr)) {
+        GtkTreeIter it;
+        const char *cityname;
+        bool is_lost = FALSE;
+
+        if (wonder_is_built(p, impr)) {
+          struct city *pcity = city_from_wonder(p, impr);
+
+          if (pcity) {
+            cityname = city_name_get(pcity);
+          } else {
+            cityname = _("(unknown city)");
+          }
+          if (improvement_obsolete(p, impr, NULL)) {
+            is_lost = TRUE;
+          }
+        } else if (wonder_is_lost(p, impr)) {
+          cityname = _("(lost)");
+          is_lost = TRUE;
+        } else {
+          continue;
+        }
+
+        gtk_list_store_append(pdialog->wonders, &it);
+        gtk_list_store_set(pdialog->wonders, &it,
+                           0, improvement_name_translation(impr),
+                           1, cityname,
+                           2, is_lost,
+                           /* font weight: great wonders in bold */
+                           3, is_great_wonder(impr) ? 700 : 400,
+                           -1);
+      }
+    } improvement_iterate_end;
   }
 }
