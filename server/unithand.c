@@ -4437,6 +4437,7 @@ static bool do_attack(struct unit *punit, struct tile *def_tile,
   int def_power, att_power;
   struct unit *pdefender;
   const struct unit_type *act_utype = unit_type_get(punit);
+  bool powerless;
 
   if (!(pdefender = get_defender(punit, def_tile))) {
     /* Can't fight air... */
@@ -4492,7 +4493,7 @@ static bool do_attack(struct unit *punit, struct tile *def_tile,
   /* Record tired attack string before attack */
   sz_strlcpy(attacker_tired, unit_tired_attack_string(punit));
 
-  unit_versus_unit(punit, pdefender, &att_hp, &def_hp);
+  powerless = unit_versus_unit(punit, pdefender, &att_hp, &def_hp);
 
   if ((att_hp <= 0 || utype_is_consumed_by_action(paction, punit->utype))
       && unit_transported(punit)) {
@@ -4505,7 +4506,7 @@ static bool do_attack(struct unit *punit, struct tile *def_tile,
   punit->hp = att_hp;
   pdefender->hp = def_hp;
 
-  combat_veterans(punit, pdefender);
+  combat_veterans(punit, pdefender, powerless);
 
   /* Adjust attackers moves_left _after_ unit_versus_unit() so that
    * the movement attack modifier is correct! --dwp

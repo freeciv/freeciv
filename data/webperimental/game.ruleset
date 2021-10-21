@@ -237,6 +237,12 @@ tired_attack = FALSE
 ; Set this to TRUE if unit should never gain veterancy from such a combat.
 only_killing_makes_veteran = FALSE
 
+; If either side of the fight is completely powerless, i.e., has
+; zero attack/defense power after modifiers, fight is not considered
+; a real fight. If this setting is enabled, nobody gets made veteran after
+; such a fight.
+only_real_fight_makes_veteran = FALSE
+
 ; Percentage of population lost by a city after nuclear attak. If set to
 ; 100 city is destroyed along with all the units. If set to 0 city does not
 ; loose population. Any value below 50 means the city can never be

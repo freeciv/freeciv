@@ -98,6 +98,9 @@ int ruleset_purge_redundant_reqs(void);
 #define RS_DEFAULT_EXTRA_APPEARANCE      15
 #define RS_DEFAULT_EXTRA_DISAPPEARANCE   15
 
+#define RS_DEFAULT_ONLY_KILLING_VETERAN    FALSE
+#define RS_DEFAULT_ONLY_REAL_FIGHT_VETERAN FALSE
+
 #define RS_DEFAULT_SMALL_WONDER_VISIBILITY "Always"
 
 #ifdef __cplusplus
