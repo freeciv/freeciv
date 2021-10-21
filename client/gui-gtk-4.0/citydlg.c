@@ -1061,11 +1061,6 @@ static void create_and_append_overview_page(struct city_dialog *pdialog)
   gtk_widget_set_size_request(table, -1, unit_height);
   gtk_container_add(GTK_CONTAINER(sw), table);
 
-  gtk_container_set_focus_hadjustment(GTK_CONTAINER(table),
-    gtk_scrolled_window_get_hadjustment(GTK_SCROLLED_WINDOW(sw)));
-  gtk_container_set_focus_vadjustment(GTK_CONTAINER(table),
-    gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(sw)));
-
   pdialog->overview.supported_unit_table = table;
   unit_node_vector_init(&pdialog->overview.supported_units);
 
@@ -1081,11 +1076,6 @@ static void create_and_append_overview_page(struct city_dialog *pdialog)
   gtk_grid_set_column_spacing(GTK_GRID(table), 2);
   gtk_widget_set_size_request(table, -1, unit_height);
   gtk_container_add(GTK_CONTAINER(sw), table);
-
-  gtk_container_set_focus_hadjustment(GTK_CONTAINER(table),
-    gtk_scrolled_window_get_hadjustment(GTK_SCROLLED_WINDOW(sw)));
-  gtk_container_set_focus_vadjustment(GTK_CONTAINER(table),
-    gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(sw)));
 
   pdialog->overview.present_unit_table = table;
   unit_node_vector_init(&pdialog->overview.present_units);
