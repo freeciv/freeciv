@@ -6977,6 +6977,10 @@ static bool load_ruleset_game(struct section_file *file, bool act,
       = secfile_lookup_bool_default(file, RS_DEFAULT_ONLY_KILLING_VETERAN,
                                     "combat_rules.only_killing_makes_veteran");
 
+    game.info.only_real_fight_makes_veteran
+      = secfile_lookup_bool_default(file, RS_DEFAULT_ONLY_REAL_FIGHT_VETERAN,
+                                    "combat_rules.only_real_fight_makes_veteran");
+
     game.info.nuke_pop_loss_pct = secfile_lookup_int_default_min_max(file,
                                            RS_DEFAULT_NUKE_POP_LOSS_PCT,
                                            RS_MIN_NUKE_POP_LOSS_PCT,

@@ -1270,6 +1270,13 @@ only_killing_makes_veteran = "\n\
 ; Set this to TRUE if unit should never gain veterancy from such a combat.\
 "
 
+only_real_fight_makes_veteran = "\n\
+; If either side of the fight is completely powerless, i.e., has\n\
+; zero attack/defense power after modifiers, fight is not considered\n\
+; a real fight. If this setting is enabled, nobody gets made veteran after\n\
+; such a fight.\
+"
+
 nuke_pop_loss_pct = "\n\
 ; Percentage of population lost by a city after nuclear attak. If set to\n\
 ; 100 city is destroyed along with all the units. If set to 0 city does not\n\

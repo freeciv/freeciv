@@ -271,8 +271,10 @@ static bool maybe_become_veteran_real(struct unit *punit, bool settler)
      EFT_COMBAT_ROUNDS rounds have been fought.
   3) the aftermath, the loser (and potentially the stack which is below it)
      is wiped, and the winner gets a chance of gaining veteran status
+
+  Returns whether either side was completely powerless.
 **************************************************************************/
-void unit_versus_unit(struct unit *attacker, struct unit *defender,
+bool unit_versus_unit(struct unit *attacker, struct unit *defender,
                       int *att_hp, int *def_hp,
                       const struct action *paction)
 {
@@ -318,6 +320,8 @@ void unit_versus_unit(struct unit *attacker, struct unit *defender,
   if (*def_hp < 0) {
     *def_hp = 0;
   }
+
+  return attackpower <= 0 || defensepower <= 0;
 }
 
 /**********************************************************************//**
@@ -367,17 +371,21 @@ void unit_bombs_unit(struct unit *attacker, struct unit *defender,
 }
 
 /**********************************************************************//**
-  Maybe make either side of combat veteran
+  Maybe make either side of combat veteran.
+  Powerless means that either side of the combat was completely powerless.
 **************************************************************************/
-void combat_veterans(struct unit *attacker, struct unit *defender)
+void combat_veterans(struct unit *attacker, struct unit *defender,
+                     bool powerless)
 {
-  if (attacker->hp <= 0 || defender->hp <= 0
-      || !game.info.only_killing_makes_veteran) {
-    if (attacker->hp > 0) {
-      maybe_make_veteran(attacker);
-    }
-    if (defender->hp > 0) {
-      maybe_make_veteran(defender);
+  if (!powerless || !game.info.only_real_fight_makes_veteran) {
+    if (attacker->hp <= 0 || defender->hp <= 0
+        || !game.info.only_killing_makes_veteran) {
+      if (attacker->hp > 0) {
+        maybe_make_veteran(attacker);
+      }
+      if (defender->hp > 0) {
+        maybe_make_veteran(defender);
+      }
     }
   }
 }
