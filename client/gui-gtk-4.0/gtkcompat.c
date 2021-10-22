@@ -35,6 +35,18 @@ void gtk_scrolled_window_set_has_frame(GtkScrolledWindow *wnd, bool shadow)
   }
 }
 
+/************************************************************************//**
+  Version of gtk_button_set_has_frame() for gtk < 3.98.3
+****************************************************************************/
+void gtk_button_set_has_frame(GtkButton *btn, bool shadow)
+{
+  if (shadow) {
+    gtk_button_set_relief(btn, GTK_RELIEF_NORMAL);
+  } else {
+    gtk_button_set_relief(btn, GTK_RELIEF_NONE);
+  }
+}
+
 #endif  /* GTK version < 3.98.3 */
 
 
