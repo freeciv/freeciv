@@ -602,7 +602,7 @@ void gui_dialog_new(struct gui_dialog **pdlg, GtkNotebook *notebook,
       gtk_container_add(GTK_CONTAINER(hbox), label);
 
       button = gtk_button_new();
-      gtk_button_set_relief(GTK_BUTTON(button), GTK_RELIEF_NONE);
+      gtk_button_set_has_frame(GTK_BUTTON(button), FALSE);
       g_signal_connect_swapped(button, "clicked",
                                G_CALLBACK(gui_dialog_delete_tab_handler), dlg);
 

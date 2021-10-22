@@ -2135,7 +2135,7 @@ static void city_dialog_update_supported_units(struct city_dialog *pdialog)
       cmd = gtk_button_new();
       node.cmd = cmd;
 
-      gtk_button_set_relief(GTK_BUTTON(cmd), GTK_RELIEF_NONE);
+      gtk_button_set_has_frame(GTK_BUTTON(cmd), FALSE);
 
       pix = gtk_image_new();
       node.pix = pix;
@@ -2238,7 +2238,7 @@ static void city_dialog_update_present_units(struct city_dialog *pdialog)
       cmd = gtk_button_new();
       node.cmd = cmd;
 
-      gtk_button_set_relief(GTK_BUTTON(cmd), GTK_RELIEF_NONE);
+      gtk_button_set_has_frame(GTK_BUTTON(cmd), FALSE);
 
       pix = gtk_image_new();
       node.pix = pix;

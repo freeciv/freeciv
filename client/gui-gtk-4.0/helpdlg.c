@@ -331,7 +331,7 @@ static GtkWidget *help_hyperlink_new(GtkWidget *label, enum help_page_type type)
   GtkWidget *button;
 
   button = gtk_button_new();
-  gtk_button_set_relief(GTK_BUTTON(button), GTK_RELIEF_NONE);
+  gtk_button_set_has_frame(GTK_BUTTON(button), FALSE);
   gtk_widget_set_halign(label, GTK_ALIGN_CENTER);
   gtk_widget_set_valign(label, GTK_ALIGN_CENTER);
   gtk_widget_set_name(label, "help_link");

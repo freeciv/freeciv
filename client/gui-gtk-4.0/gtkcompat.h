@@ -24,6 +24,7 @@
 #define GDK_ALT_MASK GDK_MOD1_MASK
 
 void gtk_scrolled_window_set_has_frame(GtkScrolledWindow *wnd, bool shadow);
+void gtk_button_set_has_frame(GtkButton *btn, bool shadow);
 
 #endif  /* GTK version < 3.98.3 */
 

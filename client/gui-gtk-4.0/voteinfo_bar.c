@@ -28,6 +28,7 @@
 
 /* client/gui-gtk-4.0 */
 #include "chatline.h"
+#include "gtkcompat.h"
 #include "pages.h"
 
 #include "voteinfo_bar.h"
@@ -143,7 +144,7 @@ GtkWidget *voteinfo_bar_new(bool split_bar)
                    G_CALLBACK(voteinfo_bar_next_callback), NULL);
   gtk_button_set_icon_name(GTK_BUTTON(button), "media-seek-backward");
   gtk_widget_set_size_request(button, -1, BUTTON_HEIGHT);
-  gtk_button_set_relief(GTK_BUTTON(button), GTK_RELIEF_NONE);
+  gtk_button_set_has_frame(GTK_BUTTON(button), FALSE);
   gtk_widget_set_focus_on_click(button, FALSE);
   gtk_container_add(GTK_CONTAINER(hbox), button);
   vib->next_button = button;

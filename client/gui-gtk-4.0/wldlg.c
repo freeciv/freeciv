@@ -1138,7 +1138,7 @@ GtkWidget *create_worklist(void)
   gtk_widget_set_margin_top(button, 24);
   gtk_widget_set_margin_bottom(button, 24);
   ptr->prepend_cmd = button;
-  gtk_button_set_relief(GTK_BUTTON(button), GTK_RELIEF_NONE);
+  gtk_button_set_has_frame(GTK_BUTTON(button), FALSE);
   gtk_grid_attach(GTK_GRID(table2), button, 0, 0, 1, 1);
 
   arrow = gtk_image_new_from_icon_name("pan-start-symbolic");
@@ -1149,7 +1149,7 @@ GtkWidget *create_worklist(void)
 
   button = gtk_button_new();
   ptr->up_cmd = button;
-  gtk_button_set_relief(GTK_BUTTON(button), GTK_RELIEF_NONE);
+  gtk_button_set_has_frame(GTK_BUTTON(button), FALSE);
   gtk_grid_attach(GTK_GRID(table2), button, 0, 1, 1, 1);
 
   arrow = gtk_image_new_from_icon_name("pan-up-symbolic");
@@ -1160,7 +1160,7 @@ GtkWidget *create_worklist(void)
 
   button = gtk_button_new();
   ptr->down_cmd = button;
-  gtk_button_set_relief(GTK_BUTTON(button), GTK_RELIEF_NONE);
+  gtk_button_set_has_frame(GTK_BUTTON(button), FALSE);
   gtk_grid_attach(GTK_GRID(table2), button, 0, 2, 1, 1);
 
   arrow = gtk_image_new_from_icon_name("pan-down-symbolic");
@@ -1173,7 +1173,7 @@ GtkWidget *create_worklist(void)
   gtk_widget_set_margin_top(button, 24);
   gtk_widget_set_margin_bottom(button, 24);
   ptr->append_cmd = button;
-  gtk_button_set_relief(GTK_BUTTON(button), GTK_RELIEF_NONE);
+  gtk_button_set_has_frame(GTK_BUTTON(button), FALSE);
   gtk_grid_attach(GTK_GRID(table2), button, 0, 3, 1, 1);
 
   arrow = gtk_image_new_from_icon_name("pan-start-symbolic");
@@ -1186,7 +1186,7 @@ GtkWidget *create_worklist(void)
   gtk_widget_set_margin_top(button, 24);
   gtk_widget_set_margin_bottom(button, 24);
   ptr->remove_cmd = button;
-  gtk_button_set_relief(GTK_BUTTON(button), GTK_RELIEF_NONE);
+  gtk_button_set_has_frame(GTK_BUTTON(button), FALSE);
   gtk_grid_attach(GTK_GRID(table2), button, 0, 4, 1, 1);
 
   arrow = gtk_image_new_from_icon_name("pan-end-symbolic");
