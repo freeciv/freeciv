@@ -221,6 +221,16 @@ const struct impr_type *improvement_array_last(void);
     }                                                                   \
   } improvement_iterate_end;
 
+#define genus_iterate(_p)                                               \
+  {                                                                     \
+    enum impr_genus_id _p;                                              \
+    for (_p = (enum impr_genus_id)0; _p < IG_COUNT;                     \
+         _p = (enum impr_genus_id)((int)_p + 1)) {
+
+#define genus_iterate_end                                               \
+    }                                                                   \
+  }
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

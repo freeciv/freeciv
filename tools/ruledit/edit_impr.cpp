@@ -17,7 +17,9 @@
 
 // Qt
 #include <QGridLayout>
+#include <QMenu>
 #include <QSpinBox>
+#include <QToolButton>
 
 // common
 #include "improvement.h"
@@ -37,6 +39,7 @@ edit_impr::edit_impr(ruledit_gui *ui_in, struct impr_type *impr_in) : QDialog()
   QVBoxLayout *main_layout = new QVBoxLayout(this);
   QGridLayout *impr_layout = new QGridLayout();
   QLabel *label;
+  QMenu *menu;
   int row;
 
   ui = ui_in;
@@ -65,6 +68,24 @@ edit_impr::edit_impr(ruledit_gui *ui_in, struct impr_type *impr_in) : QDialog()
   impr_layout->addWidget(label, row, 0);
   impr_layout->addWidget(upkeep, row++, 2);
 
+  label = new QLabel(QString::fromUtf8(R__("Genus")));
+  label->setParent(this);
+  genus_button = new QToolButton();
+  genus_button->setParent(this);
+  genus_button->setToolButtonStyle(Qt::ToolButtonTextOnly);
+  genus_button->setPopupMode(QToolButton::MenuButtonPopup);
+  menu = new QMenu();
+  connect(menu, SIGNAL(triggered(QAction *)), this, SLOT(genus_menu(QAction *)));
+
+  genus_iterate(genus) {
+    menu->addAction(impr_genus_id_name(genus));
+  } genus_iterate_end;
+
+  genus_button->setMenu(menu);
+
+  impr_layout->addWidget(label, row, 0);
+  impr_layout->addWidget(genus_button, row++, 2);
+
   refresh();
 
   main_layout->addLayout(impr_layout);
@@ -87,6 +108,7 @@ void edit_impr::refresh()
 {
   bcost->setValue(impr->build_cost);
   upkeep->setValue(impr->upkeep);
+  genus_button->setText(impr_genus_id_name(impr->genus));
 }
 
 /**********************************************************************//**
@@ -105,6 +127,22 @@ void edit_impr::set_bcost_value(int value)
 void edit_impr::set_upkeep_value(int value)
 {
   impr->upkeep = value;
+
+  refresh();
+}
+
+/**********************************************************************//**
+  User selected genus
+**************************************************************************/
+void edit_impr::genus_menu(QAction *action)
+{
+  QByteArray gn_bytes;
+  enum impr_genus_id genus;
+
+  gn_bytes = action->text().toUtf8();
+  genus = impr_genus_id_by_name(gn_bytes.data(), fc_strcasecmp);
+
+  impr->genus = genus;
 
   refresh();
 }
