@@ -613,7 +613,7 @@ static void redraw_unit_info_dlg(void)
 }
 
 /**********************************************************************//**
-  Show improvement info
+  Show unit type info
 **************************************************************************/
 void popup_unit_info(Unit_type_id type_id)
 {
