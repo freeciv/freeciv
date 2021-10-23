@@ -902,7 +902,6 @@ static void populate_unit_image_table(void)
   /* An extra layer so that we can hide the clickable button but keep
    * an explicit size request to avoid the layout jumping around */
   more_arrow_pixmap_container = gtk_frame_new(NULL);
-  gtk_frame_set_shadow_type(GTK_FRAME(more_arrow_pixmap_container), GTK_SHADOW_NONE);
   gtk_widget_set_halign(more_arrow_pixmap_container, GTK_ALIGN_CENTER);
   gtk_widget_set_valign(more_arrow_pixmap_container, GTK_ALIGN_CENTER);
   g_object_ref(more_arrow_pixmap_container);
