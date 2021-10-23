@@ -1,13 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!-- Created with Sodipodi ("http://www.sodipodi.com/") -->
+
 <svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://web.resource.org/cc/"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    version="1"
    x="0"
    y="0"
@@ -16,8 +10,14 @@
    id="svg378"
    sodipodi:version="0.32"
    sodipodi:docname="chile.svg"
-   sodipodi:docbase="C:\freeciv\flags"
-   inkscape:version="0.44">
+   inkscape:version="1.1.1 (3bf5ae0d25, 2021-09-20)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
   <metadata
      id="metadata9">
     <rdf:RDF>
@@ -33,13 +33,21 @@
      id="base"
      width="1417px"
      inkscape:zoom="0.53198919"
-     inkscape:cx="531.495"
-     inkscape:cy="354.33051"
-     inkscape:window-width="847"
-     inkscape:window-height="579"
-     inkscape:window-x="29"
-     inkscape:window-y="211"
-     inkscape:current-layer="svg378" />
+     inkscape:cx="531.9657"
+     inkscape:cy="353.39064"
+     inkscape:window-width="923"
+     inkscape:window-height="659"
+     inkscape:window-x="466"
+     inkscape:window-y="68"
+     inkscape:current-layer="svg378"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     showgrid="false"
+     inkscape:window-maximized="0" />
   <defs
      id="defs380" />
   <rect
