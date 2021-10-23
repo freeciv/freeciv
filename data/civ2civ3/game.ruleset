@@ -242,7 +242,7 @@ only_killing_makes_veteran = FALSE
 ; zero attack/defense power after modifiers, fight is not considered
 ; a real fight. If this setting is enabled, nobody gets made veteran after
 ; such a fight.
-only_real_fight_makes_veteran = FALSE
+only_real_fight_makes_veteran = TRUE
 
 ; Does unit`s bombard rate get scaled down by how damaged it is.
 ; Even after this unit gets at least one bombard round.
