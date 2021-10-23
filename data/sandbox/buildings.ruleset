@@ -1133,6 +1133,41 @@ Before you can build any spaceship parts, the Apollo Program wonder\
  must have been built by any player.\
 ")
 
+[building_space_elevator_tether]
+name        = _("Space Elevator Tether")
+genus       = "Improvement"
+reqs        =
+    { "type",         "name",           "range",     "present"
+      "Tech",         "Nanomaterials",  "Player",    TRUE
+      "Building",     "Space Elevator", "Continent", TRUE
+      "Building",     "Space Elevator", "City",      FALSE
+    }
+graphic     = "b.space_elevator_tether"
+graphic_alt = "b.space_modules"
+obsolete_by =
+    { "type", "name", "range"
+    }
+build_cost  = 400
+upkeep      = 4
+sabotage    = 100
+sound       = "b_space_elevator_tether"
+sound_alt   = "b_generic"
+helptext    = _("\
+Each tile around the city that is already generating some trade, produces \
+one extra trade resource.\
+"), _("\
+Adds 3 trade route slots to the city. \
+"), _("\
+Increases the city radius of the city. \
+"), _("\
+Increases the city vision radius of the city. \
+"), _("\
+A Space Elevator is too easy for an enemy to destroy to leave operational \
+and fully assembled during war. \
+It is therefore shut down and without any effect if its owner is at war \
+with anyone at all. \
+")
+
 [building_space_module]
 name		= _("Space Module")
 genus		= "Special"
@@ -2067,6 +2102,44 @@ where it is located.\
 "), _("\
 Upon completion of this wonder, entertainer specialists' luxury \
 output increases to 3 permanently for every nation.\
+")
+
+[building_space_elevator]
+name        = _("Space Elevator")
+genus       = "SmallWonder"
+reqs        =
+    { "type",         "name",           "range", "present"
+      "Tech",         "Nanomaterials",  "Player", TRUE
+      "Building",     "Apollo Program", "World",  TRUE
+      "Building",     "Space Elevator", "Player", FALSE
+      "TerrainClass", "Oceanic",        "City",   TRUE
+      ; Uncomment if someone implements gna patch #4390
+      ;"MaxLatitude", "5",              "Local",  TRUE
+    }
+graphic	    = "b.space_elevator"
+graphic_alt = "b.space_structural"
+obsolete_by =
+    { "type", "name", "range"
+    }
+build_cost  = 800
+upkeep      = 0
+sabotage    = 0
+sound       = "w_space_elevator"
+sound_alt   = "w_generic"
+helptext    = _("\
+Each tile around the city that is already generating some trade, produces \
+one extra trade resource.\
+"), _("\
+Adds 3 trade route slots to the city. \
+"), _("\
+Increases the city radius of the city. \
+"), _("\
+Increases the city vision radius of the city. \
+"), _("\
+A Space Elevator is too easy for an enemy to destroy to leave operational \
+and fully assembled during war. \
+It is therefore shut down and without any effect if its owner is at war \
+with anyone at all. \
 ")
 
 [building_statue_of_liberty]

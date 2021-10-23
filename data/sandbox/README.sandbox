@@ -224,3 +224,10 @@ casus belli against you.
 Chichen Itza wonder
 City with Chichen Itza wonder can build citybuilder units without paying
 any population cost for them.
+
+Space Elevator
+A city with a Space Elevator or a Space Elevator Tether gets expanded city
+radius, expanded vision radius, more trade and additional trade route slots.
+The down side is that it works only until you end up at war with someone.
+A city on the same continent as a player's Space Elevator can build a Space
+Elevator Tether.

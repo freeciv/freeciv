@@ -581,6 +581,14 @@ graphic     = "a.mysticism"
 graphic_alt = "-"
 helptext = _("Improves the effect of Temples.")
 
+[advance_nanomaterials]
+name     = _("Nanomaterials")
+req1     = "Plastics"
+req2     = "Computers"
+flags    = ""
+graphic     = "a.nanomaterials"
+graphic_alt = "a.plastics"
+
 [advance_navigation]
 name     = _("Navigation")
 req1     = "Invention"

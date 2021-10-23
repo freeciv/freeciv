@@ -386,6 +386,80 @@ reqs    =
       "Tech", "University", "Player", FALSE
     }
 
+[effect_elevator_trade]
+type    = "Output_Inc_Tile"
+value   = 1
+reqs    =
+    { "type",       "name",           "range",  "present"
+      "Building",   "Space Elevator", "City",   TRUE
+      "DiplRel",    "War",            "Player", FALSE
+      "OutputType", "Trade",          "Local",  TRUE
+    }
+
+[effect_elevator_trade_routes]
+type    = "Max_Trade_Routes"
+value   = 3
+reqs    =
+    { "type",     "name",           "range",  "present"
+      "Building", "Space Elevator", "City",   TRUE
+      "DiplRel",  "War",            "Player", FALSE
+    }
+
+[effect_elevator_city_radius]
+type    = "City_Radius_Sq"
+value   = 5
+reqs    =
+    { "type",     "name",           "range",  "present"
+      "Building", "Space Elevator", "City",   TRUE
+      "DiplRel",  "War",            "Player", FALSE
+    }
+
+[effect_elevator_city_vision]
+type    = "City_Vision_Radius_Sq"
+value   = 5
+reqs    =
+    { "type",     "name",           "range",  "present"
+      "Building", "Space Elevator", "City",   TRUE
+      "DiplRel",  "War",            "Player", FALSE
+    }
+
+[effect_elevator_tether_trade]
+type    = "Output_Inc_Tile"
+value   = 1
+reqs    =
+    { "type",       "name",                  "range",  "present"
+      "Building",   "Space Elevator Tether", "City",   TRUE
+      "DiplRel",    "War",                   "Player", FALSE
+      "OutputType", "Trade",                 "Local",  TRUE
+    }
+
+[effect_elevator_tether_trade_routes]
+type    = "Max_Trade_Routes"
+value   = 3
+reqs    =
+    { "type",     "name",                  "range",  "present"
+      "Building", "Space Elevator Tether", "City",   TRUE
+      "DiplRel",  "War",                   "Player", FALSE
+    }
+
+[effect_elevator_tether_city_radius]
+type    = "City_Radius_Sq"
+value   = 5
+reqs    =
+    { "type",     "name",                  "range",  "present"
+      "Building", "Space Elevator Tether", "City",   TRUE
+      "DiplRel",  "War",                   "Player", FALSE
+    }
+
+[effect_elevator_tether_city_vision]
+type    = "City_Vision_Radius_Sq"
+value   = 5
+reqs    =
+    { "type",     "name",                  "range",  "present"
+      "Building", "Space Elevator Tether", "City",   TRUE
+      "DiplRel",  "War",                   "Player", FALSE
+    }
+
 ; Base vision range - radius of vision is sqrt(5) = 2.24
 [effect_city_vision]
 type    = "City_Vision_Radius_Sq"
