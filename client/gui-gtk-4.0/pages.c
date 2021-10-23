@@ -242,7 +242,6 @@ GtkWidget *create_main_page(void)
   frame = gtk_frame_new(NULL);
   g_object_set(frame, "margin", 18, NULL);
   gtk_widget_set_halign(frame, GTK_ALIGN_CENTER);
-  gtk_frame_set_shadow_type(GTK_FRAME(frame), GTK_SHADOW_ETCHED_OUT);
   gtk_container_add(GTK_CONTAINER(vbox), frame);
 
   intro_in = load_gfxfile(tileset_main_intro_filename(tileset));
@@ -892,7 +891,6 @@ void append_network_statusbar(const char *text, bool force)
 GtkWidget *create_statusbar(void)
 {
   statusbar_frame = gtk_frame_new(NULL);
-  gtk_frame_set_shadow_type(GTK_FRAME(statusbar_frame), GTK_SHADOW_IN);
 
   statusbar = gtk_label_new("");
   gtk_widget_set_margin_start(statusbar, 2);
