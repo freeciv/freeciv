@@ -386,9 +386,9 @@ void universal_kind_values(struct universal *univ,
     }
     break;
   case VUT_IMPR_GENUS:
-    for (i = 0; i < IG_COUNT; i++) {
-      cb(impr_genus_id_name(i), univ->value.impr_genus == i, data);
-    }
+    genus_iterate(genus) {
+      cb(impr_genus_id_name(genus), univ->value.impr_genus == genus, data);
+    } genus_iterate_end;
     break;
   case VUT_ACTION:
     action_iterate(act) {
