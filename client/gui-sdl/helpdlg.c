@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -607,7 +607,7 @@ static void redraw_unit_info_dlg(void)
 }
 
 /**************************************************************************
-  Show improvement info
+  Show unit type info
 **************************************************************************/
 void popup_unit_info(Unit_type_id type_id)
 {
