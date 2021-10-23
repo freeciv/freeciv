@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -20,7 +20,9 @@
 
 // Qt
 #include <QDialog>
-#include <QSpinBox>
+
+class QSpinBox;
+class QToolButton;
 
 class ruledit_gui;
 
@@ -37,6 +39,7 @@ class edit_impr : public QDialog
     struct impr_type *impr;
     QSpinBox *bcost;
     QSpinBox *upkeep;
+    QToolButton *genus_button;
 
   protected:
     void closeEvent(QCloseEvent *cevent);
@@ -44,6 +47,7 @@ class edit_impr : public QDialog
   private slots:
     void set_bcost_value(int value);
     void set_upkeep_value(int value);
+    void genus_menu(QAction *action);
 };
 
 
