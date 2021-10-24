@@ -1479,6 +1479,9 @@ static bool save_game_ruleset(const char *filename, const char *name)
   save_default_int(sfile, game.server.start_year,
                    GAME_DEFAULT_START_YEAR,
                    "calendar.start_year", NULL);
+  if (game.calendar.calendar_fragments != 0) {
+    comment_calendar_fragments(sfile);
+  }
   save_default_int(sfile, game.calendar.calendar_fragments,
                    0, "calendar.fragments", NULL);
 

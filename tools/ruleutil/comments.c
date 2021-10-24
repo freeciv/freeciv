@@ -78,6 +78,7 @@ static struct {
   char *research_free_tech_method;
   char *culture_history_interest;
   char *culture_migration_pml;
+  char *calendar_fragments;
 } comments_storage;
 
 /**********************************************************************//**
@@ -200,6 +201,8 @@ bool comments_load(void)
                "entrydoc.history_interest_pml");
   comment_load(comments_storage.culture_migration_pml, comment_file,
                "entrydoc.migration_pml");
+  comment_load(comments_storage.calendar_fragments, comment_file,
+               "entrydoc.calendar_fragments");
 
   secfile_check_unused(comment_file);
   secfile_destroy(comment_file);
@@ -665,4 +668,13 @@ void comment_culture_migration_pml(struct section_file *sfile)
 {
   comment_entry_write(sfile, comments_storage.culture_migration_pml,
                       "culture");
+}
+
+/**********************************************************************//**
+  Write calendar fragments settings header.
+**************************************************************************/
+void comment_calendar_fragments(struct section_file *sfile)
+{
+  comment_entry_write(sfile, comments_storage.calendar_fragments,
+                      "calendar");
 }

@@ -1409,3 +1409,9 @@ migration_pml = "\n\
 ; from/to the city. Each culture point count as this many permilles\n\
 ; of a migration point.\
 "
+
+calendar_fragments = "\n\
+; How many fragments each year has. In addition to this, \"Turn_Fragments\" effects are\n\
+; needed to control fragment accumulation.\n\
+; Value 0 here disables year advancement by fragment accumulation.\
+"
