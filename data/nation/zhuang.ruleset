@@ -1,9 +1,9 @@
 [nation_zhuang]
 
-name=_("Zhuang")
-plural=_("?plural:Zhuang")
-groups="Asian", "Ancient"
-legend=_("The Zhuang people live in far southwestern China, an\
+name   = _("Zhuang")
+plural = _("?plural:Zhuang")
+groups = "Asian", "Ancient"
+legend = _("The Zhuang people live in far southwestern China, an\
  ancient border region that has long separated Sinitic civilization from\
  the aboriginal peoples of Southeast Asia. Known for their unique\
  irrigation and scenic terraced rice paddies, they were under pressure from\
@@ -22,15 +22,15 @@ leaders = {
  "Nong Zhigao",         "Male"
 }
 
-flag="zhuang"
-flag_alt="-"
+flag = "zhuang"
+flag_alt = "-"
 style = "Asian"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-civilwar_nations="Thai", "Laotian", "Shan"
+civilwar_nations = "Thai", "Laotian", "Shan"
 
 cities =
 ; Cities in Guangxi

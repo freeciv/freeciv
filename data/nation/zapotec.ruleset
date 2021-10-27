@@ -1,9 +1,9 @@
 [nation_zapotec]
 
-name=_("Zapotec")
-plural=_("?plural:Zapotecs")
-groups="Ancient", "Medieval", "American"
-legend=_("The Zapotecs or Binnizá live in the Mexican state of Oaxaca.\
+name   = _("Zapotec")
+plural = _("?plural:Zapotecs")
+groups = "Ancient", "Medieval", "American"
+legend = _("The Zapotecs or Binnizá live in the Mexican state of Oaxaca.\
  They formed one of the oldest and most resilient Mesoamerican\
  civilizations. The most notable Zapotec center, Monte Albán, was built\
  on a razed mountain top. Benito Juárez, Mexico's first indigenous\
@@ -24,13 +24,13 @@ ruler_titles = {
  "Despotism",       _("Lord %s"),      _("Lady %s")
 }
 
-flag="zapotec"
+flag = "zapotec"
 flag_alt = "mexico"
 style = "Babylonian"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
 civilwar_nations = "mixtec", "aztec"
 

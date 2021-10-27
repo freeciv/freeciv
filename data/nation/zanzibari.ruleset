@@ -1,9 +1,9 @@
 [nation_zanzibari]
 
-name=_("Zanzibari")
-plural=_("?plural:Zanzibaris")
-groups="African"
-legend=_("An archipelago off the coast of Eastern Africa, Zanzibar has\
+name   = _("Zanzibari")
+plural = _("?plural:Zanzibaris")
+groups = "African"
+legend = _("An archipelago off the coast of Eastern Africa, Zanzibar has\
  been an international trading center since time immemorial. Zanzibari\
  traders controlled much of the spice and slave trade in the western part\
  of the Indian Ocean. Periods of relative independence and foreign control\
@@ -29,13 +29,13 @@ ruler_titles = {
  "Fundamentalism", _("Imam %s"),           _("Imama %s")
 }
 
-flag="zanzibar"
+flag = "zanzibar"
 flag_alt = "-"
 style = "babylonian"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
 civilwar_nations = "arab", "tanzanian", "omani", "swahili"
 

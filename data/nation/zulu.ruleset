@@ -1,11 +1,11 @@
 [nation_zulu]
 
-translation_domain="freeciv"
+translation_domain = "freeciv"
 
-name=_("Zulu")
-plural=_("?plural:Zulus")
-groups="African", "Early Modern", "Core"
-legend=_("The Zulus are a warlike Bantu people who migrated from\
+name   = _("Zulu")
+plural = _("?plural:Zulus")
+groups = "African", "Early Modern", "Core"
+legend = _("The Zulus are a warlike Bantu people who migrated from\
  west-central Africa into southern Africa beginning in the early 1700s,\
  conquering the native Khoisan peoples and clashing with European settlers.")
 
@@ -42,20 +42,21 @@ ruler_titles = {
  "Democracy",       _("Principal Chief %s"), _("?female:Principal Chief %s")
 }
 
-flag="zulu"
+flag = "zulu"
 flag_alt = "rwanda"  ; used previously
 style = "Tropical"
 
-init_techs=""
-init_buildings=""
-init_units=""
-civilwar_nations="xhosa", "swazi"
+init_techs = ""
+init_buildings = ""
+init_units = ""
+
+civilwar_nations = "xhosa", "swazi"
 
 cities =
  "Zimbabwe",
  "Ulundi",
- "Ethekwini",	; Boer name: Durban
- "Tshwane",	; Boer name: Pretoria
+ "Ethekwini",   ; Boer name: Durban
+ "Tshwane",     ; Boer name: Pretoria
  "Harare",
  "Maputo",
  "Bulaweyo",
