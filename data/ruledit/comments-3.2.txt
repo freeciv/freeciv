@@ -1190,6 +1190,14 @@ clauses = "\
 ; */ <-- avoid gettext warnings\n\
 "
 
+[sectiondoc]
+; This section has comments documenting other sections
+nations_ruledit = "\n\
+; This section contains meta information for freeciv-ruledit and freeciv-ruleup\n\
+; to recreate the ruleset file in a form wanted.\n\
+; These have no in-game effect whatsoever.\
+"
+
 
 [entrydoc]
 ; This section has comments documenting individual entries

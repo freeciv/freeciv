@@ -54,6 +54,9 @@ void comment_nationgroups(struct section_file *sfile);
 void comment_nations(struct section_file *sfile);
 void comment_clauses(struct section_file *sfile);
 
+/* Other section comments */
+void comment_nations_ruledit(struct section_file *sfile);
+
 /* Entry comments */
 void comment_civstyle_granary(struct section_file *sfile);
 void comment_civstyle_ransom_gold(struct section_file *sfile);
