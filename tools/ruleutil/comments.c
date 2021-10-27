@@ -48,6 +48,9 @@ static struct {
   char *nations;
   char *nationgroups;
   char *nationsets;
+
+  /* Other section entries */
+  char *nations_ruledit;
 } comments_storage;
 
 /**************************************************************************
@@ -116,6 +119,9 @@ bool comments_load(void)
                comment_file, "typedoc.nationgroups");
   comment_load(comments_storage.nationsets,
                comment_file, "typedoc.nationsets");
+
+  comment_load(comments_storage.nations_ruledit, comment_file,
+               "sectiondoc.nations_ruledit");
 
   secfile_check_unused(comment_file);
   secfile_destroy(comment_file);
@@ -345,3 +351,10 @@ void comment_nationsets(struct section_file *sfile)
   comment_write(sfile, comments_storage.nationsets, "Nationsets");
 }
 
+/**********************************************************************//**
+  Write nations.ruleset [ruledit] section header.
+**************************************************************************/
+void comment_nations_ruledit(struct section_file *sfile)
+{
+  comment_write(sfile, comments_storage.nations_ruledit, "Ruledit");
+}

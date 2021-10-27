@@ -49,6 +49,9 @@ void comment_nationsets(struct section_file *sfile);
 void comment_nationgroups(struct section_file *sfile);
 void comment_nations(struct section_file *sfile);
 
+/* Other section comments */
+void comment_nations_ruledit(struct section_file *sfile);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

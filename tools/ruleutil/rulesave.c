@@ -1680,23 +1680,26 @@ static bool save_nations_ruleset(const char *filename, const char *name,
     return FALSE;
   }
 
-  if (data->nationlist != NULL) {
-    secfile_insert_str(sfile, data->nationlist, "ruledit.nationlist");
-  }
-  if (game.server.ruledit.embedded_nations != NULL) {
-    int i;
-    const char **tmp = fc_malloc(game.server.ruledit.embedded_nations_count * sizeof(char *));
-
-    /* Dance around the secfile_insert_str_vec() parameter type (requires extra const)
-     * resrictions */
-    for (i = 0; i < game.server.ruledit.embedded_nations_count; i++) {
-      tmp[i] = game.server.ruledit.embedded_nations[i];
+  if (data->nationlist != NULL || game.server.ruledit.embedded_nations != NULL) {
+    comment_nations_ruledit(sfile);
+    if (data->nationlist != NULL) {
+      secfile_insert_str(sfile, data->nationlist, "ruledit.nationlist");
     }
+    if (game.server.ruledit.embedded_nations != NULL) {
+      int i;
+      const char **tmp = fc_malloc(game.server.ruledit.embedded_nations_count * sizeof(char *));
 
-    secfile_insert_str_vec(sfile, tmp,
-                           game.server.ruledit.embedded_nations_count,
-                           "ruledit.embedded_nations");
-    free(tmp);
+      /* Dance around the secfile_insert_str_vec() parameter type (requires extra const)
+       * resrictions */
+      for (i = 0; i < game.server.ruledit.embedded_nations_count; i++) {
+        tmp[i] = game.server.ruledit.embedded_nations[i];
+      }
+
+      secfile_insert_str_vec(sfile, tmp,
+                             game.server.ruledit.embedded_nations_count,
+                             "ruledit.embedded_nations");
+      free(tmp);
+    }
   }
 
   save_traits(game.server.default_traits, NULL, sfile,
