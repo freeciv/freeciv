@@ -725,6 +725,7 @@ void races_dialog::leader_selected(int index)
 void races_dialog::ok_pressed()
 {
   QByteArray ln_bytes;
+  struct player *natplr;
 
   if (selected_nation == -1) {
     return;
@@ -740,7 +741,8 @@ void races_dialog::ok_pressed()
     return;
   }
 
-  if (nation_by_number(selected_nation)->player != NULL) {
+  natplr = nation_by_number(selected_nation)->player;
+  if (natplr != NULL && natplr != client_player()) {
     output_window_append(ftc_client,
                          _("Nation has been chosen by other player"));
     return;
