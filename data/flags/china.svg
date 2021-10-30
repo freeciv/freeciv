@@ -1,24 +1,23 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://web.resource.org/cc/"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:xlink="http://www.w3.org/1999/xlink"
-   xmlns:sodipodi="http://inkscape.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    height="420"
    version="1.0"
    width="630"
    id="svg2"
    sodipodi:version="0.32"
-   inkscape:version="0.42"
+   inkscape:version="1.1.1 (3bf5ae0d25, 2021-09-20)"
    sodipodi:docname="china.svg"
-   sodipodi:docbase="/Users/daniel/Desktop">
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
   <sodipodi:namedview
-     inkscape:window-height="507"
-     inkscape:window-width="701"
+     inkscape:window-height="596"
+     inkscape:window-width="830"
      inkscape:pageshadow="2"
      inkscape:pageopacity="0.0"
      borderopacity="1.0"
@@ -26,17 +25,19 @@
      pagecolor="#ffffff"
      id="base"
      inkscape:zoom="0.81904762"
-     inkscape:cx="315.00000"
-     inkscape:cy="210.00000"
-     inkscape:window-x="40"
-     inkscape:window-y="62"
-     inkscape:current-layer="svg2" />
+     inkscape:cx="315.61046"
+     inkscape:cy="209.38953"
+     inkscape:window-x="196"
+     inkscape:window-y="173"
+     inkscape:current-layer="svg2"
+     inkscape:pagecheckerboard="0"
+     showgrid="false"
+     inkscape:window-maximized="0" />
   <metadata
      id="metadata4">
     <rdf:RDF>
       <cc:Work
          rdf:about="">
-        <dc:title>Chinese flag (correct)</dc:title>
         <dc:description>The national flag of the People's Republic of China, following the specification at http://www.info.gov.hk/protocol/textmode/eng/fnf01.htm</dc:description>
         <dc:subject>
           <rdf:Bag>
