@@ -346,6 +346,8 @@ else
   gettext_dep = []
 endif
 
+sqlite3_dep = c_compiler.find_library('libsqlite3', dirs: cross_lib_path)
+
 if get_option('gitrev')
   priv_conf_data.set('GITREV', 1)
 endif
@@ -604,7 +606,7 @@ common_lib = library('freeciv',
                  c_compiler.find_library('m'),
                  c_compiler.find_library('z', dirs: cross_lib_path),
                  c_compiler.find_library('libcurl', dirs: cross_lib_path),
-                 c_compiler.find_library('libsqlite3', dirs: cross_lib_path),
+                 sqlite3_dep,
                  ws2_dep, jansson_dep, lua_dep, lzma_dep, bcrypt_lib_dep, iconv_lib_dep,
                  gettext_dep,
                  dependency('threads')],
@@ -2570,8 +2572,7 @@ executable('freeciv-mp-gtk3',
   c_args: [ '-DGDK_VERSION_MIN_REQUIRED=GDK_VERSION_3_20',
             '-DGDK_VERSION_MAX_ALLOWED=GDK_VERSION_3_22'],
   include_directories: tool_inc,
-  dependencies: [gtk322_dep,
-                 c_compiler.find_library('libsqlite3', dirs: cross_lib_path)],
+  dependencies: [gtk322_dep, sqlite3_dep],
   link_with: [common_lib, fcmp_common],
   install: true
   )
@@ -2590,8 +2591,7 @@ executable('freeciv-mp-gtk4',
   c_args: [ '-DGDK_VERSION_MIN_REQUIRED=GDK_VERSION_4_0',
             '-DGDK_VERSION_MAX_ALLOWED=GDK_VERSION_4_0'],
   include_directories: tool_inc,
-  dependencies: [gtk4_dep,
-                 c_compiler.find_library('libsqlite3', dirs: cross_lib_path)],
+  dependencies: [gtk4_dep, sqlite3_dep],
   link_with: [common_lib, fcmp_common],
   install: true
   )
@@ -2615,8 +2615,7 @@ executable('freeciv-mp-qt',
   'tools/fcmp/mpgui_qt_worker.cpp',
   mocced_fcmp,
   include_directories: tool_inc,
-  dependencies: [qt5_dep,
-                 c_compiler.find_library('libsqlite3', dirs: cross_lib_path)],
+  dependencies: [qt5_dep, sqlite3_dep],
   link_with: [common_lib, fcmp_common],
   install: true
   )
@@ -2628,7 +2627,7 @@ if get_option('fcmp').contains('cli')
 executable('freeciv-mp-cli',
   'tools/fcmp/mpcli.c',
   include_directories: tool_inc,
-  dependencies: [c_compiler.find_library('libsqlite3', dirs: cross_lib_path)],
+  dependencies: [sqlite3_dep],
   link_with: [common_lib, fcmp_common],
   install: true
   )
