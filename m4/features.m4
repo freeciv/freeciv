@@ -21,7 +21,7 @@ AC_ARG_WITH([missinglist],
 
 if test "x$list_missing_features" = "xyes" ; then
   FC_FEATURE([readline], [$feature_readline])
-  FC_FEATURE([sound], [$feature_sound], [SDL_mixer])
+  FC_FEATURE([sound], [$feature_sound], [SDL2_mixer])
   FC_FEATURE([additional mapimg formats], [$feature_magickwand], [MagickWand])
   FC_FEATURE([bz2 savegame compression], [$feature_bz2], [libbz2])
   FC_FEATURE([xz savegame compression], [$feature_xz], [liblzma])
