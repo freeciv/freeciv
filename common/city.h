@@ -303,6 +303,9 @@ struct adv_city; /* defined in ./server/advisors/infracache.h */
 
 struct cm_parameter; /* defined in ./common/aicore/cm.h */
 
+#ifdef FREECIV_WEB
+#pragma pack(push, 1)
+#endif
 struct city {
   char name[MAX_LEN_CITYNAME];
   struct tile *tile; /* May be NULL, should check! */
@@ -466,6 +469,9 @@ struct city {
     } client;
   };
 };
+#ifdef FREECIV_WEB
+#pragma pack(pop)
+#endif
 
 struct citystyle {
   struct name_translation name;
