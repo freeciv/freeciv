@@ -11,13 +11,14 @@ artists = "
     Andreas Røsdal <andrearo@pvv.ntnu.no> (hex mode)
     Daniel Speyer <dspeyer@users.sf.net> [DS]
     Architetto Francesco [http://www.public-domain-photos.com/] [AF]
-	Peter Arbor <peter.arbor@gmail.com> [PA]
-	GriffonSpade [GS]
-	Unknown Battle For Wesnoth artists [BFW]
-	Unknown Compass Artist [CA]
-	Unknown Opengameart.org Artist(s)
-	Unknown FreeCol Artist(s)
-	Vegard Stolpnessaeter [VS]
+    Peter Arbor <peter.arbor@gmail.com> [PA]
+    GriffonSpade [GS]
+    Unknown Battle For Wesnoth artists [BFW]
+    Unknown Compass Artist [CA]
+    Unknown Opengameart.org Artist(s)
+    Unknown FreeCol Artist(s)
+    Vegard Stolpnessaeter [VS]
+    Canik
 "
 
 [file]
@@ -118,10 +119,11 @@ tiles = { "row", "column","tag"
  5, 0, "t.blend.floor"
  5, 0, "t.blend.lake"
  0, 4, "t.blend.arctic"										;[?]
- 5, 3, "user.attention", "user.infratile"                                       ;[GS]
+ 5, 3, "user.attention"                                                                         ;[GS]
  5, 4, "tx.fog"
 ; 5, 6, "t.l0.charcoal1"									;[?]
 ; 5, 7, "t.l0.compass1"										;[CA][PA]
+ 5, 8, "user.infratile"
 
 ;goto path
  6, 0, "path.step"            ; turn boundary within path
