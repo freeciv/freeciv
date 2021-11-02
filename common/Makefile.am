@@ -53,8 +53,6 @@ libfreeciv_la_SOURCES = \
 		extras.h	\
 		featured_text.c	\
 		featured_text.h	\
-		fc_cmdhelp.c	\
-		fc_cmdhelp.h	\
 		fc_interface.c	\
 		fc_interface.h	\
 		fc_types.h	\

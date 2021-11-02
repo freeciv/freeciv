@@ -19,6 +19,8 @@ libcivutility_la_SOURCES = \
 		deprecations.h	\
 		distribute.c	\
 		distribute.h	\
+		fc_cmdhelp.c	\
+		fc_cmdhelp.h	\
 		fc_cmdline.c	\
 		fc_cmdline.h	\
 		fc_dirent.c	\
