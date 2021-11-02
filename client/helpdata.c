@@ -3652,7 +3652,7 @@ void helptext_extra(char *buf, size_t bufsz, struct player *pplayer,
         if (territory_claiming_base(pbase)) {
           CATLSTR(buf, bufsz,
                   /* TRANS: indented; preserve leading spaces */
-                  _("  * Can be captured by such units if at war with the "
+                  _("  * Can be conquered by such units if at war with the "
                     "nation that currently owns it.\n"));
         }
       }
