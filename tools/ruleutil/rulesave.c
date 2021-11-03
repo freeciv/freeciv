@@ -1601,6 +1601,11 @@ static bool save_game_ruleset(const char *filename, const char *name)
     }
   }
 
+  if (game.info.goods_selection != RS_DEFAULT_GOODS_SELECTION) {
+    secfile_insert_str(sfile, goods_selection_method_name(game.info.goods_selection),
+                       "trade.goods_selection");
+  }
+
   /* Goods */
   comment_goods(sfile);
 
