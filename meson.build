@@ -347,6 +347,7 @@ else
 endif
 
 sqlite3_dep = c_compiler.find_library('libsqlite3', dirs: cross_lib_path)
+m_dep = c_compiler.find_library('m', dirs: cross_lib_path)
 
 if get_option('gitrev')
   priv_conf_data.set('GITREV', 1)
@@ -606,10 +607,9 @@ common_lib = library('freeciv',
             tolua_com_a, tolua_com_z, tolua_game, tolua_signal],
   link_whole: fc_deps,
   dependencies: [c_compiler.find_library('libicuuc', dirs: cross_lib_path),
-                 c_compiler.find_library('m'),
                  c_compiler.find_library('z', dirs: cross_lib_path),
                  c_compiler.find_library('libcurl', dirs: cross_lib_path),
-                 sqlite3_dep,
+                 m_dep, sqlite3_dep,
                  ws2_dep, jansson_dep, lua_dep, lzma_dep, bcrypt_lib_dep, iconv_lib_dep,
                  gettext_dep,
                  dependency('threads')],
@@ -733,8 +733,7 @@ executable(server_binary_name,
   'server/civserver.c',
   include_directories: server_inc,
   link_with: [server_lib, common_lib, ais],
-  dependencies: [c_compiler.find_library('m'),
-                 ws2_dep, readline_dep, gettext_dep],
+  dependencies: [m_dep, ws2_dep, readline_dep, gettext_dep],
   install: true
   )
 
@@ -1360,8 +1359,7 @@ client_common = static_library('fc_client_common',
             tolua.process('client/luascript/tolua_client.pkg')],
   include_directories: client_inc,
   link_with: [common_lib],
-  dependencies: [c_compiler.find_library('m'),
-                 audio_dep, lua_dep]
+  dependencies: [m_dep, audio_dep, lua_dep]
   )
 
 install_data('data/helpdata.txt',
@@ -2848,8 +2846,7 @@ executable('freeciv-ruleup',
   'tools/ruleup.c',
   link_with: [common_lib, server_lib, tool_lib, ais],
   include_directories: tool_inc,
-  dependencies: [c_compiler.find_library('m'),
-                 ws2_dep, readline_dep, gettext_dep],
+  dependencies: [m_dep, ws2_dep, readline_dep, gettext_dep],
   install: true
   )
 
@@ -2907,8 +2904,7 @@ executable('freeciv-ruledit',
   'tools/ruledit/validity.c',
   mocced_ruledit,
   include_directories: tool_inc,
-  dependencies: [qt5_dep, c_compiler.find_library('m'),
-                 ws2_dep, readline_dep, gettext_dep],
+  dependencies: [qt5_dep, m_dep, ws2_dep, readline_dep, gettext_dep],
   link_with: [common_lib, server_lib, ais, tool_lib],
   install: true
   )
@@ -2921,8 +2917,7 @@ executable('freeciv-manual',
   link_with: [common_lib, server_lib, tool_lib, ais],
   include_directories: [tool_inc,
                         include_directories('client', 'client/include')],
-  dependencies: [c_compiler.find_library('m'),
-                 ws2_dep, readline_dep, gettext_dep],
+  dependencies: [m_dep, ws2_dep, readline_dep, gettext_dep],
   install: true
   )
 
