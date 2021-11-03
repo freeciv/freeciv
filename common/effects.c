@@ -1180,9 +1180,8 @@ void get_effect_list_req_text(const struct effect_list *plist,
 
 /**********************************************************************//**
   Iterate through all the effects in cache, and call callback for each.
-  This is currently not very generic implementation, as we have only one user;
-  ruleset sanity checking. If any callback returns FALSE, there is no
-  further checking and this will return FALSE.
+  If any callback returns FALSE, there is no further checking and
+  this will return FALSE.
 **************************************************************************/
 bool iterate_effect_cache(iec_cb cb, void *data)
 {
