@@ -6632,7 +6632,9 @@ static bool load_ruleset_game(struct section_file *file, bool act,
   }
 
   if (ok) {
-    const char *str = secfile_lookup_str_default(file, "Leaving", "trade.goods_selection");
+    const char *str = secfile_lookup_str_default(file,
+                                                 goods_selection_method_name(RS_DEFAULT_GOODS_SELECTION),
+                                                 "trade.goods_selection");
 
     game.info.goods_selection = goods_selection_method_by_name(str, fc_strcasecmp);
 
