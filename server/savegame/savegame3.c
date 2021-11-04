@@ -7077,6 +7077,13 @@ static void sg_load_researches(struct loaddata *loading)
                                        "research.r%d.got_tech", i),
                    "%s", secfile_error());
 
+    /* Older savegames (3.0 betas) had a bug that got_tech_multi was not saved.
+     * Have to live with such savegames, so can't make it an error if value
+     * is not found from the savegame. */
+    presearch->got_tech_multi = secfile_lookup_bool_default(loading->file, FALSE,
+                                                            "research.r%d.got_tech_multi",
+                                                            i);
+
     str = secfile_lookup_str(loading->file, "research.r%d.done", i);
     sg_failure_ret(str != NULL, "%s", secfile_error());
     sg_failure_ret(strlen(str) == loading->technology.size,
@@ -7169,6 +7176,8 @@ static void sg_save_researches(struct savedata *saving)
                       i, presearch->researching);
       secfile_insert_bool(saving->file, presearch->got_tech,
                           "research.r%d.got_tech", i);
+      secfile_insert_bool(saving->file, presearch->got_tech_multi,
+                          "research.r%d.got_tech_multi", i);
       /* Save technology lists as bytevector. Note that technology order is
        * saved in savefile.technology.order */
       advance_index_iterate(A_NONE, tech_id) {
