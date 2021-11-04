@@ -71,6 +71,7 @@ static struct {
   char *auto_attack;
   char *actions_ui_names;
   char *actions_dc_initial_odds;
+  char *actions_quiet_actions;
   char *borders_radius_permanent;
   char *research_tech_cost_style;
   char *research_base_tech_cost;
@@ -188,6 +189,8 @@ bool comments_load(void)
                "entrydoc.ui_names");
   comment_load(comments_storage.actions_dc_initial_odds, comment_file,
                "entrydoc.dc_initial_odds");
+  comment_load(comments_storage.actions_quiet_actions, comment_file,
+               "entrydoc.quiet_actions");
   comment_load(comments_storage.borders_radius_permanent, comment_file,
                "entrydoc.radius_permanent");
   comment_load(comments_storage.research_tech_cost_style, comment_file,
@@ -609,6 +612,15 @@ void comment_actions_ui_names(struct section_file *sfile)
 void comment_actions_dc_initial_odds(struct section_file *sfile)
 {
   comment_entry_write(sfile, comments_storage.actions_dc_initial_odds,
+                      "actions");
+}
+
+/**********************************************************************//**
+  Write actions quiet_actions settings header.
+**************************************************************************/
+void comment_actions_quiet_actions(struct section_file *sfile)
+{
+  comment_entry_write(sfile, comments_storage.actions_quiet_actions,
                       "actions");
 }
 

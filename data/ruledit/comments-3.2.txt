@@ -1337,6 +1337,13 @@ dc_initial_odds = "\n\
 ; Action_Odds_Pct effect before the roll happens.\n\
 "
 
+quiet_actions = "\n\
+; Suppress automatic help text generation about what enables and/or\n\
+; disables the following actions.\n\
+;\n\
+; Can make the help text less redundant when you document it your self.\
+"
+
 radius_permanent = "\n\
 ; Difference between city workable area and area permanently claimed by\n\
 ; city (these tiles cannot be stolen by stronger border sources).\n\

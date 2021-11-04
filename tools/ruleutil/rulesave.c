@@ -1349,6 +1349,8 @@ static bool save_game_ruleset(const char *filename, const char *name)
     save_action_blocked_by(sfile, act);
   } action_iterate_end;
 
+  comment_actions_quiet_actions(sfile);
+  
   i = 0;
   action_iterate(act) {
     if (action_by_number(act)->quiet) {
