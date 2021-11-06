@@ -1399,6 +1399,12 @@ static bool save_game_ruleset(const char *filename, const char *name)
   save_default_bool(sfile, game.info.only_real_fight_makes_veteran,
                     RS_DEFAULT_ONLY_REAL_FIGHT_VETERAN,
                     "combat_rules.only_real_fight_makes_veteran", NULL);
+  if (game.info.damage_reduces_bombard_rate != RS_DEFAULT_DAMAGE_REDUCES_BOMBARD_RATE) {
+    comment_combat_rules_damage_reduces_bombard_rate(sfile);
+  }
+  save_default_bool(sfile, game.info.damage_reduces_bombard_rate,
+                    RS_DEFAULT_DAMAGE_REDUCES_BOMBARD_RATE,
+                    "combat_rules.damage_reduces_bombard_rate", NULL);
   if (game.info.nuke_pop_loss_pct != RS_DEFAULT_NUKE_POP_LOSS_PCT) {
     comment_combat_rules_nuke_pop_loss(sfile);
   }

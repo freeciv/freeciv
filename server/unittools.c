@@ -334,7 +334,7 @@ void unit_bombs_unit(struct unit *attacker, struct unit *defender,
                      const struct action *paction)
 {
   int i;
-  int rate = unit_type_get(attacker)->bombard_rate;
+  int rate = unit_bombard_rate(attacker);
 
   int attackpower = get_total_attack_power(attacker, defender, paction);
   int defensepower = get_total_defense_power(attacker, defender);

@@ -971,3 +971,20 @@ int combat_bonus_against(const struct combat_bonus_list *list,
 
   return value;
 }
+
+/*******************************************************************//**
+  Get unit's current bombard rate.
+***********************************************************************/
+int unit_bombard_rate(struct unit *punit)
+{
+  const struct unit_type *utype = unit_type_get(punit);
+  int base_bombard_rate = utype->bombard_rate;
+
+  if (game.info.damage_reduces_bombard_rate && base_bombard_rate > 0) {
+    int rate = (base_bombard_rate * punit->hp) / utype->hp;
+
+    return MIN(rate, 1);
+  }
+
+  return base_bombard_rate;
+}

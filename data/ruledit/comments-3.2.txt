@@ -1285,6 +1285,11 @@ only_real_fight_makes_veteran = "\n\
 ; such a fight.\
 "
 
+damage_reduces_bombard_rate = "\n\
+; Does unit`s bombard rate get scaled down by how damaged it is.\n\
+; Even after this unit gets at least one bombard round.\
+"
+
 nuke_pop_loss_pct = "\n\
 ; Percentage of population lost by a city after nuclear attak. If set to\n\
 ; 100 city is destroyed along with all the units. If set to 0 city does not\n\
