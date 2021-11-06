@@ -54,6 +54,7 @@
 #include "inputdlg.h"
 #include "mapview.h"
 #include "menu.h"
+#include "rallypointdlg.h"
 
 #include "mapctrl.h"
 
@@ -230,6 +231,8 @@ gboolean butt_down_mapcanvas(GtkWidget *w, GdkEvent *ev, gpointer data)
       if (ptile) {
         toggle_tile_hilite(ptile);
       }
+    } else if (rally_set_tile(ptile)) {
+      /* Nothing here, rally_set_tile() already did what we wanted */
     } else if (infra_placement_mode()) {
       infra_placement_set_tile(ptile);
     } else {
