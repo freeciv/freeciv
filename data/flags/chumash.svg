@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!-- Created with Sodipodi ("http://www.sodipodi.com/") -->
+
 <svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://web.resource.org/cc/"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:xlink="http://www.w3.org/1999/xlink"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    id="svg3337"
    sodipodi:version="0.32"
    width="744.09003"
    height="496.06299"
-   sodipodi:docbase="C:\Users\Daniel\Documents\freeciv"
    sodipodi:docname="chumash.svg"
-   inkscape:version="0.45.1"
+   inkscape:version="1.1.1 (3bf5ae0d25, 2021-09-20)"
    inkscape:export-filename="/Users/daniel/Desktop/aztec.png"
    inkscape:export-xdpi="16.860001"
    inkscape:export-ydpi="16.860001"
    inkscape:output_extension="org.inkscape.output.svg.inkscape"
-   version="1.0">
+   version="1.0"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
   <metadata
      id="metadata6265">
     <rdf:RDF>
@@ -54,15 +54,22 @@
      showgrid="true"
      snaptogrid="false"
      inkscape:zoom="0.69346032"
-     inkscape:cx="434.05511"
-     inkscape:cy="242.71920"
-     inkscape:window-width="701"
-     inkscape:window-height="507"
+     inkscape:cx="362.67396"
+     inkscape:cy="242.98434"
+     inkscape:window-width="806"
+     inkscape:window-height="590"
      inkscape:window-x="8"
      inkscape:window-y="83"
      inkscape:current-layer="svg3337"
      width="744.09px"
-     height="496.06299px" />
+     height="496.06299px"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:window-maximized="0" />
   <rect
      style="fill:#ffff00;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
      id="rect2263"
