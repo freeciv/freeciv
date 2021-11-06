@@ -84,6 +84,8 @@ libgui_gtk3x_la_SOURCES = \
 	pages.h		\
 	plrdlg.c	\
 	plrdlg.h	\
+	rallypointdlg.c	\
+	rallypointdlg.h	\
 	ratesdlg.h	\
 	repodlgs.c	\
 	repodlgs.h	\
