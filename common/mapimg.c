@@ -1143,7 +1143,7 @@ struct mapdef *mapimg_isvalid(int id)
 }
 
 /************************************************************************//**
-  Return a list of all available tookits and formats for the client.
+  Return a list of all available toolkits and formats for the client.
 ****************************************************************************/
 const struct strvec *mapimg_get_format_list(void)
 {
@@ -1180,7 +1180,7 @@ const struct strvec *mapimg_get_format_list(void)
 }
 
 /************************************************************************//**
-  Return the default value of the tookit and the image format for the client.
+  Return the default value of the toolkit and the image format for the client.
 ****************************************************************************/
 const char *mapimg_get_format_default(void)
 {
