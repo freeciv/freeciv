@@ -1236,7 +1236,7 @@ static void help_update_terrain(const struct help_item *pitem,
       fc_snprintf(buf, sizeof(buf),
                   PL_("%d turn", "%d turns", pterrain->cultivate_time),
                   pterrain->cultivate_time);
-      add_act_help_for_terrain(_("Cultivate. Rslt/Time"),
+      add_act_help_for_terrain(_("Cultivate Rslt/Time"),
                                terrain_name_translation(pterrain->cultivate_result),
                                HELP_TERRAIN, buf);
     }
