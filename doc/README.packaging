@@ -96,9 +96,10 @@ to configure, and last thing configure outputs will be that list.
 ----------------------------------------------------------------------
 Shared libfreeciv
 -----------------
-Libfreeciv contains code common to server and client. By default it's
-built as static library, but you can build it as shared library by
-giving configure option "--enable-shared" (and possibly "--disable-static")
+Libfreeciv contains code common to server, client, and various tools.
+By default it's built as static library, but you can build it as
+a shared library by giving configure option "--enable-shared"
+(and possibly "--disable-static")
 
 ----------------------------------------------------------------------
 Generated files
