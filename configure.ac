@@ -1258,7 +1258,7 @@ AM_CONDITIONAL([MODINST_QT], [test "x$fcmp_qt" = "xyes"])
 AM_CONDITIONAL([MODINST_CLI], [test "x$fcmp_cli" = "xyes"])
 
 AC_ARG_ENABLE([ruledit],
-  AS_HELP_STRING([--enable-ruledit], [build freeciv-ruledit (WIP)]),
+  AS_HELP_STRING([--enable-ruledit=yes/no/test/experimental], [build freeciv-ruledit [test]]),
 [case "${enableval}" in
   yes)  ruledit=yes ;;
   no)   ruledit=no ;;
