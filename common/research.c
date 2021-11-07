@@ -545,7 +545,15 @@ void research_update(struct research *presearch)
                  ? TECH_PREREQS_KNOWN : TECH_UNKNOWN);
       }
     } else {
-      fc_assert(state == TECH_UNKNOWN);
+      /* We used to assert here that state already is TECH_UNKNOWN. However, there is
+       * a special case where it can be e.g. TECH_PREREQS_KNOWN and still
+       * unreachable (like in above research_get_reachable() call) because
+       * player is dead. Dead player's don't research anything. More accurately
+       * research_players_iterate() for a dead player's research iterates over
+       * zero players in research_allowed(), so it falls through to default of FALSE.
+       *
+       * Now we set the state to TECH_UNKNOWN instead of asserting that it already is. */
+      state = TECH_UNKNOWN;
     }
     presearch->inventions[i].state = state;
     presearch->inventions[i].reachable = reachable;
