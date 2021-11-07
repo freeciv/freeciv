@@ -316,15 +316,19 @@ double win_chance(int as, int ahp, int afp, int ds, int dhp, int dfp)
 }
 
 /**************************************************************************
-A unit's effective firepower depend on the situation.
+  A unit's effective firepower depend on the situation.
 **************************************************************************/
 void get_modified_firepower(const struct unit *attacker,
 			    const struct unit *defender,
 			    int *att_fp, int *def_fp)
 {
   struct city *pcity = tile_city(unit_tile(defender));
+  const struct unit_type *att_type;
+  struct tile *att_tile;
 
-  *att_fp = unit_type_get(attacker)->firepower;
+  att_type = unit_type_get(attacker);
+
+  *att_fp = att_type->firepower;
   *def_fp = unit_type_get(defender)->firepower;
 
   /* Check CityBuster flag */
@@ -339,7 +343,7 @@ void get_modified_firepower(const struct unit *attacker,
    */
   if (unit_has_type_flag(attacker, UTYF_BADWALLATTACKER)
       && get_unittype_bonus(unit_owner(defender), unit_tile(defender),
-                            unit_type_get(attacker), EFT_DEFEND_BONUS) > 0) {
+                            att_type, EFT_DEFEND_BONUS) > 0) {
     *att_fp = 1;
   }
 
@@ -355,15 +359,21 @@ void get_modified_firepower(const struct unit *attacker,
    * When attacked by fighters, helicopters have their firepower
    * reduced to 1.
    */
-  if (combat_bonus_against(unit_type_get(attacker)->bonuses,
+  if (combat_bonus_against(att_type->bonuses,
                            unit_type_get(defender),
                            CBONUS_FIREPOWER1)) {
     *def_fp = 1;
   }
 
-  /* In land bombardment both units have their firepower reduced to 1 */
-  if (!is_native_tile(unit_type_get(attacker), unit_tile(defender))
-      && !can_exist_at_tile(unit_type_get(defender), unit_tile(attacker))) {
+  att_tile = unit_tile(attacker);
+
+  /* In land bombardment both units have their firepower reduced to 1.
+   * Land bombardment is always towards tile not native for attacker.
+   * It's initiated either from a tile not native to defender (Ocean for Land unit)
+   * or from a tile where attacker is despite non-native terrain (city, transport) */
+  if (!is_native_tile(att_type, unit_tile(defender))
+      && (!can_exist_at_tile(unit_type_get(defender), att_tile)
+          || !is_native_tile(att_type, att_tile))) {
     *att_fp = 1;
     *def_fp = 1;
   }
