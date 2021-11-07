@@ -7311,6 +7311,7 @@ static bool load_ruleset_game(struct section_file *file, bool act,
 
   if (ok) {
     const char *tus_text;
+    bool default_drbr = RS_DEFAULT_DAMAGE_REDUCES_BOMBARD_RATE;
 
     /* section: combat_rules */
     game.info.tired_attack
@@ -7324,6 +7325,14 @@ static bool load_ruleset_game(struct section_file *file, bool act,
     game.info.only_real_fight_makes_veteran
       = secfile_lookup_bool_default(file, RS_DEFAULT_ONLY_REAL_FIGHT_VETERAN,
                                     "combat_rules.only_real_fight_makes_veteran");
+
+    if (compat->compat_mode && compat->ver_game < RSFORMAT_3_1) {
+      /* Old hardcoded behavior was not to have bombard rate reduced for damage. */
+      default_drbr = FALSE;
+    }
+    game.info.damage_reduces_bombard_rate
+      = secfile_lookup_bool_default(file, default_drbr,
+                                    "combat_rules.damage_reduces_bombard_rate");
 
     game.info.nuke_pop_loss_pct = secfile_lookup_int_default_min_max(file,
                                            RS_DEFAULT_NUKE_POP_LOSS_PCT,

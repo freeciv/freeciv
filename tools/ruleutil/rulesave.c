@@ -1366,6 +1366,9 @@ static bool save_game_ruleset(const char *filename, const char *name)
   save_default_bool(sfile, game.info.only_real_fight_makes_veteran,
                     RS_DEFAULT_ONLY_REAL_FIGHT_VETERAN,
                     "combat_rules.only_real_fight_makes_veteran", NULL);
+  save_default_bool(sfile, game.info.damage_reduces_bombard_rate,
+                    RS_DEFAULT_DAMAGE_REDUCES_BOMBARD_RATE,
+                    "combat_rules.damage_reduces_bombard_rate", NULL);
   save_default_int(sfile, game.info.nuke_pop_loss_pct,
                     RS_DEFAULT_NUKE_POP_LOSS_PCT,
                     "combat_rules.nuke_pop_loss_pct", NULL);

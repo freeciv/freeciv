@@ -243,6 +243,10 @@ only_killing_makes_veteran = FALSE
 ; such a fight.
 only_real_fight_makes_veteran = FALSE
 
+; Does unit`s bombard rate get scaled down by how damaged it is.
+; Even after this unit gets at least one bombard round.
+damage_reduces_bombard_rate = TRUE
+
 ; Percentage of population lost by a city after nuclear attak. If set to
 ; 100 city is destroyed along with all the units. If set to 0 city does not
 ; loose population. Any value below 50 means the city can never be

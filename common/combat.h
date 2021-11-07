@@ -97,6 +97,8 @@ int combat_bonus_against(const struct combat_bonus_list *list,
                          const struct unit_type *enemy,
                          enum combat_bonus_type type);
 
+int unit_bombard_rate(struct unit *punit);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */
