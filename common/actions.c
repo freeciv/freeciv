@@ -5345,7 +5345,7 @@ action_prob_pre_action_dice_roll(const struct player *act_player,
                                  const struct action *paction)
 {
   if (is_effect_val_known(EFT_ACTION_ODDS_PCT, act_player,
-                          tgt_player, tgt_player, tgt_city,
+                          act_player, tgt_player, tgt_city,
                           NULL, NULL, act_unit, NULL, NULL)) {
       int unconverted = action_dice_roll_odds(act_player, act_unit, tgt_city,
                                               tgt_player, paction);
