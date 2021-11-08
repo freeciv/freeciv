@@ -293,8 +293,8 @@ conquer_city_blocked_by = "Explode Nuclear", "Nuke City", "Nuke Units",
                           "Attack", "Suicide Attack"
 
 ; Forbid regular unit move if one of the actions below is legal.
-move_is_blocked_by = "Transport Disembark", "Conquer Extras", "Enter Hut",
-                     "Frighten Hut"
+move_blocked_by = "Transport Disembark", "Conquer Extras", "Enter Hut",
+                  "Frighten Hut"
 
 ; Actor units will - under certain circumstances - be forced to try
 ; performing the following actions in the specified order after successfully

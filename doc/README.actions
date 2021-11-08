@@ -1359,7 +1359,7 @@ Actions done by a unit against a tile
 
 "Unit Move" - a regular move to the target tile.
 * UI name can be set using ui_name_unit_move
-* any action listed in move_is_blocked_by must be impossible
+* any action listed in move_blocked_by must be impossible
 * the actor unit must be on a tile next to the target.
 * the actor unit has at least one move fragment left (!)
 * the actor unit may not be transported (!)
@@ -1379,13 +1379,13 @@ Actions done by a unit against a tile
 
 "Unit Move 2" - a regular move to the target tile.
 * UI name can be set using ui_name_unit_move_2
-* any action listed in move_2_is_blocked_by must be impossible
+* any action listed in move_2_blocked_by must be impossible
 * A copy of "Unit Move"
 * See "Unit Move" for everything else.
 
 "Unit Move 3" - a regular move to the target tile.
 * UI name can be set using ui_name_unit_move_3
-* any action listed in move_3_is_blocked_by must be impossible
+* any action listed in move_3_blocked_by must be impossible
 * A copy of "Unit Move"
 * See "Unit Move" for everything else.
 

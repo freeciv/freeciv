@@ -9176,11 +9176,11 @@ const char *action_blocked_by_ruleset_var_name(const struct action *act)
   case ACTION_CONQUER_CITY4:
     return "conquer_city_4_blocked_by";
   case ACTION_UNIT_MOVE:
-    return "move_is_blocked_by";
+    return "move_blocked_by";
   case ACTION_UNIT_MOVE2:
-    return "move_2_is_blocked_by";
+    return "move_2_blocked_by";
   case ACTION_UNIT_MOVE3:
-    return "move_3_is_blocked_by";
+    return "move_3_blocked_by";
   case ACTION_SPY_ESCAPE:
   case ACTION_SPY_POISON:
   case ACTION_SPY_POISON_ESC:

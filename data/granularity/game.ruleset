@@ -269,7 +269,7 @@ nuke_defender_survival_chance_pct = 0
 
 [actions]
 ; Forbid regular unit move if one of the actions below is legal.
-move_is_blocked_by = "Transport Disembark", "Transport Disembark 2"
+move_blocked_by = "Transport Disembark", "Transport Disembark 2"
 
 ; Actor units will - under certain circumstances - be forced to try
 ; performing the following actions in the specified order after successfully
