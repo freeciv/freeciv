@@ -258,7 +258,7 @@ nuke_defender_survival_chance_pct = 0
 
 [actions]
 ; Forbid regular unit move if one of the actions below is legal.
-;move_is_blocked_by = "Conquer Extras"
+;move_blocked_by = "Conquer Extras"
 
 ; Actor units will - under certain circumstances - be forced to try
 ; performing the following actions in the specified order after successfully
