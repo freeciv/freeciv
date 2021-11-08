@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 3.1\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2021-09-16 18:22+0300\n"
-"PO-Revision-Date: 2021-09-16 18:27+0300\n"
+"POT-Creation-Date: 2021-11-08 03:33+0200\n"
+"PO-Revision-Date: 2021-11-08 03:34+0200\n"
 "Last-Translator: Marko Lindqvist <cazfi74@gmail.com>\n"
 "Language-Team: Finnish <laatu@lokalisointi.org>\n"
 "Language: fi\n"
@@ -55,6 +55,10 @@ msgstr "Hyökkäysvoima"
 #: tools/ruledit/edit_utype.cpp:84
 msgid "Defense Strength"
 msgstr "Puolustusvoima"
+
+#: tools/ruledit/edit_utype.cpp:94
+msgid "Move Rate"
+msgstr "Liikkuvuus"
 
 #: tools/ruledit/effect_edit.cpp:75 tools/ruledit/req_edit.cpp:66
 msgid "Type:"
