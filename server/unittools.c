@@ -2143,6 +2143,7 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
   char pkiller_link[MAX_LEN_LINK], punit_link[MAX_LEN_LINK];
   struct player *pvictim = unit_owner(punit);
   struct player *pvictor = unit_owner(pkiller);
+  struct tile *deftile = unit_tile(punit);
   int ransom, unitcount = 0;
   bool escaped;
   bool collect_ransom = FALSE;
@@ -2235,7 +2236,7 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
       && uclass_has_flag(unit_class_get(pkiller), UCF_COLLECT_RANSOM)) {
     collect_ransom = TRUE;
 
-    unit_list_iterate(unit_tile(punit)->units, capture) {
+    unit_list_iterate(deftile->units, capture) {
       if (!unit_has_type_role(capture, L_BARBARIAN_LEADER)) {
         /* Cannot get ransom when there are other kind of units in the tile */
         collect_ransom = FALSE;
@@ -2244,7 +2245,7 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
     } unit_list_iterate_end;
 
     if (collect_ransom) {
-      unitcount = unit_list_size(unit_tile(punit)->units);
+      unitcount = unit_list_size(deftile->units);
       ransom = unitcount * game.server.ransom_gold;
 
       if (pvictim->economic.gold < ransom) {
@@ -2268,14 +2269,14 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
   }
 
   if (unitcount == 0) {
-    unit_list_iterate(unit_tile(punit)->units, vunit) {
+    unit_list_iterate(deftile->units, vunit) {
       if (pplayers_at_war(pvictor, unit_owner(vunit))) {
 	unitcount++;
       }
     } unit_list_iterate_end;
   }
 
-  if (!is_stack_vulnerable(unit_tile(punit)) || unitcount == 1) {
+  if (!is_stack_vulnerable(deftile) || unitcount == 1) {
     if (vet) {
       notify_unit_experience(pkiller);
     }
@@ -2285,7 +2286,6 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
     int num_killed[player_slot_count()];
     int num_escaped[player_slot_count()];
     struct unit *other_killed[player_slot_count()];
-    struct tile *ptile = unit_tile(punit);
 
     fc_assert(unitcount > 1);
 
@@ -2297,11 +2297,11 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
     }
 
     /* count killed units */
-    unit_list_iterate(ptile->units, vunit) {
+    unit_list_iterate(deftile->units, vunit) {
       struct player *vplayer = unit_owner(vunit);
 
       if (pplayers_at_war(pvictor, vplayer)
-          && is_unit_reachable_at(vunit, pkiller, ptile)) {
+          && is_unit_reachable_at(vunit, pkiller, deftile)) {
         escaped = FALSE;
 
         if (unit_has_type_flag(vunit, UTYF_CANESCAPE)
@@ -2316,7 +2316,7 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
 
           fc_assert(vunit->hp > 0);
 
-          adjc_iterate(&(wld.map), ptile, ptile2) {
+          adjc_iterate(&(wld.map), deftile, ptile2) {
             if (can_exist_at_tile(&(wld.map), vunit->utype, ptile2)
                 && NULL == tile_city(ptile2)) {
               move_cost = map_move_cost_unit(&(wld.map), vunit, ptile2);
@@ -2386,7 +2386,7 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
       if (num_killed[i] == 1) {
         if (i == player_index(pvictim)) {
           fc_assert(other_killed[i] == NULL);
-          notify_player(player_by_number(i), ptile,
+          notify_player(player_by_number(i), deftile,
                         E_UNIT_LOST_DEF, ftc_server,
                         /* TRANS: "Cannon ... the Polish Destroyer." */
                         _("%s lost to an attack by the %s %s."),
@@ -2395,7 +2395,7 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
                         pkiller_link);
         } else {
           fc_assert(other_killed[i] != punit);
-          notify_player(player_by_number(i), ptile,
+          notify_player(player_by_number(i), deftile,
                         E_UNIT_LOST_DEF, ftc_server,
                         /* TRANS: "Cannon lost when the Polish Destroyer
                          * attacked the German Musketeers." */
@@ -2411,7 +2411,7 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
           int others = num_killed[i] - 1;
 
           if (others == 1) {
-            notify_player(player_by_number(i), ptile,
+            notify_player(player_by_number(i), deftile,
                           E_UNIT_LOST_DEF, ftc_server,
                           /* TRANS: "Musketeers (and Cannon) lost to an
                            * attack from the Polish Destroyer." */
@@ -2421,7 +2421,7 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
                           nation_adjective_for_player(pvictor),
                           pkiller_link);
           } else {
-            notify_player(player_by_number(i), ptile,
+            notify_player(player_by_number(i), deftile,
                           E_UNIT_LOST_DEF, ftc_server,
                           /* TRANS: "Musketeers and 3 other units lost to
                            * an attack from the Polish Destroyer."
@@ -2436,7 +2436,7 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
                           pkiller_link);
           }
         } else {
-          notify_player(player_by_number(i), ptile,
+          notify_player(player_by_number(i), deftile,
                         E_UNIT_LOST_DEF, ftc_server,
                         /* TRANS: "2 units lost when the Polish Destroyer
                          * attacked the German Musketeers."
@@ -2453,10 +2453,13 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
       }
     }
 
-    /* Inform the owner of the units that escaped. */
+    /* Inform the owner of the units that escaped.
+     * 'deftile' is the original tile they defended at, not where
+     * they escaped to, as there might be multiple different tiles
+     * different units escaped to. */
     for (i = 0; i < player_slot_count(); ++i) {
       if (0 < num_escaped[i]) {
-        notify_player(player_by_number(i), unit_tile(punit),
+        notify_player(player_by_number(i), deftile,
                       E_UNIT_ESCAPED, ftc_server,
                       PL_("%d unit escaped from attack by %s %s",
                           "%d units escaped from attack by %s %s",
@@ -2472,9 +2475,9 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
      * must be mimiced exactly in at least one place up above. */
     punit = NULL; /* wiped during following iteration so unsafe to use */
 
-    unit_list_iterate_safe(ptile->units, punit2) {
+    unit_list_iterate_safe(deftile->units, punit2) {
       if (pplayers_at_war(pvictor, unit_owner(punit2))
-	  && is_unit_reachable_at(punit2, pkiller, ptile)) {
+	  && is_unit_reachable_at(punit2, pkiller, deftile)) {
         wipe_unit(punit2, ULR_KILLED, pvictor);
       }
     } unit_list_iterate_safe_end;
