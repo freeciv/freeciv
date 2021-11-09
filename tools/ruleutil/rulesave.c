@@ -26,6 +26,7 @@
 #include "map.h"
 #include "movement.h"
 #include "multipliers.h"
+#include "sex.h"
 #include "specialist.h"
 #include "style.h"
 #include "unittype.h"
@@ -1904,7 +1905,9 @@ static bool save_nation(struct section_file *sfile, struct nation_type *pnat,
   nation_leader_list_iterate(pnat->leaders, pleader) {
     secfile_insert_str(sfile, nation_leader_name(pleader), "%s.leaders%d.name",
                        path, subsect_idx);
-    secfile_insert_str(sfile, nation_leader_is_male(pleader) ? "Male" : "Female",
+    secfile_insert_str(sfile,
+                       nation_leader_is_male(pleader) ?
+                       sex_rule_name(SEX_MALE) : sex_rule_name(SEX_FEMALE),
                        "%s.leaders%d.sex", path, subsect_idx++);
   } nation_leader_list_iterate_end;
 
