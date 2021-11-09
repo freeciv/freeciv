@@ -31,7 +31,7 @@ init_units = ""
 civilwar_nations = "Turkish"
 
 cities =
-    "Pontus", "Smyrna", "Ephesus", "Sinope", "Paphos", "Themiscyra", 
+    "Pontus", "Smyrna", "Ephesus", "Sinope", "Paphos", "Themiscyra",
     "Cyme", "Myrine", "Pitane", "Mytilene", "Priene", "Megara",
     "Chaeronea", "Chalcis", "Scotussa", "Cynoscephalae", "Athens",
     "Palus Maeotis"

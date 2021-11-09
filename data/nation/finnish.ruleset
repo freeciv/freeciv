@@ -42,7 +42,7 @@ civilwar_nations = "Sami", "Karelian", "Mordvin", "Alander", "Estonian"
 ;
 ; all the Finnish cities, the situation in 1998,
 ; ordered by combined population and age (in 2000)
-; 
+;
 ; location preferences created if relevant to the city image
 ; - if the city is at a notable lake or quite near the Baltic
 ;   Sea, ocean isn't preferred either way

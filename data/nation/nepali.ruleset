@@ -31,7 +31,7 @@ ruler_titles = {
 
 flag = "nepal"
 flag_alt = "-"
-style = "Asian" 
+style = "Asian"
 
 init_techs = ""
 init_buildings = ""
@@ -39,7 +39,7 @@ init_units = ""
 
 civilwar_nations = "sherpa", "sikkimese"
 
-cities = 
+cities =
  "Kathmandu",
  "Pokhara",
  "Lalitpur",

@@ -31,7 +31,7 @@ ruler_titles = {
  "Despotism",      _("Prince %s"),         _("Princess %s")
 }
 
-flag = "monaco_alternative" 
+flag = "monaco_alternative"
 flag_alt = "indonesia" ;the regular flag is identical to the Indonesian flag
 style = "Classical"
 

@@ -5,7 +5,7 @@ plural = _("?plural:Hanoverians")
 groups = "European", "Early Modern"
 legend = _("Hanover was a state in Northern Germany, in current Lower\
  Saxony. From 1714 to 1837 Hanover and the United Kingdom were united\
- in a personal union. In 1866 it was gobbled up by Prussia.") 
+ in a personal union. In 1866 it was gobbled up by Prussia.")
 
 leaders = {
  "name",                        "sex"
@@ -19,8 +19,8 @@ leaders = {
 
 ruler_titles = {
  "government",      "male_title",          "female_title"
- "Despotism",       _("Duke %s"),          _("Duchess %s") 
- "Fundamentalism",  _("Prince-Bishop %s"), _("Princess-Bishop %s") 
+ "Despotism",       _("Duke %s"),          _("Duchess %s")
+ "Fundamentalism",  _("Prince-Bishop %s"), _("Princess-Bishop %s")
  "Democracy",       _("Minister-President %s"), _("?female:Minister-President %s")
 }
 

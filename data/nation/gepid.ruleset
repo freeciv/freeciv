@@ -34,16 +34,16 @@ leaders = {
 }
 
 flag = "gepid"
-flag_alt = "-" 
+flag_alt = "-"
 style = "Celtic"
 
 ruler_titles = {
  "government",        "male_title",           "female_title"
- "Fundamentalism",    _("Presbyter %s"),      _("?female:Presbyter %s") 
+ "Fundamentalism",    _("Presbyter %s"),      _("?female:Presbyter %s")
  "Anarchy",           _("Usurper %s"),        _("?female:Usurper %s")
  "Despotism",         _("Great Warrior %s"),  _("?female:Great Warrior %s")
  "Republic",          _("Spokesman %s"),      _("Spokeswoman %s")
- "Democracy",         _("Speaker %s"),        _("?female:Speaker %s") 
+ "Democracy",         _("Speaker %s"),        _("?female:Speaker %s")
 }
 
 init_techs = ""

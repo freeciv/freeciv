@@ -1,4 +1,4 @@
-[nation_chimu] 
+[nation_chimu]
 
 name   = _("Chimu")
 plural = _("?plural:Chimu")
@@ -10,7 +10,7 @@ legend = _("Inheritors of the Moche cultural tradition, Chimor began\
  last king, Minchancaman, was captured and led to the Inka capital\
  Qosqo. Chimu artisans contributed greatly to the manufacture of Inka\
  artistic wares. Until its fall, Chimor controlled perhaps 2/3 of\
- the population of the northern Andes.") 
+ the population of the northern Andes.")
 
 leaders = {
  "name",                "sex"

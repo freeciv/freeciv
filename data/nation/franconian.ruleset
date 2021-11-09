@@ -1,4 +1,4 @@
-[nation_franconian] 
+[nation_franconian]
 
 name   = _("Franconian")
 plural = _("?plural:Franconians")
@@ -22,7 +22,7 @@ leaders = {
 ruler_titles = {
  "government",       "male_title",          "female_title"
  "Despotism",        _("Duke %s"),          _("Duchess %s")
- "Fundamentalism",   _("Prince-Bishop %s"), _("Mother Superior %s")  
+ "Fundamentalism",   _("Prince-Bishop %s"), _("Mother Superior %s")
 }
 
 flag = "franconia"

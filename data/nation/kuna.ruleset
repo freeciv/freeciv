@@ -23,7 +23,7 @@ ruler_titles = {
  "Fundamentalism", _("Shaman %s"),      _("?female:Shaman %s")
  "Monarchy",       _("Great Chief %s"), _("?female:Great Chief %s")
  "Republic",       _("Governor %s"),    _("?female:Governor %s")
-} 
+}
 
 flag = "kuna_yala"
 flag_alt = "-"

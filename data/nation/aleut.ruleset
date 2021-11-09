@@ -24,8 +24,8 @@ ruler_titles = {
 }
 
 flag = "aleut"
-flag_alt = "-" 
-style = "celtic" 
+flag_alt = "-"
+style = "celtic"
 
 init_techs = ""
 init_buildings = ""

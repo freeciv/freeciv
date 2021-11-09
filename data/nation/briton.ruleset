@@ -21,7 +21,7 @@ ruler_titles = {
  "Despotism",	   _("Chieftain %s"),  _("?female:Chieftain %s")
  "Fundamentalism", _("Druid %s"),      _("?female:Druid %s")
  "Monarchy",       _("High King %s"),  _("High Queen %s")
-} 
+}
 
 flag = "britannia"
 flag_alt = "gaul"

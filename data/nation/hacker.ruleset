@@ -46,7 +46,7 @@ init_units = ""
 
 civilwar_nations = "antarctican", "martian"
 
-cities = 
+cities =
  "Core Dump",
  "Kernel Panic",
  "One More Turn",

@@ -25,7 +25,7 @@ ruler_titles = {
  "Anarchy",        _("Usurper %s"),    _("?female:Usurper %s")
  "Fundamentalism", _("Druid %s"),      _("?female:Druid %s")
  "Monarchy",       _("High King %s"),  _("High Queen %s")
-} 
+}
 
 flag = "pict"
 flag_alt = "scotland"

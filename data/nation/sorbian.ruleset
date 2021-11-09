@@ -25,7 +25,7 @@ ruler_titles = {
  "government",     "male_title",       "female_title"
  "Despotism",     _("Prince %s"),      _("Princess %s")
  "Republic",      _("Burgomaster %s"), _("?female:Burgomaster %s")
-} 
+}
 
 flag = "lusatia"
 flag_alt = "-"

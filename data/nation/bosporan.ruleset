@@ -33,7 +33,7 @@ ruler_titles =
    "Anarchy",    _("Usurper %s"), _("?female:Usurper %s")
    "Despotism",  _("Despot %s"),  _("?female:Despot %s")
    "Republic",   _("Consul %s"),  _("?female:Consul %s")
-} 
+}
 
 flag = "bosporus"
 flag_alt = "-"

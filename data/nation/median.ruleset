@@ -32,7 +32,7 @@ ruler_titles = {
  "Anarchy",     _("Usurper %s"),        _("?female:Usurper %s")
  "Despotism",   _("Satrap %s"),         _("?female:Satrap %s")
  "Monarchy",    _("%s Shahanshah"),  _("%s Shahbanu")
-} 
+}
 
 init_techs = ""
 init_buildings = ""

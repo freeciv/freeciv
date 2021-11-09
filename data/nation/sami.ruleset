@@ -33,7 +33,7 @@ init_units = ""
 
 civilwar_nations = "finnish", "swedish", "norwegian", "russian"
 
-; Sami city names are taken from the northernmost regions of Norway 
+; Sami city names are taken from the northernmost regions of Norway
 ; (Finnmark) Sweden and Finland (Lapland) and also a few from Russia.
 ; Some of these names use the classic orthography in the respective
 ; countries while yet some use a more modern native Sami orthography.

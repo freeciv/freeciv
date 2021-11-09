@@ -1,4 +1,4 @@
-[nation_cossack] 
+[nation_cossack]
 
 name   = _("Cossack")
 plural = _("?plural:Cossacks")

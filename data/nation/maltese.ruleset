@@ -30,7 +30,7 @@ ruler_titles = {
 
 flag = "malta"
 flag_alt = "europe"
-                    
+
 style = "Classical"
 
 init_techs = ""

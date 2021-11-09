@@ -28,7 +28,7 @@ ruler_titles = {
  "government",  "male_title",            "female_title"
  "Democracy",   _("Speaker %s"),         _("?female:Speaker %s")
  "Monarchy",    _("Emperor %s"),         _("Empress %s")
-} 
+}
 
 flag = "aztec"
 flag_alt = "mexico"    ; Used previously
@@ -102,7 +102,7 @@ cities =
  "Cihuatlan",
  "Tlaxquiauhco",
  "Huexotla",
- "Tziuhcoac", 
+ "Tziuhcoac",
  "Ocuillan",
  "Axocopan",
  "Nopallan"

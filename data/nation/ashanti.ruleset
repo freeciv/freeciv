@@ -1,4 +1,4 @@
-[nation_ashanti] 
+[nation_ashanti]
 
 name   = _("Ashanti")
 plural = _("?plural:Ashantis")
@@ -32,8 +32,8 @@ leaders = {
 
 ruler_titles = {
  "government",  "male_title",       "female_title"
- "Democracy",   _("Councillor %s"), _("?female:Councillor %s") 
- "Monarchy",    _("Asantehene %s"), _("?female:Asantehene %s")  
+ "Democracy",   _("Councillor %s"), _("?female:Councillor %s")
+ "Monarchy",    _("Asantehene %s"), _("?female:Asantehene %s")
 }
 
 flag = "ashanti"

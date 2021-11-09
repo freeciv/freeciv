@@ -8,7 +8,7 @@ legend=_("One of the so-called Five Civilized Tribes, the Chickasaw\
  Mississippi at the time of first contact with Europeans. The name\
  \"Mississippi\" itself originates from a Chickasaw word meaning\
  \"Without Source.\"")
- 
+
 leaders = {
  "name",                         "sex"
  "Holmes Colbert",               "Male"

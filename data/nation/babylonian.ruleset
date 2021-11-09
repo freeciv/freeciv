@@ -23,7 +23,7 @@ ruler_titles =
  { "government", "male_title",  "female_title"
  ; /* TRANS: Lugal = Great Man */
  "Monarchy",   _("%s Lugal"),   _("?female:%s Lugal")
-} 
+}
 
 flag = "babylon"
 flag_alt = "-"

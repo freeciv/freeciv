@@ -23,7 +23,7 @@ leaders = {
 flag = "jbonai"
 flag_alt = "american"   ; Born there
 style = "European"
- 
+
 init_techs = ""
 init_buildings = ""
 init_units = ""

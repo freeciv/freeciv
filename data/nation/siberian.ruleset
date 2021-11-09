@@ -22,7 +22,7 @@ ruler_titles = {
  "Despotism",           _("General %s"),   _("?female:General %s")
  "Fundamentalism",      _("Patriarch %s"), _("Matriarch %s")
  "Republic",            _("Governor %s"),  _("?female:Governor %s")
-} 
+}
 
 flag = "siberia"
 flag_alt = "-"
