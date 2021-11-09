@@ -480,15 +480,17 @@ static bool effect_list_sanity_cb(struct effect *peffect, void *data)
         }
       }
     } requirement_vector_iterate_end;
-  } else if (peffect->type == EFT_ACTION_ODDS_PCT) {
+  } else if (peffect->type == EFT_ACTION_ODDS_PCT
+             || peffect->type == EFT_ACTION_RESIST_PCT) {
     /* Catch trying to set Action_Odds_Pct for non supported actions. */
     requirement_vector_iterate(&peffect->reqs, preq) {
       if (preq->source.kind == VUT_ACTION && preq->present) {
         if (action_dice_roll_initial_odds(preq->source.value.action)
             == ACTION_ODDS_PCT_DICE_ROLL_NA) {
-          log_error("The effect Action_Odds_Pct has the"
+          log_error("The effect %s has the"
                     " requirement {%s} but the action %s doesn't"
                     " roll the dice to see if it fails.",
+                    effect_type_name(peffect->type),
                     req_to_fstring(preq),
                     universal_rule_name(&preq->source));
           return FALSE;

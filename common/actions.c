@@ -5456,7 +5456,10 @@ action_prob_pre_action_dice_roll(const struct player *act_player,
 {
   if (is_effect_val_known(EFT_ACTION_ODDS_PCT, act_player,
                           act_player, tgt_player, tgt_city,
-                          NULL, NULL, act_unit, NULL, NULL)) {
+                          NULL, NULL, act_unit, NULL, NULL)
+      && is_effect_val_known(EFT_ACTION_RESIST_PCT, act_player,
+                             tgt_player, act_player, tgt_city,
+                             NULL, NULL, act_unit, NULL, NULL)) {
       int unconverted = action_dice_roll_odds(act_player, act_unit, tgt_city,
                                               tgt_player, paction);
       struct act_prob result = { .min = unconverted * ACTPROB_VAL_1_PCT,
@@ -7105,6 +7108,7 @@ int action_dice_roll_odds(const struct player *act_player,
                           const struct action *paction)
 {
   int odds = action_dice_roll_initial_odds(paction);
+  const struct unit_type *actu_type = unit_type_get(act_unit);
 
   fc_assert_action_msg(odds >= 0 && odds <= 100,
                        odds = 100,
@@ -7115,14 +7119,23 @@ int action_dice_roll_odds(const struct player *act_player,
   /* Let the Action_Odds_Pct effect modify the odds. The advantage of doing
    * it this way in stead of rolling twice is that Action_Odds_Pct can
    * increase the odds. */
-  odds += ((odds
-            * get_target_bonus_effects(NULL,
-                                       act_player, tgt_player,
-                                       tgt_city, NULL, NULL,
-                                       act_unit, unit_type_get(act_unit),
-                                       NULL, NULL, paction,
-                                       EFT_ACTION_ODDS_PCT))
-           / 100);
+  odds = odds
+    + ((odds
+        * get_target_bonus_effects(NULL,
+                                   act_player, tgt_player,
+                                   tgt_city, NULL, NULL,
+                                   act_unit, actu_type,
+                                   NULL, NULL, paction,
+                                   EFT_ACTION_ODDS_PCT))
+       / 100)
+    - ((odds
+        * get_target_bonus_effects(NULL,
+                                   tgt_player, act_player,
+                                   tgt_city, NULL, NULL,
+                                   act_unit, actu_type,
+                                   NULL, NULL, paction,
+                                   EFT_ACTION_RESIST_PCT))
+       / 100);
 
   /* Odds are between 0% and 100%. */
   return CLIP(0, odds, 100);

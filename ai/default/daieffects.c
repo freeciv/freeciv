@@ -560,6 +560,7 @@ adv_want dai_effect_value(struct player *pplayer, struct government *gov,
   case EFT_CASUS_BELLI_SUCCESS:
   case EFT_CASUS_BELLI_COMPLETE:
   case EFT_ACTION_ODDS_PCT:
+  case EFT_ACTION_RESIST_PCT:
   case EFT_BORDER_VISION:
   case EFT_STEALINGS_IGNORE:
   case EFT_MAPS_STOLEN_PCT:

@@ -131,8 +131,11 @@ Action_Odds_Pct
     Modifies the odds of an action being successful. Some actions have a
     risk: the actor may get caught before he can perform it. This effect
     modifies the actor's odds. A positive value helps him. A negative value
-    makes it more probable that he will get caught. Currently supports the
-    actions "Incite City", "Incite City Escape", "Steal Gold",
+    makes it more probable that he will get caught. When evaluating
+    requirements for this effect, player is the acting player.
+    See also Action_Resist_Pct.
+    Currently supports the actions
+    "Incite City", "Incite City Escape", "Steal Gold",
     "Steal Gold Escape", "Steal Maps", "Steal Maps Escape", "Suitcase Nuke",
     "Suitcase Nuke Escape", "Sabotage City", "Sabotage City Escape",
     "Targeted Sabotage City", "Targeted Sabotage City Escape",
@@ -141,6 +144,12 @@ Action_Odds_Pct
     "Steal Tech", "Steal Tech Escape Expected", "Targeted Steal Tech",
     "Targeted Steal Tech Escape Expected", "Spread Plague", "Poison City" and
     "Poison City Escape".
+
+Action_Resist_Pct
+    Reduces the odds of action against the player to be succesfull.
+    The difference to negative Action_Odds_Pct effect is that when evaluating
+    requirements for this effect, player is the target player of the action.
+    Supported for the same actions as Action_Odds_Pct (applied at the same time)
 
 Action_Success_Actor_Move_Cost
     The number of move fragments lost when a unit successfully performs an
