@@ -592,7 +592,7 @@ static void create_advances_list(struct player *pplayer,
 				  GTK_RESPONSE_ACCEPT);
 
   label = gtk_frame_new(_("Select Advance to Steal"));
-  gtk_container_add(GTK_CONTAINER(gtk_dialog_get_content_area(GTK_DIALOG(spy_tech_shell))), label);
+  gtk_box_append(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(spy_tech_shell))), label);
 
   vbox = gtk_grid_new();
   gtk_orientable_set_orientation(GTK_ORIENTABLE(vbox),
@@ -778,7 +778,7 @@ static void create_improvements_list(struct player *pplayer,
 				  GTK_RESPONSE_ACCEPT);
 
   label = gtk_frame_new(_("Select Improvement to Sabotage"));
-  gtk_container_add(GTK_CONTAINER(gtk_dialog_get_content_area(GTK_DIALOG(spy_sabotage_shell))), label);
+  gtk_box_append(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(spy_sabotage_shell))), label);
 
   vbox = gtk_grid_new();
   gtk_orientable_set_orientation(GTK_ORIENTABLE(vbox),

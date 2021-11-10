@@ -307,8 +307,8 @@ void real_multipliers_dialog_update(void *unused)
 **************************************************************************/
 static GtkWidget *create_multiplier_dialog(void)
 {
-  GtkWidget     *shell, *content;
-  GtkWidget     *label, *scale;
+  GtkWidget *shell, *content;
+  GtkWidget *label, *scale;
 
   if (can_client_issue_orders()) {
     shell = gtk_dialog_new_with_buttons(_("Change policies"),
@@ -395,8 +395,8 @@ void popup_multiplier_dialog(void)
 **************************************************************************/
 static GtkWidget *create_rates_dialog(void)
 {
-  GtkWidget     *shell, *content;
-  GtkWidget	*frame, *hgrid;
+  GtkWidget *shell, *content;
+  GtkWidget *frame, *hgrid;
   int i;
 
   if (!can_client_issue_orders()) {

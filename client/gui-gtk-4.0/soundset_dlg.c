@@ -76,7 +76,7 @@ void popup_soundset_suggestion_dialog(void)
               game.control.preferred_soundset, sound_set_name);
 
   label = gtk_label_new(buf);
-  gtk_container_add(GTK_CONTAINER(gtk_dialog_get_content_area(GTK_DIALOG(dialog))), label);
+  gtk_box_append(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(dialog))), label);
   gtk_label_set_justify(GTK_LABEL(label), GTK_JUSTIFY_CENTER);
   gtk_widget_show(label);
 
@@ -129,7 +129,7 @@ void popup_musicset_suggestion_dialog(void)
               game.control.preferred_musicset, music_set_name);
 
   label = gtk_label_new(buf);
-  gtk_container_add(GTK_CONTAINER(gtk_dialog_get_content_area(GTK_DIALOG(dialog))), label);
+  gtk_box_append(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(dialog))), label);
   gtk_label_set_justify(GTK_LABEL(label), GTK_JUSTIFY_CENTER);
   gtk_widget_show(label);
 

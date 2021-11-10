@@ -1566,7 +1566,7 @@ static struct city_dialog *create_city_dialog(struct city *pcity)
   vbox = gtk_dialog_get_content_area(GTK_DIALOG(pdialog->shell));
   hbox = gtk_grid_new();
   gtk_grid_set_column_homogeneous(GTK_GRID(hbox), TRUE);
-  gtk_container_add(GTK_CONTAINER(vbox), hbox);
+  gtk_box_append(GTK_BOX(vbox), hbox);
 
   /**** Citizens bar here ****/
   cbox = gtk_grid_new();
@@ -1601,7 +1601,7 @@ static struct city_dialog *create_city_dialog(struct city *pcity)
   pdialog->notebook = gtk_notebook_new();
   gtk_notebook_set_tab_pos(GTK_NOTEBOOK(pdialog->notebook),
 			   GTK_POS_BOTTOM);
-  gtk_container_add(GTK_CONTAINER(vbox), pdialog->notebook);
+  gtk_box_append(GTK_BOX(vbox), pdialog->notebook);
 
   create_and_append_overview_page(pdialog);
   create_and_append_map_page(pdialog);
