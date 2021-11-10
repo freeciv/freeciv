@@ -186,9 +186,9 @@ void tab_tech::techs_to_menu(QMenu *fill_menu)
 {
   fill_menu->clear();
 
-  advance_iterate(A_NONE, padv) {
+  advance_iterate_all(padv) {
     fill_menu->addAction(tech_name(padv));
-  } advance_iterate_end;
+  } advance_iterate_all_end;
 }
 
 /**********************************************************************//**

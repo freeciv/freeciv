@@ -1093,7 +1093,7 @@ static void help_update_tech(const struct help_item *pitem, char *title)
       gtk_widget_show(hbox);
     } unit_type_iterate_end;
 
-    advance_iterate(A_NONE, ptest) {
+    advance_iterate_all(ptest) {
       if (padvance == advance_requires(ptest, AR_ONE)) {
 	if (advance_by_number(A_NONE) == advance_requires(ptest, AR_TWO)) {
           hbox = gtk_grid_new();
@@ -1136,7 +1136,7 @@ static void help_update_tech(const struct help_item *pitem, char *title)
         gtk_container_add(GTK_CONTAINER(hbox), w);
         gtk_widget_show(hbox);
       }
-    } advance_iterate_end;
+    } advance_iterate_all_end;
     gtk_widget_show(help_vbox);
   }
 }

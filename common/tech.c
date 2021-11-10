@@ -177,11 +177,11 @@ struct advance *valid_advance_by_number(const Tech_type_id id)
 **************************************************************************/
 struct advance *advance_by_translated_name(const char *name)
 {
-  advance_iterate(A_NONE, padvance) {
+  advance_iterate_all(padvance) {
     if (0 == strcmp(advance_name_translation(padvance), name)) {
       return padvance;
     }
-  } advance_iterate_end;
+  } advance_iterate_all_end;
 
   return NULL;
 }
@@ -194,11 +194,11 @@ struct advance *advance_by_rule_name(const char *name)
 {
   const char *qname = Qn_(name);
 
-  advance_iterate(A_NONE, padvance) {
+  advance_iterate_all(padvance) {
     if (0 == fc_strcasecmp(advance_rule_name(padvance), qname)) {
       return padvance;
     }
-  } advance_iterate_end;
+  } advance_iterate_all_end;
 
   return NULL;
 }

@@ -1687,11 +1687,11 @@ restart:
     } advance_iterate_end;
 
     /* Now rename A_NEVER to A_NONE for consistency */
-    advance_iterate(A_NONE, a) {
+    advance_iterate_all(a) {
       if (A_NEVER == a->require[AR_ROOT]) {
         a->require[AR_ROOT] = a_none;
       }
-    } advance_iterate_end;
+    } advance_iterate_all_end;
 
     /* Some more consistency checking: 
        Non-removed techs depending on removed techs is too

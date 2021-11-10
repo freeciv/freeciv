@@ -249,6 +249,9 @@ const struct advance *advance_array_last(void);
   }									\
 }
 
+#define advance_iterate_all(_p) advance_iterate(A_NONE, _p)
+#define advance_iterate_all_end advance_iterate_end
+
 #define advance_re_active_iterate(_p)                                    \
   advance_iterate(A_FIRST, _p) {                                         \
     if (_p->require[AR_ONE] != A_NEVER) {
