@@ -238,6 +238,13 @@ only_killing_makes_veteran = FALSE
 ; such a fight.
 only_real_fight_makes_veteran = FALSE
 
+; When this setting is enabled, chance of getting veterancy from a combat
+; gets modified by the strength of the opponent relative to the strength
+; of unit that might gain the veterancy.
+; When this setting is disabled, the modifier is always simply considered
+; to be 100%, i.e, the base veterancy chance from units.ruleset is used as is.
+combat_odds_scaled_veterancy = FALSE
+
 ; Does unit`s bombard rate get scaled down by how damaged it is.
 ; Even after this unit gets at least one bombard round.
 damage_reduces_bombard_rate = TRUE

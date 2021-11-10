@@ -74,14 +74,14 @@
 /* battle related */
 struct unit_type *find_a_unit_type(enum unit_role_id role,
 				   enum unit_role_id role_tech);
-bool maybe_make_veteran(struct unit *punit);
+bool maybe_make_veteran(struct unit *punit, int base_chance);
 void notify_unit_experience(struct unit *punit);
 bool unit_versus_unit(struct unit *attacker, struct unit *defender,
-                      int *att_hp, int *def_hp);
+                      int *att_hp, int *def_hp, int *att_vet, int *def_vet);
 void unit_bombs_unit(struct unit *attacker, struct unit *defender,
                      int *att_hp, int *def_hp);
 void combat_veterans(struct unit *attacker, struct unit *defender,
-                     bool powerless);
+                     bool powerless, int att_vet, int def_vet);
 
 /* move check related */
 bool is_unit_being_refueled(const struct unit *punit);

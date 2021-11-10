@@ -7326,6 +7326,10 @@ static bool load_ruleset_game(struct section_file *file, bool act,
       = secfile_lookup_bool_default(file, RS_DEFAULT_ONLY_REAL_FIGHT_VETERAN,
                                     "combat_rules.only_real_fight_makes_veteran");
 
+    game.info.combat_odds_scaled_veterancy
+      = secfile_lookup_bool_default(file, RS_DEFAULT_COMBAT_ODDS_SCALED_VETERANCY,
+                                    "combat_rules.combat_odds_scaled_veterancy");
+
     if (compat->compat_mode && compat->ver_game < RSFORMAT_3_1) {
       /* Old hardcoded behavior was not to have bombard rate reduced for damage. */
       default_drbr = FALSE;

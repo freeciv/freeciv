@@ -544,6 +544,7 @@ PACKET_GAME_INFO = 16; sc, is-info
   BOOL killstack;
   BOOL only_killing_makes_veteran;
   BOOL only_real_fight_makes_veteran;
+  BOOL combat_odds_scaled_veterancy;
   BOOL damage_reduces_bombard_rate;
   UINT8 nuke_pop_loss_pct;
   UINT8 nuke_defender_survival_chance_pct;
