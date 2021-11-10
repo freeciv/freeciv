@@ -60,7 +60,13 @@ Savegame [scenario] section can have following fields
   present on the map
 
 - lake_flooding
-  Should ocean tiles connecting to a lake tile flood the lake tile
+  Should ocean tiles connecting to a lake tile flood the lake tile.
+  Default is TRUE, and it's discouraged to disable it in new scenarios.
+  This possibility to disable flooding exist for supporting older
+  scenario maps created before flooding feature came to being, and which
+  would now work badly with the flooding enabled. New scenario maps
+  should be designed from the beginning so that the lake flooding is
+  not an issue.
 
 - handmade
   Set to TRUE when savegame file is manually edited. This has no gameplay
