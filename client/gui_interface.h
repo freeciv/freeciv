@@ -47,6 +47,7 @@ struct gui_funcs {
   void (*tileset_type_set)(enum ts_type type);
   void (*free_intro_radar_sprites)(void);
   struct sprite * (*load_gfxfile)(const char *filename);
+  struct sprite * (*load_gfxnumber)(int num);
   struct sprite * (*create_sprite)(int width, int height, struct color *pcolor);
   void (*get_sprite_dimensions)(struct sprite *sprite, int *width, int *height);
   struct sprite * (*crop_sprite)(struct sprite *source,
