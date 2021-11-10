@@ -1,13 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!-- Created with Sodipodi ("http://www.sodipodi.com/") -->
+
 <svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://web.resource.org/cc/"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    version="1"
    x="0.00000000"
    y="0.00000000"
@@ -16,9 +10,15 @@
    id="svg378"
    sodipodi:version="0.32"
    sodipodi:docname="constantine.svg"
-   sodipodi:docbase="C:\freeciv"
-   inkscape:version="0.45.1"
-   inkscape:output_extension="org.inkscape.output.svg.inkscape">
+   inkscape:version="1.1.1 (3bf5ae0d25, 2021-09-20)"
+   inkscape:output_extension="org.inkscape.output.svg.inkscape"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
   <metadata
      id="metadata2962">
     <rdf:RDF>
@@ -33,13 +33,21 @@
   <sodipodi:namedview
      id="base"
      inkscape:zoom="0.46230688"
-     inkscape:cx="531.49426"
-     inkscape:cy="332.69387"
-     inkscape:window-width="742"
+     inkscape:cx="531.03255"
+     inkscape:cy="333.11207"
+     inkscape:window-width="812"
      inkscape:window-height="577"
-     inkscape:window-x="8"
-     inkscape:window-y="77"
-     inkscape:current-layer="svg378" />
+     inkscape:window-x="382"
+     inkscape:window-y="32"
+     inkscape:current-layer="svg378"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     showgrid="false"
+     inkscape:window-maximized="0" />
   <defs
      id="defs380" />
   <rect
