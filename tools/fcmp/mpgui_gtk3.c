@@ -70,12 +70,7 @@ static gboolean quit_dialog_callback(void);
 **************************************************************************/
 static void modinst_quit(void)
 {
-  close_mpdbs();
-
-  fcmp_deinit();
-  cmdline_option_values_free();
-
-  exit(EXIT_SUCCESS);
+  gtk_main_quit();
 }
 
 /**********************************************************************//**
