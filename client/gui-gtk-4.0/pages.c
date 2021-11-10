@@ -564,7 +564,7 @@ static GtkWidget *save_dialog_new(const char *title, const char *savelabel,
                                   save_dialog_files_fn_t files)
 {
   GtkWidget *shell, *sbox, *sw, *label, *view, *entry;
-  GtkContainer *vbox;
+  GtkBox *vbox;
   GtkListStore *store;
   GtkCellRenderer *rend;
   GtkTreeSelection *selection;
@@ -593,7 +593,7 @@ static GtkWidget *save_dialog_new(const char *title, const char *savelabel,
   g_signal_connect(shell, "response",
                    G_CALLBACK(save_dialog_response_callback), pdialog);
   pdialog->shell = GTK_DIALOG(shell);
-  vbox = GTK_CONTAINER(gtk_dialog_get_content_area(GTK_DIALOG(shell)));
+  vbox = GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(shell)));
 
   /* Tree view. */
   store = save_dialog_store_new();
@@ -610,7 +610,7 @@ static GtkWidget *save_dialog_new(const char *title, const char *savelabel,
   gtk_orientable_set_orientation(GTK_ORIENTABLE(sbox),
                                  GTK_ORIENTATION_VERTICAL);
   gtk_grid_set_row_spacing(GTK_GRID(sbox), 2);
-  gtk_container_add(vbox, sbox);
+  gtk_box_append(vbox, sbox);
 
   label = g_object_new(GTK_TYPE_LABEL,
                        "use-underline", TRUE,
@@ -663,11 +663,12 @@ static GtkWidget *save_dialog_new(const char *title, const char *savelabel,
   gtk_container_add(GTK_CONTAINER(sbox), label);
 
   gtk_container_add(GTK_CONTAINER(sbox), entry);
-  gtk_container_add(vbox, sbox);
+  gtk_box_append(vbox, sbox);
 
   save_dialog_update(pdialog);
   gtk_window_set_focus(GTK_WINDOW(shell), entry);
   gtk_widget_show(GTK_WIDGET(vbox));
+
   return shell;
 }
 

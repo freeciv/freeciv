@@ -91,8 +91,8 @@ void rally_dialog_popup(void)
   sep = gtk_separator_new(GTK_ORIENTATION_HORIZONTAL);
   gtk_container_add(GTK_CONTAINER(main_box), sep);
 
-  gtk_container_add(GTK_CONTAINER(gtk_dialog_get_content_area(GTK_DIALOG(dlg))),
-                    main_box);
+  gtk_box_append(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(dlg))),
+                 main_box);
 
   g_signal_connect(dlg, "destroy", G_CALLBACK(rally_response_callback), NULL);
   g_signal_connect(dlg, "response", G_CALLBACK(rally_response_callback), NULL);

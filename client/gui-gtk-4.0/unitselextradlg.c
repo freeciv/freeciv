@@ -223,9 +223,8 @@ bool select_tgt_extra(struct unit *actor, struct tile *ptile,
   fc_assert_ret_val(default_option, FALSE);
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(default_option), TRUE);
 
-  gtk_container_add(
-              GTK_CONTAINER(gtk_dialog_get_content_area(GTK_DIALOG(dlg))),
-              main_box);
+  gtk_box_append(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(dlg))),
+                 main_box);
 
   g_object_set_data(G_OBJECT(dlg), "actor", GINT_TO_POINTER(actor->id));
   g_object_set_data(G_OBJECT(dlg), "tile", ptile);

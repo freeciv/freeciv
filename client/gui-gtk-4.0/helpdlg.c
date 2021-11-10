@@ -471,7 +471,8 @@ static void create_help_dialog(void)
 
   hbox = gtk_grid_new();
   gtk_grid_set_column_spacing(GTK_GRID(hbox), 5);
-  gtk_container_add(GTK_CONTAINER(gtk_dialog_get_content_area(GTK_DIALOG(help_dialog_shell))), hbox);
+  gtk_box_append(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(help_dialog_shell))),
+                 hbox);
   gtk_widget_show(hbox);
 
   /* build tree store. */

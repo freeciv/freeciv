@@ -220,7 +220,7 @@ void popup_notify_goto_dialog(const char *headline, const char *lines,
   gtk_dialog_set_default_response(GTK_DIALOG(shell), GTK_RESPONSE_CLOSE);
 
   label = gtk_label_new(lines);
-  gtk_container_add(GTK_CONTAINER(gtk_dialog_get_content_area(GTK_DIALOG(shell))), label);
+  gtk_box_append(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(shell))), label);
   gtk_widget_show(label);
 
   g_object_set_data(G_OBJECT(shell), "tile", ptile);
@@ -244,7 +244,7 @@ void popup_connect_msg(const char *headline, const char *message)
   label = gtk_label_new(message);
   gtk_label_set_selectable(GTK_LABEL(label), 1);
 
-  gtk_container_add(GTK_CONTAINER(gtk_dialog_get_content_area(GTK_DIALOG(shell))), label);
+  gtk_box_append(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(shell))), label);
   gtk_widget_show(label);
 
   gtk_dialog_add_button(GTK_DIALOG(shell), _("_Close"),GTK_RESPONSE_CLOSE);
@@ -880,7 +880,7 @@ static void create_races_dialog(struct player *pplayer)
   gtk_window_set_default_size(GTK_WINDOW(shell), -1, 590);
 
   frame = gtk_frame_new(_("Select a nation"));
-  gtk_container_add(GTK_CONTAINER(gtk_dialog_get_content_area(GTK_DIALOG(shell))), frame);
+  gtk_box_append(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(shell))), frame);
 
   hbox = gtk_grid_new();
   gtk_grid_set_column_spacing(GTK_GRID(hbox), 18);

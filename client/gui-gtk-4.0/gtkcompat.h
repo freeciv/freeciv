@@ -33,6 +33,7 @@ void gtk_button_set_has_frame(GtkButton *btn, bool shadow);
 /* Compatibility mode */
 
 #define gtk_window_destroy(_wnd_) gtk_widget_destroy(_wnd_)
+#define gtk_box_append(_box_, _child_) gtk_container_add(GTK_CONTAINER(_box_), _child_)
 
 #endif  /* GTK version < 3.98.4 */
 
