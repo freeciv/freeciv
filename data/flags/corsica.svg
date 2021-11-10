@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!-- Created with Sodipodi ("http://www.sodipodi.com/") -->
+
 <svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    height="216"
    id="svg1350"
    sodipodi:docname="corsica.svg"
    sodipodi:version="0.32"
    width="324"
-   inkscape:version="0.46"
+   inkscape:version="1.1.1 (3bf5ae0d25, 2021-09-20)"
    inkscape:output_extension="org.inkscape.output.svg.inkscape"
-   version="1.0">
+   version="1.0"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
   <metadata
      id="metadata3">
     <rdf:RDF>
       <cc:Work
          rdf:about="">
-        <dc:title>France - Corsica</dc:title>
         <dc:description />
         <dc:subject>
           <rdf:Bag>
@@ -79,7 +79,13 @@
     <defs
        id="defs5117" />
     <sodipodi:namedview
-       id="namedview5116" />
+       id="namedview5116"
+       pagecolor="#ffffff"
+       bordercolor="#666666"
+       borderopacity="1.0"
+       inkscape:pageshadow="2"
+       inkscape:pageopacity="0.0"
+       inkscape:pagecheckerboard="0" />
   </defs>
   <sodipodi:namedview
      bordercolor="#000000"
@@ -89,12 +95,13 @@
      showgrid="false"
      inkscape:zoom="1.5125999"
      inkscape:cx="179.82283"
-     inkscape:cy="108.07086"
-     inkscape:window-width="1280"
-     inkscape:window-height="729"
+     inkscape:cy="108.09203"
+     inkscape:window-width="827"
+     inkscape:window-height="578"
      inkscape:window-x="0"
-     inkscape:window-y="0"
-     inkscape:current-layer="svg1350" />
+     inkscape:window-y="32"
+     inkscape:current-layer="svg1350"
+     inkscape:window-maximized="0" />
   <rect
      style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:none"
      id="rect2427"
