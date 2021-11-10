@@ -22,6 +22,7 @@ struct color;
 GUI_FUNC_PROTO(const char **, gfx_fileextensions, void)
 
 GUI_FUNC_PROTO(struct sprite *, load_gfxfile, const char *filename)
+GUI_FUNC_PROTO(struct sprite *, load_gfxnumber, int num)
 GUI_FUNC_PROTO(struct sprite *, crop_sprite, struct sprite *source,
                int x, int y, int width, int height,
                struct sprite *mask, int mask_offset_x, int mask_offset_y,

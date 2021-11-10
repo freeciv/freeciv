@@ -111,3 +111,12 @@ void gui_free_sprite(struct sprite *s)
 {
   /* PORTME */
 }
+
+/************************************************************************//**
+  Return a sprite image of a number.
+****************************************************************************/
+struct sprite *gui_load_gfxnumber(int num)
+{
+  /* PORTME */
+  return NULL;
+}

@@ -182,3 +182,12 @@ static struct sprite *ctor_sprite(SDL_Surface *surf)
 
   return result;
 }
+
+/************************************************************************//**
+  Return a sprite image of a number.
+****************************************************************************/
+struct sprite *load_gfxnumber(int num)
+{
+  /* Not supported in sdl2-client */
+  return NULL;
+}

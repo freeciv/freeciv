@@ -44,6 +44,7 @@ void setup_gui_funcs()
   funcs->tileset_type_set = qtg_tileset_type_set;
   funcs->free_intro_radar_sprites = qtg_free_intro_radar_sprites;
   funcs->load_gfxfile = qtg_load_gfxfile;
+  funcs->load_gfxnumber = qtg_load_gfxnumber;
   funcs->create_sprite = qtg_create_sprite;
   funcs->get_sprite_dimensions = qtg_get_sprite_dimensions;
   funcs->crop_sprite = qtg_crop_sprite;

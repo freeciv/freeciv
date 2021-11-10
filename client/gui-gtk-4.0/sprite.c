@@ -543,3 +543,12 @@ void image_set_from_surface(GtkImage *image, cairo_surface_t *surf)
   gtk_image_set_from_pixbuf(image, pb);
   g_object_unref(pb);
 }
+
+/************************************************************************//**
+  Return a sprite image of a number.
+****************************************************************************/
+struct sprite *load_gfxnumber(int num)
+{
+  /* Not supported in gtk3x-client */
+  return NULL;
+}

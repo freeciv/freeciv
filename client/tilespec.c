@@ -258,6 +258,8 @@ struct named_sprites {
     struct sprite *nuke;
   } explode;
   struct {
+    int num_stack_sprites;
+    bool no_more_stack_sprites;
     struct sprite
       *hp_bar[NUM_TILES_HP_BAR],
       *vet_lev[MAX_VET_LEVELS],
@@ -272,7 +274,7 @@ struct named_sprites {
       *plant,
       *pillage,
       *sentry,
-      *stack,
+      **stack,
       *loaded,
       *transform,
       *connect,
@@ -555,7 +557,7 @@ static int fill_unit_type_sprite_array(const struct tileset *t,
 static int fill_unit_sprite_array(const struct tileset *t,
                                   struct drawn_sprite *sprs,
                                   const struct unit *punit,
-                                  bool stack, bool backdrop);
+                                  int stack, bool backdrop);
 static bool load_river_sprites(struct tileset *t,
                                struct river_sprites *store, const char *tag_pfx);
 
@@ -3043,8 +3045,11 @@ static void tileset_lookup_sprite_tags(struct tileset *t)
   SET_SPRITE(unit.plant,        "unit.plant");
   SET_SPRITE(unit.pillage,	"unit.pillage");
   SET_SPRITE(unit.sentry,	"unit.sentry");
-  SET_SPRITE(unit.convert,      "unit.convert");      
-  SET_SPRITE(unit.stack,	"unit.stack");
+  SET_SPRITE(unit.convert,      "unit.convert");
+  t->sprites.unit.stack = fc_malloc(sizeof(struct sprite *));
+  t->sprites.unit.num_stack_sprites = 1;
+  SET_SPRITE(unit.stack[0],     "unit.stack");
+  t->sprites.unit.no_more_stack_sprites = FALSE;
   SET_SPRITE(unit.loaded,       "unit.loaded");
   SET_SPRITE(unit.transform,    "unit.transform");
   SET_SPRITE(unit.connect,      "unit.connect");
@@ -4264,7 +4269,7 @@ static int fill_unit_type_sprite_array(const struct tileset *t,
 static int fill_unit_sprite_array(const struct tileset *t,
                                   struct drawn_sprite *sprs,
                                   const struct unit *punit,
-                                  bool stack, bool backdrop)
+                                  int stack, bool backdrop)
 {
   struct drawn_sprite *save_sprs = sprs;
   int ihp;
@@ -4421,8 +4426,16 @@ static int fill_unit_sprite_array(const struct tileset *t,
     ADD_SPRITE_FULL(t->sprites.unit.tired);
   }
 
-  if (stack || punit->client.occupied) {
-    ADD_SPRITE_FULL(t->sprites.unit.stack);
+  if (stack == 1 && punit->client.occupied) {
+    ADD_SPRITE_FULL(t->sprites.unit.stack[0]);
+  } else if (stack > 1) {
+    if (t->sprites.unit.num_stack_sprites >= stack) {
+      ADD_SPRITE(t->sprites.unit.stack[stack - 1], FALSE,
+                 FULL_TILE_X_OFFSET + t->unit_offset_x,
+                 FULL_TILE_Y_OFFSET + t->unit_offset_y);
+    } else {
+      ADD_SPRITE_FULL(t->sprites.unit.stack[0]);
+    }
   }
 
   if (t->sprites.unit.vet_lev[punit->veteran]) {
@@ -5842,7 +5855,7 @@ int fill_sprite_array(struct tileset *t,
   case LAYER_UNIT:
   case LAYER_FOCUS_UNIT:
     if (do_draw_unit && XOR(layer == LAYER_UNIT, unit_is_in_focus(punit))) {
-      bool stacked = ptile && (unit_list_size(ptile->units) > 1);
+      int stack_count = ptile ? unit_list_size(ptile->units) : 0;
       bool backdrop = !pcity;
 
       if (ptile && unit_is_in_focus(punit)
@@ -5853,7 +5866,29 @@ int fill_sprite_array(struct tileset *t,
                    t->select_offset_x, t->select_offset_y);
       }
 
-      sprs += fill_unit_sprite_array(t, sprs, punit, stacked, backdrop);
+      /* Load more stack number sprites if needed. no_more_stack_sprites guard
+       * that we don't retry over and over again for every stack,
+       * when it's not working. */
+      if (t->sprites.unit.num_stack_sprites < stack_count
+          && !t->sprites.unit.no_more_stack_sprites) {
+        t->sprites.unit.stack = fc_realloc(t->sprites.unit.stack,
+                                           stack_count * sizeof(struct sprite *));
+
+        while (t->sprites.unit.num_stack_sprites < stack_count
+               && !t->sprites.unit.no_more_stack_sprites) {
+          struct sprite *spr = load_gfxnumber(t->sprites.unit.num_stack_sprites + 1);
+
+          if (spr != NULL) {
+            t->sprites.unit.stack[t->sprites.unit.num_stack_sprites++] = spr;
+          } else {
+            t->sprites.unit.no_more_stack_sprites = TRUE;
+            t->sprites.unit.stack = fc_realloc(t->sprites.unit.stack,
+                         t->sprites.unit.num_stack_sprites * sizeof(struct sprite *));
+          }
+        }
+      }
+
+      sprs += fill_unit_sprite_array(t, sprs, punit, stack_count, backdrop);
     } else if (putype != NULL && layer == LAYER_UNIT) {
       /* Only the sprite for the unit type. */
       sprs += fill_unit_type_sprite_array(t, sprs, putype,
@@ -6297,6 +6332,16 @@ void tileset_free_tiles(struct tileset *t)
   sprite_vector_free(&t->sprites.nation_flag);
   sprite_vector_free(&t->sprites.nation_shield);
   sprite_vector_free(&t->sprites.citybar.occupancy);
+
+  /* Index 0 is 'occupied' or 'default' stack sprite */
+  for (i = 1; i < t->sprites.unit.num_stack_sprites - 1; i++) {
+    free_sprite(t->sprites.unit.stack[i]);
+  }
+  t->sprites.unit.num_stack_sprites = 0;
+  if (t->sprites.unit.stack != NULL) {
+    free(t->sprites.unit.stack);
+    t->sprites.unit.stack = NULL;
+  }
 
   tileset_background_free(t);
 }

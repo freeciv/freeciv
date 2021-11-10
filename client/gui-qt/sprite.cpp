@@ -188,3 +188,87 @@ struct sprite *qtg_create_sprite(int width, int height, struct color *pcolor)
 
   return created;
 }
+
+/************************************************************************//**
+  Creates a sprite with the number in it.
+****************************************************************************/
+struct sprite *qtg_load_gfxnumber(int num)
+{
+  struct sprite *spr = new sprite;
+  QString ns;
+  int w, h;
+  QPixmap *pm;
+  /* FIXME: This should not depend on city_productions font setting */
+  QFont *qf = fc_font::instance()->get_font(fonts::city_productions);
+
+  if (gui()->map_scale != 1.0f && gui()->map_font_scale) {
+    int ssize = ceil(gui()->map_scale * fc_font::instance()->prod_fontsize);
+
+    if (qf->pointSize() != ssize) {
+      qf->setPointSize(ssize);
+    }
+  }
+
+  QFontMetrics fm(*qf);
+
+  if (num > 20) {
+    ns = QString::number(num);
+  } else {
+    const char *numsbuf[21] = {
+      u8"\0xF0\0x9F\0x84\0x8C",
+      u8"\u278A",
+      u8"\u278B",
+      u8"\u278C",
+      u8"\u278D",
+      u8"\u278E",
+      u8"\u278F",
+      u8"\u2790",
+      u8"\u2791",
+      u8"\u2792",
+      u8"\u2793",
+      u8"\u24EB",
+      u8"\u24EC",
+      u8"\u24ED",
+      u8"\u24EE",
+      u8"\u24EF",
+      u8"\u24F0",
+      u8"\u24F1",
+      u8"\u24F2",
+      u8"\u24F3",
+      u8"\u24F4"
+    };
+
+    ns = QString(numsbuf[num]);
+  }
+
+  w = fm.horizontalAdvance(ns);
+  h = fm.height();
+  pm = new QPixmap(w, h);
+  pm->fill(Qt::transparent);
+
+  QPainter paint(pm);
+  paint.setFont(*qf);
+  paint.setBrush(Qt::transparent);
+  paint.setPen(QColor(Qt::black));
+  paint.drawText(QRect(0, 0, w, h), Qt::AlignLeft | Qt::AlignVCenter,
+                 QString(u8"\u26AB"));
+
+  if (num > 20) {
+    paint.setPen(QColor(Qt::yellow));
+    paint.drawText(QRect(-2, 0, w, h), Qt::AlignLeft | Qt::AlignVCenter,
+                   QString(u8"\u2B24"));
+    paint.drawText(QRect(4, -2, w, h), Qt::AlignLeft | Qt::AlignVCenter,
+                   QString(u8"\u2B24"));
+    paint.drawText(QRect(4, 2, w, h), Qt::AlignLeft | Qt::AlignVCenter,
+                   QString(u8"\u2B24"));
+    paint.drawText(QRect(8, 0, w, h), Qt::AlignLeft | Qt::AlignVCenter,
+                   QString(u8"\u2B24"));
+  }
+  paint.setPen(QColor((num > 20) ? Qt::black : Qt::yellow));
+  paint.drawText(QRect(0, 0, w, h), Qt::AlignLeft | Qt::AlignVCenter, ns);
+  paint.end();
+
+  spr->pm = pm;
+
+  return spr;
+}

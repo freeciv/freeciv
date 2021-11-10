@@ -134,6 +134,14 @@ struct sprite *load_gfxfile(const char *filename)
 }
 
 /**********************************************************************//**
+  Call load_gfxnumber callback
+**************************************************************************/
+struct sprite *load_gfxnumber(int num)
+{
+  return funcs.load_gfxnumber(num);
+}
+
+/**********************************************************************//**
   Call create_sprite callback
 **************************************************************************/
 struct sprite *create_sprite(int width, int height, struct color *pcolor)
