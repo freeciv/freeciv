@@ -1378,7 +1378,7 @@ static void end_phase(void)
       } else {
         choose_random_tech(presearch);
       }
-      /* add the researched bulbs to the pool; do *NOT* checvk for finished
+      /* Add the researched bulbs to the pool; do *NOT* check for finished
        * research */
       update_bulbs(pplayer, 0, FALSE);
     }
