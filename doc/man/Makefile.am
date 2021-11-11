@@ -14,6 +14,7 @@ MAN_LINKS = 			\
 	freeciv-sdl2.6		\
 	freeciv-qt.6		\
 	freeciv-mp-gtk3.6	\
+	freeciv-mp-gtk4.6	\
 	freeciv-mp-qt.6		\
 	freeciv-mp-cli.6
 

@@ -9,9 +9,9 @@
 .\"   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 .\"   GNU General Public License for more details.
 .\"
-.TH FREECIV 6 "May 24th 2014"
+.TH FREECIV 6 "May 13th 2021"
 .SH NAME
-freeciv-mp-gtk3, freeciv-mp-qt, freeciv-mp-cli \
+freeciv-mp-gtk4, freeciv-mp-gtk3, freeciv-mp-qt, freeciv-mp-cli \
 \- Custom content installers for the Freeciv game
 .SH SYNOPSIS
 .B freeciv-mp-XXX \
