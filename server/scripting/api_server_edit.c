@@ -1123,3 +1123,16 @@ void api_edit_player_add_history(lua_State *L, Player *pplayer, int amount)
 
   pplayer->history += amount;
 }
+
+/**********************************************************************//**
+  Give bulbs to a player
+**************************************************************************/
+void api_edit_player_give_bulbs(lua_State *L, Player *pplayer, int amount)
+{
+  LUASCRIPT_CHECK_STATE(L);
+  LUASCRIPT_CHECK_SELF(L, pplayer);
+
+  update_bulbs(pplayer, amount, TRUE);
+
+  send_player_info_c(pplayer, NULL);
+}

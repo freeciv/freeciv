@@ -607,8 +607,8 @@ static bool lose_tech(struct research *research)
 
   The caller is responsible for sending updated player information.
 
-  This is called from each city every turn, from caravan revenue, and at the
-  end of the phase.
+  This is called from each city every turn, from caravan revenue, at the
+  end of the phase, and from lua API.
 ****************************************************************************/
 void update_bulbs(struct player *pplayer, int bulbs, bool check_tech)
 {
