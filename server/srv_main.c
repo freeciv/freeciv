@@ -3025,9 +3025,11 @@ static void srv_scores(void)
   send_server_info_to_metaserver(META_INFO);
 
   if (game.server.save_nturns > 0
-      && conn_list_size(game.est_connections) > 0) {
+      && (conn_list_size(game.est_connections) > 0
+          || !srvarg.quitidle)) {
     /* Save game on game_over, but not when the gameover was caused by
-     * the -q parameter. */
+     * the -q parameter. Be sure that it's the -q, and not an autogame
+     * with no human players. */
     save_game_auto("Game over", AS_GAME_OVER);
   }
 }
