@@ -1,17 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!-- Generator: Adobe Illustrator 10.0, SVG Export Plug-In . SVG Version: 3.0.0 Build 76)  -->
+
 <svg
-   xmlns:ns0="http://ns.adobe.com/SaveForWeb/1.0/"
-   xmlns:ns="http://ns.adobe.com/Variables/1.0/"
-   xmlns:i="http://ns.adobe.com/AdobeIllustrator/10.0/"
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:xlink="http://www.w3.org/1999/xlink"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    i:viewOrigin="-30.5 624.8213"
    i:rulerOrigin="342.5 251.5"
    i:pageBounds="-342.5 1044.5 953.5 -251.5"
@@ -23,11 +13,21 @@
    xml:space="preserve"
    id="svg2"
    sodipodi:version="0.32"
-   inkscape:version="0.46"
+   inkscape:version="1.1.1 (3bf5ae0d25, 2021-09-20)"
    sodipodi:docname="cossack.svg"
    inkscape:output_extension="org.inkscape.output.svg.inkscape"
    version="1.0"
-   style="overflow:visible"><defs
+   style="overflow:visible"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:i="http://ns.adobe.com/AdobeIllustrator/10.0/"
+   xmlns:ns="http://ns.adobe.com/Variables/1.0/"
+   xmlns:ns0="http://ns.adobe.com/SaveForWeb/1.0/"><defs
    id="defs2382"><inkscape:perspective
    sodipodi:type="inkscape:persp3d"
    inkscape:vp_x="0 : 278.93701 : 1"
@@ -42,9 +42,7 @@
    y="0"
    x="0"
    requiredExtensions="http://ns.adobe.com/AdobeIllustrator/10.0/">
-			<i:pgfRef
-   xlink:href="#adobe_illustrator_pgf">
-			</i:pgfRef>
+			
 		</foreignObject>
 		
 	
@@ -77,8 +75,8 @@
    inkscape:vp_y="0 : 1000 : 0"
    inkscape:vp_x="0 : 150 : 1"
    sodipodi:type="inkscape:persp3d" /></defs><sodipodi:namedview
-   inkscape:window-height="729"
-   inkscape:window-width="1280"
+   inkscape:window-height="683"
+   inkscape:window-width="928"
    inkscape:pageshadow="2"
    inkscape:pageopacity="0.0"
    guidetolerance="10.0"
@@ -90,11 +88,13 @@
    id="base"
    showgrid="false"
    inkscape:zoom="0.78"
-   inkscape:cx="443.88551"
-   inkscape:cy="271.09375"
-   inkscape:window-x="0"
-   inkscape:window-y="0"
-   inkscape:current-layer="g10" />
+   inkscape:cx="418.58974"
+   inkscape:cy="285.89744"
+   inkscape:window-x="290"
+   inkscape:window-y="141"
+   inkscape:current-layer="g10"
+   inkscape:pagecheckerboard="0"
+   inkscape:window-maximized="0" />
 	<metadata
    id="metadata4">
 		<ns:variableSets>
