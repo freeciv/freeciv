@@ -1179,7 +1179,7 @@ static gboolean move_toolkit(GtkWidget *toolkit_view,
   GtkWidget *parent = gtk_widget_get_parent(ptoolkit->main_widget);
   GtkWidget *button_box = GTK_WIDGET(g_object_get_data(G_OBJECT(toolkit_view),
                                                        "button_box"));
-  GList *list, *iter;
+  GtkWidget *iter;
 
   if (parent) {
     if (parent == toolkit_view) {
@@ -1193,8 +1193,8 @@ static gboolean move_toolkit(GtkWidget *toolkit_view,
     }
     g_object_ref(ptoolkit->main_widget); /* Make sure reference count stays above 0
                                           * during the transition to new parent. */
-    gtk_container_remove(GTK_CONTAINER(parent), ptoolkit->main_widget);
-    gtk_container_add(GTK_CONTAINER(toolkit_view), ptoolkit->main_widget);
+    gtk_box_remove(GTK_BOX(parent), ptoolkit->main_widget);
+    gtk_box_append(GTK_BOX(toolkit_view), ptoolkit->main_widget);
     g_object_unref(ptoolkit->main_widget);
     if (ptoolkit->toolbar_displayed) {
       gtk_widget_show(ptoolkit->toolbar);
@@ -1202,7 +1202,7 @@ static gboolean move_toolkit(GtkWidget *toolkit_view,
 
     if (!gtk_widget_get_parent(button_box)) {
       /* Attach to the toolkit button_box. */
-      gtk_container_add(GTK_CONTAINER(ptoolkit->button_box), button_box);
+      gtk_box_append(GTK_BOX(ptoolkit->button_box), button_box);
     }
     gtk_widget_show(ptoolkit->main_widget);
     if (!ptoolkit->toolbar_displayed) {
@@ -1210,20 +1210,19 @@ static gboolean move_toolkit(GtkWidget *toolkit_view,
     }
 
     /* Hide all other buttons boxes. */
-    list = gtk_container_get_children(GTK_CONTAINER(ptoolkit->button_box));
-    for (iter = list; iter != NULL; iter = g_list_next(iter)) {
-      GtkWidget *widget = GTK_WIDGET(iter->data);
-
-      if (widget != button_box) {
-        gtk_widget_hide(widget);
+    iter = gtk_widget_get_first_child(GTK_WIDGET(ptoolkit->button_box));
+    for (iter = gtk_widget_get_first_child(GTK_WIDGET(ptoolkit->button_box));
+         iter != NULL;
+         iter = gtk_widget_get_next_sibling(iter)) {
+      if (iter != button_box) {
+        gtk_widget_hide(iter);
       }
     }
-    g_list_free(list);
 
   } else {
     /* First time attached to a parent. */
-    gtk_container_add(GTK_CONTAINER(toolkit_view), ptoolkit->main_widget);
-    gtk_container_add(GTK_CONTAINER(ptoolkit->button_box), button_box);
+    gtk_box_append(GTK_BOX(toolkit_view), ptoolkit->main_widget);
+    gtk_box_append(GTK_BOX(ptoolkit->button_box), button_box);
     gtk_widget_show(ptoolkit->main_widget);
   }
 
@@ -1294,15 +1293,12 @@ GtkWidget *inputline_toolkit_view_new(void)
   GtkWidget *toolkit_view, *bbox;
 
   /* Main widget. */
-  toolkit_view = gtk_grid_new();
-  gtk_orientable_set_orientation(GTK_ORIENTABLE(toolkit_view),
-                                 GTK_ORIENTATION_VERTICAL);
+  toolkit_view = gtk_box_new(GTK_ORIENTATION_VERTICAL, 2);
   g_signal_connect_after(toolkit_view, "map",
                    G_CALLBACK(move_toolkit), &toolkit);
 
   /* Button box. */
-  bbox = gtk_grid_new();
-  gtk_grid_set_column_spacing(GTK_GRID(bbox), 12);
+  bbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 12);
   g_object_set_data(G_OBJECT(toolkit_view), "button_box", bbox);
 
   return toolkit_view;
@@ -1314,8 +1310,8 @@ GtkWidget *inputline_toolkit_view_new(void)
 void inputline_toolkit_view_append_button(GtkWidget *toolkit_view,
                                           GtkWidget *button)
 {
-  gtk_container_add(GTK_CONTAINER(g_object_get_data(G_OBJECT(toolkit_view),
-                    "button_box")), button);
+  gtk_box_append(GTK_BOX(g_object_get_data(G_OBJECT(toolkit_view),
+                                           "button_box")), button);
 }
 
 /**********************************************************************//**
@@ -1323,12 +1319,14 @@ void inputline_toolkit_view_append_button(GtkWidget *toolkit_view,
 **************************************************************************/
 void chatline_init(void)
 {
-  GtkWidget *vbox, *hbox, *entry, *bbox;
+  GtkWidget *vgrid, *hgrid, *entry, *bbox;
 #ifdef TOOLBUTTON_GTK3
   GtkWidget *toolbar, *button;
   GtkToolItem *item;
   GdkRGBA color;
+  int grid_row = 0;
 #endif /* TOOLBUTTON_GTK3 */
+  int grid_col = 0;
 
   /* Chatline history. */
   if (!history_list) {
@@ -1339,14 +1337,14 @@ void chatline_init(void)
   /* Inputline toolkit. */
   memset(&toolkit, 0, sizeof(toolkit));
 
-  vbox = gtk_grid_new();
-  gtk_grid_set_row_spacing(GTK_GRID(vbox), 2);
-  gtk_orientable_set_orientation(GTK_ORIENTABLE(vbox),
+  vgrid = gtk_grid_new();
+  gtk_grid_set_row_spacing(GTK_GRID(vgrid), 2);
+  gtk_orientable_set_orientation(GTK_ORIENTABLE(vgrid),
                                  GTK_ORIENTATION_VERTICAL);
 
 #ifdef TOOLBUTTON_GTK3
-  toolkit.main_widget = vbox;
-  g_signal_connect_after(vbox, "map",
+  toolkit.main_widget = vgrid;
+  g_signal_connect_after(vgrid, "map",
                    G_CALLBACK(set_toolbar_visibility), &toolkit);
 #endif /* TOOLBUTTON_GTK3 */
 
@@ -1355,13 +1353,13 @@ void chatline_init(void)
   gtk_widget_set_hexpand(entry, TRUE);
   toolkit.entry = entry;
 
-  hbox = gtk_grid_new();
-  gtk_grid_set_column_spacing(GTK_GRID(hbox), 4);
+  hgrid = gtk_grid_new();
+  gtk_grid_set_column_spacing(GTK_GRID(hgrid), 4);
 
 #ifdef TOOLBUTTON_GTK3
   /* First line: toolbar */
   toolbar = gtk_toolbar_new();
-  gtk_container_add(GTK_CONTAINER(vbox), toolbar);
+  gtk_grid_attach(GTK_GRID(vgrid), toolbar, 0, grid_row++, 1, 1);
   gtk_toolbar_set_show_arrow(GTK_TOOLBAR(toolbar), FALSE);
   gtk_toolbar_set_style(GTK_TOOLBAR(toolbar), GTK_TOOLBAR_BOTH_HORIZ);
   gtk_orientable_set_orientation(GTK_ORIENTABLE(toolbar),
@@ -1462,12 +1460,12 @@ void chatline_init(void)
                               _("Send the chat (Return)"));
 
   /* Second line */
-  gtk_container_add(GTK_CONTAINER(vbox), hbox);
+  gtk_grid_attach(GTK_GRID(vgrid), hgrid, 0, grid_row++, 1, 1);
 
   /* Toggle button. */
   button = gtk_toggle_button_new();
   g_object_set(button, "margin", 2, NULL);
-  gtk_container_add(GTK_CONTAINER(hbox), button);
+  gtk_grid_attach(GTK_GRID(hgrid), button, grid_col++, 0, 1, 1);
   gtk_button_set_icon_name(GTK_BUTTON(button), "gtk-edit");
   g_signal_connect(button, "toggled", G_CALLBACK(button_toggled), &toolkit);
   gtk_widget_set_tooltip_text(GTK_WIDGET(button), _("Chat tools"));
@@ -1475,14 +1473,14 @@ void chatline_init(void)
 #endif /* TOOLBUTTON_GTK3 */
 
   /* Entry. */
-  gtk_container_add(GTK_CONTAINER(hbox), entry);
+  gtk_grid_attach(GTK_GRID(hgrid), entry, grid_col++, 0, 1, 1);
   g_signal_connect(entry, "activate", G_CALLBACK(inputline_return), NULL);
   g_signal_connect(entry, "key_press_event",
                    G_CALLBACK(inputline_handler), NULL);
 
   /* Button box. */
   bbox = gtk_grid_new();
-  gtk_container_add(GTK_CONTAINER(hbox), bbox);
+  gtk_grid_attach(GTK_GRID(hgrid), bbox, grid_col++, 0, 1, 1);
   toolkit.button_box = bbox;
 }
 
