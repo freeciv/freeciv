@@ -79,7 +79,7 @@ void popup_find_dialog(void)
 
     gui_dialog_response_set_callback(find_dialog_shell, find_response);
 
-    g_signal_connect(find_dialog_shell->vbox, "destroy",
+    g_signal_connect(find_dialog_shell->vgrid, "destroy",
 	G_CALLBACK(find_destroy_callback), NULL);
 
     store = gtk_list_store_new(2, G_TYPE_STRING, G_TYPE_POINTER);
@@ -113,8 +113,8 @@ void popup_find_dialog(void)
 	"mnemonic-widget", find_view,
 	"label", _("Ci_ties:"),
 	"xalign", 0.0, "yalign", 0.5, NULL);
-    gtk_container_add(GTK_CONTAINER(find_dialog_shell->vbox), label);
-    gtk_container_add(GTK_CONTAINER(find_dialog_shell->vbox), sw);
+    gui_dialog_vgrid_add(find_dialog_shell, label);
+    gui_dialog_vgrid_add(find_dialog_shell, sw);
 
     g_signal_connect(selection, "changed",
 	G_CALLBACK(find_selection_callback), store);

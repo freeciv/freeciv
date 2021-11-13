@@ -484,7 +484,7 @@ static struct Diplomacy_notebook *diplomacy_main_create(void)
 {
   /* Collect all meetings in one main tab. */
   if (!dipl_main) {
-    GtkWidget *dipl_box, *dipl_sw;
+    GtkWidget *dipl_sw;
 
     dipl_main = fc_malloc(sizeof(*dipl_main));
     gui_dialog_new(&(dipl_main->dialog), GTK_NOTEBOOK(top_notebook),
@@ -510,8 +510,7 @@ static struct Diplomacy_notebook *diplomacy_main_create(void)
     gui_dialog_response_set_callback(dipl_main->dialog,
                                      diplomacy_main_response);
 
-    dipl_box = dipl_main->dialog->vbox;
-    gtk_container_add(GTK_CONTAINER(dipl_box), dipl_sw);
+    gui_dialog_vgrid_add(dipl_main->dialog, dipl_sw);
 
     gui_dialog_show_all(dipl_main->dialog);
     gui_dialog_present(dipl_main->dialog);
@@ -682,14 +681,11 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
 
     if (fc_strcasecmp(buf, prev_label) < 0) {
       gtk_notebook_reorder_child(GTK_NOTEBOOK(notebook),
-                                 pdialog->dialog->vbox, i);
+                                 pdialog->dialog->vgrid, i);
       break;
     }
   }
   g_free(buf);
-
-  /* Content. */
-  mainbox = pdialog->dialog->vbox;
 
   /* us. */
   vbox = gtk_grid_new();
@@ -700,7 +696,7 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   gtk_widget_set_margin_end(vbox, 2);
   gtk_widget_set_margin_top(vbox, 2);
   gtk_widget_set_margin_bottom(vbox, 2);
-  gtk_container_add(GTK_CONTAINER(mainbox), vbox);
+  gui_dialog_vgrid_add(pdialog->dialog, vbox);
 
   /* Our nation. */
   label = gtk_label_new(NULL);
@@ -787,7 +783,7 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   gtk_widget_set_margin_end(vbox, 2);
   gtk_widget_set_margin_top(vbox, 2);
   gtk_widget_set_margin_bottom(vbox, 2);
-  gtk_container_add(GTK_CONTAINER(mainbox), vbox);
+  gui_dialog_vgrid_add(pdialog->dialog, vbox);
 
   /* Their nation. */
   label = gtk_label_new(NULL);
@@ -869,7 +865,7 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   mainbox = gtk_grid_new();
   gtk_orientable_set_orientation(GTK_ORIENTABLE(mainbox),
                                  GTK_ORIENTATION_VERTICAL);
-  gtk_container_add(GTK_CONTAINER(pdialog->dialog->vbox), mainbox);
+  gui_dialog_vgrid_add(pdialog->dialog, mainbox);
 
   store = gtk_list_store_new(1, G_TYPE_STRING);
   pdialog->store = store;

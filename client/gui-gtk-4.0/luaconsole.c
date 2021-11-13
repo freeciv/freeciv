@@ -182,7 +182,7 @@ void real_luaconsole_dialog_update(void)
 *****************************************************************************/
 static void luaconsole_dialog_create(struct luaconsole_data *pdialog)
 {
-  GtkWidget *entry, *box, *vbox, *sw, *text, *notebook;
+  GtkWidget *entry, *vbox, *sw, *text, *notebook;
 
   fc_assert_ret(NULL != pdialog);
 
@@ -195,12 +195,10 @@ static void luaconsole_dialog_create(struct luaconsole_data *pdialog)
   gui_dialog_new(&pdialog->shell, GTK_NOTEBOOK(notebook), pdialog, TRUE);
   gui_dialog_set_title(pdialog->shell, _("Client Lua Console"));
 
-  box = pdialog->shell->vbox;
-
   vbox = gtk_grid_new();
   gtk_orientable_set_orientation(GTK_ORIENTABLE(vbox),
                                  GTK_ORIENTATION_VERTICAL);
-  gtk_container_add(GTK_CONTAINER(box), vbox);
+  gui_dialog_vgrid_add(pdialog->shell, vbox);
 
   sw = gtk_scrolled_window_new();
   gtk_scrolled_window_set_has_frame(GTK_SCROLLED_WINDOW(sw), TRUE);

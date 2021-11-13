@@ -572,7 +572,7 @@ void create_players_dialog(void)
 		                 GTK_POLICY_AUTOMATIC, GTK_POLICY_ALWAYS);
   gtk_container_add(GTK_CONTAINER(sw), players_list);
 
-  gtk_container_add(GTK_CONTAINER(players_dialog_shell->vbox), sw);
+  gui_dialog_vgrid_add(players_dialog_shell, sw);
 
   vbox = gtk_grid_new();
   gtk_orientable_set_orientation(GTK_ORIENTABLE(vbox),

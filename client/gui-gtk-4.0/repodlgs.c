@@ -550,7 +550,6 @@ static void science_report_init(struct science_report *preport)
 {
   GtkWidget *frame, *table, *help_button, *show_all_button, *sw, *w;
   GtkSizeGroup *group;
-  GtkContainer *vbox;
   GtkListStore *store;
   GtkCellRenderer *renderer;
 
@@ -563,16 +562,15 @@ static void science_report_init(struct science_report *preport)
   gui_dialog_add_button(preport->shell, "window-close", _("_Close"),
                         GTK_RESPONSE_CLOSE);
 
-  vbox = GTK_CONTAINER(preport->shell->vbox);
   group = gtk_size_group_new(GTK_SIZE_GROUP_HORIZONTAL);
 
   w = gtk_label_new(NULL);
-  gtk_container_add(vbox, w);
+  gui_dialog_vgrid_add(preport->shell, w);
   preport->main_label = GTK_LABEL(w);
 
   /* Current research target line. */
   frame = gtk_frame_new(_("Researching"));
-  gtk_container_add(vbox, frame);
+  gui_dialog_vgrid_add(preport->shell, frame);
 
   table = gtk_grid_new();
   gtk_grid_set_column_spacing(GTK_GRID(table), 4);
@@ -604,7 +602,7 @@ static void science_report_init(struct science_report *preport)
 
   /* Research goal line. */
   frame = gtk_frame_new( _("Goal"));
-  gtk_container_add(vbox, frame);
+  gui_dialog_vgrid_add(preport->shell, frame);
 
   table = gtk_grid_new();
   gtk_grid_set_column_spacing(GTK_GRID(table), 4);
@@ -648,7 +646,7 @@ static void science_report_init(struct science_report *preport)
   sw = gtk_scrolled_window_new();
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
                                  GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-  gtk_container_add(vbox, sw);
+  gui_dialog_vgrid_add(preport->shell, sw);
 
   w = science_diagram_new();
   gtk_widget_set_hexpand(w, TRUE);
@@ -1087,7 +1085,6 @@ static void economy_report_init(struct economy_report *preport)
   GtkWidget *view, *sw, *label, *button;
   GtkListStore *store;
   GtkTreeSelection *selection;
-  GtkContainer *vbox;
   const char *title;
   enum economy_report_columns i;
 
@@ -1095,14 +1092,13 @@ static void economy_report_init(struct economy_report *preport)
 
   gui_dialog_new(&preport->shell, GTK_NOTEBOOK(top_notebook), preport, TRUE);
   gui_dialog_set_title(preport->shell, _("Economy"));
-  vbox = GTK_CONTAINER(preport->shell->vbox);
 
   sw = gtk_scrolled_window_new();
   gtk_widget_set_halign(sw, GTK_ALIGN_CENTER);
   gtk_scrolled_window_set_has_frame(GTK_SCROLLED_WINDOW(sw), TRUE);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
                                  GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
-  gtk_container_add(GTK_CONTAINER(vbox), sw);
+  gui_dialog_vgrid_add(preport->shell, sw);
 
   store = economy_report_store_new();
   view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(store));
@@ -1157,7 +1153,7 @@ static void economy_report_init(struct economy_report *preport)
   }
 
   label = gtk_label_new(NULL);
-  gtk_container_add(vbox, label);
+  gui_dialog_vgrid_add(preport->shell, label);
   gtk_widget_set_margin_start(label, 5);
   gtk_widget_set_margin_end(label, 5);
   gtk_widget_set_margin_top(label, 5);
@@ -1619,7 +1615,6 @@ static void units_report_init(struct units_report *preport)
   GtkWidget *view, *sw, *button;
   GtkListStore *store;
   GtkTreeSelection *selection;
-  GtkContainer *vbox;
   GtkTreeViewColumn *col = NULL;
   enum units_report_columns i;
 
@@ -1627,14 +1622,13 @@ static void units_report_init(struct units_report *preport)
 
   gui_dialog_new(&preport->shell, GTK_NOTEBOOK(top_notebook), preport, TRUE);
   gui_dialog_set_title(preport->shell, _("Units"));
-  vbox = GTK_CONTAINER(preport->shell->vbox);
 
   sw = gtk_scrolled_window_new();
   gtk_widget_set_halign(sw, GTK_ALIGN_CENTER);
   gtk_scrolled_window_set_has_frame(GTK_SCROLLED_WINDOW(sw), TRUE);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
                                  GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
-  gtk_container_add(GTK_CONTAINER(vbox), sw);
+  gui_dialog_vgrid_add(preport->shell, sw);
 
   store = units_report_store_new();
   view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(store));
@@ -1914,7 +1908,7 @@ static void endgame_report_init(struct endgame_report *preport)
   gtk_scrolled_window_set_has_frame(GTK_SCROLLED_WINDOW(sw), TRUE);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
                                  GTK_POLICY_AUTOMATIC, GTK_POLICY_ALWAYS);
-  gtk_container_add(GTK_CONTAINER(preport->shell->vbox), sw);
+  gui_dialog_vgrid_add(preport->shell, sw);
 
   view = gtk_tree_view_new();
   gtk_widget_set_name(view, "small_font");
