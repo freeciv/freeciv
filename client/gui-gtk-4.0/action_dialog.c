@@ -334,7 +334,7 @@ static void simple_action_callback(GtkWidget *w, gpointer data)
   }
 
   /* Clean up. */
-  gtk_widget_destroy(act_sel_dialog);
+  choice_dialog_destroy(act_sel_dialog);
   /* No follow up questions. */
   act_sel_dialog_data = NULL;
   FC_FREE(args);
@@ -409,7 +409,7 @@ static void request_action_details_callback(GtkWidget *w, gpointer data)
   is_more_user_input_needed = TRUE;
 
   /* Clean up. */
-  gtk_widget_destroy(act_sel_dialog);
+  choice_dialog_destroy(act_sel_dialog);
   /* No client side follow up questions. */
   act_sel_dialog_data = NULL;
   FC_FREE(args);
@@ -425,7 +425,7 @@ static void found_city_callback(GtkWidget *w, gpointer data)
   dsend_packet_city_name_suggestion_req(&client.conn,
                                         args->actor_unit_id);
 
-  gtk_widget_destroy(act_sel_dialog);
+  choice_dialog_destroy(act_sel_dialog);
   free(args);
 }
 
@@ -448,7 +448,7 @@ static void upgrade_callback(GtkWidget *w, gpointer data)
     unit_list_destroy(as_list);
   }
 
-  gtk_widget_destroy(act_sel_dialog);
+  choice_dialog_destroy(act_sel_dialog);
   free(args);
 }
 
@@ -897,7 +897,7 @@ pvictim to NULL and account for !pvictim in create_advances_list. -- Syela */
    * needs to know what action to take. */
   is_more_user_input_needed = TRUE;
 
-  gtk_widget_destroy(act_sel_dialog);
+  choice_dialog_destroy(act_sel_dialog);
 }
 
 /**********************************************************************//**
@@ -1070,7 +1070,7 @@ static void act_sel_new_unit_tgt_callback(GtkWidget *w, gpointer data)
 
   did_not_decide = TRUE;
   action_selection_restart = TRUE;
-  gtk_widget_destroy(act_sel_dialog);
+  choice_dialog_destroy(act_sel_dialog);
   free(args);
 }
 
@@ -1168,7 +1168,7 @@ static void act_sel_new_extra_tgt_callback(GtkWidget *w, gpointer data)
 
   did_not_decide = TRUE;
   action_selection_restart = TRUE;
-  gtk_widget_destroy(act_sel_dialog);
+  choice_dialog_destroy(act_sel_dialog);
   free(args);
 }
 
@@ -1215,7 +1215,7 @@ static void act_sel_destroy_callback(GtkWidget *w, gpointer data)
 **************************************************************************/
 static void act_sel_cancel_callback(GtkWidget *w, gpointer data)
 {
-  gtk_widget_destroy(act_sel_dialog);
+  choice_dialog_destroy(act_sel_dialog);
   free(act_sel_dialog_data);
 }
 
@@ -1224,7 +1224,7 @@ static void act_sel_cancel_callback(GtkWidget *w, gpointer data)
 **************************************************************************/
 static void act_sel_close_callback(GtkWidget *w, gpointer data)
 {
-  gtk_widget_destroy(act_sel_dialog);
+  choice_dialog_destroy(act_sel_dialog);
   free(act_sel_dialog_data);
 }
 
@@ -1727,6 +1727,6 @@ void action_selection_close(void)
 {
   if (act_sel_dialog != NULL) {
     did_not_decide = TRUE;
-    gtk_widget_destroy(act_sel_dialog);
+    choice_dialog_destroy(act_sel_dialog);
   }
 }
