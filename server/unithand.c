@@ -3175,7 +3175,7 @@ bool unit_perform_action(struct player *pplayer,
     return FALSE;
   }
 
-#define ACTION_STARTED_UNIT_CITY(action, actor, target, action_performer) \
+#define ACTION_PERFORM_UNIT_CITY(action, actor, target, action_performer) \
   if (pcity                                                               \
       && is_action_enabled_unit_on_city(action_type,                      \
                                        actor_unit, pcity)) {              \
@@ -3201,7 +3201,7 @@ bool unit_perform_action(struct player *pplayer,
                    TRUE, requester);                                      \
   }
 
-#define ACTION_STARTED_UNIT_SELF(action, actor, action_performer)         \
+#define ACTION_PERFORM_UNIT_SELF(action, actor, action_performer)         \
   if (actor_unit                                                          \
       && is_action_enabled_unit_on_self(action_type, actor_unit)) {       \
     bool success;                                                         \
@@ -3222,7 +3222,7 @@ bool unit_perform_action(struct player *pplayer,
                    TRUE, requester);                                      \
   }
 
-#define ACTION_STARTED_UNIT_UNIT(action, actor, target, action_performer) \
+#define ACTION_PERFORM_UNIT_UNIT(action, actor, target, action_performer) \
   if (punit                                                               \
       && is_action_enabled_unit_on_unit(action_type, actor_unit, punit)) {\
     bool success;                                                         \
@@ -3248,7 +3248,7 @@ bool unit_perform_action(struct player *pplayer,
                    TRUE, requester);                                      \
   }
 
-#define ACTION_STARTED_UNIT_UNITS(action, actor, target, action_performer)\
+#define ACTION_PERFORM_UNIT_UNITS(action, actor, target, action_performer)\
   if (target_tile                                                         \
       && is_action_enabled_unit_on_units(action_type,                     \
                                          actor_unit, target_tile)) {      \
@@ -3270,7 +3270,7 @@ bool unit_perform_action(struct player *pplayer,
                    TRUE, requester);                                      \
   }
 
-#define ACTION_STARTED_UNIT_TILE(action, actor, target, action_performer) \
+#define ACTION_PERFORM_UNIT_TILE(action, actor, target, action_performer) \
   if (target_tile                                                         \
       && is_action_enabled_unit_on_tile(action_type,                      \
                                         actor_unit, target_tile,          \
@@ -3294,7 +3294,7 @@ bool unit_perform_action(struct player *pplayer,
                    TRUE, requester);                                      \
   }
 
-#define ACTION_STARTED_UNIT_EXTRAS(action, actor, target, action_performer)\
+#define ACTION_PERFORM_UNIT_EXTRAS(action, actor, target, action_performer)\
   if (target_tile                                                         \
       && is_action_enabled_unit_on_extras(action_type,                    \
                                           actor_unit, target_tile,        \
@@ -3318,32 +3318,32 @@ bool unit_perform_action(struct player *pplayer,
                    TRUE, requester);                                      \
   }
 
-#define ACTION_STARTED_UNIT_ANY(paction, actor,                           \
+#define ACTION_PERFORM_UNIT_ANY(paction, actor,                           \
                                 target_city, target_unit, target_tile,    \
                                 action_performer)                         \
   switch (action_get_target_kind(paction)) {                              \
   case ATK_CITY:                                                          \
-    ACTION_STARTED_UNIT_CITY(paction->id, actor, target_city,             \
+    ACTION_PERFORM_UNIT_CITY(paction->id, actor, target_city,             \
                              action_performer);                           \
     break;                                                                \
   case ATK_UNIT:                                                          \
-    ACTION_STARTED_UNIT_UNIT(paction->id, actor, target_unit,             \
+    ACTION_PERFORM_UNIT_UNIT(paction->id, actor, target_unit,             \
                              action_performer);                           \
     break;                                                                \
   case ATK_UNITS:                                                         \
-    ACTION_STARTED_UNIT_UNITS(paction->id, actor, target_tile,            \
+    ACTION_PERFORM_UNIT_UNITS(paction->id, actor, target_tile,            \
                               action_performer);                          \
     break;                                                                \
   case ATK_TILE:                                                          \
-    ACTION_STARTED_UNIT_TILE(paction->id, actor, target_tile,             \
+    ACTION_PERFORM_UNIT_TILE(paction->id, actor, target_tile,             \
                              action_performer);                           \
     break;                                                                \
   case ATK_EXTRAS:                                                        \
-    ACTION_STARTED_UNIT_EXTRAS(paction->id, actor, target_tile,           \
+    ACTION_PERFORM_UNIT_EXTRAS(paction->id, actor, target_tile,           \
                                action_performer);                         \
     break;                                                                \
   case ATK_SELF:                                                          \
-    ACTION_STARTED_UNIT_SELF(paction->id, actor, TRUE);                   \
+    ACTION_PERFORM_UNIT_SELF(paction->id, actor, TRUE);                   \
     break;                                                                \
   case ATK_COUNT:                                                         \
     fc_assert(action_get_target_kind(paction) != ATK_COUNT);              \
@@ -3352,191 +3352,191 @@ bool unit_perform_action(struct player *pplayer,
 
   switch (paction->result) {
   case ACTRES_SPY_BRIBE_UNIT:
-    ACTION_STARTED_UNIT_UNIT(action_type, actor_unit, punit,
+    ACTION_PERFORM_UNIT_UNIT(action_type, actor_unit, punit,
                              diplomat_bribe(pplayer, actor_unit, punit,
                                             paction));
     break;
   case ACTRES_SPY_SABOTAGE_UNIT:
     /* Difference is caused by data in the action structure. */
-    ACTION_STARTED_UNIT_UNIT(action_type, actor_unit, punit,
+    ACTION_PERFORM_UNIT_UNIT(action_type, actor_unit, punit,
                              spy_sabotage_unit(pplayer, actor_unit,
                                                punit, paction));
     break;
   case ACTRES_EXPEL_UNIT:
-    ACTION_STARTED_UNIT_UNIT(action_type, actor_unit, punit,
+    ACTION_PERFORM_UNIT_UNIT(action_type, actor_unit, punit,
                              do_expel_unit(pplayer, actor_unit, punit,
                                            paction));
     break;
   case ACTRES_HEAL_UNIT:
-    ACTION_STARTED_UNIT_UNIT(action_type, actor_unit, punit,
+    ACTION_PERFORM_UNIT_UNIT(action_type, actor_unit, punit,
                              do_heal_unit(pplayer, actor_unit, punit,
                                           paction));
     break;
   case ACTRES_TRANSPORT_ALIGHT:
-    ACTION_STARTED_UNIT_UNIT(action_type, actor_unit, punit,
+    ACTION_PERFORM_UNIT_UNIT(action_type, actor_unit, punit,
                              do_unit_alight(pplayer, actor_unit, punit,
                                             paction));
     break;
   case ACTRES_TRANSPORT_UNLOAD:
-    ACTION_STARTED_UNIT_UNIT(action_type, actor_unit, punit,
+    ACTION_PERFORM_UNIT_UNIT(action_type, actor_unit, punit,
                              do_unit_unload(pplayer, actor_unit, punit,
                                             paction));
     break;
   case ACTRES_TRANSPORT_BOARD:
-    ACTION_STARTED_UNIT_UNIT(action_type, actor_unit, punit,
+    ACTION_PERFORM_UNIT_UNIT(action_type, actor_unit, punit,
                              do_unit_board(pplayer, actor_unit, punit,
                                            paction));
     break;
   case ACTRES_TRANSPORT_EMBARK:
-    ACTION_STARTED_UNIT_UNIT(action_type, actor_unit, punit,
+    ACTION_PERFORM_UNIT_UNIT(action_type, actor_unit, punit,
                              do_unit_embark(pplayer, actor_unit, punit,
                                             paction));
     break;
   case ACTRES_DISBAND_UNIT:
     /* All consequences are handled by the action system. */
-    ACTION_STARTED_UNIT_SELF(action_type, actor_unit, TRUE);
+    ACTION_PERFORM_UNIT_SELF(action_type, actor_unit, TRUE);
     break;
   case ACTRES_FORTIFY:
-    ACTION_STARTED_UNIT_SELF(action_type, actor_unit,
+    ACTION_PERFORM_UNIT_SELF(action_type, actor_unit,
                              do_action_activity(actor_unit, paction));
     break;
   case ACTRES_CONVERT:
-    ACTION_STARTED_UNIT_SELF(action_type, actor_unit,
+    ACTION_PERFORM_UNIT_SELF(action_type, actor_unit,
                              do_action_activity(actor_unit, paction));
     break;
   case ACTRES_HOMELESS:
-    ACTION_STARTED_UNIT_SELF(action_type, actor_unit,
+    ACTION_PERFORM_UNIT_SELF(action_type, actor_unit,
                              do_unit_make_homeless(actor_unit, paction));
     break;
   case ACTRES_SPY_SABOTAGE_CITY:
     /* Difference is caused by data in the action structure. */
-    ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity,
+    ACTION_PERFORM_UNIT_CITY(action_type, actor_unit, pcity,
                              diplomat_sabotage(pplayer, actor_unit, pcity,
                                                B_LAST, paction));
     break;
   case ACTRES_SPY_TARGETED_SABOTAGE_CITY:
     /* Difference is caused by data in the action structure. */
-    ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity,
+    ACTION_PERFORM_UNIT_CITY(action_type, actor_unit, pcity,
                              diplomat_sabotage(pplayer, actor_unit, pcity,
                                                sub_tgt_impr->item_number,
                                                paction));
     break;
   case ACTRES_SPY_SABOTAGE_CITY_PRODUCTION:
     /* Difference is caused by data in the action structure. */
-    ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity,
+    ACTION_PERFORM_UNIT_CITY(action_type, actor_unit, pcity,
                              diplomat_sabotage(pplayer, actor_unit, pcity,
                                                -1, paction));
     break;
   case ACTRES_SPY_POISON:
     /* Difference is caused by data in the action structure. */
-    ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity,
+    ACTION_PERFORM_UNIT_CITY(action_type, actor_unit, pcity,
                              spy_poison(pplayer, actor_unit, pcity,
                                         paction));
     break;
   case ACTRES_SPY_SPREAD_PLAGUE:
-    ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity,
+    ACTION_PERFORM_UNIT_CITY(action_type, actor_unit, pcity,
                              spy_spread_plague(pplayer, actor_unit, pcity,
                                                paction));
     break;
   case ACTRES_SPY_INVESTIGATE_CITY:
     /* Difference is caused by data in the action structure. */
-    ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity,
+    ACTION_PERFORM_UNIT_CITY(action_type, actor_unit, pcity,
                              diplomat_investigate(pplayer,
                                                   actor_unit, pcity,
                                                   paction));
     break;
   case ACTRES_ESTABLISH_EMBASSY:
     /* Difference is caused by data in the action structure. */
-    ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity,
+    ACTION_PERFORM_UNIT_CITY(action_type, actor_unit, pcity,
                              diplomat_embassy(pplayer, actor_unit, pcity,
                                               paction));
     break;
   case ACTRES_SPY_INCITE_CITY:
     /* Difference is caused by data in the action structure. */
-    ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity,
+    ACTION_PERFORM_UNIT_CITY(action_type, actor_unit, pcity,
                              diplomat_incite(pplayer, actor_unit, pcity,
                                              paction));
     break;
   case ACTRES_SPY_STEAL_TECH:
     /* Difference is caused by data in the action structure. */
-    ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity,
+    ACTION_PERFORM_UNIT_CITY(action_type, actor_unit, pcity,
                              diplomat_get_tech(pplayer, actor_unit, pcity,
                                                A_UNSET, paction));
     break;
   case ACTRES_SPY_TARGETED_STEAL_TECH:
     /* Difference is caused by data in the action structure. */
-    ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity,
+    ACTION_PERFORM_UNIT_CITY(action_type, actor_unit, pcity,
                              diplomat_get_tech(pplayer, actor_unit, pcity,
                                                sub_tgt_id, paction));
     break;
   case ACTRES_SPY_STEAL_GOLD:
     /* Difference is caused by data in the action structure. */
-    ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity,
+    ACTION_PERFORM_UNIT_CITY(action_type, actor_unit, pcity,
                              spy_steal_gold(pplayer, actor_unit, pcity,
                                             paction));
     break;
   case ACTRES_STEAL_MAPS:
     /* Difference is caused by data in the action structure. */
-    ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity,
+    ACTION_PERFORM_UNIT_CITY(action_type, actor_unit, pcity,
                              spy_steal_some_maps(pplayer, actor_unit,
                                                  pcity, paction));
     break;
   case ACTRES_TRADE_ROUTE:
-    ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity,
+    ACTION_PERFORM_UNIT_CITY(action_type, actor_unit, pcity,
                              do_unit_establish_trade(pplayer, actor_unit,
                                                      pcity, paction));
     break;
   case ACTRES_MARKETPLACE:
-    ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity,
+    ACTION_PERFORM_UNIT_CITY(action_type, actor_unit, pcity,
                              do_unit_establish_trade(pplayer, actor_unit,
                                                      pcity, paction));
     break;
   case ACTRES_HELP_WONDER:
-    ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity,
+    ACTION_PERFORM_UNIT_CITY(action_type, actor_unit, pcity,
                              unit_do_help_build(pplayer,
                                                 actor_unit, pcity,
                                                 paction));
     break;
   case ACTRES_SPY_NUKE:
     /* Difference is caused by data in the action structure. */
-    ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity,
+    ACTION_PERFORM_UNIT_CITY(action_type, actor_unit, pcity,
                              spy_nuke_city(pplayer, actor_unit, pcity,
                                            paction));
     break;
   case ACTRES_JOIN_CITY:
-    ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity,
+    ACTION_PERFORM_UNIT_CITY(action_type, actor_unit, pcity,
                              city_add_unit(pplayer, actor_unit, pcity,
                                            paction));
     break;
   case ACTRES_DESTROY_CITY:
-    ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity,
+    ACTION_PERFORM_UNIT_CITY(action_type, actor_unit, pcity,
                              unit_do_destroy_city(pplayer,
                                                   actor_unit, pcity,
                                                   paction));
     break;
   case ACTRES_RECYCLE_UNIT:
-    ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity,
+    ACTION_PERFORM_UNIT_CITY(action_type, actor_unit, pcity,
                              unit_do_help_build(pplayer, actor_unit, pcity,
                                                 paction));
     break;
   case ACTRES_HOME_CITY:
-    ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity,
+    ACTION_PERFORM_UNIT_CITY(action_type, actor_unit, pcity,
                              do_unit_change_homecity(actor_unit, pcity,
                                                      paction));
     break;
   case ACTRES_UPGRADE_UNIT:
-    ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity,
+    ACTION_PERFORM_UNIT_CITY(action_type, actor_unit, pcity,
                              do_unit_upgrade(pplayer, actor_unit,
                                              pcity, requester, paction));
     break;
   case ACTRES_CONQUER_CITY:
     /* Difference is caused by the ruleset. ("Fake generalized" actions) */
-    ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity,
+    ACTION_PERFORM_UNIT_CITY(action_type, actor_unit, pcity,
                              do_unit_conquer_city(pplayer, actor_unit,
                                                   pcity, paction));
     break;
   case ACTRES_STRIKE_BUILDING:
-    ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity,
+    ACTION_PERFORM_UNIT_CITY(action_type, actor_unit, pcity,
                              do_unit_strike_city_building(pplayer,
                                                           actor_unit,
                                                           pcity,
@@ -3544,141 +3544,141 @@ bool unit_perform_action(struct player *pplayer,
                                                           paction));
     break;
   case ACTRES_STRIKE_PRODUCTION:
-    ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity,
+    ACTION_PERFORM_UNIT_CITY(action_type, actor_unit, pcity,
                              do_unit_strike_city_production(pplayer,
                                                             actor_unit,
                                                             pcity,
                                                             paction));
     break;
   case ACTRES_CONQUER_EXTRAS:
-    ACTION_STARTED_UNIT_EXTRAS(action_type, actor_unit, target_tile,
+    ACTION_PERFORM_UNIT_EXTRAS(action_type, actor_unit, target_tile,
                                do_conquer_extras(pplayer, actor_unit,
                                                  target_tile, paction));
     break;
   case ACTRES_AIRLIFT:
-    ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity,
+    ACTION_PERFORM_UNIT_CITY(action_type, actor_unit, pcity,
                              do_airline(actor_unit, pcity, paction));
     break;
   case ACTRES_CAPTURE_UNITS:
-    ACTION_STARTED_UNIT_UNITS(action_type, actor_unit, target_tile,
+    ACTION_PERFORM_UNIT_UNITS(action_type, actor_unit, target_tile,
                               do_capture_units(pplayer, actor_unit,
                                                target_tile, paction));
     break;
   case ACTRES_BOMBARD:
     /* Difference is caused by the ruleset. ("Fake generalized" actions) */
-    ACTION_STARTED_UNIT_UNITS(action_type, actor_unit, target_tile,
+    ACTION_PERFORM_UNIT_UNITS(action_type, actor_unit, target_tile,
                               unit_bombard(actor_unit, target_tile,
                                            paction));
     break;
   case ACTRES_ATTACK:
     /* Difference is caused by data in the action structure. */
-    ACTION_STARTED_UNIT_UNITS(action_type, actor_unit, target_tile,
+    ACTION_PERFORM_UNIT_UNITS(action_type, actor_unit, target_tile,
                               do_attack(actor_unit, target_tile, paction));
     break;
   case ACTRES_NUKE_UNITS:
-    ACTION_STARTED_UNIT_UNITS(action_type, actor_unit, target_tile,
+    ACTION_PERFORM_UNIT_UNITS(action_type, actor_unit, target_tile,
                               unit_nuke(pplayer, actor_unit, target_tile,
                                         paction));
     break;
   case ACTRES_SPY_ATTACK:
-    ACTION_STARTED_UNIT_UNITS(action_type, actor_unit, target_tile,
+    ACTION_PERFORM_UNIT_UNITS(action_type, actor_unit, target_tile,
                               spy_attack(pplayer, actor_unit, target_tile,
                                          paction));
     break;
   case ACTRES_FOUND_CITY:
-    ACTION_STARTED_UNIT_TILE(action_type, actor_unit, target_tile,
+    ACTION_PERFORM_UNIT_TILE(action_type, actor_unit, target_tile,
                              city_build(pplayer, actor_unit,
                                         target_tile, name, paction));
     break;
   case ACTRES_NUKE:
-    ACTION_STARTED_UNIT_ANY(paction, actor_unit,
+    ACTION_PERFORM_UNIT_ANY(paction, actor_unit,
                             pcity, punit, target_tile,
                             unit_nuke(pplayer, actor_unit, target_tile,
                                       paction));
     break;
   case ACTRES_PARADROP:
   case ACTRES_PARADROP_CONQUER:
-    ACTION_STARTED_UNIT_TILE(action_type, actor_unit, target_tile,
+    ACTION_PERFORM_UNIT_TILE(action_type, actor_unit, target_tile,
                              do_paradrop(actor_unit, target_tile, paction));
     break;
   case ACTRES_TRANSPORT_DISEMBARK:
     /* Difference is caused by the ruleset. ("Fake generalized" actions) */
-    ACTION_STARTED_UNIT_TILE(action_type, actor_unit, target_tile,
+    ACTION_PERFORM_UNIT_TILE(action_type, actor_unit, target_tile,
                              do_disembark(pplayer, actor_unit,
                                           target_tile, paction));
     break;
   case ACTRES_HUT_ENTER:
-    ACTION_STARTED_UNIT_TILE(action_type, actor_unit, target_tile,
+    ACTION_PERFORM_UNIT_TILE(action_type, actor_unit, target_tile,
                              do_unit_hut(pplayer, actor_unit,
                                          target_tile, paction));
     break;
   case ACTRES_HUT_FRIGHTEN:
-    ACTION_STARTED_UNIT_TILE(action_type, actor_unit, target_tile,
+    ACTION_PERFORM_UNIT_TILE(action_type, actor_unit, target_tile,
                              do_unit_hut(pplayer, actor_unit,
                                          target_tile, paction));
     break;
   case ACTRES_UNIT_MOVE:
-    ACTION_STARTED_UNIT_TILE(action_type, actor_unit, target_tile,
+    ACTION_PERFORM_UNIT_TILE(action_type, actor_unit, target_tile,
                              unit_do_regular_move(pplayer, actor_unit,
                                                   target_tile, paction));
     break;
   case ACTRES_TRANSFORM_TERRAIN:
-    ACTION_STARTED_UNIT_TILE(action_type, actor_unit, target_tile,
+    ACTION_PERFORM_UNIT_TILE(action_type, actor_unit, target_tile,
                              do_action_activity(actor_unit, paction));
     break;
   case ACTRES_CULTIVATE:
-    ACTION_STARTED_UNIT_TILE(action_type, actor_unit, target_tile,
+    ACTION_PERFORM_UNIT_TILE(action_type, actor_unit, target_tile,
                              do_action_activity(actor_unit, paction));
     break;
   case ACTRES_PLANT:
-    ACTION_STARTED_UNIT_TILE(action_type, actor_unit, target_tile,
+    ACTION_PERFORM_UNIT_TILE(action_type, actor_unit, target_tile,
                              do_action_activity(actor_unit, paction));
     break;
   case ACTRES_PILLAGE:
-    ACTION_STARTED_UNIT_ANY(paction, actor_unit, pcity, punit, target_tile,
+    ACTION_PERFORM_UNIT_ANY(paction, actor_unit, pcity, punit, target_tile,
                             do_action_activity_targeted(actor_unit,
                                                         paction,
                                                         &target_extra));
     break;
   case ACTRES_CLEAN_POLLUTION:
-    ACTION_STARTED_UNIT_TILE(action_type, actor_unit, target_tile,
+    ACTION_PERFORM_UNIT_TILE(action_type, actor_unit, target_tile,
                              do_action_activity_targeted(actor_unit,
                                                          paction,
                                                          &target_extra));
     break;
   case ACTRES_CLEAN_FALLOUT:
-    ACTION_STARTED_UNIT_TILE(action_type, actor_unit, target_tile,
+    ACTION_PERFORM_UNIT_TILE(action_type, actor_unit, target_tile,
                              do_action_activity_targeted(actor_unit,
                                                          paction,
                                                          &target_extra));
     break;
   case ACTRES_ROAD:
-    ACTION_STARTED_UNIT_TILE(action_type, actor_unit, target_tile,
+    ACTION_PERFORM_UNIT_TILE(action_type, actor_unit, target_tile,
                              do_action_activity_targeted(actor_unit,
                                                          paction,
                                                          &target_extra));
     break;
   case ACTRES_BASE:
-    ACTION_STARTED_UNIT_TILE(action_type, actor_unit, target_tile,
+    ACTION_PERFORM_UNIT_TILE(action_type, actor_unit, target_tile,
                              do_action_activity_targeted(actor_unit,
                                                          paction,
                                                          &target_extra));
     break;
   case ACTRES_MINE:
-    ACTION_STARTED_UNIT_TILE(action_type, actor_unit, target_tile,
+    ACTION_PERFORM_UNIT_TILE(action_type, actor_unit, target_tile,
                              do_action_activity_targeted(actor_unit,
                                                          paction,
                                                          &target_extra));
     break;
   case ACTRES_IRRIGATE:
-    ACTION_STARTED_UNIT_TILE(action_type, actor_unit, target_tile,
+    ACTION_PERFORM_UNIT_TILE(action_type, actor_unit, target_tile,
                              do_action_activity_targeted(actor_unit,
                                                          paction,
                                                          &target_extra));
     break;
   case ACTRES_NONE:
     /* 100% ruleset defined. */
-    ACTION_STARTED_UNIT_ANY(paction, actor_unit, pcity, punit, target_tile,
+    ACTION_PERFORM_UNIT_ANY(paction, actor_unit, pcity, punit, target_tile,
                             TRUE);
     break;
   }
