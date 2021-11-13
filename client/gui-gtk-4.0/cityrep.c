@@ -1243,7 +1243,7 @@ static void create_city_report_dialog(bool make_modal)
                                  GTK_POLICY_AUTOMATIC, GTK_POLICY_ALWAYS);
   gtk_container_add(GTK_CONTAINER(sw), city_view);
 
-  gtk_container_add(GTK_CONTAINER(city_dialog_shell->vbox), sw);
+  gui_dialog_vgrid_add(city_dialog_shell, sw);
 
   city_model_fill(city_model, NULL, NULL);
   gui_dialog_show_all(city_dialog_shell);

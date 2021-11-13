@@ -81,11 +81,11 @@ static void create_messageopt_dialog(void)
       "<b>Mes</b>sages window ; "
       "<b>Pop</b>up individual window"));
   gtk_widget_set_name(explanation, "comment_label");
-  gtk_container_add(GTK_CONTAINER(shell->vbox), explanation);
+  gui_dialog_vgrid_add(shell, explanation);
   gtk_widget_show(explanation);
 
   form = gtk_grid_new();
-  gtk_container_add(GTK_CONTAINER(shell->vbox), form);
+  gui_dialog_vgrid_add(shell, form);
 
   for (n = 0; n < NUM_LISTS; n++) {
     models[n] = gtk_list_store_new(5, G_TYPE_BOOLEAN, G_TYPE_BOOLEAN,

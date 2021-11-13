@@ -68,7 +68,7 @@ typedef void (*GUI_DIALOG_RESPONSE_FUN)(struct gui_dialog *, int, gpointer);
 struct gui_dialog
 {
   /* public. */
-  GtkWidget *vbox;
+  GtkWidget *vgrid;
   GtkWidget *action_area;
 
   /* private. */
@@ -79,6 +79,8 @@ struct gui_dialog
 
   int default_width;
   int default_height;
+
+  int row;
 
   union {
     GtkWidget *window;
@@ -107,6 +109,7 @@ GtkWidget *gui_dialog_add_button(struct gui_dialog *dlg,
                                  const char *text, int response);
 GtkWidget *gui_dialog_add_widget(struct gui_dialog *dlg,
                                  GtkWidget *widget);
+void gui_dialog_vgrid_add(struct gui_dialog *dlg, GtkWidget *wdg);
 void gui_dialog_set_default_size(struct gui_dialog *dlg,
                                  int width, int height);
 void gui_dialog_set_title(struct gui_dialog *dlg, const char *title);
