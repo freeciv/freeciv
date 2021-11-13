@@ -240,3 +240,13 @@ GtkWidget *popup_choice_dialog(GtkWindow *parent, const gchar *dialogname,
 
   return dshell;
 }
+
+/*******************************************************************//**
+  Free choice dialog.
+***********************************************************************/
+void choice_dialog_destroy(GtkWidget *dlg)
+{
+  if (dlg != NULL) {
+    gtk_window_destroy(GTK_WINDOW(dlg));
+  }
+}
