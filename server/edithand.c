@@ -841,6 +841,7 @@ void handle_edit_city(struct connection *pc,
   /* Handle shield stock change. */
   if (packet->shield_stock != pcity->shield_stock) {
     int max = USHRT_MAX; /* Limited to uint16 by city info packet. */
+
     if (!(0 <= packet->shield_stock && packet->shield_stock <= max)) {
       notify_conn(pc->self, ptile, E_BAD_COMMAND, ftc_editor,
                   _("Invalid city shield stock amount %d for city %s "
@@ -848,6 +849,8 @@ void handle_edit_city(struct connection *pc,
                   packet->shield_stock, city_link(pcity), 0, max);
     } else {
       pcity->shield_stock = packet->shield_stock;
+      /* Make sure the shields stay if changing production back and forth */
+      pcity->before_change_shields = packet->shield_stock;
       changed = TRUE;
     }
   }
