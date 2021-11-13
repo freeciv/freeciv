@@ -68,7 +68,8 @@ static GtkWidget *help_view;
 static GtkWidget *help_frame;
 static GtkTextBuffer *help_text;
 static GtkWidget *help_text_sw;
-static GtkWidget *help_vbox;
+static GtkWidget *help_vgrid;
+static int help_grid_row;
 static GtkWidget *help_tile;
 static GtkWidget *help_box;
 static GtkWidget *help_itable;
@@ -375,11 +376,33 @@ static void help_box_hide(void)
 
   gtk_widget_hide(help_tile); /* FIXME: twice? */
 
-  gtk_widget_hide(help_vbox);
+  gtk_widget_hide(help_vgrid);
   gtk_widget_hide(help_text_sw);
 
   gtk_widget_hide(help_tree_sw);
   gtk_widget_hide(help_tree_buttons_hbox);
+}
+
+/**********************************************************************//**
+  Add widget to help grid
+**************************************************************************/
+static void help_box_add(GtkWidget *wdg)
+{
+  gtk_grid_attach(GTK_GRID(help_vgrid), wdg, 0, help_grid_row++, 1, 1);
+}
+
+/**********************************************************************//**
+  Clear help grid
+**************************************************************************/
+static void help_box_clear(void)
+{
+  if (help_grid_row == 0) {
+    return;
+  }
+
+  for (; help_grid_row > 0; help_grid_row--) {
+    gtk_grid_remove_row(GTK_GRID(help_vgrid), help_grid_row - 1);
+  }
 }
 
 /**********************************************************************//**
@@ -643,15 +666,16 @@ static void create_help_dialog(void)
     gtk_widget_show(help_elabel[i]);
   }
 
-  help_vbox = gtk_grid_new();
-  gtk_grid_set_row_spacing(GTK_GRID(help_vbox), 1);
-  gtk_orientable_set_orientation(GTK_ORIENTABLE(help_vbox),
+  help_vgrid = gtk_grid_new();
+  help_grid_row = 0;
+  gtk_grid_set_row_spacing(GTK_GRID(help_vgrid), 1);
+  gtk_orientable_set_orientation(GTK_ORIENTABLE(help_vgrid),
                                  GTK_ORIENTATION_VERTICAL);
-  gtk_widget_set_margin_start(help_vbox, 5);
-  gtk_widget_set_margin_end(help_vbox, 5);
-  gtk_widget_set_margin_top(help_vbox, 5);
-  gtk_widget_set_margin_bottom(help_vbox, 5);
-  gtk_container_add(GTK_CONTAINER(help_box), help_vbox);
+  gtk_widget_set_margin_start(help_vgrid, 5);
+  gtk_widget_set_margin_end(help_vgrid, 5);
+  gtk_widget_set_margin_top(help_vgrid, 5);
+  gtk_widget_set_margin_bottom(help_vgrid, 5);
+  gtk_container_add(GTK_CONTAINER(help_box), help_vgrid);
 
   text = gtk_text_view_new();
   gtk_widget_set_hexpand(text, TRUE);
@@ -984,7 +1008,7 @@ static void help_update_tech(const struct help_item *pitem, char *title)
     GtkTextBuffer *txt;
     size_t len;
 
-    gtk_container_foreach(GTK_CONTAINER(help_vbox), (GtkCallback)gtk_widget_destroy, NULL);
+    help_box_clear();
 
     for (j = 0; j < ARRAY_SIZE(help_advances); j++) {
       help_advances[j] = FALSE;
@@ -1011,7 +1035,7 @@ static void help_update_tech(const struct help_item *pitem, char *title)
     gtk_widget_set_margin_top(w, 5);
     gtk_widget_set_margin_bottom(w, 5);
     gtk_text_view_set_editable(GTK_TEXT_VIEW(w), FALSE);
-    gtk_container_add(GTK_CONTAINER(help_vbox), w);
+    help_box_add(w);
     gtk_widget_show(w);
 
     txt = gtk_text_view_get_buffer(GTK_TEXT_VIEW(w));
@@ -1023,7 +1047,7 @@ static void help_update_tech(const struct help_item *pitem, char *title)
     g_object_set(w, "margin", 5, NULL);
     gtk_widget_set_hexpand(w, TRUE);
     gtk_widget_set_vexpand(w, TRUE);
-    gtk_container_add(GTK_CONTAINER(help_vbox), w);
+    help_box_add(w);
     gtk_widget_show(w);
 
     governments_iterate(pgov) {
@@ -1033,7 +1057,7 @@ static void help_update_tech(const struct help_item *pitem, char *title)
         if (VUT_ADVANCE == preq->source.kind
             && preq->source.value.advance == padvance) {
           hbox = gtk_grid_new();
-          gtk_container_add(GTK_CONTAINER(help_vbox), hbox);
+          help_box_add(hbox);
           w = gtk_label_new(_("Allows"));
           gtk_container_add(GTK_CONTAINER(hbox), w);
           w = help_slink_new(government_name_translation(pgov),
@@ -1050,7 +1074,7 @@ static void help_update_tech(const struct help_item *pitem, char *title)
           if (VUT_ADVANCE == preq->source.kind
               && preq->source.value.advance == padvance) {
             hbox = gtk_grid_new();
-            gtk_container_add(GTK_CONTAINER(help_vbox), hbox);
+            help_box_add(hbox);
             w = gtk_label_new(_("Allows"));
             gtk_container_add(GTK_CONTAINER(hbox), w);
             w = help_slink_new(improvement_name_translation(pimprove),
@@ -1066,7 +1090,7 @@ static void help_update_tech(const struct help_item *pitem, char *title)
               && pobs->source.value.advance == padvance
               && pobs->present) {
             hbox = gtk_grid_new();
-            gtk_container_add(GTK_CONTAINER(help_vbox), hbox);
+            help_box_add(hbox);
             w = gtk_label_new(_("Obsoletes"));
             gtk_container_add(GTK_CONTAINER(hbox), w);
             w = help_slink_new(improvement_name_translation(pimprove),
@@ -1085,7 +1109,7 @@ static void help_update_tech(const struct help_item *pitem, char *title)
 	continue;
       }
       hbox = gtk_grid_new();
-      gtk_container_add(GTK_CONTAINER(help_vbox), hbox);
+      help_box_add(hbox);
       w = gtk_label_new(_("Allows"));
       gtk_container_add(GTK_CONTAINER(hbox), w);
       w = help_slink_new(utype_name_translation(punittype), HELP_UNIT);
@@ -1097,7 +1121,7 @@ static void help_update_tech(const struct help_item *pitem, char *title)
       if (padvance == advance_requires(ptest, AR_ONE)) {
 	if (advance_by_number(A_NONE) == advance_requires(ptest, AR_TWO)) {
           hbox = gtk_grid_new();
-          gtk_container_add(GTK_CONTAINER(help_vbox), hbox);
+          help_box_add(hbox);
           w = gtk_label_new(_("Allows"));
           gtk_container_add(GTK_CONTAINER(hbox), w);
           w = help_slink_new(advance_name_translation(ptest), HELP_TECH);
@@ -1105,7 +1129,7 @@ static void help_update_tech(const struct help_item *pitem, char *title)
           gtk_widget_show(hbox);
 	} else {
           hbox = gtk_grid_new();
-          gtk_container_add(GTK_CONTAINER(help_vbox), hbox);
+          help_box_add(hbox);
           w = gtk_label_new(_("Allows"));
           gtk_container_add(GTK_CONTAINER(hbox), w);
           w = help_slink_new(advance_name_translation(ptest), HELP_TECH);
@@ -1122,7 +1146,7 @@ static void help_update_tech(const struct help_item *pitem, char *title)
       }
       if (padvance == advance_requires(ptest, AR_TWO)) {
         hbox = gtk_grid_new();
-        gtk_container_add(GTK_CONTAINER(help_vbox), hbox);
+        help_box_add(hbox);
         w = gtk_label_new(_("Allows"));
         gtk_container_add(GTK_CONTAINER(hbox), w);
         w = help_slink_new(advance_name_translation(ptest), HELP_TECH);
@@ -1137,7 +1161,8 @@ static void help_update_tech(const struct help_item *pitem, char *title)
         gtk_widget_show(hbox);
       }
     } advance_iterate_all_end;
-    gtk_widget_show(help_vbox);
+
+    gtk_widget_show(help_vgrid);
   }
 }
 
@@ -1153,7 +1178,7 @@ static void add_act_help_for_terrain(const char *act_label,
   GtkWidget *hbox;
 
   hbox = gtk_grid_new();
-  gtk_container_add(GTK_CONTAINER(help_vbox), hbox);
+  help_box_add(hbox);
   w = gtk_label_new(act_label);
   gtk_container_add(GTK_CONTAINER(hbox), w);
   w = help_slink_new(result_link_label, result_link_type);
@@ -1236,7 +1261,7 @@ static void help_update_terrain(const struct help_item *pitem,
     }
     gtk_label_set_text(GTK_LABEL(help_tlabel[1][1]), buf);
 
-    gtk_container_foreach(GTK_CONTAINER(help_vbox), (GtkCallback)gtk_widget_destroy, NULL);
+    help_box_clear();
 
     if (pterrain->cultivate_result != T_NONE
         && action_id_univs_not_blocking(ACTION_CULTIVATE,
@@ -1284,7 +1309,7 @@ static void help_update_terrain(const struct help_item *pitem,
         && action_id_univs_not_blocking(ACTION_BASE, NULL, &for_terr)) {
       help_extras_of_act_for_terrain(pterrain, ACTIVITY_BASE, _("Build as base"));
     }
-    gtk_widget_show(help_vbox);
+    gtk_widget_show(help_vgrid);
   }
 
   helptext_terrain(buf, sizeof(buf), client.conn.playing, pitem->text, pterrain);
