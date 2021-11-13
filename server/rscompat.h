@@ -72,6 +72,8 @@ const char *rscompat_req_name_3_1(const char *type,
                                   const char *old_name);
 const char *rscompat_utype_flag_name_3_1(struct rscompat_info *info,
                                          const char *old_type);
+const char *rscompat_combat_bonus_name_3_1(struct rscompat_info *compat,
+                                           const char *old_type);
 bool rscompat_old_effect_3_1(const char *type, struct section_file *file,
                              const char *sec_name, struct rscompat_info *compat);
 void rscompat_extra_adjust_3_1(struct rscompat_info *compat,

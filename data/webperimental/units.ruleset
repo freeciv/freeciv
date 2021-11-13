@@ -1335,7 +1335,7 @@ targets       = "Air", "Missile"
 bonuses       =
    { "flag", "type", "value"
      "Helicopter", "DefenseDivider", 1
-     "Helicopter", "Firepower1", 1
+     "Helicopter", "LowFirepower", 1
    }
 flags         = "AirAttacker", "MediumWeight"
 roles         = ""
@@ -1448,7 +1448,7 @@ targets       = "Air", "Missile"
 bonuses       =
    { "flag", "type", "value"
      "Helicopter", "DefenseDivider", 1
-     "Helicopter", "Firepower1", 1
+     "Helicopter", "LowFirepower", 1
    }
 vision_layer  = "Stealth"
 flags         = "AirAttacker", "MediumWeight"

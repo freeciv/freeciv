@@ -813,6 +813,7 @@ static bool lookup_cbonus_list(struct rscompat_info *compat,
       continue;
     }
     type = secfile_lookup_str(file, "%s.%s%d.type", sec, sub, j);
+    type = rscompat_combat_bonus_name_3_1(compat, type);
     bonus->type = combat_bonus_type_by_name(type, fc_strcasecmp);
     if (!combat_bonus_type_is_valid(bonus->type)) {
       log_error("\"%s\": unknown bonus type \"%s\" in '%s.%s'.",

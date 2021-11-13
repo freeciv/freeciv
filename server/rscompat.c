@@ -2027,6 +2027,21 @@ const char *rscompat_utype_flag_name_3_1(struct rscompat_info *compat,
 }
 
 /**********************************************************************//**
+  Replace deprecated combat bonus names with currently valid ones.
+**************************************************************************/
+const char *rscompat_combat_bonus_name_3_1(struct rscompat_info *compat,
+                                           const char *old_type)
+{
+  if (compat->compat_mode && compat->ver_units < RSFORMAT_3_1) {
+    if (!fc_strcasecmp("Firepower1", old_type)) {
+      return combat_bonus_type_name(CBONUS_LOW_FIREPOWER);
+    }
+  }
+
+  return old_type;
+}
+
+/**********************************************************************//**
   Adjust freeciv-3.0 ruleset extra definitions to freeciv-3.1
 **************************************************************************/
 void rscompat_extra_adjust_3_1(struct rscompat_info *compat,

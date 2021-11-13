@@ -1847,7 +1847,7 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
                      cbonus->value + 1,
                      astr_build_or_list(&list, against, targets));
         break;
-      case CBONUS_FIREPOWER1:
+      case CBONUS_LOW_FIREPOWER:
         cat_snprintf(buf, bufsz,
                      /* TRANS: or-list of unit types */
                      _("* Reduces target's firepower to 1 when "
