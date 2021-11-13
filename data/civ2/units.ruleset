@@ -1285,7 +1285,7 @@ targets       = "Air", "Missile"
 bonuses       =
    { "flag", "type", "value", "quiet"
      "Helicopter", "DefenseDivider", 1, FALSE
-     "Helicopter", "Firepower1", 1, FALSE
+     "Helicopter", "LowFirepower", 1, FALSE
      "Fighter", "CityDefensePct", 100
      "Bomber", "CityDefensePct", 300
    }
@@ -1394,7 +1394,7 @@ targets       = "Air", "Missile"
 bonuses       =
    { "flag", "type", "value"
      "Helicopter", "DefenseDivider", 1
-     "Helicopter", "Firepower1", 1
+     "Helicopter", "LowFirepower", 1
      "Fighter", "CityDefensePct", 100
      "Bomber", "CityDefensePct", 300
    }

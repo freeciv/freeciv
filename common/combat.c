@@ -450,7 +450,7 @@ void get_modified_firepower(const struct unit *attacker,
    */
   if (combat_bonus_against(att_type->bonuses,
                            unit_type_get(defender),
-                           CBONUS_FIREPOWER1)) {
+                           CBONUS_LOW_FIREPOWER)) {
     *def_fp = 1;
   }
 

@@ -3176,7 +3176,7 @@ void dai_units_ruleset_init(struct ai_type *ait)
 
     /* Confirm firepower */
     combat_bonus_list_iterate(punittype->bonuses, pbonus) {
-      if (pbonus->type == CBONUS_FIREPOWER1) {
+      if (pbonus->type == CBONUS_LOW_FIREPOWER) {
         unit_type_iterate(penemy) {
           if (utype_has_flag(penemy, pbonus->flag)) {
             struct unit_type_ai *utai = utype_ai_data(penemy, ait);
