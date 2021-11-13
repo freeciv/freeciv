@@ -1508,8 +1508,9 @@ static bool load_tech_names(struct section_file *file,
     game.control.num_tech_types = num_techs + A_FIRST; /* includes A_NONE */
 
     i = 0;
-    advance_iterate(A_FIRST, a) {
-      if (!ruleset_load_names(&a->name, NULL, file, section_name(section_list_get(sec, i)))) {
+    advance_iterate(adv) {
+      if (!ruleset_load_names(&adv->name, NULL, file,
+                              section_name(section_list_get(sec, i)))) {
         ok = FALSE;
         break;
       }
@@ -1550,7 +1551,7 @@ static bool load_ruleset_techs(struct section_file *file,
   sec = secfile_sections_by_name_prefix(file, ADVANCE_SECTION_PREFIX);
 
   i = 0;
-  advance_iterate(A_FIRST, a) {
+  advance_iterate(a) {
     const char *sec_name = section_name(section_list_get(sec, i));
     const char *sval;
     int j, ival;
@@ -1658,14 +1659,14 @@ static bool load_ruleset_techs(struct section_file *file,
 restart:
 
   if (ok) {
-    advance_iterate(A_FIRST, a) {
+    advance_iterate(a) {
       if (valid_advance(a)
           && A_NEVER != a->require[AR_ROOT]) {
         bool out_of_order = FALSE;
 
         /* Now find any tech depending on this technology and update its
          * root_req. */
-        advance_iterate(A_FIRST, b) {
+        advance_iterate(b) {
           if (valid_advance(b)
               && A_NEVER == b->require[AR_ROOT]
               && (a == b->require[AR_ONE] || a == b->require[AR_TWO])) {
@@ -1697,7 +1698,7 @@ restart:
        Non-removed techs depending on removed techs is too
        broken to fix by default, so die.
     */
-    advance_iterate(A_FIRST, a) {
+    advance_iterate(a) {
       if (valid_advance(a)) {
         /* We check for recursive tech loops later,
          * in build_required_techs_helper. */
@@ -7749,7 +7750,7 @@ static void send_ruleset_techs(struct conn_list *dest)
     lsend_packet_ruleset_tech_flag(dest, &fpacket);
   }
 
-  advance_iterate(A_FIRST, a) {
+  advance_iterate(a) {
     packet.id = advance_number(a);
     packet.removed = !valid_advance(a);
     if (a->tclass == NULL) {

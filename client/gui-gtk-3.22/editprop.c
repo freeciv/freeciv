@@ -3991,7 +3991,7 @@ static void extviewer_refresh_widgets(struct extviewer *ev,
 
   case OPID_PLAYER_INVENTIONS:
     gtk_list_store_clear(store);
-    advance_iterate(A_FIRST, padvance) {
+    advance_iterate(padvance) {
       id = advance_index(padvance);
       present = BV_ISSET(pv->data.v_bv_inventions, id);
       name = advance_name_translation(padvance);

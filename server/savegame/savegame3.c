@@ -1681,7 +1681,7 @@ static void sg_save_savefile(struct savedata *saving)
     const char *buf[game.control.num_tech_types];
 
     buf[A_NONE] = "A_NONE";
-    advance_iterate(A_FIRST, a) {
+    advance_iterate(a) {
       buf[advance_index(a)] = advance_rule_name(a);
     } advance_iterate_end;
     secfile_insert_str_vec(saving->file, buf, game.control.num_tech_types,

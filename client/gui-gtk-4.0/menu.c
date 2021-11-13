@@ -2838,7 +2838,7 @@ void real_menus_init(void)
             } improvement_iterate_end;
             break;
           case ASTK_TECH:
-            advance_iterate(A_FIRST, ptech) {
+            advance_iterate(ptech) {
               CREATE_SUB_ITEM(ptech, "end_tech",
                               advance_name_translation(ptech));
             } advance_iterate_end;

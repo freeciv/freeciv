@@ -746,7 +746,7 @@ bool sanity_check_ruleset_data(bool ignore_retired)
   }
 
   /* Advances. */
-  advance_iterate(A_FIRST, padvance) {
+  advance_iterate(padvance) {
     for (i = AR_ONE; i < AR_SIZE; i++) {
       const struct advance *preq;
 

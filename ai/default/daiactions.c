@@ -67,7 +67,7 @@ choose_tech_to_steal(const struct player *actor_player,
 
   if (actor_research != target_research) {
     if (can_see_techs_of_target(actor_player, target_player)) {
-      advance_iterate(A_FIRST, padvance) {
+      advance_iterate(padvance) {
         Tech_type_id i = advance_number(padvance);
 
         if (research_invention_state(target_research, i) == TECH_KNOWN

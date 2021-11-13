@@ -732,7 +732,7 @@ static bool manual_command(struct tag_types *tag_info)
       fprintf(doc, _("%sFreeciv %s tech help (%s)%s\n\n"),
               tag_info->title_begin, VERSION_STRING, game.control.name,
               tag_info->title_end);
-      advance_iterate(A_FIRST, ptech) {
+      advance_iterate(ptech) {
         if (valid_advance(ptech)) {
           char buf[64000];
 

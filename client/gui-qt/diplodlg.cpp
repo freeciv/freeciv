@@ -340,7 +340,7 @@ void diplo_wdg::show_menu(int player)
     const struct research *gresearch = research_get(pgiver);
     const struct research *oresearch = research_get(pother);
     adv_menu = menu->addMenu(_("Advances"));
-    advance_iterate(A_FIRST, padvance) {
+    advance_iterate(padvance) {
       Tech_type_id i = advance_number(padvance);
 
       if (research_invention_state(gresearch, i) == TECH_KNOWN
@@ -591,7 +591,7 @@ void diplo_wdg::all_advances()
    dresearch = research_get(pdest);
    gresearch = research_get(pgiver);
 
-   advance_iterate(A_FIRST, padvance) {
+   advance_iterate(padvance) {
      Tech_type_id i = advance_number(padvance);
 
      if (research_invention_state(gresearch, i) == TECH_KNOWN

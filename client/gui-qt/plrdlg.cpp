@@ -591,7 +591,7 @@ void plr_widget::nation_selected(const QItemSelection &sl,
                         .toHtmlEscaped());
       techs_unknown = QString(_("<b>Techs unknown by you :</b>"));
 
-      advance_iterate(A_FIRST, padvance) {
+      advance_iterate(padvance) {
         tech_id = advance_number(padvance);
         if (research_invention_state(my_research, tech_id) == TECH_KNOWN
             && (research_invention_state(research, tech_id) 
@@ -636,7 +636,7 @@ void plr_widget::nation_selected(const QItemSelection &sl,
   } else {
     tech_str = QString(_("<b>Techs known by %1:</b>")).
                arg(QString(nation_plural_for_player(pplayer)).toHtmlEscaped());
-    advance_iterate(A_FIRST, padvance) {
+    advance_iterate(padvance) {
       tech_id = advance_number(padvance);
       if (research_invention_state(research, tech_id) == TECH_KNOWN) {
         sorted_list_a << research_advance_name_translation(research, tech_id);

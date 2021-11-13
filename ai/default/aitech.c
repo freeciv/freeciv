@@ -249,7 +249,7 @@ static void dai_tech_effect_values(struct ai_type *ait, struct player *pplayer)
     }
   } players_iterate_end;
 
-  advance_iterate(A_FIRST, padv) {
+  advance_iterate(padv) {
     if (research_invention_state(research_get(pplayer), advance_number(padv))
         != TECH_KNOWN) {
       struct universal source = { .kind = VUT_ADVANCE, .value.advance = padv };

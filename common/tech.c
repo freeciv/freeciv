@@ -220,7 +220,7 @@ void techs_precalc_data(void)
   fc_assert_msg(tech_cost_style_is_valid(game.info.tech_cost_style),
                 "Invalid tech_cost_style %d", game.info.tech_cost_style);
 
-  advance_iterate(A_FIRST, padvance) {
+  advance_iterate(padvance) {
     int num_reqs = 0;
     bool min_req = TRUE;
 

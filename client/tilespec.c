@@ -1407,7 +1407,7 @@ bool tilespec_reread(const char *new_tileset_name,
   improvement_iterate(pimprove) {
     tileset_setup_impr_type(tileset, pimprove);
   } improvement_iterate_end;
-  advance_iterate(A_FIRST, padvance) {
+  advance_iterate(padvance) {
     tileset_setup_tech_type(tileset, padvance);
   } advance_iterate_end;
   specialist_type_iterate(sp) {

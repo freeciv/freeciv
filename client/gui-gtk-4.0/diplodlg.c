@@ -282,7 +282,7 @@ static void popup_add_menu(GtkMenuShell *parent, gpointer data)
     advance_item = gtk_menu_item_new_with_mnemonic(_("_Advances"));
     gtk_menu_shell_append(GTK_MENU_SHELL(parent), advance_item);
 
-    advance_iterate(A_FIRST, padvance) {
+    advance_iterate(padvance) {
       Tech_type_id i = advance_number(padvance);
 
       if (research_invention_state(gresearch, i) == TECH_KNOWN
@@ -986,7 +986,7 @@ static void diplomacy_dialog_tech_callback(GtkWidget *w, gpointer data)
 
     dresearch = research_get(pdest);
     gresearch = research_get(pgiver);
-    advance_iterate(A_FIRST, padvance) {
+    advance_iterate(padvance) {
       Tech_type_id i = advance_number(padvance);
 
       if (research_invention_state(gresearch, i) == TECH_KNOWN

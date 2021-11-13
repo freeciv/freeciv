@@ -238,22 +238,25 @@ void techs_precalc_data(void);
 
 const struct advance *advance_array_last(void);
 
-#define advance_iterate(_start, _p)					\
-{									\
-  struct advance *_p = advance_by_number(_start);			\
-  if (NULL != _p) {							\
+#define advance_iterate_base(_start, _p)                                \
+{                                                                       \
+  struct advance *_p = advance_by_number(_start);                       \
+  if (NULL != _p) {                                                     \
     for (; _p <= advance_array_last(); _p++) {
 
-#define advance_iterate_end						\
-    }									\
-  }									\
+#define advance_iterate_base_end                                        \
+    }                                                                   \
+  }                                                                     \
 }
 
-#define advance_iterate_all(_p) advance_iterate(A_NONE, _p)
-#define advance_iterate_all_end advance_iterate_end
+#define advance_iterate(_p) advance_iterate_base(A_FIRST, _p)
+#define advance_iterate_end advance_iterate_base_end
+
+#define advance_iterate_all(_p) advance_iterate_base(A_NONE, _p)
+#define advance_iterate_all_end advance_iterate_base_end
 
 #define advance_re_active_iterate(_p)                                    \
-  advance_iterate(A_FIRST, _p) {                                         \
+  advance_iterate(_p) {                                                  \
     if (_p->require[AR_ONE] != A_NEVER) {
 
 #define advance_re_active_iterate_end                                   \

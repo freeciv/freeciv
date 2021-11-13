@@ -136,7 +136,7 @@ void tab_tech::refresh()
 {
   tech_list->clear();
 
-  advance_iterate(A_FIRST, padv) {
+  advance_iterate(padv) {
     if (padv->require[AR_ONE] != A_NEVER) {
       QListWidgetItem *item = new QListWidgetItem(advance_rule_name(padv));
 
@@ -347,7 +347,7 @@ void tab_tech::name_given()
     QByteArray name_bytes;
     QByteArray rname_bytes;
 
-    advance_iterate(A_FIRST, padv) {
+    advance_iterate(padv) {
       if (padv != selected
           && padv->require[AR_ONE] != A_NEVER) {
         rname_bytes = rname->text().toUtf8();
@@ -418,7 +418,7 @@ void tab_tech::add_now()
   struct advance *new_adv;
 
   // Try to reuse freed tech slot
-  advance_iterate(A_FIRST, padv) {
+  advance_iterate(padv) {
     if (padv->require[AR_ONE] == A_NEVER) {
       if (initialize_new_tech(padv)) {
         update_tech_info(padv);

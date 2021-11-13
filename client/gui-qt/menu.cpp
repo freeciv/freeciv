@@ -787,7 +787,7 @@ void go_act_menu::create()
           } improvement_iterate_end;
           break;
         case ASTK_TECH:
-          advance_iterate(A_FIRST, ptech) {
+          advance_iterate(ptech) {
             CREATE_SUB_ITEM(sub_target_menu, act_id,
                             advance_number(ptech),
                             advance_name_translation(ptech));
