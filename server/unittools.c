@@ -2257,7 +2257,7 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
     }
 
     /* count killed units */
-    unit_list_iterate(deftile->units, vunit) {
+    unit_list_iterate_safe(deftile->units, vunit) {
       struct player *vplayer = unit_owner(vunit);
 
       if (pplayers_at_war(pvictor, vplayer)
@@ -2311,7 +2311,7 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
           }
         }
       }
-    } unit_list_iterate_end;
+    } unit_list_iterate_safe_end;
 
     /* Inform the destroyer again if more than one unit was killed */
     if (unitcount > 1 && !collect_ransom) {
