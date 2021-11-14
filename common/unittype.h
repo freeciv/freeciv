@@ -147,6 +147,7 @@ struct unit_class {
   struct {
     enum move_level land_move;
     enum move_level sea_move;
+    int ferry_types;
   } adv;
 
   struct {

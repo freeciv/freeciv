@@ -74,6 +74,7 @@ void adv_units_ruleset_init(void)
       pclass->adv.sea_move = MOVE_NONE;
     }
 
+    pclass->adv.ferry_types = 0;
   } unit_class_iterate_end;
 
   unit_type_iterate(ptype) {
@@ -93,6 +94,14 @@ void adv_units_ruleset_init(void)
         break;
       }
     } effect_list_iterate_end;
+
+    if (utype_has_role(ptype, L_FERRYBOAT)) {
+      unit_class_iterate(aclass) {
+        if (BV_ISSET(ptype->cargo, uclass_index(aclass))) {
+          aclass->adv.ferry_types++;
+        }
+      } unit_class_iterate_end;
+    }
 
     ptype->adv.worker = utype_has_flag(ptype, UTYF_SETTLERS);
   } unit_type_iterate_end;
