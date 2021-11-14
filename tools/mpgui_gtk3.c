@@ -621,6 +621,7 @@ int main(int argc, char *argv[])
 
     gtk_main();
 
+    gtk_widget_destroy(toplevel);
     save_install_info_lists(&fcmp);
   }
 
