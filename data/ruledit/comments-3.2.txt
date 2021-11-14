@@ -1249,6 +1249,11 @@ gold_upkeep_style = "\n\
 ;            upkeep are disbanded.\
 "
 
+airlift_always_enabled = "\n\
+; Is it possible to airlift even with zero airlift capacity when\n\
+; airliftingstyle server setting has been set to unlimited airlifts?\
+"
+
 wv_small_wonders = "\
 ; When do opponents know which city, if any, has built the Small Wonder\n\
 ; \"Always\"  - Information is always sent\n\

@@ -59,6 +59,7 @@ static struct {
   char *civstyle_ransom_gold;
   char *civstyle_gameloss_style;
   char *civstyle_gold_upkeep_style;
+  char *civstyle_airlift_always;
   char *wonder_visibility_small_wonders;
   char *incite_cost;
   char *combat_rules_tired_attack;
@@ -164,6 +165,8 @@ bool comments_load(void)
                "entrydoc.gameloss_style");
   comment_load(comments_storage.civstyle_gold_upkeep_style, comment_file,
                "entrydoc.gold_upkeep_style");
+  comment_load(comments_storage.civstyle_airlift_always, comment_file,
+               "entrydoc.airlift_always_enabled");
   comment_load(comments_storage.wonder_visibility_small_wonders, comment_file,
                "entrydoc.wv_small_wonders");
   comment_load(comments_storage.incite_cost, comment_file,
@@ -501,6 +504,15 @@ void comment_civstyle_gameloss_style(struct section_file *sfile)
 void comment_civstyle_gold_upkeep_style(struct section_file *sfile)
 {
   comment_entry_write(sfile, comments_storage.civstyle_gold_upkeep_style,
+                      "civstyle");
+}
+
+/**********************************************************************//**
+  Write civstyle airlift always enabled settings header.
+**************************************************************************/
+void comment_civstyle_airlift_always(struct section_file *sfile)
+{
+  comment_entry_write(sfile, comments_storage.civstyle_airlift_always,
                       "civstyle");
 }
 

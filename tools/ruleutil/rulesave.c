@@ -1224,6 +1224,10 @@ static bool save_game_ruleset(const char *filename, const char *name)
   }
   save_default_int(sfile, game.info.granularity,
                    1, "civstyle.output_granularity", NULL);
+
+  if (game.info.airlift_from_always_enabled || !game.info.airlift_to_always_enabled) {
+    comment_civstyle_airlift_always(sfile);
+  }
   save_default_bool(sfile, game.info.airlift_from_always_enabled,
                     FALSE, "civstyle.airlift_from_always_enabled", NULL);
   save_default_bool(sfile, game.info.airlift_to_always_enabled,
