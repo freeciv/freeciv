@@ -90,6 +90,7 @@
 #include "capability.h"
 #include "citizens.h"
 #include "city.h"
+#include "counters.h"
 #include "game.h"
 #include "government.h"
 #include "map.h"
@@ -336,6 +337,8 @@ static void sg_save_scenario(struct savedata *saving);
 static void sg_load_settings(struct loaddata *loading);
 static void sg_save_settings(struct savedata *saving);
 
+static void sg_save_counters (struct savedata * saving);
+
 static void sg_load_map(struct loaddata *loading);
 static void sg_save_map(struct savedata *saving);
 static void sg_load_map_tiles(struct loaddata *loading);
@@ -523,6 +526,8 @@ static void savegame3_save_real(struct section_file *file,
   sg_save_scenario(saving);
   /* [savefile] */
   sg_save_savefile(saving);
+  /* [counters] */
+  sg_save_counters(saving);
   /* [game] */
   sg_save_game(saving);
   /* [random] */
@@ -2566,6 +2571,57 @@ static void sg_save_settings(struct savedata *saving)
   wld.map.server.generator = real_generator;
 
   /* Add all compatibility settings here. */
+}
+
+/************************************************************************//**
+Save [counters].
+****************************************************************************/
+static void sg_save_counters(struct savedata *saving)
+{
+  /* Check status and return if not OK (sg_success != TRUE). */
+  sg_check_ret();
+
+  const char **countnames;;
+  int         *countvalues;
+  int    i, j, count;
+
+  count = counters_get_city_counters_count();
+  countnames = fc_calloc(count, sizeof(*countnames));
+
+  secfile_insert_bool(saving->file, TRUE, "game.hardcoded_counters");
+
+
+  secfile_insert_int(saving->file, count,
+                     "savefile.city_counters_order_size");
+
+  for (j = 0; j < count; j++) {
+    countnames[j] = counter_by_index(j, CTGT_CITY)->rule_name;
+  }
+
+  secfile_insert_str_vec(saving->file, countnames, count,
+                         "savefile.city_counters_order_vector");
+
+  free(countnames);
+
+  // Saving city's counters
+
+  j = 0;
+  countvalues = fc_calloc(count+1, sizeof(*countvalues));
+
+  players_iterate(_pplayer) {
+
+    city_list_iterate(_pplayer->cities, pcity) {
+
+      countvalues[0] = pcity->id;
+      for (i = 0; i < count; ++i) {
+
+        countvalues[i+1] = pcity->counter_values[i];
+      }
+
+      secfile_insert_int_vec(saving->file, countvalues, count + 1, "counters.c%d", j);
+      ++j;
+    } city_list_iterate_end;
+  } players_iterate_end;
 }
 
 /* =======================================================================
