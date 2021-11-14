@@ -1,5 +1,41 @@
-<?xml version="1.0" standalone="yes"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="500" height="333">
-<path style="fill:#8ad0fd; stroke:none;" d="M0 0L0 333L500 333L500 0L0 0z"/>
-<path style="fill:#fdf859; stroke:none;" d="M68 52L68 103L51 103L51 120L85 120L85 69L120 69L120 120L103 120L103 137L154 137L154 120L137 120L137 69L172 69L172 120L206 120L206 103L189 103L189 52L68 52z"/>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="500"
+   height="333"
+   version="1.1"
+   id="svg6"
+   sodipodi:docname="crimean_tatar.svg"
+   inkscape:version="1.1.1 (3bf5ae0d25, 2021-09-20)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs10" />
+  <sodipodi:namedview
+     id="namedview8"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     showgrid="false"
+     inkscape:zoom="1.7663527"
+     inkscape:cx="249.95008"
+     inkscape:cy="166.44467"
+     inkscape:window-width="1146"
+     inkscape:window-height="895"
+     inkscape:window-x="0"
+     inkscape:window-y="118"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg6" />
+  <path
+     style="fill:#8ad0fd; stroke:none;"
+     d="M0 0L0 333L500 333L500 0L0 0z"
+     id="path2" />
+  <path
+     style="fill:#fdf859; stroke:none;"
+     d="M68 52L68 103L51 103L51 120L85 120L85 69L120 69L120 120L103 120L103 137L154 137L154 120L137 120L137 69L172 69L172 120L206 120L206 103L189 103L189 52L68 52z"
+     id="path4" />
 </svg>
