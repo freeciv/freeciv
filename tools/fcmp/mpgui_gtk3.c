@@ -622,6 +622,7 @@ int main(int argc, char *argv[])
 
     gtk_main();
 
+    gtk_widget_destroy(toplevel);
     close_mpdbs();
   }
 

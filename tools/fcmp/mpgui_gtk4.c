@@ -635,6 +635,7 @@ int main(int argc, char *argv[])
     g_signal_connect(fcmp_app, "activate", G_CALLBACK(activate_gui), NULL);
     g_application_run(G_APPLICATION(fcmp_app), 0, NULL);
 
+    g_object_unref(fcmp_app);
     close_mpdbs();
   }
 
