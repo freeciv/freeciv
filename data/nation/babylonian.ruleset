@@ -1,6 +1,6 @@
 [nation_babylonian]
 
-translation_domain = "freeciv"
+translation_domain = "freeciv-core"
 
 name   = _("Babylonian")
 plural = _("?plural:Babylonians")

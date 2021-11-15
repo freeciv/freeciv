@@ -1,6 +1,6 @@
 [nation_apache]
 
-translation_domain = "freeciv"
+translation_domain = "freeciv-core"
 
 name   = _("Apache")
 plural = _("?plural:Apaches")

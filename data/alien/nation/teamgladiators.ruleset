@@ -1,6 +1,6 @@
 [nation_team_gladiators]
 
-translation_domain = "freeciv"
+translation_domain = "freeciv-core"
 
 name   = _("Team Gladiators")
 plural = _("?plural:Athletes")

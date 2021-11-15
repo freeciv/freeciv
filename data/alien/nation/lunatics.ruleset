@@ -1,6 +1,6 @@
 [nation_lunatic]
 
-translation_domain = "freeciv"
+translation_domain = "freeciv-core"
 
 name   = _("Lunatic")
 plural = _("?plural:Lunatics")

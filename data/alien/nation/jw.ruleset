@@ -1,6 +1,6 @@
 [nation_jw]
 
-translation_domain = "freeciv"
+translation_domain = "freeciv-core"
 
 name   = _("J&W Corporation")
 plural = _("?plural:JeeWees")

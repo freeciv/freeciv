@@ -68,7 +68,7 @@ builder_default = 50
 
 [nation_barbarian]
 
-translation_domain="freeciv"
+translation_domain = "freeciv"
 
 name=_("Barbarian")
 plural=_("?plural:Barbarians")

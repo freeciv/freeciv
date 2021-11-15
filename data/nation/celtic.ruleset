@@ -1,6 +1,6 @@
 [nation_celtic]
 
-translation_domain = "freeciv"
+translation_domain = "freeciv-core"
 
 name   = _("Celtic")
 plural = _("?plural:Celts")

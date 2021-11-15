@@ -1,6 +1,6 @@
 [nation_math_club]
 
-translation_domain = "freeciv"
+translation_domain = "freeciv-core"
 
 name   = _("Math Club")
 plural = _("?plural:Mathematicians")

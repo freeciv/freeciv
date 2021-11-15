@@ -113,7 +113,7 @@ hidden=true
 
 [nation_american]
 
-translation_domain = "freeciv"
+translation_domain = "freeciv-core"
 
 name   = _("American")
 plural = _("?plural:Americans")
@@ -227,7 +227,7 @@ cities =
 
 [nation_aztec]
 
-translation_domain = "freeciv"
+translation_domain = "freeciv-core"
 
 name   = _("Aztec")
 plural = _("?plural:Aztecs")
@@ -328,7 +328,7 @@ cities =
 
 [nation_babylonian]
 
-translation_domain = "freeciv"
+translation_domain = "freeciv-core"
 
 name   = _("Babylonian")
 plural = _("?plural:Babylonians")
@@ -396,7 +396,7 @@ cities =
 
 [nation_carthaginian]
 
-translation_domain = "freeciv"
+translation_domain = "freeciv-core"
 
 name   = _("Carthaginian")
 plural = _("?plural:Carthaginians")
@@ -432,7 +432,7 @@ cities =
 
 [nation_celtic]
 
-translation_domain = "freeciv"
+translation_domain = "freeciv-core"
 
 name   = _("Celtic")
 plural = _("?plural:Celts")
@@ -523,7 +523,7 @@ cities =
 
 [nation_chinese]
 
-translation_domain = "freeciv"
+translation_domain = "freeciv-core"
 
 name   = _("Chinese")
 plural = _("?plural:Chinese")
@@ -673,7 +673,7 @@ cities =
 
 [nation_egyptian]
 
-translation_domain = "freeciv"
+translation_domain = "freeciv-core"
 
 name   = _("Egyptian")
 plural = _("?plural:Egyptians")
@@ -756,7 +756,7 @@ cities =
 
 [nation_english]
 
-translation_domain = "freeciv"
+translation_domain = "freeciv-core"
 
 name   = _("English")
 plural = _("?plural:English")
@@ -871,7 +871,7 @@ cities =
 
 [nation_french]
 
-translation_domain = "freeciv"
+translation_domain = "freeciv-core"
 
 name   = _("French")
 plural = _("?plural:French")
@@ -998,7 +998,7 @@ cities =
 
 [nation_german]
 
-translation_domain = "freeciv"
+translation_domain = "freeciv-core"
 
 name   = _("German")
 plural = _("?plural:Germans")
@@ -1156,7 +1156,7 @@ cities =
 
 [nation_greek]
 
-translation_domain = "freeciv"
+translation_domain = "freeciv-core"
 
 name   = _("Greek")
 plural = _("?plural:Greeks")
@@ -1309,7 +1309,7 @@ cities =
 
 [nation_indian]
 
-translation_domain = "freeciv"
+translation_domain = "freeciv-core"
 
 name   = _("Indian")
 plural = _("?plural:Indians")
@@ -1408,7 +1408,7 @@ cities =
 
 [nation_japanese]
 
-translation_domain = "freeciv"
+translation_domain = "freeciv-core"
 
 name   = _("Japanese")
 plural = _("?plural:Japanese")
@@ -1525,7 +1525,7 @@ cities =
 
 [nation_mongol]
 
-translation_domain = "freeciv"
+translation_domain = "freeciv-core"
 
 name   = _("Mongol")
 plural = _("?plural:Mongols")
@@ -1593,7 +1593,7 @@ cities =
 
 [nation_persian]
 
-translation_domain = "freeciv"
+translation_domain = "freeciv-core"
 
 name   = _("Persian")
 plural = _("?plural:Persians")
@@ -1669,7 +1669,7 @@ cities =
 
 [nation_roman]
 
-translation_domain = "freeciv"
+translation_domain = "freeciv-core"
 
 name   = _("Roman")
 plural = _("?plural:Romans")
@@ -1724,7 +1724,7 @@ cities =
 
 [nation_russian]
 
-translation_domain = "freeciv"
+translation_domain = "freeciv-core"
 
 name   = _("Russian")
 plural = _("?plural:Russians")
@@ -1823,7 +1823,7 @@ cities =
 
 [nation_sioux]
 
-translation_domain = "freeciv"
+translation_domain = "freeciv-core"
 
 name   = _("Sioux")
 plural = _("?plural:Sioux")
@@ -1917,7 +1917,7 @@ cities =
 
 [nation_spanish]
 
-translation_domain = "freeciv"
+translation_domain = "freeciv-core"
 
 name   = _("Spanish")
 plural = _("?plural:Spanish")
@@ -1994,7 +1994,7 @@ cities =
 
 [nation_viking]
 
-translation_domain = "freeciv"
+translation_domain = "freeciv-core"
 
 name   = _("Viking")
 plural = _("?plural:Vikings")
@@ -2077,7 +2077,7 @@ cities =
 
 [nation_zulu]
 
-translation_domain = "freeciv"
+translation_domain = "freeciv-core"
 
 name   = _("Zulu")
 plural = _("?plural:Zulus")
@@ -2150,7 +2150,7 @@ cities =
 
 [nation_barbarian]
 
-translation_domain = "freeciv"
+translation_domain = "freeciv-core"
 
 name   = _("Barbarian")
 plural = _("?plural:Barbarians")
@@ -2191,7 +2191,7 @@ barbarian_type = "LandAndSea"
 ; Freeciv should always pick the one "LandAndSea" barbarian in new games.
 [nation_pirate]
 
-translation_domain = "freeciv"
+translation_domain = "freeciv-core"
 
 name   = _("Pirate")
 plural = _("?plural:Pirates")

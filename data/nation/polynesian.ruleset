@@ -1,6 +1,6 @@
 [nation_polynesian]
 
-translation_domain = "freeciv"
+translation_domain = "freeciv-core"
 
 name   = _("Polynesian")
 plural = _("?plural:Polynesians")

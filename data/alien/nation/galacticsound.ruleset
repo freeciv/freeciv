@@ -1,6 +1,6 @@
 [nation_galactic_sound]
 
-translation_domain = "freeciv"
+translation_domain = "freeciv-core"
 
 name   = _("Galactic Sound")
 plural = _("?plural:Fans")
