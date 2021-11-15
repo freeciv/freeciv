@@ -1,6 +1,6 @@
 [nation_animals]
 
-translation_domain="freeciv"
+translation_domain = "freeciv-core"
 
 name=_("Animal Kingdom")
 plural=_("?plural:Animals")

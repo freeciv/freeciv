@@ -1,6 +1,6 @@
 [nation_japanese]
 
-translation_domain="freeciv"
+translation_domain = "freeciv-core"
 
 name=_("Japanese")
 plural=_("?plural:Japanese")

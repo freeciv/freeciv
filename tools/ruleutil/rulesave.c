@@ -1807,7 +1807,7 @@ static bool save_nation(struct section_file *sfile, struct nation_type *pnat,
   fc_snprintf(path, sizeof(path), "nation_%d", sect_idx++);
 
   if (pnat->translation_domain == NULL) {
-    secfile_insert_str(sfile, "freeciv", "%s.translation_domain", path);
+    secfile_insert_str(sfile, "freeciv-core", "%s.translation_domain", path);
   } else {
     secfile_insert_str(sfile, pnat->translation_domain, "%s.translation_domain", path);
   }

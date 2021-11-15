@@ -1,6 +1,6 @@
 [nation_inca]
 
-translation_domain="freeciv"
+translation_domain = "freeciv-core"
 
 name=_("Inca")
 plural=_("?plural:Incas")

@@ -4638,7 +4638,10 @@ static bool load_nation_names(struct section_file *file,
         domain = "freeciv-nations";
       }
 
-      if (!strcmp("freeciv", domain)) {
+      if (!strcmp("freeciv-core", domain)) {
+        pl->translation_domain = NULL;
+      } else if (compat->compat_mode && compat->ver_nations < RSFORMAT_3_1
+                 && !strcmp("freeciv", domain)) {
         pl->translation_domain = NULL;
       } else if (!strcmp("freeciv-nations", domain)) {
         pl->translation_domain = fc_malloc(strlen(domain) + 1);
