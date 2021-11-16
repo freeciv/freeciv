@@ -701,6 +701,39 @@ static gboolean mouse_scroll_mapcanvas(GtkWidget *w, GdkEvent *ev)
 }
 
 /**********************************************************************//**
+  Move widget from parent to parent
+**************************************************************************/
+static void move_from_container_to_container(GtkWidget *wdg,
+                                             GtkWidget *old_wdg,
+                                             GtkWidget *new_wdg)
+{
+  g_object_ref(wdg); /* Make sure reference count stays above 0
+                      * during the transition to new parent. */
+
+  if (GTK_IS_PANED(old_wdg)) {
+    gtk_paned_set_end_child(GTK_PANED(old_wdg), NULL);
+  } else if (GTK_IS_WINDOW(old_wdg)) {
+    gtk_window_set_child(GTK_WINDOW(old_wdg), NULL);
+  } else {
+    fc_assert(GTK_IS_BOX(old_wdg));
+
+    gtk_box_remove(old_wdg, wdg);
+  }
+
+  if (GTK_IS_PANED(new_wdg)) {
+    gtk_paned_set_end_child(GTK_PANED(new_wdg), wdg);
+  } else if (GTK_IS_WINDOW(new_wdg)) {
+    gtk_window_set_child(GTK_WINDOW(new_wdg), wdg);
+  } else {
+    fc_assert(GTK_IS_BOX(new_wdg));
+
+    gtk_box_append(new_wdg, wdg);
+  }
+
+  g_object_unref(wdg);
+}
+
+/**********************************************************************//**
   Reattaches the detached widget when the user destroys it.
 **************************************************************************/
 static void tearoff_destroy(GtkWidget *w, gpointer data)
@@ -716,11 +749,7 @@ static void tearoff_destroy(GtkWidget *w, gpointer data)
 
   gtk_widget_hide(w);
 
-  g_object_ref(box); /* Make sure reference count stays above 0
-                      * during the transition to new parent. */
-  gtk_container_remove(GTK_CONTAINER(old_parent), box);
-  gtk_container_add(GTK_CONTAINER(p), box);
-  g_object_unref(box);
+  move_from_container_to_container(box, old_parent, p);
 }
 
 /**********************************************************************//**
@@ -751,11 +780,8 @@ static void tearoff_callback(GtkWidget *b, gpointer data)
       gtk_widget_hide(temp_hide);
     }
 
-    g_object_ref(box); /* Make sure reference count stays above 0
-                        * during the transition to new parent. */
-    gtk_container_remove(GTK_CONTAINER(old_parent), box);
-    gtk_container_add(GTK_CONTAINER(w), box);
-    g_object_unref(box);
+    move_from_container_to_container(box, old_parent, w);
+
     gtk_widget_show(w);
 
     if (temp_hide != NULL) {
@@ -767,12 +793,12 @@ static void tearoff_callback(GtkWidget *b, gpointer data)
 }
 
 /**********************************************************************//**
-  Create the container for the widget that's able to be detached
+  Create the container for the widget that's able to be detached.
 **************************************************************************/
 static GtkWidget *detached_widget_new(void)
 {
-  GtkWidget *hgrid = gtk_grid_new();
-  gtk_grid_set_column_spacing(GTK_GRID(hgrid), 2);
+  GtkWidget *hgrid = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 2);
+
   return hgrid;
 }
 
@@ -805,14 +831,14 @@ static GtkWidget *detached_widget_fill(GtkWidget *tearbox)
   gtk_style_context_add_class(gtk_widget_get_style_context(b),
                               "detach_button");
 
-  gtk_container_add(GTK_CONTAINER(tearbox), b);
+  gtk_box_append(GTK_BOX(tearbox), b);
   g_signal_connect(b, "toggled", G_CALLBACK(tearoff_callback), tearbox);
 
   fillbox = gtk_grid_new();
   gtk_orientable_set_orientation(GTK_ORIENTABLE(fillbox),
                                  GTK_ORIENTATION_VERTICAL);
 
-  gtk_container_add(GTK_CONTAINER(tearbox), fillbox);
+  gtk_box_append(GTK_BOX(tearbox), fillbox);
 
   return fillbox;
 }
@@ -910,20 +936,19 @@ static void populate_unit_image_table(void)
 static void free_unit_table(void)
 {
   if (unit_image) {
-    gtk_container_remove(GTK_CONTAINER(unit_image_table),
-                         unit_image);
+    gtk_grid_remove(GTK_GRID(unit_image_table), unit_image);
     g_object_unref(unit_image);
     if (!GUI_GTK_OPTION(small_display_layout)) {
       int i;
 
       for (i = 0; i < num_units_below; i++) {
-        gtk_container_remove(GTK_CONTAINER(unit_image_table),
-                             unit_below_image[i]);
+        gtk_grid_remove(GTK_GRID(unit_image_table),
+                        unit_below_image[i]);
         g_object_unref(unit_below_image[i]);
       }
     }
-    gtk_container_remove(GTK_CONTAINER(unit_image_table),
-                         more_arrow_pixmap_container);
+    gtk_grid_remove(GTK_GRID(unit_image_table),
+                    more_arrow_pixmap_container);
     g_object_unref(more_arrow_pixmap);
     g_object_unref(more_arrow_pixmap_container);
   }
@@ -1029,7 +1054,7 @@ static void setup_widgets(void)
 {
   GtkWidget *page, *hgrid, *hgrid2, *label;
   GtkWidget *frame, *table, *table2, *paned, *hpaned, *sw, *text;
-  GtkWidget *button, *view, *vgrid, *right_vbox = NULL;
+  GtkWidget *button, *view, *vgrid, *vbox, *right_vbox = NULL;
   int i;
   char buf[256];
   GtkWidget *notebook, *statusbar;
@@ -1119,20 +1144,18 @@ static void setup_widgets(void)
   }
 
   /* this holds the overview canvas, production info, etc. */
-  vgrid = gtk_grid_new();
-  gtk_orientable_set_orientation(GTK_ORIENTABLE(vgrid),
-                                 GTK_ORIENTATION_VERTICAL);
-  gtk_grid_set_column_spacing(GTK_GRID(vgrid), 3);
+  vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 3);
+  gtk_grid_set_column_spacing(GTK_GRID(vbox), 3);
   /* Put vgrid to the left of anything else in hgrid -- right_vbox is either
    * the chat/messages pane, or NULL which is OK */
-  gtk_grid_attach_next_to(GTK_GRID(hgrid), vgrid, right_vbox,
+  gtk_grid_attach_next_to(GTK_GRID(hgrid), vbox, right_vbox,
                           GTK_POS_LEFT, 1, 1);
 
   /* overview canvas */
   ahbox = detached_widget_new();
   gtk_widget_set_hexpand(ahbox, FALSE);
   gtk_widget_set_vexpand(ahbox, FALSE);
-  gtk_container_add(GTK_CONTAINER(vgrid), ahbox);
+  gtk_box_append(GTK_BOX(vbox), ahbox);
   avbox = detached_widget_fill(ahbox);
 
   overview_scrolled_window = gtk_scrolled_window_new();
@@ -1170,7 +1193,7 @@ static void setup_widgets(void)
   /* The rest */
 
   ahbox = detached_widget_new();
-  gtk_container_add(GTK_CONTAINER(vgrid), ahbox);
+  gtk_box_append(GTK_BOX(vbox), ahbox);
   gtk_widget_set_hexpand(ahbox, FALSE);
   avbox = detached_widget_fill(ahbox);
   gtk_widget_set_vexpand(avbox, TRUE);
@@ -1303,20 +1326,20 @@ static void setup_widgets(void)
 
   /* Selected unit status */
 
-  unit_info_box = gtk_grid_new();
+  /* If you turn this to something else than GtkBox, also adjust
+   * editgui.c replace_widget() code that removes and adds widgets from it. */
+  unit_info_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 2);
   gtk_widget_set_hexpand(unit_info_box, FALSE);
-  gtk_orientable_set_orientation(GTK_ORIENTABLE(unit_info_box),
-                                 GTK_ORIENTATION_VERTICAL);
   gtk_container_add(GTK_CONTAINER(avbox), unit_info_box);
 
   /* In edit mode the unit_info_box widget is replaced by the
    * editinfobox, so we need to add a ref here so that it is
    * not destroyed when removed from its container.
-   * See editinfobox_refresh(). */
+   * See editinfobox_refresh() call to replace_widget() */
   g_object_ref(unit_info_box);
 
   unit_info_frame = gtk_frame_new("");
-  gtk_container_add(GTK_CONTAINER(unit_info_box), unit_info_frame);
+  gtk_box_append(GTK_BOX(unit_info_box), unit_info_frame);
 
   sw = gtk_scrolled_window_new();
   gtk_scrolled_window_set_has_frame(GTK_SCROLLED_WINDOW(sw), TRUE);
@@ -1336,7 +1359,7 @@ static void setup_widgets(void)
   unit_info_label = label;
 
   hgrid2 = gtk_grid_new();
-  gtk_container_add(GTK_CONTAINER(unit_info_box), hgrid2);
+  gtk_box_append(GTK_BOX(unit_info_box), hgrid2);
 
   table = gtk_grid_new();
   g_object_set(table, "margin", 5, NULL);
@@ -1444,7 +1467,7 @@ static void setup_widgets(void)
     right_notebook = bottom_notebook = top_notebook;
   } else {
     dtach_lowbox = detached_widget_new();
-    gtk_paned_pack2(GTK_PANED(paned), dtach_lowbox, FALSE, TRUE);
+    gtk_paned_set_end_child(GTK_PANED(paned), dtach_lowbox);
     avbox = detached_widget_fill(dtach_lowbox);
 
     vgrid = gtk_grid_new();
