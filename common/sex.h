@@ -23,6 +23,7 @@ extern "C" {
 
 int sex_by_name(const char *name);
 const char *sex_rule_name(int kind);
+const char *sex_name_translation(int kind);
 
 #ifdef __cplusplus
 }

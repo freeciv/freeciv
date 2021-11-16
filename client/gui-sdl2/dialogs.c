@@ -41,6 +41,7 @@
 #include "game.h"
 #include "government.h"
 #include "movement.h"
+#include "sex.h"
 #include "unitlist.h"
 
 /* client */
@@ -2590,9 +2591,11 @@ static int change_sex_callback(struct widget *sex)
     struct nation_info *setup = (struct nation_info *)(nation_dlg->end_widget_list->data.ptr);
 
     if (setup->leader_sex) {
-      copy_chars_to_utf8_str(setup->change_sex->string_utf8, _("Female"));
+      copy_chars_to_utf8_str(setup->change_sex->string_utf8,
+                             sex_name_translation(SEX_FEMALE));
     } else {
-      copy_chars_to_utf8_str(setup->change_sex->string_utf8, _("Male"));
+      copy_chars_to_utf8_str(setup->change_sex->string_utf8,
+                             sex_name_translation(SEX_MALE));
     }
     setup->leader_sex = !setup->leader_sex;
 
@@ -3012,9 +3015,11 @@ static void select_random_leader(Nation_type_id nation)
   setup->leader_sex = nation_leader_is_male(pleader);
 
   if (setup->leader_sex) {
-    copy_chars_to_utf8_str(setup->change_sex->string_utf8, _("Male"));
+    copy_chars_to_utf8_str(setup->change_sex->string_utf8,
+                           sex_name_translation(SEX_MALE));
   } else {
-    copy_chars_to_utf8_str(setup->change_sex->string_utf8, _("Female"));
+    copy_chars_to_utf8_str(setup->change_sex->string_utf8,
+                           sex_name_translation(SEX_FEMALE));
   }
 
   /* disable navigation buttons */
@@ -3265,7 +3270,9 @@ void popup_races_dialog(struct player *pplayer)
   setup->name_prev = pwidget;
 
   /* change sex button */
-  pwidget = create_icon_button_from_chars(NULL, pwindow->dst, _("Male"), adj_font(14), 0);
+  pwidget = create_icon_button_from_chars(NULL, pwindow->dst,
+                                          sex_name_translation(SEX_MALE),
+                                          adj_font(14), 0);
   pwidget->action = change_sex_callback;
   pwidget->size.w = adj_size(100);
   pwidget->size.h = adj_size(22);

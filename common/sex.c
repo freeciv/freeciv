@@ -16,6 +16,7 @@
 #endif
 
 /* utility */
+#include "fcintl.h"
 #include "support.h"
 
 #include "sex.h"
@@ -43,10 +44,24 @@ const char *sex_rule_name(int kind)
 {
   switch (kind) {
   case SEX_MALE:
-    return "Male";
+    return N_("Male");
   case SEX_FEMALE:
-    return "Female";
+    return N_("Female");
   }
 
   return NULL;
+}
+
+/************************************************************************//**
+  Return translated name of the sex.
+****************************************************************************/
+const char *sex_name_translation(int kind)
+{
+  const char *rule_name = sex_rule_name(kind);
+
+  if (rule_name == NULL) {
+    return NULL;
+  }
+
+  return _(rule_name);
 }
