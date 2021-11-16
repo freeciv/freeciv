@@ -232,13 +232,13 @@ struct spaceship_dialog *create_spaceship_dialog(struct player *pplayer)
   gui_dialog_add_button(pdialog->shell, NULL, _("_Launch"),
                         GTK_RESPONSE_ACCEPT);
 
-  g_signal_connect(pdialog->shell->vgrid, "destroy",
+  g_signal_connect(pdialog->shell->grid, "destroy",
                    G_CALLBACK(spaceship_destroy_callback), pdialog);
   gui_dialog_response_set_callback(pdialog->shell, spaceship_response);
 
   hbox = gtk_grid_new();
   gtk_grid_set_column_spacing(GTK_GRID(hbox), 5);
-  gui_dialog_vgrid_add(pdialog->shell, hbox);
+  gui_dialog_add_content_widget(pdialog->shell, hbox);
 
   frame = gtk_frame_new(NULL);
   gtk_container_add(GTK_CONTAINER(hbox), frame);
