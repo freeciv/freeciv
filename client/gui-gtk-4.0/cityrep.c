@@ -1171,15 +1171,15 @@ static void create_city_report_dialog(bool make_modal)
 
   /* menubar */
   menubar = create_city_report_menubar();
-  gui_dialog_add_widget(city_dialog_shell, menubar);
+  gui_dialog_add_action_widget(city_dialog_shell, menubar);
 
   /* buttons */
   city_total_buy_cost_label = gtk_label_new(NULL);
   gtk_widget_set_hexpand(city_total_buy_cost_label, TRUE);
   gtk_label_set_ellipsize(GTK_LABEL(city_total_buy_cost_label),
                           PANGO_ELLIPSIZE_START);
-  gtk_container_add(GTK_CONTAINER(city_dialog_shell->action_area),
-                    city_total_buy_cost_label);
+  gui_dialog_add_action_widget(city_dialog_shell,
+                               city_total_buy_cost_label);
 
   w = gui_dialog_add_button(city_dialog_shell, NULL,
                             _("_Buy"), CITY_BUY);

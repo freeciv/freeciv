@@ -637,7 +637,8 @@ void gui_dialog_new(struct gui_dialog **pdlg, GtkNotebook *notebook,
     break;
   }
 
-  dlg->action_area = action_area;
+  dlg->actions = action_area;
+  dlg->actions_counter = 0;
 
   dlg->response_callback = gui_dialog_destroyed;
 
@@ -687,8 +688,7 @@ static void gui_dialog_pack_button(struct gui_dialog *dlg, GtkWidget *button,
     g_signal_connect_closure_by_id(button, signal_id, 0, closure, FALSE);
   }
 
-  gtk_container_add(GTK_CONTAINER(dlg->action_area), button);
-  gtk_size_group_add_widget(gui_action, button);
+  gui_dialog_add_action_widget(dlg, button);
   gtk_size_group_add_widget(dlg->gui_button, button);
 }
 
@@ -710,10 +710,19 @@ GtkWidget *gui_dialog_add_button(struct gui_dialog *dlg,
 /**********************************************************************//**
   Adds a widget to a dialog.
 **************************************************************************/
-GtkWidget *gui_dialog_add_widget(struct gui_dialog *dlg,
-                                 GtkWidget *widget)
+GtkWidget *gui_dialog_add_action_widget(struct gui_dialog *dlg,
+                                        GtkWidget *widget)
 {
-  gtk_container_add(GTK_CONTAINER(dlg->action_area), widget);
+  /* When content area is vertical, action area is horizontal,
+   * and vice versa. */
+  if (dlg->vertical_content) {
+    gtk_grid_attach(GTK_GRID(dlg->actions), widget,
+                    dlg->actions_counter++, 0, 1, 1);
+  } else {
+    gtk_grid_attach(GTK_GRID(dlg->grid), widget,
+                    0, dlg->actions_counter++, 1, 1);
+  }
+
   gtk_size_group_add_widget(gui_action, widget);
 
   return widget;
@@ -728,7 +737,7 @@ void gui_dialog_set_response_sensitive(struct gui_dialog *dlg,
   GList *children;
   GList *list;
 
-  children = gtk_container_get_children(GTK_CONTAINER(dlg->action_area));
+  children = gtk_container_get_children(GTK_CONTAINER(dlg->actions));
 
   for (list = children; list; list = g_list_next(list)) {
     GtkWidget *button = list->data;
@@ -766,7 +775,7 @@ void gui_dialog_show_all(struct gui_dialog *dlg)
     GList *list;
     gint num_visible = 0;
 
-    children = gtk_container_get_children(GTK_CONTAINER(dlg->action_area));
+    children = gtk_container_get_children(GTK_CONTAINER(dlg->actions));
 
     for (list = children; list; list = g_list_next(list)) {
       GtkWidget *button = list->data;
@@ -789,7 +798,7 @@ void gui_dialog_show_all(struct gui_dialog *dlg)
     g_list_free(children);
 
     if (num_visible == 0) {
-      gtk_widget_hide(dlg->action_area);
+      gtk_widget_hide(dlg->actions);
     }
   }
 }
