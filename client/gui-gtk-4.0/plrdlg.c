@@ -584,7 +584,7 @@ void create_players_dialog(void)
   menubar = gtk_aux_menu_bar_new();
   gtk_container_add(GTK_CONTAINER(vbox), menubar);
 
-  gui_dialog_add_widget(players_dialog_shell, vbox);
+  gui_dialog_add_action_widget(players_dialog_shell, vbox);
 
 #ifdef MENUS_GTK3
   item = gtk_menu_item_new_with_mnemonic(_("Di_plomacy"));
