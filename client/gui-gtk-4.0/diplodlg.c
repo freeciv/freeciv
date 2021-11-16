@@ -510,7 +510,7 @@ static struct Diplomacy_notebook *diplomacy_main_create(void)
     gui_dialog_response_set_callback(dipl_main->dialog,
                                      diplomacy_main_response);
 
-    gui_dialog_vgrid_add(dipl_main->dialog, dipl_sw);
+    gui_dialog_add_content_widget(dipl_main->dialog, dipl_sw);
 
     gui_dialog_show_all(dipl_main->dialog);
     gui_dialog_present(dipl_main->dialog);
@@ -681,7 +681,7 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
 
     if (fc_strcasecmp(buf, prev_label) < 0) {
       gtk_notebook_reorder_child(GTK_NOTEBOOK(notebook),
-                                 pdialog->dialog->vgrid, i);
+                                 pdialog->dialog->grid, i);
       break;
     }
   }
@@ -696,7 +696,7 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   gtk_widget_set_margin_end(vbox, 2);
   gtk_widget_set_margin_top(vbox, 2);
   gtk_widget_set_margin_bottom(vbox, 2);
-  gui_dialog_vgrid_add(pdialog->dialog, vbox);
+  gui_dialog_add_content_widget(pdialog->dialog, vbox);
 
   /* Our nation. */
   label = gtk_label_new(NULL);
@@ -783,7 +783,7 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   gtk_widget_set_margin_end(vbox, 2);
   gtk_widget_set_margin_top(vbox, 2);
   gtk_widget_set_margin_bottom(vbox, 2);
-  gui_dialog_vgrid_add(pdialog->dialog, vbox);
+  gui_dialog_add_content_widget(pdialog->dialog, vbox);
 
   /* Their nation. */
   label = gtk_label_new(NULL);
@@ -865,7 +865,7 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   mainbox = gtk_grid_new();
   gtk_orientable_set_orientation(GTK_ORIENTABLE(mainbox),
                                  GTK_ORIENTATION_VERTICAL);
-  gui_dialog_vgrid_add(pdialog->dialog, mainbox);
+  gui_dialog_add_content_widget(pdialog->dialog, mainbox);
 
   store = gtk_list_store_new(1, G_TYPE_STRING);
   pdialog->store = store;

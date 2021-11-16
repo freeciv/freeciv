@@ -343,7 +343,7 @@ static void meswin_dialog_init(struct meswin_dialog *pdialog)
   gtk_scrolled_window_set_has_frame(GTK_SCROLLED_WINDOW(sw), TRUE);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
                                  GTK_POLICY_AUTOMATIC, GTK_POLICY_ALWAYS);
-  gui_dialog_vgrid_add(pdialog->shell, sw);
+  gui_dialog_add_content_widget(pdialog->shell, sw);
 
   store = meswin_dialog_store_new();
   view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(store));

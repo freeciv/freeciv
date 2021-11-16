@@ -198,7 +198,7 @@ static void luaconsole_dialog_create(struct luaconsole_data *pdialog)
   vbox = gtk_grid_new();
   gtk_orientable_set_orientation(GTK_ORIENTABLE(vbox),
                                  GTK_ORIENTATION_VERTICAL);
-  gui_dialog_vgrid_add(pdialog->shell, vbox);
+  gui_dialog_add_content_widget(pdialog->shell, vbox);
 
   sw = gtk_scrolled_window_new();
   gtk_scrolled_window_set_has_frame(GTK_SCROLLED_WINDOW(sw), TRUE);
