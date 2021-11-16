@@ -34,6 +34,14 @@ void gtk_button_set_has_frame(GtkButton *btn, bool shadow);
 #define gtk_window_destroy(_wnd_) gtk_widget_destroy(GTK_WIDGET(_wnd_))
 #define gtk_box_append(_box_, _child_) gtk_container_add(GTK_CONTAINER(_box_), _child_)
 #define gtk_box_remove(_box_, _child_) gtk_container_remove(GTK_CONTAINER(_box_), _child_)
+#define gtk_grid_remove(_grid_, _child_) \
+  gtk_container_remove(GTK_CONTAINER(_grid_), _child_)
+#define gtk_frame_set_child(_frame_, _child_) \
+  gtk_container_add(GTK_CONTAINER(_frame_), _child_)
+#define gtk_window_set_child(_win_, _child_) \
+  gtk_container_add(GTK_CONTAINER(_win_), _child_)
+#define gtk_paned_set_end_child(_paned_, _child_) \
+  gtk_paned_pack2(_paned_, _child_, FALSE, TRUE)
 
 #endif  /* GTK version < 3.98.4 */
 

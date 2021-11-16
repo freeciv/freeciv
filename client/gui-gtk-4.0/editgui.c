@@ -1200,6 +1200,8 @@ static struct editinfobox *editinfobox_create(void)
 
   ei = fc_calloc(1, sizeof(*ei));
 
+  /* If you turn this to something else than GtkFrame, also adjust
+   * editgui.c replace_widget() code that replaces widget in it. */
   frame = gtk_frame_new(_("Editor Tool"));
   gtk_widget_set_margin_start(frame, 4);
   gtk_widget_set_margin_end(frame, 4);
@@ -1356,7 +1358,7 @@ static struct editinfobox *editinfobox_create(void)
 
   /* We add a ref to the editinfobox widget so that it is
    * not destroyed when replaced by the unit info box when
-   * we leave edit mode. See editinfobox_refresh(). */
+   * we leave edit mode. See editinfobox_refresh() call to replace_widget() */
   g_object_ref(ei->widget);
 
   /* The edit info box starts with no parent, so we have to
@@ -1542,8 +1544,16 @@ static void replace_widget(GtkWidget *old, GtkWidget *new)
   }
 
   gtk_widget_hide(old);
-  gtk_container_remove(GTK_CONTAINER(parent), old);
-  gtk_container_add(GTK_CONTAINER(parent), new);
+
+  if (GTK_IS_FRAME(parent)) {
+    gtk_frame_set_child(GTK_FRAME(parent), new);
+  } else {
+    fc_assert(GTK_IS_BOX(parent));
+
+    gtk_box_remove(GTK_BOX(parent), old);
+    gtk_box_append(GTK_BOX(parent), new);
+  }
+
   gtk_widget_show(new);
 }
 
