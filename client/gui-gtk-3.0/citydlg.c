@@ -194,9 +194,9 @@ struct city_dialog {
     short block_signal;
   } misc;
 
-  GtkWidget *buy_shell, *sell_shell;
+  GtkWidget *sell_shell;
   GtkTreeSelection *change_selection;
-  GtkWidget *rename_shell, *rename_input;
+  GtkWidget *rename_shell;
 
   GtkWidget *show_units_command;
   GtkWidget *prev_command, *next_command;
@@ -1515,7 +1515,6 @@ static struct city_dialog *create_city_dialog(struct city *pcity)
 
   pdialog = fc_malloc(sizeof(struct city_dialog));
   pdialog->pcity = pcity;
-  pdialog->buy_shell = NULL;
   pdialog->sell_shell = NULL;
   pdialog->rename_shell = NULL;
   pdialog->happiness.map_canvas.sw = NULL;      /* make sure NULL if spy */
@@ -3358,9 +3357,6 @@ static void city_destroy_callback(GtkWidget *w, gpointer data)
   unit_node_vector_free(&pdialog->overview.supported_units);
   unit_node_vector_free(&pdialog->overview.present_units);
 
-  if (pdialog->buy_shell) {
-    gtk_widget_destroy(pdialog->buy_shell);
-  }
   if (pdialog->sell_shell) {
     gtk_widget_destroy(pdialog->sell_shell);
   }
