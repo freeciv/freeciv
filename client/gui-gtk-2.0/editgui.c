@@ -1884,3 +1884,18 @@ void editgui_notify_object_created(int tag, int id)
   pe = editprop_get_property_editor();
   property_editor_handle_object_created(pe, tag, id);
 }
+
+/****************************************************************************
+  Free resources allocated for the editgui.
+****************************************************************************/
+void editgui_free(void)
+{
+  struct editinfobox *ei = editgui_get_editinfobox();
+
+  if (ei != NULL) {
+    /* We have extra ref for ei->widget that has protected
+     * it from getting destroyed when editinfobox_refresh()
+     * moves widgets around. Free that extra ref here. */
+    g_object_unref(ei->widget);
+  }
+}
