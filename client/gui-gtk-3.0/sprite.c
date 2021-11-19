@@ -510,3 +510,12 @@ GdkPixbuf *create_extra_pixbuf(const struct extra_type *pextra)
 
   return pixbuf;
 }
+
+/************************************************************************//**
+  Return a sprite image of a number.
+****************************************************************************/
+struct sprite *load_gfxnumber(int num)
+{
+  /* Not supported in gtk3-client */
+  return NULL;
+}
