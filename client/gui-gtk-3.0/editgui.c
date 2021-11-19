@@ -1846,6 +1846,14 @@ void editgui_create_widgets(void)
 void editgui_free(void)
 {
   struct editbar *eb = editgui_get_editbar();
+  struct editinfobox *ei = editgui_get_editinfobox();
+
+  if (ei != NULL) {
+    /* We have extra ref for ei->widget that has protected
+     * it from getting destroyed when editinfobox_refresh()
+     * moves widgets around. Free that extra ref here. */
+    g_object_unref(ei->widget);
+  }
 
   clear_tool_stores(eb);
 }
