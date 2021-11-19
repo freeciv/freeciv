@@ -1777,6 +1777,11 @@ void ui_main(int argc, char **argv)
   g_application_run(G_APPLICATION(fc_app), 0, NULL);
   gui_up = FALSE;
 
+  /* We have extra ref for unit_info_box that has protected
+   * it from getting destroyed when editinfobox_refresh()
+   * moves widgets around. Free that extra ref here. */
+  g_object_unref(unit_info_box);
+
   destroy_server_scans();
   free_mapcanvas_and_overview();
   spaceship_dialog_done();
