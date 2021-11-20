@@ -57,7 +57,8 @@
 static void diplomat_charge_movement (struct unit *pdiplomat,
                                       struct tile *ptile);
 static bool diplomat_success_vs_defender(struct unit *patt, struct unit *pdef,
-                                         struct tile *pdefender_tile);
+                                         struct tile *pdefender_tile,
+                                         int *att_vet, int *def_vet);
 static bool diplomat_may_lose_gold(struct player *dec_player,
                                    struct player *inc_player,
                                    int revolt_gold);
@@ -1901,9 +1902,15 @@ static void diplomat_charge_movement(struct unit *pdiplomat, struct tile *ptile)
 ****************************************************************************/
 static bool diplomat_success_vs_defender(struct unit *pattacker,
                                          struct unit *pdefender,
-                                         struct tile *pdefender_tile)
+                                         struct tile *pdefender_tile,
+                                         int *att_vet, int *def_vet)
 {
   int chance = 50; /* Base 50% chance */
+
+  /* There's no challenge for the SuperSpy to gain veterancy from,
+   * i.e. no veterancy if we exit early in next couple of checks. */
+  *att_vet = 0;
+  *def_vet = 0;
 
   if (unit_has_type_flag(pdefender, UTYF_SUPERSPY)) {
     /* A defending UTYF_SUPERSPY will defeat every possible attacker. */
@@ -1945,6 +1952,14 @@ static bool diplomat_success_vs_defender(struct unit *pattacker,
                                        NULL, NULL,
                                        EFT_SPY_RESISTANT) / 100;
 
+  chance = CLIP(0, chance, 100);
+
+  /* In a combat between equal strength units the values are 50% / 50%.
+   * -> scaling that to 100% by doubling, to match scale of chances
+   *    in existing rulesets, and in !combat_odds_scaled_veterancy case. */
+  *att_vet = (100 - chance) * 2;
+  *def_vet = chance * 2;
+
   return (int)fc_rand(100) < chance;
 }
 
@@ -1978,6 +1993,8 @@ static bool diplomat_infiltrate_tile(struct player *pplayer,
   char link_unit[MAX_LEN_LINK];
   struct city *pcity = tile_city(ptile);
   const struct unit_type *act_utype = unit_type_get(pdiplomat);
+  int att_vet;
+  int def_vet;
 
   if (pcity) {
     /* N.B.: *_link() always returns the same pointer. */
@@ -1993,7 +2010,8 @@ static bool diplomat_infiltrate_tile(struct player *pplayer,
       *defender_owner = uplayer;
     }
 
-    if (diplomat_success_vs_defender(pdiplomat, punit, ptile)) {
+    if (diplomat_success_vs_defender(pdiplomat, punit, ptile,
+                                     &att_vet, &def_vet)) {
       /* Defending Spy/Diplomat dies. */
 
       /* N.B.: *_link() always returns the same pointer. */
@@ -2051,7 +2069,8 @@ static bool diplomat_infiltrate_tile(struct player *pplayer,
       pdiplomat->moves_left = MAX(0, pdiplomat->moves_left - SINGLE_MOVE);
 
       /* Attacking unit became more experienced? */
-      if (maybe_make_veteran(pdiplomat, 100)) {
+      if (maybe_make_veteran(pdiplomat,
+                             game.info.combat_odds_scaled_veterancy ? att_vet : 100)) {
         notify_unit_experience(pdiplomat);
       }
       send_unit_info(NULL, pdiplomat);
@@ -2110,7 +2129,8 @@ static bool diplomat_infiltrate_tile(struct player *pplayer,
       }
 
       /* Defending unit became more experienced? */
-      if (maybe_make_veteran(punit, 100)) {
+      if (maybe_make_veteran(punit,
+                             game.info.combat_odds_scaled_veterancy ? def_vet : 100)) {
         notify_unit_experience(punit);
       }
 
