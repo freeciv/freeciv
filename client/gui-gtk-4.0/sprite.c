@@ -549,6 +549,27 @@ void image_set_from_surface(GtkImage *image, cairo_surface_t *surf)
 ****************************************************************************/
 struct sprite *load_gfxnumber(int num)
 {
-  /* Not supported in gtk3x-client */
-  return NULL;
+  int width, height;
+  char buf[10];
+  struct sprite *spr;
+  struct color *sprcolor = color_alloc(0xff, 0xff, 0x00);
+  struct color *textcolor = color_alloc(0x00, 0x00, 0x00);
+  cairo_t *cr;
+  int border = 2;
+
+  fc_snprintf(buf, sizeof(buf), "%d", num);
+  get_text_size(&width, &height, FONT_CITY_PROD, buf);
+
+  spr = create_sprite(width + border * 2, height + border * 2, sprcolor);
+
+  cr = cairo_create(spr->surface);
+
+  surface_put_text(cr, border, border, 1.0, FONT_CITY_PROD, textcolor, buf);
+
+  cairo_destroy(cr);
+
+  color_free(textcolor);
+  color_free(sprcolor);
+
+  return spr;
 }

@@ -362,15 +362,10 @@ void get_text_size(int *width, int *height,
   Supplied canvas_x/y are prior to any canvas zoom.
 ****************************************************************************/
 void canvas_put_text(struct canvas *pcanvas, int canvas_x, int canvas_y,
-		     enum client_font font,
-		     struct color *pcolor,
-		     const char *text)
+                     enum client_font font, struct color *pcolor,
+                     const char *text)
 {
   cairo_t *cr;
-
-  if (!layout) {
-    layout = pango_layout_new(gtk_widget_get_pango_context(toplevel));
-  }
 
   if (!pcanvas->drawable) {
     cr = cairo_create(pcanvas->surface);
@@ -382,6 +377,29 @@ void canvas_put_text(struct canvas *pcanvas, int canvas_x, int canvas_y,
     cairo_save(cr);
   }
 
+  surface_put_text(cr, canvas_x, canvas_y, pcanvas->zoom,
+                   font, pcolor, text);
+
+  if (!pcanvas->drawable) {
+    cairo_destroy(cr);
+  } else {
+    cairo_restore(cr);
+  }
+}
+
+/************************************************************************//**
+  Draw the text onto the surface in the given color and font. The
+  position does not account for the ascent of the text; this function must
+  take care of this manually. The text may not be NULL but may be empty.
+****************************************************************************/
+void surface_put_text(cairo_t *cr, int x, int y, float zoom,
+                      enum client_font font, struct color *pcolor,
+                      const char *text)
+{
+  if (!layout) {
+    layout = pango_layout_new(gtk_widget_get_pango_context(toplevel));
+  }
+
   pango_layout_set_font_description(layout, FONT(font));
   pango_layout_set_text(layout, text, -1);
 
@@ -391,19 +409,13 @@ void canvas_put_text(struct canvas *pcanvas, int canvas_x, int canvas_y,
 
     if (!gdk_rgba_equal(&pcolor->color, &black)) {
       gdk_cairo_set_source_rgba(cr, &black);
-      cairo_move_to(cr, canvas_x * pcanvas->zoom + 1,
-                    canvas_y * pcanvas->zoom + 1);
-      pango_cairo_show_layout (cr, layout);
+      cairo_move_to(cr, x * zoom + 1,
+                    y * zoom + 1);
+      pango_cairo_show_layout(cr, layout);
     }
   }
 
-  cairo_move_to(cr, canvas_x * pcanvas->zoom, canvas_y * pcanvas->zoom);
+  cairo_move_to(cr, x * zoom, y * zoom);
   gdk_cairo_set_source_rgba(cr, &pcolor->color);
   pango_cairo_show_layout(cr, layout);
-
-  if (!pcanvas->drawable) {
-    cairo_destroy(cr);
-  } else {
-    cairo_restore(cr);
-  }
 }
