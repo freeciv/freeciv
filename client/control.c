@@ -2387,6 +2387,19 @@ void request_toggle_city_trade_routes(void)
 }
 
 /**********************************************************************//**
+  Toggle display of unit stack sizes
+**************************************************************************/
+void request_toggle_unit_stack_size(void)
+{
+  if (!can_client_change_view()) {
+    return;
+  }
+
+  gui_options.draw_unit_stack_size ^= 1;
+  update_map_canvas_visible();
+}
+
+/**********************************************************************//**
   Toggle display of terrain
 **************************************************************************/
 void request_toggle_terrain(void)
@@ -3728,6 +3741,14 @@ void key_city_productions_toggle(void)
 void key_city_trade_routes_toggle(void)
 {
   request_toggle_city_trade_routes();
+}
+
+/**********************************************************************//**
+  Handle client request to toggle drawing of unit stack size information
+**************************************************************************/
+void key_unit_stack_size_toggle(void)
+{
+  request_toggle_unit_stack_size();
 }
 
 /**********************************************************************//**

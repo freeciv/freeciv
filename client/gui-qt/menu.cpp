@@ -1138,6 +1138,12 @@ void mr_menu::setup_menus()
   act->setShortcut(QKeySequence(shortcut_to_string(
                    fc_shortcuts::sc()->get_shortcut(SC_TRADE_ROUTES))));
   connect(act, &QAction::triggered, this, &mr_menu::slot_city_traderoutes);
+  act = menu->addAction(_("Unit Stack Size"));
+  act->setCheckable(true);
+  act->setChecked(gui_options.draw_unit_stack_size);
+  act->setShortcut(QKeySequence(shortcut_to_string(
+                   fc_shortcuts::sc()->get_shortcut(SC_STACK_SIZE))));
+  connect(act, &QAction::triggered, this, &mr_menu::slot_stack_size);
 
   /* Select Menu */
   menu = this->addMenu(_("Select"));
@@ -3295,6 +3301,14 @@ void mr_menu::slot_city_production()
 void mr_menu::slot_city_traderoutes()
 {
   key_city_trade_routes_toggle();
+}
+
+/**********************************************************************//**
+  Action "SHOW UNIT STACK SIZE"
+**************************************************************************/
+void mr_menu::slot_stack_size()
+{
+  key_unit_stack_size_toggle();
 }
 
 /**********************************************************************//**

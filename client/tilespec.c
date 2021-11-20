@@ -4429,7 +4429,8 @@ static int fill_unit_sprite_array(const struct tileset *t,
   if (stack == 1 && punit->client.occupied) {
     ADD_SPRITE_FULL(t->sprites.unit.stack[0]);
   } else if (stack > 1) {
-    if (t->sprites.unit.num_stack_sprites >= stack) {
+    if (gui_options.draw_unit_stack_size
+        && t->sprites.unit.num_stack_sprites >= stack) {
       ADD_SPRITE(t->sprites.unit.stack[stack - 1], FALSE,
                  FULL_TILE_X_OFFSET + t->unit_offset_x,
                  FULL_TILE_Y_OFFSET + t->unit_offset_y);
