@@ -1056,8 +1056,7 @@ static void create_and_append_overview_page(struct city_dialog *pdialog)
                                   sw);
 
 
-  table = gtk_grid_new();
-  gtk_grid_set_column_spacing(GTK_GRID(table), 2);
+  table = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 2);
   gtk_widget_set_size_request(table, -1, unit_height);
   gtk_container_add(GTK_CONTAINER(sw), table);
 
@@ -1072,8 +1071,7 @@ static void create_and_append_overview_page(struct city_dialog *pdialog)
   gtk_scrolled_window_set_has_frame(GTK_SCROLLED_WINDOW(sw), FALSE);
   gtk_container_add(GTK_CONTAINER(pdialog->overview.present_units_frame), sw);
 
-  table = gtk_grid_new();
-  gtk_grid_set_column_spacing(GTK_GRID(table), 2);
+  table = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 2);
   gtk_widget_set_size_request(table, -1, unit_height);
   gtk_container_add(GTK_CONTAINER(sw), table);
 
@@ -2122,7 +2120,8 @@ static void city_dialog_update_supported_units(struct city_dialog *pdialog)
     i = 0;
     unit_node_vector_iterate(nodes, elt) {
       if (i++ >= n) {
-	gtk_widget_destroy(elt->cmd);
+        gtk_box_remove(GTK_BOX(pdialog->overview.supported_unit_table),
+                       elt->cmd);
       }
     } unit_node_vector_iterate_end;
 
@@ -2143,8 +2142,8 @@ static void city_dialog_update_supported_units(struct city_dialog *pdialog)
 
       gtk_container_add(GTK_CONTAINER(cmd), pix);
 
-      gtk_grid_attach(GTK_GRID(pdialog->overview.supported_unit_table),
-                      cmd, i, 0, 1, 1);
+      gtk_box_append(GTK_BOX(pdialog->overview.supported_unit_table),
+                     cmd);
       unit_node_vector_append(nodes, node);
     }
   }
@@ -2225,7 +2224,8 @@ static void city_dialog_update_present_units(struct city_dialog *pdialog)
     i = 0;
     unit_node_vector_iterate(nodes, elt) {
       if (i++ >= n) {
-	gtk_widget_destroy(elt->cmd);
+        gtk_box_remove(GTK_BOX(pdialog->overview.present_unit_table),
+                       elt->cmd);
       }
     } unit_node_vector_iterate_end;
 
@@ -2246,8 +2246,8 @@ static void city_dialog_update_present_units(struct city_dialog *pdialog)
 
       gtk_container_add(GTK_CONTAINER(cmd), pix);
 
-      gtk_grid_attach(GTK_GRID(pdialog->overview.present_unit_table),
-                      cmd, i, 0, 1, 1);
+      gtk_box_append(GTK_BOX(pdialog->overview.present_unit_table),
+                     cmd);
       unit_node_vector_append(nodes, node);
     }
   }
