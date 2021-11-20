@@ -359,7 +359,7 @@ void get_text_size(int *width, int *height,
   Draw the text onto the canvas in the given color and font.  The canvas
   position does not account for the ascent of the text; this function must
   take care of this manually.  The text will not be NULL but may be empty.
-  Supplied canvas_x/y are prior to any cavas zoom.
+  Supplied canvas_x/y are prior to any canvas zoom.
 ****************************************************************************/
 void canvas_put_text(struct canvas *pcanvas, int canvas_x, int canvas_y,
 		     enum client_font font,
