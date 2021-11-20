@@ -6981,6 +6981,10 @@ static bool load_ruleset_game(struct section_file *file, bool act,
       = secfile_lookup_bool_default(file, RS_DEFAULT_ONLY_REAL_FIGHT_VETERAN,
                                     "combat_rules.only_real_fight_makes_veteran");
 
+    game.info.combat_odds_scaled_veterancy
+      = secfile_lookup_bool_default(file, RS_DEFAULT_COMBAT_ODDS_SCALED_VETERANCY,
+                                    "combat_rules.combat_odds_scaled_veterancy");
+
     game.info.damage_reduces_bombard_rate
       = secfile_lookup_bool_default(file, RS_DEFAULT_DAMAGE_REDUCES_BOMBARD_RATE,
                                     "combat_rules.damage_reduces_bombard_rate");

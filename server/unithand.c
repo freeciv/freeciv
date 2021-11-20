@@ -4210,7 +4210,7 @@ static void see_combat(struct unit *pattacker, struct unit *pdefender)
    * the other side.  After the combat a remove_unit packet will be sent
    * to the client to tidy up.
    *
-   * Note these packets must be sent out before unit_versus_unit is called,
+   * Note these packets must be sent out before unit_versus_unit() is called,
    * so that the original unit stats (HP) will be sent.
    */
   package_short_unit(pattacker, &unit_att_short_packet,
@@ -4641,6 +4641,7 @@ static bool do_attack(struct unit *punit, struct tile *def_tile,
   int att_hp, def_hp, att_fp, def_fp;
   int att_hp_start, def_hp_start;
   int def_power, att_power;
+  int att_vet, def_vet;
   struct unit *pdefender;
   const struct unit_type *act_utype = unit_type_get(punit);
   bool powerless;
@@ -4699,7 +4700,8 @@ static bool do_attack(struct unit *punit, struct tile *def_tile,
   /* Record tired attack string before attack */
   sz_strlcpy(attacker_tired, unit_tired_attack_string(punit));
 
-  powerless = unit_versus_unit(punit, pdefender, &att_hp, &def_hp, paction);
+  powerless = unit_versus_unit(punit, pdefender, &att_hp, &def_hp,
+                               &att_vet, &def_vet, paction);
 
   if ((att_hp <= 0 || utype_is_consumed_by_action(paction, punit->utype))
       && unit_transported(punit)) {
@@ -4712,7 +4714,7 @@ static bool do_attack(struct unit *punit, struct tile *def_tile,
   punit->hp = att_hp;
   pdefender->hp = def_hp;
 
-  combat_veterans(punit, pdefender, powerless);
+  combat_veterans(punit, pdefender, powerless, att_vet, def_vet);
 
   /* Adjust attackers moves_left _after_ unit_versus_unit() so that
    * the movement attack modifier is correct! --dwp

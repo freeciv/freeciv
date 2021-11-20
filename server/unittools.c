@@ -141,7 +141,8 @@ static void do_upgrade_effects(struct player *pplayer);
 
 static bool maybe_cancel_patrol_due_to_enemy(struct unit *punit);
 
-static bool maybe_become_veteran_real(struct unit *punit, bool settler);
+static bool maybe_become_veteran_real(struct unit *punit, int base_chance,
+                                      bool settler);
 
 static void unit_transport_load_tp_status(struct unit *punit,
                                                struct unit *ptrans,
@@ -208,9 +209,9 @@ struct unit_type *find_a_unit_type(enum unit_role_id role,
   Unit has a chance to become veteran. This should not be used for settlers
   for the work they do.
 **************************************************************************/
-bool maybe_make_veteran(struct unit *punit)
+bool maybe_make_veteran(struct unit *punit, int base_chance)
 {
-  return maybe_become_veteran_real(punit, FALSE);
+  return maybe_become_veteran_real(punit, base_chance, FALSE);
 }
 
 /**********************************************************************//**
@@ -224,7 +225,8 @@ bool maybe_make_veteran(struct unit *punit)
   If 'settler' is TRUE the veteran level is increased due to work done by
   the unit.
 **************************************************************************/
-static bool maybe_become_veteran_real(struct unit *punit, bool settler)
+static bool maybe_become_veteran_real(struct unit *punit, int base_chance,
+                                      bool settler)
 {
   const struct veteran_system *vsystem;
   const struct veteran_level *vlevel;
@@ -243,14 +245,14 @@ static bool maybe_become_veteran_real(struct unit *punit, bool settler)
       || unit_has_type_flag(punit, UTYF_NO_VETERAN)) {
     return FALSE;
   } else if (!settler) {
-    int mod = 100 + get_unit_bonus(punit, EFT_VETERAN_COMBAT);
+    int mod = base_chance + get_unit_bonus(punit, EFT_VETERAN_COMBAT);
 
     /* The modification is tacked on as a multiplier to the base chance.
      * For example with a base chance of 50% for green units and a modifier
      * of +50% the end chance is 75%. */
     chance = vlevel->base_raise_chance * mod / 100;
   } else if (settler && unit_has_type_flag(punit, UTYF_SETTLERS)) {
-    chance = vlevel->work_raise_chance;
+    chance = base_chance * vlevel->work_raise_chance / 100;
   } else {
     /* No battle and no work done. */
     return FALSE;
@@ -275,7 +277,7 @@ static bool maybe_become_veteran_real(struct unit *punit, bool settler)
   Returns whether either side was completely powerless.
 **************************************************************************/
 bool unit_versus_unit(struct unit *attacker, struct unit *defender,
-                      int *att_hp, int *def_hp,
+                      int *att_hp, int *def_hp, int *att_vet, int *def_vet,
                       const struct action *paction)
 {
   int attackpower = get_total_attack_power(attacker, defender, paction);
@@ -285,6 +287,8 @@ bool unit_versus_unit(struct unit *attacker, struct unit *defender,
   struct player *plr2 = unit_owner(defender);
   int max_rounds;
   int rounds;
+  int att_strength;
+  int def_strength;
 
   *att_hp = attacker->hp;
   *def_hp = defender->hp;
@@ -297,6 +301,15 @@ bool unit_versus_unit(struct unit *attacker, struct unit *defender,
 
   player_update_last_war_action(plr1);
   player_update_last_war_action(plr2);
+
+  att_strength = attackpower * attacker->hp * attack_firepower;
+  def_strength = defensepower * defender->hp * defense_firepower;
+
+  /* In a combat between equal strength units the values are 50% / 50%.
+   * -> scaling that to 100% by doubling, to match scale of chances
+   *    in existing rulesets, and in !combat_odds_scaled_veterancy case. */
+  *att_vet = def_strength * 2 / (att_strength + def_strength);
+  *def_vet = att_strength * 2 / (att_strength + def_strength);
 
   if (attackpower == 0) {
     *att_hp = 0; 
@@ -375,16 +388,20 @@ void unit_bombs_unit(struct unit *attacker, struct unit *defender,
   Powerless means that either side of the combat was completely powerless.
 **************************************************************************/
 void combat_veterans(struct unit *attacker, struct unit *defender,
-                     bool powerless)
+                     bool powerless, int att_vet, int def_vet)
 {
   if (!powerless || !game.info.only_real_fight_makes_veteran) {
     if (attacker->hp <= 0 || defender->hp <= 0
         || !game.info.only_killing_makes_veteran) {
+      if (!game.info.combat_odds_scaled_veterancy) {
+        att_vet = 100;
+        def_vet = 100;
+      }
       if (attacker->hp > 0) {
-        maybe_make_veteran(attacker);
+        maybe_make_veteran(attacker, att_vet);
       }
       if (defender->hp > 0) {
-        maybe_make_veteran(defender);
+        maybe_make_veteran(defender, def_vet);
       }
     }
   }
@@ -842,7 +859,7 @@ static void update_unit_activity(struct unit *punit)
     punit->activity_count += get_activity_rate_this_turn(punit);
 
     /* settler may become veteran when doing something useful */
-    if (maybe_become_veteran_real(punit, TRUE)) {
+    if (maybe_become_veteran_real(punit, 100, TRUE)) {
       notify_unit_experience(punit);
     }
     break;

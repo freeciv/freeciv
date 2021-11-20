@@ -1285,6 +1285,14 @@ only_real_fight_makes_veteran = "\n\
 ; such a fight.\
 "
 
+combat_odds_scaled_veterancy = "\n\
+; When this setting is enabled, chance of getting veterancy from a combat\n\
+; gets modified by the strength of the opponent relative to the strength\n\
+; of unit that might gain the veterancy.\n\
+; When this setting is disabled, the modifier is always simply considered\n\
+; to be 100%, i.e, the base veterancy chance from units.ruleset is used as is.\n\
+"
+
 damage_reduces_bombard_rate = "\n\
 ; Does unit`s bombard rate get scaled down by how damaged it is.\n\
 ; Even after this unit gets at least one bombard round.\

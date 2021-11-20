@@ -702,7 +702,7 @@ bool diplomat_bribe(struct player *pplayer, struct unit *pdiplomat,
                 /* TRANS: <diplomat> ... <unit> */
                 _("Your %s succeeded in bribing the %s."),
                 unit_link(pdiplomat), victim_link);
-  if (maybe_make_veteran(pdiplomat)) {
+  if (maybe_make_veteran(pdiplomat, 100)) {
     notify_unit_experience(pdiplomat);
   }
   notify_player(uplayer, victim_tile, E_ENEMY_DIPLOMAT_BRIBE, ftc_server,
@@ -2051,7 +2051,7 @@ static bool diplomat_infiltrate_tile(struct player *pplayer,
       pdiplomat->moves_left = MAX(0, pdiplomat->moves_left - SINGLE_MOVE);
 
       /* Attacking unit became more experienced? */
-      if (maybe_make_veteran(pdiplomat)) {
+      if (maybe_make_veteran(pdiplomat, 100)) {
         notify_unit_experience(pdiplomat);
       }
       send_unit_info(NULL, pdiplomat);
@@ -2110,7 +2110,7 @@ static bool diplomat_infiltrate_tile(struct player *pplayer,
       }
 
       /* Defending unit became more experienced? */
-      if (maybe_make_veteran(punit)) {
+      if (maybe_make_veteran(punit, 100)) {
         notify_unit_experience(punit);
       }
 
@@ -2226,7 +2226,7 @@ static void diplomat_escape_full(struct player *pplayer,
                     " the mission and returned unharmed to %s."),
                   unit_link(pdiplomat),
                   city_link(spyhome));
-    if (maybe_make_veteran(pdiplomat)) {
+    if (maybe_make_veteran(pdiplomat, 100)) {
       notify_unit_experience(pdiplomat);
     }
 

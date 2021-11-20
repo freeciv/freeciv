@@ -1400,6 +1400,12 @@ static bool save_game_ruleset(const char *filename, const char *name)
   save_default_bool(sfile, game.info.only_real_fight_makes_veteran,
                     RS_DEFAULT_ONLY_REAL_FIGHT_VETERAN,
                     "combat_rules.only_real_fight_makes_veteran", NULL);
+  if (game.info.combat_odds_scaled_veterancy != RS_DEFAULT_COMBAT_ODDS_SCALED_VETERANCY) {
+    comment_combat_rules_scaled_veterancy(sfile);
+  }
+  save_default_bool(sfile, game.info.combat_odds_scaled_veterancy,
+                    RS_DEFAULT_COMBAT_ODDS_SCALED_VETERANCY,
+                    "combat_rules.combat_odds_scaled_veterancy", NULL);
   if (game.info.damage_reduces_bombard_rate != RS_DEFAULT_DAMAGE_REDUCES_BOMBARD_RATE) {
     comment_combat_rules_damage_reduces_bombard_rate(sfile);
   }

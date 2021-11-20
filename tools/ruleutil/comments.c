@@ -64,6 +64,7 @@ static struct {
   char *combat_rules_tired_attack;
   char *combat_rules_only_killing_veteran;
   char *combat_rules_only_real_fight_veteran;
+  char *combat_rules_scaled_veterancy;
   char *combat_rules_damage_reduces_bombard_rate;
   char *combat_rules_nuke_pop_loss;
   char *combat_rules_nuke_defender_survival;
@@ -172,6 +173,8 @@ bool comments_load(void)
                "entrydoc.only_killing_makes_veteran");
   comment_load(comments_storage.combat_rules_only_real_fight_veteran, comment_file,
                "entrydoc.only_real_fight_makes_veteran");
+  comment_load(comments_storage.combat_rules_scaled_veterancy, comment_file,
+               "entrydoc.combat_odds_scaled_veterancy");
   comment_load(comments_storage.combat_rules_damage_reduces_bombard_rate, comment_file,
                "entrydoc.damage_reduces_bombard_rate");
   comment_load(comments_storage.combat_rules_nuke_pop_loss, comment_file,
@@ -542,6 +545,16 @@ void comment_combat_rules_only_real_fight_veteran(struct section_file *sfile)
 {
   comment_entry_write(sfile,
                       comments_storage.combat_rules_only_real_fight_veteran,
+                      "combat_rules");
+}
+
+/**********************************************************************//**
+  Write combat_rules combat_odds_scaled_veterancy settings header.
+**************************************************************************/
+void comment_combat_rules_scaled_veterancy(struct section_file *sfile)
+{
+  comment_entry_write(sfile,
+                      comments_storage.combat_rules_scaled_veterancy,
                       "combat_rules");
 }
 
