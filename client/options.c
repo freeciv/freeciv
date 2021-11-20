@@ -175,6 +175,7 @@ struct client_options gui_options = {
   .draw_native = FALSE,
   .draw_full_citybar = TRUE,
   .draw_unit_shields = TRUE,
+  .draw_unit_stack_size = TRUE,
   .player_dlg_show_dead_players = TRUE,
   .reqtree_show_icons = TRUE,
   .reqtree_curved_lines = FALSE,
@@ -2083,6 +2084,11 @@ static struct client_option client_options[] = {
                   N_("Setting this option will draw a shield icon "
                      "as the flags on units.  If unset, the full flag will "
                      "be drawn."),
+                  COC_GRAPHICS, GUI_STUB, TRUE, view_option_changed_callback),
+  GEN_BOOL_OPTION(draw_unit_stack_size, N_("Draw size of the unit stacks"),
+                  N_("Setting this option will draw a numbers indicating "
+                     "size of the unit stacks. Not all clients support "
+                     "this."),
                   COC_GRAPHICS, GUI_STUB, TRUE, view_option_changed_callback),
   GEN_BOOL_OPTION(draw_focus_unit, N_("Draw the units in focus"),
                   N_("Setting this option will cause the currently focused "

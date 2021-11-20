@@ -204,6 +204,7 @@ struct client_options
   bool draw_native;
   bool draw_full_citybar;
   bool draw_unit_shields;
+  bool draw_unit_stack_size;
 
   bool player_dlg_show_dead_players;
   bool reqtree_show_icons;
