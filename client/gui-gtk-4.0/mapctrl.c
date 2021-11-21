@@ -78,7 +78,7 @@ static void popit(GdkEvent *ev, struct tile *ptile)
     gtk_widget_set_margin_top(p, 4);
     gtk_widget_set_margin_bottom(p, 4);
     gtk_window_set_transient_for(GTK_WINDOW(p), GTK_WINDOW(toplevel));
-    gtk_container_add(GTK_CONTAINER(p), gtk_label_new(popup_info_text(ptile)));
+    gtk_window_set_child(GTK_WINDOW(p), gtk_label_new(popup_info_text(ptile)));
 
     punit = find_visible_unit(ptile);
 

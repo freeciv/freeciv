@@ -466,10 +466,11 @@ void create_players_dialog(void)
   GtkWidget *menu, *item;
   enum ai_level level;
 #endif /* MENUS_GTK3 */
-  GtkWidget *vbox;
+  GtkWidget *vgrid;
   GtkEventController *left_controller;
   GtkEventController *right_controller;
   GtkGesture *gesture;
+  int grid_row = 0;
 
   gui_dialog_new(&players_dialog_shell, GTK_NOTEBOOK(top_notebook), NULL,
                  TRUE);
@@ -570,21 +571,21 @@ void create_players_dialog(void)
   gtk_scrolled_window_set_has_frame(GTK_SCROLLED_WINDOW(sw), TRUE);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
 		                 GTK_POLICY_AUTOMATIC, GTK_POLICY_ALWAYS);
-  gtk_container_add(GTK_CONTAINER(sw), players_list);
+  gtk_scrolled_window_set_child(GTK_SCROLLED_WINDOW(sw), players_list);
 
   gui_dialog_add_content_widget(players_dialog_shell, sw);
 
-  vbox = gtk_grid_new();
-  gtk_orientable_set_orientation(GTK_ORIENTABLE(vbox),
+  vgrid = gtk_grid_new();
+  gtk_orientable_set_orientation(GTK_ORIENTABLE(vgrid),
                                  GTK_ORIENTATION_VERTICAL);
 
   sep = gtk_separator_new(GTK_ORIENTATION_HORIZONTAL);
-  gtk_container_add(GTK_CONTAINER(vbox), sep);
+  gtk_grid_attach(GTK_GRID(vgrid), sep, 0, grid_row++, 1, 1);
 
   menubar = gtk_aux_menu_bar_new();
-  gtk_container_add(GTK_CONTAINER(vbox), menubar);
+  gtk_grid_attach(GTK_GRID(vgrid), menubar, 0, grid_row++, 1, 1);
 
-  gui_dialog_add_action_widget(players_dialog_shell, vbox);
+  gui_dialog_add_action_widget(players_dialog_shell, vgrid);
 
 #ifdef MENUS_GTK3
   item = gtk_menu_item_new_with_mnemonic(_("Di_plomacy"));

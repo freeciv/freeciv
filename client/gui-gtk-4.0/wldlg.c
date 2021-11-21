@@ -211,8 +211,9 @@ static void cell_edited(GtkCellRendererText *cell,
 static GtkWidget *create_worklists_report(void)
 {
   GtkWidget *shell, *list;
-  GtkWidget *vbox, *label, *sw;
+  GtkWidget *vgrid, *label, *sw;
   GtkCellRenderer *rend;
+  int grid_row = 0;
 
   shell = gtk_dialog_new_with_buttons(_("Edit worklists"),
                                       NULL,
@@ -233,11 +234,11 @@ static GtkWidget *create_worklists_report(void)
   g_signal_connect(shell, "destroy",
                    G_CALLBACK(worklists_destroy_callback), NULL);
 
-  vbox = gtk_grid_new();
-  gtk_grid_set_row_spacing(GTK_GRID(vbox), 2);
-  gtk_orientable_set_orientation(GTK_ORIENTABLE(vbox),
+  vgrid = gtk_grid_new();
+  gtk_grid_set_row_spacing(GTK_GRID(vgrid), 2);
+  gtk_orientable_set_orientation(GTK_ORIENTABLE(vgrid),
                                  GTK_ORIENTATION_VERTICAL);
-  gtk_box_append(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(shell))), vbox);
+  gtk_box_append(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(shell))), vgrid);
 
   worklists_store = gtk_list_store_new(2, G_TYPE_STRING, G_TYPE_INT);
 
@@ -261,8 +262,8 @@ static GtkWidget *create_worklists_report(void)
   gtk_scrolled_window_set_min_content_height(GTK_SCROLLED_WINDOW(sw), 200);
   gtk_scrolled_window_set_has_frame(GTK_SCROLLED_WINDOW(sw), TRUE);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
-				 GTK_POLICY_NEVER, GTK_POLICY_ALWAYS);
-  gtk_container_add(GTK_CONTAINER(sw), list);
+                                 GTK_POLICY_NEVER, GTK_POLICY_ALWAYS);
+  gtk_scrolled_window_set_child(GTK_SCROLLED_WINDOW(sw), list);
 
   label = g_object_new(GTK_TYPE_LABEL,
                        "use-underline", TRUE,
@@ -270,9 +271,9 @@ static GtkWidget *create_worklists_report(void)
                        "label", _("_Worklists:"),
                        "xalign", 0.0, "yalign", 0.5, NULL);
 
-  gtk_container_add(GTK_CONTAINER(vbox), label);
-  gtk_container_add(GTK_CONTAINER(vbox), sw);
-  gtk_widget_show(vbox);
+  gtk_grid_attach(GTK_GRID(vgrid), label, 0, grid_row++, 1, 1);
+  gtk_grid_attach(GTK_GRID(vgrid), sw, 0, grid_row++, 1, 1);
+  gtk_widget_show(vgrid);
 
   return shell;
 }
@@ -1076,6 +1077,7 @@ GtkWidget *create_worklist(void)
   GtkSizeGroup *group;
   GtkListStore *src_store, *dst_store;
   struct worklist_data *ptr;
+  int editor_row = 0;
 
   ptr = fc_malloc(sizeof(*ptr));
 
@@ -1100,7 +1102,7 @@ GtkWidget *create_worklist(void)
 
   /* add source and target lists.  */
   table = gtk_grid_new();
-  gtk_container_add(GTK_CONTAINER(editor), table);
+  gtk_grid_attach(GTK_GRID(editor), table, 0, editor_row++, 1, 1);
 
   group = gtk_size_group_new(GTK_SIZE_GROUP_HORIZONTAL);
 
@@ -1118,7 +1120,7 @@ GtkWidget *create_worklist(void)
   gtk_widget_set_name(src_view, "small_font");
 
   populate_view(GTK_TREE_VIEW(src_view), &ptr->pcity, &ptr->src_col);
-  gtk_container_add(GTK_CONTAINER(sw), src_view);
+  gtk_scrolled_window_set_child(GTK_SCROLLED_WINDOW(sw), src_view);
 
   label = g_object_new(GTK_TYPE_LABEL,
                        "use-underline", TRUE,
@@ -1142,7 +1144,7 @@ GtkWidget *create_worklist(void)
   gtk_grid_attach(GTK_GRID(table2), button, 0, 0, 1, 1);
 
   arrow = gtk_image_new_from_icon_name("pan-start-symbolic");
-  gtk_container_add(GTK_CONTAINER(button), arrow);
+  gtk_button_set_child(GTK_BUTTON(button), arrow);
   g_signal_connect_swapped(button, "clicked",
                            G_CALLBACK(queue_prepend), ptr);
   gtk_widget_set_sensitive(ptr->prepend_cmd, FALSE);
@@ -1153,7 +1155,7 @@ GtkWidget *create_worklist(void)
   gtk_grid_attach(GTK_GRID(table2), button, 0, 1, 1, 1);
 
   arrow = gtk_image_new_from_icon_name("pan-up-symbolic");
-  gtk_container_add(GTK_CONTAINER(button), arrow);
+  gtk_button_set_child(GTK_BUTTON(button), arrow);
   g_signal_connect_swapped(button, "clicked",
                            G_CALLBACK(queue_bubble_up), ptr);
   gtk_widget_set_sensitive(ptr->up_cmd, FALSE);
@@ -1164,7 +1166,7 @@ GtkWidget *create_worklist(void)
   gtk_grid_attach(GTK_GRID(table2), button, 0, 2, 1, 1);
 
   arrow = gtk_image_new_from_icon_name("pan-down-symbolic");
-  gtk_container_add(GTK_CONTAINER(button), arrow);
+  gtk_button_set_child(GTK_BUTTON(button), arrow);
   g_signal_connect_swapped(button, "clicked",
                            G_CALLBACK(queue_bubble_down), ptr);
   gtk_widget_set_sensitive(ptr->down_cmd, FALSE);
@@ -1177,7 +1179,7 @@ GtkWidget *create_worklist(void)
   gtk_grid_attach(GTK_GRID(table2), button, 0, 3, 1, 1);
 
   arrow = gtk_image_new_from_icon_name("pan-start-symbolic");
-  gtk_container_add(GTK_CONTAINER(button), arrow);
+  gtk_button_set_child(GTK_BUTTON(button), arrow);
   g_signal_connect_swapped(button, "clicked",
                            G_CALLBACK(queue_append), ptr);
   gtk_widget_set_sensitive(ptr->append_cmd, FALSE);
@@ -1190,7 +1192,7 @@ GtkWidget *create_worklist(void)
   gtk_grid_attach(GTK_GRID(table2), button, 0, 4, 1, 1);
 
   arrow = gtk_image_new_from_icon_name("pan-end-symbolic");
-  gtk_container_add(GTK_CONTAINER(button), arrow);
+  gtk_button_set_child(GTK_BUTTON(button), arrow);
   g_signal_connect_swapped(button, "clicked",
                            G_CALLBACK(queue_remove), ptr);
   gtk_widget_set_sensitive(ptr->remove_cmd, FALSE);
@@ -1209,7 +1211,7 @@ GtkWidget *create_worklist(void)
   gtk_widget_set_name(dst_view, "small_font");
 
   populate_view(GTK_TREE_VIEW(dst_view), &ptr->pcity, &ptr->dst_col);
-  gtk_container_add(GTK_CONTAINER(sw), dst_view);
+  gtk_scrolled_window_set_child(GTK_SCROLLED_WINDOW(sw), dst_view);
 
   label = g_object_new(GTK_TYPE_LABEL,
                        "use-underline", TRUE,
@@ -1221,10 +1223,10 @@ GtkWidget *create_worklist(void)
   /* add bottom menu and buttons. */
   bbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 2);
   gtk_box_set_spacing(GTK_BOX(bbox), 10);
-  gtk_container_add(GTK_CONTAINER(editor), bbox);
+  gtk_grid_attach(GTK_GRID(editor), bbox, 0, editor_row++, 1, 1);
 
   menubar = gtk_aux_menu_bar_new();
-  gtk_container_add(GTK_CONTAINER(bbox), menubar);
+  gtk_box_append(GTK_BOX(bbox), menubar);
 
 #ifdef MENUS_GTK3
   menu = gtk_menu_button_new();
@@ -1239,14 +1241,14 @@ GtkWidget *create_worklist(void)
   gtk_widget_set_sensitive(ptr->add_cmd, FALSE);
 
   button = icon_label_button_new("help-browser", _("Help"));
-  gtk_container_add(GTK_CONTAINER(bbox), button);
+  gtk_box_append(GTK_BOX(bbox), button);
   g_signal_connect(button, "clicked",
                    G_CALLBACK(help_callback), ptr);
   ptr->help_cmd = button;
   gtk_widget_set_sensitive(ptr->help_cmd, FALSE);
 
   button = gtk_button_new_with_mnemonic(_("Change Prod_uction"));
-  gtk_container_add(GTK_CONTAINER(bbox), button);
+  gtk_box_append(GTK_BOX(bbox), button);
   g_signal_connect(button, "clicked",
                    G_CALLBACK(change_callback), ptr);
   ptr->change_cmd = button;

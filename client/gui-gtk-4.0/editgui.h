@@ -28,7 +28,7 @@ struct editbar {
   GtkSizeGroup *size_group;
 
   GtkWidget *mode_buttons[NUM_EDITOR_TOOL_MODES];
-  GtkWidget *tool_buttons[NUM_EDITOR_TOOL_TYPES];
+  GtkWidget *tool_buttons[NUM_EDITOR_TOOL_TYPES]; /* TODO: Make these GtkToggleButtons */
   GtkWidget *player_properties_button;
   struct tool_value_selector *tool_selectors[NUM_EDITOR_TOOL_TYPES];
 

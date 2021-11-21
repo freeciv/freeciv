@@ -182,7 +182,8 @@ void real_luaconsole_dialog_update(void)
 *****************************************************************************/
 static void luaconsole_dialog_create(struct luaconsole_data *pdialog)
 {
-  GtkWidget *entry, *vbox, *sw, *text, *notebook;
+  GtkWidget *entry, *vgrid, *sw, *text, *notebook;
+  int grid_row = 0;
 
   fc_assert_ret(NULL != pdialog);
 
@@ -195,23 +196,23 @@ static void luaconsole_dialog_create(struct luaconsole_data *pdialog)
   gui_dialog_new(&pdialog->shell, GTK_NOTEBOOK(notebook), pdialog, TRUE);
   gui_dialog_set_title(pdialog->shell, _("Client Lua Console"));
 
-  vbox = gtk_grid_new();
-  gtk_orientable_set_orientation(GTK_ORIENTABLE(vbox),
+  vgrid = gtk_grid_new();
+  gtk_orientable_set_orientation(GTK_ORIENTABLE(vgrid),
                                  GTK_ORIENTATION_VERTICAL);
-  gui_dialog_add_content_widget(pdialog->shell, vbox);
+  gui_dialog_add_content_widget(pdialog->shell, vgrid);
 
   sw = gtk_scrolled_window_new();
   gtk_scrolled_window_set_has_frame(GTK_SCROLLED_WINDOW(sw), TRUE);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
                                  GTK_POLICY_AUTOMATIC, GTK_POLICY_ALWAYS);
-  gtk_container_add(GTK_CONTAINER(vbox), sw);
+  gtk_grid_attach(GTK_GRID(vgrid), sw, 0, grid_row++, 1, 1);
 
   text = gtk_text_view_new_with_buffer(pdialog->message_buffer);
   gtk_widget_set_hexpand(text, TRUE);
   gtk_widget_set_vexpand(text, TRUE);
   set_message_buffer_view_link_handlers(text);
   gtk_text_view_set_editable(GTK_TEXT_VIEW(text), FALSE);
-  gtk_container_add(GTK_CONTAINER(sw), text);
+  gtk_scrolled_window_set_child(GTK_SCROLLED_WINDOW(sw), text);
   g_signal_connect(text, "size-allocate",
                    G_CALLBACK(luaconsole_dialog_area_size_allocate), NULL);
 
@@ -226,7 +227,7 @@ static void luaconsole_dialog_create(struct luaconsole_data *pdialog)
   /* The lua console input line. */
   entry = gtk_entry_new();
   g_object_set(entry, "margin", 2, NULL);
-  gtk_container_add(GTK_CONTAINER(vbox), entry);
+  gtk_grid_attach(GTK_GRID(vgrid), entry, 0, grid_row++, 1, 1);
   g_signal_connect(entry, "activate", G_CALLBACK(luaconsole_input_return),
                    NULL);
   g_signal_connect(entry, "key_press_event",

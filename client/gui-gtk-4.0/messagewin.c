@@ -371,7 +371,7 @@ static void meswin_dialog_init(struct meswin_dialog *pdialog)
                                                  "style", MESWIN_COL_STYLE,
                                                  NULL);
   gtk_tree_view_append_column(GTK_TREE_VIEW(view), col);
-  gtk_container_add(GTK_CONTAINER(sw), view);
+  gtk_scrolled_window_set_child(GTK_SCROLLED_WINDOW(sw), view);
 
   selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(view));
   g_signal_connect(selection, "changed",

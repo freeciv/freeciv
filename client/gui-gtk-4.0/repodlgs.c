@@ -574,7 +574,7 @@ static void science_report_init(struct science_report *preport)
 
   table = gtk_grid_new();
   gtk_grid_set_column_spacing(GTK_GRID(table), 4);
-  gtk_container_add(GTK_CONTAINER(frame), table);
+  gtk_frame_set_child(GTK_FRAME(frame), table);
 
   help_button = gtk_check_button_new_with_label(_("Help"));
   gtk_grid_attach(GTK_GRID(table), help_button, 5, 0, 1, 1);
@@ -606,7 +606,7 @@ static void science_report_init(struct science_report *preport)
 
   table = gtk_grid_new();
   gtk_grid_set_column_spacing(GTK_GRID(table), 4);
-  gtk_container_add(GTK_CONTAINER(frame),table);
+  gtk_frame_set_child(GTK_FRAME(frame), table);
 
   store = science_report_store_new();
   w = gtk_combo_box_new_with_model(GTK_TREE_MODEL(store));
@@ -651,7 +651,7 @@ static void science_report_init(struct science_report *preport)
   w = science_diagram_new();
   gtk_widget_set_hexpand(w, TRUE);
   gtk_widget_set_vexpand(w, TRUE);
-  gtk_container_add(GTK_CONTAINER(sw), w);
+  gtk_scrolled_window_set_child(GTK_SCROLLED_WINDOW(sw), w);
   preport->drawing_area = GTK_FIXED(w);
 
   science_report_update(preport);
@@ -1106,7 +1106,7 @@ static void economy_report_init(struct economy_report *preport)
   g_object_unref(store);
   gtk_widget_set_name(view, "small_font");
   gtk_tree_view_columns_autosize(GTK_TREE_VIEW(view));
-  gtk_container_add(GTK_CONTAINER(sw), view);
+  gtk_scrolled_window_set_child(GTK_SCROLLED_WINDOW(sw), view);
   preport->tree_view = GTK_TREE_VIEW(view);
 
   selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(view));
@@ -1636,7 +1636,7 @@ static void units_report_init(struct units_report *preport)
   g_object_unref(store);
   gtk_widget_set_name(view, "small_font");
   gtk_tree_view_columns_autosize(GTK_TREE_VIEW(view));
-  gtk_container_add(GTK_CONTAINER(sw), view);
+  gtk_scrolled_window_set_child(GTK_SCROLLED_WINDOW(sw), view);
   preport->tree_view = GTK_TREE_VIEW(view);
 
   selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(view));
@@ -1912,7 +1912,7 @@ static void endgame_report_init(struct endgame_report *preport)
 
   view = gtk_tree_view_new();
   gtk_widget_set_name(view, "small_font");
-  gtk_container_add(GTK_CONTAINER(sw), view);
+  gtk_scrolled_window_set_child(GTK_SCROLLED_WINDOW(sw), view);
   preport->tree_view = GTK_TREE_VIEW(view);
 
   if (preport->shell->type == GUI_DIALOG_TAB) {

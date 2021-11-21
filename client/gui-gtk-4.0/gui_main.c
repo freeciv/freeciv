@@ -834,9 +834,7 @@ static GtkWidget *detached_widget_fill(GtkWidget *tearbox)
   gtk_box_append(GTK_BOX(tearbox), b);
   g_signal_connect(b, "toggled", G_CALLBACK(tearoff_callback), tearbox);
 
-  fillbox = gtk_grid_new();
-  gtk_orientable_set_orientation(GTK_ORIENTABLE(fillbox),
-                                 GTK_ORIENTATION_VERTICAL);
+  fillbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 2);
 
   gtk_box_append(GTK_BOX(tearbox), fillbox);
 
@@ -911,8 +909,8 @@ static void populate_unit_image_table(void)
   gtk_widget_set_halign(more_arrow_pixmap_container, GTK_ALIGN_CENTER);
   gtk_widget_set_valign(more_arrow_pixmap_container, GTK_ALIGN_CENTER);
   g_object_ref(more_arrow_pixmap_container);
-  gtk_container_add(GTK_CONTAINER(more_arrow_pixmap_container),
-                    more_arrow_pixmap);
+  gtk_frame_set_child(GTK_FRAME(more_arrow_pixmap_container),
+                      more_arrow_pixmap);
   gtk_widget_set_size_request(more_arrow_pixmap_container,
                               gdk_pixbuf_get_width(pix), -1);
   g_object_unref(G_OBJECT(pix));
@@ -1060,6 +1058,11 @@ static void setup_widgets(void)
   GtkWidget *notebook, *statusbar;
   GtkWidget *dtach_lowbox = NULL;
   struct sprite *spr;
+  int grid_row = 0;
+  int right_row = 0;
+  int top_row = 0;
+  int grid_col = 0;
+  int grid2_col = 0;
 
   message_buffer = gtk_text_buffer_new(NULL);
 
@@ -1076,10 +1079,10 @@ static void setup_widgets(void)
   gtk_orientable_set_orientation(GTK_ORIENTABLE(vgrid),
                                  GTK_ORIENTATION_VERTICAL);
   gtk_grid_set_row_spacing(GTK_GRID(vgrid), 4);
-  gtk_container_add(GTK_CONTAINER(toplevel), vgrid);
-  gtk_container_add(GTK_CONTAINER(vgrid), notebook);
+  gtk_window_set_child(GTK_WINDOW(toplevel), vgrid);
+  gtk_grid_attach(GTK_GRID(vgrid), notebook, 0, grid_row++, 1, 1);
   statusbar = create_statusbar();
-  gtk_container_add(GTK_CONTAINER(vgrid), statusbar);
+  gtk_grid_attach(GTK_GRID(vgrid), statusbar, 0, grid_row++, 1, 1);
 
   gtk_notebook_append_page(GTK_NOTEBOOK(notebook),
       create_main_page(), NULL);
@@ -1117,15 +1120,16 @@ static void setup_widgets(void)
     /* The window is divided into two horizontal panels: overview +
      * civinfo + unitinfo, main view + message window. */
     right_vbox = gtk_grid_new();
+    right_row = 0;
     gtk_orientable_set_orientation(GTK_ORIENTABLE(right_vbox),
                                    GTK_ORIENTATION_VERTICAL);
-    gtk_container_add(GTK_CONTAINER(hgrid), right_vbox);
+    gtk_grid_attach(GTK_GRID(hgrid), right_vbox, grid_col++, 0, 1, 1);
 
     paned = gtk_paned_new(GTK_ORIENTATION_HORIZONTAL);
-    gtk_container_add(GTK_CONTAINER(page), top_vbox);
-    gtk_container_add(GTK_CONTAINER(top_vbox), hgrid);
-    gtk_container_add(GTK_CONTAINER(right_vbox), paned);
-    gtk_container_add(GTK_CONTAINER(right_vbox), ingame_votebar);
+    gtk_scrolled_window_set_child(GTK_SCROLLED_WINDOW(page), top_vbox);
+    gtk_grid_attach(GTK_GRID(top_vbox), hgrid, 0, top_row++, 1, 1);
+    gtk_grid_attach(GTK_GRID(right_vbox), paned, 0, right_row++, 1, 1);
+    gtk_grid_attach(GTK_GRID(right_vbox), ingame_votebar, 0, right_row++, 1, 1);
 
     /* Overview size designed for small displays (netbooks). */
     overview_canvas_store_width = OVERVIEW_CANVAS_STORE_WIDTH_NETBOOK;
@@ -1134,9 +1138,9 @@ static void setup_widgets(void)
     /* The window is divided into two vertical panes: overview +
      * + civinfo + unitinfo + main view, message window. */
     paned = gtk_paned_new(GTK_ORIENTATION_VERTICAL);
-    gtk_container_add(GTK_CONTAINER(page), paned);
+    gtk_scrolled_window_set_child(GTK_SCROLLED_WINDOW(page), paned);
     gtk_paned_pack1(GTK_PANED(paned), top_vbox, TRUE, FALSE);
-    gtk_container_add(GTK_CONTAINER(top_vbox), hgrid);
+    gtk_grid_attach(GTK_GRID(top_vbox), hgrid, 0, top_row++, 1, 1);
 
     /* Overview size designed for big displays (desktops). */
     overview_canvas_store_width = OVERVIEW_CANVAS_STORE_WIDTH;
@@ -1150,6 +1154,7 @@ static void setup_widgets(void)
    * the chat/messages pane, or NULL which is OK */
   gtk_grid_attach_next_to(GTK_GRID(hgrid), vbox, right_vbox,
                           GTK_POS_LEFT, 1, 1);
+  grid_col++;
 
   /* overview canvas */
   ahbox = detached_widget_new();
@@ -1176,10 +1181,10 @@ static void setup_widgets(void)
   gtk_widget_set_hexpand(overview_canvas, TRUE);
   gtk_widget_set_vexpand(overview_canvas, TRUE);
 
-  gtk_container_add(GTK_CONTAINER(avbox), overview_scrolled_window);
+  gtk_box_append(GTK_BOX(avbox), overview_scrolled_window);
 
-  gtk_container_add(GTK_CONTAINER(overview_scrolled_window),
-                    overview_canvas);
+  gtk_scrolled_window_set_child(GTK_SCROLLED_WINDOW(overview_scrolled_window),
+                                overview_canvas);
 
   gtk_drawing_area_set_draw_func(GTK_DRAWING_AREA(overview_canvas),
                                  overview_canvas_draw, NULL, NULL);
@@ -1201,14 +1206,15 @@ static void setup_widgets(void)
 
   /* Info on player's civilization, when game is running. */
   frame = gtk_frame_new("");
-  gtk_container_add(GTK_CONTAINER(avbox), frame);
+  gtk_box_append(GTK_BOX(avbox), frame);
 
   main_frame_civ_name = frame;
 
   vgrid = gtk_grid_new();
+  grid_row = 0;
   gtk_orientable_set_orientation(GTK_ORIENTABLE(vgrid),
                                  GTK_ORIENTATION_VERTICAL);
-  gtk_container_add(GTK_CONTAINER(frame), vgrid);
+  gtk_frame_set_child(GTK_FRAME(frame), vgrid);
   gtk_widget_set_hexpand(vgrid, TRUE);
 
   label = gtk_label_new(NULL);
@@ -1220,14 +1226,14 @@ static void setup_widgets(void)
   gtk_widget_set_margin_bottom(label, 2);
   g_signal_connect(label, "button_press_event",
                    G_CALLBACK(show_info_popup), NULL);
-  gtk_container_add(GTK_CONTAINER(vgrid), label);
+  gtk_grid_attach(GTK_GRID(vgrid), label, 0, grid_row++, 1, 1);
   main_label_info = label;
 
   /* Production status */
   table = gtk_grid_new();
   gtk_widget_set_halign(table, GTK_ALIGN_CENTER);
   gtk_grid_set_column_homogeneous(GTK_GRID(table), TRUE);
-  gtk_container_add(GTK_CONTAINER(avbox), table);
+  gtk_box_append(GTK_BOX(avbox), table);
 
   /* citizens for taxrates */
   table2 = gtk_grid_new();
@@ -1309,7 +1315,7 @@ static void setup_widgets(void)
 
   frame = gtk_frame_new(NULL);
   gtk_grid_attach(GTK_GRID(table), frame, 4, 1, 6, 1);
-  gtk_container_add(GTK_CONTAINER(frame), timeout_label);
+  gtk_frame_set_child(GTK_FRAME(frame), timeout_label);
 
 
   /* turn done */
@@ -1330,7 +1336,7 @@ static void setup_widgets(void)
    * editgui.c replace_widget() code that removes and adds widgets from it. */
   unit_info_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 2);
   gtk_widget_set_hexpand(unit_info_box, FALSE);
-  gtk_container_add(GTK_CONTAINER(avbox), unit_info_box);
+  gtk_box_append(GTK_BOX(avbox), unit_info_box);
 
   /* In edit mode the unit_info_box widget is replaced by the
    * editinfobox, so we need to add a ref here so that it is
@@ -1345,7 +1351,7 @@ static void setup_widgets(void)
   gtk_scrolled_window_set_has_frame(GTK_SCROLLED_WINDOW(sw), TRUE);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
                                  GTK_POLICY_AUTOMATIC, GTK_POLICY_NEVER);
-  gtk_container_add(GTK_CONTAINER(unit_info_frame), sw);
+  gtk_frame_set_child(GTK_FRAME(unit_info_frame), sw);
 
   label = gtk_label_new(NULL);
   gtk_widget_set_hexpand(label, TRUE);
@@ -1355,7 +1361,7 @@ static void setup_widgets(void)
   gtk_widget_set_margin_end(label, 2);
   gtk_widget_set_margin_top(label, 2);
   gtk_widget_set_margin_bottom(label, 2);
-  gtk_container_add(GTK_CONTAINER(sw), label);
+  gtk_scrolled_window_set_child(GTK_SCROLLED_WINDOW(sw), label);
   unit_info_label = label;
 
   hgrid2 = gtk_grid_new();
@@ -1363,7 +1369,7 @@ static void setup_widgets(void)
 
   table = gtk_grid_new();
   g_object_set(table, "margin", 5, NULL);
-  gtk_container_add(GTK_CONTAINER(hgrid2), table);
+  gtk_grid_attach(GTK_GRID(hgrid2), table, grid2_col++, 0, 1, 1);
 
   gtk_grid_set_row_spacing(GTK_GRID(table), 2);
   gtk_grid_set_column_spacing(GTK_GRID(table), 2);
@@ -1383,24 +1389,27 @@ static void setup_widgets(void)
     gtk_paned_pack1(GTK_PANED(paned), top_notebook, TRUE, FALSE);
   } else if (GUI_GTK_OPTION(message_chat_location) == GUI_GTK_MSGCHAT_MERGED) {
     right_vbox = gtk_grid_new();
+    right_row = 0;
     gtk_orientable_set_orientation(GTK_ORIENTABLE(right_vbox),
                                    GTK_ORIENTATION_VERTICAL);
 
-    gtk_container_add(GTK_CONTAINER(right_vbox), top_notebook);
-    gtk_container_add(GTK_CONTAINER(right_vbox), ingame_votebar);
-    gtk_container_add(GTK_CONTAINER(hgrid), right_vbox);
+    gtk_grid_attach(GTK_GRID(right_vbox), top_notebook, 0, right_row++, 1, 1);
+    gtk_grid_attach(GTK_GRID(right_vbox), ingame_votebar, 0, right_row++, 1, 1);
+    gtk_grid_attach(GTK_GRID(hgrid), right_vbox, grid_col++, 0, 1, 1);
   } else {
-    gtk_container_add(GTK_CONTAINER(hgrid), top_notebook);
+    gtk_grid_attach(GTK_GRID(hgrid), top_notebook, grid_col++, 0, 1, 1);
   }
 
   map_widget = gtk_grid_new();
 
   vgrid = gtk_grid_new();
+  grid_row = 0;
   gtk_orientable_set_orientation(GTK_ORIENTABLE(vgrid),
                                  GTK_ORIENTATION_VERTICAL);
-  gtk_container_add(GTK_CONTAINER(vgrid), map_widget);
+  gtk_grid_attach(GTK_GRID(vgrid), map_widget, 0, grid_row++, 1, 1);
 
-  gtk_container_add(GTK_CONTAINER(vgrid), editgui_get_editbar()->widget);
+  gtk_grid_attach(GTK_GRID(vgrid), editgui_get_editbar()->widget,
+                  0, grid_row++, 1, 1);
   g_object_set(editgui_get_editbar()->widget, "margin", 4, NULL);
 
   label = gtk_label_new(Q_("?noun:View"));
@@ -1426,7 +1435,7 @@ static void setup_widgets(void)
   setup_canvas_color_for_state(GTK_STATE_FLAG_BACKDROP);
 #endif /* 0 */
 
-  gtk_container_add(GTK_CONTAINER(frame), map_canvas);
+  gtk_frame_set_child(GTK_FRAME(frame), map_canvas);
 
   map_horizontal_scrollbar =
       gtk_scrollbar_new(GTK_ORIENTATION_HORIZONTAL, NULL);
@@ -1471,19 +1480,20 @@ static void setup_widgets(void)
     avbox = detached_widget_fill(dtach_lowbox);
 
     vgrid = gtk_grid_new();
+    grid_row = 0;
     gtk_orientable_set_orientation(GTK_ORIENTABLE(vgrid),
                                    GTK_ORIENTATION_VERTICAL);
     if (!GUI_GTK_OPTION(small_display_layout)) {
-      gtk_container_add(GTK_CONTAINER(vgrid), ingame_votebar);
+      gtk_grid_attach(GTK_GRID(vgrid), ingame_votebar, 0, grid_row++, 1, 1);
     }
-    gtk_container_add(GTK_CONTAINER(avbox), vgrid);
+    gtk_box_append(GTK_BOX(avbox), vgrid);
 
     if (GUI_GTK_OPTION(small_display_layout)) {
       hpaned = gtk_paned_new(GTK_ORIENTATION_VERTICAL);
     } else {
       hpaned = gtk_paned_new(GTK_ORIENTATION_HORIZONTAL);
     }
-    gtk_container_add(GTK_CONTAINER(vgrid), hpaned);
+    gtk_grid_attach(GTK_GRID(vgrid), hpaned, 0, grid_row++, 1, 1);
     g_object_set(hpaned, "margin", 4, NULL);
     bottom_hpaned = hpaned;
 
@@ -1504,6 +1514,7 @@ static void setup_widgets(void)
   }
 
   vgrid = gtk_grid_new();
+  grid_row = 0;
   gtk_orientable_set_orientation(GTK_ORIENTABLE(vgrid),
                                  GTK_ORIENTATION_VERTICAL);
 
@@ -1513,7 +1524,7 @@ static void setup_widgets(void)
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
                                  GTK_POLICY_AUTOMATIC,
   				 GTK_POLICY_ALWAYS);
-  gtk_container_add(GTK_CONTAINER(vgrid), sw);
+  gtk_grid_attach(GTK_GRID(vgrid), sw, 0, grid_row++, 1, 1);
 
   label = gtk_label_new(_("Chat"));
   gtk_notebook_append_page(GTK_NOTEBOOK(bottom_notebook), vgrid, label);
@@ -1523,7 +1534,7 @@ static void setup_widgets(void)
   gtk_widget_set_vexpand(text, TRUE);
   set_message_buffer_view_link_handlers(text);
   gtk_text_view_set_editable(GTK_TEXT_VIEW(text), FALSE);
-  gtk_container_add(GTK_CONTAINER(sw), text);
+  gtk_scrolled_window_set_child(GTK_SCROLLED_WINDOW(sw), text);
   g_signal_connect(text, "size-allocate",
                    G_CALLBACK(main_message_area_size_allocate), NULL);
 
@@ -1542,7 +1553,7 @@ static void setup_widgets(void)
 
   /* the chat line */
   view = inputline_toolkit_view_new();
-  gtk_container_add(GTK_CONTAINER(vgrid), view);
+  gtk_grid_attach(GTK_GRID(vgrid), view, 0, grid_row++, 1, 1);
   g_object_set(view, "margin", 3, NULL);
 
   button = gtk_check_button_new_with_label(_("Allies Only"));

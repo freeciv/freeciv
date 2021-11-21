@@ -103,7 +103,8 @@ void choice_dialog_button_move_to_the_end(GtkWidget *cd,
 GtkWidget *choice_dialog_start(GtkWindow *parent, const gchar *name,
                                const gchar *text)
 {
-  GtkWidget *dshell, *dlabel, *vbox, *bbox;
+  GtkWidget *dshell, *dlabel, *vgrid, *bbox;
+  int grid_row = 0;
 
   dshell = gtk_window_new();
   setup_dialog(dshell, toplevel);
@@ -113,28 +114,28 @@ GtkWidget *choice_dialog_start(GtkWindow *parent, const gchar *name,
   gtk_window_set_transient_for(GTK_WINDOW(dshell), parent);
   gtk_window_set_destroy_with_parent(GTK_WINDOW(dshell), TRUE);
 
-  vbox = gtk_grid_new();
-  gtk_orientable_set_orientation(GTK_ORIENTABLE(vbox),
+  vgrid = gtk_grid_new();
+  gtk_orientable_set_orientation(GTK_ORIENTABLE(vgrid),
                                  GTK_ORIENTATION_VERTICAL);
-  gtk_grid_set_row_spacing(GTK_GRID(vbox), 5);
-  gtk_container_add(GTK_CONTAINER(dshell),vbox);
+  gtk_grid_set_row_spacing(GTK_GRID(vgrid), 5);
+  gtk_window_set_child(GTK_WINDOW(dshell), vgrid);
 
-  gtk_widget_set_margin_start(vbox, 5);
-  gtk_widget_set_margin_end(vbox, 5);
-  gtk_widget_set_margin_top(vbox, 5);
-  gtk_widget_set_margin_bottom(vbox, 5);
+  gtk_widget_set_margin_start(vgrid, 5);
+  gtk_widget_set_margin_end(vgrid, 5);
+  gtk_widget_set_margin_top(vgrid, 5);
+  gtk_widget_set_margin_bottom(vgrid, 5);
 
   dlabel = gtk_label_new(text);
-  gtk_container_add(GTK_CONTAINER(vbox), dlabel);
+  gtk_grid_attach(GTK_GRID(vgrid), dlabel, 0, grid_row++, 1, 1);
 
   bbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 2);
-  gtk_container_add(GTK_CONTAINER(vbox), bbox);
+  gtk_grid_attach(GTK_GRID(vgrid), bbox, 0, grid_row++, 1, 1);
 
   g_object_set_data(G_OBJECT(dshell), "bbox", bbox);
   g_object_set_data(G_OBJECT(dshell), "nbuttons", GINT_TO_POINTER(0));
   g_object_set_data(G_OBJECT(dshell), "hide", GINT_TO_POINTER(FALSE));
 
-  gtk_widget_show(vbox);
+  gtk_widget_show(vgrid);
   gtk_widget_show(dlabel);
 
   return dshell;
@@ -171,7 +172,7 @@ void choice_dialog_add(GtkWidget *dshell, const gchar *label,
   fc_snprintf(name, sizeof(name), "button%d", nbuttons);
 
   button = gtk_button_new_with_mnemonic(label);
-  gtk_container_add(GTK_CONTAINER(bbox), button);
+  gtk_box_append(GTK_BOX(bbox), button);
   g_object_set_data(G_OBJECT(dshell), name, button);
 
   if (handler) {
