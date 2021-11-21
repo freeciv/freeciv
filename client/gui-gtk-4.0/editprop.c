@@ -2913,9 +2913,11 @@ static void objprop_widget_toggle_button_changed(GtkToggleButton *button,
 ****************************************************************************/
 static void objprop_setup_widget(struct objprop *op)
 {
-  GtkWidget *hbox, *hbox2, *label, *image, *text, *spin, *button;
+  GtkWidget *hgrid, *hgrid2, *label, *image, *text, *spin, *button;
   struct extviewer *ev = NULL;
   enum object_property_ids propid;
+  int grid_col = 0;
+  int grid2_col = 0;
 
   if (!op) {
     return;
@@ -2925,15 +2927,15 @@ static void objprop_setup_widget(struct objprop *op)
     return;
   }
 
-  hbox = gtk_grid_new();
-  op->widget = hbox;
+  hgrid = gtk_grid_new();
+  op->widget = hgrid;
 
-  gtk_grid_set_column_spacing(GTK_GRID(hbox), 4);
+  gtk_grid_set_column_spacing(GTK_GRID(hgrid), 4);
 
   label = gtk_label_new(objprop_get_name(op));
   gtk_widget_set_halign(label, GTK_ALIGN_START);
   gtk_widget_set_valign(label, GTK_ALIGN_CENTER);
-  gtk_container_add(GTK_CONTAINER(hbox), label);
+  gtk_grid_attach(GTK_GRID(hgrid), label, grid_col++, 0, 1, 1);
   objprop_set_child_widget(op, "name-label", label);
 
   propid = objprop_get_id(op);
@@ -2965,7 +2967,7 @@ static void objprop_setup_widget(struct objprop *op)
     gtk_widget_set_hexpand(label, TRUE);
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     gtk_widget_set_valign(label, GTK_ALIGN_CENTER);
-    gtk_container_add(GTK_CONTAINER(hbox), label);
+    gtk_grid_attach(GTK_GRID(hgrid), label, grid_col++, 0, 1, 1);
     objprop_set_child_widget(op, "value-label", label);
     return;
 
@@ -2977,7 +2979,7 @@ static void objprop_setup_widget(struct objprop *op)
     gtk_widget_set_hexpand(image, TRUE);
     gtk_widget_set_halign(image, GTK_ALIGN_START);
     gtk_widget_set_valign(image, GTK_ALIGN_CENTER);
-    gtk_container_add(GTK_CONTAINER(hbox), image);
+    gtk_grid_attach(GTK_GRID(hgrid), image, grid_col++, 0, 1, 1);
     objprop_set_child_widget(op, "image", image);
     return;
 
@@ -2991,7 +2993,7 @@ static void objprop_setup_widget(struct objprop *op)
     gtk_editable_set_width_chars(GTK_EDITABLE(text), 8);
     g_signal_connect(text, "changed",
         G_CALLBACK(objprop_widget_text_changed), op);
-    gtk_container_add(GTK_CONTAINER(hbox), text);
+    gtk_grid_attach(GTK_GRID(hgrid), text, grid_col++, 0, 1, 1);
     objprop_set_child_widget(op, "text", text);
     return;
 
@@ -3006,7 +3008,7 @@ static void objprop_setup_widget(struct objprop *op)
     gtk_widget_set_halign(spin, GTK_ALIGN_END);
     g_signal_connect(spin, "value-changed",
         G_CALLBACK(objprop_widget_spin_button_changed), op);
-    gtk_container_add(GTK_CONTAINER(hbox), spin);
+    gtk_grid_attach(GTK_GRID(hgrid), spin, grid_col++, 0, 1, 1);
     objprop_set_child_widget(op, "spin", spin);
     return;
 
@@ -3014,20 +3016,20 @@ static void objprop_setup_widget(struct objprop *op)
   case OPID_UNIT_HP:
   case OPID_UNIT_VETERAN:
   case OPID_CITY_FOOD_STOCK:
-    hbox2 = gtk_grid_new();
-    gtk_widget_set_hexpand(hbox2, TRUE);
-    gtk_widget_set_halign(hbox2, GTK_ALIGN_END);
-    gtk_grid_set_column_spacing(GTK_GRID(hbox2), 4);
-    gtk_container_add(GTK_CONTAINER(hbox), hbox2);
+    hgrid2 = gtk_grid_new();
+    gtk_widget_set_hexpand(hgrid2, TRUE);
+    gtk_widget_set_halign(hgrid2, GTK_ALIGN_END);
+    gtk_grid_set_column_spacing(GTK_GRID(hgrid2), 4);
+    gtk_grid_attach(GTK_GRID(hgrid), hgrid2, grid_col++, 0, 1, 1);
     spin = gtk_spin_button_new_with_range(0.0, 100.0, 1.0);
     g_signal_connect(spin, "value-changed",
         G_CALLBACK(objprop_widget_spin_button_changed), op);
-    gtk_container_add(GTK_CONTAINER(hbox2), spin);
+    gtk_grid_attach(GTK_GRID(hgrid2), spin, grid2_col++, 0, 1, 1);
     objprop_set_child_widget(op, "spin", spin);
     label = gtk_label_new(NULL);
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     gtk_widget_set_valign(label, GTK_ALIGN_CENTER);
-    gtk_container_add(GTK_CONTAINER(hbox2), label);
+    gtk_grid_attach(GTK_GRID(hgrid2), label, grid2_col++, 0, 1, 1);
     objprop_set_child_widget(op, "max-value-label", label);
     return;
 
@@ -3046,7 +3048,8 @@ static void objprop_setup_widget(struct objprop *op)
     objprop_set_extviewer(op, ev);
     gtk_widget_set_hexpand(extviewer_get_panel_widget(ev), TRUE);
     gtk_widget_set_halign(extviewer_get_panel_widget(ev), GTK_ALIGN_END);
-    gtk_container_add(GTK_CONTAINER(hbox), extviewer_get_panel_widget(ev));
+    gtk_grid_attach(GTK_GRID(hgrid), extviewer_get_panel_widget(ev),
+                    grid_col++, 0, 1, 1);
     property_page_add_extviewer(objprop_get_property_page(op), ev);
     return;
 
@@ -3067,7 +3070,7 @@ static void objprop_setup_widget(struct objprop *op)
     gtk_widget_set_halign(button, GTK_ALIGN_END);
     g_signal_connect(button, "toggled",
         G_CALLBACK(objprop_widget_toggle_button_changed), op);
-    gtk_container_add(GTK_CONTAINER(hbox), button);
+    gtk_grid_attach(GTK_GRID(hgrid), button, grid_col++, 0, 1, 1);
     objprop_set_child_widget(op, "checkbutton", button);
     return;
   }
@@ -3456,7 +3459,7 @@ static struct objprop *objprop_new(int id,
 static struct extviewer *extviewer_new(struct objprop *op)
 {
   struct extviewer *ev;
-  GtkWidget *hbox, *vbox, *label, *button, *scrollwin, *image;
+  GtkWidget *hgrid, *vgrid, *label, *button, *scrollwin, *image;
   GtkWidget *view = NULL;
   GtkTreeSelection *sel;
   GtkListStore *store = NULL;
@@ -3464,6 +3467,8 @@ static struct extviewer *extviewer_new(struct objprop *op)
   GType *gtypes;
   enum object_property_ids propid;
   int num_cols;
+  int grid_col = 0;
+  int grid_row = 0;
 
   if (!op) {
     return NULL;
@@ -3486,55 +3491,58 @@ static struct extviewer *extviewer_new(struct objprop *op)
   case OPID_PLAYER_INVENTIONS:
   case OPID_GAME_SCENARIO_AUTHORS:
   case OPID_GAME_SCENARIO_DESC:
-    hbox = gtk_grid_new();
-    gtk_grid_set_column_spacing(GTK_GRID(hbox), 4);
-    ev->panel_widget = hbox;
+    hgrid = gtk_grid_new();
+    gtk_grid_set_column_spacing(GTK_GRID(hgrid), 4);
+    ev->panel_widget = hgrid;
 
     label = gtk_label_new(NULL);
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     gtk_widget_set_valign(label, GTK_ALIGN_CENTER);
-    gtk_container_add(GTK_CONTAINER(hbox), label);
+    gtk_grid_attach(GTK_GRID(hgrid), label, grid_col++, 0, 1, 1);
     ev->panel_label = label;
     break;
 
   case OPID_PLAYER_NATION:
   case OPID_PLAYER_GOV:
-    vbox = gtk_grid_new();
-    gtk_orientable_set_orientation(GTK_ORIENTABLE(vbox),
+    vgrid = gtk_grid_new();
+    gtk_orientable_set_orientation(GTK_ORIENTABLE(vgrid),
                                    GTK_ORIENTATION_VERTICAL);
-    gtk_grid_set_row_spacing(GTK_GRID(vbox), 4);
-    ev->panel_widget = vbox;
+    gtk_grid_set_row_spacing(GTK_GRID(vgrid), 4);
+    ev->panel_widget = vgrid;
 
     label = gtk_label_new(NULL);
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     gtk_widget_set_valign(label, GTK_ALIGN_CENTER);
-    gtk_container_add(GTK_CONTAINER(vbox), label);
+    gtk_grid_attach(GTK_GRID(vgrid), label, 0, grid_row++, 1, 1);
     ev->panel_label = label;
 
-    hbox = gtk_grid_new();
-    gtk_grid_set_column_spacing(GTK_GRID(hbox), 4);
-    gtk_container_add(GTK_CONTAINER(vbox), hbox);
+    hgrid = gtk_grid_new();
+    grid_col = 0;
+    gtk_grid_set_column_spacing(GTK_GRID(hgrid), 4);
+    gtk_grid_attach(GTK_GRID(vgrid), hgrid, 0, grid_row++, 1, 1);
 
     image = gtk_image_new();
     gtk_widget_set_halign(image, GTK_ALIGN_START);
     gtk_widget_set_valign(image, GTK_ALIGN_CENTER);
-    gtk_container_add(GTK_CONTAINER(hbox), image);
+    gtk_grid_attach(GTK_GRID(hgrid), image, grid_col++, 0, 1, 1);
     ev->panel_image = image;
     break;
 
   case OPID_TILE_VISION:
-    hbox = gtk_grid_new();
-    gtk_grid_set_column_spacing(GTK_GRID(hbox), 4);
-    ev->panel_widget = hbox;
+    hgrid = gtk_grid_new();
+    grid_col = 0;
+    gtk_grid_set_column_spacing(GTK_GRID(hgrid), 4);
+    ev->panel_widget = hgrid;
     break;
 
   default:
    log_error("Unhandled request to create panel widget "
              "for property %d (%s) in extviewer_new().",
              propid, objprop_get_name(op));
-    hbox = gtk_grid_new();
-    gtk_grid_set_column_spacing(GTK_GRID(hbox), 4);
-    ev->panel_widget = hbox;
+    hgrid = gtk_grid_new();
+    grid_col = 0;
+    gtk_grid_set_column_spacing(GTK_GRID(hgrid), 4);
+    ev->panel_widget = hgrid;
     break;
   }
 
@@ -3545,7 +3553,7 @@ static struct extviewer *extviewer_new(struct objprop *op)
   }
   g_signal_connect(button, "clicked",
                    G_CALLBACK(extviewer_panel_button_clicked), ev);
-  gtk_container_add(GTK_CONTAINER(hbox), button);
+  gtk_grid_attach(GTK_GRID(hgrid), button, grid_col++, 0, 1, 1);
   ev->panel_button = button;
 
 
@@ -3598,20 +3606,21 @@ static struct extviewer *extviewer_new(struct objprop *op)
 
   /* Create the view widget. */
 
-  vbox = gtk_grid_new();
-  gtk_orientable_set_orientation(GTK_ORIENTABLE(vbox),
+  vgrid = gtk_grid_new();
+  grid_row = 0;
+  gtk_orientable_set_orientation(GTK_ORIENTABLE(vgrid),
                                  GTK_ORIENTATION_VERTICAL);
-  gtk_grid_set_row_spacing(GTK_GRID(vbox), 4);
-  gtk_widget_set_margin_start(vbox, 4);
-  gtk_widget_set_margin_end(vbox, 4);
-  gtk_widget_set_margin_top(vbox, 4);
-  gtk_widget_set_margin_bottom(vbox, 4);
-  ev->view_widget = vbox;
+  gtk_grid_set_row_spacing(GTK_GRID(vgrid), 4);
+  gtk_widget_set_margin_start(vgrid, 4);
+  gtk_widget_set_margin_end(vgrid, 4);
+  gtk_widget_set_margin_top(vgrid, 4);
+  gtk_widget_set_margin_bottom(vgrid, 4);
+  ev->view_widget = vgrid;
 
   label = gtk_label_new(objprop_get_name(op));
   gtk_widget_set_halign(label, GTK_ALIGN_START);
   gtk_widget_set_valign(label, GTK_ALIGN_CENTER);
-  gtk_container_add(GTK_CONTAINER(vbox), label);
+  gtk_grid_attach(GTK_GRID(vgrid), label, 0, grid_row++, 1, 1);
   ev->view_label = label;
 
   if (store || textbuf) {
@@ -3621,7 +3630,7 @@ static struct extviewer *extviewer_new(struct objprop *op)
     gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrollwin),
                                    GTK_POLICY_AUTOMATIC,
                                    GTK_POLICY_AUTOMATIC);
-    gtk_container_add(GTK_CONTAINER(vbox), scrollwin);
+    gtk_grid_attach(GTK_GRID(vgrid), scrollwin, 0, grid_row++, 1, 1);
 
     if (store) {
       view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(store));
@@ -3629,6 +3638,7 @@ static struct extviewer *extviewer_new(struct objprop *op)
       gtk_tree_selection_set_mode(sel, GTK_SELECTION_MULTIPLE);
     } else {
       const bool editable = !objprop_is_readonly(op);
+
       view = gtk_text_view_new_with_buffer(textbuf);
       gtk_text_view_set_editable(GTK_TEXT_VIEW(view), editable);
       gtk_text_view_set_cursor_visible(GTK_TEXT_VIEW(view), editable);
@@ -3636,7 +3646,7 @@ static struct extviewer *extviewer_new(struct objprop *op)
     gtk_widget_set_hexpand(view, TRUE);
     gtk_widget_set_vexpand(view, TRUE);
 
-    gtk_container_add(GTK_CONTAINER(scrollwin), view);
+    gtk_scrolled_window_set_child(GTK_SCROLLED_WINDOW(scrollwin), view);
   }
 
   switch (propid) {
@@ -4706,7 +4716,7 @@ property_page_new(enum editor_object_type objtype,
                   struct property_editor *pe)
 {
   struct property_page *pp;
-  GtkWidget *vbox, *vbox2, *hbox, *hbox2, *paned, *frame, *w;
+  GtkWidget *vgrid, *vgrid2, *hgrid, *hgrid2, *paned, *frame, *w;
   GtkWidget *scrollwin, *view, *label, *entry, *notebook;
   GtkWidget *button, *hsep;
   GtkTreeSelection *sel;
@@ -4718,6 +4728,10 @@ property_page_new(enum editor_object_type objtype,
   int col_id = 1;
   const char *attr_type_str, *name, *tooltip;
   gchar *title;
+  int grid_row = 0;
+  int grid2_row = 0;
+  int grid_col = 0;
+  int grid2_col = 0;
 
   if (!(objtype < NUM_OBJTYPES)) {
     return NULL;
@@ -4765,15 +4779,15 @@ property_page_new(enum editor_object_type objtype,
 
   /* Left side object list view. */
 
-  vbox = gtk_grid_new();
-  gtk_orientable_set_orientation(GTK_ORIENTABLE(vbox),
+  vgrid = gtk_grid_new();
+  gtk_orientable_set_orientation(GTK_ORIENTABLE(vgrid),
                                  GTK_ORIENTATION_VERTICAL);
-  gtk_grid_set_row_spacing(GTK_GRID(vbox), 4);
-  gtk_widget_set_margin_start(vbox, 4);
-  gtk_widget_set_margin_end(vbox, 4);
-  gtk_widget_set_margin_top(vbox, 4);
-  gtk_widget_set_margin_bottom(vbox, 4);
-  gtk_paned_pack1(GTK_PANED(paned), vbox, TRUE, TRUE);
+  gtk_grid_set_row_spacing(GTK_GRID(vgrid), 4);
+  gtk_widget_set_margin_start(vgrid, 4);
+  gtk_widget_set_margin_end(vgrid, 4);
+  gtk_widget_set_margin_top(vgrid, 4);
+  gtk_widget_set_margin_bottom(vgrid, 4);
+  gtk_paned_pack1(GTK_PANED(paned), vgrid, TRUE, TRUE);
 
   scrollwin = gtk_scrolled_window_new();
   gtk_scrolled_window_set_has_frame(GTK_SCROLLED_WINDOW(scrollwin),
@@ -4781,7 +4795,7 @@ property_page_new(enum editor_object_type objtype,
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrollwin),
                                  GTK_POLICY_AUTOMATIC,
                                  GTK_POLICY_AUTOMATIC);
-  gtk_container_add(GTK_CONTAINER(vbox), scrollwin);
+  gtk_grid_attach(GTK_GRID(vgrid), scrollwin, 0, grid_row++, 1, 1);
 
   view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(pp->object_store));
   gtk_widget_set_hexpand(view, TRUE);
@@ -4834,13 +4848,13 @@ property_page_new(enum editor_object_type objtype,
   gtk_tree_selection_set_select_function(sel,
       property_page_selection_func, pp, NULL);
 
-  gtk_container_add(GTK_CONTAINER(scrollwin), view);
+  gtk_scrolled_window_set_child(GTK_SCROLLED_WINDOW(scrollwin), view);
   pp->object_view = view;
 
   if (!objtype_is_conserved(objtype)) {
-    hbox = gtk_grid_new();
-    gtk_grid_set_column_spacing(GTK_GRID(hbox), 4);
-    gtk_container_add(GTK_CONTAINER(vbox), hbox);
+    hgrid = gtk_grid_new();
+    gtk_grid_set_column_spacing(GTK_GRID(hgrid), 4);
+    gtk_grid_attach(GTK_GRID(vgrid), hgrid, 0, grid_row++, 1, 1);
 
     button = gtk_button_new();
     gtk_button_set_icon_name(GTK_BUTTON(button), "list-add");
@@ -4855,7 +4869,7 @@ property_page_new(enum editor_object_type objtype,
           "parameter affect unit creation."));
     g_signal_connect(button, "clicked",
                      G_CALLBACK(property_page_create_button_clicked), pp);
-    gtk_container_add(GTK_CONTAINER(hbox), button);
+    gtk_grid_attach(GTK_GRID(hgrid), button, grid_col++, 0, 1, 1);
 
     button = gtk_button_new();
     gtk_button_set_icon_name(GTK_BUTTON(button), "list-remove");
@@ -4867,60 +4881,61 @@ property_page_new(enum editor_object_type objtype,
           "list."));
     g_signal_connect(button, "clicked",
                      G_CALLBACK(property_page_destroy_button_clicked), pp);
-    gtk_container_add(GTK_CONTAINER(hbox), button);
+    gtk_grid_attach(GTK_GRID(hgrid), button, grid_col++, 0, 1, 1);
   }
 
   /* Right side properties panel. */
 
-  hbox = gtk_grid_new();
-  gtk_grid_set_column_spacing(GTK_GRID(hbox), 4);
-  gtk_paned_pack2(GTK_PANED(paned), hbox, TRUE, TRUE);
+  hgrid = gtk_grid_new();
+  grid_col = 0;
+  gtk_grid_set_column_spacing(GTK_GRID(hgrid), 4);
+  gtk_paned_pack2(GTK_PANED(paned), hgrid, TRUE, TRUE);
 
-  vbox = gtk_grid_new();
-  gtk_orientable_set_orientation(GTK_ORIENTABLE(vbox),
+  vgrid = gtk_grid_new();
+  gtk_orientable_set_orientation(GTK_ORIENTABLE(vgrid),
                                  GTK_ORIENTATION_VERTICAL);
-  gtk_grid_set_row_spacing(GTK_GRID(vbox), 4);
-  gtk_widget_set_margin_start(vbox, 4);
-  gtk_widget_set_margin_end(vbox, 4);
-  gtk_widget_set_margin_top(vbox, 4);
-  gtk_widget_set_margin_bottom(vbox, 4);
-  gtk_container_add(GTK_CONTAINER(hbox), vbox);
+  gtk_grid_set_row_spacing(GTK_GRID(vgrid), 4);
+  gtk_widget_set_margin_start(vgrid, 4);
+  gtk_widget_set_margin_end(vgrid, 4);
+  gtk_widget_set_margin_top(vgrid, 4);
+  gtk_widget_set_margin_bottom(vgrid, 4);
+  gtk_grid_attach(GTK_GRID(hgrid), vgrid, grid_col++, 0, 1, 1);
 
   /* Extended property viewer to the right of the properties panel.
    * This needs to be created before property widgets, since some
    * might try to append themselves to this notebook. */
 
-  vbox2 = gtk_grid_new();
-  gtk_widget_set_hexpand(vbox2, TRUE);
-  gtk_widget_set_vexpand(vbox2, TRUE);
-  gtk_orientable_set_orientation(GTK_ORIENTABLE(vbox2),
+  vgrid2 = gtk_grid_new();
+  gtk_widget_set_hexpand(vgrid2, TRUE);
+  gtk_widget_set_vexpand(vgrid, TRUE);
+  gtk_orientable_set_orientation(GTK_ORIENTABLE(vgrid2),
                                  GTK_ORIENTATION_VERTICAL);
-  gtk_grid_set_row_spacing(GTK_GRID(vbox2), 4);
-  gtk_container_add(GTK_CONTAINER(hbox), vbox2);
+  gtk_grid_set_row_spacing(GTK_GRID(vgrid2), 4);
+  gtk_grid_attach(GTK_GRID(hgrid), vgrid2, grid_col++, 0, 1, 1);
 
   notebook = gtk_notebook_new();
   gtk_widget_set_vexpand(notebook, TRUE);
   gtk_widget_set_size_request(notebook, 256, -1);
   gtk_notebook_set_show_tabs(GTK_NOTEBOOK(notebook), FALSE);
   gtk_notebook_set_show_border(GTK_NOTEBOOK(notebook), FALSE);
-  gtk_container_add(GTK_CONTAINER(vbox2), notebook);
+  gtk_grid_attach(GTK_GRID(vgrid2), notebook, 0, grid2_row++, 1, 1);
   pp->extviewer_notebook = notebook;
 
   hsep = gtk_separator_new(GTK_ORIENTATION_HORIZONTAL);
-  gtk_container_add(GTK_CONTAINER(vbox2), hsep);
+  gtk_grid_attach(GTK_GRID(vgrid2), hsep, 0, grid2_row++, 1, 1);
 
-  hbox2 = gtk_grid_new();
-  gtk_widget_set_margin_start(hbox2, 4);
-  gtk_widget_set_margin_end(hbox2, 4);
-  gtk_widget_set_margin_top(hbox2, 4);
-  gtk_widget_set_margin_bottom(hbox2, 4);
-  gtk_container_add(GTK_CONTAINER(vbox2), hbox2);
+  hgrid2 = gtk_grid_new();
+  gtk_widget_set_margin_start(hgrid2, 4);
+  gtk_widget_set_margin_end(hgrid2, 4);
+  gtk_widget_set_margin_top(hgrid2, 4);
+  gtk_widget_set_margin_bottom(hgrid2, 4);
+  gtk_grid_attach(GTK_GRID(vgrid2), hgrid2, 0, grid2_row++, 1, 1);
 
   button = gtk_button_new_with_mnemonic(_("_Close"));
   gtk_size_group_add_widget(sizegroup, button);
   g_signal_connect_swapped(button, "clicked",
       G_CALLBACK(gtk_widget_hide), pe->widget);
-  gtk_container_add(GTK_CONTAINER(hbox2), button);
+  gtk_grid_attach(GTK_GRID(hgrid2), button, grid2_col++, 0, 1, 1);
 
   /* Now create the properties panel. */
 
@@ -4931,7 +4946,7 @@ property_page_new(enum editor_object_type objtype,
   frame = gtk_frame_new(title);
   g_free(title);
   gtk_widget_set_size_request(frame, 256, -1);
-  gtk_container_add(GTK_CONTAINER(vbox), frame);
+  gtk_grid_attach(GTK_GRID(vgrid), frame, 0, grid_row++, 1, 1);
 
   scrollwin = gtk_scrolled_window_new();
   gtk_scrolled_window_set_has_frame(GTK_SCROLLED_WINDOW(scrollwin),
@@ -4939,18 +4954,19 @@ property_page_new(enum editor_object_type objtype,
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrollwin),
                                  GTK_POLICY_AUTOMATIC,
                                  GTK_POLICY_AUTOMATIC);
-  gtk_container_add(GTK_CONTAINER(frame), scrollwin);
+  gtk_frame_set_child(GTK_FRAME(frame), scrollwin);
 
-  vbox2 = gtk_grid_new();
-  gtk_widget_set_vexpand(vbox2, TRUE);
-  gtk_orientable_set_orientation(GTK_ORIENTABLE(vbox2),
+  vgrid2 = gtk_grid_new();
+  grid2_row = 0;
+  gtk_widget_set_vexpand(vgrid2, TRUE);
+  gtk_orientable_set_orientation(GTK_ORIENTABLE(vgrid2),
                                  GTK_ORIENTATION_VERTICAL);
-  gtk_grid_set_row_spacing(GTK_GRID(vbox2), 4);
-  gtk_widget_set_margin_start(vbox2, 4);
-  gtk_widget_set_margin_end(vbox2, 4);
-  gtk_widget_set_margin_top(vbox2, 4);
-  gtk_widget_set_margin_bottom(vbox2, 4);
-  gtk_container_add(GTK_CONTAINER(scrollwin), vbox2);
+  gtk_grid_set_row_spacing(GTK_GRID(vgrid2), 4);
+  gtk_widget_set_margin_start(vgrid2, 4);
+  gtk_widget_set_margin_end(vgrid2, 4);
+  gtk_widget_set_margin_top(vgrid2, 4);
+  gtk_widget_set_margin_bottom(vgrid2, 4);
+  gtk_scrolled_window_set_child(GTK_SCROLLED_WINDOW(scrollwin), vgrid2);
 
   property_page_objprop_iterate(pp, op) {
     if (!objprop_has_widget(op)) {
@@ -4960,21 +4976,22 @@ property_page_new(enum editor_object_type objtype,
     if (!w) {
       continue;
     }
-    gtk_container_add(GTK_CONTAINER(vbox2), w);
+    gtk_grid_attach(GTK_GRID(vgrid2), w, 0, grid2_row++, 1, 1);
     tooltip = objprop_get_tooltip(op);
     if (NULL != tooltip) {
       gtk_widget_set_tooltip_text(w, tooltip);
     }
   } property_page_objprop_iterate_end;
 
-  hbox2 = gtk_grid_new();
-  gtk_widget_set_margin_top(hbox2, 4);
-  gtk_widget_set_margin_bottom(hbox2, 4);
-  gtk_grid_set_column_spacing(GTK_GRID(hbox2), 4);
-  gtk_container_add(GTK_CONTAINER(vbox), hbox2);
+  hgrid2 = gtk_grid_new();
+  grid2_col = 0;
+  gtk_widget_set_margin_top(hgrid2, 4);
+  gtk_widget_set_margin_bottom(hgrid2, 4);
+  gtk_grid_set_column_spacing(GTK_GRID(hgrid2), 4);
+  gtk_grid_attach(GTK_GRID(vgrid), hgrid2, 0, grid_row++, 1, 1);
 
   label = gtk_label_new(_("Filter:"));
-  gtk_container_add(GTK_CONTAINER(hbox2), label);
+  gtk_grid_attach(GTK_GRID(hgrid2), label, grid2_col++, 0, 1, 1);
 
   entry = gtk_entry_new();
   gtk_widget_set_tooltip_text(entry,
@@ -4984,11 +5001,12 @@ property_page_new(enum editor_object_type objtype,
         "than |. A pattern may also be negated by prefixing it with !."));
   g_signal_connect(entry, "changed",
       G_CALLBACK(property_page_quick_find_entry_changed), pp);
-  gtk_container_add(GTK_CONTAINER(hbox2), entry);
+  gtk_grid_attach(GTK_GRID(hgrid2), entry, grid2_col++, 0, 1, 1);
 
-  hbox2 = gtk_grid_new();
-  gtk_grid_set_column_spacing(GTK_GRID(hbox2), 4);
-  gtk_container_add(GTK_CONTAINER(vbox), hbox2);
+  hgrid2 = gtk_grid_new();
+  grid2_col = 0;
+  gtk_grid_set_column_spacing(GTK_GRID(hgrid2), 4);
+  gtk_grid_attach(GTK_GRID(vgrid), hgrid2, 0, grid_row++, 1, 1);
 
   button = gtk_button_new_with_mnemonic(_("_Refresh"));
   gtk_size_group_add_widget(sizegroup, button);
@@ -4998,7 +5016,7 @@ property_page_new(enum editor_object_type objtype,
         "they have on the server)."));
   g_signal_connect(button, "clicked",
                    G_CALLBACK(property_page_refresh_button_clicked), pp);
-  gtk_container_add(GTK_CONTAINER(hbox2), button);
+  gtk_grid_attach(GTK_GRID(hgrid2), button, grid2_col++, 0, 1, 1);
 
   button = gtk_button_new_with_mnemonic(_("_Apply"));
   gtk_size_group_add_widget(sizegroup, button);
@@ -5009,7 +5027,7 @@ property_page_new(enum editor_object_type objtype,
         "panel."));
   g_signal_connect(button, "clicked",
                    G_CALLBACK(property_page_apply_button_clicked), pp);
-  gtk_container_add(GTK_CONTAINER(hbox2), button);
+  gtk_grid_attach(GTK_GRID(hgrid2), button, grid2_col++, 0, 1, 1);
 
   return pp;
 }
@@ -6140,8 +6158,9 @@ property_editor_get_page(struct property_editor *pe,
 static struct property_editor *property_editor_new(void)
 {
   struct property_editor *pe;
-  GtkWidget *win, *notebook, *vbox;
+  GtkWidget *win, *notebook, *vgrid;
   enum editor_object_type objtype;
+  int grid_row = 0;
 
   pe = fc_calloc(1, sizeof(*pe));
 
@@ -6160,14 +6179,14 @@ static struct property_editor *property_editor_new(void)
   gtk_window_set_hide_on_close(GTK_WINDOW(win), TRUE);
   pe->widget = win;
 
-  vbox = gtk_grid_new();
-  gtk_container_add(GTK_CONTAINER(win), vbox);
+  vgrid = gtk_grid_new();
+  gtk_window_set_child(GTK_WINDOW(win), vgrid);
 
   /* Property pages. */
 
   notebook = gtk_notebook_new();
   gtk_notebook_set_show_tabs(GTK_NOTEBOOK(notebook), TRUE);
-  gtk_container_add(GTK_CONTAINER(vbox), notebook);
+  gtk_grid_attach(GTK_GRID(vgrid), notebook, 0, grid_row++, 1, 1);
   pe->notebook = notebook;
 
   for (objtype = 0; objtype < NUM_OBJTYPES; objtype++) {

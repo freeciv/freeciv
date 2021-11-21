@@ -91,7 +91,7 @@ GtkWidget *input_dialog_create(GtkWindow *parent, const char *dialogname,
                              label, NULL);
 
   input = gtk_entry_new();
-  gtk_container_add(GTK_CONTAINER(label), input);
+  gtk_frame_set_child(GTK_FRAME(label), input);
   gtk_entry_buffer_set_text(gtk_entry_get_buffer(GTK_ENTRY(input)), postinputtest, -1);
   gtk_entry_set_activates_default(GTK_ENTRY(input), TRUE);
   g_object_set_data(G_OBJECT(shell), "iinput", input);

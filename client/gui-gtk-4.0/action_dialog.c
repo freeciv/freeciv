@@ -574,7 +574,7 @@ static void create_advances_list(struct player *pplayer,
 				 struct player *pvictim,
 				 struct action_data *args)
 {
-  GtkWidget *sw, *label, *vbox, *view;
+  GtkWidget *sw, *frame, *label, *vgrid, *view;
   GtkListStore *store;
   GtkCellRenderer *rend;
   GtkTreeViewColumn *col;
@@ -591,14 +591,14 @@ static void create_advances_list(struct player *pplayer,
   gtk_dialog_set_default_response(GTK_DIALOG(spy_tech_shell),
 				  GTK_RESPONSE_ACCEPT);
 
-  label = gtk_frame_new(_("Select Advance to Steal"));
-  gtk_box_append(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(spy_tech_shell))), label);
+  frame = gtk_frame_new(_("Select Advance to Steal"));
+  gtk_box_append(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(spy_tech_shell))), frame);
 
-  vbox = gtk_grid_new();
-  gtk_orientable_set_orientation(GTK_ORIENTABLE(vbox),
+  vgrid = gtk_grid_new();
+  gtk_orientable_set_orientation(GTK_ORIENTABLE(vgrid),
                                  GTK_ORIENTATION_VERTICAL);
-  gtk_grid_set_row_spacing(GTK_GRID(vbox), 6);
-  gtk_container_add(GTK_CONTAINER(label), vbox);
+  gtk_grid_set_row_spacing(GTK_GRID(vgrid), 6);
+  gtk_frame_set_child(GTK_FRAME(frame), vgrid);
 
   store = gtk_list_store_new(2, G_TYPE_STRING, G_TYPE_INT);
 
@@ -620,17 +620,17 @@ static void create_advances_list(struct player *pplayer,
     "xalign", 0.0,
     "yalign", 0.5,
     NULL);
-  gtk_container_add(GTK_CONTAINER(vbox), label);
+  gtk_grid_attach(GTK_GRID(vgrid), label, 0, 0, 1, 1);
 
   sw = gtk_scrolled_window_new();
   gtk_scrolled_window_set_has_frame(GTK_SCROLLED_WINDOW(sw), TRUE);
-  gtk_container_add(GTK_CONTAINER(sw), view);
+  gtk_scrolled_window_set_child(GTK_SCROLLED_WINDOW(sw), view);
 
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
     GTK_POLICY_NEVER, GTK_POLICY_ALWAYS);
   gtk_widget_set_size_request(sw, -1, 200);
 
-  gtk_container_add(GTK_CONTAINER(vbox), sw);
+  gtk_grid_attach(GTK_GRID(vgrid), sw, 0, 1, 1, 1);
 
   /* Now populate the list */
   if (pvictim) { /* you don't want to know what lag can do -- Syela */
@@ -759,7 +759,7 @@ static void create_improvements_list(struct player *pplayer,
 				     struct city *pcity,
 				     struct action_data *args)
 {
-  GtkWidget *sw, *label, *vbox, *view;
+  GtkWidget *sw, *frame, *label, *vgrid, *view;
   GtkListStore *store;
   GtkCellRenderer *rend;
   GtkTreeViewColumn *col;
@@ -777,14 +777,14 @@ static void create_improvements_list(struct player *pplayer,
   gtk_dialog_set_default_response(GTK_DIALOG(spy_sabotage_shell),
 				  GTK_RESPONSE_ACCEPT);
 
-  label = gtk_frame_new(_("Select Improvement to Sabotage"));
-  gtk_box_append(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(spy_sabotage_shell))), label);
+  frame = gtk_frame_new(_("Select Improvement to Sabotage"));
+  gtk_box_append(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(spy_sabotage_shell))), frame);
 
-  vbox = gtk_grid_new();
-  gtk_orientable_set_orientation(GTK_ORIENTABLE(vbox),
+  vgrid = gtk_grid_new();
+  gtk_orientable_set_orientation(GTK_ORIENTABLE(vgrid),
                                  GTK_ORIENTATION_VERTICAL);
-  gtk_grid_set_row_spacing(GTK_GRID(vbox), 6);
-  gtk_container_add(GTK_CONTAINER(label), vbox);
+  gtk_grid_set_row_spacing(GTK_GRID(vgrid), 6);
+  gtk_frame_set_child(GTK_FRAME(frame), vgrid);
 
   store = gtk_list_store_new(2, G_TYPE_STRING, G_TYPE_INT);
 
@@ -806,17 +806,17 @@ static void create_improvements_list(struct player *pplayer,
     "xalign", 0.0,
     "yalign", 0.5,
     NULL);
-  gtk_container_add(GTK_CONTAINER(vbox), label);
+  gtk_grid_attach(GTK_GRID(vgrid), label, 0, 0, 1, 1);
 
   sw = gtk_scrolled_window_new();
   gtk_scrolled_window_set_has_frame(GTK_SCROLLED_WINDOW(sw), TRUE);
-  gtk_container_add(GTK_CONTAINER(sw), view);
+  gtk_scrolled_window_set_child(GTK_SCROLLED_WINDOW(sw), view);
 
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
     GTK_POLICY_NEVER, GTK_POLICY_ALWAYS);
   gtk_scrolled_window_set_min_content_height(GTK_SCROLLED_WINDOW(sw), 200);
 
-  gtk_container_add(GTK_CONTAINER(vbox), sw);
+  gtk_grid_attach(GTK_GRID(vgrid), sw, 0, 1, 1, 1);
 
   /* Now populate the list */
   if (action_prob_possible(actor_unit->client.act_prob_cache[

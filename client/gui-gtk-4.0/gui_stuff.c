@@ -464,7 +464,7 @@ static void gui_dialog_detach(struct gui_dialog* dlg)
   gtk_window_set_title(GTK_WINDOW(window), dlg->title);
   setup_dialog(window, toplevel);
 
-  gtk_container_add(GTK_CONTAINER(window), dlg->grid);
+  gtk_window_set_child(GTK_WINDOW(window), dlg->grid);
   dlg->v.window = window;
   g_signal_connect(window, "close-request",
                    G_CALLBACK(gui_dialog_delete_handler), dlg);
@@ -581,7 +581,7 @@ void gui_dialog_new(struct gui_dialog **pdlg, GtkNotebook *notebook,
       gtk_widget_set_name(window, "Freeciv");
       setup_dialog(window, toplevel);
 
-      gtk_container_add(GTK_CONTAINER(window), dlg->grid);
+      gtk_window_set_child(GTK_WINDOW(window), dlg->grid);
       dlg->v.window = window;
       g_signal_connect(window, "close-request",
         G_CALLBACK(gui_dialog_delete_handler), dlg);
@@ -590,10 +590,11 @@ void gui_dialog_new(struct gui_dialog **pdlg, GtkNotebook *notebook,
     break;
   case GUI_DIALOG_TAB:
     {
-      GtkWidget *hbox, *label, *button;
+      GtkWidget *hgrid, *label, *button;
       gchar *buf;
+      int grid_col = 0;
 
-      hbox = gtk_grid_new();
+      hgrid = gtk_grid_new();
 
       label = gtk_label_new(NULL);
       gtk_widget_set_halign(label, GTK_ALIGN_START);
@@ -602,7 +603,7 @@ void gui_dialog_new(struct gui_dialog **pdlg, GtkNotebook *notebook,
       gtk_widget_set_margin_end(label, 4);
       gtk_widget_set_margin_top(label, 0);
       gtk_widget_set_margin_bottom(label, 0);
-      gtk_container_add(GTK_CONTAINER(hbox), label);
+      gtk_grid_attach(GTK_GRID(hgrid), label, grid_col++, 0, 1, 1);
 
       button = gtk_button_new();
       gtk_button_set_has_frame(GTK_BUTTON(button), FALSE);
@@ -615,11 +616,11 @@ void gui_dialog_new(struct gui_dialog **pdlg, GtkNotebook *notebook,
 
       gtk_button_set_icon_name(GTK_BUTTON(button), "window-close");
 
-      gtk_container_add(GTK_CONTAINER(hbox), button);
+      gtk_grid_attach(GTK_GRID(hgrid), button, grid_col++, 0, 1, 1);
 
-      gtk_widget_show(hbox);
+      gtk_widget_show(hgrid);
 
-      gtk_notebook_append_page(GTK_NOTEBOOK(notebook), dlg->grid, hbox);
+      gtk_notebook_append_page(GTK_NOTEBOOK(notebook), dlg->grid, hgrid);
       dlg->v.tab.handler_id =
         g_signal_connect(notebook, "switch-page",
                          G_CALLBACK(gui_dialog_switch_page_handler), dlg);
@@ -631,7 +632,7 @@ void gui_dialog_new(struct gui_dialog **pdlg, GtkNotebook *notebook,
       dlg->v.tab.label = label;
       dlg->v.tab.notebook = GTK_WIDGET(notebook);
 
-      g_signal_connect(hbox, "button-press-event",
+      g_signal_connect(hgrid, "button-press-event",
                        G_CALLBACK(click_on_tab_callback), dlg);
     }
     break;

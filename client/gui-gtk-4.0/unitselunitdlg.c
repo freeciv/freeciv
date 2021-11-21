@@ -89,6 +89,7 @@ bool select_tgt_unit(struct unit *actor, struct tile *ptile,
   const struct unit_type *actor_type = unit_type_get(actor);
   int tcount;
   const struct unit *default_unit;
+  int main_row = 0;
 
   dlg = gtk_dialog_new_with_buttons(dlg_title, NULL, 0,
                                     _("Close"), GTK_RESPONSE_NO,
@@ -119,13 +120,13 @@ bool select_tgt_unit(struct unit *actor, struct tile *ptile,
   lbl = gtk_label_new(utype_name_translation(actor_type));
   gtk_grid_attach(GTK_GRID(box), lbl, 2, 0, 1, 1);
 
-  gtk_container_add(GTK_CONTAINER(main_box), box);
+  gtk_grid_attach(GTK_GRID(main_box), box, 0, main_row++, 1, 1);
 
   sep = gtk_separator_new(GTK_ORIENTATION_HORIZONTAL);
-  gtk_container_add(GTK_CONTAINER(main_box), sep);
+  gtk_grid_attach(GTK_GRID(main_box), sep, 0, main_row++, 1, 1);
 
   lbl = gtk_label_new(tgt_label);
-  gtk_container_add(GTK_CONTAINER(main_box), lbl);
+  gtk_grid_attach(GTK_GRID(main_box), lbl, 0, main_row++, 1, 1);
 
   box = gtk_grid_new();
 
@@ -178,7 +179,7 @@ bool select_tgt_unit(struct unit *actor, struct tile *ptile,
 
     tcount++;
   } unit_list_iterate_end;
-  gtk_container_add(GTK_CONTAINER(main_box), box);
+  gtk_grid_attach(GTK_GRID(main_box), box, 0, main_row++, 1, 1);
 
   fc_assert_ret_val(default_option, FALSE);
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(default_option), TRUE);

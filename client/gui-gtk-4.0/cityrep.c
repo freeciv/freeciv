@@ -405,15 +405,16 @@ static void append_impr_or_unit_to_menu_item(GtkMenuItem *parent_item,
 
   for (item = 0; item < targets_used; item++) {
     struct universal target = items[item].item;
-    GtkWidget *menu_item, *hbox, *label;
+    GtkWidget *menu_item, *hgrid, *label;
     char txt[256];
+    int grid_col = 0;
 
     get_city_dialog_production_row(row, sizeof(buf[0]), &target, NULL);
 
     menu_item = gtk_menu_item_new();
-    hbox = gtk_grid_new();
-    gtk_grid_set_column_spacing(GTK_GRID(hbox), 18);
-    gtk_container_add(GTK_CONTAINER(menu_item), hbox);
+    hgrid = gtk_grid_new();
+    gtk_grid_set_column_spacing(GTK_GRID(hgrid), 18);
+    gtk_container_add(GTK_CONTAINER(menu_item), hgrid);
 
     for (i = 0; i < 3; i++) {
       if (row[i][0] == '\0') {
@@ -443,7 +444,7 @@ static void append_impr_or_unit_to_menu_item(GtkMenuItem *parent_item,
           break;
       }
 
-      gtk_container_add(GTK_CONTAINER(hbox), label);
+      gtk_grid_attach(GTK_GRID(hgrid), label, grid_col++, 0, 1, 1);
       gtk_size_group_add_widget(group[i], label);
     }
 
@@ -1050,17 +1051,18 @@ static void update_view_menu(GtkWidget *show_item)
 ****************************************************************************/
 static GtkWidget *create_city_report_menubar(void)
 {
-  GtkWidget *vbox, *sep;
+  GtkWidget *vgrid, *sep;
   GtkWidget *menubar;
+  int grid_row = 0;
 
-  vbox = gtk_grid_new();
-  gtk_orientable_set_orientation(GTK_ORIENTABLE(vbox),
+  vgrid = gtk_grid_new();
+  gtk_orientable_set_orientation(GTK_ORIENTABLE(vgrid),
                                  GTK_ORIENTATION_VERTICAL);
   sep = gtk_separator_new(GTK_ORIENTATION_HORIZONTAL);
-  gtk_container_add(GTK_CONTAINER(vbox), sep);
+  gtk_grid_attach(GTK_GRID(vgrid), sep, 0, grid_row++, 1, 1);
 
   menubar = gtk_aux_menu_bar_new();
-  gtk_container_add(GTK_CONTAINER(vbox), menubar);
+  gtk_grid_attach(GTK_GRID(vgrid), menubar, 0, grid_row++, 1, 1);
 
 #ifdef MENUS_GTK3
   GtkWidget *menu, *item;
@@ -1131,7 +1133,7 @@ static GtkWidget *create_city_report_menubar(void)
   update_view_menu(item);
 #endif /* MENUS_GTK3 */
 
-  return vbox;
+  return vgrid;
 }
 
 /************************************************************************//**
@@ -1241,7 +1243,7 @@ static void create_city_report_dialog(bool make_modal)
   gtk_scrolled_window_set_has_frame(GTK_SCROLLED_WINDOW(sw), TRUE);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
                                  GTK_POLICY_AUTOMATIC, GTK_POLICY_ALWAYS);
-  gtk_container_add(GTK_CONTAINER(sw), city_view);
+  gtk_scrolled_window_set_child(GTK_SCROLLED_WINDOW(sw), city_view);
 
   gui_dialog_add_content_widget(city_dialog_shell, sw);
 

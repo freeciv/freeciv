@@ -67,6 +67,7 @@ void rally_dialog_popup(void)
   GtkWidget *dlg;
   GtkWidget *main_box;
   GtkWidget *sep;
+  int grid_row = 0;
 
   if (rally_dialog_open()) {
     /* One rally point dialog already open. */
@@ -86,10 +87,10 @@ void rally_dialog_popup(void)
                                  GTK_ORIENTATION_VERTICAL);
 
   instruction_label = gtk_label_new(_("First click a city."));
-  gtk_container_add(GTK_CONTAINER(main_box), instruction_label);
+  gtk_grid_attach(GTK_GRID(main_box), instruction_label, 0, grid_row++, 1, 1);
 
   sep = gtk_separator_new(GTK_ORIENTATION_HORIZONTAL);
-  gtk_container_add(GTK_CONTAINER(main_box), sep);
+  gtk_grid_attach(GTK_GRID(main_box), sep, 0, grid_row++, 1, 1);
 
   gtk_box_append(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(dlg))),
                  main_box);

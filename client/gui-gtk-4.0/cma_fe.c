@@ -219,13 +219,16 @@ struct cma_dialog *create_cma_dialog(struct city *pcity, bool tiny)
   struct cma_dialog *pdialog;
   struct cm_parameter param;
   GtkWidget *frame, *page, *hbox, *label, *table;
-  GtkWidget *vbox, *sw, *hscale, *button;
+  GtkWidget *vgrid, *sw, *hscale, *button;
   GtkListStore *store;
   GtkCellRenderer *rend;
   GtkWidget *view;
   GtkTreeViewColumn *column;
   gint layout_width;
   GtkEventController *controller;
+  int shell_row = 0;
+  int grid_row = 0;
+  int page_row = 0;
 
   cmafec_get_fe_parameter(pcity, &param);
   pdialog = fc_malloc(sizeof(struct cma_dialog));
@@ -243,13 +246,13 @@ struct cma_dialog *create_cma_dialog(struct city *pcity, bool tiny)
 
   page = gtk_grid_new();
   gtk_grid_set_column_spacing(GTK_GRID(page), 12);
-  gtk_container_add(GTK_CONTAINER(pdialog->shell), page);
+  gtk_grid_attach(GTK_GRID(pdialog->shell), page, 0, shell_row++, 1, 1);
 
-  vbox = gtk_grid_new();
-  gtk_orientable_set_orientation(GTK_ORIENTABLE(vbox),
+  vgrid = gtk_grid_new();
+  gtk_orientable_set_orientation(GTK_ORIENTABLE(vgrid),
                                  GTK_ORIENTATION_VERTICAL);
   gtk_grid_set_row_spacing(GTK_GRID(pdialog->shell), 2);
-  gtk_container_add(GTK_CONTAINER(page), vbox);
+  gtk_grid_attach(GTK_GRID(page), vgrid, 0, page_row++, 1, 1);
 
   sw = gtk_scrolled_window_new();
   gtk_scrolled_window_set_has_frame(GTK_SCROLLED_WINDOW(sw), TRUE);
@@ -291,10 +294,10 @@ struct cma_dialog *create_cma_dialog(struct city *pcity, bool tiny)
                        "mnemonic-widget", view,
                        "label", _("Prese_ts:"),
                        "xalign", 0.0, "yalign", 0.5, NULL);
-  gtk_container_add(GTK_CONTAINER(vbox), label);
+  gtk_grid_attach(GTK_GRID(vgrid), label, 0, grid_row++, 1, 1);
 
-  gtk_container_add(GTK_CONTAINER(sw), view);
-  gtk_container_add(GTK_CONTAINER(vbox), sw);
+  gtk_scrolled_window_set_child(GTK_SCROLLED_WINDOW(sw), view);
+  gtk_grid_attach(GTK_GRID(vgrid), sw, 0, grid_row++, 1, 1);
 
   g_signal_connect(view, "row_activated",
                    G_CALLBACK(cma_activate_preset_callback), pdialog);
@@ -302,39 +305,40 @@ struct cma_dialog *create_cma_dialog(struct city *pcity, bool tiny)
                    G_CALLBACK(cma_preset_key_pressed_callback), pdialog);
 
   hbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 2);
-  gtk_container_add(GTK_CONTAINER(vbox), hbox);
+  gtk_grid_attach(GTK_GRID(vgrid), hbox, 0, grid_row++, 1, 1);
 
   button = icon_label_button_new("document-new", _("Ne_w"));
-  gtk_container_add(GTK_CONTAINER(hbox), button);
+  gtk_box_append(GTK_BOX(hbox), button);
   g_signal_connect(button, "clicked",
                    G_CALLBACK(cma_add_preset_callback), pdialog);
   pdialog->add_preset_command = button;
 
   pdialog->del_preset_command = icon_label_button_new("edit-delete",
                                                       _("_Delete"));
-  gtk_container_add(GTK_CONTAINER(hbox), pdialog->del_preset_command);
+  gtk_box_append(GTK_BOX(hbox), pdialog->del_preset_command);
   g_signal_connect(pdialog->del_preset_command, "clicked",
                    G_CALLBACK(cma_del_preset_callback), pdialog);
 
   /* the right-hand side */
 
-  vbox = gtk_grid_new();
-  g_object_set(vbox, "margin", 2, NULL);
-  gtk_orientable_set_orientation(GTK_ORIENTABLE(vbox),
+  vgrid = gtk_grid_new();
+  grid_row = 0;
+  g_object_set(vgrid, "margin", 2, NULL);
+  gtk_orientable_set_orientation(GTK_ORIENTABLE(vgrid),
                                  GTK_ORIENTATION_VERTICAL);
-  gtk_container_add(GTK_CONTAINER(page), vbox);
+  gtk_grid_attach(GTK_GRID(page), vgrid, 0, page_row++, 1, 1);
 
   /* Result */
   if (!tiny) {
     frame = gtk_frame_new(_("Results"));
     gtk_widget_set_vexpand(frame, TRUE);
     gtk_widget_set_valign(frame, GTK_ALIGN_CENTER);
-    gtk_container_add(GTK_CONTAINER(vbox), frame);
+    gtk_grid_attach(GTK_GRID(vgrid), frame, 0, grid_row++, 1, 1);
 
     pdialog->result_label =
       gtk_label_new("food\n prod\n trade\n\n people\n grow\n prod\n name");
     gtk_widget_set_name(pdialog->result_label, "city_label");
-    gtk_container_add(GTK_CONTAINER(frame), pdialog->result_label);
+    gtk_frame_set_child(GTK_FRAME(frame), pdialog->result_label);
     gtk_label_set_justify(GTK_LABEL(pdialog->result_label), GTK_JUSTIFY_LEFT);
   } else {
     pdialog->result_label = NULL;
@@ -344,7 +348,7 @@ struct cma_dialog *create_cma_dialog(struct city *pcity, bool tiny)
 
   table = gtk_grid_new();
   g_object_set(table, "margin", 2, NULL);
-  gtk_container_add(GTK_CONTAINER(vbox), table);
+  gtk_grid_attach(GTK_GRID(vgrid), table, 0, grid_row++, 1, 1);
 
   label = gtk_label_new(_("Minimal Surplus"));
   gtk_widget_set_halign(label, GTK_ALIGN_START);
@@ -430,17 +434,17 @@ struct cma_dialog *create_cma_dialog(struct city *pcity, bool tiny)
   /* buttons */
 
   hbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 2);
-  gtk_container_add(GTK_CONTAINER(vbox), hbox);
+  gtk_grid_attach(GTK_GRID(vgrid), hbox, 0, grid_row++, 1, 1);
 
   button = icon_label_button_new("help-browser", _("Help"));
   g_signal_connect(button, "clicked",
                    G_CALLBACK(help_callback), NULL);
-  gtk_container_add(GTK_CONTAINER(hbox), button);
+  gtk_box_append(GTK_BOX(hbox), button);
 
   pdialog->active_command = gtk_toggle_button_new();
   gtk_button_set_use_underline(GTK_BUTTON(pdialog->active_command), TRUE);
   gtk_widget_set_name(pdialog->active_command, "comment_label");
-  gtk_container_add(GTK_CONTAINER(hbox), pdialog->active_command);
+  gtk_box_append(GTK_BOX(hbox), pdialog->active_command);
 
   gtk_widget_show(pdialog->shell);
 

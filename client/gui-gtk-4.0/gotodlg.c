@@ -133,9 +133,10 @@ static void goto_cmd_callback(GtkWidget *dlg, gint arg)
 **************************************************************************/
 static void create_goto_dialog(void)
 {
-  GtkWidget *sw, *label, *frame, *vbox;
+  GtkWidget *sw, *label, *frame, *vgrid;
   GtkCellRenderer *rend;
   GtkTreeViewColumn *col;
+  int grid_row = 0;
 
   dshell = gtk_dialog_new_with_buttons(_("Goto/Airlift Unit"),
                                        NULL,
@@ -171,11 +172,11 @@ static void create_goto_dialog(void)
   gtk_box_insert_child_after(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(dshell))),
                              frame, NULL);
 
-  vbox = gtk_grid_new();
-  gtk_orientable_set_orientation(GTK_ORIENTABLE(vbox),
+  vgrid = gtk_grid_new();
+  gtk_orientable_set_orientation(GTK_ORIENTABLE(vgrid),
                                  GTK_ORIENTATION_VERTICAL);
-  gtk_grid_set_row_spacing(GTK_GRID(vbox), 6);
-  gtk_container_add(GTK_CONTAINER(frame), vbox);
+  gtk_grid_set_row_spacing(GTK_GRID(vgrid), 6);
+  gtk_frame_set_child(GTK_FRAME(frame), vgrid);
 
   goto_list_store = gtk_list_store_new(GD_COL_NUM, G_TYPE_INT, G_TYPE_STRING,
                                        GDK_TYPE_PIXBUF, G_TYPE_STRING, G_TYPE_STRING);
@@ -226,15 +227,15 @@ static void create_goto_dialog(void)
   gtk_tree_view_column_set_sort_column_id(col, GD_COL_AIRLIFT);
 
   sw = gtk_scrolled_window_new();
-  gtk_container_add(GTK_CONTAINER(sw), view);
+  gtk_scrolled_window_set_child(GTK_SCROLLED_WINDOW(sw), view);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
     GTK_POLICY_NEVER, GTK_POLICY_ALWAYS);
   gtk_scrolled_window_set_min_content_height(GTK_SCROLLED_WINDOW(sw), 200);
 
-  gtk_container_add(GTK_CONTAINER(vbox), sw);
+  gtk_grid_attach(GTK_GRID(vgrid), sw, 0, grid_row++, 1, 1);
 
   all_toggle = gtk_check_button_new_with_mnemonic(_("Show _All Cities"));
-  gtk_container_add(GTK_CONTAINER(vbox), all_toggle);
+  gtk_grid_attach(GTK_GRID(vgrid), all_toggle, 0, grid_row++, 1, 1);
 
   g_signal_connect(all_toggle, "toggled", G_CALLBACK(update_goto_dialog), NULL);
 

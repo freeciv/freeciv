@@ -387,10 +387,13 @@ static void usdlg_tab_select(struct unit_select_dialog *pdialog,
                              const char *title,
                              enum unit_select_location_mode loc)
 {
-  GtkWidget *page, *label, *hbox, *vbox, *view, *sw;
+  GtkWidget *page, *label, *hgrid, *vgrid, *view, *sw;
   GtkTreeStore *store;
   static bool titles_done;
   int i;
+  int page_row = 0;
+  int grid_col = 0;
+  int grid_row = 0;
 
   page = gtk_grid_new();
   gtk_orientable_set_orientation(GTK_ORIENTABLE(page),
@@ -404,8 +407,8 @@ static void usdlg_tab_select(struct unit_select_dialog *pdialog,
   label = gtk_label_new_with_mnemonic(title);
   gtk_notebook_append_page(GTK_NOTEBOOK(pdialog->notebook), page, label);
 
-  hbox = gtk_grid_new();
-  gtk_container_add(GTK_CONTAINER(page), hbox);
+  hgrid = gtk_grid_new();
+  gtk_grid_attach(GTK_GRID(page), hgrid, 0, page_row++, 1, 1);
 
   store = usdlg_tab_store_new();
   pdialog->tabs[loc].store = store;
@@ -462,20 +465,21 @@ static void usdlg_tab_select(struct unit_select_dialog *pdialog,
   gtk_scrolled_window_set_has_frame(GTK_SCROLLED_WINDOW(sw), TRUE);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
                                  GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
-  gtk_container_add(GTK_CONTAINER(sw), view);
-  gtk_container_add(GTK_CONTAINER(hbox), sw);
+  gtk_scrolled_window_set_child(GTK_SCROLLED_WINDOW(sw), view);
+  gtk_grid_attach(GTK_GRID(hgrid), sw, grid_col++, 0, 1, 1);
 
-  vbox = gtk_grid_new();
-  gtk_orientable_set_orientation(GTK_ORIENTABLE(vbox),
+  vgrid = gtk_grid_new();
+  gtk_orientable_set_orientation(GTK_ORIENTABLE(vgrid),
                                  GTK_ORIENTATION_VERTICAL);
-  gtk_container_add(GTK_CONTAINER(hbox), vbox);
+  gtk_grid_attach(GTK_GRID(hgrid), vgrid, grid_col++, 0, 1, 1);
 
   /* button box 1: ready, sentry */
 
   pdialog->tabs[loc].cmd[USDLG_CMD_READY]
     = gtk_button_new_with_mnemonic(_("Ready"));
-  gtk_container_add(GTK_CONTAINER(vbox),
-                    pdialog->tabs[loc].cmd[USDLG_CMD_READY]);
+  gtk_grid_attach(GTK_GRID(vgrid),
+                  pdialog->tabs[loc].cmd[USDLG_CMD_READY],
+                  0, grid_row++, 1, 1);
   g_signal_connect(pdialog->tabs[loc].cmd[USDLG_CMD_READY], "clicked",
                    G_CALLBACK(usdlg_cmd_ready), GINT_TO_POINTER(loc));
   gtk_widget_set_sensitive(
@@ -485,8 +489,9 @@ static void usdlg_tab_select(struct unit_select_dialog *pdialog,
     = gtk_button_new_with_mnemonic(_("Sentry"));
   gtk_widget_set_margin_bottom(
     GTK_WIDGET(pdialog->tabs[loc].cmd[USDLG_CMD_SENTRY]), 10);
-  gtk_container_add(GTK_CONTAINER(vbox),
-                    pdialog->tabs[loc].cmd[USDLG_CMD_SENTRY]);
+  gtk_grid_attach(GTK_GRID(vgrid),
+                  pdialog->tabs[loc].cmd[USDLG_CMD_SENTRY],
+                  0, grid_row++, 1, 1);
   g_signal_connect(pdialog->tabs[loc].cmd[USDLG_CMD_SENTRY], "clicked",
                    G_CALLBACK(usdlg_cmd_sentry), GINT_TO_POINTER(loc));
   gtk_widget_set_sensitive(
@@ -496,8 +501,9 @@ static void usdlg_tab_select(struct unit_select_dialog *pdialog,
 
   pdialog->tabs[loc].cmd[USDLG_CMD_SELECT]
     = gtk_button_new_with_mnemonic(_("_Select"));
-  gtk_container_add(GTK_CONTAINER(vbox),
-                    pdialog->tabs[loc].cmd[USDLG_CMD_SELECT]);
+  gtk_grid_attach(GTK_GRID(vgrid),
+                  pdialog->tabs[loc].cmd[USDLG_CMD_SELECT],
+                  0, grid_row++, 1, 1);
   g_signal_connect(pdialog->tabs[loc].cmd[USDLG_CMD_SELECT], "clicked",
                    G_CALLBACK(usdlg_cmd_select), GINT_TO_POINTER(loc));
   gtk_widget_set_sensitive(
@@ -507,8 +513,9 @@ static void usdlg_tab_select(struct unit_select_dialog *pdialog,
     = gtk_button_new_with_mnemonic(_("_Deselect"));
   gtk_widget_set_margin_bottom(
     GTK_WIDGET(pdialog->tabs[loc].cmd[USDLG_CMD_DESELECT]), 10);
-  gtk_container_add(GTK_CONTAINER(vbox),
-                    pdialog->tabs[loc].cmd[USDLG_CMD_DESELECT]);
+  gtk_grid_attach(GTK_GRID(vgrid),
+                  pdialog->tabs[loc].cmd[USDLG_CMD_DESELECT],
+                  0, grid_row++, 1, 1);
   g_signal_connect(pdialog->tabs[loc].cmd[USDLG_CMD_DESELECT], "clicked",
                    G_CALLBACK(usdlg_cmd_deselect), GINT_TO_POINTER(loc));
   gtk_widget_set_sensitive(
@@ -518,8 +525,9 @@ static void usdlg_tab_select(struct unit_select_dialog *pdialog,
 
   pdialog->tabs[loc].cmd[USDLG_CMD_CENTER]
     = gtk_button_new_with_mnemonic(_("C_enter"));
-  gtk_container_add(GTK_CONTAINER(vbox),
-                    pdialog->tabs[loc].cmd[USDLG_CMD_CENTER]);
+  gtk_grid_attach(GTK_GRID(vgrid),
+                  pdialog->tabs[loc].cmd[USDLG_CMD_CENTER],
+                  0, grid_row++, 1, 1);
   g_signal_connect(pdialog->tabs[loc].cmd[USDLG_CMD_CENTER], "clicked",
                    G_CALLBACK(usdlg_cmd_center), GINT_TO_POINTER(loc));
   gtk_widget_set_sensitive(
@@ -527,8 +535,9 @@ static void usdlg_tab_select(struct unit_select_dialog *pdialog,
 
   pdialog->tabs[loc].cmd[USDLG_CMD_FOCUS]
     = gtk_button_new_with_mnemonic(_("_Focus"));
-  gtk_container_add(GTK_CONTAINER(vbox),
-                    pdialog->tabs[loc].cmd[USDLG_CMD_FOCUS]);
+  gtk_grid_attach(GTK_GRID(vgrid),
+                  pdialog->tabs[loc].cmd[USDLG_CMD_FOCUS],
+                  0, grid_row++, 1, 1);
   g_signal_connect(pdialog->tabs[loc].cmd[USDLG_CMD_FOCUS], "clicked",
                    G_CALLBACK(usdlg_cmd_focus), GINT_TO_POINTER(loc));
   gtk_widget_set_sensitive(

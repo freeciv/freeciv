@@ -64,6 +64,7 @@ static void create_messageopt_dialog(void)
 {
   GtkWidget *form, *explanation;
   int n, i = 0, j;
+  int form_col = 0;
 
   gui_dialog_new(&shell, GTK_NOTEBOOK(top_notebook), NULL, TRUE);
   gui_dialog_set_title(shell, _("Message Options"));
@@ -154,11 +155,11 @@ static void create_messageopt_dialog(void)
 
     sw = gtk_scrolled_window_new();
     gtk_scrolled_window_set_has_frame(GTK_SCROLLED_WINDOW(sw), TRUE);
-    gtk_container_add(GTK_CONTAINER(sw), view);
+    gtk_scrolled_window_set_child(GTK_SCROLLED_WINDOW(sw), view);
 
     gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
 				   GTK_POLICY_AUTOMATIC, GTK_POLICY_ALWAYS);
-    gtk_container_add(GTK_CONTAINER(form), sw);
+    gtk_grid_attach(GTK_GRID(form), sw, form_col++, 0, 1, 1);
 
     gtk_tree_view_focus(GTK_TREE_VIEW(view));
   }

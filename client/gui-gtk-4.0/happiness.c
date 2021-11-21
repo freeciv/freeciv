@@ -155,7 +155,7 @@ static gboolean show_happiness_popup(GtkWidget *w,
     gtk_window_set_transient_for(GTK_WINDOW(p), GTK_WINDOW(pdialog->win));
 
     frame = gtk_frame_new(NULL);
-    gtk_container_add(GTK_CONTAINER(p), frame);
+    gtk_window_set_child(GTK_WINDOW(p), frame);
 
     label = gtk_label_new(buf);
     /* FIXME: there is no font option corresponding to this style name.
@@ -165,7 +165,7 @@ static gboolean show_happiness_popup(GtkWidget *w,
     gtk_widget_set_margin_end(label, 4);
     gtk_widget_set_margin_top(label, 4);
     gtk_widget_set_margin_bottom(label, 4);
-    gtk_container_add(GTK_CONTAINER(frame), label);
+    gtk_frame_set_child(GTK_FRAME(frame), label);
     gtk_widget_show(p);
   }
 
@@ -202,7 +202,7 @@ static struct happiness_dialog *create_happiness_dialog(struct city *pcity,
                                  GTK_ORIENTATION_VERTICAL);
 
   pdialog->cityname_label = gtk_frame_new(_("Happiness"));
-  gtk_container_add(GTK_CONTAINER(pdialog->shell), pdialog->cityname_label);
+  gtk_grid_attach(GTK_GRID(pdialog->shell), pdialog->cityname_label, 0, 0, 1, 1);
 
   table = gtk_grid_new();
   g_object_set(table, "margin", 4, NULL);
@@ -211,7 +211,7 @@ static struct happiness_dialog *create_happiness_dialog(struct city *pcity,
   intl_slist(ARRAY_SIZE(happiness_label_str), happiness_label_str,
              &happiness_label_str_done);
 
-  gtk_container_add(GTK_CONTAINER(pdialog->cityname_label), table);
+  gtk_frame_set_child(GTK_FRAME(pdialog->cityname_label), table);
 
   for (i = 0; i < NUM_HAPPINESS_MODIFIERS; i++) {
     GtkWidget *img;

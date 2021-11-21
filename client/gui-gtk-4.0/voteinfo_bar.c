@@ -92,31 +92,33 @@ static void voteinfo_bar_destroy(GtkWidget *w, gpointer userdata)
 **************************************************************************/
 GtkWidget *voteinfo_bar_new(bool split_bar)
 {
-  GtkWidget *label, *button, *vbox, *hbox;
+  GtkWidget *label, *button, *vgrid, *hgrid;
   struct voteinfo_bar *vib;
   const int BUTTON_HEIGHT = 12;
+  int grid_row = 0;
+  int grid_col = 0;
 
   vib = fc_calloc(1, sizeof(struct voteinfo_bar));
 
   if (!split_bar) {
-    hbox = gtk_grid_new();
-    gtk_grid_set_column_spacing(GTK_GRID(hbox), 4);
-    g_object_set_data(G_OBJECT(hbox), "voteinfo_bar", vib);
-    g_signal_connect(hbox, "destroy", G_CALLBACK(voteinfo_bar_destroy), vib);
-    vib->box = hbox;
-    vbox = NULL;        /* The compiler may require it. */
+    hgrid = gtk_grid_new();
+    gtk_grid_set_column_spacing(GTK_GRID(hgrid), 4);
+    g_object_set_data(G_OBJECT(hgrid), "voteinfo_bar", vib);
+    g_signal_connect(hgrid, "destroy", G_CALLBACK(voteinfo_bar_destroy), vib);
+    vib->box = hgrid;
+    vgrid = NULL;        /* The compiler may require it. */
   } else {
-    vbox = gtk_grid_new();
-    gtk_grid_set_row_homogeneous(GTK_GRID(vbox), TRUE);
-    gtk_orientable_set_orientation(GTK_ORIENTABLE(vbox),
+    vgrid = gtk_grid_new();
+    gtk_grid_set_row_homogeneous(GTK_GRID(vgrid), TRUE);
+    gtk_orientable_set_orientation(GTK_ORIENTABLE(vgrid),
                                    GTK_ORIENTATION_VERTICAL);
-    gtk_grid_set_row_spacing(GTK_GRID(vbox), 4);
-    g_object_set_data(G_OBJECT(vbox), "voteinfo_bar", vib);
-    g_signal_connect(vbox, "destroy", G_CALLBACK(voteinfo_bar_destroy), vib);
-    vib->box = vbox;
-    hbox = gtk_grid_new();
-    gtk_grid_set_column_spacing(GTK_GRID(hbox), 4);
-    gtk_container_add(GTK_CONTAINER(vbox), hbox);
+    gtk_grid_set_row_spacing(GTK_GRID(vgrid), 4);
+    g_object_set_data(G_OBJECT(vgrid), "voteinfo_bar", vib);
+    g_signal_connect(vgrid, "destroy", G_CALLBACK(voteinfo_bar_destroy), vib);
+    vib->box = vgrid;
+    hgrid = gtk_grid_new();
+    gtk_grid_set_column_spacing(GTK_GRID(hgrid), 4);
+    gtk_grid_attach(GTK_GRID(vgrid), hgrid, 0, grid_row++, 1, 1);
   }
 
   label = gtk_label_new("");
@@ -128,14 +130,15 @@ GtkWidget *voteinfo_bar_new(bool split_bar)
   gtk_widget_set_margin_top(label, 4);
   gtk_widget_set_margin_bottom(label, 4);
   gtk_label_set_max_width_chars(GTK_LABEL(label), 80);
-  gtk_container_add(GTK_CONTAINER(hbox), label);
+  gtk_grid_attach(GTK_GRID(hgrid), label, grid_col++, 0, 1, 1);
   gtk_widget_set_name(label, "vote label");
   vib->label = label;
 
   if (split_bar) {
-    hbox = gtk_grid_new();
-    gtk_grid_set_column_spacing(GTK_GRID(hbox), 4);
-    gtk_container_add(GTK_CONTAINER(vbox), hbox);
+    hgrid = gtk_grid_new();
+    grid_col = 0;
+    gtk_grid_set_column_spacing(GTK_GRID(hgrid), 4);
+    gtk_grid_attach(GTK_GRID(vgrid), hgrid, 0, grid_row++, 1, 1);
   }
 
   button = gtk_button_new();
@@ -146,7 +149,7 @@ GtkWidget *voteinfo_bar_new(bool split_bar)
   gtk_widget_set_size_request(button, -1, BUTTON_HEIGHT);
   gtk_button_set_has_frame(GTK_BUTTON(button), FALSE);
   gtk_widget_set_focus_on_click(button, FALSE);
-  gtk_container_add(GTK_CONTAINER(hbox), button);
+  gtk_grid_attach(GTK_GRID(hgrid), button, grid_col++, 0, 1, 1);
   vib->next_button = button;
 
   button = gtk_button_new_with_mnemonic(_("_YES"));
@@ -154,14 +157,14 @@ GtkWidget *voteinfo_bar_new(bool split_bar)
                    G_CALLBACK(voteinfo_bar_do_vote_callback),
                    GINT_TO_POINTER(CVT_YES));
   gtk_widget_set_focus_on_click(button, FALSE);
-  gtk_container_add(GTK_CONTAINER(hbox), button);
+  gtk_grid_attach(GTK_GRID(hgrid), button, grid_col++, 0, 1, 1);
   gtk_widget_set_name(button, "vote yes button");
   vib->yes_button = button;
 
   label = gtk_label_new("0");
   gtk_widget_set_halign(label, GTK_ALIGN_START);
   gtk_widget_set_valign(label, GTK_ALIGN_CENTER);
-  gtk_container_add(GTK_CONTAINER(hbox), label);
+  gtk_grid_attach(GTK_GRID(hgrid), label, grid_col++, 0, 1, 1);
   vib->yes_count_label = label;
 
   button = gtk_button_new_with_mnemonic(_("_NO"));
@@ -169,14 +172,14 @@ GtkWidget *voteinfo_bar_new(bool split_bar)
                    G_CALLBACK(voteinfo_bar_do_vote_callback),
                    GINT_TO_POINTER(CVT_NO));
   gtk_widget_set_focus_on_click(button, FALSE);
-  gtk_container_add(GTK_CONTAINER(hbox), button);
+  gtk_grid_attach(GTK_GRID(hgrid), button, grid_col++, 0, 1, 1);
   gtk_widget_set_name(button, "vote no button");
   vib->no_button = button;
 
   label = gtk_label_new("0");
   gtk_widget_set_halign(label, GTK_ALIGN_START);
   gtk_widget_set_valign(label, GTK_ALIGN_CENTER);
-  gtk_container_add(GTK_CONTAINER(hbox), label);
+  gtk_grid_attach(GTK_GRID(hgrid), label, grid_col++, 0, 1, 1);
   vib->no_count_label = label;
 
   button = gtk_button_new_with_mnemonic(_("_ABSTAIN"));
@@ -184,20 +187,20 @@ GtkWidget *voteinfo_bar_new(bool split_bar)
                    G_CALLBACK(voteinfo_bar_do_vote_callback),
                    GINT_TO_POINTER(CVT_ABSTAIN));
   gtk_widget_set_focus_on_click(button, FALSE);
-  gtk_container_add(GTK_CONTAINER(hbox), button);
+  gtk_grid_attach(GTK_GRID(hgrid), button, grid_col++, 0, 1, 1);
   gtk_widget_set_name(button, "vote abstain button");
   vib->abstain_button = button;
 
   label = gtk_label_new("0");
   gtk_widget_set_halign(label, GTK_ALIGN_START);
   gtk_widget_set_valign(label, GTK_ALIGN_CENTER);
-  gtk_container_add(GTK_CONTAINER(hbox), label);
+  gtk_grid_attach(GTK_GRID(hgrid), label, grid_col++, 0, 1, 1);
   vib->abstain_count_label = label;
 
   label = gtk_label_new("/0");
   gtk_widget_set_halign(label, GTK_ALIGN_START);
   gtk_widget_set_valign(label, GTK_ALIGN_CENTER);
-  gtk_container_add(GTK_CONTAINER(hbox), label);
+  gtk_grid_attach(GTK_GRID(hgrid), label, grid_col++, 0, 1, 1);
   vib->voter_count_label = label;
 
   return vib->box;

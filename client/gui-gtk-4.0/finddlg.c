@@ -103,7 +103,7 @@ void popup_find_dialog(void)
     gtk_scrolled_window_set_has_frame(GTK_SCROLLED_WINDOW(sw), TRUE);
     gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
 	GTK_POLICY_AUTOMATIC, GTK_POLICY_ALWAYS);
-    gtk_container_add(GTK_CONTAINER(sw), find_view);
+    gtk_scrolled_window_set_child(GTK_SCROLLED_WINDOW(sw), find_view);
 
     gtk_widget_set_hexpand(GTK_WIDGET(find_view), TRUE);
     gtk_widget_set_vexpand(GTK_WIDGET(find_view), TRUE);

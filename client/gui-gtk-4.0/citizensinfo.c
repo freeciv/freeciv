@@ -246,10 +246,10 @@ static struct citizens_dialog *citizens_dialog_create(const struct city *pcity)
                                  GTK_POLICY_AUTOMATIC,
                                  GTK_POLICY_AUTOMATIC);
   gtk_scrolled_window_set_has_frame(GTK_SCROLLED_WINDOW(sw), FALSE);
-  gtk_container_add(GTK_CONTAINER(sw), pdialog->list);
+  gtk_scrolled_window_set_child(GTK_SCROLLED_WINDOW(sw), pdialog->list);
 
   frame = gtk_frame_new(_("Citizens"));
-  gtk_container_add(GTK_CONTAINER(frame), sw);
+  gtk_frame_set_child(GTK_FRAME(frame), sw);
 
   pdialog->shell = frame;
 

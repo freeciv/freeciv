@@ -301,7 +301,7 @@ static void option_color_set_button_color(GtkButton *button,
       cairo_surface_destroy(surface);
     }
     child = gtk_image_new_from_pixbuf(pixbuf);
-    gtk_container_add(GTK_CONTAINER(button), child);
+    gtk_button_set_child(GTK_BUTTON(button), child);
     gtk_widget_show(child);
     g_object_unref(G_OBJECT(pixbuf));
   }
@@ -494,6 +494,7 @@ static void option_dialog_option_add(struct option_dialog *pdialog,
 {
   const int category = option_category(poption);
   GtkWidget *main_hbox, *label, *w = NULL;
+  int main_col = 0;
 
   fc_assert(NULL == option_get_gui_data(poption));
 
@@ -514,12 +515,10 @@ static void option_dialog_option_add(struct option_dialog *pdialog,
       option_dialog_reorder_notebook(pdialog);
     }
 
-    pdialog->vboxes[category] = gtk_grid_new();
-    gtk_orientable_set_orientation(GTK_ORIENTABLE(pdialog->vboxes[category]),
-                                   GTK_ORIENTATION_VERTICAL);
+    pdialog->vboxes[category] = gtk_box_new(GTK_ORIENTATION_VERTICAL, 2);
     g_object_set(pdialog->vboxes[category], "margin", 8, NULL);
     gtk_widget_set_hexpand(pdialog->vboxes[category], TRUE);
-    gtk_container_add(GTK_CONTAINER(sw), pdialog->vboxes[category]);
+    gtk_scrolled_window_set_child(GTK_SCROLLED_WINDOW(sw), pdialog->vboxes[category]);
 
     gtk_widget_show(sw);
   }
@@ -528,11 +527,11 @@ static void option_dialog_option_add(struct option_dialog *pdialog,
   main_hbox = gtk_grid_new();
   label = gtk_label_new(option_description(poption));
   g_object_set(label, "margin", 2, NULL);
-  gtk_container_add(GTK_CONTAINER(main_hbox), label);
+  gtk_grid_attach(GTK_GRID(main_hbox), label, main_col++, 0, 1, 1);
   gtk_widget_set_tooltip_text(main_hbox, option_help_text(poption));
   g_signal_connect(main_hbox, "button_press_event",
                    G_CALLBACK(option_button_press_callback), poption);
-  gtk_container_add(GTK_CONTAINER(pdialog->vboxes[category]), main_hbox);
+  gtk_box_append(GTK_BOX(pdialog->vboxes[category]), main_hbox);
 
   switch (option_type(poption)) {
   case OT_BOOLEAN:
@@ -597,7 +596,7 @@ static void option_dialog_option_add(struct option_dialog *pdialog,
       grid = gtk_grid_new();
       gtk_grid_set_column_spacing(GTK_GRID(grid), 4);
       gtk_grid_set_row_homogeneous(GTK_GRID(grid), TRUE);
-      gtk_container_add(GTK_CONTAINER(w), grid);
+      gtk_frame_set_child(GTK_FRAME(w), grid);
       for (i = 0; i < strvec_size(values); i++) {
         check = gtk_check_button_new();
         gtk_grid_attach(GTK_GRID(grid), check, 0, i, 1, 1);
@@ -618,6 +617,7 @@ static void option_dialog_option_add(struct option_dialog *pdialog,
   case OT_COLOR:
     {
       GtkWidget *button;
+      int grid_col = 0;
 
       w = gtk_grid_new();
       gtk_grid_set_column_spacing(GTK_GRID(w), 4);
@@ -625,7 +625,7 @@ static void option_dialog_option_add(struct option_dialog *pdialog,
 
       /* Foreground color selector button. */
       button = gtk_button_new();
-      gtk_container_add(GTK_CONTAINER(w), button);
+      gtk_grid_attach(GTK_GRID(w), button, grid_col++, 0, 1, 1);
       gtk_widget_set_tooltip_text(GTK_WIDGET(button),
                                   _("Select the text color"));
       g_object_set_data(G_OBJECT(w), "fg_button", button);
@@ -634,7 +634,7 @@ static void option_dialog_option_add(struct option_dialog *pdialog,
 
       /* Background color selector button. */
       button = gtk_button_new();
-      gtk_container_add(GTK_CONTAINER(w), button);
+      gtk_grid_attach(GTK_GRID(w), button, grid_col++, 0, 1, 1);
       gtk_widget_set_tooltip_text(GTK_WIDGET(button),
                                   _("Select the background color"));
       g_object_set_data(G_OBJECT(w), "bg_button", button);
@@ -658,7 +658,7 @@ static void option_dialog_option_add(struct option_dialog *pdialog,
     g_object_set_data(G_OBJECT(w), "main_widget", main_hbox);
     gtk_widget_set_hexpand(w, TRUE);
     gtk_widget_set_halign(w, GTK_ALIGN_END);
-    gtk_container_add(GTK_CONTAINER(main_hbox), w);
+    gtk_grid_attach(GTK_GRID(main_hbox), w, main_col++, 0, 1, 1);
   }
 
   gtk_widget_show(main_hbox);

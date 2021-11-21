@@ -103,7 +103,8 @@ void popup_notify_dialog(const char *caption, const char *headline,
                          const char *lines)
 {
   static struct gui_dialog *shell;
-  GtkWidget *vbox, *label, *headline_label, *sw;
+  GtkWidget *vgrid, *label, *headline_label, *sw;
+  int grid_row = 0;
 
   gui_dialog_new(&shell, GTK_NOTEBOOK(bottom_notebook), NULL, TRUE);
   gui_dialog_set_title(shell, caption);
@@ -111,14 +112,14 @@ void popup_notify_dialog(const char *caption, const char *headline,
   gui_dialog_add_button(shell, "window-close", _("_Close"),
                         GTK_RESPONSE_CLOSE);
 
-  vbox = gtk_grid_new();
-  gtk_orientable_set_orientation(GTK_ORIENTABLE(vbox),
+  vgrid = gtk_grid_new();
+  gtk_orientable_set_orientation(GTK_ORIENTABLE(vgrid),
                                  GTK_ORIENTATION_VERTICAL);
-  gtk_grid_set_row_spacing(GTK_GRID(vbox), 2);
-  gui_dialog_add_content_widget(shell, vbox);
+  gtk_grid_set_row_spacing(GTK_GRID(vgrid), 2);
+  gui_dialog_add_content_widget(shell, vgrid);
 
   headline_label = gtk_label_new(headline);
-  gtk_container_add(GTK_CONTAINER(vbox), headline_label);
+  gtk_grid_attach(GTK_GRID(vgrid), headline_label, 0, grid_row++, 1, 1);
   gtk_widget_set_name(headline_label, "notify_label");
 
   gtk_label_set_justify(GTK_LABEL(headline_label), GTK_JUSTIFY_LEFT);
@@ -132,14 +133,14 @@ void popup_notify_dialog(const char *caption, const char *headline,
   label = gtk_label_new(lines);
   gtk_widget_set_hexpand(label, TRUE);
   gtk_widget_set_vexpand(label, TRUE);
-  gtk_container_add(GTK_CONTAINER(sw), label);
+  gtk_scrolled_window_set_child(GTK_SCROLLED_WINDOW(sw), label);
 
   gtk_widget_set_name(label, "notify_label");
   gtk_label_set_justify(GTK_LABEL(label), GTK_JUSTIFY_LEFT);
   gtk_widget_set_halign(label, GTK_ALIGN_START);
   gtk_widget_set_valign(label, GTK_ALIGN_START);
 
-  gtk_container_add(GTK_CONTAINER(vbox), sw);
+  gtk_grid_attach(GTK_GRID(vgrid), sw, 0, grid_row++, 1, 1);
 
   gui_dialog_show_all(shell);
 
@@ -655,7 +656,7 @@ static GtkWidget* create_list_of_nations_in_group(struct nation_group* group,
       gtk_scrolled_window_set_has_frame(GTK_SCROLLED_WINDOW(sw), TRUE);
       gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
           GTK_POLICY_NEVER, GTK_POLICY_ALWAYS);
-      gtk_container_add(GTK_CONTAINER(sw), list);
+      gtk_scrolled_window_set_child(GTK_SCROLLED_WINDOW(sw), list);
 
       render = gtk_cell_renderer_pixbuf_new();
       column = gtk_tree_view_column_new_with_attributes("Flag", render,
@@ -840,7 +841,7 @@ static void create_races_dialog(struct player *pplayer)
 {
   GtkWidget *shell;
   GtkWidget *cmd;
-  GtkWidget *hbox, *table;
+  GtkWidget *hgrid, *table;
   GtkWidget *frame, *label, *combo;
   GtkWidget *text;
   GtkWidget *notebook;
@@ -851,6 +852,7 @@ static void create_races_dialog(struct player *pplayer)
   GtkTreeViewColumn *column;
   int i;
   char *title;
+  int grid_col = 0;
 
   /* Init. */
   selected_nation = -1;
@@ -882,14 +884,14 @@ static void create_races_dialog(struct player *pplayer)
   frame = gtk_frame_new(_("Select a nation"));
   gtk_box_append(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(shell))), frame);
 
-  hbox = gtk_grid_new();
-  gtk_grid_set_column_spacing(GTK_GRID(hbox), 18);
-  gtk_widget_set_margin_start(hbox, 3);
-  gtk_widget_set_margin_end(hbox, 3);
-  gtk_widget_set_margin_top(hbox, 3);
-  gtk_widget_set_margin_bottom(hbox, 3);
+  hgrid = gtk_grid_new();
+  gtk_grid_set_column_spacing(GTK_GRID(hgrid), 18);
+  gtk_widget_set_margin_start(hgrid, 3);
+  gtk_widget_set_margin_end(hgrid, 3);
+  gtk_widget_set_margin_top(hgrid, 3);
+  gtk_widget_set_margin_bottom(hgrid, 3);
 
-  gtk_container_add(GTK_CONTAINER(frame), hbox);
+  gtk_frame_set_child(GTK_FRAME(frame), hgrid);
 
   /* Left side: nation list */
   {
@@ -1044,13 +1046,13 @@ static void create_races_dialog(struct player *pplayer)
     /* Populate treeview */
     create_nation_selection_lists();
 
-    gtk_container_add(GTK_CONTAINER(hbox), nation_selection_list);
+    gtk_grid_attach(GTK_GRID(hgrid), nation_selection_list, grid_col++, 0, 1, 1);
   }
 
   /* Right side. */
   notebook = gtk_notebook_new();
   gtk_notebook_set_tab_pos(GTK_NOTEBOOK(notebook), GTK_POS_BOTTOM);
-  gtk_container_add(GTK_CONTAINER(hbox), notebook);
+  gtk_grid_attach(GTK_GRID(hgrid), notebook, grid_col++, 0, 1, 1);
 
   /* Properties pane. */
   label = gtk_label_new_with_mnemonic(_("_Properties"));
@@ -1112,7 +1114,7 @@ static void create_races_dialog(struct player *pplayer)
   gtk_scrolled_window_set_has_frame(GTK_SCROLLED_WINDOW(sw), TRUE);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
       GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
-  gtk_container_add(GTK_CONTAINER(sw), list);
+  gtk_scrolled_window_set_child(GTK_SCROLLED_WINDOW(sw), list);
   gtk_grid_attach(GTK_GRID(table), sw, 1, 2, 2, 2);
 
   label = g_object_new(GTK_TYPE_LABEL,

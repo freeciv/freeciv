@@ -499,7 +499,8 @@ static struct Diplomacy_notebook *diplomacy_main_create(void)
     gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(dipl_sw),
                                    GTK_POLICY_AUTOMATIC,
                                    GTK_POLICY_AUTOMATIC);
-    gtk_container_add(GTK_CONTAINER(dipl_sw), dipl_main->notebook);
+    gtk_scrolled_window_set_child(GTK_SCROLLED_WINDOW(dipl_sw),
+                                  dipl_main->notebook);
 
     /* Buttons */
     gui_dialog_add_button(dipl_main->dialog, NULL,
@@ -626,7 +627,7 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
                                                         struct player *plr1)
 {
   struct Diplomacy_notebook *dipl_dialog;
-  GtkWidget *vbox, *hbox, *table, *mainbox;
+  GtkWidget *vgrid, *hgrid, *table, *mainbox;
   GtkWidget *label, *sw, *view, *image, *spin;
   GtkWidget *menu;
 #ifdef MENUS_GTK3
@@ -640,6 +641,9 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   struct Diplomacy_dialog *pdialog;
   char plr_buf[4 * MAX_LEN_NAME];
   gchar *buf;
+  int grid_row = 0;
+  int grid_col = 0;
+  int main_row = 0;
 
   pdialog = fc_malloc(sizeof(*pdialog));
 
@@ -688,15 +692,15 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   g_free(buf);
 
   /* us. */
-  vbox = gtk_grid_new();
-  gtk_orientable_set_orientation(GTK_ORIENTABLE(vbox),
+  vgrid = gtk_grid_new();
+  gtk_orientable_set_orientation(GTK_ORIENTABLE(vgrid),
                                  GTK_ORIENTATION_VERTICAL);
-  gtk_grid_set_row_spacing(GTK_GRID(vbox), 5);
-  gtk_widget_set_margin_start(vbox, 2);
-  gtk_widget_set_margin_end(vbox, 2);
-  gtk_widget_set_margin_top(vbox, 2);
-  gtk_widget_set_margin_bottom(vbox, 2);
-  gui_dialog_add_content_widget(pdialog->dialog, vbox);
+  gtk_grid_set_row_spacing(GTK_GRID(vgrid), 5);
+  gtk_widget_set_margin_start(vgrid, 2);
+  gtk_widget_set_margin_end(vgrid, 2);
+  gtk_widget_set_margin_top(vgrid, 2);
+  gtk_widget_set_margin_bottom(vgrid, 2);
+  gui_dialog_add_content_widget(pdialog->dialog, vgrid);
 
   /* Our nation. */
   label = gtk_label_new(NULL);
@@ -706,17 +710,17 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
                         nation_plural_for_player(plr0));
   gtk_label_set_markup(GTK_LABEL(label), buf);
   g_free(buf);
-  gtk_container_add(GTK_CONTAINER(vbox), label);
+  gtk_grid_attach(GTK_GRID(vgrid), label, 0, grid_row++, 1, 1);
 
-  hbox = gtk_grid_new();
-  gtk_grid_set_column_spacing(GTK_GRID(hbox), 5);
-  gtk_container_add(GTK_CONTAINER(vbox), hbox);
+  hgrid = gtk_grid_new();
+  gtk_grid_set_column_spacing(GTK_GRID(hgrid), 5);
+  gtk_grid_attach(GTK_GRID(vgrid), hgrid, 0, grid_row++, 1, 1);
 
   /* Our flag */
   flag_spr = get_nation_flag_sprite(tileset, nation_of_player(plr0));
 
   image = image_new_from_surface(flag_spr->surface);
-  gtk_container_add(GTK_CONTAINER(hbox), image);
+  gtk_grid_attach(GTK_GRID(hgrid), image, grid_col++, 0, 1, 1);
 
   /* Our name. */
   label = gtk_label_new(NULL);
@@ -727,11 +731,11 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
                         ruler_title_for_player(plr0, plr_buf, sizeof(plr_buf)));
   gtk_label_set_markup(GTK_LABEL(label), buf);
   g_free(buf);
-  gtk_container_add(GTK_CONTAINER(hbox), label);
+  gtk_grid_attach(GTK_GRID(hgrid), label, grid_col++, 0, 1, 1);
 
   image = gtk_image_new();
   pdialog->image0 = image;
-  gtk_container_add(GTK_CONTAINER(hbox), image);
+  gtk_grid_attach(GTK_GRID(hgrid), image, grid_col++, 0, 1, 1);
 
   /* Menu for clauses: we. */
   menubar = gtk_aux_menu_bar_new();
@@ -752,7 +756,7 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   gtk_widget_set_halign(table, GTK_ALIGN_CENTER);
   gtk_widget_set_valign(table, GTK_ALIGN_CENTER);
   gtk_grid_set_column_spacing(GTK_GRID(table), 16);
-  gtk_container_add(GTK_CONTAINER(vbox), table);
+  gtk_grid_attach(GTK_GRID(vgrid), table, 0, grid_row++, 1, 1);
 
   if (game.info.trading_gold) {
     spin = gtk_spin_button_new_with_range(0.0, plr0->economic.gold + 0.1,
@@ -775,15 +779,16 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   }
 
   /* them. */
-  vbox = gtk_grid_new();
-  gtk_orientable_set_orientation(GTK_ORIENTABLE(vbox),
+  vgrid = gtk_grid_new();
+  grid_row = 0;
+  gtk_orientable_set_orientation(GTK_ORIENTABLE(vgrid),
                                  GTK_ORIENTATION_VERTICAL);
-  gtk_grid_set_row_spacing(GTK_GRID(vbox), 5);
-  gtk_widget_set_margin_start(vbox, 2);
-  gtk_widget_set_margin_end(vbox, 2);
-  gtk_widget_set_margin_top(vbox, 2);
-  gtk_widget_set_margin_bottom(vbox, 2);
-  gui_dialog_add_content_widget(pdialog->dialog, vbox);
+  gtk_grid_set_row_spacing(GTK_GRID(vgrid), 5);
+  gtk_widget_set_margin_start(vgrid, 2);
+  gtk_widget_set_margin_end(vgrid, 2);
+  gtk_widget_set_margin_top(vgrid, 2);
+  gtk_widget_set_margin_bottom(vgrid, 2);
+  gui_dialog_add_content_widget(pdialog->dialog, vgrid);
 
   /* Their nation. */
   label = gtk_label_new(NULL);
@@ -793,17 +798,18 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
                         nation_plural_for_player(plr1));
   gtk_label_set_markup(GTK_LABEL(label), buf);
   g_free(buf);
-  gtk_container_add(GTK_CONTAINER(vbox), label);
+  gtk_grid_attach(GTK_GRID(vgrid), label, 0, grid_row++, 1, 1);
 
-  hbox = gtk_grid_new();
-  gtk_grid_set_column_spacing(GTK_GRID(hbox), 5);
-  gtk_container_add(GTK_CONTAINER(vbox), hbox);
+  hgrid = gtk_grid_new();
+  grid_col = 0;
+  gtk_grid_set_column_spacing(GTK_GRID(hgrid), 5);
+  gtk_grid_attach(GTK_GRID(vgrid), hgrid, 0, grid_row++, 1, 1);
 
   /* Their flag */
   flag_spr = get_nation_flag_sprite(tileset, nation_of_player(plr1));
 
   image = image_new_from_surface(flag_spr->surface);
-  gtk_container_add(GTK_CONTAINER(hbox), image);
+  gtk_grid_attach(GTK_GRID(hgrid), image, grid_col++, 0, 1, 1);
 
   /* Their name. */
   label = gtk_label_new(NULL);
@@ -814,11 +820,11 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
                         ruler_title_for_player(plr1, plr_buf, sizeof(plr_buf)));
   gtk_label_set_markup(GTK_LABEL(label), buf);
   g_free(buf);
-  gtk_container_add(GTK_CONTAINER(hbox), label);
+  gtk_grid_attach(GTK_GRID(hgrid), label, grid_col++, 0, 1, 1);
 
   image = gtk_image_new();
   pdialog->image1 = image;
-  gtk_container_add(GTK_CONTAINER(hbox), image);
+  gtk_grid_attach(GTK_GRID(hgrid), image, grid_col++, 0, 1, 1);
 
   /* Menu for clauses: they. */
   menubar = gtk_aux_menu_bar_new();
@@ -839,7 +845,7 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   gtk_widget_set_halign(table, GTK_ALIGN_CENTER);
   gtk_widget_set_valign(table, GTK_ALIGN_CENTER);
   gtk_grid_set_column_spacing(GTK_GRID(table), 16);
-  gtk_container_add(GTK_CONTAINER(vbox), table);
+  gtk_grid_attach(GTK_GRID(vgrid), table, 0, grid_row++, 1, 1);
 
   if (game.info.trading_gold) {
     spin = gtk_spin_button_new_with_range(0.0, plr1->economic.gold + 0.1,
@@ -886,7 +892,7 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   gtk_scrolled_window_set_has_frame(GTK_SCROLLED_WINDOW(sw), TRUE);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
                                  GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
-  gtk_container_add(GTK_CONTAINER(sw), view);
+  gtk_scrolled_window_set_child(GTK_SCROLLED_WINDOW(sw), view);
 
   label = g_object_new(GTK_TYPE_LABEL,
     "use-underline", TRUE,
@@ -896,12 +902,13 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
     "yalign", 0.5,
     NULL);
 
-  vbox = gtk_grid_new();
-  gtk_orientable_set_orientation(GTK_ORIENTABLE(vbox),
+  vgrid = gtk_grid_new();
+  grid_row = 0;
+  gtk_orientable_set_orientation(GTK_ORIENTABLE(vgrid),
                                  GTK_ORIENTATION_VERTICAL);
-  gtk_container_add(GTK_CONTAINER(mainbox), vbox);
-  gtk_container_add(GTK_CONTAINER(vbox), label);
-  gtk_container_add(GTK_CONTAINER(vbox), sw);
+  gtk_grid_attach(GTK_GRID(mainbox), vgrid, 0, main_row++, 1, 1);
+  gtk_grid_attach(GTK_GRID(vgrid), label, 0, grid_row++, 1, 1);
+  gtk_grid_attach(GTK_GRID(vgrid), sw, 0, grid_row++, 1, 1);
 
   gtk_widget_show(mainbox);
 
