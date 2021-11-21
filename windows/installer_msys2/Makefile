@@ -62,7 +62,7 @@ gtk3.22-installer:
 	make GUI=gtk3.22 CLIENT=gtk3.22 FCMP=gtk3 EXTRA_CONFIG="--disable-ruledit $(EXTRA_CONFIG)" wrap-gtk3.22
 
 sdl2-installer:
-	make GUI=sdl2 CLIENT=sdl2 FCMP=gtk3 EXTRA_CONFIG="--disable-ruledit $(EXTRA_CONFIG)" wrap-sdl2
+	make GUI=sdl2 CLIENT=sdl2 FCMP=gtk4 EXTRA_CONFIG="--disable-ruledit $(EXTRA_CONFIG)" wrap-sdl2
 
 qt-installer: qt5-installer
 
@@ -320,6 +320,28 @@ install-env-default-fcmp: install-env-common
 
 install-env-gtk3.22: install-env-default-fcmp
 
+GTK4_FCMP_DLLS := \
+	libgtk-4-1.dll \
+	libpcre-1.dll \
+	libcairo-script-interpreter-2.dll \
+	libepoxy-0.dll \
+	libgraphene-1.0-0.dll \
+	libharfbuzz-0.dll \
+	libpangoft2-1.0-0.dll \
+	libunistring-2.dll \
+	libthai-0.dll \
+	liblzo2-2.dll \
+	libgraphite2.dll \
+	libdatrie-1.dll
+
+install-env-gtk4-fcmp: install-env-common
+	cp -R $(addprefix $(DLLPATH_PREFIX), $(GTK4_FCMP_DLLS)) install-$(WINARCH)-$(GUI)/
+	# add additional GTK4 files
+	mkdir -p install-$(WINARCH)-$(GUI)/lib/gdk-pixbuf-2.0/
+	cp -R /$(ARCHDIR)/lib/gdk-pixbuf-2.0/* install-$(WINARCH)-$(GUI)/lib/gdk-pixbuf-2.0/
+	cp -R /$(ARCHDIR)/share/locale install-$(WINARCH)-$(GUI)/share/
+	find install-$(WINARCH)-$(GUI)/share/locale -type f -not -name "freeciv*.mo" -and -not -name gtk40.mo -delete
+
 SDL2_DLLS := \
 	libSDL2_gfx-1-0-0.dll \
 	SDL2_image.dll \
@@ -332,7 +354,7 @@ SDL2_DLLS := \
 	libjbig-0.dll \
 	${LERC}
 
-install-env-sdl2: install-env-default-fcmp
+install-env-sdl2: install-env-gtk4-fcmp
 	# add DLLs
 	cp -R $(addprefix $(DLLPATH_PREFIX), $(SDL2_DLLS)) install-$(WINARCH)-$(GUI)/
 
