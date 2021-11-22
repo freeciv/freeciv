@@ -29,8 +29,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 3.1\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2021-11-14 17:17+0200\n"
-"PO-Revision-Date: 2021-11-14 17:15+0200\n"
+"POT-Creation-Date: 2021-11-22 06:42+0200\n"
+"PO-Revision-Date: 2021-11-22 06:02+0200\n"
 "Last-Translator: Sini Ruohomaa <sini.ruohomaa@iki.fi>\n"
 "Language-Team: None <freeciv-i18n@freelists.org>\n"
 "Language: fi\n"
@@ -4130,9 +4130,9 @@ msgstr ""
 
 #. TRANS: No full stop after the URL, could cause confusion.
 #: client/gui-gtk-3.22/gui_main.c:273 client/gui-qt/gui_main.cpp:122
-#: client/gui-sdl2/gui_main.c:173 common/fc_cmdhelp.c:136
-#: tools/fcmp/mpcli.c:115 tools/fcmp/mpgui_gtk3.c:579
-#: tools/fcmp/mpgui_gtk4.c:622 tools/fcmp/mpgui_qt.cpp:102
+#: client/gui-sdl2/gui_main.c:173 tools/fcmp/mpcli.c:115
+#: tools/fcmp/mpgui_gtk3.c:579 tools/fcmp/mpgui_gtk4.c:622
+#: tools/fcmp/mpgui_qt.cpp:102 utility/fc_cmdhelp.c:136
 #, c-format
 msgid "Report bugs at %s\n"
 msgstr "Ilmoita ohjelman virheistä osoitteessa %s\n"
@@ -9412,7 +9412,7 @@ msgid "Loading theme \"%s\"."
 msgstr "Lataan teemaa \"%s\"."
 
 #: client/gui-sdl2/themespec.c:494 client/gui-sdl2/themespec.c:528
-#: client/tilespec.c:1533 client/tilespec.c:1565
+#: client/tilespec.c:1535 client/tilespec.c:1567
 #, c-format
 msgid ""
 "Could not open '%s':\n"
@@ -10875,18 +10875,22 @@ msgstr ""
 
 #: client/helpdata.c:2775
 #, fuzzy, c-format
-#| msgid "  * all units caught in the nuclear blast dies.\n"
+#| msgid "  * all units caught in the open by the nuclear blast dies.\n"
 msgid "  %s all units caught in the open by the nuclear blast dies.\n"
-msgstr "  · Kaikki yksiköt räjähdyksen alueella kuolevat.\n"
+msgstr "  · Kaikki kentällä ydinräjähdyksen sisään jäävät yksiköt kuolevat.\n"
 
 #. TRANS: percentage
 #: client/helpdata.c:2779
 #, fuzzy, c-format
-#| msgid "  * all units caught in the nuclear blast dies.\n"
+#| msgid ""
+#| "  * a unit caught in the nuclear blast while inside a city has a %d%% "
+#| "chance of survival.\n"
 msgid ""
 "  %s a unit caught in the nuclear blast while inside a city has a %d%% "
 "chance of survival.\n"
-msgstr "  · Kaikki yksiköt räjähdyksen alueella kuolevat.\n"
+msgstr ""
+"  · Ydinräjähdyksen sisään kaupunkien suojassa jäävillä yksiköillä on %d%% "
+"mahdollisuus selvitä.\n"
 
 #: client/helpdata.c:2785
 #, fuzzy, c-format
@@ -13872,7 +13876,7 @@ msgstr "Aloitetaan kierros %d"
 msgid "Welcome"
 msgstr "Tervetuloa"
 
-#: client/packhand.c:2190 client/tilespec.c:1386
+#: client/packhand.c:2190 client/tilespec.c:1388
 #, c-format
 msgid "Map topology (%s) and tileset (%s) incompatible."
 msgstr ""
@@ -14421,7 +14425,7 @@ msgstr "Väkiluku: %s"
 #: client/text.c:942
 #, c-format
 msgid "Year: %s (T%d)"
-msgstr "Vuosi: %s (T%d)"
+msgstr "Vuosi: %s (V%d)"
 
 #: client/text.c:946
 #, c-format
@@ -14982,129 +14986,129 @@ msgstr "Sotilasyksiköillä ei ole vaikutusta onnellisuuteen. "
 msgid "Luxury: %d total."
 msgstr "Luksus: %d kaikkiaan."
 
-#: client/tilespec.c:1265
+#: client/tilespec.c:1267
 msgid "No usable default tileset found, aborting!"
 msgstr "Käyttökelpoista oletuskuvitusta ei löydy, lopetan!"
 
-#: client/tilespec.c:1309
+#: client/tilespec.c:1311
 #, c-format
 msgid "Loading tileset \"%s\"."
 msgstr "Lataan kuvitusta \"%s\"."
 
-#: client/tilespec.c:1538
+#: client/tilespec.c:1540
 msgid "Incompatible tileset capabilities"
 msgstr "Epäyhteensopiva kuvitus"
 
-#: client/tilespec.c:1546
+#: client/tilespec.c:1548
 #, c-format
 msgid "Could not load gfx file for the spec file \"%s\"."
 msgstr "Ei voi ladata grafiikkatiedostoa spec-tiedostolle \"%s\"."
 
-#: client/tilespec.c:1569
+#: client/tilespec.c:1571
 #, c-format
 msgid "Specfile %s has incompatible capabilities"
 msgstr "Spec-tiedosto %s on epäyhteensopiva"
 
-#: client/tilespec.c:1740
+#: client/tilespec.c:1742
 #, c-format
 msgid "Couldn't find a supported gfx file extension for \"%s\"."
 msgstr "Ei löydy tuettua tiedostopäätettä grafiikalle \"%s\"."
 
 #. TRANS: "Overhead" or "Isometric"
-#: client/tilespec.c:1932
+#: client/tilespec.c:1934
 #, c-format
 msgid "Client does not support %s tilesets."
 msgstr "Asiakasohjelma ei tue tyypin %s kuvitusta."
 
-#: client/tilespec.c:1934
+#: client/tilespec.c:1936
 msgid "Using default tileset instead."
 msgstr "Käytetään sen sijaan oletuskuvitusta."
 
-#: client/tilespec.c:2202
+#: client/tilespec.c:2204
 #, c-format
 msgid "[layer%d] match_types: \"%s\" initial ('%c') is not unique."
 msgstr "[layer%d] match_types: \"%s\" aloittava ('%c') ei ole yksilöivä."
 
-#: client/tilespec.c:2214
+#: client/tilespec.c:2216
 #, c-format
 msgid "No [%s] sections supported by tileset \"%s\"."
 msgstr "Kuvituksessa \"%2$s\" ei ole [%1$s] osioita."
 
-#: client/tilespec.c:2234
+#: client/tilespec.c:2236
 #, c-format
 msgid "No terrain tag given in section [%s]."
 msgstr "Maaston grafiikkatagia ei ole annettu osiossa [%s]."
 
-#: client/tilespec.c:2587
+#: client/tilespec.c:2589
 #, c-format
 msgid "Couldn't load gfx file \"%s\" for sprite '%s'."
 msgstr ""
 "Grafiikkatiedoston \"%s\" avaaminen kuvan '%s' löytämiseksi epäonnistui."
 
-#: client/tilespec.c:2597
+#: client/tilespec.c:2599
 #, c-format
 msgid "Sprite '%s' in file \"%s\" isn't within the image!"
 msgstr "Kuva '%s' tiedostossa \"%s\" ei ole kuva-alalla!"
 
-#: client/tilespec.c:2674 client/tilespec.c:2683 client/tilespec.c:2691
+#: client/tilespec.c:2676 client/tilespec.c:2685 client/tilespec.c:2693
 #, c-format
 msgid "Sprite for tag '%s' missing."
 msgstr "Ei löydy tunnisteen '%s' viittaamaa kuvaa."
 
-#: client/tilespec.c:2703
+#: client/tilespec.c:2705
 #, c-format
 msgid "Sprite for tags '%s' and alternate '%s' are both missing."
 msgstr ""
 "Ei löydy sen enempää tunnisteen '%s' kuin vaihtoehtoisen tunnisteen '%s' "
 "viittaamaa kuvaa."
 
-#: client/tilespec.c:2781
+#: client/tilespec.c:2783
 #, c-format
 msgid "No graphics for specialist \"%s\"."
 msgstr "Ei grafiikkaa \"%s\" erikoisosaajalle."
 
-#: client/tilespec.c:2806
+#: client/tilespec.c:2808
 #, c-format
 msgid "No graphics for citizen \"%s\"."
 msgstr "Ei grafiikkaa \"%s\" kansalaiselle."
 
-#: client/tilespec.c:3100
+#: client/tilespec.c:3105
 msgid "Missing necessary citybar.occupancy_N sprites."
 msgstr "Ei löydy tarvittavia citybar.occupancy_N kuvia."
 
-#: client/tilespec.c:3222
+#: client/tilespec.c:3227
 msgid "Missing overlay-color sprite colors.overlay_0."
 msgstr "Päällysväri kuvaa colors.overlay_0 ei löydy."
 
-#: client/tilespec.c:3295
+#: client/tilespec.c:3300
 msgid "Sprite tx.darkness missing."
 msgstr "Kuva tx.darkness puuttuu."
 
-#: client/tilespec.c:3436
+#: client/tilespec.c:3441
 #, c-format
 msgid "Don't have graphics tags \"%s\" or \"%s\" for %s \"%s\"."
 msgstr ""
 "Ei löydy grafiikkatagia \"%s\" tai \"%s\". Jomman kumman tarvitsisi %s \"%s"
 "\"."
 
-#: client/tilespec.c:3534
+#: client/tilespec.c:3539
 #, c-format
 msgid "Missing %s unit sprite for tags \"%s\" and alternative \"%s\"."
 msgstr ""
 "Ei löydy tunnisteen \"%2$s\" tai vaihtoehtoisen tunnisteen \"%3$s\" "
 "viittaama yksikön %1$s kuvaa."
 
-#: client/tilespec.c:3607
+#: client/tilespec.c:3612
 #, c-format
 msgid "No extra style for \"%s\" or \"%s\"."
 msgstr "Ei ruutulisätyyliä määritetty tunnisteelle \"%s\" tai \"%s\"."
 
-#: client/tilespec.c:3663
+#: client/tilespec.c:3668
 #, c-format
 msgid "No cardinal-style graphics \"%s*\" for extra \"%s\""
 msgstr "Ei rinnakkaisten ruutujen grafiikkaa \"%s*\" ruutulisätyypille \"%s\""
 
-#: client/tilespec.c:3689
+#: client/tilespec.c:3694
 #, c-format
 msgid ""
 "Missing %s building activity sprite for tags \"%s\" and alternatives \"%s\" "
@@ -15113,7 +15117,7 @@ msgstr ""
 "Ei löydy toimintoikonia näytettäväksi kun rakennetaan %s. Sen pitäisi löytyä "
 "tunnisteella \"%s\", \"%s\" tai \"%s\"."
 
-#: client/tilespec.c:3704
+#: client/tilespec.c:3709
 #, c-format
 msgid ""
 "Missing %s removal activity sprite for tags \"%s\" and alternative \"%s\"."
@@ -15121,34 +15125,34 @@ msgstr ""
 "Ei löydy toimintoikonia näytettäväksi kun poistetaan %s. Sen pitäisi löytyä "
 "tunnisteella \"%s\" tai \"%s\"."
 
-#: client/tilespec.c:3793
+#: client/tilespec.c:3798
 #, c-format
 msgid "No river-style graphics \"%s*\" for extra \"%s\""
 msgstr "Ei joki-grafiikkaa \"%s*\" ruutulisätyypille \"%s\""
 
-#: client/tilespec.c:3852
+#: client/tilespec.c:3857
 #, c-format
 msgid "No graphics with tag \"%s_bg/mg/fg\" for extra \"%s\""
 msgstr "Ei grafiikkaa tunnisteella \"%s_bg/mg/fg\" ruutulisätyypille \"%s\""
 
-#: client/tilespec.c:3871
+#: client/tilespec.c:3876
 #, c-format
 msgid "Terrain \"%s\": no graphic tile \"%s\" or \"%s\"."
 msgstr ""
 "Maastotyypille \"%s\" ei löydy grafiikkaa tunnisteella \"%s\" tai \"%s\"."
 
 #. TRANS: 'base' means 'base of terrain gfx', not 'military base'
-#: client/tilespec.c:3906
+#: client/tilespec.c:3911
 #, c-format
 msgid "Missing base sprite for tag \"%s\"."
 msgstr "Ei löydy maaston pohjakuvaa tunnisteelle \"%s\"."
 
-#: client/tilespec.c:4159
+#: client/tilespec.c:4164
 #, c-format
 msgid "Nation %s: no national flag."
 msgstr "Kansan \"%s\" lippua ei löydy."
 
-#: client/tilespec.c:5416
+#: client/tilespec.c:5429
 #, c-format
 msgid ""
 "Tileset \"%s\" doesn't support long goto paths, such as %d. Path not "
@@ -15157,7 +15161,7 @@ msgstr ""
 "Kuvitus \"%s\" ei tue %d ruudun pituisia reittinuolia. Reittinuolia ei "
 "välttämättä voida näyttää tavalliseen tapaan."
 
-#: client/tilespec.c:5961
+#: client/tilespec.c:5996
 #, c-format
 msgid ""
 "Tileset \"%s\" doesn't support big cities size, such as %d. Size not "
@@ -15166,12 +15170,12 @@ msgstr ""
 "Kuvitus \"%s\" ei tue %d kokoisia kaupunkeja. Kaupungin kokoa ei voida "
 "näyttää tavalliseen tapaan."
 
-#: client/tilespec.c:6134
+#: client/tilespec.c:6169
 #, c-format
 msgid "City style \"%s\": no city graphics."
 msgstr "Kaupunkityylille \"%s\" ei löydy grafiikoita."
 
-#: client/tilespec.c:6138
+#: client/tilespec.c:6173
 #, c-format
 msgid "City style \"%s\": no occupied graphics."
 msgstr ""
@@ -15668,7 +15672,7 @@ msgid "target_reqs"
 msgstr "kohteen edellytykset"
 
 #. TRANS: _Poison City (3% chance of success).
-#: common/actions.c:7720 data/civ2/game.ruleset:433
+#: common/actions.c:7733 data/civ2/game.ruleset:433
 #: data/classic/game.ruleset:459 data/sandbox/game.ruleset:486
 #: data/civ2civ3/game.ruleset:475 data/multiplayer/game.ruleset:459
 #, c-format
@@ -15676,31 +15680,31 @@ msgid "%sPoison City%s"
 msgstr "%sMyrkytä kaupunki%s"
 
 #. TRANS: _Poison City and Escape (3% chance of success).
-#: common/actions.c:7723
+#: common/actions.c:7736
 #, c-format
 msgid "%sPoison City and Escape%s"
 msgstr "%sMyrkytä kaupunki ja pakene%s"
 
 #. TRANS: S_abotage Enemy Unit (3% chance of success).
-#: common/actions.c:7726
+#: common/actions.c:7739
 #, c-format
 msgid "S%sabotage Enemy Unit%s"
 msgstr "%sSabotoi vihollisen yksikkö%s"
 
 #. TRANS: S_abotage Enemy Unit and Escape (3% chance of success).
-#: common/actions.c:7729
+#: common/actions.c:7742
 #, c-format
 msgid "S%sabotage Enemy Unit and Escape%s"
 msgstr "%sSabotoi vihollisen yksikkö ja pakene%s"
 
 #. TRANS: Bribe Enemy _Unit (3% chance of success).
-#: common/actions.c:7732
+#: common/actions.c:7745
 #, c-format
 msgid "Bribe Enemy %sUnit%s"
 msgstr "%sLahjo vihollisen yksikkö%s"
 
 #. TRANS: _Sabotage City (3% chance of success).
-#: common/actions.c:7735 data/civ1/game.ruleset:430 data/civ2/game.ruleset:445
+#: common/actions.c:7748 data/civ1/game.ruleset:430 data/civ2/game.ruleset:445
 #: data/classic/game.ruleset:468 data/sandbox/game.ruleset:498
 #: data/civ2civ3/game.ruleset:484 data/alien/game.ruleset:451
 #: data/multiplayer/game.ruleset:468
@@ -15709,46 +15713,46 @@ msgid "%sSabotage City%s"
 msgstr "%sSabotoi kaupunkia%s"
 
 #. TRANS: _Sabotage City and Escape (3% chance of success).
-#: common/actions.c:7738
+#: common/actions.c:7751
 #, c-format
 msgid "%sSabotage City and Escape%s"
 msgstr "%sSabotoi kaupunkia ja pakene%s"
 
 #. TRANS: Industria_l Sabotage (3% chance of success).
-#: common/actions.c:7741
+#: common/actions.c:7754
 #, c-format
 msgid "Industria%sl Sabotage%s"
 msgstr "%sSabotoi tuotantoa%s"
 
 #. TRANS: Industria_l Sabotage Production (3% chance of success).
-#: common/actions.c:7744
+#: common/actions.c:7757
 #, fuzzy, c-format
 #| msgid "Industria%sl Sabotage%s"
 msgid "Industria%sl Sabotage Production%s"
 msgstr "%sSabotoi tuotantoa%s"
 
 #. TRANS: Industria_l Sabotage and Escape (3% chance of success).
-#: common/actions.c:7747
+#: common/actions.c:7760
 #, c-format
 msgid "Industria%sl Sabotage and Escape%s"
 msgstr "%sSabotoi tuotantoa ja pakene%s"
 
 #. TRANS: Industria_l Sabotage Production and Escape (3% chance of success).
-#: common/actions.c:7750
+#: common/actions.c:7763
 #, fuzzy, c-format
 #| msgid "Industria%sl Sabotage and Escape%s"
 msgid "Industria%sl Sabotage Production and Escape%s"
 msgstr "%sSabotoi tuotantoa ja pakene%s"
 
 #. TRANS: Incite a Re_volt (3% chance of success).
-#: common/actions.c:7753
+#: common/actions.c:7766
 #, c-format
 msgid "Incite a Re%svolt%s"
 msgstr "%sYllytä kapinaan%s"
 
 #. TRANS: Incite a Re_volt and Escape (3% chance of success).
 #. TRANS: Incite a _Revolt and Escape (3% chance of success).
-#: common/actions.c:7756 data/civ2/game.ruleset:460
+#: common/actions.c:7769 data/civ2/game.ruleset:460
 #: data/classic/game.ruleset:483 data/sandbox/game.ruleset:513
 #: data/civ2civ3/game.ruleset:499 data/multiplayer/game.ruleset:483
 #, c-format
@@ -15756,7 +15760,7 @@ msgid "Incite a Re%svolt and Escape%s"
 msgstr "%sYllytä kapinaan ja pakene%s"
 
 #. TRANS: Establish _Embassy (100% chance of success).
-#: common/actions.c:7759 data/civ2/game.ruleset:463
+#: common/actions.c:7772 data/civ2/game.ruleset:463
 #: data/classic/game.ruleset:486 data/sandbox/game.ruleset:516
 #: data/civ2civ3/game.ruleset:502 data/multiplayer/game.ruleset:486
 #, c-format
@@ -15764,7 +15768,7 @@ msgid "Establish %sEmbassy%s"
 msgstr "%sPerusta lähetystö%s"
 
 #. TRANS: Becom_e Ambassador (100% chance of success).
-#: common/actions.c:7762 data/civ1/game.ruleset:436 data/civ2/game.ruleset:466
+#: common/actions.c:7775 data/civ1/game.ruleset:436 data/civ2/game.ruleset:466
 #: data/classic/game.ruleset:489 data/sandbox/game.ruleset:519
 #: data/civ2civ3/game.ruleset:505 data/multiplayer/game.ruleset:489
 #, c-format
@@ -15772,7 +15776,7 @@ msgid "Becom%se Ambassador%s"
 msgstr "Ryhdy suurläh%settilääksi%s"
 
 #. TRANS: Steal _Technology (3% chance of success).
-#: common/actions.c:7765 data/civ1/game.ruleset:439 data/civ2/game.ruleset:469
+#: common/actions.c:7778 data/civ1/game.ruleset:439 data/civ2/game.ruleset:469
 #: data/classic/game.ruleset:492 data/sandbox/game.ruleset:522
 #: data/civ2civ3/game.ruleset:508 data/multiplayer/game.ruleset:492
 #, c-format
@@ -15780,7 +15784,7 @@ msgid "Steal %sTechnology%s"
 msgstr "%sVarasta teknologia%s"
 
 #. TRANS: Steal _Technology and Escape (3% chance of success).
-#: common/actions.c:7768 data/civ2/game.ruleset:472
+#: common/actions.c:7781 data/civ2/game.ruleset:472
 #: data/classic/game.ruleset:495 data/sandbox/game.ruleset:525
 #: data/civ2civ3/game.ruleset:511 data/multiplayer/game.ruleset:495
 #, c-format
@@ -15788,19 +15792,19 @@ msgid "Steal %sTechnology and Escape%s"
 msgstr "%sVarasta teknologia ja pakene%s"
 
 #. TRANS: In_dustrial Espionage (3% chance of success).
-#: common/actions.c:7771
+#: common/actions.c:7784
 #, c-format
 msgid "In%sdustrial Espionage%s"
 msgstr "%sTeollisuusvakoilu%s"
 
 #. TRANS: In_dustrial Espionage and Escape (3% chance of success).
-#: common/actions.c:7774
+#: common/actions.c:7787
 #, c-format
 msgid "In%sdustrial Espionage and Escape%s"
 msgstr "%sTeollisuusvakoilu ja pakeneminen%s"
 
 #. TRANS: _Investigate City (100% chance of success).
-#: common/actions.c:7777 data/civ2/game.ruleset:478
+#: common/actions.c:7790 data/civ2/game.ruleset:478
 #: data/classic/game.ruleset:501 data/sandbox/game.ruleset:534
 #: data/civ2civ3/game.ruleset:517 data/multiplayer/game.ruleset:501
 #, c-format
@@ -15810,7 +15814,7 @@ msgstr "%sTutki kaupunkia%s"
 #. TRANS: _Investigate City (spends the unit) (100% chance of
 #. * success).
 #. TRANS: _Investigate City (spends the unit) (100% chance of success).
-#: common/actions.c:7781 data/civ1/game.ruleset:442 data/civ2/game.ruleset:481
+#: common/actions.c:7794 data/civ1/game.ruleset:442 data/civ2/game.ruleset:481
 #: data/classic/game.ruleset:504 data/sandbox/game.ruleset:537
 #: data/civ2civ3/game.ruleset:520 data/alien/game.ruleset:460
 #: data/multiplayer/game.ruleset:504
@@ -15819,37 +15823,37 @@ msgid "%sInvestigate City (spends the unit)%s"
 msgstr "%sTutki kaupunkia (kuluttaa yksikön)%s"
 
 #. TRANS: Steal _Gold (100% chance of success).
-#: common/actions.c:7784
+#: common/actions.c:7797
 #, c-format
 msgid "Steal %sGold%s"
 msgstr "%sVarasta kultaa%s"
 
 #. TRANS: Steal _Gold and Escape (100% chance of success).
-#: common/actions.c:7787
+#: common/actions.c:7800
 #, c-format
 msgid "Steal %sGold and Escape%s"
 msgstr "%sVarasta kultaa ja pakene%s"
 
 #. TRANS: Spread _Plague (100% chance of success).
-#: common/actions.c:7790
+#: common/actions.c:7803
 #, c-format
 msgid "Spread %sPlague%s"
 msgstr "Levitä %sRuttoa%s"
 
 #. TRANS: Steal _Maps (100% chance of success).
-#: common/actions.c:7793
+#: common/actions.c:7806
 #, c-format
 msgid "Steal %sMaps%s"
 msgstr "%sVarasta kartat%s"
 
 #. TRANS: Steal _Maps and Escape (100% chance of success).
-#: common/actions.c:7796
+#: common/actions.c:7809
 #, c-format
 msgid "Steal %sMaps and Escape%s"
 msgstr "%sVarasta kartat ja pakene%s"
 
 #. TRANS: Establish Trade _Route (100% chance of success).
-#: common/actions.c:7799 data/civ1/game.ruleset:445 data/civ2/game.ruleset:484
+#: common/actions.c:7812 data/civ1/game.ruleset:445 data/civ2/game.ruleset:484
 #: data/classic/game.ruleset:507 data/sandbox/game.ruleset:540
 #: data/civ2civ3/game.ruleset:523 data/alien/game.ruleset:463
 #, c-format
@@ -15857,14 +15861,14 @@ msgid "Establish Trade %sRoute%s"
 msgstr "%sPerusta kauppareitti%s"
 
 #. TRANS: Enter _Marketplace (100% chance of success).
-#: common/actions.c:7802 data/civ1/game.ruleset:448 data/civ2/game.ruleset:487
+#: common/actions.c:7815 data/civ1/game.ruleset:448 data/civ2/game.ruleset:487
 #: data/sandbox/game.ruleset:543 data/civ2civ3/game.ruleset:526
 #, c-format
 msgid "Enter %sMarketplace%s"
 msgstr "%sAstu torille%s"
 
 #. TRANS: Help _build Wonder (100% chance of success).
-#: common/actions.c:7805 data/civ1/game.ruleset:451 data/civ2/game.ruleset:490
+#: common/actions.c:7818 data/civ1/game.ruleset:451 data/civ2/game.ruleset:490
 #: data/classic/game.ruleset:513 data/sandbox/game.ruleset:546
 #: data/civ2civ3/game.ruleset:529 data/alien/game.ruleset:469
 #: data/multiplayer/game.ruleset:507
@@ -15873,77 +15877,77 @@ msgid "Help %sbuild Wonder%s"
 msgstr "%sAuta ihmeen rakentamisessa%s"
 
 #. TRANS: _Capture Units (100% chance of success).
-#: common/actions.c:7808 data/sandbox/game.ruleset:555
+#: common/actions.c:7821 data/sandbox/game.ruleset:555
 #: data/civ2civ3/game.ruleset:538 data/alien/game.ruleset:478
 #, c-format
 msgid "%sCapture Units%s"
 msgstr "%sSieppaa yksiköitä%s"
 
 #. TRANS: _Expel Unit (100% chance of success).
-#: common/actions.c:7811
+#: common/actions.c:7824
 #, c-format
 msgid "%sExpel Unit%s"
 msgstr "%sKarkoita yksikkö%s"
 
 #. TRANS: _Found City (100% chance of success).
-#: common/actions.c:7814
+#: common/actions.c:7827
 #, c-format
 msgid "%sFound City%s"
 msgstr "%sPerusta kaupunki%s"
 
 #. TRANS: _Join City (100% chance of success).
-#: common/actions.c:7817
+#: common/actions.c:7830
 #, c-format
 msgid "%sJoin City%s"
 msgstr "%sLiity kaupunkiin%s"
 
 #. TRANS: B_ombard (100% chance of success).
-#: common/actions.c:7820
+#: common/actions.c:7833
 #, c-format
 msgid "B%sombard%s"
 msgstr "%sPommita%s"
 
 #. TRANS: B_ombard 2 (100% chance of success).
-#: common/actions.c:7823
+#: common/actions.c:7836
 #, fuzzy, c-format
 #| msgid "B%sombard%s"
 msgid "B%sombard 2%s"
 msgstr "%sPommita%s"
 
 #. TRANS: B_ombard 3 (100% chance of success).
-#: common/actions.c:7826
+#: common/actions.c:7839
 #, fuzzy, c-format
 #| msgid "B%sombard%s"
 msgid "B%sombard 3%s"
 msgstr "%sPommita%s"
 
 #. TRANS: Lethal B_ombard (100% chance of success).
-#: common/actions.c:7829
+#: common/actions.c:7842
 #, fuzzy, c-format
 #| msgid "B%sombard%s"
 msgid "Lethal B%sombard%s"
 msgstr "%sPommita%s"
 
 #. TRANS: Suitcase _Nuke (100% chance of success).
-#: common/actions.c:7832
+#: common/actions.c:7845
 #, c-format
 msgid "Suitcase %sNuke%s"
 msgstr "Salkku%sydinpommi%s"
 
 #. TRANS: Suitcase _Nuke and Escape (100% chance of success).
-#: common/actions.c:7835
+#: common/actions.c:7848
 #, c-format
 msgid "Suitcase %sNuke and Escape%s"
 msgstr "Salkku%sydinpommi ja pakeneminen%s"
 
 #. TRANS: Explode _Nuclear (100% chance of success).
-#: common/actions.c:7838
+#: common/actions.c:7851
 #, c-format
 msgid "Explode %sNuclear%s"
 msgstr "Räjäytä %sydinlataus%s"
 
 #. TRANS: _Nuke City (100% chance of success).
-#: common/actions.c:7841 data/civ1/game.ruleset:469 data/civ2/game.ruleset:508
+#: common/actions.c:7854 data/civ1/game.ruleset:469 data/civ2/game.ruleset:508
 #: data/classic/game.ruleset:531 data/civ2civ3/game.ruleset:553
 #: data/multiplayer/game.ruleset:525
 #, fuzzy, c-format
@@ -15952,7 +15956,7 @@ msgid "%sNuke City%s"
 msgstr "%sValtaa kaupunki%s"
 
 #. TRANS: _Nuke Units (100% chance of success).
-#: common/actions.c:7844 data/civ1/game.ruleset:472 data/civ2/game.ruleset:511
+#: common/actions.c:7857 data/civ1/game.ruleset:472 data/civ2/game.ruleset:511
 #: data/classic/game.ruleset:534 data/civ2civ3/game.ruleset:556
 #: data/multiplayer/game.ruleset:528
 #, fuzzy, c-format
@@ -15961,13 +15965,13 @@ msgid "%sNuke Units%s"
 msgstr "%sSieppaa yksiköitä%s"
 
 #. TRANS: Destroy _City (100% chance of success).
-#: common/actions.c:7847 data/sandbox/game.ruleset:567
+#: common/actions.c:7860 data/sandbox/game.ruleset:567
 #, c-format
 msgid "Destroy %sCity%s"
 msgstr "%sTuhoa kaupunki%s"
 
 #. TRANS: Rec_ycle Unit (100% chance of success).
-#: common/actions.c:7850 data/civ1/game.ruleset:454 data/civ2/game.ruleset:493
+#: common/actions.c:7863 data/civ1/game.ruleset:454 data/civ2/game.ruleset:493
 #: data/classic/game.ruleset:516 data/sandbox/game.ruleset:549
 #: data/civ2civ3/game.ruleset:532 data/alien/game.ruleset:472
 #: data/multiplayer/game.ruleset:510
@@ -15976,7 +15980,7 @@ msgid "Rec%sycle Unit%s"
 msgstr "%sKierrätä yksikkö%s"
 
 #. TRANS: _You're Fired (100% chance of success).
-#: common/actions.c:7853 data/civ1/game.ruleset:457 data/civ2/game.ruleset:496
+#: common/actions.c:7866 data/civ1/game.ruleset:457 data/civ2/game.ruleset:496
 #: data/classic/game.ruleset:519 data/sandbox/game.ruleset:552
 #: data/civ2civ3/game.ruleset:535 data/alien/game.ruleset:475
 #: data/multiplayer/game.ruleset:513
@@ -15985,7 +15989,7 @@ msgid "%sYou're Fired%s"
 msgstr "Saat %spotkut%s"
 
 #. TRANS: Set _Home City (100% chance of success).
-#: common/actions.c:7856 data/civ1/game.ruleset:475 data/civ2/game.ruleset:514
+#: common/actions.c:7869 data/civ1/game.ruleset:475 data/civ2/game.ruleset:514
 #: data/classic/game.ruleset:537 data/sandbox/game.ruleset:579
 #: data/civ2civ3/game.ruleset:559 data/alien/game.ruleset:490
 #: data/multiplayer/game.ruleset:531
@@ -15994,13 +15998,13 @@ msgid "Set %sHome City%s"
 msgstr "Tee tästä uusi %skotikaupunki%s"
 
 #. TRANS: Make _Homeless (100% chance of success).
-#: common/actions.c:7859
+#: common/actions.c:7872
 #, c-format
 msgid "Make %sHomeless%s"
 msgstr "Tee %sKoditon%s"
 
 #. TRANS: _Upgrade Unit (100% chance of success).
-#: common/actions.c:7862 data/civ2/game.ruleset:517
+#: common/actions.c:7875 data/civ2/game.ruleset:517
 #: data/classic/game.ruleset:540 data/sandbox/game.ruleset:585
 #: data/civ2civ3/game.ruleset:562 data/alien/game.ruleset:493
 #: data/multiplayer/game.ruleset:534
@@ -16009,8 +16013,8 @@ msgid "%sUpgrade Unit%s"
 msgstr "%sAjanmukaista%s"
 
 #. TRANS: Drop _Paratrooper (100% chance of success).
-#: common/actions.c:7865 common/actions.c:7868 common/actions.c:7871
-#: common/actions.c:7874 common/actions.c:7877 common/actions.c:7880
+#: common/actions.c:7878 common/actions.c:7881 common/actions.c:7884
+#: common/actions.c:7887 common/actions.c:7890 common/actions.c:7893
 #: data/civ2/game.ruleset:520 data/classic/game.ruleset:543
 #: data/sandbox/game.ruleset:588 data/civ2civ3/game.ruleset:565
 #: data/alien/game.ruleset:496 data/multiplayer/game.ruleset:537
@@ -16019,7 +16023,7 @@ msgid "Drop %sParatrooper%s"
 msgstr "%sLaskuvarjohyppy%s"
 
 #. TRANS: _Airlift to City (100% chance of success).
-#: common/actions.c:7883 data/civ2/game.ruleset:526
+#: common/actions.c:7896 data/civ2/game.ruleset:526
 #: data/classic/game.ruleset:549 data/sandbox/game.ruleset:594
 #: data/civ2civ3/game.ruleset:571 data/alien/game.ruleset:502
 #: data/multiplayer/game.ruleset:543
@@ -16028,7 +16032,7 @@ msgid "%sAirlift to City%s"
 msgstr "%sLennätä kaupunkiin%s"
 
 #. TRANS: _Attack (100% chance of success).
-#: common/actions.c:7886 data/civ1/game.ruleset:478 data/civ2/game.ruleset:529
+#: common/actions.c:7899 data/civ1/game.ruleset:478 data/civ2/game.ruleset:529
 #: data/classic/game.ruleset:552 data/sandbox/game.ruleset:597
 #: data/civ2civ3/game.ruleset:574 data/alien/game.ruleset:505
 #: data/multiplayer/game.ruleset:546
@@ -16037,33 +16041,33 @@ msgid "%sAttack%s"
 msgstr "%sHyökkäys%s"
 
 #. TRANS: _Suicide Attack (100% chance of success).
-#: common/actions.c:7889
+#: common/actions.c:7902
 #, c-format
 msgid "%sSuicide Attack%s"
 msgstr "%sItsemurhahyökkäys%s"
 
 #. TRANS: _Wipe Units (100% chance of success).
-#: common/actions.c:7892
+#: common/actions.c:7905
 #, fuzzy, c-format
 #| msgid "%sCapture Units%s"
 msgid "%sWipe Units%s"
 msgstr "%sSieppaa yksiköitä%s"
 
 #. TRANS: Surgical Str_ike Building (100% chance of success).
-#: common/actions.c:7895
+#: common/actions.c:7908
 #, c-format
 msgid "Surgical Str%sike Building%s"
 msgstr ""
 
 #. TRANS: Surgical Str_ike Production (100% chance of success).
-#: common/actions.c:7898
+#: common/actions.c:7911
 #, fuzzy, c-format
 #| msgid "Surplus: Production"
 msgid "Surgical Str%sike Production%s"
 msgstr "Ylijäämä: Tuotantoa"
 
 #. TRANS: _Conquer City (100% chance of success).
-#: common/actions.c:7903 data/civ1/game.ruleset:484 data/civ2/game.ruleset:535
+#: common/actions.c:7916 data/civ1/game.ruleset:484 data/civ2/game.ruleset:535
 #: data/classic/game.ruleset:558 data/sandbox/game.ruleset:603
 #: data/civ2civ3/game.ruleset:580 data/alien/game.ruleset:511
 #: data/multiplayer/game.ruleset:552
@@ -16072,34 +16076,34 @@ msgid "%sConquer City%s"
 msgstr "%sValtaa kaupunki%s"
 
 #. TRANS: _Conquer City 2 (100% chance of success).
-#: common/actions.c:7906
+#: common/actions.c:7919
 #, fuzzy, c-format
 #| msgid "%sConquer City%s"
 msgid "%sConquer City 2%s"
 msgstr "%sValtaa kaupunki%s"
 
 #. TRANS: _Conquer Extras (100% chance of success).
-#: common/actions.c:7911
+#: common/actions.c:7924
 #, fuzzy, c-format
 #| msgid "%sConquer City%s"
 msgid "%sConquer Extras%s"
 msgstr "%sValtaa kaupunki%s"
 
 #. TRANS: _Conquer Extras 2 (100% chance of success).
-#: common/actions.c:7914
+#: common/actions.c:7927
 #, fuzzy, c-format
 #| msgid "%sConquer City%s"
 msgid "%sConquer Extras 2%s"
 msgstr "%sValtaa kaupunki%s"
 
 #. TRANS: Heal _Unit (3% chance of success).
-#: common/actions.c:7918
+#: common/actions.c:7931
 #, c-format
 msgid "Heal %sUnit%s"
 msgstr "%sParanna yksikkö%s"
 
 #. TRANS: _Transform Terrain (3% chance of success).
-#: common/actions.c:7921 data/civ1/game.ruleset:487 data/civ2/game.ruleset:538
+#: common/actions.c:7934 data/civ1/game.ruleset:487 data/civ2/game.ruleset:538
 #: data/classic/game.ruleset:570 data/sandbox/game.ruleset:615
 #: data/civ2civ3/game.ruleset:586 data/alien/game.ruleset:514
 #: data/multiplayer/game.ruleset:564
@@ -16109,7 +16113,7 @@ msgid "%sTransform Terrain%s"
 msgstr "Muokkaa maastoa"
 
 #. TRANS: Transform by _Cultivating (3% chance of success).
-#: common/actions.c:7924 data/civ1/game.ruleset:490 data/civ2/game.ruleset:541
+#: common/actions.c:7937 data/civ1/game.ruleset:490 data/civ2/game.ruleset:541
 #: data/classic/game.ruleset:573 data/sandbox/game.ruleset:618
 #: data/civ2civ3/game.ruleset:589 data/alien/game.ruleset:517
 #: data/multiplayer/game.ruleset:567
@@ -16119,7 +16123,7 @@ msgid "Transform by %sCultivating%s"
 msgstr "Muokkaa tästä %s"
 
 #. TRANS: Transform by _Planting (3% chance of success).
-#: common/actions.c:7927 data/civ1/game.ruleset:493 data/civ2/game.ruleset:544
+#: common/actions.c:7940 data/civ1/game.ruleset:493 data/civ2/game.ruleset:544
 #: data/classic/game.ruleset:576 data/sandbox/game.ruleset:621
 #: data/civ2civ3/game.ruleset:592 data/alien/game.ruleset:520
 #: data/multiplayer/game.ruleset:570
@@ -16129,7 +16133,7 @@ msgid "Transform by %sPlanting%s"
 msgstr "Muokkaa tästä %s"
 
 #. TRANS: Pilla_ge (100% chance of success).
-#: common/actions.c:7930 data/civ1/game.ruleset:496 data/civ2/game.ruleset:547
+#: common/actions.c:7943 data/civ1/game.ruleset:496 data/civ2/game.ruleset:547
 #: data/classic/game.ruleset:579 data/sandbox/game.ruleset:624
 #: data/civ2civ3/game.ruleset:595 data/alien/game.ruleset:523
 #: data/multiplayer/game.ruleset:573
@@ -16139,7 +16143,7 @@ msgid "Pilla%sge%s"
 msgstr "Turmele"
 
 #. TRANS: Clean _Pollution (100% chance of success).
-#: common/actions.c:7933 data/civ1/game.ruleset:499 data/civ2/game.ruleset:550
+#: common/actions.c:7946 data/civ1/game.ruleset:499 data/civ2/game.ruleset:550
 #: data/classic/game.ruleset:582 data/sandbox/game.ruleset:627
 #: data/civ2civ3/game.ruleset:598 data/alien/game.ruleset:526
 #: data/multiplayer/game.ruleset:576
@@ -16149,7 +16153,7 @@ msgid "Clean %sPollution%s"
 msgstr "Siivoa saasteita"
 
 #. TRANS: Clean _Fallout (100% chance of success).
-#: common/actions.c:7936 data/classic/game.ruleset:585
+#: common/actions.c:7949 data/classic/game.ruleset:585
 #: data/sandbox/game.ruleset:630 data/civ2civ3/game.ruleset:601
 #: data/alien/game.ruleset:529 data/multiplayer/game.ruleset:579
 #, fuzzy, c-format
@@ -16158,7 +16162,7 @@ msgid "Clean %sFallout%s"
 msgstr "Siivoa Laskeumaa"
 
 #. TRANS: _Fortify (100% chance of success).
-#: common/actions.c:7939 data/civ1/game.ruleset:502 data/civ2/game.ruleset:553
+#: common/actions.c:7952 data/civ1/game.ruleset:502 data/civ2/game.ruleset:553
 #: data/classic/game.ruleset:588 data/sandbox/game.ruleset:633
 #: data/civ2civ3/game.ruleset:604 data/alien/game.ruleset:532
 #: data/multiplayer/game.ruleset:582
@@ -16168,7 +16172,7 @@ msgid "%sFortify%s"
 msgstr "Linnoittaudu"
 
 #. TRANS: Build _Road (100% chance of success).
-#: common/actions.c:7942 data/civ1/game.ruleset:505 data/civ2/game.ruleset:556
+#: common/actions.c:7955 data/civ1/game.ruleset:505 data/civ2/game.ruleset:556
 #: data/classic/game.ruleset:591 data/sandbox/game.ruleset:636
 #: data/civ2civ3/game.ruleset:607 data/alien/game.ruleset:535
 #: data/multiplayer/game.ruleset:585
@@ -16178,14 +16182,14 @@ msgid "Build %sRoad%s"
 msgstr "Rakenna tie"
 
 #. TRANS: _Convert Unit (100% chance of success).
-#: common/actions.c:7945
+#: common/actions.c:7958
 #, fuzzy, c-format
 #| msgid "Convert Unit"
 msgid "%sConvert Unit%s"
 msgstr "Muunna yksikkö"
 
 #. TRANS: _Build Base (100% chance of success).
-#: common/actions.c:7948 data/civ1/game.ruleset:508 data/civ2/game.ruleset:559
+#: common/actions.c:7961 data/civ1/game.ruleset:508 data/civ2/game.ruleset:559
 #: data/classic/game.ruleset:594 data/sandbox/game.ruleset:639
 #: data/civ2civ3/game.ruleset:610 data/alien/game.ruleset:538
 #: data/multiplayer/game.ruleset:588
@@ -16195,7 +16199,7 @@ msgid "%sBuild Base%s"
 msgstr "Rakenna tukikohta"
 
 #. TRANS: Build _Mine (100% chance of success).
-#: common/actions.c:7951 data/civ1/game.ruleset:511 data/civ2/game.ruleset:562
+#: common/actions.c:7964 data/civ1/game.ruleset:511 data/civ2/game.ruleset:562
 #: data/classic/game.ruleset:597 data/sandbox/game.ruleset:642
 #: data/civ2civ3/game.ruleset:613 data/alien/game.ruleset:541
 #: data/multiplayer/game.ruleset:591
@@ -16205,7 +16209,7 @@ msgid "Build %sMine%s"
 msgstr "Louhi kaivos"
 
 #. TRANS: Build _Irrigation (100% chance of success).
-#: common/actions.c:7954 data/civ1/game.ruleset:514 data/civ2/game.ruleset:565
+#: common/actions.c:7967 data/civ1/game.ruleset:514 data/civ2/game.ruleset:565
 #: data/classic/game.ruleset:600 data/sandbox/game.ruleset:645
 #: data/civ2civ3/game.ruleset:616 data/alien/game.ruleset:544
 #: data/multiplayer/game.ruleset:594
@@ -16215,7 +16219,7 @@ msgid "Build %sIrrigation%s"
 msgstr "Rakenna kasteluverkosto"
 
 #. TRANS: _Alight (100% chance of success).
-#: common/actions.c:7957 data/civ1/game.ruleset:517 data/civ2/game.ruleset:568
+#: common/actions.c:7970 data/civ1/game.ruleset:517 data/civ2/game.ruleset:568
 #: data/classic/game.ruleset:603 data/sandbox/game.ruleset:648
 #: data/civ2civ3/game.ruleset:619 data/alien/game.ruleset:547
 #: data/multiplayer/game.ruleset:597
@@ -16225,7 +16229,7 @@ msgid "%sAlight%s"
 msgstr "Olentojen oikeudet"
 
 #. TRANS: _Board (100% chance of success).
-#: common/actions.c:7962 data/civ1/game.ruleset:520 data/civ2/game.ruleset:571
+#: common/actions.c:7975 data/civ1/game.ruleset:520 data/civ2/game.ruleset:571
 #: data/classic/game.ruleset:606 data/sandbox/game.ruleset:651
 #: data/civ2civ3/game.ruleset:622 data/alien/game.ruleset:550
 #: data/multiplayer/game.ruleset:600
@@ -16235,7 +16239,7 @@ msgid "%sBoard%s"
 msgstr "%sPommita%s"
 
 #. TRANS: _Embark (100% chance of success).
-#: common/actions.c:7968 data/civ1/game.ruleset:529 data/civ2/game.ruleset:580
+#: common/actions.c:7981 data/civ1/game.ruleset:529 data/civ2/game.ruleset:580
 #: data/classic/game.ruleset:618 data/sandbox/game.ruleset:663
 #: data/civ2civ3/game.ruleset:634 data/alien/game.ruleset:562
 #: data/multiplayer/game.ruleset:612
@@ -16245,7 +16249,7 @@ msgid "%sEmbark%s"
 msgstr "%sPommita%s"
 
 #. TRANS: _Unload (100% chance of success).
-#: common/actions.c:7971 data/civ1/game.ruleset:523 data/civ2/game.ruleset:574
+#: common/actions.c:7984 data/civ1/game.ruleset:523 data/civ2/game.ruleset:574
 #: data/classic/game.ruleset:609 data/sandbox/game.ruleset:654
 #: data/civ2civ3/game.ruleset:625 data/alien/game.ruleset:553
 #: data/multiplayer/game.ruleset:603
@@ -16255,14 +16259,14 @@ msgid "%sUnload%s"
 msgstr "Pura lasti"
 
 #. TRANS: _Load (100% chance of success).
-#: common/actions.c:7976
+#: common/actions.c:7989
 #, fuzzy, c-format
 #| msgid "Unload"
 msgid "%sLoad%s"
 msgstr "Pura lasti"
 
 #. TRANS: _Disembark (100% chance of success).
-#: common/actions.c:7981 data/civ1/game.ruleset:526 data/civ2/game.ruleset:577
+#: common/actions.c:7994 data/civ1/game.ruleset:526 data/civ2/game.ruleset:577
 #: data/classic/game.ruleset:612 data/sandbox/game.ruleset:657
 #: data/civ2civ3/game.ruleset:628 data/alien/game.ruleset:556
 #: data/multiplayer/game.ruleset:606
@@ -16272,21 +16276,21 @@ msgid "%sDisembark%s"
 msgstr "%sPommita%s"
 
 #. TRANS: _Disembark 2 (100% chance of success).
-#: common/actions.c:7984
+#: common/actions.c:7997
 #, fuzzy, c-format
 #| msgid "B%sombard%s"
 msgid "%sDisembark 2%s"
 msgstr "%sPommita%s"
 
 #. TRANS: _Eliminate Diplomat (100% chance of success).
-#: common/actions.c:7987
+#: common/actions.c:8000
 #, fuzzy, c-format
 #| msgid "Enemy Diplomat: %s"
 msgid "%sEliminate Diplomat%s"
 msgstr "Vihollisdiplomaatti: %s"
 
 #. TRANS: Enter _Hut (100% chance of success).
-#: common/actions.c:7993 data/civ1/game.ruleset:532 data/civ2/game.ruleset:583
+#: common/actions.c:8006 data/civ1/game.ruleset:532 data/civ2/game.ruleset:583
 #: data/classic/game.ruleset:621 data/sandbox/game.ruleset:676
 #: data/civ2civ3/game.ruleset:637 data/alien/game.ruleset:565
 #: data/multiplayer/game.ruleset:615 data/multiplayer/game.ruleset:618
@@ -16295,7 +16299,7 @@ msgid "Enter %sHut%s"
 msgstr "%sAstu mökkiin%s"
 
 #. TRANS: Frighten _Hut (100% chance of success).
-#: common/actions.c:7999 data/civ2/game.ruleset:586
+#: common/actions.c:8012 data/civ2/game.ruleset:586
 #: data/classic/game.ruleset:627 data/sandbox/game.ruleset:682
 #: data/civ2civ3/game.ruleset:643 data/multiplayer/game.ruleset:621
 #: data/multiplayer/game.ruleset:624
@@ -16304,32 +16308,32 @@ msgid "Frighten %sHut%s"
 msgstr "Pelota %smökki%s"
 
 #. TRANS: Regular _Move (100% chance of success).
-#: common/actions.c:8004
+#: common/actions.c:8017
 #, c-format
 msgid "Regular %sMove%s"
 msgstr "Tavallinen %sliikkuminen%s"
 
 #. TRANS: _Escape To Nearest City (100% chance of success).
-#: common/actions.c:8007
+#: common/actions.c:8020
 #, fuzzy, c-format
 #| msgid "Go to Nearest City"
 msgid "%sEscape To Nearest City%s"
 msgstr "Palaa lähimpään kaupunkiin"
 
 #. TRANS: _User Action 1 (100% chance of success).
-#: common/actions.c:8010
+#: common/actions.c:8023
 #, c-format
 msgid "%sUser Action 1%s"
 msgstr "%sKäyttäjän toimi 1%s"
 
 #. TRANS: _User Action 2 (100% chance of success).
-#: common/actions.c:8013
+#: common/actions.c:8026
 #, c-format
 msgid "%sUser Action 2%s"
 msgstr "%sKäyttäjän toimi 2%s"
 
 #. TRANS: _User Action 3 (100% chance of success).
-#: common/actions.c:8016
+#: common/actions.c:8029
 #, c-format
 msgid "%sUser Action 3%s"
 msgstr "%sKäyttäjän toimi 3%s"
@@ -17089,24 +17093,6 @@ msgstr "Puolustettava maastonmuoto"
 #: common/extras.h:60
 msgid "NoStackDeath"
 msgstr "EiPinonKuolemaa"
-
-#: common/fc_cmdhelp.c:107
-#, c-format
-msgid ""
-"Usage: %s [option ...]\n"
-"Valid option are:\n"
-msgstr ""
-"Käyttö: %s [valitsin ...]\n"
-"Valitsin voi olla:\n"
-
-#: common/fc_cmdhelp.c:124
-#, c-format
-msgid "Try \"%s -- --help\" for more."
-msgstr "Kokeile \"%s -- --help\" nähdäksesi lisää."
-
-#: common/fc_cmdhelp.c:130
-msgid "Pass any following options to the UI."
-msgstr "Välitä tästä seuraavat parametrit käyttöliittymälle."
 
 #: common/fc_types.h:148 common/unit.c:627
 msgid "Fortifying"
@@ -20373,237 +20359,237 @@ msgstr "Kaupunkilaistentappaja"
 msgid "?uclassflag:HutFrighten"
 msgstr "Kaupunkilaistentappaja"
 
-#: common/unittype.h:172
+#: common/unittype.h:173
 msgid "?unitflag:HasNoZOC"
 msgstr "Valvonta-alueita tuottamaton"
 
 #. TRANS: unit type flag (rarely shown): "ignore zones of control"
-#: common/unittype.h:175
+#: common/unittype.h:176
 msgid "?unitflag:IgZOC"
 msgstr "Valvonta-alueista välittämätön"
 
-#: common/unittype.h:177
+#: common/unittype.h:178
 msgid "?unitflag:NonMil"
 msgstr "Ei sotilaallinen"
 
 #. TRANS: unit type flag (rarely shown): "ignore terrain"
-#: common/unittype.h:180
+#: common/unittype.h:181
 msgid "?unitflag:IgTer"
 msgstr "Maastosta välittämätön"
 
-#: common/unittype.h:182
+#: common/unittype.h:183
 msgid "?unitflag:FieldUnit"
 msgstr "Kenttäyksikkö"
 
-#: common/unittype.h:186
+#: common/unittype.h:187
 msgid "?unitflag:Provoking"
 msgstr "Yllyttävä"
 
-#: common/unittype.h:189
+#: common/unittype.h:190
 #, fuzzy
 #| msgid "?unitflag:FerryBoat"
 msgid "?unitflag:NeverProtects"
 msgstr "Kuljetusalus"
 
-#: common/unittype.h:192 common/unittype.h:413
+#: common/unittype.h:193 common/unittype.h:414
 msgid "?unitflag:Settlers"
 msgstr "Työläinen"
 
-#: common/unittype.h:194
+#: common/unittype.h:195
 msgid "?unitflag:Diplomat"
 msgstr "Diplomaatti"
 
-#: common/unittype.h:197
+#: common/unittype.h:198
 msgid "?unitflag:CoastStrict"
 msgstr "Tiukasti Rannikolla"
 
-#: common/unittype.h:200
+#: common/unittype.h:201
 msgid "?unitflag:Coast"
 msgstr "Rannikolla"
 
-#: common/unittype.h:203
+#: common/unittype.h:204
 msgid "?unitflag:Shield2Gold"
 msgstr "Tuotantoylläpito kultaylläpidoksi"
 
-#: common/unittype.h:206
+#: common/unittype.h:207
 msgid "?unitflag:Spy"
 msgstr "Vakooja"
 
-#: common/unittype.h:209
+#: common/unittype.h:210
 msgid "?unitflag:Only_Native_Attack"
 msgstr "Hyökkää vain minne voisi myös kulkea"
 
-#: common/unittype.h:212
+#: common/unittype.h:213
 msgid "?unitflag:Fanatic"
 msgstr "Fanaattinen"
 
-#: common/unittype.h:215
+#: common/unittype.h:216
 msgid "?unitflag:GameLoss"
 msgstr "Pelin ratkaiseva"
 
-#: common/unittype.h:218
+#: common/unittype.h:219
 msgid "?unitflag:Unique"
 msgstr "Ainutlaatuinen"
 
-#: common/unittype.h:223
+#: common/unittype.h:224
 msgid "?unitflag:EvacuateFirst"
 msgstr "Ensin pelastettava"
 
-#: common/unittype.h:226
+#: common/unittype.h:227
 msgid "?unitflag:SuperSpy"
 msgstr "Supervakooja"
 
-#: common/unittype.h:229
+#: common/unittype.h:230
 msgid "?unitflag:NoHome"
 msgstr "Koditon"
 
-#: common/unittype.h:232
+#: common/unittype.h:233
 msgid "?unitflag:NoVeteran"
 msgstr "Ei ylennettävä"
 
-#: common/unittype.h:235
+#: common/unittype.h:236
 msgid "?unitflag:CityBuster"
 msgstr "Kaupungintuhoaja"
 
-#: common/unittype.h:238
+#: common/unittype.h:239
 msgid "?unitflag:NoBuild"
 msgstr "Ei rakennettavissa"
 
-#: common/unittype.h:242
+#: common/unittype.h:243
 msgid "?unitflag:BadWallAttacker"
 msgstr "Huono hyökkäämään muureja vastaan"
 
-#: common/unittype.h:245
+#: common/unittype.h:246
 msgid "?unitflag:BadCityDefender"
 msgstr "Huono kaupungin puolustaja"
 
-#: common/unittype.h:248
+#: common/unittype.h:249
 msgid "?unitflag:BarbarianOnly"
 msgstr "Vain barbaareille"
 
-#: common/unittype.h:251
+#: common/unittype.h:252
 msgid "?unitflag:NewCityGamesOnly"
 msgstr "Vain kaupunginperustamispeleissä"
 
-#: common/unittype.h:254
+#: common/unittype.h:255
 msgid "?unitflag:CanEscape"
 msgstr "Pakeneva"
 
-#: common/unittype.h:257
+#: common/unittype.h:258
 msgid "?unitflag:CanKillEscaping"
 msgstr "Pakenevan tappava"
 
-#: common/unittype.h:260
+#: common/unittype.h:261
 #, fuzzy
 #| msgid "?unitflag:NoHome"
 msgid "?unitflag:RandomMovement"
 msgstr "Koditon"
 
-#: common/unittype.h:332
+#: common/unittype.h:333
 msgid "?unitflag:FirstBuild"
 msgstr "Ensimmäinen rakennettava"
 
-#: common/unittype.h:335
+#: common/unittype.h:336
 msgid "?unitflag:Explorer"
 msgstr "Kartoittaja"
 
-#: common/unittype.h:338
+#: common/unittype.h:339
 msgid "?unitflag:Hut"
 msgstr "Majasta löytyvä"
 
-#: common/unittype.h:341
+#: common/unittype.h:342
 msgid "?unitflag:HutTech"
 msgstr "Majasta löytyvä kun tekniikka tunnetaan"
 
-#: common/unittype.h:344
+#: common/unittype.h:345
 msgid "?unitflag:Partisan"
 msgstr "Sissiryhmä"
 
-#: common/unittype.h:347
+#: common/unittype.h:348
 msgid "?unitflag:DefendOk"
 msgstr "Ok puolustaja"
 
-#: common/unittype.h:350
+#: common/unittype.h:351
 msgid "?unitflag:DefendGood"
 msgstr "Hyvä puolustaja"
 
-#: common/unittype.h:353
+#: common/unittype.h:354
 msgid "?unitflag:FerryBoat"
 msgstr "Kuljetusalus"
 
-#: common/unittype.h:356
+#: common/unittype.h:357
 msgid "?unitflag:Barbarian"
 msgstr "Barbaari"
 
-#: common/unittype.h:359
+#: common/unittype.h:360
 msgid "?unitflag:BarbarianTech"
 msgstr "Teknologian mahdollistama barbaari"
 
-#: common/unittype.h:362
+#: common/unittype.h:363
 msgid "?unitflag:BarbarianBoat"
 msgstr "Barbaarialus"
 
-#: common/unittype.h:365
+#: common/unittype.h:366
 msgid "?unitflag:BarbarianBuild"
 msgstr "Barbaarien rakennettava"
 
-#: common/unittype.h:368
+#: common/unittype.h:369
 msgid "?unitflag:BarbarianBuildTech"
 msgstr "Teknologian mahdollistama barbaarien rakennettava"
 
-#: common/unittype.h:371
+#: common/unittype.h:372
 msgid "?unitflag:BarbarianLeader"
 msgstr "Barbaarijohtaja"
 
-#: common/unittype.h:374
+#: common/unittype.h:375
 msgid "?unitflag:BarbarianSea"
 msgstr "Meribarbaari"
 
-#: common/unittype.h:377
+#: common/unittype.h:378
 msgid "?unitflag:BarbarianSeaTech"
 msgstr "Teknologian mahdollistama meribarbaari"
 
-#: common/unittype.h:380
+#: common/unittype.h:381
 msgid "?unitflag:CitiesStartUnit"
 msgstr "Kaupunginperustaja-aloitusyksikkö"
 
-#: common/unittype.h:383
+#: common/unittype.h:384
 msgid "?unitflag:WorkerStartUnit"
 msgstr "Työläisaloitusyksikkö"
 
-#: common/unittype.h:386
+#: common/unittype.h:387
 msgid "?unitflag:ExplorerStartUnit"
 msgstr "Kartoittaja-aloitusyksikkö"
 
-#: common/unittype.h:389
+#: common/unittype.h:390
 msgid "?unitflag:KingStartUnit"
 msgstr "Kuningasaloitusyksikkö"
 
-#: common/unittype.h:392
+#: common/unittype.h:393
 msgid "?unitflag:DiplomatStartUnit"
 msgstr "Diplomaattialoitusyksikkö"
 
-#: common/unittype.h:395
+#: common/unittype.h:396
 msgid "?unitflag:FerryStartUnit"
 msgstr "Kuljetusalusaloitusyksikkö"
 
-#: common/unittype.h:398
+#: common/unittype.h:399
 msgid "?unitflag:DefendOkStartUnit"
 msgstr "Aloitusyksikkö, Ok puolustaja"
 
-#: common/unittype.h:401
+#: common/unittype.h:402
 msgid "?unitflag:DefendGoodStartUnit"
 msgstr "Aloitusyksikkö, Hyvä puolustaja"
 
-#: common/unittype.h:404
+#: common/unittype.h:405
 msgid "?unitflag:AttackFastStartUnit"
 msgstr "Aloitusyksikkö, Nopea hyökkääjä"
 
-#: common/unittype.h:407
+#: common/unittype.h:408
 msgid "?unitflag:AttackStrongStartUnit"
 msgstr "Aloitusyksikkö, Vahva hyökkääjä"
 
-#: common/unittype.h:410
+#: common/unittype.h:411
 msgid "?unitflag:Hunter"
 msgstr "Metsästäjä"
 
@@ -26825,7 +26811,7 @@ msgstr ""
 "hänestä lunnaat. Lunnaat ovat yleensä 100 kultaa, mutta summa voi olla "
 "vähäisempi mikäli barbaaripelaajalla ei ole riittävästi rahaa."
 
-#: data/default/default.lua:22 server/unittools.c:3002
+#: data/default/default.lua:22 server/unittools.c:3005
 #, c-format
 msgid "You found %d gold."
 msgid_plural "You found %d gold."
@@ -26863,7 +26849,7 @@ msgstr "Löysit ystävällismielisen kaupungin."
 msgid "Friendly nomads are impressed by you, and join you."
 msgstr "Joukko paimentolaisia liittyy valtakuntaasi."
 
-#: data/default/default.lua:114 server/unittools.c:3009
+#: data/default/default.lua:114 server/unittools.c:3012
 msgid "An abandoned village is here."
 msgstr "Täällä on vain hylätty kylä."
 
@@ -26871,7 +26857,7 @@ msgstr "Täällä on vain hylätty kylä."
 msgid "You have unleashed a horde of barbarians!"
 msgstr "Olet joutunut keskelle barbaarijoukon leiriä!"
 
-#: data/default/default.lua:124 server/unittools.c:3012
+#: data/default/default.lua:124 server/unittools.c:3015
 #, c-format
 msgid "Your %s has been killed by barbarians!"
 msgstr "%s menetettiin barbaarien hyökkäyksessä!"
@@ -28644,6 +28630,8 @@ msgid ""
 "In a city with Chichen Itza, settlers can be built without size of the city "
 "shrinking."
 msgstr ""
+"Kaupunki, jossa Chichen Itza on, voi valmistaa uudisasukkaita ilman että "
+"kaupungin koko pienenee."
 
 #: data/sandbox/buildings.ruleset:1527 data/civ2civ3/buildings.ruleset:1411
 msgid ""
@@ -43562,7 +43550,7 @@ msgstr ""
 #. TRANS: translate text between <> and [] only
 #: server/commands.c:521
 msgid "playernation <player-name> [nation] [is-male] [leader] [style]"
-msgstr ""
+msgstr "playernarion <pelaajan nimi> [valtakunta] [on-mies] [johtaja] [tyyli]"
 
 #: server/commands.c:522
 msgid "Define the nation of a player."
@@ -45860,7 +45848,7 @@ msgstr "Vihollisyksiköitä tuhottu\n"
 msgid "Unit Losses\n"
 msgstr "Yksiköitä menetetty\n"
 
-#: server/rssanity.c:1459
+#: server/rssanity.c:1461
 msgid "Disabling 'barbarians' setting for lack of suitable unit types."
 msgstr ""
 "Barbaarit poistettu käytöstä koska sääntökokoelmassa ei ole sopivia "
@@ -49540,26 +49528,26 @@ msgstr "En käynnisty ilman erikseen pyydettyä metapalvelinyhteyttä."
 msgid "The game is over..."
 msgstr "Peli päättyy..."
 
-#: server/srv_main.c:3154
+#: server/srv_main.c:3156
 msgid "Failed to create suitable map, retrying with another mapseed."
 msgstr ""
 "Epäonnistuin luomaan sopivaa karttaa, yritän uudelleen uudella siemenluvulla."
 
-#: server/srv_main.c:3160
+#: server/srv_main.c:3162
 #, c-format
 msgid "Attempt %d/%d"
 msgstr "Yritys %d/%d"
 
-#: server/srv_main.c:3189
+#: server/srv_main.c:3191
 msgid "Cannot create suitable map with given settings."
 msgstr "En onnistunut luomaan sopivaa karttaa annetuilla asetuksilla."
 
-#: server/srv_main.c:3212 server/srv_main.c:3216
+#: server/srv_main.c:3214 server/srv_main.c:3218
 #, c-format
 msgid "Setting '%s' has been adjusted from %s to %s."
 msgstr "Asetus '%s' on muutettu arvosta %s arvoon %s."
 
-#: server/srv_main.c:3417
+#: server/srv_main.c:3419
 #, c-format
 msgid "Now accepting new client connections on port %d."
 msgstr "Vastaanotan nyt uusia asiakasohjelmien yhteydenottoja porttiin %d."
@@ -52370,7 +52358,7 @@ msgstr "Yksikkösi %s ei voi suorittaa toimintoa %s kohteelle %s."
 msgid "Your %s didn't find a %s to %s in %s."
 msgstr "Yksikkösi %s ei voi suorittaa toimintoa %s kohteelle %s %s."
 
-#: server/unithand.c:5142 server/unittools.c:2926
+#: server/unithand.c:5142 server/unittools.c:2929
 msgid "Cannot attack unless you declare war first."
 msgstr "Et voi hyökätä ennen sodanjulistusta."
 
@@ -52615,14 +52603,14 @@ msgstr "%s menetetty yksikön %s mukana."
 msgid "%s escaped the destruction of %s, and fled to %s."
 msgstr "%s pakeni yksikön %s tuhoa ja pakeni kaupunkiin %s."
 
-#: server/unittools.c:2255
+#: server/unittools.c:2256
 #, c-format
 msgid "%d Barbarian leader captured."
 msgid_plural "%d Barbarian leaders captured."
 msgstr[0] "%d barbaarijohtaja vangittu."
 msgstr[1] "%d barbaarijohtajaa vangittu."
 
-#: server/unittools.c:2260
+#: server/unittools.c:2261
 #, c-format
 msgid "%d gold ransom paid."
 msgid_plural "%d gold ransom paid."
@@ -52680,129 +52668,129 @@ msgid_plural "%d units lost when the %s %s attacked the %s %s."
 msgstr[0] "%d yksikkö menetettiin kun %s %s hyökkäsi kohteenaan %s %s."
 msgstr[1] "%d yksikköä menetettiin kun %s %s hyökkäsi kohteenaan %s %s."
 
-#: server/unittools.c:2461
+#: server/unittools.c:2464
 #, c-format
 msgid "%d unit escaped from attack by %s %s"
 msgid_plural "%d units escaped from attack by %s %s"
 msgstr[0] "%d yksikkö pakeni kun %s %s hyökkäsi"
 msgstr[1] "%d yksikköä pakeni kun %s %s hyökkäsi"
 
-#: server/unittools.c:2711
+#: server/unittools.c:2714
 #, c-format
 msgid "Your %s was nuked by %s."
 msgstr "Yksikkösi %s tuhoutui kun %s iskivät ydinasein."
 
-#: server/unittools.c:2714 server/unittools.c:2736
+#: server/unittools.c:2717 server/unittools.c:2739
 msgid "yourself"
 msgstr "sinä itse"
 
-#: server/unittools.c:2718
+#: server/unittools.c:2721
 #, c-format
 msgid "The %s %s was nuked."
 msgstr "%s %s tuhottiin ydiniskussa."
 
-#: server/unittools.c:2733
+#: server/unittools.c:2736
 #, c-format
 msgid "%s was nuked by %s."
 msgstr "%s tuhoutui kun %s iski ydinasein."
 
-#: server/unittools.c:2741
+#: server/unittools.c:2744
 #, c-format
 msgid "You nuked %s."
 msgstr "Olet pamauttanut kohteen %s tuusannuuskaksi ydiniskussa."
 
-#: server/unittools.c:2752
+#: server/unittools.c:2755
 #, fuzzy, c-format
 #| msgid "%s has been destroyed by %s."
 msgid "%s was destroyed by the nuke."
 msgstr "Kaupunki %s on tuhottu, asialla oli %s."
 
-#: server/unittools.c:2756
+#: server/unittools.c:2759
 #, fuzzy, c-format
 #| msgid "You nuked %s."
 msgid "Your nuke destroyed %s."
 msgstr "Olet pamauttanut kohteen %s tuusannuuskaksi ydiniskussa."
 
-#: server/unittools.c:2803
+#: server/unittools.c:2806
 #, c-format
 msgid "The %s detonated a nuke!"
 msgstr "%s räjäyttivät ydinlatauksen!"
 
-#: server/unittools.c:2818
+#: server/unittools.c:2821
 #, c-format
 msgid "%s transported successfully."
 msgstr "%s on turvallisesti siirretty kohteeseensa."
 
-#: server/unittools.c:2900
+#: server/unittools.c:2903
 #, c-format
 msgid "This unit cannot paradrop into %s."
 msgstr "%s ei sovi yksikön maahanlaskupaikaksi."
 
-#: server/unittools.c:2911
+#: server/unittools.c:2914
 #, fuzzy, c-format
 #| msgid "%s can't build a city on %s."
 msgid "%s cannot conquer a city with \"%s\"."
 msgstr "%s ei voi perustaa kaupunkia maastotyypissä %s."
 
-#: server/unittools.c:2940
+#: server/unittools.c:2943
 #, c-format
 msgid "Your %s paradropped into the %s and was lost."
 msgstr "Yksikkösi %s menetettiin maahanlaskupaikassa %s."
 
-#: server/unittools.c:2954
+#: server/unittools.c:2957
 #, c-format
 msgid "Your %s was killed by enemy units at the paradrop destination."
 msgstr "Maahanlaskupaikalla olleet vihollisyksiköt tuhosivat yksikkösi %s."
 
-#: server/unittools.c:3394
+#: server/unittools.c:3397
 #, c-format
 msgid "Orders for %s aborted after enemy movement was spotted."
 msgstr "%s keskeytti toimintansa havaittuaan vihollisen liikehdintää."
 
-#: server/unittools.c:4205
+#: server/unittools.c:4208
 #, c-format
 msgid "Orders for %s aborted as there are units nearby."
 msgstr "%s keskeytti toimintansa, koska lähistöllä on yksiköitä."
 
-#: server/unittools.c:4293
+#: server/unittools.c:4296
 #, c-format
 msgid "Orders for %s aborted since they give an invalid activity."
 msgstr ""
 "%s kieltäytyy jatkamasta sopimattomiksi käyneiden komentojen seuraamista."
 
-#: server/unittools.c:4303
+#: server/unittools.c:4306
 #, c-format
 msgid "Orders for %s aborted since they give an invalid location."
 msgstr "%s keskeytti liikkumisensa, koska kohdepaikka on sopimaton."
 
-#: server/unittools.c:4314
+#: server/unittools.c:4317
 #, c-format
 msgid "Orders for %s aborted as there are units in the way."
 msgstr "%s keskeytti toimintansa, koska muut yksiköt ovat sen tiellä."
 
-#: server/unittools.c:4359
+#: server/unittools.c:4362
 #, c-format
 msgid "Orders for %s aborted because of failed move."
 msgstr "%s keskeytti toimintansa, koska sen liikkuminen epäonnistui."
 
-#: server/unittools.c:4500
+#: server/unittools.c:4503
 #, c-format
 msgid "%s could not do %s to %s."
 msgstr "Yksikkösi %s ei voi suorittaa toimintoa %s kohteelle %s."
 
-#: server/unittools.c:4538
+#: server/unittools.c:4541
 #, c-format
 msgid "Orders for %s aborted because doing %s to %s failed."
 msgstr ""
 "%s keskeytti toimintansa, koska toiminnon %s tekeminen kohteelle %s "
 "epäonnistui."
 
-#: server/unittools.c:4562
+#: server/unittools.c:4565
 #, c-format
 msgid "Your %s has invalid orders."
 msgstr "Yksikölle %s annetut ohjeet eivät enää kelpaa."
 
-#: server/unittools.c:4664
+#: server/unittools.c:4667
 #, c-format
 msgid "Your unit may not act for another %s this turn. See /help unitwaittime."
 msgstr ""
@@ -52921,6 +52909,24 @@ msgstr ", %s"
 #, c-format
 msgid "?and-list:, and %s"
 msgstr " ja %s"
+
+#: utility/fc_cmdhelp.c:107
+#, c-format
+msgid ""
+"Usage: %s [option ...]\n"
+"Valid option are:\n"
+msgstr ""
+"Käyttö: %s [valitsin ...]\n"
+"Valitsin voi olla:\n"
+
+#: utility/fc_cmdhelp.c:124
+#, c-format
+msgid "Try \"%s -- --help\" for more."
+msgstr "Kokeile \"%s -- --help\" nähdäksesi lisää."
+
+#: utility/fc_cmdhelp.c:130
+msgid "Pass any following options to the UI."
+msgstr "Välitä tästä seuraavat parametrit käyttöliittymälle."
 
 #: utility/fc_cmdline.c:73
 #, c-format
