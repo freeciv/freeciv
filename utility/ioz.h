@@ -41,6 +41,9 @@ enum fz_method {
 #ifdef FREECIV_HAVE_LIBLZMA
   FZ_XZ,
 #endif
+#ifdef FREECIV_HAVE_LIBZSTD
+  FZ_ZSTD,
+#endif
   /* Deprecated FZ_BZIP2 moved last, so getting NULL setting name for it
    * won't terminate some iterations in the middle of the valid values. */
 #ifdef FREECIV_HAVE_LIBBZ2

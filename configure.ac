@@ -837,6 +837,26 @@ if test "x$WITH_XZ" != xno ; then
   fi
 fi
 
+dnl Check for zstd compression
+AC_ARG_WITH([libzstd],
+  AS_HELP_STRING([--with-libzstd], [support zstd compressed files [if possible]]),
+[WITH_ZSTD="${withval}"],
+[WITH_ZSTD="test"])
+
+if test "x$WITH_ZSTD" != xno ; then
+  AC_CHECK_LIB([zstd], [ZSTD_compress],
+    [AC_CHECK_HEADERS([zstd.h],
+     [AC_DEFINE([FREECIV_HAVE_LIBZSTD], [1], [libzstd is available])
+  UTILITY_LIBS="${UTILITY_LIBS} -lzstd"
+  libzstd_available=true])])
+  if test "x$libzstd_available" != "xtrue" ; then
+    if test "x$WITH_ZSTD" = "xyes" ; then
+      AC_MSG_ERROR([Could not find libzstd devel files])
+    fi
+    feature_zstd=missing
+  fi
+fi
+
 UTILITY_LIBS="${UTILITY_LIBS} ${LTLIBINTL}"
 
 AC_SUBST([UTILITY_CFLAGS])

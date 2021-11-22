@@ -52,6 +52,10 @@
 #include <lzma.h>
 #endif
 
+#ifdef HAVE_ZSTD_H
+#include <zstd.h>
+#endif
+
 /* utility */
 #include "log.h"
 #include "mem.h"
@@ -113,6 +117,22 @@ static void xz_action(fz_FILE *fp, lzma_action action);
 
 #endif /* FREECIV_HAVE_LIBLZMA */
 
+#ifdef FREECIV_HAVE_LIBZSTD
+
+struct zstd_struct {
+  ZSTD_DStream *dstream;
+  ZSTD_CStream *cstream;
+  FILE *plain;
+  int out_fd;
+  ZSTD_inBuffer in_buf;
+  ZSTD_outBuffer out_buf;
+  char *nonconst_in;
+  size_t outbuf_pos;
+  size_t error;
+};
+
+#endif /* FREECIV_HAVE_LIBZSTD */
+
 struct mem_fzFILE {
   bool control;
   char *buffer;
@@ -136,6 +156,9 @@ struct fz_FILE_s {
 #ifdef FREECIV_HAVE_LIBLZMA
     struct xz_struct xz;
 #endif
+#ifdef FREECIV_HAVE_LIBZSTD
+    struct zstd_struct zstd;
+#endif
   } u;
 };
 
@@ -154,6 +177,9 @@ static inline bool fz_method_is_valid(enum fz_method method)
 #endif
 #ifdef FREECIV_HAVE_LIBLZMA
   case FZ_XZ:
+#endif
+#ifdef FREECIV_HAVE_LIBZSTD
+  case FZ_ZSTD:
 #endif
     return TRUE;
   }
@@ -341,6 +367,50 @@ fz_FILE *fz_from_file(const char *filename, const char *in_mode,
     }
 #endif /* FREECIV_HAVE_LIBLZMA */
 
+#ifdef FREECIV_HAVE_LIBZSTD
+    /* Try to open as zstd file */
+    fp->u.zstd.dstream = ZSTD_createDStream();
+
+    fp->u.zstd.plain = fc_fopen(filename, test_mode);
+    if (fp->u.zstd.plain) {
+      size_t len = 0;
+
+      fp->u.zstd.in_buf.size = ZSTD_initDStream(fp->u.zstd.dstream);
+      fp->u.zstd.nonconst_in = fc_malloc(fp->u.zstd.in_buf.size);
+      fp->u.zstd.in_buf.src = fp->u.zstd.nonconst_in;
+
+      len = fread(fp->u.zstd.nonconst_in, 1, fp->u.zstd.in_buf.size,
+                  fp->u.zstd.plain);
+      if (len > 0) {
+        if (len < fp->u.zstd.in_buf.size) {
+          fp->u.zstd.in_buf.size = len;
+        }
+        fp->u.zstd.out_buf.size = ZSTD_DStreamOutSize();
+        fp->u.zstd.out_buf.dst = fc_malloc(fp->u.zstd.out_buf.size);
+
+        fp->u.zstd.out_buf.pos = 0;
+        fp->u.zstd.in_buf.pos = 0;
+
+        fp->u.zstd.error = ZSTD_decompressStream(fp->u.zstd.dstream,
+                                                 &fp->u.zstd.out_buf,
+                                                 &fp->u.zstd.in_buf);
+
+        if (!ZSTD_isError(fp->u.zstd.error)) {
+          fp->method = FZ_ZSTD;
+          fp->u.zstd.outbuf_pos = 0;
+          return fp;
+        }
+
+        free(fp->u.zstd.out_buf.dst);
+      }
+
+      free(fp->u.zstd.nonconst_in);
+      fclose(fp->u.zstd.plain);
+    }
+
+    ZSTD_freeDStream(fp->u.zstd.dstream);
+#endif /* FREECIV_HAVE_LIBZSTD */
+
 #ifdef FREECIV_HAVE_LIBZ
     method = FZ_ZLIB;
 #else
@@ -380,6 +450,34 @@ fz_FILE *fz_from_file(const char *filename, const char *in_mode,
     }
     return fp;
 #endif /* FREECIV_HAVE_LIBLZMA */
+#ifdef FREECIV_HAVE_LIBZSTD
+  case FZ_ZSTD:
+    {
+      /* zstd files are binary files, so we should add "b" to mode! */
+      sz_strlcat(mode, "b");
+
+      fp->u.zstd.plain = fc_fopen(filename, mode);
+      if (!fp->u.zstd.plain) {
+        free(fp);
+        return NULL;
+      }
+
+      fp->u.zstd.cstream = ZSTD_createCStream();
+
+      /* As compress_level parameter is in range 0 - 9, and zstd takes 0 - 22,
+       * we scale it a bit */
+      ZSTD_initCStream(fp->u.zstd.cstream, compress_level * 2);
+
+      fp->u.zstd.in_buf.size = PLAIN_FILE_BUF_SIZE;
+      fp->u.zstd.nonconst_in = fc_malloc(fp->u.zstd.in_buf.size);
+      fp->u.zstd.in_buf.src = fp->u.zstd.nonconst_in;
+      fp->u.zstd.out_buf.size = ZSTD_CStreamOutSize();
+      fp->u.zstd.out_buf.dst = fc_malloc(fp->u.zstd.out_buf.size);
+      fp->u.zstd.in_buf.pos = 0;
+      fp->u.zstd.out_buf.pos = 0;
+    }
+    return fp;
+#endif /* FREECIV_HAVE_LIBZSTD */
 #ifdef FREECIV_HAVE_LIBBZ2
   case FZ_BZIP2:
     /*  bz2 files are binary files, so we should add "b" to mode! */
@@ -493,6 +591,26 @@ int fz_fclose(fz_FILE *fp)
     free(fp);
     return error;
 #endif /* FREECIV_HAVE_LIBLZMA */
+#ifdef FREECIV_HAVE_LIBZSTD
+  case FZ_ZSTD:
+    if (fp->mode == 'w') {
+      fp->u.zstd.error = ZSTD_endStream(fp->u.zstd.cstream, &fp->u.zstd.out_buf);
+      while (fp->u.zstd.out_buf.pos > 0) {
+        fwrite(fp->u.zstd.out_buf.dst, 1,
+               fp->u.zstd.out_buf.pos, fp->u.zstd.plain);
+        fp->u.zstd.out_buf.pos = 0;
+        fp->u.zstd.error = ZSTD_flushStream(fp->u.zstd.cstream, &fp->u.zstd.out_buf);
+      }
+      ZSTD_freeCStream(fp->u.zstd.cstream);
+    } else {
+      ZSTD_freeDStream(fp->u.zstd.dstream);
+    }
+    free(fp->u.zstd.nonconst_in);
+    free(fp->u.zstd.out_buf.dst);
+    fclose(fp->u.zstd.plain);
+    free(fp);
+    return 0;
+#endif /* FREECIV_HAVE_LIBZSTD */
 #ifdef FREECIV_HAVE_LIBBZ2
   case FZ_BZIP2:
     if ('w' == fp->mode) {
@@ -658,6 +776,69 @@ char *fz_fgets(char *buffer, int size, fz_FILE *fp)
     }
     break;
 #endif /* FREECIV_HAVE_LIBLZMA */
+#ifdef FREECIV_HAVE_LIBZSTD
+  case FZ_ZSTD:
+    {
+      int i;
+
+      for (i = 0; i < size - 1;) {
+        int j;
+        size_t len = 0;
+
+        while (fp->u.zstd.outbuf_pos < fp->u.zstd.out_buf.pos) {
+          buffer[i] = ((char *)fp->u.zstd.out_buf.dst)[fp->u.zstd.outbuf_pos++];
+          if (buffer[i] == '\n' || i == size - 2) {
+            buffer[i + 1] = '\0';
+            return buffer;
+          }
+
+          i++;
+        }
+
+        fp->u.zstd.outbuf_pos = 0;
+
+        if (fp->u.zstd.in_buf.pos != 0) {
+          /* Move in-buffer */
+          for (j = 0; j < fp->u.zstd.in_buf.size - fp->u.zstd.in_buf.pos; j++) {
+            fp->u.zstd.nonconst_in[j] = fp->u.zstd.nonconst_in[j + fp->u.zstd.in_buf.pos];
+          }
+
+          /* Fill in-buffer from plain file */
+          len = fread(fp->u.zstd.nonconst_in + j, 1, fp->u.zstd.in_buf.size - j,
+                      fp->u.zstd.plain);
+
+          if (len + j < fp->u.zstd.in_buf.size) {
+            fp->u.zstd.in_buf.size = len + j;
+          }
+        }
+
+        fp->u.zstd.out_buf.pos = 0;
+        fp->u.zstd.in_buf.pos = 0;
+
+        fp->u.zstd.error = ZSTD_decompressStream(fp->u.zstd.dstream,
+                                                 &fp->u.zstd.out_buf,
+                                                 &fp->u.zstd.in_buf);
+        if (ZSTD_isError(fp->u.zstd.error)) {
+          /* zstd error */
+          return NULL;
+        }
+
+        if (fp->u.zstd.out_buf.pos == 0 && len == 0) {
+          /* Plain file fully read, and decompression outbuffer drained. */
+          if (i == 0) {
+            return NULL;
+          }
+
+          buffer[i] = '\0';
+          return buffer;
+        }
+      }
+
+      buffer[i] = '\0';
+      return buffer;
+    }
+    break;
+#endif /* FREECIV_HAVE_LIBZSTD */
 #ifdef FREECIV_HAVE_LIBBZ2
   case FZ_BZIP2:
     {
@@ -814,6 +995,49 @@ int fz_fprintf(fz_FILE *fp, const char *format, ...)
     }
     break;
 #endif /* FREECIV_HAVE_LIBLZMA */
+#ifdef FREECIV_HAVE_LIBZSTD
+  case FZ_ZSTD:
+    {
+      va_start(ap, format);
+      num = fc_vsnprintf((char *)fp->u.zstd.in_buf.src,
+                         PLAIN_FILE_BUF_SIZE, format, ap);
+      va_end(ap);
+
+      if (num == -1) {
+        log_error("Too much data: truncated in fz_fprintf (%u)",
+                  PLAIN_FILE_BUF_SIZE);
+        num = PLAIN_FILE_BUF_SIZE;
+      }
+
+      fp->u.zstd.in_buf.pos = 0;
+      fp->u.zstd.in_buf.size = num;
+
+      while (fp->u.zstd.in_buf.pos < fp->u.zstd.in_buf.size) {
+        int len;
+
+        fp->u.zstd.error = ZSTD_compressStream(fp->u.zstd.cstream,
+                                               &fp->u.zstd.out_buf,
+                                               &fp->u.zstd.in_buf);
+        if (ZSTD_isError(fp->u.zstd.error)) {
+          return 0;
+        }
+
+        if (fp->u.zstd.out_buf.pos > 0) {
+          len = fwrite(fp->u.zstd.out_buf.dst, 1,
+                       fp->u.zstd.out_buf.pos, fp->u.zstd.plain);
+
+          if (len < 0) {
+            return 0;
+          }
+
+          fp->u.zstd.out_buf.pos = 0;
+        }
+      }
+
+      return num;
+    }
+    break;
+#endif /* FREECIV_HAVE_LIBZSTD */
 #ifdef FREECIV_HAVE_LIBBZ2
   case FZ_BZIP2:
     {
@@ -880,11 +1104,17 @@ int fz_ferror(fz_FILE *fp)
     if (fp->u.xz.error != LZMA_OK
         && fp->u.xz.error != LZMA_STREAM_END) {
       return 1;
-    } else {
-      return 0;
     }
-    break;
+
+    return 0;
 #endif /* FREECIV_HAVE_LZMA */
+#ifdef FREECIV_HAVE_LIBZSTD
+  case FZ_ZSTD:
+    if (ZSTD_isError(fp->u.zstd.error)) {
+      return 1;
+    }
+    return 0;
+#endif /* FREECIV_HAVE_LIBZSTD */
 #ifdef FREECIV_HAVE_LIBBZ2
   case FZ_BZIP2:
     return (BZ_OK != fp->u.bz2.error
@@ -976,6 +1206,27 @@ const char *fz_strerror(fz_FILE *fp)
     }
     break;
 #endif /* FREECIV_HAVE_LIBLZMA */
+#ifdef FREECIV_HAVE_LIBZSTD
+  case FZ_ZSTD:
+    {
+      static char zstderror[50];
+      char *cleartext = NULL;
+
+      if (ZSTD_isError(fp->u.zstd.error)) {
+        cleartext = "error";
+      }
+
+      if (NULL != cleartext) {
+        fc_snprintf(zstderror, sizeof(zstderror), "ZSTD: \"%s\" (%ld)",
+                    cleartext, fp->u.zstd.error);
+      } else {
+        fc_snprintf(zstderror, sizeof(zstderror), "ZSTD error %ld",
+                    fp->u.zstd.error);
+      }
+      return zstderror;
+    }
+    break;
+#endif /* FREECIV_HAVE_LIBZSTD */
 #ifdef FREECIV_HAVE_LIBBZ2
   case FZ_BZIP2:
     {

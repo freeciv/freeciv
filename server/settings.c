@@ -564,6 +564,9 @@ compresstype_name(enum fz_method compresstype)
 #ifdef FREECIV_HAVE_LIBLZMA
   NAME_CASE(FZ_XZ, "XZ", N_("Using xz"));
 #endif
+#ifdef FREECIV_HAVE_LIBZSTD
+  NAME_CASE(FZ_ZSTD, "ZSTD", N_("Using zstd"));
+#endif
   }
 
   return NULL;

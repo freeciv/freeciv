@@ -313,7 +313,7 @@ like so:
 (If your server is compiled with compression support, and the
 'compresstype' server option is set to other than PLAIN, then the
 file written may be compressed and called 'mygame.sav.gz', 'mygame.sav.bz2',
-or 'mygame.sav.xz' depending on the setting.)
+'mygame.sav.xz', or 'mygame.sav.zstd' depending on the setting.)
 
 The Freeciv client works pretty much as you would expect from a
 multiplayer civilization game.  That is, the human players all move

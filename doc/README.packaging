@@ -142,6 +142,9 @@ its savegames. See server setting "compresstype".
 * xz compression is built into Freeciv if liblzma library and
   headers are present at configure time. One can override this automatic
   detection with configure option --with[out]-liblzma.
+* zstd compression is built into Freeciv if libzstd library and
+  headers are present at configure time. One can override this automatic
+  detection with configure option --with[out]-libzstd.
 
 While this feature is called "Savegame compression support" it actually
 applies to loading of all the section files: savegames, rulesets, tileset

@@ -101,6 +101,7 @@ priv_headers = [
   'libcharset.h',
   'libgen.h',
   'lzma.h',
+  'zstd.h',
   'memory.h',
   'netdb.h',
   'pwd.h',
@@ -227,6 +228,12 @@ lzma_dep = c_compiler.find_library('lzma', required:false)
 
 if lzma_dep.found()
   pub_conf_data.set('FREECIV_HAVE_LIBLZMA', 1)
+endif
+
+zstd_dep = c_compiler.find_library('zstd', required:false)
+
+if zstd_dep.found()
+  pub_conf_data.set('FREECIV_HAVE_LIBZSTD', 1)
 endif
 
 syslua = get_option('syslua')
@@ -610,7 +617,8 @@ common_lib = library('freeciv',
                  c_compiler.find_library('z', dirs: cross_lib_path),
                  c_compiler.find_library('libcurl', dirs: cross_lib_path),
                  m_dep, sqlite3_dep,
-                 ws2_dep, jansson_dep, lua_dep, lzma_dep, bcrypt_lib_dep, iconv_lib_dep,
+                 ws2_dep, jansson_dep, lua_dep, lzma_dep, zstd_dep,
+                 bcrypt_lib_dep, iconv_lib_dep,
                  gettext_dep,
                  dependency('threads')],
   install : true
