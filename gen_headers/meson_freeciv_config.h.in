@@ -107,6 +107,9 @@
 /* liblzma is available */
 #mesondefine FREECIV_HAVE_LIBLZMA
 
+/* libzstd is available */
+#mesondefine FREECIV_HAVE_LIBZSTD
+
 /* winsock2.h available */
 #mesondefine FREECIV_HAVE_WINSOCK2_H
 

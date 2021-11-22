@@ -99,6 +99,9 @@
 /* lzma.h available */
 #mesondefine HAVE_LZMA_H
 
+/* zstd.h available */
+#mesondefine HAVE_ZSTD_H
+
 /* memory.h available */
 #mesondefine HAVE_MEMORY_H
 

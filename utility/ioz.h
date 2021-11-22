@@ -44,6 +44,9 @@ enum fz_method {
 #ifdef FREECIV_HAVE_LIBLZMA
   FZ_XZ,
 #endif
+#ifdef FREECIV_HAVE_LIBZSTD
+  FZ_ZSTD,
+#endif
 };
 
 fz_FILE *fz_from_file(const char *filename, const char *in_mode,

@@ -809,7 +809,7 @@ void fc_client::browse_saves(void)
 {
   QString str;
   str = QString(_("Save Files"))
-        + QString(" (*.sav *.sav.bz2 *.sav.gz *.sav.xz)");
+        + QString(" (*.sav *.sav.bz2 *.sav.gz *.sav.xz *.sav.zst)");
   current_file = QFileDialog::getOpenFileName(gui()->central_wdg,
                                               _("Open Save File"),
                                               QDir::homePath(), str);
@@ -844,7 +844,7 @@ void fc_client::browse_scenarios(void)
   QString str;
 
   str = QString(_("Scenarios Files"))
-        + QString(" (*.sav *.sav.bz2 *.sav.gz *.sav.xz)");
+        + QString(" (*.sav *.sav.bz2 *.sav.gz *.sav.xz *.sav.zst)");
   current_file = QFileDialog::getOpenFileName(gui()->central_wdg,
                                               _("Open Scenario File"),
                                               QDir::homePath(), str);

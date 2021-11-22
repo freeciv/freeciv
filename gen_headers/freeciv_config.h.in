@@ -137,6 +137,9 @@
 /* liblzma is available */
 #undef FREECIV_HAVE_LIBLZMA
 
+/* libzstd is available */
+#undef FREECIV_HAVE_LIBZSTD
+
 /* Location for freeciv to store its information */
 #undef FREECIV_STORAGE_DIR
 

@@ -3726,7 +3726,7 @@ bool load_command(struct connection *caller, const char *filename, bool check,
       get_save_dirs(), get_scenario_dirs(), NULL
     };
     const char *exts[] = {
-      "sav", "gz", "bz2", "xz", "sav.gz", "sav.bz2", "sav.xz", NULL
+      "sav", "gz", "bz2", "xz", "sav.gz", "sav.bz2", "sav.xz", "sav.zst", NULL
     };
     const char **ext, *found = NULL;
     const struct strvec **path;

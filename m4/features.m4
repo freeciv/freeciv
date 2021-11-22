@@ -25,6 +25,7 @@ if test "x$list_missing_features" = "xyes" ; then
   FC_FEATURE([additional mapimg formats], [$feature_magickwand], [MagickWand])
   FC_FEATURE([bz2 savegame compression], [$feature_bz2], [libbz2])
   FC_FEATURE([xz savegame compression], [$feature_xz], [liblzma])
+  FC_FEATURE([zstd savegame compression], [$feature_zstd], [libzstd])
   FC_FEATURE([threads suitable for threaded ai], [$feature_thr_cond], [pthreads])
   FC_FEATURE([lua linked from system], [$feature_syslua], [lua-5.4])
   FC_FEATURE([tolua command from system], [$feature_systolua_cmd], [tolua])

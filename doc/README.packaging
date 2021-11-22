@@ -32,6 +32,7 @@ Updating from 3.0 to 3.1
 * Minimum Qt5 requirement for Qt-client, Qt modpack installer, and
   Ruledit is 5.11.
 * New configure option --with-qt6 builds Qt6 versions of Qt programs
+* Support for zstd compressed savegames added, requires libzstd and headers
 
 ----------------------------------------------------------------------
 Compatibility of modified versions
@@ -156,6 +157,9 @@ its savegames. See server setting "compresstype".
 * xz compression is built into Freeciv if liblzma library and
   headers are present at configure time. One can override this automatic
   detection with configure option --with[out]-liblzma.
+* zstd compression is built into Freeciv if libzstd library and
+  headers are present at configure time. One can override this automatic
+  detection with configure option --with[out]-libzstd.
 
 While this feature is called "Savegame compression support" it actually
 applies to loading of all the section files: savegames, rulesets, tileset
