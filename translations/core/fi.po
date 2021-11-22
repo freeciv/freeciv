@@ -30,7 +30,7 @@ msgstr ""
 "Project-Id-Version: freeciv 3.0\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
 "POT-Creation-Date: 2021-11-14 17:02+0200\n"
-"PO-Revision-Date: 2021-11-14 17:11+0200\n"
+"PO-Revision-Date: 2021-11-22 05:55+0200\n"
 "Last-Translator: Sini Ruohomaa <sini.ruohomaa@iki.fi>\n"
 "Language-Team: None <freeciv-i18n@freelists.org>\n"
 "Language: fi\n"
@@ -14698,7 +14698,7 @@ msgstr "Väkiluku: %s"
 #: client/text.c:932
 #, c-format
 msgid "Year: %s (T%d)"
-msgstr "Vuosi: %s (T%d)"
+msgstr "Vuosi: %s (V%d)"
 
 #: client/text.c:936
 #, c-format
