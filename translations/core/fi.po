@@ -29,8 +29,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 3.1\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2021-11-14 17:02+0200\n"
-"PO-Revision-Date: 2021-11-14 17:15+0200\n"
+"POT-Creation-Date: 2021-11-22 06:14+0200\n"
+"PO-Revision-Date: 2021-11-22 06:02+0200\n"
 "Last-Translator: Sini Ruohomaa <sini.ruohomaa@iki.fi>\n"
 "Language-Team: None <freeciv-i18n@freelists.org>\n"
 "Language: fi\n"
@@ -6632,7 +6632,9 @@ msgstr "Ei yksikköä näkyvissä tässä ruudussa."
 #: client/gui-gtk-3.22/rallypointdlg.c:180
 #, c-format
 msgid "%s rally point setting failed. Select next city."
-msgstr "Valmistuvan yksikön kohderuudun asettaminen kaupungille %s epäonnistuin. Valitse seuraava kaupunki."
+msgstr ""
+"Valmistuvan yksikön kohderuudun asettaminen kaupungille %s epäonnistuin. "
+"Valitse seuraava kaupunki."
 
 #: client/gui-gtk-3.22/wldlg.c:220
 msgid "_New"
@@ -9778,7 +9780,7 @@ msgid "Loading theme \"%s\"."
 msgstr "Lataan teemaa \"%s\"."
 
 #: client/gui-sdl2/themespec.c:494 client/gui-sdl2/themespec.c:528
-#: client/tilespec.c:1533 client/tilespec.c:1565
+#: client/tilespec.c:1535 client/tilespec.c:1567
 #, c-format
 msgid ""
 "Could not open '%s':\n"
@@ -11008,7 +11010,7 @@ msgstr ""
 
 #: client/helpdata.c:2728
 msgid "  * all units caught in the open by the nuclear blast dies.\n"
-msgstr ""
+msgstr "  · Kaikki kentällä ydinräjähdyksen sisään jäävät yksiköt kuolevat.\n"
 
 #. TRANS: percentage
 #: client/helpdata.c:2732
@@ -11017,6 +11019,8 @@ msgid ""
 "  * a unit caught in the nuclear blast while inside a city has a %d%% chance "
 "of survival.\n"
 msgstr ""
+"  · Ydinräjähdyksen sisään kaupunkien suojassa jäävillä yksiköillä on %d%% "
+"mahdollisuus selvitä.\n"
 
 #: client/helpdata.c:2737
 msgid "  * all units caught in the nuclear blast dies.\n"
@@ -13803,7 +13807,7 @@ msgstr "Aloitetaan kierros %d"
 msgid "Welcome"
 msgstr "Tervetuloa"
 
-#: client/packhand.c:2187 client/tilespec.c:1386
+#: client/packhand.c:2187 client/tilespec.c:1388
 #, c-format
 msgid "Map topology (%s) and tileset (%s) incompatible."
 msgstr ""
@@ -14352,7 +14356,7 @@ msgstr "Väkiluku: %s"
 #: client/text.c:941
 #, c-format
 msgid "Year: %s (T%d)"
-msgstr "Vuosi: %s (T%d)"
+msgstr "Vuosi: %s (V%d)"
 
 #: client/text.c:945
 #, c-format
@@ -14913,129 +14917,129 @@ msgstr "Sotilasyksiköillä ei ole vaikutusta onnellisuuteen. "
 msgid "Luxury: %d total."
 msgstr "Luksus: %d kaikkiaan."
 
-#: client/tilespec.c:1265
+#: client/tilespec.c:1267
 msgid "No usable default tileset found, aborting!"
 msgstr "Käyttökelpoista oletuskuvitusta ei löydy, lopetan!"
 
-#: client/tilespec.c:1309
+#: client/tilespec.c:1311
 #, c-format
 msgid "Loading tileset \"%s\"."
 msgstr "Lataan kuvitusta \"%s\"."
 
-#: client/tilespec.c:1538
+#: client/tilespec.c:1540
 msgid "Incompatible tileset capabilities"
 msgstr "Epäyhteensopiva kuvitus"
 
-#: client/tilespec.c:1546
+#: client/tilespec.c:1548
 #, c-format
 msgid "Could not load gfx file for the spec file \"%s\"."
 msgstr "Ei voi ladata grafiikkatiedostoa spec-tiedostolle \"%s\"."
 
-#: client/tilespec.c:1569
+#: client/tilespec.c:1571
 #, c-format
 msgid "Specfile %s has incompatible capabilities"
 msgstr "Spec-tiedosto %s on epäyhteensopiva"
 
-#: client/tilespec.c:1740
+#: client/tilespec.c:1742
 #, c-format
 msgid "Couldn't find a supported gfx file extension for \"%s\"."
 msgstr "Ei löydy tuettua tiedostopäätettä grafiikalle \"%s\"."
 
 #. TRANS: "Overhead" or "Isometric"
-#: client/tilespec.c:1932
+#: client/tilespec.c:1934
 #, c-format
 msgid "Client does not support %s tilesets."
 msgstr "Asiakasohjelma ei tue tyypin %s kuvitusta."
 
-#: client/tilespec.c:1934
+#: client/tilespec.c:1936
 msgid "Using default tileset instead."
 msgstr "Käytetään sen sijaan oletuskuvitusta."
 
-#: client/tilespec.c:2202
+#: client/tilespec.c:2204
 #, c-format
 msgid "[layer%d] match_types: \"%s\" initial ('%c') is not unique."
 msgstr "[layer%d] match_types: \"%s\" aloittava ('%c') ei ole yksilöivä."
 
-#: client/tilespec.c:2214
+#: client/tilespec.c:2216
 #, c-format
 msgid "No [%s] sections supported by tileset \"%s\"."
 msgstr "Kuvituksessa \"%2$s\" ei ole [%1$s] osioita."
 
-#: client/tilespec.c:2234
+#: client/tilespec.c:2236
 #, c-format
 msgid "No terrain tag given in section [%s]."
 msgstr "Maaston grafiikkatagia ei ole annettu osiossa [%s]."
 
-#: client/tilespec.c:2587
+#: client/tilespec.c:2589
 #, c-format
 msgid "Couldn't load gfx file \"%s\" for sprite '%s'."
 msgstr ""
 "Grafiikkatiedoston \"%s\" avaaminen kuvan '%s' löytämiseksi epäonnistui."
 
-#: client/tilespec.c:2597
+#: client/tilespec.c:2599
 #, c-format
 msgid "Sprite '%s' in file \"%s\" isn't within the image!"
 msgstr "Kuva '%s' tiedostossa \"%s\" ei ole kuva-alalla!"
 
-#: client/tilespec.c:2674 client/tilespec.c:2683 client/tilespec.c:2691
+#: client/tilespec.c:2676 client/tilespec.c:2685 client/tilespec.c:2693
 #, c-format
 msgid "Sprite for tag '%s' missing."
 msgstr "Ei löydy tunnisteen '%s' viittaamaa kuvaa."
 
-#: client/tilespec.c:2703
+#: client/tilespec.c:2705
 #, c-format
 msgid "Sprite for tags '%s' and alternate '%s' are both missing."
 msgstr ""
 "Ei löydy sen enempää tunnisteen '%s' kuin vaihtoehtoisen tunnisteen '%s' "
 "viittaamaa kuvaa."
 
-#: client/tilespec.c:2781
+#: client/tilespec.c:2783
 #, c-format
 msgid "No graphics for specialist \"%s\"."
 msgstr "Ei grafiikkaa \"%s\" erikoisosaajalle."
 
-#: client/tilespec.c:2806
+#: client/tilespec.c:2808
 #, c-format
 msgid "No graphics for citizen \"%s\"."
 msgstr "Ei grafiikkaa \"%s\" kansalaiselle."
 
-#: client/tilespec.c:3100
+#: client/tilespec.c:3105
 msgid "Missing necessary citybar.occupancy_N sprites."
 msgstr "Ei löydy tarvittavia citybar.occupancy_N kuvia."
 
-#: client/tilespec.c:3222
+#: client/tilespec.c:3227
 msgid "Missing overlay-color sprite colors.overlay_0."
 msgstr "Päällysväri kuvaa colors.overlay_0 ei löydy."
 
-#: client/tilespec.c:3295
+#: client/tilespec.c:3300
 msgid "Sprite tx.darkness missing."
 msgstr "Kuva tx.darkness puuttuu."
 
-#: client/tilespec.c:3436
+#: client/tilespec.c:3441
 #, c-format
 msgid "Don't have graphics tags \"%s\" or \"%s\" for %s \"%s\"."
 msgstr ""
 "Ei löydy grafiikkatagia \"%s\" tai \"%s\". Jomman kumman tarvitsisi %s \"%s"
 "\"."
 
-#: client/tilespec.c:3534
+#: client/tilespec.c:3539
 #, c-format
 msgid "Missing %s unit sprite for tags \"%s\" and alternative \"%s\"."
 msgstr ""
 "Ei löydy tunnisteen \"%2$s\" tai vaihtoehtoisen tunnisteen \"%3$s\" "
 "viittaama yksikön %1$s kuvaa."
 
-#: client/tilespec.c:3607
+#: client/tilespec.c:3612
 #, c-format
 msgid "No extra style for \"%s\" or \"%s\"."
 msgstr "Ei ruutulisätyyliä määritetty tunnisteelle \"%s\" tai \"%s\"."
 
-#: client/tilespec.c:3663
+#: client/tilespec.c:3668
 #, c-format
 msgid "No cardinal-style graphics \"%s*\" for extra \"%s\""
 msgstr "Ei rinnakkaisten ruutujen grafiikkaa \"%s*\" ruutulisätyypille \"%s\""
 
-#: client/tilespec.c:3689
+#: client/tilespec.c:3694
 #, c-format
 msgid ""
 "Missing %s building activity sprite for tags \"%s\" and alternatives \"%s\" "
@@ -15044,7 +15048,7 @@ msgstr ""
 "Ei löydy toimintoikonia näytettäväksi kun rakennetaan %s. Sen pitäisi löytyä "
 "tunnisteella \"%s\", \"%s\" tai \"%s\"."
 
-#: client/tilespec.c:3704
+#: client/tilespec.c:3709
 #, c-format
 msgid ""
 "Missing %s removal activity sprite for tags \"%s\" and alternative \"%s\"."
@@ -15052,34 +15056,34 @@ msgstr ""
 "Ei löydy toimintoikonia näytettäväksi kun poistetaan %s. Sen pitäisi löytyä "
 "tunnisteella \"%s\" tai \"%s\"."
 
-#: client/tilespec.c:3793
+#: client/tilespec.c:3798
 #, c-format
 msgid "No river-style graphics \"%s*\" for extra \"%s\""
 msgstr "Ei joki-grafiikkaa \"%s*\" ruutulisätyypille \"%s\""
 
-#: client/tilespec.c:3852
+#: client/tilespec.c:3857
 #, c-format
 msgid "No graphics with tag \"%s_bg/mg/fg\" for extra \"%s\""
 msgstr "Ei grafiikkaa tunnisteella \"%s_bg/mg/fg\" ruutulisätyypille \"%s\""
 
-#: client/tilespec.c:3871
+#: client/tilespec.c:3876
 #, c-format
 msgid "Terrain \"%s\": no graphic tile \"%s\" or \"%s\"."
 msgstr ""
 "Maastotyypille \"%s\" ei löydy grafiikkaa tunnisteella \"%s\" tai \"%s\"."
 
 #. TRANS: 'base' means 'base of terrain gfx', not 'military base'
-#: client/tilespec.c:3906
+#: client/tilespec.c:3911
 #, c-format
 msgid "Missing base sprite for tag \"%s\"."
 msgstr "Ei löydy maaston pohjakuvaa tunnisteelle \"%s\"."
 
-#: client/tilespec.c:4159
+#: client/tilespec.c:4164
 #, c-format
 msgid "Nation %s: no national flag."
 msgstr "Kansan \"%s\" lippua ei löydy."
 
-#: client/tilespec.c:5416
+#: client/tilespec.c:5429
 #, c-format
 msgid ""
 "Tileset \"%s\" doesn't support long goto paths, such as %d. Path not "
@@ -15088,7 +15092,7 @@ msgstr ""
 "Kuvitus \"%s\" ei tue %d ruudun pituisia reittinuolia. Reittinuolia ei "
 "välttämättä voida näyttää tavalliseen tapaan."
 
-#: client/tilespec.c:5961
+#: client/tilespec.c:5996
 #, c-format
 msgid ""
 "Tileset \"%s\" doesn't support big cities size, such as %d. Size not "
@@ -15097,12 +15101,12 @@ msgstr ""
 "Kuvitus \"%s\" ei tue %d kokoisia kaupunkeja. Kaupungin kokoa ei voida "
 "näyttää tavalliseen tapaan."
 
-#: client/tilespec.c:6134
+#: client/tilespec.c:6169
 #, c-format
 msgid "City style \"%s\": no city graphics."
 msgstr "Kaupunkityylille \"%s\" ei löydy grafiikoita."
 
-#: client/tilespec.c:6138
+#: client/tilespec.c:6173
 #, c-format
 msgid "City style \"%s\": no occupied graphics."
 msgstr ""
@@ -20222,231 +20226,231 @@ msgstr "Kaupunkilaistentappaja"
 msgid "?uclassflag:HutFrighten"
 msgstr "Kaupunkilaistentappaja"
 
-#: common/unittype.h:174
+#: common/unittype.h:175
 msgid "?unitflag:HasNoZOC"
 msgstr "Valvonta-alueita tuottamaton"
 
 #. TRANS: unit type flag (rarely shown): "ignore zones of control"
-#: common/unittype.h:177
+#: common/unittype.h:178
 msgid "?unitflag:IgZOC"
 msgstr "Valvonta-alueista välittämätön"
 
-#: common/unittype.h:179
+#: common/unittype.h:180
 msgid "?unitflag:NonMil"
 msgstr "Ei sotilaallinen"
 
 #. TRANS: unit type flag (rarely shown): "ignore terrain"
-#: common/unittype.h:182
+#: common/unittype.h:183
 msgid "?unitflag:IgTer"
 msgstr "Maastosta välittämätön"
 
-#: common/unittype.h:184
+#: common/unittype.h:185
 msgid "?unitflag:FieldUnit"
 msgstr "Kenttäyksikkö"
 
-#: common/unittype.h:188
+#: common/unittype.h:189
 msgid "?unitflag:Provoking"
 msgstr "Yllyttävä"
 
-#: common/unittype.h:191
+#: common/unittype.h:192
 #, fuzzy
 #| msgid "?unitflag:FerryBoat"
 msgid "?unitflag:NeverProtects"
 msgstr "Kuljetusalus"
 
-#: common/unittype.h:194 common/unittype.h:412
+#: common/unittype.h:195 common/unittype.h:413
 msgid "?unitflag:Settlers"
 msgstr "Työläinen"
 
-#: common/unittype.h:196
+#: common/unittype.h:197
 msgid "?unitflag:Diplomat"
 msgstr "Diplomaatti"
 
-#: common/unittype.h:199
+#: common/unittype.h:200
 msgid "?unitflag:CoastStrict"
 msgstr "Tiukasti Rannikolla"
 
-#: common/unittype.h:202
+#: common/unittype.h:203
 msgid "?unitflag:Coast"
 msgstr "Rannikolla"
 
-#: common/unittype.h:205
+#: common/unittype.h:206
 msgid "?unitflag:Shield2Gold"
 msgstr "Tuotantoylläpito kultaylläpidoksi"
 
-#: common/unittype.h:208
+#: common/unittype.h:209
 msgid "?unitflag:Spy"
 msgstr "Vakooja"
 
-#: common/unittype.h:211
+#: common/unittype.h:212
 msgid "?unitflag:Only_Native_Attack"
 msgstr "Hyökkää vain minne voisi myös kulkea"
 
-#: common/unittype.h:214
+#: common/unittype.h:215
 msgid "?unitflag:Fanatic"
 msgstr "Fanaattinen"
 
-#: common/unittype.h:217
+#: common/unittype.h:218
 msgid "?unitflag:GameLoss"
 msgstr "Pelin ratkaiseva"
 
-#: common/unittype.h:220
+#: common/unittype.h:221
 msgid "?unitflag:Unique"
 msgstr "Ainutlaatuinen"
 
-#: common/unittype.h:225
+#: common/unittype.h:226
 msgid "?unitflag:EvacuateFirst"
 msgstr "Ensin pelastettava"
 
-#: common/unittype.h:228
+#: common/unittype.h:229
 msgid "?unitflag:SuperSpy"
 msgstr "Supervakooja"
 
-#: common/unittype.h:231
+#: common/unittype.h:232
 msgid "?unitflag:NoHome"
 msgstr "Koditon"
 
-#: common/unittype.h:234
+#: common/unittype.h:235
 msgid "?unitflag:NoVeteran"
 msgstr "Ei ylennettävä"
 
-#: common/unittype.h:237
+#: common/unittype.h:238
 msgid "?unitflag:CityBuster"
 msgstr "Kaupungintuhoaja"
 
-#: common/unittype.h:240
+#: common/unittype.h:241
 msgid "?unitflag:NoBuild"
 msgstr "Ei rakennettavissa"
 
-#: common/unittype.h:244
+#: common/unittype.h:245
 msgid "?unitflag:BadWallAttacker"
 msgstr "Huono hyökkäämään muureja vastaan"
 
-#: common/unittype.h:247
+#: common/unittype.h:248
 msgid "?unitflag:BadCityDefender"
 msgstr "Huono kaupungin puolustaja"
 
-#: common/unittype.h:250
+#: common/unittype.h:251
 msgid "?unitflag:BarbarianOnly"
 msgstr "Vain barbaareille"
 
-#: common/unittype.h:253
+#: common/unittype.h:254
 msgid "?unitflag:NewCityGamesOnly"
 msgstr "Vain kaupunginperustamispeleissä"
 
-#: common/unittype.h:256
+#: common/unittype.h:257
 msgid "?unitflag:CanEscape"
 msgstr "Pakeneva"
 
-#: common/unittype.h:259
+#: common/unittype.h:260
 msgid "?unitflag:CanKillEscaping"
 msgstr "Pakenevan tappava"
 
-#: common/unittype.h:331
+#: common/unittype.h:332
 msgid "?unitflag:FirstBuild"
 msgstr "Ensimmäinen rakennettava"
 
-#: common/unittype.h:334
+#: common/unittype.h:335
 msgid "?unitflag:Explorer"
 msgstr "Kartoittaja"
 
-#: common/unittype.h:337
+#: common/unittype.h:338
 msgid "?unitflag:Hut"
 msgstr "Majasta löytyvä"
 
-#: common/unittype.h:340
+#: common/unittype.h:341
 msgid "?unitflag:HutTech"
 msgstr "Majasta löytyvä kun tekniikka tunnetaan"
 
-#: common/unittype.h:343
+#: common/unittype.h:344
 msgid "?unitflag:Partisan"
 msgstr "Sissiryhmä"
 
-#: common/unittype.h:346
+#: common/unittype.h:347
 msgid "?unitflag:DefendOk"
 msgstr "Ok puolustaja"
 
-#: common/unittype.h:349
+#: common/unittype.h:350
 msgid "?unitflag:DefendGood"
 msgstr "Hyvä puolustaja"
 
-#: common/unittype.h:352
+#: common/unittype.h:353
 msgid "?unitflag:FerryBoat"
 msgstr "Kuljetusalus"
 
-#: common/unittype.h:355
+#: common/unittype.h:356
 msgid "?unitflag:Barbarian"
 msgstr "Barbaari"
 
-#: common/unittype.h:358
+#: common/unittype.h:359
 msgid "?unitflag:BarbarianTech"
 msgstr "Teknologian mahdollistama barbaari"
 
-#: common/unittype.h:361
+#: common/unittype.h:362
 msgid "?unitflag:BarbarianBoat"
 msgstr "Barbaarialus"
 
-#: common/unittype.h:364
+#: common/unittype.h:365
 msgid "?unitflag:BarbarianBuild"
 msgstr "Barbaarien rakennettava"
 
-#: common/unittype.h:367
+#: common/unittype.h:368
 msgid "?unitflag:BarbarianBuildTech"
 msgstr "Teknologian mahdollistama barbaarien rakennettava"
 
-#: common/unittype.h:370
+#: common/unittype.h:371
 msgid "?unitflag:BarbarianLeader"
 msgstr "Barbaarijohtaja"
 
-#: common/unittype.h:373
+#: common/unittype.h:374
 msgid "?unitflag:BarbarianSea"
 msgstr "Meribarbaari"
 
-#: common/unittype.h:376
+#: common/unittype.h:377
 msgid "?unitflag:BarbarianSeaTech"
 msgstr "Teknologian mahdollistama meribarbaari"
 
-#: common/unittype.h:379
+#: common/unittype.h:380
 msgid "?unitflag:CitiesStartUnit"
 msgstr "Kaupunginperustaja-aloitusyksikkö"
 
-#: common/unittype.h:382
+#: common/unittype.h:383
 msgid "?unitflag:WorkerStartUnit"
 msgstr "Työläisaloitusyksikkö"
 
-#: common/unittype.h:385
+#: common/unittype.h:386
 msgid "?unitflag:ExplorerStartUnit"
 msgstr "Kartoittaja-aloitusyksikkö"
 
-#: common/unittype.h:388
+#: common/unittype.h:389
 msgid "?unitflag:KingStartUnit"
 msgstr "Kuningasaloitusyksikkö"
 
-#: common/unittype.h:391
+#: common/unittype.h:392
 msgid "?unitflag:DiplomatStartUnit"
 msgstr "Diplomaattialoitusyksikkö"
 
-#: common/unittype.h:394
+#: common/unittype.h:395
 msgid "?unitflag:FerryStartUnit"
 msgstr "Kuljetusalusaloitusyksikkö"
 
-#: common/unittype.h:397
+#: common/unittype.h:398
 msgid "?unitflag:DefendOkStartUnit"
 msgstr "Aloitusyksikkö, Ok puolustaja"
 
-#: common/unittype.h:400
+#: common/unittype.h:401
 msgid "?unitflag:DefendGoodStartUnit"
 msgstr "Aloitusyksikkö, Hyvä puolustaja"
 
-#: common/unittype.h:403
+#: common/unittype.h:404
 msgid "?unitflag:AttackFastStartUnit"
 msgstr "Aloitusyksikkö, Nopea hyökkääjä"
 
-#: common/unittype.h:406
+#: common/unittype.h:407
 msgid "?unitflag:AttackStrongStartUnit"
 msgstr "Aloitusyksikkö, Vahva hyökkääjä"
 
-#: common/unittype.h:409
+#: common/unittype.h:410
 msgid "?unitflag:Hunter"
 msgstr "Metsästäjä"
 
@@ -26669,7 +26673,7 @@ msgstr ""
 "hänestä lunnaat. Lunnaat ovat yleensä 100 kultaa, mutta summa voi olla "
 "vähäisempi mikäli barbaaripelaajalla ei ole riittävästi rahaa."
 
-#: data/default/default.lua:22 server/unittools.c:2978
+#: data/default/default.lua:22 server/unittools.c:2981
 #, c-format
 msgid "You found %d gold."
 msgid_plural "You found %d gold."
@@ -26707,7 +26711,7 @@ msgstr "Löysit ystävällismielisen kaupungin."
 msgid "Friendly nomads are impressed by you, and join you."
 msgstr "Joukko paimentolaisia liittyy valtakuntaasi."
 
-#: data/default/default.lua:114 server/unittools.c:2985
+#: data/default/default.lua:114 server/unittools.c:2988
 msgid "An abandoned village is here."
 msgstr "Täällä on vain hylätty kylä."
 
@@ -26715,7 +26719,7 @@ msgstr "Täällä on vain hylätty kylä."
 msgid "You have unleashed a horde of barbarians!"
 msgstr "Olet joutunut keskelle barbaarijoukon leiriä!"
 
-#: data/default/default.lua:124 server/unittools.c:2988
+#: data/default/default.lua:124 server/unittools.c:2991
 #, c-format
 msgid "Your %s has been killed by barbarians!"
 msgstr "%s menetettiin barbaarien hyökkäyksessä!"
@@ -28489,6 +28493,8 @@ msgid ""
 "In a city with Chichen Itza, settlers can be built without size of the city "
 "shrinking."
 msgstr ""
+"Kaupunki, jossa Chichen Itza on, voi valmistaa uudisasukkaita ilman että "
+"kaupungin koko pienenee."
 
 #: data/sandbox/buildings.ruleset:1526 data/civ2civ3/buildings.ruleset:1410
 msgid ""
@@ -43382,7 +43388,7 @@ msgstr ""
 #. TRANS: translate text between <> and [] only
 #: server/commands.c:521
 msgid "playernation <player-name> [nation] [is-male] [leader] [style]"
-msgstr ""
+msgstr "playernarion <pelaajan nimi> [valtakunta] [on-mies] [johtaja] [tyyli]"
 
 #: server/commands.c:522
 msgid "Define the nation of a player."
@@ -47383,7 +47389,11 @@ msgid ""
 "The rate of the tech leakage. This multiplied by the percentage of players "
 "who know the tech tell which percentage of tech's bulb cost gets leaked each "
 "turn. This setting has no effect if the ruleset has disabled tech leakage."
-msgstr "Teknologiavuodon nopeus. Tämä kerrottuna teknologian tuntevien pelaajien osuudella kaikista pelaajista kertoo mikä prosentti teknologian hinnasta vuotaa per kierros. Tällä asetuksella on vaikutusta vain jos sääntökokoelma sallii teknologiavuodon."
+msgstr ""
+"Teknologiavuodon nopeus. Tämä kerrottuna teknologian tuntevien pelaajien "
+"osuudella kaikista pelaajista kertoo mikä prosentti teknologian hinnasta "
+"vuotaa per kierros. Tällä asetuksella on vaikutusta vain jos sääntökokoelma "
+"sallii teknologiavuodon."
 
 #: server/settings.c:1972
 msgid "Team pooled research"
@@ -49458,26 +49468,26 @@ msgstr "En käynnisty ilman erikseen pyydettyä metapalvelinyhteyttä."
 msgid "The game is over..."
 msgstr "Peli päättyy..."
 
-#: server/srv_main.c:3145
+#: server/srv_main.c:3147
 msgid "Failed to create suitable map, retrying with another mapseed."
 msgstr ""
 "Epäonnistuin luomaan sopivaa karttaa, yritän uudelleen uudella siemenluvulla."
 
-#: server/srv_main.c:3151
+#: server/srv_main.c:3153
 #, c-format
 msgid "Attempt %d/%d"
 msgstr "Yritys %d/%d"
 
-#: server/srv_main.c:3180
+#: server/srv_main.c:3182
 msgid "Cannot create suitable map with given settings."
 msgstr "En onnistunut luomaan sopivaa karttaa annetuilla asetuksilla."
 
-#: server/srv_main.c:3203 server/srv_main.c:3207
+#: server/srv_main.c:3205 server/srv_main.c:3209
 #, c-format
 msgid "Setting '%s' has been adjusted from %s to %s."
 msgstr "Asetus '%s' on muutettu arvosta %s arvoon %s."
 
-#: server/srv_main.c:3408
+#: server/srv_main.c:3410
 #, c-format
 msgid "Now accepting new client connections on port %d."
 msgstr "Vastaanotan nyt uusia asiakasohjelmien yhteydenottoja porttiin %d."
@@ -52225,7 +52235,7 @@ msgstr "Yksikkösi %s ei voi suorittaa toimintoa %s kohteelle %s."
 msgid "Your %s didn't find a %s to %s in %s."
 msgstr "Yksikkösi %s ei voi suorittaa toimintoa %s kohteelle %s %s."
 
-#: server/unithand.c:4965 server/unittools.c:2902
+#: server/unithand.c:4965 server/unittools.c:2905
 msgid "Cannot attack unless you declare war first."
 msgstr "Et voi hyökätä ennen sodanjulistusta."
 
@@ -52470,14 +52480,14 @@ msgstr "%s menetetty yksikön %s mukana."
 msgid "%s escaped the destruction of %s, and fled to %s."
 msgstr "%s pakeni yksikön %s tuhoa ja pakeni kaupunkiin %s."
 
-#: server/unittools.c:2249
+#: server/unittools.c:2250
 #, c-format
 msgid "%d Barbarian leader captured."
 msgid_plural "%d Barbarian leaders captured."
 msgstr[0] "%d barbaarijohtaja vangittu."
 msgstr[1] "%d barbaarijohtajaa vangittu."
 
-#: server/unittools.c:2254
+#: server/unittools.c:2255
 #, c-format
 msgid "%d gold ransom paid."
 msgid_plural "%d gold ransom paid."
@@ -52535,129 +52545,129 @@ msgid_plural "%d units lost when the %s %s attacked the %s %s."
 msgstr[0] "%d yksikkö menetettiin kun %s %s hyökkäsi kohteenaan %s %s."
 msgstr[1] "%d yksikköä menetettiin kun %s %s hyökkäsi kohteenaan %s %s."
 
-#: server/unittools.c:2455
+#: server/unittools.c:2458
 #, c-format
 msgid "%d unit escaped from attack by %s %s"
 msgid_plural "%d units escaped from attack by %s %s"
 msgstr[0] "%d yksikkö pakeni kun %s %s hyökkäsi"
 msgstr[1] "%d yksikköä pakeni kun %s %s hyökkäsi"
 
-#: server/unittools.c:2704
+#: server/unittools.c:2707
 #, c-format
 msgid "Your %s was nuked by %s."
 msgstr "Yksikkösi %s tuhoutui kun %s iskivät ydinasein."
 
-#: server/unittools.c:2707 server/unittools.c:2729
+#: server/unittools.c:2710 server/unittools.c:2732
 msgid "yourself"
 msgstr "sinä itse"
 
-#: server/unittools.c:2711
+#: server/unittools.c:2714
 #, c-format
 msgid "The %s %s was nuked."
 msgstr "%s %s tuhottiin ydiniskussa."
 
-#: server/unittools.c:2726
+#: server/unittools.c:2729
 #, c-format
 msgid "%s was nuked by %s."
 msgstr "%s tuhoutui kun %s iski ydinasein."
 
-#: server/unittools.c:2734
+#: server/unittools.c:2737
 #, c-format
 msgid "You nuked %s."
 msgstr "Olet pamauttanut kohteen %s tuusannuuskaksi ydiniskussa."
 
-#: server/unittools.c:2745
+#: server/unittools.c:2748
 #, fuzzy, c-format
 #| msgid "%s has been destroyed by %s."
 msgid "%s was destroyed by the nuke."
 msgstr "Kaupunki %s on tuhottu, asialla oli %s."
 
-#: server/unittools.c:2749
+#: server/unittools.c:2752
 #, fuzzy, c-format
 #| msgid "You nuked %s."
 msgid "Your nuke destroyed %s."
 msgstr "Olet pamauttanut kohteen %s tuusannuuskaksi ydiniskussa."
 
-#: server/unittools.c:2779
+#: server/unittools.c:2782
 #, c-format
 msgid "The %s detonated a nuke!"
 msgstr "%s räjäyttivät ydinlatauksen!"
 
-#: server/unittools.c:2794
+#: server/unittools.c:2797
 #, c-format
 msgid "%s transported successfully."
 msgstr "%s on turvallisesti siirretty kohteeseensa."
 
-#: server/unittools.c:2876
+#: server/unittools.c:2879
 #, c-format
 msgid "This unit cannot paradrop into %s."
 msgstr "%s ei sovi yksikön maahanlaskupaikaksi."
 
-#: server/unittools.c:2887
+#: server/unittools.c:2890
 #, fuzzy, c-format
 #| msgid "%s can't build a city on %s."
 msgid "%s cannot conquer a city with \"%s\"."
 msgstr "%s ei voi perustaa kaupunkia maastotyypissä %s."
 
-#: server/unittools.c:2916
+#: server/unittools.c:2919
 #, c-format
 msgid "Your %s paradropped into the %s and was lost."
 msgstr "Yksikkösi %s menetettiin maahanlaskupaikassa %s."
 
-#: server/unittools.c:2930
+#: server/unittools.c:2933
 #, c-format
 msgid "Your %s was killed by enemy units at the paradrop destination."
 msgstr "Maahanlaskupaikalla olleet vihollisyksiköt tuhosivat yksikkösi %s."
 
-#: server/unittools.c:3370
+#: server/unittools.c:3373
 #, c-format
 msgid "Orders for %s aborted after enemy movement was spotted."
 msgstr "%s keskeytti toimintansa havaittuaan vihollisen liikehdintää."
 
-#: server/unittools.c:4165
+#: server/unittools.c:4168
 #, c-format
 msgid "Orders for %s aborted as there are units nearby."
 msgstr "%s keskeytti toimintansa, koska lähistöllä on yksiköitä."
 
-#: server/unittools.c:4253
+#: server/unittools.c:4256
 #, c-format
 msgid "Orders for %s aborted since they give an invalid activity."
 msgstr ""
 "%s kieltäytyy jatkamasta sopimattomiksi käyneiden komentojen seuraamista."
 
-#: server/unittools.c:4263
+#: server/unittools.c:4266
 #, c-format
 msgid "Orders for %s aborted since they give an invalid location."
 msgstr "%s keskeytti liikkumisensa, koska kohdepaikka on sopimaton."
 
-#: server/unittools.c:4274
+#: server/unittools.c:4277
 #, c-format
 msgid "Orders for %s aborted as there are units in the way."
 msgstr "%s keskeytti toimintansa, koska muut yksiköt ovat sen tiellä."
 
-#: server/unittools.c:4319
+#: server/unittools.c:4322
 #, c-format
 msgid "Orders for %s aborted because of failed move."
 msgstr "%s keskeytti toimintansa, koska sen liikkuminen epäonnistui."
 
-#: server/unittools.c:4460
+#: server/unittools.c:4463
 #, c-format
 msgid "%s could not do %s to %s."
 msgstr "Yksikkösi %s ei voi suorittaa toimintoa %s kohteelle %s."
 
-#: server/unittools.c:4498
+#: server/unittools.c:4501
 #, c-format
 msgid "Orders for %s aborted because doing %s to %s failed."
 msgstr ""
 "%s keskeytti toimintansa, koska toiminnon %s tekeminen kohteelle %s "
 "epäonnistui."
 
-#: server/unittools.c:4522
+#: server/unittools.c:4525
 #, c-format
 msgid "Your %s has invalid orders."
 msgstr "Yksikölle %s annetut ohjeet eivät enää kelpaa."
 
-#: server/unittools.c:4624
+#: server/unittools.c:4627
 #, c-format
 msgid "Your unit may not act for another %s this turn. See /help unitwaittime."
 msgstr ""
