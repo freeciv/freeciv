@@ -138,7 +138,7 @@ void popup_musicset_suggestion_dialog(void)
 
   /* In case incoming rulesets are incompatible with current musicset
    * we need to block their receive before user has accepted loading
-   * of the correct soundset. */
+   * of the correct musicset. */
   gtk_dialog_run(GTK_DIALOG(dialog));
 
   gtk_widget_destroy(dialog);
