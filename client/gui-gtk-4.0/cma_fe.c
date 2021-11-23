@@ -109,7 +109,9 @@ void close_cma_dialog(struct city *pcity)
     /* A city which is being investigated doesn't contain cma dialog */
     return;
   }
-  gtk_widget_destroy(pdialog->shell);
+
+  gtk_box_remove(GTK_BOX(gtk_widget_get_parent(pdialog->shell)),
+                 pdialog->shell);
 }
 
 /**********************************************************************//**
