@@ -4,6 +4,7 @@ add_glib_env() {
   mkdir -p $2/share/glib-2.0/schemas &&
   cp -R $1/share/glib-2.0/schemas/*.gschema.xml $2/share/glib-2.0/schemas/ &&
   cp $1/bin/libglib-2.0-0.dll $2/ &&
+  cp $1/bin/libpcre-1.dll $2/ &&
   mkdir -p $2/bin &&
   cp $1/bin/glib-compile-schemas.exe $2/bin/
 }
