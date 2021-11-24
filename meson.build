@@ -2364,7 +2364,7 @@ executable('freeciv-gtk3.22',
   c_args: [ '-DGDK_VERSION_MIN_REQUIRED=GDK_VERSION_3_20',
             '-DGDK_VERSION_MAX_ALLOWED=GDK_VERSION_3_22'],
   include_directories: client_inc,
-  dependencies: [gtk322_dep, ws2_dep],
+  dependencies: [gtk322_dep, ws2_dep, gettext_dep],
   link_with: client_common,
   install: true
   )
@@ -2456,7 +2456,7 @@ executable('freeciv-qt',
   'client/gui_interface.c',
   mocced_client,
   include_directories: [client_inc, include_directories('client/gui-qt')],
-  dependencies: [qt5_dep, ws2_dep],
+  dependencies: [qt5_dep, ws2_dep, gettext_dep],
   link_with: client_common,
   install: true)
 
@@ -2668,7 +2668,7 @@ executable('freeciv-sdl2',
                  c_compiler.find_library('libSDL2_image', dirs: cross_lib_path),
                  c_compiler.find_library('libSDL2_gfx', dirs: cross_lib_path),
                  c_compiler.find_library('libSDL2_ttf', dirs: cross_lib_path),
-                 ws2_dep],
+                 ws2_dep, gettext_dep],
   link_with: client_common,
   install: true
   )
@@ -2737,7 +2737,7 @@ executable('freeciv-mp-gtk3',
   c_args: [ '-DGDK_VERSION_MIN_REQUIRED=GDK_VERSION_3_20',
             '-DGDK_VERSION_MAX_ALLOWED=GDK_VERSION_3_22'],
   include_directories: tool_inc,
-  dependencies: [gtk322_dep, sqlite3_dep],
+  dependencies: [gtk322_dep, sqlite3_dep, gettext_dep],
   link_with: [common_lib, fcmp_common],
   install: true
   )
@@ -2756,7 +2756,7 @@ executable('freeciv-mp-gtk4',
   c_args: [ '-DGDK_VERSION_MIN_REQUIRED=GDK_VERSION_4_0',
             '-DGDK_VERSION_MAX_ALLOWED=GDK_VERSION_4_0'],
   include_directories: tool_inc,
-  dependencies: [gtk4_dep, sqlite3_dep],
+  dependencies: [gtk4_dep, sqlite3_dep, gettext_dep],
   link_with: [common_lib, fcmp_common],
   install: true
   )
@@ -2780,7 +2780,7 @@ executable('freeciv-mp-qt',
   'tools/fcmp/mpgui_qt_worker.cpp',
   mocced_fcmp,
   include_directories: tool_inc,
-  dependencies: [qt5_dep, sqlite3_dep],
+  dependencies: [qt5_dep, sqlite3_dep, gettext_dep],
   link_with: [common_lib, fcmp_common],
   install: true
   )
@@ -2792,7 +2792,7 @@ if get_option('fcmp').contains('cli')
 executable('freeciv-mp-cli',
   'tools/fcmp/mpcli.c',
   include_directories: tool_inc,
-  dependencies: [sqlite3_dep],
+  dependencies: [sqlite3_dep, gettext_dep],
   link_with: [common_lib, fcmp_common],
   install: true
   )
