@@ -500,6 +500,8 @@ struct tileset {
   int activity_offset_y;
   int select_offset_x;
   int select_offset_y;
+  int stack_size_offset_x;
+  int stack_size_offset_y;
   int occupied_offset_x;
   int occupied_offset_y;
   int unit_upkeep_offset_y;
@@ -2064,6 +2066,10 @@ static struct tileset *tileset_read_toplevel(const char *tileset_name,
                              "tilespec.select_offset_x")
       || !secfile_lookup_int(file, &t->select_offset_y,
                              "tilespec.select_offset_y")
+      || !secfile_lookup_int(file, &t->stack_size_offset_x,
+                             "tilespec.stack_size_offset_x")
+      || !secfile_lookup_int(file, &t->stack_size_offset_y,
+                             "tilespec.stack_size_offset_y")
       || !secfile_lookup_int(file, &t->city_offset_x,
                              "tilespec.city_offset_x")
       || !secfile_lookup_int(file, &t->city_offset_y,
@@ -2092,6 +2098,8 @@ static struct tileset *tileset_read_toplevel(const char *tileset_name,
   t->city_size_offset_y = t->scale * t->city_size_offset_y;
   t->select_offset_x = t->scale * t->select_offset_x;
   t->select_offset_y = t->scale * t->select_offset_y;
+  t->stack_size_offset_x = t->scale * t->stack_size_offset_x;
+  t->stack_size_offset_y = t->scale * t->stack_size_offset_y;
   t->unit_flag_offset_x = t->scale * t->unit_flag_offset_x;
   t->unit_flag_offset_y = t->scale * t->unit_flag_offset_y;
   t->city_flag_offset_x = t->scale * t->city_flag_offset_x;
@@ -4432,8 +4440,7 @@ static int fill_unit_sprite_array(const struct tileset *t,
     if (gui_options.draw_unit_stack_size
         && t->sprites.unit.num_stack_sprites >= stack) {
       ADD_SPRITE(t->sprites.unit.stack[stack - 1], FALSE,
-                 FULL_TILE_X_OFFSET + t->unit_offset_x,
-                 FULL_TILE_Y_OFFSET + t->unit_offset_y);
+                 t->stack_size_offset_x, t->stack_size_offset_y);
     } else {
       ADD_SPRITE_FULL(t->sprites.unit.stack[0]);
     }

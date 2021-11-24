@@ -59,6 +59,10 @@ activity_offset_y = 0
 select_offset_x = 0
 select_offset_y = 0
 
+; offset of the unit stack size number sprites
+stack_size_offset_x = 20
+stack_size_offset_y = 10
+
 ; offset the cities by this amount
 city_offset_x = 0
 city_offset_y = 0
