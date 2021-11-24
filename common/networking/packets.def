@@ -2260,7 +2260,6 @@ PACKET_EDIT_CITY = 213; cs, handle-per-conn, handle-via-packet
   SINT32 built[B_LAST]; diff
   UINT8 production_kind;
   UINT8 production_value;
-  UINT16 last_turns_shield_surplus;
   BV_CITY_OPTIONS city_options;
 end
 
