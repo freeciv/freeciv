@@ -4535,6 +4535,46 @@ is_action_possible(const action_id wanted_action,
   case ACTRES_SPY_SPREAD_PLAGUE:
     /* Enabling this action with illness_on = FALSE prevents spread. */
     break;
+  case ACTRES_BOMBARD:
+    {
+      /* Allow bombing only if there's reachable units in the target
+       * tile. Bombing without anybody taking damage is certainly not
+       * what user really wants.
+       * Allow bombing when player does not know if there's units in
+       * target tile. */
+      if (tile_city(target_tile) == NULL
+          && fc_funcs->player_tile_vision_get(target_tile, actor_player, V_MAIN)
+          && fc_funcs->player_tile_vision_get(target_tile, actor_player,
+                                              V_INVIS)
+          && fc_funcs->player_tile_vision_get(target_tile, actor_player,
+                                              V_SUBSURFACE)) {
+        bool hiding_extra = FALSE;
+
+        extra_type_iterate(pextra) {
+          if (pextra->eus == EUS_HIDDEN
+              && tile_has_extra(target_tile, pextra)) {
+            hiding_extra = TRUE;
+            break;
+          }
+        } extra_type_iterate_end;
+
+        if (!hiding_extra) {
+          bool has_target = FALSE;
+
+          unit_list_iterate(target_tile->units, punit) {
+            if (is_unit_reachable_at(punit, actor_unit, target_tile)) {
+              has_target = TRUE;
+              break;
+            }
+          } unit_list_iterate_end;
+
+          if (!has_target) {
+            return TRI_NO;
+          }
+        }
+      }
+    }
+    break;
   case ACTRES_ESTABLISH_EMBASSY:
   case ACTRES_SPY_INVESTIGATE_CITY:
   case ACTRES_SPY_POISON:
@@ -4545,7 +4585,6 @@ is_action_possible(const action_id wanted_action,
   case ACTRES_SPY_INCITE_CITY:
   case ACTRES_SPY_SABOTAGE_UNIT:
   case ACTRES_STEAL_MAPS:
-  case ACTRES_BOMBARD:
   case ACTRES_SPY_NUKE:
   case ACTRES_NUKE:
   case ACTRES_DESTROY_CITY:
