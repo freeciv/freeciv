@@ -472,6 +472,7 @@ Actions done by a unit against all units at a tile
    allows it, futher away.
  * target can't be in a city the actor player isn't at war with.
  * target owner must be at war with actor. (!)
+ * if target tile is fully seen, it must have reachable units
 
 "Attack"
  * UI name can be set using ui_name_attack
