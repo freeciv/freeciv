@@ -65,9 +65,11 @@ endif
 c_compiler = meson.get_compiler('c')
 
 if meson.is_cross_build()
-  cross_inc_path = meson.get_cross_property('cross_inc_path')
-  cross_lib_path = meson.get_cross_property('cross_lib_path')
+  cross_inc_str = meson.get_cross_property('cross_inc_path')
+  cross_inc_path = [cross_inc_str]
+  cross_lib_path = [meson.get_cross_property('cross_lib_path')]
 else
+  cross_inc_str = ''
   cross_inc_path = []
   cross_lib_path = []
 endif
@@ -122,10 +124,10 @@ priv_headers = [
   'vfork.h'
   ]
 
-if cross_inc_path == []
+if cross_inc_str == ''
   header_arg = []
 else
-  header_arg = '-I' + cross_inc_path
+  header_arg = '-I' + cross_inc_str
 endif
 foreach hdr : pub_headers
   if c_compiler.has_header(hdr, args: header_arg)
