@@ -2277,10 +2277,10 @@ static bool city_build_building(struct player *pplayer, struct city *pcity)
 {
   bool space_part;
   int mod;
-  const struct impr_type *pimprove = pcity->production.value.building;
+  const struct impr_type *pimprove;
   int saved_id = pcity->id;
 
-  if (is_convert_improvement(pimprove)) {
+  if (is_convert_improvement(pcity->production.value.building)) {
     /* Coinage-like improvements that convert production */
     fc_assert(pcity->surplus[O_SHIELD] >= 0);
 
@@ -2296,6 +2296,9 @@ static bool city_build_building(struct player *pplayer, struct city *pcity)
     return TRUE;
   }
   upgrade_building_prod(pcity);
+
+  /* The final (after upgrade) build target */
+  pimprove = pcity->production.value.building;
 
   if (!can_city_build_improvement_now(pcity, pimprove)) {
     notify_player(pplayer, city_tile(pcity), E_CITY_CANTBUILD, ftc_server,
