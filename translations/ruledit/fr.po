@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 3.0\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2021-09-16 18:19+0300\n"
-"PO-Revision-Date: 2021-06-19 23:26+0200\n"
+"POT-Creation-Date: 2021-11-19 15:49+0100\n"
+"PO-Revision-Date: 2021-11-24 10:39+0100\n"
 "Last-Translator: Igx <igx31 hotmail.com>\n"
 "Language-Team: French <freeciv-l10n-fr@yahoogroupes.fr>\n"
 "Language: fr\n"
@@ -26,13 +26,17 @@ msgstr "Fermer"
 msgid "Old ruleset to a new format"
 msgstr "Anciennes règles du jeu vers un nouveau format"
 
-#: tools/ruledit/edit_impr.cpp:47 tools/ruledit/edit_utype.cpp:64
+#: tools/ruledit/edit_impr.cpp:50 tools/ruledit/edit_utype.cpp:64
 msgid "Build Cost"
 msgstr "Coût de construction"
 
-#: tools/ruledit/edit_impr.cpp:58
+#: tools/ruledit/edit_impr.cpp:61
 msgid "Upkeep"
-msgstr ""
+msgstr "Entretien"
+
+#: tools/ruledit/edit_impr.cpp:71
+msgid "Genus"
+msgstr "Genre"
 
 #: tools/ruledit/edit_utype.cpp:49
 msgid "Requirement"
@@ -45,6 +49,10 @@ msgstr "Force d'attaque"
 #: tools/ruledit/edit_utype.cpp:84
 msgid "Defense Strength"
 msgstr "Force de défense"
+
+#: tools/ruledit/edit_utype.cpp:94
+msgid "Move Rate"
+msgstr "Vitesse de déplacement"
 
 #. TRANS: Trying to fix a requirement vector problem but can't find
 #. * any.
@@ -423,8 +431,6 @@ msgid "?stat:Unit Types"
 msgstr "Types d'unités"
 
 #: tools/ruledit/tab_misc.cpp:134
-#, fuzzy
-#| msgid "Enablers"
 msgid "?stat:Enablers"
 msgstr "Activateurs"
 
