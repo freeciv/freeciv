@@ -78,11 +78,12 @@ goto_dialog::goto_dialog(QWidget *parent)
   goto_tab->horizontalHeader()->setSectionResizeMode(
                                              QHeaderView::ResizeToContents);
 
-  layout->addWidget(goto_tab, 0, 0, 4, 4);
-  layout->addItem(hb, 4, 0, 1, 2);
-  layout->addWidget(goto_city, 5, 0, 1, 1);
-  layout->addWidget(airlift_city, 5, 1, 1, 1);
-  layout->addWidget(close_but, 5, 3, 1, 1);
+  layout->addWidget(goto_tab, 0, 0, 1, 4);
+  layout->setRowStretch(0, 100);
+  layout->addItem(hb, 1, 0, 1, 2);
+  layout->addWidget(goto_city, 2, 0, 1, 1);
+  layout->addWidget(airlift_city, 2, 1, 1, 1);
+  layout->addWidget(close_but, 2, 3, 1, 1);
 
   setFixedWidth(goto_tab->horizontalHeader()->width());
   connect(close_but, &QAbstractButton::clicked, this, &goto_dialog::close_dlg);
@@ -191,6 +192,9 @@ void goto_dialog::show_me()
     final_p.setY(height());
   }
   move(final_p.x(), final_p.y() - height());
+  if (original_tile == NULL) {
+    init();
+  }
   show();
 }
 
