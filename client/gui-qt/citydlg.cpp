@@ -1537,6 +1537,7 @@ city_dialog::city_dialog(QWidget *parent): qfc_dialog(parent)
   single_page_layout->setContentsMargins(0, 0 ,0 ,0);
   size_expanding_policy.setHorizontalStretch(0);
   size_expanding_policy.setVerticalStretch(0);
+  setSizePolicy(size_expanding_policy);
   current_building = 0;
 
   /* map view */
