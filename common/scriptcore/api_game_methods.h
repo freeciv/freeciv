@@ -90,6 +90,7 @@ bool api_methods_player_shares_research(lua_State *L, Player *pplayer,
                                         Player *aplayer);
 const char *api_methods_research_rule_name(lua_State *L, Player *pplayer);
 const char *api_methods_research_name_translation(lua_State *L, Player *pplayer);
+lua_Object api_methods_private_list_players(lua_State *L);
 Unit_List_Link *api_methods_private_player_unit_list_head(lua_State *L,
                                                           Player *pplayer);
 City_List_Link *api_methods_private_player_city_list_head(lua_State *L,
