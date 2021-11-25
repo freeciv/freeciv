@@ -410,6 +410,23 @@ bool api_methods_player_knows_tech(lua_State *L, Player *pplayer,
                                   advance_number(ptech)) == TECH_KNOWN;
 }
 
+/**********************************************************************//**
+  Return Lua list of all players
+**************************************************************************/
+lua_Object api_methods_private_list_players(lua_State *L)
+{
+  lua_Object result = 0;
+  int i = 0;
+
+  LUASCRIPT_CHECK_STATE(L, 0);
+  lua_createtable(L, player_count(), 0);
+  result = lua_gettop(L);
+  players_iterate(pplayer) {
+    tolua_pushfieldusertype(L, result, ++i, pplayer, "Player");
+  } players_iterate_end;
+  return result;
+}
+
 /**************************************************************************
   How much culture player has?
 **************************************************************************/

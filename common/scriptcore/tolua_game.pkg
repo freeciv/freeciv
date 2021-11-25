@@ -148,6 +148,8 @@ module Player {
 }
 
 module methods_private {
+  lua_Object api_methods_private_list_players
+    @ list_players (lua_State *L);
   module Player {
     Unit_List_Link *api_methods_private_player_unit_list_head
       @ unit_list_head (lua_State *L, Player *self);
@@ -609,9 +611,15 @@ do
     return iterator
   end
 
-  -- Iterate over all players of the game
+  -- Iterate over all players of the game (note: indices may have gaps)
+  local listp = methods_private.list_players
   function players_iterate()
-    return index_iterate(find.player)
+    local plist = listp()
+    local index = 0
+    return function()
+      index = index + 1
+      return plist[index]
+    end
   end
 
   -- Iterate over all tiles of the game
