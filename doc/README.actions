@@ -770,6 +770,7 @@ Actions done by a unit against all units at a tile
  * actor must be on a tile next to the target or, if bombard_max_range
    allows it, futher away.
  * target owner must be at war with actor. (!)
+ * if target tile is fully seen, it must have reachable units
 
 "Bombard 2" - bombard the units (and city) at the tile.
  * UI name can be set using ui_name_bombard_2
@@ -798,6 +799,7 @@ Actions done by a unit against all units at a tile
  * actor must be on a tile next to the target or, if
    bombard_lethal_max_range allows it, futher away.
  * target owner must be at war with actor. (!)
+ * if target tile is fully seen, it must have reachable units
 
 "Attack"
  * UI name can be set using ui_name_attack
