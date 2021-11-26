@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv (ruledit) S3_0\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2021-05-14 07:48+0300\n"
-"PO-Revision-Date: 2021-05-13 17:27+0200\n"
+"POT-Creation-Date: 2021-11-14 18:04+0200\n"
+"PO-Revision-Date: 2021-11-20 09:47+0100\n"
 "Last-Translator: Hubert Kowalewski <hubkow@users.sourceforge.net>\n"
 "Language-Team: hubkow@users.sourceforge.net\n"
 "Language: pl\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 2.3\n"
 
-#: tools/ruledit/conversion_log.cpp:41 tools/ruledit/effect_edit.cpp:101
+#: tools/ruledit/conversion_log.cpp:41 tools/ruledit/effect_edit.cpp:111
 #: tools/ruledit/req_vec_fix.cpp:190 tools/ruledit/requirers_dlg.cpp:43
 #: tools/ruledit/req_edit.cpp:135
 msgid "Close"
@@ -25,35 +25,67 @@ msgstr "Zamknij"
 msgid "Old ruleset to a new format"
 msgstr "Stary zestaw zasad na nowy format"
 
-#: tools/ruledit/edit_impr.cpp:46 tools/ruledit/edit_utype.cpp:63
+#: tools/ruledit/edit_impr.cpp:50 tools/ruledit/edit_utype.cpp:64
 msgid "Build Cost"
 msgstr "Koszt budowy"
 
-#: tools/ruledit/edit_utype.cpp:48
+#: tools/ruledit/edit_impr.cpp:61
+msgid "Upkeep"
+msgstr "Koszta"
+
+#: tools/ruledit/edit_impr.cpp:71
+msgid "Genus"
+msgstr "Rodzaj"
+
+#: tools/ruledit/edit_utype.cpp:49
 msgid "Requirement"
 msgstr "Wymagania"
 
-#: tools/ruledit/effect_edit.cpp:74 tools/ruledit/req_edit.cpp:66
+#: tools/ruledit/edit_utype.cpp:74
+msgid "Attack Strength"
+msgstr "Siła ataku"
+
+#: tools/ruledit/edit_utype.cpp:84
+msgid "Defense Strength"
+msgstr "Siła obrony"
+
+#: tools/ruledit/edit_utype.cpp:94
+msgid "Move Rate"
+msgstr "Szybkość"
+
+#: tools/ruledit/effect_edit.cpp:75 tools/ruledit/req_edit.cpp:66
 msgid "Type:"
 msgstr "Typ:"
 
-#: tools/ruledit/effect_edit.cpp:88 tools/ruledit/req_edit.cpp:84
+#: tools/ruledit/effect_edit.cpp:89 tools/ruledit/req_edit.cpp:84
 msgid "Value:"
 msgstr "Wartość:"
 
-#: tools/ruledit/effect_edit.cpp:97 tools/ruledit/tab_building.cpp:90
+#: tools/ruledit/effect_edit.cpp:99 tools/ruledit/tab_building.cpp:90
 #: tools/ruledit/tab_extras.cpp:84 tools/ruledit/tab_good.cpp:85
 #: tools/ruledit/tab_gov.cpp:84 tools/ruledit/tab_multiplier.cpp:84
 msgid "Requirements"
 msgstr "Wymagania"
 
-#: tools/ruledit/effect_edit.cpp:174
+#: tools/ruledit/effect_edit.cpp:103
+#, fuzzy
+#| msgid "Effect"
+msgid "Add Effect"
+msgstr "Efekt"
+
+#: tools/ruledit/effect_edit.cpp:107
+#, fuzzy
+#| msgid "Effect"
+msgid "Delete Effect"
+msgstr "Efekt"
+
+#: tools/ruledit/effect_edit.cpp:184
 #, fuzzy, c-format
 #| msgid "Effect"
 msgid "Effect #%d: %s"
 msgstr "Efekt"
 
-#: tools/ruledit/effect_edit.cpp:270
+#: tools/ruledit/effect_edit.cpp:280
 #, c-format
 msgid "%s effect #%d"
 msgstr ""
@@ -62,7 +94,7 @@ msgstr ""
 #. * any.
 #: tools/ruledit/req_vec_fix.cpp:79
 msgid "No problem found"
-msgstr "Nie wiadomo jak "
+msgstr "Nie znaleziono problemów"
 
 #. TRANS: Trying to fix a requirement vector problem but
 #. * don't know how to solve it.
@@ -470,66 +502,70 @@ msgid "?stat:Unit Types"
 msgstr "Typy jednostek"
 
 #: tools/ruledit/tab_misc.cpp:143
+msgid "?stat:Enablers"
+msgstr "?stat:Aktywatory"
+
+#: tools/ruledit/tab_misc.cpp:147
 msgid "?stat:Buildings"
 msgstr "Budynki"
 
-#: tools/ruledit/tab_misc.cpp:147
+#: tools/ruledit/tab_misc.cpp:151
 msgid "?stat:Nations"
 msgstr "Narody"
 
-#: tools/ruledit/tab_misc.cpp:151
+#: tools/ruledit/tab_misc.cpp:155
 msgid "?stat:Styles"
 msgstr "Style"
 
-#: tools/ruledit/tab_misc.cpp:155
+#: tools/ruledit/tab_misc.cpp:159
 msgid "?stat:Specialists"
 msgstr "Specjaliści"
 
-#: tools/ruledit/tab_misc.cpp:159
+#: tools/ruledit/tab_misc.cpp:163
 msgid "?stat:Governments"
 msgstr "Ustroje"
 
-#: tools/ruledit/tab_misc.cpp:163
+#: tools/ruledit/tab_misc.cpp:167
 msgid "?stat:Disasters"
 msgstr "Katastrof"
 
-#: tools/ruledit/tab_misc.cpp:167
+#: tools/ruledit/tab_misc.cpp:171
 msgid "?stat:Achievements"
 msgstr "Osiągnięcia"
 
-#: tools/ruledit/tab_misc.cpp:171
+#: tools/ruledit/tab_misc.cpp:175
 msgid "?stat:Extras"
 msgstr "Usprawnienia"
 
-#: tools/ruledit/tab_misc.cpp:175
+#: tools/ruledit/tab_misc.cpp:179
 msgid "?stat:Bases"
 msgstr "Bazy"
 
-#: tools/ruledit/tab_misc.cpp:179
+#: tools/ruledit/tab_misc.cpp:183
 msgid "?stat:Roads"
 msgstr "Drogi"
 
-#: tools/ruledit/tab_misc.cpp:183
+#: tools/ruledit/tab_misc.cpp:187
 msgid "?stat:Goods"
 msgstr "Dobra"
 
-#: tools/ruledit/tab_misc.cpp:187
+#: tools/ruledit/tab_misc.cpp:191
 msgid "?stat:Multipliers"
 msgstr "?stat:Mnożniki"
 
-#: tools/ruledit/tab_misc.cpp:195
+#: tools/ruledit/tab_misc.cpp:199
 msgid "Refresh Stats"
 msgstr "Odśwież statystyki"
 
-#: tools/ruledit/tab_misc.cpp:277
+#: tools/ruledit/tab_misc.cpp:281
 msgid "Ruleset saved"
 msgstr "Zapisano zestaw zasad"
 
-#: tools/ruledit/tab_misc.cpp:397
+#: tools/ruledit/tab_misc.cpp:409
 msgid "Always active"
 msgstr ""
 
-#: tools/ruledit/tab_misc.cpp:406
+#: tools/ruledit/tab_misc.cpp:418
 msgid "All effects"
 msgstr ""
 
@@ -637,23 +673,30 @@ msgstr "Usuń wymaganie"
 msgid "%s prevents"
 msgstr "%s uniemożliwia"
 
-#: tools/ruledit/validity.c:50 tools/ruledit/validity.c:311
+#: tools/ruledit/validity.c:50 tools/ruledit/validity.c:351
 msgid "Effect"
 msgstr "Efekt"
 
 #: tools/ruledit/validity.c:122
-msgid "Action Enabler"
-msgstr "Aktywator czynności"
+#, c-format
+msgid "%s action enabler"
+msgstr "aktywator dla %s"
 
-#: tools/ruledit/validity.c:142
+#: tools/ruledit/validity.c:144
 msgid "Music Style"
 msgstr "Styl muzyki"
 
-#: tools/ruledit/validity.c:256
+#. TRANS: e.g. "Advance clause"
+#: tools/ruledit/validity.c:157
+#, c-format
+msgid "%s clause"
+msgstr ""
+
+#: tools/ruledit/validity.c:282
 msgid "Conflicting extra"
 msgstr "Niezgodne usprawnienie"
 
-#: tools/ruledit/validity.c:259
+#: tools/ruledit/validity.c:285
 msgid "Hidden extra"
 msgstr "Ukryte usprawnienie"
 
