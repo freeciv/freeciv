@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv (ruledit) S3_0\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2021-09-16 18:19+0300\n"
-"PO-Revision-Date: 2021-05-13 17:27+0200\n"
+"POT-Creation-Date: 2021-11-14 17:57+0200\n"
+"PO-Revision-Date: 2021-11-20 09:47+0100\n"
 "Last-Translator: Hubert Kowalewski <hubkow@users.sourceforge.net>\n"
 "Language-Team: hubkow@users.sourceforge.net\n"
 "Language: pl\n"
@@ -24,13 +24,17 @@ msgstr "Zamknij"
 msgid "Old ruleset to a new format"
 msgstr "Stary zestaw zasad na nowy format"
 
-#: tools/ruledit/edit_impr.cpp:47 tools/ruledit/edit_utype.cpp:64
+#: tools/ruledit/edit_impr.cpp:50 tools/ruledit/edit_utype.cpp:64
 msgid "Build Cost"
 msgstr "Koszt budowy"
 
-#: tools/ruledit/edit_impr.cpp:58
+#: tools/ruledit/edit_impr.cpp:61
 msgid "Upkeep"
-msgstr ""
+msgstr "Koszta"
+
+#: tools/ruledit/edit_impr.cpp:71
+msgid "Genus"
+msgstr "Rodzaj"
 
 #: tools/ruledit/edit_utype.cpp:49
 msgid "Requirement"
@@ -38,17 +42,21 @@ msgstr "Wymagania"
 
 #: tools/ruledit/edit_utype.cpp:74
 msgid "Attack Strength"
-msgstr ""
+msgstr "Siła ataku"
 
 #: tools/ruledit/edit_utype.cpp:84
 msgid "Defense Strength"
-msgstr ""
+msgstr "Siła obrony"
+
+#: tools/ruledit/edit_utype.cpp:94
+msgid "Move Rate"
+msgstr "Szybkość"
 
 #. TRANS: Trying to fix a requirement vector problem but can't find
 #. * any.
 #: tools/ruledit/req_vec_fix.cpp:79
 msgid "No problem found"
-msgstr "Nie wiadomo jak "
+msgstr "Nie znaleziono problemów"
 
 #. TRANS: Trying to fix a requirement vector problem but
 #. * don't know how to solve it.
@@ -420,10 +428,8 @@ msgid "?stat:Unit Types"
 msgstr "Typy jednostek"
 
 #: tools/ruledit/tab_misc.cpp:134
-#, fuzzy
-#| msgid "Enablers"
 msgid "?stat:Enablers"
-msgstr "Aktywatory"
+msgstr "?stat:Aktywatory"
 
 #: tools/ruledit/tab_misc.cpp:138
 msgid "?stat:Buildings"
@@ -580,10 +586,9 @@ msgid "Effect"
 msgstr "Efekt"
 
 #: tools/ruledit/validity.c:122
-#, fuzzy, c-format
-#| msgid "Action Enabler"
+#, c-format
 msgid "%s action enabler"
-msgstr "Aktywator czynności"
+msgstr "aktywator dla %s"
 
 #: tools/ruledit/validity.c:144
 msgid "Music Style"
