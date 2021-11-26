@@ -7339,7 +7339,7 @@ msgid ""
 "The Marathi are people who inhabit the state of Maharashtra in India. In the "
 "17th century, the Marathi prince Shivaji established the Maratha "
 "confederacy, waging war on the Moghul empire and eventually replacing the "
-"Moghuls as the main power on the Indian subcomtinent."
+"Moghuls as the main power on the Indian subcontinent."
 msgstr ""
 
 #: data/nation/marathi.ruleset:37
