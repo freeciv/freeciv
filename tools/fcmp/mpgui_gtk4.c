@@ -41,6 +41,7 @@ static GtkWidget *progressbar;
 static GtkWidget *main_list;
 static GtkListStore *main_store;
 static GtkWidget *URL_input;
+static GtkWidget *quit_dialog;
 static gboolean downloading = FALSE;
 
 struct fcmp_params fcmp = {
@@ -92,7 +93,7 @@ static void quit_dialog_response(GtkWidget *dialog, gint response)
 **************************************************************************/
 static void quit_dialog_destroyed(GtkWidget *dialog, void *data)
 {
-  dialog = NULL;
+  quit_dialog = NULL;
 }
 
 /**********************************************************************//**
@@ -102,22 +103,21 @@ static gboolean quit_dialog_callback(void)
 {
   if (downloading) {
     /* Download in progress. Confirm quit from user. */
-    static GtkWidget *dialog;
 
-    if (!dialog) {
-      dialog = gtk_message_dialog_new(NULL,
-                                      0,
-                                      GTK_MESSAGE_WARNING,
-                                      GTK_BUTTONS_YES_NO,
+    if (quit_dialog == NULL) {
+      quit_dialog = gtk_message_dialog_new(NULL,
+                                           0,
+                                           GTK_MESSAGE_WARNING,
+                                           GTK_BUTTONS_YES_NO,
       _("Modpack installation in progress.\nAre you sure you want to quit?"));
 
-      g_signal_connect(dialog, "response", 
+      g_signal_connect(quit_dialog, "response",
                        G_CALLBACK(quit_dialog_response), NULL);
-      g_signal_connect(dialog, "destroy",
+      g_signal_connect(quit_dialog, "destroy",
                        G_CALLBACK(quit_dialog_destroyed), NULL);
     }
 
-    gtk_window_present(GTK_WINDOW(dialog));
+    gtk_window_present(GTK_WINDOW(quit_dialog));
 
   } else {
     /* User loses no work by quitting, so let's not annoy him/her
@@ -567,6 +567,8 @@ static void modinst_setup_widgets(GtkWidget *toplevel)
 static void activate_gui(GtkApplication *app, gpointer data)
 {
   GtkWidget *toplevel;
+
+  quit_dialog = NULL;
 
   toplevel = gtk_application_window_new(app);
 
