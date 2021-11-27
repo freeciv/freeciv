@@ -1185,3 +1185,11 @@ gint blocking_dialog(GtkWidget *dlg)
 
   return data.response;
 }
+
+/**********************************************************************//**
+  Nullify GtkWidget pointer when widget is destroyed
+**************************************************************************/
+void widget_destroyed(GtkWidget *wdg, void *data)
+{
+  *(GtkWidget **)data = NULL;
+}

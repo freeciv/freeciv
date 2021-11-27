@@ -2219,9 +2219,9 @@ void popup_quit_dialog(void)
     setup_dialog(dialog, toplevel);
 
     g_signal_connect(dialog, "response",
-	G_CALLBACK(quit_dialog_response), NULL);
+                     G_CALLBACK(quit_dialog_response), NULL);
     g_signal_connect(dialog, "destroy",
-	G_CALLBACK(gtk_widget_destroyed), &dialog);
+                     G_CALLBACK(widget_destroyed), &dialog);
   }
 
   gtk_window_present(GTK_WINDOW(dialog));

@@ -292,7 +292,7 @@ void popup_revolution_dialog(struct government *government)
       setup_dialog(shell, toplevel);
 
       g_signal_connect(shell, "destroy",
-	  G_CALLBACK(gtk_widget_destroyed), &shell);
+                       G_CALLBACK(widget_destroyed), &shell);
     }
     g_signal_connect(shell, "response",
 	G_CALLBACK(revolution_response), government);
@@ -985,7 +985,7 @@ static void create_races_dialog(struct player *pplayer)
       gtk_cell_layout_set_attributes(GTK_CELL_LAYOUT(nationsets_chooser),
                                      renderer, "markup", 1, NULL);
       g_signal_connect(nationsets_chooser, "destroy",
-                       G_CALLBACK(gtk_widget_destroyed), &nationsets_chooser);
+                       G_CALLBACK(widget_destroyed), &nationsets_chooser);
       g_signal_connect(nationsets_chooser, "changed",
                        G_CALLBACK(nationset_callback), NULL);
       {
@@ -1059,7 +1059,7 @@ static void create_races_dialog(struct player *pplayer)
 
   races_properties = table = gtk_grid_new();
   g_signal_connect(table, "destroy",
-      G_CALLBACK(gtk_widget_destroyed), &races_properties);
+                   G_CALLBACK(widget_destroyed), &races_properties);
   g_object_set(table, "margin", 6, NULL);
   gtk_grid_set_row_spacing(GTK_GRID(table), 2);
   gtk_notebook_append_page(GTK_NOTEBOOK(notebook), table, label);
@@ -1175,7 +1175,7 @@ static void create_races_dialog(struct player *pplayer)
 
   /* Signals. */
   g_signal_connect(shell, "destroy",
-      G_CALLBACK(gtk_widget_destroyed), &races_shell);
+                   G_CALLBACK(widget_destroyed), &races_shell);
   g_signal_connect(shell, "response",
       G_CALLBACK(races_response), NULL);
 

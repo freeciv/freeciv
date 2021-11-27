@@ -137,5 +137,6 @@ void disable_gobject_callback(GObject *obj, GCallback cb);
 void enable_gobject_callback(GObject *obj, GCallback cb);
 
 gint blocking_dialog(GtkWidget *dlg);
+void widget_destroyed(GtkWidget *wdg, void *data);
 
 #endif  /* FC__GUI_STUFF_H */

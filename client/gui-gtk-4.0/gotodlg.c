@@ -151,7 +151,7 @@ static void create_goto_dialog(void)
   setup_dialog(dshell, toplevel);
   gtk_dialog_set_default_response(GTK_DIALOG(dshell), CMD_GOTO);
   g_signal_connect(dshell, "destroy",
-		   G_CALLBACK(gtk_widget_destroyed), &dshell);
+                   G_CALLBACK(widget_destroyed), &dshell);
   g_signal_connect(dshell, "response",
                    G_CALLBACK(goto_cmd_callback), NULL);
 
