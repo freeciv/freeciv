@@ -642,7 +642,7 @@ static void select_impr_or_unit_callback(GtkWidget *wdg, gpointer data)
                                    GTK_MESSAGE_QUESTION,
                                    GTK_BUTTONS_YES_NO, "%s", buf);
         g_free(buf);
-        res = gtk_dialog_run(GTK_DIALOG(w));    /* Synchron. */
+        res = blocking_dialog(w);    /* Synchron. */
         gtk_widget_destroy(w);
         if (res == GTK_RESPONSE_NO) {
           break;

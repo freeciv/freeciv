@@ -1467,7 +1467,8 @@ void popup_upgrade_dialog(struct unit_list *punits)
     setup_dialog(shell, toplevel);
     gtk_dialog_set_default_response(GTK_DIALOG(shell), GTK_RESPONSE_YES);
 
-    if (gtk_dialog_run(GTK_DIALOG(shell)) == GTK_RESPONSE_YES) {
+    /* FIXME: Should not block */
+    if (blocking_dialog(shell) == GTK_RESPONSE_YES) {
       unit_list_iterate(punits, punit) {
 	request_unit_upgrade(punit);
       } unit_list_iterate_end;
@@ -1505,7 +1506,8 @@ void popup_disband_dialog(struct unit_list *punits)
     setup_dialog(shell, toplevel);
     gtk_dialog_set_default_response(GTK_DIALOG(shell), GTK_RESPONSE_YES);
 
-    if (gtk_dialog_run(GTK_DIALOG(shell)) == GTK_RESPONSE_YES) {
+    /* FIXME: Should not block */
+    if (blocking_dialog(shell) == GTK_RESPONSE_YES) {
       unit_list_iterate(punits, punit) {
         if (unit_can_do_action(punit, ACTION_DISBAND_UNIT)) {
           request_unit_disband(punit);
@@ -1557,7 +1559,7 @@ void show_tileset_error(const char *msg)
                                     msg);
     setup_dialog(dialog, toplevel);
 
-    gtk_dialog_run(GTK_DIALOG(dialog));
+    blocking_dialog(dialog);
 
     gtk_widget_destroy(dialog);
   }

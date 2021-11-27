@@ -34,12 +34,11 @@
 #include "dialogs_g.h"
 
 extern char forced_tileset_name[512];
-static void tileset_suggestion_callback(GtkWidget *dlg, gint arg);
 
 /************************************************************************//**
   Callback either loading suggested tileset or doing nothing
 ****************************************************************************/
-static void tileset_suggestion_callback(GtkWidget *dlg, gint arg)
+static void tileset_suggestion_response(gint arg)
 {
   if (arg == GTK_RESPONSE_YES) {
     /* User accepted tileset loading */
@@ -83,13 +82,10 @@ void popup_tileset_suggestion_dialog(void)
   gtk_label_set_justify(GTK_LABEL(label), GTK_JUSTIFY_CENTER);
   gtk_widget_show(label);
 
-  g_signal_connect(dialog, "response",
-                   G_CALLBACK(tileset_suggestion_callback), NULL);
-
   /* In case incoming rulesets are incompatible with current tileset
    * we need to block their receive before user has accepted loading
    * of the correct tileset. */
-  gtk_dialog_run(GTK_DIALOG(dialog));
+  tileset_suggestion_response(blocking_dialog(dialog));
 
   gtk_widget_destroy(dialog);
 }
