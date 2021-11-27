@@ -4787,7 +4787,7 @@ property_page_new(enum editor_object_type objtype,
   gtk_widget_set_margin_end(vgrid, 4);
   gtk_widget_set_margin_top(vgrid, 4);
   gtk_widget_set_margin_bottom(vgrid, 4);
-  gtk_paned_pack1(GTK_PANED(paned), vgrid, TRUE, TRUE);
+  gtk_paned_set_start_child(GTK_PANED(paned), vgrid);
 
   scrollwin = gtk_scrolled_window_new();
   gtk_scrolled_window_set_has_frame(GTK_SCROLLED_WINDOW(scrollwin),
@@ -4889,7 +4889,7 @@ property_page_new(enum editor_object_type objtype,
   hgrid = gtk_grid_new();
   grid_col = 0;
   gtk_grid_set_column_spacing(GTK_GRID(hgrid), 4);
-  gtk_paned_pack2(GTK_PANED(paned), hgrid, TRUE, TRUE);
+  gtk_paned_set_end_child(GTK_PANED(paned), hgrid);
 
   vgrid = gtk_grid_new();
   gtk_orientable_set_orientation(GTK_ORIENTABLE(vgrid),

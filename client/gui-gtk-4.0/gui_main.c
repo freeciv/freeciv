@@ -1159,7 +1159,7 @@ static void setup_widgets(void)
      * + civinfo + unitinfo + main view, message window. */
     paned = gtk_paned_new(GTK_ORIENTATION_VERTICAL);
     gtk_scrolled_window_set_child(GTK_SCROLLED_WINDOW(page), paned);
-    gtk_paned_pack1(GTK_PANED(paned), top_vbox, TRUE, FALSE);
+    gtk_paned_set_start_child(GTK_PANED(paned), top_vbox);
     gtk_grid_attach(GTK_GRID(top_vbox), hgrid, 0, top_row++, 1, 1);
 
     /* Overview size designed for big displays (desktops). */
@@ -1406,7 +1406,7 @@ static void setup_widgets(void)
 
 
   if (GUI_GTK_OPTION(small_display_layout)) {
-    gtk_paned_pack1(GTK_PANED(paned), top_notebook, TRUE, FALSE);
+    gtk_paned_set_start_child(GTK_PANED(paned), top_notebook);
   } else if (GUI_GTK_OPTION(message_chat_location) == GUI_GTK_MSGCHAT_MERGED) {
     right_vbox = gtk_grid_new();
     right_row = 0;
@@ -1520,7 +1520,7 @@ static void setup_widgets(void)
     bottom_notebook = gtk_notebook_new();
     gtk_notebook_set_tab_pos(GTK_NOTEBOOK(bottom_notebook), GTK_POS_TOP);
     gtk_notebook_set_scrollable(GTK_NOTEBOOK(bottom_notebook), TRUE);
-    gtk_paned_pack1(GTK_PANED(hpaned), bottom_notebook, TRUE, TRUE);
+    gtk_paned_set_start_child(GTK_PANED(hpaned), bottom_notebook);
 
     right_notebook = gtk_notebook_new();
     g_object_ref(right_notebook);
@@ -1529,7 +1529,7 @@ static void setup_widgets(void)
     g_signal_connect(right_notebook, "button-release-event",
                      G_CALLBACK(right_notebook_button_release), NULL);
     if (GUI_GTK_OPTION(message_chat_location) == GUI_GTK_MSGCHAT_SPLIT) {
-      gtk_paned_pack2(GTK_PANED(hpaned), right_notebook, TRUE, TRUE);
+      gtk_paned_set_end_child(GTK_PANED(hpaned), right_notebook);
     }
   }
 

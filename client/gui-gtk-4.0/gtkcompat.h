@@ -44,6 +44,8 @@ void gtk_button_set_has_frame(GtkButton *btn, bool shadow);
   gtk_container_add(GTK_CONTAINER(_sw_), _child_)
 #define gtk_combo_box_set_child(_cb_, _child_) \
   gtk_container_add(GTK_CONTAINER(_cb_), _child_)
+#define gtk_paned_set_start_child(_paned_, _child_) \
+  gtk_paned_pack1(_paned_, _child_, TRUE, TRUE)
 #define gtk_paned_set_end_child(_paned_, _child_) \
   gtk_paned_pack2(_paned_, _child_, FALSE, TRUE)
 #define gtk_button_set_child(_but_, _child_) \
