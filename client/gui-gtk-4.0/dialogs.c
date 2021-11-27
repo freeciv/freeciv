@@ -513,7 +513,7 @@ static void select_nation(int nation,
                           const char *leadername, bool is_male,
                           int style_id)
 {
-  GtkEntryBuffer *buffer = gtk_entry_get_buffer(GTK_ENTRY(gtk_bin_get_child(GTK_BIN(races_leader))));
+  GtkEntryBuffer *buffer = gtk_entry_get_buffer(GTK_ENTRY(gtk_combo_box_get_child(GTK_COMBO_BOX(races_leader))));
 
   selected_nation = nation;
 
@@ -969,7 +969,7 @@ static void create_races_dialog(struct player *pplayer)
         /* Do our best to turn the text-entry widget into something more
          * like a cell-view: disable editing, and focusing (which removes
          * the caret). */
-        GtkWidget *entry = gtk_bin_get_child(GTK_BIN(nationsets_chooser));
+        GtkWidget *entry = gtk_combo_box_get_child(GTK_COMBO_BOX(nationsets_chooser));
 
         gtk_editable_set_editable(GTK_EDITABLE(entry), FALSE);
         gtk_widget_set_can_focus(entry, FALSE);
@@ -1329,7 +1329,7 @@ static void races_leader_callback(void)
   const gchar *name;
 
   name =
-    gtk_entry_buffer_get_text(gtk_entry_get_buffer(GTK_ENTRY(gtk_bin_get_child(GTK_BIN(races_leader)))));
+    gtk_entry_buffer_get_text(gtk_entry_get_buffer(GTK_ENTRY(gtk_combo_box_get_child(GTK_COMBO_BOX(races_leader)))));
 
   if (selected_nation != -1
       &&(pleader = nation_leader_by_name(nation_by_number(selected_nation),
@@ -1402,7 +1402,7 @@ static void races_response(GtkWidget *w, gint response, gpointer data)
     }
 
     s = gtk_entry_buffer_get_text(gtk_entry_get_buffer(
-                                      GTK_ENTRY(gtk_bin_get_child(GTK_BIN(races_leader)))));
+                                      GTK_ENTRY(gtk_combo_box_get_child(GTK_COMBO_BOX(races_leader)))));
 
     /* Perform a minimum of sanity test on the name. */
     /* This could call is_allowed_player_name if it were available. */
