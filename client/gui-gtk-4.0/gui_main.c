@@ -717,7 +717,7 @@ static void move_from_container_to_container(GtkWidget *wdg,
   } else {
     fc_assert(GTK_IS_BOX(old_wdg));
 
-    gtk_box_remove(old_wdg, wdg);
+    gtk_box_remove(GTK_BOX(old_wdg), wdg);
   }
 
   if (GTK_IS_PANED(new_wdg)) {
@@ -727,7 +727,7 @@ static void move_from_container_to_container(GtkWidget *wdg,
   } else {
     fc_assert(GTK_IS_BOX(new_wdg));
 
-    gtk_box_append(new_wdg, wdg);
+    gtk_box_append(GTK_BOX(new_wdg), wdg);
   }
 
   g_object_unref(wdg);
