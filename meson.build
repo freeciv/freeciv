@@ -74,6 +74,21 @@ else
   cross_lib_path = []
 endif
 
+# From this, at least the _WIN32_WINNT must be set before
+# trying to find the functions.
+if host_system == 'windows'
+  pub_conf_data.set('FREECIV_MSWINDOWS', 1)
+  pub_conf_data.set('FREECIV_HAVE_TINYCTHR', 1)
+  pub_conf_data.set('FREECIV_HAVE_WINSOCK', 1)
+  pub_conf_data.set('FREECIV_SOCKET_ZERO_NOT_STDIN', 1)
+  priv_conf_data.set('ALWAYS_ROOT', 1)
+  add_global_arguments('-D_WIN32_WINNT=0x0601', language : 'c')
+  ws2_dep = c_compiler.find_library('ws2_32')
+else
+  pub_conf_data.set('FREECIV_HAVE_PTHREAD', 1)
+  ws2_dep = []
+endif
+
 pub_headers = [
   'locale.h',
   'libintl.h',
@@ -307,19 +322,6 @@ int main(void) { iconv_t cd; const char **c; iconv(cd, c, NULL, NULL); return 0;
   priv_conf_data.set('ICONV_CONST', 'const')
 else
   priv_conf_data.set('ICONV_CONST', '')
-endif
-
-if host_system == 'windows'
-  pub_conf_data.set('FREECIV_MSWINDOWS', 1)
-  pub_conf_data.set('FREECIV_HAVE_TINYCTHR', 1)
-  pub_conf_data.set('FREECIV_HAVE_WINSOCK', 1)
-  pub_conf_data.set('FREECIV_SOCKET_ZERO_NOT_STDIN', 1)
-  priv_conf_data.set('ALWAYS_ROOT', 1)
-  add_global_arguments('-D_WIN32_WINNT=0x0601', language : 'c')
-  ws2_dep = c_compiler.find_library('ws2_32')
-else
-  pub_conf_data.set('FREECIV_HAVE_PTHREAD', 1)
-  ws2_dep = []
 endif
 
 if get_option('cacert-path') != ''
