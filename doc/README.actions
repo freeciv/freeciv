@@ -104,21 +104,29 @@ Lua has some integration with enabler controlled actions. This integration
 allows both to implement (parts of) an action in Lua and to perform an
 action from Lua.
 
-The action started signals
-==========================
+The action signals
+==================
 Right before an action is executed, but after it is known to be legal, a
 signal is emitted to Lua. It has access to the same information as the
-server. It obviously don't have access to the result of the action since it
-isn't done yet.
+server. It doesn't have access to the result of the action since it
+isn't done yet. Another signal is emitted to lua after action has been
+executed, and the result is known. This latter signal often does not
+have access to actor or target as they may have been destroyed
+by the action.
 
-The signal's name starts with action_started_, then the actor kind, then
+First signal's name starts with action_started_, then the actor kind, then
 another _ and in the end the target kind. The signal that is emitted when a
 unit performs an action on a city is therefore action_started_unit_city.
+The latter signal's name is constructed similarly, except that the first
+part is action_finished_.
 
-The signal has three parameters. The first parameter is the action that is
+First signal has three parameters. The first parameter is the action that is
 about to get started. The second is the actor. The third parameter is the
 target. The parameters of action_started_unit_city is therefore action,
 actor_unit and finally target city.
+Latter signal has four parameters; action that was finished,
+whether action was succesfull, actor, and target. Actor and/or target
+might be nil if they got destroyed by the action.
 
 To get the rule name of an action, that is the name used in action enablers,
 you can use the method rule_name(). To get a translated name that is nice to
