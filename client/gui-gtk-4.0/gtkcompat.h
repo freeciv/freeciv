@@ -49,6 +49,13 @@ void gtk_button_set_has_frame(GtkButton *btn, bool shadow);
 #define gtk_button_set_child(_but_, _child_) \
   gtk_container_add(GTK_CONTAINER(_but_), _child_)
 
+#define gtk_combo_box_get_child(_box_) \
+  gtk_bin_get_child(GTK_BIN(_box_))
+#define gtk_button_get_child(_but_) \
+  gtk_bin_get_child(GTK_BIN(_but_))
+#define gtk_window_get_child(_win_) \
+  gtk_bin_get_child(GTK_BIN(_win_))
+
 #endif  /* GTK version < 3.98.4 */
 
 

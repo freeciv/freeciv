@@ -1193,3 +1193,12 @@ void widget_destroyed(GtkWidget *wdg, void *data)
 {
   *(GtkWidget **)data = NULL;
 }
+
+/**********************************************************************//**
+  Get child widget for a widget whose own type is not known
+  (without further GTK_IS_...() checks) in the caller side.
+**************************************************************************/
+GtkWidget *widget_get_child(GtkWidget *wdg)
+{
+  return gtk_widget_get_first_child(wdg);
+}

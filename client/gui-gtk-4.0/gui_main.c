@@ -1592,7 +1592,7 @@ static void setup_widgets(void)
 
   /* Other things to take care of */
 
-  gtk_widget_show(gtk_bin_get_child(GTK_BIN(toplevel)));
+  gtk_widget_show(gtk_window_get_child(GTK_WINDOW(toplevel)));
 
   if (GUI_GTK_OPTION(enable_tabs)) {
     meswin_dialog_popup(FALSE);

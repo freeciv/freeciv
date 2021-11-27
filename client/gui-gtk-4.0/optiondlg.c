@@ -268,7 +268,7 @@ static void option_color_set_button_color(GtkButton *button,
   if (NULL == new_color) {
     if (NULL != current_color) {
       g_object_set_data(G_OBJECT(button), "color", NULL);
-      if ((child = gtk_bin_get_child(GTK_BIN(button)))) {
+      if ((child = gtk_button_get_child(button))) {
         gtk_widget_destroy(child);
       }
     }
@@ -285,7 +285,7 @@ static void option_color_set_button_color(GtkButton *button,
       g_object_set_data_full(G_OBJECT(button), "color", current_color,
                              option_color_destroy_notify);
     }
-    if ((child = gtk_bin_get_child(GTK_BIN(button)))) {
+    if ((child = gtk_button_get_child(button))) {
       gtk_widget_destroy(child);
     }
 
@@ -717,8 +717,8 @@ static inline void option_dialog_option_str_set(struct option *poption,
                                                 const char *string)
 {
   if (NULL != option_str_values(poption)) {
-    gtk_entry_buffer_set_text(gtk_entry_get_buffer(GTK_ENTRY(gtk_bin_get_child(GTK_BIN
-                                          (option_get_gui_data(poption))))), string, -1);
+    gtk_entry_buffer_set_text(gtk_entry_get_buffer(GTK_ENTRY(widget_get_child(
+                                          option_get_gui_data(poption)))), string, -1);
   } else {
     gtk_entry_buffer_set_text(gtk_entry_get_buffer(GTK_ENTRY(option_get_gui_data(poption))),
                               string, -1);
@@ -905,7 +905,7 @@ static void option_dialog_option_apply(struct option *poption)
     if (NULL != option_str_values(poption)) {
       (void) option_str_set(poption, gtk_entry_buffer_get_text(
                                         gtk_entry_get_buffer(
-                                           GTK_ENTRY(gtk_bin_get_child(GTK_BIN(w))))));
+                                           GTK_ENTRY(widget_get_child(w)))));
     } else {
       (void) option_str_set(poption, gtk_entry_buffer_get_text(
                                                  gtk_entry_get_buffer(GTK_ENTRY(w))));
