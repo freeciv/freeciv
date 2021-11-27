@@ -3194,6 +3194,10 @@ bool unit_perform_action(struct player *pplayer,
     if (success) {                                                        \
       action_success_actor_price(paction, actor_id, actor);               \
     }                                                                     \
+    script_server_signal_emit("action_finished_unit_city",                \
+                              action_by_number(action), success,          \
+                              unit_is_alive(actor_id) ? actor : NULL,     \
+                              city_exist(target_id) ? target : NULL);     \
     return success;                                                       \
   } else {                                                                \
     illegal_action(pplayer, actor_unit, action_type,                      \
@@ -3215,6 +3219,9 @@ bool unit_perform_action(struct player *pplayer,
     if (success) {                                                        \
       action_success_actor_price(paction, actor_id, actor);               \
     }                                                                     \
+    script_server_signal_emit("action_finished_unit_self",                \
+                              action_by_number(action), success,          \
+                              unit_is_alive(actor_id) ? actor : NULL);    \
     return success;                                                       \
   } else {                                                                \
     illegal_action(pplayer, actor_unit, action_type,                      \
@@ -3241,6 +3248,10 @@ bool unit_perform_action(struct player *pplayer,
       action_success_actor_price(paction, actor_id, actor);               \
       action_success_target_pay_mp(paction, target_id, punit);            \
     }                                                                     \
+    script_server_signal_emit("action_finished_unit_unit",                \
+                              action_by_number(action), success,          \
+                              unit_is_alive(actor_id) ? actor : NULL,     \
+                              unit_is_alive(target_id) ? target : NULL);  \
     return success;                                                       \
   } else {                                                                \
     illegal_action(pplayer, actor_unit, action_type,                      \
@@ -3263,6 +3274,10 @@ bool unit_perform_action(struct player *pplayer,
     if (success) {                                                        \
       action_success_actor_price(paction, actor_id, actor);               \
     }                                                                     \
+    script_server_signal_emit("action_finished_unit_units",               \
+                              action_by_number(action), success,          \
+                              unit_is_alive(actor_id) ? actor : NULL,     \
+                              target);                                    \
     return success;                                                       \
   } else {                                                                \
     illegal_action(pplayer, actor_unit, action_type,                      \
@@ -3286,6 +3301,10 @@ bool unit_perform_action(struct player *pplayer,
     if (success) {                                                        \
       action_success_actor_price(paction, actor_id, actor);               \
     }                                                                     \
+    script_server_signal_emit("action_finished_unit_tile",                \
+                              action_by_number(action), success,          \
+                              unit_is_alive(actor_id) ? actor : NULL,     \
+                              target);                                    \
     return success;                                                       \
   } else {                                                                \
     illegal_action(pplayer, actor_unit, action_type,                      \
@@ -3310,6 +3329,10 @@ bool unit_perform_action(struct player *pplayer,
     if (success) {                                                        \
       action_success_actor_price(paction, actor_id, actor);               \
     }                                                                     \
+    script_server_signal_emit("action_finished_unit_extras",              \
+                              action_by_number(action), success,          \
+                              unit_is_alive(actor_id) ? actor : NULL,     \
+                              target);                                    \
     return success;                                                       \
   } else {                                                                \
     illegal_action(pplayer, actor_unit, action_type,                      \

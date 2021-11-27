@@ -524,24 +524,48 @@ static void script_server_signals_create(void)
                           API_TYPE_ACTION,
                           API_TYPE_UNIT, API_TYPE_UNIT);
 
+  luascript_signal_create(fcl_main, "action_finished_unit_unit", 4,
+                          API_TYPE_ACTION, API_TYPE_BOOL,
+                          API_TYPE_UNIT, API_TYPE_UNIT);
+
   luascript_signal_create(fcl_main, "action_started_unit_units", 3,
                           API_TYPE_ACTION,
+                          API_TYPE_UNIT, API_TYPE_TILE);
+
+  luascript_signal_create(fcl_main, "action_finished_unit_units", 4,
+                          API_TYPE_ACTION, API_TYPE_BOOL,
                           API_TYPE_UNIT, API_TYPE_TILE);
 
   luascript_signal_create(fcl_main, "action_started_unit_city", 3,
                           API_TYPE_ACTION,
                           API_TYPE_UNIT, API_TYPE_CITY);
 
+  luascript_signal_create(fcl_main, "action_finished_unit_city", 4,
+                          API_TYPE_ACTION, API_TYPE_BOOL,
+                          API_TYPE_UNIT, API_TYPE_CITY);
+
   luascript_signal_create(fcl_main, "action_started_unit_tile", 3,
                           API_TYPE_ACTION,
+                          API_TYPE_UNIT, API_TYPE_TILE);
+
+  luascript_signal_create(fcl_main, "action_finished_unit_tile", 4,
+                          API_TYPE_ACTION, API_TYPE_BOOL,
                           API_TYPE_UNIT, API_TYPE_TILE);
 
   luascript_signal_create(fcl_main, "action_started_unit_extras", 3,
                           API_TYPE_ACTION,
                           API_TYPE_UNIT, API_TYPE_TILE);
 
+  luascript_signal_create(fcl_main, "action_finished_unit_extras", 4,
+                          API_TYPE_ACTION, API_TYPE_BOOL,
+                          API_TYPE_UNIT, API_TYPE_TILE);
+
   luascript_signal_create(fcl_main, "action_started_unit_self", 2,
                           API_TYPE_ACTION,
+                          API_TYPE_UNIT);
+
+  luascript_signal_create(fcl_main, "action_finished_unit_self", 3,
+                          API_TYPE_ACTION, API_TYPE_BOOL,
                           API_TYPE_UNIT);
 }
 
