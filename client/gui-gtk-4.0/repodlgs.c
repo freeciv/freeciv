@@ -978,7 +978,7 @@ static void economy_report_command_callback(struct gui_dialog *pdialog,
         setup_dialog(shell, gui_dialog_get_toplevel(pdialog));
         gtk_window_set_title(GTK_WINDOW(shell), _("Sell Improvements"));
 
-        if (GTK_RESPONSE_YES == gtk_dialog_run(GTK_DIALOG(shell))) {
+        if (GTK_RESPONSE_YES == blocking_dialog(shell)) {
           sell_all_improvements(pimprove, redundant, buf, sizeof(buf));
         }
         gtk_widget_destroy(shell);
@@ -1005,7 +1005,7 @@ static void economy_report_command_callback(struct gui_dialog *pdialog,
         setup_dialog(shell, gui_dialog_get_toplevel(pdialog));
         gtk_window_set_title(GTK_WINDOW(shell), _("Disband Units"));
 
-        if (GTK_RESPONSE_YES == gtk_dialog_run(GTK_DIALOG(shell))) {
+        if (GTK_RESPONSE_YES == blocking_dialog(shell)) {
           disband_all_units(putype, FALSE, buf, sizeof(buf));
         }
         gtk_widget_destroy(shell);
@@ -1599,7 +1599,7 @@ static void units_report_command_callback(struct gui_dialog *pdialog,
 
     gtk_window_set_title(GTK_WINDOW(shell), _("Upgrade Obsolete Units"));
 
-    if (GTK_RESPONSE_YES == gtk_dialog_run(GTK_DIALOG(shell))) {
+    if (GTK_RESPONSE_YES == blocking_dialog(shell)) {
       dsend_packet_unit_type_upgrade(&client.conn, utype_number(utype));
     }
 

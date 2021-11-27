@@ -1149,3 +1149,39 @@ void gui_dialog_add_content_widget(struct gui_dialog *dlg, GtkWidget *wdg)
                     dlg->content_counter++, 0, 1, 1);
   }
 }
+
+struct blocking_dialog_data {
+  GMainLoop *loop;
+  gint response;
+};
+
+/**********************************************************************//**
+  Received a response to a blocking dialog
+**************************************************************************/
+static void blocking_dialog_response(GtkWidget *dlg, gint response, void *data)
+{
+  struct blocking_dialog_data *bd_data = (struct blocking_dialog_data *)data;
+
+  bd_data->response = response;
+
+  g_main_loop_quit(bd_data->loop);
+}
+
+/**********************************************************************//**
+  Present a blocking dialog and wait for response
+**************************************************************************/
+gint blocking_dialog(GtkWidget *dlg)
+{
+  struct blocking_dialog_data data;
+  GMainLoop *dlg_loop;
+
+  gtk_widget_show(dlg);
+  dlg_loop = g_main_loop_new(NULL, FALSE);
+  data.loop = dlg_loop;
+  g_signal_connect(dlg, "response", G_CALLBACK(blocking_dialog_response),
+                   &data);
+
+  g_main_loop_run(dlg_loop);
+
+  return data.response;
+}

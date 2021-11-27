@@ -136,4 +136,6 @@ void gui_update_font_full(const char *font_name, const char *font_value,
 void disable_gobject_callback(GObject *obj, GCallback cb);
 void enable_gobject_callback(GObject *obj, GCallback cb);
 
+gint blocking_dialog(GtkWidget *dlg);
+
 #endif  /* FC__GUI_STUFF_H */

@@ -836,7 +836,7 @@ static void confirm_cancel_pact(enum clause_type clause, int plrno,
   setup_dialog(shell, toplevel);
   gtk_dialog_set_default_response(GTK_DIALOG(shell), GTK_RESPONSE_NO);
 
-  if (gtk_dialog_run(GTK_DIALOG(shell)) == GTK_RESPONSE_YES) {
+  if (blocking_dialog(shell) == GTK_RESPONSE_YES) {
     dsend_packet_diplomacy_cancel_pact(&client.conn, plrno, clause);
   }
   gtk_widget_destroy(shell);

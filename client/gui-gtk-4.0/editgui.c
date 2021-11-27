@@ -182,13 +182,14 @@ static void try_to_set_editor_tool(enum editor_tool_type ett)
 
   if (!editor_tool_is_usable(ett)) {
     GtkWidget *dialog;
+
     dialog = gtk_message_dialog_new(GTK_WINDOW(toplevel),
         GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
         GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE, "%s",
         _("The current ruleset does not define any "
           "objects corresponding to this editor tool."));
     gtk_window_set_title(GTK_WINDOW(dialog), editor_tool_get_name(ett));
-    gtk_dialog_run(GTK_DIALOG(dialog));
+    blocking_dialog(dialog);
     gtk_widget_destroy(dialog);
   } else {
     editor_set_tool(ett);
@@ -330,7 +331,7 @@ static int tool_value_selector_run(struct tool_value_selector *tvs)
   }
 
   dialog = tvs->dialog;
-  res = gtk_dialog_run(GTK_DIALOG(dialog));
+  res = blocking_dialog(dialog);
   gtk_widget_hide(dialog);
 
   if (res != GTK_RESPONSE_ACCEPT) {

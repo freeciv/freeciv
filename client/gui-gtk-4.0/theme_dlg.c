@@ -26,15 +26,14 @@
 
 /* gui-gtk-4.0 */
 #include "gui_main.h"
+#include "gui_stuff.h"
 
 static bool load_theme = FALSE;
-
-static void theme_suggestion_callback(GtkWidget *dlg, gint arg);
 
 /************************************************************************//**
   Callback deciding if the theme may be loaded or not
 ****************************************************************************/
-static void theme_suggestion_callback(GtkWidget *dlg, gint arg)
+static void theme_suggestion_response(gint arg)
 {
   load_theme = (arg == GTK_RESPONSE_YES);
 }
@@ -77,10 +76,7 @@ bool popup_theme_suggestion_dialog(const char *theme_name)
   gtk_label_set_justify(GTK_LABEL(label), GTK_JUSTIFY_CENTER);
   gtk_widget_show(label);
 
-  g_signal_connect(dialog, "response",
-                   G_CALLBACK(theme_suggestion_callback), NULL);
-
-  gtk_dialog_run(GTK_DIALOG(dialog));
+  theme_suggestion_response(blocking_dialog(dialog));
 
   gtk_widget_destroy(dialog);
 
