@@ -3498,7 +3498,7 @@ void save_game_dialog_popup(void)
   shell = save_dialog_new(_("Save Game"), _("Saved _Games:"),
                           _("Save _Filename:"), send_save_game,
                           save_dialog_savegame_list);
-  g_signal_connect(shell, "destroy", G_CALLBACK(gtk_widget_destroyed),
+  g_signal_connect(shell, "destroy", G_CALLBACK(widget_destroyed),
                    &shell);
   gtk_window_present(GTK_WINDOW(shell));
 }
@@ -3533,7 +3533,7 @@ void save_scenario_dialog_popup(void)
   shell = save_dialog_new(_("Save Scenario"), _("Saved Sce_narios:"),
                           _("Save Sc_enario:"), save_dialog_save_scenario,
                           save_dialog_scenario_list);
-  g_signal_connect(shell, "destroy", G_CALLBACK(gtk_widget_destroyed),
+  g_signal_connect(shell, "destroy", G_CALLBACK(widget_destroyed),
                    &shell);
   gtk_window_present(GTK_WINDOW(shell));
 }
@@ -3562,7 +3562,7 @@ void save_mapimg_dialog_popup(void)
   shell = save_dialog_new(_("Save Map Image"), _("Saved Map _Images:"),
                           _("Save _Map Images:"), mapimg_client_save,
                           save_dialog_mapimg_list);
-  g_signal_connect(shell, "destroy", G_CALLBACK(gtk_widget_destroyed),
+  g_signal_connect(shell, "destroy", G_CALLBACK(widget_destroyed),
                    &shell);
   gtk_window_present(GTK_WINDOW(shell));
 }

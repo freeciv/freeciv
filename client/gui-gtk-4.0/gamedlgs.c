@@ -352,7 +352,7 @@ static GtkWidget *create_multiplier_dialog(void)
     g_signal_connect(multipliers_scale[multiplier], "format-value",
                      G_CALLBACK(multiplier_value_callback), pmul);
     g_signal_connect(multipliers_scale[multiplier], "destroy",
-                     G_CALLBACK(gtk_widget_destroyed),
+                     G_CALLBACK(widget_destroyed),
                      &multipliers_scale[multiplier]);
     gtk_box_insert_child_after(GTK_BOX(content), label, NULL);
     gtk_box_insert_child_after(GTK_BOX(content), scale, NULL);
@@ -364,7 +364,7 @@ static GtkWidget *create_multiplier_dialog(void)
   multiplier_dialog_update_values(TRUE);
 
   g_signal_connect(shell, "destroy",
-                   G_CALLBACK(gtk_widget_destroyed), &multiplier_dialog_shell);
+                   G_CALLBACK(widget_destroyed), &multiplier_dialog_shell);
 
   g_signal_connect(shell, "response",
                    G_CALLBACK(multipliers_command_callback), NULL);
@@ -499,7 +499,7 @@ static GtkWidget *create_rates_dialog(void)
   g_signal_connect(shell, "response",
                    G_CALLBACK(rates_command_callback), NULL);
   g_signal_connect(shell, "destroy",
-                   G_CALLBACK(gtk_widget_destroyed), &rates_dialog_shell);
+                   G_CALLBACK(widget_destroyed), &rates_dialog_shell);
 
   gtk_widget_show(shell);
 
