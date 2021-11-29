@@ -1471,7 +1471,7 @@ pf_danger_map_adjust_cost(const struct pf_parameter *params,
   D. NS_PROCESSED: Now, we are sure we have the best path.
   E. NS_WAITING: The safe node (never the dangerous ones) is re-inserted in
      the priority queue, as explained above (2.). We need to consider if
-     waiting for full moves open or not new possibilities for moving accross
+     waiting for full moves open or not new possibilities for moving across
      dangerous areas.
   F. NS_PROCESSED: When finished to consider waiting at the node, revert the
      status to NS_PROCESSED.
