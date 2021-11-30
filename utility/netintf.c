@@ -80,19 +80,20 @@ static void set_socket_errno(void)
 
   switch (err) {
     /* these have mappings to symbolic errno names in net_types.h */
-    case WSAEINTR:
-    case WSAEWOULDBLOCK:
-    case WSAECONNRESET:
-    case WSAECONNREFUSED:
-    case WSAETIMEDOUT:
-    case WSAECONNABORTED:
-    case WSAENOTSOCK:
-      errno = err;
-      return;
-    default:
-      bugreport_request("Missing errno mapping for Winsock error #%d.", err);
+  case WSAEINTR:
+  case WSAEWOULDBLOCK:
+  case WSAECONNRESET:
+  case WSAECONNREFUSED:
+  case WSAEADDRNOTAVAIL:
+  case WSAETIMEDOUT:
+  case WSAECONNABORTED:
+  case WSAENOTSOCK:
+    errno = err;
+    return;
+  default:
+    bugreport_request("Missing errno mapping for Winsock error #%d.", err);
  
-      errno = 0;
+    errno = 0;
   }
 }
 #endif /* FREECIV_HAVE_WINSOCK */
