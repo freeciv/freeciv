@@ -35,6 +35,7 @@ $#include "luascript_types.h"
 struct Player {
   const char *name;
   Nation_Type *nation;
+  Government *government;
   bool is_alive;
 };
 
