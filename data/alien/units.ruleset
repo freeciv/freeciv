@@ -122,6 +122,8 @@ veteran_move_bonus = 0, 0, 0
 ;                       citizen. The effect "Unit_No_Lose_Pop" and the server
 ;                       setting 'killcitizen' can disable this.
 ; "HutFrighten"       = Will frighten rather than enter huts.
+; "NonNatBombardTgt"  = Certain attacks against these units are considered
+;                       Nonnative Bombard Attack type
 ;
 ; */ <-- avoid gettext warnings
 
@@ -131,7 +133,8 @@ min_speed     = 1
 hp_loss_pct   = 0
 flags         = "DamageSlows", "TerrainSpeed", "CanFortify", "ZOC",
                 "CollectRansom", "BuildAnywhere", "CanOccupyCity",
-                "CanPillage", "TerrainDefense", "KillCitizen","Airliftable"
+                "CanPillage", "TerrainDefense", "KillCitizen", "Airliftable",
+                "NonNatBombardTgt"
 
 [unitclass_native]
 name          = _("?unitclass:Native")
@@ -139,7 +142,8 @@ min_speed     = 1
 hp_loss_pct   = 0
 flags         = "DamageSlows", "TerrainSpeed", "CanFortify", "ZOC",
                 "CollectRansom", "BuildAnywhere", "CanOccupyCity",
-                "CanPillage", "TerrainDefense", "KillCitizen","Airliftable"
+                "CanPillage", "TerrainDefense", "KillCitizen", "Airliftable",
+                "NonNatBombardTgt"
 
 [unitclass_sea]
 name          = _("?unitclass:Sea")
@@ -156,7 +160,8 @@ min_speed     = 1
 hp_loss_pct   = 0
 flags         = "DamageSlows", "TerrainSpeed", "CanFortify", "ZOC",
                 "CollectRansom", "BuildAnywhere", "CanOccupyCity",
-                "CanPillage", "TerrainDefense", "KillCitizen"
+                "CanPillage", "TerrainDefense", "KillCitizen",
+                "NonNatBombardTgt"
 
 [unitclass_antigravity]
 name          = _("?unitclass:Antigravity")

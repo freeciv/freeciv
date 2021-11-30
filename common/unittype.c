@@ -1692,6 +1692,23 @@ const char *uclass_rule_name(const struct unit_class *pclass)
 }
 
 /**********************************************************************//**
+  Return whether the unit has the class flag.
+**************************************************************************/
+bool unit_has_class_flag(const struct unit *punit, enum unit_class_flag_id flag)
+{
+  return uclass_has_flag(unit_class_get(punit), flag);
+}
+
+/**********************************************************************//**
+  Return whether the unit type has the class flag.
+**************************************************************************/
+bool utype_has_class_flag(const struct unit_type *ptype,
+                          enum unit_class_flag_id flag)
+{
+  return uclass_has_flag(utype_class(ptype), flag);
+}
+
+/**********************************************************************//**
   Return a string with all the names of units with this flag. If "alts" is
   set, separate with "or", otherwise "and". Return FALSE if no unit with
   this flag exists.

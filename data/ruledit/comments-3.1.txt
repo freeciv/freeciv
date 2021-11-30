@@ -292,6 +292,8 @@ uclasses = "\
 ;                       citizen. The effect \"Unit_No_Lose_Pop\" and the server\n\
 ;                       setting \'killcitizen\' can disable this.\n\
 ; \"HutFrighten\"       = Will frighten rather than enter huts.\n\
+; \"NonNatBombardTgt\"  = Certain attacks against these units are considered\n\
+;                       Nonnative Bombard Attack type\n\
 ;\n\
 ; */ <-- avoid gettext warnings\n\
 "

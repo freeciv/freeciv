@@ -99,6 +99,8 @@ veteran_move_bonus = 0
 ; "KillCitizen"       = Upon successful attack against a city unit kills one citizen.
 ;                       There's server setting, as well as effects, to disable this.
 ; "HutFrighten"       = Will frighten rather than enter huts.
+; "NonNatBombardTgt"  = Certain attacks against these units are considered
+;                       Nonnative Bombard Attack type
 ;
 ; */ <-- avoid gettext warnings
 

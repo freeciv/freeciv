@@ -76,6 +76,8 @@ const char *rscompat_combat_bonus_name_3_1(struct rscompat_info *compat,
                                            const char *old_type);
 bool rscompat_old_effect_3_1(const char *type, struct section_file *file,
                              const char *sec_name, struct rscompat_info *compat);
+void rscompat_uclass_flags_3_1(struct rscompat_info *compat,
+                               struct unit_class *pclass);
 void rscompat_extra_adjust_3_1(struct rscompat_info *compat,
                                struct extra_type *pextra);
 bool rscompat_old_slow_invasions_3_1(struct rscompat_info *compat,

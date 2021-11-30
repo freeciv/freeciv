@@ -85,19 +85,22 @@ struct ai_type;
 /* Frightens the huts it pops. */
 #define SPECENUM_VALUE11 UCF_HUT_FRIGHTEN
 #define SPECENUM_VALUE11NAME N_("?uclassflag:HutFrighten")
+/* Is a target for "Land Bombardment" attacks */
+#define SPECENUM_VALUE12 UCF_NONNAT_BOMBARD_TGT
+#define SPECENUM_VALUE12NAME N_("?uclassflag:NonNatBombardTgt")
 
-#define SPECENUM_VALUE12 UCF_USER_FLAG_1
-#define SPECENUM_VALUE13 UCF_USER_FLAG_2
-#define SPECENUM_VALUE14 UCF_USER_FLAG_3
-#define SPECENUM_VALUE15 UCF_USER_FLAG_4
-#define SPECENUM_VALUE16 UCF_USER_FLAG_5
-#define SPECENUM_VALUE17 UCF_USER_FLAG_6
-#define SPECENUM_VALUE18 UCF_USER_FLAG_7
-#define SPECENUM_VALUE19 UCF_USER_FLAG_8
-#define SPECENUM_VALUE20 UCF_USER_FLAG_9
-#define SPECENUM_VALUE21 UCF_USER_FLAG_10
-#define SPECENUM_VALUE22 UCF_USER_FLAG_11
-#define SPECENUM_VALUE23 UCF_USER_FLAG_12
+#define SPECENUM_VALUE13 UCF_USER_FLAG_1
+#define SPECENUM_VALUE14 UCF_USER_FLAG_2
+#define SPECENUM_VALUE15 UCF_USER_FLAG_3
+#define SPECENUM_VALUE16 UCF_USER_FLAG_4
+#define SPECENUM_VALUE17 UCF_USER_FLAG_5
+#define SPECENUM_VALUE18 UCF_USER_FLAG_6
+#define SPECENUM_VALUE19 UCF_USER_FLAG_7
+#define SPECENUM_VALUE20 UCF_USER_FLAG_8
+#define SPECENUM_VALUE21 UCF_USER_FLAG_9
+#define SPECENUM_VALUE22 UCF_USER_FLAG_10
+#define SPECENUM_VALUE23 UCF_USER_FLAG_11
+#define SPECENUM_VALUE24 UCF_USER_FLAG_12
 
 /* keep this last */
 #define SPECENUM_COUNT UCF_COUNT
@@ -732,6 +735,10 @@ struct unit_class *unit_class_by_rule_name(const char *s);
 
 const char *uclass_rule_name(const struct unit_class *pclass);
 const char *uclass_name_translation(const struct unit_class *pclass);
+
+bool unit_has_class_flag(const struct unit *punit, enum unit_class_flag_id flag);
+bool utype_has_class_flag(const struct unit_type *ptype,
+                          enum unit_class_flag_id flag);
 
 /**************************************************************************
   Return whether the given unit class has the flag.

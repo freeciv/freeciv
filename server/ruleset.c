@@ -2105,6 +2105,7 @@ static bool load_ruleset_units(struct section_file *file,
       }
 
       BV_CLR_ALL(uc->flags);
+      rscompat_uclass_flags_3_1(compat, uc);
       slist = secfile_lookup_str_vec(file, &nval, "%s.flags", sec_name);
       for (j = 0; j < nval; j++) {
         sval = slist[j];

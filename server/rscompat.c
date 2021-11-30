@@ -2042,6 +2042,18 @@ const char *rscompat_combat_bonus_name_3_1(struct rscompat_info *compat,
 }
 
 /**********************************************************************//**
+  Set compatibility unit class flags.
+**************************************************************************/
+void rscompat_uclass_flags_3_1(struct rscompat_info *compat,
+                               struct unit_class *pclass)
+{
+  if (compat->compat_mode && compat->ver_units < RSFORMAT_3_1) {
+    /* Old hardcoded behavior was like all units having NonNatBombardTgt */
+    BV_SET(pclass->flags, UCF_NONNAT_BOMBARD_TGT);
+  }
+}
+
+/**********************************************************************//**
   Adjust freeciv-3.0 ruleset extra definitions to freeciv-3.1
 **************************************************************************/
 void rscompat_extra_adjust_3_1(struct rscompat_info *compat,

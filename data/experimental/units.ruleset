@@ -137,6 +137,8 @@ veteran_move_bonus = 0, 0, 0, 0
 ;                       citizen. The effect "Unit_No_Lose_Pop" and the server
 ;                       setting 'killcitizen' can disable this.
 ; "HutFrighten"       = Will frighten rather than enter huts.
+; "NonNatBombardTgt"  = Certain attacks against these units are considered
+;                       Nonnative Bombard Attack type
 ;
 ; */ <-- avoid gettext warnings
 
@@ -154,7 +156,7 @@ min_speed     = 1
 hp_loss_pct   = 0
 flags         = "TerrainSpeed", "DamageSlows", "CanOccupyCity", "BuildAnywhere",
                 "CollectRansom", "ZOC", "CanFortify", "CanPillage",
-                "TerrainDefense", "KillCitizen", "Airliftable"
+                "TerrainDefense", "KillCitizen", "Airliftable", "NonNatBombardTgt"
 
 [unitclass_land_big]
 ; /* TRANS: "Big Land" is a unit class, like Land or Sea. Big Land units */
@@ -165,7 +167,7 @@ min_speed     = 1
 hp_loss_pct   = 0
 flags         = "TerrainSpeed", "DamageSlows", "CanOccupyCity", "BuildAnywhere",
                 "CollectRansom", "ZOC", "CanFortify", "CanPillage",
-                "TerrainDefense", "KillCitizen", "Airliftable"
+                "TerrainDefense", "KillCitizen", "Airliftable", "NonNatBombardTgt"
 
 [unitclass_sea]
 ; /* TRANS: Unit class: used adjectivally */
