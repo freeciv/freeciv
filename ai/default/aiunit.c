@@ -3162,7 +3162,7 @@ void dai_units_ruleset_init(struct ai_type *ait)
   unit_type_iterate(ptype) {
     struct unit_type_ai *utai = fc_malloc(sizeof(*utai));
 
-    utai->firepower1 = FALSE;
+    utai->low_firepower = FALSE;
     utai->ferry = FALSE;
     utai->missile_platform = FALSE;
     utai->carries_occupiers = FALSE;
@@ -3181,7 +3181,7 @@ void dai_units_ruleset_init(struct ai_type *ait)
           if (utype_has_flag(penemy, pbonus->flag)) {
             struct unit_type_ai *utai = utype_ai_data(penemy, ait);
 
-            utai->firepower1 = TRUE;
+            utai->low_firepower = TRUE;
           }
         } unit_type_iterate_end;
       }

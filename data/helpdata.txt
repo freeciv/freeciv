@@ -1217,7 +1217,7 @@ _("\
  - If the defender is a ship and is inside a city the firepower of \
 the attacker is doubled and the firepower of the ship is set to 1.\
 "),
-; "FirePower1" combat bonus
+; "LowFirepower" combat bonus
 _("\
  - If a fighter is attacking a helicopter the firepower of the \
 helicopter is set to 1.\

@@ -47,7 +47,7 @@ struct unit_ai {
 
 struct unit_type_ai
 {
-  bool firepower1;
+  bool low_firepower;
   bool ferry;
   bool missile_platform;
   bool carries_occupiers;
