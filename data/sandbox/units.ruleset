@@ -145,6 +145,8 @@ veteran_move_bonus = 0, 0, 0, 0
 ;                       citizen. The effect "Unit_No_Lose_Pop" and the server
 ;                       setting 'killcitizen' can disable this.
 ; "HutFrighten"       = Will frighten rather than enter huts.
+; "NonNatBombardTgt"  = Certain attacks against these units are considered
+;                       Nonnative Bombard Attack type
 ;
 ; */ <-- avoid gettext warnings
 
@@ -163,7 +165,7 @@ min_speed     = 1
 hp_loss_pct   = 0
 flags         = "TerrainSpeed", "DamageSlows", "CanOccupyCity", "BuildAnywhere",
                 "CollectRansom", "ZOC", "CanFortify", "CanPillage",
-                "TerrainDefense", "LightWeight", "BorderPolice"
+                "TerrainDefense", "LightWeight", "BorderPolice", "NonNatBombardTgt"
 
 [unitclass_land_small]
 ; /* TRANS: Unit class: used adjectivally */
@@ -172,7 +174,7 @@ min_speed     = 1
 hp_loss_pct   = 0
 flags         = "TerrainSpeed", "DamageSlows", "BuildAnywhere", "CollectRansom",
                 "ZOC", "TerrainDefense", "DoesntOccupyTile", "LightWeight",
-                "Expellable"
+                "Expellable", "NonNatBombardTgt"
 
 [unitclass_land_big]
 ; /* TRANS: Unit class: used adjectivally */
@@ -180,7 +182,8 @@ name          = _("?unitclass:Big Land")
 min_speed     = 1
 hp_loss_pct   = 0
 flags         = "TerrainSpeed", "DamageSlows", "CanOccupyCity", "BuildAnywhere",
-                "CollectRansom","ZOC", "CanFortify", "KillCitizen", "MediumWeight"
+                "CollectRansom","ZOC", "CanFortify", "KillCitizen", "MediumWeight",
+                "NonNatBombardTgt"
 
 [unitclass_merchant]
 ; /* TRANS: Unit class: used adjectivally */
@@ -189,7 +192,7 @@ min_speed     = 1
 hp_loss_pct   = 0
 flags         = "BuildAnywhere", "DoesntOccupyTile",
                 "ZOC", "TerrainDefense", "TerrainSpeed", "MediumWeight",
-                "Expellable"
+                "Expellable", "NonNatBombardTgt"
 
 [unitclass_sea]
 ; /* TRANS: Unit class: used adjectivally */
