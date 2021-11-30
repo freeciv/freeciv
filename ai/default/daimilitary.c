@@ -756,7 +756,7 @@ int dai_unit_defence_desirability(struct ai_type *ait,
   /* Sea and helicopters often have their firepower set to 1 when
    * defending. We can't have such units as defenders. */
   if (!utype_has_flag(punittype, UTYF_BADCITYDEFENDER)
-      && !((struct unit_type_ai *)utype_ai_data(punittype, ait))->firepower1) {
+      && !((struct unit_type_ai *)utype_ai_data(punittype, ait))->low_firepower) {
     /* Sea units get 1 firepower in Pearl Harbour,
      * and helicopters very bad against fighters */
     desire *= punittype->firepower;
