@@ -1125,7 +1125,8 @@ tile or city, but defenders are never completely destroyed.)\
 "), _("\
 The outcome of combat depends on several factors, including chance.\
 "), _("\
-The description below is for the classic ruleset, but the principles \
+The description below is for the classic ruleset, and does not match \
+exactly current default ruleset, civ2civ3. The principles \
 are similar for any ruleset. Notice that many bonuses are possible \
 for defenders, but few for attackers, aside from veteran status; an \
 attacking unit can mostly expect circumstance to work against it.\
@@ -1303,6 +1304,9 @@ it might even lose the battle.\
 ; /* TRANS: Preserve the leading space: it controls nesting */
 name = _(" Combat example 2")
 text = _("\
+Values in this example match classic ruleset, not the current \
+default ruleset, civ2civ3.\
+"), _("\
 Suppose a veteran Battleship (A:12, D:12, HP:40, FP:2) with 3 \
 movement points attacks a veteran Alpine Troops (A:5, D:5, HP:20, \
 FP:1) inside a city built on a Grassland tile, with City Walls and a \
