@@ -2233,23 +2233,23 @@ void real_menus_update(void)
 #ifdef MENUS_GTK3
   /* Set government sensitivity. */
   if ((menu = find_menu("<MENU>/GOVERNMENT"))) {
-    GList *list, *iter;
+    GtkWidget *iter;
     struct government *pgov;
 
-    list = gtk_container_get_children(GTK_CONTAINER(menu));
-    for (iter = list; NULL != iter; iter = g_list_next(iter)) {
-      pgov = g_object_get_data(G_OBJECT(iter->data), "government");
+    for (iter = gtk_widget_get_first_child(menu);
+         iter != NULL;
+         iter = gtk_widget_get_next_sibling(iter)) {
+      pgov = g_object_get_data(G_OBJECT(iter), "government");
       if (NULL != pgov) {
-        gtk_widget_set_sensitive(GTK_WIDGET(iter->data),
+        gtk_widget_set_sensitive(GTK_WIDGET(iter),
                                  can_change_to_government(client_player(),
                                                           pgov));
       } else {
         /* Revolution without target government */
-        gtk_widget_set_sensitive(GTK_WIDGET(iter->data),
+        gtk_widget_set_sensitive(GTK_WIDGET(iter),
                                  untargeted_revolution_allowed());
       }
     }
-    g_list_free(list);
   }
 #endif /* MENUS_GTK3 */
 
@@ -2262,43 +2262,43 @@ void real_menus_update(void)
 #ifdef MENUS_GTK3
   /* Set base sensitivity. */
   if ((menu = find_menu("<MENU>/BUILD_BASE"))) {
-    GList *list, *iter;
+    GtkWidget *iter;
     struct extra_type *pextra;
 
-    list = gtk_container_get_children(GTK_CONTAINER(menu));
-    for (iter = list; NULL != iter; iter = g_list_next(iter)) {
-      pextra = g_object_get_data(G_OBJECT(iter->data), "base");
+    for (iter = gtk_widget_get_first_child(menu);
+         iter != NULL;
+         iter = gtk_widget_get_next_sibling(iter)) {
+      pextra = g_object_get_data(G_OBJECT(iter), "base");
       if (NULL != pextra) {
-        gtk_widget_set_sensitive(GTK_WIDGET(iter->data),
+        gtk_widget_set_sensitive(GTK_WIDGET(iter),
                                  can_units_do_activity_targeted(punits,
                                                                 ACTIVITY_BASE,
                                                                 pextra));
       }
     }
-    g_list_free(list);
   }
 
   /* Set road sensitivity. */
   if ((menu = find_menu("<MENU>/BUILD_PATH"))) {
-    GList *list, *iter;
+    GtkWidget *iter;
     struct extra_type *pextra;
 
-    list = gtk_container_get_children(GTK_CONTAINER(menu));
-    for (iter = list; NULL != iter; iter = g_list_next(iter)) {
-      pextra = g_object_get_data(G_OBJECT(iter->data), "road");
+    for (iter = gtk_widget_get_first_child(menu);
+         iter != NULL;
+         iter = gtk_widget_get_next_sibling(iter)) {
+      pextra = g_object_get_data(G_OBJECT(iter), "road");
       if (NULL != pextra) {
-        gtk_widget_set_sensitive(GTK_WIDGET(iter->data),
+        gtk_widget_set_sensitive(GTK_WIDGET(iter),
                                  can_units_do_activity_targeted(punits,
                                                                 ACTIVITY_GEN_ROAD,
                                                                 pextra));
       }
     }
-    g_list_free(list);
   }
 
   /* Set Go to and... action visibility. */
   if ((menu = find_menu("<MENU>/GOTO_AND"))) {
-    GList *list, *iter;
+    GtkWidget *iter;
     struct action *paction;
 
     bool can_do_something = FALSE;
@@ -2307,22 +2307,22 @@ void real_menus_update(void)
      * selected units can perform it. Checking if the action can be performed
      * at the current tile is pointless since it should be performed at the
      * target tile. */
-    list = gtk_container_get_children(GTK_CONTAINER(menu));
-    for (iter = list; NULL != iter; iter = g_list_next(iter)) {
-      paction = g_object_get_data(G_OBJECT(iter->data), "end_action");
+    for (iter = gtk_widget_get_first_child(menu);
+         iter != NULL;
+         iter = gtk_widget_get_next_sibling(iter)) {
+      paction = g_object_get_data(G_OBJECT(iter), "end_action");
       if (NULL != paction) {
         if (units_can_do_action(get_units_in_focus(),
                                 paction->id, TRUE)) {
-          gtk_widget_set_visible(GTK_WIDGET(iter->data), TRUE);
-          gtk_widget_set_sensitive(GTK_WIDGET(iter->data), TRUE);
+          gtk_widget_set_visible(GTK_WIDGET(iter), TRUE);
+          gtk_widget_set_sensitive(GTK_WIDGET(iter), TRUE);
           can_do_something = TRUE;
         } else {
-          gtk_widget_set_visible(GTK_WIDGET(iter->data), FALSE);
-          gtk_widget_set_sensitive(GTK_WIDGET(iter->data), FALSE);
+          gtk_widget_set_visible(GTK_WIDGET(iter), FALSE);
+          gtk_widget_set_sensitive(GTK_WIDGET(iter), FALSE);
         }
       }
     }
-    g_list_free(list);
 
     /* Only sensitive if an action may be possible. */
     menu_entry_set_sensitive("MENU_GOTO_AND", can_do_something);
@@ -2656,18 +2656,21 @@ static void menu_unit_goto_and_add_accel(GtkWidget *item, action_id act_id,
 ****************************************************************************/
 static void menu_remove_previous_entries(GtkMenu *menu)
 {
-  GList *list, *iter;
+  GtkWidget *iter;
   GtkWidget *sub_menu;
 
-  list = gtk_container_get_children(GTK_CONTAINER(menu));
-  for (iter = list; NULL != iter; iter = g_list_next(iter)) {
-    if ((sub_menu = gtk_menu_item_get_submenu(iter->data)) != NULL) {
+  for (iter = gtk_widget_get_first_child(menu);
+       iter != NULL; ) {
+    GtkWidget *cur;
+
+    if ((sub_menu = gtk_menu_item_get_submenu(iter)) != NULL) {
       menu_remove_previous_entries(GTK_MENU(sub_menu));
       gtk_widget_destroy(sub_menu);
     }
-    gtk_widget_destroy(GTK_WIDGET(iter->data));
+    cur = iter;
+    iter = gtk_widget_get_next_sibling(iter);
+    gtk_widget_destroy(GTK_WIDGET(cur));
   }
-  g_list_free(list);
 }
 #endif /* MENUS_GTK3 */
 
@@ -2708,19 +2711,21 @@ void real_menus_init(void)
   menus_rename("BUILD_AIRBASE", Q_(terrain_control.gui_type_base1));
 
   if ((menu = find_menu("<MENU>/GOVERNMENT"))) {
-    GList *list, *iter;
+    GtkWidget *iter;
     GtkWidget *item;
     char buf[256];
 
     /* Remove previous government entries. */
-    list = gtk_container_get_children(GTK_CONTAINER(menu));
-    for (iter = list; NULL != iter; iter = g_list_next(iter)) {
-      if (g_object_get_data(G_OBJECT(iter->data), "government") != NULL
-          || GTK_IS_SEPARATOR_MENU_ITEM(iter->data)) {
-        gtk_widget_destroy(GTK_WIDGET(iter->data));
+    for (iter = gtk_widget_get_first_child(menu);
+         iter != NULL; ) {
+      GtkWidget *cur = iter;
+
+      iter = gtk_widget_get_next_sibling(iter);
+      if (g_object_get_data(G_OBJECT(cur), "government") != NULL
+          || GTK_IS_SEPARATOR_MENU_ITEM(cur)) {
+        gtk_widget_destroy(GTK_WIDGET(cur));
       }
     }
-    g_list_free(list);
 
     /* Add new government entries. */
     item = gtk_separator_menu_item_new();
@@ -2743,15 +2748,17 @@ void real_menus_init(void)
   }
 
   if ((menu = find_menu("<MENU>/BUILD_BASE"))) {
-    GList *list, *iter;
+    GtkWidget *iter;
     GtkWidget *item;
 
     /* Remove previous base entries. */
-    list = gtk_container_get_children(GTK_CONTAINER(menu));
-    for (iter = list; NULL != iter; iter = g_list_next(iter)) {
-      gtk_widget_destroy(GTK_WIDGET(iter->data));
+    for (iter = gtk_widget_get_first_child(menu);
+         iter != NULL; ) {
+      GtkWidget *cur = iter;
+
+      iter = gtk_widget_get_next_sibling(iter);
+      gtk_widget_destroy(GTK_WIDGET(cur));
     }
-    g_list_free(list);
 
     /* Add new base entries. */
     extra_type_by_cause_iterate(EC_BASE, pextra) {
@@ -2766,15 +2773,17 @@ void real_menus_init(void)
   }
 
   if ((menu = find_menu("<MENU>/BUILD_PATH"))) {
-    GList *list, *iter;
+    GtkWidget *iter;
     GtkWidget *item;
 
     /* Remove previous road entries. */
-    list = gtk_container_get_children(GTK_CONTAINER(menu));
-    for (iter = list; NULL != iter; iter = g_list_next(iter)) {
-      gtk_widget_destroy(GTK_WIDGET(iter->data));
+    for (iter = gtk_widget_get_first_child(menu);
+         iter != NULL; ) {
+      GtkWidget *cur = iter;
+
+      iter = gtk_widget_get_next_sibling(iter);
+      gtk_widget_destroy(GTK_WIDGET(cur));
     }
-    g_list_free(list);
 
     /* Add new road entries. */
     extra_type_by_cause_iterate(EC_ROAD, pextra) {
