@@ -18,7 +18,7 @@ ruler_titles = {
 ; emperor penguins
 
 flag = "antarctica"
-flag_alt = "-"
+flag_alt = "antarctica_alt"
 style = "Classical"
 
 init_techs = ""

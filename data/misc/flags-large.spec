@@ -37,7 +37,7 @@ sprites =
 		"f.anhalt", "flags/anhalt-large"
 		"f.anishinaabe", "flags/anishinaabe-large"
 		"f.antarctica", "flags/antarctica-large"
-;		"f.antarctica_alt", "flags/antarctica_alt-large"
+		"f.antarctica_alt", "flags/antarctica_alt-large"
 		"f.antigua_and_barbuda", "flags/antigua_and_barbuda-large"
 		"f.apache", "flags/apache-large"
 		"f.arab", "flags/arab-large"

@@ -36,7 +36,7 @@ sprites =
                 "f.shield.animals", "flags/animals-shield"
 		"f.shield.anishinaabe", "flags/anishinaabe-shield"
 		"f.shield.antarctica", "flags/antarctica-shield"
-;		"f.shield.antarctica_alt", "flags/antarctica_alt-shield"
+		"f.shield.antarctica_alt", "flags/antarctica_alt-shield"
 		"f.shield.antigua_and_barbuda", "flags/antigua_and_barbuda-shield"
 		"f.shield.apache", "flags/apache-shield"
 		"f.shield.arab", "flags/arab-shield"
