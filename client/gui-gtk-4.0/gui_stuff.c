@@ -735,25 +735,20 @@ GtkWidget *gui_dialog_add_action_widget(struct gui_dialog *dlg,
 void gui_dialog_set_response_sensitive(struct gui_dialog *dlg,
                                        int response, bool setting)
 {
-  GList *children;
-  GList *list;
+  GtkWidget *iter;
 
-  children = gtk_container_get_children(GTK_CONTAINER(dlg->actions));
-
-  for (list = children; list; list = g_list_next(list)) {
-    GtkWidget *button = list->data;
-
-    if (GTK_IS_BUTTON(button)) {
-      gpointer data = g_object_get_data(G_OBJECT(button),
+  for (iter = gtk_widget_get_first_child(dlg->actions);
+       iter != NULL;
+       iter = gtk_widget_get_next_sibling(iter)) {
+    if (GTK_IS_BUTTON(iter)) {
+      gpointer data = g_object_get_data(G_OBJECT(iter),
 	  "gui-dialog-response-data");
 
       if (response == GPOINTER_TO_INT(data)) {
-	gtk_widget_set_sensitive(button, setting);
+	gtk_widget_set_sensitive(iter, setting);
       }
     }
   }
-
-  g_list_free(children);
 }
 
 /**********************************************************************//**
@@ -772,19 +767,16 @@ void gui_dialog_show_all(struct gui_dialog *dlg)
   gtk_widget_show(dlg->grid);
 
   if (dlg->type == GUI_DIALOG_TAB) {
-    GList *children;
-    GList *list;
+    GtkWidget *iter;
     gint num_visible = 0;
 
-    children = gtk_container_get_children(GTK_CONTAINER(dlg->actions));
-
-    for (list = children; list; list = g_list_next(list)) {
-      GtkWidget *button = list->data;
-
-      if (!GTK_IS_BUTTON(button)) {
+    for (iter = gtk_widget_get_first_child(dlg->actions);
+         iter != NULL;
+         iter = gtk_widget_get_next_sibling(iter)) {
+      if (!GTK_IS_BUTTON(iter)) {
 	num_visible++;
       } else {
-	gpointer data = g_object_get_data(G_OBJECT(button),
+	gpointer data = g_object_get_data(G_OBJECT(iter),
 	    "gui-dialog-response-data");
 	int response = GPOINTER_TO_INT(data);
 
@@ -792,11 +784,10 @@ void gui_dialog_show_all(struct gui_dialog *dlg)
 	    && response != GTK_RESPONSE_CANCEL) {
 	  num_visible++;
 	} else {
-	  gtk_widget_hide(button);
+	  gtk_widget_hide(iter);
 	}
       }
     }
-    g_list_free(children);
 
     if (num_visible == 0) {
       gtk_widget_hide(dlg->actions);

@@ -1763,7 +1763,6 @@ static void popup_next_to_last_menu(GtkMenuShell *menu, gpointer data)
 static void recreate_sell_menu(void)
 {
   int n;
-  GList *children;
   GtkWidget *menu;
 
   n = gtk_tree_selection_count_selected_rows(city_selection);
@@ -1777,11 +1776,9 @@ static void recreate_sell_menu(void)
                                    n);
 
   menu = gtk_menu_item_get_submenu(GTK_MENU_ITEM(city_sell_command));
-  children = gtk_container_get_children(GTK_CONTAINER(menu));
 
-  n = g_list_length(children);
-  gtk_widget_set_sensitive(city_sell_command, n > 0);
-  g_list_free(children);
+  gtk_widget_set_sensitive(city_sell_command,
+                           gtk_widget_get_first_child(menu) != NULL);
 }
 
 /************************************************************************//**
