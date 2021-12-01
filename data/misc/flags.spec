@@ -607,7 +607,7 @@ sprites =
 		"f.anhalt", "flags/anhalt"
 		"f.anishinaabe", "flags/anishinaabe"
 		"f.antarctica", "flags/antarctica"
-;		"f.antarctica_alt", "flags/antarctica_alt"
+		"f.antarctica_alt", "flags/antarctica_alt"
 		"f.antigua_and_barbuda", "flags/antigua_and_barbuda"
 		"f.apache", "flags/apache"
 		"f.arab", "flags/arab"
