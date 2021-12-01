@@ -36,6 +36,7 @@
 
 #include "modinst.h"
 
+static GtkWidget *toplevel;
 static GtkWidget *statusbar;
 static GtkWidget *progressbar;
 static GtkWidget *main_list;
@@ -110,6 +111,9 @@ static gboolean quit_dialog_callback(void)
                                            GTK_MESSAGE_WARNING,
                                            GTK_BUTTONS_YES_NO,
       _("Modpack installation in progress.\nAre you sure you want to quit?"));
+
+      gtk_window_set_transient_for(GTK_WINDOW(quit_dialog),
+                                   GTK_WINDOW(toplevel));
 
       g_signal_connect(quit_dialog, "response",
                        G_CALLBACK(quit_dialog_response), NULL);
@@ -437,7 +441,7 @@ static void select_from_list(GtkTreeSelection *select, gpointer data)
 /**************************************************************************
   Build widgets
 **************************************************************************/
-static void modinst_setup_widgets(GtkWidget *toplevel)
+static void modinst_setup_widgets(void)
 {
   GtkWidget *mbox, *Ubox;
   GtkWidget *version_label;
@@ -566,8 +570,6 @@ static void modinst_setup_widgets(GtkWidget *toplevel)
 **************************************************************************/
 static void activate_gui(GtkApplication *app, gpointer data)
 {
-  GtkWidget *toplevel;
-
   quit_dialog = NULL;
 
   toplevel = gtk_application_window_new(app);
@@ -594,7 +596,7 @@ static void activate_gui(GtkApplication *app, gpointer data)
   g_signal_connect(toplevel, "close_request",
                    G_CALLBACK(quit_dialog_callback), NULL);
 
-  modinst_setup_widgets(toplevel);
+  modinst_setup_widgets();
 
   gtk_widget_show(toplevel);
 
