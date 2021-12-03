@@ -215,12 +215,14 @@ bool maybe_make_veteran(struct unit *punit, int base_chance)
 }
 
 /**********************************************************************//**
-  After a battle, after diplomatic aggression and after surviving trireme
-  loss chance, this routine is called to decide whether or not the unit
-  should become more experienced.
+  After a battle and after diplomatic aggression this routine is called
+  to decide whether or not the unit should become more experienced.
 
-  There is a specified chance for it to happen, (+50% if player got SUNTZU)
-  the chances are specified in the units.ruleset file.
+  There is a specified chance for it to happen. The base chances are
+  specified in the units.ruleset file. Before the chance is passed to
+  this function, it might get modified by the factor related to how
+  challenging the battle was. This function applies modifiers
+  from effects.
 
   If 'settler' is TRUE the veteran level is increased due to work done by
   the unit.
