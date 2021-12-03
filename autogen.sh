@@ -43,7 +43,7 @@ real_package_name ()
 # first argument : package name (executable)
 # second argument : source download url
 # third-fifth argument : major, minor, micro version
-# sixth argumen : "2" - silent
+# sixth argument : "2" - silent
 {
   RPACKAGE=$1
   RURL=$2
