@@ -562,10 +562,18 @@ void player_restore_units(struct player *pplayer)
 
   /* 7) Check if there are air units without fuel */
   unit_list_iterate_safe(pplayer->units, punit) {
-    if (punit->fuel <= 0 && utype_fuel(unit_type_get(punit))) {
-      notify_player(pplayer, unit_tile(punit), E_UNIT_LOST_MISC, ftc_server,
-                    _("Your %s has run out of fuel."),
-                    unit_tile_link(punit));
+    const struct unit_type *utype = unit_type_get(punit);
+
+    if (punit->fuel <= 0 && utype_fuel(utype)) {
+      if (utype_has_flag(utype, UTYF_COAST)) {
+        notify_player(pplayer, unit_tile(punit), E_UNIT_LOST_MISC, ftc_server,
+                      _("Your %s has run out of supplies."),
+                      unit_tile_link(punit));
+      } else {
+        notify_player(pplayer, unit_tile(punit), E_UNIT_LOST_MISC, ftc_server,
+                      _("Your %s has run out of fuel."),
+                      unit_tile_link(punit));
+      }
       wipe_unit(punit, ULR_FUEL, NULL);
     } 
   } unit_list_iterate_safe_end;
