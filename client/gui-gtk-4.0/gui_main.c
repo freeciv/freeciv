@@ -2410,12 +2410,14 @@ static bool monitor_size(GdkRectangle *rect_p)
     return FALSE;
   }
 
-  monitor = gdk_display_get_monitor(display, 0);
+  monitor = g_list_model_get_item(gdk_display_get_monitors(display), 0);
+
   if (!monitor) {
     return FALSE;
   }
 
   gdk_monitor_get_geometry(monitor, rect_p);
+
   return TRUE;
 }
 
