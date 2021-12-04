@@ -31,7 +31,9 @@ void gtk_button_set_has_frame(GtkButton *btn, bool shadow);
 
 #if !GTK_CHECK_VERSION(3,98,4)
 
-#define gtk_window_destroy(_wnd_) gtk_widget_destroy(GTK_WIDGET(_wnd_))
+/* Can't be simple macro, as in some places we need the address of the function. */
+void gtk_window_destroy(GtkWindow *wnd);
+
 #define gtk_box_append(_box_, _child_) gtk_container_add(GTK_CONTAINER(_box_), _child_)
 #define gtk_box_remove(_box_, _child_) gtk_container_remove(GTK_CONTAINER(_box_), _child_)
 #define gtk_grid_remove(_grid_, _child_)                \

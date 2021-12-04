@@ -440,7 +440,8 @@ static void save_dialog_file_chooser_callback(GtkWidget *widget,
       g_object_unref(file);
     }
   }
-  gtk_widget_destroy(widget);
+
+  gtk_window_destroy(GTK_WINDOW(widget));
 }
 
 /**********************************************************************//**
@@ -513,7 +514,8 @@ static void save_dialog_response_callback(GtkWidget *w, gint response,
   default:
     break;
   }
-  gtk_widget_destroy(GTK_WIDGET(pdialog->shell));
+
+  gtk_window_destroy(GTK_WINDOW(pdialog->shell));
 }
 
 /**********************************************************************//**
@@ -1788,7 +1790,7 @@ static void show_conn_popup(struct player *pplayer, struct connection *pconn)
 				 "%s", buf);
   gtk_window_set_title(GTK_WINDOW(popup), _("Player/conn info"));
   setup_dialog(popup, toplevel);
-  g_signal_connect(popup, "response", G_CALLBACK(gtk_widget_destroy), NULL);
+  g_signal_connect(popup, "response", G_CALLBACK(gtk_window_destroy), NULL);
   gtk_window_present(GTK_WINDOW(popup));
 }
 

@@ -72,7 +72,7 @@ static void transport_response_callback(GtkWidget *dlg, gint arg)
     }
   }
 
-  gtk_widget_destroy(dlg);
+  gtk_window_destroy(GTK_WINDOW(dlg));
 }
 
 /************************************************************************//**

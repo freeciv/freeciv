@@ -190,7 +190,7 @@ static void try_to_set_editor_tool(enum editor_tool_type ett)
           "objects corresponding to this editor tool."));
     gtk_window_set_title(GTK_WINDOW(dialog), editor_tool_get_name(ett));
     blocking_dialog(dialog);
-    gtk_widget_destroy(dialog);
+    gtk_window_destroy(GTK_WINDOW(dialog));
   } else {
     editor_set_tool(ett);
   }

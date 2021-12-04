@@ -172,7 +172,7 @@ static void worklists_response(GtkWidget *w, gint response)
     return;
 
   default:
-    gtk_widget_destroy(worklists_shell);
+    gtk_window_destroy(GTK_WINDOW(worklists_shell));
     return;
   }
 }
@@ -383,7 +383,7 @@ static void delete_worklist(int global_worklist_id)
 ****************************************************************************/
 static void worklist_response(GtkWidget *shell, gint response)
 {
-  gtk_widget_destroy(shell);
+  gtk_window_destroy(GTK_WINDOW(shell));
 }
 
 /************************************************************************//**
@@ -429,7 +429,7 @@ static void popdown_worklist(struct global_worklist *pgwl)
     GtkWidget *parent;
 
     parent = gtk_widget_get_ancestor(shell, GTK_TYPE_WINDOW);
-    gtk_widget_destroy(parent);
+    gtk_window_destroy(GTK_WINDOW(parent));
   }
 }
 

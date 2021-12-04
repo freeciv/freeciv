@@ -65,7 +65,7 @@ static void infra_response_callback(GtkWidget *dlg, gint arg)
 
   client_infratile_set(NULL);
 
-  gtk_widget_destroy(dlg);
+  gtk_window_destroy(GTK_WINDOW(dlg));
 }
 
 /************************************************************************//**

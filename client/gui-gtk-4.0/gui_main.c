@@ -779,13 +779,12 @@ static void tearoff_destroy(GtkWidget *w, gpointer data)
 static void tearoff_callback(GtkWidget *b, gpointer data)
 {
   GtkWidget *box = GTK_WIDGET(data);
+  GtkWidget *old_parent = gtk_widget_get_parent(box);
 
   if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(b))) {
-    GtkWidget *old_parent;
     GtkWidget *w;
     GtkWidget *temp_hide;
 
-    old_parent = gtk_widget_get_parent(box);
     w = gtk_window_new();
     setup_dialog(w, toplevel);
     gtk_widget_set_name(w, "Freeciv");
@@ -808,7 +807,13 @@ static void tearoff_callback(GtkWidget *b, gpointer data)
       gtk_widget_show(temp_hide);
     }
   } else {
-    gtk_widget_destroy(gtk_widget_get_parent(box));
+    if (GTK_IS_BOX(old_parent)) {
+      gtk_box_remove(GTK_BOX(old_parent), box);
+    } else {
+      fc_assert(GTK_IS_PANED(old_parent));
+
+      gtk_paned_set_end_child(GTK_PANED(old_parent), NULL);
+    }
   }
 }
 
@@ -1017,7 +1022,9 @@ void enable_menus(bool enable)
     menus_init();
     gtk_widget_show(main_menubar);
   } else {
+#ifdef MENUS_GTK3
     gtk_widget_destroy(main_menubar);
+#endif
   }
 }
 
@@ -2200,7 +2207,7 @@ void remove_net_input(void)
 **************************************************************************/
 static void quit_dialog_response(GtkWidget *dialog, gint response)
 {
-  gtk_widget_destroy(dialog);
+  gtk_window_destroy(GTK_WINDOW(dialog));
   if (response == GTK_RESPONSE_YES) {
     start_quitting();
     if (client.conn.used) {

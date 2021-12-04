@@ -175,7 +175,8 @@ static void notify_goto_response(GtkWidget *w, gint response)
     }
     break;
   }
-  gtk_widget_destroy(w);
+
+  gtk_window_destroy(GTK_WINDOW(w));
 }
 
 /**********************************************************************//**
@@ -183,7 +184,7 @@ static void notify_goto_response(GtkWidget *w, gint response)
 **************************************************************************/
 static void notify_connect_msg_response(GtkWidget *w, gint response)
 {
-  gtk_widget_destroy(w);
+  gtk_window_destroy(GTK_WINDOW(w));
 }
 
 /**********************************************************************//**
@@ -270,7 +271,7 @@ static void revolution_response(GtkWidget *w, gint response, gpointer data)
     }
   }
   if (w) {
-    gtk_widget_destroy(w);
+    gtk_window_destroy(GTK_WINDOW(w));
   }
 }
 
@@ -325,7 +326,7 @@ static void pillage_callback(GtkWidget *dlg, gint arg)
     }
   }
 
-  gtk_widget_destroy(dlg);
+  gtk_window_destroy(GTK_WINDOW(dlg));
 }
 
 /**********************************************************************//**
@@ -1234,7 +1235,7 @@ void popup_races_dialog(struct player *pplayer)
 void popdown_races_dialog(void)
 {
   if (races_shell) {
-    gtk_widget_destroy(races_shell);
+    gtk_window_destroy(GTK_WINDOW(races_shell));
   }
 
   /* We're probably starting a new game, maybe with a new ruleset.
@@ -1456,8 +1457,8 @@ void popup_upgrade_dialog(struct unit_list *punits)
 				   "%s", buf);
     gtk_window_set_title(GTK_WINDOW(shell), _("Upgrade Unit!"));
     setup_dialog(shell, toplevel);
-    g_signal_connect(shell, "response", G_CALLBACK(gtk_widget_destroy),
-                    NULL);
+    g_signal_connect(shell, "response", G_CALLBACK(gtk_window_destroy),
+                     NULL);
     gtk_window_present(GTK_WINDOW(shell));
   } else {
     shell = gtk_message_dialog_new(NULL, 0,
@@ -1473,7 +1474,7 @@ void popup_upgrade_dialog(struct unit_list *punits)
 	request_unit_upgrade(punit);
       } unit_list_iterate_end;
     }
-    gtk_widget_destroy(shell);
+    gtk_window_destroy(GTK_WINDOW(shell));
   }
 }
 
@@ -1495,7 +1496,7 @@ void popup_disband_dialog(struct unit_list *punits)
                                    "%s", buf);
     gtk_window_set_title(GTK_WINDOW(shell), _("Disband Units"));
     setup_dialog(shell, toplevel);
-    g_signal_connect(shell, "response", G_CALLBACK(gtk_widget_destroy),
+    g_signal_connect(shell, "response", G_CALLBACK(gtk_window_destroy),
                     NULL);
     gtk_window_present(GTK_WINDOW(shell));
   } else {
@@ -1514,7 +1515,7 @@ void popup_disband_dialog(struct unit_list *punits)
         }
       } unit_list_iterate_end;
     }
-    gtk_widget_destroy(shell);
+    gtk_window_destroy(GTK_WINDOW(shell));
   }
 }
 
@@ -1561,7 +1562,7 @@ void show_tileset_error(const char *msg)
 
     blocking_dialog(dialog);
 
-    gtk_widget_destroy(dialog);
+    gtk_window_destroy(GTK_WINDOW(dialog));
   }
 }
 

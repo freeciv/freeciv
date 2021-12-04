@@ -464,7 +464,7 @@ static void bribe_response(GtkWidget *w, gint response, gpointer data)
                       args->target_unit_id, 0, "");
   }
 
-  gtk_widget_destroy(w);
+  gtk_window_destroy(GTK_WINDOW(w));
   free(args);
 
   /* The user have answered the follow up question. Move on. */
@@ -535,7 +535,7 @@ static void spy_advances_response(GtkWidget *w, gint response,
     }
   }
 
-  gtk_widget_destroy(spy_tech_shell);
+  gtk_window_destroy(GTK_WINDOW(spy_tech_shell));
   spy_tech_shell = NULL;
   free(data);
 
@@ -721,7 +721,7 @@ static void spy_improvements_response(GtkWidget *w, gint response, gpointer data
     }
   }
 
-  gtk_widget_destroy(spy_sabotage_shell);
+  gtk_window_destroy(GTK_WINDOW(spy_sabotage_shell));
   spy_sabotage_shell = NULL;
   free(args);
 
@@ -949,7 +949,7 @@ static void incite_response(GtkWidget *w, gint response, gpointer data)
                       args->target_city_id, 0, "");
   }
 
-  gtk_widget_destroy(w);
+  gtk_window_destroy(GTK_WINDOW(w));
   free(args);
 
   /* The user have answered the follow up question. Move on. */
@@ -1043,7 +1043,7 @@ static void tgt_unit_change_callback(GtkWidget *dlg, gint arg)
     action_selection_no_longer_in_progress(au_id);
   }
 
-  gtk_widget_destroy(dlg);
+  gtk_window_destroy(GTK_WINDOW(dlg));
 }
 
 /**********************************************************************//**
@@ -1114,7 +1114,7 @@ static void tgt_extra_change_callback(GtkWidget *dlg, gint arg)
     action_selection_no_longer_in_progress(au_id);
   }
 
-  gtk_widget_destroy(dlg);
+  gtk_window_destroy(GTK_WINDOW(dlg));
 }
 
 /**********************************************************************//**

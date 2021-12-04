@@ -87,5 +87,5 @@ void popup_tileset_suggestion_dialog(void)
    * of the correct tileset. */
   tileset_suggestion_response(blocking_dialog(dialog));
 
-  gtk_widget_destroy(dialog);
+  gtk_window_destroy(GTK_WINDOW(dialog));
 }

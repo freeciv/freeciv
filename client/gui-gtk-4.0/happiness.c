@@ -321,7 +321,8 @@ void close_happiness_dialog(struct city *pcity)
 
   dialog_list_remove(dialog_list, pdialog);
 
-  gtk_widget_destroy(pdialog->shell);
+  gtk_box_remove(GTK_BOX(gtk_widget_get_parent(pdialog->shell)),
+                 pdialog->shell);
 
   for (i = 0; i < NUM_HAPPINESS_MODIFIERS; i++) {
     cairo_surface_destroy(pdialog->feeling_surfaces[i]);

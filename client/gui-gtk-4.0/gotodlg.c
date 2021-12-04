@@ -124,7 +124,7 @@ static void goto_cmd_callback(GtkWidget *dlg, gint arg)
     break;
   }
 
-  gtk_widget_destroy(dlg);
+  gtk_window_destroy(GTK_WINDOW(dlg));
   dshell = NULL;
 }
 

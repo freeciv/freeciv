@@ -643,7 +643,7 @@ static void select_impr_or_unit_callback(GtkWidget *wdg, gpointer data)
                                    GTK_BUTTONS_YES_NO, "%s", buf);
         g_free(buf);
         res = blocking_dialog(w);    /* Synchron. */
-        gtk_widget_destroy(w);
+        gtk_window_destroy(GTK_WINDOW(w));
         if (res == GTK_RESPONSE_NO) {
           break;
         }
@@ -668,7 +668,7 @@ static void select_impr_or_unit_callback(GtkWidget *wdg, gpointer data)
         }
 
         g_signal_connect(w, "response",
-                         G_CALLBACK(gtk_widget_destroy), NULL);
+                         G_CALLBACK(gtk_window_destroy), NULL);
         gtk_window_present(GTK_WINDOW(w));      /* Asynchron. */
       }
       break;

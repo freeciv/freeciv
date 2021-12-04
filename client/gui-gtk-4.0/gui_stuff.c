@@ -257,11 +257,11 @@ GtkWidget *gtk_aux_menu_bar_new(void)
 }
 
 /**********************************************************************//**
-  Generic close callback for all widgets
+  Generic close callback for all dialogs
 **************************************************************************/
 static void close_callback(GtkDialog *dialog, gpointer data)
 {
-  gtk_widget_destroy(GTK_WIDGET(dialog));
+  gtk_window_destroy(GTK_WINDOW(dialog));
 }
 
 /**********************************************************************//**
@@ -921,7 +921,7 @@ void gui_dialog_destroy(struct gui_dialog *dlg)
 {
   switch (dlg->type) {
   case GUI_DIALOG_WINDOW:
-    gtk_widget_destroy(dlg->v.window);
+    gtk_window_destroy(GTK_WINDOW(dlg->v.window));
     break;
   case GUI_DIALOG_TAB:
     {

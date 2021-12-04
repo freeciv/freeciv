@@ -101,11 +101,11 @@ static void option_dialog_reponse_callback(GtkDialog *dialog,
 
   switch (response_id) {
   case RESPONSE_CANCEL:
-    gtk_widget_destroy(GTK_WIDGET(dialog));
+    gtk_window_destroy(GTK_WINDOW(dialog));
     break;
   case RESPONSE_OK:
     option_dialog_foreach(pdialog, option_dialog_option_apply);
-    gtk_widget_destroy(GTK_WIDGET(dialog));
+    gtk_window_destroy(GTK_WINDOW(dialog));
     break;
   case RESPONSE_APPLY:
     option_dialog_foreach(pdialog, option_dialog_option_apply);
@@ -268,9 +268,7 @@ static void option_color_set_button_color(GtkButton *button,
   if (NULL == new_color) {
     if (NULL != current_color) {
       g_object_set_data(G_OBJECT(button), "color", NULL);
-      if ((child = gtk_button_get_child(button))) {
-        gtk_widget_destroy(child);
-      }
+      gtk_button_set_child(button, NULL);
     }
   } else {
     GdkPixbuf *pixbuf;
@@ -285,9 +283,7 @@ static void option_color_set_button_color(GtkButton *button,
       g_object_set_data_full(G_OBJECT(button), "color", current_color,
                              option_color_destroy_notify);
     }
-    if ((child = gtk_button_get_child(button))) {
-      gtk_widget_destroy(child);
-    }
+    gtk_button_set_child(button, NULL);
 
     /* Update the button. */
     {
@@ -326,7 +322,7 @@ static void color_selector_response_callback(GtkDialog *dialog,
     option_color_set_button_color(GTK_BUTTON(data), &new_color);
   }
 
-  gtk_widget_destroy(GTK_WIDGET(dialog));
+  gtk_window_destroy(GTK_WINDOW(dialog));
 }
 
 /************************************************************************//**
@@ -429,7 +425,7 @@ static void option_dialog_destroy(struct option_dialog *pdialog)
   if (NULL != shell) {
     /* Maybe already destroyed, see also option_dialog_destroy_callback(). */
     pdialog->shell = NULL;
-    gtk_widget_destroy(shell);
+    gtk_window_destroy(GTK_WINDOW(shell));
   }
 
   free(pdialog->vboxes);
@@ -656,6 +652,7 @@ static void option_dialog_option_add(struct option_dialog *pdialog,
               option_number(poption), option_name(poption));
   } else {
     g_object_set_data(G_OBJECT(w), "main_widget", main_hbox);
+    g_object_set_data(G_OBJECT(w), "parent_of_main", pdialog->vboxes[category]);
     gtk_widget_set_hexpand(w, TRUE);
     gtk_widget_set_halign(w, GTK_ALIGN_END);
     gtk_grid_attach(GTK_GRID(main_hbox), w, main_col++, 0, 1, 1);
@@ -679,7 +676,8 @@ static void option_dialog_option_remove(struct option_dialog *pdialog,
     const int category = option_category(poption);
 
     option_set_gui_data(poption, NULL);
-    gtk_widget_destroy(GTK_WIDGET(g_object_get_data(object, "main_widget")));
+    gtk_box_remove(GTK_BOX(g_object_get_data(object, "parent_of_main")),
+                   GTK_WIDGET(g_object_get_data(object, "main_widget")));
 
     /* Remove category if needed. */
     if (0 == --pdialog->box_children[category]) {

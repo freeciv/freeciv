@@ -265,7 +265,7 @@ static struct intel_dialog *create_intel_dialog(struct player *p)
   g_signal_connect(shell, "destroy",
                    G_CALLBACK(intel_destroy_callback), pdialog);
   g_signal_connect(shell, "response",
-                   G_CALLBACK(gtk_widget_destroy), NULL);
+                   G_CALLBACK(gtk_window_destroy), NULL);
 
   notebook = gtk_notebook_new();
   gtk_notebook_set_tab_pos(GTK_NOTEBOOK(notebook), GTK_POS_BOTTOM);
@@ -400,7 +400,7 @@ static struct intel_wonder_dialog *create_intel_wonder_dialog(struct player *p)
   g_signal_connect(shell, "destroy",
                    G_CALLBACK(intel_wonder_destroy_callback), pdialog);
   g_signal_connect(shell, "response",
-                   G_CALLBACK(gtk_widget_destroy), NULL);
+                   G_CALLBACK(gtk_window_destroy), NULL);
 
   /* columns: 0 - wonder name, 1 - location (city/unknown/lost),
    * 2 - strikethrough (for lost or obsolete),

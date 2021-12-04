@@ -1130,7 +1130,7 @@ static void color_selected(GtkDialog *dialog, gint res, gpointer data)
     color_set(G_OBJECT(data), color_target, &new_color, button);
   }
 
-  gtk_widget_destroy(GTK_WIDGET(dialog));
+  gtk_window_destroy(GTK_WINDOW(dialog));
 }
 
 /**********************************************************************//**
