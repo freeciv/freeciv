@@ -202,7 +202,8 @@ priv_functions = [
   ]
 
 foreach func : priv_functions
-  if c_compiler.has_function(func)
+  if c_compiler.has_function(func,
+                             dependencies: ws2_dep)
     priv_conf_data.set('HAVE_' + func.underscorify().to_upper(), 1)
   endif
 endforeach
@@ -219,7 +220,8 @@ liblua_functions = [
   ]
 
 foreach func : liblua_functions
-  if c_compiler.has_function(func)
+  if c_compiler.has_function(func,
+                             dependencies: ws2_dep)
     liblua_conf_data.set('HAVE_' + func.underscorify().to_upper(), 1)
   endif
 endforeach
