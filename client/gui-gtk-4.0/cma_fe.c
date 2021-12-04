@@ -694,7 +694,7 @@ static void cma_preset_remove_response(GtkWidget *w, gint response,
     /* if this or other cities have this set, reset to "custom" */
     city_report_dialog_update();
   }
-  gtk_widget_destroy(w);
+  gtk_window_destroy(GTK_WINDOW(w));
 
   pdialog->preset_remove_shell = NULL;
 }

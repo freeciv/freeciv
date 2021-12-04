@@ -140,7 +140,9 @@ struct city_dialog {
   cairo_surface_t *map_canvas_store_unscaled;
   GtkWidget *notebook;
 
+#ifdef MENUS_GTK3
   GtkWidget *popup_menu;
+#endif
   GtkWidget *citizen_images;
   cairo_surface_t *citizen_surface;
 
@@ -1579,8 +1581,9 @@ static struct city_dialog *create_city_dialog(struct city *pcity)
   gtk_window_set_default_size(GTK_WINDOW(pdialog->shell),
                               GUI_GTK_OPTION(citydlg_xsize),
                               GUI_GTK_OPTION(citydlg_ysize));
-
+#ifdef MENUS_GTK3
   pdialog->popup_menu = gtk_menu_button_new();
+#endif
 
   vbox = gtk_dialog_get_content_area(GTK_DIALOG(pdialog->shell));
   hgrid = gtk_grid_new();
@@ -3079,7 +3082,8 @@ static void buy_callback_response(GtkWidget *w, gint response, gpointer data)
   if (response == GTK_RESPONSE_YES) {
     city_buy_production(pdialog->pcity);
   }
-  gtk_widget_destroy(w);
+
+  gtk_window_destroy(GTK_WINDOW(w));
 }
 
 /***********************************************************************//**
@@ -3126,7 +3130,7 @@ static void buy_callback(GtkWidget *w, gpointer data)
         name, value, buf);
     setup_dialog(shell, pdialog->shell);
     gtk_window_set_title(GTK_WINDOW(shell), _("Buy It!"));
-    g_signal_connect(shell, "response", G_CALLBACK(gtk_widget_destroy),
+    g_signal_connect(shell, "response", G_CALLBACK(gtk_window_destroy),
       NULL);
     gtk_window_present(GTK_WINDOW(shell));
   }
@@ -3199,7 +3203,7 @@ static void sell_callback_response(GtkWidget *w, gint response, gpointer data)
   if (response == GTK_RESPONSE_YES) {
     city_sell_improvement(pdialog->pcity, pdialog->sell_id);
   }
-  gtk_widget_destroy(w);
+  gtk_window_destroy(GTK_WINDOW(w));
 
   pdialog->sell_shell = NULL;
 }
@@ -3386,9 +3390,11 @@ static void city_destroy_callback(GtkWidget *w, gpointer data)
   last_page
     = gtk_notebook_get_current_page(GTK_NOTEBOOK(pdialog->notebook));
 
+#ifdef MENUS_GTK3
   if (pdialog->popup_menu) {
     gtk_widget_destroy(pdialog->popup_menu);
   }
+#endif /* MENUS_GTK3 */
 
   dialog_list_remove(dialog_list, pdialog);
 
@@ -3396,10 +3402,10 @@ static void city_destroy_callback(GtkWidget *w, gpointer data)
   unit_node_vector_free(&pdialog->overview.present_units);
 
   if (pdialog->sell_shell) {
-    gtk_widget_destroy(pdialog->sell_shell);
+    gtk_window_destroy(GTK_WINDOW(pdialog->sell_shell));
   }
   if (pdialog->rename_shell) {
-    gtk_widget_destroy(pdialog->rename_shell);
+    gtk_window_destroy(GTK_WINDOW(pdialog->rename_shell));
   }
 
   cairo_surface_destroy(pdialog->map_canvas_store_unscaled);
@@ -3416,7 +3422,7 @@ static void city_destroy_callback(GtkWidget *w, gpointer data)
 ***************************************************************************/
 static void close_city_dialog(struct city_dialog *pdialog)
 {
-  gtk_widget_destroy(pdialog->shell);
+  gtk_window_destroy(GTK_WINDOW(pdialog->shell));
 }
 
 /***********************************************************************//**

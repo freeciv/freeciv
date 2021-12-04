@@ -210,7 +210,8 @@ static void rates_command_callback(GtkWidget *w, gint response_id)
     dsend_packet_player_rates(&client.conn, rates_tax_value, rates_lux_value,
                               rates_sci_value);
   }
-  gtk_widget_destroy(rates_dialog_shell);
+
+  gtk_window_destroy(GTK_WINDOW(rates_dialog_shell));
 }
 
 /**********************************************************************//**
@@ -257,7 +258,8 @@ static void multipliers_command_callback(GtkWidget *w, gint response_id)
     mul.count = multiplier_count();
     send_packet_player_multiplier(&client.conn, &mul);
   }
-  gtk_widget_destroy(multiplier_dialog_shell);
+
+  gtk_window_destroy(GTK_WINDOW(multiplier_dialog_shell));
 }
 
 /**********************************************************************//**

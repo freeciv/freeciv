@@ -49,6 +49,17 @@ void gtk_button_set_has_frame(GtkButton *btn, bool shadow)
 
 #endif  /* GTK version < 3.98.3 */
 
+#if !GTK_CHECK_VERSION(3,98,4)
+
+/************************************************************************//**
+  Version of gtk_window_destroy() for gtk < 3.98.4
+****************************************************************************/
+void gtk_window_destroy(GtkWindow *wnd)
+{
+  gtk_widget_destroy(GTK_WIDGET(wnd));
+}
+
+#endif  /* GTK version < 3.98.3 */
 
 #if !GTK_CHECK_VERSION(3,99,0)
 

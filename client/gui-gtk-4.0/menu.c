@@ -644,7 +644,7 @@ static void save_mapimg_as_callback(GtkMenuItem *item, gpointer data)
 ****************************************************************************/
 static void leave_local_game_response(GtkWidget *dialog, gint response)
 {
-  gtk_widget_destroy(dialog);
+  gtk_window_destroy(GTK_WINDOW(dialog));
   if (response == GTK_RESPONSE_OK) {
     /* It might be killed already */
     if (client.conn.used) {

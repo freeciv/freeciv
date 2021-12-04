@@ -78,7 +78,7 @@ bool popup_theme_suggestion_dialog(const char *theme_name)
 
   theme_suggestion_response(blocking_dialog(dialog));
 
-  gtk_widget_destroy(dialog);
+  gtk_window_destroy(GTK_WINDOW(dialog));
 
   return load_theme;
 }

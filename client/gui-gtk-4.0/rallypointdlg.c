@@ -56,7 +56,7 @@ static void rally_response_callback(GtkWidget *dlg, gint arg)
   rally_dialog = FALSE;
   instruction_label = NULL;
 
-  gtk_widget_destroy(dlg);
+  gtk_window_destroy(GTK_WINDOW(dlg));
 }
 
 /************************************************************************//**

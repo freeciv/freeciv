@@ -82,7 +82,7 @@ void popup_soundset_suggestion_dialog(void)
    * of the correct soundset. */
   soundset_suggestion_response(blocking_dialog(dialog));
 
-  gtk_widget_destroy(dialog);
+  gtk_window_destroy(GTK_WINDOW(dialog));
 }
 
 /************************************************************************//**
@@ -132,5 +132,5 @@ void popup_musicset_suggestion_dialog(void)
    * of the correct musicset. */
   musicset_suggestion_response(blocking_dialog(dialog));
 
-  gtk_widget_destroy(dialog);
+  gtk_window_destroy(GTK_WINDOW(dialog));
 }

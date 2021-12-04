@@ -158,7 +158,7 @@ static void set_title_topic(char *topic)
 void popdown_help_dialog(void)
 {
   if (help_dialog_shell) {
-    gtk_widget_destroy(help_dialog_shell);
+    gtk_window_destroy(GTK_WINDOW(help_dialog_shell));
   }
 }
 
@@ -1695,6 +1695,6 @@ static void help_command_callback(GtkWidget *w, gint response_id)
       help_command_update();
     }
   } else {
-    gtk_widget_destroy(help_dialog_shell);
+    gtk_window_destroy(GTK_WINDOW(help_dialog_shell));
   }
 }

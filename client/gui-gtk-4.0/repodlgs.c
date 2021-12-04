@@ -981,7 +981,7 @@ static void economy_report_command_callback(struct gui_dialog *pdialog,
         if (GTK_RESPONSE_YES == blocking_dialog(shell)) {
           sell_all_improvements(pimprove, redundant, buf, sizeof(buf));
         }
-        gtk_widget_destroy(shell);
+        gtk_window_destroy(GTK_WINDOW(shell));
       }
     }
     break;
@@ -1008,7 +1008,7 @@ static void economy_report_command_callback(struct gui_dialog *pdialog,
         if (GTK_RESPONSE_YES == blocking_dialog(shell)) {
           disband_all_units(putype, FALSE, buf, sizeof(buf));
         }
-        gtk_widget_destroy(shell);
+        gtk_window_destroy(GTK_WINDOW(shell));
       }
     }
     break;
@@ -1021,7 +1021,7 @@ static void economy_report_command_callback(struct gui_dialog *pdialog,
                                    GTK_MESSAGE_INFO, GTK_BUTTONS_CLOSE,
                                    "%s", buf);
     setup_dialog(shell, gui_dialog_get_toplevel(pdialog));
-    g_signal_connect(shell, "response", G_CALLBACK(gtk_widget_destroy),
+    g_signal_connect(shell, "response", G_CALLBACK(gtk_window_destroy),
                      NULL);
     gtk_window_set_title(GTK_WINDOW(shell), _("Sell-Off: Results"));
     gtk_window_present(GTK_WINDOW(shell));
@@ -1603,7 +1603,7 @@ static void units_report_command_callback(struct gui_dialog *pdialog,
       dsend_packet_unit_type_upgrade(&client.conn, utype_number(utype));
     }
 
-    gtk_widget_destroy(shell);
+    gtk_window_destroy(GTK_WINDOW(shell));
   }
 }
 

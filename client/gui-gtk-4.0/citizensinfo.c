@@ -371,7 +371,8 @@ void citizens_dialog_close(const struct city *pcity)
 
   dialog_list_remove(dialog_list, pdialog);
 
-  gtk_widget_destroy(pdialog->shell);
+  gtk_box_remove(GTK_BOX(gtk_widget_get_parent(pdialog->shell)),
+                 pdialog->shell);
   free(pdialog);
 }
 

@@ -150,7 +150,7 @@ static void choice_dialog_clicked(GtkWidget *w, gpointer data)
   if (g_object_get_data(G_OBJECT(data), "hide")) {
     gtk_widget_hide(GTK_WIDGET(data));
   } else {
-    gtk_widget_destroy(GTK_WIDGET(data));
+    gtk_window_destroy(GTK_WINDOW(data));
   }
 }
 

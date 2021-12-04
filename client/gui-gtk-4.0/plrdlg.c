@@ -839,7 +839,7 @@ static void confirm_cancel_pact(enum clause_type clause, int plrno,
   if (blocking_dialog(shell) == GTK_RESPONSE_YES) {
     dsend_packet_diplomacy_cancel_pact(&client.conn, plrno, clause);
   }
-  gtk_widget_destroy(shell);
+  gtk_window_destroy(GTK_WINDOW(shell));
   FC_FREE(title);
   FC_FREE(question);
 }

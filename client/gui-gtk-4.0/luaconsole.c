@@ -329,11 +329,11 @@ static void luaconsole_load_file_popup(void)
 /*************************************************************************//**
   Callback for luaconsole_load_file_popup().
 *****************************************************************************/
-static void luaconsole_load_file_callback(GtkWidget *widget, gint response,
+static void luaconsole_load_file_callback(GtkWidget *dlg, gint response,
                                           gpointer data)
 {
   if (response == GTK_RESPONSE_OK) {
-    GFile *file = gtk_file_chooser_get_file(GTK_FILE_CHOOSER(widget));
+    GFile *file = gtk_file_chooser_get_file(GTK_FILE_CHOOSER(dlg));
 
     if (file != NULL) {
       gchar *filename = g_file_get_parse_name(file);
@@ -347,7 +347,8 @@ static void luaconsole_load_file_callback(GtkWidget *widget, gint response,
       g_object_unref(file);
     }
   }
-  gtk_widget_destroy(widget);
+
+  gtk_window_destroy(GTK_WINDOW(dlg));
 }
 
 /*************************************************************************//**

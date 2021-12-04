@@ -49,7 +49,7 @@ static void input_dialog_response(GtkDialog *shell, gint response,
                         gtk_entry_buffer_get_text(gtk_entry_get_buffer(GTK_ENTRY(winput))));
 
   /* Any response is final */
-  gtk_widget_destroy(GTK_WIDGET(shell));
+  gtk_window_destroy(GTK_WINDOW(shell));
   FC_FREE(cb);
 }
 

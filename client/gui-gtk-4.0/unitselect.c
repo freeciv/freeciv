@@ -292,7 +292,7 @@ static struct unit_select_dialog *usdlg_create(void)
 static void usdlg_destroy(void)
 {
   if (unit_select_dlg) {
-    gtk_widget_destroy(GTK_WIDGET(unit_select_dlg->shell));
+    gtk_window_destroy(GTK_WINDOW(unit_select_dlg->shell));
     free(unit_select_dlg);
   }
   unit_select_dlg = NULL;
