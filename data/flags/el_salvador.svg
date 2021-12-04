@@ -1,22 +1,38 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg
-   xmlns:i="http://ns.adobe.com/AdobeIllustrator/10.0/"
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:xlink="http://www.w3.org/1999/xlink"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    width="750"
    height="500"
    id="svg24344"
    sodipodi:version="0.32"
-   inkscape:version="0.46"
+   inkscape:version="1.1.1 (3bf5ae0d25, 2021-09-20)"
    sodipodi:docname="el_salvador.svg"
    version="1.0"
-   inkscape:output_extension="org.inkscape.output.svg.inkscape">
+   inkscape:output_extension="org.inkscape.output.svg.inkscape"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:i="http://ns.adobe.com/AdobeIllustrator/10.0/">
+  <defs
+     id="defs1470" />
+  <sodipodi:namedview
+     id="namedview1468"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     showgrid="false"
+     inkscape:zoom="1.1775685"
+     inkscape:cx="374.92511"
+     inkscape:cy="249.66701"
+     inkscape:window-width="1128"
+     inkscape:window-height="837"
+     inkscape:window-x="422"
+     inkscape:window-y="74"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg24344" />
   <rect
      x="0"
      style="fill:#0f47af;fill-opacity:1"
