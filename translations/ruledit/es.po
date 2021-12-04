@@ -9,14 +9,14 @@
 # David Pérez Serrada <dperezs@nexo.es>, 1999.
 # Miguel Lobo <miguel@miguell.cjb.net>, 2000 - 2003.
 # Claudio M. Camacho <claudiomkd@gmail.com>, 2006.
-# Jordi Negrevernis <jorneg4@gmail.com>, 2005, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2020.
+# Jordi Negrevernis <jorneg4@gmail.com>, 2005, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2020, 2021.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
 "POT-Creation-Date: 2021-04-28 03:32+0300\n"
-"PO-Revision-Date: 2020-02-27 00:06+0100\n"
+"PO-Revision-Date: 2021-12-04 14:09+0100\n"
 "Last-Translator: Jordi Negrevernis <jorneg4@gmail.com>\n"
 "Language-Team: Español; Castellano <>\n"
 "Language: es\n"
@@ -156,11 +156,11 @@ msgstr "Guardar ahora"
 
 #: tools/ruledit/tab_misc.cpp:84
 msgid "Description from file"
-msgstr ""
+msgstr "Descripción des del fichero"
 
 #: tools/ruledit/tab_misc.cpp:91
 msgid "Description file"
-msgstr ""
+msgstr "Fichero de descripción"
 
 #: tools/ruledit/tab_misc.cpp:100
 msgid "?stat:Terrains"

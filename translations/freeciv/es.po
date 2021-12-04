@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
 "POT-Creation-Date: 2021-06-24 13:23+0300\n"
-"PO-Revision-Date: 2021-03-29 01:30+0200\n"
+"PO-Revision-Date: 2021-12-04 14:01+0100\n"
 "Last-Translator: Jordi Negrevernis <jorneg4@gmail.com>\n"
 "Language-Team: Español; Castellano <>\n"
 "Language: es\n"
@@ -867,7 +867,7 @@ msgstr[1] "%d despegues o aterrizajes"
 #: client/citydlg_common.c:755
 #, c-format
 msgid "   ∞%s"
-msgstr ""
+msgstr "   ∞%s"
 
 #. TRANS: airlift unlimited take offs may be spent symbol
 #. * used above.
@@ -879,16 +879,16 @@ msgstr "*"
 #. * airlift capacity.
 #. TRANS: airlift. Possible landings text.
 #: client/citydlg_common.c:763 client/citydlg_common.c:776
-#, fuzzy, c-format
+#, c-format
 #| msgid "%d"
 msgid "%4d"
-msgstr "%d"
+msgstr "%4d"
 
 #. TRANS: airlift. Possible landings text.
 #. TRANS: unlimited airlift take offs and landings
 #: client/citydlg_common.c:773 client/citydlg_common.c:782
 msgid "   ∞"
-msgstr ""
+msgstr "   ∞"
 
 #. TRANS: airlift take offs and landings. One is unlimited. The first
 #. * string is the take offs text. The 2nd string is the landings text.
@@ -4289,7 +4289,6 @@ msgstr "Ci_udades:"
 #. TRANS: current value of policy in force
 #: client/gui-gtk-2.0/gamedlgs.c:286 client/gui-gtk-3.0/gamedlgs.c:281
 #: client/gui-gtk-3.22/gamedlgs.c:281
-#, fuzzy
 #| msgid "?multiplier:Cur"
 msgid "?multiplier:Now"
 msgstr "Act"
@@ -13326,7 +13325,7 @@ msgstr "* Reduce la defensa del objetivo a 1 / %d cuando ataca a %s.\n"
 
 #. TRANS: or-list of unit types
 #: client/helpdata.c:4033
-#, fuzzy, c-format
+#, c-format
 #| msgid "* Reduces target's fire power to 1 when attacking %s.\n"
 msgid "* Reduces target's firepower to 1 when attacking %s.\n"
 msgstr "* Reduce la potencia de fuego del objetivo a 1 cuando ataca a %s.\n"
@@ -16332,7 +16331,7 @@ msgstr "Comienzo del turno %d"
 #: client/packhand.c:1340
 #, c-format
 msgid "Beginning turn %d"
-msgstr ""
+msgstr "Iniciando turno %d"
 
 #: client/packhand.c:1397
 msgid "Welcome"
@@ -17220,11 +17219,11 @@ msgstr "Observador - %s"
 #. TRANS: Estimated recurring revenue for
 #. * the Establish Trade _Route action.
 #: client/text.c:1711
-#, fuzzy, c-format
+#, c-format
 #| msgid ", +%d trade"
 #| msgid_plural ", +%d trade"
 msgid "%d trade"
-msgstr ", +%d Comercio"
+msgstr "%d Comercio"
 
 #: client/text.c:1732
 #, c-format
@@ -23775,7 +23774,6 @@ msgstr ""
 "aparece un Líder bárbaro."
 
 #: data/civ1/units.ruleset:1360
-#, fuzzy
 #| msgid ""
 #| "When a Barbarian Leader is killed on a tile without any defending units, "
 #| "the 100 gold ransom is paid, but only to land units and helicopters."
@@ -23784,8 +23782,10 @@ msgid ""
 "ransom is paid, but only to land units. Usually the ransom is 100 gold, but "
 "can be less if the barbarian has less money."
 msgstr ""
-"Cuando una unidad terrestre o un Helicóptero mata a un Jefe Bárbaro en una "
-"casilla sin unidades defensivas, se obtiene un rescate de 100 monedas de oro."
+"Cuando se mata a un líder bárbaro en una casilla sin ninguna unidad "
+"defensora, se paga el rescate, pero solo a las unidades terrestres. Por lo "
+"general, el rescate es de 100 monedas de oro, pero puede ser menor si el "
+"bárbaro tiene menos dinero."
 
 #: data/civ2/buildings.ruleset:44 data/classic/buildings.ruleset:77
 #: data/experimental/buildings.ruleset:79 data/civ2civ3/buildings.ruleset:77
@@ -25900,7 +25900,6 @@ msgstr ""
 #: data/civ2/units.ruleset:2185 data/classic/units.ruleset:2306
 #: data/experimental/units.ruleset:2339 data/civ2civ3/units.ruleset:2529
 #: data/multiplayer/units.ruleset:2392 data/sandbox/units.ruleset:2532
-#, fuzzy
 #| msgid ""
 #| "When a Barbarian Leader is killed on a tile without any defending units, "
 #| "the 100 gold ransom is paid, but only to land units and helicopters."
@@ -25909,8 +25908,10 @@ msgid ""
 "ransom is paid, but only to land units and helicopters. Usually the ransom "
 "is 100 gold, but can be less if the barbarian has less money."
 msgstr ""
-"Cuando una unidad terrestre o un Helicóptero mata a un Jefe Bárbaro en una "
-"casilla sin unidades defensivas, se obtiene un rescate de 100 monedas de oro."
+"Cuando se mata a un líder bárbaro en una casilla sin ninguna unidad "
+"defensora, se paga el rescate, pero solo a las unidades terrestres y los "
+"helicópteros. Por lo general, el rescate es de 100 monedas de oro, pero "
+"puede ser menor si el bárbaro tiene menos dinero."
 
 #: data/default/default.lua:22 server/unittools.c:2812
 #, c-format
@@ -28570,7 +28571,7 @@ msgid "Your nation has achieved 10000 culture points!"
 msgstr "¡Tu nación ha logrado 10000 puntos de cultura!"
 
 #: data/civ2civ3/governments.ruleset:78 data/sandbox/governments.ruleset:78
-#, fuzzy, no-c-format
+#, no-c-format
 #| msgid ""
 #| "* Buildings and technologies do not require any upkeep.\n"
 #| "* Each worked tile that gives more than 2 Food, Shield, or Trade will "
@@ -28609,20 +28610,21 @@ msgid ""
 "capital (half as fast with knowledge of Trade)."
 msgstr ""
 "* Los edificios y las tecnologías no requieren ningún mantenimiento.\n"
-"* Cada casilla trabajada que dé más de 2 de Alimentos, Escudos o Comercio "
+"* Cada casilla trabajada que dé más de 2 de Alimentos, Producción o Comercio "
 "sufrirá una penalización de -1, a menos que la ciudad esté celebrando. (Las "
 "ciudades por debajo del tamaño 3 no celebrarán).\n"
-"* Cada ciudad puede soportar hasta 2 unidades de forma gratuita; más "
+"* Cada ciudad puede soportar hasta 2 unidades de forma gratuita; las demás "
 "unidades cuestan cada una 1 punto de producción por turno.\n"
 "* Las unidades militares no causan descontento, incluso cuando se despliegan "
 "de manera agresiva.\n"
 "* Las unidades militares imponen la ley marcial. Hasta 3 unidades militares "
 "dentro de una ciudad obligarán a 1 ciudadano infeliz a conformarse.\n"
-"* Tu no tienes el control sobre los tasas de impuestos. La mitad de los "
-"ingresos de comercio simplemente se pierde en tu economía (menos si tiene "
-"edificios de promueven los lujos), y el resto se va a los lujos. La "
-"corrupción sistémica aumenta con la distancia a la capital (la mitad de "
-"rápido con el conocimiento de la Corporación).\n"
+"* Tu no tienes el control sobre los tasas de impuestos. Todos los ingresos "
+"de Comercio se convierten en lujos.\n"
+"* La mitad de los lujos, incluidos los que se convierten de otros ingresos "
+"de Comercio, se desperdician.\n"
+"* La corrupción convencional aumenta con la distancia a la capital (la mitad "
+"de rápido con el conocimiento de la Corporación).\n"
 "* Las mermas base de la producción son del 30%. Esto aumenta con la "
 "distancia desde la capital (la mitad de rápido con el conocimiento del "
 "Comercio)."
@@ -28777,7 +28779,7 @@ msgstr ""
 "gestionar los grandes imperios."
 
 #: data/civ2civ3/governments.ruleset:234 data/sandbox/governments.ruleset:234
-#, fuzzy, no-c-format
+#, no-c-format
 #| msgid ""
 #| "* City improvements which would normally have an upkeep of 1 gold are "
 #| "free of upkeep.\n"
@@ -28808,6 +28810,8 @@ msgid ""
 msgstr ""
 "* Las Instalaciones de las ciudades que normalmente cuestan 1 moneda de oro "
 "de mantenimiento son gratuitas.\n"
+"* Se cancela la bonificación de Misticismo y Teología (a Templos y "
+"Catedrales).\n"
 "* Cada ciudad puede soportar hasta 3 unidades de forma gratuita (el máximo "
 "posible); las unidades adicionales cada una cuestan 1 punto de producción "
 "por turno.\n"
@@ -43595,7 +43599,6 @@ msgid "Map generation random seed"
 msgstr "Semilla para la generación del mapa"
 
 #: server/settings.c:1571
-#, fuzzy
 #| msgid ""
 #| "The same seed will always produce the same map; for zero (the default) a "
 #| "seed will be chosen based on the time to give a random map."
@@ -43604,24 +43607,23 @@ msgid ""
 "seed will be generated randomly, based on gameseed. If also gameseed is "
 "zero, the map will be completely random."
 msgstr ""
-"Una semilla dada siempre originará el mismo mapa; para cero(valor por "
-"defecto) se elegirá una semilla basándose en la hora para producir un mapa "
-"aleatorio."
+"Una semilla dada siempre originará el mismo mapa; para cero (valor por "
+"defecto) se elegirá una semilla basándose en gameseed. Si gameseed también "
+"es cero, el mapa será completamente aleatorio."
 
 #: server/settings.c:1585
 msgid "Game random seed"
 msgstr "Semilla aleatoria del juego"
 
 #: server/settings.c:1586
-#, fuzzy
 #| msgid ""
 #| "For zero (the default) a seed will be chosen based on the current time."
 msgid ""
 "For zero (the default) a seed will be chosen based on system entropy or, "
 "failing that, the current time."
 msgstr ""
-"Si vale cero (valor por defecto) la semilla se elegirá basándose en la hora "
-"actual."
+"Si vale cero (valor por defecto) se elegirá una semilla en función de la "
+"entropía del sistema o, en su defecto, la hora actual."
 
 #: server/settings.c:1593
 msgid "Amount of \"special\" resource tiles"
@@ -48622,10 +48624,10 @@ msgstr "Esta unidad no se puede tirar en paracaídas sobre %s."
 
 #. TRANS: Paratroopers ... Drop Paratrooper
 #: server/unittools.c:2706
-#, fuzzy, c-format
+#, c-format
 #| msgid "Your %s can't do %s to %s %s."
 msgid "Your %s can't do %s to tiles with non allied units."
-msgstr "Tu %1$s no puede %2$s a %4$s %3$s."
+msgstr "Tu %s no puede %s a casillas con unidades no aliadas."
 
 #: server/unittools.c:2759
 #, c-format
@@ -49112,7 +49114,6 @@ msgstr "error %ld (falló FormatMessage)"
 msgid "error %d (compiled without strerror)"
 msgstr "error %d (se ha compilado sin strerror)"
 
-#, c-format
 #~ msgid "∞%s"
 #~ msgstr "∞%s"
 
