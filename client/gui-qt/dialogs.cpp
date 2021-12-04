@@ -482,8 +482,8 @@ races_dialog::races_dialog(struct player *pplayer,
   qgroupbox_layout->addWidget(leader_name, 1, 0, 1, 2);
   qgroupbox_layout->addWidget(is_male, 2, 1);
   qgroupbox_layout->addWidget(is_female, 2, 0);
-  is_female->setText(_("Female"));
-  is_male->setText(_("Male"));
+  is_female->setText(sex_name_translation(SEX_FEMALE));
+  is_male->setText(sex_name_translation(SEX_MALE));
   no_name->setLayout(qgroupbox_layout);
 
   description = new QTextEdit;
