@@ -1,5 +1,5 @@
 ========================
-Welcome to Freeciv 2.6.4
+Welcome to Freeciv 2.6.6
 ========================
 
 The changes in the 2.6.x series are summarised below.
@@ -7,12 +7,139 @@ For changes prior to 2.6, see NEWS. For more detailed changes,
 see the ChangeLog file.
 
 
+CHANGES FROM 2.6.5 to 2.6.6
+---------------------------
+
+   (from <http://www.freeciv.org/wiki/NEWS-2.6.6>, 2021-12-04)
+
+2.6.6 is a bugfix release.
+
+Server / General
+Changes affecting players (supplied rulesets)
+
+    * Fixed server crash when number of cities and units
+      in the game is larger than 65535 HRM#927510
+    * Units restricted to being next to coast can now
+      enter cities on 1x1 tile islands osdn#42600
+    * Fixed a bug that in some cases trade partner city was
+      not revealed to the player of the destination city when
+      traderoute was established osdn#42968
+    * Consider it land bombardment (for reduced firepower)
+      when a ship attacks from a city against another land tile
+      osdn#42960
+    * Fixed a bug that shield stock given changes from editor were
+      nullified when production was changed osdn#42685
+    * Fixed an erroneously sent message about city being building
+      an obsolete building, after it has already been upgradet
+      HRM#921933
+
+    * civ1
+        + All units occupy tiles osdn#42923
+        + Remove infra from city center tile when city destroyed
+          osdn#43039
+
+    * italy scenario
+        + Wrap map from the correct point so that leftmost part
+          of the map is connected to the rest HRM#691812 osdn#42908
+
+Changes affecting other rulesets / modders
+
+    * When action success probability range to show
+      is calculated, TerrainAlter requirements are known
+      to be known for sure osdn#42512
+    * Update city owner's info on clients when caravan
+      helps finish foreign wonder HRM#908746
+    * Sanity check that ruleset does not try to set nonzero
+      upkeep cost for a wonder. It has no effect, and never has
+      osdn#42994
+    * Fixed lua players_iterate() to process all remaining players
+      after some are removed HRM#883551
+
+Changes affecting server operators
+
+    * Fixed a bug that GAMEOVER savegame was not created for
+      an autogame with no clients connected osdn#42172
+
+General
+
+    * Minor optimizations osdn#42865 osdn#42883
+    * Various internal changes which should only affect developers
+      osdn#42505 osdn#42460 osdn#42455 osdn#42527 osdn#42622 osdn#42488
+      osdn#42779 osdn#42841 osdn#42868 osdn#42886 osdn#42930 osdn#42898
+      osdn#42867 osdn#43076 osdn#42931 HRM#852929 osdn#42568 osdn#43087
+      osdn#43040 osdn#43213
+
+AI
+
+    * AI can again build Fighters (units with fuel of one) HRM#658896
+    * Fixed a problem causing fueled ferries to get stuck osdn#41970
+    * Fixed a problem causing AI to think its income is lower
+      than it actually is, when it plans for a balanced budget osdn#42193
+    * Increased AI's want to conquer cities that have no buildings
+      at all osdn#42778
+    * Improved handling of caravans that can only enter marketplace,
+      not establish trade routes osdn#42518
+    * Corrected AI's estimate of immediate bonus of establishing
+      a trade route when bonus type is not "Both" osdn#42641
+
+Clients
+
+    * Consistently disable help links to space parts when
+      spacerace disabled HRM#853869
+
+    * gtk
+        + Cleanly destroy toplevel Window on quit osdn#43072
+        + Cleanly free widgets, that have been protected against
+          destruction during the run, on quit osdn#43222
+
+    * Qt
+        + Fixed reversed leader sex selection osdn#42936
+        + Show default ruler title for players whose government
+          is not known. It used to show the Anarchy title in
+          these situations osdn#42938
+        + Fixed a crash before writing shortcuts information when quitting
+          client without ever visiting actual game osdn#43019
+        + Make explicit leader sex selection to work
+          (sex used to be selected only when taking predefined leader)
+          osdn#42964
+        + Allow adjusting leader of the nation player has already selected
+          in the nation selection dialog osdn#43024
+        + Fixed nations dialog crash after a new player has been created
+          as a result of a civil war osdn#42545
+
+Tools
+Modpack installer
+
+    * Made gtk3- and gtk2- gui to quit cleanly osdn#43187
+    * gtk3- and gtk2- guis free main window on quit osdn#43074
+
+Help / Documentation
+
+    * Document new freeciv-tickets mailing list for developers osdn#42491
+    * Miscellaneous improvements to in-game text and user documentation
+      osdn#42403 osdn#42468 osdn#42392 osdn#42652 osdn#42995 osdn#42609
+    * Miscellaneous changes to developer/install/ruleset docs
+      osdn#42318 osdn#42842 osdn#42844 osdn#42695 osdn#42926 osdn#41100
+      osdn#42839 osdn#42925
+
+Translations
+
+    * Updated translations: ca, eo, fi, fr, pl, ru
+
+Build/portability
+
+    * Fixed compiler warning with clang-13 osdn#42698
+    * Avoid use of depracated 'which' command in scripts osdn#42769
+    * Silenced false-positive gcc-12 compiler warning osdn#42885
+
+
 CHANGES FROM 2.6.4 to 2.6.5
 ---------------------------
 
    (from <http://www.freeciv.org/wiki/NEWS-2.6.5>, 2021-06-24)
 
-2.6.5 is a bugfix release. Notably it fixes regression in 2.6.4 gtk3-client that present units in city dialog had no overlays drawn at all.
+2.6.5 is a bugfix release. Notably it fixes regression in 2.6.4 gtk3-client
+that present units in city dialog had no overlays drawn at all.
 
 Server / General
 Changes affecting players (supplied rulesets)
