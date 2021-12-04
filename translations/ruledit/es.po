@@ -9,14 +9,14 @@
 # David Pérez Serrada <dperezs@nexo.es>, 1999.
 # Miguel Lobo <miguel@miguell.cjb.net>, 2000 - 2003.
 # Claudio M. Camacho <claudiomkd@gmail.com>, 2006.
-# Jordi Negrevernis <jorneg4@gmail.com>, 2005, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2020.
+# Jordi Negrevernis <jorneg4@gmail.com>, 2005, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2020, 2021.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2021-09-16 18:19+0300\n"
-"PO-Revision-Date: 2020-02-27 00:06+0100\n"
+"POT-Creation-Date: 2021-11-14 17:57+0200\n"
+"PO-Revision-Date: 2021-12-04 14:09+0100\n"
 "Last-Translator: Jordi Negrevernis <jorneg4@gmail.com>\n"
 "Language-Team: Español; Castellano <>\n"
 "Language: es\n"
@@ -35,14 +35,18 @@ msgstr "Cerrar"
 msgid "Old ruleset to a new format"
 msgstr ""
 
-#: tools/ruledit/edit_impr.cpp:47 tools/ruledit/edit_utype.cpp:64
+#: tools/ruledit/edit_impr.cpp:50 tools/ruledit/edit_utype.cpp:64
 #, fuzzy
 #| msgid "Buildings"
 msgid "Build Cost"
 msgstr "Instalaciones"
 
-#: tools/ruledit/edit_impr.cpp:58
+#: tools/ruledit/edit_impr.cpp:61
 msgid "Upkeep"
+msgstr ""
+
+#: tools/ruledit/edit_impr.cpp:71
+msgid "Genus"
 msgstr ""
 
 #: tools/ruledit/edit_utype.cpp:49
@@ -55,6 +59,10 @@ msgstr ""
 
 #: tools/ruledit/edit_utype.cpp:84
 msgid "Defense Strength"
+msgstr ""
+
+#: tools/ruledit/edit_utype.cpp:94
+msgid "Move Rate"
 msgstr ""
 
 #. TRANS: Trying to fix a requirement vector problem but can't find
@@ -215,21 +223,25 @@ msgstr ""
 
 #: tools/ruledit/ruledit_qt.cpp:169
 #, fuzzy
+#| msgid "?stat:Governments"
 msgid "Governments"
 msgstr "Gobiernos"
 
 #: tools/ruledit/ruledit_qt.cpp:171
 #, fuzzy
+#| msgid "Action Enabler"
 msgid "Enablers"
 msgstr "Habilitador de acción"
 
 #: tools/ruledit/ruledit_qt.cpp:173
 #, fuzzy
+#| msgid "?stat:Extras"
 msgid "Extras"
 msgstr "Extras"
 
 #: tools/ruledit/ruledit_qt.cpp:175
 #, fuzzy
+#| msgid "?stat:Terrains"
 msgid "Terrains"
 msgstr "Terrenos"
 
@@ -312,6 +324,7 @@ msgstr ""
 
 #: tools/ruledit/tab_enablers.cpp:150
 #, fuzzy
+#| msgid "Action Enabler"
 msgid "Add Enabler"
 msgstr "Habilitador de acción"
 
@@ -323,19 +336,20 @@ msgstr "¿Quieres borrar esta configuración?"
 #. TRANS: Fix an error in an action enabler.
 #: tools/ruledit/tab_enablers.cpp:225
 #, fuzzy
+#| msgid "Action Enabler"
 msgid "Repair Enabler"
-msgstr "¿Quieres borrar esta configuración?"
+msgstr "Habilitador de acción"
 
 #. TRANS: Fix a non error issue in an action enabler.
 #: tools/ruledit/tab_enablers.cpp:230
 #, fuzzy
+#| msgid "Action Enabler"
 msgid "Improve Enabler"
-msgstr "¿Quieres borrar esta configuración?"
+msgstr "Habilitador de acción"
 
 #: tools/ruledit/tab_enablers.cpp:234 tools/ruledit/tab_enablers.cpp:246
-#, fuzzy
 msgid "Enabler Issues"
-msgstr "Habilitador de acción"
+msgstr ""
 
 #: tools/ruledit/tab_enablers.cpp:387
 msgid "Enabler (target)"
@@ -352,9 +366,8 @@ msgid "action enabler for %s"
 msgstr "Habilitador de acción"
 
 #: tools/ruledit/tab_extras.cpp:87
-#, fuzzy
 msgid "Add Extra"
-msgstr "Extras"
+msgstr ""
 
 #: tools/ruledit/tab_extras.cpp:92
 #, fuzzy
@@ -378,11 +391,13 @@ msgstr "¿Quieres borrar esta configuración?"
 
 #: tools/ruledit/tab_good.cpp:178
 #, fuzzy
+#| msgid "A tech with that rule name already exists!"
 msgid "A good with that rule name already exists!"
 msgstr "¡Ya existe una tecnología con ese nombre de regla!"
 
 #: tools/ruledit/tab_gov.cpp:87
 #, fuzzy
+#| msgid "?stat:Governments"
 msgid "Add Government"
 msgstr "Gobiernos"
 
@@ -393,6 +408,7 @@ msgstr "¿Quieres borrar esta configuración?"
 
 #: tools/ruledit/tab_gov.cpp:177
 #, fuzzy
+#| msgid "A tech with that rule name already exists!"
 msgid "A government with that rule name already exists!"
 msgstr "¡Ya existe una tecnología con ese nombre de regla!"
 
@@ -418,11 +434,11 @@ msgstr "Guardar ahora"
 
 #: tools/ruledit/tab_misc.cpp:94
 msgid "Description from file"
-msgstr ""
+msgstr "Descripción des del fichero"
 
 #: tools/ruledit/tab_misc.cpp:101
 msgid "Description file"
-msgstr ""
+msgstr "Fichero de descripción"
 
 #: tools/ruledit/tab_misc.cpp:110
 msgid "?stat:Terrains"
@@ -434,6 +450,7 @@ msgstr "Recursos"
 
 #: tools/ruledit/tab_misc.cpp:118
 #, fuzzy
+#| msgid "?stat:Unit Classes"
 msgid "?stat:Tech Classes"
 msgstr "Clases de unidades"
 
@@ -451,8 +468,9 @@ msgstr "Tipos de unidades"
 
 #: tools/ruledit/tab_misc.cpp:134
 #, fuzzy
+#| msgid "?stat:Bases"
 msgid "?stat:Enablers"
-msgstr "Habilitador de acción"
+msgstr "Bases"
 
 #: tools/ruledit/tab_misc.cpp:138
 msgid "?stat:Buildings"
@@ -496,6 +514,7 @@ msgstr "Caminos"
 
 #: tools/ruledit/tab_misc.cpp:178
 #, fuzzy
+#| msgid "?stat:Roads"
 msgid "?stat:Goods"
 msgstr "Caminos"
 
@@ -551,9 +570,8 @@ msgid "A tech with that rule name already exists!"
 msgstr "¡Ya existe una tecnología con ese nombre de regla!"
 
 #: tools/ruledit/tab_terrains.cpp:83
-#, fuzzy
 msgid "Add Terrain"
-msgstr "Terrenos"
+msgstr ""
 
 #: tools/ruledit/tab_terrains.cpp:88
 #, fuzzy
@@ -635,7 +653,3 @@ msgstr ""
 #: tools/ruledit/validity.c:268
 msgid "Hidden extra"
 msgstr ""
-
-#, fuzzy
-#~ msgid "Edit Unit"
-#~ msgstr "Añadir siguiente"
