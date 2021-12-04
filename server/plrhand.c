@@ -480,7 +480,8 @@ void handle_player_change_government(struct player *pplayer,
   if (anarchy && turns <= 0
       && pplayer->government != game.government_during_revolution) {
     /* Multiple changes attempted after single anarchy period */
-    if (game.info.revolentype == REVOLEN_QUICKENING) {
+    if (game.info.revolentype == REVOLEN_QUICKENING
+        || game.info.revolentype == REVOLEN_RANDQUICK) {
       notify_player(pplayer, NULL, E_REVOLT_DONE, ftc_server,
                     _("You can't revolt the same turn you finished previous revolution."));
       return;
