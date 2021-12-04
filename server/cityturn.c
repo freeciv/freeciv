@@ -2730,7 +2730,9 @@ static void unit_list_referred_destroy(struct unit_list *punitlist)
 
 /**********************************************************************//**
   Randomly "sell" a unit from the given list. Returns pointer to sold unit.
-  This pointer is not valid any more, but can be removed from the lists.
+  This pointer is not valid any more, but is used to remove the unit
+  from the main list in case of recursive call. The unit is already removed
+  from the list given as a parameter within the function.
 
   NB: It is assumed that gold upkeep for the units has already been paid
   this turn, hence when a unit is "sold" its upkeep is given back to the
@@ -2781,6 +2783,8 @@ static struct unit *sell_random_unit(struct player *pplayer,
 
     unit_list_destroy(cargo);
 
+    unit_list_remove(punitlist, ret);
+
     return ret;
   }
 
@@ -2810,6 +2814,8 @@ static struct unit *sell_random_unit(struct player *pplayer,
       return NULL;
     }
   }
+
+  unit_list_remove(punitlist, punit);
 
   return punit;
 }
