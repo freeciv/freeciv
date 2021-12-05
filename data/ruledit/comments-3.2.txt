@@ -1298,6 +1298,7 @@ combat_odds_scaled_veterancy = "\n\
 ; of unit that might gain the veterancy.\n\
 ; When this setting is disabled, the modifier is always simply considered\n\
 ; to be 100%, i.e, the base veterancy chance from units.ruleset is used as is.\n\
+; This affects both regular and diplomat combat.\n\
 "
 
 damage_reduces_bombard_rate = "\n\

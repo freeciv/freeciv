@@ -250,6 +250,7 @@ only_real_fight_makes_veteran = TRUE
 ; of unit that might gain the veterancy.
 ; When this setting is disabled, the modifier is always simply considered
 ; to be 100%, i.e, the base veterancy chance from units.ruleset is used as is.
+; This affects both regular and diplomat combat.
 combat_odds_scaled_veterancy = TRUE
 
 ; Does unit`s bombard rate get scaled down by how damaged it is.
