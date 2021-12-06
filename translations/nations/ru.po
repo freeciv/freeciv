@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2021-10-08 02:24+0500\n"
-"PO-Revision-Date: 2021-10-08 02:11+0500\n"
+"POT-Creation-Date: 2021-12-06 06:02+0500\n"
+"PO-Revision-Date: 2021-12-06 05:54+0500\n"
 "Last-Translator: Konstantin Vedeneev <konved@gmail.com>\n"
 "Language-Team: Russian <freeciv.ru@freelists.org>\n"
 "Language: ru\n"
@@ -120,7 +120,7 @@ msgstr "Верховная Владычица %s"
 #: data/nation/samoan.ruleset:26 data/nation/scottishgaelic.ruleset:36
 #: data/nation/scottish.ruleset:25 data/nation/somaliland.ruleset:24
 #: data/nation/somali.ruleset:35 data/nation/tongan.ruleset:22
-#: data/nation/tswana.ruleset:29 data/nation/veletian.ruleset:30
+#: data/nation/tswana.ruleset:29 data/nation/veletian.ruleset:28
 #, c-format
 msgid "Elder %s"
 msgstr "Старейшина %s"
@@ -130,7 +130,7 @@ msgstr "Старейшина %s"
 #: data/nation/samoan.ruleset:26 data/nation/scottishgaelic.ruleset:36
 #: data/nation/scottish.ruleset:25 data/nation/somaliland.ruleset:24
 #: data/nation/somali.ruleset:35 data/nation/tongan.ruleset:22
-#: data/nation/tswana.ruleset:29 data/nation/veletian.ruleset:30
+#: data/nation/tswana.ruleset:29 data/nation/veletian.ruleset:28
 #, c-format
 msgid "?female:Elder %s"
 msgstr "Старейшина %s"
@@ -319,7 +319,7 @@ msgstr "Аббат %s"
 #: data/nation/sardinian.ruleset:34 data/nation/savoyard.ruleset:32
 #: data/nation/silesian.ruleset:23 data/nation/slovenian.ruleset:20
 #: data/nation/teutonic.ruleset:29 data/nation/uruguayan.ruleset:24
-#: data/nation/venezuelan.ruleset:31 data/nation/yucatecan.ruleset:28
+#: data/nation/venezuelan.ruleset:31 data/nation/yucatecan.ruleset:29
 #, c-format
 msgid "Mother Superior %s"
 msgstr "Игуменья %s"
@@ -773,7 +773,7 @@ msgstr ""
 #: data/nation/ruthenian.ruleset:29 data/nation/silesian.ruleset:22
 #: data/nation/sinhalese.ruleset:25 data/nation/sorbian.ruleset:26
 #: data/nation/transylvanian.ruleset:27 data/nation/ukrainian.ruleset:37
-#: data/nation/urartian.ruleset:37 data/nation/westernpomeranian.ruleset:29
+#: data/nation/urartian.ruleset:34 data/nation/westernpomeranian.ruleset:29
 #, c-format
 msgid "Prince %s"
 msgstr "Князь %s"
@@ -791,7 +791,7 @@ msgstr "Князь %s"
 #: data/nation/ruthenian.ruleset:29 data/nation/silesian.ruleset:22
 #: data/nation/sinhalese.ruleset:25 data/nation/sorbian.ruleset:26
 #: data/nation/transylvanian.ruleset:27 data/nation/ukrainian.ruleset:37
-#: data/nation/urartian.ruleset:37 data/nation/westernpomeranian.ruleset:29
+#: data/nation/urartian.ruleset:34 data/nation/westernpomeranian.ruleset:29
 #, c-format
 msgid "Princess %s"
 msgstr "Княгиня %s"
@@ -856,7 +856,7 @@ msgstr ""
 #: data/nation/nuu-chah-nulth.ruleset:23 data/nation/ohlone.ruleset:28
 #: data/nation/otomi.ruleset:29 data/nation/raramuri.ruleset:25
 #: data/nation/sami.ruleset:22 data/nation/seminole.ruleset:37
-#: data/nation/shawnee.ruleset:26 data/nation/yakut.ruleset:30
+#: data/nation/shawnee.ruleset:26 data/nation/yakut.ruleset:31
 #, c-format
 msgid "Shaman %s"
 msgstr "Шаман %s"
@@ -869,7 +869,7 @@ msgstr "Шаман %s"
 #: data/nation/nuu-chah-nulth.ruleset:23 data/nation/ohlone.ruleset:28
 #: data/nation/otomi.ruleset:29 data/nation/raramuri.ruleset:25
 #: data/nation/sami.ruleset:22 data/nation/seminole.ruleset:37
-#: data/nation/shawnee.ruleset:26 data/nation/yakut.ruleset:30
+#: data/nation/shawnee.ruleset:26 data/nation/yakut.ruleset:31
 #, c-format
 msgid "?female:Shaman %s"
 msgstr "Шаманка %s"
@@ -1007,9 +1007,9 @@ msgstr "Бейлиф %s"
 #: data/nation/slovenian.ruleset:20 data/nation/thuringian.ruleset:43
 #: data/nation/transylvanian.ruleset:28 data/nation/uruguayan.ruleset:24
 #: data/nation/venezuelan.ruleset:31 data/nation/vincentian.ruleset:25
-#: data/nation/volgagerman.ruleset:38 data/nation/westindian.ruleset:24
-#: data/nation/wuerttembergian.ruleset:24 data/nation/yucatecan.ruleset:28
-#: data/nation/zimbabwean.ruleset:26
+#: data/nation/volgagerman.ruleset:36 data/nation/westindian.ruleset:24
+#: data/nation/wuerttembergian.ruleset:24 data/nation/yucatecan.ruleset:29
+#: data/nation/zimbabwean.ruleset:27
 #, c-format
 msgid "Bishop %s"
 msgstr "Епископ %s"
@@ -1028,23 +1028,23 @@ msgstr "Епископ %s"
 #: data/nation/oldenburgian.ruleset:33 data/nation/saxon.ruleset:22
 #: data/nation/schleswig-holsteinian.ruleset:28
 #: data/nation/thuringian.ruleset:43 data/nation/transylvanian.ruleset:28
-#: data/nation/vincentian.ruleset:25 data/nation/volgagerman.ruleset:38
+#: data/nation/vincentian.ruleset:25 data/nation/volgagerman.ruleset:36
 #: data/nation/westindian.ruleset:24 data/nation/wuerttembergian.ruleset:24
-#: data/nation/zimbabwean.ruleset:26
+#: data/nation/zimbabwean.ruleset:27
 #, c-format
 msgid "?female:Bishop %s"
 msgstr "Епископ %s"
 
 #: data/nation/alsatian.ruleset:29 data/nation/hansa.ruleset:29
 #: data/nation/novgorodian.ruleset:46 data/nation/rhenish.ruleset:37
-#: data/nation/sorbian.ruleset:27 data/nation/westphalian.ruleset:34
+#: data/nation/sorbian.ruleset:27 data/nation/westphalian.ruleset:30
 #, c-format
 msgid "Burgomaster %s"
 msgstr "Бургомистр %s"
 
 #: data/nation/alsatian.ruleset:29 data/nation/hansa.ruleset:29
 #: data/nation/novgorodian.ruleset:46 data/nation/rhenish.ruleset:37
-#: data/nation/sorbian.ruleset:27 data/nation/westphalian.ruleset:34
+#: data/nation/sorbian.ruleset:27 data/nation/westphalian.ruleset:30
 #, c-format
 msgid "?female:Burgomaster %s"
 msgstr "Бургомистр %s"
@@ -1201,7 +1201,7 @@ msgstr ""
 #: data/nation/neapolitan.ruleset:25 data/nation/oldenburgian.ruleset:32
 #: data/nation/piedmontese.ruleset:32 data/nation/rhenish.ruleset:34
 #: data/nation/sicilian.ruleset:29 data/nation/tyrolian.ruleset:22
-#: data/nation/vampire.ruleset:50 data/nation/walloon.ruleset:27
+#: data/nation/vampire.ruleset:51 data/nation/walloon.ruleset:27
 #, c-format
 msgid "Count %s"
 msgstr "Граф %s"
@@ -1213,7 +1213,7 @@ msgstr "Граф %s"
 #: data/nation/neapolitan.ruleset:25 data/nation/oldenburgian.ruleset:32
 #: data/nation/piedmontese.ruleset:32 data/nation/rhenish.ruleset:34
 #: data/nation/sicilian.ruleset:29 data/nation/tyrolian.ruleset:22
-#: data/nation/vampire.ruleset:50 data/nation/walloon.ruleset:27
+#: data/nation/vampire.ruleset:51 data/nation/walloon.ruleset:27
 #, c-format
 msgid "Countess %s"
 msgstr "Графиня %s"
@@ -1226,7 +1226,7 @@ msgstr "Графиня %s"
 #: data/nation/moravian.ruleset:34 data/nation/occitan.ruleset:29
 #: data/nation/oldenburgian.ruleset:34 data/nation/rhenish.ruleset:36
 #: data/nation/schleswig-holsteinian.ruleset:29
-#: data/nation/thuringian.ruleset:44 data/nation/westphalian.ruleset:33
+#: data/nation/thuringian.ruleset:44 data/nation/westphalian.ruleset:29
 #, c-format
 msgid "Grand Duke %s"
 msgstr "Великий Герцог %s"
@@ -1239,7 +1239,7 @@ msgstr "Великий Герцог %s"
 #: data/nation/moravian.ruleset:34 data/nation/occitan.ruleset:29
 #: data/nation/oldenburgian.ruleset:34 data/nation/rhenish.ruleset:36
 #: data/nation/schleswig-holsteinian.ruleset:29
-#: data/nation/thuringian.ruleset:44 data/nation/westphalian.ruleset:33
+#: data/nation/thuringian.ruleset:44 data/nation/westphalian.ruleset:29
 #, c-format
 msgid "Grand Duchess %s"
 msgstr "Великая Герцогиня %s"
@@ -1482,7 +1482,7 @@ msgstr ""
 #: data/nation/phoenician.ruleset:27 data/nation/pictish.ruleset:25
 #: data/nation/pontic.ruleset:33 data/nation/sabine.ruleset:28
 #: data/nation/samnite.ruleset:25 data/nation/seleucid.ruleset:28
-#: data/nation/vandalic.ruleset:29 data/nation/visigothic.ruleset:37
+#: data/nation/vandalic.ruleset:29 data/nation/visigothic.ruleset:38
 #: data/nation/westernroman.ruleset:29
 #, c-format
 msgid "Usurper %s"
@@ -1502,7 +1502,7 @@ msgstr "Узурпатор %s"
 #: data/nation/phoenician.ruleset:27 data/nation/pictish.ruleset:25
 #: data/nation/pontic.ruleset:33 data/nation/sabine.ruleset:28
 #: data/nation/samnite.ruleset:25 data/nation/seleucid.ruleset:28
-#: data/nation/vandalic.ruleset:29 data/nation/visigothic.ruleset:37
+#: data/nation/vandalic.ruleset:29 data/nation/visigothic.ruleset:38
 #: data/nation/westernroman.ruleset:29
 #, c-format
 msgid "?female:Usurper %s"
@@ -1702,7 +1702,7 @@ msgstr ""
 #: data/nation/tatar.ruleset:28 data/nation/timurid.ruleset:25
 #: data/nation/turkmen.ruleset:25 data/nation/tuvan.ruleset:31
 #: data/nation/uyghur.ruleset:28 data/nation/uzbek.ruleset:23
-#: data/nation/xiongnu.ruleset:39
+#: data/nation/xiongnu.ruleset:37
 #, c-format
 msgid "%s Khan"
 msgstr "%s-хан"
@@ -1716,7 +1716,7 @@ msgstr "%s-хан"
 #: data/nation/tatar.ruleset:28 data/nation/timurid.ruleset:25
 #: data/nation/turkmen.ruleset:25 data/nation/tuvan.ruleset:31
 #: data/nation/uyghur.ruleset:28 data/nation/uzbek.ruleset:23
-#: data/nation/xiongnu.ruleset:39
+#: data/nation/xiongnu.ruleset:37
 #, c-format
 msgid "%s Khatan"
 msgstr "%s-хатан"
@@ -1727,7 +1727,7 @@ msgstr "%s-хатан"
 #: data/nation/kazakh.ruleset:25 data/nation/khazar.ruleset:36
 #: data/nation/kyrgyz.ruleset:23 data/nation/tatar.ruleset:29
 #: data/nation/tuvan.ruleset:32 data/nation/uyghur.ruleset:29
-#: data/nation/volgabulgar.ruleset:29 data/nation/xiongnu.ruleset:40
+#: data/nation/volgabulgar.ruleset:26 data/nation/xiongnu.ruleset:38
 #, c-format
 msgid "%s Khagan"
 msgstr "Каган %s"
@@ -1738,7 +1738,7 @@ msgstr "Каган %s"
 #: data/nation/kazakh.ruleset:25 data/nation/khazar.ruleset:36
 #: data/nation/kyrgyz.ruleset:23 data/nation/tatar.ruleset:29
 #: data/nation/tuvan.ruleset:32 data/nation/uyghur.ruleset:29
-#: data/nation/volgabulgar.ruleset:29 data/nation/xiongnu.ruleset:40
+#: data/nation/volgabulgar.ruleset:26 data/nation/xiongnu.ruleset:38
 #, c-format
 msgid "?female:%s Khagan"
 msgstr "Каганит %s"
@@ -2077,7 +2077,7 @@ msgstr ""
 #: data/nation/norman.ruleset:24 data/nation/prussian.ruleset:27
 #: data/nation/samogitian.ruleset:21 data/nation/savoyard.ruleset:31
 #: data/nation/saxon.ruleset:21 data/nation/schleswig-holsteinian.ruleset:27
-#: data/nation/serbian.ruleset:34 data/nation/westphalian.ruleset:31
+#: data/nation/serbian.ruleset:34 data/nation/westphalian.ruleset:27
 #: data/nation/wuerttembergian.ruleset:23
 #, c-format
 msgid "Duke %s"
@@ -2092,7 +2092,7 @@ msgstr "Князь %s"
 #: data/nation/norman.ruleset:24 data/nation/prussian.ruleset:27
 #: data/nation/samogitian.ruleset:21 data/nation/savoyard.ruleset:31
 #: data/nation/saxon.ruleset:21 data/nation/schleswig-holsteinian.ruleset:27
-#: data/nation/serbian.ruleset:34 data/nation/westphalian.ruleset:31
+#: data/nation/serbian.ruleset:34 data/nation/westphalian.ruleset:27
 #: data/nation/wuerttembergian.ruleset:23
 #, c-format
 msgid "Duchess %s"
@@ -2220,7 +2220,7 @@ msgstr "Высшая Друидка %s"
 #: data/nation/crusader.ruleset:33 data/nation/holysee.ruleset:29
 #: data/nation/italiangreek.ruleset:48 data/nation/kushan.ruleset:44
 #: data/nation/latin.ruleset:42 data/nation/nestorian.ruleset:27
-#: data/nation/urartian.ruleset:38
+#: data/nation/urartian.ruleset:35
 #, c-format
 msgid "Brother %s"
 msgstr "Брат %s"
@@ -2229,7 +2229,7 @@ msgstr "Брат %s"
 #: data/nation/crusader.ruleset:33 data/nation/holysee.ruleset:29
 #: data/nation/italiangreek.ruleset:48 data/nation/kushan.ruleset:44
 #: data/nation/latin.ruleset:42 data/nation/nestorian.ruleset:27
-#: data/nation/urartian.ruleset:38
+#: data/nation/urartian.ruleset:35
 #, c-format
 msgid "Sister %s"
 msgstr "Сестра %s"
@@ -2242,7 +2242,7 @@ msgstr "Сестра %s"
 #: data/nation/muskogee.ruleset:31 data/nation/namibian.ruleset:24
 #: data/nation/sami.ruleset:23 data/nation/seminole.ruleset:35
 #: data/nation/shawnee.ruleset:24 data/nation/swazi.ruleset:22
-#: data/nation/urartian.ruleset:39
+#: data/nation/urartian.ruleset:36
 #, c-format
 msgid "Spokesman %s"
 msgstr "Оратор %s"
@@ -2255,7 +2255,7 @@ msgstr "Оратор %s"
 #: data/nation/muskogee.ruleset:31 data/nation/namibian.ruleset:24
 #: data/nation/sami.ruleset:23 data/nation/seminole.ruleset:35
 #: data/nation/shawnee.ruleset:24 data/nation/swazi.ruleset:22
-#: data/nation/urartian.ruleset:39
+#: data/nation/urartian.ruleset:36
 #, c-format
 msgid "Spokeswoman %s"
 msgstr "Оратор %s"
@@ -2265,7 +2265,7 @@ msgstr "Оратор %s"
 #: data/nation/gepid.ruleset:46 data/nation/italiangreek.ruleset:49
 #: data/nation/liberian.ruleset:30 data/nation/marshallese.ruleset:23
 #: data/nation/nauruan.ruleset:32 data/nation/toltec.ruleset:33
-#: data/nation/urartian.ruleset:40
+#: data/nation/urartian.ruleset:37
 #, c-format
 msgid "Speaker %s"
 msgstr "Спикер %s"
@@ -2275,7 +2275,7 @@ msgstr "Спикер %s"
 #: data/nation/gepid.ruleset:46 data/nation/italiangreek.ruleset:49
 #: data/nation/liberian.ruleset:30 data/nation/marshallese.ruleset:23
 #: data/nation/nauruan.ruleset:32 data/nation/toltec.ruleset:33
-#: data/nation/urartian.ruleset:40
+#: data/nation/urartian.ruleset:37
 #, c-format
 msgid "?female:Speaker %s"
 msgstr "Спикер %s"
@@ -2705,7 +2705,7 @@ msgstr "Деспот %s"
 #: data/nation/latin.ruleset:47 data/nation/ligurian.ruleset:25
 #: data/nation/ostrogothic.ruleset:32 data/nation/palmyrene.ruleset:21
 #: data/nation/sabine.ruleset:30 data/nation/samnite.ruleset:27
-#: data/nation/vandalic.ruleset:30 data/nation/visigothic.ruleset:38
+#: data/nation/vandalic.ruleset:30 data/nation/visigothic.ruleset:39
 #: data/nation/westernroman.ruleset:33
 #, c-format
 msgid "Consul %s"
@@ -2716,7 +2716,7 @@ msgstr "Консул %s"
 #: data/nation/latin.ruleset:47 data/nation/ligurian.ruleset:25
 #: data/nation/ostrogothic.ruleset:32 data/nation/palmyrene.ruleset:21
 #: data/nation/sabine.ruleset:30 data/nation/samnite.ruleset:27
-#: data/nation/vandalic.ruleset:30 data/nation/visigothic.ruleset:38
+#: data/nation/vandalic.ruleset:30 data/nation/visigothic.ruleset:39
 #: data/nation/westernroman.ruleset:33
 #, c-format
 msgid "?female:Consul %s"
@@ -2823,14 +2823,14 @@ msgstr ""
 
 #: data/nation/british.ruleset:23 data/nation/holyroman.ruleset:32
 #: data/nation/scottishgaelic.ruleset:34 data/nation/scottish.ruleset:23
-#: data/nation/urartian.ruleset:36
+#: data/nation/urartian.ruleset:33
 #, c-format
 msgid "Pretender %s"
 msgstr "Претендент %s"
 
 #: data/nation/british.ruleset:23 data/nation/holyroman.ruleset:32
 #: data/nation/scottishgaelic.ruleset:34 data/nation/scottish.ruleset:23
-#: data/nation/urartian.ruleset:36
+#: data/nation/urartian.ruleset:33
 #, c-format
 msgid "?female:Pretender %s"
 msgstr "Претендентка %s"
@@ -2941,7 +2941,7 @@ msgstr ""
 #: data/nation/mughal.ruleset:22 data/nation/nigerien.ruleset:24
 #: data/nation/palestinian.ruleset:21 data/nation/qatari.ruleset:21
 #: data/nation/senegalese.ruleset:19 data/nation/tatar.ruleset:30
-#: data/nation/turkishcypriot.ruleset:29 data/nation/volgabulgar.ruleset:28
+#: data/nation/turkishcypriot.ruleset:29 data/nation/volgabulgar.ruleset:25
 #, c-format
 msgid "Grand Mufti %s"
 msgstr "Верховный Муфтий %s"
@@ -2954,7 +2954,7 @@ msgstr "Верховный Муфтий %s"
 #: data/nation/mughal.ruleset:22 data/nation/nigerien.ruleset:24
 #: data/nation/palestinian.ruleset:21 data/nation/qatari.ruleset:21
 #: data/nation/senegalese.ruleset:19 data/nation/tatar.ruleset:30
-#: data/nation/turkishcypriot.ruleset:29 data/nation/volgabulgar.ruleset:28
+#: data/nation/turkishcypriot.ruleset:29 data/nation/volgabulgar.ruleset:25
 #, c-format
 msgid "?female:Grand Mufti %s"
 msgstr "Верховный Муфтий %s"
@@ -3533,13 +3533,13 @@ msgstr ""
 "поляков была переселена на новые польские западные территории."
 
 #: data/nation/centrallithuanian.ruleset:40 data/nation/chuvash.ruleset:30
-#: data/nation/rusyn.ruleset:33 data/nation/volgagerman.ruleset:37
+#: data/nation/rusyn.ruleset:33 data/nation/volgagerman.ruleset:35
 #, c-format
 msgid "People's Commissar %s"
 msgstr "Народный Комиссар %s"
 
 #: data/nation/centrallithuanian.ruleset:40 data/nation/chuvash.ruleset:30
-#: data/nation/rusyn.ruleset:33 data/nation/volgagerman.ruleset:37
+#: data/nation/rusyn.ruleset:33 data/nation/volgagerman.ruleset:35
 #, c-format
 msgid "?female:People's Commissar %s"
 msgstr "Народный Комиссар %s"
@@ -3724,13 +3724,13 @@ msgstr ""
 "страна Латинской Америки."
 
 #: data/nation/chilean.ruleset:30 data/nation/puertorican.ruleset:28
-#: data/nation/yucatecan.ruleset:27
+#: data/nation/yucatecan.ruleset:28
 #, c-format
 msgid "Captain General %s"
 msgstr "Капитан-Генерал %s"
 
 #: data/nation/chilean.ruleset:30 data/nation/puertorican.ruleset:28
-#: data/nation/yucatecan.ruleset:27
+#: data/nation/yucatecan.ruleset:28
 #, c-format
 msgid "?female:Captain General %s"
 msgstr "Капитан-Генерал %s"
@@ -3873,7 +3873,7 @@ msgstr ""
 #: data/nation/chrobatian.ruleset:31 data/nation/czechoslovak.ruleset:31
 #: data/nation/czech.ruleset:33 data/nation/macedonian.ruleset:24
 #: data/nation/slavic.ruleset:33 data/nation/slovakian.ruleset:23
-#: data/nation/veletian.ruleset:29
+#: data/nation/veletian.ruleset:27
 #, c-format
 msgid "Voivode %s"
 msgstr "Воевода %s"
@@ -3881,7 +3881,7 @@ msgstr "Воевода %s"
 #: data/nation/chrobatian.ruleset:31 data/nation/czechoslovak.ruleset:31
 #: data/nation/czech.ruleset:33 data/nation/macedonian.ruleset:24
 #: data/nation/slavic.ruleset:33 data/nation/slovakian.ruleset:23
-#: data/nation/veletian.ruleset:29
+#: data/nation/veletian.ruleset:27
 #, c-format
 msgid "?female:Voivode %s"
 msgstr "Воевода %s"
@@ -3898,7 +3898,7 @@ msgstr "Жрица %s"
 #: data/nation/montenegrin.ruleset:29 data/nation/novgorodian.ruleset:44
 #: data/nation/ruthenian.ruleset:30 data/nation/slavic.ruleset:32
 #: data/nation/transylvanian.ruleset:29 data/nation/ukrainian.ruleset:38
-#: data/nation/veletian.ruleset:31 data/nation/vistulan.ruleset:27
+#: data/nation/veletian.ruleset:29 data/nation/vistulan.ruleset:27
 #: data/nation/westernpomeranian.ruleset:31
 #, c-format
 msgid "Grand Prince %s"
@@ -3911,7 +3911,7 @@ msgstr "Великий Князь %s"
 #: data/nation/montenegrin.ruleset:29 data/nation/novgorodian.ruleset:44
 #: data/nation/ruthenian.ruleset:30 data/nation/slavic.ruleset:32
 #: data/nation/transylvanian.ruleset:29 data/nation/ukrainian.ruleset:38
-#: data/nation/veletian.ruleset:31 data/nation/vistulan.ruleset:27
+#: data/nation/veletian.ruleset:29 data/nation/vistulan.ruleset:27
 #: data/nation/westernpomeranian.ruleset:31
 #, c-format
 msgid "Grand Princess %s"
@@ -5353,7 +5353,7 @@ msgstr ""
 #: data/nation/lorrain.ruleset:31 data/nation/montenegrin.ruleset:28
 #: data/nation/palatinate.ruleset:30 data/nation/rhenish.ruleset:35
 #: data/nation/tyrolian.ruleset:23 data/nation/walloon.ruleset:26
-#: data/nation/westphalian.ruleset:32
+#: data/nation/westphalian.ruleset:28
 #, c-format
 msgid "Prince-Bishop %s"
 msgstr "Герцог-епископ %s"
@@ -6197,7 +6197,7 @@ msgstr ""
 #: data/nation/hanoverian.ruleset:23 data/nation/lorrain.ruleset:31
 #: data/nation/montenegrin.ruleset:28 data/nation/rhenish.ruleset:35
 #: data/nation/tyrolian.ruleset:23 data/nation/walloon.ruleset:26
-#: data/nation/westphalian.ruleset:32
+#: data/nation/westphalian.ruleset:28
 #, c-format
 msgid "Princess-Bishop %s"
 msgstr "Принцесса-епископ %s"
@@ -7193,12 +7193,12 @@ msgstr ""
 "средневековье. Изначальные приверженцы шаманизма, они использовали в "
 "качестве государственной религии адаптированный иудаизм."
 
-#: data/nation/khazar.ruleset:34 data/nation/volgabulgar.ruleset:27
+#: data/nation/khazar.ruleset:34 data/nation/volgabulgar.ruleset:24
 #, c-format
 msgid "Tarkhan %s"
 msgstr "Тархан %s"
 
-#: data/nation/khazar.ruleset:34 data/nation/volgabulgar.ruleset:27
+#: data/nation/khazar.ruleset:34 data/nation/volgabulgar.ruleset:24
 #, c-format
 msgid "?female:Tarkhan %s"
 msgstr "Тархан %s"

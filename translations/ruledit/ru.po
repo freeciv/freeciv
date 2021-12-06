@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv Ruledit\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2021-10-08 02:24+0500\n"
-"PO-Revision-Date: 2021-10-08 00:18+0500\n"
+"POT-Creation-Date: 2021-12-06 06:00+0500\n"
+"PO-Revision-Date: 2021-12-06 03:53+0500\n"
 "Last-Translator: Konstantin Vedeneev <konved@gmail.com>\n"
 "Language-Team: Russian <freeciv.ru@freelists.org>\n"
 "Language: ru\n"
@@ -38,13 +38,17 @@ msgstr "Закрыть"
 msgid "Old ruleset to a new format"
 msgstr "Преобразование набора в новый формат"
 
-#: tools/ruledit/edit_impr.cpp:47 tools/ruledit/edit_utype.cpp:64
+#: tools/ruledit/edit_impr.cpp:50 tools/ruledit/edit_utype.cpp:64
 msgid "Build Cost"
 msgstr "Стоимость Строительства"
 
-#: tools/ruledit/edit_impr.cpp:58
+#: tools/ruledit/edit_impr.cpp:61
 msgid "Upkeep"
 msgstr "Содержание"
+
+#: tools/ruledit/edit_impr.cpp:71
+msgid "Genus"
+msgstr "Вид"
 
 #: tools/ruledit/edit_utype.cpp:49
 msgid "Requirement"
@@ -57,6 +61,10 @@ msgstr "Сила Атаки"
 #: tools/ruledit/edit_utype.cpp:84
 msgid "Defense Strength"
 msgstr "Уровень Защиты"
+
+#: tools/ruledit/edit_utype.cpp:94
+msgid "Move Rate"
+msgstr "Очки Движения"
 
 #: tools/ruledit/effect_edit.cpp:75 tools/ruledit/req_edit.cpp:66
 msgid "Type:"
@@ -673,9 +681,9 @@ msgstr "Стиль музыки"
 
 #. TRANS: e.g. "Advance clause"
 #: tools/ruledit/validity.c:157
-#, fuzzy, c-format
+#, c-format
 msgid "%s clause"
-msgstr "Пункт %s"
+msgstr "Статья договора %s"
 
 #: tools/ruledit/validity.c:282
 msgid "Conflicting extra"
