@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv Ruledit\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2021-09-16 18:19+0300\n"
-"PO-Revision-Date: 2021-10-08 00:18+0500\n"
+"POT-Creation-Date: 2021-12-06 05:59+0500\n"
+"PO-Revision-Date: 2021-12-06 03:53+0500\n"
 "Last-Translator: Konstantin Vedeneev <konved@gmail.com>\n"
 "Language-Team: Russian <freeciv.ru@freelists.org>\n"
 "Language: ru\n"
@@ -37,13 +37,17 @@ msgstr "Закрыть"
 msgid "Old ruleset to a new format"
 msgstr "Преобразование набора в новый формат"
 
-#: tools/ruledit/edit_impr.cpp:47 tools/ruledit/edit_utype.cpp:64
+#: tools/ruledit/edit_impr.cpp:50 tools/ruledit/edit_utype.cpp:64
 msgid "Build Cost"
 msgstr "Стоимость Строительства"
 
-#: tools/ruledit/edit_impr.cpp:58
+#: tools/ruledit/edit_impr.cpp:61
 msgid "Upkeep"
 msgstr "Содержание"
+
+#: tools/ruledit/edit_impr.cpp:71
+msgid "Genus"
+msgstr "Вид"
 
 #: tools/ruledit/edit_utype.cpp:49
 msgid "Requirement"
@@ -56,6 +60,10 @@ msgstr "Сила Атаки"
 #: tools/ruledit/edit_utype.cpp:84
 msgid "Defense Strength"
 msgstr "Уровень Защиты"
+
+#: tools/ruledit/edit_utype.cpp:94
+msgid "Move Rate"
+msgstr "Очки Движения"
 
 #. TRANS: Trying to fix a requirement vector problem but can't find
 #. * any.
