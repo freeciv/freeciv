@@ -231,6 +231,11 @@ module City {
     @ is_capital(lua_State *L, City *self);
   bool api_methods_is_primary_capital
     @ is_primary_capital(lua_State *L, City *self);
+
+  const char *api_methods_city_link
+    @ link_text(lua_State *L, City *self);
+  const char *api_methods_city_tile_link
+    @ tile_link_text(lua_State *L, City *self);
 }
 
 $[
@@ -255,6 +260,11 @@ module Unit {
     @ is_on_possible_city_tile (lua_State *L, Unit *self);
   Direction *api_methods_unit_orientation_get
     @ facing(lua_State *L, Unit *self);
+
+  const char *api_methods_unit_link
+    @ link_text(lua_State *L, Unit *self);
+  const char *api_methods_unit_tile_link
+    @ tile_link_text(lua_State *L, Unit *self);
 }
 
 module methods_private {
@@ -287,6 +297,9 @@ module Tile {
       @ x (lua_State *L, Tile *self);
     int api_methods_tile_map_y
       @ y (lua_State *L, Tile *self);
+
+    const char *api_methods_tile_link
+      @ link_text(lua_State *L, Tile *self);
   }
 
   City *api_methods_tile_city

@@ -180,6 +180,13 @@ City *api_methods_city_list_link_data(lua_State *L, City_List_Link *link);
 City_List_Link *api_methods_city_list_next_link(lua_State *L,
                                                 City_List_Link *link);
 
+/* Featured text */
+const char *api_methods_tile_link(lua_State *L, Tile *ptile);
+const char *api_methods_unit_link(lua_State *L, Unit *punit);
+const char *api_methods_unit_tile_link(lua_State *L, Unit *punit);
+const char *api_methods_city_link(lua_State *L, City *pcity);
+const char *api_methods_city_tile_link(lua_State *L, City *pcity);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

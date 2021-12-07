@@ -24,6 +24,7 @@
 #include "calendar.h"
 #include "citizens.h"
 #include "culture.h"
+#include "featured_text.h"
 #include "game.h"
 #include "government.h"
 #include "improvement.h"
@@ -1255,4 +1256,59 @@ City_List_Link *api_methods_city_list_next_link(lua_State *L,
   LUASCRIPT_CHECK_STATE(L, NULL);
 
   return city_list_link_next(cl_link);
+}
+
+/**********************************************************************//**
+  Return featured text link of the tile.
+**************************************************************************/
+const char *api_methods_tile_link(lua_State *L, Tile *ptile)
+{
+  LUASCRIPT_CHECK_STATE(L, NULL);
+  LUASCRIPT_CHECK_SELF(L, ptile, NULL);
+
+  return tile_link(ptile);
+}
+
+/**********************************************************************//**
+  Return featured text link of the unit tile.
+**************************************************************************/
+const char *api_methods_unit_tile_link(lua_State *L, Unit *punit)
+{
+  LUASCRIPT_CHECK_STATE(L, NULL);
+  LUASCRIPT_CHECK_SELF(L, punit, NULL);
+
+  return unit_tile_link(punit);
+}
+
+/**********************************************************************//**
+  Return featured text link of the city tile.
+**************************************************************************/
+const char *api_methods_city_tile_link(lua_State *L, City *pcity)
+{
+  LUASCRIPT_CHECK_STATE(L, NULL);
+  LUASCRIPT_CHECK_SELF(L, pcity, NULL);
+
+  return city_tile_link(pcity);
+}
+
+/**********************************************************************//**
+  Return featured text link of the unit.
+**************************************************************************/
+const char *api_methods_unit_link(lua_State *L, Unit *punit)
+{
+  LUASCRIPT_CHECK_STATE(L, NULL);
+  LUASCRIPT_CHECK_SELF(L, punit, NULL);
+
+  return unit_link(punit);
+}
+
+/**********************************************************************//**
+  Return featured text link of the city.
+**************************************************************************/
+const char *api_methods_city_link(lua_State *L, City *pcity)
+{
+  LUASCRIPT_CHECK_STATE(L, NULL);
+  LUASCRIPT_CHECK_SELF(L, pcity, NULL);
+
+  return city_link(pcity);
 }
