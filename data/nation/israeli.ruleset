@@ -24,8 +24,8 @@ ruler_titles = { "government",     "male_title",       "female_title"
                  "Fundamentalism", _("Rabbi %s"),      _("?female:Rabbi %s")
 	       }
 
-flag="israel"
-flag_alt = "menora"
+flag = "israel"
+flag_alt = "-"
 style = "Babylonian"
 
 init_techs=""

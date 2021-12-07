@@ -20,8 +20,8 @@ leaders = {
  "epkat",               "Male"
 }
 
-flag="jbonai"
-flag_alt = "american"   ; Born there
+flag = "jbonai"
+flag_alt = "-"
 style = "European"
  
 init_techs=""

@@ -21,9 +21,11 @@ leaders = {
  "Mandana",               "Female"    ;Mandane, Median princess and mother of Cyrus the Great of Parsa
  "Aturpat",               "Male"      ;Atropates
 }
-flag= "median"
-flag_alt = "persia"
+
+flag = "median"
+flag_alt = "-"
 style = "Babylonian"
+
 ruler_titles = {
  "government",  "male_title",           "female_title"
  "Anarchy",     _("Usurper %s"),        _("?female:Usurper %s")

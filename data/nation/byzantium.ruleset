@@ -32,8 +32,8 @@ ruler_titles = {
  "Republic",        _("Consul %s"),      _("?female:Consul %s")
 }
 
-flag="byzantium"
-flag_alt = "greek"
+flag = "byzantium"
+flag_alt = "-"
 style = "Classical"
 
 init_techs=""
