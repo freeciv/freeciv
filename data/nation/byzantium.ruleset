@@ -33,7 +33,7 @@ ruler_titles = {
 }
 
 flag = "byzantium"
-flag_alt = "greek"
+flag_alt = "-"
 style = "Classical"
 
 init_techs = ""

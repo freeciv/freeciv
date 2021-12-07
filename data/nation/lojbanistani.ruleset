@@ -21,7 +21,7 @@ leaders = {
 }
 
 flag = "jbonai"
-flag_alt = "american"   ; Born there
+flag_alt = "-"
 style = "European"
 
 init_techs = ""

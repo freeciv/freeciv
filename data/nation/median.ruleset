@@ -24,7 +24,7 @@ leaders = {
 }
 
 flag = "median"
-flag_alt = "persia"
+flag_alt = "-"
 style = "Babylonian"
 
 ruler_titles = {
