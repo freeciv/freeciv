@@ -189,7 +189,7 @@ Growth_Food
     Food left after cities grow or shrink is amount percent of the capacity of 
 the city's foodbox. This also affects the 'aqueductloss' penalty.
 
-Have_Contact
+Have_Contacts
     If value > 0, gives contact to all the other players.
 
 Have_Embassies
