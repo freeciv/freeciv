@@ -317,7 +317,7 @@ Happiness_To_Gold
 Has_Senate
     Has a senate that prevents declarations of war in most cases.
 
-Have_Contact
+Have_Contacts
     If value > 0, gives contact to all the other players.
 
 Have_Embassies
