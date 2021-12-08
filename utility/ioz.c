@@ -1218,10 +1218,10 @@ const char *fz_strerror(fz_FILE *fp)
 
       if (NULL != cleartext) {
         fc_snprintf(zstderror, sizeof(zstderror), "ZSTD: \"%s\" (%ld)",
-                    cleartext, fp->u.zstd.error);
+                    cleartext, (long)fp->u.zstd.error);
       } else {
         fc_snprintf(zstderror, sizeof(zstderror), "ZSTD error %ld",
-                    fp->u.zstd.error);
+                    (long)fp->u.zstd.error);
       }
       return zstderror;
     }
