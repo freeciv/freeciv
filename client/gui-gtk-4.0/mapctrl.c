@@ -334,6 +334,7 @@ void update_rect_at_mouse_pos(void)
   double x, y;
   GdkSurface *window;
   GdkDevice *pointer;
+  GdkDevice *keyboard;
   GdkModifierType mask;
   GdkSeat *seat = gdk_display_get_default_seat(gtk_widget_get_display(toplevel));
 
@@ -345,7 +346,8 @@ void update_rect_at_mouse_pos(void)
   window = gdk_device_get_surface_at_position(pointer, &x, &y);
   if (window
       && window == gtk_native_get_surface(gtk_widget_get_native(map_canvas))) {
-    gdk_device_get_state(pointer, window, NULL, &mask);
+    keyboard = gdk_seat_get_keyboard(seat);
+    mask = gdk_device_get_modifier_state(keyboard);
     if (mask & GDK_BUTTON3_MASK) {
       update_selection_rectangle(x, y);
     }
