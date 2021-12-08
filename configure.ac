@@ -654,16 +654,16 @@ else
   CXXFLAGS="$CXXFLAGS -s USE_ICU=1"
 fi
 
-dnl Should we build experimental versions of Qt programs?
+dnl Should we build Qt5 versions of Qt programs?
 dnl This needs to be before C++ compiler check FC_WORKING_CXX, and
 dnl that in turn needs to be before FC_DEBUG that will depend on compiler
 dnl when setting compiler flags.
-AC_ARG_WITH([qt6],
-  AS_HELP_STRING([--with-qt6], [build Qt6 versions of Qt programs]),
+AC_ARG_WITH([qt5],
+  AS_HELP_STRING([--with-qt5], [build Qt5 versions of Qt programs]),
 [case "${withval}" in
- yes) qt_ver="Qt6" ;;
- *)   qt_ver="Qt5" ;;
-esac], [qt_ver="Qt5"])
+ yes) qt_ver="Qt5" ;;
+ *)   qt_ver="Qt6" ;;
+esac], [qt_ver="Qt6"])
 
 if test "x$qt_ver" = "xQt5" ; then
   AC_DEFINE([FC_QT5_MODE], [1], [this is Qt5 based build])

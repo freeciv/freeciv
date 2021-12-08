@@ -243,8 +243,8 @@ following order: pkg-config, Glib, Atk, Pango, Gdk-Pixbuf, Gtk+.
  - C++ compiler.
 
    Qt-client is written in C++, so you need appropriate compiler.
-   Compiler needs to support c++11 standard, or,
-   in case of --with-qt6 build, c++17 standard
+   Compiler needs to support c++17 standard, or,
+   in case of --with-qt5 build, just c++11 standard
 
    In Freeciv development, g++ has been the primary C++ compiler.
    Also clang++ has been used.
@@ -252,7 +252,7 @@ following order: pkg-config, Glib, Atk, Pango, Gdk-Pixbuf, Gtk+.
  - Qt Meta Object Compiler (moc)
 
    Qt's Meta Object Compiler is a command usually called 'moc', or
-   'moc-qt5' or 'moc-qt6' depending on Qt version in some systems.
+   'moc-qt6' or 'moc-qt5' depending on Qt version in some systems.
    You may want install 'qtchooser' to find correct moc version for you
    when you have multiple Qt versions installed in parallel.
 
@@ -260,11 +260,11 @@ following order: pkg-config, Glib, Atk, Pango, Gdk-Pixbuf, Gtk+.
    environment variable MOCCMD, e.g.,
    ./configure MOCCMD="/home/freeciv/local-qt/bin/moc" --enable-client=qt
 
- - Qt5Core, Qt5Gui, and Qt5Widgets libraries and headers.
-   At least version 5.11 is required.
-   If one builds with configure option --with-qt6,
-   required libraries and headers are Qt6Core, Qt6Gui, and Qt6Widgets
-   and at least version 6.0 of Qt is required.
+ - Qt6Core, Qt6Gui, and Qt6Widgets libraries and headers.
+   At least version 6.0 is required.
+   If one configures with Qt5 compatibility switch --with-qt5,
+   required libraries and headers are Qt5Core, Qt5Gui, and Qt5Widgets
+   and at least version 5.11 of Qt is required.
 
 
 2. Generating Makefiles
