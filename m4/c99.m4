@@ -21,6 +21,30 @@ AC_DEFUN([FC_C99_VARIADIC_MACROS],
   fi
 ])
 
+
+# Check C99-style variable-sized arrays (required)
+# We don't use AC_C_VARARRAYS() as it's stricter than what we need
+# and want - it would leave out compilers that are just fine for freeciv
+# compilation.
+#
+#   char concat_str[strlen(s1) + strlen(s2) + 1];
+#
+AC_DEFUN([FC_C99_VARIABLE_ARRAYS],
+[
+  dnl Check for variable arrays
+  AC_CACHE_CHECK([for C99 variable arrays],
+    [ac_cv_c99_variable_arrays],
+    [AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[
+#include <string.h>
+#include <stdio.h>
+]], [[char *s1 = "foo", *s2 = "bar";
+         char s3[strlen(s1) + strlen(s2) + 1];
+         sprintf(s3, "%s%s", s1, s2);]])],[ac_cv_c99_variable_arrays=yes],[ac_cv_c99_variable_arrays=no])])
+  if test "x${ac_cv_c99_variable_arrays}" != "xyes"; then
+    AC_MSG_ERROR([A compiler supporting C99 variable arrays is required])
+  fi
+])
+
 # Check C99-style initializers (required):
 #
 # Examples:
