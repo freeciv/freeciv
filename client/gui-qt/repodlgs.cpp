@@ -236,7 +236,11 @@ void unittype_item::upgrade_units()
 /************************************************************************//**
   Mouse entered widget
 ****************************************************************************/
+#ifndef FC_QT5_MODE
+void unittype_item::enterEvent(QEnterEvent *event)
+#else  // FC_QT5_MODE
 void unittype_item::enterEvent(QEvent *event)
+#endif // FC_QT5_MODE
 {
   entered = true;
   update();

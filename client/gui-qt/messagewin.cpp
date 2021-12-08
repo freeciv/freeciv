@@ -262,7 +262,11 @@ void messagewdg::item_selected(const QItemSelection &sl,
 /***********************************************************************//**
   Mouse entered messagewdg
 ***************************************************************************/
+#ifndef FC_QT5_MODE
+void messagewdg::enterEvent(QEnterEvent *event)
+#else  // FC_QT5_MODE
 void messagewdg::enterEvent(QEvent *event)
+#endif // FC_QT5_MODE
 {
   setCursor(Qt::ArrowCursor);
 }

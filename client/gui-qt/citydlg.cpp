@@ -403,7 +403,11 @@ void impr_item::init_pix()
 /************************************************************************//**
   Mouse enters widget
 ****************************************************************************/
+#ifndef FC_QT5_MODE
+void impr_item::enterEvent(QEnterEvent *event)
+#else  // FC_QT5_MODE
 void impr_item::enterEvent(QEvent *event)
+#endif // FC_QT5_MODE
 {
   struct sprite *sprite;
   QPainter p;
@@ -961,7 +965,11 @@ void unit_item::fortify_unit()
 /************************************************************************//**
   Mouse entered widget
 ****************************************************************************/
+#ifndef FC_QT5_MODE
+void unit_item::enterEvent(QEnterEvent *event)
+#else  // FC_QT5_MODE
 void unit_item::enterEvent(QEvent *event)
+#endif // FC_QT5_MODE
 {
   QImage temp_img(unit_img.size(), QImage::Format_ARGB32_Premultiplied);
   QPainter p;

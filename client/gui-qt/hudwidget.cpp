@@ -1911,7 +1911,11 @@ void hud_unit_combat::leaveEvent(QEvent *event)
 /************************************************************************//**
   Leave event for hud unit combat. Shows highlight.
 ****************************************************************************/
+#ifndef FC_QT5_MODE
+void hud_unit_combat::enterEvent(QEnterEvent *event)
+#else  // FC_QT5_MODE
 void hud_unit_combat::enterEvent(QEvent *event)
+#endif // FC_QT5_MODE
 {
   focus = true;
   update();
