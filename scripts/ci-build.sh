@@ -74,6 +74,7 @@ cd build
  --enable-sys-lua \
  --enable-sys-tolua-cmd \
  --disable-fcdb \
+ --with-qt5 \
  --enable-client=gtk3.22,qt,sdl2,stub \
  --enable-fcmp=cli,gtk3,qt \
  --enable-freeciv-manual \
@@ -97,6 +98,7 @@ cd build
 ../autogen.sh \
  CFLAGS="-O3" \
  CXXFLAGS="-O3" \
+ --with-qt5 \
  --enable-client=gtk3.22,qt,sdl2,stub \
  --enable-fcmp=cli,gtk3,qt \
  --enable-freeciv-manual \
