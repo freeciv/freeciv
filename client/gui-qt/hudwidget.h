@@ -307,7 +307,11 @@ protected:
   void paintEvent(QPaintEvent *event);
   void mousePressEvent(QMouseEvent *e);
   void leaveEvent(QEvent *event);
+#ifdef FC_QT6_MODE
+  void enterEvent(QEnterEvent *event);
+#else  // FC_QT6_MODE
   void enterEvent(QEvent *event);
+#endif // FC_QT6_MODE
 private:
   void init_images(bool redraw = false);
   int att_hp;
