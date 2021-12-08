@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
+
 <svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://web.resource.org/cc/"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    width="900"
    height="600"
    id="svg1872"
    sodipodi:version="0.32"
-   inkscape:version="0.44"
+   inkscape:version="1.1.1 (3bf5ae0d25, 2021-09-20)"
    version="1.0"
-   sodipodi:docbase="C:\freeciv"
-   sodipodi:docname="estonia.svg">
+   sodipodi:docname="estonia.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
   <defs
      id="defs1874" />
   <sodipodi:namedview
@@ -29,16 +29,19 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.62833333"
-     inkscape:cx="450"
+     inkscape:cx="448.80637"
      inkscape:cy="300"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      width="900px"
      height="600px"
      inkscape:window-width="847"
-     inkscape:window-height="579"
-     inkscape:window-x="132"
-     inkscape:window-y="174" />
+     inkscape:window-height="586"
+     inkscape:window-x="323"
+     inkscape:window-y="61"
+     inkscape:pagecheckerboard="0"
+     showgrid="false"
+     inkscape:window-maximized="0" />
   <metadata
      id="metadata1877">
     <rdf:RDF>
