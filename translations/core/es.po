@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2021-12-04 21:33+0200\n"
-"PO-Revision-Date: 2021-12-04 14:01+0100\n"
+"POT-Creation-Date: 2021-12-08 23:31+0200\n"
+"PO-Revision-Date: 2021-12-08 20:19+0100\n"
 "Last-Translator: Jordi Negrevernis <jorneg4@gmail.com>\n"
 "Language-Team: Español; Castellano <>\n"
 "Language: es\n"
@@ -2573,8 +2573,8 @@ msgstr "fondo"
 msgid "Select the background color"
 msgstr "Selecciona el color de fondo"
 
-#: client/gui-gtk-3.22/chatline.c:1425 client/gui-sdl2/dialogs.c:2884
-#: client/gui-sdl2/dialogs.c:3318 client/gui-sdl2/mapctrl.c:2791
+#: client/gui-gtk-3.22/chatline.c:1425 client/gui-sdl2/dialogs.c:2887
+#: client/gui-sdl2/dialogs.c:3325 client/gui-sdl2/mapctrl.c:2791
 #: common/mapimg.c:304
 msgid "OK"
 msgstr "Vale"
@@ -3320,7 +3320,7 @@ msgstr "¡Revolución!"
 
 #. TRANS: Pillage dialog title.
 #: client/gui-gtk-3.22/dialogs.c:362 client/gui-qt/dialogs.cpp:3875
-#: client/gui-sdl2/dialogs.c:2257
+#: client/gui-sdl2/dialogs.c:2258
 msgid "What To Pillage"
 msgstr "Qué saquear"
 
@@ -3410,7 +3410,7 @@ msgid "You must select your style."
 msgstr "Debes elegir tu estilo."
 
 #: client/gui-gtk-3.22/dialogs.c:1402 client/gui-qt/dialogs.cpp:841
-#: client/gui-sdl2/dialogs.c:2563
+#: client/gui-sdl2/dialogs.c:2564
 msgid "You must type a legal name."
 msgstr "Debes teclear un nombre válido."
 
@@ -3420,13 +3420,13 @@ msgstr "¡Mejorar la unidad!"
 
 #: client/gui-gtk-3.22/dialogs.c:1453 client/gui-gtk-3.22/repodlgs.c:1600
 #: client/gui-qt/dialogs.cpp:4366 client/gui-qt/repodlgs.cpp:226
-#: client/gui-sdl2/dialogs.c:697 client/gui-sdl2/repodlgs.c:225
+#: client/gui-sdl2/dialogs.c:698 client/gui-sdl2/repodlgs.c:225
 msgid "Upgrade Obsolete Units"
 msgstr "Actualizar unidades obsoletas"
 
 #: client/gui-gtk-3.22/dialogs.c:1482 client/gui-gtk-3.22/dialogs.c:1491
 #: client/gui-gtk-3.22/repodlgs.c:1001 client/gui-qt/repodlgs.cpp:1447
-#: client/gui-sdl2/dialogs.c:895
+#: client/gui-sdl2/dialogs.c:896
 msgid "Disband Units"
 msgstr "Desarticular unidades"
 
@@ -6114,7 +6114,7 @@ msgstr "Cargar"
 msgid "Description"
 msgstr "Descripción"
 
-#: client/gui-gtk-3.22/unitselect.c:255 client/gui-sdl2/dialogs.c:1101
+#: client/gui-gtk-3.22/unitselect.c:255 client/gui-sdl2/dialogs.c:1102
 msgid "Unit selection"
 msgstr "Selección de Unidad"
 
@@ -6576,8 +6576,8 @@ msgstr "Obsoleta con %1."
 #: client/gui-sdl2/citydlg.c:537 client/gui-sdl2/citydlg.c:1443
 #: client/gui-sdl2/connectdlg.c:315 client/gui-sdl2/connectdlg.c:627
 #: client/gui-sdl2/connectdlg.c:823 client/gui-sdl2/connectdlg.c:994
-#: client/gui-sdl2/dialogs.c:726 client/gui-sdl2/dialogs.c:924
-#: client/gui-sdl2/dialogs.c:3308 client/gui-sdl2/mapctrl.c:2801
+#: client/gui-sdl2/dialogs.c:727 client/gui-sdl2/dialogs.c:925
+#: client/gui-sdl2/dialogs.c:3315 client/gui-sdl2/mapctrl.c:2801
 msgid "Cancel"
 msgstr "Cancelar"
 
@@ -6641,13 +6641,11 @@ msgstr "Elige la nación"
 msgid "Nation Set:"
 msgstr "Conjunto de Naciones:"
 
-#: client/gui-qt/dialogs.cpp:485 client/gui-sdl2/dialogs.c:2593
-#: client/gui-sdl2/dialogs.c:3017
+#: client/gui-qt/dialogs.cpp:485 common/sex.c:49
 msgid "Female"
 msgstr "Hembra"
 
-#: client/gui-qt/dialogs.cpp:486 client/gui-sdl2/dialogs.c:2595
-#: client/gui-sdl2/dialogs.c:3015 client/gui-sdl2/dialogs.c:3268
+#: client/gui-qt/dialogs.cpp:486 common/sex.c:47
 msgid "Male"
 msgstr "Varón"
 
@@ -7354,7 +7352,7 @@ msgid "Unsentry All On Tile"
 msgstr "Despertar Todas en la casilla"
 
 #: client/gui-qt/menu.cpp:1256 client/gui-qt/shortcuts.cpp:113
-#: client/gui-sdl2/dialogs.c:738
+#: client/gui-sdl2/dialogs.c:739
 msgid "Upgrade"
 msgstr "Mejorar"
 
@@ -7363,7 +7361,7 @@ msgid "Convert"
 msgstr "Convertir"
 
 #: client/gui-qt/menu.cpp:1265 client/gui-qt/repodlgs.cpp:1221
-#: client/gui-sdl2/dialogs.c:936
+#: client/gui-sdl2/dialogs.c:937
 msgid "Disband"
 msgstr "Desarticular"
 
@@ -8128,10 +8126,10 @@ msgstr "<b>%1 inició un voto para:</b>"
 #: client/gui-sdl2/action_dialog.c:1664 client/gui-sdl2/action_dialog.c:1734
 #: client/gui-sdl2/action_dialog.c:1962 client/gui-sdl2/chatline.c:222
 #: client/gui-sdl2/citydlg.c:3684 client/gui-sdl2/cma_fe.c:520
-#: client/gui-sdl2/cma_fe.c:936 client/gui-sdl2/dialogs.c:333
-#: client/gui-sdl2/dialogs.c:536 client/gui-sdl2/dialogs.c:1119
-#: client/gui-sdl2/dialogs.c:1370 client/gui-sdl2/dialogs.c:1719
-#: client/gui-sdl2/dialogs.c:2276 client/gui-sdl2/finddlg.c:167
+#: client/gui-sdl2/cma_fe.c:936 client/gui-sdl2/dialogs.c:334
+#: client/gui-sdl2/dialogs.c:537 client/gui-sdl2/dialogs.c:1120
+#: client/gui-sdl2/dialogs.c:1371 client/gui-sdl2/dialogs.c:1720
+#: client/gui-sdl2/dialogs.c:2277 client/gui-sdl2/finddlg.c:167
 #: client/gui-sdl2/gotodlg.c:278 client/gui-sdl2/helpdlg.c:265
 #: client/gui-sdl2/helpdlg.c:681 client/gui-sdl2/helpdlg.c:1946
 #: client/gui-sdl2/inteldlg.c:269 client/gui-sdl2/optiondlg.c:802
@@ -8389,7 +8387,7 @@ msgstr "Unidades mantenidas"
 msgid "Change production"
 msgstr "Cambiar producción"
 
-#: client/gui-sdl2/citydlg.c:3791 client/gui-sdl2/dialogs.c:1782
+#: client/gui-sdl2/citydlg.c:3791 client/gui-sdl2/dialogs.c:1783
 msgid "Hurry production"
 msgstr "Acelerar producción"
 
@@ -8519,98 +8517,98 @@ msgstr "Puerto:"
 msgid "Next"
 msgstr "Siguiente"
 
-#: client/gui-sdl2/dialogs.c:1138
+#: client/gui-sdl2/dialogs.c:1139
 #, c-format
 msgid "Contact %s (%d / %d) %s(%d,%d,%s) %s"
 msgstr "Contacta con %s (%d / %d) %s(%d,%d,%s) %s"
 
-#: client/gui-sdl2/dialogs.c:1149
+#: client/gui-sdl2/dialogs.c:1150
 #, c-format
 msgid "%s %s %s(A:%d D:%d M:%s FP:%d) HP:%d%%"
 msgstr "%s %s %s(A:%d D:%d M:%s PF:%d) PV:%d%%"
 
 #. TRANS: "CtW" = "Chance to Win"; preserve leading space
 #. TRANS: preserve leading space
-#: client/gui-sdl2/dialogs.c:1162 client/gui-sdl2/dialogs.c:1938
-#: client/gui-sdl2/dialogs.c:2059
+#: client/gui-sdl2/dialogs.c:1163 client/gui-sdl2/dialogs.c:1939
+#: client/gui-sdl2/dialogs.c:2060
 #, c-format
 msgid " CtW: Att:%d%% Def:%d%%"
 msgstr "Prob. ganar: A:%d%% D:%d%%"
 
-#: client/gui-sdl2/dialogs.c:1302
+#: client/gui-sdl2/dialogs.c:1303
 #, c-format
 msgid "Terrain Defense Bonus: +%d%% "
 msgstr "Prima de Defensa del Terreno : +%d%% "
 
-#: client/gui-sdl2/dialogs.c:1327 client/gui-sdl2/dialogs.c:1729
+#: client/gui-sdl2/dialogs.c:1328 client/gui-sdl2/dialogs.c:1730
 msgid "Terrain Info"
 msgstr "Terreno"
 
-#: client/gui-sdl2/dialogs.c:1702
+#: client/gui-sdl2/dialogs.c:1703
 msgid "Advanced Menu"
 msgstr "Menú avanzado"
 
-#: client/gui-sdl2/dialogs.c:1756
+#: client/gui-sdl2/dialogs.c:1757
 #, c-format
 msgid "Zoom to : %s"
 msgstr "Mostrar: %s"
 
-#: client/gui-sdl2/dialogs.c:1770
+#: client/gui-sdl2/dialogs.c:1771
 msgid "Change Production"
 msgstr "Cambiar producción"
 
-#: client/gui-sdl2/dialogs.c:1794
+#: client/gui-sdl2/dialogs.c:1795
 msgid "Change City Governor settings"
 msgstr "Cambiar la configuración del Gobernador de la Ciudad"
 
-#: client/gui-sdl2/dialogs.c:1815
+#: client/gui-sdl2/dialogs.c:1816
 msgid "Goto here"
 msgstr "Ir aquí"
 
-#: client/gui-sdl2/dialogs.c:1826
+#: client/gui-sdl2/dialogs.c:1827
 msgid "Patrol here"
 msgstr "Patrullar aquí"
 
-#: client/gui-sdl2/dialogs.c:1839
+#: client/gui-sdl2/dialogs.c:1840
 msgid "Connect here"
 msgstr "Conectarse aquí"
 
-#: client/gui-sdl2/dialogs.c:1858
+#: client/gui-sdl2/dialogs.c:1859
 msgid "Paradrop here"
 msgstr "Lanzarse en paracaídas aquí"
 
-#: client/gui-sdl2/dialogs.c:1907 client/gui-sdl2/dialogs.c:2019
+#: client/gui-sdl2/dialogs.c:1908 client/gui-sdl2/dialogs.c:2020
 #, c-format
 msgid "Activate %s (%d / %d) %s (%d,%d,%s) %s"
 msgstr "Activar %s (%d / %d) %s (%d,%d,%s) %s"
 
-#: client/gui-sdl2/dialogs.c:1925 client/gui-sdl2/dialogs.c:2046
+#: client/gui-sdl2/dialogs.c:1926 client/gui-sdl2/dialogs.c:2047
 #, c-format
 msgid "%s %s %s (A:%d D:%d M:%s FP:%d) HP:%d%%"
 msgstr "%s %s %s (A:%d D:%d M:%s PF:%d) PV:%d%%"
 
-#: client/gui-sdl2/dialogs.c:1983
+#: client/gui-sdl2/dialogs.c:1984
 msgid "Ready all"
 msgstr "Activar todas"
 
-#: client/gui-sdl2/dialogs.c:1992
+#: client/gui-sdl2/dialogs.c:1993
 msgid "Sentry idle"
 msgstr "Vigilancia"
 
-#: client/gui-sdl2/dialogs.c:2077
+#: client/gui-sdl2/dialogs.c:2078
 #, c-format
 msgid "Look up \"%s\" in the Help Browser"
 msgstr "Busca \"%s\" en el sistema de ayuda"
 
-#: client/gui-sdl2/dialogs.c:2428
+#: client/gui-sdl2/dialogs.c:2429
 msgid "Choose Your New Government"
 msgstr "Elige tu nuevo gobierno"
 
-#: client/gui-sdl2/dialogs.c:3087
+#: client/gui-sdl2/dialogs.c:3092
 msgid "What nation will you be?"
 msgstr "¿Qué nación quieres ser?"
 
-#: client/gui-sdl2/dialogs.c:3178
+#: client/gui-sdl2/dialogs.c:3183
 msgid "Nation set"
 msgstr "Conjunto de Naciones"
 
@@ -14035,43 +14033,39 @@ msgstr ""
 "%s"
 
 #: client/servers.c:493
-#, fuzzy, c-format
-#| msgid ""
-#| "Opening socket to listen LAN announcements failed:\n"
-#| "%s"
+#, c-format
 msgid ""
 "Opening socket for sending LAN announcement request failed:\n"
 "%s"
 msgstr ""
-"Falló la apertura del socket para escuchar anuncios en LAN:\n"
+"Falló la apertura del socket para peticiones de anuncio en la LAN:\n"
 "%s"
 
 #: client/servers.c:531
-#, fuzzy, c-format
-#| msgid "Saved settings to file %s"
+#, c-format
 msgid ""
 "Setting Time-to-Live failed:\n"
 "%s"
-msgstr "Se han grabado las preferencias en el fichero %s"
+msgstr ""
+"Fallo estableciendo Time-to-Live:\n"
+"%s"
 
 #: client/servers.c:546
-#, fuzzy, c-format
-#| msgid "Saved settings to file %s"
+#, c-format
 msgid ""
 "Setting Broadcast option failed:\n"
 "%s"
-msgstr "Se han grabado las preferencias en el fichero %s"
+msgstr ""
+"Fallo estableciendo la opción Broadcast:\n"
+"%s"
 
 #: client/servers.c:564
-#, fuzzy, c-format
-#| msgid ""
-#| "Binding socket to listen LAN announcements failed:\n"
-#| "%s"
+#, c-format
 msgid ""
 "Sending LAN announcement request failed:\n"
 "%s"
 msgstr ""
-"Falló el binding del socket para escuchar anuncios en LAN:\n"
+"Fallo al enviar la petición de anuncio en la LAN:\n"
 "%s"
 
 #. TRANS: "AI <player name>"
@@ -35490,13 +35484,6 @@ msgstr ""
 "la produjo) y el destino."
 
 #: data/helpdata.txt:613
-#, fuzzy
-#| msgid ""
-#| "The origin civilization of the unit gains immediate revenue in gold and "
-#| "science from selling its trade goods at the destination city. The initial "
-#| "revenue depends on the trade already produced by the two cities involved "
-#| "and their distance apart. The destination civilization learns about the "
-#| "location of the origin city, if it is not already known."
 msgid ""
 "Depending on the ruleset, the origin civilization of the unit may gain "
 "immediate revenue in gold, science, or both from selling its trade goods at "
@@ -35505,9 +35492,10 @@ msgid ""
 "destination civilization learns about the location of the origin city, if it "
 "is not already known."
 msgstr ""
-"La civilización de origen de la unidad gana unos ingresos inmediatos en oro "
-"y ciencia por la venta de sus productos comerciales en la ciudad de destino. "
-"El ingreso inicial depende del comercio ya producido por las dos ciudades en "
+"Dependiendo del conjunto de reglas (ruleset), la civilización de origen de "
+"la unidad puede obtener unos ingresos inmediatos en oro y ciencia o ambos "
+"por la venta de sus productos comerciales en la ciudad de destino. El "
+"ingreso inicial depende del comercio ya producido por las dos ciudades en "
 "cuestión y su distancia. La civilización destino descubre acerca de la "
 "ubicación de la ciudad de origen, si no se conoce."
 
@@ -40318,10 +40306,8 @@ msgid "Paolo Sammicheli"
 msgstr ""
 
 #: data/scenarios/italy.sav:7
-#, fuzzy
-#| msgid "Overhead 100x100 map of Italy."
 msgid "Overhead 114x100 map of Italy."
-msgstr "Mapa al estilo clásico, 100x100, de Italia."
+msgstr "Mapa al estilo clásico, 114x100, de Italia."
 
 #: data/scenarios/japan.sav:5
 msgid "Japan (classic/medium)"
@@ -45098,105 +45084,105 @@ msgid "Your diplomatic envoy was decapitated!"
 msgstr "¡Tu emisario ha sido decapitado!"
 
 #. TRANS: unit, action
-#: server/diplomats.c:133 server/diplomats.c:256
+#: server/diplomats.c:134 server/diplomats.c:257
 #, fuzzy, c-format
 #| msgid "Your %s was caught attempting to steal gold!"
 msgid "Your %s was caught attempting to do %s!"
 msgstr "¡Han pillado a tu %s intentando robar oro!"
 
 #. TRANS: nation, unit, action, city
-#: server/diplomats.c:139 server/diplomats.c:262
+#: server/diplomats.c:140 server/diplomats.c:263
 #, fuzzy, c-format
 #| msgid "You caught %s %s attempting to sabotage the %s in %s!"
 msgid "You caught %s %s attempting to do %s in %s!"
 msgstr "¡Has pillado a un %2$s %1$s intentando sabotear %3$s en %4$s!"
 
-#: server/diplomats.c:161
+#: server/diplomats.c:162
 #, c-format
 msgid "Your %s poisoned the water supply of %s."
 msgstr "Tu %s ha envenenado el suministro de agua de %s."
 
-#: server/diplomats.c:165
+#: server/diplomats.c:166
 #, c-format
 msgid "%s is suspected of poisoning the water supply of %s."
 msgstr "Se sospecha que %s ha envenenado el suministro de agua de %s."
 
-#: server/diplomats.c:179
+#: server/diplomats.c:180
 #, c-format
 msgid "Your %s destroyed %s by poisoning its water supply."
 msgstr "Tu %s ha destruido %s envenenando el suministro de agua."
 
-#: server/diplomats.c:183
+#: server/diplomats.c:184
 #, c-format
 msgid "%s is suspected of destroying %s by poisoning its water supply."
 msgstr "Se sospecha que %s ha destruido %s envenenando el suministro de agua."
 
 #. TRANS: unit, action, city
-#: server/diplomats.c:291
+#: server/diplomats.c:292
 #, fuzzy, c-format
 #| msgid "Your %s can't do %s to %s."
 msgid "Your %s did %s to %s."
 msgstr "Tu %s no puede %s a %s."
 
 #. TRANS: action, city, nation
-#: server/diplomats.c:297
+#: server/diplomats.c:298
 #, fuzzy, c-format
 #| msgid "%d gold stolen from %s, %s suspected."
 #| msgid_plural "%d gold stolen from %s, %s suspected."
 msgid "%s done to %s, %s suspected."
 msgstr "%d moneda de oro han sido robada de %s. Se sospecha de los %s."
 
-#: server/diplomats.c:497
+#: server/diplomats.c:498
 #, c-format
 msgid "You have established an embassy in %s."
 msgstr "Has establecido una embajada en %s."
 
-#: server/diplomats.c:501
+#: server/diplomats.c:502
 #, c-format
 msgid "The %s have established an embassy in %s."
 msgstr "Los %s han establecido una embajada en %s."
 
-#: server/diplomats.c:573
+#: server/diplomats.c:574
 #, c-format
 msgid "Your %s's successful sabotage killed the %s %s."
 msgstr "Tu %1$s ha conseguido sabotear y matar el %3$s de %2$s."
 
 #. TRANS: ... the Poles!
-#: server/diplomats.c:580
+#: server/diplomats.c:581
 #, c-format
 msgid "Your %s was killed by %s sabotage!"
 msgstr "Tu %s fue abatido por el sabotaje de los %s!"
 
-#: server/diplomats.c:591
+#: server/diplomats.c:592
 #, c-format
 msgid "Your %s succeeded in sabotaging the %s %s."
 msgstr "Tu %1$s ha conseguido sabotear el %3$s de %2$s."
 
 #. TRANS: ... the Poles!
-#: server/diplomats.c:598
+#: server/diplomats.c:599
 #, c-format
 msgid "Your %s was sabotaged by the %s!"
 msgstr "Tu %s ha sido saboteado por los %s!"
 
-#: server/diplomats.c:670
+#: server/diplomats.c:671
 #, c-format
 msgid "You don't have enough gold to bribe the %s %s."
 msgstr "No tienes suficiente dinero para sobornar al %2$s de %1$s."
 
 #. TRANS: <diplomat> ... <unit>
-#: server/diplomats.c:703
+#: server/diplomats.c:704
 #, c-format
 msgid "Your %s succeeded in bribing the %s."
 msgstr "Tu %s ha conseguido sobornar al %s."
 
 #. TRANS: <unit> ... <Poles>
-#: server/diplomats.c:710
+#: server/diplomats.c:711
 #, c-format
 msgid "Your %s was bribed by the %s."
 msgstr "Tu %s ha sido sobornado por los %s."
 
 #. TRANS: Paris was expecting ... Your Spy was caught
-#: server/diplomats.c:963
+#: server/diplomats.c:964
 #, c-format
 msgid ""
 "%s was expecting your attempt to steal technology again. Your %s was caught "
@@ -45205,7 +45191,7 @@ msgstr ""
 "%s esperaba que robases tecnología de nuevo. Tu %s fue pillado y ejecutado."
 
 #. TRANS: The Belgian Spy ... from Paris
-#: server/diplomats.c:970
+#: server/diplomats.c:971
 #, c-format
 msgid ""
 "The %s %s failed to steal technology again from %s. We were prepared for the "
@@ -45215,127 +45201,127 @@ msgstr ""
 "estábamos preparados para el intento."
 
 #. TRANS: Your Spy was caught ... from %s.
-#: server/diplomats.c:979
+#: server/diplomats.c:980
 #, c-format
 msgid "Your %s was caught in the attempt of stealing technology from %s."
 msgstr "Han pillado a tu %s intentando robar tecnología de %s."
 
 #. TRANS: The Belgian Spy ... from Paris
-#: server/diplomats.c:986
+#: server/diplomats.c:987
 #, c-format
 msgid "The %s %s failed to steal technology from %s."
 msgstr "El %2$s de los %1$s no ha conseguido robar tecnología de %3$s."
 
-#: server/diplomats.c:1004
+#: server/diplomats.c:1005
 #, c-format
 msgid "No new technology found in %s."
 msgstr "No se han encontrado nuevas tecnologías en %s."
 
-#: server/diplomats.c:1047
+#: server/diplomats.c:1048
 #, fuzzy, c-format
 #| msgid "Your %s paradropped into the %s and was lost."
 msgid "Your %d gold prepared to incite the revolt was lost!"
 msgstr "Tu %s se ha tirado en paracaídas sobre %s y ha desaparecido."
 
-#: server/diplomats.c:1057
+#: server/diplomats.c:1058
 #, c-format
 msgid "Your security service captured %d gold prepared to incite your town!"
 msgstr ""
 
-#: server/diplomats.c:1125
+#: server/diplomats.c:1126
 #, c-format
 msgid "You don't have enough gold to subvert %s."
 msgstr "No tienes dinero suficiente para sublevar %s."
 
-#: server/diplomats.c:1147
+#: server/diplomats.c:1148
 #, c-format
 msgid "Your %s was caught in the attempt of inciting a revolt!"
 msgstr "¡Han pillado a tu %s intentando provocar una sublevación!"
 
-#: server/diplomats.c:1151
+#: server/diplomats.c:1152
 #, c-format
 msgid "You caught %s %s attempting to incite a revolt in %s!"
 msgstr ""
 "¡Has pillado a un %2$s %1$s intentando incitar una sublevación en %3$s!"
 
-#: server/diplomats.c:1181
+#: server/diplomats.c:1182
 #, c-format
 msgid "Revolt incited in %s, you now rule the city!"
 msgstr "¡Has conseguido que %s se subleve, y ahora gobiernas la ciudad!"
 
-#: server/diplomats.c:1184
+#: server/diplomats.c:1185
 #, c-format
 msgid "%s has revolted, %s influence suspected."
 msgstr "%s se ha sublevado. Se sospecha influencia de %s."
 
-#: server/diplomats.c:1275
+#: server/diplomats.c:1276
 #, c-format
 msgid "Your %s was caught in the attempt of industrial sabotage!"
 msgstr "¡Han pillado a tu %s intentado un sabotaje industrial!"
 
-#: server/diplomats.c:1280
+#: server/diplomats.c:1281
 #, c-format
 msgid "You caught %s %s attempting sabotage in %s!"
 msgstr "¡Has pillado a un %2$s %1$s intentando un sabotaje en %3$s!"
 
-#: server/diplomats.c:1316
+#: server/diplomats.c:1317
 #, c-format
 msgid "Your %s could not find anything to sabotage in %s."
 msgstr "Tu %s no ha encontrado nada que sabotear en %s."
 
-#: server/diplomats.c:1373
+#: server/diplomats.c:1374
 #, c-format
 msgid "You cannot sabotage a %s!"
 msgstr "¡No puedes sabotear a %s!"
 
-#: server/diplomats.c:1384
+#: server/diplomats.c:1385
 #, c-format
 msgid "Your %s could not find the %s to sabotage in %s."
 msgstr "Tu %s no ha encontrado el %s que iba a sabotear en %s."
 
-#: server/diplomats.c:1409 server/unithand.c:4973
+#: server/diplomats.c:1410 server/unithand.c:4973
 #, c-format
 msgid "Your %s succeeded in destroying the production of %s in %s."
 msgstr "Tu %s ha conseguido destruir la producción de %s en %s."
 
-#: server/diplomats.c:1416 server/unithand.c:4980
+#: server/diplomats.c:1417 server/unithand.c:4980
 #, c-format
 msgid "The production of %s was destroyed in %s, %s are suspected."
 msgstr "Se ha destruido la producción de %s en %s. Se sospecha de los %s."
 
-#: server/diplomats.c:1440
+#: server/diplomats.c:1441
 #, c-format
 msgid "Your %s was caught in the attempt of sabotage!"
 msgstr "¡Han pillado a tu %s en un intento de sabotaje!"
 
-#: server/diplomats.c:1444
+#: server/diplomats.c:1445
 #, c-format
 msgid "You caught %s %s attempting to sabotage the %s in %s!"
 msgstr "¡Has pillado a un %2$s %1$s intentando sabotear %3$s en %4$s!"
 
-#: server/diplomats.c:1463 server/unithand.c:5066
+#: server/diplomats.c:1464 server/unithand.c:5066
 #, c-format
 msgid "Your %s destroyed the %s in %s."
 msgstr "Tu %s ha destruido %s de %s."
 
-#: server/diplomats.c:1469 server/unithand.c:5072
+#: server/diplomats.c:1470 server/unithand.c:5072
 #, c-format
 msgid "The %s destroyed the %s in %s."
 msgstr "Los %s han destruido %s de %s."
 
-#: server/diplomats.c:1566
+#: server/diplomats.c:1567
 #, c-format
 msgid "Your %s was caught attempting to steal gold!"
 msgstr "¡Han pillado a tu %s intentando robar oro!"
 
 #. TRANS: nation, unit, city
-#: server/diplomats.c:1571
+#: server/diplomats.c:1572
 #, c-format
 msgid "You caught %s %s attempting to steal your gold in %s!"
 msgstr "¡Has pillado a un %2$s %1$s intentando robar oro en %3$s!"
 
 #. TRANS: unit, gold, city
-#: server/diplomats.c:1617
+#: server/diplomats.c:1618
 #, c-format
 msgid "Your %s stole %d gold from %s."
 msgid_plural "Your %s stole %d gold from %s."
@@ -45343,148 +45329,148 @@ msgstr[0] "Tu %s ha robado %d moneda de oro de %s."
 msgstr[1] "Tu %s ha robado %d monedas de oro de %s."
 
 #. TRANS: gold, city, nation
-#: server/diplomats.c:1622
+#: server/diplomats.c:1623
 #, c-format
 msgid "%d gold stolen from %s, %s suspected."
 msgid_plural "%d gold stolen from %s, %s suspected."
 msgstr[0] "%d moneda de oro han sido robada de %s. Se sospecha de los %s."
 msgstr[1] "%d monedas de oro han sido robadas de %s. Se sospecha de los %s."
 
-#: server/diplomats.c:1703
+#: server/diplomats.c:1704
 #, fuzzy, c-format
 #| msgid "Your %s was caught in the attempt of stealing technology from %s."
 msgid "Your %s was caught in an attempt of stealing parts of the %s world map!"
 msgstr "Han pillado a tu %s intentando robar tecnología de %s."
 
-#: server/diplomats.c:1709
+#: server/diplomats.c:1710
 #, fuzzy, c-format
 #| msgid "You caught %s %s attempting to steal your gold in %s!"
 msgid "You caught %s %s attempting to steal parts of your world map in %s!"
 msgstr "¡Has pillado a un %2$s %1$s intentando robar oro en %3$s!"
 
-#: server/diplomats.c:1756
+#: server/diplomats.c:1757
 #, fuzzy, c-format
 #| msgid "Your %s could not find the %s to sabotage in %s."
 msgid "Your %s stole parts of the %s world map in %s."
 msgstr "Tu %s no ha encontrado el %s que iba a sabotear en %s."
 
-#: server/diplomats.c:1761
+#: server/diplomats.c:1762
 #, fuzzy, c-format
 msgid "The %s are suspected of stealing parts of your world map in %s."
 msgstr "Los %s reciben %s y %s de %s."
 
-#: server/diplomats.c:1829
+#: server/diplomats.c:1830
 #, fuzzy, c-format
 #| msgid "Your %s was caught in the attempt of inciting a revolt!"
 msgid "Your %s was caught in an attempt of hiding a nuke in %s!"
 msgstr "¡Han pillado a tu %s intentando provocar una sublevación!"
 
-#: server/diplomats.c:1835
+#: server/diplomats.c:1836
 #, fuzzy, c-format
 #| msgid "You caught %s %s attempting to incite a revolt in %s!"
 msgid "You caught %s %s attempting to hide a nuke in %s!"
 msgstr ""
 "¡Has pillado a un %2$s %1$s intentando incitar una sublevación en %3$s!"
 
-#: server/diplomats.c:1854
+#: server/diplomats.c:1855
 #, fuzzy, c-format
 #| msgid "Your %s was nuked by %s."
 msgid "Your %s hid a nuke in %s."
 msgstr "La bomba atómica de %2$s ha destruido tu %1$s."
 
-#: server/diplomats.c:1858
+#: server/diplomats.c:1859
 #, fuzzy, c-format
 msgid "The %s are suspected of hiding a nuke in %s."
 msgstr "Los %s reciben %s y %s de %s."
 
 #. TRANS: <unit> ... <diplomat>
-#: server/diplomats.c:2005
+#: server/diplomats.c:2023
 #, c-format
 msgid "An enemy %s has been eliminated by your %s."
 msgstr "Tu %2$s ha eliminado a un %1$s enemigo."
 
 #. TRANS: <unit> ... <city> ... <diplomat>
-#: server/diplomats.c:2012
+#: server/diplomats.c:2030
 #, c-format
 msgid "Your %s has been eliminated defending %s against a %s."
 msgstr "Tu %s ha sido eliminado defendiendo %s en contra de %s."
 
 #. TRANS: <nation adj> <unit> ... <city>
 #. * TRANS: ... <diplomat>
-#: server/diplomats.c:2019
+#: server/diplomats.c:2037
 #, c-format
 msgid "A %s %s has been eliminated defending %s against a %s."
 msgstr "Un %2$s %1$s ha sido eliminado defendiendo %3$s en contra de %4$s."
 
 #. TRANS: ... <unit> ... <nation adj> <city>
 #. * TRANS: ... <diplomat>
-#: server/diplomats.c:2026
+#: server/diplomats.c:2044
 #, c-format
 msgid "Your %s has been eliminated defending %s %s against a %s."
 msgstr "Tu %1$s ha sido eliminado defendiendo %3$s %2$s en contra de %4$s."
 
 #. TRANS: <unit> ... <diplomat>
 #. TRANS: ... <unit> ... <diplomat>
-#: server/diplomats.c:2035 server/diplomats.c:2046
+#: server/diplomats.c:2053 server/diplomats.c:2064
 #, c-format
 msgid "Your %s has been eliminated defending against a %s."
 msgstr "Tu %s ha sido eliminado defendiendo en contra de %s."
 
 #. TRANS: <nation adj> <unit> ... <diplomat>
-#: server/diplomats.c:2040
+#: server/diplomats.c:2058
 #, c-format
 msgid "A %s %s has been eliminated defending against a %s."
 msgstr "Un %2$s %1$s ha sido eliminado defendiendo en contra de %3$s."
 
-#: server/diplomats.c:2070
+#: server/diplomats.c:2089
 #, c-format
 msgid "Your %s was eliminated by a defending %s."
 msgstr "Tu %s ha sido eliminado por un %s defensor."
 
-#: server/diplomats.c:2076
+#: server/diplomats.c:2095
 #, c-format
 msgid "Eliminated a %s %s while infiltrating %s."
 msgstr "Se han eliminado un %2$s %1$s al infiltrarse en %3$s."
 
-#: server/diplomats.c:2081
+#: server/diplomats.c:2100
 #, c-format
 msgid "A %s %s eliminated a %s %s while infiltrating %s."
 msgstr "Un %2$s %1$s han eliminado %4$s %3$s al infiltrarse en %5$s."
 
-#: server/diplomats.c:2086
+#: server/diplomats.c:2105
 #, c-format
 msgid "Your %s eliminated a %s %s while infiltrating %s."
 msgstr "Tu %1$s han eliminado %3$s %2$s al infiltrarse en %4$s."
 
-#: server/diplomats.c:2094
+#: server/diplomats.c:2113
 #, c-format
 msgid "Eliminated a %s %s while infiltrating our troops."
 msgstr "Se han eliminado un %2$s %1$s al infiltrarse en nuestras tropas."
 
-#: server/diplomats.c:2099
+#: server/diplomats.c:2118
 #, c-format
 msgid "A %s %s eliminated a %s %s while infiltrating our troops."
 msgstr ""
 "Un %2$s %1$s han eliminado un %4$s %3$s al infiltrarse en nuestras tropas."
 
 #. TRANS: ... <unit> ... <diplomat>
-#: server/diplomats.c:2105
+#: server/diplomats.c:2124
 #, c-format
 msgid "Your %s eliminated a %s %s while infiltrating our troops."
 msgstr "Tu %1$s han eliminado un %3$s %2$s al infiltrarse en nuestras tropas."
 
-#: server/diplomats.c:2225
+#: server/diplomats.c:2245
 #, c-format
 msgid ""
 "Your %s has successfully completed the mission and returned unharmed to %s."
 msgstr "Tu %s ha completado su misión con éxito y ha vuelto ileso a %s."
 
-#: server/diplomats.c:2246
+#: server/diplomats.c:2266
 #, c-format
 msgid "Your %s was captured after completing the mission in %s."
 msgstr "Tu %s ha sido capturado después de completar su misión en %s."
 
-#: server/diplomats.c:2252
+#: server/diplomats.c:2272
 #, c-format
 msgid "Your %s was captured after completing the mission."
 msgstr "Han capturado a tu %s después de completar su misión."
