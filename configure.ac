@@ -666,6 +666,10 @@ FC_DEBUG
 dnl check profiling
 FC_GPROF
 
+dnl Detect flags to be used in configure tests that should fail on warnings
+WERROR_TEST_FLAGS=""
+FC_C_FLAGS([-Werror -Wall], [], [WERROR_TEST_FLAGS])
+
 FC_C99_VARIADIC_MACROS
 FC_C99_VARIABLE_ARRAYS
 FC_C99_INITIALIZERS
@@ -680,6 +684,11 @@ FC_STATIC_STRLEN
 
 FC_CXX11_STATIC_ASSERT
 FC_CXX11_NULLPTR
+
+_CFLAGS="$CFLAGS"
+CFLAGS="$CFLAGS $WERROR_TEST_FLAGS"
+FC_SIZE_T_FORMAT
+CFLAGS="$_CFLAGS"
 
 dnl BeOS-specific settings
 if test x`$UNAME -s` = xBeOS ; then
