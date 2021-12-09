@@ -36,15 +36,7 @@ else
 QT6_MOCCMD="$(MOCCMD)"
 endif
 
-ifeq ($(CI),yes)
-ICUVER=68
-LERC=
-MD4C=
-else
 ICUVER=69
-LERC=libLerc.dll
-MD4C=libmd4c.dll
-endif
 
 INSTSUB=${ARCHDIR}
 
@@ -352,7 +344,7 @@ SDL2_DLLS := \
 	libzstd.dll \
 	libdeflate.dll \
 	libjbig-0.dll \
-	${LERC}
+	libLerc.dll
 
 install-env-sdl2: install-env-gtk4-fcmp
 	# add DLLs
@@ -376,7 +368,7 @@ QT5_DLLS := \
 	libbrotlicommon.dll \
 	libdouble-conversion.dll \
 	libzstd.dll \
-	${MD4C}
+	libmd4c.dll
 
 install-env-qt5: install-env-common
 	# add DLLs
@@ -455,7 +447,7 @@ RULEDIT_QT5_DLLS := \
 	libraqm-0.dll \
 	libexpat-1.dll \
 	libfribidi-0.dll \
-	${MD4C}
+	libmd4c.dll
 
 install-env-ruledit-qt5:
 	# add DLLs
