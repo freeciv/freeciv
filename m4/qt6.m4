@@ -171,10 +171,12 @@ AC_DEFUN([FC_QT6_VALIDATE_MOC], [
   dnl Try to find a Qt 6 'moc' if MOCCMD isn't set.
   dnl Test that the supplied MOCCMD is a Qt 6 'moc' if it is set.
   AS_IF([test "x$MOCCMD" = "x"],
-    [FC_QT6_TRY_MOC([moc],
-      [FC_QT6_TRY_MOC([qtchooser -run-tool=moc -qt=6],
-        [FC_QT6_TRY_MOC([moc-qt6],
-          [MOCCMD=""])])])],
+    [for mocpath in "moc" "qtchooser -run-tool=moc -qt=6" "moc-qt6" "/usr/lib/qt6/moc" "/usr/lib/qt6/libexec/moc"
+    do
+      if test "x$MOCCMD" = "x" ; then
+        FC_QT6_TRY_MOC([$mocpath])
+      fi
+    done],
     [FC_QT6_TRY_MOC([$MOCCMD],
       AC_MSG_ERROR(["MOCCMD set to a bad value ($MOCCMD)"]))])
 
