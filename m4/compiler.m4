@@ -127,3 +127,43 @@ elif test "x$qt_ver" = "xQt6" && test "x$HAVE_CXX17" = "x" ; then
   cxx_works=no
 fi
 ])
+
+# Test suitability of a single printf() format specifier for
+# size_t variables. Helper for FC_SIZE_T_FORMAT
+#
+# $1 - Format string
+AC_DEFUN([_FC_SIZE_T_FORMAT_TEST],
+[
+AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[#include <stdio.h>
+#if defined(__GNUC__)
+void fr(const char *form, ...)
+  __attribute__((__format__(__printf__, 1, 2)));
+#else
+#define fr(_a_,_b_) printf(_a_,_b_)
+#endif
+]],
+[[
+size_t var = 0;
+fr("$1", var);]])], [SIZE_T_PRINTF="$1"])
+])
+
+# Find out proper printf() format specifier for size_t variables
+AC_DEFUN([FC_SIZE_T_FORMAT],
+[
+  AC_MSG_CHECKING([format specifier for size_t])
+
+  for fmt in "%zu" "%ld" "%lld" "%I64d"
+  do
+    if test "x$SIZE_T_PRINTF" = "x" ; then
+      _FC_SIZE_T_FORMAT_TEST([${fmt}])
+    fi
+  done
+
+  if test "x$SIZE_T_PRINTF" = "x" ; then
+    AC_MSG_ERROR([Cannot find correct printf format specifier for size_t])
+  fi
+
+  AC_DEFINE_UNQUOTED([SIZE_T_PRINTF], ["$SIZE_T_PRINTF"], [Format specifier for size_t])
+
+  AC_MSG_RESULT([$SIZE_T_PRINTF])
+])
