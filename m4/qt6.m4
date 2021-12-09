@@ -151,17 +151,17 @@ AC_DEFUN([FC_QT6_LINKTEST],
  CXXFLAGS="${CXXFLAGS_SAVE}"
 ])
 
-dnl If $1 is Qt 6's moc command then $2 else $3
+dnl If $1 is Qt 6's moc command then $2
 AC_DEFUN([FC_QT6_IF_QT6_MOC],
   AS_IF([$1 -v >/dev/null 2>/dev/null &&
          (test "`$1 -v 2<&1 | grep -o 'Qt [[[0-9]]]\+'`" = "Qt 6" ||
           test "`$1 -v 2<&1 | grep -o 'moc [[[0-9]]]\+'`" = "moc 6" ||
           test "`$1 -v 2<&1 | grep -o 'moc-qt[[[0-9]]]\+'`" = "moc-qt6")],
-    [$2], [$3]))
+    [$2]))
 
-dnl Set MOCCMD to $1 if it is the Qt 6 "moc". If not run $2 parameter.
+dnl Set MOCCMD to $1 if it is the Qt 6 "moc".
 AC_DEFUN([FC_QT6_TRY_MOC],
-  [FC_QT6_IF_QT6_MOC([$1], [MOCCMD="$1"], [$2])])
+  [FC_QT6_IF_QT6_MOC([$1], [MOCCMD="$1"])])
 
 
 dnl If a usable moc command is found do $1 else do $2
