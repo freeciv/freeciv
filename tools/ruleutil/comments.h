@@ -79,6 +79,7 @@ void comment_actions_quiet_actions(struct section_file *sfile);
 void comment_borders_radius_permanent(struct section_file *sfile);
 void comment_research_tech_cost_style(struct section_file *sfile);
 void comment_research_base_tech_cost(struct section_file *sfile);
+void comment_research_min_tech_cost(struct section_file *sfile);
 void comment_research_tech_leakage(struct section_file *sfile);
 void comment_research_upkeep_style(struct section_file *sfile);
 void comment_research_free_tech_method(struct section_file *sfile);

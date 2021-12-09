@@ -257,8 +257,8 @@ void techs_precalc_data(void)
       break;
     }
 
-    if (min_req && padvance->cost < game.info.base_tech_cost) {
-      padvance->cost = game.info.base_tech_cost;
+    if (min_req && padvance->cost < game.info.min_tech_cost) {
+      padvance->cost = game.info.min_tech_cost;
     }
 
     /* Class cost */

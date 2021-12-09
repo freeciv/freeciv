@@ -796,14 +796,21 @@ int research_goal_bulbs_required(const struct research *presearch,
   } else if (NULL != presearch) {
     return presearch->inventions[goal].bulbs_required;
   } else if (game.info.tech_cost_style == TECH_COST_CIV1CIV2) {
-     return game.info.base_tech_cost * pgoal->num_reqs
-            * (pgoal->num_reqs + 1) / 2;
+    int base_cost = game.info.base_tech_cost * pgoal->num_reqs
+      * (pgoal->num_reqs + 1) / 2;
+
+    if (base_cost < game.info.min_tech_cost) {
+      return game.info.min_tech_cost;
+    } else {
+      return base_cost;
+    }
   } else {
     int bulbs_required = 0;
 
     advance_req_iterate(pgoal, preq) {
       bulbs_required += preq->cost;
     } advance_req_iterate_end;
+
     return bulbs_required;
   }
 }

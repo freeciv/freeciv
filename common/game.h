@@ -853,10 +853,6 @@ extern struct world wld;
 #define RS_MIN_TECH_UPKEEP_DIVIDER       1
 #define RS_MAX_TECH_UPKEEP_DIVIDER       100000
 
-#define RS_DEFAULT_BASE_TECH_COST                20
-#define RS_MIN_BASE_TECH_COST                    0
-#define RS_MAX_BASE_TECH_COST                    20000
-
 #define RS_DEFAULT_POISON_EMPTIES_FOOD_STOCK     FALSE
 #define RS_DEFAULT_STEAL_MAP_REVEALS_CITIES      TRUE
 #define RS_DEFAULT_ACTION_ACTOR_CONSUMING_ALWAYS FALSE

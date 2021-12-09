@@ -6520,6 +6520,23 @@ static bool load_ruleset_game(struct section_file *file, bool act,
                                            RS_MAX_BASE_TECH_COST,
                                            "research.base_tech_cost");
 
+    if (compat->compat_mode && compat->ver_game < RSFORMAT_3_2) {
+      /* base_tech_cost used to be used for this too. */
+      game.info.min_tech_cost
+        = secfile_lookup_int_default_min_max(file,
+                                             game.info.base_tech_cost,
+                                             RS_MIN_MIN_TECH_COST,
+                                             RS_MAX_MIN_TECH_COST,
+                                             "research.min_tech_cost");
+    } else {
+      game.info.min_tech_cost
+        = secfile_lookup_int_default_min_max(file,
+                                             RS_DEFAULT_MIN_TECH_COST,
+                                             RS_MIN_MIN_TECH_COST,
+                                             RS_MAX_MIN_TECH_COST,
+                                             "research.min_tech_cost");
+    }
+
     food_ini = secfile_lookup_int_vec(file, &gni_tmp,
                                       "civstyle.granary_food_ini");
     game.info.granary_num_inis = (int) gni_tmp;

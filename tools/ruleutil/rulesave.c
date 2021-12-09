@@ -1454,6 +1454,12 @@ static bool save_game_ruleset(const char *filename, const char *name)
   save_default_int(sfile, game.info.base_tech_cost,
                    RS_DEFAULT_BASE_TECH_COST,
                    "research.base_tech_cost", NULL);
+  if (game.info.min_tech_cost != RS_DEFAULT_MIN_TECH_COST) {
+    comment_research_min_tech_cost(sfile);
+  }
+  save_default_int(sfile, game.info.min_tech_cost,
+                   RS_DEFAULT_MIN_TECH_COST,
+                   "research.min_tech_cost", NULL);
   comment_research_tech_leakage(sfile);
   secfile_insert_str(sfile, tech_leakage_style_name(game.info.tech_leakage),
                      "research.tech_leakage");

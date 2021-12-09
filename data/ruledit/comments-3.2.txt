@@ -1392,6 +1392,12 @@ base_tech_cost = "\n\
 ; specified and the tech cost style is \"Experimental+\" or \"Classic+\".\
 "
 
+min_tech_cost = "\n\
+; Minimum research cost. This is applied for techs that have their cost\n\
+; calculated by a formula. This is not applied for techs that have their\n\
+; cost explicitly stated in the tech.ruleset.\
+"
+
 tech_leakage = "\n\
 ; Technology leak from other civilizations\n\
 ; \"None\"           - No reduction of the technology cost.\n\

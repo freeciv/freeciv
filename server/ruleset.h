@@ -107,6 +107,14 @@ int ruleset_purge_redundant_reqs(void);
 
 #define RS_DEFAULT_SMALL_WONDER_VISIBILITY "Always"
 
+#define RS_DEFAULT_BASE_TECH_COST                20
+#define RS_MIN_BASE_TECH_COST                    0
+#define RS_MAX_BASE_TECH_COST                    20000
+
+#define RS_DEFAULT_MIN_TECH_COST                 20
+#define RS_MIN_MIN_TECH_COST                     0
+#define RS_MAX_MIN_TECH_COST                     20000
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

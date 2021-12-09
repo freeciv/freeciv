@@ -1308,6 +1308,11 @@ tech_cost_style = "Classic"
 ; specified and the tech cost style is "Experimental+" or "Classic+".
 base_tech_cost   = 20
 
+; Minimum research cost. This is applied for techs that have their cost
+; calculated by a formula. This is not applied for techs that have their
+; cost explicitly stated in the tech.ruleset.
+min_tech_cost    = 20
+
 ; Technology leak from other civilizations
 ; "None"           - No reduction of the technology cost.
 ; "Embassies"      - Technology cost is reduced depending on the number of
