@@ -1,22 +1,112 @@
-<?xml version="1.0" encoding="iso-8859-1"?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!-- Creator: CorelDRAW -->
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:odm="http://product.corel.com/CGS/11/cddns/" xml:space="preserve" width="1023px" height="682px" shape-rendering="geometricPrecision" text-rendering="geometricPrecision" image-rendering="optimizeQuality" fill-rule="evenodd"
-     viewBox="0 0 10230 6820">
- <path fill="#FFFFFF" d="M0 0l10230 0 0 6820 -10230 0 0 -6820z"/>
- <g id="Layer 1">
-  <circle fill="#FF0000" cx="5115" cy="3410" r="198"/>
-  <path fill="#FF0000" d="M5115 3410l-114 -584 -113 -584 227 0 227 0 -113 584 -114 584z"/>
-  <path fill="#FF0000" d="M5119 3410l-584 114 -584 113 0 -227 0 -227 584 113 584 114z"/>
-  <path fill="#FF0000" d="M5115 3410l584 114 584 113 0 -227 0 -227 -584 113 -584 114z"/>
-  <path fill="#FF0000" d="M5115 3410l-114 583 -113 584 227 0 227 0 -113 -584 -114 -583z"/>
-  <path fill="#FF0000" d="M5116 3411l-494 -332 -493 -333 161 -160 161 -161 332 493 333 493z"/>
-  <path fill="#FF0000" d="M5118 3409l-332 493 -333 493 -160 -161 -161 -160 493 -333 493 -332z"/>
-  <path fill="#FF0000" d="M5116 3411l493 -332 493 -333 -161 -160 -160 -161 -333 493 -332 493z"/>
-  <path fill="#FF0000" d="M5115 3411l333 493 332 493 161 -160 161 -161 -493 -333 -494 -332z"/>
-  <path fill-rule="evenodd" fill="#FFFFFF" stroke="#FF0000" stroke-width="24" d="M5115 4005c-328,0 -595,-267 -595,-595 0,-328 267,-595 595,-595 328,0 595,267 595,595 0,328 -267,595 -595,595zm0 -59c-295,0 -536,-241 -536,-536 0,-295 241,-536 536,-536 295,0 536,241 536,536 0,295 -241,536 -536,536z"/>
-  <path fill-rule="evenodd" fill="#FFFFFF" stroke="#FF0000" stroke-width="48" d="M5115 4653c-685,0 -1243,-558 -1243,-1243 0,-685 558,-1243 1243,-1243 685,0 1243,558 1243,1243 0,685 -558,1243 -1243,1243zm0 -100c-630,0 -1143,-513 -1143,-1143 0,-630 513,-1143 1143,-1143 630,0 1143,513 1143,1143 0,630 -513,1143 -1143,1143z"/>
-  <rect fill="#0099FF" x="0" y="0" width="10230" height="2093"/>
-  <rect fill="#0000CC" x="0" y="4727" width="10230" height="2093"/>
+
+<svg
+   xml:space="preserve"
+   width="1023px"
+   height="682px"
+   shape-rendering="geometricPrecision"
+   text-rendering="geometricPrecision"
+   image-rendering="optimizeQuality"
+   fill-rule="evenodd"
+   viewBox="0 0 10230 6820"
+   version="1.1"
+   id="svg31"
+   sodipodi:docname="evenkia.svg"
+   inkscape:version="1.1.1 (3bf5ae0d25, 2021-09-20)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"><defs
+   id="defs35" /><sodipodi:namedview
+   id="namedview33"
+   pagecolor="#ffffff"
+   bordercolor="#666666"
+   borderopacity="1.0"
+   inkscape:pageshadow="2"
+   inkscape:pageopacity="0.0"
+   inkscape:pagecheckerboard="0"
+   showgrid="false"
+   inkscape:zoom="0.86332001"
+   inkscape:cx="511.97701"
+   inkscape:cy="340.5458"
+   inkscape:window-width="1145"
+   inkscape:window-height="855"
+   inkscape:window-x="374"
+   inkscape:window-y="92"
+   inkscape:window-maximized="0"
+   inkscape:current-layer="svg31" />
+ <path
+   fill="#FFFFFF"
+   d="M0 0l10230 0 0 6820 -10230 0 0 -6820z"
+   id="path2" />
+ <g
+   id="Layer 1">
+  <circle
+   fill="#FF0000"
+   cx="5115"
+   cy="3410"
+   r="198"
+   id="circle4" />
+  <path
+   fill="#FF0000"
+   d="M5115 3410l-114 -584 -113 -584 227 0 227 0 -113 584 -114 584z"
+   id="path6" />
+  <path
+   fill="#FF0000"
+   d="M5119 3410l-584 114 -584 113 0 -227 0 -227 584 113 584 114z"
+   id="path8" />
+  <path
+   fill="#FF0000"
+   d="M5115 3410l584 114 584 113 0 -227 0 -227 -584 113 -584 114z"
+   id="path10" />
+  <path
+   fill="#FF0000"
+   d="M5115 3410l-114 583 -113 584 227 0 227 0 -113 -584 -114 -583z"
+   id="path12" />
+  <path
+   fill="#FF0000"
+   d="M5116 3411l-494 -332 -493 -333 161 -160 161 -161 332 493 333 493z"
+   id="path14" />
+  <path
+   fill="#FF0000"
+   d="M5118 3409l-332 493 -333 493 -160 -161 -161 -160 493 -333 493 -332z"
+   id="path16" />
+  <path
+   fill="#FF0000"
+   d="M5116 3411l493 -332 493 -333 -161 -160 -160 -161 -333 493 -332 493z"
+   id="path18" />
+  <path
+   fill="#FF0000"
+   d="M5115 3411l333 493 332 493 161 -160 161 -161 -493 -333 -494 -332z"
+   id="path20" />
+  <path
+   fill-rule="evenodd"
+   fill="#FFFFFF"
+   stroke="#FF0000"
+   stroke-width="24"
+   d="M5115 4005c-328,0 -595,-267 -595,-595 0,-328 267,-595 595,-595 328,0 595,267 595,595 0,328 -267,595 -595,595zm0 -59c-295,0 -536,-241 -536,-536 0,-295 241,-536 536,-536 295,0 536,241 536,536 0,295 -241,536 -536,536z"
+   id="path22" />
+  <path
+   fill-rule="evenodd"
+   fill="#FFFFFF"
+   stroke="#FF0000"
+   stroke-width="48"
+   d="M5115 4653c-685,0 -1243,-558 -1243,-1243 0,-685 558,-1243 1243,-1243 685,0 1243,558 1243,1243 0,685 -558,1243 -1243,1243zm0 -100c-630,0 -1143,-513 -1143,-1143 0,-630 513,-1143 1143,-1143 630,0 1143,513 1143,1143 0,630 -513,1143 -1143,1143z"
+   id="path24" />
+  <rect
+   fill="#0099FF"
+   x="0"
+   y="0"
+   width="10230"
+   height="2093"
+   id="rect26" />
+  <rect
+   fill="#0000CC"
+   x="0"
+   y="4727"
+   width="10230"
+   height="2093"
+   id="rect28" />
  </g>
 </svg>
