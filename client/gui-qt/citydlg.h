@@ -371,7 +371,7 @@ private:
 };
 
 /****************************************************************************
-  Class for popup avaialable production
+  Class for popup available production
 ****************************************************************************/
 class production_widget: public QTableView
 {
