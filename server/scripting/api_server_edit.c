@@ -1134,5 +1134,5 @@ void api_edit_player_give_bulbs(lua_State *L, Player *pplayer, int amount)
 
   update_bulbs(pplayer, amount, TRUE);
 
-  send_player_info_c(pplayer, NULL);
+  send_research_info(research_get(pplayer), NULL);
 }
