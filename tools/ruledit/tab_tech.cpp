@@ -109,7 +109,6 @@ tab_tech::tab_tech(ruledit_gui *ui_in) : QWidget()
   effects_button = new QPushButton(QString::fromUtf8(R__("Effects")), this);
   connect(effects_button, SIGNAL(pressed()), this, SLOT(edit_effects()));
   tech_layout->addWidget(effects_button, 5, 2);
-  show_experimental(effects_button);
 
   add_button = new QPushButton(QString::fromUtf8(R__("Add tech")), this);
   connect(add_button, SIGNAL(pressed()), this, SLOT(add_now()));
