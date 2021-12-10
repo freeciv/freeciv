@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2021-12-08 14:05+0100\n"
+"POT-Creation-Date: 2021-12-04 05:59+0200\n"
 "PO-Revision-Date: 2021-12-08 20:19+0100\n"
 "Last-Translator: Jordi Negrevernis <jorneg4@gmail.com>\n"
 "Language-Team: Español; Castellano <>\n"
@@ -16499,9 +16499,6 @@ msgstr ""
 
 #: client/servers.c:498
 #, c-format
-#| msgid ""
-#| "Opening socket to listen LAN announcements failed:\n"
-#| "%s"
 msgid ""
 "Opening socket for sending LAN announcement request failed:\n"
 "%s"
@@ -16511,7 +16508,6 @@ msgstr ""
 
 #: client/servers.c:542
 #, c-format
-#| msgid "Saved settings to file %s"
 msgid ""
 "Setting Time-to-Live failed:\n"
 "%s"
@@ -16521,7 +16517,6 @@ msgstr ""
 
 #: client/servers.c:557
 #, c-format
-#| msgid "Saved settings to file %s"
 msgid ""
 "Setting Broadcast option failed:\n"
 "%s"
@@ -16531,9 +16526,6 @@ msgstr ""
 
 #: client/servers.c:575
 #, c-format
-#| msgid ""
-#| "Binding socket to listen LAN announcements failed:\n"
-#| "%s"
 msgid ""
 "Sending LAN announcement request failed:\n"
 "%s"
@@ -31773,12 +31765,6 @@ msgstr ""
 "la produjo) y el destino."
 
 #: data/helpdata.txt:602
-#| msgid ""
-#| "The origin civilization of the unit gains immediate revenue in gold and "
-#| "science from selling its trade goods at the destination city. The initial "
-#| "revenue depends on the trade already produced by the two cities involved "
-#| "and their distance apart. The destination civilization learns about the "
-#| "location of the origin city, if it is not already known."
 msgid ""
 "Depending on the ruleset, the origin civilization of the unit may gain "
 "immediate revenue in gold, science, or both from selling its trade goods at "
@@ -36533,7 +36519,6 @@ msgid "Italy (classic/medium)"
 msgstr "Italia (clásico/medio)"
 
 #: data/scenarios/italy-114x100-v2.0.sav:6
-#| msgid "Overhead 100x100 map of Italy."
 msgid "Overhead 114x100 map of Italy."
 msgstr "Mapa al estilo clásico, 114x100, de Italia."
 
