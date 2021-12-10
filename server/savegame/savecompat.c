@@ -1846,7 +1846,7 @@ static void compat_post_load_030100(struct loaddata *loading,
   } players_iterate_alive_end;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Translate savegame secfile data from 3.1.x to 3.2.0 format.
   Note that even after 2.6 savegame has gone through all the compatibility
   functions, it's still 2.6 savegame in the sense that savegame2.c, and not
