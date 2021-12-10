@@ -951,9 +951,8 @@ void unit_actions::init_layout()
   setLayout(layout);
 }
 
-
 /****************************************************************************
-  Updates avaialable actions, returns actions count
+  Updates available actions, returns actions count
 ****************************************************************************/
 int unit_actions::update_actions()
 {
