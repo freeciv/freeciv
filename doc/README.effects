@@ -189,10 +189,15 @@ Border_Vision
     lock it if border vision rules are important to your ruleset.
 
 Building_Build_Cost_Pct
-    Percentage added to building building cost.
+    Percentage added to building building cost, in shields.
+    This also affects buy cost, as it changes amount of shields to buy.
+    This affects value of the already built buildings, when calculating
+    city incite cost or city migration score.
 
 Building_Buy_Cost_Pct
     Percentage added to building buy cost.
+    The cost is calculated for the amount of shields needed.
+    Note that Building_Build_Cost_Pct can change that amount of shields.
 
 Building_Saboteur_Resistant
     If a spy specifies a target for sabotage, then she has an AMOUNT
@@ -618,10 +623,18 @@ Unit_Bribe_Cost_Pct
     point of view of the target unit, not the briber.
 
 Unit_Build_Cost_Pct
-    Percentage added to unit building cost.
+    Percentage added to unit building cost, in shields.
+    This also affects buy cost, as it changes amount of shields to buy.
+    This affects value of the already built units, when calculating
+    city incite cost.
+    This does not affect unit upgrade price. Use Upgrade_Price_Pct for that.
+    This does not affect the amount of shields unit provides when
+    Helping Wonder. Use Unit_Shield_Value_Pct for that.
 
 Unit_Buy_Cost_Pct
     Percentage added to unit buy cost.
+    The cost is calculated for the amount of shields needed.
+    Note that Unit_Build_Cost_Pct can change that amount of shields.
 
 Unit_No_Lose_Pop
     No population lost when a city's defender is lost. Can be limited to
