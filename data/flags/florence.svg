@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    width="540"
    height="360"
    viewBox="0 0 432 288"
    version="1.1"
    id="svg2263"
    sodipodi:version="0.32"
-   inkscape:version="0.47 r22583"
+   inkscape:version="1.1.1 (3bf5ae0d25, 2021-09-20)"
    sodipodi:docname="florence.svg"
    inkscape:output_extension="org.inkscape.output.svg.inkscape"
-   sodipodi:modified="true">
+   sodipodi:modified="true"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
   <metadata
      id="metadata2280">
     <rdf:RDF>
@@ -29,8 +29,8 @@
     </rdf:RDF>
   </metadata>
   <sodipodi:namedview
-     inkscape:window-height="695"
-     inkscape:window-width="1024"
+     inkscape:window-height="620"
+     inkscape:window-width="883"
      inkscape:pageshadow="2"
      inkscape:pageopacity="0.0"
      guidetolerance="10.0"
@@ -41,13 +41,14 @@
      pagecolor="#ffffff"
      id="base"
      inkscape:zoom="1.0710526"
-     inkscape:cx="283.74999"
-     inkscape:cy="189.99999"
-     inkscape:window-x="-3"
-     inkscape:window-y="0"
+     inkscape:cx="283.83293"
+     inkscape:cy="182.53072"
+     inkscape:window-x="726"
+     inkscape:window-y="144"
      inkscape:current-layer="svg2263"
      showgrid="false"
-     inkscape:window-maximized="1" />
+     inkscape:window-maximized="0"
+     inkscape:pagecheckerboard="0" />
   <defs
      id="defs2265">
     <inkscape:perspective
