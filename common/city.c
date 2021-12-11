@@ -2331,7 +2331,7 @@ static void set_surpluses(struct city *pcity)
 }
 
 /**********************************************************************//**
-  Copy the happyness array in the city to index i from index i-1.
+  Copy the happiness array in the city to index i from index i-1.
 **************************************************************************/
 static void happy_copy(struct city *pcity, enum citizen_feeling i)
 {
