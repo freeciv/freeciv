@@ -29,8 +29,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 3.0\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2021-11-14 17:02+0200\n"
-"PO-Revision-Date: 2021-11-22 05:55+0200\n"
+"POT-Creation-Date: 2021-12-11 06:46+0200\n"
+"PO-Revision-Date: 2021-12-11 06:59+0200\n"
 "Last-Translator: Sini Ruohomaa <sini.ruohomaa@iki.fi>\n"
 "Language-Team: None <freeciv-i18n@freelists.org>\n"
 "Language: fi\n"
@@ -561,8 +561,8 @@ msgstr ""
 
 #. TRANS: No full stop after the URL, could cause confusion.
 #: client/agents/cma_core.c:430 client/gui-sdl2/mapview.c:164
-#: server/console.c:72 server/srv_main.c:3159 utility/log.c:566
-#: utility/netintf.c:94 utility/registry_ini.c:785
+#: server/console.c:72 server/srv_main.c:3161 utility/log.c:566
+#: utility/netintf.c:95 utility/registry_ini.c:785
 #, c-format
 msgid "Please report this message at %s"
 msgstr "Ole hyvä ja ilmoita tästä viestistä osoitteessa %s"
@@ -583,22 +583,22 @@ msgstr "oma valinta"
 #. TRANS: city is not growing.  Keep short.
 #: client/agents/cma_fec.c:257 client/agents/cma_fec.c:291
 #: client/citydlg_common.c:301 client/citydlg_common.c:355
-#: client/citydlg_common.c:446 client/gui-gtk-2.0/citydlg.c:1578
-#: client/gui-gtk-3.0/citydlg.c:1815 client/gui-gtk-3.22/citydlg.c:1849
-#: client/gui-qt/citydlg.cpp:3018 client/gui-sdl2/cityrep.c:567
+#: client/citydlg_common.c:446 client/gui-gtk-2.0/citydlg.c:1577
+#: client/gui-gtk-3.0/citydlg.c:1814 client/gui-gtk-3.22/citydlg.c:1848
+#: client/gui-qt/citydlg.cpp:3019 client/gui-sdl2/cityrep.c:567
 #: client/gui-sdl2/cityrep.c:1102 client/gui-sdl2/wldlg.c:1456
 #: client/gui-sdl2/wldlg.c:1461 client/text.c:905
 msgid "never"
 msgstr "ei koskaan"
 
 #: client/agents/cma_fec.c:277 client/agents/cma_fec.c:314
-#: client/citydlg_common.c:352 client/gui-gtk-2.0/citydlg.c:1584
+#: client/citydlg_common.c:352 client/gui-gtk-2.0/citydlg.c:1583
 #: client/gui-gtk-2.0/helpdlg.c:1198 client/gui-gtk-2.0/helpdlg.c:1210
-#: client/gui-gtk-2.0/helpdlg.c:1221 client/gui-gtk-3.0/citydlg.c:1821
+#: client/gui-gtk-2.0/helpdlg.c:1221 client/gui-gtk-3.0/citydlg.c:1820
 #: client/gui-gtk-3.0/helpdlg.c:1237 client/gui-gtk-3.0/helpdlg.c:1249
-#: client/gui-gtk-3.0/helpdlg.c:1260 client/gui-gtk-3.22/citydlg.c:1855
+#: client/gui-gtk-3.0/helpdlg.c:1260 client/gui-gtk-3.22/citydlg.c:1854
 #: client/gui-gtk-3.22/helpdlg.c:1236 client/gui-gtk-3.22/helpdlg.c:1248
-#: client/gui-gtk-3.22/helpdlg.c:1259 client/gui-qt/citydlg.cpp:3024
+#: client/gui-gtk-3.22/helpdlg.c:1259 client/gui-qt/citydlg.cpp:3025
 #: client/gui-qt/helpdlg.cpp:1326 client/gui-qt/helpdlg.cpp:1351
 #: client/gui-qt/helpdlg.cpp:1375 client/helpdata.c:3350 client/text.c:903
 #: client/text.c:1378
@@ -1136,7 +1136,7 @@ msgstr "Kaupungin nimi"
 #: client/gui-gtk-3.0/pages.c:2740 client/gui-gtk-3.22/citizensinfo.c:65
 #: client/gui-gtk-3.22/editprop.c:3658 client/gui-gtk-3.22/editprop.c:4513
 #: client/gui-gtk-3.22/gotodlg.c:219 client/gui-gtk-3.22/pages.c:1396
-#: client/gui-gtk-3.22/pages.c:2740 client/gui-qt/citydlg.cpp:2900
+#: client/gui-gtk-3.22/pages.c:2740 client/gui-qt/citydlg.cpp:2901
 #: client/gui-qt/gotodlg.cpp:53 client/gui-qt/pages.cpp:314
 #: client/gui-qt/pages.cpp:644 client/gui-qt/pages.cpp:1273
 #: client/gui-qt/plrdlg.cpp:489 client/gui-qt/repodlgs.cpp:1569
@@ -1455,7 +1455,7 @@ msgstr "Käskynhaltija"
 #: client/gui-gtk-3.0/menu.c:345 client/gui-gtk-3.22/cityrep.c:1881
 #: client/gui-gtk-3.22/menu.c:344 client/gui-sdl2/citydlg.c:3763
 #: client/gui-sdl2/cma_fe.c:911 client/include/helpdlg_g.h:37
-#: data/helpdata.txt:1800
+#: data/helpdata.txt:1804
 msgid "Citizen Governor"
 msgstr "Käskynhaltija"
 
@@ -2041,8 +2041,8 @@ msgstr ""
 "Pikanäppäin: s\n"
 "Valitse erityispiirre: vaihto+s tai hiiren oikea nappi."
 
-#: client/editor.c:211 client/gui-gtk-3.0/citydlg.c:2949
-#: client/gui-gtk-3.22/citydlg.c:2982 client/gui-qt/citydlg.cpp:1316
+#: client/editor.c:211 client/gui-gtk-3.0/citydlg.c:2948
+#: client/gui-gtk-3.22/citydlg.c:2981 client/gui-qt/citydlg.cpp:1316
 #: common/unit.c:552 data/civ1/terrain.ruleset:1050
 #: data/civ2/terrain.ruleset:1187 data/classic/terrain.ruleset:1482
 #: data/sandbox/terrain.ruleset:1716 data/experimental/terrain.ruleset:1457
@@ -2216,12 +2216,12 @@ msgstr "(nimetön)"
 #. TRANS: Used below. Separate so treasury content too can determine
 #. * if this is plural.
 #: client/gui-gtk-2.0/action_dialog.c:488
-#: client/gui-gtk-2.0/action_dialog.c:1437 client/gui-gtk-2.0/citydlg.c:2655
+#: client/gui-gtk-2.0/action_dialog.c:1437 client/gui-gtk-2.0/citydlg.c:2654
 #: client/gui-gtk-2.0/repodlgs.c:1530 client/gui-gtk-3.0/action_dialog.c:498
-#: client/gui-gtk-3.0/action_dialog.c:1457 client/gui-gtk-3.0/citydlg.c:3053
+#: client/gui-gtk-3.0/action_dialog.c:1457 client/gui-gtk-3.0/citydlg.c:3052
 #: client/gui-gtk-3.0/repodlgs.c:1579 client/gui-gtk-3.22/action_dialog.c:498
-#: client/gui-gtk-3.22/action_dialog.c:1451 client/gui-gtk-3.22/citydlg.c:3086
-#: client/gui-gtk-3.22/repodlgs.c:1579 client/gui-qt/citydlg.cpp:3288
+#: client/gui-gtk-3.22/action_dialog.c:1451 client/gui-gtk-3.22/citydlg.c:3085
+#: client/gui-gtk-3.22/repodlgs.c:1579 client/gui-qt/citydlg.cpp:3289
 #: client/gui-qt/dialogs.cpp:2831 client/gui-qt/dialogs.cpp:2894
 #: client/gui-qt/repodlgs.cpp:214 client/gui-sdl2/action_dialog.c:2229
 #: client/gui-sdl2/action_dialog.c:2492 client/gui-sdl2/citydlg.c:1145
@@ -2583,7 +2583,7 @@ msgid "Chat tools"
 msgstr "Keskustelutyökalut"
 
 #: client/gui-gtk-2.0/citizensinfo.c:63 client/gui-gtk-3.0/citizensinfo.c:63
-#: client/gui-gtk-3.22/citizensinfo.c:63 client/gui-qt/citydlg.cpp:2900
+#: client/gui-gtk-3.22/citizensinfo.c:63 client/gui-qt/citydlg.cpp:2901
 msgid "#"
 msgstr "#"
 
@@ -2593,7 +2593,7 @@ msgstr "#"
 #: client/gui-gtk-3.0/editprop.c:3704 client/gui-gtk-3.0/pages.c:2736
 #: client/gui-gtk-3.22/citizensinfo.c:64 client/gui-gtk-3.22/editprop.c:3689
 #: client/gui-gtk-3.22/editprop.c:3703 client/gui-gtk-3.22/pages.c:2736
-#: client/gui-qt/citydlg.cpp:2900 client/gui-qt/pages.cpp:644
+#: client/gui-qt/citydlg.cpp:2901 client/gui-qt/pages.cpp:644
 #: client/plrdlg_common.c:310
 msgid "Flag"
 msgstr "Lippu"
@@ -2702,15 +2702,15 @@ msgstr "_Yleiskatsaus"
 #: client/gui-gtk-2.0/citydlg.c:783 client/gui-gtk-2.0/citydlg.c:1104
 #: client/gui-gtk-3.0/citydlg.c:834 client/gui-gtk-3.0/citydlg.c:1314
 #: client/gui-gtk-3.22/citydlg.c:872 client/gui-gtk-3.22/citydlg.c:1352
-#: client/gui-qt/citydlg.cpp:1569 client/gui-sdl2/citydlg.c:2519
+#: client/gui-qt/citydlg.cpp:1570 client/gui-sdl2/citydlg.c:2519
 msgid "City map"
 msgstr "Kaupungin kartta"
 
 #: client/gui-gtk-2.0/citydlg.c:825 client/gui-gtk-2.0/citydlg.c:1017
-#: client/gui-gtk-2.0/citydlg.c:1717 client/gui-gtk-3.0/citydlg.c:943
-#: client/gui-gtk-3.0/citydlg.c:1236 client/gui-gtk-3.0/citydlg.c:1944
+#: client/gui-gtk-2.0/citydlg.c:1716 client/gui-gtk-3.0/citydlg.c:943
+#: client/gui-gtk-3.0/citydlg.c:1236 client/gui-gtk-3.0/citydlg.c:1943
 #: client/gui-gtk-3.22/citydlg.c:981 client/gui-gtk-3.22/citydlg.c:1274
-#: client/gui-gtk-3.22/citydlg.c:2003 client/gui-qt/helpdlg.cpp:1302
+#: client/gui-gtk-3.22/citydlg.c:2002 client/gui-qt/helpdlg.cpp:1302
 msgid "Production:"
 msgstr "Tuotanto:"
 
@@ -2765,7 +2765,7 @@ msgstr "_Asetukset"
 #: client/gui-gtk-2.0/citydlg.c:1154 client/gui-gtk-2.0/gamedlgs.c:442
 #: client/gui-gtk-3.0/citydlg.c:1367 client/gui-gtk-3.0/gamedlgs.c:447
 #: client/gui-gtk-3.22/citydlg.c:1405 client/gui-gtk-3.22/gamedlgs.c:447
-#: client/gui-qt/citydlg.cpp:1883 common/city.c:87 server/plrhand.c:306
+#: client/gui-qt/citydlg.cpp:1884 common/city.c:87 server/plrhand.c:306
 msgid "Luxury"
 msgstr "luksus"
 
@@ -2773,7 +2773,7 @@ msgstr "luksus"
 #: client/gui-gtk-2.0/gamedlgs.c:462 client/gui-gtk-3.0/citydlg.c:1368
 #: client/gui-gtk-3.0/editprop.c:4526 client/gui-gtk-3.0/gamedlgs.c:472
 #: client/gui-gtk-3.22/citydlg.c:1406 client/gui-gtk-3.22/editprop.c:4526
-#: client/gui-gtk-3.22/gamedlgs.c:472 client/gui-qt/citydlg.cpp:1883
+#: client/gui-gtk-3.22/gamedlgs.c:472 client/gui-qt/citydlg.cpp:1884
 #: common/city.c:88 server/plrhand.c:308
 msgid "Science"
 msgstr "tiede"
@@ -2782,7 +2782,7 @@ msgstr "tiede"
 #: client/gui-gtk-2.0/repodlgs.c:1250 client/gui-gtk-3.0/citydlg.c:1369
 #: client/gui-gtk-3.0/editprop.c:4528 client/gui-gtk-3.0/repodlgs.c:1295
 #: client/gui-gtk-3.22/citydlg.c:1407 client/gui-gtk-3.22/editprop.c:4528
-#: client/gui-gtk-3.22/repodlgs.c:1295 client/gui-qt/citydlg.cpp:1882
+#: client/gui-gtk-3.22/repodlgs.c:1295 client/gui-qt/citydlg.cpp:1883
 #: client/gui-qt/pages.cpp:1291 common/city.c:86 data/civ1/terrain.ruleset:1140
 #: data/civ2/terrain.ruleset:1281 data/classic/terrain.ruleset:1575
 #: data/sandbox/terrain.ruleset:1863 data/experimental/terrain.ruleset:1594
@@ -2840,143 +2840,143 @@ msgstr "Seuraavalla kerralla avataan"
 msgid "R_ename..."
 msgstr "Nim_eä uudelleen..."
 
-#: client/gui-gtk-2.0/citydlg.c:1398 client/gui-gtk-3.0/citydlg.c:1628
-#: client/gui-gtk-3.22/citydlg.c:1667
+#: client/gui-gtk-2.0/citydlg.c:1397 client/gui-gtk-3.0/citydlg.c:1627
+#: client/gui-gtk-3.22/citydlg.c:1666
 msgid "_List present units..."
 msgstr "_Luettele paikalla olevat yksiköt"
 
-#: client/gui-gtk-2.0/citydlg.c:1408 client/gui-gtk-3.0/citydlg.c:1634
+#: client/gui-gtk-2.0/citydlg.c:1407 client/gui-gtk-3.0/citydlg.c:1633
 msgid "_Prev city"
 msgstr "Edellinen kaupunki"
 
-#: client/gui-gtk-2.0/citydlg.c:1413 client/gui-gtk-3.0/citydlg.c:1639
+#: client/gui-gtk-2.0/citydlg.c:1412 client/gui-gtk-3.0/citydlg.c:1638
 msgid "_Next city"
 msgstr "Seuraava kaupunki"
 
 #. TRANS: city dialog title
-#: client/gui-gtk-2.0/citydlg.c:1468 client/gui-gtk-3.0/citydlg.c:1693
-#: client/gui-gtk-3.22/citydlg.c:1730
+#: client/gui-gtk-2.0/citydlg.c:1467 client/gui-gtk-3.0/citydlg.c:1692
+#: client/gui-gtk-3.22/citydlg.c:1729
 #, c-format
 msgid "<b>%s</b> - %s citizens - DISORDER"
 msgstr "<b>%s</b> – %s asukasta – LEVOTTOMUUKSIA"
 
 #. TRANS: city dialog title
-#: client/gui-gtk-2.0/citydlg.c:1473 client/gui-gtk-3.0/citydlg.c:1698
-#: client/gui-gtk-3.22/citydlg.c:1735
+#: client/gui-gtk-2.0/citydlg.c:1472 client/gui-gtk-3.0/citydlg.c:1697
+#: client/gui-gtk-3.22/citydlg.c:1734
 #, c-format
 msgid "<b>%s</b> - %s citizens - celebrating"
 msgstr "<b>%s</b> – %s asukasta – juhliva"
 
 #. TRANS: city dialog title
-#: client/gui-gtk-2.0/citydlg.c:1478 client/gui-gtk-3.0/citydlg.c:1703
-#: client/gui-gtk-3.22/citydlg.c:1740
+#: client/gui-gtk-2.0/citydlg.c:1477 client/gui-gtk-3.0/citydlg.c:1702
+#: client/gui-gtk-3.22/citydlg.c:1739
 #, c-format
 msgid "<b>%s</b> - %s citizens - happy"
 msgstr "<b>%s</b> – %s asukasta – onnellinen"
 
 #. TRANS: city dialog title
-#: client/gui-gtk-2.0/citydlg.c:1483 client/gui-gtk-3.0/citydlg.c:1708
-#: client/gui-gtk-3.22/citydlg.c:1745
+#: client/gui-gtk-2.0/citydlg.c:1482 client/gui-gtk-3.0/citydlg.c:1707
+#: client/gui-gtk-3.22/citydlg.c:1744
 #, c-format
 msgid "<b>%s</b> - %s citizens"
 msgstr "<b>%s</b> – %s asukasta"
 
 #. TRANS: city growth is blocked.  Keep short.
-#: client/gui-gtk-2.0/citydlg.c:1575 client/gui-gtk-3.0/citydlg.c:1812
-#: client/gui-gtk-3.22/citydlg.c:1846 client/gui-qt/citydlg.cpp:3015
+#: client/gui-gtk-2.0/citydlg.c:1574 client/gui-gtk-3.0/citydlg.c:1811
+#: client/gui-gtk-3.22/citydlg.c:1845 client/gui-qt/citydlg.cpp:3016
 #: client/gui-sdl2/citydlg.c:3294
 msgid "blocked"
 msgstr "estynyt"
 
 #. TRANS: never actually used with built_slots<=1
 #. TRANS: never actually used with built_slots <= 1
-#: client/gui-gtk-2.0/citydlg.c:1710 client/gui-gtk-3.0/citydlg.c:1937
-#: client/gui-gtk-3.22/citydlg.c:1996
+#: client/gui-gtk-2.0/citydlg.c:1709 client/gui-gtk-3.0/citydlg.c:1936
+#: client/gui-gtk-3.22/citydlg.c:1995
 #, c-format
 msgid "Production (up to %d unit per turn):"
 msgid_plural "Production (up to %d units per turn):"
 msgstr[0] "Tuotanto (jopa %d yksikköä joka vuoro):"
 msgstr[1] "Tuotanto (jopa %d yksikköä joka vuoro):"
 
-#: client/gui-gtk-2.0/citydlg.c:1794 client/gui-gtk-3.0/citydlg.c:2037
-#: client/gui-gtk-3.22/citydlg.c:2096
+#: client/gui-gtk-2.0/citydlg.c:1793 client/gui-gtk-3.0/citydlg.c:2036
+#: client/gui-gtk-3.22/citydlg.c:2095
 msgid "Press <b>ENTER</b> or double-click to sell an improvement."
 msgstr "Paina <b>ENTER</b> tai kaksoisnapsauta myydäksesi rakennuksen."
 
-#: client/gui-gtk-2.0/citydlg.c:1796 client/gui-gtk-3.0/citydlg.c:2039
-#: client/gui-gtk-3.22/citydlg.c:2098
+#: client/gui-gtk-2.0/citydlg.c:1795 client/gui-gtk-3.0/citydlg.c:2038
+#: client/gui-gtk-3.22/citydlg.c:2097
 msgid "Great Wonder - cannot be sold."
 msgstr "Suuri ihme – ei myytävissä."
 
-#: client/gui-gtk-2.0/citydlg.c:1797 client/gui-gtk-3.0/citydlg.c:2040
-#: client/gui-gtk-3.22/citydlg.c:2099
+#: client/gui-gtk-2.0/citydlg.c:1796 client/gui-gtk-3.0/citydlg.c:2039
+#: client/gui-gtk-3.22/citydlg.c:2098
 msgid "Small Wonder - cannot be sold."
 msgstr "Pieni ihme – ei myytävissä."
 
-#: client/gui-gtk-2.0/citydlg.c:1945 client/gui-gtk-3.0/citydlg.c:2184
-#: client/gui-gtk-3.22/citydlg.c:2243 client/gui-qt/citydlg.cpp:3133
+#: client/gui-gtk-2.0/citydlg.c:1944 client/gui-gtk-3.0/citydlg.c:2183
+#: client/gui-gtk-3.22/citydlg.c:2242 client/gui-qt/citydlg.cpp:3134
 #, c-format
 msgid "Supported units %d"
 msgstr "Ylläpidettyjä yksiköitä %d"
 
-#: client/gui-gtk-2.0/citydlg.c:2052 client/gui-gtk-3.0/citydlg.c:2287
-#: client/gui-gtk-3.22/citydlg.c:2346 client/gui-qt/citydlg.cpp:3154
+#: client/gui-gtk-2.0/citydlg.c:2051 client/gui-gtk-3.0/citydlg.c:2286
+#: client/gui-gtk-3.22/citydlg.c:2345 client/gui-qt/citydlg.cpp:3155
 #, c-format
 msgid "Present units %d"
 msgstr "Paikallaolevia yksiköitä %d"
 
-#: client/gui-gtk-2.0/citydlg.c:2170 client/gui-gtk-2.0/cityrep.c:1149
-#: client/gui-gtk-3.0/citydlg.c:2419 client/gui-gtk-3.0/cityrep.c:1174
-#: client/gui-gtk-3.22/citydlg.c:2454 client/gui-gtk-3.22/cityrep.c:1174
+#: client/gui-gtk-2.0/citydlg.c:2169 client/gui-gtk-2.0/cityrep.c:1149
+#: client/gui-gtk-3.0/citydlg.c:2418 client/gui-gtk-3.0/cityrep.c:1174
+#: client/gui-gtk-3.22/citydlg.c:2453 client/gui-gtk-3.22/cityrep.c:1174
 msgid "Cen_ter"
 msgstr "Keskitä"
 
-#: client/gui-gtk-2.0/citydlg.c:2176 client/gui-gtk-2.0/citydlg.c:2234
-#: client/gui-gtk-3.0/citydlg.c:2425 client/gui-gtk-3.0/citydlg.c:2483
-#: client/gui-gtk-3.22/citydlg.c:2460 client/gui-gtk-3.22/citydlg.c:2516
+#: client/gui-gtk-2.0/citydlg.c:2175 client/gui-gtk-2.0/citydlg.c:2233
+#: client/gui-gtk-3.0/citydlg.c:2424 client/gui-gtk-3.0/citydlg.c:2482
+#: client/gui-gtk-3.22/citydlg.c:2459 client/gui-gtk-3.22/citydlg.c:2515
 msgid "_Activate unit"
 msgstr "_Aktivoi yksikkö"
 
-#: client/gui-gtk-2.0/citydlg.c:2182 client/gui-gtk-2.0/citydlg.c:2240
-#: client/gui-gtk-3.0/citydlg.c:2431 client/gui-gtk-3.0/citydlg.c:2489
-#: client/gui-gtk-3.22/citydlg.c:2466 client/gui-gtk-3.22/citydlg.c:2522
+#: client/gui-gtk-2.0/citydlg.c:2181 client/gui-gtk-2.0/citydlg.c:2239
+#: client/gui-gtk-3.0/citydlg.c:2430 client/gui-gtk-3.0/citydlg.c:2488
+#: client/gui-gtk-3.22/citydlg.c:2465 client/gui-gtk-3.22/citydlg.c:2521
 msgid "Activate unit, _close dialog"
 msgstr "Aktivoi yksikkö, _sulje ikkuna"
 
-#: client/gui-gtk-2.0/citydlg.c:2188 client/gui-gtk-2.0/citydlg.c:2289
-#: client/gui-gtk-3.0/citydlg.c:2437 client/gui-gtk-3.0/citydlg.c:2538
-#: client/gui-gtk-3.22/citydlg.c:2472 client/gui-gtk-3.22/citydlg.c:2571
+#: client/gui-gtk-2.0/citydlg.c:2187 client/gui-gtk-2.0/citydlg.c:2288
+#: client/gui-gtk-3.0/citydlg.c:2436 client/gui-gtk-3.0/citydlg.c:2537
+#: client/gui-gtk-3.22/citydlg.c:2471 client/gui-gtk-3.22/citydlg.c:2570
 msgid "_Disband unit"
 msgstr "Lakkauta"
 
-#: client/gui-gtk-2.0/citydlg.c:2246 client/gui-gtk-3.0/citydlg.c:2495
-#: client/gui-gtk-3.22/citydlg.c:2528
+#: client/gui-gtk-2.0/citydlg.c:2245 client/gui-gtk-3.0/citydlg.c:2494
+#: client/gui-gtk-3.22/citydlg.c:2527
 msgid "_Load unit"
 msgstr "_Lastaa yksikkö"
 
-#: client/gui-gtk-2.0/citydlg.c:2256 client/gui-gtk-3.0/citydlg.c:2505
-#: client/gui-gtk-3.22/citydlg.c:2538
+#: client/gui-gtk-2.0/citydlg.c:2255 client/gui-gtk-3.0/citydlg.c:2504
+#: client/gui-gtk-3.22/citydlg.c:2537
 msgid "_Unload unit"
 msgstr "P_ura lasti"
 
-#: client/gui-gtk-2.0/citydlg.c:2267 client/gui-gtk-3.0/citydlg.c:2516
-#: client/gui-gtk-3.22/citydlg.c:2549
+#: client/gui-gtk-2.0/citydlg.c:2266 client/gui-gtk-3.0/citydlg.c:2515
+#: client/gui-gtk-3.22/citydlg.c:2548
 msgid "_Sentry unit"
 msgstr "Jätä vartioimaan"
 
-#: client/gui-gtk-2.0/citydlg.c:2278 client/gui-gtk-3.0/citydlg.c:2527
-#: client/gui-gtk-3.22/citydlg.c:2560
+#: client/gui-gtk-2.0/citydlg.c:2277 client/gui-gtk-3.0/citydlg.c:2526
+#: client/gui-gtk-3.22/citydlg.c:2559
 msgid "_Fortify unit"
 msgstr "Linnoittaudu"
 
-#: client/gui-gtk-2.0/citydlg.c:2307 client/gui-gtk-3.0/citydlg.c:2556
-#: client/gui-gtk-3.22/citydlg.c:2589
+#: client/gui-gtk-2.0/citydlg.c:2306 client/gui-gtk-3.0/citydlg.c:2555
+#: client/gui-gtk-3.22/citydlg.c:2588
 msgid "U_pgrade unit"
 msgstr "A_janmukaista yksikkö"
 
 #. TRANS: Last %s is pre-pluralised "Treasury contains %d gold."
-#: client/gui-gtk-2.0/citydlg.c:2665 client/gui-gtk-3.0/citydlg.c:3063
-#: client/gui-gtk-3.22/citydlg.c:3096 client/gui-sdl2/citydlg.c:1156
+#: client/gui-gtk-2.0/citydlg.c:2664 client/gui-gtk-3.0/citydlg.c:3062
+#: client/gui-gtk-3.22/citydlg.c:3095 client/gui-sdl2/citydlg.c:1156
 #, c-format
 msgid ""
 "Buy %s for %d gold?\n"
@@ -2991,15 +2991,15 @@ msgstr[1] ""
 "Osta %s %d kullalla?\n"
 "%s"
 
-#: client/gui-gtk-2.0/citydlg.c:2669 client/gui-gtk-2.0/citydlg.c:2683
-#: client/gui-gtk-3.0/citydlg.c:3067 client/gui-gtk-3.0/citydlg.c:3081
-#: client/gui-gtk-3.22/citydlg.c:3100 client/gui-gtk-3.22/citydlg.c:3114
+#: client/gui-gtk-2.0/citydlg.c:2668 client/gui-gtk-2.0/citydlg.c:2682
+#: client/gui-gtk-3.0/citydlg.c:3066 client/gui-gtk-3.0/citydlg.c:3080
+#: client/gui-gtk-3.22/citydlg.c:3099 client/gui-gtk-3.22/citydlg.c:3113
 msgid "Buy It!"
 msgstr "Osta se!"
 
 #. TRANS: Last %s is pre-pluralised "Treasury contains %d gold."
-#: client/gui-gtk-2.0/citydlg.c:2679 client/gui-gtk-3.0/citydlg.c:3077
-#: client/gui-gtk-3.22/citydlg.c:3110 client/gui-sdl2/citydlg.c:1162
+#: client/gui-gtk-2.0/citydlg.c:2678 client/gui-gtk-3.0/citydlg.c:3076
+#: client/gui-gtk-3.22/citydlg.c:3109 client/gui-sdl2/citydlg.c:1162
 #, c-format
 msgid ""
 "%s costs %d gold.\n"
@@ -3014,8 +3014,8 @@ msgstr[1] ""
 "%s maksaisi %d kultaa.\n"
 "%s"
 
-#: client/gui-gtk-2.0/citydlg.c:2733 client/gui-gtk-3.0/citydlg.c:3131
-#: client/gui-gtk-3.22/citydlg.c:3164 client/gui-qt/citydlg.cpp:611
+#: client/gui-gtk-2.0/citydlg.c:2732 client/gui-gtk-3.0/citydlg.c:3130
+#: client/gui-gtk-3.22/citydlg.c:3163 client/gui-qt/citydlg.cpp:611
 #: client/gui-sdl2/citydlg.c:1402
 #, c-format
 msgid "Sell %s for %d gold?"
@@ -3023,18 +3023,18 @@ msgid_plural "Sell %s for %d gold?"
 msgstr[0] "Myydäänkö %s hintaan %d kulta?"
 msgstr[1] "Myydäänkö %s hintaan %d kultaa?"
 
-#: client/gui-gtk-2.0/citydlg.c:2739 client/gui-gtk-3.0/citydlg.c:3137
-#: client/gui-gtk-3.22/citydlg.c:3170
+#: client/gui-gtk-2.0/citydlg.c:2738 client/gui-gtk-3.0/citydlg.c:3136
+#: client/gui-gtk-3.22/citydlg.c:3169
 msgid "Sell It!"
 msgstr "Myydään pois!"
 
-#: client/gui-gtk-2.0/citydlg.c:2806 client/gui-gtk-3.0/citydlg.c:3212
-#: client/gui-gtk-3.22/citydlg.c:3244 client/gui-qt/citydlg.cpp:2259
+#: client/gui-gtk-2.0/citydlg.c:2805 client/gui-gtk-3.0/citydlg.c:3211
+#: client/gui-gtk-3.22/citydlg.c:3243 client/gui-qt/citydlg.cpp:2260
 msgid "Rename City"
 msgstr "Nimeä kaupunki uudelleen"
 
-#: client/gui-gtk-2.0/citydlg.c:2807 client/gui-gtk-3.0/citydlg.c:3213
-#: client/gui-gtk-3.22/citydlg.c:3245 client/gui-qt/citydlg.cpp:2258
+#: client/gui-gtk-2.0/citydlg.c:2806 client/gui-gtk-3.0/citydlg.c:3212
+#: client/gui-gtk-3.22/citydlg.c:3244 client/gui-qt/citydlg.cpp:2259
 msgid "What should we rename the city to?"
 msgstr "Mikä annetaan kaupungin uudeksi nimeksi?"
 
@@ -3062,7 +3062,7 @@ msgid "No %s could be sold."
 msgstr "%s ei ole myytävissä."
 
 #: client/gui-gtk-2.0/cityrep.c:966 client/gui-gtk-3.0/cityrep.c:974
-#: client/gui-gtk-3.22/cityrep.c:974 client/gui-qt/citydlg.cpp:2647
+#: client/gui-gtk-3.22/cityrep.c:974 client/gui-qt/citydlg.cpp:2648
 #: client/gui-qt/cityrep.cpp:497
 msgid "(no worklists defined)"
 msgstr "(ei työlistaa)"
@@ -3302,7 +3302,7 @@ msgid "Results"
 msgstr "Lopputulos"
 
 #: client/gui-gtk-2.0/cma_fe.c:321 client/gui-gtk-3.0/cma_fe.c:342
-#: client/gui-gtk-3.22/cma_fe.c:341 client/gui-qt/citydlg.cpp:1884
+#: client/gui-gtk-3.22/cma_fe.c:341 client/gui-qt/citydlg.cpp:1885
 #: client/gui-sdl2/cma_fe.c:941
 msgid "Minimal Surplus"
 msgstr "Pienin sallittu ylijäämä"
@@ -3313,7 +3313,7 @@ msgid "Factor"
 msgstr "Kerroin"
 
 #: client/gui-gtk-2.0/cma_fe.c:359 client/gui-gtk-3.0/cma_fe.c:393
-#: client/gui-gtk-3.22/cma_fe.c:392 client/gui-qt/citydlg.cpp:1883
+#: client/gui-gtk-3.22/cma_fe.c:392 client/gui-qt/citydlg.cpp:1884
 #: client/gui-sdl2/cma_fe.c:990
 msgid "Celebrate"
 msgstr "Juhli"
@@ -3329,25 +3329,25 @@ msgid "Governor Disabl_ed"
 msgstr "Käskynhaltija ei kä_ytössä"
 
 #: client/gui-gtk-2.0/cma_fe.c:539 client/gui-gtk-3.0/cma_fe.c:573
-#: client/gui-gtk-3.22/cma_fe.c:565 client/gui-qt/citydlg.cpp:2305
+#: client/gui-gtk-3.22/cma_fe.c:565 client/gui-qt/citydlg.cpp:2306
 #: client/gui-sdl2/cma_fe.c:266 client/gui-sdl2/cma_fe.c:343
 msgid "new preset"
 msgstr "uusi malli"
 
 #: client/gui-gtk-2.0/cma_fe.c:543 client/gui-gtk-3.0/cma_fe.c:577
-#: client/gui-gtk-3.22/cma_fe.c:569 client/gui-qt/citydlg.cpp:2304
+#: client/gui-gtk-3.22/cma_fe.c:569 client/gui-qt/citydlg.cpp:2305
 #: client/gui-sdl2/cma_fe.c:316
 msgid "Name new preset"
 msgstr "Nimeä uusi malli"
 
 #: client/gui-gtk-2.0/cma_fe.c:544 client/gui-gtk-3.0/cma_fe.c:578
-#: client/gui-gtk-3.22/cma_fe.c:570 client/gui-qt/citydlg.cpp:2303
+#: client/gui-gtk-3.22/cma_fe.c:570 client/gui-qt/citydlg.cpp:2304
 #: client/gui-sdl2/cma_fe.c:332
 msgid "What should we name the preset?"
 msgstr "Minkä niminen tämän mallin tulisi olla?"
 
 #: client/gui-gtk-2.0/cma_fe.c:630 client/gui-gtk-3.0/cma_fe.c:664
-#: client/gui-gtk-3.22/cma_fe.c:656 client/gui-qt/citydlg.cpp:2543
+#: client/gui-gtk-3.22/cma_fe.c:656 client/gui-qt/citydlg.cpp:2544
 msgid "Remove this preset?"
 msgstr "Poistetaanko tämä malli?"
 
@@ -3862,7 +3862,7 @@ msgstr "ID"
 #: client/gui-gtk-3.22/pages.c:1393 client/gui-gtk-3.22/pages.c:2730
 #: client/gui-gtk-3.22/wldlg.c:1000 client/gui-qt/pages.cpp:314
 #: client/gui-qt/pages.cpp:643 tools/civmanual.c:513 tools/mpgui_gtk2.c:457
-#: tools/mpgui_gtk3.c:460 tools/mpgui_gtk4.c:472 tools/mpgui_qt.cpp:214
+#: tools/mpgui_gtk3.c:460 tools/mpgui_gtk4.c:476 tools/mpgui_qt.cpp:214
 msgid "Name"
 msgstr "Nimi"
 
@@ -4068,7 +4068,7 @@ msgstr "Tuotantovaranto"
 #: client/gui-gtk-3.0/editprop.c:4517 client/gui-gtk-3.0/menu.c:327
 #: client/gui-gtk-3.22/editprop.c:4516 client/gui-gtk-3.22/menu.c:326
 #: client/gui-qt/menu.cpp:636 client/include/helpdlg_g.h:52
-#: data/helpdata.txt:1389
+#: data/helpdata.txt:1393
 msgid "Government"
 msgstr "Valtiomuoto"
 
@@ -4266,7 +4266,7 @@ msgstr "Muuta linjauksia"
 #: client/gui-gtk-2.0/gamedlgs.c:324 client/gui-gtk-2.0/menu.c:1486
 #: client/gui-gtk-3.0/gamedlgs.c:323 client/gui-gtk-3.0/menu.c:309
 #: client/gui-gtk-3.22/gamedlgs.c:323 client/gui-gtk-3.22/menu.c:308
-#: client/include/helpdlg_g.h:57 data/helpdata.txt:1448
+#: client/include/helpdlg_g.h:57 data/helpdata.txt:1452
 msgid "Policies"
 msgstr "Linjaukset"
 
@@ -4385,7 +4385,7 @@ msgstr ""
 #: client/gui-gtk-2.0/gui_main.c:271 client/gui-gtk-3.0/gui_main.c:274
 #: client/gui-gtk-3.22/gui_main.c:270 client/gui-qt/gui_main.cpp:127
 #: client/gui-sdl2/gui_main.c:173 common/fc_cmdhelp.c:136 tools/mpcli.c:115
-#: tools/mpgui_gtk2.c:573 tools/mpgui_gtk3.c:579 tools/mpgui_gtk4.c:622
+#: tools/mpgui_gtk2.c:573 tools/mpgui_gtk3.c:579 tools/mpgui_gtk4.c:626
 #: tools/mpgui_qt.cpp:102
 #, c-format
 msgid "Report bugs at %s\n"
@@ -4436,13 +4436,13 @@ msgid "Migrating gtk2-client options from freeciv-2.5 options."
 msgstr ""
 "Kopioin gtk2-asiakasohjelman asetuksia freecivin version 2.5 asetuksista."
 
-#: client/gui-gtk-2.0/gui_main.c:2013 client/gui-gtk-3.0/gui_main.c:2152
-#: client/gui-gtk-3.22/gui_main.c:2241 client/gui-qt/gui_main.cpp:545
+#: client/gui-gtk-2.0/gui_main.c:2019 client/gui-gtk-3.0/gui_main.c:2157
+#: client/gui-gtk-3.22/gui_main.c:2246 client/gui-qt/gui_main.cpp:545
 msgid "Are you sure you want to quit?"
 msgstr "Haluatko todella lopettaa?"
 
-#: client/gui-gtk-2.0/gui_main.c:2182 client/gui-gtk-3.0/gui_main.c:2321
-#: client/gui-gtk-3.22/gui_main.c:2410
+#: client/gui-gtk-2.0/gui_main.c:2188 client/gui-gtk-3.0/gui_main.c:2326
+#: client/gui-gtk-3.22/gui_main.c:2415
 #, c-format
 msgid ""
 "\n"
@@ -4469,37 +4469,37 @@ msgid "Ctrl+W"
 msgstr "Ctrl+W"
 
 #: client/gui-gtk-2.0/happiness.c:199 client/gui-gtk-3.0/happiness.c:208
-#: client/gui-gtk-3.22/happiness.c:208 client/gui-qt/citydlg.cpp:1817
+#: client/gui-gtk-3.22/happiness.c:208 client/gui-qt/citydlg.cpp:1818
 msgid "Cities:"
 msgstr "Kaupungit:"
 
 #: client/gui-gtk-2.0/happiness.c:200 client/gui-gtk-3.0/happiness.c:209
-#: client/gui-gtk-3.22/happiness.c:209 client/gui-qt/citydlg.cpp:1817
+#: client/gui-gtk-3.22/happiness.c:209 client/gui-qt/citydlg.cpp:1818
 msgid "Luxuries:"
 msgstr "Luksus:"
 
 #: client/gui-gtk-2.0/happiness.c:201 client/gui-gtk-3.0/happiness.c:210
-#: client/gui-gtk-3.22/happiness.c:210 client/gui-qt/citydlg.cpp:1817
+#: client/gui-gtk-3.22/happiness.c:210 client/gui-qt/citydlg.cpp:1818
 msgid "Buildings:"
 msgstr "Rakennukset:"
 
 #: client/gui-gtk-2.0/happiness.c:202 client/gui-gtk-3.0/happiness.c:211
-#: client/gui-gtk-3.22/happiness.c:211 client/gui-qt/citydlg.cpp:1818
+#: client/gui-gtk-3.22/happiness.c:211 client/gui-qt/citydlg.cpp:1819
 msgid "Nationality:"
 msgstr "Kansallisuus:"
 
 #: client/gui-gtk-2.0/happiness.c:203 client/gui-gtk-3.0/happiness.c:212
-#: client/gui-gtk-3.22/happiness.c:212 client/gui-qt/citydlg.cpp:1818
+#: client/gui-gtk-3.22/happiness.c:212 client/gui-qt/citydlg.cpp:1819
 msgid "Units:"
 msgstr "Yksiköt:"
 
 #: client/gui-gtk-2.0/happiness.c:204 client/gui-gtk-3.0/happiness.c:213
-#: client/gui-gtk-3.22/happiness.c:213 client/gui-qt/citydlg.cpp:1818
+#: client/gui-gtk-3.22/happiness.c:213 client/gui-qt/citydlg.cpp:1819
 msgid "Wonders:"
 msgstr "Ihmeet:"
 
 #: client/gui-gtk-2.0/happiness.c:213 client/gui-gtk-3.0/happiness.c:224
-#: client/gui-gtk-3.22/happiness.c:224 client/gui-qt/citydlg.cpp:1805
+#: client/gui-gtk-3.22/happiness.c:224 client/gui-qt/citydlg.cpp:1806
 #: client/gui-sdl2/citydlg.c:2059 client/gui-sdl2/citydlg.c:3678
 #: data/alien/techs.ruleset:413
 msgid "Happiness"
@@ -4514,7 +4514,7 @@ msgstr "Lisätietoa saa napauttamalla asukkaita hiiren vasemmalla napilla."
 #: client/gui-gtk-2.0/helpdlg.c:105 client/gui-gtk-3.0/helpdlg.c:99
 #: client/gui-gtk-3.0/helpdlg.c:102 client/gui-gtk-3.0/helpdlg.c:106
 #: client/gui-gtk-3.22/helpdlg.c:99 client/gui-gtk-3.22/helpdlg.c:102
-#: client/gui-gtk-3.22/helpdlg.c:106 client/gui-qt/citydlg.cpp:3877
+#: client/gui-gtk-3.22/helpdlg.c:106 client/gui-qt/citydlg.cpp:3878
 #: client/gui-qt/helpdlg.cpp:898 client/gui-qt/helpdlg.cpp:1001
 #: client/gui-sdl2/helpdlg.c:381 client/gui-sdl2/helpdlg.c:797
 msgid "Cost:"
@@ -4538,49 +4538,49 @@ msgstr "Vaatimukset:"
 #: client/gui-gtk-2.0/helpdlg.c:101 client/gui-gtk-2.0/helpdlg.c:109
 #: client/gui-gtk-3.0/helpdlg.c:102 client/gui-gtk-3.0/helpdlg.c:110
 #: client/gui-gtk-3.22/helpdlg.c:102 client/gui-gtk-3.22/helpdlg.c:110
-#: client/gui-qt/citydlg.cpp:3815 client/gui-qt/helpdlg.cpp:1051
+#: client/gui-qt/citydlg.cpp:3816 client/gui-qt/helpdlg.cpp:1051
 #: client/gui-sdl2/helpdlg.c:439 client/gui-sdl2/helpdlg.c:873
 msgid "Obsolete by:"
 msgstr "Vanhentaja:"
 
 #: client/gui-gtk-2.0/helpdlg.c:105 client/gui-gtk-3.0/helpdlg.c:106
-#: client/gui-gtk-3.22/helpdlg.c:106 client/gui-qt/citydlg.cpp:3870
+#: client/gui-gtk-3.22/helpdlg.c:106 client/gui-qt/citydlg.cpp:3871
 #: client/gui-qt/helpdlg.cpp:888 client/gui-sdl2/helpdlg.c:830
 msgid "Attack:"
 msgstr "Hyökkäys:"
 
 #: client/gui-gtk-2.0/helpdlg.c:106 client/gui-gtk-3.0/helpdlg.c:107
-#: client/gui-gtk-3.22/helpdlg.c:107 client/gui-qt/citydlg.cpp:3872
+#: client/gui-gtk-3.22/helpdlg.c:107 client/gui-qt/citydlg.cpp:3873
 #: client/gui-qt/helpdlg.cpp:890 client/gui-sdl2/helpdlg.c:831
 msgid "Defense:"
 msgstr "Puolustus:"
 
 #: client/gui-gtk-2.0/helpdlg.c:106 client/gui-gtk-3.0/helpdlg.c:107
-#: client/gui-gtk-3.22/helpdlg.c:107 client/gui-qt/citydlg.cpp:3874
+#: client/gui-gtk-3.22/helpdlg.c:107 client/gui-qt/citydlg.cpp:3875
 #: client/gui-sdl2/helpdlg.c:832
 msgid "Move:"
 msgstr "Liikepisteet:"
 
 #: client/gui-gtk-2.0/helpdlg.c:107 client/gui-gtk-3.0/helpdlg.c:108
-#: client/gui-gtk-3.22/helpdlg.c:108 client/gui-qt/citydlg.cpp:3885
+#: client/gui-gtk-3.22/helpdlg.c:108 client/gui-qt/citydlg.cpp:3886
 #: client/gui-sdl2/helpdlg.c:834
 msgid "FirePower:"
 msgstr "Tulivoima:"
 
 # Eri roolipelien suomennoksista tutut...
 #: client/gui-gtk-2.0/helpdlg.c:107 client/gui-gtk-3.0/helpdlg.c:108
-#: client/gui-gtk-3.22/helpdlg.c:108 client/gui-qt/citydlg.cpp:3883
+#: client/gui-gtk-3.22/helpdlg.c:108 client/gui-qt/citydlg.cpp:3884
 #: client/gui-qt/helpdlg.cpp:897 client/gui-sdl2/helpdlg.c:835
 msgid "Hitpoints:"
 msgstr "Voimapisteet:"
 
 #: client/gui-gtk-2.0/helpdlg.c:108 client/gui-gtk-3.0/helpdlg.c:109
-#: client/gui-gtk-3.22/helpdlg.c:109 client/gui-qt/citydlg.cpp:3880
+#: client/gui-gtk-3.22/helpdlg.c:109 client/gui-qt/citydlg.cpp:3881
 msgid "Basic Upkeep:"
 msgstr "Ylläpito:"
 
 #: client/gui-gtk-2.0/helpdlg.c:108 client/gui-gtk-3.0/helpdlg.c:109
-#: client/gui-gtk-3.22/helpdlg.c:109 client/gui-qt/citydlg.cpp:3887
+#: client/gui-gtk-3.22/helpdlg.c:109 client/gui-qt/citydlg.cpp:3888
 #: client/gui-sdl2/helpdlg.c:833
 msgid "Vision:"
 msgstr "Näkökyky:"
@@ -4623,7 +4623,7 @@ msgstr "Bonus (R/T/K):"
 
 #. TRANS: "None" tech
 #: client/gui-gtk-2.0/helpdlg.c:129 client/gui-gtk-3.0/helpdlg.c:130
-#: client/gui-gtk-3.22/helpdlg.c:130 client/gui-qt/citydlg.cpp:3801
+#: client/gui-gtk-3.22/helpdlg.c:130 client/gui-qt/citydlg.cpp:3802
 #: client/gui-qt/helpdlg.cpp:54 client/gui-qt/plrdlg.cpp:588
 #: client/gui-qt/plrdlg.cpp:594 client/gui-qt/repodlgs.cpp:1084
 #: client/gui-sdl2/gui_tilespec.c:381 client/gui-sdl2/helpdlg.c:855
@@ -5114,25 +5114,25 @@ msgstr "Taistelu"
 
 #: client/gui-gtk-2.0/menu.c:1484 client/gui-gtk-3.0/menu.c:325
 #: client/gui-gtk-3.22/menu.c:324 client/include/helpdlg_g.h:47
-#: data/helpdata.txt:1345
+#: data/helpdata.txt:1349
 msgid "Zones of Control"
 msgstr "Valvonta-alueet"
 
 #: client/gui-gtk-2.0/menu.c:1490 client/gui-gtk-3.0/menu.c:329
 #: client/gui-gtk-3.22/menu.c:328 client/include/helpdlg_g.h:53
-#: data/helpdata.txt:1462
+#: data/helpdata.txt:1466
 msgid "Diplomacy"
 msgstr "Diplomatia"
 
 #: client/gui-gtk-2.0/menu.c:1492 client/gui-gtk-3.0/menu.c:331
 #: client/gui-gtk-3.22/menu.c:330 client/include/helpdlg_g.h:48
-#: data/helpdata.txt:1505
+#: data/helpdata.txt:1509
 msgid "Technology"
 msgstr "Teknologia"
 
 #: client/gui-gtk-2.0/menu.c:1494 client/gui-gtk-3.0/menu.c:333
 #: client/gui-gtk-3.22/menu.c:332 client/include/helpdlg_g.h:54
-#: data/helpdata.txt:1544
+#: data/helpdata.txt:1548
 msgid "Space Race"
 msgstr "Avaruuden kilpajuoksu"
 
@@ -5148,49 +5148,49 @@ msgstr "Käytetty kuvitus"
 
 #: client/gui-gtk-2.0/menu.c:1500 client/gui-gtk-3.0/menu.c:339
 #: client/gui-gtk-3.22/menu.c:338 client/include/helpdlg_g.h:41
-#: data/helpdata.txt:1584
+#: data/helpdata.txt:1588
 msgid "About Nations"
 msgstr "Tietoja kansakunnista"
 
 #: client/gui-gtk-2.0/menu.c:1503 client/gui-gtk-3.0/menu.c:341
 #: client/gui-gtk-3.22/menu.c:340 client/include/helpdlg_g.h:34
-#: data/helpdata.txt:1599
+#: data/helpdata.txt:1603
 msgid "Connecting"
 msgstr "Yhdistäminen"
 
 #: client/gui-gtk-2.0/menu.c:1505 client/gui-gtk-3.0/menu.c:343
 #: client/gui-gtk-3.22/menu.c:342 client/include/helpdlg_g.h:38
-#: data/helpdata.txt:1626
+#: data/helpdata.txt:1630
 msgid "Controls"
 msgstr "Ohjauskomennot"
 
 #: client/gui-gtk-2.0/menu.c:1509 client/gui-gtk-3.0/menu.c:347
 #: client/gui-gtk-3.22/menu.c:346 client/include/helpdlg_g.h:35
-#: data/helpdata.txt:1849
+#: data/helpdata.txt:1853
 msgid "Chatline"
 msgstr "Keskustelu"
 
 #: client/gui-gtk-2.0/menu.c:1511 client/gui-gtk-3.0/menu.c:349
 #: client/gui-gtk-3.22/menu.c:348 client/include/helpdlg_g.h:36
-#: data/helpdata.txt:1967
+#: data/helpdata.txt:1971
 msgid "Worklist Editor"
 msgstr "Työlistan hallinta"
 
 #: client/gui-gtk-2.0/menu.c:1514 client/gui-gtk-3.0/menu.c:351
 #: client/gui-gtk-3.22/menu.c:350 client/include/helpdlg_g.h:33
-#: data/helpdata.txt:1991
+#: data/helpdata.txt:1995
 msgid "Languages"
 msgstr "Kielet"
 
 #: client/gui-gtk-2.0/menu.c:1516 client/gui-gtk-3.0/menu.c:353
 #: client/gui-gtk-3.22/menu.c:352 client/include/helpdlg_g.h:55
-#: data/helpdata.txt:2021
+#: data/helpdata.txt:2025
 msgid "Copying"
 msgstr "Kopiointi"
 
 #: client/gui-gtk-2.0/menu.c:1518 client/gui-gtk-3.0/menu.c:355
 #: client/gui-gtk-3.22/menu.c:354 client/include/helpdlg_g.h:56
-#: data/helpdata.txt:2326
+#: data/helpdata.txt:2330
 msgid "About Freeciv"
 msgstr "Tietoja Freecivistä"
 
@@ -5873,7 +5873,7 @@ msgstr "Portti"
 #: client/gui-gtk-3.0/pages.c:1222 client/gui-gtk-3.0/pages.c:1267
 #: client/gui-gtk-3.22/pages.c:1223 client/gui-gtk-3.22/pages.c:1268
 #: client/gui-qt/pages.cpp:311 tools/mpgui_gtk2.c:462 tools/mpgui_gtk3.c:465
-#: tools/mpgui_gtk4.c:477 tools/mpgui_qt.cpp:214
+#: tools/mpgui_gtk4.c:481 tools/mpgui_qt.cpp:214
 msgid "Version"
 msgstr "Versio"
 
@@ -6135,7 +6135,7 @@ msgstr "_Enemmän peliasetuksia..."
 #: client/gui-gtk-3.0/pages.c:2732 client/gui-gtk-3.0/unitselect.c:475
 #: client/gui-gtk-3.22/pages.c:2732 client/gui-gtk-3.22/unitselect.c:475
 #: client/gui-qt/pages.cpp:643 client/gui-qt/pages.cpp:1876
-#: tools/mpgui_gtk2.c:264 tools/mpgui_gtk3.c:262 tools/mpgui_gtk4.c:270
+#: tools/mpgui_gtk2.c:264 tools/mpgui_gtk3.c:262 tools/mpgui_gtk4.c:274
 #: tools/mpgui_qt_worker.cpp:54
 msgid "Ready"
 msgstr "Valmis"
@@ -6455,7 +6455,7 @@ msgid "Active"
 msgstr "Toiminnassa"
 
 #: client/gui-gtk-2.0/repodlgs.c:1246 client/gui-gtk-3.0/repodlgs.c:1291
-#: client/gui-gtk-3.22/repodlgs.c:1291 client/gui-qt/citydlg.cpp:1882
+#: client/gui-gtk-3.22/repodlgs.c:1291 client/gui-qt/citydlg.cpp:1883
 #: common/city.c:84
 msgid "Shield"
 msgstr "tuotantoa"
@@ -6466,7 +6466,7 @@ msgid "Total shield upkeep"
 msgstr "Ylläpidon kokonaiskustannus (tuotantoa)"
 
 #: client/gui-gtk-2.0/repodlgs.c:1248 client/gui-gtk-3.0/repodlgs.c:1293
-#: client/gui-gtk-3.22/repodlgs.c:1293 client/gui-qt/citydlg.cpp:1882
+#: client/gui-gtk-3.22/repodlgs.c:1293 client/gui-qt/citydlg.cpp:1883
 #: common/city.c:83
 msgid "Food"
 msgstr "ruokaa"
@@ -6856,7 +6856,7 @@ msgstr "Ruudun yksiköt:"
 
 #: client/gui-gtk-3.0/action_dialog.c:1552
 #: client/gui-gtk-3.22/action_dialog.c:1546 client/gui-qt/cityrep.cpp:542
-#: client/gui-qt/hudwidget.cpp:1405 client/gui-qt/menu.cpp:1176
+#: client/gui-qt/hudwidget.cpp:1404 client/gui-qt/menu.cpp:1176
 msgid "Select"
 msgstr "Valitse"
 
@@ -6874,24 +6874,24 @@ msgstr "Koko:"
 msgid "Citymap"
 msgstr "Alue"
 
-#: client/gui-gtk-3.0/citydlg.c:2878 client/gui-gtk-3.22/citydlg.c:2911
+#: client/gui-gtk-3.0/citydlg.c:2877 client/gui-gtk-3.22/citydlg.c:2910
 msgid "There's no suitable extra to order."
 msgstr "Ei löydy sopivaa ruutulisää tilattavaksi."
 
-#: client/gui-gtk-3.0/citydlg.c:2922 client/gui-gtk-3.22/citydlg.c:2955
+#: client/gui-gtk-3.0/citydlg.c:2921 client/gui-gtk-3.22/citydlg.c:2954
 msgid "What Action to Request"
 msgstr "Toimenpidetilaus"
 
-#: client/gui-gtk-3.0/citydlg.c:2923 client/gui-gtk-3.22/citydlg.c:2956
+#: client/gui-gtk-3.0/citydlg.c:2922 client/gui-gtk-3.22/citydlg.c:2955
 msgid "Select autosettler activity:"
 msgstr "Valitse automaattityöläisen toiminto:"
 
-#: client/gui-gtk-3.0/citydlg.c:2927 client/gui-gtk-3.22/citydlg.c:2960
+#: client/gui-gtk-3.0/citydlg.c:2926 client/gui-gtk-3.22/citydlg.c:2959
 msgid "Clear request"
 msgstr "Poista pyyntö"
 
 #. TRANS: Activity name, verb in English
-#: client/gui-gtk-3.0/citydlg.c:2936 client/gui-gtk-3.22/citydlg.c:2969
+#: client/gui-gtk-3.0/citydlg.c:2935 client/gui-gtk-3.22/citydlg.c:2968
 #: client/gui-qt/citydlg.cpp:1315 common/unit.c:530
 #: data/civ1/terrain.ruleset:906 data/civ2/terrain.ruleset:978
 #: data/classic/terrain.ruleset:1160 data/sandbox/terrain.ruleset:1188
@@ -6900,13 +6900,13 @@ msgstr "Poista pyyntö"
 msgid "Mine"
 msgstr "kaivos"
 
-#: client/gui-gtk-3.0/citydlg.c:2944 client/gui-gtk-3.22/citydlg.c:2977
+#: client/gui-gtk-3.0/citydlg.c:2943 client/gui-gtk-3.22/citydlg.c:2976
 #: client/gui-qt/citydlg.cpp:1312 client/gui-qt/citydlg.cpp:1313
 #: common/unit.c:532
 msgid "Irrigate"
 msgstr "Rakenna kasteluverkosto"
 
-#: client/gui-gtk-3.0/citydlg.c:2955 client/gui-gtk-3.22/citydlg.c:2988
+#: client/gui-gtk-3.0/citydlg.c:2954 client/gui-gtk-3.22/citydlg.c:2987
 #: client/gui-qt/citydlg.cpp:1317 client/gui-qt/shortcuts.cpp:134
 #: common/unit.c:546 data/civ2/units.ruleset:25 data/classic/units.ruleset:31
 #: data/sandbox/units.ruleset:31 data/experimental/units.ruleset:34
@@ -6915,13 +6915,13 @@ msgstr "Rakenna kasteluverkosto"
 msgid "Transform"
 msgstr "Muokkaa"
 
-#: client/gui-gtk-3.0/citydlg.c:2961 client/gui-gtk-3.22/citydlg.c:2994
+#: client/gui-gtk-3.0/citydlg.c:2960 client/gui-gtk-3.22/citydlg.c:2993
 #: client/gui-qt/citydlg.cpp:1318 client/gui-qt/menu.cpp:1379
 #: client/gui-qt/menu.cpp:2314
 msgid "Clean Pollution"
 msgstr "Siivoa saasteita"
 
-#: client/gui-gtk-3.0/citydlg.c:2967 client/gui-gtk-3.22/citydlg.c:3000
+#: client/gui-gtk-3.0/citydlg.c:2966 client/gui-gtk-3.22/citydlg.c:2999
 #: client/gui-qt/citydlg.cpp:1319
 msgid "Clean Fallout"
 msgstr "Siivoa Laskeumaa"
@@ -6971,7 +6971,7 @@ msgstr ""
 msgid "Additional information is available%svia left click on the citizens."
 msgstr "Lisätietoa saa napauttamalla asukkaita%shiiren vasemmalla napilla."
 
-#: client/gui-gtk-3.0/inteldlg.c:388 client/gui-gtk-3.22/citydlg.c:1686
+#: client/gui-gtk-3.0/inteldlg.c:388 client/gui-gtk-3.22/citydlg.c:1685
 #: client/gui-gtk-3.22/dialogs.c:111 client/gui-gtk-3.22/dialogs.c:203
 #: client/gui-gtk-3.22/dialogs.c:212 client/gui-gtk-3.22/dialogs.c:217
 #: client/gui-gtk-3.22/dialogs.c:254 client/gui-gtk-3.22/editprop.c:4912
@@ -7069,7 +7069,7 @@ msgstr "Sulje"
 #: client/gui-gtk-3.22/action_dialog.c:987
 #: client/gui-gtk-3.22/action_dialog.c:1169
 #: client/gui-gtk-3.22/action_dialog.c:1963 client/gui-gtk-3.22/chatline.c:1134
-#: client/gui-gtk-3.22/citydlg.c:3005 client/gui-gtk-3.22/dialogs.c:863
+#: client/gui-gtk-3.22/citydlg.c:3004 client/gui-gtk-3.22/dialogs.c:863
 #: client/gui-gtk-3.22/editgui.c:1011 client/gui-gtk-3.22/finddlg.c:77
 #: client/gui-gtk-3.22/gamedlgs.c:317 client/gui-gtk-3.22/gamedlgs.c:409
 #: client/gui-gtk-3.22/gotodlg.c:144 client/gui-gtk-3.22/inputdlg.c:80
@@ -7219,7 +7219,7 @@ msgstr "Ajanmukaista"
 msgid "Governor %1"
 msgstr "Kuvernööri %1"
 
-#: client/gui-qt/citydlg.cpp:1311 client/gui-qt/citydlg.cpp:2646
+#: client/gui-qt/citydlg.cpp:1311 client/gui-qt/citydlg.cpp:2647
 #: client/gui-qt/cityrep.cpp:496
 msgid "Clear"
 msgstr "Tyhjennä"
@@ -7236,230 +7236,230 @@ msgstr "Automaattityöläisen toiminto:"
 msgid "Click to change city name"
 msgstr "Napsauta muuttaaksesi kaupungin nimeä."
 
-#: client/gui-qt/citydlg.cpp:1548 client/gui-qt/menu.cpp:1096
+#: client/gui-qt/citydlg.cpp:1549 client/gui-qt/menu.cpp:1096
 msgid "Zoom in"
 msgstr "Katso lähempää"
 
-#: client/gui-qt/citydlg.cpp:1554 client/gui-qt/menu.cpp:1104
+#: client/gui-qt/citydlg.cpp:1555 client/gui-qt/menu.cpp:1104
 msgid "Zoom out"
 msgstr "Katso kauempaa"
 
-#: client/gui-qt/citydlg.cpp:1615 client/gui-qt/citydlg.cpp:1619
+#: client/gui-qt/citydlg.cpp:1616 client/gui-qt/citydlg.cpp:1620
 msgid "Show buildings"
 msgstr "Näytä rakennukset"
 
-#: client/gui-qt/citydlg.cpp:1625 client/gui-qt/citydlg.cpp:1627
+#: client/gui-qt/citydlg.cpp:1626 client/gui-qt/citydlg.cpp:1628
 #: client/options.c:2362
 msgid "Show units"
 msgstr "Näytä yksiköt"
 
-#: client/gui-qt/citydlg.cpp:1634 client/gui-qt/citydlg.cpp:1636
+#: client/gui-qt/citydlg.cpp:1635 client/gui-qt/citydlg.cpp:1637
 msgid "Show wonders"
 msgstr "Näytä ihmeet"
 
-#: client/gui-qt/citydlg.cpp:1643 client/gui-qt/citydlg.cpp:1645
+#: client/gui-qt/citydlg.cpp:1644 client/gui-qt/citydlg.cpp:1646
 msgid "Show future targets"
 msgstr "Näytä tulevaisuuden kohteet"
 
-#: client/gui-qt/citydlg.cpp:1657
+#: client/gui-qt/citydlg.cpp:1658
 msgid "Close city dialog"
 msgstr "Sulje kaupunki-ikkuna"
 
-#: client/gui-qt/citydlg.cpp:1663
+#: client/gui-qt/citydlg.cpp:1664
 msgid "Show next city"
 msgstr "Näytä seuraava kaupunki"
 
-#: client/gui-qt/citydlg.cpp:1670
+#: client/gui-qt/citydlg.cpp:1671
 msgid "Show previous city"
 msgstr "Näytä edellinen kaupunki"
 
-#: client/gui-qt/citydlg.cpp:1731
+#: client/gui-qt/citydlg.cpp:1732
 msgid "Worklist Option"
 msgstr "Työlistan toiminto"
 
-#: client/gui-qt/citydlg.cpp:1747
+#: client/gui-qt/citydlg.cpp:1748
 msgid "Click to change current production"
 msgstr "Napsauta vaihtaaksesi tuotantoa."
 
-#: client/gui-qt/citydlg.cpp:1750 client/gui-qt/cityrep.cpp:505
+#: client/gui-qt/citydlg.cpp:1751 client/gui-qt/cityrep.cpp:505
 #: client/gui-qt/cityrep.cpp:528
 msgid "Change"
 msgstr "Vaihda"
 
-#: client/gui-qt/citydlg.cpp:1751
+#: client/gui-qt/citydlg.cpp:1752
 msgid "Insert Before"
 msgstr "Lisää ennen"
 
-#: client/gui-qt/citydlg.cpp:1752
+#: client/gui-qt/citydlg.cpp:1753
 msgid "Insert After"
 msgstr "Lisää jälkeen"
 
-#: client/gui-qt/citydlg.cpp:1753
+#: client/gui-qt/citydlg.cpp:1754
 msgid "Add Last"
 msgstr "Lisää viimeiseksi"
 
-#: client/gui-qt/citydlg.cpp:1773 client/gui-qt/cityrep.cpp:518
+#: client/gui-qt/citydlg.cpp:1774 client/gui-qt/cityrep.cpp:518
 msgid "Worklist"
 msgstr "Työlista"
 
-#: client/gui-qt/citydlg.cpp:1783
+#: client/gui-qt/citydlg.cpp:1784
 msgid "Worklist menu"
 msgstr "Työlistavalikko"
 
-#: client/gui-qt/citydlg.cpp:1841
+#: client/gui-qt/citydlg.cpp:1842
 msgid "Presets:"
 msgstr "Toimintamallit:"
 
-#: client/gui-qt/citydlg.cpp:1842
+#: client/gui-qt/citydlg.cpp:1843
 msgid "Governor settings"
 msgstr "Käskynhaltija-asetukset"
 
-#: client/gui-qt/citydlg.cpp:1843
+#: client/gui-qt/citydlg.cpp:1844
 msgid "Results:"
 msgstr "Lopputulos:"
 
-#: client/gui-qt/citydlg.cpp:1850 client/gui-qt/optiondlg.cpp:163
+#: client/gui-qt/citydlg.cpp:1851 client/gui-qt/optiondlg.cpp:163
 #: client/gui-qt/shortcuts.cpp:632
 msgid "Save"
 msgstr "Tallenna"
 
-#: client/gui-qt/citydlg.cpp:1882 common/city.c:85 data/civ1/techs.ruleset:640
+#: client/gui-qt/citydlg.cpp:1883 common/city.c:85 data/civ1/techs.ruleset:640
 #: data/civ2/techs.ruleset:808 data/classic/techs.ruleset:811
 #: data/sandbox/techs.ruleset:843 data/experimental/techs.ruleset:891
 #: data/civ2civ3/techs.ruleset:836 data/multiplayer/techs.ruleset:816
 msgid "Trade"
 msgstr "Kauppa"
 
-#: client/gui-qt/citydlg.cpp:1888
+#: client/gui-qt/citydlg.cpp:1889
 msgid "Priority"
 msgstr "Tärkeys"
 
-#: client/gui-qt/citydlg.cpp:2049
+#: client/gui-qt/citydlg.cpp:2050
 msgid "Show city production"
 msgstr "Näytä kaupungin tuotanto"
 
-#: client/gui-qt/citydlg.cpp:2051
+#: client/gui-qt/citydlg.cpp:2052
 msgid "Show happiness information"
 msgstr "Näytä tyytyväisyys"
 
-#: client/gui-qt/citydlg.cpp:2485
+#: client/gui-qt/citydlg.cpp:2486
 msgid "No governor defined"
 msgstr "Ei käskynhaltijaa määritetty"
 
 #. TRANS: %1 is custom string chosen by player
-#: client/gui-qt/citydlg.cpp:2498
+#: client/gui-qt/citydlg.cpp:2499
 msgid "<h3>Governor Enabled<br>(%1)</h3>"
 msgstr "<h3>Käskynhaltija käytössä<br>%1</h3>"
 
-#: client/gui-qt/citydlg.cpp:2507
+#: client/gui-qt/citydlg.cpp:2508
 msgid "<h3>Governor Disabled</h3>"
 msgstr "<h3>Käskynhaltija ei käytössä</h3>"
 
-#: client/gui-qt/citydlg.cpp:2521
+#: client/gui-qt/citydlg.cpp:2522
 msgid "Disable"
 msgstr "Poista käytöstä"
 
-#: client/gui-qt/citydlg.cpp:2523
+#: client/gui-qt/citydlg.cpp:2524
 msgid "Enable"
 msgstr "Ota käyttöön"
 
-#: client/gui-qt/citydlg.cpp:2625
+#: client/gui-qt/citydlg.cpp:2626
 msgid "Remove Governor"
 msgstr "Posta käskynhaltija"
 
-#: client/gui-qt/citydlg.cpp:2660
+#: client/gui-qt/citydlg.cpp:2661
 msgid "Change worklist"
 msgstr "Muuta työlistaa"
 
-#: client/gui-qt/citydlg.cpp:2661
+#: client/gui-qt/citydlg.cpp:2662
 msgid "Insert worklist"
 msgstr "Lisää työlista"
 
-#: client/gui-qt/citydlg.cpp:2688
+#: client/gui-qt/citydlg.cpp:2689
 msgid "Save worklist"
 msgstr "Talleta työlista"
 
-#: client/gui-qt/citydlg.cpp:2689 client/gui-qt/menu.cpp:1020
+#: client/gui-qt/citydlg.cpp:2690 client/gui-qt/menu.cpp:1020
 #: client/gui-qt/pages.cpp:199 client/gui-sdl2/mapctrl.c:1733
 #: client/gui-sdl2/optiondlg.c:788 client/gui-sdl2/optiondlg.c:1374
 #: client/gui-sdl2/pages.c:264
 msgid "Options"
 msgstr "Valinnat"
 
-#: client/gui-qt/citydlg.cpp:2690
+#: client/gui-qt/citydlg.cpp:2691
 msgid "Allow disbanding city"
 msgstr "Salli kaupungin tyhjentyminen"
 
-#: client/gui-qt/citydlg.cpp:2749
+#: client/gui-qt/citydlg.cpp:2750
 msgid "Buy (%1 gold)"
 msgid_plural "Buy (%1 gold)"
 msgstr[0] "Osta (%1 kultaa)"
 msgstr[1] "Osta (%1 kultaa)"
 
-#: client/gui-qt/citydlg.cpp:2756
+#: client/gui-qt/citydlg.cpp:2757
 msgid "Buy"
 msgstr "Osta"
 
-#: client/gui-qt/citydlg.cpp:3292
+#: client/gui-qt/citydlg.cpp:3293
 #, c-format
 msgid "Buy %s for %d gold?"
 msgid_plural "Buy %s for %d gold?"
 msgstr[0] "Osta %s %d kullalla?"
 msgstr[1] "Osta %s %d kullalla?"
 
-#: client/gui-qt/citydlg.cpp:3423
+#: client/gui-qt/citydlg.cpp:3424
 msgid "Improvements - upkeep %1"
 msgstr "Rakennukset - ylläpito %1"
 
-#: client/gui-qt/citydlg.cpp:3564
+#: client/gui-qt/citydlg.cpp:3565
 msgid "What should we name new worklist?"
 msgstr "Minkä niminen tämän työlistan tulisi olla?"
 
-#: client/gui-qt/citydlg.cpp:3565
+#: client/gui-qt/citydlg.cpp:3566
 msgid "Save current worklist"
 msgstr "Talleta nykyinen työlista"
 
-#: client/gui-qt/citydlg.cpp:3566
+#: client/gui-qt/citydlg.cpp:3567
 msgid "New worklist"
 msgstr "Uusi työlista"
 
 #. TRANS: city dialog title
-#: client/gui-qt/citydlg.cpp:3594
+#: client/gui-qt/citydlg.cpp:3595
 msgid "%1 - %2 citizens - DISORDER"
 msgstr "%1 - %2 asukasta - LEVOTTOMUUKSIA"
 
 #. TRANS: city dialog title
-#: client/gui-qt/citydlg.cpp:3598
+#: client/gui-qt/citydlg.cpp:3599
 msgid "%1 - %2 citizens - celebrating"
 msgstr "%1 - %2 asukasta - juhlii"
 
 #. TRANS: city dialog title
-#: client/gui-qt/citydlg.cpp:3602
+#: client/gui-qt/citydlg.cpp:3603
 msgid "%1 - %2 citizens - happy"
 msgstr "%1 - %2 asukasta - iloinen"
 
 #. TRANS: city dialog title
-#: client/gui-qt/citydlg.cpp:3606
+#: client/gui-qt/citydlg.cpp:3607
 msgid "%1 - %2 citizens"
 msgstr "%1 - %2 asukasta"
 
-#: client/gui-qt/citydlg.cpp:3820
+#: client/gui-qt/citydlg.cpp:3821
 msgid "Cost: %1, Upkeep: %2\n"
 msgstr "Hinta: %1, Ylläpito: %2\n"
 
 #. TRANS: this and nearby literal strings are interpreted
 #. * as (Qt) HTML
-#: client/gui-qt/citydlg.cpp:3861
+#: client/gui-qt/citydlg.cpp:3862
 msgid "Obsoleted by %1 (%2)."
 msgstr "Vanhentuu %2 (%1) keksimisen myötä."
 
 #. TRANS: Current unit obsoleted by other unit
-#: client/gui-qt/citydlg.cpp:3865 client/gui-qt/helpdlg.cpp:962
+#: client/gui-qt/citydlg.cpp:3866 client/gui-qt/helpdlg.cpp:962
 msgid "Obsoleted by %1."
 msgstr "Vanhentuu %1 keksimisen myötä"
 
-#: client/gui-qt/citydlg.cpp:4002 client/gui-qt/dialogs.cpp:451
-#: client/gui-qt/hudwidget.cpp:1406 client/gui-qt/messagedlg.cpp:65
+#: client/gui-qt/citydlg.cpp:4003 client/gui-qt/dialogs.cpp:451
+#: client/gui-qt/hudwidget.cpp:1405 client/gui-qt/messagedlg.cpp:65
 #: client/gui-qt/optiondlg.cpp:140 client/gui-qt/pages.cpp:393
 #: client/gui-qt/pages.cpp:529 client/gui-qt/pages.cpp:597
 #: client/gui-qt/ratesdlg.cpp:78 client/gui-qt/ratesdlg.cpp:167
@@ -7657,7 +7657,7 @@ msgstr "LP:"
 msgid "%1 HP:%2/%3"
 msgstr "%1 OP:%2/%3"
 
-#: client/gui-qt/dialogs.cpp:3805 client/gui-qt/hudwidget.cpp:1492
+#: client/gui-qt/dialogs.cpp:3805 client/gui-qt/hudwidget.cpp:1491
 msgid "%1 unit"
 msgid_plural "%1 units"
 msgstr[0] "%1 yksikkö"
@@ -7872,112 +7872,112 @@ msgid_plural " +%1 units"
 msgstr[0] " +%1 yksikkö"
 msgstr[1] " +%1 yksikköä"
 
-#: client/gui-qt/hudwidget.cpp:1250
+#: client/gui-qt/hudwidget.cpp:1249
 msgid "MP"
 msgstr "LP"
 
-#: client/gui-qt/hudwidget.cpp:1324
+#: client/gui-qt/hudwidget.cpp:1323
 msgid "Unit type"
 msgstr "Yksikön tyyppi"
 
-#: client/gui-qt/hudwidget.cpp:1325
+#: client/gui-qt/hudwidget.cpp:1324
 msgid "Selected type"
 msgstr "Tyyppi valittu"
 
-#: client/gui-qt/hudwidget.cpp:1327
+#: client/gui-qt/hudwidget.cpp:1326
 msgid "All types"
 msgstr "Kaikki tyypit"
 
-#: client/gui-qt/hudwidget.cpp:1341
+#: client/gui-qt/hudwidget.cpp:1340
 msgid "Unit activity"
 msgstr "Yksikön toiminta"
 
-#: client/gui-qt/hudwidget.cpp:1342
+#: client/gui-qt/hudwidget.cpp:1341
 msgid "Any activity"
 msgstr "Mikä hyvänsä toiminta"
 
-#: client/gui-qt/hudwidget.cpp:1344 common/unit.c:536
+#: client/gui-qt/hudwidget.cpp:1343 common/unit.c:536
 msgid "Fortified"
 msgstr "Linnoittautunut"
 
-#: client/gui-qt/hudwidget.cpp:1345 common/unit.c:525
+#: client/gui-qt/hudwidget.cpp:1344 common/unit.c:525
 msgid "Idle"
 msgstr "Toimeton"
 
-#: client/gui-qt/hudwidget.cpp:1346
+#: client/gui-qt/hudwidget.cpp:1345
 msgid "Sentried"
 msgstr "Vartioivat"
 
-#: client/gui-qt/hudwidget.cpp:1361
+#: client/gui-qt/hudwidget.cpp:1360
 msgid "Unit HP and MP"
 msgstr "Yksikön OP:t ja LP:t"
 
-#: client/gui-qt/hudwidget.cpp:1362
+#: client/gui-qt/hudwidget.cpp:1361
 msgid "Any unit"
 msgstr "Mikä hyvänsä yksikkö"
 
-#: client/gui-qt/hudwidget.cpp:1363
+#: client/gui-qt/hudwidget.cpp:1362
 msgid "Full HP"
 msgstr "Täydet OP:t"
 
-#: client/gui-qt/hudwidget.cpp:1364
+#: client/gui-qt/hudwidget.cpp:1363
 msgid "Full MP"
 msgstr "Täydet LP:t"
 
-#: client/gui-qt/hudwidget.cpp:1365
+#: client/gui-qt/hudwidget.cpp:1364
 msgid "Full HP and MP"
 msgstr "Täydet OP:t ja LP:t"
 
-#: client/gui-qt/hudwidget.cpp:1381
+#: client/gui-qt/hudwidget.cpp:1380
 msgid "Location"
 msgstr "Sijainti"
 
-#: client/gui-qt/hudwidget.cpp:1382
+#: client/gui-qt/hudwidget.cpp:1381
 msgid "Anywhere"
 msgstr "Missä hyvänsä"
 
-#: client/gui-qt/hudwidget.cpp:1383
+#: client/gui-qt/hudwidget.cpp:1382
 msgid "Current tile"
 msgstr "Nykyinen ruutu"
 
-#: client/gui-qt/hudwidget.cpp:1384
+#: client/gui-qt/hudwidget.cpp:1383
 msgid "Current continent"
 msgstr "Nykyinen manner"
 
-#: client/gui-qt/hudwidget.cpp:1385
+#: client/gui-qt/hudwidget.cpp:1384
 msgid "Main continent"
 msgstr "Päämanner"
 
-#: client/gui-qt/hudwidget.cpp:1615
+#: client/gui-qt/hudwidget.cpp:1614
 msgid "Terrain: %1\n"
 msgstr "Maasto: %1\n"
 
-#: client/gui-qt/hudwidget.cpp:1616
+#: client/gui-qt/hudwidget.cpp:1615
 msgid "Food/Prod/Trade: %1\n"
 msgstr "Ruoka/tuotanto/kauppa: %1\n"
 
-#: client/gui-qt/hudwidget.cpp:1620
+#: client/gui-qt/hudwidget.cpp:1619
 msgid "Infrastructure: %1\n"
 msgstr "Infrastruktuuri: %1\n"
 
-#: client/gui-qt/hudwidget.cpp:1622
+#: client/gui-qt/hudwidget.cpp:1621
 msgid "Defense bonus: %1%\n"
 msgstr "Puolustusbonus: %1%\n"
 
-#: client/gui-qt/hudwidget.cpp:1638 client/gui-qt/hudwidget.cpp:1640
+#: client/gui-qt/hudwidget.cpp:1637 client/gui-qt/hudwidget.cpp:1639
 msgid "Movement cost: %1"
 msgstr "Liikkumisen hinta: %1"
 
-#: client/gui-qt/hudwidget.cpp:1668
+#: client/gui-qt/hudwidget.cpp:1667
 msgid "Year: %1 (Turn: %2)"
 msgstr "Vuosi: %1 (Vuoro:%2)"
 
-#: client/gui-qt/hudwidget.cpp:1671
+#: client/gui-qt/hudwidget.cpp:1670
 msgid "Population: %1"
 msgstr "Väkiluku: %1"
 
 #. TRANS: current gold, then loss/gain per turn
-#: client/gui-qt/hudwidget.cpp:1687
+#: client/gui-qt/hudwidget.cpp:1686
 msgid "Gold: %1 (%2)"
 msgstr "Kultaa: %1 (%2)"
 
@@ -11767,7 +11767,9 @@ msgstr ""
 msgid ""
 "  * Can be conquered by such units if at war with the nation that currently "
 "owns it.\n"
-msgstr "  · Voidaan valloittaa näillä yksiköillä, jos sodassa ruudun tämänhetkisen omistajan kanssa.\n"
+msgstr ""
+"  · Voidaan valloittaa näillä yksiköillä, jos sodassa ruudun tämänhetkisen "
+"omistajan kanssa.\n"
 
 #. TRANS: indented; preserve leading spaces
 #: client/helpdata.c:3662
@@ -15647,7 +15649,7 @@ msgstr ""
 #. * the target but doesn't require that the target tile is claimed.
 #. * (DiplRel requirements to an unclaimed tile are never fulfilled
 #. * so this is implicit.)
-#: common/actions.c:2822
+#: common/actions.c:2858
 #, c-format
 msgid ""
 "Possible clarification: Requirement {%s} of action \"%s\" implies a claimed "
@@ -15657,23 +15659,23 @@ msgstr ""
 "ruutua. Ei diplomaattista suhdetta luontoon."
 
 #. TRANS: ruledit warns a user about an unused action enabler
-#: common/actions.c:2872
+#: common/actions.c:2908
 #, c-format
 msgid "Action enabler for \"%s\" is never used by any unit."
 msgstr "Yksikään yksikkö ei koskaan käytä \"%s\" mahdollistajaa."
 
 #. TRANS: requirement vector in an action enabler (ruledit)
-#: common/actions.c:3092
+#: common/actions.c:3128
 msgid "actor_reqs"
 msgstr "toimijan edellytykset"
 
 #. TRANS: requirement vector in an action enabler (ruledit)
-#: common/actions.c:3095
+#: common/actions.c:3131
 msgid "target_reqs"
 msgstr "kohteen edellytykset"
 
 #. TRANS: _Poison City (3% chance of success).
-#: common/actions.c:5206 data/civ2/game.ruleset:261
+#: common/actions.c:5242 data/civ2/game.ruleset:261
 #: data/classic/game.ruleset:265 data/sandbox/game.ruleset:268
 #: data/experimental/game.ruleset:268 data/civ2civ3/game.ruleset:270
 #: data/multiplayer/game.ruleset:268
@@ -15682,31 +15684,31 @@ msgid "%sPoison City%s"
 msgstr "%sMyrkytä kaupunki%s"
 
 #. TRANS: _Poison City and Escape (3% chance of success).
-#: common/actions.c:5209
+#: common/actions.c:5245
 #, c-format
 msgid "%sPoison City and Escape%s"
 msgstr "%sMyrkytä kaupunki ja pakene%s"
 
 #. TRANS: S_abotage Enemy Unit (3% chance of success).
-#: common/actions.c:5212
+#: common/actions.c:5248
 #, c-format
 msgid "S%sabotage Enemy Unit%s"
 msgstr "%sSabotoi vihollisen yksikkö%s"
 
 #. TRANS: S_abotage Enemy Unit and Escape (3% chance of success).
-#: common/actions.c:5215
+#: common/actions.c:5251
 #, c-format
 msgid "S%sabotage Enemy Unit and Escape%s"
 msgstr "%sSabotoi vihollisen yksikkö ja pakene%s"
 
 #. TRANS: Bribe Enemy _Unit (3% chance of success).
-#: common/actions.c:5218
+#: common/actions.c:5254
 #, c-format
 msgid "Bribe Enemy %sUnit%s"
 msgstr "%sLahjo vihollisen yksikkö%s"
 
 #. TRANS: _Sabotage City (3% chance of success).
-#: common/actions.c:5221 data/civ1/game.ruleset:247 data/civ2/game.ruleset:273
+#: common/actions.c:5257 data/civ1/game.ruleset:247 data/civ2/game.ruleset:273
 #: data/classic/game.ruleset:274 data/sandbox/game.ruleset:277
 #: data/experimental/game.ruleset:277 data/civ2civ3/game.ruleset:279
 #: data/alien/game.ruleset:267 data/multiplayer/game.ruleset:277
@@ -15715,32 +15717,32 @@ msgid "%sSabotage City%s"
 msgstr "%sSabotoi kaupunkia%s"
 
 #. TRANS: _Sabotage City and Escape (3% chance of success).
-#: common/actions.c:5224
+#: common/actions.c:5260
 #, c-format
 msgid "%sSabotage City and Escape%s"
 msgstr "%sSabotoi kaupunkia ja pakene%s"
 
 #. TRANS: Industria_l Sabotage (3% chance of success).
-#: common/actions.c:5227
+#: common/actions.c:5263
 #, c-format
 msgid "Industria%sl Sabotage%s"
 msgstr "%sSabotoi tuotantoa%s"
 
 #. TRANS: Industria_l Sabotage and Escape (3% chance of success).
-#: common/actions.c:5230
+#: common/actions.c:5266
 #, c-format
 msgid "Industria%sl Sabotage and Escape%s"
 msgstr "%sSabotoi tuotantoa ja pakene%s"
 
 #. TRANS: Incite a Re_volt (3% chance of success).
-#: common/actions.c:5233
+#: common/actions.c:5269
 #, c-format
 msgid "Incite a Re%svolt%s"
 msgstr "%sYllytä kapinaan%s"
 
 #. TRANS: Incite a Re_volt and Escape (3% chance of success).
 #. TRANS: Incite a _Revolt and Escape (3% chance of success).
-#: common/actions.c:5236 data/civ2/game.ruleset:285
+#: common/actions.c:5272 data/civ2/game.ruleset:285
 #: data/classic/game.ruleset:286 data/sandbox/game.ruleset:289
 #: data/experimental/game.ruleset:289 data/civ2civ3/game.ruleset:291
 #: data/multiplayer/game.ruleset:289
@@ -15749,7 +15751,7 @@ msgid "Incite a Re%svolt and Escape%s"
 msgstr "%sYllytä kapinaan ja pakene%s"
 
 #. TRANS: Establish _Embassy (100% chance of success).
-#: common/actions.c:5239 data/civ2/game.ruleset:288
+#: common/actions.c:5275 data/civ2/game.ruleset:288
 #: data/classic/game.ruleset:289 data/sandbox/game.ruleset:292
 #: data/experimental/game.ruleset:292 data/civ2civ3/game.ruleset:294
 #: data/multiplayer/game.ruleset:292
@@ -15758,7 +15760,7 @@ msgid "Establish %sEmbassy%s"
 msgstr "%sPerusta lähetystö%s"
 
 #. TRANS: Becom_e Ambassador (100% chance of success).
-#: common/actions.c:5242 data/civ1/game.ruleset:253 data/civ2/game.ruleset:291
+#: common/actions.c:5278 data/civ1/game.ruleset:253 data/civ2/game.ruleset:291
 #: data/classic/game.ruleset:292 data/sandbox/game.ruleset:295
 #: data/experimental/game.ruleset:295 data/civ2civ3/game.ruleset:297
 #: data/multiplayer/game.ruleset:295
@@ -15767,7 +15769,7 @@ msgid "Becom%se Ambassador%s"
 msgstr "Ryhdy suurläh%settilääksi%s"
 
 #. TRANS: Steal _Technology (3% chance of success).
-#: common/actions.c:5245 data/civ1/game.ruleset:256 data/civ2/game.ruleset:294
+#: common/actions.c:5281 data/civ1/game.ruleset:256 data/civ2/game.ruleset:294
 #: data/classic/game.ruleset:295 data/sandbox/game.ruleset:298
 #: data/experimental/game.ruleset:298 data/civ2civ3/game.ruleset:300
 #: data/multiplayer/game.ruleset:298
@@ -15776,7 +15778,7 @@ msgid "Steal %sTechnology%s"
 msgstr "%sVarasta teknologia%s"
 
 #. TRANS: Steal _Technology and Escape (3% chance of success).
-#: common/actions.c:5248 data/civ2/game.ruleset:297
+#: common/actions.c:5284 data/civ2/game.ruleset:297
 #: data/classic/game.ruleset:298 data/sandbox/game.ruleset:301
 #: data/experimental/game.ruleset:301 data/civ2civ3/game.ruleset:303
 #: data/multiplayer/game.ruleset:301
@@ -15785,19 +15787,19 @@ msgid "Steal %sTechnology and Escape%s"
 msgstr "%sVarasta teknologia ja pakene%s"
 
 #. TRANS: In_dustrial Espionage (3% chance of success).
-#: common/actions.c:5251
+#: common/actions.c:5287
 #, c-format
 msgid "In%sdustrial Espionage%s"
 msgstr "%sTeollisuusvakoilu%s"
 
 #. TRANS: In_dustrial Espionage and Escape (3% chance of success).
-#: common/actions.c:5254
+#: common/actions.c:5290
 #, c-format
 msgid "In%sdustrial Espionage and Escape%s"
 msgstr "%sTeollisuusvakoilu ja pakeneminen%s"
 
 #. TRANS: _Investigate City (100% chance of success).
-#: common/actions.c:5257 data/civ2/game.ruleset:303
+#: common/actions.c:5293 data/civ2/game.ruleset:303
 #: data/classic/game.ruleset:304 data/sandbox/game.ruleset:310
 #: data/experimental/game.ruleset:307 data/civ2civ3/game.ruleset:309
 #: data/multiplayer/game.ruleset:307
@@ -15808,7 +15810,7 @@ msgstr "%sTutki kaupunkia%s"
 #. TRANS: _Investigate City (spends the unit) (100% chance of
 #. * success).
 #. TRANS: _Investigate City (spends the unit) (100% chance of success).
-#: common/actions.c:5261 data/civ1/game.ruleset:259 data/civ2/game.ruleset:306
+#: common/actions.c:5297 data/civ1/game.ruleset:259 data/civ2/game.ruleset:306
 #: data/classic/game.ruleset:307 data/sandbox/game.ruleset:313
 #: data/experimental/game.ruleset:310 data/civ2civ3/game.ruleset:312
 #: data/alien/game.ruleset:276 data/multiplayer/game.ruleset:310
@@ -15817,31 +15819,31 @@ msgid "%sInvestigate City (spends the unit)%s"
 msgstr "%sTutki kaupunkia (kuluttaa yksikön)%s"
 
 #. TRANS: Steal _Gold (100% chance of success).
-#: common/actions.c:5264
+#: common/actions.c:5300
 #, c-format
 msgid "Steal %sGold%s"
 msgstr "%sVarasta kultaa%s"
 
 #. TRANS: Steal _Gold and Escape (100% chance of success).
-#: common/actions.c:5267
+#: common/actions.c:5303
 #, c-format
 msgid "Steal %sGold and Escape%s"
 msgstr "%sVarasta kultaa ja pakene%s"
 
 #. TRANS: Steal _Maps (100% chance of success).
-#: common/actions.c:5270
+#: common/actions.c:5306
 #, c-format
 msgid "Steal %sMaps%s"
 msgstr "%sVarasta kartat%s"
 
 #. TRANS: Steal _Maps and Escape (100% chance of success).
-#: common/actions.c:5273
+#: common/actions.c:5309
 #, c-format
 msgid "Steal %sMaps and Escape%s"
 msgstr "%sVarasta kartat ja pakene%s"
 
 #. TRANS: Establish Trade _Route (100% chance of success).
-#: common/actions.c:5276 data/civ1/game.ruleset:262 data/civ2/game.ruleset:309
+#: common/actions.c:5312 data/civ1/game.ruleset:262 data/civ2/game.ruleset:309
 #: data/classic/game.ruleset:310 data/sandbox/game.ruleset:316
 #: data/experimental/game.ruleset:313 data/civ2civ3/game.ruleset:315
 #: data/alien/game.ruleset:279
@@ -15850,14 +15852,14 @@ msgid "Establish Trade %sRoute%s"
 msgstr "%sPerusta kauppareitti%s"
 
 #. TRANS: Enter _Marketplace (100% chance of success).
-#: common/actions.c:5279 data/civ1/game.ruleset:265 data/civ2/game.ruleset:312
+#: common/actions.c:5315 data/civ1/game.ruleset:265 data/civ2/game.ruleset:312
 #: data/sandbox/game.ruleset:319 data/civ2civ3/game.ruleset:318
 #, c-format
 msgid "Enter %sMarketplace%s"
 msgstr "%sAstu torille%s"
 
 #. TRANS: Help _build Wonder (100% chance of success).
-#: common/actions.c:5282 data/civ1/game.ruleset:268 data/civ2/game.ruleset:315
+#: common/actions.c:5318 data/civ1/game.ruleset:268 data/civ2/game.ruleset:315
 #: data/classic/game.ruleset:316 data/sandbox/game.ruleset:322
 #: data/experimental/game.ruleset:319 data/civ2civ3/game.ruleset:321
 #: data/alien/game.ruleset:285 data/multiplayer/game.ruleset:313
@@ -15866,50 +15868,50 @@ msgid "Help %sbuild Wonder%s"
 msgstr "%sAuta ihmeen rakentamisessa%s"
 
 #. TRANS: _Capture Units (100% chance of success).
-#: common/actions.c:5285 data/sandbox/game.ruleset:331
+#: common/actions.c:5321 data/sandbox/game.ruleset:331
 #: data/civ2civ3/game.ruleset:330 data/alien/game.ruleset:294
 #, c-format
 msgid "%sCapture Units%s"
 msgstr "%sSieppaa yksiköitä%s"
 
 #. TRANS: _Expel Unit (100% chance of success).
-#: common/actions.c:5288
+#: common/actions.c:5324
 #, c-format
 msgid "%sExpel Unit%s"
 msgstr "%sKarkoita yksikkö%s"
 
 #. TRANS: _Found City (100% chance of success).
-#: common/actions.c:5291
+#: common/actions.c:5327
 #, c-format
 msgid "%sFound City%s"
 msgstr "%sPerusta kaupunki%s"
 
 #. TRANS: _Join City (100% chance of success).
-#: common/actions.c:5294
+#: common/actions.c:5330
 #, c-format
 msgid "%sJoin City%s"
 msgstr "%sLiity kaupunkiin%s"
 
 #. TRANS: B_ombard (100% chance of success).
-#: common/actions.c:5297
+#: common/actions.c:5333
 #, c-format
 msgid "B%sombard%s"
 msgstr "%sPommita%s"
 
 #. TRANS: Suitcase _Nuke (100% chance of success).
-#: common/actions.c:5300
+#: common/actions.c:5336
 #, c-format
 msgid "Suitcase %sNuke%s"
 msgstr "Salkku%sydinpommi%s"
 
 #. TRANS: Suitcase _Nuke and Escape (100% chance of success).
-#: common/actions.c:5303
+#: common/actions.c:5339
 #, c-format
 msgid "Suitcase %sNuke and Escape%s"
 msgstr "Salkku%sydinpommi ja pakeneminen%s"
 
 #. TRANS: Explode _Nuclear (100% chance of success).
-#: common/actions.c:5306 data/civ1/game.ruleset:283 data/civ2/game.ruleset:330
+#: common/actions.c:5342 data/civ1/game.ruleset:283 data/civ2/game.ruleset:330
 #: data/classic/game.ruleset:331 data/sandbox/game.ruleset:343
 #: data/experimental/game.ruleset:334 data/civ2civ3/game.ruleset:342
 #: data/multiplayer/game.ruleset:328
@@ -15918,13 +15920,13 @@ msgid "Explode %sNuclear%s"
 msgstr "Räjäytä %sydinlataus%s"
 
 #. TRANS: Destroy _City (100% chance of success).
-#: common/actions.c:5309 data/sandbox/game.ruleset:346
+#: common/actions.c:5345 data/sandbox/game.ruleset:346
 #, c-format
 msgid "Destroy %sCity%s"
 msgstr "%sTuhoa kaupunki%s"
 
 #. TRANS: Rec_ycle Unit (100% chance of success).
-#: common/actions.c:5312 data/civ1/game.ruleset:271 data/civ2/game.ruleset:318
+#: common/actions.c:5348 data/civ1/game.ruleset:271 data/civ2/game.ruleset:318
 #: data/classic/game.ruleset:319 data/sandbox/game.ruleset:325
 #: data/experimental/game.ruleset:322 data/civ2civ3/game.ruleset:324
 #: data/alien/game.ruleset:288 data/multiplayer/game.ruleset:316
@@ -15933,7 +15935,7 @@ msgid "Rec%sycle Unit%s"
 msgstr "%sKierrätä yksikkö%s"
 
 #. TRANS: _You're Fired (100% chance of success).
-#: common/actions.c:5315 data/civ1/game.ruleset:274 data/civ2/game.ruleset:321
+#: common/actions.c:5351 data/civ1/game.ruleset:274 data/civ2/game.ruleset:321
 #: data/classic/game.ruleset:322 data/sandbox/game.ruleset:328
 #: data/experimental/game.ruleset:325 data/civ2civ3/game.ruleset:327
 #: data/alien/game.ruleset:291 data/multiplayer/game.ruleset:319
@@ -15942,7 +15944,7 @@ msgid "%sYou're Fired%s"
 msgstr "Saat %spotkut%s"
 
 #. TRANS: Set _Home City (100% chance of success).
-#: common/actions.c:5318 data/civ1/game.ruleset:286 data/civ2/game.ruleset:333
+#: common/actions.c:5354 data/civ1/game.ruleset:286 data/civ2/game.ruleset:333
 #: data/classic/game.ruleset:334 data/sandbox/game.ruleset:349
 #: data/experimental/game.ruleset:337 data/civ2civ3/game.ruleset:345
 #: data/alien/game.ruleset:306 data/multiplayer/game.ruleset:331
@@ -15951,7 +15953,7 @@ msgid "Set %sHome City%s"
 msgstr "Tee tästä uusi %skotikaupunki%s"
 
 #. TRANS: _Upgrade Unit (100% chance of success).
-#: common/actions.c:5321 data/civ2/game.ruleset:336
+#: common/actions.c:5357 data/civ2/game.ruleset:336
 #: data/classic/game.ruleset:337 data/sandbox/game.ruleset:352
 #: data/experimental/game.ruleset:340 data/civ2civ3/game.ruleset:348
 #: data/alien/game.ruleset:309 data/multiplayer/game.ruleset:334
@@ -15960,7 +15962,7 @@ msgid "%sUpgrade Unit%s"
 msgstr "%sAjanmukaista%s"
 
 #. TRANS: Drop _Paratrooper (100% chance of success).
-#: common/actions.c:5324 data/civ2/game.ruleset:339
+#: common/actions.c:5360 data/civ2/game.ruleset:339
 #: data/classic/game.ruleset:340 data/sandbox/game.ruleset:355
 #: data/experimental/game.ruleset:343 data/civ2civ3/game.ruleset:351
 #: data/alien/game.ruleset:312 data/multiplayer/game.ruleset:337
@@ -15969,7 +15971,7 @@ msgid "Drop %sParatrooper%s"
 msgstr "%sLaskuvarjohyppy%s"
 
 #. TRANS: _Airlift to City (100% chance of success).
-#: common/actions.c:5327 data/civ2/game.ruleset:342
+#: common/actions.c:5363 data/civ2/game.ruleset:342
 #: data/classic/game.ruleset:343 data/sandbox/game.ruleset:358
 #: data/experimental/game.ruleset:346 data/civ2civ3/game.ruleset:354
 #: data/alien/game.ruleset:315 data/multiplayer/game.ruleset:340
@@ -15978,7 +15980,7 @@ msgid "%sAirlift to City%s"
 msgstr "%sLennätä kaupunkiin%s"
 
 #. TRANS: _Attack (100% chance of success).
-#: common/actions.c:5330 data/civ1/game.ruleset:289 data/civ2/game.ruleset:345
+#: common/actions.c:5366 data/civ1/game.ruleset:289 data/civ2/game.ruleset:345
 #: data/classic/game.ruleset:346 data/sandbox/game.ruleset:361
 #: data/experimental/game.ruleset:349 data/civ2civ3/game.ruleset:357
 #: data/alien/game.ruleset:318 data/multiplayer/game.ruleset:343
@@ -15987,7 +15989,7 @@ msgid "%sAttack%s"
 msgstr "%sHyökkäys%s"
 
 #. TRANS: _Conquer City (100% chance of success).
-#: common/actions.c:5333 data/civ1/game.ruleset:292 data/civ2/game.ruleset:348
+#: common/actions.c:5369 data/civ1/game.ruleset:292 data/civ2/game.ruleset:348
 #: data/classic/game.ruleset:349 data/sandbox/game.ruleset:364
 #: data/experimental/game.ruleset:352 data/civ2civ3/game.ruleset:360
 #: data/alien/game.ruleset:321 data/multiplayer/game.ruleset:346
@@ -15996,7 +15998,7 @@ msgid "%sConquer City%s"
 msgstr "%sValtaa kaupunki%s"
 
 #. TRANS: Heal _Unit (3% chance of success).
-#: common/actions.c:5336
+#: common/actions.c:5372
 #, c-format
 msgid "Heal %sUnit%s"
 msgstr "%sParanna yksikkö%s"
@@ -19631,241 +19633,241 @@ msgstr "Kaupunkilaistentappaja"
 
 #. TRANS: this and following strings are 'unit type flags', which may rarely
 #. * be presented to the player in ruleset help text
-#: common/unittype.h:171
+#: common/unittype.h:172
 msgid "?unitflag:Cant_Fortify"
 msgstr "Linnoittautumiskyvytön"
 
-#: common/unittype.h:174
+#: common/unittype.h:175
 msgid "?unitflag:HasNoZOC"
 msgstr "Valvonta-alueita tuottamaton"
 
 #. TRANS: unit type flag (rarely shown): "ignore zones of control"
-#: common/unittype.h:177
+#: common/unittype.h:178
 msgid "?unitflag:IgZOC"
 msgstr "Valvonta-alueista välittämätön"
 
-#: common/unittype.h:179
+#: common/unittype.h:180
 msgid "?unitflag:NonMil"
 msgstr "Ei sotilaallinen"
 
 #. TRANS: unit type flag (rarely shown): "ignore terrain"
-#: common/unittype.h:182
+#: common/unittype.h:183
 msgid "?unitflag:IgTer"
 msgstr "Maastosta välittämätön"
 
-#: common/unittype.h:184
+#: common/unittype.h:185
 msgid "?unitflag:OneAttack"
 msgstr "Yksi hyökkäys"
 
-#: common/unittype.h:186
+#: common/unittype.h:187
 msgid "?unitflag:FieldUnit"
 msgstr "Kenttäyksikkö"
 
-#: common/unittype.h:190
+#: common/unittype.h:191
 msgid "?unitflag:Provoking"
 msgstr "Yllyttävä"
 
-#: common/unittype.h:193
+#: common/unittype.h:194
 msgid "?unitflag:Partial_Invis"
 msgstr "Osittain näkymätön"
 
-#: common/unittype.h:196 common/unittype.h:413
+#: common/unittype.h:197 common/unittype.h:414
 msgid "?unitflag:Settlers"
 msgstr "Työläinen"
 
-#: common/unittype.h:198
+#: common/unittype.h:199
 msgid "?unitflag:Diplomat"
 msgstr "Diplomaatti"
 
-#: common/unittype.h:201
+#: common/unittype.h:202
 msgid "?unitflag:CoastStrict"
 msgstr "Tiukasti Rannikolla"
 
-#: common/unittype.h:204
+#: common/unittype.h:205
 msgid "?unitflag:Coast"
 msgstr "Rannikolla"
 
-#: common/unittype.h:207
+#: common/unittype.h:208
 msgid "?unitflag:Shield2Gold"
 msgstr "Tuotantoylläpito kultaylläpidoksi"
 
-#: common/unittype.h:210
+#: common/unittype.h:211
 msgid "?unitflag:Spy"
 msgstr "Vakooja"
 
-#: common/unittype.h:213
+#: common/unittype.h:214
 msgid "?unitflag:Only_Native_Attack"
 msgstr "Hyökkää vain minne voisi myös kulkea"
 
-#: common/unittype.h:216
+#: common/unittype.h:217
 msgid "?unitflag:Fanatic"
 msgstr "Fanaattinen"
 
-#: common/unittype.h:219
+#: common/unittype.h:220
 msgid "?unitflag:GameLoss"
 msgstr "Pelin ratkaiseva"
 
-#: common/unittype.h:222
+#: common/unittype.h:223
 msgid "?unitflag:Unique"
 msgstr "Ainutlaatuinen"
 
-#: common/unittype.h:227
+#: common/unittype.h:228
 msgid "?unitflag:EvacuateFirst"
 msgstr "Ensin pelastettava"
 
-#: common/unittype.h:230
+#: common/unittype.h:231
 msgid "?unitflag:SuperSpy"
 msgstr "Supervakooja"
 
-#: common/unittype.h:233
+#: common/unittype.h:234
 msgid "?unitflag:NoHome"
 msgstr "Koditon"
 
-#: common/unittype.h:236
+#: common/unittype.h:237
 msgid "?unitflag:NoVeteran"
 msgstr "Ei ylennettävä"
 
-#: common/unittype.h:239
+#: common/unittype.h:240
 msgid "?unitflag:CityBuster"
 msgstr "Kaupungintuhoaja"
 
-#: common/unittype.h:242
+#: common/unittype.h:243
 msgid "?unitflag:NoBuild"
 msgstr "Ei rakennettavissa"
 
-#: common/unittype.h:246
+#: common/unittype.h:247
 msgid "?unitflag:BadWallAttacker"
 msgstr "Huono hyökkäämään muureja vastaan"
 
-#: common/unittype.h:249
+#: common/unittype.h:250
 msgid "?unitflag:BadCityDefender"
 msgstr "Huono kaupungin puolustaja"
 
-#: common/unittype.h:252
+#: common/unittype.h:253
 msgid "?unitflag:BarbarianOnly"
 msgstr "Vain barbaareille"
 
-#: common/unittype.h:256
+#: common/unittype.h:257
 msgid "?unitflag:BeachLander"
 msgstr "Maihinnousija"
 
-#: common/unittype.h:259
+#: common/unittype.h:260
 msgid "?unitflag:NewCityGamesOnly"
 msgstr "Vain kaupunginperustamispeleissä"
 
-#: common/unittype.h:262
+#: common/unittype.h:263
 msgid "?unitflag:CanEscape"
 msgstr "Pakeneva"
 
-#: common/unittype.h:265
+#: common/unittype.h:266
 msgid "?unitflag:CanKillEscaping"
 msgstr "Pakenevan tappava"
 
-#: common/unittype.h:332
+#: common/unittype.h:333
 msgid "?unitflag:FirstBuild"
 msgstr "Ensimmäinen rakennettava"
 
-#: common/unittype.h:335
+#: common/unittype.h:336
 msgid "?unitflag:Explorer"
 msgstr "Kartoittaja"
 
-#: common/unittype.h:338
+#: common/unittype.h:339
 msgid "?unitflag:Hut"
 msgstr "Majasta löytyvä"
 
-#: common/unittype.h:341
+#: common/unittype.h:342
 msgid "?unitflag:HutTech"
 msgstr "Majasta löytyvä kun tekniikka tunnetaan"
 
-#: common/unittype.h:344
+#: common/unittype.h:345
 msgid "?unitflag:Partisan"
 msgstr "Sissiryhmä"
 
-#: common/unittype.h:347
+#: common/unittype.h:348
 msgid "?unitflag:DefendOk"
 msgstr "Ok puolustaja"
 
-#: common/unittype.h:350
+#: common/unittype.h:351
 msgid "?unitflag:DefendGood"
 msgstr "Hyvä puolustaja"
 
-#: common/unittype.h:353
+#: common/unittype.h:354
 msgid "?unitflag:FerryBoat"
 msgstr "Kuljetusalus"
 
-#: common/unittype.h:356
+#: common/unittype.h:357
 msgid "?unitflag:Barbarian"
 msgstr "Barbaari"
 
-#: common/unittype.h:359
+#: common/unittype.h:360
 msgid "?unitflag:BarbarianTech"
 msgstr "Teknologian mahdollistama barbaari"
 
-#: common/unittype.h:362
+#: common/unittype.h:363
 msgid "?unitflag:BarbarianBoat"
 msgstr "Barbaarialus"
 
-#: common/unittype.h:365
+#: common/unittype.h:366
 msgid "?unitflag:BarbarianBuild"
 msgstr "Barbaarien rakennettava"
 
-#: common/unittype.h:368
+#: common/unittype.h:369
 msgid "?unitflag:BarbarianBuildTech"
 msgstr "Teknologian mahdollistama barbaarien rakennettava"
 
-#: common/unittype.h:371
+#: common/unittype.h:372
 msgid "?unitflag:BarbarianLeader"
 msgstr "Barbaarijohtaja"
 
-#: common/unittype.h:374
+#: common/unittype.h:375
 msgid "?unitflag:BarbarianSea"
 msgstr "Meribarbaari"
 
-#: common/unittype.h:377
+#: common/unittype.h:378
 msgid "?unitflag:BarbarianSeaTech"
 msgstr "Teknologian mahdollistama meribarbaari"
 
-#: common/unittype.h:380
+#: common/unittype.h:381
 msgid "?unitflag:CitiesStartUnit"
 msgstr "Kaupunginperustaja-aloitusyksikkö"
 
-#: common/unittype.h:383
+#: common/unittype.h:384
 msgid "?unitflag:WorkerStartUnit"
 msgstr "Työläisaloitusyksikkö"
 
-#: common/unittype.h:386
+#: common/unittype.h:387
 msgid "?unitflag:ExplorerStartUnit"
 msgstr "Kartoittaja-aloitusyksikkö"
 
-#: common/unittype.h:389
+#: common/unittype.h:390
 msgid "?unitflag:KingStartUnit"
 msgstr "Kuningasaloitusyksikkö"
 
-#: common/unittype.h:392
+#: common/unittype.h:393
 msgid "?unitflag:DiplomatStartUnit"
 msgstr "Diplomaattialoitusyksikkö"
 
-#: common/unittype.h:395
+#: common/unittype.h:396
 msgid "?unitflag:FerryStartUnit"
 msgstr "Kuljetusalusaloitusyksikkö"
 
-#: common/unittype.h:398
+#: common/unittype.h:399
 msgid "?unitflag:DefendOkStartUnit"
 msgstr "Aloitusyksikkö, Ok puolustaja"
 
-#: common/unittype.h:401
+#: common/unittype.h:402
 msgid "?unitflag:DefendGoodStartUnit"
 msgstr "Aloitusyksikkö, Hyvä puolustaja"
 
-#: common/unittype.h:404
+#: common/unittype.h:405
 msgid "?unitflag:AttackFastStartUnit"
 msgstr "Aloitusyksikkö, Nopea hyökkääjä"
 
-#: common/unittype.h:407
+#: common/unittype.h:408
 msgid "?unitflag:AttackStrongStartUnit"
 msgstr "Aloitusyksikkö, Vahva hyökkääjä"
 
-#: common/unittype.h:410
+#: common/unittype.h:411
 msgid "?unitflag:Hunter"
 msgstr "Metsästäjä"
 
@@ -26292,7 +26294,7 @@ msgstr ""
 "hänestä lunnaat. Lunnaat ovat yleensä 100 kultaa, mutta summa voi olla "
 "vähäisempi mikäli barbaaripelaajalla ei ole riittävästi rahaa."
 
-#: data/default/default.lua:22 server/unittools.c:2924
+#: data/default/default.lua:22 server/unittools.c:2927
 #, c-format
 msgid "You found %d gold."
 msgid_plural "You found %d gold."
@@ -26330,7 +26332,7 @@ msgstr "Löysit ystävällismielisen kaupungin."
 msgid "Friendly nomads are impressed by you, and join you."
 msgstr "Joukko paimentolaisia liittyy valtakuntaasi."
 
-#: data/default/default.lua:114 server/unittools.c:2931
+#: data/default/default.lua:114 server/unittools.c:2934
 msgid "An abandoned village is here."
 msgstr "Täällä on vain hylätty kylä."
 
@@ -26338,7 +26340,7 @@ msgstr "Täällä on vain hylätty kylä."
 msgid "You have unleashed a horde of barbarians!"
 msgstr "Olet joutunut keskelle barbaarijoukon leiriä!"
 
-#: data/default/default.lua:124 server/unittools.c:2934
+#: data/default/default.lua:124 server/unittools.c:2937
 #, c-format
 msgid "Your %s has been killed by barbarians!"
 msgstr "%s menetettiin barbaarien hyökkäyksessä!"
@@ -35402,28 +35404,25 @@ msgstr "Taistelun lopputulos riippuu useista eri tekijöistä, myös sattumasta.
 
 #: data/helpdata.txt:1127
 msgid ""
-"The description below is for the classic ruleset, but the principles are "
-"similar for any ruleset. Notice that many bonuses are possible for "
-"defenders, but few for attackers, aside from veteran status; an attacking "
-"unit can mostly expect circumstance to work against it."
-msgstr ""
-"Seuraava kuvaus koskee klassisia sääntöjä, mutta samat periaatteet koskevat "
-"kaikkia sääntökokoelmia. Huomaa, että puolustajille on tarjolla monia etuja, "
-"mutta hyökkääjille vain vähän kokeneisuustasojen lisäksi; hyökkäävä yksikkö "
-"voi enimmäkseen olettaa olosuhteiden toimivan sitä vastaan."
+"The description below is for the classic ruleset, and does not match exactly "
+"current default ruleset, civ2civ3. The principles are similar for any "
+"ruleset. Notice that many bonuses are possible for defenders, but few for "
+"attackers, aside from veteran status; an attacking unit can mostly expect "
+"circumstance to work against it."
+msgstr "Seuraava kuvaus koskee klassisia sääntöjä, eikä yksityiskohdiltaan täysin vastaa nykyistä oletussääntökokoelmaa civ2civ3, mutta samat periaatteet koskevat kaikkia sääntökokoelmia. Huomaa, että puolustajille on tarjolla monia etuja, mutta hyökkääjille vain vähän kokeneisuustasojen lisäksi; hyökkäävä yksikkö voi enimmäkseen olettaa olosuhteiden toimivan sitä vastaan."
 
-#: data/helpdata.txt:1134
+#: data/helpdata.txt:1135
 msgid "First, the attacker's strength is modified."
 msgstr "Ensin lasketaan hyökkääjän voimat."
 
-#: data/helpdata.txt:1136
+#: data/helpdata.txt:1137
 msgid ""
 " - If the attacker is a veteran, its strength is multiplied by the bonus "
 "associated with its veteran level."
 msgstr ""
 " – Jos hyökkääjä on kokenut, sen voima kertautuu sen kokemuskertoimen verran."
 
-#: data/helpdata.txt:1139
+#: data/helpdata.txt:1140
 msgid ""
 " - Some rulesets (but not the classic rules) have 'tired attacks': a unit "
 "that attacks with less than a full movement point will have its strength "
@@ -35434,11 +35433,11 @@ msgstr ""
 "kokonainen liikepiste jäljellä, sen hyökkäysvoimaa vähennetään samassa "
 "suhteessa."
 
-#: data/helpdata.txt:1145
+#: data/helpdata.txt:1146
 msgid "Next, the defender's strength is modified."
 msgstr "Sitten lasketaan puolustajan voimat."
 
-#: data/helpdata.txt:1147
+#: data/helpdata.txt:1148
 msgid ""
 " - If the defender is a veteran, then its strength is multiplied by the "
 "bonus associated with its veteran level."
@@ -35446,13 +35445,13 @@ msgstr ""
 " – Jos puolustaja on kokenut, sen voima kertautuu sen kokemuskertoimen "
 "verran."
 
-#: data/helpdata.txt:1152
+#: data/helpdata.txt:1153
 msgid ""
 " - Then the defender's strength is multiplied by the defense factor of the "
 "terrain it occupies."
 msgstr " – Sitten puolustajan voima kerrotaan maaston puolustuskertoimella."
 
-#: data/helpdata.txt:1157
+#: data/helpdata.txt:1158
 msgid ""
 " - If the defender is fortified, or is of a type that could fortify and is "
 "inside a city, its strength is multiplied by 1.5."
@@ -35460,14 +35459,14 @@ msgstr ""
 " – Linnoittautuneen tai kaupungissa olevan linnoittautumaan kykenevän "
 "yksikön puolustusvoima kerrotaan 1,5:llä."
 
-#: data/helpdata.txt:1160
+#: data/helpdata.txt:1161
 msgid " - Ruleset-specific bonuses are applied:"
 msgstr " – Sääntökokoelma-kohtaiset bonukset lasketaan mukaan:"
 
 # DRAGOON, n.
 # A soldier who combines dash and steadiness in so equal measure that
 # he makes his advances on foot and his retreats on horseback.
-#: data/helpdata.txt:1164
+#: data/helpdata.txt:1165
 msgid ""
 "   - The defender's strength is doubled if it is a Pikeman unit defending "
 "against a mounted unit."
@@ -35475,7 +35474,7 @@ msgstr ""
 "   – Seuraavaksi puolustajan voimat kaksinkertaistetaan, jos kyseessä on "
 "keihäsmies-yksikkö puolustautumassa ratsuin liikkuvaa vihollista vastaan."
 
-#: data/helpdata.txt:1169
+#: data/helpdata.txt:1170
 msgid ""
 "   - If the defender is an AEGIS Cruiser defending against airborne units "
 "(including missiles and Helicopters), the defense is quintupled."
@@ -35483,7 +35482,7 @@ msgstr ""
 "   – Jos kyseessä on ohjusristeilijä puolustautumassa ilma-aluksilta "
 "(mukaanlukien ohjukset ja helikopterit), puolustuskyky viisinkertaistetaan."
 
-#: data/helpdata.txt:1175
+#: data/helpdata.txt:1176
 msgid ""
 "   - The defender's strength is doubled again if it is in a city with a SAM "
 "Battery and the attacker is an air unit (other than a Helicopter or a "
@@ -35493,14 +35492,14 @@ msgstr ""
 "johon on rakennettu ohjuspatteri ja hyökkääjä on ilma-alus (paitsi "
 "helikopteri tai ohjus)."
 
-#: data/helpdata.txt:1181
+#: data/helpdata.txt:1182
 msgid ""
 "   - An SDI Defense doubles the defender's strength against missile attacks."
 msgstr ""
 "   – Ohjuspuolustusjärjestelmä kaksinkertaistaa puolustajan voiman "
 "ohjusiskuja vastaan."
 
-#: data/helpdata.txt:1186
+#: data/helpdata.txt:1187
 msgid ""
 "   - If the attacker is a ship and the defender is in a city with a Coastal "
 "Defense, the defender's strength is doubled."
@@ -35508,7 +35507,7 @@ msgstr ""
 "   – Kaupungin rannikkopuolustus kaksinkertaistaa puolustajan voiman "
 "hyökkäävää laivaa vastaan."
 
-#: data/helpdata.txt:1191
+#: data/helpdata.txt:1192
 msgid ""
 "   - Against land units (other than Howitzers) and Helicopters, defending "
 "units in a city with City Walls have their strength tripled."
@@ -35517,7 +35516,7 @@ msgstr ""
 "kolminkertaistavat voimansa maavoimien yksikköjä (haupitseja "
 "lukuunottamatta) ja helikoptereita vastaan."
 
-#: data/helpdata.txt:1197
+#: data/helpdata.txt:1198
 msgid ""
 "   - If the defender is in a fortress (and not a city), its strength is "
 "doubled."
@@ -35525,7 +35524,7 @@ msgstr ""
 "   – Linnakkeessa (mutta ei kaupungissa) puolustajan voima "
 "kaksinkertaistetaan."
 
-#: data/helpdata.txt:1202
+#: data/helpdata.txt:1203
 msgid ""
 "   - Finally, if the attacker is a fighter and the defender is a helicopter, "
 "the defender's strength is halved."
@@ -35533,7 +35532,7 @@ msgstr ""
 "   – Lopuksi, jos hyökkääjä on hävittäjä ja puolustaja on helikopteri, "
 "puolustajan voima puolittuu."
 
-#: data/helpdata.txt:1205
+#: data/helpdata.txt:1206
 msgid ""
 "If, after these modifications, the attacker has a strength of 0, it "
 "automatically loses. Otherwise, if the defender has a strength of 0, the "
@@ -35542,11 +35541,11 @@ msgstr ""
 "Jos näiden laskentojen jälkeen hyökkääjän voimakkuus on 0, se häviää "
 "automaattisesti. Muuten, jos puolustajan voimakkuus on 0, puolustaja häviää."
 
-#: data/helpdata.txt:1211
+#: data/helpdata.txt:1212
 msgid "The firepower of the attacker and defender are also modified."
 msgstr "Myös hyökkääjän ja puolustajan tulivoimia muunnetaan."
 
-#: data/helpdata.txt:1215
+#: data/helpdata.txt:1216
 msgid ""
 " - If the defender is a ship and is inside a city the firepower of the "
 "attacker is doubled and the firepower of the ship is set to 1."
@@ -35554,7 +35553,7 @@ msgstr ""
 " – Kaupungin sisällä olevan laivan tulivoimaksi tulee 1 ja hyökkääjän "
 "tulivoima kaksinkertaistuu."
 
-#: data/helpdata.txt:1220
+#: data/helpdata.txt:1221
 msgid ""
 " - If a fighter is attacking a helicopter the firepower of the helicopter is "
 "set to 1."
@@ -35562,7 +35561,7 @@ msgstr ""
 " – Jos hävittäjälentokone hyökkää helikopterin kimppuun, helikopterin "
 "tulivoimaksi tulee 1."
 
-#: data/helpdata.txt:1225
+#: data/helpdata.txt:1226
 msgid ""
 " - If neither unit could move to where the other is, such as a ship "
 "attacking a land unit on land, the firepower of both is set to 1."
@@ -35571,7 +35570,7 @@ msgstr ""
 "hyökkätessä maalla olevan maayksikön kimppuun, molempien tulivoimaksi tulee "
 "1."
 
-#: data/helpdata.txt:1228
+#: data/helpdata.txt:1229
 msgid ""
 "After these preliminaries, combat occurs, as long as both units are still "
 "alive (i.e., hit points are greater than 0). Each round, a random number "
@@ -35589,7 +35588,7 @@ msgstr ""
 "tapauksessa hyökkääjä menettää osumapisteitä puolustajan tulivoiman mukaan. "
 "Se yksikkö häviää, jonka osumapisteet loppuvat ensin."
 
-#: data/helpdata.txt:1243
+#: data/helpdata.txt:1244
 #, no-c-format
 msgid ""
 "Whichever unit survives the fight has a chance of being promoted a veteran "
@@ -35602,7 +35601,7 @@ msgstr ""
 "omistajan voittoisien maayksiköiden kokemustason nousun todennäköisyys "
 "kasvaa 50%."
 
-#: data/helpdata.txt:1250
+#: data/helpdata.txt:1251
 msgid ""
 "If the attacker is a land unit and wins, and the defender is in a city "
 "without City Walls, the city is reduced in size by 1. (This can be changed "
@@ -35612,7 +35611,7 @@ msgstr ""
 "kaupungissa, jonka suojana ei ole muureja, kaupungin koko pienenee yhdellä. "
 "(Tätä sääntöä voidaan muuttaa 'killcitizen' palvelinasetuksella.)"
 
-#: data/helpdata.txt:1256
+#: data/helpdata.txt:1257
 msgid ""
 "If the defender loses, and is not inside a city, fortress, or airbase, all "
 "other units at the defender's location may be destroyed along with the "
@@ -35623,11 +35622,11 @@ msgstr ""
 "(Tätä sääntöä voidaan muuttaa palvelimen asetuksella 'killstack')"
 
 #. TRANS: Preserve the leading space: it controls nesting
-#: data/helpdata.txt:1265
+#: data/helpdata.txt:1266
 msgid " Combat example 1"
 msgstr " Taisteluesimerkki 1"
 
-#: data/helpdata.txt:1266
+#: data/helpdata.txt:1267
 msgid ""
 "Suppose a Cannon (A:8, D:1, HP:20, FP:1) attacks a Musketeer (A:3, D:3, "
 "HP:20, FP:1) inside a city with City Walls built on a Forest tile.  Neither "
@@ -35637,7 +35636,7 @@ msgstr ""
 "P:3, VP:20, TV:1), joka on muurein suojatussa, metsäruudulle rakennetussa "
 "kaupungissa, kimppuun. Kumpikaan ei ole konkareita."
 
-#: data/helpdata.txt:1270
+#: data/helpdata.txt:1271
 msgid ""
 "The defender's base strength is 3.  Because it is on a Forest tile, its "
 "strength becomes 4.5.  It is behind City Walls, so its strength is tripled, "
@@ -35649,7 +35648,7 @@ msgstr ""
 "kolminkertaistuu 13,5:ksi. Se on maavoimien yksikkö kaupungin sisällä, joten "
 "sen voimakkuus on lopulta 20,25."
 
-#: data/helpdata.txt:1275
+#: data/helpdata.txt:1276
 msgid ""
 "Strength values inside the game are actually multiplied by 10, with "
 "fractions dropped, so the attacker's strength is 80, and the defender's "
@@ -35659,11 +35658,11 @@ msgstr ""
 "desimaalit typistetään, eli hyökkääjän voimakkuus on 80 ja puolustajan "
 "voimakkuus on 202."
 
-#: data/helpdata.txt:1279
+#: data/helpdata.txt:1280
 msgid "Both units keep their firepower of 1 unchanged."
 msgstr "Kummankin yksikön tulivoima (1) pysyy samana."
 
-#: data/helpdata.txt:1282
+#: data/helpdata.txt:1283
 #, no-c-format
 msgid ""
 "Each round of combat, a random number between 1 and 282 is generated.  If "
@@ -35675,7 +35674,7 @@ msgstr ""
 "menettää 1 voimapisteen. Muussa tapauksessa (noin 72% todennäköisyys) "
 "hyökkääjä menettää 1 pisteen."
 
-#: data/helpdata.txt:1293
+#: data/helpdata.txt:1294
 #, no-c-format
 msgid ""
 "Since both units have 20 hit points, the odds favor a victory for the "
@@ -35692,11 +35691,17 @@ msgstr ""
 "voimapisteistään tai jopa hävitä taistelun."
 
 #. TRANS: Preserve the leading space: it controls nesting
-#: data/helpdata.txt:1304
+#: data/helpdata.txt:1305
 msgid " Combat example 2"
 msgstr " Taisteluesimerkki 2"
 
-#: data/helpdata.txt:1305
+#: data/helpdata.txt:1306
+msgid ""
+"Values in this example match classic ruleset, not the current default "
+"ruleset, civ2civ3."
+msgstr "Tämän esimerkin arvot täsmäävät klassisiin sääntöihin, eivät nykyiseen oletussääntökokoelmaan civ2civ3."
+
+#: data/helpdata.txt:1309
 msgid ""
 "Suppose a veteran Battleship (A:12, D:12, HP:40, FP:2) with 3 movement "
 "points attacks a veteran Alpine Troops (A:5, D:5, HP:20, FP:1) inside a city "
@@ -35707,11 +35712,11 @@ msgstr ""
 "(H:5, P:5, VP:20, TV:1), joka on ruohomaalle rakennetussa, muurein ja "
 "rannikkopuolustuksella suojatussa kaupungissa."
 
-#: data/helpdata.txt:1310
+#: data/helpdata.txt:1314
 msgid "The attacker's strength is 12, raised to 18 because of veteran status."
 msgstr "Hyökkääjän perusvoima on 12, konkarilla se on kuitenkin 18."
 
-#: data/helpdata.txt:1313
+#: data/helpdata.txt:1317
 msgid ""
 "The defender's strength is 5, raised to 7.5 due to veteran status. The "
 "terrain's defense factor is 1 (no effect).  The Coastal Defense doubles the "
@@ -35725,7 +35730,7 @@ msgstr ""
 "hyökkäystä vastaan. Puolustaja on maavoimien yksikkö kaupungissa, joten sen "
 "kokonaisvoima on 22,5."
 
-#: data/helpdata.txt:1319
+#: data/helpdata.txt:1323
 msgid ""
 "Internally, the values used for attacker and defender strength are 180 and "
 "225, respectively."
@@ -35733,11 +35738,11 @@ msgstr ""
 "Sisäisessä laskennassa käytetyt arvot hyökkääjän ja puolustajan voimalle "
 "ovat 180 ja 225."
 
-#: data/helpdata.txt:1322
+#: data/helpdata.txt:1326
 msgid "The firepower of the Battleship is set from 2 to 1."
 msgstr "Taistelulaivan tulivoima muutetaan kahdesta yhdeksi."
 
-#: data/helpdata.txt:1325
+#: data/helpdata.txt:1329
 #, no-c-format
 msgid ""
 "Each round, a random number from 1 to 405 is generated.  If it is greater "
@@ -35748,7 +35753,7 @@ msgstr ""
 "kuin 225 (noin 44% mahdollisuus), puolustaja menettää yhden voimapisteen. "
 "Muussa tapauksessa hyökkääjä menettää yhden voimapisteen."
 
-#: data/helpdata.txt:1336
+#: data/helpdata.txt:1340
 #, no-c-format
 msgid ""
 "In this case, the odds greatly favor the attacker winning.  The Battleship "
@@ -35763,7 +35768,7 @@ msgstr ""
 "voisi olettaa menettävän noin 60% voimapisteistään taistelun aikana, eikä "
 "sillä pitäisi jälkeenpäin olla liikepisteitä jäljellä."
 
-#: data/helpdata.txt:1346
+#: data/helpdata.txt:1350
 msgid ""
 "Zones of Control, abbreviated as ZOC, is a game concept which prevents you "
 "moving freely in zones controlled (or partially controlled) by enemy forces."
@@ -35772,7 +35777,7 @@ msgstr ""
 "vapaasti liikkumasta alueilla, jotka ovat kokonaan tai osittain vihollisen "
 "joukkojen valvomia."
 
-#: data/helpdata.txt:1350
+#: data/helpdata.txt:1354
 msgid ""
 "Zones of control are only enforceable on some terrain -- in the classic "
 "rules, only on land tiles. When ZOC applies, the general rule is that a unit "
@@ -35792,7 +35797,7 @@ msgstr ""
 "yksikköä ympäröivät kahdeksan nelikulmaista ruutua tai kuusikulmaisessa "
 "ruudukossa kuusi ympäröivää ruutua."
 
-#: data/helpdata.txt:1359
+#: data/helpdata.txt:1363
 msgid ""
 "In the following special cases, units can move regardless of ZOC:\n"
 "- A unit moving directly into or out of a city.\n"
@@ -35813,15 +35818,15 @@ msgstr ""
 "- Yksikkö ei lainkaan välitä valvonta-alueista, esimerkiksi diplomaatit ja "
 "vakoojat klassisissa säännöissä."
 
-#: data/helpdata.txt:1368
+#: data/helpdata.txt:1372
 msgid "Notes:"
 msgstr "Huomioita:"
 
-#: data/helpdata.txt:1370
+#: data/helpdata.txt:1374
 msgid "- ZOC does not restrict unit attacks, only movement."
 msgstr "- Valvonta-alueet eivät estä hyökkäämistä, ainoastaan liikkumisen."
 
-#: data/helpdata.txt:1372
+#: data/helpdata.txt:1376
 msgid ""
 "- Units may only impose ZOC when they are on terrain that supports it. Thus, "
 "units that are not native to terrain effectively cannot impose ZOC except "
@@ -35831,7 +35836,7 @@ msgstr ""
 "maastossa. Poissa luontaiselta alueeltaan oleva yksikkö ei voi luoda "
 "valvonta-alueita, paitsi ollessaan kaupungissa."
 
-#: data/helpdata.txt:1376
+#: data/helpdata.txt:1380
 msgid ""
 "- An enemy city counts as an enemy occupied tile if there are any units "
 "inside the city, but not if the city is empty."
@@ -35839,7 +35844,7 @@ msgstr ""
 "- Tyhjät viholliskaupungit eivät saa aikaan valvonta-alueita, mutta mikä "
 "hyvänsä yksikkö niiden sisällä saa."
 
-#: data/helpdata.txt:1379
+#: data/helpdata.txt:1383
 msgid ""
 "TIP:  You can infiltrate enemy zones by first moving in a Diplomat (or some "
 "other unit which ignores ZOC), and then moving regular units onto the tile "
@@ -35853,7 +35858,7 @@ msgstr ""
 "mahdollisesti jättämällä joitain yksikköjä jälkeen pitääksesi ruudut "
 "miehitettyinä) voit luoda kulkuväylän vihollisen alueen läpi."
 
-#: data/helpdata.txt:1390
+#: data/helpdata.txt:1394
 msgid ""
 "Your government type influences your cities' productivity and commerce, your "
 "citizens' happiness, and many other game factors."
@@ -35862,7 +35867,7 @@ msgstr ""
 "kansalaistesi tyytyväisyyteen ja moniin muihin pelin kulkuun vaikuttaviin "
 "seikkoihin."
 
-#: data/helpdata.txt:1393
+#: data/helpdata.txt:1397
 msgid ""
 "In the classic rules, your start out ruling your civilization through "
 "Despotism. As your technology improves, you can select other forms of "
@@ -35877,7 +35882,7 @@ msgstr ""
 "sivilisaatiosi anarkiaan, jota kestää 1–5 pelivuoroa. Tämän jakson lopulla "
 "voit valita uuden valtiomuotosi."
 
-#: data/helpdata.txt:1401
+#: data/helpdata.txt:1405
 msgid ""
 "TIP 1:  Offensive military campaigns are difficult under Republican and "
 "Democratic governments unless you give your citizens lots of luxuries to "
@@ -35890,7 +35895,7 @@ msgstr ""
 "sivilisaatioita saattaa olla edullista vaihtaa johonkin sotilaallisempaan "
 "valtiomuotoon."
 
-#: data/helpdata.txt:1407
+#: data/helpdata.txt:1411
 msgid ""
 "TIP 2:  Scientific advancement requires high levels of trade, which are much "
 "easier to achieve under Republican and Democratic governments. Consider "
@@ -35904,11 +35909,11 @@ msgstr ""
 "sinulle etulyöntiaseman."
 
 #. TRANS: Preserve the leading space: it controls nesting
-#: data/helpdata.txt:1420
+#: data/helpdata.txt:1424
 msgid " Civil War"
 msgstr " Sisällissota"
 
-#: data/helpdata.txt:1421
+#: data/helpdata.txt:1425
 msgid ""
 "Civil war is devastating to any empire. In rulesets with civil war, it is "
 "triggered by the loss of your capital. Up to half of your cities will rebel "
@@ -35921,7 +35926,7 @@ msgstr ""
 "kapinoi ja liittoutuu uuden AI-hallitsijan kanssa. Hän saa puolet vanhan "
 "pelaajan rahoista ja kaiken teknologisen tietämyksesi."
 
-#: data/helpdata.txt:1427
+#: data/helpdata.txt:1431
 msgid ""
 "Players remain in the civil war state for just one turn, after which the "
 "empire enters a state of anarchy."
@@ -35929,7 +35934,7 @@ msgstr ""
 "Sisällissota kestää vain yhden pelivuoron ajan, jonka jälkeen valtakuntasi "
 "on anarkiassa."
 
-#: data/helpdata.txt:1430
+#: data/helpdata.txt:1434
 msgid ""
 "The capture of your capital does not always lead to civil war. If you have "
 "treated your people with kindness, you are more likely to retain their "
@@ -35941,7 +35946,7 @@ msgstr ""
 "Jokainen juhliva kaupunki vähentää sisällissodan todennäköisyyttä ja "
 "jokainen levoton kaupunki vastaavasti lisää sitä."
 
-#: data/helpdata.txt:1436
+#: data/helpdata.txt:1440
 msgid ""
 "In addition, the form of government directly contributes to the chance of "
 "civil war. Governments with universal franchise are far less likely to "
@@ -35951,7 +35956,7 @@ msgstr ""
 "Mitä yksinvaltaisempi valtiomuotosi on, sitä suurempi on todennäköisyys, "
 "että kansa alkaa kapinoimaan."
 
-#: data/helpdata.txt:1440
+#: data/helpdata.txt:1444
 msgid ""
 "The number of cities an empire needs before it can erupt into civil war is "
 "by default 10. That is, empires with fewer than 10 cities are immune from "
@@ -35962,7 +35967,7 @@ msgstr ""
 "sisällissodalta. Tämä riippuu kuitenkin palvelimen asetuksesta "
 "'civilwarsize'. Sen pienin sallittu arvo on kuusi."
 
-#: data/helpdata.txt:1449
+#: data/helpdata.txt:1453
 msgid ""
 "Some rulesets define \"policies\". These are empire-wide settings, usually "
 "trade-offs similar to tax rates. If the current ruleset defines any "
@@ -35973,7 +35978,7 @@ msgstr ""
 "verotuksen tasapainotuksessa. Jos käytössä oleva sääntökokoelma määrittelee "
 "tällaisia politiikkoj, ne kuvaillaan seuraavassa osiossa."
 
-#: data/helpdata.txt:1453
+#: data/helpdata.txt:1457
 msgid ""
 "You may change policy values at any time, but any changes only take effect "
 "at the next turn."
@@ -35981,7 +35986,7 @@ msgstr ""
 "Voit muuttaa politiikan arvoja milloin vain, mutta vaikutukset tulevat "
 "voimaan vasta seuraavalla vuorolla."
 
-#: data/helpdata.txt:1463
+#: data/helpdata.txt:1467
 msgid ""
 "There are five diplomatic states between players: War, Cease-fire, "
 "Armistice, Peace, and Alliance. The first is the natural state, while the "
@@ -35991,7 +35996,7 @@ msgstr ""
 "sota, tulitauko, aselepo, rauha ja liittouma. Ensimmäinen on luontainen tila "
 "ja muihin päästään solmimalla diplomaattinen valtiosopimus."
 
-#: data/helpdata.txt:1467
+#: data/helpdata.txt:1471
 msgid ""
 "During War, you can freely move your units inside enemy territory and attack "
 "their units and cities at will."
@@ -35999,7 +36004,7 @@ msgstr ""
 "Sodassa voit siirrellä yksikköjäsi vapaasti vihollisen alueella sekä hyökätä "
 "vihollisen yksiköiden ja kaupunkien kimppuun halutessasi."
 
-#: data/helpdata.txt:1470
+#: data/helpdata.txt:1474
 msgid ""
 "When two players decide to end hostilities between them, they can agree on a "
 "Cease-fire treaty. This prevents each player from attacking the other, but "
@@ -36014,7 +36019,7 @@ msgstr ""
 "Kun tapaat AI-pelaajan ensimmäistä kertaa, se tarjoaa sinulle "
 "automaattisesti tulitaukosopimusta."
 
-#: data/helpdata.txt:1477
+#: data/helpdata.txt:1481
 msgid ""
 "If you wish for a more permanent peaceful coexistence with another player, "
 "you may sign a peace pact. This will enter a transitional Armistice state, "
@@ -36026,7 +36031,7 @@ msgstr ""
 "vuoromäärän kuluttua muuttuu pysyväksi rauhansopimukseksi. Aselevon "
 "rikkominen pudottaa diplomaattiset välinne suoraan takaisin sodaksi."
 
-#: data/helpdata.txt:1483
+#: data/helpdata.txt:1487
 msgid ""
 "At the moment two players enter into the diplomatic state of Peace, all "
 "military units belonging to either player that happen to be within the "
@@ -36042,7 +36047,7 @@ msgstr ""
 "solmimista. Rauhansopimuksen rikkominen palauttaa pelaajat suoraan takaisin "
 "sotatilaan."
 
-#: data/helpdata.txt:1490
+#: data/helpdata.txt:1494
 msgid ""
 "An Alliance is the ultimate diplomatic relationship between two players. In "
 "this state, you may move units into each other's cities and your units may "
@@ -36067,7 +36072,7 @@ msgstr ""
 "harkitsee teknologioiden ja kaupunkien vaihtoa, mutta odottaa "
 "vastapalveluksena liittolaisensa yhtyvän sen sotiin muita pelaajia vastaan."
 
-#: data/helpdata.txt:1506
+#: data/helpdata.txt:1510
 msgid ""
 "Research into technology is a necessity for improving the ability of your "
 "civilization to develop new military units and city improvements."
@@ -36075,7 +36080,7 @@ msgstr ""
 "Uusien teknologioiden kehittäminen on välttämätöntä, jotta sivilisaatiosi "
 "voisi kehittää uudenlaisia sotilasyksiköitä ja rakennushankkeita."
 
-#: data/helpdata.txt:1510
+#: data/helpdata.txt:1514
 msgid ""
 "There are a few ways to gain advances from other civilizations: you will "
 "sometimes discover enemy technology when you capture a city; your agents can "
@@ -36090,7 +36095,7 @@ msgstr ""
 "valtiosopimusta. Muutoin edistysaskeleet on saavutettava kansan omilla "
 "ponnistelulla."
 
-#: data/helpdata.txt:1517
+#: data/helpdata.txt:1521
 msgid ""
 "Most technology progress comes from trade (see the Trade section) and, in "
 "the classic ruleset, from scientist specialists (see the Specialists "
@@ -36103,7 +36108,7 @@ msgstr ""
 "tutkimuskohdetta on mahdollista vaihtaa, edistys kohteen suhteen menetetään "
 "vaihdossa oletusarvoisesti."
 
-#: data/helpdata.txt:1522
+#: data/helpdata.txt:1526
 msgid ""
 "While the majority of the resulting research output (\"bulbs\") usually goes "
 "toward advancing technology, in some rulesets (but not the classic rules), "
@@ -36124,7 +36129,7 @@ msgstr ""
 "määrä jää alle ylläpitoon tarvittavan, sivilisaatio voi unohtaa jonkun "
 "satunnaisen edistysaskeleen, jolloin se täytyy tutkia uudelleen."
 
-#: data/helpdata.txt:1532
+#: data/helpdata.txt:1536
 msgid ""
 "Technological advances can render units, city improvements, and wonders "
 "obsolete. While obsolete units merely become impossible for you to make -- "
@@ -36138,7 +36143,7 @@ msgstr ""
 "välittömästä ja vanhentuneet ihmeet menettävät vaikutuksensa. Lisätietoa "
 "löytyy näihin liittyvistä kappaleista."
 
-#: data/helpdata.txt:1545
+#: data/helpdata.txt:1549
 msgid ""
 "The Space Race is a second option to win the game, besides eliminating all "
 "other civilizations. If your spaceship arrives first at Alpha Centauri, the "
@@ -36150,7 +36155,7 @@ msgstr ""
 "Alpha Centauriin, peli on ohi ja sinä olet voittaja. Palvelimen asetuksissa "
 "tämä mahdollisuus on kuitenkin voitu ottaa pois käytöstä."
 
-#: data/helpdata.txt:1550
+#: data/helpdata.txt:1554
 msgid ""
 "In the classic rules, before you can build spaceship parts, the Apollo "
 "Program wonder must have been built by any player. You also need specific "
@@ -36167,7 +36172,7 @@ msgstr ""
 "tavalla ilmeisesti kytketty pois päältä (palvelimen asetus 'victories' ei "
 "sisällä SPACERACE optiota)."
 
-#: data/helpdata.txt:1558
+#: data/helpdata.txt:1562
 msgid ""
 "When you have started building your spaceship, you can see it with the "
 "\"Spaceship\" command in the Report menu. To see spaceships of other "
@@ -36178,7 +36183,7 @@ msgstr ""
 "avaruusalukset, valitse pelaaja Kansakunnat-raportista ja napsauta kohtaa "
 "\"Avaruusalus\"."
 
-#: data/helpdata.txt:1563
+#: data/helpdata.txt:1567
 msgid ""
 "If the success probability is below 100%, some fraction of the people on "
 "board may not survive the journey. This reduces the score bonus from the "
@@ -36188,7 +36193,7 @@ msgstr ""
 "menehtyä matkan aikana. Tämä vähentää avaruusaluksesta saamiasi "
 "bonuspisteitä, mutta voitat pelin silti."
 
-#: data/helpdata.txt:1567
+#: data/helpdata.txt:1571
 msgid ""
 "If the capital of a civilization is captured, a spaceship that has been "
 "launched will be lost, so defend your capital well!"
@@ -36196,7 +36201,7 @@ msgstr ""
 "Jos sivilisaation pääkaupunki vallataan, laukaistu avaruusalus menetetään "
 "joten puolusta pääkaupunkiasi hyvin!"
 
-#: data/helpdata.txt:1570
+#: data/helpdata.txt:1574
 msgid ""
 "TIP:  If an enemy civilization has launched a spaceship, try to quickly "
 "build a light spaceship with many propulsion units that will arrive earlier. "
@@ -36207,7 +36212,7 @@ msgstr ""
 "perille aikaisemmin. Ainoa toinen vaihtoehto on vallata vihollisen "
 "pääkaupunki."
 
-#: data/helpdata.txt:1585
+#: data/helpdata.txt:1589
 msgid ""
 "Each player in the game is represented by a nation. A nation can be a modern-"
 "day nation state, a historical state or empire, an ethnic group, or even a "
@@ -36217,7 +36222,7 @@ msgstr ""
 "nykyaikaisia kansallisvaltioita, historiallisia valtioita tai valtakuntia, "
 "etnisiä ryhmiä tai kuvitteellisia kansakuntia."
 
-#: data/helpdata.txt:1589
+#: data/helpdata.txt:1593
 msgid ""
 "Nations are distinguished by their flags, leaders and city names; in the "
 "classic rules they are identical in all other aspects and play by the same "
@@ -36228,7 +36233,7 @@ msgstr ""
 "samanlaisia ja noudattavat samoja sääntöjä, mutta muissa sääntökokoelmissa "
 "saattaa olla kansakuntakohtaisia eroavuuksia."
 
-#: data/helpdata.txt:1600
+#: data/helpdata.txt:1604
 msgid ""
 "Before a game is started, anyone can connect to the server by supplying its "
 "hostname and port number (5556 by default). If the server is started with "
@@ -36239,7 +36244,7 @@ msgstr ""
 "Jos palvelin käynnistetään -m-valitsimella, se ilmoittaa käynnissä olevasta "
 "pelistä metapalvelimelle."
 
-#: data/helpdata.txt:1607
+#: data/helpdata.txt:1611
 msgid ""
 "The client can fetch this page, too: use the Metaserver button in the "
 "connection dialog.  If it never shows any results, check whether your WWW "
@@ -36252,7 +36257,7 @@ msgstr ""
 "välityspalvelinta, aseta ennen sen käynnistämistä muuttujan $http_proxy "
 "arvoksi"
 
-#: data/helpdata.txt:1615
+#: data/helpdata.txt:1619
 msgid ""
 "When the game has started, everyone can connect as any player who isn't "
 "already connected, including AI players.  Merely connecting to an AI player "
@@ -36271,7 +36276,7 @@ msgstr ""
 
 #. TRANS: This text mentions the names of some client options. These names
 #. ;  * are separately translated elsewhere; they should match!
-#: data/helpdata.txt:1629
+#: data/helpdata.txt:1633
 msgid ""
 "Unit Orders:\n"
 "============\n"
@@ -36360,7 +36365,7 @@ msgstr ""
 "  U: ajanmukaista yksikkö\n"
 "  x: tutki ympäristöä itseksesi (auto-hortoile)\n"
 
-#: data/helpdata.txt:1672
+#: data/helpdata.txt:1676
 msgid ""
 "Unit Selection:\n"
 "==============\n"
@@ -36386,7 +36391,7 @@ msgstr ""
 "   5: valitse edellinen yksikkö\n"
 "väli: ei käskyjä (yksikkö jää sijoilleen)\n"
 
-#: data/helpdata.txt:1684
+#: data/helpdata.txt:1688
 msgid ""
 "Unit Movement:\n"
 "==============\n"
@@ -36410,7 +36415,7 @@ msgstr ""
 "  8: liiku pohjoiseen\n"
 "  9: liiku koilliseen\n"
 
-#: data/helpdata.txt:1695
+#: data/helpdata.txt:1699
 msgid ""
 "Main Map (Keys):\n"
 "================\n"
@@ -36446,7 +36451,7 @@ msgstr ""
 "  Ctrl-W: näytä/piilota kaupunkien työruudut\n"
 "  Ctrl-Y: näytä/piilota kaupunkien alueiden rajat\n"
 
-#: data/helpdata.txt:1711
+#: data/helpdata.txt:1715
 msgid ""
 "Main Map (Mouse):\n"
 "=================\n"
@@ -36476,7 +36481,7 @@ msgstr ""
 "  Oikeanapsautus:                Keskitä näkymä ruutuun\n"
 "  Ctrl-keskinapsautus:           Herätä vartioivat yksiköt"
 
-#: data/helpdata.txt:1724
+#: data/helpdata.txt:1728
 msgid ""
 "  Quick unit selection:\n"
 "  =====================\n"
@@ -36499,7 +36504,7 @@ msgstr ""
 "asetus \"Siirto hiirellä\" on käytössä, yksikkö voidaan valita ja siirtää "
 "raahaamalla."
 
-#: data/helpdata.txt:1734
+#: data/helpdata.txt:1738
 msgid ""
 "  City manipulation (GTK):\n"
 "  ========================\n"
@@ -36517,7 +36522,7 @@ msgstr ""
 "  Vaihto-oikeanapsautus:         Kopioi tuotanto (kaupungin tai yksikön)\n"
 "  Vaihto-Ctrl-oikeanapsautus:    Liitä tuotanto kaupunkiin"
 
-#: data/helpdata.txt:1741
+#: data/helpdata.txt:1745
 msgid ""
 "  Area Selection mode (GTK):\n"
 "  ==========================\n"
@@ -36552,7 +36557,7 @@ msgstr ""
 "oikeanapsautuksella (katso edellistä kappaletta). Aluevalintatilasta pääsee "
 "pois oikeanapsautuksella."
 
-#: data/helpdata.txt:1757
+#: data/helpdata.txt:1761
 msgid ""
 "  Chatline (GTK):\n"
 "  ===============\n"
@@ -36572,7 +36577,7 @@ msgstr ""
 "  Näillä ohjauskomennoilla voidaan keskusteluviesteissä viitata kartan eri "
 "osiin. Lisää tietoa on ohjeiden kohdassa 'Keskustelu'.\n"
 
-#: data/helpdata.txt:1766
+#: data/helpdata.txt:1770
 msgid ""
 "Overview Map (Mouse):\n"
 "=====================\n"
@@ -36585,7 +36590,7 @@ msgstr ""
 "  Napsautus, vaihto-napsautus ja oikeanapsautus toimivat kuten isollakin "
 "kartalla.\n"
 
-#: data/helpdata.txt:1771
+#: data/helpdata.txt:1775
 msgid ""
 "Dialogs and Reports:\n"
 "====================\n"
@@ -36629,7 +36634,7 @@ msgstr ""
 "\n"
 "Shift-Enter: Vuoro valmis"
 
-#: data/helpdata.txt:1792
+#: data/helpdata.txt:1796
 msgid ""
 "Editing Mode (GTK):\n"
 "===================\n"
@@ -36642,7 +36647,7 @@ msgstr ""
 "    Ctrl-M: vaihda näkymättömän alueen hämärrys muokkaustilassa päälle tai "
 "pois\n"
 
-#: data/helpdata.txt:1801
+#: data/helpdata.txt:1805
 msgid ""
 "The Citizen Governor (formerly called the CMA) helps you manage your cities. "
 "It deploys the available workers on the free tiles around the city to "
@@ -36656,7 +36661,7 @@ msgstr ""
 "Lisäksi käskynhaltija pyrkii pitämään kaupunkisi rauhallisina aina kun "
 "mahdollista."
 
-#: data/helpdata.txt:1807
+#: data/helpdata.txt:1811
 msgid ""
 "There are various means to tell the governor what kind of output you would "
 "like. Open the city window and click on the governor tab. There are two "
@@ -36677,7 +36682,7 @@ msgstr ""
 "kuin kolmen tuotantopisteen (tai kullan). Voit määrittää kertoimet kullekin "
 "tuottolajille tarpeesi mukaan."
 
-#: data/helpdata.txt:1818
+#: data/helpdata.txt:1822
 msgid ""
 "If you set up some Minimal Surpluses which are impossible to fulfill, the "
 "governor can't be activated. Whenever the governor can't fulfill its task in "
@@ -36689,7 +36694,7 @@ msgstr ""
 "luovuttaa hallinnan takaisin sinulle. On siis paras olla määrittämättä liian "
 "suuria ylijäämiä, käytä kertoimia ohjataksesi tavoitetilaa niiden sijaan."
 
-#: data/helpdata.txt:1824
+#: data/helpdata.txt:1828
 msgid ""
 "The Celebrate checkbox lets your city - celebrate. This will work only with "
 "a high luxury rate. See help about 'Happiness'."
@@ -36697,7 +36702,7 @@ msgstr ""
 "Juhli-valinta antaa kaupunkisi... juhlia. Tämä onnistuu vain veroasteella "
 "jossa luksuksen osuus on korkea. Lisätietoa ohjeiden kohdassa 'Onnellisuus'."
 
-#: data/helpdata.txt:1827
+#: data/helpdata.txt:1831
 msgid ""
 "Clicking on 'Control city' puts the city under control of the governor, "
 "'Release city' passes control back to you."
@@ -36707,7 +36712,7 @@ msgstr ""
 "käsinhallintaan' (GTK: 'Käskynhaltija käytössä') hallinta siirtyy takaisin "
 "sinulle."
 
-#: data/helpdata.txt:1830
+#: data/helpdata.txt:1834
 msgid ""
 "For ease of use, you can save your slider setting as a preset with a name. "
 "Click on 'add preset' and enter a name for your setting. You can use this "
@@ -36723,7 +36728,7 @@ msgstr ""
 "käyttäessäsi tallennettua mallia voit myös vaihtaa sitä ('vaihda' --> "
 "'Käskynhaltija')."
 
-#: data/helpdata.txt:1837
+#: data/helpdata.txt:1841
 msgid ""
 "Use 'Game' --> 'Options' --> 'Save Settings' to store your presets "
 "permanently."
@@ -36731,7 +36736,7 @@ msgstr ""
 "Voit tallentaa mallisi pysyvästi valitsemalla 'Peli' --> 'Tallenna "
 "asetukset' (GTK: 'Peli' --> 'Paikalliset asetukset' --> 'Tallenna'.)"
 
-#: data/helpdata.txt:1840
+#: data/helpdata.txt:1844
 msgid ""
 "But beware! If you use the governor for some of your cities, you will "
 "encounter some difficulties with managing cities nearby, by hand. It's best "
@@ -36744,7 +36749,7 @@ msgstr ""
 "kaikkia saman saaren kaupunkeja. Lisää vihjeitä, taustatietoa ja esimerkkejä "
 "on Freecivin mukana tulevassa ohjetiedostossa 'README.governor'."
 
-#: data/helpdata.txt:1850
+#: data/helpdata.txt:1854
 msgid ""
 "The client has a primitive chat interface. The lines you type are sent to "
 "all players, or only to your allies if the client is configured for that, "
@@ -36754,7 +36759,7 @@ msgstr ""
 "lähetetään kaikille pelaajille, tai vain liittolaisillesi jos asiakasohjelma "
 "on siten asetettu, paitsi:"
 
-#: data/helpdata.txt:1854
+#: data/helpdata.txt:1858
 msgid ""
 "  - Messages starting with '/' are interpreted as server commands and "
 "executed, if you have the required access level."
@@ -36762,7 +36767,7 @@ msgstr ""
 " – Rivit, joiden alussa on '/', tulkitaan palvelinkomennoiksi ja "
 "suoritetaan, mikäli sinulla on riittävän korkea komentotaso."
 
-#: data/helpdata.txt:1857
+#: data/helpdata.txt:1861
 msgid ""
 "  - Messages starting with 'John:' are private messages to 'John'. Names can "
 "be abbreviated, or surrounded with double-quotes if they have spaces. The "
@@ -36775,7 +36780,7 @@ msgstr ""
 "löytää vastineen Erkki-alkuisista käyttäjänimistä (kuten esimerkiksi "
 "'Erkkinen')."
 
-#: data/helpdata.txt:1862
+#: data/helpdata.txt:1866
 msgid ""
 "  - Messages starting with 'John::' are private messages as above, but will "
 "match only users (not players) named 'John'. A user name 'Johnathan' will "
@@ -36785,7 +36790,7 @@ msgstr ""
 "mutta täsmäävät vain käyttäjiin (ei pelaajiin), joiden nimi on 'Erkki'. "
 "Nimiä voi yhä lyhentää, esim. käyttäjä 'Erkki-Jooseppi' täsmää."
 
-#: data/helpdata.txt:1866
+#: data/helpdata.txt:1870
 msgid ""
 "  - Messages starting with ':' will be sent to everyone (even if your client "
 "is configured to send only to allies by default)."
@@ -36793,7 +36798,7 @@ msgstr ""
 " – ':'-alkuiset viestit lähetetään kaikille (jopa silloin kun asiakasohjelma "
 "on asetettu lähettämään oletuksena vain liittolaisillesi)."
 
-#: data/helpdata.txt:1869
+#: data/helpdata.txt:1873
 msgid ""
 "  - Messages starting with '.' will be sent only to all your allies (or, if "
 "you're a global observer, only to other global observers)."
@@ -36801,7 +36806,7 @@ msgstr ""
 " – '.'-alkuiset viestit lähetetään vain kaikille liittolaisillesi (tai jos "
 "olet koko pelin tarkkailija, vain toisille koko pelin tarkkailijoille)."
 
-#: data/helpdata.txt:1872
+#: data/helpdata.txt:1876
 msgid ""
 "Featured text (GTK):\n"
 "====================\n"
@@ -36818,7 +36823,7 @@ msgstr ""
 "lihavoimalla, kursivoimalla, värittämällä, linkittämällä, jne. Tällaiset "
 "muutokset suoritetaan lisäämällä viestiin sopivia tägejä."
 
-#: data/helpdata.txt:1879
+#: data/helpdata.txt:1883
 msgid ""
 "* Getting boldface:\n"
 "Full name sequence: '[bold] ... [/bold]'\n"
@@ -36832,7 +36837,7 @@ msgstr ""
 "Pikanäppäin syötteessä: Ctrl-B\n"
 "Esimerkki: '[b]lihava[/b]' näyttää sanan 'lihava' lihavoituna."
 
-#: data/helpdata.txt:1885
+#: data/helpdata.txt:1889
 msgid ""
 "* Getting colors:\n"
 "Full name sequence: '[color] ... [/color]' \n"
@@ -36860,7 +36865,7 @@ msgstr ""
 "Esimerkki: '[c fg=\"blue\" bg=\"yellow\"]väri[/c]' näyttää sanan 'väri' "
 "sinisenä keltaisella taustalla."
 
-#: data/helpdata.txt:1898
+#: data/helpdata.txt:1902
 msgid ""
 "* Getting italic:\n"
 "Full name sequence: '[italic] ... [/italic]'\n"
@@ -36874,7 +36879,7 @@ msgstr ""
 "Pikanäppäin syötteessä: Ctrl-I\n"
 "Esimerkki: '[i]kursiivi[/i]' näyttää sanan 'kursiivi' kursivoituna."
 
-#: data/helpdata.txt:1904
+#: data/helpdata.txt:1908
 msgid ""
 "* Getting strikethrough:\n"
 "Full name sequence: '[strike] ... [/strike]'\n"
@@ -36889,7 +36894,7 @@ msgstr ""
 "Pikanäppäin syötteessä: Ctrl-S\n"
 "Esimerkki: '[s]yliviivattu[/s]' näyttää sanan 'yliviivattu' yliviivattuna."
 
-#: data/helpdata.txt:1911
+#: data/helpdata.txt:1915
 msgid ""
 "* Getting underline:\n"
 "Full name sequence: '[underline] ... [/underline]'\n"
@@ -36904,7 +36909,7 @@ msgstr ""
 "Pikanäppäin syötteessä: Ctrl-U\n"
 "Esimerkki: '[u]alleviivattu[/u]' näyttää sanan 'alleviivattu' alleviivattuna."
 
-#: data/helpdata.txt:1918
+#: data/helpdata.txt:1922
 msgid ""
 "* Getting city links:\n"
 "Full name sequence: '[link target=\"city\"] ... [/link]'\n"
@@ -36936,7 +36941,7 @@ msgstr ""
 "'[l tgt=\"city\" id=65 name=\"Nimetön\" /]' näyttää kaupungin tunnus 65 "
 "nimen, jos se tunnetaan, muutoin 'Nimetön'."
 
-#: data/helpdata.txt:1933
+#: data/helpdata.txt:1937
 msgid ""
 "* Getting tile links:\n"
 "Full name sequence: '[link target=\"tile\"] ... [/link]'\n"
@@ -36960,7 +36965,7 @@ msgstr ""
 "Esimerkki: '[l tgt=\"tile\" x=17 y=3]tämä ruutu[/l]' tekee sanoista 'tämä "
 "ruutu' klikattavan ruutuun (17, 3) osoittavan linkin."
 
-#: data/helpdata.txt:1945
+#: data/helpdata.txt:1949
 msgid ""
 "* Getting unit links:\n"
 "Full name sequence: '[link target=\"unit\"] ... [/link]'\n"
@@ -36994,7 +36999,7 @@ msgstr ""
 "'[l tgt=\"unit\" id=235 name=\"Krieger\" /]' näyttää yksikön nimen jos "
 "yksikkö tunnus 235 tunnetaan, muuten sanan Krieger."
 
-#: data/helpdata.txt:1960
+#: data/helpdata.txt:1964
 msgid ""
 "Of course, the different escape sequences can be combined in the same "
 "sentence, like '[i][c fg=\"blue\"]this [b]is [s]funny[c bg=\"green\"] [u]to[/"
@@ -37004,7 +37009,7 @@ msgstr ""
 "\"blue\"]tämän [b]uuden [s]ominaisuuden [c bg=\"green\"]kokeilemisen "
 "[u]pitäisi[/i] varmaan[/b] olla[/s] [/c]aika[/u] hauskaa[/c]'."
 
-#: data/helpdata.txt:1968
+#: data/helpdata.txt:1972
 msgid ""
 "The worklist editor is used to edit both worklists for each city (from the "
 "city dialog) and global worklists. Using this editor you can create lists "
@@ -37014,7 +37019,7 @@ msgstr ""
 "hallintoikkunasta) että maanlaajuisten työlistojen muunteluun. Käyttämällä "
 "tätä voit luoda listoja joissa määrätään tulevat rakennusprojektit."
 
-#: data/helpdata.txt:1972
+#: data/helpdata.txt:1976
 msgid ""
 "To add an item to the worklist, double-click the desired item in the list of "
 "available items. You can also press the Help button to get help on the "
@@ -37025,7 +37030,7 @@ msgstr ""
 "projektista. Jos painat Ohje-nappia valitsematta ensin projektia, näet tämän "
 "sivun."
 
-#: data/helpdata.txt:1976
+#: data/helpdata.txt:1980
 msgid ""
 "To remove an item from the worklist simply double-click the item to remove. "
 "Use the buttons below the worklist to move items up and/or down in the list."
@@ -37033,7 +37038,7 @@ msgstr ""
 "Poistaaksesi projektin työlistalta kaksoisnapsauta sitä. Käytä nappeja "
 "listan alla siirtääksesi projektia ylös ja/tai alas listalla."
 
-#: data/helpdata.txt:1979
+#: data/helpdata.txt:1983
 msgid ""
 "Keyboard shortcuts: Home to focus the worklist, End to focus the available "
 "list, Up/Down arrows to select previous/next item in worklist or available "
@@ -37047,7 +37052,7 @@ msgstr ""
 "Insert – liitä projekti saatavien listalta työlistalle ja Delete – poista "
 "projekti työlistalta."
 
-#: data/helpdata.txt:1985
+#: data/helpdata.txt:1989
 msgid ""
 "If you want to buy the unit that's first on the list, you can do that from "
 "the City Overview window."
@@ -37055,7 +37060,7 @@ msgstr ""
 "Jos haluat ostaa listan päällimmäisen yksikön, voit tehdä näin Kaupunki-"
 "ikkunan Yleiskatsaus-välilehdellä."
 
-#: data/helpdata.txt:1992
+#: data/helpdata.txt:1996
 msgid ""
 "Freeciv supports several local languages.  See the Native Language Support "
 "section of the README file for instructions on how to use one of these "
@@ -37068,7 +37073,7 @@ msgstr ""
 "\n"
 "Tarkista täältä, onko käännöstyö jo käynnissä omalle kielellesi:"
 
-#: data/helpdata.txt:2001
+#: data/helpdata.txt:2005
 msgid ""
 "If you would like to add a localization (translation) for your language, "
 "please see the instructions at:"
@@ -37076,13 +37081,13 @@ msgstr ""
 "Jos haluat lisätä käännöksen omalle kielellesi, lue ohjeet netistä "
 "osoitteessa"
 
-#: data/helpdata.txt:2006
+#: data/helpdata.txt:2010
 msgid ""
 "You are also welcome to send any questions to the translation mailing list:"
 msgstr ""
 "Voit myös lähettää kysymyksiä kääntäjien postituslistalle, jonka osoite on"
 
-#: data/helpdata.txt:2022
+#: data/helpdata.txt:2026
 msgid ""
 "Freeciv is released under the GNU General Public License (version 2 or, at "
 "your option, any later version).  In short, you may copy this program "
@@ -37096,7 +37101,7 @@ msgstr ""
 "käännöstä ei ole) ehdot kokonaisuudessaan."
 
 #. TRANS: followed by a URL
-#: data/helpdata.txt:2331
+#: data/helpdata.txt:2335
 msgid ""
 "If you find any bugs, then please send us a bug report.  This is best done "
 "by visiting the Freeciv Bug Tracking System, at:"
@@ -37104,7 +37109,7 @@ msgstr ""
 "Löytäessäsi ohjelmointivirheen ole ystävällinen ja raportoi meillekin. "
 "Parhaiten tämä onnistuu Freecivin vikaraportointisivuston kautta, osoitteessa"
 
-#: data/helpdata.txt:2336
+#: data/helpdata.txt:2340
 msgid ""
 "Please quote the above version information. For more information about "
 "submitting bug reports see the file BUGS in the Freeciv distribution."
@@ -37112,7 +37117,7 @@ msgstr ""
 "Ole hyvä ja liitä mukaan ylläolevat versiotiedot. Lisäohjeita virheraportin "
 "lähettämiseen tiedostossa BUGS jonka pitäisi tulla Freecivin mukana."
 
-#: data/helpdata.txt:2340
+#: data/helpdata.txt:2344
 msgid ""
 "To contact the developers about anything else, please email one of the "
 "project's mailing lists:"
@@ -37120,7 +37125,7 @@ msgstr ""
 "Ottaaksesi yhteyttä kehittäjiin muita asioita koskien, lähetä sähköpostisi "
 "asianmukaiselle sähköpostilistalle:"
 
-#: data/helpdata.txt:2343
+#: data/helpdata.txt:2347
 msgid ""
 "    freeciv-dev@freelists.org   - public development mailing\n"
 "                                  list (archives are public)\n"
@@ -37137,7 +37142,7 @@ msgstr ""
 "                                   (tietoturva ja muut luottamukselliset "
 "asiat)"
 
-#: data/helpdata.txt:2349
+#: data/helpdata.txt:2353
 msgid ""
 "  Original authors:\n"
 "    (they are no longer involved, please don't mail them!)"
@@ -37145,11 +37150,11 @@ msgstr ""
 "  Alkuperäiset tekijät:\n"
 "    (he eivät ole enää pelin kanssa tekemisissä, älä lähetä heille postia!)"
 
-#: data/helpdata.txt:2356
+#: data/helpdata.txt:2360
 msgid "  Present administrators: "
 msgstr "  Nykyiset vastuuhenkilöt: "
 
-#: data/helpdata.txt:2363
+#: data/helpdata.txt:2367
 msgid "For more information in general, visit the Freeciv website, at:"
 msgstr "Lisää tietoa löytyy Freecivin kotisivuilta osoitteesta"
 
@@ -40122,19 +40127,19 @@ msgstr "Ryhmä"
 
 #. TRANS: Unknown modpack type
 #: tools/mpcli.c:67 tools/mpgui_gtk2.c:378 tools/mpgui_gtk3.c:378
-#: tools/mpgui_gtk4.c:388 tools/mpgui_qt.cpp:380
+#: tools/mpgui_gtk4.c:392 tools/mpgui_qt.cpp:380
 msgid "?"
 msgstr "?"
 
 #. TRANS: License of modpack is not known
 #: tools/mpcli.c:74 tools/mpgui_gtk2.c:385 tools/mpgui_gtk3.c:385
-#: tools/mpgui_gtk4.c:395 tools/mpgui_qt.cpp:387
+#: tools/mpgui_gtk4.c:399 tools/mpgui_qt.cpp:387
 msgid "?license:Unknown"
 msgstr "Tuntematon"
 
 #: tools/mpcli.c:79 tools/mpgui_gtk2.c:232 tools/mpgui_gtk2.c:390
-#: tools/mpgui_gtk3.c:231 tools/mpgui_gtk3.c:390 tools/mpgui_gtk4.c:239
-#: tools/mpgui_gtk4.c:400 tools/mpgui_qt.cpp:345 tools/mpgui_qt.cpp:392
+#: tools/mpgui_gtk3.c:231 tools/mpgui_gtk3.c:390 tools/mpgui_gtk4.c:243
+#: tools/mpgui_gtk4.c:404 tools/mpgui_qt.cpp:345 tools/mpgui_qt.cpp:392
 msgid "Not installed"
 msgstr "Asentamaton"
 
@@ -40226,7 +40231,7 @@ msgstr "install OSOITE"
 msgid "Automatically install modpack from a given URL"
 msgstr "Automaattisesti asenna muunnospaketti annetusta osoitteesta"
 
-#: tools/mpgui_gtk2.c:102 tools/mpgui_gtk3.c:102 tools/mpgui_gtk4.c:112
+#: tools/mpgui_gtk2.c:102 tools/mpgui_gtk3.c:102 tools/mpgui_gtk4.c:113
 #: tools/mpgui_qt.cpp:479
 msgid ""
 "Modpack installation in progress.\n"
@@ -40235,16 +40240,16 @@ msgstr ""
 "Muunnospaketin asentaminen meneillään.\n"
 "Haluatko todella lopettaa?"
 
-#: tools/mpgui_gtk2.c:288 tools/mpgui_gtk3.c:286 tools/mpgui_gtk4.c:294
+#: tools/mpgui_gtk2.c:288 tools/mpgui_gtk3.c:286 tools/mpgui_gtk4.c:298
 #: tools/mpgui_qt.cpp:308
 msgid "Another download already active"
 msgstr "Toinen lataus on jo käynnissä"
 
-#: tools/mpgui_gtk2.c:301 tools/mpgui_gtk3.c:299 tools/mpgui_gtk4.c:307
+#: tools/mpgui_gtk2.c:301 tools/mpgui_gtk3.c:299 tools/mpgui_gtk4.c:311
 msgid "Failed to start downloader"
 msgstr "Lataimen käynnistys epäonnistui"
 
-#: tools/mpgui_gtk2.c:447 tools/mpgui_gtk3.c:450 tools/mpgui_gtk4.c:462
+#: tools/mpgui_gtk2.c:447 tools/mpgui_gtk3.c:450 tools/mpgui_gtk4.c:466
 #: tools/mpgui_qt.cpp:201
 #, c-format
 msgid ""
@@ -40254,43 +40259,43 @@ msgstr ""
 "%s%s\n"
 "revisiotunniste: %s"
 
-#: tools/mpgui_gtk2.c:467 tools/mpgui_gtk3.c:470 tools/mpgui_gtk4.c:482
+#: tools/mpgui_gtk2.c:467 tools/mpgui_gtk3.c:470 tools/mpgui_gtk4.c:486
 #: tools/mpgui_qt.cpp:215
 msgid "Installed"
 msgstr "Asennettu"
 
-#: tools/mpgui_gtk2.c:472 tools/mpgui_gtk3.c:475 tools/mpgui_gtk4.c:487
+#: tools/mpgui_gtk2.c:472 tools/mpgui_gtk3.c:475 tools/mpgui_gtk4.c:491
 #: tools/mpgui_qt.cpp:215
 msgid "?modpack:Type"
 msgstr "Tyyppi"
 
-#: tools/mpgui_gtk2.c:478 tools/mpgui_gtk3.c:481 tools/mpgui_gtk4.c:493
+#: tools/mpgui_gtk2.c:478 tools/mpgui_gtk3.c:481 tools/mpgui_gtk4.c:497
 #: tools/mpgui_qt.cpp:216
 msgid "Subtype"
 msgstr "Alityyppi"
 
 #. TRANS: noun
-#: tools/mpgui_gtk2.c:485 tools/mpgui_gtk3.c:488 tools/mpgui_gtk4.c:500
+#: tools/mpgui_gtk2.c:485 tools/mpgui_gtk3.c:488 tools/mpgui_gtk4.c:504
 #: tools/mpgui_qt.cpp:216
 msgid "License"
 msgstr "Lisenssi"
 
-#: tools/mpgui_gtk2.c:490 tools/mpgui_gtk3.c:493 tools/mpgui_gtk4.c:505
+#: tools/mpgui_gtk2.c:490 tools/mpgui_gtk3.c:493 tools/mpgui_gtk4.c:509
 #: tools/mpgui_qt.cpp:217
 msgid "URL"
 msgstr "URL"
 
-#: tools/mpgui_gtk2.c:496 tools/mpgui_gtk3.c:499 tools/mpgui_gtk4.c:511
+#: tools/mpgui_gtk2.c:496 tools/mpgui_gtk3.c:499 tools/mpgui_gtk4.c:515
 #: tools/mpgui_qt.cpp:189
 msgid "Install modpack"
 msgstr "Asenna muunnospaketti"
 
-#: tools/mpgui_gtk2.c:502 tools/mpgui_gtk3.c:507 tools/mpgui_gtk4.c:516
+#: tools/mpgui_gtk2.c:502 tools/mpgui_gtk3.c:507 tools/mpgui_gtk4.c:520
 #: tools/mpgui_qt.cpp:186
 msgid "Modpack URL"
 msgstr "Muunnospaketin osoite"
 
-#: tools/mpgui_gtk2.c:519 tools/mpgui_gtk3.c:524 tools/mpgui_gtk4.c:532
+#: tools/mpgui_gtk2.c:519 tools/mpgui_gtk3.c:524 tools/mpgui_gtk4.c:536
 #: tools/mpgui_qt.cpp:256
 msgid "Select modpack to install"
 msgstr "Valitse asennettava muunnospaketti"
@@ -40313,7 +40318,7 @@ msgstr "Muunnospaketin asennusohjelma (gtk2)"
 msgid "Freeciv modpack installer (gtk3)"
 msgstr "Muunnospaketin asennusohjelma (gtk3)"
 
-#: tools/mpgui_gtk4.c:576
+#: tools/mpgui_gtk4.c:580
 msgid "Freeciv modpack installer (gtk4)"
 msgstr "Muunnospaketin asennusohjelma (gtk4)"
 
@@ -41467,22 +41472,22 @@ msgstr "%s ei voi ylläpitää kaikkia yksikköjään, %s hajotettu."
 msgid "Citizens in %s perish for their failure to upkeep %s!"
 msgstr "Kaupungin %s asukkaat kuolevat, kun %s rapistuu ylläpidon puutteesta!"
 
-#: server/cityturn.c:2242 server/cityturn.c:2417
+#: server/cityturn.c:2245 server/cityturn.c:2420
 #, c-format
 msgid "%s is building %s, which is no longer available."
 msgstr "%s: rakenteilla on %s, joka ei enää ole saatavilla."
 
-#: server/cityturn.c:2279
+#: server/cityturn.c:2282
 #, c-format
 msgid "The %s have finished building %s in %s."
 msgstr "%s ehtivät ensin: %s on valmistunut kaupungissa %s."
 
-#: server/cityturn.c:2286
+#: server/cityturn.c:2289
 #, c-format
 msgid "%s has finished building %s."
 msgstr "%s sai valmiiksi hankkeen %s."
 
-#: server/cityturn.c:2307
+#: server/cityturn.c:2310
 #, c-format
 msgid "%s boosts research; you gain %d immediate advance."
 msgid_plural "%s boosts research; you gain %d immediate advances."
@@ -41490,26 +41495,26 @@ msgstr[0] "%s tehostaa tutkimusta, harppaat %d edistysaskeleen."
 msgstr[1] "%s tehostaa tutkimusta, harppaat %d edistysaskelta."
 
 #. TRANS: Tech from building (Darwin's Voyage)
-#: server/cityturn.c:2321
+#: server/cityturn.c:2324
 #, c-format
 msgid "?frombldg:Acquired %s from %s."
 msgstr "%s saatu, sen tuotti %s!"
 
 #. TRANS: Tech from building (Darwin's
 #. * Voyage)
-#: server/cityturn.c:2327
+#: server/cityturn.c:2330
 #, c-format
 msgid "?frombldg:The %s have acquired %s from %s."
 msgstr ""
 "Tiedonjanoiset %1$s saivat edistysaskeleen. %3$s tuotti teknologian %2$s."
 
-#: server/cityturn.c:2334
+#: server/cityturn.c:2337
 #, c-format
 msgid "The %s have started building a spaceship!"
 msgstr "%s rakentavat jo avaruusalusta!"
 
 #. TRANS: city ... utype ... size ... pop_cost
-#: server/cityturn.c:2442
+#: server/cityturn.c:2445
 #, c-format
 msgid "%s can't build %s yet. (city size: %d, unit population cost: %d)"
 msgstr ""
@@ -41517,81 +41522,81 @@ msgstr ""
 "väkilukukustannus: %d)"
 
 #. TRANS: <city> is finished building <unit/building>.
-#: server/cityturn.c:2475
+#: server/cityturn.c:2478
 #, c-format
 msgid "%s is finished building %s."
 msgstr "%s sai valmiiksi hankkeensa %s."
 
 #. TRANS: "<unit> cost... <city> shrinks..."
 #. * Plural in "%d population", not "size %d".
-#: server/cityturn.c:2500
+#: server/cityturn.c:2503
 #, c-format
 msgid "%s cost %d population. %s shrinks to size %d."
 msgid_plural "%s cost %d population. %s shrinks to size %d."
 msgstr[0] "%s vaatii väestöä %d kokoluokan, %s kutistuu kokoon %d."
 msgstr[1] "%s vaatii väestöä %d kokoluokkaa, %s kutistuu kokoon %d."
 
-#: server/cityturn.c:2576
+#: server/cityturn.c:2579
 #, c-format
 msgid "Can't afford to maintain %s in %s, building sold!"
 msgstr "%s myyty kaupungissa %s, koska ylläpitoon ei ollut varaa!"
 
-#: server/cityturn.c:2723
+#: server/cityturn.c:2726
 #, c-format
 msgid "Not enough gold. %s disbanded."
 msgstr "Rahasi eivät riitä. %s hajotettiin."
 
-#: server/cityturn.c:2964 server/cityturn.c:3790
+#: server/cityturn.c:2967 server/cityturn.c:3793
 #, c-format
 msgid "Pollution near %s."
 msgstr "%s raportoi saasteista lähistöllään."
 
-#: server/cityturn.c:3136
+#: server/cityturn.c:3139
 #, c-format
 msgid "Celebrations in your honor in %s."
 msgstr "%s järjestää villiä juhlintaa kunniaksesi."
 
-#: server/cityturn.c:3142
+#: server/cityturn.c:3145
 #, c-format
 msgid "Celebrations canceled in %s."
 msgstr "%s palaa arkeen, juhlallisuudet peruttu."
 
-#: server/cityturn.c:3159
+#: server/cityturn.c:3162
 #, c-format
 msgid "%s has been struck by a plague! Population lost!"
 msgstr "%s on ruton riipimä! Väestöä kuolee!"
 
 #. TRANS: preserve leading space; this string will be appended to
 #. * another sentence
-#: server/cityturn.c:3227
+#: server/cityturn.c:3230
 msgid " Unrest threatens to spread beyond the city."
 msgstr " Levottomuudet uhkaavat levittäytyä kaupungin ulkopuolelle."
 
 #. TRANS: second %s is an optional extra sentence
-#: server/cityturn.c:3234
+#: server/cityturn.c:3237
 #, c-format
 msgid "Civil disorder in %s.%s"
 msgstr "%s kärsii levottomuuksista.%s"
 
 #. TRANS: second %s is an optional extra sentence
-#: server/cityturn.c:3239
+#: server/cityturn.c:3242
 #, c-format
 msgid "CIVIL DISORDER CONTINUES in %s.%s"
 msgstr "%s: LEVOTTOMUUDET JATKUVAT.%s"
 
-#: server/cityturn.c:3245
+#: server/cityturn.c:3248
 #, c-format
 msgid "Order restored in %s."
 msgstr "%s: Järjestys on palannut kaupunkiin."
 
 # government - e.g. Yksinvalta
 #. TRANS: %s - government form, e.g., Democracy
-#: server/cityturn.c:3257
+#: server/cityturn.c:3260
 #, c-format
 msgid "The people have overthrown your %s, your country is in turmoil."
 msgstr "%s kaatui kansannousussa, valtio natisee liitoksissaan."
 
-#: server/cityturn.c:3301
+#: server/cityturn.c:3304
 #, c-format
 msgid "%s can't build %s yet, as we can't disband our only city."
 msgstr ""
@@ -41599,13 +41604,13 @@ msgstr ""
 "lakkauttaa."
 
 #. TRANS: "<city> is disbanded into Settler."
-#: server/cityturn.c:3330
+#: server/cityturn.c:3333
 #, c-format
 msgid "%s is disbanded into %s."
 msgstr "%s lakkautettiin, kun %s koottiin."
 
 #. TRANS: From <city1> to <city2>.
-#: server/cityturn.c:3535
+#: server/cityturn.c:3538
 #, c-format
 msgid ""
 "Migrants from %s can't go to %s because there is not enough food available!"
@@ -41614,7 +41619,7 @@ msgstr ""
 "syödään jo pettua!"
 
 #. TRANS: From <city1> to <city2> (<city2 nation adjective>).
-#: server/cityturn.c:3542
+#: server/cityturn.c:3545
 #, c-format
 msgid ""
 "Migrants from %s can't go to %s (%s) because there is not enough food "
@@ -41624,7 +41629,7 @@ msgstr ""
 "(%s) syödään jo pettua!"
 
 #. TRANS: From <city1> (<city1 nation adjective>) to <city2>.
-#: server/cityturn.c:3547
+#: server/cityturn.c:3550
 #, c-format
 msgid ""
 "Migrants from %s (%s) can't go to %s because there is not enough food "
@@ -41634,7 +41639,7 @@ msgstr ""
 "%s syödään jo pettua!"
 
 #. TRANS: From <city1> to <city2>.
-#: server/cityturn.c:3562
+#: server/cityturn.c:3565
 #, c-format
 msgid ""
 "Migrants from %s can't go to %s because it needs an improvement to grow!"
@@ -41643,7 +41648,7 @@ msgstr ""
 "parannuksen kasvaakseen!"
 
 #. TRANS: From <city1> to <city2> of <city2 nation adjective>.
-#: server/cityturn.c:3569
+#: server/cityturn.c:3572
 #, c-format
 msgid ""
 "Migrants from %s can't go to %s (%s) because it needs an improvement to grow!"
@@ -41652,7 +41657,7 @@ msgstr ""
 "vaatii parannuksen kasvaakseen!"
 
 #. TRANS: From <city1> (<city1 nation adjective>) to <city2>.
-#: server/cityturn.c:3574
+#: server/cityturn.c:3577
 #, c-format
 msgid ""
 "Migrants from %s (%s) can't go to %s because it needs an improvement to grow!"
@@ -41660,77 +41665,77 @@ msgstr ""
 "Siirtolaiset kaupungista %s (%s) eivät voi muuttaa, koska kohdekaupunki %s "
 "vaatii parannuksen kasvaakseen!"
 
-#: server/cityturn.c:3623
+#: server/cityturn.c:3626
 #, c-format
 msgid "%s was disbanded by its citizens."
 msgstr "%s on tyhjentynyt asukkaista."
 
 #. TRANS: From <city1> to <city2>.
-#: server/cityturn.c:3661
+#: server/cityturn.c:3664
 #, c-format
 msgid "Migrants from %s moved to %s in search of a better life."
 msgstr "Siirtolaisia kaupungista %1$s on saapunut kaupunkiin %2$s."
 
 #. TRANS: From <city1> to <city2> (<city2 nation adjective>).
-#: server/cityturn.c:3667
+#: server/cityturn.c:3670
 #, c-format
 msgid "Migrants from %s moved to %s (%s) in search of a better life."
 msgstr "Siirtolaisia kaupungistasi %1$s on päätynyt %3$s kaupunkiin %2$s."
 
 #. TRANS: From <city1> (<city1 nation adjective>) to <city2>.
-#: server/cityturn.c:3672
+#: server/cityturn.c:3675
 #, c-format
 msgid "Migrants from %s (%s) moved to %s in search of a better life."
 msgstr "Siirtolaisia %2$s kaupungista %1$s on saapunut kaupunkiisi %3$s."
 
 #. TRANS: %s is a city name
-#: server/cityturn.c:3762
+#: server/cityturn.c:3765
 #, c-format
 msgid "All stored food destroyed in %s."
 msgstr "Kaikki ruokavarastot tuhoutuivat kaupungissa %s."
 
 #. TRANS: Disasters such as Earthquake
-#: server/cityturn.c:3784
+#: server/cityturn.c:3787
 #, c-format
 msgid "%s was hit by %s."
 msgstr "%2$s iski kaupunkiin %1$s."
 
-#: server/cityturn.c:3798
+#: server/cityturn.c:3801
 #, c-format
 msgid "Fallout near %s."
 msgstr "Ydinlaskeumaa lähellä kaupunkia %s."
 
 #. TRANS: "Industrial Accident destroys Bogota entirely."
-#: server/cityturn.c:3809
+#: server/cityturn.c:3812
 #, c-format
 msgid "%s destroys %s entirely."
 msgstr "%s aiheuttaa kaupungin %s tuhon."
 
 #. TRANS: "Nuclear Accident ... Montreal."
-#: server/cityturn.c:3815
+#: server/cityturn.c:3818
 #, c-format
 msgid "%s causes population loss in %s."
 msgstr "%s vähensi väkilukua kaupungissa %s."
 
 #. TRANS: second %s is the name of a city improvement
-#: server/cityturn.c:3840
+#: server/cityturn.c:3843
 #, c-format
 msgid "%s destroys %s in %s."
 msgstr "%s tuhosi kohteen %s kaupungissa %s."
 
 #. TRANS: "Production of Colossus in Rhodes destroyed."
-#: server/cityturn.c:3865
+#: server/cityturn.c:3868
 #, c-format
 msgid "Production of %s in %s destroyed."
 msgstr "Kohteen %s tuotanto tuhoutui kaupungissa %s."
 
-#: server/cityturn.c:4035
+#: server/cityturn.c:4038
 #, c-format
 msgid "Citizens of %s are thinking about migrating to %s for a better life."
 msgstr "%s ei houkuta. Sen asukkaat harkitsevat muuttoa kaupunkiin %s."
 
 #. TRANS: <city1> to <city2> (<city2 nation adjective>).
-#: server/cityturn.c:4057
+#: server/cityturn.c:4060
 #, c-format
 msgid ""
 "Citizens of %s are thinking about migrating to %s (%s) for a better life."
@@ -43956,7 +43961,7 @@ msgid ""
 msgstr ""
 "Ruokavaraston koko %d kaupungille %s ei kelpaa; arvon oltava väliltä %d - %d."
 
-#: server/edithand.c:846
+#: server/edithand.c:847
 #, c-format
 msgid ""
 "Invalid city shield stock amount %d for city %s (allowed range is %d to %d)."
@@ -43964,7 +43969,7 @@ msgstr ""
 "Tuotannon tila %d kilpeä kaupungissa %s ei kelpaa; arvon oltava väliltä %d - "
 "%d."
 
-#: server/edithand.c:894
+#: server/edithand.c:897
 #, c-format
 msgid ""
 "No more players can be added because the maximum number of players (%d) has "
@@ -43973,7 +43978,7 @@ msgstr ""
 "Uusia pelaajia ei voi lisätä, koska pelaajien enimmäismäärä %d on jo "
 "saavutettu."
 
-#: server/edithand.c:902
+#: server/edithand.c:905
 #, c-format
 msgid ""
 "No more players can be added because there are no available nations (%d "
@@ -43982,31 +43987,31 @@ msgstr ""
 "Pelaajia ei voi lisätä, koska yhtään kansakuntaa ei ole vapaana (%d "
 "käytössä)."
 
-#: server/edithand.c:911
+#: server/edithand.c:914
 msgid "Player cannot be created because random nation selection failed."
 msgstr ""
 "Pelaajan luonti kariutui satunnaisen kansakunnan valinnan epäonnistumiseen."
 
-#: server/edithand.c:920
+#: server/edithand.c:923
 msgid "Player creation failed."
 msgstr "Pelaajan luonti epäonnistui."
 
-#: server/edithand.c:962
+#: server/edithand.c:965
 #, c-format
 msgid "No such player (ID %d)."
 msgstr "Osoittamaasi pelaajaa tunnisteella %d ei ole."
 
-#: server/edithand.c:992
+#: server/edithand.c:995
 #, c-format
 msgid "Cannot edit player with invalid player ID %d."
 msgstr "Pelaajan muokkaus ei onnistu; pelaajatunniste %d ei kelpaa."
 
-#: server/edithand.c:1009
+#: server/edithand.c:1012
 #, c-format
 msgid "Cannot change name of player (%d) '%s' to '%s': %s"
 msgstr "Pelaajan (%d) '%s' nimeä ei voi vaihtaa nimeksi '%s': %s"
 
-#: server/edithand.c:1020
+#: server/edithand.c:1023
 #, c-format
 msgid ""
 "Cannot change nation for player %d (%s) because the given nation ID %d is "
@@ -44015,7 +44020,7 @@ msgstr ""
 "Pelaajan %d (%s) kansakunnan muuttaminen epäonnistui - annettu kansakunnan "
 "tunniste %d ei kelpaa."
 
-#: server/edithand.c:1026
+#: server/edithand.c:1029
 #, c-format
 msgid ""
 "Cannot change nation for player %d (%s) to nation %d (%s) because that "
@@ -44024,7 +44029,7 @@ msgstr ""
 "Pelaajan %d (%s) kansakunnan muuttaminen epäonnistui – uusi kansakunta %d "
 "(%s) on jo pelaajan %d (%s) käytössä."
 
-#: server/edithand.c:1035
+#: server/edithand.c:1038
 #, c-format
 msgid ""
 "Cannot change nation for player %d (%s) to nation %d (%s) because that "
@@ -44033,7 +44038,7 @@ msgstr ""
 "Pelaajan %d (%s) kansakunnan muuttaminen epäonnistui – uutta kansakuntaa %d "
 "(%s) ei löydy valitusta kansavalikoimasta."
 
-#: server/edithand.c:1044
+#: server/edithand.c:1047
 #, c-format
 msgid ""
 "Cannot change nation for player %d (%s) to nation %d (%s) because that "
@@ -44042,7 +44047,7 @@ msgstr ""
 "Pelaajan %d (%s) kansakunnan muuttaminen epäonnistui – uusi kansakunta %d "
 "(%s) ei sovellu tälle pelaajalle."
 
-#: server/edithand.c:1084
+#: server/edithand.c:1087
 #, c-format
 msgid ""
 "Cannot set gold for player %d (%s) because the value %d is outside the "
@@ -44051,14 +44056,14 @@ msgstr ""
 "Pelaajan %d (%s) kultamäärän asettaminen epäonnistui - arvo %d on "
 "sallittujen rajojen ulkopuolella."
 
-#: server/edithand.c:1184
+#: server/edithand.c:1187
 #, c-format
 msgid "Cannot edit vision because %d is not a valid tile index on this map!"
 msgstr ""
 "Näkymän muokkaus epäonnistui - %d ei kelpaa ruudun indeksiksi tällä kartalla!"
 
 #. TRANS: ..." at <tile-coordinates> because"...
-#: server/edithand.c:1193
+#: server/edithand.c:1196
 #, c-format
 msgid ""
 "Cannot edit vision for the tile at %s because given player id %d is invalid."
@@ -44066,26 +44071,26 @@ msgstr ""
 "Ruudun %s näkymän muokkaus epäonnistui - annettu pelaajan tunniste %d ei "
 "kelpaa."
 
-#: server/edithand.c:1262
+#: server/edithand.c:1265
 #, c-format
 msgid "No such city (ID %d)."
 msgstr "Osoittamaasi kaupunkia (tunniste %d) ei ole."
 
-#: server/edithand.c:1288
+#: server/edithand.c:1291
 msgid "Cannot toggle fog-of-war when it is already disabled."
 msgstr "Näkyvyysrajoja ei voi asettaa, kun ne eivät ole käytössä."
 
-#: server/edithand.c:1296
+#: server/edithand.c:1299
 #, c-format
 msgid "Cannot toggle fog-of-war for invalid player ID %d."
 msgstr "Näkyvyysrajoja ei voi asettaa – pelaajan tunniste %d ei kelpaa."
 
-#: server/edithand.c:1324 server/edithand.c:1363
+#: server/edithand.c:1327 server/edithand.c:1366
 #, c-format
 msgid "Invalid tile index %d for start position."
 msgstr "Aloituskohdan indeksi %d ei kelpaa!"
 
-#: server/edithand.c:1371
+#: server/edithand.c:1374
 #, c-format
 msgid ""
 "Cannot edit start position nations at (%d, %d) because there is no start "
@@ -44094,11 +44099,11 @@ msgstr ""
 "Aloittavien kansakuntien muuttaminen ei onnistu - ruudussa (%d, %d) ei ole "
 "aloituskohtaa."
 
-#: server/edithand.c:1470
+#: server/edithand.c:1473
 msgid "No permissions to remotely save scenario."
 msgstr "Pääsyoikeutesi eivät riitä skenaarion etätallentamiseen."
 
-#: server/edithand.c:1477
+#: server/edithand.c:1480
 msgid "Scenario information not set. Cannot save scenario."
 msgstr "Skenaarion tietoja ei ole asetettu, joten sitä ei voi tallentaa."
 
@@ -46594,7 +46599,11 @@ msgid ""
 "The rate of the tech leakage. This multiplied by the percentage of players "
 "who know the tech tell which percentage of tech's bulb cost gets leaked each "
 "turn. This setting has no effect if the ruleset has disabled tech leakage."
-msgstr "Teknologiavuodon nopeus. Tämä kerrottuna teknologian tuntevien pelaajien osuudella kaikista pelaajista kertoo mikä prosentti teknologian hinnasta vuotaa per kierros. Tällä asetuksella on vaikutusta vain jos sääntökokoelma sallii teknologiavuodon."
+msgstr ""
+"Teknologiavuodon nopeus. Tämä kerrottuna teknologian tuntevien pelaajien "
+"osuudella kaikista pelaajista kertoo mikä prosentti teknologian hinnasta "
+"vuotaa per kierros. Tällä asetuksella on vaikutusta vain jos sääntökokoelma "
+"sallii teknologiavuodon."
 
 #: server/settings.c:1944
 msgid "Team pooled research"
@@ -48612,26 +48621,26 @@ msgstr "En käynnisty ilman erikseen pyydettyä metapalvelinyhteyttä."
 msgid "The game is over..."
 msgstr "Peli päättyy..."
 
-#: server/srv_main.c:3123
+#: server/srv_main.c:3125
 msgid "Failed to create suitable map, retrying with another mapseed."
 msgstr ""
 "Epäonnistuin luomaan sopivaa karttaa, yritän uudelleen uudella siemenluvulla."
 
-#: server/srv_main.c:3129
+#: server/srv_main.c:3131
 #, c-format
 msgid "Attempt %d/%d"
 msgstr "Yritys %d/%d"
 
-#: server/srv_main.c:3157
+#: server/srv_main.c:3159
 msgid "Cannot create suitable map with given settings."
 msgstr "En onnistunut luomaan sopivaa karttaa annetuilla asetuksilla."
 
-#: server/srv_main.c:3181 server/srv_main.c:3185
+#: server/srv_main.c:3183 server/srv_main.c:3187
 #, c-format
 msgid "Setting '%s' has been adjusted from %s to %s."
 msgstr "Asetus '%s' on muutettu arvosta %s arvoon %s."
 
-#: server/srv_main.c:3384
+#: server/srv_main.c:3386
 #, c-format
 msgid "Now accepting new client connections on port %d."
 msgstr "Vastaanotan nyt uusia asiakasohjelmien yhteydenottoja porttiin %d."
@@ -51303,7 +51312,7 @@ msgstr ""
 "Omistamasi %s %s [id:%d %s%sH:%.1f menetti %d OP, %d OP jäljellä] hyökkäsi "
 "voitokkaasti. Puolustautuja oli %s %s %s [id:%d OP:%d]."
 
-#: server/unithand.c:4221 server/unittools.c:2835
+#: server/unithand.c:4221 server/unittools.c:2838
 msgid "Cannot attack unless you declare war first."
 msgstr "Et voi hyökätä ennen sodanjulistusta."
 
@@ -51312,7 +51321,7 @@ msgstr "Et voi hyökätä ennen sodanjulistusta."
 msgid "%s can only move into your own zone of control."
 msgstr "%s voi siirtyä vain itse valvomallesi alueelle."
 
-#: server/unithand.c:4239 server/unittools.c:2813 server/unittools.c:2843
+#: server/unithand.c:4239 server/unittools.c:2816 server/unittools.c:2846
 #, c-format
 msgid "Cannot invade unless you break peace with %s first."
 msgstr ""
@@ -51548,14 +51557,14 @@ msgstr "%s menetetty yksikön %s mukana."
 msgid "%s escaped the destruction of %s, and fled to %s."
 msgstr "%s pakeni yksikön %s tuhoa ja pakeni kaupunkiin %s."
 
-#: server/unittools.c:2215
+#: server/unittools.c:2216
 #, c-format
 msgid "%d Barbarian leader captured."
 msgid_plural "%d Barbarian leaders captured."
 msgstr[0] "%d barbaarijohtaja vangittu."
 msgstr[1] "%d barbaarijohtajaa vangittu."
 
-#: server/unittools.c:2220
+#: server/unittools.c:2221
 #, c-format
 msgid "%d gold ransom paid."
 msgid_plural "%d gold ransom paid."
@@ -51613,111 +51622,111 @@ msgid_plural "%d units lost when the %s %s attacked the %s %s."
 msgstr[0] "%d yksikkö menetettiin kun %s %s hyökkäsi kohteenaan %s %s."
 msgstr[1] "%d yksikköä menetettiin kun %s %s hyökkäsi kohteenaan %s %s."
 
-#: server/unittools.c:2416
+#: server/unittools.c:2419
 #, c-format
 msgid "%d unit escaped from attack by %s %s"
 msgid_plural "%d units escaped from attack by %s %s"
 msgstr[0] "%d yksikkö pakeni kun %s %s hyökkäsi"
 msgstr[1] "%d yksikköä pakeni kun %s %s hyökkäsi"
 
-#: server/unittools.c:2664
+#: server/unittools.c:2667
 #, c-format
 msgid "Your %s was nuked by %s."
 msgstr "Yksikkösi %s tuhoutui kun %s iskivät ydinasein."
 
-#: server/unittools.c:2667 server/unittools.c:2685
+#: server/unittools.c:2670 server/unittools.c:2688
 msgid "yourself"
 msgstr "sinä itse"
 
-#: server/unittools.c:2671
+#: server/unittools.c:2674
 #, c-format
 msgid "The %s %s was nuked."
 msgstr "%s %s tuhottiin ydiniskussa."
 
-#: server/unittools.c:2682
+#: server/unittools.c:2685
 #, c-format
 msgid "%s was nuked by %s."
 msgstr "%s tuhoutui kun %s iski ydinasein."
 
-#: server/unittools.c:2690
+#: server/unittools.c:2693
 #, c-format
 msgid "You nuked %s."
 msgstr "Olet pamauttanut kohteen %s tuusannuuskaksi ydiniskussa."
 
-#: server/unittools.c:2724
+#: server/unittools.c:2727
 #, c-format
 msgid "The %s detonated a nuke!"
 msgstr "%s räjäyttivät ydinlatauksen!"
 
-#: server/unittools.c:2739
+#: server/unittools.c:2742
 #, c-format
 msgid "%s transported successfully."
 msgstr "%s on turvallisesti siirretty kohteeseensa."
 
-#: server/unittools.c:2826
+#: server/unittools.c:2829
 #, c-format
 msgid "This unit cannot paradrop into %s."
 msgstr "%s ei sovi yksikön maahanlaskupaikaksi."
 
-#: server/unittools.c:2859
+#: server/unittools.c:2862
 #, c-format
 msgid "Your %s paradropped into the %s and was lost."
 msgstr "Yksikkösi %s menetettiin maahanlaskupaikassa %s."
 
-#: server/unittools.c:2877
+#: server/unittools.c:2880
 #, c-format
 msgid "Your %s was killed by enemy units at the paradrop destination."
 msgstr "Maahanlaskupaikalla olleet vihollisyksiköt tuhosivat yksikkösi %s."
 
-#: server/unittools.c:3319
+#: server/unittools.c:3322
 #, c-format
 msgid "Orders for %s aborted after enemy movement was spotted."
 msgstr "%s keskeytti toimintansa havaittuaan vihollisen liikehdintää."
 
-#: server/unittools.c:4101
+#: server/unittools.c:4104
 #, c-format
 msgid "Orders for %s aborted as there are units nearby."
 msgstr "%s keskeytti toimintansa, koska lähistöllä on yksiköitä."
 
-#: server/unittools.c:4241
+#: server/unittools.c:4244
 #, c-format
 msgid "Orders for %s aborted since they give an invalid activity."
 msgstr ""
 "%s kieltäytyy jatkamasta sopimattomiksi käyneiden komentojen seuraamista."
 
-#: server/unittools.c:4251
+#: server/unittools.c:4254
 #, c-format
 msgid "Orders for %s aborted since they give an invalid location."
 msgstr "%s keskeytti liikkumisensa, koska kohdepaikka on sopimaton."
 
-#: server/unittools.c:4262
+#: server/unittools.c:4265
 #, c-format
 msgid "Orders for %s aborted as there are units in the way."
 msgstr "%s keskeytti toimintansa, koska muut yksiköt ovat sen tiellä."
 
-#: server/unittools.c:4307
+#: server/unittools.c:4310
 #, c-format
 msgid "Orders for %s aborted because of failed move."
 msgstr "%s keskeytti toimintansa, koska sen liikkuminen epäonnistui."
 
-#: server/unittools.c:4418
+#: server/unittools.c:4421
 #, c-format
 msgid "%s could not do %s to %s."
 msgstr "Yksikkösi %s ei voi suorittaa toimintoa %s kohteelle %s."
 
-#: server/unittools.c:4456
+#: server/unittools.c:4459
 #, c-format
 msgid "Orders for %s aborted because doing %s to %s failed."
 msgstr ""
 "%s keskeytti toimintansa, koska toiminnon %s tekeminen kohteelle %s "
 "epäonnistui."
 
-#: server/unittools.c:4469
+#: server/unittools.c:4472
 #, c-format
 msgid "Your %s has invalid orders."
 msgstr "Yksikölle %s annetut ohjeet eivät enää kelpaa."
 
-#: server/unittools.c:4568
+#: server/unittools.c:4571
 #, c-format
 msgid "Your unit may not act for another %s this turn. See /help unitwaittime."
 msgstr ""
