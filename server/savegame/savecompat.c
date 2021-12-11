@@ -1855,6 +1855,9 @@ static void compat_post_load_030100(struct loaddata *loading,
 static void compat_load_030200(struct loaddata *loading,
                                enum sgf_version format_class)
 {
+  int i;
+  int count;
+
   /* Check status and return if not OK (sg_success != TRUE). */
   sg_check_ret();
 
@@ -1865,7 +1868,6 @@ static void compat_load_030200(struct loaddata *loading,
     int set_count;
 
     if (secfile_lookup_int(loading->file, &set_count, "settings.set_count")) {
-      int i;
       bool gamestart_valid
         = secfile_lookup_bool_default(loading->file, FALSE,
                                       "settings.gamestart_valid");
@@ -1912,6 +1914,20 @@ static void compat_load_030200(struct loaddata *loading,
           }
         }
       }
+    }
+  }
+
+  /* Older savegames had a bug that got_tech_multi was not saved.
+   * Insert the entry to such savegames */
+
+  /* May be unsaved (e.g. scenario case). */
+  count = secfile_lookup_int_default(loading->file, 0, "research.count");
+  for (i = 0; i < count; i++) {
+    if (secfile_entry_lookup(loading->file,
+                             "research.r%d.got_tech_multi", i) == NULL) {
+      /* Default to FALSE */
+      secfile_insert_bool(loading->file, FALSE,
+                          "research.r%d.got_tech_multi", i);
     }
   }
 }
@@ -2222,7 +2238,22 @@ static void compat_load_dev(struct loaddata *loading)
 
   if (game_version < 3019100) {
     /* Before version number bump to 3.1.91 */
+    int i;
+    int count;
 
+    /* Older savegames had a bug that got_tech_multi was not saved.
+     * Insert the entry to such savegames */
+
+    /* May be unsaved (e.g. scenario case). */
+    count = secfile_lookup_int_default(loading->file, 0, "research.count");
+    for (i = 0; i < count; i++) {
+      if (secfile_entry_lookup(loading->file,
+                               "research.r%d.got_tech_multi", i) == NULL) {
+        /* Default to FALSE */
+        secfile_insert_bool(loading->file, FALSE,
+                            "research.r%d.got_tech_multi", i);
+      }
+    }
   } /* Version < 3.1.91 */
 
 #endif /* FREECIV_DEV_SAVE_COMPAT_3_2 */

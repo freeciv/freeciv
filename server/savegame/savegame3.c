@@ -7082,13 +7082,9 @@ static void sg_load_researches(struct loaddata *loading)
                                        &presearch->got_tech,
                                        "research.r%d.got_tech", i),
                    "%s", secfile_error());
-
-    /* Older savegames (3.0 betas) had a bug that got_tech_multi was not saved.
-     * Have to live with such savegames, so can't make it an error if value
-     * is not found from the savegame. */
-    presearch->got_tech_multi = secfile_lookup_bool_default(loading->file, FALSE,
-                                                            "research.r%d.got_tech_multi",
-                                                            i);
+    sg_failure_ret(secfile_lookup_bool(loading->file, &presearch->got_tech_multi,
+                                       "research.r%d.got_tech_multi", i),
+                   "%s", secfile_error());
 
     str = secfile_lookup_str(loading->file, "research.r%d.done", i);
     sg_failure_ret(str != NULL, "%s", secfile_error());
