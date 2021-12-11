@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 3.1\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2021-11-08 03:33+0200\n"
-"PO-Revision-Date: 2021-11-08 03:34+0200\n"
+"POT-Creation-Date: 2021-12-11 06:55+0200\n"
+"PO-Revision-Date: 2021-12-11 06:55+0200\n"
 "Last-Translator: Marko Lindqvist <cazfi74@gmail.com>\n"
 "Language-Team: Finnish <laatu@lokalisointi.org>\n"
 "Language: fi\n"
@@ -36,13 +36,17 @@ msgstr "Sulje"
 msgid "Old ruleset to a new format"
 msgstr "Vanha sääntökokoelma uuteen muotoon"
 
-#: tools/ruledit/edit_impr.cpp:47 tools/ruledit/edit_utype.cpp:64
+#: tools/ruledit/edit_impr.cpp:50 tools/ruledit/edit_utype.cpp:64
 msgid "Build Cost"
 msgstr "Hinta"
 
-#: tools/ruledit/edit_impr.cpp:58
+#: tools/ruledit/edit_impr.cpp:61
 msgid "Upkeep"
 msgstr "Ylläpito"
+
+#: tools/ruledit/edit_impr.cpp:71
+msgid "Genus"
+msgstr "Suku"
 
 #: tools/ruledit/edit_utype.cpp:49
 msgid "Requirement"
