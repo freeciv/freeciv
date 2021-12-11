@@ -156,27 +156,173 @@ function _freeciv_state_dump()
 end
 
 -- ***************************************************************************
--- List all defined lua variables (functions, tables)
--- Source http://www.wellho.net/resources/ex.php4?item=u112/basics
+-- List environment.
+-- Implementation by nef:
+-- http://forum.freeciv.org/f/viewtopic.php?f=14&t=91972&p=103953#p103948
+-- nef version 2 20211221
+--
 -- ***************************************************************************
 function listenv()
-  -- helper function for listenv
-  local function _listenv_loop(offset, data)
-    local name
-    local value
 
-    for name,value in pairs(data) do
-      if name ~= "loaded" and name ~= "_G" and name:sub(0,2) ~= "__" then
-        log.normal("%s- %s: %s", offset, type(value), name)
-        if type(value) == "table" then
-          _listenv_loop(offset .. "    ", value)
+  local datum = _G
+  local depth = -1
+  local prefix = ""
+  local string_parse = nil
+
+-- The corountinue is responsible for analysing the data and preparing the printout;
+-- one datum and attached chain of metadata per thread.
+--
+-- The mainline code is responsible for printing the printout with some extra
+-- detail in the desired order, and parsing the table hierarchy.
+
+--************* COROUTINE UPVALUES ********************
+
+  local s   = " %s ";
+  local q   = " %q "
+  local function q_fmt (d) return ("%q"):format(d) end
+  local function s_fmt (d) return ("%s"):format(d) end
+
+  local lists = setmetatable ( {}, {
+  __index = function (t, T) t[T] = {n = 0}; return t[T] end;
+                                   }  )
+  local function tabular (datum, Type, id)                 -- upvalue: lists
+           local  list = lists [Type]; local inx = list [datum]
+           if     inx then return inx.."=", Type
+           elseif id  then list [datum] = id; list.n = math.max(id, list.n)
+                           return  id,      Type, ""
+           else   inx = list.n +1; list [datum] = inx; list.n = inx;
+                           return inx,      Type, inx
+           end
         end
-      end
-    end
-  end
 
-  _listenv_loop("", _G)
+  local TT    = setmetatable ( {         -- upvalues: tabular, q_fmt, s_fmt
+number       = function (d,   T) return s_fmt(d), math.type(d) end;
+string       = function (d,   T)
+       local str, count,     inx, new = d:gsub ("[%c\x80-\xFF]", "*")
+       if count ~= 0 then inx, T, new = tabular(d, "STRING"..count) end
+       return q_fmt(str)..(inx and " ".. inx or ""),
+              d:find("^[_%a][_%a%d]*$") and "identifier" or T,
+              nil  -- change this (inter alia) for a detail line
+               end;
+["function"] = tabular;
+thread       = tabular;
+table        = tabular;
+userdata     = function (d,   T) T = tolua.type(d); local id =  d.id;
+       if  d.rule_name then return("%s %q "):format(id,d:rule_name()),T
+       else                 return tabular (d, T, id)
+       end
+               end;
+                               }, {
+__index = function () return (function (d,T) return q_fmt(d),T end) end;
+__call  = function (t, d) local T = type(d);    return t [T] (d, T) end;
+                                  } )  -- TT
+
+  local mt = " meta %s "
+  local function do_datum (text, datum, Type)  -- upvalues: TT, mt
+           -- local meta,   val, T, new = datum and getmetatable (datum);
+           local meta,   val, T, new = getmetatable (datum);
+           -- if    meta
+           if    type(meta) ~= "nil"
+           then  val, T, new = TT(meta); text = text..mt:format(T)..val
+           end;
+           coroutine.yield (text, datum, Type);
+           if new then return meta, val, T end
+        end
+
+  local function co (text, d1, prefix) -- upvalues: TT, mt, do_datum
+
+          local v1, T1, new = TT(d1) -- prepare k,v line part
+          local d2, v2, T2 =
+            do_datum (text.." ("..T1..") "..v1, d1, T1)
+
+          if new then    -- prepare hdr/detail then 'real' table, etc.
+             coroutine.yield (prefix..s:format(d1)..new, d1, T1)
+          end
+                                    -- prepare chain of 'meta' hdr&table
+          while d2 do d2, v2, T2 =
+            do_datum (prefix..mt:format(d2)..v2, d2, T2)
+          end
+
+        end    -- co()
+
+--************* MAINLINE UPVALUES and locals ********************
+  local printit = log.error
+
+  local function part_0 (datum, co_text)  -- upvalue: co (coroutine section)
+          return {co_t = coroutine.wrap(co); datum = datum; co_text = co_text;}
+        end
+
+  local function part_1 (co_s, prefix)
+  -- the co_t args only used for k,v (no return values from yield)
+          return co_s.co_t (co_s.co_text, co_s.datum, prefix)
+        end
+
+  local details  -- forward declaration
+  local function part_x (co_ss, depth, prefix)--upvalues: part_1, printit, details
+
+           local text, sep = prefix, ""
+           for   c, co_s in ipairs (co_ss)     -- c not used
+           do    text, sep = text..sep..part_1 (co_s, prefix), "; "
+           end;  printit (text)                -- print the k, v line
+
+           for   c, co_s in ipairs (co_ss) do  -- c not used
+             for text, datum, Type in part_1, co_s, ""  do -- print the tables etc.
+               details [Type] (prefix..text, datum, depth, prefix)
+             end
+           end       --  in ipairs
+
+        end  --  part_x ()
+
+  local MF  = math.floor
+  local function pp_tile (d)  -- upvalue: MF
+         return (" (%s,%s) "):format( MF(d.x), MF(d.y) )
+        end
+
+        details = setmetatable ({   --upvalues: printit, part_0, part_x
+table        = function (text, d, depth, prefix)
+                 if   depth == 0
+                 then printit (text.." limit reached")
+                 else printit (text);  for key, val in next, d, nil do
+                        part_x({ part_0 (key, "key"); part_0 (val, "value"); },
+                                depth -1, prefix..".")
+                                       end       -- in next
+                 end
+               end;
+thread       = function (text, d)
+                 printit (text..s:format(d)..coroutine.status(d)..
+                            -- ( coroutine.is_yieldable(d) and "+" or "-") ..
+                            " " )
+               end;
+Direction    = function (text, d) end;
+Tile         = function (text, d) printit (text..pp_tile (d) ) end;
+Player       = function (text, d) printit (text..(" %s%s (%s:%s)"):
+                 format( d.nation, d.ai_controlled and "-" or "+",
+                            MF(d:num_cities()), MF(d:num_units())) )
+               end;
+City         = function (text, d) printit (text..(" %q (%s) %s %s"):
+                 format( d.name, d.size, d.owner, d.tile)..pp_tile (d.tile) )
+               end;
+Unit         = function (text, d) printit (text..(" %s, %s %s"):
+                 format( d.utype, d.owner, d:get_homecity() or "no home city") )
+               end;
+  -- disable the next line to print function detail lines (memory address)
+["function"] = function (text, d) end;
+                      },{
+__index = function (t, T) return printit end;
+                        })  -- details
+
+--************* MAINLINE SCRIPT ********************
+     -- locals: string_parse; tabular (coroutine section)
+  if string_parse then else tabular(getmetatable(""), "table") end     -- arg_4
+     -- note that the k, v is only the v; k is not available here
+     -- locals: datum, depth, prefix, part_0, part_x; lists (coroutine section)
+  -- part_x ({ part_0 (datum or _ENV, datum and "head" or "_ENV") },      -- arg_1
+  part_x ({ part_0 (datum, "head" )},                                  -- arg_1
+          type (depth)  == "number" and depth  or -1,                  -- arg_2
+          type (prefix) == "string" and prefix or "")                  -- arg_3
+  return lists
 end
+
 
 -- ***************************************************************************
 -- Flexible "constant" implementation
