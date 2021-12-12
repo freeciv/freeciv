@@ -21,46 +21,6 @@
 #include "gtkcompat.h"
 
 
-#if !GTK_CHECK_VERSION(3,98,3)
-
-/************************************************************************//**
-  Version of gtk_scrolled_window_set_has_frame() for gtk < 3.98.3
-****************************************************************************/
-void gtk_scrolled_window_set_has_frame(GtkScrolledWindow *wnd, bool shadow)
-{
-  if (shadow) {
-    gtk_scrolled_window_set_shadow_type(wnd, GTK_SHADOW_ETCHED_IN);
-  } else {
-    gtk_scrolled_window_set_shadow_type(wnd, GTK_SHADOW_NONE);
-  }
-}
-
-/************************************************************************//**
-  Version of gtk_button_set_has_frame() for gtk < 3.98.3
-****************************************************************************/
-void gtk_button_set_has_frame(GtkButton *btn, bool shadow)
-{
-  if (shadow) {
-    gtk_button_set_relief(btn, GTK_RELIEF_NORMAL);
-  } else {
-    gtk_button_set_relief(btn, GTK_RELIEF_NONE);
-  }
-}
-
-#endif  /* GTK version < 3.98.3 */
-
-#if !GTK_CHECK_VERSION(3,98,4)
-
-/************************************************************************//**
-  Version of gtk_window_destroy() for gtk < 3.98.4
-****************************************************************************/
-void gtk_window_destroy(GtkWindow *wnd)
-{
-  gtk_widget_destroy(GTK_WIDGET(wnd));
-}
-
-#endif  /* GTK version < 3.98.3 */
-
 #if !GTK_CHECK_VERSION(3,99,0)
 
 /************************************************************************//**
