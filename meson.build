@@ -82,7 +82,7 @@ if host_system == 'windows'
   pub_conf_data.set('FREECIV_HAVE_WINSOCK', 1)
   pub_conf_data.set('FREECIV_SOCKET_ZERO_NOT_STDIN', 1)
   priv_conf_data.set('ALWAYS_ROOT', 1)
-  add_global_arguments('-D_WIN32_WINNT=0x0601', language : 'c')
+  add_global_arguments('-D_WIN32_WINNT=0x0601', language : ['c', 'cpp'])
   ws2_dep = c_compiler.find_library('ws2_32')
 else
   pub_conf_data.set('FREECIV_HAVE_PTHREAD', 1)
