@@ -466,8 +466,9 @@ void handle_player_change_government(struct player *pplayer,
      * a government). */
     turns = pplayer->revolution_finishes - game.info.turn;
   } else if ((is_ai(pplayer) && !has_handicap(pplayer, H_REVOLUTION))
-	     || !anarchy) {
+             || !anarchy) {
     /* AI players without the H_REVOLUTION handicap can skip anarchy */
+    anarchy = FALSE;
     turns = 0;
   } else {
     turns = revolution_length(gov, pplayer);
