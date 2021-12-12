@@ -18,52 +18,6 @@
 #endif
 
 
-#if !GTK_CHECK_VERSION(3,98,3)
-/* Compatibility mode */
-
-#define GDK_ALT_MASK GDK_MOD1_MASK
-
-void gtk_scrolled_window_set_has_frame(GtkScrolledWindow *wnd, bool shadow);
-void gtk_button_set_has_frame(GtkButton *btn, bool shadow);
-
-#endif  /* GTK version < 3.98.3 */
-
-
-#if !GTK_CHECK_VERSION(3,98,4)
-/* Compatibility mode */
-
-/* Can't be simple macro, as in some places we need the address of the function. */
-void gtk_window_destroy(GtkWindow *wnd);
-
-#define gtk_box_append(_box_, _child_) gtk_container_add(GTK_CONTAINER(_box_), _child_)
-#define gtk_box_remove(_box_, _child_) gtk_container_remove(GTK_CONTAINER(_box_), _child_)
-#define gtk_grid_remove(_grid_, _child_)                \
-  gtk_container_remove(GTK_CONTAINER(_grid_), _child_)
-#define gtk_frame_set_child(_frame_, _child_) \
-  gtk_container_add(GTK_CONTAINER(_frame_), _child_)
-#define gtk_window_set_child(_win_, _child_) \
-  gtk_container_add(GTK_CONTAINER(_win_), _child_)
-#define gtk_scrolled_window_set_child(_sw_, _child_) \
-  gtk_container_add(GTK_CONTAINER(_sw_), _child_)
-#define gtk_combo_box_set_child(_cb_, _child_) \
-  gtk_container_add(GTK_CONTAINER(_cb_), _child_)
-#define gtk_paned_set_start_child(_paned_, _child_) \
-  gtk_paned_pack1(_paned_, _child_, TRUE, TRUE)
-#define gtk_paned_set_end_child(_paned_, _child_) \
-  gtk_paned_pack2(_paned_, _child_, FALSE, TRUE)
-#define gtk_button_set_child(_but_, _child_) \
-  gtk_container_add(GTK_CONTAINER(_but_), _child_)
-
-#define gtk_combo_box_get_child(_box_) \
-  gtk_bin_get_child(GTK_BIN(_box_))
-#define gtk_button_get_child(_but_) \
-  gtk_bin_get_child(GTK_BIN(_but_))
-#define gtk_window_get_child(_win_) \
-  gtk_bin_get_child(GTK_BIN(_win_))
-
-#endif  /* GTK version < 3.98.4 */
-
-
 #if !GTK_CHECK_VERSION(3,99,0)
 /* Compatibility mode */
 
