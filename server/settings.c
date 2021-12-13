@@ -36,9 +36,10 @@
 #include "plrhand.h"
 #include "report.h"
 #include "rssanity.h"
-#include "settings.h"
 #include "srv_main.h"
 #include "stdinhand.h"
+
+#include "settings.h"
 
 /* The following classes determine what can be changed when.
  * Actually, some of them have the same "changeability", but
