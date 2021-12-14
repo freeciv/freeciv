@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    height="240"
    width="360"
    id="svg1350"
    version="1.1"
-   inkscape:version="0.47 r22583"
-   sodipodi:docname="france_old.svg">
+   inkscape:version="1.1.1 (3bf5ae0d25, 2021-09-20)"
+   sodipodi:docname="france_old.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
   <metadata
      id="metadata27">
     <rdf:RDF>
@@ -36,7 +36,13 @@
     <defs
        id="defs5117" />
     <sodipodi:namedview
-       id="namedview5116" />
+       id="namedview5116"
+       pagecolor="#ffffff"
+       bordercolor="#666666"
+       borderopacity="1.0"
+       inkscape:pageshadow="2"
+       inkscape:pageopacity="0.0"
+       inkscape:pagecheckerboard="0" />
   </defs>
   <sodipodi:namedview
      bordercolor="#000000"
@@ -45,12 +51,12 @@
      id="base"
      showgrid="false"
      inkscape:zoom="1.0918762"
-     inkscape:cx="178.90698"
-     inkscape:cy="108.07086"
-     inkscape:window-width="884"
-     inkscape:window-height="590"
-     inkscape:window-x="2021"
-     inkscape:window-y="42"
+     inkscape:cx="178.59168"
+     inkscape:cy="117.68733"
+     inkscape:window-width="827"
+     inkscape:window-height="482"
+     inkscape:window-x="421"
+     inkscape:window-y="84"
      inkscape:window-maximized="0"
      inkscape:current-layer="svg1350" />
   <rect
