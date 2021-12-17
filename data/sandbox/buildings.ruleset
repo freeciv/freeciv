@@ -1399,7 +1399,7 @@ sound_alt   = "w_generic"
 helptext    = _("\
 Makes it possible to receive sacrifices from your subjects.\
  A Sacrifice of Work makes the unit unhomed and therefore without material\
- or happyness upkeep.\
+ or happiness upkeep.\
 ")
 
 [building_apollo_program]
