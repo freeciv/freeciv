@@ -2110,6 +2110,7 @@ static gboolean show_info_popup(GtkWidget *w, GdkEvent *ev, gpointer data)
   button = gdk_button_event_get_button(ev);
   if (button == 1) {
     GtkWidget *p;
+    GtkWidget *child;
 
     p = gtk_window_new();
     gtk_widget_set_margin_start(p, 4);
@@ -2118,10 +2119,8 @@ static gboolean show_info_popup(GtkWidget *w, GdkEvent *ev, gpointer data)
     gtk_widget_set_margin_bottom(p, 4);
     gtk_window_set_transient_for(GTK_WINDOW(p), GTK_WINDOW(toplevel));
 
-    gtk_widget_new(GTK_TYPE_LABEL, "GtkWidget::parent", p,
-                   "GtkLabel::label", get_info_label_text_popup(),
-                   "GtkWidget::visible", TRUE,
-                   NULL);
+    child = gtk_label_new(get_info_label_text_popup());
+    gtk_window_set_child(GTK_WINDOW(p), child);
     gtk_widget_show(p);
   }
 
