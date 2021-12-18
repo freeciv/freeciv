@@ -57,6 +57,25 @@ icons_64_m =
 icons_128_m =
 endif
 
+if RULEDIT
+icons_16_r = \
+	16x16/freeciv-ruledit.png
+icons_32_r = \
+	32x32/freeciv-ruledit.png
+icons_48_r = \
+	48x48/freeciv-ruledit.png
+icons_64_r = \
+	64x64/freeciv-ruledit.png
+icons_128_r = \
+	128x128/freeciv-ruledit.png
+else
+icons_16_r =
+icons_32_r =
+icons_48_r =
+icons_64_r =
+icons_128_r =
+endif
+
 #icons_svg = \
 #	scalable/freeciv-client.svg \
 #	scalable/freeciv-server.svg \
@@ -69,26 +88,31 @@ icon64dir = $(datadir)/icons/hicolor/64x64/apps
 icon128dir = $(datadir)/icons/hicolor/128x128/apps
 #iconscalabledir = $(datadir)/icons/hicolor/scalable/apps
 
-icon16_DATA = $(icons_16_c) $(icons_16_s) $(icons_16_m)
-icon32_DATA = $(icons_32_c) $(icons_32_s) $(icons_32_m)
-icon48_DATA = $(icons_48_c) $(icons_48_s) $(icons_48_m)
-icon64_DATA = $(icons_64_c) $(icons_64_s) $(icons_64_m)
-icon128_DATA = $(icons_128_c) $(icons_128_s) $(icons_128_m)
+icon16_DATA = $(icons_16_c) $(icons_16_s) $(icons_16_m) $(icons_16_r)
+icon32_DATA = $(icons_32_c) $(icons_32_s) $(icons_32_m) $(icons_32_r)
+icon48_DATA = $(icons_48_c) $(icons_48_s) $(icons_48_m) $(icons_48_r)
+icon64_DATA = $(icons_64_c) $(icons_64_s) $(icons_64_m) $(icons_64_r)
+icon128_DATA = $(icons_128_c) $(icons_128_s) $(icons_128_m) $(icons_128_r)
 #iconscalable_DATA = $(icons_svg)
 
 EXTRA_DIST = \
 	$(icons_16_c)	\
 	$(icons_16_s)	\
 	$(icons_16_m)	\
+	$(icons_16_r)	\
 	$(icons_32_c)	\
 	$(icons_32_s)	\
 	$(icons_32_m)	\
+	$(icons_32_r)	\
 	$(icons_48_c)	\
 	$(icons_48_s)	\
 	$(icons_48_m)	\
+	$(icons_48_r)	\
 	$(icons_64_c)	\
 	$(icons_64_s)	\
 	$(icons_64_m)	\
+	$(icons_64_r)	\
 	$(icons_128_c)	\
 	$(icons_128_s)	\
-	$(icons_128_m)
+	$(icons_128_m)	\
+	$(icons_128_r)
