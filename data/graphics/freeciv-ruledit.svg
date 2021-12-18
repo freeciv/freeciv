@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   id="svg"
+   version="1.1"
+   width="128"
+   height="128"
+   viewBox="0, 0, 128, 128"
+   sodipodi:docname="ruledit.svg"
+   inkscape:version="1.1.1 (3bf5ae0d25, 2021-09-20)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview43"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     showgrid="false"
+     inkscape:zoom="6.5078125"
+     inkscape:cx="64"
+     inkscape:cy="63.923169"
+     inkscape:window-width="1920"
+     inkscape:window-height="1011"
+     inkscape:window-x="0"
+     inkscape:window-y="32"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg" />
+  <desc
+     id="desc2">Rule-edit icon of Freeciv</desc>
+  <defs
+     id="defs5">
+    <path
+       id="freecivtext"
+       d="M102 68 l20 -60" />
+  </defs>
+  <g
+     id="documents">
+    <rect
+       id="rect1"
+       x="10"
+       y="20"
+       width="75"
+       height="100"
+       fill="#fdf6e3"
+       stroke="#002b36"
+       stroke-width="6"
+       rx="5"
+       ry="5" />
+    <use
+       x="10"
+       y="-10"
+       xlink:href="#rect1"
+       id="use8" />
+  </g>
+  <g
+     id="contents"
+     stroke="#073642"
+     stroke-width="4">
+    <rect
+       x="30"
+       y="25"
+       width="55"
+       height="45"
+       fill="#eee8d5"
+       stroke="none"
+       id="rect11" />
+    <rect
+       x="30"
+       y="25"
+       width="55"
+       height="15"
+       fill="#EA6C46"
+       stroke="none"
+       id="rect13" />
+    <line
+       id="line1"
+       x1="30"
+       y1="25"
+       x2="85"
+       y2="25" />
+    <use
+       x="0"
+       y="15"
+       xlink:href="#line1"
+       id="use16" />
+    <use
+       x="0"
+       y="30"
+       xlink:href="#line1"
+       id="use18" />
+    <use
+       x="0"
+       y="45"
+       xlink:href="#line1"
+       id="use20" />
+    <line
+       id="line2"
+       x1="30"
+       y1="23"
+       x2="30"
+       y2="72" />
+    <use
+       x="15"
+       y="0"
+       xlink:href="#line2"
+       id="use23" />
+    <use
+       x="35"
+       y="0"
+       xlink:href="#line2"
+       id="use25" />
+    <use
+       x="55"
+       y="0"
+       xlink:href="#line2"
+       id="use27" />
+    <line
+       id="line3"
+       x1="30"
+       y1="82"
+       x2="85"
+       y2="82" />
+    <use
+       x="0"
+       y="12"
+       xlink:href="#line3"
+       id="use30" />
+  </g>
+  <g
+     id="pen2"
+     stroke="#002b36"
+     stroke-width="4">
+    <path
+       fill="#4A71D3"
+       d="M95 20 l24 8 l-20 60 l-15 20l-9 -3l0 -27z"
+       id="path33" />
+    <path
+       fill="#95A9DB"
+       d="M92 29 l24 8 l-17 51 l-24 -8z"
+       id="path35" />
+  </g>
+  <text
+     font-family="Verdana"
+     font-size="7"
+     fill="#EBF767"
+     id="text40"><textPath
+       xlink:href="#freecivtext"
+       id="textPath38">
+      FREECIV
+    </textPath></text>
+</svg>

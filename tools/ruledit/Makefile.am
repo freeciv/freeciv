@@ -4,6 +4,9 @@ MOCCMD=@MOCCMD@
 
 include $(top_srcdir)/bootstrap/Makerules.mk
 
+if MINGW
+REICON = $(top_builddir)/windows/rulediticon.o
+endif
 desktopfiledir = @DESKTOPDIR@
 desktopfile_DATA = org.freeciv.ruledit.desktop
 
@@ -100,6 +103,7 @@ freeciv_ruledit_LDADD = \
  $(top_builddir)/common/libfreeciv.la \
  $(top_builddir)/tools/ruleutil/libfcruleutil.la \
  $(top_builddir)/tools/shared/libtoolsshared.la \
- $(TINYCTHR_LIBS) $(MAPIMG_WAND_LIBS) $(SERVER_LIBS)
+ $(TINYCTHR_LIBS) $(MAPIMG_WAND_LIBS) $(SERVER_LIBS) \
+ $(REICON)
 
 CLEANFILES = $(MOC_FILES)
