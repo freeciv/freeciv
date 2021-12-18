@@ -412,7 +412,7 @@ static void editbar_add_tool_button(struct editbar *eb,
 {
   GdkPixbuf *pixbuf;
   GtkWidget *image, *button, *hbox;
-  GtkRadioButton *parent = NULL;
+  GtkCheckButton *parent = NULL;
   struct sprite *sprite;
   int i;
 
@@ -422,15 +422,17 @@ static void editbar_add_tool_button(struct editbar *eb,
 
   for (i = 0; i < NUM_EDITOR_TOOL_TYPES; i++) {
     if (eb->tool_buttons[i] != NULL) {
-      parent = GTK_RADIO_BUTTON(eb->tool_buttons[i]);
+      parent = GTK_CHECK_BUTTON(eb->tool_buttons[i]);
       break;
     }
   }
 
   if (parent == NULL) {
-    button = gtk_radio_button_new(NULL);
+    button = gtk_check_button_new();
   } else {
-    button = gtk_radio_button_new_from_widget(parent);
+    button = gtk_check_button_new();
+    gtk_check_button_set_group(GTK_CHECK_BUTTON(button),
+                               GTK_CHECK_BUTTON(parent));
   }
 
   sprite = editor_tool_get_sprite(ett);

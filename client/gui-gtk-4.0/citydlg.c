@@ -1390,7 +1390,7 @@ static void create_and_append_settings_page(struct city_dialog *pdialog)
   int i;
   GtkWidget *vgrid, *page, *frame, *label, *button;
   GtkSizeGroup *size;
-  GSList *group;
+  GtkWidget *group;
   const char *tab_title = _("_Settings");
   int grid_row = 0;
 
@@ -1447,12 +1447,14 @@ static void create_and_append_settings_page(struct city_dialog *pdialog)
 
   group = NULL;
   for (i = 0; i < ARRAY_SIZE(new_citizens_output_label); i++) {
-    button = gtk_radio_button_new_with_mnemonic(group, new_citizens_output_label[i]);
+    button = gtk_check_button_new_with_mnemonic(new_citizens_output_label[i]);
+    gtk_check_button_set_group(GTK_CHECK_BUTTON(button),
+                               GTK_CHECK_BUTTON(group));
     pdialog->misc.new_citizens_radio[i] = button;
     gtk_grid_attach(GTK_GRID(vgrid), button, 0, grid_row++, 1, 1);
     g_signal_connect(button, "toggled",
 		     G_CALLBACK(cityopt_callback), pdialog);
-    group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(button));
+    group = button;
   }
 
   /* next is the next-time-open radio group in the right column */
@@ -1471,12 +1473,14 @@ static void create_and_append_settings_page(struct city_dialog *pdialog)
 
   group = NULL;
   for (i = 0; i < ARRAY_SIZE(misc_whichtab_label); i++) {
-    button = gtk_radio_button_new_with_mnemonic(group, misc_whichtab_label[i]);
+    button = gtk_check_button_new_with_mnemonic(misc_whichtab_label[i]);
+    gtk_check_button_set_group(GTK_CHECK_BUTTON(button),
+                               GTK_CHECK_BUTTON(group));
     pdialog->misc.whichtab_radio[i] = button;
     gtk_grid_attach(GTK_GRID(vgrid), button, 0, grid_row++, 1, 1);
     g_signal_connect(button, "toggled",
 		     G_CALLBACK(misc_whichtab_callback), GINT_TO_POINTER(i));
-    group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(button));
+    group = button;
   }
 
   /* now we go back and fill the hbox rename */
