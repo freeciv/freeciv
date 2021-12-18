@@ -1,32 +1,49 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
+
 <svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    id="svg2"
    sodipodi:version="0.32"
-   inkscape:version="0.46"
+   inkscape:version="1.1.1 (3bf5ae0d25, 2021-09-20)"
    width="600"
    height="400"
    version="1.0"
-   sodipodi:docbase="C:\Dokumente und Einstellungen\Office\Desktop"
    sodipodi:docname="franconia.svg"
-   inkscape:output_extension="org.inkscape.output.svg.inkscape">
+   inkscape:output_extension="org.inkscape.output.svg.inkscape"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs10" />
+  <sodipodi:namedview
+     id="namedview8"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     showgrid="false"
+     inkscape:zoom="1.4672466"
+     inkscape:cx="300.2222"
+     inkscape:cy="200.03454"
+     inkscape:window-width="1108"
+     inkscape:window-height="808"
+     inkscape:window-x="529"
+     inkscape:window-y="81"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg2" />
   <rect
      style="fill:#ffffff"
      id="rect2389"
      width="600"
-     height="400"/>
+     height="400" />
   <rect
      style="fill:#ff0000"
      id="rect2391"
      width="600"
-     height="200"/>
+     height="200" />
   <path
      sodipodi:nodetypes="czcccsc"
      d="M 300.04487,313.44621 C 218.84395,313.44621 201.54886,242.83981 201.55379,232.50527 C 201.55872,222.17062 201.57803,86.558765 201.57803,86.558765 L 299.99949,86.553608 L 398.42096,86.558765 C 398.42096,86.558765 398.45177,222.12604 398.44519,232.50527 C 398.43862,242.83664 381.15504,313.44621 300.04487,313.44621 z"
