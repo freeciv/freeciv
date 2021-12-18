@@ -842,6 +842,7 @@ static void create_races_dialog(struct player *pplayer)
 {
   GtkWidget *shell;
   GtkWidget *cmd;
+  GtkWidget *group;
   GtkWidget *hgrid, *table;
   GtkWidget *frame, *label, *combo;
   GtkWidget *text;
@@ -1086,13 +1087,15 @@ static void create_races_dialog(struct player *pplayer)
   gtk_grid_attach(GTK_GRID(table), label, 0, 0, 1, 2);
   gtk_grid_attach(GTK_GRID(table), combo, 1, 0, 2, 1);
 
-  cmd = gtk_radio_button_new_with_mnemonic(NULL, _("_Female"));
+  cmd = gtk_check_button_new_with_mnemonic(_("_Female"));
   gtk_widget_set_margin_bottom(cmd, 6);
   races_sex[0] = cmd;
   gtk_grid_attach(GTK_GRID(table), cmd, 1, 1, 1, 1);
+  group = cmd;
 
-  cmd = gtk_radio_button_new_with_mnemonic_from_widget(GTK_RADIO_BUTTON(cmd),
-      _("_Male"));
+  cmd = gtk_check_button_new_with_mnemonic(_("_Male"));
+  gtk_check_button_set_group(GTK_CHECK_BUTTON(cmd),
+                             GTK_CHECK_BUTTON(group));
   gtk_widget_set_margin_bottom(cmd, 6);
   races_sex[1] = cmd;
   gtk_grid_attach(GTK_GRID(table), cmd, 2, 1, 1, 1);

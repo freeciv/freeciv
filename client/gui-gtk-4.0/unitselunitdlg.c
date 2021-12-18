@@ -140,21 +140,14 @@ bool select_tgt_unit(struct unit *actor, struct tile *ptile,
     cbdata->tp_id = ptgt->id;
     cbdata->dlg = dlg;
 
-    radio = gtk_radio_button_new_from_widget(
-          GTK_RADIO_BUTTON(first_option));
+    radio = gtk_check_button_new();
+    gtk_check_button_set_group(GTK_CHECK_BUTTON(radio),
+                               GTK_CHECK_BUTTON(first_option));
     if (first_option == NULL) {
       first_option = radio;
       default_option = first_option;
       default_unit = ptgt;
     }
-    /* The lists must be the same length if they contain the same
-     * elements. */
-    fc_assert_msg(g_slist_length(gtk_radio_button_get_group(
-                                   GTK_RADIO_BUTTON(radio)))
-                  == g_slist_length(gtk_radio_button_get_group(
-                                      GTK_RADIO_BUTTON(first_option))),
-                  "The radio button for '%s' is broken.",
-                  unit_rule_name(ptgt));
     g_signal_connect(radio, "toggled",
                      G_CALLBACK(unit_sel_unit_toggled), cbdata);
     g_signal_connect(radio, "destroy",
