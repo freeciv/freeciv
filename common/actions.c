@@ -9227,3 +9227,12 @@ action_post_success_forced_ruleset_var_name(const struct action *act)
 
   return NULL;
 }
+
+/**********************************************************************//**
+  Is the action ever possible? Currently just checks that there's any
+  action enablers for the action.
+**************************************************************************/
+bool action_ever_possible(action_id action)
+{
+  return action_enabler_list_size(action_enablers_for_action(action)) > 0;
+}
