@@ -1488,6 +1488,7 @@ static void units_report_selection_callback(GtkTreeSelection *selection,
     gui_dialog_set_response_sensitive(preport->shell, URD_RES_NEAREST, TRUE);
     gui_dialog_set_response_sensitive(preport->shell, URD_RES_UPGRADE,
         (can_client_issue_orders()
+         && action_ever_possible(ACTION_UPGRADE_UNIT)
          && NULL != can_upgrade_unittype(client_player(), utype)));
   }
 }

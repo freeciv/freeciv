@@ -5374,3 +5374,12 @@ const char *action_ui_name_default(int act)
 
   return NULL;
 }
+
+/**********************************************************************//**
+  Is the action ever possible? Currently just checks that there's any
+  action enablers for the action.
+**************************************************************************/
+bool action_ever_possible(action_id action)
+{
+  return action_enabler_list_size(action_enablers_for_action(action)) > 0;
+}

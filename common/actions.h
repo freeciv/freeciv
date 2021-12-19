@@ -453,6 +453,8 @@ const char *action_prepare_ui_name(action_id act_id, const char* mnemonic,
 const char *action_ui_name_ruleset_var_name(int act);
 const char *action_ui_name_default(int act);
 
+bool action_ever_possible(action_id action);
+
 struct action_enabler_list *
 action_enablers_for_action(action_id action);
 
