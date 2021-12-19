@@ -1826,7 +1826,8 @@ static void activate_gui(GtkApplication *app, gpointer data)
 
   toplevel = gtk_application_window_new(app);
   if (vmode.width > 0 && vmode.height > 0) {
-    gtk_window_resize(GTK_WINDOW(toplevel), vmode.width, vmode.height);
+    gtk_window_set_default_size(GTK_WINDOW(toplevel),
+                                vmode.width, vmode.height);
   }
 
   gtk_widget_realize(toplevel);
