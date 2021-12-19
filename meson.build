@@ -331,6 +331,23 @@ if get_option('cacert-path') != ''
                      '"' + get_option('cacert-path') + '"')
 endif
 
+potential_size_t_formats = [ '%zu', '%ld', '%lld', '%I64d' ]
+
+foreach format : potential_size_t_formats
+  if c_compiler.compiles('''#include <stdio.h>
+#if defined(__GNUC__)
+void fr(const char *form, ...)
+  __attribute__((__format__(__printf__, 1, 2)));
+#else
+#define fr(_a_,_b_) printf(_a_,_b_)
+#endif
+int main(void) { size_t var = 0; fr("''' + format + '''", var); return 0; }''',
+  args: ['-Werror', '-Wall'])
+    priv_conf_data.set('SIZE_T_PRINTF', '"' + format + '"')
+    break
+  endif
+endforeach
+
 if get_option('audio')
   priv_conf_data.set('AUDIO_SDL', 1)
 
