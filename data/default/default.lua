@@ -228,3 +228,19 @@ function _deflua_harmless_disaster_message(disaster, city, had_internal_effect)
 end
 
 signal.connect("disaster_occurred", "_deflua_harmless_disaster_message")
+
+function unit_loss_messages(unit, player, reason)
+  if reason == "fuel" then
+    if unit.utype:has_flag('Coast') then
+      notify.event(player, unit.tile, E.UNIT_LOST_MISC,
+                   _("Your %s has run out of supplies."),
+                   unit:tile_link_text())
+    else
+      notify.event(player, unit.tile, E.UNIT_LOST_MISC,
+                   _("Your %s has run out of fuel."),
+                   unit:tile_link_text())
+    end
+  end
+end
+
+signal.connect("unit_lost", "unit_loss_messages")
