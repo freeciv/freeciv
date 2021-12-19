@@ -736,6 +736,8 @@ const char *action_blocked_by_ruleset_var_name(const struct action *act);
 const char *
 action_post_success_forced_ruleset_var_name(const struct action *act);
 
+bool action_ever_possible(action_id action);
+
 struct action_enabler_list *
 action_enablers_for_action(action_id action);
 
