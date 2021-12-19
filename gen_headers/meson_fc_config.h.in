@@ -60,6 +60,9 @@
 /* Include git commit id to version string */
 #mesondefine GITREV
 
+/* Format specifier for size_t */
+#mesondefine SIZE_T_PRINTF
+
 /* Can run programs as root */
 #mesondefine ALWAYS_ROOT
 
