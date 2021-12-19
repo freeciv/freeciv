@@ -108,8 +108,8 @@ case $GUI in
   sdl2)
     GUINAME="SDL2"
     FCMP="gtk3" ;;
-  gtk3x)
-    GUINAME="GTK3x"
+  gtk4)
+    GUINAME="GTK4"
     FCMP="gtk3" ;;
   ruledit) ;;
   *)
@@ -229,7 +229,7 @@ else
         echo "Copying Qt environment failed!" >&2
         exit 1
       fi ;;
-    gtk3x)
+    gtk4)
       if ! add_gtk4_env $DLLSPATH $INSTDIR ; then
         echo "Copying gtk4 environment failed!" >&2
         exit 1

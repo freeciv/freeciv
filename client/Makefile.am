@@ -30,7 +30,7 @@ desktopfile_DATA += \
 appdatafile_DATA += \
 	freeciv-gtk3.22.appdata.xml
 endif
-if CLIENT_GUI_GTK_3X
+if CLIENT_GUI_GTK_4
 GUI_SUBDIRS += gui-gtk-4.0
 endif
 if CLIENT_GUI_QT
@@ -216,19 +216,19 @@ freeciv_gtk3_22_LDADD = \
  $(gui_gtk3_22_libs)
 endif
 
-if CLIENT_GUI_GTK_3X
+if CLIENT_GUI_GTK_4
 bin_PROGRAMS += freeciv-gtk4
 noinst_LTLIBRARIES += libfcgui-gtk4.la
 libfcgui_gtk4_la_SOURCES = $(freeciv_client_src)
 libfcgui_gtk4_la_LIBADD = gui-gtk-4.0/libgui-gtk4.la $(clientlibs)
 freeciv_gtk4_SOURCES = dummy.c
-freeciv_gtk4_LDFLAGS = $(gui_gtk3x_ldflags)
+freeciv_gtk4_LDFLAGS = $(gui_gtk4_ldflags)
 freeciv_gtk4_LDADD = \
  libfcgui-gtk4.la $(SOUND_LIBS) gui-gtk-4.0/gui_main.lo \
  $(top_builddir)/common/libfreeciv.la \
  $(INTLLIBS) $(CLIENT_LIBS) $(CLIENTICON) \
  $(TINYCTHR_LIBS) $(MAPIMG_WAND_LIBS) \
- $(gui_gtk3x_libs)
+ $(gui_gtk4_libs)
 endif
 
 if CLIENT_GUI_SDL2

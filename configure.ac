@@ -437,7 +437,7 @@ dnl auto: Autodetect one.
 dnl all:  Autodetect as many as possible.
 dnl comma-separated-list: Detect these or abort.
 AC_ARG_ENABLE([client],
-  AS_HELP_STRING([--enable-client=auto/all/gtk3/gtk3.22/sdl2/qt/stub],
+  AS_HELP_STRING([--enable-client=auto/all/gtk3/gtk3.22/sdl2/qt/gtk4/stub],
                  [clients to compile [auto](list for multiple)]),
 [clients=${enableval}],
 [client=auto])
@@ -448,7 +448,7 @@ fi
 
 gui_gtk3=no
 gui_gtk3_22=no
-gui_gtk3x=no
+gui_gtk4=no
 gui_sdl2=no
 gui_qt=no
 gui_stub=no
@@ -468,8 +468,8 @@ for gui in $(echo $clients | $SED 's/,/ /g') ; do
       gui_gtk3=yes
     elif test "x$gui" = "xgtk3.22" ; then
       gui_gtk3_22=yes
-    elif test "x$gui" = "xgtk3x" ; then
-      gui_gtk3x=yes
+    elif test "x$gui" = "xgtk4" ; then
+      gui_gtk4=yes
     elif test "x$gui" = "xgtk" ; then
       AC_MSG_WARN([for requested client 'gtk' enabled gtk3.22-client, that has changed since earlier versions and will change again in the future])
       gui_gtk3_22=yes
@@ -1064,8 +1064,8 @@ if test "x$client" != "xno"; then
   dnl SDL2-specific overrides
   FC_SDL2_CLIENT
 
-  dnl Gtk-3x-specific overrides
-  FC_GTK3X_CLIENT
+  dnl Gtk-4.0-specific overrides
+  FC_GTK4_CLIENT
 
   dnl Stub-specific overrides
   if test "x$gui_stub" = "xyes" || test "x$client" = "xall" ; then
@@ -1085,7 +1085,7 @@ fi
 if test "x$client" = "xall" ; then
   if test "x$gui_gtk3" = "xyes" ||
      test "x$gui_gtk3_22" = "xyes" ||
-     test "x$gui_gtk3x" = "xyes" ||
+     test "x$gui_gtk4" = "xyes" ||
      test "x$gui_sdl2" = "xyes" ||
      test "x$gui_qt" = "xyes" ||
      test "x$gui_stub" = "xyes" ; then
@@ -1325,9 +1325,9 @@ AC_SUBST([gui_gtk3_ldflags])
 AC_SUBST([gui_gtk3_22_cflags])
 AC_SUBST([gui_gtk3_22_libs])
 AC_SUBST([gui_gtk3_22_ldflags])
-AC_SUBST([gui_gtk3x_cflags])
-AC_SUBST([gui_gtk3x_libs])
-AC_SUBST([gui_gtk3x_ldflags])
+AC_SUBST([gui_gtk4_cflags])
+AC_SUBST([gui_gtk4_libs])
+AC_SUBST([gui_gtk4_ldflags])
 AC_SUBST([gui_sdl2_cflags])
 AC_SUBST([gui_sdl2_libs])
 AC_SUBST([gui_sdl2_ldflags])
@@ -1364,7 +1364,7 @@ AM_CONDITIONAL(AUDIO_SDL, test "x$SDL_mixer" != "xno")
 AM_CONDITIONAL(CLIENT_GUI_SDL2, test "x$gui_sdl2" = "xyes")
 AM_CONDITIONAL(CLIENT_GUI_GTK_3_0, test "x$gui_gtk3" = "xyes")
 AM_CONDITIONAL(CLIENT_GUI_GTK_3_22, test "x$gui_gtk3_22" = "xyes")
-AM_CONDITIONAL(CLIENT_GUI_GTK_3X, test "x$gui_gtk3x" = "xyes")
+AM_CONDITIONAL(CLIENT_GUI_GTK_4, test "x$gui_gtk4" = "xyes")
 AM_CONDITIONAL(CLIENT_GUI_QT, test "x$gui_qt" = "xyes")
 AM_CONDITIONAL(CLIENT_GUI_STUB, test "x$gui_stub" = "xyes")
 AM_CONDITIONAL(MINGW, test x"$MINGW" = "xyes")
@@ -1903,7 +1903,7 @@ AC_MSG_NOTICE([
 
   In-development client frontends:
    (these are not yet ready for general use)
-    Gtk-3x:  $gui_gtk3x
+    Gtk-4.0: $gui_gtk4
 
   Not maintained client frontends:
     Gtk-3.0: $gui_gtk3
