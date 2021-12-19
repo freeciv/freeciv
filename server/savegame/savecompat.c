@@ -1884,7 +1884,10 @@ static void compat_load_030200(struct loaddata *loading,
           const char *val = secfile_lookup_str(loading->file,
                                                "settings.set%d.value", i);
           if (!fc_strcasecmp(val, "BZIP2")) {
-#ifdef FREECIV_HAVE_LIBLZMA
+#ifdef FREECIV_HAVE_LIBZSTD
+            secfile_replace_str(loading->file, "ZSTD",
+                                "settings.set%d.value", i);
+#elif FREECIV_HAVE_LIBLZMA
             secfile_replace_str(loading->file, "XZ",
                                 "settings.set%d.value", i);
 #elif FREECIV_HAVE_LIBZ
@@ -1900,7 +1903,10 @@ static void compat_load_030200(struct loaddata *loading,
             val = secfile_lookup_str(loading->file,
                                      "settings.set%d.gamestart", i);
             if (!fc_strcasecmp(val, "BZIP2")) {
-#ifdef FREECIV_HAVE_LIBLZMA
+#ifdef FREECIV_HAVE_LIBZSTD
+              secfile_replace_str(loading->file, "ZSTD",
+                                  "settings.set%d.gamestart", i);
+#elif FREECIV_HAVE_LIBLZMA
               secfile_replace_str(loading->file, "XZ",
                                   "settings.set%d.gamestart", i);
 #elif FREECIV_HAVE_LIBZ
