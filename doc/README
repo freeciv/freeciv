@@ -92,7 +92,7 @@ freeciv-qt:  This uses the QT library. Development of this client has recently
 
 freeciv-sdl2: This uses Simple DirectMedia Layer libraries version 2.
 
-freeciv-gtk4: This uses GTK+ 3.90+ libraries. This is development version of
+freeciv-gtk4: This uses GTK+ 4 libraries. This is development version of
   a client to get turned to use gtk4 once it's released.
 
 

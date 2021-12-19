@@ -100,7 +100,7 @@
 
 #include "gui_main.h"
 
-const char *client_string = "gui-gtk-3x";
+const char *client_string = "gui-gtk-4.0";
 
 GtkWidget *map_canvas;                  /* GtkDrawingArea */
 GtkWidget *map_horizontal_scrollbar;
@@ -243,7 +243,7 @@ static void print_usage(void)
 {
   /* add client-specific usage information here */
   fc_fprintf(stderr,
-             _("gtk3x-client gui-specific options are:\n"));
+             _("gtk4-client gui-specific options are:\n"));
 
   fc_fprintf(stderr,
              _("-r, --resolution WIDTHxHEIGHT\tAssume given resolution "
@@ -1746,11 +1746,11 @@ static void migrate_options_from_gtk3(void)
 }
 
 /**********************************************************************//**
-  Migrate gtk3x client specific options from gtk3.22 client options.
+  Migrate gtk4 client specific options from gtk3.22 client options.
 **************************************************************************/
 static void migrate_options_from_gtk3_22(void)
 {
-  log_normal(_("Migrating options from gtk3.22 to gtk3x client"));
+  log_normal(_("Migrating options from gtk3.22 to gtk4 client"));
 
 #define MIGRATE_OPTION(opt) GUI_GTK_OPTION(opt) = gui_options.gui_gtk3_22_##opt;
 #define MIGRATE_STR_OPTION(opt) \
@@ -1979,7 +1979,7 @@ void ui_exit(void)
 **************************************************************************/
 enum gui_type get_gui_type(void)
 {
-  return GUI_GTK3x;
+  return GUI_GTK4;
 }
 
 /**********************************************************************//**

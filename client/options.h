@@ -605,7 +605,7 @@ extern int messages_where[];	/* OR-ed MW_ values [E_COUNT] */
 #define GUI_GTK3_22_GOV_RANGE_MAX_MIN      0
 #define GUI_GTK3_22_GOV_RANGE_MAX_MAX      100
 
-/* gui-gtk3x: [xy]size of the city dialog */
+/* gui-gtk4.0: [xy]size of the city dialog */
 #define GUI_GTK4_CITYDLG_DEFAULT_XSIZE  770
 #define GUI_GTK4_CITYDLG_MIN_XSIZE      256
 #define GUI_GTK4_CITYDLG_MAX_XSIZE      4096

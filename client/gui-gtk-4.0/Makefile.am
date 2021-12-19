@@ -12,7 +12,7 @@ AM_CPPFLAGS = \
 	-I$(srcdir)/../agents \
 	-I$(srcdir)/../luascript \
 	-I$(top_srcdir)/dependencies/tinycthread \
-	$(gui_gtk3x_cflags) $(SOUND_CFLAGS)
+	$(gui_gtk4_cflags) $(SOUND_CFLAGS)
 
 libgui_gtk4_la_SOURCES = \
 	action_dialog.c \

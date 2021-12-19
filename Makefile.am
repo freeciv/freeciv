@@ -46,7 +46,7 @@ EXTRA_DIST =	autogen.sh 			\
 		m4/gettext.m4			\
 		m4/gettimeofday.m4		\
 		m4/gtk3.22-client.m4		\
-		m4/gtk3x-client.m4		\
+		m4/gtk4-client.m4		\
 		m4/host-cpu-c-abi.m4		\
 		m4/iconv.m4			\
 		m4/intlmacosx.m4		\
