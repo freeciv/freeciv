@@ -52,7 +52,7 @@ cd build
 ../configure \
  --enable-debug \
  --enable-sys-lua --with-qt6 \
- --enable-client=gtk3.22,sdl2,qt \
+ --enable-client=gtk3.22,sdl2,qt,gtk4 \
  --enable-fcmp=gtk3,gtk4,qt,cli \
  --enable-freeciv-manual \
  || (let config_exit_status=$? \
