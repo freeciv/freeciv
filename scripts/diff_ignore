@@ -31,7 +31,7 @@ charset.alias
 fcgui
 freeciv-gtk3
 freeciv-gtk3.22
-freeciv-gtk3x
+freeciv-gtk4
 freeciv-sdl2
 freeciv-qt
 *.sav.gz
