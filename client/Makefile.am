@@ -201,14 +201,14 @@ freeciv_gtk3_22_LDADD = \
 endif
 
 if CLIENT_GUI_GTK_3X
-bin_PROGRAMS += freeciv-gtk3x
-noinst_LTLIBRARIES += libfcgui-gtk3x.la
-libfcgui_gtk3x_la_SOURCES = $(freeciv_client_src)
-libfcgui_gtk3x_la_LIBADD = gui-gtk-4.0/libgui-gtk3x.la $(clientlibs)
-freeciv_gtk3x_SOURCES = dummy.c
-freeciv_gtk3x_LDFLAGS = $(gui_gtk3x_ldflags)
-freeciv_gtk3x_LDADD = \
- libfcgui-gtk3x.la $(SOUND_LIBS) gui-gtk-4.0/gui_main.lo \
+bin_PROGRAMS += freeciv-gtk4
+noinst_LTLIBRARIES += libfcgui-gtk4.la
+libfcgui_gtk4_la_SOURCES = $(freeciv_client_src)
+libfcgui_gtk4_la_LIBADD = gui-gtk-4.0/libgui-gtk4.la $(clientlibs)
+freeciv_gtk4_SOURCES = dummy.c
+freeciv_gtk4_LDFLAGS = $(gui_gtk3x_ldflags)
+freeciv_gtk4_LDADD = \
+ libfcgui-gtk4.la $(SOUND_LIBS) gui-gtk-4.0/gui_main.lo \
  $(top_builddir)/common/libfreeciv.la \
  $(INTLLIBS) $(CLIENT_LIBS) $(CLIENTICON) \
  $(TINYCTHR_LIBS) $(MAPIMG_WAND_LIBS) \
