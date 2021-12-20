@@ -752,14 +752,14 @@ void handle_ruleset_choices(const struct packet_ruleset_choices *packet)
 }
 
 /**********************************************************************//**
-  Called by the GUI code when the user sets the ruleset.  The ruleset
+  Called by the GUI code when the user sets the ruleset. The ruleset
   passed in here should match one of the strings given to set_rulesets().
 **************************************************************************/
 void set_ruleset(const char *ruleset)
 {
-  char buf[4096];
+  struct packet_ruleset_select packet;
 
-  fc_snprintf(buf, sizeof(buf), "/read %s%s", ruleset, RULESET_SUFFIX);
-  log_debug("Executing '%s'", buf);
-  send_chat(buf);
+  fc_snprintf(packet.modpack, sizeof(packet.modpack), "%s", ruleset);
+
+  send_packet_ruleset_select(&client.conn, &packet);
 }

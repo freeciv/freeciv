@@ -21,8 +21,52 @@
 #include "section_file.h"
 #include "shared.h"
 
+/* common */
+#include "game.h"
+
 #include "modpack.h"
 
+struct modpack_cache_item {
+  char *modpack_name;
+  char *filename;
+};
+
+/* get 'struct modpack_cache_list' and related functions: */
+#define SPECLIST_TAG modpack_cache
+#define SPECLIST_TYPE struct modpack_cache_item
+#include "speclist.h"
+
+#define modpack_cache_iterate(mplist, item) \
+    TYPED_LIST_ITERATE(struct modpack_cache_item, mplist, item)
+#define modpack_cache_iterate_end LIST_ITERATE_END
+
+static struct modpack_cache_list *modpack_rulesets;
+
+/************************************************************************//**
+  Initialize modpacks system
+****************************************************************************/
+void modpacks_init(void)
+{
+  if (is_server()) {
+    modpack_rulesets = modpack_cache_list_new();
+  }
+}
+
+/************************************************************************//**
+  Free the memory associated with modpacks system
+****************************************************************************/
+void modpacks_free(void)
+{
+  if (is_server()) {
+    modpack_cache_iterate(modpack_rulesets, item) {
+      free(item->modpack_name);
+      free(item->filename);
+      free(item);
+    } modpack_cache_iterate_end;
+
+    modpack_cache_list_destroy(modpack_rulesets);
+  }
+}
 
 /************************************************************************//**
   Check modpack file capabilties.
@@ -110,6 +154,44 @@ const char *modpack_rulesetdir(struct section_file *sf)
   if (sf != NULL) {
     return secfile_lookup_str_default(sf, NULL, "ruleset.rulesetdir");
   }
+
+  return NULL;
+}
+
+/************************************************************************//**
+  Add modpack/ruleset mapping to cache, if modpack has ruleset.
+  Return name of the modpack, if the mapping exist.
+****************************************************************************/
+const char *modpack_cache_ruleset(struct section_file *sf)
+{
+  const char *mp_name = modpack_has_ruleset(sf);
+  struct modpack_cache_item *item;
+
+  if (mp_name == NULL) {
+    return NULL;
+  }
+
+  fc_assert(sf->name != NULL);
+
+  item = fc_malloc(sizeof(struct modpack_cache_item));
+  item->modpack_name = fc_strdup(mp_name);
+  item->filename = fc_strdup(sf->name);
+
+  modpack_cache_list_append(modpack_rulesets, item);
+
+  return mp_name;
+}
+
+/************************************************************************//**
+  Find filename by name of the modpack, from the ruleset cache
+****************************************************************************/
+const char *modpack_file_from_ruleset_cache(const char *name)
+{
+  modpack_cache_iterate(modpack_rulesets, item) {
+    if (!fc_strcasecmp(name, item->modpack_name)) {
+      return item->filename;
+    }
+  } modpack_cache_iterate_end;
 
   return NULL;
 }

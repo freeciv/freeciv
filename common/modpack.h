@@ -21,6 +21,12 @@ extern "C" {
 
 #define MODPACK_SUFFIX ".modpack"
 
+void modpacks_init(void);
+void modpacks_free(void);
+
+const char *modpack_cache_ruleset(struct section_file *sf);
+const char *modpack_file_from_ruleset_cache(const char *name);
+
 struct fileinfo_list *get_modpacks_list(void);
 const char *modpack_has_ruleset(struct section_file *sf);
 

@@ -123,8 +123,6 @@ static bool set_ai_level_named(struct connection *caller, const char *name,
 static bool set_ai_level(struct connection *caller, const char *name,
                          enum ai_level level, bool check);
 static bool away_command(struct connection *caller, bool check);
-static bool set_rulesetdir(struct connection *caller, char *str, bool check,
-                           int read_recursion);
 static bool show_command(struct connection *caller, char *str, bool check);
 static bool show_settings(struct connection *caller,
                           enum command_id called_as,
@@ -143,7 +141,7 @@ static bool surrender_command(struct connection *caller, char *str, bool check);
 static bool handle_stdin_input_real(struct connection *caller, char *str,
                                     bool check, int read_recursion);
 static bool read_init_script_real(struct connection *caller,
-                                  char *script_filename, bool from_cmdline,
+                                  const char *script_filename, bool from_cmdline,
                                   bool check, int read_recursion);
 static bool reset_command(struct connection *caller, char *arg, bool check,
                           int read_recursion);
@@ -1136,7 +1134,7 @@ static bool read_command(struct connection *caller, char *arg, bool check,
 /**********************************************************************//**
   Main entry point for reading an init script.
 **************************************************************************/
-bool read_init_script(struct connection *caller, char *script_filename,
+bool read_init_script(struct connection *caller, const char *script_filename,
                       bool from_cmdline, bool check)
 {
   return read_init_script_real(caller, script_filename, from_cmdline,
@@ -1155,7 +1153,7 @@ bool read_init_script(struct connection *caller, char *script_filename,
   permissions unless there are other bugs.
 **************************************************************************/
 static bool read_init_script_real(struct connection *caller,
-                                  char *script_filename, bool from_cmdline,
+                                  const char *script_filename, bool from_cmdline,
                                   bool check, int read_recursion)
 {
   FILE *script_file;
@@ -3881,8 +3879,8 @@ bool load_command(struct connection *caller, const char *filename, bool check,
   other bad stuff in the directory name, and will only use directories
   inside the data directories.
 **************************************************************************/
-static bool set_rulesetdir(struct connection *caller, char *str, bool check,
-                           int read_recursion)
+bool set_rulesetdir(struct connection *caller, const char *str, bool check,
+                    int read_recursion)
 {
   char filename[512];
   const char *pfilename;

@@ -2048,7 +2048,8 @@ bool server_packet_input(struct connection *pconn, void *packet, int type)
   if (S_S_RUNNING != server_state()
       && type != PACKET_NATION_SELECT_REQ
       && type != PACKET_PLAYER_READY
-      && type != PACKET_VOTE_SUBMIT) {
+      && type != PACKET_VOTE_SUBMIT
+      && type != PACKET_RULESET_SELECT) {
     if (S_S_OVER == server_state()) {
       /* This can happen by accident, so we don't want to print
        * out lots of error messages. Ie, we use log_debug(). */

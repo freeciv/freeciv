@@ -1106,15 +1106,13 @@ static void send_ruleset_choices(struct connection *pc)
     sf = secfile_load(pfile->fullname, FALSE);
 
     if (sf != NULL) {
-      if (modpack_has_ruleset(sf) != NULL) {
-        const char *name = modpack_serv_file(sf);
+      const char *name = modpack_cache_ruleset(sf);
 
-        if (name != NULL) {
-          if (fc_strlcpy(packet.rulesets[i], name, maxlen) < maxlen) {
-            i++;
-          } else {
-            log_verbose("Ruleset name '%s' too long to send to client, skipped", name);
-          }
+      if (name != NULL) {
+        if (fc_strlcpy(packet.rulesets[i], name, maxlen) < maxlen) {
+          i++;
+        } else {
+          log_verbose("Modpack name '%s' too long to send to client, skipped", name);
         }
       }
 
@@ -1126,6 +1124,56 @@ static void send_ruleset_choices(struct connection *pc)
   send_packet_ruleset_choices(pc, &packet);
 
   fileinfo_list_destroy(ruleset_choices);
+}
+
+/************************************************************************//**
+  Change ruleset based on modpack.
+****************************************************************************/
+void handle_ruleset_select(struct connection *pc,
+                           const struct packet_ruleset_select *packet)
+{
+  struct section_file *sf;
+  const char *name;
+
+  if (server_state() != S_S_INITIAL) {
+    log_warn("Unexpected ruleset selection packet from client");
+    return;
+  }
+
+  if (pc->access_level < ALLOW_HACK) {
+    log_verbose("Attempt to set ruleset from non-hack level connection");
+  }
+
+  name = modpack_file_from_ruleset_cache(packet->modpack);
+
+  if (name == NULL) {
+    log_error("Modpack \"%s\" not in ruleset cache", packet->modpack);
+    return;
+  }
+
+  sf = secfile_load(name, FALSE);
+
+  if (sf == NULL) {
+    log_error("Failed to load modpack file \"%s\"", name);
+    return;
+  }
+
+  name = modpack_serv_file(sf);
+
+  if (name != NULL) {
+    read_init_script(pc, name, FALSE, FALSE);
+  } else {
+    name = modpack_rulesetdir(sf);
+
+    if (name != NULL) {
+      set_rulesetdir(pc, name, FALSE, 0);
+    } else {
+      log_error("Modpack \"%s\" does not contain ruleset at all",
+                packet->modpack);
+    }
+  }
+
+  secfile_destroy(sf);
 }
 
 /************************************************************************//**
