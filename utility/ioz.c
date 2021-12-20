@@ -64,6 +64,9 @@
 
 #include "ioz.h"
 
+
+#define PLAIN_FILE_BUF_SIZE (8096*1024)    // 8096kb
+
 #ifdef FREECIV_HAVE_LIBBZ2
 struct bzip2_struct {
   BZFILE *file;
@@ -76,7 +79,7 @@ struct bzip2_struct {
 
 #ifdef FREECIV_HAVE_LIBLZMA
 
-#define PLAIN_FILE_BUF_SIZE (8096*1024)    /* 8096kb */
+#define PLAIN_FILE_BUF_SIZE_XZ PLAIN_FILE_BUF_SIZE
 #define XZ_DECODER_TEST_SIZE (4*1024)      /* 4kb */
 
 /* In my tests 7Mb proved to be not enough and with 10Mb decompression
@@ -118,6 +121,8 @@ static void xz_action(fz_FILE *fp, lzma_action action);
 #endif /* FREECIV_HAVE_LIBLZMA */
 
 #ifdef FREECIV_HAVE_LIBZSTD
+
+#define PLAIN_FILE_BUF_SIZE_ZSTD PLAIN_FILE_BUF_SIZE
 
 struct zstd_struct {
   ZSTD_DStream *dstream;
@@ -327,7 +332,7 @@ fz_FILE *fz_from_file(const char *filename, const char *in_mode,
     if (fp->u.xz.plain) {
       size_t len = 0;
 
-      fp->u.xz.in_buf = fc_malloc(PLAIN_FILE_BUF_SIZE);
+      fp->u.xz.in_buf = fc_malloc(PLAIN_FILE_BUF_SIZE_XZ);
 
       len = fread(fp->u.xz.in_buf, 1, XZ_DECODER_TEST_SIZE,
                   fp->u.xz.plain);
@@ -336,9 +341,9 @@ fz_FILE *fz_from_file(const char *filename, const char *in_mode,
 
         fp->u.xz.stream.next_in = fp->u.xz.in_buf;
         fp->u.xz.stream.avail_in = len;
-        fp->u.xz.out_buf = fc_malloc(PLAIN_FILE_BUF_SIZE);
+        fp->u.xz.out_buf = fc_malloc(PLAIN_FILE_BUF_SIZE_XZ);
         fp->u.xz.stream.next_out = fp->u.xz.out_buf;
-        fp->u.xz.stream.avail_out = PLAIN_FILE_BUF_SIZE;
+        fp->u.xz.stream.avail_out = PLAIN_FILE_BUF_SIZE_XZ;
         len = fread(&fp->u.xz.hack_byte, 1, 1, fp->u.xz.plain);
         if (len > 0) {
           fp->u.xz.hack_byte_used = TRUE;
@@ -435,11 +440,11 @@ fz_FILE *fz_from_file(const char *filename, const char *in_mode,
         free(fp);
         return NULL;
       }
-      fp->u.xz.in_buf = fc_malloc(PLAIN_FILE_BUF_SIZE);
+      fp->u.xz.in_buf = fc_malloc(PLAIN_FILE_BUF_SIZE_XZ);
       fp->u.xz.stream.next_in = fp->u.xz.in_buf;
-      fp->u.xz.out_buf = fc_malloc(PLAIN_FILE_BUF_SIZE);
+      fp->u.xz.out_buf = fc_malloc(PLAIN_FILE_BUF_SIZE_XZ);
       fp->u.xz.stream.next_out = fp->u.xz.out_buf;
-      fp->u.xz.stream.avail_out = PLAIN_FILE_BUF_SIZE;
+      fp->u.xz.stream.avail_out = PLAIN_FILE_BUF_SIZE_XZ;
       fp->u.xz.out_index = 0;
       fp->u.xz.total_read = 0;
       fp->u.xz.plain = fc_fopen(filename, mode);
@@ -468,7 +473,7 @@ fz_FILE *fz_from_file(const char *filename, const char *in_mode,
        * we scale it a bit */
       ZSTD_initCStream(fp->u.zstd.cstream, compress_level * 2);
 
-      fp->u.zstd.in_buf.size = PLAIN_FILE_BUF_SIZE;
+      fp->u.zstd.in_buf.size = PLAIN_FILE_BUF_SIZE_ZSTD;
       fp->u.zstd.nonconst_in = fc_malloc(fp->u.zstd.in_buf.size);
       fp->u.zstd.in_buf.src = fp->u.zstd.nonconst_in;
       fp->u.zstd.out_buf.size = ZSTD_CStreamOutSize();
@@ -717,7 +722,7 @@ char *fz_fgets(char *buffer, int size, fz_FILE *fp)
           size_t hblen = 0;
 
           fp->u.xz.in_buf[0] = fp->u.xz.hack_byte;
-          len = fread(fp->u.xz.in_buf + 1, 1, PLAIN_FILE_BUF_SIZE - 1,
+          len = fread(fp->u.xz.in_buf + 1, 1, PLAIN_FILE_BUF_SIZE_XZ - 1,
                       fp->u.xz.plain);
           len++;
 
@@ -739,7 +744,7 @@ char *fz_fgets(char *buffer, int size, fz_FILE *fp)
             return buffer;
           } else {
             fp->u.xz.stream.next_out = fp->u.xz.out_buf;
-            fp->u.xz.stream.avail_out = PLAIN_FILE_BUF_SIZE;
+            fp->u.xz.stream.avail_out = PLAIN_FILE_BUF_SIZE_XZ;
             xz_action(fp, LZMA_FINISH);
             fp->u.xz.out_index = 0;
             fp->u.xz.out_avail =
@@ -755,7 +760,7 @@ char *fz_fgets(char *buffer, int size, fz_FILE *fp)
           fp->u.xz.stream.next_in = fp->u.xz.in_buf;
           fp->u.xz.stream.avail_in = len;
           fp->u.xz.stream.next_out = fp->u.xz.out_buf;
-          fp->u.xz.stream.avail_out = PLAIN_FILE_BUF_SIZE;
+          fp->u.xz.stream.avail_out = PLAIN_FILE_BUF_SIZE_XZ;
           if (fp->u.xz.hack_byte_used) {
             action = LZMA_RUN;
           } else {
@@ -913,16 +918,16 @@ static bool xz_outbuffer_to_file(fz_FILE *fp, lzma_action action)
       return FALSE;
     }
 
-    while (total < PLAIN_FILE_BUF_SIZE - fp->u.xz.stream.avail_out) {
+    while (total < PLAIN_FILE_BUF_SIZE_XZ - fp->u.xz.stream.avail_out) {
       len = fwrite(fp->u.xz.out_buf, 1,
-                   PLAIN_FILE_BUF_SIZE - fp->u.xz.stream.avail_out - total,
+                   PLAIN_FILE_BUF_SIZE_XZ - fp->u.xz.stream.avail_out - total,
                    fp->u.xz.plain);
       total += len;
       if (len == 0) {
         return FALSE;
       }
     }
-    fp->u.xz.stream.avail_out = PLAIN_FILE_BUF_SIZE;
+    fp->u.xz.stream.avail_out = PLAIN_FILE_BUF_SIZE_XZ;
     fp->u.xz.stream.next_out = fp->u.xz.out_buf;
   } while (fp->u.xz.stream.avail_in > 0);
 
@@ -976,13 +981,14 @@ int fz_fprintf(fz_FILE *fp, const char *format, ...)
   case FZ_XZ:
     {
       va_start(ap, format);
-      num = fc_vsnprintf((char *)fp->u.xz.in_buf, PLAIN_FILE_BUF_SIZE, format, ap);
+      num = fc_vsnprintf((char *)fp->u.xz.in_buf, PLAIN_FILE_BUF_SIZE_XZ,
+                         format, ap);
       va_end(ap);
 
       if (num == -1) {
         log_error("Too much data: truncated in fz_fprintf (%u)",
-                  PLAIN_FILE_BUF_SIZE);
-        num = PLAIN_FILE_BUF_SIZE;
+                  PLAIN_FILE_BUF_SIZE_XZ);
+        num = PLAIN_FILE_BUF_SIZE_XZ;
       }
       fp->u.xz.stream.next_in = fp->u.xz.in_buf;
       fp->u.xz.stream.avail_in = num;
@@ -1000,13 +1006,13 @@ int fz_fprintf(fz_FILE *fp, const char *format, ...)
     {
       va_start(ap, format);
       num = fc_vsnprintf((char *)fp->u.zstd.in_buf.src,
-                         PLAIN_FILE_BUF_SIZE, format, ap);
+                         PLAIN_FILE_BUF_SIZE_ZSTD, format, ap);
       va_end(ap);
 
       if (num == -1) {
         log_error("Too much data: truncated in fz_fprintf (%u)",
-                  PLAIN_FILE_BUF_SIZE);
-        num = PLAIN_FILE_BUF_SIZE;
+                  PLAIN_FILE_BUF_SIZE_ZSTD);
+        num = PLAIN_FILE_BUF_SIZE_ZSTD;
       }
 
       fp->u.zstd.in_buf.pos = 0;
