@@ -360,7 +360,7 @@
 /* ioctl() available */
 #mesondefine HAVE_IOCTL
 
-#if defined(HAVE_FCNTL) || defined(HAVE_IOCTL)
+#if defined(HAVE_FCNTL) || defined(HAVE_IOCTL) || defined(FREECIV_HAVE_WINSOCK)
 #define NONBLOCKING_SOCKETS 1
 #endif
 
