@@ -31,7 +31,7 @@ Updating from 3.0 to 3.1
   implementation supports it.
 * Minimum Qt5 requirement for Qt-client, Qt modpack installer, and
   Ruledit is 5.11.
-* New configure option --with-qt6 builds Qt6 versions of Qt programs
+* New configure option --with-qtver=qt6 builds Qt6 versions of Qt programs
 * Support for zstd compressed savegames added, requires libzstd and headers
 
 ----------------------------------------------------------------------

@@ -51,7 +51,7 @@ cd build
 ../autogen.sh --no-configure-run
 ../configure \
  --enable-debug \
- --enable-sys-lua --with-qt6 \
+ --enable-sys-lua --with-qtver=qt6 \
  --enable-client=gtk3.22,sdl2,qt,gtk4 \
  --enable-fcmp=gtk3,gtk4,qt,cli \
  --enable-freeciv-manual \

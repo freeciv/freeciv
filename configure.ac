@@ -650,10 +650,27 @@ dnl when setting compiler flags.
 AC_ARG_WITH([qt6],
   AS_HELP_STRING([--with-qt6], [build Qt6 versions of Qt programs]),
 [case "${withval}" in
- yes) qt_ver="Qt6"
-      AC_DEFINE([FC_QT6_MODE], [1], [this is Qt6 based build]) ;;
- *)   qt_ver="Qt5" ;;
-esac], [qt_ver="Qt5"])
+ yes) qt_default="Qt6" ;;
+ *)   qt_default="Qt5" ;;
+esac])
+
+if test "x$qt_default" = "x" ; then
+  qt_default="Qt5"
+else
+  AC_MSG_WARN([--with-qt6 deprecated. Please use --with-qtver=qt6 instead])
+fi
+
+AC_ARG_WITH([qtver],
+  AS_HELP_STRING([--with-qtver], [which Qt version to build against qt5/qt6]),
+[case "${withval}" in
+ qt5|Qt5) qt_ver="Qt5" ;;
+ qt6|Qt6) qt_ver="Qt6" ;;
+ *) AC_MSG_ERROR([bad value ${enableval} for --with-qtver]) ;;
+esac], [qt_ver="$qt_default"])
+
+if test "x$qt_ver" = "xQt6" ; then
+  AC_DEFINE([FC_QT6_MODE], [1], [this is Qt6 based build])
+fi
 
 FC_WORKING_CXX
 

@@ -59,10 +59,10 @@ sdl2-installer:
 qt-installer: qt5-installer
 
 qt5-installer:
-	make GUI=qt5 CLIENT=qt FCMP=qt EXTRA_CONFIG="--with-qt5-includes=/$(ARCHDIR)/include --with-qt5-libs=/$(ARCHDIR)/lib $(EXTRA_CONFIG)" wrap-qt5
+	make GUI=qt5 CLIENT=qt FCMP=qt EXTRA_CONFIG="--with-qtver=qt5 --with-qt5-includes=/$(ARCHDIR)/include --with-qt5-libs=/$(ARCHDIR)/lib $(EXTRA_CONFIG)" wrap-qt5
 
 qt6-installer:
-	make GUI=qt6 CLIENT=qt FCMP=qt EXTRA_CONFIG="--with-qt6 --with-qt6-includes=/$(ARCHDIR)/include/qt6 --with-qt6-libs=/$(ARCHDIR)/lib $(EXTRA_CONFIG)" MOCCMD="$(QT6_MOCCMD)" wrap-qt6
+	make GUI=qt6 CLIENT=qt FCMP=qt EXTRA_CONFIG="--with-qtver=qt6 --with-qt6-includes=/$(ARCHDIR)/include/qt6 --with-qt6-libs=/$(ARCHDIR)/lib $(EXTRA_CONFIG)" MOCCMD="$(QT6_MOCCMD)" wrap-qt6
 
 ruledit-installer: ruledit-installer-qt5
 
@@ -99,13 +99,13 @@ configure-freeciv-ruledit-qt5:
 	# create build directory
 	mkdir -p build-$(WINARCH)-ruledit-qt5
 	# configure
-	cd build-$(WINARCH)-ruledit-qt5; ../../../configure FREECIV_LABEL_FORCE="<base>-msys2" CPPFLAGS="-D_WIN32_WINNT=$(MIN_WIN_VER)" --disable-client --disable-server --disable-fcmp --disable-freeciv-manual --disable-sys-lua --enable-ruledit --enable-ai-static=stub --with-cacert-path="./ssl/certs/ca-bundle.crt" --with-qt5-includes=/$(ARCHDIR)/include --with-qt5-libs=/$(ARCHDIR)/lib $(EXTRA_CONFIG)
+	cd build-$(WINARCH)-ruledit-qt5; ../../../configure FREECIV_LABEL_FORCE="<base>-msys2" CPPFLAGS="-D_WIN32_WINNT=$(MIN_WIN_VER)" --with-qtver=qt5 --disable-client --disable-server --disable-fcmp --disable-freeciv-manual --disable-sys-lua --enable-ruledit --enable-ai-static=stub --with-cacert-path="./ssl/certs/ca-bundle.crt" --with-qt5-includes=/$(ARCHDIR)/include --with-qt5-libs=/$(ARCHDIR)/lib $(EXTRA_CONFIG)
 
 configure-freeciv-ruledit-qt6:
 	# create build directory
 	mkdir -p build-$(WINARCH)-ruledit-qt6
 	# configure
-	cd build-$(WINARCH)-ruledit-qt6; ../../../configure FREECIV_LABEL_FORCE="<base>-msys2" CPPFLAGS="-D_WIN32_WINNT=$(MIN_WIN_VER)" --with-qt6 --disable-client --disable-server --disable-fcmp --disable-freeciv-manual --disable-sys-lua --enable-ruledit --enable-ai-static=stub --with-cacert-path="./ssl/certs/ca-bundle.crt" --with-qt6-includes=/$(ARCHDIR)/include/qt6 --with-qt6-libs=/$(ARCHDIR)/lib $(EXTRA_CONFIG)
+	cd build-$(WINARCH)-ruledit-qt6; ../../../configure FREECIV_LABEL_FORCE="<base>-msys2" CPPFLAGS="-D_WIN32_WINNT=$(MIN_WIN_VER)" --with-qtver=qt6 --disable-client --disable-server --disable-fcmp --disable-freeciv-manual --disable-sys-lua --enable-ruledit --enable-ai-static=stub --with-cacert-path="./ssl/certs/ca-bundle.crt" --with-qt6-includes=/$(ARCHDIR)/include/qt6 --with-qt6-libs=/$(ARCHDIR)/lib $(EXTRA_CONFIG)
 
 # install Freeciv
 
