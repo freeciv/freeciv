@@ -17,13 +17,15 @@
 extern "C" {
 #endif /* __cplusplus */
 
-#define SEX_MALE      1
-#define SEX_FEMALE    0
-#define SEX_UNKNOWN  -1
+typedef enum {
+  SEX_UNKNOWN = -1,
+  SEX_FEMALE  = 0,
+  SEX_MALE    = 1
+} sex_t;
 
-int sex_by_name(const char *name);
-const char *sex_rule_name(int kind);
-const char *sex_name_translation(int kind);
+sex_t sex_by_name(const char *name);
+const char *sex_rule_name(sex_t kind);
+const char *sex_name_translation(sex_t kind);
 
 #ifdef __cplusplus
 }

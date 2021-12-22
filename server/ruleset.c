@@ -5029,7 +5029,7 @@ static bool load_ruleset_nations(struct section_file *file,
       /* Nation leaders. */
       for (j = 0; j < MAX_NUM_LEADERS; j++) {
         const char *sexstr;
-        int sex;
+        sex_t sex;
         bool is_male = FALSE;
 
         name = secfile_lookup_str(file, "%s.leaders%d.name", sec_name, j);

@@ -24,7 +24,7 @@
 /************************************************************************//**
   Return sex by the name provided
 ****************************************************************************/
-int sex_by_name(const char *name)
+sex_t sex_by_name(const char *name)
 {
   if (!fc_strcasecmp("Male", name)) {
     return SEX_MALE;
@@ -40,13 +40,15 @@ int sex_by_name(const char *name)
 /************************************************************************//**
   Return name of the sex.
 ****************************************************************************/
-const char *sex_rule_name(int kind)
+const char *sex_rule_name(sex_t kind)
 {
   switch (kind) {
   case SEX_MALE:
     return N_("Male");
   case SEX_FEMALE:
     return N_("Female");
+  case SEX_UNKNOWN:
+    return NULL;
   }
 
   return NULL;
@@ -55,7 +57,7 @@ const char *sex_rule_name(int kind)
 /************************************************************************//**
   Return translated name of the sex.
 ****************************************************************************/
-const char *sex_name_translation(int kind)
+const char *sex_name_translation(sex_t kind)
 {
   const char *rule_name = sex_rule_name(kind);
 
