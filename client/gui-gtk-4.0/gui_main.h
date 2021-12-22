@@ -18,9 +18,6 @@
 /* client */
 #include "gui_main_g.h"
 
-/* gui-gtk-4.0 */
-#include "gtkcompat.h"
-
 #define GUI_GTK_OPTION(optname) gui_options.gui_gtk4_##optname
 #define GUI_GTK_OPTION_STR(optname) "gui_gtk4_" #optname
 #define GUI_GTK_DEFAULT_THEME_NAME FC_GTK4_DEFAULT_THEME_NAME

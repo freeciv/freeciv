@@ -28,7 +28,6 @@
 
 /* client/gui-gtk-4.0 */
 #include "chatline.h"
-#include "gtkcompat.h"
 #include "pages.h"
 
 #include "voteinfo_bar.h"

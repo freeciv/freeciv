@@ -3221,9 +3221,7 @@ static void impr_callback(GtkTreeView *view, GtkTreePath *path,
 {
   GtkTreeModel *model;
   GtkTreeIter it;
-#ifdef GTKCOMPAT_GTK4_FINAL
   GdkSeat *seat;
-#endif
   GdkModifierType mask;
   struct impr_type *pimprove;
 
@@ -3235,12 +3233,8 @@ static void impr_callback(GtkTreeView *view, GtkTreePath *path,
 
   gtk_tree_model_get(model, &it, 0, &pimprove, -1);
 
-#ifdef GTKCOMPAT_GTK4_FINAL
   seat = gdk_display_get_default_seat(gtk_widget_get_display(GTK_WIDGET(view)));
   mask = gdk_device_get_modifier_state(gdk_seat_get_keyboard(seat));
-#else
-  mask = 0;
-#endif
 
   if (!(mask & GDK_CONTROL_MASK)) {
     sell_callback(pimprove, data);
