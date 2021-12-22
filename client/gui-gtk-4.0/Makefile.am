@@ -50,8 +50,6 @@ libgui_gtk4_la_SOURCES = \
 	gotodlg.h	\
 	graphics.c	\
 	graphics.h	\
-	gtkcompat.c	\
-	gtkcompat.h	\
 	gui_main.c	\
 	gui_main.h	\
 	gui_stuff.c	\
