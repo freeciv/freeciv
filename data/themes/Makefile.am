@@ -10,6 +10,10 @@ if CLIENT_GUI_GTK_3_22
 SUBDIRS += gtk3.22
 endif
 
+if CLIENT_GUI_GTK_4
+SUBDIRS += gtk4
+endif
+
 if CLIENT_GUI_SDL2
 SUBDIRS += gui-sdl2
 endif

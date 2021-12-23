@@ -1759,6 +1759,9 @@ AC_CONFIG_FILES([Makefile
 	  data/themes/gtk3.22/Makefile
 	  data/themes/gtk3.22/Freeciv/Makefile
 	  data/themes/gtk3.22/Freeciv/gtk-3.0/Makefile
+	  data/themes/gtk4/Makefile
+	  data/themes/gtk4/Freeciv/Makefile
+	  data/themes/gtk4/Freeciv/gtk-4.0/Makefile
 	  data/themes/gui-qt/Makefile
 	  data/themes/gui-qt/icons/Makefile
 	  data/themes/gui-qt/Classic/Makefile
