@@ -544,9 +544,6 @@ ui_name_nuke_units = _("%sNuke Units%s")
 ; /* TRANS: Set _Home City (100% chance of success). */
 ui_name_home_city = _("Set %sHome City%s")
 
-; /* TRANS: _Upgrade Unit (100% chance of success). */
-ui_name_upgrade_unit = _("%sUpgrade Unit%s")
-
 ; /* TRANS: Drop _Paratrooper (100% chance of success). */
 ui_name_paradrop_unit_enter = _("Drop %sParatrooper%s")
 
@@ -1157,13 +1154,6 @@ actor_reqs    =
 target_reqs   =
     { "type",     "name",    "range", "present"
       "CityTile", "Claimed", "Local", TRUE
-    }
-
-[actionenabler_upgrade_unit]
-action = "Upgrade Unit"
-actor_reqs    =
-    { "type",    "name",       "range", "present"
-      "DiplRel", "Foreign", "Local", FALSE
     }
 
 [actionenabler_airlift_unit]
