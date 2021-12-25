@@ -7343,6 +7343,19 @@ static bool load_ruleset_game(struct section_file *file, bool act,
       = secfile_lookup_bool_default(file, default_drbr,
                                     "combat_rules.damage_reduces_bombard_rate");
 
+    game.info.low_firepower_badwallattacker
+      = secfile_lookup_int_default(file, 1,
+                                   "combat_rules.low_firepower_badwallattacker");
+    game.info.low_firepower_pearl_harbour
+      = secfile_lookup_int_default(file, 1,
+                                   "combat_rules.low_firepower_pearl_harbour");
+    game.info.low_firepower_combat_bonus
+      = secfile_lookup_int_default(file, 1,
+                                   "combat_rules.low_firepower_combat_bonus");
+    game.info.low_firepower_nonnat_bombard
+      = secfile_lookup_int_default(file, 1,
+                                   "combat_rules.low_firepower_nonnat_bombard");
+
     game.info.nuke_pop_loss_pct = secfile_lookup_int_default_min_max(file,
                                            RS_DEFAULT_NUKE_POP_LOSS_PCT,
                                            RS_MIN_NUKE_POP_LOSS_PCT,

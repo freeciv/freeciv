@@ -418,8 +418,8 @@ utypes = "\
 ;                          multiplication with 2/3, etc.\n\
 ;                          Effectively increases *attack* by value percent.\n\
 ;                          Bonus is defined in attackers entry.\n\
-; \"LowFirepower\"         = Defender firepower is reduced to value 1 when\n\
-;                          ever this has non-zero value.\n\
+; \"LowFirepower\"         = Defender firepower is reduced to low firepower\n\
+;                          value defined in game.ruleset when\n\
 ;                          Bonus is defined in attackers entry.\n\
 ; \"CityDefensePct\"       = In a city, instead of \"Defend_Bonus\" effect\n\
 ;                          uses this bonus.\n\

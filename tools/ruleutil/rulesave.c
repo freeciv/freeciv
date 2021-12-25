@@ -1372,6 +1372,14 @@ static bool save_game_ruleset(const char *filename, const char *name)
   save_default_bool(sfile, game.info.damage_reduces_bombard_rate,
                     RS_DEFAULT_DAMAGE_REDUCES_BOMBARD_RATE,
                     "combat_rules.damage_reduces_bombard_rate", NULL);
+  save_default_int(sfile, game.info.low_firepower_badwallattacker, 1,
+                   "combat_rules.low_firepower_badwallattacker", NULL);
+  save_default_int(sfile, game.info.low_firepower_pearl_harbour, 1,
+                   "combat_rules.low_firepower_pearl_harbour", NULL);
+  save_default_int(sfile, game.info.low_firepower_combat_bonus, 1,
+                   "combat_rules.low_firepower_combat_bonus", NULL);
+  save_default_int(sfile, game.info.low_firepower_nonnat_bombard, 1,
+                   "combat_rules.low_firepower_nonnat_bombard", NULL);
   save_default_int(sfile, game.info.nuke_pop_loss_pct,
                     RS_DEFAULT_NUKE_POP_LOSS_PCT,
                     "combat_rules.nuke_pop_loss_pct", NULL);
