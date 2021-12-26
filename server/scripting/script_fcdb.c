@@ -81,16 +81,16 @@ static struct fc_lua *fcl = NULL;
   Add fcdb callback functions; these must be defined in the lua script
   'database.lua':
 
-  database_init:
+  database_init():
     - test and initialise the database.
-  database_free:
+  database_free():
     - free the database.
 
   user_exists(Connection pconn):
     - Check if the user exists.
   user_save(Connection pconn, String password):
     - Save a new user.
-  user_verify(Connection pconn):
+  user_verify(Connection pconn, String plaintext):
     - Check the credentials of the user.
   user_log(Connection pconn, Bool success):
     - check if the login attempt was successful logged.
