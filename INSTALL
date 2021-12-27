@@ -4,7 +4,7 @@ Installing Freeciv:
 
 This file describes how to compile and install Freeciv. Last time we
 made sure this file is up to date was 16-Jul-06.
-Last minor update was 10-Sep-21.
+Last minor update was 28-Dec-21.
 
 There may be a localized version of this file in the ./doc directory,
 named INSTALL.<locale> (e.g., INSTALL.de).
@@ -78,13 +78,13 @@ out whether your system is suitable.  If in doubt, just try it.
    Libcurl takes care of http communication with the metaserver, and
    file transfers of modpack installers
 
-   http://curl.haxx.se/
+   https://curl.haxx.se/
 
  - libicu
 
    Libicu helps handling UTF-8 texts
 
-   http://site.icu-project.org/
+   https://icu.unicode.org/
 
 The git version has additional requirements. A release version
 contains the generated files.
@@ -136,7 +136,7 @@ files are found from the system.
    "pkg-config" is a system for managing library compile/link flags that
    works with automake and autoconf. You may obtain it at:
 
-      http://pkgconfig.freedesktop.org/releases/pkg-config-0.26.tar.gz
+      https://pkg-config.freedesktop.org/releases/pkg-config-0.29.2.tar.gz
 
  - The "Glib" utility library.
 
@@ -148,7 +148,7 @@ files are found from the system.
    If the Freeciv configure process tells you that you don't have the
    Glib library installed, then it may be obtained from here:
 
-     http://ftp.gnome.org/pub/gnome/sources/glib/2.30/glib-2.30.2.tar.xz
+     https://download.gnome.org/sources/glib/2.70/glib-2.70.2.tar.xz
 
  - The "Atk" accessibility library.
 
@@ -156,14 +156,14 @@ files are found from the system.
    It allows people with disabilities to utilize all the functionality
    provided by Gtk+ apps. You may obtain it at:
 
-     http://ftp.gnome.org/pub/gnome/sources/atk/2.2/atk-2.2.0.tar.xz
+     https://download.gnome.org/sources/atk/2.36/atk-2.36.0.tar.xz
 
  - The "Pango" text layout and rendering library.
 
    "Pango" is library for layout and rendering of text, with an emphasis
    on internationalization. You may obtain it at:
 
-     http://ftp.acc.umu.se/pub/gnome/sources/pango/1.28/pango-1.28.4.tar.bz2
+     https://download.gnome.org/sources/pango/1.50/pango-1.50.3.tar.xz
 
  - The "Gtk+" widget library.
 
@@ -186,7 +186,7 @@ files are found from the system.
    If the Freeciv configure process tells you that you don't have the
    Gtk+ library installed, then it may be obtained from here:
 
-     http://ftp.acc.umu.se/pub/gnome/sources/gtk+/2.24/gtk+-2.24.9.tar.xz
+     https://download-fallback.gnome.org/sources/gtk+/2.24/gtk+-2.24.33.tar.xz
 
    "Gtk+" depends on the "Glib", "Atk" and "Pango" libraries.
 
@@ -201,7 +201,7 @@ following order: pkg-config, Glib, Atk, Pango, Gtk+.
    "pkg-config" is a system for managing library compile/link flags that
    works with automake and autoconf. You may obtain it at:
 
-      http://pkgconfig.freedesktop.org/releases/pkg-config-0.28.tar.gz
+      https://pkg-config.freedesktop.org/releases/pkg-config-0.29.2.tar.gz
 
  - The "Glib" utility library.
 
@@ -213,7 +213,7 @@ following order: pkg-config, Glib, Atk, Pango, Gtk+.
    If the Freeciv configure process tells you that you don't have the
    Glib library installed, then it may be obtained from here:
 
-     http://ftp.gnome.org/pub/gnome/sources/glib/2.36/glib-2.36.1.tar.xz
+     https://download.gnome.org/sources/glib/2.70/glib-2.70.2.tar.xz
 
  - The "Atk" accessibility library.
 
@@ -221,21 +221,21 @@ following order: pkg-config, Glib, Atk, Pango, Gtk+.
    It allows people with disabilities to utilize all the functionality
    provided by Gtk+ apps. You may obtain it at:
 
-     http://ftp.gnome.org/pub/gnome/sources/atk/2.8/atk-2.8.0.tar.xz
+     https://download.gnome.org/sources/atk/2.36/atk-2.36.0.tar.xz
 
  - The "Pango" text layout and rendering library.
 
    "Pango" is library for layout and rendering of text, with an emphasis
    on internationalization. You may obtain it at:
 
-     http://ftp.gnome.org/pub/gnome/sources/pango/1.34/pango-1.34.0.tar.xz
+     https://download.gnome.org/sources/pango/1.50/pango-1.50.3.tar.xz
 
  - The "Gdk-Pixbuf" image loading/saving library
 
    "Gdk-Pixbuf" used to be part of "Gtk+" itself, but is now separate
    project. It may be obtained from:
 
-     http://ftp.gnome.org/pub/gnome/sources/gdk-pixbuf/2.28/gdk-pixbuf-2.28.1.tar.xz
+     https://download-fallback.gnome.org/sources/gdk-pixbuf/2.42/gdk-pixbuf-2.42.6.tar.xz
 
  - The "Gtk+" widget library.
 
@@ -253,7 +253,7 @@ following order: pkg-config, Glib, Atk, Pango, Gtk+.
    If the Freeciv configure process tells you that you don't have the
    Gtk+ library installed, then it may be obtained from here:
 
-     http://ftp.gnome.org/pub/gnome/sources/gtk+/3.12/gtk+-3.12.2.tar.xz
+     https://download-fallback.gnome.org/sources/gtk+/3.24/gtk+-3.24.31.tar.xz
 
    "Gtk+" depends on the "Glib", "Atk", "Gdk-Pixbuf", and "Pango" libraries.
 
@@ -268,7 +268,7 @@ following order: pkg-config, Glib, Atk, Pango, Gdk-Pixbuf, Gtk+.
    "pkg-config" is a system for managing library compile/link flags that
    works with automake and autoconf. You may obtain it at:
 
-      http://pkgconfig.freedesktop.org/releases/pkg-config-0.29.1.tar.gz
+      https://pkg-config.freedesktop.org/releases/pkg-config-0.29.2.tar.gz
 
  - The "Glib" utility library.
 
@@ -280,7 +280,7 @@ following order: pkg-config, Glib, Atk, Pango, Gdk-Pixbuf, Gtk+.
    If the Freeciv configure process tells you that you don't have the
    Glib library installed, then it may be obtained from here:
 
-     http://ftp.gnome.org/pub/gnome/sources/glib/2.50/glib-2.50.1.tar.xz
+     https://download.gnome.org/sources/glib/2.70/glib-2.70.2.tar.xz
 
  - The "Atk" accessibility library.
 
@@ -288,21 +288,21 @@ following order: pkg-config, Glib, Atk, Pango, Gdk-Pixbuf, Gtk+.
    It allows people with disabilities to utilize all the functionality
    provided by Gtk+ apps. You may obtain it at:
 
-     http://ftp.gnome.org/pub/gnome/sources/atk/2.22/atk-2.22.0.tar.xz
+     https://download.gnome.org/sources/atk/2.36/atk-2.36.0.tar.xz
 
  - The "Pango" text layout and rendering library.
 
    "Pango" is library for layout and rendering of text, with an emphasis
    on internationalization. You may obtain it at:
 
-     http://ftp.gnome.org/pub/gnome/sources/pango/1.40/pango-1.40.3.tar.xz
+     https://download.gnome.org/sources/pango/1.50/pango-1.50.3.tar.xz
 
  - The "Gdk-Pixbuf" image loading/saving library
 
    "Gdk-Pixbuf" used to be part of "Gtk+" itself, but is now separate
    project. It may be obtained from:
 
-     http://ftp.gnome.org/pub/gnome/sources/gdk-pixbuf/2.36/gdk-pixbuf-2.36.0.tar.xz
+     https://download-fallback.gnome.org/sources/gdk-pixbuf/2.42/gdk-pixbuf-2.42.6.tar.xz
 
  - The "Gtk+" widget library.
 
@@ -323,7 +323,7 @@ following order: pkg-config, Glib, Atk, Pango, Gdk-Pixbuf, Gtk+.
    If the Freeciv configure process tells you that you don't have the
    Gtk+ library installed, then it may be obtained from here:
 
-     http://ftp.gnome.org/pub/gnome/sources/gtk+/3.22/gtk+-3.22.12.tar.xz
+     https://download-fallback.gnome.org/sources/gtk+/3.24/gtk+-3.24.31.tar.xz
 
    "Gtk+" depends on the "Glib", "Atk", "Gdk-Pixbuf", and "Pango" libraries.
 
@@ -342,7 +342,7 @@ following order: pkg-config, Glib, Atk, Pango, Gdk-Pixbuf, Gtk+.
    These features make it a good choice for portable games. You may obtain it
    at:
 
-   http://www.libsdl.org/release/SDL2-2.0.3.tar.gz
+   https://www.libsdl.org/release/SDL2-2.0.18.tar.gz
 
    To compile the client using the "SDL2" library add "--enable-client=sdl2"
    to the Freeciv configure script.  See the section below for more 
@@ -354,22 +354,22 @@ following order: pkg-config, Glib, Atk, Pango, Gdk-Pixbuf, Gtk+.
    them to "SDL surfaces" that can be handled by the "SDL" library. You may
    obtain it at:
 
-   http://www.libsdl.org/projects/SDL_image/release/SDL2_image-2.0.1.tar.gz
+   https://www.libsdl.org/projects/SDL_image/release/SDL2_image-2.0.5.tar.gz
 
  - The "SDL2_gfx" library.
 
-   http://www.ferzkopp.net/Software/SDL2_gfx/SDL2_gfx-1.0.3.tar.gz
+   https://www.ferzkopp.net/Software/SDL2_gfx/SDL2_gfx-1.0.4.tar.gz
 
  - The "SDL2_ttf" library.
 
-   http://www.libsdl.org/projects/SDL_ttf/release/SDL2_ttf-2.0.14.tar.gz
+   https://www.libsdl.org/projects/SDL_ttf/release/SDL2_ttf-2.0.15.tar.gz
 
  - The "freetype" library.
 
    This library helps to render text for the SDL2 client, using an externally
    provided TrueType font. You may obtain it at:
 
-   http://download.savannah.gnu.org/releases/freetype/freetype-2.7.1.tar.bz2
+   https://download.savannah.gnu.org/releases/freetype/freetype-2.11.1.tar.xz
 
 1e. Prerequisites for the Qt client:
 ====================================
