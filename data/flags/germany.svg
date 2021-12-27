@@ -1,13 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!-- Created with Sodipodi ("http://www.sodipodi.com/") -->
+
 <svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    version="1"
    x="0"
    y="0"
@@ -15,10 +9,16 @@
    height="708.661"
    id="svg378"
    sodipodi:docname="germany.svg"
-   sodipodi:docbase="/home/daniel/freeciv/data/flags"
    sodipodi:version="0.32"
-   inkscape:version="0.46"
-   inkscape:output_extension="org.inkscape.output.svg.inkscape">
+   inkscape:version="1.1.1 (3bf5ae0d25, 2021-09-20)"
+   inkscape:output_extension="org.inkscape.output.svg.inkscape"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
   <metadata
      id="metadata8">
     <rdf:RDF>
@@ -33,14 +33,21 @@
   <sodipodi:namedview
      id="base"
      inkscape:zoom="0.48683361"
-     inkscape:cx="124.7852"
+     inkscape:cx="556.65836"
      inkscape:cy="354.33051"
-     inkscape:window-width="753"
-     inkscape:window-height="654"
-     inkscape:window-x="10"
-     inkscape:window-y="72"
+     inkscape:window-width="825"
+     inkscape:window-height="570"
+     inkscape:window-x="639"
+     inkscape:window-y="79"
      inkscape:current-layer="svg378"
-     showgrid="false" />
+     showgrid="false"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:window-maximized="0" />
   <defs
      id="defs380">
     <inkscape:perspective
