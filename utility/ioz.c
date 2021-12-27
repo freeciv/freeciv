@@ -1223,11 +1223,13 @@ const char *fz_strerror(fz_FILE *fp)
       }
 
       if (NULL != cleartext) {
-        fc_snprintf(zstderror, sizeof(zstderror), "ZSTD: \"%s\" (%ld)",
-                    cleartext, (long)fp->u.zstd.error);
+        fc_snprintf(zstderror, sizeof(zstderror),
+                    "ZSTD: \"%s\" (" SIZE_T_PRINTF ")",
+                    cleartext, fp->u.zstd.error);
       } else {
-        fc_snprintf(zstderror, sizeof(zstderror), "ZSTD error %ld",
-                    (long)fp->u.zstd.error);
+        fc_snprintf(zstderror, sizeof(zstderror),
+                    "ZSTD error " SIZE_T_PRINTF,
+                    fp->u.zstd.error);
       }
       return zstderror;
     }
