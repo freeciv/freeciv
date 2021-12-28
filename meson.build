@@ -237,19 +237,22 @@ else
   bcrypt_lib_dep = []
 endif
 
-readline_dep = c_compiler.find_library('readline', required:false)
+readline_dep = c_compiler.find_library('readline', dirs: cross_lib_path,
+                                       required:false)
 
 if readline_dep.found()
   pub_conf_data.set('FREECIV_HAVE_LIBREADLINE', 1)
 endif
 
-lzma_dep = c_compiler.find_library('lzma', required:false)
+lzma_dep = c_compiler.find_library('lzma', dirs: cross_lib_path,
+                                   required:false)
 
 if lzma_dep.found()
   pub_conf_data.set('FREECIV_HAVE_LIBLZMA', 1)
 endif
 
-zstd_dep = c_compiler.find_library('zstd', required:false)
+zstd_dep = c_compiler.find_library('zstd', dirs: cross_lib_path,
+                                   required:false)
 
 if zstd_dep.found()
   pub_conf_data.set('FREECIV_HAVE_LIBZSTD', 1)
