@@ -15,6 +15,10 @@
 #include <fc_config.h>
 #endif
 
+#ifdef FREECIV_MSWINDOWS
+#include <shlobj.h>
+#endif
+
 // Qt
 #include <QCheckBox>
 #include <QGridLayout>
@@ -62,6 +66,7 @@ tab_misc::tab_misc(ruledit_gui *ui_in) : QWidget()
   QPushButton *refresh_button;
   int row = 0;
   QTableWidgetItem *item;
+  char ttbuf[2048];
 
   ui = ui_in;
 
@@ -81,7 +86,31 @@ tab_misc::tab_misc(ruledit_gui *ui_in) : QWidget()
   save_label->setParent(this);
   main_layout->addWidget(save_label, row, 0);
   savedir = new QLineEdit(this);
+
+#ifdef FREECIV_MSWINDOWS
+  PWSTR folder_path;
+
+  if (SHGetKnownFolderPath(FOLDERID_Documents, KF_FLAG_DEFAULT,
+                           NULL, &folder_path) == S_OK) {
+    savedir->setText(QString::fromWCharArray(folder_path) + "\\ruledit-tmp");
+  } else {
+    savedir->setText("ruledit-tmp");
+  }
+
+#else  // FREECIV_MSWINDOWS
   savedir->setText("ruledit-tmp");
+#endif // FREECIV_MSWINDOWS
+
+  /* TRANS: %s%s%s -> path + directory separator ('/' or '\') + path
+   *        Do not translate command '/rulesetdir' name. */
+  fc_snprintf(ttbuf, sizeof(ttbuf),
+              R__("If you want to be able to load the ruleset directly "
+                  "to freeciv, place it as a subdirectory under %s%s%s\n"
+                  "Use server command \"/rulesetdir <subdirectory>\" "
+                  "to load it to freeciv."),
+              freeciv_storage_dir(), DIR_SEPARATOR, DATASUBDIR);
+  savedir->setToolTip(ttbuf);
+
   savedir->setFocus();
   main_layout->addWidget(savedir, row++, 1);
   save_ver_label = new QLabel(QString::fromUtf8(R__("Version suffix to directory name")));
