@@ -50,7 +50,7 @@ struct sprite *intro_gfx_sprite;
 GdkCursor *fc_cursors[CURSOR_LAST][NUM_CURSOR_FRAMES];
 
 /***************************************************************************
-  Returns TRUE to indicate that gtk3x-client supports given view type
+  Returns TRUE to indicate that gtk3.22-client supports given view type
 ***************************************************************************/
 bool is_view_supported(enum ts_type type)
 {
