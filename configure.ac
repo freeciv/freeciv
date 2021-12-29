@@ -178,6 +178,8 @@ AC_ARG_ENABLE([server],
 esac], [server=yes])
 AM_CONDITIONAL(SERVER, test x$server = xyes)
 
+ruledit_uuid=""
+
 dnl Host type variable defaults
 MINGW=no
 HAIKU=no
@@ -195,6 +197,7 @@ case "$host_os" in
 
     dnl Without WINSOCK2, use: LIBS="$LIBS -lwsock32"
     LIBS="${LIBS} -lws2_32"
+    ruledit_uuid="-luuid"
     ;;
   *haiku*)
     HAIKU=yes
@@ -1251,7 +1254,7 @@ if test "x$ruledit" = "xyes" || test "x$ruledit" = "xtest" ; then
       ruledit_cxxflags=$FC_QT5_CXXFLAGS
       ruledit_libs=$FC_QT5_LIBS
       ruledit=yes
-      ruledit_libs="$ruledit_libs $MWINDOWS_FLAG"
+      ruledit_libs="$ruledit_libs $MWINDOWS_FLAG $ruledit_uuid"
     elif test "x$ruledit" = "xyes" ; then
       AC_MSG_ERROR([Qt5 not found for building freeciv-ruledit])
     fi
