@@ -1,6 +1,6 @@
 # Try to configure the GTK+-3.22 client (gui-gtk-3.22)
 
-# FC_GTK3X_CLIENT
+# FC_GTK3_22_CLIENT
 # Test for GTK+-3.0 libraries needed for gui-gtk-3.22
 
 AC_DEFUN([FC_GTK3_22_CLIENT],
