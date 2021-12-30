@@ -50,13 +50,13 @@ $[
 -- but it's deprecated in favour of literal strings, and the strings listed
 -- here are only conventional.
 fcdb["param"] = {
-  HOST       = "host",
-  USER       = "user",
-  PORT       = "port",
-  PASSWORD   = "password",
-  DATABASE   = "database",
-  TABLE_USER = "table_user",
-  TABLE_LOG  = "table_log",
-  BACKEND    = "backend"
+  HOST       = "#deprecated.host",
+  USER       = "#deprecated.user",
+  PORT       = "#deprecated.port",
+  PASSWORD   = "#deprecated.password",
+  DATABASE   = "#deprecated.database",
+  TABLE_USER = "#deprecated.table_user",
+  TABLE_LOG  = "#deprecated.table_log",
+  BACKEND    = "#deprecated.backend"
 }
 $]
