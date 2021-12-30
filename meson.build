@@ -407,6 +407,8 @@ if get_option('nls')
   subdir('translations/ruledit')
 endif
 
+python_exe = find_program('python3')
+
 common_inc = include_directories(cross_inc_path,
   lua_inc_path, 'dependencies/luasql/src', 'dependencies/tinycthread',
   'dependencies/tolua-5.2/include', 'dependencies/cvercmp',
@@ -436,23 +438,23 @@ ls_core = custom_target('langstat_core', output: 'langstat_core.txt',
                         meson.source_root(), meson.build_root()])
 
 specenum = custom_target('specenum_gen.h', output: 'specenum_gen.h',
-                         command: ['python3', files('utility/generate_specenum.py'),
+                         command: [python_exe, files('utility/generate_specenum.py'),
                                    '@OUTPUT@'])
 
 pack_common = custom_target('packets_common', output: ['packets_gen.h',
                                                        'packets_gen.c'],
-                            command: ['python3', files('common/generate_packets.py'),
+                            command: [python_exe, files('common/generate_packets.py'),
                                       '@OUTPUT0@', '@OUTPUT1@', '', '', '', ''],
                             depend_files: files('common/networking/packets.def'))
 
 pack_server = custom_target('packets_server', output: ['hand_gen.h', 'hand_gen.c'],
-                            command: ['python3', files('common/generate_packets.py'),
+                            command: [python_exe, files('common/generate_packets.py'),
                                       '', '', '', '', '@OUTPUT0@', '@OUTPUT1@'],
                             depend_files: files('common/networking/packets.def'))
 
 pack_client = custom_target('packets_client', output: ['packhand_gen.h',
                                                        'packhand_gen.c'],
-                            command: ['python3', files('common/generate_packets.py'),
+                            command: [python_exe, files('common/generate_packets.py'),
                                       '', '', '@OUTPUT0@', '@OUTPUT1@', '', ''],
                             depend_files: files('common/networking/packets.def'))
 
