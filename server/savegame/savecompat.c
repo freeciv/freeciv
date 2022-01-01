@@ -2264,7 +2264,64 @@ static void compat_load_dev(struct loaddata *loading)
 
   if (game_version < 3019200) {
     /* Before version number bump to 3.1.92 */
+    int set_count;
 
+    if (secfile_lookup_int(loading->file, &set_count, "settings.set_count")) {
+      int i;
+      bool gamestart_valid
+        = secfile_lookup_bool_default(loading->file, FALSE,
+                                      "settings.gamestart_valid");
+
+      for (i = 0; i < set_count; i++) {
+        const char *name
+          = secfile_lookup_str(loading->file, "settings.set%d.name", i);
+
+        if (!name) {
+          continue;
+        }
+
+        if (!fc_strcasecmp("compresstype", name)) {
+          const char *val = secfile_lookup_str(loading->file,
+                                               "settings.set%d.value", i);
+
+          if (!fc_strcasecmp(val, "BZIP2")) {
+#ifdef FREECIV_HAVE_LIBZSTD
+            secfile_replace_str(loading->file, "ZSTD",
+                                "settings.set%d.value", i);
+#elif FREECIV_HAVE_LIBLZMA
+            secfile_replace_str(loading->file, "XZ",
+                                "settings.set%d.value", i);
+#elif FREECIV_HAVE_LIBZ
+            secfile_replace_str(loading->file, "LIBZ",
+                                "settings.set%d.value", i);
+#else
+            secfile_replace_str(loading->file, "PLAIN",
+                                "settings.set%d.value", i);
+#endif
+          }
+
+          if (gamestart_valid) {
+            val = secfile_lookup_str(loading->file,
+                                     "settings.set%d.gamestart", i);
+            if (!fc_strcasecmp(val, "BZIP2")) {
+#ifdef FREECIV_HAVE_LIBZSTD
+              secfile_replace_str(loading->file, "ZSTD",
+                                  "settings.set%d.gamestart", i);
+#elif FREECIV_HAVE_LIBLZMA
+              secfile_replace_str(loading->file, "XZ",
+                                  "settings.set%d.gamestart", i);
+#elif FREECIV_HAVE_LIBZ
+              secfile_replace_str(loading->file, "LIBZ",
+                                  "settings.set%d.gamestart", i);
+#else
+              secfile_replace_str(loading->file, "PLAIN",
+                                  "settings.set%d.gamestart", i);
+#endif
+            }
+          }
+        }
+      }
+    }
   } /* Version < 3.1.92 */
 
 #endif /* FREECIV_DEV_SAVE_COMPAT_3_2 */
