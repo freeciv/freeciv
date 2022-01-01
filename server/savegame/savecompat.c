@@ -2262,6 +2262,11 @@ static void compat_load_dev(struct loaddata *loading)
     }
   } /* Version < 3.1.91 */
 
+  if (game_version < 3019200) {
+    /* Before version number bump to 3.1.92 */
+
+  } /* Version < 3.1.92 */
+
 #endif /* FREECIV_DEV_SAVE_COMPAT_3_2 */
 }
 
