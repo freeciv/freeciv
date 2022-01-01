@@ -419,8 +419,8 @@ utypes = "\
 ;                          multiplication with 2/3, etc.\n\
 ;                          Effectively increases *attack* by value percent.\n\
 ;                          Bonus is defined in attackers entry.\n\
-; \"LowFirepower\"         = Defender firepower is reduced to value 1 when\n\
-;                          ever this has non-zero value.\n\
+; \"LowFirepower\"         = Defender firepower is reduced to low firepower\n\
+;                          value defined in game.ruleset when\n\
 ;                          Bonus is defined in attackers entry.\n\
 ; \"CityDefensePct\"       = In a city, instead of \"Defend_Bonus\" effect\n\
 ;                          uses this bonus.\n\
@@ -1304,6 +1304,33 @@ combat_odds_scaled_veterancy = "\n\
 damage_reduces_bombard_rate = "\n\
 ; Does unit`s bombard rate get scaled down by how damaged it is.\n\
 ; Even after this unit gets at least one bombard round.\
+"
+
+low_firepower_badwallattacker = "\n\
+; When the attacker has BadWallAttacker flag, and there`s\n\
+; positive DefendBonus effect applied to the attack, attacker`s\n\
+; firepower gets reduced to this value.\n\
+; If firepower is already lower than this, it won`t be affected.\
+"
+
+low_firepower_pearl_harbour = "\n\
+; When the defender has BadCityDefender flag, and it`s\n\
+; defending on a city tile, attacker`s firepower is doubled\n\
+; and defenders firepower is reduced to this value.\n\
+; If firepower is already lower than this, it won`t be affected.\
+"
+
+low_firepower_combat_bonus = "\n\
+; When the opponent has LowFirepower combat bonus against\n\
+; a unit, it`s firepower is reduced to this value.\n\
+; If firepower is already lower than this, it won`t be affected.\
+"
+
+low_firepower_nonnat_bombard = "\n\
+; When a unit capable of attacking NonNative tiles does such an\n\
+; attack against NonNatBombardTgt unit, firepower of both sides\n\
+; is reduced to this value.\n\
+; If firepower is already lower than this, it won`t be affected.\
 "
 
 nuke_pop_loss_pct = "\n\

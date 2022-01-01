@@ -272,7 +272,8 @@ flags         = "Missile", "Unreachable", "HutNothing"
 ;                          multiplication with 2/3, etc.
 ;                          Effectively increases *attack* by value percent.
 ;                          Bonus is defined in attackers entry.
-; "LowFirepower"         = Defender firepower is reduced to value 1 when
+; "LowFirepower"         = Defender firepower is reduced to low firepower
+;                          value defined in game.ruleset when
 ;                          ever this has non-zero value.
 ;                          Bonus is defined in attackers entry.
 ; "CityDefensePct"       = In a city, instead of "Defend_Bonus" effect

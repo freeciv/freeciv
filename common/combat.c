@@ -407,8 +407,8 @@ double win_chance(int as, int ahp, int afp, int ds, int dhp, int dfp)
   A unit's effective firepower depend on the situation.
 ***********************************************************************/
 void get_modified_firepower(const struct unit *attacker,
-			    const struct unit *defender,
-			    int *att_fp, int *def_fp)
+                            const struct unit *defender,
+                            int *att_fp, int *def_fp)
 {
   struct city *pcity = tile_city(unit_tile(defender));
   const struct unit_type *att_type;
@@ -427,37 +427,37 @@ void get_modified_firepower(const struct unit *attacker,
   }
 
   /*
-   * UTYF_BADWALLATTACKER sets the firepower of the attacking unit to 1 if
-   * an EFT_DEFEND_BONUS applies (such as a land unit attacking a city with
-   * city walls).
+   * UTYF_BADWALLATTACKER reduces the firepower of the attacking unit to
+   * badwallattacker firepower if an EFT_DEFEND_BONUS applies
+   * (such as a land unit attacking a city with city walls).
    */
   if (unit_has_type_flag(attacker, UTYF_BADWALLATTACKER)
       && get_unittype_bonus(unit_owner(defender), unit_tile(defender),
                             att_type, NULL,
                             EFT_DEFEND_BONUS) > 0) {
-    *att_fp = 1;
+    *att_fp = MIN(*att_fp, game.info.low_firepower_badwallattacker);
   }
 
-  /* pearl harbour - defender's firepower is reduced to one, 
+  /* pearl harbour - defender's firepower is reduced,
    *                 attacker's is multiplied by two         */
   if (unit_has_type_flag(defender, UTYF_BADCITYDEFENDER)
       && tile_city(unit_tile(defender))) {
     *att_fp *= 2;
-    *def_fp = 1;
+    *def_fp = MIN(*def_fp, game.info.low_firepower_pearl_harbour);
   }
-  
+
   /* 
    * When attacked by fighters, helicopters have their firepower
-   * reduced to 1.
+   * reduced to low firepower bonus.
    */
   if (combat_bonus_against(att_type->bonuses, def_type,
                            CBONUS_LOW_FIREPOWER)) {
-    *def_fp = 1;
+    *def_fp = MIN(*def_fp, game.info.low_firepower_combat_bonus);
   }
 
   att_tile = unit_tile(attacker);
 
-  /* In land bombardment both units have their firepower reduced to 1.
+  /* In land bombardment both units have their firepower reduced.
    * Land bombardment is always towards tile not native for attacker.
    * It's initiated either from a tile not native to defender (Ocean for Land unit)
    * or from a tile where attacker is despite non-native terrain (city, transport) */
@@ -466,8 +466,8 @@ void get_modified_firepower(const struct unit *attacker,
       && (!can_exist_at_tile(&(wld.map),
                              def_type, att_tile)
           || !is_native_tile(att_type, att_tile))) {
-    *att_fp = 1;
-    *def_fp = 1;
+    *att_fp = MIN(*att_fp, game.info.low_firepower_nonnat_bombard);
+    *def_fp = MIN(*def_fp, game.info.low_firepower_nonnat_bombard);
   }
 }
 

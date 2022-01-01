@@ -1418,6 +1418,26 @@ static bool save_game_ruleset(const char *filename, const char *name)
   save_default_bool(sfile, game.info.damage_reduces_bombard_rate,
                     RS_DEFAULT_DAMAGE_REDUCES_BOMBARD_RATE,
                     "combat_rules.damage_reduces_bombard_rate", NULL);
+  if (game.info.low_firepower_badwallattacker != 1) {
+    comment_combat_rules_low_fp_badwallattacker(sfile);
+  }
+  save_default_int(sfile, game.info.low_firepower_badwallattacker, 1,
+                   "combat_rules.low_firepower_badwallattacker", NULL);
+  if (game.info.low_firepower_pearl_harbour != 1) {
+    comment_combat_rules_low_fp_pearl_harbour(sfile);
+  }
+  save_default_int(sfile, game.info.low_firepower_pearl_harbour, 1,
+                   "combat_rules.low_firepower_pearl_harbour", NULL);
+  if (game.info.low_firepower_combat_bonus != 1) {
+    comment_combat_rules_low_fp_combat_bonus(sfile);
+  }
+  save_default_int(sfile, game.info.low_firepower_combat_bonus, 1,
+                   "combat_rules.low_firepower_combat_bonus", NULL);
+  if (game.info.low_firepower_nonnat_bombard != 1) {
+    comment_combat_rules_low_fp_nonnat_bombard(sfile);
+  }
+  save_default_int(sfile, game.info.low_firepower_nonnat_bombard, 1,
+                   "combat_rules.low_firepower_nonnat_bombard", NULL);
   if (game.info.nuke_pop_loss_pct != RS_DEFAULT_NUKE_POP_LOSS_PCT) {
     comment_combat_rules_nuke_pop_loss(sfile);
   }

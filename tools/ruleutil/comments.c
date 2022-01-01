@@ -67,6 +67,10 @@ static struct {
   char *combat_rules_only_real_fight_veteran;
   char *combat_rules_scaled_veterancy;
   char *combat_rules_damage_reduces_bombard_rate;
+  char *combat_rules_low_fp_badwallattacker;
+  char *combat_rules_low_fp_pearl_harbour;
+  char *combat_rules_low_fp_combat_bonus;
+  char *combat_rules_low_fp_nonnat_bombard;
   char *combat_rules_nuke_pop_loss;
   char *combat_rules_nuke_defender_survival;
   char *auto_attack;
@@ -182,6 +186,14 @@ bool comments_load(void)
                "entrydoc.combat_odds_scaled_veterancy");
   comment_load(comments_storage.combat_rules_damage_reduces_bombard_rate, comment_file,
                "entrydoc.damage_reduces_bombard_rate");
+  comment_load(comments_storage.combat_rules_low_fp_badwallattacker, comment_file,
+               "entrydoc.low_firepower_badwallattacker");
+  comment_load(comments_storage.combat_rules_low_fp_pearl_harbour, comment_file,
+               "entrydoc.low_firepower_pearl_harbour");
+  comment_load(comments_storage.combat_rules_low_fp_combat_bonus, comment_file,
+               "entrydoc.low_firepower_combat_bonus");
+  comment_load(comments_storage.combat_rules_low_fp_nonnat_bombard, comment_file,
+               "entrydoc.low_firepower_nonnat_bombard");
   comment_load(comments_storage.combat_rules_nuke_pop_loss, comment_file,
                "entrydoc.nuke_pop_loss_pct");
   comment_load(comments_storage.combat_rules_nuke_defender_survival,
@@ -583,6 +595,46 @@ void comment_combat_rules_damage_reduces_bombard_rate(struct section_file *sfile
 {
   comment_entry_write(sfile,
                       comments_storage.combat_rules_damage_reduces_bombard_rate,
+                      "combat_rules");
+}
+
+/**********************************************************************//**
+  Write combat_rules low_firepower_badwallattacker settings header.
+**************************************************************************/
+void comment_combat_rules_low_fp_badwallattacker(struct section_file *sfile)
+{
+  comment_entry_write(sfile,
+                      comments_storage.combat_rules_low_fp_badwallattacker,
+                      "combat_rules");
+}
+
+/**********************************************************************//**
+  Write combat_rules low_firepower_pearl_harbour settings header.
+**************************************************************************/
+void comment_combat_rules_low_fp_pearl_harbour(struct section_file *sfile)
+{
+  comment_entry_write(sfile,
+                      comments_storage.combat_rules_low_fp_pearl_harbour,
+                      "combat_rules");
+}
+
+/**********************************************************************//**
+  Write combat_rules low_firepower_combat_bonus settings header.
+**************************************************************************/
+void comment_combat_rules_low_fp_combat_bonus(struct section_file *sfile)
+{
+  comment_entry_write(sfile,
+                      comments_storage.combat_rules_low_fp_combat_bonus,
+                      "combat_rules");
+}
+
+/**********************************************************************//**
+  Write combat_rules low_firepower_nonnat_bombard settings header.
+**************************************************************************/
+void comment_combat_rules_low_fp_nonnat_bombard(struct section_file *sfile)
+{
+  comment_entry_write(sfile,
+                      comments_storage.combat_rules_low_fp_nonnat_bombard,
                       "combat_rules");
 }
 

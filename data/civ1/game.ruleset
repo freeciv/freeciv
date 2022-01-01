@@ -239,6 +239,29 @@ combat_odds_scaled_veterancy = FALSE
 ; Even after this unit gets at least one bombard round.
 damage_reduces_bombard_rate = TRUE
 
+; When the attacker has BadWallAttacker flag, and there`s
+; positive DefendBonus effect applied to the attack, attacker`s
+; firepower gets reduced to this value.
+; If firepower is already lower than this, it won`t be affected.
+low_firepower_badwallattacker = 1
+
+; When the defender has BadCityDefender flag, and it`s
+; defending on a city tile, attacker`s firepower is doubled
+; and defenders firepower is reduced to this value.
+; If firepower is already lower than this, it won`t be affected.
+low_firepower_pearl_harbour = 1
+
+; When the opponent has LowFirepower combat bonus against
+; a unit, it`s firepower is reduced to this value.
+; If firepower is already lower than this, it won`t be affected.
+low_firepower_combat_bonus = 1
+
+; When a unit capable of attacking NonNative tiles does such an
+; attack against NonNatBombardTgt unit, firepower of both sides
+; is reduced to this value.
+; If firepower is already lower than this, it won`t be affected.
+low_firepower_nonnat_bombard = 1
+
 ; Percentage of population lost by a city after nuclear attak. If set to
 ; 100 city is destroyed along with all the units. If set to 0 city does not
 ; loose population. Any value below 50 means the city can never be

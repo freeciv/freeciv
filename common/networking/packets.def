@@ -547,6 +547,10 @@ PACKET_GAME_INFO = 16; sc, is-info
   BOOL only_real_fight_makes_veteran;
   BOOL combat_odds_scaled_veterancy;
   BOOL damage_reduces_bombard_rate;
+  UINT8 low_firepower_badwallattacker;
+  UINT8 low_firepower_pearl_harbour;
+  UINT8 low_firepower_combat_bonus;
+  UINT8 low_firepower_nonnat_bombard;
   UINT8 nuke_pop_loss_pct;
   UINT8 nuke_defender_survival_chance_pct;
   UINT16 min_city_center_output[O_LAST];
