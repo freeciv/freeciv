@@ -115,7 +115,6 @@ priv_headers = [
   'execinfo.h',
   'fcntl.h',
   'time.h',
-  'libcharset.h',
   'libgen.h',
   'lzma.h',
   'zstd.h',
@@ -235,6 +234,11 @@ if c_compiler.has_function('BCryptGenRandom', args: '-lbcrypt')
   priv_conf_data.set('HAVE_BCRYPTGENRANDOM', 1)
 else
   bcrypt_lib_dep = []
+endif
+
+if c_compiler.has_header('libcharset.h', args: header_arg) and
+   c_compiler_has_function('locale_charset')
+  priv_conf_data.set('HAVE_LIBCHARSET', 1)
 endif
 
 readline_dep = c_compiler.find_library('readline', dirs: cross_lib_path,

@@ -93,8 +93,8 @@
 /* time.h available */
 #mesondefine HAVE_TIME_H
 
-/* libcharset.h available */
-#mesondefine HAVE_LIBCHARSET_H
+/* libcharset.h and locale_charset() available */
+#mesondefine HAVE_LIBCHARSET
 
 /* libgen.h available */
 #mesondefine HAVE_LIBGEN_H
