@@ -373,6 +373,10 @@ static void dai_upgrade_units(struct city *pcity, int limit, bool military)
   struct player *pplayer = city_owner(pcity);
   int expenses;
 
+  if (!action_ever_possible(ACTION_UPGRADE_UNIT)) {
+    return;
+  }
+
   dai_calc_data(pplayer, NULL, &expenses, NULL);
 
   unit_list_iterate(pcity->tile->units, punit) {
