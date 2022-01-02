@@ -26,6 +26,7 @@ typedef enum {
 sex_t sex_by_name(const char *name);
 const char *sex_rule_name(sex_t kind);
 const char *sex_name_translation(sex_t kind);
+const char *sex_name_mnemonic(sex_t kind, const char *mnemonic);
 
 #ifdef __cplusplus
 }

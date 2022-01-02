@@ -67,3 +67,24 @@ const char *sex_name_translation(sex_t kind)
 
   return _(rule_name);
 }
+
+/************************************************************************//**
+  Return translated name of the sex with a mnemonic placed on it
+****************************************************************************/
+const char *sex_name_mnemonic(sex_t kind, const char *mnemonic)
+{
+  static char buf[128];
+
+  switch (kind) {
+  case SEX_MALE:
+    fc_snprintf(buf, sizeof(buf), _("%sMale"), mnemonic);
+    return buf;
+  case SEX_FEMALE:
+    fc_snprintf(buf, sizeof(buf), _("%sFemale"), mnemonic);
+    return buf;
+  case SEX_UNKNOWN:
+    break;
+  }
+
+  return NULL;
+}

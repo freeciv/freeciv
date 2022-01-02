@@ -38,6 +38,7 @@
 #include "map.h"
 #include "packets.h"
 #include "player.h"
+#include "sex.h"
 
 /* client */
 #include "client_main.h"
@@ -1087,13 +1088,15 @@ static void create_races_dialog(struct player *pplayer)
   gtk_grid_attach(GTK_GRID(table), label, 0, 0, 1, 2);
   gtk_grid_attach(GTK_GRID(table), combo, 1, 0, 2, 1);
 
-  cmd = gtk_check_button_new_with_mnemonic(_("_Female"));
+  cmd = gtk_check_button_new_with_mnemonic(sex_name_mnemonic(SEX_FEMALE,
+                                                             "_"));
   gtk_widget_set_margin_bottom(cmd, 6);
   races_sex[0] = cmd;
   gtk_grid_attach(GTK_GRID(table), cmd, 1, 1, 1, 1);
   group = cmd;
 
-  cmd = gtk_check_button_new_with_mnemonic(_("_Male"));
+  cmd = gtk_check_button_new_with_mnemonic(sex_name_mnemonic(SEX_MALE,
+                                                             "_"));
   gtk_check_button_set_group(GTK_CHECK_BUTTON(cmd),
                              GTK_CHECK_BUTTON(group));
   gtk_widget_set_margin_bottom(cmd, 6);
@@ -1187,9 +1190,9 @@ static void create_races_dialog(struct player *pplayer)
       G_CALLBACK(races_leader_callback), NULL);
 
   g_signal_connect(races_sex[0], "toggled",
-      G_CALLBACK(races_sex_callback), GINT_TO_POINTER(0));
+      G_CALLBACK(races_sex_callback), GINT_TO_POINTER(SEX_FEMALE));
   g_signal_connect(races_sex[1], "toggled",
-      G_CALLBACK(races_sex_callback), GINT_TO_POINTER(1));
+      G_CALLBACK(races_sex_callback), GINT_TO_POINTER(SEX_MALE));
 
   /* Finish up. */
   gtk_dialog_set_default_response(GTK_DIALOG(shell), GTK_RESPONSE_CANCEL);
