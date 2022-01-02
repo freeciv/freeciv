@@ -1,9 +1,40 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="600" height="400">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="600"
+   height="400"
+   version="1.1"
+   id="svg15"
+   sodipodi:docname="golden_horde.svg"
+   inkscape:version="1.1.1 (3bf5ae0d25, 2021-09-20)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs19" />
+  <sodipodi:namedview
+     id="namedview17"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     showgrid="false"
+     inkscape:zoom="1.4672466"
+     inkscape:cx="300.2222"
+     inkscape:cy="199.69377"
+     inkscape:window-width="1128"
+     inkscape:window-height="833"
+     inkscape:window-x="511"
+     inkscape:window-y="105"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg15" />
   <rect
      fill="#ffffff"
      width="600"
-     height="400"/>
+     height="400"
+     id="rect2" />
   <g
      id="g2928"
      transform="matrix(1.1515152,0,0,1.1515152,213.6365,-271.36366)">
@@ -15,7 +46,8 @@
        sodipodi:cy="187.33606"
        sodipodi:cx="220.08197"
        fill="#d40000"
-       sodipodi:type="arc" />
+       sodipodi:type="arc"
+       id="path4" />
     <path
        transform="matrix(0.81879193,0,0,0.6812183,-105.20134,167.38325)"
        d="m 281.14754,187.33606 c 0,44.5902 -27.33998,80.7377 -61.06557,80.7377 -33.72559,0 -61.06557,-36.1475 -61.06557,-80.7377 0,-44.5902 27.33998,-80.7377 61.06557,-80.7377 33.72559,0 61.06557,36.1475 61.06557,80.7377 z"
@@ -24,10 +56,12 @@
        sodipodi:cy="187.33606"
        sodipodi:cx="220.08197"
        fill="#ffffff"
-       sodipodi:type="arc" />
+       sodipodi:type="arc"
+       id="path6" />
   </g>
   <g
-     transform="matrix(1.1515152,0,0,1.1515152,213.6365,-75.606085)">
+     transform="matrix(1.1515152,0,0,1.1515152,213.6365,-75.606085)"
+     id="g13">
     <path
        transform="matrix(1.2281879,0,0,0.92893405,-195.30201,150.97716)"
        d="m 281.14754,187.33606 c 0,44.5902 -27.33998,80.7377 -61.06557,80.7377 -33.72559,0 -61.06557,-36.1475 -61.06557,-80.7377 0,-44.5902 27.33998,-80.7377 61.06557,-80.7377 33.72559,0 61.06557,36.1475 61.06557,80.7377 z"
@@ -36,10 +70,12 @@
        sodipodi:cy="187.33606"
        sodipodi:cx="220.08197"
        fill="#999999"
-       sodipodi:type="arc" />
+       sodipodi:type="arc"
+       id="path9" />
     <path
        sodipodi:nodetypes="cccsccsccccccsccccccccscccc"
        d="m 0,318.5 32,0 0,-33.5 c 0,0 -0.06784,-21.5 20.117299,-21.5 C 69.268367,263.5 74.9,274.61913 74.9,274.61913 l 0.2,0 c 0,0 4.438761,-11.11913 20.167115,-11.11913 C 115.77549,263.5 118,285 118,285 l 0,33.5 32,0 0,13 -45,0 0,-46.5 c 0,0 -1.55645,-8.19049 -8.5,-8.5 C 89.557436,276.19051 88,285 88,285 l 0,88.5 44,0 -14,12.69836 -86,0.30164 -14,-13 44,0 0,-88.5 c 0,0 -2.619548,-8.5 -8.5,-8.5 -5.879459,0 -8.5,8.5 -8.5,8.5 l 0,46.5 -45.000003,0 3e-6,-13 z"
-       fill="#000000" />
+       fill="#000000"
+       id="path11" />
   </g>
 </svg>
