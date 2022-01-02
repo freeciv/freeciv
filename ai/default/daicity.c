@@ -413,28 +413,30 @@ static void dai_upgrade_units(struct city *pcity, int limit, bool military)
       }
 
       action_list_iterate(upgrade_actions, act_id) {
-        const struct action *paction = action_by_number(act_id);
-        int cost = unit_upgrade_price(pplayer, old_type, punittype);
-        int real_limit = limit;
+        if (action_ever_possible(act_id)) {
+          const struct action *paction = action_by_number(act_id);
+          int cost = unit_upgrade_price(pplayer, old_type, punittype);
+          int real_limit = limit;
 
-        /* Sinking Triremes are DANGEROUS!! We'll do anything to upgrade 'em. */
-        /* FIXME: This assumes rules to be quite close to civ/2.
-         * Of the supplied rulesets those are the only ones with
-         * UTYF_COAST unit, but... */
-        if (unit_has_type_flag(punit, UTYF_COAST)) {
-          real_limit = expenses;
-        }
-        if (pplayer->economic.gold - cost > real_limit) {
-          CITY_LOG(LOG_BUY, pcity, "Upgraded %s to %s for %d (%s)",
-                   unit_rule_name(punit),
-                   utype_rule_name(punittype),
-                   cost,
-                   military ? "military" : "civilian");
-          unit_do_action(city_owner(pcity), punit->id,
-                         pcity->id, 0, "",
-                         paction->id);
-        } else {
-          increase_maxbuycost(pplayer, cost);
+          /* Sinking Triremes are DANGEROUS!! We'll do anything to upgrade 'em. */
+          /* FIXME: This assumes rules to be quite close to civ/2.
+           * Of the supplied rulesets those are the only ones with
+           * UTYF_COAST unit, but... */
+          if (unit_has_type_flag(punit, UTYF_COAST)) {
+            real_limit = expenses;
+          }
+          if (pplayer->economic.gold - cost > real_limit) {
+            CITY_LOG(LOG_BUY, pcity, "Upgraded %s to %s for %d (%s)",
+                     unit_rule_name(punit),
+                     utype_rule_name(punittype),
+                     cost,
+                     military ? "military" : "civilian");
+            unit_do_action(city_owner(pcity), punit->id,
+                           pcity->id, 0, "",
+                           paction->id);
+          } else {
+            increase_maxbuycost(pplayer, cost);
+          }
         }
       } action_list_iterate_end;
     }
