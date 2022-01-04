@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    width="600"
    height="400"
    id="svg2"
    sodipodi:version="0.32"
-   inkscape:version="0.46"
+   inkscape:version="1.1.1 (3bf5ae0d25, 2021-09-20)"
    sodipodi:docname="greater_poland.svg"
    inkscape:output_extension="org.inkscape.output.svg.inkscape"
-   version="1.0">
+   version="1.0"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
   <metadata
      id="metadata13">
     <rdf:RDF>
@@ -44,8 +44,8 @@
        sodipodi:type="inkscape:persp3d" />
   </defs>
   <sodipodi:namedview
-     inkscape:window-height="729"
-     inkscape:window-width="1280"
+     inkscape:window-height="611"
+     inkscape:window-width="859"
      inkscape:pageshadow="2"
      inkscape:pageopacity="0.0"
      guidetolerance="10.0"
@@ -57,11 +57,13 @@
      id="base"
      showgrid="false"
      inkscape:zoom="0.9175"
-     inkscape:cx="82.618004"
-     inkscape:cy="249.26471"
-     inkscape:window-x="0"
-     inkscape:window-y="0"
-     inkscape:current-layer="svg2" />
+     inkscape:cx="283.37875"
+     inkscape:cy="205.99455"
+     inkscape:window-x="561"
+     inkscape:window-y="97"
+     inkscape:current-layer="svg2"
+     inkscape:pagecheckerboard="0"
+     inkscape:window-maximized="0" />
   <rect
      width="600"
      height="400"
