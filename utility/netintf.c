@@ -80,6 +80,7 @@ static void set_socket_errno(void)
   switch (err) {
     /* these have mappings to symbolic errno names in net_types.h */
   case WSAEINTR:
+  case WSAEINPROGRESS:
   case WSAEWOULDBLOCK:
   case WSAECONNRESET:
   case WSAECONNREFUSED:
