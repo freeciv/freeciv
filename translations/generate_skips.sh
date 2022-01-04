@@ -1,5 +1,5 @@
 #!/bin/bash
-#/**********************************************************************
+#/***********************************************************************
 # Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -16,8 +16,8 @@
 SRCDIR="$(dirname "$0")"
 
 if test "x$1" = "x-h" || test "x$1" = "x--help" ; then
-    echo "Usage: $(basename $0) [domain=all]"
-    exit
+  echo "Usage: $(basename $0) [domain=all]"
+  exit
 fi
 
 DOMAINLIST_FULL="core nations ruledit"
@@ -25,6 +25,20 @@ DOMAINLIST_FULL="core nations ruledit"
 cd $SRCDIR
 
 if test "x$1" != "x" && test "x$1" != "xall" ; then
+  for domain in $1
+  do
+    domain_found=no
+    for other_domain in $DOMAINLIST_FULL
+    do
+      if test $domain = $other_domain ; then
+        domain_found=yes
+      fi
+    done
+    if test $domain_found != yes ; then
+      echo "Unknown domain \"$domain\" given!" >&2
+      exit 1
+    fi
+  done
   DOMAINLIST="$1"
 else
   DOMAINLIST="$DOMAINLIST_FULL"
