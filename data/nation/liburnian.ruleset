@@ -21,7 +21,7 @@ leaders = {
  "Mamaester", "Male"
 }
 
-flag= "liburnian"
+flag = "liburnian"
 flag_alt = "-"
 style = "Celtic"
 

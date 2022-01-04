@@ -23,7 +23,7 @@ ruler_titles = {
 }
 
 flag = "mughal"
-flag_alt="-"
+flag_alt = "-"
 style = "Asian"
 
 init_techs = ""

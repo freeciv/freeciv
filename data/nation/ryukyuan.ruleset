@@ -27,7 +27,7 @@ init_units = ""
 
 civilwar_nations = "japanese", "taiwanese"
 
-cities=
+cities =
 ; Okinawan name used, Japanese in comment
  "Sui",                 ; Shuri
  "Naafa",               ; Naha

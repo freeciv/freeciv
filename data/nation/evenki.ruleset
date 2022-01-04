@@ -3,7 +3,6 @@
 name   = _("Evenki")
 plural = _("?plural:Evenks")
 groups = "Asian", "Early Modern"
-
 legend = _("The Evenks are a Tungusic ethnic group in Siberia, Mongolia,\
  and northern China. Historical evidence suggests that they have lived\
  in the Baikal area on today's Russian-Mongolian border since the Stone\
@@ -23,7 +22,7 @@ ruler_titles = {
 }
 
 flag = "evenkia"
-flag_alt="-"
+flag_alt = "-"
 style = "European"
 
 init_techs = ""

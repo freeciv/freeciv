@@ -1,9 +1,9 @@
 [nation_barbadian]
 
-name=_("Barbadian")
-plural=_("?plural:Barbadians")
-groups="Modern", "American"
-legend=_("Barbados is an island country in the Atlantic Ocean, about 100\
+name   = _("Barbadian")
+plural = _("?plural:Barbadians")
+groups = "Modern", "American"
+legend = _("Barbados is an island country in the Atlantic Ocean, about 100\
  km east of the Windward Islands in the Caribbean. Originally inhabited by\
  Arawaks, the island was discovered by the Portuguese around 1500. When\
  the English first settled Barbados in 1627 they found the island\
@@ -27,13 +27,14 @@ ruler_titles = {
  "Fundamentalism",  _("Bishop %s"),          _("?female:Bishop %s")
 }
 
-flag="barbados"
+flag = "barbados"
 flag_alt = "-"
 style = "Tropical"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
+
 civilwar_nations = "trinidadian and tobagonian", "vincentian"
 
 cities =
@@ -81,4 +82,3 @@ cities =
  "Seaview",
  "Lead Vale",
  "Welchman Hall"
-

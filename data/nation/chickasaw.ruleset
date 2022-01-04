@@ -3,7 +3,7 @@
 name   = _("Chickasaw")
 plural = _("?plural:Chickasaws")
 groups = "Early Modern", "American"
-legend=_("One of the so-called Five Civilized Tribes, the Chickasaw\
+legend = _("One of the so-called Five Civilized Tribes, the Chickasaw\
  occupied primarily what is today the northern part of the U.S. state of\
  Mississippi at the time of first contact with Europeans. The name\
  \"Mississippi\" itself originates from a Chickasaw word meaning\

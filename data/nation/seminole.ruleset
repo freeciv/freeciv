@@ -38,7 +38,7 @@ ruler_titles = {
 }
 
 flag = "seminole"
-flag_alt="-"
+flag_alt = "-"
 style = "Celtic"
 
 init_techs = ""

@@ -5,8 +5,7 @@ translation_domain = "freeciv-core"
 name   = _("Taino")
 plural = _("?plural:Taino")
 groups = "American", "Core"
-
-legend=_("Native inhabitants of the Bahamas, Cuba, Hispaniola, Puerto Rico,\
+legend = _("Native inhabitants of the Bahamas, Cuba, Hispaniola, Puerto Rico,\
  Jamaica, and other Caribbean islands who gave us the root words for\
  hurricane, tobacco, potato, canoe, barbeque, hammock, and yucca. They were\
  a matrilineal people, and the first that Columbus came into contact with in\

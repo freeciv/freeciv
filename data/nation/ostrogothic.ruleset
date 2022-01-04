@@ -42,7 +42,7 @@ init_units = ""
 
 conflicts_with = "italian", "croatian", "slovenian", "bosnian-herzegovinian", "serbian",
  "austrian", "illyrian" ; liburnian
-civilwar_nations="visigothic", "italian" ; liburnian
+civilwar_nations = "visigothic", "italian" ; liburnian
 
 cities =
   "Ravenna",

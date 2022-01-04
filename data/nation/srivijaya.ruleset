@@ -3,8 +3,7 @@
 name   = _("Sri Vijaya")
 plural = _("?plural:Sri Vijaya")
 groups = "Asian", "Medieval"
-
-legend=_("Sri Vijaya was an empire centered on Palembang in eastern\
+legend = _("Sri Vijaya was an empire centered on Palembang in eastern\
  Sumatra and extended its control through much of the coastal regions of\
  Sumatra, Java, Borneo and the Malay peninsula. It was founded sometime in\
  the 3rd century CE and lasted until roughly 1400, falling first to Jambi,\

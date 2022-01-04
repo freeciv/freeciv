@@ -36,7 +36,7 @@ civilwar_nations = "argentine", "bolivian", "brazilian", "chilean", "colombian",
  "ecuadorian", "guyanese", "paraguayan", "peruvian", "surinamese", "uruguayan",
  "venezuelan"
 
-cities=
+cities =
 ; Sites of Uasur institutions
  "Quito",
  "Cochabamba",
