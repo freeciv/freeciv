@@ -1946,7 +1946,7 @@ static enum fc_tristate is_goods_type_in_range(const struct tile *target_tile,
   switch (range) {
   case REQ_RANGE_LOCAL:
   case REQ_RANGE_CITY:
-    /* The requirement is filled if the tile has extra of requested type. */
+    /* The requirement is filled if the city imports good of requested type. */
     if (!target_city) {
       return TRI_MAYBE;
     }
