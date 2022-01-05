@@ -306,7 +306,7 @@ bool script_server_init(void)
   }
 
   tolua_common_a_open(fcl_main->state);
-  api_specenum_open(fcl_main->state);
+  api_game_specenum_open(fcl_main->state);
   tolua_game_open(fcl_main->state);
   tolua_signal_open(fcl_main->state);
 
@@ -340,7 +340,7 @@ bool script_server_init(void)
   }
 
   tolua_common_a_open(fcl_unsafe->state);
-  api_specenum_open(fcl_unsafe->state);
+  api_game_specenum_open(fcl_unsafe->state);
   tolua_game_open(fcl_unsafe->state);
 
 #ifdef MESON_BUILD

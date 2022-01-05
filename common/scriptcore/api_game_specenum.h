@@ -19,7 +19,7 @@ extern "C" {
 
 struct lua_State;
 
-int api_specenum_open(lua_State *L);
+int api_game_specenum_open(lua_State *L);
 
 #ifdef __cplusplus
 }

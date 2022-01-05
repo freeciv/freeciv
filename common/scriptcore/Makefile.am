@@ -28,6 +28,8 @@ libscriptcore_la_SOURCES = \
 	api_game_specenum.h	\
 	api_signal_base.c	\
 	api_signal_base.h	\
+	api_specenum.c		\
+	api_specenum.h		\
 	luascript.c		\
 	luascript.h		\
 	luascript_func.c	\

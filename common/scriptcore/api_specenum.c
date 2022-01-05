@@ -15,36 +15,34 @@
 #include <fc_config.h>
 #endif
 
-#include <string.h>
-
 /* dependencies/lua */
 #include "lua.h"
-#include "lualib.h"
-#include "lauxlib.h"
 
-/* utility */
-#include "support.h"
+/* utilit */
+#include "log.h"
 
-/* common */
-#include "events.h"
-
-/* common/scriptcore */
 #include "api_specenum.h"
 
-#include "api_game_specenum.h"
-
-
 /**********************************************************************//**
-  Define the __index function for each exported specenum type.
+  Create a module table and set the member lookup function.
 **************************************************************************/
-API_SPECENUM_DEFINE_INDEX(event_type, "E_")
-
-/**********************************************************************//**
-  Load the specenum modules into Lua state L.
-**************************************************************************/
-int api_game_specenum_open(lua_State *L)
+void api_specenum_create_table(lua_State *L, const char *name,
+                               lua_CFunction findex)
 {
-  API_SPECENUM_CREATE_TABLE(L, event_type, "E");
-
-  return 0;
+  /* Insert a module table in the global environment,
+   * or reuse any preexisting table */
+  lua_getglobal(L, name);
+  if (lua_isnil(L, -1)) {
+    lua_newtable(L);
+    lua_pushvalue(L, -1);
+    lua_setglobal(L, name);
+  }
+  fc_assert_ret(lua_istable(L, -1));
+  /* Create a metatable */
+  lua_newtable(L);                /* stack: module mt */
+  lua_pushliteral(L, "__index");
+  lua_pushcfunction(L, findex);    /* stack: module mt '__index' index */
+  lua_rawset(L, -3);              /* stack: module mt */
+  lua_setmetatable(L, -2);        /* stack: module */
+  lua_pop(L, 1);
 }
