@@ -53,13 +53,13 @@
  *
  * Unlike the original CM code, which used a dynamic programming approach,
  * this code uses a branch-and-bound approach.  The DP approach allowed
- * cacheing, but it was hard to guarantee the correctness of the cache, so
+ * caching, but it was hard to guarantee the correctness of the cache, so
  * it was usually tossed and recomputed.
  *
  * The B&B approach also allows a very simple greedy search, whereas the DP
  * approach required a lot of pre-computing.  And, it appears to be very
  * slightly faster.  It evaluates about half as many solutions, but each
- * candidate solution is more expensive due to the lack of cacheing.
+ * candidate solution is more expensive due to the lack of caching.
  *
  * We use highly specific knowledge about how the city computes its stats
  * in two places:

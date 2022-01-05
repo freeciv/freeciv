@@ -141,7 +141,7 @@ static bool sdl_audio_play(const char *const tag, const char *const fullpath,
       Mix_FreeChunk(samples[i].wave);
       samples[i].wave = NULL;
     }
-    /* remember for cacheing */
+    /* remember for caching */
     samples[i].wave = wave;
     samples[i].tag = tag;
 
