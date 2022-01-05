@@ -2339,6 +2339,7 @@ foreach iconsize : i
     install_data(join_paths('data/icons/', iconsize, 'freeciv-client.png'),
                  join_paths('data/icons/', iconsize, 'freeciv-server.png'),
                  join_paths('data/icons/', iconsize, 'freeciv-modpack.png'),
+                 join_paths('data/icons/', iconsize, 'freeciv-ruledit.png'),
                  install_dir : join_paths(get_option('datadir'), 'icons/hicolor', iconsize, 'apps'))
 endforeach
 
