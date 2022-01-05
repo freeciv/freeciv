@@ -83,10 +83,13 @@ if host_system == 'windows'
   pub_conf_data.set('FREECIV_SOCKET_ZERO_NOT_STDIN', 1)
   priv_conf_data.set('ALWAYS_ROOT', 1)
   add_global_arguments('-D_WIN32_WINNT=0x0601', language : ['c', 'cpp'])
-  ws2_dep = c_compiler.find_library('ws2_32')
+  net_dep = c_compiler.find_library('ws2_32')
+elif host_system == 'haiku'
+  net_dep = c_compiler.find_library('network')
+  pub_conf_data.set('FREECIV_HAVE_PTHREAD', 1)
 else
   pub_conf_data.set('FREECIV_HAVE_PTHREAD', 1)
-  ws2_dep = []
+  net_dep = []
 endif
 
 pub_headers = [
@@ -202,7 +205,7 @@ priv_functions = [
 
 foreach func : priv_functions
   if c_compiler.has_function(func,
-                             dependencies: ws2_dep)
+                             dependencies: net_dep)
     priv_conf_data.set('HAVE_' + func.underscorify().to_upper(), 1)
   endif
 endforeach
@@ -220,7 +223,7 @@ liblua_functions = [
 
 foreach func : liblua_functions
   if c_compiler.has_function(func,
-                             dependencies: ws2_dep)
+                             dependencies: net_dep)
     liblua_conf_data.set('HAVE_' + func.underscorify().to_upper(), 1)
   endif
 endforeach
@@ -649,7 +652,7 @@ common_lib = library('freeciv',
                  c_compiler.find_library('z', dirs: cross_lib_path),
                  c_compiler.find_library('libcurl', dirs: cross_lib_path),
                  m_dep, sqlite3_dep,
-                 ws2_dep, jansson_dep, lua_dep, lzma_dep, zstd_dep,
+                 net_dep, jansson_dep, lua_dep, lzma_dep, zstd_dep,
                  bcrypt_lib_dep, iconv_lib_dep,
                  gettext_dep,
                  dependency('threads')],
@@ -773,7 +776,7 @@ executable(server_binary_name,
   'server/civserver.c',
   include_directories: server_inc,
   link_with: [server_lib, common_lib, ais],
-  dependencies: [m_dep, ws2_dep, readline_dep, gettext_dep],
+  dependencies: [m_dep, net_dep, readline_dep, gettext_dep],
   install: true
   )
 
@@ -2404,7 +2407,7 @@ executable('freeciv-gtk3.22',
   c_args: [ '-DGDK_VERSION_MIN_REQUIRED=GDK_VERSION_3_20',
             '-DGDK_VERSION_MAX_ALLOWED=GDK_VERSION_3_22'],
   include_directories: client_inc,
-  dependencies: [gtk322_dep, ws2_dep, gettext_dep],
+  dependencies: [gtk322_dep, net_dep, gettext_dep],
   link_with: client_common,
   install: true
   )
@@ -2496,7 +2499,7 @@ executable('freeciv-qt',
   'client/gui_interface.c',
   mocced_client,
   include_directories: [client_inc, include_directories('client/gui-qt')],
-  dependencies: [qt5_dep, ws2_dep, gettext_dep],
+  dependencies: [qt5_dep, net_dep, gettext_dep],
   link_with: client_common,
   install: true)
 
@@ -2708,7 +2711,7 @@ executable('freeciv-sdl2',
                  c_compiler.find_library('libSDL2_image', dirs: cross_lib_path),
                  c_compiler.find_library('libSDL2_gfx', dirs: cross_lib_path),
                  c_compiler.find_library('libSDL2_ttf', dirs: cross_lib_path),
-                 ws2_dep, gettext_dep],
+                 net_dep, gettext_dep],
   link_with: client_common,
   install: true
   )
@@ -2850,7 +2853,7 @@ executable('freeciv-ruleup',
   'tools/ruleup.c',
   link_with: [common_lib, server_lib, tool_lib, ais],
   include_directories: tool_inc,
-  dependencies: [m_dep, ws2_dep, readline_dep, gettext_dep],
+  dependencies: [m_dep, net_dep, readline_dep, gettext_dep],
   install: true
   )
 
@@ -2908,7 +2911,7 @@ executable('freeciv-ruledit',
   'tools/ruledit/validity.c',
   mocced_ruledit,
   include_directories: tool_inc,
-  dependencies: [qt5_dep, m_dep, ws2_dep, readline_dep, gettext_dep],
+  dependencies: [qt5_dep, m_dep, net_dep, readline_dep, gettext_dep],
   link_with: [common_lib, server_lib, ais, tool_lib],
   install: true
   )
@@ -2921,7 +2924,7 @@ executable('freeciv-manual',
   link_with: [common_lib, server_lib, tool_lib, ais],
   include_directories: [tool_inc,
                         include_directories('client', 'client/include')],
-  dependencies: [m_dep, ws2_dep, readline_dep, gettext_dep],
+  dependencies: [m_dep, net_dep, readline_dep, gettext_dep],
   install: true
   )
 
