@@ -1073,7 +1073,8 @@ struct city *city_from_small_wonder(const struct player *pplayer,
 **************************************************************************/
 bool can_sell_building(const struct impr_type *pimprove)
 {
-  return (valid_improvement(pimprove) && is_improvement(pimprove));
+  return (valid_improvement(pimprove)
+          && is_building_sellable(pimprove));
 }
 
 /**********************************************************************//**
@@ -1082,7 +1083,16 @@ bool can_sell_building(const struct impr_type *pimprove)
 bool can_city_sell_building(const struct city *pcity,
                             const struct impr_type *pimprove)
 {
-  return (city_has_building(pcity, pimprove) && is_improvement(pimprove));
+  return (city_has_building(pcity, pimprove)
+          && is_building_sellable(pimprove));
+}
+
+/**********************************************************************//**
+  Return TRUE iff the building is sellable one.
+**************************************************************************/
+bool is_building_sellable(const struct impr_type *pimprove)
+{
+  return is_improvement(pimprove);
 }
 
 /**********************************************************************//**

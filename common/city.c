@@ -1209,7 +1209,7 @@ int city_improvement_upkeep(const struct city *pcity,
   if (NULL == b) {
     return 0;
   }
-  if (is_wonder(b)) {
+  if (!is_building_sellable(b)) {
     return 0;
   }
 

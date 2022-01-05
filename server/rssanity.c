@@ -661,8 +661,9 @@ static bool rs_buildings(void)
       return FALSE;
     }
 
-    if (is_wonder(pimprove) && pimprove->upkeep != 0) {
-      ruleset_error(LOG_ERROR, "%s is a wonder with a nonzero upkeep value",
+    if (!is_building_sellable(pimprove) && pimprove->upkeep != 0) {
+      ruleset_error(LOG_ERROR,
+                    "%s is a nonsellable building with a nonzero upkeep value",
                     improvement_rule_name(pimprove));
       return FALSE;
     }

@@ -137,6 +137,7 @@ bool can_improvement_go_obsolete(const struct impr_type *pimprove);
 bool can_sell_building(const struct impr_type *pimprove);
 bool can_city_sell_building(const struct city *pcity,
                             const struct impr_type *pimprove);
+bool is_building_sellable(const struct impr_type *pimprove);
 enum test_result test_player_sell_building_now(struct player *pplayer,
                                                struct city *pcity,
                                                const struct impr_type *pimprove);
