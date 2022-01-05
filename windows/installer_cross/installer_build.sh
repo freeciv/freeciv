@@ -110,7 +110,7 @@ case $GUI in
     FCMP="gtk3" ;;
   gtk4)
     GUINAME="GTK4"
-    FCMP="gtk3" ;;
+    FCMP="gtk4" ;;
   ruledit) ;;
   *)
     echo "Unknown gui type \"$GUI\"" >&2
@@ -206,15 +206,17 @@ else
     exit 1
   fi
 
-  if test "x$GUI" != "xqt" ; then
-    if ! add_gtk3_env $DLLSPATH $INSTDIR ; then
-      echo "Copying gtk3 environment failed!" >&2
-      exit 1
-    fi
-  fi
-
   case $GUI in
+    gtk3.22)
+      if ! add_gtk3_env $DLLSPATH $INSTDIR ; then
+        echo "Copying gtk3 environment failed!" >&2
+        exit 1
+      fi ;;
     sdl2)
+      if ! add_gtk3_env $DLLSPATH $INSTDIR ; then
+        echo "Copying gtk3 environment failed!" >&2
+        exit 1
+      fi
       if ! add_sdl2_env $DLLSPATH $INSTDIR ; then
         echo "Copying SDL2 environment failed!" >&2
         exit 1
