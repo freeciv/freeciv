@@ -3448,15 +3448,21 @@ static bool load_ruleset_terrain(struct section_file *file,
         ok = FALSE;
         break;
       }
-      if (pterrain->transform_time <= 0) {
-        /* Transform time of zero is documented to disable the transform
-         * regardless of given transform result. That's fine, but in the
-         * future we may consider it an error to give combination of
-         * transform_result and transform_time where one indicates it's
-         * enabled and the other that it's not.
-         * Note that we already strip transform_result when doing ruleup
-         * from older ruleset that has such a construct. */
+      if (compat->compat_mode && compat->ver_terrain < RSFORMAT_3_1
+          && pterrain->transform_time <= 0) {
+        /* Transform time of zero was documented to disable the transform
+         * regardless of given transform result in earlier versions, i.e.,
+         * having them inconsistent was not an error. */
         pterrain->transform_result = NULL;
+      }
+      if ((pterrain->transform_result != NULL
+           && pterrain->transform_time <= 0)
+          || (pterrain->transform_result == NULL
+              && pterrain->transform_time > 0)) {
+        ruleset_error(LOG_ERROR, "%s: transform_result and transform_time disagree "
+                      "whether transforming is enabled", tsection);
+        ok = FALSE;
+        break;
       }
 
       pterrain->placing_time = 1; /* default */
