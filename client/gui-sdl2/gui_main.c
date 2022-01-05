@@ -850,9 +850,6 @@ void ui_init(void)
   sdl2_client_flags = 0;
   sdl_flags = SDL_INIT_VIDEO | SDL_INIT_NOPARACHUTE;
 
-  /* auto center new windows in X enviroment */
-  putenv((char *)"SDL_VIDEO_CENTERED=yes");
-
   init_sdl(sdl_flags);
 }
 
