@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN"
-"http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
 <!-- Created with Sodipodi ("http://www.sodipodi.com/") -->
+
 <!-- /Creative Commons Public Domain -->
+
 <!--
 <rdf:RDF xmlns="http://web.resource.org/cc/"
      xmlns:dc="http://purl.org/dc/elements/1.1/"
@@ -25,19 +25,39 @@ Guinea, Honduras, Israel, Jamaica, Jordan, and Romania Flags</dc:title>
 </License>
 </rdf:RDF>
 -->
+
 <svg
    id="svg611"
    sodipodi:version="0.33pre"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:xlink="http://www.w3.org/1999/xlink"
    width="999"
    height="666"
-   sodipodi:docname="greece_flag.svg">
+   sodipodi:docname="greece.svg"
+   version="1.1"
+   inkscape:version="1.1.1 (3bf5ae0d25, 2021-09-20)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
   <defs
      id="defs613" />
   <sodipodi:namedview
-     id="base" />
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     showgrid="false"
+     inkscape:zoom="0.88122917"
+     inkscape:cx="499.86997"
+     inkscape:cy="332.49013"
+     inkscape:window-width="1136"
+     inkscape:window-height="817"
+     inkscape:window-x="480"
+     inkscape:window-y="68"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg611" />
   <g
      id="g644"
      transform="scale(7.4)">
