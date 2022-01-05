@@ -98,6 +98,9 @@ struct resource_type {
 /* Can build military base */
 #define SPECENUM_VALUE3 TA_CAN_BASE
 #define SPECENUM_VALUE3NAME N_("CanBase")
+/* Can place extras with infrapoints */
+#define SPECENUM_VALUE4 TA_CAN_PLACE
+#define SPECENUM_VALUE4NAME N_("CanPlace")
 #define SPECENUM_COUNT  TA_COUNT
 #include "specenum_gen.h"
 

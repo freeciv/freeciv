@@ -678,6 +678,8 @@ bool terrain_can_support_alteration(const struct terrain *pterrain,
      return (pterrain->road_time > 0);
    case TA_CAN_BASE:
      return (pterrain->base_time > 0);
+   case TA_CAN_PLACE:
+     return (pterrain->placing_time > 0);
    default:
      break;
   }
