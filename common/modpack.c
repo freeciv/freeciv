@@ -195,3 +195,13 @@ const char *modpack_file_from_ruleset_cache(const char *name)
 
   return NULL;
 }
+
+/************************************************************************//**
+  Call callback for each item in the ruleset cache.
+****************************************************************************/
+void modpack_ruleset_cache_iterate(mrc_cb cb, void *data)
+{
+  modpack_cache_iterate(modpack_rulesets, item) {
+    cb(item->modpack_name, item->filename, data);
+  } modpack_cache_iterate_end;
+}

@@ -36,6 +36,9 @@ bool modpack_check_capabilities(struct section_file *file, const char *us_capstr
 const char *modpack_serv_file(struct section_file *sf);
 const char *modpack_rulesetdir(struct section_file *sf);
 
+typedef void (*mrc_cb)(const char*, const char *, void *data);
+void modpack_ruleset_cache_iterate(mrc_cb cb, void *data);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

@@ -1080,6 +1080,34 @@ const char *new_challenge_filename(struct connection *pc)
   return get_challenge_filename(pc);
 }
 
+struct mrc_data {
+  int count;
+  struct packet_ruleset_choices *packet;
+};
+
+/************************************************************************//**
+  Callback called from modpack ruleset cache iteration.
+****************************************************************************/
+static void ruleset_cache_cb(const char *mp_name, const char *filename,
+                             void *data_in)
+{
+  struct mrc_data *data = (struct mrc_data *)data_in;
+  const int maxlen = sizeof(data->packet->rulesets[data->count]);
+
+  if (data->count >= MAX_NUM_RULESETS) {
+    log_verbose("Can't send more than %d ruleset names to client, "
+                "skipping some", MAX_NUM_RULESETS);
+    return;
+  }
+
+  if (fc_strlcpy(data->packet->rulesets[data->count], mp_name, maxlen) < maxlen) {
+    data->count++;
+  } else {
+    log_verbose("Modpack name '%s' too long to send to client, skipped",
+                mp_name);
+  }
+}
+
 /************************************************************************//**
   Call this on a connection with HACK access to send it a set of ruleset
   choices.  Probably this should be called immediately when granting
@@ -1087,43 +1115,38 @@ const char *new_challenge_filename(struct connection *pc)
 ****************************************************************************/
 static void send_ruleset_choices(struct connection *pc)
 {
-  struct fileinfo_list *ruleset_choices;
   struct packet_ruleset_choices packet;
-  size_t i = 0;
+  static bool rulesets_cached = FALSE;
+  struct mrc_data data;
 
-  ruleset_choices = get_modpacks_list();
+  if (!rulesets_cached) {
+    struct fileinfo_list *ruleset_choices;
 
-  fileinfo_list_iterate(ruleset_choices, pfile) {
-    const int maxlen = sizeof(packet.rulesets[i]);
-    struct section_file *sf;
+    ruleset_choices = get_modpacks_list();
 
-    if (i >= MAX_NUM_RULESETS) {
-      log_verbose("Can't send more than %d ruleset names to client, "
-                  "skipping some", MAX_NUM_RULESETS);
-      break;
-    }
+    fileinfo_list_iterate(ruleset_choices, pfile) {
+      struct section_file *sf;
 
-    sf = secfile_load(pfile->fullname, FALSE);
+      sf = secfile_load(pfile->fullname, FALSE);
 
-    if (sf != NULL) {
-      const char *name = modpack_cache_ruleset(sf);
-
-      if (name != NULL) {
-        if (fc_strlcpy(packet.rulesets[i], name, maxlen) < maxlen) {
-          i++;
-        } else {
-          log_verbose("Modpack name '%s' too long to send to client, skipped", name);
-        }
+      if (sf != NULL) {
+        modpack_cache_ruleset(sf);
+        secfile_destroy(sf);
       }
+    } fileinfo_list_iterate_end;
 
-      secfile_destroy(sf);
-    }
-  } fileinfo_list_iterate_end;
-  packet.ruleset_count = i;
+    fileinfo_list_destroy(ruleset_choices);
+
+    rulesets_cached = TRUE;
+  }
+
+  data.count = 0;
+  data.packet = &packet;
+  modpack_ruleset_cache_iterate(ruleset_cache_cb, &data);
+
+  packet.ruleset_count = data.count;
 
   send_packet_ruleset_choices(pc, &packet);
-
-  fileinfo_list_destroy(ruleset_choices);
 }
 
 /************************************************************************//**
