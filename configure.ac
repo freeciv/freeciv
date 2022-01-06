@@ -858,8 +858,8 @@ if test x$crosser != xyes ; then
     [AC_DEFINE([FREECIV_HAVE_PTHREAD], [1], [Use pthreads as thread implementation])
     thread_impl=pthreads
     AC_MSG_RESULT([pthreads])
-    AC_DEFINE([FREECIV_HAVE_THREAD_COND], [1], [Has thread condition variable implementation])])
-    thread_cond=true
+    AC_DEFINE([FREECIV_HAVE_THREAD_COND], [1], [Has thread condition variable implementation])
+    thread_cond=true])
 fi
 
 if test "x$thread_impl" = "xnone" ; then
