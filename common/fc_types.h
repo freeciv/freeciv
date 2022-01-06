@@ -1231,6 +1231,14 @@ typedef float adv_want;
 #define SPECENUM_VALUE1NAME "Never"
 #include "specenum_gen.h"
 
+/* Used in the network protocol. */
+#define SPECENUM_NAME transp_def_type
+#define SPECENUM_VALUE0 TDT_ALIGHT
+#define SPECENUM_VALUE0NAME "Alight"
+#define SPECENUM_VALUE1 TDT_BLOCKED
+#define SPECENUM_VALUE1NAME "Blocked"
+#include "specenum_gen.h"
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

@@ -266,6 +266,7 @@ type VLAYER             = uint8(enum vision_layer)
 type SETDEFLVL          = uint8(enum setting_default_level)
 type CAPITAL            = uint8(enum capital_type)
 type WONDER_VISIB       = uint8(enum wonder_visib_type)
+type TRANSP_DEF_TYPE    = uint8(enum transp_def_type)
 
 # typedefs for bit vectors
 type BV_ACTIONS         = bitvector(bv_actions)
@@ -1411,6 +1412,8 @@ PACKET_RULESET_UNIT = 140; sc, lsend
   UINT8 bombard_rate;
   UINT8 city_size;
   UINT8 city_slots;
+
+  TRANSP_DEF_TYPE tp_defense;
 
   BV_UNIT_CLASSES cargo;
   BV_UNIT_CLASSES targets;

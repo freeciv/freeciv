@@ -3042,6 +3042,9 @@ static bool save_units_ruleset(const char *filename, const char *name)
                            "%s.city_size", path);
       }
 
+      secfile_insert_str(sfile, transp_def_type_name(put->tp_defense),
+                         "%s.tp_defense", path);
+
       set_count = 0;
       for (flagi = 0; flagi <= UTYF_LAST_USER_FLAG; flagi++) {
         if (utype_has_flag(put, flagi)) {

@@ -2491,6 +2491,20 @@ static bool load_ruleset_units(struct section_file *file,
                                                  "%s.city_slots", sec_name);
       u->city_size = secfile_lookup_int_default(file, 1,
                                                 "%s.city_size", sec_name);
+
+      sval = secfile_lookup_str_default(file, transp_def_type_name(TDT_ALIGHT),
+                                        "%s.tp_defense", sec_name);
+      u->tp_defense = transp_def_type_by_name(sval, fc_strcasecmp);
+      if (!transp_def_type_is_valid(u->tp_defense)) {
+        ruleset_error(LOG_ERROR,
+                      "\"%s\" unit_type \"%s\":"
+                      " bad tp_defense \"%s\".",
+                      filename,
+                      utype_rule_name(u),
+                      sval);
+        ok = FALSE;
+        break;
+      }
     } unit_type_iterate_end;
   }
 
@@ -7981,6 +7995,7 @@ static void send_ruleset_units(struct conn_list *dest)
     packet.bombard_rate = u->bombard_rate;
     packet.city_size = u->city_size;
     packet.city_slots = u->city_slots;
+    packet.tp_defense = u->tp_defense;
     packet.cargo = u->cargo;
     packet.targets = u->targets;
     packet.embarks = u->embarks;

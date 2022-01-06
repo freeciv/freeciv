@@ -358,6 +358,10 @@ utypes = "\
 ; city_slots    = How many of homecity\'s unit maintenance slots unit takes\n\
 ; city_size     = Initial size of the cities built by \'Found City\' type units\n\
 ;                 (but \'Join City\' uses pop_cost)\n\
+; tp_defense    = Method to decide if unit can be selected as a defender when\n\
+;                 transported.\n\
+;                   \"Blocked\" - Can't defend when transported\n\
+;                   \"Alight\"   - Can defend if can alight or unload (current default)\n\
 ; targets       = list of unit classes this unit can attack against even\n\
 ;                 if they have Unreachable unit class flag\n\
 ; embarks       = list of unit classes this unit may load into while not in\n\
