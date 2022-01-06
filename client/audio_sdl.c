@@ -166,7 +166,7 @@ static void sdl_audio_wait(void)
 }
 
 /**********************************************************************//**
-  Quit SDL.  If the video is still in use (by gui-sdl), just quit the
+  Quit SDL. If the video is still in use (by gui-sdl2), just quit the
   subsystem.
 
   This will need to be changed if SDL is used elsewhere.
@@ -181,7 +181,7 @@ static void quit_sdl_audio(void)
 }
 
 /**********************************************************************//**
-  Init SDL.  If the video is already in use (by gui-sdl), just init the
+  Init SDL. If the video is already in use (by gui-sdl2), just init the
   subsystem.
 
   This will need to be changed if SDL is used elsewhere.
