@@ -529,6 +529,8 @@ struct unit_type {
 
   int city_slots;
 
+  enum transp_def_type tp_defense;
+
   struct unit_class *uclass;
 
   bv_unit_classes cargo;

@@ -247,6 +247,10 @@ flags         = "Unreachable", "DoesntOccupyTile", "HutFrighten"
 ; city_slots    = How many of homecity's unit maintenance slots unit takes
 ; city_size     = Initial size of the cities built by 'Found City' type units
 ;                 (but 'Join City' uses pop_cost)
+; tp_defense    = Method to decide if unit can be selected as a defender when
+;                 transported.
+;                   "Blocked" - Can't defend when transported
+;                   "Alight"  - Can defend if can alight or unload (current default)
 ; targets       = list of unit classes this unit can attack against even
 ;                 if they have Unreachable unit class flag
 ; embarks       = list of unit classes this unit may load into while not in

@@ -174,17 +174,23 @@ bool unit_can_defend_here(const struct civ_map *nmap, const struct unit *punit)
 {
   struct unit *ptrans = unit_transport_get(punit);
 
-  /* Do not just check if unit is transported.
-   * Even transported units may step out from transport to fight,
-   * if this is their native terrain. */
-  return (can_unit_exist_at_tile(nmap, punit, unit_tile(punit))
-          && (ptrans == NULL
-              /* Don't care if unloaded by the transport or alight itself */
-              /* FIXME: should being able to be unloaded by the transport
-               * count as being able to defend (like it does now) or should
-               * a unit that can't alight be considered useless as a
-               * defender? */
-              || can_unit_alight_or_be_unloaded(punit, ptrans)));
+  if (ptrans == NULL) {
+    /* FIXME: Redundant check; if unit is in the tile without transport
+     *        it's known to be able to exist there. */
+    return can_unit_exist_at_tile(nmap, punit, unit_tile(punit));
+  }
+
+  switch (unit_type_get(punit)->tp_defense) {
+  case TDT_BLOCKED:
+    return FALSE;
+  case TDT_ALIGHT:
+    return can_unit_exist_at_tile(nmap, punit, unit_tile(punit))
+      && can_unit_alight_or_be_unloaded(punit, ptrans);
+  }
+
+  fc_assert(FALSE);
+
+  return FALSE;
 }
 
 /************************************************************************//**
