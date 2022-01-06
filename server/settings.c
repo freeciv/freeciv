@@ -36,6 +36,7 @@
 #include "plrhand.h"
 #include "report.h"
 #include "rssanity.h"
+#include "setcompat.h"
 #include "srv_main.h"
 #include "stdinhand.h"
 
@@ -4132,7 +4133,7 @@ void setting_action(const struct setting *pset)
   Load game settings from ruleset file 'game.ruleset'.
 ****************************************************************************/
 bool settings_ruleset(struct section_file *file, const char *section,
-                      bool act)
+                      bool act, bool compat)
 {
   const char *name;
   int j;
@@ -4153,6 +4154,10 @@ bool settings_ruleset(struct section_file *file, const char *section,
                                                    section, j)); j++) {
       char path[256];
       fc_snprintf(path, sizeof(path), "%s.set%d", section, j);
+
+      if (compat) {
+        name = setcompat_current_name_from_previous(name);
+      }
 
       if (!setting_ruleset_one(file, name, path)) {
         log_error("unknown setting in '%s': %s", secfile_name(file), name);

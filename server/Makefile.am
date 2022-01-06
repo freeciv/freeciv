@@ -99,6 +99,8 @@ libfreeciv_srv_la_SOURCES = \
 		score.h		\
 		sernet.c	\
 		sernet.h	\
+		setcompat.c	\
+		setcompat.h	\
 		settings.c	\
 		settings.h	\
 		spacerace.c	\

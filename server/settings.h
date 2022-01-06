@@ -199,7 +199,8 @@ int settings_number(void);
 void settings_list_update(void);
 struct setting_list *settings_list_get(enum sset_level level);
 
-bool settings_ruleset(struct section_file *file, const char *section, bool act);
+bool settings_ruleset(struct section_file *file, const char *section,
+                      bool act, bool compat);
 
 void send_server_setting(struct conn_list *dest, const struct setting *pset);
 void send_server_settings(struct conn_list *dest);

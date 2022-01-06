@@ -25,6 +25,7 @@
 
 /* server */
 #include "aiiface.h"
+#include "setcompat.h"
 #include "unittools.h"
 
 #include "savecompat.h"
@@ -1873,11 +1874,19 @@ static void compat_load_030200(struct loaddata *loading,
                                       "settings.gamestart_valid");
 
       for (i = 0; i < set_count; i++) {
-        const char *name
+        const char *old_name
           = secfile_lookup_str(loading->file, "settings.set%d.name", i);
+        const char *name;
 
-        if (!name) {
+        if (!old_name) {
           continue;
+        }
+
+        name = setcompat_S3_2_name_from_S3_1(old_name);
+
+        if (fc_strcasecmp(old_name, name)) {
+          /* Setting's name changed */
+          secfile_replace_str(loading->file, name, "settings.set%d.name", i);
         }
 
         if (!fc_strcasecmp("compresstype", name)) {
@@ -2273,11 +2282,19 @@ static void compat_load_dev(struct loaddata *loading)
                                       "settings.gamestart_valid");
 
       for (i = 0; i < set_count; i++) {
-        const char *name
+        const char *old_name
           = secfile_lookup_str(loading->file, "settings.set%d.name", i);
+        const char *name;
 
-        if (!name) {
+        if (!old_name) {
           continue;
+        }
+
+        name = setcompat_S3_2_name_from_S3_1(old_name);
+
+        if (fc_strcasecmp(old_name, name)) {
+          /* Setting's name changed */
+          secfile_replace_str(loading->file, name, "settings.set%d.name", i);
         }
 
         if (!fc_strcasecmp("compresstype", name)) {

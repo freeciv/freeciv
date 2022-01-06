@@ -8980,7 +8980,9 @@ static bool load_rulesetdir(const char *rsdir, bool compat_mode,
 
   if (ok) {
     /* Only load settings for a sane ruleset */
-    ok = settings_ruleset(gamefile, "settings", act);
+    ok = settings_ruleset(gamefile, "settings", act,
+                          compat_info.compat_mode
+                          && compat_info.ver_game < RSFORMAT_3_2);
 
     if (ok) {
       secfile_check_unused(gamefile);
@@ -9091,7 +9093,7 @@ bool reload_rulesets_settings(void)
     ok = FALSE;
   }
   if (ok) {
-    settings_ruleset(file, "settings", TRUE);
+    settings_ruleset(file, "settings", TRUE, FALSE);
     secfile_destroy(file);
   }
 
