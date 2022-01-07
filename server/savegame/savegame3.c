@@ -337,6 +337,7 @@ static void sg_save_scenario(struct savedata *saving);
 static void sg_load_settings(struct loaddata *loading);
 static void sg_save_settings(struct savedata *saving);
 
+static void sg_load_counters (struct loaddata * loading);
 static void sg_save_counters (struct savedata * saving);
 
 static void sg_load_map(struct loaddata *loading);
@@ -477,6 +478,8 @@ void savegame3_load(struct section_file *file)
   sg_load_researches(loading);
   /* [player<i>] */
   sg_load_players(loading);
+  /* [counters] */
+  sg_load_counters(loading);
   /* [event_cache] */
   sg_load_event_cache(loading);
   /* [treaties] */
@@ -2571,6 +2574,57 @@ static void sg_save_settings(struct savedata *saving)
   wld.map.server.generator = real_generator;
 
   /* Add all compatibility settings here. */
+}
+
+
+/************************************************************************//**
+Load '[counters]'.
+****************************************************************************/
+static void sg_load_counters(struct loaddata *loading)
+{
+  struct city *pcity;
+  int i, j;
+  size_t length, length2;
+  int *city_count;
+  length = secfile_lookup_int_default(loading->file, 0,
+                              "savefile.city_counters_order_size");
+
+  if (length) {
+    loading->counter.order = secfile_lookup_str_vec(loading->file, &loading->counter.size, "savefile.city_counters_order_vector");
+
+    sg_failure_ret(loading->counter.order != 0,
+                   "Failed to load counter's ruleset order: %s",
+                   secfile_error());
+    sg_failure_ret(loading->counter.size = length,
+                   "Counter vector in savegame have bad size: %s",
+                   secfile_error());
+  }
+
+  int corder[length];
+
+  for (i = 0; i < length; i++) {
+
+    struct counter *ctg = counter_by_rule_name(loading->counter.order[i]);
+    corder[i] = counter_index(ctg);
+  }
+
+  i = 0;
+  while (NULL != (city_count =
+    secfile_lookup_int_vec(loading->file, &length2,
+                           "counters.c%d", i))) {
+
+    sg_failure_ret((length2 -1 == (size_t) length), ( "Bad city counters vector size. Should be " SIZE_T_PRINTF ". Is " SIZE_T_PRINTF "." ), length, length2 - 1);
+
+    pcity = game_city_by_number(city_count[0]);
+
+    sg_failure_ret(NULL != pcity, "City with id %d not found. Is savegame malformed? Abort loading.", city_count[0]);
+
+    for (j = 0; j < length; j++) {
+
+      pcity->counter_values[corder[j]] = city_count[j+1];
+    }
+    i++;
+  }
 }
 
 /************************************************************************//**

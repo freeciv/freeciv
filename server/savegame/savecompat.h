@@ -49,6 +49,10 @@ struct loaddata {
   const char *secfile_options;
   int version;
 
+  struct {
+    const char **order;
+    size_t size;
+  } counter;
   /* loaded in sg_load_savefile(); needed in sg_load_player() */
   struct {
     const char **order;
