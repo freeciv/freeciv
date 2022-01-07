@@ -681,7 +681,20 @@ bool city_receives_goods(const struct city *pcity,
   trade_routes_iterate(pcity, proute) {
     if (proute->goods == pgood
         && (proute->dir == RDIR_TO || proute->dir == RDIR_BIDIRECTIONAL)) {
-      return TRUE;
+      struct city *tcity = game_city_by_number(proute->partner);
+      enum trade_route_type type;
+      struct trade_route_settings *settings;
+
+      if (can_cities_trade(pcity, tcity)) {
+        return TRUE;
+      }
+
+      type = cities_trade_route_type(pcity, tcity);
+      settings = trade_route_settings_by_type(type);
+
+      if (settings->cancelling == TRI_ACTIVE) {
+        return TRUE;
+      }
     }
   } trade_routes_iterate_end;
 
