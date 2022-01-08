@@ -870,6 +870,11 @@ void map_show_all(struct player *pplayer)
 **************************************************************************/
 bool map_is_known(const struct tile *ptile, const struct player *pplayer)
 {
+  if (pplayer->tile_known.vec == NULL) {
+    /* Player map not initialized yet */
+    return FALSE;
+  }
+
   return dbv_isset(&pplayer->tile_known, tile_index(ptile));
 }
 
