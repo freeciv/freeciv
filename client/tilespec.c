@@ -209,6 +209,18 @@ struct river_sprites {
     *outlet[MAX_INDEX_CARDINAL];
 };
 
+struct citizen_graphic {
+  /* Each citizen type has up to MAX_NUM_CITIZEN_SPRITES different
+   * sprites, as defined by the tileset. */
+  int count;
+  struct sprite *sprite[MAX_NUM_CITIZEN_SPRITES];
+};
+
+struct citizen_set {
+  struct citizen_graphic citizen[CITIZEN_LAST];
+  struct citizen_graphic specialist[SP_MAX];
+};
+
 struct named_sprites {
   struct sprite
     *indicator[INDICATOR_COUNT][NUM_TILES_PROGRESS],
@@ -242,12 +254,8 @@ struct named_sprites {
   struct sprite_vector nation_flag;
   struct sprite_vector nation_shield;
 
-  struct citizen_graphic {
-    /* Each citizen type has up to MAX_NUM_CITIZEN_SPRITES different
-     * sprites, as defined by the tileset. */
-    int count;
-    struct sprite *sprite[MAX_NUM_CITIZEN_SPRITES];
-  } citizen[CITIZEN_LAST], specialist[SP_MAX];
+  struct citizen_set default_citizens;
+
   struct sprite *spaceship[SPACESHIP_COUNT];
   struct {
     int hot_x, hot_y;
@@ -580,6 +588,15 @@ static int fill_basic_base_sprite_array(const struct tileset *t,
                                         const struct extra_type *pextra);
 
 static void tileset_player_free(struct tileset *t, int plrid);
+
+static void tileset_setup_specialist_type(struct tileset *t,
+                                          struct citizen_set *set,
+                                          Specialist_type_id id,
+                                          const char *set_name);
+static void tileset_setup_citizen_types_default_set(struct tileset *t);
+static void tileset_setup_citizen_types(struct tileset *t,
+                                        struct citizen_set *set,
+                                        const char *set_name);
 
 /************************************************************************//**
   Called when ever there's problem in ruleset/tileset compatibility
@@ -1413,7 +1430,7 @@ bool tilespec_reread(const char *new_tileset_name,
     tileset_setup_tech_type(tileset, padvance);
   } advance_iterate_end;
   specialist_type_iterate(sp) {
-    tileset_setup_specialist_type(tileset, sp);
+    tileset_setup_specialist_type_default_set(tileset, sp);
   } specialist_type_iterate_end;
 
   for (id = 0; id < game.control.styles_count; id++) {
@@ -2726,9 +2743,22 @@ static bool sprite_exists(const struct tileset *t, const char *tag_name)
   } while (FALSE)
 
 /************************************************************************//**
+  Setup the graphics for specialist types in the default sprite set.
+****************************************************************************/
+void tileset_setup_specialist_type_default_set(struct tileset *t,
+                                               Specialist_type_id id)
+{
+  tileset_setup_specialist_type(t, &t->sprites.default_citizens, id,
+                                "default set");
+}
+
+/************************************************************************//**
   Setup the graphics for specialist types.
 ****************************************************************************/
-void tileset_setup_specialist_type(struct tileset *t, Specialist_type_id id)
+static void tileset_setup_specialist_type(struct tileset *t,
+                                          struct citizen_set *set,
+                                          Specialist_type_id id,
+                                          const char *set_name)
 {
   /* Load the specialist sprite graphics. */
   char buffer[512];
@@ -2740,21 +2770,19 @@ void tileset_setup_specialist_type(struct tileset *t, Specialist_type_id id)
   for (j = 0; j < MAX_NUM_CITIZEN_SPRITES; j++) {
     /* Try tag name + index number */
     fc_snprintf(buffer, sizeof(buffer), "%s_%d", tag, j);
-    t->sprites.specialist[id].sprite[j] = load_sprite(t, buffer, FALSE,
-                                                      FALSE);
+    set->specialist[id].sprite[j] = load_sprite(t, buffer, FALSE, FALSE);
 
     /* Break if no more index specific sprites are defined */
-    if (!t->sprites.specialist[id].sprite[j]) {
+    if (!set->specialist[id].sprite[j]) {
       break;
     }
   }
 
   if (j == 0) {
     /* Try non-indexed */
-    t->sprites.specialist[id].sprite[j] = load_sprite(t, tag, FALSE,
-                                                      FALSE);
+    set->specialist[id].sprite[j] = load_sprite(t, tag, FALSE, FALSE);
 
-    if (t->sprites.specialist[id].sprite[j]) {
+    if (set->specialist[id].sprite[j]) {
       j = 1;
     }
   }
@@ -2764,11 +2792,10 @@ void tileset_setup_specialist_type(struct tileset *t, Specialist_type_id id)
     for (j = 0; j < MAX_NUM_CITIZEN_SPRITES; j++) {
       /* Try alt tag name + index number */
       fc_snprintf(buffer, sizeof(buffer), "%s_%d", graphic_alt, j);
-      t->sprites.specialist[id].sprite[j] = load_sprite(t, buffer, FALSE,
-                                                        FALSE);
+      set->specialist[id].sprite[j] = load_sprite(t, buffer, FALSE, FALSE);
 
       /* Break if no more index specific sprites are defined */
-      if (!t->sprites.specialist[id].sprite[j]) {
+      if (!set->specialist[id].sprite[j]) {
         break;
       }
     }
@@ -2776,26 +2803,36 @@ void tileset_setup_specialist_type(struct tileset *t, Specialist_type_id id)
 
   if (j == 0) {
     /* Try alt tag non-indexed */
-    t->sprites.specialist[id].sprite[j] = load_sprite(t, graphic_alt, FALSE,
-                                                      FALSE);
+    set->specialist[id].sprite[j] = load_sprite(t, graphic_alt, FALSE, FALSE);
 
-    if (t->sprites.specialist[id].sprite[j]) {
+    if (set->specialist[id].sprite[j]) {
       j = 1;
     }
   }
 
-  t->sprites.specialist[id].count = j;
+  set->specialist[id].count = j;
 
   /* Still nothing? Give up. */
   if (j == 0) {
-    tileset_error(LOG_FATAL, _("No graphics for specialist \"%s\"."), tag);
+    tileset_error(LOG_FATAL, _("No graphics for specialist \"%s\" in %s."),
+                  tag, set_name);
   }
+}
+
+/************************************************************************//**
+  Setup the graphics for (non-specialist) citizen types in default set.
+****************************************************************************/
+static void tileset_setup_citizen_types_default_set(struct tileset *t)
+{
+  tileset_setup_citizen_types(t, &t->sprites.default_citizens, "default set");
 }
 
 /************************************************************************//**
   Setup the graphics for (non-specialist) citizen types.
 ****************************************************************************/
-static void tileset_setup_citizen_types(struct tileset *t)
+static void tileset_setup_citizen_types(struct tileset *t,
+                                        struct citizen_set *set,
+                                        const char *set_name)
 {
   int i, j;
   char buffer[512];
@@ -2806,14 +2843,15 @@ static void tileset_setup_citizen_types(struct tileset *t)
 
     for (j = 0; j < MAX_NUM_CITIZEN_SPRITES; j++) {
       fc_snprintf(buffer, sizeof(buffer), "citizen.%s_%d", name, j);
-      t->sprites.citizen[i].sprite[j] = load_sprite(t, buffer, FALSE, FALSE);
-      if (!t->sprites.citizen[i].sprite[j]) {
+      set->citizen[i].sprite[j] = load_sprite(t, buffer, FALSE, FALSE);
+      if (!set->citizen[i].sprite[j]) {
 	break;
       }
     }
-    t->sprites.citizen[i].count = j;
+    set->citizen[i].count = j;
     if (j == 0) {
-      tileset_error(LOG_FATAL, _("No graphics for citizen \"%s\"."), name);
+      tileset_error(LOG_FATAL, _("No graphics for citizen \"%s\" in %s."),
+                    name, set_name);
     }
   }
 }
@@ -2988,7 +3026,7 @@ static void tileset_lookup_sprite_tags(struct tileset *t)
   SET_SPRITE_UNSCALED(tax_science, "s.tax_science");
   SET_SPRITE_UNSCALED(tax_gold, "s.tax_gold");
 
-  tileset_setup_citizen_types(t);
+  tileset_setup_citizen_types_default_set(t);
 
   for (i = 0; i < SPACESHIP_COUNT; i++) {
     const char *names[SPACESHIP_COUNT]
@@ -6384,6 +6422,7 @@ struct sprite *get_citizen_sprite(const struct tileset *t,
                                   int citizen_index,
                                   const struct city *pcity)
 {
+  const struct citizen_set *set = &t->sprites.default_citizens;
   const struct citizen_graphic *graphic;
   int gfx_index = citizen_index;
 
@@ -6393,10 +6432,10 @@ struct sprite *get_citizen_sprite(const struct tileset *t,
 
   if (type < CITIZEN_SPECIALIST) {
     fc_assert(type >= 0);
-    graphic = &t->sprites.citizen[type];
+    graphic = &set->citizen[type];
   } else {
     fc_assert(type < (CITIZEN_SPECIALIST + SP_MAX));
-    graphic = &t->sprites.specialist[type - CITIZEN_SPECIALIST];
+    graphic = &set->specialist[type - CITIZEN_SPECIALIST];
   }
 
   if (graphic->count == 0) {

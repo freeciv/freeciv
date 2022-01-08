@@ -4713,7 +4713,7 @@ void handle_ruleset_specialist(const struct packet_ruleset_specialist *p)
 
   PACKET_STRVEC_EXTRACT(s->helptext, p->helptext);
 
-  tileset_setup_specialist_type(tileset, p->id);
+  tileset_setup_specialist_type_default_set(tileset, p->id);
 }
 
 /************************************************************************//**

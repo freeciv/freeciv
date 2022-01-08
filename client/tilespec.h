@@ -11,7 +11,7 @@
    GNU General Public License for more details.
 ***********************************************************************/
 
-/*********************************************************************** 
+/***********************************************************************
   Reading and using the tilespec files, which describe
   the files and contents of tilesets.
 ***********************************************************************/
@@ -230,7 +230,8 @@ bool tilespec_reread(const char *tileset_name, bool game_fully_initialized,
 void tilespec_reread_callback(struct option *poption);
 void tilespec_reread_frozen_refresh(const char *tname);
 
-void tileset_setup_specialist_type(struct tileset *t, Specialist_type_id id);
+void tileset_setup_specialist_type_default_set(struct tileset *t,
+                                               Specialist_type_id id);
 void tileset_setup_unit_type(struct tileset *t, struct unit_type *punittype);
 void tileset_setup_impr_type(struct tileset *t,
 			     struct impr_type *pimprove);
