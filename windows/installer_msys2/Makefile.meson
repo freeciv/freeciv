@@ -6,6 +6,27 @@
 #
 
 #
+# Variable setup
+#
+
+WINARCH=$(shell ./win_arch.sh)
+
+ifeq ($(WINARCH),win64)
+ARCHDIR=mingw64
+LIBGCCDLL=libgcc_s_seh-1.dll
+CRYPTOLIB_SUFFIX=-x64
+else
+ARCHDIR=mingw32
+LIBGCCDLL=libgcc_s_dw2-1.dll
+CRYPTOLIB_SUFFIX=
+endif
+
+ICUVER=69
+
+# msys2 has dlls in...
+DLLPATH_PREFIX=/$(ARCHDIR)/bin/
+
+#
 # Make rules
 #
 
@@ -29,11 +50,79 @@ install-freeciv-common:
 	cd meson-build-$(GUI); ninja
 	cd meson-build-$(GUI); ninja install
 	# reorder directory layout
+	mv meson-install-$(GUI)/bin/* meson-install-$(GUI)/
+	rm -Rf meson-install-$(GUI)/bin
 	mv meson-install-$(GUI)/share/freeciv meson-install-$(GUI)/data
+	mv meson-install-$(GUI)/share/doc meson-install-$(GUI)/
 	mkdir -p meson-install-$(GUI)/doc/freeciv/installer
 	cp licenses/COPYING.installer meson-install-$(GUI)/doc/freeciv/installer/
+	cp freeciv-server.cmd freeciv-mp-$(FCMP).cmd freeciv-$(CLIENT).cmd Freeciv.url meson-install-$(GUI)/
 
-install-freeciv-gtk3.22: install-freeciv-common
+COMMON_DLLS := \
+	libcairo-2.dll \
+	libgdk_pixbuf-2.0-0.dll \
+	libgio-2.0-0.dll \
+	libglib-2.0-0.dll \
+	libgobject-2.0-0.dll \
+	libintl-8.dll \
+	libpangocairo-1.0-0.dll \
+	libpango-1.0-0.dll \
+	$(LIBGCCDLL) \
+	libfontconfig-1.dll \
+	libfreetype-6.dll \
+	libpixman-1-0.dll \
+	libpng16-16.dll \
+	zlib1.dll \
+	libgmodule-2.0-0.dll \
+	libwinpthread-1.dll \
+	libpcre-1.dll \
+	libcairo-gobject-2.dll \
+	libfribidi-0.dll \
+	libpangowin32-1.0-0.dll \
+	libffi-7.dll \
+	libbz2-1.dll \
+	libbrotlidec.dll \
+	libbrotlicommon.dll \
+	libiconv-2.dll \
+	libatk-1.0-0.dll \
+	libcurl-4.dll \
+	libicuuc${ICUVER}.dll \
+	libicudt${ICUVER}.dll \
+	liblzma-5.dll \
+	libsqlite3-0.dll \
+	libzstd.dll \
+	libexpat-1.dll \
+	libstdc++-6.dll \
+	libcrypto-1_1${CRYPTOLIB_SUFFIX}.dll \
+	libidn2-0.dll \
+	libnghttp2-14.dll \
+	libpsl-5.dll \
+	libssh2-1.dll \
+	libssl-1_1${CRYPTOLIB_SUFFIX}.dll \
+	libreadline8.dll \
+	libtermcap-0.dll
+
+install-env-common:
+	# add DLLs
+	cp -R $(addprefix $(DLLPATH_PREFIX), $(COMMON_DLLS)) meson-install-$(GUI)/
+	mkdir -p meson-install-$(GUI)/ssl/certs
+	cp -R /$(ARCHDIR)/ssl/certs/ca-bundle.crt meson-install-$(GUI)/ssl/certs/
+
+FCMP_GTK3_DLLS := \
+	libgdk-3-0.dll \
+	libgtk-3-0.dll \
+	libepoxy-0.dll \
+	libharfbuzz-0.dll \
+	libpangoft2-1.0-0.dll \
+	libthai-0.dll \
+	libgraphite2.dll \
+	libdatrie-1.dll \
+	libunistring-2.dll
+
+install-env-gtk3-fcmp: install-env-common
+	cp -R $(addprefix $(DLLPATH_PREFIX), $(FCMP_GTK3_DLLS)) meson-install-$(GUI)/
+
+install-freeciv-gtk3.22: install-freeciv-common install-env-gtk3-fcmp
 
 
 # cleanup
