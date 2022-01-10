@@ -56,6 +56,12 @@ Tech_Type *api_find_tech_type_by_name(lua_State *L, const char *name_orig);
 Terrain *api_find_terrain(lua_State *L, int terrain_id);
 Terrain *api_find_terrain_by_name(lua_State *L, const char *name_orig);
 
+Achievement *api_find_achievement(lua_State *L, int achievement_id);
+Achievement *api_find_achievement_by_name(lua_State *L, const char *name_orig);
+
+Disaster *api_find_disaster(lua_State *L, int disaster_id);
+Disaster *api_find_disaster_by_name(lua_State *L, const char *name_orig);
+
 const Direction *api_find_direction (lua_State *L, int id);
 
 Action *api_find_action_type_by_id(lua_State *L, int id);

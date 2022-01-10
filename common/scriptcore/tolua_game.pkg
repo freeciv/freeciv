@@ -521,6 +521,14 @@ module find {
     @ terrain (lua_State *L, const char *name_orig);
   Terrain *api_find_terrain
     @ terrain (lua_State *L, int terrain_id);
+  Achievement *api_find_achievement_by_name
+    @ achievement (lua_State *L, const char *name_orig);
+  Achievement *api_find_achievement
+    @ achievement (lua_State *L, int achievement_id);
+  Disaster *api_find_disaster_by_name
+    @ achievement (lua_State *L, const char *name_orig);
+  Disaster *api_find_disaster
+    @ disaster (lua_State *L, int disaster_id);
   Direction *api_utilities_str2dir
     @ direction (lua_State *L, const char *str);
   Direction *api_find_direction
