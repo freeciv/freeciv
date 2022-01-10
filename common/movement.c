@@ -51,6 +51,7 @@ int utype_move_rate(const struct unit_type *utype, const struct tile *ptile,
   const struct unit_class *uclass;
   const struct veteran_level *vlevel;
   int base_move_rate, move_rate;
+  int min_speed;
 
   fc_assert_ret_val(NULL != utype, 0);
   fc_assert_ret_val(NULL != pplayer, 0);
@@ -74,8 +75,9 @@ int utype_move_rate(const struct unit_type *utype, const struct tile *ptile,
 
   /* Don't let the move_rate be less than min_speed unless the base_move_rate is
    * also less than min_speed. */
-  if (move_rate < uclass->min_speed) {
-    move_rate = MIN(uclass->min_speed, base_move_rate);
+  min_speed = MIN(uclass->min_speed, base_move_rate);
+  if (move_rate < min_speed) {
+    move_rate = min_speed;
   }
 
   return move_rate;
