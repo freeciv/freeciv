@@ -39,6 +39,8 @@ const char *freeciv_motto(void);
 
 /* If returns NULL, not a beta version. */
 const char *beta_message(void);
+const char *alpha_message(void);
+const char *unstable_message(void);
 
 #ifdef __cplusplus
 }

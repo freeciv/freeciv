@@ -332,9 +332,9 @@ static void show_main_page(void)
 
   set_output_window_text(_("SDL2-client welcomes you..."));
 
-#if IS_BETA_VERSION
-  set_output_window_text(beta_message());
-#endif /* IS_BETA_VERSION */
+#if IS_BETA_VERSION || IS_DEVEL_VERSION
+  set_output_window_text(unstable_message());
+#endif /* IS_BETA_VERSION || IS_DEVEL_VERSION */
 
   rev_ver = fc_git_revision();
   if (rev_ver != NULL) {

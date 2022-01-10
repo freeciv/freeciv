@@ -141,6 +141,32 @@ const char *beta_message(void)
 }
 
 /*******************************************************************//**
+  Return the alpha message.
+  If returns NULL, not an alpha version.
+***********************************************************************/
+const char *alpha_message(void)
+{
+#if IS_DEVEL_VERSION
+  return _("THIS IS A DEVELOPMENT VERSION");
+#else  /* IS_DEVEL_VERSION */
+  return NULL;
+#endif /* IS_DEVEL_VERSION */
+}
+
+/*******************************************************************//**
+  Return the alpha or beta message.
+  If returns NULL, not such a version.
+***********************************************************************/
+const char *unstable_message(void)
+{
+#if IS_DEVEL_VERSION
+  return alpha_message();
+#elif IS_BETA_VERSION
+  return beta_message();
+#endif
+}
+
+/*******************************************************************//**
   Return the Freeciv motto.
   (The motto is common code:
    only one instance of the string in the source;

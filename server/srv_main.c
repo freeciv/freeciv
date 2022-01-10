@@ -2938,12 +2938,12 @@ static void srv_prepare(void)
 
   server_open_socket();
 
-#if IS_BETA_VERSION
+#if IS_BETA_VERSION || IS_DEVEL_VERSION
   con_puts(C_COMMENT, "");
-  con_puts(C_COMMENT, beta_message());
+  con_puts(C_COMMENT, unstable_message());
   con_puts(C_COMMENT, "");
-#endif
-  
+#endif /* IS_BETA_VERSION || IS_DEVEL_VERSION */
+
   con_flush();
 
   settings_init(TRUE);
