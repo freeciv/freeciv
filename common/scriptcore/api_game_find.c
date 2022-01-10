@@ -287,6 +287,48 @@ Terrain *api_find_terrain_by_name(lua_State *L, const char *name_orig)
 }
 
 /**********************************************************************//**
+  Return the achievement with the given achievement_id index.
+**************************************************************************/
+Achievement *api_find_achievement(lua_State *L, int achievement_id)
+{
+  LUASCRIPT_CHECK_STATE(L, NULL);
+
+  return achievement_by_number(achievement_id);
+}
+
+/**********************************************************************//**
+  Return the achievement with the given name_orig.
+**************************************************************************/
+Achievement *api_find_achievement_by_name(lua_State *L, const char *name_orig)
+{
+  LUASCRIPT_CHECK_STATE(L, NULL);
+  LUASCRIPT_CHECK_ARG_NIL(L, name_orig, 2, string, NULL);
+
+  return achievement_by_rule_name(name_orig);
+}
+
+/**********************************************************************//**
+  Return the disaster with the given disaster_id index.
+**************************************************************************/
+Disaster *api_find_disaster(lua_State *L, int disaster_id)
+{
+  LUASCRIPT_CHECK_STATE(L, NULL);
+
+  return disaster_by_number(disaster_id);
+}
+
+/**********************************************************************//**
+  Return the disaster with the given name_orig.
+**************************************************************************/
+Disaster *api_find_disaster_by_name(lua_State *L, const char *name_orig)
+{
+  LUASCRIPT_CHECK_STATE(L, NULL);
+  LUASCRIPT_CHECK_ARG_NIL(L, name_orig, 2, string, NULL);
+
+  return disaster_by_rule_name(name_orig);
+}
+
+/**********************************************************************//**
   Return the direction with the given id
 **************************************************************************/
 const Direction *api_find_direction(lua_State *L, int id)
