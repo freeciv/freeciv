@@ -9,16 +9,12 @@ add_glib_env() {
   cp $1/bin/glib-compile-schemas.exe $2/bin/
 }
 
-add_gtk3_env() {
-  mkdir -p $2/etc &&
-  cp -R $1/etc/gtk-3.0 $2/etc/ &&
+add_gtk_common_env() {
   mkdir -p $2/lib &&
   cp -R $1/lib/gdk-pixbuf-2.0 $2/lib/ &&
   mkdir -p $2/share/icons &&
   cp -R $1/share/locale $2/share/ &&
   cp -R $1/share/icons/Adwaita $2/share/icons/ &&
-  cp $1/bin/libgtk-3-0.dll $2/ &&
-  cp $1/bin/libgdk-3-0.dll $2/ &&
   cp $1/bin/libgobject-2.0-0.dll $2/ &&
   cp $1/bin/libpixman-1-0.dll $2/ &&
   cp $1/bin/libcairo-gobject-2.dll $2/ &&
@@ -38,16 +34,27 @@ add_gtk3_env() {
   cp $1/bin/libxml2-2.dll $2/ &&
   cp $1/bin/libjpeg-9.dll $2/ &&
   mkdir -p $2/bin &&
-  cp $1/bin/gdk-pixbuf-query-loaders.exe $2/bin/ &&
+  cp $1/bin/gdk-pixbuf-query-loaders.exe $2/bin/
+}
+
+add_gtk3_env() {
+  add_gtk_common_env $1 $2 &&
+  mkdir -p $2/etc &&
+  cp -R $1/etc/gtk-3.0 $2/etc/ &&
+  cp $1/bin/libgtk-3-0.dll $2/ &&
+  cp $1/bin/libgdk-3-0.dll $2/ &&
   cp $1/bin/gtk-update-icon-cache.exe $2/bin/ &&
   cp ./helpers/installer-helper-gtk3.cmd $2/bin/installer-helper.cmd
 }
 
 add_gtk4_env() {
+  add_gtk_common_env $1 $2 &&
   mkdir -p $2/etc &&
-  cp -R $1/etc/gtk-4.0 $2/etc/ &&
   cp $1/bin/libgtk-4-1.dll $2/ &&
-  cp $1/bin/libgraphene-1.0-0.dll $2/
+  cp $1/bin/libgraphene-1.0-0.dll $2/ &&
+  cp $1/bin/libcairo-script-interpreter-2.dll $2/ &&
+  cp $1/bin/gtk4-update-icon-cache.exe $2/bin/ &&
+  cp ./helpers/installer-helper-gtk4.cmd $2/bin/installer-helper.cmd
 }
 
 add_sdl2_mixer_env() {
@@ -247,7 +254,7 @@ else
       exit 1
     fi
   else
-    if test "x$GUI" = "xgtk3.22" ; then
+    if test "x$GUI" = "xgtk3.22" || test "x$GUI" = "xgtk4" ; then
       UNINSTALLER="helpers/uninstaller-helper-gtk3.sh"
     else
       UNINSTALLER=""
