@@ -68,7 +68,7 @@ static char *special_names[] =
   2.6.0   | 2.6.0 release                                  | 201./../.. | 30
   3.0.0   | 3.0.0 release                                  | 201./../.. | 40
   3.1.0   | 3.1.0 release                                  | 201./../.. | 50
-  3.3.0   | 3.2.0 release (development)                    | 202./../.. | 60
+  3.2.0   | 3.2.0 release (development)                    | 202./../.. | 60
           |                                                |            |
 */
 
