@@ -414,6 +414,7 @@ if get_option('nls')
 endif
 
 python_exe = find_program('python3')
+sh_exe = find_program('sh')
 
 common_inc = include_directories(cross_inc_path,
   lua_inc_path, 'dependencies/luasql/src', 'dependencies/tinycthread',
@@ -431,16 +432,16 @@ client_inc = [common_inc, include_directories('client', 'client/include',
 tool_inc = [server_inc, include_directories('tools/ruleutil', 'tools/shared')]
 
 runwrap = custom_target('runwrap', output: 'run.sh',
-              command: ['sh', files('bootstrap/generate_meson_run.sh'), '@OUTPUT@'],
+              command: [sh_exe, files('bootstrap/generate_meson_run.sh'), '@OUTPUT@'],
               depend_files: files('bootstrap/generate_meson_run.sh'),
               build_by_default: true)
 
 verhdr = custom_target('verhdr', output: 'version_gen.h',
-              command: ['sh', files('gen_headers/generate_version_header.sh'), '@OUTPUT@'],
+              command: [sh_exe, files('gen_headers/generate_version_header.sh'), '@OUTPUT@'],
               depend_files: files('fc_version'))
 
 ls_core = custom_target('langstat_core', output: 'langstat_core.txt',
-              command: ['sh', files('bootstrap/generate_langstat.sh'), 'core',
+              command: [sh_exe, files('bootstrap/generate_langstat.sh'), 'core',
                         meson.source_root(), meson.build_root()])
 
 specenum = custom_target('specenum_gen.h', output: 'specenum_gen.h',
@@ -465,7 +466,7 @@ pack_client = custom_target('packets_client', output: ['packhand_gen.h',
                             depend_files: files('common/networking/packets.def'))
 
 gitrev = custom_target('gitrev', output: 'fc_gitrev_gen.h',
-                       command: ['sh', files('bootstrap/generate_gitrev.sh'), meson.source_root(), '@OUTPUT@'],
+                       command: [sh_exe, files('bootstrap/generate_gitrev.sh'), meson.source_root(), '@OUTPUT@'],
                        build_by_default: get_option('gitrev'))
 
 tolua_cmd = find_program('tolua')
