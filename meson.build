@@ -239,8 +239,7 @@ else
   bcrypt_lib_dep = []
 endif
 
-if c_compiler.has_header('libcharset.h', args: header_arg) and
-   c_compiler_has_function('locale_charset')
+if c_compiler.has_header('libcharset.h', args: header_arg) and c_compiler.has_function('locale_charset')
   priv_conf_data.set('HAVE_LIBCHARSET', 1)
 endif
 
