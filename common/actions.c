@@ -7734,11 +7734,11 @@ const char *action_ui_name_default(int act)
     /* TRANS: Destroy _City (100% chance of success). */
     return N_("Destroy %sCity%s");
   case ACTION_RECYCLE_UNIT:
-    /* TRANS: Rec_ycle Unit (100% chance of success). */
-    return N_("Rec%sycle Unit%s");
+    /* TRANS: Dis_band recovering production (100% chance of success). */
+    return N_("Dis%sband recovering production%s");
   case ACTION_DISBAND_UNIT:
-    /* TRANS: _You're Fired (100% chance of success). */
-    return N_("%sYou're Fired%s");
+    /* TRANS: Dis_band without recovering production (100% chance of success). */
+    return N_("Dis%sband without recovering production%s");
   case ACTION_HOME_CITY:
     /* TRANS: Set _Home City (100% chance of success). */
     return N_("Set %sHome City%s");
