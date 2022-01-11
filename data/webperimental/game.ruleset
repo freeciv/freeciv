@@ -531,11 +531,11 @@ ui_name_enter_marketplace = _("Sell %sGoods%s")
 ; /* TRANS: Help _build Wonder (100% chance of success). */
 ui_name_help_wonder = _("Help %sbuild Wonder%s")
 
-; /* TRANS: Rec_ycle Unit (100% chance of success). */
-ui_name_recycle_unit = _("Rec%sycle Unit%s")
+; /* TRANS: Dis_band recovering production (100% chance of success). */
+ui_name_recycle_unit = _("Dis%sband recovering production%s")
 
-; /* TRANS: _You're Fired (100% chance of success). */
-ui_name_disband_unit = _("%sYou're Fired%s")
+; /* TRANS: Dis_band without recovering production (100% chance of success). */
+ui_name_disband_unit = _("Dis%sband without recovering production%s")
 
 ; /* TRANS: _Build City (100% chance of success). */
 ui_name_found_city = _("%sBuild City%s")
