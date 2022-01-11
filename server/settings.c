@@ -5125,6 +5125,8 @@ void send_server_setting_control(struct connection *pconn)
   /* Send off the control packet. */
   send_packet_server_setting_control(pconn, &control);
 
+  pconn->server.settings_sent = TRUE;
+
   /* Send the constant and common part of the settings. */
   settings_iterate(SSET_ALL, pset) {
     setting.id = setting_number(pset);

@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -227,6 +227,9 @@ struct connection {
 
       /* The access level initially given to the client upon connection. */
       enum cmdlevel granted_access_level;
+
+      /* Server setting control packet already sent. */
+      bool settings_sent;
 
       /* The list of ignored connection patterns. */
       struct conn_pattern_list *ignore_list;

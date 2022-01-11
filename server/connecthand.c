@@ -75,7 +75,10 @@ void conn_set_access(struct connection *pconn, enum cmdlevel new_level,
     pconn->server.granted_access_level = new_level;
   }
 
-  if (old_level != new_level) {
+  /* Send updated settings only if settings control already sent.
+   * Otherwise client is not ready to receive them, AND we will send
+   * them later anyway. */
+  if (old_level != new_level && pconn->server.settings_sent) {
     send_server_access_level_settings(pconn->self, old_level, new_level);
   }
 }
@@ -149,6 +152,7 @@ void establish_new_connection(struct connection *pconn)
   pconn->server.delegation.status = FALSE;
   pconn->server.delegation.playing = NULL;
   pconn->server.delegation.observer = FALSE;
+  pconn->server.settings_sent = FALSE;
 
   conn_list_append(game.est_connections, pconn);
   if (conn_list_size(game.est_connections) == 1) {
