@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
+
 <svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://web.resource.org/cc/"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    width="900"
    height="600"
    id="svg1901"
    sodipodi:version="0.32"
-   inkscape:version="0.44"
+   inkscape:version="1.1.1 (3bf5ae0d25, 2021-09-20)"
    version="1.0"
-   sodipodi:docbase="C:\freeciv"
-   sodipodi:docname="gupta.svg">
+   sodipodi:docname="gupta.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
   <defs
      id="defs1903" />
   <sodipodi:namedview
@@ -29,18 +29,21 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="1.2766667"
-     inkscape:cx="450"
-     inkscape:cy="300"
+     inkscape:cx="453.52479"
+     inkscape:cy="300.39164"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      width="900px"
      height="600px"
      showguides="true"
      inkscape:guide-bbox="true"
-     inkscape:window-width="1280"
-     inkscape:window-height="968"
-     inkscape:window-x="-4"
-     inkscape:window-y="-4" />
+     inkscape:window-width="1367"
+     inkscape:window-height="996"
+     inkscape:window-x="346"
+     inkscape:window-y="32"
+     inkscape:pagecheckerboard="0"
+     showgrid="false"
+     inkscape:window-maximized="0" />
   <metadata
      id="metadata1906">
     <rdf:RDF>
