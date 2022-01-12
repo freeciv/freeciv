@@ -42,7 +42,7 @@ If you know only the default rules, spend some time checking the \
 differences.\
 \n\n\
  * There are fewer technologies, buildings and units.\n\
- * Units have no hitpoints. If they win a battle, they remain in full health.\n\
+ * Hitpoints are meaningless. If unit wins a battle, it remains in full health.\n\
 ")
 
 ; Detailed description
@@ -242,24 +242,24 @@ damage_reduces_bombard_rate = TRUE
 ; positive DefendBonus effect applied to the attack, attacker`s
 ; firepower gets reduced to this value.
 ; If firepower is already lower than this, it won`t be affected.
-low_firepower_badwallattacker = 1
+low_firepower_badwallattacker = 10
 
 ; When the defender has BadCityDefender flag, and it`s
 ; defending on a city tile, attacker`s firepower is doubled
 ; and defenders firepower is reduced to this value.
 ; If firepower is already lower than this, it won`t be affected.
-low_firepower_pearl_harbour = 1
+low_firepower_pearl_harbour = 10
 
 ; When the opponent has LowFirepower combat bonus against
 ; a unit, it`s firepower is reduced to this value.
 ; If firepower is already lower than this, it won`t be affected.
-low_firepower_combat_bonus = 1
+low_firepower_combat_bonus = 10
 
 ; When a unit capable of attacking NonNative tiles does such an
 ; attack against NonNatBombardTgt unit, firepower of both sides
 ; is reduced to this value.
 ; If firepower is already lower than this, it won`t be affected.
-low_firepower_nonnat_bombard = 1
+low_firepower_nonnat_bombard = 10
 
 ; Percentage of population lost by a city after nuclear attak. If set to
 ; 100 city is destroyed along with all the units. If set to 0 city does not
