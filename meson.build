@@ -39,6 +39,10 @@ priv_conf_data.set('SYSCONFDIR',
 
 priv_conf_data.set('IS_DEVEL_VERSION', 1)
 
+if host_machine.endian() == 'big'
+  priv_conf_data.set('WORDS_BIGENDIAN', 1)
+endif
+
 if get_option('debug')
   priv_conf_data.set('FREECIV_DEBUG', 1)
   pub_conf_data.set('FREECIV_DEBUG', 1)
