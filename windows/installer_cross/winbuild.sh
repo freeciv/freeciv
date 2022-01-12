@@ -7,9 +7,9 @@
 # This script is licensed under Gnu General Public License version 2 or later.
 # See COPYING available from the same location you got this script.
 
-# Version 2.3.4 (01-Jun-21)
+# Version 2.3.5 (13-Jan-22)
 
-WINBUILD_VERSION="2.3.4"
+WINBUILD_VERSION="2.3.5"
 MIN_WINVER=0x0601 # Windows 7
 CROSSER_FEATURE_LEVEL=2.2
 
@@ -155,7 +155,11 @@ else
   GITREVP=""
 fi
 
-if ! ../../../configure MOCCMD=${DLLSPATH}/bin/moc FREECIV_LABEL_FORCE="<base>-crs" CPPFLAGS="-I${DLLSPATH}/include -D_WIN32_WINNT=${MIN_WINVER}" CFLAGS="-Wno-error" PKG_CONFIG_LIBDIR="${DLLSPATH}/lib/pkgconfig" --enable-sys-tolua-cmd --with-magickwand="${DLLSPATH}/bin" --prefix="/" $GITREVP --enable-client=$CLIENTS --enable-fcmp=$FCMP --enable-debug ${NLS} --host=$TARGET --build=$(../../../bootstrap/config.guess) --with-libiconv-prefix=${DLLSPATH} --with-sqlite3-prefix=${DLLSPATH} --with-followtag="crosser" --enable-crosser ${AIS} --disable-freeciv-manual --enable-sdl-mixer=sdl2 --with-qt5-includes=${DLLSPATH}/include --with-qt5-libs=${DLLSPATH}/lib --with-tinycthread --enable-server=$SERVER --enable-ruledit=$RULEDIT $EXTRA_CONFIG
+if test "x$MOCCMD" = "x" ; then
+  MOCPARAM="MOCCMD=${DLLSPATH}/bin/moc"
+fi
+
+if ! ../../../configure $MOCPARAM FREECIV_LABEL_FORCE="<base>-crs" CPPFLAGS="-I${DLLSPATH}/include -D_WIN32_WINNT=${MIN_WINVER}" CFLAGS="-Wno-error" PKG_CONFIG_LIBDIR="${DLLSPATH}/lib/pkgconfig" --enable-sys-tolua-cmd --with-magickwand="${DLLSPATH}/bin" --prefix="/" $GITREVP --enable-client=$CLIENTS --enable-fcmp=$FCMP --enable-debug ${NLS} --host=$TARGET --build=$(../../../bootstrap/config.guess) --with-libiconv-prefix=${DLLSPATH} --with-sqlite3-prefix=${DLLSPATH} --with-followtag="crosser" --enable-crosser ${AIS} --disable-freeciv-manual --enable-sdl-mixer=sdl2 --with-qt5-includes=${DLLSPATH}/include --with-qt5-libs=${DLLSPATH}/lib --with-tinycthread --enable-server=$SERVER --enable-ruledit=$RULEDIT $EXTRA_CONFIG
 then
   echo "Configure failed" >&2
   exit 1
