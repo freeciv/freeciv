@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!-- Created by Keith Packard -->
+
 <svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://web.resource.org/cc/"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://inkscape.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    version="1.0"
    x="0"
    y="0"
-   width="168pt"
+   width="210"
    height="140"
    id="glider"
    sodipodi:version="0.32"
-   inkscape:version="0.43"
-   sodipodi:docname="glider.svg"
-   sodipodi:docbase="/Users/daniel/Desktop/freeciv">
+   inkscape:version="1.1.1 (3bf5ae0d25, 2021-09-20)"
+   sodipodi:docname="hacker.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
   <metadata
      id="metadata1439">
     <rdf:RDF>
@@ -33,8 +33,8 @@
      id="defs1437">&gt;
     </defs>
   <sodipodi:namedview
-     inkscape:window-height="536"
-     inkscape:window-width="893"
+     inkscape:window-height="603"
+     inkscape:window-width="830"
      inkscape:pageshadow="2"
      inkscape:pageopacity="0.0"
      borderopacity="1.0"
@@ -42,13 +42,17 @@
      pagecolor="#ffffff"
      id="base"
      inkscape:zoom="2.6785714"
-     inkscape:cx="110.09626"
-     inkscape:cy="70"
-     inkscape:window-x="60"
-     inkscape:window-y="82"
-     inkscape:current-layer="glider" />
+     inkscape:cx="109.94667"
+     inkscape:cy="69.813334"
+     inkscape:window-x="610"
+     inkscape:window-y="90"
+     inkscape:current-layer="glider"
+     inkscape:pagecheckerboard="0"
+     inkscape:document-units="pt"
+     showgrid="false"
+     inkscape:window-maximized="0" />
   <rect
-     style="opacity:1;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:7.48800039;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+     style="opacity:1;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:7.488;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
      id="rect1441"
      width="210"
      height="140"
@@ -58,60 +62,35 @@
      id="dots"
      style="fill:#26d009;fill-opacity:1"
      transform="matrix(20,0,0,20,45,10)">
-    <ellipse
+    <circle
        cx="3"
        cy="1"
-       rx="0.69999999"
-       ry="0.69999999"
        id="C1"
-       sodipodi:cx="3"
-       sodipodi:cy="1"
-       sodipodi:rx="0.69999999"
-       sodipodi:ry="0.69999999"
-       style="fill:#26d009;fill-opacity:1" />
-    <ellipse
+       style="fill:#26d009;fill-opacity:1"
+       r="0.69999999" />
+    <circle
        cx="5"
        cy="3"
-       rx="0.69999999"
-       ry="0.69999999"
        id="ellipse1428"
-       sodipodi:cx="5"
-       sodipodi:cy="3"
-       sodipodi:rx="0.69999999"
-       sodipodi:ry="0.69999999"
-       style="fill:#26d009;fill-opacity:1" />
-    <ellipse
+       style="fill:#26d009;fill-opacity:1"
+       r="0.69999999" />
+    <circle
        cx="1"
        cy="5"
-       rx="0.69999999"
-       ry="0.69999999"
        id="ellipse1430"
-       sodipodi:cx="1"
-       sodipodi:cy="5"
-       sodipodi:rx="0.69999999"
-       sodipodi:ry="0.69999999"
-       style="fill:#26d009;fill-opacity:1" />
-    <ellipse
+       style="fill:#26d009;fill-opacity:1"
+       r="0.69999999" />
+    <circle
        cx="3"
        cy="5"
-       rx="0.69999999"
-       ry="0.69999999"
        id="ellipse1432"
-       sodipodi:cx="3"
-       sodipodi:cy="5"
-       sodipodi:rx="0.69999999"
-       sodipodi:ry="0.69999999"
-       style="fill:#26d009;fill-opacity:1" />
-    <ellipse
+       style="fill:#26d009;fill-opacity:1"
+       r="0.69999999" />
+    <circle
        cx="5"
        cy="5"
-       rx="0.69999999"
-       ry="0.69999999"
        id="ellipse1434"
-       sodipodi:cx="5"
-       sodipodi:cy="5"
-       sodipodi:rx="0.69999999"
-       sodipodi:ry="0.69999999"
-       style="fill:#26d009;fill-opacity:1" />
+       style="fill:#26d009;fill-opacity:1"
+       r="0.69999999" />
   </g>
 </svg>
