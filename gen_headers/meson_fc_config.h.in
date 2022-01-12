@@ -39,6 +39,9 @@
 #define _GNU_SOURCE
 #endif
 
+/* Processor stores words with the most significant byte first */
+#mesondefine WORDS_BIGENDIAN
+
 /* Database backend available */
 #define HAVE_FCDB 1
 
