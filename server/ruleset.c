@@ -3448,12 +3448,15 @@ static bool load_ruleset_terrain(struct section_file *file,
         ok = FALSE;
         break;
       }
-      if (compat->compat_mode && compat->ver_terrain < RSFORMAT_3_1
-          && pterrain->transform_time <= 0) {
-        /* Transform time of zero was documented to disable the transform
-         * regardless of given transform result in earlier versions, i.e.,
-         * having them inconsistent was not an error. */
-        pterrain->transform_result = NULL;
+      if (compat->compat_mode && compat->ver_terrain < RSFORMAT_3_1) {
+        if (pterrain->transform_time <= 0) {
+          /* Transform time of zero was documented to disable the transform
+           * regardless of given transform result in earlier versions, i.e.,
+           * having them inconsistent was not an error. */
+          pterrain->transform_result = NULL;
+        } else if (pterrain->transform_result == NULL) {
+          pterrain->transform_time = 0;
+        }
       }
       if ((pterrain->transform_result != NULL
            && pterrain->transform_time <= 0)
