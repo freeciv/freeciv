@@ -91,6 +91,7 @@ if host_system == 'windows'
 elif host_system == 'haiku'
   net_dep = c_compiler.find_library('network')
   pub_conf_data.set('FREECIV_HAVE_PTHREAD', 1)
+  priv_conf_data.set('ALWAYS_ROOT', 1)
 else
   pub_conf_data.set('FREECIV_HAVE_PTHREAD', 1)
   net_dep = []
