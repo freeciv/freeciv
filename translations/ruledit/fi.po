@@ -19,8 +19,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 3.0\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2021-11-14 17:57+0200\n"
-"PO-Revision-Date: 2021-12-11 06:49+0200\n"
+"POT-Creation-Date: 2022-01-14 17:36+0200\n"
+"PO-Revision-Date: 2022-01-14 17:39+0200\n"
 "Last-Translator: Marko Lindqvist <cazfi74@gmail.com>\n"
 "Language-Team: Finnish <laatu@lokalisointi.org>\n"
 "Language: fi\n"
@@ -390,115 +390,125 @@ msgstr "Poista tämä hallitusmuoto"
 msgid "A government with that rule name already exists!"
 msgstr "Hallitusmuoto samalla sääntönimellä on jo olemassa!"
 
-#: tools/ruledit/tab_misc.cpp:68
+#: tools/ruledit/tab_misc.cpp:73
 msgid "Ruleset name"
 msgstr "Sääntökokoelman nimi"
 
-#: tools/ruledit/tab_misc.cpp:73
+#: tools/ruledit/tab_misc.cpp:78
 msgid "Ruleset version"
 msgstr "Sääntökokoelman versio"
 
-#: tools/ruledit/tab_misc.cpp:78
+#: tools/ruledit/tab_misc.cpp:83
 msgid "Save to directory"
 msgstr "Tallenna hakemistoon"
 
-#: tools/ruledit/tab_misc.cpp:85
+#: tools/ruledit/tab_misc.cpp:105
+#, c-format
+msgid ""
+"If you want to be able to load the ruleset directly to freeciv, place it as "
+"a subdirectory under %s%s%s\n"
+"Use server command \"/rulesetdir <subdirectory>\" to load it to freeciv."
+msgstr ""
+"Jos haluat pystyä lataamaan sääntökokoelman suoraan freeciviin, laita se alihakemistoksi hakemiston %s%s%s alle.\n"
+"Käytä freeciv-palvelimen käskyä \"/rulesetdir <alihakemisto>\" ladataksesi sääntökokoelmasi."
+
+#: tools/ruledit/tab_misc.cpp:114
 msgid "Version suffix to directory name"
 msgstr "Versionumero hakemistonimen loppuun"
 
-#: tools/ruledit/tab_misc.cpp:90
+#: tools/ruledit/tab_misc.cpp:119
 msgid "Save now"
 msgstr "Tallenna nyt"
 
-#: tools/ruledit/tab_misc.cpp:94
+#: tools/ruledit/tab_misc.cpp:123
 msgid "Description from file"
 msgstr "Kuvaus tiedostosta"
 
-#: tools/ruledit/tab_misc.cpp:101
+#: tools/ruledit/tab_misc.cpp:130
 msgid "Description file"
 msgstr "Kuvaustiedosto"
 
-#: tools/ruledit/tab_misc.cpp:110
+#: tools/ruledit/tab_misc.cpp:139
 msgid "?stat:Terrains"
 msgstr "Maastotyyppejä"
 
-#: tools/ruledit/tab_misc.cpp:114
+#: tools/ruledit/tab_misc.cpp:143
 msgid "?stat:Resources"
 msgstr "Luonnonvaroja"
 
-#: tools/ruledit/tab_misc.cpp:118
+#: tools/ruledit/tab_misc.cpp:147
 msgid "?stat:Tech Classes"
 msgstr "Yksikköluokat"
 
-#: tools/ruledit/tab_misc.cpp:122
+#: tools/ruledit/tab_misc.cpp:151
 msgid "?stat:Techs"
 msgstr "Teknologioita"
 
-#: tools/ruledit/tab_misc.cpp:126
+#: tools/ruledit/tab_misc.cpp:155
 msgid "?stat:Unit Classes"
 msgstr "Yksikköluokkia"
 
-#: tools/ruledit/tab_misc.cpp:130
+#: tools/ruledit/tab_misc.cpp:159
 msgid "?stat:Unit Types"
 msgstr "Yksikkötyyppejä"
 
-#: tools/ruledit/tab_misc.cpp:134
+#: tools/ruledit/tab_misc.cpp:163
 msgid "?stat:Enablers"
 msgstr "Mahdollistimia"
 
-#: tools/ruledit/tab_misc.cpp:138
+#: tools/ruledit/tab_misc.cpp:167
 msgid "?stat:Buildings"
 msgstr "Rakennuksia"
 
-#: tools/ruledit/tab_misc.cpp:142
+#: tools/ruledit/tab_misc.cpp:171
 msgid "?stat:Nations"
 msgstr "Kansoja"
 
-#: tools/ruledit/tab_misc.cpp:146
+#: tools/ruledit/tab_misc.cpp:175
 msgid "?stat:Styles"
 msgstr "Tyylejä"
 
-#: tools/ruledit/tab_misc.cpp:150
+#: tools/ruledit/tab_misc.cpp:179
 msgid "?stat:Specialists"
 msgstr "Erikoisosaajia"
 
-#: tools/ruledit/tab_misc.cpp:154
+#: tools/ruledit/tab_misc.cpp:183
 msgid "?stat:Governments"
 msgstr "Hallitusmuotoja"
 
-#: tools/ruledit/tab_misc.cpp:158
+#: tools/ruledit/tab_misc.cpp:187
 msgid "?stat:Disasters"
 msgstr "Onnettomuuksia"
 
-#: tools/ruledit/tab_misc.cpp:162
+#: tools/ruledit/tab_misc.cpp:191
 msgid "?stat:Achievements"
 msgstr "Saavutuksia"
 
-#: tools/ruledit/tab_misc.cpp:166
+#: tools/ruledit/tab_misc.cpp:195
 msgid "?stat:Extras"
 msgstr "Ekstroja"
 
-#: tools/ruledit/tab_misc.cpp:170
+#: tools/ruledit/tab_misc.cpp:199
 msgid "?stat:Bases"
 msgstr "Tukikohtia"
 
-#: tools/ruledit/tab_misc.cpp:174
+#: tools/ruledit/tab_misc.cpp:203
 msgid "?stat:Roads"
 msgstr "Kulkuväyliä"
 
-#: tools/ruledit/tab_misc.cpp:178
+#: tools/ruledit/tab_misc.cpp:207
 msgid "?stat:Goods"
 msgstr "Artikkeleita"
 
-#: tools/ruledit/tab_misc.cpp:182
+#: tools/ruledit/tab_misc.cpp:211
 msgid "?stat:Multipliers"
 msgstr "Kertoimia"
 
-#: tools/ruledit/tab_misc.cpp:190
+#: tools/ruledit/tab_misc.cpp:219
 msgid "Refresh Stats"
 msgstr "Päivitä tilastot"
 
-#: tools/ruledit/tab_misc.cpp:272
+#: tools/ruledit/tab_misc.cpp:301
 msgid "Ruleset saved"
 msgstr "Sääntökokoelma tallennettu"
 
