@@ -671,8 +671,8 @@ AC_ARG_WITH([qtver],
  *) AC_MSG_ERROR([bad value ${enableval} for --with-qtver]) ;;
 esac], [qt_ver="$qt_default"])
 
-if test "x$qt_ver" = "xQt6" ; then
-  AC_DEFINE([FC_QT6_MODE], [1], [this is Qt6 based build])
+if test "x$qt_ver" = "xQt5" ; then
+  AC_DEFINE([FC_QT5_MODE], [1], [this is Qt5 based build])
 fi
 
 FC_WORKING_CXX

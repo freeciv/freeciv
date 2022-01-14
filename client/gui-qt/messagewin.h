@@ -52,11 +52,11 @@ private:
   QGridLayout *layout;
   QPixmap *pix;
 protected:
-#ifdef FC_QT6_MODE
+#ifndef FC_QT5_MODE
   void enterEvent(QEnterEvent *event);
-#else  // FC_QT6_MODE
+#else  // FC_QT5_MODE
   void enterEvent(QEvent *event);
-#endif // FC_QT6_MODE
+#endif // FC_QT5_MODE
   void leaveEvent(QEvent *event);
   void paint(QPainter *painter, QPaintEvent *event);
   void paintEvent(QPaintEvent *event);

@@ -1348,15 +1348,15 @@ void fc_client::slot_selection_changed(const QItemSelection &selected,
           load_pix->setPixmap(*(new QPixmap));
         }
 
-#ifdef FC_QT6_MODE
+#ifndef FC_QT5_MODE
         QPixmap pm = load_pix->pixmap(Qt::ReturnByValue);
 
         load_pix->setFixedSize(pm.width(),
                                pm.height());
-#else  /* FC_QT6_MODE */
+#else  /* FC_QT5_MODE */
         load_pix->setFixedSize(load_pix->pixmap()->width(),
                                load_pix->pixmap()->height());
-#endif /* FC_QT6_MODE */
+#endif /* FC_QT5_MODE */
 
         if ((sf = secfile_load_section(fn_bytes.data(),
                                        "research", TRUE))) {

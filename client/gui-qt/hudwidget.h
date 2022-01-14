@@ -171,11 +171,11 @@ protected:
   void mousePressEvent(QMouseEvent *e);
   void mouseMoveEvent(QMouseEvent *event);
   void leaveEvent(QEvent *event);
-#ifdef FC_QT6_MODE
+#ifndef FC_QT5_MODE
   void enterEvent(QEnterEvent *event);
-#else  // FC_QT6_MODE
+#else  // FC_QT5_MODE
   void enterEvent(QEvent *event);
-#endif // FC_QT6_MODE
+#endif // FC_QT5_MODE
 private slots:
   void on_clicked();
   void on_right_clicked();
@@ -307,11 +307,11 @@ protected:
   void paintEvent(QPaintEvent *event);
   void mousePressEvent(QMouseEvent *e);
   void leaveEvent(QEvent *event);
-#ifdef FC_QT6_MODE
+#ifndef FC_QT5_MODE
   void enterEvent(QEnterEvent *event);
-#else  // FC_QT6_MODE
+#else  // FC_QT5_MODE
   void enterEvent(QEvent *event);
-#endif // FC_QT6_MODE
+#endif // FC_QT5_MODE
 private:
   void init_images(bool redraw = false);
   int att_hp;

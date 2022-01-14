@@ -72,11 +72,11 @@ private slots:
   void upgrade_units();
 
 protected:
-#ifdef FC_QT6_MODE
+#ifndef FC_QT5_MODE
   void enterEvent(QEnterEvent *event);
-#else  // FC_QT6_MODE
+#else  // FC_QT5_MODE
   void enterEvent(QEvent *event);
-#endif // FC_QT6_MODE
+#endif // FC_QT5_MODE
   void leaveEvent(QEvent *event);
   void paintEvent(QPaintEvent *event);
   void wheelEvent(QWheelEvent *event);

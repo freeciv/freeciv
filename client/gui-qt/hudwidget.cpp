@@ -897,11 +897,11 @@ void hud_action::leaveEvent(QEvent *event)
 /************************************************************************//**
   Enter event for hud_action, used to get status of pixmap higlight
 ****************************************************************************/
-#ifdef FC_QT6_MODE
+#ifndef FC_QT5_MODE
 void hud_action::enterEvent(QEnterEvent *event)
-#else  // FC_QT6_MODE
+#else  // FC_QT5_MODE
 void hud_action::enterEvent(QEvent *event)
-#endif // FC_QT6_MODE
+#endif // FC_QT5_MODE
 {
   focus = true;
   update();
@@ -1911,11 +1911,11 @@ void hud_unit_combat::leaveEvent(QEvent *event)
 /************************************************************************//**
   Leave event for hud unit combat. Shows highlight.
 ****************************************************************************/
-#ifdef FC_QT6_MODE
+#ifndef FC_QT5_MODE
 void hud_unit_combat::enterEvent(QEnterEvent *event)
-#else  // FC_QT6_MODE
+#else  // FC_QT5_MODE
 void hud_unit_combat::enterEvent(QEvent *event)
-#endif // FC_QT6_MODE
+#endif // FC_QT5_MODE
 {
   focus = true;
   update();

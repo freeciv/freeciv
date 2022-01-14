@@ -74,12 +74,12 @@ public slots:
   void sblink();
   void some_slot();
 protected:
-  void contextMenuEvent(QContextMenuEvent  *event);
-#ifdef FC_QT6_MODE
+  void contextMenuEvent(QContextMenuEvent *event);
+#ifndef FC_QT5_MODE
   void enterEvent(QEnterEvent *event);
-#else  // FC_QT6_MODE
+#else  // FC_QT5_MODE
   void enterEvent(QEvent *event);
-#endif // FC_QT6_MODE
+#endif // FC_QT5_MODE
   void leaveEvent(QEvent *event);
   void mousePressEvent(QMouseEvent *event);
   void paintEvent(QPaintEvent *event);

@@ -123,11 +123,11 @@ void ruledit_gui::setup(QWidget *central_in)
 
   rev_ver = fc_git_revision();
 
-#ifdef FC_QT6_MODE
+#ifndef FC_QT5_MODE
   mode = R__("built in Qt6 mode.");
-#else  // FC_QT6_MODE
+#else  // FC_QT5_MODE
   mode = R__("built in Qt5 mode.");
-#endif // FC_QT6_MODE
+#endif // FC_QT5_MODE
 
   if (rev_ver == NULL) {
     fc_snprintf(verbuf, sizeof(verbuf), "%s%s\n%s", word_version(),

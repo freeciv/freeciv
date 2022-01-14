@@ -203,11 +203,11 @@ void fc_sidewidget::paint(QPainter *painter, QPaintEvent *event)
 /***********************************************************************//**
   Mouse entered on widget area
 ***************************************************************************/
-#ifdef FC_QT6_MODE
+#ifndef FC_QT5_MODE
 void fc_sidewidget::enterEvent(QEnterEvent *event)
-#else  // FC_QT6_MODE
+#else  // FC_QT5_MODE
 void fc_sidewidget::enterEvent(QEvent *event)
-#endif // FC_QT6_MODE
+#endif // FC_QT5_MODE
 {
   if (!hover) {
     hover = true;
