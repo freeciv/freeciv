@@ -246,7 +246,7 @@ protected:
 
 
 /****************************************************************************
-  Shows list of improvemrnts
+  Shows list of improvements
 ****************************************************************************/
 class impr_info: public QFrame
 {
