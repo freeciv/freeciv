@@ -581,7 +581,7 @@ clean-install-ruledit-qt6:
 	./cleanup_checkout.sh ../..
 
 clean-installer-common:
-	rm -f Output/Freeciv-*-$(CLIENT)-setup.exe
+	rm -f Output/Freeciv-*-$(GUI)-setup.exe
 	rm -f Freeciv-*-$(GUI).nsi
 
 clean-installer-ruledit-qt5:
