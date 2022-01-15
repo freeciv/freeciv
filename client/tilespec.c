@@ -5613,11 +5613,15 @@ int fill_sprite_array(struct tileset *t,
               if (terrain_type_terrain_class(tterrain_near[cdir]) == TC_OCEAN) {
                 tileno |= 1 << i;
               } else {
-                extra_type_list_iterate(extra_road_get(priver)->integrators, iextra) {
-                  if (BV_ISSET(textras_near[cdir], extra_index(iextra))) {
-                    tileno |= 1 << i;
-                  }
-                } extra_type_list_iterate_end;
+                struct road_type *proad = extra_road_get(priver);
+
+                if (proad != NULL) {
+                  extra_type_list_iterate(proad->integrators, iextra) {
+                    if (BV_ISSET(textras_near[cdir], extra_index(iextra))) {
+                      tileno |= 1 << i;
+                    }
+                  } extra_type_list_iterate_end;
+                }
               }
             }
 
