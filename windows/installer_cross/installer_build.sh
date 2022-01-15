@@ -104,12 +104,14 @@ case $GUI in
     FCMP="gtk3" ;;
   qt)
     GUINAME="Qt"
+    MPGUI="qt"
     FCMP="qt" ;;
   sdl2)
     GUINAME="SDL2"
     FCMP="gtk3" ;;
   gtk4)
     GUINAME="GTK4"
+    MPGUI="gtk4"
     FCMP="gtk4" ;;
   ruledit) ;;
   *)
@@ -239,7 +241,8 @@ else
   esac
 
   if test "x$GUI" = "xsdl2" ; then
-    if ! ./create-freeciv-sdl2-nsi.sh $INSTDIR $VERREV $SETUP > Freeciv-$SETUP-$VERREV-$GUI.nsi helpers/uninstaller-helper-gtk3.sh
+    if ! ./create-freeciv-sdl2-nsi.sh $INSTDIR $VERREV $SETUP helpers/uninstaller-helper-gtk3.sh \
+           > Freeciv-$SETUP-$VERREV-$GUI.nsi
     then
       exit 1
     fi
@@ -249,7 +252,8 @@ else
     else
       UNINSTALLER=""
     fi
-    if ! ./create-freeciv-gtk-qt-nsi.sh $INSTDIR $VERREV $GUI $GUINAME $SETUP $MPGUI > Freeciv-$SETUP-$VERREV-$GUI.nsi $UNINSTALLER
+    if ! ./create-freeciv-gtk-qt-nsi.sh $INSTDIR $VERREV $GUI $GUINAME \
+         $SETUP $MPGUI $UNINSTALLER > Freeciv-$SETUP-$VERREV-$GUI.nsi
     then
       exit 1
     fi
