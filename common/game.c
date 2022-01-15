@@ -415,7 +415,7 @@ static void game_defaults(bool keep_ruleset_value)
     game.server.scoreturn         = GAME_DEFAULT_SCORETURN - 1;
     game.server.seed              = GAME_DEFAULT_SEED;
     sz_strlcpy(game.server.start_units, GAME_DEFAULT_START_UNITS);
-    game.server.spaceship_travel_time = GAME_DEFAULT_SPACESHIP_TRAVEL_TIME;
+    game.server.spaceship_travel_pct = GAME_DEFAULT_SPACESHIP_TRAVEL_PCT;
     game.server.start_year        = GAME_DEFAULT_START_YEAR;
     game.server.tcptimeout        = GAME_DEFAULT_TCPTIMEOUT;
     game.server.techlost_donor    = GAME_DEFAULT_TECHLOST_DONOR;

@@ -30,6 +30,7 @@ struct set_name_compat {
 
 static struct set_name_compat set_name_compat_S3_1_to_S3_2[] =
 {
+  { "spaceship_travel_time", "spaceship_travel_pct" },
   { NULL, NULL }
 };
 
