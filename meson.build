@@ -23,14 +23,6 @@ priv_conf_data.set('LOCALEDIR',
 priv_conf_data.set('BINDIR',
                    join_paths(get_option('prefix'), get_option('bindir')))
 
-if host_system == 'windows'
-  priv_conf_data.set('FREECIV_STORAGE_DIR', '~\\\\.freeciv')
-  pub_conf_data.set('FREECIV_STORAGE_DIR', '~\\\\.freeciv')
-else
-  priv_conf_data.set('FREECIV_STORAGE_DIR', '~/.freeciv')
-  pub_conf_data.set('FREECIV_STORAGE_DIR', '~/.freeciv')
-endif
-
 priv_conf_data.set('DATADIR',
                    join_paths(get_option('prefix'), get_option('datadir')))
 priv_conf_data.set('DATASUBDIR', 'test')
@@ -52,12 +44,27 @@ else
   add_global_arguments('-DQT_NO_DEBUG', language : 'cpp')
 endif
 
-priv_conf_data.set('DEFAULT_DATA_PATH',
-  '".:data:@FREECIV_STORAGE_DIR@/@DATASUBDIR@:@DATADIR@/freeciv"')
-priv_conf_data.set('DEFAULT_SAVE_PATH',
-  '".:@FREECIV_STORAGE_DIR@/saves"')
-priv_conf_data.set('DEFAULT_SCENARIO_PATH',
-  '".:data/scenarios:@FREECIV_STORAGE_DIR@/@DATASUBDIR@/scenarios:@FREECIV_STORAGE_DIR@/scenarios:@DATADIR@/freeciv/scenarios"')
+if host_system == 'windows'
+  priv_conf_data.set('FREECIV_STORAGE_DIR', '~\\\\.freeciv')
+  pub_conf_data.set('FREECIV_STORAGE_DIR', '~\\\\.freeciv')
+
+  priv_conf_data.set('DEFAULT_DATA_PATH',
+    '".;data;@FREECIV_STORAGE_DIR@/@DATASUBDIR@;@DATADIR@/freeciv"')
+  priv_conf_data.set('DEFAULT_SAVE_PATH',
+    '".;@FREECIV_STORAGE_DIR@/saves"')
+  priv_conf_data.set('DEFAULT_SCENARIO_PATH',
+    '".;data/scenarios;@FREECIV_STORAGE_DIR@/@DATASUBDIR@/scenarios;@FREECIV_STORAGE_DIR@/scenarios;@DATADIR@/freeciv/scenarios"')
+else
+  priv_conf_data.set('FREECIV_STORAGE_DIR', '~/.freeciv')
+  pub_conf_data.set('FREECIV_STORAGE_DIR', '~/.freeciv')
+
+  priv_conf_data.set('DEFAULT_DATA_PATH',
+    '".:data:@FREECIV_STORAGE_DIR@/@DATASUBDIR@:@DATADIR@/freeciv"')
+  priv_conf_data.set('DEFAULT_SAVE_PATH',
+    '".:@FREECIV_STORAGE_DIR@/saves"')
+  priv_conf_data.set('DEFAULT_SCENARIO_PATH',
+    '".:data/scenarios:@FREECIV_STORAGE_DIR@/@DATASUBDIR@/scenarios:@FREECIV_STORAGE_DIR@/scenarios:@DATADIR@/freeciv/scenarios"')
+endif
 
 if get_option('freeciv-web')
   priv_conf_data.set('FREECIV_WEB', 1)
