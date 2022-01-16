@@ -1,4 +1,4 @@
-# gnulib-common.m4 serial 71
+# gnulib-common.m4 serial 72
 dnl Copyright (C) 2007-2022 Free Software Foundation, Inc.
 dnl This file is free software; the Free Software Foundation
 dnl gives unlimited permission to copy and/or distribute it,
@@ -952,7 +952,7 @@ AC_DEFUN([gl_CC_GNULIB_WARNINGS],
       -Wno-sign-conversion
       -Wno-type-limits
       #endif
-      #if __GNUC__ + (__GNUC_MINOR__ >= 5) > 4 || (__clang_major__ + (__clang_minor__ >= 9) > 3)
+      #if __GNUC__ + (__GNUC_MINOR__ >= 5) > 4
       -Wno-unsuffixed-float-constants
       #endif
 EOF
