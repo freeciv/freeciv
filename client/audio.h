@@ -17,6 +17,7 @@
 extern "C" {
 #endif /* __cplusplus */
 
+/* utility */
 #include "support.h"            /* bool type */
 
 #define MAX_AUDIO_NAME_LEN		20
@@ -37,6 +38,8 @@ struct audio_plugin {
   void (*set_volume) (double volume);
   bool (*play) (const char *const tag, const char *const path, bool repeat,
                 audio_finished_callback cb);
+  void (*pause)(void);
+  void (*resume)(void);
 };
 
 enum music_usage { MU_MENU, MU_INGAME };
@@ -56,6 +59,9 @@ void audio_shutdown(void);
 void audio_stop(void);
 void audio_stop_usage(void);
 void audio_restart(const char *soundset_name, const char *musicset_name);
+
+void audio_pause(void);
+void audio_resume(void);
 
 void audio_play_sound(const char *const tag, const char *const alt_tag);
 void audio_play_music(const char *const tag, char *const alt_tag,

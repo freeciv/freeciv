@@ -17,8 +17,10 @@
 
 #include <string.h>
 
+/* utility */
 #include "support.h"
 
+/* client */
 #include "audio.h"
 #include "gui_main_g.h"
 
@@ -59,6 +61,20 @@ static bool none_audio_play(const char *const tag, const char *const fullpath,
 }
 
 /**********************************************************************//**
+  Pause audio
+**************************************************************************/
+static void none_audio_pause(void)
+{
+}
+
+/**********************************************************************//**
+  Resume audio
+**************************************************************************/
+static void none_audio_resume(void)
+{
+}
+
+/**********************************************************************//**
   Initialize.
 **************************************************************************/
 static bool none_audio_init(void)
@@ -80,5 +96,7 @@ void audio_none_init(void)
   self.stop = none_audio_stop;
   self.wait = none_audio_wait;
   self.play = none_audio_play;
+  self.pause = none_audio_pause;
+  self.resume = none_audio_resume;
   audio_add_plugin(&self);
 }

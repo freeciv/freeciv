@@ -145,6 +145,22 @@ static bool sdl_audio_play(const char *const tag, const char *const fullpath,
 }
 
 /**********************************************************************//**
+  Pause music
+**************************************************************************/
+static void sdl_audio_pause(void)
+{
+  Mix_PauseMusic();
+}
+
+/**********************************************************************//**
+  Resume music
+**************************************************************************/
+static void sdl_audio_resume(void)
+{
+  Mix_ResumeMusic();
+}
+
+/**********************************************************************//**
   Stop music
 **************************************************************************/
 static void sdl_audio_stop(void)
@@ -264,6 +280,8 @@ void audio_sdl_init(void)
   self.stop = sdl_audio_stop;
   self.wait = sdl_audio_wait;
   self.play = sdl_audio_play;
+  self.pause = sdl_audio_pause;
+  self.resume = sdl_audio_resume;
   self.set_volume = sdl_audio_set_volume;
   self.get_volume = sdl_audio_get_volume;
   audio_add_plugin(&self);
