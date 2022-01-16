@@ -804,8 +804,9 @@ void get_city_dialog_output_text(const struct city *pcity,
                             Q_("?city_surplus:Building tithes"));
   }
 
-  for (priority = 0; priority < 2; priority++) {
-    enum effect_type eft[] = {EFT_OUTPUT_BONUS, EFT_OUTPUT_BONUS_2};
+  for (priority = 0; priority < 3; priority++) {
+    enum effect_type eft[] = {EFT_OUTPUT_BONUS, EFT_OUTPUT_BONUS_2,
+                              EFT_OUTPUT_BONUS_ABSOLUTE};
 
     {
       int base = city_sum_total(sum), bonus = 100;
@@ -834,14 +835,23 @@ void get_city_dialog_output_text(const struct city *pcity,
         } else {
           delta = peffect->value;
         }
-        bonus += delta;
-	new_total = bonus * base / 100;
-        city_sum_add_full(sum, new_total - city_sum_total(sum), TRUE,
-                          /* TRANS: percentage city output bonus/loss from
-                           * some source; preserve leading space */
-                          Q_("?city_surplus: (%+.0f%%)"), delta,
-                          Q_("?city_surplus:Bonus from %s"),
-                          Q_("?city_surplus:Loss from %s"), buf2);
+
+        if (eft[priority] == EFT_OUTPUT_BONUS_ABSOLUTE) {
+          new_total = bonus * base / 100 + delta;
+          city_sum_add_full(sum, new_total - city_sum_total(sum), TRUE,
+                            NULL, 0,
+                            Q_("?city_surplus:Bonus from %s"),
+                            Q_("?city_surplus:Loss from %s"), buf2);
+        } else {
+          bonus += delta;
+          new_total = bonus * base / 100;
+          city_sum_add_full(sum, new_total - city_sum_total(sum), TRUE,
+                            /* TRANS: percentage city output bonus/loss from
+                             * some source; preserve leading space */
+                            Q_("?city_surplus: (%+.0f%%)"), delta,
+                            Q_("?city_surplus:Bonus from %s"),
+                            Q_("?city_surplus:Loss from %s"), buf2);
+        }
       } effect_list_iterate_end;
       effect_list_destroy(plist);
     }

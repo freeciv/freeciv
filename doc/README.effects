@@ -462,6 +462,12 @@ Output_Add_Tile
 Output_Bonus
     City production is increased by amount percent.
 
+Output_Bonus_Absolute
+    City production is increased by amount. Applied after Output_Bonus and
+    Output_Bonus_2.
+    Sum of all the active Output_Bonus_Absolute effects cannot cause
+    production to decrease. Negative values are ignored (considered zero)
+
 Output_Bonus_2
     City production is increased by amount percent after Output_Bonus, so is
     multiplicative with it.

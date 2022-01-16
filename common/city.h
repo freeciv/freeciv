@@ -348,6 +348,7 @@ struct city {
 
   /* Cached values for CPU savings. */
   int bonus[O_LAST];
+  int abs_bonus[O_LAST];
 
   /* the physics */
   int food_stock;

@@ -2257,7 +2257,8 @@ void add_specialist_output(const struct city *pcity, int *output)
 }
 
 /**********************************************************************//**
-  This function sets all the values in the pcity->bonus[] array.
+  This function sets all the values in the pcity->bonus[] and
+  pcity->abs_bonus[] arrays.
   Called near the beginning of city_refresh_from_main_map().
 
   It doesn't depend on anything else in the refresh and doesn't change
@@ -2268,6 +2269,12 @@ static inline void set_city_bonuses(struct city *pcity)
 {
   output_type_iterate(o) {
     pcity->bonus[o] = get_final_city_output_bonus(pcity, o);
+    pcity->abs_bonus[o] = get_city_output_bonus(pcity,
+                                                &output_types[o],
+                                                EFT_OUTPUT_BONUS_ABSOLUTE);
+    /* Total bonus cannot be negative, as that could lead to unresolvable
+     * negative balance. */
+    pcity->abs_bonus[o] = MIN(pcity->abs_bonus[o], 0);
   } output_type_iterate_end;
 }
 
@@ -2795,6 +2802,8 @@ int city_airlift_max(const struct city *pcity)
 **************************************************************************/
 inline void set_city_production(struct city *pcity)
 {
+  int trade;
+
   /* Calculate city production!
    *
    * This is a rather complicated process if we allow rules to become
@@ -2858,22 +2867,28 @@ inline void set_city_production(struct city *pcity)
    * science.  However waste is calculated after the bonuses are multiplied
    * on, so shield waste will include shield bonuses. */
   output_type_iterate(o) {
-    pcity->waste[o] = city_waste(pcity, o,
-				 pcity->prod[o] * pcity->bonus[o] / 100,
-                                 NULL);
+    int prod = pcity->prod[o] * pcity->bonus[o] / 100 + pcity->abs_bonus[o];
+
+    prod = MAX(prod, 0);
+    pcity->waste[o] = city_waste(pcity, o, prod, NULL);
   } output_type_iterate_end;
 
   /* Convert trade into science/luxury/gold, and add this on to whatever
    * science/luxury/gold is already there. */
+  trade = pcity->prod[O_TRADE] * pcity->bonus[O_TRADE] / 100
+    + pcity->abs_bonus[O_TRADE];
+  trade = MAX(trade, 0);
   add_tax_income(city_owner(pcity),
-		 pcity->prod[O_TRADE] * pcity->bonus[O_TRADE] / 100
-		 - pcity->waste[O_TRADE] - pcity->usage[O_TRADE],
-		 pcity->prod);
+                 trade - pcity->waste[O_TRADE] - pcity->usage[O_TRADE],
+                 pcity->prod);
 
-  /* Add on effect bonuses and waste.  Note that the waste calculation
-   * (above) already includes the bonus multiplier. */
+  /* Add on effect bonuses and waste. Note that the waste calculation
+   * (above) already includes the bonuses. */
   output_type_iterate(o) {
-    pcity->prod[o] = pcity->prod[o] * pcity->bonus[o] / 100;
+    int prod = pcity->prod[o] * pcity->bonus[o] / 100 + pcity->abs_bonus[o];
+
+    prod = MAX(prod, 0);
+    pcity->prod[o] = prod;
     pcity->prod[o] -= pcity->waste[o];
   } output_type_iterate_end;
 }
@@ -3305,6 +3320,7 @@ struct city *create_city_virtual(struct player *pplayer,
 
   output_type_iterate(o) {
     pcity->bonus[o] = 100;
+    pcity->abs_bonus[o] = 0;
   } output_type_iterate_end;
 
   pcity->turn_plague = -1; /* -1 = never */
