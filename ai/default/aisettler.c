@@ -183,6 +183,8 @@ struct cityresult {
   int city_radius_sq;     /* current squared radius of the city */
 };
 
+enum cb_error_level { CBE_OK, CBE_RECOVERABLE, CBE_FATAL };
+
 static const struct tile_data_cache *tdc_plr_get(struct ai_type *ait,
                                                  struct player *plr,
                                                  int tindex);
@@ -213,8 +215,9 @@ static struct cityresult *find_best_city_placement(struct ai_type *ait,
                                                    struct unit *punit,
                                                    bool look_for_boat,
                                                    bool use_virt_boat);
-static bool dai_do_build_city(struct ai_type *ait, struct player *pplayer,
-                              struct unit *punit);
+static enum cb_error_level dai_do_build_city(struct ai_type *ait,
+                                             struct player *pplayer,
+                                             struct unit *punit);
 
 /*****************************************************************************
   Allocated a city result.
@@ -1047,14 +1050,19 @@ BUILD_CITY:
         return;
       }
       if (same_pos(unit_tile(punit), ptile)) {
-        if (!dai_do_build_city(ait, pplayer, punit)) {
+        enum cb_error_level elevel = dai_do_build_city(ait, pplayer, punit);
+
+        if (elevel != CBE_OK) {
           UNIT_LOG(LOG_DEBUG, punit, "could not make city on %s",
                    tile_get_info_text(unit_tile(punit), TRUE, 0));
           dai_unit_new_task(ait, punit, AIUNIT_NONE, NULL);
-          /* Only known way to end in here is that hut turned in to a city
-           * when settler entered tile. So this is not going to lead in any
-           * serious recursion. */
-          dai_auto_settler_run(ait, pplayer, punit, state);
+
+          if (elevel == CBE_RECOVERABLE) {
+            /* Only known way to end in here is that hut turned in to a city
+             * when settler entered tile. So this is not going to lead in any
+             * serious recursion. */
+            dai_auto_settler_run(ait, pplayer, punit, state);
+          }
 
           return;
        } else {
@@ -1232,8 +1240,9 @@ void dai_auto_settler_free(struct ai_plr *ai)
 /**************************************************************************
   Build a city and initialize AI infrastructure cache.
 **************************************************************************/
-static bool dai_do_build_city(struct ai_type *ait, struct player *pplayer,
-                              struct unit *punit)
+static enum cb_error_level dai_do_build_city(struct ai_type *ait,
+                                             struct player *pplayer,
+                                             struct unit *punit)
 {
   struct tile *ptile = unit_tile(punit);
   struct city *pcity;
@@ -1250,7 +1259,7 @@ static bool dai_do_build_city(struct ai_type *ait, struct player *pplayer,
      * and it turned in to a city when settler entered tile. */
     log_debug("%s: There is already a city at (%d, %d)!",
               player_name(pplayer), TILE_XY(ptile));
-    return FALSE;
+    return CBE_RECOVERABLE;
   }
   handle_unit_do_action(pplayer, punit->id, ptile->index,
                         0, city_name_suggestion(pplayer, ptile),
@@ -1270,8 +1279,9 @@ static bool dai_do_build_city(struct ai_type *ait, struct player *pplayer,
       /* The request was illegal to begin with. */
       log_error("%s: Failed to build city at (%d, %d). Reason id: %d",
                 player_name(pplayer), TILE_XY(ptile), reason);
+      return CBE_FATAL;
     }
-    return FALSE;
+    return CBE_RECOVERABLE;
   }
 
   /* We have to rebuild at least the cache for this city.  This event is
@@ -1283,7 +1293,7 @@ static bool dai_do_build_city(struct ai_type *ait, struct player *pplayer,
   /* Init ai.choice. Handling ferryboats might use it. */
   adv_init_choice(&def_ai_city_data(pcity, ait)->choice);
 
-  return TRUE;
+  return CBE_OK;
 }
 
 /**************************************************************************
