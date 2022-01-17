@@ -75,7 +75,7 @@ out whether your system is suitable.  If in doubt, just try it.
    Libcurl takes care of http communication with the metaserver, and
    file transfers of modpack installers
 
-   https://curl.haxx.se/
+   https://curl.se/
 
  - libicu
 
@@ -85,7 +85,7 @@ out whether your system is suitable.  If in doubt, just try it.
 
  - libsqlite3
 
-   http://www.sqlite.org/
+   https://www.sqlite.org/
 
 The git version has additional requirements. A release version
 contains the generated files.
@@ -272,7 +272,7 @@ following order: pkg-config, Glib, Atk, Pango, Gdk-Pixbuf, Gtk+.
 
    "Simple DirectMedia Layer is a cross-platform multimedia library designed
     to provide low level access to audio, keyboard, mouse, joystick, 3D hardware
-    via OpenGL, and 2D video framebuffer." (http://www.libsdl.org)
+    via OpenGL, and 2D video framebuffer." (https://www.libsdl.org/)
 
    These features make it a good choice for portable games. You may obtain it
    at:
