@@ -115,7 +115,7 @@ case $GUI in
     FCMP="qt" ;;
   sdl2)
     GUINAME="SDL2"
-    FCMP="gtk3" ;;
+    FCMP="gtk4" ;;
   gtk4)
     GUINAME="GTK4"
     MPGUI="gtk4"
@@ -222,8 +222,8 @@ else
         exit 1
       fi ;;
     sdl2)
-      if ! add_gtk3_env $DLLSPATH $INSTDIR ; then
-        echo "Copying gtk3 environment failed!" >&2
+      if ! add_gtk4_env $DLLSPATH $INSTDIR ; then
+        echo "Copying gtk4 environment failed!" >&2
         exit 1
       fi
       if ! add_sdl2_env $DLLSPATH $INSTDIR ; then

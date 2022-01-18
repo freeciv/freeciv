@@ -46,6 +46,11 @@ then
   CROSSER_QT5=yes
 fi
 
+if grep "CROSSER_GTK4" $DLLSPATH/crosser.txt | grep yes > /dev/null
+then
+  CROSSER_GTK4=yes
+fi
+
 if ! ./installer_build.sh $DLLSPATH gtk3.22 ; then
   RET=1
   GTK322="Fail"
@@ -62,7 +67,10 @@ else
   QT="Success"
 fi
 
-if ! ./installer_build.sh $DLLSPATH sdl2 ; then
+# sdl2-client comes with gtk4 modpack installer
+if test "x$CROSSER_GTK4" != "xyes" ; then
+  SDL2="N/A"
+elif ! ./installer_build.sh $DLLSPATH sdl2 ; then
   RET=1
   SDL2="Fail"
 else

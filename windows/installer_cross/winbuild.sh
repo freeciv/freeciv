@@ -78,7 +78,7 @@ elif test "x$2" != "x" ; then
   CLIENTS="$2"
   case $2 in
     gtk3) FCMP="gtk3" ;;
-    sdl2) FCMP="gtk3" ;;
+    sdl2) FCMP="gtk4" ;;
     gtk3.22) FCMP="gtk3" ;;
     gtk4) FCMP="gtk4" ;;
     qt) FCMP="qt"
