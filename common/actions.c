@@ -938,6 +938,10 @@ const char *action_rule_name(const struct action *action)
 /**************************************************************************
   Get the action name used when displaying the action in the UI. Nothing
   is added to the UI name.
+
+  This always returns the same static string, just modified according
+  to the call. Copy the result if you want it to remain valid over
+  another call to this function.
 **************************************************************************/
 const char *action_name_translation(const struct action *action)
 {

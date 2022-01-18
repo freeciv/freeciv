@@ -2395,13 +2395,18 @@ void illegal_action_msg(struct player *pplayer,
                   utype_name_translation(explnat->no_tgt_utype));
     break;
   case ANEK_ACTION_BLOCKS:
-    notify_player(pplayer, unit_tile(actor),
-                  event, ftc_server,
-                  /* TRANS: Freight ... Recycle Unit ... Help Wonder ... */
-                  _("Your %s can't do %s when %s is legal."),
-                  unit_name_translation(actor),
-                  action_id_name_translation(stopped_action),
-                  action_id_name_translation(explnat->blocker->id));
+    {
+      char *stop_act_name = fc_strdup(action_id_name_translation(stopped_action));
+
+      notify_player(pplayer, unit_tile(actor),
+                    event, ftc_server,
+                    /* TRANS: Freight ... Recycle Unit ... Help Wonder ... */
+                    _("Your %s can't do %s when %s is legal."),
+                    unit_name_translation(actor),
+                    stop_act_name,
+                    action_id_name_translation(explnat->blocker->id));
+      free(stop_act_name);
+    }
     break;
   case ANEK_UNKNOWN:
     notify_player(pplayer, unit_tile(actor),
