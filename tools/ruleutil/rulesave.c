@@ -480,10 +480,6 @@ static bool save_styles_ruleset(const char *filename, const char *name)
       secfile_insert_str(sfile, city_styles[i].citizens_graphic,
                          "%s.citizens_graphic", path);
     }
-    if (strcmp(city_styles[i].citizens_graphic_alt, "generic")) {
-      secfile_insert_str(sfile, city_styles[i].citizens_graphic_alt,
-                         "%s.citizens_graphic_alt", path);
-    }
 
     save_reqs_vector(sfile, &(city_styles[i].reqs), path, "reqs");
   }
