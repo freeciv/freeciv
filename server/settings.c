@@ -970,6 +970,10 @@ static bool startunits_callback(const char *value,
   Unit_Class_id  first_role;
   bool firstnative = FALSE;
 
+  if (len == 0) {
+    return TRUE;
+  }
+
   /* We check each character individually to see if it's valid. */
   for (i = 0; i < len; i++) {
     if (strchr("cwxksfdDaA", value[i])) {
