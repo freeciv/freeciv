@@ -1679,7 +1679,7 @@ static struct action *action_new(action_id id,
   action->actor_consuming_always = actor_consuming_always;
 
   /* Loaded from the ruleset. Until generalized actions are ready it has to
-   * be defined seperatly from other action data. */
+   * be defined separately from other action data. */
   action->ui_name[0] = '\0';
   action->quiet = FALSE;
   BV_CLR_ALL(action->blocked_by);
