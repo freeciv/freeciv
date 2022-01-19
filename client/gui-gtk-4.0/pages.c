@@ -255,8 +255,8 @@ GtkWidget *create_main_page(void)
   }
 
   space_needed = 250;
-#if IS_BETA_VERSION
-  /* Beta notice takes extra space */
+#if IS_BETA_VERSION || IS_DEVEL_VERSION
+  /* Alpha or Beta notice takes extra space */
   space_needed += 50;
 #endif
 
@@ -284,18 +284,18 @@ GtkWidget *create_main_page(void)
                    G_CALLBACK(intro_free), intro);
   gtk_frame_set_child(GTK_FRAME(frame), darea);
 
-#if IS_BETA_VERSION
+#if IS_BETA_VERSION || IS_DEVEL_VERSION
   {
     GtkWidget *label;
 
-    label = gtk_label_new(beta_message());
+    label = gtk_label_new(unstable_message());
     gtk_widget_set_name(label, "beta_label");
     gtk_widget_set_halign(label, GTK_ALIGN_CENTER);
     gtk_widget_set_valign(label, GTK_ALIGN_CENTER);
     gtk_label_set_justify(GTK_LABEL(label), GTK_JUSTIFY_CENTER);
     gtk_grid_attach(GTK_GRID(vgrid), label, 0, grid_row++, 1, 1);
   }
-#endif /* IS_BETA_VERSION */
+#endif /* IS_BETA_VERSION || IS_DEVEL_VERSION */
 
   table = gtk_grid_new();
   g_object_set(table, "margin", 12, NULL);

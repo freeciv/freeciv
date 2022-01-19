@@ -145,10 +145,10 @@ void fc_client::create_main_page(void)
   QFont f = QApplication::font();
   QFontMetrics fm(f);
   int row = 0;
-#if IS_BETA_VERSION
+#if IS_BETA_VERSION || IS_DEVEL_VERSION
   QPalette warn_color;
-  QLabel *beta_label = new QLabel(beta_message());
-#endif /* IS_BETA_VERSION */
+  QLabel *unstable_label = new QLabel(unstable_message());
+#endif // IS_BETA_VERSION || IS_DEVEL_VERSION
 
   pages_layout[PAGE_MAIN] = new QGridLayout;
 
@@ -182,14 +182,14 @@ void fc_client::create_main_page(void)
   pages_layout[PAGE_MAIN]->addWidget(free_main_pic,
                                      row++, 0, 1, 2, Qt::AlignCenter);
 
-#if IS_BETA_VERSION
+#if IS_BETA_VERSION || IS_DEVEL_VERSION
   warn_color.setColor(QPalette::WindowText, Qt::red);
-  beta_label->setPalette(warn_color);
-  beta_label->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Maximum);
-  beta_label->setAlignment(Qt::AlignCenter);
-  pages_layout[PAGE_MAIN]->addWidget(beta_label,
+  unstable_label->setPalette(warn_color);
+  unstable_label->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Maximum);
+  unstable_label->setAlignment(Qt::AlignCenter);
+  pages_layout[PAGE_MAIN]->addWidget(unstable_label,
                                      row++, 0, 1, 2, Qt::AlignHCenter);
-#endif
+#endif // IS_BETA_VERSION || IS_DEVEL_VERSION
 
   buttons_names << _("Start new game") << _("Start scenario game")
                 << _("Load saved game") << _("Connect to network game")
