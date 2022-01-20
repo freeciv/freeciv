@@ -9,7 +9,8 @@ AC_DEFUN([FC_FCDB_ODBC],
     AC_CHECK_LIB([odbc], [SQLConnect],
       [AC_CHECK_HEADERS(
         [sql.h sqltypes.h sqlext.h],
-        [AC_DEFINE([HAVE_FCDB_ODBC], [1], [Have ODBC database backend])
+        [FCDB_ODBC_LIBS="-lodbc"
+         AC_DEFINE([HAVE_FCDB_ODBC], [1], [Have ODBC database backend])
          found_odbc=yes])])
 
     if test "x$found_odbc" != "xyes" ; then
