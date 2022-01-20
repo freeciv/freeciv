@@ -162,8 +162,37 @@ int map_colatitude(const struct tile *ptile)
   /* This projection makes poles with a shape of a quarter-circle along
    * "P" and the equator as a straight line along "/".
    *
-   * This is explained more fully in RT 8624; the discussion can be found at
-   * http://thread.gmane.org/gmane.games.freeciv.devel/42648 */
+   * The formula is
+   *   lerp(1.5 (x^2 + y^2), (x+y)^2, x+y)
+   * where
+   *   lerp(a,b,t) = a * (1-t) + b * t
+   * is the linear interpolation between a and b, with
+   *   lerp(a,b,0) = a    and    lerp(a,b,1) = b
+   *
+   * I.e. the colatitude is computed as a linear interpolation between
+   * - a = 1.5 (x^2 + y^2), proportional to the squared pythagorean
+   *   distance from the pole, which gives circular lines of latitude; and
+   * - b = (x+y)^2, the squared manhattan distance from the pole, which
+   *   gives straight, diagonal lines of latitude parallel to the equator.
+   *
+   * These are interpolated with t = (x+y), the manhattan distance, which
+   * ranges from 0 at the pole to 1 at the equator. So near the pole, the
+   * (squared) pythagorean distance wins out, giving mostly circular lines,
+   * and near the equator, the (squared) manhattan distance wins out,
+   * giving mostly straight lines.
+   *
+   * Note that the colatitude growing with the square of the distance from
+   * the pole keeps areas relatively the same as on non-toroidal maps:
+   * On non-torus maps, the area closer to a pole than a given tile, and
+   * the colatitude at that tile, both grow linearly with distance from the
+   * pole. On torus maps, since the poles are singular points rather than
+   * entire map edges, the area closer to a pole than a given tile grows
+   * with the square of the distance to the pole - and so the colatitude
+   * at that tile must also grow with the square in order to keep the size
+   * of areas in a given range of colatitude relatively the same.
+   *
+   * See OSDN#43665, as well as the original discussion (via newsreader) at
+   * news://news.gmane.io/gmane.games.freeciv.devel/42648 */
   return MAX_COLATITUDE * (1.5 * (x * x * y + x * y * y)
                            - 0.5 * (x * x * x + y * y * y)
                            + 1.5 * (x * x + y * y));
