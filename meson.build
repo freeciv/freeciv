@@ -2973,7 +2973,8 @@ rulesets = [
   'alien',
   'sandbox',
   'civ1',
-  'civ2'
+  'civ2',
+  'stub'
   ]
 
 ruleset_files = [
@@ -3036,6 +3037,12 @@ install_data(
   'data/alien/nation/secretsociety.ruleset',
   'data/alien/nation/teamgladiators.ruleset',
   install_dir : join_paths(get_option('datadir'), 'freeciv/alien/nation')
+  )
+
+install_data(
+  'data/stub/nations/barbarian.ruleset',
+  'data/stub/nations/generic.ruleset',
+  install_dir : join_paths(get_option('datadir'), 'freeciv/stub/nations')
   )
 
 install_data(
