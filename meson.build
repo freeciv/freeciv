@@ -481,7 +481,39 @@ gitrev = custom_target('gitrev', output: 'fc_gitrev_gen.h',
                        command: [sh_exe, files('bootstrap/generate_gitrev.sh'), meson.source_root(), '@OUTPUT@'],
                        build_by_default: get_option('gitrev'))
 
-tolua_cmd = find_program('tolua')
+if host_system == 'windows'
+  tinycthr_files = files('dependencies/tinycthread/fc_tinycthread.c')
+else
+  tinycthr_files = files()
+endif
+
+fc_deps = static_library('fc_dependencies',
+  'dependencies/cvercmp/cvercmp.c',
+  lua_sources,
+  'dependencies/tolua-5.2/src/lib/tolua_event.c',
+  'dependencies/tolua-5.2/src/lib/tolua_is.c',
+  'dependencies/tolua-5.2/src/lib/tolua_map.c',
+  'dependencies/tolua-5.2/src/lib/tolua_push.c',
+  'dependencies/tolua-5.2/src/lib/tolua_to.c',
+  'dependencies/luasql/src/luasql.c',
+  'dependencies/luasql/src/ls_sqlite3.c',
+  tinycthr_files,
+  sources: verhdr,
+  include_directories : common_inc,
+  dependencies: lua_dep
+  )
+
+if meson.is_cross_build()
+  tolua_cmd = find_program('tolua')
+else
+  tolua_cmd = executable('tolua',
+    'dependencies/tolua-5.2/src/bin/tolua.c',
+    'dependencies/tolua-5.2/src/bin/toluabind.c',
+    include_directories : ['dependencies/lua-5.4/src',
+                           'dependencies/tolua-5.2/include'],
+    link_with: fc_deps
+  )
+endif
 
 tolua = generator(tolua_cmd,
                   arguments: ['-n', '@BASENAME@',
@@ -521,28 +553,6 @@ tolua_signal = custom_target('tolua_signal',
                                        '-o', '@OUTPUT0@',
                                        '-H', '@OUTPUT1@',
                                        files('common/scriptcore/tolua_signal.pkg')])
-
-if host_system == 'windows'
-  tinycthr_files = files('dependencies/tinycthread/fc_tinycthread.c')
-else
-  tinycthr_files = files()
-endif
-
-fc_deps = static_library('fc_dependencies',
-  'dependencies/cvercmp/cvercmp.c',
-  lua_sources,
-  'dependencies/tolua-5.2/src/lib/tolua_event.c',
-  'dependencies/tolua-5.2/src/lib/tolua_is.c',
-  'dependencies/tolua-5.2/src/lib/tolua_map.c',
-  'dependencies/tolua-5.2/src/lib/tolua_push.c',
-  'dependencies/tolua-5.2/src/lib/tolua_to.c',
-  'dependencies/luasql/src/luasql.c',
-  'dependencies/luasql/src/ls_sqlite3.c',
-  tinycthr_files,
-  sources: verhdr,
-  include_directories : common_inc,
-  dependencies: lua_dep
-  )
 
 common_lib = library('freeciv',
   'utility/astring.c',
