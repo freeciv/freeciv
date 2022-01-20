@@ -14,7 +14,6 @@ added to gettext to get the translation.
 /* TRANS: Version tag name received from metaserver */
 _("?vertag:stable")
 _("?vertag:windows")
-_("?vertag:win32")
 _("?vertag:S3_0")
 _("?vertag:S3_1")
 _("?vertag:crosser")
