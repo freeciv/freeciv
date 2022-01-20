@@ -78,7 +78,8 @@ else
 CLIENTDATADIRS = 
 endif
 
-SRV_RE_DATADIRS = default classic civ1 civ2 sandbox multiplayer alien civ2civ3 nation
+SRV_RE_DATADIRS = default classic civ1 civ2 sandbox multiplayer \
+                  alien civ2civ3 stub nation
 if SERVER
 SERVERDATADIRS = $(SRV_RE_DATADIRS) scenarios
 else
@@ -98,7 +99,7 @@ endif
 if CLIENT
 ICONS = freeciv-client.png
 else
-ICONS = 
+ICONS =
 endif
 
 icondir = $(prefix)/share/pixmaps
