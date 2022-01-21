@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv trunk\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2021-02-06 00:29+0200\n"
+"POT-Creation-Date: 2022-01-21 18:20+0100\n"
 "PO-Revision-Date: 2019-08-05 15:55+0200\n"
 "Last-Translator: Igx <igx31 hotmail.com>\n"
 "Language-Team: French <freeciv-l10n-fr@yahoogroupes.fr>\n"
@@ -1471,7 +1471,7 @@ msgstr ""
 #: data/nation/etruscan.ruleset:31 data/nation/frankish.ruleset:39
 #: data/nation/gepid.ruleset:41 data/nation/israelite.ruleset:31
 #: data/nation/italiangreek.ruleset:45 data/nation/latin.ruleset:39
-#: data/nation/median.ruleset:29 data/nation/mitanni.ruleset:30
+#: data/nation/median.ruleset:31 data/nation/mitanni.ruleset:30
 #: data/nation/nubian.ruleset:32 data/nation/ostrogothic.ruleset:30
 #: data/nation/palatinate.ruleset:28 data/nation/palmyrene.ruleset:19
 #: data/nation/parthian.ruleset:33 data/nation/pelasgian.ruleset:24
@@ -1491,7 +1491,7 @@ msgstr "Usurpateur %s"
 #: data/nation/etruscan.ruleset:31 data/nation/frankish.ruleset:39
 #: data/nation/gepid.ruleset:41 data/nation/israelite.ruleset:31
 #: data/nation/italiangreek.ruleset:45 data/nation/latin.ruleset:39
-#: data/nation/median.ruleset:29 data/nation/mitanni.ruleset:30
+#: data/nation/median.ruleset:31 data/nation/mitanni.ruleset:30
 #: data/nation/nubian.ruleset:32 data/nation/ostrogothic.ruleset:30
 #: data/nation/palatinate.ruleset:28 data/nation/palmyrene.ruleset:19
 #: data/nation/parthian.ruleset:33 data/nation/pelasgian.ruleset:24
@@ -1789,7 +1789,7 @@ msgid "%s Shah"
 msgstr "%s Chah"
 
 #: data/nation/azeri.ruleset:36 data/nation/iranian.ruleset:41
-#: data/nation/khwarezmian.ruleset:28 data/nation/median.ruleset:31
+#: data/nation/khwarezmian.ruleset:28 data/nation/median.ruleset:33
 #, c-format
 msgid "%s Shahbanu"
 msgstr "%s Chahbanu"
@@ -7281,13 +7281,13 @@ msgstr ""
 "fut réunit sous la dynastie turque des Khwârezm-Shahs fondée par Anushtigin, "
 "qui dura de 1097 à sa conquête par Gengis Khan en 1231."
 
-#: data/nation/khwarezmian.ruleset:27 data/nation/median.ruleset:30
+#: data/nation/khwarezmian.ruleset:27 data/nation/median.ruleset:32
 #: data/nation/parthian.ruleset:34 data/nation/seleucid.ruleset:29
 #, c-format
 msgid "Satrap %s"
 msgstr "Satrape %s"
 
-#: data/nation/khwarezmian.ruleset:27 data/nation/median.ruleset:30
+#: data/nation/khwarezmian.ruleset:27 data/nation/median.ruleset:32
 #: data/nation/parthian.ruleset:34 data/nation/seleucid.ruleset:29
 #, c-format
 msgid "?female:Satrap %s"
@@ -8576,7 +8576,7 @@ msgstr ""
 "multiethnique, et contrôlait une vaste zone qui s'étendait du fleuve Halys à "
 "ce qui est maintenant l'Afghanistan."
 
-#: data/nation/median.ruleset:31
+#: data/nation/median.ruleset:33
 #, c-format
 msgid "%s Shahanshah"
 msgstr "Chahanchah %s"
