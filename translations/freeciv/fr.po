@@ -7,16 +7,14 @@
 # Freeciv french team <freeciv-fr@yahoogroupes.fr>, 2001-2004.
 # Frederic Rodrigo <f.rodrigo free.fr>, 2005-2007.
 # Pepeto <pepeto69 gmail.com>, 2007-2010
-# Igx, The Dreaming Drummer... <igx31 hotmail.com>, 2010-2020
+# Igx, The Dreaming Drummer... <igx31 hotmail.com>, 2010-2022
 # This file is distributed under the same license as the Freeciv package.
-#
-#
 msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.6\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2021-12-04 05:59+0200\n"
-"PO-Revision-Date: 2021-10-11 07:49+0200\n"
+"POT-Creation-Date: 2022-01-21 20:02+0100\n"
+"PO-Revision-Date: 2022-01-21 19:58+0100\n"
 "Last-Translator: Igx <igx31 hotmail.com>\n"
 "Language-Team: French <freeciv-l10n-fr@yahoogroupes.fr>\n"
 "Language: fr\n"
@@ -17660,7 +17658,7 @@ msgstr ""
 "Le jeu de tuiles \"%s\" ne supporte pas longs chemins aussi longs que %d. Le "
 "chemin n'est pas affiché tel qu'attendu."
 
-#: client/tilespec.c:5826
+#: client/tilespec.c:5835
 #, c-format
 msgid ""
 "Tileset \"%s\" doesn't support big cities size, such as %d. Size not "
@@ -17669,12 +17667,12 @@ msgstr ""
 "Le jeu de tuiles \"%s\" ne supporte pas les villes de taille aussi "
 "importantes que %d. La taille n'est pas affichée telle que prévue."
 
-#: client/tilespec.c:5972
+#: client/tilespec.c:5981
 #, c-format
 msgid "City style \"%s\": no city graphics."
 msgstr "Style de ville \"%s\" : pas de graphiques de villes."
 
-#: client/tilespec.c:5976
+#: client/tilespec.c:5985
 #, c-format
 msgid "City style \"%s\": no occupied graphics."
 msgstr "Style de ville \"%s\" : pas de graphique d'occupation."
@@ -41898,12 +41896,12 @@ msgstr ""
 "Les travailleurs se rassemblent spontanément et améliorent toutes les villes "
 "possibles avec %s."
 
-#: server/maphand.c:1689
+#: server/maphand.c:1694
 #, c-format
 msgid "Moved your %s due to changing terrain."
 msgstr "Déplacement de %s suite à la transformation du terrain."
 
-#: server/maphand.c:1706
+#: server/maphand.c:1711
 #, c-format
 msgid "Disbanded your %s due to changing terrain."
 msgstr "Démantèlement de votre %s suite à la transformation du terrain."
@@ -41948,7 +41946,7 @@ msgstr ""
 msgid "You can't revolt without selecting target government."
 msgstr "Vous ne pouvez pas vous révolter sans choisir un gouvernement cible."
 
-#: server/plrhand.c:471
+#: server/plrhand.c:473
 msgid "You can't revolt the same turn you finished previous revolution."
 msgstr ""
 "Vous ne pouvez pas vous révolter le tour même où vous avez fini la "
@@ -41956,7 +41954,7 @@ msgstr ""
 
 #. TRANS: this is a message event so don't make it
 #. * too long.
-#: server/plrhand.c:494
+#: server/plrhand.c:496
 #, c-format
 msgid ""
 "The %s have incited a revolt! %d turn of anarchy will ensue! Target "
@@ -41971,33 +41969,33 @@ msgstr[1] ""
 "Les %s ont suscité une révolte ! %d tours d'Anarchie s'en suivent ! "
 "L'objectif de gouvernement est %s."
 
-#: server/plrhand.c:507
+#: server/plrhand.c:509
 msgid "Revolution: returning to anarchy."
 msgstr "Révolution : retour à l'Anarchie."
 
-#: server/plrhand.c:568
+#: server/plrhand.c:570
 msgid "You should choose a new government from the government menu."
 msgstr ""
 "Vous devriez choisir un nouveau gouvernement dans le menu gouvernement."
 
-#: server/plrhand.c:593
+#: server/plrhand.c:595
 msgid "Tax rate exceeded the max rate; adjusted."
 msgstr "Le taux d'imposition excède son maximum ; ajusté."
 
-#: server/plrhand.c:597
+#: server/plrhand.c:599
 msgid "Science rate exceeded the max rate; adjusted."
 msgstr "Le taux de recherche excède son maximum ; ajusté."
 
-#: server/plrhand.c:601
+#: server/plrhand.c:603
 msgid "Luxury rate exceeded the max rate; adjusted."
 msgstr "Le taux de luxe excède son maximum ; ajusté."
 
-#: server/plrhand.c:714
+#: server/plrhand.c:716
 #, c-format
 msgid "%s no longer gives us shared vision!"
 msgstr "%s ne partage plus sa vue avec vous !"
 
-#: server/plrhand.c:725
+#: server/plrhand.c:727
 #, c-format
 msgid ""
 "The senate will not allow you to break treaty with the %s.  You must either "
@@ -42006,7 +42004,7 @@ msgstr ""
 "Le sénat ne vous permet pas de rompre le traité avec les %s. Vous devez "
 "dissoudre le sénat ou attendre un moment plus opportun."
 
-#: server/plrhand.c:784
+#: server/plrhand.c:786
 #, c-format
 msgid ""
 "The senate passes your bill because of the constant provocations of the %s."
@@ -42014,7 +42012,7 @@ msgstr ""
 "Le Sénat vote votre proposition de loi en raison des provocations constantes "
 "des %s."
 
-#: server/plrhand.c:789
+#: server/plrhand.c:791
 #, c-format
 msgid ""
 "The senate refuses to break treaty with the %s, but you have no trouble "
@@ -42023,12 +42021,12 @@ msgstr ""
 "Le sénat refuse de rompre le traité avec les %s, mais vous n'aurez aucun "
 "problème en mettant un nouveau sénat en place."
 
-#: server/plrhand.c:813
+#: server/plrhand.c:815
 #, c-format
 msgid "The diplomatic state between the %s and the %s is now %s."
 msgstr "Les relations diplomatiques entre les %s et les %s sont maintenant %s."
 
-#: server/plrhand.c:819
+#: server/plrhand.c:821
 #, c-format
 msgid ""
 " %s canceled the diplomatic agreement! The diplomatic state between the %s "
@@ -42037,14 +42035,14 @@ msgstr ""
 " %s a rompu le pacte ! Les relations diplomatiques entre les %s et les %s "
 "sont maintenant %s."
 
-#: server/plrhand.c:837
+#: server/plrhand.c:839
 #, c-format
 msgid ""
 "%s has attacked your ally %s! You cancel your alliance to the aggressor."
 msgstr ""
 "%s a attaqué votre allié %s ! Vous annulez votre alliance avec l'agresseur."
 
-#: server/plrhand.c:850
+#: server/plrhand.c:852
 #, c-format
 msgid ""
 "Your team mate %s declared war on %s. You are obligated to cancel alliance "
@@ -42053,96 +42051,96 @@ msgstr ""
 "Votre coéquipier %s a déclaré la guerre avec %s. Vous êtes obligé d'annuler "
 "votre alliance avec %s."
 
-#: server/plrhand.c:1439
+#: server/plrhand.c:1441
 msgid ""
 "Can only set player color prior to game start if 'plrcolormode' is PLR_SET."
 msgstr ""
 "Le couleur d'un joueur ne peut être positionnée avant le lancement de la "
 "partie que si 'plrcolormode' vaut PLR_SET."
 
-#: server/plrhand.c:1578
+#: server/plrhand.c:1580
 msgid "no color"
 msgstr "pas de couleur"
 
-#: server/plrhand.c:1670
+#: server/plrhand.c:1672
 #, c-format
 msgid "Removing player %s."
 msgstr "Retrait du joueur %s."
 
-#: server/plrhand.c:1673
+#: server/plrhand.c:1675
 msgid "You've been removed from the game!"
 msgstr "Vous avez été retiré de la partie !"
 
-#: server/plrhand.c:1676
+#: server/plrhand.c:1678
 #, c-format
 msgid "%s has been removed from the game."
 msgstr "%s a été retiré de la partie."
 
-#: server/plrhand.c:1820
+#: server/plrhand.c:1822
 msgid "Please choose a non-blank name."
 msgstr "Veuillez choisir un nom non vide."
 
-#: server/plrhand.c:1833
+#: server/plrhand.c:1835
 msgid "That nation is already in use."
 msgstr "Cette nation est déjà prise."
 
-#: server/plrhand.c:1838
+#: server/plrhand.c:1840
 #, c-format
 msgid "Another player already has the name '%s'. Please choose another name."
 msgstr "Un autre joueur a déjà le nom \"%s\". Veuillez choisir un autre nom."
 
-#: server/plrhand.c:1862
+#: server/plrhand.c:1864
 msgid "Please choose a name containing only ASCII characters."
 msgstr "Veuillez choisir un nom ne contenant que des caractères ASCII."
 
-#: server/plrhand.c:1937 server/plrhand.c:1951
+#: server/plrhand.c:1939 server/plrhand.c:1953
 #, c-format
 msgid "Player no. %d"
 msgstr "Joueur n° %d"
 
-#: server/plrhand.c:1966
+#: server/plrhand.c:1968
 msgid "A poorly-named player"
 msgstr "Un joueur mal nommé"
 
-#: server/plrhand.c:2035 server/plrhand.c:2039
+#: server/plrhand.c:2037 server/plrhand.c:2041
 #, c-format
 msgid "You have made contact with the %s, ruled by %s."
 msgstr "Vous avez établi un contact avec les %s, dirigés par %s."
 
-#: server/plrhand.c:2713
+#: server/plrhand.c:2715
 #, c-format
 msgid "Could not throw %s into civil war - too many players"
 msgstr "Impossible de plonger %s dans une guerre civile - trop de joueurs"
 
-#: server/plrhand.c:2719
+#: server/plrhand.c:2721
 #, c-format
 msgid "Could not throw %s into civil war - no available nations"
 msgstr "Impossible de plonger %s dans une guerre civile - pas assez de nations"
 
-#: server/plrhand.c:2753
+#: server/plrhand.c:2755
 #, c-format
 msgid "Could not throw %s into civil war - no available cities"
 msgstr ""
 "Impossible de plonger %s dans une guerre civile - pas de ville disponible"
 
-#: server/plrhand.c:2786
+#: server/plrhand.c:2788
 msgid "Your nation is thrust into civil war."
 msgstr "Votre nation plonge dans la guerre civile."
 
 #. TRANS: <leader> ... the Poles.
-#: server/plrhand.c:2790
+#: server/plrhand.c:2792
 #, c-format
 msgid "%s is the rebellious leader of the %s."
 msgstr "%s est déclaré chef des États rebelles %s."
 
 #. TRANS: <city> ... the Poles.
-#: server/plrhand.c:2812
+#: server/plrhand.c:2814
 #, c-format
 msgid "%s declares allegiance to the %s."
 msgstr "%s fait allégeance à %s."
 
 #. TRANS: ... Danes ... Poles ... <7> cities.
-#: server/plrhand.c:2840
+#: server/plrhand.c:2842
 #, c-format
 msgid "Civil war partitions the %s; the %s now hold %d city."
 msgid_plural "Civil war partitions the %s; the %s now hold %d cities."
@@ -42153,7 +42151,7 @@ msgstr[1] ""
 
 #. TRANS: '/delegate cancel' is a server command and must not
 #. * be translated
-#: server/plrhand.c:2982
+#: server/plrhand.c:2984
 #, c-format
 msgid ""
 "User '%s' is currently allowed to take control of your player while you are "
@@ -42163,14 +42161,14 @@ msgstr ""
 "joueur tant que vous êtes parti. Utilisez la commande '/delegate cancel' "
 "pour révoquer cet accès."
 
-#: server/plrhand.c:2994
+#: server/plrhand.c:2996
 #, c-format
 msgid "Control of player '%s' is delegated to you."
 msgstr "Le contrôle du joueur '%s' vous a été délégué."
 
 #. TRANS: '/delegate take' is a server command and must not
 #. * be translated; but <player> should be translated.
-#: server/plrhand.c:3003
+#: server/plrhand.c:3005
 msgid "Use '/delegate take <player>' to take control of a delegated player."
 msgstr ""
 "Utilisez '/delegate take <nom de joueur>' pour prendre le contrôle d'un "
