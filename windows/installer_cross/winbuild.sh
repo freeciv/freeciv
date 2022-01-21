@@ -7,9 +7,9 @@
 # This script is licensed under Gnu General Public License version 2 or later.
 # See COPYING available from the same location you got this script.
 
-# Version 2.3.5 (13-Jan-22)
+# Version 2.3.6 (21-Jan-22)
 
-WINBUILD_VERSION="2.3.5"
+WINBUILD_VERSION="2.3.6"
 MIN_WINVER=0x0601 # Windows 7
 CROSSER_FEATURE_LEVEL=2.2
 
@@ -70,19 +70,20 @@ elif test "x$2" != "x" ; then
   SINGLE_GUI=true
   GUIP="-$2"
   SERVER="yes"
-  if test "x$2" = "xqt" ; then
+  if test "x$2" = "xqt5" ; then
     RULEDIT="yes"
+    CLIENTS="qt"
   else
     RULEDIT="no"
+    CLIENTS="$2"
   fi
-  CLIENTS="$2"
   case $2 in
     gtk3) FCMP="gtk3" ;;
     sdl2) FCMP="gtk4" ;;
     gtk3.22) FCMP="gtk3" ;;
     gtk4) FCMP="gtk4" ;;
-    qt) FCMP="qt"
-        NLS="--disable-nls" ;;
+    qt5) FCMP="qt"
+         NLS="--disable-nls" ;;
     *) echo "Unknown gui \"$2\"!" >&2
        exit 1 ;;
   esac
