@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv trunk\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2021-11-19 15:56+0100\n"
+"POT-Creation-Date: 2022-01-21 18:25+0100\n"
 "PO-Revision-Date: 2019-08-05 15:55+0200\n"
 "Last-Translator: Igx <igx31 hotmail.com>\n"
 "Language-Team: French <freeciv-l10n-fr@yahoogroupes.fr>\n"
@@ -837,7 +837,7 @@ msgstr ""
 
 #: data/nation/aleut.ruleset:23 data/nation/choctaw.ruleset:33
 #: data/nation/chumash.ruleset:24 data/nation/comanche.ruleset:26
-#: data/nation/evenki.ruleset:22 data/nation/hasinay.ruleset:28
+#: data/nation/evenki.ruleset:21 data/nation/hasinay.ruleset:28
 #: data/nation/hopi.ruleset:26 data/nation/inuit.ruleset:21
 #: data/nation/kuna.ruleset:23 data/nation/mikmaq.ruleset:22
 #: data/nation/nuu-chah-nulth.ruleset:23 data/nation/ohlone.ruleset:28
@@ -850,7 +850,7 @@ msgstr "Chaman %s"
 
 #: data/nation/aleut.ruleset:23 data/nation/choctaw.ruleset:33
 #: data/nation/chumash.ruleset:24 data/nation/comanche.ruleset:26
-#: data/nation/evenki.ruleset:22 data/nation/hasinay.ruleset:28
+#: data/nation/evenki.ruleset:21 data/nation/hasinay.ruleset:28
 #: data/nation/hopi.ruleset:26 data/nation/inuit.ruleset:21
 #: data/nation/kuna.ruleset:23 data/nation/mikmaq.ruleset:22
 #: data/nation/nuu-chah-nulth.ruleset:23 data/nation/ohlone.ruleset:28
@@ -1907,7 +1907,7 @@ msgstr ""
 #: data/nation/kushan.ruleset:42 data/nation/majapahit.ruleset:27
 #: data/nation/marathi.ruleset:37 data/nation/moluccan.ruleset:30
 #: data/nation/pakistani.ruleset:20 data/nation/sikh.ruleset:32
-#: data/nation/sikkimese.ruleset:21 data/nation/srivijaya.ruleset:25
+#: data/nation/sikkimese.ruleset:21 data/nation/srivijaya.ruleset:24
 #: data/nation/vedic.ruleset:23
 #, c-format
 msgid "Raja %s"
@@ -1919,7 +1919,7 @@ msgstr "Râja %s"
 #: data/nation/kushan.ruleset:42 data/nation/majapahit.ruleset:27
 #: data/nation/marathi.ruleset:37 data/nation/moluccan.ruleset:30
 #: data/nation/pakistani.ruleset:20 data/nation/sikh.ruleset:32
-#: data/nation/sikkimese.ruleset:21 data/nation/srivijaya.ruleset:25
+#: data/nation/sikkimese.ruleset:21 data/nation/srivijaya.ruleset:24
 #: data/nation/vedic.ruleset:23
 #, c-format
 msgid "Rani %s"
@@ -1931,7 +1931,7 @@ msgstr "Rânî %s"
 #: data/nation/kushan.ruleset:43 data/nation/majapahit.ruleset:28
 #: data/nation/marathi.ruleset:38 data/nation/mughal.ruleset:21
 #: data/nation/pakistani.ruleset:22 data/nation/sikh.ruleset:34
-#: data/nation/sikkimese.ruleset:23 data/nation/srivijaya.ruleset:26
+#: data/nation/sikkimese.ruleset:23 data/nation/srivijaya.ruleset:25
 #: data/nation/vedic.ruleset:25
 #, c-format
 msgid "Maharaja %s"
@@ -1943,7 +1943,7 @@ msgstr "Mahârâja %s"
 #: data/nation/kushan.ruleset:43 data/nation/majapahit.ruleset:28
 #: data/nation/marathi.ruleset:38 data/nation/mughal.ruleset:21
 #: data/nation/pakistani.ruleset:22 data/nation/sikh.ruleset:34
-#: data/nation/sikkimese.ruleset:23 data/nation/srivijaya.ruleset:26
+#: data/nation/sikkimese.ruleset:23 data/nation/srivijaya.ruleset:25
 #: data/nation/vedic.ruleset:25
 #, c-format
 msgid "Maharani %s"
@@ -5086,7 +5086,7 @@ msgstr "Evenk"
 msgid "?plural:Evenks"
 msgstr "Evenks"
 
-#: data/nation/evenki.ruleset:7
+#: data/nation/evenki.ruleset:6
 msgid ""
 "The Evenks are a Tungusic ethnic group in Siberia, Mongolia, and northern "
 "China. Historical evidence suggests that they have lived in the Baikal area "
@@ -12072,7 +12072,7 @@ msgstr "Sriwijaya"
 msgid "?plural:Sri Vijaya"
 msgstr "Sriwijayas"
 
-#: data/nation/srivijaya.ruleset:7
+#: data/nation/srivijaya.ruleset:6
 msgid ""
 "Sri Vijaya was an empire centered on Palembang in eastern Sumatra and "
 "extended its control through much of the coastal regions of Sumatra, Java, "
