@@ -71,7 +71,7 @@ add_sdl2_env() {
   cp $1/bin/libtiff-5.dll $2/
 }
 
-add_qt_env() {
+add_qt5_env() {
   cp -R $1/plugins $2/ &&
   cp $1/bin/Qt5Core.dll $2/ &&
   cp $1/bin/Qt5Gui.dll $2/ &&
@@ -109,8 +109,9 @@ case $GUI in
     GUINAME="GTK3.22"
     MPGUI="gtk3"
     FCMP="gtk3" ;;
-  qt)
+  qt5)
     GUINAME="Qt"
+    CLIENT="qt"
     MPGUI="qt"
     FCMP="qt" ;;
   sdl2)
@@ -125,6 +126,10 @@ case $GUI in
     echo "Unknown gui type \"$GUI\"" >&2
     exit 1 ;;
 esac
+
+if test "x$CLIENT" = "x" ; then
+  CLIENT="$GUI"
+fi
 
 if ! test -d "$DLLSPATH" ; then
   echo "Dllstack directory \"$DLLSPATH\" not found!" >&2
@@ -187,8 +192,8 @@ if test "x$GUI" = "xruledit" ; then
     exit 1
   fi
 
-  if ! add_qt_env $DLLSPATH $INSTDIR ; then
-    echo "Copying Qt environment failed!" >&2
+  if ! add_qt5_env $DLLSPATH $INSTDIR ; then
+    echo "Copying Qt5 environment failed!" >&2
     exit 1
   fi
 
@@ -204,7 +209,7 @@ if test "x$GUI" = "xruledit" ; then
     exit 1
   fi
 else
-  if ! cp freeciv-server.cmd freeciv-$GUI.cmd freeciv-mp-$FCMP.cmd $INSTDIR/
+  if ! cp freeciv-server.cmd freeciv-$CLIENT.cmd freeciv-mp-$FCMP.cmd $INSTDIR/
   then
     echo "Adding cmd-files failed!" >&2
     exit 1
@@ -230,14 +235,14 @@ else
         echo "Copying SDL2 environment failed!" >&2
         exit 1
       fi ;;
-    qt)
+    qt5)
       if ! cp freeciv-ruledit.cmd $INSTDIR/
       then
         echo "Adding cmd-file failed!" >&2
         exit 1
       fi
-      if ! add_qt_env $DLLSPATH $INSTDIR ; then
-        echo "Copying Qt environment failed!" >&2
+      if ! add_qt5_env $DLLSPATH $INSTDIR ; then
+        echo "Copying Qt5 environment failed!" >&2
         exit 1
       fi ;;
     gtk4)
@@ -254,13 +259,18 @@ else
       exit 1
     fi
   else
+    if test "x$GUI" = "xqt5" ; then
+      EXE_ID="qt"
+    else
+      EXE_ID="$GUI"
+    fi
     if test "x$GUI" = "xgtk3.22" || test "x$GUI" = "xgtk4" ; then
       UNINSTALLER="helpers/uninstaller-helper-gtk3.sh"
     else
       UNINSTALLER=""
     fi
     if ! ./create-freeciv-gtk-qt-nsi.sh $INSTDIR $VERREV $GUI $GUINAME \
-         $SETUP $MPGUI $UNINSTALLER > Freeciv-$SETUP-$VERREV-$GUI.nsi
+         $SETUP $MPGUI $EXE_ID $UNINSTALLER > Freeciv-$SETUP-$VERREV-$GUI.nsi
     then
       exit 1
     fi

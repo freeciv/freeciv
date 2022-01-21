@@ -1,15 +1,21 @@
 #!/bin/sh
 
-# ./create-freeciv-gtk-qt-nsi.sh <Freeciv files directory> <version> <gtk3.22|qt> <GTK+3|Qt> <win32|win64|win> [mp gui] [unistall setup script]
+# ./create-freeciv-gtk-qt-nsi.sh <Freeciv files directory> <version> <gtk3.22|qt5> <GTK+3|Qt5> <win32|win64|win> [mp gui] [exe id] [unistall setup script]
 
-if test "x$6" != "x" ; then
-  MPGUI_ID="$6"
+if test "x$7" != "x" ; then
+  EXE_ID="$7"
 else
-  MPGUI_ID="$3"
+  EXE_ID="$3"
 fi
 
-if test "x$7" != "x" && ! test -x "$7" ; then
-  echo "$7 not an executable script" >&2
+if test "x$6" != "x" ; then
+  MPEXE_ID="$6"
+else
+  MPEXE_ID="$EXE_ID"
+fi
+
+if test "x$8" != "x" && ! test -x "$8" ; then
+  echo "$8 not an executable script" >&2
   exit 1
 fi
 
@@ -23,7 +29,8 @@ SetCompressor /SOLID lzma
 !define APPNAME "Freeciv"
 !define VERSION $2
 !define GUI_ID $3
-!define MPGUI_ID $MPGUI_ID
+!define EXE_ID $EXE_ID
+!define MPEXE_ID $MPEXE_ID
 !define GUI_NAME $4
 !define WIN_ARCH $5
 !define APPID "\${APPNAME}-\${VERSION}-\${GUI_ID}"
@@ -120,12 +127,12 @@ cat <<EOF
 
   !insertmacro MUI_STARTMENU_WRITE_BEGIN Application
   CreateDirectory "\$SMPROGRAMS\\\$STARTMENU_FOLDER"
-  CreateShortCut "\$SMPROGRAMS\\\$STARTMENU_FOLDER\Freeciv.lnk" "\$INSTDIR\freeciv-\${GUI_ID}.cmd" "\$DefaultLanguageCode" "\$INSTDIR\freeciv-\${GUI_ID}.exe" 0 SW_SHOWMINIMIZED
+  CreateShortCut "\$SMPROGRAMS\\\$STARTMENU_FOLDER\Freeciv.lnk" "\$INSTDIR\freeciv-\${EXE_ID}.cmd" "\$DefaultLanguageCode" "\$INSTDIR\freeciv-\${EXE_ID}.exe" 0 SW_SHOWMINIMIZED
   CreateShortCut "\$SMPROGRAMS\\\$STARTMENU_FOLDER\Freeciv Server.lnk" "\$INSTDIR\freeciv-server.cmd" "\$DefaultLanguageCode" "\$INSTDIR\freeciv-server.exe" 0 SW_SHOWMINIMIZED
-  CreateShortCut "\$SMPROGRAMS\\\$STARTMENU_FOLDER\Freeciv Modpack Installer.lnk" "\$INSTDIR\freeciv-mp-\${MPGUI_ID}.cmd" "\$DefaultLanguageCode" "\$INSTDIR\freeciv-mp-\${MPGUI_ID}.exe" 0 SW_SHOWMINIMIZED
+  CreateShortCut "\$SMPROGRAMS\\\$STARTMENU_FOLDER\Freeciv Modpack Installer.lnk" "\$INSTDIR\freeciv-mp-\${MPEXE_ID}.cmd" "\$DefaultLanguageCode" "\$INSTDIR\freeciv-mp-\${MPEXE_ID}.exe" 0 SW_SHOWMINIMIZED
 EOF
 
-if test "x$3" = "xqt" ; then
+if test "x$3" = "xqt5" ; then
     echo "  CreateShortCut \"\$SMPROGRAMS\\\$STARTMENU_FOLDER\\Freeciv Ruleset Editor.lnk\" \"\$INSTDIR\\\\freeciv-ruledit.cmd\" \"\$DefaultLanguageCode\" \"\$INSTDIR\\\\freeciv-ruledit.exe\" 0 SW_SHOWMINIMIZED"
 fi
 
@@ -284,7 +291,7 @@ Function HelperScriptFunction
 FunctionEnd
 
 Function RunFreeciv
-  nsExec::Exec '"\$INSTDIR\freeciv-\${GUI_ID}.cmd" \$DefaultLanguageCode'
+  nsExec::Exec '"\$INSTDIR\freeciv-\${EXE_ID}.cmd" \$DefaultLanguageCode'
 FunctionEnd
 
 EOF
@@ -322,8 +329,8 @@ do
 echo "  RMDir \"\$INSTDIR$name\"" | sed 's,/,\\,g'
 done
 
-if test "x$7" != "x" ; then
-  $7
+if test "x$8" != "x" ; then
+  $8
 fi
 
 cat <<EOF

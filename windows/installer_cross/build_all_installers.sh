@@ -59,12 +59,12 @@ else
 fi
 
 if test "x$CROSSER_QT5" != "xyes" ; then
-  QT="N/A"
-elif ! ./installer_build.sh $DLLSPATH qt ; then
+  QT5="N/A"
+elif ! ./installer_build.sh $DLLSPATH qt5 ; then
   RET=1
-  QT="Fail"
+  QT5="Fail"
 else
-  QT="Success"
+  QT5="Success"
 fi
 
 # sdl2-client comes with gtk4 modpack installer
@@ -87,7 +87,7 @@ else
 fi
 
 echo "Gtk3.22: $GTK322"
-echo "Qt:      $QT"
+echo "Qt5:     $QT5"
 echo "Sdl2:    $SDL2"
 echo "Ruledit: $RULEDIT"
 
