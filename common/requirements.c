@@ -1950,7 +1950,9 @@ static enum fc_tristate is_goods_type_in_range(const struct tile *target_tile,
     if (!target_city) {
       return TRI_MAYBE;
     }
-    return BOOL_TO_TRISTATE(city_receives_goods(target_city, pgood));
+    return BOOL_TO_TRISTATE(city_receives_goods(target_city, pgood)
+                            || (goods_has_flag(pgood, GF_SELF_PROVIDED)
+                                && goods_can_be_provided(target_city, pgood, NULL)));
   case REQ_RANGE_CADJACENT:
   case REQ_RANGE_ADJACENT:
   case REQ_RANGE_TRADEROUTE:

@@ -1076,6 +1076,10 @@ goods = "\
 ;   - \"Depletes\"          = Trade route gets cancelled when the source city cannot provide\n\
 ;                           goods any more. Bidirectional routes gets cancelled if either\n\
 ;                           one of the involved cities cannot provide goods.\n\
+;   - \"Self-Provided\"     = Good requirement (in requirement lists of other rules)\n\
+;                           is fullfilled also for the city exporting, or capable of exporting,\n\
+;                           the good. Otherwise it would be true only for cities importing the\n\
+;                           good from elsewhere.\n\
 ; helptext                = Optional help text string; should escape all raw\n\
 ;                           newlines so that xgettext parsing works\n\
 ;\n\

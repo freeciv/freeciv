@@ -842,6 +842,10 @@ goods_selection = "Leaving"
 ;   - "Depletes"          = Trade route gets cancelled when the source city cannot provide
 ;                           goods any more. Bidirectional routes gets cancelled if either
 ;                           one of the involved cities cannot provide goods.
+;   - "Self-Provided"     = Good requirement (in requirement lists of other rules)
+;                           is fullfilled also for the city exporting, or capable of exporting,
+;                           the good. Otherwise it would be true only for cities importing the
+;                           good from elsewhere.
 ; helptext                = Optional help text string; should escape all raw
 ;                           newlines so that xgettext parsing works
 ;
