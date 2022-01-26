@@ -96,6 +96,7 @@ struct intel_wonder_dialog {
   GtkWidget *shell;
 
   GtkListStore *wonders;
+  GtkWidget *rule;
 };
 
 #define SPECLIST_TAG wonder_dialog
@@ -382,6 +383,7 @@ static struct intel_wonder_dialog *create_intel_wonder_dialog(struct player *p)
   struct intel_wonder_dialog *pdialog;
   GtkWidget *shell, *sw, *view;
   GtkCellRenderer *rend;
+  GtkWidget *box;
 
   pdialog = fc_malloc(sizeof(*pdialog));
   pdialog->pplayer = p;
@@ -401,6 +403,9 @@ static struct intel_wonder_dialog *create_intel_wonder_dialog(struct player *p)
                    G_CALLBACK(intel_wonder_destroy_callback), pdialog);
   g_signal_connect(shell, "response",
                    G_CALLBACK(gtk_window_destroy), NULL);
+
+
+  pdialog->rule = gtk_label_new("-");
 
   /* columns: 0 - wonder name, 1 - location (city/unknown/lost),
    * 2 - strikethrough (for lost or obsolete),
@@ -436,7 +441,10 @@ static struct intel_wonder_dialog *create_intel_wonder_dialog(struct player *p)
 
   sw = gtk_scrolled_window_new();
   gtk_scrolled_window_set_has_frame(GTK_SCROLLED_WINDOW(sw), TRUE);
-  gtk_scrolled_window_set_child(GTK_SCROLLED_WINDOW(sw), view);
+  box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 2);
+  gtk_box_append(GTK_BOX(box), pdialog->rule);
+  gtk_box_append(GTK_BOX(box), view);
+  gtk_scrolled_window_set_child(GTK_SCROLLED_WINDOW(sw), box);
 
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
                                  GTK_POLICY_AUTOMATIC,
@@ -636,9 +644,21 @@ void update_intel_wonder_dialog(struct player *p)
   if (pdialog != NULL) {
     gchar *title = g_strdup_printf(_("Wonders of %s Empire"),
                                    nation_adjective_for_player(p));
+    const char *rule = NULL;
 
     gtk_window_set_title(GTK_WINDOW(pdialog->shell), title);
     g_free(title);
+
+    switch (game.info.small_wonder_visibility) {
+    case WV_ALWAYS:
+      rule = _("All Wonders are known");
+      break;
+    case WV_NEVER:
+      rule = _("Small Wonders not known");
+      break;
+    }
+
+    gtk_label_set_text(GTK_LABEL(pdialog->rule), rule);
 
     gtk_list_store_clear(pdialog->wonders);
 
