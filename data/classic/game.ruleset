@@ -591,11 +591,11 @@ ui_name_conquer_city = _("%sConquer City%s")
 ; /* TRANS: _Conquer City from non native (100% chance of success). */
 ui_name_conquer_city_2 = _("%sConquer City from non native%s")
 
-; /* TRANS: _Capture Fortress (100% chance of success). */
-ui_name_conquer_extras = _("%sCapture Fortress%s")
+; /* TRANS: _Conquer Fortress (100% chance of success). */
+ui_name_conquer_extras = _("%sConquer Fortress%s")
 
-; /* TRANS: _Capture Fortress from non native (100% chance of success). */
-ui_name_conquer_extras_2 = _("%sCapture Fortress from non native%s")
+; /* TRANS: _Conquer Fortress from non native (100% chance of success). */
+ui_name_conquer_extras_2 = _("%sConquer Fortress from non native%s")
 
 ; /* TRANS: _Transform Terrain (3% chance of success). */
 ui_name_transform_terrain = _("%sTransform Terrain%s")
