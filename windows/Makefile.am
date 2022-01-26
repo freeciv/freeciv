@@ -12,7 +12,8 @@ dist_noinst_DATA = \
 		installer_msys2/licenses/COPYING.installer	\
 		installer_msys2/create-freeciv-gtk-qt-nsi.sh	\
 		installer_msys2/create-freeciv-gtk3.22-nsi.sh	\
-		installer_msys2/create-freeciv-qt-nsi.sh	\
+		installer_msys2/create-freeciv-qt5-nsi.sh	\
+		installer_msys2/create-freeciv-qt6-nsi.sh	\
 		installer_msys2/create-freeciv-sdl2-nsi.sh	\
 		installer_msys2/create-freeciv-ruledit-nsi.sh	\
 		installer_msys2/freeciv-gtk3.22.cmd		\

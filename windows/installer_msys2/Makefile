@@ -522,7 +522,7 @@ installer-common: clean-install-common install-freeciv-$(GUI) install-env-$(GUI)
 	# extract Freeciv version
 	$(eval FREECIV_VERSION := $(shell ../../fc_version))
 	# create NSIS script
-	./create-freeciv-$(CLIENT)-nsi.sh install-$(WINARCH)-$(GUI) $(FREECIV_VERSION) $(WINARCH) > Freeciv-$(WINARCH)-$(FREECIV_VERSION)-$(GUI).nsi
+	./create-freeciv-$(GUI)-nsi.sh install-$(WINARCH)-$(GUI) $(FREECIV_VERSION) $(WINARCH) > Freeciv-$(WINARCH)-$(FREECIV_VERSION)-$(GUI).nsi
 	# create installer executable
 	mkdir -p Output
 	makensis Freeciv-$(WINARCH)-$(FREECIV_VERSION)-$(GUI).nsi
