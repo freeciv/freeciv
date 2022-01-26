@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# ./create-freeciv-gtk-qt-nsi.sh <Freeciv files directory> <version> <gtk3.22|qt5> <GTK+3|Qt5> <win32|win64|win> [mp gui] [exe id]
+# ./create-freeciv-gtk-qt-nsi.sh <Freeciv files directory> <version> <gtk3.22|qt5|qt6> <GTK+3|Qt5|Qt6> <win32|win64|win> [mp gui] [exe id]
 
 if test "x$7" != "x" ; then
   EXE_ID="$7"
@@ -125,7 +125,7 @@ cat <<EOF
   CreateShortCut "\$SMPROGRAMS\\\$STARTMENU_FOLDER\Freeciv Modpack Installer.lnk" "\$INSTDIR\freeciv-mp-\${MPEXE_ID}.cmd" "\$DefaultLanguageCode" "\$INSTDIR\freeciv-mp-\${MPEXE_ID}.exe" 0 SW_SHOWMINIMIZED
 EOF
 
-if test "x$3" = "xqt5" ; then
+if test "x$3" = "xqt5" || test "x$3" = "xqt6" ; then
     echo "CreateShortCut \"\$SMPROGRAMS\\\$STARTMENU_FOLDER\Freeciv Ruleset Editor.lnk\" \"\$INSTDIR\freeciv-ruledit.cmd\" \"\$DefaultLanguageCode\" \"\$INSTDIR\freeciv-ruledit.exe\" 0 SW_SHOWMINIMIZED"
 fi
 
