@@ -26,6 +26,16 @@
 #include "api_game_find.h"
 
 /**********************************************************************//**
+  Return a player with the given name
+**************************************************************************/
+Player *api_find_player_by_name(lua_State *L, const char *name)
+{
+  LUASCRIPT_CHECK_STATE(L, NULL);
+
+  return player_by_name(name);
+}
+
+/**********************************************************************//**
   Return a player with the given player_id.
 **************************************************************************/
 Player *api_find_player(lua_State *L, int player_id)

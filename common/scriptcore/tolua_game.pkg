@@ -475,6 +475,8 @@ module City_List_Link {
 
 /* Module find. */
 module find {
+  Player *api_find_player_by_name
+    @ player (lua_State *L, const char *name);
   Player *api_find_player
     @ player (lua_State *L, int player_id);
   City *api_find_city
