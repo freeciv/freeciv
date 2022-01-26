@@ -170,6 +170,7 @@ struct civ_game {
       int onsetbarbarian;
       int pingtime;
       int pingtimeout;
+      bool ip_hide;
       int ransom_gold;
       int razechance;
       unsigned revealmap;
@@ -611,6 +612,8 @@ extern struct world wld;
 #define GAME_DEFAULT_PINGTIMEOUT     60
 #define GAME_MIN_PINGTIMEOUT         60
 #define GAME_MAX_PINGTIMEOUT         1800
+
+#define GAME_DEFAULT_IPHIDE          FALSE
 
 #define GAME_DEFAULT_NOTRADESIZE     0
 #define GAME_MIN_NOTRADESIZE         0

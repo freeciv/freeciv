@@ -266,14 +266,27 @@ void establish_new_connection(struct connection *pconn)
    * sent the pending events to pconn (from this function and also
    * connection_attach()), otherwise pconn will receive it too. */
   if (conn_controls_player(pconn)) {
-    package_event(&connect_info, NULL, E_CONNECTION, ftc_server,
-                  _("%s has connected from %s (player %s)."),
-                  pconn->username, pconn->addr,
-                  player_name(conn_get_player(pconn)));
+    if (game.server.ip_hide) {
+      package_event(&connect_info, NULL, E_CONNECTION, ftc_server,
+                    _("%s has connected (player %s)."),
+                    pconn->username,
+                    player_name(conn_get_player(pconn)));
+    } else {
+      package_event(&connect_info, NULL, E_CONNECTION, ftc_server,
+                    _("%s has connected from %s (player %s)."),
+                    pconn->username, pconn->addr,
+                    player_name(conn_get_player(pconn)));
+    }
   } else {
-    package_event(&connect_info, NULL, E_CONNECTION, ftc_server,
-                  _("%s has connected from %s."),
-                  pconn->username, pconn->addr);
+    if (game.server.ip_hide) {
+      package_event(&connect_info, NULL, E_CONNECTION, ftc_server,
+                    _("%s has connected."),
+                    pconn->username);
+    } else {
+      package_event(&connect_info, NULL, E_CONNECTION, ftc_server,
+                    _("%s has connected from %s."),
+                    pconn->username, pconn->addr);
+    }
   }
   conn_list_iterate(game.est_connections, aconn) {
     if (aconn != pconn) {
@@ -506,7 +519,11 @@ static void package_conn_info(struct connection *pconn,
   packet->access_level = pconn->access_level;
 
   sz_strlcpy(packet->username, pconn->username);
-  sz_strlcpy(packet->addr, pconn->addr);
+  if (game.server.ip_hide) {
+    sz_strlcpy(packet->addr, Q_("?IP:Hidden"));
+  } else {
+    sz_strlcpy(packet->addr, pconn->addr);
+  }
   sz_strlcpy(packet->capability, pconn->capability);
 }
 

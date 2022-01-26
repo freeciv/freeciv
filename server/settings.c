@@ -2882,6 +2882,15 @@ static struct setting settings[] = {
              "client is disconnected."), NULL, NULL, NULL,
           GAME_MIN_PINGTIMEOUT, GAME_MAX_PINGTIMEOUT, GAME_DEFAULT_PINGTIMEOUT)
 
+  GEN_BOOL("iphide", game.server.ip_hide,
+           SSET_META, SSET_NETWORK, SSET_RARE,
+           ALLOW_NONE, ALLOW_HACK,
+           N_("Keep client IP hidden"),
+           N_("Don't tell client IP address to other clients. Server operator "
+              "can still see it. Also, changing this setting cannot do anything "
+              "to the information already sent before."),
+           NULL, NULL, GAME_DEFAULT_IPHIDE)
+
   GEN_BOOL("turnblock", game.server.turnblock,
            SSET_META, SSET_INTERNAL, SSET_SITUATIONAL,
            ALLOW_NONE, ALLOW_BASIC,
