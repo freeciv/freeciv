@@ -5919,9 +5919,10 @@ void options_save(option_save_log_callback log_cb)
   /* gui-enabled options */
   client_options_iterate_all(poption) {
     if ((client_poption->specific != GUI_SDL || !gui_options.gui_sdl2_migrated_from_sdl)
-        && (client_poption->specific != GUI_GTK2 || !gui_options.gui_gtk3_migrated_from_gtk2)) {
-      /* Once sdl-client options have been migrated to sdl2-client, or gtk2-client options
-       * to gtk3-client, there's no use for them any more, so no point in saving them. */
+        && (client_poption->specific != GUI_GTK2 || !gui_options.gui_gtk3_migrated_from_gtk2)
+        && (client_poption->specific != GUI_GTK3 || !gui_options.gui_gtk3_22_migrated_from_gtk3)) {
+      /* Once options have been migrated from a client that no longer exist to a newer client,
+       * there's no use for those settings of dropped client any more, so no point in saving them. */
       client_option_save(poption, sf);
     }
   } client_options_iterate_all_end;
