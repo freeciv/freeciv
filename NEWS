@@ -16,7 +16,7 @@ MAJOR CHANGES FROM 3.0.x to 3.1.0
 MAJOR CHANGES FROM 2.6.x to 3.0.0
 ---------------------------------
 
-   (from <http://www.freeciv.org/wiki/NEWS-3.0.0>, 2021-10-01)
+   (from <http://www.freeciv.org/wiki/NEWS-3.0.0>, 2022-01-26)
 
    The major changes in Freeciv 3.0 are civ2civ3 being the default ruleset,
    addition of the alien ruleset, hex maps as the default topology on
@@ -73,6 +73,8 @@ Miscellaneous rule changes affecting all or most rulesets:
        one in the same tile (but no other units to defend them).
        The old behavior was not to give ransom at all as they were
        considered to be defending each other. osdn#42020
+     * Bombarding is disallowed when target tile is known not to
+       contain any units that would be affected HRM#848555
 
      * New / Changed game settings
           + There's a new fracture map generator GNAPATCH#6882
@@ -123,7 +125,7 @@ Rule changes to specific rulesets:
             coast on turn change GNAPATCH#7350
           + (civ2) Airbase hides units inside from non-allied players
             GNAPATCH#7983
-          + (civ1) Units cannot be upgraded HRM#741525
+          + Units cannot be upgraded HRM#741525 osdn#43404
           + (civ2) Fighters have defense bonuses against Bombers to
             mimic civ2 scramble mechanics HRM#865085
           + Savepalace server setting is disabled by default osdn#42266
@@ -456,6 +458,10 @@ Clients
        Messages settings GNAPATCH#7601
      * Maximum number of rulesets listed at the client end increased
        to 63 (from 16) HRM#854627
+
+     * Gtk-client improvements
+          + gtk3 & gtk3.22: New Wonders List Intelligence Dialog shows
+            all the wonders of any foreign player HRM#883354 osdn#43043
 
      * Qt-client improvements
           + User configurable shortcuts for Go And Build City and
