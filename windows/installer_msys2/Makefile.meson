@@ -121,6 +121,19 @@ FCMP_GTK3_DLLS := \
 
 install-env-gtk3-fcmp: install-env-common
 	cp -R $(addprefix $(DLLPATH_PREFIX), $(FCMP_GTK3_DLLS)) meson-install-$(GUI)/
+	# add additional GTK+3 files
+	mkdir -p meson-install-$(GUI)/etc
+	cp -R /$(ARCHDIR)/etc/gtk-3.0 meson-install-$(GUI)/etc/
+	mkdir -p meson-install-$(GUI)/share/icons
+	cp -R /$(ARCHDIR)/share/icons/Adwaita meson-install-$(GUI)/share/icons/
+	mkdir -p meson-install-$(GUI)/share/glib-2.0/schemas
+	cp /$(ARCHDIR)/share/glib-2.0/schemas/gschemas.compiled meson-install-$(GUI)/share/glib-2.0/schemas/
+	mkdir -p meson-install-$(GUI)/lib/gtk-3.0/
+	cp -R /$(ARCHDIR)/lib/gtk-3.0/* meson-install-$(GUI)/lib/gtk-3.0/
+	mkdir -p meson-install-$(GUI)/lib/gdk-pixbuf-2.0/
+	cp -R /$(ARCHDIR)/lib/gdk-pixbuf-2.0/* meson-install-$(GUI)/lib/gdk-pixbuf-2.0/
+	cp -R /$(ARCHDIR)/share/locale meson-install-$(GUI)/share/
+	find meson-install-$(GUI)/share/locale -type f -not -name "freeciv*.mo" -and -not -name gtk30.mo -delete
 
 install-freeciv-gtk3.22: install-freeciv-common install-env-gtk3-fcmp
 
