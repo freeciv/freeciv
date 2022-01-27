@@ -210,11 +210,10 @@ int style_of_city(const struct city *pcity)
 **************************************************************************/
 int basic_city_style_for_style(struct nation_style *pstyle)
 {
-  enum fc_tristate style_style;
   int i;
 
   for (i = game.control.styles_count - 1; i >= 0; i--) {
-    style_style = TRI_MAYBE;
+    enum fc_tristate style_style = TRI_MAYBE;
 
     requirement_vector_iterate(&city_styles[i].reqs, preq) {
       if (preq->source.kind == VUT_STYLE
@@ -230,12 +229,8 @@ int basic_city_style_for_style(struct nation_style *pstyle)
     } requirement_vector_iterate_end;
 
     if (style_style == TRI_YES) {
-      break;
+      return i;
     }
-  }
-
-  if (style_style == TRI_YES) {
-    return i;
   }
 
   return -1;
