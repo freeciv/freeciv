@@ -629,7 +629,7 @@ ui_name_frighten_hut = _("Frighten %sHut%s")
 ui_name_unit_move = _("%sKeep moving%s")
 
 ; Blank ruleset defined user actions.
-; See the section "Ruleset defined actions" is doc/README.actions
+; See the section "Ruleset defined actions" in doc/README.actions
 
 ; /* TRANS: _Disrupt Supply Lines (100% chance of success). */
 ui_name_user_action_1                = _("%sDisrupt Supply Lines%s")
