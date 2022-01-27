@@ -393,8 +393,8 @@ static int class_gc_event (lua_State* L)
       }
       else if (lua_isuserdata(L,-1) && *((void**)lua_touserdata(L,-1))==NULL) {
         /* free object */
-        free(u);
         tolua_release(L,u);                /* unmap from tolua tables */
+        free(u);
       }
     }
     lua_settop(L,top);
