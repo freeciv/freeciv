@@ -441,7 +441,7 @@ found_city_consuming_always = TRUE
 ;    }
 
 ; Blank ruleset defined user actions.
-; See the section "Ruleset defined actions" is doc/README.actions
+; See the section "Ruleset defined actions" in doc/README.actions
 ; Example: set up "User Action 1"
 ;ui_name_user_action_1                = _("%sDisrupt Supply Lines%s")
 ;user_action_1_target_kind            = "individual units"
