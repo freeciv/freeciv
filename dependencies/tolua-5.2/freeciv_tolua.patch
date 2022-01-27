@@ -1,6 +1,6 @@
 diff -Nurd tolua-5.2/src/bin/tolua.c tolua-5.2/src/bin/tolua.c
---- tolua-5.2/src/bin/tolua.c	2016-01-06 01:19:24.984940138 +0200
-+++ tolua-5.2/src/bin/tolua.c	2016-01-06 01:22:44.160507862 +0200
+--- tolua-5.2/src/bin/tolua.c	2022-01-27 13:47:57.409903222 +0200
++++ tolua-5.2/src/bin/tolua.c	2020-02-22 14:33:47.775736302 +0200
 @@ -22,6 +22,9 @@
  #include <stdlib.h>
  #include <string.h>
@@ -20,8 +20,8 @@ diff -Nurd tolua-5.2/src/bin/tolua.c tolua-5.2/src/bin/tolua.c
   }
  #else
 diff -Nurd tolua-5.2/src/lib/tolua_event.c tolua-5.2/src/lib/tolua_event.c
---- tolua-5.2/src/lib/tolua_event.c	2016-01-06 01:19:24.980940147 +0200
-+++ tolua-5.2/src/lib/tolua_event.c	2016-01-06 01:20:07.884846927 +0200
+--- tolua-5.2/src/lib/tolua_event.c	2022-01-27 13:47:57.409903222 +0200
++++ tolua-5.2/src/lib/tolua_event.c	2022-01-27 13:48:23.538116437 +0200
 @@ -18,6 +18,8 @@
  
  #include "tolua.h"
@@ -31,9 +31,19 @@ diff -Nurd tolua-5.2/src/lib/tolua_event.c tolua-5.2/src/lib/tolua_event.c
  /* Store at peer
  	* It stores, creating the corresponding table if needed,
  	* the pair key/value in the corresponding peer table
+@@ -391,8 +393,8 @@
+       }
+       else if (lua_isuserdata(L,-1) && *((void**)lua_touserdata(L,-1))==NULL) {
+         /* free object */
+-        free(u);
+         tolua_release(L,u);                /* unmap from tolua tables */
++        free(u);
+       }
+     }
+     lua_settop(L,top);
 diff -Nurd tolua-5.2/src/lib/tolua_map.c tolua-5.2/src/lib/tolua_map.c
---- tolua-5.2/src/lib/tolua_map.c	2016-01-06 01:19:24.980940147 +0200
-+++ tolua-5.2/src/lib/tolua_map.c	2016-01-06 01:20:48.972757711 +0200
+--- tolua-5.2/src/lib/tolua_map.c	2022-01-27 13:47:57.409903222 +0200
++++ tolua-5.2/src/lib/tolua_map.c	2020-02-22 14:33:47.779735894 +0200
 @@ -21,6 +21,7 @@
  #include <stdlib.h>
  #include <math.h>
