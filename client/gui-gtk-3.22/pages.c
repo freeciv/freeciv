@@ -2825,7 +2825,7 @@ void handle_game_load(bool load_successful, const char *filename)
     set_client_page(PAGE_START);
 
     if (game.info.is_new_game) {
-      /* It's pregame. Create a player and connect to him */
+      /* It's pregame. Create a player and connect to it */
       send_chat("/take -");
     }
   }

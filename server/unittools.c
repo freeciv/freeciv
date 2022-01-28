@@ -1453,8 +1453,8 @@ void remove_allied_visibility(struct player *pplayer, struct player *aplayer,
   } unit_list_iterate_end;
 
   city_list_iterate(aplayer->cities, pcity) {
-    /* The player used to know what units were in these cities.  Now that he
-     * doesn't, he needs to get a new short city packet updating the
+    /* The player used to know what units were in these cities.  Now that
+     * they don't, they need to get a new short city packet updating the
      * occupied status. */
     if (map_is_known_and_seen(pcity->tile, pplayer, V_MAIN)) {
       send_city_info(pplayer, pcity);
@@ -4150,8 +4150,8 @@ static bool maybe_cancel_patrol_due_to_enemy(struct unit *punit)
   Returns TRUE iff it is reasonable to assume that the player is wathing
   the unit.
 
-  Since the player is watching the unit there is no need to inform him
-  about things he could see happening. Remember that it still may
+  Since the player is watching the unit there is no need to inform them
+  about things they could see happening. Remember that it still may
   be necessary to explain why something happened.
 **************************************************************************/
 static inline bool player_is_watching(struct unit *punit, const bool fresh)
@@ -4895,10 +4895,10 @@ bool unit_order_list_is_sane(int length, const struct unit_order *orders)
 
       /* Don't validate that the target tile really contains a target or
        * that the actor player's map think the target tile has one.
-       * The player may target a something from his player map that isn't
-       * there any more, a target he thinks is there even if his player map
-       * doesn't have it or even a target he assumes will be there when the
-       * unit reaches the target tile.
+       * The player may target something from their player map that isn't
+       * there any more, a target they think is there even if their player
+       * map doesn't have it, or even a target they assume will be there
+       * when the unit reaches the target tile.
        *
        * With that said: The client should probably at least have an
        * option to only aim city targeted actions at cities. */

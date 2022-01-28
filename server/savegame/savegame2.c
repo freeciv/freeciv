@@ -3768,7 +3768,7 @@ static int sg_order_to_action(int order, struct unit *act_unit,
   case ORDER_OLD_BUILD_CITY:
     if (tile_city(tgt_tile)
         && city_owner(tile_city(tgt_tile)) == unit_owner(act_unit)) {
-      /* The player's cities are loaded right before his units. It wasn't
+      /* The player's cities are loaded right before their units. It wasn't
        * possible for rulesets to allow joining foreign cities before 3.0.
        * This means that a converted build city order only can be a Join
        * City order if it targets a domestic city. */
@@ -4574,7 +4574,7 @@ static void sg_load_player_vision(struct loaddata *loading,
      * - fogged cities are not saved for any reason;
      * - a savegame with fog of war turned off;
      * - or game.save_private_map is not set to FALSE in the scenario /
-     * savegame. The players private knowledge is set to be what he could
+     * savegame. The players private knowledge is set to be what they could
      * see without fog of war. */
     whole_map_iterate(&(wld.map), ptile) {
       if (map_is_known(ptile, plr)) {

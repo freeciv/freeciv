@@ -2850,7 +2850,7 @@ secfile_sections(const struct section_file *secfile)
 /**********************************************************************//**
   Returns the list of sections which match the name prefix.  Returns NULL
   if no section was found.  This list is not owned by the registry module
-  and the user must destroy it when he finished to work with it.
+  and the user must destroy it when they finished working with it.
 **************************************************************************/
 struct section_list *
 secfile_sections_by_name_prefix(const struct section_file *secfile,

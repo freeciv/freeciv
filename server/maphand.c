@@ -710,7 +710,7 @@ void map_vision_update(struct player *pplayer, struct tile *ptile,
 }
 
 /**********************************************************************//**
-  Turn a players ability to see inside his borders on or off.
+  Turn a player's ability to see inside their borders on or off.
 
   It is safe to set the current value.
 **************************************************************************/
@@ -1386,7 +1386,7 @@ bool update_player_tile_knowledge(struct player *pplayer, struct tile *ptile)
   Note this only checks for changing of the terrain, special, or resource
   for the tile, since these are the only values held in the playermap.
 
-  A tile's owner always can see terrain changes in his or her territory.
+  A tile's owner always can see terrain changes in their territory.
 **************************************************************************/
 void update_tile_knowledge(struct tile *ptile)
 {
@@ -1439,7 +1439,7 @@ static void really_give_tile_info_from_player_to_player(struct player *pfrom,
      * Let me try in words:
      * 1) if the tile is seen by pfrom the info is sent to pdest
      *  OR
-     * 2) if the tile is known by pfrom AND (he has more recent info
+     * 2) if the tile is known by pfrom AND (they have more recent info
      *     OR it is not known by pdest)
      */
     if (map_is_known_and_seen(ptile, pfrom, V_MAIN)

@@ -983,7 +983,7 @@ bool can_player_see_hypotetic_units_at(const struct player *pplayer,
 
 /*******************************************************************//**
   Checks if a unit can be seen by pplayer at (x,y).
-  A player can see a unit if he:
+  A player can see a unit if they:
   (a) can see the tile AND
   (b) can see the unit at the tile (i.e. unit not invisible at this tile) AND
   (c) the unit is outside a city OR in an allied city AND
@@ -1058,7 +1058,7 @@ bool can_player_see_unit(const struct player *pplayer,
   If the player can see units in the city, then the server sends the
   unit info for units in the city to the client.  The client uses the
   tile's unitlist to determine whether to show the city occupied flag.  Of
-  course the units will be visible to the player as well, if he clicks on
+  course the units will be visible to the player as well, if they click on
   them.
 
   If the player can't see units in the city, then the server doesn't send

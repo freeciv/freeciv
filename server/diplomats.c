@@ -929,7 +929,7 @@ bool diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
 
   times = diplomats_unignored_tech_stealings(pdiplomat, pcity);
 
-  /* Check if the Diplomat/Spy succeeds with his/her task. */
+  /* Check if the Diplomat/Spy succeeds with their task. */
   /* (Twice as difficult if target is specified.) */
   /* (If already stolen from, impossible for Diplomats and harder for Spies.) */
   if (times > 0 && expected_kills) {
@@ -1029,7 +1029,7 @@ bool diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
   Gold for inciting might get lost.
 
   - If the provocateur is captured and executed, there is probability
-    that he was carrying bag with some gold, which will be lost.
+    that they were carrying bag with some gold, which will be lost.
   - There is chance, that this gold will be transfered to nation
     which succesfully defended against inciting revolt.
 
@@ -1141,7 +1141,7 @@ bool diplomat_incite(struct player *pplayer, struct unit *pdiplomat,
 
   log_debug("incite: infiltrated");
 
-  /* Check if the Diplomat/Spy succeeds with his/her task. */
+  /* Check if the Diplomat/Spy succeeds with their task. */
   if (action_failed_dice_roll(pplayer, pdiplomat, pcity, cplayer,
                               paction)) {
     notify_player(pplayer, ctile, E_MY_DIPLOMAT_FAILED, ftc_server,
@@ -1268,7 +1268,7 @@ bool diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
 
   log_debug("sabotage: infiltrated");
 
-  /* Check if the Diplomat/Spy succeeds with his/her task. */
+  /* Check if the Diplomat/Spy succeeds with their task. */
   if (action_failed_dice_roll(pplayer, pdiplomat, pcity, cplayer,
                               paction)) {
     notify_player(pplayer, city_tile(pcity),
@@ -1593,7 +1593,7 @@ bool spy_steal_gold(struct player *act_player, struct unit *act_unit,
               / 1000;
 
   /* How much to actually take. 1 gold is the smallest amount that can be
-   * stolen. The victim player has at least 1 gold. If he didn't the
+   * stolen. The victim player has at least 1 gold. If they didn't, the
    * something to steal sanity check would have aborted the theft. */
   gold_take = fc_rand(gold_take) + 1;
 

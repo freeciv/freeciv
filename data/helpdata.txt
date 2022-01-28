@@ -542,7 +542,7 @@ if a different kind of item is reached, production pauses until the \
 following turn. This can be used to limit the number of units produced \
 by highly productive cities.\
 "), _("\
-Each player is free to build any products that his technology has made \
+Each player is free to build any products that their technology has made \
 available, with a few restrictions; see the sections on Units, City \
 Improvements, and Wonders of the World for more information. Be \
 careful -- the game even gives you the freedom to produce units you \

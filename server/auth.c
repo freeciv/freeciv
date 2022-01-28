@@ -130,7 +130,7 @@ bool auth_user(struct connection *pconn, char *username)
       pconn->server.auth_settime = time(NULL);
       pconn->server.status = AS_REQUESTING_OLD_PASS;
     } else {
-      /* we couldn't find the user, he is new */
+      /* we couldn't find the user, they are new */
       if (srvarg.auth_allow_newusers) {
         /* TRANS: Try not to make the translation much longer than the original. */
         sz_strlcpy(buffer, _("First time login. Set a new password and confirm it."));

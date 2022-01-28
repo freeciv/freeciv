@@ -310,7 +310,7 @@ void disconnect_from_server(void)
 
   stop_turn_change_wait();
 
-  /* If it's internal server - kill him
+  /* If it's internal server - kill it
    * We assume that we are always connected to the internal server  */
   if (!force) {
     client_kill_server(FALSE);

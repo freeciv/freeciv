@@ -344,7 +344,7 @@ static void dai_hunter_try_launch(struct ai_type *ait,
             UNIT_LOG(LOGLEVEL_HUNT, missile, "found primary target %d(%d, %d)"
                      " dist %d", victim->id, TILE_XY(unit_tile(victim)),
                      move_cost);
-            break; /* Our target! Get him!!! */
+            break; /* Our target! Get it!!! */
           }
 
           victim_type = unit_type_get(victim);

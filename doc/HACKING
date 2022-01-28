@@ -877,12 +877,12 @@ units in armies different from units outside an army - say by having them
 attack as one unit - would be an action.
 
 Putting a unit under the control of the autosettlers server side agent
-isn't an action. The player could modify his client to automatically give
+isn't an action. The player could modify their client to automatically give
 the same orders as autosettlers would have given or even give those orders
 by hand.
 
 Leaving a destroyed transport isn't an action. The player can't order a
-unit to perform this action. Having a unit destroy his transport and then
+unit to perform this action. Having a unit destroy its transport and then
 leave it is an action. Leaving a transport "mid flight" (no matter if it
 was destroyed or not) and having a certain probability of surviving to
 show up somewhere else is an action.
@@ -1093,10 +1093,10 @@ common/networking/packets.def
 server/gamehand.[ch]
 server/stdinhand.[ch]
 
-When a player starts a client, he is presents with several options: start
-a new game, continue a saved game and connect to a networked game. For the 
-latter option, connect_to_server() is called and login proceeeds as normal.
-The first two options, connectdlg_common.c:client_start_server() is
+When a player starts a client, they are presented with several options:
+start a new game, continue a saved game and connect to a networked game.
+For the latter option, connect_to_server() is called and login proceeeds as
+normal. The first two options, connectdlg_common.c:client_start_server() is
 called. Here, a server is spawned, standard input and outputs to that process
 are closed, and then connect_to_server() is called so the client connects to 
 that server.

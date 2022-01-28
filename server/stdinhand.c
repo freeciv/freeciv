@@ -352,7 +352,7 @@ static void cmd_reply_line(enum command_id cmd, struct connection *caller,
 
     package_event(&packet, NULL, E_SETTING, ftc_server, "%s", line);
     conn_list_iterate(game.est_connections, pconn) {
-      /* Do not tell caller, since he was told above! */
+      /* Do not tell caller, since they were told above! */
       if (caller != pconn) {
         send_packet_chat_msg(pconn, &packet);
       }
@@ -2610,7 +2610,7 @@ static bool cancelvote_command(struct connection *caller,
                   "the string \"all\"."));
       return FALSE;
     }
-    /* The caller cancel his/her own vote. */
+    /* The caller is canceling their own vote. */
     if (!(pvote = get_vote_by_caller(caller))) {
       cmd_reply(CMD_CANCELVOTE, caller, C_FAIL,
                 _("You don't have any vote going on."));
@@ -3611,7 +3611,7 @@ static bool detach_command(struct connection *caller, char *str, bool check)
     goto end;
   }
 
-  /* if no argument is given, the caller wants to detach himself */
+  /* if no argument is given, the caller wants to detach themself */
   if (!pconn) {
     pconn = caller;
   }
@@ -3649,8 +3649,8 @@ static bool detach_command(struct connection *caller, char *str, bool check)
   /* Actually do the detaching. */
   connection_detach(pconn, TRUE);
 
-  /* The user explicitly wanted to detach, so if a player is marked for him,
-   * reset its username. */
+  /* The user explicitly wanted to detach, so if a player is marked for
+   * them, reset its username. */
   players_iterate(aplayer) {
     if (0 == strncmp(aplayer->username, pconn->username, MAX_LEN_NAME)) {
       sz_strlcpy(aplayer->username, _(ANON_USER_NAME));

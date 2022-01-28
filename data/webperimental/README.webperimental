@@ -29,17 +29,17 @@ Differences compared to the classic ruleset are:
   before contact.
 - The Zone of Control rules have been turned off.
 - There's only one barbarian nation, attacking from both land and sea.
-- A player that knows Electricity has no fog of war inside his borders.
+- A player that knows Electricity has no fog of war inside their borders.
 - Foot soldiers can peacefully expel foreign civilian units from your
   terrain.
 - It is possible to establish an embassy while inside a ship.
 - The startunits are by default spread over the map.
 - The Leader unit has been added to the default startunits.
 - The Leader unit can destroy a domestic city. (Be careful when you scorch
-  the earth. If your Leader dies you lose he game.)
-- Killing an enemy Leader gives you a few of his cities, some of his gold
-  and some of his knowledge. Not all his cities will follow you. Some will
-  rather turn barbarian.
+  the earth. If your Leader dies you lose the game.)
+- Killing an enemy Leader gives you a few of their cities, some of their
+  gold and some of their knowledge. Not all their cities will follow you.
+  Some will rather turn barbarian.
 - The Leader can heal light weight units belonging to you or to your allies.
 - The Leader can destroy visible buildings in enemy cities, like city walls.
   This has a 50% chance of success and ends the leader's turn.
@@ -76,7 +76,7 @@ Differences compared to the classic ruleset are:
     and ordering it to change home city.
   - Caravan and Freight can help allies to complete wonders.
   - Sun Tzu's War Academy gives its veteran bonus (combat and production)
-    to both its owner and to all his allies.
+    to both its owner and to all their allies.
   - J.S. Bach's Cathedral makes two unhappy citizens content in allied
     cities too.
   - A. Smith's Trading Co. pays for your allies' 1 upkeep buildings too.

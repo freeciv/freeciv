@@ -775,7 +775,7 @@ void client_packet_input(void *packet, int type)
 }
 
 /**********************************************************************//**
-  Handle user ending his/her turn.
+  Handle user ending their turn.
 **************************************************************************/
 void user_ended_turn(void)
 {
@@ -783,7 +783,7 @@ void user_ended_turn(void)
 }
 
 /**********************************************************************//**
-  Send information about player having finished his/her turn to server.
+  Send information about player having finished their turn to server.
 **************************************************************************/
 void send_turn_done(void)
 {

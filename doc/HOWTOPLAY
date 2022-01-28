@@ -131,7 +131,7 @@ Utter Annihilation of Your Enemies Phase:
 advanced weapons.
 
 	Pick a relatively weak enemy, and send over a few ship-loads of
-troops.  Take over his cities, and use them to build more units to
+troops.  Take over their cities, and use them to build more units to
 take out the rest of them with.  Show no quarter!  To the death!
 
 Repeat as often as necessary! ;-)
@@ -158,7 +158,7 @@ Q. In multiplayer games, what timeout should I set?
 	That depends upon the number of players.  If there are just
 two of you playing, you can usually get away with using timeout 0.  If
 there are more than two, or if one of the two is going to be away from
-his terminal at random intervals and you don't want to halt play, a
+their terminal at random intervals and you don't want to halt play, a
 timeout of 60 seconds is usually sufficient.  Later in the game,
 however, as things get more complex, you may want to extend the
 timeout to 240 seconds.  In general, the more players you have, the

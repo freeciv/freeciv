@@ -129,9 +129,9 @@ Effect types
 
 Action_Odds_Pct
     Modifies the odds of an action being successful. Some actions have a
-    risk: the actor may get caught before he can perform it. This effect
-    modifies the actor's odds. A positive value helps him. A negative value
-    makes it more probable that he will get caught. When evaluating
+    risk: the actor may get caught before they can perform it. This effect
+    modifies the actor's odds. A positive value helps them. A negative
+    value makes it more probable that they will get caught. When evaluating
     requirements for this effect, player is the acting player.
     See also Action_Resist_Pct.
     Currently supports the actions

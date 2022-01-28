@@ -323,7 +323,7 @@ struct player
 
       struct player_tile *private_map;
 
-      /* Player can see inside his borders. */
+      /* Player can see inside their borders. */
       bool border_vision;
 
       bv_player really_gives_vision; /* takes into account that p3 may see

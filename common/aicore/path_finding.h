@@ -195,7 +195,7 @@ extern "C" {
  * You may call pf_map_path() multiple times with the same pfm.
  *
  * B) the caller doesn't know the map position of the goal yet (but knows
- * what he is looking for, e.g. a port) and wants to iterate over
+ * what they are looking for, e.g. a port) and wants to iterate over
  * all paths in order of increasing costs (total_CC):
  *
  *    struct pf_parameter parameter;

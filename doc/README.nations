@@ -262,7 +262,7 @@ Civil war nations
 =================
 
 Specify one or more civil war nations. When a player's capital is
-captured, that player might suffer a civil war where his or her
+captured, that player might suffer a civil war where their
 nation is divided and a new player created. The nation for this new
 player is selected from one of the civil war nations specified in the
 ruleset. A civil war nation should be linguistically, geographically

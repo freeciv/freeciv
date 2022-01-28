@@ -52,10 +52,10 @@ struct research {
   Tech_type_id researching;
   int bulbs_researched;
 
-  /* If the player changes his research target in a turn, he loses some or
-   * all of the bulbs he's accumulated toward that target.  We save the
-   * original info from the start of the turn so that if he changes back
-   * he will get the bulbs back.
+  /* If the player changes their research target in a turn, they lose some
+   * or all of the bulbs they've accumulated toward that target.  We save
+   * the original info from the start of the turn so that if they change
+   * back they will get the bulbs back.
    *
    * Has the same values as researching, plus A_UNKNOWN used between turns
    * (not -1 anymore) for savegames. */

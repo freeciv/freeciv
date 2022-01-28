@@ -428,7 +428,7 @@ void dai_assess_danger_player(struct ai_type *ait, struct player *pplayer,
 
   The idea in this horrible function is that there is an enemy nearby
   that can whack us, so let's build something that can defend against
-  him. If danger is urgent and overwhelming, danger is 200+, if it is
+  them. If danger is urgent and overwhelming, danger is 200+, if it is
   only overwhelming, set it depending on danger. If it is underwhelming,
   set it to 100 plus urgency.
 

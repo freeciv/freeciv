@@ -1618,7 +1618,7 @@ void popup_diplomacy_dialog(struct player *pplayer)
     buttons++;
 
     buf = create_themeicon_button_from_chars(current_theme->cancel_icon,
-                                             pwindow->dst, _("Send him back"),
+                                             pwindow->dst, _("Send them back"),
                                              adj_font(12), 0);
 
     buf->action = cancel_sdip_dlg_callback;

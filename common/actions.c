@@ -737,7 +737,7 @@ static void hard_code_oblig_hard_reqs(void)
    * 3. A player could, at the time this rule was made explicit, not
    *    be allied to a player that is at war with another ally.
    * 4. A player could, at the time this rule was made explicit, only
-   *    conquer a city belonging to someone he was at war with.
+   *    conquer a city belonging to someone they were at war with.
    * Conclusion: the conquered city had to be empty.
    */
   oblig_hard_req_register(req_from_values(VUT_MAXTILEUNITS, REQ_RANGE_TILE,
@@ -3596,7 +3596,7 @@ action_hard_reqs_actor(const struct action *paction,
   enum action_result result = paction->result;
 
   if (!action_actor_utype_hard_reqs_ok_full(paction, actor_unittype, TRUE)) {
-    /* Info leak: The actor player knows the type of his unit. */
+    /* Info leak: The actor player knows the type of their unit. */
     /* The actor unit type can't perform the action because of hard
      * unit type requirements. */
     return TRI_NO;
@@ -3606,7 +3606,7 @@ action_hard_reqs_actor(const struct action *paction,
   case ACTRES_PARADROP:
   case ACTRES_PARADROP_CONQUER:
     /* Reason: Keep the old rules. */
-    /* Info leak: The player knows if his unit already has paradropped this
+    /* Info leak: The player knows if their unit already has paradropped this
      * turn. */
     if (actor_unit->paradropped) {
       return TRI_NO;
@@ -3650,7 +3650,7 @@ action_hard_reqs_actor(const struct action *paction,
 
   case ACTRES_CONVERT:
     /* Reason: Keep the old rules. */
-    /* Info leak: The player knows his unit's cargo and location. */
+    /* Info leak: The player knows their unit's cargo and location. */
     if (!unit_can_convert(actor_unit)) {
       return TRI_NO;
     }
@@ -3804,18 +3804,18 @@ is_action_possible(const action_id wanted_action,
 
   /* Only check requirement against the target unit if the actor can see it
    * or if the evaluator is omniscient. The game checking the rules is
-   * omniscient. The player asking about his odds isn't. */
+   * omniscient. The player asking about their odds isn't. */
   can_see_tgt_unit = (omniscient || (target_unit
                                      && can_player_see_unit(actor_player,
                                                             target_unit)));
 
   /* Only check requirement against the target tile if the actor can see it
    * or if the evaluator is omniscient. The game checking the rules is
-   * omniscient. The player asking about his odds isn't. */
+   * omniscient. The player asking about their odds isn't. */
   can_see_tgt_tile = (omniscient
                       || plr_sees_tile(actor_player, target_tile));
 
-  /* Info leak: The player knows where his unit is. */
+  /* Info leak: The player knows where their unit is. */
   if (action_get_target_kind(paction) != ATK_SELF
       && !action_distance_accepted(paction,
                                    real_map_distance(actor_tile,
@@ -3910,7 +3910,7 @@ is_action_possible(const action_id wanted_action,
   case ACTRES_SPY_TARGETED_STEAL_TECH:
     /* Reason: The Freeciv code don't support selecting a target tech
      * unless it is known that the victim player has it. */
-    /* Info leak: The actor player knowns who's techs he can see. */
+    /* Info leak: The actor player knowns whose techs they can see. */
     if (!can_see_techs_of_target(actor_player, target_player)) {
       return TRI_NO;
     }
@@ -3956,7 +3956,7 @@ is_action_possible(const action_id wanted_action,
     /* It is only possible to help the production if the production needs
      * the help. (If not it would be possible to add shields for something
      * that can't legally receive help if it is build later) */
-    /* Info leak: The player knows that the production in his own city has
+    /* Info leak: The player knows that the production in their own city has
      * been hurried (bought or helped). The information isn't revealed when
      * asking for action probabilities since omniscient is FALSE. */
     if (!omniscient
@@ -4063,7 +4063,7 @@ is_action_possible(const action_id wanted_action,
 
   case ACTRES_HOME_CITY:
     /* Reason: can't change to what is. */
-    /* Info leak: The player knows his unit's current home city. */
+    /* Info leak: The player knows their unit's current home city. */
     if (homecity != NULL && homecity->id == target_city->id) {
       /* This is already the unit's home city. */
       return TRI_NO;
@@ -4081,17 +4081,18 @@ is_action_possible(const action_id wanted_action,
 
   case ACTRES_UPGRADE_UNIT:
     /* Reason: Keep the old rules. */
-    /* Info leak: The player knows his unit's type. He knows if he can
+    /* Info leak: The player knows their unit's type. They know if they can
      * build the unit type upgraded to. If the upgrade happens in a foreign
      * city that fact may leak. This can be seen as a price for changing
      * the rules to allow upgrading in a foreign city.
-     * The player knows how much gold he has. If the Upgrade_Price_Pct
-     * effect depends on information he don't have that information may
-     * leak. The player knows the location of his unit. He knows if the
+     * The player knows how much gold they have. If the Upgrade_Price_Pct
+     * effect depends on information they don't have that information may
+     * leak. The player knows the location of their unit. They know if the
      * tile has a city and if the unit can exist there outside a transport.
-     * The player knows his unit's cargo. By knowing their number and type
-     * he can predict if there will be room for them in the unit upgraded
-     * to as long as he knows what unit type his unit will end up as. */
+     * The player knows their unit's cargo. By knowing the number and type
+     * of cargo, they can predict if there will be enough room in the unit
+     * upgraded to, as long as they know what unit type their unit will end
+     * up as. */
     if (unit_upgrade_test(actor_unit, FALSE) != UU_OK) {
       return TRI_NO;
     }
@@ -4101,7 +4102,7 @@ is_action_possible(const action_id wanted_action,
   case ACTRES_PARADROP:
   case ACTRES_PARADROP_CONQUER:
     /* Reason: Keep the old rules. */
-    /* Info leak: The player knows if he knows the target tile. */
+    /* Info leak: The player knows if they know the target tile. */
     if (!plr_knows_tile(actor_player, target_tile)) {
       return TRI_NO;
     }
@@ -4638,7 +4639,7 @@ is_action_possible(const action_id wanted_action,
 
   case ACTRES_SPY_ESCAPE:
     /* Reason: Be merciful. */
-    /* Info leak: The player know if he has any cities. */
+    /* Info leak: The player know if they have any cities. */
     if (city_list_size(actor_player->cities) < 1) {
       return TRI_NO;
     }
@@ -5568,7 +5569,7 @@ action_prob_battle_then_dice_roll(const struct player *act_player,
   "Success" indicates that the action achieves its goal, not that the
   actor survives. For actions that cost money it is assumed that the
   player has and is willing to spend the money. This is so the player can
-  figure out what his odds are before deciding to get the extra money.
+  figure out what their odds are before deciding to get the extra money.
 **************************************************************************/
 static struct act_prob
 action_prob(const action_id wanted_action,
