@@ -227,7 +227,7 @@ static bool sanity_check_req_individual(struct requirement *preq,
 /**********************************************************************//**
   Helper function for sanity_check_req_list() and sanity_check_req_vec()
 **************************************************************************/
-static bool sanity_check_req_set(int reqs_of_type[], int local_reqs_of_type[],
+static bool sanity_check_req_set(int reqs_of_type[], int tile_reqs_of_type[],
                                  struct requirement *preq, bool conjunctive,
                                  int max_tiles, const char *list_for)
 {
@@ -251,20 +251,20 @@ static bool sanity_check_req_set(int reqs_of_type[], int local_reqs_of_type[],
   }
   rc = reqs_of_type[preq->source.kind];
 
-  if (preq->range == REQ_RANGE_LOCAL && preq->present) {
-    local_reqs_of_type[preq->source.kind]++;
+  if (preq->range == REQ_RANGE_TILE && preq->present) {
+    tile_reqs_of_type[preq->source.kind]++;
 
     switch (preq->source.kind) {
      case VUT_TERRAINCLASS:
-       if (local_reqs_of_type[VUT_TERRAIN] > 0) {
-         log_error("%s: Requirement list has both local terrain and terrainclass requirement",
+       if (tile_reqs_of_type[VUT_TERRAIN] > 0) {
+         log_error("%s: Requirement list has both tile terrain and terrainclass requirement",
                    list_for);
          return FALSE;
        }
        break;
      case VUT_TERRAIN:
-       if (local_reqs_of_type[VUT_TERRAINCLASS] > 0) {
-         log_error("%s: Requirement list has both local terrain and terrainclass requirement",
+       if (tile_reqs_of_type[VUT_TERRAINCLASS] > 0) {
+         log_error("%s: Requirement list has both tile terrain and terrainclass requirement",
                    list_for);
          return FALSE;
        }
@@ -416,14 +416,14 @@ static bool sanity_check_req_vec(const struct requirement_vector *preqs,
 {
   struct req_vec_problem *problem;
   int reqs_of_type[VUT_COUNT];
-  int local_reqs_of_type[VUT_COUNT];
+  int tile_reqs_of_type[VUT_COUNT];
 
   /* Initialize requirement counters */
   memset(reqs_of_type, 0, sizeof(reqs_of_type));
-  memset(local_reqs_of_type, 0, sizeof(local_reqs_of_type));
+  memset(tile_reqs_of_type, 0, sizeof(tile_reqs_of_type));
 
   requirement_vector_iterate(preqs, preq) {
-    if (!sanity_check_req_set(reqs_of_type, local_reqs_of_type, preq,
+    if (!sanity_check_req_set(reqs_of_type, tile_reqs_of_type, preq,
                               conjunctive, max_tiles, list_for)) {
       return FALSE;
     }

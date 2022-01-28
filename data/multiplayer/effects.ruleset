@@ -55,7 +55,7 @@ reqs    =
     { "type", "name", "range", "present"
       "NationGroup", "Barbarian", "Player", TRUE
       "Age", "5", "Local", TRUE
-      "CityTile", "Center", "Local", FALSE
+      "CityTile", "Center", "Tile", FALSE
     }
 
 ; Lone Leader might escape on coast (33% chance)
@@ -69,7 +69,7 @@ reqs    =
       "UnitType", "Barbarian Leader", "Local"
       "Age", "5", "Local"
       "TerrainClass", "Oceanic", "Adjacent"
-      "MaxUnitsOnTile", "1", "Local"
+      "MaxUnitsOnTile", "1", "Tile"
     }
 
 ; Specialist output bonuses
@@ -108,7 +108,7 @@ type    = "Unit_Vision_Radius_Sq"
 value   = 8
 reqs    =
     { "type", "name", "range"
-      "Extra", "Fortress", "tile"
+      "Extra", "Fortress", "Tile"
       "Tech", "Invention", "player"
       "UnitClass", "Land", "Local"
     }
@@ -141,7 +141,7 @@ type    = "Fortify_Defense_Bonus"
 value   = 50
 reqs    =
     { "type",          "name",         "range", "present"
-      "CityTile",      "Center",       "Local", TRUE
+      "CityTile",      "Center",       "Tile",  TRUE
       "Activity",      "Fortified",    "Local", FALSE
       "UnitClassFlag", "CanFortify",   "Local", TRUE
       "UnitFlag",      "Cant_Fortify", "Local", FALSE
@@ -1042,7 +1042,7 @@ value	= 300
 reqs	=
     { "type", "name", "range", "present"
       "Building", "Courthouse", "City", TRUE
-      "MaxUnitsOnTile", "0", "Local", FALSE
+      "MaxUnitsOnTile", "0", "Tile", FALSE
     }
 
 [effect_incite_cost_empty_courthouse]
@@ -1050,7 +1050,7 @@ type = "Incite_Cost_Pct"
 value = 100
 reqs	=
     { "type", "name", "range", "present"
-      "MaxUnitsOnTile", "0", "Local", TRUE
+      "MaxUnitsOnTile", "0", "Tile", TRUE
       "Building", "Courthouse", "City", TRUE
     }
 
@@ -1059,7 +1059,7 @@ type    = "Spy_Resistant"
 value   = 25
 reqs    =
     { "type",  "name",     "range"
-      "Extra", "Fortress", "Local"
+      "Extra", "Fortress", "Tile"
     }
 
 [effect_incite_cost_empty]
@@ -1067,7 +1067,7 @@ type = "Incite_Cost_Pct"
 value = -50
 reqs	=
     { "type", "name", "range", "present"
-      "MaxUnitsOnTile", "0", "Local", TRUE
+      "MaxUnitsOnTile", "0", "Tile", TRUE
       "Building", "Courthouse", "City", FALSE
     }
 
@@ -1093,7 +1093,7 @@ type    = "Output_Add_Tile"
 value	= 1
 reqs	=
     { "type", "name", "range"
-      "TerrainClass", "Oceanic", "Local"
+      "TerrainClass", "Oceanic", "Tile"
       "Building", "Harbour", "City"
       "OutputType", "Food", "Local"
     }
@@ -1284,7 +1284,7 @@ type    = "Output_Add_Tile"
 value	= 1
 reqs	=
     { "type", "name", "range"
-      "TerrainClass", "Oceanic", "Local"
+      "TerrainClass", "Oceanic", "Tile"
       "Building", "Offshore Platform", "City"
       "OutputType", "Shield", "Local"
     }
@@ -1677,7 +1677,7 @@ type    = "Output_Per_Tile"
 value	= 50
 reqs	=
     { "type", "name", "range"
-      "Extra", "Road", "Local"
+      "Extra", "Road", "Tile"
       "Building", "Super Highways", "City"
       "OutputType", "Trade", "Local"
     }
@@ -1687,7 +1687,7 @@ type    = "Mining_Pct"
 value   = 100
 reqs    =
     { "type", "name", "range"
-      "Extra", "Mine", "Local"
+      "Extra", "Mine", "Tile"
     }
 
 [effect_oil_well]
@@ -1695,7 +1695,7 @@ type    = "Mining_Pct"
 value   = 100
 reqs    =
     { "type", "name", "range"
-      "Extra", "Oil Well", "Local"
+      "Extra", "Oil Well", "Tile"
     }
 
 [effect_irrigation]
@@ -1703,7 +1703,7 @@ type    = "Irrigation_Pct"
 value   = 100
 reqs    =
     { "type", "name", "range"
-      "Extra", "Irrigation", "Local"
+      "Extra", "Irrigation", "Tile"
     }
 
 [effect_irrigation_center]
@@ -1711,11 +1711,11 @@ type    = "Irrigation_Pct"
 value	= 100
 reqs	=
     { "type", "name", "range", "present"
-      "CityTile", "Center", "Local", TRUE
-      "Extra", "Irrigation", "Local", FALSE
-      "TerrainAlter", "CanIrrigate", "Local", TRUE
-      "Extra", "Mine", "Local", FALSE
-      "Extra", "Oil Well", "Local", FALSE
+      "CityTile", "Center", "Tile", TRUE
+      "Extra", "Irrigation", "Tile", FALSE
+      "TerrainAlter", "CanIrrigate", "Tile", TRUE
+      "Extra", "Mine", "Tile", FALSE
+      "Extra", "Oil Well", "Tile", FALSE
     }
 
 [effect_supermarket]
@@ -1723,7 +1723,7 @@ type    = "Output_Per_Tile"
 value	= 100
 reqs	=
     { "type", "name", "range"
-      "Extra", "Farmland", "Local"
+      "Extra", "Farmland", "Tile"
       "Building", "Supermarket", "City"
       "OutputType", "Food", "Local"
     }
@@ -1733,13 +1733,13 @@ type    = "Output_Per_Tile"
 value	= 50
 reqs	=
     { "type", "name", "range", "present"
-      "CityTile", "Center", "Local", TRUE
-      "Extra", "Farmland", "Local", FALSE
-      "TerrainAlter", "CanIrrigate", "Local", TRUE
+      "CityTile", "Center", "Tile", TRUE
+      "Extra", "Farmland", "Tile", FALSE
+      "TerrainAlter", "CanIrrigate", "Tile", TRUE
       "Building", "Supermarket", "City", TRUE
       "OutputType", "Food", "Local", TRUE
-      "Extra", "Mine", "Local", FALSE
-      "Extra", "Oil Well", "Local", FALSE
+      "Extra", "Mine", "Tile", FALSE
+      "Extra", "Oil Well", "Tile", FALSE
     }
 
 [effect_temple]
@@ -1859,7 +1859,7 @@ reqs	=
     { "type", "name", "range", "present"
       "Building", "Great Wall", "Continent", TRUE
       "UnitClass", "Land", "Local", TRUE
-      "CityTile", "Center", "Local", TRUE
+      "CityTile", "Center", "Tile", TRUE
       "UnitType", "Howitzer", "Local", FALSE
     }
 
@@ -1870,7 +1870,7 @@ reqs	=
     { "type", "name", "range"
       "Building", "Great Wall", "Continent"
       "UnitClass", "Helicopter", "Local"
-      "CityTile", "Center", "Local"
+      "CityTile", "Center", "Tile"
     }
 
 [effect_great_wall_1]
@@ -2318,7 +2318,7 @@ type    = "Tile_Workable"
 value   = 1
 reqs    =
     { "type", "name", "range", "present"
-      "Terrain", "Inaccessible", "Local", FALSE
+      "Terrain", "Inaccessible", "Tile", FALSE
     }
 
 ; each city has at least one slot to build units
@@ -2363,8 +2363,8 @@ type	= "Output_Tile_Punish_Pct"
 value	= 50
 reqs	=
     { "type", "name", "range", "present"
-      "Extra", "Pollution", "Local", TRUE
-      "Extra", "Fallout", "Local", FALSE
+      "Extra", "Pollution", "Tile", TRUE
+      "Extra", "Fallout", "Tile", FALSE
     }
 
 [effect_fallout]
@@ -2372,8 +2372,8 @@ type	= "Output_Tile_Punish_Pct"
 value	= 50
 reqs	=
     { "type", "name", "range", "present"
-      "Extra", "Fallout", "Local", TRUE
-      "Extra", "Pollution", "Local", FALSE
+      "Extra", "Fallout", "Tile", TRUE
+      "Extra", "Pollution", "Tile", FALSE
     }
 
 [effect_pollution_fallout]
@@ -2381,8 +2381,8 @@ type	= "Output_Tile_Punish_Pct"
 value	= 75
 reqs	=
     { "type", "name", "range"
-      "Extra", "Fallout", "Local"
-      "Extra", "Pollution", "Local"
+      "Extra", "Fallout", "Tile"
+      "Extra", "Pollution", "Tile"
     }
 
 [effect_attack_bombard_no_city_destruction]

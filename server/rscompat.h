@@ -65,6 +65,9 @@ struct requirement_vector *lookup_req_list(struct section_file *file,
 enum impr_genus_id rscompat_genus_3_2(struct rscompat_info *compat,
                                       const bv_impr_flags flags,
                                       enum impr_genus_id old_genus);
+const char *rscompat_req_range_3_2(struct rscompat_info *compat,
+                                   const char *type,
+                                   const char *old_range);
 
 #ifdef __cplusplus
 }

@@ -28,6 +28,7 @@
 /* common */
 #include "actions.h"
 #include "effects.h"
+#include "fc_types.h"
 #include "game.h"
 #include "movement.h"
 #include "requirements.h"
@@ -377,4 +378,48 @@ enum impr_genus_id rscompat_genus_3_2(struct rscompat_info *compat,
   }
 
   return old_genus;
+}
+
+/**********************************************************************//**
+  Update requirement range for certain requirement types.
+**************************************************************************/
+const char *rscompat_req_range_3_2(struct rscompat_info *compat,
+                                   const char *type,
+                                   const char *old_range)
+{
+  /* FIXME: do a more appropriate version check
+   *
+   * Requirements are used in multiple ruleset files, so there is no single
+   * version to check. Instead, we check everything that could contain
+   * affected requirements, i.e. those where some requirements are
+   * evaluated against tiles.
+   * If some ruleset files are already in the new format, and others are
+   * not, we assume the ruleset author knows what they are doing.
+   *
+   * Once support for mixed version rulesets is officially dropped with
+   * osdn#43708, this will become moot.
+   */
+  if (compat->compat_mode
+      && compat->ver_buildings < RSFORMAT_3_2
+      && compat->ver_effects < RSFORMAT_3_2
+      && compat->ver_game < RSFORMAT_3_2
+      && compat->ver_styles < RSFORMAT_3_2
+      && compat->ver_terrain < RSFORMAT_3_2) {
+    /* Requirement types that refer to the target tile and now use the
+     * "Tile" range instead of the "Local" range */
+    if (!fc_strcasecmp(req_range_name(REQ_RANGE_LOCAL), old_range)
+        && (!fc_strcasecmp(universals_n_name(VUT_TERRAIN), type)
+            || !fc_strcasecmp(universals_n_name(VUT_TERRAINCLASS), type)
+            || !fc_strcasecmp(universals_n_name(VUT_TERRAINALTER), type)
+            || !fc_strcasecmp(universals_n_name(VUT_CITYTILE), type)
+            || !fc_strcasecmp(universals_n_name(VUT_TERRFLAG), type)
+            || !fc_strcasecmp(universals_n_name(VUT_ROADFLAG), type)
+            || !fc_strcasecmp(universals_n_name(VUT_EXTRA), type)
+            || !fc_strcasecmp(universals_n_name(VUT_MAXTILEUNITS), type)
+            || !fc_strcasecmp(universals_n_name(VUT_EXTRAFLAG), type))) {
+      return req_range_name(REQ_RANGE_TILE);
+    }
+  }
+
+  return old_range;
 }

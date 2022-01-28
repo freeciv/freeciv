@@ -736,7 +736,7 @@ static void local_dipl_rel_action_cache_set(struct unit_type *putype)
   }
 
   /* Tile is claimed as a requirement. */
-  tile_is_claimed.range = REQ_RANGE_LOCAL;
+  tile_is_claimed.range = REQ_RANGE_TILE;
   tile_is_claimed.survives = FALSE;
   tile_is_claimed.source.kind = VUT_CITYTILE;
   tile_is_claimed.present = TRUE;
@@ -811,7 +811,7 @@ local_dipl_rel_tile_other_tgt_action_cache_set(struct unit_type *putype)
   BV_CLR_ALL(dipl_rel_tile_other_tgt_a_cache[uidx][ACTION_HOSTILE]);
 
   /* Tile is claimed as a requirement. */
-  tile_is_claimed.range = REQ_RANGE_LOCAL;
+  tile_is_claimed.range = REQ_RANGE_TILE;
   tile_is_claimed.survives = FALSE;
   tile_is_claimed.source.kind = VUT_CITYTILE;
   tile_is_claimed.present = TRUE;
@@ -887,7 +887,7 @@ static void tgt_citytile_act_cache_set(struct unit_type *putype)
   }
 
   /* Common for every situation */
-  req.range = REQ_RANGE_LOCAL;
+  req.range = REQ_RANGE_TILE;
   req.survives = FALSE;
   req.source.kind = VUT_CITYTILE;
 
@@ -1209,7 +1209,7 @@ bool utype_may_act_tgt_city_tile(const struct unit_type *punit_type,
   }
 
   /* Common for every situation */
-  req.range = REQ_RANGE_LOCAL;
+  req.range = REQ_RANGE_TILE;
   req.survives = FALSE;
   req.source.kind = VUT_CITYTILE;
 

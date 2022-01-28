@@ -217,7 +217,7 @@ reqs    =
     { "type", "name", "range", "present"
       "NationGroup", "Barbarian", "Player", TRUE
       "Age", "5", "Local", TRUE
-      "CityTile", "Center", "Local", FALSE
+      "CityTile", "Center", "Tile", FALSE
     }
 
 ; Lone Leader might escape on coast (33% chance)
@@ -231,7 +231,7 @@ reqs    =
       "UnitType", "Barbarian Leader", "Local"
       "Age", "5", "Local"
       "TerrainClass", "Oceanic", "Adjacent"
-      "MaxUnitsOnTile", "1", "Local"
+      "MaxUnitsOnTile", "1", "Tile"
     }
 
 ; Base vision range - radius of vision is sqrt(5) = 2.24
@@ -984,7 +984,7 @@ value	= 200
 reqs	=
     { "type",     "name",       "range", "present"
       "Building", "Great Wall", "Player", TRUE
-      "CityTile", "Center",     "Local",  TRUE
+      "CityTile", "Center",     "Tile",  TRUE
       "UnitType", "Artillery",  "Local",  FALSE
       "UnitType", "Bomber",     "Local",  FALSE
     }
@@ -1299,7 +1299,7 @@ type    = "Mining_Pct"
 value   = 100
 reqs    =
     { "type", "name", "range"
-      "Extra", "Mine", "Local"
+      "Extra", "Mine", "Tile"
     }
 
 [effect_irrigation]
@@ -1307,7 +1307,7 @@ type    = "Irrigation_Pct"
 value   = 100
 reqs    =
     { "type", "name", "range"
-      "Extra", "Irrigation", "Local"
+      "Extra", "Irrigation", "Tile"
     }
 
 [effect_irrigation_center]
@@ -1315,10 +1315,10 @@ type    = "Irrigation_Pct"
 value	= 100
 reqs	=
     { "type", "name", "range", "present"
-      "CityTile", "Center", "Local", TRUE
-      "Extra", "Irrigation", "Local", FALSE
-      "TerrainAlter", "CanIrrigate", "Local", TRUE
-      "Extra", "Mine", "Local", FALSE
+      "CityTile", "Center", "Tile", TRUE
+      "Extra", "Irrigation", "Tile", FALSE
+      "TerrainAlter", "CanIrrigate", "Tile", TRUE
+      "Extra", "Mine", "Tile", FALSE
     }
 
 [effect_pollution]
@@ -1326,7 +1326,7 @@ type	= "Output_Tile_Punish_Pct"
 value	= 50
 reqs	=
     { "type", "name", "range"
-      "Extra", "Pollution", "Local"
+      "Extra", "Pollution", "Tile"
     }
 
 [effect_diplomat_defense_fortress]
@@ -1334,7 +1334,7 @@ type    = "Spy_Resistant"
 value   = 25
 reqs    =
     { "type",  "name",     "range"
-      "Extra", "Fortress", "Local"
+      "Extra", "Fortress", "Tile"
     }
 
 [effect_fortified]
@@ -1350,7 +1350,7 @@ type    = "Fortify_Defense_Bonus"
 value   = 50
 reqs    =
     { "type",          "name",         "range", "present"
-      "CityTile",      "Center",       "Local", TRUE
+      "CityTile",      "Center",       "Tile",  TRUE
       "Activity",      "Fortified",    "Local", FALSE
       "UnitClassFlag", "CanFortify",   "Local", TRUE
       "UnitFlag",      "Cant_Fortify", "Local", FALSE
@@ -1361,7 +1361,7 @@ type = "Incite_Cost_Pct"
 value = -50
 reqs    =
     { "type", "name", "range"
-      "MaxUnitsOnTile", "0", "Local"
+      "MaxUnitsOnTile", "0", "Tile"
     }
 
 [effect_attack_bombard_no_city_destruction]

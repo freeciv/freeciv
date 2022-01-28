@@ -715,6 +715,10 @@ struct requirement_vector *lookup_req_list(struct section_file *file,
       return NULL;
     }
 
+    if (compat->compat_mode) {
+      range = rscompat_req_range_3_2(compat, type, range);
+    }
+
     survives = FALSE;
     if ((pentry = secfile_entry_lookup(file, "%s.%s%d.survives",
                                         sec, sub, j))

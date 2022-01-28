@@ -125,6 +125,7 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
       }
       return TRUE;
     case REQ_RANGE_LOCAL:
+    case REQ_RANGE_TILE:
     case REQ_RANGE_CADJACENT:
     case REQ_RANGE_ADJACENT:
     case REQ_RANGE_CITY:
@@ -203,6 +204,7 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
       }
       return TRUE;
     case REQ_RANGE_LOCAL:
+    case REQ_RANGE_TILE:
     case REQ_RANGE_CADJACENT:
     case REQ_RANGE_ADJACENT:
     case REQ_RANGE_CITY:
@@ -278,6 +280,7 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
       }
       return TRUE;
     case REQ_RANGE_LOCAL:
+    case REQ_RANGE_TILE:
     case REQ_RANGE_CADJACENT:
     case REQ_RANGE_ADJACENT:
     case REQ_RANGE_CITY:
@@ -759,6 +762,7 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
                      (preq->source.value.building));
       }
       return TRUE;
+    case REQ_RANGE_TILE:
     case REQ_RANGE_CADJACENT:
     case REQ_RANGE_ADJACENT:
     case REQ_RANGE_COUNT:
@@ -769,7 +773,7 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
 
   case VUT_EXTRA:
     switch (preq->range) {
-    case REQ_RANGE_LOCAL:
+    case REQ_RANGE_TILE:
       fc_strlcat(buf, prefix, bufsz);
       if (preq->present) {
         cat_snprintf(buf, bufsz,
@@ -842,6 +846,7 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
     case REQ_RANGE_TEAM:
     case REQ_RANGE_ALLIANCE:
     case REQ_RANGE_WORLD:
+    case REQ_RANGE_LOCAL:
     case REQ_RANGE_COUNT:
       /* Not supported. */
       break;
@@ -861,6 +866,7 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
       }
       return TRUE;
     case REQ_RANGE_LOCAL:
+    case REQ_RANGE_TILE:
     case REQ_RANGE_CADJACENT:
     case REQ_RANGE_ADJACENT:
     case REQ_RANGE_TRADEROUTE:
@@ -877,7 +883,7 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
 
   case VUT_TERRAIN:
     switch (preq->range) {
-    case REQ_RANGE_LOCAL:
+    case REQ_RANGE_TILE:
       fc_strlcat(buf, prefix, bufsz);
       if (preq->present) {
         cat_snprintf(buf, bufsz, Q_("?terrain:Requires %s on the tile."),
@@ -948,6 +954,7 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
     case REQ_RANGE_TEAM:
     case REQ_RANGE_ALLIANCE:
     case REQ_RANGE_WORLD:
+    case REQ_RANGE_LOCAL:
     case REQ_RANGE_COUNT:
       /* Not supported. */
       break;
@@ -1030,6 +1037,7 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
       }
       return TRUE;
     case REQ_RANGE_LOCAL:
+    case REQ_RANGE_TILE:
     case REQ_RANGE_CADJACENT:
     case REQ_RANGE_ADJACENT:
     case REQ_RANGE_CITY:
@@ -1100,6 +1108,7 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
       }
       return TRUE;
     case REQ_RANGE_LOCAL:
+    case REQ_RANGE_TILE:
     case REQ_RANGE_CADJACENT:
     case REQ_RANGE_ADJACENT:
     case REQ_RANGE_CITY:
@@ -1169,6 +1178,7 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
     case REQ_RANGE_TEAM:
     case REQ_RANGE_PLAYER:
     case REQ_RANGE_LOCAL:
+    case REQ_RANGE_TILE:
     case REQ_RANGE_CADJACENT:
     case REQ_RANGE_ADJACENT:
     case REQ_RANGE_CONTINENT:
@@ -1256,6 +1266,7 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
                      diplrel_name_translation(preq->source.value.diplrel));
       }
       return TRUE;
+    case REQ_RANGE_TILE:
     case REQ_RANGE_CADJACENT:
     case REQ_RANGE_ADJACENT:
     case REQ_RANGE_CITY:
@@ -1331,6 +1342,7 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
                      diplrel_name_translation(preq->source.value.diplrel));
       }
       return TRUE;
+    case REQ_RANGE_TILE:
     case REQ_RANGE_CADJACENT:
     case REQ_RANGE_ADJACENT:
     case REQ_RANGE_CITY:
@@ -1359,6 +1371,7 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
                      diplrel_name_translation(preq->source.value.diplrel));
       }
       return TRUE;
+    case REQ_RANGE_TILE:
     case REQ_RANGE_CADJACENT:
     case REQ_RANGE_ADJACENT:
     case REQ_RANGE_CITY:
@@ -1444,6 +1457,7 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
                      diplrel_name_translation(preq->source.value.diplrel));
       }
       return TRUE;
+    case REQ_RANGE_TILE:
     case REQ_RANGE_CADJACENT:
     case REQ_RANGE_ADJACENT:
     case REQ_RANGE_CITY:
@@ -1473,6 +1487,7 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
                      diplrel_name_translation(preq->source.value.diplrel));
       }
       return TRUE;
+    case REQ_RANGE_TILE:
     case REQ_RANGE_CADJACENT:
     case REQ_RANGE_ADJACENT:
     case REQ_RANGE_CITY:
@@ -1502,6 +1517,7 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
                      utype_name_translation(preq->source.value.utype));
       }
       return TRUE;
+    case REQ_RANGE_TILE:
     case REQ_RANGE_CADJACENT:
     case REQ_RANGE_ADJACENT:
     case REQ_RANGE_CITY:
@@ -1542,6 +1558,7 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
         }
       }
       break;
+    case REQ_RANGE_TILE:
     case REQ_RANGE_CADJACENT:
     case REQ_RANGE_ADJACENT:
     case REQ_RANGE_CITY:
@@ -1571,6 +1588,7 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
                      uclass_name_translation(preq->source.value.uclass));
       }
       return TRUE;
+    case REQ_RANGE_TILE:
     case REQ_RANGE_CADJACENT:
     case REQ_RANGE_ADJACENT:
     case REQ_RANGE_CITY:
@@ -1615,6 +1633,7 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
         }
         done = TRUE;
         break;
+      case REQ_RANGE_TILE:
       case REQ_RANGE_CADJACENT:
       case REQ_RANGE_ADJACENT:
       case REQ_RANGE_CITY:
@@ -1717,6 +1736,7 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
                         "Invalid unit state property.");
         }
         break;
+      case REQ_RANGE_TILE:
       case REQ_RANGE_CADJACENT:
       case REQ_RANGE_ADJACENT:
       case REQ_RANGE_CITY:
@@ -1748,6 +1768,7 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
                        _(unit_activity_name(preq->source.value.activity)));
         }
         return TRUE;
+      case REQ_RANGE_TILE:
       case REQ_RANGE_CADJACENT:
       case REQ_RANGE_ADJACENT:
       case REQ_RANGE_CITY:
@@ -1783,6 +1804,7 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
                        move_points_text(preq->source.value.minmoves, TRUE));
         }
         return TRUE;
+      case REQ_RANGE_TILE:
       case REQ_RANGE_CADJACENT:
       case REQ_RANGE_ADJACENT:
       case REQ_RANGE_CITY:
@@ -1915,6 +1937,7 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
       }
       return TRUE;
     case REQ_RANGE_LOCAL:
+    case REQ_RANGE_TILE:
     case REQ_RANGE_CADJACENT:
     case REQ_RANGE_ADJACENT:
     case REQ_RANGE_CONTINENT:
@@ -2049,6 +2072,7 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
       }
       return TRUE;
     case REQ_RANGE_LOCAL:
+    case REQ_RANGE_TILE:
     case REQ_RANGE_CADJACENT:
     case REQ_RANGE_ADJACENT:
     case REQ_RANGE_CONTINENT:
@@ -2092,6 +2116,7 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
     case REQ_RANGE_ALLIANCE:
     case REQ_RANGE_WORLD:
     case REQ_RANGE_LOCAL:
+    case REQ_RANGE_TILE:
     case REQ_RANGE_CADJACENT:
     case REQ_RANGE_ADJACENT:
     case REQ_RANGE_CONTINENT:
@@ -2102,7 +2127,7 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
 
   case VUT_MAXTILEUNITS:
     switch (preq->range) {
-    case REQ_RANGE_LOCAL:
+    case REQ_RANGE_TILE:
       fc_strlcat(buf, prefix, bufsz);
       if (preq->present) {
         cat_snprintf(buf, bufsz,
@@ -2167,6 +2192,7 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
     case REQ_RANGE_TEAM:
     case REQ_RANGE_ALLIANCE:
     case REQ_RANGE_WORLD:
+    case REQ_RANGE_LOCAL:
     case REQ_RANGE_COUNT:
       /* Not supported. */
       break;
@@ -2193,7 +2219,7 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
 
   case VUT_TERRAINCLASS:
     switch (preq->range) {
-    case REQ_RANGE_LOCAL:
+    case REQ_RANGE_TILE:
       fc_strlcat(buf, prefix, bufsz);
       if (preq->present) {
         cat_snprintf(buf, bufsz,
@@ -2288,6 +2314,7 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
     case REQ_RANGE_TEAM:
     case REQ_RANGE_ALLIANCE:
     case REQ_RANGE_WORLD:
+    case REQ_RANGE_LOCAL:
     case REQ_RANGE_COUNT:
       /* Not supported. */
       break;
@@ -2296,7 +2323,7 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
 
   case VUT_TERRFLAG:
     switch (preq->range) {
-    case REQ_RANGE_LOCAL:
+    case REQ_RANGE_TILE:
       fc_strlcat(buf, prefix, bufsz);
       if (preq->present) {
         cat_snprintf(buf, bufsz,
@@ -2382,6 +2409,7 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
     case REQ_RANGE_TEAM:
     case REQ_RANGE_ALLIANCE:
     case REQ_RANGE_WORLD:
+    case REQ_RANGE_LOCAL:
     case REQ_RANGE_COUNT:
       /* Not supported. */
       break;
@@ -2390,7 +2418,7 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
 
   case VUT_ROADFLAG:
     switch (preq->range) {
-    case REQ_RANGE_LOCAL:
+    case REQ_RANGE_TILE:
       fc_strlcat(buf, prefix, bufsz);
       if (preq->present) {
         cat_snprintf(buf, bufsz,
@@ -2476,6 +2504,7 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
     case REQ_RANGE_TEAM:
     case REQ_RANGE_ALLIANCE:
     case REQ_RANGE_WORLD:
+    case REQ_RANGE_LOCAL:
     case REQ_RANGE_COUNT:
       /* Not supported. */
       break;
@@ -2484,7 +2513,7 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
 
   case VUT_EXTRAFLAG:
     switch (preq->range) {
-    case REQ_RANGE_LOCAL:
+    case REQ_RANGE_TILE:
       fc_strlcat(buf, prefix, bufsz);
       if (preq->present) {
         cat_snprintf(buf, bufsz,
@@ -2570,6 +2599,7 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
     case REQ_RANGE_TEAM:
     case REQ_RANGE_ALLIANCE:
     case REQ_RANGE_WORLD:
+    case REQ_RANGE_LOCAL:
     case REQ_RANGE_COUNT:
       /* Not supported. */
       break;
@@ -2686,6 +2716,7 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
       }
       return TRUE;
     case REQ_RANGE_LOCAL:
+    case REQ_RANGE_TILE:
     case REQ_RANGE_CADJACENT:
     case REQ_RANGE_ADJACENT:
     case REQ_RANGE_CITY:
@@ -2701,7 +2732,7 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
 
   case VUT_TERRAINALTER:
     switch (preq->range) {
-    case REQ_RANGE_LOCAL:
+    case REQ_RANGE_TILE:
       fc_strlcat(buf, prefix, bufsz);
       if (preq->present) {
         cat_snprintf(buf, bufsz,
@@ -2724,6 +2755,7 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
     case REQ_RANGE_TEAM:
     case REQ_RANGE_ALLIANCE:
     case REQ_RANGE_WORLD:
+    case REQ_RANGE_LOCAL:
     case REQ_RANGE_COUNT:
       /* Not supported. */
       break;
@@ -2755,7 +2787,7 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
       }
 
       switch (preq->range) {
-      case REQ_RANGE_LOCAL:
+      case REQ_RANGE_TILE:
         fc_strlcat(buf, prefix, bufsz);
         if (preq->present) {
           cat_snprintf(buf, bufsz,
@@ -2800,6 +2832,7 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
       case REQ_RANGE_TEAM:
       case REQ_RANGE_ALLIANCE:
       case REQ_RANGE_WORLD:
+      case REQ_RANGE_LOCAL:
       case REQ_RANGE_COUNT:
         /* Not supported. */
         break;
@@ -2858,6 +2891,7 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
         }
         return TRUE;
       case REQ_RANGE_LOCAL:
+      case REQ_RANGE_TILE:
       case REQ_RANGE_ADJACENT:
       case REQ_RANGE_CADJACENT:
       case REQ_RANGE_CONTINENT:

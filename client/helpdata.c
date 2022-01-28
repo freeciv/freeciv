@@ -1492,6 +1492,7 @@ char *helptext_building(char *buf, size_t bufsz, struct player *pplayer,
                      BULLET,
                      action_id_name_translation(act));
         break;
+      case REQ_RANGE_TILE:
       case REQ_RANGE_CADJACENT:
       case REQ_RANGE_ADJACENT:
       case REQ_RANGE_COUNT:
@@ -1623,6 +1624,7 @@ char *helptext_building(char *buf, size_t bufsz, struct player *pplayer,
                      BULLET,
                      action_id_name_translation(act));
         break;
+      case REQ_RANGE_TILE:
       case REQ_RANGE_CADJACENT:
       case REQ_RANGE_ADJACENT:
       case REQ_RANGE_COUNT:

@@ -838,11 +838,11 @@ action = "User Action 2"
 actor_reqs    =
     { "type",     "name",                  "range",  "present"
       "Building", "Mysteries",             "Player", TRUE
-      "Extra",    "Ancient Transport Hub", "Local",  TRUE
+      "Extra",    "Ancient Transport Hub", "Tile",   TRUE
     }
 target_reqs  =
     { "type",           "name",                  "range", "present"
-      "Extra",          "Ancient Transport Hub", "Local", TRUE
+      "Extra",          "Ancient Transport Hub", "Tile",  TRUE
     }
 
 [actionenabler_cut_root]
@@ -1278,7 +1278,7 @@ actor_reqs    =
 target_reqs    =
     { "type",   "name", "range", "present"
       "UnitFlag", "Unbribable", "Local", FALSE
-      "CityTile", "Center", "Local", FALSE
+      "CityTile", "Center", "Tile", FALSE
     }
 
 [actionenabler_sabotage_unit]
@@ -1293,7 +1293,7 @@ actor_reqs    =
     }
 target_reqs    =
     { "type",   "name", "range", "present"
-      "CityTile", "Center", "Local", FALSE
+      "CityTile", "Center", "Tile", FALSE
       "MinHitPoints", "2", "Local", TRUE
     }
 
@@ -1309,7 +1309,7 @@ actor_reqs    =
     }
 target_reqs    =
     { "type",   "name", "range", "present"
-      "CityTile", "Center", "Local", FALSE
+      "CityTile", "Center", "Tile", FALSE
       "MinHitPoints", "2", "Local", TRUE
     }
 
@@ -1326,7 +1326,7 @@ actor_reqs    =
     }
 target_reqs    =
     { "type",   "name", "range", "present"
-      "CityTile", "Center", "Local", FALSE
+      "CityTile", "Center", "Tile", FALSE
     }
 
 [actionenabler_traderoute]
@@ -1442,7 +1442,7 @@ target_reqs    =
     { "type",      "name",         "range", "present"
       "UnitFlag",  "Capturable",   "Local", TRUE
       "UnitState", "Transporting", "Local", FALSE
-      "CityTile",  "Center",       "Local", FALSE
+      "CityTile",  "Center",       "Tile",  FALSE
     }
 
 [actionenabler_capture_despite_treuga_dei]
@@ -1459,7 +1459,7 @@ target_reqs    =
     { "type",      "name",         "range", "present"
       "UnitFlag",  "Capturable",   "Local", TRUE
       "UnitState", "Transporting", "Local", FALSE
-      "CityTile",  "Center",       "Local", FALSE
+      "CityTile",  "Center",       "Tile",  FALSE
     }
 
 [actionenabler_bombard_city]
@@ -1474,7 +1474,7 @@ actor_reqs    =
     }
 target_reqs    =
     { "type",             "name",    "range", "present"
-      "TerrainClass",     "Oceanic", "Local", FALSE
+      "TerrainClass",     "Oceanic", "Tile",  FALSE
       "DiplRelTileOther", "War",     "Local", TRUE
     }
 
@@ -1489,8 +1489,8 @@ actor_reqs    =
     }
 target_reqs    =
     { "type",         "name",    "range", "present"
-      "TerrainClass", "Oceanic", "Local", FALSE
-      "CityTile",     "Center",  "Local", FALSE
+      "TerrainClass", "Oceanic", "Tile",  FALSE
+      "CityTile",     "Center",  "Tile",  FALSE
     }
 
 [actionenabler_bombard_city_despite_treuga_dei]
@@ -1505,7 +1505,7 @@ actor_reqs    =
     }
 target_reqs    =
     { "type",             "name",    "range", "present"
-      "TerrainClass",     "Oceanic", "Local", FALSE
+      "TerrainClass",     "Oceanic", "Tile",  FALSE
       "DiplRelTileOther", "War",     "Local", TRUE
     }
 
@@ -1521,8 +1521,8 @@ actor_reqs    =
     }
 target_reqs    =
     { "type",         "name",    "range", "present"
-      "TerrainClass", "Oceanic", "Local", FALSE
-      "CityTile",     "Center",  "Local", FALSE
+      "TerrainClass", "Oceanic", "Tile",  FALSE
+      "CityTile",     "Center",  "Tile",  FALSE
     }
 
 [actionenabler_build_city_pioneer]
@@ -1535,8 +1535,8 @@ actor_reqs    =
     }
 target_reqs    =
     { "type",   "name", "range", "present"
-      "CityTile", "Claimed", "Local", FALSE
-      "TerrainFlag","NoCities","Local",FALSE
+      "CityTile", "Claimed", "Tile", FALSE
+      "TerrainFlag","NoCities","Tile",FALSE
     }
 
 [actionenabler_build_city_domestic]
@@ -1550,8 +1550,8 @@ actor_reqs    =
     }
 target_reqs    =
     { "type",        "name",     "range", "present"
-      "CityTile",    "Claimed",  "Local", TRUE
-      "TerrainFlag", "NoCities", "Local", FALSE
+      "CityTile",    "Claimed",  "Tile",  TRUE
+      "TerrainFlag", "NoCities", "Tile",  FALSE
     }
 
 [actionenabler_join_city]
@@ -1861,7 +1861,7 @@ actor_reqs    =
     }
 target_reqs    =
     { "type",           "name",          "range", "present"
-      "MaxUnitsOnTile", "0",             "Local", TRUE
+      "MaxUnitsOnTile", "0",             "Tile",  TRUE
     }
 
 [actionenabler_conquer_city_native_despite_treuga_dei]
@@ -1877,7 +1877,7 @@ actor_reqs    =
     }
 target_reqs    =
     { "type",           "name",          "range", "present"
-      "MaxUnitsOnTile", "0",             "Local", TRUE
+      "MaxUnitsOnTile", "0",             "Tile",  TRUE
     }
 
 [actionenabler_conquer_city_marines]
@@ -1894,7 +1894,7 @@ actor_reqs    =
     }
 target_reqs    =
     { "type",           "name",          "range", "present"
-      "MaxUnitsOnTile", "0",             "Local", TRUE
+      "MaxUnitsOnTile", "0",             "Tile",  TRUE
     }
 
 [actionenabler_conquer_city_marines_despite_treuga_dei]
@@ -1911,7 +1911,7 @@ actor_reqs    =
     }
 target_reqs    =
     { "type",           "name",          "range", "present"
-      "MaxUnitsOnTile", "0",             "Local", TRUE
+      "MaxUnitsOnTile", "0",             "Tile",  TRUE
     }
 
 [actionenabler_change_home_city]
@@ -1938,15 +1938,15 @@ actor_reqs    =
       "UnitFlag",     "Paratroopers", "Local", TRUE
       "MinMoveFrags", "6",            "Local", TRUE
       "UnitState",    "Transporting", "Local", FALSE
-      "ExtraFlag",    "ParadropFrom", "Local", TRUE
+      "ExtraFlag",    "ParadropFrom", "Tile",  TRUE
       "DiplRel",      "Peace",        "Local", FALSE
       "DiplRel",      "War",          "Local", FALSE
       "UnitClassFlag", "HutFrighten", "Local", FALSE
     }
 target_reqs    =
     { "type",        "name",             "range", "present"
-      "CityTile",    "Claimed",          "Local", TRUE
-      "TerrainFlag", "DifficultLanding", "Local", FALSE
+      "CityTile",    "Claimed",          "Tile",  TRUE
+      "TerrainFlag", "DifficultLanding", "Tile",  FALSE
     }
 
 [actionenabler_paradrop_base_to_unclaimed_not_forest]
@@ -1956,14 +1956,14 @@ actor_reqs    =
       "UnitFlag",     "Paratroopers", "Local", TRUE
       "MinMoveFrags", "6",            "Local", TRUE
       "UnitState",    "Transporting", "Local", FALSE
-      "ExtraFlag",    "ParadropFrom", "Local", TRUE
+      "ExtraFlag",    "ParadropFrom", "Tile",  TRUE
       "UnitClassFlag", "HutFrighten", "Local", FALSE
     }
 target_reqs    =
     { "type",        "name",             "range", "present"
-      "TerrainFlag", "DifficultLanding", "Local", FALSE
-      "Extra",       "Castle",           "Local", FALSE
-      "CityTile",    "Claimed",          "Local", FALSE
+      "TerrainFlag", "DifficultLanding", "Tile",  FALSE
+      "Extra",       "Castle",           "Tile",  FALSE
+      "CityTile",    "Claimed",          "Tile",  FALSE
     }
 
 [actionenabler_paradrop_base_to_war_conquer_not_forest]
@@ -1973,7 +1973,7 @@ actor_reqs    =
       "UnitFlag",      "Paratroopers",  "Local", TRUE
       "MinMoveFrags",  "6",             "Local", TRUE
       "UnitState",     "Transporting",  "Local", FALSE
-      "ExtraFlag",     "ParadropFrom",  "Local", TRUE
+      "ExtraFlag",     "ParadropFrom",  "Tile",  TRUE
       "DiplRel",       "War",           "Local", TRUE
       "UnitClassFlag", "CanOccupyCity", "Local", TRUE
       "UnitFlag",      "NonMil",        "Local", FALSE
@@ -1982,8 +1982,8 @@ actor_reqs    =
     }
 target_reqs    =
     { "type",        "name",             "range", "present"
-      "TerrainFlag", "DifficultLanding", "Local", FALSE
-      "CityTile",    "Claimed",          "Local", TRUE
+      "TerrainFlag", "DifficultLanding", "Tile",  FALSE
+      "CityTile",    "Claimed",          "Tile",  TRUE
     }
 
 [actionenabler_paradrop_base_to_war_conquer_not_forest_despite_treuga_dei]
@@ -1993,7 +1993,7 @@ actor_reqs    =
       "UnitFlag",      "Paratroopers",  "Local", TRUE,      FALSE
       "MinMoveFrags",  "6",             "Local", TRUE,      FALSE
       "UnitState",     "Transporting",  "Local", FALSE,     FALSE
-      "ExtraFlag",     "ParadropFrom",  "Local", TRUE,      FALSE
+      "ExtraFlag",     "ParadropFrom",  "Tile",  TRUE,      FALSE
       "DiplRel",       "War",           "Local", TRUE,      FALSE
       "UnitClassFlag", "CanOccupyCity", "Local", TRUE,      FALSE
       "UnitFlag",      "NonMil",        "Local", FALSE,     FALSE
@@ -2002,8 +2002,8 @@ actor_reqs    =
     }
 target_reqs    =
     { "type",        "name",             "range", "present"
-      "TerrainFlag", "DifficultLanding", "Local", FALSE
-      "CityTile",    "Claimed",          "Local", TRUE
+      "TerrainFlag", "DifficultLanding", "Tile",  FALSE
+      "CityTile",    "Claimed",          "Tile",  TRUE
     }
 
 [actionenabler_paradrop_base_to_unclaimed_base_not_forest]
@@ -2013,16 +2013,16 @@ actor_reqs    =
       "UnitFlag",      "Paratroopers", "Local", TRUE
       "MinMoveFrags",  "6",            "Local", TRUE
       "UnitState",     "Transporting", "Local", FALSE
-      "ExtraFlag",     "ParadropFrom", "Local", TRUE
+      "ExtraFlag",     "ParadropFrom", "Tile",  TRUE
       "UnitClassFlag", "HutFrighten",  "Local", FALSE
       "Building",      "Treuga Dei",   "World", FALSE
     }
 target_reqs    =
     { "type",        "name",             "range", "present"
-      "TerrainFlag", "DifficultLanding", "Local", FALSE
-      "CityTile",    "Claimed",          "Local", FALSE
-      "CityTile",    "Center",           "Local", FALSE
-      "Extra",       "Castle",           "Local", TRUE
+      "TerrainFlag", "DifficultLanding", "Tile",  FALSE
+      "CityTile",    "Claimed",          "Tile",  FALSE
+      "CityTile",    "Center",           "Tile",  FALSE
+      "Extra",       "Castle",           "Tile",  TRUE
     }
 
 [actionenabler_paradrop_base_to_unclaimed_base_not_forest_despite_treuga_dei]
@@ -2032,16 +2032,16 @@ actor_reqs    =
       "UnitFlag",      "Paratroopers", "Local", TRUE,      FALSE
       "MinMoveFrags",  "6",            "Local", TRUE,      FALSE
       "UnitState",     "Transporting", "Local", FALSE,     FALSE
-      "ExtraFlag",     "ParadropFrom", "Local", TRUE,      FALSE
+      "ExtraFlag",     "ParadropFrom", "Tile",  TRUE,      FALSE
       "UnitClassFlag", "HutFrighten",  "Local", FALSE,     FALSE
       "Tech",          "Communism",    "World", TRUE,      TRUE
     }
 target_reqs    =
     { "type",        "name",             "range", "present"
-      "TerrainFlag", "DifficultLanding", "Local", FALSE
-      "CityTile",    "Claimed",          "Local", FALSE
-      "CityTile",    "Center",           "Local", FALSE
-      "Extra",       "Castle",           "Local", TRUE
+      "TerrainFlag", "DifficultLanding", "Tile",  FALSE
+      "CityTile",    "Claimed",          "Tile",  FALSE
+      "CityTile",    "Center",           "Tile",  FALSE
+      "Extra",       "Castle",           "Tile",  TRUE
     }
 
 [actionenabler_paradrop_veteran_base_to_claimed]
@@ -2052,14 +2052,14 @@ actor_reqs    =
       "MinMoveFrags", "6",            "Local", TRUE
       "UnitState",    "Transporting", "Local", FALSE
       "MinVeteran",    1,             "Local", TRUE
-      "ExtraFlag",    "ParadropFrom", "Local", TRUE
+      "ExtraFlag",    "ParadropFrom", "Tile",  TRUE
       "DiplRel",      "Peace",        "Local", FALSE
       "DiplRel",      "War",          "Local", FALSE
       "UnitClassFlag", "HutFrighten", "Local", FALSE
     }
 target_reqs   =
     { "type",     "name",    "range", "present"
-      "CityTile", "Claimed", "Local", TRUE
+      "CityTile", "Claimed", "Tile",  TRUE
     }
 
 [actionenabler_paradrop_veteran_base_to_unclaimed]
@@ -2070,13 +2070,13 @@ actor_reqs    =
       "MinMoveFrags", "6",            "Local", TRUE
       "UnitState",    "Transporting", "Local", FALSE
       "MinVeteran",    1,             "Local", TRUE
-      "ExtraFlag",    "ParadropFrom", "Local", TRUE
+      "ExtraFlag",    "ParadropFrom", "Tile",  TRUE
       "UnitClassFlag", "HutFrighten", "Local", FALSE
     }
 target_reqs   =
     { "type",     "name",    "range", "present"
-      "CityTile", "Claimed", "Local", FALSE
-      "Extra",    "Castle",  "Local", FALSE
+      "CityTile", "Claimed", "Tile",  FALSE
+      "Extra",    "Castle",  "Tile",  FALSE
     }
 
 [actionenabler_paradrop_veteran_base_to_war_conquer]
@@ -2087,7 +2087,7 @@ actor_reqs    =
       "MinMoveFrags",  "6",             "Local", TRUE
       "UnitState",     "Transporting",  "Local", FALSE
       "MinVeteran",     1,              "Local", TRUE
-      "ExtraFlag",     "ParadropFrom",  "Local", TRUE
+      "ExtraFlag",     "ParadropFrom",  "Tile",  TRUE
       "DiplRel",       "War",           "Local", TRUE
       "UnitClassFlag", "CanOccupyCity", "Local", TRUE
       "UnitFlag",      "NonMil",        "Local", FALSE
@@ -2096,7 +2096,7 @@ actor_reqs    =
     }
 target_reqs    =
     { "type",        "name",             "range", "present"
-      "CityTile",    "Claimed",          "Local", TRUE
+      "CityTile",    "Claimed",          "Tile",  TRUE
     }
 
 [actionenabler_paradrop_veteran_base_to_war_conquer_despite_treuga_dei]
@@ -2107,7 +2107,7 @@ actor_reqs    =
       "MinMoveFrags",  "6",             "Local", TRUE,      FALSE
       "UnitState",     "Transporting",  "Local", FALSE,     FALSE
       "MinVeteran",     1,              "Local", TRUE,      FALSE
-      "ExtraFlag",     "ParadropFrom",  "Local", TRUE,      FALSE
+      "ExtraFlag",     "ParadropFrom",  "Tile",  TRUE,      FALSE
       "DiplRel",       "War",           "Local", TRUE,      FALSE
       "UnitClassFlag", "CanOccupyCity", "Local", TRUE,      FALSE
       "UnitFlag",      "NonMil",        "Local", FALSE,     FALSE
@@ -2116,7 +2116,7 @@ actor_reqs    =
     }
 target_reqs    =
     { "type",        "name",             "range", "present"
-      "CityTile",    "Claimed",          "Local", TRUE
+      "CityTile",    "Claimed",          "Tile",  TRUE
     }
 
 [actionenabler_paradrop_veteran_base_to_unclaimed_base]
@@ -2127,15 +2127,15 @@ actor_reqs    =
       "MinMoveFrags",  "6",            "Local", TRUE
       "UnitState",     "Transporting", "Local", FALSE
       "MinVeteran",     1,             "Local", TRUE
-      "ExtraFlag",     "ParadropFrom", "Local", TRUE
+      "ExtraFlag",     "ParadropFrom", "Tile",  TRUE
       "UnitClassFlag", "HutFrighten",  "Local", FALSE
       "Building",      "Treuga Dei",   "World", FALSE
     }
 target_reqs   =
     { "type",     "name",    "range", "present"
-      "CityTile", "Claimed", "Local", FALSE
-      "CityTile", "Center",  "Local", FALSE
-      "Extra",    "Castle",  "Local", TRUE
+      "CityTile", "Claimed", "Tile",  FALSE
+      "CityTile", "Center",  "Tile",  FALSE
+      "Extra",    "Castle",  "Tile",  TRUE
     }
 
 [actionenabler_paradrop_veteran_base_to_unclaimed_base_despite_treuga_dei]
@@ -2146,15 +2146,15 @@ actor_reqs    =
       "MinMoveFrags",  "6",            "Local", TRUE,      FALSE
       "UnitState",     "Transporting", "Local", FALSE,     FALSE
       "MinVeteran",     1,             "Local", TRUE,      FALSE
-      "ExtraFlag",     "ParadropFrom", "Local", TRUE,      FALSE
+      "ExtraFlag",     "ParadropFrom", "Tile",  TRUE,      FALSE
       "UnitClassFlag", "HutFrighten",  "Local", FALSE,     FALSE
       "Tech",          "Communism",    "World", TRUE,      TRUE
     }
 target_reqs   =
     { "type",     "name",    "range", "present"
-      "CityTile", "Claimed", "Local", FALSE
-      "CityTile", "Center",  "Local", FALSE
-      "Extra",    "Castle",  "Local", TRUE
+      "CityTile", "Claimed", "Tile",  FALSE
+      "CityTile", "Center",  "Tile",  FALSE
+      "Extra",    "Castle",  "Tile",  TRUE
     }
 
 [actionenabler_paradrop_city_to_claimed_not_forest]
@@ -2164,15 +2164,15 @@ actor_reqs    =
       "UnitFlag",     "Paratroopers", "Local", TRUE
       "MinMoveFrags", "6",            "Local", TRUE
       "UnitState",    "Transporting", "Local", FALSE
-      "CityTile",     "Center",       "Local", TRUE
+      "CityTile",     "Center",       "Tile",  TRUE
       "DiplRel",      "Peace",        "Local", FALSE
       "DiplRel",      "War",          "Local", FALSE
       "UnitClassFlag", "HutFrighten", "Local", FALSE
     }
 target_reqs    =
     { "type",        "name",             "range", "present"
-      "CityTile",    "Claimed",          "Local", TRUE
-      "TerrainFlag", "DifficultLanding", "Local", FALSE
+      "CityTile",    "Claimed",          "Tile",  TRUE
+      "TerrainFlag", "DifficultLanding", "Tile",  FALSE
     }
 
 [actionenabler_paradrop_city_to_unclaimed_not_forest]
@@ -2182,14 +2182,14 @@ actor_reqs    =
       "UnitFlag",     "Paratroopers", "Local", TRUE
       "MinMoveFrags", "6",            "Local", TRUE
       "UnitState",    "Transporting", "Local", FALSE
-      "CityTile",     "Center",       "Local", TRUE
+      "CityTile",     "Center",       "Tile",  TRUE
       "UnitClassFlag", "HutFrighten", "Local", FALSE
     }
 target_reqs    =
     { "type",        "name",             "range", "present"
-      "CityTile",    "Claimed",          "Local", FALSE
-      "Extra",       "Castle",           "Local", FALSE
-      "TerrainFlag", "DifficultLanding", "Local", FALSE
+      "CityTile",    "Claimed",          "Tile",  FALSE
+      "Extra",       "Castle",           "Tile",  FALSE
+      "TerrainFlag", "DifficultLanding", "Tile",  FALSE
     }
 
 [actionenabler_paradrop_city_to_war_conquer_not_forest]
@@ -2199,7 +2199,7 @@ actor_reqs    =
       "UnitFlag",      "Paratroopers",  "Local", TRUE
       "MinMoveFrags",  "6",             "Local", TRUE
       "UnitState",     "Transporting",  "Local", FALSE
-      "CityTile",      "Center",        "Local", TRUE
+      "CityTile",      "Center",        "Tile",  TRUE
       "DiplRel",       "War",           "Local", TRUE
       "UnitClassFlag", "CanOccupyCity", "Local", TRUE
       "UnitFlag",      "NonMil",        "Local", FALSE
@@ -2208,8 +2208,8 @@ actor_reqs    =
     }
 target_reqs    =
     { "type",        "name",             "range", "present"
-      "CityTile",    "Claimed",          "Local", TRUE
-      "TerrainFlag", "DifficultLanding", "Local", FALSE
+      "CityTile",    "Claimed",          "Tile",  TRUE
+      "TerrainFlag", "DifficultLanding", "Tile",  FALSE
     }
 
 [actionenabler_paradrop_city_to_war_conquer_not_forest_despite_treuga_dei]
@@ -2219,7 +2219,7 @@ actor_reqs    =
       "UnitFlag",      "Paratroopers", "Local", TRUE,      FALSE
       "MinMoveFrags",  "6",            "Local", TRUE,      FALSE
       "UnitState",     "Transporting", "Local", FALSE,     FALSE
-      "CityTile",      "Center",       "Local", TRUE,      FALSE
+      "CityTile",      "Center",       "Tile",  TRUE,      FALSE
       "DiplRel",       "War",          "Local", TRUE,      FALSE
       "UnitClassFlag", "CanOccupyCity","Local", TRUE,      FALSE
       "UnitFlag",      "NonMil",       "Local", FALSE,     FALSE
@@ -2228,8 +2228,8 @@ actor_reqs    =
     }
 target_reqs    =
     { "type",        "name",             "range", "present"
-      "CityTile",    "Claimed",          "Local", TRUE
-      "TerrainFlag", "DifficultLanding", "Local", FALSE
+      "CityTile",    "Claimed",          "Tile",  TRUE
+      "TerrainFlag", "DifficultLanding", "Tile",  FALSE
     }
 
 [actionenabler_paradrop_city_to_unclaimed_base_not_forest]
@@ -2239,16 +2239,16 @@ actor_reqs    =
       "UnitFlag",      "Paratroopers", "Local", TRUE
       "MinMoveFrags",  "6",            "Local", TRUE
       "UnitState",     "Transporting", "Local", FALSE
-      "CityTile",      "Center",       "Local", TRUE
+      "CityTile",      "Center",       "Tile",  TRUE
       "UnitClassFlag", "HutFrighten",  "Local", FALSE
       "Building",      "Treuga Dei",   "World", FALSE
     }
 target_reqs    =
     { "type",        "name",             "range", "present"
-      "CityTile",    "Claimed",          "Local", FALSE
-      "TerrainFlag", "DifficultLanding", "Local", FALSE
-      "CityTile",    "Center",           "Local", FALSE
-      "Extra",       "Castle",           "Local", TRUE
+      "CityTile",    "Claimed",          "Tile",  FALSE
+      "TerrainFlag", "DifficultLanding", "Tile",  FALSE
+      "CityTile",    "Center",           "Tile",  FALSE
+      "Extra",       "Castle",           "Tile",  TRUE
     }
 
 [actionenabler_paradrop_city_to_unclaimed_base_not_forest_despite_treuga_dei]
@@ -2258,16 +2258,16 @@ actor_reqs    =
       "UnitFlag",      "Paratroopers", "Local", TRUE,      FALSE
       "MinMoveFrags",  "6",            "Local", TRUE,      FALSE
       "UnitState",     "Transporting", "Local", FALSE,     FALSE
-      "CityTile",      "Center",       "Local", TRUE,      FALSE
+      "CityTile",      "Center",       "Tile",  TRUE,      FALSE
       "UnitClassFlag", "HutFrighten",  "Local", FALSE,     FALSE
       "Tech",          "Communism",    "World", TRUE,      TRUE
     }
 target_reqs    =
     { "type",        "name",             "range", "present"
-      "CityTile",    "Claimed",          "Local", FALSE
-      "TerrainFlag", "DifficultLanding", "Local", FALSE
-      "CityTile",    "Center",           "Local", FALSE
-      "Extra",       "Castle",           "Local", TRUE
+      "CityTile",    "Claimed",          "Tile",  FALSE
+      "TerrainFlag", "DifficultLanding", "Tile",  FALSE
+      "CityTile",    "Center",           "Tile",  FALSE
+      "Extra",       "Castle",           "Tile",  TRUE
     }
 
 [actionenabler_paradrop_veteran_city_to_claimed]
@@ -2278,14 +2278,14 @@ actor_reqs    =
       "MinMoveFrags", "6",            "Local", TRUE
       "UnitState",    "Transporting", "Local", FALSE
       "MinVeteran",   1,              "Local", TRUE
-      "CityTile",     "Center",       "Local", TRUE
+      "CityTile",     "Center",       "Tile",  TRUE
       "DiplRel",      "Peace",        "Local", FALSE
       "DiplRel",      "War",          "Local", FALSE
       "UnitClassFlag", "HutFrighten", "Local", FALSE
     }
 target_reqs   =
     { "type",     "name",    "range", "present"
-      "CityTile", "Claimed", "Local", TRUE
+      "CityTile", "Claimed", "Tile",  TRUE
     }
 
 [actionenabler_paradrop_veteran_city_to_unclaimed]
@@ -2296,13 +2296,13 @@ actor_reqs    =
       "MinMoveFrags", "6",            "Local", TRUE
       "UnitState",    "Transporting", "Local", FALSE
       "MinVeteran",   1,              "Local", TRUE
-      "CityTile",     "Center",       "Local", TRUE
+      "CityTile",     "Center",       "Tile",  TRUE
       "UnitClassFlag", "HutFrighten", "Local", FALSE
     }
 target_reqs   =
     { "type",     "name",    "range", "present"
-      "CityTile", "Claimed", "Local", FALSE
-      "Extra",    "Castle",  "Local", FALSE
+      "CityTile", "Claimed", "Tile",  FALSE
+      "Extra",    "Castle",  "Tile",  FALSE
     }
 
 [actionenabler_paradrop_veteran_city_to_war_conquer]
@@ -2313,7 +2313,7 @@ actor_reqs    =
       "MinMoveFrags",  "6",            "Local", TRUE
       "UnitState",     "Transporting", "Local", FALSE
       "MinVeteran",    1,              "Local", TRUE
-      "CityTile",      "Center",       "Local", TRUE
+      "CityTile",      "Center",       "Tile",  TRUE
       "DiplRel",       "War",          "Local", TRUE
       "UnitClassFlag", "CanOccupyCity","Local", TRUE
       "UnitFlag",      "NonMil",       "Local", FALSE
@@ -2322,7 +2322,7 @@ actor_reqs    =
     }
 target_reqs   =
     { "type",     "name",    "range", "present"
-      "CityTile", "Claimed", "Local", TRUE
+      "CityTile", "Claimed", "Tile",  TRUE
     }
 
 [actionenabler_paradrop_veteran_city_to_war_conquer_despite_treuga_dei]
@@ -2333,7 +2333,7 @@ actor_reqs    =
       "MinMoveFrags",  "6",            "Local", TRUE,      FALSE
       "UnitState",     "Transporting", "Local", FALSE,     FALSE
       "MinVeteran",    1,              "Local", TRUE,      FALSE
-      "CityTile",      "Center",       "Local", TRUE,      FALSE
+      "CityTile",      "Center",       "Tile",  TRUE,      FALSE
       "DiplRel",       "War",          "Local", TRUE,      FALSE
       "UnitClassFlag", "CanOccupyCity","Local", TRUE,      FALSE
       "UnitFlag",      "NonMil",       "Local", FALSE,     FALSE
@@ -2342,7 +2342,7 @@ actor_reqs    =
     }
 target_reqs   =
     { "type",     "name",    "range", "present"
-      "CityTile", "Claimed", "Local", TRUE
+      "CityTile", "Claimed", "Tile",  TRUE
     }
 
 [actionenabler_paradrop_veteran_city_to_unclaimed_base]
@@ -2353,15 +2353,15 @@ actor_reqs    =
       "MinMoveFrags",  "6",            "Local", TRUE
       "UnitState",     "Transporting", "Local", FALSE
       "MinVeteran",    1,              "Local", TRUE
-      "CityTile",      "Center",       "Local", TRUE
+      "CityTile",      "Center",       "Tile",  TRUE
       "UnitClassFlag", "HutFrighten",  "Local", FALSE
       "Building",      "Treuga Dei",   "World", FALSE
     }
 target_reqs   =
     { "type",     "name",    "range", "present"
-      "CityTile", "Claimed", "Local", FALSE
-      "CityTile", "Center",  "Local", FALSE
-      "Extra",    "Castle",  "Local", TRUE
+      "CityTile", "Claimed", "Tile",  FALSE
+      "CityTile", "Center",  "Tile",  FALSE
+      "Extra",    "Castle",  "Tile",  TRUE
     }
 
 [actionenabler_paradrop_veteran_city_to_unclaimed_base_despite_treuga_dei]
@@ -2372,15 +2372,15 @@ actor_reqs    =
       "MinMoveFrags",  "6",            "Local", TRUE,      FALSE
       "UnitState",     "Transporting", "Local", FALSE,     FALSE
       "MinVeteran",    1,              "Local", TRUE,      FALSE
-      "CityTile",      "Center",       "Local", TRUE,      FALSE
+      "CityTile",      "Center",       "Tile",  TRUE,      FALSE
       "UnitClassFlag", "HutFrighten",  "Local", FALSE,     FALSE
       "Tech",          "Communism",    "World", TRUE,      TRUE
     }
 target_reqs   =
     { "type",     "name",    "range", "present"
-      "CityTile", "Claimed", "Local", FALSE
-      "CityTile", "Center",  "Local", FALSE
-      "Extra",    "Castle",  "Local", TRUE
+      "CityTile", "Claimed", "Tile",  FALSE
+      "CityTile", "Center",  "Tile",  FALSE
+      "Extra",    "Castle",  "Tile",  TRUE
     }
 
 [actionenabler_upgrade_unit]
@@ -2397,7 +2397,7 @@ actor_reqs    =
       "UnitClassFlag", "LightWeight",  "Local", TRUE
       "UnitState",     "Transporting", "Local", FALSE
       "MinMoveFrags",  "1",            "Local", TRUE
-      "CityTile",      "Center",       "Local", TRUE
+      "CityTile",      "Center",       "Tile",  TRUE
     }
 
 [actionenabler_airlift_medium_unit]
@@ -2409,7 +2409,7 @@ actor_reqs    =
       "Tech",          "Advanced Flight", "Player", TRUE
       "Building",      "Airport",         "City",   TRUE
       "MinMoveFrags",  "1",               "Local",  TRUE
-      "CityTile",      "Center",          "Local",  TRUE
+      "CityTile",      "Center",          "Tile",   TRUE
     }
 target_reqs    =
     { "type",     "name",    "range"
@@ -2425,7 +2425,7 @@ actor_reqs    =
       "Tech",          "Fusion Power", "Player", TRUE
       "Building",      "Airport",      "City",   TRUE
       "MinMoveFrags",  "1",            "Local",  TRUE
-      "CityTile",      "Center",       "Local",  TRUE
+      "CityTile",      "Center",       "Tile",   TRUE
     }
 target_reqs    =
     { "type",     "name",    "range"
@@ -2484,7 +2484,7 @@ actor_reqs    =
     { "type",          "name",         "range", "present"
       "UnitClassFlag", "CanFortify",   "Local", TRUE
       "UnitFlag",      "Cant_Fortify", "Local", FALSE
-      "TerrainFlag",   "NoFortify",    "Local", FALSE
+      "TerrainFlag",   "NoFortify",    "Tile",  FALSE
       "Activity",      "Fortified",    "Local", FALSE
     }
 
@@ -2494,7 +2494,7 @@ actor_reqs    =
     { "type",          "name",         "range", "present"
       "UnitClassFlag", "CanFortify",   "Local", TRUE
       "UnitFlag",      "Cant_Fortify", "Local", FALSE
-      "CityTile",      "Center",       "Local", TRUE
+      "CityTile",      "Center",       "Tile",  TRUE
       "Activity",      "Fortified",    "Local", FALSE
     }
 
@@ -2521,8 +2521,8 @@ actor_reqs    =
     }
 target_reqs    =
     { "type",         "name",       "range", "present"
-      "Terrain",      "Deep Ocean", "Local", FALSE
-      "TerrainAlter", "CanMine",    "Local", TRUE
+      "Terrain",      "Deep Ocean", "Tile",  FALSE
+      "TerrainAlter", "CanMine",    "Tile",  TRUE
     }
 
 [actionenabler_mining_ocean]
@@ -2534,7 +2534,7 @@ actor_reqs    =
     }
 target_reqs    =
     { "type",    "name",            "range",  "present"
-      "Terrain", "Deep Ocean",      "Local",  TRUE
+      "Terrain", "Deep Ocean",      "Tile",   TRUE
     }
 
 [actionenabler_claim_extra_foreign_from_native_tile]
@@ -2575,7 +2575,7 @@ actor_reqs    =
       "DiplRel",      "Alliance",   "Local", FALSE
       "DiplRel",      "Team",       "Local", FALSE
       "UnitFlag",     "NonMil",     "Local", FALSE
-      "CityTile",     "Center",     "Local", TRUE
+      "CityTile",     "Center",     "Tile",  TRUE
       "Building",     "Treuga Dei", "World", FALSE
     }
 
@@ -2589,7 +2589,7 @@ actor_reqs    =
       "DiplRel",      "Alliance",   "Local", FALSE,     FALSE
       "DiplRel",      "Team",       "Local", FALSE,     FALSE
       "UnitFlag",     "NonMil",     "Local", FALSE,     FALSE
-      "CityTile",     "Center",     "Local", TRUE,      FALSE
+      "CityTile",     "Center",     "Tile",  TRUE,      FALSE
       "Tech",         "Communism",  "World", TRUE,      TRUE
     }
 
@@ -2604,7 +2604,7 @@ actor_reqs    =
       "DiplRel",      "Team",         "Local", FALSE
       "UnitFlag",     "NonMil",       "Local", FALSE
       "UnitState",    "OnNativeTile", "Local", FALSE
-      "CityTile",     "Center",       "Local", FALSE
+      "CityTile",     "Center",       "Tile",  FALSE
       "Building",     "Treuga Dei",   "World", FALSE
     }
 
@@ -2619,7 +2619,7 @@ actor_reqs    =
       "DiplRel",      "Team",         "Local", FALSE,     FALSE
       "UnitFlag",     "NonMil",       "Local", FALSE,     FALSE
       "UnitState",    "OnNativeTile", "Local", FALSE,     FALSE
-      "CityTile",     "Center",       "Local", FALSE,     FALSE
+      "CityTile",     "Center",       "Tile",  FALSE,     FALSE
       "Tech",         "Communism",    "World", TRUE,      TRUE
     }
 
@@ -2634,7 +2634,7 @@ actor_reqs    =
     }
 target_reqs    =
     { "type",         "name",         "range", "present"
-      "CityTile",     "Extras Owned", "Local", FALSE
+      "CityTile",     "Extras Owned", "Tile",  FALSE
     }
 
 [actionenabler_claim_extra_unowned_from_native_tile_despite_treuga_dei]
@@ -2648,7 +2648,7 @@ actor_reqs    =
     }
 target_reqs    =
     { "type",         "name",         "range", "present"
-      "CityTile",     "Extras Owned", "Local", FALSE
+      "CityTile",     "Extras Owned", "Tile",  FALSE
     }
 
 [actionenabler_claim_extra_unowned_from_native_city]
@@ -2657,12 +2657,12 @@ actor_reqs    =
     { "type",         "name",         "range", "present"
       "MinMoveFrags", "1",            "Local", TRUE
       "UnitFlag",     "NonMil",       "Local", FALSE
-      "CityTile",     "Center",       "Local", TRUE
+      "CityTile",     "Center",       "Tile",  TRUE
       "Building",     "Treuga Dei",   "World", FALSE
     }
 target_reqs    =
     { "type",         "name",         "range", "present"
-      "CityTile",     "Extras Owned", "Local", FALSE
+      "CityTile",     "Extras Owned", "Tile",  FALSE
     }
 
 [actionenabler_claim_extra_unowned_from_native_city_despite_treuga_dei]
@@ -2671,12 +2671,12 @@ actor_reqs    =
     { "type",         "name",         "range", "present", "survives"
       "MinMoveFrags", "1",            "Local", TRUE,      FALSE
       "UnitFlag",     "NonMil",       "Local", FALSE,     FALSE
-      "CityTile",     "Center",       "Local", TRUE,      FALSE
+      "CityTile",     "Center",       "Tile",  TRUE,      FALSE
       "Tech",         "Communism",    "World", TRUE,      TRUE
     }
 target_reqs    =
     { "type",         "name",         "range", "present"
-      "CityTile",     "Extras Owned", "Local", FALSE
+      "CityTile",     "Extras Owned", "Tile",  FALSE
     }
 
 [actionenabler_claim_extra_unowned_from_non_native]
@@ -2686,12 +2686,12 @@ actor_reqs    =
       "MinMoveFrags", "1",            "Local", TRUE
       "UnitFlag",     "NonMil",       "Local", FALSE
       "UnitState",    "OnNativeTile", "Local", FALSE
-      "CityTile",     "Center",       "Local", FALSE
+      "CityTile",     "Center",       "Tile",  FALSE
       "Building",     "Treuga Dei",   "World", FALSE
     }
 target_reqs    =
     { "type",         "name",         "range", "present"
-      "CityTile",     "Extras Owned", "Local", FALSE
+      "CityTile",     "Extras Owned", "Tile",  FALSE
     }
 
 [actionenabler_claim_extra_unowned_from_non_native_despite_treuga_dei]
@@ -2701,12 +2701,12 @@ actor_reqs    =
       "MinMoveFrags", "1",            "Local", TRUE,      FALSE
       "UnitFlag",     "NonMil",       "Local", FALSE,     FALSE
       "UnitState",    "OnNativeTile", "Local", FALSE,     FALSE
-      "CityTile",     "Center",       "Local", FALSE,     FALSE
+      "CityTile",     "Center",       "Tile",  FALSE,     FALSE
       "Tech",         "Communism",    "World", TRUE,      TRUE
     }
 target_reqs    =
     { "type",         "name",         "range", "present"
-      "CityTile",     "Extras Owned", "Local", FALSE
+      "CityTile",     "Extras Owned", "Tile",  FALSE
     }
 
 ; Prevent building farmland on bare deserts. It does not yield any bonus
@@ -2728,8 +2728,8 @@ actor_reqs    =
     }
 target_reqs    =
     { "type",         "name",        "range", "present"
-      "Extra",        "Irrigation",  "Local", FALSE
-      "TerrainAlter", "CanIrrigate", "Local", TRUE
+      "Extra",        "Irrigation",  "Tile",  FALSE
+      "TerrainAlter", "CanIrrigate", "Tile",  TRUE
     }
 
 [actionenabler_irrigate_src_ocean_basic_irrigation]
@@ -2742,8 +2742,8 @@ actor_reqs    =
 target_reqs    =
     { "type",         "name",        "range",     "present"
       "TerrainClass", "Oceanic",     "CAdjacent", TRUE
-      "Extra",        "Irrigation",  "Local",     FALSE
-      "TerrainAlter", "CanIrrigate", "Local",     TRUE
+      "Extra",        "Irrigation",  "Tile",      FALSE
+      "TerrainAlter", "CanIrrigate", "Tile",      TRUE
     }
 
 [actionenabler_irrigate_src_extra_basic_irrigation]
@@ -2756,8 +2756,8 @@ actor_reqs    =
 target_reqs    =
     { "type",         "name",             "range",     "present"
       "ExtraFlag",    "IrrigationSource", "CAdjacent", TRUE
-      "Extra",        "Irrigation",       "Local",     FALSE
-      "TerrainAlter", "CanIrrigate",      "Local",     TRUE
+      "Extra",        "Irrigation",       "Tile",      FALSE
+      "TerrainAlter", "CanIrrigate",      "Tile",      TRUE
     }
 
 [actionenabler_irrigate_src_tech_not_in_desert]
@@ -2770,8 +2770,8 @@ actor_reqs    =
     }
 target_reqs    =
     { "type",         "name",        "range", "present"
-      "Terrain",      "Desert",      "Local", FALSE
-      "TerrainAlter", "CanIrrigate", "Local", TRUE
+      "Terrain",      "Desert",      "Tile",  FALSE
+      "TerrainAlter", "CanIrrigate", "Tile",  TRUE
     }
 
 [actionenabler_irrigate_src_ocean_not_in_desert]
@@ -2784,8 +2784,8 @@ actor_reqs    =
 target_reqs    =
     { "type",         "name",        "range",     "present"
       "TerrainClass", "Oceanic",     "CAdjacent", TRUE
-      "Terrain",      "Desert",      "Local",     FALSE
-      "TerrainAlter", "CanIrrigate", "Local",     TRUE
+      "Terrain",      "Desert",      "Tile",      FALSE
+      "TerrainAlter", "CanIrrigate", "Tile",      TRUE
     }
 
 [actionenabler_irrigate_src_extra_not_in_desert]
@@ -2798,8 +2798,8 @@ actor_reqs    =
 target_reqs    =
     { "type",         "name",             "range",     "present"
       "ExtraFlag",    "IrrigationSource", "CAdjacent", TRUE
-      "Terrain",      "Desert",           "Local",     FALSE
-      "TerrainAlter", "CanIrrigate",      "Local",     TRUE
+      "Terrain",      "Desert",           "Tile",      FALSE
+      "TerrainAlter", "CanIrrigate",      "Tile",      TRUE
     }
 
 [actionenabler_irrigate_src_tech_desert_but_allowed]
@@ -2812,8 +2812,8 @@ actor_reqs    =
     }
 target_reqs    =
     { "type",         "name",                   "range", "present"
-      "Terrain",      "Desert",                 "Local", TRUE
-      "ExtraFlag",    "AllowsFarmlandOnDesert", "Local", TRUE
+      "Terrain",      "Desert",                 "Tile",  TRUE
+      "ExtraFlag",    "AllowsFarmlandOnDesert", "Tile",  TRUE
     }
 
 [actionenabler_irrigate_src_ocean_desert_but_allowed]
@@ -2826,8 +2826,8 @@ actor_reqs    =
 target_reqs    =
     { "type",         "name",                   "range",    "present"
       "TerrainClass", "Oceanic",                "CAdjacent", TRUE
-      "Terrain",      "Desert",                 "Local",     TRUE
-      "ExtraFlag",    "AllowsFarmlandOnDesert", "Local",     TRUE
+      "Terrain",      "Desert",                 "Tile",      TRUE
+      "ExtraFlag",    "AllowsFarmlandOnDesert", "Tile",      TRUE
     }
 
 [actionenabler_irrigate_src_extra_desert_but_allowed]
@@ -2840,8 +2840,8 @@ actor_reqs    =
 target_reqs    =
     { "type",      "name",                    "range",     "present"
       "ExtraFlag", "IrrigationSource",        "CAdjacent", TRUE
-      "Terrain",    "Desert",                 "Local",     TRUE
-      "ExtraFlag",  "AllowsFarmlandOnDesert", "Local",     TRUE
+      "Terrain",    "Desert",                 "Tile",      TRUE
+      "ExtraFlag",  "AllowsFarmlandOnDesert", "Tile",      TRUE
     }
 
 [actionenabler_alight]
@@ -2939,7 +2939,7 @@ actor_reqs    =
     { "type",         "name",        "range"
       "UnitState",    "Transported", "Local"
       "MinMoveFrags", "1",           "Local"
-      "CityTile",     "Center",      "Local"
+      "CityTile",     "Center",      "Tile"
     }
 
 [actionenabler_disembark_from_non_native]
@@ -2949,7 +2949,7 @@ actor_reqs    =
       "UnitState",      "Transported",  "Local", TRUE
       "MinMoveFrags",   "1",            "Local", TRUE
       "UnitState",      "OnNativeTile", "Local", FALSE
-      "CityTile",       "Center",       "Local", FALSE
+      "CityTile",       "Center",       "Tile",  FALSE
     }
 
 [actionenabler_embark]
@@ -3000,7 +3000,7 @@ action        = "Enter Hut"
 actor_reqs    =
     { "type",          "name",        "range", "present"
       "MinMoveFrags",  "1",           "Local", TRUE
-      "CityTile",      "Center",      "Local", TRUE
+      "CityTile",      "Center",      "Tile",  TRUE
       "UnitClassFlag", "HutFrighten", "Local", FALSE
     }
 
@@ -3010,7 +3010,7 @@ actor_reqs    =
     { "type",          "name",         "range", "present"
       "MinMoveFrags",  "1",            "Local", TRUE
       "UnitState",     "OnNativeTile", "Local", FALSE
-      "CityTile",      "Center",       "Local", FALSE
+      "CityTile",      "Center",       "Tile",  FALSE
       "UnitClassFlag", "HutFrighten",  "Local", FALSE
     }
 
@@ -3028,7 +3028,7 @@ action        = "Frighten Hut"
 actor_reqs    =
     { "type",          "name",        "range"
       "MinMoveFrags",  "1",           "Local"
-      "CityTile",      "Center",      "Local"
+      "CityTile",      "Center",      "Tile"
       "UnitClassFlag", "HutFrighten", "Local"
     }
 
@@ -3038,7 +3038,7 @@ actor_reqs    =
     { "type",           "name",         "range", "present"
       "MinMoveFrags",   "1",            "Local", TRUE
       "UnitState",      "OnNativeTile", "Local", FALSE
-      "CityTile",       "Center",       "Local", FALSE
+      "CityTile",       "Center",       "Tile",  FALSE
       "UnitClassFlag",  "HutFrighten",  "Local", TRUE
     }
 
@@ -3186,7 +3186,7 @@ negative_label = _("BCE")
 name           = _("Earthquake")
 reqs           =
     { "type", "name", "range"
-      "Terrain", "Hills", "Local"
+      "Terrain", "Hills", "Tile"
     }
 frequency      = 100
 effects        = "EmptyProdStock"

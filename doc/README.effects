@@ -25,7 +25,7 @@ those with present = FALSE must not be present.
 Value is integral amount parameter for many effects (must be in the range
 -32767 to 32767).
 
-Requirement range may be one of: "None", "Local",
+Requirement range may be one of: "None", "Local", "Tile",
 "CAdjacent" (Cardinally Adjacent), "Adjacent", "City",
 "Continent", "Player", "Allied, "World". Some requirement types may only work at
 certain ranges; this is not yet documented. In particular, at present,
@@ -57,10 +57,10 @@ Achievement:     World, Alliance, Team, Player
 Gov:             Player
 Building:        World, Alliance, Team, Player, Continent, Traderoute, City, Local
 BuildingGenus:   Local
-Extra:           Local, Adjacent, CAdjacent, Traderoute, City
-RoadFlag:        Local, Adjacent, CAdjacent, Traderoute, City
-ExtraFlag:       Local, Adjacent, CAdjacent, Traderoute, City
-Terrain:         Local, Adjacent, CAdjacent, Traderoute, City
+Extra:           Tile, Adjacent, CAdjacent, Traderoute, City
+RoadFlag:        Tile, Adjacent, CAdjacent, Traderoute, City
+ExtraFlag:       Tile, Adjacent, CAdjacent, Traderoute, City
+Terrain:         Tile, Adjacent, CAdjacent, Traderoute, City
 Good:            City
 UnitType:        Local
 UnitFlag:        Local
@@ -88,11 +88,11 @@ MinSize:         Traderoute, City
 MinCulture:      World, Alliance, Team, Player, Traderoute, City
 MinForeignPct:   Traderoute, City
 AI:              Player
-MaxUnitsOnTile:  Local, Adjacent, CAdjacent
-TerrainClass:    Local, Adjacent, CAdjacent, Traderoute, City
-TerrainFlag:     Local, Adjacent, CAdjacent, Traderoute, City
-TerrainAlter:    Local
-CityTile:        Local, Adjacent, CAdjacent
+MaxUnitsOnTile:  Tile, Adjacent, CAdjacent
+TerrainClass:    Tile, Adjacent, CAdjacent, Traderoute, City
+TerrainFlag:     Tile, Adjacent, CAdjacent, Traderoute, City
+TerrainAlter:    Tile
+CityTile:        Tile, Adjacent, CAdjacent
 CityStatus:      Traderoute, City
 Style:           Player
 UnitState:       Local

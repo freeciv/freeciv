@@ -762,9 +762,6 @@ struct requirement req_from_str(const char *type, const char *range,
         break;
       case VUT_IMPROVEMENT:
       case VUT_IMPR_GENUS:
-      case VUT_EXTRA:
-      case VUT_TERRAIN:
-      case VUT_TERRFLAG:
       case VUT_UTYPE:
       case VUT_UTFLAG:
       case VUT_UCLASS:
@@ -778,15 +775,20 @@ struct requirement req_from_str(const char *type, const char *range,
       case VUT_ACTION:
       case VUT_OTYPE:
       case VUT_SPECIALIST:
+      case VUT_DIPLREL_TILE_O:
+      case VUT_DIPLREL_UNITANY_O:
+        req.range = REQ_RANGE_LOCAL;
+        break;
+      case VUT_EXTRA:
+      case VUT_TERRAIN:
+      case VUT_TERRFLAG:
       case VUT_TERRAINCLASS:
       case VUT_ROADFLAG:
       case VUT_EXTRAFLAG:
       case VUT_TERRAINALTER:
       case VUT_CITYTILE:
       case VUT_MAXTILEUNITS:
-      case VUT_DIPLREL_TILE_O:
-      case VUT_DIPLREL_UNITANY_O:
-        req.range = REQ_RANGE_LOCAL;
+        req.range = REQ_RANGE_TILE;
         break;
       case VUT_MINSIZE:
       case VUT_MINCULTURE:
@@ -834,7 +836,7 @@ struct requirement req_from_str(const char *type, const char *range,
     case VUT_TERRFLAG:
     case VUT_ROADFLAG:
     case VUT_EXTRAFLAG:
-      invalid = (req.range != REQ_RANGE_LOCAL
+      invalid = (req.range != REQ_RANGE_TILE
                  && req.range != REQ_RANGE_CADJACENT
                  && req.range != REQ_RANGE_ADJACENT
                  && req.range != REQ_RANGE_CITY
@@ -922,12 +924,14 @@ struct requirement req_from_str(const char *type, const char *range,
     case VUT_ACTION:
     case VUT_OTYPE:
     case VUT_SPECIALIST:
-    case VUT_TERRAINALTER: /* XXX could in principle support C/ADJACENT */
       invalid = (req.range != REQ_RANGE_LOCAL);
+      break;
+    case VUT_TERRAINALTER: /* XXX could in principle support C/ADJACENT */
+      invalid = (req.range != REQ_RANGE_TILE);
       break;
     case VUT_CITYTILE:
     case VUT_MAXTILEUNITS:
-      invalid = (req.range != REQ_RANGE_LOCAL
+      invalid = (req.range != REQ_RANGE_TILE
                  && req.range != REQ_RANGE_CADJACENT
                  && req.range != REQ_RANGE_ADJACENT);
       break;
@@ -1347,6 +1351,7 @@ static inline bool players_in_same_range(const struct player *pplayer1,
   case REQ_RANGE_CITY:
   case REQ_RANGE_ADJACENT:
   case REQ_RANGE_CADJACENT:
+  case REQ_RANGE_TILE:
   case REQ_RANGE_LOCAL:
   case REQ_RANGE_COUNT:
     break;
@@ -1506,6 +1511,7 @@ is_building_in_range(const struct player *target_player,
     case REQ_RANGE_TRADEROUTE:
     case REQ_RANGE_CITY:
     case REQ_RANGE_LOCAL:
+    case REQ_RANGE_TILE:
     case REQ_RANGE_CADJACENT:
     case REQ_RANGE_ADJACENT:
       /* There is no sources cache for this. */
@@ -1581,6 +1587,7 @@ is_building_in_range(const struct player *target_player,
         /* TODO: other local targets */
         return TRI_MAYBE;
       }
+    case REQ_RANGE_TILE:
     case REQ_RANGE_CADJACENT:
     case REQ_RANGE_ADJACENT:
       return TRI_NO;
@@ -1632,6 +1639,7 @@ static enum fc_tristate is_tech_in_range(const struct player *target_player,
 
    return TRI_NO;
   case REQ_RANGE_LOCAL:
+  case REQ_RANGE_TILE:
   case REQ_RANGE_CADJACENT:
   case REQ_RANGE_ADJACENT:
   case REQ_RANGE_CITY:
@@ -1682,6 +1690,7 @@ static enum fc_tristate is_techflag_in_range(const struct player *target_player,
 
     return TRI_NO;
   case REQ_RANGE_LOCAL:
+  case REQ_RANGE_TILE:
   case REQ_RANGE_CADJACENT:
   case REQ_RANGE_ADJACENT:
   case REQ_RANGE_CITY:
@@ -1740,6 +1749,7 @@ static enum fc_tristate is_minculture_in_range(const struct city *target_city,
     } players_iterate_alive_end;
     return TRI_NO;
   case REQ_RANGE_LOCAL:
+  case REQ_RANGE_TILE:
   case REQ_RANGE_CADJACENT:
   case REQ_RANGE_ADJACENT:
   case REQ_RANGE_CONTINENT:
@@ -1792,6 +1802,7 @@ is_minforeignpct_in_range(const struct city *target_city, enum req_range range,
   case REQ_RANGE_ALLIANCE:
   case REQ_RANGE_WORLD:
   case REQ_RANGE_LOCAL:
+  case REQ_RANGE_TILE:
   case REQ_RANGE_CADJACENT:
   case REQ_RANGE_ADJACENT:
   case REQ_RANGE_CONTINENT:
@@ -1813,7 +1824,7 @@ is_tile_units_in_range(const struct tile *target_tile, enum req_range range,
 {
   /* TODO: if can't see V_INVIS -> TRI_MAYBE */
   switch (range) {
-  case REQ_RANGE_LOCAL:
+  case REQ_RANGE_TILE:
     if (!target_tile) {
       return TRI_MAYBE;
     }
@@ -1851,6 +1862,7 @@ is_tile_units_in_range(const struct tile *target_tile, enum req_range range,
   case REQ_RANGE_TEAM:
   case REQ_RANGE_ALLIANCE:
   case REQ_RANGE_WORLD:
+  case REQ_RANGE_LOCAL:
   case REQ_RANGE_COUNT:
     break;
   }
@@ -1869,7 +1881,7 @@ static enum fc_tristate is_extra_type_in_range(const struct tile *target_tile,
                                                struct extra_type *pextra)
 {
   switch (range) {
-  case REQ_RANGE_LOCAL:
+  case REQ_RANGE_TILE:
     /* The requirement is filled if the tile has extra of requested type. */
     if (!target_tile) {
       return TRI_MAYBE;
@@ -1926,6 +1938,7 @@ static enum fc_tristate is_extra_type_in_range(const struct tile *target_tile,
   case REQ_RANGE_TEAM:
   case REQ_RANGE_ALLIANCE:
   case REQ_RANGE_WORLD:
+  case REQ_RANGE_LOCAL:
   case REQ_RANGE_COUNT:
     break;
   }
@@ -1953,6 +1966,7 @@ static enum fc_tristate is_goods_type_in_range(const struct tile *target_tile,
     return BOOL_TO_TRISTATE(city_receives_goods(target_city, pgood)
                             || (goods_has_flag(pgood, GF_SELF_PROVIDED)
                                 && goods_can_be_provided(target_city, pgood, NULL)));
+  case REQ_RANGE_TILE:
   case REQ_RANGE_CADJACENT:
   case REQ_RANGE_ADJACENT:
   case REQ_RANGE_TRADEROUTE:
@@ -1979,7 +1993,7 @@ static enum fc_tristate is_terrain_in_range(const struct tile *target_tile,
                                             const struct terrain *pterrain)
 {
   switch (range) {
-  case REQ_RANGE_LOCAL:
+  case REQ_RANGE_TILE:
     /* The requirement is filled if the tile has the terrain. */
     if (!target_tile) {
       return TRI_MAYBE;
@@ -2034,6 +2048,7 @@ static enum fc_tristate is_terrain_in_range(const struct tile *target_tile,
   case REQ_RANGE_TEAM:
   case REQ_RANGE_ALLIANCE:
   case REQ_RANGE_WORLD:
+  case REQ_RANGE_LOCAL:
   case REQ_RANGE_COUNT:
     break;
   }
@@ -2052,7 +2067,7 @@ static enum fc_tristate is_terrain_class_in_range(const struct tile *target_tile
                                                   enum terrain_class pclass)
 {
   switch (range) {
-  case REQ_RANGE_LOCAL:
+  case REQ_RANGE_TILE:
     /* The requirement is filled if the tile has the terrain of correct class. */
     if (!target_tile) {
       return TRI_MAYBE;
@@ -2114,6 +2129,7 @@ static enum fc_tristate is_terrain_class_in_range(const struct tile *target_tile
   case REQ_RANGE_TEAM:
   case REQ_RANGE_ALLIANCE:
   case REQ_RANGE_WORLD:
+  case REQ_RANGE_LOCAL:
   case REQ_RANGE_COUNT:
     break;
   }
@@ -2132,7 +2148,7 @@ static enum fc_tristate is_terrainflag_in_range(const struct tile *target_tile,
                                                 enum terrain_flag_id terrflag)
 {
   switch (range) {
-  case REQ_RANGE_LOCAL:
+  case REQ_RANGE_TILE:
     /* The requirement is fulfilled if the tile has a terrain with
      * correct flag. */
     if (!target_tile) {
@@ -2200,6 +2216,7 @@ static enum fc_tristate is_terrainflag_in_range(const struct tile *target_tile,
   case REQ_RANGE_TEAM:
   case REQ_RANGE_ALLIANCE:
   case REQ_RANGE_WORLD:
+  case REQ_RANGE_LOCAL:
   case REQ_RANGE_COUNT:
     break;
   }
@@ -2218,7 +2235,7 @@ static enum fc_tristate is_roadflag_in_range(const struct tile *target_tile,
                                              enum road_flag_id roadflag)
 {
   switch (range) {
-  case REQ_RANGE_LOCAL:
+  case REQ_RANGE_TILE:
     /* The requirement is filled if the tile has a road with correct flag. */
     if (!target_tile) {
       return TRI_MAYBE;
@@ -2274,6 +2291,7 @@ static enum fc_tristate is_roadflag_in_range(const struct tile *target_tile,
   case REQ_RANGE_TEAM:
   case REQ_RANGE_ALLIANCE:
   case REQ_RANGE_WORLD:
+  case REQ_RANGE_LOCAL:
   case REQ_RANGE_COUNT:
     break;
   }
@@ -2292,7 +2310,7 @@ static enum fc_tristate is_extraflag_in_range(const struct tile *target_tile,
                                               enum extra_flag_id extraflag)
 {
   switch (range) {
-  case REQ_RANGE_LOCAL:
+  case REQ_RANGE_TILE:
     /* The requirement is filled if the tile has an extra with correct flag. */
     if (!target_tile) {
       return TRI_MAYBE;
@@ -2348,6 +2366,7 @@ static enum fc_tristate is_extraflag_in_range(const struct tile *target_tile,
   case REQ_RANGE_TEAM:
   case REQ_RANGE_ALLIANCE:
   case REQ_RANGE_WORLD:
+  case REQ_RANGE_LOCAL:
   case REQ_RANGE_COUNT:
     break;
   }
@@ -2371,7 +2390,7 @@ static enum fc_tristate is_terrain_alter_possible_in_range(const struct tile *ta
   }
 
   switch (range) {
-  case REQ_RANGE_LOCAL:
+  case REQ_RANGE_TILE:
     return BOOL_TO_TRISTATE(terrain_can_support_alteration(tile_terrain(target_tile),
                                                            alteration));
   case REQ_RANGE_CADJACENT:
@@ -2383,6 +2402,7 @@ static enum fc_tristate is_terrain_alter_possible_in_range(const struct tile *ta
   case REQ_RANGE_TEAM:
   case REQ_RANGE_ALLIANCE:
   case REQ_RANGE_WORLD:
+  case REQ_RANGE_LOCAL:
   case REQ_RANGE_COUNT:
     break;
   }
@@ -2426,6 +2446,7 @@ static enum fc_tristate is_nation_in_range(const struct player *target_player,
     return BOOL_TO_TRISTATE(NULL != nation->player
                             && (survives || nation->player->is_alive));
   case REQ_RANGE_LOCAL:
+  case REQ_RANGE_TILE:
   case REQ_RANGE_CADJACENT:
   case REQ_RANGE_ADJACENT:
   case REQ_RANGE_CITY:
@@ -2470,6 +2491,7 @@ is_nation_group_in_range(const struct player *target_player,
     } players_iterate_alive_end;
     return TRI_NO;
   case REQ_RANGE_LOCAL:
+  case REQ_RANGE_TILE:
   case REQ_RANGE_CADJACENT:
   case REQ_RANGE_ADJACENT:
   case REQ_RANGE_CITY:
@@ -2527,6 +2549,7 @@ static enum fc_tristate is_nationality_in_range(const struct city *target_city,
   case REQ_RANGE_ALLIANCE:
   case REQ_RANGE_WORLD:
   case REQ_RANGE_LOCAL:
+  case REQ_RANGE_TILE:
   case REQ_RANGE_CADJACENT:
   case REQ_RANGE_ADJACENT:
   case REQ_RANGE_CONTINENT:
@@ -2572,6 +2595,7 @@ static enum fc_tristate is_diplrel_in_range(const struct player *target_player,
       return TRI_MAYBE;
     }
     return BOOL_TO_TRISTATE(is_diplrel_between(target_player, other_player, diplrel));
+  case REQ_RANGE_TILE:
   case REQ_RANGE_CADJACENT:
   case REQ_RANGE_ADJACENT:
   case REQ_RANGE_CITY:
@@ -2789,7 +2813,7 @@ static enum fc_tristate is_citytile_in_range(const struct tile *target_tile,
   switch (citytile) {
   case CITYT_CENTER:
     switch (range) {
-    case REQ_RANGE_LOCAL:
+    case REQ_RANGE_TILE:
       return BOOL_TO_TRISTATE(is_city_in_tile(target_tile, target_city));
     case REQ_RANGE_CADJACENT:
       if (is_city_in_tile(target_tile, target_city)) {
@@ -2820,6 +2844,7 @@ static enum fc_tristate is_citytile_in_range(const struct tile *target_tile,
     case REQ_RANGE_TEAM:
     case REQ_RANGE_ALLIANCE:
     case REQ_RANGE_WORLD:
+    case REQ_RANGE_LOCAL:
     case REQ_RANGE_COUNT:
       fc_assert_msg(FALSE, "Invalid range %d for citytile.", range);
       break;
@@ -2828,7 +2853,7 @@ static enum fc_tristate is_citytile_in_range(const struct tile *target_tile,
     return TRI_MAYBE;
   case CITYT_CLAIMED:
     switch (range) {
-    case REQ_RANGE_LOCAL:
+    case REQ_RANGE_TILE:
       return BOOL_TO_TRISTATE(target_tile->owner != NULL);
     case REQ_RANGE_CADJACENT:
       if (target_tile->owner != NULL) {
@@ -2859,6 +2884,7 @@ static enum fc_tristate is_citytile_in_range(const struct tile *target_tile,
     case REQ_RANGE_TEAM:
     case REQ_RANGE_ALLIANCE:
     case REQ_RANGE_WORLD:
+    case REQ_RANGE_LOCAL:
     case REQ_RANGE_COUNT:
       fc_assert_msg(FALSE, "Invalid range %d for citytile.", range);
       break;
@@ -2867,7 +2893,7 @@ static enum fc_tristate is_citytile_in_range(const struct tile *target_tile,
     return TRI_MAYBE;
   case CITYT_EXTRAS_OWNED:
     switch (range) {
-    case REQ_RANGE_LOCAL:
+    case REQ_RANGE_TILE:
       return BOOL_TO_TRISTATE(target_tile->extras_owner != NULL);
     case REQ_RANGE_CADJACENT:
       if (target_tile->extras_owner != NULL) {
@@ -2898,6 +2924,7 @@ static enum fc_tristate is_citytile_in_range(const struct tile *target_tile,
     case REQ_RANGE_TEAM:
     case REQ_RANGE_ALLIANCE:
     case REQ_RANGE_WORLD:
+    case REQ_RANGE_LOCAL:
     case REQ_RANGE_COUNT:
       fc_assert_msg(FALSE, "Invalid range %d for citytile.", range);
       break;
@@ -2906,7 +2933,7 @@ static enum fc_tristate is_citytile_in_range(const struct tile *target_tile,
     return TRI_MAYBE;
   case CITYT_WORKED:
     switch (range) {
-    case REQ_RANGE_LOCAL:
+    case REQ_RANGE_TILE:
       return BOOL_TO_TRISTATE(target_tile->worked != NULL);
     case REQ_RANGE_CADJACENT:
       if (target_tile->worked != NULL) {
@@ -2937,6 +2964,7 @@ static enum fc_tristate is_citytile_in_range(const struct tile *target_tile,
     case REQ_RANGE_TEAM:
     case REQ_RANGE_ALLIANCE:
     case REQ_RANGE_WORLD:
+    case REQ_RANGE_LOCAL:
     case REQ_RANGE_COUNT:
       fc_assert_msg(FALSE, "Invalid range %d for citytile.", range);
       break;
@@ -2980,6 +3008,7 @@ static enum fc_tristate is_citystatus_in_range(const struct city *target_city,
         return BOOL_TO_TRISTATE(found);
       }
     case REQ_RANGE_LOCAL:
+    case REQ_RANGE_TILE:
     case REQ_RANGE_CADJACENT:
     case REQ_RANGE_ADJACENT:
     case REQ_RANGE_CONTINENT:
@@ -3013,6 +3042,7 @@ static enum fc_tristate is_citystatus_in_range(const struct city *target_city,
         return BOOL_TO_TRISTATE(found);
       }
     case REQ_RANGE_LOCAL:
+    case REQ_RANGE_TILE:
     case REQ_RANGE_CADJACENT:
     case REQ_RANGE_ADJACENT:
     case REQ_RANGE_CONTINENT:
@@ -3046,6 +3076,7 @@ static enum fc_tristate is_citystatus_in_range(const struct city *target_city,
         return BOOL_TO_TRISTATE(found);
       }
     case REQ_RANGE_LOCAL:
+    case REQ_RANGE_TILE:
     case REQ_RANGE_CADJACENT:
     case REQ_RANGE_ADJACENT:
     case REQ_RANGE_CONTINENT:
@@ -3079,6 +3110,7 @@ static enum fc_tristate is_citystatus_in_range(const struct city *target_city,
         return BOOL_TO_TRISTATE(found);
       }
     case REQ_RANGE_LOCAL:
+    case REQ_RANGE_TILE:
     case REQ_RANGE_CADJACENT:
     case REQ_RANGE_ADJACENT:
     case REQ_RANGE_CONTINENT:

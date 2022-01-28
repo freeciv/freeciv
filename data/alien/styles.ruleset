@@ -77,7 +77,7 @@ citizens_graphic     = "dual"
 citizens_graphic_alt = "modern"
 reqs =
    { "type", "name", "range"
-     "TerrainClass", "Oceanic", "Local"
+     "TerrainClass", "Oceanic", "Tile"
    }
 
 ; /* <-- avoid gettext warnings

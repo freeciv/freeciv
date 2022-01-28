@@ -823,7 +823,7 @@ rmact_gfx      = "unit.pollution"
 rmact_gfx_alt  = "-"
 reqs           =
     { "type", "name", "range", "present"
-      "TerrainFlag", "NoPollution", "Local", FALSE
+      "TerrainFlag", "NoPollution", "Tile", FALSE
     }
 removal_time   = 0
 flags          = "GlobalWarming"
@@ -853,7 +853,7 @@ rmact_gfx      = "None"
 rmact_gfx_alt  = "-"
 reqs           =
     { "type", "name", "range"
-      "TerrainClass", "Land", "Local"
+      "TerrainClass", "Land", "Tile"
     }
 helptext = _("\
 Space Capsules have landed to the surface of Deneb Seven. \
@@ -881,7 +881,7 @@ rmact_gfx_alt  = "-"
 reqs           =
     { "type", "name", "range"
       "Tech", "Protein Modifications", "Player"
-      "Extra", "Irrigation", "Local"
+      "Extra", "Irrigation", "Tile"
     }
 build_time     = 0
 removal_time   = 0
@@ -908,7 +908,7 @@ rmact_gfx      = "unit.fallout"
 rmact_gfx_alt  = "-"
 reqs           =
     { "type", "name", "range", "present"
-      "TerrainFlag", "NoPollution", "Local", FALSE
+      "TerrainFlag", "NoPollution", "Tile", FALSE
     }
 removal_time   = 0
 flags          = "NuclearWinter"
@@ -935,9 +935,9 @@ rmact_gfx_alt  = "-"
 reqs           =
     { "type", "name", "range", "present", "quiet"
       "Tech", "Strong Force", "Player", TRUE, FALSE
-      "TerrainClass", "Land", "Local", TRUE, FALSE
+      "TerrainClass", "Land", "Tile", TRUE, FALSE
       "UnitFlag", "Settlers", "Local", TRUE, FALSE
-      "CityTile", "Center", "Local", FALSE, TRUE
+      "CityTile", "Center", "Tile", FALSE, TRUE
     }
 build_time     = 3
 removal_time   = 0
@@ -962,9 +962,9 @@ rmact_gfx_alt  = "-"
 reqs           =
     { "type", "name", "range", "present", "quiet"
       "Tech", "Force Channeling", "Player", TRUE, FALSE
-      "TerrainClass", "Land", "Local", TRUE, FALSE
+      "TerrainClass", "Land", "Tile", TRUE, FALSE
       "UnitFlag", "Settlers", "Local", TRUE, FALSE
-      "CityTile", "Center", "Local", FALSE, TRUE
+      "CityTile", "Center", "Tile", FALSE, TRUE
     }
 build_time     = 3
 removal_time   = 0
@@ -988,9 +988,9 @@ rmact_gfx_alt  = "-"
 reqs           =
     { "type", "name", "range", "present", "quiet"
       "Tech", "Commercial Antigravity", "Player", TRUE, FALSE
-      "TerrainClass", "Land", "Local", TRUE, FALSE
+      "TerrainClass", "Land", "Tile", TRUE, FALSE
       "UnitFlag", "Settlers", "Local", TRUE, FALSE
-      "CityTile", "Center", "Local", FALSE, TRUE
+      "CityTile", "Center", "Tile", FALSE, TRUE
     }
 build_time     = 3
 removal_time   = 0
@@ -1015,7 +1015,7 @@ rmact_gfx_alt  = "-"
 reqs           =
     { "type", "name", "range"
       "UnitFlag", "Settlers", "Local"
-      "TerrainClass", "Land", "Local"
+      "TerrainClass", "Land", "Tile"
     }
 build_time     = 0
 removal_time   = 0
@@ -1043,9 +1043,9 @@ rmact_gfx_alt  = "-"
 reqs           =
     { "type", "name", "range"
       "Tech", "Brute Force", "Player"
-      "Extra", "Road", "Local"
+      "Extra", "Road", "Tile"
       "UnitFlag", "Settlers", "Local"
-      "TerrainClass", "Land", "Local"
+      "TerrainClass", "Land", "Tile"
     }
 build_time     = 3
 removal_time   = 0
@@ -1071,9 +1071,9 @@ rmact_gfx_alt  = "-"
 reqs           =
     { "type", "name", "range"
       "Tech", "Maglev", "Player"
-      "Extra", "Highway", "Local"
+      "Extra", "Highway", "Tile"
       "UnitFlag", "Settlers", "Local"
-      "TerrainClass", "Land", "Local"
+      "TerrainClass", "Land", "Tile"
     }
 build_time     = 3
 removal_time   = 0
@@ -1103,8 +1103,8 @@ reqs           =
     { "type", "name", "range"
       "Tech", "Strong Resistance", "Player"
       "UnitFlag", "Settlers", "Local"
-      "TerrainFlag", "Radiating", "Local"
-      "TerrainClass", "Land", "Local" ; Needed explicitly for automatic move type assignment
+      "TerrainFlag", "Radiating", "Tile"
+      "TerrainClass", "Land", "Tile" ; Needed explicitly for automatic move type assignment
     }
 build_time     = 3
 removal_time   = 0
@@ -1133,7 +1133,7 @@ reqs           =
     { "type", "name", "range"
       "Tech", "Burrowing", "Player"
       "UnitFlag", "Settlers", "Local"
-      "TerrainClass", "Oceanic", "Local"
+      "TerrainClass", "Oceanic", "Tile"
     }
 build_time     = 3
 removal_time   = 0

@@ -133,7 +133,7 @@ reqs    =
     {
       "type", "name", "range"
       "Tech", "Underground Habitat", "Player"
-      "TerrainClass", "Land", "Local"
+      "TerrainClass", "Land", "Tile"
     }
 graphic         = "b.bunker"
 graphic_alt     = "b.sam_battery"
@@ -156,7 +156,7 @@ genus           = "Improvement"
 reqs    =
     { "type", "name", "range"
       "Tech", "Mining", "Player"
-      "TerrainClass", "Land", "Local"
+      "TerrainClass", "Land", "Tile"
     }
 graphic         = "b.central_mine"
 graphic_alt     = "b.mfg_plant"
@@ -697,7 +697,7 @@ genus		= "GreatWonder"
 reqs	=
     { "type", "name", "range"
       "Tech", "Ocean Cities", "Player"
-      "TerrainClass", "Oceanic", "Local"
+      "TerrainClass", "Oceanic", "Tile"
     }
 graphic         = "b.oceanic_downtown"
 graphic_alt     = "b.asmiths_trading_co"

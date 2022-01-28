@@ -633,7 +633,7 @@ buildable      = TRUE
 reqs           =
     { "type",  "name",          "range"
       "Tech",  "Road Building", "Player"
-      "Extra", "Path",          "Local"
+      "Extra", "Path",          "Tile"
     }
 build_time     = 3
 removal_time   = 0

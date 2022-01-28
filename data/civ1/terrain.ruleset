@@ -969,7 +969,7 @@ rmact_gfx      = "unit.pollution"
 rmact_gfx_alt  = "-"
 reqs           =
     { "type", "name", "range", "present"
-      "Terrain", "Ocean", "Local", FALSE
+      "Terrain", "Ocean", "Tile", FALSE
     }
 removal_time   = 0
 flags          = "GlobalWarming"
@@ -1028,7 +1028,7 @@ rmact_gfx      = "None"
 rmact_gfx_alt  = "-"
 reqs           =
     { "type", "name", "range"
-      "TerrainClass", "Land", "Local"
+      "TerrainClass", "Land", "Tile"
     }
 helptext = _("\
 Villages (also called \"huts\") are primitive communities spread \
@@ -1058,9 +1058,9 @@ rmact_gfx_alt  = "-"
 reqs           =
     { "type", "name", "range", "present", "quiet"
       "Tech", "Construction", "Player", TRUE, FALSE
-      "TerrainClass", "Land", "Local", TRUE, FALSE
+      "TerrainClass", "Land", "Tile", TRUE, FALSE
       "UnitFlag", "Settlers", "Local", TRUE, FALSE
-      "CityTile", "Center", "Local", FALSE, TRUE
+      "CityTile", "Center", "Tile", FALSE, TRUE
     }
 build_time     = 3
 removal_time   = 0
@@ -1091,7 +1091,7 @@ rmact_gfx_alt  = "-"
 reqs           =
     { "type", "name", "range"
       "UnitFlag", "Settlers", "Local"
-      "TerrainClass", "Land", "Local"
+      "TerrainClass", "Land", "Tile"
     }
 build_time     = 0
 removal_time   = 0
@@ -1123,10 +1123,10 @@ rmact_gfx_alt  = "-"
 reqs           =
     { "type", "name", "range", "present"
       "Tech", "Railroad", "Player", TRUE
-      "Extra", "Road", "Local", TRUE
+      "Extra", "Road", "Tile", TRUE
       "UnitFlag", "Settlers", "Local", TRUE
-      "TerrainClass", "Land", "Local", TRUE
-      "CityTile", "Center", "Local", FALSE
+      "TerrainClass", "Land", "Tile", TRUE
+      "CityTile", "Center", "Tile", FALSE
     }
 build_time     = 3
 removal_time   = 0

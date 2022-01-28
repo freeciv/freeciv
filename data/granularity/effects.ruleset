@@ -66,7 +66,7 @@ type    = "Tile_Workable"
 value   = 1
 reqs    =
     { "type", "name", "range"
-      "TerrainClass", "Land", "Local"
+      "TerrainClass", "Land", "Tile"
     }
 
 [effect_tile_ocean_workable]
@@ -120,7 +120,7 @@ type    = "Output_Add_Tile"
 value   = 25
 reqs	=
     { "type",       "name",   "range"
-      "CityTile",   "Center", "Local"
+      "CityTile",   "Center", "Tile"
       "OutputType", "Trade",  "Local"
     }
 
@@ -129,7 +129,7 @@ type    = "Output_Add_Tile"
 value   = 75
 reqs	=
     { "type",       "name",   "range"
-      "CityTile",   "Center", "Local"
+      "CityTile",   "Center", "Tile"
       "MinSize",    "8",      "City"
       "OutputType", "Trade",  "Local"
     }
@@ -171,7 +171,7 @@ type    = "Fortify_Defense_Bonus"
 value   = 50
 reqs    =
     { "type",          "name",         "range", "present"
-      "CityTile",      "Center",       "Local", TRUE
+      "CityTile",      "Center",       "Tile",  TRUE
       "Activity",      "Fortified",    "Local", FALSE
       "UnitClassFlag", "CanFortify",   "Local", TRUE
       "UnitFlag",      "Cant_Fortify", "Local", FALSE
@@ -210,5 +210,5 @@ type    = "Irrigation_Pct"
 value   = 100
 reqs    =
     { "type", "name", "range"
-      "Extra", "Irrigation", "Local"
+      "Extra", "Irrigation", "Tile"
     }

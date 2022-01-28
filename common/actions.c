@@ -388,7 +388,7 @@ static void hard_code_oblig_hard_reqs(void)
                        req_from_values(VUT_DIPLREL, REQ_RANGE_LOCAL,
                                        FALSE, FALSE, TRUE, DRO_FOREIGN),
                        FALSE,
-                       req_from_values(VUT_CITYTILE, REQ_RANGE_LOCAL,
+                       req_from_values(VUT_CITYTILE, REQ_RANGE_TILE,
                                        FALSE, TRUE, TRUE,
                                        CITYT_CLAIMED),
                        TRUE),
@@ -404,7 +404,7 @@ static void hard_code_oblig_hard_reqs(void)
                        req_from_values(VUT_DIPLREL, REQ_RANGE_LOCAL,
                                        FALSE, FALSE, TRUE, DRO_FOREIGN),
                        FALSE,
-                       req_from_values(VUT_CITYTILE, REQ_RANGE_LOCAL,
+                       req_from_values(VUT_CITYTILE, REQ_RANGE_TILE,
                                        FALSE, TRUE, TRUE,
                                        CITYT_EXTRAS_OWNED),
                        TRUE),
@@ -459,7 +459,7 @@ static void hard_code_oblig_hard_reqs(void)
                                        REQ_RANGE_LOCAL,
                                        FALSE, FALSE, TRUE, DS_WAR),
                        TRUE,
-                       req_from_values(VUT_CITYTILE, REQ_RANGE_LOCAL,
+                       req_from_values(VUT_CITYTILE, REQ_RANGE_TILE,
                                        FALSE, TRUE, TRUE,
                                        CITYT_CENTER),
                        TRUE),
@@ -548,7 +548,7 @@ static void hard_code_oblig_hard_reqs(void)
 
   /* Why this is a hard requirement: Preserve semantics of the rule that a
    * *_time of 0 disables the action. */
-  oblig_hard_req_register(req_from_values(VUT_TERRAINALTER, REQ_RANGE_LOCAL,
+  oblig_hard_req_register(req_from_values(VUT_TERRAINALTER, REQ_RANGE_TILE,
                                           FALSE, FALSE, FALSE,
                                           TA_CAN_IRRIGATE),
                           TRUE,
@@ -559,7 +559,7 @@ static void hard_code_oblig_hard_reqs(void)
                              " \"CanIrrigate\")"),
                           ACTRES_IRRIGATE,
                           ACTRES_NONE);
-  oblig_hard_req_register(req_from_values(VUT_TERRAINALTER, REQ_RANGE_LOCAL,
+  oblig_hard_req_register(req_from_values(VUT_TERRAINALTER, REQ_RANGE_TILE,
                                           FALSE, FALSE, FALSE,
                                           TA_CAN_MINE),
                           TRUE,
@@ -573,7 +573,7 @@ static void hard_code_oblig_hard_reqs(void)
 
   /* Why this is a hard requirement: Preserve semantics of the NoCities
    * terrain flag. */
-  oblig_hard_req_register(req_from_values(VUT_TERRFLAG, REQ_RANGE_LOCAL,
+  oblig_hard_req_register(req_from_values(VUT_TERRFLAG, REQ_RANGE_TILE,
                                           FALSE, TRUE, TRUE,
                                           TER_NO_CITIES),
                           TRUE,
@@ -607,7 +607,7 @@ static void hard_code_oblig_hard_reqs(void)
                        req_from_values(VUT_DIPLREL, REQ_RANGE_LOCAL,
                                        FALSE, TRUE, TRUE, DS_PEACE),
                        FALSE,
-                       req_from_values(VUT_CITYTILE, REQ_RANGE_LOCAL,
+                       req_from_values(VUT_CITYTILE, REQ_RANGE_TILE,
                                        FALSE, TRUE, TRUE,
                                        CITYT_CLAIMED),
                        TRUE),
@@ -639,7 +639,7 @@ static void hard_code_oblig_hard_reqs(void)
                        req_from_values(VUT_UTFLAG, REQ_RANGE_LOCAL,
                                        FALSE, TRUE, TRUE, UTYF_CIVILIAN),
                        FALSE,
-                       req_from_values(VUT_CITYTILE, REQ_RANGE_LOCAL,
+                       req_from_values(VUT_CITYTILE, REQ_RANGE_TILE,
                                        FALSE, TRUE, TRUE,
                                        CITYT_CENTER),
                        TRUE),
@@ -668,7 +668,7 @@ static void hard_code_oblig_hard_reqs(void)
                                        FALSE, FALSE, TRUE,
                                        UCF_CAN_OCCUPY_CITY),
                        FALSE,
-                       req_from_values(VUT_CITYTILE, REQ_RANGE_LOCAL,
+                       req_from_values(VUT_CITYTILE, REQ_RANGE_TILE,
                                        FALSE, TRUE, TRUE,
                                        CITYT_CENTER),
                        TRUE),
@@ -695,7 +695,7 @@ static void hard_code_oblig_hard_reqs(void)
                        req_from_values(VUT_DIPLREL, REQ_RANGE_LOCAL,
                                        FALSE, FALSE, TRUE, DS_WAR),
                        FALSE,
-                       req_from_values(VUT_CITYTILE, REQ_RANGE_LOCAL,
+                       req_from_values(VUT_CITYTILE, REQ_RANGE_TILE,
                                        FALSE, TRUE, TRUE,
                                        CITYT_CENTER),
                        TRUE),
@@ -740,7 +740,7 @@ static void hard_code_oblig_hard_reqs(void)
    *    conquer a city belonging to someone he was at war with.
    * Conclusion: the conquered city had to be empty.
    */
-  oblig_hard_req_register(req_from_values(VUT_MAXTILEUNITS, REQ_RANGE_LOCAL,
+  oblig_hard_req_register(req_from_values(VUT_MAXTILEUNITS, REQ_RANGE_TILE,
                                           FALSE, FALSE, TRUE, 0),
                           TRUE,
                           N_("All action enablers for %s must require"
@@ -844,7 +844,7 @@ static void hard_code_oblig_hard_reqs(void)
                           ACTRES_NONE);
 
   /* Why this is a hard requirement: assumed by the Freeciv code. */
-  oblig_hard_req_register(req_from_values(VUT_CITYTILE, REQ_RANGE_LOCAL,
+  oblig_hard_req_register(req_from_values(VUT_CITYTILE, REQ_RANGE_TILE,
                                           FALSE, FALSE, TRUE,
                                           CITYT_CENTER),
                           FALSE,
@@ -905,7 +905,7 @@ static void hard_code_oblig_hard_reqs_ruleset(void)
                                            FALSE, TRUE, TRUE,
                                            nation_number(pnation)),
                            FALSE,
-                           req_from_values(VUT_CITYTILE, REQ_RANGE_LOCAL,
+                           req_from_values(VUT_CITYTILE, REQ_RANGE_TILE,
                                            FALSE, TRUE, TRUE,
                                            CITYT_CENTER),
                            TRUE),
@@ -2776,7 +2776,7 @@ enabler_tile_tgt_local_diplrel_implies_claimed(
   }
 
   /* Tile is unclaimed as a requirement. */
-  tile_is_unclaimed.range = REQ_RANGE_LOCAL;
+  tile_is_unclaimed.range = REQ_RANGE_TILE;
   tile_is_unclaimed.survives = FALSE;
   tile_is_unclaimed.source.kind = VUT_CITYTILE;
   tile_is_unclaimed.present = FALSE;
@@ -2791,7 +2791,7 @@ enabler_tile_tgt_local_diplrel_implies_claimed(
   }
 
   /* Tile is claimed as a requirement. */
-  tile_is_claimed.range = REQ_RANGE_LOCAL;
+  tile_is_claimed.range = REQ_RANGE_TILE;
   tile_is_claimed.survives = FALSE;
   tile_is_claimed.source.kind = VUT_CITYTILE;
   tile_is_claimed.present = TRUE;
@@ -2845,7 +2845,7 @@ enabler_first_self_contradiction(const struct action_enabler *enabler)
   }
 
   /* Tile is claimed as a requirement. */
-  tile_is_claimed.range = REQ_RANGE_LOCAL;
+  tile_is_claimed.range = REQ_RANGE_TILE;
   tile_is_claimed.survives = FALSE;
   tile_is_claimed.source.kind = VUT_CITYTILE;
   tile_is_claimed.present = TRUE;

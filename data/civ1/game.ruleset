@@ -690,9 +690,9 @@ actor_reqs    =
     }
 target_reqs    =
     { "type",   "name", "range", "present"
-      "CityTile", "Center", "Local", FALSE
+      "CityTile", "Center", "Tile", FALSE
       "Gov", "Democracy", "Player", FALSE
-      "MaxUnitsOnTile", "1", "Local", TRUE
+      "MaxUnitsOnTile", "1", "Tile", TRUE
     }
 
 [actionenabler_traderoute]
@@ -746,8 +746,8 @@ actor_reqs    =
     }
 target_reqs    =
     { "type",   "name", "range", "present"
-      "CityTile", "Claimed", "Local", FALSE
-      "TerrainFlag","NoCities","Local",FALSE
+      "CityTile", "Claimed", "Tile", FALSE
+      "TerrainFlag","NoCities","Tile",FALSE
     }
 
 [actionenabler_build_city_domestic]
@@ -761,8 +761,8 @@ actor_reqs    =
     }
 target_reqs    =
     { "type",        "name",     "range", "present"
-      "CityTile",    "Claimed",  "Local", TRUE
-      "TerrainFlag", "NoCities", "Local", FALSE
+      "CityTile",    "Claimed",  "Tile",  TRUE
+      "TerrainFlag", "NoCities", "Tile",  FALSE
     }
 
 [actionenabler_join_city]
@@ -800,7 +800,7 @@ actor_reqs  =
     }
 target_reqs =
     { "type",     "name",   "range", "present"
-      "CityTile", "Center", "Local", FALSE
+      "CityTile", "Center", "Tile",  FALSE
     }
 
 [actionenabler_attack_from_native]
@@ -847,7 +847,7 @@ actor_reqs    =
     }
 target_reqs    =
     { "type",           "name",          "range", "present"
-      "MaxUnitsOnTile", "0",             "Local", TRUE
+      "MaxUnitsOnTile", "0",             "Tile",  TRUE
     }
 
 [actionenabler_change_home_city]
@@ -872,8 +872,8 @@ actor_reqs    =
       "UnitFlag",      "Settlers",     "Local", TRUE
     }
 target_reqs   =
-    { "type",          "name",         "range", "present"
-      "Extra",         "River",        "Local", FALSE
+    { "type",          "name",         "range",  "present"
+      "Extra",         "River",        "Tile", FALSE
     }
 
 [actionenabler_pillage]
@@ -896,7 +896,7 @@ actor_reqs    =
     { "type",          "name",         "range", "present"
       "UnitClassFlag", "CanFortify",   "Local", TRUE
       "UnitFlag",      "Cant_Fortify", "Local", FALSE
-      "TerrainFlag",   "NoFortify",    "Local", FALSE
+      "TerrainFlag",   "NoFortify",    "Tile",  FALSE
       "Activity",      "Fortified",    "Local", FALSE
     }
 
@@ -906,7 +906,7 @@ actor_reqs    =
     { "type",          "name",         "range", "present"
       "UnitClassFlag", "CanFortify",   "Local", TRUE
       "UnitFlag",      "Cant_Fortify", "Local", FALSE
-      "CityTile",      "Center",       "Local", TRUE
+      "CityTile",      "Center",       "Tile",  TRUE
       "Activity",      "Fortified",    "Local", FALSE
     }
 
@@ -932,7 +932,7 @@ actor_reqs    =
     }
 target_reqs    =
     { "type",         "name",    "range"
-      "TerrainAlter", "CanMine", "Local"
+      "TerrainAlter", "CanMine", "Tile"
     }
 
 [actionenabler_irrigate_src_ocean]
@@ -944,7 +944,7 @@ actor_reqs    =
 target_reqs    =
     { "type",         "name",        "range"
       "TerrainClass", "Oceanic",     "CAdjacent"
-      "TerrainAlter", "CanIrrigate", "Local"
+      "TerrainAlter", "CanIrrigate", "Tile"
     }
 
 [actionenabler_irrigate_src_river]
@@ -956,7 +956,7 @@ actor_reqs    =
 target_reqs    =
     { "type",         "name",        "range"
       "Extra",        "River",       "CAdjacent"
-      "TerrainAlter", "CanIrrigate", "Local"
+      "TerrainAlter", "CanIrrigate", "Tile"
     }
 
 [actionenabler_irrigate_src_irrigation]
@@ -968,7 +968,7 @@ actor_reqs    =
 target_reqs    =
     { "type",         "name",        "range"
       "Extra",        "Irrigation",  "CAdjacent"
-      "TerrainAlter", "CanIrrigate", "Local"
+      "TerrainAlter", "CanIrrigate", "Tile"
     }
 
 [actionenabler_alight]
@@ -1013,7 +1013,7 @@ actor_reqs    =
       "UnitState",    "Transported", "Local", TRUE
       "MinMoveFrags", "1",           "Local", TRUE
       ; use "Transport Alight" from inside the city
-      "CityTile",     "Center",      "Local", FALSE
+      "CityTile",     "Center",      "Tile",  FALSE
     }
 
 [actionenabler_embark]
@@ -1030,7 +1030,7 @@ actor_reqs    =
 target_reqs    =
     { "type",     "name",   "range", "present"
       ; use "Transport Board" from inside the city
-      "CityTile", "Center", "Local", FALSE
+      "CityTile", "Center", "Tile",  FALSE
     }
 
 [actionenabler_regular_move]

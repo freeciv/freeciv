@@ -1637,7 +1637,8 @@ static void adjust_improvement_wants_by_effects(struct ai_type *ait,
   cities[REQ_RANGE_CITY] = cities[REQ_RANGE_LOCAL] = 1;
 
   /* Invalid building range */
-  cities[REQ_RANGE_ADJACENT] = cities[REQ_RANGE_CADJACENT] = 0;
+  cities[REQ_RANGE_ADJACENT] = cities[REQ_RANGE_CADJACENT]
+    = cities[REQ_RANGE_TILE] = 0;
 
   players_iterate(aplayer) {
     int potential = (aplayer->server.bulbs_last_turn

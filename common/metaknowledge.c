@@ -182,6 +182,7 @@ static bool is_req_knowable(const struct player *pow_player,
       }
 
       return target_unit && can_player_see_unit(pow_player, target_unit);
+    case REQ_RANGE_TILE:
     case REQ_RANGE_CADJACENT:
     case REQ_RANGE_ADJACENT:
     case REQ_RANGE_CONTINENT:
@@ -238,6 +239,7 @@ static bool is_req_knowable(const struct player *pow_player,
     case REQ_RANGE_LOCAL:
       /* The owner can see if his unit has move fragments left. */
       return unit_owner(target_unit) == pow_player;
+    case REQ_RANGE_TILE:
     case REQ_RANGE_CADJACENT:
     case REQ_RANGE_ADJACENT:
     case REQ_RANGE_CITY:
@@ -323,6 +325,7 @@ static bool is_req_knowable(const struct player *pow_player,
     case REQ_RANGE_WORLD:
       /* TODO */
       break;
+    case REQ_RANGE_TILE:
     case REQ_RANGE_CADJACENT:
     case REQ_RANGE_ADJACENT:
     case REQ_RANGE_CITY:
@@ -357,7 +360,7 @@ static bool is_req_knowable(const struct player *pow_player,
     }
 
     switch (req->range) {
-    case REQ_RANGE_LOCAL:
+    case REQ_RANGE_TILE:
       /* Known because the tile is seen */
       if (tile_is_seen(target_tile, pow_player)) {
         return TRUE;
@@ -405,6 +408,7 @@ static bool is_req_knowable(const struct player *pow_player,
     case REQ_RANGE_TEAM:
     case REQ_RANGE_ALLIANCE:
     case REQ_RANGE_WORLD:
+    case REQ_RANGE_LOCAL:
     case REQ_RANGE_COUNT:
       /* Invalid range */
       return FALSE;
@@ -465,6 +469,7 @@ static bool is_req_knowable(const struct player *pow_player,
 
       /* No way to know if a city has an improvement */
       return FALSE;
+    case REQ_RANGE_TILE:
     case REQ_RANGE_CADJACENT:
     case REQ_RANGE_ADJACENT:
     case REQ_RANGE_COUNT:
@@ -524,7 +529,7 @@ static bool is_req_knowable(const struct player *pow_player,
     }
 
     switch (req->range) {
-    case REQ_RANGE_LOCAL:
+    case REQ_RANGE_TILE:
       return can_player_see_hypotetic_units_at(pow_player, target_tile);
     case REQ_RANGE_CADJACENT:
       if (!can_player_see_hypotetic_units_at(pow_player, target_tile)) {
@@ -555,6 +560,7 @@ static bool is_req_knowable(const struct player *pow_player,
     case REQ_RANGE_TEAM:
     case REQ_RANGE_ALLIANCE:
     case REQ_RANGE_WORLD:
+    case REQ_RANGE_LOCAL:
     case REQ_RANGE_COUNT:
       /* Non existing. */
       return FALSE;
@@ -575,7 +581,7 @@ static bool is_req_knowable(const struct player *pow_player,
     }
 
     switch (req->range) {
-    case REQ_RANGE_LOCAL:
+    case REQ_RANGE_TILE:
       return tile_is_seen(target_tile, pow_player);
     case REQ_RANGE_CADJACENT:
       /* TODO: The answer is known when the universal is located on a seen
@@ -602,6 +608,7 @@ static bool is_req_knowable(const struct player *pow_player,
     case REQ_RANGE_ALLIANCE:
     case REQ_RANGE_TEAM:
     case REQ_RANGE_WORLD:
+    case REQ_RANGE_LOCAL:
     case REQ_RANGE_COUNT:
       /* Non existing range for requirement types. */
       return FALSE;
