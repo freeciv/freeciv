@@ -103,6 +103,9 @@ static struct fc_lua *fcl = NULL;
             Bool observer):
     - returns Bool, whether requester is allowed to attach taker to pplayer.
 
+  conn_established(Connection pconn)
+    - called when connection has been fully established
+
   If an error occurred, the functions return a non-NULL string error
   message as the last return value.
 **************************************************************************/
@@ -125,6 +128,7 @@ static void script_fcdb_functions_define(void)
   luascript_func_add(fcl, "user_take", FALSE, 4, 1, API_TYPE_CONNECTION,
                      API_TYPE_CONNECTION, API_TYPE_PLAYER, API_TYPE_BOOL,
                      API_TYPE_BOOL);
+  luascript_func_add(fcl, "conn_established", FALSE, 1, 0, API_TYPE_CONNECTION);
 }
 
 /**********************************************************************//**
