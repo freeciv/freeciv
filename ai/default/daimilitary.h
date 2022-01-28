@@ -26,7 +26,7 @@
 #endif /* FREECIV_WEB */
 
 /* When an enemy has this or lower number of cities left, try harder
-   to finish him off. */
+   to finish them off. */
 #define FINISH_HIM_CITY_COUNT              5
 
 typedef struct unit_list *(player_unit_list_getter)(struct player *pplayer);

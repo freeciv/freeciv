@@ -154,9 +154,9 @@ static enum diplstate_type dst_closest(enum diplstate_type a,
 }
 
 /**********************************************************************//**
-  pplayer clicked the accept button. If he accepted the treaty we check the
-  clauses. If both players have now accepted the treaty we execute the agreed
-  clauses.
+  pplayer clicked the accept button. If they accepted the treaty we check
+  the clauses. If both players have now accepted the treaty we execute the
+  agreed clauses.
 **************************************************************************/
 void handle_diplomacy_accept_treaty_req(struct player *pplayer,
 					int counterpart)
@@ -187,7 +187,7 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
 
   if (!*player_accept) {	/* Tries to accept. */
 
-    /* Check that player who accepts can keep what (s)he promises. */
+    /* Check that player who accepts can keep what they promise. */
 
     clause_list_iterate(ptreaty->clauses, pclause) {
       struct city *pcity = NULL;
@@ -342,7 +342,7 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
                   nclauses);
 
     /* Check that one who accepted treaty earlier still have everything
-       (s)he promised to give. */
+       they promised to give. */
 
     clause_list_iterate(ptreaty->clauses, pclause) {
       struct city *pcity;

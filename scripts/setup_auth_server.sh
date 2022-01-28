@@ -516,7 +516,7 @@ if test "x$MYSQL_PASSWORD" != "x" &&
 then
   # User has given password for this script, should it also
   # go to config script? If user has not given password even
-  # to this script, (s)he definitely does not want it saved.
+  # to this script, they definitely do not want it saved.
   echo "Freeciv server needs MySQL password from config file"
   echo "in order to access database."
   echo "It has to be added to config file before authentication"

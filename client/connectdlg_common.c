@@ -592,10 +592,10 @@ bool client_start_server(void)
 
   /* We set the topology to match the view.
    *
-   * When a typical player launches a game, he wants the map orientation to
-   * match the tileset orientation.  So if you use an isometric tileset you
-   * get an iso-map and for a classic tileset you get a classic map.  In
-   * both cases the map wraps in the X direction by default.
+   * When a typical player launches a game, they want the map orientation
+   * to match the tileset orientation.  So if you use an isometric tileset,
+   * you get an iso-map and for a classic tileset you get a classic map.
+   * In both cases the map wraps in the X direction by default.
    *
    * This works with hex maps too now.  A hex map always has
    * tileset_is_isometric(tileset) return TRUE.  An iso-hex map has

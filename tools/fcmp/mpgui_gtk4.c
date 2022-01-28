@@ -124,7 +124,7 @@ static gboolean quit_dialog_callback(void)
     gtk_window_present(GTK_WINDOW(quit_dialog));
 
   } else {
-    /* User loses no work by quitting, so let's not annoy him/her
+    /* User loses no work by quitting, so let's not annoy them
      * with confirmation dialog. */
     modinst_quit();
   }

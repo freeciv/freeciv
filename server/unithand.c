@@ -383,7 +383,7 @@ static bool do_capture_units(struct player *pplayer,
 }
 
 /**********************************************************************//**
-  Expel the target unit to his owner's capital.
+  Expel the target unit to its owner's capital.
 
   Returns TRUE iff action could be done, FALSE if it couldn't. Even if
   this returns TRUE, unit may have died during the action.
@@ -418,7 +418,7 @@ static bool do_expel_unit(struct player *pplayer,
 
   target_tile = unit_tile(target);
 
-  /* Expel the target unit to his owner's primary capital. */
+  /* Expel the target unit to its owner's primary capital. */
   /* TODO: Could be also nearest secondary capital */
   pcity = player_primary_capital(uplayer);
 
@@ -775,10 +775,10 @@ static bool do_unit_make_homeless(struct unit *punit,
 }
 
 /**********************************************************************//**
-  Returns TRUE iff the player is able to change his diplomatic
+  Returns TRUE iff the player is able to change their diplomatic
   relationship to the other player to war.
 
-  Note that the player can't declare war on someone he already is at war
+  Note that the player can't declare war on someone they already are at war
   with.
 **************************************************************************/
 static bool rel_may_become_war(const struct player *pplayer,
@@ -791,9 +791,10 @@ static bool rel_may_become_war(const struct player *pplayer,
 
   ds = player_diplstate_get(pplayer, oplayer)->type;
 
-  /* The player can't declare war on someone he already is at war with. */
+  /* The player can't declare war on
+   * someone they already are at war with. */
   return ds != DS_WAR
-      /* The player can't declare war on a teammate or on himself. */
+      /* The player can't declare war on a teammate or on themself. */
       && ds != DS_TEAM && pplayer != oplayer;
 }
 
@@ -2070,7 +2071,7 @@ void handle_unit_get_actions(struct connection *pc,
                    && action_id_distance_accepted(act,
                                                   actor_target_distance)) {
           /* The target city is non existing. The player isn't aware of this
-           * fact because he can't see the tile it was located on. The
+           * fact because they can't see the tile it was located on. The
            * actor unit it self doesn't contradict the requirements to
            * perform the action. The (no longer existing) target city was
            * known to be close enough. */
@@ -2748,7 +2749,7 @@ static bool illegal_action_pay_price(struct player *pplayer,
     if (act_unit->hp > 0) {
       /* The actor unit survived */
 
-      /* The player probably wants to be disturbed if his unit was punished
+      /* The player probably wants to be disturbed if their unit was punished
        * with the loss of hit points. */
       notify_player(pplayer, unit_tile(act_unit),
                     E_UNIT_ILLEGAL_ACTION, ftc_server,
@@ -2761,7 +2762,7 @@ static bool illegal_action_pay_price(struct player *pplayer,
     } else {
       /* The unit didn't survive */
 
-      /* The player probably wants to be disturbed if his unit was punished
+      /* The player probably wants to be disturbed if their unit was punished
        * with death. */
       notify_player(pplayer, unit_tile(act_unit),
                     E_UNIT_ILLEGAL_ACTION, ftc_server,
@@ -2799,7 +2800,7 @@ static bool illegal_action_pay_price(struct player *pplayer,
   send_unit_info(NULL, act_unit);
 
   if (punishment_mp != 0) {
-    /* The player probably wants to be disturbed if his unit was punished
+    /* The player probably wants to be disturbed if their unit was punished
      * with the loss of movement points. */
     notify_player(pplayer, unit_tile(act_unit),
                   E_UNIT_ILLEGAL_ACTION, ftc_server,
@@ -3836,7 +3837,7 @@ static bool do_unit_change_homecity(struct unit *punit,
   unit_change_homecity_handling(punit, pcity, TRUE);
 
   if (punit->homecity == pcity->id && giver) {
-    /* Notify the city owner about the gift he received. */
+    /* Notify the city owner about the gift they received. */
     notify_player(city_owner(pcity), city_tile(pcity), E_UNIT_BUILT,
                   ftc_server,
                   /* TRANS: other player ... unit type ... city name. */
@@ -3888,7 +3889,7 @@ static bool city_add_unit(struct player *pplayer, struct unit *punit,
     /* Notify the city owner when a foreign unit joins a city. */
     notify_player(city_owner(pcity), city_tile(pcity), E_CITY_BUILD,
                   ftc_server,
-                  /* TRANS: another player had his unit joint your city. */
+                  /* TRANS: another player had their unit join your city. */
                   _("%s adds %s to your city %s."),
                   player_name(unit_owner(punit)),
                   unit_tile_link(punit),
@@ -5289,7 +5290,7 @@ static bool unit_do_help_build(struct player *pplayer,
 
   if (action_has_result(paction, ACTRES_HELP_WONDER)) {
     /* Let the player that just donated shields with "Help Wonder" know
-     * the result of his donation. */
+     * the result of their donation. */
     prod = city_production_name_translation(pcity_dest);
   } else {
     fc_assert(action_has_result(paction, ACTRES_RECYCLE_UNIT));
@@ -5328,7 +5329,7 @@ static bool unit_do_help_build(struct player *pplayer,
                              city_tile(pcity_dest), city_link(pcity_dest));
 
   if (cowner != unit_owner(punit)) {
-    /* Tell the city owner about the gift he just received. */
+    /* Tell the city owner about the gift they just received. */
 
     notify_player(cowner, city_tile(pcity_dest),
                   E_CARAVAN_ACTION, ftc_server,

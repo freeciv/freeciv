@@ -777,7 +777,7 @@ void unit_focus_update(void)
   if (!can_ask_server_for_actions()) {
     fc_assert(get_num_units_in_focus() > 0);
 
-    /* An actor unit is asking the player what to do. Don't steal his
+    /* An actor unit is asking the player what to do. Don't change the
      * focus. */
     return;
   }
@@ -2827,7 +2827,7 @@ void do_map_click(struct tile *ptile, enum quickselect_type qtype)
   } else if (unit_list_size(ptile->units) > 0) {
     /* The stack list is always popped up, even if it includes enemy units.
      * If the server doesn't want the player to know about them it shouldn't
-     * tell him!  The previous behavior would only pop up the stack if you
+     * tell them!  The previous behavior would only pop up the stack if you
      * owned a unit on the tile.  This gave cheating clients an advantage,
      * and also showed you allied units if (and only if) you had a unit on
      * the tile (inconsistent). */

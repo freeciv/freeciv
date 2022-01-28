@@ -363,7 +363,7 @@ bool adv_data_phase_init(struct player *pplayer, bool is_new_phase)
         adv->threats.suicide_attack = TRUE;
       }
 
-      /* If he builds nukes, worry a lot. */
+      /* If they build nukes, worry a lot. */
       action_list_iterate(nuke_actions, act_id) {
         if (unit_can_do_action(punit, act_id)) {
           danger_of_nukes = TRUE;
@@ -1077,9 +1077,9 @@ bool adv_wants_science(struct player *pplayer)
 }
 
 /**********************************************************************//**
-  There are some signs that a player might be dangerous: We are at
-  war with him, he has done lots of ignoble things to us, he is an
-  ally of one of our enemies (a ticking bomb to be sure), we don't like him,
+  There are some signs that a player might be dangerous: We are at war
+  with them, they have done lots of ignoble things to us, they are an ally
+  of one of our enemies (a ticking bomb to be sure), we don't like them,
   diplomatic state is neutral or we have cease fire.
 **************************************************************************/
 bool adv_is_player_dangerous(struct player *pplayer,

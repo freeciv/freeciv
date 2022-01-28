@@ -355,9 +355,9 @@ Only "Pillage" is currently supported.
 
 Action_Odds_Pct
     Modifies the odds of an action being successful. Some actions have a
-risk: the actor may get caught before he can perform it. This effect
-modifies the actor's odds. A positive value helps him. A negative value
-makes it more probable that he will get caught. Currently supports the
+risk: the actor may get caught before they can perform it. This effect
+modifies the actor's odds. A positive value helps them. A negative value
+makes it more probable that they will get caught. Currently supports the
 actions "Incite City", "Incite City Escape", "Steal Gold",
 "Steal Gold Escape", "Steal Maps", "Steal Maps Escape", "Suitcase Nuke",
 "Suitcase Nuke Escape", "Sabotage City", "Sabotage City Escape",

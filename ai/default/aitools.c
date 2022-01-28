@@ -153,12 +153,12 @@ int military_amortize(struct player *pplayer, struct city *pcity,
 
 /**********************************************************************//**
   There are some signs that a player might be dangerous: We are at
-  war with him, he has done lots of ignoble things to us, he is an
-  ally of one of our enemies (a ticking bomb to be sure), he is
-  our war target, we don't like him, diplomatic state is neutral
+  war with them, they have done lots of ignoble things to us, they are
+  an ally of one of our enemies (a ticking bomb to be sure), they are
+  our war target, we don't like them, diplomatic state is neutral
   or we have case fire.
   This function is used for example to check if pplayer can leave
-  his city undefended when aplayer's units are near it.
+  their city undefended when aplayer's units are near it.
 **************************************************************************/
 void dai_consider_plr_dangerous(struct ai_type *ait, struct player *plr1,
                                 struct player *plr2,

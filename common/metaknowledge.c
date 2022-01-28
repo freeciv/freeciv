@@ -236,7 +236,7 @@ static bool is_req_knowable(const struct player *pow_player,
 
     switch (req->range) {
     case REQ_RANGE_LOCAL:
-      /* The owner can see if his unit has move fragments left. */
+      /* The owner can see if their unit has move fragments left. */
       return unit_owner(target_unit) == pow_player;
     case REQ_RANGE_CADJACENT:
     case REQ_RANGE_ADJACENT:
@@ -363,7 +363,7 @@ static bool is_req_knowable(const struct player *pow_player,
         return TRUE;
       }
 
-      /* The player knows his city even if he can't see it */
+      /* The player knows their city even if they can't see it */
       pcity = tile_city(target_tile);
       return pcity && city_owner(pcity) == pow_player;
     case REQ_RANGE_CADJACENT:
@@ -372,7 +372,7 @@ static bool is_req_knowable(const struct player *pow_player,
         return TRUE;
       }
 
-      /* The player knows his city even if he can't see it */
+      /* The player knows their city even if they can't see it */
       cardinal_adjc_iterate(&(wld.map), target_tile, ptile) {
         pcity = tile_city(ptile);
         if (pcity && city_owner(pcity) == pow_player) {
@@ -388,7 +388,7 @@ static bool is_req_knowable(const struct player *pow_player,
         return TRUE;
       }
 
-      /* The player knows his city even if he can't see it */
+      /* The player knows their city even if they can't see it */
       adjc_iterate(&(wld.map), target_tile, ptile) {
         pcity = tile_city(ptile);
         if (pcity && city_owner(pcity) == pow_player) {

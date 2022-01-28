@@ -123,8 +123,8 @@ static void action_give_casus_belli(struct player *offender,
     } players_iterate_end;
   } else if (victim_player && offender != victim_player) {
     /* If an unclaimed tile is nuked there is no victim to give casus
-     * belli. If an actor nukes his own tile he is more than willing to
-     * forgive him self. */
+     * belli. If an actor nukes their own tile, they are more than willing
+     * to forgive themself. */
 
     /* Give the victim player a casus belli. */
     player_diplstate_get(victim_player, offender)->has_reason_to_cancel =
@@ -208,7 +208,7 @@ static void notify_actor_caught(struct player *receiver,
                                 const char *victim_link)
 {
   if (!victim_player || offender == victim_player) {
-    /* There is no victim or the actor did this to him self. */
+    /* There is no victim or the actor did this to themself. */
     return;
   }
 
@@ -265,7 +265,7 @@ static void notify_victim_caught(struct player *receiver,
                                  const char *victim_link)
 {
   if (!victim_player || offender == victim_player) {
-    /* There is no victim or the actor did this to him self. */
+    /* There is no victim or the actor did this to themself. */
     return;
   }
 
@@ -392,7 +392,7 @@ static void notify_actor_success(struct player *receiver,
                                  const char *victim_link)
 {
   if (!victim_player || offender == victim_player) {
-    /* There is no victim or the actor did this to him self. */
+    /* There is no victim or the actor did this to themself. */
     return;
   }
 
@@ -446,7 +446,7 @@ static void notify_victim_success(struct player *receiver,
                                   const char *victim_link)
 {
   if (!victim_player || offender == victim_player) {
-    /* There is no victim or the actor did this to him self. */
+    /* There is no victim or the actor did this to themself. */
     return;
   }
 

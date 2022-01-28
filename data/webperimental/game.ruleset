@@ -1241,9 +1241,10 @@ target_reqs    =
 ; city. (See the "orders by phone" Milgram experiment variation)
 ;
 ; The domestic city requirement forces the player to invade a city before
-; he can destroy it. If this limit is weakened by allowing the destruction
-; of undefended (MaxUnitsOnTile) foreign cities during war it will lead to
-; situations where a player can destroy a city but is unable to occupy it.
+; they can destroy it. If this limit is weakened by allowing the
+; destruction of undefended (MaxUnitsOnTile) foreign cities during war it
+; will lead to situations where a player can destroy a city but is unable
+; to occupy it.
 ; Rationalization: the resistance must be crushed before the destruction.
 ;
 ; TODO: create an international incident (set the Casus_Belli_Success

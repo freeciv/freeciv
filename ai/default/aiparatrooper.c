@@ -303,7 +303,7 @@ void dai_manage_paratrooper(struct ai_type *ait, struct player *pplayer,
 
 /*************************************************************************//**
   Evaluate value of the unit.
-  Idea: one paratrooper can scare/protect all cities in his range
+  Idea: one paratrooper can scare/protect all cities in their range
 *****************************************************************************/
 static int calculate_want_for_paratrooper(struct unit *punit,
                                           struct tile *ptile_city)

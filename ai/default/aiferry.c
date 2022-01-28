@@ -1194,7 +1194,7 @@ void dai_manage_ferryboat(struct ai_type *ait, struct player *pplayer,
                    && get_transporter_occupancy(punit) != 0) {
           /* The boss isn't on the ferry, has not passed control away,
            * and we have other passengers?
-           * Forget about him. */
+           * Forget about the boss. */
           unit_data->passenger = FERRY_ABANDON_BOSS;
         }
       }

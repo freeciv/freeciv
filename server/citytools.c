@@ -1043,7 +1043,7 @@ static void build_free_small_wonders(struct player *pplayer,
 		    improvement_name_translation(pimprove),
 		    city_link(pnew_city));
       /* 
-       * The enemy want to see the new capital in his intelligence
+       * The enemies want to see the new capital in their intelligence
        * report. 
        */
       send_city_info(NULL, pnew_city);
@@ -1290,7 +1290,7 @@ bool transfer_city(struct player *ptaker, struct city *pcity,
       update_tile_knowledge(pcenter);
     }
 
-    /* Build a new palace for free if the player lost her capital and
+    /* Build a new palace for free if the player lost their capital and
        savepalace is on. */
     build_free_small_wonders(pgiver, &had_small_wonders);
 
@@ -1314,9 +1314,9 @@ bool transfer_city(struct player *ptaker, struct city *pcity,
 
   if (city_remains) {
     /* Send city with updated owner information to giver and to everyone
-     * having shared vision pact with him/her before (s)he may
+     * having shared vision pact with them before they may
      * lose vision to it. When we later send info to everybody seeing the city,
-     * (s)he may not be included. */
+     * they may not be included. */
     send_city_info(NULL, pcity);
   }
 
@@ -1851,7 +1851,7 @@ void remove_city(struct city *pcity)
   /* Infrastructures may have changed. */
   send_tile_info(NULL, pcenter, FALSE);
 
-  /* Build a new palace for free if the player lost her capital and
+  /* Build a new palace for free if the player lost their capital and
      savepalace is on. */
   build_free_small_wonders(powner, &had_small_wonders);
 
@@ -2221,7 +2221,7 @@ void send_all_known_cities(struct conn_list *dest)
 }
 
 /************************************************************************//**
-  Send information about all his/her cities to player
+  Send information about all their cities to player
 ****************************************************************************/
 void send_player_cities(struct player *pplayer)
 {

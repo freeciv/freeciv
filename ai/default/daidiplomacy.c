@@ -262,7 +262,7 @@ static int compute_tech_sell_price(struct ai_type *ait,
 
     if (pplayers_allied(taker, eplayer)
         && !pplayers_allied(giver, eplayer)) {
-      /* Taker can enrichen his side with this tech */
+      /* Taker can enrich their side with this tech */
       worth += dai_goldequiv_tech(ait, eplayer, tech_id) / 4;
     }
   } players_iterate_alive_end;
@@ -380,7 +380,7 @@ static int dai_goldequiv_clause(struct ai_type *ait,
       break;
     }
 
-    /* He was allied with an enemy at the begining of the turn. */
+    /* They were allied with an enemy at the begining of the turn. */
     if (adip->is_allied_with_enemy
         && pclause->type != CLAUSE_CEASEFIRE) {
       dai_diplo_notify(aplayer, _("*%s (AI)* I would like to see you keep your "
@@ -476,10 +476,10 @@ static int dai_goldequiv_clause(struct ai_type *ait,
       worth = 0;
     } else {
       /* Very silly algorithm 1: Sea map more worth if enemy has more
-         cities. Reasoning is he has more use of seamap for settling
-         new areas the more cities he has already. */
+         cities. Reasoning is they have more use of seamap for settling
+         new areas the more cities they have already. */
       worth -= 15 * city_list_size(aplayer->cities);
-      /* Don't like him? Don't give him! */
+      /* Don't like them? Don't give it to them! */
       worth = MIN(pplayer->ai_common.love[player_index(aplayer)] * 7, worth);
       /* Make maps from novice player cheap */
       if (has_handicap(pplayer, H_DIPLOMACY)) {
@@ -502,7 +502,7 @@ static int dai_goldequiv_clause(struct ai_type *ait,
       if (!pplayers_in_peace(pplayer, aplayer)) {
         worth *= 2;
       }
-      /* Don't like him? Don't give him! */
+      /* Don't like them? Don't give it to them! */
       worth = MIN(pplayer->ai_common.love[player_index(aplayer)] * 10, worth);
       /* Make maps from novice player cheap */
       if (has_handicap(pplayer, H_DIPLOMACY)) {
@@ -759,7 +759,7 @@ void dai_treaty_accepted(struct ai_type *ait, struct player *pplayer,
   } clause_list_iterate_end;
 
   /* Rather arbitrary algorithm to increase our love for a player if
-   * he or she offers us gifts. It is only a gift if _all_ the clauses
+   * they offer us gifts. It is only a gift if _all_ the clauses
    * are beneficial to us. */
   if (total_balance > 0 && gift) {
     int i = total_balance / ((city_list_size(pplayer->cities) * 10) + 1);
@@ -1049,7 +1049,7 @@ void dai_diplomacy_begin_new_phase(struct ai_type *ait, struct player *pplayer)
       if (pplayers_allied(pplayer, aplayer)) {
         amount += ai->diplomacy.love_incr / 3;
       }
-      /* Increase love by each enemy he is at war with */
+      /* Increase love by each enemy they are at war with */
       players_iterate(eplayer) {
         if (WAR(eplayer, aplayer) && WAR(pplayer, eplayer)) {
           amount += ai->diplomacy.love_incr / 4;
@@ -1095,7 +1095,7 @@ void dai_diplomacy_begin_new_phase(struct ai_type *ait, struct player *pplayer)
     }
 
     /* Increase the love if aplayer has got a building that makes 
-     * us love him more. Typically it's Eiffel Tower */
+     * us love them more. Typically it's Eiffel Tower */
     if (!NEVER_MET(pplayer, aplayer)) {
       pplayer->ai_common.love[player_index(aplayer)] +=
         get_player_bonus(aplayer, EFT_GAIN_AI_LOVE) * MAX_AI_LOVE / 1000;
@@ -1337,7 +1337,7 @@ static void dai_go_to_war(struct ai_type *ait, struct player *pplayer,
     } else {
       /* Ooops! */
       DIPLO_LOG(ait, LOG_DIPL, pplayer, target, "Wanted to declare war "
-                "for his war against an ally, but can no longer find "
+                "for their war against an ally, but can no longer find "
                 "this ally!  War declaration aborted.");
       adip->countdown = -1;
       return;
@@ -1431,11 +1431,11 @@ static void war_countdown(struct ai_type *ait, struct player *pplayer,
     case DAI_WR_BEHAVIOUR:
     case DAI_WR_EXCUSE:
       dai_diplo_notify(ally,
-                       PL_("*%s (AI)* %s has grossly violated his treaties "
+                       PL_("*%s (AI)* %s has grossly violated their treaties "
                            "with us for own gain.  We will answer in force in "
                            "%d turn and expect you to honor your alliance "
                            "with us and do likewise!",
-                           "*%s (AI)* %s has grossly violated his treaties "
+                           "*%s (AI)* %s has grossly violated their treaties "
                            "with us for own gain.  We will answer in force in "
                            "%d turns and expect you to honor your alliance "
                            "with us and do likewise!", countdown),
@@ -2080,8 +2080,8 @@ static void dai_incident_nuclear_self(struct player *receiver,
   Called when someone caused an incident to make the receiver lose AI love.
   Make the victim angry at the violator. Twice as angry if this was bad
   enough to cause International Outrage.
-  Make the rest of the world a bit angry if the violator did this to him
-  self. Twice as angry if the violator did it to someone else.
+  Make the rest of the world a bit angry if the violator did this to
+  themself. Twice as angry if the violator did it to someone else.
   @param receiver the player that receives information about the incident
   @param violator the player that caused the incident
   @param victim the victim of the incident
@@ -2111,7 +2111,7 @@ static void dai_incident_simple(struct player *receiver,
 
 /******************************************************************//**
   War declared against a player.  We apply a penalty because this
-  means he is seen as untrustworthy, especially if past relations
+  means they are seen as untrustworthy, especially if past relations
   with the victim have been cordial (betrayal).
 
   Reasons for war and other mitigating circumstances are checked

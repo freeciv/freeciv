@@ -272,7 +272,7 @@ struct ai_type
     void (*first_contact)(struct player *pplayer, struct player *aplayer);
 
     /* Called for player AI type of the victim when someone does some violation
-     * against him/her. */
+     * against them. */
     void (*incident)(enum incident_type type, enum casus_belli_range scope,
                      const struct action *paction,
                      struct player *receiver,

@@ -885,7 +885,7 @@ struct unit *get_diplomatic_defender(const struct unit *act_unit,
       /* The victim unit is defenseless unless it's a SuperSpy.
        * Rationalization: A regular diplomat don't mind being bribed. A
        * SuperSpy is high enough up the chain that accepting a bribe is
-       * against his own interests. */
+       * against their own interests. */
       continue;
     }
 

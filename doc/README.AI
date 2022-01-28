@@ -260,10 +260,10 @@ For people who want to hack at this part of the AI code, please note
  * pplayers_non_attack(p1,p2) returns FALSE if p1==p2
  * pplayers_allied(p1,p2) returns TRUE if p1==p2 
  * pplayer_has_embassy(p1,p2) returns TRUE if p1==p2
-i.e. we do not ever consider a player to be at war with himself, we
+i.e. we do not ever consider a player to be at war with themmself, we
 never consider a player to have any kind of non-attack treaty with
-himself, and we always consider a player to have an alliance with
-himself. 
+themself, and we always consider a player to have an alliance with
+themself.
 
 The introduction of diplomacy is fraught with many problems.  One is
 that it usually gains only human players, not AI players, since humans

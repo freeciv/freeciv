@@ -190,7 +190,7 @@ void kill_player(struct player *pplayer)
       log_verbose("Civil war strikes the remaining empire of %s",
                   pplayer->name);
       /* out of sheer cruelty we reanimate the player 
-       * so he can behold what happens to his empire */
+       * so they can behold what happens to their empire */
       pplayer->is_alive = TRUE;
       (void) civil_war(pplayer);
     } else {
@@ -902,7 +902,7 @@ void handle_diplomacy_cancel_pact(struct player *pplayer,
                                      CLAUSE_ALLIANCE);
       } else {
         /* We are in the same team as the agressor; we cannot break 
-         * alliance with him. We trust our team mate and break alliance
+         * alliance with them. We trust our team mate and break alliance
          * with the attacked player */
         notify_player(other, NULL, E_TREATY_BROKEN, ftc_server,
                       _("Your team mate %s declared war on %s. "
@@ -1115,7 +1115,7 @@ static void package_player_common(struct player *plr,
    * client side to not have it burden server side. Client could
    * actually avoid it completely when music disabled from the client options.
    * Client has no use for music styles of other players, and there should
-   * be no such information about the player him/herself needed to determine
+   * be no such information about the player themself needed to determine
    * the music style that client does not know. */
   music = player_music_style(plr);
   if (music != NULL) {
@@ -2675,7 +2675,7 @@ static struct player *split_player(struct player *pplayer)
   old_research->researching_saved = A_UNKNOWN;
   BV_CLR_ALL(pplayer->real_embassy);   /* all embassies destroyed */
 
-  /* give splitted player the embassies to his team mates back, if any */
+  /* give splitted player the embassies to their team mates back, if any */
   if (pplayer->team) {
     players_iterate(pdest) {
       if (pplayer->team == pdest->team

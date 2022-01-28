@@ -947,8 +947,8 @@ void choose_random_tech(struct research *research)
 }
 
 /************************************************************************//**
-  Called when a player chooses the tech he wants to research (or when
-  the server chooses it for him automatically).
+  Called when a player chooses the tech they want to research (or when
+  the server chooses it for them automatically).
 
   This takes care of all side effects so the research target probably
   shouldn't be changed outside of this function (doing so has been the
@@ -1019,8 +1019,8 @@ void choose_tech(struct research *research, Tech_type_id tech)
 }
 
 /************************************************************************//**
-  Called when a player chooses the tech goal he wants to research (or when
-  the server chooses it for him automatically).
+  Called when a player chooses the tech goal they want to research (or when
+  the server chooses it for them automatically).
 ****************************************************************************/
 void choose_tech_goal(struct research *presearch, Tech_type_id tech)
 {

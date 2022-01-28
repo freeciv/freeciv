@@ -2850,7 +2850,7 @@ static void unit_upgrade_callback(GtkWidget *w, gpointer data)
 
 /***********************************************************************//**
   Somebody clicked our list of citizens. If they clicked a specialist
-  then change the type of him, else do nothing.
+  then change its type, else do nothing.
 ***************************************************************************/
 static gboolean citizens_callback(GtkWidget *w, GdkEvent *ev,
                                   gpointer data)

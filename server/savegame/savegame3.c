@@ -6611,7 +6611,7 @@ static void sg_load_player_vision(struct loaddata *loading,
      * - fogged cities are not saved for any reason;
      * - a savegame with fog of war turned off;
      * - or game.save_private_map is not set to FALSE in the scenario /
-     * savegame. The players private knowledge is set to be what he could
+     * savegame. The players private knowledge is set to be what they could
      * see without fog of war. */
     whole_map_iterate(&(wld.map), ptile) {
       if (map_is_known(ptile, plr)) {

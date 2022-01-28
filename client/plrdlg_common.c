@@ -268,7 +268,7 @@ const char *plrdlg_col_state(const struct player *plr)
 
 /************************************************************************//**
   Returns a string telling the player's client's hostname (the
-  machine from which he is connecting).
+  machine from which they are connecting).
 ****************************************************************************/
 static const char *col_host(const struct player *player)
 {

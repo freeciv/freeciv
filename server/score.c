@@ -398,7 +398,7 @@ int total_player_citizens(const struct player *pplayer)
   The definition of winners and losers: a winner is one who is alive at the
   end of the game and has not surrendered, or in the case of a team game, 
   is alive or a teammate is alive and has not surrendered. A loser is
-  surrendered or dead. Exception: the winner of the spacerace and his 
+  surrendered or dead. Exception: the winner of the spacerace and their
   teammates will win of course.
 
   In games ended by /endgame, endturn, or any other interruption not caused

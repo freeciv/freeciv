@@ -2833,7 +2833,7 @@ static void unit_upgrade_callback(GtkWidget *w, gpointer data)
 /******** Callbacks for citizen bar, map funcs that are not update *******/
 /**********************************************************************//**
   Somebody clicked our list of citizens. If they clicked a specialist
-  then change the type of him, else do nothing.
+  then change its type, else do nothing.
 **************************************************************************/
 static gboolean citizens_callback(GtkWidget *w, GdkEventButton *ev,
                                   gpointer data)
