@@ -5545,11 +5545,8 @@ static bool load_ruleset_styles(struct section_file *file,
     sz_strlcpy(city_styles[i].graphic_alt, 
                secfile_lookup_str(file, "%s.graphic_alt", sec_name));
     sz_strlcpy(city_styles[i].citizens_graphic,
-               secfile_lookup_str_default(file, "-", 
+               secfile_lookup_str_default(file, "-",
                                           "%s.citizens_graphic", sec_name));
-    sz_strlcpy(city_styles[i].citizens_graphic_alt, 
-               secfile_lookup_str_default(file, "generic", 
-                                          "%s.citizens_graphic_alt", sec_name));
 
     reqs = lookup_req_list(file, compat, sec_name, "reqs", city_style_rule_name(i));
     if (reqs == NULL) {
@@ -8648,8 +8645,6 @@ static void send_ruleset_cities(struct conn_list *dest)
     sz_strlcpy(city_p.graphic, city_styles[k].graphic);
     sz_strlcpy(city_p.graphic_alt, city_styles[k].graphic_alt);
     sz_strlcpy(city_p.citizens_graphic, city_styles[k].citizens_graphic);
-    sz_strlcpy(city_p.citizens_graphic_alt,
-               city_styles[k].citizens_graphic_alt);
 
     lsend_packet_ruleset_city(dest, &city_p);
   }
