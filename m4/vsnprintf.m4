@@ -14,6 +14,8 @@ AC_DEFUN([FC_FUNC_VSNPRINTF],
   [ac_cv_func_working_vsnprintf],
 [AC_RUN_IFELSE([AC_LANG_SOURCE([[#include <stdio.h>
 #include <stdarg.h>
+#include <stdlib.h>
+#include <string.h>
 
 int
 doit(char * s, ...)
