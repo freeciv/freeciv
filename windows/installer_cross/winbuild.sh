@@ -7,9 +7,9 @@
 # This script is licensed under Gnu General Public License version 2 or later.
 # See COPYING available from the same location you got this script.
 
-# Version 2.3.6 (21-Jan-22)
+# Version 2.4.0 (30-Jan-22)
 
-WINBUILD_VERSION="2.3.6"
+WINBUILD_VERSION="2.4.0"
 MIN_WINVER=0x0601 # Windows 7
 CROSSER_FEATURE_LEVEL=2.2
 
@@ -70,7 +70,7 @@ elif test "x$2" != "x" ; then
   SINGLE_GUI=true
   GUIP="-$2"
   SERVER="yes"
-  if test "x$2" = "xqt5" ; then
+  if test "x$2" = "xqt5" || test "x$2" = "xqt6" ; then
     RULEDIT="yes"
     CLIENTS="qt"
   else
@@ -83,7 +83,11 @@ elif test "x$2" != "x" ; then
     gtk3.22) FCMP="gtk3" ;;
     gtk4) FCMP="gtk4" ;;
     qt5) FCMP="qt"
-         NLS="--disable-nls" ;;
+         NLS="--disable-nls"
+         QTVER="Qt5" ;;
+    qt6) FCMP="qt"
+         NLS="--disable-nls"
+         QTVER="Qt6" ;;
     *) echo "Unknown gui \"$2\"!" >&2
        exit 1 ;;
   esac
@@ -122,13 +126,33 @@ else
   VERREV="win32-$VERREV"
 fi
 
-if test "x$SINGLE_GUI" != "xtrue" ; then
+if test "x$SINGLE_GUI" != "xtrue" || test "x$2" = "xruledit" ; then
   if grep "CROSSER_QT5" $DLLSPATH/crosser.txt | grep yes > /dev/null
+  then
+    QT5="yes"
+    QTVER="Qt5"
+  elif grep "CROSSER_QT6" $DLLSPATH/crosser.txt | grep yes > /dev/null
+  then
+    QT6="yes"
+    QTVER="Qt6"
+  fi
+fi
+
+if test "x$SINGLE_GUI" != "xtrue" ; then
+  if test "xQT5" = "xyes" || test "xQT6" = "xyes" ;
   then
     CLIENTS="$CLIENTS,qt"
     FCMP="$FCMP,qt"
     NLS="--disable-nls"
   fi
+fi
+
+if test "x$QTVER" = "xQt5" ; then
+  QTPARAMS="--with-qtver=Qt5 --with-qt5-includes=${DLLSPATH}/include --with-qt5-libs=${DLLSPATH}/lib"
+  MOC_CROSSER="${DLLSPATH}/bin/moc"
+elif test "x$QTVER" = "xQt6"; then
+  QTPARAMS="--with-qtver=Qt6 --with-qt6-includes=${DLLSPATH}/include --with-qt6-libs=${DLLSPATH}/lib"
+  MOC_CROSSER="${DLLSPATH}/linux/libexec/moc-qt6"
 fi
 
 echo "----------------------------------"
@@ -156,11 +180,11 @@ else
   GITREVP=""
 fi
 
-if test "x$MOCCMD" = "x" ; then
-  MOCPARAM="MOCCMD=${DLLSPATH}/bin/moc"
+if test "x$MOCCMD" = "x" && test "x$MOC_CROSSER" != "x" ; then
+  MOCPARAM="MOCCMD=${MOC_CROSSER}"
 fi
 
-if ! ../../../configure $MOCPARAM FREECIV_LABEL_FORCE="<base>-crs" CPPFLAGS="-I${DLLSPATH}/include -D_WIN32_WINNT=${MIN_WINVER}" CFLAGS="-Wno-error" PKG_CONFIG_LIBDIR="${DLLSPATH}/lib/pkgconfig" --enable-sys-tolua-cmd --with-magickwand="${DLLSPATH}/bin" --prefix="/" $GITREVP --enable-client=$CLIENTS --enable-fcmp=$FCMP --enable-debug ${NLS} --host=$TARGET --build=$(../../../bootstrap/config.guess) --with-libiconv-prefix=${DLLSPATH} --with-sqlite3-prefix=${DLLSPATH} --with-followtag="crosser" --enable-crosser ${AIS} --disable-freeciv-manual --enable-sdl-mixer=sdl2 --with-qt5-includes=${DLLSPATH}/include --with-qt5-libs=${DLLSPATH}/lib --with-tinycthread --enable-server=$SERVER --enable-ruledit=$RULEDIT $EXTRA_CONFIG
+if ! ../../../configure $MOCPARAM FREECIV_LABEL_FORCE="<base>-crs" CPPFLAGS="-I${DLLSPATH}/include -D_WIN32_WINNT=${MIN_WINVER}" CFLAGS="-Wno-error" PKG_CONFIG_LIBDIR="${DLLSPATH}/lib/pkgconfig" --enable-sys-tolua-cmd --with-magickwand="${DLLSPATH}/bin" --prefix="/" $GITREVP --enable-client=$CLIENTS --enable-fcmp=$FCMP --enable-debug ${NLS} --host=$TARGET --build=$(../../../bootstrap/config.guess) --with-libiconv-prefix=${DLLSPATH} --with-sqlite3-prefix=${DLLSPATH} --with-followtag="crosser" --enable-crosser ${AIS} --disable-freeciv-manual --enable-sdl-mixer=sdl2 ${QTPARAMS} --with-tinycthread --enable-server=$SERVER --enable-ruledit=$RULEDIT $EXTRA_CONFIG
 then
   echo "Configure failed" >&2
   exit 1
