@@ -1,13 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!-- Created with Sodipodi ("http://www.sodipodi.com/") -->
+
 <svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://web.resource.org/cc/"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://inkscape.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    version="1"
    x="0"
    y="0"
@@ -16,8 +10,14 @@
    id="islenskifaninn"
    sodipodi:version="0.32"
    sodipodi:docname="iceland.svg"
-   inkscape:version="0.42"
-   sodipodi:docbase="/Users/daniel/Desktop">
+   inkscape:version="1.1.1 (3bf5ae0d25, 2021-09-20)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
   <metadata
      id="metadata2700">
     <rdf:RDF>
@@ -32,13 +32,21 @@
   <sodipodi:namedview
      id="base"
      inkscape:zoom="0.70781893"
-     inkscape:cx="366.31038"
-     inkscape:cy="221.98590"
-     inkscape:window-width="701"
-     inkscape:window-height="507"
-     inkscape:window-x="20"
-     inkscape:window-y="111"
-     inkscape:current-layer="islenskifaninn" />
+     inkscape:cx="365.91279"
+     inkscape:cy="223.22093"
+     inkscape:window-width="825"
+     inkscape:window-height="559"
+     inkscape:window-x="654"
+     inkscape:window-y="130"
+     inkscape:current-layer="islenskifaninn"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     showgrid="false"
+     inkscape:window-maximized="0" />
   <defs
      id="defs380" />
   <rect
