@@ -1414,6 +1414,7 @@ void help_widget::set_topic_terrain(const help_item *topic,
     if (*(pterrain->resources)) {
       struct extra_type **r;
 
+      /* TODO: include resource frequency information */
       for (r = pterrain->resources; *r; r++) {
         canvas = terrain_canvas(pterrain, *r);
         vbox->addLayout(create_terrain_widget(

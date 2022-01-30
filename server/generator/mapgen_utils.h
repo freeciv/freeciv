@@ -33,6 +33,7 @@ struct terrain *pick_terrain_by_flag(enum terrain_flag_id flag);
 struct terrain *pick_terrain(enum mapgen_terrain_property target,
                              enum mapgen_terrain_property prefer,
                              enum mapgen_terrain_property avoid);
+struct extra_type *pick_resource(const struct terrain *pterrain);
 
 /* Provide a block to convert from native to map coordinates.  For instance
  *   do_in_map_pos(mx, my, xn, yn) {

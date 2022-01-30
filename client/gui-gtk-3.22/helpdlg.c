@@ -1213,6 +1213,7 @@ static void help_update_terrain(const struct help_item *pitem,
     if (*(pterrain->resources)) {
       struct extra_type **r;
 
+      /* TODO: include resource frequency information */
       for (r = pterrain->resources; *r; r++) {
         /* TRANS: " Whales (2/1/2)," */
         sprintf (buf + strlen (buf), " %s (%d/%d/%d),",

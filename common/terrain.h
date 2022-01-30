@@ -200,6 +200,11 @@ struct terrain {
   int output[O_LAST];
 
   struct extra_type **resources; /* NULL-terminated */
+  int *resource_freq; /* same length as resources */
+
+#define RESOURCE_FREQUENCY_MINIMUM (0)
+#define RESOURCE_FREQUENCY_DEFAULT (1)
+#define RESOURCE_FREQUENCY_MAXIMUM (255)
 
   int road_output_incr_pct[O_LAST];
   int base_time;
@@ -370,6 +375,19 @@ const struct terrain *terrain_array_last(void);
 #define terrain_re_active_iterate_end                      \
     }                                                      \
   } terrain_type_iterate_end;
+
+#define terrain_resources_iterate(pterrain, _res, _freq)                  \
+  if (NULL != pterrain && NULL != pterrain->resources) {                  \
+    int _res##_index;                                                     \
+    for (_res##_index = 0;                                                \
+         pterrain->resources[_res##_index] != NULL;                       \
+         _res##_index++) {                                                \
+      struct extra_type *_res = pterrain->resources[_res##_index];        \
+      int _freq = pterrain->resource_freq[_res##_index];
+
+#define terrain_resources_iterate_end                                     \
+    }                                                                     \
+  }
 
 #ifdef __cplusplus
 }

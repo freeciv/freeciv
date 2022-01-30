@@ -68,6 +68,12 @@ void terrains_free(void)
       free(pterrain->resources);
       pterrain->resources = NULL;
     }
+    if (pterrain->resource_freq != NULL) {
+      /* Server allocates this on ruleset loading, client when
+       * ruleset packet is received. */
+      free(pterrain->resource_freq);
+      pterrain->resource_freq = NULL;
+    }
     if (pterrain->rgb != NULL) {
       /* Server allocates this on ruleset loading, client when
        * ruleset packet is received. */

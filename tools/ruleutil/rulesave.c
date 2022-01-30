@@ -2424,13 +2424,23 @@ static bool save_terrain_ruleset(const char *filename, const char *name)
 
     {
       const char *resource_names[r];
+      bool save_frequencies = FALSE;
 
-      for (r = 0; pterr->resources[r] != NULL; r++) {
-        resource_names[r] = extra_rule_name(pterr->resources[r]);
-      }
+      r = 0;
+      terrain_resources_iterate(pterr, res, freq) {
+        resource_names[r++] = extra_rule_name(res);
+        if (freq != RESOURCE_FREQUENCY_DEFAULT) {
+          save_frequencies = TRUE;
+        }
+      } terrain_resources_iterate_end;
 
       secfile_insert_str_vec(sfile, resource_names, r,
                              "%s.resources", path);
+
+      if (save_frequencies) {
+        secfile_insert_int_vec(sfile, pterr->resource_freq, r,
+                               "%s.resource_freq", path);
+      }
     }
 
     output_type_iterate(o) {

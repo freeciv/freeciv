@@ -3942,6 +3942,11 @@ void handle_ruleset_terrain(const struct packet_ruleset_terrain *p)
   }
   pterrain->resources = fc_calloc(p->num_resources + 1,
                                   sizeof(*pterrain->resources));
+  if (pterrain->resource_freq != NULL) {
+    free(pterrain->resource_freq);
+  }
+  pterrain->resource_freq = fc_calloc(p->num_resources + 1,
+                                      sizeof(*pterrain->resource_freq));
   for (j = 0; j < p->num_resources; j++) {
     pterrain->resources[j] = extra_by_number(p->resources[j]);
     if (!pterrain->resources[j]) {
@@ -3949,8 +3954,10 @@ void handle_ruleset_terrain(const struct packet_ruleset_terrain *p)
                 "Mismatched resource %d for terrain \"%s\".",
                 p->resources[j], terrain_rule_name(pterrain));
     }
+    pterrain->resource_freq[j] = p->resource_freq[j];
   }
   pterrain->resources[p->num_resources] = NULL;
+  pterrain->resource_freq[p->num_resources] = 0;
 
   output_type_iterate(o) {
     pterrain->road_output_incr_pct[o] = p->road_output_incr_pct[o];

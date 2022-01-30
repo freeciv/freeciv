@@ -3058,7 +3058,7 @@ static bool load_terrain_names(struct section_file *file,
 static bool load_ruleset_terrain(struct section_file *file,
                                  struct rscompat_info *compat)
 {
-  size_t nval;
+  size_t nval, nval2;
   int j;
   bool compat_road = FALSE;
   bool compat_rail = FALSE;
@@ -3066,6 +3066,7 @@ static bool load_ruleset_terrain(struct section_file *file,
   const char **res;
   const char *filename = secfile_name(file);
   const char *text;
+  int *res_freq;
   bool ok = TRUE;
 
   /* parameters */
@@ -3197,17 +3198,47 @@ static bool load_ruleset_terrain(struct section_file *file,
       } output_type_iterate_end;
 
       res = secfile_lookup_str_vec(file, &nval, "%s.resources", tsection);
+      res_freq = secfile_lookup_int_vec(file, &nval2,
+                                        "%s.resource_freq", tsection);
+      if (nval2 > 0 && nval2 != nval) {
+        ruleset_error(LOG_ERROR,
+                      "\"%s\": [%s] Different lengths for resources "
+                      "and resource frequencies",
+                      filename,
+                      tsection);
+        ok = FALSE;
+      }
       pterrain->resources = fc_calloc(nval + 1, sizeof(*pterrain->resources));
+      pterrain->resource_freq = fc_calloc(nval + 1,
+                                          sizeof(*pterrain->resource_freq));
       for (j = 0; j < nval; j++) {
         pterrain->resources[j] = lookup_resource(filename, res[j], tsection);
         if (pterrain->resources[j] == NULL) {
           ok = FALSE;
           break;
         }
+        pterrain->resource_freq[j] = j < nval2
+                                     ? res_freq[j]
+                                     : RESOURCE_FREQUENCY_DEFAULT;
+        if (pterrain->resource_freq[j] < RESOURCE_FREQUENCY_MINIMUM
+            || pterrain->resource_freq[j] > RESOURCE_FREQUENCY_MAXIMUM) {
+          ruleset_error(LOG_ERROR,
+                        "\"%s\": [%s] Resource frequency '%d' "
+                        "outside allowed range",
+                        filename,
+                        tsection,
+                        pterrain->resource_freq[j]);
+          ok = FALSE;
+          break;
+        }
       }
       pterrain->resources[nval] = NULL;
+      /* Terminating zero technically not necessary */
+      pterrain->resource_freq[nval] = 0;
       free(res);
       res = NULL;
+      free(res_freq);
+      res_freq = NULL;
 
       if (!ok) {
         break;
@@ -7928,8 +7959,6 @@ static void send_ruleset_terrain(struct conn_list *dest)
   }
 
   terrain_type_iterate(pterrain) {
-    struct extra_type **r;
-
     packet.id = terrain_number(pterrain);
     packet.tclass = pterrain->tclass;
     packet.native_to = pterrain->native_to;
@@ -7947,9 +7976,11 @@ static void send_ruleset_terrain(struct conn_list *dest)
     } output_type_iterate_end;
 
     packet.num_resources = 0;
-    for (r = pterrain->resources; *r; r++) {
-      packet.resources[packet.num_resources++] = extra_number(*r);
-    }
+    terrain_resources_iterate(pterrain, res, freq) {
+      packet.resources[packet.num_resources] = extra_number(res);
+      packet.resource_freq[packet.num_resources] = freq;
+      packet.num_resources++;
+    } terrain_resources_iterate_end;
 
     output_type_iterate(o) {
       packet.road_output_incr_pct[o] = pterrain->road_output_incr_pct[o];

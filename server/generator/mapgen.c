@@ -1566,19 +1566,10 @@ static void add_resources(int prob)
     }
     if (!is_ocean(pterrain) || near_safe_tiles(ptile)
         || wld.map.server.ocean_resources) {
-      int i = 0;
-      struct extra_type **r;
+      struct extra_type *res = pick_resource(pterrain);
 
-      for (r = pterrain->resources; *r; r++) {
-        /* This is a standard way to get a random element from the
-         * pterrain->resources list, without computing its length in
-         * advance. Note that if *(pterrain->resources) == NULL, then
-         * this loop is a no-op. */
-        if ((*r)->generated) {
-          if (0 == fc_rand(++i)) {
-            tile_set_resource(ptile, *r);
-          }
-        }
+      if (NULL != res) {
+        tile_set_resource(ptile, res);
       }
     }
   } whole_map_iterate_end;
@@ -2949,7 +2940,6 @@ fair_map_place_island_team(struct fair_tile *ptarget, int tx, int ty,
 static void fair_map_make_resources(struct fair_tile *pmap)
 {
   struct fair_tile *pftile, *pftile2;
-  struct extra_type **r;
   int i, j;
 
   for (i = 0; i < MAP_INDEX_SIZE; i++) {
@@ -2977,12 +2967,7 @@ static void fair_map_make_resources(struct fair_tile *pmap)
       }
     }
 
-    j = 0;
-    for (r = pftile->pterrain->resources; *r != NULL; r++) {
-      if (fc_rand(++j) == 0) {
-        pftile->presource = *r;
-      }
-    }
+    pftile->presource = pick_resource(pftile->pterrain);
     /* Note that 'pftile->presource' might be NULL if there is no suitable
      * resource for the terrain. */
     if (pftile->presource != NULL) {

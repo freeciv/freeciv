@@ -787,3 +787,32 @@ struct terrain *pick_terrain(enum mapgen_terrain_property target,
     return pick_terrain(MG_UNUSED, prefer, avoid);
   }
 }
+
+/**********************************************************************//**
+  Pick a random resource to put on a tile of the given terrain type.
+  May return NULL when there is no eligible resource.
+**************************************************************************/
+struct extra_type *pick_resource(const struct terrain *pterrain)
+{
+  int freq_sum = 0;
+  struct extra_type *result = NULL;
+
+  fc_assert_ret_val(NULL != pterrain, NULL);
+
+  terrain_resources_iterate(pterrain, res, freq) {
+    /* This is a standard way to get a weighted random element from
+     * pterrain->resources with weights from pterrain->resource_freq,
+     * without computing its length or total weight in advance.
+     * Note that if *(pterrain->resources) == NULL,
+     * then this loop is a no-op. */
+
+    if (res->generated && freq > 0) {
+      freq_sum += freq;
+      if (freq > fc_rand(freq_sum)) {
+        result = res;
+      }
+    }
+  } terrain_resources_iterate_end;
+
+  return result;
+}

@@ -494,6 +494,7 @@ static bool manual_command(struct tag_types *tag_info)
                 pterrain->output[O_FOOD], pterrain->output[O_SHIELD],
                 pterrain->output[O_TRADE]);
 
+        /* TODO: include resource frequency information */
         fprintf(doc, "<td><table width=\"100%%\">\n");
         for (r = pterrain->resources; *r; r++) {
           fprintf(doc, "<tr><td>%s%s%s</td><td>%s</td>"
