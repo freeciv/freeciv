@@ -221,6 +221,11 @@ struct citizen_set {
   struct citizen_graphic specialist[SP_MAX];
 };
 
+struct style_citizen_set {
+  struct citizen_set *sets;
+  int num_styles;
+};
+
 struct named_sprites {
   struct sprite
     *indicator[INDICATOR_COUNT][NUM_TILES_PROGRESS],
@@ -255,6 +260,7 @@ struct named_sprites {
   struct sprite_vector nation_shield;
 
   struct citizen_set default_citizens;
+  struct style_citizen_set style_citizen_sets;
 
   struct sprite *spaceship[SPACESHIP_COUNT];
   struct {
@@ -592,11 +598,15 @@ static void tileset_player_free(struct tileset *t, int plrid);
 static void tileset_setup_specialist_type(struct tileset *t,
                                           struct citizen_set *set,
                                           Specialist_type_id id,
-                                          const char *set_name);
+                                          const char *tag_group,
+                                          const char *set_name,
+                                          bool required);
 static void tileset_setup_citizen_types_default_set(struct tileset *t);
 static void tileset_setup_citizen_types(struct tileset *t,
                                         struct citizen_set *set,
-                                        const char *set_name);
+                                        const char *tag_group,
+                                        const char *set_name,
+                                        bool required);
 
 /************************************************************************//**
   Called when ever there's problem in ruleset/tileset compatibility
@@ -1433,8 +1443,25 @@ bool tilespec_reread(const char *new_tileset_name,
     tileset_setup_specialist_type_default_set(tileset, sp);
   } specialist_type_iterate_end;
 
+  tileset->sprites.style_citizen_sets.sets
+    = fc_malloc(game.control.styles_count
+                * sizeof(tileset->sprites.style_citizen_sets.sets[0]));
+
   for (id = 0; id < game.control.styles_count; id++) {
     tileset_setup_city_tiles(tileset, id);
+    const char *style_name = city_style_rule_name(id);
+
+    tileset_setup_citizen_types(tileset,
+                                &tileset->sprites.style_citizen_sets.sets[id],
+                                city_styles[id].citizens_graphic,
+                                style_name, FALSE);
+    specialist_type_iterate(sp) {
+      tileset_setup_specialist_type(tileset,
+                                    &tileset->sprites.style_citizen_sets.sets[id],
+                                    sp,
+                                    city_styles[id].citizens_graphic,
+                                    style_name, FALSE);
+    } specialist_type_iterate_end;
   }
 
   if (state < C_S_RUNNING) {
@@ -2748,8 +2775,8 @@ static bool sprite_exists(const struct tileset *t, const char *tag_name)
 void tileset_setup_specialist_type_default_set(struct tileset *t,
                                                Specialist_type_id id)
 {
-  tileset_setup_specialist_type(t, &t->sprites.default_citizens, id,
-                                "default set");
+  tileset_setup_specialist_type(t, &t->sprites.default_citizens, id, NULL,
+                                "default set", TRUE);
 }
 
 /************************************************************************//**
@@ -2758,7 +2785,9 @@ void tileset_setup_specialist_type_default_set(struct tileset *t,
 static void tileset_setup_specialist_type(struct tileset *t,
                                           struct citizen_set *set,
                                           Specialist_type_id id,
-                                          const char *set_name)
+                                          const char *tag_group,
+                                          const char *set_name,
+                                          bool required)
 {
   /* Load the specialist sprite graphics. */
   char buffer[512];
@@ -2769,7 +2798,11 @@ static void tileset_setup_specialist_type(struct tileset *t,
 
   for (j = 0; j < MAX_NUM_CITIZEN_SPRITES; j++) {
     /* Try tag name + index number */
-    fc_snprintf(buffer, sizeof(buffer), "%s_%d", tag, j);
+    if (tag_group != NULL) {
+      fc_snprintf(buffer, sizeof(buffer), "%s.%s_%d", tag_group, tag, j);
+    } else {
+      fc_snprintf(buffer, sizeof(buffer), "%s_%d", tag, j);
+    }
     set->specialist[id].sprite[j] = load_sprite(t, buffer, FALSE, FALSE);
 
     /* Break if no more index specific sprites are defined */
@@ -2791,7 +2824,11 @@ static void tileset_setup_specialist_type(struct tileset *t,
     /* Try the alt tag */
     for (j = 0; j < MAX_NUM_CITIZEN_SPRITES; j++) {
       /* Try alt tag name + index number */
-      fc_snprintf(buffer, sizeof(buffer), "%s_%d", graphic_alt, j);
+      if (tag_group != NULL) {
+        fc_snprintf(buffer, sizeof(buffer), "%s.%s_%d", tag_group, graphic_alt, j);
+      } else {
+        fc_snprintf(buffer, sizeof(buffer), "%s_%d", graphic_alt, j);
+      }
       set->specialist[id].sprite[j] = load_sprite(t, buffer, FALSE, FALSE);
 
       /* Break if no more index specific sprites are defined */
@@ -2813,7 +2850,7 @@ static void tileset_setup_specialist_type(struct tileset *t,
   set->specialist[id].count = j;
 
   /* Still nothing? Give up. */
-  if (j == 0) {
+  if (j == 0 && required) {
     tileset_error(LOG_FATAL, _("No graphics for specialist \"%s\" in %s."),
                   tag, set_name);
   }
@@ -2824,7 +2861,8 @@ static void tileset_setup_specialist_type(struct tileset *t,
 ****************************************************************************/
 static void tileset_setup_citizen_types_default_set(struct tileset *t)
 {
-  tileset_setup_citizen_types(t, &t->sprites.default_citizens, "default set");
+  tileset_setup_citizen_types(t, &t->sprites.default_citizens, NULL,
+                              "default set", TRUE);
 }
 
 /************************************************************************//**
@@ -2832,7 +2870,9 @@ static void tileset_setup_citizen_types_default_set(struct tileset *t)
 ****************************************************************************/
 static void tileset_setup_citizen_types(struct tileset *t,
                                         struct citizen_set *set,
-                                        const char *set_name)
+                                        const char *tag_group,
+                                        const char *set_name,
+                                        bool required)
 {
   int i, j;
   char buffer[512];
@@ -2842,14 +2882,18 @@ static void tileset_setup_citizen_types(struct tileset *t,
     const char *name = citizen_rule_name(i);
 
     for (j = 0; j < MAX_NUM_CITIZEN_SPRITES; j++) {
-      fc_snprintf(buffer, sizeof(buffer), "citizen.%s_%d", name, j);
+      if (tag_group != NULL) {
+        fc_snprintf(buffer, sizeof(buffer), "citizen.%s.%s_%d", tag_group, name, j);
+      } else {
+        fc_snprintf(buffer, sizeof(buffer), "citizen.%s_%d", name, j);
+      }
       set->citizen[i].sprite[j] = load_sprite(t, buffer, FALSE, FALSE);
       if (!set->citizen[i].sprite[j]) {
 	break;
       }
     }
     set->citizen[i].count = j;
-    if (j == 0) {
+    if (j == 0 && required) {
       tileset_error(LOG_FATAL, _("No graphics for citizen \"%s\" in %s."),
                     name, set_name);
     }
@@ -6348,6 +6392,11 @@ void tileset_free_tiles(struct tileset *t)
     t->sprite_hash = NULL;
   }
 
+  if (t->sprites.style_citizen_sets.sets != NULL) {
+    free(t->sprites.style_citizen_sets.sets);
+    t->sprites.style_citizen_sets.sets = NULL;
+  }
+
   small_sprite_list_iterate(t->small_sprites, ss) {
     small_sprite_list_remove(t->small_sprites, ss);
     if (ss->file) {
@@ -6427,7 +6476,17 @@ struct sprite *get_citizen_sprite(const struct tileset *t,
   int gfx_index = citizen_index;
 
   if (pcity != NULL) {
+    int style = style_of_city(pcity);
+
+    if (t->sprites.style_citizen_sets.sets[style].citizen[type].count != 0) {
+      set = &t->sprites.style_citizen_sets.sets[style];
+    } else {
+      set = &t->sprites.default_citizens;
+    }
+
     gfx_index += pcity->client.first_citizen_index;
+  } else {
+    set = &t->sprites.default_citizens;
   }
 
   if (type < CITIZEN_SPECIALIST) {

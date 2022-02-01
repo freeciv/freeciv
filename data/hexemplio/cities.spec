@@ -15,6 +15,13 @@
 ; The maximum number of images is only limited by the maximum size of a city
 ; (currently MAX_CITY_SIZE = 255).
 ;
+; For providing custom citizen icons for the city style, use tags of the form
+; 'citizen.<tag>.<citizen_type>_<index>'
+; where <tag> is citizens_graphic tag from the styles.ruleset,
+; <citizen_type> is type like 'content', same ones as
+; misc/small.spec has for the default citizen icons, and
+; <index> is a running number for alternative sprites.
+;
 
 [spec]
 
