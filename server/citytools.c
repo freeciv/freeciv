@@ -2548,14 +2548,6 @@ void package_city(struct city *pcity, struct packet_city_info *packet,
            pcity->rally_point.length * sizeof(struct unit_order));
   }
 
-  if (pcity->cm_parameter) {
-    packet->cma_enabled = TRUE;
-    cm_copy_parameter(&packet->cm_parameter, pcity->cm_parameter);
-  } else {
-    packet->cma_enabled = FALSE;
-    memset(&packet->cm_parameter, 0, sizeof(packet->cm_parameter));
-  }
-
   BV_CLR_ALL(packet->improvements);
   improvement_iterate(pimprove) {
     if (city_has_building(pcity, pimprove)) {

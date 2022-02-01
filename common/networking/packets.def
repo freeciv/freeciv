@@ -207,7 +207,6 @@ type WORKLIST           = worklist(struct worklist)
 # string that is URI encoded in the JSON protocol
 type ESTRING            = estring(char)
 type UNIT_ORDER         = unit_order(struct unit_order)
-type CM_PARAMETER       = cm_parameter(struct cm_parameter)
 
 # typedefs for enums
 type ACHIEVEMENT_TYPE   = uint8(enum achievement_type)
@@ -761,8 +760,6 @@ PACKET_CITY_INFO = 31; sc, lsend, is-game-info, force, cancel(PACKET_CITY_SHORT_
   BOOL rally_point_persistent;
   BOOL rally_point_vigilant;
   UNIT_ORDER rally_point_orders[MAX_LEN_ROUTE:rally_point_length];
-  BOOL cma_enabled;
-  CM_PARAMETER cm_parameter;
 end
 
 PACKET_CITY_SHORT_INFO = 32; sc, lsend, is-game-info, cancel(PACKET_CITY_INFO), cancel(PACKET_WEB_CITY_INFO_ADDITION)
@@ -875,13 +872,6 @@ PACKET_CITY_RALLY_POINT = 138; cs
   BOOL vigilant;
   UNIT_ORDER orders[MAX_LEN_ROUTE:length];
 end
-
-PACKET_CITY_MANAGER = 139; cs
-  CITY city_id;
-  BOOL enabled;
-  CM_PARAMETER parameter;
-end
-
 
 PACKET_WORKER_TASK = 241; cs, sc, lsend, handle-via-packet
   CITY city_id;

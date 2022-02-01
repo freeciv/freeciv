@@ -560,37 +560,3 @@ void handle_city_rally_point(struct player *pplayer,
 
   send_city_info(pplayer, pcity);
 }
-
-/**********************************************************************//**
-  Handles a request to set city manager parameter.
-**************************************************************************/
-void handle_city_manager(struct player *pplayer, int city_id, bool enabled,
-                         struct cm_parameter parameter)
-{
-  struct city *pcity = player_city_by_number(pplayer, city_id);
-
-  if (NULL == pcity) {
-    /* Probably lost. */
-    log_verbose("handle_city_manager() bad city number %d.", city_id);
-    return;
-  }
-
-  if (!enabled) {
-    if (pcity->cm_parameter) {
-      free(pcity->cm_parameter);
-      pcity->cm_parameter = NULL;
-      send_city_info(pplayer, pcity);
-    }
-    return;
-  }
-
-  if (!pcity->cm_parameter) {
-    pcity->cm_parameter = fc_calloc(1, sizeof(struct cm_parameter));
-  }
-
-  cm_copy_parameter(pcity->cm_parameter, &parameter);
-
-  auto_arrange_workers(pcity);
-  sync_cities();
-  return;
-}
