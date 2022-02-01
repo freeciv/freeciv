@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv S3_0 (nations)\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2021-05-14 07:49+0300\n"
-"PO-Revision-Date: 2020-02-10 17:55+0100\n"
+"POT-Creation-Date: 2022-01-16 09:21+0200\n"
+"PO-Revision-Date: 2022-01-29 09:09+0100\n"
 "Last-Translator: Hubert Kowalewski <hubkow@users.sourceforge.net>\n"
 "Language-Team: polski <hubkow@users.sourceforge.net>\n"
 "Language: pl\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2;\n"
-"X-Generator: Poedit 2.2.4\n"
+"X-Generator: Poedit 2.3\n"
 "X-Language: pl-PL\n"
 
 #: data/nation/abkhaz.ruleset:3
@@ -1455,7 +1455,7 @@ msgstr ""
 #: data/nation/etruscan.ruleset:31 data/nation/frankish.ruleset:39
 #: data/nation/gepid.ruleset:41 data/nation/israelite.ruleset:31
 #: data/nation/italiangreek.ruleset:45 data/nation/latin.ruleset:39
-#: data/nation/median.ruleset:29 data/nation/mitanni.ruleset:30
+#: data/nation/median.ruleset:31 data/nation/mitanni.ruleset:30
 #: data/nation/nubian.ruleset:32 data/nation/ostrogothic.ruleset:30
 #: data/nation/palatinate.ruleset:28 data/nation/palmyrene.ruleset:19
 #: data/nation/parthian.ruleset:33 data/nation/pelasgian.ruleset:24
@@ -1475,7 +1475,7 @@ msgstr "Uzurpator %s"
 #: data/nation/etruscan.ruleset:31 data/nation/frankish.ruleset:39
 #: data/nation/gepid.ruleset:41 data/nation/israelite.ruleset:31
 #: data/nation/italiangreek.ruleset:45 data/nation/latin.ruleset:39
-#: data/nation/median.ruleset:29 data/nation/mitanni.ruleset:30
+#: data/nation/median.ruleset:31 data/nation/mitanni.ruleset:30
 #: data/nation/nubian.ruleset:32 data/nation/ostrogothic.ruleset:30
 #: data/nation/palatinate.ruleset:28 data/nation/palmyrene.ruleset:19
 #: data/nation/parthian.ruleset:33 data/nation/pelasgian.ruleset:24
@@ -1767,7 +1767,7 @@ msgid "%s Shah"
 msgstr "%s Szach"
 
 #: data/nation/azeri.ruleset:36 data/nation/iranian.ruleset:41
-#: data/nation/khwarezmian.ruleset:28 data/nation/median.ruleset:31
+#: data/nation/khwarezmian.ruleset:28 data/nation/median.ruleset:33
 #, c-format
 msgid "%s Shahbanu"
 msgstr "%s Shahbanu"
@@ -7157,13 +7157,13 @@ msgstr ""
 "turecką dynastię Anusztigina. Klan panował od 1097 do 1231, kiedu to państwo "
 "podbił Czyngis-chan."
 
-#: data/nation/khwarezmian.ruleset:27 data/nation/median.ruleset:30
+#: data/nation/khwarezmian.ruleset:27 data/nation/median.ruleset:32
 #: data/nation/parthian.ruleset:34 data/nation/seleucid.ruleset:29
 #, c-format
 msgid "Satrap %s"
 msgstr "Satrapa %s"
 
-#: data/nation/khwarezmian.ruleset:27 data/nation/median.ruleset:30
+#: data/nation/khwarezmian.ruleset:27 data/nation/median.ruleset:32
 #: data/nation/parthian.ruleset:34 data/nation/seleucid.ruleset:29
 #, c-format
 msgid "?female:Satrap %s"
@@ -8431,7 +8431,7 @@ msgstr ""
 "imperium obejmujące rozległy obszar od rzeki Halys aż po dzisiejszy "
 "Afganistan."
 
-#: data/nation/median.ruleset:31
+#: data/nation/median.ruleset:33
 #, c-format
 msgid "%s Shahanshah"
 msgstr "Szachinszach %s"
