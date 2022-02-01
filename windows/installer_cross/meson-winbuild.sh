@@ -7,17 +7,24 @@
 # See COPYING available from the same location you got this script.
 #
 
-MESON_WINBUILD_VERSION="3.0.93-alpha"
+MESON_WINBUILD_VERSION="3.0.94-alpha"
 CROSSER_FEATURE_LEVEL=2.2
 
 if test "x$1" = x || test "x$1" = "x-h" || test "x$1" = "x--help" ; then
-  echo "Usage: $0 <crosser dir>"
+  echo "Usage: $0 <crosser dir> <gui>"
   exit 1
 fi
 
 if test "x$1" = "x-v" || test "x$1" = "x--version" ; then
   echo "meson-winbuild.sh version $MESON_WINBUILD_VERSION"
   exit
+fi
+
+GUI="$2"
+
+if test "x$GUI" != "xgtk3.22" && test "x$GUI" != "xqt5" ; then
+  echo "Unknown gui \"$2\"" >&2
+  exit 1
 fi
 
 DLLSPATH="$1"
@@ -55,23 +62,34 @@ fi
 
 SETUP=$(grep "CrosserSetup=" $DLLSPATH/crosser.txt | sed -e 's/CrosserSetup="//' -e 's/"//')
 
-if ! rm -Rf meson-build-${SETUP} ; then
+case $GUI in
+  gtk3.22) FCMP="gtk3" ;;
+  qt5) CLIENT="qt"
+       FCMP="qt"
+       NLS="-Dnls=false" ;;
+esac
+
+if test "x$CLIENT" = "x" ; then
+  CLIENT="$GUI"
+fi
+
+if ! rm -Rf meson-build-${SETUP}-${GUI} ; then
   echo "Failed to clear out old build directory!" >&2
   exit 1
 fi
 
-if ! mkdir -p meson-build-${SETUP} ; then
-  echo "Can't create build directory \"meson-build-${SETUP}\"!" >&2
+if ! mkdir -p meson-build-${SETUP}-${GUI} ; then
+  echo "Can't create build directory \"meson-build-${SETUP}-${GUI}\"!" >&2
   exit 1
 fi
 
-if ! sed "s,<PREFIX>,$DLLSPATH,g" meson/cross-${SETUP}.tmpl > meson-build-${SETUP}/cross.txt
+if ! sed "s,<PREFIX>,$DLLSPATH,g" meson/cross-${SETUP}.tmpl > meson-build-${SETUP}-${GUI}/cross.txt
 then
   echo "Failed to create cross-file for $SETUP build!" >&2
   exit 1
 fi
 
-PACKAGENAME=freeciv-${VERREV}-${SETUP}
+PACKAGENAME=freeciv-${VERREV}-${SETUP}-${GUI}
 MESON_INSTALL_DIR=$(pwd)/meson-install/${PACKAGENAME}
 
 if ! rm -Rf $MESON_INSTALL_DIR ; then
@@ -85,11 +103,12 @@ echo "Freeciv version $VERREV"
 echo "----------------------------------"
 
 if ! (
-cd meson-build-${SETUP}
+cd meson-build-${SETUP}-${GUI}
 
 export PKG_CONFIG_PATH=${DLLSPATH}/lib/pkgconfig
 
-if ! meson --cross-file=cross.txt -Dprefix=$MESON_INSTALL_DIR -Dsyslua=false -Daudio=false \
+if ! meson --cross-file=cross.txt -Dprefix=$MESON_INSTALL_DIR -Dclients=$CLIENT -Dfcmp=$FCMP \
+           ${NLS} -Dsyslua=false -Daudio=false \
            ../../.. $EXTRA_CONFIG ; then
   echo "Meson run failed!" >&2
   exit 1
