@@ -152,8 +152,8 @@ empty the package cache for having smaller environment package.
  Build
 ====================================
 
-Launch msys2 shell. Get the freeciv sources there
-somehow. Some options are:
+Launch build target specific msys2 shell, either mingw64.exe or mingw32.exe.
+Get the freeciv sources there somehow. Some options are:
 1) Download freeciv tarball within msys2 shell with wget
 2) Use git within msys2 shell to get them from version control
 3) Copy them from Windows folder where they are to a directory that
