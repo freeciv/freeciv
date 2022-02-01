@@ -1,10 +1,205 @@
-==============================
-Welcome to Freeciv 3.0.0-beta3
-==============================
+============================
+Welcome to Freeciv 3.0.0-RC1
+============================
 
 The changes in the 3.0.x series are summarised below.
 For changes prior to 3.0, see NEWS. For more detailed changes,
 see the ChangeLog file.
+
+
+CHANGES FROM 3.0.0-beta3 to 3.0.0-RC1
+-------------------------------------
+
+   (from <http://www.freeciv.org/wiki/NEWS-3.0.0-RC1>, 2022-02-01)
+
+3.0.0-RC1 is the first Release Candidate of freeciv-3.0.
+Several bugs have been fixed since beta3.
+
+Server / General
+
+    * Fixed memory leak with sending trade routes to client osdn#43054
+
+Changes affecting players (supplied rulesets)
+
+    * Fixed a bug that in some cases trade partner city was not revealed
+      to the player of the destination city when traderoute was established
+      osdn#42968
+    * Under multiresearch mode, correctly save information to savegame
+      if player has just gained a tech, and should not lose bulbs when
+      changing target osdn#43161
+    * Message about unit escaping combat now gets consistently sent
+      from the tile where the combat occurred, not from a tile random
+      unit escaped to osdn#43099
+    * Consider it land bombardment (for reduced firepower) when a ship
+      attacks from a city against another land tile osdn#42960
+    * Fixed a bug that shield stock given changes from editor were
+      nullified when production was changed osdn#42685
+    * Fixed handling of case where multiple defenders may escape the combat
+      osdn#43206
+    * Fixed erroneous message about obsolete build target after it
+      has already been updated HRM#921933
+    * Bombarding is disallowed when target tile is known not to contain
+      any units that would be affected HRM#848555
+    * Fixed crash when force-selling transported units for balancing budget
+      HRM#853295
+    * Prevent multiple gov changes after a single anarchy with
+      revolentype RandQuick. It was an exploit, and was already prevented
+      for Quickening osdn#43334
+    * Improved user visible names of disband actions in supplied rulesets
+      osdn#43595
+    * Fixed message about an action blocking another osdn#43643
+    * Fixed crash with a startunit setting with no startunits osdn#43651
+
+    * alien
+         + Upkeep cost of wonders marked as zero, which it has effectively
+           always been osdn#43002
+
+    * civ1
+         + All units occupy tiles osdn#42923
+         + Remove infra from city center tile when city destroyed
+           osdn#43039
+
+    * civ2
+         + Disallow upgrading units osdn#43404
+
+Changes affecting other rulesets / modders
+
+    * Do not erroneously accept Traderoute range for a Good requirement
+      osdn#42944
+    * Sanity check that ruleset does not try to set nonzero
+      upkeep cost for a wonder. It has no effect, and never had
+      osdn#42994
+    * Fixed lua players_iterate() to process all remaining players
+      after some are removed HRM#883551
+    * Lua debug function listenv() has been reimplemented to avoid
+      crashes and hangs with it osdn#43388
+    * Make Good requirement to be false when traderoute is inactive
+      osdn#43542
+    * Fixed assert errors when lua script modified extras on
+      map_generated signal osdn#43584
+    * Apply Move_Bonus sensibly to a unit with base move rate less
+      than min_speed osdn#43587
+
+Changes affecting server operators
+
+    * Fixed a bug that GAMEOVER savegame was not created for an autogame
+      with no clients connected osdn#42172
+
+General
+
+    * Various internal changes which should only affect developers
+      osdn#42930 osdn#42898 osdn#42867 osdn#43076 osdn#42931 osdn#42989
+      HRM#852929 osdn#42568 osdn#43087 osdn#43040 osdn#43213 osdn#43239
+      osdn#43296 osdn#43008 osdn#43393 osdn#43376 osdn#43428 osdn#43465
+      osdn#43430 osdn#43365 osdn#43533 osdn#43552 osdn#43597 osdn#43665
+
+AI
+
+    * Support sea moving caravans osdn#42567
+    * Fixed bug preventing AI from changing government when revolentype
+      is Quickening osdn#43392
+    * Don't try to Upgrade Unit when it's not enabled in the ruleset
+      osdn#42574
+    * Avoid infinite recursion when the ruleset has special restrictions
+      to city founding osdn#43638
+
+Clients
+
+    * Fixed changing the tileset when the topology is non-hex isometric
+      osdn#42956
+    * Fixed assert failure when client receives dead player's
+      research information osdn#42988
+    * Draw integrating cardinal roads (rivers) correctly
+      osdn#43153 osdn#43633
+
+    * gtk
+         + gtk3.22 & gtk3 New Wonders List Intelligence Dialog shows
+           all the wonders of any foreign player HRM#883354 osdn#43043
+         + Cleanly destroy toplevel Window on quit osdn#43072
+         + Cleanly free some protected widgets on quit osdn#43222
+         + Made Upgrade Unit buttons insensiteve when active ruleset
+           disallows upgrade osdn#43424
+
+    * Qt
+         + Fixed reversed leader sex selection osdn#42936
+         + Show default ruler title for players whose government is
+           not known. It used to show the Anarchy title in these situations
+           osdn#42938
+         + Fixed a crash before writing shortcuts information when quitting
+           client without ever visiting actual game osdn#43019
+         + Make explicit leader sex selection to work
+           (sex used to be selected only when taking predefined leader)
+           osdn#42964
+         + Allow adjusting leader of the nation player has already selected
+           in the nation selection dialog osdn#43024
+         + Fixed nations dialog crash after a new player has been created
+           as a result of a civil war osdn#42545
+         + Improved city dialog sizing and goto dialog layouts HRM#937959
+
+    * sdl2
+         + Don't mess with obsolete SDL_VIDEO_CENTERED environment variable
+           osdn#43551
+
+Tools
+Ruledit
+
+    * New editable properties:
+         + Unit type move rate osdn#43016
+         + Building genus osdn#43102
+    * Save comment about ruledit section to the nations.ruleset osdn#42891
+    * Fixed saving of goods_selection setting to the ruleset osdn#43158
+    * In Windows, prepend Windows Documents path to default save path
+      osdn#43370
+
+Ruleup
+
+    * In saved rulesets, StartUnit unit type flags have 'U' capitalized,
+      like in supplied rulesets osdn#43001
+
+Modpack installer
+
+    * Made gtk3- and gtk2- gui to quit cleanly osdn#43187
+    * gtk3- and gtk2- guis free main window on quit osdn#43074
+    * Fixed opening a new quit dialog when one has already been closed
+      in gtk4 gui osdn#43073
+    * Corrected placement of quit dialog in gtk4 gui osdn#43248
+
+Tilesets, Art, etc
+
+    * Added icon for freeciv-ruledit HRM#657383 osdn#43574
+    * Set antarctica_alt as alternative flag art for Antarctica osdn#43303
+    * Corrected/updated flag file formats
+      osdn#43021 osdn#43458 osdn#43617
+
+Help / Documentation
+
+    * Christian Prochaska removed from the list of active maintainers.
+      Thank you for all you did for the project. osdn#43434
+    * Miscellaneous improvements to in-game text and user documentation
+      osdn#42961 osdn#42901 HRM#764909 osdn#42995 osdn#43145 osdn#42609
+      osdn#43298 osdn#43318
+    * Miscellaneous changes to developer/install/ruleset docs
+      osdn#41100 osdn#42839 osdn#42894 osdn#43065 osdn#42877 osdn#41958
+      osdn#42925 osdn#43182 osdn#43349 osdn#43300 osdn#43600 osdn#43648
+
+Translations
+
+    * Updated translations: fi, fr, pl, ru
+
+Build/portability
+
+    * Fixed warnings like
+      "macro 'AM_LANGINFO_CODESET' not found in library"
+      from autogen.sh osdn#43034
+    * Crosser environment used in crosser based
+      Windows installers updated to version 2.2 osdn#43259
+    * Improvements to handling on network errors on Windows
+      osdn#42046 osdn#42044
+    * Fixed build with tcc osdn#43352
+    * configure: Fix false positive when checking advanced
+      threading support osdn#43562
+    * Fixed gcc-12 (development version) compiler warnings
+      osdn#43711 osdn#43713
 
 
 CHANGES FROM 3.0.0-beta2 to 3.0.0-beta3
