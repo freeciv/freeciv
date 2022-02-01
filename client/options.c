@@ -5054,6 +5054,10 @@ static void load_cma_preset(struct section_file *file, int i)
     secfile_lookup_str_default(file, "preset",
                                "cma.preset%d.name", i);
 
+  /* Init correct default values even for the fields that are not
+   * loaded below. */
+  cm_init_parameter(&parameter);
+
   output_type_iterate(o) {
     parameter.minimal_surplus[o] =
         secfile_lookup_int_default(file, 0, "cma.preset%d.minsurp%d", i, o);
