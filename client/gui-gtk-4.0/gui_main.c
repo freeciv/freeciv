@@ -61,6 +61,7 @@
 #include "version.h"
 
 /* client */
+#include "audio.h"
 #include "client_main.h"
 #include "climisc.h"
 #include "clinet.h"
@@ -176,6 +177,9 @@ gint cur_x, cur_y;
 
 static bool gui_up = FALSE;
 
+static bool audio_paused = FALSE;
+static bool client_focus = TRUE;
+
 static GtkApplication *fc_app;
 
 static struct video_mode vmode = { -1, -1 };
@@ -229,6 +233,14 @@ static void log_callback_utf8(enum log_level level, const char *message,
 static gboolean timer_callback(gpointer data)
 {
   double seconds = real_timer_callback();
+
+  if (!audio_paused && !client_focus) {
+    audio_pause();
+    audio_paused = TRUE;
+  } else if (audio_paused && client_focus) {
+    audio_resume();
+    audio_paused = FALSE;
+  }
 
   timer_id = g_timeout_add(seconds * 1000, timer_callback, NULL);
 
@@ -751,6 +763,26 @@ static void move_from_container_to_container(GtkWidget *wdg,
   }
 
   g_object_unref(wdg);
+}
+
+/**********************************************************************//**
+  Freeciv window has lost focus
+**************************************************************************/
+gboolean fc_lost_focus(GtkWidget *w, GdkEvent *ev, gpointer data)
+{
+  client_focus = FALSE;
+
+  return TRUE;
+}
+
+/**********************************************************************//**
+  Freeciv window has gained focus
+**************************************************************************/
+gboolean fc_gained_focus(GtkWidget *w, GdkEvent *ev, gpointer data)
+{
+  client_focus = TRUE;
+
+  return TRUE;
 }
 
 /**********************************************************************//**
@@ -1849,6 +1881,11 @@ static void activate_gui(GtkApplication *app, gpointer data)
     gtk_window_set_default_size(GTK_WINDOW(toplevel),
                                 vmode.width, vmode.height);
   }
+
+  g_signal_connect(toplevel, "focus_out_event",
+                   G_CALLBACK(fc_lost_focus), NULL);
+  g_signal_connect(toplevel, "focus_in_event",
+                   G_CALLBACK(fc_gained_focus), NULL);
 
   gtk_widget_realize(toplevel);
   gtk_widget_set_name(toplevel, "Freeciv");

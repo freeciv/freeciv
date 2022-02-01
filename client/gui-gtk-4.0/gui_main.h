@@ -82,4 +82,7 @@ bool is_gui_up(void);
 
 bool terminate_signal_processing(void);
 
+gboolean fc_lost_focus(GtkWidget *w, GdkEvent *ev, gpointer data);
+gboolean fc_gained_focus(GtkWidget *w, GdkEvent *ev, gpointer data);
+
 #endif  /* FC__GUI_MAIN_H */

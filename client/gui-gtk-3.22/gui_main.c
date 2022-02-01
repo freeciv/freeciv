@@ -61,6 +61,7 @@
 #include "version.h"
 
 /* client */
+#include "audio.h"
 #include "client_main.h"
 #include "climisc.h"
 #include "clinet.h"
@@ -184,6 +185,9 @@ gint cur_x, cur_y;
 
 static bool gui_up = FALSE;
 
+static bool audio_paused = FALSE;
+static bool client_focus = TRUE;
+
 static struct video_mode vmode = { -1, -1 };
 
 static gboolean show_info_button_release(GtkWidget *w, GdkEventButton *ev, gpointer data);
@@ -236,6 +240,14 @@ static void log_callback_utf8(enum log_level level, const char *message,
 static gboolean timer_callback(gpointer data)
 {
   double seconds = real_timer_callback();
+
+  if (!audio_paused && !client_focus) {
+    audio_pause();
+    audio_paused = TRUE;
+  } else if (audio_paused && client_focus) {
+    audio_resume();
+    audio_paused = FALSE;
+  }
 
   timer_id = g_timeout_add(seconds * 1000, timer_callback, NULL);
 
@@ -758,6 +770,26 @@ static gboolean mouse_scroll_mapcanvas(GtkWidget *w, GdkEventScroll *ev)
   }
 
   control_mouse_cursor(canvas_pos_to_tile(cur_x, cur_y));
+
+  return TRUE;
+}
+
+/**********************************************************************//**
+  Freeciv window has lost focus
+**************************************************************************/
+gboolean fc_lost_focus(GtkWidget *w, GdkEventKey *ev, gpointer data)
+{
+  client_focus = FALSE;
+
+  return TRUE;
+}
+
+/**********************************************************************//**
+  Freeciv window has gained focus
+**************************************************************************/
+gboolean fc_gained_focus(GtkWidget *w, GdkEventKey *ev, gpointer data)
+{
+  client_focus = TRUE;
 
   return TRUE;
 }
@@ -1826,6 +1858,11 @@ void ui_main(int argc, char **argv)
   }
   g_signal_connect(toplevel, "key_press_event",
                    G_CALLBACK(toplevel_handler), NULL);
+
+  g_signal_connect(toplevel, "focus_out_event",
+                   G_CALLBACK(fc_lost_focus), NULL);
+  g_signal_connect(toplevel, "focus_in_event",
+                   G_CALLBACK(fc_gained_focus), NULL);
 
   gtk_window_set_role(GTK_WINDOW(toplevel), "toplevel");
   gtk_widget_realize(toplevel);

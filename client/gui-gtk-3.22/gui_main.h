@@ -85,4 +85,7 @@ struct video_mode *resolution_request_get(void);
 
 bool is_gui_up(void);
 
+gboolean fc_lost_focus(GtkWidget *w, GdkEventKey *ev, gpointer data);
+gboolean fc_gained_focus(GtkWidget *w, GdkEventKey *ev, gpointer data);
+
 #endif  /* FC__GUI_MAIN_H */

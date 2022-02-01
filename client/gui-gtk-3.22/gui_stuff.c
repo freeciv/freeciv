@@ -298,6 +298,10 @@ void setup_dialog(GtkWidget *shell, GtkWidget *parent)
 
   /* Close dialog window on Escape keypress. */
   if (GTK_IS_DIALOG(shell)) {
+    g_signal_connect(shell, "focus_out_event",
+                   G_CALLBACK(fc_lost_focus), NULL);
+    g_signal_connect(shell, "focus_in_event",
+                   G_CALLBACK(fc_gained_focus), NULL);
     g_signal_connect_after(shell, "close", G_CALLBACK(close_callback), shell);
   }
 }
