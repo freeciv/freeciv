@@ -9,7 +9,7 @@
 
 [datafile]
 description = "Classic nations data for Freeciv"
-options = "+Freeciv-ruleset-Devel-2021.Feb.06 web-compatible"
+options = "+Freeciv-ruleset-3.2-Devel-2022.Feb.02 web-compatible"
 format_version = 30
 
 ; This section contains meta information for freeciv-ruledit and freeciv-ruleup
