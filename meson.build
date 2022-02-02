@@ -511,7 +511,8 @@ else
     'dependencies/tolua-5.2/src/bin/toluabind.c',
     include_directories : ['dependencies/lua-5.4/src',
                            'dependencies/tolua-5.2/include'],
-    link_with: fc_deps
+    link_with: fc_deps,
+    dependencies: m_dep
   )
 endif
 
