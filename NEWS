@@ -3,8 +3,9 @@ Welcome to Freeciv 3.0
 ======================
 
 The most important changes between major releases are shown below.
-Not all changes are shown here. Those who are interested in seeing
-the detailed changes should check the ChangeLog file.
+Not all changes are shown here. See NEWS-3.0 for changes in minor
+releases within 3.0 series. Those who are interested in seeing
+even more detailed changes should check the ChangeLog file.
 
 
 MAJOR CHANGES FROM 2.6.x to 3.0.0
