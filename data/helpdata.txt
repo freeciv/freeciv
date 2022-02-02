@@ -2362,7 +2362,8 @@ project's mailing lists:\
 "), "\
     Marko Lindqvist       - cazfi74@gmail.com\n\
     Jacob Nevins          - 0jacobnk.fca@chiark.greenend.org.uk\n\
-    Sveinung Kvilhaugsvik - sveinung84@users.sourceforge.net\
+    Sveinung Kvilhaugsvik - sveinung84@users.sourceforge.net\n\
+    Alina Lenk            - alina.v.lenk@gmail.com\
 ", _("\
 For more information in general, visit the Freeciv website, at:\
 "), "\
