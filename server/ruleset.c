@@ -2220,7 +2220,7 @@ static bool load_ruleset_units(struct section_file *file,
       const int i = utype_index(u);
       struct unit_class *pclass;
       const char *sec_name = section_name(section_list_get(sec, i));
-      const char *string;
+      const char *str;
       struct impr_type *impr_req = NULL;
 
       /* Read the building build requirement from the old ruleset format
@@ -2268,8 +2268,8 @@ static bool load_ruleset_units(struct section_file *file,
                  secfile_lookup_str_default(file, "-", "%s.sound_fight_alt",
                                             sec_name));
 
-      if ((string = secfile_lookup_str(file, "%s.graphic", sec_name))) {
-        sz_strlcpy(u->graphic_str, string);
+      if ((str = secfile_lookup_str(file, "%s.graphic", sec_name))) {
+        sz_strlcpy(u->graphic_str, str);
       } else {
         ruleset_error(LOG_ERROR, "%s", secfile_error());
         ok = FALSE;
@@ -2455,17 +2455,16 @@ static bool load_ruleset_units(struct section_file *file,
         }
       } unit_class_iterate_end;
 
-      u->vlayer = vision_layer_by_name(secfile_lookup_str_default(file, "Main",
-                                                                  "%s.vision_layer",
-                                                                  sec_name),
-                                       fc_strcasecmp);
+      str = secfile_lookup_str_default(file, "Main", "%s.vision_layer",
+                                       sec_name);
+      u->vlayer = vision_layer_by_name(str, fc_strcasecmp);
       if (!vision_layer_is_valid(u->vlayer)) {
         ruleset_error(LOG_ERROR,
                       "\"%s\" unit_type \"%s\":"
                       "has unknown vision layer %s.",
                       filename,
                       utype_rule_name(u),
-                      slist[j]);
+                      str);
         ok = FALSE;
         break;
       }
