@@ -205,7 +205,7 @@ Freeciv expects the following lua functions to be defined in database.lua:
   -- Called when connection has been fully established
   function conn_established(conn)
 
-Where 'conn' is on object representing the connection to the client which
+Where 'conn' is an object representing the connection to the client which
 requests access.
 
 
