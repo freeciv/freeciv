@@ -215,6 +215,10 @@ The following lua functions are provided by Freeciv:
   auth.get_username(conn)
   -- return the client IP address (string)
   auth.get_ipaddr(conn)
+  -- return connection cmdlevel
+  auth.get_cmdlevel(conn)
+  -- set connection cmdlevel
+  auth.set_cmdlevel(conn, cmdlevel)
 
   -- return a value from the --Database configuration file
   fcdb.option(type)

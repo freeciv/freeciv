@@ -26,6 +26,7 @@
 
 /* server */
 #include "auth.h"
+#include "connecthand.h"
 
 /* server/scripting */
 #include "script_fcdb.h"
@@ -54,4 +55,28 @@ const char *api_auth_get_ipaddr(lua_State *L, Connection *pconn)
   fc_assert_ret_val(conn_is_valid(pconn), NULL);
 
   return auth_get_ipaddr(pconn);
+}
+
+/**********************************************************************//**
+  Get the access level.
+**************************************************************************/
+int api_auth_get_cmdlevel(lua_State *L, Connection *pconn)
+{
+  LUASCRIPT_CHECK_STATE(L, -1);
+  LUASCRIPT_CHECK_SELF(L, pconn, -1);
+  fc_assert_ret_val(conn_is_valid(pconn), -1);
+
+  return conn_get_access(pconn);
+}
+
+/**********************************************************************//**
+  Set the access level.
+**************************************************************************/
+void api_auth_set_cmdlevel(lua_State *L, Connection *pconn, int level)
+{
+  LUASCRIPT_CHECK_STATE(L);
+  LUASCRIPT_CHECK_SELF(L, pconn);
+  fc_assert_ret(conn_is_valid(pconn));
+
+  conn_set_access(pconn, level, TRUE);
 }

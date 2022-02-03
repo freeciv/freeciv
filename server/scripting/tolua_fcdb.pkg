@@ -36,6 +36,10 @@ module auth {
     @ get_username(lua_State *L, Connection *pconn);
   const char *api_auth_get_ipaddr
     @ get_ipaddr(lua_State *L, Connection *pconn);
+   int api_auth_get_cmdlevel
+    @ get_cmdlevel(lua_State *L, Connection *pconn);
+   void api_auth_set_cmdlevel
+    @ set_cmdlevel(lua_State *L, Connection *pconn, int level);
 }
 
 /* Freeciv database (fcdb) module. */
