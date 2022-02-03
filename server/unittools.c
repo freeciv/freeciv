@@ -439,7 +439,7 @@ static void do_upgrade_effects(struct player *pplayer)
     const struct unit_type *type_from = unit_type_get(punit);
     const struct unit_type *type_to = can_upgrade_unittype(pplayer, type_from);
 
-    transform_unit(punit, type_to, TRUE);
+    transform_unit(punit, type_to, game.server.autoupgrade_veteran_loss);
     notify_player(pplayer, unit_tile(punit), E_UNIT_UPGRADED, ftc_server,
                   _("%s was upgraded for free to %s."),
                   utype_name_translation(type_from),
@@ -781,7 +781,7 @@ static void unit_convert(struct unit *punit)
   to_type = from_type->converted_to;
 
   if (unit_can_convert(punit)) {
-    transform_unit(punit, to_type, TRUE);
+    transform_unit(punit, to_type, 0);
     notify_player(unit_owner(punit), unit_tile(punit),
                   E_UNIT_UPGRADED, ftc_server,
                   _("%s converted to %s."),
@@ -1532,22 +1532,17 @@ bool is_airunit_refuel_point(const struct tile *ptile,
   test first to check that the transformation is legal (test_unit_upgrade()
   or test_unit_convert()).
 
-  is_free: Does unit owner need to pay upgrade price.
+  vet_loss: Number of veteran levels lost in process.
 
   Note that this function is strongly tied to unit.c:test_unit_upgrade().
 **************************************************************************/
 void transform_unit(struct unit *punit, const struct unit_type *to_unit,
-                    bool is_free)
+                    int vet_loss)
 {
   struct player *pplayer = unit_owner(punit);
   const struct unit_type *old_type = punit->utype;
   int old_mr = unit_move_rate(punit);
   int old_hp = unit_type_get(punit)->hp;
-
-  if (!is_free) {
-    pplayer->economic.gold -=
-	unit_upgrade_price(pplayer, unit_type_get(punit), to_unit);
-  }
 
   punit->utype = to_unit;
 
@@ -1555,13 +1550,8 @@ void transform_unit(struct unit *punit, const struct unit_type *to_unit,
    * knock some levels off. */
   punit->veteran = MIN(punit->veteran,
                        utype_veteran_system(to_unit)->levels - 1);
-  if (is_free) {
-    punit->veteran = MAX(punit->veteran
-                         - game.server.autoupgrade_veteran_loss, 0);
-  } else {
-    punit->veteran = MAX(punit->veteran
-                         - game.server.upgrade_veteran_loss, 0);
-  }
+  /* Keeping the old behaviour, so first clip top, then reduce */
+  punit->veteran = MAX(punit->veteran - vet_loss, 0);
 
   /* Scale HP and MP, rounding down. Be careful with integer arithmetic,
    * and don't kill the unit. unit_move_rate() is used to take into account
