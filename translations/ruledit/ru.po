@@ -9,14 +9,14 @@
 #   Egor Vyscrebentov <evyscr@murom.net>, 2003-2008.
 #   Alexandr Menovchicov <orders@kypi.ru>, 2003-2006.
 #   Andrej Svininykh <svininykh@gmail.com>, 2009-2011.
-#   Konstantin Vedeneev <konved@gmail.com>, 2011-2021.
+#   Konstantin Vedeneev <konved@gmail.com>, 2011-2022.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv Ruledit\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2021-12-06 05:59+0500\n"
-"PO-Revision-Date: 2021-12-06 03:53+0500\n"
+"POT-Creation-Date: 2022-02-03 17:18+0500\n"
+"PO-Revision-Date: 2022-02-03 16:48+0500\n"
 "Last-Translator: Konstantin Vedeneev <konved@gmail.com>\n"
 "Language-Team: Russian <freeciv.ru@freelists.org>\n"
 "Language: ru\n"
@@ -147,7 +147,7 @@ msgstr "Ошибка загрузки файла comments.txt"
 
 #: tools/ruledit/ruledit.cpp:152
 msgid "Print a summary of the options"
-msgstr "Выдать список возможных ключей командной строки"
+msgstr "Выдать список возможных параметров"
 
 #: tools/ruledit/ruledit.cpp:154
 msgid "Print the version number"
@@ -160,7 +160,7 @@ msgstr "ruleset НАБОРПРАВИЛ"
 
 #: tools/ruledit/ruledit.cpp:158
 msgid "Ruleset to use as the starting point."
-msgstr "Набор правил, который будет стартовым."
+msgstr "Набор правил, который будет начальным."
 
 #. TRANS: "Fatal" is exactly what user must type, do not translate.
 #: tools/ruledit/ruledit.cpp:162
@@ -173,7 +173,7 @@ msgstr "Выдать сигнал СИГНАЛ при некорректном �
 
 #: tools/ruledit/ruledit.cpp:177
 msgid "Can only edit one ruleset at a time.\n"
-msgstr "В одно время можно редактировать только один набор правил.\n"
+msgstr "Одномоментно можно редактировать только один набор правил.\n"
 
 #: tools/ruledit/ruledit.cpp:188
 #, c-format
@@ -187,7 +187,7 @@ msgstr "Попробуйте использовать --help.\n"
 #: tools/ruledit/ruledit.cpp:197
 #, c-format
 msgid "Unrecognized option: \"%s\"\n"
-msgstr "Неопознанный параметр: \"%s\"\n"
+msgstr "Неизвестный параметр: \"%s\"\n"
 
 #: tools/ruledit/ruledit_qt.cpp:126
 #, c-format
@@ -200,7 +200,7 @@ msgstr ""
 
 #: tools/ruledit/ruledit_qt.cpp:137
 msgid "Give ruleset to use as starting point."
-msgstr "Выберите набор правил, который будет стартовым."
+msgstr "Укажите набор правил, который будет начальным."
 
 #: tools/ruledit/ruledit_qt.cpp:149
 msgid "Start editing"
@@ -208,7 +208,7 @@ msgstr "Начать редактирование"
 
 #: tools/ruledit/ruledit_qt.cpp:159
 msgid "Misc"
-msgstr "Параметры"
+msgstr "Разное"
 
 #: tools/ruledit/ruledit_qt.cpp:161
 msgid "Tech"
@@ -388,115 +388,126 @@ msgstr "Удалить эту Форму правления"
 msgid "A government with that rule name already exists!"
 msgstr "Форма правления с этим названием правила уже существует!"
 
-#: tools/ruledit/tab_misc.cpp:68
+#: tools/ruledit/tab_misc.cpp:73
 msgid "Ruleset name"
 msgstr "Название набора правил"
 
-#: tools/ruledit/tab_misc.cpp:73
+#: tools/ruledit/tab_misc.cpp:78
 msgid "Ruleset version"
 msgstr "Версия набора правил"
 
-#: tools/ruledit/tab_misc.cpp:78
+#: tools/ruledit/tab_misc.cpp:83
 msgid "Save to directory"
 msgstr "Сохранить в каталог"
 
-#: tools/ruledit/tab_misc.cpp:85
+#: tools/ruledit/tab_misc.cpp:105
+#, c-format
+msgid ""
+"If you want to be able to load the ruleset directly to freeciv, place it as "
+"a subdirectory under %s%s%s\n"
+"Use server command \"/rulesetdir <subdirectory>\" to load it to freeciv."
+msgstr ""
+"Если Вы хотите иметь возможность загружать набор правил напрямую из Freeciv, "
+"поместите его в подкаталог по пути %s%s%s\n"
+"Используйте команду \"/rulesetdir <подкаталог>\" для загрузки."
+
+#: tools/ruledit/tab_misc.cpp:114
 msgid "Version suffix to directory name"
 msgstr "Суффикс версии для наименования каталога"
 
-#: tools/ruledit/tab_misc.cpp:90
+#: tools/ruledit/tab_misc.cpp:119
 msgid "Save now"
 msgstr "Сохранить"
 
-#: tools/ruledit/tab_misc.cpp:94
+#: tools/ruledit/tab_misc.cpp:123
 msgid "Description from file"
 msgstr "Описание из файла"
 
-#: tools/ruledit/tab_misc.cpp:101
+#: tools/ruledit/tab_misc.cpp:130
 msgid "Description file"
 msgstr "Файл с описанием"
 
-#: tools/ruledit/tab_misc.cpp:110
+#: tools/ruledit/tab_misc.cpp:139
 msgid "?stat:Terrains"
 msgstr "Рельефы"
 
-#: tools/ruledit/tab_misc.cpp:114
+#: tools/ruledit/tab_misc.cpp:143
 msgid "?stat:Resources"
 msgstr "Ресурсы"
 
-#: tools/ruledit/tab_misc.cpp:118
+#: tools/ruledit/tab_misc.cpp:147
 msgid "?stat:Tech Classes"
 msgstr "Типы Технологий"
 
-#: tools/ruledit/tab_misc.cpp:122
+#: tools/ruledit/tab_misc.cpp:151
 msgid "?stat:Techs"
-msgstr "Технологии"
+msgstr "Открытия"
 
-#: tools/ruledit/tab_misc.cpp:126
+#: tools/ruledit/tab_misc.cpp:155
 msgid "?stat:Unit Classes"
 msgstr "Классы Соединений"
 
-#: tools/ruledit/tab_misc.cpp:130
+#: tools/ruledit/tab_misc.cpp:159
 msgid "?stat:Unit Types"
 msgstr "Соединения"
 
-#: tools/ruledit/tab_misc.cpp:134
+#: tools/ruledit/tab_misc.cpp:163
 msgid "?stat:Enablers"
 msgstr "Включатели"
 
-#: tools/ruledit/tab_misc.cpp:138
+#: tools/ruledit/tab_misc.cpp:167
 msgid "?stat:Buildings"
 msgstr "Здания"
 
-#: tools/ruledit/tab_misc.cpp:142
+#: tools/ruledit/tab_misc.cpp:171
 msgid "?stat:Nations"
 msgstr "Народы"
 
-#: tools/ruledit/tab_misc.cpp:146
+#: tools/ruledit/tab_misc.cpp:175
 msgid "?stat:Styles"
 msgstr "Стили"
 
-#: tools/ruledit/tab_misc.cpp:150
+#: tools/ruledit/tab_misc.cpp:179
 msgid "?stat:Specialists"
 msgstr "Специалисты"
 
-#: tools/ruledit/tab_misc.cpp:154
+#: tools/ruledit/tab_misc.cpp:183
 msgid "?stat:Governments"
 msgstr "Формы Правления"
 
-#: tools/ruledit/tab_misc.cpp:158
+#: tools/ruledit/tab_misc.cpp:187
 msgid "?stat:Disasters"
 msgstr "Бедствия"
 
-#: tools/ruledit/tab_misc.cpp:162
+#: tools/ruledit/tab_misc.cpp:191
 msgid "?stat:Achievements"
 msgstr "Достижения"
 
-#: tools/ruledit/tab_misc.cpp:166
+#: tools/ruledit/tab_misc.cpp:195
 msgid "?stat:Extras"
 msgstr "Сооружения"
 
-#: tools/ruledit/tab_misc.cpp:170
+#: tools/ruledit/tab_misc.cpp:199
 msgid "?stat:Bases"
 msgstr "Базы"
 
-#: tools/ruledit/tab_misc.cpp:174
+#: tools/ruledit/tab_misc.cpp:203
 msgid "?stat:Roads"
 msgstr "Дороги"
 
-#: tools/ruledit/tab_misc.cpp:178
+#: tools/ruledit/tab_misc.cpp:207
 msgid "?stat:Goods"
 msgstr "Товары"
 
-#: tools/ruledit/tab_misc.cpp:182
+#: tools/ruledit/tab_misc.cpp:211
 msgid "?stat:Multipliers"
 msgstr "Множители"
 
-#: tools/ruledit/tab_misc.cpp:190
+#: tools/ruledit/tab_misc.cpp:219
 msgid "Refresh Stats"
 msgstr "Обновить статистику"
 
-#: tools/ruledit/tab_misc.cpp:272
+#: tools/ruledit/tab_misc.cpp:301
 msgid "Ruleset saved"
 msgstr "Набор правил сохранён"
 
@@ -601,7 +612,7 @@ msgstr "Эффект"
 #: tools/ruledit/validity.c:122
 #, c-format
 msgid "%s action enabler"
-msgstr "Включатель действия %s"
+msgstr "Включатель Действия %s"
 
 #: tools/ruledit/validity.c:144
 msgid "Music Style"
