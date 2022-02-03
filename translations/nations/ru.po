@@ -9,14 +9,14 @@
 #   Egor Vyscrebentov <evyscr@murom.net>, 2003-2008.
 #   Alexandr Menovchicov <orders@kypi.ru>, 2003-2006.
 #   Andrej Svininykh <svininykh@gmail.com>, 2009-2011.
-#   Konstantin Vedeneev <konved@gmail.com>, 2011-2021.
+#   Konstantin Vedeneev <konved@gmail.com>, 2011-2022.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2021-11-26 19:16+0200\n"
-"PO-Revision-Date: 2021-12-06 05:54+0500\n"
+"POT-Creation-Date: 2022-02-03 17:16+0500\n"
+"PO-Revision-Date: 2022-02-03 17:12+0500\n"
 "Last-Translator: Konstantin Vedeneev <konved@gmail.com>\n"
 "Language-Team: Russian <freeciv.ru@freelists.org>\n"
 "Language: ru\n"
