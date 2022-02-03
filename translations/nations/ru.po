@@ -9,14 +9,14 @@
 #   Egor Vyscrebentov <evyscr@murom.net>, 2003-2008.
 #   Alexandr Menovchicov <orders@kypi.ru>, 2003-2006.
 #   Andrej Svininykh <svininykh@gmail.com>, 2009-2011.
-#   Konstantin Vedeneev <konved@gmail.com>, 2011-2021.
+#   Konstantin Vedeneev <konved@gmail.com>, 2011-2022.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2021-12-06 06:02+0500\n"
-"PO-Revision-Date: 2021-12-06 05:54+0500\n"
+"POT-Creation-Date: 2022-02-03 17:22+0500\n"
+"PO-Revision-Date: 2022-02-03 17:12+0500\n"
 "Last-Translator: Konstantin Vedeneev <konved@gmail.com>\n"
 "Language-Team: Russian <freeciv.ru@freelists.org>\n"
 "Language: ru\n"
@@ -1475,7 +1475,7 @@ msgstr ""
 #: data/nation/etruscan.ruleset:31 data/nation/frankish.ruleset:39
 #: data/nation/gepid.ruleset:41 data/nation/israelite.ruleset:31
 #: data/nation/italiangreek.ruleset:45 data/nation/latin.ruleset:39
-#: data/nation/median.ruleset:29 data/nation/mitanni.ruleset:30
+#: data/nation/median.ruleset:31 data/nation/mitanni.ruleset:30
 #: data/nation/nubian.ruleset:32 data/nation/ostrogothic.ruleset:30
 #: data/nation/palatinate.ruleset:28 data/nation/palmyrene.ruleset:19
 #: data/nation/parthian.ruleset:33 data/nation/pelasgian.ruleset:24
@@ -1495,7 +1495,7 @@ msgstr "Узурпатор %s"
 #: data/nation/etruscan.ruleset:31 data/nation/frankish.ruleset:39
 #: data/nation/gepid.ruleset:41 data/nation/israelite.ruleset:31
 #: data/nation/italiangreek.ruleset:45 data/nation/latin.ruleset:39
-#: data/nation/median.ruleset:29 data/nation/mitanni.ruleset:30
+#: data/nation/median.ruleset:31 data/nation/mitanni.ruleset:30
 #: data/nation/nubian.ruleset:32 data/nation/ostrogothic.ruleset:30
 #: data/nation/palatinate.ruleset:28 data/nation/palmyrene.ruleset:19
 #: data/nation/parthian.ruleset:33 data/nation/pelasgian.ruleset:24
@@ -1792,7 +1792,7 @@ msgid "%s Shah"
 msgstr "%s Шах"
 
 #: data/nation/azeri.ruleset:36 data/nation/iranian.ruleset:41
-#: data/nation/khwarezmian.ruleset:28 data/nation/median.ruleset:31
+#: data/nation/khwarezmian.ruleset:28 data/nation/median.ruleset:33
 #, c-format
 msgid "%s Shahbanu"
 msgstr "Шахбану %s"
@@ -7260,13 +7260,13 @@ msgstr ""
 "1097 году, которая просуществовала до завоевания Хорезма Чингисханом в 1231 "
 "году."
 
-#: data/nation/khwarezmian.ruleset:27 data/nation/median.ruleset:30
+#: data/nation/khwarezmian.ruleset:27 data/nation/median.ruleset:32
 #: data/nation/parthian.ruleset:34 data/nation/seleucid.ruleset:29
 #, c-format
 msgid "Satrap %s"
 msgstr "Сатрап %s"
 
-#: data/nation/khwarezmian.ruleset:27 data/nation/median.ruleset:30
+#: data/nation/khwarezmian.ruleset:27 data/nation/median.ruleset:32
 #: data/nation/parthian.ruleset:34 data/nation/seleucid.ruleset:29
 #, c-format
 msgid "?female:Satrap %s"
@@ -8557,7 +8557,7 @@ msgstr ""
 "с царём Киром II Великим, и стала вассальным царством в персидской империи "
 "Ахеменидов — первом полиэтническом государстве в мире."
 
-#: data/nation/median.ruleset:31
+#: data/nation/median.ruleset:33
 #, c-format
 msgid "%s Shahanshah"
 msgstr "Шахиншах %s"
