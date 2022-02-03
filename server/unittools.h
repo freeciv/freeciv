@@ -119,7 +119,7 @@ void unit_forget_last_activity(struct unit *punit);
 
 /* creation/deletion/upgrading */
 void transform_unit(struct unit *punit, struct unit_type *to_unit,
-                    bool has_to_pay);
+                    int vet_loss);
 struct unit *create_unit(struct player *pplayer, struct tile *ptile,
 			 struct unit_type *punittype,
 			 int veteran_level, int homecity_id, int moves_left);
