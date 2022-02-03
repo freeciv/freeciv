@@ -389,7 +389,9 @@ QT6_DLLS := \
 	libpcre2-16-0.dll \
 	libpcre-1.dll \
 	libharfbuzz-0.dll \
-	libgraphite2.dll
+	libgraphite2.dll \
+	libdouble-conversion.dll \
+	libmd4c.dll
 
 install-env-qt6: install-env-common
 	# add DLLs
