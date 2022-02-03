@@ -2,13 +2,6 @@
 <!-- Creator: CorelDRAW -->
 
 <svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xml:space="preserve"
    width="600"
    height="400"
@@ -19,17 +12,24 @@
    viewBox="0 0 16933333 11288888"
    id="svg2"
    sodipodi:version="0.32"
-   inkscape:version="0.47 r22583"
-   sodipodi:docname="menora.svg"
+   inkscape:version="1.1.1 (3bf5ae0d25, 2021-09-20)"
+   sodipodi:docname="israel_ancient.svg"
    inkscape:output_extension="org.inkscape.output.svg.inkscape"
    version="1.1"
    style="fill-rule:evenodd"
    inkscape:export-filename="/home/mixcoatl/Bureaublad/New Folder/menora.png"
    inkscape:export-xdpi="4.0499997"
-   inkscape:export-ydpi="4.0499997"><metadata
+   inkscape:export-ydpi="4.0499997"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/"><metadata
    id="metadata53"><rdf:RDF><cc:Work
        rdf:about=""><dc:format>image/svg+xml</dc:format><dc:type
-         rdf:resource="http://purl.org/dc/dcmitype/StillImage" /><dc:title></dc:title></cc:Work></rdf:RDF></metadata><defs
+         rdf:resource="http://purl.org/dc/dcmitype/StillImage" /></cc:Work></rdf:RDF></metadata><defs
    id="defs51"><inkscape:perspective
      sodipodi:type="inkscape:persp3d"
      inkscape:vp_x="0 : 256.88977 : 1"
@@ -43,8 +43,8 @@
      inkscape:vp_y="0 : 1000 : 0"
      inkscape:vp_x="0 : 0.5 : 1"
      sodipodi:type="inkscape:persp3d" /></defs><sodipodi:namedview
-   inkscape:window-height="695"
-   inkscape:window-width="1024"
+   inkscape:window-height="627"
+   inkscape:window-width="848"
    inkscape:pageshadow="2"
    inkscape:pageopacity="0.0"
    guidetolerance="10.0"
@@ -55,16 +55,18 @@
    pagecolor="#ffffff"
    id="base"
    inkscape:zoom="1"
-   inkscape:cx="259.85205"
-   inkscape:cy="213.40391"
-   inkscape:window-x="-3"
-   inkscape:window-y="0"
+   inkscape:cx="295.5"
+   inkscape:cy="193"
+   inkscape:window-x="575"
+   inkscape:window-y="193"
    inkscape:current-layer="Layer_x0020_1"
    showgrid="false"
-   inkscape:window-maximized="1" />
+   inkscape:window-maximized="0"
+   inkscape:pagecheckerboard="0" />
 	<g
    id="Layer_x0020_1"
-   transform="translate(-249338.37,-2932710.1)">
+   transform="translate(-249338.37,-2932710.1)"
+   inkscape:label="Layer 1">
 		<metadata
    id="CorelCorpID_0Corel-Layer" />
 		
