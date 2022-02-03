@@ -1,5 +1,5 @@
-# host-cpu-c-abi.m4 serial 14
-dnl Copyright (C) 2002-2021 Free Software Foundation, Inc.
+# host-cpu-c-abi.m4 serial 15
+dnl Copyright (C) 2002-2022 Free Software Foundation, Inc.
 dnl This file is free software; the Free Software Foundation
 dnl gives unlimited permission to copy and/or distribute it,
 dnl with or without modifications, as long as this notice is preserved.
@@ -381,6 +381,9 @@ EOF
 #endif
 #ifndef __ia64__
 #undef __ia64__
+#endif
+#ifndef __loongarch64__
+#undef __loongarch64__
 #endif
 #ifndef __m68k__
 #undef __m68k__
