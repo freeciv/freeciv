@@ -252,13 +252,13 @@ static bool do_unit_upgrade(struct player *pplayer,
 {
   const struct unit_type *from_unit = unit_type_get(punit);
   const struct unit_type *to_unit = can_upgrade_unittype(pplayer, from_unit);
+  int cost = unit_upgrade_price(pplayer, from_unit, to_unit);
 
-  transform_unit(punit, to_unit, FALSE);
+  transform_unit(punit, to_unit, game.server.upgrade_veteran_loss);
+  pplayer->economic.gold -= cost;
   send_player_info_c(pplayer, pplayer->connections);
 
   if (ordered_by == ACT_REQ_PLAYER) {
-    int cost = unit_upgrade_price(pplayer, from_unit, to_unit);
-
     notify_player(pplayer, unit_tile(punit), E_UNIT_UPGRADED, ftc_server,
                   PL_("%s upgraded to %s for %d gold.",
                       "%s upgraded to %s for %d gold.", cost),
