@@ -202,7 +202,7 @@ Freeciv expects the following lua functions to be defined in database.lua:
   -- Free the database connection
   function database_free()
 
-Where 'conn' is on object representing the connection to the client which
+Where 'conn' is an object representing the connection to the client which
 requests access.
 
 
