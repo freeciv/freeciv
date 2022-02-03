@@ -184,7 +184,11 @@ Help / Documentation
 
 Translations
 
-    * Updated translations: fi, fr, pl, ru
+    * Updated translations:
+         + Complete translations: Catalan, French, Polish
+         + Incomplete translations:
+           Finnish (100% core, 91% nations, 100% ruledit)
+           Russian (99% core, 100% nations, 99% ruledit)
 
 Build/portability
 
@@ -398,7 +402,6 @@ Help / Documentation
 
 Translations
 
-    * Updated translations:
     * Updated translations:
          + Complete translations: Catalan, Russian
          + Incomplete translations:
