@@ -982,6 +982,9 @@ void tile_remove_extra(struct tile *ptile, const struct extra_type *pextra)
 {
   if (pextra != NULL) {
     BV_CLR(ptile->extras, extra_index(pextra));
+    if (ptile->resource == pextra) {
+      ptile->resource = NULL;
+    }
   }
 }
 
