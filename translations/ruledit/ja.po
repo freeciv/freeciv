@@ -156,7 +156,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.0.99-devel\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2021-09-16 18:19+0300\n"
+"POT-Creation-Date: 2022-02-01 16:04+0200\n"
 "PO-Revision-Date: 2015-02-17 22:53+0900\n"
 "Last-Translator: \n"
 "Language-Team: SAWADA Katsuya <ama@petmail.net>\n"
@@ -177,14 +177,18 @@ msgstr "閉じる"
 msgid "Old ruleset to a new format"
 msgstr ""
 
-#: tools/ruledit/edit_impr.cpp:47 tools/ruledit/edit_utype.cpp:64
+#: tools/ruledit/edit_impr.cpp:50 tools/ruledit/edit_utype.cpp:64
 #, fuzzy
 #| msgid "Buildings"
 msgid "Build Cost"
 msgstr "建造物"
 
-#: tools/ruledit/edit_impr.cpp:58
+#: tools/ruledit/edit_impr.cpp:61
 msgid "Upkeep"
+msgstr ""
+
+#: tools/ruledit/edit_impr.cpp:71
+msgid "Genus"
 msgstr ""
 
 #: tools/ruledit/edit_utype.cpp:49
@@ -197,6 +201,10 @@ msgstr ""
 
 #: tools/ruledit/edit_utype.cpp:84
 msgid "Defense Strength"
+msgstr ""
+
+#: tools/ruledit/edit_utype.cpp:94
+msgid "Move Rate"
 msgstr ""
 
 #. TRANS: Trying to fix a requirement vector problem but can't find
@@ -539,144 +547,152 @@ msgstr "このプリセットを削除していいですか?"
 msgid "A government with that rule name already exists!"
 msgstr "%sと呼ばれる都市は既に存在します。"
 
-#: tools/ruledit/tab_misc.cpp:68
+#: tools/ruledit/tab_misc.cpp:73
 #, fuzzy
 msgid "Ruleset name"
 msgstr "ルールセット"
 
-#: tools/ruledit/tab_misc.cpp:73
+#: tools/ruledit/tab_misc.cpp:78
 #, fuzzy
 msgid "Ruleset version"
 msgstr "ルールセット(_V):"
 
 # clefs
-#: tools/ruledit/tab_misc.cpp:78
+#: tools/ruledit/tab_misc.cpp:83
 #, fuzzy
 msgid "Save to directory"
 msgstr "ディレクトリDIRにゲームを保存する"
 
-#: tools/ruledit/tab_misc.cpp:85
+#: tools/ruledit/tab_misc.cpp:105
+#, c-format
+msgid ""
+"If you want to be able to load the ruleset directly to freeciv, place it as "
+"a subdirectory under %s%s%s\n"
+"Use server command \"/rulesetdir <subdirectory>\" to load it to freeciv."
+msgstr ""
+
+#: tools/ruledit/tab_misc.cpp:114
 msgid "Version suffix to directory name"
 msgstr ""
 
 # Daniel
-#: tools/ruledit/tab_misc.cpp:90
+#: tools/ruledit/tab_misc.cpp:119
 #, fuzzy
 msgid "Save now"
 msgstr "シナリオの保存"
 
-#: tools/ruledit/tab_misc.cpp:94
+#: tools/ruledit/tab_misc.cpp:123
 msgid "Description from file"
 msgstr ""
 
-#: tools/ruledit/tab_misc.cpp:101
+#: tools/ruledit/tab_misc.cpp:130
 msgid "Description file"
 msgstr ""
 
-#: tools/ruledit/tab_misc.cpp:110
+#: tools/ruledit/tab_misc.cpp:139
 #, fuzzy
 msgid "?stat:Terrains"
 msgstr "地形"
 
-#: tools/ruledit/tab_misc.cpp:114
+#: tools/ruledit/tab_misc.cpp:143
 #, fuzzy
 #| msgid "Resources"
 msgid "?stat:Resources"
 msgstr "資源"
 
-#: tools/ruledit/tab_misc.cpp:118
+#: tools/ruledit/tab_misc.cpp:147
 #, fuzzy
 msgid "?stat:Tech Classes"
 msgstr "ユニット被撃破数\n"
 
-#: tools/ruledit/tab_misc.cpp:122
+#: tools/ruledit/tab_misc.cpp:151
 #, fuzzy
 msgid "?stat:Techs"
 msgstr "技術(_T)"
 
-#: tools/ruledit/tab_misc.cpp:126
+#: tools/ruledit/tab_misc.cpp:155
 #, fuzzy
 msgid "?stat:Unit Classes"
 msgstr "ユニット被撃破数\n"
 
-#: tools/ruledit/tab_misc.cpp:130
+#: tools/ruledit/tab_misc.cpp:159
 #, fuzzy
 msgid "?stat:Unit Types"
 msgstr "ユニット名"
 
-#: tools/ruledit/tab_misc.cpp:134
+#: tools/ruledit/tab_misc.cpp:163
 #, fuzzy
 #| msgid "Bases"
 msgid "?stat:Enablers"
 msgstr "基地"
 
-#: tools/ruledit/tab_misc.cpp:138
+#: tools/ruledit/tab_misc.cpp:167
 #, fuzzy
 #| msgid "Buildings"
 msgid "?stat:Buildings"
 msgstr "建造物"
 
-#: tools/ruledit/tab_misc.cpp:142
+#: tools/ruledit/tab_misc.cpp:171
 #, fuzzy
 #| msgid "Nations"
 msgid "?stat:Nations"
 msgstr "民族"
 
-#: tools/ruledit/tab_misc.cpp:146
+#: tools/ruledit/tab_misc.cpp:175
 #, fuzzy
 msgid "?stat:Styles"
 msgstr "建築様式(_S):"
 
-#: tools/ruledit/tab_misc.cpp:150
+#: tools/ruledit/tab_misc.cpp:179
 #, fuzzy
 msgid "?stat:Specialists"
 msgstr " 専門家"
 
-#: tools/ruledit/tab_misc.cpp:154
+#: tools/ruledit/tab_misc.cpp:183
 #, fuzzy
 msgid "?stat:Governments"
 msgstr "政治体制"
 
-#: tools/ruledit/tab_misc.cpp:158
+#: tools/ruledit/tab_misc.cpp:187
 #, fuzzy
 msgid "?stat:Disasters"
 msgstr "環境災害"
 
-#: tools/ruledit/tab_misc.cpp:162
+#: tools/ruledit/tab_misc.cpp:191
 msgid "?stat:Achievements"
 msgstr ""
 
-#: tools/ruledit/tab_misc.cpp:166
+#: tools/ruledit/tab_misc.cpp:195
 msgid "?stat:Extras"
 msgstr ""
 
-#: tools/ruledit/tab_misc.cpp:170
+#: tools/ruledit/tab_misc.cpp:199
 #, fuzzy
 #| msgid "Bases"
 msgid "?stat:Bases"
 msgstr "基地"
 
-#: tools/ruledit/tab_misc.cpp:174
+#: tools/ruledit/tab_misc.cpp:203
 #, fuzzy
 msgid "?stat:Roads"
 msgstr "道路"
 
-#: tools/ruledit/tab_misc.cpp:178
+#: tools/ruledit/tab_misc.cpp:207
 #, fuzzy
 msgid "?stat:Goods"
 msgstr "道路"
 
-#: tools/ruledit/tab_misc.cpp:182
+#: tools/ruledit/tab_misc.cpp:211
 #, fuzzy
 msgid "?stat:Multipliers"
 msgstr "建築様式(_S):"
 
-#: tools/ruledit/tab_misc.cpp:190
+#: tools/ruledit/tab_misc.cpp:219
 #, fuzzy
 msgid "Refresh Stats"
 msgstr "再表示"
 
-#: tools/ruledit/tab_misc.cpp:272
+#: tools/ruledit/tab_misc.cpp:301
 #, fuzzy
 msgid "Ruleset saved"
 msgstr "ルールセット"

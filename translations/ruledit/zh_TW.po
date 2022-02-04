@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 2.4.99-dev\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2021-09-16 18:19+0300\n"
+"POT-Creation-Date: 2022-02-01 16:04+0200\n"
 "PO-Revision-Date: 2015-03-30 14:26+0800\n"
 "Last-Translator: Zhang Xiaowei <zero00072@gmail.com>\n"
 "Language-Team: Chinese (Traditional) <zero00072@gmail.com>\n"
@@ -25,14 +25,18 @@ msgstr "關閉"
 msgid "Old ruleset to a new format"
 msgstr ""
 
-#: tools/ruledit/edit_impr.cpp:47 tools/ruledit/edit_utype.cpp:64
+#: tools/ruledit/edit_impr.cpp:50 tools/ruledit/edit_utype.cpp:64
 #, fuzzy
 #| msgid "Buildings"
 msgid "Build Cost"
 msgstr "建築"
 
-#: tools/ruledit/edit_impr.cpp:58
+#: tools/ruledit/edit_impr.cpp:61
 msgid "Upkeep"
+msgstr ""
+
+#: tools/ruledit/edit_impr.cpp:71
+msgid "Genus"
 msgstr ""
 
 #: tools/ruledit/edit_utype.cpp:49
@@ -45,6 +49,10 @@ msgstr ""
 
 #: tools/ruledit/edit_utype.cpp:84
 msgid "Defense Strength"
+msgstr ""
+
+#: tools/ruledit/edit_utype.cpp:94
+msgid "Move Rate"
 msgstr ""
 
 #. TRANS: Trying to fix a requirement vector problem but can't find
@@ -404,153 +412,161 @@ msgstr "移除這項科技"
 msgid "A government with that rule name already exists!"
 msgstr "已存在以此命名的科技！"
 
-#: tools/ruledit/tab_misc.cpp:68
+#: tools/ruledit/tab_misc.cpp:73
 msgid "Ruleset name"
 msgstr "劇本名稱"
 
-#: tools/ruledit/tab_misc.cpp:73
+#: tools/ruledit/tab_misc.cpp:78
 msgid "Ruleset version"
 msgstr "劇本版本"
 
-#: tools/ruledit/tab_misc.cpp:78
+#: tools/ruledit/tab_misc.cpp:83
 msgid "Save to directory"
 msgstr "儲存至目錄"
 
-#: tools/ruledit/tab_misc.cpp:85
+#: tools/ruledit/tab_misc.cpp:105
+#, c-format
+msgid ""
+"If you want to be able to load the ruleset directly to freeciv, place it as "
+"a subdirectory under %s%s%s\n"
+"Use server command \"/rulesetdir <subdirectory>\" to load it to freeciv."
+msgstr ""
+
+#: tools/ruledit/tab_misc.cpp:114
 msgid "Version suffix to directory name"
 msgstr ""
 
-#: tools/ruledit/tab_misc.cpp:90
+#: tools/ruledit/tab_misc.cpp:119
 msgid "Save now"
 msgstr "立即儲存"
 
-#: tools/ruledit/tab_misc.cpp:94
+#: tools/ruledit/tab_misc.cpp:123
 msgid "Description from file"
 msgstr ""
 
-#: tools/ruledit/tab_misc.cpp:101
+#: tools/ruledit/tab_misc.cpp:130
 msgid "Description file"
 msgstr ""
 
-#: tools/ruledit/tab_misc.cpp:110
+#: tools/ruledit/tab_misc.cpp:139
 #, fuzzy
 #| msgid "Terrains"
 msgid "?stat:Terrains"
 msgstr "地形"
 
-#: tools/ruledit/tab_misc.cpp:114
+#: tools/ruledit/tab_misc.cpp:143
 #, fuzzy
 #| msgid "Resources"
 msgid "?stat:Resources"
 msgstr "資源"
 
-#: tools/ruledit/tab_misc.cpp:118
+#: tools/ruledit/tab_misc.cpp:147
 #, fuzzy
 #| msgid "Unit Classes"
 msgid "?stat:Tech Classes"
 msgstr "單位類別"
 
-#: tools/ruledit/tab_misc.cpp:122
+#: tools/ruledit/tab_misc.cpp:151
 #, fuzzy
 #| msgid "Techs"
 msgid "?stat:Techs"
 msgstr "科技"
 
-#: tools/ruledit/tab_misc.cpp:126
+#: tools/ruledit/tab_misc.cpp:155
 #, fuzzy
 #| msgid "Unit Classes"
 msgid "?stat:Unit Classes"
 msgstr "單位類別"
 
-#: tools/ruledit/tab_misc.cpp:130
+#: tools/ruledit/tab_misc.cpp:159
 #, fuzzy
 #| msgid "Unit Types"
 msgid "?stat:Unit Types"
 msgstr "單位類型"
 
-#: tools/ruledit/tab_misc.cpp:134
+#: tools/ruledit/tab_misc.cpp:163
 #, fuzzy
 #| msgid "Action Enabler"
 msgid "?stat:Enablers"
 msgstr "行為啟用者"
 
-#: tools/ruledit/tab_misc.cpp:138
+#: tools/ruledit/tab_misc.cpp:167
 #, fuzzy
 #| msgid "Buildings"
 msgid "?stat:Buildings"
 msgstr "建築"
 
-#: tools/ruledit/tab_misc.cpp:142
+#: tools/ruledit/tab_misc.cpp:171
 #, fuzzy
 #| msgid "Nations"
 msgid "?stat:Nations"
 msgstr "國族"
 
-#: tools/ruledit/tab_misc.cpp:146
+#: tools/ruledit/tab_misc.cpp:175
 #, fuzzy
 #| msgid "Styles"
 msgid "?stat:Styles"
 msgstr "樣式"
 
-#: tools/ruledit/tab_misc.cpp:150
+#: tools/ruledit/tab_misc.cpp:179
 #, fuzzy
 #| msgid "Specialists"
 msgid "?stat:Specialists"
 msgstr "專家"
 
-#: tools/ruledit/tab_misc.cpp:154
+#: tools/ruledit/tab_misc.cpp:183
 #, fuzzy
 #| msgid "Governments"
 msgid "?stat:Governments"
 msgstr "政府"
 
-#: tools/ruledit/tab_misc.cpp:158
+#: tools/ruledit/tab_misc.cpp:187
 #, fuzzy
 #| msgid "Disasters"
 msgid "?stat:Disasters"
 msgstr "天災"
 
-#: tools/ruledit/tab_misc.cpp:162
+#: tools/ruledit/tab_misc.cpp:191
 #, fuzzy
 #| msgid "Achievements"
 msgid "?stat:Achievements"
 msgstr "成就"
 
-#: tools/ruledit/tab_misc.cpp:166
+#: tools/ruledit/tab_misc.cpp:195
 #, fuzzy
 #| msgid "Extras"
 msgid "?stat:Extras"
 msgstr "額外"
 
-#: tools/ruledit/tab_misc.cpp:170
+#: tools/ruledit/tab_misc.cpp:199
 #, fuzzy
 #| msgid "Bases"
 msgid "?stat:Bases"
 msgstr "基礎"
 
-#: tools/ruledit/tab_misc.cpp:174
+#: tools/ruledit/tab_misc.cpp:203
 #, fuzzy
 #| msgid "Roads"
 msgid "?stat:Roads"
 msgstr "道路"
 
-#: tools/ruledit/tab_misc.cpp:178
+#: tools/ruledit/tab_misc.cpp:207
 #, fuzzy
 #| msgid "Roads"
 msgid "?stat:Goods"
 msgstr "道路"
 
-#: tools/ruledit/tab_misc.cpp:182
+#: tools/ruledit/tab_misc.cpp:211
 #, fuzzy
 #| msgid "Styles"
 msgid "?stat:Multipliers"
 msgstr "樣式"
 
-#: tools/ruledit/tab_misc.cpp:190
+#: tools/ruledit/tab_misc.cpp:219
 msgid "Refresh Stats"
 msgstr "更新狀態"
 
-#: tools/ruledit/tab_misc.cpp:272
+#: tools/ruledit/tab_misc.cpp:301
 msgid "Ruleset saved"
 msgstr "已儲存劇本"
 

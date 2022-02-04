@@ -18,7 +18,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.6.0\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2021-09-16 18:19+0300\n"
+"POT-Creation-Date: 2022-02-01 16:04+0200\n"
 "PO-Revision-Date: 2018-04-07 11:33+0100\n"
 "Last-Translator: Jacob Nevins <0jacobnk.fcdev@chiark.greenend.org.uk>\n"
 "Language-Team: \n"
@@ -37,14 +37,18 @@ msgstr "Close"
 msgid "Old ruleset to a new format"
 msgstr ""
 
-#: tools/ruledit/edit_impr.cpp:47 tools/ruledit/edit_utype.cpp:64
+#: tools/ruledit/edit_impr.cpp:50 tools/ruledit/edit_utype.cpp:64
 #, fuzzy
 #| msgid "Buildings"
 msgid "Build Cost"
 msgstr "Buildings"
 
-#: tools/ruledit/edit_impr.cpp:58
+#: tools/ruledit/edit_impr.cpp:61
 msgid "Upkeep"
+msgstr ""
+
+#: tools/ruledit/edit_impr.cpp:71
+msgid "Genus"
 msgstr ""
 
 #: tools/ruledit/edit_utype.cpp:49
@@ -57,6 +61,10 @@ msgstr ""
 
 #: tools/ruledit/edit_utype.cpp:84
 msgid "Defense Strength"
+msgstr ""
+
+#: tools/ruledit/edit_utype.cpp:94
+msgid "Move Rate"
 msgstr ""
 
 #. TRANS: Trying to fix a requirement vector problem but can't find
@@ -397,118 +405,126 @@ msgstr "Remove this tech"
 msgid "A government with that rule name already exists!"
 msgstr "A tech with that rule name already exists!"
 
-#: tools/ruledit/tab_misc.cpp:68
+#: tools/ruledit/tab_misc.cpp:73
 msgid "Ruleset name"
 msgstr "Ruleset name"
 
-#: tools/ruledit/tab_misc.cpp:73
+#: tools/ruledit/tab_misc.cpp:78
 msgid "Ruleset version"
 msgstr "Ruleset version"
 
-#: tools/ruledit/tab_misc.cpp:78
+#: tools/ruledit/tab_misc.cpp:83
 msgid "Save to directory"
 msgstr "Save to directory"
 
-#: tools/ruledit/tab_misc.cpp:85
+#: tools/ruledit/tab_misc.cpp:105
+#, c-format
+msgid ""
+"If you want to be able to load the ruleset directly to freeciv, place it as "
+"a subdirectory under %s%s%s\n"
+"Use server command \"/rulesetdir <subdirectory>\" to load it to freeciv."
+msgstr ""
+
+#: tools/ruledit/tab_misc.cpp:114
 msgid "Version suffix to directory name"
 msgstr ""
 
-#: tools/ruledit/tab_misc.cpp:90
+#: tools/ruledit/tab_misc.cpp:119
 msgid "Save now"
 msgstr "Save now"
 
-#: tools/ruledit/tab_misc.cpp:94
+#: tools/ruledit/tab_misc.cpp:123
 msgid "Description from file"
 msgstr ""
 
-#: tools/ruledit/tab_misc.cpp:101
+#: tools/ruledit/tab_misc.cpp:130
 msgid "Description file"
 msgstr ""
 
-#: tools/ruledit/tab_misc.cpp:110
+#: tools/ruledit/tab_misc.cpp:139
 msgid "?stat:Terrains"
 msgstr "?stat:Terrains"
 
-#: tools/ruledit/tab_misc.cpp:114
+#: tools/ruledit/tab_misc.cpp:143
 msgid "?stat:Resources"
 msgstr "?stat:Resources"
 
-#: tools/ruledit/tab_misc.cpp:118
+#: tools/ruledit/tab_misc.cpp:147
 #, fuzzy
 msgid "?stat:Tech Classes"
 msgstr "?stat:Unit Classes"
 
-#: tools/ruledit/tab_misc.cpp:122
+#: tools/ruledit/tab_misc.cpp:151
 msgid "?stat:Techs"
 msgstr "?stat:Techs"
 
-#: tools/ruledit/tab_misc.cpp:126
+#: tools/ruledit/tab_misc.cpp:155
 msgid "?stat:Unit Classes"
 msgstr "?stat:Unit Classes"
 
-#: tools/ruledit/tab_misc.cpp:130
+#: tools/ruledit/tab_misc.cpp:159
 msgid "?stat:Unit Types"
 msgstr "?stat:Unit Types"
 
-#: tools/ruledit/tab_misc.cpp:134
+#: tools/ruledit/tab_misc.cpp:163
 #, fuzzy
 msgid "?stat:Enablers"
 msgstr "Action Enabler"
 
-#: tools/ruledit/tab_misc.cpp:138
+#: tools/ruledit/tab_misc.cpp:167
 msgid "?stat:Buildings"
 msgstr "?stat:Buildings"
 
-#: tools/ruledit/tab_misc.cpp:142
+#: tools/ruledit/tab_misc.cpp:171
 msgid "?stat:Nations"
 msgstr "?stat:Nations"
 
-#: tools/ruledit/tab_misc.cpp:146
+#: tools/ruledit/tab_misc.cpp:175
 msgid "?stat:Styles"
 msgstr "?stat:Styles"
 
-#: tools/ruledit/tab_misc.cpp:150
+#: tools/ruledit/tab_misc.cpp:179
 msgid "?stat:Specialists"
 msgstr "?stat:Specialists"
 
-#: tools/ruledit/tab_misc.cpp:154
+#: tools/ruledit/tab_misc.cpp:183
 msgid "?stat:Governments"
 msgstr "?stat:Governments"
 
-#: tools/ruledit/tab_misc.cpp:158
+#: tools/ruledit/tab_misc.cpp:187
 msgid "?stat:Disasters"
 msgstr "?stat:Disasters"
 
-#: tools/ruledit/tab_misc.cpp:162
+#: tools/ruledit/tab_misc.cpp:191
 msgid "?stat:Achievements"
 msgstr "?stat:Achievements"
 
-#: tools/ruledit/tab_misc.cpp:166
+#: tools/ruledit/tab_misc.cpp:195
 msgid "?stat:Extras"
 msgstr "?stat:Extras"
 
-#: tools/ruledit/tab_misc.cpp:170
+#: tools/ruledit/tab_misc.cpp:199
 msgid "?stat:Bases"
 msgstr "?stat:Bases"
 
-#: tools/ruledit/tab_misc.cpp:174
+#: tools/ruledit/tab_misc.cpp:203
 msgid "?stat:Roads"
 msgstr "?stat:Roads"
 
-#: tools/ruledit/tab_misc.cpp:178
+#: tools/ruledit/tab_misc.cpp:207
 #, fuzzy
 msgid "?stat:Goods"
 msgstr "?stat:Roads"
 
-#: tools/ruledit/tab_misc.cpp:182
+#: tools/ruledit/tab_misc.cpp:211
 msgid "?stat:Multipliers"
 msgstr "?stat:Multipliers"
 
-#: tools/ruledit/tab_misc.cpp:190
+#: tools/ruledit/tab_misc.cpp:219
 msgid "Refresh Stats"
 msgstr "Refresh Stats"
 
-#: tools/ruledit/tab_misc.cpp:272
+#: tools/ruledit/tab_misc.cpp:301
 msgid "Ruleset saved"
 msgstr "Ruleset saved"
 

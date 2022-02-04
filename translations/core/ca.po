@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ca\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2022-02-01 15:31+0100\n"
+"POT-Creation-Date: 2022-02-01 16:03+0200\n"
 "PO-Revision-Date: 2022-02-01 19:44+0100\n"
 "Last-Translator: Joan Creus <joan.creusandreu at gmail dot com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -6952,12 +6952,10 @@ msgstr "_Tancar"
 
 #: client/gui-gtk-3.0/inteldlg.c:632 client/gui-gtk-3.22/inteldlg.c:631
 #, c-format
-#| msgid "Wonders of the World"
 msgid "Wonders of %s Empire"
 msgstr "Meravelles de l'Imperi %s"
 
 #: client/gui-gtk-3.0/inteldlg.c:652 client/gui-gtk-3.22/inteldlg.c:650
-#| msgid "(unknown)"
 msgid "(unknown city)"
 msgstr "(ciutat desconeguda)"
 
@@ -6978,7 +6976,6 @@ msgid "New Pass_word:"
 msgstr "Nova Contra_senya:"
 
 #: client/gui-gtk-3.0/plrdlg.c:375 client/gui-gtk-3.22/plrdlg.c:373
-#| msgid "Wonders"
 msgid "_Wonders"
 msgstr "_Meravelles"
 
@@ -11735,9 +11732,6 @@ msgstr ""
 
 #. TRANS: indented; preserve leading spaces
 #: client/helpdata.c:3655
-#| msgid ""
-#| "  * Can be captured by such units if at war with the nation that "
-#| "currently owns it.\n"
 msgid ""
 "  * Can be conquered by such units if at war with the nation that currently "
 "owns it.\n"
@@ -15923,7 +15917,6 @@ msgstr "Destruir %sCiutat%s"
 #: data/experimental/game.ruleset:322 data/civ2civ3/game.ruleset:324
 #: data/alien/game.ruleset:288 data/multiplayer/game.ruleset:316
 #, c-format
-#| msgid "Draw the city productions"
 msgid "Dis%sband recovering production%s"
 msgstr "Desmo%sbilitzar recuperant la producció%s"
 
@@ -15933,7 +15926,6 @@ msgstr "Desmo%sbilitzar recuperant la producció%s"
 #: data/experimental/game.ruleset:325 data/civ2civ3/game.ruleset:327
 #: data/alien/game.ruleset:291 data/multiplayer/game.ruleset:319
 #, c-format
-#| msgid "Draw the city productions"
 msgid "Dis%sband without recovering production%s"
 msgstr "Desmo%sbilitzar sense recuperar la producció%s"
 
@@ -19850,52 +19842,42 @@ msgid "?unitflag:BarbarianSeaTech"
 msgstr "TecnoMarBàrbar"
 
 #: common/unittype.h:381
-#| msgid "?unitflag:CitiesStartunit"
 msgid "?unitflag:CitiesStartUnit"
 msgstr "UnitatIniciCiutats"
 
 #: common/unittype.h:384
-#| msgid "?unitflag:WorkerStartunit"
 msgid "?unitflag:WorkerStartUnit"
 msgstr "TreballadorUnitatInicial"
 
 #: common/unittype.h:387
-#| msgid "?unitflag:ExplorerStartunit"
 msgid "?unitflag:ExplorerStartUnit"
 msgstr "ExploradorUnitatInicial"
 
 #: common/unittype.h:390
-#| msgid "?unitflag:KingStartunit"
 msgid "?unitflag:KingStartUnit"
 msgstr "ReiUnitatInicial"
 
 #: common/unittype.h:393
-#| msgid "?unitflag:DiplomatStartunit"
 msgid "?unitflag:DiplomatStartUnit"
 msgstr "DiplomàticUnitatInicial"
 
 #: common/unittype.h:396
-#| msgid "?unitflag:FerryStartunit"
 msgid "?unitflag:FerryStartUnit"
 msgstr "VaixellUnitatInicial"
 
 #: common/unittype.h:399
-#| msgid "?unitflag:DefendOkStartunit"
 msgid "?unitflag:DefendOkStartUnit"
 msgstr "DefensaNormalUnitatInicial"
 
 #: common/unittype.h:402
-#| msgid "?unitflag:DefendGoodStartunit"
 msgid "?unitflag:DefendGoodStartUnit"
 msgstr "DefensaBonaUnitatInicial"
 
 #: common/unittype.h:405
-#| msgid "?unitflag:AttackFastStartunit"
 msgid "?unitflag:AttackFastStartUnit"
 msgstr "AtacRàpidUnitatInicial"
 
 #: common/unittype.h:408
-#| msgid "?unitflag:AttackStrongStartunit"
 msgid "?unitflag:AttackStrongStartUnit"
 msgstr "AtacFortUnitatInicial"
 
@@ -35531,11 +35513,6 @@ msgstr ""
 "El resultat del combat depèn de factors diversos, que inclouen l'atzar."
 
 #: data/helpdata.txt:1127
-#| msgid ""
-#| "The description below is for the classic ruleset, but the principles are "
-#| "similar for any ruleset. Notice that many bonuses are possible for "
-#| "defenders, but few for attackers, aside from veteran status; an attacking "
-#| "unit can mostly expect circumstance to work against it."
 msgid ""
 "The description below is for the classic ruleset, and does not match exactly "
 "current default ruleset, civ2civ3. The principles are similar for any "
@@ -35543,9 +35520,9 @@ msgid ""
 "attackers, aside from veteran status; an attacking unit can mostly expect "
 "circumstance to work against it."
 msgstr ""
-"La descripció següent és per al joc de regles clàssic, i no és exactament"
-" igual que el joc de regles predeterminat actual, civ2civ3. Els principis "
-"són semblants per a qualsevol joc de regles. Fixa't que hi ha moltes "
+"La descripció següent és per al joc de regles clàssic, i no és exactament "
+"igual que el joc de regles predeterminat actual, civ2civ3. Els principis són "
+"semblants per a qualsevol joc de regles. Fixa't que hi ha moltes "
 "bonificacions possibles per als defensors, però poques per als atacants, "
 "apart de la seva pròpia veterania; una unitat atacant ha de comptar que les "
 "circumstàncies les tindrà generalment en contra."
@@ -35837,8 +35814,8 @@ msgid ""
 "Values in this example match classic ruleset, not the current default "
 "ruleset, civ2civ3."
 msgstr ""
-"Els valors d'aquest exemple són els del joc de regles clàssic, no el joc de"
-" regles predeterminat actual, civ2civ3."
+"Els valors d'aquest exemple són els del joc de regles clàssic, no el joc de "
+"regles predeterminat actual, civ2civ3."
 
 #: data/helpdata.txt:1309
 msgid ""
@@ -46797,10 +46774,10 @@ msgid ""
 "who know the tech tell which percentage of tech's bulb cost gets leaked each "
 "turn. This setting has no effect if the ruleset has disabled tech leakage."
 msgstr ""
-"La taxa de filtració de tecnologia. Això, multiplicat pel percentatge de"
-" jugadors que coneixen la tecnologia, diu quin percentatge del cost en"
-" bombetes de la tecnologia es filtra a cada torn. Aquest paràmetre no té cap"
-" efecte si el joc de regles ha deshabilitat la filtració de tecnologia."
+"La taxa de filtració de tecnologia. Això, multiplicat pel percentatge de "
+"jugadors que coneixen la tecnologia, diu quin percentatge del cost en "
+"bombetes de la tecnologia es filtra a cada torn. Aquest paràmetre no té cap "
+"efecte si el joc de regles ha deshabilitat la filtració de tecnologia."
 
 #: server/settings.c:1949
 msgid "Team pooled research"
@@ -47085,11 +47062,6 @@ msgid "Trade revenue style"
 msgstr "Estil de renda per comerç"
 
 #: server/settings.c:2151
-#| msgid ""
-#| "The formula for the trade a city receives from a traderoute. CLASSIC "
-#| "revenues depend on distance and trade with multipliers for overseas and "
-#| "international routes. SIMPLE revenues are proportional to the average "
-#| "trade of the two cities."
 msgid ""
 "The formula for the trade a city receives from a traderoute. CLASSIC "
 "revenues are given by the sum of the two city sizes plus the distance "
@@ -47097,10 +47069,10 @@ msgid ""
 "revenues are proportional to the average trade of the two cities."
 msgstr ""
 "La fórmula per al comerç que rep una ciutat d'una ruta comercial. Les rendes "
-"CLÀSSIQUES depenen de la suma de mides de les dues ciutats més la distància"
-" entre elles, amb multiplicadors per a "
-"rutes transoceàniques i internacionals. Les rendes SIMPLES són proporcionals "
-"al comerç mitjà de les dues ciutats."
+"CLÀSSIQUES depenen de la suma de mides de les dues ciutats més la distància "
+"entre elles, amb multiplicadors per a rutes transoceàniques i "
+"internacionals. Les rendes SIMPLES són proporcionals al comerç mitjà de les "
+"dues ciutats."
 
 #: server/settings.c:2162
 msgid "Minimum distance for trade routes"
@@ -51689,7 +51661,6 @@ msgstr "El teu %s ha tornat per carregar combustible."
 
 #: server/unittools.c:570
 #, c-format
-#| msgid "Your %s has run out of fuel."
 msgid "Your %s has run out of supplies."
 msgstr "El teu %s s'ha quedat sense subministres."
 
