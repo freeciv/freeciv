@@ -372,8 +372,15 @@ endforeach
 if get_option('audio')
   priv_conf_data.set('AUDIO_SDL', 1)
 
-  audio_dep = [c_compiler.find_library('libSDL2', dirs: cross_lib_path),
-               c_compiler.find_library('libSDL2_mixer', dirs: cross_lib_path)]
+  if host_system == 'windows'
+    audio_dep = [c_compiler.find_library('libmingw32', dirs: cross_lib_path),
+                 c_compiler.find_library('libSDL2main', dirs: cross_lib_path),
+                 c_compiler.find_library('libSDL2', dirs: cross_lib_path),
+                 c_compiler.find_library('libSDL2_mixer', dirs: cross_lib_path)]
+  else
+    audio_dep = [c_compiler.find_library('libSDL2', dirs: cross_lib_path),
+                 c_compiler.find_library('libSDL2_mixer', dirs: cross_lib_path)]
+  endif
 else
   audio_dep = []
 endif
