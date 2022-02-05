@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
+
 <svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:xlink="http://www.w3.org/1999/xlink"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    width="800"
    height="571.42902"
    id="svg2"
    sodipodi:version="0.32"
-   inkscape:version="0.46"
+   inkscape:version="1.1.1 (3bf5ae0d25, 2021-09-20)"
    version="1.0"
-   sodipodi:docname="Royal Flag of Jaffna.svg"
-   sodipodi:docbase="F:\"
+   sodipodi:docname="jaffna.svg"
    inkscape:output_extension="org.inkscape.output.svg.inkscape"
    inkscape:export-filename="D:\Slavery CD misc\M3U2004\~~~Temp~~~\FLGS\Jaffna\Royal Flag of Jaffna.png"
    inkscape:export-xdpi="47.879906"
-   inkscape:export-ydpi="47.879906">
+   inkscape:export-ydpi="47.879906"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
   <defs
      id="defs4">
     <linearGradient
@@ -916,18 +916,20 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="1"
-     inkscape:cx="261.69799"
-     inkscape:cy="425.3321"
+     inkscape:cx="410"
+     inkscape:cy="291.5"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
      width="800px"
-     inkscape:window-width="1280"
-     inkscape:window-height="956"
-     inkscape:window-x="-4"
-     inkscape:window-y="-4"
-     showguides="true"
-     inkscape:guide-bbox="true">
+     inkscape:window-width="1055"
+     inkscape:window-height="810"
+     inkscape:window-x="375"
+     inkscape:window-y="32"
+     showguides="false"
+     inkscape:guide-bbox="true"
+     inkscape:pagecheckerboard="0"
+     inkscape:window-maximized="0">
     <inkscape:grid
        type="xygrid"
        id="grid2383"
