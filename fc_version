@@ -47,7 +47,7 @@ NEXT_STABLE_VERSION="3.0.0"
 RELEASE_MONTH=3
 
 DATASUBDIR=3.0
-DEFAULT_FOLLOW_TAG=S3_0
+DEFAULT_FOLLOW_TAG=stable
 
 # Freeciv network capstring: see documentation in common/capstr.c
 #
