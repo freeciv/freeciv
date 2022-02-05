@@ -80,7 +80,8 @@
 
 #define SAVED_PARAMETER_SIZE                            29
 
-#define CMA_ATTR_VERSION                                2
+#define CMA_ATTR_VERSION                                3
+#define CMA_ATTR_VERSION_MIN_SUPPORTED                  2
 
 /*
  * Misc statistic to analyze performance.
@@ -588,7 +589,7 @@ bool cma_get_parameter(enum attr_city attr, int city_id,
   dio_input_init(&din, buffer, len);
 
   dio_get_uint8_raw(&din, &version);
-  if (version != CMA_ATTR_VERSION) {
+  if (version > CMA_ATTR_VERSION && version < CMA_ATTR_VERSION_MIN_SUPPORTED) {
     log_error("CMA data has a wrong version %d (expected %d)",
               version, CMA_ATTR_VERSION);
     return FALSE;
@@ -606,6 +607,9 @@ bool cma_get_parameter(enum attr_city attr, int city_id,
   dio_get_sint16_raw(&din, &parameter->happy_factor);
   dio_get_uint8_raw(&din, &dummy); /* Dummy value; used to be factor_target. */
   dio_get_bool8_raw(&din, &parameter->require_happy);
+  if (version > 2) {
+    dio_get_bool8_raw(&din, &parameter->max_growth);
+  }
 
   return TRUE;
 }
@@ -634,6 +638,7 @@ void cma_set_parameter(enum attr_city attr, int city_id,
   dio_put_sint16_raw(&dout, parameter->happy_factor);
   dio_put_uint8_raw(&dout, 0); /* Dummy value; used to be factor_target. */
   dio_put_bool8_raw(&dout, parameter->require_happy);
+  dio_put_bool8_raw(&dout, parameter->max_growth);
 
   fc_assert(dio_output_used(&dout) == SAVED_PARAMETER_SIZE);
 
