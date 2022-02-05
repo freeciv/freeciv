@@ -38,8 +38,7 @@ endif
 if get_option('debug')
   priv_conf_data.set('FREECIV_DEBUG', 1)
   pub_conf_data.set('FREECIV_DEBUG', 1)
-  add_global_arguments('-Werror', language: 'c')
-  add_global_arguments('-Werror', language: 'cpp')
+  add_global_arguments('-Werror', language: ['c', 'cpp'])
 else
   add_global_arguments('-DQT_NO_DEBUG', language : 'cpp')
 endif
@@ -422,9 +421,7 @@ configure_file(input : 'gen_headers/meson_liblua_config.h.in',
                configuration: liblua_conf_data)
 
 add_global_arguments('-DHAVE_CONFIG_H',
-                     language: 'c')
-add_global_arguments('-DHAVE_CONFIG_H',
-                     language: 'cpp')
+                     language: ['c', 'cpp'])
 
 if get_option('nls')
   subdir('translations/core')
