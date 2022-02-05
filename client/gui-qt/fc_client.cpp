@@ -240,7 +240,7 @@ fc_client::~fc_client()
 /************************************************************************//**
   Main part of gui-qt.
   This is not called simply 'fc_client::main()', since SDL includes
-  ould sometimes cause 'main' to be considered an macro that expands to
+  would sometimes cause 'main' to be considered an macro that expands to
   'SDL_main'
 ****************************************************************************/
 void fc_client::fc_main(QApplication *qapp)
