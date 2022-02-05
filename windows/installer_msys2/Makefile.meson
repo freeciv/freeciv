@@ -32,6 +32,9 @@ DLLPATH_PREFIX=/$(ARCHDIR)/bin/
 
 all: gtk3.22-installer
 
+snapshot:
+	make -f Makefile.meson VERSION_REVTYPE="git" EXTRA_CONFIG="-Dgitrev=true $(EXTRA_CONFIG)" all
+
 gtk3.22-installer:
 	make -f Makefile.meson GUI=gtk3.22 CLIENT=gtk3.22 FCMP=gtk3 installer-common
 
