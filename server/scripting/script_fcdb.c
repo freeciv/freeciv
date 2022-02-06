@@ -58,6 +58,8 @@
 #include "stdinhand.h"
 
 /* server/scripting */
+#include "api_fcdb_specenum.h"
+
 #ifdef HAVE_FCDB
 #include <tolua_fcdb_gen.h> /* <> so looked from the build directory first. */
 #endif /* HAVE_FCDB */
@@ -244,6 +246,7 @@ bool script_fcdb_init(const char *fcdb_luafile)
   }
 
   tolua_common_a_open(fcl->state);
+  api_fcdb_specenum_open(fcl->state);
   tolua_game_open(fcl->state);
 
 #ifdef MESON_BUILD

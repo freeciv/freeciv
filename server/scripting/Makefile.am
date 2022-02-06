@@ -41,6 +41,8 @@ dist_libscripting_fcdb_la_SOURCES = \
 	api_fcdb_auth.h		\
 	api_fcdb_base.c		\
 	api_fcdb_base.h		\
+	api_fcdb_specenum.c	\
+	api_fcdb_specenum.h	\
 	script_fcdb.c		\
 	script_fcdb.h		\
 	tolua_fcdb_gen.c	\
