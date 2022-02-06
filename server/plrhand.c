@@ -405,6 +405,7 @@ void government_change(struct player *pplayer, struct government *gov,
 int revolution_length(struct government *gov, struct player *plr)
 {
   int turns;
+  int change_speed;
 
   if (!untargeted_revolution_allowed()
       && gov == game.government_during_revolution) {
@@ -424,7 +425,12 @@ int revolution_length(struct government *gov, struct player *plr)
     break;
   case REVOLEN_QUICKENING:
   case REVOLEN_RANDQUICK:
-    turns = game.server.revolution_length - gov->changed_to_times;
+    /* If everyone changes to this government once, the last 50% of players doing so
+     * will get the minimum time (1 turn) */
+    change_speed = (player_count() / 2) / (game.server.revolution_length - 1);
+    /* It never takes zero players to make revlen shorter */
+    change_speed = MAX(change_speed, 1);
+    turns = game.server.revolution_length - gov->changed_to_times / change_speed;
     turns = MAX(1, turns);
     if (game.info.revolentype == REVOLEN_RANDQUICK) {
       turns = fc_rand(turns) + 1;
