@@ -103,11 +103,6 @@ if test "x$fc_cv_malloc_zero_ok" = "xyes" ; then
   AC_DEFINE([MALLOC_ZERO_OK], [1], [It's ok to call malloc() for zero bytes])
 fi
 
-if test "x$emscripten" != "xyes" ; then
-  dnl Not needed in emscripten build as both users - fcdb and fcmp - are disabled
-  FC_CHECK_SQLITE3([], [AC_MSG_ERROR([sqlite3 not found])])
-fi
-
 dnl set default values
 fcdb_all=no
 fcdb_mysql=no
@@ -152,6 +147,59 @@ for db in $(echo $databases | $SED 's/,/ /g') ; do
     AC_MSG_ERROR([bad value ${db} for --enable-fcdb])
   fi
 done
+
+AC_ARG_ENABLE([fcmp],
+  AS_HELP_STRING([--enable-fcmp=no/yes/gtk3/gtk4/qt/cli/all/auto], [build freeciv-modpack-program [auto]]),
+[fc_mp=${enableval}],
+[if test "x$emscripten" = "xyes" ; then
+  fc_mp=no
+else
+  fc_mp=auto
+fi])
+
+fcmp_cli=no
+fcmp_gtk3=no
+fcmp_gtk4=no
+fcmp_qt=no
+fcmp_list=
+
+if test "x$fc_mp" != "xno" && test "x$emscripten" = "xyes" ; then
+  AC_MSG_ERROR([fcmp not supported with emscripten])
+fi
+
+if test "x$fc_mp" = "xcli" ; then
+  dnl Only cli requested -> no gui needed
+  modinst=cli
+fi
+
+for mp in $(echo $fc_mp | $SED 's/,/ /g') ; do
+  if test "x$mp" = "xno" ; then
+    modinst=no
+  elif test "x$mp" = "xauto" || test "x$mp" = "xyes" ; then
+    modinst=auto
+  elif test "x$mp" = "xall" ; then
+    modinst=all
+  else if test "x$mp" = "xgtk3"   ||
+          test "x$mp" = "xgtk3.0" ||
+          test "x$mp" = "xgtk30"  ||
+          test "x$mp" = "xgtk-3.0" ; then
+      req_fcmp_gtk3=yes
+    elif test "x$mp" = "xgtk4" ; then
+      req_fcmp_gtk4=yes
+    elif test "x$mp" = "xqt" ; then
+      req_fcmp_qt=yes
+    elif test "x$mp" = "xcli" ; then
+      req_fcmp_cli=yes
+    elif test "x$mp" != "xyes" ; then
+      AC_MSG_ERROR([bad value ${mp} for --enable-fcmp])
+    fi
+  fi
+done
+
+if test "x$modinst" != "xno" || test "x$fcdb_sqlite3" != "xno" ; then
+  dnl Not needed in in builds where both users - fcdb and fcmp - are disabled
+  FC_CHECK_SQLITE3([], [AC_MSG_ERROR([sqlite3 not found])])
+fi
 
 dnl checks for database mysql
 dnl sets FCDB_MYSQL(conditional), FCDB_MYSQL_CFLAGS
@@ -1141,54 +1189,6 @@ esac], [fcruleup=yes])
 AM_CONDITIONAL([FCRULEUP], [test "x$fcruleup" != "xno"])
 
 dnl freeciv-modpack checks
-AC_ARG_ENABLE([fcmp],
-  AS_HELP_STRING([--enable-fcmp=no/yes/gtk3/gtk4/qt/cli/all/auto], [build freeciv-modpack-program [auto]]),
-[fc_mp=${enableval}],
-[if test "x$emscripten" = "xyes" ; then
-  fc_mp=no
-else
-  fc_mp=auto
-fi])
-
-fcmp_cli=no
-fcmp_gtk3=no
-fcmp_gtk4=no
-fcmp_qt=no
-fcmp_list=
-
-if test "x$fc_mp" != "xno" && test "x$emscripten" = "xyes" ; then
-  AC_MSG_ERROR([fcmp not supported with emscripten])
-fi
-
-if test "x$fc_mp" = "xcli" ; then
-  dnl Only cli requested -> no gui needed
-  modinst=cli
-fi
-
-for mp in $(echo $fc_mp | $SED 's/,/ /g') ; do
-  if test "x$mp" = "xno" ; then
-    modinst=no
-  elif test "x$mp" = "xauto" || test "x$mp" = "xyes" ; then
-    modinst=auto
-  elif test "x$mp" = "xall" ; then
-    modinst=all
-  else if test "x$mp" = "xgtk3"   ||
-          test "x$mp" = "xgtk3.0" ||
-          test "x$mp" = "xgtk30"  ||
-          test "x$mp" = "xgtk-3.0" ; then
-      req_fcmp_gtk3=yes
-    elif test "x$mp" = "xgtk4" ; then
-      req_fcmp_gtk4=yes
-    elif test "x$mp" = "xqt" ; then
-      req_fcmp_qt=yes
-    elif test "x$mp" = "xcli" ; then
-      req_fcmp_cli=yes
-    elif test "x$mp" != "xyes" ; then
-      AC_MSG_ERROR([bad value ${mp} for --enable-fcmp])
-    fi
-  fi
-done
-
 if test "x$req_fcmp_gtk3" = "xyes" ||
    test "x$modinst" = "xall" || test "x$modinst" = "xauto" ; then
   PKG_CHECK_MODULES([GTK3MP], [gtk+-3.0 >= 3.10.0],

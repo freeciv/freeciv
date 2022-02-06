@@ -21,7 +21,9 @@ Updating from 3.0 to 3.1
 * Gtk3-client has been marked unmaintained
   (this does not affect default gtk3.22-client)
 * Sdl1.2 Mixer support has been dropped
-* Libsqlite3 is now hard requirement
+* Libsqlite3 is now required in default build. One has to disable both
+  authentication and modpack installer support from the build to not
+  have that requirement.
 * Sqlite3 based player authentication support is enabled by default
 * Added gtk4-client. It's still in development.
 * Lua version to use is 5.4 now
