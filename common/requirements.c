@@ -2616,12 +2616,14 @@ static enum fc_tristate is_unittype_in_range(const struct unit_type *target_unit
                                              enum req_range range, bool survives,
                                              const struct unit_type *punittype)
 {
-  /* If no target_unittype is given, we allow the req to be met.  This is
-   * to allow querying of certain effect types (like the presence of city
-   * walls) without actually knowing the target unit. */
-  return BOOL_TO_TRISTATE(range == REQ_RANGE_LOCAL
-                          && (!target_unittype
-                              || target_unittype == punittype));
+  if (range != REQ_RANGE_LOCAL) {
+    return TRI_NO;
+  }
+  if (!target_unittype) {
+    return TRI_MAYBE;
+  }
+
+  return BOOL_TO_TRISTATE(target_unittype == punittype);
 }
 
 /**********************************************************************//**
@@ -2631,9 +2633,6 @@ static enum fc_tristate is_unitflag_in_range(const struct unit_type *target_unit
                                              enum req_range range, bool survives,
                                              enum unit_type_flag_id unitflag)
 {
-  /* If no target_unittype is given, we allow the req to be met.  This is
-   * to allow querying of certain effect types (like the presence of city
-   * walls) without actually knowing the target unit. */
   if (range != REQ_RANGE_LOCAL) {
     return TRI_NO;
   }
@@ -2651,12 +2650,14 @@ static enum fc_tristate is_unitclass_in_range(const struct unit_type *target_uni
                                               enum req_range range, bool survives,
                                               struct unit_class *pclass)
 {
-  /* If no target_unittype is given, we allow the req to be met.  This is
-   * to allow querying of certain effect types (like the presence of city
-   * walls) without actually knowing the target unit. */
-  return BOOL_TO_TRISTATE(range == REQ_RANGE_LOCAL
-                          && (!target_unittype
-                              || utype_class(target_unittype) == pclass));
+  if (range != REQ_RANGE_LOCAL) {
+    return TRI_NO;
+  }
+  if (!target_unittype) {
+    return TRI_MAYBE;
+  }
+
+  return BOOL_TO_TRISTATE(utype_class(target_unittype) == pclass);
 }
 
 /**********************************************************************//**
@@ -2666,12 +2667,14 @@ static enum fc_tristate is_unitclassflag_in_range(const struct unit_type *target
                                                   enum req_range range, bool survives,
                                                   enum unit_class_flag_id ucflag)
 {
-  /* If no target_unittype is given, we allow the req to be met.  This is
-   * to allow querying of certain effect types (like the presence of city
-   * walls) without actually knowing the target unit. */
-  return BOOL_TO_TRISTATE(range == REQ_RANGE_LOCAL
-                          && (!target_unittype
-                              || uclass_has_flag(utype_class(target_unittype), ucflag)));
+  if (range != REQ_RANGE_LOCAL) {
+    return TRI_NO;
+  }
+  if (!target_unittype) {
+    return TRI_MAYBE;
+  }
+
+  return BOOL_TO_TRISTATE(uclass_has_flag(utype_class(target_unittype), ucflag));
 }
 
 /**********************************************************************//**
