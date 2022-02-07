@@ -11,7 +11,7 @@ AC_DEFUN([FC_FCDB_MYSQL],
       FCDB_MYSQL_CFLAGS="$mysql_cflags"
       FCDB_MYSQL_LIBS="$mysql_ldflags"
 
-      AC_SUBST(FCDB_MYSQL_CFLAGS)
+      AC_SUBST([FCDB_MYSQL_CFLAGS])
 
       AC_DEFINE([HAVE_FCDB_MYSQL], [1], [Have MySQL database backend])
       fcdb_mysql=yes
@@ -25,5 +25,5 @@ AC_DEFUN([FC_FCDB_MYSQL],
 
   fi
 
-  AM_CONDITIONAL(FCDB_MYSQL, test "x$fcdb_mysql" = "xyes")
+  AM_CONDITIONAL([FCDB_MYSQL], [test "x$fcdb_mysql" = "xyes"])
 ])

@@ -24,5 +24,5 @@ AC_DEFUN([FC_FCDB_ODBC],
 
   fi
 
-  AM_CONDITIONAL(FCDB_ODBC, test "x$fcdb_odbc" = "xyes")
+  AM_CONDITIONAL([FCDB_ODBC], [test "x$fcdb_odbc" = "xyes"])
 ])

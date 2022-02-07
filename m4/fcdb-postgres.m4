@@ -11,7 +11,7 @@ AC_DEFUN([FC_FCDB_POSTGRES],
       FCDB_POSTGRES_CFLAGS="$postgresql_cflags"
       FCDB_POSTGRES_LIBS="$postgresql_ldflags"
 
-      AC_SUBST(FCDB_POSTGRES_CFLAGS)
+      AC_SUBST([FCDB_POSTGRES_CFLAGS])
 
       AC_DEFINE([HAVE_FCDB_POSTGRES], [1], [Have postgres database backend])
       fcdb_postgres=yes
@@ -25,5 +25,5 @@ AC_DEFUN([FC_FCDB_POSTGRES],
 
   fi
 
-  AM_CONDITIONAL(FCDB_POSTGRES, test "x$fcdb_postgres" = "xyes")
+  AM_CONDITIONAL([FCDB_POSTGRES], [test "x$fcdb_postgres" = "xyes"])
 ])

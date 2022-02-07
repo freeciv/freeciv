@@ -11,7 +11,7 @@ AC_DEFUN([FC_FCDB_SQLITE3],
       FCDB_SQLITE3_CFLAGS="$sqlite3_cflags"
       FCDB_SQLITE3_LIBS="$sqlite3_ldflags"
 
-      AC_SUBST(FCDB_SQLITE3_CFLAGS)
+      AC_SUBST([FCDB_SQLITE3_CFLAGS])
 
       AC_DEFINE([HAVE_FCDB_SQLITE3], [1], [Have Sqlite3 database backend])
       fcdb_sqlite3=yes
@@ -25,5 +25,5 @@ AC_DEFUN([FC_FCDB_SQLITE3],
 
   fi
 
-  AM_CONDITIONAL(FCDB_SQLITE3, test "x$fcdb_sqlite3" = "xyes")
+  AM_CONDITIONAL([FCDB_SQLITE3], [test "x$fcdb_sqlite3" = "xyes"])
 ])
