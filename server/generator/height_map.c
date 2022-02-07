@@ -181,13 +181,13 @@ static void gen5rec(int step, int xl, int yt, int xr, int yb)
 }
 
 /**********************************************************************//**
-Generator 5 makes earthlike worlds with one or more large continents and
-a scattering of smaller islands. It does so by dividing the world into
-blocks and on each block raising or lowering the corners, then the 
-midpoints and middle and so on recursively.  Fiddling with 'xdiv' and 
-'ydiv' will change the size of the initial blocks and, if the map does not 
-wrap in at least one direction, fiddling with 'avoidedge' will change the 
-liklihood of continents butting up to non-wrapped edges.
+  Generator 5 makes earthlike worlds with one or more large continents and
+  a scattering of smaller islands. It does so by dividing the world into
+  blocks and on each block raising or lowering the corners, then the
+  midpoints and middle and so on recursively.  Fiddling with 'xdiv' and
+  'ydiv' will change the size of the initial blocks and, if the map does not
+  wrap in at least one direction, fiddling with 'avoidedge' will change the
+  likelihood of continents butting up to non-wrapped edges.
 
   All X and Y values used in this function are in native coordinates.
 
