@@ -182,7 +182,9 @@ void establish_new_connection(struct connection *pconn)
   /* Notify the console that you're here. */
   log_normal(_("%s has connected from %s."), pconn->username, pconn->addr);
 
-  script_fcdb_call("conn_established", pconn);
+  if (srvarg.fcdb_enabled) {
+    script_fcdb_call("conn_established", pconn);
+  }
 
   conn_compression_freeze(pconn);
   send_rulesets(dest);
