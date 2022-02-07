@@ -430,6 +430,13 @@ static void script_server_signals_create(void)
                                  API_TYPE_INT, API_TYPE_INT);
   deprecate_signal(depr, "turn_started", "turn_begin", "3.0");
 
+  luascript_signal_create(fcl_main, "player_phase_begin", 2,
+                          API_TYPE_PLAYER, API_TYPE_BOOL);
+  luascript_signal_create(fcl_main, "player_alive_phase_end", 1,
+                          API_TYPE_PLAYER);
+  luascript_signal_create(fcl_main, "player_phase_end", 1,
+                          API_TYPE_PLAYER);
+
   luascript_signal_create(fcl_main, "unit_moved", 3,
                           API_TYPE_UNIT, API_TYPE_TILE, API_TYPE_TILE);
 

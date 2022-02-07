@@ -1252,6 +1252,13 @@ static void begin_phase(bool is_new_phase)
     /* Execute orders after activities have been completed (roads built,
      * pillage done, etc.). */
     phase_players_iterate(pplayer) {
+      int plrid = player_number(pplayer);
+
+      script_server_signal_emit("player_phase_begin", pplayer, is_new_phase);
+      if (player_by_number(plrid) != pplayer) {
+        /* removed */
+        continue;
+      }
       execute_unit_orders(pplayer);
       flush_packets();
     } phase_players_iterate_end;
@@ -1407,7 +1414,18 @@ static void end_phase(void)
   } phase_players_iterate_end;
 
   alive_phase_players_iterate(pplayer) {
+    int plrid = player_number(pplayer);
+
     do_tech_parasite_effect(pplayer);
+    script_server_signal_emit("player_alive_phase_end", pplayer);
+    if (player_by_number(plrid) != pplayer) {
+      /* removed */
+      continue;
+    }
+    if (!pplayer->is_alive) {
+      /* died */
+      continue;
+    }
     player_restore_units(pplayer);
 
     /* If player finished spaceship parts last turn already, and didn't place them
@@ -1447,6 +1465,13 @@ static void end_phase(void)
   do_border_vision_effect();
 
   phase_players_iterate(pplayer) {
+    int plrid = player_number(pplayer);
+
+    script_server_signal_emit("player_phase_end", pplayer);
+    if (player_by_number(plrid) != pplayer) {
+      /* removed */
+      continue;
+    }
     CALL_PLR_AI_FUNC(phase_finished, pplayer, pplayer);
     /* This has to be after all access to advisor data. */
     /* We used to run this for ai players only, but data phase
