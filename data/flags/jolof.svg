@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    x="0"
    y="0"
    width="900"
    height="600"
    id="svg6317"
    version="1.1"
-   inkscape:version="0.47 r22583"
-   sodipodi:docname="jolof.svg">
+   inkscape:version="1.1.1 (3bf5ae0d25, 2021-09-20)"
+   sodipodi:docname="jolof.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
   <metadata
      id="metadata6326">
     <rdf:RDF>
@@ -35,17 +35,18 @@
      guidetolerance="10"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:window-width="953"
-     inkscape:window-height="719"
+     inkscape:window-width="831"
+     inkscape:window-height="462"
      id="namedview6324"
      showgrid="false"
      inkscape:zoom="0.39333333"
      inkscape:cx="450"
-     inkscape:cy="300"
-     inkscape:window-x="0"
-     inkscape:window-y="35"
+     inkscape:cy="301.27119"
+     inkscape:window-x="486"
+     inkscape:window-y="74"
      inkscape:window-maximized="0"
-     inkscape:current-layer="svg6317" />
+     inkscape:current-layer="svg6317"
+     inkscape:pagecheckerboard="0" />
   <defs
      id="defs380">
     <inkscape:perspective
