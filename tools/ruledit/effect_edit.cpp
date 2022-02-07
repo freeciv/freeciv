@@ -36,6 +36,8 @@
 
 #include "effect_edit.h"
 
+#define NO_MULTIPLIER_NAME "No Multiplier"
+
 /**********************************************************************//**
   Setup effect_edit object
 **************************************************************************/
@@ -94,8 +96,22 @@ effect_edit::effect_edit(ruledit_gui *ui_in, QString target,
   connect(value_box, SIGNAL(valueChanged(int)), this, SLOT(set_value(int)));
 
   main_layout->addLayout(active_layout);
-
   row = 0;
+
+
+  mp_button = new QToolButton();
+  mp_button->setParent(this);
+  mp_button->setToolButtonStyle(Qt::ToolButtonTextOnly);
+  mp_button->setPopupMode(QToolButton::MenuButtonPopup);
+  menu = new QMenu();
+  connect(menu, SIGNAL(triggered(QAction *)), this, SLOT(multiplier_menu(QAction *)));
+  mp_button->setMenu(menu);
+  menu->addAction(NO_MULTIPLIER_NAME); // FIXME: Can't translate, as we compare to "rule_name"
+  multipliers_re_active_iterate(pmul) {
+    menu->addAction(multiplier_rule_name(pmul));
+  } multipliers_re_active_iterate_end;
+  effect_edit_layout->addWidget(mp_button, row++, 0);
+
   button = new QPushButton(QString::fromUtf8(R__("Requirements")), this);
   connect(button, SIGNAL(pressed()), this, SLOT(edit_reqs()));
   effect_edit_layout->addWidget(button, row++, 0);
@@ -236,6 +252,13 @@ void effect_edit::fill_active()
   if (selected != nullptr) {
     edit_type_button->setText(effect_type_name(selected->type));
     value_box->setValue(selected->value);
+    if (selected->multiplier != NULL) {
+      mp_button->setText(multiplier_rule_name(selected->multiplier));
+    } else {
+      mp_button->setText(NO_MULTIPLIER_NAME);
+    }
+  } else {
+    mp_button->setText(NO_MULTIPLIER_NAME);
   }
 }
 
@@ -323,4 +346,24 @@ void effect_edit::delete_now()
 
     refresh();
   }
+}
+
+/**********************************************************************//**
+  User selected multiplier for the effect
+**************************************************************************/
+void effect_edit::multiplier_menu(QAction *action)
+{
+  QByteArray an_bytes = action->text().toUtf8();
+
+  if (selected == nullptr) {
+    return;
+  }
+
+  if (!strcasecmp(NO_MULTIPLIER_NAME, an_bytes)) {
+    selected->multiplier = NULL;
+  } else {
+    selected->multiplier = multiplier_by_rule_name(an_bytes);
+  }
+
+  refresh();
 }

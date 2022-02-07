@@ -74,6 +74,8 @@ class effect_edit : public QDialog
     QToolButton *edit_type_button;
     QSpinBox *value_box;
 
+    QToolButton *mp_button;
+
   private slots:
     void select_effect();
     void fill_active();
@@ -84,6 +86,7 @@ class effect_edit : public QDialog
 
     void effect_type_menu(QAction *action);
     void set_value(int value);
+    void multiplier_menu(QAction *action);
 
  protected:
     void closeEvent(QCloseEvent *event);
