@@ -111,8 +111,7 @@ msgid ""
 "*%s (AI)* Greetings %s! May we suggest a ceasefire while we get to know each "
 "other better?"
 msgstr ""
-"*%s (AI)* Saluton, %s! Mi povas konsili al vi pafĉesigon dum la tempo necesa "
-"por sin koni reciproke?"
+"*%s (AI)* Saluton, %s! Ĉu ni havu pafĉesigon, dum ni interkonatiĝas pli bone?"
 
 #: ai/default/daidiplomacy.c:970
 #, c-format
@@ -1796,7 +1795,7 @@ msgstr "La %s donas %sn"
 
 #: client/climisc.c:1030
 msgid "Popup Request"
-msgstr "Ŝpruc-mendado"
+msgstr "Ŝpruc-informo/demando"
 
 #: client/climisc.c:1136
 #, fuzzy, c-format
@@ -2625,7 +2624,7 @@ msgstr "Grenejo:"
 #: client/gui-gtk-2.0/citydlg.c:695 client/gui-gtk-3.0/citydlg.c:748
 #: client/gui-gtk-3.22/citydlg.c:749 client/gui-qt/citydlg.h:69
 msgid "Change in:"
-msgstr "Ŝanĝu en:"
+msgstr "Ŝanĝiĝo post:"
 
 #: client/gui-gtk-2.0/citydlg.c:696 client/gui-gtk-3.0/citydlg.c:749
 #: client/gui-gtk-3.22/citydlg.c:750 client/gui-qt/citydlg.h:71
@@ -3382,7 +3381,7 @@ msgstr "Kiu nacio vi deziras esti?"
 #: client/gui-gtk-3.22/dialogs.c:857 client/gui-qt/dialogs.cpp:482
 #: client/gui-qt/pages.cpp:666 client/gui-sdl2/chatline.c:815
 msgid "Pick Nation"
-msgstr "Elektu nacion"
+msgstr "Elekti nacion"
 
 #: client/gui-gtk-2.0/dialogs.c:860 client/gui-gtk-3.0/dialogs.c:871
 #: client/gui-gtk-3.22/dialogs.c:865
@@ -3392,7 +3391,7 @@ msgstr "_Hazarda nacio"
 #: client/gui-gtk-2.0/dialogs.c:872 client/gui-gtk-3.0/dialogs.c:883
 #: client/gui-gtk-3.22/dialogs.c:877
 msgid "Select a nation"
-msgstr "Elektu nacion"
+msgstr "Elekti nacion"
 
 #. TRANS: nation set name followed by number of playable nations;
 #. * <b> and </b> are Pango markup and should be left alone
@@ -3559,9 +3558,8 @@ msgstr "_Paktoj"
 
 #: client/gui-gtk-2.0/diplodlg.c:501 client/gui-gtk-3.0/diplodlg.c:501
 #: client/gui-gtk-3.22/diplodlg.c:501
-#, fuzzy
 msgid "Cancel _all meetings"
-msgstr "Nuligu renkontiĝon"
+msgstr "Nuligi ĉiujn renkontiĝojn"
 
 #: client/gui-gtk-2.0/diplodlg.c:578 client/gui-gtk-2.0/diplodlg.c:646
 #: client/gui-gtk-3.0/diplodlg.c:578 client/gui-gtk-3.0/diplodlg.c:647
@@ -3574,13 +3572,13 @@ msgstr "Diplomatio: %s"
 #: client/gui-gtk-3.22/diplodlg.c:659 client/gui-qt/diplodlg.cpp:217
 #: client/gui-sdl2/diplodlg.c:931
 msgid "Cancel meeting"
-msgstr "Nuligu renkontiĝon"
+msgstr "Nuligi renkontiĝon"
 
 #: client/gui-gtk-2.0/diplodlg.c:658 client/gui-gtk-3.0/diplodlg.c:657
 #: client/gui-gtk-3.22/diplodlg.c:657 client/gui-qt/diplodlg.cpp:214
 #: client/gui-sdl2/diplodlg.c:942
 msgid "Accept treaty"
-msgstr "Subskribu kontrakton"
+msgstr "Subskribi traktaton"
 
 #: client/gui-gtk-2.0/diplodlg.c:731 client/gui-gtk-2.0/diplodlg.c:815
 #: client/gui-gtk-3.0/diplodlg.c:738 client/gui-gtk-3.0/diplodlg.c:823
@@ -4086,13 +4084,13 @@ msgstr "_Observi"
 #: client/gui-gtk-3.22/editprop.c:4534 tools/modinst.h:45
 #, fuzzy
 msgid "Scenario"
-msgstr "Elektu scenejon"
+msgstr "Elekti scenejon"
 
 #: client/gui-gtk-2.0/editprop.c:4470 client/gui-gtk-3.0/editprop.c:4537
 #: client/gui-gtk-3.22/editprop.c:4538
 #, fuzzy
 msgid "Scenario Name"
-msgstr "Startigu scenejon"
+msgstr "Startigi scenejon"
 
 #: client/gui-gtk-2.0/editprop.c:4472 client/gui-gtk-3.0/editprop.c:4541
 #: client/gui-gtk-3.22/editprop.c:4542
@@ -4399,7 +4397,7 @@ msgstr "Freeciv"
 #: client/gui-gtk-3.22/gui_main.c:1382 client/gui-gtk-3.22/gui_main.c:1390
 #: client/gui-qt/pages.cpp:741 client/gui-sdl2/mapctrl.c:1667
 msgid "Turn Done"
-msgstr "Fino de la vico"
+msgstr "Fini vicon"
 
 #: client/gui-gtk-2.0/gui_main.c:1253 client/gui-gtk-3.0/gui_main.c:1356
 #: client/gui-gtk-3.22/gui_main.c:1390 client/gui-sdl2/mapctrl.c:1667
@@ -4873,7 +4871,7 @@ msgstr "_Ŝargu unuon"
 #: client/gui-gtk-2.0/mapctrl.c:191 client/gui-gtk-3.0/mapctrl.c:196
 #: client/gui-gtk-3.22/mapctrl.c:197 client/gui-qt/mapctrl.cpp:57
 msgid "Build New City"
-msgstr "Konstruu novan urbon"
+msgstr "Konstrui novan urbon"
 
 #: client/gui-gtk-2.0/mapctrl.c:192 client/gui-gtk-3.0/mapctrl.c:197
 #: client/gui-gtk-3.22/mapctrl.c:198 client/gui-qt/mapctrl.cpp:56
@@ -5006,12 +5004,12 @@ msgstr "_Reŝargu grafikaĵon"
 #: client/gui-gtk-2.0/menu.c:1423 client/gui-gtk-3.0/menu.c:272
 #: client/gui-gtk-3.22/menu.c:271
 msgid "_Save Game"
-msgstr "_Konservu ludon"
+msgstr "_Konservi ludon"
 
 #: client/gui-gtk-2.0/menu.c:1425 client/gui-gtk-3.0/menu.c:274
 #: client/gui-gtk-3.22/menu.c:273
 msgid "Save Game _As..."
-msgstr "Konservu ludon k_iel..."
+msgstr "Konservi ludon k_iel..."
 
 #: client/gui-gtk-2.0/menu.c:1427 client/gui-gtk-3.0/menu.c:276
 #: client/gui-gtk-3.22/menu.c:275
@@ -5033,12 +5031,12 @@ msgstr "_Forlasi"
 #: client/gui-gtk-2.0/menu.c:1433 client/gui-gtk-3.0/menu.c:281
 #: client/gui-gtk-3.22/menu.c:280
 msgid "_Quit"
-msgstr "Eliru"
+msgstr "Eliri"
 
 #: client/gui-gtk-2.0/menu.c:1437 client/gui-gtk-3.0/menu.c:283
 #: client/gui-gtk-3.22/menu.c:282
 msgid "_Find City"
-msgstr "_Trovu urbon"
+msgstr "_Trovi urbon"
 
 #: client/gui-gtk-2.0/menu.c:1439 client/gui-gtk-3.0/menu.c:285
 #: client/gui-gtk-3.22/menu.c:284
@@ -5865,33 +5863,32 @@ msgstr "Tiu ĉi komando estas nur por klientoj."
 #: client/gui-gtk-2.0/pages.c:248 client/gui-gtk-3.0/pages.c:311
 #: client/gui-gtk-3.22/pages.c:311
 msgid "Start _New Game"
-msgstr "Startigu _novan ludon"
+msgstr "Startigi _novan ludon"
 
 #: client/gui-gtk-2.0/pages.c:254 client/gui-gtk-3.0/pages.c:317
 #: client/gui-gtk-3.22/pages.c:317
 msgid "Start _Scenario Game"
-msgstr "Startigu scenejon"
+msgstr "Startigi scenejon"
 
 #: client/gui-gtk-2.0/pages.c:260 client/gui-gtk-3.0/pages.c:323
 #: client/gui-gtk-3.22/pages.c:323
 msgid "_Load Saved Game"
-msgstr "Ŝargu konservitan _ludon"
+msgstr "Ŝargi konservitan _ludon"
 
 #: client/gui-gtk-2.0/pages.c:266 client/gui-gtk-3.0/pages.c:329
 #: client/gui-gtk-3.22/pages.c:329
 msgid "C_onnect to Network Game"
-msgstr "K_onektu al reta ludo"
+msgstr "K_onekti al reta ludo"
 
 #: client/gui-gtk-2.0/pages.c:272 client/gui-gtk-3.0/pages.c:335
 #: client/gui-gtk-3.22/pages.c:335
-#, fuzzy
 msgid "Client Settings"
-msgstr "Nuligu agordaĵojn"
+msgstr "Agordi klienton"
 
 #: client/gui-gtk-2.0/pages.c:412 client/gui-gtk-3.0/pages.c:476
 #: client/gui-gtk-3.22/pages.c:477
 msgid "Select Location to Save"
-msgstr "Elektu lokon por konservi"
+msgstr "Elekti lokon por konservi"
 
 #: client/gui-gtk-2.0/pages.c:516 client/gui-gtk-2.0/pages.c:2870
 #: client/gui-gtk-2.0/pages.c:3164 client/gui-gtk-3.0/pages.c:580
@@ -5899,7 +5896,7 @@ msgstr "Elektu lokon por konservi"
 #: client/gui-gtk-3.22/pages.c:581 client/gui-gtk-3.22/pages.c:2945
 #: client/gui-gtk-3.22/pages.c:3285
 msgid "_Browse..."
-msgstr "_Foliumu..."
+msgstr "_Foliumi..."
 
 #: client/gui-gtk-2.0/pages.c:972 client/gui-gtk-3.0/pages.c:1054
 #: client/gui-gtk-3.22/pages.c:1055 client/gui-qt/pages.cpp:1595
@@ -6044,7 +6041,7 @@ msgstr ""
 #: client/gui-gtk-2.0/pages.c:1744 client/gui-gtk-3.0/pages.c:1815
 #: client/gui-gtk-3.22/pages.c:1816 client/gui-qt/pages.cpp:1987
 msgid "Pick nation"
-msgstr "Elektu nacion"
+msgstr "Elekti nacion"
 
 #: client/gui-gtk-2.0/pages.c:1752 client/gui-gtk-3.0/pages.c:1823
 #: client/gui-gtk-3.22/pages.c:1824
@@ -6100,7 +6097,7 @@ msgstr "_Preta"
 #: client/gui-gtk-3.0/pages.c:2206 client/gui-gtk-3.0/pages.c:2210
 #: client/gui-gtk-3.22/pages.c:2206 client/gui-gtk-3.22/pages.c:2210
 msgid "_Start"
-msgstr "_Startigu"
+msgstr "_Startigi"
 
 #: client/gui-gtk-2.0/pages.c:2159 client/gui-gtk-3.0/pages.c:2230
 #: client/gui-gtk-3.22/pages.c:2230
@@ -6112,7 +6109,7 @@ msgstr "Prenu tiun ĉi ludanton"
 #: client/gui-gtk-3.0/pages.c:2234 client/gui-gtk-3.0/pages.c:2799
 #: client/gui-gtk-3.22/pages.c:2234 client/gui-gtk-3.22/pages.c:2799
 msgid "Pick _Nation"
-msgstr "Elektu _nacion"
+msgstr "Elekti _nacion"
 
 #: client/gui-gtk-2.0/pages.c:2166 client/gui-gtk-3.0/pages.c:2237
 #: client/gui-gtk-3.22/pages.c:2237
@@ -6308,7 +6305,7 @@ msgstr "_Renkontiĝo"
 #: client/gui-gtk-2.0/plrdlg.c:332 client/gui-gtk-3.0/plrdlg.c:344
 #: client/gui-gtk-3.22/plrdlg.c:342
 msgid "Cancel _Treaty"
-msgstr "Nuligu kontra_kton"
+msgstr "Nuligi trakta_ton"
 
 #: client/gui-gtk-2.0/plrdlg.c:338 client/gui-gtk-3.0/plrdlg.c:350
 #: client/gui-gtk-3.22/plrdlg.c:348
@@ -7075,9 +7072,8 @@ msgstr ""
 #: client/gui-gtk-3.22/repodlgs.c:1161 client/gui-gtk-3.22/repodlgs.c:1690
 #: client/gui-gtk-3.22/spaceshipdlg.c:230 client/gui-gtk-3.22/unitselect.c:281
 #: client/gui-gtk-3.22/wldlg.c:228 client/gui-gtk-3.22/wldlg.c:404
-#, fuzzy
 msgid "_Close"
-msgstr "Fermu"
+msgstr "Fermi"
 
 #: client/gui-gtk-3.0/inteldlg.c:632 client/gui-gtk-3.22/inteldlg.c:631
 #, fuzzy, c-format
@@ -7184,7 +7180,7 @@ msgstr "Fermu"
 #: client/gui-gtk-3.22/pages.c:1420 client/gui-gtk-3.22/pages.c:2794
 #: client/gui-gtk-3.22/pages.c:2951 client/gui-gtk-3.22/pages.c:3291
 msgid "_Cancel"
-msgstr "_Nuligu"
+msgstr "_Nuligi"
 
 #: client/gui-gtk-3.22/chatline.c:1135 client/gui-gtk-3.22/optiondlg.c:329
 #, fuzzy
@@ -7197,7 +7193,6 @@ msgstr "vakigu protokolon"
 #: client/gui-gtk-3.22/messagedlg.c:72 client/gui-gtk-3.22/optiondlg.c:330
 #: client/gui-gtk-3.22/optiondlg.c:365 client/gui-gtk-3.22/pages.c:2956
 #: client/gui-gtk-3.22/pages.c:3296
-#, fuzzy
 msgid "_OK"
 msgstr "Bone"
 
@@ -7627,7 +7622,7 @@ msgstr "Arkaika kun:"
 #: client/gui-sdl2/dialogs.c:721 client/gui-sdl2/dialogs.c:917
 #: client/gui-sdl2/dialogs.c:3267 client/gui-sdl2/mapctrl.c:2778
 msgid "Cancel"
-msgstr "Nuligu"
+msgstr "Nuligi"
 
 #: client/gui-qt/cityrep.cpp:491
 #, fuzzy, c-format
@@ -7674,9 +7669,8 @@ msgid "Column visibility"
 msgstr ""
 
 #: client/gui-qt/dialogs.cpp:341
-#, fuzzy
 msgid "Select Nation"
-msgstr "Elektu nacion"
+msgstr "Elekti nacion"
 
 #: client/gui-qt/dialogs.cpp:360
 #, fuzzy
@@ -7944,7 +7938,7 @@ msgstr ""
 
 #: client/gui-qt/gui_main.cpp:545 tools/mpgui_qt.cpp:483
 msgid "Quit?"
-msgstr "Ĉu eliru?"
+msgstr "Ĉu eliri?"
 
 #: client/gui-qt/gui_main.cpp:570
 #, c-format
@@ -8171,9 +8165,8 @@ msgid "Year: %1 (Turn: %2)"
 msgstr "Vico: %d"
 
 #: client/gui-qt/hudwidget.cpp:1670
-#, fuzzy
 msgid "Population: %1"
-msgstr "Populacio: %s"
+msgstr "Loĝantaro: %1"
 
 #. TRANS: current gold, then loss/gain per turn
 #: client/gui-qt/hudwidget.cpp:1686
@@ -8308,7 +8301,7 @@ msgstr "Forlasu la ludon"
 #: client/gui-qt/menu.cpp:1054 client/gui-qt/pages.cpp:199
 #: client/gui-sdl2/optiondlg.c:883 client/gui-sdl2/pages.c:279
 msgid "Quit"
-msgstr "Eliru"
+msgstr "Eliri"
 
 #: client/gui-qt/menu.cpp:1060 client/gui-qt/shortcuts.cpp:61
 msgid "Center View"
@@ -8953,7 +8946,7 @@ msgstr "Renkontiĝo"
 
 #: client/gui-qt/plrdlg.cpp:666 client/gui-sdl2/diplodlg.c:1556
 msgid "Cancel Treaty"
-msgstr "Nuligu kontrakton"
+msgstr "Nuligi traktaton"
 
 #: client/gui-qt/plrdlg.cpp:668
 #, fuzzy
@@ -9628,7 +9621,7 @@ msgstr "Ŝargu agordaĵojn"
 
 #: client/gui-sdl2/cma_fe.c:1042
 msgid "Delete settings"
-msgstr "Nuligu agordaĵojn"
+msgstr "Nuligi agordojn"
 
 #: client/gui-sdl2/cma_fe.c:1051
 msgid "Control city"
@@ -10102,12 +10095,12 @@ msgstr "Neniu"
 #: client/gui-sdl2/mapview.c:431
 #, c-format
 msgid "%s Population: %s  Year: %s  Gold %d "
-msgstr "%s Populacio: %s  Jaro: %s  Oro %d "
+msgstr "%s Loĝantaro: %s  Jaro: %s  Oro %d "
 
 #: client/gui-sdl2/mapview.c:439
-#, fuzzy, c-format
+#, c-format
 msgid "%s Population: %s  Year: %s  Gold %d Tax: %d Lux: %d Sci: %d "
-msgstr "%s Populacio: %s  Jaro: %s  Oro %d Imp.: %d Lukso: %d Sci.: %d "
+msgstr "%s Loĝantaro: %s  Jaro: %s  Oro %d Imp.: %d Lukso: %d Sci.: %d "
 
 #: client/gui-sdl2/mapview.c:594 client/text.c:146
 msgid "?nation:Hostile"
@@ -14655,7 +14648,7 @@ msgstr[1] "%d ampoloj"
 #: client/text.c:929
 #, c-format
 msgid "Population: %s"
-msgstr "Populacio: %s"
+msgstr "Loĝantaro: %s"
 
 #: client/text.c:932
 #, c-format
@@ -14684,7 +14677,7 @@ msgstr "Moviĝanta: %s"
 
 #: client/text.c:961
 msgid "(Click for more info)"
-msgstr "(Alklaku por havi pli informojn)"
+msgstr "(Alklaku por havi pli da informoj)"
 
 #: client/text.c:979
 #, c-format
@@ -14935,7 +14928,7 @@ msgstr "Vidigu vian nunan regsistemon:"
 #: client/text.c:1492
 #, c-format
 msgid "Population:      %5d"
-msgstr "Populacio:       %5d"
+msgstr "Loĝantaro:       %5d"
 
 #. TRANS: spaceship text; should have constant width.
 #: client/text.c:1495
@@ -16096,7 +16089,7 @@ msgstr "Nacio: %s"
 #: common/events.c:60
 #, c-format
 msgid "Treaty: %s"
-msgstr "Traktado: %s"
+msgstr "Traktato: %s"
 
 #: common/events.c:61
 #, c-format
@@ -16662,7 +16655,7 @@ msgstr "For"
 
 #: common/fc_types.h:280
 msgid "Handicapped"
-msgstr ""
+msgstr "Handikapita"
 
 #: common/fc_types.h:282
 msgid "Novice"
@@ -21419,18 +21412,18 @@ msgstr "Despotismo"
 #: data/experimental/governments.ruleset:95
 #: data/civ2civ3/governments.ruleset:147
 #: data/multiplayer/governments.ruleset:91
-#, fuzzy, c-format
+#, c-format
 msgid "Chief %s"
-msgstr "Ĉefo"
+msgstr "Ĉefo %s"
 
 #: data/civ1/governments.ruleset:94 data/civ2/governments.ruleset:92
 #: data/classic/governments.ruleset:92 data/sandbox/governments.ruleset:148
 #: data/experimental/governments.ruleset:96
 #: data/civ2civ3/governments.ruleset:148
 #: data/multiplayer/governments.ruleset:92
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Chief %s"
-msgstr "?female:Ĉefino"
+msgstr "?female:Ĉefino %s"
 
 #: data/civ1/governments.ruleset:96 data/civ2/governments.ruleset:94
 #: data/classic/governments.ruleset:94 data/sandbox/governments.ruleset:150
@@ -21956,7 +21949,7 @@ msgstr "?female:Ĉefa Ŝtatsekretario"
 #: data/civ1/nations.ruleset:1016 data/civ2/nations.ruleset:1157
 #: data/nation/greek.ruleset:5
 msgid "Greek"
-msgstr "Heleno"
+msgstr "Helena"
 
 #: data/civ1/nations.ruleset:1017 data/civ2/nations.ruleset:1158
 #: data/nation/greek.ruleset:6
@@ -21983,12 +21976,12 @@ msgstr "?female:Despotino"
 #: data/civ1/nations.ruleset:1168 data/civ2/nations.ruleset:1310
 #: data/nation/indian.ruleset:5
 msgid "Indian"
-msgstr "Hinda"
+msgstr "Barata"
 
 #: data/civ1/nations.ruleset:1169 data/civ2/nations.ruleset:1311
 #: data/nation/indian.ruleset:6
 msgid "?plural:Indians"
-msgstr "?plural:Hindoj"
+msgstr "?plural:Baratanoj"
 
 #: data/civ1/nations.ruleset:1171 data/civ2/nations.ruleset:1313
 msgid ""
@@ -24756,12 +24749,11 @@ msgstr ""
 
 #: data/civ2/nations.ruleset:433 data/nation/celtic.ruleset:5
 msgid "Celtic"
-msgstr ""
+msgstr "Kelta"
 
 #: data/civ2/nations.ruleset:434 data/nation/celtic.ruleset:6
-#, fuzzy
 msgid "?plural:Celts"
-msgstr "?plural:Gaŭloj"
+msgstr "?plural:Keltoj"
 
 #: data/civ2/nations.ruleset:436 data/nation/celtic.ruleset:8
 msgid ""
@@ -24923,10 +24915,9 @@ msgstr "Matriarko"
 
 #: data/civ2/nations.ruleset:1824 data/nation/sioux.ruleset:5
 msgid "Sioux"
-msgstr ""
+msgstr "Siua"
 
 #: data/civ2/nations.ruleset:1825 data/nation/sioux.ruleset:6
-#, fuzzy
 msgid "?plural:Sioux"
 msgstr "?plural:Siuoj"
 
@@ -25998,6 +25989,8 @@ msgid ""
 "A small set of playable nations that should be fully localized into "
 "languages other than English."
 msgstr ""
+"Malgranda aro de ludeblaj nacioj, kiu devus esti plene tradukita en "
+"lingvojn krom la angla"
 
 #: data/default/nationlist.ruleset:34
 msgid "?nationset:Extended"
@@ -26015,6 +26008,9 @@ msgid ""
 "variety, but not all of these may have been localized into languages other "
 "than English."
 msgstr ""
+"La plena aro de ludeblaj nacioj; ĉi tiu aro permesas pli grandajn ludojn aŭ "
+"pli da diverseco, sed ne ĉiuj el la nacioj estas tradukitaj en lingvojn krom "
+"la angla"
 
 #: data/default/nationlist.ruleset:63
 msgid "?nationgroup:Medieval"
@@ -27729,12 +27725,12 @@ msgstr "Tera areo"
 #: data/sandbox/game.ruleset:1251 data/experimental/game.ruleset:989
 #: data/civ2civ3/game.ruleset:1058
 msgid "Your people were the first in history to sight a foreign shore!"
-msgstr ""
+msgstr "Via popolo estis la unua en la historio vidi fremdan marbordon!"
 
 #: data/sandbox/game.ruleset:1252 data/experimental/game.ruleset:990
 #: data/civ2civ3/game.ruleset:1059
 msgid "You sighted your first foreign shore!"
-msgstr ""
+msgstr "Vi vidis fremdan marbordon unuafoje!"
 
 #: data/sandbox/game.ruleset:1255 data/civ2civ3/game.ruleset:1062
 #, fuzzy
@@ -29527,6 +29523,10 @@ msgid ""
 "(If you'd like rules more similar to ones in previous versions,\n"
 "start a new game with 'classic' ruleset.)"
 msgstr ""
+"Bonvenon al civ2civ3, la nova defaŭlta regularo de freeciv-3.0.\n"
+"Por pli da informoj, vidu: Helpilo -> Pri aktuala regularo.\n"
+"(Se vi deziras regulojn pli similajn al tiuj de antaŭaj versioj,\n"
+"startigi novan ludon kun la regularo 'classic'.)"
 
 #: data/civ2civ3/terrain.ruleset:1661
 msgid ""
@@ -34723,14 +34723,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/apache.ruleset:5
-#, fuzzy
 msgid "Apache"
-msgstr "Spaco"
+msgstr "Apaĉa"
 
 #: data/nation/apache.ruleset:6
-#, fuzzy
 msgid "?plural:Apaches"
-msgstr "?plural:Komputpiratoj"
+msgstr "?plural:Apaĉoj"
 
 #: data/nation/apache.ruleset:8
 msgid ""
@@ -35112,14 +35110,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/hunnic.ruleset:5
-#, fuzzy
 msgid "Hunnic"
-msgstr "Plenumanta"
+msgstr "Huna"
 
 #: data/nation/hunnic.ruleset:6
-#, fuzzy
 msgid "?plural:Huns"
-msgstr "?plural:Kenjanoj"
+msgstr "?plural:Hunoj"
 
 #: data/nation/hunnic.ruleset:8
 msgid ""
@@ -35224,11 +35220,11 @@ msgstr "Lamao"
 
 #: data/nation/iroquois.ruleset:5
 msgid "Iroquois"
-msgstr ""
+msgstr "Irokeza"
 
 #: data/nation/iroquois.ruleset:6
 msgid "?plural:Iroquois"
-msgstr ""
+msgstr "?plural:Irokezoj"
 
 #: data/nation/iroquois.ruleset:8
 msgid ""
@@ -35282,12 +35278,11 @@ msgstr ""
 
 #: data/nation/khmer.ruleset:5
 msgid "Khmer"
-msgstr ""
+msgstr "Ĥmera"
 
 #: data/nation/khmer.ruleset:6
-#, fuzzy
 msgid "?plural:Khmers"
-msgstr "?plural:Eŭskoj"
+msgstr "?plural:Ĥmeroj"
 
 #: data/nation/khmer.ruleset:8
 msgid ""
@@ -35315,12 +35310,10 @@ msgid ""
 msgstr ""
 
 #: data/nation/mali.ruleset:5
-#, fuzzy
 msgid "Mali"
 msgstr "Malia"
 
 #: data/nation/mali.ruleset:6
-#, fuzzy
 msgid "?plural:Malis"
 msgstr "?plural:Malianoj"
 
@@ -35347,11 +35340,11 @@ msgstr "?female:Mahatmo"
 
 #: data/nation/mayan.ruleset:5
 msgid "Mayan"
-msgstr ""
+msgstr "Majaa"
 
 #: data/nation/mayan.ruleset:6
 msgid "?plural:Mayas"
-msgstr ""
+msgstr "?plural:Majaoj"
 
 #: data/nation/mayan.ruleset:8
 msgid ""
@@ -35492,12 +35485,11 @@ msgstr "?female:Ŝamanino"
 
 #: data/nation/songhai.ruleset:5
 msgid "Songhai"
-msgstr ""
+msgstr "Sonhaja"
 
 #: data/nation/songhai.ruleset:6
-#, fuzzy
 msgid "?plural:Songhai"
-msgstr "?plural:Sameoj"
+msgstr "?plural:Sonhajoj"
 
 #: data/nation/songhai.ruleset:8
 msgid ""
@@ -35545,11 +35537,11 @@ msgstr ""
 
 #: data/nation/taino.ruleset:5
 msgid "Taino"
-msgstr ""
+msgstr "Taina"
 
 #: data/nation/taino.ruleset:6
 msgid "?plural:Taino"
-msgstr ""
+msgstr "?plural:Tainoj"
 
 #: data/nation/taino.ruleset:9
 msgid ""
@@ -35582,11 +35574,11 @@ msgstr ""
 
 #: data/nation/tupi.ruleset:5
 msgid "Tupi"
-msgstr ""
+msgstr "Tupia"
 
 #: data/nation/tupi.ruleset:6
 msgid "?plural:Tupi"
-msgstr ""
+msgstr "?plural:Tupioj"
 
 #: data/nation/tupi.ruleset:9
 msgid ""
@@ -38558,7 +38550,7 @@ msgstr ""
 
 #: server/commands.c:122
 msgid "Quit the game and shutdown the server."
-msgstr "Eliru el la ludo kaj fermu la servilon."
+msgstr "Eliri el la ludo kaj fermu la servilon."
 
 #. TRANS: translate text between <> only
 #: server/commands.c:127
@@ -39584,24 +39576,24 @@ msgstr "La %s ne povas akcepti %s."
 #: server/diplhand.c:227
 #, c-format
 msgid "You don't have tech %s, you can't accept treaty."
-msgstr "Vi ne havas la teĥnologion %s, do vi ne povas akcepti la kontrakton."
+msgstr "Vi ne havas la teĥnologion %s, do vi ne povas akcepti la traktaton."
 
 #: server/diplhand.c:237
 msgid "City you are trying to give no longer exists, you can't accept treaty."
 msgstr ""
 "La urbo, kiun vi provas doni, ne ekzistas plu, do vi ne povas akcepti la "
-"kontrakton."
+"traktaton."
 
 #: server/diplhand.c:243
 #, c-format
 msgid "You are not owner of %s, you can't accept treaty."
 msgstr ""
-"Vi ne estas la proprietulo de %s, do vi ne povas akcepti la kontrakton."
+"Vi ne estas la proprietulo de %s, do vi ne povas akcepti la traktaton."
 
 #: server/diplhand.c:249 server/diplhand.c:364
 #, c-format
 msgid "Your capital (%s) is requested, you can't accept treaty."
-msgstr "Oni postulas vian ĉefurbon (%s), do vi ne povas akcepti la kontrakton."
+msgstr "Oni postulas vian ĉefurbon (%s), do vi ne povas akcepti la traktaton."
 
 #: server/diplhand.c:271
 #, c-format
@@ -39615,32 +39607,32 @@ msgstr ""
 
 #: server/diplhand.c:287
 msgid "You don't have enough gold, you can't accept treaty."
-msgstr "Vi ne havas sufiĉe da oro, do vi ne povas akcepti la kontrakton."
+msgstr "Vi ne havas sufiĉe da oro, do vi ne povas akcepti la traktaton."
 
 #: server/diplhand.c:319 server/diplhand.c:324
 #, c-format
 msgid "A treaty containing %d clause was agreed upon."
 msgid_plural "A treaty containing %d clauses was agreed upon."
-msgstr[0] "Estis subskribita kontrakto kun %d klaŭzo."
-msgstr[1] "Estis subsktibita kontrakto kun %d klaŭzoj."
+msgstr[0] "Traktato estis subskribita kun %d klaŭzo."
+msgstr[1] "Traktato estis subsktibita kun %d klaŭzoj."
 
 #: server/diplhand.c:340 server/diplhand.c:344
 #, c-format
 msgid "One of the cities the %s are giving away is destroyed! Treaty canceled!"
 msgstr ""
-"Unu el la urboj, kiujn la %s cedas, estas detruita! La kontrakto estas "
+"Unu el la urboj, kiujn la %s cedas, estas detruita! La traktato estas "
 "nuligita!"
 
 #: server/diplhand.c:351 server/diplhand.c:356
 #, c-format
 msgid "The %s no longer control %s! Treaty canceled!"
-msgstr "La %s ne regas plu %sn! La kontrakto estas nuligita!"
+msgstr "La %s ne regas plu %sn! La traktato estas nuligita!"
 
 #: server/diplhand.c:394 server/diplhand.c:398
 #, c-format
 msgid "The %s don't have the promised amount of gold! Treaty canceled!"
 msgstr ""
-"La %s ne havas la promesitan kvanton da oro! La kontrakto estas nuligita!"
+"La %s ne havas la promesitan kvanton da oro! La traktato estas nuligita!"
 
 #: server/diplhand.c:428
 #, fuzzy, c-format
@@ -39706,7 +39698,7 @@ msgstr "Vi akordiĝis kun %s pri paf-cesigo."
 
 #. TRANS: ... the Poles ... Polish territory
 #: server/diplhand.c:578 server/diplhand.c:592
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "You agree on an armistice with the %s. In %d turn, it will become a peace "
 "treaty. Move your military units out of %s territory to avoid them being "
@@ -39716,11 +39708,11 @@ msgid_plural ""
 "treaty. Move any military units out of %s territory to avoid them being "
 "disbanded."
 msgstr[0] ""
-"Vi konsentis armisticon kun la %s. En %d vico, ĝi iĝos packontrakto.Forpelu "
-"vian unuojn el %s teritorio."
+"Vi konsentas armisticon kun la %s. Post %d vico, ĝi iĝos pactraktato. Forpelu "
+"viajn unuojn el la %s teritorio."
 msgstr[1] ""
-"Vi konsentis armisticon kun la %s. En %d vicoj, ĝi iĝos packonstrakto."
-"Forpelu vian unuojn el %s teritorio."
+"Vi konsentas armisticon kun la %s. Post %d vicoj, ĝi iĝos pactraktato. "
+"Forpelu viajn unuojn el la %s teritorio."
 
 #: server/diplhand.c:622 server/diplhand.c:625
 #, c-format
@@ -39772,9 +39764,9 @@ msgid "%s is suspected of destroying %s by poisoning its water supply."
 msgstr "%s estas suspektita pri venenado de la akvon en %s."
 
 #: server/diplomats.c:331
-#, fuzzy, c-format
+#, c-format
 msgid "You have established an embassy in %s."
-msgstr "Vi senbridigis hordon de barbaroj!"
+msgstr "Vi establis ambasadejon en %s."
 
 #: server/diplomats.c:335
 #, c-format
@@ -40707,7 +40699,7 @@ msgid ""
 "The senate will not allow you to break treaty with the %s.  You must either "
 "dissolve the senate or wait until a more timely moment."
 msgstr ""
-"La senato ne permesos al vi nuligi kontrakton kun la %s.  Vi devas ĉu "
+"La senato ne permesos al vi nuligi traktaton kun la %s.  Vi devas ĉu "
 "dissolvi la senaton ĉu atendi la ĝustan momenton."
 
 #: server/plrhand.c:794
@@ -40722,7 +40714,7 @@ msgid ""
 "The senate refuses to break treaty with the %s, but you have no trouble "
 "finding a new senate."
 msgstr ""
-"La senato rifuzas nuligi la kontrakton kun la %s, sed vi ne havas problemojn "
+"La senato rifuzas nuligi la traktaton kun la %s, sed vi ne havas problemojn "
 "por trovi novan senaton."
 
 #: server/plrhand.c:823
@@ -41199,7 +41191,7 @@ msgstr "?Scientist:S"
 
 #: server/report.c:1561
 msgid "Population\n"
-msgstr "Populacio\n"
+msgstr "Loĝantaro\n"
 
 #. TRANS: "M goods" = million goods
 #: server/report.c:1563
@@ -44236,13 +44228,13 @@ msgid ""
 msgid_plural ""
 "%s Any such units will be disbanded in %d turns, in accordance with peace "
 "treaty."
-msgstr[0] "Viaj %s estis dissolvitaj laŭ via packontrakto kun la %s."
-msgstr[1] "Viaj %s estis dissolvitaj laŭ via packontrakto kun la %s."
+msgstr[0] "Viaj %s estis dissolvitaj laŭ via pactraktato kun la %s."
+msgstr[1] "Viaj %s estis dissolvitaj laŭ via pactraktato kun la %s."
 
 #: server/srv_main.c:875 server/srv_main.c:886
 #, c-format
 msgid "Your %s was disbanded in accordance with your peace treaty with the %s."
-msgstr "Viaj %s estis dissolvitaj laŭ via packontrakto kun la %s."
+msgstr "Viaj %s estis dissolvitaj laŭ via pactraktato kun la %s."
 
 #: server/srv_main.c:936
 #, c-format
@@ -46268,7 +46260,7 @@ msgstr ""
 #, c-format
 msgid "Learned %s. Our scientists focus on %s; goal is %s."
 msgstr ""
-"%s estas lernita. Niaj sciencistoj sin koncentras sur %sn; la celo estas %s."
+"%s estas lernita. Niaj sciencistoj koncentriĝas pri %s; la celo estas %s."
 
 #: server/techtools.c:519
 #, c-format
@@ -49142,7 +49134,7 @@ msgstr "eraro %d (kompilumita sen strerror)"
 #~ "and\n"
 #~ "The %s %s"
 #~ msgstr ""
-#~ "Tiu Eterna Kontrakto\n"
+#~ "Tiu Eterna traktato\n"
 #~ "montras la rezultojn de la diplomatia laboro inter\n"
 #~ "la %s %s %s\n"
 #~ "kaj\n"
@@ -49771,7 +49763,7 @@ msgstr "eraro %d (kompilumita sen strerror)"
 #~ msgstr "Spionado"
 
 #~ msgid "Cancel pact"
-#~ msgstr "Nuligu kontrakton"
+#~ msgstr "Nuligu traktaton"
 
 #~ msgid "Goto location"
 #~ msgstr "Iru al la loko"
@@ -51054,7 +51046,7 @@ msgstr "eraro %d (kompilumita sen strerror)"
 #~ "and\n"
 #~ "The %s %s %s"
 #~ msgstr ""
-#~ "Tiu Eterna Kontrakto\n"
+#~ "Tiu Eterna traktato\n"
 #~ "montras la rezultojn de la diplomatia laboro inter\n"
 #~ "la %s %s %s\n"
 #~ "kaj\n"
@@ -52712,7 +52704,7 @@ msgstr "eraro %d (kompilumita sen strerror)"
 #~ "\n"
 #~ "   - Ŝanĝi ambasadojn,\n"
 #~ "\n"
-#~ "   - Krei kontraktojn,\n"
+#~ "   - Krei traktatojn,\n"
 #~ "\n"
 #~ "   - kaj doni oron."
 
@@ -53499,7 +53491,7 @@ msgstr "eraro %d (kompilumita sen strerror)"
 #~ "treaty."
 #~ msgstr ""
 #~ "Estis trovita nevalida strukturo de alianco: la alianco inter %s kaj %s "
-#~ "reduktiĝis al packontrakto."
+#~ "reduktiĝis al pactraktato."
 
 #~ msgid "And, became more experienced!"
 #~ msgstr "Kaj, ili iĝas pli spertaj!"
