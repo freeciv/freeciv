@@ -61,6 +61,10 @@ bool api_edit_perform_action_unit_vs_self(lua_State *L, Unit *punit,
 
 void api_edit_unit_turn(lua_State *L, Unit *punit, Direction dir);
 
+bool api_edit_unit_upgrade(lua_State *L, Unit *punit, int vet_loss);
+bool api_edit_unit_transform(lua_State *L, Unit *punit, Unit_Type *ptype,
+                             int vet_loss);
+
 void api_edit_unit_kill(lua_State *L, Unit *punit, const char *reason,
                         Player *killer);
 

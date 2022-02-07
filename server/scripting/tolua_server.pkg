@@ -501,6 +501,14 @@ module Player {
     @ trait_current_mod (lua_State *L, Player *pplayer, const char *tname);
 }
 
+/* server game parameters */
+$#define game_server_autoupgrade_veteran_loss (game.server.autoupgrade_veteran_loss)
+$#define game_server_upgrade_veteran_loss (game.server.upgrade_veteran_loss)
+module game {
+  extern const int game_server_autoupgrade_veteran_loss @ autoupgrade_veteran_loss;
+  extern const int game_server_upgrade_veteran_loss @ upgrade_veteran_loss;
+}
+
 /* Additions to common Nation_Type module. */
 module Nation_Type {
   int api_methods_nation_trait_min
@@ -510,4 +518,13 @@ module Nation_Type {
   int api_methods_nation_trait_default
     @ trait_default (lua_State *L, Nation_Type *pnation,
                      const char *tname);
+}
+
+/* Additions to common Unit module. */
+module Unit {
+  bool api_edit_unit_upgrade
+    @ upgrade (lua_State *L, Unit *punit, int vet_loss = 0);
+  bool api_edit_unit_transform
+    @ transform (lua_State *L, Unit *punit, Unit_Type *ptype,
+                 int vet_loss = 0);
 }

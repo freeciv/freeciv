@@ -99,6 +99,12 @@ City_List_Link *api_methods_private_player_city_list_head(lua_State *L,
 int api_methods_player_culture_get(lua_State *L, Player *pplayer);
 
 bool api_methods_player_has_flag(lua_State *L, Player *pplayer, const char *flag);
+Unit_Type *api_methods_player_can_upgrade(lua_State *L, Player *pplayer,
+                                          Unit_Type *utype);
+bool api_methods_player_can_build_unit_direct(lua_State *L, Player *pplayer,
+                                              Unit_Type *utype);
+bool api_methods_player_can_build_impr_direct(lua_State *L, Player *pplayer,
+                                              Building_Type *itype);
 
 /* Tech Type */
 const char *api_methods_tech_type_rule_name(lua_State *L, Tech_Type *ptech);
@@ -156,6 +162,9 @@ const Direction *api_methods_unit_orientation_get(lua_State *L, Unit *punit);
 Unit *api_methods_unit_transporter(lua_State *L, Unit *punit);
 Unit_List_Link *api_methods_private_unit_cargo_list_head(lua_State *L,
                                                          Unit *punit);
+bool api_methods_unit_can_upgrade(lua_State *L, Unit *punit, bool is_free);
+const char *api_methods_unit_transform_problem(lua_State *L, Unit *punit,
+                                               Unit_Type *ptype);
 
 /* Unit Type */
 bool api_methods_unit_type_has_flag(lua_State *L, Unit_Type *punit_type,

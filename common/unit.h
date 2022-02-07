@@ -415,6 +415,9 @@ struct unit *transporter_for_unit(const struct unit *pcargo);
 struct unit *transporter_for_unit_at(const struct unit *pcargo,
                                      const struct tile *ptile);
 
+enum unit_upgrade_result
+unit_transform_result(const struct unit *punit,
+                      const struct unit_type *to_unittype);
 enum unit_upgrade_result unit_upgrade_test(const struct unit *punit,
                                            bool is_free);
 enum unit_upgrade_result unit_upgrade_info(const struct unit *punit,

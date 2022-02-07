@@ -57,6 +57,7 @@ struct Unit {
 
   /* This used to be @ homecity_id, but it does not work with toluaxx. */
   int homecity;
+  int veteran;
 
   const int id;
 };
@@ -84,6 +85,7 @@ struct Building_Type {
 
 struct Unit_Type {
   int build_cost;
+  Unit_Type *obsoleted_by;
 
   const int item_number @ id;
 };
@@ -174,6 +176,12 @@ module Player {
     @ culture(lua_State *L, Player *self);
   bool api_methods_player_has_flag
     @ has_flag (lua_State *L, Player *self, const char *flag);
+  Unit_Type *api_methods_player_can_upgrade
+    @ can_upgrade(lua_State *L, Player *pplayer, Unit_Type *utype);
+  bool api_methods_player_can_build_impr_direct
+    @ can_build_direct (lua_State *L, Player *pplayer, Building_Type *itype);
+  bool api_methods_player_can_build_unit_direct
+    @ can_build_direct (lua_State *L, Player *pplayer, Unit_Type *utype);
 }
 
 module methods_private {
@@ -258,6 +266,10 @@ module Unit {
     @ transporter (lua_State *L, Unit *self);
   bool api_methods_unit_city_can_be_built_here
     @ is_on_possible_city_tile (lua_State *L, Unit *self);
+  bool api_methods_unit_can_upgrade
+    @ can_upgrade (lua_State *L, Unit *punit, bool is_free = TRUE);
+  const char *api_methods_unit_transform_problem
+    @ transform_problem (lua_State *L, Unit *punit, Unit_Type *ptype);
   Direction *api_methods_unit_orientation_get
     @ facing(lua_State *L, Unit *self);
 
