@@ -81,6 +81,15 @@ add_qt5_env() {
   cp ./helpers/installer-helper-qt.cmd $2/bin/installer-helper.cmd
 }
 
+add_qt6_env() {
+  cp -R $1/plugins $2/ &&
+  cp $1/bin/Qt6Core.dll $2/ &&
+  cp $1/bin/Qt6Gui.dll $2/ &&
+  cp $1/bin/Qt6Widgets.dll $2/ &&
+  mkdir -p $2/bin &&
+  cp ./helpers/installer-helper-qt.cmd $2/bin/installer-helper.cmd
+}
+
 add_common_env() {
   cp $1/bin/libcurl-4.dll $2/ &&
   cp $1/bin/liblzma-5.dll $2/ &&
@@ -110,7 +119,12 @@ case $GUI in
     MPGUI="gtk3"
     FCMP="gtk3" ;;
   qt5)
-    GUINAME="Qt"
+    GUINAME="Qt5"
+    CLIENT="qt"
+    MPGUI="qt"
+    FCMP="qt" ;;
+  qt6)
+    GUINAME="Qt6"
     CLIENT="qt"
     MPGUI="qt"
     FCMP="qt" ;;
@@ -245,6 +259,16 @@ else
         echo "Copying Qt5 environment failed!" >&2
         exit 1
       fi ;;
+    qt6)
+      if ! cp freeciv-ruledit.cmd $INSTDIR/
+      then
+        echo "Adding cmd-file failed!" >&2
+        exit 1
+      fi
+      if ! add_qt6_env $DLLSPATH $INSTDIR ; then
+        echo "Copying Qt6 environment failed!" >&2
+        exit 1
+      fi ;;
     gtk4)
       if ! add_gtk4_env $DLLSPATH $INSTDIR ; then
         echo "Copying gtk4 environment failed!" >&2
@@ -259,7 +283,7 @@ else
       exit 1
     fi
   else
-    if test "x$GUI" = "xqt5" ; then
+    if test "x$GUI" = "xqt5" || test "x$GUI" = "xqt6" ; then
       EXE_ID="qt"
     else
       EXE_ID="$GUI"
