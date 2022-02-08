@@ -1,10 +1,52 @@
 ============================
-Welcome to Freeciv 3.0.0-RC1
+Welcome to Freeciv 3.0.0-RC2
 ============================
 
 The changes in the 3.0.x series are summarised below.
 For changes prior to 3.0, see NEWS. For more detailed changes,
 see the ChangeLog file.
+
+
+CHANGES FROM 3.0.0-RC1 to 3.0.0-RC2
+-----------------------------------
+
+   (from <http://www.freeciv.org/wiki/NEWS-3.0.0-RC2>, 2022-02-08)
+
+3.0.0-RC2 is the second Release Candidate of freeciv-3.0.
+A couple of bugs have been fixed since Candidate 1.
+
+Server / General
+Changes affecting players (supplied rulesets)
+
+    * Fixed how resources are removed from the map, for any reason
+      osdn#43782
+
+    * multiplayer
+         + Hex topology (the overall default of freeciv-3.0) is used
+           by default osdn#43760
+
+Changes affecting other rulesets / modders
+
+    * Fixed unit losing veterancy levels when it's being converted
+      to another osdn#43778
+
+Help / Documentation
+
+    * Alina Lenk added to the list of maintainers osdn#43767
+    * Miscellaneous changes to developer/install/ruleset docs
+      osdn#43770
+
+Translations
+
+    * Updated translations:
+         + Complete translations: French
+         + Incomplete translations:
+           Esperanto (30% core, 17% nations, 34% ruledit)
+
+Build/portability
+
+    * Made macOS to use proper vsnprintf() instead of a fallback method
+      osdn#43737
 
 
 CHANGES FROM 3.0.0-beta3 to 3.0.0-RC1
