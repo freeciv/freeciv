@@ -1864,6 +1864,34 @@ static bool can_type_transport_units_cargo(const struct unit_type *utype,
 }
 
 /**********************************************************************//**
+  Tests if something prevents punit from being transformed to to_unittype
+  where it is now, presuming its current position is valid.
+
+  FIXME: the transport stack may still fail unit_transport_check in result
+**************************************************************************/
+enum unit_upgrade_result
+unit_transform_result(const struct unit *punit,
+                      const struct unit_type *to_unittype)
+{
+  fc_assert_ret_val(NULL != to_unittype, UU_NO_UNITTYPE);
+
+  if (!can_type_transport_units_cargo(to_unittype, punit)) {
+    return UU_NOT_ENOUGH_ROOM;
+  }
+
+  if (punit->transporter != NULL) {
+    if (!can_unit_type_transport(unit_type_get(punit->transporter),
+                                 utype_class(to_unittype))) {
+      return UU_UNSUITABLE_TRANSPORT;
+    }
+  } else if (!can_exist_at_tile(&(wld.map), to_unittype, unit_tile(punit))) {
+    /* The new unit type can't survive on this terrain. */
+    return UU_NOT_TERRAIN;
+  }
+  return UU_OK;
+}
+
+/**********************************************************************//**
   Tests if the unit could be updated. Returns UU_OK if is this is
   possible.
 
@@ -1901,23 +1929,9 @@ enum unit_upgrade_result unit_upgrade_test(const struct unit *punit,
     }
   }
 
-  if (!can_type_transport_units_cargo(to_unittype, punit)) {
-    /* TODO: allow transported units to be reassigned.  Check here
-     * and make changes to upgrade_unit. */
-    return UU_NOT_ENOUGH_ROOM;
-  }
-
-  if (punit->transporter != NULL) {
-    if (!can_unit_type_transport(unit_type_get(punit->transporter),
-                                 utype_class(to_unittype))) {
-      return UU_UNSUITABLE_TRANSPORT;
-    }
-  } else if (!can_exist_at_tile(&(wld.map), to_unittype, unit_tile(punit))) {
-    /* The new unit type can't survive on this terrain. */
-    return UU_NOT_TERRAIN;
-  }
-
-  return UU_OK;
+  /* TODO: allow transported units to be reassigned.  Check here
+   * and make changes to upgrade_unit. */
+  return unit_transform_result(punit, to_unittype);
 }
 
 /**********************************************************************//**
@@ -1931,20 +1945,7 @@ bool unit_can_convert(const struct unit *punit)
     return FALSE;
   }
 
-  if (!can_type_transport_units_cargo(tgt, punit)) {
-    return FALSE;
-  }
-
-  if (punit->transporter != NULL) {
-    if (!can_unit_type_transport(unit_type_get(punit->transporter),
-                                 utype_class(tgt))) {
-      return FALSE;
-    }
-  } else if (!can_exist_at_tile(&(wld.map), tgt, unit_tile(punit))) {
-    return FALSE;
-  }
-
-  return TRUE;
+  return UU_OK == unit_transform_result(punit, tgt);
 }
 
 /**********************************************************************//**

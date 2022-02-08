@@ -64,6 +64,33 @@ bool api_edit_unleash_barbarians(lua_State *L, Tile *ptile)
 }
 
 /**********************************************************************//**
+  A wrapper around transform_unit() that correctly processes
+  some unsafe requests. punit and to_unit must not be NULL.
+**************************************************************************/
+static bool
+ur_transform_unit(struct unit *punit, const struct unit_type *to_unit,
+                  int vet_loss)
+{
+  if (UU_OK == unit_transform_result(punit, to_unit)) {
+    /* Avoid getting overt veteranship if a user requests increasing it */
+    if (vet_loss < 0) {
+      int vl = utype_veteran_levels(to_unit);
+
+      vl = punit->veteran - vl + 1;
+      if (vl >= 0) {
+        vet_loss = 0;
+      } else {
+        vet_loss = MAX(vet_loss, vl);
+      }
+    }
+    transform_unit(punit, to_unit, vet_loss);
+    return TRUE;
+  } else {
+    return FALSE;
+  }
+}
+
+/**********************************************************************//**
   Place partisans for a player around a tile (normally around a city).
 **************************************************************************/
 void api_edit_place_partisans(lua_State *L, Tile *ptile, Player *pplayer,
@@ -460,6 +487,38 @@ void api_edit_unit_turn(lua_State *L, Unit *punit, Direction dir)
   } else {
     log_error("Illegal direction %d for unit from lua script", dir);
   }
+}
+
+/**********************************************************************//**
+  Upgrade punit for free in the default manner, lose vet_loss vet levels.
+  Returns if the upgrade was possible.
+**************************************************************************/
+bool api_edit_unit_upgrade(lua_State *L, Unit *punit, int vet_loss)
+{
+  const struct unit_type *ptype;
+
+  LUASCRIPT_CHECK_STATE(L, FALSE);
+  LUASCRIPT_CHECK_SELF(L, punit, FALSE);
+
+  ptype = can_upgrade_unittype(unit_owner(punit), unit_type_get(punit));
+  if (!ptype) {
+    return FALSE;
+  }
+  return ur_transform_unit(punit, ptype, vet_loss);
+}
+
+/**********************************************************************//**
+  Transform punit to ptype, decreasing vet_loss veteranship levels.
+  Returns if the transformation was possible.
+**************************************************************************/
+bool api_edit_unit_transform(lua_State *L, Unit *punit, Unit_Type *ptype,
+                             int vet_loss)
+{
+  LUASCRIPT_CHECK_STATE(L, FALSE);
+  LUASCRIPT_CHECK_SELF(L, punit, FALSE);
+  LUASCRIPT_CHECK_ARG_NIL(L, ptype, 3, Unit_Type, FALSE);
+
+  return ur_transform_unit(punit, ptype, vet_loss);
 }
 
 /**********************************************************************//**

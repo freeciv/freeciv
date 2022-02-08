@@ -548,6 +548,91 @@ bool api_methods_player_has_flag(lua_State *L, Player *pplayer,
 }
 
 /**********************************************************************//**
+  Return a unit type the player potentially can upgrade utype to,
+  or nil if the player can't upgrade it
+**************************************************************************/
+Unit_Type *api_methods_player_can_upgrade(lua_State *L, Player *pplayer,
+                                          Unit_Type *utype)
+{
+  LUASCRIPT_CHECK_STATE(L, NULL);
+  LUASCRIPT_CHECK_SELF(L, pplayer, NULL);
+  LUASCRIPT_CHECK_ARG_NIL(L, utype, 3, Unit_Type, NULL);
+
+  return (Unit_Type *)can_upgrade_unittype(pplayer, utype);
+}
+
+/**********************************************************************//**
+  Certain tests if pplayer generally can build utype units, maybe after
+  building a required improvement. Does not consider obsoletion.
+**************************************************************************/
+bool api_methods_player_can_build_unit_direct(lua_State *L, Player *pplayer,
+                                              Unit_Type *utype)
+{
+  LUASCRIPT_CHECK_STATE(L, FALSE);
+  LUASCRIPT_CHECK_SELF(L, pplayer, FALSE);
+  LUASCRIPT_CHECK_ARG_NIL(L, utype, 3, Unit_Type, FALSE);
+
+  return can_player_build_unit_direct(pplayer, utype);
+}
+
+/**********************************************************************//**
+  Certain tests if pplayer generally can build itype buildings.
+**************************************************************************/
+bool api_methods_player_can_build_impr_direct(lua_State *L, Player *pplayer,
+                                              Building_Type *itype)
+{
+  LUASCRIPT_CHECK_STATE(L, FALSE);
+  LUASCRIPT_CHECK_SELF(L, pplayer, FALSE);
+  LUASCRIPT_CHECK_ARG_NIL(L, itype, 3, Building_Type, FALSE);
+
+  return can_player_build_improvement_direct(pplayer, itype);
+}
+
+
+/**********************************************************************//**
+  Return if a unit can upgrade considering where it is now.
+  If is_free is FALSE, considers local city and the owner's treasury.
+**************************************************************************/
+bool api_methods_unit_can_upgrade(lua_State *L, Unit *punit, bool is_free)
+{
+
+  return UU_OK == unit_upgrade_test(punit, is_free);
+}
+
+/**********************************************************************//**
+  Return a name of the problem unit may have being transformed to ptype
+  where it is now, or nil if no problem seems to exist.
+**************************************************************************/
+const char *api_methods_unit_transform_problem(lua_State *L, Unit *punit,
+                                               Unit_Type *ptype)
+{
+  enum unit_upgrade_result uu;
+
+  LUASCRIPT_CHECK_STATE(L, NULL);
+  LUASCRIPT_CHECK_SELF(L, punit, NULL);
+  LUASCRIPT_CHECK_ARG_NIL(L, ptype, 3, Unit_Type, NULL);
+
+  uu = unit_transform_result(punit, ptype);
+  switch (uu) {
+  case UU_OK:
+    return NULL;
+  case UU_NOT_ENOUGH_ROOM:
+    return "cargo";
+  case UU_UNSUITABLE_TRANSPORT:
+    return "transport";
+  case UU_NOT_TERRAIN:
+    return "terrain";
+  case UU_NO_UNITTYPE:
+  case UU_NO_MONEY:
+  case UU_NOT_IN_CITY:
+  case UU_NOT_CITY_OWNER:
+    /* should not get here */
+  }
+  fc_assert_msg(FALSE, "Unexpected unit transform result %i", uu);
+  return "\?";
+}
+
+/**********************************************************************//**
   Return TRUE if players share research.
 **************************************************************************/
 bool api_methods_player_shares_research(lua_State *L, Player *pplayer,
