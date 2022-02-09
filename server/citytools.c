@@ -33,6 +33,7 @@
 #include "base.h"
 #include "citizens.h"
 #include "city.h"
+#include "counters.h"
 #include "culture.h"
 #include "events.h"
 #include "game.h"
@@ -1213,6 +1214,15 @@ bool transfer_city(struct player *ptaker, struct city *pcity,
 
   if (!city_exist(saved_id)) {
     city_remains = FALSE;
+  }
+
+  /* Reset turns owner counters */
+  if (city_remains) {
+    city_counters_iterate(pcount) {
+      if (pcount->type == COUNTER_OWNED) {
+        pcity->counter_values[pcount->index] = 0;
+      }
+    } city_counters_iterate_end;
   }
 
   if (city_remains) {

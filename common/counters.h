@@ -48,6 +48,17 @@ int counter_index(struct counter *pcount);
 struct counter *counter_by_index(int index, enum counter_target target);
 int counters_get_city_counters_count(void);
 
+
+#define city_counters_iterate(pcount) { \
+   int _i_##pcount; \
+   struct counter *pcount; \
+   int _ccounter_count_##pcount = counters_get_city_counters_count(); \
+   for (_i_##pcount = 0; _i_##pcount < _ccounter_count_##pcount; _i_##pcount++) { \
+      pcount = counter_by_index(_i_##pcount, CTGT_CITY);
+
+#define city_counters_iterate_end } \
+   }
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

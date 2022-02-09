@@ -67,6 +67,7 @@
 #include "calendar.h"
 #include "capstr.h"
 #include "city.h"
+#include "counters.h"
 #include "culture.h"
 #include "dataio.h"
 #include "effects.h"
@@ -1510,6 +1511,16 @@ static void end_turn(void)
 
   map_calculate_borders();
 
+  /* Update city's counter values */
+  players_iterate(pplayer) {
+    city_list_iterate(pplayer->cities, pcity) {
+      city_counters_iterate(pcount) {
+        if (pcount->type == COUNTER_OWNED) {
+          pcity->counter_values[pcount->index]++;
+        }
+      } city_counters_iterate_end;
+    } city_list_iterate_end;
+  } players_iterate_end;
   /* Output some AI measurement information */
   players_iterate(pplayer) {
     if (!is_ai(pplayer) || is_barbarian(pplayer)) {
