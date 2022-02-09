@@ -1966,7 +1966,7 @@ msgstr "Nur la paraŝutistoj povas fari tion."
 
 #: client/control.c:2885 client/control.c:2907 client/control.c:2924
 msgid "Didn't find a route to the destination!"
-msgstr "Estas neeble trovi irvojon por la alvenpunkto!"
+msgstr "Ne eblis trovi irvojon al la celo!"
 
 #: client/control.c:2972
 msgid "Oh my! You seem to have no capital!"
@@ -2386,9 +2386,9 @@ msgstr[1] ""
 #: client/gui-gtk-3.0/action_dialog.c:1835
 #: client/gui-gtk-3.22/action_dialog.c:1829 client/gui-qt/dialogs.cpp:1890
 #: client/gui-sdl2/action_dialog.c:1599
-#, fuzzy, c-format
+#, c-format
 msgid "Choose Your %s's Strategy"
-msgstr "Elektu strategion por via spiono"
+msgstr "Elektu strategion por via %s"
 
 #: client/gui-gtk-2.0/action_dialog.c:1752
 #: client/gui-gtk-3.0/action_dialog.c:1840
@@ -3581,7 +3581,7 @@ msgstr "Subskribi traktaton"
 #: client/gui-gtk-3.22/diplodlg.c:738 client/gui-gtk-3.22/diplodlg.c:820
 #: client/gui-qt/diplodlg.cpp:182 client/gui-qt/diplodlg.cpp:184
 msgid "Add Clause..."
-msgstr "Aldonu klaŭzon..."
+msgstr "Aldoni klaŭzon..."
 
 #: client/gui-gtk-2.0/diplodlg.c:882 client/gui-gtk-3.0/diplodlg.c:890
 #: client/gui-gtk-3.22/diplodlg.c:884
@@ -3591,7 +3591,7 @@ msgstr "K_laŭzoj:"
 #: client/gui-gtk-2.0/diplodlg.c:927 client/gui-gtk-3.0/diplodlg.c:938
 #: client/gui-gtk-3.22/diplodlg.c:932 client/gui-qt/diplodlg.cpp:685
 msgid "--- This treaty is blank. Please add some clauses. ---"
-msgstr ""
+msgstr "--- Ĉi tiu traktato estas senenhava. Bonvolu aldoni iujn klaŭzojn. ---"
 
 #: client/gui-gtk-2.0/diplodlg.c:1163 client/gui-gtk-3.0/diplodlg.c:1176
 #: client/gui-gtk-3.22/diplodlg.c:1170 client/gui-sdl2/diplodlg.c:411
@@ -4879,6 +4879,8 @@ msgid ""
 "Time to forced turn change,\n"
 "or estimated time to finish turn change processing."
 msgstr ""
+"Restanta tempo ĝis igota vico-ŝanĝo,\n"
+"aŭ taksita tempo ĝis la fino de la vico-ŝanĝa procedo."
 
 #: client/gui-gtk-2.0/mapview.c:109 client/gui-gtk-3.0/mapview.c:112
 #: client/gui-gtk-3.22/mapview.c:128
@@ -4886,14 +4888,14 @@ msgid ""
 "Turn timeout disabled.\n"
 "Between turns this shows estimated time to finish turn change processing."
 msgstr ""
+"Vico-templimo estas malebligita.\n"
+"Inter vicoj, videblas la taksita tempo ĝis la fino de la vico-ŝanĝa procedo."
 
 #: client/gui-gtk-2.0/mapview.c:189 client/gui-gtk-3.0/mapview.c:189
 #: client/gui-gtk-3.22/mapview.c:205
-#, fuzzy
 msgid "Shows your current luxury/science/tax rates; click to toggle them."
 msgstr ""
-"Vidigu la nunan kvanto pri lukso/scienco/imposto; alklaku ĉi tie por "
-"mastrumi ilin."
+"Jen viaj nunaj gradoj de lukso/scienco/imposto; alklaku por baskuligi ilin."
 
 #: client/gui-gtk-2.0/mapview.c:689
 #, fuzzy
@@ -4905,7 +4907,7 @@ msgstr "Nebulo plenumas bone nur en verkolora moduso.  Malebligu ĝin"
 #: client/gui-gtk-3.22/menu.c:559 client/gui-gtk-3.22/pages.c:140
 #: client/gui-qt/fc_client.cpp:811 client/gui-qt/menu.cpp:1021
 msgid "Set local options"
-msgstr "Agordu lokajn opciojn"
+msgstr "Agordi lokajn opciojn"
 
 #: client/gui-gtk-2.0/menu.c:132 client/gui-gtk-2.0/pages.c:1477
 #: client/gui-gtk-3.0/menu.c:576 client/gui-gtk-3.0/pages.c:1562
@@ -4936,7 +4938,7 @@ msgstr "_Redakti"
 #: client/gui-gtk-2.0/menu.c:1396 client/gui-gtk-3.0/menu.c:251
 #: client/gui-gtk-3.22/menu.c:250
 msgid "?verb:_View"
-msgstr "_Vidu"
+msgstr "?verb:_Vidi"
 
 #: client/gui-gtk-2.0/menu.c:1397 client/gui-gtk-3.0/menu.c:252
 #: client/gui-gtk-3.22/menu.c:251
@@ -9031,9 +9033,8 @@ msgid "Units selection (for tile under mouse position)"
 msgstr ""
 
 #: client/gui-qt/shortcuts.cpp:116
-#, fuzzy
 msgid "Set Home City"
-msgstr "Igu ĝin hejmurbo"
+msgstr "Enhejmiĝi"
 
 #: client/gui-qt/shortcuts.cpp:124
 msgid "Build City"
@@ -14732,12 +14733,11 @@ msgstr "Tutmonda varmiĝo okazis!"
 #: client/text.c:1035
 #, c-format
 msgid "Nuclear winter chance: %d%% (%+d%%/turn)"
-msgstr "Probablo de atomvintro: %d%% (%+d%% vice)"
+msgstr "Probablo de nuklea vintro: %d%% (%+d%%/vico)"
 
 #: client/text.c:1038 client/text.c:1443
-#, fuzzy
 msgid "Nuclear winter deactivated."
-msgstr "Atomvintro okazis!"
+msgstr "Nuklea vintro estas malaktivigita."
 
 #: client/text.c:1042
 #, c-format
@@ -14852,12 +14852,11 @@ msgstr[1] "Dissolvu unuon"
 
 #: client/text.c:1364
 msgid "Shows your progress in researching the current technology."
-msgstr "Vidigu la evoluon de la studado pri la nuna teĥnologio."
+msgstr "Jen la progreso de via studado de la nuna teĥnologio."
 
 #: client/text.c:1371
-#, fuzzy
 msgid "No research target."
-msgstr "Neniu celo pri studado."
+msgstr "Neniu studado-celo."
 
 #: client/text.c:1380
 #, fuzzy, c-format
@@ -14871,9 +14870,8 @@ msgid "Decreasing"
 msgstr ""
 
 #: client/text.c:1386
-#, fuzzy
 msgid "No progress"
-msgstr "Konstruo"
+msgstr "Neniu progreso"
 
 #. TRANS: <tech>: <amount>/<total bulbs>
 #: client/text.c:1394
@@ -14883,12 +14881,12 @@ msgstr "%s en %s (%s)\n"
 
 #: client/text.c:1423
 msgid "Shows the progress of global warming:"
-msgstr "Vidigu la evoluon de la ĝenerala varmiĝo:"
+msgstr "Jen la evoluo de la tutmonda varmiĝo:"
 
 #: client/text.c:1424
 #, c-format
 msgid "Pollution rate: %d%%"
-msgstr "Procento de poluado: %d%%"
+msgstr "Grado de poluado: %d%%"
 
 #: client/text.c:1425
 #, c-format
@@ -14897,7 +14895,7 @@ msgstr "Probablo de katastrofa varmiĝo ĉiuvice: %d%%"
 
 #: client/text.c:1447
 msgid "Shows the progress of nuclear winter:"
-msgstr "Vidigu la evoluon de la atomvintro:"
+msgstr "Jen la evoluo de la nuklea vintro:"
 
 #: client/text.c:1448
 #, c-format
@@ -14911,7 +14909,7 @@ msgstr "Probablo de katastrofa vintro ĉiuvice: %d%%"
 
 #: client/text.c:1466
 msgid "Shows your current government:"
-msgstr "Vidigu vian nunan regsistemon:"
+msgstr "Jen via nuna regsistemo:"
 
 #. TRANS: spaceship text; should have constant width.
 #: client/text.c:1492
@@ -15856,9 +15854,9 @@ msgstr "Desegnu urbostangon"
 #: data/classic/game.ruleset:334 data/sandbox/game.ruleset:349
 #: data/experimental/game.ruleset:337 data/civ2civ3/game.ruleset:345
 #: data/alien/game.ruleset:306 data/multiplayer/game.ruleset:331
-#, fuzzy, c-format
+#, c-format
 msgid "Set %sHome City%s"
-msgstr "Igu ĝin hejmurbo"
+msgstr "%sEnhejmiĝi%s"
 
 #. TRANS: _Upgrade Unit (100% chance of success).
 #: common/actions.c:5361 data/classic/game.ruleset:337
@@ -16902,9 +16900,9 @@ msgid "map definition not checked (game not started)"
 msgstr ""
 
 #: common/mapimg.c:1134
-#, fuzzy, c-format
+#, c-format
 msgid "map definition deactivated: %s"
-msgstr "Atomvintro okazis!"
+msgstr "map-difino estas malaktivigita: %s"
 
 #: common/mapimg.c:1234
 #, fuzzy, c-format
@@ -17030,9 +17028,9 @@ msgid "map definition not checked or error"
 msgstr ""
 
 #: common/mapimg.c:1562
-#, fuzzy, c-format
+#, c-format
 msgid "no map definition with id %d"
-msgstr "Atomvintro okazis!"
+msgstr "neniu map-difino kun identigilo %d"
 
 #: common/mapimg.c:1668
 #, fuzzy, c-format
@@ -21355,9 +21353,9 @@ msgstr "Anarĥio"
 #: data/experimental/governments.ruleset:71
 #: data/civ2civ3/governments.ruleset:69 data/civ2civ3/governments.ruleset:108
 #: data/multiplayer/governments.ruleset:69
-#, fuzzy, c-format
+#, c-format
 msgid "Warlord %s"
-msgstr "Militestro"
+msgstr "Militestro %s"
 
 #: data/civ1/governments.ruleset:72 data/civ2/governments.ruleset:70
 #: data/classic/governments.ruleset:70 data/sandbox/governments.ruleset:70
@@ -34748,9 +34746,9 @@ msgid "The Arab/Islamic civilization of 622 to 1495 CE."
 msgstr ""
 
 #: data/nation/arab.ruleset:23
-#, fuzzy, c-format
+#, c-format
 msgid "Sheikh %s"
-msgstr "Ŝejko"
+msgstr "Ŝejko %s"
 
 #: data/nation/arab.ruleset:23
 #, fuzzy, c-format
@@ -38037,7 +38035,7 @@ msgstr "La %s komencis konstrui kosmoŝipon!"
 #, c-format
 msgid "%s can't build %s yet. (city size: %d, unit population cost: %d)"
 msgstr ""
-"%s ankoraŭ ne povas produkti %sn. (urba largo: %d, popola kosto de unuo: %d)"
+"%s ankoraŭ ne povas produkti %sn. (urba grando: %d, loĝantara kosto de unuo: %d)"
 
 #. TRANS: <city> is finished building <unit/building>.
 #: server/cityturn.c:2478
@@ -40541,7 +40539,7 @@ msgstr ""
 
 #: server/maphand.c:118
 msgid "Nuclear winter has occurred!"
-msgstr "Atomvintro okazis!"
+msgstr "Nuklea vintro okazis!"
 
 #: server/maphand.c:120
 msgid "Wetlands have dried up and vast ranges of grassland have become tundra."
@@ -40784,7 +40782,7 @@ msgstr "Strangenomita urbo"
 #: server/plrhand.c:2077 server/plrhand.c:2081
 #, c-format
 msgid "You have made contact with the %s, ruled by %s."
-msgstr "Vi kontaktiĝis kun la %s, estritaj de %s."
+msgstr "Vi kontaktiĝis kun la %s, estrataj de %s."
 
 #: server/plrhand.c:2759
 #, c-format
@@ -46615,9 +46613,8 @@ msgid "%s can't do anything since you already have a %s."
 msgstr ""
 
 #: server/unithand.c:1723
-#, fuzzy
 msgid "No action possible."
-msgstr "Neniu diplomatia ago estas farebla."
+msgstr "Neniu ago eblas."
 
 #: server/unithand.c:1800
 msgid "Target not at target tile."
@@ -46981,6 +46978,8 @@ msgid ""
 "Your %s %s [id:%d %sD:%.1f HP:%d] lost to an attack by the %s %s %s [id:%d "
 "%sA:%.1f lost %d HP, has %d HP remaining%s]."
 msgstr ""
+"Via %s %s [id:%d %sD:%.1f HP:%d] estis venkita de atako de %s %s %s [id:%d "
+"%sA:%.1f perdis %d HP, kaj pluhavas %d HP%s]."
 
 #. TRANS: "Your attacking green Legion [id:200 ...A:4.0
 #. * lost 1 HP, has 9 HP remaining] succeeded against the
