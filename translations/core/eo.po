@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: it\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2022-02-01 16:03+0200\n"
+"POT-Creation-Date: 2022-02-08 15:40+0200\n"
 "PO-Revision-Date: 2021-09-27 13:20+0200\n"
 "Last-Translator: Kristjan SCHMIDT <kristjan.schmidt@googlemail.com>\n"
 "Language-Team: Esperanto <eo@li.org>\n"
@@ -15609,10 +15609,11 @@ msgstr "Saboti malamikan unuon"
 
 #. TRANS: Bribe Enemy _Unit (3% chance of success).
 #: common/actions.c:5258
-#, fuzzy, c-format
+#, c-format
 msgid "Bribe Enemy %sUnit%s"
-msgstr "" # Subaĉeti malamikan unuon
+msgstr ""
 
+# Subaĉeti malamikan unuon
 #. TRANS: _Sabotage City (3% chance of success).
 #: common/actions.c:5261 data/civ1/game.ruleset:247 data/civ2/game.ruleset:273
 #: data/classic/game.ruleset:274 data/sandbox/game.ruleset:277
@@ -25899,7 +25900,7 @@ msgid ""
 "is 100 gold, but can be less if the barbarian has less money."
 msgstr ""
 
-#: data/default/default.lua:22 server/unittools.c:2935
+#: data/default/default.lua:22 server/unittools.c:2926
 #, c-format
 msgid "You found %d gold."
 msgid_plural "You found %d gold."
@@ -25935,7 +25936,7 @@ msgstr "Vi trovis amikan urbon."
 msgid "Friendly nomads are impressed by you, and join you."
 msgstr "Vi imponas al amikaj nomadoj, kaj ili aliĝas al vi."
 
-#: data/default/default.lua:114 server/unittools.c:2942
+#: data/default/default.lua:114 server/unittools.c:2933
 msgid "An abandoned village is here."
 msgstr "Ĉi tie estas forlasita vilaĝo."
 
@@ -25943,7 +25944,7 @@ msgstr "Ĉi tie estas forlasita vilaĝo."
 msgid "You have unleashed a horde of barbarians!"
 msgstr "Vi senbridigis hordon de barbaroj!"
 
-#: data/default/default.lua:124 server/unittools.c:2945
+#: data/default/default.lua:124 server/unittools.c:2936
 #, c-format
 msgid "Your %s has been killed by barbarians!"
 msgstr "Via unuo, %s, estis mortigita de la barbaroj!"
@@ -25975,8 +25976,8 @@ msgid ""
 "A small set of playable nations that should be fully localized into "
 "languages other than English."
 msgstr ""
-"Malgranda aro de ludeblaj nacioj, kiu devus esti plene tradukita en "
-"lingvojn krom la angla"
+"Malgranda aro de ludeblaj nacioj, kiu devus esti plene tradukita en lingvojn "
+"krom la angla"
 
 #: data/default/nationlist.ruleset:34
 msgid "?nationset:Extended"
@@ -34160,7 +34161,7 @@ msgstr ""
 msgid "  Present administrators: "
 msgstr "  Nunaj administrantoj: "
 
-#: data/helpdata.txt:2366
+#: data/helpdata.txt:2367
 msgid "For more information in general, visit the Freeciv website, at:"
 msgstr ""
 
@@ -38035,7 +38036,8 @@ msgstr "La %s komencis konstrui kosmoŝipon!"
 #, c-format
 msgid "%s can't build %s yet. (city size: %d, unit population cost: %d)"
 msgstr ""
-"%s ankoraŭ ne povas produkti %sn. (urba grando: %d, loĝantara kosto de unuo: %d)"
+"%s ankoraŭ ne povas produkti %sn. (urba grando: %d, loĝantara kosto de unuo: "
+"%d)"
 
 #. TRANS: <city> is finished building <unit/building>.
 #: server/cityturn.c:2478
@@ -39570,8 +39572,7 @@ msgstr ""
 #: server/diplhand.c:243
 #, c-format
 msgid "You are not owner of %s, you can't accept treaty."
-msgstr ""
-"Vi ne estas la proprietulo de %s, do vi ne povas akcepti la traktaton."
+msgstr "Vi ne estas la proprietulo de %s, do vi ne povas akcepti la traktaton."
 
 #: server/diplhand.c:249 server/diplhand.c:364
 #, c-format
@@ -39691,8 +39692,8 @@ msgid_plural ""
 "treaty. Move any military units out of %s territory to avoid them being "
 "disbanded."
 msgstr[0] ""
-"Vi konsentas armisticon kun la %s. Post %d vico, ĝi iĝos pactraktato. Forpelu "
-"viajn unuojn el la %s teritorio."
+"Vi konsentas armisticon kun la %s. Post %d vico, ĝi iĝos pactraktato. "
+"Forpelu viajn unuojn el la %s teritorio."
 msgstr[1] ""
 "Vi konsentas armisticon kun la %s. Post %d vicoj, ĝi iĝos pactraktato. "
 "Forpelu viajn unuojn el la %s teritorio."
@@ -46991,7 +46992,7 @@ msgid ""
 "succeeded against the %s %s %s [id:%d HP:%d]."
 msgstr ""
 
-#: server/unithand.c:4226 server/unittools.c:2846
+#: server/unithand.c:4226 server/unittools.c:2837
 msgid "Cannot attack unless you declare war first."
 msgstr "Vi ne povas ataki sen militdeklari antaŭe."
 
@@ -47000,7 +47001,7 @@ msgstr "Vi ne povas ataki sen militdeklari antaŭe."
 msgid "%s can only move into your own zone of control."
 msgstr "%s povas nur movi en via influa areo."
 
-#: server/unithand.c:4244 server/unittools.c:2824 server/unittools.c:2854
+#: server/unithand.c:4244 server/unittools.c:2815 server/unittools.c:2845
 #, c-format
 msgid "Cannot invade unless you break peace with %s first."
 msgstr "Vi ne povas invadi sen nuligi la pacon kun %s antaŭe."
@@ -47214,27 +47215,27 @@ msgstr "Viaj %s estis dissolvita."
 msgid "Disbanded your %s."
 msgstr "Viaj %s estis dissolvita."
 
-#: server/unittools.c:1742
+#: server/unittools.c:1733
 #, c-format
 msgid "Unable to defend %s, %s has lost the game."
 msgstr "Oni malkapablas defendi %sn, %s malvenkis la ludon."
 
-#: server/unittools.c:1746
+#: server/unittools.c:1737
 #, c-format
 msgid "Losing %s meant losing the game! Be more careful next time!"
 msgstr "Perdi %sn signifas malvenki! Estu pli zorgema venont-foje!"
 
-#: server/unittools.c:1803
+#: server/unittools.c:1794
 #, c-format
 msgid "%s lost when %s was lost."
 msgstr "%s malvenkis pro la perdo de %s."
 
-#: server/unittools.c:2047
+#: server/unittools.c:2038
 #, c-format
 msgid "%s escaped the destruction of %s, and fled to %s."
 msgstr "%s forkuris de la detruo de %s, kaj rifuĝis en %s."
 
-#: server/unittools.c:2224
+#: server/unittools.c:2215
 #, fuzzy, c-format
 msgid "%d Barbarian leader captured."
 msgid_plural "%d Barbarian leaders captured."
@@ -47245,7 +47246,7 @@ msgstr[1] ""
 "La estro de la Barbaroj estis kaptita; elaĉeto je %d oraj moneroj estis "
 "pagita."
 
-#: server/unittools.c:2229
+#: server/unittools.c:2220
 #, fuzzy, c-format
 msgid "%d gold ransom paid."
 msgid_plural "%d gold ransom paid."
@@ -47253,7 +47254,7 @@ msgstr[0] "%d oraj moneroj por vico"
 msgstr[1] "%d oraj moneroj por vico"
 
 #. TRANS: "... Cannon ... the Polish Destroyer ...."
-#: server/unittools.c:2328
+#: server/unittools.c:2319
 #, c-format
 msgid "Your attacking %s succeeded against the %s %s (and %d other unit)!"
 msgid_plural ""
@@ -47262,21 +47263,21 @@ msgstr[0] "Viaj atakantaj %s sukcesis kontraŭ la %sj %s (kaj %d alia unuo)!"
 msgstr[1] "Viaj atakantaj %s sukcesis kontraŭ la %sj %s (kaj %d aliaj unuoj)!"
 
 #. TRANS: "Cannon ... the Polish Destroyer."
-#: server/unittools.c:2355
+#: server/unittools.c:2346
 #, c-format
 msgid "%s lost to an attack by the %s %s."
 msgstr "%s pereis pro atako de la %sj %s."
 
 #. TRANS: "Cannon lost when the Polish Destroyer
 #. * attacked the German Musketeers."
-#: server/unittools.c:2365
+#: server/unittools.c:2356
 #, c-format
 msgid "%s lost when the %s %s attacked the %s %s."
 msgstr "%s pereis kiam la %sj %s atakis la %sjn %sn."
 
 #. TRANS: "Musketeers (and Cannon) lost to an
 #. * attack from the Polish Destroyer."
-#: server/unittools.c:2381
+#: server/unittools.c:2372
 #, c-format
 msgid "%s (and %s) lost to an attack from the %s %s."
 msgstr "%s (kaj %s) pereis pro atako de la %sj %s."
@@ -47284,7 +47285,7 @@ msgstr "%s (kaj %s) pereis pro atako de la %sj %s."
 #. TRANS: "Musketeers and 3 other units lost to
 #. * an attack from the Polish Destroyer."
 #. * (only happens with at least 2 other units)
-#: server/unittools.c:2392
+#: server/unittools.c:2383
 #, c-format
 msgid "%s and %d other unit lost to an attack from the %s %s."
 msgid_plural "%s and %d other units lost to an attack from the %s %s."
@@ -47294,118 +47295,118 @@ msgstr[1] "%s kaj %d aliaj unuoj pereis pro atako de la %sj %s."
 #. TRANS: "2 units lost when the Polish Destroyer
 #. * attacked the German Musketeers."
 #. * (only happens with at least 2 other units)
-#: server/unittools.c:2407
+#: server/unittools.c:2398
 #, c-format
 msgid "%d unit lost when the %s %s attacked the %s %s."
 msgid_plural "%d units lost when the %s %s attacked the %s %s."
 msgstr[0] "%d unuo pereis kiam la %sj %s atakis la %sj %s."
 msgstr[1] "%d unuoj pereis kiam la %sj %s atakis la %sj %s."
 
-#: server/unittools.c:2427
+#: server/unittools.c:2418
 #, fuzzy, c-format
 msgid "%d unit escaped from attack by %s %s"
 msgid_plural "%d units escaped from attack by %s %s"
 msgstr[0] "%d unuo pereis kiam la %sj %s atakis la %sj %s."
 msgstr[1] "%d unuoj pereis kiam la %sj %s atakis la %sj %s."
 
-#: server/unittools.c:2675
+#: server/unittools.c:2666
 #, c-format
 msgid "Your %s was nuked by %s."
 msgstr "Via %s estis atombombita fare de %s."
 
-#: server/unittools.c:2678 server/unittools.c:2696
+#: server/unittools.c:2669 server/unittools.c:2687
 msgid "yourself"
 msgstr "vi mem"
 
-#: server/unittools.c:2682
+#: server/unittools.c:2673
 #, c-format
 msgid "The %s %s was nuked."
 msgstr "La %sj %s estis atombombitaj."
 
-#: server/unittools.c:2693
+#: server/unittools.c:2684
 #, c-format
 msgid "%s was nuked by %s."
 msgstr "%s estis atombombita fare de %s."
 
-#: server/unittools.c:2701
+#: server/unittools.c:2692
 #, c-format
 msgid "You nuked %s."
 msgstr "Vi atombombis %sn."
 
-#: server/unittools.c:2735
+#: server/unittools.c:2726
 #, c-format
 msgid "The %s detonated a nuke!"
 msgstr "La %s eksplodigis atombombon!"
 
-#: server/unittools.c:2750
+#: server/unittools.c:2741
 #, c-format
 msgid "%s transported successfully."
 msgstr "%s estis transportitaj sukcese."
 
-#: server/unittools.c:2837
+#: server/unittools.c:2828
 #, c-format
 msgid "This unit cannot paradrop into %s."
 msgstr "Ĉi tiu unuo ne povas paraŝuti en %sn."
 
-#: server/unittools.c:2870
+#: server/unittools.c:2861
 #, c-format
 msgid "Your %s paradropped into the %s and was lost."
 msgstr "Viaj %s paraŝutis en la %s kaj estis perdita."
 
-#: server/unittools.c:2888
+#: server/unittools.c:2879
 #, c-format
 msgid "Your %s was killed by enemy units at the paradrop destination."
 msgstr ""
 "Viaj %s estis mortigita fare de malamikaj unuoj ĉe la paraŝuta alvenpunkto."
 
-#: server/unittools.c:3330
+#: server/unittools.c:3321
 #, c-format
 msgid "Orders for %s aborted after enemy movement was spotted."
 msgstr ""
 "La ordonoj por %s estis nuligitaj post la ĉesigo de la movoj de la malamiko."
 
-#: server/unittools.c:4112
+#: server/unittools.c:4103
 #, c-format
 msgid "Orders for %s aborted as there are units nearby."
 msgstr "La ordonoj por %s estis nuligitaj ĉar estas proksimaj unuoj."
 
-#: server/unittools.c:4252
+#: server/unittools.c:4243
 #, c-format
 msgid "Orders for %s aborted since they give an invalid activity."
 msgstr "La ordonoj por %s estis nuligitaj ĝis ili estos nevalidaj agoj."
 
-#: server/unittools.c:4262
+#: server/unittools.c:4253
 #, c-format
 msgid "Orders for %s aborted since they give an invalid location."
 msgstr "La ordonoj por %s estis nuligitaj ĉar ili havas nevalidan lokiĝon."
 
-#: server/unittools.c:4273
+#: server/unittools.c:4264
 #, c-format
 msgid "Orders for %s aborted as there are units in the way."
 msgstr "La ordonoj por %s estis nuligitaj ĉar estas unuoj en la vojo."
 
-#: server/unittools.c:4318
+#: server/unittools.c:4309
 #, c-format
 msgid "Orders for %s aborted because of failed move."
 msgstr "Ordonoj por la unuo %s estis nuligitaj pro malsukcesa moviĝo."
 
-#: server/unittools.c:4429
+#: server/unittools.c:4420
 #, fuzzy, c-format
 msgid "%s could not do %s to %s."
 msgstr "%s konkeris %s-n."
 
-#: server/unittools.c:4467
+#: server/unittools.c:4458
 #, fuzzy, c-format
 msgid "Orders for %s aborted because doing %s to %s failed."
 msgstr ""
 "La ordonoj por %s estis nuligitaj ĉar la konstruado de urbo malsukcesis."
 
-#: server/unittools.c:4480
+#: server/unittools.c:4471
 #, c-format
 msgid "Your %s has invalid orders."
 msgstr "Viaj %s havas nevalidajn ordonojn."
 
-#: server/unittools.c:4579
+#: server/unittools.c:4570
 #, c-format
 msgid "Your unit may not act for another %s this turn. See /help unitwaittime."
 msgstr ""

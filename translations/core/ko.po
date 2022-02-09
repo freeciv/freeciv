@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.1\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2022-02-01 16:03+0200\n"
+"POT-Creation-Date: 2022-02-08 15:40+0200\n"
 "PO-Revision-Date: 2013-09-09 10:52+0300\n"
 "Last-Translator: Sungdae\n"
 "Language-Team: Korean language team\n"
@@ -25878,7 +25878,7 @@ msgstr ""
 "어느 방어하는 부대들 없이 타일 위에 야만인의 수령이 죽을때, 몸값 100 금화가 "
 "주어지지만, 오직 지상 부대들과 헬리콥터들에게만 입니다."
 
-#: data/default/default.lua:22 server/unittools.c:2935
+#: data/default/default.lua:22 server/unittools.c:2926
 #, fuzzy, c-format
 msgid "You found %d gold."
 msgid_plural "You found %d gold."
@@ -25914,7 +25914,7 @@ msgstr "당신은 우호적인 도시를 발견했습니다."
 msgid "Friendly nomads are impressed by you, and join you."
 msgstr "우호적인 유목민이 당신으로부터 감동받았고, 당신에게 합류했습니다."
 
-#: data/default/default.lua:114 server/unittools.c:2942
+#: data/default/default.lua:114 server/unittools.c:2933
 msgid "An abandoned village is here."
 msgstr ""
 
@@ -25922,7 +25922,7 @@ msgstr ""
 msgid "You have unleashed a horde of barbarians!"
 msgstr "당신은 야만인의 무리를 불러일으켰습니다."
 
-#: data/default/default.lua:124 server/unittools.c:2945
+#: data/default/default.lua:124 server/unittools.c:2936
 #, c-format
 msgid "Your %s has been killed by barbarians!"
 msgstr ""
@@ -34534,7 +34534,7 @@ msgstr ""
 msgid "  Present administrators: "
 msgstr " 현재 관리자 : "
 
-#: data/helpdata.txt:2366
+#: data/helpdata.txt:2367
 msgid "For more information in general, visit the Freeciv website, at:"
 msgstr ""
 
@@ -48990,7 +48990,7 @@ msgid ""
 "succeeded against the %s %s %s [id:%d HP:%d]."
 msgstr ""
 
-#: server/unithand.c:4226 server/unittools.c:2846
+#: server/unithand.c:4226 server/unittools.c:2837
 msgid "Cannot attack unless you declare war first."
 msgstr "당신이 먼저 전쟁을 선언하지 않는다면 공격할 수 없습니다."
 
@@ -48999,7 +48999,7 @@ msgstr "당신이 먼저 전쟁을 선언하지 않는다면 공격할 수 없�
 msgid "%s can only move into your own zone of control."
 msgstr "%s 은(는) 오직 당신이 소유한 지배의 지역 안에서만 움직일 수 있습니다."
 
-#: server/unithand.c:4244 server/unittools.c:2824 server/unittools.c:2854
+#: server/unithand.c:4244 server/unittools.c:2815 server/unittools.c:2845
 #, c-format
 msgid "Cannot invade unless you break peace with %s first."
 msgstr "당신이 %s 와(과)의 평화를 먼저 깨지 않는다면 침략할 수 없습니다."
@@ -49235,29 +49235,29 @@ msgstr "당신의 %s (을)를 이동시켰습니다."
 msgid "Disbanded your %s."
 msgstr "당신의 %s (을)를 해산했습니다."
 
-#: server/unittools.c:1742
+#: server/unittools.c:1733
 #, c-format
 msgid "Unable to defend %s, %s has lost the game."
 msgstr "%s (을)를 방어할 수 없어, %s (은)는 그 놀이에 졌습니다."
 
-#: server/unittools.c:1746
+#: server/unittools.c:1737
 #, c-format
 msgid "Losing %s meant losing the game! Be more careful next time!"
 msgstr ""
 "%s (을)를 잃는 것은 그 놀이에 지는 것을 의미합니다! 다음 시간에는 더 조심하세"
 "요!"
 
-#: server/unittools.c:1803
+#: server/unittools.c:1794
 #, c-format
 msgid "%s lost when %s was lost."
 msgstr "%s (을)를 %s (을)를 잃었을 때 잃었습니다."
 
-#: server/unittools.c:2047
+#: server/unittools.c:2038
 #, c-format
 msgid "%s escaped the destruction of %s, and fled to %s."
 msgstr "%s (은)는 %s 의 그 파괴에 탈출했고, %s (으)로 도망갔습니다."
 
-#: server/unittools.c:2224
+#: server/unittools.c:2215
 #, fuzzy, c-format
 #| msgid "Barbarian leader captured; %d gold ransom paid."
 #| msgid_plural "Barbarian leader captured; %d gold ransom paid."
@@ -49265,7 +49265,7 @@ msgid "%d Barbarian leader captured."
 msgid_plural "%d Barbarian leaders captured."
 msgstr[0] "야만인 지도자를 포로로 잡았습니다; 몸값 %d 금을 보수로 받습니다."
 
-#: server/unittools.c:2229
+#: server/unittools.c:2220
 #, fuzzy, c-format
 #| msgid "%d gold required."
 #| msgid_plural "%d gold required."
@@ -49274,7 +49274,7 @@ msgid_plural "%d gold ransom paid."
 msgstr[0] "%d 금 요구됨."
 
 #. TRANS: "... Cannon ... the Polish Destroyer ...."
-#: server/unittools.c:2328
+#: server/unittools.c:2319
 #, c-format
 msgid "Your attacking %s succeeded against the %s %s (and %d other unit)!"
 msgid_plural ""
@@ -49284,21 +49284,21 @@ msgstr[0] ""
 "니다!"
 
 #. TRANS: "Cannon ... the Polish Destroyer."
-#: server/unittools.c:2355
+#: server/unittools.c:2346
 #, c-format
 msgid "%s lost to an attack by the %s %s."
 msgstr "%s (은)는 그 %s %s 에 의한 하나의 공격에 잃었습니다."
 
 #. TRANS: "Cannon lost when the Polish Destroyer
 #. * attacked the German Musketeers."
-#: server/unittools.c:2365
+#: server/unittools.c:2356
 #, c-format
 msgid "%s lost when the %s %s attacked the %s %s."
 msgstr "%s (은)는 그 %s %s (이)가 그 %s %s (을)를 공격할 때 잃었습니다."
 
 #. TRANS: "Musketeers (and Cannon) lost to an
 #. * attack from the Polish Destroyer."
-#: server/unittools.c:2381
+#: server/unittools.c:2372
 #, c-format
 msgid "%s (and %s) lost to an attack from the %s %s."
 msgstr "%s (그리고 %s) (은)는 그 %s %s 로부터 하나의 공격에 잃었습니다."
@@ -49306,7 +49306,7 @@ msgstr "%s (그리고 %s) (은)는 그 %s %s 로부터 하나의 공격에 잃�
 #. TRANS: "Musketeers and 3 other units lost to
 #. * an attack from the Polish Destroyer."
 #. * (only happens with at least 2 other units)
-#: server/unittools.c:2392
+#: server/unittools.c:2383
 #, c-format
 msgid "%s and %d other unit lost to an attack from the %s %s."
 msgid_plural "%s and %d other units lost to an attack from the %s %s."
@@ -49316,13 +49316,13 @@ msgstr[0] ""
 #. TRANS: "2 units lost when the Polish Destroyer
 #. * attacked the German Musketeers."
 #. * (only happens with at least 2 other units)
-#: server/unittools.c:2407
+#: server/unittools.c:2398
 #, c-format
 msgid "%d unit lost when the %s %s attacked the %s %s."
 msgid_plural "%d units lost when the %s %s attacked the %s %s."
 msgstr[0] "%d 부대를 그 %s %s (이)가 그 %s %s (을)를 공격할 때 잃었습니다."
 
-#: server/unittools.c:2427
+#: server/unittools.c:2418
 #, fuzzy, c-format
 #| msgid "%d unit lost when the %s %s attacked the %s %s."
 #| msgid_plural "%d units lost when the %s %s attacked the %s %s."
@@ -49330,108 +49330,108 @@ msgid "%d unit escaped from attack by %s %s"
 msgid_plural "%d units escaped from attack by %s %s"
 msgstr[0] "%d 부대를 그 %s %s (이)가 그 %s %s (을)를 공격할 때 잃었습니다."
 
-#: server/unittools.c:2675
+#: server/unittools.c:2666
 #, c-format
 msgid "Your %s was nuked by %s."
 msgstr "당신의 %s (은)는 %s 에 의해 핵무기로 공격당했습니다."
 
-#: server/unittools.c:2678 server/unittools.c:2696
+#: server/unittools.c:2669 server/unittools.c:2687
 msgid "yourself"
 msgstr "당신"
 
-#: server/unittools.c:2682
+#: server/unittools.c:2673
 #, c-format
 msgid "The %s %s was nuked."
 msgstr "그 %s %s (은)는 핵무기로 공격당했습니다."
 
-#: server/unittools.c:2693
+#: server/unittools.c:2684
 #, c-format
 msgid "%s was nuked by %s."
 msgstr "%s (은)는 %s 에 의해 핵무기로 공격당했습니다."
 
-#: server/unittools.c:2701
+#: server/unittools.c:2692
 #, c-format
 msgid "You nuked %s."
 msgstr "당신은 %s (을)를 핵무기로 공격했습니다."
 
-#: server/unittools.c:2735
+#: server/unittools.c:2726
 #, c-format
 msgid "The %s detonated a nuke!"
 msgstr "그 %s (은)는 한 핵무기를 폭발시켰습니다!"
 
-#: server/unittools.c:2750
+#: server/unittools.c:2741
 #, c-format
 msgid "%s transported successfully."
 msgstr "%s (은)는 성공적으로 수송되었습니다."
 
-#: server/unittools.c:2837
+#: server/unittools.c:2828
 #, c-format
 msgid "This unit cannot paradrop into %s."
 msgstr "이 부대는 %s 안으로 공중 투하할 수 없습니다."
 
-#: server/unittools.c:2870
+#: server/unittools.c:2861
 #, c-format
 msgid "Your %s paradropped into the %s and was lost."
 msgstr "당신의 %s (은)는 그 %s 안으로 공중 투하했고 그리고 잃어버렸습니다."
 
-#: server/unittools.c:2888
+#: server/unittools.c:2879
 #, c-format
 msgid "Your %s was killed by enemy units at the paradrop destination."
 msgstr ""
 "당신의 %s (은)는 공중 투하 목적지에서 적 부대들에 의해 죽임을 당했습니다."
 
-#: server/unittools.c:3330
+#: server/unittools.c:3321
 #, c-format
 msgid "Orders for %s aborted after enemy movement was spotted."
 msgstr "%s 에 대한 명령들이 적 움직임이 발견된 후에 중단되었습니다."
 
-#: server/unittools.c:4112
+#: server/unittools.c:4103
 #, c-format
 msgid "Orders for %s aborted as there are units nearby."
 msgstr ""
 "%s 에 대한 명령들이 그 곳 가까운 곳에 부대들이 있기 때문에 중단되었습니다."
 
-#: server/unittools.c:4252
+#: server/unittools.c:4243
 #, c-format
 msgid "Orders for %s aborted since they give an invalid activity."
 msgstr ""
 "%s 에 대한 명령들이 그들이 한 병약한 활동을 주었기 때문에 중단되었습니다."
 
-#: server/unittools.c:4262
+#: server/unittools.c:4253
 #, c-format
 msgid "Orders for %s aborted since they give an invalid location."
 msgstr ""
 "%s 에 대한 명령들이 그들이 한 병약한 위치를 주었기 때문에 중단되었습니다."
 
-#: server/unittools.c:4273
+#: server/unittools.c:4264
 #, c-format
 msgid "Orders for %s aborted as there are units in the way."
 msgstr ""
 "%s 에 대한 명령들이 그곳에 부대들이 그 길 위에 있기 때문에 중단되었습니다."
 
-#: server/unittools.c:4318
+#: server/unittools.c:4309
 #, c-format
 msgid "Orders for %s aborted because of failed move."
 msgstr "%s 에 대한 명령들이 실패한 이동 때문에 중단되었습니다."
 
-#: server/unittools.c:4429
+#: server/unittools.c:4420
 #, fuzzy, c-format
 #| msgid "%s converted to %s."
 msgid "%s could not do %s to %s."
 msgstr "%s (이)가 %s (으)로 개조되었습니다."
 
-#: server/unittools.c:4467
+#: server/unittools.c:4458
 #, fuzzy, c-format
 #| msgid "Orders for %s aborted because building of city failed."
 msgid "Orders for %s aborted because doing %s to %s failed."
 msgstr "%s 에 대한 명령들이 도시의 건설이 실패했기 때문에 중단되었습니다."
 
-#: server/unittools.c:4480
+#: server/unittools.c:4471
 #, c-format
 msgid "Your %s has invalid orders."
 msgstr "당신의 %s 은(는) 병약한 명령들을 가졌습니다."
 
-#: server/unittools.c:4579
+#: server/unittools.c:4570
 #, fuzzy, c-format
 #| msgid ""
 #| "Your unit may not move for another %s this turn. See /help unitwaittime."

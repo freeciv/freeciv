@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 1.14.0\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2022-02-01 16:03+0200\n"
+"POT-Creation-Date: 2022-02-08 15:40+0200\n"
 "PO-Revision-Date: 2016-10-06 17:27+0300\n"
 "Last-Translator: Sviatoslav Golda<swiatos@gmail.com>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
@@ -27345,7 +27345,7 @@ msgstr ""
 "то виплачується винагорода в 100 гривень, але тільки для сухопутних "
 "підрозділів та гелікоптерів."
 
-#: data/default/default.lua:22 server/unittools.c:2935
+#: data/default/default.lua:22 server/unittools.c:2926
 #, c-format
 msgid "You found %d gold."
 msgid_plural "You found %d gold."
@@ -27383,7 +27383,7 @@ msgstr "Ви знайшли дружнє місто."
 msgid "Friendly nomads are impressed by you, and join you."
 msgstr "Дружні кочівники приєднуються до Вас."
 
-#: data/default/default.lua:114 server/unittools.c:2942
+#: data/default/default.lua:114 server/unittools.c:2933
 msgid "An abandoned village is here."
 msgstr "Пустий хутір."
 
@@ -27391,7 +27391,7 @@ msgstr "Пустий хутір."
 msgid "You have unleashed a horde of barbarians!"
 msgstr "Ви знайшли армію дикунів!"
 
-#: data/default/default.lua:124 server/unittools.c:2945
+#: data/default/default.lua:124 server/unittools.c:2936
 #, c-format
 msgid "Your %s has been killed by barbarians!"
 msgstr "Ваш загін %s знищено дикуни!"
@@ -38326,7 +38326,7 @@ msgstr ""
 msgid "  Present administrators: "
 msgstr "  Поточні адміністратори: "
 
-#: data/helpdata.txt:2366
+#: data/helpdata.txt:2367
 msgid "For more information in general, visit the Freeciv website, at:"
 msgstr "Для загальної додаткової інформації відвідайте сайт Freeciv:"
 
@@ -52866,7 +52866,7 @@ msgid ""
 "succeeded against the %s %s %s [id:%d HP:%d]."
 msgstr ""
 
-#: server/unithand.c:4226 server/unittools.c:2846
+#: server/unithand.c:4226 server/unittools.c:2837
 msgid "Cannot attack unless you declare war first."
 msgstr "Не можна напасти, доки Ви не проголосите війну."
 
@@ -52875,7 +52875,7 @@ msgstr "Не можна напасти, доки Ви не проголосит�
 msgid "%s can only move into your own zone of control."
 msgstr "%s можуть заходити тільки у вашу власну зону контролю."
 
-#: server/unithand.c:4244 server/unittools.c:2824 server/unittools.c:2854
+#: server/unithand.c:4244 server/unittools.c:2815 server/unittools.c:2845
 #, c-format
 msgid "Cannot invade unless you break peace with %s first."
 msgstr "Не можна вторгатися, доки Ви не проголосите %s війну."
@@ -53114,27 +53114,27 @@ msgstr "Ваш загін %s був переміщений."
 msgid "Disbanded your %s."
 msgstr "Розпустив Ваш %s."
 
-#: server/unittools.c:1742
+#: server/unittools.c:1733
 #, c-format
 msgid "Unable to defend %s, %s has lost the game."
 msgstr "Не здатний захистити %s, %s програв гру."
 
-#: server/unittools.c:1746
+#: server/unittools.c:1737
 #, c-format
 msgid "Losing %s meant losing the game! Be more careful next time!"
 msgstr "Втрата %s означає програш гри! Будьте більш пильним наступного разу!"
 
-#: server/unittools.c:1803
+#: server/unittools.c:1794
 #, c-format
 msgid "%s lost when %s was lost."
 msgstr "Втратили %s після втрати %s."
 
-#: server/unittools.c:2047
+#: server/unittools.c:2038
 #, c-format
 msgid "%s escaped the destruction of %s, and fled to %s."
 msgstr "Ваш підрозділ %s уникнув знищення в %s та втік до %s."
 
-#: server/unittools.c:2224
+#: server/unittools.c:2215
 #, fuzzy, c-format
 #| msgid "Barbarian leader captured; %d gold ransom paid."
 #| msgid_plural "Barbarian leader captured; %d gold ransom paid."
@@ -53144,7 +53144,7 @@ msgstr[0] "Захопили Ватажка дикунів; отримали %d �
 msgstr[1] "Захопили Ватажка дикунів; отримали %d гривні викупу."
 msgstr[2] "Захопили Ватажка дикунів; отримали %d гривень викупу."
 
-#: server/unittools.c:2229
+#: server/unittools.c:2220
 #, fuzzy, c-format
 #| msgid "%d gold required."
 #| msgid_plural "%d gold required."
@@ -53155,7 +53155,7 @@ msgstr[1] "потрібно %d гривні."
 msgstr[2] "потрібно %d гривень."
 
 #. TRANS: "... Cannon ... the Polish Destroyer ...."
-#: server/unittools.c:2328
+#: server/unittools.c:2319
 #, c-format
 msgid "Your attacking %s succeeded against the %s %s (and %d other unit)!"
 msgid_plural ""
@@ -53165,21 +53165,21 @@ msgstr[1] "Ваша атака %s на %s %s (та ще %d підрозділі�
 msgstr[2] "Ваша атака %s на %s %s (та ще %d підрозділів) вдалася!"
 
 #. TRANS: "Cannon ... the Polish Destroyer."
-#: server/unittools.c:2355
+#: server/unittools.c:2346
 #, c-format
 msgid "%s lost to an attack by the %s %s."
 msgstr "%s загинув від нападу %s %s."
 
 #. TRANS: "Cannon lost when the Polish Destroyer
 #. * attacked the German Musketeers."
-#: server/unittools.c:2365
+#: server/unittools.c:2356
 #, c-format
 msgid "%s lost when the %s %s attacked the %s %s."
 msgstr "%s загинув, коли %s %s атакував %s %s."
 
 #. TRANS: "Musketeers (and Cannon) lost to an
 #. * attack from the Polish Destroyer."
-#: server/unittools.c:2381
+#: server/unittools.c:2372
 #, c-format
 msgid "%s (and %s) lost to an attack from the %s %s."
 msgstr "%s (і %s) загинув через атаку від %s %s."
@@ -53187,7 +53187,7 @@ msgstr "%s (і %s) загинув через атаку від %s %s."
 #. TRANS: "Musketeers and 3 other units lost to
 #. * an attack from the Polish Destroyer."
 #. * (only happens with at least 2 other units)
-#: server/unittools.c:2392
+#: server/unittools.c:2383
 #, c-format
 msgid "%s and %d other unit lost to an attack from the %s %s."
 msgid_plural "%s and %d other units lost to an attack from the %s %s."
@@ -53198,7 +53198,7 @@ msgstr[2] "%s і %d іншиз загонів втрачено у від нап�
 #. TRANS: "2 units lost when the Polish Destroyer
 #. * attacked the German Musketeers."
 #. * (only happens with at least 2 other units)
-#: server/unittools.c:2407
+#: server/unittools.c:2398
 #, c-format
 msgid "%d unit lost when the %s %s attacked the %s %s."
 msgid_plural "%d units lost when the %s %s attacked the %s %s."
@@ -53206,7 +53206,7 @@ msgstr[0] "%d загін загинув коли %s %s напав на %s %s"
 msgstr[1] "%d загони загинули коли: %s %s напали на %s %s"
 msgstr[2] "%d загонів загинули коли: %s %s напали на %s %s"
 
-#: server/unittools.c:2427
+#: server/unittools.c:2418
 #, fuzzy, c-format
 #| msgid "%d unit lost when the %s %s attacked the %s %s."
 #| msgid_plural "%d units lost when the %s %s attacked the %s %s."
@@ -53216,103 +53216,103 @@ msgstr[0] "%d загін загинув коли %s %s напав на %s %s"
 msgstr[1] "%d загони загинули коли: %s %s напали на %s %s"
 msgstr[2] "%d загонів загинули коли: %s %s напали на %s %s"
 
-#: server/unittools.c:2675
+#: server/unittools.c:2666
 #, c-format
 msgid "Your %s was nuked by %s."
 msgstr "Ваш %s атаковано атомною бомбою %s."
 
-#: server/unittools.c:2678 server/unittools.c:2696
+#: server/unittools.c:2669 server/unittools.c:2687
 msgid "yourself"
 msgstr "власноруч"
 
-#: server/unittools.c:2682
+#: server/unittools.c:2673
 #, c-format
 msgid "The %s %s was nuked."
 msgstr "Ядерний удар по %s %s."
 
-#: server/unittools.c:2693
+#: server/unittools.c:2684
 #, c-format
 msgid "%s was nuked by %s."
 msgstr "%s зазнали ядерного удару від %s."
 
-#: server/unittools.c:2701
+#: server/unittools.c:2692
 #, c-format
 msgid "You nuked %s."
 msgstr "Ви здійснили ядерний удар по %s."
 
-#: server/unittools.c:2735
+#: server/unittools.c:2726
 #, c-format
 msgid "The %s detonated a nuke!"
 msgstr "%s підірвали атомну бомбу!"
 
-#: server/unittools.c:2750
+#: server/unittools.c:2741
 #, c-format
 msgid "%s transported successfully."
 msgstr "Вдало перевіз %s."
 
-#: server/unittools.c:2837
+#: server/unittools.c:2828
 #, c-format
 msgid "This unit cannot paradrop into %s."
 msgstr "Цей підрозділ не може парашутуватися в %s."
 
-#: server/unittools.c:2870
+#: server/unittools.c:2861
 #, c-format
 msgid "Your %s paradropped into the %s and was lost."
 msgstr "Ваші %s парашутувалися в %s та були втрачені."
 
-#: server/unittools.c:2888
+#: server/unittools.c:2879
 #, c-format
 msgid "Your %s was killed by enemy units at the paradrop destination."
 msgstr "Ваших %s вбито ворогами у точці парашутування."
 
-#: server/unittools.c:3330
+#: server/unittools.c:3321
 #, c-format
 msgid "Orders for %s aborted after enemy movement was spotted."
 msgstr "Накази для %s скасовані бо виявив пересування ворога."
 
-#: server/unittools.c:4112
+#: server/unittools.c:4103
 #, c-format
 msgid "Orders for %s aborted as there are units nearby."
 msgstr "Накази для %s скасовані через присутність підрозділів поблизу."
 
-#: server/unittools.c:4252
+#: server/unittools.c:4243
 #, c-format
 msgid "Orders for %s aborted since they give an invalid activity."
 msgstr "%s перервав виконання наказу через неможливість дій по його виконанню."
 
-#: server/unittools.c:4262
+#: server/unittools.c:4253
 #, c-format
 msgid "Orders for %s aborted since they give an invalid location."
 msgstr "%s перервав виконання наказу бо він веде в неправильне місце."
 
-#: server/unittools.c:4273
+#: server/unittools.c:4264
 #, c-format
 msgid "Orders for %s aborted as there are units in the way."
 msgstr "Накази для %s скасовано через наявність підрозділів на шляху."
 
-#: server/unittools.c:4318
+#: server/unittools.c:4309
 #, c-format
 msgid "Orders for %s aborted because of failed move."
 msgstr "%s перервав виконання наказу бо не може рухатися."
 
-#: server/unittools.c:4429
+#: server/unittools.c:4420
 #, fuzzy, c-format
 #| msgid "%s converted to %s."
 msgid "%s could not do %s to %s."
 msgstr "%s перетворено на %s."
 
-#: server/unittools.c:4467
+#: server/unittools.c:4458
 #, fuzzy, c-format
 #| msgid "Orders for %s aborted because building of city failed."
 msgid "Orders for %s aborted because doing %s to %s failed."
 msgstr "Накази для %s скасовані, оскільки будівництво міста зазнало невдачі."
 
-#: server/unittools.c:4480
+#: server/unittools.c:4471
 #, c-format
 msgid "Your %s has invalid orders."
 msgstr "У вашого %s невірні накази."
 
-#: server/unittools.c:4579
+#: server/unittools.c:4570
 #, c-format
 msgid "Your unit may not act for another %s this turn. See /help unitwaittime."
 msgstr "Ваш загін не може діяти ще %s цього ходу. Див. /help unitwaittime."

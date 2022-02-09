@@ -45,7 +45,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: da\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2022-02-01 16:03+0200\n"
+"POT-Creation-Date: 2022-02-08 15:40+0200\n"
 "PO-Revision-Date: 2011-01-30 14:56+0100\n"
 "Last-Translator: Ask Hjorth Larsen <asklarsen@gmail.com>\n"
 "Language-Team: Danish <dansk@dansk-gruppen.dk>\n"
@@ -26982,7 +26982,7 @@ msgstr ""
 "Når en barbarhøvding dræbes på et felt uden forsvarende enheder, betales 100 "
 "guld i løsepenge, men kun til landenheder og helikoptere."
 
-#: data/default/default.lua:22 server/unittools.c:2935
+#: data/default/default.lua:22 server/unittools.c:2926
 #, fuzzy, c-format
 msgid "You found %d gold."
 msgid_plural "You found %d gold."
@@ -27019,7 +27019,7 @@ msgstr "Du har fundet en venlig by."
 msgid "Friendly nomads are impressed by you, and join you."
 msgstr "Venlige nomader er imponeret over dig, og slutter sig til dig."
 
-#: data/default/default.lua:114 server/unittools.c:2942
+#: data/default/default.lua:114 server/unittools.c:2933
 msgid "An abandoned village is here."
 msgstr "En forladt landsby er her."
 
@@ -27027,7 +27027,7 @@ msgstr "En forladt landsby er her."
 msgid "You have unleashed a horde of barbarians!"
 msgstr "Du har sluppet en horde af barbarer løs!"
 
-#: data/default/default.lua:124 server/unittools.c:2945
+#: data/default/default.lua:124 server/unittools.c:2936
 #, c-format
 msgid "Your %s has been killed by barbarians!"
 msgstr "%s er blevet dræbt af barbarer!"
@@ -37271,7 +37271,7 @@ msgstr ""
 msgid "  Present administrators: "
 msgstr "  Nuværende administratorer: "
 
-#: data/helpdata.txt:2366
+#: data/helpdata.txt:2367
 msgid "For more information in general, visit the Freeciv website, at:"
 msgstr ""
 
@@ -51481,7 +51481,7 @@ msgid ""
 "succeeded against the %s %s %s [id:%d HP:%d]."
 msgstr ""
 
-#: server/unithand.c:4226 server/unittools.c:2846
+#: server/unithand.c:4226 server/unittools.c:2837
 msgid "Cannot attack unless you declare war first."
 msgstr "Kan ikke angribe hvis du ikke erklærer krig først."
 
@@ -51490,7 +51490,7 @@ msgstr "Kan ikke angribe hvis du ikke erklærer krig først."
 msgid "%s can only move into your own zone of control."
 msgstr "%s kan kun bevæge sig i din kontrolzone."
 
-#: server/unithand.c:4244 server/unittools.c:2824 server/unittools.c:2854
+#: server/unithand.c:4244 server/unittools.c:2815 server/unittools.c:2845
 #, c-format
 msgid "Cannot invade unless you break peace with %s first."
 msgstr "Kan ikke angribe hvis du ikke først erklærer krig med %s."
@@ -51711,36 +51711,36 @@ msgstr "Flyttede %s."
 msgid "Disbanded your %s."
 msgstr "Opløste %s."
 
-#: server/unittools.c:1742
+#: server/unittools.c:1733
 #, c-format
 msgid "Unable to defend %s, %s has lost the game."
 msgstr "Kunne ikke forsvare %s, %s har tabt spillet."
 
-#: server/unittools.c:1746
+#: server/unittools.c:1737
 #, c-format
 msgid "Losing %s meant losing the game! Be more careful next time!"
 msgstr ""
 "Tabet af %s indebar at du tabte spillet! Vær mere forsigtig næste gang!"
 
 # problem
-#: server/unittools.c:1803
+#: server/unittools.c:1794
 #, c-format
 msgid "%s lost when %s was lost."
 msgstr "%s gik tabt da %s gik tabt."
 
-#: server/unittools.c:2047
+#: server/unittools.c:2038
 #, c-format
 msgid "%s escaped the destruction of %s, and fled to %s."
 msgstr "%s undslap ødelæggelsen af %s, og flygtede til %s."
 
-#: server/unittools.c:2224
+#: server/unittools.c:2215
 #, fuzzy, c-format
 msgid "%d Barbarian leader captured."
 msgid_plural "%d Barbarian leaders captured."
 msgstr[0] "Barbarleder fanget, %d guld betalt i løsepenge."
 msgstr[1] "Barbarleder fanget, %d guld betalt i løsepenge."
 
-#: server/unittools.c:2229
+#: server/unittools.c:2220
 #, fuzzy, c-format
 msgid "%d gold ransom paid."
 msgid_plural "%d gold ransom paid."
@@ -51748,7 +51748,7 @@ msgstr[0] "%d guld per runde"
 msgstr[1] "%d guld per runde"
 
 #. TRANS: "... Cannon ... the Polish Destroyer ...."
-#: server/unittools.c:2328
+#: server/unittools.c:2319
 #, c-format
 msgid "Your attacking %s succeeded against the %s %s (and %d other unit)!"
 msgid_plural ""
@@ -51757,21 +51757,21 @@ msgstr[0] "%s vandt i angrebet mod %s %s (og %d anden enhed)!"
 msgstr[1] "%s vandt i angrebet mod %s %s (og %d andre enheder)!"
 
 #. TRANS: "Cannon ... the Polish Destroyer."
-#: server/unittools.c:2355
+#: server/unittools.c:2346
 #, c-format
 msgid "%s lost to an attack by the %s %s."
 msgstr "%s gik tabt i et angreb fra %s %s."
 
 #. TRANS: "Cannon lost when the Polish Destroyer
 #. * attacked the German Musketeers."
-#: server/unittools.c:2365
+#: server/unittools.c:2356
 #, c-format
 msgid "%s lost when the %s %s attacked the %s %s."
 msgstr "%s gik tabt da %s %s angreb %s %s."
 
 #. TRANS: "Musketeers (and Cannon) lost to an
 #. * attack from the Polish Destroyer."
-#: server/unittools.c:2381
+#: server/unittools.c:2372
 #, c-format
 msgid "%s (and %s) lost to an attack from the %s %s."
 msgstr "%s (og %s) gik tabt i et angreb fra %s %s."
@@ -51779,7 +51779,7 @@ msgstr "%s (og %s) gik tabt i et angreb fra %s %s."
 #. TRANS: "Musketeers and 3 other units lost to
 #. * an attack from the Polish Destroyer."
 #. * (only happens with at least 2 other units)
-#: server/unittools.c:2392
+#: server/unittools.c:2383
 #, c-format
 msgid "%s and %d other unit lost to an attack from the %s %s."
 msgid_plural "%s and %d other units lost to an attack from the %s %s."
@@ -51789,14 +51789,14 @@ msgstr[1] "%s og %d andre enheder gik tabt i et angreb fra %s %s."
 #. TRANS: "2 units lost when the Polish Destroyer
 #. * attacked the German Musketeers."
 #. * (only happens with at least 2 other units)
-#: server/unittools.c:2407
+#: server/unittools.c:2398
 #, c-format
 msgid "%d unit lost when the %s %s attacked the %s %s."
 msgid_plural "%d units lost when the %s %s attacked the %s %s."
 msgstr[0] "%d enhed tabt da %s %s angreb %s %s."
 msgstr[1] "%d enheder tabt da %s %s angreb %s %s."
 
-#: server/unittools.c:2427
+#: server/unittools.c:2418
 #, fuzzy, c-format
 #| msgid "%d unit lost when the %s %s attacked the %s %s."
 #| msgid_plural "%d units lost when the %s %s attacked the %s %s."
@@ -51805,104 +51805,104 @@ msgid_plural "%d units escaped from attack by %s %s"
 msgstr[0] "%d enhed tabt da %s %s angreb %s %s."
 msgstr[1] "%d enheder tabt da %s %s angreb %s %s."
 
-#: server/unittools.c:2675
+#: server/unittools.c:2666
 #, c-format
 msgid "Your %s was nuked by %s."
 msgstr "%s blev udsat for atomangreb fra %s."
 
-#: server/unittools.c:2678 server/unittools.c:2696
+#: server/unittools.c:2669 server/unittools.c:2687
 msgid "yourself"
 msgstr "dig selv"
 
-#: server/unittools.c:2682
+#: server/unittools.c:2673
 #, c-format
 msgid "The %s %s was nuked."
 msgstr "%s %s blev udsat for atomangreb."
 
-#: server/unittools.c:2693
+#: server/unittools.c:2684
 #, c-format
 msgid "%s was nuked by %s."
 msgstr "%s blev udsat for atomangreb fra %s."
 
-#: server/unittools.c:2701
+#: server/unittools.c:2692
 #, c-format
 msgid "You nuked %s."
 msgstr "Du udførte et atomangreb mod %s."
 
-#: server/unittools.c:2735
+#: server/unittools.c:2726
 #, c-format
 msgid "The %s detonated a nuke!"
 msgstr "%s detonerede en atombombe!"
 
-#: server/unittools.c:2750
+#: server/unittools.c:2741
 #, c-format
 msgid "%s transported successfully."
 msgstr "%s blev transporteret uskadt frem."
 
-#: server/unittools.c:2837
+#: server/unittools.c:2828
 #, c-format
 msgid "This unit cannot paradrop into %s."
 msgstr "Denne enhed kan ikke foretage faldskærmudspring i %s."
 
-#: server/unittools.c:2870
+#: server/unittools.c:2861
 #, c-format
 msgid "Your %s paradropped into the %s and was lost."
 msgstr "Dine %s udførte faldskærmsudspring på %s og gik til grunde."
 
-#: server/unittools.c:2888
+#: server/unittools.c:2879
 #, c-format
 msgid "Your %s was killed by enemy units at the paradrop destination."
 msgstr "Dine %s blev dræbt af modstanderens enheder på udspringsstedet."
 
-#: server/unittools.c:3330
+#: server/unittools.c:3321
 #, c-format
 msgid "Orders for %s aborted after enemy movement was spotted."
 msgstr "Ordre for %s blev afbrudt efter at fjendens bevægelser blev opdaget."
 
-#: server/unittools.c:4112
+#: server/unittools.c:4103
 #, c-format
 msgid "Orders for %s aborted as there are units nearby."
 msgstr "Ordre for %s blev afbrudt, da der er enheder i vejen."
 
-#: server/unittools.c:4252
+#: server/unittools.c:4243
 #, c-format
 msgid "Orders for %s aborted since they give an invalid activity."
 msgstr "Ordre for %s afbrudt, da de medfører en ugyldig aktivitet."
 
-#: server/unittools.c:4262
+#: server/unittools.c:4253
 #, c-format
 msgid "Orders for %s aborted since they give an invalid location."
 msgstr "Ordre for %s afbrudt, da de medfører en ugyldig placering."
 
-#: server/unittools.c:4273
+#: server/unittools.c:4264
 #, c-format
 msgid "Orders for %s aborted as there are units in the way."
 msgstr "Ordre for %s afbrudt da der er enheder i vejen."
 
-#: server/unittools.c:4318
+#: server/unittools.c:4309
 #, c-format
 msgid "Orders for %s aborted because of failed move."
 msgstr "Ordre for %s afbrudt da bevægelse ikke kunne gennemføres."
 
-#: server/unittools.c:4429
+#: server/unittools.c:4420
 #, fuzzy, c-format
 #| msgid "%s converted to %s."
 msgid "%s could not do %s to %s."
 msgstr "%s konverteret til %s."
 
-#: server/unittools.c:4467
+#: server/unittools.c:4458
 #, fuzzy, c-format
 #| msgid "Orders for %s aborted because building of city failed."
 msgid "Orders for %s aborted because doing %s to %s failed."
 msgstr ""
 "Ordre for %s blev afbrudt på grund af, at bygningen af byen ikke lykkedes."
 
-#: server/unittools.c:4480
+#: server/unittools.c:4471
 #, c-format
 msgid "Your %s has invalid orders."
 msgstr "%s har ugyldige ordre."
 
-#: server/unittools.c:4579
+#: server/unittools.c:4570
 #, fuzzy, c-format
 #| msgid ""
 #| "Your unit may not move for another %s this turn. See /help unitwaittime."

@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2022-02-01 16:03+0200\n"
+"POT-Creation-Date: 2022-02-08 15:40+0200\n"
 "PO-Revision-Date: 2020-10-09 00:48+0800\n"
 "Last-Translator: Hongjia Cao <hjcao@yahoo.com>\n"
 "Language-Team: zh_CN <i18n-translation@linux.net.cn>\n"
@@ -25838,7 +25838,7 @@ msgstr ""
 "当野人头领在无防御部队的方格被杀死时，将得到100黄金的敲诈金，但只有地面部队和"
 "直升飞机能够得到."
 
-#: data/default/default.lua:22 server/unittools.c:2935
+#: data/default/default.lua:22 server/unittools.c:2926
 #, fuzzy, c-format
 msgid "You found %d gold."
 msgid_plural "You found %d gold."
@@ -25873,7 +25873,7 @@ msgstr "您找到了一座友好城市。"
 msgid "Friendly nomads are impressed by you, and join you."
 msgstr "友好的流浪者被您感动并加入了您的队伍。"
 
-#: data/default/default.lua:114 server/unittools.c:2942
+#: data/default/default.lua:114 server/unittools.c:2933
 msgid "An abandoned village is here."
 msgstr "这里是一座废弃的村庄。"
 
@@ -25881,7 +25881,7 @@ msgstr "这里是一座废弃的村庄。"
 msgid "You have unleashed a horde of barbarians!"
 msgstr "您激活了一群野人！"
 
-#: data/default/default.lua:124 server/unittools.c:2945
+#: data/default/default.lua:124 server/unittools.c:2936
 #, c-format
 msgid "Your %s has been killed by barbarians!"
 msgstr "您的 %s 被野人杀死了！"
@@ -34594,7 +34594,7 @@ msgstr ""
 msgid "  Present administrators: "
 msgstr "  当前管理者："
 
-#: data/helpdata.txt:2366
+#: data/helpdata.txt:2367
 msgid "For more information in general, visit the Freeciv website, at:"
 msgstr ""
 
@@ -47451,7 +47451,7 @@ msgid ""
 "succeeded against the %s %s %s [id:%d HP:%d]."
 msgstr ""
 
-#: server/unithand.c:4226 server/unittools.c:2846
+#: server/unithand.c:4226 server/unittools.c:2837
 msgid "Cannot attack unless you declare war first."
 msgstr "除非您首先宣战否则无法攻击。"
 
@@ -47460,7 +47460,7 @@ msgstr "除非您首先宣战否则无法攻击。"
 msgid "%s can only move into your own zone of control."
 msgstr "%s 只能移动到您自己控制的区域。"
 
-#: server/unithand.c:4244 server/unittools.c:2824 server/unittools.c:2854
+#: server/unithand.c:4244 server/unittools.c:2815 server/unittools.c:2845
 #, fuzzy, c-format
 msgid "Cannot invade unless you break peace with %s first."
 msgstr "除非您首先宣战否则无法攻击。"
@@ -47656,40 +47656,40 @@ msgstr "解散了您的 %s。"
 msgid "Disbanded your %s."
 msgstr "解散了您的 %s。"
 
-#: server/unittools.c:1742
+#: server/unittools.c:1733
 #, c-format
 msgid "Unable to defend %s, %s has lost the game."
 msgstr "不能防御 %s ，%s 输掉了游戏。"
 
-#: server/unittools.c:1746
+#: server/unittools.c:1737
 #, c-format
 msgid "Losing %s meant losing the game! Be more careful next time!"
 msgstr "丢掉 %s 就意味着输掉游戏！下次小心点！"
 
-#: server/unittools.c:1803
+#: server/unittools.c:1794
 #, c-format
 msgid "%s lost when %s was lost."
 msgstr "%s 随 %s 的损失而损失。"
 
-#: server/unittools.c:2047
+#: server/unittools.c:2038
 #, c-format
 msgid "%s escaped the destruction of %s, and fled to %s."
 msgstr "%s 从 %s 的解体中逃脱出来，并流亡到 %s。"
 
-#: server/unittools.c:2224
+#: server/unittools.c:2215
 #, fuzzy, c-format
 msgid "%d Barbarian leader captured."
 msgid_plural "%d Barbarian leaders captured."
 msgstr[0] "捕获野人头领，获得 %d 赎金。"
 
-#: server/unittools.c:2229
+#: server/unittools.c:2220
 #, fuzzy, c-format
 msgid "%d gold ransom paid."
 msgid_plural "%d gold ransom paid."
 msgstr[0] "每回合 %3d 黄金"
 
 #. TRANS: "... Cannon ... the Polish Destroyer ...."
-#: server/unittools.c:2328
+#: server/unittools.c:2319
 #, fuzzy, c-format
 msgid "Your attacking %s succeeded against the %s %s (and %d other unit)!"
 msgid_plural ""
@@ -47697,21 +47697,21 @@ msgid_plural ""
 msgstr[0] "您的 %s 对 %s 的 %s （以及 %d 其它部队）的攻击成功！"
 
 #. TRANS: "Cannon ... the Polish Destroyer."
-#: server/unittools.c:2355
+#: server/unittools.c:2346
 #, c-format
 msgid "%s lost to an attack by the %s %s."
 msgstr "在 %2$s 的 %3$s 的攻击下损失了 %1$s 。"
 
 #. TRANS: "Cannon lost when the Polish Destroyer
 #. * attacked the German Musketeers."
-#: server/unittools.c:2365
+#: server/unittools.c:2356
 #, fuzzy, c-format
 msgid "%s lost when the %s %s attacked the %s %s."
 msgstr "在 %2$s 的 %3$s 攻击 %4$s 的 %5$s 时损失了 %1$s 。"
 
 #. TRANS: "Musketeers (and Cannon) lost to an
 #. * attack from the Polish Destroyer."
-#: server/unittools.c:2381
+#: server/unittools.c:2372
 #, c-format
 msgid "%s (and %s) lost to an attack from the %s %s."
 msgstr "在 %3$s 的 %4$s 的攻击下损失了 %1$s (和 %2$s) 。"
@@ -47719,7 +47719,7 @@ msgstr "在 %3$s 的 %4$s 的攻击下损失了 %1$s (和 %2$s) 。"
 #. TRANS: "Musketeers and 3 other units lost to
 #. * an attack from the Polish Destroyer."
 #. * (only happens with at least 2 other units)
-#: server/unittools.c:2392
+#: server/unittools.c:2383
 #, fuzzy, c-format
 msgid "%s and %d other unit lost to an attack from the %s %s."
 msgid_plural "%s and %d other units lost to an attack from the %s %s."
@@ -47728,113 +47728,113 @@ msgstr[0] "在 %3$s 的 %4$s 的攻击下损失了 %2$s %1$d 。"
 #. TRANS: "2 units lost when the Polish Destroyer
 #. * attacked the German Musketeers."
 #. * (only happens with at least 2 other units)
-#: server/unittools.c:2407
+#: server/unittools.c:2398
 #, fuzzy, c-format
 msgid "%d unit lost when the %s %s attacked the %s %s."
 msgid_plural "%d units lost when the %s %s attacked the %s %s."
 msgstr[0] "%d 自动攻击： %s 的 %s 正在攻击 %s 的 %s"
 
-#: server/unittools.c:2427
+#: server/unittools.c:2418
 #, fuzzy, c-format
 msgid "%d unit escaped from attack by %s %s"
 msgid_plural "%d units escaped from attack by %s %s"
 msgstr[0] "%d 自动攻击： %s 的 %s 正在攻击 %s 的 %s"
 
-#: server/unittools.c:2675
+#: server/unittools.c:2666
 #, c-format
 msgid "Your %s was nuked by %s."
 msgstr "您的 %s 被 %s “核”了。"
 
-#: server/unittools.c:2678 server/unittools.c:2696
+#: server/unittools.c:2669 server/unittools.c:2687
 msgid "yourself"
 msgstr "您自己"
 
-#: server/unittools.c:2682
+#: server/unittools.c:2673
 #, fuzzy, c-format
 msgid "The %s %s was nuked."
 msgstr "%s 的 %s 遭到核武器的攻击。"
 
-#: server/unittools.c:2693
+#: server/unittools.c:2684
 #, c-format
 msgid "%s was nuked by %s."
 msgstr "%s 遭到 %s 的核武器的攻击。"
 
-#: server/unittools.c:2701
+#: server/unittools.c:2692
 #, c-format
 msgid "You nuked %s."
 msgstr "您以核武器攻击 %s。"
 
-#: server/unittools.c:2735
+#: server/unittools.c:2726
 #, fuzzy, c-format
 msgid "The %s detonated a nuke!"
 msgstr "%s 引爆了核弹！"
 
-#: server/unittools.c:2750
+#: server/unittools.c:2741
 #, c-format
 msgid "%s transported successfully."
 msgstr "%s 运输成功。"
 
-#: server/unittools.c:2837
+#: server/unittools.c:2828
 #, c-format
 msgid "This unit cannot paradrop into %s."
 msgstr "此部队不能空降到 %s。"
 
-#: server/unittools.c:2870
+#: server/unittools.c:2861
 #, c-format
 msgid "Your %s paradropped into the %s and was lost."
 msgstr "您的 %s 被空降到 %s 并全部损失。"
 
-#: server/unittools.c:2888
+#: server/unittools.c:2879
 #, c-format
 msgid "Your %s was killed by enemy units at the paradrop destination."
 msgstr "您的 %s 在空降目的地被敌方部队杀死了。"
 
-#: server/unittools.c:3330
+#: server/unittools.c:3321
 #, c-format
 msgid "Orders for %s aborted after enemy movement was spotted."
 msgstr "因附近有部队而取消对 %s 的命令。"
 
-#: server/unittools.c:4112
+#: server/unittools.c:4103
 #, c-format
 msgid "Orders for %s aborted as there are units nearby."
 msgstr "因附近有部队而取消对 %s 的命令。"
 
-#: server/unittools.c:4252
+#: server/unittools.c:4243
 #, c-format
 msgid "Orders for %s aborted since they give an invalid activity."
 msgstr "%s 的命令被取消因为它给出了无效的活动。"
 
-#: server/unittools.c:4262
+#: server/unittools.c:4253
 #, c-format
 msgid "Orders for %s aborted since they give an invalid location."
 msgstr "%s 的命令被取消因为它给出了无效的位置。"
 
-#: server/unittools.c:4273
+#: server/unittools.c:4264
 #, c-format
 msgid "Orders for %s aborted as there are units in the way."
 msgstr "因有部队挡在路中而取消对 %s 的命令。"
 
-#: server/unittools.c:4318
+#: server/unittools.c:4309
 #, c-format
 msgid "Orders for %s aborted because of failed move."
 msgstr "因移动无效而取消对 %s 的命令。"
 
-#: server/unittools.c:4429
+#: server/unittools.c:4420
 #, fuzzy, c-format
 msgid "%s could not do %s to %s."
 msgstr "%s 征服了 %s。"
 
-#: server/unittools.c:4467
+#: server/unittools.c:4458
 #, fuzzy, c-format
 msgid "Orders for %s aborted because doing %s to %s failed."
 msgstr "因修建城市失败而取消对 %s 的命令。"
 
-#: server/unittools.c:4480
+#: server/unittools.c:4471
 #, c-format
 msgid "Your %s has invalid orders."
 msgstr "您的 %s 得到了无效的命令。"
 
-#: server/unittools.c:4579
+#: server/unittools.c:4570
 #, c-format
 msgid "Your unit may not act for another %s this turn. See /help unitwaittime."
 msgstr ""

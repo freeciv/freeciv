@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 2.3\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2022-02-01 16:03+0200\n"
+"POT-Creation-Date: 2022-02-08 15:40+0200\n"
 "PO-Revision-Date: 2011-01-29 07:42-0500\n"
 "Last-Translator: Kevin Scannell <kscanne@gmail.com>\n"
 "Language-Team: Irish <gaeilge-gnulinux@lists.sourceforge.net>\n"
@@ -26022,7 +26022,7 @@ msgid ""
 "is 100 gold, but can be less if the barbarian has less money."
 msgstr ""
 
-#: data/default/default.lua:22 server/unittools.c:2935
+#: data/default/default.lua:22 server/unittools.c:2926
 #, c-format
 msgid "You found %d gold."
 msgid_plural "You found %d gold."
@@ -26063,7 +26063,7 @@ msgstr "D'aimsigh tú cathair chairdiúil."
 msgid "Friendly nomads are impressed by you, and join you."
 msgstr ""
 
-#: data/default/default.lua:114 server/unittools.c:2942
+#: data/default/default.lua:114 server/unittools.c:2933
 msgid "An abandoned village is here."
 msgstr "Tá baile tréigthe anseo."
 
@@ -26072,7 +26072,7 @@ msgid "You have unleashed a horde of barbarians!"
 msgstr ""
 
 # unit
-#: data/default/default.lua:124 server/unittools.c:2945
+#: data/default/default.lua:124 server/unittools.c:2936
 #, c-format
 msgid "Your %s has been killed by barbarians!"
 msgstr "Mharaigh barbaraigh do %s!"
@@ -34214,7 +34214,7 @@ msgstr ""
 msgid "  Present administrators: "
 msgstr ""
 
-#: data/helpdata.txt:2366
+#: data/helpdata.txt:2367
 msgid "For more information in general, visit the Freeciv website, at:"
 msgstr ""
 
@@ -47411,7 +47411,7 @@ msgid ""
 "succeeded against the %s %s %s [id:%d HP:%d]."
 msgstr ""
 
-#: server/unithand.c:4226 server/unittools.c:2846
+#: server/unithand.c:4226 server/unittools.c:2837
 msgid "Cannot attack unless you declare war first."
 msgstr "Ní féidir ionsaí a dhéanamh go dtí go bhfuil cogadh fógartha agat."
 
@@ -47422,7 +47422,7 @@ msgid "%s can only move into your own zone of control."
 msgstr "Ní féidir le %s ach dul isteach i do chrios rialaithe féin."
 
 # playername
-#: server/unithand.c:4244 server/unittools.c:2824 server/unittools.c:2854
+#: server/unithand.c:4244 server/unittools.c:2815 server/unittools.c:2845
 #, c-format
 msgid "Cannot invade unless you break peace with %s first."
 msgstr "Ní féidir ionradh a dhéanamh go dtí go ndéanann tú síocháin le %s."
@@ -47663,13 +47663,13 @@ msgid "Disbanded your %s."
 msgstr "Scaipeadh do %s."
 
 # unit, player
-#: server/unittools.c:1742
+#: server/unittools.c:1733
 #, c-format
 msgid "Unable to defend %s, %s has lost the game."
 msgstr "Níorbh féidir le %2$s %1$s a chosaint, tá an cluiche caillte aige."
 
 # unit
-#: server/unittools.c:1746
+#: server/unittools.c:1737
 #, c-format
 msgid "Losing %s meant losing the game! Be more careful next time!"
 msgstr ""
@@ -47677,18 +47677,18 @@ msgstr ""
 "uair eile!"
 
 # unit, unit
-#: server/unittools.c:1803
+#: server/unittools.c:1794
 #, c-format
 msgid "%s lost when %s was lost."
 msgstr "Cailleadh %s nuair a bhí %s caillte."
 
 # unit, unit, city
-#: server/unittools.c:2047
+#: server/unittools.c:2038
 #, c-format
 msgid "%s escaped the destruction of %s, and fled to %s."
 msgstr "Tá %s i ndiaidh éalú ó scriosadh %s, agus tá sé éalaithe go %s."
 
-#: server/unittools.c:2224
+#: server/unittools.c:2215
 #, fuzzy, c-format
 #| msgid "Barbarian leader captured; %d gold ransom paid."
 #| msgid_plural "Barbarian leader captured; %d gold ransom paid."
@@ -47700,7 +47700,7 @@ msgstr[2] "Ceannaire barbarach gafa; airgead fuascailte %d phíosa óir íoctha.
 msgstr[3] "Ceannaire barbarach gafa; airgead fuascailte %d bpíosa óir íoctha."
 msgstr[4] "Ceannaire barbarach gafa; airgead fuascailte %d píosa óir íoctha."
 
-#: server/unittools.c:2229
+#: server/unittools.c:2220
 #, fuzzy, c-format
 #| msgid "%d gold required."
 #| msgid_plural "%d gold required."
@@ -47715,7 +47715,7 @@ msgstr[4] "Tá gá le %d píosa óir."
 # %s = unit, nation_adj, unit  FIXME 
 # against the... could be plural as well, leave out "an/na"? Compare fr.po
 #. TRANS: "... Cannon ... the Polish Destroyer ...."
-#: server/unittools.c:2328
+#: server/unittools.c:2319
 #, c-format
 msgid "Your attacking %s succeeded against the %s %s (and %d other unit)!"
 msgid_plural ""
@@ -47729,7 +47729,7 @@ msgstr[4] ""
 # %s = unit, nation_adj, unit  FIXME 
 # against the... could be plural as well, leave out "an/na"? Compare fr.po
 #. TRANS: "Cannon ... the Polish Destroyer."
-#: server/unittools.c:2355
+#: server/unittools.c:2346
 #, c-format
 msgid "%s lost to an attack by the %s %s."
 msgstr ""
@@ -47737,7 +47737,7 @@ msgstr ""
 # %s = unit, nation_adj, unit, nation_adj, unit  FIXME 
 #. TRANS: "Cannon lost when the Polish Destroyer
 #. * attacked the German Musketeers."
-#: server/unittools.c:2365
+#: server/unittools.c:2356
 #, c-format
 msgid "%s lost when the %s %s attacked the %s %s."
 msgstr "Cailleadh %1$s nuair a d'ionsaigh an %3$s %2$s an %5$s %4$s."
@@ -47745,7 +47745,7 @@ msgstr "Cailleadh %1$s nuair a d'ionsaigh an %3$s %2$s an %5$s %4$s."
 # %s = unit, unit, nation_adj, unit  FIXME 
 #. TRANS: "Musketeers (and Cannon) lost to an
 #. * attack from the Polish Destroyer."
-#: server/unittools.c:2381
+#: server/unittools.c:2372
 #, c-format
 msgid "%s (and %s) lost to an attack from the %s %s."
 msgstr ""
@@ -47753,7 +47753,7 @@ msgstr ""
 #. TRANS: "Musketeers and 3 other units lost to
 #. * an attack from the Polish Destroyer."
 #. * (only happens with at least 2 other units)
-#: server/unittools.c:2392
+#: server/unittools.c:2383
 #, c-format
 msgid "%s and %d other unit lost to an attack from the %s %s."
 msgid_plural "%s and %d other units lost to an attack from the %s %s."
@@ -47766,7 +47766,7 @@ msgstr[4] ""
 #. TRANS: "2 units lost when the Polish Destroyer
 #. * attacked the German Musketeers."
 #. * (only happens with at least 2 other units)
-#: server/unittools.c:2407
+#: server/unittools.c:2398
 #, c-format
 msgid "%d unit lost when the %s %s attacked the %s %s."
 msgid_plural "%d units lost when the %s %s attacked the %s %s."
@@ -47777,7 +47777,7 @@ msgstr[3] ""
 "Cailleadh %1$d n-aonad nuair a d'ionsaigh an %3$s %2$s an %5$s %4$s."
 msgstr[4] "Cailleadh %1$d aonad nuair a d'ionsaigh an %3$s %2$s an %5$s %4$s."
 
-#: server/unittools.c:2427
+#: server/unittools.c:2418
 #, fuzzy, c-format
 #| msgid "%d unit lost when the %s %s attacked the %s %s."
 #| msgid_plural "%d units lost when the %s %s attacked the %s %s."
@@ -47791,120 +47791,120 @@ msgstr[3] ""
 msgstr[4] "Cailleadh %1$d aonad nuair a d'ionsaigh an %3$s %2$s an %5$s %4$s."
 
 # %s = unit, then either nation_plural or "yourself"; FIXME (na tusa?!)
-#: server/unittools.c:2675
+#: server/unittools.c:2666
 #, c-format
 msgid "Your %s was nuked by %s."
 msgstr "Dhíothaigh na %2$s do %1$s le buama núicléach."
 
 # used in the one above, and two down (by ~)
-#: server/unittools.c:2678 server/unittools.c:2696
+#: server/unittools.c:2669 server/unittools.c:2687
 msgid "yourself"
 msgstr "tusa"
 
 # nation_adj, unit
-#: server/unittools.c:2682
+#: server/unittools.c:2673
 #, c-format
 msgid "The %s %s was nuked."
 msgstr "Díothaíodh %2$s %1$s le buama núicléach."
 
 # %s = unit, then either nation_plural or "yourself"; FIXME (na tusa?!)
-#: server/unittools.c:2693
+#: server/unittools.c:2684
 #, c-format
 msgid "%s was nuked by %s."
 msgstr "Dhíothaigh na %2$s %1$s le buama núicléach."
 
 # city
-#: server/unittools.c:2701
+#: server/unittools.c:2692
 #, c-format
 msgid "You nuked %s."
 msgstr "Dhíothaigh tú %s le buama núicléach."
 
 # nation_plural
-#: server/unittools.c:2735
+#: server/unittools.c:2726
 #, c-format
 msgid "The %s detonated a nuke!"
 msgstr "Phléasc na %s buama núicléach!"
 
 # unit
-#: server/unittools.c:2750
+#: server/unittools.c:2741
 #, c-format
 msgid "%s transported successfully."
 msgstr ""
 
 # terrain_name
-#: server/unittools.c:2837
+#: server/unittools.c:2828
 #, c-format
 msgid "This unit cannot paradrop into %s."
 msgstr ""
 
 # unit, terrain_name
-#: server/unittools.c:2870
+#: server/unittools.c:2861
 #, c-format
 msgid "Your %s paradropped into the %s and was lost."
 msgstr ""
 
 # unit
-#: server/unittools.c:2888
+#: server/unittools.c:2879
 #, c-format
 msgid "Your %s was killed by enemy units at the paradrop destination."
 msgstr ""
 
 # unit
-#: server/unittools.c:3330
+#: server/unittools.c:3321
 #, c-format
 msgid "Orders for %s aborted after enemy movement was spotted."
 msgstr ""
 
 # unit
-#: server/unittools.c:4112
+#: server/unittools.c:4103
 #, c-format
 msgid "Orders for %s aborted as there are units nearby."
 msgstr ""
 
 # unit
-#: server/unittools.c:4252
+#: server/unittools.c:4243
 #, c-format
 msgid "Orders for %s aborted since they give an invalid activity."
 msgstr ""
 
 # unit
-#: server/unittools.c:4262
+#: server/unittools.c:4253
 #, c-format
 msgid "Orders for %s aborted since they give an invalid location."
 msgstr ""
 
 # unit
-#: server/unittools.c:4273
+#: server/unittools.c:4264
 #, c-format
 msgid "Orders for %s aborted as there are units in the way."
 msgstr ""
 
 # unit
-#: server/unittools.c:4318
+#: server/unittools.c:4309
 #, c-format
 msgid "Orders for %s aborted because of failed move."
 msgstr ""
 
 # unit, nation_adj, unit
-#: server/unittools.c:4429
+#: server/unittools.c:4420
 #, fuzzy, c-format
 #| msgid "Your %s could not sabotage the %s %s."
 msgid "%s could not do %s to %s."
 msgstr "Ní fhéadfadh do %1$s sabaitéireacht a dhéanamh ar an %3$s %2$s."
 
 # city... improvement
-#: server/unittools.c:4467
+#: server/unittools.c:4458
 #, fuzzy, c-format
 msgid "Orders for %s aborted because doing %s to %s failed."
 msgstr "Tá %s ag tógáil %s, rud nach bhfuil ar fáil níos mó."
 
 # unit
-#: server/unittools.c:4480
+#: server/unittools.c:4471
 #, c-format
 msgid "Your %s has invalid orders."
 msgstr ""
 
-#: server/unittools.c:4579
+#: server/unittools.c:4570
 #, c-format
 msgid "Your unit may not act for another %s this turn. See /help unitwaittime."
 msgstr ""
