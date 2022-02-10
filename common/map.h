@@ -444,8 +444,8 @@ extern struct terrain_misc terrain_control;
 /* Iterate itr_tile through all map tiles cardinally adjacent to the given
  * center map position, with normalization.  Does not include the center
  * position.  The order of positions is unspecified. */
-#define cardinal_adjc_iterate(nmap, center_tile, itr_tile)                  \
-  adjc_dirlist_iterate(nmap, center_tile, itr_tile, _dir_itr##center_tile,  \
+#define cardinal_adjc_iterate(nmap, center_tile, itr_tile)                \
+  adjc_dirlist_iterate(nmap, center_tile, itr_tile, _dir_itr##itr_tile,   \
 		       wld.map.cardinal_dirs, wld.map.num_cardinal_dirs)
 
 #define cardinal_adjc_iterate_end adjc_dirlist_iterate_end
