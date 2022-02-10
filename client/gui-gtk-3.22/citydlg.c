@@ -1761,8 +1761,8 @@ static void city_dialog_update_title(struct city_dialog *pdialog)
 static void city_dialog_update_citizens(struct city_dialog *pdialog)
 {
   enum citizen_category categories[MAX_CITY_SIZE];
-  int i, width;
-  int citizen_bar_height;
+  int i, width, full_width, total_used_width;
+  int citizen_bar_width, citizen_bar_height;
   struct city *pcity = pdialog->pcity;
   int num_citizens = get_city_citizen_types(pcity, FEELING_FINAL, categories);
   cairo_t *cr;
@@ -1772,16 +1772,18 @@ static void city_dialog_update_citizens(struct city_dialog *pdialog)
   /* last icon is always drawn in full, and so has reserved                */
   /* tileset_small_sprite_width(tileset) pixels.                           */
 
+  full_width = tileset_small_sprite_width(tileset);
   if (num_citizens > 1) {
-    width = MIN(tileset_small_sprite_width(tileset),
-		((NUM_CITIZENS_SHOWN - 1) * tileset_small_sprite_width(tileset)) /
-		(num_citizens - 1));
+    width = MIN(full_width, ((NUM_CITIZENS_SHOWN - 1) * full_width)
+                            / (num_citizens - 1));
   } else {
-    width = tileset_small_sprite_width(tileset);
+    width = full_width;
   }
   pdialog->cwidth = width;
 
   /* overview page */
+  /* keep these values in sync with create_city_dialog */
+  citizen_bar_width  = full_width * NUM_CITIZENS_SHOWN;
   citizen_bar_height = tileset_small_sprite_height(tileset);
 
   cr = cairo_create(pdialog->citizen_surface);
@@ -1790,12 +1792,26 @@ static void city_dialog_update_citizens(struct city_dialog *pdialog)
     cairo_set_source_surface(cr,
                              get_citizen_sprite(tileset, categories[i], i, pcity)->surface,
                              i * width, 0);
-    cairo_rectangle(cr, i * width, 0, width, citizen_bar_height);
+    cairo_rectangle(cr, i * width, 0,
+                    /* Always draw last citizen in full */
+                    i + 1 < num_citizens ? width : full_width,
+                    citizen_bar_height);
     cairo_fill(cr);
   }
-  cairo_rectangle(cr, i * width, 0, width * (NUM_CITIZENS_SHOWN - i), citizen_bar_height);
-  cairo_set_operator(cr, CAIRO_OPERATOR_CLEAR);
-  cairo_fill(cr);
+
+  total_used_width = (i - 1) * width + full_width;
+
+  if (total_used_width < citizen_bar_width) {
+    /* Clear the rest of the area.
+     * Note that this might still be necessary even in cases where
+     * num_citizens > NUM_CITIZENS_SHOWN, if the available width cannot be
+     * divided perfectly. */
+    cairo_rectangle(cr, total_used_width, 0,
+                    citizen_bar_width - total_used_width,
+                    citizen_bar_height);
+    cairo_set_operator(cr, CAIRO_OPERATOR_CLEAR);
+    cairo_fill(cr);
+  }
 
   cairo_destroy(cr);
 
