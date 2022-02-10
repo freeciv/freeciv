@@ -627,8 +627,11 @@ const char *api_methods_unit_transform_problem(lua_State *L, Unit *punit,
   case UU_NOT_IN_CITY:
   case UU_NOT_CITY_OWNER:
     /* should not get here */
+    break;
   }
+
   fc_assert_msg(FALSE, "Unexpected unit transform result %i", uu);
+
   return "\?";
 }
 
