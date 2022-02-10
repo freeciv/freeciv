@@ -336,8 +336,7 @@ msgid ""
 "*%s (AI)* Greetings friend, may we suggest making a common cause and join in "
 "an alliance?"
 msgstr ""
-"*%s (IA)* Saluton, amiko. Ĉu mi povas konsili al vi kune alfronti la "
-"malamikon kaj krei aliancon inter ni?"
+"*%s (IA)* Saluton, amiko. Ĉu ni faru komunan kaŭzon kaj kuniĝi en alianco?"
 
 #: ai/default/daidiplomacy.c:1837
 #, c-format
@@ -1714,23 +1713,23 @@ msgstr "Ŝanĝado de produktado de ĉiu %s en %s."
 
 #: client/climisc.c:207
 msgid "?embassy:Both"
-msgstr ""
+msgstr "?embassy:Ambaŭ"
 
 #: client/climisc.c:209
 msgid "?embassy:Yes"
-msgstr "Jes"
+msgstr "?embassy:Jes"
 
 #: client/climisc.c:212
 msgid "?embassy:With Us"
-msgstr ""
+msgstr "?embassy:Kun ni"
 
 #: client/climisc.c:215
 msgid "?embassy:Contact"
-msgstr ""
+msgstr "?embassy:Kontako"
 
 #: client/climisc.c:217
 msgid "?embassy:No Contact"
-msgstr ""
+msgstr "?embassy:Sen kontako"
 
 #: client/climisc.c:229
 msgid "?vision:Both"
@@ -1750,9 +1749,9 @@ msgid "The %s give %s"
 msgstr "La %s donas %sn"
 
 #: client/climisc.c:261
-#, fuzzy, c-format
+#, c-format
 msgid "The %s give an unknown city"
-msgstr "La %s donas nekonatan urbon."
+msgstr "La %s donas nekonatan urbon"
 
 #: client/climisc.c:266
 #, fuzzy, c-format
@@ -2393,12 +2392,12 @@ msgstr "Elektu strategion por via %s"
 #: client/gui-gtk-2.0/action_dialog.c:1752
 #: client/gui-gtk-3.0/action_dialog.c:1840
 #: client/gui-gtk-3.22/action_dialog.c:1834 client/gui-qt/dialogs.cpp:1895
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Your %s from %s reaches the city of %s.\n"
 "What now?"
 msgstr ""
-"Via karavano alvenis de %s al %s.\n"
+"Via %s de %s atingas la urbon %s.\n"
 "Kion nun?"
 
 #: client/gui-gtk-2.0/action_dialog.c:1758
@@ -2437,15 +2436,14 @@ msgstr "_Estu moviĝanta"
 #: client/gui-gtk-2.0/action_dialog.c:1860
 #: client/gui-gtk-3.0/action_dialog.c:1957
 #: client/gui-gtk-3.22/action_dialog.c:1951
-#, fuzzy
 msgid "Show Location"
-msgstr "Iru al _loko"
+msgstr "Montri lokon"
 
 #: client/gui-gtk-2.0/action_dialog.c:1866 client/gui-gtk-2.0/menu.c:1674
 #: client/gui-gtk-3.0/action_dialog.c:1963 client/gui-gtk-3.0/menu.c:459
 #: client/gui-gtk-3.22/action_dialog.c:1957 client/gui-gtk-3.22/menu.c:458
 msgid "_Wait"
-msgstr "_Atendu"
+msgstr "_Atendi"
 
 #. TRANS: comma-separated list of player/user names for completion
 #: client/gui-gtk-2.0/chatline.c:337 client/gui-gtk-3.0/chatline.c:337
@@ -2697,7 +2695,7 @@ msgstr "%d/%d %d vicoj"
 #: client/gui-gtk-3.22/citydlg.c:1023 client/gui-gtk-3.22/citydlg.c:1215
 #: client/gui-gtk-3.22/cityrep.c:1166
 msgid "_Buy"
-msgstr "Aĉ_etu"
+msgstr "Aĉ_eti"
 
 #: client/gui-gtk-2.0/citydlg.c:872 client/gui-gtk-3.0/citydlg.c:992
 #: client/gui-gtk-3.22/citydlg.c:1030
@@ -3101,7 +3099,7 @@ msgstr "Vendu"
 #: client/gui-gtk-3.22/cityrep.c:1108 client/gui-gtk-3.22/menu.c:438
 #: client/gui-gtk-3.22/unitselect.c:497
 msgid "_Select"
-msgstr "_Elektu"
+msgstr "_Elekti"
 
 #: client/gui-gtk-2.0/cityrep.c:1102 client/gui-gtk-2.0/plrdlg.c:531
 #: client/gui-gtk-3.0/cityrep.c:1112 client/gui-gtk-3.0/plrdlg.c:549
@@ -4958,15 +4956,13 @@ msgstr "_Helpilo"
 
 #: client/gui-gtk-2.0/menu.c:1407 client/gui-gtk-3.0/menu.c:257
 #: client/gui-gtk-3.22/menu.c:256
-#, fuzzy
 msgid "_Clear Chat Log"
-msgstr "_Vakigu protokolon"
+msgstr "_Forviŝi babil-protokolon"
 
 #: client/gui-gtk-2.0/menu.c:1409 client/gui-gtk-3.0/menu.c:259
 #: client/gui-gtk-3.22/menu.c:258
-#, fuzzy
 msgid "Save Chat _Log"
-msgstr "_Vakigu protokolon"
+msgstr "_Konservi babil-protokolon"
 
 #: client/gui-gtk-2.0/menu.c:1412 client/gui-gtk-3.0/menu.c:261
 #: client/gui-gtk-3.22/menu.c:260
@@ -4993,9 +4989,8 @@ msgstr "Konservu opciojn _nun"
 
 #: client/gui-gtk-2.0/menu.c:1421 client/gui-gtk-3.0/menu.c:269
 #: client/gui-gtk-3.22/menu.c:268
-#, fuzzy
 msgid "_Reload Tileset"
-msgstr "_Reŝargu grafikaĵon"
+msgstr "_Reŝargi kahelaron"
 
 #: client/gui-gtk-2.0/menu.c:1423 client/gui-gtk-3.0/menu.c:272
 #: client/gui-gtk-3.22/menu.c:271
@@ -5009,15 +5004,13 @@ msgstr "Konservi ludon k_iel..."
 
 #: client/gui-gtk-2.0/menu.c:1427 client/gui-gtk-3.0/menu.c:276
 #: client/gui-gtk-3.22/menu.c:275
-#, fuzzy
 msgid "Save Map _Image"
-msgstr "Konservu ludon"
+msgstr "Konservi mapo_bildon"
 
 #: client/gui-gtk-2.0/menu.c:1429 client/gui-gtk-3.0/menu.c:278
 #: client/gui-gtk-3.22/menu.c:277
-#, fuzzy
 msgid "Save _Map Image As..."
-msgstr "Konservu ludon k_iel..."
+msgstr "Konservi _mapobildon kiel..."
 
 #: client/gui-gtk-2.0/menu.c:1431 client/gui-gtk-3.0/menu.c:280
 #: client/gui-gtk-3.22/menu.c:279
@@ -6900,7 +6893,7 @@ msgstr "Fonto de taskoj:"
 #: client/gui-gtk-2.0/wldlg.c:1117 client/gui-gtk-3.0/wldlg.c:1122
 #: client/gui-gtk-3.22/wldlg.c:1120
 msgid "Show _Future Targets"
-msgstr "Vidigu estontajn celojn"
+msgstr "Montri estontajn celojn"
 
 #: client/gui-gtk-2.0/wldlg.c:1204 client/gui-gtk-3.0/wldlg.c:1210
 #: client/gui-gtk-3.22/wldlg.c:1208
@@ -6939,7 +6932,7 @@ msgstr "Tavolo de unuoj"
 #: client/gui-gtk-3.22/action_dialog.c:1546 client/gui-qt/cityrep.cpp:542
 #: client/gui-qt/hudwidget.cpp:1404 client/gui-qt/menu.cpp:1176
 msgid "Select"
-msgstr "Elektu"
+msgstr "Elekti"
 
 #: client/gui-gtk-3.0/action_dialog.c:1950
 #: client/gui-gtk-3.22/action_dialog.c:1944
@@ -7375,7 +7368,7 @@ msgstr "Neniu ordono"
 
 #: client/gui-qt/citydlg.cpp:1644 client/gui-qt/citydlg.cpp:1646
 msgid "Show future targets"
-msgstr "Vidigu estontajn celojn"
+msgstr "Montri estontajn celojn"
 
 #: client/gui-qt/citydlg.cpp:1658
 #, fuzzy
@@ -8600,43 +8593,36 @@ msgid "Default action vs city"
 msgstr "Elektu alvenpunkton"
 
 #: client/gui-qt/menu.cpp:1472
-#, fuzzy
 msgid "Investigate city"
-msgstr "Enketu la urbon"
+msgstr "Esplori la urbon"
 
 #: client/gui-qt/menu.cpp:1479
-#, fuzzy
 msgid "Investigate city (spends the unit)"
-msgstr "Enketu pri urbo (senpaga)"
+msgstr "Esplori la urbon (eluzas la unuon)"
 
 #: client/gui-qt/menu.cpp:1486
-#, fuzzy
 msgid "Establish embassy"
-msgstr "Starigu _komercan kurson"
+msgstr "Starigi ambasadejon"
 
 #: client/gui-qt/menu.cpp:1493
 msgid "Become Ambassador"
-msgstr ""
+msgstr "Fariĝi ambasadoro"
 
 #: client/gui-qt/menu.cpp:1500
-#, fuzzy
 msgid "Steal technology"
-msgstr "Forŝtelu teĥnologion"
+msgstr "Forŝteli teĥnologion"
 
 #: client/gui-qt/menu.cpp:1507
-#, fuzzy
 msgid "Steal technology and escape"
-msgstr "Forŝtelu teĥnologion"
+msgstr "Forŝteli teĥnologion kaj eskapi"
 
 #: client/gui-qt/menu.cpp:1514
-#, fuzzy
 msgid "Incite a revolt"
-msgstr "Instigu al ribelo"
+msgstr "Instigi al ribelo"
 
 #: client/gui-qt/menu.cpp:1521
-#, fuzzy
 msgid "Incite a Revolt and Escape"
-msgstr "Instigu al ribelo"
+msgstr "Instigi al ribelo kaj eskapi"
 
 #: client/gui-qt/menu.cpp:1528
 #, fuzzy
@@ -8792,9 +8778,8 @@ msgid "Start scenario game"
 msgstr "Startigu scenejon"
 
 #: client/gui-qt/pages.cpp:198
-#, fuzzy
 msgid "Load saved game"
-msgstr "Ŝargu konservitan ludon"
+msgstr "Ŝargi konservitan ludon"
 
 #: client/gui-qt/pages.cpp:198
 #, fuzzy
@@ -9303,7 +9288,7 @@ msgstr "Antaŭe"
 
 #: client/gui-sdl2/chatline.c:826 client/gui-sdl2/pages.c:204
 msgid "Load Game"
-msgstr "Ŝargu ludon"
+msgstr "Ŝargi ludon"
 
 #: client/gui-sdl2/chatline.c:838
 msgid "Server Settings"
@@ -9609,7 +9594,7 @@ msgstr "Konservu agordaĵojn kiel..."
 
 #: client/gui-sdl2/cma_fe.c:1033
 msgid "Load settings"
-msgstr "Ŝargu agordaĵojn"
+msgstr "Ŝargi agordaĵojn"
 
 #: client/gui-sdl2/cma_fe.c:1042
 msgid "Delete settings"
@@ -10292,19 +10277,16 @@ msgid "Connect With %s (%s)"
 msgstr "Kunligu ĉi tie"
 
 #: client/gui-sdl2/menu.c:660
-#, fuzzy
 msgid "Load Unit"
-msgstr "_Ŝargu unuon"
+msgstr "Enŝipiĝi"
 
 #: client/gui-sdl2/menu.c:672
-#, fuzzy
 msgid "Unload Unit"
-msgstr "_Malŝargu unuon"
+msgstr "Elŝipiĝi"
 
 #: client/gui-sdl2/menu.c:710
-#, fuzzy
 msgid "Sentry Unit"
-msgstr "Gardosoldato"
+msgstr "Gardostari"
 
 #. TRANS: "Build Railroad (R) 3 turns"
 #. TRANS: "Build Irrigation (I) 5 turns"
@@ -15643,9 +15625,9 @@ msgstr "Industria sabotado"
 
 #. TRANS: Incite a Re_volt (3% chance of success).
 #: common/actions.c:5273
-#, fuzzy, c-format
+#, c-format
 msgid "Incite a Re%svolt%s"
-msgstr "Instigu al ribelo"
+msgstr "Instigi al %sribelo%s"
 
 #. TRANS: Incite a Re_volt and Escape (3% chance of success).
 #. TRANS: Incite a _Revolt and Escape (3% chance of success).
@@ -15653,9 +15635,9 @@ msgstr "Instigu al ribelo"
 #: data/classic/game.ruleset:286 data/sandbox/game.ruleset:289
 #: data/experimental/game.ruleset:289 data/civ2civ3/game.ruleset:291
 #: data/multiplayer/game.ruleset:289
-#, fuzzy, c-format
+#, c-format
 msgid "Incite a Re%svolt and Escape%s"
-msgstr "Instigu al ribelo"
+msgstr "Instigi al %sribelo kaj eskapi%s"
 
 #. TRANS: Establish _Embassy (100% chance of success).
 #: common/actions.c:5279 data/civ2/game.ruleset:288
@@ -15673,25 +15655,25 @@ msgstr "Starigu _komercan kurson"
 #: data/multiplayer/game.ruleset:295
 #, c-format
 msgid "Becom%se Ambassador%s"
-msgstr ""
+msgstr "Fariĝ%si ambasadoro%s"
 
 #. TRANS: Steal _Technology (3% chance of success).
 #: common/actions.c:5285 data/civ1/game.ruleset:256 data/civ2/game.ruleset:294
 #: data/classic/game.ruleset:295 data/sandbox/game.ruleset:298
 #: data/experimental/game.ruleset:298 data/civ2civ3/game.ruleset:300
 #: data/multiplayer/game.ruleset:298
-#, fuzzy, c-format
+#, c-format
 msgid "Steal %sTechnology%s"
-msgstr "Forŝtelu teĥnologion"
+msgstr "Forŝteli %steĥnologion%s"
 
 #. TRANS: Steal _Technology and Escape (3% chance of success).
 #: common/actions.c:5288 data/civ2/game.ruleset:297
 #: data/classic/game.ruleset:298 data/sandbox/game.ruleset:301
 #: data/experimental/game.ruleset:301 data/civ2civ3/game.ruleset:303
 #: data/multiplayer/game.ruleset:301
-#, fuzzy, c-format
+#, c-format
 msgid "Steal %sTechnology and Escape%s"
-msgstr "Forŝtelu teĥnologion"
+msgstr "Forŝteli %steĥnologion kaj eskapi%s"
 
 #. TRANS: In_dustrial Espionage (3% chance of success).
 #: common/actions.c:5291
@@ -15710,9 +15692,9 @@ msgstr ""
 #: data/classic/game.ruleset:304 data/sandbox/game.ruleset:310
 #: data/experimental/game.ruleset:307 data/civ2civ3/game.ruleset:309
 #: data/multiplayer/game.ruleset:307
-#, fuzzy, c-format
+#, c-format
 msgid "%sInvestigate City%s"
-msgstr "Enketu la urbon"
+msgstr "%sEsplori la urbon%s"
 
 #. TRANS: _Investigate City (spends the unit) (100% chance of
 #. * success).
@@ -15721,9 +15703,9 @@ msgstr "Enketu la urbon"
 #: data/classic/game.ruleset:307 data/sandbox/game.ruleset:313
 #: data/experimental/game.ruleset:310 data/civ2civ3/game.ruleset:312
 #: data/alien/game.ruleset:276 data/multiplayer/game.ruleset:310
-#, fuzzy, c-format
+#, c-format
 msgid "%sInvestigate City (spends the unit)%s"
-msgstr "Enketu pri urbo (senpaga)"
+msgstr "%sEsplori la urbon (eluzas la unuon)%s"
 
 #. TRANS: Steal _Gold (100% chance of success).
 #: common/actions.c:5304
@@ -21237,9 +21219,9 @@ msgstr "Subaĉetu malamikan unuon"
 #: data/classic/game.ruleset:283 data/sandbox/game.ruleset:286
 #: data/experimental/game.ruleset:286 data/civ2civ3/game.ruleset:288
 #: data/alien/game.ruleset:270 data/multiplayer/game.ruleset:286
-#, fuzzy, c-format
+#, c-format
 msgid "Incite a %sRevolt%s"
-msgstr "Instigu al ribelo"
+msgstr "Instigi al %sribelo%s"
 
 #. TRANS: _Build City (100% chance of success).
 #: data/civ1/game.ruleset:277 data/civ2/game.ruleset:324
@@ -22456,7 +22438,7 @@ msgstr ""
 #: data/experimental/techs.ruleset:191 data/civ2civ3/techs.ruleset:184
 #: data/multiplayer/techs.ruleset:182
 msgid "Bronze Working"
-msgstr "Prilaborado de bronzo"
+msgstr "Bronzaĵoj"
 
 #: data/civ1/techs.ruleset:182 data/civ2/techs.ruleset:190
 #: data/classic/techs.ruleset:190 data/sandbox/techs.ruleset:193
@@ -22627,7 +22609,7 @@ msgstr "Eltrovo"
 #: data/experimental/techs.ruleset:457 data/civ2civ3/techs.ruleset:424
 #: data/multiplayer/techs.ruleset:431
 msgid "Iron Working"
-msgstr "Siderurgia"
+msgstr "Feraĵoj"
 
 #: data/civ1/techs.ruleset:376 data/civ2/techs.ruleset:434
 #: data/classic/techs.ruleset:430 data/sandbox/techs.ruleset:437
@@ -28861,9 +28843,8 @@ msgid ""
 msgstr ""
 
 #: data/sandbox/units.ruleset:506 data/civ2civ3/units.ruleset:495
-#, fuzzy
 msgid "Migrants"
-msgstr "Irigacio"
+msgstr "Migrantoj"
 
 #: data/sandbox/units.ruleset:538 data/civ2civ3/units.ruleset:527
 msgid ""
@@ -37507,7 +37488,8 @@ msgstr "Mirindaĵo %s en %s estos finita sekvan turnon."
 #, c-format
 msgid ""
 "Suggest throttling growth in %s to use %s (being built) more effectively."
-msgstr "Oni konsilas kreskoreguladon en %s por pli bone uzi %sn (preparotan)."
+msgstr "Oni sugestas malakcelon de kreskado en %s por pli efike uzi la %sn "
+"(konstruatan)."
 
 #: server/cityturn.c:503
 #, c-format
@@ -46204,7 +46186,7 @@ msgstr "Erara argumento aldonita al 'list': '%s'.  Provu '%shelp list'."
 #: server/techtools.c:118
 #, c-format
 msgid "The %s have researched %s."
-msgstr "La %s estis studintaj pri %s."
+msgstr "La %s finis sian studadon de %s."
 
 #. TRANS: Tech from source of an effect
 #. * (Great Library)
@@ -46825,9 +46807,9 @@ msgstr "Vi ne povas aldoni %sn al %s."
 
 #. TRANS: Can't do Build City this close to a city.
 #: server/unithand.c:2304
-#, fuzzy, c-format
+#, c-format
 msgid "Can't do %s this close to a city."
-msgstr "Estas neeble aldoniĝi al urbo"
+msgstr "La ago %s ne eblas tiel proksime al urbo"
 
 #. TRANS: Settlers ... Join City ... London
 #: server/unithand.c:2311
