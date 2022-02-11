@@ -1983,7 +1983,7 @@ msgstr ""
 #: client/gui-gtk-3.22/menu.c:310 client/include/helpdlg_g.h:50
 #: data/helpdata.txt:291 tools/civmanual.c:391
 msgid "Terrain"
-msgstr "Grundo"
+msgstr "Tereno"
 
 #: client/editor.c:201
 msgid ""
@@ -2186,15 +2186,13 @@ msgstr "(nenio)"
 #: client/gui-sdl2/action_dialog.c:2492 client/gui-sdl2/citydlg.c:1145
 #: client/gui-sdl2/repodlgs.c:211 client/text.c:1289 common/unit.c:1983
 #: server/unithand.c:1676 server/unithand.c:2349
-#, fuzzy, c-format
+#, c-format
 msgid "Treasury contains %d gold."
 msgid_plural "Treasury contains %d gold."
 msgstr[0] ""
-"%s kostas %d orajn monerojn.\n"
-"La ŝtata kaso entenas %d orajn monerojn."
+"La trezorejo enhavas %d oran moneron."
 msgstr[1] ""
-"%s kostas %d orajn monerojn.\n"
-"La ŝtata kaso entenas %d orajn monerojn."
+"La trezorejo enhavas %d orajn monerojn."
 
 #. TRANS: %s is pre-pluralised "Treasury contains %d gold."
 #: client/gui-gtk-2.0/action_dialog.c:497
@@ -2431,7 +2429,7 @@ msgstr "La spiono atendas viajn ordonojn"
 #: client/gui-gtk-3.0/action_dialog.c:1941
 #: client/gui-gtk-3.22/action_dialog.c:1935
 msgid "_Keep moving"
-msgstr "_Estu moviĝanta"
+msgstr "_Resti moviĝanta"
 
 #: client/gui-gtk-2.0/action_dialog.c:1860
 #: client/gui-gtk-3.0/action_dialog.c:1957
@@ -2815,7 +2813,7 @@ msgstr "Renomu..."
 #: client/gui-gtk-2.0/citydlg.c:1397 client/gui-gtk-3.0/citydlg.c:1627
 #: client/gui-gtk-3.22/citydlg.c:1666
 msgid "_List present units..."
-msgstr "_Listo pri la ĉeestantaj unuoj..."
+msgstr "_Listigi ĉeestantajn unuojn..."
 
 #: client/gui-gtk-2.0/citydlg.c:1407 client/gui-gtk-3.0/citydlg.c:1633
 msgid "_Prev city"
@@ -2925,12 +2923,12 @@ msgstr "Dissolvi _unuon"
 #: client/gui-gtk-2.0/citydlg.c:2245 client/gui-gtk-3.0/citydlg.c:2494
 #: client/gui-gtk-3.22/citydlg.c:2527
 msgid "_Load unit"
-msgstr "_Ŝargu unuon"
+msgstr "En_ŝipigi unuon"
 
 #: client/gui-gtk-2.0/citydlg.c:2255 client/gui-gtk-3.0/citydlg.c:2504
 #: client/gui-gtk-3.22/citydlg.c:2537
 msgid "_Unload unit"
-msgstr "_Malŝargu unuon"
+msgstr "_Elŝipigi unuon"
 
 #: client/gui-gtk-2.0/citydlg.c:2266 client/gui-gtk-3.0/citydlg.c:2515
 #: client/gui-gtk-3.22/citydlg.c:2548
@@ -2940,7 +2938,7 @@ msgstr "_Gardosoldato"
 #: client/gui-gtk-2.0/citydlg.c:2277 client/gui-gtk-3.0/citydlg.c:2526
 #: client/gui-gtk-3.22/citydlg.c:2559
 msgid "_Fortify unit"
-msgstr "_Fortikigu unuon"
+msgstr "_Fortikigi unuon"
 
 #: client/gui-gtk-2.0/citydlg.c:2306 client/gui-gtk-3.0/citydlg.c:2555
 #: client/gui-gtk-3.22/citydlg.c:2588
@@ -2950,15 +2948,17 @@ msgstr "Ĝis_datigu unuon"
 #. TRANS: Last %s is pre-pluralised "Treasury contains %d gold."
 #: client/gui-gtk-2.0/citydlg.c:2665 client/gui-gtk-3.0/citydlg.c:3063
 #: client/gui-gtk-3.22/citydlg.c:3096 client/gui-sdl2/citydlg.c:1156
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Buy %s for %d gold?\n"
 "%s"
 msgid_plural ""
 "Buy %s for %d gold?\n"
 "%s"
-msgstr[0] "Ĉu vi deziras vendi %sn por %d oraj moneroj?"
-msgstr[1] "Ĉu vi deziras vendi %sn por %d oraj moneroj?"
+msgstr[0] "Ĉu aĉetu la aĵon %s kontraŭ %d oraj moneroj?\n"
+"%s"
+msgstr[1] "Ĉu aĉetu la aĵon %s kontraŭ %d oraj moneroj?\n"
+"%s"
 
 #: client/gui-gtk-2.0/citydlg.c:2669 client/gui-gtk-2.0/citydlg.c:2683
 #: client/gui-gtk-3.0/citydlg.c:3067 client/gui-gtk-3.0/citydlg.c:3081
@@ -2969,15 +2969,17 @@ msgstr "Aĉetu ĝin!"
 #. TRANS: Last %s is pre-pluralised "Treasury contains %d gold."
 #: client/gui-gtk-2.0/citydlg.c:2679 client/gui-gtk-3.0/citydlg.c:3077
 #: client/gui-gtk-3.22/citydlg.c:3110 client/gui-sdl2/citydlg.c:1162
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s costs %d gold.\n"
 "%s"
 msgid_plural ""
 "%s costs %d gold.\n"
 "%s"
-msgstr[0] "Vi gajnis %d ora(j) monero(j)."
-msgstr[1] "Vi gajnis %d ora(j) monero(j)."
+msgstr[0] "%s kostas %d oran moneron.\n"
+"%s"
+msgstr[1] "%s kostas %d orajn monerojn.\n"
+"%s"
 
 #: client/gui-gtk-2.0/citydlg.c:2733 client/gui-gtk-3.0/citydlg.c:3131
 #: client/gui-gtk-3.22/citydlg.c:3164 client/gui-qt/citydlg.cpp:611
@@ -6888,7 +6890,7 @@ msgstr "Vicoj"
 #: client/gui-gtk-2.0/wldlg.c:1112 client/gui-gtk-3.0/wldlg.c:1118
 #: client/gui-gtk-3.22/wldlg.c:1116
 msgid "Source _Tasks:"
-msgstr "Fonto de taskoj:"
+msgstr "Fareblaj taskoj:"
 
 #: client/gui-gtk-2.0/wldlg.c:1117 client/gui-gtk-3.0/wldlg.c:1122
 #: client/gui-gtk-3.22/wldlg.c:1120
@@ -6898,7 +6900,7 @@ msgstr "Montri estontajn celojn"
 #: client/gui-gtk-2.0/wldlg.c:1204 client/gui-gtk-3.0/wldlg.c:1210
 #: client/gui-gtk-3.22/wldlg.c:1208
 msgid "Target _Worklist:"
-msgstr "Celo de la _Laborlisto:"
+msgstr "Cela _Tasklisto:"
 
 #: client/gui-gtk-2.0/wldlg.c:1222 client/gui-gtk-3.0/wldlg.c:1227
 #: client/gui-gtk-3.22/wldlg.c:1224
@@ -6907,9 +6909,8 @@ msgstr "_Aldonu al ĝenerala laborlisto"
 
 #: client/gui-gtk-2.0/wldlg.c:1238 client/gui-gtk-3.0/wldlg.c:1243
 #: client/gui-gtk-3.22/wldlg.c:1239
-#, fuzzy
 msgid "Change Prod_uction"
-msgstr "Ŝanĝu produktadon"
+msgstr "Ŝanĝi produktadon"
 
 #: client/gui-gtk-3.0/action_dialog.c:1549
 #: client/gui-gtk-3.22/action_dialog.c:1543
@@ -7294,7 +7295,7 @@ msgstr "Gardosoldato"
 
 #: client/gui-qt/citydlg.cpp:800 client/gui-sdl2/citydlg.c:469
 msgid "Fortify unit"
-msgstr "Fortikigu unuon"
+msgstr "Fortikigi unuon"
 
 #: client/gui-qt/citydlg.cpp:806 client/gui-sdl2/citydlg.c:485
 msgid "Disband unit"
@@ -8452,7 +8453,7 @@ msgstr "Dissolvu"
 
 #: client/gui-qt/menu.cpp:1300 client/gui-sdl2/menu.c:778
 msgid "Fortify Unit"
-msgstr "Fortikigu unuon"
+msgstr "Fortikigi unuon"
 
 #: client/gui-qt/menu.cpp:1315
 #, fuzzy
@@ -9517,7 +9518,7 @@ msgstr "Subtenataj unuoj"
 
 #: client/gui-sdl2/citydlg.c:3734
 msgid "Change production"
-msgstr "Ŝanĝu produktadon"
+msgstr "Ŝanĝi produktadon"
 
 #: client/gui-sdl2/citydlg.c:3748 client/gui-sdl2/dialogs.c:1757
 msgid "Hurry production"
@@ -9687,7 +9688,7 @@ msgstr "Zomu je : %s"
 
 #: client/gui-sdl2/dialogs.c:1745
 msgid "Change Production"
-msgstr "Ŝanĝu produktadon"
+msgstr "Ŝanĝi produktadon"
 
 #: client/gui-sdl2/dialogs.c:1769
 msgid "Change City Governor settings"
@@ -11382,13 +11383,12 @@ msgid "* Ignores terrain effects (moving costs at most %s MP per tile).\n"
 msgstr ""
 
 #: client/helpdata.c:2271
-#, fuzzy
 msgid "* Never imposes a zone of control.\n"
-msgstr "%s povas nur movi en via influa areo."
+msgstr "* Neniam trudas areon de influo.\n"
 
 #: client/helpdata.c:2273
 msgid "* May impose a zone of control on its adjacent tiles.\n"
-msgstr ""
+msgstr "* Povas trudi areon de influo al la najbaraj kaheloj.\n"
 
 #: client/helpdata.c:2277
 #, fuzzy
@@ -11855,6 +11855,8 @@ msgid ""
 "* Units on this terrain may impose a zone of control, or be restricted by "
 "one.\n"
 msgstr ""
+"* Unuoj sur ĉi tiu tereno povas trudi areon de influo, aŭ esti limigita de "
+"tia areo.\n"
 
 #: client/helpdata.c:3172
 #, fuzzy
@@ -14638,12 +14640,10 @@ msgid "Tax: %d Lux: %d Sci: %d"
 msgstr "Imp: %d Luk: %d Sci: %d"
 
 #: client/text.c:946 client/text.c:953
-#, fuzzy
 msgid "Moving: Nobody"
-msgstr "Moviĝanta: %s"
+msgstr "Moviĝanta: Neniu"
 
 #: client/text.c:948 client/text.c:955
-#, c-format
 msgid "Moving: %s"
 msgstr "Moviĝanta: %s"
 
@@ -14817,7 +14817,7 @@ msgstr "%s rifuzas dissolviĝon!"
 #: client/text.c:1331
 #, c-format
 msgid "Disband %s?"
-msgstr "Dissolvu %sn?"
+msgstr "Ĉu dissolvu la unuon %s?"
 
 #: client/text.c:1343
 #, fuzzy
@@ -15027,9 +15027,9 @@ msgid "%d one time bonus"
 msgstr ""
 
 #: client/text.c:1738
-#, fuzzy, c-format
+#, c-format
 msgid "%d remaining"
-msgstr "Rafinado"
+msgstr "%d pli restas"
 
 #: client/text.c:1771
 #, fuzzy, c-format
@@ -15502,7 +15502,7 @@ msgstr " (agordoj)"
 #: common/actions.c:1136
 #, c-format
 msgid "The probability of success is %.1f%%."
-msgstr ""
+msgstr "La probablo de sukceso estas %.1f%%."
 
 #. TRANS: action probability interval (min to max). Given in
 #. * percentage. Resolution is 0.5%. The string at the end is
@@ -15752,9 +15752,9 @@ msgstr "Eniru la bazaron"
 #: data/classic/game.ruleset:316 data/sandbox/game.ruleset:322
 #: data/experimental/game.ruleset:319 data/civ2civ3/game.ruleset:321
 #: data/alien/game.ruleset:285 data/multiplayer/game.ruleset:313
-#, fuzzy, c-format
+#, c-format
 msgid "Help %sbuild Wonder%s"
-msgstr "Helpu konstrui Mirindaĵon"
+msgstr "Helpi %skonstrui Mirindaĵon%s"
 
 #. TRANS: _Capture Units (100% chance of success).
 #: common/actions.c:5325 data/sandbox/game.ruleset:331
@@ -16131,7 +16131,7 @@ msgstr "Celebrado"
 
 #: common/events.c:100
 msgid "Civil Disorder"
-msgstr "Insurekcio"
+msgstr "Tumulto"
 
 #: common/events.c:101 data/civ1/game.ruleset:665
 msgid "Famine"
@@ -24154,7 +24154,7 @@ msgstr ""
 #: data/sandbox/buildings.ruleset:509 data/experimental/buildings.ruleset:412
 #: data/civ2civ3/buildings.ruleset:506 data/multiplayer/buildings.ruleset:404
 msgid "Harbor"
-msgstr "Golfo"
+msgstr "Haveno"
 
 #: data/civ2/buildings.ruleset:416 data/classic/buildings.ruleset:424
 #: data/experimental/buildings.ruleset:430
@@ -26997,7 +26997,7 @@ msgstr ""
 #: data/sandbox/buildings.ruleset:399 data/civ2civ3/buildings.ruleset:396
 #: data/multiplayer/buildings.ruleset:96
 msgid "Amphitheater"
-msgstr ""
+msgstr "Amfiteatro"
 
 #: data/sandbox/buildings.ruleset:439 data/civ2civ3/buildings.ruleset:436
 msgid ""
@@ -34580,9 +34580,8 @@ msgstr ""
 "avanaĵon."
 
 #: data/multiplayer/techs.ruleset:305
-#, fuzzy
 msgid "Improves the effect of Amphitheaters."
-msgstr "Ĝi pliigas la efikon de la Temploj."
+msgstr "Pliigas la efikon de Amfiteatroj."
 
 #: data/multiplayer/techs.ruleset:330
 msgid "Having this advance decreases pollution in all your cities by 50%."
@@ -36883,9 +36882,9 @@ msgstr "Vi kaŭzis diplomatan incidenton dum subaĉetado de la %sj %s."
 
 #. TRANS: Europeans ... Suitcase Nuke ... San Francisco
 #: server/actiontools.c:280
-#, fuzzy, c-format
+#, c-format
 msgid "The %s have caused an incident getting caught trying to do %s to %s."
-msgstr "%s kaŭzis diplomatan incidenton dum instigado al ribelo en %s."
+msgstr "%s kaŭzis diplomatan incidenton per provo de %s en %s."
 
 #. TRANS: Europeans ... Bribe Enemy Unit ... Partisan
 #: server/actiontools.c:291
@@ -36950,9 +36949,9 @@ msgstr "Vi kaŭzis diplomatan incidenton dum subaĉetado de la %sj %s."
 
 #. TRANS: Europeans ... Suitcase Nuke ... San Francisco
 #: server/actiontools.c:458
-#, fuzzy, c-format
+#, c-format
 msgid "The %s have caused an incident doing %s to %s."
-msgstr "%s kaŭzis diplomatan incidenton dum instigado al ribelo en %s."
+msgstr "%s kaŭzis diplomatan incidenton per ago de %s en %s."
 
 #. TRANS: Europeans ... Bribe Enemy Unit ... Partisan
 #: server/actiontools.c:468
@@ -37436,7 +37435,7 @@ msgstr " el la laborlisto"
 #. * (in "<city> is building ..." sentence). Preserve leading space.
 #: server/citytools.c:2908
 msgid " as suggested by the advisor"
-msgstr ""
+msgstr " laŭ sugesto de la konsilisto"
 
 #. TRANS: "<city> is building <production><source>."
 #. * 'source' might be an empty string, or a clause like
@@ -37444,7 +37443,7 @@ msgstr ""
 #: server/citytools.c:2925
 #, c-format
 msgid "%s is building %s%s."
-msgstr "%s estas konstruanta %s%s-n."
+msgstr "En %s oni konstruas la aĵon %s%s."
 
 #: server/citytools.c:2934
 #, c-format
@@ -37482,7 +37481,7 @@ msgstr[1] "%s vendas %sn (arkaikaĵo) por %d oraj moneroj."
 #: server/cityturn.c:453
 #, c-format
 msgid "Notice: Wonder %s in %s will be finished next turn."
-msgstr "Mirindaĵo %s en %s estos finita sekvan turnon."
+msgstr "Mirindaĵo %s en %s estos finita en la sekva vico."
 
 #: server/cityturn.c:488
 #, c-format
@@ -37524,7 +37523,7 @@ msgstr "%s pligrandiĝis al grando %d."
 #: server/cityturn.c:1035
 #, c-format
 msgid "A recent plague outbreak prevents growth in %s."
-msgstr ""
+msgstr "Lastatempa pestobato malebligas kreskon en %s."
 
 #: server/cityturn.c:1065
 #, c-format
@@ -37981,12 +37980,12 @@ msgstr "%s estas preparanta %sn, kiu ne estas plu disponebla."
 #: server/cityturn.c:2282
 #, c-format
 msgid "The %s have finished building %s in %s."
-msgstr "La %s finis konstrui %sn en %s."
+msgstr "La %s finis la konstruadon de %s en %s."
 
 #: server/cityturn.c:2289
 #, c-format
 msgid "%s has finished building %s."
-msgstr "%s finis produkton de %s."
+msgstr "%s finis la produkton de %s."
 
 #: server/cityturn.c:2310
 #, c-format
@@ -38066,25 +38065,25 @@ msgstr "La celebrado en %s estas nuligita."
 #: server/cityturn.c:3168
 #, c-format
 msgid "%s has been struck by a plague! Population lost!"
-msgstr ""
+msgstr "%s estas batita de pesto! Enloĝantoj pereis!"
 
 #. TRANS: preserve leading space; this string will be appended to
 #. * another sentence
 #: server/cityturn.c:3236
 msgid " Unrest threatens to spread beyond the city."
-msgstr ""
+msgstr " Estas minaco ke la tumulto disvastiĝos ekster la urbo."
 
 #. TRANS: second %s is an optional extra sentence
 #: server/cityturn.c:3243
-#, fuzzy, c-format
+#, c-format
 msgid "Civil disorder in %s.%s"
-msgstr "Civitana ribelo en %s."
+msgstr "Tumulto en %s.%s"
 
 #. TRANS: second %s is an optional extra sentence
 #: server/cityturn.c:3248
-#, fuzzy, c-format
+#, c-format
 msgid "CIVIL DISORDER CONTINUES in %s.%s"
-msgstr "CIVITANA RIBELO PLUDAŬRAS en %s."
+msgstr "TUMULTO PLUDAŬRAS en %s.%s"
 
 #: server/cityturn.c:3254
 #, c-format
@@ -46895,7 +46894,7 @@ msgstr "%s estas translokitaj de %s al %s."
 #: server/unithand.c:3226
 #, c-format
 msgid "Recycled your %s to help the current production in %s."
-msgstr ""
+msgstr "Vi recikligis la unuon %s por helpi la nunan produktadon en %s."
 
 #: server/unithand.c:3265
 #, c-format
@@ -46981,7 +46980,7 @@ msgstr "Vi ne povas ataki sen militdeklari antaŭe."
 #: server/unithand.c:4231
 #, c-format
 msgid "%s can only move into your own zone of control."
-msgstr "%s povas nur movi en via influa areo."
+msgstr "%s povas nur movi en vian areon de influo."
 
 #: server/unithand.c:4244 server/unittools.c:2815 server/unittools.c:2845
 #, c-format
@@ -47007,31 +47006,29 @@ msgstr ""
 #. * remaining). You can reorder '4' and 'remaining' in the actual
 #. * format string.
 #: server/unithand.c:4447
-#, fuzzy
 msgid "remaining"
-msgstr "Rafinado"
+msgstr "restas"
 
 #. TRANS: Your Caravan helps build the Pyramids in Bergen (4
 #. * surplus). You can reorder '4' and 'surplus' in the actual
 #. * format string.
 #: server/unithand.c:4452
-#, fuzzy
 msgid "surplus"
-msgstr "Troo"
+msgstr "troas"
 
 #. TRANS: Your Caravan helps build the Pyramids in Bergen
 #. * (4 surplus).
 #: server/unithand.c:4461
-#, fuzzy, c-format
+#, c-format
 msgid "Your %s helps build the %s in %s (%d %s)."
-msgstr "Viaj %s helpis prepari la %sn en %s (troo je %d)."
+msgstr "Via %s helpas konstrui la %sn en %s (%d %s)."
 
 #. TRANS: Help building the Pyramids in Bergen received
 #. * from Persian Caravan (4 surplus).
 #: server/unithand.c:4479
 #, c-format
 msgid "Help building the %s in %s received from %s %s (%d %s)."
-msgstr ""
+msgstr "Helpo pri la konstruado de la %s en %s ricevis de %s %s (%d %s)."
 
 #: server/unithand.c:4534
 #, fuzzy, c-format
