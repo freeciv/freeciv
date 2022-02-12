@@ -358,11 +358,23 @@ int trade_base_between_cities(const struct city *pc1, const struct city *pc2)
 int trade_from_route(const struct city *pc1, const struct trade_route *route,
 		     int base)
 {
+  int val;
+
   if (route->dir == RDIR_TO) {
-    return base * route->goods->to_pct / 100;
+    val = base * route->goods->to_pct / 100;
+
+    if (route->goods->to_pct > 0) {
+      val = MAX(val, game.info.min_trade_route_val);
+    }
+  } else {
+    val = base * route->goods->from_pct / 100;
+
+    if (route->goods->from_pct > 0) {
+      val = MAX(val, game.info.min_trade_route_val);
+    }
   }
 
-  return base * route->goods->from_pct / 100;
+  return val;
 }
 
 /*********************************************************************//**

@@ -1892,6 +1892,10 @@ settings =
     "TeamIC",     400,   "Cancel",     "Both"
   }
 
+; Minimum trade a trade route produces, as long as the good has nonzero income
+; for the relevant direction (from_pct / to_pct)
+min_trade_route_val = 0
+
 ; When are goods for the trade route chosen.
 ; "Leaving" - Goods to carry are assigned to unit when it`s built, or it changes homecity
 ; "Arrival" - Goods are chosen when trade route is established, when unit arrives to destination

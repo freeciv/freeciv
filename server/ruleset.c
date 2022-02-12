@@ -7749,9 +7749,14 @@ static bool load_ruleset_game(struct section_file *file, bool act,
   }
 
   if (ok) {
-    const char *str = secfile_lookup_str_default(file,
-                                                 goods_selection_method_name(RS_DEFAULT_GOODS_SELECTION),
-                                                 "trade.goods_selection");
+    const char *str;
+
+    game.info.min_trade_route_val
+      = secfile_lookup_int_default(file, 0, "trade.min_trade_route_val");
+
+    str = secfile_lookup_str_default(file,
+                                     goods_selection_method_name(RS_DEFAULT_GOODS_SELECTION),
+                                     "trade.goods_selection");
 
     game.info.goods_selection = goods_selection_method_by_name(str, fc_strcasecmp);
 

@@ -1547,6 +1547,9 @@ static bool save_game_ruleset(const char *filename, const char *name)
     }
   }
 
+  save_default_int(sfile, game.info.min_trade_route_val,
+                   0, "trade.min_trade_route_val", NULL);
+
   if (game.info.goods_selection != RS_DEFAULT_GOODS_SELECTION) {
     secfile_insert_str(sfile, goods_selection_method_name(game.info.goods_selection),
                        "trade.goods_selection");
