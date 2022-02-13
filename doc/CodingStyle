@@ -30,6 +30,9 @@ but wars are fought over the silliest things ...
      macro that would use it. In that case it's ok to declare the variable
      inside the macro guarded block that is using it.
 
+- C99 Compound Literals are allowed in C code, and are encouraged for struct
+  and union values that are only used once.
+
 - Where variable is logically boolean, 'bool' type should be used even in
   C code. To make sure that the type is defined, include utility/support.h.
   In C code boolean values are uppercase macros 'TRUE' and 'FALSE'.
