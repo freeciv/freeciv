@@ -1,21 +1,22 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xml:space="preserve"
    width="450px"
    height="300px"
    viewBox="0 0 450 300"
    id="svg2"
    sodipodi:version="0.32"
-   inkscape:version="0.46"
-   sodipodi:docname="Flag_of_Kalmykia.svg"
-   inkscape:output_extension="org.inkscape.output.svg.inkscape"><metadata
+   inkscape:version="1.1.1 (3bf5ae0d25, 2021-09-20)"
+   sodipodi:docname="kalmykia.svg"
+   inkscape:output_extension="org.inkscape.output.svg.inkscape"
+   version="1.1"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/"><metadata
    id="metadata31"><rdf:RDF><cc:Work
        rdf:about=""><dc:format>image/svg+xml</dc:format><dc:type
          rdf:resource="http://purl.org/dc/dcmitype/StillImage" /></cc:Work></rdf:RDF></metadata><defs
@@ -26,8 +27,8 @@
      inkscape:vp_z="450 : 150 : 1"
      inkscape:persp3d-origin="225 : 100 : 1"
      id="perspective33" /></defs><sodipodi:namedview
-   inkscape:window-height="729"
-   inkscape:window-width="1280"
+   inkscape:window-height="451"
+   inkscape:window-width="831"
    inkscape:pageshadow="2"
    inkscape:pageopacity="0.0"
    guidetolerance="10.0"
@@ -38,12 +39,14 @@
    pagecolor="#ffffff"
    id="base"
    showgrid="false"
-   inkscape:zoom="0.28282563"
-   inkscape:cx="225"
-   inkscape:cy="226.92308"
-   inkscape:window-x="0"
-   inkscape:window-y="0"
-   inkscape:current-layer="svg2" />
+   inkscape:zoom="0.39997584"
+   inkscape:cx="225.01359"
+   inkscape:cy="180.01087"
+   inkscape:window-x="478"
+   inkscape:window-y="111"
+   inkscape:current-layer="svg2"
+   inkscape:pagecheckerboard="0"
+   inkscape:window-maximized="0" />
 <rect
    fill="#FFD000"
    width="450"
