@@ -3461,6 +3461,8 @@ void handle_ruleset_control(const struct packet_ruleset_control *packet)
   }
 
   tileset_ruleset_reset(tileset);
+
+  resend_desired_settable_options();
 }
 
 /************************************************************************//**
