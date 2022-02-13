@@ -2,20 +2,17 @@
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    width="1000"
    height="665"
    id="svg2"
    sodipodi:version="0.32"
-   inkscape:version="0.47 r22583"
+   inkscape:version="1.1.1 (3bf5ae0d25, 2021-09-20)"
    version="1.0"
-   sodipodi:docname="kashmir.svg">
+   sodipodi:docname="kashmir.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
   <defs
      id="defs4">
     <inkscape:perspective
@@ -34,17 +31,18 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.43386034"
-     inkscape:cx="670.99359"
-     inkscape:cy="240.35738"
+     inkscape:cx="493.24628"
+     inkscape:cy="339.97115"
      inkscape:document-units="px"
      inkscape:current-layer="layer4"
      inkscape:showpageshadow="false"
-     inkscape:window-width="1323"
-     inkscape:window-height="830"
-     inkscape:window-x="240"
-     inkscape:window-y="106"
+     inkscape:window-width="841"
+     inkscape:window-height="528"
+     inkscape:window-x="408"
+     inkscape:window-y="56"
      showgrid="false"
-     inkscape:window-maximized="0" />
+     inkscape:window-maximized="0"
+     inkscape:pagecheckerboard="0" />
   <g
      inkscape:groupmode="layer"
      id="layer3"
