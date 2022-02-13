@@ -1,6 +1,6 @@
-diff -Nurd lua-5.3/src/ldo.c lua-5.3/src/ldo.c
---- lua-5.3/src/ldo.c	2020-09-30 08:27:32.770988404 +0300
-+++ lua-5.3/src/ldo.c	2020-09-30 08:26:21.694346748 +0300
+diff -Nurd lua-5.3-orig/src/ldo.c lua-5.3/src/ldo.c
+--- lua-5.3-orig/src/ldo.c	2022-02-13 05:05:59.347540874 +0200
++++ lua-5.3/src/ldo.c	2022-02-13 05:06:25.747768025 +0200
 @@ -60,7 +60,7 @@
  	try { a } catch(...) { if ((c)->status == 0) (c)->status = -1; }
  #define luai_jmpbuf		int  /* dummy variable */
@@ -10,9 +10,20 @@ diff -Nurd lua-5.3/src/ldo.c lua-5.3/src/ldo.c
  
  /* in POSIX, try _longjmp/_setjmp (more efficient) */
  #define LUAI_THROW(L,c)		_longjmp((c)->b, 1)
-diff -Nurd lua-5.3/src/liolib.c lua-5.3/src/liolib.c
---- lua-5.3/src/liolib.c	2020-09-30 08:27:32.770988404 +0300
-+++ lua-5.3/src/liolib.c	2020-09-30 08:26:21.694346748 +0300
+@@ -127,9 +127,9 @@
+         lua_unlock(L);
+         g->panic(L);  /* call panic function (last chance to jump out) */
+       }
+-      abort();
+     }
+   }
++  abort();
+ }
+ 
+ 
+diff -Nurd lua-5.3-orig/src/liolib.c lua-5.3/src/liolib.c
+--- lua-5.3-orig/src/liolib.c	2022-02-13 05:05:59.347540874 +0200
++++ lua-5.3/src/liolib.c	2022-01-18 20:05:30.233063648 +0200
 @@ -54,7 +54,7 @@
  
  #if !defined(l_popen)		/* { */
@@ -31,9 +42,9 @@ diff -Nurd lua-5.3/src/liolib.c lua-5.3/src/liolib.c
  
  #include <sys/types.h>
  
-diff -Nurd lua-5.3/src/loslib.c lua-5.3/src/loslib.c
---- lua-5.3/src/loslib.c	2020-09-30 08:27:32.770988404 +0300
-+++ lua-5.3/src/loslib.c	2020-09-30 08:26:21.694346748 +0300
+diff -Nurd lua-5.3-orig/src/loslib.c lua-5.3/src/loslib.c
+--- lua-5.3-orig/src/loslib.c	2022-02-13 05:05:59.347540874 +0200
++++ lua-5.3/src/loslib.c	2022-01-18 20:05:30.233063648 +0200
 @@ -81,7 +81,7 @@
  ** where it uses gmtime_r/localtime_r
  */
@@ -52,10 +63,10 @@ diff -Nurd lua-5.3/src/loslib.c lua-5.3/src/loslib.c
  
  #include <unistd.h>
  
-diff -Nurd lua-5.3/src/lstring.c lua-5.3/src/lstring.c
---- lua-5.3/src/lstring.c	2020-09-30 08:27:07.934764097 +0300
-+++ lua-5.3/src/lstring.c	2020-09-30 08:26:21.694346748 +0300
-@@ -134,12 +134,14 @@
+diff -Nurd lua-5.3-orig/src/lstring.c lua-5.3/src/lstring.c
+--- lua-5.3-orig/src/lstring.c	2022-02-13 05:05:59.347540874 +0200
++++ lua-5.3/src/lstring.c	2022-01-18 20:05:30.233063648 +0200
+@@ -133,12 +133,14 @@
    TString *ts;
    GCObject *o;
    size_t totalsize;  /* total size of TString object */
@@ -71,9 +82,9 @@ diff -Nurd lua-5.3/src/lstring.c lua-5.3/src/lstring.c
    return ts;
  }
  
-diff -Nurd lua-5.3/src/luaconf.h lua-5.3/src/luaconf.h
---- lua-5.3/src/luaconf.h	2020-09-30 08:27:32.770988404 +0300
-+++ lua-5.3/src/luaconf.h	2020-09-30 08:26:21.694346748 +0300
+diff -Nurd lua-5.3-orig/src/luaconf.h lua-5.3/src/luaconf.h
+--- lua-5.3-orig/src/luaconf.h	2022-02-13 05:05:59.347540874 +0200
++++ lua-5.3/src/luaconf.h	2022-01-18 20:05:30.233063648 +0200
 @@ -11,6 +11,7 @@
  #include <limits.h>
  #include <stddef.h>
