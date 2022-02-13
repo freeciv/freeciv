@@ -493,6 +493,7 @@ void desired_settable_options_update(void);
 void desired_settable_option_update(const char *op_name,
                                     const char *op_value,
                                     bool allow_replace);
+void resend_desired_settable_options(void);
 
 
 /** Dialog report options. **/

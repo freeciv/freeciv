@@ -4197,6 +4197,8 @@ void handle_server_setting_const
     psoption->is_visible = packet->is_visible;                              \
   }                                                                         \
                                                                             \
+  /* Keep this list of conditions in sync with one in                       \
+     resend_desired_settable_options() */                                   \
   if (!psoption->desired_sent                                               \
       && psoption->is_visible                                               \
       && psoption->is_changeable                                            \
@@ -5617,6 +5619,40 @@ static void desired_settable_option_send(struct option *poption)
   log_error("Option type %s (%d) not supported for '%s'.",
             option_type_name(option_type(poption)), option_type(poption),
             option_name(poption));
+}
+
+/****************************************************************************
+  Send the desired server options to the server, even if they have already
+  been sent in the past.
+****************************************************************************/
+void resend_desired_settable_options(void)
+{
+  if (is_server_running()) {
+    settable_options_hash_iterate(settable_options_hash, name, value) {
+      (void) value; /* Silence compiler warning about unused variable */
+      struct option *poption = optset_option_by_name(server_optset, name);
+
+      if (poption != NULL) {
+        struct server_option *psoption = SERVER_OPTION(poption);
+
+        /* We only sent the option if it has been sent already in the past.
+         * Otherwise we leave it for that "initial" sending functionality
+         * to send it. That has the benefit that the initial send (can) check
+         * that server is not currently using value from the savegame that
+         * we should not override */
+        if (psoption->desired_sent) {
+          /* Keep this list of conditions in sync with one in
+           * handle_server_setting_common()
+           * For lacking initial_setting check here, see comment above about
+           * checking psoption->desired_sent. */
+          if (psoption->is_visible
+              && psoption->is_changeable) {
+            desired_settable_option_send(OPTION(poption));
+          }
+        }
+      }
+    } settable_options_hash_iterate_end;
+  }
 }
 
 
