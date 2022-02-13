@@ -1,6 +1,6 @@
 diff -Nurd lua-5.4/src/ldo.c lua-5.4/src/ldo.c
---- lua-5.4/src/ldo.c	2021-04-03 09:20:29.638531774 +0300
-+++ lua-5.4/src/ldo.c	2021-04-03 09:18:54.445608290 +0300
+--- lua-5.4/src/ldo.c	2022-02-13 05:02:12.401587054 +0200
++++ lua-5.4/src/ldo.c	2022-02-13 05:01:32.593244079 +0200
 @@ -60,7 +60,7 @@
  	try { a } catch(...) { if ((c)->status == 0) (c)->status = -1; }
  #define luai_jmpbuf		int  /* dummy variable */
@@ -10,9 +10,20 @@ diff -Nurd lua-5.4/src/ldo.c lua-5.4/src/ldo.c
  
  /* in POSIX, try _longjmp/_setjmp (more efficient) */
  #define LUAI_THROW(L,c)		_longjmp((c)->b, 1)
+@@ -129,9 +129,9 @@
+         lua_unlock(L);
+         g->panic(L);  /* call panic function (last chance to jump out) */
+       }
+-      abort();
+     }
+   }
++  abort();
+ }
+ 
+ 
 diff -Nurd lua-5.4/src/liolib.c lua-5.4/src/liolib.c
---- lua-5.4/src/liolib.c	2021-04-03 09:20:29.638531774 +0300
-+++ lua-5.4/src/liolib.c	2021-04-03 09:18:54.445608290 +0300
+--- lua-5.4/src/liolib.c	2022-02-13 05:02:12.401587054 +0200
++++ lua-5.4/src/liolib.c	2021-12-06 10:18:06.830371220 +0200
 @@ -54,7 +54,7 @@
  
  #if !defined(l_popen)		/* { */
@@ -32,8 +43,8 @@ diff -Nurd lua-5.4/src/liolib.c lua-5.4/src/liolib.c
  #include <sys/types.h>
  
 diff -Nurd lua-5.4/src/loslib.c lua-5.4/src/loslib.c
---- lua-5.4/src/loslib.c	2021-04-03 09:20:29.638531774 +0300
-+++ lua-5.4/src/loslib.c	2021-04-03 09:18:54.445608290 +0300
+--- lua-5.4/src/loslib.c	2022-02-13 05:02:12.401587054 +0200
++++ lua-5.4/src/loslib.c	2021-12-06 10:18:06.834371251 +0200
 @@ -83,7 +83,7 @@
  ** where it uses gmtime_r/localtime_r
  */
@@ -53,8 +64,8 @@ diff -Nurd lua-5.4/src/loslib.c lua-5.4/src/loslib.c
  #include <unistd.h>
  
 diff -Nurd lua-5.4/src/luaconf.h lua-5.4/src/luaconf.h
---- lua-5.4/src/luaconf.h	2021-04-03 09:20:29.638531774 +0300
-+++ lua-5.4/src/luaconf.h	2021-04-03 09:18:56.217625481 +0300
+--- lua-5.4/src/luaconf.h	2022-02-13 05:02:12.401587054 +0200
++++ lua-5.4/src/luaconf.h	2022-02-07 17:09:48.332823144 +0200
 @@ -11,6 +11,7 @@
  #include <limits.h>
  #include <stddef.h>

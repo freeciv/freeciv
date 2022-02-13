@@ -129,9 +129,9 @@ l_noret luaD_throw (lua_State *L, int errcode) {
         lua_unlock(L);
         g->panic(L);  /* call panic function (last chance to jump out) */
       }
-      abort();
     }
   }
+  abort();
 }
 
 
