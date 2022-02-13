@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    width="600"
    height="400"
    viewBox="0 0 480 320"
    version="1.1"
    id="svg2837"
-   inkscape:version="0.47 r22583"
-   sodipodi:docname="karen.svg">
+   inkscape:version="1.1.1 (3bf5ae0d25, 2021-09-20)"
+   sodipodi:docname="karen.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
   <metadata
      id="metadata2863">
     <rdf:RDF>
@@ -34,19 +34,20 @@
      guidetolerance="10"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:window-width="978"
-     inkscape:window-height="842"
+     inkscape:window-width="1309"
+     inkscape:window-height="916"
      id="namedview2861"
      showgrid="false"
-     inkscape:zoom="6.5619394"
-     inkscape:cx="51.579031"
-     inkscape:cy="272.26915"
+     inkscape:zoom="1.6404849"
+     inkscape:cx="306.61667"
+     inkscape:cy="197.80737"
      inkscape:window-x="456"
      inkscape:window-y="35"
      inkscape:window-maximized="0"
      inkscape:current-layer="svg2837"
      showguides="true"
-     inkscape:guide-bbox="true" />
+     inkscape:guide-bbox="true"
+     inkscape:pagecheckerboard="0" />
   <defs
      id="defs2839">
     <inkscape:perspective
