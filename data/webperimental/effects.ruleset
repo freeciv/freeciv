@@ -2218,7 +2218,7 @@ reqs    =
     { "type", "name", "range"
       "Tech", "Flight", "Player"
     }
-    
+
 [effect_railroad_trade_revenue_reduce]
 type    = "Trade_Revenue_Bonus"
 value   = -585

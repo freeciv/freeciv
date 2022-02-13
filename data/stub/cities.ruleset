@@ -6,7 +6,7 @@ description = "<modpack> cities data for Freeciv"
 options = "+Freeciv-ruleset-3.2-Devel-2022.Feb.02"
 format_version = 30
 
-; /* <-- avoid gettext warnings 
+; /* <-- avoid gettext warnings
 ;
 ; A specialist is a city citizen who is not a tile worker.  Usually the
 ; player can control what specialist each citizen is, so long as the

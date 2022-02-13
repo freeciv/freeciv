@@ -52,7 +52,7 @@ value   = 1
 [effect_tech_cost_base]
 type    = "Tech_Cost_Factor"
 value   = 1
-  	 
+
 ; Cities can always work tiles
 [effect_tile_workable]
 type    = "Tile_Workable"

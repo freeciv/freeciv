@@ -2227,11 +2227,11 @@ reqs    =
     }
 
 [effect_tithes_fundamentalism]
-type    = "Happiness_To_Gold" 
-value   = 1 
-reqs    = 
-    { "type", "name", "range" 
-      "Gov", "Fundamentalism", "Player" 
+type    = "Happiness_To_Gold"
+value   = 1
+reqs    =
+    { "type", "name", "range"
+      "Gov", "Fundamentalism", "Player"
     }
 
 [effect_max_rates_fundamentalism]

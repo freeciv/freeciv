@@ -440,7 +440,7 @@ flags         = "Unreachable", "DoesntOccupyTile", "CanPillage",
 ; "Explorer"              = unit to use for exploring
 ; "Hut"                   = can be found in a hut
 ; "HutTech"               = can be found in a hut, but its techs required
-; "Partisan"              = can be created as a partisan (only one unit can have this 
+; "Partisan"              = can be created as a partisan (only one unit can have this
 ;                           flag), see end of this file for its tech requirements option
 ; "DefendOk"              = AI hint: ok for defending with
 ; "DefendGood"            = AI hint: good for defending with
@@ -2547,7 +2547,7 @@ uk_happy      = 0
 uk_shield     = 0
 uk_food       = 0
 uk_gold       = 0
-flags         = "IgZOC", "NonMil", "NoBuild", "NoHome", "SuperSpy", 
+flags         = "IgZOC", "NonMil", "NoBuild", "NoHome", "SuperSpy",
                 "EvacuateFirst", "Unbribable", "GameLoss", "Unique",
                 "Provoking"
 ; No veteran levels (level name is never displayed)

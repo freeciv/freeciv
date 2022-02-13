@@ -205,10 +205,10 @@ illness_trade_infection = 50
 illness_pollution_factor = 50
 
 [incite_cost]
-; city_incite_cost = 
+; city_incite_cost =
 ; total_factor * (city_size) *
-; (base_incite_cost + (units_cost) * unit_factor + 
-;   (improvements_cost) * improvement_factor) 
+; (base_incite_cost + (units_cost) * unit_factor +
+;   (improvements_cost) * improvement_factor)
 ;  / (distance * 100)
 ; See city_incite_cost() for more details
 base_incite_cost = 100000

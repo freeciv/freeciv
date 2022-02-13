@@ -1764,9 +1764,9 @@ reqs    =
     }
 
 [effect_tithes_fundamentalism]
-type    = "Happiness_To_Gold" 
-value   = 1 
-reqs    = 
+type    = "Happiness_To_Gold"
+value   = 1
+reqs    =
     { "type", "name", "range", "quiet"
       "Gov", "Fundamentalism", "Player", TRUE
     }
@@ -3937,7 +3937,7 @@ reqs	=
     { "type", "name", "range"
       "Building", "Women's Suffrage", "City"
     }
-;pow(2, value/1000) -> Base = 50% 
+;pow(2, value/1000) -> Base = 50%
 [effect_base_trade_revenue_reduce]
 type    = "Trade_Revenue_Bonus"
 value   = -1000

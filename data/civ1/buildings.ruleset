@@ -1217,8 +1217,8 @@ Allows you to choose any government, including those that have not yet\
  been researched by your civilization, and without the transition\
  period of Anarchy.\
 ")
-; NOTE: 
-; This does not match Civ1 or Civ2, but diplomatic effects are 
+; NOTE:
+; This does not match Civ1 or Civ2, but diplomatic effects are
 ; not very effective in multiplayer, and hitpoints effects do not
 ; apply for Civ1.  Note in Civ1 Pyramids have a gov-change effect,
 ; but become obsolete, and the Statue of Liberty does not exist.

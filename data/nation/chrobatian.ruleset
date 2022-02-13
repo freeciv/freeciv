@@ -42,8 +42,8 @@ civilwar_nations = "czech", "vistulan", "silesian", "moravian"
 
 cities =
  "Libice nad Cidlinou",
- "Krakov",              ;Kraków	
- "Kouřim",	
+ "Krakov",              ;Kraków
+ "Kouřim",
  "Svidnice",            ;Świdnica
  "Kladsko",             ;Kłodzko
  "Tĕšin",               ;Cieszyn
