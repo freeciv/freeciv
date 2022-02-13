@@ -1727,9 +1727,13 @@ static bool save_game_ruleset(const char *filename, const char *name)
                            "settings.set%d.value", set_count);
         break;
       case SST_ENUM:
-        secfile_insert_enum_data(sfile, read_enum_value(pset), FALSE,
-                                 setting_enum_secfile_str, pset,
-                                 "settings.set%d.value", set_count);
+        {
+          struct sf_cb_data info = { pset, FALSE };
+
+          secfile_insert_enum_data(sfile, read_enum_value(pset), FALSE,
+                                   setting_enum_secfile_str, &info,
+                                   "settings.set%d.value", set_count);
+        }
         break;
       case SST_BITWISE:
         secfile_insert_enum_data(sfile, setting_bitwise_get(pset), TRUE,

@@ -182,7 +182,8 @@ static struct {
 } setting_sorted = { .init = FALSE };
 
 static bool setting_ruleset_one(struct section_file *file,
-                                const char *name, const char *path);
+                                const char *name, const char *path,
+                                bool compat);
 static void setting_game_set(struct setting *pset, bool init);
 static void setting_game_free(struct setting *pset);
 static void setting_game_restore(struct setting *pset);
@@ -3659,8 +3660,19 @@ char *setting_str_get(struct setting *pset)
 ****************************************************************************/
 const char *setting_enum_secfile_str(secfile_data_t data, int val)
 {
-  const struct sset_val_name *name =
-      ((const struct setting *) data)->enumerator.name(val);
+  struct sf_cb_data *info = (struct sf_cb_data *)data;
+  const struct sset_val_name *name;
+
+  name = info->set->enumerator.name(val);
+
+  if (info->compat && name != NULL) {
+    const char *ret = setcompat_current_val_from_previous(info->set,
+                                                          name->support);
+
+    if (ret != NULL) {
+      return ret;
+    }
+  }
 
   return (NULL != name ? name->support : NULL);
 }
@@ -4172,7 +4184,7 @@ bool settings_ruleset(struct section_file *file, const char *section,
         name = setcompat_current_name_from_previous(name);
       }
 
-      if (!setting_ruleset_one(file, name, path)) {
+      if (!setting_ruleset_one(file, name, path, compat)) {
         log_error("unknown setting in '%s': %s", secfile_name(file), name);
       }
     }
@@ -4198,7 +4210,8 @@ bool settings_ruleset(struct section_file *file, const char *section,
   Set one setting from the game.ruleset file.
 ****************************************************************************/
 static bool setting_ruleset_one(struct section_file *file,
-                                const char *name, const char *path)
+                                const char *name, const char *path,
+                                bool compat)
 {
   struct setting *pset = NULL;
   char reject_msg[256], buf[256];
@@ -4291,9 +4304,10 @@ static bool setting_ruleset_one(struct section_file *file,
   case SST_ENUM:
     {
       int val;
+      struct sf_cb_data info = { pset, compat };
 
       if (!secfile_lookup_enum_data(file, &val, FALSE,
-                                    setting_enum_secfile_str, pset,
+                                    setting_enum_secfile_str, &info,
                                     "%s.value", path)) {
         log_error("Can't read value for setting '%s': %s",
                   name, secfile_error());
@@ -4560,12 +4574,16 @@ void settings_game_save(struct section_file *file, const char *section)
                            "%s.set%d.gamestart", section, set_count);
         break;
       case SST_ENUM:
-        secfile_insert_enum_data(file, read_enum_value(pset), FALSE,
-                                 setting_enum_secfile_str, pset,
-                                 "%s.set%d.value", section, set_count);
-        secfile_insert_enum_data(file, pset->enumerator.game_value, FALSE,
-                                 setting_enum_secfile_str, pset,
-                                 "%s.set%d.gamestart", section, set_count);
+        {
+          struct sf_cb_data info = { pset, FALSE };
+
+          secfile_insert_enum_data(file, read_enum_value(pset), FALSE,
+                                   setting_enum_secfile_str, &info,
+                                   "%s.set%d.value", section, set_count);
+          secfile_insert_enum_data(file, pset->enumerator.game_value, FALSE,
+                                   setting_enum_secfile_str, &info,
+                                   "%s.set%d.gamestart", section, set_count);
+        }
         break;
       case SST_BITWISE:
         secfile_insert_enum_data(file, *pset->bitwise.pvalue, TRUE,
@@ -4725,9 +4743,10 @@ void settings_game_load(struct section_file *file, const char *section)
       case SST_ENUM:
         {
           int val;
+          struct sf_cb_data info = { pset, FALSE };
 
           if (!secfile_lookup_enum_data(file, &val, FALSE,
-                                        setting_enum_secfile_str, pset,
+                                        setting_enum_secfile_str, &info,
                                         "%s.set%d.value", section, i)) {
             log_verbose("Option '%s' not defined in the savegame: %s", name,
                         secfile_error());
@@ -4821,10 +4840,14 @@ void settings_game_load(struct section_file *file, const char *section)
           break;
 
         case SST_ENUM:
-          pset->enumerator.game_value =
+          {
+            struct sf_cb_data info = { pset, FALSE };
+
+            pset->enumerator.game_value =
               secfile_lookup_enum_default_data(file,
                   read_enum_value(pset), FALSE, setting_enum_secfile_str,
-                  pset, "%s.set%d.gamestart", section, i);
+                  &info, "%s.set%d.gamestart", section, i);
+          }
           break;
 
         case SST_BITWISE:

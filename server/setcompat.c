@@ -21,6 +21,9 @@
 /* utility */
 #include "support.h"
 
+/* server */
+#include "settings.h"
+
 #include "setcompat.h"
 
 struct set_name_compat {
@@ -59,4 +62,26 @@ static const char *setcompat_name_generic(const char *old_name,
 const char *setcompat_S3_2_name_from_S3_1(const char *old_name)
 {
   return setcompat_name_generic(old_name, set_name_compat_S3_1_to_S3_2);
+}
+
+/**********************************************************************//**
+  Find a 3.2 value of the setting with the given 3.1 value.
+**************************************************************************/
+const char *setcompat_S3_2_val_from_S3_1(struct setting *pset,
+                                         const char *val)
+{
+  if (!fc_strcasecmp("compresstype", setting_name(pset))
+      && !fc_strcasecmp("BZIP2", val)) {
+#ifdef FREECIV_HAVE_LIBZSTD
+    return "ZSTD";
+#elif FREECIV_HAVE_LIBLZMA
+    return "XZ";
+#elif FREECIV_HAVE_LIBZ
+    return "LIBZ";
+#else
+    return "PLAIN";
+#endif
+  }
+
+  return NULL;
 }

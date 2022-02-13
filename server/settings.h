@@ -76,6 +76,11 @@ struct sset_val_name {
 /* forward declaration */
 struct setting;
 
+struct sf_cb_data {
+  struct setting *set;
+  bool compat;
+};
+
 struct setting *setting_by_number(int id);
 struct setting *setting_by_name(const char *name);
 int setting_number(const struct setting *pset);

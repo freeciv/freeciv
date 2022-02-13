@@ -19,8 +19,15 @@ extern "C" {
 
 #define setcompat_current_name_from_previous(_old_name_) \
   setcompat_S3_2_name_from_S3_1(_old_name_)
+#define setcompat_current_val_from_previous(_set_, _old_val_) \
+  setcompat_S3_2_val_from_S3_1(_set_, _old_val_)
+
+struct setting;
 
 const char *setcompat_S3_2_name_from_S3_1(const char *old_name);
+
+const char *setcompat_S3_2_val_from_S3_1(struct setting *pset,
+                                         const char *val);
 
 #ifdef __cplusplus
 }
