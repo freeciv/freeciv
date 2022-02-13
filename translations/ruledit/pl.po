@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: Freeciv (ruledit) S3_0\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
 "POT-Creation-Date: 2022-01-14 17:36+0200\n"
-"PO-Revision-Date: 2022-01-29 09:13+0100\n"
+"PO-Revision-Date: 2022-01-29 18:23+0100\n"
 "Last-Translator: Hubert Kowalewski <hubkow@users.sourceforge.net>\n"
 "Language-Team: hubkow@users.sourceforge.net\n"
 "Language: pl\n"
@@ -68,22 +68,18 @@ msgid "Requirements"
 msgstr "Wymagania"
 
 #: tools/ruledit/effect_edit.cpp:103
-#, fuzzy
-#| msgid "Effect"
 msgid "Add Effect"
-msgstr "Efekt"
+msgstr "Dodaj efekt"
 
 #: tools/ruledit/effect_edit.cpp:107
-#, fuzzy
-#| msgid "Effect"
 msgid "Delete Effect"
-msgstr "Efekt"
+msgstr "Usuń efekt"
 
 #: tools/ruledit/effect_edit.cpp:184
-#, fuzzy, c-format
+#, c-format
 #| msgid "Effect"
 msgid "Effect #%d: %s"
-msgstr "Efekt"
+msgstr "Efekt #%d: %s"
 
 #: tools/ruledit/effect_edit.cpp:280
 #, c-format
@@ -169,10 +165,9 @@ msgstr "Wymagane przez %s"
 #. TRANS: 'Failed to load comments-x.y.txt' where x.y is
 #. * freeciv version
 #: tools/ruledit/ruledit.cpp:121
-#, fuzzy, c-format
-#| msgid "Failed to load comments.txt"
+#, c-format
 msgid "Failed to load %s."
-msgstr "Nie udało się wczytać comments.txt"
+msgstr "Nie udało się wczytać %s."
 
 #: tools/ruledit/ruledit.cpp:157
 msgid "Print a summary of the options"
@@ -227,17 +222,15 @@ msgid "built in Qt5 mode."
 msgstr ""
 
 #: tools/ruledit/ruledit_qt.cpp:136
-#, fuzzy, c-format
-#| msgid ""
-#| "%s%s\n"
-#| "commit: %s"
+#, c-format
 msgid ""
 "%s%s\n"
 "commit: %s\n"
 "%s"
 msgstr ""
 "%s%s\n"
-"łatka: %s"
+"łatka: %s\n"
+"%s"
 
 #: tools/ruledit/ruledit_qt.cpp:147
 msgid "Give ruleset to use as starting point."
@@ -284,10 +277,8 @@ msgid "Terrains"
 msgstr "Tereny"
 
 #: tools/ruledit/ruledit_qt.cpp:187
-#, fuzzy
-#| msgid "?stat:Multipliers"
 msgid "Multipliers"
-msgstr "?stat:Mnożniki"
+msgstr "Mnożniki"
 
 #: tools/ruledit/ruledit_qt.cpp:189
 msgid "Nations"
@@ -339,10 +330,8 @@ msgstr "Edytuj wartości"
 #: tools/ruledit/tab_good.cpp:89 tools/ruledit/tab_gov.cpp:88
 #: tools/ruledit/tab_tech.cpp:109 tools/ruledit/tab_terrains.cpp:84
 #: tools/ruledit/tab_unit.cpp:89
-#, fuzzy
-#| msgid "Effect"
 msgid "Effects"
-msgstr "Efekt"
+msgstr "Efekty"
 
 #: tools/ruledit/tab_building.cpp:98
 msgid "Add Building"
@@ -481,13 +470,11 @@ msgstr "Plik opisu"
 
 #: tools/ruledit/tab_misc.cpp:138
 msgid "Always active Effects"
-msgstr ""
+msgstr "Zawsze aktywne efekty"
 
 #: tools/ruledit/tab_misc.cpp:141
-#, fuzzy
-#| msgid "Effect"
 msgid "All Effects"
-msgstr "Efekt"
+msgstr "Wszystkie efekty"
 
 #: tools/ruledit/tab_misc.cpp:148
 msgid "?stat:Terrains"
@@ -575,29 +562,23 @@ msgstr "Zapisano zestaw zasad"
 
 #: tools/ruledit/tab_misc.cpp:438
 msgid "Always active"
-msgstr ""
+msgstr "Zawsze aktywne"
 
 #: tools/ruledit/tab_misc.cpp:447
 msgid "All effects"
-msgstr ""
+msgstr "Wszystkie efekty"
 
 #: tools/ruledit/tab_multiplier.cpp:88
-#, fuzzy
-#| msgid "?stat:Multipliers"
 msgid "Add Multiplier"
-msgstr "?stat:Mnożniki"
+msgstr "Dodaj mnożnik"
 
 #: tools/ruledit/tab_multiplier.cpp:93
-#, fuzzy
-#| msgid "Remove this Building"
 msgid "Remove this Multiplier"
-msgstr "Usuń ten budynek"
+msgstr "Usuń ten mnożnik"
 
 #: tools/ruledit/tab_multiplier.cpp:178
-#, fuzzy
-#| msgid "A building with that rule name already exists!"
 msgid "A multiplier with that rule name already exists!"
-msgstr "Budynek o tej nazwie reguły już istnieje!"
+msgstr "Mnożnik z tą zasadą już istnieje!"
 
 #: tools/ruledit/tab_nation.cpp:50
 msgid "Use nationlist"
