@@ -559,6 +559,24 @@ tolua_signal = custom_target('tolua_signal',
                                        '-H', '@OUTPUT1@',
                                        files('common/scriptcore/tolua_signal.pkg')])
 
+if host_system == 'windows'
+  windres_cmd = find_program('x86_64-w64-mingw32-windres', 'windres')
+  windres = generator(windres_cmd,
+                      arguments: ['-I', '@SRC_DIR@/windows',
+                                  '-i', '@INPUT@',
+                                  '-o', '@OUTPUT@'],
+                      output: '@BASENAME@.o')
+  clienticon = windres.process('windows/clienticon.rc')
+  mpicon = windres.process('windows/mpicon.rc')
+  rulediticon = windres.process('windows/rulediticon.rc')
+  servericon = windres.process('windows/servericon.rc')
+else
+  clienticon = []
+  mpicon = []
+  rulediticon = []
+  servericon = []
+endif
+
 common_lib = library('freeciv',
   'utility/astring.c',
   'utility/bitvector.c',
@@ -798,6 +816,7 @@ server_lib = static_library('fc_server',
 
 executable(server_binary_name,
   'server/civserver.c',
+  servericon,
   include_directories: server_inc,
   link_with: [server_lib, common_lib, ais],
   dependencies: [m_dep, net_dep, readline_dep, gettext_dep],
@@ -2429,6 +2448,7 @@ executable('freeciv-gtk3.22',
   'client/gui-gtk-3.22/unitselunitdlg.c',
   'client/gui-gtk-3.22/voteinfo_bar.c',
   'client/gui-gtk-3.22/wldlg.c',
+  clienticon,
   c_args: [ '-DGDK_VERSION_MIN_REQUIRED=GDK_VERSION_3_20',
             '-DGDK_VERSION_MAX_ALLOWED=GDK_VERSION_3_22',
             '-DGLIB_VERSION_MIN_REQUIRED=GLIB_VERSION_2_50',
@@ -2524,7 +2544,7 @@ executable('freeciv-qt',
   'client/gui-qt/voteinfo_bar.cpp',
   'client/gui-qt/wldlg.cpp',
   'client/gui_interface.c',
-  mocced_client,
+  mocced_client, clienticon,
   include_directories: [client_inc, include_directories('client/gui-qt')],
   dependencies: [qt5_dep, net_dep, gettext_dep],
   link_with: client_common,
@@ -2732,6 +2752,7 @@ executable('freeciv-sdl2',
   'client/gui-sdl2/widget_scrollbar.c',
   'client/gui-sdl2/widget_window.c',
   'client/gui-sdl2/wldlg.c',
+  clienticon,
   include_directories: client_inc,
   dependencies: [c_compiler.find_library('libSDL2', dirs: cross_lib_path),
                  c_compiler.find_library('libSDL2_mixer', dirs: cross_lib_path),
@@ -2804,6 +2825,7 @@ endif
 
 executable('freeciv-mp-gtk3',
   'tools/fcmp/mpgui_gtk3.c',
+  mpicon,
   c_args: [ '-DGDK_VERSION_MIN_REQUIRED=GDK_VERSION_3_20',
             '-DGDK_VERSION_MAX_ALLOWED=GDK_VERSION_3_22',
             '-DGLIB_VERSION_MIN_REQUIRED=GLIB_VERSION_2_50',
@@ -2825,6 +2847,7 @@ endif
 
 executable('freeciv-mp-gtk4',
   'tools/fcmp/mpgui_gtk4.c',
+  mpicon,
   c_args: [ '-DGDK_VERSION_MIN_REQUIRED=GDK_VERSION_4_0',
             '-DGDK_VERSION_MAX_ALLOWED=GDK_VERSION_4_0',
             '-DGLIB_VERSION_MIN_REQUIRED=GLIB_VERSION_2_66',
@@ -2852,7 +2875,7 @@ mocced_fcmp = qt5_mod.preprocess(
 executable('freeciv-mp-qt',
   'tools/fcmp/mpgui_qt.cpp',
   'tools/fcmp/mpgui_qt_worker.cpp',
-  mocced_fcmp,
+  mocced_fcmp, mpicon,
   include_directories: tool_inc,
   dependencies: [qt5_dep, sqlite3_dep, gettext_dep],
   link_with: [common_lib, fcmp_common],
@@ -2865,6 +2888,7 @@ if get_option('fcmp').contains('cli')
 
 executable('freeciv-mp-cli',
   'tools/fcmp/mpcli.c',
+  mpicon,
   include_directories: tool_inc,
   dependencies: [sqlite3_dep, gettext_dep],
   link_with: [common_lib, fcmp_common],
@@ -2940,7 +2964,7 @@ executable('freeciv-ruledit',
   'tools/ruledit/tab_unit.cpp',
   'tools/ruledit/univ_value.c',
   'tools/ruledit/validity.c',
-  mocced_ruledit,
+  mocced_ruledit, rulediticon,
   include_directories: tool_inc,
   dependencies: [qt5_dep, m_dep, net_dep, readline_dep, gettext_dep],
   link_with: [common_lib, server_lib, ais, tool_lib],
