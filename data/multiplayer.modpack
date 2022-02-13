@@ -9,4 +9,4 @@ name = "multiplayer"
 ruleset = TRUE
 
 [ruleset]
-serv = "multiplayer.serv"
+rulesetdir = "multiplayer"

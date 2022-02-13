@@ -9,4 +9,4 @@ name = "civ1"
 ruleset = TRUE
 
 [ruleset]
-serv = "civ1.serv"
+rulesetdir = "civ1"

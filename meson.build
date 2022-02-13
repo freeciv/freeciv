@@ -3034,7 +3034,6 @@ ruleset_files = [
 
 foreach rs : rulesets
   install_data(
-    join_paths('data', rs + '.serv'),
     join_paths('data', rs + '.modpack'),
     install_dir : join_paths(get_option('datadir'), 'freeciv')
     )
@@ -3045,6 +3044,11 @@ foreach rs : rulesets
       )
   endforeach
 endforeach
+
+install_data(
+  'data/stub.serv',
+  install_dir : join_paths(get_option('datadir'), 'freeciv')
+  )
 
 install_data(
   'data/civ2civ3/README.civ2civ3',

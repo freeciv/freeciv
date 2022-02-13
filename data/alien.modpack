@@ -9,4 +9,4 @@ name = "alien"
 ruleset = TRUE
 
 [ruleset]
-serv = "alien.serv"
+rulesetdir = "alien"

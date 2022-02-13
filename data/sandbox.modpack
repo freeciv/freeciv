@@ -9,4 +9,4 @@ name = "sandbox"
 ruleset = TRUE
 
 [ruleset]
-serv = "sandbox.serv"
+rulesetdir = "sandbox"

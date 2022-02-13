@@ -29,19 +29,12 @@ endif
 
 SRV_RE_FILES = \
 	civ1.modpack \
-	civ1.serv \
 	civ2.modpack \
-	civ2.serv \
 	classic.modpack \
-	classic.serv \
 	default.serv \
 	multiplayer.modpack \
-	multiplayer.serv \
 	alien.modpack \
-	alien.serv \
-	civ2civ3.modpack \
-	civ2civ3.serv \
-	sandbox.serv
+	civ2civ3.modpack
 
 if SERVER
 SERVER_FILES = $(SRV_RE_FILES)

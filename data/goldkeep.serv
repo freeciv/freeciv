@@ -1,3 +1,0 @@
-# Server commands to start with an goldkeep ruleset
-# Use this as, eg, "./fcser -r data/goldkeep.serv"
-rulesetdir goldkeep

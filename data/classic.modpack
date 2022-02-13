@@ -9,4 +9,4 @@ name = "classic"
 ruleset = TRUE
 
 [ruleset]
-serv = "classic.serv"
+rulesetdir = "classic"

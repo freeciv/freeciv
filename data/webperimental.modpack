@@ -9,4 +9,4 @@ name = "webperimental"
 ruleset = TRUE
 
 [ruleset]
-serv = "webperimental.serv"
+rulesetdir = "webperimental"

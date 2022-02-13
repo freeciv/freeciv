@@ -9,4 +9,4 @@ name = "goldkeep"
 ruleset = TRUE
 
 [ruleset]
-serv = "goldkeep.serv"
+rulesetdir = "goldkeep"
