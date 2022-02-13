@@ -75,6 +75,26 @@ AC_DEFUN([FC_C99_INITIALIZERS],
   fi
 ])
 
+# Check C99-style compound literals (required):
+#
+AC_DEFUN([FC_C99_COMPOUND_LITERALS],
+[
+  dnl Check for C99 compound literals
+  AC_CACHE_CHECK([for C99 compound literals],
+    [ac_cv_c99_compound_literals],
+    [AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[struct foo {
+           int a; char *b; float c; };
+           void foobar(struct foo *);
+         ]],
+         [[struct foo bar;
+           bar = (struct foo) {.b = "text", .c = 0.1 };
+           foobar(&bar);]])], [ac_cv_c99_compound_literals=yes],
+          [ac_cv_c99_compound_literals=no])])
+  if test "${ac_cv_c99_compound_literals}" != "yes"; then
+    AC_MSG_ERROR([A compiler supporting C99 compound literals is required])
+  fi
+])
+
 # Check C99-style stdint.h (required)
 AC_DEFUN([FC_C99_STDINT_H],
 [
