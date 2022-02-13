@@ -108,7 +108,7 @@ cd meson-build-${SETUP}-${GUI}
 export PKG_CONFIG_PATH=${DLLSPATH}/lib/pkgconfig
 
 if ! meson --cross-file=cross.txt -Dprefix=$MESON_INSTALL_DIR -Dclients=$CLIENT -Dfcmp=$FCMP \
-           ${NLS} -Dsyslua=false -Daudio=false \
+           ${NLS} -Dsyslua=false \
            ../../.. $EXTRA_CONFIG ; then
   echo "Meson run failed!" >&2
   exit 1
