@@ -1111,9 +1111,9 @@ static int env_close (lua_State *L)
 	env->closed = 1;
 	ret = SQLFreeHandle (hENV, env->henv);
 	if (error(ret)) {
-		int ret = fail(L, hENV, env->henv);
+		int ret2 = fail(L, hENV, env->henv);
 		env->henv = NULL;
-		return ret;
+		return ret2;
 	}
 	return pass(L);
 }
