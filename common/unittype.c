@@ -1469,12 +1469,15 @@ int utype_pays_mp_for_action_estimate(const struct action *paction,
    * EFT_ACTION_SUCCESS_MOVE_COST depends on unit state. Add unit state
    * parameters? */
   mpco += get_target_bonus_effects(NULL,
-                                  act_player,
-                                  NULL,
-                                  tile_city(post_action_tile),
-                                  NULL, tgt_tile,
-                                  NULL, putype, NULL, NULL,
-                                  paction, EFT_ACTION_SUCCESS_MOVE_COST);
+                                   &(const struct req_context) {
+                                     .player = act_player,
+                                     .city = tile_city(post_action_tile),
+                                     .tile = tgt_tile,
+                                     .unittype = putype,
+                                     .action = paction,
+                                   },
+                                   NULL,
+                                   EFT_ACTION_SUCCESS_MOVE_COST);
 
   return mpco;
 }
@@ -2011,6 +2014,8 @@ bool utype_player_already_has_this(const struct player *pplayer,
 bool can_player_build_unit_direct(const struct player *p,
                                   const struct unit_type *punittype)
 {
+  const struct req_context context = { .player = p, .unittype = punittype };
+
   fc_assert_ret_val(NULL != punittype, FALSE);
 
   if (is_barbarian(p)
@@ -2074,9 +2079,7 @@ bool can_player_build_unit_direct(const struct player *p,
       /* The question *here* is if the *player* can build this unit */
       continue;
     }
-    if (!is_req_active(p, NULL,
-                       NULL, NULL, NULL, NULL, punittype, NULL, NULL, NULL,
-                       preq, RPT_CERTAIN)) {
+    if (!is_req_active(&context, NULL, preq, RPT_CERTAIN)) {
       return FALSE;
     }
   } requirement_vector_iterate_end;

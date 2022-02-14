@@ -275,8 +275,11 @@ int impr_estimate_build_shield_cost(const struct player *pplayer,
   int base = pimprove->build_cost
     * (100 +
        get_target_bonus_effects(NULL,
-                                pplayer, NULL, NULL, pimprove,
-                                ptile, NULL, NULL, NULL, NULL,
+                                &(const struct req_context) {
+                                  .player = pplayer,
+                                  .building = pimprove,
+                                  .tile = ptile,
+                                },
                                 NULL,
                                 EFT_IMPR_BUILD_COST_PCT)) / 100;
 
@@ -407,15 +410,15 @@ bool improvement_obsolete(const struct player *pplayer,
 			  const struct impr_type *pimprove,
                           const struct city *pcity)
 {
-  struct tile *ptile = NULL;
-
-  if (pcity != NULL) {
-    ptile = city_tile(pcity);
-  }
+  const struct req_context context = {
+    .player = pplayer,
+    .city = pcity,
+    .tile = pcity ? city_tile(pcity) : NULL,
+    .building = pimprove,
+  };
 
   requirement_vector_iterate(&pimprove->obsolete_by, preq) {
-    if (is_req_active(pplayer, NULL, pcity, pimprove, ptile, NULL, NULL,
-                      NULL, NULL, NULL, preq, RPT_CERTAIN)) {
+    if (is_req_active(&context, NULL, preq, RPT_CERTAIN)) {
       return TRUE;
     }
   } requirement_vector_iterate_end;
@@ -655,6 +658,8 @@ bool is_improvement_redundant(const struct city *pcity,
 bool can_player_build_improvement_direct(const struct player *p,
                                          const struct impr_type *pimprove)
 {
+  const struct req_context context = { .player = p };
+
   bool space_part = FALSE;
 
   if (!valid_improvement(pimprove)) {
@@ -663,8 +668,7 @@ bool can_player_build_improvement_direct(const struct player *p,
 
   requirement_vector_iterate(&pimprove->reqs, preq) {
     if (preq->range >= REQ_RANGE_PLAYER
-        && !is_req_active(p, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
-                          NULL, NULL, preq, RPT_CERTAIN)) {
+        && !is_req_active(&context, NULL, preq, RPT_CERTAIN)) {
       return FALSE;
     }
   } requirement_vector_iterate_end;
@@ -729,6 +733,8 @@ bool can_player_build_improvement_now(const struct player *p,
 bool can_player_build_improvement_later(const struct player *p,
                                         const struct impr_type *pimprove)
 {
+  const struct req_context context = { .player = p };
+
   if (!valid_improvement(pimprove)) {
     return FALSE;
   }
@@ -744,9 +750,8 @@ bool can_player_build_improvement_later(const struct player *p,
    * they can never be met). */
   requirement_vector_iterate(&pimprove->reqs, preq) {
     if (preq->range >= REQ_RANGE_PLAYER
-	&& is_req_unchanging(preq)
-	&& !is_req_active(p, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
-                          NULL, NULL, preq, RPT_POSSIBLE)) {
+        && is_req_unchanging(preq)
+        && !is_req_active(&context, NULL, preq, RPT_POSSIBLE)) {
       return FALSE;
     }
   } requirement_vector_iterate_end;

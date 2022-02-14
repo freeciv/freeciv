@@ -1383,6 +1383,10 @@ bool can_unit_do_connect(struct unit *punit,
 {
   struct tile *ptile = unit_tile(punit);
   struct road_type *proad = NULL;
+  const struct req_context unit_ctxt = {
+    .unit = punit,
+    .unittype = unit_type_get(punit),
+  };
 
   /* HACK: This code duplicates that in
    * can_unit_do_activity_targeted_at(). The general logic here is that
@@ -1403,9 +1407,7 @@ bool can_unit_do_connect(struct unit *punit,
 
       if (tile_has_road(ptile, proad)) {
         /* This tile has road, can unit build road to other tiles too? */
-        return are_reqs_active(NULL, NULL, NULL, NULL, NULL,
-                               punit, unit_type_get(punit), NULL, NULL, NULL,
-                               &tgt->reqs, RPT_POSSIBLE);
+        return are_reqs_active(&unit_ctxt, NULL, &tgt->reqs, RPT_POSSIBLE);
       }
 
       /* To start connect, unit must be able to build road to this
@@ -1424,9 +1426,7 @@ bool can_unit_do_connect(struct unit *punit,
       return FALSE;
     }
     if (tile_has_extra(ptile, tgt)) {
-      return are_reqs_active(NULL, NULL, NULL, NULL, NULL,
-                             punit, unit_type_get(punit), NULL, NULL, NULL,
-                             &tgt->reqs, RPT_POSSIBLE);
+      return are_reqs_active(&unit_ctxt, NULL, &tgt->reqs, RPT_POSSIBLE);
     }
 
     return can_be_irrigated(ptile, punit)

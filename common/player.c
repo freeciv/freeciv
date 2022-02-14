@@ -1575,13 +1575,14 @@ enum casus_belli_range casus_belli_range_for(const struct player *offender,
    * gets a casus belli if CASUS_BELLI_OUTRAGE or above. */
   casus_belli_amount =
       get_target_bonus_effects(NULL,
-                               offender, tgt_plr,
-                               tile_city(tgt_tile),
-                               NULL,
-                               tgt_tile,
-                               NULL, off_ut,
-                               NULL, NULL,
-                               paction,
+                               &(const struct req_context) {
+                                 .player = offender,
+                                 .city = tile_city(tgt_tile),
+                                 .tile = tgt_tile,
+                                 .unittype = off_ut,
+                                 .action = paction,
+                               },
+                               tgt_plr,
                                outcome);
 
   if (casus_belli_amount >= CASUS_BELLI_OUTRAGE) {

@@ -714,6 +714,16 @@ int universal_number(const struct universal *source)
 
 
 /**********************************************************************//**
+  Returns a pointer to a statically-allocated, empty requirement context.
+**************************************************************************/
+const struct req_context *req_context_empty(void)
+{
+  static const struct req_context empty = {};
+  return &empty;
+}
+
+
+/**********************************************************************//**
   Returns the given requirement as a formatted string ready for printing.
   Does not care about the 'quiet' property.
 **************************************************************************/
@@ -3000,32 +3010,24 @@ is_achievement_in_range(const struct player *target_player,
 /**********************************************************************//**
   Checks the requirement to see if it is active on the given target.
 
-  target gives the type of the target
-  (player,city,building,tile) give the exact target
+  context gives the target (or targets) to evaluate against
   req gives the requirement itself
+
+  context may be NULL. This is equivalent to passing an empty context.
 
   Make sure you give all aspects of the target when calling this function:
   for instance if you have TARGET_CITY pass the city's owner as the target
   player as well as the city itself as the target city.
 **************************************************************************/
-bool is_req_active(const struct player *target_player,
+bool is_req_active(const struct req_context *context,
                    const struct player *other_player,
-                   const struct city *target_city,
-                   const struct impr_type *target_building,
-                   const struct tile *target_tile,
-                   const struct unit *target_unit,
-                   const struct unit_type *target_unittype,
-                   const struct output_type *target_output,
-                   const struct specialist *target_specialist,
-                   const struct action *target_action,
                    const struct requirement *req,
                    const enum   req_problem_type prob_type)
 {
   enum fc_tristate eval = TRI_NO;
 
-  /* The supplied unit has a type. Use it if the unit type is missing. */
-  if (target_unittype == NULL && target_unit != NULL) {
-    target_unittype = unit_type_get(target_unit);
+  if (context == NULL) {
+    context = req_context_empty();
   }
 
   /* Note the target may actually not exist.  In particular, effects that
@@ -3038,197 +3040,204 @@ bool is_req_active(const struct player *target_player,
     break;
   case VUT_ADVANCE:
     /* The requirement is filled if the player owns the tech. */
-    eval = is_tech_in_range(target_player, req->range, req->survives,
+    eval = is_tech_in_range(context->player, req->range, req->survives,
                             advance_number(req->source.value.advance));
     break;
  case VUT_TECHFLAG:
-    eval = is_techflag_in_range(target_player, req->range,
+    eval = is_techflag_in_range(context->player, req->range,
                                 req->source.value.techflag);
     break;
   case VUT_GOVERNMENT:
     /* The requirement is filled if the player is using the government. */
-    if (target_player == NULL) {
+    if (context->player == NULL) {
       eval = TRI_MAYBE;
     } else {
-      eval = BOOL_TO_TRISTATE(government_of_player(target_player) == req->source.value.govern);
+      eval = BOOL_TO_TRISTATE(government_of_player(context->player)
+                              == req->source.value.govern);
     }
     break;
   case VUT_ACHIEVEMENT:
-    eval = is_achievement_in_range(target_player, req->range,
+    eval = is_achievement_in_range(context->player, req->range,
                                    req->source.value.achievement);
     break;
   case VUT_STYLE:
-    if (target_player == NULL) {
+    if (context->player == NULL) {
       eval = TRI_MAYBE;
     } else {
-      eval = BOOL_TO_TRISTATE(target_player->style == req->source.value.style);
+      eval = BOOL_TO_TRISTATE(context->player->style
+                              == req->source.value.style);
     }
     break;
   case VUT_IMPROVEMENT:
-    eval = is_building_in_range(target_player, target_city,
-                                target_building,
+    eval = is_building_in_range(context->player, context->city,
+                                context->building,
                                 req->range, req->survives,
                                 req->source.value.building);
     break;
   case VUT_IMPR_GENUS:
-    eval = (target_building ? BOOL_TO_TRISTATE(
-                                target_building->genus
-                                == req->source.value.impr_genus)
-                            : TRI_MAYBE);
+    eval = (context->building ? BOOL_TO_TRISTATE(
+                                  context->building->genus
+                                  == req->source.value.impr_genus)
+                              : TRI_MAYBE);
     break;
   case VUT_EXTRA:
-    eval = is_extra_type_in_range(target_tile, target_city,
+    eval = is_extra_type_in_range(context->tile, context->city,
                                   req->range, req->survives,
                                   req->source.value.extra);
     break;
   case VUT_GOOD:
-    eval = is_goods_type_in_range(target_tile, target_city,
+    eval = is_goods_type_in_range(context->tile, context->city,
                                   req->range, req->survives,
                                   req->source.value.good);
     break;
   case VUT_TERRAIN:
-    eval = is_terrain_in_range(target_tile, target_city,
+    eval = is_terrain_in_range(context->tile, context->city,
                                req->range, req->survives,
                                req->source.value.terrain);
     break;
   case VUT_TERRFLAG:
-    eval = is_terrainflag_in_range(target_tile, target_city,
+    eval = is_terrainflag_in_range(context->tile, context->city,
                                    req->range, req->survives,
                                    req->source.value.terrainflag);
     break;
   case VUT_NATION:
-    eval = is_nation_in_range(target_player, req->range, req->survives,
+    eval = is_nation_in_range(context->player, req->range, req->survives,
                               req->source.value.nation);
     break;
   case VUT_NATIONGROUP:
-    eval = is_nation_group_in_range(target_player, req->range, req->survives,
+    eval = is_nation_group_in_range(context->player, req->range,
+                                    req->survives,
                                     req->source.value.nationgroup);
     break;
   case VUT_NATIONALITY:
-    eval = is_nationality_in_range(target_city, req->range,
+    eval = is_nationality_in_range(context->city, req->range,
                                    req->source.value.nationality);
     break;
   case VUT_DIPLREL:
-    eval = is_diplrel_in_range(target_player, other_player, req->range,
+    eval = is_diplrel_in_range(context->player, other_player, req->range,
                                req->source.value.diplrel);
     break;
   case VUT_DIPLREL_TILE:
-    eval = is_diplrel_in_range(target_tile ? tile_owner(target_tile) : NULL,
-                               target_player,
+    eval = is_diplrel_in_range(context->tile ? tile_owner(context->tile)
+                                             : NULL,
+                               context->player,
                                req->range,
                                req->source.value.diplrel);
     break;
   case VUT_DIPLREL_TILE_O:
-    eval = is_diplrel_in_range(target_tile ? tile_owner(target_tile) : NULL,
+    eval = is_diplrel_in_range(context->tile ? tile_owner(context->tile)
+                                             : NULL,
                                other_player,
                                req->range,
                                req->source.value.diplrel);
     break;
   case VUT_DIPLREL_UNITANY:
-    eval = is_diplrel_unitany_in_range(target_tile, target_player,
+    eval = is_diplrel_unitany_in_range(context->tile, context->player,
                                        req->range,
                                        req->source.value.diplrel);
     break;
   case VUT_DIPLREL_UNITANY_O:
-    eval = is_diplrel_unitany_in_range(target_tile, other_player,
+    eval = is_diplrel_unitany_in_range(context->tile, other_player,
                                        req->range,
                                        req->source.value.diplrel);
     break;
   case VUT_UTYPE:
-    if (target_unittype == NULL) {
+    if (context->unittype == NULL) {
       eval = TRI_MAYBE;
     } else {
-      eval = is_unittype_in_range(target_unittype,
+      eval = is_unittype_in_range(context->unittype,
                                   req->range, req->survives,
                                   req->source.value.utype);
     }
     break;
   case VUT_UTFLAG:
-    eval = is_unitflag_in_range(target_unittype,
+    eval = is_unitflag_in_range(context->unittype,
 				req->range, req->survives,
 				req->source.value.unitflag);
     break;
   case VUT_UCLASS:
-    if (target_unittype == NULL) {
+    if (context->unittype == NULL) {
       eval = TRI_MAYBE;
     } else {
-      eval = is_unitclass_in_range(target_unittype,
+      eval = is_unitclass_in_range(context->unittype,
                                    req->range, req->survives,
                                    req->source.value.uclass);
     }
     break;
   case VUT_UCFLAG:
-    if (target_unittype == NULL) {
+    if (context->unittype == NULL) {
       eval = TRI_MAYBE;
     } else {
-      eval = is_unitclassflag_in_range(target_unittype,
+      eval = is_unitclassflag_in_range(context->unittype,
                                        req->range, req->survives,
                                        req->source.value.unitclassflag);
     }
     break;
   case VUT_MINVETERAN:
-    if (target_unit == NULL) {
+    if (context->unit == NULL) {
       eval = TRI_MAYBE;
     } else {
       eval =
-        BOOL_TO_TRISTATE(target_unit->veteran >= req->source.value.minveteran);
+        BOOL_TO_TRISTATE(context->unit->veteran
+                         >= req->source.value.minveteran);
     }
     break;
   case VUT_UNITSTATE:
-    if (target_unit == NULL) {
+    if (context->unit == NULL) {
       eval = TRI_MAYBE;
     } else {
-      eval = is_unit_state(target_unit,
+      eval = is_unit_state(context->unit,
                            req->range, req->survives,
                            req->source.value.unit_state);
     }
     break;
   case VUT_ACTIVITY:
-    eval = unit_activity_in_range(target_unit,
+    eval = unit_activity_in_range(context->unit,
                                   req->range, req->source.value.activity);
     break;
   case VUT_MINMOVES:
-    if (target_unit == NULL) {
+    if (context->unit == NULL) {
       eval = TRI_MAYBE;
     } else {
       eval = BOOL_TO_TRISTATE(
-            req->source.value.minmoves <= target_unit->moves_left);
+            req->source.value.minmoves <= context->unit->moves_left);
     }
     break;
   case VUT_MINHP:
-    if (target_unit == NULL) {
+    if (context->unit == NULL) {
       eval = TRI_MAYBE;
     } else {
       eval = BOOL_TO_TRISTATE(
-            req->source.value.min_hit_points <= target_unit->hp);
+            req->source.value.min_hit_points <= context->unit->hp);
     }
     break;
   case VUT_AGE:
     switch (req->range) {
     case REQ_RANGE_LOCAL:
-      if (target_unit == NULL || !is_server()) {
+      if (context->unit == NULL || !is_server()) {
         eval = TRI_MAYBE;
       } else {
         eval = BOOL_TO_TRISTATE(
                  req->source.value.age <=
-                 game.info.turn - target_unit->server.birth_turn);
+                 game.info.turn - context->unit->server.birth_turn);
       }
       break;
     case REQ_RANGE_CITY:
-      if (target_city == NULL) {
+      if (context->city == NULL) {
         eval = TRI_MAYBE;
       } else {
         eval = BOOL_TO_TRISTATE(
                  req->source.value.age <=
-                 game.info.turn - target_city->turn_founded);
+                 game.info.turn - context->city->turn_founded);
       }
       break;
     case REQ_RANGE_PLAYER:
-      if (target_player == NULL) {
+      if (context->player == NULL) {
         eval = TRI_MAYBE;
       } else {
         eval =
-          BOOL_TO_TRISTATE(req->source.value.age <= player_age(target_player));
+          BOOL_TO_TRISTATE(req->source.value.age
+                           <= player_age(context->player));
       }
       break;
     default:
@@ -3243,11 +3252,14 @@ bool is_req_active(const struct player *target_player,
       eval = ((game.info.global_advance_count - 1) >= req->source.value.min_techs);
       break;
     case REQ_RANGE_PLAYER:
-      if (target_player == NULL) {
+      if (context->player == NULL) {
         eval = TRI_MAYBE;
       } else {
         /* "None" does not count */
-        eval = ((research_get(target_player)->techs_researched - 1) >= req->source.value.min_techs);
+        eval = BOOL_TO_TRISTATE(
+                   (research_get(context->player)->techs_researched - 1)
+                   >= req->source.value.min_techs
+               );
       }
       break;
     default:
@@ -3255,30 +3267,32 @@ bool is_req_active(const struct player *target_player,
     }
     break;
   case VUT_ACTION:
-    eval = BOOL_TO_TRISTATE(target_action
-                            && action_number(target_action)
+    eval = BOOL_TO_TRISTATE(context->action
+                            && action_number(context->action)
                                == action_number(req->source.value.action));
     break;
   case VUT_OTYPE:
-    eval = BOOL_TO_TRISTATE(target_output
-                            && target_output->index == req->source.value.outputtype);
+    eval = BOOL_TO_TRISTATE(context->output
+                            && context->output->index
+                               == req->source.value.outputtype);
     break;
   case VUT_SPECIALIST:
-    eval = BOOL_TO_TRISTATE(target_specialist
-                            && target_specialist == req->source.value.specialist);
+    eval = BOOL_TO_TRISTATE(context->specialist
+                            && context->specialist
+                               == req->source.value.specialist);
     break;
   case VUT_MINSIZE:
-    if (target_city == NULL) {
+    if (context->city == NULL) {
       eval = TRI_MAYBE;
     } else {
       if (req->range == REQ_RANGE_TRADEROUTE) {
         bool found = FALSE;
 
-        if (city_size_get(target_city) >= req->source.value.minsize) {
+        if (city_size_get(context->city) >= req->source.value.minsize) {
           eval = TRI_YES;
           break;
         }
-        trade_partners_iterate(target_city, trade_partner) {
+        trade_partners_iterate(context->city, trade_partner) {
           if (city_size_get(trade_partner) >= req->source.value.minsize) {
             found = TRUE;
             break;
@@ -3286,42 +3300,45 @@ bool is_req_active(const struct player *target_player,
         } trade_partners_iterate_end;
         eval = BOOL_TO_TRISTATE(found);
       } else {
-        eval = BOOL_TO_TRISTATE(city_size_get(target_city) >= req->source.value.minsize);
+        eval = BOOL_TO_TRISTATE(city_size_get(context->city)
+                                >= req->source.value.minsize);
       }
     }
     break;
   case VUT_MINCULTURE:
-    eval = is_minculture_in_range(target_city, target_player, req->range,
+    eval = is_minculture_in_range(context->city, context->player,
+                                  req->range,
                                   req->source.value.minculture);
     break;
   case VUT_MINFOREIGNPCT:
-    eval = is_minforeignpct_in_range(target_city, req->range,
+    eval = is_minforeignpct_in_range(context->city, req->range,
                                      req->source.value.minforeignpct);
     break;
   case VUT_AI_LEVEL:
-    if (target_player == NULL) {
+    if (context->player == NULL) {
       eval = TRI_MAYBE;
     } else {
-      eval = BOOL_TO_TRISTATE(is_ai(target_player)
-                              && target_player->ai_common.skill_level == req->source.value.ai_level);
+      eval = BOOL_TO_TRISTATE(is_ai(context->player)
+                              && context->player->ai_common.skill_level
+                                 == req->source.value.ai_level);
     }
     break;
   case VUT_MAXTILEUNITS:
-    eval = is_tile_units_in_range(target_tile, req->range,
+    eval = is_tile_units_in_range(context->tile, req->range,
                                   req->source.value.max_tile_units);
     break;
   case VUT_TERRAINCLASS:
-    eval = is_terrain_class_in_range(target_tile, target_city,
+    eval = is_terrain_class_in_range(context->tile, context->city,
                                      req->range, req->survives,
                                      req->source.value.terrainclass);
     break;
   case VUT_ROADFLAG:
-    eval = is_roadflag_in_range(target_tile, target_city,
+    eval = is_roadflag_in_range(context->tile, context->city,
                                  req->range, req->survives,
                                  req->source.value.roadflag);
     break;
   case VUT_EXTRAFLAG:
-    eval = is_extraflag_in_range(target_tile, target_city,
+    eval = is_extraflag_in_range(context->tile, context->city,
                                  req->range, req->survives,
                                  req->source.value.extraflag);
     break;
@@ -3339,28 +3356,28 @@ bool is_req_active(const struct player *target_player,
                                 req->source.value.ssetval));
     break;
   case VUT_TERRAINALTER:
-    if (target_tile == NULL) {
+    if (context->tile == NULL) {
       eval = TRI_MAYBE;
     } else {
-      eval = is_terrain_alter_possible_in_range(target_tile,
+      eval = is_terrain_alter_possible_in_range(context->tile,
                                                 req->range, req->survives,
                                                 req->source.value.terrainalter);
     }
     break;
   case VUT_CITYTILE:
-    if (target_tile == NULL) {
+    if (context->tile == NULL) {
       eval = TRI_MAYBE;
     } else {
-      eval = is_citytile_in_range(target_tile, target_city,
+      eval = is_citytile_in_range(context->tile, context->city,
                                   req->range,
                                   req->source.value.citytile);
     }
     break;
   case VUT_CITYSTATUS:
-    if (target_city == NULL) {
+    if (context->city == NULL) {
       eval = TRI_MAYBE;
     } else {
-      eval = is_citystatus_in_range(target_city,
+      eval = is_citystatus_in_range(context->city,
                                     req->range,
                                     req->source.value.citystatus);
     }
@@ -3387,35 +3404,24 @@ bool is_req_active(const struct player *target_player,
 /**********************************************************************//**
   Checks the requirement(s) to see if they are active on the given target.
 
-  target gives the type of the target
-  (player,city,building,tile) give the exact target
+  context gives the target (or targets) to evaluate against
 
   reqs gives the requirement vector.
   The function returns TRUE only if all requirements are active.
+
+  context may be NULL. This is equivalent to passing an empty context.
 
   Make sure you give all aspects of the target when calling this function:
   for instance if you have TARGET_CITY pass the city's owner as the target
   player as well as the city itself as the target city.
 **************************************************************************/
-bool are_reqs_active(const struct player *target_player,
+bool are_reqs_active(const struct req_context *context,
                      const struct player *other_player,
-                     const struct city *target_city,
-                     const struct impr_type *target_building,
-                     const struct tile *target_tile,
-                     const struct unit *target_unit,
-                     const struct unit_type *target_unittype,
-                     const struct output_type *target_output,
-                     const struct specialist *target_specialist,
-                     const struct action *target_action,
                      const struct requirement_vector *reqs,
                      const enum   req_problem_type prob_type)
 {
   requirement_vector_iterate(reqs, preq) {
-    if (!is_req_active(target_player, other_player, target_city,
-                       target_building, target_tile,
-                       target_unit, target_unittype,
-                       target_output, target_specialist, target_action,
-		       preq, prob_type)) {
+    if (!is_req_active(context, other_player, preq, prob_type)) {
       return FALSE;
     }
   } requirement_vector_iterate_end;

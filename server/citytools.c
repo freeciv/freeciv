@@ -3147,6 +3147,11 @@ void city_landlocked_sell_coastal_improvements(struct tile *ptile)
 
     if (pcity) {
       struct player *pplayer = city_owner(pcity);
+      const struct req_context city_ctxt = {
+        .player = pplayer,
+        .city = pcity,
+        .tile = pcity->tile,
+      };
 
       /* Sell all buildings (but not Wonders) that must be next to the ocean */
       city_built_iterate(pcity, pimprove) {
@@ -3158,9 +3163,7 @@ void city_landlocked_sell_coastal_improvements(struct tile *ptile)
 	  if ((VUT_TERRAIN == preq->source.kind
                || VUT_TERRAINCLASS == preq->source.kind
                || VUT_TERRFLAG == preq->source.kind)
-              && !is_req_active(city_owner(pcity), NULL, pcity, NULL,
-                                pcity->tile, NULL, NULL, NULL, NULL, NULL,
-				preq, TRUE)) {
+              && !is_req_active(&city_ctxt, NULL, preq, RPT_CERTAIN)) {
             int price = impr_sell_gold(pimprove);
 
             do_sell_building(pplayer, pcity, pimprove, "landlocked");

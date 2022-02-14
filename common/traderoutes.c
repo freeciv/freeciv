@@ -489,19 +489,22 @@ int get_caravan_enter_city_trade_bonus(const struct city *pc1,
 
   /* Trade_revenue_bonus increases revenue by power of 2 in milimes */
   bonus = get_target_bonus_effects(NULL,
-                                   city_owner(pc1), city_owner(pc2),
-                                   pc1, NULL, city_tile(pc1),
                                    /* TODO: Should unit requirements be
                                     * allowed so stuff like moves left and
                                     * unit type can modify the bonus? */
-                                   NULL, NULL,
-                                   NULL, NULL,
+                                   &(const struct req_context) {
+                                     .player = city_owner(pc1),
+                                     .city = pc1,
+                                     .tile = city_tile(pc1),
                                    /* Could be used to reduce the one time
                                     * bonus if no trade route is
                                     * established. */
-                                   action_by_number(establish_trade ?
-                                                      ACTION_TRADE_ROUTE :
-                                                      ACTION_MARKETPLACE),
+                                     .action = action_by_number(
+                                                 establish_trade
+                                                 ? ACTION_TRADE_ROUTE
+                                                 : ACTION_MARKETPLACE
+                                               ),
+                                   }, city_owner(pc2),
                                    EFT_TRADE_REVENUE_BONUS);
 
   /* Be mercy full to players with small amounts. Round up. */
@@ -658,17 +661,14 @@ bool goods_has_flag(const struct goods_type *pgood, enum goods_flag_id flag)
 bool goods_can_be_provided(struct city *pcity, struct goods_type *pgood,
                            struct unit *punit)
 {
-  const struct unit_type *ptype;
-
-  if (punit != NULL) {
-    ptype = unit_type_get(punit);
-  } else {
-    ptype = NULL;
-  }
-  
-  return are_reqs_active(city_owner(pcity), NULL,
-                         pcity, NULL, city_tile(pcity),
-                         punit, ptype, NULL, NULL, NULL,
+  return are_reqs_active(&(const struct req_context) {
+                           .player = city_owner(pcity),
+                           .city = pcity,
+                           .tile = city_tile(pcity),
+                           .unit = punit,
+                           .unittype = punit ? unit_type_get(punit) : NULL,
+                         },
+                         NULL,
                          &pgood->reqs, RPT_CERTAIN);
 }
 

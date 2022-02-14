@@ -5265,10 +5265,15 @@ static int fill_grid_sprite_array(const struct tileset *t,
           if (unit_drawn_with_city_outline(pfocus_unit, FALSE)) {
             struct tile *utile = unit_tile(pfocus_unit);
             int radius = game.info.init_city_radius_sq
-              + get_target_bonus_effects(NULL, unit_owner(pfocus_unit), NULL,
-                                         NULL, NULL, utile, NULL, NULL,
-                                         NULL, NULL, NULL,
-                                         EFT_CITY_RADIUS_SQ);
+              + get_target_bonus_effects(
+                    NULL,
+                    &(const struct req_context) {
+                      .player = unit_owner(pfocus_unit),
+                      .tile = utile,
+                    },
+                    NULL,
+                    EFT_CITY_RADIUS_SQ
+                );
 
             if (city_tile_to_city_map(&dummy_x, &dummy_y, radius,
                                       utile, tile)) {

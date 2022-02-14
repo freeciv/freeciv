@@ -1336,14 +1336,18 @@ static bool adjust_wants_for_reqs(struct ai_type *ait,
   struct tech_vector needed_techs;
   struct impr_vector needed_improvements;
 
+  const struct req_context context = {
+    .player = pplayer,
+    .city = pcity,
+    .tile = city_tile(pcity),
+    .building = pimprove,
+  };
+
   tech_vector_init(&needed_techs);
   impr_vector_init(&needed_improvements);
 
   requirement_vector_iterate(&pimprove->reqs, preq) {
-    const bool active = is_req_active(pplayer, NULL, pcity, pimprove,
-                                      pcity->tile, NULL, NULL, NULL, NULL,
-                                      NULL,
-                                      preq, RPT_POSSIBLE);
+    const bool active = is_req_active(&context, NULL, preq, RPT_POSSIBLE);
 
     if (VUT_ADVANCE == preq->source.kind && preq->present && !active) {
       /* Found a missing technology requirement for this improvement. */
@@ -1578,6 +1582,20 @@ static void adjust_improvement_wants_by_effects(struct ai_type *ait,
   int turns = 9999;
   int place = tile_continent(pcity->tile);
 
+  /* FIXME: Do we really need the effects check to be made *without*
+   * passing the city tile? */
+  const struct req_context effect_ctxt = {
+    .player = pplayer,
+    .city = pcity,
+    .building = pimprove,
+  };
+  const struct req_context actenabler_ctxt = {
+    .player = pplayer,
+    .city = pcity,
+    .tile = city_tile(pcity),
+    .building = pimprove,
+  };
+
   /* Remove team members from the equation */
   players_iterate(aplayer) {
     if (aplayer->team
@@ -1668,8 +1686,7 @@ static void adjust_improvement_wants_by_effects(struct ai_type *ait,
         present = preq->present;
         continue;
       }
-      if (!is_req_active(pplayer, NULL, pcity, pimprove, NULL, NULL, NULL,
-                         NULL, NULL, NULL, preq, RPT_POSSIBLE)) {
+      if (!is_req_active(&effect_ctxt, NULL, preq, RPT_POSSIBLE)) {
 	active = FALSE;
 	if (VUT_ADVANCE == preq->source.kind && preq->present) {
           /* This missing requirement is a missing tech requirement.
@@ -1763,10 +1780,7 @@ static void adjust_improvement_wants_by_effects(struct ai_type *ait,
           }
         }
 
-        if (!is_req_active(pplayer, NULL, pcity, pimprove,
-                           city_tile(pcity), NULL, NULL, NULL, NULL,
-                           NULL,
-                           preq, RPT_POSSIBLE)) {
+        if (!is_req_active(&actenabler_ctxt, NULL, preq, RPT_POSSIBLE)) {
           active = FALSE;
           break;
         }
@@ -2040,6 +2054,12 @@ Impr_type_id dai_find_source_building(struct city *pcity,
 {
   int greatest_value = 0;
   const struct impr_type *best_building = NULL;
+  const struct req_context context = {
+    .player = city_owner(pcity),
+    .city = pcity,
+    .tile = city_tile(pcity),
+    .unittype = utype,
+  };
 
   effect_list_iterate(get_effects(effect_type), peffect) {
     if (peffect->value > greatest_value) {
@@ -2056,8 +2076,7 @@ Impr_type_id dai_find_source_building(struct city *pcity,
             break;
           }
         } else if (utype != NULL
-                   && !is_req_active(city_owner(pcity), NULL, pcity, NULL, city_tile(pcity),
-                                     NULL, utype, NULL, NULL, NULL, preq, RPT_POSSIBLE)) {
+                   && !is_req_active(&context, NULL, preq, RPT_POSSIBLE)) {
           /* Effect requires other kind of unit than what we are interested about */
           wrong_unit = TRUE;
           break;

@@ -145,6 +145,6 @@ bool multiplier_can_be_changed(struct multiplier *pmul, struct player *pplayer)
     }
   }
 
-  return are_reqs_active(pplayer, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
+  return are_reqs_active(&(const struct req_context) { .player = pplayer },
                          NULL, &pmul->reqs, RPT_CERTAIN);
 }

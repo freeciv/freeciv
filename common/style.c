@@ -185,11 +185,10 @@ struct music_style *music_style_by_number(int id)
 struct music_style *player_music_style(struct player *plr)
 {
   struct music_style *best = NULL;
+  const struct req_context plr_context = { .player = plr };
 
   music_styles_iterate(pms) {
-    if (are_reqs_active(plr, NULL, NULL, NULL, NULL,
-                        NULL, NULL, NULL, NULL, NULL, &pms->reqs,
-                        RPT_CERTAIN)) {
+    if (are_reqs_active(&plr_context, NULL, &pms->reqs, RPT_CERTAIN)) {
       best = pms;
     }
   } music_styles_iterate_end;
@@ -242,11 +241,14 @@ int basic_city_style_for_style(struct nation_style *pstyle)
 int city_style(struct city *pcity)
 {
   int i;
-  struct player *plr = city_owner(pcity);
+  const struct req_context context = {
+    .player = city_owner(pcity),
+    .city = pcity,
+    .tile = city_tile(pcity),
+  };
 
   for (i = game.control.styles_count - 1; i >= 0; i--) {
-    if (are_reqs_active(plr, NULL, pcity, NULL, city_tile(pcity),
-                        NULL, NULL, NULL, NULL, NULL,
+    if (are_reqs_active(&context, NULL,
                         &city_styles[i].reqs, RPT_CERTAIN)) {
       return i;
     }

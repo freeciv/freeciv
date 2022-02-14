@@ -65,14 +65,16 @@ static int get_tile_value(struct tile *ptile)
   roaded = tile_virtual_new(ptile);
 
   if (num_role_units(L_SETTLERS) > 0) {
-    struct unit_type *start_worker = get_role_unit(L_SETTLERS, 0);
+    const struct req_context start_worker_ctxt = {
+      .tile = roaded,
+      .unittype = get_role_unit(L_SETTLERS, 0),
+    };
 
     extra_type_by_cause_iterate(EC_ROAD, pextra) {
       struct road_type *proad = extra_road_get(pextra);
 
       if (road_can_be_built(proad, roaded)
-          && are_reqs_active(NULL, NULL, NULL, NULL, roaded,
-                             NULL, start_worker, NULL, NULL, NULL,
+          && are_reqs_active(&start_worker_ctxt, NULL,
                              &pextra->reqs, RPT_CERTAIN)) {
         tile_add_extra(roaded, pextra);
       }

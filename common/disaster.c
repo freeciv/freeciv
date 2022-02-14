@@ -139,7 +139,11 @@ bool disaster_has_effect(const struct disaster_type *pdis,
 bool can_disaster_happen(const struct disaster_type *pdis,
                          const struct city *pcity)
 {
-  return are_reqs_active(city_owner(pcity), NULL, pcity, NULL,
-                         city_tile(pcity), NULL, NULL, NULL, NULL, NULL,
+  return are_reqs_active(&(const struct req_context) {
+                           .player = city_owner(pcity),
+                           .city = pcity,
+                           .tile = city_tile(pcity),
+                         },
+                         NULL,
                          &pdis->reqs, RPT_POSSIBLE);
 }

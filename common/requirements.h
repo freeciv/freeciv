@@ -86,6 +86,27 @@ struct requirement {
   TYPED_VECTOR_ITERATE(struct requirement, req_vec, preq)
 #define requirement_vector_iterate_end VECTOR_ITERATE_END
 
+/* A set of targets to evaluate requirements against. Depending on what the
+ * requirements in question are for, most of these entries will usually be
+ * NULL. For instance, when evaluating the construction requirements for a
+ * building, there is no target unit, specialist etc. */
+struct req_context {
+  const struct player *player;
+  const struct city *city;
+  const struct tile *tile;
+
+  /* for local-ranged requirements only */
+  const struct unit *unit;
+  const struct unit_type *unittype;
+  const struct impr_type *building;
+  const struct output_type *output;
+  const struct specialist *specialist;
+  const struct action *action;
+};
+
+/* req_context-related functions */
+const struct req_context *req_context_empty(void);
+
 /* General requirement functions. */
 struct requirement req_from_str(const char *type, const char *range,
                                 bool survives, bool present, bool quiet,
@@ -108,28 +129,12 @@ bool are_requirements_contradictions(const struct requirement *req1,
 bool does_req_contradicts_reqs(const struct requirement *req,
                                const struct requirement_vector *vec);
 
-bool is_req_active(const struct player *target_player,
-		   const struct player *other_player,
-		   const struct city *target_city,
-		   const struct impr_type *target_building,
-		   const struct tile *target_tile,
-                   const struct unit *target_unit,
-                   const struct unit_type *target_unittype,
-		   const struct output_type *target_output,
-		   const struct specialist *target_specialist,
-                   const struct action *target_action,
-		   const struct requirement *req,
+bool is_req_active(const struct req_context *context,
+                   const struct player *other_player,
+                   const struct requirement *req,
                    const enum   req_problem_type prob_type);
-bool are_reqs_active(const struct player *target_player,
+bool are_reqs_active(const struct req_context *context,
                      const struct player *other_player,
-                     const struct city *target_city,
-                     const struct impr_type *target_building,
-                     const struct tile *target_tile,
-                     const struct unit *target_unit,
-                     const struct unit_type *target_unittype,
-                     const struct output_type *target_output,
-                     const struct specialist *target_specialist,
-                     const struct action *target_action,
                      const struct requirement_vector *reqs,
                      const enum   req_problem_type prob_type);
 

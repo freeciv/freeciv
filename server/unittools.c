@@ -3015,11 +3015,14 @@ static void unit_enter_hut(struct unit *punit, bool frighten_hut)
   int id = punit->id;
   struct tile *ptile = unit_tile(punit);
   bool hut = FALSE;
+  const struct req_context context = {
+    .player = pplayer,
+    .tile = ptile,
+  };
 
   extra_type_by_rmcause_iterate(ERM_ENTER, pextra) {
     if (tile_has_extra(ptile, pextra)
-        && are_reqs_active(pplayer, tile_owner(ptile), NULL, NULL, ptile,
-                           NULL, NULL, NULL, NULL, NULL, &pextra->rmreqs,
+        && are_reqs_active(&context, tile_owner(ptile), &pextra->rmreqs,
                            RPT_CERTAIN)
        ) {
       hut = TRUE;

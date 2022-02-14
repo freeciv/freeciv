@@ -81,10 +81,15 @@ void action_success_target_pay_mp(struct action *paction,
   if (unit_is_alive(target_id)) {
     int spent_mp = get_target_bonus_effects(
         NULL,
-        unit_owner(target), NULL,
-        unit_tile(target) ? tile_city(unit_tile(target)) : NULL,
-        NULL, unit_tile(target), target, unit_type_get(target),
-        NULL, NULL, paction,
+        &(const struct req_context) {
+          .player = unit_owner(target),
+          .city = unit_tile(target) ? tile_city(unit_tile(target)) : NULL,
+          .tile = unit_tile(target),
+          .unit = target,
+          .unittype = unit_type_get(target),
+          .action = paction,
+        },
+        NULL,
         EFT_ACTION_SUCCESS_TARGET_MOVE_COST);
 
     target->moves_left = MAX(0, target->moves_left - spent_mp);
@@ -940,11 +945,17 @@ action_auto_perf_unit_sel(const enum action_auto_perf_cause cause,
                           const struct output_type *eval_output,
                           const struct action *eval_action)
 {
+  const struct req_context actor_ctxt = {
+    .player = unit_owner(actor),
+    .tile = unit_tile(actor),
+    .unit = actor,
+    .unittype = unit_type_get(actor),
+    .output = eval_output,
+    .action = eval_action,
+  };
+
   action_auto_perf_by_cause_iterate(cause, autoperformer) {
-    if (are_reqs_active(unit_owner(actor), other_player,
-                        NULL, NULL, unit_tile(actor),
-                        actor, unit_type_get(actor),
-                        eval_output, NULL, eval_action,
+    if (are_reqs_active(&actor_ctxt, other_player,
                         &autoperformer->reqs, RPT_CERTAIN)) {
       /* Select this action auto performer. */
       return autoperformer;

@@ -167,6 +167,9 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
   bool worker_refresh_required = FALSE;
   struct player *pother = player_by_number(counterpart);
 
+  const struct req_context player_ctxt = { .player = pplayer };
+  const struct req_context other_ctxt  = { .player = pother };
+
   if (NULL == pother || pplayer == pother) {
     return;
   }
@@ -195,11 +198,9 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
       if (pclause->from == pplayer) {
         struct clause_info *info = clause_info_get(pclause->type);
 
-        if (!are_reqs_active(pplayer, pother,
-                             NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
+        if (!are_reqs_active(&player_ctxt, pother,
                              &(info->giver_reqs), RPT_POSSIBLE)
-            || !are_reqs_active(pother, pplayer,
-                                NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
+            || !are_reqs_active(&other_ctxt, pplayer,
                                 &(info->receiver_reqs), RPT_POSSIBLE)) {
           log_error("Requirements of a clause between %s and %s not fullfilled",
                     player_name(pplayer), player_name(pother));
@@ -350,11 +351,9 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
       if (pclause->from == pother) {
         struct clause_info *info = clause_info_get(pclause->type);
 
-        if (!are_reqs_active(pother, pplayer,
-                             NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
+        if (!are_reqs_active(&other_ctxt, pplayer,
                              &(info->giver_reqs), RPT_POSSIBLE)
-            || !are_reqs_active(pplayer, pother,
-                                NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
+            || !are_reqs_active(&player_ctxt, pother,
                                 &(info->receiver_reqs), RPT_POSSIBLE)) {
           notify_player(pplayer, NULL, E_DIPLOMACY, ftc_server,
                         _("Clause requirements are no longer fulfilled. "

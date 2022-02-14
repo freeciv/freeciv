@@ -97,13 +97,15 @@ int api_effects_unit_bonus(lua_State *L, Unit *punit, Player *other_player,
   }
 
   return get_target_bonus_effects(NULL,
-                                  unit_owner(punit),
+                                  &(const struct req_context) {
+                                    .player = unit_owner(punit),
+                                    .city = unit_tile(punit)
+                                      ? tile_city(unit_tile(punit)) : NULL,
+                                    .tile = unit_tile(punit),
+                                    .unit = punit,
+                                    .unittype = unit_type_get(punit),
+                                  },
                                   other_player,
-                                  unit_tile(punit)
-                                    ? tile_city(unit_tile(punit)) : NULL,
-                                  NULL, unit_tile(punit),
-                                  punit, unit_type_get(punit), NULL, NULL,
-                                  NULL,
                                   etype);
 }
 

@@ -540,6 +540,7 @@ void dai_gov_value(struct ai_type *ait, struct player *pplayer,
   } city_list_iterate_end;
   city_list_iterate(pplayer->cities, pcity) {
     bool capital;
+    const struct req_context context = { .player = pplayer, .city = pcity };
 
     *val += dai_city_want(pplayer, pcity, adv, NULL);
     capital = is_capital(pcity);
@@ -557,8 +558,7 @@ void dai_gov_value(struct ai_type *ait, struct player *pplayer,
           present = preq->present;
           continue;
         }
-        if (!is_req_active(pplayer, NULL, pcity, NULL, NULL, NULL, NULL,
-                           NULL, NULL, NULL, preq, RPT_POSSIBLE)) {
+        if (!is_req_active(&context, NULL, preq, RPT_POSSIBLE)) {
           active = FALSE;
           break; /* presence doesn't matter for inactive effects. */
         }

@@ -2849,26 +2849,29 @@ void dai_manage_units(struct ai_type *ait, struct player *pplayer)
 
 /**********************************************************************//**
   Returns an improvement that will make it possible to build units of the
-  specified type the specified city. Returns FALSE if no new improvement
+  specified type the specified city. Returns NULL if no new improvement
   will make it possible or if no improvement is needed.
 **************************************************************************/
 const struct impr_type *utype_needs_improvement(const struct unit_type *putype,
                                                 const struct city *pcity)
 {
   const struct impr_type *impr_req = NULL;
+  const struct req_context context = {
+    .player = city_owner(pcity),
+    .city = pcity,
+    .tile = city_tile(pcity),
+    .unittype = putype,
+  };
 
   requirement_vector_iterate(&putype->build_reqs, preq) {
-    if (is_req_active(city_owner(pcity), NULL,
-                      pcity, NULL, city_tile(pcity), NULL,
-                      putype, NULL, NULL, NULL,
-                      preq, RPT_CERTAIN)) {
+    if (is_req_active(&context, NULL, preq, RPT_CERTAIN)) {
       /* Already there. */
       continue;
     }
     if (!dai_can_requirement_be_met_in_city(preq,
                                             city_owner(pcity), pcity)) {
       /* The unit type can't be built at all. */
-      return FALSE;
+      return NULL;
     }
     if (VUT_IMPROVEMENT == preq->source.kind && preq->present) {
       /* This is (one of) the building(s) required. */

@@ -819,8 +819,12 @@ bool can_city_build_improvement_direct(const struct city *pcity,
     return FALSE;
   }
 
-  return are_reqs_active(city_owner(pcity), NULL, pcity, NULL,
-                         pcity->tile, NULL, NULL, NULL, NULL, NULL,
+  return are_reqs_active(&(const struct req_context) {
+                           .player = city_owner(pcity),
+                           .city = pcity,
+                           .tile = pcity->tile,
+                         },
+                         NULL,
                          &(pimprove->reqs), RPT_CERTAIN);
 }
 
@@ -848,6 +852,12 @@ bool can_city_build_improvement_now(const struct city *pcity,
 bool can_city_build_improvement_later(const struct city *pcity,
                                       const struct impr_type *pimprove)
 {
+  const struct req_context city_ctxt = {
+    .player = city_owner(pcity),
+    .city = pcity,
+    .tile = city_tile(pcity),
+  };
+
   /* Can the _player_ ever build this improvement? */
   if (!can_player_build_improvement_later(city_owner(pcity), pimprove)) {
     return FALSE;
@@ -857,9 +867,7 @@ bool can_city_build_improvement_later(const struct city *pcity,
    * they can never be met). */
   requirement_vector_iterate(&pimprove->reqs, preq) {
     if (is_req_unchanging(preq)
-        && !is_req_active(city_owner(pcity), NULL, pcity, NULL,
-                          pcity->tile, NULL, NULL, NULL, NULL, NULL,
-                          preq, RPT_POSSIBLE)) {
+        && !is_req_active(&city_ctxt, NULL, preq, RPT_POSSIBLE)) {
       return FALSE;
     }
   } requirement_vector_iterate_end;
@@ -879,9 +887,13 @@ bool can_city_build_unit_direct(const struct city *pcity,
   }
 
   /* Check unit build requirements. */
-  if (!are_reqs_active(city_owner(pcity), NULL,
-                       pcity, NULL, city_tile(pcity), NULL, punittype,
-                       NULL, NULL, NULL,
+  if (!are_reqs_active(&(const struct req_context) {
+                         .player = city_owner(pcity),
+                         .city = pcity,
+                         .tile = city_tile(pcity),
+                         .unittype = punittype,
+                       },
+                       NULL,
                        &punittype->build_reqs, RPT_CERTAIN)) {
     return FALSE;
   }
@@ -1017,9 +1029,12 @@ int city_unit_slots_available(const struct city *pcity)
 bool city_can_use_specialist(const struct city *pcity,
                              Specialist_type_id type)
 {
-  return are_reqs_active(city_owner(pcity), NULL, pcity, NULL,
-                         NULL, NULL, NULL, NULL, NULL, NULL,
-			 &specialist_by_number(type)->reqs, RPT_POSSIBLE);
+  return are_reqs_active(&(const struct req_context) {
+                           .player = city_owner(pcity),
+                           .city = pcity,
+                         },
+                         NULL,
+                         &specialist_by_number(type)->reqs, RPT_POSSIBLE);
 }
 
 /**********************************************************************//**
@@ -1222,9 +1237,13 @@ int city_tile_output(const struct city *pcity, const struct tile *ptile,
                      bool is_celebrating, Output_type_id otype)
 {
   int prod;
+  const struct req_context city_ctxt = {
+    .player = pcity ? city_owner(pcity) : NULL,
+    .city = pcity,
+    .tile = ptile,
+  };
   struct terrain *pterrain = tile_terrain(ptile);
   const struct output_type *output = &output_types[otype];
-  struct player *pplayer = NULL;
 
   fc_assert_ret_val(otype >= 0 && otype < O_LAST, 0);
 
@@ -1239,27 +1258,19 @@ int city_tile_output(const struct city *pcity, const struct tile *ptile,
     prod += tile_resource(ptile)->data.resource->output[otype];
   }
 
-  if (pcity != NULL) {
-    pplayer = city_owner(pcity);
-  }
-
   switch (otype) {
   case O_SHIELD:
     if (pterrain->mining_shield_incr != 0) {
       prod += pterrain->mining_shield_incr
-        * get_target_bonus_effects(NULL, pplayer, NULL, pcity, NULL,
-                                   ptile, NULL, NULL, NULL, NULL, NULL,
-                                   EFT_MINING_PCT)
+        * get_target_bonus_effects(NULL, &city_ctxt, NULL, EFT_MINING_PCT)
         / 100;
     }
     break;
   case O_FOOD:
     if (pterrain->irrigation_food_incr != 0) {
       prod += pterrain->irrigation_food_incr
-        * get_target_bonus_effects(NULL, pplayer, NULL, pcity, NULL,
-                                   ptile, NULL, NULL, NULL, NULL, NULL,
-                                   EFT_IRRIGATION_PCT)
-        / 100;
+        * get_target_bonus_effects(NULL, &city_ctxt, NULL,
+                                   EFT_IRRIGATION_PCT) / 100;
     }
     break;
   case O_TRADE:

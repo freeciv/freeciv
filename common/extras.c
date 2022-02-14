@@ -415,8 +415,12 @@ bool player_can_build_extra(const struct extra_type *pextra,
     return FALSE;
   }
 
-  return are_reqs_active(pplayer, tile_owner(ptile), NULL, NULL, ptile,
-                         NULL, NULL, NULL, NULL, NULL, &pextra->reqs,
+  return are_reqs_active(&(const struct req_context) {
+                           .player = pplayer,
+                           .tile = ptile,
+                         },
+                         tile_owner(ptile),
+                         &pextra->reqs,
                          RPT_POSSIBLE);
 }
 
@@ -478,8 +482,14 @@ bool can_build_extra(const struct extra_type *pextra,
     return FALSE;
   }
 
-  return are_reqs_active(pplayer, tile_owner(ptile), NULL, NULL, ptile,
-                         punit, unit_type_get(punit), NULL, NULL, NULL, &pextra->reqs,
+  return are_reqs_active(&(const struct req_context) {
+                           .player = pplayer,
+                           .tile = ptile,
+                           .unit = punit,
+                           .unittype = unit_type_get(punit),
+                         },
+                         tile_owner(ptile),
+                         &pextra->reqs,
                          RPT_CERTAIN);
 }
 
@@ -528,8 +538,12 @@ bool player_can_remove_extra(const struct extra_type *pextra,
   }
 
   /* For huts, it's not checked if player has any non-HUT_NOTHING units */
-  return are_reqs_active(pplayer, tile_owner(ptile), NULL, NULL, ptile,
-                         NULL, NULL, NULL, NULL, NULL, &pextra->rmreqs,
+  return are_reqs_active(&(const struct req_context) {
+                           .player = pplayer,
+                           .tile = ptile,
+                         },
+                         tile_owner(ptile),
+                         &pextra->rmreqs,
                          RPT_POSSIBLE);
 }
 
@@ -546,9 +560,14 @@ bool can_remove_extra(const struct extra_type *pextra,
     return FALSE;
   }
 
-  return are_reqs_active(unit_owner(punit), tile_owner(ptile), NULL, NULL,
-                         ptile, punit, unit_type_get(punit), NULL, NULL,
-                         NULL, &pextra->rmreqs, RPT_CERTAIN);
+  return are_reqs_active(&(const struct req_context) {
+                           .player = unit_owner(punit),
+                           .tile = ptile,
+                           .unit = punit,
+                           .unittype = unit_type_get(punit),
+                         },
+                         tile_owner(ptile),
+                         &pextra->rmreqs, RPT_CERTAIN);
 }
 
 /************************************************************************//**
@@ -594,9 +613,8 @@ bool is_native_tile_to_extra(const struct extra_type *pextra,
     }
   }
 
-  return are_reqs_active(NULL, NULL, NULL, NULL, ptile,
-                         NULL, NULL, NULL, NULL, NULL,
-                         &pextra->reqs, RPT_POSSIBLE);
+  return are_reqs_active(&(const struct req_context) { .tile = ptile },
+                         NULL, &pextra->reqs, RPT_POSSIBLE);
 }
 
 /************************************************************************//**
@@ -637,15 +655,19 @@ bool hut_on_tile(const struct tile *ptile)
 bool unit_can_enter_hut(const struct unit *punit,
                         const struct tile *ptile)
 {
+  const struct req_context context = {
+    .player = unit_owner(punit),
+    .tile = ptile,
+  };
+
   if (!(unit_can_do_action_result(punit, ACTRES_HUT_ENTER)
         || unit_can_do_action_sub_result(punit, ACT_SUB_RES_HUT_ENTER))) {
     return FALSE;
   }
   extra_type_by_rmcause_iterate(ERM_ENTER, extra) {
     if (tile_has_extra(ptile, extra)
-    && are_reqs_active(unit_owner(punit), tile_owner(ptile), NULL, NULL,
-                       ptile, NULL, NULL, NULL, NULL, NULL, &extra->rmreqs,
-                       RPT_POSSIBLE)){
+        && are_reqs_active(&context, tile_owner(ptile), &extra->rmreqs,
+                           RPT_POSSIBLE)) {
       return TRUE;
     }
   } extra_type_by_rmcause_iterate_end;
@@ -659,6 +681,11 @@ bool unit_can_enter_hut(const struct unit *punit,
 bool unit_can_displace_hut(const struct unit *punit,
                            const struct tile *ptile)
 {
+  const struct req_context context = {
+    .player = unit_owner(punit),
+    .tile = ptile,
+  };
+
   if (!(unit_can_do_action_result(punit, ACTRES_HUT_FRIGHTEN)
         || unit_can_do_action_sub_result(punit, ACT_SUB_RES_HUT_FRIGHTEN)
         || unit_can_do_action_result(punit, ACTRES_HUT_ENTER)
@@ -667,9 +694,8 @@ bool unit_can_displace_hut(const struct unit *punit,
   }
   extra_type_by_rmcause_iterate(ERM_ENTER, extra) {
     if (tile_has_extra(ptile, extra)
-    && are_reqs_active(unit_owner(punit), tile_owner(ptile), NULL, NULL,
-                       ptile, NULL, NULL, NULL, NULL, NULL, &extra->rmreqs,
-                       RPT_POSSIBLE)){
+        && are_reqs_active(&context, tile_owner(ptile), &extra->rmreqs,
+                           RPT_POSSIBLE)) {
       return TRUE;
     }
   } extra_type_by_rmcause_iterate_end;
@@ -1017,8 +1043,8 @@ bool can_extra_appear(const struct extra_type *pextra, const struct tile *ptile)
     && is_extra_caused_by(pextra, EC_APPEARANCE)
     && is_native_tile_to_extra(pextra, ptile)
     && !extra_conflicting_on_tile(pextra, ptile)
-    && are_reqs_active(NULL, tile_owner(ptile), NULL, NULL, ptile,
-                       NULL, NULL, NULL, NULL, NULL,
+    && are_reqs_active(&(const struct req_context) { .tile = ptile },
+                       tile_owner(ptile),
                        &pextra->appearance_reqs, RPT_CERTAIN);
 }
 
@@ -1030,8 +1056,8 @@ bool can_extra_disappear(const struct extra_type *pextra, const struct tile *pti
   return tile_has_extra(ptile, pextra)
     && is_extra_removed_by(pextra, ERM_DISAPPEARANCE)
     && can_extra_be_removed(pextra, ptile)
-    && are_reqs_active(NULL, tile_owner(ptile), NULL, NULL, ptile,
-                       NULL, NULL, NULL, NULL, NULL,
+    && are_reqs_active(&(const struct req_context) { .tile = ptile },
+                       tile_owner(ptile),
                        &pextra->disappearance_reqs, RPT_CERTAIN);
 }
 

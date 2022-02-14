@@ -1728,21 +1728,22 @@ bool spy_steal_some_maps(struct player *act_player, struct unit *act_unit,
   /* Steal it. */
   normal_tile_prob = 100
       + get_target_bonus_effects(NULL,
-                                 act_player, tgt_player,
-                                 /* Decide once requests from ruleset
+                                 &(const struct req_context) {
+                                   .player = act_player,
+                                 /* City: Decide once requests from ruleset
                                   * authors arrive. Could be target city or
                                   * - with a refactoring - the city at the
                                   * tile that may be transferred. */
-                                 NULL,
-                                 NULL,
-                                 /* Decide once requests from ruleset
+                                 /* Tile: Decide once requests from ruleset
                                   * authors arrive. Could be actor unit
                                   * tile, target city tile or even - with a
                                   * refactoring - the tile that may be
                                   * transferred. */
-                                 NULL,
-                                 act_unit, unit_type_get(act_unit),
-                                 NULL, NULL, paction,
+                                   .unit = act_unit,
+                                   .unittype = unit_type_get(act_unit),
+                                   .action = paction,
+                                 },
+                                 tgt_player,
                                  EFT_MAPS_STOLEN_PCT);
   give_distorted_map(tgt_player, act_player,
                      normal_tile_prob,
@@ -1948,13 +1949,16 @@ static bool diplomat_success_vs_defender(struct unit *pattacker,
   }
 
   /* Reduce the chance of an attack by EFT_SPY_RESISTANT percent. */
-  chance -= chance
-            * get_target_bonus_effects(NULL,
-                                       tile_owner(pdefender_tile), NULL,
-                                       tile_city(pdefender_tile), NULL,
-                                       pdefender_tile, NULL, NULL, NULL,
-                                       NULL, NULL,
-                                       EFT_SPY_RESISTANT) / 100;
+  chance -= chance * get_target_bonus_effects(
+                         NULL,
+                         &(const struct req_context) {
+                           .player = tile_owner(pdefender_tile),
+                           .city = tile_city(pdefender_tile),
+                           .tile = pdefender_tile,
+                         },
+                         NULL,
+                         EFT_SPY_RESISTANT
+                     ) / 100;
 
   chance = CLIP(0, chance, 100);
 
