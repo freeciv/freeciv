@@ -64,7 +64,7 @@ void rscompat_init_info(struct rscompat_info *info)
 **************************************************************************/
 int rscompat_check_capabilities(struct section_file *file,
                                 const char *filename,
-                                struct rscompat_info *info)
+                                const struct rscompat_info *info)
 {
   const char *datafile_options;
   bool ok = FALSE;
@@ -119,6 +119,39 @@ int rscompat_check_capabilities(struct section_file *file,
   }
 
   return format;
+}
+/**********************************************************************//**
+  Different ruleset files within a ruleset directory should all have
+  identical datafile.format_version
+  This checks the file version against the expected version.
+
+  See also rscompat_check_capabilities
+**************************************************************************/
+bool rscompat_check_cap_and_version(struct section_file *file,
+                                    const char *filename,
+                                    const struct rscompat_info *info)
+{
+  int format_version;
+
+  fc_assert_ret_val(info->version > 0, FALSE);
+
+  format_version = rscompat_check_capabilities(file, filename, info);
+  if (format_version <= 0) {
+    /* Already logged in rscompat_check_capabilities */
+    return FALSE;
+  }
+
+  if (format_version != info->version) {
+    log_fatal("\"%s\": ruleset datafile format version differs from"
+              " other ruleset datafile(s):", filename);
+    log_fatal("  datafile format version: %d", format_version);
+    log_fatal("  expected format version: %d", info->version);
+    ruleset_error(LOG_ERROR, "Inconsistent format versions");
+
+    return FALSE;
+  }
+
+  return TRUE;
 }
 
 /**********************************************************************//**
@@ -321,7 +354,7 @@ void rscompat_postprocess(struct rscompat_info *info)
    * the new effects from being upgraded by accident. */
   iterate_effect_cache(effect_list_compat_cb, info);
 
-  if (info->ver_effects < RSFORMAT_3_2) {
+  if (info->version < RSFORMAT_3_2) {
     struct effect *peffect;
 
     /* Nuke blast radius has moved to the ruleset. */
@@ -371,7 +404,7 @@ enum impr_genus_id rscompat_genus_3_2(struct rscompat_info *compat,
                                       const bv_impr_flags flags,
                                       enum impr_genus_id old_genus)
 {
-  if (compat->compat_mode && compat->ver_buildings < RSFORMAT_3_2) {
+  if (compat->compat_mode && compat->version < RSFORMAT_3_2) {
     if (BV_ISSET(flags, IF_GOLD) && IG_SPECIAL == old_genus) {
       return IG_CONVERT;
     }
@@ -387,24 +420,7 @@ const char *rscompat_req_range_3_2(struct rscompat_info *compat,
                                    const char *type,
                                    const char *old_range)
 {
-  /* FIXME: do a more appropriate version check
-   *
-   * Requirements are used in multiple ruleset files, so there is no single
-   * version to check. Instead, we check everything that could contain
-   * affected requirements, i.e. those where some requirements are
-   * evaluated against tiles.
-   * If some ruleset files are already in the new format, and others are
-   * not, we assume the ruleset author knows what they are doing.
-   *
-   * Once support for mixed version rulesets is officially dropped with
-   * osdn#43708, this will become moot.
-   */
-  if (compat->compat_mode
-      && compat->ver_buildings < RSFORMAT_3_2
-      && compat->ver_effects < RSFORMAT_3_2
-      && compat->ver_game < RSFORMAT_3_2
-      && compat->ver_styles < RSFORMAT_3_2
-      && compat->ver_terrain < RSFORMAT_3_2) {
+  if (compat->compat_mode && compat->version < RSFORMAT_3_2) {
     /* Requirement types that refer to the target tile and now use the
      * "Tile" range instead of the "Local" range */
     if (!fc_strcasecmp(req_range_name(REQ_RANGE_LOCAL), old_range)

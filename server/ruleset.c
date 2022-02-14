@@ -1334,8 +1334,8 @@ static bool load_game_names(struct section_file *file,
   bool ok = TRUE;
 
   /* section: datafile */
-  compat->ver_game = rscompat_check_capabilities(file, filename, compat);
-  if (compat->ver_game <= 0) {
+  compat->version = rscompat_check_capabilities(file, filename, compat);
+  if (compat->version <= 0) {
     return FALSE;
   }
 
@@ -1425,8 +1425,7 @@ static bool load_tech_names(struct section_file *file,
   bool ok = TRUE;
   const char *flag;
 
-  compat->ver_techs = rscompat_check_capabilities(file, filename, compat);
-  if (compat->ver_techs <= 0) {
+  if (!rscompat_check_cap_and_version(file, filename, compat)) {
     return FALSE;
   }
 
@@ -1748,8 +1747,7 @@ static bool load_unit_names(struct section_file *file,
   const char *flag;
   bool ok = TRUE;
 
-  compat->ver_units = rscompat_check_capabilities(file, filename, compat);
-  if (compat->ver_units <= 0) {
+  if (!rscompat_check_cap_and_version(file, filename, compat)) {
     return FALSE;
   }
 
@@ -2564,9 +2562,7 @@ static bool load_building_names(struct section_file *file,
   const char *filename = secfile_name(file);
   bool ok = TRUE;
 
-  compat->ver_buildings = rscompat_check_capabilities(file, filename,
-                                                      compat);
-  if (compat->ver_buildings <= 0) {
+  if (!rscompat_check_cap_and_version(file, filename, compat)) {
     return FALSE;
   }
 
@@ -2739,9 +2735,7 @@ static bool load_terrain_names(struct section_file *file,
   const char *filename = secfile_name(file);
   bool ok = TRUE;
 
-  compat->ver_terrain = rscompat_check_capabilities(file, filename,
-                                                    compat);
-  if (compat->ver_terrain <= 0) {
+  if (!rscompat_check_cap_and_version(file, filename, compat)) {
     return FALSE;
   }
 
@@ -4157,9 +4151,7 @@ static bool load_government_names(struct section_file *file,
   const char *filename = secfile_name(file);
   bool ok = TRUE;
 
-  compat->ver_governments = rscompat_check_capabilities(file, filename,
-                                                        compat);
-  if (compat->ver_governments <= 0) {
+  if (!rscompat_check_cap_and_version(file, filename, compat)) {
     return FALSE;
   }
 
@@ -4481,9 +4473,7 @@ static bool load_nation_names(struct section_file *file,
   bool ok = TRUE;
   const char *filename = secfile_name(file);
 
-  compat->ver_nations = rscompat_check_capabilities(file, filename,
-                                                    compat);
-  if (compat->ver_nations <= 0) {
+  if (!rscompat_check_cap_and_version(file, filename, compat)) {
     return FALSE;
   }
 
@@ -5500,8 +5490,7 @@ static bool load_style_names(struct section_file *file,
   struct section_list *sec;
   const char *filename = secfile_name(file);
 
-  compat->ver_styles = rscompat_check_capabilities(file, filename, compat);
-  if (compat->ver_styles <= 0) {
+  if (!rscompat_check_cap_and_version(file, filename, compat)) {
     return FALSE;
   }
 
@@ -5741,8 +5730,7 @@ static bool load_ruleset_cities(struct section_file *file,
   struct section_list *sec;
   bool ok = TRUE;
 
-  compat->ver_cities = rscompat_check_capabilities(file, filename, compat);
-  if (compat->ver_cities <= 0) {
+  if (!rscompat_check_cap_and_version(file, filename, compat)) {
     return FALSE;
   }
 
@@ -5948,10 +5936,10 @@ static bool load_ruleset_effects(struct section_file *file,
 
   filename = secfile_name(file);
 
-  compat->ver_effects = rscompat_check_capabilities(file, filename, compat);
-  if (compat->ver_effects <= 0) {
+  if (!rscompat_check_cap_and_version(file, filename, compat)) {
     return FALSE;
   }
+
   (void) secfile_entry_by_path(file, "datafile.description");   /* unused */
   (void) secfile_entry_by_path(file, "datafile.ruledit");       /* unused */
 
@@ -6564,7 +6552,7 @@ static bool load_ruleset_game(struct section_file *file, bool act,
                                            RS_MAX_BASE_TECH_COST,
                                            "research.base_tech_cost");
 
-    if (compat->compat_mode && compat->ver_game < RSFORMAT_3_2) {
+    if (compat->compat_mode && compat->version < RSFORMAT_3_2) {
       /* base_tech_cost used to be used for this too. */
       game.info.min_tech_cost
         = secfile_lookup_int_default_min_max(file,
@@ -8945,6 +8933,8 @@ static bool load_rulesetdir(const char *rsdir, bool compat_mode,
   }
 
   if (ok) {
+    /* Note: Keep load_game_names first so that compat_info.version is
+     * correctly initialized. */
     ok = load_game_names(gamefile, &compat_info)
       && load_tech_names(techfile, &compat_info)
       && load_building_names(buildfile, &compat_info)
@@ -9011,7 +9001,7 @@ static bool load_rulesetdir(const char *rsdir, bool compat_mode,
     /* Only load settings for a sane ruleset */
     ok = settings_ruleset(gamefile, "settings", act,
                           compat_info.compat_mode
-                          && compat_info.ver_game < RSFORMAT_3_2);
+                          && compat_info.version < RSFORMAT_3_2);
 
     if (ok) {
       secfile_check_unused(gamefile);
