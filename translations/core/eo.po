@@ -2421,9 +2421,9 @@ msgstr "Via %s sukcesis saboti la %sjn %sn."
 #: client/gui-gtk-2.0/action_dialog.c:1773
 #: client/gui-gtk-3.0/action_dialog.c:1861
 #: client/gui-gtk-3.22/action_dialog.c:1855 client/gui-qt/dialogs.cpp:1917
-#, fuzzy, c-format
+#, c-format
 msgid "Your %s is waiting for your command."
-msgstr "La spiono atendas viajn ordonojn"
+msgstr "Via unuo %s atendas vian ordonon."
 
 #: client/gui-gtk-2.0/action_dialog.c:1853
 #: client/gui-gtk-3.0/action_dialog.c:1941
@@ -2906,13 +2906,13 @@ msgstr "C_entrigu"
 #: client/gui-gtk-3.0/citydlg.c:2424 client/gui-gtk-3.0/citydlg.c:2482
 #: client/gui-gtk-3.22/citydlg.c:2459 client/gui-gtk-3.22/citydlg.c:2515
 msgid "_Activate unit"
-msgstr "_Aktivigu unuon"
+msgstr "_Aktivigi unuon"
 
 #: client/gui-gtk-2.0/citydlg.c:2181 client/gui-gtk-2.0/citydlg.c:2239
 #: client/gui-gtk-3.0/citydlg.c:2430 client/gui-gtk-3.0/citydlg.c:2488
 #: client/gui-gtk-3.22/citydlg.c:2465 client/gui-gtk-3.22/citydlg.c:2521
 msgid "Activate unit, _close dialog"
-msgstr "Aktivigu unuon kaj _fermu la fenestron"
+msgstr "Aktivigi unuon kaj _fermi la fenestron"
 
 #: client/gui-gtk-2.0/citydlg.c:2187 client/gui-gtk-2.0/citydlg.c:2288
 #: client/gui-gtk-3.0/citydlg.c:2436 client/gui-gtk-3.0/citydlg.c:2537
@@ -2933,7 +2933,7 @@ msgstr "_Elŝipigi unuon"
 #: client/gui-gtk-2.0/citydlg.c:2266 client/gui-gtk-3.0/citydlg.c:2515
 #: client/gui-gtk-3.22/citydlg.c:2548
 msgid "_Sentry unit"
-msgstr "_Gardosoldato"
+msgstr "_Gardostari"
 
 #: client/gui-gtk-2.0/citydlg.c:2277 client/gui-gtk-3.0/citydlg.c:2526
 #: client/gui-gtk-3.22/citydlg.c:2559
@@ -2943,7 +2943,7 @@ msgstr "_Fortikigi unuon"
 #: client/gui-gtk-2.0/citydlg.c:2306 client/gui-gtk-3.0/citydlg.c:2555
 #: client/gui-gtk-3.22/citydlg.c:2588
 msgid "U_pgrade unit"
-msgstr "Ĝis_datigu unuon"
+msgstr "Ĝis_datigi unuon"
 
 #. TRANS: Last %s is pre-pluralised "Treasury contains %d gold."
 #: client/gui-gtk-2.0/citydlg.c:2665 client/gui-gtk-3.0/citydlg.c:3063
@@ -2984,11 +2984,11 @@ msgstr[1] "%s kostas %d orajn monerojn.\n"
 #: client/gui-gtk-2.0/citydlg.c:2733 client/gui-gtk-3.0/citydlg.c:3131
 #: client/gui-gtk-3.22/citydlg.c:3164 client/gui-qt/citydlg.cpp:611
 #: client/gui-sdl2/citydlg.c:1402
-#, fuzzy, c-format
+#, c-format
 msgid "Sell %s for %d gold?"
 msgid_plural "Sell %s for %d gold?"
-msgstr[0] "Ĉu vi deziras vendi %sn por %d oraj moneroj?"
-msgstr[1] "Ĉu vi deziras vendi %sn por %d oraj moneroj?"
+msgstr[0] "Ĉu vendu la aĵon %s kontraŭ %d ora monero?"
+msgstr[1] "Ĉu vendu la aĵon %s kontraŭ %d oraj moneroj?"
 
 #: client/gui-gtk-2.0/citydlg.c:2739 client/gui-gtk-3.0/citydlg.c:3137
 #: client/gui-gtk-3.22/citydlg.c:3170
@@ -6567,7 +6567,7 @@ msgstr[1] ""
 #: client/gui-gtk-2.0/repodlgs.c:1643 client/gui-gtk-3.0/repodlgs.c:1697
 #: client/gui-gtk-3.22/repodlgs.c:1698
 msgid "Find _Nearest"
-msgstr "Trovu la pli _proksiman"
+msgstr "Trovi la plej _proksiman"
 
 #: client/gui-gtk-2.0/repodlgs.c:1646 client/gui-gtk-3.0/repodlgs.c:1692
 #: client/gui-gtk-3.22/repodlgs.c:1693
@@ -15015,9 +15015,9 @@ msgstr ""
 #. TRANS: Estimated recurring revenue for
 #. * the Establish Trade _Route action.
 #: client/text.c:1713
-#, fuzzy, c-format
+#, c-format
 msgid "%d trade"
-msgstr "+%d Komerco / %d"
+msgstr "%d Komerco"
 
 #. TRANS: Estimated one time bonus for the Enter Marketplace
 #. * action.
@@ -15601,15 +15601,15 @@ msgstr ""
 #: data/classic/game.ruleset:274 data/sandbox/game.ruleset:277
 #: data/experimental/game.ruleset:277 data/civ2civ3/game.ruleset:279
 #: data/alien/game.ruleset:267 data/multiplayer/game.ruleset:277
-#, fuzzy, c-format
+#, c-format
 msgid "%sSabotage City%s"
-msgstr "Sabotu la urbon"
+msgstr "%sSaboti la urbon%s"
 
 #. TRANS: _Sabotage City and Escape (3% chance of success).
 #: common/actions.c:5264
-#, fuzzy, c-format
+#, c-format
 msgid "%sSabotage City and Escape%s"
-msgstr "Sabotu la urbon"
+msgstr "%sSaboti la urbon kaj eskapi%s"
 
 #. TRANS: Industria_l Sabotage (3% chance of success).
 #: common/actions.c:5267
@@ -15736,16 +15736,16 @@ msgstr ""
 #: data/classic/game.ruleset:310 data/sandbox/game.ruleset:316
 #: data/experimental/game.ruleset:313 data/civ2civ3/game.ruleset:315
 #: data/alien/game.ruleset:279
-#, fuzzy, c-format
+#, c-format
 msgid "Establish Trade %sRoute%s"
-msgstr "Starigu _komercan kurson"
+msgstr "Starigi %skomercan kurson%s"
 
 #. TRANS: Enter _Marketplace (100% chance of success).
 #: common/actions.c:5319 data/civ1/game.ruleset:265 data/civ2/game.ruleset:312
 #: data/sandbox/game.ruleset:319 data/civ2civ3/game.ruleset:318
-#, fuzzy, c-format
+#, c-format
 msgid "Enter %sMarketplace%s"
-msgstr "Eniru la bazaron"
+msgstr "Eniri la %sbazaron%s"
 
 #. TRANS: Help _build Wonder (100% chance of success).
 #: common/actions.c:5322 data/civ1/game.ruleset:268 data/civ2/game.ruleset:315
@@ -15759,9 +15759,9 @@ msgstr "Helpi %skonstrui Mirindaĵon%s"
 #. TRANS: _Capture Units (100% chance of success).
 #: common/actions.c:5325 data/sandbox/game.ruleset:331
 #: data/civ2civ3/game.ruleset:330 data/alien/game.ruleset:294
-#, fuzzy, c-format
+#, c-format
 msgid "%sCapture Units%s"
-msgstr "Ĉeestantaj unuoj %d"
+msgstr "%sKapti unuojn%s"
 
 #. TRANS: _Expel Unit (100% chance of success).
 #: common/actions.c:5328
@@ -15873,18 +15873,18 @@ msgstr "Iru/flugtransportu en urbon"
 #: data/classic/game.ruleset:346 data/sandbox/game.ruleset:361
 #: data/experimental/game.ruleset:349 data/civ2civ3/game.ruleset:357
 #: data/alien/game.ruleset:318 data/multiplayer/game.ruleset:343
-#, fuzzy, c-format
+#, c-format
 msgid "%sAttack%s"
-msgstr "Atako:"
+msgstr "%sAtaki%s"
 
 #. TRANS: _Conquer City (100% chance of success).
 #: common/actions.c:5373 data/civ1/game.ruleset:292 data/civ2/game.ruleset:345
 #: data/classic/game.ruleset:349 data/sandbox/game.ruleset:364
 #: data/experimental/game.ruleset:352 data/civ2civ3/game.ruleset:360
 #: data/alien/game.ruleset:321 data/multiplayer/game.ruleset:346
-#, fuzzy, c-format
+#, c-format
 msgid "%sConquer City%s"
-msgstr "%s konkeris %s-n."
+msgstr "%sKonkeri urbon%s"
 
 #. TRANS: Heal _Unit (3% chance of success).
 #: common/actions.c:5376
@@ -16666,14 +16666,14 @@ msgstr ""
 #. TRANS: " and achieved the rank of <veteran level>";
 #. * preserve leading space
 #: common/featured_text.c:1148
-#, fuzzy, c-format
+#, c-format
 msgid " and achieved the rank of %s"
-msgstr "Via unuo %s iĝis pli sperta kaj atingis la rangon de %s."
+msgstr " kaj atingis la rangon de %s."
 
 #. TRANS: tired; note trailing space
 #: common/featured_text.c:1165
 msgid "tired "
-msgstr ""
+msgstr "laca "
 
 #. TRANS: FP = Firepower of a unit; note trailing space
 #: common/featured_text.c:1188
@@ -19761,15 +19761,19 @@ msgstr ""
 
 #. TRANS: Last %s is pre-pluralised "Treasury contains %d gold."
 #: common/unit.c:1993
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Upgrade %s to %s for %d gold?\n"
 "%s"
 msgid_plural ""
 "Upgrade %s to %s for %d gold?\n"
 "%s"
-msgstr[0] "%s moderniĝis al %s per %d oraj moneroj."
-msgstr[1] "%s moderniĝis al %s per %d oraj moneroj."
+msgstr[0] ""
+"Ĉu ĝisdatigi la unon %s al %s per %d ora monero?\n"
+"%s"
+msgstr[1] ""
+"Ĉu ĝisdatigi la unon %s al %s per %d oraj moneroj?\n"
+"%s"
 
 #: common/unit.c:2002
 #, c-format
@@ -23962,7 +23966,7 @@ msgstr ""
 #: data/experimental/units.ruleset:2176 data/civ2civ3/units.ruleset:2366
 #: data/alien/units.ruleset:1336 data/multiplayer/units.ruleset:2247
 msgid "Caravan"
-msgstr "Karavanoj"
+msgstr "Karavano"
 
 #: data/civ1/units.ruleset:1328 data/civ2/units.ruleset:2109
 #: data/classic/units.ruleset:2175 data/experimental/units.ruleset:2202
@@ -24110,7 +24114,7 @@ msgstr ""
 #: data/sandbox/buildings.ruleset:373 data/experimental/buildings.ruleset:287
 #: data/civ2civ3/buildings.ruleset:370 data/multiplayer/buildings.ruleset:308
 msgid "Coastal Defense"
-msgstr "Marborda defendo"
+msgstr "Marborda defendejo"
 
 #: data/civ2/buildings.ruleset:293 data/classic/buildings.ruleset:299
 #: data/experimental/buildings.ruleset:304
@@ -24241,7 +24245,7 @@ msgstr ""
 #: data/sandbox/buildings.ruleset:856 data/experimental/buildings.ruleset:757
 #: data/civ2civ3/buildings.ruleset:853 data/multiplayer/buildings.ruleset:683
 msgid "Port Facility"
-msgstr "Haveno"
+msgstr "Milithaveno"
 
 #: data/civ2/buildings.ruleset:689 data/classic/buildings.ruleset:718
 #: data/sandbox/buildings.ruleset:873 data/experimental/buildings.ruleset:774
@@ -27731,13 +27735,12 @@ msgid "Metropolis"
 msgstr ""
 
 #: data/sandbox/game.ruleset:1280 data/civ2civ3/game.ruleset:1087
-#, fuzzy
 msgid "Your nation is the first with a city of population 20!"
-msgstr "Via nacio falis en intercivitana milito."
+msgstr "Via nacio estas la unua kun urbo de grando 20!"
 
 #: data/sandbox/game.ruleset:1281 data/civ2civ3/game.ruleset:1088
 msgid "One of your cities has reached population 20!"
-msgstr ""
+msgstr "Unu el viaj urboj atingis grandon 20!"
 
 #: data/sandbox/game.ruleset:1284 data/civ2civ3/game.ruleset:1091
 #, fuzzy
@@ -27758,13 +27761,12 @@ msgid "Cultured Nation"
 msgstr "Uniĝintaj Nacioj"
 
 #: data/sandbox/game.ruleset:1297 data/civ2civ3/game.ruleset:1104
-#, fuzzy
 msgid "Your nation is the first one to achieve 10000 culture points!"
-msgstr "Via nacio falis en intercivitana milito."
+msgstr "Via nacio estas tiu, kiu unue atingis 10000 kulturajn poentojn!"
 
 #: data/sandbox/game.ruleset:1298 data/civ2civ3/game.ruleset:1105
 msgid "Your nation has achieved 10000 culture points!"
-msgstr ""
+msgstr "Via nacio atingis 10000 kulturajn poentojn!"
 
 #: data/sandbox/game.ruleset:1370
 msgid "Wares"
@@ -36439,19 +36441,19 @@ msgid "Vision: %d"
 msgstr "Vido:"
 
 #: tools/civmanual.c:616
-#, fuzzy, c-format
+#, c-format
 msgid "Attack: %d"
-msgstr "Atako:"
+msgstr "Atako: %d"
 
 #: tools/civmanual.c:620
-#, fuzzy, c-format
+#, c-format
 msgid "Defense: %d"
-msgstr "Defendo:"
+msgstr "Defendo: %d"
 
 #: tools/civmanual.c:624
-#, fuzzy, c-format
+#, c-format
 msgid "Firepower: %d"
-msgstr "Pafpovo:"
+msgstr "Pafpovo: %d"
 
 #: tools/civmanual.c:628
 #, fuzzy, c-format
@@ -37293,11 +37295,9 @@ msgid "You already had a city called %s. The city was renamed to %s."
 msgstr "Via jam havas urbon nomitan %s. La urbo estis renomita %s."
 
 #: server/citytools.c:1261
-#, fuzzy, c-format
+#, c-format
 msgid "The people in %s are stunned by your technological insight!"
-msgstr ""
-"Popolo en %s supermiriĝas je via vido pri teĥnologio!\n"
-"      Laborantoj memvole grupiĝis kaj modernigis la urbon pere de fervojo."
+msgstr "La popolo en %s miregas pri via teĥnologia kapablo!"
 
 #: server/citytools.c:1267
 #, c-format
@@ -37501,9 +37501,9 @@ msgid "Warning: Famine feared in %s."
 msgstr "ATENTU: timo pri malsatmizero en %s."
 
 #: server/cityturn.c:652
-#, fuzzy, c-format
+#, c-format
 msgid "WARNING, we're LOW on FUNDS %s."
-msgstr "ATENTU; ni havas malmulton da mono, via moŝto."
+msgstr "ATENTU, ni havas MALMULTON da MONO %s."
 
 #: server/cityturn.c:897
 #, c-format
@@ -37985,7 +37985,7 @@ msgstr "La %s finis la konstruadon de %s en %s."
 #: server/cityturn.c:2289
 #, c-format
 msgid "%s has finished building %s."
-msgstr "%s finis la produkton de %s."
+msgstr "%s finis produkton de %s."
 
 #: server/cityturn.c:2310
 #, c-format
@@ -40528,13 +40528,12 @@ msgid "Wetlands have dried up and vast ranges of grassland have become tundra."
 msgstr "La marĉoj sekiĝis kaj vastaj partoj de herbejo iĝis tundro."
 
 #: server/maphand.c:314
-#, fuzzy
 msgid ""
 "New hope sweeps like fire through the country as the discovery of new "
 "infrastructure building technology is announced."
 msgstr ""
-"Nova espero flamiĝas en la nacio kiam oni anoncis la eltrovo de la fervojo.\n"
-"       La laboristoj memvole grupiĝas kaj modernigas ĉiun urbon per fervojo."
+"Nova espero flamiĝas tra la nacio kiam oni anoncis la eltrovon de nova "
+"teĥnologio por konstruado de infrastrukturo"
 
 #: server/maphand.c:321
 #, fuzzy
@@ -46324,21 +46323,21 @@ msgstr ""
 #. TRANS: "2 Musketeers upgraded to Riflemen for 100 gold."
 #. * Plurality is in gold (second %d), not units.
 #: server/unithand.c:209
-#, fuzzy, c-format
+#, c-format
 msgid "%d %s upgraded to %s for %d gold."
 msgid_plural "%d %s upgraded to %s for %d gold."
-msgstr[0] "%d %s moderniĝis al %s per %d oraj moneroj."
-msgstr[1] "%d %s moderniĝis al %s per %d oraj moneroj."
+msgstr[0] "%d unuoj (%s) moderniĝis al %s per %d ora monero."
+msgstr[1] "%d unuoj (%s) moderniĝis al %s per %d oraj moneroj."
 
 #: server/unithand.c:219
 msgid "No units could be upgraded."
 msgstr "Neniu unuo povis esti modernigita."
 
 #: server/unithand.c:244
-#, fuzzy, c-format
+#, c-format
 msgid "%s upgraded to %s for %d gold."
 msgid_plural "%s upgraded to %s for %d gold."
-msgstr[0] "%s moderniĝis al %s per %d oraj moneroj."
+msgstr[0] "%s moderniĝis al %s per %d ora monero."
 msgstr[1] "%s moderniĝis al %s per %d oraj moneroj."
 
 #. TRANS: You can only have one Leader.
@@ -46349,9 +46348,9 @@ msgstr "Vi fondis %s-n."
 
 #. TRANS: <unit> ... <unit>
 #: server/unithand.c:336
-#, fuzzy, c-format
+#, c-format
 msgid "Your %s succeeded in capturing the %s %s."
-msgstr "Via %s sukcesis subaĉeti la %sn."
+msgstr "Via %s sukcesis kapti la %sn unuon %s."
 
 #. TRANS: <unit> ... <Poles>
 #: server/unithand.c:342
@@ -46938,6 +46937,8 @@ msgid ""
 "Your %s %s [id:%d %sD:%.1f lost %d HP, %d HP remaining] survived the "
 "pathetic %sattack from the %s %s %s [id:%d %sA:%.1f HP:%d]."
 msgstr ""
+"Via %s unuo %s [id:%d %sD:%.1f perdis %d HP, %d HP restas] travivis la "
+"mizeran %satakon de la %s %s unuo %s [id:%d %sA:%.1f HP:%d]."
 
 #. TRANS: "Your attacking green Cannon [id:100 ...A:8.0
 #. * failed against the Greek Polish Destroyer [id:200 lost
@@ -46960,8 +46961,8 @@ msgid ""
 "Your %s %s [id:%d %sD:%.1f HP:%d] lost to an attack by the %s %s %s [id:%d "
 "%sA:%.1f lost %d HP, has %d HP remaining%s]."
 msgstr ""
-"Via %s %s [id:%d %sD:%.1f HP:%d] estis venkita de atako de %s %s %s [id:%d "
-"%sA:%.1f perdis %d HP, kaj pluhavas %d HP%s]."
+"Via %s unuo %s [id:%d %sD:%.1f HP:%d] estis venkita de atako de %s %s unuo %s "
+"[id:%d %sA:%.1f perdis %d HP, kaj pluhavas %d HP%s]."
 
 #. TRANS: "Your attacking green Legion [id:200 ...A:4.0
 #. * lost 1 HP, has 9 HP remaining] succeeded against the
@@ -47021,7 +47022,7 @@ msgstr "troas"
 #: server/unithand.c:4461
 #, c-format
 msgid "Your %s helps build the %s in %s (%d %s)."
-msgstr "Via %s helpas konstrui la %sn en %s (%d %s)."
+msgstr "Via %s helpas konstrui la aĵon %s en %s (%d %s)."
 
 #. TRANS: Help building the Pyramids in Bergen received
 #. * from Persian Caravan (4 surplus).
@@ -47062,13 +47063,13 @@ msgstr[1] "       La urbo %s jam havas %d pli bonajn komercajn kursojn!"
 
 #. TRANS: ... Caravan ... Paris ... Stockholm ... Goods
 #: server/unithand.c:4655
-#, fuzzy, c-format
+#, c-format
 msgid "Your %s from %s has arrived in %s carrying %s."
-msgstr "Via karavano alvenis al %s"
+msgstr "Via %s de %s alvenis en %s portante %sn."
 
 #. TRANS: ... Caravan ... Paris ... Stockholm, ... Goods...
 #: server/unithand.c:4665
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Your %s from %s has arrived in %s carrying %s, and revenues amount to %d in "
 "gold."
@@ -47076,11 +47077,9 @@ msgid_plural ""
 "Your %s from %s has arrived in %s carrying %s, and revenues amount to %d in "
 "gold."
 msgstr[0] ""
-"Viaj %s estas alvenintaj de %s al %s, kaj la enspezo estas %d poentojn de "
-"oro kaj studo."
+"Via %s de %s alvenis en %s portante %sn, kaj la enspezo estas %d ora monero."
 msgstr[1] ""
-"Viaj %s estas alvenintaj de %s al %s, kaj la enspezo estas %d poentojn de "
-"oro kaj studo."
+"Via %s de %s alvenis en %s portante %sn, kaj la enspezo estas %d oraj moneroj."
 
 #. TRANS: ... Caravan ... Paris ... Stockholm, ... Goods...
 #: server/unithand.c:4680
@@ -47115,9 +47114,9 @@ msgstr[1] ""
 "oro kaj studo."
 
 #: server/unithand.c:4737
-#, fuzzy, c-format
+#, c-format
 msgid "New trade route established from %s to %s."
-msgstr "Tiuj komercaj kursoj estas starigitaj kun %s:\n"
+msgstr "Nova komerca kurso establiĝis de %s al %s."
 
 #: server/unithand.c:4743
 #, fuzzy, c-format
@@ -48784,7 +48783,7 @@ msgstr "eraro %d (kompilumita sen strerror)"
 
 #, c-format
 #~ msgid "Your %s survived the pathetic attack from the %s %s."
-#~ msgstr "Viaj %s supervivis la mizeran atakon de la %sj %s."
+#~ msgstr "Via unuo %s supervivis la mizeran atakon de la %s %s."
 
 #, c-format
 #~ msgid "Your attacking %s failed against the %s %s!"
