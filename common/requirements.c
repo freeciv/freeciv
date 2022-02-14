@@ -790,11 +790,14 @@ struct requirement req_from_str(const char *type, const char *range,
         req.range = REQ_RANGE_LOCAL;
         break;
       case VUT_EXTRA:
+      case VUT_ROADFLAG:
+      case VUT_EXTRAFLAG:
+        /* keep old behavior */
+        req.range = REQ_RANGE_TILE;
+        break;
       case VUT_TERRAIN:
       case VUT_TERRFLAG:
       case VUT_TERRAINCLASS:
-      case VUT_ROADFLAG:
-      case VUT_EXTRAFLAG:
       case VUT_TERRAINALTER:
       case VUT_CITYTILE:
       case VUT_MAXTILEUNITS:
@@ -841,16 +844,18 @@ struct requirement req_from_str(const char *type, const char *range,
      * might not have been loaded yet. */
     switch (req.source.kind) {
     case VUT_TERRAIN:
-    case VUT_EXTRA:
     case VUT_TERRAINCLASS:
     case VUT_TERRFLAG:
-    case VUT_ROADFLAG:
-    case VUT_EXTRAFLAG:
       invalid = (req.range != REQ_RANGE_TILE
                  && req.range != REQ_RANGE_CADJACENT
                  && req.range != REQ_RANGE_ADJACENT
                  && req.range != REQ_RANGE_CITY
                  && req.range != REQ_RANGE_TRADEROUTE);
+      break;
+    case VUT_EXTRA:
+    case VUT_ROADFLAG:
+    case VUT_EXTRAFLAG:
+      invalid = (req.range > REQ_RANGE_TRADEROUTE);
       break;
     case VUT_ADVANCE:
     case VUT_TECHFLAG:
@@ -1885,12 +1890,19 @@ is_tile_units_in_range(const struct tile *target_tile, enum req_range range,
 /**********************************************************************//**
   Is there a source extra type within range of the target?
 **************************************************************************/
-static enum fc_tristate is_extra_type_in_range(const struct tile *target_tile,
-                                               const struct city *target_city,
-                                               enum req_range range, bool survives,
-                                               struct extra_type *pextra)
+static enum fc_tristate
+is_extra_type_in_range(const struct extra_type *target_extra,
+                       const struct tile *target_tile,
+                       const struct city *target_city,
+                       enum req_range range, bool survives,
+                       struct extra_type *pextra)
 {
   switch (range) {
+  case REQ_RANGE_LOCAL:
+    if (!target_extra) {
+      return TRI_MAYBE;
+    }
+    return BOOL_TO_TRISTATE(target_extra == pextra);
   case REQ_RANGE_TILE:
     /* The requirement is filled if the tile has extra of requested type. */
     if (!target_tile) {
@@ -1948,7 +1960,6 @@ static enum fc_tristate is_extra_type_in_range(const struct tile *target_tile,
   case REQ_RANGE_TEAM:
   case REQ_RANGE_ALLIANCE:
   case REQ_RANGE_WORLD:
-  case REQ_RANGE_LOCAL:
   case REQ_RANGE_COUNT:
     break;
   }
@@ -2239,12 +2250,24 @@ static enum fc_tristate is_terrainflag_in_range(const struct tile *target_tile,
 /**********************************************************************//**
   Is there a road with the given flag within range of the target?
 **************************************************************************/
-static enum fc_tristate is_roadflag_in_range(const struct tile *target_tile,
-                                             const struct city *target_city,
-                                             enum req_range range, bool survives,
-                                             enum road_flag_id roadflag)
+static enum fc_tristate
+is_roadflag_in_range(const struct extra_type *target_extra,
+                     const struct tile *target_tile,
+                     const struct city *target_city,
+                     enum req_range range, bool survives,
+                     enum road_flag_id roadflag)
 {
   switch (range) {
+  case REQ_RANGE_LOCAL:
+    {
+      if (!target_extra) {
+        return TRI_MAYBE;
+      }
+      struct road_type *r = extra_road_get(target_extra);
+      return BOOL_TO_TRISTATE(
+          r && road_has_flag(r, roadflag)
+      );
+    }
   case REQ_RANGE_TILE:
     /* The requirement is filled if the tile has a road with correct flag. */
     if (!target_tile) {
@@ -2301,7 +2324,6 @@ static enum fc_tristate is_roadflag_in_range(const struct tile *target_tile,
   case REQ_RANGE_TEAM:
   case REQ_RANGE_ALLIANCE:
   case REQ_RANGE_WORLD:
-  case REQ_RANGE_LOCAL:
   case REQ_RANGE_COUNT:
     break;
   }
@@ -2314,12 +2336,19 @@ static enum fc_tristate is_roadflag_in_range(const struct tile *target_tile,
 /**********************************************************************//**
   Is there an extra with the given flag within range of the target?
 **************************************************************************/
-static enum fc_tristate is_extraflag_in_range(const struct tile *target_tile,
-                                              const struct city *target_city,
-                                              enum req_range range, bool survives,
-                                              enum extra_flag_id extraflag)
+static enum fc_tristate
+is_extraflag_in_range(const struct extra_type *target_extra,
+                      const struct tile *target_tile,
+                      const struct city *target_city,
+                      enum req_range range, bool survives,
+                      enum extra_flag_id extraflag)
 {
   switch (range) {
+  case REQ_RANGE_LOCAL:
+    if (!target_extra) {
+      return TRI_MAYBE;
+    }
+    return BOOL_TO_TRISTATE(extra_has_flag(target_extra, extraflag));
   case REQ_RANGE_TILE:
     /* The requirement is filled if the tile has an extra with correct flag. */
     if (!target_tile) {
@@ -2376,7 +2405,6 @@ static enum fc_tristate is_extraflag_in_range(const struct tile *target_tile,
   case REQ_RANGE_TEAM:
   case REQ_RANGE_ALLIANCE:
   case REQ_RANGE_WORLD:
-  case REQ_RANGE_LOCAL:
   case REQ_RANGE_COUNT:
     break;
   }
@@ -3258,7 +3286,8 @@ bool is_req_active(const struct req_context *context,
                               : TRI_MAYBE);
     break;
   case VUT_EXTRA:
-    eval = is_extra_type_in_range(context->tile, context->city,
+    eval = is_extra_type_in_range(context->extra,
+                                  context->tile, context->city,
                                   req->range, req->survives,
                                   req->source.value.extra);
     break;
@@ -3510,12 +3539,14 @@ bool is_req_active(const struct req_context *context,
                                      req->source.value.terrainclass);
     break;
   case VUT_ROADFLAG:
-    eval = is_roadflag_in_range(context->tile, context->city,
-                                 req->range, req->survives,
-                                 req->source.value.roadflag);
+    eval = is_roadflag_in_range(context->extra,
+                                context->tile, context->city,
+                                req->range, req->survives,
+                                req->source.value.roadflag);
     break;
   case VUT_EXTRAFLAG:
-    eval = is_extraflag_in_range(context->tile, context->city,
+    eval = is_extraflag_in_range(context->extra,
+                                 context->tile, context->city,
                                  req->range, req->survives,
                                  req->source.value.extraflag);
     break;
@@ -3659,10 +3690,12 @@ bool is_req_unchanging(const struct requirement *req)
   case VUT_MINMOVES:
   case VUT_MINHP:
   case VUT_AGE:
-  case VUT_ROADFLAG:
-  case VUT_EXTRAFLAG:
   case VUT_MINCALFRAG:  /* cyclically available */
     return FALSE;
+  case VUT_ROADFLAG:
+  case VUT_EXTRAFLAG:
+    /* FIXME: These should probably be treated the same as VUT_EXTRA */
+    return req->range == REQ_RANGE_LOCAL;
   case VUT_TERRAIN:
   case VUT_EXTRA:
   case VUT_GOOD:

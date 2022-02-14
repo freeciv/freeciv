@@ -567,6 +567,21 @@ static bool is_req_knowable(const struct player *pov_player,
     }
   }
 
+  if (req->source.kind == VUT_EXTRA
+      || req->source.kind == VUT_EXTRAFLAG
+      || req->source.kind == VUT_ROADFLAG) {
+    if (req->range == REQ_RANGE_LOCAL) {
+      if (context->extra == NULL) {
+        /* The extra may exist but not be passed when the problem type is
+         * RPT_POSSIBLE. */
+        return prob_type == RPT_CERTAIN;
+      }
+      /* The extra is given; we can figure out whether it matches. */
+      return TRUE;
+    }
+    /* Other ranges handled below */
+  }
+
   if (req->source.kind == VUT_TERRAIN
       || req->source.kind == VUT_TERRFLAG
       || req->source.kind == VUT_TERRAINCLASS

@@ -57,9 +57,9 @@ Achievement:     World, Alliance, Team, Player
 Gov:             Player
 Building:        World, Alliance, Team, Player, Continent, Traderoute, City, Local
 BuildingGenus:   Local
-Extra:           Tile, Adjacent, CAdjacent, Traderoute, City
-RoadFlag:        Tile, Adjacent, CAdjacent, Traderoute, City
-ExtraFlag:       Tile, Adjacent, CAdjacent, Traderoute, City
+Extra:           Local, Tile, Adjacent, CAdjacent, Traderoute, City
+RoadFlag:        Local, Tile, Adjacent, CAdjacent, Traderoute, City
+ExtraFlag:       Local, Tile, Adjacent, CAdjacent, Traderoute, City
 Terrain:         Tile, Adjacent, CAdjacent, Traderoute, City
 Good:            City
 UnitType:        Local

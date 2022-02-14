@@ -101,6 +101,7 @@ struct req_context {
   const struct unit *unit;
   const struct unit_type *unittype;
   const struct impr_type *building;
+  const struct extra_type *extra;
   const struct output_type *output;
   const struct specialist *specialist;
   const struct action *action;

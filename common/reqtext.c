@@ -773,6 +773,18 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
 
   case VUT_EXTRA:
     switch (preq->range) {
+    case REQ_RANGE_LOCAL:
+      fc_strlcat(buf, prefix, bufsz);
+      if (preq->present) {
+        cat_snprintf(buf, bufsz,
+                     _("Only applies to \"%s\" extras."),
+                     extra_name_translation(preq->source.value.extra));
+      } else {
+        cat_snprintf(buf, bufsz,
+                     _("Does not apply to \"%s\" extras."),
+                     extra_name_translation(preq->source.value.extra));
+      }
+      return TRUE;
     case REQ_RANGE_TILE:
       fc_strlcat(buf, prefix, bufsz);
       if (preq->present) {
@@ -846,7 +858,6 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
     case REQ_RANGE_TEAM:
     case REQ_RANGE_ALLIANCE:
     case REQ_RANGE_WORLD:
-    case REQ_RANGE_LOCAL:
     case REQ_RANGE_COUNT:
       /* Not supported. */
       break;
@@ -2418,6 +2429,22 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
 
   case VUT_ROADFLAG:
     switch (preq->range) {
+    case REQ_RANGE_LOCAL:
+      fc_strlcat(buf, prefix, bufsz);
+      if (preq->present) {
+        cat_snprintf(buf, bufsz,
+                     /* TRANS: %s is a (translatable) road flag. */
+                     _("Only applies to roads with the \"%s\" flag."),
+                     road_flag_id_translated_name
+                     (preq->source.value.roadflag));
+      } else {
+        cat_snprintf(buf, bufsz,
+                     /* TRANS: %s is a (translatable) road flag. */
+                     _("Does not apply to roads with the \"%s\" flag."),
+                     road_flag_id_translated_name
+                     (preq->source.value.roadflag));
+      }
+      return TRUE;
     case REQ_RANGE_TILE:
       fc_strlcat(buf, prefix, bufsz);
       if (preq->present) {
@@ -2504,7 +2531,6 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
     case REQ_RANGE_TEAM:
     case REQ_RANGE_ALLIANCE:
     case REQ_RANGE_WORLD:
-    case REQ_RANGE_LOCAL:
     case REQ_RANGE_COUNT:
       /* Not supported. */
       break;
@@ -2513,6 +2539,22 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
 
   case VUT_EXTRAFLAG:
     switch (preq->range) {
+    case REQ_RANGE_LOCAL:
+      fc_strlcat(buf, prefix, bufsz);
+      if (preq->present) {
+        cat_snprintf(buf, bufsz,
+                     /* TRANS: %s is a (translatable) extra flag. */
+                     _("Only applies to extras with the \"%s\" flag."),
+                     extra_flag_id_translated_name
+                     (preq->source.value.extraflag));
+      } else {
+        cat_snprintf(buf, bufsz,
+                     /* TRANS: %s is a (translatable) extra flag. */
+                     _("Does not apply to extras with the \"%s\" flag."),
+                     extra_flag_id_translated_name
+                     (preq->source.value.extraflag));
+      }
+      return TRUE;
     case REQ_RANGE_TILE:
       fc_strlcat(buf, prefix, bufsz);
       if (preq->present) {
@@ -2599,7 +2641,6 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
     case REQ_RANGE_TEAM:
     case REQ_RANGE_ALLIANCE:
     case REQ_RANGE_WORLD:
-    case REQ_RANGE_LOCAL:
     case REQ_RANGE_COUNT:
       /* Not supported. */
       break;
