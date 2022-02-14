@@ -361,12 +361,14 @@ static void dai_choose_trade_route(struct ai_type *ait, struct city *pcity,
   trade_action = utype_can_do_action(unit_type, ACTION_TRADE_ROUTE) ?
         ACTION_TRADE_ROUTE : ACTION_MARKETPLACE;
   bonus = get_target_bonus_effects(NULL,
-                                   pplayer, NULL,
-                                   pcity, NULL,
-                                   city_tile(pcity),
-                                   NULL, NULL,
-                                   NULL, NULL,
-                                   action_by_number(trade_action),
+                                   &(const struct req_context) {
+                                     .player = pplayer,
+                                     .city = pcity,
+                                     .tile = city_tile(pcity),
+                                     .action =
+                                       action_by_number(trade_action),
+                                   },
+                                   NULL,
                                    EFT_TRADE_REVENUE_BONUS);
 
   /* Be mercy full to players with small amounts. Round up. */

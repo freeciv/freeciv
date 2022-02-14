@@ -2796,13 +2796,15 @@ void do_nuclear_explosion(const struct action *paction,
 {
   int nuke_radius_size
       = get_target_bonus_effects(NULL,
-                                 pplayer, NULL,
-                                 /* Wait for users before choosing home city
-                                  * or target tile city */
+                                 &(const struct req_context) {
+                                   .player = pplayer,
+                                 /* City: Wait for users before choosing
+                                  * home city or target tile city */
+                                   .tile = ptile,
+                                   .unittype = act_utype,
+                                   .action = paction,
+                                 },
                                  NULL,
-                                 NULL, ptile,
-                                 NULL, act_utype,
-                                 NULL, NULL, paction,
                                  EFT_NUKE_BLAST_RADIUS_1_SQ);
 
   circle_iterate(&(wld.map), ptile, nuke_radius_size, ptile1) {
@@ -3039,11 +3041,14 @@ static void unit_enter_hut(struct unit *punit, bool frighten_hut)
   int id = punit->id;
   struct tile *ptile = unit_tile(punit);
   bool hut = FALSE;
+  const struct req_context context = {
+    .player = pplayer,
+    .tile = ptile,
+  };
 
   extra_type_by_rmcause_iterate(ERM_ENTER, pextra) {
     if (tile_has_extra(ptile, pextra)
-        && are_reqs_active(pplayer, tile_owner(ptile), NULL, NULL, ptile,
-                           NULL, NULL, NULL, NULL, NULL, &pextra->rmreqs,
+        && are_reqs_active(&context, tile_owner(ptile), &pextra->rmreqs,
                            RPT_CERTAIN)
        ) {
       hut = TRUE;

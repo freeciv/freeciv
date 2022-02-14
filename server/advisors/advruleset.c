@@ -78,13 +78,14 @@ void adv_units_ruleset_init(void)
   } unit_class_iterate_end;
 
   unit_type_iterate(ptype) {
+    const struct req_context context = { .unittype = ptype };
+
     ptype->adv.igwall = TRUE;
 
     effect_list_iterate(get_effects(EFT_DEFEND_BONUS), peffect) {
       if (peffect->value > 0) {
         requirement_vector_iterate(&peffect->reqs, preq) {
-          if (!is_req_active(NULL, NULL, NULL, NULL, NULL, NULL, ptype,
-                             NULL, NULL, NULL, preq, RPT_POSSIBLE)) {
+          if (!is_req_active(&context, NULL, preq, RPT_POSSIBLE)) {
             ptype->adv.igwall = FALSE;
             break;
           }

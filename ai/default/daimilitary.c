@@ -1025,12 +1025,16 @@ static void process_attacker_want(struct ai_type *ait,
       adv_want want;
       int move_time;
       int vuln;
-      int veteran_level = get_target_bonus_effects(NULL,
-                                                   pplayer, NULL, pcity,
-                                                   NULL, city_tile(pcity),
-                                                   NULL, punittype, NULL,
-                                                   NULL, NULL,
-                                                   EFT_VETERAN_BUILD);
+      int veteran_level
+        = get_target_bonus_effects(NULL,
+                                   &(const struct req_context) {
+                                     .player = pplayer,
+                                     .city = pcity,
+                                     .tile = city_tile(pcity),
+                                     .unittype = punittype,
+                                   },
+                                   NULL,
+                                   EFT_VETERAN_BUILD);
       /* Cost (shield equivalent) of gaining these techs. */
       /* FIXME? Katvrr advises that this should be weighted more heavily in big
        * danger. */

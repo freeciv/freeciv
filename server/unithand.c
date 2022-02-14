@@ -639,16 +639,19 @@ static bool do_heal_unit(struct player *act_player,
   fc_assert_ret_val(tgt_tile, FALSE);
 
   /* The max amount of HP that can be added. */
-  healing_limit = ((get_target_bonus_effects(NULL,
-                                             unit_owner(act_unit),
-                                             unit_owner(tgt_unit),
-                                             tile_city(unit_tile(act_unit)),
-                                             NULL, unit_tile(act_unit),
-                                             act_unit,
-                                             unit_type_get(act_unit),
-                                             NULL, NULL, paction,
-                                             EFT_HEAL_UNIT_PCT)
-                    + 100)
+  healing_limit = ((get_target_bonus_effects(
+                      NULL,
+                      &(const struct req_context) {
+                        .player = unit_owner(act_unit),
+                        .city = tile_city(unit_tile(act_unit)),
+                        .tile = unit_tile(act_unit),
+                        .unit = act_unit,
+                        .unittype = unit_type_get(act_unit),
+                        .action = paction,
+                      },
+                      unit_owner(tgt_unit),
+                      EFT_HEAL_UNIT_PCT
+                    ) + 100)
                    * tgt_hp_max) / 100;
 
   /* Heal the target unit. */
@@ -2833,6 +2836,13 @@ static bool illegal_action_pay_price(struct player *pplayer,
   int punishment_mp;
   int punishment_hp;
 
+  const struct req_context actor_ctxt = {
+    .player = unit_owner(act_unit),
+    .unit = act_unit,
+    .unittype = unit_type_get(act_unit),
+    .action = stopped_action,
+  };
+
   /* Don't punish the player for something the game did. Don't tell the
    * player that the rules required the game to try to do something
    * illegal. */
@@ -2850,17 +2860,7 @@ static bool illegal_action_pay_price(struct player *pplayer,
   /* The mistake may have a cost. */
 
   /* HP cost */
-  punishment_hp = get_target_bonus_effects(NULL,
-                                           unit_owner(act_unit),
-                                           tgt_player,
-                                           NULL,
-                                           NULL,
-                                           NULL,
-                                           act_unit,
-                                           unit_type_get(act_unit),
-                                           NULL,
-                                           NULL,
-                                           stopped_action,
+  punishment_hp = get_target_bonus_effects(NULL, &actor_ctxt, tgt_player,
                                            EFT_ILLEGAL_ACTION_HP_COST);
 
   /* Stay in range */
@@ -2912,17 +2912,7 @@ static bool illegal_action_pay_price(struct player *pplayer,
   }
 
   /* MP cost */
-  punishment_mp = get_target_bonus_effects(NULL,
-                                           unit_owner(act_unit),
-                                           tgt_player,
-                                           NULL,
-                                           NULL,
-                                           NULL,
-                                           act_unit,
-                                           unit_type_get(act_unit),
-                                           NULL,
-                                           NULL,
-                                           stopped_action,
+  punishment_mp = get_target_bonus_effects(NULL, &actor_ctxt, tgt_player,
                                            EFT_ILLEGAL_ACTION_MOVE_COST);
 
   /* Stay in range */
@@ -4339,10 +4329,15 @@ static void unit_attack_civilian_casualties(const struct unit *punit,
 
   if (pcity
       && get_target_bonus_effects(NULL,
-                                  city_owner(pcity), NULL, pcity, NULL,
-                                  city_tile(pcity),
-                                  punit, unit_type_get(punit), NULL, NULL,
-                                  paction, EFT_UNIT_NO_LOSE_POP) <= 0
+                                  &(const struct req_context) {
+                                    .player = city_owner(pcity),
+                                    .city = pcity,
+                                    .tile = city_tile(pcity),
+                                    .unit = punit,
+                                    .unittype = unit_type_get(punit),
+                                    .action = paction,
+                                  },
+                                  NULL, EFT_UNIT_NO_LOSE_POP) <= 0
       && (game.info.killcitizen
           && uclass_has_flag(unit_class_get(punit), UCF_KILLCITIZEN))) {
     struct player *cplayer = city_owner(pcity);

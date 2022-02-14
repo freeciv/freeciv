@@ -240,10 +240,13 @@ int unit_shield_value(const struct unit *punit,
   value = utype_build_shield_cost_base(punittype);
   value += ((value
              * get_target_bonus_effects(NULL,
-                                        act_player, NULL,
-                                        NULL, NULL, NULL,
-                                        punit, punittype,
-                                        NULL, NULL, paction,
+                                        &(const struct req_context) {
+                                          .player = act_player,
+                                          .unit = punit,
+                                          .unittype = punittype,
+                                          .action = paction,
+                                        },
+                                        NULL,
                                         EFT_UNIT_SHIELD_VALUE_PCT))
             / 100);
 
@@ -2035,13 +2038,18 @@ int unit_pays_mp_for_action(const struct action *paction,
   int mpco;
 
   mpco = get_target_bonus_effects(NULL,
-                                  unit_owner(punit),
+                                  &(const struct req_context) {
+                                    .player = unit_owner(punit),
+                                    .city = unit_tile(punit)
+                                            ? tile_city(unit_tile(punit))
+                                            : NULL,
+                                    .tile = unit_tile(punit),
+                                    .unit = punit,
+                                    .unittype = unit_type_get(punit),
+                                    .action = paction,
+                                  },
                                   NULL,
-                                  unit_tile(punit)
-                                    ? tile_city(unit_tile(punit)) : NULL,
-                                  NULL, unit_tile(punit),
-                                  punit, unit_type_get(punit), NULL, NULL,
-                                  paction, EFT_ACTION_SUCCESS_MOVE_COST);
+                                  EFT_ACTION_SUCCESS_MOVE_COST);
 
   mpco += utype_pays_mp_for_action_base(paction, unit_type_get(punit));
 
@@ -2187,11 +2195,17 @@ int unit_bribe_cost(struct unit *punit, struct player *briber)
 
   /* Rule set specific cost modification */
   cost += (cost
-           * get_target_bonus_effects(NULL, unit_owner(punit), briber,
-                                      game_city_by_number(punit->homecity),
-                                      NULL, ptile,
-                                      punit, unit_type_get(punit), NULL, NULL,
-                                      NULL,
+           * get_target_bonus_effects(NULL,
+                                      &(const struct req_context) {
+                                        .player = unit_owner(punit),
+                                        .city = game_city_by_number(
+                                          punit->homecity
+                                        ),
+                                        .tile = ptile,
+                                        .unit = punit,
+                                        .unittype = unit_type_get(punit),
+                                      },
+                                      briber,
                                       EFT_UNIT_BRIBE_COST_PCT))
        / 100;
 

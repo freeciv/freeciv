@@ -123,22 +123,8 @@ action_target_compl_calc(enum action_result result,
                          enum action_sub_target_kind sub_tgt_kind);
 
 static bool is_enabler_active(const struct action_enabler *enabler,
-			      const struct player *actor_player,
-			      const struct city *actor_city,
-			      const struct impr_type *actor_building,
-			      const struct tile *actor_tile,
-                              const struct unit *actor_unit,
-			      const struct unit_type *actor_unittype,
-			      const struct output_type *actor_output,
-			      const struct specialist *actor_specialist,
-			      const struct player *target_player,
-			      const struct city *target_city,
-			      const struct impr_type *target_building,
-			      const struct tile *target_tile,
-                              const struct unit *target_unit,
-			      const struct unit_type *target_unittype,
-			      const struct output_type *target_output,
-			      const struct specialist *target_specialist);
+                              const struct req_context *actor,
+                              const struct req_context *target);
 
 static inline bool
 action_prob_is_signal(const struct act_prob probability);
@@ -3579,23 +3565,25 @@ action_actor_utype_hard_reqs_ok(const struct action *paction,
 
   Can return maybe when not omniscient. Should always return yes or no when
   omniscient.
+
+
+  Passing NULL for actor is equivalent to passing an empty context. This
+  may or may not be legal depending on the action.
 **************************************************************************/
 static enum fc_tristate
 action_hard_reqs_actor(const struct action *paction,
-                       const struct player *actor_player,
-                       const struct city *actor_city,
-                       const struct impr_type *actor_building,
-                       const struct tile *actor_tile,
-                       const struct unit *actor_unit,
-                       const struct unit_type *actor_unittype,
-                       const struct output_type *actor_output,
-                       const struct specialist *actor_specialist,
+                       const struct req_context *actor,
                        const bool omniscient,
                        const struct city *homecity)
 {
   enum action_result result = paction->result;
 
-  if (!action_actor_utype_hard_reqs_ok_full(paction, actor_unittype, TRUE)) {
+  if (actor == NULL) {
+    actor = req_context_empty();
+  }
+
+  if (!action_actor_utype_hard_reqs_ok_full(paction, actor->unittype,
+                                            TRUE)) {
     /* Info leak: The actor player knows the type of their unit. */
     /* The actor unit type can't perform the action because of hard
      * unit type requirements. */
@@ -3608,7 +3596,7 @@ action_hard_reqs_actor(const struct action *paction,
     /* Reason: Keep the old rules. */
     /* Info leak: The player knows if their unit already has paradropped this
      * turn. */
-    if (actor_unit->paradropped) {
+    if (actor->unit->paradropped) {
       return TRI_NO;
     }
 
@@ -3619,24 +3607,25 @@ action_hard_reqs_actor(const struct action *paction,
       /* Obligatory hard requirement. Checked here too since
        * action_hard_reqs_actor() may be called before any
        * action enablers are checked. */
-      if (actor_city == NULL) {
+      if (actor->city == NULL) {
         /* No city to airlift from. */
         return TRI_NO;
       }
 
-      if (actor_player != city_owner(actor_city)
+      if (actor->player != city_owner(actor->city)
           && !(game.info.airlifting_style & AIRLIFTING_ALLIED_SRC
-               && pplayers_allied(actor_player, city_owner(actor_city)))) {
+               && pplayers_allied(actor->player,
+                                  city_owner(actor->city)))) {
         /* Not allowed to airlift from this source. */
         return TRI_NO;
       }
 
-      if (!(omniscient || city_owner(actor_city) == actor_player)) {
+      if (!(omniscient || city_owner(actor->city) == actor->player)) {
         /* Can't check for airlifting capacity. */
         return TRI_MAYBE;
       }
 
-      if (0 >= actor_city->airlift
+      if (0 >= actor->city->airlift
           && (!(game.info.airlifting_style & AIRLIFTING_UNLIMITED_SRC)
               || !game.info.airlift_from_always_enabled)) {
         /* The source cannot airlift for this turn (maybe already airlifted
@@ -3651,15 +3640,15 @@ action_hard_reqs_actor(const struct action *paction,
   case ACTRES_CONVERT:
     /* Reason: Keep the old rules. */
     /* Info leak: The player knows their unit's cargo and location. */
-    if (!unit_can_convert(actor_unit)) {
+    if (!unit_can_convert(actor->unit)) {
       return TRI_NO;
     }
     break;
 
   case ACTRES_TRANSPORT_BOARD:
   case ACTRES_TRANSPORT_EMBARK:
-    if (unit_transported(actor_unit)) {
-      if (!can_unit_unload(actor_unit, unit_transport_get(actor_unit))) {
+    if (unit_transported(actor->unit)) {
+      if (!can_unit_unload(actor->unit, unit_transport_get(actor->unit))) {
         /* Can't leave current transport. */
         return TRI_NO;
       }
@@ -3667,7 +3656,7 @@ action_hard_reqs_actor(const struct action *paction,
     break;
 
   case ACTRES_TRANSPORT_DISEMBARK:
-    if (!can_unit_unload(actor_unit, unit_transport_get(actor_unit))) {
+    if (!can_unit_unload(actor->unit, unit_transport_get(actor->unit))) {
       /* Keep the old rules about Unreachable and disembarks. */
       return TRI_NO;
     }
@@ -3757,25 +3746,14 @@ action_hard_reqs_actor(const struct action *paction,
    * remember that this is called from action_prob(). Should information
      the player don't have access to be used in a test it must check if
      the evaluation can see the thing being tested.
+
+  Passing NULL for actor or target is equivalent to passing an empty
+  context. This may or may not be legal depending on the action.
 **************************************************************************/
 static enum fc_tristate
 is_action_possible(const action_id wanted_action,
-                   const struct player *actor_player,
-                   const struct city *actor_city,
-                   const struct impr_type *actor_building,
-                   const struct tile *actor_tile,
-                   const struct unit *actor_unit,
-                   const struct unit_type *actor_unittype,
-                   const struct output_type *actor_output,
-                   const struct specialist *actor_specialist,
-                   const struct player *target_player,
-                   const struct city *target_city,
-                   const struct impr_type *target_building,
-                   const struct tile *target_tile,
-                   const struct unit *target_unit,
-                   const struct unit_type *target_unittype,
-                   const struct output_type *target_output,
-                   const struct specialist *target_specialist,
+                   const struct req_context *actor,
+                   const struct req_context *target,
                    const struct extra_type *target_extra,
                    const bool omniscient,
                    const struct city *homecity)
@@ -3786,17 +3764,24 @@ is_action_possible(const action_id wanted_action,
   struct terrain *pterrain;
   struct action *paction;
 
+  if (actor == NULL) {
+    actor = req_context_empty();
+  }
+  if (target == NULL) {
+    target = req_context_empty();
+  }
+
   fc_assert_msg((action_id_get_target_kind(wanted_action) == ATK_CITY
-                 && target_city != NULL)
+                 && target->city != NULL)
                 || (action_id_get_target_kind(wanted_action) == ATK_TILE
-                    && target_tile != NULL)
+                    && target->tile != NULL)
                 || (action_id_get_target_kind(wanted_action) == ATK_EXTRAS
-                    && target_tile != NULL)
+                    && target->tile != NULL)
                 || (action_id_get_target_kind(wanted_action) == ATK_UNIT
-                    && target_unit != NULL)
+                    && target->unit != NULL)
                 || (action_id_get_target_kind(wanted_action) == ATK_UNITS
                     /* At this level each individual unit is tested. */
-                    && target_unit != NULL)
+                    && target->unit != NULL)
                 || (action_id_get_target_kind(wanted_action) == ATK_SELF),
                 "Missing target!");
 
@@ -3805,21 +3790,21 @@ is_action_possible(const action_id wanted_action,
   /* Only check requirement against the target unit if the actor can see it
    * or if the evaluator is omniscient. The game checking the rules is
    * omniscient. The player asking about their odds isn't. */
-  can_see_tgt_unit = (omniscient || (target_unit
-                                     && can_player_see_unit(actor_player,
-                                                            target_unit)));
+  can_see_tgt_unit = (omniscient || (target->unit
+                                     && can_player_see_unit(actor->player,
+                                                            target->unit)));
 
   /* Only check requirement against the target tile if the actor can see it
    * or if the evaluator is omniscient. The game checking the rules is
    * omniscient. The player asking about their odds isn't. */
   can_see_tgt_tile = (omniscient
-                      || plr_sees_tile(actor_player, target_tile));
+                      || plr_sees_tile(actor->player, target->tile));
 
   /* Info leak: The player knows where their unit is. */
   if (action_get_target_kind(paction) != ATK_SELF
       && !action_distance_accepted(paction,
-                                   real_map_distance(actor_tile,
-                                                     target_tile))) {
+                                   real_map_distance(actor->tile,
+                                                     target->tile))) {
     /* The distance between the actor and the target isn't inside the
      * action's accepted range. */
     return TRI_NO;
@@ -3835,7 +3820,7 @@ is_action_possible(const action_id wanted_action,
      *   and target is acceptable would leak distance to target unit if the
      *   target unit can't be seen.
      */
-    if (!can_player_see_unit(actor_player, target_unit)) {
+    if (!can_player_see_unit(actor->player, target->unit)) {
       return TRI_NO;
     }
     break;
@@ -3843,9 +3828,9 @@ is_action_possible(const action_id wanted_action,
     /* The Freeciv code assumes that the player is aware of the target
      * city's existence. (How can you order an airlift to a city when you
      * don't know its city ID?) */
-    if (fc_funcs->player_tile_city_id_get(city_tile(target_city),
-                                          actor_player)
-        != target_city->id) {
+    if (fc_funcs->player_tile_city_id_get(city_tile(target->city),
+                                          actor->player)
+        != target->city->id) {
       return TRI_NO;
     }
     break;
@@ -3860,19 +3845,15 @@ is_action_possible(const action_id wanted_action,
     break;
   }
 
-  if (action_is_blocked_by(paction, actor_unit,
-                           target_tile, target_city, target_unit)) {
+  if (action_is_blocked_by(paction, actor->unit,
+                           target->tile, target->city, target->unit)) {
     /* Allows an action to block an other action. If a blocking action is
      * legal the actions it blocks becomes illegal. */
     return TRI_NO;
   }
 
   /* Actor specific hard requirements. */
-  out = action_hard_reqs_actor(paction,
-                               actor_player, actor_city, actor_building,
-                               actor_tile, actor_unit, actor_unittype,
-                               actor_output, actor_specialist,
-                               omniscient, homecity);
+  out = action_hard_reqs_actor(paction, actor, omniscient, homecity);
 
   if (out == TRI_NO) {
     /* Illegal because of a hard actor requirement. */
@@ -3896,8 +3877,8 @@ is_action_possible(const action_id wanted_action,
       return TRI_MAYBE;
     }
 
-    if (utype_player_already_has_this_unique(actor_player,
-                                             target_unittype)) {
+    if (utype_player_already_has_this_unique(actor->player,
+                                             target->unittype)) {
       return TRI_NO;
     }
 
@@ -3911,17 +3892,17 @@ is_action_possible(const action_id wanted_action,
     /* Reason: The Freeciv code don't support selecting a target tech
      * unless it is known that the victim player has it. */
     /* Info leak: The actor player knowns whose techs they can see. */
-    if (!can_see_techs_of_target(actor_player, target_player)) {
+    if (!can_see_techs_of_target(actor->player, target->player)) {
       return TRI_NO;
     }
 
     break;
 
   case ACTRES_SPY_STEAL_GOLD:
-    /* If actor_unit can do the action the actor_player can see how much
-     * gold target_player have. Not requireing it is therefore pointless.
+    /* If actor->unit can do the action the actor->player can see how much
+     * gold target->player have. Not requireing it is therefore pointless.
      */
-    if (target_player->economic.gold <= 0) {
+    if (target->player->economic.gold <= 0) {
       return TRI_NO;
     }
 
@@ -3937,14 +3918,14 @@ is_action_possible(const action_id wanted_action,
        * cities can't trade at all. */
       /* TODO: Should this restriction (and the above restriction that the
        * actor unit must have a home city) be kept for Enter Marketplace? */
-      if (!can_cities_trade(homecity, target_city)) {
+      if (!can_cities_trade(homecity, target->city)) {
         return TRI_NO;
       }
 
       /* There are more restrictions on establishing a trade route than on
        * entering the market place. */
       if (action_has_result(paction, ACTRES_TRADE_ROUTE)
-          && !can_establish_trade_route(homecity, target_city)) {
+          && !can_establish_trade_route(homecity, target->city)) {
         return TRI_NO;
       }
     }
@@ -3960,12 +3941,12 @@ is_action_possible(const action_id wanted_action,
      * been hurried (bought or helped). The information isn't revealed when
      * asking for action probabilities since omniscient is FALSE. */
     if (!omniscient
-        && !can_player_see_city_internals(actor_player, target_city)) {
+        && !can_player_see_city_internals(actor->player, target->city)) {
       return TRI_MAYBE;
     }
 
-    if (!(target_city->shield_stock
-          < city_production_build_shield_cost(target_city))) {
+    if (!(target->city->shield_stock
+          < city_production_build_shield_cost(target->city))) {
       return TRI_NO;
     }
 
@@ -3978,20 +3959,20 @@ is_action_possible(const action_id wanted_action,
       return TRI_NO;
     }
 
-    if (can_see_tgt_tile && tile_city(target_tile)) {
+    if (can_see_tgt_tile && tile_city(target->tile)) {
       /* Reason: a tile can have 0 or 1 cities. */
       return TRI_NO;
     }
 
-    if (citymindist_prevents_city_on_tile(target_tile)) {
+    if (citymindist_prevents_city_on_tile(target->tile)) {
       if (omniscient) {
         /* No need to check again. */
         return TRI_NO;
       } else {
-        square_iterate(&(wld.map), target_tile,
+        square_iterate(&(wld.map), target->tile,
                        game.info.citymindist - 1, otile) {
           if (tile_city(otile) != NULL
-              && plr_sees_tile(actor_player, otile)) {
+              && plr_sees_tile(actor->player, otile)) {
             /* Known to be blocked by citymindist */
             return TRI_NO;
           }
@@ -4010,9 +3991,9 @@ is_action_possible(const action_id wanted_action,
     if (!omniscient) {
       /* The player may not have enough information to find out if
        * citymindist blocks or not. This doesn't depend on if it blocks. */
-      square_iterate(&(wld.map), target_tile,
+      square_iterate(&(wld.map), target->tile,
                      game.info.citymindist - 1, otile) {
-        if (!plr_sees_tile(actor_player, otile)) {
+        if (!plr_sees_tile(actor->player, otile)) {
           /* Could have a city that blocks via citymindist. Even if this
            * tile has TER_NO_CITIES terrain the player don't know that it
            * didn't change and had a city built on it. */
@@ -4028,18 +4009,18 @@ is_action_possible(const action_id wanted_action,
       int new_pop;
 
       if (!omniscient
-          && !player_can_see_city_externals(actor_player, target_city)) {
+          && !player_can_see_city_externals(actor->player, target->city)) {
         return TRI_MAYBE;
       }
 
-      new_pop = city_size_get(target_city) + unit_pop_value(actor_unit);
+      new_pop = city_size_get(target->city) + unit_pop_value(actor->unit);
 
       if (new_pop > game.info.add_to_size_limit) {
         /* Reason: Make the add_to_size_limit setting work. */
         return TRI_NO;
       }
 
-      if (!city_can_grow_to(target_city, new_pop)) {
+      if (!city_can_grow_to(target->city, new_pop)) {
         /* Reason: respect city size limits. */
         /* Info leak: when it is legal to join a foreign city is legal and
          * the EFT_SIZE_UNLIMIT effect or the EFT_SIZE_ADJ effect depends on
@@ -4053,7 +4034,8 @@ is_action_possible(const action_id wanted_action,
     break;
 
   case ACTRES_NUKE_UNITS:
-    if (unit_attack_units_at_tile_result(actor_unit, paction, target_tile)
+    if (unit_attack_units_at_tile_result(actor->unit, paction,
+                                         target->tile)
         != ATT_OK) {
       /* Unreachable. */
       return TRI_NO;
@@ -4064,15 +4046,15 @@ is_action_possible(const action_id wanted_action,
   case ACTRES_HOME_CITY:
     /* Reason: can't change to what is. */
     /* Info leak: The player knows their unit's current home city. */
-    if (homecity != NULL && homecity->id == target_city->id) {
+    if (homecity != NULL && homecity->id == target->city->id) {
       /* This is already the unit's home city. */
       return TRI_NO;
     }
 
     {
-      int slots = unit_type_get(actor_unit)->city_slots;
+      int slots = unit_type_get(actor->unit)->city_slots;
 
-      if (slots > 0 && city_unit_slots_available(target_city) < slots) {
+      if (slots > 0 && city_unit_slots_available(target->city) < slots) {
         return TRI_NO;
       }
     }
@@ -4093,7 +4075,7 @@ is_action_possible(const action_id wanted_action,
      * of cargo, they can predict if there will be enough room in the unit
      * upgraded to, as long as they know what unit type their unit will end
      * up as. */
-    if (unit_upgrade_test(actor_unit, FALSE) != UU_OK) {
+    if (unit_upgrade_test(actor->unit, FALSE) != UU_OK) {
       return TRI_NO;
     }
 
@@ -4103,33 +4085,33 @@ is_action_possible(const action_id wanted_action,
   case ACTRES_PARADROP_CONQUER:
     /* Reason: Keep the old rules. */
     /* Info leak: The player knows if they know the target tile. */
-    if (!plr_knows_tile(actor_player, target_tile)) {
+    if (!plr_knows_tile(actor->player, target->tile)) {
       return TRI_NO;
     }
 
-    if (plr_sees_tile(actor_player, target_tile)) {
+    if (plr_sees_tile(actor->player, target->tile)) {
       /* Check for seen stuff that may kill the actor unit. */
 
       /* Reason: Keep the old rules. Be merciful. */
       /* Info leak: The player sees the target tile. */
-      if (!can_unit_exist_at_tile(&(wld.map), actor_unit, target_tile)
+      if (!can_unit_exist_at_tile(&(wld.map), actor->unit, target->tile)
           && (!BV_ISSET(paction->sub_results, ACT_SUB_RES_MAY_EMBARK)
-              || !unit_could_load_at(actor_unit, target_tile))) {
+              || !unit_could_load_at(actor->unit, target->tile))) {
         return TRI_NO;
       }
 
       /* Reason: Keep the old rules. Be merciful. */
       /* Info leak: The player sees the target tile. */
-      if (is_non_attack_city_tile(target_tile, actor_player)) {
+      if (is_non_attack_city_tile(target->tile, actor->player)) {
         return TRI_NO;
       }
 
       /* Reason: Be merciful. */
       /* Info leak: The player sees all units checked. Invisible units are
        * ignored. */
-      unit_list_iterate(target_tile->units, pother) {
-        if (can_player_see_unit(actor_player, pother)
-            && !pplayers_allied(actor_player, unit_owner(pother))) {
+      unit_list_iterate(target->tile->units, pother) {
+        if (can_player_see_unit(actor->player, pother)
+            && !pplayers_allied(actor->player, unit_owner(pother))) {
           return TRI_NO;
         }
       } unit_list_iterate_end;
@@ -4138,8 +4120,8 @@ is_action_possible(const action_id wanted_action,
     /* Reason: Keep paratroopers_range working. */
     /* Info leak: The player knows the location of the actor and of the
      * target tile. */
-    if (unit_type_get(actor_unit)->paratroopers_range
-        < real_map_distance(actor_tile, target_tile)) {
+    if (unit_type_get(actor->unit)->paratroopers_range
+        < real_map_distance(actor->tile, target->tile)) {
       return TRI_NO;
     }
 
@@ -4148,8 +4130,8 @@ is_action_possible(const action_id wanted_action,
   case ACTRES_AIRLIFT:
     /* Reason: Keep the old rules. */
     /* Info leak: same as test_unit_can_airlift_to() */
-    switch (test_unit_can_airlift_to(omniscient ? NULL : actor_player,
-                                     actor_unit, target_city)) {
+    switch (test_unit_can_airlift_to(omniscient ? NULL : actor->player,
+                                     actor->unit, target->city)) {
     case AR_OK:
       return TRI_YES;
     case AR_OK_SRC_UNKNOWN:
@@ -4170,18 +4152,18 @@ is_action_possible(const action_id wanted_action,
 
   case ACTRES_ATTACK:
     /* Reason: Keep the old rules. */
-    if (!can_unit_attack_tile(actor_unit, paction, target_tile)) {
+    if (!can_unit_attack_tile(actor->unit, paction, target->tile)) {
       return TRI_NO;
     }
     break;
 
   case ACTRES_WIPE_UNITS:
-    if (!can_unit_attack_tile(actor_unit, paction, target_tile)) {
+    if (!can_unit_attack_tile(actor->unit, paction, target->tile)) {
       return TRI_NO;
     }
 
-    unit_list_iterate(target_tile->units, punit) {
-      if (get_total_defense_power(actor_unit, punit) > 0) {
+    unit_list_iterate(target->tile->units, punit) {
+      if (get_total_defense_power(actor->unit, punit) > 0) {
         return TRI_NO;
       }
     } unit_list_iterate_end;
@@ -4189,7 +4171,7 @@ is_action_possible(const action_id wanted_action,
 
   case ACTRES_CONQUER_CITY:
     /* Reason: "Conquer City" involves moving into the city. */
-    if (!unit_can_move_to_tile(&(wld.map), actor_unit, target_tile,
+    if (!unit_can_move_to_tile(&(wld.map), actor->unit, target->tile,
                                FALSE, FALSE, TRUE)) {
       return TRI_NO;
     }
@@ -4198,7 +4180,7 @@ is_action_possible(const action_id wanted_action,
 
   case ACTRES_CONQUER_EXTRAS:
     /* Reason: "Conquer Extras" involves moving to the tile. */
-    if (!unit_can_move_to_tile(&(wld.map), actor_unit, target_tile,
+    if (!unit_can_move_to_tile(&(wld.map), actor->unit, target->tile,
                                FALSE, FALSE, FALSE)) {
       return TRI_NO;
     }
@@ -4207,7 +4189,7 @@ is_action_possible(const action_id wanted_action,
      * unit_move(), in action_actor_utype_hard_reqs_ok_full(), in
      * helptext_extra(), in helptext_unit(), in do_attack() and in
      * diplomat_bribe(). */
-    if (!tile_has_claimable_base(target_tile, actor_unittype)) {
+    if (!tile_has_claimable_base(target->tile, actor->unittype)) {
       return TRI_NO;
     }
     break;
@@ -4215,45 +4197,45 @@ is_action_possible(const action_id wanted_action,
   case ACTRES_HEAL_UNIT:
     /* Reason: It is not the healthy who need a doctor, but the sick. */
     /* Info leak: the actor can see the target's HP. */
-    if (!(target_unit->hp < target_unittype->hp)) {
+    if (!(target->unit->hp < target->unittype->hp)) {
       return TRI_NO;
     }
     break;
 
   case ACTRES_TRANSFORM_TERRAIN:
-    pterrain = tile_terrain(target_tile);
+    pterrain = tile_terrain(target->tile);
     if (pterrain->transform_result == T_NONE
         || pterrain == pterrain->transform_result
-        || !terrain_surroundings_allow_change(target_tile,
+        || !terrain_surroundings_allow_change(target->tile,
                                               pterrain->transform_result)
         || (terrain_has_flag(pterrain->transform_result, TER_NO_CITIES)
-            && (tile_city(target_tile)))) {
+            && (tile_city(target->tile)))) {
       return TRI_NO;
     }
     break;
 
   case ACTRES_CULTIVATE:
-    pterrain = tile_terrain(target_tile);
+    pterrain = tile_terrain(target->tile);
     if (pterrain->cultivate_result == NULL) {
       return TRI_NO;
     }
-    if (!terrain_surroundings_allow_change(target_tile,
+    if (!terrain_surroundings_allow_change(target->tile,
                                            pterrain->cultivate_result)
         || (terrain_has_flag(pterrain->cultivate_result, TER_NO_CITIES)
-            && tile_city(target_tile))) {
+            && tile_city(target->tile))) {
       return TRI_NO;
     }
     break;
 
   case ACTRES_PLANT:
-    pterrain = tile_terrain(target_tile);
+    pterrain = tile_terrain(target->tile);
     if (pterrain->plant_result == NULL) {
       return TRI_NO;
     }
-    if (!terrain_surroundings_allow_change(target_tile,
+    if (!terrain_surroundings_allow_change(target->tile,
                                            pterrain->plant_result)
         || (terrain_has_flag(pterrain->plant_result, TER_NO_CITIES)
-            && tile_city(target_tile))) {
+            && tile_city(target->tile))) {
       return TRI_NO;
     }
     break;
@@ -4266,7 +4248,8 @@ is_action_possible(const action_id wanted_action,
       /* Reason: This is not a road. */
       return TRI_NO;
     }
-    if (!can_build_road(extra_road_get(target_extra), actor_unit, target_tile)) {
+    if (!can_build_road(extra_road_get(target_extra), actor->unit,
+                        target->tile)) {
       return TRI_NO;
     }
     break;
@@ -4279,8 +4262,8 @@ is_action_possible(const action_id wanted_action,
       /* Reason: This is not a base. */
       return TRI_NO;
     }
-    if (!can_build_base(actor_unit,
-                        extra_base_get(target_extra), target_tile)) {
+    if (!can_build_base(actor->unit,
+                        extra_base_get(target_extra), target->tile)) {
       return TRI_NO;
     }
     break;
@@ -4294,7 +4277,7 @@ is_action_possible(const action_id wanted_action,
       return TRI_NO;
     }
 
-    if (!can_build_extra(target_extra, actor_unit, target_tile)) {
+    if (!can_build_extra(target_extra, actor->unit, target->tile)) {
       return TRI_NO;
     }
     break;
@@ -4308,20 +4291,20 @@ is_action_possible(const action_id wanted_action,
       return TRI_NO;
     }
 
-    if (!can_build_extra(target_extra, actor_unit, target_tile)) {
+    if (!can_build_extra(target_extra, actor->unit, target->tile)) {
       return TRI_NO;
     }
     break;
 
   case ACTRES_PILLAGE:
-    pterrain = tile_terrain(target_tile);
+    pterrain = tile_terrain(target->tile);
     if (pterrain->pillage_time == 0) {
       return TRI_NO;
     }
 
     {
-      bv_extras pspresent = get_tile_infrastructure_set(target_tile, NULL);
-      bv_extras psworking = get_unit_tile_pillage_set(target_tile);
+      bv_extras pspresent = get_tile_infrastructure_set(target->tile, NULL);
+      bv_extras psworking = get_unit_tile_pillage_set(target->tile);
       bv_extras pspossible;
 
       BV_CLR_ALL(pspossible);
@@ -4331,8 +4314,8 @@ is_action_possible(const action_id wanted_action,
         /* Only one unit can pillage a given improvement at a time */
         if (BV_ISSET(pspresent, idx)
             && (!BV_ISSET(psworking, idx)
-                || actor_unit->activity_target == pextra)
-            && can_remove_extra(pextra, actor_unit, target_tile)) {
+                || actor->unit->activity_target == pextra)
+            && can_remove_extra(pextra, actor->unit, target->tile)) {
           bool required = FALSE;
 
           extra_type_iterate(pdepending) {
@@ -4385,7 +4368,7 @@ is_action_possible(const action_id wanted_action,
     {
       const struct extra_type *pextra;
 
-      pterrain = tile_terrain(target_tile);
+      pterrain = tile_terrain(target->tile);
       if (pterrain->clean_pollution_time == 0) {
         return TRI_NO;
       }
@@ -4395,10 +4378,10 @@ is_action_possible(const action_id wanted_action,
       } else {
         /* TODO: Make sure that all callers set target so that
          * we don't need this fallback. */
-        pextra = prev_extra_in_tile(target_tile,
+        pextra = prev_extra_in_tile(target->tile,
                                     ERM_CLEANPOLLUTION,
-                                    actor_player,
-                                    actor_unit);
+                                    actor->player,
+                                    actor->unit);
         if (pextra == NULL) {
           /* No available pollution extras */
           return TRI_NO;
@@ -4409,11 +4392,11 @@ is_action_possible(const action_id wanted_action,
         return TRI_NO;
       }
 
-      if (!can_remove_extra(pextra, actor_unit, target_tile)) {
+      if (!can_remove_extra(pextra, actor->unit, target->tile)) {
         return TRI_NO;
       }
 
-      if (tile_has_extra(target_tile, pextra)) {
+      if (tile_has_extra(target->tile, pextra)) {
         return TRI_YES;
       }
 
@@ -4425,7 +4408,7 @@ is_action_possible(const action_id wanted_action,
     {
       const struct extra_type *pextra;
 
-      pterrain = tile_terrain(target_tile);
+      pterrain = tile_terrain(target->tile);
       if (pterrain->clean_fallout_time == 0) {
         return TRI_NO;
       }
@@ -4435,10 +4418,10 @@ is_action_possible(const action_id wanted_action,
       } else {
         /* TODO: Make sure that all callers set target so that
          * we don't need this fallback. */
-        pextra = prev_extra_in_tile(target_tile,
+        pextra = prev_extra_in_tile(target->tile,
                                     ERM_CLEANFALLOUT,
-                                    actor_player,
-                                    actor_unit);
+                                    actor->player,
+                                    actor->unit);
         if (pextra == NULL) {
           /* No available pollution extras */
           return TRI_NO;
@@ -4449,11 +4432,11 @@ is_action_possible(const action_id wanted_action,
         return TRI_NO;
       }
 
-      if (!can_remove_extra(pextra, actor_unit, target_tile)) {
+      if (!can_remove_extra(pextra, actor->unit, target->tile)) {
         return TRI_NO;
       }
 
-      if (tile_has_extra(target_tile, pextra)) {
+      if (tile_has_extra(target->tile, pextra)) {
         return TRI_YES;
       }
 
@@ -4462,38 +4445,39 @@ is_action_possible(const action_id wanted_action,
     break;
 
   case ACTRES_TRANSPORT_ALIGHT:
-    if (!can_unit_unload(actor_unit, target_unit)) {
+    if (!can_unit_unload(actor->unit, target->unit)) {
       /* Keep the old rules about Unreachable and disembarks. */
       return TRI_NO;
     }
     break;
 
   case ACTRES_TRANSPORT_BOARD:
-    if (unit_transported(actor_unit)) {
-      if (target_unit == unit_transport_get(actor_unit)) {
+    if (unit_transported(actor->unit)) {
+      if (target->unit == unit_transport_get(actor->unit)) {
         /* Already inside this transport. */
         return TRI_NO;
       }
     }
-    if (!could_unit_load(actor_unit, target_unit)) {
+    if (!could_unit_load(actor->unit, target->unit)) {
       /* Keep the old rules. */
       return TRI_NO;
     }
     break;
 
   case ACTRES_TRANSPORT_LOAD:
-    if (unit_transported(target_unit)) {
-      if (actor_unit == unit_transport_get(target_unit)) {
+    if (unit_transported(target->unit)) {
+      if (actor->unit == unit_transport_get(target->unit)) {
         /* Already transporting this unit. */
         return TRI_NO;
       }
     }
-    if (!could_unit_load(target_unit, actor_unit)) {
+    if (!could_unit_load(target->unit, actor->unit)) {
       /* Keep the old rules. */
       return TRI_NO;
     }
-    if (unit_transported(target_unit)) {
-      if (!can_unit_unload(target_unit, unit_transport_get(target_unit))) {
+    if (unit_transported(target->unit)) {
+      if (!can_unit_unload(target->unit,
+                           unit_transport_get(target->unit))) {
         /* Can't leave current transport. */
         return TRI_NO;
       }
@@ -4501,14 +4485,14 @@ is_action_possible(const action_id wanted_action,
     break;
 
   case ACTRES_TRANSPORT_UNLOAD:
-    if (!can_unit_unload(target_unit, actor_unit)) {
+    if (!can_unit_unload(target->unit, actor->unit)) {
       /* Keep the old rules about Unreachable and disembarks. */
       return TRI_NO;
     }
     break;
 
   case ACTRES_TRANSPORT_DISEMBARK:
-    if (!unit_can_move_to_tile(&(wld.map), actor_unit, target_tile,
+    if (!unit_can_move_to_tile(&(wld.map), actor->unit, target->tile,
                                FALSE, FALSE, FALSE)) {
       /* Reason: involves moving to the tile. */
       return TRI_NO;
@@ -4516,11 +4500,11 @@ is_action_possible(const action_id wanted_action,
 
     /* We cannot move a transport into a tile that holds
      * units or cities not allied with all of our cargo. */
-    if (get_transporter_capacity(actor_unit) > 0) {
-      unit_list_iterate(unit_tile(actor_unit)->units, pcargo) {
-        if (unit_contained_in(pcargo, actor_unit)
-            && (is_non_allied_unit_tile(target_tile, unit_owner(pcargo))
-                || is_non_allied_city_tile(target_tile,
+    if (get_transporter_capacity(actor->unit) > 0) {
+      unit_list_iterate(unit_tile(actor->unit)->units, pcargo) {
+        if (unit_contained_in(pcargo, actor->unit)
+            && (is_non_allied_unit_tile(target->tile, unit_owner(pcargo))
+                || is_non_allied_city_tile(target->tile,
                                            unit_owner(pcargo)))) {
            return TRI_NO;
         }
@@ -4529,28 +4513,28 @@ is_action_possible(const action_id wanted_action,
     break;
 
   case ACTRES_TRANSPORT_EMBARK:
-    if (unit_transported(actor_unit)) {
-      if (target_unit == unit_transport_get(actor_unit)) {
+    if (unit_transported(actor->unit)) {
+      if (target->unit == unit_transport_get(actor->unit)) {
         /* Already inside this transport. */
         return TRI_NO;
       }
     }
-    if (!could_unit_load(actor_unit, target_unit)) {
+    if (!could_unit_load(actor->unit, target->unit)) {
       /* Keep the old rules. */
       return TRI_NO;
     }
-    if (!unit_can_move_to_tile(&(wld.map), actor_unit, target_tile,
+    if (!unit_can_move_to_tile(&(wld.map), actor->unit, target->tile,
                                FALSE, TRUE, FALSE)) {
       /* Reason: involves moving to the tile. */
       return TRI_NO;
     }
     /* We cannot move a transport into a tile that holds
      * units or cities not allied with all of our cargo. */
-    if (get_transporter_capacity(actor_unit) > 0) {
-      unit_list_iterate(unit_tile(actor_unit)->units, pcargo) {
-        if (unit_contained_in(pcargo, actor_unit)
-            && (is_non_allied_unit_tile(target_tile, unit_owner(pcargo))
-                || is_non_allied_city_tile(target_tile,
+    if (get_transporter_capacity(actor->unit) > 0) {
+      unit_list_iterate(unit_tile(actor->unit)->units, pcargo) {
+        if (unit_contained_in(pcargo, actor->unit)
+            && (is_non_allied_unit_tile(target->tile, unit_owner(pcargo))
+                || is_non_allied_city_tile(target->tile,
                                            unit_owner(pcargo)))) {
            return TRI_NO;
         }
@@ -4563,17 +4547,17 @@ is_action_possible(const action_id wanted_action,
       bool found;
 
       if (!omniscient
-          && !can_player_see_hypotetic_units_at(actor_player,
-                                                target_tile)) {
+          && !can_player_see_hypotetic_units_at(actor->player,
+                                                target->tile)) {
         /* May have a hidden diplomatic defender. */
         return TRI_MAYBE;
       }
 
       found = FALSE;
-      unit_list_iterate(target_tile->units, punit) {
+      unit_list_iterate(target->tile->units, punit) {
         struct player *uplayer = unit_owner(punit);
 
-        if (uplayer == actor_player) {
+        if (uplayer == actor->player) {
           /* Won't defend against its owner. */
           continue;
         }
@@ -4601,11 +4585,11 @@ is_action_possible(const action_id wanted_action,
   case ACTRES_HUT_ENTER:
   case ACTRES_HUT_FRIGHTEN:
     /* Reason: involves moving to the tile. */
-    if (!unit_can_move_to_tile(&(wld.map), actor_unit, target_tile,
+    if (!unit_can_move_to_tile(&(wld.map), actor->unit, target->tile,
                                FALSE, FALSE, FALSE)) {
       return TRI_NO;
     }
-    if (!unit_can_displace_hut(actor_unit, target_tile)) {
+    if (!unit_can_displace_hut(actor->unit, target->tile)) {
       /* Reason: keep extra rmreqs working. */
       return TRI_NO;
     }
@@ -4613,23 +4597,23 @@ is_action_possible(const action_id wanted_action,
 
   case ACTRES_UNIT_MOVE:
     /* Reason: is moving to the tile. */
-    if (!unit_can_move_to_tile(&(wld.map), actor_unit, target_tile,
+    if (!unit_can_move_to_tile(&(wld.map), actor->unit, target->tile,
                                FALSE, FALSE, FALSE)) {
       return TRI_NO;
     }
 
     /* Reason: Don't override "Transport Embark" */
-    if (!can_unit_exist_at_tile(&(wld.map), actor_unit, target_tile)) {
+    if (!can_unit_exist_at_tile(&(wld.map), actor->unit, target->tile)) {
       return TRI_NO;
     }
 
     /* We cannot move a transport into a tile that holds
      * units or cities not allied with all of our cargo. */
-    if (get_transporter_capacity(actor_unit) > 0) {
-      unit_list_iterate(unit_tile(actor_unit)->units, pcargo) {
-        if (unit_contained_in(pcargo, actor_unit)
-            && (is_non_allied_unit_tile(target_tile, unit_owner(pcargo))
-                || is_non_allied_city_tile(target_tile,
+    if (get_transporter_capacity(actor->unit) > 0) {
+      unit_list_iterate(unit_tile(actor->unit)->units, pcargo) {
+        if (unit_contained_in(pcargo, actor->unit)
+            && (is_non_allied_unit_tile(target->tile, unit_owner(pcargo))
+                || is_non_allied_city_tile(target->tile,
                                            unit_owner(pcargo)))) {
            return TRI_NO;
         }
@@ -4640,7 +4624,7 @@ is_action_possible(const action_id wanted_action,
   case ACTRES_SPY_ESCAPE:
     /* Reason: Be merciful. */
     /* Info leak: The player know if they have any cities. */
-    if (city_list_size(actor_player->cities) < 1) {
+    if (city_list_size(actor->player->cities) < 1) {
       return TRI_NO;
     }
     break;
@@ -4655,17 +4639,18 @@ is_action_possible(const action_id wanted_action,
        * what user really wants.
        * Allow bombing when player does not know if there's units in
        * target tile. */
-      if (tile_city(target_tile) == NULL
-          && fc_funcs->player_tile_vision_get(target_tile, actor_player, V_MAIN)
-          && fc_funcs->player_tile_vision_get(target_tile, actor_player,
+      if (tile_city(target->tile) == NULL
+          && fc_funcs->player_tile_vision_get(target->tile, actor->player,
+                                              V_MAIN)
+          && fc_funcs->player_tile_vision_get(target->tile, actor->player,
                                               V_INVIS)
-          && fc_funcs->player_tile_vision_get(target_tile, actor_player,
+          && fc_funcs->player_tile_vision_get(target->tile, actor->player,
                                               V_SUBSURFACE)) {
         bool hiding_extra = FALSE;
 
         extra_type_iterate(pextra) {
           if (pextra->eus == EUS_HIDDEN
-              && tile_has_extra(target_tile, pextra)) {
+              && tile_has_extra(target->tile, pextra)) {
             hiding_extra = TRUE;
             break;
           }
@@ -4674,8 +4659,8 @@ is_action_possible(const action_id wanted_action,
         if (!hiding_extra) {
           bool has_target = FALSE;
 
-          unit_list_iterate(target_tile->units, punit) {
-            if (is_unit_reachable_at(punit, actor_unit, target_tile)) {
+          unit_list_iterate(target->tile->units, punit) {
+            if (is_unit_reachable_at(punit, actor->unit, target->tile)) {
               has_target = TRUE;
               break;
             }
@@ -4718,34 +4703,17 @@ is_action_possible(const action_id wanted_action,
 
 /**********************************************************************//**
   Return TRUE iff the action enabler is active
+
+  actor may be NULL. This is equivalent to passing an empty context.
+  target may be NULL. This is equivalent to passing an empty context.
 **************************************************************************/
 static bool is_enabler_active(const struct action_enabler *enabler,
-			      const struct player *actor_player,
-			      const struct city *actor_city,
-			      const struct impr_type *actor_building,
-			      const struct tile *actor_tile,
-                              const struct unit *actor_unit,
-			      const struct unit_type *actor_unittype,
-			      const struct output_type *actor_output,
-			      const struct specialist *actor_specialist,
-			      const struct player *target_player,
-			      const struct city *target_city,
-			      const struct impr_type *target_building,
-			      const struct tile *target_tile,
-                              const struct unit *target_unit,
-			      const struct unit_type *target_unittype,
-			      const struct output_type *target_output,
-			      const struct specialist *target_specialist)
+                              const struct req_context *actor,
+                              const struct req_context *target)
 {
-  return are_reqs_active(actor_player, target_player, actor_city,
-                         actor_building, actor_tile,
-                         actor_unit, actor_unittype,
-                         actor_output, actor_specialist, NULL,
+  return are_reqs_active(actor, target != NULL ? target->player : NULL,
                          &enabler->actor_reqs, RPT_CERTAIN)
-      && are_reqs_active(target_player, actor_player, target_city,
-                         target_building, target_tile,
-                         target_unit, target_unittype,
-                         target_output, target_specialist, NULL,
+      && are_reqs_active(target, actor != NULL ? actor->player : NULL,
                          &enabler->target_reqs, RPT_CERTAIN);
 }
 
@@ -4754,39 +4722,19 @@ static bool is_enabler_active(const struct action_enabler *enabler,
 
   Note that the action may disable it self because of hard requirements
   even if an action enabler returns TRUE.
+
+  Passing NULL for actor or target is equivalent to passing an empty
+  context. This may or may not be legal depending on the action.
 **************************************************************************/
 static bool is_action_enabled(const action_id wanted_action,
-                              const struct player *actor_player,
-                              const struct city *actor_city,
-                              const struct impr_type *actor_building,
-                              const struct tile *actor_tile,
-                              const struct unit *actor_unit,
-                              const struct unit_type *actor_unittype,
-                              const struct output_type *actor_output,
-                              const struct specialist *actor_specialist,
-                              const struct player *target_player,
-                              const struct city *target_city,
-                              const struct impr_type *target_building,
-                              const struct tile *target_tile,
-                              const struct unit *target_unit,
-                              const struct unit_type *target_unittype,
-                              const struct output_type *target_output,
-                              const struct specialist *target_specialist,
+                              const struct req_context *actor,
+                              const struct req_context *target,
                               const struct extra_type *target_extra,
                               const struct city *actor_home)
 {
   enum fc_tristate possible;
 
-  possible = is_action_possible(wanted_action,
-                                actor_player, actor_city,
-                                actor_building, actor_tile,
-                                actor_unit, actor_unittype,
-                                actor_output, actor_specialist,
-                                target_player, target_city,
-                                target_building, target_tile,
-                                target_unit, target_unittype,
-                                target_output, target_specialist,
-                                target_extra,
+  possible = is_action_possible(wanted_action, actor, target, target_extra,
                                 TRUE, actor_home);
 
   if (possible != TRI_YES) {
@@ -4801,14 +4749,7 @@ static bool is_action_enabled(const action_id wanted_action,
 
   action_enabler_list_iterate(action_enablers_for_action(wanted_action),
                               enabler) {
-    if (is_enabler_active(enabler, actor_player, actor_city,
-                          actor_building, actor_tile,
-                          actor_unit, actor_unittype,
-                          actor_output, actor_specialist,
-                          target_player, target_city,
-                          target_building, target_tile,
-                          target_unit, target_unittype,
-                          target_output, target_specialist)) {
+    if (is_enabler_active(enabler, actor, target)) {
       return TRUE;
     }
   } action_enabler_list_iterate_end;
@@ -4863,13 +4804,21 @@ is_action_enabled_unit_on_city_full(const action_id wanted_action,
   target_utype = tgt_city_local_utype(target_city);
 
   return is_action_enabled(wanted_action,
-                           unit_owner(actor_unit), tile_city(actor_tile),
-                           NULL, actor_tile,
-                           actor_unit, unit_type_get(actor_unit),
-                           NULL, NULL,
-                           city_owner(target_city), target_city,
-                           target_building, city_tile(target_city),
-                           NULL, target_utype, NULL, NULL, NULL,
+                           &(const struct req_context) {
+                             .player = unit_owner(actor_unit),
+                             .city = tile_city(actor_tile),
+                             .tile = actor_tile,
+                             .unit = actor_unit,
+                             .unittype = unit_type_get(actor_unit),
+                           },
+                           &(const struct req_context) {
+                             .player = city_owner(target_city),
+                             .city = target_city,
+                             .building = target_building,
+                             .tile = city_tile(target_city),
+                             .unittype = target_utype,
+                           },
+                           NULL,
                            actor_home);
 }
 
@@ -4930,15 +4879,21 @@ is_action_enabled_unit_on_unit_full(const action_id wanted_action,
   }
 
   return is_action_enabled(wanted_action,
-                           unit_owner(actor_unit), tile_city(actor_tile),
-                           NULL, actor_tile,
-                           actor_unit, unit_type_get(actor_unit),
-                           NULL, NULL,
-                           unit_owner(target_unit),
-                           tile_city(unit_tile(target_unit)), NULL,
-                           unit_tile(target_unit),
-                           target_unit, unit_type_get(target_unit),
-                           NULL, NULL, NULL,
+                           &(const struct req_context) {
+                             .player = unit_owner(actor_unit),
+                             .city = tile_city(actor_tile),
+                             .tile = actor_tile,
+                             .unit = actor_unit,
+                             .unittype = unit_type_get(actor_unit),
+                           },
+                           &(const struct req_context) {
+                             .player = unit_owner(target_unit),
+                             .city = tile_city(unit_tile(target_unit)),
+                             .tile = unit_tile(target_unit),
+                             .unit = target_unit,
+                             .unittype = unit_type_get(target_unit),
+                           },
+                           NULL,
                            actor_home);
 }
 
@@ -4971,6 +4926,8 @@ is_action_enabled_unit_on_units_full(const action_id wanted_action,
                                      const struct tile *actor_tile,
                                      const struct tile *target_tile)
 {
+  const struct req_context *actor_ctxt;
+
   if (actor_unit == NULL || target_tile == NULL
       || unit_list_size(target_tile->units) == 0) {
     /* Can't do an action when actor or target are missing. */
@@ -4999,17 +4956,24 @@ is_action_enabled_unit_on_units_full(const action_id wanted_action,
     return FALSE;
   }
 
+  actor_ctxt = &(const struct req_context) {
+    .player = unit_owner(actor_unit),
+    .city = tile_city(actor_tile),
+    .tile = actor_tile,
+    .unit = actor_unit,
+    .unittype = unit_type_get(actor_unit),
+  };
+
   unit_list_iterate(target_tile->units, target_unit) {
-    if (!is_action_enabled(wanted_action,
-                           unit_owner(actor_unit), tile_city(actor_tile),
-                           NULL, actor_tile,
-                           actor_unit, unit_type_get(actor_unit),
-                           NULL, NULL,
-                           unit_owner(target_unit),
-                           tile_city(unit_tile(target_unit)), NULL,
-                           unit_tile(target_unit),
-                           target_unit, unit_type_get(target_unit),
-                           NULL, NULL, NULL, actor_home)) {
+    if (!is_action_enabled(wanted_action, actor_ctxt,
+                           &(const struct req_context) {
+                             .player = unit_owner(target_unit),
+                             .city = tile_city(unit_tile(target_unit)),
+                             .tile = unit_tile(target_unit),
+                             .unit = target_unit,
+                             .unittype = unit_type_get(target_unit),
+                           },
+                           NULL, actor_home)) {
       /* One unit makes it impossible for all units. */
       return FALSE;
     }
@@ -5077,12 +5041,18 @@ is_action_enabled_unit_on_tile_full(const action_id wanted_action,
   }
 
   return is_action_enabled(wanted_action,
-                           unit_owner(actor_unit), tile_city(actor_tile),
-                           NULL, actor_tile,
-                           actor_unit, unit_type_get(actor_unit),
-                           NULL, NULL,
-                           tile_owner(target_tile), tile_city(target_tile),
-                           NULL, target_tile, NULL, NULL, NULL, NULL,
+                           &(const struct req_context) {
+                             .player = unit_owner(actor_unit),
+                             .city = tile_city(actor_tile),
+                             .tile = actor_tile,
+                             .unit = actor_unit,
+                             .unittype = unit_type_get(actor_unit),
+                           },
+                           &(const struct req_context) {
+                             .player = tile_owner(target_tile),
+                             .city = tile_city(target_tile),
+                             .tile = target_tile,
+                           },
                            target_extra,
                            actor_home);
 }
@@ -5146,13 +5116,18 @@ is_action_enabled_unit_on_extras_full(const action_id wanted_action,
   }
 
   return is_action_enabled(wanted_action,
-                           unit_owner(actor_unit), tile_city(actor_tile),
-                           NULL, actor_tile,
-                           actor_unit, unit_type_get(actor_unit),
-                           NULL, NULL,
-                           target_tile->extras_owner,
-                           tile_city(target_tile),
-                           NULL, target_tile, NULL, NULL, NULL, NULL,
+                           &(const struct req_context) {
+                             .player = unit_owner(actor_unit),
+                             .city = tile_city(actor_tile),
+                             .tile = actor_tile,
+                             .unit = actor_unit,
+                             .unittype = unit_type_get(actor_unit),
+                           },
+                           &(const struct req_context) {
+                             .player = target_tile->extras_owner,
+                             .city = tile_city(target_tile),
+                             .tile = target_tile,
+                           },
                            target_extra,
                            actor_home);
 }
@@ -5215,11 +5190,14 @@ is_action_enabled_unit_on_self_full(const action_id wanted_action,
   }
 
   return is_action_enabled(wanted_action,
-                           unit_owner(actor_unit), tile_city(actor_tile),
-                           NULL, actor_tile,
-                           actor_unit, unit_type_get(actor_unit),
+                           &(const struct req_context) {
+                             .player = unit_owner(actor_unit),
+                             .city = tile_city(actor_tile),
+                             .tile = actor_tile,
+                             .unit = actor_unit,
+                             .unittype = unit_type_get(actor_unit),
+                           },
                            NULL, NULL,
-                           NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
                            actor_home);
 }
 
@@ -5253,42 +5231,35 @@ bool is_action_enabled_unit_on_self(const action_id wanted_action,
   TRI_MAYBE if the player don't know enough to tell.
 
   If meta knowledge is missing TRI_MAYBE will be returned.
+
+  target may be NULL. This is equivalent to passing an empty context.
 **************************************************************************/
 static enum fc_tristate
 action_enabled_local(const action_id wanted_action,
-                     const struct player *actor_player,
-                     const struct city *actor_city,
-                     const struct impr_type *actor_building,
-                     const struct tile *actor_tile,
-                     const struct unit *actor_unit,
-                     const struct output_type *actor_output,
-                     const struct specialist *actor_specialist,
-                     const struct player *target_player,
-                     const struct city *target_city,
-                     const struct impr_type *target_building,
-                     const struct tile *target_tile,
-                     const struct unit *target_unit,
-                     const struct output_type *target_output,
-                     const struct specialist *target_specialist)
+                     const struct req_context *actor,
+                     const struct req_context *target)
 {
   enum fc_tristate current;
   enum fc_tristate result;
 
+  if (actor == NULL || actor->player == NULL) {
+    /* Need actor->player for point of view */
+    return TRI_MAYBE;
+  }
+
+  if (target == NULL) {
+    target = req_context_empty();
+  }
+
   result = TRI_NO;
   action_enabler_list_iterate(action_enablers_for_action(wanted_action),
                               enabler) {
-    current = fc_tristate_and(mke_eval_reqs(actor_player, actor_player,
-                                            target_player, actor_city,
-                                            actor_building, actor_tile,
-                                            actor_unit, actor_output,
-                                            actor_specialist,
+    current = fc_tristate_and(mke_eval_reqs(actor->player, actor,
+                                            target->player,
                                             &enabler->actor_reqs,
                                             RPT_CERTAIN),
-                              mke_eval_reqs(actor_player, target_player,
-                                            actor_player, target_city,
-                                            target_building, target_tile,
-                                            target_unit, target_output,
-                                            target_specialist,
+                              mke_eval_reqs(actor->player, target,
+                                            actor->player,
                                             &enabler->target_reqs,
                                             RPT_CERTAIN));
     if (current == TRI_YES) {
@@ -5307,24 +5278,17 @@ action_enabled_local(const action_id wanted_action,
   The knowledge of the actor is assumed to be given in the parameters.
 
   If meta knowledge is missing TRI_MAYBE will be returned.
+
+  context may be NULL. This is equivalent to passing an empty context.
 **************************************************************************/
 static bool is_effect_val_known(enum effect_type effect_type,
-                                const struct player *pow_player,
-                                const struct player *target_player,
-                                const struct player *other_player,
-                                const struct city *target_city,
-                                const struct impr_type *target_building,
-                                const struct tile *target_tile,
-                                const struct unit *target_unit,
-                                const struct output_type *target_output,
-                                const struct specialist *target_specialist)
+                                const struct player *pov_player,
+                                const struct req_context *context,
+                                const struct player *other_player)
 {
   effect_list_iterate(get_effects(effect_type), peffect) {
-    if (TRI_MAYBE == mke_eval_reqs(pow_player, target_player,
-                                   other_player, target_city,
-                                   target_building, target_tile,
-                                   target_unit, target_output,
-                                   target_specialist,
+    if (TRI_MAYBE == mke_eval_reqs(pov_player, context,
+                                   other_player,
                                    &(peffect->reqs), RPT_CERTAIN)) {
       return FALSE;
     }
@@ -5416,21 +5380,24 @@ static struct act_prob ap_dipl_battle_win(const struct unit *pattacker,
 
   /* Defense bonus. */
   {
+    const struct req_context defender_ctxt = {
+      .player = tile_owner(pdefender->tile),
+      .city = tile_city(pdefender->tile),
+      .tile = pdefender->tile,
+    };
     if (!is_effect_val_known(EFT_SPY_RESISTANT, unit_owner(pattacker),
-                             tile_owner(pdefender->tile),  NULL,
-                             tile_city(pdefender->tile), NULL,
-                             pdefender->tile, NULL, NULL, NULL)) {
+                             &defender_ctxt,
+                             NULL)) {
       return ACTPROB_NOT_KNOWN;
     }
 
     /* Reduce the chance of an attack by EFT_SPY_RESISTANT percent. */
-    chance -= chance
-              * get_target_bonus_effects(NULL,
-                                         tile_owner(pdefender->tile), NULL,
-                                         tile_city(pdefender->tile), NULL,
-                                         pdefender->tile, NULL, NULL, NULL,
-                                         NULL, NULL,
-                                         EFT_SPY_RESISTANT) / 100;
+    chance -= chance * get_target_bonus_effects(
+                         NULL,
+                         &defender_ctxt,
+                         NULL,
+                         EFT_SPY_RESISTANT
+                       ) / 100;
   }
 
   /* Convert to action probability */
@@ -5499,11 +5466,20 @@ action_prob_pre_action_dice_roll(const struct player *act_player,
                                  const struct action *paction)
 {
   if (is_effect_val_known(EFT_ACTION_ODDS_PCT, act_player,
-                          act_player, tgt_player, tgt_city,
-                          NULL, NULL, act_unit, NULL, NULL)
+                          &(const struct req_context) {
+                            .player = act_player,
+                            .city = tgt_city,
+                            .unit = act_unit,
+                            .unittype = unit_type_get(act_unit),
+                          },
+                          tgt_player)
       && is_effect_val_known(EFT_ACTION_RESIST_PCT, act_player,
-                             tgt_player, act_player, tgt_city,
-                             NULL, NULL, act_unit, NULL, NULL)) {
+                             &(const struct req_context) {
+                               .player = tgt_player,
+                               .city = tgt_city,
+                               .unit = act_unit,
+                             },
+                             act_player)) {
       int unconverted = action_dice_roll_odds(act_player, act_unit, tgt_city,
                                               tgt_player, paction);
       struct act_prob result = { .min = unconverted * ACTPROB_VAL_1_PCT,
@@ -5570,56 +5546,30 @@ action_prob_battle_then_dice_roll(const struct player *act_player,
   actor survives. For actions that cost money it is assumed that the
   player has and is willing to spend the money. This is so the player can
   figure out what their odds are before deciding to get the extra money.
+
+  Passing NULL for actor or target is equivalent to passing an empty
+  context. This may or may not be legal depending on the action.
 **************************************************************************/
 static struct act_prob
 action_prob(const action_id wanted_action,
-            const struct player *actor_player,
-            const struct city *actor_city,
-            const struct impr_type *actor_building,
-            const struct tile *actor_tile,
-            const struct unit *actor_unit,
-            const struct unit_type *actor_unittype_p,
-            const struct output_type *actor_output,
-            const struct specialist *actor_specialist,
+            const struct req_context *actor,
             const struct city *actor_home,
-            const struct player *target_player,
-            const struct city *target_city,
-            const struct impr_type *target_building,
-            const struct tile *target_tile,
-            const struct unit *target_unit,
-            const struct unit_type *target_unittype_p,
-            const struct output_type *target_output,
-            const struct specialist *target_specialist,
+            const struct req_context *target,
             const struct extra_type *target_extra)
 {
   int known;
   struct act_prob chance;
-  const struct unit_type *actor_unittype;
-  const struct unit_type *target_unittype;
 
   const struct action *paction = action_by_number(wanted_action);
 
-  if (actor_unittype_p == NULL && actor_unit != NULL) {
-    actor_unittype = unit_type_get(actor_unit);
-  } else {
-    actor_unittype = actor_unittype_p;
+  if (actor == NULL) {
+    actor = req_context_empty();
+  }
+  if (target == NULL) {
+    target = req_context_empty();
   }
 
-  if (target_unittype_p == NULL && target_unit != NULL) {
-    target_unittype = unit_type_get(target_unit);
-  } else {
-    target_unittype = target_unittype_p;
-  }
-
-  known = is_action_possible(wanted_action,
-                             actor_player, actor_city,
-                             actor_building, actor_tile,
-                             actor_unit, actor_unittype,
-                             actor_output, actor_specialist,
-                             target_player, target_city,
-                             target_building, target_tile,
-                             target_unit, target_unittype,
-                             target_output, target_specialist,
+  known = is_action_possible(wanted_action, actor, target,
                              target_extra,
                              FALSE, actor_home);
 
@@ -5633,25 +5583,16 @@ action_prob(const action_id wanted_action,
 
   known = fc_tristate_and(known,
                           action_enabled_local(wanted_action,
-                                               actor_player, actor_city,
-                                               actor_building, actor_tile,
-                                               actor_unit,
-                                               actor_output,
-                                               actor_specialist,
-                                               target_player, target_city,
-                                               target_building, target_tile,
-                                               target_unit,
-                                               target_output,
-                                               target_specialist));
+                                               actor, target));
 
   switch (paction->result) {
   case ACTRES_SPY_POISON:
     /* All uncertainty comes from potential diplomatic battles and the
      * (diplchance server setting and the) Action_Odds_Pct effect controlled
      * dice roll before the action. */
-    chance = action_prob_battle_then_dice_roll(actor_player, actor_unit,
-                                               target_city, target_unit,
-                                               target_tile, target_player,
+    chance = action_prob_battle_then_dice_roll(actor->player, actor->unit,
+                                               target->city, target->unit,
+                                               target->tile, target->player,
                                                paction);
     break;
   case ACTRES_SPY_STEAL_GOLD:
@@ -5665,17 +5606,17 @@ action_prob(const action_id wanted_action,
     break;
   case ACTRES_SPY_SABOTAGE_UNIT:
     /* All uncertainty comes from potential diplomatic battles. */
-    chance = ap_diplomat_battle(actor_unit, target_unit, target_tile,
+    chance = ap_diplomat_battle(actor->unit, target->unit, target->tile,
                                 paction);
     break;
   case ACTRES_SPY_BRIBE_UNIT:
     /* All uncertainty comes from potential diplomatic battles. */
-    chance = ap_diplomat_battle(actor_unit, target_unit, target_tile,
+    chance = ap_diplomat_battle(actor->unit, target->unit, target->tile,
                                 paction);
     break;
   case ACTRES_SPY_ATTACK:
     /* All uncertainty comes from potential diplomatic battles. */
-    chance = ap_diplomat_battle(actor_unit, NULL, target_tile,
+    chance = ap_diplomat_battle(actor->unit, NULL, target->tile,
                                 paction);
     break;
   case ACTRES_SPY_SABOTAGE_CITY:
@@ -5696,8 +5637,8 @@ action_prob(const action_id wanted_action,
   case ACTRES_SPY_STEAL_TECH:
     /* Do the victim have anything worth taking? */
     known = fc_tristate_and(known,
-                            tech_can_be_stolen(actor_player,
-                                               target_player));
+                            tech_can_be_stolen(actor->player,
+                                               target->player));
 
     /* TODO: Calculate actual chance */
 
@@ -5705,8 +5646,8 @@ action_prob(const action_id wanted_action,
   case ACTRES_SPY_TARGETED_STEAL_TECH:
     /* Do the victim have anything worth taking? */
     known = fc_tristate_and(known,
-                            tech_can_be_stolen(actor_player,
-                                               target_player));
+                            tech_can_be_stolen(actor->player,
+                                               target->player));
 
     /* TODO: Calculate actual chance */
 
@@ -5753,9 +5694,10 @@ action_prob(const action_id wanted_action,
     /* All uncertainty comes from potential diplomatic battles and the
      * (diplchance server setting and the) Action_Odds_Pct effect controlled
      * dice roll before the action. */
-    chance = action_prob_battle_then_dice_roll(actor_player, actor_unit,
-                                               target_city, target_unit,
-                                               target_tile, target_player,
+    chance = action_prob_battle_then_dice_roll(actor->player, actor->unit,
+                                               target->city, target->unit,
+                                               target->tile,
+                                               target->player,
                                                paction);
     break;
   case ACTRES_NUKE:
@@ -5798,11 +5740,11 @@ action_prob(const action_id wanted_action,
     break;
   case ACTRES_ATTACK:
     {
-      struct unit *defender_unit = get_defender(actor_unit, target_tile,
+      struct unit *defender_unit = get_defender(actor->unit, target->tile,
                                                 paction);
 
-      if (can_player_see_unit(actor_player, defender_unit)) {
-        double unconverted = unit_win_chance(actor_unit, defender_unit,
+      if (can_player_see_unit(actor->player, defender_unit)) {
+        double unconverted = unit_win_chance(actor->unit, defender_unit,
                                              paction);
 
         chance.min = MAX(ACTPROB_VAL_MIN,
@@ -5828,8 +5770,8 @@ action_prob(const action_id wanted_action,
   case ACTRES_STRIKE_PRODUCTION:
     /* All uncertainty comes from the (diplchance server setting and the)
      * Action_Odds_Pct effect controlled dice roll before the action. */
-    chance = action_prob_pre_action_dice_roll(actor_player, actor_unit,
-                                              target_city, target_player,
+    chance = action_prob_pre_action_dice_roll(actor->player, actor->unit,
+                                              target->city, target->player,
                                               paction);
     break;
   case ACTRES_CONQUER_CITY:
@@ -5989,12 +5931,21 @@ action_prob_vs_city_full(const struct unit* actor_unit,
   target_utype = tgt_city_local_utype(target_city);
 
   return action_prob(act_id,
-                     unit_owner(actor_unit), tile_city(actor_tile),
-                     NULL, actor_tile, actor_unit, NULL,
-                     NULL, NULL, actor_home,
-                     city_owner(target_city), target_city,
-                     target_building, city_tile(target_city),
-                     NULL, target_utype, NULL, NULL, NULL);
+                     &(const struct req_context) {
+                       .player = unit_owner(actor_unit),
+                       .city = tile_city(actor_tile),
+                       .tile = actor_tile,
+                       .unit = actor_unit,
+                       .unittype = unit_type_get(actor_unit),
+                     },
+                     actor_home,
+                     &(const struct req_context) {
+                       .player = city_owner(target_city),
+                       .city = target_city,
+                       .building = target_building,
+                       .tile = city_tile(target_city),
+                       .unittype = target_utype,
+                     }, NULL);
 }
 
 /**********************************************************************//**
@@ -6060,14 +6011,22 @@ action_prob_vs_unit_full(const struct unit* actor_unit,
   }
 
   return action_prob(act_id,
-                     unit_owner(actor_unit), tile_city(actor_tile),
-                     NULL, actor_tile, actor_unit, NULL,
-                     NULL, NULL,
+                     &(const struct req_context) {
+                       .player = unit_owner(actor_unit),
+                       .city = tile_city(actor_tile),
+                       .tile = actor_tile,
+                       .unit = actor_unit,
+                       .unittype = unit_type_get(actor_unit),
+                     },
                      actor_home,
-                     unit_owner(target_unit),
-                     tile_city(unit_tile(target_unit)), NULL,
-                     unit_tile(target_unit),
-                     target_unit, NULL, NULL, NULL, NULL);
+                     &(const struct req_context) {
+                       .player = unit_owner(target_unit),
+                       .city = tile_city(unit_tile(target_unit)),
+                       .tile = unit_tile(target_unit),
+                       .unit = target_unit,
+                       .unittype = unit_type_get(target_unit),
+                     },
+                     NULL);
 }
 
 /**********************************************************************//**
@@ -6097,6 +6056,7 @@ action_prob_vs_units_full(const struct unit* actor_unit,
                           const struct tile* target_tile)
 {
   struct act_prob prob_all;
+  const struct req_context *actor_ctxt;
   const struct action *act = action_by_number(act_id);
 
   if (actor_unit == NULL || target_tile == NULL) {
@@ -6202,6 +6162,14 @@ action_prob_vs_units_full(const struct unit* actor_unit,
                                                 target_tile)
               ? ACTPROB_CERTAIN : ACTPROB_NOT_KNOWN);
 
+  actor_ctxt = &(const struct req_context) {
+    .player = unit_owner(actor_unit),
+    .city = tile_city(actor_tile),
+    .tile = actor_tile,
+    .unit = actor_unit,
+    .unittype = unit_type_get(actor_unit),
+  };
+
   unit_list_iterate(target_tile->units, target_unit) {
     struct act_prob prob_unit;
 
@@ -6211,17 +6179,15 @@ action_prob_vs_units_full(const struct unit* actor_unit,
       continue;
     }
 
-    prob_unit = action_prob(act_id,
-                            unit_owner(actor_unit),
-                            tile_city(actor_tile),
-                            NULL, actor_tile, actor_unit, NULL,
-                            NULL, NULL,
-                            actor_home,
-                            unit_owner(target_unit),
-                            tile_city(unit_tile(target_unit)), NULL,
-                            unit_tile(target_unit),
-                            target_unit, NULL, NULL,
-                            NULL, NULL);
+    prob_unit = action_prob(act_id, actor_ctxt, actor_home,
+                            &(const struct req_context) {
+                              .player = unit_owner(target_unit),
+                              .city = tile_city(unit_tile(target_unit)),
+                              .tile = unit_tile(target_unit),
+                              .unit = target_unit,
+                              .unittype = unit_type_get(target_unit),
+                            },
+                            NULL);
 
     if (!action_prob_possible(prob_unit)) {
       /* One unit makes it impossible for all units. */
@@ -6316,11 +6282,20 @@ action_prob_vs_tile_full(const struct unit *actor_unit,
   }
 
   return action_prob(act_id,
-                     unit_owner(actor_unit), tile_city(actor_tile),
-                     NULL, actor_tile, actor_unit, NULL,
-                     NULL, NULL, actor_home,
-                     tile_owner(target_tile), tile_city(target_tile), NULL,
-                     target_tile, NULL, NULL, NULL, NULL, target_extra);
+                     &(const struct req_context) {
+                       .player = unit_owner(actor_unit),
+                       .city = tile_city(actor_tile),
+                       .tile = actor_tile,
+                       .unit = actor_unit,
+                       .unittype = unit_type_get(actor_unit),
+                     },
+                     actor_home,
+                     &(const struct req_context) {
+                       .player = tile_owner(target_tile),
+                       .city = tile_city(target_tile),
+                       .tile = target_tile,
+                     },
+                     target_extra);
 }
 
 /**********************************************************************//**
@@ -6388,12 +6363,20 @@ action_prob_vs_extras_full(const struct unit *actor_unit,
   }
 
   return action_prob(act_id,
-                     unit_owner(actor_unit), tile_city(actor_tile),
-                     NULL, actor_tile, actor_unit, NULL,
-                     NULL, NULL, actor_home,
-                     target_tile->extras_owner, tile_city(target_tile),
-                     NULL,
-                     target_tile, NULL, NULL, NULL, NULL, target_extra);
+                     &(const struct req_context) {
+                       .player = unit_owner(actor_unit),
+                       .city = tile_city(actor_tile),
+                       .tile = actor_tile,
+                       .unit = actor_unit,
+                       .unittype = unit_type_get(actor_unit),
+                     },
+                     actor_home,
+                     &(const struct req_context) {
+                       .player = target_tile->extras_owner,
+                       .city = tile_city(target_tile),
+                       .tile = target_tile,
+                     },
+                     target_extra);
 }
 
 /**********************************************************************//**
@@ -6452,10 +6435,15 @@ action_prob_self_full(const struct unit* actor_unit,
   }
 
   return action_prob(act_id,
-                     unit_owner(actor_unit), tile_city(actor_tile),
-                     NULL, actor_tile, actor_unit, NULL, NULL, NULL,
+                     &(const struct req_context) {
+                       .player = unit_owner(actor_unit),
+                       .city = tile_city(actor_tile),
+                       .tile = actor_tile,
+                       .unit = actor_unit,
+                       .unittype = unit_type_get(actor_unit),
+                     },
                      actor_home,
-                     NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
+                     NULL,
                      NULL);
 }
 
@@ -7166,20 +7154,29 @@ int action_dice_roll_odds(const struct player *act_player,
   odds = odds
     + ((odds
         * get_target_bonus_effects(NULL,
-                                   act_player, tgt_player,
-                                   tgt_city, NULL, NULL,
-                                   act_unit, actu_type,
-                                   NULL, NULL, paction,
+                                   &(const struct req_context) {
+                                     .player = act_player,
+                                     .city = tgt_city,
+                                     .unit = act_unit,
+                                     .unittype = actu_type,
+                                     .action = paction,
+                                   },
+                                   tgt_player,
                                    EFT_ACTION_ODDS_PCT))
        / 100)
     - ((odds
         * get_target_bonus_effects(NULL,
-                                   tgt_player, act_player,
-                                   tgt_city, NULL, NULL,
-                                   act_unit, actu_type,
-                                   NULL, NULL, paction,
+                                   &(const struct req_context) {
+                                     .player = tgt_player,
+                                     .city = tgt_city,
+                                     .unit = act_unit,
+                                     .unittype = actu_type,
+                                     .action = paction,
+                                   },
+                                   act_player,
                                    EFT_ACTION_RESIST_PCT))
        / 100);
+
 
   /* Odds are between 0% and 100%. */
   return CLIP(0, odds, 100);
@@ -7208,24 +7205,16 @@ bool action_immune_government(struct government *gov, action_id act)
 
 /**********************************************************************//**
   Returns TRUE if the wanted action can be done to the target.
+
+  target may be NULL. This is equivalent to passing an empty context.
 **************************************************************************/
 static bool is_target_possible(const action_id wanted_action,
-			       const struct player *actor_player,
-			       const struct player *target_player,
-			       const struct city *target_city,
-			       const struct impr_type *target_building,
-			       const struct tile *target_tile,
-                               const struct unit *target_unit,
-			       const struct unit_type *target_unittype,
-			       const struct output_type *target_output,
-			       const struct specialist *target_specialist)
+                               const struct player *actor_player,
+                               const struct req_context *target)
 {
   action_enabler_list_iterate(action_enablers_for_action(wanted_action),
                               enabler) {
-    if (are_reqs_active(target_player, actor_player, target_city,
-                        target_building, target_tile,
-                        target_unit, target_unittype,
-                        target_output, target_specialist, NULL,
+    if (are_reqs_active(target, actor_player,
                         &enabler->target_reqs, RPT_POSSIBLE)) {
       return TRUE;
     }
@@ -7248,9 +7237,11 @@ bool is_action_possible_on_city(action_id act_id,
                           action_id_get_target_kind(act_id)));
 
   return is_target_possible(act_id, actor_player,
-                            city_owner(target_city), target_city, NULL,
-                            city_tile(target_city), NULL, NULL,
-                            NULL, NULL);
+                            &(const struct req_context) {
+                              .player = city_owner(target_city),
+                              .city = target_city,
+                              .tile = city_tile(target_city),
+                            });
 }
 
 /**********************************************************************//**
@@ -7262,9 +7253,13 @@ bool action_maybe_possible_actor_unit(const action_id act_id,
                                       const struct unit *actor_unit)
 {
   const struct player *actor_player = unit_owner(actor_unit);
-  const struct tile *actor_tile = unit_tile(actor_unit);
-  const struct city *actor_city = tile_city(actor_tile);
-  const struct unit_type *actor_unittype = unit_type_get(actor_unit);
+  const struct req_context actor_ctxt = {
+    .player = actor_player,
+    .city = tile_city(unit_tile(actor_unit)),
+    .tile = unit_tile(actor_unit),
+    .unit = actor_unit,
+    .unittype = unit_type_get(actor_unit),
+  };
   const struct action *paction = action_by_number(act_id);
 
   enum fc_tristate result;
@@ -7276,11 +7271,8 @@ bool action_maybe_possible_actor_unit(const action_id act_id,
     return FALSE;
   }
 
-  result = action_hard_reqs_actor(paction,
-                                  actor_player, actor_city, NULL,
-                                  actor_tile, actor_unit, actor_unittype,
-                                  NULL, NULL, FALSE,
-                                  game_city_by_number(actor_unit->homecity));
+  result = action_hard_reqs_actor(paction, &actor_ctxt, FALSE,
+                                  unit_home(actor_unit));
 
   if (result == TRI_NO) {
     /* The hard requirements aren't fulfilled. */
@@ -7290,9 +7282,7 @@ bool action_maybe_possible_actor_unit(const action_id act_id,
   action_enabler_list_iterate(action_enablers_for_action(act_id),
                               enabler) {
     const enum fc_tristate current
-        = mke_eval_reqs(actor_player,
-                        actor_player, NULL, actor_city, NULL, actor_tile,
-                        actor_unit, NULL, NULL,
+        = mke_eval_reqs(actor_player, &actor_ctxt, NULL,
                         &enabler->actor_reqs,
                         /* Needed since no player to evaluate DiplRel
                          * requirements against. */

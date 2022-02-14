@@ -4308,9 +4308,14 @@ void helptext_government(char *buf, size_t bufsz, struct player *pplayer,
          * requirements were simple enough. */
         struct output_type *potype =
           output_type != O_LAST ? get_output_type(output_type) : NULL;
+
         world_value = 
-          get_target_bonus_effects(NULL, NULL, NULL, NULL, NULL, NULL,
-                                   NULL, unittype, potype, NULL, NULL,
+          get_target_bonus_effects(NULL,
+                                   &(const struct req_context) {
+                                     .unittype = unittype,
+                                     .output = potype,
+                                   },
+                                   NULL,
                                    peffect->type);
         net_value = peffect->value + world_value;
       }

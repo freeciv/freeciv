@@ -258,6 +258,10 @@ static void dai_tech_effect_values(struct ai_type *ait, struct player *pplayer)
         adv_want v;
         adv_want tech_want;
         bool capital;
+        const struct req_context context = {
+          .player = pplayer,
+          .city = pcity,
+        };
 
         v = dai_tech_base_want(ait, pplayer, pcity, padv);
         capital = is_capital(pcity);
@@ -275,8 +279,7 @@ static void dai_tech_effect_values(struct ai_type *ait, struct player *pplayer)
               present = preq->present;
               continue;
             }
-            if (!is_req_active(pplayer, NULL, pcity, NULL, NULL, NULL, NULL,
-                               NULL, NULL, NULL, preq, RPT_POSSIBLE)) {
+            if (!is_req_active(&context, NULL, preq, RPT_POSSIBLE)) {
               active = FALSE;
               break; /* presence doesn't matter for inactive effects. */
 
@@ -426,9 +429,16 @@ struct unit_type *dai_wants_defender_against(struct ai_type *ait,
       building = utype_needs_improvement(deftype, pcity);
       if (building != NULL
           && !can_player_build_improvement_direct(pplayer, building)) {
+        const struct req_context context = {
+          .player = pplayer,
+          .city = pcity,
+          .tile = city_tile(pcity),
+          .unittype = deftype,
+          .building = building,
+        };
+
         requirement_vector_iterate(&building->reqs, preq) {
-          if (!is_req_active(pplayer, NULL, pcity, building, city_tile(pcity),
-                             NULL, deftype, NULL, NULL, NULL, preq, RPT_CERTAIN)) {
+          if (!is_req_active(&context, NULL, preq, RPT_CERTAIN)) {
 
             if (VUT_ADVANCE == preq->source.kind && preq->present) {
               int iimprtech = advance_number(preq->source.value.advance);

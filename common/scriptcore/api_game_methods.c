@@ -273,9 +273,13 @@ int api_methods_city_inspire_partisans(lua_State *L, City *self,
   if (inspired) {
     /* Cannot use get_city_bonus() as it would use city's current owner
      * instead of inspirer. */
-    return get_target_bonus_effects(NULL, inspirer, NULL, self, NULL,
-                                    city_tile(self), NULL, NULL, NULL,
-                                    NULL, NULL, EFT_INSPIRE_PARTISANS);
+    return get_target_bonus_effects(NULL,
+                                    &(const struct req_context) {
+                                      .player = inspirer,
+                                      .city = self,
+                                      .tile = city_tile(self),
+                                    },
+                                    NULL, EFT_INSPIRE_PARTISANS);
   }
 
   return 0;

@@ -911,6 +911,7 @@ static void sg_special_set(struct tile *ptile, bv_extras *extras, char ch,
         if (cause != EC_COUNT) {
           struct tile *vtile = tile_virtual_new(ptile);
           struct terrain *pterr = tile_terrain(vtile);
+          const struct req_context tile_ctxt = { .tile = vtile };
 
           /* Do not let the extras already set to the real tile mess with setup
            * of the player tiles if that's what we're doing. */
@@ -930,8 +931,8 @@ static void sg_special_set(struct tile *ptile, bv_extras *extras, char ch,
                 if ((!is_extra_caused_by(candidate, EC_BASE)
                      || tile_city(vtile) != NULL
                      || extra_base_get(candidate)->border_sq <= 0)
-                    && are_reqs_active(NULL, tile_owner(vtile), NULL, NULL, vtile,
-                                       NULL, NULL, NULL, NULL, NULL, &candidate->reqs,
+                    && are_reqs_active(&tile_ctxt, tile_owner(vtile),
+                                       &candidate->reqs,
                                        RPT_POSSIBLE)) {
                   pextra = candidate;
                   break;

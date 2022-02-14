@@ -206,13 +206,12 @@ static bool are_road_reqs_fulfilled(const struct road_type *proad,
                                     const struct tile *ptile)
 {
   struct extra_type *pextra = road_extra_get(proad);
-  const struct unit_type *utype;
-
-  if (punit == NULL) {
-    utype = NULL;
-  } else {
-    utype = unit_type_get(punit);
-  }
+  const struct req_context context = {
+    .player = pplayer,
+    .tile = ptile,
+    .unit = punit,
+    .unittype = punit ? unit_type_get(punit) : NULL,
+  };
 
   if (requirement_vector_size(&proad->first_reqs) > 0) {
     bool beginning = TRUE;
@@ -242,16 +241,14 @@ static bool are_road_reqs_fulfilled(const struct road_type *proad,
     } extra_type_list_iterate_end;
 
     if (beginning) {
-      if (!are_reqs_active(pplayer, tile_owner(ptile), NULL, NULL, ptile,
-                           punit, utype, NULL, NULL, NULL,
+      if (!are_reqs_active(&context, tile_owner(ptile),
                            &proad->first_reqs, RPT_POSSIBLE)) {
         return FALSE;
       }
     }
   }
 
-  return are_reqs_active(pplayer, tile_owner(ptile), NULL, NULL, ptile,
-                         punit, utype, NULL, NULL, NULL,
+  return are_reqs_active(&context, tile_owner(ptile),
                          &pextra->reqs, RPT_POSSIBLE);
 }
 
@@ -441,8 +438,8 @@ bool is_native_tile_to_road(const struct road_type *proad,
 
   pextra = road_extra_get(proad);
 
-  return are_reqs_active(NULL, NULL, NULL, NULL, ptile,
-                         NULL, NULL, NULL, NULL, NULL,
+  return are_reqs_active(&(const struct req_context) { .tile = ptile },
+                         NULL,
                          &pextra->reqs, RPT_POSSIBLE);
 }
 

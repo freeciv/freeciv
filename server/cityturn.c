@@ -1133,6 +1133,10 @@ static bool worklist_item_postpone_req_vec(struct universal *target,
   const char *tgt_name;
   const struct requirement_vector *build_reqs;
   const char *signal_name;
+  const struct req_context city_ctxt = {
+    .player = pplayer,
+    .city = pcity,
+  };
   bool purge = FALSE;
   bool known = FALSE;
 
@@ -1157,8 +1161,7 @@ static bool worklist_item_postpone_req_vec(struct universal *target,
   }
 
   requirement_vector_iterate(build_reqs, preq) {
-    if (!is_req_active(pplayer, NULL, pcity, NULL, NULL, NULL, NULL,
-                       NULL, NULL, NULL, preq, RPT_POSSIBLE)) {
+    if (!is_req_active(&city_ctxt, NULL, preq, RPT_POSSIBLE)) {
       known = TRUE;
       switch (preq->source.kind) {
       case VUT_ADVANCE:

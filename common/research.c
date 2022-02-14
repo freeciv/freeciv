@@ -298,26 +298,14 @@ research_advance_name_translation(const struct research *presearch,
 
   If may become active if all unchangeable requirements are active.
 ****************************************************************************/
-static bool reqs_may_activate(const struct player *target_player,
+static bool reqs_may_activate(const struct req_context *context,
                               const struct player *other_player,
-                              const struct city *target_city,
-                              const struct impr_type *target_building,
-                              const struct tile *target_tile,
-                              const struct unit *target_unit,
-                              const struct unit_type *target_unittype,
-                              const struct output_type *target_output,
-                              const struct specialist *target_specialist,
-                              const struct action *target_action,
                               const struct requirement_vector *reqs,
                               const enum   req_problem_type prob_type)
 {
   requirement_vector_iterate(reqs, preq) {
     if (is_req_unchanging(preq)
-        && !is_req_active(target_player, other_player, target_city,
-                          target_building, target_tile,
-                          target_unit, target_unittype,
-                          target_output, target_specialist, target_action,
-                          preq, prob_type)) {
+        && !is_req_active(context, other_player, preq, prob_type)) {
       return FALSE;
     }
   } requirement_vector_iterate_end;
@@ -337,16 +325,8 @@ static bool reqs_may_activate(const struct player *target_player,
 static bool
 research_allowed(const struct research *presearch,
                  Tech_type_id tech,
-                 bool (*reqs_eval)(const struct player *tplr,
+                 bool (*reqs_eval)(const struct req_context *context,
                                    const struct player *oplr,
-                                   const struct city *tcity,
-                                   const struct impr_type *tbld,
-                                   const struct tile *ttile,
-                                   const struct unit *tunit,
-                                   const struct unit_type *tutype,
-                                   const struct output_type *top,
-                                   const struct specialist *tspe,
-                                   const struct action *tact,
                                    const struct requirement_vector *reqs,
                                    const enum   req_problem_type ptype))
 {
@@ -360,8 +340,8 @@ research_allowed(const struct research *presearch,
   }
 
   research_players_iterate(presearch, pplayer) {
-    if (reqs_eval(pplayer, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
-                  NULL, NULL, &(adv->research_reqs), RPT_CERTAIN)) {
+    if (reqs_eval(&(const struct req_context) { .player = pplayer },
+                  NULL, &(adv->research_reqs), RPT_CERTAIN)) {
       /* It is enough that one player that shares research is allowed to
        * research it.
        * Reasoning: Imagine a tech with that requires a nation in the

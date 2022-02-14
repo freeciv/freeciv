@@ -505,12 +505,14 @@ struct city *sdi_try_defend(const struct player *owner,
     struct city *pcity = tile_city(ptile1);
 
     if (pcity
-        && fc_rand(100) < get_target_bonus_effects(NULL,
-                                                   city_owner(pcity), owner,
-                                                   pcity, NULL, ptile,
-                                                   NULL, NULL,
-                                                   NULL, NULL, NULL,
-                                                   EFT_NUKE_PROOF)) {
+        && fc_rand(100)
+           < get_target_bonus_effects(NULL,
+                                      &(const struct req_context) {
+                                        .player = city_owner(pcity),
+                                        .city = pcity,
+                                        .tile = ptile,
+                                      },
+                                      owner, EFT_NUKE_PROOF)) {
       return pcity;
     }
   } square_iterate_end;
@@ -675,9 +677,15 @@ static int defense_multiplication(const struct unit_type *att_type,
 
   defensepower = defensepower
     * (100
-       + get_target_bonus_effects(NULL, unit_owner(def), NULL,
-                                  pcity, NULL, ptile, def,
-                                  unit_type_get(def), NULL, NULL, NULL,
+       + get_target_bonus_effects(NULL,
+                                  &(const struct req_context) {
+                                    .player = unit_owner(def),
+                                    .city = pcity,
+                                    .tile = ptile,
+                                    .unit = def,
+                                    .unittype = unit_type_get(def),
+                                  },
+                                  NULL,
                                   EFT_FORTIFY_DEFENSE_BONUS)) / 100;
 
   return defensepower;

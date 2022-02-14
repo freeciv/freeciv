@@ -39,8 +39,11 @@ bool player_can_build_base(const struct base_type *pbase,
 
   pextra = base_extra_get(pbase);
 
-  return are_reqs_active(pplayer, tile_owner(ptile), NULL, NULL, ptile,
-                         NULL, NULL, NULL, NULL, NULL,
+  return are_reqs_active(&(const struct req_context) {
+                           .player = pplayer,
+                           .tile = ptile,
+                         },
+                         tile_owner(ptile),
                          &pextra->reqs, RPT_POSSIBLE);
 }
 
@@ -57,8 +60,13 @@ bool can_build_base(const struct unit *punit, const struct base_type *pbase,
     return FALSE;
   }
 
-  return are_reqs_active(pplayer, tile_owner(ptile), NULL, NULL,
-                         ptile, punit, unit_type_get(punit), NULL, NULL, NULL,
+  return are_reqs_active(&(const struct req_context) {
+                           .player = pplayer,
+                           .tile = ptile,
+                           .unit = punit,
+                           .unittype = unit_type_get(punit),
+                         },
+                         tile_owner(ptile), 
                          &pextra->reqs, RPT_CERTAIN);
 }
 
