@@ -1215,8 +1215,8 @@ value sets. The different values have roughly the following meaning:
   yes:    debugging enable (FREECIV_DEBUG is defined)
           debugging log level available (4, log_debug())
           more compiler warning flags than with lower debug levels
-  checks: same as 'yes' but with one additional compiler check:
-            -Wstrict-prototypes
+  checks: same as 'yes' but with additional compiler check that are not
+          even expected to work on all configurations
 
 Profiling is enabled by '--enable-gprof'. After the compilation run freeciv
 normally. It will be 5 to 10 times slower due to the added calls to the
