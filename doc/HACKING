@@ -1214,12 +1214,12 @@ values have roughly the following meaning:
   yes:    debugging enable (FREECIV_DEBUG is defined)
           debugging log level available (4, log_debug())
           more compiler warning flags than with lower debug levels
-  checks: same as 'yes' but with one additional compiler check:
-            -Wstrict-prototypes
-          This is OK for the server and most clients but in the case
-          of the gtk client there is a problems in its main external library
-          (gtk2) which prevent the compilation of the client using the
-          extended flags. A fix is available but will not be applied due to
+  checks: same as 'yes' but with additional compiler checks that are not
+          even expected to work on all configurations.
+          In the case of the gtk2-client there is a problems in its
+          main external library (gtk2) which prevent the compilation
+          of the client using the extended flags.
+          A fix is available but will not be applied due to
           compatibility issues. To compile freeciv with this option,
           temporary patch the file gtkitemfactory.h
           (see http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=148766).
