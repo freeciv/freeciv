@@ -1,24 +1,23 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://web.resource.org/cc/"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:xlink="http://www.w3.org/1999/xlink"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    version="1.0"
    width="1062.99"
    height="708.65997"
    viewBox="0 0 1000 500"
    id="Kazakhstan_svg"
    sodipodi:version="0.32"
-   inkscape:version="0.45"
+   inkscape:version="1.1.1 (3bf5ae0d25, 2021-09-20)"
    sodipodi:docname="kazakhstan.svg"
-   sodipodi:docbase="/home/divanov/rpmbuild/BUILD/freeciv-2.1.0-beta3/data/flags"
    inkscape:output_extension="org.inkscape.output.svg.inkscape"
-   sodipodi:modified="true">
+   sodipodi:modified="true"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
   <metadata
      id="metadata2617">
     <rdf:RDF>
@@ -31,8 +30,8 @@
     </rdf:RDF>
   </metadata>
   <sodipodi:namedview
-     inkscape:window-height="755"
-     inkscape:window-width="1280"
+     inkscape:window-height="727"
+     inkscape:window-width="991"
      inkscape:pageshadow="2"
      inkscape:pageopacity="0.0"
      guidetolerance="10.0"
@@ -47,11 +46,13 @@
      inkscape:grid-points="false"
      showgrid="false"
      inkscape:zoom="0.66704622"
-     inkscape:cx="531.495"
-     inkscape:cy="354.32999"
-     inkscape:window-x="-5"
-     inkscape:window-y="-5"
-     inkscape:current-layer="Kazakhstan_svg" />
+     inkscape:cx="532.197"
+     inkscape:cy="355.29772"
+     inkscape:window-x="506"
+     inkscape:window-y="106"
+     inkscape:current-layer="Kazakhstan_svg"
+     inkscape:pagecheckerboard="0"
+     inkscape:window-maximized="0" />
   <desc
      id="desc2501">Flag of the Republic of Kazakhstan</desc>
   <defs
