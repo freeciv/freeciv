@@ -35,7 +35,7 @@ static const char **gfx_array_extensions = nullptr;
 const char **gfx_fileextensions(void)
 {
   QList<QByteArray> gfx_ext;
-  QByteArray cp;
+  QList<QByteArray>::iterator iter;
   int j = 0;
 
   if (gfx_array_extensions != nullptr) {
@@ -45,12 +45,12 @@ const char **gfx_fileextensions(void)
   gfx_ext = QImageReader::supportedImageFormats();
 
   gfx_array_extensions = new const char *[gfx_ext.count() + 1];
-  while (!gfx_ext.isEmpty()) {
+  for (iter = gfx_ext.begin(); iter != gfx_ext.end(); iter++) {
     char *ext;
+    int extlen = iter->size() + 1;
 
-    cp = gfx_ext.takeFirst();
-    ext = static_cast<char *>(fc_malloc(sizeof(cp.data())));
-    strncpy(ext, cp.data(), sizeof(cp));
+    ext = static_cast<char *>(fc_malloc(extlen));
+    strncpy(ext, iter->data(), extlen);
     gfx_array_extensions[j] = ext;
     j++;
   }
