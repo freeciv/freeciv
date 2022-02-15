@@ -598,5 +598,6 @@ clean:
 	make GUI=gtk3.22 CLIENT=gtk3.22 clean-build-common clean-install-common clean-installer-common
 	make GUI=sdl2 CLIENT=sdl2 clean-build-common clean-install-common clean-installer-common
 	make GUI=qt5 CLIENT=qt clean-build-common clean-install-common clean-installer-common
+	make GUI=qt6 CLIENT=qt clean-build-common clean-install-common clean-installer-common
 	make clean-build-ruledit-qt5 clean-install-ruledit-qt5 clean-installer-ruledit-qt5
 	make clean-build-ruledit-qt6 clean-install-ruledit-qt6 clean-installer-ruledit-qt6
