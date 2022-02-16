@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Freeciv S3_0\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
 "POT-Creation-Date: 2022-01-16 09:20+0200\n"
-"PO-Revision-Date: 2022-01-29 18:38+0100\n"
+"PO-Revision-Date: 2022-02-13 13:33+0100\n"
 "Last-Translator: Hubert Kowalewski <hubkow@users.sourceforge.net>\n"
 "Language-Team: hubkow@users.sourceforge.net\n"
 "Language: pl\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2;\n"
-"X-Generator: Poedit 2.3\n"
+"X-Generator: Poedit 2.0.6\n"
 "X-Poedit-Bookmarks: 4866,-1,-1,-1,-1,-1,-1,-1,-1,-1\n"
 
 #: ai/default/daicity.c:997
@@ -1505,8 +1505,8 @@ msgstr "debug POZIOM"
 #: server/civserver.c:371
 msgid "Set debug log level (one of f,e,w,n,v,d, or d:file1,min,max:...)"
 msgstr ""
-"Ustaw poziom logowania debugowania (jedną z liter f,e,n,v,d lub d:plik1,min,"
-"max:...)"
+"Ustaw poziom logowania debugowania (jedną z liter f,e,w,n,v,d lub d:plik1,"
+"min,max:...)"
 
 #: client/client_main.c:398 tools/civmanual.c:871 tools/fcmp/mpcmdline.c:84
 #: server/civserver.c:376
