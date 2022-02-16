@@ -315,3 +315,8 @@ function database_free()
     dbh:close()
   end
 end
+
+-- Example of changing connection access level.
+-- function conn_established(conn)
+--   auth.set_cmdlevel(conn, ALLOW.info)
+-- end
