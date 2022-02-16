@@ -1,5 +1,5 @@
 #!/bin/bash
-#/**********************************************************************
+#/***********************************************************************
 # Freeciv - Copyright (C) 2017
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -46,6 +46,11 @@ then
   CROSSER_QT5=yes
 fi
 
+if grep "CROSSER_QT6" $DLLSPATH/crosser.txt | grep yes > /dev/null
+then
+  CROSSER_QT6=yes
+fi
+
 if grep "CROSSER_GTK4" $DLLSPATH/crosser.txt | grep yes > /dev/null
 then
   CROSSER_GTK4=yes
@@ -65,6 +70,15 @@ elif ! ./installer_build.sh $DLLSPATH qt5 ; then
   QT5="Fail"
 else
   QT5="Success"
+fi
+
+if test "x$CROSSER_QT6" != "xyes" ; then
+  QT6="N/A"
+elif ! ./installer_build.sh $DLLSPATH qt6 ; then
+  RET=1
+  QT6="Fail"
+else
+  QT6="Success"
 fi
 
 # sdl2-client comes with gtk4 modpack installer
@@ -88,6 +102,7 @@ fi
 
 echo "Gtk3.22: $GTK322"
 echo "Qt5:     $QT5"
+echo "Qt6:     $QT6"
 echo "Sdl2:    $SDL2"
 echo "Ruledit: $RULEDIT"
 
