@@ -30,9 +30,9 @@ name = _("Civ2 ruleset")
 
 ; Summary of the ruleset
 summary = _("\
-You are playing with civ2 style rules. These are\
- quite close to classic (old default) Freeciv rules,\
- but with some additions.\
+You are playing with civ2 style rules. These are somewhat close to classic\
+ (old default) Freeciv rules, but with some additions, and without certain\
+ more recent changes.\
 ")
 
 ; Detailed description
