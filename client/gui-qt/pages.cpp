@@ -157,9 +157,14 @@ void fc_client::create_main_page(void)
   rev_ver = fc_git_revision();
 
   if (rev_ver == NULL) {
-    /* TRANS: "version 2.6.0, Qt client" */
-    fc_snprintf(msgbuf, sizeof(msgbuf), _("%s%s, Qt client"),
+    /* TRANS: "version 3.1.0, Qt5 client" */
+#ifdef FC_QT5_MODE
+    fc_snprintf(msgbuf, sizeof(msgbuf), _("%s%s, Qt5 client"),
                 word_version(), VERSION_STRING);
+#else  // FC_QT5_MODE
+    fc_snprintf(msgbuf, sizeof(msgbuf), _("%s%s, Qt6 client"),
+                word_version(), VERSION_STRING);
+#endif // FC_QT5_MODE
   } else {
     fc_snprintf(msgbuf, sizeof(msgbuf), "%s%s",
                 word_version(), VERSION_STRING);
@@ -173,7 +178,11 @@ void fc_client::create_main_page(void)
                      main_graphics.height() - fm.descent() - fm.height(),
                      msgbuf);
 
-    strncpy(msgbuf, _("Qt client"), sizeof(msgbuf) - 1);
+#ifdef FC_QT5_MODE
+    strncpy(msgbuf, _("Qt5 client"), sizeof(msgbuf) - 1);
+#else  // FC_QT5_MODE
+    strncpy(msgbuf, _("Qt6 client"), sizeof(msgbuf) - 1);
+#endif // FC_QT5_MODE
   }
 
   painter.drawText(main_graphics.width() - fm.horizontalAdvance (msgbuf)
