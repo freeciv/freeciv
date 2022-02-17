@@ -161,6 +161,7 @@ VERREV="$(../../fc_version)"
 if test "x$INST_CROSS_MODE" != "xrelease" ; then
   if test -d ../../.git || test -f ../../.git ; then
     VERREV="$VERREV-$(cd ../.. && git rev-parse --short HEAD)"
+    GITREVERT=true
   fi
 fi
 
@@ -173,12 +174,18 @@ if test "x$GUI" = "xruledit" ; then
     echo "Langstat creation failed!" >&2
     exit 1
   fi
+  if test "$GITREVERT" = true ; then
+    git checkout ../../translations/ruledit
+  fi
 else
   if ! make -C build-${SETUP}-${GUI}/translations/core update-po ||
      ! make -C build-${SETUP}-${GUI}/bootstrap langstat_core.txt
   then
     echo "Langstat creation failed!" >&2
     exit 1
+  fi
+  if test "$GITREVERT" = true ; then
+    git checkout ../../translations/core
   fi
 fi
 
