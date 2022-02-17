@@ -23,7 +23,7 @@ a) Install or update your Cygwin by downloading and running installer
    (packages to be installed as dependencies of ones in the list
     are not listed):
    - gcc-g++ (section Development)
-   - pkg-config (Development)
+   - pkg-config (Development) or pkgconf (Development)
    - make (Development)
    - libiconv-devel (Libs)
    - libcurl-devel (Libs)
@@ -39,16 +39,18 @@ a) Install or update your Cygwin by downloading and running installer
    - libreadline-devel (Libs) (for server command history & completion)
    - gettext-devel (Development) (for native language support)
    - libSDL2_mixer-devel (Libs) (for client audio support)
+   - liblzma-devel (Libs) (for support of xz-compressed savegames)
+   - libbz2-devel (Archive) (for support of bz2-compressed savegames)
 
   To get and build freeciv development version directly from version control,
   you need also
    - git (Development)
-   - automake1.15 (Development)
+   - automake1.16 (Development)
    - libtool (Development)
+   - python3 (Python)
 
   To run freeciv client, you need to install also
   - xlaunch (X11)
-  - fontconfig (X11)
 
 b) Get a Freeciv source tree (the doc/ directory this INSTALL.Cygwin is in,
    is a subdirectory of the source tree's root directory).
