@@ -2364,7 +2364,7 @@ msgstr "Instigu al ribelo!"
 #: client/gui-gtk-3.0/action_dialog.c:1482
 #: client/gui-gtk-3.22/action_dialog.c:1476 client/gui-qt/dialogs.cpp:2866
 #: client/gui-sdl2/action_dialog.c:2339
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Inciting a revolt costs %d gold.\n"
 "%s"
@@ -2372,11 +2372,11 @@ msgid_plural ""
 "Inciting a revolt costs %d gold.\n"
 "%s"
 msgstr[0] ""
-"La instigo al ribelo kostas %d orajn monerojn.\n"
-"La ŝtata kaso entenas %d orajn monerojn."
+"Instigo al ribelo kostas %d oran moneron.\n"
+"%s"
 msgstr[1] ""
-"La instigo al ribelo kostas %d orajn monerojn.\n"
-"La ŝtata kaso entenas %d orajn monerojn."
+"Instigo al ribelo kostas %d orajn monerojn.\n"
+"%s"
 
 #. TRANS: %s is a unit name, e.g., Spy
 #: client/gui-gtk-2.0/action_dialog.c:1747
@@ -6306,9 +6306,8 @@ msgstr "_Repripensu la vidon"
 
 #: client/gui-gtk-2.0/plrdlg.c:357 client/gui-gtk-3.0/plrdlg.c:369
 #: client/gui-gtk-3.22/plrdlg.c:367
-#, fuzzy
 msgid "_Report"
-msgstr "_Raportoj"
+msgstr "_Raporto"
 
 #: client/gui-gtk-2.0/plrdlg.c:395 client/gui-gtk-3.0/plrdlg.c:412
 #: client/gui-gtk-3.22/plrdlg.c:410
@@ -7071,14 +7070,13 @@ msgid "Wonders of %s Empire"
 msgstr "Mirindaĵoj de la mondo"
 
 #: client/gui-gtk-3.0/inteldlg.c:652 client/gui-gtk-3.22/inteldlg.c:650
-#, fuzzy
 #| msgid "(unknown)"
 msgid "(unknown city)"
-msgstr "(nekonata)"
+msgstr "(nekonata urbo)"
 
 #: client/gui-gtk-3.0/inteldlg.c:658 client/gui-gtk-3.22/inteldlg.c:656
 msgid "(lost)"
-msgstr ""
+msgstr "(perdita)"
 
 #: client/gui-gtk-3.0/menu.c:457 client/gui-gtk-3.22/menu.c:456
 #, fuzzy
@@ -8626,14 +8624,12 @@ msgid "Incite a Revolt and Escape"
 msgstr "Instigi al ribelo kaj eskapi"
 
 #: client/gui-qt/menu.cpp:1528
-#, fuzzy
 msgid "Poison city"
-msgstr "Venenu la urbon"
+msgstr "Veneni la urbon"
 
 #: client/gui-qt/menu.cpp:1535
-#, fuzzy
 msgid "Poison City Escape"
-msgstr "Venenu la urbon"
+msgstr "Veneni la urbon kaj eskapi"
 
 #: client/gui-qt/menu.cpp:1543
 msgid "Civilization"
@@ -15567,15 +15563,15 @@ msgstr ""
 #: data/classic/game.ruleset:265 data/sandbox/game.ruleset:268
 #: data/experimental/game.ruleset:268 data/civ2civ3/game.ruleset:270
 #: data/multiplayer/game.ruleset:268
-#, fuzzy, c-format
+#, c-format
 msgid "%sPoison City%s"
-msgstr "Venenu la urbon"
+msgstr "%sVeneni la urbon%s"
 
 #. TRANS: _Poison City and Escape (3% chance of success).
 #: common/actions.c:5249
 #, c-format
 msgid "%sPoison City and Escape%s"
-msgstr ""
+msgstr "%sVeneni la urbon kaj eskapi%s"
 
 #. TRANS: S_abotage Enemy Unit (3% chance of success).
 #: common/actions.c:5252
@@ -24598,9 +24594,9 @@ msgstr "Sabotu la urbon"
 #: data/civ2/game.ruleset:279 data/classic/game.ruleset:280
 #: data/sandbox/game.ruleset:283 data/experimental/game.ruleset:283
 #: data/civ2civ3/game.ruleset:285 data/multiplayer/game.ruleset:283
-#, fuzzy, c-format
+#, c-format
 msgid "Industrial %sSabotage%s"
-msgstr "Industria sabotado"
+msgstr "Industrion %ssaboti%s"
 
 #. TRANS: Indus_trial Espionage (3% chance of success).
 #: data/civ2/game.ruleset:300 data/classic/game.ruleset:301
@@ -39789,23 +39785,24 @@ msgstr ""
 
 #. TRANS: The Belgian Spy ... from Paris
 #: server/diplomats.c:751
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The %s %s failed to steal technology again from %s. We were prepared for the "
 "attempt."
-msgstr "La %sj %s malsukcesi forŝteli teĥnologion el %s."
+msgstr "La %s %s malsukcesis forŝteli teĥnologion el %s. Ni estis preparita "
+"kontraŭ la okazo."
 
 #. TRANS: Your Spy was caught ... from %s.
 #: server/diplomats.c:760
 #, c-format
 msgid "Your %s was caught in the attempt of stealing technology from %s."
-msgstr "Via %s estis kaptita dum ŝtelado de teĥnologio de %s."
+msgstr "Via %s estis kaptita dum provo forŝteli teĥnologion el %s."
 
 #. TRANS: The Belgian Spy ... from Paris
 #: server/diplomats.c:767
 #, c-format
 msgid "The %s %s failed to steal technology from %s."
-msgstr "La %sj %s malsukcesi forŝteli teĥnologion el %s."
+msgstr "La %s %s malsukcesis forŝteli teĥnologion el %s."
 
 #: server/diplomats.c:785
 #, c-format
