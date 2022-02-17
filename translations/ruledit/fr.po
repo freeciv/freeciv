@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv trunk\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2022-01-21 18:25+0100\n"
+"POT-Creation-Date: 2022-02-17 14:54+0100\n"
 "PO-Revision-Date: 2022-01-21 21:52+0100\n"
 "Last-Translator: Igx <igx31 hotmail.com>\n"
 "Language-Team: French <freeciv-l10n-fr@yahoogroupes.fr>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: tools/ruledit/conversion_log.cpp:41 tools/ruledit/effect_edit.cpp:111
+#: tools/ruledit/conversion_log.cpp:41 tools/ruledit/effect_edit.cpp:127
 #: tools/ruledit/req_vec_fix.cpp:190 tools/ruledit/requirers_dlg.cpp:43
 #: tools/ruledit/req_edit.cpp:135
 msgid "Close"
@@ -55,34 +55,34 @@ msgstr "Force de défense"
 msgid "Move Rate"
 msgstr "Vitesse de déplacement"
 
-#: tools/ruledit/effect_edit.cpp:75 tools/ruledit/req_edit.cpp:66
+#: tools/ruledit/effect_edit.cpp:77 tools/ruledit/req_edit.cpp:66
 msgid "Type:"
 msgstr "Type :"
 
-#: tools/ruledit/effect_edit.cpp:89 tools/ruledit/req_edit.cpp:84
+#: tools/ruledit/effect_edit.cpp:91 tools/ruledit/req_edit.cpp:84
 msgid "Value:"
 msgstr "Valeur :"
 
-#: tools/ruledit/effect_edit.cpp:99 tools/ruledit/tab_building.cpp:90
+#: tools/ruledit/effect_edit.cpp:115 tools/ruledit/tab_building.cpp:90
 #: tools/ruledit/tab_extras.cpp:84 tools/ruledit/tab_good.cpp:85
 #: tools/ruledit/tab_gov.cpp:84 tools/ruledit/tab_multiplier.cpp:84
 msgid "Requirements"
 msgstr "Prérequis"
 
-#: tools/ruledit/effect_edit.cpp:103
+#: tools/ruledit/effect_edit.cpp:119
 msgid "Add Effect"
 msgstr "Ajouter un effet"
 
-#: tools/ruledit/effect_edit.cpp:107
+#: tools/ruledit/effect_edit.cpp:123
 msgid "Delete Effect"
 msgstr "Supprimer un effet"
 
-#: tools/ruledit/effect_edit.cpp:184
+#: tools/ruledit/effect_edit.cpp:200
 #, c-format
 msgid "Effect #%d: %s"
 msgstr "Effet #%d : %s"
 
-#: tools/ruledit/effect_edit.cpp:280
+#: tools/ruledit/effect_edit.cpp:303
 #, c-format
 msgid "%s effect #%d"
 msgstr "%s effet #%d"
@@ -449,8 +449,10 @@ msgid ""
 "a subdirectory under %s%s%s\n"
 "Use server command \"/rulesetdir <subdirectory>\" to load it to freeciv."
 msgstr ""
-"Si vous voulez pouvoir charger les règles du jeu directement dans Freeciv, placez-les dans un sous-répertoire de %s%s%s\n"
-"Utilisez la commande serveur \"/rulesetdir <sous-répertoire>\" pour les charger dans Freeciv."
+"Si vous voulez pouvoir charger les règles du jeu directement dans Freeciv, "
+"placez-les dans un sous-répertoire de %s%s%s\n"
+"Utilisez la commande serveur \"/rulesetdir <sous-répertoire>\" pour les "
+"charger dans Freeciv."
 
 #: tools/ruledit/tab_misc.cpp:116
 msgid "Version suffix to directory name"
