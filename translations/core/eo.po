@@ -5066,9 +5066,8 @@ msgstr "_Mirindaĵoj de la mondo"
 
 #: client/gui-gtk-2.0/menu.c:1457 client/gui-gtk-3.0/menu.c:299
 #: client/gui-gtk-3.22/menu.c:298
-#, fuzzy
 msgid "Top _Five Cities"
-msgstr "La kvin urboj pli gravaj"
+msgstr "La _kvin plej bonaj urboj"
 
 #: client/gui-gtk-2.0/menu.c:1459 client/gui-gtk-3.0/menu.c:301
 #: client/gui-gtk-3.22/menu.c:300
@@ -5681,9 +5680,8 @@ msgstr "_Kosmoŝipo"
 
 #: client/gui-gtk-2.0/menu.c:1830 client/gui-gtk-3.0/menu.c:436
 #: client/gui-gtk-3.22/menu.c:435
-#, fuzzy
 msgid "_Achievements"
-msgstr "?Scientist:S"
+msgstr "_Atingoj"
 
 #. TRANS: Connect with some road type (Road/Railroad)
 #: client/gui-gtk-2.0/menu.c:2138 client/gui-gtk-2.0/menu.c:2145
@@ -8652,7 +8650,7 @@ msgstr "?show:Mortintaj Ludantoj"
 
 #: client/gui-qt/menu.cpp:1586
 msgid "Top Five Cities"
-msgstr "La kvin urboj pli gravaj"
+msgstr "La kvin plej bonaj urboj"
 
 #: client/gui-qt/menu.cpp:1590
 msgid "Demographics"
@@ -8664,7 +8662,7 @@ msgstr "Kosmoŝipo"
 
 #: client/gui-qt/menu.cpp:1598 common/events.c:150
 msgid "Achievements"
-msgstr ""
+msgstr "Atingoj"
 
 #: client/gui-qt/menu.cpp:1601
 #, fuzzy
@@ -32349,9 +32347,8 @@ msgstr ""
 
 #. TRANS: Preserve the leading space: it controls nesting
 #: data/helpdata.txt:651
-#, fuzzy
 msgid " Goods"
-msgstr " M da havaĵoj"
+msgstr " Havaĵoj"
 
 #: data/helpdata.txt:652
 msgid "Goods are carried via trade routes."
@@ -37406,9 +37403,9 @@ msgid "Trade between %s city %s and %s lost along with their city."
 msgstr ""
 
 #: server/citytools.c:2669
-#, fuzzy, c-format
+#, c-format
 msgid "Sorry, the %s canceled the trade route from %s to your city %s."
-msgstr "Bedaŭrinde, %s forigis la komercan kurson de %s ĝis via urbo %s."
+msgstr "Bedaŭrinde, la %s nuligis la komercan kurson de %s al via urbo %s."
 
 #. TRANS: "...from Paris to Spanish city Madrid."
 #: server/citytools.c:2675
@@ -37504,12 +37501,12 @@ msgstr "ATENTU, ni havas MALMULTON da MONO %s."
 #: server/cityturn.c:897
 #, c-format
 msgid "%s needs %s (being built) to grow beyond size %d."
-msgstr "%s bezonas %sn (konstruatan) por pligrandiĝi preter la %da grando."
+msgstr "%s bezonas %sn (konstruatan) por pligrandiĝi preter grando %d."
 
 #: server/cityturn.c:903
 #, c-format
 msgid "%s needs an improvement to grow beyond size %d."
-msgstr "%s bezonas plibonigon por pligrandiĝi preter la %da grando."
+msgstr "%s bezonas plibonigon por pligrandiĝi preter grando %d."
 
 #: server/cityturn.c:964
 #, c-format
@@ -40828,31 +40825,31 @@ msgstr ""
 #: server/report.c:91
 #, c-format
 msgid "%s %s reports on the RICHEST Civilizations in the World."
-msgstr "%s %s raportas pri la plej RIĈA Civilizo en la mondo."
+msgstr "%s %s raportas pri la plej RIĈAJ Civilizoj en la mondo."
 
 #. TRANS: year <name> reports ...
 #: server/report.c:93
 #, c-format
 msgid "%s %s reports on the most ADVANCED Civilizations in the World."
-msgstr "%s %s raportas pri la plej PROGRESINTA civilizo en la mondo."
+msgstr "%s %s raportas pri la plej PROGRESINTAJ civilizoj en la mondo."
 
 #. TRANS: year <name> reports ...
 #: server/report.c:95
 #, c-format
 msgid "%s %s reports on the most MILITARIZED Civilizations in the World."
-msgstr "%s %s raportas pri la plej MILITA civilizo en la mondo."
+msgstr "%s %s raportas pri la plej MILITAJ civilizoj en la mondo."
 
 #. TRANS: year <name> reports ...
 #: server/report.c:97
 #, c-format
 msgid "%s %s reports on the HAPPIEST Civilizations in the World."
-msgstr "%s %s raportas pri la plej FELIĈA civilizo en la mondo."
+msgstr "%s %s raportas pri la plej FELIĈAJ civilizoj en la mondo."
 
 #. TRANS: year <name> reports ...
 #: server/report.c:99
 #, c-format
 msgid "%s %s reports on the LARGEST Civilizations in the World."
-msgstr "%s %s raportas pri la plej GRANDA civilizo en la mondo."
+msgstr "%s %s raportas pri la plej GRANDAJ civilizoj en la mondo."
 
 #. TRANS: [year] <name> [reports ...]
 #: server/report.c:104
@@ -40896,7 +40893,7 @@ msgstr "Pan Ku"
 
 #: server/report.c:167
 msgid "Population"
-msgstr "Populacio"
+msgstr "Loĝantaro"
 
 #: server/report.c:168
 msgid "Land Area"
@@ -40908,11 +40905,10 @@ msgstr "Okupita areo"
 
 #: server/report.c:170
 msgid "Research Speed"
-msgstr "Rapideco de la studado"
+msgstr "Studado-rapideco"
 
 #. TRANS: How literate people are.
 #: server/report.c:172
-#, fuzzy
 msgid "?ability:Literacy"
 msgstr "Alfabetiĝo"
 
@@ -41016,7 +41012,7 @@ msgstr "%2d: La Malnoblaj %s"
 
 #: server/report.c:302
 msgid "Historian Publishes!"
-msgstr "La Historiisto verkas!"
+msgstr "Historiisto verkas!"
 
 #. TRANS:"The French City of Lyon (team 3) of size 18".
 #: server/report.c:374
@@ -41030,12 +41026,11 @@ msgid "%2d: The %s City of %s of size %d, "
 msgstr "%2d: La %s urbo de %s de grando %d, "
 
 #: server/report.c:387
-#, fuzzy
 msgid "with no Great Wonders\n"
 msgstr "sen mirindaĵoj\n"
 
 #: server/report.c:390
-#, fuzzy, c-format
+#, c-format
 msgid "with %d Great Wonder\n"
 msgid_plural "with %d Great Wonders\n"
 msgstr[0] "kun %d mirindaĵo\n"
@@ -41047,7 +41042,7 @@ msgstr "Raporto de vojaĝanto:"
 
 #: server/report.c:394
 msgid "The Five Greatest Cities in the World!"
-msgstr "La kvin Plej Grandaj Urboj en la mondo!"
+msgstr "La kvin Plej Bonaj Urboj en la mondo!"
 
 #. TRANS: "Colossus in Rhodes (Greek, team 2)".
 #: server/report.c:420
@@ -41074,11 +41069,10 @@ msgstr "(preparante %sn en %s (%s))\n"
 #: server/report.c:457
 #, c-format
 msgid "(building %s in %s (%s))\n"
-msgstr "(preparante %sn en %s (%s))\n"
+msgstr "(%s estas preparata en %s (%s))\n"
 
 #. TRANS: abbreviation of "square miles"
 #: server/report.c:809
-#, fuzzy
 msgid " sq. mi."
 msgid_plural " sq. mi."
 msgstr[0] " kvadr. km."
@@ -41086,25 +41080,22 @@ msgstr[1] " kvadr. km."
 
 #. TRANS: "M tons" = million tons, so always plural
 #: server/report.c:829
-#, fuzzy
 msgid " M tons"
 msgid_plural " M tons"
-msgstr[0] " M tunoj"
-msgstr[1] " M tunoj"
+msgstr[0] " M da tunoj"
+msgstr[1] " M da tunoj"
 
 #. TRANS: "M goods" = million goods, so always plural
 #: server/report.c:839
-#, fuzzy
 msgid " M goods"
 msgid_plural " M goods"
 msgstr[0] " M da havaĵoj"
 msgstr[1] " M da havaĵoj"
 
 #: server/report.c:848
-#, fuzzy
 msgid " bulb"
 msgid_plural " bulbs"
-msgstr[0] " ampoloj"
+msgstr[0] " ampolo"
 msgstr[1] " ampoloj"
 
 #: server/report.c:857
@@ -41121,16 +41112,15 @@ msgstr[1] " tunoj"
 
 #. TRANS: Unit(s) of culture
 #: server/report.c:876
-#, fuzzy
 msgid " point"
 msgid_plural " points"
-msgstr[0] "Pafceloj:"
-msgstr[1] "Pafceloj:"
+msgstr[0] " poento"
+msgstr[1] " poentoj"
 
 #: server/report.c:908
 #, c-format
 msgid "(ranked %d)"
-msgstr ""
+msgstr "(rango %d)"
 
 #: server/report.c:1024 server/report.c:1051
 msgid "Demographics Report:"
@@ -41146,9 +41136,8 @@ msgid "%s %s (%s)"
 msgstr "%s en %s (%s)\n"
 
 #: server/report.c:1081
-#, fuzzy
 msgid "Achievements List:"
-msgstr "?Scientist:S"
+msgstr "Listo de atingoj:"
 
 #: server/report.c:1561
 msgid "Population\n"
