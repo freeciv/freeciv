@@ -42,6 +42,9 @@
 #include <unistd.h>
 #endif
 
+/* dependencies/lua */
+#include "lua.h" /* lua_Integer */
+
 /* utility */
 #include "astring.h"
 #include "bitvector.h"
@@ -1106,7 +1109,9 @@ static void begin_turn(bool is_new_turn)
   send_game_info(NULL);
 
   if (is_new_turn) {
-    script_server_signal_emit("turn_begin", game.info.turn, game.info.year);
+    script_server_signal_emit("turn_begin",
+                              (lua_Integer)game.info.turn,
+                              (lua_Integer)game.info.year);
     script_server_signal_emit("turn_started",
                               game.info.turn > 0 ? game.info.turn - 1
                               : game.info.turn, game.info.year);
