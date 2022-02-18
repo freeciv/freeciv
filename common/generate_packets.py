@@ -41,7 +41,7 @@ lazy_overwrite=0
 def verbose(s):
     if "-v" in sys.argv:
         print(s)
-        
+
 def prefix(prefix,str):
     lines=str.split("\n")
     lines=map(lambda x,prefix=prefix: prefix+x,lines)
@@ -83,7 +83,7 @@ def without(all,part):
         if i not in part:
             result.append(i)
     return result
-    
+
 # A simple container for a type alias
 class Type:
     def __init__(self,alias,dest):
@@ -253,7 +253,7 @@ class Field:
       %(tmp)s;
     }
   }'''%self.get_dict(vars())
-        
+
         return repr(self.__dict__)
 
     # Returns code which sets "differ" by comparing the field
@@ -271,7 +271,7 @@ class Field:
             return "  differ = !are_%(dataio_type)ss_equal(&old->%(name)s, &real_packet->%(name)s);"%self.__dict__
         if not self.is_array:
             return "  differ = (old->%(name)s != real_packet->%(name)s);"%self.__dict__
-        
+
         if self.dataio_type=="string" or self.dataio_type=="estring":
             c="strcmp(old->%(name)s[i], real_packet->%(name)s[i]) != 0"%self.__dict__
             array_size_u=self.array_size1_u
@@ -324,7 +324,7 @@ class Field:
 '''%(cmp,i)
 
     # Returns a code fragment which will put this field if the
-    # content has changed. Does nothing for bools-in-header.    
+    # content has changed. Does nothing for bools-in-header.
     def get_put_wrapper(self,packet,i,deltafragment):
         if fold_bool_into_header and self.struct_type=="bool" and \
            not self.is_array:
@@ -814,7 +814,7 @@ class Variant:
         self.packet_name=packet.name
         self.fields=fields
         self.no=no
-        
+
         self.no_packet=packet.no_packet
         self.want_post_recv=packet.want_post_recv
         self.want_pre_send=packet.want_pre_send
@@ -901,7 +901,7 @@ static char *stats_%(name)s_names[] = {%(names)s};
 
     # Returns a code fragment which declares the packet specific
     # bitvector. Each bit in this bitvector represents one non-key
-    # field.    
+    # field.
     def get_bitvector(self):
         return "BV_DEFINE(%(name)s_fields, %(bits)d);\n"%self.__dict__
 
@@ -961,7 +961,7 @@ static char *stats_%(name)s_names[] = {%(names)s};
 
     # Returns a code fragment which is the implementation of the cmp
     # function. The cmp function is using all key fields. The cmp
-    # function is used for the hash table.    
+    # function is used for the hash table.
     def get_cmp(self):
         if len(self.key_fields)==0:
             return "#define cmp_%(name)s cmp_const\n\n"%self.__dict__
@@ -1195,7 +1195,7 @@ static char *stats_%(name)s_names[] = {%(names)s};
             log='  %(log_macro)s("%(name)s: got info about (%(keys_format)s)"%(keys_arg)s);\n'
         else:
             log=""
-        
+
         if self.want_post_recv:
             post="  post_receive_%(packet_name)s(pc, real_packet);\n"
         else:
@@ -1282,7 +1282,7 @@ class Packet:
         self.gen_log=generate_logs
         str=str.strip()
         lines=str.split("\n")
-        
+
         mo=re.search("^\s*(\S+)\s*=\s*(\d+)\s*;\s*(.*?)\s*$",lines[0])
         assert mo,repr(lines[0])
 
@@ -1319,7 +1319,7 @@ class Packet:
 
         self.want_pre_send="pre-send" in arr
         if self.want_pre_send: arr.remove("pre-send")
-        
+
         self.want_post_recv="post-recv" in arr
         if self.want_post_recv: arr.remove("post-recv")
 
@@ -1375,7 +1375,7 @@ class Packet:
         if self.keys_arg:
             self.keys_arg=",\n    "+self.keys_arg
 
-        
+
         self.want_dsend=self.dsend_given
 
         if len(self.fields)==0:
@@ -1416,7 +1416,7 @@ class Packet:
         for f in self.fields:
             if f.add_cap:  all_caps[f.add_cap]=1
             if f.remove_cap:  all_caps[f.remove_cap]=1
-                        
+
         all_caps=all_caps.keys()
         choices=get_choices(all_caps)
         self.variants=[]
@@ -1528,7 +1528,7 @@ class Packet:
   struct %(name)s packet, *real_packet = &packet;
 
 %(fill)s
-  
+
   return send_%(name)s(pc, real_packet);
 }
 
@@ -1544,7 +1544,7 @@ class Packet:
   struct %(name)s packet, *real_packet = &packet;
 
 %(fill)s
-  
+
   lsend_%(name)s(dest, real_packet);
 }
 
@@ -1566,7 +1566,7 @@ const char *const packet_functional_capability = "%s";
 # delta_stats_report() function.
 def get_report(packets):
     if not generate_stats: return 'void delta_stats_report(void) {}\n\n'
-    
+
     intro='''
 void delta_stats_report(void) {
   int i;
@@ -1851,7 +1851,7 @@ def strip_c_comment(s):
       l=i.split("*/",1)
       assert len(l)==2,repr(i)
       result=result+l[1]
-  return result  
+  return result
 
 # Main function. It reads and parses the input and generates the
 # various files.
@@ -2033,7 +2033,7 @@ bool server_handle_packet(enum packet_type type, const void *packet,
                           struct player *pplayer, struct connection *pconn);
 
 ''')
-    
+
         for p in packets:
             if "cs" in p.dirs and not p.no_handle:
                 a=p.name[len("packet_"):]
