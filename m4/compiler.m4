@@ -152,7 +152,7 @@ AC_DEFUN([FC_SIZE_T_FORMAT],
 [
   AC_MSG_CHECKING([format specifier for size_t])
 
-  for fmt in "%zu" "%ld" "%lld" "%I64d"
+  for fmt in "%zu" "%ld" "%lld" "%I64d" "%I32d"
   do
     if test "x$SIZE_T_PRINTF" = "x" ; then
       _FC_SIZE_T_FORMAT_TEST([${fmt}])
