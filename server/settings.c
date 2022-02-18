@@ -3361,7 +3361,7 @@ static const char *setting_bool_to_str(const struct setting *pset,
 
 /****************************************************************************
   Returns TRUE if 'val' is a valid value for this setting. If it's not,
-  the reason of the failure is available in the optionnal parameter
+  the reason of the failure is available in the optional parameter
   'reject_msg'.
 
   FIXME: also check the access level of pconn.
@@ -3392,7 +3392,7 @@ static bool setting_bool_validate_base(const struct setting *pset,
 
 /****************************************************************************
   Set the setting to 'val'. Returns TRUE on success. If it's not,
-  the reason of the failure is available in the optionnal parameter
+  the reason of the failure is available in the optional parameter
   'reject_msg'.
 ****************************************************************************/
 bool setting_bool_set(struct setting *pset, const char *val,
@@ -3423,7 +3423,7 @@ bool setting_bool_get(struct setting *pset)
 
 /****************************************************************************
   Returns TRUE if 'val' is a valid value for this setting. If it's not,
-  the reason of the failure is available in the optionnal parameter
+  the reason of the failure is available in the optional parameter
   'reject_msg'.
 ****************************************************************************/
 bool setting_bool_validate(const struct setting *pset, const char *val,
@@ -3657,7 +3657,7 @@ static const char *setting_enum_to_str(const struct setting *pset,
 
 /****************************************************************************
   Returns TRUE if 'val' is a valid value for this setting. If it's not,
-  the reason of the failure is available in the optionnal parameter
+  the reason of the failure is available in the optional parameter
   'reject_msg'.
 
   FIXME: also check the access level of pconn.
@@ -3747,7 +3747,7 @@ int read_enum_value(const struct setting *pset)
 
 /****************************************************************************
   Set the setting to 'val'. Returns TRUE on success. If it fails, the
-  reason of the failure is available in the optionnal parameter
+  reason of the failure is available in the optional parameter
   'reject_msg'.
 ****************************************************************************/
 bool setting_enum_set(struct setting *pset, const char *val,
@@ -3776,7 +3776,7 @@ bool setting_enum_set(struct setting *pset, const char *val,
 
 /****************************************************************************
   Returns TRUE if 'val' is a valid value for this setting. If it's not,
-  the reason of the failure is available in the optionnal parameter
+  the reason of the failure is available in the optional parameter
   'reject_msg'.
 ****************************************************************************/
 bool setting_enum_validate(const struct setting *pset, const char *val,
@@ -3884,7 +3884,7 @@ static const char *setting_bitwise_to_str(const struct setting *pset,
 
 /****************************************************************************
   Returns TRUE if 'val' is a valid value for this setting. If it's not,
-  the reason of the failure is available in the optionnal parameter
+  the reason of the failure is available in the optional parameter
   'reject_msg'.
 
   FIXME: also check the access level of pconn.
@@ -3937,7 +3937,7 @@ static bool setting_bitwise_validate_base(const struct setting *pset,
 
 /****************************************************************************
   Set the setting to 'val'. Returns TRUE on success. If it fails, the
-  reason of the failure is available in the optionnal parameter
+  reason of the failure is available in the optional parameter
   'reject_msg'.
 ****************************************************************************/
 bool setting_bitwise_set(struct setting *pset, const char *val,
@@ -3958,7 +3958,7 @@ bool setting_bitwise_set(struct setting *pset, const char *val,
 
 /****************************************************************************
   Returns TRUE if 'val' is a valid value for this setting. If it's not,
-  the reason of the failure is available in the optionnal parameter
+  the reason of the failure is available in the optional parameter
   'reject_msg'.
 ****************************************************************************/
 bool setting_bitwise_validate(const struct setting *pset, const char *val,
