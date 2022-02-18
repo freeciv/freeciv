@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: it\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2022-02-08 15:40+0200\n"
+"POT-Creation-Date: 2022-02-16 13:00+0200\n"
 "PO-Revision-Date: 2021-09-27 13:20+0200\n"
 "Last-Translator: Kristjan SCHMIDT <kristjan.schmidt@googlemail.com>\n"
 "Language-Team: Esperanto <eo@li.org>\n"
@@ -2189,10 +2189,8 @@ msgstr "(nenio)"
 #, c-format
 msgid "Treasury contains %d gold."
 msgid_plural "Treasury contains %d gold."
-msgstr[0] ""
-"La trezorejo enhavas %d oran moneron."
-msgstr[1] ""
-"La trezorejo enhavas %d orajn monerojn."
+msgstr[0] "La trezorejo enhavas %d oran moneron."
+msgstr[1] "La trezorejo enhavas %d orajn monerojn."
 
 #. TRANS: %s is pre-pluralised "Treasury contains %d gold."
 #: client/gui-gtk-2.0/action_dialog.c:497
@@ -2955,9 +2953,11 @@ msgid ""
 msgid_plural ""
 "Buy %s for %d gold?\n"
 "%s"
-msgstr[0] "Ĉu aĉetu la aĵon %s kontraŭ %d oraj moneroj?\n"
+msgstr[0] ""
+"Ĉu aĉetu la aĵon %s kontraŭ %d oraj moneroj?\n"
 "%s"
-msgstr[1] "Ĉu aĉetu la aĵon %s kontraŭ %d oraj moneroj?\n"
+msgstr[1] ""
+"Ĉu aĉetu la aĵon %s kontraŭ %d oraj moneroj?\n"
 "%s"
 
 #: client/gui-gtk-2.0/citydlg.c:2669 client/gui-gtk-2.0/citydlg.c:2683
@@ -2976,9 +2976,11 @@ msgid ""
 msgid_plural ""
 "%s costs %d gold.\n"
 "%s"
-msgstr[0] "%s kostas %d oran moneron.\n"
+msgstr[0] ""
+"%s kostas %d oran moneron.\n"
 "%s"
-msgstr[1] "%s kostas %d orajn monerojn.\n"
+msgstr[1] ""
+"%s kostas %d orajn monerojn.\n"
 "%s"
 
 #: client/gui-gtk-2.0/citydlg.c:2733 client/gui-gtk-3.0/citydlg.c:3131
@@ -7068,7 +7070,6 @@ msgid "Wonders of %s Empire"
 msgstr "Mirindaĵoj de la mondo"
 
 #: client/gui-gtk-3.0/inteldlg.c:652 client/gui-gtk-3.22/inteldlg.c:650
-#| msgid "(unknown)"
 msgid "(unknown city)"
 msgstr "(nekonata urbo)"
 
@@ -14638,6 +14639,7 @@ msgid "Moving: Nobody"
 msgstr "Moviĝanta: Neniu"
 
 #: client/text.c:948 client/text.c:955
+#, c-format
 msgid "Moving: %s"
 msgstr "Moviĝanta: %s"
 
@@ -32125,8 +32127,8 @@ msgid ""
 "capacity, and once full the city grows by one citizen and the granary starts "
 "again at empty. But since granary capacity increases with population, each "
 "citizen is more costly than the last, making this mode of growth important "
-"only for small cities. (An alternative way for cities to grow is \"rapture"
-"\", described in the section on Happiness.)"
+"only for small cities. (An alternative way for cities to grow is "
+"\"rapture\", described in the section on Happiness.)"
 msgstr ""
 
 #. TRANS: Preserve the leading space: it controls nesting
@@ -37480,7 +37482,8 @@ msgstr "Mirindaĵo %s en %s estos finita en la sekva vico."
 #, c-format
 msgid ""
 "Suggest throttling growth in %s to use %s (being built) more effectively."
-msgstr "Oni sugestas malakcelon de kreskado en %s por pli efike uzi la %sn "
+msgstr ""
+"Oni sugestas malakcelon de kreskado en %s por pli efike uzi la %sn "
 "(konstruatan)."
 
 #: server/cityturn.c:503
@@ -38572,11 +38575,11 @@ msgstr ""
 msgid ""
 "With no arguments, shows vital server options (or available options, when "
 "used by clients). With an option name argument, show only the named option, "
-"or options with that prefix. With \"all\", it shows all options. With \"vital"
-"\", \"situational\" or \"rare\", a set of options with this level. With "
-"\"changed\", it shows only the options which have been modified, while with "
-"\"locked\" all settings locked by the ruleset will be listed. With \"ruleset"
-"\", it will show the current ruleset directory name."
+"or options with that prefix. With \"all\", it shows all options. With "
+"\"vital\", \"situational\" or \"rare\", a set of options with this level. "
+"With \"changed\", it shows only the options which have been modified, while "
+"with \"locked\" all settings locked by the ruleset will be listed. With "
+"\"ruleset\", it will show the current ruleset directory name."
 msgstr ""
 
 #. TRANS: translate text between <> only
@@ -39057,10 +39060,10 @@ msgstr ""
 #: server/commands.c:475
 msgid ""
 "The given pattern will be added to your ignore list; you will not receive "
-"any messages from users matching this pattern. The type may be either \"user"
-"\", \"host\", or \"ip\". The default type (if omitted) is to match against "
-"the username. The pattern supports unix glob style wildcards, i.e., * "
-"matches zero or more character, ? exactly one character, [abc] exactly one "
+"any messages from users matching this pattern. The type may be either "
+"\"user\", \"host\", or \"ip\". The default type (if omitted) is to match "
+"against the username. The pattern supports unix glob style wildcards, i.e., "
+"* matches zero or more character, ? exactly one character, [abc] exactly one "
 "of 'a' 'b' or 'c', etc. To access your current ignore list, issue \"/list "
 "ignore\"."
 msgstr ""
@@ -39786,8 +39789,9 @@ msgstr ""
 msgid ""
 "The %s %s failed to steal technology again from %s. We were prepared for the "
 "attempt."
-msgstr "La %s %s malsukcesis forŝteli teĥnologion el %s. Ni estis preparita "
-"kontraŭ la okazo."
+msgstr ""
+"La %s %s malsukcesis forŝteli teĥnologion el %s. Ni estis preparita kontraŭ "
+"la okazo."
 
 #. TRANS: Your Spy was caught ... from %s.
 #: server/diplomats.c:760
@@ -46947,8 +46951,8 @@ msgid ""
 "Your %s %s [id:%d %sD:%.1f HP:%d] lost to an attack by the %s %s %s [id:%d "
 "%sA:%.1f lost %d HP, has %d HP remaining%s]."
 msgstr ""
-"Via %s unuo %s [id:%d %sD:%.1f HP:%d] estis venkita de atako de %s %s unuo %s "
-"[id:%d %sA:%.1f perdis %d HP, kaj pluhavas %d HP%s]."
+"Via %s unuo %s [id:%d %sD:%.1f HP:%d] estis venkita de atako de %s %s unuo "
+"%s [id:%d %sA:%.1f perdis %d HP, kaj pluhavas %d HP%s]."
 
 #. TRANS: "Your attacking green Legion [id:200 ...A:4.0
 #. * lost 1 HP, has 9 HP remaining] succeeded against the
@@ -47065,7 +47069,8 @@ msgid_plural ""
 msgstr[0] ""
 "Via %s de %s alvenis en %s portante %sn, kaj la enspezo estas %d ora monero."
 msgstr[1] ""
-"Via %s de %s alvenis en %s portante %sn, kaj la enspezo estas %d oraj moneroj."
+"Via %s de %s alvenis en %s portante %sn, kaj la enspezo estas %d oraj "
+"moneroj."
 
 #. TRANS: ... Caravan ... Paris ... Stockholm, ... Goods...
 #: server/unithand.c:4680
