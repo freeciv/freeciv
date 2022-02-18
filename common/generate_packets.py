@@ -30,9 +30,8 @@ fold_bool_into_header=1
 
 ################# END OF PARAMETERS ####################
 
-# This program runs under any python version since 1.5.
-# Please leave it so. In particular use the string
-# module and not the function of the string type.
+# This script runs under Python 3.4 and up. Please leave it so.
+# It might also run under older versions, but no such guarantees are made.
 
 import re, string, os, sys
 
