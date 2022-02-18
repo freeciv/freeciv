@@ -1,29 +1,47 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-
 <svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    height="300"
    id="svg1350"
    inkscape:export-filename="/home/pat/donnees/sodipodi_travail/kiribati/kiribati.png"
    inkscape:export-xdpi="72.000000"
    inkscape:export-ydpi="72.000000"
-   inkscape:version="0.47 r22583"
+   inkscape:version="1.1.1 (3bf5ae0d25, 2021-09-20)"
    sodipodi:docname="kiribati.svg"
    sodipodi:version="0.32"
    width="450"
-   version="1.1">
+   version="1.1"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <defs
+     id="defs39" />
+  <sodipodi:namedview
+     id="namedview37"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     showgrid="false"
+     inkscape:zoom="1.9563288"
+     inkscape:cx="225.16665"
+     inkscape:cy="149.77033"
+     inkscape:window-width="1102"
+     inkscape:window-height="809"
+     inkscape:window-x="451"
+     inkscape:window-y="115"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg1350" />
   <metadata
      id="metadata2938">
     <rdf:RDF>
       <cc:Work
          rdf:about="">
-        <dc:title>kiribati flag</dc:title>
         <dc:description />
         <dc:subject>
           <rdf:Bag>
