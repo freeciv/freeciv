@@ -970,7 +970,6 @@ if test "x$fctinycthr" = "xyes" ; then
 fi
 
 if test "x$thread_impl" = "xnone" ; then
-  libs_save="$LIBS"
   LIBS="$LIBS -lpthread"
   AC_LINK_IFELSE([AC_LANG_PROGRAM([[#include <threads.h>]],
     [[return thrd_create(NULL, NULL, NULL);]])],
@@ -979,7 +978,7 @@ if test "x$thread_impl" = "xnone" ; then
     AC_MSG_RESULT([C11])
     AC_DEFINE([FREECIV_HAVE_THREAD_COND], [1], [Has thread condition variable implementation])
     thread_cond=true],
-    [LIBS="$libs_save"])
+    [LIBS="$LIBS_SAVE"])
 fi
 
 if test x$crosser != xyes && test "x$thread_impl" = "xnone" ; then
@@ -987,16 +986,25 @@ if test x$crosser != xyes && test "x$thread_impl" = "xnone" ; then
   FC_LD_FLAGS([-pthread], [], [LIBS])
   AC_LINK_IFELSE([AC_LANG_PROGRAM([[#include <pthread.h>]],
     [[return pthread_create(NULL, NULL, NULL, NULL);]])],
-    [AC_DEFINE([FREECIV_HAVE_PTHREAD], [1], [Use pthreads as thread implementation])
-    thread_impl=pthreads
+    [thread_impl=pthreads],
+    [LIBS="$LIBS -lpthread"
+     AC_LINK_IFELSE([AC_LANG_PROGRAM([[#include <pthread.h>]],
+       [[return pthread_create(NULL, NULL, NULL, NULL);]])],
+       [thread_impl=pthreads])])
+
+  if test $thread_impl = pthreads ; then
+    AC_DEFINE([FREECIV_HAVE_PTHREAD], [1], [Use pthreads as thread implementation])
     AC_MSG_RESULT([pthreads])
     AC_DEFINE([FREECIV_HAVE_THREAD_COND], [1], [Has thread condition variable implementation])
-    thread_cond=true])
+    thread_cond=true
+  else
+    LIBS="$LIBS_SAVE"
+  fi
 fi
 
 if test "x$thread_impl" = "xnone" ; then
   CFLAGS="$CFLAGS_SAVE"
-  LDFLAGS="$LDFLAGS_SAVE"
+  LIBS="$LIBS_SAVE"
 
   AC_LINK_IFELSE([AC_LANG_PROGRAM([[#include <windows.h>]],
     [[CreateThread(NULL, 0, NULL, NULL, 0, NULL);]])],
