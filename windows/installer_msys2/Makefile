@@ -86,11 +86,11 @@ configure-freeciv-ruledit:
 # install Freeciv
 
 install-freeciv-common: configure-freeciv-common
-	# make langstat files
-	make -C build-$(WINARCH)-$(GUI)/translations/core update-po
-	make -C build-$(WINARCH)-$(GUI)/bootstrap langstat_core.txt
 	# make install
 	make -C build-$(WINARCH)-$(GUI) DESTDIR=`pwd`/install-$(WINARCH)-$(GUI) $(MAKE_PARAMS) install
+	# make langstat files. This update-po must be after fc_gitrev_gen.h generation.
+	make -C build-$(WINARCH)-$(GUI)/translations/core update-po
+	make -C build-$(WINARCH)-$(GUI)/bootstrap langstat_core.txt
 	# reorder directory layout
 	mv install-$(WINARCH)-$(GUI)/$(INSTSUB)/bin/* install-$(WINARCH)-$(GUI)/
 	mv install-$(WINARCH)-$(GUI)/$(INSTSUB)/etc install-$(WINARCH)-$(GUI)/
@@ -124,11 +124,11 @@ install-ruledit-dir:
 	mkdir -p install-$(WINARCH)-ruledit/share
 
 install-ruledit: configure-freeciv-ruledit install-ruledit-dir
-	# make langstat files
-	make -C build-$(WINARCH)-ruledit/translations/ruledit update-po
-	make -C build-$(WINARCH)-ruledit/bootstrap langstat_ruledit.txt
 	# make install
 	make -C build-$(WINARCH)-ruledit DESTDIR=`pwd`/install-$(WINARCH)-ruledit/ $(MAKE_PARAMS) install
+	# make langstat files. This update-po must be after fc_gitrev_gen.h generation.
+	make -C build-$(WINARCH)-ruledit/translations/ruledit update-po
+	make -C build-$(WINARCH)-ruledit/bootstrap langstat_ruledit.txt
 	# reorder directory layout
 	mv install-$(WINARCH)-ruledit/$(INSTSUB)/bin/* install-$(WINARCH)-ruledit/
 	mv install-$(WINARCH)-ruledit/$(INSTSUB)/share/freeciv install-$(WINARCH)-ruledit/data
