@@ -505,7 +505,7 @@ fc_deps = static_library('fc_dependencies',
   'dependencies/luasql/src/luasql.c',
   'dependencies/luasql/src/ls_sqlite3.c',
   tinycthr_files,
-  sources: verhdr,
+  sources: [verhdr],
   include_directories : common_inc,
   dependencies: lua_dep
   )
@@ -735,8 +735,8 @@ ais = static_library('fc_ai',
   'ai/default/daimilitary.c',
   'ai/default/daiplayer.c',
   'ai/default/daisettler.c',
-  include_directories: [server_inc, include_directories('ai/default')],
-  sources: [verhdr]
+  sources: [verhdr],
+  include_directories: [server_inc, include_directories('ai/default')]
   )
 
 server_lib = static_library('fc_server',
@@ -2821,6 +2821,7 @@ fcmp_common = static_library('fcmp_common',
   'tools/fcmp/modinst.c',
   'tools/fcmp/mpcmdline.c',
   'tools/fcmp/mpdb.c',
+  sources: [verhdr],
   include_directories: tool_inc
   )
 
@@ -2835,6 +2836,7 @@ endif
 executable('freeciv-mp-gtk3',
   'tools/fcmp/mpgui_gtk3.c',
   mpicon,
+  sources: [verhdr],
   c_args: [ '-DGDK_VERSION_MIN_REQUIRED=GDK_VERSION_3_20',
             '-DGDK_VERSION_MAX_ALLOWED=GDK_VERSION_3_22',
             '-DGLIB_VERSION_MIN_REQUIRED=GLIB_VERSION_2_50',
@@ -2910,7 +2912,8 @@ tool_lib = static_library('fc_toolutil',
   'tools/ruleutil/comments.c',
   'tools/ruleutil/rulesave.c',
   'tools/shared/tools_fc_interface.c',
-  include_directories: server_inc
+  sources: [verhdr],
+  include_directories: server_inc,
   )
 
 executable('freeciv-ruleup',
