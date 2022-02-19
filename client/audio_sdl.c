@@ -204,6 +204,8 @@ static void quit_sdl_audio(void)
 **************************************************************************/
 static int init_sdl_audio(void)
 {
+  SDL_SetHint(SDL_HINT_AUDIO_RESAMPLING_MODE, "medium");
+
   if (SDL_WasInit(SDL_INIT_VIDEO)) {
     return SDL_InitSubSystem(SDL_INIT_AUDIO | SDL_INIT_NOPARACHUTE);
   } else {
