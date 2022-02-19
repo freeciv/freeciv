@@ -23,7 +23,6 @@ generate_stats=0
 # generate_logs will generate log calls to debug the delta code.
 generate_logs=1
 use_log_macro="log_packet_detailed"
-generate_variant_logs=1
 
 ### The following parameters CHANGE the protocol. You have been warned.
 fold_bool_into_header=1
@@ -33,7 +32,7 @@ fold_bool_into_header=1
 # This script runs under Python 3.4 and up. Please leave it so.
 # It might also run under older versions, but no such guarantees are made.
 
-import re, string, os, sys
+import re, os, sys
 
 lazy_overwrite=0
 
@@ -41,8 +40,8 @@ def verbose(s):
     if "-v" in sys.argv:
         print(s)
 
-def prefix(prefix,str):
-    lines=str.split("\n")
+def prefix(prefix, text):
+    lines = text.split("\n")
     lines=map(lambda x,prefix=prefix: prefix+x,lines)
     return "\n".join(lines)
 
@@ -63,22 +62,22 @@ def fc_open(name):
     write_disclaimer(f)
     return f
 
-def get_choices(all):
-    def helper(helper,all, index, so_far):
-        if index>=len(all):
+def get_choices(population):
+    def helper(index, so_far):
+        if index >= len(population):
             return [so_far]
         t0=so_far[:]
         t1=so_far[:]
-        t1.append(list(all)[index])
-        return helper(helper,all,index+1,t1)+helper(helper,all,index+1,t0)
+        t1.append(list(population)[index])
+        return helper(index + 1, t1) + helper(index + 1, t0)
 
-    result=helper(helper,all,0,[])
-    assert len(result)==2**len(all)
+    result=helper(0, [])
+    assert len(result) == 2**len(population)
     return result
 
-def without(all,part):
+def without(seq, part):
     result=[]
-    for i in all:
+    for i in seq:
         if i not in part:
             result.append(i)
     return result
@@ -92,32 +91,32 @@ class Type:
 # Parses a line of the form "COORD x, y; key" and returns a list of
 # Field objects. types is a list of Type objects which are used to
 # dereference type names.
-def parse_fields(str, types):
-    mo=re.search(r"^\s*(\S+(?:\(.*\))?)\s+([^;()]*)\s*;\s*(.*)\s*$",str)
-    assert mo,str
+def parse_fields(line, types):
+    mo = re.search(r"^\s*(\S+(?:\(.*\))?)\s+([^;()]*)\s*;\s*(.*)\s*$", line)
+    assert mo, line
     arr=[]
     for i in mo.groups():
         if i:
             arr.append(i.strip())
         else:
             arr.append("")
-    type,fields_,flags=arr
+    type_text, fields_, flags = arr
     #print arr
 
     # analyze type
     while 1:
         found=0
         for i in types:
-            if i.alias==type:
-                type=i.dest
+            if i.alias == type_text:
+                type_text = i.dest
                 found=1
                 break
         if not found:
             break
 
     typeinfo={}
-    mo=re.search("^(.*)\((.*)\)$",type)
-    assert mo,repr(type)
+    mo = re.search("^(.*)\((.*)\)$", type_text)
+    assert mo, repr(type_text)
     typeinfo["dataio_type"],typeinfo["struct_type"]=mo.groups()
 
     if typeinfo["struct_type"]=="float":
@@ -210,9 +209,9 @@ class Field:
 
     # Helper function for the dictionary variant of the % operator
     # ("%(name)s"%dict).
-    def get_dict(self,vars):
+    def get_dict(self, vars_):
         result=self.__dict__.copy()
-        result.update(vars)
+        result.update(vars_)
         return result
 
     def get_handle_type(self):
@@ -880,9 +879,9 @@ class Variant:
         self.receive_handler='phandlers->receive[%(type)s] = (void *(*)(struct connection *)) receive_%(name)s;'%self.__dict__
 
     # See Field.get_dict
-    def get_dict(self,vars):
+    def get_dict(self,vars_):
         result=self.__dict__.copy()
-        result.update(vars)
+        result.update(vars_)
         return result
 
     # Returns a code fragment which contains the declarations of the
@@ -1274,13 +1273,13 @@ static char *stats_%(name)s_names[] = {%(names)s};
 
 # Class which represents a packet. A packet contains a list of fields.
 class Packet:
-    def __init__(self,str, types):
+    def __init__(self, text, types):
         self.types=types
         self.log_macro=use_log_macro
         self.gen_stats=generate_stats
         self.gen_log=generate_logs
-        str=str.strip()
-        lines=str.split("\n")
+        text = text.strip()
+        lines = text.split("\n")
 
         mo=re.search("^\s*(\S+)\s*=\s*(\d+)\s*;\s*(.*?)\s*$",lines[0])
         assert mo,repr(lines[0])
@@ -1461,9 +1460,9 @@ class Packet:
         return result+"\n"
 
     # See Field.get_dict
-    def get_dict(self,vars):
+    def get_dict(self, vars_):
         result=self.__dict__.copy()
-        result.update(vars)
+        result.update(vars_)
         return result
 
     def get_send(self):
@@ -1603,12 +1602,10 @@ def get_packet_name(packets):
     mapping={}
     for p in packets:
         mapping[p.type_number]=p
-    sorted=list(mapping.keys())
-    sorted.sort()
 
     last=-1
     body=""
-    for n in sorted:
+    for n in sorted(mapping.keys()):
         for i in range(last + 1, n):
             body=body+'    "unknown",\n'
         body=body+'    "%s",\n'%mapping[n].type
@@ -1633,12 +1630,10 @@ def get_packet_has_game_info_flag(packets):
     mapping={}
     for p in packets:
         mapping[p.type_number]=p
-    sorted=list(mapping.keys())
-    sorted.sort()
 
     last=-1
     body=""
-    for n in sorted:
+    for n in sorted(mapping.keys()):
         for i in range(last + 1, n):
             body=body+'    FALSE,\n'
         if mapping[n].is_info!="game":
@@ -1816,12 +1811,10 @@ def get_enum_packet(packets):
             print(p.name,mapping[p.type_number].name)
             assert 0
         mapping[p.type_number]=p
-    sorted=list(mapping.keys())
-    sorted.sort()
 
     last=-1
     body=""
-    for i in sorted:
+    for i in sorted(mapping.keys()):
         p=mapping[i]
         if i!=last+1:
             line="  %s = %d,"%(p.type,i)
@@ -1857,7 +1850,6 @@ def strip_c_comment(s):
 def main():
     ### parsing input
     src_dir=os.path.dirname(sys.argv[0])
-    src_root=src_dir+"/.."
     input_name=src_dir+"/networking/packets.def"
 
     content=open(input_name).read()
@@ -1876,10 +1868,10 @@ def main():
             lines2.append(i)
 
     packets=[]
-    for str in re.split("(?m)^end$","\n".join(lines2)):
-        str=str.strip()
-        if str:
-            packets.append(Packet(str,types))
+    for packet_text in re.split("(?m)^end$","\n".join(lines2)):
+        packet_text = packet_text.strip()
+        if packet_text:
+            packets.append(Packet(packet_text, types))
 
     ### parsing finished
 
@@ -2036,7 +2028,6 @@ bool server_handle_packet(enum packet_type type, const void *packet,
         for p in packets:
             if "cs" in p.dirs and not p.no_handle:
                 a=p.name[len("packet_"):]
-                type=a.split("_")[0]
                 b=p.fields
                 b=map(lambda x:"%s%s"%(x.get_handle_type(), x.name),b)
                 b=", ".join(b)
