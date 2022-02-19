@@ -110,11 +110,11 @@ configure-freeciv-ruledit-qt6:
 # install Freeciv
 
 install-freeciv-common: configure-freeciv-common
-	# make langstat files
-	make -C build-$(WINARCH)-$(GUI)/translations/core update-po
-	make -C build-$(WINARCH)-$(GUI)/bootstrap langstat_core.txt
 	# make install
 	make -C build-$(WINARCH)-$(GUI) DESTDIR=`pwd`/install-$(WINARCH)-$(GUI) $(MAKE_PARAMS) install
+	# make langstat files. This update-po must be after fc_gitrev_gen.h generation.
+	make -C build-$(WINARCH)-$(GUI)/translations/core update-po
+	make -C build-$(WINARCH)-$(GUI)/bootstrap langstat_core.txt
 	# reorder directory layout
 	mv install-$(WINARCH)-$(GUI)/$(INSTSUB)/bin/* install-$(WINARCH)-$(GUI)/
 	mv install-$(WINARCH)-$(GUI)/$(INSTSUB)/etc install-$(WINARCH)-$(GUI)/
@@ -154,11 +154,11 @@ install-ruledit-dir-qt6:
 	mkdir -p install-$(WINARCH)-ruledit-qt6/share
 
 install-ruledit-qt5: configure-freeciv-ruledit-qt5 install-ruledit-dir-qt5
-	# make langstat files
-	make -C build-$(WINARCH)-ruledit-qt5/translations/ruledit update-po
-	make -C build-$(WINARCH)-ruledit-qt5/bootstrap langstat_ruledit.txt
 	# make install
 	make -C build-$(WINARCH)-ruledit-qt5 DESTDIR=`pwd`/install-$(WINARCH)-ruledit-qt5/ $(MAKE_PARAMS) install
+	# make langstat files. This update-po must be after fc_gitrev_gen.h generation.
+	make -C build-$(WINARCH)-ruledit-qt5/translations/ruledit update-po
+	make -C build-$(WINARCH)-ruledit-qt5/bootstrap langstat_ruledit.txt
 	# reorder directory layout
 	mv install-$(WINARCH)-ruledit-qt5/$(INSTSUB)/bin/* install-$(WINARCH)-ruledit-qt5/
 	mv install-$(WINARCH)-ruledit-qt5/$(INSTSUB)/share/freeciv install-$(WINARCH)-ruledit-qt5/data
@@ -176,11 +176,11 @@ install-ruledit-qt5: configure-freeciv-ruledit-qt5 install-ruledit-dir-qt5
 	cp freeciv-ruledit.cmd Freeciv.url install-$(WINARCH)-ruledit-qt5/
 
 install-ruledit-qt6: configure-freeciv-ruledit-qt6 install-ruledit-dir-qt6
-	# make langstat files
-	make -C build-$(WINARCH)-ruledit-qt6/translations/ruledit update-po
-	make -C build-$(WINARCH)-ruledit-qt6/bootstrap langstat_ruledit.txt
 	# make install
 	make -C build-$(WINARCH)-ruledit-qt6 DESTDIR=`pwd`/install-$(WINARCH)-ruledit-qt6/ $(MAKE_PARAMS) install
+	# make langstat files. This update-po must be after fc_gitrev_gen.h generation.
+	make -C build-$(WINARCH)-ruledit-qt6/translations/ruledit update-po
+	make -C build-$(WINARCH)-ruledit-qt6/bootstrap langstat_ruledit.txt
 	# reorder directory layout
 	mv install-$(WINARCH)-ruledit-qt6/$(INSTSUB)/bin/* install-$(WINARCH)-ruledit-qt6/
 	mv install-$(WINARCH)-ruledit-qt6/$(INSTSUB)/share/freeciv install-$(WINARCH)-ruledit-qt6/data
