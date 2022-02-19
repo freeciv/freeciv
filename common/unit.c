@@ -1632,8 +1632,8 @@ struct unit *unit_virtual_create(struct player *pplayer, struct city *pcity,
 
     punit->server.removal_callback = NULL;
 
-    memset(punit->server.upkeep_payed, 0,
-           O_LAST * sizeof(*punit->server.upkeep_payed));
+    memset(punit->server.upkeep_paid, 0,
+           O_LAST * sizeof(*punit->server.upkeep_paid));
 
     punit->server.ord_map = 0;
     punit->server.ord_city = 0;
