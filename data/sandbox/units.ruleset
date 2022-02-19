@@ -2348,7 +2348,7 @@ On impact, the blast will destroy any unit in an area 3 tiles wide\
 Nuclear fallout reduces tile output and increases the risk of global\
  nuclear winter; see the help on Fallout.\
 "), _("\
-Make sure that the upkeep (gold and shield) of your ICBM is payed.\
+Make sure that the upkeep (gold and shield) of your ICBM is paid.\
  A non maintained nuke will detonate in place.\
 "), _("\
 TIP:  You may be involved in a situation where you've invaded an\
