@@ -1786,7 +1786,7 @@ int unit_upgrade_price(const struct player *pplayer,
                        const struct unit_type *from,
                        const struct unit_type *to)
 {
-  /* Upgrade price is only payed for "Upgrade Unit" so it is safe to hard
+  /* Upgrade price is only paid for "Upgrade Unit" so it is safe to hard
    * code the action ID for now. paction will have to become a parameter
    * before generalized actions appears. */
   const struct action *paction = action_by_number(ACTION_UPGRADE_UNIT);

@@ -85,7 +85,7 @@ static struct city_list *city_refresh_queue = NULL;
 
 /* The game is currently considering to remove the listed units because of
  * missing gold upkeep. A unit ends up here if it has gold upkeep that
- * can't be payed. A random unit in the list will be removed until the
+ * can't be paid. A random unit in the list will be removed until the
  * problem is solved. */
 static struct unit_list *uk_rem_gold = NULL;
 
@@ -2693,7 +2693,7 @@ static void uk_rem_gold_callback(struct unit *punit)
   /* Remove the unit from uk_rem_gold. */
   unit_list_remove(uk_rem_gold, punit);
 
-  gold_upkeep = punit->server.upkeep_payed[O_GOLD];
+  gold_upkeep = punit->server.upkeep_paid[O_GOLD];
 
   /* All units in uk_rem_gold should have gold upkeep! */
   fc_assert_ret_msg(gold_upkeep > 0, "%s has %d gold upkeep",
@@ -2769,7 +2769,7 @@ static struct unit *sell_random_unit(struct player *pplayer,
   unit_cargo_iterate(punit, pcargo) {
     /* Optimization, do not iterate over punitlist
      * if we are sure that pcargo is not in it. */
-    if (pcargo->server.upkeep_payed[O_GOLD] > 0) {
+    if (pcargo->server.upkeep_paid[O_GOLD] > 0) {
       unit_list_iterate(punitlist, p2) {
         if (pcargo == p2) {
           unit_list_append(cargo, pcargo);
@@ -2804,7 +2804,7 @@ static struct unit *sell_random_unit(struct player *pplayer,
                          game.info.muuk_gold_wipe)) {
       unit_list_remove(punitlist, punit);
 
-      /* The gold was payed back when the unit removal made
+      /* The gold was paid back when the unit removal made
        * uk_rem_gold_callback() run as the unit's removal call back. */
 
       notify_player(pplayer, utile, E_UNIT_LOST_MISC, ftc_server,
@@ -2851,7 +2851,7 @@ static bool player_balance_treasury_units_and_buildings
     } city_built_iterate_end;
 
     unit_list_iterate(pcity->units_supported, punit) {
-      if (punit->server.upkeep_payed[O_GOLD] > 0) {
+      if (punit->server.upkeep_paid[O_GOLD] > 0) {
         uk_rem_gold_append(punit);
       }
     } unit_list_iterate_end;
@@ -2900,7 +2900,7 @@ static bool player_balance_treasury_units(struct player *pplayer)
 
   city_list_iterate(pplayer->cities, pcity) {
     unit_list_iterate(pcity->units_supported, punit) {
-      if (punit->server.upkeep_payed[O_GOLD] > 0) {
+      if (punit->server.upkeep_paid[O_GOLD] > 0) {
         uk_rem_gold_append(punit);
       }
     } unit_list_iterate_end;
@@ -2986,9 +2986,9 @@ static bool city_balance_treasury_units(struct city *pcity)
 
   /* Create a vector of all supported units with gold upkeep. */
   unit_list_iterate(pcity->units_supported, punit) {
-    if (punit->server.upkeep_payed[O_GOLD] > 0) {
-       uk_rem_gold_append(punit);
-     }
+    if (punit->server.upkeep_paid[O_GOLD] > 0) {
+      uk_rem_gold_append(punit);
+    }
   } unit_list_iterate_end;
 
   /* Still not enough gold, so try "selling" some units. */
@@ -3274,9 +3274,9 @@ static void update_city_activity(struct city *pcity)
     pplayer->economic.gold -= city_total_impr_gold_upkeep(pcity);
     pplayer->economic.gold -= city_total_unit_gold_upkeep(pcity);
 
-    /* Remember how much gold upkeep each unit was payed. */
+    /* Remember how much gold upkeep each unit was paid. */
     unit_list_iterate(pcity->units_supported, punit) {
-      punit->server.upkeep_payed[O_GOLD] = punit->upkeep[O_GOLD];
+      punit->server.upkeep_paid[O_GOLD] = punit->upkeep[O_GOLD];
     } unit_list_iterate_end;
 
     if (pplayer->economic.gold < 0) {
