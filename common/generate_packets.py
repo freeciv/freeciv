@@ -1877,10 +1877,10 @@ def strip_c_comment(s):
 
 # Main function. It reads and parses the input and generates the
 # various files.
-def main():
+def main(raw_args=None):
     ### parsing arguments
     global is_verbose
-    script_args = get_argparser().parse_args()
+    script_args = get_argparser().parse_args(raw_args)
     is_verbose = script_args.verbose
 
     ### parsing input
@@ -2234,4 +2234,6 @@ bool client_handle_packet(enum packet_type type, const void *packet)
 ''')
         f.close()
 
-main()
+
+if __name__ == "__main__":
+    main()
