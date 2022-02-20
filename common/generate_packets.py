@@ -1911,31 +1911,12 @@ def parse_packets_def(def_text):
     return packets
 
 
-# Main function. It reads and parses the input and generates the
-# various files.
-def main(raw_args=None):
-    ### parsing arguments
-    global is_verbose
-    script_args = get_argparser().parse_args(raw_args)
-    is_verbose = script_args.verbose
+########################### Writing output files ###########################
 
-    ### parsing input
-    src_dir = Path(__file__).parent
-    input_path = src_dir / "networking" / "packets.def"
-
-    def_text = input_path.open().read()
-    packets = parse_packets_def(def_text)
-    ### parsing finished
-
-    ### writing packets_gen.h
-    output_h_path = script_args.common_header_path
-
-    if output_h_path:
-        if lazy_overwrite:
-            output_h = fc_open(str(output_h_path) + ".tmp")
-        else:
-            output_h = fc_open(output_h_path)
-
+def write_common_header(path, packets):
+    """Write contents for common/packets_gen.h to the given path"""
+    if path:
+        output_h = fc_open(path)
         output_h.write('''
 #ifdef __cplusplus
 extern "C" {
@@ -1971,15 +1952,10 @@ void delta_stats_reset(void);
 ''')
         output_h.close()
 
-    ### writing packets_gen.c
-    output_c_path = script_args.common_impl_path
-
-    if output_c_path:
-        if lazy_overwrite:
-            output_c = fc_open(str(output_c_path) + ".tmp")
-        else:
-            output_c = fc_open(output_c_path)
-
+def write_common_impl(path, packets):
+    """Write contents for common/packets_gen.c to the given path"""
+    if path:
+        output_c = fc_open(path)
         output_c.write('''
 #ifdef HAVE_CONFIG_H
 #include <fc_config.h>
@@ -2047,21 +2023,10 @@ static int stats_total_sent;
         output_c.write(get_packet_handlers_fill_capability(packets))
         output_c.close()
 
-        if lazy_overwrite:
-            for old_path in [output_h_path, output_c_path]:
-                if old_path.is_file():
-                    old = old_path.open().read()
-                else:
-                    old = ""
-                new_path = Path(str(old_path) + ".tmp")
-                new = new_path.open().read()
-                if old != new:
-                    new_path.replace(old_path)
-                else:
-                    new_path.unlink()
-
-    if script_args.server_header_path:
-        f = fc_open(script_args.server_header_path)
+def write_server_header(path, packets):
+    """Write contents for server/hand_gen.h to the given path"""
+    if path:
+        f = fc_open(path)
         f.write('''
 #ifndef FC__HAND_GEN_H
 #define FC__HAND_GEN_H
@@ -2104,8 +2069,10 @@ bool server_handle_packet(enum packet_type type, const void *packet,
 ''')
         f.close()
 
-    if script_args.client_header_path:
-        f = fc_open(script_args.client_header_path)
+def write_client_header(path, packets):
+    """Write contents for client/packhand_gen.h to the given path"""
+    if path:
+        f = fc_open(path)
         f.write('''
 #ifndef FC__PACKHAND_GEN_H
 #define FC__PACKHAND_GEN_H
@@ -2147,8 +2114,10 @@ bool client_handle_packet(enum packet_type type, const void *packet);
 ''')
         f.close()
 
-    if script_args.server_impl_path:
-        f = fc_open(script_args.server_impl_path)
+def write_server_impl(path, packets):
+    """Write contents for server/hand_gen.c to the given path"""
+    if path:
+        f = fc_open(path)
         f.write('''
 
 #ifdef HAVE_CONFIG_H
@@ -2204,8 +2173,10 @@ bool server_handle_packet(enum packet_type type, const void *packet,
 ''')
         f.close()
 
-    if script_args.client_impl_path:
-        f = fc_open(script_args.client_impl_path)
+def write_client_impl(path, packets):
+    """Write contents for client/packhand_gen.c to the given path"""
+    if path:
+        f = fc_open(path)
         f.write('''
 
 #ifdef HAVE_CONFIG_H
@@ -2252,6 +2223,59 @@ bool client_handle_packet(enum packet_type type, const void *packet)
 }
 ''')
         f.close()
+
+
+# Main function. It reads and parses the input and generates the
+# various files.
+def main(raw_args=None):
+    ### parsing arguments
+    global is_verbose
+    script_args = get_argparser().parse_args(raw_args)
+    is_verbose = script_args.verbose
+
+    ### parsing input
+    src_dir = Path(__file__).parent
+    input_path = src_dir / "networking" / "packets.def"
+
+    def_text = input_path.open().read()
+    packets = parse_packets_def(def_text)
+    ### parsing finished
+
+    ### writing packets_gen.h
+    output_h_path = script_args.common_header_path
+
+    if output_h_path:
+        if lazy_overwrite:
+            write_common_header(str(output_h_path) + ".tmp", packets)
+        else:
+            write_common_header(output_h_path, packets)
+
+    ### writing packets_gen.c
+    output_c_path = script_args.common_impl_path
+
+    if output_c_path:
+        if lazy_overwrite:
+            write_common_impl(str(output_c_path) + ".tmp", packets)
+        else:
+            write_common_impl(output_c_path, packets)
+
+    if lazy_overwrite:
+        for old_path in [output_h_path, output_c_path]:
+            if old_path.is_file():
+                old = old_path.open().read()
+            else:
+                old = ""
+            new_path = Path(str(old_path) + ".tmp")
+            new = new_path.open().read()
+            if old != new:
+                new_path.replace(old_path)
+            else:
+                new_path.unlink()
+
+    write_server_header(script_args.server_header_path, packets)
+    write_client_header(script_args.client_header_path, packets)
+    write_server_impl(script_args.server_impl_path, packets)
+    write_client_impl(script_args.client_impl_path, packets)
 
 
 if __name__ == "__main__":
