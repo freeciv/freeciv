@@ -32,8 +32,9 @@ fold_bool_into_header=1
 # This script runs under Python 3.4 and up. Please leave it so.
 # It might also run under older versions, but no such guarantees are made.
 
-import re, os, sys
+import re
 import argparse
+from pathlib import Path
 
 lazy_overwrite=0
 
@@ -47,17 +48,17 @@ def get_argparser():
         description = "Generate packet-related code from packets.def",
     )
 
-    parser.add_argument("common_header_path",
+    parser.add_argument("common_header_path", type = Path,
                         help = "output path for common/packets_gen.h")
-    parser.add_argument("common_impl_path",
+    parser.add_argument("common_impl_path", type = Path,
                         help = "output path for common/packets_gen.c")
-    parser.add_argument("client_header_path",
+    parser.add_argument("client_header_path", type = Path,
                         help = "output path for client/packhand_gen.h")
-    parser.add_argument("client_impl_path",
+    parser.add_argument("client_impl_path", type = Path,
                         help = "output path for client/packhand_gen.c")
-    parser.add_argument("server_header_path",
+    parser.add_argument("server_header_path", type = Path,
                         help = "output path for server/hand_gen.h")
-    parser.add_argument("server_impl_path",
+    parser.add_argument("server_impl_path", type = Path,
                         help = "output path for server/hand_gen.c")
 
     parser.add_argument("-v", "--verbose", action = "store_true",
@@ -86,9 +87,10 @@ def write_disclaimer(f):
 
 ''')
 
-def fc_open(name):
-    verbose("writing %s"%name)
-    f=open(name,"w")
+def fc_open(path):
+    path = Path(path)   # no-op if path is already a Path object
+    verbose("writing %s" % path)
+    f = path.open("w")
     write_disclaimer(f)
     return f
 
@@ -1884,10 +1886,10 @@ def main(raw_args=None):
     is_verbose = script_args.verbose
 
     ### parsing input
-    src_dir=os.path.dirname(sys.argv[0])
-    input_name=src_dir+"/networking/packets.def"
+    src_dir = Path(__file__).parent
+    input_path = src_dir / "networking" / "packets.def"
 
-    content=open(input_name).read()
+    content = input_path.open().read()
     content=strip_c_comment(content)
     lines=content.split("\n")
     lines=map(lambda x: re.sub("\s*#.*$","",x),lines)
@@ -1911,13 +1913,13 @@ def main(raw_args=None):
     ### parsing finished
 
     ### writing packets_gen.h
-    output_h_name = script_args.common_header_path
+    output_h_path = script_args.common_header_path
 
-    if output_h_name != "":
+    if output_h_path:
         if lazy_overwrite:
-            output_h=fc_open(output_h_name+".tmp")
+            output_h = fc_open(str(output_h_path) + ".tmp")
         else:
-            output_h=fc_open(output_h_name)
+            output_h = fc_open(output_h_path)
 
         output_h.write('''
 #ifdef __cplusplus
@@ -1955,13 +1957,13 @@ void delta_stats_reset(void);
         output_h.close()
 
     ### writing packets_gen.c
-    output_c_name = script_args.common_impl_path
+    output_c_path = script_args.common_impl_path
 
-    if output_c_name != "":
+    if output_c_path:
         if lazy_overwrite:
-            output_c=fc_open(output_c_name+".tmp")
+            output_c = fc_open(str(output_c_path) + ".tmp")
         else:
-            output_c=fc_open(output_c_name)
+            output_c = fc_open(output_c_path)
 
         output_c.write('''
 #ifdef HAVE_CONFIG_H
@@ -2031,17 +2033,19 @@ static int stats_total_sent;
         output_c.close()
 
         if lazy_overwrite:
-            for i in [output_h_name,output_c_name]:
-                if os.path.isfile(i):
-                    old=open(i).read()
+            for old_path in [output_h_path, output_c_path]:
+                if old_path.is_file():
+                    old = old_path.open().read()
                 else:
-                    old=""
-                new=open(i+".tmp").read()
-                if old!=new:
-                    open(i,"w").write(new)
-                os.remove(i+".tmp")
+                    old = ""
+                new_path = Path(str(old_path) + ".tmp")
+                new = new_path.open().read()
+                if old != new:
+                    new_path.replace(old_path)
+                else:
+                    new_path.unlink()
 
-    if script_args.server_header_path != "":
+    if script_args.server_header_path:
         f = fc_open(script_args.server_header_path)
         f.write('''
 #ifndef FC__HAND_GEN_H
@@ -2085,7 +2089,7 @@ bool server_handle_packet(enum packet_type type, const void *packet,
 ''')
         f.close()
 
-    if script_args.client_header_path != "":
+    if script_args.client_header_path:
         f = fc_open(script_args.client_header_path)
         f.write('''
 #ifndef FC__PACKHAND_GEN_H
@@ -2128,7 +2132,7 @@ bool client_handle_packet(enum packet_type type, const void *packet);
 ''')
         f.close()
 
-    if script_args.server_impl_path != "":
+    if script_args.server_impl_path:
         f = fc_open(script_args.server_impl_path)
         f.write('''
 
@@ -2185,7 +2189,7 @@ bool server_handle_packet(enum packet_type type, const void *packet,
 ''')
         f.close()
 
-    if script_args.client_impl_path != "":
+    if script_args.client_impl_path:
         f = fc_open(script_args.client_impl_path)
         f.write('''
 
