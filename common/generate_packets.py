@@ -33,12 +33,42 @@ fold_bool_into_header=1
 # It might also run under older versions, but no such guarantees are made.
 
 import re, os, sys
+import argparse
 
 lazy_overwrite=0
 
+
+###################### Parsing Command Line Arguments ######################
+
+is_verbose = False
+
+def get_argparser():
+    parser = argparse.ArgumentParser(
+        description = "Generate packet-related code from packets.def",
+    )
+
+    parser.add_argument("common_header_path",
+                        help = "output path for common/packets_gen.h")
+    parser.add_argument("common_impl_path",
+                        help = "output path for common/packets_gen.c")
+    parser.add_argument("client_header_path",
+                        help = "output path for client/packhand_gen.h")
+    parser.add_argument("client_impl_path",
+                        help = "output path for client/packhand_gen.c")
+    parser.add_argument("server_header_path",
+                        help = "output path for server/hand_gen.h")
+    parser.add_argument("server_impl_path",
+                        help = "output path for server/hand_gen.c")
+
+    parser.add_argument("-v", "--verbose", action = "store_true",
+                        help = "enable log messages during code generation")
+
+    return parser
+
 def verbose(s):
-    if "-v" in sys.argv:
+    if is_verbose:
         print(s)
+
 
 def prefix(prefix, text):
     lines = text.split("\n")
@@ -1848,6 +1878,11 @@ def strip_c_comment(s):
 # Main function. It reads and parses the input and generates the
 # various files.
 def main():
+    ### parsing arguments
+    global is_verbose
+    script_args = get_argparser().parse_args()
+    is_verbose = script_args.verbose
+
     ### parsing input
     src_dir=os.path.dirname(sys.argv[0])
     input_name=src_dir+"/networking/packets.def"
@@ -1876,7 +1911,7 @@ def main():
     ### parsing finished
 
     ### writing packets_gen.h
-    output_h_name=sys.argv[1]
+    output_h_name = script_args.common_header_path
 
     if output_h_name != "":
         if lazy_overwrite:
@@ -1920,7 +1955,8 @@ void delta_stats_reset(void);
         output_h.close()
 
     ### writing packets_gen.c
-    output_c_name=sys.argv[2]
+    output_c_name = script_args.common_impl_path
+
     if output_c_name != "":
         if lazy_overwrite:
             output_c=fc_open(output_c_name+".tmp")
@@ -2005,8 +2041,8 @@ static int stats_total_sent;
                     open(i,"w").write(new)
                 os.remove(i+".tmp")
 
-    if sys.argv[5] != "":
-        f=fc_open(sys.argv[5])
+    if script_args.server_header_path != "":
+        f = fc_open(script_args.server_header_path)
         f.write('''
 #ifndef FC__HAND_GEN_H
 #define FC__HAND_GEN_H
@@ -2049,8 +2085,8 @@ bool server_handle_packet(enum packet_type type, const void *packet,
 ''')
         f.close()
 
-    if sys.argv[3] != "":
-        f=fc_open(sys.argv[3])
+    if script_args.client_header_path != "":
+        f = fc_open(script_args.client_header_path)
         f.write('''
 #ifndef FC__PACKHAND_GEN_H
 #define FC__PACKHAND_GEN_H
@@ -2092,8 +2128,8 @@ bool client_handle_packet(enum packet_type type, const void *packet);
 ''')
         f.close()
 
-    if sys.argv[6] != "":
-        f=fc_open(sys.argv[6])
+    if script_args.server_impl_path != "":
+        f = fc_open(script_args.server_impl_path)
         f.write('''
 
 #ifdef HAVE_CONFIG_H
@@ -2149,8 +2185,8 @@ bool server_handle_packet(enum packet_type type, const void *packet,
 ''')
         f.close()
 
-    if sys.argv[4] != "":
-        f=fc_open(sys.argv[4])
+    if script_args.client_impl_path != "":
+        f = fc_open(script_args.client_impl_path)
         f.write('''
 
 #ifdef HAVE_CONFIG_H
