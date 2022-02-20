@@ -658,7 +658,7 @@ int client_main(int argc, char *argv[])
   if (forced_tileset_name[0] != '\0') {
     if (!tilespec_try_read(forced_tileset_name, TRUE, -1, TRUE)) {
       log_error(_("Can't load requested tileset %s!"), forced_tileset_name);
-      client_exit();
+      client_exit(EXIT_FAILURE);
       return EXIT_FAILURE;
     }
   } else {
@@ -674,7 +674,7 @@ int client_main(int argc, char *argv[])
   ui_main(argc, argv);
 
   /* termination */
-  client_exit();
+  client_exit(EXIT_SUCCESS);
 
   /* not reached */
   return EXIT_SUCCESS;
@@ -696,7 +696,7 @@ static void log_option_save_msg(enum log_level lvl, const char *msg, ...)
   Main client execution stop function. This calls ui_exit() and not the
   other way around.
 **************************************************************************/
-void client_exit(void)
+void client_exit(int return_value)
 {
   if (client_state() >= C_S_PREPARING) {
     attribute_flush();
@@ -735,9 +735,8 @@ void client_exit(void)
   log_close();
   cmdline_option_values_free();
 
-  exit(EXIT_SUCCESS);
+  exit(return_value);
 }
-
 
 /**********************************************************************//**
   Handle packet received from server.

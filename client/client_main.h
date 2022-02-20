@@ -122,7 +122,7 @@ bool can_intel_with_player(const struct player *pplayer);
 const char *title_for_player(const struct player *pplayer,
                              char *buf, size_t buf_len);
 
-void client_exit(void);
+void client_exit(int return_value);
 
 bool is_client_quitting(void);
 void start_quitting(void);
