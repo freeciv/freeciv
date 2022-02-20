@@ -35,6 +35,7 @@ fold_bool_into_header=1
 import re
 import argparse
 from pathlib import Path
+from contextlib import contextmanager
 
 lazy_overwrite=0
 
@@ -76,6 +77,9 @@ def prefix(prefix, text):
     lines=map(lambda x,prefix=prefix: prefix+x,lines)
     return "\n".join(lines)
 
+
+####################### File access helper functions #######################
+
 def write_disclaimer(f):
     f.write('''
  /****************************************************************************
@@ -87,12 +91,27 @@ def write_disclaimer(f):
 
 ''')
 
+@contextmanager
 def fc_open(path):
+    """Open a file for writing and write disclaimer"""
     path = Path(path)   # no-op if path is already a Path object
     verbose("writing %s" % path)
-    f = path.open("w")
-    write_disclaimer(f)
-    return f
+    with path.open("w") as file:
+        write_disclaimer(file)
+        yield file
+    verbose("done writing %s" % path)
+
+def read_text(path, allow_missing=True):
+    """Load all text from the file at the given path
+
+    If allow_missing is True, return the empty string if the file does not
+    exist. Otherwise, raise FileNotFoundException as per open()."""
+    path = Path(path)
+    if allow_missing and not path.exists():
+        return ""
+    with path.open() as file:
+        return file.read()
+
 
 def get_choices(population):
     def helper(index, so_far):
@@ -1915,8 +1934,9 @@ def parse_packets_def(def_text):
 
 def write_common_header(path, packets):
     """Write contents for common/packets_gen.h to the given path"""
-    if path:
-        output_h = fc_open(path)
+    if not path:
+        return
+    with fc_open(path) as output_h:
         output_h.write('''
 #ifdef __cplusplus
 extern "C" {
@@ -1950,12 +1970,12 @@ void delta_stats_reset(void);
 }
 #endif /* __cplusplus */
 ''')
-        output_h.close()
 
 def write_common_impl(path, packets):
     """Write contents for common/packets_gen.c to the given path"""
-    if path:
-        output_c = fc_open(path)
+    if not path:
+        return
+    with fc_open(path) as output_c:
         output_c.write('''
 #ifdef HAVE_CONFIG_H
 #include <fc_config.h>
@@ -2021,12 +2041,12 @@ static int stats_total_sent;
 
         output_c.write(get_packet_handlers_fill_initial(packets))
         output_c.write(get_packet_handlers_fill_capability(packets))
-        output_c.close()
 
 def write_server_header(path, packets):
     """Write contents for server/hand_gen.h to the given path"""
-    if path:
-        f = fc_open(path)
+    if not path:
+        return
+    with fc_open(path) as f:
         f.write('''
 #ifndef FC__HAND_GEN_H
 #define FC__HAND_GEN_H
@@ -2067,12 +2087,12 @@ bool server_handle_packet(enum packet_type type, const void *packet,
         f.write('''
 #endif /* FC__HAND_GEN_H */
 ''')
-        f.close()
 
 def write_client_header(path, packets):
     """Write contents for client/packhand_gen.h to the given path"""
-    if path:
-        f = fc_open(path)
+    if not path:
+        return
+    with fc_open(path) as f:
         f.write('''
 #ifndef FC__PACKHAND_GEN_H
 #define FC__PACKHAND_GEN_H
@@ -2112,12 +2132,12 @@ bool client_handle_packet(enum packet_type type, const void *packet);
 
 #endif /* FC__PACKHAND_GEN_H */
 ''')
-        f.close()
 
 def write_server_impl(path, packets):
     """Write contents for server/hand_gen.c to the given path"""
-    if path:
-        f = fc_open(path)
+    if not path:
+        return
+    with fc_open(path) as f:
         f.write('''
 
 #ifdef HAVE_CONFIG_H
@@ -2171,12 +2191,12 @@ bool server_handle_packet(enum packet_type type, const void *packet,
   }
 }
 ''')
-        f.close()
 
 def write_client_impl(path, packets):
     """Write contents for client/packhand_gen.c to the given path"""
-    if path:
-        f = fc_open(path)
+    if not path:
+        return
+    with fc_open(path) as f:
         f.write('''
 
 #ifdef HAVE_CONFIG_H
@@ -2222,7 +2242,6 @@ bool client_handle_packet(enum packet_type type, const void *packet)
   }
 }
 ''')
-        f.close()
 
 
 # Main function. It reads and parses the input and generates the
@@ -2237,7 +2256,7 @@ def main(raw_args=None):
     src_dir = Path(__file__).parent
     input_path = src_dir / "networking" / "packets.def"
 
-    def_text = input_path.open().read()
+    def_text = read_text(input_path, allow_missing = False)
     packets = parse_packets_def(def_text)
     ### parsing finished
 
@@ -2261,12 +2280,9 @@ def main(raw_args=None):
 
     if lazy_overwrite:
         for old_path in [output_h_path, output_c_path]:
-            if old_path.is_file():
-                old = old_path.open().read()
-            else:
-                old = ""
+            old = read_text(old_path)
             new_path = Path(str(old_path) + ".tmp")
-            new = new_path.open().read()
+            new = read_text(new_path)
             if old != new:
                 new_path.replace(old_path)
             else:
