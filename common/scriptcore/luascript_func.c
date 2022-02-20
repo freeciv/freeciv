@@ -104,8 +104,12 @@ bool luascript_func_check(struct fc_lua *fcl,
     if (!luascript_check_function(fcl, func_name)) {
       struct luascript_func *pfunc;
 
-      fc_assert_ret_val(luascript_func_hash_lookup(fcl->funcs, func_name,
-                                                   &pfunc), FALSE);
+#ifndef FREECIV_NDEBUG
+      bool success =
+#endif
+      luascript_func_hash_lookup(fcl->funcs, func_name, &pfunc);
+
+      fc_assert_ret_val(success, FALSE);
 
       if (pfunc->required) {
         strvec_append(missing_func_required, func_name);
