@@ -1865,6 +1865,9 @@ def get_enum_packet(packets):
 '''
     return intro+body+extro
 
+
+####################### Parsing packets.def contents #######################
+
 def strip_c_comment(s):
   # The obvious way:
   #    s=re.sub(r"/\*(.|\n)*?\*/","",s)
@@ -1876,6 +1879,37 @@ def strip_c_comment(s):
       assert len(l)==2,repr(i)
       result=result+l[1]
   return result
+
+def parse_packets_def(def_text):
+    """Parse the given string as contents of packets.def"""
+
+    def_text = strip_c_comment(def_text)
+    lines = def_text.split("\n")
+    lines=map(lambda x: re.sub("\s*#.*$","",x),lines)
+    lines=map(lambda x: re.sub("\s*//.*$","",x),lines)
+    lines=filter(lambda x:not re.search("^\s*$",x),lines)
+
+    # parse type alias definitions
+    lines2=[]
+    types=[]
+    for i in lines:
+        mo=re.search("^type\s+(\S+)\s*=\s*(.+)\s*$",i)
+        if mo:
+            types.append(Type(mo.group(1),mo.group(2)))
+        else:
+            lines2.append(i)
+
+    # parse packet definitions
+    packets=[]
+    for packet_text in re.split("(?m)^end$","\n".join(lines2)):
+        packet_text = packet_text.strip()
+        if packet_text:
+            packets.append(Packet(packet_text, types))
+
+    # Note: only the packets are returned, as the type aliases
+    # are not needed any further
+    return packets
+
 
 # Main function. It reads and parses the input and generates the
 # various files.
@@ -1889,27 +1923,8 @@ def main(raw_args=None):
     src_dir = Path(__file__).parent
     input_path = src_dir / "networking" / "packets.def"
 
-    content = input_path.open().read()
-    content=strip_c_comment(content)
-    lines=content.split("\n")
-    lines=map(lambda x: re.sub("\s*#.*$","",x),lines)
-    lines=map(lambda x: re.sub("\s*//.*$","",x),lines)
-    lines=filter(lambda x:not re.search("^\s*$",x),lines)
-    lines2=[]
-    types=[]
-    for i in lines:
-        mo=re.search("^type\s+(\S+)\s*=\s*(.+)\s*$",i)
-        if mo:
-            types.append(Type(mo.group(1),mo.group(2)))
-        else:
-            lines2.append(i)
-
-    packets=[]
-    for packet_text in re.split("(?m)^end$","\n".join(lines2)):
-        packet_text = packet_text.strip()
-        if packet_text:
-            packets.append(Packet(packet_text, types))
-
+    def_text = input_path.open().read()
+    packets = parse_packets_def(def_text)
     ### parsing finished
 
     ### writing packets_gen.h
