@@ -51,6 +51,7 @@ pkgdata_DATA = $(SERVER_FILES) $(CLIENT_FILES)
 EXTRA_DIST = \
 	$(SRV_RE_FILES) \
 	freeciv-client.png \
+	freeciv-ruledit.png \
 	gtk3.22_menus.xml	\
 	gtk4_menus.xml	\
 	amplio2.tilespec \
@@ -87,14 +88,14 @@ endif
 
 if RULEDIT
 RULEDITDIRS = ruledit
+ICONS = freeciv-ruledit.png
 else
 RULEDITDIRS =
+ICONS =
 endif
 
 if CLIENT
-ICONS = freeciv-client.png
-else
-ICONS =
+ICONS += freeciv-client.png
 endif
 
 icondir = $(prefix)/share/pixmaps
