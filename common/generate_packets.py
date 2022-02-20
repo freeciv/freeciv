@@ -13,6 +13,13 @@
 #   GNU General Public License for more details.
 #
 
+### The following parameters change how the script operates.
+
+# Only overwrite existing output files when they actually changed.
+# This prevents make from rebuilding all dependents in cases where
+# that wouldn't even be necessary.
+lazy_overwrite = True
+
 ### The following parameters change the amount of output.
 
 # generate_stats will generate a large amount of statistics how many
@@ -36,8 +43,7 @@ import re
 import argparse
 from pathlib import Path
 from contextlib import contextmanager
-
-lazy_overwrite=0
+from functools import partial
 
 
 ###################### Parsing Command Line Arguments ######################
@@ -93,10 +99,18 @@ def write_disclaimer(f):
 
 @contextmanager
 def fc_open(path):
-    """Open a file for writing and write disclaimer"""
+    """Open a file for writing and write disclaimer.
+
+    If enabled, lazily overwrites the given file."""
     path = Path(path)   # no-op if path is already a Path object
     verbose("writing %s" % path)
-    with path.open("w") as file:
+
+    if lazy_overwrite:
+        open_fun = lazy_overwrite_open
+    else:
+        open_fun = partial(Path.open, mode = "w")
+
+    with open_fun(path) as file:
         write_disclaimer(file)
         yield file
     verbose("done writing %s" % path)
@@ -111,6 +125,35 @@ def read_text(path, allow_missing=True):
         return ""
     with path.open() as file:
         return file.read()
+
+def files_equal(path_a, path_b):
+    """Return whether the contents of two text files are identical"""
+    return read_text(path_a) == read_text(path_b)
+
+@contextmanager
+def lazy_overwrite_open(path, suffix=".tmp"):
+    """Open a file for writing, but only actually overwrite it if the new
+    content differs from the old content.
+
+    This creates a temporary file by appending the given suffix to the given
+    file path. In the event of an error, this temporary file might remain in
+    the target file's directory."""
+
+    path = Path(path)
+    tmp_path = path.with_name(path.name + suffix)
+
+    # if tmp_path already exists, assume it's left over from a previous,
+    # failed run and can be overwritten without trouble
+    verbose("lazy: using %s" % tmp_path)
+    with tmp_path.open("w") as file:
+        yield file
+
+    if path.exists() and files_equal(tmp_path, path):
+        verbose("lazy: no change, deleting...")
+        tmp_path.unlink()
+    else:
+        verbose("lazy: content changed, replacing...")
+        tmp_path.replace(path)
 
 
 def get_choices(population):
@@ -2260,34 +2303,8 @@ def main(raw_args=None):
     packets = parse_packets_def(def_text)
     ### parsing finished
 
-    ### writing packets_gen.h
-    output_h_path = script_args.common_header_path
-
-    if output_h_path:
-        if lazy_overwrite:
-            write_common_header(str(output_h_path) + ".tmp", packets)
-        else:
-            write_common_header(output_h_path, packets)
-
-    ### writing packets_gen.c
-    output_c_path = script_args.common_impl_path
-
-    if output_c_path:
-        if lazy_overwrite:
-            write_common_impl(str(output_c_path) + ".tmp", packets)
-        else:
-            write_common_impl(output_c_path, packets)
-
-    if lazy_overwrite:
-        for old_path in [output_h_path, output_c_path]:
-            old = read_text(old_path)
-            new_path = Path(str(old_path) + ".tmp")
-            new = read_text(new_path)
-            if old != new:
-                new_path.replace(old_path)
-            else:
-                new_path.unlink()
-
+    write_common_header(script_args.common_header_path, packets)
+    write_common_impl(script_args.common_impl_path, packets)
     write_server_header(script_args.server_header_path, packets)
     write_client_header(script_args.client_header_path, packets)
     write_server_impl(script_args.server_impl_path, packets)
