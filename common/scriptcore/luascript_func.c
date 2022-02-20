@@ -87,7 +87,7 @@ static void func_destroy(struct luascript_func *pfunc)
 }
 
 /**********************************************************************//**
-  Test if all function are defines. If it fails (return value FALSE), the
+  Test if all function are defined. If it fails (return value FALSE), the
   missing functions are listed in 'missing_func_required' and
   'missing_func_optional'.
 **************************************************************************/
