@@ -1,13 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!-- Creator: CorelDRAW -->
+
 <svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://web.resource.org/cc/"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xml:space="preserve"
    width="1350"
    height="900"
@@ -15,15 +9,21 @@
    viewBox="0 0 700 700"
    id="svg2"
    sodipodi:version="0.32"
-   inkscape:version="0.44"
+   inkscape:version="1.1.1 (3bf5ae0d25, 2021-09-20)"
    sodipodi:docname="korea_ancient.svg"
-   sodipodi:docbase="C:\freeciv"
-   version="1.0"><metadata
+   version="1.0"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/"><metadata
    id="metadata16"><rdf:RDF><cc:Work
        rdf:about=""><dc:format>image/svg+xml</dc:format><dc:type
          rdf:resource="http://purl.org/dc/dcmitype/StillImage" /></cc:Work></rdf:RDF></metadata><sodipodi:namedview
-   inkscape:window-height="968"
-   inkscape:window-width="1280"
+   inkscape:window-height="631"
+   inkscape:window-width="836"
    inkscape:pageshadow="2"
    inkscape:pageopacity="0.0"
    guidetolerance="10.0"
@@ -36,11 +36,14 @@
    height="900px"
    width="1350px"
    inkscape:zoom="0.41888889"
-   inkscape:cx="675"
-   inkscape:cy="430.84934"
-   inkscape:window-x="-4"
-   inkscape:window-y="-4"
-   inkscape:current-layer="svg2" />
+   inkscape:cx="674.40318"
+   inkscape:cy="432.09549"
+   inkscape:window-x="568"
+   inkscape:window-y="163"
+   inkscape:current-layer="svg2"
+   inkscape:pagecheckerboard="0"
+   showgrid="false"
+   inkscape:window-maximized="0" />
  <defs
    id="defs4">
   <style
