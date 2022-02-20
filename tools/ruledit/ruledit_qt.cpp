@@ -367,7 +367,13 @@ void ruledit_gui::unregister_req_vec_fix(req_vec_fix *fixer)
 **************************************************************************/
 ruledit_main::ruledit_main(QApplication *qapp_in, QWidget *central_in) : QMainWindow()
 {
+  QPixmap *pm = new QPixmap;
+  const char *full_icon_path = fileinfoname(get_data_dirs(), "freeciv-ruledit.png");
   const QString title = QString::fromUtf8(R__("Freeciv Ruleset Editor"));
+  const QString fip = QString(full_icon_path);
+
+  pm->load(fip);
+  qapp_in->setWindowIcon(QIcon(*pm));
 
   qapp = qapp_in;
   central = central_in;
