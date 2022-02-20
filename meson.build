@@ -2971,6 +2971,11 @@ executable('freeciv-ruledit',
   install: true
   )
 
+install_data(
+  'data/freeciv-ruledit.png',
+  install_dir : join_paths(get_option('datadir'), 'freeciv')
+  )
+
 endif
 
 executable('freeciv-manual',
