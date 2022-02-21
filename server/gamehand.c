@@ -795,6 +795,9 @@ void init_new_game(void)
     if (game.server.start_city) {
       create_city(pplayer, ptile, city_name_suggestion(pplayer, ptile),
                   NULL);
+
+      /* Expose visible area. */
+      map_show_circle(pplayer, ptile, game.server.init_vis_radius_sq);
     }
 
     if (sulen > 0) {
