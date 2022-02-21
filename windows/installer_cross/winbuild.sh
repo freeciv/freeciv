@@ -151,7 +151,7 @@ if test "x$QTVER" = "xQt5" ; then
   QTPARAMS="--with-qtver=Qt5 --with-qt5-includes=${DLLSPATH}/include --with-qt5-libs=${DLLSPATH}/lib"
   MOC_CROSSER="${DLLSPATH}/bin/moc"
 elif test "x$QTVER" = "xQt6"; then
-  QTPARAMS="--with-qtver=Qt6 --with-qt6-includes=${DLLSPATH}/include --with-qt6-libs=${DLLSPATH}/lib"
+  QTPARAMS="--with-qtver=Qt6 --with-qt6-includes=${DLLSPATH}/qt6/include --with-qt6-libs=${DLLSPATH}/lib"
   MOC_CROSSER="${DLLSPATH}/linux/libexec/moc-qt6"
 fi
 
