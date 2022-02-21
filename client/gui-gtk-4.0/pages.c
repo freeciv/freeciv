@@ -158,10 +158,11 @@ static void main_callback(GtkWidget *w, gpointer data)
 /**********************************************************************//**
   This is called whenever the intro graphic needs a graphics refresh.
 **************************************************************************/
-static gboolean intro_expose(GtkWidget *w, cairo_t *cr, gpointer *data)
+static void intro_expose(GtkDrawingArea *w, cairo_t *cr,
+                         int width, int height, gpointer data)
 {
   static PangoLayout *layout;
-  static int width, height;
+  static int pwidth, pheight;
   static bool left = FALSE;
   GtkAllocation allocation;
   struct sprite *intro = (struct sprite *)data;
@@ -173,7 +174,7 @@ static gboolean intro_expose(GtkWidget *w, cairo_t *cr, gpointer *data)
     char msgbuf[128];
     const char *rev_ver;
 
-    layout = pango_layout_new(gtk_widget_create_pango_context(w));
+    layout = pango_layout_new(gtk_widget_create_pango_context(GTK_WIDGET(w)));
     pango_layout_set_font_description(layout,
          pango_font_description_from_string("Sans Bold 10"));
 
@@ -193,21 +194,19 @@ static gboolean intro_expose(GtkWidget *w, cairo_t *cr, gpointer *data)
     }
     pango_layout_set_text(layout, msgbuf, -1);
 
-    pango_layout_get_pixel_size(layout, &width, &height);
+    pango_layout_get_pixel_size(layout, &pwidth, &pheight);
   }
-  gtk_widget_get_allocation(w, &allocation);
+  gtk_widget_get_allocation(GTK_WIDGET(w), &allocation);
 
   cairo_set_source_rgb(cr, 0, 0, 0);
-  cairo_move_to(cr, left ? 4 : allocation.width - width - 3,
-                allocation.height - height - 3);
+  cairo_move_to(cr, left ? 4 : allocation.width - pwidth - 3,
+                allocation.height - pheight - 3);
   pango_cairo_show_layout(cr, layout);
 
   cairo_set_source_rgb(cr, 1, 1, 1);
-  cairo_move_to(cr, left ? 3 : allocation.width - width - 4,
-                 allocation.height - height - 4);
+  cairo_move_to(cr, left ? 3 : allocation.width - pwidth - 4,
+                 allocation.height - pheight - 4);
   pango_cairo_show_layout(cr, layout);
-
-  return TRUE;
 }
 
 /**********************************************************************//**
@@ -278,8 +277,8 @@ GtkWidget *create_main_page(void)
   }
   darea = gtk_drawing_area_new();
   gtk_widget_set_size_request(darea, width, height);
-  g_signal_connect(darea, "draw",
-                   G_CALLBACK(intro_expose), intro);
+  gtk_drawing_area_set_draw_func(GTK_DRAWING_AREA(darea),
+                                 intro_expose, intro, NULL);
   g_signal_connect(widget, "destroy",
                    G_CALLBACK(intro_free), intro);
   gtk_frame_set_child(GTK_FRAME(frame), darea);
