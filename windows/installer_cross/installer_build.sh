@@ -82,7 +82,7 @@ add_qt5_env() {
 }
 
 add_qt6_env() {
-  cp -R $1/plugins $2/ &&
+  cp -R $1/qt6/plugins $2/ &&
   cp $1/bin/Qt6Core.dll $2/ &&
   cp $1/bin/Qt6Gui.dll $2/ &&
   cp $1/bin/Qt6Widgets.dll $2/ &&
