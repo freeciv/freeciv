@@ -1283,7 +1283,8 @@ if test "x$req_fcmp_qt" = "xyes" ||
 fi
 
 if test "x$req_fcmp_qt" = "xyes" && test "x$fcmp_qt" != "xyes" ; then
-  AC_MSG_ERROR([Cannot build Qt-version of freeciv-modpack as requested])
+  AC_MSG_ERROR([Cannot build Qt-version of freeciv-modpack as requested.
+Maybe another --with-qtver value would help?])
 fi
 
 dnl Cli does not satisfy --enable-fcmp=auto as it's not an gui.
@@ -1339,7 +1340,8 @@ if test "x$ruledit" = "xyes" || test "x$ruledit" = "xtest" ; then
       ruledit=yes
       ruledit_libs="$ruledit_libs $MWINDOWS_FLAG $ruledit_uuid"
     elif test "x$ruledit" = "xyes" ; then
-      AC_MSG_ERROR([$qt_ver not found for building freeciv-ruledit])
+      AC_MSG_ERROR([$qt_ver not found for building freeciv-ruledit.
+Try with another --with-qtver value?])
     fi
   elif test "x$ruledit" = "xyes" ; then
     AC_MSG_ERROR([No working C++ compiler found for building freeciv-ruledit])

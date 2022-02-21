@@ -17,7 +17,8 @@ if test "x$gui_qt" = "xyes" || test "x$client" = "xall" ||
       gui_qt_cxxflags=$FC_QT_CXXFLAGS
       gui_qt_libs="$FC_QT_LIBS $MWINDOWS_FLAG"
     else
-      qt_fail_reason="Missing $qt_ver development files"
+      qt_fail_reason="Missing $qt_ver development files.
+Try with another --with-qtver value?"
     fi
 
   else
