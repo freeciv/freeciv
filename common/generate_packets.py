@@ -1977,7 +1977,7 @@ def parse_packets_def(def_text):
 
 def write_common_header(path, packets):
     """Write contents for common/packets_gen.h to the given path"""
-    if not path:
+    if not path or not path.name:
         return
     with fc_open(path) as output_h:
         output_h.write('''
@@ -2016,7 +2016,7 @@ void delta_stats_reset(void);
 
 def write_common_impl(path, packets):
     """Write contents for common/packets_gen.c to the given path"""
-    if not path:
+    if not path or not path.name:
         return
     with fc_open(path) as output_c:
         output_c.write('''
@@ -2087,7 +2087,7 @@ static int stats_total_sent;
 
 def write_server_header(path, packets):
     """Write contents for server/hand_gen.h to the given path"""
-    if not path:
+    if not path or not path.name:
         return
     with fc_open(path) as f:
         f.write('''
@@ -2133,7 +2133,7 @@ bool server_handle_packet(enum packet_type type, const void *packet,
 
 def write_client_header(path, packets):
     """Write contents for client/packhand_gen.h to the given path"""
-    if not path:
+    if not path or not path.name:
         return
     with fc_open(path) as f:
         f.write('''
@@ -2178,7 +2178,7 @@ bool client_handle_packet(enum packet_type type, const void *packet);
 
 def write_server_impl(path, packets):
     """Write contents for server/hand_gen.c to the given path"""
-    if not path:
+    if not path or not path.name:
         return
     with fc_open(path) as f:
         f.write('''
@@ -2237,7 +2237,7 @@ bool server_handle_packet(enum packet_type type, const void *packet,
 
 def write_client_impl(path, packets):
     """Write contents for client/packhand_gen.c to the given path"""
-    if not path:
+    if not path or not path.name:
         return
     with fc_open(path) as f:
         f.write('''
