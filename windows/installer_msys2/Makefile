@@ -507,7 +507,10 @@ RULEDIT_QT6_DLLS := \
 	libltdl-7.dll \
 	libraqm-0.dll \
 	libexpat-1.dll \
-	libfribidi-0.dll
+	libfribidi-0.dll \
+	libsqlite3-0.dll \
+	libbrotlidec.dll \
+	libbrotlicommon.dll
 
 install-env-ruledit-qt6:
 	# add DLLs
