@@ -50,26 +50,38 @@ from functools import partial
 
 is_verbose = False
 
+def file_path(s):
+    """Parse the given path and check basic validity."""
+    path = Path(s)
+
+    if path.is_reserved() or not path.name:
+        raise ValueError("not a valid file path: %r" % s)
+    if path.exists() and not path.is_file():
+        raise ValueError("not a file: %r" % s)
+
+    return path
+
 def get_argparser():
     parser = argparse.ArgumentParser(
         description = "Generate packet-related code from packets.def",
     )
 
-    parser.add_argument("common_header_path", type = Path,
-                        help = "output path for common/packets_gen.h")
-    parser.add_argument("common_impl_path", type = Path,
-                        help = "output path for common/packets_gen.c")
-    parser.add_argument("client_header_path", type = Path,
-                        help = "output path for client/packhand_gen.h")
-    parser.add_argument("client_impl_path", type = Path,
-                        help = "output path for client/packhand_gen.c")
-    parser.add_argument("server_header_path", type = Path,
-                        help = "output path for server/hand_gen.h")
-    parser.add_argument("server_impl_path", type = Path,
-                        help = "output path for server/hand_gen.c")
-
     parser.add_argument("-v", "--verbose", action = "store_true",
                         help = "enable log messages during code generation")
+
+    path_args = (
+        # (dest, option, canonical path)
+        ("common_header_path", "--common-h", "common/packets_gen.h"),
+        ("common_impl_path",   "--common-c", "common/packets_gen.c"),
+        ("client_header_path", "--client-h", "client/packhand_gen.h"),
+        ("client_impl_path",   "--client-c", "client/packhand_gen.c"),
+        ("server_header_path", "--server-h", "server/hand_gen.h"),
+        ("server_impl_path",   "--server-c", "server/hand_gen.c"),
+    )
+
+    for dest, option, canonical in path_args:
+        parser.add_argument(option, dest = dest, type = file_path,
+                            help = "output path for %s" % canonical)
 
     return parser
 
@@ -1977,7 +1989,7 @@ def parse_packets_def(def_text):
 
 def write_common_header(path, packets):
     """Write contents for common/packets_gen.h to the given path"""
-    if not path or not path.name:
+    if path is None:
         return
     with fc_open(path) as output_h:
         output_h.write('''
@@ -2016,7 +2028,7 @@ void delta_stats_reset(void);
 
 def write_common_impl(path, packets):
     """Write contents for common/packets_gen.c to the given path"""
-    if not path or not path.name:
+    if path is None:
         return
     with fc_open(path) as output_c:
         output_c.write('''
@@ -2087,7 +2099,7 @@ static int stats_total_sent;
 
 def write_server_header(path, packets):
     """Write contents for server/hand_gen.h to the given path"""
-    if not path or not path.name:
+    if path is None:
         return
     with fc_open(path) as f:
         f.write('''
@@ -2133,7 +2145,7 @@ bool server_handle_packet(enum packet_type type, const void *packet,
 
 def write_client_header(path, packets):
     """Write contents for client/packhand_gen.h to the given path"""
-    if not path or not path.name:
+    if path is None:
         return
     with fc_open(path) as f:
         f.write('''
@@ -2178,7 +2190,7 @@ bool client_handle_packet(enum packet_type type, const void *packet);
 
 def write_server_impl(path, packets):
     """Write contents for server/hand_gen.c to the given path"""
-    if not path or not path.name:
+    if path is None:
         return
     with fc_open(path) as f:
         f.write('''
@@ -2237,7 +2249,7 @@ bool server_handle_packet(enum packet_type type, const void *packet,
 
 def write_client_impl(path, packets):
     """Write contents for client/packhand_gen.c to the given path"""
-    if not path or not path.name:
+    if path is None:
         return
     with fc_open(path) as f:
         f.write('''

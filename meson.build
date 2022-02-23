@@ -467,18 +467,21 @@ specenum = custom_target('specenum_gen.h', output: 'specenum_gen.h',
 pack_common = custom_target('packets_common', output: ['packets_gen.h',
                                                        'packets_gen.c'],
                             command: [python_exe, files('common/generate_packets.py'),
-                                      '@OUTPUT0@', '@OUTPUT1@', '', '', '', ''],
+                                      '--common-h', '@OUTPUT0@',
+                                      '--common-c', '@OUTPUT1@'],
                             depend_files: files('common/networking/packets.def'))
 
 pack_server = custom_target('packets_server', output: ['hand_gen.h', 'hand_gen.c'],
                             command: [python_exe, files('common/generate_packets.py'),
-                                      '', '', '', '', '@OUTPUT0@', '@OUTPUT1@'],
+                                      '--server-h', '@OUTPUT0@',
+                                      '--server-c', '@OUTPUT1@'],
                             depend_files: files('common/networking/packets.def'))
 
 pack_client = custom_target('packets_client', output: ['packhand_gen.h',
                                                        'packhand_gen.c'],
                             command: [python_exe, files('common/generate_packets.py'),
-                                      '', '', '@OUTPUT0@', '@OUTPUT1@', '', ''],
+                                      '--client-h', '@OUTPUT0@',
+                                      '--client-c', '@OUTPUT1@'],
                             depend_files: files('common/networking/packets.def'))
 
 gitrev = custom_target('gitrev', output: 'fc_gitrev_gen.h',

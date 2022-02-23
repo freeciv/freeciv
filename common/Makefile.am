@@ -163,7 +163,13 @@ BUILT_SOURCES = packets_gen.c packets_gen.h
 packets_gen.h packets_gen.c: packets_generate
 .INTERMEDIATE: packets_generate
 packets_generate: networking/packets.def generate_packets.py
-	cd $(srcdir) && ./generate_packets.py packets_gen.h packets_gen.c ../client/packhand_gen.h ../client/packhand_gen.c ../server/hand_gen.h ../server/hand_gen.c
+	cd $(srcdir) && ./generate_packets.py \
+		--common-h packets_gen.h \
+		--common-c packets_gen.c \
+		--client-h ../client/packhand_gen.h \
+		--client-c ../client/packhand_gen.c \
+		--server-h ../server/hand_gen.h \
+		--server-c ../server/hand_gen.c
 	touch packets_generate
 
 # These files are not generated to builddir, but to srcdir */
