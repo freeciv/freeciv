@@ -1,25 +1,55 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    height="300"
-   width="450">
+   width="450"
+   version="1.1"
+   id="svg10"
+   sodipodi:docname="kuwait.svg"
+   inkscape:version="1.1.1 (3bf5ae0d25, 2021-09-20)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs14" />
+  <sodipodi:namedview
+     id="namedview12"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     showgrid="false"
+     inkscape:zoom="1.9563288"
+     inkscape:cx="224.91107"
+     inkscape:cy="150.02591"
+     inkscape:window-width="1129"
+     inkscape:window-height="838"
+     inkscape:window-x="482"
+     inkscape:window-y="85"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg10" />
   <rect
      height="100"
      fill="#ce1126"
      width="450"
-     y="200" />
+     y="200"
+     id="rect2" />
   <rect
      height="100"
      fill="#ffffff"
      width="450"
-     y="100" />
+     y="100"
+     id="rect4" />
   <rect
      height="100"
      fill="#007a3d"
-     width="450" />
+     width="450"
+     id="rect6" />
   <path
      d="M 0,0 0,300 112.5,200 112.5,100 0,0 z"
      sodipodi:nodetypes="ccccc"
-     fill="#000000" />
+     fill="#000000"
+     id="path8" />
 </svg>
