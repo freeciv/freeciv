@@ -13,29 +13,6 @@
 #   GNU General Public License for more details.
 #
 
-### The following parameters change how the script operates.
-
-# Only overwrite existing output files when they actually changed.
-# This prevents make from rebuilding all dependents in cases where
-# that wouldn't even be necessary.
-lazy_overwrite = True
-
-### The following parameters change the amount of output.
-
-# generate_stats will generate a large amount of statistics how many
-# info packets got discarded and how often a field is transmitted. You
-# have to call delta_stats_report to get these.
-generate_stats=0
-
-# generate_logs will generate log calls to debug the delta code.
-generate_logs=1
-use_log_macro="log_packet_detailed"
-
-### The following parameters CHANGE the protocol. You have been warned.
-fold_bool_into_header=1
-
-################# END OF PARAMETERS ####################
-
 # This script runs under Python 3.4 and up. Please leave it so.
 # It might also run under older versions, but no such guarantees are made.
 
@@ -48,7 +25,34 @@ from functools import partial
 
 ###################### Parsing Command Line Arguments ######################
 
+### Script configuration
+# See get_argparser for what each of these does
+# Keep initial values in sync with argparser defaults
 is_verbose = False
+lazy_overwrite = True
+generate_stats = False
+generate_logs = True
+use_log_macro = "log_packet_detailed"
+fold_bool_into_header = True
+
+def config_script(args):
+    """Update script configuration from the given argument namespace.
+
+    args should be a namespace of a shape like those
+    produced by get_argparser().parse_args()"""
+
+    global lazy_overwrite, is_verbose
+    global generate_stats, generate_logs, use_log_macro
+    global fold_bool_into_header
+
+    is_verbose = args.verbose
+    lazy_overwrite = args.lazy_overwrite
+
+    generate_stats = args.gen_stats
+    generate_logs = args.log_macro is not None
+    use_log_macro = args.log_macro
+
+    fold_bool_into_header = args.fold_bool
 
 def file_path(s):
     """Parse the given path and check basic validity."""
@@ -64,10 +68,69 @@ def file_path(s):
 def get_argparser():
     parser = argparse.ArgumentParser(
         description = "Generate packet-related code from packets.def",
+        add_help = False,   # we'll add a help option explicitly
     )
 
-    parser.add_argument("-v", "--verbose", action = "store_true",
+    # Argument groups
+    # Note the order:
+    # We want the path arguments to show up *first* in the help text
+
+    paths = parser.add_argument_group(
+        "Output paths",
+        "The following parameters decide which output files are generated,"
+        " and where the generated code is written.",
+    )
+
+    script = parser.add_argument_group(
+        "Script configuration",
+        "The following parameters change how the script operates.",
+    )
+
+    output = parser.add_argument_group(
+        "Output configuration",
+        "The following parameters change the amount of output.",
+    )
+
+    protocol = parser.add_argument_group(
+        "Protocol configuration",
+        "The following parameters CHANGE the protocol."
+        " You have been warned.",
+    )
+
+    # Individual arguments
+    # Note the order:
+    # We want the path arguments to show up *last* in the usage summary
+
+    script.add_argument("-h", "--help", action = "help",
+                        help = "show this help message and exit")
+
+    script.add_argument("-v", "--verbose", action = "store_true",
                         help = "enable log messages during code generation")
+
+    # Default behavior: Only overwrite existing output files when they
+    # actually changed. This prevents make from rebuilding all dependents
+    # in cases where that wouldn't even be necessary.
+    script.add_argument("-f", "--force-overwrite",
+                        dest = "lazy_overwrite", action = "store_false",
+                        help = "always overwrite output files, even when"
+                        " their contents didn't change")
+
+    output.add_argument("-s", "--gen-stats", action = "store_true",
+                        help = "generate code reporting packet usage"
+                        " statistics; call delta_stats_report to get these")
+
+    logs = output.add_mutually_exclusive_group()
+    logs.add_argument("-l", "--log-macro", default = "log_packet_detailed",
+                      help = "use the given macro for generated log calls")
+    logs.add_argument("-L", "--no-logs", dest = "log_macro",
+                      action = "store_const", const = None,
+                      help = "disable generating log calls")
+
+    protocol.add_argument("-B", "--no-fold-bool",
+                         dest = "fold_bool", action = "store_false",
+                         help = "explicitly encode boolean values in the"
+                         " packet body, rather than folding them into the"
+                         " packet header")
 
     path_args = (
         # (dest, option, canonical path)
@@ -80,8 +143,8 @@ def get_argparser():
     )
 
     for dest, option, canonical in path_args:
-        parser.add_argument(option, dest = dest, type = file_path,
-                            help = "output path for %s" % canonical)
+        paths.add_argument(option, dest = dest, type = file_path,
+                           help = "output path for %s" % canonical)
 
     return parser
 
@@ -2317,7 +2380,7 @@ def main(raw_args=None):
     ### parsing arguments
     global is_verbose
     script_args = get_argparser().parse_args(raw_args)
-    is_verbose = script_args.verbose
+    config_script(script_args)
 
     ### parsing input
     src_dir = Path(__file__).parent

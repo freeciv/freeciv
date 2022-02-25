@@ -49,9 +49,9 @@
 
 #include "packets_json.h"
 
-/* 
- * Valid values are 0, 1 and 2. For 2 you have to set generate_stats
- * to 1 in generate_packets.py.
+/*
+ * Valid values are 0, 1 and 2. For 2 you have to run generate_packets.py
+ * with --gen-stats.
  */
 #define PACKET_SIZE_STATISTICS 0
 
