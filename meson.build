@@ -369,18 +369,22 @@ int main(void) { size_t var = 0; fr("''' + format + '''", var); return 0; }''',
   endif
 endforeach
 
+if get_option('audio') or get_option('clients').contains('sdl2')
+  if host_system == 'windows'
+    sdl2main_dep = [c_compiler.find_library('libmingw32', dirs: cross_lib_path),
+                    c_compiler.find_library('libSDL2main', dirs: cross_lib_path),
+                    c_compiler.find_library('libSDL2', dirs: cross_lib_path)]
+  else
+    sdl2main_dep = [c_compiler.find_library('libSDL2', dirs: cross_lib_path)]
+  endif
+endif
+
 if get_option('audio')
   priv_conf_data.set('AUDIO_SDL', 1)
 
-  if host_system == 'windows'
-    audio_dep = [c_compiler.find_library('libmingw32', dirs: cross_lib_path),
-                 c_compiler.find_library('libSDL2main', dirs: cross_lib_path),
-                 c_compiler.find_library('libSDL2', dirs: cross_lib_path),
-                 c_compiler.find_library('libSDL2_mixer', dirs: cross_lib_path)]
-  else
-    audio_dep = [c_compiler.find_library('libSDL2', dirs: cross_lib_path),
-                 c_compiler.find_library('libSDL2_mixer', dirs: cross_lib_path)]
-  endif
+  audio_sdl2_dep = c_compiler.find_library('libSDL2_mixer',
+                                           dirs: cross_lib_path)
+  audio_dep = [sdl2main_dep, audio_sdl2_dep]
 else
   audio_dep = []
 endif
@@ -2755,8 +2759,7 @@ executable('freeciv-sdl2',
   'client/gui-sdl2/wldlg.c',
   clienticon,
   include_directories: client_inc,
-  dependencies: [c_compiler.find_library('libSDL2', dirs: cross_lib_path),
-                 c_compiler.find_library('libSDL2_mixer', dirs: cross_lib_path),
+  dependencies: [sdl2main_dep, audio_dep,
                  c_compiler.find_library('libSDL2_image', dirs: cross_lib_path),
                  c_compiler.find_library('libSDL2_gfx', dirs: cross_lib_path),
                  c_compiler.find_library('libSDL2_ttf', dirs: cross_lib_path),
