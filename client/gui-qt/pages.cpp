@@ -1877,7 +1877,7 @@ void fc_client::update_buttons()
       } else {
         /* We are the last unready player so clicking here will
          * immediately start the game. */
-        text = ("Start");
+        text = _("Start");
       }
     }
   } else {
