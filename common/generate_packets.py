@@ -1571,6 +1571,18 @@ class Packet:
         result.update(vars_)
         return result
 
+    # See Variant.get_stats
+    def get_stats(self):
+        return "".join(v.get_stats() for v in self.variants)
+
+    # See Variant.get_report_part
+    def get_report_part(self):
+        return "".join(v.get_report_part() for v in self.variants)
+
+    # See Variant.get_reset_part
+    def get_reset_part(self):
+        return "".join(v.get_reset_part() for v in self.variants)
+
     def get_send(self):
         if self.no_packet:
             func="no_packet"
