@@ -25,7 +25,7 @@
 
 static struct counter counters[MAX_COUNTERS] =
 {
-  { "Owned", COUNTER_OWNED, CTGT_CITY, 0 }
+  { (struct name_translation) NAME_INIT, COUNTER_OWNED, CTGT_CITY, 0 }
 };
 
 static struct counter *counters_city[MAX_COUNTERS];
@@ -39,6 +39,8 @@ void counters_init(void)
   int i;
 
   number_city_counters = 0;
+
+  name_set(&counters[0].name, NULL, N_("?counter:Owned"));
 
   for (i = 0; i < MAX_COUNTERS; i++) {
 
@@ -99,7 +101,7 @@ struct counter *counter_by_rule_name(const char *name)
 
   for (i = 0; i < MAX_COUNTERS; i++)
   {
-    if (0 == fc_strcasecmp(name, counters[i].rule_name))
+    if (0 == fc_strcasecmp(name, counter_rule_name(&counters[i])))
     {
       return &counters[i];
     }
@@ -109,12 +111,42 @@ struct counter *counter_by_rule_name(const char *name)
 }
 
 /************************************************************************//**
+    Search for counter by translated name
+    (return matched counter if found or NULL)
+****************************************************************************/
+struct counter *counter_by_translated_name(const char *name)
+{
+  int i;
+  fc_assert_ret_val(NULL != name, NULL);
+  fc_assert_ret_val('\0' != name[0], NULL);
+
+  for (i = 0; i < MAX_COUNTERS; i++)
+  {
+    if (0 == fc_strcasecmp(name,
+                           counter_name_translation(&counters[i])))
+    {
+      return &counters[i];
+    }
+  }
+
+  return NULL;
+}
+
+/************************************************************************//**
+    Returns translated name of given counter
+****************************************************************************/
+const char *counter_name_translation(const struct counter *counter)
+{
+  return name_translation_get(&counter->name);
+}
+
+/************************************************************************//**
      Return rule name of a given counter
 ****************************************************************************/
 const char *counter_rule_name(struct counter *pcount)
 {
   fc_assert_ret_val(NULL != pcount, NULL);
-  return pcount->rule_name;
+  return rule_name_get(&pcount->name);
 }
 
 /************************************************************************//**

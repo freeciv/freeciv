@@ -2649,7 +2649,7 @@ static void sg_save_counters(struct savedata *saving)
                      "savefile.city_counters_order_size");
 
   for (j = 0; j < count; j++) {
-    countnames[j] = counter_by_index(j, CTGT_CITY)->rule_name;
+    countnames[j] = counter_rule_name(counter_by_index(j, CTGT_CITY));
   }
 
   secfile_insert_str_vec(saving->file, countnames, count,

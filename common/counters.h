@@ -17,6 +17,9 @@
 extern "C" {
 #endif /* __cplusplus */
 
+/* common */
+#include "name_translation.h"
+
 enum counter_type { COUNTER_OWNED = 0, COUNTER_COUNT };
 
 enum counter_target { CTGT_CITY };
@@ -26,7 +29,7 @@ enum counter_target { CTGT_CITY };
 
 struct counter
 {
-  const char *rule_name;
+  struct name_translation name;
   enum counter_type type;
   enum counter_target target;
   int def;    /* default value for each entity of given type
@@ -43,6 +46,9 @@ int counter_id(struct counter *pcount);
 
 struct counter *counter_by_rule_name(const char *name);
 const char *counter_rule_name(struct counter *pcount);
+
+const char *counter_name_translation(const struct counter *counter);
+struct counter *counter_by_translated_name(const char *name);
 
 int counter_index(struct counter *pcount);
 struct counter *counter_by_index(int index, enum counter_target target);
