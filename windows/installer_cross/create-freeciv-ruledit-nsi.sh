@@ -88,15 +88,14 @@ EOF
   echo -n "/x locale "
 
   # rulesets
-  find $1/data -mindepth 1 -maxdepth 1 -name *.serv -printf %f\\n |
-  sed 's|.serv||' |
+  find $1/data -mindepth 2 -maxdepth 2 -name game.ruleset -printf %P\\n |
+  sed 's|/game.ruleset||' |
   while read -r name
   do
-  if test "x$name" != "xdefault" ; then
-  echo -n "/x $name.serv /x $name "
-  else
-  echo -n "/x $name.serv "
-  fi
+    echo -n "/x $name "
+    if test -f "$1/data/$name.modpack" ; then
+      echo -n "/x $name.modpack "
+    fi
   done
 
   echo "$1\\*.*"
@@ -136,24 +135,18 @@ SectionGroup "Rulesets"
 
 EOF
 
-find $1/data -mindepth 1 -maxdepth 1 -name *.serv -printf %f\\n |
+find $1/data -mindepth 2 -maxdepth 2 -name game.ruleset -printf %P\\n |
 sort |
-sed 's|.serv||' |
+sed 's|/game.ruleset||' |
 while read -r name
 do
-if test -d $1/data/$name; then
-# 'default' directory is not optional
-if test "x$name" != "xdefault" ; then
+# Intentionally leave .modpack out. Ruledit does not use it.
 echo "  Section \"$name\""
-# Intentionally left .serv out. Ruledit does not use it.
-# This script does use it, though, to detect rulesets.
 echo "  SetOutPath \$INSTDIR/data/$name" | sed 's,/,\\,g'
 echo "  File /r $1/data/$name/*.*"
 echo "  SetOutPath \$INSTDIR"
 echo "  SectionEnd"
 echo
-fi
-fi
 done
 
 cat <<EOF
