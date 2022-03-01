@@ -706,17 +706,17 @@ dnl Should we build experimental versions of Qt programs?
 dnl This needs to be before C++ compiler check FC_WORKING_CXX, and
 dnl that in turn needs to be before FC_DEBUG that will depend on compiler
 dnl when setting compiler flags.
-AC_ARG_WITH([qt6],
-  AS_HELP_STRING([--with-qt6], [build Qt6 versions of Qt programs]),
+AC_ARG_WITH([qt5],
+  AS_HELP_STRING([--with-qt5], [build Qt5 versions of Qt programs]),
 [case "${withval}" in
- yes) qt_default="Qt6" ;;
- *)   qt_default="Qt5" ;;
+ yes) qt_default="Qt5" ;;
+ *)   qt_default="Qt6" ;;
 esac])
 
 if test "x$qt_default" = "x" ; then
-  qt_default="Qt5"
+  qt_default="Qt6"
 else
-  AC_MSG_WARN([--with-qt6 deprecated. Please use --with-qtver=qt6 instead])
+  AC_MSG_WARN([--with-qt5 deprecated. Please use --with-qtver=qt5 instead])
 fi
 
 AC_ARG_WITH([qtver],

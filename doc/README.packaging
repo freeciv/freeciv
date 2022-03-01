@@ -31,9 +31,10 @@ Updating from 3.0 to 3.1
   the official autotools one
 * Tex AI module gets statically linked in by default, if threading
   implementation supports it.
-* Minimum Qt5 requirement for Qt-client, Qt modpack installer, and
-  Ruledit is 5.11.
-* New configure option --with-qtver=qt6 builds Qt6 versions of Qt programs
+* Qt-client, Qt modpack installer, and ruledit are built against
+  Qt6 by default. One can still build against Qt5 by giving
+  configure option --with-qtver=qt5
+* Minimum Qt5 requirement is 5.11.
 * Support for zstd compressed savegames added, requires libzstd and headers
 * Minimum Python requirement for code generation scripts is 3.4 now.
 
