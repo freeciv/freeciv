@@ -53,7 +53,6 @@ void setup_gui_funcs(void)
   funcs->real_output_window_append = gui_real_output_window_append;
 
   funcs->is_view_supported = gui_is_view_supported;
-  funcs->free_intro_radar_sprites = gui_free_intro_radar_sprites;
   funcs->load_gfxfile = gui_load_gfxfile;
   funcs->create_sprite = gui_create_sprite;
   funcs->get_sprite_dimensions = gui_get_sprite_dimensions;
