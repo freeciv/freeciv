@@ -58,7 +58,7 @@ use constant S_LOOKING_START => 0;   # looking for start of entry
 use constant S_DOING_MSGID   => 1;   # doing msgid part
 use constant S_DOING_MSGSTR  => 2;   # doing msgstr part 
 
-# Initialize or reinitalize globals to prepare for new entry:
+# Initialize or reinitialize globals to prepare for new entry:
 sub new_entry {
     @amsgid = ();
     @amsgstr = ();

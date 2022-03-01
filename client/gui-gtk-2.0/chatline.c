@@ -771,10 +771,10 @@ void set_message_buffer_view_link_handlers(GtkWidget *view)
 void apply_text_tag(const struct text_tag *ptag, GtkTextBuffer *buf,
                     ft_offset_t text_start_offset, const char *text)
 {
-  static bool initalized = FALSE;
+  static bool initialized = FALSE;
   GtkTextIter start, stop;
 
-  if (!initalized) {
+  if (!initialized) {
     gtk_text_buffer_create_tag(buf, "bold",
                                "weight", PANGO_WEIGHT_BOLD, NULL);
     gtk_text_buffer_create_tag(buf, "italic",
@@ -783,7 +783,7 @@ void apply_text_tag(const struct text_tag *ptag, GtkTextBuffer *buf,
                                "strikethrough", TRUE, NULL);
     gtk_text_buffer_create_tag(buf, "underline",
                                "underline", PANGO_UNDERLINE_SINGLE, NULL);
-    initalized = TRUE;
+    initialized = TRUE;
   }
 
   /* Get the position. */
