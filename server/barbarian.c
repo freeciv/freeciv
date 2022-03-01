@@ -263,13 +263,13 @@ static void unit_move_pay(struct unit *punit, struct tile *pdesttile)
 }
 
 /**********************************************************************//**
-  Unleash barbarians means give barbarian player some units and move them 
+  Unleash barbarians means give barbarian player some units and move them
   out of the hut, unless there's no place to go.
 
   Barbarian unit deployment algorithm: If enough free land around, deploy
-  on land, if not enough land but some sea free, load some of them on 
-  boats, otherwise (not much land and no sea) kill enemy unit and stay in 
-  a village. The return value indicates if the explorer survived entering 
+  on land, if not enough land but some sea free, load some of them on
+  boats, otherwise (not much land and no sea) kill enemy unit and stay in
+  a village. The return value indicates if the explorer survived entering
   the vilage.
 **************************************************************************/
 bool unleash_barbarians(struct tile *ptile)
@@ -390,7 +390,7 @@ bool unleash_barbarians(struct tile *ptile)
         struct unit_type *candidate;
         int rdir = random_unchecked_direction(ocean_tiles - checked_count, checked);
 
-        candidate = find_a_unit_type(L_BARBARIAN_BOAT, -1);
+        candidate = find_a_unit_type(L_BARBARIAN_BOAT, L_BARBARIAN_BOAT_TECH);
         if (is_native_tile(candidate, dir_tiles[rdir])) {
           boat = create_unit(barbarians, dir_tiles[rdir], candidate,
                              0, 0, -1);
@@ -514,20 +514,20 @@ static struct tile *find_empty_tile_nearby(struct tile *ptile)
 
 /**********************************************************************//**
   The barbarians are summoned at a randomly chosen place if:
-  1. It's not closer than MIN_UNREST_DIST and not further than 
-     MAX_UNREST_DIST from the nearest city. City owner is called 'victim' 
+  1. It's not closer than MIN_UNREST_DIST and not further than
+     MAX_UNREST_DIST from the nearest city. City owner is called 'victim'
      here.
   2. The place or a neighbouring tile must be empty to deploy the units.
   3. If it's the sea it shouldn't be far from the land. (questionable)
   4. Place must be known to the victim
   5. The uprising chance depends also on the victim empire size, its
      government (civil_war_chance) and barbarian difficulty level.
-  6. The number of land units also depends slightly on victim's empire 
+  6. The number of land units also depends slightly on victim's empire
      size and barbarian difficulty level.
-  Q: The empire size is used so there are no uprisings in the beginning 
-     of the game (year is not good as it can be customized), but it seems 
-     a bit unjust if someone is always small. So maybe it should rather 
-     be an average number of cities (all cities/player num)? Depending 
+  Q: The empire size is used so there are no uprisings in the beginning
+     of the game (year is not good as it can be customized), but it seems
+     a bit unjust if someone is always small. So maybe it should rather
+     be an average number of cities (all cities/player num)? Depending
      on the victim government type is also questionable.
 **************************************************************************/
 static void try_summon_barbarians(void)
@@ -660,7 +660,7 @@ static void try_summon_barbarians(void)
       CALL_PLR_AI_FUNC(phase_begin, barbarians, barbarians, TRUE);
     }
 
-    boat = find_a_unit_type(L_BARBARIAN_BOAT,-1);
+    boat = find_a_unit_type(L_BARBARIAN_BOAT, L_BARBARIAN_BOAT_TECH);
 
     if (is_native_tile(boat, utile)
         && (is_safe_ocean(&(wld.map), utile)

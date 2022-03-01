@@ -421,6 +421,8 @@ flags         = "Unreachable", "DoesntOccupyTile", "HutFrighten"
 ; "BarbarianTech"         = can be created as land barbarian, if someone has
 ;                           researched its tech requirements
 ; "BarbarianBoat"         = can be created as boat for sea barbarian
+; "BarbarianBoatTech"     = can be created as boat for sea barbarian, if someone has
+;                           researched its tech requirements
 ; "BarbarianBuild"        = can be built by barbarians
 ; "BarbarianBuildTech"    = can be built by barbarians if someone has
 ;                           researched its tech requirements

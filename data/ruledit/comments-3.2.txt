@@ -532,13 +532,15 @@ utypes = "\
 ; \"DefendOk\"   = AI hint: ok for defending with\n\
 ; \"DefendGood\" = AI hint: good for defending with\n\
 ; \"Ferryboat\"  = AI hint: useful for ferrying\n\
-; \"Barbarian\"  = can be created as land barbarian\n\
-; \"BarbarianTech\"  = can be created as land barbarian, if someone has\n\
-;                      researched its tech requirements\n\
-; \"BarbarianBoat\"  = can be created as boat for sea barbarian\n\
-; \"BarbarianBuild\" = can be built by barbarians\n\
+; \"Barbarian\"          = can be created as land barbarian\n\
+; \"BarbarianTech\"      = can be created as land barbarian, if someone has\n\
+;                        researched its tech requirements\n\
+; \"BarbarianBoat\"      = can be created as boat for sea barbarian\n\
+; \"BarbarianBoatTech\"  = can be created as boat for sea barbarian, if someone has\n\
+;                        researched its tech requirements\n\
+; \"BarbarianBuild\"     = can be built by barbarians\n\
 ; \"BarbarianBuildTech\" = can be built by barbarians if someone has\n\
-;                          researched its tech requirements\n\
+;                        researched its tech requirements\n\
 ; \"BarbarianLeader\"    = this unit is the barbarian leader (only one)\n\
 ; \"BarbarianSea\"       = can be created as a barbarian that disembarks from a barbarian boat\n\
 ; \"BarbarianSeaTech\"   = can be created as a barbarian that disembarks from a barbarian boat\n\

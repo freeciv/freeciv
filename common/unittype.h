@@ -364,57 +364,60 @@ struct unit_class {
 /* barbarian boat */
 #define SPECENUM_VALUE85 L_BARBARIAN_BOAT
 #define SPECENUM_VALUE85NAME N_("?unitflag:BarbarianBoat")
+/* barbarians boat, global tech required */
+#define SPECENUM_VALUE86 L_BARBARIAN_BOAT_TECH
+#define SPECENUM_VALUE86NAME N_("?unitflag:BarbarianBoatTech")
 /* what barbarians should build */
-#define SPECENUM_VALUE86 L_BARBARIAN_BUILD
-#define SPECENUM_VALUE86NAME N_("?unitflag:BarbarianBuild")
+#define SPECENUM_VALUE87 L_BARBARIAN_BUILD
+#define SPECENUM_VALUE87NAME N_("?unitflag:BarbarianBuild")
 /* barbarians build when global tech */
-#define SPECENUM_VALUE87 L_BARBARIAN_BUILD_TECH
-#define SPECENUM_VALUE87NAME N_("?unitflag:BarbarianBuildTech")
+#define SPECENUM_VALUE88 L_BARBARIAN_BUILD_TECH
+#define SPECENUM_VALUE88NAME N_("?unitflag:BarbarianBuildTech")
 /* barbarian leader */
-#define SPECENUM_VALUE88 L_BARBARIAN_LEADER
-#define SPECENUM_VALUE88NAME N_("?unitflag:BarbarianLeader")
+#define SPECENUM_VALUE89 L_BARBARIAN_LEADER
+#define SPECENUM_VALUE89NAME N_("?unitflag:BarbarianLeader")
 /* sea raider unit */
-#define SPECENUM_VALUE89 L_BARBARIAN_SEA
-#define SPECENUM_VALUE89NAME N_("?unitflag:BarbarianSea")
+#define SPECENUM_VALUE90 L_BARBARIAN_SEA
+#define SPECENUM_VALUE90NAME N_("?unitflag:BarbarianSea")
 /* sea raider unit, global tech required */
-#define SPECENUM_VALUE90 L_BARBARIAN_SEA_TECH
-#define SPECENUM_VALUE90NAME N_("?unitflag:BarbarianSeaTech")
+#define SPECENUM_VALUE91 L_BARBARIAN_SEA_TECH
+#define SPECENUM_VALUE91NAME N_("?unitflag:BarbarianSeaTech")
 /* StartUnit: Cities */
-#define SPECENUM_VALUE91 L_START_CITIES
-#define SPECENUM_VALUE91NAME N_("?unitflag:CitiesStartUnit")
+#define SPECENUM_VALUE92 L_START_CITIES
+#define SPECENUM_VALUE92NAME N_("?unitflag:CitiesStartUnit")
 /* StartUnit: Worker */
-#define SPECENUM_VALUE92 L_START_WORKER
-#define SPECENUM_VALUE92NAME N_("?unitflag:WorkerStartUnit")
+#define SPECENUM_VALUE93 L_START_WORKER
+#define SPECENUM_VALUE93NAME N_("?unitflag:WorkerStartUnit")
 /* StartUnit: Explorer */
-#define SPECENUM_VALUE93 L_START_EXPLORER
-#define SPECENUM_VALUE93NAME N_("?unitflag:ExplorerStartUnit")
+#define SPECENUM_VALUE94 L_START_EXPLORER
+#define SPECENUM_VALUE94NAME N_("?unitflag:ExplorerStartUnit")
 /* StartUnit: King */
-#define SPECENUM_VALUE94 L_START_KING
-#define SPECENUM_VALUE94NAME N_("?unitflag:KingStartUnit")
+#define SPECENUM_VALUE95 L_START_KING
+#define SPECENUM_VALUE95NAME N_("?unitflag:KingStartUnit")
 /* StartUnit: Diplomat */
-#define SPECENUM_VALUE95 L_START_DIPLOMAT
-#define SPECENUM_VALUE95NAME N_("?unitflag:DiplomatStartUnit")
+#define SPECENUM_VALUE96 L_START_DIPLOMAT
+#define SPECENUM_VALUE96NAME N_("?unitflag:DiplomatStartUnit")
 /* StartUnit: Ferryboat */
-#define SPECENUM_VALUE96 L_START_FERRY
-#define SPECENUM_VALUE96NAME N_("?unitflag:FerryStartUnit")
+#define SPECENUM_VALUE97 L_START_FERRY
+#define SPECENUM_VALUE97NAME N_("?unitflag:FerryStartUnit")
 /* StartUnit: DefendOk */
-#define SPECENUM_VALUE97 L_START_DEFEND_OK
-#define SPECENUM_VALUE97NAME N_("?unitflag:DefendOkStartUnit")
+#define SPECENUM_VALUE98 L_START_DEFEND_OK
+#define SPECENUM_VALUE98NAME N_("?unitflag:DefendOkStartUnit")
 /* StartUnit: DefendGood */
-#define SPECENUM_VALUE98 L_START_DEFEND_GOOD
-#define SPECENUM_VALUE98NAME N_("?unitflag:DefendGoodStartUnit")
+#define SPECENUM_VALUE99 L_START_DEFEND_GOOD
+#define SPECENUM_VALUE99NAME N_("?unitflag:DefendGoodStartUnit")
 /* StartUnit: AttackFast */
-#define SPECENUM_VALUE99 L_START_ATTACK_FAST
-#define SPECENUM_VALUE99NAME N_("?unitflag:AttackFastStartUnit")
+#define SPECENUM_VALUE100 L_START_ATTACK_FAST
+#define SPECENUM_VALUE100NAME N_("?unitflag:AttackFastStartUnit")
 /* StartUnit: AttackStrong */
-#define SPECENUM_VALUE100 L_START_ATTACK_STRONG
-#define SPECENUM_VALUE100NAME N_("?unitflag:AttackStrongStartUnit")
+#define SPECENUM_VALUE101 L_START_ATTACK_STRONG
+#define SPECENUM_VALUE101NAME N_("?unitflag:AttackStrongStartUnit")
 /* AI hunter type unit */
-#define SPECENUM_VALUE101 L_HUNTER
-#define SPECENUM_VALUE101NAME N_("?unitflag:Hunter")
+#define SPECENUM_VALUE102 L_HUNTER
+#define SPECENUM_VALUE102NAME N_("?unitflag:Hunter")
 /* can improve terrain */
-#define SPECENUM_VALUE102 L_SETTLERS
-#define SPECENUM_VALUE102NAME N_("?unitflag:Settlers")
+#define SPECENUM_VALUE103 L_SETTLERS
+#define SPECENUM_VALUE103NAME N_("?unitflag:Settlers")
 #define L_LAST (L_SETTLERS + 1)
 
 #include "specenum_gen.h"
