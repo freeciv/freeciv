@@ -1006,6 +1006,7 @@ mr_menu::mr_menu() : QMenuBar()
 void mr_menu::setup_menus()
 {
   QAction *act;
+  QMenu *menu;
   QMenu *pr;
   QList<QMenu*> menus;
   int i;
