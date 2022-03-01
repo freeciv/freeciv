@@ -42,7 +42,6 @@ void qtg_real_output_window_append(const char *astring,
 
 bool qtg_is_view_supported(enum ts_type type);
 void qtg_tileset_type_set(enum ts_type type);
-void qtg_free_intro_radar_sprites();
 struct sprite *qtg_load_gfxfile(const char *filename);
 struct sprite *qtg_load_gfxnumber(int num);
 struct sprite *qtg_create_sprite(int width, int height, struct color *pcolor);

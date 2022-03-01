@@ -1078,7 +1078,6 @@ void ui_exit(void)
   free_mapcanvas_and_overview();
 
   free_auxiliary_tech_icons();
-  free_intro_radar_sprites();
 
   diplomacy_dialog_done();
   intel_dialog_done();

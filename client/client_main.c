@@ -937,7 +937,6 @@ void set_client_state(enum client_states newstate)
     set_client_page(PAGE_GAME);
     /* Find something sensible to display instead of the intro gfx. */
     center_on_something();
-    free_intro_radar_sprites();
     agents_game_start();
     editgui_tileset_changed();
     voteinfo_gui_update();

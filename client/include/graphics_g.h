@@ -27,9 +27,6 @@
 GUI_FUNC_PROTO(bool, is_view_supported, enum ts_type type)
 GUI_FUNC_PROTO(void, tileset_type_set, enum ts_type type)
 
-GUI_FUNC_PROTO(void, load_intro_gfx, void)
 GUI_FUNC_PROTO(void, load_cursors, void)
-
-GUI_FUNC_PROTO(void, free_intro_radar_sprites, void)
 
 #endif  /* FC__GRAPHICS_G_H */

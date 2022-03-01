@@ -45,8 +45,6 @@
 
 #include "graphics.h"
 
-struct sprite *intro_gfx_sprite;
-
 GdkCursor *fc_cursors[CURSOR_LAST][NUM_CURSOR_FRAMES];
 
 /***********************************************************************//**
@@ -94,17 +92,5 @@ void load_cursors(void)
 							     hot_x, hot_y);
       g_object_unref(G_OBJECT(pixbuf));
     }
-  }
-}
-
-/***********************************************************************//**
-  This function is so that packhand.c can be gui-independent, and
-  not have to deal with Sprites itself.
-***************************************************************************/
-void free_intro_radar_sprites(void)
-{
-  if (intro_gfx_sprite) {
-    free_sprite(intro_gfx_sprite);
-    intro_gfx_sprite = NULL;
   }
 }
