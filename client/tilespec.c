@@ -6465,6 +6465,24 @@ struct sprite *get_spaceship_sprite(const struct tileset *t,
 }
 
 /************************************************************************//**
+  Return the citizen_graphic for the given citizen *or specialist* type.
+****************************************************************************/
+static inline const struct citizen_graphic *
+get_citizen_graphic(const struct citizen_set *set,
+                    enum citizen_category type)
+{
+  fc_assert_ret_val(set != NULL, NULL);
+
+  if (type < CITIZEN_SPECIALIST) {
+    fc_assert_ret_val(type >= 0, NULL);
+    return &set->citizen[type];
+  } else {
+    fc_assert_ret_val(type < (CITIZEN_SPECIALIST + SP_MAX), NULL);
+    return &set->specialist[type - CITIZEN_SPECIALIST];
+  }
+}
+
+/************************************************************************//**
   Return a sprite for the given citizen.  The citizen's type is given,
   as well as their index (in the range [0..city_size_get(pcity))).  The
   citizen's city can be used to determine which sprite to use (a NULL
@@ -6476,30 +6494,21 @@ struct sprite *get_citizen_sprite(const struct tileset *t,
                                   int citizen_index,
                                   const struct city *pcity)
 {
-  const struct citizen_set *set = &t->sprites.default_citizens;
-  const struct citizen_graphic *graphic;
+  const struct citizen_graphic *graphic = NULL;
   int gfx_index = citizen_index;
 
   if (pcity != NULL) {
     int style = style_of_city(pcity);
 
-    if (t->sprites.style_citizen_sets.sets[style].citizen[type].count != 0) {
-      set = &t->sprites.style_citizen_sets.sets[style];
-    } else {
-      set = &t->sprites.default_citizens;
-    }
+    graphic = get_citizen_graphic(&t->sprites.style_citizen_sets.sets[style],
+                                  type);
 
     gfx_index += pcity->client.first_citizen_index;
-  } else {
-    set = &t->sprites.default_citizens;
   }
 
-  if (type < CITIZEN_SPECIALIST) {
-    fc_assert(type >= 0);
-    graphic = &set->citizen[type];
-  } else {
-    fc_assert(type < (CITIZEN_SPECIALIST + SP_MAX));
-    graphic = &set->specialist[type - CITIZEN_SPECIALIST];
+  if (graphic == NULL || graphic->count == 0) {
+    /* fall back to default sprites */
+    graphic = get_citizen_graphic(&t->sprites.default_citizens, type);
   }
 
   if (graphic->count == 0) {
