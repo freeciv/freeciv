@@ -259,7 +259,6 @@ class mr_menu : public QMenuBar
   Q_OBJECT
   QMenu *airlift_menu;
   QMenu *bases_menu;
-  QMenu *menu;
   QMenu *multiplayer_menu;
   QMenu *roads_menu;
   QActionGroup *airlift_type;
