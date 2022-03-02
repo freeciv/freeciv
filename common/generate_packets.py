@@ -21,6 +21,7 @@ import argparse
 from pathlib import Path
 from contextlib import contextmanager
 from functools import partial
+from itertools import chain, combinations
 
 
 ###################### Parsing Command Line Arguments ######################
@@ -231,18 +232,13 @@ def lazy_overwrite_open(path, suffix=".tmp"):
         tmp_path.replace(path)
 
 
-def get_choices(population):
-    def helper(index, so_far):
-        if index >= len(population):
-            return [so_far]
-        t0=so_far[:]
-        t1=so_far[:]
-        t1.append(list(population)[index])
-        return helper(index + 1, t1) + helper(index + 1, t0)
+######################### General helper functions #########################
 
-    result=helper(0, [])
-    assert len(result) == 2**len(population)
-    return result
+# Taken from https://docs.python.org/3.4/library/itertools.html#itertools-recipes
+def powerset(iterable):
+    "powerset([1,2,3]) --> () (1,) (2,) (3,) (1,2) (1,3) (2,3) (1,2,3)"
+    s = list(iterable)
+    return chain.from_iterable(combinations(s, r) for r in range(len(s)+1))
 
 def without(seq, part):
     result=[]
@@ -1582,9 +1578,8 @@ class Packet:
             if f.remove_cap:  all_caps[f.remove_cap]=1
 
         all_caps=all_caps.keys()
-        choices=get_choices(all_caps)
         self.variants=[]
-        for i, poscaps in enumerate(choices):
+        for i, poscaps in enumerate(powerset(all_caps)):
             negcaps=without(all_caps,poscaps)
             fields=[]
             for field in self.fields:
