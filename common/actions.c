@@ -1663,7 +1663,8 @@ blocked_find_target_tile(const action_id act_id,
     if (target_unit) {
       return unit_tile(target_unit);
     }
-    /* Fall through. */
+
+    fc__fallthrough;
   case ATK_TILE:
     fc_assert_ret_val(target_tile_arg, NULL);
     return target_tile_arg;
@@ -1715,7 +1716,8 @@ blocked_find_target_city(const action_id act_id,
       fc_assert_ret_val(unit_tile(target_unit), NULL);
       return tile_city(unit_tile(target_unit));
     }
-    /* Fall through. */
+
+    fc__fallthrough;
   case ATK_TILE:
     fc_assert_ret_val(target_tile, NULL);
     return tile_city(target_tile);

@@ -1786,7 +1786,8 @@ static void show_help_option(struct connection *caller,
                     value, setting_enum_val(pset, i, TRUE));
         }
       }
-      /* Fall through. */
+
+      fc__fallthrough;
     case SST_BOOL:
     case SST_STRING:
       cmd_reply(help_cmd, caller, C_COMMENT, "%s %s, %s %s",
