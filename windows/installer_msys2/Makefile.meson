@@ -49,7 +49,7 @@ installer-common: clean-install-common install-freeciv-$(GUI)
 install-freeciv-common:
 	# create build directory
 	mkdir -p meson-build-$(GUI)
-	cd meson-build-$(GUI); meson ../../.. -Dprefix=`pwd`/../meson-install-$(GUI) -Dclients=$(CLIENT) -Dfcmp=$(FCMP) -Daudio=false $(EXTRA_CONFIG)
+	cd meson-build-$(GUI); meson ../../.. -Dprefix=`pwd`/../meson-install-$(GUI) -Dclients=$(CLIENT) -Dfcmp=$(FCMP) $(EXTRA_CONFIG)
 	cd meson-build-$(GUI); ninja
 	cd meson-build-$(GUI); ninja install
 	# reorder directory layout
@@ -60,6 +60,18 @@ install-freeciv-common:
 	mkdir -p meson-install-$(GUI)/doc/freeciv/installer
 	cp licenses/COPYING.installer meson-install-$(GUI)/doc/freeciv/installer/
 	cp freeciv-server.cmd freeciv-mp-$(FCMP).cmd freeciv-$(CLIENT).cmd Freeciv.url meson-install-$(GUI)/
+
+SOUND_DLLS := \
+	SDL2.dll \
+	SDL2_mixer.dll \
+	libFLAC.dll \
+	libopusfile-0.dll \
+	libopus-0.dll \
+	libmpg123-0.dll \
+	libvorbisfile-3.dll \
+	libvorbis-0.dll \
+	libogg-0.dll \
+	libssp-0.dll
 
 COMMON_DLLS := \
 	libcairo-2.dll \
@@ -103,7 +115,8 @@ COMMON_DLLS := \
 	libssh2-1.dll \
 	libssl-1_1${CRYPTOLIB_SUFFIX}.dll \
 	libreadline8.dll \
-	libtermcap-0.dll
+	libtermcap-0.dll \
+	$(SOUND_DLLS)
 
 install-env-common:
 	# add DLLs
