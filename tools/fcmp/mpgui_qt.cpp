@@ -111,12 +111,19 @@ int main(int argc, char **argv)
     mpgui_main *main_window;
     QWidget *central;
     const char *errmsg;
+    QPixmap *pm;
+    const char *full_icon_path = fileinfoname(get_data_dirs(), "freeciv-modpack.png");
+    const QString fip = QString(full_icon_path);
 
     load_install_info_lists(&fcmp);
 
     qapp = new QApplication(ui_options, argv);
     central = new QWidget;
     main_window = new mpgui_main(qapp, central);
+
+    pm = new QPixmap;
+    pm->load(fip);
+    qapp->setWindowIcon(QIcon(*pm));
 
     main_window->setGeometry(0, 30, 640, 60);
     main_window->setWindowTitle(QString::fromUtf8(_("Freeciv modpack installer (Qt)")));

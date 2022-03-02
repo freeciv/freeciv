@@ -2829,6 +2829,11 @@ fcmp_common = static_library('fcmp_common',
   include_directories: tool_inc
   )
 
+install_data(
+  'data/freeciv-modpack.png',
+  install_dir : join_paths(get_option('datadir'), 'freeciv')
+  )
+
 endif
 
 if get_option('fcmp').contains('gtk3')

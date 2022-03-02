@@ -54,6 +54,9 @@ else
 DATAPATH_ICONS =
 RULEDITDIRS =
 endif
+if MODINST
+DATAPATH_ICONS += freeciv-modpack.png
+endif
 
 pkgdata_DATA = $(SERVER_FILES) $(CLIENT_FILES) $(DATAPATH_ICONS)
 
@@ -61,6 +64,7 @@ EXTRA_DIST = \
 	$(SRV_RE_FILES) \
 	freeciv-client.png \
 	freeciv-ruledit.png \
+	freeciv-modpack.png \
 	gtk3.22_menus.xml	\
 	gtk4_menus.xml	\
 	amplio2.tilespec \
