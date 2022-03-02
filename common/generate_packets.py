@@ -154,12 +154,6 @@ def verbose(s):
         print(s)
 
 
-def prefix(prefix, text):
-    lines = text.split("\n")
-    lines=map(lambda x,prefix=prefix: prefix+x,lines)
-    return "\n".join(lines)
-
-
 ####################### File access helper functions #######################
 
 def write_disclaimer(f):
@@ -240,12 +234,9 @@ def powerset(iterable):
     s = list(iterable)
     return chain.from_iterable(combinations(s, r) for r in range(len(s)+1))
 
-def without(seq, part):
-    result=[]
-    for i in seq:
-        if i not in part:
-            result.append(i)
-    return result
+def prefix(prefix, text):
+    """Prepend prefix to every line of text"""
+    return "\n".join(prefix + line for line in text.split("\n"))
 
 # A simple container for a type alias
 class Type:
