@@ -1572,15 +1572,10 @@ class Packet:
                 self.dlsend_prototype='void dlsend_%(name)s(struct conn_list *dest%(extra_send_args3)s)'%self.__dict__
 
         # create cap variants
-        all_caps={}
-        for f in self.fields:
-            if f.add_cap:  all_caps[f.add_cap]=1
-            if f.remove_cap:  all_caps[f.remove_cap]=1
-
-        all_caps=all_caps.keys()
+        all_caps = self.all_caps    # valid, since self.fields is already set
         self.variants=[]
-        for i, poscaps in enumerate(powerset(all_caps)):
-            negcaps=without(all_caps,poscaps)
+        for i, poscaps in enumerate(powerset(sorted(all_caps))):
+            negcaps = all_caps.difference(poscaps)
             fields=[]
             for field in self.fields:
                 if not field.add_cap and not field.remove_cap:
@@ -1592,6 +1587,12 @@ class Packet:
             no=i+100
 
             self.variants.append(Variant(poscaps,negcaps,"%s_%d"%(self.name,no),fields,self,no))
+
+    @property
+    def all_caps(self):
+        """Set of all capabilities affecting this packet"""
+        return ({f.add_cap for f in self.fields if f.add_cap}
+                | {f.remove_cap for f in self.fields if f.remove_cap})
 
 
     # Returns a code fragment which contains the struct for this packet.
@@ -1720,17 +1721,18 @@ class Packet:
 
 '''%self.get_dict(vars())
 
+
+def all_caps_union(packets):
+    """Return a set of all capabilities affecting the given packets"""
+    return set().union(*(p.all_caps for p in packets))
+
 # Returns a code fragment which is the implementation of the
 # packet_functional_capability string.
 def get_packet_functional_capability(packets):
-    all_caps={}
-    for p in packets:
-        for f in p.fields:
-            if f.add_cap:  all_caps[f.add_cap]=1
-            if f.remove_cap:  all_caps[f.remove_cap]=1
+    all_caps = all_caps_union(packets)
     return '''
 const char *const packet_functional_capability = "%s";
-'''%' '.join(all_caps.keys())
+'''%' '.join(sorted(all_caps))
 
 # Returns a code fragment which is the implementation of the
 # delta_stats_report() function.
@@ -1828,12 +1830,8 @@ def get_packet_handlers_fill_initial(packets):
     intro='''void packet_handlers_fill_initial(struct packet_handlers *phandlers)
 {
 '''
-    all_caps={}
-    for p in packets:
-        for f in p.fields:
-            if f.add_cap:  all_caps[f.add_cap]=1
-            if f.remove_cap:  all_caps[f.remove_cap]=1
-    for cap in all_caps.keys():
+    all_caps = all_caps_union(packets)
+    for cap in sorted(all_caps):
         intro=intro+'''  fc_assert_msg(has_capability("%s", our_capability),
                 "Packets have support for unknown '%s' capability!");
 '''%(cap,cap)
