@@ -60,12 +60,16 @@ else
 DATAPATH_ICONS =
 RULEDITDIRS =
 endif
+if MODINST
+DATAPATH_ICONS += freeciv-modpack.png
+endif
 
 pkgdata_DATA = $(SERVER_FILES) $(CLIENT_FILES) $(DATAPATH_ICONS)
 
 EXTRA_DIST = \
 	freeciv-client.png \
 	freeciv-ruledit.png \
+	freeciv-modpack.png \
 	freeciv.rc-2.0	\
 	gtk2_menus.xml	\
 	gtk3_menus.xml	\
