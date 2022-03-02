@@ -988,14 +988,14 @@ class Variant:
         self.cancel=packet.cancel
         self.want_force=packet.want_force
 
-        self.poscaps=poscaps
-        self.negcaps=negcaps
+        self.poscaps = set(poscaps)
+        self.negcaps = set(negcaps)
         if self.poscaps or self.negcaps:
-            def f(cap):
-                return 'has_capability("%s", capability)'%(cap)
-            t=(list(map(lambda x,f=f: f(x),self.poscaps))+
-               list(map(lambda x,f=f: '!'+f(x),self.negcaps)))
-            self.condition=" && ".join(t)
+            cap_fmt = """has_capability("%s", capability)"""
+            self.condition = " && ".join(chain(
+                (cap_fmt % cap for cap in sorted(self.poscaps)),
+                ("!" + cap_fmt % cap for cap in sorted(self.negcaps)),
+            ))
         else:
             self.condition="TRUE"
         self.key_fields=list(filter(lambda x:x.is_key,self.fields))
