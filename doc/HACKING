@@ -1081,7 +1081,7 @@ starting a game of Freeciv [start a server, input settings on a command line,
 start a client, and connect, etc], a method has been developed for starting
 and playing a complete game using only the client. This has been called the
 "extended" or "new connect dialog". This is perhaps a misnomer, but there it 
-is. This win32 client has had this feature in some form for some time. 
+is.
 
 It works by forking a server from within the client and then controlling that
 server via chatline messages. The guts of the machinery to do this can be
