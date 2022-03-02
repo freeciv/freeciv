@@ -329,12 +329,12 @@ int main(void) { struct ip_mreqn req; req.imr_ifindex = 0; return 0; }''')
   priv_conf_data.set('HAVE_IP_MREQN', 1)
 endif
 
-if c_compiler.has_function('iconv')
+if c_compiler.has_function('iconv', args: header_arg)
   priv_conf_data.set('HAVE_ICONV', 1)
   iconv_lib_dep = []
-elif c_compiler.has_header_symbol('iconv.h', 'iconv')
+elif c_compiler.has_header_symbol('iconv.h', 'iconv', args: header_arg)
   priv_conf_data.set('HAVE_ICONV', 1)
-  iconv_lib_dep = c_compiler.find_library('iconv')
+  iconv_lib_dep = c_compiler.find_library('iconv', dirs: cross_lib_path)
 else
   iconv_lib_dep = []
 endif
