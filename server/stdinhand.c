@@ -1790,7 +1790,8 @@ static void show_help_option(struct connection *caller,
                     value, setting_enum_val(pset, i, TRUE));
         }
       }
-      /* Fall through. */
+
+      fc__fallthrough;
     case SST_BOOL:
     case SST_STRING:
       cmd_reply(help_cmd, caller, C_COMMENT, "%s %s, %s %s",
@@ -4956,7 +4957,8 @@ static bool lua_command(struct connection *caller, char *arg, bool check,
       ret = FALSE;
       goto cleanup;
     }
-    /* Fall through. */
+
+    fc__fallthrough;
   case LUA_FILE:
     /* Abuse real_filename to find if we already have a .lua extension. */
     real_filename = luaarg + strlen(luaarg) - MIN(strlen(extension),

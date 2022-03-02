@@ -3167,7 +3167,8 @@ blocked_find_target_tile(const struct action *act,
     if (target_unit) {
       return unit_tile(target_unit);
     }
-    /* Fall through. */
+
+    fc__fallthrough;
   case ATK_TILE:
   case ATK_EXTRAS:
     fc_assert_ret_val(target_tile_arg, NULL);
@@ -3223,7 +3224,8 @@ blocked_find_target_city(const struct action *act,
       fc_assert_ret_val(unit_tile(target_unit), NULL);
       return tile_city(unit_tile(target_unit));
     }
-    /* Fall through. */
+
+    fc__fallthrough;
   case ATK_TILE:
   case ATK_EXTRAS:
     fc_assert_ret_val(target_tile, NULL);
