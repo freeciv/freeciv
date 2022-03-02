@@ -1267,8 +1267,7 @@ static char *stats_%(name)s_names[] = {%(names)s};
   }
 '''
         body=""
-        for i in range(len(self.other_fields)):
-            field=self.other_fields[i]
+        for i, field in enumerate(self.other_fields):
             body=body+field.get_cmp_wrapper(i)
         if self.gen_log:
             fl='    %(log_macro)s("  no change -> discard");\n'
@@ -1297,8 +1296,7 @@ static char *stats_%(name)s_names[] = {%(names)s};
             body=body+field.get_put(1)+"\n"
         body=body+"\n"
 
-        for i in range(len(self.other_fields)):
-            field=self.other_fields[i]
+        for i, field in enumerate(self.other_fields):
             body=body+field.get_put_wrapper(self,i,1)
         body=body+'''
   *old = *real_packet;
@@ -1413,8 +1411,7 @@ static char *stats_%(name)s_names[] = {%(names)s};
   }
 
 '''%self.get_dict(vars())
-        for i in range(len(self.other_fields)):
-            field=self.other_fields[i]
+        for i, field in enumerate(self.other_fields):
             body=body+field.get_get_wrapper(self,i,1)
 
         extro='''
@@ -1587,8 +1584,7 @@ class Packet:
         all_caps=all_caps.keys()
         choices=get_choices(all_caps)
         self.variants=[]
-        for i in range(len(choices)):
-            poscaps=choices[i]
+        for i, poscaps in enumerate(choices):
             negcaps=without(all_caps,poscaps)
             fields=[]
             for field in self.fields:
