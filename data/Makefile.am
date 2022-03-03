@@ -46,7 +46,16 @@ SERVER_FILES =
 endif
 endif
 
-pkgdata_DATA = $(SERVER_FILES) $(CLIENT_FILES)
+## Icons to be installed under FREECIV_DATA_PATH
+if RULEDIT
+DATAPATH_ICONS = freeciv-ruledit.png
+RULEDITDIRS = ruledit
+else
+DATAPATH_ICONS =
+RULEDITDIRS =
+endif
+
+pkgdata_DATA = $(SERVER_FILES) $(CLIENT_FILES) $(DATAPATH_ICONS)
 
 EXTRA_DIST = \
 	$(SRV_RE_FILES) \
@@ -86,13 +95,7 @@ SERVERDATADIRS =
 endif
 endif
 
-if RULEDIT
-RULEDITDIRS = ruledit
-ICONS = freeciv-ruledit.png
-else
-RULEDITDIRS =
-ICONS =
-endif
+ICONS = $(DATAPATH_ICONS)
 
 if CLIENT
 ICONS += freeciv-client.png
