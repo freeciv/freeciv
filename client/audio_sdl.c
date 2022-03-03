@@ -193,7 +193,7 @@ static void quit_sdl_audio(void)
 **************************************************************************/
 static int init_sdl_audio(void)
 {
-#ifndef AUDIO_SDL1_2
+#if !defined(AUDIO_SDL1_2) && SDL_VERSION_ATLEAST(2, 0, 6)
   SDL_SetHint(SDL_HINT_AUDIO_RESAMPLING_MODE, "medium");
 #endif
 
