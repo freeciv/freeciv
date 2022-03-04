@@ -63,7 +63,7 @@ tab_tech::tab_tech(ruledit_gui *ui_in) : QWidget()
   label = new QLabel(QString::fromUtf8(R__("Rule Name")));
   label->setParent(this);
   rname = new QLineEdit(this);
-  rname->setText("None");
+  rname->setText(R__("None"));
   connect(rname, SIGNAL(returnPressed()), this, SLOT(name_given()));
   tech_layout->addWidget(label, 0, 0);
   tech_layout->addWidget(rname, 0, 2);
@@ -73,7 +73,7 @@ tab_tech::tab_tech(ruledit_gui *ui_in) : QWidget()
   same_name = new QCheckBox();
   connect(same_name, SIGNAL(toggled(bool)), this, SLOT(same_name_toggle(bool)));
   name = new QLineEdit(this);
-  name->setText("None");
+  name->setText(R__("None"));
   connect(name, SIGNAL(returnPressed()), this, SLOT(name_given()));
   tech_layout->addWidget(label, 1, 0);
   tech_layout->addWidget(same_name, 1, 1);
@@ -223,8 +223,10 @@ void tab_tech::update_tech_info(struct advance *adv)
     req2_button->setText(tech_name(adv->require[AR_TWO]));
     root_req_button->setText(tech_name(adv->require[AR_ROOT]));
   } else {
-    name->setText("None");
-    rname->setText("None");
+    name->setText(R__("None"));
+    rname->setText(R__("None"));
+    // FIXME: Could these be translated, or do we depend on
+    //        them matching English rule_name of tech "None"?
     req1_button->setText("None");
     req2_button->setText("None");
     root_req_button->setText("None");
