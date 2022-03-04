@@ -418,13 +418,7 @@ void map_canvas_draw(GtkDrawingArea *w, cairo_t *cr,
 void dirty_rect(int canvas_x, int canvas_y,
                 int pixel_width, int pixel_height)
 {
-  //  GdkRectangle rectangle = {canvas_x, canvas_y, pixel_width, pixel_height};
-
-  if (gtk_widget_get_realized(map_canvas)) {
-    // GtkNative *nat = gtk_widget_get_native(map_canvas);
-
-    //    gdk_surface_invalidate_rect(gtk_native_get_surface(nat), &rectangle);
-  }
+  dirty_all();
 }
 
 /**********************************************************************//**
@@ -433,9 +427,7 @@ void dirty_rect(int canvas_x, int canvas_y,
 void dirty_all(void)
 {
   if (gtk_widget_get_realized(map_canvas)) {
-    // GtkNative *nat = gtk_widget_get_native(map_canvas);
-
-    //    gdk_surface_invalidate_rect(gtk_native_get_surface(nat), NULL);
+    gtk_widget_queue_draw(map_canvas);
   }
 }
 
