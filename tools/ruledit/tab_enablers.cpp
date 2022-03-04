@@ -236,7 +236,7 @@ void tab_enabler::update_enabler_info(struct action_enabler *enabler)
       break;
     }
   } else {
-    type_button->setText("None");
+    type_button->setText(R__("None"));
     type_button->setEnabled(false);
 
     act_reqs_button->setEnabled(false);
