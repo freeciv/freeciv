@@ -7,7 +7,7 @@ options = "+Freeciv-3.0-spec"
 [info]
 
 artists = "
-    Explosions from xgalaga <http://rumsey.org/xgal.html>
+    Explosions from xgalaga <https://sourceforge.net/projects/xgalaga/>
     Credits:
     Joe Rumsey <ogre@atomic.com>
     Mike McGrath <mcgrath@epx.cis.umn.edu>
