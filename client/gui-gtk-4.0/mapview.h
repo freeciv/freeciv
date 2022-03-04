@@ -35,8 +35,8 @@ void overview_canvas_draw(GtkDrawingArea *w, cairo_t *cr,
                           int width, int height, gpointer data);
 void map_canvas_draw(GtkDrawingArea *w, cairo_t *cr,
                      int width, int height, gpointer data);
-void map_canvas_configure(GtkWidget *w, GdkRectangle *allocation,
-                          gpointer data);
+void map_canvas_resize(GtkWidget *w, int width, int height,
+                       gpointer data);
 
 void put_unit_image(struct unit *punit, GtkImage *p, int height);
 
