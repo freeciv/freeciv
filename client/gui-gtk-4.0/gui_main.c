@@ -1455,8 +1455,8 @@ static void setup_widgets(void)
   gtk_drawing_area_set_draw_func(GTK_DRAWING_AREA(map_canvas), map_canvas_draw,
                                  NULL, NULL);
 
-  g_signal_connect(map_canvas, "size-allocate",
-                   G_CALLBACK(map_canvas_configure), NULL);
+  g_signal_connect(map_canvas, "resize",
+                   G_CALLBACK(map_canvas_resize), NULL);
 
   g_signal_connect(map_canvas, "motion_notify_event",
                    G_CALLBACK(move_mapcanvas), NULL);
