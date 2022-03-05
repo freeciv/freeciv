@@ -11,7 +11,7 @@
 
 WINBUILD_VERSION="2.3.4"
 MIN_WINVER=0x0601 # Windows 7
-CROSSER_FEATURE_LEVEL=2.2
+CROSSER_FEATURE_LEVEL=2.3
 
 if test "x$1" = x || test "x$1" = "x-h" || test "x$1" = "x--help" ; then
   echo "Usage: $0 <crosser dir> [gui]"
@@ -154,7 +154,7 @@ else
   GITREVP=""
 fi
 
-if ! ../../../configure MOCCMD=${DLLSPATH}/bin/moc FREECIV_LABEL_FORCE="<base>-crs" CPPFLAGS="-I${DLLSPATH}/include -D_WIN32_WINNT=${MIN_WINVER}" CFLAGS="-Wno-error" PKG_CONFIG_LIBDIR="${DLLSPATH}/lib/pkgconfig" --enable-sys-tolua-cmd --with-magickwand="${DLLSPATH}/bin" --prefix="/" $GITREVP --enable-client=$CLIENTS --enable-fcmp=$FCMP --enable-debug ${NLS} --host=$TARGET --build=$(../../../bootstrap/config.guess) --with-libiconv-prefix=${DLLSPATH} --with-sqlite3-prefix=${DLLSPATH} --with-followtag="crosser" --enable-crosser ${AIS} --disable-freeciv-manual --enable-sdl-mixer=sdl2 --with-qt5-includes=${DLLSPATH}/include --with-qt5-libs=${DLLSPATH}/lib --with-tinycthread --enable-server=$SERVER --enable-ruledit=$RULEDIT $EXTRA_CONFIG
+if ! ../../../configure MOCCMD=${DLLSPATH}/bin/moc FREECIV_LABEL_FORCE="<base>-crs" CPPFLAGS="-I${DLLSPATH}/include -D_WIN32_WINNT=${MIN_WINVER}" CFLAGS="-Wno-error" PKG_CONFIG_LIBDIR="${DLLSPATH}/lib/pkgconfig" --enable-sys-tolua-cmd --with-magickwand="${DLLSPATH}/bin" --prefix="/" $GITREVP --enable-client=$CLIENTS --enable-fcmp=$FCMP --enable-debug ${NLS} --host=$TARGET --build=$(../../../bootstrap/config.guess) --with-libiconv-prefix=${DLLSPATH} --with-sqlite3-prefix=${DLLSPATH} --with-followtag="crosser" --enable-crosser ${AIS} --disable-freeciv-manual --enable-sdl-mixer=sdl2 --with-qt5-includes=${DLLSPATH}/qt5/include --with-qt5-libs=${DLLSPATH}/lib --with-tinycthread --enable-server=$SERVER --enable-ruledit=$RULEDIT $EXTRA_CONFIG
 then
   echo "Configure failed" >&2
   exit 1
