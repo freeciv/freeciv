@@ -1125,7 +1125,7 @@ void city_size_add(struct city *pcity, int add)
   fc_assert_ret(MAX_CITY_SIZE - size > add);
   fc_assert_ret(size >= -add);
 
-  city_size_set(pcity, city_size_get(pcity) + add);
+  city_size_set(pcity, size + add);
 }
 
 /**********************************************************************//**
