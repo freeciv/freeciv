@@ -15,8 +15,8 @@ if test "x$USE_SOUND_SDL" != "xno" ; then
     SDL_mixer=sdl2
     SOUND_SDL_OK=true
   else
-    SDL2_VERSION=2.0.0
-    AM_PATH_SDL2($SDL2_VERSION, SDL2=yes, SDL2=no)
+    SDL2_VERSION=2.0.6
+    AM_PATH_SDL2([$SDL2_VERSION], [SDL2=yes], [SDL2=no])
     if test "x$SDL2" != "xno" ; then
       PKG_CHECK_MODULES([SDL2MIXER], [SDL2_mixer],
   [
