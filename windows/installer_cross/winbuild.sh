@@ -11,7 +11,7 @@
 
 WINBUILD_VERSION="2.4.0"
 MIN_WINVER=0x0601 # Windows 7
-CROSSER_FEATURE_LEVEL=2.2
+CROSSER_FEATURE_LEVEL=2.3
 
 if test "x$1" = x || test "x$1" = "x-h" || test "x$1" = "x--help" ; then
   echo "Usage: $0 <crosser dir> [gui]"
@@ -148,7 +148,7 @@ if test "x$SINGLE_GUI" != "xtrue" ; then
 fi
 
 if test "x$QTVER" = "xQt5" ; then
-  QTPARAMS="--with-qtver=Qt5 --with-qt5-includes=${DLLSPATH}/include --with-qt5-libs=${DLLSPATH}/lib"
+  QTPARAMS="--with-qtver=Qt5 --with-qt5-includes=${DLLSPATH}/qt5/include --with-qt5-libs=${DLLSPATH}/lib"
   MOC_CROSSER="${DLLSPATH}/bin/moc"
 elif test "x$QTVER" = "xQt6"; then
   QTPARAMS="--with-qtver=Qt6 --with-qt6-includes=${DLLSPATH}/qt6/include --with-qt6-libs=${DLLSPATH}/lib"
