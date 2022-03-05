@@ -1592,8 +1592,7 @@ static struct setting settings[] = {
            ALLOW_NONE, ALLOW_BASIC,
            N_("Whether there's just one pole generated"),
            N_("If this setting is enabled, only one side of the map will have "
-              "a pole. This setting has no effect if the map wraps both "
-              "directions."), NULL, NULL, MAP_DEFAULT_SINGLE_POLE)
+              "a pole."), NULL, NULL, MAP_DEFAULT_SINGLE_POLE)
 
   GEN_BOOL("alltemperate", wld.map.server.alltemperate, 
            SSET_MAP_GEN, SSET_GEOLOGY, SSET_RARE, ALLOW_NONE, ALLOW_BASIC,

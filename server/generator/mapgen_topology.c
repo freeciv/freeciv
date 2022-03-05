@@ -28,86 +28,55 @@
 int ice_base_colatitude = 0 ;
 
 /************************************************************************//**
-  Returns the colatitude of this map position.  This is a value in the
-  range of 0 to MAX_COLATITUDE (inclusive).
-  This function is wanted to concentrate the topology information
-  all generator code has to use  colatitude and others topology safe 
-  functions instead (x,y) coordinate to place terrains
-  colatitude is 0 at poles and MAX_COLATITUDE at equator
+  Returns the relative southness of this map position.
+  This is a value in the range of [0.0, 1.0].
+  This function handles all topology-specific information so that all
+  other generator code can work in a topology-agnostic way.
+
+  relative southness is 0.0 at the northernmost point and 1.0 at the
+  southernmost point on the map. These may or may not be polar regions
+  (depending on various generator settings).
+  On a map representing only a northern hemisphere, southness directly
+  corresponds to colatitude, going from 0.0 at the pole to 1.0 at the
+  equator.
+  On a map representing only a southern hemisphere, it directly
+  corrsponds to (negative) latitude, going from 0.0 at the equator to
+  1.0 at the pole.
+
+  See also map_signed_latitude
 ****************************************************************************/
-int map_colatitude(const struct tile *ptile)
+static double map_relative_southness(const struct tile *ptile)
 {
-  double x, y;
   int tile_x, tile_y;
+  double x, y, toroid_rel_colatitude;
+  bool toroid_flipped;
 
-  fc_assert_ret_val(ptile != NULL, MAX_COLATITUDE / 2);
-
-  if (wld.map.server.alltemperate) {
-    /* An all-temperate map has "average" temperature everywhere.
-     *
-     * TODO: perhaps there should be a random temperature variation. */
-    return MAX_COLATITUDE / 2;
-  }
-
+  /* TODO: What should the fallback value be?
+   * Since this is not public API, it shouldn't matter anyway. */
+  fc_assert_ret_val(ptile != NULL, 0.5);
 
   index_to_map_pos(&tile_x, &tile_y, tile_index(ptile));
   do_in_natural_pos(ntl_x, ntl_y, tile_x, tile_y) {
-    if (wld.map.server.single_pole) {
-      if (!current_topo_has_flag(TF_WRAPY)) {
-        /* Partial planetary map.  A polar zone is placed
-         * at the top and the equator is at the bottom. */
-        return MAX_COLATITUDE * ntl_y / (NATURAL_HEIGHT - 1);
-      }
-      if (!current_topo_has_flag(TF_WRAPX)) {
-        return MAX_COLATITUDE * ntl_x / (NATURAL_WIDTH -1);
-      }
-    }
-
-    /* Otherwise a wrapping map is assumed to be a global planetary map. */
-
-    /* we fold the map to get the base symmetries
-     *
-     * ...... 
-     * :c__c:
-     * :____:
-     * :____:
-     * :c__c:
-     * ......
-     *
-     * C are the corners.  In all cases the 4 corners have equal temperature.
-     * So we fold the map over in both directions and determine
-     * x and y vars in the range [0.0, 1.0].
-     *
-     * ...>x 
-     * :C_
-     * :__
-     * V
-     * y
-     *
-     * And now this is what we have - just one-quarter of the map.
-     */
-    x = ((ntl_x > (NATURAL_WIDTH / 2 - 1)
-	 ? NATURAL_WIDTH - 1.0 - (double)ntl_x
-	 : (double)ntl_x)
-	 / (NATURAL_WIDTH / 2 - 1));
-    y = ((ntl_y > (NATURAL_HEIGHT / 2 - 1)
-	  ? NATURAL_HEIGHT - 1.0 - (double)ntl_y
-	  : (double)ntl_y)
-	 / (NATURAL_HEIGHT / 2 - 1));
+    /* Compute natural coordinates relative to world size.
+     * x and y are in the range [0.0, 1.0] */
+    x = (double)ntl_x / (NATURAL_WIDTH - 1);
+    y = (double)ntl_y / (NATURAL_HEIGHT - 1);
   } do_in_natural_pos_end;
 
   if (!current_topo_has_flag(TF_WRAPY)) {
-    /* In an Earth-like topology the polar zones are at north and south.
+    /* In an Earth-like topology, north and south are at the top and
+     * bottom of the map.
      * This is equivalent to a Mercator projection. */
-    return MAX_COLATITUDE * y;
+    return y;
   }
 
   if (!current_topo_has_flag(TF_WRAPX) && current_topo_has_flag(TF_WRAPY)) {
-    /* In a Uranus-like topology the polar zones are at east and west.
+    /* In a Uranus-like topology, north and south are at the left and
+     * right side of the map.
      * This isn't really the way Uranus is; it's the way Earth would look
      * if you tilted your head sideways.  It's still a Mercator
      * projection. */
-    return MAX_COLATITUDE * x;
+    return x;
   }
 
   /* Otherwise we have a torus topology.  We set it up as an approximation
@@ -129,14 +98,19 @@ int map_colatitude(const struct tile *ptile)
    * ''''''''
    */
 
-  /* Remember that we've already folded the map into fourths:
+  /* First we will fold the map into fourths:
    *
    * ....
    * :\ N
    * : \
    * :S \
    *
-   * Now flip it along the X direction to get this:
+   * and renormalize x and y to go from 0.0 to 1.0 again.
+   */
+  x = 2.0 * (x > 0.5 ? 1.0 - x : x);
+  y = 2.0 * (y > 0.5 ? 1.0 - y : y);
+
+  /* Now flip it along the X direction to get this:
    *
    * ....
    * :N /
@@ -145,7 +119,7 @@ int map_colatitude(const struct tile *ptile)
    */
   x = 1.0 - x;
 
-  /* Since the north and south poles are equivalent, we can fold along the
+  /* To simplify the following computation, we can fold along the
    * diagonal.  This leaves us with 1/8 of the map
    *
    * .....
@@ -153,13 +127,20 @@ int map_colatitude(const struct tile *ptile)
    * : /
    * :/
    *
-   * where P is the polar regions and / is the equator. */
+   * where P is the polar regions and / is the equator.
+   * We must remember which hemisphere we are on for later. */
   if (x + y > 1.0) {
+    /* This actually reflects the bottom-right half about the center point,
+     * rather than about the diagonal, but that makes no difference. */
     x = 1.0 - x;
     y = 1.0 - y;
+    toroid_flipped = TRUE;
+  } else {
+    toroid_flipped = FALSE;
   }
 
-  /* This projection makes poles with a shape of a quarter-circle along
+  /* toroid_rel_colatitude is 0.0 at the poles and 1.0 at the equator.
+   * This projection makes poles with a shape of a quarter-circle along
    * "P" and the equator as a straight line along "/".
    *
    * The formula is
@@ -193,9 +174,86 @@ int map_colatitude(const struct tile *ptile)
    *
    * See OSDN#43665, as well as the original discussion (via newsreader) at
    * news://news.gmane.io/gmane.games.freeciv.devel/42648 */
-  return MAX_COLATITUDE * (1.5 * (x * x * y + x * y * y)
+  toroid_rel_colatitude = (1.5 * (x * x * y + x * y * y)
                            - 0.5 * (x * x * x + y * y * y)
                            + 1.5 * (x * x + y * y));
+
+  /* Finally, convert from colatitude to latitude and add hemisphere
+   * information back in:
+   * - if we did not flip along the diagonal before, we are in the
+   *   northern hemisphere, with relative latitude in [0.0,0.5]
+   * - if we _did_ flip, we are in the southern hemisphere, with
+   *   relative latitude in [0.5,1.0]
+   */
+  return ((toroid_flipped
+           ? 2.0 - (toroid_rel_colatitude)
+           : (toroid_rel_colatitude))
+          / 2.0);
+}
+
+/************************************************************************//**
+  Returns the latitude of this map position. This is a value in the
+  range of -MAX_COLATITUDE to MAX_COLATITUDE (inclusive).
+
+  latitude reaches MAX_COLATITUDE in the northern polar region,
+  reaches -MAX_COLATITUDE in the southern polar region,
+  and is around 0 in the tropics.
+
+  See also map_colatitude
+****************************************************************************/
+static int map_signed_latitude(const struct tile *ptile)
+{
+  int north_latitude, south_latitude;
+  double southness;
+
+  /* TODO: Move upper and lower latitude bounds to server settings
+   * (replacing alltemperate and singlepole). */
+  if (wld.map.server.alltemperate) {
+    /* An all-temperate map has "average" temperature everywhere. */
+    north_latitude = south_latitude = MAX_COLATITUDE / 2;
+  } else if (wld.map.server.single_pole) {
+    /* Partial planetary map. A polar zone is placed at the north end
+     * and a tropical zone at the south end. */
+    north_latitude = MAX_COLATITUDE;
+    south_latitude = 0;
+  } else {
+    /* Full latitude range */
+    north_latitude = MAX_COLATITUDE;
+    south_latitude = -MAX_COLATITUDE;
+  }
+
+  if (north_latitude == south_latitude) {
+    /* Single-latitude / all-temperate map; no need to examine tile. */
+    return south_latitude;
+  }
+
+  fc_assert_ret_val(ptile != NULL, (north_latitude + south_latitude) / 2);
+
+  southness = map_relative_southness(ptile);
+
+  /* Linear interpolation between maximum and minimum latitude.
+   * Truncate / round towards zero so northern and southern hemisphere
+   * are symmetrical when south_latitude = -north_latitude. */
+  return north_latitude * (1.0 - southness) + south_latitude * southness;
+}
+
+/************************************************************************//**
+  Returns the colatitude of this map position.  This is a value in the
+  range of 0 to MAX_COLATITUDE (inclusive).
+  This function is wanted to concentrate the topology information
+  all generator code has to use  colatitude and others topology safe
+  functions instead (x,y) coordinate to place terrains
+  colatitude is 0 at poles and MAX_COLATITUDE at equator
+****************************************************************************/
+int map_colatitude(const struct tile *ptile)
+{
+  int latitude;
+  fc_assert_ret_val(ptile != NULL, MAX_COLATITUDE / 2);
+
+  latitude = map_signed_latitude(ptile);
+  latitude = MAX(latitude, -latitude);
+
+  return MAX_COLATITUDE - latitude;
 }
 
 /************************************************************************//**
