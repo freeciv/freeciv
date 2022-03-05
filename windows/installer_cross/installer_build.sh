@@ -72,7 +72,7 @@ add_sdl2_env() {
 }
 
 add_qt5_env() {
-  cp -R $1/plugins $2/ &&
+  cp -R $1/qt5/plugins $2/ &&
   cp $1/bin/Qt5Core.dll $2/ &&
   cp $1/bin/Qt5Gui.dll $2/ &&
   cp $1/bin/Qt5Widgets.dll $2/ &&
@@ -93,6 +93,7 @@ add_qt6_env() {
 add_common_env() {
   cp $1/bin/libcurl-4.dll $2/ &&
   cp $1/bin/liblzma-5.dll $2/ &&
+  cp $1/bin/libzstd-1.dll $2/ &&
   cp $1/bin/libintl-8.dll $2/ &&
   cp $1/bin/libsqlite3-0.dll $2/ &&
   cp $1/bin/libiconv-2.dll $2/ &&
