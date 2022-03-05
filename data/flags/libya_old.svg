@@ -1,29 +1,28 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!-- Created with Sodipodi ("http://www.sodipodi.com/") -->
+
 <svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://web.resource.org/cc/"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://inkscape.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   height="140mm"
+   height="131.25mm"
    id="svg378"
-   sodipodi:docbase="/Users/daniel/Desktop"
-   sodipodi:docname="libya.svg"
+   sodipodi:docname="libya_old.svg"
    sodipodi:version="0.32"
    version="1"
-   width="744.09000px"
+   width="196.87383mm"
    x="0"
    y="0"
-   inkscape:version="0.42">
+   inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
   <metadata
      id="metadata5518">
     <rdf:RDF>
       <cc:Work
          rdf:about="">
-        <dc:title> libyan_arab_jamahiriya</dc:title>
         <dc:description />
         <dc:subject>
           <rdf:Bag>
@@ -73,21 +72,30 @@
   <sodipodi:namedview
      id="base"
      inkscape:zoom="0.61181747"
-     inkscape:cx="496.06299"
-     inkscape:cy="248.03149"
-     inkscape:window-width="701"
-     inkscape:window-height="507"
-     inkscape:window-x="319"
-     inkscape:window-y="290"
-     inkscape:current-layer="svg378" />
+     inkscape:cx="362.85332"
+     inkscape:cy="247.62287"
+     inkscape:window-width="827"
+     inkscape:window-height="540"
+     inkscape:window-x="640"
+     inkscape:window-y="59"
+     inkscape:current-layer="svg378"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     showgrid="false"
+     inkscape:window-maximized="0"
+     inkscape:document-units="mm" />
   <defs
      id="defs380" />
   <rect
      height="496.06299"
      id="rect149"
-     style="font-size:12.000000px;fill:#007f3f;fill-opacity:1.0000000;fill-rule:evenodd;stroke:none;stroke-width:1.0247000pt"
-     transform="scale(-1.000000,-1.000000)"
+     style="font-size:12px;fill:#007f3f;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1.0247pt"
+     transform="scale(-1)"
      width="744.09003"
      x="-744.09003"
-     y="-496.06302" />
+     y="-496.06299" />
 </svg>
