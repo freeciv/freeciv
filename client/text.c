@@ -165,6 +165,8 @@ const char *popup_info_text(struct tile *ptile)
   index_to_native_pos(&nat_x, &nat_y, tile_index(ptile));
   astr_add_line(&str, _("Native coordinates: (%d, %d)"),
                 nat_x, nat_y);
+  astr_add_line(&str, _("Latitude: %d"),
+                map_signed_latitude(ptile));
 
   if (client_tile_get_known(ptile) == TILE_UNKNOWN) {
     astr_add(&str, _("Unknown"));
