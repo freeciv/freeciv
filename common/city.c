@@ -1742,7 +1742,7 @@ void city_production_caravan_shields_init(void)
 
         BV_SET(caravan_helped_impr, improvement_index(itype));
 
-        /* Move on to the next improvment */
+        /* Move on to the next improvement */
         break;
       }
     } action_enabler_list_iterate_end;
