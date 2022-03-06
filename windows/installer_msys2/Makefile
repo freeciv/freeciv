@@ -256,7 +256,7 @@ install-env-default-fcmp: install-env-common
 	mkdir -p install-$(WINARCH)-$(GUI)/lib/gdk-pixbuf-2.0/
 	cp -R /$(ARCHDIR)/lib/gdk-pixbuf-2.0/* install-$(WINARCH)-$(GUI)/lib/gdk-pixbuf-2.0/
 	cp -R /$(ARCHDIR)/share/locale install-$(WINARCH)-$(GUI)/share/
-	find install-$(WINARCH)-$(GUI)/share/locale -type f -not -name "freeciv*.mo" -and -not -name gtk30.mo -delete
+	find install-$(WINARCH)-$(GUI)/share/locale -type f -not -name "freeciv-*.mo" -and -not -name gtk30.mo -delete
 
 install-env-gtk3.22: install-env-default-fcmp
 
@@ -277,7 +277,7 @@ install-env-gtk2: install-env-common
 	mkdir -p install-$(WINARCH)-$(GUI)/lib/gtk-2.0/
 	cp -R /$(ARCHDIR)/lib/gtk-2.0/2.10.0 install-$(WINARCH)-$(GUI)/lib/gtk-2.0/
 	cp -R /$(ARCHDIR)/share/locale install-$(WINARCH)-$(GUI)/share/
-	find install-$(WINARCH)-$(GUI)/share/locale -type f -not -name "freeciv*.mo" -and -not -name gtk20.mo -delete
+	find install-$(WINARCH)-$(GUI)/share/locale -type f -not -name "freeciv-*.mo" -and -not -name gtk20.mo -delete
 
 SDL2_DLLS := \
 	libSDL2_gfx-1-0-0.dll \
@@ -318,7 +318,7 @@ install-env-qt: install-env-common
 	# add additional Qt files
 	cp -R /$(ARCHDIR)/share/qt5/plugins install-$(WINARCH)-$(GUI)/
 	cp -R /$(ARCHDIR)/share/locale install-$(WINARCH)-$(GUI)/share/
-	find install-$(WINARCH)-$(GUI)/share/locale -type f -not -name "freeciv*.mo" -delete
+	find install-$(WINARCH)-$(GUI)/share/locale -type f -not -name "freeciv-*.mo" -delete
 
 RULEDIT_DLLS := \
         libstdc++-6.dll \
@@ -376,7 +376,7 @@ install-env-ruledit:
 	# add additional Qt files
 	cp -R /$(ARCHDIR)/share/qt5/plugins install-$(WINARCH)-ruledit/
 	cp -R /usr/share/locale install-$(WINARCH)-ruledit/share/
-	find install-$(WINARCH)-ruledit/share/locale -type f -not -name "freeciv-ruledit.mo" -delete
+	find install-$(WINARCH)-ruledit/share/locale -type f -not -name "freeciv-*.mo" -delete
 
 # build installer
 
