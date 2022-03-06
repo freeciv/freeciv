@@ -16,10 +16,9 @@
 /* utility */
 #include "support.h"            /* bool type */
 
-/* this is the maximal colatitude at equators returned by 
-   map_colatitude */
-
-#define MAX_COLATITUDE 1000
+/* This is the maximal colatitude at equators returned by map_colatitude()
+ * When changing this, make sure map_colatitude() still works correctly */
+#define MAX_COLATITUDE MAP_MAX_LATITUDE
 
 int get_sqsize(void);
 

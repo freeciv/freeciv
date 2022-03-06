@@ -1402,6 +1402,214 @@ bool is_move_cardinal(const struct civ_map *nmap,
   return FALSE;
 }
 
+/************************************************************************//**
+  Returns the relative southness of this map position.
+  This is a value in the range of [0.0, 1.0].
+  This function handles all topology-specific information so that all
+  other generator code can work in a topology-agnostic way.
+
+  relative southness is 0.0 at the northernmost point and 1.0 at the
+  southernmost point on the map. These may or may not be polar regions
+  (depending on various generator settings).
+  On a map representing only a northern hemisphere, southness directly
+  corresponds to colatitude, going from 0.0 at the pole to 1.0 at the
+  equator.
+  On a map representing only a southern hemisphere, it directly
+  corrsponds to (negative) latitude, going from 0.0 at the equator to
+  1.0 at the pole.
+
+  See also map_signed_latitude
+****************************************************************************/
+static double map_relative_southness(const struct tile *ptile)
+{
+  int tile_x, tile_y;
+  double x, y, toroid_rel_colatitude;
+  bool toroid_flipped;
+
+  /* TODO: What should the fallback value be?
+   * Since this is not public API, it shouldn't matter anyway. */
+  fc_assert_ret_val(ptile != NULL, 0.5);
+
+  index_to_map_pos(&tile_x, &tile_y, tile_index(ptile));
+  do_in_natural_pos(ntl_x, ntl_y, tile_x, tile_y) {
+    /* Compute natural coordinates relative to world size.
+     * x and y are in the range [0.0, 1.0] */
+    x = (double)ntl_x / (NATURAL_WIDTH - 1);
+    y = (double)ntl_y / (NATURAL_HEIGHT - 1);
+  } do_in_natural_pos_end;
+
+  if (!current_topo_has_flag(TF_WRAPY)) {
+    /* In an Earth-like topology, north and south are at the top and
+     * bottom of the map.
+     * This is equivalent to a Mercator projection. */
+    return y;
+  }
+
+  if (!current_topo_has_flag(TF_WRAPX) && current_topo_has_flag(TF_WRAPY)) {
+    /* In a Uranus-like topology, north and south are at the left and
+     * right side of the map.
+     * This isn't really the way Uranus is; it's the way Earth would look
+     * if you tilted your head sideways.  It's still a Mercator
+     * projection. */
+    return x;
+  }
+
+  /* Otherwise we have a torus topology.  We set it up as an approximation
+   * of a sphere with two circular polar zones and a square equatorial
+   * zone.  In this case north and south are not constant directions on the
+   * map because we have to use a more complicated (custom) projection.
+   *
+   * Generators 2 and 5 work best if the center of the map is free.  So
+   * we want to set up the map with the poles (N,S) along the sides and the
+   * equator (/,\) in between.
+   *
+   * ........
+   * :\ NN /:
+   * : \  / :
+   * :S \/ S:
+   * :S /\ S:
+   * : /  \ :
+   * :/ NN \:
+   * ''''''''
+   */
+
+  /* First we will fold the map into fourths:
+   *
+   * ....
+   * :\ N
+   * : \
+   * :S \
+   *
+   * and renormalize x and y to go from 0.0 to 1.0 again.
+   */
+  x = 2.0 * (x > 0.5 ? 1.0 - x : x);
+  y = 2.0 * (y > 0.5 ? 1.0 - y : y);
+
+  /* Now flip it along the X direction to get this:
+   *
+   * ....
+   * :N /
+   * : /
+   * :/ S
+   */
+  x = 1.0 - x;
+
+  /* To simplify the following computation, we can fold along the
+   * diagonal.  This leaves us with 1/8 of the map
+   *
+   * .....
+   * :P /
+   * : /
+   * :/
+   *
+   * where P is the polar regions and / is the equator.
+   * We must remember which hemisphere we are on for later. */
+  if (x + y > 1.0) {
+    /* This actually reflects the bottom-right half about the center point,
+     * rather than about the diagonal, but that makes no difference. */
+    x = 1.0 - x;
+    y = 1.0 - y;
+    toroid_flipped = TRUE;
+  } else {
+    toroid_flipped = FALSE;
+  }
+
+  /* toroid_rel_colatitude is 0.0 at the poles and 1.0 at the equator.
+   * This projection makes poles with a shape of a quarter-circle along
+   * "P" and the equator as a straight line along "/".
+   *
+   * The formula is
+   *   lerp(1.5 (x^2 + y^2), (x+y)^2, x+y)
+   * where
+   *   lerp(a,b,t) = a * (1-t) + b * t
+   * is the linear interpolation between a and b, with
+   *   lerp(a,b,0) = a    and    lerp(a,b,1) = b
+   *
+   * I.e. the colatitude is computed as a linear interpolation between
+   * - a = 1.5 (x^2 + y^2), proportional to the squared pythagorean
+   *   distance from the pole, which gives circular lines of latitude; and
+   * - b = (x+y)^2, the squared manhattan distance from the pole, which
+   *   gives straight, diagonal lines of latitude parallel to the equator.
+   *
+   * These are interpolated with t = (x+y), the manhattan distance, which
+   * ranges from 0 at the pole to 1 at the equator. So near the pole, the
+   * (squared) pythagorean distance wins out, giving mostly circular lines,
+   * and near the equator, the (squared) manhattan distance wins out,
+   * giving mostly straight lines.
+   *
+   * Note that the colatitude growing with the square of the distance from
+   * the pole keeps areas relatively the same as on non-toroidal maps:
+   * On non-torus maps, the area closer to a pole than a given tile, and
+   * the colatitude at that tile, both grow linearly with distance from the
+   * pole. On torus maps, since the poles are singular points rather than
+   * entire map edges, the area closer to a pole than a given tile grows
+   * with the square of the distance to the pole - and so the colatitude
+   * at that tile must also grow with the square in order to keep the size
+   * of areas in a given range of colatitude relatively the same.
+   *
+   * See OSDN#43665, as well as the original discussion (via newsreader) at
+   * news://news.gmane.io/gmane.games.freeciv.devel/42648 */
+  toroid_rel_colatitude = (1.5 * (x * x * y + x * y * y)
+                           - 0.5 * (x * x * x + y * y * y)
+                           + 1.5 * (x * x + y * y));
+
+  /* Finally, convert from colatitude to latitude and add hemisphere
+   * information back in:
+   * - if we did not flip along the diagonal before, we are in the
+   *   northern hemisphere, with relative latitude in [0.0,0.5]
+   * - if we _did_ flip, we are in the southern hemisphere, with
+   *   relative latitude in [0.5,1.0]
+   */
+  return ((toroid_flipped
+           ? 2.0 - (toroid_rel_colatitude)
+           : (toroid_rel_colatitude))
+          / 2.0);
+}
+
+/************************************************************************//**
+  Returns the latitude of this map position. This is a value in the
+  range of -MAP_MAX_LATITUDE to MAP_MAX_LATITUDE (inclusive).
+
+  latitude reaches MAP_MAX_LATITUDE in the northern polar region,
+  reaches -MAP_MAX_LATITUDE in the southern polar region,
+  and is around 0 in the tropics.
+****************************************************************************/
+int map_signed_latitude(const struct tile *ptile)
+{
+  int north_latitude, south_latitude;
+  double southness;
+
+  /* TODO: Move upper and lower latitude bounds to server settings
+   * (replacing alltemperate and singlepole). */
+  if (wld.map.alltemperate) {
+    /* An all-temperate map has "average" temperature everywhere. */
+    north_latitude = south_latitude = MAP_MAX_LATITUDE / 2;
+  } else if (wld.map.single_pole) {
+    /* Partial planetary map. A polar zone is placed at the north end
+     * and a tropical zone at the south end. */
+    north_latitude = MAP_MAX_LATITUDE;
+    south_latitude = 0;
+  } else {
+    /* Full latitude range */
+    north_latitude = MAP_MAX_LATITUDE;
+    south_latitude = -MAP_MAX_LATITUDE;
+  }
+
+  if (north_latitude == south_latitude) {
+    /* Single-latitude / all-temperate map; no need to examine tile. */
+    return south_latitude;
+  }
+
+  fc_assert_ret_val(ptile != NULL, (north_latitude + south_latitude) / 2);
+
+  southness = map_relative_southness(ptile);
+
+  /* Linear interpolation between maximum and minimum latitude.
+   * Truncate / round towards zero so northern and southern hemisphere
+   * are symmetrical when south_latitude = -north_latitude. */
+  return north_latitude * (1.0 - southness) + south_latitude * southness;
+}
+
 /*******************************************************************//**
   A "SINGULAR" position is any map position that has an abnormal number of
   tiles in the radius of dist.

@@ -562,6 +562,10 @@ bool is_cardinal_dir(enum direction8 dir);
 extern const int DIR_DX[8];
 extern const int DIR_DY[8];
 
+#define MAP_MAX_LATITUDE           1000
+
+int map_signed_latitude(const struct tile *ptile);
+
 /* Used for network transmission; do not change. */
 #define MAP_TILE_OWNER_NULL	 MAX_UINT8
 
