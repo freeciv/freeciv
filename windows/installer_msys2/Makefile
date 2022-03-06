@@ -308,7 +308,7 @@ install-env-default-fcmp: install-env-common
 	mkdir -p install-$(WINARCH)-$(GUI)/lib/gdk-pixbuf-2.0/
 	cp -R /$(ARCHDIR)/lib/gdk-pixbuf-2.0/* install-$(WINARCH)-$(GUI)/lib/gdk-pixbuf-2.0/
 	cp -R /$(ARCHDIR)/share/locale install-$(WINARCH)-$(GUI)/share/
-	find install-$(WINARCH)-$(GUI)/share/locale -type f -not -name "freeciv*.mo" -and -not -name gtk30.mo -delete
+	find install-$(WINARCH)-$(GUI)/share/locale -type f -not -name "freeciv-*.mo" -and -not -name gtk30.mo -delete
 
 install-env-gtk3.22: install-env-default-fcmp
 
@@ -332,7 +332,7 @@ install-env-gtk4-fcmp: install-env-common
 	mkdir -p install-$(WINARCH)-$(GUI)/lib/gdk-pixbuf-2.0/
 	cp -R /$(ARCHDIR)/lib/gdk-pixbuf-2.0/* install-$(WINARCH)-$(GUI)/lib/gdk-pixbuf-2.0/
 	cp -R /$(ARCHDIR)/share/locale install-$(WINARCH)-$(GUI)/share/
-	find install-$(WINARCH)-$(GUI)/share/locale -type f -not -name "freeciv*.mo" -and -not -name gtk40.mo -delete
+	find install-$(WINARCH)-$(GUI)/share/locale -type f -not -name "freeciv-*.mo" -and -not -name gtk40.mo -delete
 
 SDL2_DLLS := \
 	libSDL2_gfx-1-0-0.dll \
@@ -376,7 +376,7 @@ install-env-qt5: install-env-common
 	# add additional Qt5 files
 	cp -R /$(ARCHDIR)/share/qt5/plugins install-$(WINARCH)-$(GUI)/
 	cp -R /$(ARCHDIR)/share/locale install-$(WINARCH)-$(GUI)/share/
-	find install-$(WINARCH)-$(GUI)/share/locale -type f -not -name "freeciv*.mo" -delete
+	find install-$(WINARCH)-$(GUI)/share/locale -type f -not -name "freeciv-*.mo" -delete
 
 QT6_DLLS := \
 	libicuin${ICUVER}.dll \
@@ -399,7 +399,7 @@ install-env-qt6: install-env-common
 	# add additional Qt6 files
 	cp -R /$(ARCHDIR)/share/qt6/plugins install-$(WINARCH)-$(GUI)/
 	cp -R /$(ARCHDIR)/share/locale install-$(WINARCH)-$(GUI)/share/
-	find install-$(WINARCH)-$(GUI)/share/locale -type f -not -name "freeciv*.mo" -delete
+	find install-$(WINARCH)-$(GUI)/share/locale -type f -not -name "freeciv-*.mo" -delete
 
 RULEDIT_QT5_DLLS := \
         libstdc++-6.dll \
@@ -458,7 +458,7 @@ install-env-ruledit-qt5:
 	# add additional Qt files
 	cp -R /$(ARCHDIR)/share/qt5/plugins install-$(WINARCH)-ruledit-qt5/
 	cp -R /usr/share/locale install-$(WINARCH)-ruledit-qt5/share/
-	find install-$(WINARCH)-ruledit-qt5/share/locale -type f -not -name "freeciv-ruledit.mo" -delete
+	find install-$(WINARCH)-ruledit-qt5/share/locale -type f -not -name "freeciv-*.mo" -delete
 
 RULEDIT_QT6_DLLS := \
         libstdc++-6.dll \
@@ -519,7 +519,7 @@ install-env-ruledit-qt6:
 	# add additional Qt files
 	cp -R /$(ARCHDIR)/share/qt6/plugins install-$(WINARCH)-ruledit-qt6/
 	cp -R /usr/share/locale install-$(WINARCH)-ruledit-qt6/share/
-	find install-$(WINARCH)-ruledit-qt6/share/locale -type f -not -name "freeciv-ruledit.mo" -delete
+	find install-$(WINARCH)-ruledit-qt6/share/locale -type f -not -name "freeciv-*.mo" -delete
 
 # build installer
 
