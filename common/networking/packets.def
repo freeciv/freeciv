@@ -627,6 +627,8 @@ PACKET_MAP_INFO = 17; sc, lsend
   XYSIZE xsize;
   XYSIZE ysize;
   UINT8 topology_id;
+  BOOL alltemperate;
+  BOOL single_pole;
 end
 
 PACKET_NUKE_TILE_INFO = 18; sc, dsend,lsend

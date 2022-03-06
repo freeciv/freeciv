@@ -169,6 +169,9 @@ void map_init(struct civ_map *imap, bool server_side)
   imap->xsize = MAP_DEFAULT_LINEAR_SIZE;
   imap->ysize = MAP_DEFAULT_LINEAR_SIZE;
 
+  imap->single_pole = MAP_DEFAULT_SINGLE_POLE;
+  imap->alltemperate = MAP_DEFAULT_ALLTEMPERATE;
+
   if (server_side) {
     imap->server.mapsize = MAP_DEFAULT_MAPSIZE;
     imap->server.size = MAP_DEFAULT_SIZE;
@@ -186,8 +189,6 @@ void map_init(struct civ_map *imap, bool server_side)
     imap->server.startpos = MAP_DEFAULT_STARTPOS;
     imap->server.tinyisles = MAP_DEFAULT_TINYISLES;
     imap->server.separatepoles = MAP_DEFAULT_SEPARATE_POLES;
-    imap->server.single_pole = MAP_DEFAULT_SINGLE_POLE;
-    imap->server.alltemperate = MAP_DEFAULT_ALLTEMPERATE;
     imap->server.temperature = MAP_DEFAULT_TEMPERATURE;
     imap->server.have_huts = FALSE;
     imap->server.have_resources = FALSE;

@@ -633,6 +633,8 @@ void send_map_info(struct conn_list *dest)
   minfo.xsize = wld.map.xsize;
   minfo.ysize = wld.map.ysize;
   minfo.topology_id = wld.map.topology_id;
+  minfo.alltemperate = wld.map.alltemperate;
+  minfo.single_pole = wld.map.single_pole;
 
   lsend_packet_map_info(dest, &minfo);
 }

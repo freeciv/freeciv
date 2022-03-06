@@ -208,10 +208,10 @@ static int map_signed_latitude(const struct tile *ptile)
 
   /* TODO: Move upper and lower latitude bounds to server settings
    * (replacing alltemperate and singlepole). */
-  if (wld.map.server.alltemperate) {
+  if (wld.map.alltemperate) {
     /* An all-temperate map has "average" temperature everywhere. */
     north_latitude = south_latitude = MAX_COLATITUDE / 2;
-  } else if (wld.map.server.single_pole) {
+  } else if (wld.map.single_pole) {
     /* Partial planetary map. A polar zone is placed at the north end
      * and a tropical zone at the south end. */
     north_latitude = MAX_COLATITUDE;
@@ -456,7 +456,7 @@ void generator_init_topology(bool autosize)
   }
 
   /* correction for single pole (Flat Earth) */
-  if (wld.map.server.single_pole) {
+  if (wld.map.single_pole) {
     if (!current_topo_has_flag(TF_WRAPY) || !current_topo_has_flag(TF_WRAPX)) {
       ice_base_colatitude /= 2;
     }

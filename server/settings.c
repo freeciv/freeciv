@@ -1587,14 +1587,14 @@ static struct setting settings[] = {
           NULL, NULL,
           MAP_MIN_FLATPOLES, MAP_MAX_FLATPOLES, MAP_DEFAULT_FLATPOLES)
 
-  GEN_BOOL("singlepole", wld.map.server.single_pole,
+  GEN_BOOL("singlepole", wld.map.single_pole,
            SSET_MAP_GEN, SSET_GEOLOGY, SSET_SITUATIONAL,
            ALLOW_NONE, ALLOW_BASIC,
            N_("Whether there's just one pole generated"),
            N_("If this setting is enabled, only one side of the map will have "
               "a pole."), NULL, NULL, MAP_DEFAULT_SINGLE_POLE)
 
-  GEN_BOOL("alltemperate", wld.map.server.alltemperate, 
+  GEN_BOOL("alltemperate", wld.map.alltemperate,
            SSET_MAP_GEN, SSET_GEOLOGY, SSET_RARE, ALLOW_NONE, ALLOW_BASIC,
            N_("All the map is temperate"),
            N_("If this setting is enabled, the temperature will be "

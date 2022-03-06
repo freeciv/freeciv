@@ -152,7 +152,7 @@ static void make_rivers(void);
 
 static void river_types_init(void);
 
-#define HAS_POLES (wld.map.server.temperature < 70 && !wld.map.server.alltemperate)
+#define HAS_POLES (wld.map.server.temperature < 70 && !wld.map.alltemperate)
 
 /* These are the old parameters of terrains types in %
    TODO: they depend on the hardcoded terrains */

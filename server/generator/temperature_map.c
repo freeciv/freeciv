@@ -152,7 +152,7 @@ void create_tmap(bool real)
   /* Notice: if colatitude is loaded from a scenario never call adjust.
              Scenario may have an odd colatitude distribution and adjust will
 	     break it */
-  if (!wld.map.server.alltemperate) {
+  if (!wld.map.alltemperate) {
     adjust_int_map(temperature_map, MAX_COLATITUDE);
   }
   /* now simplify to 4 base values */ 

@@ -2174,7 +2174,8 @@ void handle_set_topology(int topology_id)
   Receive information about the map size and topology from the server.  We
   initialize some global variables at the same time.
 ****************************************************************************/
-void handle_map_info(int xsize, int ysize, int topology_id)
+void handle_map_info(int xsize, int ysize, int topology_id,
+                     bool alltemperate, bool single_pole)
 {
   int ts_topo;
 
@@ -2185,6 +2186,9 @@ void handle_map_info(int xsize, int ysize, int topology_id)
 
   wld.map.xsize = xsize;
   wld.map.ysize = ysize;
+
+  wld.map.alltemperate = alltemperate;
+  wld.map.single_pole = single_pole;
 
   if (tileset_map_topo_compatible(topology_id, tileset, &ts_topo) == TOPO_INCOMP_HARD) {
     tileset_error(LOG_NORMAL, _("Map topology (%s) and tileset (%s) incompatible."),
