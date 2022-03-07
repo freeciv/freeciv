@@ -378,6 +378,13 @@ void universal_value_from_str(struct universal *source, const char *value)
       return;
     }
     break;
+  case VUT_MINLATITUDE:
+    source->value.latitude = atoi(value);
+    if (source->value.latitude >= -MAP_MAX_LATITUDE
+        && source->value.latitude <= MAP_MAX_LATITUDE) {
+      return;
+    }
+    break;
   case VUT_COUNT:
     break;
   }
@@ -579,6 +586,9 @@ struct universal universal_by_number(const enum universals_n kind,
   case VUT_CITYSTATUS:
     source.value.citystatus = value;
     return source;
+  case VUT_MINLATITUDE:
+    source.value.latitude = value;
+    return source;
   case VUT_COUNT:
     break;
   }
@@ -702,6 +712,8 @@ int universal_number(const struct universal *source)
     return source->value.citytile;
   case VUT_CITYSTATUS:
     return source->value.citystatus;
+  case VUT_MINLATITUDE:
+    return source->value.latitude;
   case VUT_COUNT:
     break;
   }
@@ -801,6 +813,7 @@ struct requirement req_from_str(const char *type, const char *range,
       case VUT_TERRAINALTER:
       case VUT_CITYTILE:
       case VUT_MAXTILEUNITS:
+      case VUT_MINLATITUDE:
         req.range = REQ_RANGE_TILE;
         break;
       case VUT_MINSIZE:
@@ -942,6 +955,7 @@ struct requirement req_from_str(const char *type, const char *range,
       invalid = (req.range != REQ_RANGE_LOCAL);
       break;
     case VUT_TERRAINALTER: /* XXX could in principle support C/ADJACENT */
+    case VUT_MINLATITUDE:
       invalid = (req.range != REQ_RANGE_TILE);
       break;
     case VUT_CITYTILE:
@@ -1038,6 +1052,7 @@ struct requirement req_from_str(const char *type, const char *range,
     case VUT_DIPLREL_UNITANY_O:
     case VUT_MAXTILEUNITS:
     case VUT_MINTECHS:
+    case VUT_MINLATITUDE:
       /* Most requirements don't support 'survives'. */
       invalid = survives;
       break;
@@ -1298,6 +1313,26 @@ bool are_requirements_contradictions(const struct requirement *req1,
         return req1->source.value.minmoves >= req2->source.value.minmoves;
       } else {
         return req1->source.value.minmoves <= req2->source.value.minmoves;
+      }
+    }
+    break;
+  case VUT_MINLATITUDE:
+    if (req2->source.kind != VUT_MINLATITUDE) {
+      /* Finding contradictions across requirement kinds aren't supported
+       * for MinLatitude requirements. */
+      return FALSE;
+    } else if (req1->present == req2->present) {
+      /* No contradiction possible. */
+      return FALSE;
+    } else {
+      /* Contradiction when lower bound (present requirement) is not less
+       * (i.e. greater or equal) than upper bound (negated requirement) */
+      if (req1->present) {
+        return (req1->source.value.latitude
+                >= req2->source.value.latitude);
+      } else {
+        return (req1->source.value.latitude
+                <= req2->source.value.latitude);
       }
     }
     break;
@@ -3590,6 +3625,14 @@ bool is_req_active(const struct req_context *context,
                                     req->source.value.citystatus);
     }
     break;
+  case VUT_MINLATITUDE:
+    if (context->tile == NULL) {
+      eval = TRI_MAYBE;
+    } else {
+      eval = BOOL_TO_TRISTATE(map_signed_latitude(context->tile)
+                              >= req->source.value.latitude);
+    }
+    break;
   case VUT_COUNT:
     log_error("is_req_active(): invalid source kind %d.", req->source.kind);
     return FALSE;
@@ -3659,6 +3702,7 @@ bool is_req_unchanging(const struct requirement *req)
   case VUT_STYLE:
   case VUT_TOPO:
   case VUT_SERVERSETTING:
+  case VUT_MINLATITUDE: /* Might change if more ranges are supported */
     return TRUE;
   case VUT_NATION:
   case VUT_NATIONGROUP:
@@ -3768,6 +3812,11 @@ bool universal_never_there(const struct universal *source)
     return !uclass_flag_is_in_use(source->value.unitclassflag);
   case VUT_EXTRAFLAG:
     return !extra_flag_is_in_use(source->value.extraflag);
+  case VUT_MINLATITUDE:
+    /* If the map is not alltemperate, there is always a north pole with
+     * MAP_MAX_LATITUDE. Otherwise, everything is MAP_MAX_LATITUDE / 2. */
+    return (wld.map.alltemperate
+            && source->value.latitude > (MAP_MAX_LATITUDE / 2));
   case VUT_OTYPE:
   case VUT_SPECIALIST:
   case VUT_AI_LEVEL:
@@ -4425,6 +4474,8 @@ bool are_universals_equal(const struct universal *psource1,
     return psource1->value.citytile == psource2->value.citytile;
   case VUT_CITYSTATUS:
     return psource1->value.citystatus == psource2->value.citystatus;
+  case VUT_MINLATITUDE:
+    return psource1->value.latitude == psource2->value.latitude;
   case VUT_COUNT:
     break;
   }
@@ -4558,6 +4609,10 @@ const char *universal_rule_name(const struct universal *psource)
     return extra_flag_id_name(psource->value.extraflag);
   case VUT_TERRAINALTER:
     return terrain_alteration_name(psource->value.terrainalter);
+  case VUT_MINLATITUDE:
+    fc_snprintf(buffer, sizeof(buffer), "%d", psource->value.latitude);
+
+    return buffer;
   case VUT_COUNT:
     break;
   }
@@ -4856,6 +4911,11 @@ const char *universal_name_translation(const struct universal *psource,
       fc_strlcat(buf, "error", bufsz);
       break;
     }
+    return buf;
+  case VUT_MINLATITUDE:
+    /* TRANS: here >= means 'greater than or equal'. */
+    cat_snprintf(buf, bufsz, _("Latitude >= %d"),
+                 psource->value.latitude);
     return buf;
   case VUT_COUNT:
     break;

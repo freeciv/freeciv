@@ -651,6 +651,7 @@ typedef union {
   int min_hit_points;
   int age;
   int min_techs;
+  int latitude;
 
   enum topo_flag topo_property;
   ssetv ssetval;
@@ -762,6 +763,8 @@ typedef union {
 #define SPECENUM_VALUE47NAME "DiplRelUnitAny"
 #define SPECENUM_VALUE48 VUT_DIPLREL_UNITANY_O
 #define SPECENUM_VALUE48NAME "DiplRelUnitAnyOther"
+#define SPECENUM_VALUE49 VUT_MINLATITUDE
+#define SPECENUM_VALUE49NAME "MinLatitude"
 /* Keep this last. */
 #define SPECENUM_COUNT VUT_COUNT
 #include "specenum_gen.h"

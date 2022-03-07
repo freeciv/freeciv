@@ -216,6 +216,9 @@ bool universal_value_initial(struct universal *src)
   case VUT_EXTRAFLAG:
     src->value.extraflag = EF_NATIVE_TILE;
     return TRUE;
+  case VUT_MINLATITUDE:
+    src->value.latitude = 0;
+    return TRUE;
   case VUT_COUNT:
     fc_assert(src->kind != VUT_COUNT);
     return FALSE;
@@ -434,6 +437,7 @@ void universal_kind_values(struct universal *univ,
   case VUT_MINHP:
   case VUT_AGE:
   case VUT_MINTECHS:
+  case VUT_MINLATITUDE:
     /* Requirement types having numerical value */
     cb(NULL, FALSE, data);
     break;

@@ -799,6 +799,7 @@ bool dai_can_requirement_be_met_in_city(const struct requirement *preq,
   case VUT_NATIONGROUP:
   case VUT_AI_LEVEL:
   case VUT_SERVERSETTING:
+  case VUT_MINLATITUDE:
     /* Beyond player control. */
     return FALSE;
 

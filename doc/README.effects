@@ -92,6 +92,7 @@ MaxUnitsOnTile:  Tile, Adjacent, CAdjacent
 TerrainClass:    Tile, Adjacent, CAdjacent, Traderoute, City
 TerrainFlag:     Tile, Adjacent, CAdjacent, Traderoute, City
 TerrainAlter:    Tile
+MinLatitude:     Tile
 CityTile:        Tile, Adjacent, CAdjacent
 CityStatus:      Traderoute, City
 Style:           Player
@@ -108,6 +109,7 @@ TerrainClass is either "Land" or "Oceanic".
 TerrainAlter is "CanIrrigate", "CanMine", "CanRoad", "CanBase", or "CanPlace"
 CityTile is "Center" (city center), "Claimed" (tile owned),
 "Extras Owned" (extra on tile owned), or "Worked" (worked by any city)
+MinLatitude is a number from -1000 (south pole) to 1000 (north pole).
 CityStatus is "OwnedByOriginal", "Starved", "Disorder", or "Celebration"
 DiplRel is a diplomatic relationship.
 MaxUnitsOnTile is about the number of units present on a tile.

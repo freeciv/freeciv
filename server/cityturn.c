@@ -1739,6 +1739,11 @@ static bool worklist_item_postpone_req_vec(struct universal *target,
                                     pcity, "have_extraflag");
         }
         break;
+      case VUT_MINLATITUDE:
+        /* Can't change where the city is located. */
+        purge = TRUE;
+        break;
+
       case VUT_UTYPE:
       case VUT_UTFLAG:
       case VUT_UCLASS:
