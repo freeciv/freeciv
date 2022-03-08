@@ -101,8 +101,41 @@ bool is_capitalization_enabled(void)
 
 /*******************************************************************//**
   Return directory containing locales.
+  In a rare cases this can be a relative path, but it tries
+  to return absolute path when ever possible.
 ***********************************************************************/
 const char *get_locale_dir(void)
 {
-  return LOCALEDIR;
+  static bool ldbuf_init = FALSE;
+  static char buf[4096];
+
+  if (!ldbuf_init) {
+    /* FIXME: On Windows, also something starting with the drive,
+     *        e.g., "C:\", can be absolute path. Paths like that
+     *        are never used with our currently supported setups.
+     *
+     * Can't check just against DIR_SEPARATOR_CHAR as the mingw
+     * layer may have converted path to use '/' even on Windows.
+     */
+    if (LOCALEDIR[0] != '/' || LOCALEDIR[0] != '\\') {
+      char *cwdbuf;
+
+#ifdef HAVE_GETCWD
+      cwdbuf = getcwd(NULL, 0);
+#else
+      /* Can't help it. Must construct relative path. */
+      cwdbuf = fc_strdup(".");
+#endif
+
+      fc_snprintf(buf, sizeof(buf), "%s" DIR_SEPARATOR LOCALEDIR, cwdbuf);
+
+      free(cwdbuf);
+    } else {
+      strncpy(buf, LOCALEDIR, sizeof(buf));
+    }
+
+    ldbuf_init = TRUE;
+  }
+
+  return buf;
 }

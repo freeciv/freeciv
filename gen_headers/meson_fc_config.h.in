@@ -303,6 +303,9 @@
 /* putenv() available */
 #mesondefine HAVE_PUTENV
 
+/* getcwd() available */
+#mesondefine HAVE_GETCWD
+
 /* select() available */
 #mesondefine HAVE_SELECT
 
