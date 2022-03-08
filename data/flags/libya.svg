@@ -1,21 +1,52 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg
-   xmlns="http://www.w3.org/2000/svg"
    width="750"
-   height="500">
+   height="500"
+   version="1.1"
+   id="svg10"
+   sodipodi:docname="libya.svg"
+   inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs14" />
+  <sodipodi:namedview
+     id="namedview12"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     showgrid="false"
+     inkscape:zoom="1.1737973"
+     inkscape:cx="375.27776"
+     inkscape:cy="250.04318"
+     inkscape:window-width="1112"
+     inkscape:window-height="812"
+     inkscape:window-x="443"
+     inkscape:window-y="83"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg10" />
   <rect
      width="750"
      height="500"
-     fill="#239e46"/>
+     fill="#239e46"
+     id="rect2" />
   <rect
      width="750"
      height="375"
-     fill="#000000"/>
+     fill="#000000"
+     id="rect4" />
   <rect
      width="750"
      height="125"
-     fill="#e70013"/>
+     fill="#e70013"
+     id="rect6" />
   <path
      d="m 424.62689,209.6 a 55.400084,54.5 0 1 0 0,80.8 63.600096,62.5 0 1 1 0,-80.8 z m -4.90001,39.8 76.90012,27.7 -45.90007,-67.6 -2.60001,81.1 51.00008,-63.5"
-     fill="#ffffff"/>
+     fill="#ffffff"
+     id="path8" />
 </svg>
