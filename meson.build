@@ -193,6 +193,7 @@ priv_functions = [
   'inet_pton',
   'opendir',
   'putenv',
+  'getcwd',
   'select',
   'setenv',
   'snooze',
