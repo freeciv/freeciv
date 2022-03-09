@@ -2158,13 +2158,15 @@ static struct tileset *tileset_read_toplevel(const char *tileset_name,
 
       /* Check for wrong layer names. */
       if (!mapview_layer_is_valid(layer)) {
-        log_error("layer_order: Invalid layer \"%s\"", layer_order[i]);
+        log_error("layer_order: Invalid layer \"%s\" in %s",
+                  layer_order[i], tileset_name_get(t));
         goto ON_ERROR;
       }
       /* Check for duplicates. */
       for (j = 0; j < i; j++) {
         if (t->layer_order[j] == layer) {
-          log_error("layer_order: Duplicate layer \"%s\"", layer_order[i]);
+          log_error("layer_order: Duplicate layer \"%s\" in %s",
+                    layer_order[i], tileset_name_get(t));
           goto ON_ERROR;
         }
       }
@@ -2184,8 +2186,8 @@ static struct tileset *tileset_read_toplevel(const char *tileset_name,
         }
       }
       if (!found) {
-        log_error("layer_order: Missing layer \"%s\"",
-                  mapview_layer_name(i));
+        log_error("layer_order: Missing layer \"%s\" in %s",
+                  mapview_layer_name(i), tileset_name_get(t));
         goto ON_ERROR;
       }
     }
@@ -2241,7 +2243,8 @@ static struct tileset *tileset_read_toplevel(const char *tileset_name,
     if (terrain_name != NULL) {
       draw->name = fc_strdup(terrain_name);
     } else {
-      tileset_error(LOG_ERROR, _("No terrain tag given in section [%s]."), sec_name);
+      tileset_error(LOG_ERROR, _("No terrain tag given in section [%s] in %s."),
+                    sec_name, tileset_name_get(t));
       drawing_data_destroy(draw);
       goto ON_ERROR;
     }
@@ -2289,7 +2292,8 @@ static struct tileset *tileset_read_toplevel(const char *tileset_name,
           }
         }
         if (j >= tslp->match_count) {
-          log_error("[%s] invalid match_type \"%s\".", sec_name, match_type);
+          log_error("[%s] invalid match_type \"%s\" in %s.",
+                    sec_name, match_type, tileset_name_get(t));
         } else {
           dlp->match_index[dlp->match_indices++] = j;
         }
@@ -2302,17 +2306,19 @@ static struct tileset *tileset_read_toplevel(const char *tileset_name,
         int j, k;
 
         if (count > MAX_NUM_MATCH_WITH) {
-          log_error("[%s] match_with has too many types (%d, max %d)",
-                    sec_name, (int) count, MAX_NUM_MATCH_WITH);
+          log_error("[%s] match_with has too many types (%d, max %d) in %s",
+                    sec_name, (int) count, MAX_NUM_MATCH_WITH,
+                    tileset_name_get(t));
           count = MAX_NUM_MATCH_WITH;
         }
 
         if (1 < dlp->match_indices) {
-          log_error("[%s] previous match_with ignored.", sec_name);
+          log_error("[%s] previous match_with ignored in %s.",
+                    sec_name, tileset_name_get(t));
           dlp->match_indices = 1;
         } else if (1 > dlp->match_indices) {
-          log_error("[%s] missing match_type, using \"%s\".",
-                    sec_name, tslp->match_types[0]);
+          log_error("[%s] missing match_type, using \"%s\" in %s.",
+                    sec_name, tslp->match_types[0], tileset_name_get(t));
           dlp->match_index[0] = 0;
           dlp->match_indices = 1;
         }
@@ -2331,8 +2337,8 @@ static struct tileset *tileset_read_toplevel(const char *tileset_name,
 
             for (m = 0; m < dlp->match_indices; m++) {
               if (dlp->match_index[m] == j) {
-                log_error("[%s] layer%d_match_with: duplicate \"%s\".",
-                          sec_name, l, match_with[k]);
+                log_error("[%s] layer%d_match_with: duplicate \"%s\" in %s.",
+                          sec_name, l, match_with[k], tileset_name_get(t));
                 break;
               }
             }
@@ -2379,8 +2385,8 @@ static struct tileset *tileset_read_toplevel(const char *tileset_name,
 	    || dlp->offset_x > 0
 	    || dlp->offset_y > 0) {
           log_error("[%s] layer %d: you cannot have tall terrain or\n"
-                    "a sprite offset with a cell-based drawing method.",
-                    sec_name, l);
+                    "a sprite offset with a cell-based drawing method in %s.",
+                    sec_name, l, tileset_name_get(t));
 	  dlp->is_tall = FALSE;
 	  dlp->offset_x = dlp->offset_y = 0;
 	}
@@ -2389,8 +2395,8 @@ static struct tileset *tileset_read_toplevel(const char *tileset_name,
     }
 
     if (!drawing_hash_insert(t->tile_hash, draw->name, draw)) {
-      log_error("warning: multiple tile sections containing terrain tag \"%s\".",
-                draw->name);
+      log_error("warning: multiple tile sections containing terrain tag \"%s\" in %s.",
+                draw->name, tileset_name_get(t));
       goto ON_ERROR;
     }
   } section_list_iterate_end;
@@ -2414,13 +2420,14 @@ static struct tileset *tileset_read_toplevel(const char *tileset_name,
                                             "extras.styles%d.style", i);
     style = extrastyle_id_by_name(style_name, fc_strcasecmp);
     if (!extrastyle_id_is_valid(style)) {
-      log_error("Unknown extra style \"%s\" for road \"%s\"",
-                style_name, extraname);
+      log_error("Unknown extra style \"%s\" for extra \"%s\" in %s.",
+                style_name, extraname, tileset_name_get(t));
       goto ON_ERROR;
     }
 
     if (!estyle_hash_insert(t->estyle_hash, extraname, style)) {
-      log_error("warning: duplicate extrastyle entry [%s].", extraname);
+      log_error("warning: duplicate extrastyle entry [%s] in %s.",
+                extraname, tileset_name_get(t));
       goto ON_ERROR;
     }
   }
