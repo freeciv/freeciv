@@ -984,7 +984,18 @@ void mr_menu::setup_menus()
 
   /* Game Menu */
   main_menu = this->addMenu(_("Game"));
+
+#ifdef __APPLE__
+  // On Mac, Qt would try to move menu entry named just "Options" to
+  // application menu, but as this is submenu and not an action
+  // 1) It would fail to appear in the destination
+  // 2) It's impossible to override the behavior with QAction::menuRule()
+  // We add an invisible character for the string comparison to fail.
+  sub_menu = main_menu->addMenu(QString("\u200B") + _("Options"));
+#else  // __APPLE__
   sub_menu = main_menu->addMenu(_("Options"));
+#endif // __APPLE__
+
   act = sub_menu->addAction(_("Set local options"));
   connect(act, &QAction::triggered, this, &mr_menu::local_options);
   act = sub_menu->addAction(_("Server Options"));
