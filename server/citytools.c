@@ -1840,6 +1840,13 @@ void remove_city(struct city *pcity)
   }
 
   sync_cities();
+
+  unit_list_iterate(pcenter->units, punit) {
+    /* At least sentried helicopters need to go idle, maybe others. */
+    if (!can_unit_continue_current_activity(punit)) {
+      unit_activity_handling(punit, ACTIVITY_IDLE);
+    }
+  } unit_list_iterate_end;
 }
 
 /**************************************************************************
