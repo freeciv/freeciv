@@ -257,7 +257,7 @@ void fc_nonblock(int sockfd)
 #endif /* HAVE_FCNTL */
 #endif /* FREECIV_HAVE_WINSOCK */
 #else  /* NONBLOCKING_SOCKETS */
-  log_debug("NONBLOCKING_SOCKETS not available");
+  log_warn("NONBLOCKING_SOCKETS not available");
 #endif /* NONBLOCKING_SOCKETS */
 }
 
