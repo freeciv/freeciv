@@ -128,6 +128,7 @@ tab_enabler::tab_enabler(ruledit_gui *ui_in) : QWidget()
   type_button->setPopupMode(QToolButton::MenuButtonPopup);
 
   type_button->setMenu(type_menu);
+  type_button->setText(R__("None"));
 
   type_button->setEnabled(false);
   enabler_layout->addWidget(type_button, 0, 2);
@@ -161,6 +162,7 @@ tab_enabler::tab_enabler(ruledit_gui *ui_in) : QWidget()
   repair_button = new QPushButton(this);
   connect(repair_button, SIGNAL(pressed()), this, SLOT(repair_now()));
   repair_button->setEnabled(false);
+  repair_button->setText(QString::fromUtf8(R__("Enabler Issues")));
   enabler_layout->addWidget(repair_button, 3, 1);
 
   refresh();
