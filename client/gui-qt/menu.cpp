@@ -1554,8 +1554,7 @@ void mr_menu::setup_menus()
   act->setShortcut(QKeySequence(tr("F2")));
   connect(act, &QAction::triggered, this, &mr_menu::slot_show_units_report);
 
-  /* TRANS: Also menu item, but 'headers' should be good enough. */
-  act = menu->addAction(Q_("?header:Players"));
+  act = menu->addAction(_("Nations"));
   act->setShortcut(QKeySequence(tr("F3")));
   connect(act, &QAction::triggered, this, &mr_menu::slot_show_nations);
 
