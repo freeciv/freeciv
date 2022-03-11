@@ -316,17 +316,16 @@ static gboolean toplevel_focus(GtkWidget *w, GtkDirectionType arg)
   prevents users from accidentally missing messages when the chatline
   gets scrolled up a small amount and stops scrolling down automatically.
 **************************************************************************/
-static void main_message_area_size_allocate(GtkWidget *widget,
-                                            GtkAllocation *allocation,
-                                            gpointer data)
+static void main_message_area_resize(GtkWidget *widget, int width, int height,
+                                     gpointer data)
 {
   static int old_width = 0, old_height = 0;
 
-  if (allocation->width != old_width
-      || allocation->height != old_height) {
+  if (width != old_width
+      || height != old_height) {
     chatline_scroll_to_bottom(TRUE);
-    old_width = allocation->width;
-    old_height = allocation->height;
+    old_width = width;
+    old_height = height;
   }
 }
 
@@ -1542,8 +1541,8 @@ static void setup_widgets(void)
   set_message_buffer_view_link_handlers(text);
   gtk_text_view_set_editable(GTK_TEXT_VIEW(text), FALSE);
   gtk_scrolled_window_set_child(GTK_SCROLLED_WINDOW(sw), text);
-  g_signal_connect(text, "size-allocate",
-                   G_CALLBACK(main_message_area_size_allocate), NULL);
+  g_signal_connect(text, "resize",
+                   G_CALLBACK(main_message_area_resize), NULL);
 
   gtk_widget_set_name(text, "chatline");
 

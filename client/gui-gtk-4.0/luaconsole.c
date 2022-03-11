@@ -63,9 +63,8 @@ static void luaconsole_dialog_create(struct luaconsole_data *pdialog);
 static void luaconsole_dialog_refresh(struct luaconsole_data *pdialog);
 static void luaconsole_dialog_destroy(struct luaconsole_data *pdialog);
 
-static void luaconsole_dialog_area_size_allocate(GtkWidget *widget,
-                                                 GtkAllocation *allocation,
-                                                 gpointer data);
+static void luaconsole_dialog_area_resize(GtkWidget *widget, int width, int height,
+                                          gpointer data);
 static void luaconsole_dialog_scroll_to_bottom(void);
 
 static void luaconsole_input_return(GtkEntry *w, gpointer data);
@@ -213,8 +212,8 @@ static void luaconsole_dialog_create(struct luaconsole_data *pdialog)
   set_message_buffer_view_link_handlers(text);
   gtk_text_view_set_editable(GTK_TEXT_VIEW(text), FALSE);
   gtk_scrolled_window_set_child(GTK_SCROLLED_WINDOW(sw), text);
-  g_signal_connect(text, "size-allocate",
-                   G_CALLBACK(luaconsole_dialog_area_size_allocate), NULL);
+  g_signal_connect(text, "resize",
+                   G_CALLBACK(luaconsole_dialog_area_resize), NULL);
 
   gtk_text_view_set_wrap_mode(GTK_TEXT_VIEW(text), GTK_WRAP_WORD);
   gtk_widget_realize(text);
@@ -399,16 +398,16 @@ static gboolean luaconsole_input_handler(GtkWidget *w, GdkEvent *ev)
   prevents users from accidentally missing messages when the chatline
   gets scrolled up a small amount and stops scrolling down automatically.
 *****************************************************************************/
-static void luaconsole_dialog_area_size_allocate(GtkWidget *widget,
-                                                 GtkAllocation *allocation,
-                                                 gpointer data)
+static void luaconsole_dialog_area_resize(GtkWidget *widget, int width, int height,
+                                          gpointer data)
 {
   static int old_width = 0, old_height = 0;
-  if (allocation->width != old_width
-      || allocation->height != old_height) {
+
+  if (width != old_width
+      || height != old_height) {
     luaconsole_dialog_scroll_to_bottom();
-    old_width = allocation->width;
-    old_height = allocation->height;
+    old_width = width;
+    old_height = height;
   }
 }
 
