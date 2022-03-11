@@ -43,6 +43,14 @@ INSTSUB=${ARCHDIR}
 # msys2 has dlls in...
 DLLPATH_PREFIX=/$(ARCHDIR)/bin/
 
+ifeq ($(CI),yes)
+FLAC="libFLAC-8.dll"
+LIBB2=""
+else
+FLAC="libFLAC.dll"
+LIBB2="libb2-1.dll"
+endif
+
 #
 # Make rules
 #
@@ -202,7 +210,7 @@ install-ruledit-qt6: configure-freeciv-ruledit-qt6 install-ruledit-dir-qt6
 SOUND_DLLS := \
 	SDL2.dll \
 	SDL2_mixer.dll \
-	libFLAC-8.dll \
+	$(FLAC) \
 	libfluidsynth-3.dll \
 	libmodplug-1.dll \
 	libvorbis-0.dll \
@@ -391,7 +399,8 @@ QT6_DLLS := \
 	libharfbuzz-0.dll \
 	libgraphite2.dll \
 	libdouble-conversion.dll \
-	libmd4c.dll
+	libmd4c.dll \
+	$(LIBB2)
 
 install-env-qt6: install-env-common
 	# add DLLs

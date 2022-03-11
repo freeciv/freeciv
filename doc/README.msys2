@@ -9,7 +9,9 @@ using MSYS2 from https://www.msys2.org/
  Status
 ====================================
 
-- Buildable clients are gtk3, gtk3.22, sdl2, and Qt
+- Buildable clients are gtk3, gtk3.22, sdl2, and Qt5 for
+  both win64 and win32 targets. For win64 target, one
+  can build also Qt6-client.
 
 
  Setup
@@ -24,7 +26,7 @@ using MSYS2 from https://www.msys2.org/
 1) Install MSYS2 following the documentation on their homepage
 
 1.1) Download
- https://sourceforge.net/projects/msys2/files/Base/x86_64/msys2-x86_64-20210604.exe
+ https://sourceforge.net/projects/msys2/files/Base/x86_64/msys2-x86_64-20220118.exe
  for win64 host
 
 1.2) Run it to install MSYS2 on build system
@@ -80,10 +82,13 @@ using MSYS2 from https://www.msys2.org/
 2.1.2.2) Arch-specific packages for building gtk3-client
  - mingw-w64-i686-gtk3 / mingw-w64-x86_64-gtk3
 
-2.1.2.3) Arch-specific packages for buildind Qt-client and/or Ruledit
+2.1.2.3) Arch-specific packages for buildind Qt5-client and/or Qt5 Ruledit
  - mingw-w64-i686-qt5 / mingw-w64-x86_64-qt5
 
-2.1.2.4) Arch-specific packages for building sdl2-client
+2.1.2.4) Arch-specific packages for building Qt6-client and/or Qt6 Ruledit
+ - mingw-w64-x86_64-qt6-base
+
+2.1.2.5) Arch-specific packages for building sdl2-client
  - mingw-w64-i686-SDL2_image / mingw-w64-x86_64-SDL2_image
  - mingw-w64-i686-SDL2_ttf / mingw-w64-x86_64-SDL2_ttf
  - mingw-w64-i686-SDL2_gfx / mingw-w64-x86_64-SDL2_gfx
@@ -108,13 +113,14 @@ Current version is
 
 win64 host:
 -----------
-msys2-freeciv-win64-211115.7z, based on
-https://sourceforge.net/projects/msys2/files/Base/x86-64/msys2-x86_64-20210604.exe
-with packages updated to 15-Nov-2021 level.
+msys2-freeciv-win64-220309.7z, based on
+https://sourceforge.net/projects/msys2/files/Base/x86-64/msys2-x86_64-20220118.exe
+with packages updated to 09-Mar-2022 level.
 
-Both win32 and win64 targets are included. For each package listed below with <arch>
-in the name, actually two packages is installed; one with a name where <arch> is
-replaced by 'i686' and one where <arch> is replaced by 'x86_64'
+Most packages are included for both win32 and win64 targets. For each package
+listed below with <arch> in the name, actually two packages are installed;
+one with a name where <arch> is replaced by 'i686' and
+one where <arch> is replaced by 'x86_64'
 
 
 Following packages have been installed:
@@ -122,7 +128,6 @@ Following packages have been installed:
 - tar
 - git
 - patch
-- nano
 - automake1.16
 - libtool
 - autoconf
@@ -144,6 +149,7 @@ Following packages have been installed:
 - mingw-w64-<arch>-drmingw
 - mingw-w64-<arch>-meson
 - mingw-w64-<arch>-tolua
+- minww-w64-x86_64-qt6-base
 
 After all the packages were installed 'pacman -Scc' was run to completely
 empty the package cache for having smaller environment package.
@@ -167,7 +173,8 @@ Get the freeciv sources there somehow. Some options are:
   - "<gui>-installer", where <gui> is
      - gtk3.22
      - sdl2
-     - qt
+     - qt5
+     - qt6
   - "ruledit-installer"
   - "snapshot", if your freeciv sources are in git checkout directory,
                 builds all installers with commit id in version number
