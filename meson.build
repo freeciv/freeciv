@@ -251,8 +251,21 @@ else
   bcrypt_lib_dep = []
 endif
 
-if c_compiler.has_header('libcharset.h', args: header_arg) and c_compiler.has_function('locale_charset')
-  priv_conf_data.set('HAVE_LIBCHARSET', 1)
+if c_compiler.has_header('libcharset.h', args: header_arg)
+  if c_compiler.has_function('locale_charset')
+    priv_conf_data.set('HAVE_LIBCHARSET', 1)
+    charset_dep = []
+  else
+    charset_dep = c_compiler.find_library('charset', dirs: cross_lib_path,
+                                          required: false)
+    if charset_dep.found() and c_compiler.has_function('locale_charset', dependencies: charset_dep)
+      priv_conf_data.set('HAVE_LIBCHARSET', 1)
+    else
+      charset_dep = []
+    endif
+  endif
+else
+  charset_dep = []
 endif
 
 readline_dep = c_compiler.find_library('readline', dirs: cross_lib_path,
@@ -701,7 +714,7 @@ common_lib = library('freeciv',
                  m_dep, sqlite3_dep,
                  net_dep, jansson_dep, lua_dep, lzma_dep, zstd_dep,
                  bcrypt_lib_dep, iconv_lib_dep,
-                 gettext_dep,
+                 gettext_dep, charset_dep,
                  dependency('threads')],
   install : true
   )
