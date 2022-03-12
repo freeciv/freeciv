@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
+
 <svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://web.resource.org/cc/"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    id="svg2"
    sodipodi:version="0.32"
-   inkscape:version="0.44+devel"
+   inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
    width="900"
    height="600"
    version="1.0"
-   sodipodi:docbase="C:\Documents and Settings\Flanker\Desktop"
-   sodipodi:docname="Lombardy-flag.svg"
+   sodipodi:docname="lombardy.svg"
    inkscape:output_extension="org.inkscape.output.svg.inkscape"
-   sodipodi:modified="true">
+   sodipodi:modified="true"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
   <metadata
      id="metadata7">
     <rdf:RDF>
@@ -32,8 +32,8 @@
   <defs
      id="defs5" />
   <sodipodi:namedview
-     inkscape:window-height="1003"
-     inkscape:window-width="1280"
+     inkscape:window-height="510"
+     inkscape:window-width="831"
      inkscape:pageshadow="2"
      inkscape:pageopacity="0.0"
      guidetolerance="10.0"
@@ -44,11 +44,14 @@
      pagecolor="#ffffff"
      id="base"
      inkscape:zoom="0.46103395"
-     inkscape:cx="375.45549"
-     inkscape:cy="218.52479"
-     inkscape:window-x="-4"
-     inkscape:window-y="-4"
-     inkscape:current-layer="svg2" />
+     inkscape:cx="425.13138"
+     inkscape:cy="304.74979"
+     inkscape:window-x="408"
+     inkscape:window-y="40"
+     inkscape:current-layer="svg2"
+     inkscape:pagecheckerboard="0"
+     showgrid="false"
+     inkscape:window-maximized="0" />
   <rect
      style="fill:#00a040;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:2;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
      id="rect4612"
