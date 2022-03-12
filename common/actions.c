@@ -1487,6 +1487,12 @@ static void hard_code_actions(void)
                       MAK_UNREPRESENTABLE,
                       /* Overwritten by the ruleset */
                       0, 1, FALSE);
+  actions[ACTION_USER_ACTION4] =
+      unit_action_new(ACTION_USER_ACTION4, ACTRES_NONE,
+                      FALSE, TRUE,
+                      MAK_UNREPRESENTABLE,
+                      /* Overwritten by the ruleset */
+                      0, 1, FALSE);
 }
 
 /**********************************************************************//**
@@ -7750,6 +7756,8 @@ const char *action_ui_name_ruleset_var_name(int act)
     return "ui_name_user_action_2";
   case ACTION_USER_ACTION3:
     return "ui_name_user_action_3";
+  case ACTION_USER_ACTION4:
+    return "ui_name_user_action_4";
   case ACTION_COUNT:
     break;
   }
@@ -8063,6 +8071,9 @@ const char *action_ui_name_default(int act)
   case ACTION_USER_ACTION3:
     /* TRANS: _User Action 3 (100% chance of success). */
     return N_("%sUser Action 3%s");
+  case ACTION_USER_ACTION4:
+    /* TRANS: _User Action 4 (100% chance of success). */
+    return N_("%sUser Action 4%s");
   }
 
   return NULL;
@@ -8199,6 +8210,8 @@ const char *action_min_range_ruleset_var_name(int act)
     return "user_action_2_min_range";
   case ACTION_USER_ACTION3:
     return "user_action_3_min_range";
+  case ACTION_USER_ACTION4:
+    return "user_action_4_min_range";
   case ACTION_COUNT:
     break;
   }
@@ -8427,6 +8440,8 @@ const char *action_max_range_ruleset_var_name(int act)
     return "user_action_2_max_range";
   case ACTION_USER_ACTION3:
     return "user_action_3_max_range";
+  case ACTION_USER_ACTION4:
+    return "user_action_4_max_range";
   case ACTION_COUNT:
     break;
   }
@@ -8652,6 +8667,8 @@ const char *action_target_kind_ruleset_var_name(int act)
     return "user_action_2_target_kind";
   case ACTION_USER_ACTION3:
     return "user_action_3_target_kind";
+  case ACTION_USER_ACTION4:
+    return "user_action_4_target_kind";
   case ACTION_COUNT:
     break;
   }
@@ -9174,6 +9191,8 @@ const char *action_actor_consuming_always_ruleset_var_name(action_id act)
     return "user_action_2_actor_consuming_always";
   case ACTION_USER_ACTION3:
     return "user_action_3_actor_consuming_always";
+  case ACTION_USER_ACTION4:
+    return "user_action_4_actor_consuming_always";
   case ACTION_COUNT:
     break;
   }
@@ -9326,6 +9345,7 @@ const char *action_blocked_by_ruleset_var_name(const struct action *act)
   case ACTION_USER_ACTION1:
   case ACTION_USER_ACTION2:
   case ACTION_USER_ACTION3:
+  case ACTION_USER_ACTION4:
     /* blocked_by is not ruleset changeable */
     return NULL;
   case ACTION_COUNT:
@@ -9470,6 +9490,7 @@ action_post_success_forced_ruleset_var_name(const struct action *act)
   case ACTION_USER_ACTION1:
   case ACTION_USER_ACTION2:
   case ACTION_USER_ACTION3:
+  case ACTION_USER_ACTION4:
     /* not ruleset changeable */
     return NULL;
   case ACTION_COUNT:
