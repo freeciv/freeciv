@@ -2806,9 +2806,7 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
     }
 
   case VUT_CITYSTATUS:
-    if (preq->source.value.citystatus == CITYS_LAST) {
-      break;
-    } else {
+    if (preq->source.value.citystatus != CITYS_LAST) {
       static char *city_property = NULL;
 
       switch (preq->source.value.citystatus) {
@@ -2858,6 +2856,7 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
         break;
       }
     }
+    break;
 
   case VUT_COUNT:
     break;
