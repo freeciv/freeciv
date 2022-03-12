@@ -22,7 +22,8 @@ fi
 
 GUI="$2"
 
-if test "x$GUI" != "xgtk3.22" && test "x$GUI" != "xqt5" ; then
+if test "$GUI" != "gtk3.22" && test "$GUI" != "sdl2" &&
+   test "$GUI" != "qt5" ; then
   echo "Unknown gui \"$2\"" >&2
   exit 1
 fi
@@ -64,6 +65,7 @@ SETUP=$(grep "CrosserSetup=" $DLLSPATH/crosser.txt | sed -e 's/CrosserSetup="//'
 
 case $GUI in
   gtk3.22) FCMP="gtk3" ;;
+  sdl2) FCMP="gtk4" ;;
   qt5) CLIENT="qt"
        FCMP="qt"
        NLS="-Dnls=false" ;;
