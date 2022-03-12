@@ -2735,8 +2735,9 @@ static enum fc_tristate is_unit_state(const struct unit *target_unit,
   }
 
   /* Should never be reached */
-  fc_assert_ret_val_msg(FALSE, TRI_NO,
-                        "Unsupported unit property %d", uprop);
+  fc_assert_msg(FALSE, "Unsupported unit property %d", uprop);
+
+  return TRI_NO;
 }
 
 /**********************************************************************//**
