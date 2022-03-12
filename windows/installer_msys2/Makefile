@@ -56,7 +56,11 @@ endif
 #
 
 # by default build all installers.
-all: gtk3.22-installer sdl2-installer ruledit-installer qt-installer
+all: all-$(WINARCH)
+
+all-win64: gtk3.22-installer sdl2-installer ruledit-installer qt5-installer qt6-installer
+
+all-win32: gtk3.22-installer sdl2-installer ruledit-installer qt5-installer
 
 gtk3.22-installer:
 	make GUI=gtk3.22 CLIENT=gtk3.22 FCMP=gtk3 EXTRA_CONFIG="--disable-ruledit $(EXTRA_CONFIG)" wrap-gtk3.22
