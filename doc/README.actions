@@ -1387,5 +1387,5 @@ ruleset variables allows user action number n to be further customized:
    TRUE if Freeciv should make sure that the actor is spent after the action
    is successfully done.
 
-The current ruleset defined actions are "User Action 1", "User Action 2" and
-"User Action 3".
+The current ruleset defined actions are "User Action 1", "User Action 2",
+"User Action 3", and "User Action 4".
