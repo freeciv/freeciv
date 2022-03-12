@@ -318,7 +318,7 @@ Some advice on the structure of files in modpacks:
    embed version numbers, dates, etc, so that when a new version of
    modpack X is installed, it cleanly overwrites the old version, rather
    than leaving both cluttering up the user's installation.
- 
+
  * The modpack installer does not stop different modpacks overwriting
    each other's files, so published modpacks should be disciplined about
    namespace usage. If you've derived from someone else's modpack, you

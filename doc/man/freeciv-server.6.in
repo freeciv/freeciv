@@ -51,7 +51,7 @@ becomes the leader of a civilization, fighting to obtain the ultimate goal:
 To become the greatest civilization.
 
 Players of Civilization II\*R by Microprose\*R should feel at home, since one
-aim of Freeciv is to have compatible rules. 
+aim of Freeciv is to have compatible rules.
 
 Freeciv is maintained by an international team of coders and enthusiasts, and is
 easily one of the most fun and addictive network games out there!
@@ -131,7 +131,7 @@ specified, then the ABRT signal will be used.
 .TP
 .BI "\-f \fIfilename\fP, \-\-file \fIfilename\fP"
 Loads a saved game (\fIfilename\fP) into the server before initialization,
-instead of starting a new game. This is for reloading saved games, or for 
+instead of starting a new game. This is for reloading saved games, or for
 loading scenarios. See \fIENVIRONMENT\fP for where the server looks for
 these files.
 
@@ -187,7 +187,7 @@ be used.
 .BI "\-m, \-\-meta"
 Directs the server to communicate with a metaserver, a place where Freeciv
 servers can publish their presence. Freeciv clients consult the metaserver to
-offer users a selection of games to join. By default the standard Freeciv 
+offer users a selection of games to join. By default the standard Freeciv
 metaserver is used. You may specify an alternate metaserver with the \fI\-M\fP
 option.
 .TP
@@ -208,7 +208,7 @@ decimal. You may need to use this if 5556 is not available for your use on your
 system, or if you would like to run multiple servers on the same system.
 .TP
 .BI "\-q \fItime\fP, \-\-quitidle \fItime\fP"
-Quits if no players are present for the specified \fItime\fP, in seconds, and 
+Quits if no players are present for the specified \fItime\fP, in seconds, and
 restarts a new server.
 .TP
 .BI "\-R \fIfilename\fP, \-\-Ranklog \fIfilename\fP"
@@ -216,11 +216,11 @@ Defines a log file, \fIfilename\fP, to be produced during processing. This log
 contains information for player ranking.
 .TP
 .BI "\-r \fIfilename\fP, \-\-read \fIfilename\fP"
-Specifies a file, \fIfilename\fP, of server commands which the server will 
-automatically read and process, as if you had typed them in at the server's 
+Specifies a file, \fIfilename\fP, of server commands which the server will
+automatically read and process, as if you had typed them in at the server's
 prompt. The distribution comes with a few examples, including files that set
 options to be similar to Civilization I\*R and Civilization II\*R . The files
-are named \fIciv1.serv\fP and \fIciv2.serv\fP, and are typically found at 
+are named \fIciv1.serv\fP and \fIciv2.serv\fP, and are typically found at
 \fI/usr/local/share/freeciv/\fP.
 .TP
 .BI "\-S \fIid\fP, \-\-Serverid \fIid\fP"
@@ -246,25 +246,25 @@ Causes the server to display its version number and exit.
 .SH EXAMPLES
 .TP
 .B freeciv-server \-\-file oldgame.sav \-\-port 2244
-Starts a server on port \fI2244\fP, loading the save game file 
+Starts a server on port \fI2244\fP, loading the save game file
 \fIoldgame.sav\fP.
 .TP
 .B freeciv-server \-R ranklog \-l logfile \-r script \-f oldgame.sav.gz -p 2244
-Starts a server on port \fI2244\fP, loading the save game file 
-\fIoldgame.sav.gz\fP. Ranking related events are written to \fIranklog\fP, other 
-logging information is written to \fIlogfile\fP. When the server starts, it 
+Starts a server on port \fI2244\fP, loading the save game file
+\fIoldgame.sav.gz\fP. Ranking related events are written to \fIranklog\fP, other
+logging information is written to \fIlogfile\fP. When the server starts, it
 immediately executes the commands contained in \fIscript\fP.
 .TP
 .B freeciv-server -m -a -D fc_auth.conf -q 60 -p 2244 -d 2 -l logfile -r script -s ~/saves
-Starts a server on port \fI2244\fP with authentication enabled and communicates 
-its existence to the standard Freeciv metaserver. Fatal, error, and normal 
-messages are written to \fIlogfile\fP. When the server starts it immediately 
-executes the commands contained in \fIscript\fP. Save game files are stored in 
+Starts a server on port \fI2244\fP with authentication enabled and communicates
+its existence to the standard Freeciv metaserver. Fatal, error, and normal
+messages are written to \fIlogfile\fP. When the server starts it immediately
+executes the commands contained in \fIscript\fP. Save game files are stored in
 the \fI~/saves\fP directory. When there are no users on the server for \fI60\fP
 seconds, the server will restart.
 .SH COMMANDS
 You may enter commands into the server at any time, either before or during the
-running of a game. 
+running of a game.
 
 Type "help" or "help help" for starters.
 .SH FILES
@@ -314,7 +314,7 @@ by default:
 
 These are the default rule sets used for the game. Alternate sets of rules can
 be used by placing them in a separate directory and using the \fBrulesetdir\fP
-command to change your server's ruleset directory. 
+command to change your server's ruleset directory.
 
 Type \fBhelp rulesetdir\fP for more information.
 .SH ENVIRONMENT
@@ -342,7 +342,7 @@ encoding should not be visible at any interface. Defaults to UTF-8.
 .BI FREECIV_LOCAL_ENCODING
 Sets the local character encoding (used for the command line and terminal
 output). The default is inferred from other aspects of the environment.
-.TP 
+.TP
 .BI FREECIV_MULTICAST_GROUP
 Sets the multicast group (for the LAN tab).
 .TP
@@ -411,10 +411,10 @@ Updates and new info is first posted there.
 .SH AUTHORS
 The Freeciv Team <@MAIL_ADDRESS@>.
 
-This manpage was originally put together by Florian Ernst 
-<florian_ernst AT gmx.net> using the Server Manual and the comments in the 
+This manpage was originally put together by Florian Ernst
+<florian_ernst AT gmx.net> using the Server Manual and the comments in the
 sourcecode. It was updated by Ben Bettin <bwbettin AT gmail.com> to add new
-features, integrate information from the website's online documentation, and 
+features, integrate information from the website's online documentation, and
 for slight formatting adjustments. Feel free to use it as you wish.
 .SH "SEE ALSO"
 .IR freeciv-client (6)

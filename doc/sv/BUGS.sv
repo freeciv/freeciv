@@ -30,7 +30,7 @@ Så här gör man:
 
    Om du får några GDK/GTK-meddelanden, som t.ex.:
 
-     Gtk-CRITICAL **: file gtkobject.c: line 1163 (gtk_object_ref): 
+     Gtk-CRITICAL **: file gtkobject.c: line 1163 (gtk_object_ref):
      assertion oject->ref_count > 0' failed.
 
    v.g. starta om din klient och lägg till "-- --g-fatal-warnings" vid

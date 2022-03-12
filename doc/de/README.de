@@ -58,11 +58,11 @@ und der Startbefehl erteilt werden.
 
 Server:
 	starten:
-	
+
 	> civserver
-	
+
 	Mögliche Startoptionen erhalten Sie mit:
-	
+
 	> civserver --help
 
 	Sobald der Server gestartet ist, meldet er sich mit:
@@ -171,7 +171,7 @@ Die interessantesten sind:
 	<freeciv-dev@gna.org>	für Fehlerberichte und Entwickler
 	<freeciv-announce@gna.org>	zur Ankündigung *WICHTIGER*
 					Neuigkeiten
-	
+
 Sie können Sie mit einer Email an <listar@freeciv.org> abonnieren, in dem
 Sie die Betreff-Zeile freilassen und in den Text nur "subscribe LISTE"
 schreiben. Beispiel:

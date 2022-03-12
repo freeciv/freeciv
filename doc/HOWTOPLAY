@@ -6,7 +6,7 @@ The Freeciv playing HOWTO
 If you're looking for how to install Freeciv, look in INSTALL.
 If you're looking for how to get Freeciv running, look in README.
 
-If you have never played the Civilization games, it's easiest to 
+If you have never played the Civilization games, it's easiest to
 start by reading the Freeciv Manual, available separately at:
 
      http://www.freeciv.org/wiki/Manual
@@ -90,7 +90,7 @@ techs, but at a slightly slower rate.  If you have done some
 exploring, and are not immediately threatened by another player, it
 can be a good idea to keep science at maximum until techs start to
 take too long to generate.
-	
+
 Second Expansion Phase:
 
 	When you get your cities to a good sized population, wean them
@@ -172,7 +172,7 @@ Q. What size map should I use?
 	The map size depends upon how many players there are, and how
 fast you want the game to end.  The default map size (80x50) is big
 enough for a fairly quick two player game, but will result in a *very*
-fast game if any more than three people are participating.  
+fast game if any more than three people are participating.
 
 	Fast games tend to be frustrating for everyone but the winner,
 as nobody has really had any time to develop any defense.  If you have
@@ -187,7 +187,7 @@ Q. What is that "generator" option?
 a few times without changing this setting, you are sure to hear of (or
 experience) the horrors of a tiny island.  Tiny Island Syndrome (TIS)
 is known to make people go insane.  To fix this, our kind and loving
-coders installed the generator option.  
+coders installed the generator option.
 - When set to RANDOM, it creates the map using a random height generator,
   with islands of different (and potentially unfair) sizes.
 - When set to FRACTAL it generates the map using a pseudo fractal height
@@ -250,7 +250,7 @@ Q. How do I get _____ tech?
 Look the tech up in the online help.  It will show you the
 technologies you need to get first.
 
-You could read the technology ruleset in 
+You could read the technology ruleset in
 'data/classic/techs.ruleset'.  It shows a list of all the techs,
 and what techs are necessary to get them.
 

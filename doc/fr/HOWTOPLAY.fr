@@ -99,7 +99,7 @@ soutenu. Si vous avez fait un peu d'exploration, et que vous n'êtes pas
 directement menacé par un autre joueur, et ce serait donc une bonne idée
 de garder la science au maximum jusqu'à ce que les technologies
 deviennent trop longues à découvrir.
-	
+
 
 La seconde phase d'expansion :
 
@@ -270,12 +270,12 @@ Q : Quelles sont les unités militaires les plus utiles ?
 
    Pour l'attaque :
 
-	Tanks, Hélicoptères, Missiles de croisière, Cuirassés, 
+	Tanks, Hélicoptères, Missiles de croisière, Cuirassés,
 	Transports, armes nucléaires, Obusiers, Bombardiers.
 
    Pour la défense :
 
-	Tanks, Infanterie mobile, Obusiers, Cuirassés, 
+	Tanks, Infanterie mobile, Obusiers, Cuirassés,
 	Missiles de croisière, armes nucléaires.
 
 N"oubliez pas : la meilleure défense, c'est une attaque puissante.

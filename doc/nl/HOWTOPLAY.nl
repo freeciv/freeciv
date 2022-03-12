@@ -37,7 +37,7 @@ nieuwe strategieën.
 
 Eerste expansie:
 
-        Deze fase is verreweg het belangrijkst. Het eerste wat u wilt 
+        Deze fase is verreweg het belangrijkst. Het eerste wat u wilt
 doen is steden bouwen en uw eiland onderzoeken. U wilt veel steden,
 tenminste zeven of acht.
 
@@ -45,7 +45,7 @@ tenminste zeven of acht.
 pinnen als mogelijk. Wanneer u een stad bouwt, verzeker u er dan van dat
 deze in territorium niet teveel overlapt met een andere stad. U kunt zien
 welke vlakken een stad gebruikt door er op te klikken. De stadsplattegrond
-en de directe omgeving bevatten het stadsterritorium. Met dit in het 
+en de directe omgeving bevatten het stadsterritorium. Met dit in het
 achterhoofd probeer uw steden zo dicht mogelijk op elkaar te bouwen. Hoe
 verder uit elkaar ze staan hoe moeilijker het wordt om ze te verdedigen en
 te beheren in deze fase. (Tip: probeer op paarden of bij vis te bouwen.)
@@ -91,11 +91,11 @@ ontwikkeling zien, maar langzamer. Als u wat verkenningen hebt verricht en
 niet bedreigd bent door een andere speler, kan het een goed idee zijn om de
 wetenschapswaarde op een maximum te houden totdat de snelheid van onderzoek
 teveel terug loopt.
-	
+
 Tweede expansiefase:
 
         Wanneer u uw steden op een goede grootte hebt gebracht, breng dan
-geleidelijk de luxe naar beneden en verhoog de belasting. Zodra ze op een 
+geleidelijk de luxe naar beneden en verhoog de belasting. Zodra ze op een
 waarde van 30% luxe zitten of zoiets, stop dan zoveel mogelijk belasting in
 wetenschap met behoud van een positief inkomen. Wanneer u Spoorwegen hebt,
 zet al uw wegen om in spoorwegen, of tenminste de vlakken die voor produktie
@@ -130,7 +130,7 @@ te veroorzaken. Onthoud, geld kan ook eenheden bouwen!
 
         Dit kan op elk gewenst moment, maar het is leuker met de geavanceerde
 wapens.
-        
+
         Zoek een relatief zwakke tegenstander, stuur een paar scheepsladingen
 troepen, neem wat steden in en gebruik deze om meer eenheden te bouwen om
 daarmee de rest in te nemen. Toon geen genade! Tot de dood!
@@ -185,7 +185,7 @@ V. Wat is die "generator" optie?
 
         Die verandert het kaart-maakproces. Als u Freeciv een paar maal speelt
 zonder deze instelling te wijzigen, dan zult u zeker de verschrikkingen horen
-(of ervaren) van kleine eilanden. Het kleine eilanden syndroom (TIS in het 
+(of ervaren) van kleine eilanden. Het kleine eilanden syndroom (TIS in het
 Engels) is bekend voor het tot waanzin drijven van spelers. Om dit te
 corrigeren hebben onze geliefde en vriendelijke programmeurs de generator-
 optie gemaakt. Als deze op 1 staat geeft het een normale kaart met eilanden
@@ -232,7 +232,7 @@ V. Hoe krijg ik _____ technologie?
 Zoek de technologie op in de online help. Het zal u de technologieën tonen die
 u eerst dient te ontwikkelen.
 
-Alternatief: u kunt David Pfitzner's "techtree" kaart van 
+Alternatief: u kunt David Pfitzner's "techtree" kaart van
 http://files.freeciv.org/contrib/charts/ downloaden.
 
 Als dat allemaal niet lukt, dan kunt u de technologie spelregels in

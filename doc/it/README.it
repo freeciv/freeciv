@@ -36,7 +36,7 @@ correzioni scrivete a: slug-freeciv@siena.linux.it Ndt)
 Traduzioni:
 =============
 
-Potresti trovere una versione tradotta di questo file e di altre parti della 
+Potresti trovere una versione tradotta di questo file e di altre parti della
 documentazione di Freeciv, nelle seguenti locazioni:
 
        Francese                ./doc/fr
@@ -182,10 +182,10 @@ Client:
   - trident: grafica in stile civ1 con quadranti 30x30.
   Il tileset trident ha una variante chiamata "trident_shields".
 
-  In questa versione il tileset isotrident e' quello predefinito nei client 
+  In questa versione il tileset isotrident e' quello predefinito nei client
   gtk, amiga e win32, mentre il client xaw ha il trident come predefinito.
   La variante "_shields" usa una bandiera "a scudo", che e' piu' piccola e
-  potrebbe risultare meno oscurata. Provatele entrambe e decidete voi. 
+  potrebbe risultare meno oscurata. Provatele entrambe e decidete voi.
   Per usare il tileset trident fate partire il client con:
 
   |  % civclient --tiles trident
@@ -255,7 +255,7 @@ per brevita'.
 Attenzione:
 
  1) A causa dell'inclusione di nuove caratteristiche, versioni differenti del
-    client e del server sono spesso incompatibili. La versione 1.13.0 ad 
+    client e del server sono spesso incompatibili. La versione 1.13.0 ad
     esempio non e' compatibile con l versione 1.12.0 o precedenti.
 
  2) Se il bottone Metaserver nella finestra di connessione non funziona,
@@ -264,8 +264,8 @@ Attenzione:
     se il proxy fosse proxy.mioisp.com sulla porta 8888, impostate $http_proxy
     su http://proxy.myisp.com:8888/ prima di avviare il client.
 
- 3) Alcune volte non ci sono giochi sul metaserver. Alle volte succede. 
-    Il numero di giocatori nel metaserver varia con l'ora del giorno. 
+ 3) Alcune volte non ci sono giochi sul metaserver. Alle volte succede.
+    Il numero di giocatori nel metaserver varia con l'ora del giorno.
     Provate a crearne uno voi!
 
 

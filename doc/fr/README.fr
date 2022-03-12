@@ -140,10 +140,10 @@ Serveur :
   |  % freeciv-server --help
 
   Une fois que le serveur est lancé, une invite doit apparaître :
-  
+
   |  Pour obtenir une aide sommaire, tapez 'help'.
   |  >
-  
+
   [ Si ce message n'est pas en Français, et que vous voulez absolument
   jouer dans notre langue, positionnez la variable d'environnement
   LANG à "fr". Pour plus de détails, consultez le fichier
@@ -151,10 +151,10 @@ Serveur :
 
   Et vous pourrez alors voir l'information suivante en tapant la
   commande help :
-  
+
   |  > help
   |  Bienvenue - ceci est le texte d'aide introductif du serveur Freeciv.
-  |  
+  |
   |  Les commandes et les options sont deux concepts importants pour le
   |  serveur. Les commandes, comme 'help', sont utilisées pour interagir
   |  avec le serveur. Certaines commandes prennent un ou plusieurs
@@ -162,10 +162,10 @@ Serveur :
   |  commandes et les arguments des commandes peuvent être abrégés. Les
   |  options sont des paramètres qui contrôlent la façon dont fonctionne
   |  le serveur.
-  |  
+  |
   |  Pour savoir comment obtenir plus d'information sur les commandes et
   |  les options, utilisez 'help help'.
-  |  
+  |
   |  Pour les impatients, les commandes principales pour commencer sont :
   |    show  - pour voir les options actuelles
   |    set   - pour régler des options
@@ -173,7 +173,7 @@ Serveur :
   |  connectés
   |    save  - pour sauver la partie en cours
   |    quit  - pour quitter
-  |  > 
+  |  >
 
   Si vous le désirez, vous pouvez utiliser la commande 'set' pour régler
   certaines options de la partie. Vous pouvez obtenir une liste des
@@ -197,7 +197,7 @@ Serveur :
   |  >
 
   Et :
-  
+
   |  > set size 8
 
   Ceci rendra la carte deux fois plus grande que celle par défaut.
@@ -232,7 +232,7 @@ Client :
   tuiles" différents (c'est-à-dire des graphismes différents pour le
   terrain, les unités, etc.). La distribution fournit neuf tilesets
   principaux :
-  
+
   - amplio2 : un jeu de tuiles isométriques, avec des tuiles plus
     grandes et plus détaillées.
   - isotrident : un jeu de tuiles isométriques, de forme similaire à
@@ -249,7 +249,7 @@ Client :
   - hex2t : un jeu de tuiles hexagonal
   - alio : un jeu de tuiles iso-hexagonal avec des graphiques adaptés
     pour les règles du jeu alien.
-  
+
   Dans cette distribution, chaque topologie de carte a son propre jeu
   de tuiles par défaut ; avec les options par défaut, amplio2 est le
   jeu de tuiles par défaut.
@@ -610,7 +610,7 @@ Nous maintenons 4 listes de diffusion :
     Pour s'inscrire : https://www.freelists.org/list/freeciv-i18n
   freeciv-dev@freelists.org
     Développement de Freeciv.
-    Pour s'inscrire : https://www.freelists.org/list/freeciv-dev    
+    Pour s'inscrire : https://www.freelists.org/list/freeciv-dev
   freeciv-commits@gna.org
     Notifications de changements dans le dépôt de code.
     C'est une liste en "lecture seule", qui porte des messages

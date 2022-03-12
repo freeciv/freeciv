@@ -15,7 +15,7 @@ The following commands exists:
   tag <tag-id> <descr>
     add a data-type (tag)
       the <tag-id> is used in the 'data' commands
-      <descr> is a string without whitespaces which 
+      <descr> is a string without whitespaces which
               identified this tag
 
   turn <turn> <number> <descr>
@@ -29,10 +29,10 @@ The following commands exists:
       <name> may contain whitespaces
 
   delplayer <turn> <player-id>
-    removes a player from the game. The player was 
+    removes a player from the game. The player was
       active till the given turn (inclusive)
       <player-id> used by the creation
 
   data <turn> <tag-id> <player-id> <value>
-    give the value of the given tag for the given 
+    give the value of the given tag for the given
     player for the given turn.

@@ -104,16 +104,16 @@ Servidor:
 
   |  > help
   |  Benvingut - aquesta és l'ajuda d'introducció al servidor Freeciv.
-  |  
+  |
   |  Al servidor hi ha dos conceptes importants, Comandes i Opcions.
   |  Les Comandes, com 'help', s'usen per a interactuar amb el servidor.
   |  Hi ha comandes que tenen arguments, separats per espais.
   |  En molts casos les comandes i els arguments poden ser abreujats.
   |  Les opcions són valors que controlen el funcionament del servidor.
-  |  
+  |
   |  Per saber com trobar més informació sobre les comandes i les opcions,
   |  fes 'help help'.
-  |  
+  |
   |  Per als més impacients, les principals comandes per començar són:
   |    show   - per veure les opcions actuals
   |    set     - per fixar opcions
@@ -401,7 +401,7 @@ Registre de missatges:
 ======================
 
 Tant el client com el servidor treuen missatges anomenats "de registre"
-o "de log". Hi ha cinc categories de missatges de registre: "fatal", 
+o "de log". Hi ha cinc categories de missatges de registre: "fatal",
 "error", "normal", "verbose", i "debug".
 
 Per defecte, els missatges fatal, error i normal es treuen per la
@@ -474,7 +474,7 @@ Mantenim 4 llistes de correu:
                    És una llista de "Només Lectura", amb missatges escassos.
                    En altres paraules, no pots enviar-hi correus, només llegir-la.
                    (Els anuncis que s'hi envien també s'envien a freeciv).
-  freeciv-i18n     Traducció del Freeciv. 
+  freeciv-i18n     Traducció del Freeciv.
                    Totes les discussions relacionades amb la traducció del codi
                    de Freeciv, la documentació i el web, cap a llenguatges diferents
                    de l'anglès.
@@ -493,7 +493,7 @@ esborrar-te'n, vés a http://gna.org/mail/?group=freeciv
 Internet Relay Chat (IRC)
 =========================
 
-Alguns jugadors i desenvolupadors s'estan als canals #freeciv i #freeciv-dev 
+Alguns jugadors i desenvolupadors s'estan als canals #freeciv i #freeciv-dev
 de la xarxa Libera.Chat. Prova de connectar-te al servidor
 
 	irc.libera.chat

@@ -98,7 +98,7 @@ RAPPORTEREN VAN FOUTEN:
 
 (Als het vertalingsfouten betreft in de Nederlandse versie, neem dan contact
 op met Pieter J. Kersten <kersten@dia.eur.nl>. Voor vertalingsfouten in andere
-talen, neem contact op met de primaire contactpersoon voor die taal. Kijk op 
+talen, neem contact op met de primaire contactpersoon voor die taal. Kijk op
 <http://freeciv.org/wiki/Translations> voor de namen en mailadressen van deze
 mensen.)
 
@@ -137,7 +137,7 @@ Dit is wat u moet doen:
 
    - Vertel ons de naam en de versie van:
 
-       - Het besturingssysteem dat u gebruikt. U kunt in dit geval de 
+       - Het besturingssysteem dat u gebruikt. U kunt in dit geval de
          "uname -a" opdracht bruikbaar vinden.
 
        - Het versienummer van Freeciv

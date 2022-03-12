@@ -9,7 +9,7 @@ X onder Unix. Het heeft ondersteuning voor multi-speler spellen lokaal
 of over een netwerk en een KI die de meeste mensen een de stuipen op het
 lijf jaagt.
 
-Freeciv probeert overwegend spelregel-uitwisselbaar te zijn met 
+Freeciv probeert overwegend spelregel-uitwisselbaar te zijn met
 Civilization II [tm], gepubliceerd door Sid Meier en Microprose [tm].
 Een aantal regels zijn anders waar we denken dat dat zinvol is en we
 hebben heel veel instelbare parameters om het customizen van spelen
@@ -60,7 +60,7 @@ als er menselijke spelers zijn. De server heeft geen X nodig, maar de
 clients wel.
 
   OPMERKING:
-  De volgende voorbeelden gaan ervan uit dat Freeciv op uw systeem 
+  De volgende voorbeelden gaan ervan uit dat Freeciv op uw systeem
   geïnstalleerd is en dat de map die "civclient" en "civserver" bevat
   zich in uw PATH bevindt. Als Freeciv niet geïnstalleerd is, dan wilt
   u wellicht de "civ" en "ser" programma's gebruiken. Deze kunt u vinden
@@ -154,7 +154,7 @@ Client:
 
   |  % civclient &
 
-  Een ander optie voor de client die u wellicht wilt proberen is de 
+  Een ander optie voor de client die u wellicht wilt proberen is de
   '--tiles' optie, die gebruikt wordt voor het kiezen van een andere
   "vlakkenset" (dat is een verzameling andere afbeeldingen voor kaart,
   terrein, eenheden, enz.). De distributie bevat twee hoofdsets:
@@ -165,13 +165,13 @@ Client:
 
   In deze uitgave is de isotrident vlakkenset de standaard voor de gtk-,
   amiga- en win32 clients, terwijl de xaw clients trident als standaard
-  heeft. De "_shields" variant gebruikt een schild-vormige vlag, die 
+  heeft. De "_shields" variant gebruikt een schild-vormige vlag, die
   kleiner is en wellicht minder bedekt. Probeer ze beide en beslis voor
   uzelf. Om de trident vlakkenset te gebruiken start u de client met:
 
   |  % civclient --tiles trident
 
-  Andere vlakkensets (tilesets in het Engels) zijn beschikbaar van de 
+  Andere vlakkensets (tilesets in het Engels) zijn beschikbaar van de
   ftp- en websites.
 
   Clients kunnen geautoriseerd worden om serveropdrachten te geven.
@@ -297,7 +297,7 @@ U kunt ook serveropdrachten versturen vanaf de invoerregel:
   |  /set settlers 4
   |  /save mijnspel.sav
 
-Waarschijnlijk beperkt de serveroperator uw opdrachten tot alleen 
+Waarschijnlijk beperkt de serveroperator uw opdrachten tot alleen
 informatieve opdrachten. Dit is voornamelijk omdat er nogal wat
 beveiligingsaspecten van toepassing zijn indien alle clients alle
 serveropdrachten zouden kunnen geven; bedenk als een speler probeerde:
@@ -324,7 +324,7 @@ Er zijn drie manieren waarop een spel kan eindigen:
 
 1) Slechts één natie is overgebleven
 2) Het eindjaar is bereikt
-3) Een speler bouwt en lanceert een ruimteschip dat vervolgens 
+3) Een speler bouwt en lanceert een ruimteschip dat vervolgens
    Alfa Centauri bereikt.
 
 Een score-tabel zal in elk van de gevallen getoond worden. De server-
@@ -395,17 +395,17 @@ U kunt het niveau van de logberichten die getoond wordt met
 aangezien '-d' zowel '-debug' als '-display' zou kunnen zijn), waar
 niveau de waarde 0, 1, 2 of 3 is. 0 betekent alleen fatale berichten,
 1 fatale- en foutberichten, 2 fatale-, fout- en normale berichten (de
-standaardwaarde), 3 betekent toon alle fatale-, fout-, normale- en 
+standaardwaarde), 3 betekent toon alle fatale-, fout-, normale- en
 uitgebreide berichten.
 
 Als u gecompileerd heeft met DEBUG gedefinieerd (een makkelijke manier
 om dit te doen is door te configureren met de optie --enable-debug),
 dan kunt u debug-berichten krijgen door het niveau op 4 te zetten.
-Ook is het mogelijk om debug-berichten (maar niet andere-) te beheersen 
-op een per-bestand en per-regel basis. Om dit te doen gebruik 
+Ook is het mogelijk om debug-berichten (maar niet andere-) te beheersen
+op een per-bestand en per-regel basis. Om dit te doen gebruik
 "--debug 4:str1:str2" (zoveel strings als u wilt, gescheiden door :'en)
 en elke bestandsnaam die overeenkomt met zal debug-berichten gaan
-genereren terwijl alle andere debug-berichten onderdrukt worden. Om 
+genereren terwijl alle andere debug-berichten onderdrukt worden. Om
 regels te beheersen gebruik "--debug 4:str1,min,max" en voor bestanden
 die in naam overeenkomen met str1 zullen van regel min tot regel max
 debug-berichten genereren, terwijl alle andere debug-berichten onderdrukt

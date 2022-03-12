@@ -63,7 +63,7 @@ have the choice of either managing the city on your own (which has some
 drawbacks, see below), or open that city and change the surplus
 requirements so that they can be fulfilled.
 
-When you have made a setup for a city, you need to click on 
+When you have made a setup for a city, you need to click on
 "Control city" to switch on the Governor. If this button's text is greyed,
 either the Governor is already active, or the task is impossible. In the
 latter case you see dashes instead of numbers in the results block.
@@ -162,10 +162,10 @@ preset={ "name","minsurp0","factor0","minsurp1","factor1","minsurp2",
 "factor2","minsurp3","factor3","minsurp4","factor4","minsurp5",
 "factor5","reqhappy","factortarget","happyfactor"
 
-so the order of the preset should be as follows: 
+so the order of the preset should be as follows:
 
-name of preset, minimal surplus 0, factor 0, ... , 
-require city to be happy, what the target should be [0,1], 
+name of preset, minimal surplus 0, factor 0, ... ,
+require city to be happy, what the target should be [0,1],
 the happiness factor
 
 Currently there are 6 surpluses and factors. They are:
@@ -177,7 +177,7 @@ see "client/agents/cma_core.h" for more information.
 
 The array should be terminated with a '}'.
 
-Here are 21 presets you can use if you can't come up with some on 
+Here are 21 presets you can use if you can't come up with some on
 your own:
 
 "Max food",0,10,0,1,0,1,0,1,0,1,0,1,0,0,1

@@ -91,7 +91,7 @@ Gets modpack list from given URL, rather than the standard location on the
 Freeciv team's servers.
 .TP
 .BI "\-p \fIdirectory\fP, \-\-prefix \fIdirectory\fP"
-Installs modpacks under given directory hierarchy. 
+Installs modpacks under given directory hierarchy.
 .TP
 .BI "\-v, \-\-version"
 Prints the version number and exits.

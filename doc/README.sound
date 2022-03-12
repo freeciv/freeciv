@@ -16,8 +16,8 @@ file, given as an option at startup, will change sounds. For example,
 	freeciv-gtk3.22 --Sound mysounds.spec
 
 will read sound files from "mysounds.spec". You will need to download
-or copy or link those sounds into whichever directory is mentioned in this 
-file first, or edit it to refer to the right files. All references are by 
+or copy or link those sounds into whichever directory is mentioned in this
+file first, or edit it to refer to the right files. All references are by
 default relative to the data/ directory. Soundpacks can be downloaded from
 the Freeciv website in the tar format. You will either need to unpack them
 with eg "tar -xzvf stdsoundsX.tar.gz" or use 7-Zip (for Windows etc.), and
@@ -97,6 +97,6 @@ Sound creators: Please name sound files intelligibly. Include a README
 where you present the licensing terms used (if public domain, say so)
 for the sound files.
 
-Modpack makers: Please give secondary tags that refer to standard tags 
-so that those who have not downloaded the latest & greatest sound pack 
+Modpack makers: Please give secondary tags that refer to standard tags
+so that those who have not downloaded the latest & greatest sound pack
 can still enjoy the game.

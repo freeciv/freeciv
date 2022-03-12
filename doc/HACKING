@@ -1,10 +1,10 @@
                           Freeciv Hacker's Guide
-			  
+
 This guide is intended to be a help for developers, wanting to mess with
-Freeciv program. 
+Freeciv program.
 
 Here and there, you'll see some comments marked as [...], containing more
-personal thoughts on the design, why it looks like it does, and sometimes what 
+personal thoughts on the design, why it looks like it does, and sometimes what
 went wrong. I hope developers will find that interesting too.
 
 To read about the AI, see README.AI
@@ -17,10 +17,10 @@ The client is pretty dumb. Almost all calculations are performed on the
 server.
 
 [It wasn't like this always. Originally more code was placed in the
-common/ dir, allowing the client to do some of the world updates itself. 
-The end_of_turn city-refresh was for example performed both on the server 
+common/ dir, allowing the client to do some of the world updates itself.
+The end_of_turn city-refresh was for example performed both on the server
 and on the client. However things got quite complex, more and more info
-was needed on the client-side(security problem). Little by little we moved 
+was needed on the client-side(security problem). Little by little we moved
 more code to the server, and as of 1.5 the client is quite dumb -PU]
 
 The source code has the following important directories:
@@ -76,7 +76,7 @@ set minplayers 0        # no human player needed
 set ec_turns 0          # avoid timestamps in savegames
 set aifill 7            # fill to 7 players
 hard                    # make the AI do complex things
-create Caesar           # first player (with known name) created and 
+create Caesar           # first player (with known name) created and
                         # toggled to AI mode
 start                   # start game
 
@@ -99,7 +99,7 @@ watch the show.
 Note, that the server will eventually flood a client with updates
 faster than they can be drawn to the screen, thus it should always be
 throttled by setting a timeout value high enough to allow processing
-of the large update loads near the end of the game. 
+of the large update loads near the end of the game.
 
 The autogame mode with timeout -1 is only available in DEBUG versions
 and should not be used with clients as it removes virtually all the
@@ -128,7 +128,7 @@ unit_list_iterate(ptile->units, punit) {
 } unit_list_iterate_end;
 
 Note that the macro itself declares the variable punit.
-Similarly there is a 
+Similarly there is a
 
 city_list_iterate(pplayer->cities, pcity) {
 /* Do something with pcity, the pointer to a city struct */
@@ -145,7 +145,7 @@ disband a unit. In the server you would do this by calling
 wipe_unit(punit), which would then remove the unit node from all the
 relevant unit lists. But by the way unit_list_iterate works, if the removed
 unit was the following node unit_list_iterate will already have saved the
-pointer, and use it in a moment, with a segfault as the result. To avoid 
+pointer, and use it in a moment, with a segfault as the result. To avoid
 this, use unit_list_iterate_safe instead.
 
 You can also define your own lists with operations like iterating; read how
@@ -201,13 +201,13 @@ a unit disband is performed:
     packet layer function send_packet_unit_request() with this structure and
     packet type: PACKET_UNIT_DISBAND.
 3)  The packet layer serializes the structure, wraps it up in a packet
-    containing the packetlength, type and the serialized data. Finally 
+    containing the packetlength, type and the serialized data. Finally
     the data is send to the server.
 4)  On the server the packet is read. Based on the type, the corresponding
-    de-serialize function is called is called by get_packet_from_connection(). 
+    de-serialize function is called is called by get_packet_from_connection().
 5)  A packet_unit_request is initialized with the bytestream.
-6)  Since the incoming packet is a request (a request in this context 
-    is every packet sent from the client to the server) the server sends a 
+6)  Since the incoming packet is a request (a request in this context
+    is every packet sent from the client to the server) the server sends a
     PACKET_PROCESSING_STARTED packet to the client.
 7)  Finally the corresponding packet-handler, handle_unit_disband() function,
     is called with the newly constructed structure.
@@ -218,11 +218,11 @@ a unit disband is performed:
     wrapped into a packet along with the type PACKET_REMOVE_UNIT:
     send_packet_generic_integer().
 11) The packet is serialized and send across the network.
-12) The packet-handler returns and the end of the processing is 
+12) The packet-handler returns and the end of the processing is
     announced to the client with a PACKET_PROCESSING_FINISHED packet.
-13) On the client the PACKET_REMOVE_UNIT packet is deserialized into 
+13) On the client the PACKET_REMOVE_UNIT packet is deserialized into
     a packet_generic_integer structure.
-14) The corresponding client handler function is now called 
+14) The corresponding client handler function is now called
     handle_remove_unit(), and finally the unit is disbanded.
 
 Notice that the two packets (PACKET_UNIT_DISBAND and
@@ -501,7 +501,7 @@ becomes important when we start to use non-standard maps (see above).
 
      map          natural     native       index
 
-        CF        A B C         ABC     
+        CF        A B C         ABC
        BEIL  <=>   D E F   <=>  DEF   <=> ABCDEFGHIJKL
       ADHK        G H I         GJI
        GJ          J K L        JKL
@@ -927,7 +927,7 @@ There are four player-related entities:
 
 + nation
   A type of civilization (except that very little actually depends on
-  nation, and the oddity exists that each player must be of different 
+  nation, and the oddity exists that each player must be of different
   nation)
 
 + user
@@ -935,8 +935,8 @@ There are four player-related entities:
   freeciv client.
 
 + connection
-  Records a client connection; like a user, but disappears when the user 
-  disconnects, whereas for real users we may want to remember them between 
+  Records a client connection; like a user, but disappears when the user
+  disconnects, whereas for real users we may want to remember them between
   connections.  See Connections section below.
 
 Where do these entities exist?
@@ -986,24 +986,24 @@ users and unprotected ones.
 ----
   THE PRESENT IMPLEMENTATION:
 
-Currently access levels are stored in the connection struct.  This allows 
-access levels to be assigned to each individual connected player, which 
-would not be the case if they were directly assigned to the player struct 
-(due to the fact that the players array changes when players are added or 
+Currently access levels are stored in the connection struct.  This allows
+access levels to be assigned to each individual connected player, which
+would not be the case if they were directly assigned to the player struct
+(due to the fact that the players array changes when players are added or
 removed).
 
 But that's it.
 
 Players are still created before the game is started, and player names
-still belong to players.  Access levels exist in client and server, 
+still belong to players.  Access levels exist in client and server,
 but only the server uses them.  User ids are not yet implemented;
 Server ids do not exist at all.
 
-Commands to protect/unprotect users do not yet exist; they would serve 
+Commands to protect/unprotect users do not yet exist; they would serve
 no useful purpose.
 
-Access levels can set for individual users, including AI players with 
-a connected observer, but only while someone is connected; they will not 
+Access levels can set for individual users, including AI players with
+a connected observer, but only while someone is connected; they will not
 be remembered when the user disconnects.
 
 ===========================================================================
@@ -1046,7 +1046,7 @@ Connections can be classified as follows:  (first match applies)
 2. (pconn->established == 0) TCP connection has been made, but initial
    Freeciv packets have not yet been negotiated (join_game etc).
    Exists in game.all_connections only.  Should not be sent any
-   information except directly as result of join_game etc packets, 
+   information except directly as result of join_game etc packets,
    or server shutdown, or connection close, etc.
 
 (All following cases exist in game.est_connections.)
@@ -1080,7 +1080,7 @@ After many years of complaints regarding the ease (or lack thereof) of
 starting a game of Freeciv [start a server, input settings on a command line,
 start a client, and connect, etc], a method has been developed for starting
 and playing a complete game using only the client. This has been called the
-"extended" or "new connect dialog". This is perhaps a misnomer, but there it 
+"extended" or "new connect dialog". This is perhaps a misnomer, but there it
 is.
 
 It works by forking a server from within the client and then controlling that
@@ -1098,7 +1098,7 @@ start a new game, continue a saved game and connect to a networked game.
 For the latter option, connect_to_server() is called and login proceeeds as
 normal. The first two options, connectdlg_common.c:client_start_server() is
 called. Here, a server is spawned, standard input and outputs to that process
-are closed, and then connect_to_server() is called so the client connects to 
+are closed, and then connect_to_server() is called so the client connects to
 that server.
 
 At this point everything regarding the client/server connection is as usual;
@@ -1112,7 +1112,7 @@ least has access to the same disk as the server). The procedure is:
 2. The client, upon receiving confirmation that it can join the server,
    creates a file using the name the server selected and places a random number
    inside that file.
-3. The client sends a packet [packet_single_want_hack_req] with that random 
+3. The client sends a packet [packet_single_want_hack_req] with that random
    number back to the server.
 4. The server upon receiving the packet [packet_single_want_hack_req], opens
    the file and compares the two numbers. If the file exists and the numbers

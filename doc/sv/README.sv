@@ -95,7 +95,7 @@ Server:
   |  Vissa kommandon tar ett eller flera argument, åtskilda av
   |  blanksteg.  I många fall kan kommandon och kommandoargument
   |  förkortas. Valmöjligheter är inställningar som styr servern medan
-  |  den är i gång. 
+  |  den är i gång.
   |
   |  För att ta reda på hur man får mer information om kommandon och
   |  valmöjligheter, använd "help help".
@@ -456,7 +456,7 @@ Vi har fyra diskussionslistor:
                    listan utan bara ta emot.
   freeciv-i18n     Översättning av Freeciv.
                    Samtal om översättning av Freecivkoden,
-                   dokumentation och websida till andra språk än 
+                   dokumentation och websida till andra språk än
                    engelska.
   freeciv-dev      Programmering och annan utveckling.
   freeciv-commits  Kungörelser om ändringar i SVN-trädet.

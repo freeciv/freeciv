@@ -210,7 +210,7 @@ This section contains information on how to draw this terrain type.
                           on normal_tile_width and normal_tile_height, but
                           to corner of the full tile.
   layerN_offset_x       : Offset for terrain sprites
-  layerN_offset_y       
+  layerN_offset_y
   layerN_match_type     : If 0 or unset, no terrain matching will be done and
                           the base sprite will be drawn for the terrain. If
                           non-zero, then terrain matching will be done. A
@@ -332,7 +332,7 @@ having to modify earlier files in the list.
 Tag prefixes:
 -------------
 
-To help keep the tags organised, there is a rough prefix system used 
+To help keep the tags organised, there is a rough prefix system used
 for standard tags:
 
   f.	      national flags
@@ -398,7 +398,7 @@ sprites.
   progress indicators:
 
     There are three types of progress indicator. "science_bulb" indicates
-    progress toward the current research target. "warming_sun" indicates 
+    progress toward the current research target. "warming_sun" indicates
     progress toward global warming. "cooling_flake" indicates progress
     toward nuclear winter. Each indicator should have 8 states, numbered
     0 (least) through 7 (most). The sprite names are "s.<type>_<n>".

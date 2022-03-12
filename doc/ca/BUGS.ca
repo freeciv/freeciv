@@ -31,7 +31,7 @@ S'ha de fer el següent:
 
    Si et surten missatges de GDK/GTK, com per exemple:
 
-     Gtk-CRITICAL **: file gtkobject.c: line 1163 (gtk_object_ref): 
+     Gtk-CRITICAL **: file gtkobject.c: line 1163 (gtk_object_ref):
      assertion oject->ref_count > 0' failed.
 
    si us plau reinicia el client i afegeix "-- --g-fatal-warnings" a

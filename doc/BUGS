@@ -29,7 +29,7 @@ Here's what to do:
 
    If you get any GDK/GTK messages, as for example:
 
-     Gtk-CRITICAL **: file gtkobject.c: line 1163 (gtk_object_ref): 
+     Gtk-CRITICAL **: file gtkobject.c: line 1163 (gtk_object_ref):
      assertion object->ref_count > 0' failed.
 
    please restart your client and append "-- --g-fatal-warnings" to

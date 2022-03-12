@@ -80,7 +80,7 @@ const char *fc_ai_<modulename>_capstr(void)
   check if module is compatible with the version of freeciv one tries to
   load it into. Current freeciv's capstr is in common/ai.h macro FC_AI_MOD_CAPSTR.
 
- 
+
 bool fc_ai_<modulename>_setup(struct ai_type *ai)
   This function is called for AI module to setup itself. Most importantly
   it should setup callback table ai->funcs so that its other functions

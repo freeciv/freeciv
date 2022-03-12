@@ -23,9 +23,9 @@ Freeciv 2.2 は、「安定版(stable)」リリースです。普通に遊ぶに
    ムを保存と同じターンの CMA 変更は、失なわれるでしょう。
 
  - easy AI は、初心者のプレイヤーにはそれほど易しくありません。ゲーム
-   初期に AI があなたを負かすようなら、サーバ・オプションの 
+   初期に AI があなたを負かすようなら、サーバ・オプションの
    "generator" を 2 もしくは 3 にセットすることを試みて下さい。やり方
-   は、サーバでゲームを始める前に、 「set generator 2」 もしくは 
+   は、サーバでゲームを始める前に、 「set generator 2」 もしくは
    「set generator 3」と打ちます。
 
  - hard AI は、経験を積んだプレイヤーにはそれほど難しくありません。ま
@@ -76,7 +76,7 @@ Freeciv 2.2 は、「安定版(stable)」リリースです。普通に遊ぶに
 ===============
 
 (そのバグが翻訳上のものであるなら、その言語の「コンタクトを取る相手」
-にメールして下さい。名前とメールアドレスは 
+にメールして下さい。名前とメールアドレスは
 <http://freeciv.org/wiki/Translations> を見て下さい。)
 
 手順:
@@ -87,7 +87,7 @@ Freeciv 2.2 は、「安定版(stable)」リリースです。普通に遊ぶに
    問題を既に修正しているかもしれません。)
 
    さらに CVS リポジトリの開発中のスナップショットも利用して頂けます。
-   
+
         http://files.freeciv.org/latest/
 
    から FTP できます。
@@ -108,7 +108,7 @@ Freeciv 2.2 は、「安定版(stable)」リリースです。普通に遊ぶに
 
    何らかの GDK/GTK メッセージを受け取ったら、(以下のようなもの:
 
-     Gtk-CRITICAL **: file gtkobject.c: line 1163 (gtk_object_ref): 
+     Gtk-CRITICAL **: file gtkobject.c: line 1163 (gtk_object_ref):
      assertion oject->ref_count > 0' failed.
 
    ) クライアントを再起動して、 "-- --g-fatal-warnings" をコマンドライ

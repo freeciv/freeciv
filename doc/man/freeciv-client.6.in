@@ -133,8 +133,8 @@ to the log instead.  If \fIfilename\fP already exists, it is appended to.
 .BI "\-M \fIURL\fP, \-\-Meta \fIURL\fP"
 Specifies the \fIURL\fP of the metaserver to connect to. A metaserver is a
 place where Freeciv servers can publish their presence. Freeciv clients consult
-the metaserver to offer users a selection of games to join. By default, the 
-standard metaserver run by the Freeciv maintainers will be used. 
+the metaserver to offer users a selection of games to join. By default, the
+standard metaserver run by the Freeciv maintainers will be used.
 .TP
 .BI "\-n \fIname\fP, \-\-name \fIname\fP"
 Specifies the user name (\fIname\fP) to use to connect to the server. This
@@ -142,11 +142,11 @@ option is critical when reconnecting to a game. Please note that you might
 need to quote your username.
 .TP
 .BI "\-p \fIport\fP, \-\-port \fIport\fP"
-Specifies the server \fIport\fP to connect to. By default this is 5556, if in 
+Specifies the server \fIport\fP to connect to. By default this is 5556, if in
 doubt ask the server administrator.
 .TP
 .BI "\-P \fIstring\fP, \-\-Plugin \fIstring\fP"
-Specifies the plugin to use for sound output.  Available options  for 
+Specifies the plugin to use for sound output.  Available options  for
 \fIstring\fP are:
 
 \fBnone\fP
@@ -262,7 +262,7 @@ on the specific client; most clients default to UTF-8.
 .BI FREECIV_LOCAL_ENCODING
 Sets the local character encoding (used for the command line and terminal
 output). The default is inferred from other aspects of the environment.
-.TP 
+.TP
 .BI FREECIV_MULTICAST_GROUP
 Sets the multicast group (for the LAN tab).
 .TP
@@ -335,10 +335,10 @@ Updates and new info is first posted there.
 .SH AUTHORS
 The Freeciv Team <@MAIL_ADDRESS@>.
 
-This manpage was originally put together by Florian Ernst 
-<florian_ernst AT gmx.net> using the Client Manual and the comments in the 
+This manpage was originally put together by Florian Ernst
+<florian_ernst AT gmx.net> using the Client Manual and the comments in the
 sourcecode. It was updated by Ben Bettin <bwbettin AT gmail.com> to add new
-features, integrate information from the website's online documentation, and 
+features, integrate information from the website's online documentation, and
 for slight formatting adjustments. Feel free to use it as you wish.
 
 .SH "SEE ALSO"

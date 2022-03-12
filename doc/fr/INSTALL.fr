@@ -56,7 +56,7 @@ pour déterminer si votre système convient. Dans le doute, essayez.
    Le développement de Freeciv se fait avant tout avec "gcc",
    l'excellent compilateur C du projet GNU. Les distributions peuvent
    être compilées avec gcc ou la plupart des autres compilateurs (comme
-   le compilateur C de Solaris). 
+   le compilateur C de Solaris).
 
  - Un programme "make"
 
@@ -194,7 +194,7 @@ de développement "SDL2_mixer" est trouvée sur le système.
    et facile à programmer.
 
   La bibliothèque "Gtk+" est livrée avec une librairie appariée :
- 
+
     "Gdk" :
       Fournit une couche d'abstraction au-dessus de X-Window / LinuxFB
       / Win32 pour implémenter des fonctions de base de dessin, de
@@ -273,7 +273,7 @@ dans l'ordre suivant : pkg-config, Glib, Atk, Pango, Gdk-Pixbuf, Gtk+.
   "Gtk+ 3.22".
 
   La bibliothèque "Gtk+" est livrée avec une librairie appariée :
- 
+
     "Gdk" :
       Fournit une couche d'abstraction au-dessus de X-Window / LinuxFB
       / Win32 pour implémenter des fonctions de base de dessin, de
@@ -393,7 +393,7 @@ qui contient les fichiers Freeciv, et tapez :
 Ce script tentera ensuite de déterminer les fonctionnalités présentes
 (et absentes !) sur votre système. Il devrait afficher une
 page ou deux de diagnostics sur votre machine, et s'arrêter
-grâcieusement. 
+grâcieusement.
 
 Si vous désirez de l'aide sur les diverses options supportées par le
 script configure, essayez l'option --help, comme ceci :

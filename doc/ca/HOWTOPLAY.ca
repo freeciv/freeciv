@@ -81,7 +81,7 @@ fixant la taxa de luxes al 100%. Quan facis això, totes les ciutats
 passaran a estar en festa immediatament, i creixeran a un ritme d'un
 per torn mentre tinguin excedent de menjar. Quan siguin prou grans,
 abaixa el luxe a un nivell raonable entre el 20 i el 40%. Això et
-col·loca a la fase de la Segona Expansió. 
+col·loca a la fase de la Segona Expansió.
 
 	L'inconvenient d'això és que posar els luxes al 100% implica
 que la teva recerca científica pràcticament s'aturarà. Un cop les
@@ -90,7 +90,7 @@ tornaràs a guanyar tecnologies, però a un ritme lleugerament menor. Si
 has fet alguna mica d'exploració, i no estàs amenaçat de forma
 immediata per un altre jugador, pot ser bona idea de mantenir la ciència
 al màxim fins que les tecnologies comencin a trigar massa a generar-se.
-	
+
 Fase de la Segona Expansió:
 
 	Quan tinguis les ciutats a un nivell de població bo, desacostuma-
@@ -196,7 +196,7 @@ generador.
 - 3 genera illes de mida igual (de vegades amb algunes illes més petites
   de propina). D'aquesta manera, ningú no pot queixar-se d'haver perdut
   "per culpa d'aquest recoi d'illa"
-- 0 es fa servir per mapes prefabricats. (Carrega un mapa escrivint 
+- 0 es fa servir per mapes prefabricats. (Carrega un mapa escrivint
   /load /dir/partidadesada.sav.gz al camp d'entrada de la part inferior
   de la pantalla, d'aquesta manera es poden modificar els paràmetres
   d'una partida. Fes servir l'editor de mapes per modificar un mapa).

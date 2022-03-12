@@ -23,8 +23,8 @@ Things that needs to be fixed
 Idea space
 
 
-INTRODUCTION 
-============ 
+INTRODUCTION
+============
 
 The Freeciv AI is widely recognized as being as good as or better
 military-wise as the AI of certain other games it is natural to compare
@@ -48,7 +48,7 @@ CONTACTING THE CURRENT AI DEVELOPERS
 ====================================
 
 AI development used to have its own mailing list, freeciv-ai@freeciv.org.
-Go to 
+Go to
 
   http://www.freeciv.org/wiki/Community_Forums
 
@@ -70,8 +70,8 @@ The long-term goals for Freeciv AI development are
 WANT CALCULATIONS
 =================
 
-Build calculations are expressed through a structure called adv_choice. 
-This has a variable called "want", which determines how much the AI 
+Build calculations are expressed through a structure called adv_choice.
+This has a variable called "want", which determines how much the AI
 wants whatever item is pointed to by choice->type. choice->want is
 
    -199   get_a_boat
@@ -83,8 +83,8 @@ wants whatever item is pointed to by choice->type. choice->want is
     > 200 Frequently used as a cap. When want exceeds this value,
           it is reduced to a lower number.
 
-These are ideal numbers, your mileage while travelling through the 
-code may vary considerably.  Technology and diplomats, in particular, 
+These are ideal numbers, your mileage while travelling through the
+code may vary considerably.  Technology and diplomats, in particular,
 seem to violate these standards.
 
 
@@ -132,7 +132,7 @@ This estimation is implemented by kill_desire function (which isn't
 perfect: multi-victim part is flawed) plus some corrections.  In
 general,
         Want = Operation_Profit * Amortization_Factor
-where 
+where
 
 * Amortization_Factor is completely beyond me (but it's a function of the
 estimated time length of the operation).
@@ -141,14 +141,14 @@ estimated time length of the operation).
 
 where
 
-* Maintenance 
-  = (Support + Unhappiness_Compensation) * Operation_Time 
+* Maintenance
+  = (Support + Unhappiness_Compensation) * Operation_Time
   (here unhappiness is from military unit being away from home
-   and Support is the number of shields spent on supporting this unit 
+   and Support is the number of shields spent on supporting this unit
    per turn )
 
 * Battle_Profit
-  = Shields_Lost_By_Enemy * Probability_To_Win 
+  = Shields_Lost_By_Enemy * Probability_To_Win
     - Shields_Lost_By_Us * Probability_To_Lose
 
 That is Battle_Profit is a probabilistic average.  It answer the
@@ -179,7 +179,7 @@ for the prototype attacker (using find_something_to_kill).  Having
 found a target, we do the last refinement by calling
 process_attacker_want to look for the best attacker type to take out
 the target.  This type will be our attacker choice.  Note that the
-function process_attacker_want has side-effects wrt the tech selection. 
+function process_attacker_want has side-effects wrt the tech selection.
 
 Here is an example:
 
@@ -245,20 +245,20 @@ Now they exist in parallel, although developed to a different degree.
 DIPLOMACY
 =========
 
-The AI's diplomatic behaviour is current only regulated by the 
+The AI's diplomatic behaviour is current only regulated by the
 'diplomacy' server setting.
 
 AI proposes cease-fire on first contact.
 
-AI is not very trusting for NEUTRAL and PEACE modes, but once it hits 
-ALLIANCE, this changes completely, and it will happily hand over 
-any tech and maps it has to you.  The only thing that will make the AI 
+AI is not very trusting for NEUTRAL and PEACE modes, but once it hits
+ALLIANCE, this changes completely, and it will happily hand over
+any tech and maps it has to you.  The only thing that will make the AI
 attack you then is if you build a spaceship.
 
 For people who want to hack at this part of the AI code, please note
  * pplayers_at_war(p1,p2) returns FALSE if p1==p2
  * pplayers_non_attack(p1,p2) returns FALSE if p1==p2
- * pplayers_allied(p1,p2) returns TRUE if p1==p2 
+ * pplayers_allied(p1,p2) returns TRUE if p1==p2
  * pplayer_has_embassy(p1,p2) returns TRUE if p1==p2
 i.e. we do not ever consider a player to be at war with themmself, we
 never consider a player to have any kind of non-attack treaty with
@@ -314,7 +314,7 @@ THINGS THAT NEED TO BE FIXED
 * Cities don't realize units are on their way to defend it.
 * AI builds cities without regard to danger at that location.
 * AI won't build cross-country roads outside of city radii.
-* Locally_zero_minimap is not implemented when wilderness tiles 
+* Locally_zero_minimap is not implemented when wilderness tiles
 change.
 * If no path to chosen victim is found, new victim should be chosen.
 * Emergencies in two cities at once aren't handled properly.
@@ -333,9 +333,9 @@ IDEA SPACE
 ==========
 
 * Friendly cities can be used as beachheads
-* Assess_danger should acknowledge positive feedback between multiple 
+* Assess_danger should acknowledge positive feedback between multiple
 attackers
-* It would be nice for bodyguard and charge to meet en-route more 
+* It would be nice for bodyguard and charge to meet en-route more
 elegantly.
 * struct choice should have a priority indicator in it.  This will
 reduce the number of "special" want values and remove the necessity to

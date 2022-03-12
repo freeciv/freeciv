@@ -172,7 +172,7 @@ Fråga: Vilken kartstorlek ska man använda?
 
 	Kartstorleken beror på hur många spelare man är och hur snart
 man vill att spelet ska ta slut. Standardkartstorleken (80x50) är
-tillräckligt stor för ett ganska snabbt 2-spelarspel men ger ett 
+tillräckligt stor för ett ganska snabbt 2-spelarspel men ger ett
 *mycket* snabbt spel om > 3 spelare deltar.
 
 	Snabba spel brukar vara otillfredställande för alla utom
@@ -190,13 +190,13 @@ alldeles för liten ö. Att behöva börja på en alldeles för liten ö kan
 göra folk vansinniga. För att åtgärda detta har våra godhjärtade
 hjältar till programmerare byggt in servertillvalet "generator".
 - När den är satt till 1 ger det en vanlig karta med öar av olika
-  (orättvisa) storlekar. 
+  (orättvisa) storlekar.
 - När den är satt till 2 skapas en karta m.h.a. en pseudo-fraktal
   generator. Det innebär att berg och kullar placeras i enlighet
   med en naturlig matematisk formel.
 - När den är satt till 3 skapas en lika stor ö för varje spelare,
   så att ingen kan skylla på sin ö om de förlorar.
-- 0 används för färdiga kartor. Ladda en karta med /load 
+- 0 används för färdiga kartor. Ladda en karta med /load
   /katalog/savegame.sav.gz i chatraden.
 
 Under "generator" finns även tillvalet "startpos". Detta tillval
