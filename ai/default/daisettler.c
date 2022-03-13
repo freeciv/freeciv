@@ -762,7 +762,7 @@ struct cityresult *city_desirability(struct ai_type *ait, struct player *pplayer
   /* Add remaining points, which is our potential */
   cr->total += cr->remaining;
 
-  fc_assert_ret_val(cr->total >= 0, NULL); /* Does not frees cr! */
+  fc_assert_ret_val(cr->total >= 0, NULL); /* Does not free cr! */
 
   return cr;
 }
