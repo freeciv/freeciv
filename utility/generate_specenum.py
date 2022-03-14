@@ -79,7 +79,7 @@ def make_documentation(file):
  * mark a name as translatable use N_().
  *
  * SPECENUM_NAMEOVERRIDE: call callback function foo_name_cb(enum foo),
- * defined by specnum user, to get name of the enum value. If the function
+ * defined by specenum user, to get name of the enum value. If the function
  * returns NULL, compiled in names are used.
  *
  * SPECENUM_BITVECTOR: specifies the name of a bit vector for the enum
