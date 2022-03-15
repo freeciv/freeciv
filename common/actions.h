@@ -275,7 +275,7 @@ extern "C" {
 #define SPECENUM_VALUE104 ACTION_PARADROP_ENTER_CONQUER
 #define SPECENUM_VALUE104NAME "Paradrop Unit Enter Conquer"
 #define SPECENUM_VALUE105 ACTION_HOMELESS
-#define SPECENUM_VALUE106NAME "Unit Make Homeless"
+#define SPECENUM_VALUE105NAME "Unit Make Homeless"
 #define SPECENUM_BITVECTOR bv_actions
 #define SPECENUM_COUNT ACTION_COUNT
 #include "specenum_gen.h"
