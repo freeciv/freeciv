@@ -150,7 +150,7 @@ void adjust_int_map_filtered(int *int_map, int int_map_max, void *data,
     INITIALIZE_ARRAY(frequencies, size, 0);
 
     /* Translate value so the minimum value is 0
-       and count the number of occurencies of all values to initialize the 
+       and count the number of occurrences of all values to initialize the
        frequencies[] */
     whole_map_iterate_filtered(ptile, data, filter) {
       int_map[tile_index(ptile)] -= minval;
