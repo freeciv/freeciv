@@ -121,7 +121,7 @@ const char *get_locale_dir(void)
      * Can't check just against DIR_SEPARATOR_CHAR as the mingw
      * layer may have converted path to use '/' even on Windows.
      */
-    if (LOCALEDIR[0] != '/' || LOCALEDIR[0] != '\\') {
+    if (LOCALEDIR[0] != '/' && LOCALEDIR[0] != '\\') {
       char *cwdbuf;
 
 #ifdef HAVE_GETCWD
