@@ -59,6 +59,8 @@ struct world wld;
 
 bool am_i_server = FALSE;
 
+bool _ruleset_compat_mode = FALSE;
+
 static void game_defaults(bool keep_ruleset_value);
 
 /**********************************************************************//**

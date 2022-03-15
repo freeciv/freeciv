@@ -9120,8 +9120,11 @@ bool load_rulesets(const char *restore, const char *alt, bool compat_mode,
                    rs_conversion_logger logger,
                    bool act, bool buffer_script, bool load_luadata)
 {
+  set_ruleset_compat_mode(compat_mode);
+
   if (load_rulesetdir(game.server.rulesetdir, compat_mode, logger,
                       act, buffer_script, load_luadata)) {
+    set_ruleset_compat_mode(FALSE);
     return TRUE;
   }
 
@@ -9130,6 +9133,7 @@ bool load_rulesets(const char *restore, const char *alt, bool compat_mode,
                         load_luadata)) {
       sz_strlcpy(game.server.rulesetdir, alt);
 
+      set_ruleset_compat_mode(FALSE);
       return TRUE;
     }
   }
@@ -9141,12 +9145,16 @@ bool load_rulesets(const char *restore, const char *alt, bool compat_mode,
 
       notify_ruleset_fallback(_("Ruleset couldn't be loaded. Keeping previous one."));
 
+      set_ruleset_compat_mode(FALSE);
+
       /* We're in sane state as restoring previous ruleset succeeded,
        * but return failure to indicate that this is not what caller
        * wanted. */
       return FALSE;
     }
   }
+
+  set_ruleset_compat_mode(FALSE);
 
   /* Fallback to default one, but not if that's what we tried already */
   if (strcmp(GAME_DEFAULT_RULESETDIR, game.server.rulesetdir)
