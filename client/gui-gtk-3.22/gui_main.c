@@ -321,9 +321,6 @@ static void parse_options(int argc, char **argv)
       free(option);
     }
     /* Can't check against unknown options, as those might be gtk options */
-    /* TODO: gtk+ is about to drop its commandline options anyway,
-     *       so we can stop supporting them and have error checking
-     *       added here. */
 
     i++;
   }

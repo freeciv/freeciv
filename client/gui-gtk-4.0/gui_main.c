@@ -308,11 +308,11 @@ static void parse_options(int argc, char **argv)
         exit(EXIT_FAILURE);
       }
       free(option);
+    } else {
+      fc_fprintf(stderr, _("Unknown command-line option \"%s\".\n"),
+                 argv[i]);
+      exit(EXIT_FAILURE);
     }
-    /* Can't check against unknown options, as those might be gtk options */
-    /* TODO: gtk is about to drop its commandline options anyway,
-     *       so we can stop supporting them and have error checking
-     *       added here. */
 
     i++;
   }
