@@ -29,6 +29,7 @@
 #include "map.h"
 
 /* server */
+#include "aiiface.h"
 #include "gamehand.h"
 #include "maphand.h"
 #include "meta.h"
@@ -806,6 +807,16 @@ static void metamessage_action(const struct setting *pset)
   }
 }
 
+/************************************************************************//**
+  Change the default AI type.
+****************************************************************************/
+static void aitype_action(const struct setting *pset)
+{
+  if (!set_default_ai_type_name(pset->string.value)) {
+    log_warn(_("Failed to update default AI type."));
+  }
+}
+
 /****************************************************************************
   Validation callback functions.
 ****************************************************************************/
@@ -1271,6 +1282,22 @@ static bool topology_callback(unsigned value, struct connection *caller,
     return FALSE;
   }
 #endif /* FREECIV_WEB */
+
+  return TRUE;
+}
+
+/************************************************************************//**
+  AI type setting validation callback.
+****************************************************************************/
+static bool aitype_callback(const char *value, struct connection *caller,
+                            char *reject_msg, size_t reject_msg_len)
+{
+  if (ai_type_by_name(value) == NULL) {
+    settings_snprintf(reject_msg, reject_msg_len,
+                      _("No such AI type loaded."));
+
+    return FALSE;
+  }
 
   return TRUE;
 }
@@ -3096,6 +3123,14 @@ static struct setting settings[] = {
                     "Set to empty (\"\", not \"empty\") to always use an "
                     "automatically generated meta server message."),
                  NULL, metamessage_action, GAME_DEFAULT_USER_META_MESSAGE)
+
+  GEN_STRING_NRS("aitype", game.server.default_ai_type_name,
+                 SSET_META, SSET_INTERNAL, SSET_RARE, ALLOW_HACK, ALLOW_HACK,
+                 N_("Default AI type"),
+                 N_("Name of the default AI type. New AI players will be "
+                    "created with that type by default. Changing this "
+                    "setting does not affect existing AI players."),
+                 aitype_callback, aitype_action, AI_MOD_DEFAULT)
 };
 
 #undef GEN_BOOL

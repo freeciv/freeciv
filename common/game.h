@@ -271,6 +271,8 @@ struct civ_game {
 
       struct player *random_move_time;
 
+      char default_ai_type_name[256];
+
       struct {
         char *description_file;
         char *nationlist;

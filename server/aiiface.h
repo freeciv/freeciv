@@ -26,4 +26,6 @@ void call_incident(enum incident_type type, enum casus_belli_range scope,
                    struct player *violator, struct player *victim);
 void call_ai_refresh(void);
 
+bool set_default_ai_type_name(const char *name);
+
 #endif /* FC__AIIFACE_H */

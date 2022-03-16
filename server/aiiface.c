@@ -208,7 +208,7 @@ void ai_init(void)
   }
 #endif /* AI_MOD_STATIC_STUB */
 
-  default_ai = ai_type_by_name(AI_MOD_DEFAULT);
+  set_default_ai_type_name(AI_MOD_DEFAULT);
 #ifdef AI_MODULES
   if (default_ai == NULL) {
     /* Wasn't among statically linked. Try to load dynamic module. */
@@ -216,7 +216,7 @@ void ai_init(void)
       failure = TRUE;
     }
     if (!failure) {
-      default_ai = ai_type_by_name(AI_MOD_DEFAULT);
+      set_default_ai_type_name(AI_MOD_DEFAULT);
     }
   }
 #endif /* AI_MODULES */
@@ -225,6 +225,10 @@ void ai_init(void)
               AI_MOD_DEFAULT);
     exit(EXIT_FAILURE);
   }
+
+  fc_snprintf(game.server.default_ai_type_name,
+              sizeof(game.server.default_ai_type_name),
+              "%s", default_ai_type_name());
 }
 
 /**********************************************************************//**
@@ -262,4 +266,21 @@ void call_ai_refresh(void)
 const char *default_ai_type_name(void)
 {
   return default_ai->name;
+}
+
+/**********************************************************************//**
+  Set default ai type. Keeps the existing type if the new one
+  cannot be found.
+**************************************************************************/
+bool set_default_ai_type_name(const char *name)
+{
+  struct ai_type *new_type = ai_type_by_name(name);
+
+  if (new_type != NULL) {
+    default_ai = new_type;
+
+    return TRUE;
+  }
+
+  return FALSE;
 }
