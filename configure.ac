@@ -386,7 +386,7 @@ AC_SUBST([DESKTOPDIR])
 
 AC_ARG_WITH([appdatadir],
   AS_HELP_STRING([--with-appdatadir], [install appdata files to given dir]),
-[ APPDATADIR=${withval} ], [ APPDATADIR="\$(prefix)/share/appdata" ])
+[ APPDATADIR=${withval} ], [ APPDATADIR="\$(prefix)/share/metainfo" ])
 AC_SUBST([APPDATADIR])
 
 dnl try to support this development version's previous save games formats
