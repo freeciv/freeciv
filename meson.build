@@ -2,7 +2,8 @@
 project('freeciv', ['c', 'cpp'], meson_version: '>= 0.48.0')
 
 if not get_option('ack_experimental')
-  error('Autotools are still the only fully supported way to build freeciv.\nSet configure option "ack_experimental" to true if you really want to do experimental meson build.')
+  error('Autotools are still the only fully supported way to build freeciv.\nSet configure option "ack_experimental" to true if you really want to do experimental meson build.\n' +
+        'Most scripts that do freeciv build with meson allow you to pass configure options\nvia environment variable EXTRA_CONFIG.')
 endif
 
 add_global_arguments('-Wno-nonnull-compare', language : 'c')
