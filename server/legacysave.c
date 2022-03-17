@@ -4037,10 +4037,9 @@ static void game_load_internal(struct section_file *file)
     } player_slots_iterate_end;
 
     /* check number of players */
-    {
-      int nplayers = secfile_lookup_int_default(file, 0, "game.nplayers");
-
-      fc_assert_ret(player_count() == nplayers);
+    if (secfile_lookup_int_default(file, 0, "game.nplayers") != player_count()) {
+      log_error(_("Inconsistent player count in savegame"));
+      return; /* FIXME: Should this be fatal? */
     }
 
     /* Load team informations. All players should now have teams. This is
