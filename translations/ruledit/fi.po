@@ -1,5 +1,5 @@
 # Finnish translation of freeciv-ruledit
-# Copyright (C) 2016-2021
+# Copyright (C) 2016-2022
 # Marko Lindqvist <cazfi74@gmail.com>,
 # This translation is covered by the GNU General Public License Version 2.
 #
@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 3.1\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2022-01-14 17:42+0200\n"
-"PO-Revision-Date: 2022-01-14 17:39+0200\n"
+"POT-Creation-Date: 2022-03-17 23:58+0200\n"
+"PO-Revision-Date: 2022-03-17 23:56+0200\n"
 "Last-Translator: Marko Lindqvist <cazfi74@gmail.com>\n"
 "Language-Team: Finnish <laatu@lokalisointi.org>\n"
 "Language: fi\n"
@@ -26,7 +26,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
-#: tools/ruledit/conversion_log.cpp:41 tools/ruledit/effect_edit.cpp:111
+#: tools/ruledit/conversion_log.cpp:41 tools/ruledit/effect_edit.cpp:127
 #: tools/ruledit/req_vec_fix.cpp:190 tools/ruledit/requirers_dlg.cpp:43
 #: tools/ruledit/req_edit.cpp:135
 msgid "Close"
@@ -64,34 +64,34 @@ msgstr "Puolustusvoima"
 msgid "Move Rate"
 msgstr "Liikkuvuus"
 
-#: tools/ruledit/effect_edit.cpp:75 tools/ruledit/req_edit.cpp:66
+#: tools/ruledit/effect_edit.cpp:77 tools/ruledit/req_edit.cpp:66
 msgid "Type:"
 msgstr "Tyyppi:"
 
-#: tools/ruledit/effect_edit.cpp:89 tools/ruledit/req_edit.cpp:84
+#: tools/ruledit/effect_edit.cpp:91 tools/ruledit/req_edit.cpp:84
 msgid "Value:"
 msgstr "Arvo:"
 
-#: tools/ruledit/effect_edit.cpp:99 tools/ruledit/tab_building.cpp:90
+#: tools/ruledit/effect_edit.cpp:115 tools/ruledit/tab_building.cpp:90
 #: tools/ruledit/tab_extras.cpp:84 tools/ruledit/tab_good.cpp:85
 #: tools/ruledit/tab_gov.cpp:84 tools/ruledit/tab_multiplier.cpp:84
 msgid "Requirements"
 msgstr "Vaadittavat"
 
-#: tools/ruledit/effect_edit.cpp:103
+#: tools/ruledit/effect_edit.cpp:119
 msgid "Add Effect"
 msgstr "Lisää vaikutus"
 
-#: tools/ruledit/effect_edit.cpp:107
+#: tools/ruledit/effect_edit.cpp:123
 msgid "Delete Effect"
 msgstr "Poista vaikutus"
 
-#: tools/ruledit/effect_edit.cpp:184
+#: tools/ruledit/effect_edit.cpp:200
 #, c-format
 msgid "Effect #%d: %s"
 msgstr "Vaikutus #%d: %s"
 
-#: tools/ruledit/effect_edit.cpp:280
+#: tools/ruledit/effect_edit.cpp:303
 #, c-format
 msgid "%s effect #%d"
 msgstr "%s: Vaikutus #%d"
@@ -307,15 +307,15 @@ msgstr "Sääntökokoelma ladattu"
 msgid "Ruleset loading failed!"
 msgstr "Sääntökokoelman lataaminen epäonnistui!"
 
-#: tools/ruledit/ruledit_qt.cpp:431
+#: tools/ruledit/ruledit_qt.cpp:433
 msgid "Freeciv Ruleset Editor"
 msgstr "Freeciv-sääntökokoelmien muokkaustyökalu"
 
-#: tools/ruledit/ruledit_qt.cpp:447
+#: tools/ruledit/ruledit_qt.cpp:453
 msgid "Are you sure you want to quit?"
 msgstr "Oletko varma että haluat sulkea ohjelman?"
 
-#: tools/ruledit/ruledit_qt.cpp:451
+#: tools/ruledit/ruledit_qt.cpp:457
 msgid "Quit?"
 msgstr "Sulje ohjelma?"
 
@@ -325,6 +325,26 @@ msgstr "Sulje ohjelma?"
 #: tools/ruledit/tab_terrains.cpp:65 tools/ruledit/tab_unit.cpp:66
 msgid "Rule Name"
 msgstr "Sääntönimi"
+
+#: tools/ruledit/tab_building.cpp:70 tools/ruledit/tab_building.cpp:80
+#: tools/ruledit/tab_building.cpp:152 tools/ruledit/tab_building.cpp:153
+#: tools/ruledit/tab_enablers.cpp:239 tools/ruledit/tab_extras.cpp:68
+#: tools/ruledit/tab_extras.cpp:78 tools/ruledit/tab_extras.cpp:147
+#: tools/ruledit/tab_extras.cpp:148 tools/ruledit/tab_good.cpp:69
+#: tools/ruledit/tab_good.cpp:79 tools/ruledit/tab_good.cpp:148
+#: tools/ruledit/tab_good.cpp:149 tools/ruledit/tab_gov.cpp:68
+#: tools/ruledit/tab_gov.cpp:78 tools/ruledit/tab_gov.cpp:147
+#: tools/ruledit/tab_gov.cpp:148 tools/ruledit/tab_multiplier.cpp:68
+#: tools/ruledit/tab_multiplier.cpp:78 tools/ruledit/tab_multiplier.cpp:143
+#: tools/ruledit/tab_multiplier.cpp:144 tools/ruledit/tab_tech.cpp:67
+#: tools/ruledit/tab_tech.cpp:77 tools/ruledit/tab_tech.cpp:231
+#: tools/ruledit/tab_tech.cpp:232 tools/ruledit/tab_terrains.cpp:68
+#: tools/ruledit/tab_terrains.cpp:78 tools/ruledit/tab_terrains.cpp:143
+#: tools/ruledit/tab_terrains.cpp:144 tools/ruledit/tab_unit.cpp:69
+#: tools/ruledit/tab_unit.cpp:79 tools/ruledit/tab_unit.cpp:147
+#: tools/ruledit/tab_unit.cpp:148
+msgid "None"
+msgstr "Ei mikään"
 
 #: tools/ruledit/tab_building.cpp:75 tools/ruledit/tab_extras.cpp:73
 #: tools/ruledit/tab_good.cpp:74 tools/ruledit/tab_gov.cpp:73
@@ -623,7 +643,7 @@ msgstr "Poista tämä teknologia"
 msgid "Never"
 msgstr "Ei koskaan"
 
-#: tools/ruledit/tab_tech.cpp:354
+#: tools/ruledit/tab_tech.cpp:356
 msgid "A tech with that rule name already exists!"
 msgstr "Teknologia samalla sääntönimellä on jo olemassa!"
 
