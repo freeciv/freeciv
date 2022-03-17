@@ -79,6 +79,9 @@ def make_documentation(file):
  * defined by specenum user, to get name of the enum value. If the function
  * returns NULL, compiled in names are used.
  *
+ * SPECENUM_NAME_UPDATER: call callback function foo_name_update_cb(old_name),
+ * defined by specenum user, to get current name to search enum value with.
+ *
  * SPECENUM_BITVECTOR: specifies the name of a bit vector for the enum
  * values. It can not be used in combination with SPECENUM_BITWISE.
  *
@@ -206,6 +209,7 @@ extern "C" {
     macros.append("SPECENUM_MAX_VALUE")
     macros.append("SPECENUM_SIZE")
     macros.append("SPECENUM_NAMEOVERRIDE")
+    macros.append("SPECENUM_NAME_UPDATER")
     macros.append("SPECENUM_BITVECTOR")
 
 def make_enum(file):
@@ -500,11 +504,16 @@ static inline enum SPECENUM_NAME SPECENUM_FOO(_by_name)
 {
   enum SPECENUM_NAME e;
   const char *enum_name;
+  const char *current_name = name;
+
+#ifdef SPECENUM_NAME_UPDATER
+  current_name = SPECENUM_FOO(_name_update_cb)(name);
+#endif
 
   for (e = SPECENUM_FOO(_begin)(); e != SPECENUM_FOO(_end)();
        e = SPECENUM_FOO(_next)(e)) {
     if ((enum_name = SPECENUM_FOO(_name)(e))
-        && 0 == strcmp_func(name, enum_name)) {
+        && 0 == strcmp_func(current_name, enum_name)) {
       return e;
     }
   }
