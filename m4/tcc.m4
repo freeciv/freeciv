@@ -1,6 +1,6 @@
 # Check for the presence of behavior usually seen with tcc
 
-# Check if valure must be returned even after exit()
+# Check if value must be returned even after exit()
 #
 AC_DEFUN([FC_VALUE_AFTER_EXIT],
 [
