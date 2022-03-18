@@ -76,17 +76,17 @@
 
 static GtkBuilder *ui_builder = NULL;
 
-#ifdef MENUS_GTK3
-static void menu_entry_set_active(const char *key,
-                                  gboolean is_active);
-static void menu_entry_set_sensitive(const char *key,
-                                     gboolean is_sensitive);
 #ifndef FREECIV_DEBUG
 static void menu_entry_set_visible(const char *key,
                                    gboolean is_visible,
                                    gboolean is_sensitive);
 #endif /* FREECIV_DEBUG */
 
+#ifdef MENUS_GTK3
+static void menu_entry_set_active(const char *key,
+                                  gboolean is_active);
+static void menu_entry_set_sensitive(const char *key,
+                                     gboolean is_sensitive);
 static void view_menu_update_sensitivity(void);
 
 enum menu_entry_grouping { MGROUP_SAFE, MGROUP_EDIT, MGROUP_PLAYING,
@@ -2065,6 +2065,7 @@ static void menu_entry_group_set_sensitive(enum menu_entry_grouping group,
     }
   }
 }
+#endif /* MENUS_GTK3 */
 
 /************************************************************************//**
   Sets an action visible.
@@ -2083,6 +2084,7 @@ static void menu_entry_set_visible(const char *key,
 }
 #endif /* FREECIV_DEBUG */
 
+#ifdef MENUS_GTK3
 /************************************************************************//**
   Renames an action.
 ****************************************************************************/
