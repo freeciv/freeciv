@@ -1548,6 +1548,38 @@ static void compat_load_030100(struct loaddata *loading,
     }
   } player_slots_iterate_end;
 
+  {
+    int action_count;
+
+    action_count = secfile_lookup_int_default(loading->file, 0,
+                                              "savefile.action_size");
+
+    if (action_count > 0) {
+      const char **modname;
+      const char **savemod;
+      int j;
+      const char *dur_name = "Disband Unit Recover";
+
+      modname = secfile_lookup_str_vec(loading->file, &loading->action.size,
+                                       "savefile.action_vector");
+
+      savemod = fc_calloc(action_count, sizeof(*savemod));
+
+      for (j = 0; j < action_count; j++) {
+        if (!strcasecmp("Recycle Unit", modname[j])) {
+          savemod[j] = dur_name;
+        } else {
+          savemod[j] = modname[j];
+        }
+      }
+
+      secfile_replace_str_vec(loading->file, savemod, action_count,
+                              "savefile.action_vector");
+
+      free(savemod);
+    }
+  }
+
   /* Server setting migration. */
   {
     int set_count;
@@ -2131,10 +2163,43 @@ static void compat_load_dev(struct loaddata *loading)
     insert_server_side_agent(loading, SAVEGAME_3);
   } /* Version < 3.0.93 */
 
-  if (game_version < 3009400) {
-    /* Before version number bump to 3.0.94 */
+  /* There was no relevant format changes between 3.0.93 and 3.0.94 */
 
-  } /* Version < 3.0.94 */
+  if (game_version < 3009500) {
+    /* Before version number bump to 3.0.95 */
+
+    {
+      int action_count;
+
+      action_count = secfile_lookup_int_default(loading->file, 0,
+                                                "savefile.action_size");
+
+      if (action_count > 0) {
+        const char **modname;
+        const char **savemod;
+        int j;
+        const char *dur_name = "Disband Unit Recover";
+
+        modname = secfile_lookup_str_vec(loading->file, &loading->action.size,
+                                         "savefile.action_vector");
+
+        savemod = fc_calloc(action_count, sizeof(*savemod));
+
+        for (j = 0; j < action_count; j++) {
+          if (!strcasecmp("Recycle Unit", modname[j])) {
+            savemod[j] = dur_name;
+          } else {
+            savemod[j] = modname[j];
+          }
+        }
+
+        secfile_replace_str_vec(loading->file, savemod, action_count,
+                                "savefile.action_vector");
+
+        free(savemod);
+      }
+    }
+  } /* Version < 3.0.95 */
 
 #endif /* FREECIV_DEV_SAVE_COMPAT_3_1 */
 }

@@ -340,7 +340,7 @@ static bool action_is_hostile(action_id act_id)
   case ACTRES_HELP_WONDER:
   case ACTRES_FOUND_CITY:
   case ACTRES_JOIN_CITY:
-  case ACTRES_RECYCLE_UNIT:
+  case ACTRES_DISBAND_UNIT_RECOVER:
   case ACTRES_DISBAND_UNIT:
   case ACTRES_HOME_CITY:
   case ACTRES_HOMELESS:

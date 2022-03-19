@@ -90,5 +90,5 @@ conquest_convert_pct = 0        ; percentage which converts to the new nation
 ; gold_wipe       = TRUE
 
 ; shield_protected  = "EvacuateFirst"
-; shield_unit_act   = "Help Wonder", "Recycle Unit", "Disband Unit"
+; shield_unit_act   = "Help Wonder", "Disband Unit Recover", "Disband Unit"
 ; shield_wipe       = FALSE

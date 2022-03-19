@@ -4614,8 +4614,8 @@ reqs    =
 type    = "Unit_Shield_Value_Pct"
 value   = -50
 reqs    =
-    { "type",   "name",         "range", "present"
-      "Action", "Recycle Unit", "Local", TRUE
+    { "type",   "name",                 "range", "present"
+      "Action", "Disband Unit Recover", "Local", TRUE
     }
 
 [effect_unit_shield_value_in_upgrade_price_calc]

@@ -135,5 +135,5 @@ food_wipe         = TRUE
 gold_wipe         = TRUE
 
 shield_protected  = "EvacuateFirst"
-shield_unit_act   = "Help Wonder", "Recycle Unit", "Disband Unit"
+shield_unit_act   = "Help Wonder", "Disband Unit Recover", "Disband Unit"
 shield_wipe       = FALSE

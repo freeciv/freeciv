@@ -68,7 +68,7 @@ struct client_disband_unit_data {
  * user configurable client option? */
 static int disband_unit_alternatives[3] = {
   ACTION_DISBAND_UNIT,
-  ACTION_RECYCLE_UNIT,
+  ACTION_DISBAND_UNIT_RECOVER,
   ACTION_HELP_WONDER,
 };
 

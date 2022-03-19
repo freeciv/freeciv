@@ -6199,12 +6199,18 @@ static int secfile_lookup_int_default_min_max(struct section_file *file,
   Load ui_name of one action
 **************************************************************************/
 static bool load_action_ui_name(struct section_file *file, int act,
-                                const char *entry_name)
+                                const char *entry_name,
+                                const char *compat_name)
 {
   const char *text;
+  const char *def = action_ui_name_default(act);
 
-  text = secfile_lookup_str_default(file,
-                                    action_ui_name_default(act),
+  if (compat_name != NULL) {
+    def = secfile_lookup_str_default(file, def,
+                                     "actions.%s", compat_name);
+  }
+
+  text = secfile_lookup_str_default(file, def,
                                     "actions.%s", entry_name);
   sz_strlcpy(action_by_number(act)->ui_name, text);
 
@@ -6214,7 +6220,8 @@ static bool load_action_ui_name(struct section_file *file, int act,
 /**********************************************************************//**
   Load max range of an action
 **************************************************************************/
-static bool load_action_range_max(struct section_file *file, action_id act)
+static bool load_action_range_max(struct rscompat_info *compat,
+                                  struct section_file *file, action_id act)
 {
   struct entry *pentry;
   int max_range;
@@ -6222,6 +6229,15 @@ static bool load_action_range_max(struct section_file *file, action_id act)
 
   pentry = secfile_entry_lookup(file, "actions.%s",
                                 action_max_range_ruleset_var_name(act));
+
+  if (!pentry) {
+    const char *compat_name = rscompat_action_max_range_name_S3_1(compat, act);
+
+    if (compat_name != NULL) {
+      pentry = secfile_entry_lookup(file, "actions.%s",
+                                    compat_name);
+    }
+  }
 
   if (!pentry) {
     max_range = action_max_range_default(paction->result);
@@ -6250,13 +6266,14 @@ static bool load_action_range_max(struct section_file *file, action_id act)
 /**********************************************************************//**
   Load range of an action
 **************************************************************************/
-static bool load_action_range(struct section_file *file, action_id act)
+static bool load_action_range(struct rscompat_info *compat,
+                              struct section_file *file, action_id act)
 {
   struct action *paction = action_by_number(act);
 
   if (action_max_range_ruleset_var_name(act) != NULL) {
     /* Max range can be loaded from the ruleset. */
-    if (!load_action_range_max(file, act)) {
+    if (!load_action_range_max(compat, file, act)) {
       return FALSE;
     }
   }
@@ -7125,7 +7142,7 @@ static bool load_ruleset_game(struct section_file *file, bool act,
       /* Allow setting certain properties for some actions before
        * generalized actions. */
       action_iterate(act_id) {
-        if (!load_action_range(file, act_id)) {
+        if (!load_action_range(compat, file, act_id)) {
           ok = FALSE;
         }
         if (!load_action_kind(file, act_id)) {
@@ -7135,7 +7152,8 @@ static bool load_ruleset_game(struct section_file *file, bool act,
           ok = FALSE;
         }
         load_action_ui_name(file, act_id,
-                            action_ui_name_ruleset_var_name(act_id));
+                            action_ui_name_ruleset_var_name(act_id),
+                            rscompat_action_ui_name_S3_1(compat, act_id));
       } action_iterate_end;
 
       /* The quiet (don't auto generate help for) property of all actions
@@ -9140,12 +9158,16 @@ bool load_rulesets(const char *restore, const char *alt, bool compat_mode,
 
       set_ruleset_compat_mode(FALSE);
 
+      set_ruleset_compat_mode(FALSE);
+
       /* We're in sane state as restoring previous ruleset succeeded,
        * but return failure to indicate that this is not what caller
        * wanted. */
       return FALSE;
     }
   }
+
+  set_ruleset_compat_mode(FALSE);
 
   set_ruleset_compat_mode(FALSE);
 

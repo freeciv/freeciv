@@ -61,6 +61,8 @@ extern "C" {
 #define SPECENUM_COUNT ASTK_COUNT
 #include "specenum_gen.h"
 
+const char *gen_action_name_update_cb(const char *old_name);
+
 /* Values used in the network protocol. */
 /* Names used in file formats but not normally shown to users. */
 #define SPECENUM_NAME gen_action
@@ -146,8 +148,8 @@ extern "C" {
 #define SPECENUM_VALUE39NAME "Destroy City"
 #define SPECENUM_VALUE40 ACTION_EXPEL_UNIT
 #define SPECENUM_VALUE40NAME "Expel Unit"
-#define SPECENUM_VALUE41 ACTION_RECYCLE_UNIT
-#define SPECENUM_VALUE41NAME "Recycle Unit"
+#define SPECENUM_VALUE41 ACTION_DISBAND_UNIT_RECOVER
+#define SPECENUM_VALUE41NAME "Disband Unit Recover"
 #define SPECENUM_VALUE42 ACTION_DISBAND_UNIT
 #define SPECENUM_VALUE42NAME "Disband Unit"
 #define SPECENUM_VALUE43 ACTION_HOME_CITY
@@ -278,6 +280,7 @@ extern "C" {
 #define SPECENUM_VALUE105NAME "Unit Make Homeless"
 #define SPECENUM_BITVECTOR bv_actions
 #define SPECENUM_COUNT ACTION_COUNT
+#define SPECENUM_NAME_UPDATER
 #include "specenum_gen.h"
 
 /* Fake action id used in searches to signal "any action at all". */

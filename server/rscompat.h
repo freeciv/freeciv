@@ -82,6 +82,11 @@ void rscompat_extra_adjust_3_1(struct rscompat_info *compat,
 bool rscompat_old_slow_invasions_3_1(struct rscompat_info *compat,
                                      bool slow_invasions);
 
+const char *rscompat_action_ui_name_S3_1(struct rscompat_info *compat,
+                                         int act_id);
+const char *rscompat_action_max_range_name_S3_1(struct rscompat_info *compat,
+                                                int act_id);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */
