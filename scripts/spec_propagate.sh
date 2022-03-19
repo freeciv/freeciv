@@ -25,7 +25,7 @@ patch_rulesetdir() {
                 patch -d "$d" -p3 <"$P" || {
                     case "$?" in
                         1) rej="$rej $d" ;;
-                        *) 
+                        *)
                             echo "*** patch was seriously unhappy with $d, giving up"
                             return
                             ;;

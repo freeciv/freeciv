@@ -16,7 +16,7 @@
 # is much simpler and does not need this setup script.)
 # See doc/README.fcdb.
 # I know that this will not work with bare sh. Tested with bash,
-# so I set it in use above. 
+# so I set it in use above.
 
 if command -v basename >/dev/null
 then
