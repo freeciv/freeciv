@@ -1465,34 +1465,34 @@ bool autoadjust_ruleset_data(void)
       const enum action_result blocked;
       const enum action_result blocker;
     } must_block[] = {
-      /* Hard code that Help Wonder blocks Recycle Unit. This must be done
+      /* Hard code that Help Wonder blocks Disband Unit Recover. This must be done
        * because caravan_shields makes it possible to avoid the
-       * consequences of choosing to do Recycle Unit rather than having it
+       * consequences of choosing to do Disband Unit Recover rather than having it
        * do Help Wonder.
        *
-       * Explanation: Recycle Unit adds 50% of the shields used to produce
+       * Explanation: Disband Unit Recover adds 50% of the shields used to produce
        * the unit to the production of the city where it is located. Help
-       * Wonder adds 100%. If a unit that can do Help Wonder is recycled in
-       * a city and the production later is changed to something that can
-       * receive help from Help Wonder the remaining 50% of the shields are
-       * added. This can be done because the city remembers them in
-       * caravan_shields.
+       * Wonder adds 100%. If a unit that can do Help Wonder is disbanded with
+       * production recovery in a city and the production later is changed
+       * to something that can receive help from Help Wonder the remaining 50%
+       * of the shields are added. This can be done because the city remembers
+       * them in caravan_shields.
        *
-       * If a unit that can do Help Wonder intentionally is recycled rather
-       * than making it do Help Wonder its shields will still be
+       * If a unit that can do Help Wonder intentionally is disbanded with recovery
+       * rather than making it do Help Wonder its shields will still be
        * remembered. The target city that got 50% of the shields can
        * therefore get 100% of them by changing its production. This trick
-       * makes the ability to select Recycle Unit when Help Wonder is legal
+       * makes the ability to select Disband Unit Recover when Help Wonder is legal
        * pointless. */
-      { ACTRES_RECYCLE_UNIT, ACTRES_HELP_WONDER },
+      { ACTRES_DISBAND_UNIT_RECOVER, ACTRES_HELP_WONDER },
 
       /* Allowing regular disband when ACTION_HELP_WONDER or
-       * ACTION_RECYCLE_UNIT is legal while ACTION_HELP_WONDER always
-       * blocks ACTION_RECYCLE_UNIT doesn't work well with the force_*
+       * ACTION_DISBAND_UNIT_RECOVER is legal while ACTION_HELP_WONDER always
+       * blocks ACTION_DISBAND_UNIT_RECOVER doesn't work well with the force_*
        * semantics. Should move to the ruleset once it has blocked_by
        * semantics. */
       { ACTRES_DISBAND_UNIT, ACTRES_HELP_WONDER },
-      { ACTRES_DISBAND_UNIT, ACTRES_RECYCLE_UNIT },
+      { ACTRES_DISBAND_UNIT, ACTRES_DISBAND_UNIT_RECOVER },
 
       /* Hard code that the ability to perform a regular attack blocks city
        * conquest. Is redundant as long as the requirement that the target

@@ -532,7 +532,7 @@ ui_name_enter_marketplace = _("Sell %sGoods%s")
 ui_name_help_wonder = _("Help %sbuild Wonder%s")
 
 ; /* TRANS: Dis_band recovering production (100% chance of success). */
-ui_name_recycle_unit = _("Dis%sband recovering production%s")
+ui_name_disband_unit_recover = _("Dis%sband recovering production%s")
 
 ; /* TRANS: Dis_band without recovering production (100% chance of success). */
 ui_name_disband_unit = _("Dis%sband without recovering production%s")
@@ -1118,8 +1118,8 @@ target_reqs    =
       "BuildingGenus", "GreatWonder", "Local"
     }
 
-[actionenabler_recycle_unit]
-action = "Recycle Unit"
+[actionenabler_disband_unit_recover]
+action = "Disband Unit Recover"
 actor_reqs    =
     { "type",   "name", "range", "present"
       "UnitFlag", "EvacuateFirst", "Local", FALSE

@@ -1741,7 +1741,7 @@ const char *get_act_sel_action_custom_text(struct action *paction,
       return NULL;
     }
   } else if ((action_has_result(paction, ACTRES_HELP_WONDER)
-              || action_has_result(paction, ACTRES_RECYCLE_UNIT))
+              || action_has_result(paction, ACTRES_DISBAND_UNIT_RECOVER))
              && city_owner(target_city) == client.conn.playing) {
     /* Can only give remaining production for domestic and existing
      * cities. */

@@ -896,7 +896,7 @@ adv_want adv_gov_action_immunity_want(struct government *gov)
     case ACTRES_TRADE_ROUTE:
     case ACTRES_JOIN_CITY:
     case ACTRES_HELP_WONDER:
-    case ACTRES_RECYCLE_UNIT:
+    case ACTRES_DISBAND_UNIT_RECOVER:
     case ACTRES_HOME_CITY:
     case ACTRES_HOMELESS:
     case ACTRES_UPGRADE_UNIT:

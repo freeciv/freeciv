@@ -1037,7 +1037,7 @@ static struct player *need_war_player_hlp(const struct unit *actor,
   case ACTRES_NUKE_UNITS:
   case ACTRES_DESTROY_CITY:
   case ACTRES_EXPEL_UNIT:
-  case ACTRES_RECYCLE_UNIT:
+  case ACTRES_DISBAND_UNIT_RECOVER:
   case ACTRES_DISBAND_UNIT:
   case ACTRES_HOME_CITY:
   case ACTRES_HOMELESS:
@@ -2790,7 +2790,7 @@ void illegal_action_msg(struct player *pplayer,
 
       notify_player(pplayer, unit_tile(actor),
                     event, ftc_server,
-                    /* TRANS: Freight ... Recycle Unit ... Help Wonder ... */
+                    /* TRANS: Freight ... Disband Unit Recover ... Help Wonder ... */
                     _("Your %s can't do %s when %s is legal."),
                     unit_name_translation(actor),
                     stop_act_name,
@@ -3676,7 +3676,7 @@ bool unit_perform_action(struct player *pplayer,
                                                   actor_unit, pcity,
                                                   paction));
     break;
-  case ACTRES_RECYCLE_UNIT:
+  case ACTRES_DISBAND_UNIT_RECOVER:
     ACTION_PERFORM_UNIT_CITY(action_type, actor_unit, pcity,
                              unit_do_help_build(pplayer, actor_unit, pcity,
                                                 paction));
@@ -5536,7 +5536,7 @@ static bool unit_do_help_build(struct player *pplayer,
                   &pcity_dest->production));
     pcity_dest->caravan_shields += shields;
   } else {
-    fc_assert(action_has_result(paction, ACTRES_RECYCLE_UNIT));
+    fc_assert(action_has_result(paction, ACTRES_DISBAND_UNIT_RECOVER));
     /* Add the shields from recycling the unit to the city's current
      * production. */
     pcity_dest->shield_stock += shields;
@@ -5554,10 +5554,10 @@ static bool unit_do_help_build(struct player *pplayer,
      * the result of their donation. */
     prod = city_production_name_translation(pcity_dest);
   } else {
-    fc_assert(action_has_result(paction, ACTRES_RECYCLE_UNIT));
-    /* TRANS: Your Caravan does "Recycle Unit" to help build the
+    fc_assert(action_has_result(paction, ACTRES_DISBAND_UNIT_RECOVER));
+    /* TRANS: Your Caravan does "Disband Unit Recover" to help build the
      * current production in Bergen (4 surplus).
-     * "Recycle Unit" says "current production" rather than its name. */
+     * "Disband Unit Recover" says "current production" rather than its name. */
     prod = _("current production");
   }
 

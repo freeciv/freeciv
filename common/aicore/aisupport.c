@@ -133,7 +133,7 @@ int city_gold_worth(struct city *pcity)
       if (punittype && can_city_build_unit_direct(pcity, punittype)) {
         /* obsolete, candidate for disbanding */
         worth += unit_shield_value(punit, unit_type_get(punit),
-                                   action_by_number(ACTION_RECYCLE_UNIT));
+                                   action_by_number(ACTION_DISBAND_UNIT_RECOVER));
       } else {
         worth += unit_build_shield_cost(pcity, punit); /* good stuff */
       }

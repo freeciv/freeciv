@@ -482,18 +482,18 @@ static void unit_do_disband_trad(struct player *owner, struct unit *punit,
 
   /* Disbanding a unit inside a city gives it 50% of the shields used to
    * produce the unit. */
-  if (unit_can_do_action(punit, ACTION_RECYCLE_UNIT)) {
+  if (unit_can_do_action(punit, ACTION_DISBAND_UNIT_RECOVER)) {
     struct city *tgt_city;
 
     /* Only a city at the same tile as the unit can benefit. */
     tgt_city = tile_city(unit_tile(punit));
 
     if (tgt_city
-        && is_action_enabled_unit_on_city(ACTION_RECYCLE_UNIT,
+        && is_action_enabled_unit_on_city(ACTION_DISBAND_UNIT_RECOVER,
                                           punit, tgt_city)) {
       if (unit_perform_action(owner, punit->id, tgt_city->id,
-                              0, NULL, ACTION_RECYCLE_UNIT, requester)) {
-        /* The unit did Recycle Unit. 50% of the shields wasted. */
+                              0, NULL, ACTION_DISBAND_UNIT_RECOVER, requester)) {
+        /* The unit did Disband Unit Recover. 50% of the shields wasted. */
         return;
       }
     }
@@ -1260,7 +1260,7 @@ static int action_target_neg_util(action_id act_id,
   case ACTRES_TRADE_ROUTE:
   case ACTRES_HELP_WONDER:
   case ACTRES_JOIN_CITY:
-  case ACTRES_RECYCLE_UNIT:
+  case ACTRES_DISBAND_UNIT_RECOVER:
   case ACTRES_HOME_CITY:
   case ACTRES_UPGRADE_UNIT:
   case ACTRES_AIRLIFT:

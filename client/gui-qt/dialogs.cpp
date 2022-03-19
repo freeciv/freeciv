@@ -111,7 +111,7 @@ static void diplomat_bribe(QVariant data1, QVariant data2);
 static void caravan_marketplace(QVariant data1, QVariant data2);
 static void caravan_establish_trade(QVariant data1, QVariant data2);
 static void caravan_help_build(QVariant data1, QVariant data2);
-static void unit_recycle(QVariant data1, QVariant data2);
+static void unit_disband_recover(QVariant data1, QVariant data2);
 static void capture_units(QVariant data1, QVariant data2);
 static void nuke_units(QVariant data1, QVariant data2);
 static void wipe_units(QVariant data1, QVariant data2);
@@ -237,7 +237,7 @@ static const QHash<action_id, pfcn_void> af_map_init(void)
   action_function[ACTION_SPY_NUKE_ESC] = spy_nuke_city_esc;
   action_function[ACTION_SPY_ESCAPE] = spy_escape;
   action_function[ACTION_DESTROY_CITY] = destroy_city;
-  action_function[ACTION_RECYCLE_UNIT] = unit_recycle;
+  action_function[ACTION_DISBAND_UNIT_RECOVER] = unit_disband_recover;
   action_function[ACTION_HOME_CITY] = unit_home_city;
   action_function[ACTION_UPGRADE_UNIT] = unit_upgrade;
   action_function[ACTION_AIRLIFT] = airlift;
@@ -1760,16 +1760,16 @@ static void caravan_help_build(QVariant data1, QVariant data2)
 }
 
 /***********************************************************************//**
-  Action Recycle Unit for choice dialog
+  Action Disband Unit Recover for choice dialog
 ***************************************************************************/
-static void unit_recycle(QVariant data1, QVariant data2)
+static void unit_disband_recover(QVariant data1, QVariant data2)
 {
   int actor_id = data1.toInt();
   int tgt_city_id = data2.toInt();
 
   if (NULL != game_unit_by_number(actor_id)
       && NULL != game_city_by_number(tgt_city_id)) {
-    request_do_action(ACTION_RECYCLE_UNIT,
+    request_do_action(ACTION_DISBAND_UNIT_RECOVER,
                       actor_id, tgt_city_id, 0, "");
   }
 }

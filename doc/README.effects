@@ -657,7 +657,7 @@ Unit_Recover
 Unit_Shield_Value_Pct
     Increase the unit's value in shields by amount percent. When this effect
     is used to determine how many shields the player gets for the actions
-    "Recycle Unit" and "Help Wonder" it gets access to unit state. When it is
+    "Disband Unit Recover" and "Help Wonder" it gets access to unit state. When it is
     used to influence the gold cost of "Upgrade Unit" it only has access to unit
     type.
 

@@ -471,14 +471,14 @@ Actions done by a unit against a city
    help_wonder_max_range is 1)
  * target city must need the extra shields to complete its production.
 
-"Recycle Unit" - Add half the shields used to build the unit to target
- * UI name can be set using ui_name_recycle_unit
+"Disband Unit Recover" - Add half the shields used to build the unit to target
+ * UI name can be set using ui_name_disband_unit_recover
  * adjustable with the Unit_Shield_Value_Pct effect
  * actor must be aware that the target exists
  * "Help Wonder" must be impossible
  * actor must be on the same tile as the target unless
-   recycle_unit_max_range allows it to be further away. (Default
-   recycle_unit_max_range is 1)
+   disband_unit_recover_max_range allows it to be further away. (Default
+   disband_unit_recover_max_range is 1)
  * target city must need the extra shields to complete its production.
 
 "Join City" - Add the actor to the target city's population.
@@ -1450,7 +1450,7 @@ Actions done by a unit to it self
      to the shield stock of any city even if the unit is located inside it.
  * UI name can be set using ui_name_disband_unit
  * "Help Wonder" must be impossible
- * "Recycle Unit" must be impossible
+ * "Disband Unit Recover" must be impossible
 
 "Fortify"           - Fortify at tile
  * UI name can be set using ui_name_fortify

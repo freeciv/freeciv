@@ -127,17 +127,17 @@ conquest_convert_pct = 25       ; percentage which converts to the new nation
 food_protected    = "GameLoss"
 food_unit_act     = "Explode Nuclear", "Help Wonder", "Join City",
                     "Establish Trade Route", "Enter Marketplace",
-                    "Recycle Unit"
+                    "Disband Unit Recover"
 food_wipe         = TRUE
 
 gold_protected    = "GameLoss"
 gold_unit_act     = "Explode Nuclear", "Help Wonder", "Join City",
                     "Establish Trade Route", "Enter Marketplace",
-                    "Recycle Unit"
+                    "Disband Unit Recover"
 gold_wipe         = TRUE
 
 shield_protected  = "GameLoss"
 shield_unit_act   = "Explode Nuclear", "Help Wonder", "Join City",
                     "Establish Trade Route", "Enter Marketplace",
-                    "Recycle Unit"
+                    "Disband Unit Recover"
 shield_wipe       = TRUE

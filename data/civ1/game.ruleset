@@ -358,12 +358,12 @@ escape_city = "Transport Embark", "Enter Hut", "Enter Hut 2", "Unit Move"
 help_wonder_max_range = 1
 
 ; The maximum distance from the actor unit to the target of the
-; "Recycle Unit" action. The value 0 means that the target`s tile must be the
+; "Disband Unit Recover" action. The value 0 means that the target`s tile must be the
 ; tile of the actor unit. The value 1 means that the city must be on a tile
 ; adjacent to the actor unit. The special value "unlimited" lifts the
 ; maximum distance restriction. The maximum distance can`t be smaller than
 ; the minimum distance.
-recycle_unit_max_range = 1
+disband_unit_recover_max_range = 1
 
 ; The maximum distance from the actor unit to the target of the "Bombard"
 ; action. The value 1 means that the targets must be on a tile adjacent to
@@ -482,7 +482,7 @@ ui_name_enter_marketplace = _("Enter %sMarketplace%s")
 ui_name_help_wonder = _("Help %sbuild Wonder%s")
 
 ; /* TRANS: Dis_band recovering production (100% chance of success). */
-ui_name_recycle_unit = _("Dis%sband recovering production%s")
+ui_name_disband_unit_recover = _("Dis%sband recovering production%s")
 
 ; /* TRANS: Dis_band without recovering production (100% chance of success). */
 ui_name_disband_unit = _("Dis%sband without recovering production%s")
@@ -723,8 +723,8 @@ target_reqs    =
       "BuildingGenus", "GreatWonder", "Local"
     }
 
-[actionenabler_recycle_unit]
-action = "Recycle Unit"
+[actionenabler_disband_unit_recover]
+action = "Disband Unit Recover"
 actor_reqs    =
     { "type",   "name", "range", "present"
       "DiplRel",  "War",        "Local", FALSE
