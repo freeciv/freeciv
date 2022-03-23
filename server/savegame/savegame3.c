@@ -4005,12 +4005,6 @@ static void sg_load_player_main(struct loaddata *loading,
     } else {
       plr->ai_common.skill_level = ai_level_by_name(level, fc_strcasecmp);
     }
-
-    /* In builds where level "Experimental" is not supported, convert it to "Hard" */
-    if (!ai_level_is_valid(plr->ai_common.skill_level)
-        && !fc_strcasecmp(level, "Experimental")) {
-      plr->ai_common.skill_level = AI_LEVEL_HARD;
-    }
   } else {
     plr->ai_common.skill_level = ai_level_invalid();
   }

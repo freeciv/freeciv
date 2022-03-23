@@ -361,3 +361,19 @@ const char *ai_type_name_or_fallback(const char *orig_name)
 
   return NULL;
 }
+
+/*************************************************************************//**
+  Return AI level name legal in current build best matching the old name.
+*****************************************************************************/
+const char *ai_level_name_update_cb(const char *old)
+{
+#ifndef FREECIV_DEBUG
+  /* No experimental level in !FREECIV_DEBUG build */
+  if (!strcasecmp("Experimental", old)) {
+    /* Convert it to hard */
+    return ai_level_name(AI_LEVEL_HARD);
+  }
+#endif /* FREECIV_DEBUG */
+
+  return old;
+}
