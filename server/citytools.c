@@ -2134,11 +2134,11 @@ void broadcast_city_info(struct city *pcity)
   players_iterate(pplayer) {
     if (can_player_see_city_internals(pplayer, pcity)) {
       if (!send_city_suppressed || pplayer != powner) {
-        update_dumb_city(powner, pcity);
-        lsend_packet_city_info(powner->connections, &packet, FALSE);
-        web_lsend_packet(city_info_addition, powner->connections, &web_packet, FALSE);
+        update_dumb_city(pplayer, pcity);
+        lsend_packet_city_info(pplayer->connections, &packet, FALSE);
+        web_lsend_packet(city_info_addition, pplayer->connections, &web_packet, FALSE);
         traderoute_packet_list_iterate(routes, route_packet) {
-          lsend_packet_traderoute_info(powner->connections, route_packet);
+          lsend_packet_traderoute_info(pplayer->connections, route_packet);
         } traderoute_packet_list_iterate_end;
       }
     } else {
