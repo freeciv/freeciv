@@ -224,7 +224,10 @@ if test "x$GUI" = "xruledit" ; then
     exit 1
   fi
 
-  mkdir -p Output
+  if ! mkdir -p Output ; then
+    echo "Cannot create Output directory" >&2
+    exit 1
+  fi
   if ! makensis Freeciv-ruledit-$SETUP-$VERREV.nsi
   then
     echo "Creating installer failed!" >&2
