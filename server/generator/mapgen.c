@@ -152,7 +152,9 @@ static void make_rivers(void);
 
 static void river_types_init(void);
 
-#define HAS_POLES (wld.map.server.temperature < 70 && !wld.map.alltemperate)
+/* Note: Only use after calling generator_init_topology() */
+#define HAS_POLES \
+  (MIN(COLD_LEVEL, 2 * ICE_BASE_LEVEL) > MIN_REAL_COLATITUDE(wld.map))
 
 /* These are the old parameters of terrains types in %
    TODO: they depend on the hardcoded terrains */

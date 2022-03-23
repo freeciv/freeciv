@@ -148,13 +148,20 @@ void create_tmap(bool real)
       tmap(ptile) =  t * (1.0 + temperate) * (1.0 + height);
     }
   } whole_map_iterate_end;
-  /* adjust to get well sizes frequencies */
-  /* Notice: if colatitude is loaded from a scenario never call adjust.
-             Scenario may have an odd colatitude distribution and adjust will
-	     break it */
-  if (!wld.map.alltemperate) {
-    adjust_int_map(temperature_map, MAX_COLATITUDE);
+
+  /* adjust to get evenly distributed frequencies
+   * Only call adjust when the colatitude range is large enough for this to
+   * make sense - if most variation comes from height and coast, don't try
+   * to squish that back into its original narrow range */
+  if (REAL_COLATITUDE_RANGE(wld.map) >= MAX_COLATITUDE * 2 / 5) {
+    if (MIN_REAL_COLATITUDE(wld.map) > 0) {
+      /* FIXME: adjust_int_map always makes 0 the lowest value
+       * ~> can't call adjust until it supports constant offsets */
+    } else {
+      adjust_int_map(temperature_map, MAX_REAL_COLATITUDE(wld.map));
+    }
   }
+
   /* now simplify to 4 base values */ 
   for (i = 0; i < MAP_INDEX_SIZE; i++) {
     int t = temperature_map[i];

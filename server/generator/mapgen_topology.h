@@ -17,8 +17,23 @@
 #include "support.h"            /* bool type */
 
 /* This is the maximal colatitude at equators returned by map_colatitude()
- * When changing this, make sure map_colatitude() still works correctly */
+ * When changing this, make sure colat_from_abs_lat() still works */
 #define MAX_COLATITUDE MAP_MAX_LATITUDE
+
+#if MAX_COLATITUDE == MAP_MAX_LATITUDE
+#define colat_from_abs_lat(_lat) (MAX_COLATITUDE - _lat)
+#else
+#define colat_from_abs_lat(_lat) \
+  (MAX_COLATITUDE - (_lat * MAX_COLATITUDE / MAP_MAX_LATITUDE))
+#endif
+
+/* Maximum and minimum colatitude actually present in the world */
+#define MAX_REAL_COLATITUDE(_nmap) \
+  colat_from_abs_lat(MAP_MIN_ABS_LATITUDE(_nmap))
+#define MIN_REAL_COLATITUDE(_nmap) \
+  colat_from_abs_lat(MAP_MAX_ABS_LATITUDE(_nmap))
+#define REAL_COLATITUDE_RANGE(_nmap) \
+  (MAX_REAL_COLATITUDE(_nmap) - MIN_REAL_COLATITUDE(_nmap))
 
 int get_sqsize(void);
 

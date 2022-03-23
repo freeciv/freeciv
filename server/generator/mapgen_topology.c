@@ -43,11 +43,7 @@ int map_colatitude(const struct tile *ptile)
   latitude = map_signed_latitude(ptile);
   latitude = MAX(latitude, -latitude);
 
-#if MAX_COLATITUDE == MAP_MAX_LATITUDE
-  return MAX_COLATITUDE - latitude;
-#else
-  return MAX_COLATITUDE - (latitude * MAX_COLATITUDE / MAP_MAX_LATITUDE);
-#endif
+  return colat_from_abs_lat(latitude);
 }
 
 /************************************************************************//**
@@ -249,11 +245,16 @@ void generator_init_topology(bool autosize)
          + 2 * MAX_COLATITUDE * sqsize) / (100 * sqsize);
   }
 
-  /* correction for single pole (Flat Earth) */
-  if (wld.map.single_pole) {
-    if (!current_topo_has_flag(TF_WRAPY) || !current_topo_has_flag(TF_WRAPX)) {
-      ice_base_colatitude /= 2;
-    }
+  /* Correction for single-pole and similar map types
+   * The pole should be the same size relative to world size,
+   * so the smaller the actual latitude range,
+   * the smaller the ice base level has to be.
+   * However: Don't scale down by more than a half. */
+  if (MAP_REAL_LATITUDE_RANGE(wld.map) < (2 * MAP_MAX_LATITUDE)) {
+    ice_base_colatitude = (ice_base_colatitude
+                           * MAX(MAP_REAL_LATITUDE_RANGE(wld.map),
+                                 MAP_MAX_LATITUDE)
+                           / (2 * MAP_MAX_LATITUDE));
   }
 
   if (wld.map.server.huts_absolute >= 0) {
