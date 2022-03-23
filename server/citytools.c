@@ -2170,21 +2170,19 @@ void broadcast_city_info(struct city *pcity)
   package_city(pcity, &packet, &web_packet, routes, FALSE);
 
   players_iterate(pplayer) {
-    if (can_player_see_city_internals(pplayer, pcity)) {
-      if (!send_city_suppressed || pplayer != powner) {
-        update_dumb_city(powner, pcity);
-        lsend_packet_city_info(powner->connections, &packet, FALSE);
-        web_lsend_packet(city_info_addition, powner->connections, &web_packet, FALSE);
+    if (!send_city_suppressed || pplayer != powner) {
+      if (can_player_see_city_internals(pplayer, pcity)) {
+        update_dumb_city(pplayer, pcity);
+        lsend_packet_city_info(pplayer->connections, &packet, FALSE);
+        web_lsend_packet(city_info_addition, pplayer->connections, &web_packet, FALSE);
         traderoute_packet_list_iterate(routes, route_packet) {
-          lsend_packet_traderoute_info(powner->connections, route_packet);
+          lsend_packet_traderoute_info(pplayer->connections, route_packet);
         } traderoute_packet_list_iterate_end;
-      }
-    } else {
-      if (player_can_see_city_externals(pplayer, pcity)) {
+      } else if (player_can_see_city_externals(pplayer, pcity)) {
         reality_check_city(pplayer, pcity->tile);
-	update_dumb_city(pplayer, pcity);
-	package_dumb_city(pplayer, pcity->tile, &sc_pack);
-	lsend_packet_city_short_info(pplayer->connections, &sc_pack);
+        update_dumb_city(pplayer, pcity);
+        package_dumb_city(pplayer, pcity->tile, &sc_pack);
+        lsend_packet_city_short_info(pplayer->connections, &sc_pack);
       }
     }
   } players_iterate_end;
