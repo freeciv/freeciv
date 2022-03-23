@@ -461,6 +461,9 @@ typedef int Unit_Class_id;
  * compatibility code to server/rscompat.c. */
 #define CASUS_BELLI_OUTRAGE 1000
 
+/* Really in ai.c */
+const char *ai_level_name_update_cb(const char *old);
+
 /* Used in the network protocol. */
 /* server/commands.c must match these */
 #define SPECENUM_NAME ai_level
@@ -485,6 +488,7 @@ typedef int Unit_Class_id;
 #endif /* FREECIV_DEBUG */
 
 #define SPECENUM_COUNT AI_LEVEL_COUNT
+#define SPECENUM_NAME_UPDATER
 #include "specenum_gen.h"
 
 /* pplayer->ai.barbarian_type and nations use this enum. */
