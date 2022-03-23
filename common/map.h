@@ -562,7 +562,30 @@ bool is_cardinal_dir(enum direction8 dir);
 extern const int DIR_DX[8];
 extern const int DIR_DY[8];
 
+/* Latitude granularity, irrespective of map/generator settings */
 #define MAP_MAX_LATITUDE           1000
+
+/* Northernmost and southernmost latitude for the given map */
+#define MAP_NORTH_LATITUDE(_nmap) \
+  ((_nmap).alltemperate ? (MAP_MAX_LATITUDE / 2) : MAP_MAX_LATITUDE)
+#define MAP_SOUTH_LATITUDE(_nmap)                                         \
+  ((_nmap).alltemperate                                                   \
+   ? (MAP_MAX_LATITUDE / 2)                                               \
+   : ((_nmap).single_pole ? 0 : (-MAP_MAX_LATITUDE)))
+
+/* Maximum and minimum latitude present in the given map */
+#define MAP_MAX_REAL_LATITUDE(_nmap) \
+  MAX(MAP_NORTH_LATITUDE(_nmap), MAP_SOUTH_LATITUDE(_nmap))
+#define MAP_MIN_REAL_LATITUDE(_nmap) \
+  MIN(MAP_NORTH_LATITUDE(_nmap), MAP_SOUTH_LATITUDE(_nmap))
+#define MAP_REAL_LATITUDE_RANGE(_nmap) \
+  (MAP_MAX_REAL_LATITUDE(_nmap) - MAP_MIN_REAL_LATITUDE(_nmap))
+
+/* Maximum and minimum absolute latitude */
+#define MAP_MAX_ABS_LATITUDE(_nmap) \
+  MAX(MAP_MAX_REAL_LATITUDE(_nmap), -MAP_MIN_REAL_LATITUDE(_nmap))
+#define MAP_MIN_ABS_LATITUDE(_nmap) \
+  MAX(0, MAX(MAP_MIN_REAL_LATITUDE(_nmap), -MAP_MAX_REAL_LATITUDE(_nmap)))
 
 int map_signed_latitude(const struct tile *ptile);
 

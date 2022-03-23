@@ -3813,10 +3813,7 @@ bool universal_never_there(const struct universal *source)
   case VUT_EXTRAFLAG:
     return !extra_flag_is_in_use(source->value.extraflag);
   case VUT_MINLATITUDE:
-    /* If the map is not alltemperate, there is always a north pole with
-     * MAP_MAX_LATITUDE. Otherwise, everything is MAP_MAX_LATITUDE / 2. */
-    return (wld.map.alltemperate
-            && source->value.latitude > (MAP_MAX_LATITUDE / 2));
+    return source->value.latitude > MAP_MAX_REAL_LATITUDE(wld.map);
   case VUT_OTYPE:
   case VUT_SPECIALIST:
   case VUT_AI_LEVEL:

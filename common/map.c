@@ -1579,21 +1579,8 @@ int map_signed_latitude(const struct tile *ptile)
   int north_latitude, south_latitude;
   double southness;
 
-  /* TODO: Move upper and lower latitude bounds to server settings
-   * (replacing alltemperate and singlepole). */
-  if (wld.map.alltemperate) {
-    /* An all-temperate map has "average" temperature everywhere. */
-    north_latitude = south_latitude = MAP_MAX_LATITUDE / 2;
-  } else if (wld.map.single_pole) {
-    /* Partial planetary map. A polar zone is placed at the north end
-     * and a tropical zone at the south end. */
-    north_latitude = MAP_MAX_LATITUDE;
-    south_latitude = 0;
-  } else {
-    /* Full latitude range */
-    north_latitude = MAP_MAX_LATITUDE;
-    south_latitude = -MAP_MAX_LATITUDE;
-  }
+  north_latitude = MAP_NORTH_LATITUDE(wld.map);
+  south_latitude = MAP_SOUTH_LATITUDE(wld.map);
 
   if (north_latitude == south_latitude) {
     /* Single-latitude / all-temperate map; no need to examine tile. */
@@ -1604,7 +1591,7 @@ int map_signed_latitude(const struct tile *ptile)
 
   southness = map_relative_southness(ptile);
 
-  /* Linear interpolation between maximum and minimum latitude.
+  /* Linear interpolation between northernmost and southernmost latitude.
    * Truncate / round towards zero so northern and southern hemisphere
    * are symmetrical when south_latitude = -north_latitude. */
   return north_latitude * (1.0 - southness) + south_latitude * southness;
