@@ -205,7 +205,7 @@ static bool set_enum_value(struct setting *pset, int val);
 
   Important note about compatibility:
   1) you cannot modify the support name of an existant value. However, in a
-     developpement, you can modify it if it wasn't included in any stable
+     development, you can modify it if it wasn't included in any stable
      branch before.
   2) Take care of modifiying the pretty name of an existant value: make sure
   to modify the help texts which are using it.
