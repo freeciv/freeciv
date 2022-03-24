@@ -18,9 +18,6 @@ pub_conf_data = configuration_data()
 liblua_conf_data = configuration_data()
 
 pub_conf_data.set('FREECIV_AI_MOD_LAST', 3)
-priv_conf_data.set('LOCALEDIR',
-                   join_paths(get_option('prefix'),
-                              get_option('datadir'), 'locale'))
 priv_conf_data.set('BINDIR',
                    join_paths(get_option('prefix'), get_option('bindir')))
 
@@ -47,6 +44,8 @@ endif
 if host_system == 'windows'
   priv_conf_data.set('FREECIV_STORAGE_DIR', '~\\\\.freeciv')
   pub_conf_data.set('FREECIV_STORAGE_DIR', '~\\\\.freeciv')
+  priv_conf_data.set('LOCALEDIR',
+                     join_paths('.', get_option('datadir'), 'locale'))
 
   priv_conf_data.set('DEFAULT_DATA_PATH',
     '".;data;@FREECIV_STORAGE_DIR@/@DATASUBDIR@;@DATADIR@/freeciv"')
@@ -57,6 +56,9 @@ if host_system == 'windows'
 else
   priv_conf_data.set('FREECIV_STORAGE_DIR', '~/.freeciv')
   pub_conf_data.set('FREECIV_STORAGE_DIR', '~/.freeciv')
+  priv_conf_data.set('LOCALEDIR',
+                      join_paths(get_option('prefix'),
+                                 get_option('datadir'), 'locale'))
 
   priv_conf_data.set('DEFAULT_DATA_PATH',
     '".:data:@FREECIV_STORAGE_DIR@/@DATASUBDIR@:@DATADIR@/freeciv"')
