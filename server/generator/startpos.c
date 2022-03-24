@@ -379,7 +379,7 @@ bool create_start_positions(enum map_startpos mode,
   } whole_map_iterate_end;
 
   /* evaluate the best places on the map */
-  adjust_int_map_filtered(tile_value, 1000, NULL, filter_starters);
+  adjust_int_map_filtered(tile_value, 0, 1000, NULL, filter_starters);
 
   /* Sort the islands so the best ones come first.  Note that islands[0] is
    * unused so we just skip it. */

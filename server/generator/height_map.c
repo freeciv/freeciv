@@ -108,7 +108,7 @@ void make_random_hmap(int smooth)
     smooth_int_map(height_map, TRUE);
   }
 
-  adjust_int_map(height_map, hmap_max_level);
+  adjust_int_map(height_map, 0, hmap_max_level);
 }
 
 /**********************************************************************//**
@@ -256,7 +256,7 @@ void make_pseudofractal1_hmap(int extra_div)
     hmap(ptile) = 8 * hmap(ptile) + fc_rand(4) - 2;
   } whole_map_iterate_end;
 
-  adjust_int_map(height_map, hmap_max_level);
+  adjust_int_map(height_map, 0, hmap_max_level);
 }
 
 /**********************************************************************//**

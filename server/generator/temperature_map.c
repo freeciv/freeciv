@@ -154,12 +154,8 @@ void create_tmap(bool real)
    * make sense - if most variation comes from height and coast, don't try
    * to squish that back into its original narrow range */
   if (REAL_COLATITUDE_RANGE(wld.map) >= MAX_COLATITUDE * 2 / 5) {
-    if (MIN_REAL_COLATITUDE(wld.map) > 0) {
-      /* FIXME: adjust_int_map always makes 0 the lowest value
-       * ~> can't call adjust until it supports constant offsets */
-    } else {
-      adjust_int_map(temperature_map, MAX_REAL_COLATITUDE(wld.map));
-    }
+    adjust_int_map(temperature_map, MIN_REAL_COLATITUDE(wld.map),
+                   MAX_REAL_COLATITUDE(wld.map));
   }
 
   /* now simplify to 4 base values */ 

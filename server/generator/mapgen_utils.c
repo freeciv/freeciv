@@ -112,17 +112,20 @@ void set_placed_near_pos(struct tile *ptile, int dist)
 }
 
 /**********************************************************************//**
-  Change the values of the integer map, so that they contain ranking of each 
-  tile scaled to [0 .. int_map_max].
-  The lowest 20% of tiles will have values lower than 0.2 * int_map_max.
+  Change the values of the integer map, so that they contain ranking of
+  each tile scaled to [int_map_min .. int_map_max].
+  E.g. the lowest 20% of tiles will have values lower than
+    int_map_min + 0.2 * (int_map_max - int_map_min).
 
   If filter is non-null then it only tiles for which filter(ptile, data) is
   TRUE will be considered.
 **************************************************************************/
-void adjust_int_map_filtered(int *int_map, int int_map_max, void *data,
-			     bool (*filter)(const struct tile *ptile,
-					    const void *data))
+void adjust_int_map_filtered(int *int_map, int int_map_min,
+                             int int_map_max, void *data,
+                             bool (*filter)(const struct tile *ptile,
+                                            const void *data))
 {
+  const int int_map_delta = int_map_max - int_map_min;
   int minval = 0, maxval = 0, total = 0;
   bool first = TRUE;
 
@@ -160,7 +163,7 @@ void adjust_int_map_filtered(int *int_map, int int_map_max, void *data,
     /* create the linearize function as "incremental" frequencies */
     for (i =  0; i < size; i++) {
       count += frequencies[i]; 
-      frequencies[i] = (count * int_map_max) / total;
+      frequencies[i] = int_map_min + (count * int_map_delta) / total;
     }
 
     /* apply the linearize function */

@@ -135,7 +135,7 @@ void make_fracture_map(void)
     }
   } whole_map_iterate_end;
 
-  adjust_int_map(height_map, hmap_max_level);
+  adjust_int_map(height_map, 0, hmap_max_level);
   free(landmass);
   free(fracture_points);
 }
