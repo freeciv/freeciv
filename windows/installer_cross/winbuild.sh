@@ -78,7 +78,6 @@ elif test "x$2" != "x" ; then
     CLIENTS="$2"
   fi
   case $2 in
-    gtk3) FCMP="gtk3" ;;
     sdl2) FCMP="gtk4" ;;
     gtk3.22) FCMP="gtk3" ;;
     gtk4) FCMP="gtk4" ;;
@@ -113,14 +112,14 @@ fi
 if test x$SETUP = xwin64 ; then
   TARGET=x86_64-w64-mingw32
   if test "x$SINGLE_GUI" != "xtrue" ; then
-    CLIENTS="gtk3,sdl2,gtk3.22"
+    CLIENTS="sdl2,gtk3.22"
     FCMP="gtk3,cli"
   fi
   VERREV="win64-$VERREV"
 else
   TARGET=i686-w64-mingw32
   if test "x$SINGLE_GUI" != "xtrue" ; then
-    CLIENTS="gtk3,sdl2,gtk3.22"
+    CLIENTS="sdl2,gtk3.22"
     FCMP="gtk3,cli"
   fi
   VERREV="win32-$VERREV"
