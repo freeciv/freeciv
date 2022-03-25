@@ -217,6 +217,7 @@ bool universal_value_initial(struct universal *src)
     src->value.extraflag = EF_NATIVE_TILE;
     return TRUE;
   case VUT_MINLATITUDE:
+  case VUT_MAXLATITUDE:
     src->value.latitude = 0;
     return TRUE;
   case VUT_COUNT:
@@ -438,6 +439,7 @@ void universal_kind_values(struct universal *univ,
   case VUT_AGE:
   case VUT_MINTECHS:
   case VUT_MINLATITUDE:
+  case VUT_MAXLATITUDE:
     /* Requirement types having numerical value */
     cb(NULL, FALSE, data);
     break;

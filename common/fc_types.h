@@ -765,6 +765,8 @@ typedef union {
 #define SPECENUM_VALUE48NAME "DiplRelUnitAnyOther"
 #define SPECENUM_VALUE49 VUT_MINLATITUDE
 #define SPECENUM_VALUE49NAME "MinLatitude"
+#define SPECENUM_VALUE50 VUT_MAXLATITUDE
+#define SPECENUM_VALUE50NAME "MaxLatitude"
 /* Keep this last. */
 #define SPECENUM_COUNT VUT_COUNT
 #include "specenum_gen.h"

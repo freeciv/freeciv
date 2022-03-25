@@ -288,6 +288,13 @@ static bool sanity_check_req_set(int reqs_of_type[],
          return FALSE;
        }
        break;
+     case VUT_MINLATITUDE:
+     case VUT_MAXLATITUDE:
+       if (tile_reqs_of_type[preq->range] > 1) {
+         log_error("%s: Requirement list has duplicate %s requirement at Tile range",
+                   list_for, universal_type_rule_name(&preq->source));
+         return FALSE;
+       }
      default:
        break;
     }
@@ -315,7 +322,6 @@ static bool sanity_check_req_set(int reqs_of_type[],
      case VUT_STYLE:
      case VUT_IMPR_GENUS:
      case VUT_CITYSTATUS:
-     case VUT_MINLATITUDE: /* Breaks nothing, but has no sense either */
        /* There can be only one requirement of these types (with current
         * range limitations)
         * Requirements might be identical, but we consider multiple
@@ -399,6 +405,9 @@ static bool sanity_check_req_set(int reqs_of_type[],
      case VUT_DIPLREL_UNITANY:
      case VUT_DIPLREL_UNITANY_O:
        /* Can have multiple requirements of these types */
+     case VUT_MINLATITUDE:
+     case VUT_MAXLATITUDE:
+       /* Can have multiple requirements at different ranges */
        break;
      case VUT_COUNT:
        /* Should never be in requirement vector */

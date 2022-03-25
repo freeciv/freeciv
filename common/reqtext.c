@@ -2947,6 +2947,20 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
 
   case VUT_MINLATITUDE:
     switch (preq->range) {
+    case REQ_RANGE_WORLD:
+      fc_strlcat(buf, prefix, bufsz);
+      if (preq->present) {
+        cat_snprintf(buf, bufsz,
+                     _("Some part of the world must be at latitude %d or "
+                       "further north."),
+                     preq->source.value.latitude);
+      } else {
+        cat_snprintf(buf, bufsz,
+                     _("The entire world must be at latitude %d or "
+                       "further south."),
+                     preq->source.value.latitude - 1);
+      }
+      return TRUE;
     case REQ_RANGE_TILE:
       fc_strlcat(buf, prefix, bufsz);
       if (preq->present) {
@@ -2960,14 +2974,108 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
       }
       return TRUE;
     case REQ_RANGE_CADJACENT:
+      fc_strlcat(buf, prefix, bufsz);
+      if (preq->present) {
+        cat_snprintf(buf, bufsz,
+                     _("A cardinally adjacent tile must be at latitude "
+                       "%d or further north."),
+                     preq->source.value.latitude);
+      } else {
+        cat_snprintf(buf, bufsz,
+                     _("All cardinally adjacent tiles must be at latitude "
+                       "%d or further south."),
+                     preq->source.value.latitude - 1);
+      }
+      return TRUE;
     case REQ_RANGE_ADJACENT:
+      fc_strlcat(buf, prefix, bufsz);
+      if (preq->present) {
+        cat_snprintf(buf, bufsz,
+                     _("An adjacent tile must be at latitude %d or "
+                       "further north."),
+                     preq->source.value.latitude);
+      } else {
+        cat_snprintf(buf, bufsz,
+                     _("All adjacent tiles must be at latitude %d or "
+                       "further south."),
+                     preq->source.value.latitude - 1);
+      }
+      return TRUE;
     case REQ_RANGE_CITY:
     case REQ_RANGE_TRADEROUTE:
     case REQ_RANGE_CONTINENT:
     case REQ_RANGE_PLAYER:
     case REQ_RANGE_TEAM:
     case REQ_RANGE_ALLIANCE:
+    case REQ_RANGE_LOCAL:
+    case REQ_RANGE_COUNT:
+      /* Not supported. */
+      break;
+    }
+    break;
+
+  case VUT_MAXLATITUDE:
+    switch (preq->range) {
     case REQ_RANGE_WORLD:
+      fc_strlcat(buf, prefix, bufsz);
+      if (preq->present) {
+        cat_snprintf(buf, bufsz,
+                     _("Some part of the world must be at latitude %d or "
+                       "further south."),
+                     preq->source.value.latitude);
+      } else {
+        cat_snprintf(buf, bufsz,
+                     _("The entire world must be at latitude %d or "
+                       "further north."),
+                     preq->source.value.latitude + 1);
+      }
+      return TRUE;
+    case REQ_RANGE_TILE:
+      fc_strlcat(buf, prefix, bufsz);
+      if (preq->present) {
+        cat_snprintf(buf, bufsz,
+                     _("Tile must be at latitude %d or further south."),
+                     preq->source.value.latitude);
+      } else {
+        cat_snprintf(buf, bufsz,
+                     _("Tile must be at latitude %d or further north."),
+                     preq->source.value.latitude + 1);
+      }
+      return TRUE;
+    case REQ_RANGE_CADJACENT:
+      fc_strlcat(buf, prefix, bufsz);
+      if (preq->present) {
+        cat_snprintf(buf, bufsz,
+                     _("A cardinally adjacent tile must be at latitude "
+                       "%d or further south."),
+                     preq->source.value.latitude);
+      } else {
+        cat_snprintf(buf, bufsz,
+                     _("All cardinally adjacent tiles must be at latitude "
+                       "%d or further north."),
+                     preq->source.value.latitude + 1);
+      }
+      return TRUE;
+    case REQ_RANGE_ADJACENT:
+      fc_strlcat(buf, prefix, bufsz);
+      if (preq->present) {
+        cat_snprintf(buf, bufsz,
+                     _("An adjacent tile must be at latitude %d or "
+                       "further south."),
+                     preq->source.value.latitude);
+      } else {
+        cat_snprintf(buf, bufsz,
+                     _("All adjacent tiles must be at latitude %d or "
+                       "further north."),
+                     preq->source.value.latitude + 1);
+      }
+      return TRUE;
+    case REQ_RANGE_CITY:
+    case REQ_RANGE_TRADEROUTE:
+    case REQ_RANGE_CONTINENT:
+    case REQ_RANGE_PLAYER:
+    case REQ_RANGE_TEAM:
+    case REQ_RANGE_ALLIANCE:
     case REQ_RANGE_LOCAL:
     case REQ_RANGE_COUNT:
       /* Not supported. */

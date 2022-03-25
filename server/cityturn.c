@@ -1740,6 +1740,7 @@ static bool worklist_item_postpone_req_vec(struct universal *target,
         }
         break;
       case VUT_MINLATITUDE:
+      case VUT_MAXLATITUDE:
         /* Can't change where the city is located. */
         purge = TRUE;
         break;
