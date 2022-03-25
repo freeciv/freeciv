@@ -31,6 +31,7 @@ MAKE_PARAMS="-j$(shell nproc)"
 endif
 
 ICUVER=68
+MAGICKVER=7.Q16HDRI-7
 
 INSTSUB=${ARCHDIR}
 
@@ -218,8 +219,8 @@ COMMON_DLLS := \
 	libtermcap-0.dll \
 	libssp-0.dll \
 	libzstd.dll \
-	libMagickWand-7.Q16HDRI-7.dll \
-	libMagickCore-7.Q16HDRI-7.dll \
+	libMagickWand-${MAGICKVER}.dll \
+	libMagickCore-${MAGICKVER}.dll \
 	libgomp-1.dll \
 	libfftw3-3.dll \
 	liblcms2-2.dll \
@@ -364,8 +365,8 @@ RULEDIT_DLLS := \
 	libpcre-1.dll \
 	libdouble-conversion.dll \
 	libzstd.dll \
-	libMagickWand-7.Q16HDRI-7.dll \
-	libMagickCore-7.Q16HDRI-7.dll \
+	libMagickWand-${MAGICKVER}.dll \
+	libMagickCore-${MAGICKVER}.dll \
 	libgomp-1.dll \
 	libfftw3-3.dll \
 	liblcms2-2.dll \
