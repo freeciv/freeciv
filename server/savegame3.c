@@ -6163,6 +6163,17 @@ static void sg_load_player_vision(struct loaddata *loading,
                   loading->file, "player%d.map_e%02d_%04d", plrno, j);
   } halfbyte_iterate_extras_end;
 
+  whole_map_iterate(ptile) {
+    struct player_tile *plrtile = map_get_player_tile(ptile, plr);
+
+    extra_type_by_cause_iterate(EC_RESOURCE, pres) {
+      if (BV_ISSET(plrtile->extras, extra_number(pres))
+          && terrain_has_resource(plrtile->terrain, pres)) {
+        plrtile->resource = pres;
+      }
+    } extra_type_by_cause_iterate_end;
+  } whole_map_iterate_end;
+
   if (game.server.foggedborders) {
     /* Load player map (border). */
     int x, y;
