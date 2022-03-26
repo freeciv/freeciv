@@ -29,22 +29,16 @@ struct rscompat_info
 {
   bool compat_mode;
   rs_conversion_logger log_cb;
-  int ver_buildings;
-  int ver_cities;
-  int ver_effects;
-  int ver_game;
-  int ver_governments;
-  int ver_nations;
-  int ver_styles;
-  int ver_techs;
-  int ver_terrain;
-  int ver_units;
+  int version;
 };
 
 void rscompat_init_info(struct rscompat_info *info);
 
 int rscompat_check_capabilities(struct section_file *file, const char *filename,
-                                struct rscompat_info *info);
+                                const struct rscompat_info *info);
+bool rscompat_check_cap_and_version(struct section_file *file,
+                                    const char *filename,
+                                    const struct rscompat_info *info);
 
 bool rscompat_names(struct rscompat_info *info);
 

@@ -1352,8 +1352,8 @@ static bool load_game_names(struct section_file *file,
   bool ok = TRUE;
 
   /* section: datafile */
-  compat->ver_game = rscompat_check_capabilities(file, filename, compat);
-  if (compat->ver_game <= 0) {
+  compat->version = rscompat_check_capabilities(file, filename, compat);
+  if (compat->version <= 0) {
     return FALSE;
   }
 
@@ -1443,8 +1443,7 @@ static bool load_tech_names(struct section_file *file,
   bool ok = TRUE;
   const char *flag;
 
-  compat->ver_techs = rscompat_check_capabilities(file, filename, compat);
-  if (compat->ver_techs <= 0) {
+  if (!rscompat_check_cap_and_version(file, filename, compat)) {
     return FALSE;
   }
 
@@ -1765,8 +1764,7 @@ static bool load_unit_names(struct section_file *file,
   const char *flag;
   bool ok = TRUE;
 
-  compat->ver_units = rscompat_check_capabilities(file, filename, compat);
-  if (compat->ver_units <= 0) {
+  if (!rscompat_check_cap_and_version(file, filename, compat)) {
     return FALSE;
   }
 
@@ -2081,7 +2079,7 @@ static bool load_ruleset_units(struct section_file *file,
                                                           "%s.non_native_def_pct",
                                                           sec_name);
 
-      if (compat->compat_mode && compat->ver_units < RSFORMAT_3_1) {
+      if (compat->compat_mode && compat->version < RSFORMAT_3_1) {
         const char *hut_str;
 
         hut_str = secfile_lookup_str_default(file, "Normal",
@@ -2473,7 +2471,7 @@ static bool load_ruleset_units(struct section_file *file,
 
       u->paratroopers_range = secfile_lookup_int_default(file,
           0, "%s.paratroopers_range", sec_name);
-      if (compat->compat_mode && compat->ver_units < RSFORMAT_3_1) {
+      if (compat->compat_mode && compat->version < RSFORMAT_3_1) {
         u->rscompat_cache.paratroopers_mr_req
             = SINGLE_MOVE * secfile_lookup_int_default(
                   file, 0, "%s.paratroopers_mr_req", sec_name);
@@ -2627,9 +2625,7 @@ static bool load_building_names(struct section_file *file,
   const char *filename = secfile_name(file);
   bool ok = TRUE;
 
-  compat->ver_buildings = rscompat_check_capabilities(file, filename,
-                                                      compat);
-  if (compat->ver_buildings <= 0) {
+  if (!rscompat_check_cap_and_version(file, filename, compat)) {
     return FALSE;
   }
 
@@ -2798,9 +2794,7 @@ static bool load_terrain_names(struct section_file *file,
   const char *filename = secfile_name(file);
   bool ok = TRUE;
 
-  compat->ver_terrain = rscompat_check_capabilities(file, filename,
-                                                    compat);
-  if (compat->ver_terrain <= 0) {
+  if (!rscompat_check_cap_and_version(file, filename, compat)) {
     return FALSE;
   }
 
@@ -3447,7 +3441,7 @@ static bool load_ruleset_terrain(struct section_file *file,
         ok = FALSE;
         break;
       }
-      if (compat->compat_mode && compat->ver_terrain < RSFORMAT_3_1) {
+      if (compat->compat_mode && compat->version < RSFORMAT_3_1) {
         if (pterrain->transform_time <= 0) {
           /* Transform time of zero was documented to disable the transform
            * regardless of given transform result in earlier versions, i.e.,
@@ -4303,9 +4297,7 @@ static bool load_government_names(struct section_file *file,
   const char *filename = secfile_name(file);
   bool ok = TRUE;
 
-  compat->ver_governments = rscompat_check_capabilities(file, filename,
-                                                        compat);
-  if (compat->ver_governments <= 0) {
+  if (!rscompat_check_cap_and_version(file, filename, compat)) {
     return FALSE;
   }
 
@@ -4627,9 +4619,7 @@ static bool load_nation_names(struct section_file *file,
   bool ok = TRUE;
   const char *filename = secfile_name(file);
 
-  compat->ver_nations = rscompat_check_capabilities(file, filename,
-                                                    compat);
-  if (compat->ver_nations <= 0) {
+  if (!rscompat_check_cap_and_version(file, filename, compat)) {
     return FALSE;
   }
 
@@ -4663,7 +4653,7 @@ static bool load_nation_names(struct section_file *file,
 
       if (!strcmp("freeciv-core", domain)) {
         pl->translation_domain = NULL;
-      } else if (compat->compat_mode && compat->ver_nations < RSFORMAT_3_1
+      } else if (compat->compat_mode && compat->version < RSFORMAT_3_1
                  && !strcmp("freeciv", domain)) {
         pl->translation_domain = NULL;
       } else if (!strcmp("freeciv-nations", domain)) {
@@ -5636,8 +5626,7 @@ static bool load_style_names(struct section_file *file,
   struct section_list *sec;
   const char *filename = secfile_name(file);
 
-  compat->ver_styles = rscompat_check_capabilities(file, filename, compat);
-  if (compat->ver_styles <= 0) {
+  if (!rscompat_check_cap_and_version(file, filename, compat)) {
     return FALSE;
   }
 
@@ -5877,8 +5866,7 @@ static bool load_ruleset_cities(struct section_file *file,
   struct section_list *sec;
   bool ok = TRUE;
 
-  compat->ver_cities = rscompat_check_capabilities(file, filename, compat);
-  if (compat->ver_cities <= 0) {
+  if (!rscompat_check_cap_and_version(file, filename, compat)) {
     return FALSE;
   }
 
@@ -6084,10 +6072,10 @@ static bool load_ruleset_effects(struct section_file *file,
 
   filename = secfile_name(file);
 
-  compat->ver_effects = rscompat_check_capabilities(file, filename, compat);
-  if (compat->ver_effects <= 0) {
+  if (!rscompat_check_cap_and_version(file, filename, compat)) {
     return FALSE;
   }
+
   (void) secfile_entry_by_path(file, "datafile.description");   /* unused */
   (void) secfile_entry_by_path(file, "datafile.ruledit");       /* unused */
 
@@ -6946,7 +6934,7 @@ static bool load_ruleset_game(struct section_file *file, bool act,
 
     /* section: actions */
     if (ok) {
-      if (compat->compat_mode && compat->ver_game < RSFORMAT_3_1) {
+      if (compat->compat_mode && compat->version < RSFORMAT_3_1) {
         int force_capture_units, force_bombard, force_explode_nuclear;
 
         if (secfile_lookup_bool_default(file, FALSE,
@@ -7323,7 +7311,7 @@ static bool load_ruleset_game(struct section_file *file, bool act,
     }
   }
 
-  if (compat->compat_mode && compat->ver_game < RSFORMAT_3_1) {
+  if (compat->compat_mode && compat->version < RSFORMAT_3_1) {
     bool slow_invasions
       = secfile_lookup_bool_default(file, TRUE,
                                     "global_unit_options.slow_invasions");
@@ -7354,7 +7342,7 @@ static bool load_ruleset_game(struct section_file *file, bool act,
       = secfile_lookup_bool_default(file, RS_DEFAULT_COMBAT_ODDS_SCALED_VETERANCY,
                                     "combat_rules.combat_odds_scaled_veterancy");
 
-    if (compat->compat_mode && compat->ver_game < RSFORMAT_3_1) {
+    if (compat->compat_mode && compat->version < RSFORMAT_3_1) {
       /* Old hardcoded behavior was not to have bombard rate reduced for damage. */
       default_drbr = FALSE;
     }
@@ -9268,6 +9256,8 @@ static bool load_rulesetdir(const char *rsdir, bool compat_mode,
   }
 
   if (ok) {
+    /* Note: Keep load_game_names first so that compat_info.version is
+     * correctly initialized. */
     ok = load_game_names(gamefile, &compat_info)
       && load_tech_names(techfile, &compat_info)
       && load_building_names(buildfile, &compat_info)
