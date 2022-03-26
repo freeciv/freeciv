@@ -220,6 +220,7 @@ Casus_Belli_Caught
     incident gives the intended victim a casus belli against the actor player.
     A value of 1000 or higher is international outrage. International outrage
     gives every other player a casus belli against the actor.
+    This effect is supported only for a limited set of actions.
 
 Casus_Belli_Complete
     Checked when a player completes an action that takes several turns
@@ -228,7 +229,7 @@ Casus_Belli_Complete
     a casus belli against the actor player. A value of 1000 or higher is
     international outrage. International outrage gives every other player a
     casus belli against the actor.
-    Only "Pillage" is currently supported.
+    "Pillage" is the only action currently supported.
 
 Casus_Belli_Success
     Checked when a player does an action to another player. Will cause an
@@ -236,6 +237,7 @@ Casus_Belli_Success
     incident gives the intended victim a casus belli against the actor player.
     A value of 1000 or higher is international outrage. International outrage
     gives every other player a casus belli against the actor.
+    This effect is supported only for a limited set of actions.
 
 City_Build_Slots
     Increase the number of units with no population cost a city can build in
