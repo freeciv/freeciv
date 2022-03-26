@@ -2595,7 +2595,7 @@ static enum fc_tristate is_diplrel_in_range(const struct player *target_player,
 }
 
 /**********************************************************************//**
-  Is the diplomatic state within range of anny unit at the target tile?
+  Is the diplomatic state within range of any unit at the target tile?
 **************************************************************************/
 static enum fc_tristate
 is_diplrel_unitany_in_range(const struct tile *target_tile,
