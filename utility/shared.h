@@ -113,7 +113,7 @@ enum fc_tristate fc_tristate_or(enum fc_tristate one, enum fc_tristate two);
 
 #ifndef PATH_SEPARATOR
 #if defined(FREECIV_MSWINDOWS) || defined(_WIN32) || defined(__WIN32__) || defined(__EMX__) || defined(__DJGPP__)
-  /* Win32, OS/2, DOS */
+  /* Windows, OS/2, DOS */
 # define PATH_SEPARATOR ";"
 #else
   /* Unix */
@@ -122,7 +122,7 @@ enum fc_tristate fc_tristate_or(enum fc_tristate one, enum fc_tristate two);
 #endif /* PATH_SEPARATOR */
 
 #if defined(FREECIV_MSWINDOWS) || defined(_WIN32) || defined(__WIN32__) || defined(__EMX__) || defined(__DJGPP__)
-  /* Win32, OS/2, DOS */
+  /* Windows, OS/2, DOS */
 # define DIR_SEPARATOR "\\"
 # define DIR_SEPARATOR_CHAR '\\'
 #else

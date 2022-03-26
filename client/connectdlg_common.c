@@ -234,7 +234,7 @@ bool client_start_server(void)
 
 #if !defined(HAVE_USABLE_FORK)
   /* Above also implies that this is FREECIV_MSWINDOWS ->
-   * Win32 that can't use fork() */
+   * Windows that can't use fork() */
   STARTUPINFO si;
   PROCESS_INFORMATION pi;
 
