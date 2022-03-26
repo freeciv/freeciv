@@ -349,7 +349,7 @@ void init_player_dlg_common(void)
 /************************************************************************//**
   The only place where this is used is the player dialog.
   Eventually this should go the way of the dodo with everything here
-  moved into col_host above, but some of the older clients (+win32) still
+  moved into col_host above, but some of the older clients still
   use this function directly.
 
   This code in this function is only really needed so that the host is
