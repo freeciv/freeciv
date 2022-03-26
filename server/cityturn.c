@@ -1463,6 +1463,8 @@ static bool worklist_item_postpone_req_vec(struct universal *target,
       case VUT_DIPLREL_TILE: /* The tile owner is the city owner */
       case VUT_DIPLREL_TILE_O: /* The tile owner is the city owner */
         if (preq->present) {
+          const char *reason;
+
           notify_player(pplayer, city_tile(pcity),
                         E_CITY_CANTBUILD, ftc_server,
                         /* TRANS: '%s' is a wide range of relationships;
@@ -1475,9 +1477,21 @@ static bool worklist_item_postpone_req_vec(struct universal *target,
                         tgt_name,
                         diplrel_name_translation(
                           preq->source.value.diplrel));
+
+          if (preq->source.kind == VUT_DIPLREL_TILE) {
+            reason = "need_diplrel_tile";
+          } else if (preq->source.kind == VUT_DIPLREL_TILE_O) {
+            reason = "need_diplrel_tile_o";
+          } else {
+            fc_assert(preq->source.kind == VUT_DIPLREL);
+            reason = "need_diplrel";
+          }
+
           script_server_signal_emit(signal_name, ptarget,
-                                    pcity, "need_diplrel");
+                                    pcity, reason);
         } else {
+          const char *reason;
+
           notify_player(pplayer, city_tile(pcity),
                         E_CITY_CANTBUILD, ftc_server,
                         _("%s can't build %s from the worklist; "
@@ -1487,13 +1501,25 @@ static bool worklist_item_postpone_req_vec(struct universal *target,
                         tgt_name,
                         diplrel_name_translation(
                           preq->source.value.diplrel));
+
+          if (preq->source.kind == VUT_DIPLREL_TILE) {
+            reason = "have_diplrel_tile";
+          } else if (preq->source.kind == VUT_DIPLREL_TILE_O) {
+            reason = "have_diplrel_tile_o";
+          } else {
+            fc_assert(preq->source.kind == VUT_DIPLREL);
+            reason = "have_diplrel";
+          }
+
           script_server_signal_emit(signal_name, ptarget,
-                                    pcity, "have_diplrel");
+                                    pcity, reason);
         }
         break;
       case VUT_DIPLREL_UNITANY:
       case VUT_DIPLREL_UNITANY_O:
         if (preq->present) {
+          const char *reason;
+
           notify_player(pplayer, city_tile(pcity),
                         E_CITY_CANTBUILD, ftc_server,
                         /* TRANS: '%s' is a wide range of relationships;
@@ -1506,9 +1532,19 @@ static bool worklist_item_postpone_req_vec(struct universal *target,
                         tgt_name,
                         diplrel_name_translation(
                           preq->source.value.diplrel));
+
+          if (preq->source.kind == VUT_DIPLREL_UNITANY) {
+            reason = "need_diplrel_unitany";
+          } else {
+            fc_assert(preq->source.kind == VUT_DIPLREL_UNITANY_O);
+            reason = "need_diplrel_unitany_o";
+          }
+
           script_server_signal_emit(signal_name, ptarget,
-                                    pcity, "need_diplrel");
+                                    pcity, reason);
         } else {
+          const char *reason;
+
           notify_player(pplayer, city_tile(pcity),
                         E_CITY_CANTBUILD, ftc_server,
                         _("%s can't build %s from the worklist; "
@@ -1518,8 +1554,16 @@ static bool worklist_item_postpone_req_vec(struct universal *target,
                         tgt_name,
                         diplrel_name_translation(
                           preq->source.value.diplrel));
+
+          if (preq->source.kind == VUT_DIPLREL_UNITANY) {
+            reason = "have_diplrel_unitany";
+          } else {
+            fc_assert(preq->source.kind == VUT_DIPLREL_UNITANY_O);
+            reason = "have_diplrel_unitany_o";
+          }
+
           script_server_signal_emit(signal_name, ptarget,
-                                    pcity, "have_diplrel");
+                                    pcity, reason);
         }
         break;
       case VUT_MINSIZE:
