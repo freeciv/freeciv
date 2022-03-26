@@ -4945,7 +4945,7 @@ static void message_options_free(void)
 
 /****************************************************************
   Load the message options; use the function defined by
-  specnum.h (see also events.h).
+  specenum_gen.h (see also events.h).
 *****************************************************************/
 static void message_options_load(struct section_file *file,
                                  const char *prefix)
@@ -5025,7 +5025,7 @@ static void message_options_load(struct section_file *file,
 
 /****************************************************************
   Save the message options; use the function defined by
-  specnum.h (see also events.h).
+  specenum_gen.h (see also events.h).
 *****************************************************************/
 static void message_options_save(struct section_file *file,
                                  const char *prefix)
