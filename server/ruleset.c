@@ -772,6 +772,11 @@ struct requirement_vector *lookup_req_list(struct section_file *file,
     requirement_vector_append(&reqs_list, req);
   }
 
+  if (compat->compat_mode) {
+    rscompat_req_vec_adjust_3_1(compat, &reqs_list, &j,
+                                filename, sec, sub, rfor);
+  }
+
   if (j > MAX_NUM_REQS) {
     ruleset_error(LOG_ERROR, "Too many (%d) requirements for %s. Max is %d",
                   j, rfor, MAX_NUM_REQS);

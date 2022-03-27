@@ -395,6 +395,57 @@ static bool sanity_check_req_set(int reqs_of_type[], int local_reqs_of_type[],
 }
 
 /**********************************************************************//**
+  Helper function: Sanity check potential 'singlepole' server setting
+  requirement in a requirement vector.
+  'conjunctive' should be TRUE if the vector is an AND vector (all
+  requirements must be active), FALSE if it's a disjunctive (OR) vector.
+
+  Returns TRUE iff everything ok.
+**************************************************************************/
+static bool
+sanity_check_req_vec_singlepole(const struct requirement_vector *preqs,
+                                bool conjunctive, const char *list_for)
+{
+  bool has_singlepole_req = FALSE;
+
+  requirement_vector_iterate(preqs, preq) {
+    server_setting_id id;
+    struct setting *pset;
+
+    if (preq->source.kind != VUT_SERVERSETTING) {
+      continue;
+    }
+
+    id = ssetv_setting_get(preq->source.value.ssetval);
+    fc_assert_ret_val(server_setting_exists(id), FALSE);
+    pset = setting_by_number(id);
+
+    if (pset == setting_by_name("singlepole")) {
+      has_singlepole_req = TRUE;
+    } else if (pset == setting_by_name("alltemperate")
+                && XOR(conjunctive, preq->present)) {
+      return TRUE;
+    }
+  } requirement_vector_iterate_end;
+
+  if (!has_singlepole_req) {
+    /* all good */
+    return TRUE;
+  }
+
+  if (conjunctive) {
+    log_error("%s: Requirement list containing 'singlepole' server"
+              " setting requirement must also have negated (!present)"
+              " 'alltemperate' requirement", list_for);
+  } else {
+    log_error("%s: Disjunctive requirement list containing 'singlepole'"
+              " server setting requirement must also have present"
+              " 'alltemperate' requirement", list_for);
+  }
+  return FALSE;
+}
+
+/**********************************************************************//**
   Sanity check requirement vector, including whether it's free of
   conflicting requirements.
   'conjunctive' should be TRUE if the vector is an AND vector (all requirements
@@ -428,6 +479,10 @@ static bool sanity_check_req_vec(const struct requirement_vector *preqs,
       return FALSE;
     }
   } requirement_vector_iterate_end;
+
+  if (!sanity_check_req_vec_singlepole(preqs, conjunctive, list_for)) {
+    return FALSE;
+  }
 
   problem = req_vec_suggest_repair(preqs, req_vec_vector_number, preqs);
   if (problem != NULL) {

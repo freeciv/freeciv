@@ -64,6 +64,11 @@ bool rscompat_auto_attack_3_1(struct rscompat_info *compat,
 const char *rscompat_req_type_name_3_1(const char *old_type);
 const char *rscompat_req_name_3_1(const char *type,
                                   const char *old_name);
+void rscompat_req_vec_adjust_3_1(struct rscompat_info *compat,
+                                 struct requirement_vector *preqs,
+                                 int *reqs_count,
+                                 const char *filename, const char *sec,
+                                 const char *sub, const char *rfor);
 const char *rscompat_utype_flag_name_3_1(struct rscompat_info *info,
                                          const char *old_type);
 const char *rscompat_combat_bonus_name_3_1(struct rscompat_info *compat,

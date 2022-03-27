@@ -36,6 +36,7 @@
 /* server */
 #include "rssanity.h"
 #include "ruleset.h"
+#include "settings.h"
 
 #include "rscompat.h"
 
@@ -2046,6 +2047,93 @@ const char *rscompat_req_name_3_1(const char *type,
   }
 
   return old_name;
+}
+
+/**********************************************************************//**
+  Modify requirement vectors in ways that require looking at the entire
+  vector, rather than just individual requirements.
+**************************************************************************/
+void rscompat_req_vec_adjust_3_1(struct rscompat_info *compat,
+                                 struct requirement_vector *preqs,
+                                 int *reqs_count,
+                                 const char *filename, const char *sec,
+                                 const char *sub, const char *rfor)
+{
+  char buf[1024];
+
+  /* Add a missing 'alltemperate' server setting requirement to any vector
+   * including a 'singlepole' requirement.
+   * See also sanity_check_req_vec_singlepole() in rssanity.c
+   *
+   * Note that this *does* change the semantics of the given vector, so we
+   * must inform the user of this change. */
+  if (compat->compat_mode && compat->version < RSFORMAT_3_1) {
+    /* heuristic: the only non-conjunctive requirement vectors are
+     * improvement obsoletion requirements */
+    bool conjunctive = BOOL_VAL(fc_strcasecmp(sub, "obsolete_by"));
+    bool need_alltemperate_req = FALSE;
+    /* "wrong" here only applies when we do in fact have a
+     * 'singlepole' requirement */
+    bool has_wrong_alltemperate_req = FALSE;
+
+    requirement_vector_iterate(preqs, preq) {
+      server_setting_id id;
+      struct setting *pset;
+
+      if (preq->source.kind != VUT_SERVERSETTING) {
+        continue;
+      }
+
+      id = ssetv_setting_get(preq->source.value.ssetval);
+      fc_assert_ret(server_setting_exists(id));
+      pset = setting_by_number(id);
+
+      if (pset == setting_by_name("singlepole")) {
+        need_alltemperate_req = TRUE;
+      } else if (pset == setting_by_name("alltemperate")) {
+        if (XOR(conjunctive, preq->present)) {
+          need_alltemperate_req = FALSE;
+          break;
+        } else {
+          has_wrong_alltemperate_req = TRUE;
+        }
+      }
+    } requirement_vector_iterate_end;
+
+    if (need_alltemperate_req) {
+      if (has_wrong_alltemperate_req) {
+        /* Can't do anything here - already a nonsensical situation */
+        if (compat->log_cb != NULL) {
+          fc_snprintf(buf, sizeof(buf),
+                      "%s: Cannot update requirement vector %s.%s (for %s)"
+                      " where a 'singlepole' requirement is only relevant"
+                      " when 'alltemperate' is already active. Fix this"
+                      " manually: drop the 'singlepole' requirement, or"
+                      " flip the 'alltemperate' requirement.",
+                      filename, sec, sub, rfor);
+          compat->log_cb(buf);
+        }
+      } else {
+        struct requirement new_req = req_from_values(VUT_SERVERSETTING,
+            REQ_RANGE_WORLD, FALSE, !conjunctive, FALSE,
+            ssetv_by_rule_name("alltemperate"));
+
+        requirement_vector_append(preqs, new_req);
+        (*reqs_count)++;
+
+        if (compat->log_cb != NULL) {
+          fc_snprintf(buf, sizeof(buf),
+                      "%s: Added 'alltemperate' server setting requirement to"
+                      " requirement vector %s.%s (for %s) so that current"
+                      " 'singlepole' requirement is only relevant when"
+                      " 'alltemperate' is disabled. This likely changes the"
+                      " semantics; make sure the new rules are sensible.",
+                      filename, sec, sub, rfor);
+          compat->log_cb(buf);
+        }
+      }
+    }
+  }
 }
 
 /**********************************************************************//**
