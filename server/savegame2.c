@@ -2256,6 +2256,12 @@ static void sg_load_game(struct loaddata *loading)
                                      "game.level");
   if (level != NULL) {
     game.info.skill_level = ai_level_by_name(level, fc_strcasecmp);
+
+    /* In builds where level "Experimental" is not supported, convert it to "Hard" */
+    if (!ai_level_is_valid(game.info.skill_level)
+        && !fc_strcasecmp(level, "Experimental")) {
+      game.info.skill_level = AI_LEVEL_HARD;
+    }
   } else {
     game.info.skill_level = ai_level_invalid();
   }
