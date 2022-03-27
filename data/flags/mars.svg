@@ -1,21 +1,38 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN"
-"http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
 <!-- Created with Sodipodi ("http://www.sodipodi.com/") -->
+
 <svg
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:xlink="http://www.w3.org/1999/xlink"
    id="svg676"
    sodipodi:version="0.34"
    width="999"
    height="666"
-   sodipodi:docbase="/home/vasco/dev/HEAD/freeciv/data/flags"
-   sodipodi:docname="/home/vasco/dev/HEAD/freeciv/data/flags/mars.svg">
+   sodipodi:docname="mars.svg"
+   version="1.1"
+   inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
   <defs
      id="defs678" />
   <sodipodi:namedview
-     id="base" />
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     showgrid="false"
+     inkscape:zoom="0.88122917"
+     inkscape:cx="499.30258"
+     inkscape:cy="333.05752"
+     inkscape:window-width="1147"
+     inkscape:window-height="838"
+     inkscape:window-x="448"
+     inkscape:window-y="79"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg676" />
   <g
      id="g612">
     <rect
