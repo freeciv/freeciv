@@ -1,7 +1,53 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="600" height="400">
-  <rect width="600" height="400" fill="#169253"/>
-  <rect width="600" height="300" fill="#fceb0f"/>
-  <rect width="600" height="200" fill="#012a87"/>
-  <rect width="600" height="100" fill="#dc181e"/>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="600"
+   height="400"
+   version="1.1"
+   id="svg10"
+   sodipodi:docname="mauritius.svg"
+   inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs14" />
+  <sodipodi:namedview
+     id="namedview12"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     showgrid="false"
+     inkscape:zoom="1.4672466"
+     inkscape:cx="300.2222"
+     inkscape:cy="200.03454"
+     inkscape:window-width="1120"
+     inkscape:window-height="834"
+     inkscape:window-x="389"
+     inkscape:window-y="108"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg10" />
+  <rect
+     width="600"
+     height="400"
+     fill="#169253"
+     id="rect2" />
+  <rect
+     width="600"
+     height="300"
+     fill="#fceb0f"
+     id="rect4" />
+  <rect
+     width="600"
+     height="200"
+     fill="#012a87"
+     id="rect6" />
+  <rect
+     width="600"
+     height="100"
+     fill="#dc181e"
+     id="rect8" />
 </svg>
