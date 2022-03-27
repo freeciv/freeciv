@@ -37,7 +37,6 @@ QT6_MOCCMD="$(MOCCMD)"
 endif
 
 ICUVER=69
-MAGICKVER=7.Q16HDRI-7
 
 INSTSUB=${ARCHDIR}
 
@@ -45,11 +44,9 @@ INSTSUB=${ARCHDIR}
 DLLPATH_PREFIX=/$(ARCHDIR)/bin/
 
 ifeq ($(CI),yes)
-FLAC="libFLAC-8.dll"
-LIBB2=""
+MAGICKVER=7.Q16HDRI-10
 else
-FLAC="libFLAC.dll"
-LIBB2="libb2-1.dll"
+MAGICKVER=7.Q16HDRI-7
 endif
 
 #
@@ -224,7 +221,7 @@ install-ruledit-qt6: configure-freeciv-ruledit-qt6 install-ruledit-dir-qt6
 SOUND_DLLS := \
 	SDL2.dll \
 	SDL2_mixer.dll \
-	$(FLAC) \
+	libFLAC.dll \
 	libfluidsynth-3.dll \
 	libmodplug-1.dll \
 	libvorbis-0.dll \
@@ -414,7 +411,7 @@ QT6_DLLS := \
 	libgraphite2.dll \
 	libdouble-conversion.dll \
 	libmd4c.dll \
-	$(LIBB2)
+	libb2-1.dll
 
 install-env-qt6: install-env-common
 	# add DLLs
