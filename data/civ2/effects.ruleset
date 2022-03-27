@@ -1207,6 +1207,14 @@ reqs    =
       "UnitFlag",      "Cant_Fortify", "Local", FALSE
     }
 
+[effect_city_min_hp]
+type    = "Min_HP_Pct"
+value   = 33
+reqs    =
+    { "type",     "name",   "range"
+      "CityTile", "Center", "Tile"
+    }
+
 [effect_incite_cost_empty]
 type = "Incite_Cost_Pct"
 value = -50

@@ -2065,13 +2065,13 @@ int hp_gain_coord(struct unit *punit)
 {
   int hp = 0;
   const int base = unit_type_get(punit)->hp;
+  int min = base * get_unit_bonus(punit, EFT_MIN_HP_PCT) / 100;
 
   /* Includes barracks (100%), fortress (25%), etc. */
   hp += base * get_unit_bonus(punit, EFT_HP_REGEN) / 100;
 
-  if (tile_city(unit_tile(punit))) {
-    hp = MAX(hp, base / 3);
-  }
+  /* Minimum HP after regen effects applied. */
+  hp = MAX(hp, min);
 
   if (!unit_class_get(punit)->hp_loss_pct) {
     hp += (base + 9) / 10;

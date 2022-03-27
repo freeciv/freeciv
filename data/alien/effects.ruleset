@@ -1079,6 +1079,14 @@ reqs    =
       "UnitFlag",      "Cant_Fortify", "Local", FALSE
     }
 
+[effect_city_min_hp]
+type    = "Min_HP_Pct"
+value   = 33
+reqs    =
+    { "type",     "name",   "range"
+      "CityTile", "Center", "Tile"
+    }
+
 [effect_action_success_move_cost_from_non_native]
 type    = "Action_Success_Actor_Move_Cost"
 value   = 65535

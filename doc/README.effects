@@ -218,6 +218,11 @@ Irrigation_Pct
     The tile gets value % of its terrain's irrigation_food_incr bonus.
 (This is how irrigation-like extras have an effect.)
 
+Min_HP_Pct
+    The minimum HP (pct from full) units that have not moved during
+    previous turn will have in the beginning of the new turn,
+    after the HP_Regen effects have been applied.
+
 Mining_Pct
     The tile gets value % of its terrain's mining_shield_incr bonus.
 (This is how mine-like extras have an effect.)

@@ -1049,6 +1049,12 @@ void rscompat_postprocess(struct rscompat_info *info)
     effect_req_append(peffect, req_from_str("Action", "Local", FALSE, TRUE,
                                             FALSE, "Heal Unit"));
 
+    /* The rule that unit in a city has at least 1/3 of its HP in the
+     * beginning of the new turn has moved to the ruleset. */
+    peffect = effect_new(EFT_MIN_HP_PCT, 33, NULL);
+    effect_req_append(peffect, req_from_str("CityTile", "Tile", FALSE, TRUE,
+                                            FALSE, "Center"));
+
     /* Help ruleset authors specify the new arguments to unit_move() and
      * unit_teleport() by introducing boolean effects */
     log_normal(_("Preparing user effects to help you port edit.unit_move()"
