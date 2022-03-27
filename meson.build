@@ -42,7 +42,6 @@ else
 endif
 
 if host_system == 'windows'
-  priv_conf_data.set('FREECIV_STORAGE_DIR', '~\\\\.freeciv')
   pub_conf_data.set('FREECIV_STORAGE_DIR', '~\\\\.freeciv')
   priv_conf_data.set('LOCALEDIR',
                      join_paths('.', get_option('datadir'), 'locale'))
@@ -54,7 +53,6 @@ if host_system == 'windows'
   priv_conf_data.set('DEFAULT_SCENARIO_PATH',
     '".;data/scenarios;@FREECIV_STORAGE_DIR@/@DATASUBDIR@/scenarios;@FREECIV_STORAGE_DIR@/scenarios;@DATADIR@/freeciv/scenarios"')
 else
-  priv_conf_data.set('FREECIV_STORAGE_DIR', '~/.freeciv')
   pub_conf_data.set('FREECIV_STORAGE_DIR', '~/.freeciv')
   priv_conf_data.set('LOCALEDIR',
                       join_paths(get_option('prefix'),
