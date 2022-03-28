@@ -13,3 +13,5 @@ noinst_LTLIBRARIES = libcvercmp.la
 libcvercmp_la_SOURCES = \
 	cvercmp.c	\
 	cvercmp.h
+
+EXTRA_DIST = README.cvercmp
