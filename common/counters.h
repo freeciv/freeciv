@@ -32,6 +32,7 @@ struct counter
   struct name_translation name;
   enum counter_type type;
   enum counter_target target;
+  int checkpoint;
   int def;    /* default value for each entity of given type
                * for this counter */
 

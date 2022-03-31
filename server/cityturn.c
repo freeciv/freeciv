@@ -38,6 +38,7 @@
 #include "calendar.h"
 #include "citizens.h"
 #include "city.h"
+#include "counters.h"
 #include "culture.h"
 #include "events.h"
 #include "disaster.h"
@@ -1164,6 +1165,21 @@ static bool worklist_item_postpone_req_vec(struct universal *target,
     if (!is_req_active(&city_ctxt, NULL, preq, RPT_POSSIBLE)) {
       known = TRUE;
       switch (preq->source.kind) {
+      case VUT_COUNTER:
+        if (preq->present) {
+          notify_player(pplayer, city_tile(pcity),
+                        E_CITY_CANTBUILD, ftc_server,
+                        _("%s can't build %s from the worklist; "
+                        "counter %s value's checkpoint do not met "
+                        "Postponing..."),
+                        city_link(pcity),
+                        tgt_name,
+                        counter_name_translation
+                        (preq->source.value.counter));
+        } else {
+          purge = TRUE;
+        }
+        break;
       case VUT_ADVANCE:
         if (preq->present) {
           notify_player(pplayer, city_tile(pcity),

@@ -26,6 +26,7 @@
 #include "achievements.h"
 #include "calendar.h"
 #include "citizens.h"
+#include "counters.h"
 #include "culture.h"
 #include "game.h"
 #include "government.h"
@@ -386,6 +387,12 @@ void universal_value_from_str(struct universal *source, const char *value)
       return;
     }
     break;
+  case VUT_COUNTER:
+   source->value.counter = counter_by_rule_name(value);
+   if (source->value.counter != NULL) {
+      return;
+   }
+   break;
   case VUT_COUNT:
     break;
   }
@@ -587,6 +594,9 @@ struct universal universal_by_number(const enum universals_n kind,
   case VUT_CITYSTATUS:
     source.value.citystatus = value;
     return source;
+  case VUT_COUNTER:
+    source.value.counter = counter_by_id(value);
+    return source;
   case VUT_MINLATITUDE:
   case VUT_MAXLATITUDE:
     source.value.latitude = value;
@@ -714,6 +724,8 @@ int universal_number(const struct universal *source)
     return source->value.citytile;
   case VUT_CITYSTATUS:
     return source->value.citystatus;
+  case VUT_COUNTER:
+    return counter_id(source->value.counter);
   case VUT_MINLATITUDE:
   case VUT_MAXLATITUDE:
     return source->value.latitude;
@@ -820,6 +832,7 @@ struct requirement req_from_str(const char *type, const char *range,
       case VUT_MAXLATITUDE:
         req.range = REQ_RANGE_TILE;
         break;
+      case VUT_COUNTER:
       case VUT_MINSIZE:
       case VUT_MINCULTURE:
       case VUT_MINFOREIGNPCT:
@@ -994,6 +1007,9 @@ struct requirement req_from_str(const char *type, const char *range,
       /* TODO: Support other ranges too. */
       invalid = req.range != REQ_RANGE_LOCAL;
       break;
+    case VUT_COUNTER:
+      invalid = req.range != REQ_RANGE_CITY;
+      break;
     case VUT_IMPROVEMENT:
       /* Valid ranges depend on the building genus (wonder/improvement),
        * which might not have been loaded from the ruleset yet.
@@ -1021,6 +1037,7 @@ struct requirement req_from_str(const char *type, const char *range,
     case VUT_ADVANCE:
       invalid = survives && req.range != REQ_RANGE_WORLD;
       break;
+    case VUT_COUNTER:
     case VUT_IMPR_GENUS:
     case VUT_GOVERNMENT:
     case VUT_TERRAIN:
@@ -3416,6 +3433,18 @@ bool is_req_active(const struct req_context *context,
     eval = is_techflag_in_range(context->player, req->range,
                                 req->source.value.techflag);
     break;
+  case VUT_COUNTER:
+    if (NULL == context || NULL == context->city) {
+      eval = TRI_MAYBE;
+    } else {
+      struct counter *count = req->source.value.counter;
+
+      eval =
+        BOOL_TO_TRISTATE(count->checkpoint <=
+                         context->city->counter_values[
+                         counter_index(count)]);
+    }
+   break;
   case VUT_GOVERNMENT:
     /* The requirement is filled if the player is using the government. */
     if (context->player == NULL) {
@@ -3836,6 +3865,7 @@ bool is_req_unchanging(const struct requirement *req)
   case VUT_NATIONGROUP:
     return (req->range != REQ_RANGE_ALLIANCE);
   case VUT_ADVANCE:
+  case VUT_COUNTER:
   case VUT_TECHFLAG:
   case VUT_GOVERNMENT:
   case VUT_ACHIEVEMENT:
@@ -3944,6 +3974,7 @@ bool universal_never_there(const struct universal *source)
     return source->value.latitude > MAP_MAX_REAL_LATITUDE(wld.map);
   case VUT_MAXLATITUDE:
     return source->value.latitude < MAP_MIN_REAL_LATITUDE(wld.map);
+  case VUT_COUNTER:
   case VUT_OTYPE:
   case VUT_SPECIALIST:
   case VUT_AI_LEVEL:
@@ -4508,6 +4539,8 @@ bool are_universals_equal(const struct universal *psource1,
   switch (psource1->kind) {
   case VUT_NONE:
     return TRUE;
+  case VUT_COUNTER:
+    return psource1->value.counter == psource2->value.counter;
   case VUT_ADVANCE:
     return psource1->value.advance == psource2->value.advance;
   case VUT_TECHFLAG:
@@ -4623,6 +4656,8 @@ const char *universal_rule_name(const struct universal *psource)
   switch (psource->kind) {
   case VUT_NONE:
     return "(none)";
+  case VUT_COUNTER:
+    return counter_rule_name(psource->value.counter);
   case VUT_CITYTILE:
     return citytile_type_name(psource->value.citytile);
   case VUT_CITYSTATUS:
@@ -4769,6 +4804,9 @@ const char *universal_name_translation(const struct universal *psource,
     return buf;
   case VUT_ADVANCE:
     fc_strlcat(buf, advance_name_translation(psource->value.advance), bufsz);
+    return buf;
+  case VUT_COUNTER:
+    fc_strlcat(buf, counter_name_translation(psource->value.counter), bufsz);
     return buf;
   case VUT_TECHFLAG:
     cat_snprintf(buf, bufsz, _("\"%s\" tech"),

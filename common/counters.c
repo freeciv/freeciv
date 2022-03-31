@@ -25,7 +25,7 @@
 
 static struct counter counters[MAX_COUNTERS] =
 {
-  { (struct name_translation) NAME_INIT, COUNTER_OWNED, CTGT_CITY, 0 }
+  { (struct name_translation) NAME_INIT, COUNTER_OWNED, CTGT_CITY, 5, 0 }
 };
 
 static struct counter *counters_city[MAX_COUNTERS];

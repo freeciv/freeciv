@@ -612,6 +612,7 @@ enum req_problem_type {
  * Used in the network protocol. */
 typedef union {
   struct advance *advance;
+  struct counter *counter;
   struct government *govern;
   const struct impr_type *building;
   struct nation_type *nation;
@@ -771,6 +772,9 @@ typedef union {
 #define SPECENUM_VALUE49NAME "MinLatitude"
 #define SPECENUM_VALUE50 VUT_MAXLATITUDE
 #define SPECENUM_VALUE50NAME "MaxLatitude"
+#define SPECENUM_VALUE51 VUT_COUNTER
+#define SPECENUM_VALUE51NAME "Counter"
+
 /* Keep this last. */
 #define SPECENUM_COUNT VUT_COUNT
 #include "specenum_gen.h"

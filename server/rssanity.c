@@ -371,6 +371,9 @@ static bool sanity_check_req_set(int reqs_of_type[],
       }
       break;
 
+    case VUT_COUNTER:
+      /* Can have multiple, since many counters (also of the same range)
+       * can met checkpoint */
      case VUT_SERVERSETTING:
        /* Can have multiple, since there are many settings. */
      case VUT_TOPO:

@@ -23,6 +23,7 @@
 #include "achievements.h"
 #include "actions.h"
 #include "calendar.h"
+#include "counters.h"
 #include "extras.h"
 #include "government.h"
 #include "map.h"
@@ -54,6 +55,23 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
   case VUT_NONE:
     return FALSE;
 
+  case VUT_COUNTER:
+    if (preq->present) {
+
+      fc_strlcat(buf, prefix, bufsz);
+      cat_snprintf(buf, bufsz,
+                 _("Requires counter %s to achieve at minimum %d value"),
+                 counter_rule_name(preq->source.value.counter),
+                 preq->source.value.counter->checkpoint);
+    } else {
+
+      fc_strlcat(buf, prefix, bufsz);
+      cat_snprintf(buf, bufsz,
+                   _("Requires counter %s to be less than %d value"),
+                   counter_rule_name(preq->source.value.counter),
+                   preq->source.value.counter->checkpoint - 1);
+    }
+    break;
   case VUT_ADVANCE:
     switch (preq->range) {
     case REQ_RANGE_PLAYER:
