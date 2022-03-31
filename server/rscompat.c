@@ -2197,7 +2197,7 @@ void rscompat_extra_adjust_3_1(struct rscompat_info *compat,
 const char *rscompat_action_ui_name_S3_1(struct rscompat_info *compat,
                                          int act_id)
 {
-  if (compat->compat_mode && compat->ver_game < RSFORMAT_3_1) {
+  if (compat->compat_mode && compat->version < RSFORMAT_3_1) {
     if (act_id == ACTION_DISBAND_UNIT_RECOVER) {
       return "ui_name_recycle_unit";
     }
@@ -2212,7 +2212,7 @@ const char *rscompat_action_ui_name_S3_1(struct rscompat_info *compat,
 const char *rscompat_action_max_range_name_S3_1(struct rscompat_info *compat,
                                                 int act_id)
 {
-  if (compat->compat_mode && compat->ver_game < RSFORMAT_3_1) {
+  if (compat->compat_mode && compat->version < RSFORMAT_3_1) {
     if (act_id == ACTION_DISBAND_UNIT_RECOVER) {
       return "recycle_unit_max_range";
     }
