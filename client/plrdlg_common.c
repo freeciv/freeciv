@@ -349,15 +349,14 @@ void init_player_dlg_common(void)
 /************************************************************************//**
   The only place where this is used is the player dialog.
   Eventually this should go the way of the dodo with everything here
-  moved into col_host above, but some of the older clients still
-  use this function directly.
+  moved into col_host above.
 
   This code in this function is only really needed so that the host is
   kept as a blank address if no one is controlling a player, but there are
   observers.
 ****************************************************************************/
 const char *player_addr_hack(const struct player *pplayer)
-{ 
+{
   conn_list_iterate(pplayer->connections, pconn) {
     if (!pconn->observer) {
       return pconn->addr;
@@ -365,4 +364,4 @@ const char *player_addr_hack(const struct player *pplayer)
   } conn_list_iterate_end;
 
   return blank_addr_str;
-}   
+}
