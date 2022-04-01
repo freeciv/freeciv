@@ -668,6 +668,17 @@ void api_edit_create_city(lua_State *L, Player *pplayer, Tile *ptile,
 }
 
 /**********************************************************************//**
+  Destroy a city
+**************************************************************************/
+void api_edit_remove_city(lua_State *L, City *pcity)
+{
+  LUASCRIPT_CHECK_STATE(L);
+  LUASCRIPT_CHECK_ARG_NIL(L, pcity, 2, City);
+
+  remove_city(pcity);
+}
+
+/**********************************************************************//**
   Create a building to a city
 **************************************************************************/
 void api_edit_create_building(lua_State *L, City *pcity, Building_Type *impr)
