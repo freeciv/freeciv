@@ -129,6 +129,8 @@ module edit {
   void api_edit_create_city
     @ create_city (lua_State *L, Player *pplayer, Tile *ptile,
                    const char *name);
+  void api_edit_remove_city
+    @ remove_city (lua_State *L, City *pcity);
   void api_edit_create_building
     @ create_building (lua_State *L, City *pcity, Building_Type *impr);
   void api_edit_remove_building
@@ -367,6 +369,10 @@ function Player:give_bulbs(amount)
 end
 
 -- Server functions for City module
+function City:remove()
+  edit.remove_city(self)
+end
+
 function City:add_history(amount)
   edit.add_city_history(self, amount)
 end
