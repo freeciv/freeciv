@@ -292,6 +292,9 @@ static bool check_city_good(struct city *pcity, const char *file,
         case RDIR_BIDIRECTIONAL:
           SANITY_CITY(pcity, proute->dir == RDIR_BIDIRECTIONAL);
           break;
+        case RDIR_NONE:
+          SANITY_CITY(pcity, back_route->dir != RDIR_NONE);
+          break;
         }
 
         SANITY_CITY(pcity, proute->goods == back_route->goods);

@@ -23,22 +23,23 @@ extern "C" {
 }
 
 //Qt
-#include <QWidget>
+#include <QDialog>
 
 //common
+#include "dialogs.h"
 #include "unit.h"
 
-class QTableWidget;
-class QPushButton;
 class QCheckBox;
 class QGridLayout;
 class QItemSelection;
 class QLabel;
+class QPushButton;
+class QTableWidget;
 
 /***************************************************************************
- Class for displaying goto/airlift dialog (widget)
+ Class for displaying goto/airlift dialog
 ***************************************************************************/
-class goto_dialog : public QWidget
+class goto_dialog: public qfc_dialog
 {
   Q_OBJECT
   QTableWidget *goto_tab;

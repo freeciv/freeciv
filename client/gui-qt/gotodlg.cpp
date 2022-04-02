@@ -41,17 +41,47 @@
 #include "qtg_cxxside.h"
 #include "sprite.h"
 
+#define SPECENUM_NAME gotodlg_columns
+
+#define SPECENUM_VALUE0 GOTODLG_CITY
+#define SPECENUM_VALUE0NAME N_("City")
+#define SPECENUM_VALUE1 GOTODLG_NATION
+#define SPECENUM_VALUE1NAME N_("Nation")
+#define SPECENUM_VALUE2 GOTODLG_CONTINENT
+#define SPECENUM_VALUE2NAME N_("Continent")
+#define SPECENUM_VALUE3 GOTODLG_BUILDING
+#define SPECENUM_VALUE3NAME N_("Building")
+#define SPECENUM_VALUE4 GOTODLG_AIRLIFT
+#define SPECENUM_VALUE4NAME N_("Airlift")
+#define SPECENUM_VALUE5 GOTODLG_SIZE
+#define SPECENUM_VALUE5NAME N_("Size")
+#define SPECENUM_VALUE6 GOTODLG_DISTANCE
+#define SPECENUM_VALUE6NAME N_("Distance")
+#define SPECENUM_VALUE7 GOTODLG_TRADE
+#define SPECENUM_VALUE7NAME N_("Trade")
+
+#define SPECENUM_COUNT NUM_GOTODLG_COLUMNS /* number of columns in the goto dialog */
+#include "specenum_gen.h"
+
+
 /***********************************************************************//**
   Constructor for goto_dialog
 ***************************************************************************/
-goto_dialog::goto_dialog(QWidget *parent)
+goto_dialog::goto_dialog(QWidget *parent): qfc_dialog(parent)
 {
   QStringList headers_lst;
   QHBoxLayout *hb;
 
+  for (enum gotodlg_columns col = gotodlg_columns_begin();
+    col != gotodlg_columns_end();
+    col = gotodlg_columns_next(col)) {
+
+    headers_lst << gotodlg_columns_name(col);
+  }
+
+  setWindowFlags(Qt::Dialog | Qt::WindowCloseButtonHint);
+  setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
   setParent(parent);
-  headers_lst << QString(_("City")) << QString(_("Nation"))
-              << QString(_("Airlift"));
   goto_tab = new QTableWidget;
   goto_city = new QPushButton(_("&Goto"));
   airlift_city = new QPushButton(_("&Airlift"));
@@ -72,7 +102,7 @@ goto_dialog::goto_dialog(QWidget *parent)
   goto_tab->verticalHeader()->setVisible(false);
   goto_tab->horizontalHeader()->setVisible(true);
   goto_tab->setSelectionMode(QAbstractItemView::SingleSelection);
-  goto_tab->setColumnCount(3);
+  goto_tab->setColumnCount(NUM_GOTODLG_COLUMNS);
   goto_tab->setHorizontalHeaderLabels(headers_lst);
   goto_tab->setSortingEnabled(true);
   goto_tab->horizontalHeader()->setSectionResizeMode(
@@ -85,7 +115,9 @@ goto_dialog::goto_dialog(QWidget *parent)
   layout->addWidget(airlift_city, 2, 1, 1, 1);
   layout->addWidget(close_but, 2, 3, 1, 1);
 
-  setFixedWidth(goto_tab->horizontalHeader()->width());
+  if (width() < goto_tab->horizontalHeader()->width()) {
+    resize(goto_tab->horizontalHeader()->width(), height());
+  }
   connect(close_but, &QAbstractButton::clicked, this, &goto_dialog::close_dlg);
   connect(goto_city, &QAbstractButton::clicked, this, &goto_dialog::go_to_city);
   connect(airlift_city, &QAbstractButton::clicked, this, &goto_dialog::airlift_to);
@@ -235,19 +267,29 @@ void goto_dialog::fill_tab(player *pplayer)
   QPixmap *pix;
   QPixmap pix_scaled;
   QTableWidgetItem *item;
-
+  unit *punit = NULL;
+  int rnum = 0;
+  int rvalue = 0;
+  enum route_direction rdir = RDIR_NONE;
+  int rdir_value = 0;
 
   h = fm.height() + 6;
   i = goto_tab->rowCount();
   city_list_iterate(pplayer->cities, pcity) {
     goto_tab->insertRow(i);
-    for (int j = 0; j < 3; j++) {
+    for (enum gotodlg_columns col = gotodlg_columns_begin();
+      col != gotodlg_columns_end();
+      col = gotodlg_columns_next(col)) {
+
       item = new QTableWidgetItem;
-      switch (j) {
-      case 0:
+      str.clear();
+
+      switch (col) {
+      case GOTODLG_CITY:
         str = city_name_get(pcity);
         break;
-      case 1:
+
+      case GOTODLG_NATION:
         sprite = get_nation_flag_sprite(tileset, nation_of_player(pplayer));
         if (sprite != NULL) {
           pix = sprite->pm;
@@ -256,7 +298,19 @@ void goto_dialog::fill_tab(player *pplayer)
         }
         str = nation_adjective_translation(nation_of_player(pplayer));
         break;
-      case 2:
+
+      case GOTODLG_BUILDING:
+        str = city_production_name_translation(pcity);
+        break;
+
+      case GOTODLG_CONTINENT:
+        str.setNum(tile_continent(pcity->tile));
+        while (str.length() < 3) {
+          str.prepend('0');
+        }
+        break;
+
+      case GOTODLG_AIRLIFT:
         at = get_airlift_text(get_units_in_focus(), pcity);
         if (at == NULL) {
           str = "-";
@@ -265,10 +319,95 @@ void goto_dialog::fill_tab(player *pplayer)
         }
         item->setTextAlignment(Qt::AlignHCenter);
         break;
+
+      case GOTODLG_SIZE:
+        str.setNum(pcity->size);
+        while (str.length() < 2) {
+          str.prepend('0');
+        }
+        break;
+
+      case GOTODLG_DISTANCE:
+        punit = head_of_units_in_focus();
+        if (punit == NULL) {
+          str = "-";
+          item->setTextAlignment(Qt::AlignHCenter);
+        } else {
+          str.setNum(sq_map_distance(pcity->tile, unit_tile(punit)));
+          while (str.length() < 6) {
+            str.prepend('0');
+          }
+        }
+        break;
+
+      case GOTODLG_TRADE:
+        punit = head_of_units_in_focus();
+        rnum = 0;
+        rvalue = 0;
+        rdir = RDIR_NONE;
+        rdir_value = 0;
+        if (punit != NULL) {
+          trade_routes_iterate(pcity, proute) {
+            rnum++;
+            rvalue += proute->value;
+            if (punit->homecity == proute->partner) {
+              rdir = proute->dir;
+              rdir_value = proute->value;
+            }
+          } trade_routes_iterate_end;
+        }
+
+        if (rnum == 0) {
+          str = "-";
+          item->setTextAlignment(Qt::AlignHCenter);
+        } else {
+          str.setNum(rnum);
+          str.append(" (");
+          while (str.length() < 3) {
+            str.prepend('0');
+          }
+          str.append(" (");
+          if (rvalue < 100) {
+            str.append('0');
+          }
+          if (rvalue < 10) {
+            str.append('0');
+          }
+          str.append(QString::number(rvalue));
+          str.append(") ");
+
+          switch (rdir) {
+
+          case RDIR_BIDIRECTIONAL:
+            str.append("<< ");
+            str.append(QString::number(rdir_value));
+            str.append(" >>");
+            break;
+
+          case RDIR_FROM:
+            str.append(QString::number(rdir_value));
+            str.append(" >>");
+            break;
+
+          case RDIR_TO:
+            str.append("<< ");
+            str.append(QString::number(rdir_value));
+            break;
+
+          case RDIR_NONE:
+            break;
+          }
+        }
+        break;
+
+      case NUM_GOTODLG_COLUMNS:
+        fc_assert(col != NUM_GOTODLG_COLUMNS);
+        break;
       }
+
       item->setText(str);
       item->setData(Qt::UserRole, pcity->id);
-      goto_tab->setItem(i, j, item);
+      goto_tab->setItem(i, col, item);
     }
     i++;
   } city_list_iterate_end;

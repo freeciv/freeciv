@@ -780,6 +780,9 @@ void get_city_dialog_output_text(const struct city *pcity,
                      goods_name_translation(proute->goods),
                      name);
         break;
+      case RDIR_NONE:
+        fc_assert(proute->dir != RDIR_NONE);
+        break;
       }
     } trade_routes_iterate_end;
   } else if (otype == O_GOLD) {
