@@ -696,7 +696,7 @@ static void log_option_save_msg(enum log_level lvl, const char *msg, ...)
   Main client execution stop function. This calls ui_exit() and not the
   other way around.
 **************************************************************************/
-void client_exit(int return_value)
+void fc__noreturn client_exit(int return_value)
 {
   if (client_state() >= C_S_PREPARING) {
     attribute_flush();

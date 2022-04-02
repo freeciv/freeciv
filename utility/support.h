@@ -107,6 +107,12 @@ extern "C" {
 #define fc__fallthrough
 #endif
 
+#if defined(__GNUC__) && __GNUC__ >= 5
+#define fc__noreturn __attribute__((noreturn))
+#else
+#define fc__noreturn
+#endif
+
 #ifdef FREECIV_MSWINDOWS
 typedef long int fc_errno;
 #else
