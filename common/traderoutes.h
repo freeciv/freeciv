@@ -61,12 +61,14 @@ enum trade_route_type {
 
 /* Values used in the network protocol. */
 #define SPECENUM_NAME route_direction
-#define SPECENUM_VALUE0 RDIR_FROM
-#define SPECENUM_VALUE0NAME N_("?routedir:From")
-#define SPECENUM_VALUE1 RDIR_TO
-#define SPECENUM_VALUE1NAME N_("?routedir:To")
-#define SPECENUM_VALUE2 RDIR_BIDIRECTIONAL
-#define SPECENUM_VALUE2NAME N_("?routedir:Bidirectional")
+#define SPECENUM_VALUE0 RDIR_NONE
+#define SPECENUM_VALUE0NAME N_("?routedir:None")
+#define SPECENUM_VALUE1 RDIR_FROM
+#define SPECENUM_VALUE1NAME N_("?routedir:From")
+#define SPECENUM_VALUE2 RDIR_TO
+#define SPECENUM_VALUE2NAME N_("?routedir:To")
+#define SPECENUM_VALUE3 RDIR_BIDIRECTIONAL
+#define SPECENUM_VALUE3NAME N_("?routedir:Bidirectional")
 #include "specenum_gen.h"
 
 struct trade_route_settings {
