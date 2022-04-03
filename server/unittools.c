@@ -1778,7 +1778,8 @@ static void server_remove_unit_full(struct unit *punit, bool transported,
   }
 
   /* check if this unit had UTYF_GAMELOSS flag */
-  if (unit_has_type_flag(punit, UTYF_GAMELOSS) && unit_owner(punit)->is_alive) {
+  if (unit_has_type_flag(punit, UTYF_GAMELOSS) && unit_owner(punit)->is_alive
+      && ULR_EDITOR != reason) {
     notify_conn(game.est_connections, ptile, E_UNIT_LOST_MISC, ftc_server,
                 _("Unable to defend %s, %s has lost the game."),
                 unit_link(punit),
