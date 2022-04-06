@@ -400,6 +400,86 @@ void government_change(struct player *pplayer, struct government *gov,
 }
 
 /**********************************************************************//**
+  pvictor gets parts of treasury, map and cities of pvictim.
+  Normally happens when pvictim's gameloss unit is killed.
+  FIXME: any control over types of the loot?
+**************************************************************************/
+void player_loot_player(struct player *pvictor, struct player *pvictim)
+{
+  int ransom = fc_rand(1 + pvictim->economic.gold);
+  int n = 1 + fc_rand(3);
+
+  /* give map */
+  give_distorted_map(pvictim, pvictor, 50, TRUE);
+
+  log_debug("victim has money: %d", pvictim->economic.gold);
+  pvictor->economic.gold += ransom;
+  pvictim->economic.gold -= ransom;
+
+  while (n > 0) {
+    Tech_type_id ttid = steal_a_tech(pvictor, pvictim, A_UNSET);
+
+    if (ttid == A_NONE) {
+      log_debug("Worthless enemy doesn't have more techs to steal.");
+      break;
+    } else {
+      log_debug("Pressed tech %s from captured enemy",
+                research_advance_rule_name(research_get(pvictor), ttid));
+      if (!fc_rand(3)) {
+        break; /* out of luck */
+      }
+      n--;
+    }
+  }
+
+  { /* try to submit some cities */
+    int vcsize = city_list_size(pvictim->cities);
+    int evcsize = vcsize;
+    int conqsize = evcsize;
+
+    if (evcsize < 3) {
+      evcsize = 0;
+    } else {
+      evcsize -=3;
+    }
+    /* about a quarter on average with high numbers less probable */
+    conqsize = fc_rand(fc_rand(evcsize));
+
+    log_debug("conqsize=%d", conqsize);
+
+    if (conqsize > 0) {
+      bool palace = game.server.savepalace;
+      bool submit = FALSE;
+
+      game.server.savepalace = FALSE; /* moving it around is dumb */
+
+      city_list_iterate_safe(pvictim->cities, pcity) {
+        /* kindly ask the citizens to submit */
+        if (fc_rand(vcsize) < conqsize) {
+          submit = TRUE;
+        }
+        vcsize--;
+        if (submit) {
+          conqsize--;
+          /* Transfer city to the victorious player
+           * kill all its units outside of a radius of 7,
+           * give verbose messages of every unit transferred,
+           * and raze buildings according to raze chance
+           * (also removes palace) */
+          (void) transfer_city(pvictor, pcity, 7, TRUE, TRUE, TRUE,
+                               !is_barbarian(pvictor));
+          submit = FALSE;
+        }
+        if (conqsize <= 0) {
+          break;
+        }
+      } city_list_iterate_safe_end;
+      game.server.savepalace = palace;
+    }
+  }
+}
+
+/**********************************************************************//**
   Get length of a revolution.
 **************************************************************************/
 int revolution_length(struct government *gov, struct player *plr)

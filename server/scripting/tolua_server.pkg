@@ -503,7 +503,13 @@ module Player {
     @ trait_base (lua_State *L, Player *pplayer, const char *tname);
   int api_methods_player_trait_current_mod
     @ trait_current_mod (lua_State *L, Player *pplayer, const char *tname);
+  void api_methods_player_lose
+    @ lose (lua_State *L, Player *pplayer, Player *looter = NULL);
 }
+
+$[
+	edit.player_lose = Player.lose
+$]
 
 /* server game parameters */
 $#define game_server_autoupgrade_veteran_loss (game.server.autoupgrade_veteran_loss)

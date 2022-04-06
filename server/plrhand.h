@@ -40,6 +40,7 @@ void kill_player(struct player *pplayer);
 void update_revolution(struct player *pplayer);
 void government_change(struct player *pplayer, struct government *gov,
                        bool revolution_finished);
+void player_loot_player(struct player *pvictor, struct player *pvictim);
 int revolution_length(struct government *gov, struct player *plr);
 void update_capital(struct player *pplayer);
 

@@ -21,6 +21,9 @@
 /* ai */
 #include "aitraits.h" /* ai_trait_get_value() */
 
+/* server */
+#include "plrhand.h"
+
 /* server/scripting */
 #include "script_server.h"
 
@@ -82,6 +85,25 @@ int api_methods_player_trait_current_mod(lua_State *L, Player *pplayer,
   LUASCRIPT_CHECK_ARG(L, trait_is_valid(tr), 3, "no such trait", 0);
 
   return pplayer->ai_common.traits[tr].mod;
+}
+
+/**********************************************************************//**
+  Mark the player as one who lost the game, optionally giving some loot
+  to looter. This method only marks the nation for wipeout that happens
+  only when kill_dying_players() does the reaper's job.
+  FIXME: client may be not aware if its player is killed in a script.
+**************************************************************************/
+void api_methods_player_lose(lua_State *L, Player *pplayer, Player *looter)
+{
+  LUASCRIPT_CHECK_STATE(L);
+  LUASCRIPT_CHECK_SELF(L, pplayer);
+  LUASCRIPT_CHECK_ARG(L, pplayer->is_alive, 2, "the player has already lost");
+
+  if (looter) {
+    LUASCRIPT_CHECK_ARG(L, looter->is_alive, 3, "dead players can't loot");
+    player_loot_player(looter, pplayer);
+  }
+  player_status_add(pplayer, PSTATUS_DYING);
 }
 
 /**********************************************************************//**

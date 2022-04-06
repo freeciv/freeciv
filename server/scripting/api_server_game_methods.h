@@ -29,6 +29,7 @@ int api_methods_player_trait_base(lua_State *L, Player *pplayer,
                                   const char *tname);
 int api_methods_player_trait_current_mod(lua_State *L, Player *pplayer,
                                          const char *tname);
+void api_methods_player_lose(lua_State *L, Player *pplayer, Player *looter);
 
 int api_methods_nation_trait_min(lua_State *L, Nation_Type *pnation,
                                  const char *tname);
