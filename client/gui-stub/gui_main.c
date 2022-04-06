@@ -71,7 +71,7 @@ static void print_usage(const char *argv0)
 }
 
 /**************************************************************************
-  Parse and enact any client-specific options.
+  Parse and enact any gui-specific command-line options.
 **************************************************************************/
 static void parse_options(int argc, char **argv)
 {

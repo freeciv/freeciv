@@ -272,8 +272,7 @@ static void print_usage(void)
 }
 
 /**************************************************************************
-  Search for command line options. right now, it's just help
-  semi-useless until we have options that aren't the same across all clients.
+  Search for command line options. Right now, it's just help.
 **************************************************************************/
 static void parse_options(int argc, char **argv)
 {
