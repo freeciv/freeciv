@@ -281,8 +281,7 @@ static void log_gtk_warns(const gchar *log_domain, GLogLevelFlags log_level,
 }
 
 /**********************************************************************//**
-  Search for command line options. right now, it's just help
-  semi-useless until we have options that aren't the same across all clients.
+  Search for gui-specific command-line options.
 **************************************************************************/
 static void parse_options(int argc, char **argv)
 {
