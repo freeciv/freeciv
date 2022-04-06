@@ -37,6 +37,7 @@ Updating from 3.0 to 3.1
 * Minimum Qt5 requirement is 5.11.
 * Support for zstd compressed savegames added, requires libzstd and headers
 * Minimum Python requirement for code generation scripts is 3.4 now.
+* Configure option --with-appdatadir renamed as --with-metainfodir
 
 ----------------------------------------------------------------------
 Compatibility of modified versions

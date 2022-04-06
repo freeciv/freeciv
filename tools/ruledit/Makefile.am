@@ -10,8 +10,8 @@ endif
 desktopfiledir = @DESKTOPDIR@
 desktopfile_DATA = org.freeciv.ruledit.desktop
 
-appdatafiledir = @APPDATADIR@
-appdatafile_DATA = freeciv-ruledit.appdata.xml
+metainfofiledir = @METAINFODIR@
+metainfofile_DATA = freeciv-ruledit.appdata.xml
 
 bin_PROGRAMS = freeciv-ruledit
 

@@ -384,10 +384,10 @@ AC_ARG_WITH([desktopdir],
 [ DESKTOPDIR=${withval} ], [ DESKTOPDIR="\$(prefix)/share/applications" ])
 AC_SUBST([DESKTOPDIR])
 
-AC_ARG_WITH([appdatadir],
-  AS_HELP_STRING([--with-appdatadir], [install appdata files to given dir]),
-[ APPDATADIR=${withval} ], [ APPDATADIR="\$(prefix)/share/metainfo" ])
-AC_SUBST([APPDATADIR])
+AC_ARG_WITH([metainfodir],
+  AS_HELP_STRING([--with-metainfodir], [install metainfo files to given dir]),
+[ METAINFODIR=${withval} ], [ METAINFODIR="\$(prefix)/share/metainfo" ])
+AC_SUBST([METAINFODIR])
 
 dnl try to support this development version's previous save games formats
 AC_ARG_ENABLE([dev-save-compat],
