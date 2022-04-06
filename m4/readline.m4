@@ -1,9 +1,9 @@
 
 dnl FC_CHECK_READLINE_RUNTIME(EXTRA-LIBS, ACTION-IF-FOUND, ACTION-IF-NOT-FOUND)
 dnl
-dnl This tests whether readline works at runtime.  Here, "works"
+dnl This tests whether readline works at runtime. Here, "works"
 dnl means "doesn't dump core", as some versions do if linked
-dnl against wrong ncurses library.  Compiles with LIBS modified 
+dnl against wrong ncurses library. Compiles with LIBS modified
 dnl to included -lreadline and parameter EXTRA-LIBS.
 dnl Should already have checked that header and library exist.
 dnl
@@ -16,7 +16,7 @@ AC_RUN_IFELSE([AC_LANG_SOURCE([[
  * testrl.c
  * File revision 0
  * Check to make sure that readline works at runtime.
- * (Specifically, some readline packages link against a wrong 
+ * (Specifically, some readline packages link against a wrong
  * version of ncurses library and dump core at runtime.)
  * (c) 2000 Jacob Lundberg, jacob@chaos2.org
  */
@@ -103,7 +103,7 @@ Configuring server without readline support.])
                                 [have_readline_lib=1], [have_readline_lib=0],
                         ["$HAVE_TERMCAP"])
                    if test "$have_readline_lib" = "1"; then
-                       AC_MSG_WARN([I had to manually add $HAVE_TERMCAP dependency to 
+                       AC_MSG_WARN([I had to manually add $HAVE_TERMCAP dependency to
 make readline library pass the test.])
                    fi
                fi
