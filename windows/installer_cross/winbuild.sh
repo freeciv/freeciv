@@ -138,8 +138,8 @@ if test "x$SINGLE_GUI" != "xtrue" || test "x$2" = "xruledit" ; then
   fi
 fi
 
-if test "x$SINGLE_GUI" != "xtrue" ; then
-  if test "xQT5" = "xyes" || test "xQT6" = "xyes" ;
+if test "$SINGLE_GUI" != "true" ; then
+  if test "$QT5" = "yes" || test "$QT6" = "yes"
   then
     CLIENTS="$CLIENTS,qt"
     FCMP="$FCMP,qt"
