@@ -15,20 +15,20 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv Ruledit\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2022-02-03 17:21+0500\n"
-"PO-Revision-Date: 2022-02-03 16:48+0500\n"
+"POT-Creation-Date: 2022-04-07 02:09+0500\n"
+"PO-Revision-Date: 2022-04-07 01:03+0500\n"
 "Last-Translator: Konstantin Vedeneev <konved@gmail.com>\n"
 "Language-Team: Russian <freeciv.ru@freelists.org>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Poedit-Language: Russian\n"
-"X-Generator: Lokalize 21.08.0\n"
+"X-Generator: Lokalize 21.12.3\n"
 
-#: tools/ruledit/conversion_log.cpp:41 tools/ruledit/effect_edit.cpp:111
+#: tools/ruledit/conversion_log.cpp:41 tools/ruledit/effect_edit.cpp:127
 #: tools/ruledit/req_vec_fix.cpp:190 tools/ruledit/requirers_dlg.cpp:43
 #: tools/ruledit/req_edit.cpp:135
 msgid "Close"
@@ -66,34 +66,34 @@ msgstr "Уровень Защиты"
 msgid "Move Rate"
 msgstr "Очки Движения"
 
-#: tools/ruledit/effect_edit.cpp:75 tools/ruledit/req_edit.cpp:66
+#: tools/ruledit/effect_edit.cpp:77 tools/ruledit/req_edit.cpp:66
 msgid "Type:"
 msgstr "Тип:"
 
-#: tools/ruledit/effect_edit.cpp:89 tools/ruledit/req_edit.cpp:84
+#: tools/ruledit/effect_edit.cpp:91 tools/ruledit/req_edit.cpp:84
 msgid "Value:"
 msgstr "Значение:"
 
-#: tools/ruledit/effect_edit.cpp:99 tools/ruledit/tab_building.cpp:90
+#: tools/ruledit/effect_edit.cpp:115 tools/ruledit/tab_building.cpp:90
 #: tools/ruledit/tab_extras.cpp:84 tools/ruledit/tab_good.cpp:85
 #: tools/ruledit/tab_gov.cpp:84 tools/ruledit/tab_multiplier.cpp:84
 msgid "Requirements"
 msgstr "Требования"
 
-#: tools/ruledit/effect_edit.cpp:103
+#: tools/ruledit/effect_edit.cpp:119
 msgid "Add Effect"
 msgstr "Добавить Эффект"
 
-#: tools/ruledit/effect_edit.cpp:107
+#: tools/ruledit/effect_edit.cpp:123
 msgid "Delete Effect"
 msgstr "Удалить Эффект"
 
-#: tools/ruledit/effect_edit.cpp:184
+#: tools/ruledit/effect_edit.cpp:200
 #, c-format
 msgid "Effect #%d: %s"
 msgstr "Эффект №%d: %s"
 
-#: tools/ruledit/effect_edit.cpp:280
+#: tools/ruledit/effect_edit.cpp:303
 #, c-format
 msgid "%s effect #%d"
 msgstr "%s эффект №%d"
@@ -308,15 +308,15 @@ msgstr "Набор правил загружен"
 msgid "Ruleset loading failed!"
 msgstr "Ошибка загрузки набора правил!"
 
-#: tools/ruledit/ruledit_qt.cpp:431
+#: tools/ruledit/ruledit_qt.cpp:433
 msgid "Freeciv Ruleset Editor"
 msgstr "Редактор наборов правил Freeciv"
 
-#: tools/ruledit/ruledit_qt.cpp:447
+#: tools/ruledit/ruledit_qt.cpp:453
 msgid "Are you sure you want to quit?"
 msgstr "Вы действительно хотите выйти?"
 
-#: tools/ruledit/ruledit_qt.cpp:451
+#: tools/ruledit/ruledit_qt.cpp:457
 msgid "Quit?"
 msgstr "Выйти?"
 
@@ -326,6 +326,26 @@ msgstr "Выйти?"
 #: tools/ruledit/tab_terrains.cpp:65 tools/ruledit/tab_unit.cpp:66
 msgid "Rule Name"
 msgstr "Название Правила"
+
+#: tools/ruledit/tab_building.cpp:70 tools/ruledit/tab_building.cpp:80
+#: tools/ruledit/tab_building.cpp:152 tools/ruledit/tab_building.cpp:153
+#: tools/ruledit/tab_enablers.cpp:131 tools/ruledit/tab_enablers.cpp:241
+#: tools/ruledit/tab_extras.cpp:68 tools/ruledit/tab_extras.cpp:78
+#: tools/ruledit/tab_extras.cpp:147 tools/ruledit/tab_extras.cpp:148
+#: tools/ruledit/tab_good.cpp:69 tools/ruledit/tab_good.cpp:79
+#: tools/ruledit/tab_good.cpp:148 tools/ruledit/tab_good.cpp:149
+#: tools/ruledit/tab_gov.cpp:68 tools/ruledit/tab_gov.cpp:78
+#: tools/ruledit/tab_gov.cpp:147 tools/ruledit/tab_gov.cpp:148
+#: tools/ruledit/tab_multiplier.cpp:68 tools/ruledit/tab_multiplier.cpp:78
+#: tools/ruledit/tab_multiplier.cpp:143 tools/ruledit/tab_multiplier.cpp:144
+#: tools/ruledit/tab_tech.cpp:67 tools/ruledit/tab_tech.cpp:77
+#: tools/ruledit/tab_tech.cpp:231 tools/ruledit/tab_tech.cpp:232
+#: tools/ruledit/tab_terrains.cpp:68 tools/ruledit/tab_terrains.cpp:78
+#: tools/ruledit/tab_terrains.cpp:143 tools/ruledit/tab_terrains.cpp:144
+#: tools/ruledit/tab_unit.cpp:69 tools/ruledit/tab_unit.cpp:79
+#: tools/ruledit/tab_unit.cpp:147 tools/ruledit/tab_unit.cpp:148
+msgid "None"
+msgstr "(Нет)"
 
 #: tools/ruledit/tab_building.cpp:75 tools/ruledit/tab_extras.cpp:73
 #: tools/ruledit/tab_good.cpp:74 tools/ruledit/tab_gov.cpp:73
@@ -361,45 +381,46 @@ msgstr "Здание с этим названием правила уже сущ
 msgid "Type"
 msgstr "Тип"
 
-#: tools/ruledit/tab_enablers.cpp:136
+#: tools/ruledit/tab_enablers.cpp:137
 msgid "Actor Requirements"
 msgstr "Требования к Деятелю"
 
-#: tools/ruledit/tab_enablers.cpp:143
+#: tools/ruledit/tab_enablers.cpp:144
 msgid "Target Requirements"
 msgstr "Требования к цели"
 
-#: tools/ruledit/tab_enablers.cpp:150
+#: tools/ruledit/tab_enablers.cpp:151
 msgid "Add Enabler"
 msgstr "Добавить Включатель"
 
-#: tools/ruledit/tab_enablers.cpp:155
+#: tools/ruledit/tab_enablers.cpp:156
 msgid "Remove this Enabler"
 msgstr "Удалить этот Включатель"
 
+#: tools/ruledit/tab_enablers.cpp:165 tools/ruledit/tab_enablers.cpp:236
+#: tools/ruledit/tab_enablers.cpp:248
+msgid "Enabler Issues"
+msgstr "Ошибки Включателя"
+
 #. TRANS: Fix an error in an action enabler.
-#: tools/ruledit/tab_enablers.cpp:225
+#: tools/ruledit/tab_enablers.cpp:227
 msgid "Repair Enabler"
 msgstr "Починить Включатель"
 
 #. TRANS: Fix a non error issue in an action enabler.
-#: tools/ruledit/tab_enablers.cpp:230
+#: tools/ruledit/tab_enablers.cpp:232
 msgid "Improve Enabler"
 msgstr "Улучшить Включатель"
 
-#: tools/ruledit/tab_enablers.cpp:234 tools/ruledit/tab_enablers.cpp:246
-msgid "Enabler Issues"
-msgstr "Ошибки Включателя"
-
-#: tools/ruledit/tab_enablers.cpp:387
+#: tools/ruledit/tab_enablers.cpp:389
 msgid "Enabler (target)"
 msgstr "Включатель (цель)"
 
-#: tools/ruledit/tab_enablers.cpp:398
+#: tools/ruledit/tab_enablers.cpp:400
 msgid "Enabler (actor)"
 msgstr "Включатель (деятель)"
 
-#: tools/ruledit/tab_enablers.cpp:417
+#: tools/ruledit/tab_enablers.cpp:419
 #, c-format
 msgid "action enabler for %s"
 msgstr "включатель действия для %s"
@@ -623,7 +644,7 @@ msgstr "Удалить эту технологию"
 msgid "Never"
 msgstr "Никогда"
 
-#: tools/ruledit/tab_tech.cpp:354
+#: tools/ruledit/tab_tech.cpp:356
 msgid "A tech with that rule name already exists!"
 msgstr "Технология с этим названием правила уже существует!"
 
