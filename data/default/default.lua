@@ -229,7 +229,7 @@ end
 
 signal.connect("disaster_occurred", "_deflua_harmless_disaster_message")
 
-function unit_loss_messages(unit, player, reason)
+function _deflua_unit_loss_messages(unit, player, reason)
   if reason == "fuel" then
     if unit.utype:has_flag('Coast') then
       notify.event(player, unit.tile, E.UNIT_LOST_MISC,
@@ -243,4 +243,4 @@ function unit_loss_messages(unit, player, reason)
   end
 end
 
-signal.connect("unit_lost", "unit_loss_messages")
+signal.connect("unit_lost", "_deflua_unit_loss_messages")
