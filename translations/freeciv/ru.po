@@ -15,18 +15,18 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2022-02-03 17:16+0500\n"
-"PO-Revision-Date: 2022-02-03 17:12+0500\n"
+"POT-Creation-Date: 2022-04-07 01:50+0500\n"
+"PO-Revision-Date: 2022-04-07 01:42+0500\n"
 "Last-Translator: Konstantin Vedeneev <konved@gmail.com>\n"
 "Language-Team: Russian <freeciv.ru@freelists.org>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Poedit-Language: Russian\n"
-"X-Generator: Lokalize 21.08.0\n"
+"X-Generator: Lokalize 21.12.3\n"
 
 #: ai/default/aicity.c:888
 #, c-format
@@ -1263,7 +1263,7 @@ msgstr "Лучшие защитные соединения"
 #: client/gui-gtk-3.22/cityrep.c:1552 client/gui-gtk-3.22/cityrep.c:1571
 #: client/gui-gtk-3.22/cityrep.c:1591 client/gui-gtk-3.22/menu.c:323
 #: client/gui-gtk-3.22/repodlgs.c:1624 client/gui-qt/cityrep.cpp:717
-#: client/gui-qt/menu.cpp:1329 client/gui-qt/pages.cpp:723
+#: client/gui-qt/menu.cpp:1340 client/gui-qt/pages.cpp:723
 #: client/gui-qt/pages.cpp:1285 client/gui-sdl/helpdlg.c:747
 #: client/gui-sdl/mapctrl.c:1597 client/gui-sdl/repodlgs.c:368
 #: client/gui-sdl2/helpdlg.c:750 client/gui-sdl2/mapctrl.c:1710
@@ -1360,7 +1360,7 @@ msgstr "Коррупция"
 #: client/cityrepdata.c:757 client/gui-gtk-2.0/menu.c:1462
 #: client/gui-gtk-2.0/repodlgs.c:1049 client/gui-gtk-3.0/menu.c:1457
 #: client/gui-gtk-3.0/repodlgs.c:1091 client/gui-gtk-3.22/menu.c:315
-#: client/gui-gtk-3.22/repodlgs.c:1090 client/gui-qt/menu.cpp:1342
+#: client/gui-gtk-3.22/repodlgs.c:1090 client/gui-qt/menu.cpp:1353
 #: client/gui-qt/pages.cpp:738 client/gui-sdl/mapctrl.c:1383
 #: client/gui-sdl2/mapctrl.c:1480 client/gui-xaw/menu.c:227
 #: client/gui-xaw/menu.c:251 client/gui-xaw/repodlgs.c:656
@@ -1736,15 +1736,15 @@ msgstr "Метасервер по умолчанию был установлен
 msgid "Can't load requested tileset %s!"
 msgstr "Невозможно загрузить набор графики %s!"
 
-#: client/client_main.c:834
+#: client/client_main.c:833
 msgid "Failed to start local server; aborting."
 msgstr "Невозможно запустить локальный сервер; остановка."
 
-#: client/client_main.c:841
+#: client/client_main.c:840
 msgid "There was an error while auto connecting; aborting."
 msgstr "Ошибка во время автоподключения; остановка."
 
-#: client/client_main.c:927
+#: client/client_main.c:926
 msgid "Game started."
 msgstr "Игра запущена."
 
@@ -2067,7 +2067,7 @@ msgstr ""
 #: client/editor.c:213 client/gui-gtk-2.0/editprop.c:667
 #: client/gui-gtk-2.0/unitselect.c:95 client/gui-gtk-3.0/editprop.c:671
 #: client/gui-gtk-3.0/unitselect.c:95 client/gui-gtk-3.22/editprop.c:671
-#: client/gui-gtk-3.22/unitselect.c:95 client/gui-qt/menu.cpp:1025
+#: client/gui-gtk-3.22/unitselect.c:95 client/gui-qt/menu.cpp:1036
 msgid "Unit"
 msgstr "Соединение"
 
@@ -3180,7 +3180,7 @@ msgstr "(_D) Показать"
 #: client/gui-gtk-2.0/cityrep.c:1136 client/gui-gtk-2.0/menu.c:1464
 #: client/gui-gtk-3.0/cityrep.c:1146 client/gui-gtk-3.0/menu.c:1459
 #: client/gui-gtk-3.22/cityrep.c:1146 client/gui-gtk-3.22/menu.c:317
-#: client/gui-qt/diplodlg.cpp:383 client/gui-qt/menu.cpp:1338
+#: client/gui-qt/diplodlg.cpp:383 client/gui-qt/menu.cpp:1349
 #: client/gui-qt/pages.cpp:726 client/gui-qt/pages.cpp:1279
 #: client/gui-sdl/diplodlg.c:733 client/gui-sdl2/diplodlg.c:742
 #: client/gui-xaw/cityrep.c:231 client/gui-xaw/cityrep.c:538
@@ -3877,7 +3877,7 @@ msgstr "(уничтожено)"
 
 #: client/gui-gtk-2.0/editprop.c:3494 client/gui-gtk-3.0/editprop.c:3538
 #: client/gui-gtk-3.22/editprop.c:3538 client/gui-qt/cityrep.cpp:486
-#: client/gui-qt/menu.cpp:865 data/Freeciv.in:2046
+#: client/gui-qt/menu.cpp:876 data/Freeciv.in:2046
 msgid "?verb:View"
 msgstr "Обзор"
 
@@ -4505,7 +4505,7 @@ msgid "Shift+Return"
 msgstr "Shift+Enter"
 
 #: client/gui-gtk-2.0/gui_main.c:1334 client/gui-gtk-3.0/gui_main.c:1445
-#: client/gui-gtk-3.22/gui_main.c:1466 client/gui-qt/menu.cpp:1325
+#: client/gui-gtk-3.22/gui_main.c:1466 client/gui-qt/menu.cpp:1336
 #: client/gui-qt/pages.cpp:717
 msgid "?noun:View"
 msgstr "Обзор"
@@ -5016,7 +5016,7 @@ msgstr ""
 #: client/gui-gtk-2.0/menu.c:116 client/gui-gtk-2.0/pages.c:139
 #: client/gui-gtk-3.0/menu.c:120 client/gui-gtk-3.0/pages.c:140
 #: client/gui-gtk-3.22/menu.c:565 client/gui-gtk-3.22/pages.c:140
-#: client/gui-qt/fc_client.cpp:811 client/gui-qt/menu.cpp:827
+#: client/gui-qt/fc_client.cpp:811 client/gui-qt/menu.cpp:838
 #: data/Freeciv.in:1246
 msgid "Set local options"
 msgstr "Установка локальных параметров"
@@ -5029,7 +5029,7 @@ msgid "Game Settings"
 msgstr "Параметры игры"
 
 #: client/gui-gtk-2.0/menu.c:208 client/gui-gtk-3.0/menu.c:212
-#: client/gui-gtk-3.22/menu.c:657 client/gui-qt/menu.cpp:3426
+#: client/gui-gtk-3.22/menu.c:657 client/gui-qt/menu.cpp:3437
 msgid "Leaving a local game will end it!"
 msgstr "Выход из локальной игры завершит её!"
 
@@ -5206,14 +5206,14 @@ msgid "City Improvements"
 msgstr "Городские здания"
 
 #: client/gui-gtk-2.0/menu.c:1468 client/gui-gtk-3.0/menu.c:1463
-#: client/gui-gtk-3.22/menu.c:321 client/gui-qt/menu.cpp:1350
+#: client/gui-gtk-3.22/menu.c:321 client/gui-qt/menu.cpp:1361
 #: client/gui-xaw/menu.c:231 client/gui-xaw/menu.c:254
 #: client/include/helpdlg_g.h:51 data/helpdata.txt:996 server/report.c:469
 msgid "Wonders of the World"
 msgstr "Чудеса Света"
 
 #: client/gui-gtk-2.0/menu.c:1472 client/gui-gtk-3.0/menu.c:1467
-#: client/gui-gtk-3.22/menu.c:325 client/gui-qt/menu.cpp:1099
+#: client/gui-gtk-3.22/menu.c:325 client/gui-qt/menu.cpp:1110
 #: client/gui-xaw/menu.c:256 client/include/helpdlg_g.h:46
 #: data/helpdata.txt:1094
 msgid "Combat"
@@ -5317,7 +5317,7 @@ msgid "Cit_y Outlines"
 msgstr "(_y) Границы городов"
 
 #: client/gui-gtk-2.0/menu.c:1524 client/gui-gtk-3.0/menu.c:1517
-#: client/gui-gtk-3.22/menu.c:365 client/gui-qt/menu.cpp:924
+#: client/gui-gtk-3.22/menu.c:365 client/gui-qt/menu.cpp:935
 #: client/gui-qt/shortcuts.cpp:65
 msgid "City Output"
 msgstr "Обрабатываемые поля"
@@ -5333,12 +5333,12 @@ msgid "National _Borders"
 msgstr "(_B) Государственные границы"
 
 #: client/gui-gtk-2.0/menu.c:1531 client/gui-gtk-3.0/menu.c:1524
-#: client/gui-gtk-3.22/menu.c:371 client/gui-qt/menu.cpp:942
+#: client/gui-gtk-3.22/menu.c:371 client/gui-qt/menu.cpp:953
 msgid "Native Tiles"
 msgstr "Подходящие поля"
 
 #: client/gui-gtk-2.0/menu.c:1534 client/gui-gtk-3.0/menu.c:1527
-#: client/gui-gtk-3.22/menu.c:373 client/gui-qt/menu.cpp:947
+#: client/gui-gtk-3.22/menu.c:373 client/gui-qt/menu.cpp:958
 msgid "City Full Bar"
 msgstr "Детальная панель города"
 
@@ -5358,7 +5358,7 @@ msgid "City _Production Levels"
 msgstr "(_P) Городское производство"
 
 #: client/gui-gtk-2.0/menu.c:1543 client/gui-gtk-3.0/menu.c:1536
-#: client/gui-gtk-3.22/menu.c:381 client/gui-qt/menu.cpp:970
+#: client/gui-gtk-3.22/menu.c:381 client/gui-qt/menu.cpp:981
 msgid "City Buy Cost"
 msgstr "Стоимость покупки"
 
@@ -5754,7 +5754,7 @@ msgid "Connect With %s"
 msgstr "%s к полю"
 
 #: client/gui-gtk-2.0/menu.c:2319 client/gui-gtk-3.0/menu.c:2307
-#: client/gui-gtk-3.22/menu.c:2323 client/gui-qt/menu.cpp:2021
+#: client/gui-gtk-3.22/menu.c:2323 client/gui-qt/menu.cpp:2032
 #: client/gui-sdl/menu.c:1064 client/gui-sdl2/menu.c:1060
 #: client/gui-xaw/menu.c:171
 msgid "Add to City"
@@ -5856,7 +5856,7 @@ msgid "Pop"
 msgstr "Окн"
 
 #: client/gui-gtk-2.0/messagewin.c:334 client/gui-gtk-3.0/messagewin.c:337
-#: client/gui-gtk-3.22/messagewin.c:337 client/gui-qt/menu.cpp:831
+#: client/gui-gtk-3.22/messagewin.c:337 client/gui-qt/menu.cpp:842
 #: client/gui-sdl/messagewin.c:251 client/gui-sdl2/messagewin.c:257
 #: client/gui-xaw/menu.c:233 data/Freeciv.in:3281 data/Freeciv.in:3282
 #: data/Freeciv.in:3291
@@ -6315,7 +6315,7 @@ msgid "Format:"
 msgstr "Формат:"
 
 #: client/gui-gtk-2.0/pages.c:3317 client/gui-gtk-3.0/pages.c:3451
-#: client/gui-gtk-3.22/pages.c:3449 client/gui-qt/menu.cpp:845
+#: client/gui-gtk-3.22/pages.c:3449 client/gui-qt/menu.cpp:856
 #: client/gui-sdl/optiondlg.c:827 client/gui-sdl2/optiondlg.c:838
 msgid "Save Game"
 msgstr "Сохранить игру"
@@ -6440,7 +6440,7 @@ msgstr "Отозвать видение обстановки"
 #. TRANS: Research report action
 #. TRANS: Research report title
 #: client/gui-gtk-2.0/repodlgs.c:535 client/gui-gtk-3.0/repodlgs.c:556
-#: client/gui-gtk-3.22/repodlgs.c:554 client/gui-qt/menu.cpp:1346
+#: client/gui-gtk-3.22/repodlgs.c:554 client/gui-qt/menu.cpp:1357
 #: client/gui-qt/pages.cpp:735 client/gui-sdl/mapctrl.c:1398
 #: client/gui-sdl/mapview.c:330 client/gui-sdl/mapview.c:338
 #: client/gui-sdl/mapview.c:346 client/gui-sdl/repodlgs.c:3291
@@ -6459,7 +6459,7 @@ msgstr "Исследуется"
 
 #: client/gui-gtk-2.0/repodlgs.c:554 client/gui-gtk-3.0/repodlgs.c:576
 #: client/gui-gtk-3.22/cma_fe.c:427 client/gui-gtk-3.22/repodlgs.c:575
-#: client/gui-gtk-3.22/wldlg.c:1234 client/gui-qt/menu.cpp:1374
+#: client/gui-gtk-3.22/wldlg.c:1234 client/gui-qt/menu.cpp:1385
 #: data/Freeciv.in:1484 data/Freeciv.in:2050 data/Freeciv.in:2126
 #: data/Freeciv.in:2213 data/Freeciv.in:2219
 msgid "Help"
@@ -6832,7 +6832,7 @@ msgid "_World"
 msgstr "(_W) В мире"
 
 #: client/gui-gtk-2.0/unitselect.c:482 client/gui-gtk-3.0/unitselect.c:484
-#: client/gui-gtk-3.22/unitselect.c:484 client/gui-qt/menu.cpp:1053
+#: client/gui-gtk-3.22/unitselect.c:484 client/gui-qt/menu.cpp:1064
 #: client/gui-qt/shortcuts.cpp:124 common/unit.c:627
 msgid "Sentry"
 msgstr "Сторожить"
@@ -6991,7 +6991,7 @@ msgstr "Соединения на поле:"
 
 #: client/gui-gtk-3.0/action_dialog.c:995
 #: client/gui-gtk-3.22/action_dialog.c:989 client/gui-qt/cityrep.cpp:544
-#: client/gui-qt/hudwidget.cpp:1405 client/gui-qt/menu.cpp:982
+#: client/gui-qt/hudwidget.cpp:1405 client/gui-qt/menu.cpp:993
 msgid "Select"
 msgstr "Выбрать"
 
@@ -7051,8 +7051,8 @@ msgid "Transform"
 msgstr "Преобразовать"
 
 #: client/gui-gtk-3.0/citydlg.c:2965 client/gui-gtk-3.22/citydlg.c:2993
-#: client/gui-qt/citydlg.cpp:1318 client/gui-qt/menu.cpp:1188
-#: client/gui-qt/menu.cpp:2078 client/gui-xaw/menu.c:183
+#: client/gui-qt/citydlg.cpp:1318 client/gui-qt/menu.cpp:1199
+#: client/gui-qt/menu.cpp:2089 client/gui-xaw/menu.c:183
 msgid "Clean Pollution"
 msgstr "Очистить загрязнение"
 
@@ -7068,7 +7068,7 @@ msgstr "Объект для разрушения:"
 
 #. TRANS: Pillage dialog do button text.
 #: client/gui-gtk-3.0/dialogs.c:374 client/gui-gtk-3.22/dialogs.c:368
-#: client/gui-qt/menu.cpp:1119 client/gui-sdl/menu.c:699
+#: client/gui-qt/menu.cpp:1130 client/gui-sdl/menu.c:699
 #: client/gui-sdl2/menu.c:696 client/gui-xaw/menu.c:189 common/unit.c:629
 msgid "Pillage"
 msgstr "Разрушить"
@@ -7127,7 +7127,7 @@ msgid "Transports available:"
 msgstr "Доступный транспорт:"
 
 #: client/gui-gtk-3.0/transportdlg.c:116 client/gui-gtk-3.22/transportdlg.c:116
-#: client/gui-qt/citydlg.cpp:821 client/gui-qt/menu.cpp:1064
+#: client/gui-qt/citydlg.cpp:821 client/gui-qt/menu.cpp:1075
 #: client/gui-qt/pages.cpp:537 client/gui-qt/shortcuts.cpp:136
 msgid "Load"
 msgstr "Загрузить"
@@ -7322,12 +7322,12 @@ msgstr "Расформировать"
 msgid "Change homecity"
 msgstr "Сменить домашний город"
 
-#: client/gui-qt/citydlg.cpp:828 client/gui-qt/menu.cpp:1069
+#: client/gui-qt/citydlg.cpp:828 client/gui-qt/menu.cpp:1080
 #: client/gui-qt/shortcuts.cpp:138
 msgid "Unload"
 msgstr "Выгрузить"
 
-#: client/gui-qt/citydlg.cpp:835 client/gui-qt/menu.cpp:1074
+#: client/gui-qt/citydlg.cpp:835 client/gui-qt/menu.cpp:1085
 #: client/gui-sdl/menu.c:650 client/gui-sdl2/menu.c:647
 #: client/gui-xaw/menu.c:192
 msgid "Unload All From Transporter"
@@ -7360,11 +7360,11 @@ msgstr "Авто-занятие для колонистов:"
 msgid "Click to change city name"
 msgstr "Нажмите для переименования города"
 
-#: client/gui-qt/citydlg.cpp:1548 client/gui-qt/menu.cpp:902
+#: client/gui-qt/citydlg.cpp:1548 client/gui-qt/menu.cpp:913
 msgid "Zoom in"
 msgstr "Приблизить"
 
-#: client/gui-qt/citydlg.cpp:1554 client/gui-qt/menu.cpp:910
+#: client/gui-qt/citydlg.cpp:1554 client/gui-qt/menu.cpp:921
 msgid "Zoom out"
 msgstr "Отдалить"
 
@@ -7505,12 +7505,13 @@ msgstr "Вставить план"
 msgid "Save worklist"
 msgstr "Сохранить план"
 
-#: client/gui-qt/citydlg.cpp:2689 client/gui-qt/menu.cpp:826
-#: client/gui-qt/pages.cpp:199 client/gui-sdl/mapctrl.c:1621
-#: client/gui-sdl/optiondlg.c:764 client/gui-sdl/optiondlg.c:1333
-#: client/gui-sdl/pages.c:254 client/gui-sdl2/mapctrl.c:1734
-#: client/gui-sdl2/optiondlg.c:775 client/gui-sdl2/optiondlg.c:1361
-#: client/gui-sdl2/pages.c:264 data/Freeciv.in:1235
+#: client/gui-qt/citydlg.cpp:2689 client/gui-qt/menu.cpp:833
+#: client/gui-qt/menu.cpp:835 client/gui-qt/pages.cpp:199
+#: client/gui-sdl/mapctrl.c:1621 client/gui-sdl/optiondlg.c:764
+#: client/gui-sdl/optiondlg.c:1333 client/gui-sdl/pages.c:254
+#: client/gui-sdl2/mapctrl.c:1734 client/gui-sdl2/optiondlg.c:775
+#: client/gui-sdl2/optiondlg.c:1361 client/gui-sdl2/pages.c:264
+#: data/Freeciv.in:1235
 msgid "Options"
 msgstr "Параметры"
 
@@ -7723,7 +7724,7 @@ msgstr "Ничего не делать"
 msgid "Steal"
 msgstr "Украсть"
 
-#: client/gui-qt/dialogs.cpp:2362 client/gui-qt/menu.cpp:1260
+#: client/gui-qt/dialogs.cpp:2362 client/gui-qt/menu.cpp:1271
 #: common/events.c:125 common/events.c:133 data/Freeciv.in:2406
 msgid "Sabotage"
 msgstr "Саботаж"
@@ -8231,39 +8232,39 @@ msgstr "Революция..."
 msgid "Game"
 msgstr "Игра"
 
-#: client/gui-qt/menu.cpp:829 client/gui-xaw/menu.c:118
+#: client/gui-qt/menu.cpp:840 client/gui-xaw/menu.c:118
 msgid "Server Options"
 msgstr "Параметры сервера"
 
-#: client/gui-qt/menu.cpp:833
+#: client/gui-qt/menu.cpp:844
 msgid "Shortcuts"
 msgstr "Комбинации клавиш"
 
-#: client/gui-qt/menu.cpp:835
+#: client/gui-qt/menu.cpp:846
 msgid "Load another tileset"
 msgstr "Загрузить другой набор графики"
 
-#: client/gui-qt/menu.cpp:837
+#: client/gui-qt/menu.cpp:848
 msgid "Save Options Now"
 msgstr "Сохранить параметры"
 
-#: client/gui-qt/menu.cpp:840
+#: client/gui-qt/menu.cpp:851
 msgid "Save Options on Exit"
 msgstr "Сохранять параметры при выходе"
 
-#: client/gui-qt/menu.cpp:850 client/gui-qt/menu.cpp:3407
+#: client/gui-qt/menu.cpp:861 client/gui-qt/menu.cpp:3418
 msgid "Save Game As..."
 msgstr "Сохранить игру как..."
 
-#: client/gui-qt/menu.cpp:854
+#: client/gui-qt/menu.cpp:865
 msgid "Save Map to Image"
 msgstr "Сохранить карту в файл"
 
-#: client/gui-qt/menu.cpp:857
+#: client/gui-qt/menu.cpp:868
 msgid "Leave game"
 msgstr "Отключиться"
 
-#: client/gui-qt/menu.cpp:860 client/gui-qt/pages.cpp:199
+#: client/gui-qt/menu.cpp:871 client/gui-qt/pages.cpp:199
 #: client/gui-sdl/optiondlg.c:859 client/gui-sdl/pages.c:268
 #: client/gui-sdl2/optiondlg.c:870 client/gui-sdl2/pages.c:279
 #: client/gui-xaw/connectdlg.c:341 client/gui-xaw/menu.c:124
@@ -8271,429 +8272,429 @@ msgstr "Отключиться"
 msgid "Quit"
 msgstr "Выход"
 
-#: client/gui-qt/menu.cpp:866 client/gui-qt/shortcuts.cpp:59
+#: client/gui-qt/menu.cpp:877 client/gui-qt/shortcuts.cpp:59
 #: client/gui-xaw/menu.c:165
 msgid "Center View"
 msgstr "В центр карты"
 
-#: client/gui-qt/menu.cpp:871 client/gui-qt/shortcuts.cpp:61
+#: client/gui-qt/menu.cpp:882 client/gui-qt/shortcuts.cpp:61
 #: client/options.c:2370 client/options.c:2584 client/options.c:2805
 #: client/options.c:3026 client/options.c:3044 client/options.c:3066
 msgid "Fullscreen"
 msgstr "Полноэкранный режим"
 
-#: client/gui-qt/menu.cpp:878
+#: client/gui-qt/menu.cpp:889
 msgid "Minimap"
 msgstr "Мини-карта"
 
-#: client/gui-qt/menu.cpp:885
+#: client/gui-qt/menu.cpp:896
 msgid "Show new turn information"
 msgstr "Показывать информацию о новом ходе"
 
-#: client/gui-qt/menu.cpp:890
+#: client/gui-qt/menu.cpp:901
 msgid "Show combat detailed information"
 msgstr "Показывать подробную информацию о битве"
 
-#: client/gui-qt/menu.cpp:894
+#: client/gui-qt/menu.cpp:905
 msgid "Lock interface"
 msgstr "Блокировать интерфейс"
 
-#: client/gui-qt/menu.cpp:906
+#: client/gui-qt/menu.cpp:917
 msgid "Zoom default"
 msgstr "Масштаб по умолчанию"
 
-#: client/gui-qt/menu.cpp:914
+#: client/gui-qt/menu.cpp:925
 msgid "Scale fonts"
 msgstr "Размер шрифтов"
 
-#: client/gui-qt/menu.cpp:920
+#: client/gui-qt/menu.cpp:931
 msgid "City Outlines"
 msgstr "Границы городов"
 
-#: client/gui-qt/menu.cpp:930 client/gui-qt/shortcuts.cpp:67
+#: client/gui-qt/menu.cpp:941 client/gui-qt/shortcuts.cpp:67
 #: client/gui-xaw/menu.c:143
 msgid "Map Grid"
 msgstr "Сетка на карте"
 
-#: client/gui-qt/menu.cpp:936 client/gui-qt/shortcuts.cpp:69
+#: client/gui-qt/menu.cpp:947 client/gui-qt/shortcuts.cpp:69
 #: client/gui-xaw/menu.c:144
 msgid "National Borders"
 msgstr "Государственные границы"
 
-#: client/gui-qt/menu.cpp:953 client/gui-qt/shortcuts.cpp:99
+#: client/gui-qt/menu.cpp:964 client/gui-qt/shortcuts.cpp:99
 #: client/gui-xaw/menu.c:146 client/options.c:2565 client/options.c:2786
 #: client/options.c:3007 client/options.c:3148
 msgid "City Names"
 msgstr "Названия городов"
 
-#: client/gui-qt/menu.cpp:959 client/gui-xaw/menu.c:147
+#: client/gui-qt/menu.cpp:970 client/gui-xaw/menu.c:147
 msgid "City Growth"
 msgstr "Рост города"
 
-#: client/gui-qt/menu.cpp:964 client/gui-qt/shortcuts.cpp:97
+#: client/gui-qt/menu.cpp:975 client/gui-qt/shortcuts.cpp:97
 #: client/gui-xaw/menu.c:149
 msgid "City Production Levels"
 msgstr "Уровни городского производства"
 
-#: client/gui-qt/menu.cpp:974 client/gui-qt/shortcuts.cpp:95
+#: client/gui-qt/menu.cpp:985 client/gui-qt/shortcuts.cpp:95
 msgid "City Traderoutes"
 msgstr "Торговые маршруты"
 
-#: client/gui-qt/menu.cpp:983
+#: client/gui-qt/menu.cpp:994
 msgid "Single Unit (Unselect Others)"
 msgstr "Первое из выбранных (снять выделение с остальных)"
 
-#: client/gui-qt/menu.cpp:987
+#: client/gui-qt/menu.cpp:998
 msgid "All On Tile"
 msgstr "Все на поле"
 
-#: client/gui-qt/menu.cpp:992
+#: client/gui-qt/menu.cpp:1003
 msgid "Same Type on Tile"
 msgstr "Того же типа на поле"
 
-#: client/gui-qt/menu.cpp:996
+#: client/gui-qt/menu.cpp:1007
 msgid "Same Type on Continent"
 msgstr "Того же типа на континенте"
 
-#: client/gui-qt/menu.cpp:1001
+#: client/gui-qt/menu.cpp:1012
 msgid "Same Type Everywhere"
 msgstr "Того же типа повсюду"
 
-#: client/gui-qt/menu.cpp:1007 client/gui-qt/shortcuts.cpp:130
+#: client/gui-qt/menu.cpp:1018 client/gui-qt/shortcuts.cpp:130
 #: client/gui-sdl/action_dialog.c:1049 client/gui-sdl/menu.c:423
 #: client/gui-sdl2/action_dialog.c:1001 client/gui-sdl2/menu.c:419
 #: client/gui-xaw/menu.c:217
 msgid "Wait"
 msgstr "Ждать"
 
-#: client/gui-qt/menu.cpp:1012 client/gui-xaw/menu.c:218
+#: client/gui-qt/menu.cpp:1023 client/gui-xaw/menu.c:218
 msgid "Done"
 msgstr "Закончить"
 
-#: client/gui-qt/menu.cpp:1018
+#: client/gui-qt/menu.cpp:1029
 msgid "Advanced unit selection"
 msgstr "Улучшенный выбор соединения"
 
-#: client/gui-qt/menu.cpp:1026 client/gui-qt/shortcuts.cpp:128
+#: client/gui-qt/menu.cpp:1037 client/gui-qt/shortcuts.cpp:128
 #: client/gui-sdl/menu.c:537 client/gui-sdl2/menu.c:533
 #: client/gui-xaw/menu.c:205
 msgid "Go to Tile"
 msgstr "Идти на поле"
 
-#: client/gui-qt/menu.cpp:1031
+#: client/gui-qt/menu.cpp:1042
 msgid "Go to Nearest City"
 msgstr "Идти в ближайший город"
 
-#: client/gui-qt/menu.cpp:1035 client/gui-qt/shortcuts.cpp:103
+#: client/gui-qt/menu.cpp:1046 client/gui-qt/shortcuts.cpp:103
 #: client/gui-xaw/menu.c:206
 msgid "Go to/Airlift to City..."
 msgstr "Идти/Перебросить в город..."
 
-#: client/gui-qt/menu.cpp:1041 client/gui-qt/shortcuts.cpp:105
+#: client/gui-qt/menu.cpp:1052 client/gui-qt/shortcuts.cpp:105
 #: client/gui-sdl/menu.c:613 client/gui-sdl2/menu.c:609
 #: client/gui-xaw/menu.c:200
 msgid "Auto Explore"
 msgstr "Авто-исследовать"
 
-#: client/gui-qt/menu.cpp:1046 client/gui-qt/shortcuts.cpp:107
+#: client/gui-qt/menu.cpp:1057 client/gui-qt/shortcuts.cpp:107
 #: client/gui-sdl/menu.c:549 client/gui-sdl2/menu.c:545
 #: client/gui-xaw/menu.c:204
 msgid "Patrol"
 msgstr "Патрулировать"
 
-#: client/gui-qt/menu.cpp:1058 client/gui-qt/shortcuts.cpp:109
+#: client/gui-qt/menu.cpp:1069 client/gui-qt/shortcuts.cpp:109
 #: client/gui-sdl/menu.c:637 client/gui-sdl2/menu.c:634
 #: client/gui-xaw/menu.c:196
 msgid "Unsentry All On Tile"
 msgstr "Разбудить всех на поле"
 
-#: client/gui-qt/menu.cpp:1079 client/gui-qt/shortcuts.cpp:114
+#: client/gui-qt/menu.cpp:1090 client/gui-qt/shortcuts.cpp:114
 #: client/gui-sdl/citydlg.c:499 client/gui-sdl2/citydlg.c:500
 #: client/gui-xaw/menu.c:191
 msgid "Set Home City"
 msgstr "Сделать родным городом"
 
-#: client/gui-qt/menu.cpp:1084 client/gui-qt/shortcuts.cpp:112
+#: client/gui-qt/menu.cpp:1095 client/gui-qt/shortcuts.cpp:112
 #: client/gui-sdl/dialogs.c:717 client/gui-sdl2/dialogs.c:721
 #: data/Freeciv.in:1969
 msgid "Upgrade"
 msgstr "Модернизировать"
 
-#: client/gui-qt/menu.cpp:1089 common/unit.c:643
+#: client/gui-qt/menu.cpp:1100 common/unit.c:643
 msgid "Convert"
 msgstr "Преобразовать"
 
-#: client/gui-qt/menu.cpp:1093 client/gui-qt/repodlgs.cpp:1227
+#: client/gui-qt/menu.cpp:1104 client/gui-qt/repodlgs.cpp:1227
 #: client/gui-sdl/dialogs.c:912 client/gui-sdl2/dialogs.c:917
 msgid "Disband"
 msgstr "Расформировать"
 
-#: client/gui-qt/menu.cpp:1100 client/gui-sdl/menu.c:779
+#: client/gui-qt/menu.cpp:1111 client/gui-sdl/menu.c:779
 #: client/gui-sdl2/menu.c:776 client/gui-xaw/menu.c:187
 msgid "Fortify Unit"
 msgstr "Укрепиться"
 
-#: client/gui-qt/menu.cpp:1116
+#: client/gui-qt/menu.cpp:1127
 msgid "Build Base"
 msgstr "Построить базу"
 
 #. TRANS: Menu item to bring up the action selection dialog.
 #. TRANS: Button to bring up the action selection dialog.
-#: client/gui-qt/menu.cpp:1124 client/gui-qt/shortcuts.cpp:110
+#: client/gui-qt/menu.cpp:1135 client/gui-qt/shortcuts.cpp:110
 #: client/gui-sdl/menu.c:449 client/gui-sdl2/menu.c:445
 msgid "Do..."
 msgstr "Действие..."
 
-#: client/gui-qt/menu.cpp:1129 client/gui-qt/shortcuts.cpp:134
+#: client/gui-qt/menu.cpp:1140 client/gui-qt/shortcuts.cpp:134
 #: client/gui-sdl/menu.c:435 client/gui-sdl2/menu.c:431
 #: client/gui-xaw/menu.c:214
 msgid "Explode Nuclear"
 msgstr "Взорвать ядерную бомбу"
 
-#: client/gui-qt/menu.cpp:1136
+#: client/gui-qt/menu.cpp:1147
 msgid "Work"
 msgstr "Задания"
 
-#: client/gui-qt/menu.cpp:1137 client/gui-qt/menu.cpp:2023
+#: client/gui-qt/menu.cpp:1148 client/gui-qt/menu.cpp:2034
 #: client/gui-qt/shortcuts.cpp:122 client/gui-sdl/mapctrl.c:2550
 #: client/gui-sdl/menu.c:1066 client/gui-sdl2/mapctrl.c:2758
 #: client/gui-sdl2/menu.c:1062 client/gui-xaw/menu.c:170
 msgid "Build City"
 msgstr "Основать город"
 
-#: client/gui-qt/menu.cpp:1142
+#: client/gui-qt/menu.cpp:1153
 msgid "Go And Build City"
 msgstr "Идти и основать город"
 
-#: client/gui-qt/menu.cpp:1146 client/gui-qt/menu.cpp:2117
+#: client/gui-qt/menu.cpp:1157 client/gui-qt/menu.cpp:2128
 #: client/gui-sdl/menu.c:625 client/gui-sdl2/menu.c:621
 #: client/gui-xaw/menu.c:198
 msgid "Auto Settler"
 msgstr "Авто-колонисты"
 
-#: client/gui-qt/menu.cpp:1152 client/gui-qt/shortcuts.cpp:120
+#: client/gui-qt/menu.cpp:1163 client/gui-qt/shortcuts.cpp:120
 #: client/gui-xaw/menu.c:172
 msgid "Build Road"
 msgstr "Построить дорогу"
 
-#: client/gui-qt/menu.cpp:1157
+#: client/gui-qt/menu.cpp:1168
 msgid "Build Path"
 msgstr "Построить путь"
 
-#: client/gui-qt/menu.cpp:1159 client/gui-qt/menu.cpp:1980
-#: client/gui-qt/menu.cpp:1983 client/gui-qt/shortcuts.cpp:118
+#: client/gui-qt/menu.cpp:1170 client/gui-qt/menu.cpp:1991
+#: client/gui-qt/menu.cpp:1994 client/gui-qt/shortcuts.cpp:118
 #: client/gui-xaw/menu.c:174
 msgid "Build Irrigation"
 msgstr "Построить орошение"
 
-#: client/gui-qt/menu.cpp:1164 client/gui-qt/menu.cpp:1936
-#: client/gui-qt/menu.cpp:1939 client/gui-qt/shortcuts.cpp:116
+#: client/gui-qt/menu.cpp:1175 client/gui-qt/menu.cpp:1947
+#: client/gui-qt/menu.cpp:1950 client/gui-qt/shortcuts.cpp:116
 #: client/gui-xaw/menu.c:177
 msgid "Build Mine"
 msgstr "Построить шахту"
 
-#: client/gui-qt/menu.cpp:1170 client/gui-xaw/menu.c:201
+#: client/gui-qt/menu.cpp:1181 client/gui-xaw/menu.c:201
 msgid "Connect With Road"
 msgstr "Соединить дорогой"
 
-#: client/gui-qt/menu.cpp:1174
+#: client/gui-qt/menu.cpp:1185
 msgid "Connect With Railroad"
 msgstr "Соединить рельсами"
 
-#: client/gui-qt/menu.cpp:1178 client/gui-sdl/menu.c:561
+#: client/gui-qt/menu.cpp:1189 client/gui-sdl/menu.c:561
 #: client/gui-sdl2/menu.c:557 client/gui-xaw/menu.c:203
 msgid "Connect With Irrigation"
 msgstr "Соединить орошением"
 
-#: client/gui-qt/menu.cpp:1183 client/gui-qt/menu.cpp:2008
+#: client/gui-qt/menu.cpp:1194 client/gui-qt/menu.cpp:2019
 #: client/gui-xaw/menu.c:179
 msgid "Transform Terrain"
 msgstr "Преобразовать рельеф"
 
-#: client/gui-qt/menu.cpp:1193 client/gui-xaw/menu.c:185
+#: client/gui-qt/menu.cpp:1204 client/gui-xaw/menu.c:185
 msgid "Clean Nuclear Fallout"
 msgstr "Дезактивировать радиацию"
 
-#: client/gui-qt/menu.cpp:1209
+#: client/gui-qt/menu.cpp:1220
 msgid "Multiplayer"
 msgstr "Многопользовательская"
 
-#: client/gui-qt/menu.cpp:1210
+#: client/gui-qt/menu.cpp:1221
 msgid "Delayed Goto"
 msgstr "Отложенное Движение"
 
-#: client/gui-qt/menu.cpp:1213
+#: client/gui-qt/menu.cpp:1224
 msgid "Delayed Orders Execute"
 msgstr "Отложенные Приказы"
 
-#: client/gui-qt/menu.cpp:1216
+#: client/gui-qt/menu.cpp:1227
 msgid "Clear Orders"
 msgstr "Очистить Приказы"
 
-#: client/gui-qt/menu.cpp:1219
+#: client/gui-qt/menu.cpp:1230
 msgid "Add all cities to trade planning"
 msgstr "Добавить все города в план для торговли"
 
-#: client/gui-qt/menu.cpp:1221
+#: client/gui-qt/menu.cpp:1232
 msgid "Calculate trade planning"
 msgstr "Рассчитать план для торговли"
 
-#: client/gui-qt/menu.cpp:1223
+#: client/gui-qt/menu.cpp:1234
 msgid "Add/Remove City"
 msgstr "Добавить/удалить город"
 
-#: client/gui-qt/menu.cpp:1226
+#: client/gui-qt/menu.cpp:1237
 msgid "Clear Trade Planning"
 msgstr "Очистить план для торговли"
 
-#: client/gui-qt/menu.cpp:1228
+#: client/gui-qt/menu.cpp:1239
 msgid "Automatic caravan"
 msgstr "Авто-караван"
 
-#: client/gui-qt/menu.cpp:1232
+#: client/gui-qt/menu.cpp:1243
 msgid "Set/Unset rally point"
 msgstr "Установить/сбросить Пункт сбора"
 
-#: client/gui-qt/menu.cpp:1235
+#: client/gui-qt/menu.cpp:1246
 msgid "Quick Airlift"
 msgstr "Быстрая переброска"
 
-#: client/gui-qt/menu.cpp:1239
+#: client/gui-qt/menu.cpp:1250
 msgid "Unit type for quickairlifting"
 msgstr "Тип соединений для быстрой переброски"
 
-#: client/gui-qt/menu.cpp:1244
+#: client/gui-qt/menu.cpp:1255
 msgid "Default action vs unit"
 msgstr "Действие по умолчанию против соединения"
 
-#: client/gui-qt/menu.cpp:1246 client/gui-qt/menu.cpp:1268
+#: client/gui-qt/menu.cpp:1257 client/gui-qt/menu.cpp:1279
 msgid "Ask"
 msgstr "Спросить"
 
-#: client/gui-qt/menu.cpp:1253 common/events.c:118 common/events.c:128
+#: client/gui-qt/menu.cpp:1264 common/events.c:118 common/events.c:128
 msgid "Bribe"
 msgstr "Подкупил"
 
-#: client/gui-qt/menu.cpp:1267
+#: client/gui-qt/menu.cpp:1278
 msgid "Default action vs city"
 msgstr "Действие по умолчанию при входе в город"
 
-#: client/gui-qt/menu.cpp:1275
+#: client/gui-qt/menu.cpp:1286
 msgid "Investigate city"
 msgstr "Исследовать город"
 
-#: client/gui-qt/menu.cpp:1282
+#: client/gui-qt/menu.cpp:1293
 msgid "Establish embassy"
 msgstr "Открыть посольство"
 
-#: client/gui-qt/menu.cpp:1289
+#: client/gui-qt/menu.cpp:1300
 msgid "Steal technology"
 msgstr "Украсть технологию"
 
-#: client/gui-qt/menu.cpp:1296
+#: client/gui-qt/menu.cpp:1307
 msgid "Incite a revolt"
 msgstr "Подстрекать к мятежу"
 
-#: client/gui-qt/menu.cpp:1303
+#: client/gui-qt/menu.cpp:1314
 msgid "Poison city"
 msgstr "Отравить город"
 
-#: client/gui-qt/menu.cpp:1311
+#: client/gui-qt/menu.cpp:1322
 msgid "Civilization"
 msgstr "Цивилизация"
 
-#: client/gui-qt/menu.cpp:1312 client/gui-xaw/menu.c:129
+#: client/gui-qt/menu.cpp:1323 client/gui-xaw/menu.c:129
 msgid "Tax Rates..."
 msgstr "Налоги..."
 
-#: client/gui-qt/menu.cpp:1317
+#: client/gui-qt/menu.cpp:1328
 msgid "Policies..."
 msgstr "Политики..."
 
 #. TRANS: Also menu item, but 'headers' should be good enough.
-#: client/gui-qt/menu.cpp:1334 client/gui-qt/pages.cpp:1639
+#: client/gui-qt/menu.cpp:1345 client/gui-qt/pages.cpp:1639
 #: client/gui-sdl/plrdlg.c:340 client/gui-sdl2/connectdlg.c:337
 #: client/gui-sdl2/plrdlg.c:388
 msgid "?header:Players"
 msgstr "Игроки"
 
-#: client/gui-qt/menu.cpp:1354 client/gui-xaw/menu.c:232
+#: client/gui-qt/menu.cpp:1365 client/gui-xaw/menu.c:232
 msgid "Top Five Cities"
 msgstr "Лучшие пять городов"
 
-#: client/gui-qt/menu.cpp:1358 client/gui-xaw/menu.c:234
+#: client/gui-qt/menu.cpp:1369 client/gui-xaw/menu.c:234
 msgid "Demographics"
 msgstr "Демография"
 
-#: client/gui-qt/menu.cpp:1362 client/gui-xaw/menu.c:235 data/Freeciv.in:3270
+#: client/gui-qt/menu.cpp:1373 client/gui-xaw/menu.c:235 data/Freeciv.in:3270
 msgid "Spaceship"
 msgstr "Космический корабль"
 
-#: client/gui-qt/menu.cpp:1366 client/gui-xaw/menu.c:236 common/events.c:146
+#: client/gui-qt/menu.cpp:1377 client/gui-xaw/menu.c:236 common/events.c:146
 msgid "Achievements"
 msgstr "Достижения"
 
-#: client/gui-qt/menu.cpp:1369
+#: client/gui-qt/menu.cpp:1380
 msgid "Endgame report"
 msgstr "Отчёт об игре"
 
 #. TRANS: Transform terrain to specific type
-#: client/gui-qt/menu.cpp:1912 client/gui-qt/menu.cpp:1956
-#: client/gui-qt/menu.cpp:2003
+#: client/gui-qt/menu.cpp:1923 client/gui-qt/menu.cpp:1967
+#: client/gui-qt/menu.cpp:2014
 msgid "Transform to %1"
 msgstr "Преобразовать в %1"
 
 #. TRANS: Build mine of specific type
 #. TRANS: Build irrigation of specific type
 #. TRANS: Build road of specific type
-#: client/gui-qt/menu.cpp:1932 client/gui-qt/menu.cpp:1976
-#: client/gui-qt/menu.cpp:2045
+#: client/gui-qt/menu.cpp:1943 client/gui-qt/menu.cpp:1987
+#: client/gui-qt/menu.cpp:2056
 msgid "Build %1"
 msgstr "Построить %1"
 
-#: client/gui-qt/menu.cpp:2076 client/gui-sdl/menu.c:738
+#: client/gui-qt/menu.cpp:2087 client/gui-sdl/menu.c:738
 #: client/gui-sdl2/menu.c:735 client/gui-xaw/menu.c:184 server/unittools.c:2709
 msgid "Drop Paratrooper"
 msgstr "Высадить десант"
 
-#: client/gui-qt/menu.cpp:2119
+#: client/gui-qt/menu.cpp:2130
 msgid "Auto Worker"
 msgstr "Авто-рабочий"
 
-#: client/gui-qt/menu.cpp:2610
+#: client/gui-qt/menu.cpp:2621
 msgid "Didn't find any trade route to establish"
 msgstr "Невозможно установить торговый маршрут"
 
-#: client/gui-qt/menu.cpp:3185
+#: client/gui-qt/menu.cpp:3196
 msgid "Available tilesets"
 msgstr "Доступные наборы графики"
 
-#: client/gui-qt/menu.cpp:3187
+#: client/gui-qt/menu.cpp:3198
 msgid "Some tilesets might not be compatible with current map topology!"
 msgstr ""
 "Некоторые наборы графики могут быть несовместимы с текущей топологией карты!"
 
-#: client/gui-qt/menu.cpp:3375
+#: client/gui-qt/menu.cpp:3386
 msgid "Success"
 msgstr "Успех"
 
-#: client/gui-qt/menu.cpp:3377
+#: client/gui-qt/menu.cpp:3388
 msgid "Failed to save image of the map"
 msgstr "Ошибка сохранения изображения карты"
 
-#: client/gui-qt/menu.cpp:3377
+#: client/gui-qt/menu.cpp:3388
 msgid "Error"
 msgstr "Ошибка"
 
-#: client/gui-qt/menu.cpp:3404
+#: client/gui-qt/menu.cpp:3415
 msgid "Save Games"
 msgstr "Сохранённые игры"
 
-#: client/gui-qt/menu.cpp:3456
+#: client/gui-qt/menu.cpp:3467
 msgid "Selection will cancel current assignments!"
 msgstr "Сделанный выбор отменит текущие параметры!"
 
-#: client/gui-qt/menu.cpp:3457
+#: client/gui-qt/menu.cpp:3468
 msgid "Confirm Disruptive Selection"
 msgstr "Подтвердите Разрушительный Выбор"
 
@@ -8793,9 +8794,9 @@ msgstr "Загрузить сценарий"
 msgid "Disconnect"
 msgstr "Отключиться"
 
-#: client/gui-qt/pages.cpp:679 client/gui-qt/pages.cpp:1877
-#: client/gui-sdl/chatline.c:801 client/gui-sdl2/chatline.c:806
-#: data/Freeciv.in:3404
+#: client/gui-qt/pages.cpp:679 client/gui-qt/pages.cpp:1873
+#: client/gui-qt/pages.cpp:1877 client/gui-sdl/chatline.c:801
+#: client/gui-sdl2/chatline.c:806 data/Freeciv.in:3404
 msgid "Start"
 msgstr "Начать"
 
@@ -11465,8 +11466,8 @@ msgid ""
 "Prevented if any player on your team knows any technology with the \"%s\" "
 "flag.\n"
 msgstr ""
-"Недоступно, если любой игрок из Вашей команды изучил технологию с флагом \"%s"
-"\".\n"
+"Недоступно, если любой игрок из Вашей команды изучил технологию с флагом "
+"\"%s\".\n"
 
 #. TRANS: %s is a (translatable) tech flag.
 #: client/helpdata.c:643
@@ -11539,8 +11540,8 @@ msgstr ""
 #, c-format
 msgid "Requires that at least one of your allies has achieved \"%s\".\n"
 msgstr ""
-"Требуется, чтобы как минимум один из Ваших союзников получил достижение \"%s"
-"\".\n"
+"Требуется, чтобы как минимум один из Ваших союзников получил достижение "
+"\"%s\".\n"
 
 #: client/helpdata.c:728
 #, c-format
@@ -12872,8 +12873,8 @@ msgstr ""
 msgid ""
 "Requires terrain with the \"%s\" flag on the tile or an adjacent tile.\n"
 msgstr ""
-"Требуется, чтобы поле или какое-либо из соседних имело рельеф с флагом \"%s"
-"\".\n"
+"Требуется, чтобы поле или какое-либо из соседних имело рельеф с флагом "
+"\"%s\".\n"
 
 #. TRANS: %s is a (translatable) terrain flag.
 #: client/helpdata.c:2474
@@ -12881,8 +12882,8 @@ msgstr ""
 msgid ""
 "Prevented by terrain with the \"%s\" flag on the tile or any adjacent tile.\n"
 msgstr ""
-"Недоступно, если поле или любое из соседних полей имеет рельеф с флагом \"%s"
-"\".\n"
+"Недоступно, если поле или любое из соседних полей имеет рельеф с флагом "
+"\"%s\".\n"
 
 #. TRANS: %s is a (translatable) terrain flag.
 #: client/helpdata.c:2484
@@ -13047,8 +13048,8 @@ msgstr ""
 #, c-format
 msgid "Requires a road with the \"%s\" flag on the tile or an adjacent tile.\n"
 msgstr ""
-"На поле, или на каком-либо из соседних полей должна быть дорога с флагом \"%s"
-"\".\n"
+"На поле, или на каком-либо из соседних полей должна быть дорога с флагом "
+"\"%s\".\n"
 
 #. TRANS: %s is a (translatable) road flag.
 #: client/helpdata.c:2662
@@ -17186,7 +17187,7 @@ msgstr "(Нажмите для подробностей)"
 msgid "%s People"
 msgstr "Народ %s"
 
-#: client/text.c:982 server/gamehand.c:875
+#: client/text.c:982 server/gamehand.c:878
 #, c-format
 msgid "Year: %s"
 msgstr "Год: %s"
@@ -31709,8 +31710,8 @@ msgid ""
 "capacity, and once full the city grows by one citizen and the granary starts "
 "again at empty. But since granary capacity increases with population, each "
 "citizen is more costly than the last, making this mode of growth important "
-"only for small cities. (An alternative way for cities to grow is \"rapture"
-"\", described in the section on Happiness.)"
+"only for small cities. (An alternative way for cities to grow is "
+"\"rapture\", described in the section on Happiness.)"
 msgstr ""
 "Излишки еды могут увеличить население: городское хранилище еды имеет "
 "ограниченную ёмкость и по его заполнении город вырастает в размере на одного "
@@ -34098,8 +34099,8 @@ msgstr ""
 "  Shift+левая на соединении:     Добавить соединение к списку выбранных "
 "(GTK)\n"
 "  Левая кнопка и переместить:    Команда \"Идти к...\" для соединения\n"
-"                                 (если в параметрах выбрано 'Команда \"Идти к"
-"\" без клавиатуры')\n"
+"                                 (если в параметрах выбрано 'Команда \"Идти "
+"к\" без клавиатуры')\n"
 "  Средняя кнопка, Alt+левая:     Показать информацию о поле\n"
 "  Правая кнопка:                 Передвинуть выбранное на мини-карте поле в "
 "центр\n"
@@ -34638,8 +34639,8 @@ msgid ""
 "i] test[/b] this[/s] [/c]new[/u] feature[/c]'."
 msgstr ""
 "Конечно, разные escape-последовательности могут использоваться совместно в "
-"одной фразе, например '[i][c fg=\"blue\"]Это [b]будет [s]прекрасный[c bg="
-"\"green\"] [u]пример[/i] использования[/b] этой[/s] [/c]новой[/u] "
+"одной фразе, например '[i][c fg=\"blue\"]Это [b]будет [s]прекрасный[c "
+"bg=\"green\"] [u]пример[/i] использования[/b] этой[/s] [/c]новой[/u] "
 "возможности[/c]'."
 
 #: data/helpdata.txt:1947
@@ -38954,8 +38955,8 @@ msgid ""
 "%s can't build %s from the worklist; terrain with \"%s\" flag is required. "
 "Postponing..."
 msgstr ""
-"Город %s не может строить здание %s по плану — необходим рельеф с флагом \"%s"
-"\". Откладываем..."
+"Город %s не может строить здание %s по плану — необходим рельеф с флагом "
+"\"%s\". Откладываем..."
 
 #: server/cityturn.c:1688
 #, c-format
@@ -38999,8 +39000,8 @@ msgid ""
 "%s can't build %s from the worklist; road with \"%s\" flag is prohibited. "
 "Postponing..."
 msgstr ""
-"Город %s не может строить здание %s по плану — мешает дорога с флагом \"%s"
-"\". Откладываем..."
+"Город %s не может строить здание %s по плану — мешает дорога с флагом "
+"\"%s\". Откладываем..."
 
 #: server/cityturn.c:1762
 #, c-format
@@ -39017,8 +39018,8 @@ msgid ""
 "%s can't build %s from the worklist; extra with \"%s\" flag is prohibited. "
 "Postponing..."
 msgstr ""
-"Город %s не может строить здание %s по плану — мешает улучшение с флагом \"%s"
-"\". Откладываем..."
+"Город %s не может строить здание %s по плану — мешает улучшение с флагом "
+"\"%s\". Откладываем..."
 
 #. TRANS: last %s is a date
 #: server/cityturn.c:1807
@@ -39600,12 +39601,12 @@ msgid ""
 "includes the current and default values for that option. The argument may be "
 "abbreviated where unambiguous."
 msgstr ""
-"Без аргументов даёт вводную справку. С аргументом \"commands\" или \"options"
-"\" даёт соответственно список всех команд или всех параметров. В противном "
-"случае аргумент расматривается как имя команды или параметра и справка "
-"даётся по этой команде или параметру. Для параметров информация включает "
-"текущее значение и значение по умолчанию. Аргументы могут сокращаться там, "
-"где это не вызывает конфликтов."
+"Без аргументов даёт вводную справку. С аргументом \"commands\" или "
+"\"options\" даёт соответственно список всех команд или всех параметров. В "
+"противном случае аргумент расматривается как имя команды или параметра и "
+"справка даётся по этой команде или параметру. Для параметров информация "
+"включает текущее значение и значение по умолчанию. Аргументы могут "
+"сокращаться там, где это не вызывает конфликтов."
 
 #: server/commands.c:101
 msgid "Show a list of various things."
@@ -39726,11 +39727,11 @@ msgstr "Показать параметры сервера."
 msgid ""
 "With no arguments, shows vital server options (or available options, when "
 "used by clients). With an option name argument, show only the named option, "
-"or options with that prefix. With \"all\", it shows all options. With \"vital"
-"\", \"situational\" or \"rare\", a set of options with this level. With "
-"\"changed\", it shows only the options which have been modified, while with "
-"\"locked\" all settings locked by the ruleset will be listed. With \"ruleset"
-"\", it will show the current ruleset directory name."
+"or options with that prefix. With \"all\", it shows all options. With "
+"\"vital\", \"situational\" or \"rare\", a set of options with this level. "
+"With \"changed\", it shows only the options which have been modified, while "
+"with \"locked\" all settings locked by the ruleset will be listed. With "
+"\"ruleset\", it will show the current ruleset directory name."
 msgstr ""
 "Без аргументов показывает действующие параметры сервера (или доступные "
 "параметры, при использовании в клиенте). С аргументом-названием параметра "
@@ -39794,8 +39795,8 @@ msgid ""
 "least half of the voters who have not abstained vote against it."
 msgstr ""
 "Игрок, имеющий базовый уровень доступа, использовав команду контролирующего "
-"уровня, начинает голосование для команды. Команда /vote с параметром \"yes"
-"\" (\"за\"), \"no\" (\"против\") или \"abstain\" (\"воздержался\") и "
+"уровня, начинает голосование для команды. Команда /vote с параметром "
+"\"yes\" (\"за\"), \"no\" (\"против\") или \"abstain\" (\"воздержался\") и "
 "возможным вторым параметром \"номер-выборов\", опрделяет Ваш голос. Номер "
 "голосования не обязателен — если он отсутствует, Ваш голос относится к "
 "последним выборам. Каждый игрок может начать только одно голосование за раз. "
@@ -40303,10 +40304,10 @@ msgstr "Блокировать все сообщения пользовател�
 #: server/commands.c:475
 msgid ""
 "The given pattern will be added to your ignore list; you will not receive "
-"any messages from users matching this pattern. The type may be either \"user"
-"\", \"host\", or \"ip\". The default type (if omitted) is to match against "
-"the username. The pattern supports unix glob style wildcards, i.e., * "
-"matches zero or more character, ? exactly one character, [abc] exactly one "
+"any messages from users matching this pattern. The type may be either "
+"\"user\", \"host\", or \"ip\". The default type (if omitted) is to match "
+"against the username. The pattern supports unix glob style wildcards, i.e., "
+"* matches zero or more character, ? exactly one character, [abc] exactly one "
 "of 'a' 'b' or 'c', etc. To access your current ignore list, issue \"/list "
 "ignore\"."
 msgstr ""
@@ -41698,17 +41699,17 @@ msgstr ""
 "Сервер не смог найти оптимальное решение по размещению команд после %d "
 "итераций."
 
-#: server/gamehand.c:851
+#: server/gamehand.c:854
 #, c-format
 msgid "No units placed for %s!"
 msgstr "Нет размещённых соединений для %s!"
 
-#: server/gamehand.c:976
+#: server/gamehand.c:979
 msgid "The turn timeout has exceeded its maximum value, fixing at its maximum."
 msgstr ""
 "Тайм-аут хода превысил максимальное значение, установливаем новый максимум."
 
-#: server/gamehand.c:984
+#: server/gamehand.c:987
 msgid "The turn timeout is smaller than zero, fixing at zero."
 msgstr "Тайм-аут хода меньше нуля, устанавливаем в 0."
 
@@ -42703,35 +42704,35 @@ msgid "Failed to load ruleset '%s' needed for savegame."
 msgstr ""
 "Ошибка загрузки набора правил \"%s\", использующегося в сохранённой игре."
 
-#: server/savegame2.c:3914 server/savegame.c:4053 server/srv_main.c:2392
+#: server/savegame2.c:3920 server/savegame.c:4051 server/srv_main.c:2392
 #: server/srv_main.c:2397
 #, c-format
 msgid "%s has been added as %s level AI-controlled player (%s)."
 msgstr ""
 "Игрок %s был добавлен как управляемый компьютером игрок уровня %s (%s)."
 
-#: server/savegame2.c:3919 server/savegame.c:4058
+#: server/savegame2.c:3925 server/savegame.c:4056
 #, c-format
 msgid "%s has been added as human player."
 msgstr "Игрок %s был добавлен как игрок-человек."
 
 #. TRANS: Minor error message: <Leader> ... <Poles>.
-#: server/savegame2.c:3943 server/savegame.c:4140
+#: server/savegame2.c:3949 server/savegame.c:4138
 #, c-format
 msgid "%s had invalid nation; changing to %s."
 msgstr "У игрока %s был неверный народ. Меняем его народ на %s."
 
-#: server/savegame2.c:7525 server/savegame.c:4111
+#: server/savegame2.c:7531 server/savegame.c:4109
 #, c-format
 msgid "%s had invalid researching technology."
 msgstr "%s: неверная изучаемая технология."
 
-#: server/savegame2.c:7535 server/savegame.c:4122
+#: server/savegame2.c:7541 server/savegame.c:4120
 #, c-format
 msgid "%s had invalid technology goal."
 msgstr "%s: неверная технологическая цель."
 
-#: server/savegame2.c:7560
+#: server/savegame2.c:7566
 #, c-format
 msgid ""
 "%s has multiple units of type %s though it should be possible to have only "
@@ -43896,8 +43897,8 @@ msgid ""
 "more persistent."
 msgstr ""
 "На доигровой стадии, обычно когда присоединяются новые игроки, либо старые "
-"покидают сервер, те игроки, которые уже приняли игру нажатием кнопки \"Готов"
-"\", после этого автоматически становятся неготовыми из-за изменения "
+"покидают сервер, те игроки, которые уже приняли игру нажатием кнопки "
+"\"Готов\", после этого автоматически становятся неготовыми из-за изменения "
 "ситуации. Этот параметр может быть использован для сохранения более "
 "постоянной готовности."
 
@@ -44552,10 +44553,10 @@ msgstr ""
 "городов с одним и тем же названием.\n"
 "— \"Глобально уникальные\" (GLOBAL_UNIQUE): все города в игре должны иметь "
 "разные названия.\n"
-"— \"Не занятые другими народами\" (NO_STEALING): как и \"Глобально уникальные"
-"\", но игроку не разрешено использовать названия из списка зарезервированных "
-"для других народов в игре, кроме случаев, когда название зарезервировано и "
-"для его народа тоже."
+"— \"Не занятые другими народами\" (NO_STEALING): как и \"Глобально "
+"уникальные\", но игроку не разрешено использовать названия из списка "
+"зарезервированных для других народов в игре, кроме случаев, когда название "
+"зарезервировано и для его народа тоже."
 
 #: server/settings.c:2117
 msgid "How to pick player colors"
@@ -45463,8 +45464,8 @@ msgstr ""
 "\n"
 "Будьте внимательны, используйте как минимум одно из %T и %Y — в противном "
 "случае более новые сохранения затрут старые файлы. Если ни один из форматов "
-"не будет использован, к строке параметра 'savename' будет добавлено '-T%04T-Y"
-"%05Y-%R'."
+"не будет использован, к строке параметра 'savename' будет добавлено '-T%04T-"
+"Y%05Y-%R'."
 
 #: server/settings.c:2742
 msgid "Whether to log player statistics"
@@ -48331,8 +48332,8 @@ msgid ""
 "%d lost %d HP, %d HP remaining%s]!"
 msgstr ""
 "Ваше соединение %2$s-%1$s [id:%3$d %4$sА:%5$.1f Зд:%6$d] провалило атаку на "
-"соединение %9$s-%8$s народа %7$s [id:%10$d потеряло %11$d Зд, осталось %12$d"
-"%13$s]!"
+"соединение %9$s-%8$s народа %7$s [id:%10$d потеряло %11$d Зд, осталось "
+"%12$d%13$s]!"
 
 #. TRANS: "Your green Warriors [id:100 ...D:1.0 HP:10]
 #. * lost to an attack by the Greek green Legion
@@ -49213,8 +49214,8 @@ msgstr "Возможности файла: %s"
 #, c-format
 msgid "\"%s\" is set but empty; trying \"%s\" instead."
 msgstr ""
-"Переменная среды \"%s\" — пустая строка; пробуем использовать вместо неё \"%s"
-"\"."
+"Переменная среды \"%s\" — пустая строка; пробуем использовать вместо неё "
+"\"%s\"."
 
 #: utility/shared.c:954 utility/shared.c:1004 utility/shared.c:1067
 msgid "FREECIV_PATH is deprecated, and won't work in future versions."
