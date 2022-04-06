@@ -4,23 +4,23 @@
 GUI_SUBDIRS =
 
 desktopfiledir = @DESKTOPDIR@
-appdatafiledir = @APPDATADIR@
+metainfofiledir = @METAINFODIR@
 
 desktopfile_DATA =
-appdatafile_DATA =
+metainfofile_DATA =
 
 if CLIENT_GUI_SDL2
 GUI_SUBDIRS += gui-sdl2
 desktopfile_DATA += \
 	org.freeciv.sdl2.desktop
-appdatafile_DATA += \
+metainfofile_DATA += \
 	freeciv-sdl2.appdata.xml
 endif
 if CLIENT_GUI_GTK_3_22
 GUI_SUBDIRS += gui-gtk-3.22
 desktopfile_DATA += \
 	org.freeciv.gtk322.desktop
-appdatafile_DATA += \
+metainfofile_DATA += \
 	freeciv-gtk3.22.appdata.xml
 endif
 if CLIENT_GUI_GTK_4
@@ -30,7 +30,7 @@ if CLIENT_GUI_QT
 GUI_SUBDIRS += gui-qt
 desktopfile_DATA += \
 	org.freeciv.qt.desktop
-appdatafile_DATA += \
+metainfofile_DATA += \
 	freeciv-qt.appdata.xml
 endif
 if CLIENT_GUI_STUB

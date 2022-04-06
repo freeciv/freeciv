@@ -186,6 +186,6 @@ desktopfiledir = @DESKTOPDIR@
 desktopfile_DATA = \
 	org.freeciv.server.desktop
 
-appdatafiledir = @APPDATADIR@
-appdatafile_DATA = \
+metainfofiledir = @METAINFODIR@
+metainfofile_DATA = \
 	freeciv-server.appdata.xml
