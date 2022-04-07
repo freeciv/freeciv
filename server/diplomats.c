@@ -1043,20 +1043,23 @@ bool diplomat_may_lose_gold(struct player *dec_player, struct player *inc_player
   }
 
   /* Roll the dice. */
-  if (fc_rand (100) < game.server.incite_gold_loss_chance) {
+  if (fc_rand(100) < game.server.incite_gold_loss_chance) {
     notify_player(dec_player, NULL, E_MY_DIPLOMAT_FAILED, ftc_server,
-                  _("Your %d gold prepared to incite the revolt was lost!"),
-                  revolt_gold);
+                  PL_("Your %d gold prepared to incite the revolt was lost!",
+                      "Your %d gold prepared to incite the revolt was lost!",
+                      revolt_gold), revolt_gold);
     dec_player->economic.gold -= revolt_gold;
     /* Lost money was pocketed by fraudulent executioners?
      * Or returned to local authority?
      * Roll the dice twice. */
-    if (fc_rand (100) < game.server.incite_gold_capt_chance) {
+    if (fc_rand(100) < game.server.incite_gold_capt_chance) {
       inc_player->economic.gold += revolt_gold;
       notify_player(inc_player, NULL, E_ENEMY_DIPLOMAT_FAILED,
                     ftc_server,
-                    _("Your security service captured %d gold prepared "
-                      "to incite your town!"), revolt_gold);
+                    PL_("Your security service captured %d gold prepared "
+                        "to incite your town!",
+                        "Your security service captured %d gold prepared "
+                        "to incite your town!", revolt_gold), revolt_gold);
     }
     /* Update clients. */
     send_player_all_c(dec_player, NULL);
