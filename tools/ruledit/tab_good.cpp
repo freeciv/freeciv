@@ -101,6 +101,7 @@ tab_good::tab_good(ruledit_gui *ui_in) : QWidget()
   show_experimental(delete_button);
 
   refresh();
+  update_good_info(nullptr);
 
   main_layout->addLayout(good_layout);
 

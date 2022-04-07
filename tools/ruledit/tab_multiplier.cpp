@@ -96,6 +96,7 @@ tab_multiplier::tab_multiplier(ruledit_gui *ui_in) : QWidget()
   show_experimental(delete_button);
 
   refresh();
+  update_multiplier_info(nullptr);
 
   main_layout->addLayout(mpr_layout);
 
