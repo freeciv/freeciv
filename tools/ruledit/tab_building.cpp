@@ -106,6 +106,7 @@ tab_building::tab_building(ruledit_gui *ui_in) : QWidget()
   show_experimental(delete_button);
 
   refresh();
+  update_bldg_info(nullptr);
 
   main_layout->addLayout(bldg_layout);
 

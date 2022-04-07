@@ -96,6 +96,7 @@ tab_terrains::tab_terrains(ruledit_gui *ui_in) : QWidget()
   show_experimental(delete_button);
 
   refresh();
+  update_terrain_info(nullptr);
 
   main_layout->addLayout(terrains_layout);
 

@@ -101,6 +101,7 @@ tab_unit::tab_unit(ruledit_gui *ui_in) : QWidget()
   show_experimental(delete_button);
 
   refresh();
+  update_utype_info(nullptr);
 
   main_layout->addLayout(unit_layout);
 
