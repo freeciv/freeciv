@@ -27,6 +27,7 @@
 /* utility */
 #include "astring.h"
 #include "bitvector.h"
+#include "deprecations.h"
 #include "fc_cmdline.h"
 #include "fciconv.h"
 #include "fcintl.h"
@@ -606,6 +607,9 @@ static bool metamessage_command(struct connection *caller,
                                 char *arg, bool check)
 {
   struct setting *pset;
+
+  log_deprecation(_("/metamessage command is deprecated. "
+                    "Set metamessage setting instead."));
 
   if (check) {
     return TRUE;
