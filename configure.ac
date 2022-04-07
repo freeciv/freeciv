@@ -179,20 +179,19 @@ for mp in $(echo $fc_mp | $SED 's/,/ /g') ; do
     modinst=auto
   elif test "x$mp" = "xall" ; then
     modinst=all
-  else if test "x$mp" = "xgtk3"   ||
-          test "x$mp" = "xgtk3.0" ||
-          test "x$mp" = "xgtk30"  ||
-          test "x$mp" = "xgtk-3.0" ; then
-      req_fcmp_gtk3=yes
-    elif test "x$mp" = "xgtk4" ; then
-      req_fcmp_gtk4=yes
-    elif test "x$mp" = "xqt" ; then
-      req_fcmp_qt=yes
-    elif test "x$mp" = "xcli" ; then
-      req_fcmp_cli=yes
-    elif test "x$mp" != "xyes" ; then
-      AC_MSG_ERROR([bad value ${mp} for --enable-fcmp])
-    fi
+  elif test "x$mp" = "xgtk3"   ||
+       test "x$mp" = "xgtk3.0" ||
+       test "x$mp" = "xgtk30"  ||
+       test "x$mp" = "xgtk-3.0" ; then
+    req_fcmp_gtk3=yes
+  elif test "x$mp" = "xgtk4" ; then
+    req_fcmp_gtk4=yes
+  elif test "x$mp" = "xqt" ; then
+    req_fcmp_qt=yes
+  elif test "x$mp" = "xcli" ; then
+    req_fcmp_cli=yes
+  elif test "x$mp" != "xyes" ; then
+    AC_MSG_ERROR([bad value ${mp} for --enable-fcmp])
   fi
 done
 
