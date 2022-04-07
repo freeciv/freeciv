@@ -95,6 +95,7 @@ tab_gov::tab_gov(ruledit_gui *ui_in) : QWidget()
   show_experimental(delete_button);
 
   refresh();
+  update_gov_info(nullptr);
 
   main_layout->addLayout(gov_layout);
 

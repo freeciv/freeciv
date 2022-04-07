@@ -95,6 +95,7 @@ tab_extras::tab_extras(ruledit_gui *ui_in) : QWidget()
   show_experimental(delete_button);
 
   refresh();
+  update_extra_info(nullptr);
 
   main_layout->addLayout(extra_layout);
 
