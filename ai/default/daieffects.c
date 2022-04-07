@@ -424,6 +424,13 @@ adv_want dai_effect_value(struct player *pplayer, struct government *gov,
     num = num_affected_units(peffect, adv);
     v += (5 * c + num);
     break;
+  case EFT_MIN_HP_PCT:
+    num = num_affected_units(peffect, adv);
+    /* Lesser value than EFT_HP_REGEN as this does not add health
+     * with full effect value, but only up to the effect value.
+     * Only badly wounded units affected at all. */
+    v += (3 * c + num);
+    break;
   case EFT_VETERAN_COMBAT:
     num = num_affected_units(peffect, adv);
     v += (2 * c + num);
