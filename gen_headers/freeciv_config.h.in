@@ -53,6 +53,9 @@
 /* Native language support enabled */
 #undef FREECIV_ENABLE_NLS
 
+/* This is crosser-based build */
+#undef FREECIV_CROSSER
+
 /* MagickWand version 7 API in use */
 #undef FREECIV_MWAND7
 
