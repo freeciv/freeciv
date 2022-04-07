@@ -284,10 +284,9 @@ static struct cityresult *cityresult_fill(struct ai_type *ait,
   bool virtual_city = FALSE;
   bool handicap = has_handicap(pplayer, H_MAP);
   struct adv_data *adv = adv_data_get(pplayer, NULL);
-  struct ai_plr *ai = dai_plr_data_get(ait, pplayer, NULL);
   struct cityresult *result;
 
-  fc_assert_ret_val(ai != NULL, NULL);
+  fc_assert_ret_val(adv != NULL, NULL);
   fc_assert_ret_val(center != NULL, NULL);
 
   pplayer->government = adv->goal.govt.gov;
