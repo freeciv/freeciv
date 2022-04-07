@@ -1,18 +1,40 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    width="600"
-   height="400">
+   height="400"
+   version="1.1"
+   id="svg6"
+   sodipodi:docname="metis.svg"
+   inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs10" />
+  <sodipodi:namedview
+     id="namedview8"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     showgrid="false"
+     inkscape:zoom="1.4672466"
+     inkscape:cx="299.88143"
+     inkscape:cy="199.69377"
+     inkscape:window-width="1105"
+     inkscape:window-height="831"
+     inkscape:window-x="478"
+     inkscape:window-y="80"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg6" />
   <rect
      fill="#000cc0"
      width="600"
-     height="400"/>
+     height="400"
+     id="rect2" />
   <path
      style="fill:#ffffff;stroke:none"
      d="M 151.6015,98.274398 C 69.654472,109.45216 29.915072,205.68682 86.519897,268.79661 C 95.505372,278.81451 105.84742,286.77824 117.93678,292.62875 C 162.51368,314.19826 217.92461,293.50222 255.00029,265.8581 C 265.96778,257.67993 276.5397,248.33912 286.26039,238.7188 C 289.51144,235.50078 294.40004,228.46475 299.48582,228.46475 C 304.55476,228.46475 309.48784,235.49596 312.71124,238.72361 C 322.50287,248.52828 332.96177,257.72933 343.97134,266.14966 C 374.9513,289.84325 419.6292,308.72607 459.39324,300.57078 C 516.92265,288.77218 553.26251,224.49253 535.44425,168.84527 C 526.28865,140.25177 504.33805,118.71839 477.42792,106.57125 C 431.49841,85.837979 382.13631,108.31037 345.17365,136.47231 C 334.36968,144.70471 324.06106,153.73708 313.91355,162.76104 C 310.38958,165.89472 304.61728,172.85002 299.48582,172.70544 C 294.88096,172.57412 290.65243,167.1465 287.4627,164.36582 C 277.49434,155.67561 267.70872,146.79021 257.40491,138.48915 C 228.6348,115.31363 190.05744,93.028823 151.6015,98.274398 z"
