@@ -893,8 +893,8 @@ static struct pf_map *pf_normal_map_new(const struct pf_parameter *parameter)
   if (NULL == params->get_costs) {
     if (!pf_normal_node_init(pfnm, node, params->start_tile, PF_MS_NONE)) {
       /* Always fails. */
-      fc_assert(TRUE == pf_normal_node_init(pfnm, node, params->start_tile,
-                                            PF_MS_NONE));
+      fc_assert(pf_normal_node_init(pfnm, node, params->start_tile,
+                                    PF_MS_NONE));
     }
 
     if (NULL != params->transported_by_initially) {
@@ -1894,8 +1894,8 @@ static struct pf_map *pf_danger_map_new(const struct pf_parameter *parameter)
   node = pfdm->lattice + tile_index(params->start_tile);
   if (!pf_danger_node_init(pfdm, node, params->start_tile, PF_MS_NONE)) {
     /* Always fails. */
-    fc_assert(TRUE == pf_danger_node_init(pfdm, node, params->start_tile,
-                                          PF_MS_NONE));
+    fc_assert(pf_danger_node_init(pfdm, node, params->start_tile,
+                                  PF_MS_NONE));
   }
 
   /* NB: do not handle params->transported_by_initially because we want to
@@ -2905,9 +2905,12 @@ static bool pf_fuel_map_iterate(struct pf_map *pfm)
 #endif
     } else {
 #ifdef PF_DEBUG
-      bool success = map_index_pq_remove(pffm->queue, &tindex);
+#ifndef FREECIV_NDEBUG
+      bool success =
+#endif
+        map_index_pq_remove(pffm->queue, &tindex);
 
-      fc_assert(TRUE == success);
+      fc_assert(success);
 #else
       map_index_pq_remove(pffm->queue, &tindex);
 #endif
@@ -3117,8 +3120,8 @@ static struct pf_map *pf_fuel_map_new(const struct pf_parameter *parameter)
   node = pffm->lattice + tile_index(params->start_tile);
   if (!pf_fuel_node_init(pffm, node, params->start_tile, PF_MS_NONE)) {
     /* Always fails. */
-    fc_assert(TRUE == pf_fuel_node_init(pffm, node, params->start_tile,
-                                        PF_MS_NONE));
+    fc_assert(pf_fuel_node_init(pffm, node, params->start_tile,
+                                PF_MS_NONE));
   }
 
   /* NB: do not handle params->transported_by_initially because we want to
@@ -3618,7 +3621,7 @@ static bool pf_pos_hash_cmp(const struct pf_parameter *parameter1,
 
   if (!parameter1->omniscience) {
 #ifdef PF_DEBUG
-    fc_assert(parameter2->omniscience == FALSE);
+    fc_assert(!parameter2->omniscience);
 #endif
     if (parameter1->utype->unknown_move_cost
         != parameter2->utype->unknown_move_cost) {

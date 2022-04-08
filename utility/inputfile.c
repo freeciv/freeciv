@@ -184,10 +184,10 @@ static bool inf_sanity_check(struct inputfile *inf)
   fc_assert_ret_val(NULL != inf, FALSE);
   fc_assert_ret_val(INF_MAGIC == inf->magic, FALSE);
   fc_assert_ret_val(NULL != inf->fp, FALSE);
-  fc_assert_ret_val(FALSE == inf->at_eof
-                    || TRUE == inf->at_eof, FALSE);
-  fc_assert_ret_val(FALSE == inf->in_string
-                    || TRUE == inf->in_string, FALSE);
+  fc_assert_ret_val(!inf->at_eof
+                    || inf->at_eof, FALSE);
+  fc_assert_ret_val(!inf->in_string
+                    || inf->in_string, FALSE);
 
 #ifdef FREECIV_DEBUG
   fc_assert_ret_val(0 <= inf->string_start_line, FALSE);

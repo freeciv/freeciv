@@ -5100,7 +5100,7 @@ static void settings_list_init(void)
   struct setting *pset;
   int i;
 
-  fc_assert_ret(setting_sorted.init == FALSE);
+  fc_assert_ret(!setting_sorted.init);
 
   /* Do it for all values of enum sset_level. */
   for (i = 0; i < OLEVELS_NUM; i++) {
@@ -5158,7 +5158,7 @@ void settings_list_update(void)
   struct setting *pset;
   int i;
 
-  fc_assert_ret(setting_sorted.init == TRUE);
+  fc_assert_ret(setting_sorted.init);
 
   /* Clear the lists for changed and locked values. */
   setting_list_clear(setting_sorted.level[SSET_CHANGED]);
@@ -5197,7 +5197,7 @@ int settings_list_cmp(const struct setting *const *ppset1,
 *****************************************************************************/
 struct setting_list *settings_list_get(enum sset_level level)
 {
-  fc_assert_ret_val(setting_sorted.init == TRUE, NULL);
+  fc_assert_ret_val(setting_sorted.init, NULL);
   fc_assert_ret_val(setting_sorted.level[level] != NULL, NULL);
   fc_assert_ret_val(sset_level_is_valid(level), NULL);
 
@@ -5211,7 +5211,7 @@ static void settings_list_free(void)
 {
   int i;
 
-  fc_assert_ret(setting_sorted.init == TRUE);
+  fc_assert_ret(setting_sorted.init);
 
   /* Free the lists. */
   for (i = 0; i < OLEVELS_NUM; i++) {

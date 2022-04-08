@@ -894,7 +894,7 @@ static void goto_fill_parameter_base(struct pf_parameter *parameter,
   fc_assert(parameter->get_TB == NULL);
   fc_assert(parameter->get_MC != NULL);
   fc_assert(parameter->start_tile == unit_tile(punit));
-  fc_assert(parameter->omniscience == FALSE);
+  fc_assert(!parameter->omniscience);
 
   parameter->get_EC = get_EC;
   if (utype_acts_hostile(unit_type_get(punit))) {

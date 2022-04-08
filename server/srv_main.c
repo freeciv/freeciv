@@ -3151,7 +3151,7 @@ static void srv_ready(void)
           fc_assert_action(pset != NULL, continue);
           success = setting_enum_set(pset, mapgen_settings[set].value,
                                      NULL, error, sizeof(error));
-          fc_assert_msg(success == TRUE,
+          fc_assert_msg(success,
                         "Failed to restore '%s': %s",
                         mapgen_settings[set].name,
                         error);

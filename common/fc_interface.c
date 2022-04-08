@@ -42,7 +42,7 @@ bool fc_funcs_defined = FALSE;
 **************************************************************************/
 struct functions *fc_interface_funcs(void)
 {
-  fc_assert_exit(fc_funcs_defined == FALSE);
+  fc_assert_exit(!fc_funcs_defined);
 
   return &fc_functions;
 }
