@@ -2463,7 +2463,7 @@ void player_nation_defaults(struct player *pplayer, struct nation_type *pnation,
   with "create <PlayerName>".
 
   If a player's name matches one of the leader names for some nation, and
-  that nation is available, choose that nation, and set the player sex
+  that nation is available, choose that nation, and set the leader sex
   appropriately. For example, when the Britons have not been chosen by
   anyone else, a player called Boudica whose nation has not been specified
   (for instance if they were created with "create Boudica") will become
