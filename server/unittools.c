@@ -3633,7 +3633,7 @@ static struct unit_move_data *unit_move_data(struct unit *punit,
   /* Remove unit from the source tile. */
   fc_assert(unit_tile(punit) == psrctile);
   success = unit_list_remove(psrctile->units, punit);
-  fc_assert(success == TRUE);
+  fc_assert(success);
 
   /* Set new tile. */
   unit_tile_set(punit, pdesttile);
@@ -4583,7 +4583,7 @@ bool execute_orders(struct unit *punit, const bool fresh)
     }
 
     if (last_order) {
-      fc_assert(punit->has_orders == FALSE);
+      fc_assert(!punit->has_orders);
       log_debug("  stopping because orders are complete");
       return TRUE;
     }

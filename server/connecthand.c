@@ -498,7 +498,7 @@ void lost_connection_to_client(struct connection *pconn)
 {
   const char *desc = conn_description(pconn);
 
-  fc_assert_ret(TRUE == pconn->server.is_closing);
+  fc_assert_ret(pconn->server.is_closing);
 
   log_normal(_("Lost connection: %s."), desc);
 
@@ -851,7 +851,7 @@ void connection_detach(struct connection *pconn, bool remove_unused_player)
 bool connection_delegate_take(struct connection *pconn,
                               struct player *dplayer)
 {
-  fc_assert_ret_val(pconn->server.delegation.status == FALSE, FALSE);
+  fc_assert_ret_val(!pconn->server.delegation.status, FALSE);
 
   /* Save the original player of this connection and the original username of
    * the player. */
