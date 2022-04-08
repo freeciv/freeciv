@@ -157,7 +157,7 @@ if ! mv $INSTDIR/bin/* $INSTDIR/ ||
    ! mv $INSTDIR/share/freeciv $INSTDIR/data ||
    ! mv $INSTDIR/share/doc $INSTDIR/ ||
    ! mkdir -p $INSTDIR/doc/freeciv/installer ||
-   ! cp licenses/COPYING.installer $INSTDIR/doc/freeciv/installer/ ||
+   ! cat licenses/header.txt ../../COPYING > $INSTDIR/doc/freeciv/installer/COPYING.installer ||
    ! rm -Rf $INSTDIR/lib ||
    ! cp Freeciv.url $INSTDIR/
 then

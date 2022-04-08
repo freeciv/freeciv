@@ -105,7 +105,7 @@ install-freeciv-common: configure-freeciv-common
 	mkdir -p install-$(WINARCH)-$(GUI)/debuginfo
 	cp build-$(WINARCH)-$(GUI)/gen_headers/fc_config.h install-$(WINARCH)-$(GUI)/debuginfo
 	mkdir -p install-$(WINARCH)-$(GUI)/doc/freeciv/installer
-	cp licenses/COPYING.installer install-$(WINARCH)-$(GUI)/doc/freeciv/installer/
+	cat licenses/header.txt ../../COPYING > install-$(WINARCH)-$(GUI)/doc/freeciv/installer/COPYING.installer
 	# delete unneeded files
 	rm -r install-$(WINARCH)-$(GUI)/$(INSTSUB)
 	# strip 'freeciv-manual' and 'freeciv-mp-<gui>' executables
@@ -144,7 +144,7 @@ install-ruledit: configure-freeciv-ruledit install-ruledit-dir
 	mkdir -p install-$(WINARCH)-ruledit/debuginfo
 	cp build-$(WINARCH)-ruledit/gen_headers/fc_config.h install-$(WINARCH)-ruledit/debuginfo
 	mkdir -p install-$(WINARCH)-ruledit/doc/freeciv/installer
-	cp licenses/COPYING.installer install-$(WINARCH)-ruledit/doc/freeciv/installer/
+	cat licenses/header.txt ../../COPYING > install-$(WINARCH)-ruledit/doc/freeciv/installer/COPYING.installer
 	# delete unneeded files
 	rm -r install-$(WINARCH)-ruledit/$(INSTSUB)
 	# strip 'freeciv-ruledit' executable
