@@ -2932,7 +2932,7 @@ static bool save_units_ruleset(const char *filename, const char *name)
         if (preq->source.kind == VUT_GOVERNMENT) {
           fc_assert_msg(preq->range == REQ_RANGE_PLAYER,
                         "can't convert non player range to the rs format");
-          fc_assert_msg(preq->present == TRUE,
+          fc_assert_msg(preq->present,
                         "can't convert not present reqs to the rs format");
           secfile_insert_str(sfile,
                              universal_rule_name(&preq->source),
@@ -2949,7 +2949,7 @@ static bool save_units_ruleset(const char *filename, const char *name)
         if (preq->source.kind == VUT_IMPROVEMENT) {
           fc_assert_msg(preq->range == REQ_RANGE_CITY,
                         "can't convert non player range to the rs format");
-          fc_assert_msg(preq->present == TRUE,
+          fc_assert_msg(preq->present,
                         "can't convert not present reqs to the rs format");
           secfile_insert_str(sfile,
                              universal_rule_name(&preq->source),

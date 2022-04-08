@@ -6313,11 +6313,11 @@ static void mapimg_changed_callback(struct option *poption)
 
     /* Reset the value to the default value. */
     success = option_reset(poption);
-    fc_assert_msg(success == TRUE,
+    fc_assert_msg(success,
                   "Failed to reset the option \"%s\".",
                   option_name(poption));
     success = mapimg_client_define();
-    fc_assert_msg(success == TRUE,
+    fc_assert_msg(success,
                   "Failed to restore mapimg definition for option \"%s\".",
                   option_name(poption));
   }
