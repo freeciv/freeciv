@@ -4257,7 +4257,7 @@ static bool playernation_command(struct connection *caller,
     if (ntokens < 3) {
       cmd_reply(CMD_PLAYERNATION, caller, C_FAIL,
              /* TRANS: Nation resetting form of /playernation does not require sex */
-                _("Player sex must be given when setting nation."));
+                _("Leader sex must be given when setting nation."));
       free_tokens(token, ntokens);
       return FALSE;
     }
