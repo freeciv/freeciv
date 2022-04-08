@@ -10,6 +10,7 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
+
 #ifdef HAVE_CONFIG_H
 #include <fc_config.h>
 #endif
@@ -54,6 +55,7 @@
 #include "support.h"
 
 /* client */
+#include "attribute.h"
 #include "client_main.h"
 #include "climisc.h"
 #include "clinet.h"		/* connect_to_server() */
@@ -719,7 +721,9 @@ void handle_single_want_hack_reply(bool you_have_hack)
 send server command to save game.
 *****************************************************************/ 
 void send_save_game(const char *filename)
-{   
+{
+  attribute_flush();
+
   if (filename) {
     send_chat_printf("/save %s", filename);
   } else {
