@@ -1,0 +1,7 @@
+Freeciv is released under the GNU General Public License (version 2
+or, at your option, any later version).  In short, you may copy this
+program (including source) freely, but see the full license text
+below for full details.
+
+-----------------------------------------------------------------------------
+
