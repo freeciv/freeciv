@@ -9,7 +9,7 @@ dist_noinst_DATA = \
 		mpicon.rc	\
 		rulediticon.rc	\
 		servericon.rc	\
-		installer_msys2/licenses/COPYING.installer	\
+		installer_msys2/licenses/header.txt		\
 		installer_msys2/create-freeciv-gtk-qt-nsi.sh	\
 		installer_msys2/create-freeciv-gtk3.22-nsi.sh	\
 		installer_msys2/create-freeciv-qt5-nsi.sh	\
@@ -43,7 +43,7 @@ dist_noinst_DATA = \
 		installer_cross/freeciv-mp-qt.cmd		\
 		installer_cross/freeciv-sdl2.cmd		\
 		installer_cross/freeciv-ruledit.cmd		\
-		installer_cross/licenses/COPYING.installer	\
+		installer_cross/licenses/header.txt		\
 		installer_cross/helpers/installer-helper-gtk3.cmd \
 		installer_cross/helpers/installer-helper-gtk4.cmd \
 		installer_cross/helpers/installer-helper-qt.cmd \

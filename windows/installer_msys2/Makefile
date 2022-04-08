@@ -138,7 +138,7 @@ install-freeciv-common: configure-freeciv-common
 	mkdir -p install-$(WINARCH)-$(GUI)/debuginfo
 	cp build-$(WINARCH)-$(GUI)/gen_headers/fc_config.h install-$(WINARCH)-$(GUI)/debuginfo
 	mkdir -p install-$(WINARCH)-$(GUI)/doc/freeciv/installer
-	cp licenses/COPYING.installer install-$(WINARCH)-$(GUI)/doc/freeciv/installer/
+	cat licenses/header.txt ../../COPYING > install-$(WINARCH)-$(GUI)/doc/freeciv/installer/COPYING.installer
 	# delete unneeded files
 	rm -r install-$(WINARCH)-$(GUI)/$(INSTSUB)
 	# strip 'freeciv-manual' and 'freeciv-mp-<gui>' executables
@@ -183,7 +183,7 @@ install-ruledit-qt5: configure-freeciv-ruledit-qt5 install-ruledit-dir-qt5
 	mkdir -p install-$(WINARCH)-ruledit-qt5/debuginfo
 	cp build-$(WINARCH)-ruledit-qt5/gen_headers/fc_config.h install-$(WINARCH)-ruledit-qt5/debuginfo
 	mkdir -p install-$(WINARCH)-ruledit-qt5/doc/freeciv/installer
-	cp licenses/COPYING.installer install-$(WINARCH)-ruledit-qt5/doc/freeciv/installer/
+	cat licenses/header.txt ../../COPYING > install-$(WINARCH)-ruledit-qt5/doc/freeciv/installer/COPYING.installer
 	# delete unneeded files
 	rm -r install-$(WINARCH)-ruledit-qt5/$(INSTSUB)
 	# strip 'freeciv-ruledit' executable
@@ -208,7 +208,7 @@ install-ruledit-qt6: configure-freeciv-ruledit-qt6 install-ruledit-dir-qt6
 	mkdir -p install-$(WINARCH)-ruledit-qt6/debuginfo
 	cp build-$(WINARCH)-ruledit-qt6/gen_headers/fc_config.h install-$(WINARCH)-ruledit-qt6/debuginfo
 	mkdir -p install-$(WINARCH)-ruledit-qt6/doc/freeciv/installer
-	cp licenses/COPYING.installer install-$(WINARCH)-ruledit-qt6/doc/freeciv/installer/
+	cat licenses/header.txt ../../COPYING > install-$(WINARCH)-ruledit-qt6/doc/freeciv/installer/COPYING.installer
 	# delete unneeded files
 	rm -r install-$(WINARCH)-ruledit-qt6/$(INSTSUB)
 	# strip 'freeciv-ruledit' executable

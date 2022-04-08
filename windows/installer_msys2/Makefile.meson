@@ -58,7 +58,7 @@ install-freeciv-common:
 	mv meson-install-$(GUI)/share/freeciv meson-install-$(GUI)/data
 	mv meson-install-$(GUI)/share/doc meson-install-$(GUI)/
 	mkdir -p meson-install-$(GUI)/doc/freeciv/installer
-	cp licenses/COPYING.installer meson-install-$(GUI)/doc/freeciv/installer/
+	cat licenses/header.txt ../../COPYING > meson-install-$(GUI)/doc/freeciv/installer/COPYING.installer
 	cp freeciv-server.cmd freeciv-mp-$(FCMP).cmd freeciv-$(CLIENT).cmd Freeciv.url meson-install-$(GUI)/
 
 SOUND_DLLS := \
