@@ -140,15 +140,17 @@ function _freeciv_state_dump()
     elseif type(v) == 'userdata' then
       local method = string.lower(tolua.type(v))
 
-      res = res .. k .. '=find.' .. method
-      if method == 'city' or method == 'unit' then
-        res = res .. '(nil,' .. string.format("%d", v.id) .. ')'
-      elseif v.id then
-        res = res .. '(' .. string.format("%d", v.id) .. ')'
-      else
-        res = res .. '()'
+      if method ~= 'direction' then
+        res = res .. k .. '=find.' .. method
+        if method == 'city' or method == 'unit' then
+          res = res .. '(nil,' .. string.format("%d", v.id) .. ')'
+        elseif v.id then
+          res = res .. '(' .. string.format("%d", v.id) .. ')'
+        else
+          res = res .. '()'
+        end
+        res = res .. '\n'
       end
-      res = res .. '\n'
     end
   end
 
