@@ -315,10 +315,15 @@ int effect_cumulative_max(enum effect_type type, struct universal *for_uni)
 
   if (plist) {
     effect_list_iterate(plist, peffect) {
-      if (peffect->type == type && peffect->value > 0) {
-        if (for_uni == NULL
-            || universal_fulfills_requirements(FALSE, &(peffect->reqs),
-                                               for_uni)) {
+      if (peffect->type == type) {
+        if (peffect->value > 0) {
+          if (for_uni == NULL
+              || universal_fulfills_requirements(FALSE, &(peffect->reqs),
+                                                 for_uni)) {
+            value += peffect->value;
+          }
+        } else if (requirement_vector_size(&peffect->reqs) == 0) {
+          /* Always active negative effect */
           value += peffect->value;
         }
       }
@@ -342,10 +347,15 @@ int effect_cumulative_min(enum effect_type type, struct universal *for_uni)
 
   if (plist) {
     effect_list_iterate(plist, peffect) {
-      if (peffect->type == type && peffect->value < 0) {
-        if (for_uni == NULL
-            || universal_fulfills_requirements(FALSE, &(peffect->reqs),
-                                               for_uni)) {
+      if (peffect->type == type) {
+        if (peffect->value < 0) {
+          if (for_uni == NULL
+              || universal_fulfills_requirements(FALSE, &(peffect->reqs),
+                                                 for_uni)) {
+            value += peffect->value;
+          }
+        } else if (requirement_vector_size(&peffect->reqs) == 0) {
+          /* Always active positive effect */
           value += peffect->value;
         }
       }
