@@ -1,6 +1,6 @@
 #!/bin/sh
 
-files=`find $1 -name "*.c" -o -name "*.h" | sort`
+files=`find $1 -name "*.c" -o -name "*.h" -o -name "*.cpp" | sort`
 
 # helper variables
 RES_ERR1="" # header files including fcintl.h
