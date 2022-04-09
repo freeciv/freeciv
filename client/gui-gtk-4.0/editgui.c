@@ -942,21 +942,15 @@ static int convert_mouse_button(int gdk_mouse_button)
 /************************************************************************//**
   Pass on the gdk mouse event to the editor's handler.
 ****************************************************************************/
-gboolean handle_edit_mouse_button_press(GdkEvent *ev)
+gboolean handle_edit_mouse_button_press(GtkGestureClick *gesture,
+                                        int editor_mouse_button,
+                                        double x, double y)
 {
-  gdouble e_x, e_y;
-  guint button;
   GdkModifierType state;
 
-  if (gdk_event_get_event_type(ev) != GDK_BUTTON_PRESS) {
-    return TRUE;
-  }
-
-  gdk_event_get_position(ev, &e_x, &e_y);
-  button = gdk_button_event_get_button(ev);
-  state = gdk_event_get_modifier_state(ev);
-  editor_mouse_button_press(e_x, e_y,
-                            convert_mouse_button(button),
+  state = gtk_event_controller_get_current_event_state(
+                            GTK_EVENT_CONTROLLER(gesture));
+  editor_mouse_button_press(x, y, editor_mouse_button,
                             convert_modifiers(state));
 
   return TRUE;

@@ -64,14 +64,12 @@ extern gint cur_x, cur_y;
   Popup a label with information about the tile, unit, city, when the user
   used the middle mouse button on the map.
 **************************************************************************/
-static void popit(GdkEvent *ev, struct tile *ptile)
+static void popit(struct tile *ptile)
 {
   GtkWidget *p;
   struct unit *punit;
 
   if (TILE_UNKNOWN != client_tile_get_known(ptile)) {
-    gdouble e_x, e_y;
-
     p = gtk_window_new();
     gtk_widget_set_margin_start(p, 4);
     gtk_widget_set_margin_end(p, 4);
@@ -92,9 +90,6 @@ static void popit(GdkEvent *ev, struct tile *ptile)
 
     g_signal_connect(p, "destroy",
                      G_CALLBACK(popupinfo_popdown_callback), NULL);
-
-
-    gdk_event_get_position(ev, &e_x, &e_y);
 
     gtk_widget_show(p);
   }
@@ -181,19 +176,18 @@ gboolean butt_release_mapcanvas(GtkWidget *w, GdkEvent *ev, gpointer data)
 }
 
 /**********************************************************************//**
-  Handle all mouse button press on canvas.
+  Handle all left mouse button presses on canvas.
   Future feature: User-configurable mouse clicks.
 **************************************************************************/
-gboolean butt_down_mapcanvas(GtkWidget *w, GdkEvent *ev, gpointer data)
+gboolean left_butt_down_mapcanvas(GtkGestureClick *gesture, int n_press,
+                                  double x, double y)
 {
-  struct city *pcity = NULL;
   struct tile *ptile = NULL;
-  gdouble e_x, e_y;
-  guint button;
   GdkModifierType state;
 
   if (editor_is_active()) {
-    return handle_edit_mouse_button_press(ev);
+    return handle_edit_mouse_button_press(gesture, MOUSE_BUTTON_LEFT,
+                                          x, y);
   }
 
   if (!can_client_change_view()) {
@@ -201,101 +195,140 @@ gboolean butt_down_mapcanvas(GtkWidget *w, GdkEvent *ev, gpointer data)
   }
 
   gtk_widget_grab_focus(map_canvas);
-  gdk_event_get_position(ev, &e_x, &e_y);
-  ptile = canvas_pos_to_tile(e_x, e_y);
+  ptile = canvas_pos_to_tile(x, y);
+
+  state = gtk_event_controller_get_current_event_state(GTK_EVENT_CONTROLLER(gesture));
+
+  /* <SHIFT> + <CONTROL> + LMB : Adjust workers. */
+  if ((state & GDK_SHIFT_MASK) && (state & GDK_CONTROL_MASK)) {
+    adjust_workers_button_pressed(x, y);
+  } else if (state & GDK_CONTROL_MASK) {
+    /* <CONTROL> + LMB : Quickselect a sea unit. */
+    action_button_pressed(x, y, SELECT_SEA);
+  } else if (ptile && (state & GDK_SHIFT_MASK)) {
+    /* <SHIFT> + LMB: Append focus unit. */
+    action_button_pressed(x, y, SELECT_APPEND);
+  } else if (ptile && (state & GDK_ALT_MASK)) {
+    /* <ALT> + LMB: popit (same as middle-click) */
+    /* FIXME: we need a general mechanism for letting freeciv work with
+     * 1- or 2-button mice. */
+    popit(ptile);
+  } else if (tiles_hilited_cities) {
+    /* LMB in Area Selection mode. */
+    if (ptile) {
+      toggle_tile_hilite(ptile);
+    }
+  } else if (rally_set_tile(ptile)) {
+    /* Nothing here, rally_set_tile() already did what we wanted */
+  } else if (infra_placement_mode()) {
+    infra_placement_set_tile(ptile);
+  } else {
+    /* Plain LMB click. */
+    action_button_pressed(x, y, SELECT_POPUP);
+  }
+
+  return TRUE;
+}
+
+/**********************************************************************//**
+  Handle all right mouse button presses on canvas.
+  Future feature: User-configurable mouse clicks.
+**************************************************************************/
+gboolean right_butt_down_mapcanvas(GtkGestureClick *gesture, int n_press,
+                                   double x, double y)
+{
+  struct city *pcity = NULL;
+  struct tile *ptile = NULL;
+  GdkModifierType state;
+
+  if (editor_is_active()) {
+    return handle_edit_mouse_button_press(gesture, MOUSE_BUTTON_RIGHT,
+                                          x, y);
+  }
+
+  if (!can_client_change_view()) {
+    return TRUE;
+  }
+
+  gtk_widget_grab_focus(map_canvas);
+  ptile = canvas_pos_to_tile(x, y);
   pcity = ptile ? tile_city(ptile) : NULL;
 
-  button = gdk_button_event_get_button(ev);
-  state = gdk_event_get_modifier_state(ev);
+  state = gtk_event_controller_get_current_event_state(
+                                    GTK_EVENT_CONTROLLER(gesture));
 
-  switch (button) {
+  /* <CONTROL> + <ALT> + RMB : insert city or tile chat link. */
+  /* <CONTROL> + <ALT> + <SHIFT> + RMB : insert unit chat link. */
+  if (ptile && (state & GDK_ALT_MASK)
+      && (state & GDK_CONTROL_MASK)) {
+    inputline_make_chat_link(ptile, (state & GDK_SHIFT_MASK) != 0);
+  } else if ((state & GDK_SHIFT_MASK) && (state & GDK_ALT_MASK)) {
+    /* <SHIFT> + <ALT> + RMB : Show/hide workers. */
+    key_city_overlay(x, y);
+  } else if ((state & GDK_SHIFT_MASK) && (state & GDK_CONTROL_MASK)
+             && pcity != NULL) {
+    /* <SHIFT + CONTROL> + RMB: Paste Production. */
+    clipboard_paste_production(pcity);
+    cancel_tile_hiliting();
+  } else if (state & GDK_SHIFT_MASK
+             && clipboard_copy_production(ptile)) {
+    /* <SHIFT> + RMB on city/unit: Copy Production. */
+    /* If nothing to copy, fall through to rectangle selection. */
 
-  case 1: /* LEFT mouse button */
-
-    /* <SHIFT> + <CONTROL> + LMB : Adjust workers. */
-    if ((state & GDK_SHIFT_MASK) && (state & GDK_CONTROL_MASK)) {
-      adjust_workers_button_pressed(e_x, e_y);
-    } else if (state & GDK_CONTROL_MASK) {
-      /* <CONTROL> + LMB : Quickselect a sea unit. */
-      action_button_pressed(e_x, e_y, SELECT_SEA);
-    } else if (ptile && (state & GDK_SHIFT_MASK)) {
-      /* <SHIFT> + LMB: Append focus unit. */
-      action_button_pressed(e_x, e_y, SELECT_APPEND);
-    } else if (ptile && (state & GDK_ALT_MASK)) {
-      /* <ALT> + LMB: popit (same as middle-click) */
-      /* FIXME: we need a general mechanism for letting freeciv work with
-       * 1- or 2-button mice. */
-      popit(ev, ptile);
-    } else if (tiles_hilited_cities) {
-      /* LMB in Area Selection mode. */
-      if (ptile) {
-        toggle_tile_hilite(ptile);
-      }
-    } else if (rally_set_tile(ptile)) {
-      /* Nothing here, rally_set_tile() already did what we wanted */
-    } else if (infra_placement_mode()) {
-      infra_placement_set_tile(ptile);
-    } else {
-      /* Plain LMB click. */
-      action_button_pressed(e_x, e_y, SELECT_POPUP);
+    /* Already done the copy */
+  } else if (state & GDK_CONTROL_MASK) {
+    /* <CONTROL> + RMB : Quickselect a land unit. */
+    action_button_pressed(x, y, SELECT_LAND);
+  } else {
+    /* Plain RMB click. Area selection. */
+    /*  A foolproof user will depress button on canvas,
+     *  release it on another widget, and return to canvas
+     *  to find rectangle still active.
+     */
+    if (rectangle_active) {
+      release_right_button(x, y,
+                           (state & GDK_SHIFT_MASK) != 0);
+      return TRUE;
     }
-    break;
-
-  case 2: /* MIDDLE mouse button */
-
-    /* <CONTROL> + MMB: Wake up sentries. */
-    if (state & GDK_CONTROL_MASK) {
-      wakeup_button_pressed(e_x, e_y);
-    } else if (ptile) {
-      /* Plain Middle click. */
-      popit(ev, ptile);
+    if (hover_state == HOVER_NONE) {
+      anchor_selection_rectangle(x, y);
+      rbutton_down = TRUE; /* causes rectangle updates */
     }
-    break;
+  }
 
-  case 3: /* RIGHT mouse button */
+  return TRUE;
+}
 
-    /* <CONTROL> + <ALT> + RMB : insert city or tile chat link. */
-    /* <CONTROL> + <ALT> + <SHIFT> + RMB : insert unit chat link. */
-    if (ptile && (state & GDK_ALT_MASK)
-        && (state & GDK_CONTROL_MASK)) {
-      inputline_make_chat_link(ptile, (state & GDK_SHIFT_MASK) != 0);
-    } else if ((state & GDK_SHIFT_MASK) && (state & GDK_ALT_MASK)) {
-      /* <SHIFT> + <ALT> + RMB : Show/hide workers. */
-      key_city_overlay(e_x, e_y);
-    } else if ((state & GDK_SHIFT_MASK) && (state & GDK_CONTROL_MASK)
-               && pcity != NULL) {
-      /* <SHIFT + CONTROL> + RMB: Paste Production. */
-      clipboard_paste_production(pcity);
-      cancel_tile_hiliting();
-    } else if (state & GDK_SHIFT_MASK
-               && clipboard_copy_production(ptile)) {
-      /* <SHIFT> + RMB on city/unit: Copy Production. */
-      /* If nothing to copy, fall through to rectangle selection. */
+/**********************************************************************//**
+  Handle all middle mouse button presses on canvas.
+  Future feature: User-configurable mouse clicks.
+**************************************************************************/
+gboolean middle_butt_down_mapcanvas(GtkGestureClick *gesture, int n_press,
+                                    double x, double y)
+{
+  struct tile *ptile = NULL;
+  GdkModifierType state;
 
-      /* Already done the copy */
-    } else if (state & GDK_CONTROL_MASK) {
-      /* <CONTROL> + RMB : Quickselect a land unit. */
-      action_button_pressed(e_x, e_y, SELECT_LAND);
-    } else {
-      /* Plain RMB click. Area selection. */
-      /*  A foolproof user will depress button on canvas,
-       *  release it on another widget, and return to canvas
-       *  to find rectangle still active.
-       */
-      if (rectangle_active) {
-        release_right_button(e_x, e_y,
-                             (state & GDK_SHIFT_MASK) != 0);
-        return TRUE;
-      }
-      if (hover_state == HOVER_NONE) {
-        anchor_selection_rectangle(e_x, e_y);
-        rbutton_down = TRUE; /* causes rectangle updates */
-      }
-    }
-    break;
+  if (editor_is_active()) {
+    return handle_edit_mouse_button_press(gesture, MOUSE_BUTTON_MIDDLE,
+                                          x, y);
+  }
 
-  default:
-    break;
+  if (!can_client_change_view()) {
+    return TRUE;
+  }
+
+  gtk_widget_grab_focus(map_canvas);
+  ptile = canvas_pos_to_tile(x, y);
+
+  state = gtk_event_controller_get_current_event_state(GTK_EVENT_CONTROLLER(gesture));
+
+  /* <CONTROL> + MMB: Wake up sentries. */
+  if (state & GDK_CONTROL_MASK) {
+    wakeup_button_pressed(x, y);
+  } else if (ptile) {
+    /* Plain Middle click. */
+    popit(ptile);
   }
 
   return TRUE;
