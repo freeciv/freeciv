@@ -1504,7 +1504,6 @@ static void sg_load_game(struct loaddata *loading)
 {
   int game_version;
   const char *string;
-  const char *level;
   int i;
 
   /* Check status and return if not OK (sg_success != TRUE). */
@@ -1554,25 +1553,6 @@ static void sg_load_game(struct loaddata *loading)
    * so that we can generate new game_identifier, if needed.
    * See sq_load_sanitycheck(). */
 
-  level = secfile_lookup_str_default(loading->file, NULL,
-                                     "game.level");
-  if (level != NULL) {
-    if (!fc_strcasecmp("Handicapped", level)) {
-      /* Up to freeciv-3.1 Restricted AI level was known as Handicapped */
-      game.info.skill_level = AI_LEVEL_RESTRICTED;
-    } else {
-      game.info.skill_level = ai_level_by_name(level, fc_strcasecmp);
-    }
-  } else {
-    game.info.skill_level = ai_level_invalid();
-  }
-
-  if (!ai_level_is_valid(game.info.skill_level)) {
-    game.info.skill_level
-      = ai_level_convert(secfile_lookup_int_default(loading->file,
-                                                    GAME_HARDCODED_DEFAULT_SKILL_LEVEL,
-                                                    "game.skill_level"));
-  }
   game.info.phase_mode
     = secfile_lookup_int_default(loading->file, GAME_DEFAULT_PHASE_MODE,
                                  "game.phase_mode");

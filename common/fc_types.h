@@ -467,24 +467,29 @@ const char *ai_level_name_update_cb(const char *old);
 /* Used in the network protocol. */
 /* server/commands.c must match these */
 #define SPECENUM_NAME ai_level
-#define SPECENUM_VALUE0 AI_LEVEL_AWAY
-#define SPECENUM_VALUE0NAME N_("Away")
-#define SPECENUM_VALUE1 AI_LEVEL_RESTRICTED
-#define SPECENUM_VALUE1NAME N_("Restricted")
-#define SPECENUM_VALUE2 AI_LEVEL_NOVICE
-#define SPECENUM_VALUE2NAME N_("Novice")
-#define SPECENUM_VALUE3 AI_LEVEL_EASY
-#define SPECENUM_VALUE3NAME N_("Easy")
-#define SPECENUM_VALUE4 AI_LEVEL_NORMAL
-#define SPECENUM_VALUE4NAME N_("Normal")
-#define SPECENUM_VALUE5 AI_LEVEL_HARD
-#define SPECENUM_VALUE5NAME N_("Hard")
-#define SPECENUM_VALUE6 AI_LEVEL_CHEATING
-#define SPECENUM_VALUE6NAME N_("Cheating")
+#define SPECENUM_VALUE0 AI_LEVEL_RESTRICTED
+#define SPECENUM_VALUE0NAME N_("Restricted")
+#define SPECENUM_VALUE1 AI_LEVEL_NOVICE
+#define SPECENUM_VALUE1NAME N_("Novice")
+#define SPECENUM_VALUE2 AI_LEVEL_EASY
+#define SPECENUM_VALUE2NAME N_("Easy")
+#define SPECENUM_VALUE3 AI_LEVEL_NORMAL
+#define SPECENUM_VALUE3NAME N_("Normal")
+#define SPECENUM_VALUE4 AI_LEVEL_HARD
+#define SPECENUM_VALUE4NAME N_("Hard")
+#define SPECENUM_VALUE5 AI_LEVEL_CHEATING
+#define SPECENUM_VALUE5NAME N_("Cheating")
 
 #ifdef FREECIV_DEBUG
-#define SPECENUM_VALUE7 AI_LEVEL_EXPERIMENTAL
-#define SPECENUM_VALUE7NAME N_("Experimental")
+#define SPECENUM_VALUE6 AI_LEVEL_EXPERIMENTAL
+#define SPECENUM_VALUE6NAME N_("Experimental")
+/* Away must be the last, so ailevel_name() can terminate list
+ * of level names before it. */
+#define SPECENUM_VALUE7 AI_LEVEL_AWAY
+#define SPECENUM_VALUE7NAME N_("Away")
+#else  /* FREECIV_DEBUG */
+#define SPECENUM_VALUE6 AI_LEVEL_AWAY
+#define SPECENUM_VALUE6NAME N_("Away")
 #endif /* FREECIV_DEBUG */
 
 #define SPECENUM_COUNT AI_LEVEL_COUNT

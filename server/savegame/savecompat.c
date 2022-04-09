@@ -1890,6 +1890,8 @@ static void compat_load_030200(struct loaddata *loading,
 {
   int i;
   int count;
+  int set_count;
+  bool gamestart_valid = FALSE;
 
   /* Check status and return if not OK (sg_success != TRUE). */
   sg_check_ret();
@@ -1898,10 +1900,8 @@ static void compat_load_030200(struct loaddata *loading,
 
   /* Server setting migration. */
   {
-    int set_count;
-
     if (secfile_lookup_int(loading->file, &set_count, "settings.set_count")) {
-      bool gamestart_valid
+      gamestart_valid
         = secfile_lookup_bool_default(loading->file, FALSE,
                                       "settings.gamestart_valid");
 
@@ -1962,6 +1962,38 @@ static void compat_load_030200(struct loaddata *loading,
         }
       }
     }
+  }
+
+  {
+    /* Turn old AI level field to a setting. */
+    const char *level;
+    enum ai_level lvl;
+
+    level = secfile_lookup_str_default(loading->file, NULL, "game.level");
+    if (level != NULL && !fc_strcasecmp("Handicapped", level)) {
+      /* Up to freeciv-3.1 Restricted AI level was known as Handicapped */
+      lvl = AI_LEVEL_RESTRICTED;
+    } else {
+      lvl = ai_level_by_name(level, fc_strcasecmp);
+    }
+
+    if (!ai_level_is_valid(lvl)) {
+      log_sg("Invalid AI level \"%s\". "
+             "Changed to \"%s\".", level,
+             ai_level_name(GAME_HARDCODED_DEFAULT_SKILL_LEVEL));
+      lvl = GAME_HARDCODED_DEFAULT_SKILL_LEVEL;
+    }
+
+    secfile_insert_str(loading->file, "ailevel", "settings.set%d.name", set_count);
+    secfile_insert_enum(loading->file, lvl, ai_level, "settings.set%d.value", set_count);
+
+    if (gamestart_valid) {
+      secfile_insert_enum(loading->file, lvl, ai_level, "settings.set%d.gamestart",
+                          set_count);
+    }
+
+    set_count++;
+    secfile_replace_int(loading->file, set_count, "settings.set_count");
   }
 
   /* Older savegames had a bug that got_tech_multi was not saved.
@@ -2306,10 +2338,13 @@ static void compat_load_dev(struct loaddata *loading)
   if (game_version < 3019200) {
     /* Before version number bump to 3.1.92 */
     int set_count;
+    bool gamestart_valid = FALSE;
+    bool al_set_already = FALSE;
+    const char *level;
 
     if (secfile_lookup_int(loading->file, &set_count, "settings.set_count")) {
       int i;
-      bool gamestart_valid
+      gamestart_valid
         = secfile_lookup_bool_default(loading->file, FALSE,
                                       "settings.gamestart_valid");
 
@@ -2368,8 +2403,49 @@ static void compat_load_dev(struct loaddata *loading)
 #endif
             }
           }
+        } else if (!fc_strcasecmp("ailevel", name)) {
+          al_set_already = TRUE;
         }
       }
+    }
+
+    if (!al_set_already) {
+      level = secfile_lookup_str_default(loading->file, NULL, "game.level");
+      if (level == NULL) {
+        /* Assume that this was a new format savegame after all,
+         * setting just has not been explicitly saved for containing default value. */
+        al_set_already = TRUE;
+      }
+    }
+
+    if (!al_set_already) {
+      /* Turn old AI level field to a setting. */
+      enum ai_level lvl;
+
+      if (level != NULL && !fc_strcasecmp("Handicapped", level)) {
+        /* Up to freeciv-3.1 Restricted AI level was known as Handicapped */
+        lvl = AI_LEVEL_RESTRICTED;
+      } else {
+        lvl = ai_level_by_name(level, fc_strcasecmp);
+      }
+
+      if (!ai_level_is_valid(lvl)) {
+        log_sg("Invalid AI level \"%s\". "
+               "Changed to \"%s\".", level,
+               ai_level_name(GAME_HARDCODED_DEFAULT_SKILL_LEVEL));
+        lvl = GAME_HARDCODED_DEFAULT_SKILL_LEVEL;
+      }
+
+      secfile_insert_str(loading->file, "ailevel", "settings.set%d.name", set_count);
+      secfile_insert_enum(loading->file, lvl, ai_level, "settings.set%d.value", set_count);
+
+      if (gamestart_valid) {
+        secfile_insert_enum(loading->file, lvl, ai_level, "settings.set%d.gamestart",
+                            set_count);
+      }
+
+      set_count++;
+      secfile_replace_int(loading->file, set_count, "settings.set_count");
     }
 
     {

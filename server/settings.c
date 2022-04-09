@@ -579,6 +579,32 @@ compresstype_name(enum fz_method compresstype)
 }
 
 /************************************************************************//**
+  AI level names accessor.
+****************************************************************************/
+static const struct sset_val_name *
+ailevel_name(enum ai_level lvl)
+{
+  const char *lvlname;
+
+  if (lvl >= AI_LEVEL_AWAY) {
+    return NULL;
+  }
+
+  lvlname = ai_level_name(lvl);
+
+  if (lvlname != NULL) {
+    static struct sset_val_name name[AI_LEVEL_COUNT];
+
+    name[lvl].support = lvlname;
+    name[lvl].pretty = ai_level_translated_name(lvl);
+
+    return &name[lvl];
+  }
+
+  return NULL;
+}
+
+/************************************************************************//**
   Names accessor for boolean settings (disable/enable).
 ****************************************************************************/
 static const struct sset_val_name *bool_name(int enable)
@@ -3123,6 +3149,14 @@ static struct setting settings[] = {
                     "Set to empty (\"\", not \"empty\") to always use an "
                     "automatically generated meta server message."),
                  NULL, metamessage_action, GAME_DEFAULT_USER_META_MESSAGE)
+
+  GEN_ENUM("ailevel", game.info.skill_level,
+           SSET_META, SSET_INTERNAL, SSET_VITAL, ALLOW_NONE, ALLOW_CTRL,
+           N_("Level of new AIs"),
+           N_("Difficulty level of any AI players to be created now on. "
+              "Changing value of this setting does not affect "
+              "existing players."), NULL, NULL, NULL,
+           ailevel_name, GAME_DEFAULT_SKILL_LEVEL)
 
   GEN_STRING_NRS("aitype", game.server.default_ai_type_name,
                  SSET_META, SSET_INTERNAL, SSET_RARE, ALLOW_HACK, ALLOW_HACK,

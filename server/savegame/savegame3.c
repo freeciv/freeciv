@@ -1958,7 +1958,6 @@ static void sg_load_ruledata(struct loaddata *loading)
 static void sg_load_game(struct loaddata *loading)
 {
   const char *str;
-  const char *level;
   int i;
 
   /* Check status and return if not OK (sg_success != TRUE). */
@@ -2003,22 +2002,6 @@ static void sg_load_game(struct loaddata *loading)
    * That's done when we are sure that rand seed has been initialized,
    * so that we can generate new game_identifier, if needed.
    * See sq_load_sanitycheck(). */
-
-  level = secfile_lookup_str_default(loading->file, NULL,
-                                     "game.level");
-  if (level != NULL && !fc_strcasecmp("Handicapped", level)) {
-    /* Up to freeciv-3.1 Restricted AI level was known as Handicapped */
-    game.info.skill_level = AI_LEVEL_RESTRICTED;
-  } else {
-    game.info.skill_level = ai_level_by_name(level, fc_strcasecmp);
-  }
-
-  if (!ai_level_is_valid(game.info.skill_level)) {
-    log_sg("Invalid AI level \"%s\". "
-           "Changed to \"%s\".", level,
-           ai_level_name(GAME_HARDCODED_DEFAULT_SKILL_LEVEL));
-    game.info.skill_level = GAME_HARDCODED_DEFAULT_SKILL_LEVEL;
-  }
 
   str = secfile_lookup_str_default(loading->file, NULL,
                                    "game.phase_mode");
@@ -2175,8 +2158,6 @@ static void sg_save_game(struct savedata *saving)
   secfile_insert_str(saving->file, server.game_identifier, "game.id");
   secfile_insert_str(saving->file, srvarg.serverid, "game.serverid");
 
-  secfile_insert_str(saving->file, ai_level_name(game.info.skill_level),
-                     "game.level");
   secfile_insert_str(saving->file,
                      phase_mode_type_name(game.info.phase_mode),
                      "game.phase_mode");
