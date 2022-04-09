@@ -1055,6 +1055,23 @@ void rscompat_postprocess(struct rscompat_info *info)
     effect_req_append(peffect, req_from_str("CityTile", "Tile", FALSE, TRUE,
                                             FALSE, "Center"));
 
+    /* The base unit regeneration rule is in ruleset now. */
+    peffect = effect_new(EFT_HP_REGEN_2, 10, NULL);
+    /* Does not apply to any unit class with HP loss */
+    unit_class_iterate(pclass) {
+      if (pclass->hp_loss_pct) {
+        effect_req_append(peffect, req_from_str("UnitClass", "Local", FALSE,
+                                                FALSE, FALSE,
+                                                uclass_rule_name(pclass)));
+      }
+    } unit_class_iterate_end;
+
+    /* The rule that fortified unit regenerates extra 10% has been moved
+     * to the ruleset. */
+    peffect = effect_new(EFT_HP_REGEN_2, 10, NULL);
+    effect_req_append(peffect, req_from_str("Activity", "Local", FALSE, TRUE,
+                                            FALSE, "Fortified"));
+
     /* Help ruleset authors specify the new arguments to unit_move() and
      * unit_teleport() by introducing boolean effects */
     log_normal(_("Preparing user effects to help you port edit.unit_move()"

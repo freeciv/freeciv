@@ -2073,13 +2073,8 @@ int hp_gain_coord(struct unit *punit)
   /* Minimum HP after regen effects applied. */
   hp = MAX(hp, min);
 
-  if (!unit_class_get(punit)->hp_loss_pct) {
-    hp += (base + 9) / 10;
-  }
-
-  if (punit->activity == ACTIVITY_FORTIFIED) {
-    hp += (base + 9) / 10;
-  }
+  /* Regen2 effects that apply after there's at least Min HP */
+  hp += ceil(base / 10) * get_unit_bonus(punit, EFT_HP_REGEN_2) / 10;
 
   return MAX(hp, 0);
 }
