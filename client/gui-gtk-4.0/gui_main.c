@@ -1120,6 +1120,8 @@ static void setup_widgets(void)
   int top_row = 0;
   int grid_col = 0;
   int grid2_col = 0;
+  GtkGesture *mc_gesture;
+  GtkEventController *mc_controller;
 
   message_buffer = gtk_text_buffer_new(NULL);
 
@@ -1505,6 +1507,23 @@ static void setup_widgets(void)
   gtk_drawing_area_set_draw_func(GTK_DRAWING_AREA(map_canvas), map_canvas_draw,
                                  NULL, NULL);
 
+  mc_controller = GTK_EVENT_CONTROLLER(gtk_gesture_click_new());
+  g_signal_connect(mc_controller, "pressed",
+                   G_CALLBACK(left_butt_down_mapcanvas), NULL);
+  gtk_widget_add_controller(map_canvas, mc_controller);
+  mc_gesture = gtk_gesture_click_new();
+  gtk_gesture_single_set_button(GTK_GESTURE_SINGLE(mc_gesture), 3);
+  mc_controller = GTK_EVENT_CONTROLLER(mc_gesture);
+  g_signal_connect(mc_controller, "pressed",
+                   G_CALLBACK(right_butt_down_mapcanvas), NULL);
+  gtk_widget_add_controller(map_canvas, mc_controller);
+  mc_gesture = gtk_gesture_click_new();
+  gtk_gesture_single_set_button(GTK_GESTURE_SINGLE(mc_gesture), 2);
+  mc_controller = GTK_EVENT_CONTROLLER(mc_gesture);
+  g_signal_connect(mc_controller, "pressed",
+                   G_CALLBACK(middle_butt_down_mapcanvas), NULL);
+  gtk_widget_add_controller(map_canvas, mc_controller);
+
   g_signal_connect(map_canvas, "resize",
                    G_CALLBACK(map_canvas_resize), NULL);
 
@@ -1513,9 +1532,6 @@ static void setup_widgets(void)
 
   g_signal_connect(toplevel, "enter_notify_event",
                    G_CALLBACK(leave_mapcanvas), NULL);
-
-  g_signal_connect(map_canvas, "button_press_event",
-                   G_CALLBACK(butt_down_mapcanvas), NULL);
 
   g_signal_connect(map_canvas, "button_release_event",
                    G_CALLBACK(butt_release_mapcanvas), NULL);
