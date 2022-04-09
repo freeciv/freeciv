@@ -1095,6 +1095,18 @@ reqs    =
       "CityTile", "Center", "Tile"
     }
 
+[effect_fortified_regen]
+type    = "HP_Regen_2"
+value   = 10
+reqs    =
+    { "type",     "name",      "range"
+      "Activity", "Fortified", "Local"
+    }
+
+[effect_base_regen]
+type    = "HP_Regen_2"
+value   = 10
+
 [effect_action_success_move_cost_from_non_native]
 type    = "Action_Success_Actor_Move_Cost"
 value   = 65535

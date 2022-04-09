@@ -351,6 +351,12 @@ HP_Regen
     Units that do not move recover amount percentage of their full hitpoints
     per turn.
 
+HP_Regen_2
+    Like HP_Regen, except that these effects are applied after Min_HP_Pct effect,
+    and unit's full HP is rounded up to nearest ten. So even if unit's full HP
+    is less than ten, it would get rounded to ten, and HP_Regen_2 of at least
+    10% always heals at least one HP.
+
 Illegal_Action_HP_Cost
     The number of hit points lost when the player tries to do an action
     that turns out to be illegal. Only applied when the player wasn't aware that

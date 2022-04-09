@@ -1215,6 +1215,22 @@ reqs    =
       "CityTile", "Center", "Tile"
     }
 
+[effect_fortified_regen]
+type    = "HP_Regen_2"
+value   = 10
+reqs    =
+    { "type",     "name",      "range"
+      "Activity", "Fortified", "Local"
+    }
+
+[effect_base_regen]
+type    = "HP_Regen_2"
+value   = 10
+reqs    =
+    { "type",      "name",       "range", "present"
+      "UnitClass", "Helicopter", "Local", FALSE
+    }
+
 [effect_incite_cost_empty]
 type = "Incite_Cost_Pct"
 value = -50

@@ -177,6 +177,10 @@ reqs    =
       "UnitFlag",      "Cant_Fortify", "Local", FALSE
     }
 
+[effect_base_regen]
+type    = "HP_Regen_2"
+value   = 10
+
 [effect_city_walls]
 type    = "Defend_Bonus"
 value	= 200

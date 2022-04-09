@@ -421,6 +421,7 @@ adv_want dai_effect_value(struct player *pplayer, struct government *gov,
     v += unit_list_size(pcity->tile->units) * 2;
     break;
   case EFT_HP_REGEN:
+  case EFT_HP_REGEN_2:
     num = num_affected_units(peffect, adv);
     v += (5 * c + num);
     break;
