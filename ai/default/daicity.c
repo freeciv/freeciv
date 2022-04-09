@@ -472,12 +472,12 @@ static void unit_do_disband_trad(struct player *owner, struct unit *punit,
         /* No shields wasted. The unit did Help Wonder. */
         return;
       }
-    }
-  }
 
-  if (!unit_is_alive(punit_id_stored)) {
-    /* The unit is gone. Maybe it was killed in Lua? */
-    return;
+      if (!unit_is_alive(punit_id_stored)) {
+        /* The unit is gone. Maybe it was killed in Lua? */
+        return;
+      }
+    }
   }
 
   /* Disbanding a unit inside a city gives it 50% of the shields used to
@@ -496,12 +496,12 @@ static void unit_do_disband_trad(struct player *owner, struct unit *punit,
         /* The unit did Disband Unit Recover. 50% of the shields wasted. */
         return;
       }
-    }
-  }
 
-  if (!unit_is_alive(punit_id_stored)) {
-    /* The unit is gone. Maybe it was killed in Lua? */
-    return;
+      if (!unit_is_alive(punit_id_stored)) {
+        /* The unit is gone. Maybe it was killed in Lua? */
+        return;
+      }
+    }
   }
 
   /* Try to disband even if all shields will be wasted. */
