@@ -97,6 +97,7 @@ static const char *download_modpack_recursive(const char *URL,
   bool partial_failure = FALSE;
   int dep;
   const char *dep_name;
+  int URL_len;
 
   if (recursion > 5) {
     return _("Recursive dependencies too deep");
@@ -188,6 +189,12 @@ static const char *download_modpack_recursive(const char *URL,
                 URLstart, baseURLpart + 1);
   } else {
     sz_strlcpy(baseURL, baseURLpart);
+  }
+
+  /* Remove potential ending '/' as one will get added later. */
+  URL_len = strlen(baseURL);
+  if (baseURL[URL_len - 1] == '/') {
+    baseURL[URL_len - 1] = '\0';
   }
 
   dep = 0;
