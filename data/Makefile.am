@@ -70,6 +70,8 @@ EXTRA_DIST = \
 	freeciv-client.png \
 	freeciv-ruledit.png \
 	freeciv-modpack.png \
+	freeciv-client.icns \
+	freeciv-server.icns \
 	freeciv.rc-2.0	\
 	gtk2_menus.xml	\
 	gtk3_menus.xml	\
