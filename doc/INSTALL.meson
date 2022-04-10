@@ -135,6 +135,9 @@ gitrev (boolean):
 freeciv-web (boolean):
   Build freeciv-web version instead of normal one.
 
+gen-packets-args (array):
+  Aditional packet generator arguments passed to common/generate_packets.py.
+
 
 run.sh
 ------

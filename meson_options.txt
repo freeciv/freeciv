@@ -54,3 +54,8 @@ option('freeciv-web',
        type: 'boolean',
        value: false,
        description: 'Make a freeciv-web server build instead of normal one')
+
+option('gen-packets-args',
+       type: 'array',
+       value: [],
+       description: 'Additional arguments for the packet generator')

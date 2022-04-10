@@ -169,7 +169,8 @@ packets_generate: networking/packets.def generate_packets.py
 		--client-h ../client/packhand_gen.h \
 		--client-c ../client/packhand_gen.c \
 		--server-h ../server/hand_gen.h \
-		--server-c ../server/hand_gen.c
+		--server-c ../server/hand_gen.c \
+		$(GENERATE_PACKETS_ARGS)
 	touch packets_generate
 
 # These files are not generated to builddir, but to srcdir */

@@ -468,8 +468,8 @@ AS_IF([test "x$enable_delta_protocol" = "xno"], [
   AC_MSG_WARN([won't be able to play with regular Freeciv])],[
   AC_DEFINE([FREECIV_DELTA_PROTOCOL], [1], [Delta protocol enabled])])
 
-dnl done setting arguments for the packet generator
-AC_SUBST([GENERATE_PACKETS_ARGS])
+dnl extra arguments for the packet generator
+AC_ARG_VAR([GENERATE_PACKETS_ARGS], [Additional arguments for the packet generator])
 
 FC_WEB_OPTIONS
 

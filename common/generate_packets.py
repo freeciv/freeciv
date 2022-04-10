@@ -30,7 +30,7 @@ from itertools import chain, combinations
 # See get_argparser for what each of these does
 # Keep initial values in sync with argparser defaults
 is_verbose = False
-lazy_overwrite = True
+lazy_overwrite = False
 generate_stats = False
 generate_logs = True
 use_log_macro = "log_packet_detailed"
@@ -108,13 +108,12 @@ def get_argparser():
     script.add_argument("-v", "--verbose", action = "store_true",
                         help = "enable log messages during code generation")
 
-    # Default behavior: Only overwrite existing output files when they
+    # When enabled: Only overwrite existing output files when they
     # actually changed. This prevents make from rebuilding all dependents
     # in cases where that wouldn't even be necessary.
-    script.add_argument("-f", "--force-overwrite",
-                        dest = "lazy_overwrite", action = "store_false",
-                        help = "always overwrite output files, even when"
-                        " their contents didn't change")
+    script.add_argument("--lazy-overwrite", action = "store_true",
+                        help = "only overwrite output files when their"
+                        " contents actually changed")
 
     output.add_argument("-s", "--gen-stats", action = "store_true",
                         help = "generate code reporting packet usage"

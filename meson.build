@@ -452,6 +452,8 @@ if get_option('nls')
   subdir('translations/ruledit')
 endif
 
+gen_packets_args = get_option('gen-packets-args')
+
 python_exe = find_program('python3')
 sh_exe = find_program('sh')
 
@@ -491,20 +493,20 @@ pack_common = custom_target('packets_common', output: ['packets_gen.h',
                                                        'packets_gen.c'],
                             command: [python_exe, files('common/generate_packets.py'),
                                       '--common-h', '@OUTPUT0@',
-                                      '--common-c', '@OUTPUT1@'],
+                                      '--common-c', '@OUTPUT1@'] + gen_packets_args,
                             depend_files: files('common/networking/packets.def'))
 
 pack_server = custom_target('packets_server', output: ['hand_gen.h', 'hand_gen.c'],
                             command: [python_exe, files('common/generate_packets.py'),
                                       '--server-h', '@OUTPUT0@',
-                                      '--server-c', '@OUTPUT1@'],
+                                      '--server-c', '@OUTPUT1@'] + gen_packets_args,
                             depend_files: files('common/networking/packets.def'))
 
 pack_client = custom_target('packets_client', output: ['packhand_gen.h',
                                                        'packhand_gen.c'],
                             command: [python_exe, files('common/generate_packets.py'),
                                       '--client-h', '@OUTPUT0@',
-                                      '--client-c', '@OUTPUT1@'],
+                                      '--client-c', '@OUTPUT1@'] + gen_packets_args,
                             depend_files: files('common/networking/packets.def'))
 
 gitrev = custom_target('gitrev', output: 'fc_gitrev_gen.h',
