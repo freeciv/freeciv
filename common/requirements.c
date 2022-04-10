@@ -1380,7 +1380,7 @@ bool are_requirements_contradictions(const struct requirement *req1,
         }                                                                 \
       } else {                                                            \
         covered_range = MAX(covered_range, req->range);                   \
-        if (req1->source.kind == VUT_MINLATITUDE) {                       \
+        if (req->source.kind == VUT_MINLATITUDE) {                        \
           /* negated MinLatitude */                                       \
           maximum = MIN(maximum, req->source.value.latitude - 1);         \
         } else {                                                          \
