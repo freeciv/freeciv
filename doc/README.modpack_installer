@@ -284,6 +284,11 @@ The [info] section has overall control information:
      May be relative to the .mpdl file (starting with "./"), or
      absolute (in which case the files can be on some web server
      different to where the .mpdl file lives).
+     Be sure not to have '/' in the end - this version of freeciv
+     always adds the separator between baseURL and file path, so
+     having it also as part of baseURL would cause duplicate
+     separator. Especially note that the "same directory where .mpdl is"
+     is only "." and not "./"
 
 The [files] section lists the individual files comprising your modpack.
 (It must list every file individually; any files in the same directory
