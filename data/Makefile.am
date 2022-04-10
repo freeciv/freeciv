@@ -65,6 +65,8 @@ EXTRA_DIST = \
 	freeciv-client.png \
 	freeciv-ruledit.png \
 	freeciv-modpack.png \
+	freeciv-client.icns \
+	freeciv-server.icns \
 	gtk3.22_menus.xml	\
 	gtk4_menus.xml	\
 	amplio2.tilespec \
