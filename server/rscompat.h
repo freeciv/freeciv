@@ -62,6 +62,9 @@ enum impr_genus_id rscompat_genus_3_2(struct rscompat_info *compat,
 const char *rscompat_req_range_3_2(struct rscompat_info *compat,
                                    const char *type,
                                    const char *old_range);
+void rscompat_req_adjust_3_2(const struct rscompat_info *compat,
+                             const char **ptype, const char **pname,
+                             bool *ppresent, const char *sec_name);
 
 #ifdef __cplusplus
 }

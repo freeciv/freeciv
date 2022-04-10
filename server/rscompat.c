@@ -439,3 +439,60 @@ const char *rscompat_req_range_3_2(struct rscompat_info *compat,
 
   return old_range;
 }
+
+/**********************************************************************//**
+  Update individual requirements.
+**************************************************************************/
+void rscompat_req_adjust_3_2(const struct rscompat_info *compat,
+                             const char **ptype, const char **pname,
+                             bool *ppresent, const char *sec_name)
+{
+  char buf[1024];
+
+  if (compat->compat_mode && compat->version < RSFORMAT_3_2) {
+    /* Recreate old "alltemperate" and "singlepole" ServerSetting
+     * requirements with MinLatitude and MaxLatitude. */
+    if (!fc_strcasecmp(universals_n_name(VUT_SERVERSETTING), *ptype)) {
+      if (!fc_strcasecmp("alltemperate", *pname)) {
+        /* alltemperate implies no latitudes != 500
+         * !alltemperate implies latitudes 0 to 1000
+         * ~> alltemperate enabled iff no latitude >= 750
+         * (other numbers in [501,1000] would work as well)
+         * (no latitude <= some number in [0, 499] would work as well) */
+        *ptype = universals_n_name(VUT_MINLATITUDE);
+        *pname = "750";
+        *ppresent = !(*ppresent);
+
+        if (compat->log_cb != NULL) {
+          /* Inform the user that there are different solutions */
+          fc_snprintf(buf, sizeof(buf),
+                      "Replaced 'alltemperate' server setting requirement "
+                      "in %s with a MinLatitude requirement. Other "
+                      "equivalent requirements are possible; make sure it "
+                      "makes sense.", sec_name);
+          compat->log_cb(buf);
+        }
+      } else if (!fc_strcasecmp("singlepole", *pname)) {
+        /* Assume we're updating a sane ruleset, i.e. singlepole reqs only
+         * possible/relevant when alltemperate is already disabled.
+         * singlepole implies no latitudes < 0
+         * !singlepole implies latitudes -1000 to -1 (given !alltemperate)
+         * ~> singlepole enabled iff no latitude <= -500
+         * (other numbers in [-1000,-1] would work as well) */
+        *ptype = universals_n_name(VUT_MAXLATITUDE);
+        *pname = "-500";
+        *ppresent = !(*ppresent);
+
+        if (compat->log_cb != NULL) {
+          /* Inform the user that there are different solutions */
+          fc_snprintf(buf, sizeof(buf),
+                      "Replaced 'singlepole' server setting requirement "
+                      "in %s with a MaxLatitude requirement. Other "
+                      "equivalent requirements are possible; make sure it "
+                      "makes sense.", sec_name);
+          compat->log_cb(buf);
+        }
+      }
+    }
+  }
+}

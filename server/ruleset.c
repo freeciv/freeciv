@@ -745,6 +745,10 @@ struct requirement_vector *lookup_req_list(struct section_file *file,
                     "'%s.%s%d'.", filename, sec, sub, j);
     }
 
+    if (compat->compat_mode) {
+      rscompat_req_adjust_3_2(compat, &type, &name, &present, sec);
+    }
+
     req = req_from_str(type, range, survives, present, quiet, name);
     if (req.source.kind == universals_n_invalid()) {
       ruleset_error(LOG_ERROR, "\"%s\" [%s] has invalid or unknown req: "
