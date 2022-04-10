@@ -3481,6 +3481,8 @@ static struct act_prob ap_dipl_battle_win(const struct unit *pattacker,
                                          EFT_SPY_RESISTANT) / 100;
   }
 
+  chance = CLIP(0, chance, 100);
+
   /* Convert to action probability */
   out.min = chance * ACTPROB_VAL_1_PCT;
   out.max = chance * ACTPROB_VAL_1_PCT;
