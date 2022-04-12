@@ -185,7 +185,8 @@ Get the freeciv sources there somehow. Some options are:
  newer Windows versions could otherwise have.
  The version is set via MIN_WIN_VER variable. For values to use, see
  list in: https://msdn.microsoft.com/en-us/library/6sehtctf.aspx
- Current default is 0x0601 (Windows 7).
+ Current default is 0x0603 (Windows 8.1). This is also the lowest
+ value that msys2 upstream is soon (as of spring 2022) going to support.
 
  It's possible to set number of make jobs used in the build by
  setting suitable make parameter to MAKE_PARAMS environment variable, e,g,
