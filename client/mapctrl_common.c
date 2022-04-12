@@ -392,16 +392,20 @@ bool clipboard_copy_production(struct tile *ptile)
     clipboard = pcity->production;
   } else {
     struct unit *punit = find_visible_unit(ptile);
+
     if (!punit) {
       return FALSE;
     }
+
     if (!can_player_build_unit_direct(client.conn.playing,
-                                      unit_type_get(punit)))  {
+                                      unit_type_get(punit),
+                                      FALSE))  {
       create_event(ptile, E_BAD_COMMAND, ftc_client,
                    _("You don't know how to build %s!"),
                    unit_name_translation(punit));
       return TRUE;
     }
+
     clipboard.kind = VUT_UTYPE;
     clipboard.value.utype = unit_type_get(punit);
   }

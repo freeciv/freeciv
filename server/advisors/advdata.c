@@ -380,7 +380,7 @@ bool adv_data_phase_init(struct player *pplayer, bool is_new_phase)
         struct unit_type *nuke =
             get_role_unit(action_id_get_role(act_id), i);
 
-        if (can_player_build_unit_direct(aplayer, nuke)) {
+        if (can_player_build_unit_direct(aplayer, nuke, FALSE)) {
           adv->threats.nuclear = 1;
         }
       }

@@ -806,7 +806,8 @@ bool utype_player_already_has_this_unique(const struct player *pplayer,
                                           const struct unit_type *putype);
 
 bool can_player_build_unit_direct(const struct player *p,
-				  const struct unit_type *punittype);
+				  const struct unit_type *punittype,
+                                  bool consider_reg_impr_req);
 bool can_player_build_unit_later(const struct player *p,
 				 const struct unit_type *punittype);
 bool can_player_build_unit_now(const struct player *p,

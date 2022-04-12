@@ -1768,7 +1768,7 @@ const struct unit_type *can_upgrade_unittype(const struct player *pplayer,
    * diplomatic treaties, or lua script. */
 
   while ((upgrade = upgrade->obsoleted_by) != U_NOT_OBSOLETED) {
-    if (can_player_build_unit_direct(pplayer, upgrade)) {
+    if (can_player_build_unit_direct(pplayer, upgrade, TRUE)) {
       best_upgrade = upgrade;
     }
   }
@@ -2013,9 +2013,15 @@ bool utype_player_already_has_this(const struct player *pplayer,
   Whether player can build given unit somewhere,
   ignoring whether unit is obsolete and assuming the
   player has a coastal city.
+
+  consider_reg_impr_req affects only regular buildings that player may
+  have in a city despite being unable to build it any more.
+  E.g. Great Wonder built by someone else make it obvious that this
+  player cannot build the unit, even if consider_reg_impr_req is FALSE.
 **************************************************************************/
 bool can_player_build_unit_direct(const struct player *p,
-                                  const struct unit_type *punittype)
+                                  const struct unit_type *punittype,
+                                  bool consider_reg_impr_req)
 {
   const struct req_context context = { .player = p, .unittype = punittype };
 
@@ -2068,16 +2074,18 @@ bool can_player_build_unit_direct(const struct player *p,
         }
       } else if (is_small_wonder(preq->source.value.building)) {
         if (!city_from_wonder(p, preq->source.value.building)
+            && consider_reg_impr_req
             && !can_player_build_improvement_direct(p, preq->source.value.building)) {
           return FALSE;
         }
       } else {
-        if (!can_player_build_improvement_direct(
-                p, preq->source.value.building)) {
+        if (consider_reg_impr_req
+            && !can_player_build_improvement_direct(p, preq->source.value.building)) {
           return FALSE;
         }
       }
     }
+
     if (preq->range < REQ_RANGE_PLAYER) {
       /* The question *here* is if the *player* can build this unit */
       continue;
@@ -2133,14 +2141,16 @@ bool can_player_build_unit_direct(const struct player *p,
 bool can_player_build_unit_now(const struct player *p,
 			       const struct unit_type *punittype)
 {
-  if (!can_player_build_unit_direct(p, punittype)) {
+  if (!can_player_build_unit_direct(p, punittype, FALSE)) {
     return FALSE;
   }
+
   while ((punittype = punittype->obsoleted_by) != U_NOT_OBSOLETED) {
-    if (can_player_build_unit_direct(p, punittype)) {
+    if (can_player_build_unit_direct(p, punittype, TRUE)) {
       return FALSE;
     }
   }
+
   return TRUE;
 }
 
@@ -2153,14 +2163,17 @@ bool can_player_build_unit_later(const struct player *p,
                                  const struct unit_type *punittype)
 {
   fc_assert_ret_val(NULL != punittype, FALSE);
+
   if (utype_has_flag(punittype, UTYF_NOBUILD)) {
     return FALSE;
   }
+
   while ((punittype = punittype->obsoleted_by) != U_NOT_OBSOLETED) {
-    if (can_player_build_unit_direct(p, punittype)) {
+    if (can_player_build_unit_direct(p, punittype, TRUE)) {
       return FALSE;
     }
   }
+
   return TRUE;
 }
 

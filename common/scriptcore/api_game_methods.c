@@ -576,7 +576,7 @@ bool api_methods_player_can_build_unit_direct(lua_State *L, Player *pplayer,
   LUASCRIPT_CHECK_SELF(L, pplayer, FALSE);
   LUASCRIPT_CHECK_ARG_NIL(L, utype, 3, Unit_Type, FALSE);
 
-  return can_player_build_unit_direct(pplayer, utype);
+  return can_player_build_unit_direct(pplayer, utype, TRUE);
 }
 
 /**********************************************************************//**

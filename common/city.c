@@ -893,7 +893,7 @@ bool can_city_build_improvement_later(const struct city *pcity,
 bool can_city_build_unit_direct(const struct city *pcity,
                                 const struct unit_type *punittype)
 {
-  if (!can_player_build_unit_direct(city_owner(pcity), punittype)) {
+  if (!can_player_build_unit_direct(city_owner(pcity), punittype, FALSE)) {
     return FALSE;
   }
 
@@ -935,7 +935,9 @@ bool can_city_build_unit_now(const struct city *pcity,
     return FALSE;
   }
   while ((punittype = punittype->obsoleted_by) != U_NOT_OBSOLETED) {
-    if (can_player_build_unit_direct(city_owner(pcity), punittype)) {
+    /* TODO: Decide if fulfilled impr_req is needed to make unit obsolete,
+     *       i.e., should the 'consider_reg_impr_req' be TRUE or FALSE. */
+    if (can_player_build_unit_direct(city_owner(pcity), punittype, TRUE)) {
       return FALSE;
     }
   }
