@@ -705,23 +705,39 @@ static int unquote_block(const char *const quoted_, void *dest,
   const char *quoted = quoted_;
 
   parsed = sscanf(quoted, "%d", &length);
-  fc_assert_ret_val(1 == parsed, 0);
+
+  if (parsed != 1) {
+    log_error(_("Syntax error in attribute block."));
+    return 0;
+  }
 
   if (length > dest_length) {
     return 0;
   }
+
   quoted = strchr(quoted, ':');
-  fc_assert_ret_val(quoted != NULL, 0);
+
+  if (quoted == NULL) {
+    log_error(_("Syntax error in attribute block."));
+    return 0;
+  }
+
   quoted++;
 
   for (i = 0; i < length; i++) {
     tmp = strtol(quoted, &endptr, 16);
-    fc_assert_ret_val((endptr - quoted) == 2, 0);
-    fc_assert_ret_val(*endptr == ' ', 0);
-    fc_assert_ret_val((tmp & 0xff) == tmp, 0);
+
+    if ((endptr - quoted) != 2
+        || *endptr != ' '
+        || (tmp & 0xff) != tmp) {
+      log_error(_("Syntax error in attribute block."));
+      return 0;
+    }
+
     ((unsigned char *) dest)[i] = tmp;
     quoted += 3;
   }
+
   return length;
 }
 
