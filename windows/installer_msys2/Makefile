@@ -23,7 +23,7 @@ CRYPTOLIB_SUFFIX=
 endif
 
 ifeq ($(MIN_WIN_VER),)
-MIN_WIN_VER=0x0601
+MIN_WIN_VER=0x0603
 endif
 
 ifeq ($(MAKE_PARAMS),)
