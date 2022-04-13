@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 3.0\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2022-03-17 23:47+0200\n"
+"POT-Creation-Date: 2022-04-12 03:46+0300\n"
 "PO-Revision-Date: 2022-03-17 23:49+0200\n"
 "Last-Translator: Marko Lindqvist <cazfi74@gmail.com>\n"
 "Language-Team: Finnish <laatu@lokalisointi.org>\n"
@@ -281,19 +281,19 @@ msgstr "Sääntönimi"
 
 #: tools/ruledit/tab_building.cpp:69 tools/ruledit/tab_building.cpp:79
 #: tools/ruledit/tab_building.cpp:147 tools/ruledit/tab_building.cpp:148
-#: tools/ruledit/tab_enablers.cpp:239 tools/ruledit/tab_extras.cpp:67
-#: tools/ruledit/tab_extras.cpp:77 tools/ruledit/tab_extras.cpp:142
-#: tools/ruledit/tab_extras.cpp:143 tools/ruledit/tab_good.cpp:68
-#: tools/ruledit/tab_good.cpp:78 tools/ruledit/tab_good.cpp:143
-#: tools/ruledit/tab_good.cpp:144 tools/ruledit/tab_gov.cpp:67
-#: tools/ruledit/tab_gov.cpp:77 tools/ruledit/tab_gov.cpp:142
-#: tools/ruledit/tab_gov.cpp:143 tools/ruledit/tab_tech.cpp:66
-#: tools/ruledit/tab_tech.cpp:76 tools/ruledit/tab_tech.cpp:226
-#: tools/ruledit/tab_tech.cpp:227 tools/ruledit/tab_terrains.cpp:67
-#: tools/ruledit/tab_terrains.cpp:77 tools/ruledit/tab_terrains.cpp:138
-#: tools/ruledit/tab_terrains.cpp:139 tools/ruledit/tab_unit.cpp:68
-#: tools/ruledit/tab_unit.cpp:78 tools/ruledit/tab_unit.cpp:142
-#: tools/ruledit/tab_unit.cpp:143
+#: tools/ruledit/tab_enablers.cpp:131 tools/ruledit/tab_enablers.cpp:241
+#: tools/ruledit/tab_extras.cpp:67 tools/ruledit/tab_extras.cpp:77
+#: tools/ruledit/tab_extras.cpp:142 tools/ruledit/tab_extras.cpp:143
+#: tools/ruledit/tab_good.cpp:68 tools/ruledit/tab_good.cpp:78
+#: tools/ruledit/tab_good.cpp:143 tools/ruledit/tab_good.cpp:144
+#: tools/ruledit/tab_gov.cpp:67 tools/ruledit/tab_gov.cpp:77
+#: tools/ruledit/tab_gov.cpp:142 tools/ruledit/tab_gov.cpp:143
+#: tools/ruledit/tab_tech.cpp:66 tools/ruledit/tab_tech.cpp:76
+#: tools/ruledit/tab_tech.cpp:226 tools/ruledit/tab_tech.cpp:227
+#: tools/ruledit/tab_terrains.cpp:67 tools/ruledit/tab_terrains.cpp:77
+#: tools/ruledit/tab_terrains.cpp:138 tools/ruledit/tab_terrains.cpp:139
+#: tools/ruledit/tab_unit.cpp:68 tools/ruledit/tab_unit.cpp:78
+#: tools/ruledit/tab_unit.cpp:142 tools/ruledit/tab_unit.cpp:143
 msgid "None"
 msgstr "Ei mikään"
 
@@ -329,45 +329,46 @@ msgstr "Rakennus samalla sääntönimellä on jo olemassa!"
 msgid "Type"
 msgstr "Tyyppi"
 
-#: tools/ruledit/tab_enablers.cpp:136
+#: tools/ruledit/tab_enablers.cpp:137
 msgid "Actor Requirements"
 msgstr "Toimijalta vaadittavat"
 
-#: tools/ruledit/tab_enablers.cpp:143
+#: tools/ruledit/tab_enablers.cpp:144
 msgid "Target Requirements"
 msgstr "Kohteelta vaadittavat"
 
-#: tools/ruledit/tab_enablers.cpp:150
+#: tools/ruledit/tab_enablers.cpp:151
 msgid "Add Enabler"
 msgstr "Lisää mahdollistin"
 
-#: tools/ruledit/tab_enablers.cpp:155
+#: tools/ruledit/tab_enablers.cpp:156
 msgid "Remove this Enabler"
 msgstr "Poista tämä mahdollistin"
 
+#: tools/ruledit/tab_enablers.cpp:165 tools/ruledit/tab_enablers.cpp:236
+#: tools/ruledit/tab_enablers.cpp:248
+msgid "Enabler Issues"
+msgstr "Mahdollistimen ongelmat"
+
 #. TRANS: Fix an error in an action enabler.
-#: tools/ruledit/tab_enablers.cpp:225
+#: tools/ruledit/tab_enablers.cpp:227
 msgid "Repair Enabler"
 msgstr "Korjaa mahdollistin"
 
 #. TRANS: Fix a non error issue in an action enabler.
-#: tools/ruledit/tab_enablers.cpp:230
+#: tools/ruledit/tab_enablers.cpp:232
 msgid "Improve Enabler"
 msgstr "Paranna mahdollistinta"
 
-#: tools/ruledit/tab_enablers.cpp:234 tools/ruledit/tab_enablers.cpp:246
-msgid "Enabler Issues"
-msgstr "Mahdollistimen ongelmat"
-
-#: tools/ruledit/tab_enablers.cpp:387
+#: tools/ruledit/tab_enablers.cpp:389
 msgid "Enabler (target)"
 msgstr "Mahdollistin (kohde)"
 
-#: tools/ruledit/tab_enablers.cpp:398
+#: tools/ruledit/tab_enablers.cpp:400
 msgid "Enabler (actor)"
 msgstr "Mahdollistin (toimija)"
 
-#: tools/ruledit/tab_enablers.cpp:417
+#: tools/ruledit/tab_enablers.cpp:419
 #, c-format
 msgid "action enabler for %s"
 msgstr "mahdollistin toiminnalle %s"

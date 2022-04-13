@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 3.0\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2022-02-16 13:01+0200\n"
+"POT-Creation-Date: 2022-04-12 03:46+0300\n"
 "PO-Revision-Date: 2022-01-21 21:56+0100\n"
 "Last-Translator: Igx <igx31 hotmail.com>\n"
 "Language-Team: French <freeciv-l10n-fr@yahoogroupes.fr>\n"
@@ -248,15 +248,15 @@ msgstr "Règles du jeu chargées"
 msgid "Ruleset loading failed!"
 msgstr "Impossible de charger les règles du jeu !"
 
-#: tools/ruledit/ruledit_qt.cpp:370
+#: tools/ruledit/ruledit_qt.cpp:372
 msgid "Freeciv Ruleset Editor"
 msgstr "Éditeur de règles du jeu de Freeciv"
 
-#: tools/ruledit/ruledit_qt.cpp:386
+#: tools/ruledit/ruledit_qt.cpp:392
 msgid "Are you sure you want to quit?"
 msgstr "Êtes-vous sûr(e) que vous voulez quitter ?"
 
-#: tools/ruledit/ruledit_qt.cpp:390
+#: tools/ruledit/ruledit_qt.cpp:396
 msgid "Quit?"
 msgstr "Quitter ?"
 
@@ -266,6 +266,24 @@ msgstr "Quitter ?"
 #: tools/ruledit/tab_unit.cpp:65
 msgid "Rule Name"
 msgstr "Nom dans les règles"
+
+#: tools/ruledit/tab_building.cpp:69 tools/ruledit/tab_building.cpp:79
+#: tools/ruledit/tab_building.cpp:147 tools/ruledit/tab_building.cpp:148
+#: tools/ruledit/tab_enablers.cpp:131 tools/ruledit/tab_enablers.cpp:241
+#: tools/ruledit/tab_extras.cpp:67 tools/ruledit/tab_extras.cpp:77
+#: tools/ruledit/tab_extras.cpp:142 tools/ruledit/tab_extras.cpp:143
+#: tools/ruledit/tab_good.cpp:68 tools/ruledit/tab_good.cpp:78
+#: tools/ruledit/tab_good.cpp:143 tools/ruledit/tab_good.cpp:144
+#: tools/ruledit/tab_gov.cpp:67 tools/ruledit/tab_gov.cpp:77
+#: tools/ruledit/tab_gov.cpp:142 tools/ruledit/tab_gov.cpp:143
+#: tools/ruledit/tab_tech.cpp:66 tools/ruledit/tab_tech.cpp:76
+#: tools/ruledit/tab_tech.cpp:226 tools/ruledit/tab_tech.cpp:227
+#: tools/ruledit/tab_terrains.cpp:67 tools/ruledit/tab_terrains.cpp:77
+#: tools/ruledit/tab_terrains.cpp:138 tools/ruledit/tab_terrains.cpp:139
+#: tools/ruledit/tab_unit.cpp:68 tools/ruledit/tab_unit.cpp:78
+#: tools/ruledit/tab_unit.cpp:142 tools/ruledit/tab_unit.cpp:143
+msgid "None"
+msgstr ""
 
 #: tools/ruledit/tab_building.cpp:74 tools/ruledit/tab_extras.cpp:72
 #: tools/ruledit/tab_good.cpp:73 tools/ruledit/tab_gov.cpp:72
@@ -299,45 +317,46 @@ msgstr "Un bâtiment avec ce nom existe déjà dans les règles !"
 msgid "Type"
 msgstr "Type"
 
-#: tools/ruledit/tab_enablers.cpp:136
+#: tools/ruledit/tab_enablers.cpp:137
 msgid "Actor Requirements"
 msgstr "Prérequis de l'acteur"
 
-#: tools/ruledit/tab_enablers.cpp:143
+#: tools/ruledit/tab_enablers.cpp:144
 msgid "Target Requirements"
 msgstr "Prérequis de la cible"
 
-#: tools/ruledit/tab_enablers.cpp:150
+#: tools/ruledit/tab_enablers.cpp:151
 msgid "Add Enabler"
 msgstr "Ajouter un activateur"
 
-#: tools/ruledit/tab_enablers.cpp:155
+#: tools/ruledit/tab_enablers.cpp:156
 msgid "Remove this Enabler"
 msgstr "Supprimer cet activateur"
 
+#: tools/ruledit/tab_enablers.cpp:165 tools/ruledit/tab_enablers.cpp:236
+#: tools/ruledit/tab_enablers.cpp:248
+msgid "Enabler Issues"
+msgstr "Problèmes d'activateurs"
+
 #. TRANS: Fix an error in an action enabler.
-#: tools/ruledit/tab_enablers.cpp:225
+#: tools/ruledit/tab_enablers.cpp:227
 msgid "Repair Enabler"
 msgstr "Réparer l'activateur"
 
 #. TRANS: Fix a non error issue in an action enabler.
-#: tools/ruledit/tab_enablers.cpp:230
+#: tools/ruledit/tab_enablers.cpp:232
 msgid "Improve Enabler"
 msgstr "Améliorer l'activateur"
 
-#: tools/ruledit/tab_enablers.cpp:234 tools/ruledit/tab_enablers.cpp:246
-msgid "Enabler Issues"
-msgstr "Problèmes d'activateurs"
-
-#: tools/ruledit/tab_enablers.cpp:387
+#: tools/ruledit/tab_enablers.cpp:389
 msgid "Enabler (target)"
 msgstr "Activateur (cible)"
 
-#: tools/ruledit/tab_enablers.cpp:398
+#: tools/ruledit/tab_enablers.cpp:400
 msgid "Enabler (actor)"
 msgstr "Activateur (acteur)"
 
-#: tools/ruledit/tab_enablers.cpp:417
+#: tools/ruledit/tab_enablers.cpp:419
 #, c-format
 msgid "action enabler for %s"
 msgstr "activateur d'action pour %s"
@@ -534,7 +553,7 @@ msgstr "Supprimer cette technologie"
 msgid "Never"
 msgstr "Jamais"
 
-#: tools/ruledit/tab_tech.cpp:349
+#: tools/ruledit/tab_tech.cpp:351
 msgid "A tech with that rule name already exists!"
 msgstr "Une technologie avec ce nom existe déjà dans les règles !"
 

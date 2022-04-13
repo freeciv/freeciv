@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2022-02-16 13:01+0200\n"
+"POT-Creation-Date: 2022-04-12 03:46+0300\n"
 "PO-Revision-Date: 2013-09-09 09:59+0300\n"
 "Last-Translator: Duarte Loreto <happyguy_pt@hotmail.com>\n"
 "Language-Team: \n"
@@ -251,16 +251,16 @@ msgstr "Deserto"
 msgid "Ruleset loading failed!"
 msgstr ""
 
-#: tools/ruledit/ruledit_qt.cpp:370
+#: tools/ruledit/ruledit_qt.cpp:372
 #, fuzzy
 msgid "Freeciv Ruleset Editor"
 msgstr "Selecção Servidor Freeciv"
 
-#: tools/ruledit/ruledit_qt.cpp:386
+#: tools/ruledit/ruledit_qt.cpp:392
 msgid "Are you sure you want to quit?"
 msgstr ""
 
-#: tools/ruledit/ruledit_qt.cpp:390
+#: tools/ruledit/ruledit_qt.cpp:396
 msgid "Quit?"
 msgstr ""
 
@@ -271,6 +271,24 @@ msgstr ""
 #, fuzzy
 msgid "Rule Name"
 msgstr "?city:Nome"
+
+#: tools/ruledit/tab_building.cpp:69 tools/ruledit/tab_building.cpp:79
+#: tools/ruledit/tab_building.cpp:147 tools/ruledit/tab_building.cpp:148
+#: tools/ruledit/tab_enablers.cpp:131 tools/ruledit/tab_enablers.cpp:241
+#: tools/ruledit/tab_extras.cpp:67 tools/ruledit/tab_extras.cpp:77
+#: tools/ruledit/tab_extras.cpp:142 tools/ruledit/tab_extras.cpp:143
+#: tools/ruledit/tab_good.cpp:68 tools/ruledit/tab_good.cpp:78
+#: tools/ruledit/tab_good.cpp:143 tools/ruledit/tab_good.cpp:144
+#: tools/ruledit/tab_gov.cpp:67 tools/ruledit/tab_gov.cpp:77
+#: tools/ruledit/tab_gov.cpp:142 tools/ruledit/tab_gov.cpp:143
+#: tools/ruledit/tab_tech.cpp:66 tools/ruledit/tab_tech.cpp:76
+#: tools/ruledit/tab_tech.cpp:226 tools/ruledit/tab_tech.cpp:227
+#: tools/ruledit/tab_terrains.cpp:67 tools/ruledit/tab_terrains.cpp:77
+#: tools/ruledit/tab_terrains.cpp:138 tools/ruledit/tab_terrains.cpp:139
+#: tools/ruledit/tab_unit.cpp:68 tools/ruledit/tab_unit.cpp:78
+#: tools/ruledit/tab_unit.cpp:142 tools/ruledit/tab_unit.cpp:143
+msgid "None"
+msgstr ""
 
 #: tools/ruledit/tab_building.cpp:74 tools/ruledit/tab_extras.cpp:72
 #: tools/ruledit/tab_good.cpp:73 tools/ruledit/tab_gov.cpp:72
@@ -305,46 +323,47 @@ msgstr ""
 msgid "Type"
 msgstr ""
 
-#: tools/ruledit/tab_enablers.cpp:136
+#: tools/ruledit/tab_enablers.cpp:137
 msgid "Actor Requirements"
 msgstr ""
 
-#: tools/ruledit/tab_enablers.cpp:143
+#: tools/ruledit/tab_enablers.cpp:144
 msgid "Target Requirements"
 msgstr ""
 
-#: tools/ruledit/tab_enablers.cpp:150
+#: tools/ruledit/tab_enablers.cpp:151
 msgid "Add Enabler"
 msgstr ""
 
-#: tools/ruledit/tab_enablers.cpp:155
+#: tools/ruledit/tab_enablers.cpp:156
 #, fuzzy
 msgid "Remove this Enabler"
 msgstr "Remover esta pré-definição?"
 
+#: tools/ruledit/tab_enablers.cpp:165 tools/ruledit/tab_enablers.cpp:236
+#: tools/ruledit/tab_enablers.cpp:248
+msgid "Enabler Issues"
+msgstr ""
+
 #. TRANS: Fix an error in an action enabler.
-#: tools/ruledit/tab_enablers.cpp:225
+#: tools/ruledit/tab_enablers.cpp:227
 msgid "Repair Enabler"
 msgstr ""
 
 #. TRANS: Fix a non error issue in an action enabler.
-#: tools/ruledit/tab_enablers.cpp:230
+#: tools/ruledit/tab_enablers.cpp:232
 msgid "Improve Enabler"
 msgstr ""
 
-#: tools/ruledit/tab_enablers.cpp:234 tools/ruledit/tab_enablers.cpp:246
-msgid "Enabler Issues"
-msgstr ""
-
-#: tools/ruledit/tab_enablers.cpp:387
+#: tools/ruledit/tab_enablers.cpp:389
 msgid "Enabler (target)"
 msgstr ""
 
-#: tools/ruledit/tab_enablers.cpp:398
+#: tools/ruledit/tab_enablers.cpp:400
 msgid "Enabler (actor)"
 msgstr ""
 
-#: tools/ruledit/tab_enablers.cpp:417
+#: tools/ruledit/tab_enablers.cpp:419
 #, c-format
 msgid "action enabler for %s"
 msgstr ""
@@ -551,7 +570,7 @@ msgstr "Remover esta pré-definição?"
 msgid "Never"
 msgstr "(Nunca)"
 
-#: tools/ruledit/tab_tech.cpp:349
+#: tools/ruledit/tab_tech.cpp:351
 msgid "A tech with that rule name already exists!"
 msgstr ""
 

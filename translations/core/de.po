@@ -70,7 +70,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.15\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2022-04-06 01:55+0300\n"
+"POT-Creation-Date: 2022-04-11 12:08+0300\n"
 "PO-Revision-Date: 2022-04-13 22:29+0200\n"
 "Last-Translator: Marvin Gülker <m-guelker@phoenixmail.de>\n"
 "Language-Team: German Freeciv Translators <freeciv-de@googlegroups.com>\n"
@@ -1762,7 +1762,7 @@ msgstr "Fehler: Option --debug: Debug-Level '%s' ist nicht zulässig.\n"
 msgid "Invalid announce protocol \"%s\".\n"
 msgstr "Ungültiges Protokoll \"%s\" für Ankündigung (announce).\n"
 
-#: client/client_main.c:556 client/gui-sdl2/gui_main.c:195
+#: client/client_main.c:556 client/gui-sdl2/gui_main.c:194
 #: tools/civmanual.c:736 tools/mpcmdline.c:117 tools/ruleup.c:116
 #, c-format
 msgid "Unrecognized option: \"%s\"\n"
@@ -4482,58 +4482,58 @@ msgstr ""
 "- über Probleme mit der deutschen Übersetzung mit einer E-Mail an "
 "<quintus@quintilianus.eu>\n"
 
-#: client/gui-gtk-2.0/gui_main.c:760 client/gui-gtk-2.0/gui_main.c:1571
-#: client/gui-gtk-3.0/gui_main.c:807 client/gui-gtk-3.0/gui_main.c:1757
-#: client/gui-gtk-3.22/gui_main.c:795 client/gui-gtk-3.22/gui_main.c:1841
+#: client/gui-gtk-2.0/gui_main.c:759 client/gui-gtk-2.0/gui_main.c:1570
+#: client/gui-gtk-3.0/gui_main.c:806 client/gui-gtk-3.0/gui_main.c:1756
+#: client/gui-gtk-3.22/gui_main.c:794 client/gui-gtk-3.22/gui_main.c:1840
 msgid "Freeciv"
 msgstr "Freeciv"
 
-#: client/gui-gtk-2.0/gui_main.c:1245 client/gui-gtk-2.0/gui_main.c:1253
-#: client/gui-gtk-3.0/gui_main.c:1348 client/gui-gtk-3.0/gui_main.c:1356
-#: client/gui-gtk-3.22/gui_main.c:1379 client/gui-gtk-3.22/gui_main.c:1387
+#: client/gui-gtk-2.0/gui_main.c:1244 client/gui-gtk-2.0/gui_main.c:1252
+#: client/gui-gtk-3.0/gui_main.c:1347 client/gui-gtk-3.0/gui_main.c:1355
+#: client/gui-gtk-3.22/gui_main.c:1378 client/gui-gtk-3.22/gui_main.c:1386
 #: client/gui-qt/pages.cpp:741 client/gui-sdl2/mapctrl.c:1667
 msgid "Turn Done"
 msgstr "Runde beendet"
 
-#: client/gui-gtk-2.0/gui_main.c:1253 client/gui-gtk-3.0/gui_main.c:1356
-#: client/gui-gtk-3.22/gui_main.c:1387 client/gui-sdl2/mapctrl.c:1667
+#: client/gui-gtk-2.0/gui_main.c:1252 client/gui-gtk-3.0/gui_main.c:1355
+#: client/gui-gtk-3.22/gui_main.c:1386 client/gui-sdl2/mapctrl.c:1667
 #: client/gui-sdl2/mapview.c:939
 msgid "Shift+Return"
 msgstr "Shift+Eingabe"
 
 # MG: Gemeint ist der Kartentab.
-#: client/gui-gtk-2.0/gui_main.c:1324 client/gui-gtk-3.0/gui_main.c:1439
-#: client/gui-gtk-3.22/gui_main.c:1470 client/gui-qt/menu.cpp:1569
+#: client/gui-gtk-2.0/gui_main.c:1323 client/gui-gtk-3.0/gui_main.c:1438
+#: client/gui-gtk-3.22/gui_main.c:1469 client/gui-qt/menu.cpp:1569
 #: client/gui-qt/pages.cpp:717
 msgid "?noun:View"
 msgstr "Karte"
 
-#: client/gui-gtk-2.0/gui_main.c:1436 client/gui-gtk-3.0/gui_main.c:1558
-#: client/gui-gtk-3.22/gui_main.c:1591
+#: client/gui-gtk-2.0/gui_main.c:1435 client/gui-gtk-3.0/gui_main.c:1557
+#: client/gui-gtk-3.22/gui_main.c:1590
 msgid "Chat"
 msgstr "Chat"
 
-#: client/gui-gtk-2.0/gui_main.c:1460 client/gui-gtk-3.0/gui_main.c:1588
-#: client/gui-gtk-3.22/gui_main.c:1621
+#: client/gui-gtk-2.0/gui_main.c:1459 client/gui-gtk-3.0/gui_main.c:1587
+#: client/gui-gtk-3.22/gui_main.c:1620
 msgid "Allies Only"
 msgstr "Nur Verbündete"
 
-#: client/gui-gtk-2.0/gui_main.c:1469 client/gui-gtk-3.0/gui_main.c:1597
-#: client/gui-gtk-3.22/gui_main.c:1630 client/gui-qt/chatline.cpp:287
+#: client/gui-gtk-2.0/gui_main.c:1468 client/gui-gtk-3.0/gui_main.c:1596
+#: client/gui-gtk-3.22/gui_main.c:1629 client/gui-qt/chatline.cpp:287
 msgid "Clear links"
 msgstr "Links löschen"
 
-#: client/gui-gtk-2.0/gui_main.c:1512
+#: client/gui-gtk-2.0/gui_main.c:1511
 msgid "Migrating gtk2-client options from freeciv-2.5 options."
 msgstr ""
 
-#: client/gui-gtk-2.0/gui_main.c:2019 client/gui-gtk-3.0/gui_main.c:2157
-#: client/gui-gtk-3.22/gui_main.c:2243 client/gui-qt/gui_main.cpp:545
+#: client/gui-gtk-2.0/gui_main.c:2018 client/gui-gtk-3.0/gui_main.c:2156
+#: client/gui-gtk-3.22/gui_main.c:2242 client/gui-qt/gui_main.cpp:545
 msgid "Are you sure you want to quit?"
 msgstr "Wollen Sie das Programm wirklich beenden?"
 
-#: client/gui-gtk-2.0/gui_main.c:2188 client/gui-gtk-3.0/gui_main.c:2326
-#: client/gui-gtk-3.22/gui_main.c:2412
+#: client/gui-gtk-2.0/gui_main.c:2187 client/gui-gtk-3.0/gui_main.c:2325
+#: client/gui-gtk-3.22/gui_main.c:2411
 #, c-format
 msgid ""
 "\n"
@@ -7032,16 +7032,16 @@ msgstr ""
 msgid "-r, --resolution WIDTHxHEIGHT\tAssume given resolution screen\n"
 msgstr ""
 
-#: client/gui-gtk-3.0/gui_main.c:306 client/gui-gtk-3.22/gui_main.c:289
+#: client/gui-gtk-3.0/gui_main.c:305 client/gui-gtk-3.22/gui_main.c:288
 #, c-format
 msgid "Illegal video mode '%s'"
 msgstr ""
 
-#: client/gui-gtk-3.0/gui_main.c:1641 client/gui-gtk-3.22/gui_main.c:1674
+#: client/gui-gtk-3.0/gui_main.c:1640 client/gui-gtk-3.22/gui_main.c:1673
 msgid "Migrating options from gtk2 to gtk3 client"
 msgstr "Konvertiere Optionen vom GTK2- zum GTK3-Klienten"
 
-#: client/gui-gtk-3.0/gui_main.c:1696 client/gui-gtk-3.22/gui_main.c:1740
+#: client/gui-gtk-3.0/gui_main.c:1695 client/gui-gtk-3.22/gui_main.c:1739
 msgid "Migrating gtk3-client options from freeciv-2.5 options."
 msgstr "Migrieren der gtk3-Client-Optionen von den freeciv-2.5-Optionen."
 
@@ -7224,7 +7224,7 @@ msgstr "Anwenden"
 msgid "_Find"
 msgstr "Finde"
 
-#: client/gui-gtk-3.22/gui_main.c:1729
+#: client/gui-gtk-3.22/gui_main.c:1728
 msgid "Migrating options from gtk3 to gtk3.22 client"
 msgstr "Migrieren von Optionen von gtk3 zu gtk3.22 Client"
 
@@ -9656,16 +9656,16 @@ msgid "  -t,  --theme THEME\tUse GUI theme THEME\n"
 msgstr ""
 "  -t,  --theme THEMA\tVerwendet THEMA als Thema der Benutzeroberfläche.\n"
 
-#: client/gui-sdl2/gui_main.c:735
+#: client/gui-sdl2/gui_main.c:734
 #, c-format
 msgid "Making screenshot %s"
 msgstr "Erstelle Bildschirmfoto %s"
 
-#: client/gui-sdl2/gui_main.c:947
+#: client/gui-sdl2/gui_main.c:946
 msgid "Migrating options from sdl to sdl2 client"
 msgstr "Optionen von sdl zu sdl2-Client migrieren"
 
-#: client/gui-sdl2/gui_main.c:986
+#: client/gui-sdl2/gui_main.c:985
 #, c-format
 msgid "Using Video Output: %s"
 msgstr "Videoausgabe auf : %s"
@@ -11869,8 +11869,8 @@ msgstr ""
 #, c-format
 msgid "  * Such units get a %d%% defense bonus on this tile.\n"
 msgstr ""
-"  ‒ Solche Einheiten erhalten auf diesem Feld einen Verteidigungsbonus von %d"
-"%%.\n"
+"  ‒ Solche Einheiten erhalten auf diesem Feld einen Verteidigungsbonus von "
+"%d%%.\n"
 
 #: client/helpdata.c:3671
 msgid "* Allows infinite movement.\n"
@@ -34318,8 +34318,8 @@ msgid ""
 "capacity, and once full the city grows by one citizen and the granary starts "
 "again at empty. But since granary capacity increases with population, each "
 "citizen is more costly than the last, making this mode of growth important "
-"only for small cities. (An alternative way for cities to grow is \"rapture"
-"\", described in the section on Happiness.)"
+"only for small cities. (An alternative way for cities to grow is "
+"\"rapture\", described in the section on Happiness.)"
 msgstr ""
 "Ein großer Nahrungsüberschuss kann die Stadt wachsen lassen: Der städtische "
 "Kornspeicher hat eine begrenzte Kapazität, und ist er einmal gefüllt, wächst "
@@ -37418,8 +37418,8 @@ msgid ""
 "i] test[/b] this[/s] [/c]new[/u] feature[/c]'."
 msgstr ""
 "Selbstverständlich können verschiedene Escapesequenzen in einem Satz "
-"kombiniert werden, beispielsweise [i][c fg=\"blue\"]ist [b]es [s]lustig[c bg="
-"\"green\"], [u]dieses[/i] neue[/b] Feature[/s] [/c] zu[/u] testen[/c]."
+"kombiniert werden, beispielsweise [i][c fg=\"blue\"]ist [b]es [s]lustig[c "
+"bg=\"green\"], [u]dieses[/i] neue[/b] Feature[/s] [/c] zu[/u] testen[/c]."
 
 #: data/helpdata.txt:1972
 msgid ""
@@ -42715,11 +42715,11 @@ msgstr "Servereinstellungen anzeigen"
 msgid ""
 "With no arguments, shows vital server options (or available options, when "
 "used by clients). With an option name argument, show only the named option, "
-"or options with that prefix. With \"all\", it shows all options. With \"vital"
-"\", \"situational\" or \"rare\", a set of options with this level. With "
-"\"changed\", it shows only the options which have been modified, while with "
-"\"locked\" all settings locked by the ruleset will be listed. With \"ruleset"
-"\", it will show the current ruleset directory name."
+"or options with that prefix. With \"all\", it shows all options. With "
+"\"vital\", \"situational\" or \"rare\", a set of options with this level. "
+"With \"changed\", it shows only the options which have been modified, while "
+"with \"locked\" all settings locked by the ruleset will be listed. With "
+"\"ruleset\", it will show the current ruleset directory name."
 msgstr ""
 "Ohne Argumente werden die kritischen Server-Optionen angezeigt (oder, wenn "
 "von Clients verwendet, die verfügbaren Optionen). Mit einem Argument wird "
@@ -43301,10 +43301,10 @@ msgstr "Filtere alle Nachrichten von Nutzern, die auf das Muster passen."
 #: server/commands.c:475
 msgid ""
 "The given pattern will be added to your ignore list; you will not receive "
-"any messages from users matching this pattern. The type may be either \"user"
-"\", \"host\", or \"ip\". The default type (if omitted) is to match against "
-"the username. The pattern supports unix glob style wildcards, i.e., * "
-"matches zero or more character, ? exactly one character, [abc] exactly one "
+"any messages from users matching this pattern. The type may be either "
+"\"user\", \"host\", or \"ip\". The default type (if omitted) is to match "
+"against the username. The pattern supports unix glob style wildcards, i.e., "
+"* matches zero or more character, ? exactly one character, [abc] exactly one "
 "of 'a' 'b' or 'c', etc. To access your current ignore list, issue \"/list "
 "ignore\"."
 msgstr ""
@@ -44935,12 +44935,12 @@ msgstr ""
 msgid "%s has been added as human player."
 msgstr "%s ist als menschlicher Spieler dazu gekommen."
 
-#: server/legacysave.c:4153 server/savegame2.c:5170 server/savegame3.c:7072
+#: server/legacysave.c:4153 server/savegame2.c:5170 server/savegame3.c:7083
 #, c-format
 msgid "%s had invalid researching technology."
 msgstr "Unzulässiges Forschungsprojekt von %s."
 
-#: server/legacysave.c:4164 server/savegame2.c:5180 server/savegame3.c:7082
+#: server/legacysave.c:4164 server/savegame2.c:5180 server/savegame3.c:7093
 #, c-format
 msgid "%s had invalid technology goal."
 msgstr "Unzulässiges Forschungsziel von %s."
@@ -45815,7 +45815,7 @@ msgstr "Unsupported compression type %d."
 msgid "Failed to load ruleset '%s' needed for savegame."
 msgstr "Konnte %s nicht herunterladen"
 
-#: server/savegame2.c:5205 server/savegame3.c:7100
+#: server/savegame2.c:5205 server/savegame3.c:7111
 #, c-format
 msgid ""
 "%s has multiple units of type %s though it should be possible to have only "
@@ -53265,8 +53265,8 @@ msgstr "error %d (compiled without strerror)"
 #~ "On terrain unsuitable for irrigation systems or mines, issuing the "
 #~ "\"irrigate\" or \"mine\" order may permanently convert the terrain to "
 #~ "another type; this is usually more expensive. For instance, Swamp may be "
-#~ "\"irrigated\" to yield Grassland. (Terrain conversion with the \"irrigate"
-#~ "\" order does not require a water source.)"
+#~ "\"irrigated\" to yield Grassland. (Terrain conversion with the "
+#~ "\"irrigate\" order does not require a water source.)"
 #~ msgstr ""
 #~ "Einige Einheiten verfügen über begrenzte Möglichkeit, "
 #~ "Geländeveränderungen vorzunehmen, die Sie nutzen können, indem Sie die "
@@ -57515,9 +57515,9 @@ msgstr "error %d (compiled without strerror)"
 #~ "Nach Spielbeginn steht der Befehl nicht mehr zur Verfügung."
 
 #~ msgid ""
-#~ "With no arguments gives some introductory help.  With argument \"commands"
-#~ "\" or \"options\" gives respectively a list of all commands or all "
-#~ "options.  Otherwise the argument is taken as a command name or option "
+#~ "With no arguments gives some introductory help.  With argument "
+#~ "\"commands\" or \"options\" gives respectively a list of all commands or "
+#~ "all options.  Otherwise the argument is taken as a command name or option "
 #~ "name, and help is given for that command or option.  For options, the "
 #~ "help information includes the current and default values for that "
 #~ "option.  The argument may be abbreviated where unambiguous."
@@ -59017,8 +59017,8 @@ msgstr "error %d (compiled without strerror)"
 #~ msgstr "Namenvorsatz für das automatische Speichern"
 
 #~ msgid ""
-#~ "Automatically saved games will have name \"<prefix>-T<turn>-Y<year>.sav"
-#~ "\". This setting sets the <prefix> part."
+#~ "Automatically saved games will have name \"<prefix>-T<turn>-Y<year>."
+#~ "sav\". This setting sets the <prefix> part."
 #~ msgstr ""
 #~ "Automatisch gespeicherte Spiele heißen '<Präfix>-T<Runde>-Y<Jahr>.sav'. "
 #~ "Mit dieser Option kann das <Präfix> festgelegt werden."
