@@ -147,28 +147,41 @@ void set_turn_done_button_state(bool state)
 }
 
 /**********************************************************************//**
-  Handle 'Mouse button released'. Because of the quickselect feature,
+  Handle 'Left mouse button released'. Because of the quickselect feature,
   the release of both left and right mousebutton can launch the goto.
 **************************************************************************/
-gboolean butt_release_mapcanvas(GtkWidget *w, GdkEvent *ev, gpointer data)
+gboolean left_butt_up_mapcanvas(GtkGestureClick *gesture, int n_press,
+                                double x, double y)
 {
-  guint button;
-  gdouble e_x, e_y;
-
   if (editor_is_active()) {
-    return handle_edit_mouse_button_release(ev);
+    return handle_edit_mouse_button_release(gesture, MOUSE_BUTTON_LEFT,
+                                            x, y);
   }
 
-  button = gdk_button_event_get_button(ev);
-  gdk_event_get_position(ev, &e_x, &e_y);
-  if (button == 1 || button == 3) {
-    release_goto_button(e_x, e_y);
+  release_goto_button(x, y);
+
+  return TRUE;
+}
+
+/**********************************************************************//**
+  Handle 'Right mouse button released'. Because of the quickselect feature,
+  the release of both left and right mousebutton can launch the goto.
+**************************************************************************/
+gboolean right_butt_up_mapcanvas(GtkGestureClick *gesture, int n_press,
+                                 double x, double y)
+{
+  if (editor_is_active()) {
+    return handle_edit_mouse_button_release(gesture, MOUSE_BUTTON_RIGHT,
+                                            x, y);
   }
-  if (button == 3 && (rbutton_down || hover_state != HOVER_NONE))  {
+
+  release_goto_button(x, y);
+
+  if (rbutton_down || hover_state != HOVER_NONE)  {
     GdkModifierType state;
 
-    state = gdk_event_get_modifier_state(ev);
-    release_right_button(e_x, e_y,
+    state = gtk_event_controller_get_current_event_state(GTK_EVENT_CONTROLLER(gesture));
+    release_right_button(x, y,
                          (state & GDK_SHIFT_MASK) != 0);
   }
 

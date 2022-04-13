@@ -1458,12 +1458,16 @@ static void setup_widgets(void)
   mc_controller = GTK_EVENT_CONTROLLER(gtk_gesture_click_new());
   g_signal_connect(mc_controller, "pressed",
                    G_CALLBACK(left_butt_down_mapcanvas), NULL);
+  g_signal_connect(mc_controller, "released",
+                   G_CALLBACK(left_butt_up_mapcanvas), NULL);
   gtk_widget_add_controller(map_canvas, mc_controller);
   mc_gesture = gtk_gesture_click_new();
   gtk_gesture_single_set_button(GTK_GESTURE_SINGLE(mc_gesture), 3);
   mc_controller = GTK_EVENT_CONTROLLER(mc_gesture);
   g_signal_connect(mc_controller, "pressed",
                    G_CALLBACK(right_butt_down_mapcanvas), NULL);
+  g_signal_connect(mc_controller, "released",
+                   G_CALLBACK(right_butt_up_mapcanvas), NULL);
   gtk_widget_add_controller(map_canvas, mc_controller);
   mc_gesture = gtk_gesture_click_new();
   gtk_gesture_single_set_button(GTK_GESTURE_SINGLE(mc_gesture), 2);
@@ -1480,9 +1484,6 @@ static void setup_widgets(void)
 
   g_signal_connect(toplevel, "enter_notify_event",
                    G_CALLBACK(leave_mapcanvas), NULL);
-
-  g_signal_connect(map_canvas, "button_release_event",
-                   G_CALLBACK(butt_release_mapcanvas), NULL);
 
   g_signal_connect(map_canvas, "scroll_event",
                    G_CALLBACK(mouse_scroll_mapcanvas), NULL);
