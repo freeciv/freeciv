@@ -10,7 +10,7 @@ see the ChangeLog file.
 CHANGES FROM 3.0.0 to 3.0.1
 ---------------------------
 
-   (from <http://www.freeciv.org/wiki/NEWS-3.0.1>, 2022-04-11)
+   (from <http://www.freeciv.org/wiki/NEWS-3.0.1>, 2022-04-14)
 
 3.0.1 is a generic bugfix release.
 
@@ -96,20 +96,25 @@ Ruledit
 
 Tilesets, Art, etc
 
+    * MacOS icons included in the source tarball osdn#44314
     * Corrected/updated flag file formats
       osdn#44026 osdn#44033 osdn#44087 osdn#44148
 
 Help / Documentation
 
     * Miscellaneous improvements to in-game text and user documentation.
-      osdn#43864 osdn#43709 osdn#43793
+      osdn#43864 osdn#43709 osdn#43793 osdn#44301
     * Miscellaneous changes to developer/install/ruleset docs.
       osdn#43885 osdn#43612 osdn#43861 osdn#44022 osdn#44117 HRM#874200
-      osdn#44195 osdn#44125
+      osdn#44195 osdn#44125 osdn#44285
 
 Translations
 
-    * Updated translations: ca, de, fi, ru
+    * Updated translations:
+         + Complete translations: Catalan, Polish, Russian
+         + Incomplete translations:
+           German (76% core, 85% nations, 5% ruledit)
+           Finnish (100% core, 91% nations, 100% ruledit)
     * Marked strings for translations where they erroneously were not.
       osdn#43980 osdn#44029
     * Include core domain translations to Windows ruledit installer osdn#43981
