@@ -21,7 +21,10 @@
 /* client */
 #include "mapctrl_g.h"
 
-gboolean butt_release_mapcanvas(GtkWidget *w, GdkEvent *ev, gpointer data);
+gboolean left_butt_up_mapcanvas(GtkGestureClick *gesture, int n_press,
+                                double x, double y);
+gboolean right_butt_up_mapcanvas(GtkGestureClick *gesture, int n_press,
+                                 double x, double y);
 gboolean left_butt_down_mapcanvas(GtkGestureClick *gesture, int n_press,
                                   double x, double y);
 gboolean right_butt_down_mapcanvas(GtkGestureClick *gesture, int n_press,

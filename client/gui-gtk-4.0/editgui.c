@@ -918,28 +918,6 @@ static int convert_modifiers(int gdk_event_state)
 }
 
 /************************************************************************//**
-  Convert gdk mouse button values to editor mouse button values.
-****************************************************************************/
-static int convert_mouse_button(int gdk_mouse_button)
-{
-  switch (gdk_mouse_button) {
-  case 1:
-    return MOUSE_BUTTON_LEFT;
-    break;
-  case 2:
-    return MOUSE_BUTTON_MIDDLE;
-    break;
-  case 3:
-    return MOUSE_BUTTON_RIGHT;
-    break;
-  default:
-    break;
-  }
-
-  return MOUSE_BUTTON_OTHER;
-}
-
-/************************************************************************//**
   Pass on the gdk mouse event to the editor's handler.
 ****************************************************************************/
 gboolean handle_edit_mouse_button_press(GtkGestureClick *gesture,
@@ -959,21 +937,15 @@ gboolean handle_edit_mouse_button_press(GtkGestureClick *gesture,
 /************************************************************************//**
   Pass on the gdk mouse event to the editor's handler.
 ****************************************************************************/
-gboolean handle_edit_mouse_button_release(GdkEvent *ev)
+gboolean handle_edit_mouse_button_release(GtkGestureClick *gesture,
+                                          int editor_mouse_button,
+                                          double x, double y)
 {
-  gdouble e_x, e_y;
-  guint button;
   GdkModifierType state;
 
-  if (gdk_event_get_event_type(ev) != GDK_BUTTON_RELEASE) {
-    return TRUE;
-  }
-
-  gdk_event_get_position(ev, &e_x, &e_y);
-  button = gdk_button_event_get_button(ev);
-  state = gdk_event_get_modifier_state(ev);
-  editor_mouse_button_release(e_x, e_y,
-                              convert_mouse_button(button),
+  state = gtk_event_controller_get_current_event_state(GTK_EVENT_CONTROLLER(gesture));
+  editor_mouse_button_release(x, y,
+                              editor_mouse_button,
                               convert_modifiers(state));
   return TRUE;
 }
