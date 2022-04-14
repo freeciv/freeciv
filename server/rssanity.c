@@ -552,8 +552,15 @@ static bool effect_list_sanity_cb(struct effect *peffect, void *data)
     } requirement_vector_iterate_end;
   }
 
-  return sanity_check_req_vec(&peffect->reqs, TRUE, one_tile,
-                              effect_type_name(peffect->type));
+  if (!sanity_check_req_vec(&peffect->reqs, TRUE, one_tile,
+                            effect_type_name(peffect->type))) {
+    ruleset_error(LOG_ERROR,
+                  "Effects have conflicting or invalid requirements!");
+
+    return FALSE;
+  }
+
+  return TRUE;
 }
 
 /**********************************************************************//**
@@ -996,10 +1003,8 @@ bool sanity_check_ruleset_data(bool ignore_retired)
   } unit_type_iterate_end;
 
   /* Check requirement sets against conflicting requirements.
-   * Effects use requirement lists */
+   * For effects check also other sanity in the same iteration */
   if (!iterate_effect_cache(effect_list_sanity_cb, NULL)) {
-    ruleset_error(LOG_ERROR,
-                  "Effects have conflicting or invalid requirements!");
     ok = FALSE;
   }
 
