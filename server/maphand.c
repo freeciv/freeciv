@@ -976,7 +976,11 @@ void map_change_seen(struct player *pplayer,
 
     /* Discover units. */
     unit_list_iterate(ptile->units, punit) {
-      if (unit_is_visible_on_layer(punit, V_MAIN)) {
+      /* Be sure not to revive dead unit on client when it's not yet
+       * removed from the tile. This could happen when "unit_lost" lua script
+       * somehow causes tile of the dead unit to unfog again. */
+      if (unit_is_visible_on_layer(punit, V_MAIN)
+          && !punit->server.dying) {
         send_unit_info(pplayer->connections, punit);
       }
     } unit_list_iterate_end;
