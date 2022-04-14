@@ -3786,12 +3786,13 @@ void unit_change_homecity_handling(struct unit *punit, struct city *new_pcity,
 
   if (!can_unit_continue_current_activity(punit)) {
     /* This is mainly for cases where unit owner changes to one not knowing
-     * Railroad tech when unit is already building railroad. */
-    set_unit_activity(punit, ACTIVITY_IDLE);
+     * Railroad tech when unit is already building railroad.
+     * Does also send_unit_info() */
+    unit_activities_cancel(punit);
+  } else {
+    /* Send info to players and observers. */
+    send_unit_info(NULL, punit);
   }
-
-  /* Send info to players and observers. */
-  send_unit_info(NULL, punit);
 
   if (new_pcity != NULL) {
     city_refresh(new_pcity);
