@@ -1,8 +1,57 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="120" height="80">
-<rect width="120" height="80" fill="blue"/>
-<rect width="120" height="60" fill="#fff"/>
-<rect width="120" height="20" fill="#d20000"/>
-<polygon fill="#d20000" points="55,25 75,45 45,45 65,25 65,55 45,35 75,35 55,55"/>
-<path d="M54,34l12,12m-12,0l12,-12" stroke="#fff" stroke-width="1"/>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="120"
+   height="80"
+   version="1.1"
+   id="svg12"
+   sodipodi:docname="mordovia.svg"
+   inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs16" />
+  <sodipodi:namedview
+     id="namedview14"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     showgrid="false"
+     inkscape:zoom="7.3362329"
+     inkscape:cx="59.976286"
+     inkscape:cy="40.006909"
+     inkscape:window-width="1119"
+     inkscape:window-height="814"
+     inkscape:window-x="411"
+     inkscape:window-y="73"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg12" />
+  <rect
+     width="120"
+     height="80"
+     fill="blue"
+     id="rect2" />
+  <rect
+     width="120"
+     height="60"
+     fill="#fff"
+     id="rect4" />
+  <rect
+     width="120"
+     height="20"
+     fill="#d20000"
+     id="rect6" />
+  <polygon
+     fill="#d20000"
+     points="55,25 75,45 45,45 65,25 65,55 45,35 75,35 55,55"
+     id="polygon8" />
+  <path
+     d="M54,34l12,12m-12,0l12,-12"
+     stroke="#fff"
+     stroke-width="1"
+     id="path10" />
 </svg>
