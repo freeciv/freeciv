@@ -30,7 +30,7 @@ DLLPATH_PREFIX=/$(ARCHDIR)/bin/
 # Make rules
 #
 
-all: gtk3.22-installer
+all: gtk3.22-installer sdl2-installer
 
 snapshot:
 	make -f Makefile.meson VERSION_REVTYPE="git" EXTRA_CONFIG="-Dgitrev=true $(EXTRA_CONFIG)" all
@@ -38,7 +38,10 @@ snapshot:
 gtk3.22-installer:
 	make -f Makefile.meson GUI=gtk3.22 CLIENT=gtk3.22 FCMP=gtk3 installer-common
 
-installer-common: clean-install-common install-freeciv-$(GUI)
+sdl2-installer:
+	make -f Makefile.meson GUI=sdl2 CLIENT=sdl2 FCMP=gtk3 installer-common
+
+installer-common: clean-install-common install-freeciv-$(GUI) install-env-$(GUI)
 	# extract Freeciv version
 	$(eval FREECIV_VERSION := $(shell ../../fc_version))
 	./create-freeciv-$(CLIENT)-nsi.sh meson-install-$(GUI) $(FREECIV_VERSION) win64 > Freeciv-meson-$(FREECIV_VERSION)-$(GUI).nsi
@@ -149,10 +152,28 @@ install-env-gtk3-fcmp: install-env-common
 	mkdir -p meson-install-$(GUI)/lib/gdk-pixbuf-2.0/
 	cp -R /$(ARCHDIR)/lib/gdk-pixbuf-2.0/* meson-install-$(GUI)/lib/gdk-pixbuf-2.0/
 	cp -R /$(ARCHDIR)/share/locale meson-install-$(GUI)/share/
-	find meson-install-$(GUI)/share/locale -type f -not -name "freeciv*.mo" -and -not -name gtk30.mo -delete
+	find meson-install-$(GUI)/share/locale -type f -not -name "freeciv-*.mo" -and -not -name gtk30.mo -delete
 
-install-freeciv-gtk3.22: install-freeciv-common install-env-gtk3-fcmp
+install-freeciv-gtk3.22: install-freeciv-common
 
+install-freeciv-sdl2: install-freeciv-common
+
+install-env-gtk3.22: install-env-gtk3-fcmp
+
+SDL2_DLLS := \
+	SDL2_ttf.dll \
+	libSDL2_gfx-1-0-0.dll \
+	SDL2_image.dll \
+	libtiff-5.dll \
+	libjpeg-8.dll \
+	libwebp-7.dll \
+	libdeflate.dll \
+	libjbig-0.dll \
+	libLerc.dll
+
+install-env-sdl2: install-env-gtk3-fcmp
+	# add DLLs
+	cp -R $(addprefix $(DLLPATH_PREFIX), $(SDL2_DLLS)) meson-install-$(GUI)/
 
 # cleanup
 
@@ -168,3 +189,4 @@ clean-installer-common:
 
 clean:
 	make -f Makefile.meson GUI=gtk3.22 clean-build-common clean-install-common clean-installer-common
+	make -f Makefile.meson GUI=sdl2 clean-build-common clean-install-common clean-installer-common
