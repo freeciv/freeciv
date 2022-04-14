@@ -838,15 +838,7 @@ static void research_tech_lost(struct research *presearch, Tech_type_id tech)
     }
 
     /* Check all units for valid activities. */
-    unit_list_iterate(pplayer->units, punit) {
-      if (!can_unit_continue_current_activity(punit)) {
-        log_debug("lost technology for activity of unit %s of %s (%d, %d)",
-                  unit_name_translation(punit), player_name(pplayer),
-                  TILE_XY(unit_tile(punit)));
-        set_unit_activity(punit, ACTIVITY_IDLE);
-        send_unit_info(NULL, punit);
-      }
-    } unit_list_iterate_end;
+    unit_activities_cancel_all_illegal_plr(pplayer);
 
     /* Check city production */
     city_list_iterate(pplayer->cities, pcity) {

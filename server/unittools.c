@@ -771,23 +771,43 @@ static void unit_convert(struct unit *punit)
 }
 
 /**************************************************************************
+  Cancel activities, and orders that it might be part of.
+**************************************************************************/
+void unit_activities_cancel(struct unit *punit)
+{
+  if (unit_has_orders(punit)) {
+    notify_player(unit_owner(punit), unit_tile(punit),
+                  E_UNIT_ORDERS, ftc_server,
+                  _("Orders for %s aborted because activity "
+                    "is no longer available."),
+                  unit_link(punit));
+    free_unit_orders(punit);
+  }
+
+  set_unit_activity(punit, ACTIVITY_IDLE);
+  send_unit_info(NULL, punit);
+}
+
+/**********************************************************************//**
+  Cancel all illegal activities done by units of the specified owner.
+**************************************************************************/
+void unit_activities_cancel_all_illegal_plr(const struct player *pplayer)
+{
+  unit_list_iterate(pplayer->units, punit) {
+    if (!can_unit_continue_current_activity(punit)) {
+      unit_activities_cancel(punit);
+    }
+  } unit_list_iterate_end;
+}
+
+/**************************************************************************
   Cancel all illegal activities done by units at the specified tile.
 **************************************************************************/
-void unit_activities_cancel_all_illegal(const struct tile *ptile)
+void unit_activities_cancel_all_illegal_tile(const struct tile *ptile)
 {
-  unit_list_iterate(ptile->units, punit2) {
-    if (!can_unit_continue_current_activity(punit2)) {
-      if (unit_has_orders(punit2)) {
-        notify_player(unit_owner(punit2), unit_tile(punit2),
-                      E_UNIT_ORDERS, ftc_server,
-                      _("Orders for %s aborted because activity "
-                        "is no longer available."),
-                      unit_link(punit2));
-        free_unit_orders(punit2);
-      }
-
-      set_unit_activity(punit2, ACTIVITY_IDLE);
-      send_unit_info(NULL, punit2);
+  unit_list_iterate(ptile->units, punit) {
+    if (!can_unit_continue_current_activity(punit)) {
+      unit_activities_cancel(punit);
     }
   } unit_list_iterate_end;
 }
@@ -967,17 +987,11 @@ static void update_unit_activity(struct unit *punit)
        * used for extras. */
       unit_list_iterate(ptile->units, punit2) {
         if (punit2->activity == activity) {
-          set_unit_activity(punit2, ACTIVITY_IDLE);
-          send_unit_info(NULL, punit2);
+          unit_activities_cancel(punit2);
         }
       } unit_list_iterate_end;
     } else {
-      unit_list_iterate(ptile->units, punit2) {
-        if (!can_unit_continue_current_activity(punit2)) {
-          set_unit_activity(punit2, ACTIVITY_IDLE);
-          send_unit_info(NULL, punit2);
-        }
-      } unit_list_iterate_end;
+      unit_activities_cancel_all_illegal_tile(ptile);
     }
 
     for (i = 0; tile_changing_actions[i] != ACTIVITY_LAST; i++) {
@@ -986,7 +1000,7 @@ static void update_unit_activity(struct unit *punit)
          * such as building irrigation if we removed the only source
          * of water from them. */
         adjc_iterate(ptile, ptile2) {
-          unit_activities_cancel_all_illegal(ptile2);
+          unit_activities_cancel_all_illegal_tile(ptile2);
         } adjc_iterate_end;
         break;
       }
