@@ -21,4 +21,4 @@ libagents_la_SOURCES = 		\
 	cma_fec.c		\
 	cma_fec.h		\
 	sha.c                   \
-	sha.h                   
+	sha.h

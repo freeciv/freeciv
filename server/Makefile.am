@@ -125,7 +125,7 @@ libfreeciv_srv_la_SOURCES = \
 # outside this directory (when building common) there's no point in
 # setting them to BUILT_SOURCES.
 
-da_libs = 
+da_libs =
 
 if AI_MOD_DEFAULT_NEEDED
 da_libs += $(top_builddir)/ai/default/libdefaultai.la

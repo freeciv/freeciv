@@ -31,6 +31,6 @@ pkgdata_DATA =          	\
 	sun.png			\
 	units.png		\
 	view.png		\
-	wheel.png		
+	wheel.png
 
 EXTRA_DIST = $(pkgdata_DATA)

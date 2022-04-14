@@ -86,7 +86,7 @@ if CLIENT
 CLIENTDATADIRS = amplio2 misc flags buildings cimpletoon isotrident trident\
  isophex hex2t hexemplio alio stdsounds stdmusic themes wonders
 else
-CLIENTDATADIRS = 
+CLIENTDATADIRS =
 endif
 
 SRV_RE_DATADIRS = default classic civ1 civ2 sandbox multiplayer \

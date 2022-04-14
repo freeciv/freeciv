@@ -1,6 +1,6 @@
 ## Process this file with automake to produce Makefile.in
 
-module_dirs = 
+module_dirs =
 
 if AI_MOD_DEFAULT_NEEDED
 module_dirs += default

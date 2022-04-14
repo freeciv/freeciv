@@ -4,6 +4,6 @@
 pkgdatadir = $(datadir)/$(PACKAGE)/themes/gui-qt/System
 
 pkgdata_DATA =          	\
-	resource.qss		
+	resource.qss
 
 EXTRA_DIST = $(pkgdata_DATA)
