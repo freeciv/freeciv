@@ -631,18 +631,20 @@ char *user_home_dir(void)
   return "PROGDIR:";
 #else  /* AMIGA */
 
-  if (home_dir_user == NULL) {
-    char *env = getenv("HOME");
-
 #ifdef FREECIV_MSWINDOWS
-    env = getenv("APPDATA");
-#endif /* FREECIV_MSWINDOWS */
+#define HOMEVAR "APPDATA"
+#else
+#define HOMEVAR "HOME"
+#endif
+
+  if (home_dir_user == NULL) {
+    char *env = getenv(HOMEVAR);
 
     if (env) {
       home_dir_user = fc_strdup(env);
-      log_verbose("HOME is %s", home_dir_user);
+      log_verbose(HOMEVAR " is %s", home_dir_user);
     } else {
-      log_error("Could not find home directory (HOME is not set).");
+      log_error("Could not find home directory (" HOMEVAR " is not set).");
       home_dir_user = NULL;
     }
   }
