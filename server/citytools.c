@@ -1613,7 +1613,7 @@ void create_city(struct player *pplayer, struct tile *ptile,
 
     /* Catch fortress building, transforming into ocean, etc. */
     if (!can_unit_continue_current_activity(punit)) {
-      unit_activity_handling(punit, ACTIVITY_IDLE);
+      unit_activities_cancel(punit);
     }
 
     /* Update happiness (the unit may no longer cause unrest). */
@@ -1884,12 +1884,8 @@ void remove_city(struct city *pcity)
 
   sync_cities();
 
-  unit_list_iterate(pcenter->units, punit) {
-    /* At least sentried helicopters need to go idle, maybe others. */
-    if (!can_unit_continue_current_activity(punit)) {
-      unit_activity_handling(punit, ACTIVITY_IDLE);
-    }
-  } unit_list_iterate_end;
+  /* At least sentried helicopters need to go idle, maybe others. */
+  unit_activities_cancel_all_illegal_tile(pcenter);
 }
 
 /************************************************************************//**

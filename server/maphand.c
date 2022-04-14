@@ -209,7 +209,7 @@ void climate_change(bool warming, int effect)
           if (punit->activity == ACTIVITY_CULTIVATE
               || punit->activity == ACTIVITY_PLANT
               || punit->activity == ACTIVITY_TRANSFORM) {
-            unit_activity_handling(punit, ACTIVITY_IDLE);
+            unit_activities_cancel(punit);
           }
         }
       } unit_list_iterate_end;
@@ -220,11 +220,8 @@ void climate_change(bool warming, int effect)
       update_tile_knowledge(ptile);
 
       /* Check the unit activities. */
-      unit_list_iterate(ptile->units, punit) {
-        if (!can_unit_continue_current_activity(punit)) {
-          unit_activity_handling(punit, ACTIVITY_IDLE);
-        }
-      } unit_list_iterate_end;
+      unit_activities_cancel_all_illegal_tile(ptile);
+
     } else if (old == new) {
       /* This counts toward a climate change although nothing is changed. */
       effect--;
