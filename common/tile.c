@@ -896,7 +896,7 @@ bool tile_has_conflicting_extra(const struct tile *ptile,
 }
 
 /************************************************************************//**
-  Returns TRUE if the given tile has a road of given type on it.
+  Returns TRUE if the given tile has an extra of the given type on it.
 ****************************************************************************/
 bool tile_has_visible_extra(const struct tile *ptile, const struct extra_type *pextra)
 {
