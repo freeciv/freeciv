@@ -2540,6 +2540,12 @@ static bool load_terrain_names(struct section_file *file,
           break;
         }
         section_strlcpy(&extra_sections[idx * MAX_SECTION_LABEL], sec_name);
+
+        /* Initialize category to a value other than ECAT_RESOURCE, so
+         * we can later reliably distinguish between extras that have been
+         * assigned ECAT_RESOURCE in rscompat_extra_from_resource_3_0()
+         * and those that have not. */
+        pextra->category = EC_LAST;
       }
     }
   }
