@@ -494,6 +494,12 @@ static bool sanity_check_req_vec(const struct requirement_vector *preqs,
   return TRUE;
 }
 
+typedef struct {
+  struct {
+    bool city_vision_radius_sq;
+  } base_effects;
+} els_data;
+
 /**********************************************************************//**
   Sanity check callback for iterating effects cache.
 **************************************************************************/
@@ -501,8 +507,15 @@ static bool effect_list_sanity_cb(struct effect *peffect, void *data)
 {
   int one_tile = -1; /* TODO: Determine correct value from effect.
                       *       -1 disables checking */
+  els_data *els = (els_data *)data;
 
-  if (peffect->type == EFT_ACTION_SUCCESS_TARGET_MOVE_COST) {
+  /* TODO: Refactor this to be more reusable when we check
+   *       for more than one base effect. */
+  if (peffect->type == EFT_CITY_VISION_RADIUS_SQ) {
+    if (requirement_vector_size(&peffect->reqs) == 0) {
+      els->base_effects.city_vision_radius_sq = TRUE;
+    }
+  } else if (peffect->type == EFT_ACTION_SUCCESS_TARGET_MOVE_COST) {
     /* Only unit targets can pay in move fragments. */
     requirement_vector_iterate(&peffect->reqs, preq) {
       if (preq->source.kind == VUT_ACTION) {
@@ -784,7 +797,7 @@ static bool sanity_check_boolean_effects(void)
 
   Returns TRUE iff everything ok.
 **************************************************************************/
-bool sanity_check_ruleset_data(bool ignore_retired)
+bool sanity_check_ruleset_data(struct rscompat_info *compat)
 {
   int num_utypes;
   int i;
@@ -793,6 +806,7 @@ bool sanity_check_ruleset_data(bool ignore_retired)
                    * one. */
   bool default_gov_failed = FALSE;
   bool obsoleted_by_loop = FALSE;
+  els_data els;
 
   if (!sanity_check_metadata()) {
     ok = FALSE;
@@ -1002,10 +1016,25 @@ bool sanity_check_ruleset_data(bool ignore_retired)
     }
   } unit_type_iterate_end;
 
+  memset(&els, 0, sizeof(els));
+
   /* Check requirement sets against conflicting requirements.
    * For effects check also other sanity in the same iteration */
-  if (!iterate_effect_cache(effect_list_sanity_cb, NULL)) {
+  if (!iterate_effect_cache(effect_list_sanity_cb, &els)) {
     ok = FALSE;
+  }
+
+  if (!els.base_effects.city_vision_radius_sq) {
+    if (compat != NULL && compat->compat_mode && compat->version < RSFORMAT_3_1) {
+      log_deprecation("There is no base City_Vision_Radius_Sq effect.");
+      if (compat->log_cb != NULL) {
+        compat->log_cb(_("Missing base City_Vision_Radius_Sq effect. Please add one."));
+      }
+    } else {
+      ruleset_error(LOG_ERROR,
+                    "There is no base City_Vision_Radius_Sq effect.");
+      ok = FALSE;
+    }
   }
 
   if (!sanity_check_boolean_effects()) {
@@ -1225,7 +1254,7 @@ bool sanity_check_ruleset_data(bool ignore_retired)
         }
       } requirement_vector_iterate_end;
 
-      if (!ignore_retired) {
+      if (compat == NULL || !compat->compat_mode) {
         /* Support for letting some of the following hard requirements be
          * implicit were retired in Freeciv 3.0. Others were retired later.
          * Make sure that the opposite of each hard action requirement

@@ -459,6 +459,8 @@ per turn.
 
 City_Vision_Radius_Sq
     Increase city vision radius in squared distance by amount tiles.
+    There must be a base effect present in the ruleset;
+    one with no requirements at all, i.e., always active
 
 Unit_Vision_Radius_Sq
     Increase unit vision radius in squared distance by amount tiles.
