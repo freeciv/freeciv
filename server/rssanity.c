@@ -479,6 +479,12 @@ static bool sanity_check_req_vec(const struct requirement_vector *preqs,
   return TRUE;
 }
 
+typedef struct {
+  struct {
+    bool city_vision_radius_sq;
+  } base_effects;
+} els_data;
+
 /**********************************************************************//**
   Sanity check callback for iterating effects cache.
 **************************************************************************/
@@ -486,8 +492,15 @@ static bool effect_list_sanity_cb(struct effect *peffect, void *data)
 {
   int one_tile = -1; /* TODO: Determine correct value from effect.
                       *       -1 disables checking */
+  els_data *els = (els_data *)data;
 
-  if (peffect->type == EFT_ACTION_SUCCESS_TARGET_MOVE_COST) {
+  /* TODO: Refactor this to be more reusable when we check
+   *       for more than one base effect. */
+  if (peffect->type == EFT_CITY_VISION_RADIUS_SQ) {
+    if (requirement_vector_size(&peffect->reqs) == 0) {
+      els->base_effects.city_vision_radius_sq = TRUE;
+    }
+  } else if (peffect->type == EFT_ACTION_SUCCESS_TARGET_MOVE_COST) {
     /* Only unit targets can pay in move fragments. */
     requirement_vector_iterate(&peffect->reqs, preq) {
       if (preq->source.kind == VUT_ACTION) {
@@ -781,6 +794,7 @@ bool sanity_check_ruleset_data(bool ignore_retired)
                    * one. */
   bool default_gov_failed = FALSE;
   bool obsoleted_by_loop = FALSE;
+  els_data els;
 
   if (!sanity_check_metadata()) {
     ok = FALSE;
@@ -990,9 +1004,17 @@ bool sanity_check_ruleset_data(bool ignore_retired)
     }
   } unit_type_iterate_end;
 
+  memset(&els, 0, sizeof(els));
+
   /* Check requirement sets against conflicting requirements.
    * For effects check also other sanity in the same iteration */
-  if (!iterate_effect_cache(effect_list_sanity_cb, NULL)) {
+  if (!iterate_effect_cache(effect_list_sanity_cb, &els)) {
+    ok = FALSE;
+  }
+
+  if (!els.base_effects.city_vision_radius_sq) {
+    ruleset_error(LOG_ERROR,
+                  "There is no base City_Vision_Radius_Sq effect.");
     ok = FALSE;
   }
 
