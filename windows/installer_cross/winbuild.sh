@@ -80,8 +80,7 @@ elif test "x$2" != "x" ; then
     gtk3) FCMP="gtk3" ;;
     sdl2) FCMP="gtk3" ;;
     gtk3.22) FCMP="gtk3" ;;
-    qt) FCMP="qt"
-        NLS="--disable-nls" ;;
+    qt) FCMP="qt" ;;
     *) echo "Unknown gui \"$2\"!" >&2
        exit 1 ;;
   esac
@@ -125,7 +124,6 @@ if test "x$SINGLE_GUI" != "xtrue" ; then
   then
     CLIENTS="$CLIENTS,qt"
     FCMP="$FCMP,qt"
-    NLS="--disable-nls"
   fi
 fi
 
@@ -154,7 +152,7 @@ else
   GITREVP=""
 fi
 
-if ! ../../../configure MOCCMD=${DLLSPATH}/bin/moc FREECIV_LABEL_FORCE="<base>-crs" CPPFLAGS="-I${DLLSPATH}/include -D_WIN32_WINNT=${MIN_WINVER}" CFLAGS="-Wno-error" PKG_CONFIG_LIBDIR="${DLLSPATH}/lib/pkgconfig" --enable-sys-tolua-cmd --with-magickwand="${DLLSPATH}/bin" --prefix="/" $GITREVP --enable-client=$CLIENTS --enable-fcmp=$FCMP --enable-debug ${NLS} --host=$TARGET --build=$(../../../bootstrap/config.guess) --with-libiconv-prefix=${DLLSPATH} --with-sqlite3-prefix=${DLLSPATH} --with-followtag="crosser" --enable-crosser ${AIS} --disable-freeciv-manual --enable-sdl-mixer=sdl2 --with-qt5-includes=${DLLSPATH}/qt5/include --with-qt5-libs=${DLLSPATH}/lib --with-tinycthread --enable-server=$SERVER --enable-ruledit=$RULEDIT $EXTRA_CONFIG
+if ! ../../../configure MOCCMD=${DLLSPATH}/bin/moc FREECIV_LABEL_FORCE="<base>-crs" CPPFLAGS="-I${DLLSPATH}/include -D_WIN32_WINNT=${MIN_WINVER}" CFLAGS="-Wno-error" PKG_CONFIG_LIBDIR="${DLLSPATH}/lib/pkgconfig" --enable-sys-tolua-cmd --with-magickwand="${DLLSPATH}/bin" --prefix="/" $GITREVP --enable-client=$CLIENTS --enable-fcmp=$FCMP --enable-debug --host=$TARGET --build=$(../../../bootstrap/config.guess) --with-libiconv-prefix=${DLLSPATH} --with-sqlite3-prefix=${DLLSPATH} --with-followtag="crosser" --enable-crosser ${AIS} --disable-freeciv-manual --enable-sdl-mixer=sdl2 --with-qt5-includes=${DLLSPATH}/qt5/include --with-qt5-libs=${DLLSPATH}/lib --with-tinycthread --enable-server=$SERVER --enable-ruledit=$RULEDIT $EXTRA_CONFIG
 then
   echo "Configure failed" >&2
   exit 1
