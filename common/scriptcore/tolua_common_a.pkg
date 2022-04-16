@@ -148,6 +148,12 @@ function _freeciv_state_dump()
       res = res .. k .. '=find.' .. method
       if method == 'city' or method == 'unit' then
         res = res .. '(nil,' .. string.format("%d", v.id) .. ')'
+      elseif type(v.rule_name) == 'function' then
+        res = res .. '(' .. string.format("'%s'", v.rule_name(v)) .. ')'
+      elseif type(v.name) == 'function' then
+        res = res .. '(' .. string.format("'%s'", v.name(v)) .. ')'
+      elseif v.name ~= nil then
+        res = res .. '(' .. string.format("'%s'", v.name) .. ')'
       elseif v.id then
         res = res .. '(' .. string.format("%d", v.id) .. ')'
       else
