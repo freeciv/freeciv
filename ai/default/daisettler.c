@@ -703,12 +703,10 @@ struct cityresult *city_desirability(struct ai_type *ait, struct player *pplayer
                                      struct unit *punit, struct tile *ptile)
 {
   struct city *pcity = tile_city(ptile);
-  struct adv_data *ai = adv_data_get(pplayer, NULL);
   struct cityresult *cr = NULL;
 
   fc_assert_ret_val(punit, NULL);
   fc_assert_ret_val(pplayer, NULL);
-  fc_assert_ret_val(ai, NULL);
 
   if (!city_can_be_built_here(ptile, punit)
       || (has_handicap(pplayer, H_MAP)
