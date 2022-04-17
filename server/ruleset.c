@@ -2688,7 +2688,7 @@ static bool load_terrain_names(struct section_file *file,
 
       resource_name = secfile_lookup_str_default(file, NULL, "%s.extra", sec_name);
       if (resource_name == NULL) {
-        if (compat->compat_mode) {
+        if (compat->compat_mode && compat->ver_terrain < 10) {
           struct extra_type *pextra_res = rscompat_extra_from_resource_3_0(file, sec_name);
 
           if (pextra_res != NULL) {
