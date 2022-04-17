@@ -2434,8 +2434,7 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
                      _("  %s is done to %s%s%s.\n"), BULLET,
                      sub_target_text,
                      target_adjective,
-                     _(action_target_kind_name(
-                         action_id_get_target_kind(act))));
+                     action_target_kind_help(action_id_get_target_kind(act)));
       }
 
       if (utype_is_consumed_by_action(paction, utype)) {
@@ -4838,8 +4837,7 @@ void helptext_government(char *buf, size_t bufsz, struct player *pplayer,
                    _("%s Makes it impossible to do the action \'%s\'"
                      " to your %s.\n"), BULLET,
                    action_id_name_translation(act),
-                   _(action_target_kind_name(
-                       action_id_get_target_kind(act))));
+                   action_target_kind_help(action_id_get_target_kind(act)));
     }
   } action_iterate_end;
 
