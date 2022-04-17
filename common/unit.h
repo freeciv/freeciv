@@ -62,8 +62,9 @@ enum unit_upgrade_result {
   UU_NOT_IN_CITY,
   UU_NOT_CITY_OWNER,
   UU_NOT_ENOUGH_ROOM,
-  UU_NOT_TERRAIN,         /* The upgraded unit could not survive. */
-  UU_UNSUITABLE_TRANSPORT /* Can't upgrade inside current transport. */
+  UU_NOT_TERRAIN,          /* The upgraded unit could not survive. */
+  UU_UNSUITABLE_TRANSPORT, /* Can't upgrade inside current transport. */
+  UU_NOT_ACTIVITY          /* Can't upgrade during this activity (e.g., CONVERT) */
 };
 
 enum unit_airlift_result {
