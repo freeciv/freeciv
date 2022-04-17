@@ -23,10 +23,7 @@
 
 #include "counters.h"
 
-static struct counter counters[MAX_COUNTERS] =
-{
-  { (struct name_translation) NAME_INIT, CB_CITY_OWNED_TURNS, CTGT_CITY, 5, 0 }
-};
+static struct counter counters[MAX_COUNTERS];
 
 static struct counter *counters_city[MAX_COUNTERS];
 static int number_city_counters;
@@ -36,22 +33,7 @@ static int number_city_counters;
 ****************************************************************************/
 void counters_init(void)
 {
-  int i;
-
   number_city_counters = 0;
-
-  name_set(&counters[0].name, NULL, N_("?counter:Owned"));
-
-  for (i = 0; i < MAX_COUNTERS; i++) {
-
-    if (counters[i].type == CB_CITY_OWNED_TURNS) {
-      /* City counter type */
-      counters_city[number_city_counters] = &counters[i];
-      counters[i].index = number_city_counters;
-      counters[i].target = CTGT_CITY;
-      number_city_counters++;
-    }
-  }
 }
 
 
@@ -79,6 +61,17 @@ struct counter *counter_by_id(int id)
   fc_assert_ret_val(id < MAX_COUNTERS, NULL);
 
   return &counters[id];
+}
+
+/************************************************************************//**
+  Attaching given counter type to array containing counter type
+  related to cities. Counter must be present in array for
+  each counter in game, but we do not check this.
+****************************************************************************/
+void attach_city_counter(struct counter *counter)
+{
+  counters_city[number_city_counters] = counter;
+  number_city_counters++;
 }
 
 /************************************************************************//**

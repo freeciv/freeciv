@@ -21,6 +21,7 @@
 
 /* common */
 #include "achievements.h"
+#include "counters.h"
 #include "game.h"
 #include "government.h"
 #include "map.h"
@@ -1723,6 +1724,21 @@ static bool save_game_ruleset(const char *filename, const char *name)
       save_reqs_vector(sfile, &(info->receiver_reqs), path, "receiver_reqs");
     }
   }
+
+  sect_idx = 0;
+  city_counters_iterate(pcounter) {
+    char path[512];
+
+    fc_snprintf(path, sizeof(path), "counter_%d", sect_idx++);
+
+    save_name_translation(sfile, &(pcounter->name), path);
+
+    save_default_int(sfile, pcounter->def, 0, path, "default");
+    save_default_int(sfile, pcounter->checkpoint, 0, path, "checkpoint");
+
+    secfile_insert_str(sfile, counter_behaviour_name(pcounter->type), "%s.type", path);
+
+  } city_counters_iterate_end;
 
   locks = FALSE;
   settings_iterate(SSET_ALL, pset) {

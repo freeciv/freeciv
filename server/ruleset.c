@@ -38,6 +38,7 @@
 #include "base.h"
 #include "capability.h"
 #include "city.h"
+#include "counters.h"
 #include "effects.h"
 #include "extras.h"
 #include "fc_types.h"
@@ -109,6 +110,7 @@
 #define ACHIEVEMENT_SECTION_PREFIX "achievement_"
 #define ACTION_ENABLER_SECTION_PREFIX "actionenabler_"
 #define MULTIPLIER_SECTION_PREFIX "multiplier_"
+#define COUNTER_SECTION_PREFIX "counter_"
 
 #define check_name(name) (check_strlen(name, MAX_LEN_NAME, NULL))
 #define check_cityname(name) (check_strlen(name, MAX_LEN_CITYNAME, NULL))
@@ -1407,6 +1409,39 @@ static bool load_game_names(struct section_file *file,
           break;
         }
       } goods_type_iterate_end;
+    }
+    section_list_destroy(sec);
+  }
+
+  if (ok) {
+
+    sec = secfile_sections_by_name_prefix(file, COUNTER_SECTION_PREFIX);
+
+    nval = (NULL != sec ? section_list_size(sec) : 0);
+    if (nval > MAX_COUNTERS) {
+      size_t num = nval;
+
+      ruleset_error(LOG_ERROR,
+                    "\"%s\": Too many counters (" SIZE_T_PRINTF ", max  %d)",
+                    filename, num, MAX_COUNTERS);
+      ok = FALSE;
+    }
+
+    if (ok) {
+      int count_idx;
+
+      for (count_idx = 0; count_idx < nval; count_idx++) {
+        struct counter *pcount = counter_by_id(count_idx);
+        const char *sec_name
+        = section_name(section_list_get(sec, counter_index(pcount)));
+
+        if (!ruleset_load_names(&pcount->name, NULL, file, sec_name)) {
+          ruleset_error(LOG_ERROR, "\"%s\": Cannot load counters names",
+                        filename);
+          ok = FALSE;
+          break;
+        }
+      }
     }
     section_list_destroy(sec);
   }
@@ -7627,6 +7662,57 @@ static bool load_ruleset_game(struct section_file *file, bool act,
       }
     }
     section_list_destroy(sec);
+  }
+
+  if (ok) {
+    sec = secfile_sections_by_name_prefix(file, COUNTER_SECTION_PREFIX);
+
+    if (sec != NULL) {
+      int num = section_list_size(sec);
+      int curr;
+
+      for (curr = 0; curr < num; curr++) {
+
+        struct counter *pcount = counter_by_id(curr);
+        const char *sec_name = section_name(section_list_get(sec, curr));
+        const char *counter_type = secfile_lookup_str_default(file, NULL,
+                                                             "%s.type",
+                                                              sec_name);
+
+        enum counter_behaviour cb = counter_behaviour_by_name(counter_type,
+                                        fc_strcasecmp);
+        if (!counter_behaviour_is_valid(cb)) {
+          ruleset_error(LOG_ERROR, "\"%s\" unknown counter type \"%s\".",
+                        filename, counter_type);
+          ok = FALSE;
+          break;
+        }
+
+        if (!ruleset_load_names(&pcount->name, NULL, file, sec_name)) {
+          ruleset_error(LOG_ERROR, "\"%s\": Cannot load counter names",
+                        filename);
+          ok = FALSE;
+          break;
+        }
+
+        pcount->type = cb;
+        if (!secfile_lookup_int(file, &pcount->checkpoint,
+                                "%s.checkpoint", sec_name)) {
+
+          ruleset_error(LOG_ERROR, "\"%s\": No checkpoint value",
+                        filename);
+          ok = FALSE;
+          break;
+        }
+
+        pcount->target = CTGT_CITY;
+        pcount->index = curr;
+        pcount->def = secfile_lookup_int_default(file, 0,
+                                                 "%s.def",
+                                                 sec_name);
+        attach_city_counter(pcount);
+      }
+    }
   }
 
   /* secfile_check_unused() is not here, but only after also settings section

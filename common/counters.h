@@ -58,6 +58,7 @@ struct counter *counter_by_translated_name(const char *name);
 int counter_index(struct counter *pcount);
 struct counter *counter_by_index(int index, enum counter_target target);
 int counters_get_city_counters_count(void);
+void attach_city_counter(struct counter *counter);
 
 #define city_counters_iterate(pcount) { \
    int _i_##pcount; \
