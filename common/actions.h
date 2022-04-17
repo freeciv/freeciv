@@ -29,20 +29,21 @@ extern "C" {
 #define SPECENUM_COUNT AAK_COUNT
 #include "specenum_gen.h"
 
+/* When making changes to this, update also atk_helpnames at actions.c */
 #define SPECENUM_NAME action_target_kind
 #define SPECENUM_VALUE0 ATK_CITY
-#define SPECENUM_VALUE0NAME N_("individual cities")
+#define SPECENUM_VALUE0NAME "individual cities"
 #define SPECENUM_VALUE1 ATK_UNIT
-#define SPECENUM_VALUE1NAME N_("individual units")
+#define SPECENUM_VALUE1NAME "individual units"
 #define SPECENUM_VALUE2 ATK_UNITS
-#define SPECENUM_VALUE2NAME N_("unit stacks")
+#define SPECENUM_VALUE2NAME "unit stacks"
 #define SPECENUM_VALUE3 ATK_TILE
-#define SPECENUM_VALUE3NAME N_("tiles")
+#define SPECENUM_VALUE3NAME "tiles"
 #define SPECENUM_VALUE4 ATK_EXTRAS
-#define SPECENUM_VALUE4NAME N_("tile extras")
+#define SPECENUM_VALUE4NAME "tile extras"
 /* No target except the actor itself. */
 #define SPECENUM_VALUE5 ATK_SELF
-#define SPECENUM_VALUE5NAME N_("itself")
+#define SPECENUM_VALUE5NAME "itself"
 #define SPECENUM_COUNT ATK_COUNT
 #include "specenum_gen.h"
 
@@ -714,6 +715,7 @@ enum action_target_kind
 action_target_kind_default(enum action_result result);
 bool action_result_legal_target_kind(enum action_result result,
                                      enum action_target_kind tgt_kind);
+const char *action_target_kind_help(enum action_target_kind kind);
 
 const char *action_actor_consuming_always_ruleset_var_name(action_id act);
 

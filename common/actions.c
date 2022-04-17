@@ -9263,3 +9263,24 @@ const char *gen_action_name_update_cb(const char *old_name)
 
   return old_name;
 }
+
+const char *atk_helpnames[ATK_COUNT] =
+{
+  N_("individual cities"), /* ATK_CITY   */
+  N_("individual units"),  /* ATK_UNIT   */
+  N_("unit stacks"),       /* ATK_UNITS  */
+  N_("tiles"),             /* ATK_TILE   */
+  N_("tile extras"),       /* ATK_EXTRAS */
+  N_("itself")             /* ATK_SELF   */
+};
+
+/**********************************************************************//**
+  Return description of the action target kind suitable to use
+  in the helptext.
+**************************************************************************/
+const char *action_target_kind_help(enum action_target_kind kind)
+{
+  fc_assert(kind >= 0 && kind < ATK_COUNT);
+
+  return _(atk_helpnames[kind]);
+}
