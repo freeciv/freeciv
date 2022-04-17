@@ -1219,7 +1219,7 @@ bool transfer_city(struct player *ptaker, struct city *pcity,
   /* Reset turns owner counters */
   if (city_remains) {
     city_counters_iterate(pcount) {
-      if (pcount->type == COUNTER_OWNED) {
+      if (pcount->type == CB_CITY_OWNED_TURNS) {
         pcity->counter_values[pcount->index] = 0;
       }
     } city_counters_iterate_end;

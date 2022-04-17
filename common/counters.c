@@ -25,7 +25,7 @@
 
 static struct counter counters[MAX_COUNTERS] =
 {
-  { (struct name_translation) NAME_INIT, COUNTER_OWNED, CTGT_CITY, 5, 0 }
+  { (struct name_translation) NAME_INIT, CB_CITY_OWNED_TURNS, CTGT_CITY, 5, 0 }
 };
 
 static struct counter *counters_city[MAX_COUNTERS];
@@ -44,7 +44,7 @@ void counters_init(void)
 
   for (i = 0; i < MAX_COUNTERS; i++) {
 
-    if (counters[i].type == COUNTER_OWNED) {
+    if (counters[i].type == CB_CITY_OWNED_TURNS) {
       /* City counter type */
       counters_city[number_city_counters] = &counters[i];
       counters[i].index = number_city_counters;
@@ -53,6 +53,7 @@ void counters_init(void)
     }
   }
 }
+
 
 /************************************************************************//**
   Free resources allocated by counters system

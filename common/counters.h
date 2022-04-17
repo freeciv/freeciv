@@ -20,17 +20,21 @@ extern "C" {
 /* common */
 #include "name_translation.h"
 
-enum counter_type { COUNTER_OWNED = 0, COUNTER_COUNT };
+#define SPECENUM_NAME counter_behaviour
+#define SPECENUM_VALUE1 CB_CITY_OWNED_TURNS
+#define SPECENUM_VALUE1NAME "Owned"
+
+#define SPECENUM_COUNT COUNTER_BEHAVIOUR_LAST
+#include "specenum_gen.h"
 
 enum counter_target { CTGT_CITY };
 
-/* Space for one counter of each type */
-#define MAX_COUNTERS COUNTER_COUNT
+#define MAX_COUNTERS COUNTER_BEHAVIOUR_LAST
 
 struct counter
 {
   struct name_translation name;
-  enum counter_type type;
+  enum counter_behaviour type;
   enum counter_target target;
   int checkpoint;
   int def;    /* default value for each entity of given type
@@ -54,7 +58,6 @@ struct counter *counter_by_translated_name(const char *name);
 int counter_index(struct counter *pcount);
 struct counter *counter_by_index(int index, enum counter_target target);
 int counters_get_city_counters_count(void);
-
 
 #define city_counters_iterate(pcount) { \
    int _i_##pcount; \

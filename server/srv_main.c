@@ -1520,7 +1520,7 @@ static void end_turn(void)
   players_iterate(pplayer) {
     city_list_iterate(pplayer->cities, pcity) {
       city_counters_iterate(pcount) {
-        if (pcount->type == COUNTER_OWNED) {
+        if (pcount->type == CB_CITY_OWNED_TURNS) {
           pcity->counter_values[pcount->index]++;
         }
       } city_counters_iterate_end;
