@@ -1916,6 +1916,15 @@ enum unit_upgrade_result unit_upgrade_test(const struct unit *punit,
     return UU_NO_UNITTYPE;
   }
 
+  if (punit->activity == ACTIVITY_CONVERT) {
+    /*  TODO: There may be other activities that the upgraded unit is not
+        allowed to do, which we could also test.
+        -
+        If convert were legal for new unit_type we could allow, but then it
+        has a 'head start' getting activity time from the old conversion. */
+    return UU_NOT_ACTIVITY;
+  }
+
   if (!is_free) {
     cost = unit_upgrade_price(pplayer, unit_type_get(punit), to_unittype);
     if (pplayer->economic.gold < cost) {
@@ -2022,6 +2031,12 @@ enum unit_upgrade_result unit_upgrade_info(const struct unit *punit,
                 utype_name_translation(from_unittype),
                 utype_name_translation(to_unittype),
                 unit_name_translation(punit->transporter));
+    break;
+  case UU_NOT_ACTIVITY:
+    fc_snprintf(buf, bufsz,
+                _("Cannot upgrade %s while doing '%s'."),
+                utype_name_translation(from_unittype),
+                unit_activity_name(punit->activity));
     break;
   }
 

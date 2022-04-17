@@ -626,6 +626,8 @@ const char *api_methods_unit_transform_problem(lua_State *L, Unit *punit,
     return "transport";
   case UU_NOT_TERRAIN:
     return "terrain";
+  case UU_NOT_ACTIVITY:
+    return "activity";
   case UU_NO_UNITTYPE:
   case UU_NO_MONEY:
   case UU_NOT_IN_CITY:
