@@ -371,6 +371,9 @@ ruledit_main::ruledit_main(QApplication *qapp_in, QWidget *central_in) : QMainWi
   const char *full_icon_path = fileinfoname(get_data_dirs(), "freeciv-ruledit.png");
   const QString title = QString::fromUtf8(R__("Freeciv Ruleset Editor"));
   const QString fip = QString(full_icon_path);
+  QSize old_size;
+  int width;
+  int height;
 
   pm->load(fip);
   qapp_in->setWindowIcon(QIcon(*pm));
@@ -379,6 +382,16 @@ ruledit_main::ruledit_main(QApplication *qapp_in, QWidget *central_in) : QMainWi
   central = central_in;
 
   setWindowTitle(title);
+
+  // Adjust Window size
+  old_size = size();
+  width = old_size.width();
+  height = old_size.height();
+
+  width = MAX(width, RULEDIT_WINWIDTH);
+  height = MAX(height, RULEDIT_WINHEIGHT);
+
+  resize(width, height);
 }
 
 /**************************************************************************

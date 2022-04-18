@@ -42,6 +42,10 @@ class req_edit;
 class req_vec_fix;
 class req_vec_fix_item;
 
+// Minimum initial size of the window
+#define RULEDIT_WINWIDTH  700
+#define RULEDIT_WINHEIGHT 650
+
 class ruledit_main : public QMainWindow
 {
   Q_OBJECT
