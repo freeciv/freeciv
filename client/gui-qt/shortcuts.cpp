@@ -171,7 +171,7 @@ fc_shortcut default_shortcuts[] = {
     _("Go And Build City") },
   {SC_GOJOINCITY, Qt::Key_J, Qt::AllButtons, Qt::ShiftModifier,
    _("Go And Join City") },
-  {SC_STACK_SIZE, Qt::Key_S, Qt::AllButtons, Qt::ShiftModifier,
+  {SC_STACK_SIZE, Qt::Key_Plus, Qt::AllButtons, Qt::ControlModifier,
    _("Unit Stack Size") }
 };
 
