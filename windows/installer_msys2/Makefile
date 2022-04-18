@@ -58,7 +58,7 @@ all: all-$(WINARCH)
 
 all-win64: gtk3.22-installer sdl2-installer ruledit-installer qt5-installer qt6-installer
 
-all-win32: gtk3.22-installer sdl2-installer ruledit-installer qt5-installer
+all-win32: gtk3.22-installer sdl2-installer ruledit-installer-qt5 qt5-installer
 
 gtk3.22-installer:
 	make GUI=gtk3.22 CLIENT=gtk3.22 FCMP=gtk3 EXTRA_CONFIG="--disable-ruledit $(EXTRA_CONFIG)" wrap-gtk3.22
@@ -74,7 +74,7 @@ qt5-installer:
 qt6-installer:
 	make GUI=qt6 CLIENT=qt FCMP=qt EXTRA_CONFIG="--with-qtver=qt6 --with-qt6-includes=/$(ARCHDIR)/include/qt6 --with-qt6-libs=/$(ARCHDIR)/lib $(EXTRA_CONFIG)" MOCCMD="$(QT6_MOCCMD)" wrap-qt6
 
-ruledit-installer: ruledit-installer-qt5
+ruledit-installer: ruledit-installer-qt6
 
 ruledit-installer-qt5:
 	# EXTRA_CONFIG="$(EXTRA_CONFIG)" *does* make a difference - it unwraps one layer
