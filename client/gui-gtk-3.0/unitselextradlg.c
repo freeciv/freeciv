@@ -124,7 +124,7 @@ bool select_tgt_extra(struct unit *actor, struct tile *ptile,
   struct sprite *spr;
   struct unit_type *actor_type = unit_type_get(actor);
   int tcount;
-  const struct extra_type *default_extra;
+  const struct extra_type *default_extra = NULL;
 
   dlg = gtk_dialog_new_with_buttons(dlg_title, NULL, 0,
                                     _("Close"), GTK_RESPONSE_NO,
@@ -229,7 +229,13 @@ bool select_tgt_extra(struct unit *actor, struct tile *ptile,
 
   g_object_set_data(G_OBJECT(dlg), "actor", GINT_TO_POINTER(actor->id));
   g_object_set_data(G_OBJECT(dlg), "tile", ptile);
-  g_object_set_data(G_OBJECT(dlg), "target", GINT_TO_POINTER(default_extra->id));
+
+  /* This function should never be called so that there would be no extra to select,
+   * and where there is extra to select, one of them gets selected as the default. */
+  fc_assert(default_extra != NULL);
+  if (default_extra != NULL) { /* Compiler still wants this */
+    g_object_set_data(G_OBJECT(dlg), "target", GINT_TO_POINTER(default_extra->id));
+  }
 
   g_signal_connect(dlg, "response", do_callback, actor);
 
