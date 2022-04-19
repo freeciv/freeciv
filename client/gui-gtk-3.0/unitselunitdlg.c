@@ -88,7 +88,7 @@ bool select_tgt_unit(struct unit *actor, struct tile *ptile,
   struct sprite *spr;
   const struct unit_type *actor_type = unit_type_get(actor);
   int tcount;
-  const struct unit *default_unit;
+  const struct unit *default_unit = NULL;
 
   dlg = gtk_dialog_new_with_buttons(dlg_title, NULL, 0,
                                     _("Close"), GTK_RESPONSE_NO,
@@ -189,7 +189,13 @@ bool select_tgt_unit(struct unit *actor, struct tile *ptile,
 
   g_object_set_data(G_OBJECT(dlg), "actor", GINT_TO_POINTER(actor->id));
   g_object_set_data(G_OBJECT(dlg), "tile", ptile);
-  g_object_set_data(G_OBJECT(dlg), "target", GINT_TO_POINTER(default_unit->id));
+
+  /* This function should never be called so that there would be no unit to select,
+   * and where there is unit to select, one of them gets selected as the default. */
+  fc_assert(default_unit != NULL);
+  if (default_unit != NULL) { /* Compiler still wants this */
+    g_object_set_data(G_OBJECT(dlg), "target", GINT_TO_POINTER(default_unit->id));
+  }
 
   g_signal_connect(dlg, "response", do_callback, actor);
 
