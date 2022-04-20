@@ -900,7 +900,7 @@ void fc_client::update_server_list(enum server_scan_type sstype,
   sel->clearContents();
   row = 0;
   server_list_iterate(list, pserver) {
-    char buf[20];
+    char buf[35];
     int tmp;
     QString tstring;
 
@@ -912,6 +912,7 @@ void fc_client::update_server_list(enum server_scan_type sstype,
       fc_snprintf(buf, sizeof(buf), "%d", pserver->humans);
     } else {
       strncpy(buf, _("Unknown"), sizeof(buf) - 1);
+      buf[sizeof(buf) - 1] = '\0';
     }
 
     tmp = pserver->port;
