@@ -1254,7 +1254,8 @@ bool sanity_check_ruleset_data(struct rscompat_info *compat)
         }
       } requirement_vector_iterate_end;
 
-      if (compat == NULL || !compat->compat_mode) {
+      if (compat == NULL || !compat->compat_mode
+          || compat->version >= RSFORMAT_3_1) {
         /* Support for letting some of the following hard requirements be
          * implicit were retired in Freeciv 3.0. Others were retired later.
          * Make sure that the opposite of each hard action requirement
