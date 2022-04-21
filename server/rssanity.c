@@ -785,7 +785,7 @@ static bool sanity_check_boolean_effects(void)
 
   Returns TRUE iff everything ok.
 **************************************************************************/
-bool sanity_check_ruleset_data(bool ignore_retired)
+bool sanity_check_ruleset_data(struct rscompat_info *compat)
 {
   int num_utypes;
   int i;
@@ -1235,7 +1235,8 @@ bool sanity_check_ruleset_data(bool ignore_retired)
         }
       } requirement_vector_iterate_end;
 
-      if (!ignore_retired) {
+      if (compat == NULL || !compat->compat_mode
+          || compat->version >= RSFORMAT_3_2) {
         /* Support for letting some of the following hard requirements be
          * implicit were retired in Freeciv 3.0. Others were retired later.
          * Make sure that the opposite of each hard action requirement
