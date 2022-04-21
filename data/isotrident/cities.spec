@@ -4,7 +4,7 @@
 ; specified in cities.ruleset file and the index only defines the read order
 ; of the images. The definitions are read starting with index 0 till the first
 ; missing value The index is checked against the city bonus of effect
-; EFT_CITY_IMG and the resulting image is used to draw the city on the tile.
+; City_Image and the resulting image is used to draw the city on the tile.
 ;
 ; Obviously the first tile must be 'style_name'_city_0 and the sizes must be
 ; in ascending order. There must also be a 'style_name'_wall_0 tile used
