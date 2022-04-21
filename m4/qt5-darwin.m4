@@ -2,19 +2,27 @@
 
 AC_DEFUN([FC_QT5_DARWIN],
 [
+  AC_ARG_WITH([qt5-framework],
+    AS_HELP_STRING([--with-qt5-framework], [path to root of Qt5 framework (MacOS, autodetected if wasn't specified)]),
+    [qt5_path="${withval}"])
+
   AC_ARG_WITH([qt5_framework_bin],
     AS_HELP_STRING([--with-qt5-framework-bin], [path to binares of Qt5 framework (MacOS X, autodetected if wasn't specified)]))
 
   AC_CHECK_PROG([QTPATHS], [qtpaths], [qtpaths], [no])
 
-  if test "x$QTPATHS" != "xno" ; then
+  if test "x$qt5_path" != "x" || test "x$QTPATHS" != "xno" ; then
 
     AC_MSG_CHECKING([Qt5 framework])
 
     if test "x$qt5_framework_bin" = "x" ; then
-      qt5_framework_bin="$($QTPATHS --binaries-dir)"
+      if test "x$QTPATHS" != "xno" ; then
+        qt5_framework_bin="$($QTPATHS --binaries-dir)"
+      fi
     fi
-    qt5_path="$($QTPATHS --install-prefix)"
+    if test "x$qt5_path" = "x" ; then
+      qt5_path="$($QTPATHS --install-prefix)"
+    fi
 
     if test "x$qt5_path" != "x" ; then
       AC_LANG_PUSH([C++])
@@ -27,7 +35,9 @@ AC_DEFUN([FC_QT5_DARWIN],
       AC_LANG_POP([C++])
 
       if test "x$qt5_libs" = "xyes" ; then
-        AS_IF([test "x$MOCCMD" = "x"], [MOCCMD="$qt5_framework_bin/moc"])
+        if test "x$qt5_framework_bin" != "x" ; then
+          AS_IF([test "x$MOCCMD" = "x"], [MOCCMD="$qt5_framework_bin/moc"])
+        fi
         AS_IF([test -x $MOCCMD], [fc_qt5_usable=true], [fc_qt5_usable=false])
       else
         fc_qt5_usable=false
