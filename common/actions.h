@@ -32,18 +32,18 @@ extern "C" {
 /* When making changes to this, update also atk_helpnames at actions.c */
 #define SPECENUM_NAME action_target_kind
 #define SPECENUM_VALUE0 ATK_CITY
-#define SPECENUM_VALUE0NAME "individual cities"
+#define SPECENUM_VALUE0NAME "City"
 #define SPECENUM_VALUE1 ATK_UNIT
-#define SPECENUM_VALUE1NAME "individual units"
+#define SPECENUM_VALUE1NAME "Unit"
 #define SPECENUM_VALUE2 ATK_UNITS
-#define SPECENUM_VALUE2NAME "unit stacks"
+#define SPECENUM_VALUE2NAME "Stack"
 #define SPECENUM_VALUE3 ATK_TILE
-#define SPECENUM_VALUE3NAME "tiles"
+#define SPECENUM_VALUE3NAME "Tile"
 #define SPECENUM_VALUE4 ATK_EXTRAS
-#define SPECENUM_VALUE4NAME "tile extras"
+#define SPECENUM_VALUE4NAME "Extras"
 /* No target except the actor itself. */
 #define SPECENUM_VALUE5 ATK_SELF
-#define SPECENUM_VALUE5NAME "itself"
+#define SPECENUM_VALUE5NAME "Self"
 #define SPECENUM_COUNT ATK_COUNT
 #include "specenum_gen.h"
 

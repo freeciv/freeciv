@@ -152,25 +152,25 @@ end
 
 -- Describe the target based on its kind
 target_describer = {
-  ["individual cities"] = function (target)
+  ["City"] = function (target)
     return _("%s city %s (id: %d)"):format(
         target.owner.nation:name_translation(), target.name, target.id)
   end,
-  ["individual units"] = function (target)
+  ["Unit"] = function (target)
     return _("%s %s (id: %d)"):format(
       target.owner.nation:name_translation(),
       target.utype:name_translation(), target.id)
   end,
-  ["unit stacks"] = function (target)
+  ["Stack"] = function (target)
     return _("unit stack at (%d, %d)"):format(target.x, target.y)
   end,
-  ["tiles"] = tile_desc_func_gen("tile", function (target)
+  ["Tile"] = tile_desc_func_gen("tile", function (target)
     return target.owner
   end),
-  ["tile extras"] = tile_desc_func_gen("tile extras", function (target)
+  ["Extras"] = tile_desc_func_gen("tile extras", function (target)
     return target:extra_owner(Nil)
   end),
-  ["itself"] = function (target) return "it self" end,
+  ["Self"] = function (target) return "it self" end,
 }
 
 -- Log all performed actions
@@ -1475,8 +1475,7 @@ ruleset variables allows user action number n to be further customized:
    The UI name shown to the user in the action selection dialog.
  * user_action_n_target_kind
    The kind of target the action is done to. See target_reqs.
-   Legal values: "individual cities", "individual units", "unit stacks",
-                 "tiles" or "itself"
+   Legal values: "City", "Unit", "Stack", "Tile" or "Self"
  * user_action_n_min_range and user_action_n_max_range
    What distance from the actor to the target is permitted for the action.
  * user_action_n_actor_consuming_always
