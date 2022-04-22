@@ -602,7 +602,9 @@ void adjust_workers_button_pressed(int canvas_x, int canvas_y)
     struct city *pcity = find_city_near_tile(ptile);
 
     if (pcity && !cma_is_city_under_agent(pcity, NULL)) {
+#ifndef FREECIV_NDEBUG
       int city_x, city_y;
+#endif
 
       fc_assert_ret(city_base_to_city_map(&city_x, &city_y, pcity, ptile));
 

@@ -6197,17 +6197,27 @@ static void font_changed_callback(struct option *poption)
 static void mapimg_changed_callback(struct option *poption)
 {
   if (mapimg_initialised() && !mapimg_client_define()) {
+#ifndef FREECIV_NDEBUG
     bool success;
+#endif
 
     log_normal("Error setting the value for %s (%s). Restoring the default "
                "value.", option_name(poption), mapimg_error());
 
     /* Reset the value to the default value. */
-    success = option_reset(poption);
+#ifndef FREECIV_NDEBUG
+    success =
+#endif
+      option_reset(poption);
+
     fc_assert_msg(success,
                   "Failed to reset the option \"%s\".",
                   option_name(poption));
-    success = mapimg_client_define();
+#ifndef FREECIV_NDEBUG
+    success =
+#endif
+      mapimg_client_define();
+
     fc_assert_msg(success,
                   "Failed to restore mapimg definition for option \"%s\".",
                   option_name(poption));

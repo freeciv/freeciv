@@ -4441,7 +4441,10 @@ static void sg_load_player_units_transport(struct loaddata *loading,
     fc_assert_action(id_trans == -1 || ptrans != NULL, continue);
 
     if (ptrans) {
-      bool load_success = unit_transport_load(punit, ptrans, TRUE);
+#ifndef FREECIV_NDEBUG
+      bool load_success =
+#endif
+        unit_transport_load(punit, ptrans, TRUE);
 
       fc_assert_action(load_success, continue);
     }
@@ -4479,9 +4482,11 @@ static void sg_load_player_attributes(struct loaddata *loading,
     plr->attribute_block.length = 0;
   } else if (0 < plr->attribute_block.length) {
     int part_nr, parts;
-    size_t actual_length;
     int quoted_length;
     char *quoted;
+#ifndef FREECIV_NDEBUG
+    size_t actual_length;
+#endif
 
     sg_failure_ret(
         secfile_lookup_int(loading->file, &quoted_length,
@@ -4516,7 +4521,9 @@ static void sg_load_player_attributes(struct loaddata *loading,
                   (unsigned long) quoted_length,
                   (unsigned long) strlen(quoted));
 
+#ifndef FREECIV_NDEBUG
     actual_length =
+#endif
         unquote_block(quoted,
                       plr->attribute_block.data,
                       plr->attribute_block.length);

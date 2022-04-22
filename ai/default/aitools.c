@@ -799,13 +799,14 @@ bool dai_unit_make_homecity(struct unit *punit, struct city *pcity)
 static void dai_unit_bodyguard_move(struct ai_type *ait,
                                     struct unit *bodyguard, struct tile *ptile)
 {
-  struct unit *punit;
-  struct player *pplayer;
-
   fc_assert_ret(bodyguard != NULL);
-  pplayer = unit_owner(bodyguard);
-  fc_assert_ret(pplayer != NULL);
-  punit = aiguard_charge_unit(ait, bodyguard);
+  fc_assert_ret(unit_owner(bodyguard) != NULL);
+
+#ifndef FREECIV_NDEBUG
+  struct unit *punit =
+#endif
+    aiguard_charge_unit(ait, bodyguard);
+
   fc_assert_ret(punit != NULL);
 
   CHECK_GUARD(ait, bodyguard);

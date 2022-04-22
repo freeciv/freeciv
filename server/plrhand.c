@@ -2171,9 +2171,10 @@ bool server_player_set_name_full(const struct connection *caller,
 **************************************************************************/
 void server_player_set_name(struct player *pplayer, const char *name)
 {
-  bool ret;
-
-  ret = server_player_set_name_full(NULL, pplayer, NULL, name, NULL, 0);
+#ifndef FREECIV_NDEBUG
+  bool ret =
+#endif
+    server_player_set_name_full(NULL, pplayer, NULL, name, NULL, 0);
 
   fc_assert(ret);
 }
