@@ -116,15 +116,18 @@ static bool conn_compression_flush(struct connection *pconn)
 {
   int compression_level = get_compression_level();
   uLongf compressed_size = 12 + 1.001 * pconn->compression.queue.size;
-  int error;
   Bytef compressed[compressed_size];
   bool jumbo;
   unsigned long compressed_packet_len;
 
-  error = compress2(compressed, &compressed_size,
-                    pconn->compression.queue.p,
-                    pconn->compression.queue.size,
-                    compression_level);
+#ifndef FREECIV_NDEBUG
+  int error =
+#endif
+  compress2(compressed, &compressed_size,
+            pconn->compression.queue.p,
+            pconn->compression.queue.size,
+            compression_level);
+
   fc_assert_ret_val(error == Z_OK, FALSE);
 
   /* Compression signalling currently assumes a 2-byte packet length; if that

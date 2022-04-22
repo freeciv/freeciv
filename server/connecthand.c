@@ -868,9 +868,12 @@ bool connection_delegate_take(struct connection *pconn,
   if (!connection_attach(pconn, dplayer, FALSE)) {
 
     /* Restore original connection. */
-    bool success = connection_attach(pconn,
-                                     pconn->server.delegation.playing,
-                                     pconn->server.delegation.observer);
+#ifndef FREECIV_NDEBUG
+    bool success =
+#endif
+      connection_attach(pconn,
+                        pconn->server.delegation.playing,
+                        pconn->server.delegation.observer);
     fc_assert_ret_val(success, FALSE);
 
     /* Reset all changes done above. */

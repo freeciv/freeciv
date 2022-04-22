@@ -4420,10 +4420,11 @@ void handle_ruleset_nation_sets
   int i;
 
   for (i = 0; i < packet->nsets; i++) {
-    struct nation_set *pset;
-
-    pset = nation_set_new(packet->names[i], packet->rule_names[i],
-                          packet->descriptions[i]);
+#ifndef FREECIV_NDEBUG
+    struct nation_set *pset =
+#endif
+      nation_set_new(packet->names[i], packet->rule_names[i],
+                     packet->descriptions[i]);
     fc_assert(NULL != pset);
     fc_assert(i == nation_set_index(pset));
   }

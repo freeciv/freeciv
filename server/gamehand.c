@@ -690,6 +690,7 @@ void init_new_game(void)
         /* We need to remove used startpos from the lists. */
         i = 0;
         startpos_list_iterate(flexible_list, plink, psp) {
+          (void)psp; /* To avoid 'set but unused' compiler warning */
           fc_assert(config.startpos[i] == startpos_tile(psp));
           if (state.startpos[i] != -1) {
             startpos_list_erase(flexible_list, plink);
@@ -699,6 +700,7 @@ void init_new_game(void)
         fc_assert(i == config.flexible_startpos_num);
         if (i < config.usable_startpos_num) {
           startpos_list_iterate(impossible_list, plink, psp) {
+            (void)psp; /* To avoid 'set but unused' compiler warning */
             fc_assert(config.startpos[i] == startpos_tile(psp));
             if (state.startpos[i] != -1) {
               startpos_list_erase(impossible_list, plink);

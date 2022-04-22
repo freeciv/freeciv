@@ -671,7 +671,6 @@ char *fc_strrep_resize(char *str, size_t *len, const char *search,
                        const char *replace)
 {
   size_t len_max;
-  bool success;
 
   fc_assert_ret_val(str != NULL, NULL);
   fc_assert_ret_val(len != NULL, NULL);
@@ -687,7 +686,9 @@ char *fc_strrep_resize(char *str, size_t *len, const char *search,
     str = fc_realloc(str, len_max);
   }
 
-  success = fc_strrep(str, (*len), search, replace);
+#ifndef FREECIV_NDEBUG
+  bool success = fc_strrep(str, (*len), search, replace);
+#endif
   /* should never happen */
   fc_assert_ret_val_msg(success, NULL,
                         "Can't replace '%s' by '%s' in '%s'. To small "

@@ -3229,6 +3229,7 @@ struct pf_path *pf_map_path(struct pf_map *pfm, struct tile *ptile)
   path = pfm->get_path(pfm, ptile);
 
   if (path != NULL) {
+#ifndef FREECIV_NDEBUG
     const struct pf_parameter *param = pf_map_parameter(pfm);
     const struct pf_position *pos = &path->positions[0];
 
@@ -3236,6 +3237,7 @@ struct pf_path *pf_map_path(struct pf_map *pfm, struct tile *ptile)
     fc_assert(pos->tile == param->start_tile);
     fc_assert(pos->moves_left == param->moves_left_initially);
     fc_assert(pos->fuel_left == param->fuel_left_initially);
+#endif /* FREECIV_NDEBUG */
   }
 
   return path;
