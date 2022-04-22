@@ -375,8 +375,8 @@ nuke_city_consuming_always = TRUE;
 ; The kind of target the "Nuke City" action has. The target requirements of
 ; its enablers are evaluated against the target. The target owner is the one
 ; that gets a Casus Belli if the ruleset has a Casus Belli for this action.
-; Supported values are "individual cities" and "tiles".
-nuke_city_target_kind = "individual cities"
+; Supported values are "City" and "Tile".
+nuke_city_target_kind = "City"
 
 ; The minimal distance from the actor unit to the target. The value 0 means
 ; that the target must be at the tile of the actor unit. The value 1 means
@@ -436,7 +436,7 @@ found_city_consuming_always = TRUE
 ; See the section "Ruleset defined actions" in doc/README.actions
 ; Example: set up "User Action 1"
 ;ui_name_user_action_1                = _("%sDisrupt Supply Lines%s")
-;user_action_1_target_kind            = "individual units"
+;user_action_1_target_kind            = "Unit"
 ;user_action_1_min_range              = 1
 ;user_action_1_max_range              = 3
 ;user_action_1_actor_consuming_always = FALSE
