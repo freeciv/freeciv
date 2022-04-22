@@ -674,7 +674,10 @@ static void apply_solution(struct cm_state *state,
                            const struct partial_solution *soln)
 {
   struct city *pcity = state->pcity;
-  int i, citizen_count = 0, city_radius_sq = city_map_radius_sq_get(pcity);
+  int i, city_radius_sq = city_map_radius_sq_get(pcity);
+#ifndef FREECIV_NDEBUG
+  int citizen_count = 0;
+#endif
 
 #ifdef GATHER_TIME_STATS
   performance.current->apply_count++;
@@ -705,7 +708,9 @@ static void apply_solution(struct cm_state *state,
       /* No citizens of this type. */
       continue;
     }
+#ifndef FREECIV_NDEBUG
     citizen_count += nworkers;
+#endif
 
     type = tile_type_get(state, i);
 

@@ -467,11 +467,14 @@ static inline enum fz_method int2fz_method(int magic)
 static int unquote_block(const char *const quoted_, void *dest,
                          int dest_length)
 {
-  int i, length, parsed, tmp;
+  int i, length, tmp;
   char *endptr;
   const char *quoted = quoted_;
 
-  parsed = sscanf(quoted, "%d", &length);
+#ifndef FREECIV_NDEBUG
+  int parsed =
+#endif
+    sscanf(quoted, "%d", &length);
   fc_assert_ret_val(1 == parsed, 0);
 
   if (length <= dest_length) {
@@ -2746,7 +2749,6 @@ static void player_load_attributes(struct player *plr, int plrno,
     plr->attribute_block.length = 0;
   } else if (0 < plr->attribute_block.length) {
     int part_nr, parts;
-    size_t actual_length;
     int quoted_length;
     char *quoted;
 
@@ -2787,7 +2789,9 @@ static void player_load_attributes(struct player *plr, int plrno,
                   (unsigned long) quoted_length,
                   (unsigned long) strlen(quoted));
 
-    actual_length =
+#ifndef FREECIV_NDEBUG
+    size_t actual_length =
+#endif
 	unquote_block(quoted,
 		      plr->attribute_block.data,
 		      plr->attribute_block.length);

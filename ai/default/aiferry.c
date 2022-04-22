@@ -640,12 +640,11 @@ bool dai_amphibious_goto_constrained(struct ai_type *ait,
                                      struct pft_amphibious *parameter)
 {
   bool alive = TRUE;
-  struct player *pplayer = unit_owner(passenger);
   struct pf_map *pfm;
   struct pf_path *path;
   int pass_id = passenger->id;
 
-  fc_assert_ret_val(is_ai(pplayer), TRUE);
+  fc_assert_ret_val(is_ai(unit_owner(passenger)), TRUE);
   fc_assert_ret_val(!unit_has_orders(passenger), TRUE);
   fc_assert_ret_val(unit_tile(ferry) == unit_tile(passenger), TRUE);
 

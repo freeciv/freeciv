@@ -723,16 +723,20 @@ static bool total_activity_done(struct tile *ptile, enum unit_activity act,
 **************************************************************************/
 void notify_unit_experience(struct unit *punit)
 {
-  const struct veteran_system *vsystem;
   const struct veteran_level *vlevel;
+#ifndef FREECIV_NDEBUG
+  const struct veteran_system *vsystem;
+#endif
 
   if (!punit) {
     return;
   }
 
+#ifndef FREECIV_NDEBUG
   vsystem = utype_veteran_system(unit_type_get(punit));
   fc_assert_ret(vsystem != NULL);
   fc_assert_ret(vsystem->levels > punit->veteran);
+#endif /* FREECIV_NDEBUG */
 
   vlevel = utype_veteran_level(unit_type_get(punit), punit->veteran);
   fc_assert_ret(vlevel != NULL);
@@ -1690,7 +1694,7 @@ static void server_remove_unit_full(struct unit *punit, bool transported,
   /* The unit is doomed. */
   punit->server.dying = TRUE;
 
-#ifdef FREECIV_DEBUG
+#if defined(FREECIV_DEBUG) && !defined(FREECIV_NDEBUG)
   unit_list_iterate(ptile->units, pcargo) {
     fc_assert(unit_transport_get(pcargo) != punit);
   } unit_list_iterate_end;
@@ -3512,7 +3516,9 @@ static struct unit_move_data *unit_move_data(struct unit *punit,
         V_RADIUS(get_unit_vision_at(punit, pdesttile, V_MAIN),
                  get_unit_vision_at(punit, pdesttile, V_INVIS));
   struct vision *new_vision;
+#ifndef FREECIV_NDEBUG
   bool success;
+#endif
 
   if (punit->server.moving) {
     /* Recursive moving (probably due to a script). */
@@ -3538,7 +3544,10 @@ static struct unit_move_data *unit_move_data(struct unit *punit,
 
   /* Remove unit from the source tile. */
   fc_assert(unit_tile(punit) == psrctile);
-  success = unit_list_remove(psrctile->units, punit);
+#ifndef FREECIV_NDEBUG
+  success =
+#endif
+    unit_list_remove(psrctile->units, punit);
   fc_assert(success);
 
   /* Set new tile. */

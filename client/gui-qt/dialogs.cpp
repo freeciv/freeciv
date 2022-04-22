@@ -3985,7 +3985,9 @@ bool qtg_request_transport(struct unit *pcargo, struct tile *ptile)
   int tcount;
   hud_unit_loader *hul;
   struct unit_list *potential_transports = unit_list_new();
+#ifndef FREECIV_NDEBUG
   struct unit *best_transport = transporter_for_unit_at(pcargo, ptile);
+#endif
 
   unit_list_iterate(ptile->units, ptransport) {
     if (can_unit_transport(ptransport, pcargo)

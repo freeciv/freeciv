@@ -1016,7 +1016,9 @@ static void resolve_city_emergency(struct ai_type *ait, struct player *pplayer,
       log_base(LOG_EMERGENCY, "%s taking over %s square in (%d, %d)",
                city_name_get(pcity), city_name_get(acity), TILE_XY(atile));
 
+#ifndef FREECIV_NDEBUG
       int ax, ay;
+#endif
       fc_assert_action(city_base_to_city_map(&ax, &ay, acity, atile),
                        continue);
 
