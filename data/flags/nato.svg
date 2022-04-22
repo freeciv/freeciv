@@ -1,20 +1,21 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!-- Created with Sodipodi ("http://www.sodipodi.com/") -->
+
 <svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://web.resource.org/cc/"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://inkscape.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    id="svg2560"
    sodipodi:version="0.32"
    width="659.06000px"
    height="439.37000px"
-   sodipodi:docbase="/Users/daniel/Desktop"
    sodipodi:docname="nato.svg"
-   inkscape:version="0.42">
+   inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
+   version="1.1"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
   <metadata
      id="metadata21">
     <rdf:RDF>
@@ -31,13 +32,21 @@
   <sodipodi:namedview
      id="base"
      inkscape:zoom="0.69346032"
-     inkscape:cx="329.52756"
-     inkscape:cy="230.94983"
-     inkscape:window-width="701"
-     inkscape:window-height="507"
-     inkscape:window-x="40"
-     inkscape:window-y="62"
-     inkscape:current-layer="svg2560" />
+     inkscape:cx="330.22798"
+     inkscape:cy="231.44799"
+     inkscape:window-width="825"
+     inkscape:window-height="546"
+     inkscape:window-x="478"
+     inkscape:window-y="139"
+     inkscape:current-layer="svg2560"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     showgrid="false"
+     inkscape:window-maximized="0" />
   <path
      id="path550"
      d="M 0.0000000,-4.8828125e-06 L 0.0000000,439.37000 L 659.06000,439.37000 L 659.06000,-4.8828125e-06 L 0.0000000,-4.8828125e-06 z "
