@@ -94,6 +94,8 @@ enum shortcut_id {
   SC_STACK_SIZE = 60
 };
 
+#define SC_NUM_SHORTCUTS 60
+
 
 /**************************************************************************
   Base shortcut struct
