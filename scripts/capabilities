@@ -1,5 +1,5 @@
 #!/bin/bash
-#/**********************************************************************
+#/***********************************************************************
 # Freeciv - Copyright (C) 2010
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -26,7 +26,7 @@ function usage()
 {
   echo ""
   echo "USAGE:"
-  echo "    ${basename} -h [-d <dir>] [-c <capability> -s <string>]"
+  echo "    $(basename $0) -h [-d <dir>] [-c <capability> -s <string>]"
   echo ""
   echo "OPTIONS:"
   echo "    -c  the capability to change. One of:"
