@@ -302,7 +302,7 @@ static void parse_options(int argc, char **argv)
       gtk_warns_enabled = TRUE;
     } else if ((option = get_option_malloc("--resolution", argv, &i, argc, FALSE))) {
       if (!string_to_video_mode(option, &vmode)) {
-        fc_fprintf(stderr, _("Illegal video mode '%s'"), option);
+        fc_fprintf(stderr, _("Illegal video mode '%s'\n"), option);
         exit(EXIT_FAILURE);
       }
       free(option);
