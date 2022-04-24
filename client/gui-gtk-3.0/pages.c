@@ -2992,7 +2992,13 @@ static void scenario_list_callback(void)
       maj = ver / 1000000;
       ver %= 1000000;
       min = ver / 10000;
-      fc_snprintf(vername, sizeof(vername), "%d.%d", maj, min);
+      ver %= 10000;
+      if (ver >= 9000) {
+        /* Development version, have '+' */
+        fc_snprintf(vername, sizeof(vername), "%d.%d+", maj, min);
+      } else {
+        fc_snprintf(vername, sizeof(vername), "%d.%d", maj, min);
+      }
     } else {
       /* TRANS: Old scenario format version */
       fc_snprintf(vername, sizeof(vername), _("pre-2.6"));
@@ -3056,7 +3062,15 @@ static void update_scenario_page(void)
         && secfile_lookup_bool_default(sf, TRUE, "scenario.is_scenario")) {
       const char *sname, *sdescription, *sauthors;
       int fcver;
+      int fcdev;
       int current_ver = MAJOR_VERSION * 1000000 + MINOR_VERSION * 10000;
+      int current_dev;
+
+      current_dev = current_ver;
+      if (PATCH_VERSION >= 90) {
+        /* Patch level matters on development versions */
+        current_dev += PATCH_VERSION * 100;
+      }
 
       fcver = secfile_lookup_int_default(sf, 0, "scenario.game_version");
       if (fcver < 30000) {
@@ -3065,15 +3079,19 @@ static void update_scenario_page(void)
          * multiply by 100. */
         fcver *= 100;
       }
-      fcver -= (fcver % 10000); /* Patch level does not affect compatibility */
+      if (fcver % 10000 >= 9000) {
+        fcdev = fcver - (fcver % 100);   /* Emergency version does not count. */
+      } else {
+        fcdev = fcver - (fcver % 10000); /* Patch version does not count. */
+      }
       sname = secfile_lookup_str_default(sf, NULL, "scenario.name");
       sdescription = secfile_lookup_str_default(sf, NULL,
                                                 "scenario.description");
       sauthors = secfile_lookup_str_default(sf, NULL, "scenario.authors");
       log_debug("scenario file: %s from %s", sname, pfile->fullname);
 
-      /* Ignore scenarios for newer freeciv versions than we are */
-      if (fcver <= current_ver) {
+      /* Ignore scenarios for newer freeciv versions than we are. */
+      if (fcdev <= current_dev) {
         bool add_new = TRUE;
 
         if (sname != NULL) {

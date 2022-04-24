@@ -1423,7 +1423,14 @@ void fc_client::update_scenarios_page(void)
       QString format;
       QString st;
       int fcver;
+      int fcdev;
       int current_ver = MAJOR_VERSION * 1000000 + MINOR_VERSION * 10000;
+      int current_dev = current_ver;
+
+      if (PATCH_VERSION >= 90) {
+        // Patch level matters on development versions
+        current_dev += PATCH_VERSION * 100;
+      }
 
       fcver = secfile_lookup_int_default(sf, 0, "scenario.game_version");
       if (fcver < 30000) {
@@ -1432,13 +1439,18 @@ void fc_client::update_scenarios_page(void)
          * multiply by 100. */
         fcver *= 100;
       }
-      fcver -= (fcver % 10000); /* Patch level does not affect compatibility */
+      if (fcver % 10000 >= 9000) {
+        fcdev = fcver - (fcver % 100);   // Emergency version does not count.
+      } else {
+        fcdev = fcver - (fcver % 10000); // Patch version does not count.
+      }
       sname = secfile_lookup_str_default(sf, NULL, "scenario.name");
       sdescription = secfile_lookup_str_default(sf, NULL,
                      "scenario.description");
       sauthors = secfile_lookup_str_default(sf, NULL,
                                             "scenario.authors");
-      if (fcver <= current_ver) {
+      // Ignore scenarios for newer freeciv versions than we are.
+      if (fcdev <= current_dev) {
         QString version;
         bool add_item = true;
         bool found = false;
@@ -1454,7 +1466,13 @@ void fc_client::update_scenarios_page(void)
           maj = fcver / 1000000;
           fcver %= 1000000;
           min = fcver / 10000;
-          version = QString("%1.%2").arg(maj).arg(min);
+          fcver %= 10000;
+          if (fcver >= 9000) {
+            // Development version, have '+'
+            version = QString("%1.%2+").arg(maj).arg(min);
+          } else {
+            version = QString("%1.%2").arg(maj).arg(min);
+          }
         } else {
           /* TRANS: Unknown scenario format */
           version = QString(_("pre-2.6"));
