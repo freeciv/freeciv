@@ -127,7 +127,7 @@ graphic     = "a.alien_rights"
 graphic_alt = "-"
 helptext    = _("They're smart. Should they have rights too?\n\n\
 Alien Forest tiles produce +1 production.\
-");
+")
 
 [advance_alien_taming]
 name        = _("Alien Taming")
@@ -208,7 +208,7 @@ helptext    = _("Advanced form of force channeling allows us to protect \
 city size objects with channeled radiation energy.")
 
 [advance_commercial_antigravity]
-name        = _("Commercial Antigravity");
+name        = _("Commercial Antigravity")
 req1        = "Antigravity"
 req2        = "None"
 flags       = ""
@@ -218,7 +218,7 @@ helptext    = _("Antigravity is not only for military. It has commercial \
 applications as well.")
 
 [advance_communication]
-name        = _("Communication");
+name        = _("Communication")
 req1        = "City Defense"
 req2        = "Data Storage"
 flags       = ""
@@ -231,7 +231,7 @@ Also your own bases can communicate more efficiently with each other, so number 
 bases you have is not causing as much unhappiness as before.")
 
 [advance_composites]
-name        = _("Composites");
+name        = _("Composites")
 req1        = "None"
 req2        = "None"
 flags       = ""
@@ -240,7 +240,7 @@ graphic_alt = "-"
 helptext    = _("Stronger materials mean stronger armors.")
 
 [advance_controlled_biomass]
-name        = _("Controlled Biomass");
+name        = _("Controlled Biomass")
 req1        = "Spitter Control"
 req2        = "None"
 flags       = ""
@@ -250,7 +250,7 @@ helptext    = _("Bugs, Slimes, Molds. We can drive masses of them together and t
  control movement of that biomass to act like a one being.")
 
 [advance_crust_defense]
-name        = _("Crust Defense");
+name        = _("Crust Defense")
 req1        = "Modified Spitter"
 req2        = "Strong Force"
 flags       = ""
@@ -527,7 +527,7 @@ we had as part of Earth empire.\n\n\
 Increases max tax/science/lux rate by 10%.")
 
 [advance_ocean_cities]
-name        = _("Ocean Cities");
+name        = _("Ocean Cities")
 req1        = "Deneb Radar"
 req2        = "Thermal Module"
 flags       = "Claim_Ocean"
@@ -536,7 +536,7 @@ graphic_alt = "-"
 helptext    = _("Cities on ocean. Why not?")
 
 [advance_organic_structures]
-name        = _("Organic Structures");
+name        = _("Organic Structures")
 req1        = "Radiation Resistance"
 req2        = "Composites"
 flags       = ""
@@ -547,7 +547,7 @@ Deneb 7's strange radiation allows us to enter new areas.\n\n\
 Cities can work radiating tiles.")
 
 [advance_paradrop]
-name        = _("Paradrop");
+name        = _("Paradrop")
 req1        = "Low-Level Orbit"
 req2        = "Mental Powers"
 graphic     = "a.paradrop"
@@ -557,7 +557,7 @@ small target and to be ready to act immediately after landing are hard \
 for aliens. They need extra mental powers for that.")
 
 [advance_personal_contact]
-name        = _("Personal Contact");
+name        = _("Personal Contact")
 req1        = "Virtual Entertainment"
 req2        = "Teleportation"
 graphic     = "a.personal_contact"
@@ -570,7 +570,7 @@ Stealth Spies protecting your cities against enemy Spies will get 40% bonus. \
 It also gets 40% harder for enemies to sabotage specific buildings.")
 
 [advance_protein_modifications]
-name        = _("Protein Modifications");
+name        = _("Protein Modifications")
 req1        = "Organic Structures"
 req2        = "Controlled Biomass"
 graphic     = "a.protein_mod"
@@ -581,7 +581,7 @@ Engineers can build Protein Houses, which increases tile food production by 50%.
 flags       = ""
 
 [advance_radiation_resistance]
-name        = _("Radiation Resistance");
+name        = _("Radiation Resistance")
 req1        = "Alien Taming"
 req2        = "None"
 flags       = ""
@@ -592,7 +592,7 @@ the radiation, we are able to build some radiation resistance to our cities. \
 \n\nSimply knowing this tech allows cities to grow 1 size bigger.")
 
 [advance_regeneration]
-name        = _("Regeneration");
+name        = _("Regeneration")
 req1        = "Protein Modifications"
 req2        = "New Frontier"
 flags       = ""
@@ -602,7 +602,7 @@ helptext    = _("We know how aliens regenerate, we know how self-repairing machi
 regenerate, we know how Earth organisms regenerate.")
 
 [advance_research_methods]
-name        = _("Research Methods");
+name        = _("Research Methods")
 req1        = "None"
 req2        = "None"
 flags       = ""
@@ -614,7 +614,7 @@ allow us to gain knowledge much faster.\n\n\
 Simply knowing this tech increases science output by 35%.")
 
 [advance_smart_aliens]
-name        = _("Smart Aliens");
+name        = _("Smart Aliens")
 req1        = "Cyber Aliens"
 req2        = "Communication"
 flags       = ""
@@ -624,7 +624,7 @@ helptext    = _("Once we have given some smarts, backed with some remote \
 control, to them, they can work on more demanding tasks.")
 
 [advance_soul]
-name        = _("Soul");
+name        = _("Soul")
 req1        = "Alien Rights"
 req2        = "Personal Contact"
 flags       = ""
@@ -637,7 +637,7 @@ citizens is converted to unhappy in every city in the world unless \
 owner of the city also knows Soul.")
 
 [advance_specialist_training]
-name        = _("Specialist Training");
+name        = _("Specialist Training")
 req1        = "Brain Development"
 req2        = "Amphibious Tactics"
 flags       = ""
@@ -648,7 +648,7 @@ specialists trick or two.\n\n\
 Output of all specialists doubles.")
 
 [advance_spitter_control]
-name        = _("Spitter Control");
+name        = _("Spitter Control")
 req1        = "Research Methods"
 req2        = "Alien Taming"
 flags       = ""
@@ -658,7 +658,7 @@ helptext    = _("Alien lifeforms spitting solid objects are interesting research
 subject.")
 
 [advance_stealth_module]
-name        = _("Stealth Module");
+name        = _("Stealth Module")
 req1        = "Thermal Module"
 req2        = "Communication"
 flags       = ""
@@ -669,7 +669,7 @@ far too expensive to be used for armies. It's perfect for individuals in espiona
 mission.")
 
 [advance_strong_force]
-name        = _("Strong Force");
+name        = _("Strong Force")
 req1        = "Deneb Radar"
 req2        = "Burrowing"
 flags       = ""
@@ -680,7 +680,7 @@ radiation. We can still improve, though.\n\n\
 Allows Engineers to build Towers instead of Force Fortresses.")
 
 [advance_strong_resistance]
-name        = _("Strong Resistance");
+name        = _("Strong Resistance")
 req1        = "Strong Force"
 req2        = "None"
 flags       = ""
@@ -690,7 +690,7 @@ helptext    = _("We get better at building resistance against radiation.\n\n\
 Simply knowing this tech allows cities to grow 2 sizes bigger.")
 
 [advance_supermodule]
-name        = _("Supermodule");
+name        = _("Supermodule")
 req1        = "Underground Habitat"
 req2        = "Low-Level Orbit"
 flags       = ""
@@ -700,7 +700,7 @@ helptext    = _("Supermodule combines lesser modules in one extremely efficient 
 pack.")
 
 [advance_synthetic_food]
-name        = _("Synthetic Food");
+name        = _("Synthetic Food")
 req1        = "Food Regeneration"
 req2        = "Soul"
 flags       = ""
@@ -712,7 +712,7 @@ As their food consumption is no longer an problem, we can grow bigger, meaner, \
 aliens.")
 
 [advance_teleportation]
-name        = _("Teleportation");
+name        = _("Teleportation")
 req1        = "New Frontier"
 req2        = "Stealth Module"
 flags       = ""
@@ -722,7 +722,7 @@ helptext    = _("We can teleport relatively small objects relatively short \
 distances. This reduces problem of not being able to fly.")
 
 [advance_thermal_control]
-name        = _("Thermal Module");
+name        = _("Thermal Module")
 req1        = "Naval Superiority"
 req2        = "Force Channeling"
 flags       = ""
@@ -734,7 +734,7 @@ technology allows more advanced modules in the future.\n\n\
 Cities can work Boiling Ocean tiles.")
 
 [advance_underground_habitat]
-name        = _("Underground Habitat");
+name        = _("Underground Habitat")
 req1        = "Deep Pumping"
 req2        = "Synthetic Food"
 flags       = ""
@@ -744,7 +744,7 @@ helptext    = _("If needed, we can produce everything we need without \
 ever leaving underground bunker.")
 
 [advance_travel]
-name        = _("Travel");
+name        = _("Travel")
 req1        = "Manufacturing"
 req2        = "None"
 flags       = ""
@@ -755,7 +755,7 @@ hospitable seas of Deneb 7 proved to be no different from \
 other planets.")
 
 [advance_unified_theory]
-name        = _("Unified Theory");
+name        = _("Unified Theory")
 req1        = "Strong Resistance"
 req2        = "Commercial Antigravity"
 flags       = ""
@@ -765,7 +765,7 @@ helptext    = _("We now understand that radiation and antigravity are two \
 sides of the same phenomenom.")
 
 [advance_virtual_reality]
-name        = _("Virtual Entertainment");
+name        = _("Virtual Entertainment")
 req1        = "Virtual Reality Training"
 req2        = "None"
 flags       = ""
@@ -774,7 +774,7 @@ graphic_alt = "-"
 helptext    = _("Another tech that Earth has long been close to mastering.")
 
 [advance_virtual_reality_training]
-name        = _("Virtual Reality Training");
+name        = _("Virtual Reality Training")
 req1        = "Data Storage"
 req2        = "Travel"
 flags       = ""
@@ -784,7 +784,7 @@ helptext    = _("Virtual Reality provides excellent way to train our forces, bot
 infantry and naval forces.")
 
 [advance_warmonsters]
-name        = _("War Monsters");
+name        = _("War Monsters")
 req1        = "Spitter Control"
 req2        = "Brute Force"
 flags       = ""
