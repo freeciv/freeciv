@@ -1,20 +1,22 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
+
 <svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:xlink="http://www.w3.org/1999/xlink"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    id="svg2405"
    sodipodi:version="0.32"
-   inkscape:version="0.46"
+   inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
    width="1155"
    height="770"
-   version="1.0">
+   version="1.0"
+   sodipodi:docname="nepal.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
   <metadata
      id="metadata2410">
     <rdf:RDF>
@@ -62,8 +64,8 @@
        sodipodi:type="inkscape:persp3d" />
   </defs>
   <sodipodi:namedview
-     inkscape:window-height="729"
-     inkscape:window-width="1280"
+     inkscape:window-height="556"
+     inkscape:window-width="831"
      inkscape:pageshadow="2"
      inkscape:pageopacity="0.0"
      guidetolerance="10.0"
@@ -75,11 +77,13 @@
      id="base"
      showgrid="false"
      inkscape:zoom="0.44281333"
-     inkscape:cx="372.04724"
-     inkscape:cy="526.18109"
-     inkscape:window-x="0"
-     inkscape:window-y="0"
-     inkscape:current-layer="svg2405" />
+     inkscape:cx="593.92973"
+     inkscape:cy="387.29638"
+     inkscape:window-x="443"
+     inkscape:window-y="81"
+     inkscape:current-layer="svg2405"
+     inkscape:pagecheckerboard="0"
+     inkscape:window-maximized="0" />
   <g
      id="g2540"
      transform="matrix(8.7574448,0,0,8.7170971,157.63358,45.199301)">
@@ -130,7 +134,8 @@
          style="fill:#ffffff"
          id="g2952"
          transform="matrix(7.3685,0,0,7.3685,-102.098,40.1876)">
-<!--TM-->        <circle
+        <!--TM-->
+        <circle
            sodipodi:ry="1"
            sodipodi:rx="1"
            sodipodi:cy="0"
@@ -148,7 +153,8 @@
                transform="matrix(0.980785,0.19509,-0.19509,0.980785,0,0)"
                d="M 0.19509032,-0.98078528 L 0,-1.3887841 L -0.19509032,-0.98078528"
                id="jag" />
-<!--sin(Pi/16) cos(Pi/16) TS/TM-->            <use
+            <!--sin(Pi/16) cos(Pi/16) TS/TM-->
+            <use
                height="88"
                width="72"
                y="0"
@@ -188,7 +194,8 @@
        transform="matrix(13.4557,0,0,13.4557,72.7645,39.4763)"
        id="g2967"
        style="fill:#ffffff">
-<!--W NM-->      <circle
+      <!--W NM-->
+      <circle
          r="1"
          id="circle2969"
          d="M 1,0 C 1,0.55228475 0.55228475,1 0,1 -0.55228475,1 -1,0.55228475 -1,0 c 0,-0.55228475 0.44771525,-1 1,-1 0.55228475,0 1,0.44771525 1,1 z"
@@ -205,7 +212,8 @@
           <path
              id="ray"
              d="M 0.25881905,0.96592583 L 0,1.5767493 L -0.25881905,0.96592583" />
-<!--sin(Pi/12) cos(Pi/12) LN/NM-->          <use
+          <!--sin(Pi/12) cos(Pi/12) LN/NM-->
+          <use
              xlink:href="#ray"
              transform="scale(-1,-1)"
              id="use2974"
