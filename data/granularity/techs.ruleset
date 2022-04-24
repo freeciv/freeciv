@@ -115,7 +115,7 @@ format_version=20
 ; */ <-- avoid gettext warnings
 
 [advance_agriculture]
-name        = _("Agriculture");
+name        = _("Agriculture")
 req1        = "Tools"
 req2        = "None"
 flags       = ""
@@ -133,35 +133,35 @@ graphic_alt = "-"
 ;helptext    =
 
 [advance_carving]
-name        = _("Carving");
+name        = _("Carving")
 req1        = "Tools"
 req2        = "Fire"
 flags       = ""
 graphic     = "a.carving"
 graphic_alt = "-"
-helptext    = _("Boats can be carved from wood.");
+helptext    = _("Boats can be carved from wood.")
 
 [advance_cave_painting]
-name        = _("Cave Painting");
+name        = _("Cave Painting")
 req1        = "None"
 req2        = "None"
 flags       = ""
 graphic     = "a.cave_painting"
 graphic_alt = "a.alphabet"
-helptext    = _("Cave Paintings record hunting and fights.");
+helptext    = _("Cave Paintings record hunting and fights.")
 
 [advance_fire]
-name        = _("Fire");
+name        = _("Fire")
 req1        = "None"
 req2        = "None"
 flags       = ""
 graphic     = "a.fire"
 graphic_alt = "-"
 helptext    = _("With fire, there can be a place to live permanently.\
- Allows settlements to grow to size 6.");
+ Allows settlements to grow to size 6.")
 
 [advance_fishing]
-name        = _("Fishing");
+name        = _("Fishing")
 req1        = "Tools"
 req2        = "None"
 flags       = ""
@@ -170,7 +170,7 @@ graphic_alt = "-"
 helptext    = _("Makes it possible to use Oceanic tiles.")
 
 [advance_government]
-name        = _("Government");
+name        = _("Government")
 req1        = "Cave Painting"
 req2        = "None"
 flags       = ""
@@ -178,7 +178,7 @@ graphic     = "a.government"
 graphic_alt = "-"
 helptext    = _("Knowing basics of governing your people lets you\
  adjust tax/science/luxury rates more freely.\
-");
+")
 
 [advance_horseback_riding]
 name        = _("Horseback Riding")
@@ -220,7 +220,7 @@ graphic_alt = "-"
 helptext    = _("Allows build actual roads.")
 
 [advance_spirits]
-name        = _("Spirits");
+name        = _("Spirits")
 req1        = "None"
 req2        = "None"
 flags       = ""
@@ -230,11 +230,11 @@ helptext    = _("Belief in natural spirits is the first step in Religious\
  tech tree branch.")
 
 [advance_tools]
-name        = _("Tools");
+name        = _("Tools")
 req1        = "None"
 req2        = "None"
 flags       = ""
 graphic     = "a.tools"
 graphic_alt = "-"
 helptext    = _("Anything can be done with right tools.\
- Allows more efficient use of production resources.");
+ Allows more efficient use of production resources.")

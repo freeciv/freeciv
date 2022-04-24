@@ -429,7 +429,7 @@ bombard_3_max_range = 1
 ; The minimal distance from the actor unit to the target. The value 0 means
 ; that the target must be at the tile of the actor unit. The value 1 means
 ; that the tile must be a tile adjacent to the actor unit.
-explode_nuclear_min_range = 0;
+explode_nuclear_min_range = 0
 
 ; The maximum distance from the actor unit to the target of the
 ; "Explode Nuclear" action. The value 0 means that the target tile must be
@@ -440,7 +440,7 @@ explode_nuclear_min_range = 0;
 explode_nuclear_max_range = 0
 
 ; Will performing this action always consume the actor unit?
-explode_nuclear_consuming_always = TRUE;
+explode_nuclear_consuming_always = TRUE
 
 ; The minimal distance from the actor unit to the target. The value 0 means
 ; that the target must be at the tile of the actor unit. The value 1 means
@@ -455,7 +455,7 @@ nuke_city_min_range = 1
 nuke_city_max_range = 1
 
 ; Will performing this action always consume the actor unit?
-nuke_city_consuming_always = TRUE;
+nuke_city_consuming_always = TRUE
 
 ; The kind of target the "Nuke City" action has. The target requirements of
 ; its enablers are evaluated against the target. The target owner is the one
@@ -476,7 +476,7 @@ nuke_units_min_range = 1
 nuke_units_max_range = 1
 
 ; Will performing this action always consume the actor unit?
-nuke_units_consuming_always = TRUE;
+nuke_units_consuming_always = TRUE
 
 ; The maximum distance from the actor unit to the target of the "Airlift Unit"
 ; action. The value 1 means that the targets must be on a tile adjacent to
@@ -1908,7 +1908,7 @@ name           = _("Spaceship Launch")
 type           = "Spaceship"
 unique         = FALSE
 culture        = 5000
-first_msg      = _("You're the first one to launch a spaceship towards Alpha Centauri!");
+first_msg      = _("You're the first one to launch a spaceship towards Alpha Centauri!")
 cons_msg       = _("You have launched a spaceship towards Alpha Centauri!")
 
 [achievement_map_known]

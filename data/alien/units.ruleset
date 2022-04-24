@@ -1349,7 +1349,7 @@ to help build wonders in other cities.\
 Trade routes with other factions provide three times as much ongoing \
 trade as routes within your faction. Each city can support up to four \
 trade routes.\
-");
+")
 
 [unit_caravan]
 name          = _("Caravan")
@@ -1384,7 +1384,7 @@ Native caravan unit, that can move on all land terrains.\
 Trade routes with other factions provide three times as much ongoing \
 trade as routes within your faction. Each city can support up to four \
 trade routes.\
-");
+")
 
 [unit_stealth_spy]
 name          = _("Stealth Spy")
@@ -1421,7 +1421,7 @@ veteran_move_bonus = 0, 0, 0
 roles         = "DiplomatStartUnit"
 helptext      = _("\
 Stealth Spy can make diplomatic actions, and is invisible until \
-next to enemy unit or city.");
+next to enemy unit or city.")
 
 [unit_teleporting_missile]
 name          = _("Teleporting Missile")
