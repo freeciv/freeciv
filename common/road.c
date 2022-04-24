@@ -375,9 +375,10 @@ int count_river_type_tile_card(const struct tile *ptile,
     total++;
   } cardinal_adjc_iterate_end;
 
-  if (percentage) {
+  if (percentage && count > 0) { /* Latter condition avoids div by zero */
     count = count * 100 / total;
   }
+
   return count;
 }
 
@@ -400,9 +401,10 @@ int count_river_type_near_tile(const struct tile *ptile,
     total++;
   } adjc_iterate_end;
 
-  if (percentage) {
+  if (percentage && count > 0) { /* Latter condition avoids div by zero */
     count = count * 100 / total;
   }
+
   return count;
 }
 

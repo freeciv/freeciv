@@ -351,8 +351,8 @@ bool is_terrain_near_tile(const struct tile *ptile,
   Return the number of adjacent tiles that have the given terrain.
 ****************************************************************************/
 int count_terrain_near_tile(const struct tile *ptile,
-			    bool cardinal_only, bool percentage,
-			    const struct terrain *pterrain)
+                            bool cardinal_only, bool percentage,
+                            const struct terrain *pterrain)
 {
   int count = 0, total = 0;
 
@@ -363,9 +363,10 @@ int count_terrain_near_tile(const struct tile *ptile,
     total++;
   } variable_adjc_iterate_end;
 
-  if (percentage) {
+  if (percentage && count > 0) { /* Latter condition avoids div by zero */
     count = count * 100 / total;
   }
+
   return count;
 }
 
@@ -373,8 +374,8 @@ int count_terrain_near_tile(const struct tile *ptile,
   Return the number of adjacent tiles that have the given terrain property.
 ****************************************************************************/
 int count_terrain_property_near_tile(const struct tile *ptile,
-				     bool cardinal_only, bool percentage,
-				     enum mapgen_terrain_property prop)
+                                     bool cardinal_only, bool percentage,
+                                     enum mapgen_terrain_property prop)
 {
   int count = 0, total = 0;
 
@@ -386,9 +387,10 @@ int count_terrain_property_near_tile(const struct tile *ptile,
     total++;
   } variable_adjc_iterate_end;
 
-  if (percentage) {
+  if (percentage && count > 0) { /* Latter condition avoids div by zero */
     count = count * 100 / total;
   }
+
   return count;
 }
 
@@ -437,7 +439,7 @@ bool is_resource_near_tile(const struct tile *ptile,
   given flag (does not check ptile itself).
 ****************************************************************************/
 bool is_terrain_flag_card_near(const struct tile *ptile,
-			       enum terrain_flag_id flag)
+                               enum terrain_flag_id flag)
 {
   cardinal_adjc_iterate(ptile, adjc_tile) {
     struct terrain* pterrain = tile_terrain(adjc_tile);
@@ -455,7 +457,7 @@ bool is_terrain_flag_card_near(const struct tile *ptile,
   (does not check ptile itself).
 ****************************************************************************/
 bool is_terrain_flag_near_tile(const struct tile *ptile,
-			       enum terrain_flag_id flag)
+                               enum terrain_flag_id flag)
 {
   adjc_iterate(ptile, adjc_tile) {
     struct terrain* pterrain = tile_terrain(adjc_tile);
@@ -473,8 +475,8 @@ bool is_terrain_flag_near_tile(const struct tile *ptile,
   (not including ptile itself).
 ****************************************************************************/
 int count_terrain_flag_near_tile(const struct tile *ptile,
-				 bool cardinal_only, bool percentage,
-				 enum terrain_flag_id flag)
+                                 bool cardinal_only, bool percentage,
+                                 enum terrain_flag_id flag)
 {
   int count = 0, total = 0;
 
@@ -487,9 +489,10 @@ int count_terrain_flag_near_tile(const struct tile *ptile,
     total++;
   } variable_adjc_iterate_end;
 
-  if (percentage) {
+  if (percentage && count > 0) { /* Latter condition avoids div by zero */
     count = count * 100 / total;
   }
+
   return count;
 }
 
@@ -637,7 +640,7 @@ int count_terrain_class_near_tile(const struct tile *ptile,
     total++;
   } variable_adjc_iterate_end;
 
-  if (percentage) {
+  if (percentage && count > 0) { /* Latter condition avoids div by zero */
     count = count * 100 / total;
   }
 
