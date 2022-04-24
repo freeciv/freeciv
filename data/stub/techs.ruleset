@@ -108,10 +108,10 @@ format_version=10
 ; */ <-- avoid gettext warnings
 
 [advance_generic]
-name        = _("Generic Tech");
+name        = _("Generic Tech")
 req1        = "None"
 req2        = "None"
 flags       = ""
 graphic     = "a.alphabet"
 graphic_alt = "-"
-helptext    = _("This is the only technology you can research.");
+helptext    = _("This is the only technology you can research.")

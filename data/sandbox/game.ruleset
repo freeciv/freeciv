@@ -1230,7 +1230,7 @@ name           = _("Spaceship Launch")
 type           = "Spaceship"
 unique         = FALSE
 culture        = 10000
-first_msg      = _("You're the first one to launch a spaceship towards Alpha Centauri!");
+first_msg      = _("You're the first one to launch a spaceship towards Alpha Centauri!")
 cons_msg       = _("You have launched a spaceship towards Alpha Centauri!")
 
 [achievement_map_known]
