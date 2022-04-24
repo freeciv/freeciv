@@ -2963,6 +2963,7 @@ void city_dialog::update_info_label()
   char buf_info[NUM_INFO_FIELDS][512];
   char buf_tooltip[NUM_INFO_FIELDS][512];
   int granaryturns;
+  int spec;
 
   for (int i = 0; i < NUM_INFO_FIELDS; i++) {
     buf_info[i][0] = '\0';
@@ -2970,8 +2971,12 @@ void city_dialog::update_info_label()
   }
 
   /* fill the buffers with the necessary info */
+  spec = city_specialists(pcity);
   fc_snprintf(buf_info[INFO_CITIZEN], sizeof(buf_info[INFO_CITIZEN]),
-              "%3d (%4d)", pcity->size, city_specialists(pcity));
+              "%3d (%4d)", pcity->size, spec);
+  fc_snprintf(buf_tooltip[INFO_CITIZEN], sizeof(buf_tooltip[INFO_CITIZEN]),
+              _("Population: %d, Specialists: %d"),
+              pcity->size, spec);
   fc_snprintf(buf_info[INFO_FOOD], sizeof(buf_info[INFO_FOOD]), "%3d (%+4d)",
               pcity->prod[O_FOOD], pcity->surplus[O_FOOD]);
   fc_snprintf(buf_info[INFO_SHIELD], sizeof(buf_info[INFO_SHIELD]),
