@@ -1,6 +1,6 @@
-diff -Nurd lua-5.3-orig/src/ldo.c lua-5.3/src/ldo.c
---- lua-5.3-orig/src/ldo.c	2022-02-13 05:05:59.347540874 +0200
-+++ lua-5.3/src/ldo.c	2022-02-13 05:06:25.747768025 +0200
+diff -Nurd lua-5.3/src/ldo.c lua-5.3/src/ldo.c
+--- lua-5.3/src/ldo.c	2022-04-25 22:48:49.040393560 +0300
++++ lua-5.3/src/ldo.c	2022-02-20 11:50:43.688283741 +0200
 @@ -60,7 +60,7 @@
  	try { a } catch(...) { if ((c)->status == 0) (c)->status = -1; }
  #define luai_jmpbuf		int  /* dummy variable */
@@ -21,8 +21,8 @@ diff -Nurd lua-5.3-orig/src/ldo.c lua-5.3/src/ldo.c
  }
  
  
-diff -Nurd lua-5.3-orig/src/liolib.c lua-5.3/src/liolib.c
---- lua-5.3-orig/src/liolib.c	2022-02-13 05:05:59.347540874 +0200
+diff -Nurd lua-5.3/src/liolib.c lua-5.3/src/liolib.c
+--- lua-5.3/src/liolib.c	2022-04-25 22:48:49.040393560 +0300
 +++ lua-5.3/src/liolib.c	2022-01-18 20:05:30.233063648 +0200
 @@ -54,7 +54,7 @@
  
@@ -42,8 +42,8 @@ diff -Nurd lua-5.3-orig/src/liolib.c lua-5.3/src/liolib.c
  
  #include <sys/types.h>
  
-diff -Nurd lua-5.3-orig/src/loslib.c lua-5.3/src/loslib.c
---- lua-5.3-orig/src/loslib.c	2022-02-13 05:05:59.347540874 +0200
+diff -Nurd lua-5.3/src/loslib.c lua-5.3/src/loslib.c
+--- lua-5.3/src/loslib.c	2022-04-25 22:48:49.040393560 +0300
 +++ lua-5.3/src/loslib.c	2022-01-18 20:05:30.233063648 +0200
 @@ -81,7 +81,7 @@
  ** where it uses gmtime_r/localtime_r
@@ -63,8 +63,19 @@ diff -Nurd lua-5.3-orig/src/loslib.c lua-5.3/src/loslib.c
  
  #include <unistd.h>
  
-diff -Nurd lua-5.3-orig/src/lstring.c lua-5.3/src/lstring.c
---- lua-5.3-orig/src/lstring.c	2022-02-13 05:05:59.347540874 +0200
+diff -Nurd lua-5.3/src/lparser.c lua-5.3/src/lparser.c
+--- lua-5.3/src/lparser.c	2022-04-25 22:46:59.539834735 +0300
++++ lua-5.3/src/lparser.c	2022-04-25 22:48:11.376202358 +0300
+@@ -300,6 +300,7 @@
+     expdesc key;
+     singlevaraux(fs, ls->envn, var, 1);  /* get environment variable */
+     lua_assert(var->k != VVOID);  /* this one must exist */
++    luaK_exp2anyregup(fs, var);  /* but could be a constant */
+     codestring(ls, &key, varname);  /* key is variable name */
+     luaK_indexed(fs, var, &key);  /* env[varname] */
+   }
+diff -Nurd lua-5.3/src/lstring.c lua-5.3/src/lstring.c
+--- lua-5.3/src/lstring.c	2022-04-25 22:48:49.040393560 +0300
 +++ lua-5.3/src/lstring.c	2022-01-18 20:05:30.233063648 +0200
 @@ -133,12 +133,14 @@
    TString *ts;
@@ -82,8 +93,8 @@ diff -Nurd lua-5.3-orig/src/lstring.c lua-5.3/src/lstring.c
    return ts;
  }
  
-diff -Nurd lua-5.3-orig/src/luaconf.h lua-5.3/src/luaconf.h
---- lua-5.3-orig/src/luaconf.h	2022-02-13 05:05:59.347540874 +0200
+diff -Nurd lua-5.3/src/luaconf.h lua-5.3/src/luaconf.h
+--- lua-5.3/src/luaconf.h	2022-04-25 22:48:49.040393560 +0300
 +++ lua-5.3/src/luaconf.h	2022-01-18 20:05:30.233063648 +0200
 @@ -11,6 +11,7 @@
  #include <limits.h>
