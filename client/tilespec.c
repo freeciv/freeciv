@@ -1449,19 +1449,6 @@ bool tilespec_reread(const char *new_tileset_name,
 
   for (id = 0; id < game.control.styles_count; id++) {
     tileset_setup_city_tiles(tileset, id);
-    const char *style_name = city_style_rule_name(id);
-
-    tileset_setup_citizen_types(tileset,
-                                &tileset->sprites.style_citizen_sets.sets[id],
-                                city_styles[id].citizens_graphic,
-                                style_name, FALSE);
-    specialist_type_iterate(sp) {
-      tileset_setup_specialist_type(tileset,
-                                    &tileset->sprites.style_citizen_sets.sets[id],
-                                    sp,
-                                    city_styles[id].citizens_graphic,
-                                    style_name, FALSE);
-    } specialist_type_iterate_end;
   }
 
   if (state < C_S_RUNNING) {
@@ -6248,6 +6235,8 @@ int fill_sprite_array(struct tileset *t,
 ****************************************************************************/
 void tileset_setup_city_tiles(struct tileset *t, int style)
 {
+  const char *style_name = city_style_rule_name(style);
+
   if (style == game.control.styles_count - 1) {
     int i;
 
@@ -6274,7 +6263,21 @@ void tileset_setup_city_tiles(struct tileset *t, int style)
     t->sprites.city.single_wall = load_city_sprite(t, "wall");
 
     t->sprites.city.occupied = load_city_sprite(t, "occupied");
+  }
 
+  tileset_setup_citizen_types(t,
+                              &t->sprites.style_citizen_sets.sets[style],
+                              city_styles[style].citizens_graphic,
+                              style_name, FALSE);
+  specialist_type_iterate(sp) {
+    tileset_setup_specialist_type(t,
+                                  &t->sprites.style_citizen_sets.sets[style],
+                                  sp,
+                                  city_styles[style].citizens_graphic,
+                                  style_name, FALSE);
+  } specialist_type_iterate_end;
+
+  if (style == game.control.styles_count - 1) {
     for (style = 0; style < game.control.styles_count; style++) {
       if (t->sprites.city.tile->styles[style].land_num_thresholds == 0) {
         tileset_error(LOG_FATAL, _("City style \"%s\": no city graphics."),
@@ -6506,6 +6509,8 @@ struct sprite *get_citizen_sprite(const struct tileset *t,
 
   if (pcity != NULL) {
     int style = style_of_city(pcity);
+
+    fc_assert(t->sprites.style_citizen_sets.sets != NULL);
 
     graphic = get_citizen_graphic(&t->sprites.style_citizen_sets.sets[style],
                                   type);
@@ -7259,6 +7264,14 @@ void tileset_ruleset_reset(struct tileset *t)
     extra_type_list_destroy(t->flagged_bases_list);
     t->flagged_bases_list = extra_type_list_new();
   }
+
+  if (t->sprites.style_citizen_sets.sets != NULL) {
+    free(t->sprites.style_citizen_sets.sets);
+  }
+
+  t->sprites.style_citizen_sets.sets
+    = fc_malloc(game.control.styles_count
+                * sizeof(t->sprites.style_citizen_sets.sets[0]));
 }
 
 /************************************************************************//**
