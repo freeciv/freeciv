@@ -1,6 +1,6 @@
 diff -Nurd lua-5.4/src/ldo.c lua-5.4/src/ldo.c
---- lua-5.4/src/ldo.c	2022-02-13 05:02:12.401587054 +0200
-+++ lua-5.4/src/ldo.c	2022-02-13 05:01:32.593244079 +0200
+--- lua-5.4/src/ldo.c	2022-04-25 22:43:41.954799101 +0300
++++ lua-5.4/src/ldo.c	2022-04-11 04:08:36.230473165 +0300
 @@ -60,7 +60,7 @@
  	try { a } catch(...) { if ((c)->status == 0) (c)->status = -1; }
  #define luai_jmpbuf		int  /* dummy variable */
@@ -22,8 +22,8 @@ diff -Nurd lua-5.4/src/ldo.c lua-5.4/src/ldo.c
  
  
 diff -Nurd lua-5.4/src/liolib.c lua-5.4/src/liolib.c
---- lua-5.4/src/liolib.c	2022-02-13 05:02:12.401587054 +0200
-+++ lua-5.4/src/liolib.c	2021-12-06 10:18:06.830371220 +0200
+--- lua-5.4/src/liolib.c	2022-04-25 22:43:41.954799101 +0300
++++ lua-5.4/src/liolib.c	2022-04-11 04:08:36.230473165 +0300
 @@ -54,7 +54,7 @@
  
  #if !defined(l_popen)		/* { */
@@ -43,8 +43,8 @@ diff -Nurd lua-5.4/src/liolib.c lua-5.4/src/liolib.c
  #include <sys/types.h>
  
 diff -Nurd lua-5.4/src/loslib.c lua-5.4/src/loslib.c
---- lua-5.4/src/loslib.c	2022-02-13 05:02:12.401587054 +0200
-+++ lua-5.4/src/loslib.c	2021-12-06 10:18:06.834371251 +0200
+--- lua-5.4/src/loslib.c	2022-04-25 22:43:41.954799101 +0300
++++ lua-5.4/src/loslib.c	2022-04-11 04:08:36.234473192 +0300
 @@ -83,7 +83,7 @@
  ** where it uses gmtime_r/localtime_r
  */
@@ -63,9 +63,20 @@ diff -Nurd lua-5.4/src/loslib.c lua-5.4/src/loslib.c
  
  #include <unistd.h>
  
+diff -Nurd lua-5.4/src/lparser.c lua-5.4/src/lparser.c
+--- lua-5.4/src/lparser.c	2022-04-25 22:41:53.602211639 +0300
++++ lua-5.4/src/lparser.c	2022-04-25 22:42:41.266472066 +0300
+@@ -468,6 +468,7 @@
+     expdesc key;
+     singlevaraux(fs, ls->envn, var, 1);  /* get environment variable */
+     lua_assert(var->k != VVOID);  /* this one must exist */
++    luaK_exp2anyregup(fs, var);  /* but could be a constant */
+     codestring(&key, varname);  /* key is variable name */
+     luaK_indexed(fs, var, &key);  /* env[varname] */
+   }
 diff -Nurd lua-5.4/src/luaconf.h lua-5.4/src/luaconf.h
---- lua-5.4/src/luaconf.h	2022-02-13 05:02:12.401587054 +0200
-+++ lua-5.4/src/luaconf.h	2022-02-07 17:09:48.332823144 +0200
+--- lua-5.4/src/luaconf.h	2022-04-25 22:43:41.954799101 +0300
++++ lua-5.4/src/luaconf.h	2022-04-11 04:08:36.234473192 +0300
 @@ -11,6 +11,7 @@
  #include <limits.h>
  #include <stddef.h>
