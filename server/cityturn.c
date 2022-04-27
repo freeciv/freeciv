@@ -2503,7 +2503,7 @@ static struct unit *city_create_unit(struct city *pcity,
 
   punit = create_unit(pplayer, pcity->tile, utype,
                       city_production_unit_veteran_level(pcity, utype),
-                      pcity->id, 0);
+                      pcity->id, -1);
   pplayer->score.units_built++;
   saved_unit_id = punit->id;
 
