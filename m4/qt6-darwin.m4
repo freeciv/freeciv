@@ -6,10 +6,15 @@ AC_DEFUN([FC_QT6_DARWIN],
     AS_HELP_STRING([--with-qt6-framework], [path to root of Qt6 framework (MacOS, autodetected if wasn't specified)]),
     [qt6_path="${withval}"])
 
-  AC_ARG_WITH([qt6_framework_bin],
-    AS_HELP_STRING([--with-qt6-framework-bin], [path to binares of Qt6 framework (MacOS X, autodetected if wasn't specified)]))
+  AC_ARG_WITH([qt6-framework-bin],
+    AS_HELP_STRING([--with-qt6-framework-bin], [path to binares of Qt6 framework (MacOS X, autodetected if wasn't specified)]),
+    [qt6_framework_bin="${withval}"])
 
-  AC_CHECK_PROG([QTPATHS], [qtpaths], [qtpaths], [no])
+  if test "x$qt6_framework_bin" = "x" ; then
+    AC_CHECK_PROG([QTPATHS], [qtpaths], [qtpaths], [no])
+  elif test -x "$qt6_framework_bin/qtpaths" ; then
+    QTPATHS="$qt6_framework_bin/qtpaths"
+  fi
 
   if test "x$qt6_path" != "x" || test "x$QTPATHS" != "xno" ; then
 
