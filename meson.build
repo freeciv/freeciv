@@ -71,7 +71,7 @@ else
 endif
 
 if get_option('freeciv-web')
-  priv_conf_data.set('FREECIV_WEB', 1)
+  pub_conf_data.set('FREECIV_WEB', 1)
   server_binary_name = 'freeciv-web'
 else
   server_binary_name = 'freeciv-server'
