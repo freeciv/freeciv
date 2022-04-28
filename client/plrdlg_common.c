@@ -25,6 +25,8 @@
 /* common */
 #include "connection.h"
 #include "game.h"
+#include "government.h"
+#include "research.h"
 
 /* client */
 #include "client_main.h"
@@ -302,12 +304,267 @@ static const char *col_idle(const struct player *plr)
 }
 
 /************************************************************************//**
- Compares score of two players in players dialog
+  Compare score of two players in players dialog
 ****************************************************************************/
 static int cmp_score(const struct player* player1,
                      const struct player* player2)
 {
   return player1->score.game - player2->score.game;
+}
+
+/************************************************************************//**
+  The name of the player's government
+****************************************************************************/
+static const char *col_government(const struct player *them)
+{
+  static char buf[100];
+  const struct player *me = client_player();
+
+  /*  'contact' gives the knowledge of other's government */
+  if (me == them
+      || client_is_global_observer()
+      || team_has_embassy(me->team, them)
+      || player_diplstate_get(me, them)->contact_turns_left > 0 ) {
+    fc_snprintf(buf, sizeof(buf),"%s", government_name_for_player(them));
+  } else {
+    fc_snprintf(buf, sizeof(buf),"?");
+  }
+
+  return buf;
+}
+
+/************************************************************************//**
+  Compare culture of two players in players dialog,
+  needed to sort column
+****************************************************************************/
+static int cmp_culture(const struct player *player1,
+                       const struct player *player2)
+{
+  return player1->client.culture - player2->client.culture;
+}
+
+/************************************************************************//**
+  Show others player's culture to me if I am allowed to know it.
+****************************************************************************/
+static const char *get_culture_info(const struct player *them)
+{
+  static char buf[10];
+  const struct player *me = client_player();
+  bool gobs = client_is_global_observer();
+
+  if (them == NULL || !them->is_alive) {
+    fc_snprintf(buf, sizeof(buf), "-");
+  } else if (gobs
+             || (me != NULL
+                 && (me == them || team_has_embassy(me->team, them)))) {
+    fc_snprintf(buf, sizeof(buf), "%d", them->client.culture);
+  } else {
+    fc_snprintf(buf, sizeof(buf), "?");
+  }
+
+  return buf;
+}
+
+/************************************************************************//**
+  Player's culture value
+****************************************************************************/
+static const char *col_culture(const struct player *pplayer)
+{
+  return get_culture_info(pplayer);
+}
+
+/************************************************************************//**
+  Compare gold of two players in players dialog,
+  needed to sort column
+****************************************************************************/
+static int cmp_gold(const struct player* player1,
+                    const struct player* player2)
+{
+  return player1->economic.gold - player2->economic.gold;
+}
+
+/************************************************************************//**
+  Show player's gold to me if I am allowed to know it
+****************************************************************************/
+static const char *get_gold_info(const struct player *them)
+{
+  static char buf[10];
+  const struct player *me = client_player();
+  bool gobs = client_is_global_observer();
+
+  if (them == NULL || !them->is_alive) {
+    fc_snprintf(buf, sizeof(buf), "-");
+  } else if (gobs
+             || (me != NULL
+                 && (me == them || team_has_embassy(me->team, them)
+                     || player_diplstate_get(me, them)->contact_turns_left > 0))) {
+    fc_snprintf(buf, sizeof(buf), "%d", them->economic.gold);
+  } else {
+    fc_snprintf(buf, sizeof(buf), "?");
+  }
+
+  return buf;
+}
+
+/************************************************************************//**
+  Player's gold
+****************************************************************************/
+static const char *col_gold(const struct player *pplayer)
+{
+  return get_gold_info(pplayer);
+}
+
+/************************************************************************//**
+  Compare tax of two players in players dialog,
+  needed to sort column
+****************************************************************************/
+static int cmp_tax(const struct player* player1,
+                   const struct player* player2)
+{
+  return player1->economic.tax - player2->economic.tax;
+}
+
+/************************************************************************//**
+  Show player's tax to me if I am allowed to know it.
+****************************************************************************/
+static const char *get_tax_info(const struct player *them)
+{
+  static char buf[10];
+  const struct player *me = client_player();
+  bool gobs = client_is_global_observer();
+
+  if (them == NULL || !them->is_alive) {
+    fc_snprintf(buf, sizeof(buf), "-");
+  } else if (gobs
+             || (me != NULL
+                 && (me == them || team_has_embassy(me->team, them)))) {
+    fc_snprintf(buf, sizeof(buf), "%d %%", them->economic.tax);
+  } else {
+    fc_snprintf(buf, sizeof(buf), "?");
+  }
+
+  return buf;
+}
+
+/************************************************************************//**
+  Player's tax rate
+****************************************************************************/
+static const char *col_tax(const struct player *pplayer)
+{
+  return get_tax_info(pplayer);
+}
+
+/************************************************************************//**
+  Compare science of two players in players dialog,
+  needed to sort column
+****************************************************************************/
+static int cmp_science(const struct player* player1,
+                       const struct player* player2)
+{
+  return player1->economic.science - player2->economic.science;
+}
+
+/************************************************************************//**
+  Show player's science to me if I am allowed to know it
+****************************************************************************/
+static const char *get_science_info(const struct player *them)
+{
+  static char buf[10];
+  const struct player *me = client_player();
+  bool gobs = client_is_global_observer();
+
+  if (them == NULL || !them->is_alive) {
+    fc_snprintf(buf, sizeof(buf), "-");
+  } else if (gobs
+             || (me != NULL
+                 && (me == them || team_has_embassy(me->team, them)))) {
+    fc_snprintf(buf, sizeof(buf), "%d %%", them->economic.science);
+  } else {
+    fc_snprintf(buf, sizeof(buf), "?");
+  }
+
+  return buf;
+}
+
+/************************************************************************//**
+  Player's science rate
+****************************************************************************/
+static const char *col_science(const struct player *pplayer)
+{
+  return get_science_info(pplayer);
+}
+
+/************************************************************************//**
+  Compare luxury of two players in players dialog,
+  needed to sort column
+****************************************************************************/
+static int cmp_luxury(const struct player* player1,
+                      const struct player* player2)
+{
+  return player1->economic.luxury - player2->economic.luxury;
+}
+
+/************************************************************************//**
+  Show player's luxury to me if I am allowed to know it
+****************************************************************************/
+static const char *get_luxury_info(const struct player *them)
+{
+  static char buf[10];
+  const struct player *me = client_player();
+  bool gobs = client_is_global_observer();
+
+  if (them == NULL || !them->is_alive) {
+    fc_snprintf(buf, sizeof(buf), "-");
+  } else if (gobs
+             || (me != NULL
+                 && (me == them || team_has_embassy(me->team, them)))) {
+    fc_snprintf(buf, sizeof(buf), "%d %%", them->economic.luxury);
+  } else {
+    fc_snprintf(buf, sizeof(buf), "?");
+  }
+
+  return buf;
+}
+
+/************************************************************************//**
+  Player's luxury rate
+****************************************************************************/
+static const char *col_luxury(const struct player *pplayer)
+{
+  return get_luxury_info(pplayer);
+}
+
+/************************************************************************//**
+  Show player's research to me if I am allowed to know it
+****************************************************************************/
+static const char *get_researching_info(const struct player *them)
+{
+  static char buf[100];
+  const struct player *me = client_player();
+  bool gobs = client_is_global_observer();
+
+  if (them == NULL || !them->is_alive) {
+    fc_snprintf(buf, sizeof(buf), "-");
+  } else if (gobs
+             || (me != NULL
+                 && (me == them || team_has_embassy(me->team, them)))) {
+    struct research *research = research_get(them);
+
+    fc_snprintf(buf, sizeof(buf), "%s",
+                research_advance_name_translation(research, research->researching));
+  } else {
+    fc_snprintf(buf, sizeof(buf), "?");
+  }
+
+  return buf;
+}
+
+/************************************************************************//**
+  Player's current research target
+****************************************************************************/
+static const char *col_research(const struct player *pplayer)
+{
+  return get_researching_info(pplayer);
 }
 
 /****************************************************************************
@@ -330,7 +587,14 @@ struct player_dlg_column player_dlg_columns[] = {
   {TRUE, COL_TEXT, N_("State"), plrdlg_col_state, NULL, NULL,  "state"},
   {FALSE, COL_TEXT, N_("?Player_dlg:Host"), col_host, NULL, NULL,  "host"},
   {FALSE, COL_RIGHT_TEXT, N_("?Player_dlg:Idle"), col_idle, NULL, NULL,  "idle"},
-  {FALSE, COL_RIGHT_TEXT, N_("Ping"), get_ping_time_text, NULL, NULL,  "ping"}
+  {FALSE, COL_RIGHT_TEXT, N_("Ping"), get_ping_time_text, NULL, NULL,  "ping"},
+  {TRUE, COL_TEXT, N_("Government"), col_government, NULL, NULL,  "government"},
+  {TRUE, COL_RIGHT_TEXT, N_("Culture"), col_culture, NULL, cmp_culture, "culture"},
+  {TRUE, COL_RIGHT_TEXT, N_("Gold"), col_gold, NULL, cmp_gold, "gold"},
+  {TRUE, COL_RIGHT_TEXT, N_("Tax"), col_tax, NULL, cmp_tax, "tax"},
+  {TRUE, COL_RIGHT_TEXT, N_("Science"), col_science, NULL, cmp_science, "science"},
+  {TRUE, COL_RIGHT_TEXT, N_("Luxury"), col_luxury, NULL, cmp_luxury, "luxury"},
+  {TRUE, COL_TEXT, N_("Research"), col_research, NULL, NULL, "research"}
 };
 
 const int num_player_dlg_columns = ARRAY_SIZE(player_dlg_columns);
