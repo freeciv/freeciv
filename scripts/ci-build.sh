@@ -29,6 +29,17 @@ echo "Freeciv distribution check successful!"
 ;;
 
 "meson")
+FC_MESON_VER="0.57.2"
+if test "$FC_MESON_VER" != "" ; then
+  mkdir meson-install
+  cd meson-install
+  wget "https://github.com/mesonbuild/meson/releases/download/${FC_MESON_VER}/meson-${FC_MESON_VER}.tar.gz"
+  tar xzf "meson-${FC_MESON_VER}.tar.gz"
+  ln -s meson.py "meson-${FC_MESON_VER}/meson"
+  export PATH="$(pwd)/meson-${FC_MESON_VER}:$PATH"
+  cd ..
+fi
+
 mkdir build
 cd build
 meson .. -Dprefix=${HOME}/freeciv/meson -Ddebug=true -Dack_experimental=true -Dclients='gtk3.22','qt','sdl2' -Dfcmp='gtk3','qt','cli'
