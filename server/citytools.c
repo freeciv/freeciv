@@ -1800,6 +1800,8 @@ void remove_city(struct city *pcity)
   players_iterate(other_player) {
     if (map_is_known_and_seen(pcenter, other_player, V_MAIN)) {
       reality_check_city(other_player, pcenter);
+    } else if (get_player_bonus(other_player, EFT_REVEAL_CITIES) > 0) {
+      map_show_tile(other_player, pcenter);
     }
   } players_iterate_end;
 
