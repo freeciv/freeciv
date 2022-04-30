@@ -196,7 +196,9 @@ static void print_usage(void);
 static void activate_gui(GtkApplication *app, gpointer data);
 static void parse_options(int argc, char **argv);
 static gboolean toplevel_key_press_handler(GtkWidget *w, GdkEvent *ev, gpointer data);
-static gboolean mouse_scroll_mapcanvas(GtkWidget *w, GdkEvent *ev);
+static gboolean mouse_scroll_mapcanvas(GtkEventControllerScroll *controller,
+                                       gdouble dx, gdouble dy,
+                                       gpointer data);
 
 static void tearoff_callback(GtkWidget *b, gpointer data);
 static GtkWidget *detached_widget_new(void);
@@ -675,10 +677,11 @@ static gboolean toplevel_key_press_handler(GtkWidget *w, GdkEvent *ev,
 /**********************************************************************//**
   Mouse/touchpad scrolling over the mapview
 **************************************************************************/
-static gboolean mouse_scroll_mapcanvas(GtkWidget *w, GdkEvent *ev)
+static gboolean mouse_scroll_mapcanvas(GtkEventControllerScroll *controller,
+                                       gdouble dx, gdouble dy,
+                                       gpointer data)
 {
   int scroll_x, scroll_y, xstep, ystep;
-  GdkScrollDirection direction;
   gdouble e_x, e_y;
   GdkModifierType state;
 
@@ -689,23 +692,8 @@ static gboolean mouse_scroll_mapcanvas(GtkWidget *w, GdkEvent *ev)
   get_mapview_scroll_pos(&scroll_x, &scroll_y);
   get_mapview_scroll_step(&xstep, &ystep);
 
-  direction = gdk_scroll_event_get_direction(ev);
-  switch (direction) {
-    case GDK_SCROLL_UP:
-      scroll_y -= ystep*2;
-      break;
-    case GDK_SCROLL_DOWN:
-      scroll_y += ystep*2;
-      break;
-    case GDK_SCROLL_RIGHT:
-      scroll_x += xstep*2;
-      break;
-    case GDK_SCROLL_LEFT:
-      scroll_x -= xstep*2;
-      break;
-    default:
-      return FALSE;
-  };
+  scroll_y += ystep * dy;
+  scroll_x += xstep * dx;
 
   set_mapview_scroll_pos(scroll_x, scroll_y);
 
@@ -714,9 +702,12 @@ static gboolean mouse_scroll_mapcanvas(GtkWidget *w, GdkEvent *ev)
     gtk_widget_grab_focus(map_canvas);
   }
 
-  gdk_event_get_position(ev, &e_x, &e_y);
+  gdk_event_get_position(gtk_event_controller_get_current_event(
+                                      GTK_EVENT_CONTROLLER(controller)),
+                         &e_x, &e_y);
   update_line(e_x, e_y);
-  state = gdk_event_get_modifier_state(ev);
+  state = gtk_event_controller_get_current_event_state(
+                                      GTK_EVENT_CONTROLLER(controller));
   if (rbutton_down && (state & GDK_BUTTON3_MASK)) {
     update_selection_rectangle(e_x, e_y);
   }
@@ -1527,6 +1518,10 @@ static void setup_widgets(void)
   g_signal_connect(mc_controller, "pressed",
                    G_CALLBACK(middle_butt_down_mapcanvas), NULL);
   gtk_widget_add_controller(map_canvas, mc_controller);
+  mc_controller = gtk_event_controller_scroll_new(GTK_EVENT_CONTROLLER_SCROLL_BOTH_AXES);
+  g_signal_connect(mc_controller, "scroll",
+                   G_CALLBACK(mouse_scroll_mapcanvas), NULL);
+  gtk_widget_add_controller(map_canvas, mc_controller);
 
   g_signal_connect(map_canvas, "resize",
                    G_CALLBACK(map_canvas_resize), NULL);
@@ -1536,9 +1531,6 @@ static void setup_widgets(void)
 
   g_signal_connect(toplevel, "enter_notify_event",
                    G_CALLBACK(leave_mapcanvas), NULL);
-
-  g_signal_connect(map_canvas, "scroll_event",
-                   G_CALLBACK(mouse_scroll_mapcanvas), NULL);
 
   g_signal_connect(toplevel, "key_press_event",
                    G_CALLBACK(toplevel_key_press_handler), NULL);
