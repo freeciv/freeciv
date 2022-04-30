@@ -25,13 +25,14 @@ EXTRA_DIST =	freeciv.project		\
 		org.freeciv.mp.gtk4.desktop.in	\
 		org.freeciv.mp.qt.desktop.in	\
 		org.freeciv.ruledit.desktop.in	\
-		freeciv-sdl2.appdata.xml.in \
-		freeciv-qt.appdata.xml.in \
-		freeciv-server.appdata.xml.in \
-		freeciv-mp-gtk3.appdata.xml.in \
-		freeciv-mp-gtk4.appdata.xml.in \
-		freeciv-mp-qt.appdata.xml.in \
-		freeciv-ruledit.appdata.xml.in \
+		org.freeciv.gtk322.appdata.xml.in \
+		org.freeciv.sdl2.appdata.xml.in \
+		org.freeciv.qt.appdata.xml.in \
+		org.freeciv.server.appdata.xml.in \
+		org.freeciv.mp.gtk3.appdata.xml.in \
+		org.freeciv.mp.gtk4.appdata.xml.in \
+		org.freeciv.mp.qt.appdata.xml.in \
+		org.freeciv.ruledit.appdata.xml.in \
 		config.rpath		\
 		Makerules.mk		\
 		langnames.txt
