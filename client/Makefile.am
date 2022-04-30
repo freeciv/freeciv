@@ -14,35 +14,35 @@ GUI_SUBDIRS += gui-sdl2
 desktopfile_DATA += \
 	org.freeciv.sdl2.desktop
 appdatafile_DATA += \
-	freeciv-sdl2.appdata.xml
+	org.freeciv.sdl2.appdata.xml
 endif
 if CLIENT_GUI_GTK_2_0
 GUI_SUBDIRS += gui-gtk-2.0
 desktopfile_DATA += \
 	org.freeciv.gtk2.desktop
 appdatafile_DATA += \
-	freeciv-gtk2.appdata.xml
+	org.freeciv.gtk2.appdata.xml
 endif
 if CLIENT_GUI_GTK_3_0
 GUI_SUBDIRS += gui-gtk-3.0
 desktopfile_DATA += \
 	org.freeciv.gtk3.desktop
 appdatafile_DATA += \
-	freeciv-gtk3.appdata.xml
+	org.freeciv.gtk3.appdata.xml
 endif
 if CLIENT_GUI_GTK_3_22
 GUI_SUBDIRS += gui-gtk-3.22
 desktopfile_DATA += \
 	org.freeciv.gtk322.desktop
 appdatafile_DATA += \
-	freeciv-gtk3.22.appdata.xml
+	org.freeciv.gtk322.appdata.xml
 endif
 if CLIENT_GUI_QT
 GUI_SUBDIRS += gui-qt
 desktopfile_DATA += \
 	org.freeciv.qt.desktop
 appdatafile_DATA += \
-	freeciv-qt.appdata.xml
+	org.freeciv.qt.appdata.xml
 endif
 if CLIENT_GUI_STUB
 GUI_SUBDIRS += gui-stub

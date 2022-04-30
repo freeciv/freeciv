@@ -193,4 +193,4 @@ desktopfile_DATA = \
 
 appdatafiledir = @APPDATADIR@
 appdatafile_DATA = \
-	freeciv-server.appdata.xml
+	org.freeciv.server.appdata.xml

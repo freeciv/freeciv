@@ -11,7 +11,7 @@ desktopfiledir = @DESKTOPDIR@
 desktopfile_DATA = org.freeciv.ruledit.desktop
 
 appdatafiledir = @APPDATADIR@
-appdatafile_DATA = freeciv-ruledit.appdata.xml
+appdatafile_DATA = org.freeciv.ruledit.appdata.xml
 
 bin_PROGRAMS = freeciv-ruledit
 

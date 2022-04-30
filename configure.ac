@@ -1847,17 +1847,17 @@ AC_CONFIG_FILES([Makefile
 	  tools/org.freeciv.mp.gtk4.desktop:bootstrap/org.freeciv.mp.gtk4.desktop.in
 	  tools/org.freeciv.mp.qt.desktop:bootstrap/org.freeciv.mp.qt.desktop.in
 	  tools/ruledit/org.freeciv.ruledit.desktop:bootstrap/org.freeciv.ruledit.desktop.in
-          client/freeciv-gtk2.appdata.xml:bootstrap/freeciv-gtk2.appdata.xml.in
-          client/freeciv-gtk3.appdata.xml:bootstrap/freeciv-gtk3.appdata.xml.in
-          client/freeciv-gtk3.22.appdata.xml:bootstrap/freeciv-gtk3.22.appdata.xml.in
-          client/freeciv-sdl2.appdata.xml:bootstrap/freeciv-sdl2.appdata.xml.in
-          client/freeciv-qt.appdata.xml:bootstrap/freeciv-qt.appdata.xml.in
-          server/freeciv-server.appdata.xml:bootstrap/freeciv-server.appdata.xml.in
-          tools/freeciv-mp-gtk2.appdata.xml:bootstrap/freeciv-mp-gtk2.appdata.xml.in
-          tools/freeciv-mp-gtk3.appdata.xml:bootstrap/freeciv-mp-gtk3.appdata.xml.in
-          tools/freeciv-mp-gtk4.appdata.xml:bootstrap/freeciv-mp-gtk4.appdata.xml.in
-          tools/freeciv-mp-qt.appdata.xml:bootstrap/freeciv-mp-qt.appdata.xml.in
-          tools/ruledit/freeciv-ruledit.appdata.xml:bootstrap/freeciv-ruledit.appdata.xml.in])
+          client/org.freeciv.gtk2.appdata.xml:bootstrap/org.freeciv.gtk2.appdata.xml.in
+          client/org.freeciv.gtk3.appdata.xml:bootstrap/org.freeciv.gtk3.appdata.xml.in
+          client/org.freeciv.gtk322.appdata.xml:bootstrap/org.freeciv.gtk322.appdata.xml.in
+          client/org.freeciv.sdl2.appdata.xml:bootstrap/org.freeciv.sdl2.appdata.xml.in
+          client/org.freeciv.qt.appdata.xml:bootstrap/org.freeciv.qt.appdata.xml.in
+          server/org.freeciv.server.appdata.xml:bootstrap/org.freeciv.server.appdata.xml.in
+          tools/org.freeciv.mp.gtk2.appdata.xml:bootstrap/org.freeciv.mp.gtk2.appdata.xml.in
+          tools/org.freeciv.mp.gtk3.appdata.xml:bootstrap/org.freeciv.mp.gtk3.appdata.xml.in
+          tools/org.freeciv.mp.gtk4.appdata.xml:bootstrap/org.freeciv.mp.gtk4.appdata.xml.in
+          tools/org.freeciv.mp.qt.appdata.xml:bootstrap/org.freeciv.mp.qt.appdata.xml.in
+          tools/ruledit/org.freeciv.ruledit.appdata.xml:bootstrap/org.freeciv.ruledit.appdata.xml.in])
 AC_CONFIG_FILES([fcgui:bootstrap/fcgui.in], [chmod +x fcgui])
 AC_CONFIG_FILES([fcser:bootstrap/fcser.in], [chmod +x fcser])
 AC_CONFIG_FILES([fcruleup:bootstrap/fcruleup.in], [chmod +x fcruleup])
