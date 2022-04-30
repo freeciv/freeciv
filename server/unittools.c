@@ -1542,6 +1542,9 @@ void transform_unit(struct unit *punit, struct unit_type *to_unit,
   }
 
   unit_forget_last_activity(punit);
+  if (!can_unit_continue_current_activity(punit)) {
+    unit_activities_cancel(punit);
+  }
 
   /* update unit upkeep */
   city_units_upkeep(game_city_by_number(punit->homecity));
