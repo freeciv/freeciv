@@ -636,7 +636,7 @@ void option_dialog::add_option(struct option *poption)
   unsigned int j;
 
   category_name = option_category_name(poption);
-  widget = NULL;
+  widget = nullptr;
 
   if (!categories.contains(category_name)) {
     twidget = new QWidget();
@@ -746,7 +746,7 @@ void option_dialog::add_option(struct option *poption)
     break;
   }
 
-  if (widget != NULL) {
+  if (widget != nullptr) {
     hbox_layout = new QHBoxLayout();
     hbox_layout->setAlignment(Qt::AlignRight);
     label = new QLabel(description);
@@ -758,11 +758,12 @@ void option_dialog::add_option(struct option *poption)
     lwidget->setLayout(hbox_layout);
     twidget_layout = qobject_cast < QVBoxLayout * >(twidget->layout());
     twidget_layout->addWidget(lwidget);
+
+    widget->setEnabled(option_is_changeable(poption));
+    widget->setToolTip(split_text(option_help_text(poption), false));
   }
 
-  widget->setEnabled(option_is_changeable(poption));
-  widget->setToolTip(split_text(option_help_text(poption), false));
-  option_set_gui_data(poption, widget);
+  option_set_gui_data(poption, widget); // May set nullptr as the gui_data
   option_dialog_refresh(poption);
 }
 
