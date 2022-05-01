@@ -74,6 +74,7 @@ if get_option('freeciv-web')
   pub_conf_data.set('FREECIV_WEB', 1)
   server_binary_name = 'freeciv-web'
 else
+  pub_conf_data.set('FREECIV_DELTA_PROTOCOL', 1)
   server_binary_name = 'freeciv-server'
 endif
 
