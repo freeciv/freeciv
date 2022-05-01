@@ -8,7 +8,7 @@
 MAJOR_VERSION="3"
 MINOR_VERSION="1"
 PATCH_VERSION="91"
-EMERGENCY_VERSION="4"
+EMERGENCY_VERSION="5"
 VERSION_LABEL="-dev"
 
 # 1) Development until MAJOR and MINOR version numbers are
