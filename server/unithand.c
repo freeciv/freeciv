@@ -5216,6 +5216,30 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
     return unit_perform_action(pplayer, punit->id, tile_index(pdesttile),
                                NO_TARGET, "", ACTION_TRANSPORT_DISEMBARK4,
                                ACT_REQ_PLAYER);
+  } else if (is_action_enabled_unit_on_tile(ACTION_HUT_ENTER,
+                                            punit, pdesttile, NULL)) {
+    /* "Enter Hut". */
+    return unit_perform_action(pplayer, punit->id, tile_index(pdesttile),
+                               NO_TARGET, "", ACTION_HUT_ENTER,
+                               ACT_REQ_PLAYER);
+  } else if (is_action_enabled_unit_on_tile(ACTION_HUT_ENTER2,
+                                            punit, pdesttile, NULL)) {
+    /* "Enter Hut 2". */
+    return unit_perform_action(pplayer, punit->id, tile_index(pdesttile),
+                               NO_TARGET, "", ACTION_HUT_ENTER2,
+                               ACT_REQ_PLAYER);
+  } else if (is_action_enabled_unit_on_tile(ACTION_HUT_FRIGHTEN,
+                                            punit, pdesttile, NULL)) {
+    /* "Frighten Hut". */
+    return unit_perform_action(pplayer, punit->id, tile_index(pdesttile),
+                               NO_TARGET, "", ACTION_HUT_FRIGHTEN,
+                               ACT_REQ_PLAYER);
+  } else if (is_action_enabled_unit_on_tile(ACTION_HUT_FRIGHTEN2,
+                                            punit, pdesttile, NULL)) {
+    /* "Frighten Hut 2". */
+    return unit_perform_action(pplayer, punit->id, tile_index(pdesttile),
+                               NO_TARGET, "", ACTION_HUT_FRIGHTEN2,
+                               ACT_REQ_PLAYER);
   } else {
     /* TODO: Extend the action not enabled explanation system to cover all
      * existing reasons and switch to using it. See hrm Feature #920229 */
