@@ -1127,7 +1127,7 @@ bool sanity_check_ruleset_data(struct rscompat_info *compat)
   } extra_type_by_cause_iterate_end;
 
   /* City styles */
-  for (i = 0; i < game.control.styles_count; i++) {
+  for (i = 0; i < game.control.num_city_styles; i++) {
     if (!sanity_check_req_vec(&city_styles[i].reqs, TRUE, -1,
                               city_style_rule_name(i))) {
       ruleset_error(LOG_ERROR,

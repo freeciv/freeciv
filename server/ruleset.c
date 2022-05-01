@@ -5571,7 +5571,7 @@ static bool load_ruleset_styles(struct section_file *file,
   sec = secfile_sections_by_name_prefix(file, CITYSTYLE_SECTION_PREFIX);
 
   /* Get rest: */
-  for (i = 0; i < game.control.styles_count; i++) {
+  for (i = 0; i < game.control.num_city_styles; i++) {
     struct requirement_vector *reqs;
     const char *sec_name = section_name(section_list_get(sec, i));
 
@@ -8672,7 +8672,7 @@ static void send_ruleset_cities(struct conn_list *dest)
   struct packet_ruleset_city city_p;
   int k, j;
 
-  for (k = 0; k < game.control.styles_count; k++) {
+  for (k = 0; k < game.control.num_city_styles; k++) {
     city_p.style_id = k;
 
     j = 0;

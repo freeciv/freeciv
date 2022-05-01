@@ -469,7 +469,7 @@ static bool save_styles_ruleset(const char *filename, const char *name)
   comment_citystyles(sfile);
 
   sect_idx = 0;
-  for (i = 0; i < game.control.styles_count; i++) {
+  for (i = 0; i < game.control.num_city_styles; i++) {
     char path[512];
 
     fc_snprintf(path, sizeof(path), "citystyle_%d", sect_idx++);

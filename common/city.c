@@ -1654,7 +1654,7 @@ int city_style_by_translated_name(const char *s)
 {
   int i;
 
-  for (i = 0; i < game.control.styles_count; i++) {
+  for (i = 0; i < game.control.num_city_styles; i++) {
     if (0 == strcmp(city_style_name_translation(i), s)) {
       return i;
     }
@@ -1672,7 +1672,7 @@ int city_style_by_rule_name(const char *s)
   const char *qs = Qn_(s);
   int i;
 
-  for (i = 0; i < game.control.styles_count; i++) {
+  for (i = 0; i < game.control.num_city_styles; i++) {
     if (0 == fc_strcasecmp(city_style_rule_name(i), qs)) {
       return i;
     }
@@ -3270,34 +3270,34 @@ bool is_city_option_set(const struct city *pcity, enum city_options option)
 }
 
 /**********************************************************************//**
- Allocate memory for this amount of city styles.
+  Allocate memory for this amount of city styles.
 **************************************************************************/
 void city_styles_alloc(int num)
 {
   int i;
 
   city_styles = fc_calloc(num, sizeof(*city_styles));
-  game.control.styles_count = num;
+  game.control.num_city_styles = num;
 
-  for (i = 0; i < game.control.styles_count; i++) {
+  for (i = 0; i < game.control.num_city_styles; i++) {
     requirement_vector_init(&city_styles[i].reqs);
   }
 }
 
 /**********************************************************************//**
- De-allocate the memory used by the city styles.
+  De-allocate the memory used by the city styles.
 **************************************************************************/
 void city_styles_free(void)
 {
   int i;
 
-  for (i = 0; i < game.control.styles_count; i++) {
+  for (i = 0; i < game.control.num_city_styles; i++) {
     requirement_vector_free(&city_styles[i].reqs);
   }
 
   free(city_styles);
   city_styles = NULL;
-  game.control.styles_count = 0;
+  game.control.num_city_styles = 0;
 }
 
 /**********************************************************************//**

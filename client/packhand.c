@@ -3351,7 +3351,7 @@ void handle_ruleset_control(const struct packet_ruleset_control *packet)
   VALIDATE(num_achievement_types, MAX_ACHIEVEMENT_TYPES, "achievements");
 
   /* game.control.government_count, game.control.nation_count and
-   * game.control.styles_count are allocated dynamically, and does
+   * game.control.num_city_styles are allocated dynamically, and does
    * not need a size check.  See the allocation bellow. */
 
   VALIDATE(terrain_count,	MAX_NUM_TERRAINS,	"terrains");
@@ -3362,7 +3362,7 @@ void handle_ruleset_control(const struct packet_ruleset_control *packet)
   governments_alloc(game.control.government_count);
   nations_alloc(game.control.nation_count);
   styles_alloc(game.control.num_styles);
-  city_styles_alloc(game.control.styles_count);
+  city_styles_alloc(game.control.num_city_styles);
   music_styles_alloc(game.control.num_music_styles);
 
   if (game.control.desc_length > 0) {
@@ -4618,7 +4618,7 @@ void handle_ruleset_city(const struct packet_ruleset_city *packet)
   struct citystyle *cs;
 
   id = packet->style_id;
-  fc_assert_ret_msg(0 <= id && game.control.styles_count > id,
+  fc_assert_ret_msg(0 <= id && game.control.num_city_styles > id,
                     "Bad citystyle %d.", id);
   cs = &city_styles[id];
 

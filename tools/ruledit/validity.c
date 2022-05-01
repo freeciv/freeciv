@@ -127,7 +127,7 @@ static bool is_universal_needed(struct universal *uni, requirers_cb cb,
     } action_enabler_list_re_iterate_end;
   } action_iterate_end;
 
-  for (i = 0; i < game.control.styles_count; i++) {
+  for (i = 0; i < game.control.num_city_styles; i++) {
     if (universal_is_mentioned_by_requirements(&city_styles[i].reqs, uni)) {
       cb(city_style_rule_name(i), data);
       needed = TRUE;

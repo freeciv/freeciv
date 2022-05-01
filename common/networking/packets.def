@@ -1923,7 +1923,7 @@ PACKET_RULESET_CONTROL = 155; sc, lsend
   UINT16 num_music_styles;
   UINT16 government_count;
   UINT16 nation_count;
-  UINT16 styles_count;
+  UINT16 num_city_styles;
   UINT16 terrain_count;
   UINT16 num_specialist_types;
 

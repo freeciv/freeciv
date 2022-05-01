@@ -43,7 +43,7 @@
 /* common */
 #include "base.h"
 #include "effects.h"
-#include "game.h"		/* game.control.styles_count */
+#include "game.h"		/* game.control.num_city_styles */
 #include "government.h"
 #include "map.h"
 #include "movement.h"
@@ -1444,10 +1444,10 @@ bool tilespec_reread(const char *new_tileset_name,
   } specialist_type_iterate_end;
 
   tileset->sprites.style_citizen_sets.sets
-    = fc_malloc(game.control.styles_count
+    = fc_malloc(game.control.num_city_styles
                 * sizeof(tileset->sprites.style_citizen_sets.sets[0]));
 
-  for (id = 0; id < game.control.styles_count; id++) {
+  for (id = 0; id < game.control.num_city_styles; id++) {
     tileset_setup_city_tiles(tileset, id);
   }
 
@@ -2984,9 +2984,9 @@ static struct city_sprite *load_city_sprite(struct tileset *t,
   int style;
 
   /* Store number of styles we have allocated memory for.
-   * game.control.styles_count might change if client disconnects from
+   * game.control.num_city_styles might change if client disconnects from
    * server and connects new one. */
-  city_sprite->num_styles = game.control.styles_count;
+  city_sprite->num_styles = game.control.num_city_styles;
   city_sprite->styles = fc_malloc(city_sprite->num_styles
 				  * sizeof(*city_sprite->styles));
 
@@ -6237,7 +6237,7 @@ void tileset_setup_city_tiles(struct tileset *t, int style)
 {
   const char *style_name = city_style_rule_name(style);
 
-  if (style == game.control.styles_count - 1) {
+  if (style == game.control.num_city_styles - 1) {
     int i;
 
     /* Free old sprites */
@@ -6277,8 +6277,8 @@ void tileset_setup_city_tiles(struct tileset *t, int style)
                                   style_name, FALSE);
   } specialist_type_iterate_end;
 
-  if (style == game.control.styles_count - 1) {
-    for (style = 0; style < game.control.styles_count; style++) {
+  if (style == game.control.num_city_styles - 1) {
+    for (style = 0; style < game.control.num_city_styles; style++) {
       if (t->sprites.city.tile->styles[style].land_num_thresholds == 0) {
         tileset_error(LOG_FATAL, _("City style \"%s\": no city graphics."),
                       city_style_rule_name(style));
@@ -7270,7 +7270,7 @@ void tileset_ruleset_reset(struct tileset *t)
   }
 
   t->sprites.style_citizen_sets.sets
-    = fc_malloc(game.control.styles_count
+    = fc_malloc(game.control.num_city_styles
                 * sizeof(t->sprites.style_citizen_sets.sets[0]));
 }
 

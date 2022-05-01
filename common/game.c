@@ -246,7 +246,7 @@ static void game_defaults(bool keep_ruleset_value)
   game.control.preferred_tileset[0]    = '\0';
   game.control.preferred_soundset[0]   = '\0';
   game.control.preferred_musicset[0]   = '\0';
-  game.control.styles_count            = 0;
+  game.control.num_city_styles         = 0;
   game.control.terrain_count           = 0;
 
   game.ruleset_summary       = NULL;

@@ -211,7 +211,7 @@ int basic_city_style_for_style(struct nation_style *pstyle)
 {
   int i;
 
-  for (i = game.control.styles_count - 1; i >= 0; i--) {
+  for (i = game.control.num_city_styles - 1; i >= 0; i--) {
     enum fc_tristate style_style = TRI_MAYBE;
 
     requirement_vector_iterate(&city_styles[i].reqs, preq) {
@@ -247,7 +247,7 @@ int city_style(struct city *pcity)
     .tile = city_tile(pcity),
   };
 
-  for (i = game.control.styles_count - 1; i >= 0; i--) {
+  for (i = game.control.num_city_styles - 1; i >= 0; i--) {
     if (are_reqs_active(&context, NULL,
                         &city_styles[i].reqs, RPT_CERTAIN)) {
       return i;
