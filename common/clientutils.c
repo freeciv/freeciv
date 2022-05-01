@@ -175,6 +175,8 @@ static void calc_activity(struct actcalc *calc, const struct tile *ptile,
       calc->activity_turns[act] = turns;
     }
   } activity_type_iterate_end;
+
+  free(t);
 }
 
 /************************************************************************//**
