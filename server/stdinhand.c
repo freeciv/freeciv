@@ -733,8 +733,8 @@ static bool toggle_ai_command(struct connection *caller, char *arg, bool check)
 
 /**************************************************************************
   Creates a named AI player. The function can be called before the start
-  of the game (see creat_command_pregame()) and for a running game
-  (see creat_command_newcomer(). In the later case, first free player slots
+  of the game (see create_command_pregame()) and for a running game
+  (see create_command_newcomer(). In the later case, first free player slots
   are used before the slots of dead players are (re)used.
 **************************************************************************/
 static bool create_command(struct connection *caller, const char *str,
