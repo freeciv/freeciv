@@ -1320,7 +1320,7 @@ int city_tile_output_now(const struct city *pcity, const struct tile *ptile,
   Returns TRUE when a tile is available to be worked, or the city itself is
   currently working the tile (and can continue).
 
-  The paramter 'restriction', which is usually client_player(), allow a
+  The parameter 'restriction', which is usually client_player(), allow a
   player to handle with its real knownledge to guess it the work of this
   tile is possible.
 
