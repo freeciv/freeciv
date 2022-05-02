@@ -27,6 +27,8 @@
 
 static struct clause_info clause_infos[CLAUSE_COUNT];
 
+static struct treaty_list *treaties = NULL;
+
 /**********************************************************************//**
   Returns TRUE iff pplayer could do diplomacy in the game at all.
 **************************************************************************/
@@ -296,4 +298,81 @@ bool clause_enabled(enum clause_type type, struct player *from,
   }
 
   return TRUE;
+}
+
+/**********************************************************************//**
+  Initialize treaties module
+**************************************************************************/
+void treaties_init(void)
+{
+  treaties = treaty_list_new();
+}
+
+/**********************************************************************//**
+  Free all the resources allocated by treaties.
+**************************************************************************/
+void treaties_free(void)
+{
+  free_treaties();
+
+  treaty_list_destroy(treaties);
+  treaties = NULL;
+}
+
+/**********************************************************************//**
+  Free all the treaties currently in treaty list.
+**************************************************************************/
+void free_treaties(void)
+{
+  /* Free memory allocated for treaties */
+  treaty_list_iterate(treaties, pt) {
+    clear_treaty(pt);
+    free(pt);
+  } treaty_list_iterate_end;
+
+  treaty_list_clear(treaties);
+}
+
+/**********************************************************************//**
+  Find currently active treaty between two players.
+**************************************************************************/
+struct Treaty *find_treaty(struct player *plr0, struct player *plr1)
+{
+  treaty_list_iterate(treaties, ptreaty) {
+    if ((ptreaty->plr0 == plr0 && ptreaty->plr1 == plr1)
+        || (ptreaty->plr0 == plr1 && ptreaty->plr1 == plr0)) {
+      return ptreaty;
+    }
+  } treaty_list_iterate_end;
+
+  return NULL;
+}
+
+/**********************************************************************//**
+  Add treaty to the global list.
+**************************************************************************/
+void treaty_add(struct Treaty *ptreaty)
+{
+  treaty_list_prepend(treaties, ptreaty);
+}
+
+/**********************************************************************//**
+  Remove treaty from the global list.
+**************************************************************************/
+void treaty_remove(struct Treaty *ptreaty)
+{
+  treaty_list_remove(treaties, ptreaty);
+
+  clear_treaty(ptreaty);
+  free(ptreaty);
+}
+
+/**********************************************************************//**
+  Call callback for each treaty
+**************************************************************************/
+void treaties_iterate(treaty_cb cb, void *data)
+{
+  treaty_list_iterate(treaties, ptr) {
+    cb(ptr, data);
+  } treaty_list_iterate_end;
 }

@@ -33,6 +33,7 @@
 #include "city.h"
 #include "connection.h"
 #include "counters.h"
+#include "diptreaty.h"
 #include "disaster.h"
 #include "extras.h"
 #include "government.h"
@@ -455,6 +456,7 @@ void game_init(bool keep_ruleset_value)
   cm_init();
   researches_init();
   universal_found_functions_init();
+  treaties_init();
 }
 
 /**********************************************************************//**
@@ -476,6 +478,7 @@ void game_map_init(void)
 **************************************************************************/
 void game_free(void)
 {
+  treaties_free();
   player_slots_free();
   main_map_free();
   free_city_map_index();

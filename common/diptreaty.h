@@ -101,6 +101,26 @@ struct clause_info *clause_info_get(enum clause_type type);
 bool clause_enabled(enum clause_type type, struct player *from,
                     struct player *to);
 
+#define SPECLIST_TAG treaty
+#define SPECLIST_TYPE struct Treaty
+#include "speclist.h"
+
+#define treaty_list_iterate(list, p) \
+    TYPED_LIST_ITERATE(struct Treaty, list, p)
+#define treaty_list_iterate_end  LIST_ITERATE_END
+
+void treaties_init(void);
+void treaties_free(void);
+void free_treaties(void);
+
+struct Treaty *find_treaty(struct player *plr0, struct player *plr1);
+
+void treaty_add(struct Treaty *ptreaty);
+void treaty_remove(struct Treaty *ptreaty);
+
+typedef void (*treaty_cb)(struct Treaty *, void *data);
+void treaties_iterate(treaty_cb cb, void *data);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

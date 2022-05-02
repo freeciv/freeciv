@@ -7349,7 +7349,6 @@ static void sg_load_treaties(struct loaddata *loading)
 {
   int tidx;
   const char *plr0;
-  struct treaty_list *treaties = get_all_treaties();
 
   /* Check status and return if not OK (sg_success != TRUE). */
   sg_check_ret();
@@ -7373,8 +7372,8 @@ static void sg_load_treaties(struct loaddata *loading)
       struct Treaty *ptreaty = fc_malloc(sizeof(*ptreaty));
 
       init_treaty(ptreaty, p0, p1);
-      treaty_list_prepend(treaties, ptreaty);
-      
+      treaty_add(ptreaty);
+
       for (cidx = 0; (ct = secfile_lookup_str_default(loading->file, NULL,
                                                       "treaty%d.clause%d.type",
                                                       tidx, cidx)) != NULL ;
@@ -7421,35 +7420,46 @@ static void sg_load_treaties(struct loaddata *loading)
   }
 }
 
+typedef struct {
+  int tidx;
+  struct section_file *file;
+} treaty_cb_data;
+
 /************************************************************************//**
   Save '[treaty_xxx]'.
 ****************************************************************************/
+static void treaty_save(struct Treaty *ptr, void *data_in)
+{
+  char tpath[512];
+  int cidx = 0;
+  treaty_cb_data *data = (treaty_cb_data *)data_in;
+
+  fc_snprintf(tpath, sizeof(tpath), "treaty%d", data->tidx++);
+
+  secfile_insert_str(data->file, player_name(ptr->plr0), "%s.plr0", tpath);
+  secfile_insert_str(data->file, player_name(ptr->plr1), "%s.plr1", tpath);
+  secfile_insert_bool(data->file, ptr->accept0, "%s.accept0", tpath);
+  secfile_insert_bool(data->file, ptr->accept1, "%s.accept1", tpath);
+
+  clause_list_iterate(ptr->clauses, pclaus) {
+    char cpath[512];
+
+    fc_snprintf(cpath, sizeof(cpath), "%s.clause%d", tpath, cidx++);
+
+    secfile_insert_str(data->file, clause_type_name(pclaus->type), "%s.type", cpath);
+    secfile_insert_str(data->file, player_name(pclaus->from), "%s.from", cpath);
+    secfile_insert_int(data->file, pclaus->value, "%s.value", cpath);
+  } clause_list_iterate_end;
+}
+
+/************************************************************************//**
+  Save all treaties.
+****************************************************************************/
 static void sg_save_treaties(struct savedata *saving)
 {
-  struct treaty_list *treaties = get_all_treaties();
-  int tidx = 0;
+  treaty_cb_data data = { .tidx = 0, .file = saving->file };
 
-  treaty_list_iterate(treaties, ptr) {
-    char tpath[512];
-    int cidx = 0;
-
-    fc_snprintf(tpath, sizeof(tpath), "treaty%d", tidx++);
-
-    secfile_insert_str(saving->file, player_name(ptr->plr0), "%s.plr0", tpath);
-    secfile_insert_str(saving->file, player_name(ptr->plr1), "%s.plr1", tpath);
-    secfile_insert_bool(saving->file, ptr->accept0, "%s.accept0", tpath);
-    secfile_insert_bool(saving->file, ptr->accept1, "%s.accept1", tpath);
-
-    clause_list_iterate(ptr->clauses, pclaus) {
-      char cpath[512];
-
-      fc_snprintf(cpath, sizeof(cpath), "%s.clause%d", tpath, cidx++);
-
-      secfile_insert_str(saving->file, clause_type_name(pclaus->type), "%s.type", cpath);
-      secfile_insert_str(saving->file, player_name(pclaus->from), "%s.from", cpath);
-      secfile_insert_int(saving->file, pclaus->value, "%s.value", cpath);
-    } clause_list_iterate_end;
-  } treaty_list_iterate_end;
+  treaties_iterate(treaty_save, &data);
 }
 
 /* =======================================================================

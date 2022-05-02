@@ -55,7 +55,6 @@
 
 #include "diplhand.h"
 
-static struct treaty_list *treaties = NULL;
 
 /* FIXME: Should this be put in a ruleset somewhere? */
 #define TURNS_LEFT 16
@@ -80,54 +79,6 @@ static void call_treaty_accepted(struct player *pplayer, struct player *aplayer,
   if (is_ai(pplayer)) {
     CALL_PLR_AI_FUNC(treaty_accepted, pplayer, pplayer, aplayer, ptreaty);
   }
-}
-
-/**********************************************************************//**
-  Initialize diplhand module
-**************************************************************************/
-void diplhand_init(void)
-{
-  treaties = treaty_list_new();
-}
-
-/**********************************************************************//**
-  Free all the resources allocated by diplhand.
-**************************************************************************/
-void diplhand_free(void)
-{
-  free_treaties();
-
-  treaty_list_destroy(treaties);
-  treaties = NULL;
-}
-
-/**********************************************************************//**
-  Free all the treaties currently in treaty list.
-**************************************************************************/
-void free_treaties(void)
-{
-  /* Free memory allocated for treaties */
-  treaty_list_iterate(treaties, pt) {
-    clear_treaty(pt);
-    free(pt);
-  } treaty_list_iterate_end;
-
-  treaty_list_clear(treaties);
-}
-
-/**********************************************************************//**
-  Find currently active treaty between two players.
-**************************************************************************/
-struct Treaty *find_treaty(struct player *plr0, struct player *plr1)
-{
-  treaty_list_iterate(treaties, ptreaty) {
-    if ((ptreaty->plr0 == plr0 && ptreaty->plr1 == plr1)
-        || (ptreaty->plr0 == plr1 && ptreaty->plr1 == plr0)) {
-      return ptreaty;
-    }
-  } treaty_list_iterate_end;
-
-  return NULL;
 }
 
 /**********************************************************************//**
@@ -697,9 +648,7 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
     }
 
   cleanup:
-    treaty_list_remove(treaties, ptreaty);
-    clear_treaty(ptreaty);
-    free(ptreaty);
+    treaty_remove(ptreaty);
     send_player_all_c(pplayer, NULL);
     send_player_all_c(pother, NULL);
   }
@@ -831,9 +780,7 @@ static void really_diplomacy_cancel_meeting(struct player *pplayer,
     notify_player(pplayer, NULL, E_DIPLOMACY, ftc_server,
                   _("Meeting with %s canceled."), 
                   player_name(pother));
-    treaty_list_remove(treaties, ptreaty);
-    clear_treaty(ptreaty);
-    free(ptreaty);
+    treaty_remove(ptreaty);
   }
 }
 
@@ -880,7 +827,7 @@ void handle_diplomacy_init_meeting_req(struct player *pplayer,
 
     ptreaty = fc_malloc(sizeof(*ptreaty));
     init_treaty(ptreaty, pplayer, pother);
-    treaty_list_prepend(treaties, ptreaty);
+    treaty_add(ptreaty);
 
     dlsend_packet_diplomacy_init_meeting(pplayer->connections,
 					 player_number(pother),
@@ -964,12 +911,4 @@ void reject_all_treaties(struct player *pplayer)
 					  FALSE,
 					  FALSE);
   } players_iterate_end;
-}
-
-/**********************************************************************//**
-  Get treaty list
-**************************************************************************/
-struct treaty_list *get_all_treaties(void)
-{
-  return treaties;
 }

@@ -1831,7 +1831,6 @@ void server_quit(void)
   set_server_state(S_S_OVER);
   mapimg_free();
   server_game_free();
-  diplhand_free();
   voting_free();
   adv_settlers_free();
   ai_timer_free();
@@ -2992,7 +2991,6 @@ static void srv_prepare(void)
   stdinhand_init();
   edithand_init();
   voting_init();
-  diplhand_init();
   voting_init();
   ai_timer_init();
 

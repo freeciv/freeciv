@@ -4968,7 +4968,6 @@ static void sg_load_treaties(struct loaddata *loading)
 {
   int tidx;
   const char *plr0;
-  struct treaty_list *treaties = get_all_treaties();
 
   /* Check status and return if not OK (sg_success != TRUE). */
   sg_check_ret();
@@ -4992,7 +4991,7 @@ static void sg_load_treaties(struct loaddata *loading)
       struct Treaty *ptreaty = fc_malloc(sizeof(*ptreaty));
 
       init_treaty(ptreaty, p0, p1);
-      treaty_list_prepend(treaties, ptreaty);
+      treaty_add(ptreaty);
 
       for (cidx = 0; (ct = secfile_lookup_str_default(loading->file, NULL,
                                                       "treaty%d.clause%d.type",
