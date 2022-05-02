@@ -863,6 +863,25 @@ enum rfc_status create_command_newcomer(const char *name,
     }
   }
 
+  if (pplayer == NULL) {
+    if (player_count() == player_slot_count()) {
+      bool dead_found = FALSE;
+
+      players_iterate(aplayer) {
+        if (!aplayer->is_alive) {
+          dead_found = TRUE;
+          break;
+        }
+      } players_iterate_end;
+
+      if (!dead_found) {
+        fc_snprintf(buf, buflen,
+                    _("Can't create players, no slots available."));
+        return C_FAIL;
+      }
+    }
+  }
+
   if (check) {
     /* All code below will change the game state. */
 
@@ -882,14 +901,23 @@ enum rfc_status create_command_newcomer(const char *name,
     pplayer = NULL;
   } else if (player_count() == player_slot_count()) {
     /* [2] All player slots are used; try to remove a dead player. */
+    bool dead_found = FALSE;
+
     players_iterate(aplayer) {
       if (!aplayer->is_alive) {
-        fc_snprintf(buf, buflen,
-                    _("%s is replacing dead player %s as an AI-controlled "
-                      "player."), name, player_name(aplayer));
-        /* remove player and thus free a player slot */
+        if (!dead_found) {
+          /* Fill the buffer with the name of the first found dead player */
+          fc_snprintf(buf, buflen,
+                      _("%s is replacing dead player %s as an AI-controlled "
+                        "player."), name, player_name(aplayer));
+          dead_found = TRUE;
+        }
+
+        /* Remove player and thus free a player slot */
         server_remove_player(aplayer);
       }
+
+      fc_assert(dead_found);
     } players_iterate_end;
   } else {
     /* [3] An empty player slot must be used for the new player. */
