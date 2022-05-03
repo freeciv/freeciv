@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # the revision from the old branch to pick if no revision is specified
-DEFAULT_REVISION="c275438580"
+DEFAULT_REVISION="270f05c7c4"
 
 # the branch of the previous version
 PREVIOUS_BRANCH="S3_1"
