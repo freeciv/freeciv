@@ -1018,6 +1018,18 @@ static void update_unit_activity(struct unit *punit)
         }
       } unit_list_iterate_end;
     } else {
+      struct extra_type *act_tgt = punit->activity_target;
+
+      unit_list_iterate(ptile->units, punit2) {
+        if (punit2->activity == activity
+            && punit2->activity_target == act_tgt) {
+          /* This unit was helping with the work just finished.
+           * Mark it idle (already finished) so its "current"
+           * activity is not considered illegal below. */
+          set_unit_activity(punit2, ACTIVITY_IDLE);
+        }
+      } unit_list_iterate_end;
+
       unit_activities_cancel_all_illegal_tile(ptile);
     }
 
