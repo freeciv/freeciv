@@ -29,8 +29,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 3.0\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2022-04-29 16:06+0300\n"
-"PO-Revision-Date: 2022-04-29 16:12+0300\n"
+"POT-Creation-Date: 2022-05-04 04:14+0300\n"
+"PO-Revision-Date: 2022-05-04 04:15+0300\n"
 "Last-Translator: Sini Ruohomaa <sini.ruohomaa@iki.fi>\n"
 "Language-Team: None <freeciv-i18n@freelists.org>\n"
 "Language: fi\n"
@@ -1138,7 +1138,7 @@ msgstr "Kaupungin nimi"
 #: client/gui-gtk-3.22/gotodlg.c:219 client/gui-gtk-3.22/pages.c:1396
 #: client/gui-gtk-3.22/pages.c:2740 client/gui-qt/citydlg.cpp:2901
 #: client/gui-qt/gotodlg.cpp:53 client/gui-qt/pages.cpp:314
-#: client/gui-qt/pages.cpp:644 client/gui-qt/pages.cpp:1273
+#: client/gui-qt/pages.cpp:644 client/gui-qt/pages.cpp:1274
 #: client/gui-qt/plrdlg.cpp:489 client/gui-qt/repodlgs.cpp:1569
 #: client/gui-sdl2/repodlgs.c:2134 client/plrdlg_common.c:311
 msgid "Nation"
@@ -1244,7 +1244,7 @@ msgstr "Parhaat puolustusyksiköt"
 #: client/gui-gtk-3.22/cityrep.c:1591 client/gui-gtk-3.22/menu.c:320
 #: client/gui-gtk-3.22/repodlgs.c:1625 client/gui-qt/cityrep.cpp:715
 #: client/gui-qt/menu.cpp:1573 client/gui-qt/pages.cpp:723
-#: client/gui-qt/pages.cpp:1285 client/gui-sdl2/helpdlg.c:750
+#: client/gui-qt/pages.cpp:1286 client/gui-sdl2/helpdlg.c:750
 #: client/gui-sdl2/mapctrl.c:1709 client/gui-sdl2/repodlgs.c:391
 #: client/include/helpdlg_g.h:45 data/helpdata.txt:1040
 msgid "Units"
@@ -2783,7 +2783,7 @@ msgstr "tiede"
 #: client/gui-gtk-3.0/editprop.c:4528 client/gui-gtk-3.0/repodlgs.c:1295
 #: client/gui-gtk-3.22/citydlg.c:1407 client/gui-gtk-3.22/editprop.c:4528
 #: client/gui-gtk-3.22/repodlgs.c:1295 client/gui-qt/citydlg.cpp:1883
-#: client/gui-qt/pages.cpp:1291 common/city.c:86 data/civ1/terrain.ruleset:1140
+#: client/gui-qt/pages.cpp:1292 common/city.c:86 data/civ1/terrain.ruleset:1140
 #: data/civ2/terrain.ruleset:1281 data/classic/terrain.ruleset:1575
 #: data/sandbox/terrain.ruleset:1863 data/experimental/terrain.ruleset:1594
 #: data/civ2civ3/terrain.ruleset:1782 data/multiplayer/terrain.ruleset:1547
@@ -3140,7 +3140,7 @@ msgstr "_Näytä"
 #: client/gui-gtk-3.0/cityrep.c:1146 client/gui-gtk-3.0/menu.c:315
 #: client/gui-gtk-3.22/cityrep.c:1146 client/gui-gtk-3.22/menu.c:314
 #: client/gui-qt/diplodlg.cpp:383 client/gui-qt/menu.cpp:1581
-#: client/gui-qt/pages.cpp:726 client/gui-qt/pages.cpp:1279
+#: client/gui-qt/pages.cpp:726 client/gui-qt/pages.cpp:1280
 #: client/gui-sdl2/diplodlg.c:741 client/include/helpdlg_g.h:43
 #: data/civ1/units.ruleset:26 data/civ2/units.ruleset:31
 #: data/classic/units.ruleset:38 data/sandbox/units.ruleset:42
@@ -5849,7 +5849,7 @@ msgid "_Browse..."
 msgstr "_Selaa..."
 
 #: client/gui-gtk-2.0/pages.c:972 client/gui-gtk-3.0/pages.c:1054
-#: client/gui-gtk-3.22/pages.c:1055 client/gui-qt/pages.cpp:1595
+#: client/gui-gtk-3.22/pages.c:1055 client/gui-qt/pages.cpp:1596
 #: client/gui-sdl2/connectdlg.c:933
 msgid "Passwords don't match, enter password."
 msgstr "Salasanat eivät täsmää, anna salasana."
@@ -5987,7 +5987,7 @@ msgid "Toggle player ready"
 msgstr "Vaihda pelaajan valmiustilaa"
 
 #: client/gui-gtk-2.0/pages.c:1744 client/gui-gtk-3.0/pages.c:1815
-#: client/gui-gtk-3.22/pages.c:1816 client/gui-qt/pages.cpp:1987
+#: client/gui-gtk-3.22/pages.c:1816 client/gui-qt/pages.cpp:1988
 msgid "Pick nation"
 msgstr "Valitse kansakunta"
 
@@ -5997,7 +5997,7 @@ msgid "Observe this player"
 msgstr "Tarkkaile tätä pelaajaa"
 
 #: client/gui-gtk-2.0/pages.c:1759 client/gui-gtk-3.0/pages.c:1830
-#: client/gui-gtk-3.22/pages.c:1831 client/gui-qt/pages.cpp:1977
+#: client/gui-gtk-3.22/pages.c:1831 client/gui-qt/pages.cpp:1978
 msgid "Take this player"
 msgstr "Ota tämä pelaaja"
 
@@ -6007,12 +6007,12 @@ msgid "Cut connection"
 msgstr "Katkaise yhteys"
 
 #: client/gui-gtk-2.0/pages.c:1782 client/gui-gtk-3.0/pages.c:1853
-#: client/gui-gtk-3.22/pages.c:1854 client/gui-qt/pages.cpp:2048
+#: client/gui-gtk-3.22/pages.c:1854 client/gui-qt/pages.cpp:2049
 msgid "Aitoggle player"
 msgstr "Vaihda pelaaja AI-hallintaan/hallinnasta"
 
 #: client/gui-gtk-2.0/pages.c:1790 client/gui-gtk-3.0/pages.c:1861
-#: client/gui-gtk-3.22/pages.c:1862 client/gui-qt/pages.cpp:1969
+#: client/gui-gtk-3.22/pages.c:1862 client/gui-qt/pages.cpp:1970
 msgid "Remove player"
 msgstr "Poista pelaaja"
 
@@ -6090,19 +6090,19 @@ msgstr "<%s AI>"
 
 #: client/gui-gtk-2.0/pages.c:2327 client/gui-gtk-3.0/pages.c:2398
 #: client/gui-gtk-3.22/pages.c:2398 client/gui-qt/dialogs.cpp:455
-#: client/gui-qt/fc_client.cpp:1222 client/gui-qt/pages.cpp:1678
+#: client/gui-qt/fc_client.cpp:1222 client/gui-qt/pages.cpp:1679
 msgid "Random"
 msgstr "Satunnainen"
 
 #: client/gui-gtk-2.0/pages.c:2376 client/gui-gtk-2.0/pages.c:2437
 #: client/gui-gtk-3.0/pages.c:2447 client/gui-gtk-3.0/pages.c:2508
 #: client/gui-gtk-3.22/pages.c:2447 client/gui-gtk-3.22/pages.c:2508
-#: client/gui-qt/pages.cpp:1773 client/gui-qt/pages.cpp:1805
+#: client/gui-qt/pages.cpp:1774 client/gui-qt/pages.cpp:1806
 msgid "Observer"
 msgstr "Tarkkailija"
 
 #: client/gui-gtk-2.0/pages.c:2462 client/gui-gtk-3.0/pages.c:2533
-#: client/gui-gtk-3.22/pages.c:2533 client/gui-qt/pages.cpp:1825
+#: client/gui-gtk-3.22/pages.c:2533 client/gui-qt/pages.cpp:1826
 msgid "Detached"
 msgstr "Irrotettu"
 
@@ -6134,7 +6134,7 @@ msgstr "_Enemmän peliasetuksia..."
 #: client/gui-gtk-2.0/pages.c:2665 client/gui-gtk-2.0/unitselect.c:473
 #: client/gui-gtk-3.0/pages.c:2732 client/gui-gtk-3.0/unitselect.c:475
 #: client/gui-gtk-3.22/pages.c:2732 client/gui-gtk-3.22/unitselect.c:475
-#: client/gui-qt/pages.cpp:643 client/gui-qt/pages.cpp:1876
+#: client/gui-qt/pages.cpp:643 client/gui-qt/pages.cpp:1877
 #: tools/mpgui_gtk2.c:264 tools/mpgui_gtk3.c:262 tools/mpgui_gtk4.c:274
 #: tools/mpgui_qt_worker.cpp:54
 msgid "Ready"
@@ -6171,7 +6171,7 @@ msgstr "Valitse _ladattava peli:"
 #. TRANS: Old scenario format version
 #. TRANS: Unknown scenario format
 #: client/gui-gtk-2.0/pages.c:2920 client/gui-gtk-3.0/pages.c:2998
-#: client/gui-gtk-3.22/pages.c:2997 client/gui-qt/pages.cpp:1459
+#: client/gui-gtk-3.22/pages.c:2997 client/gui-qt/pages.cpp:1460
 msgid "pre-2.6"
 msgstr "Vanhempi kuin 2.6"
 
@@ -6192,7 +6192,7 @@ msgstr "Tiedostonimi:"
 
 #. TRANS: Scenario format version
 #: client/gui-gtk-2.0/pages.c:3143 client/gui-gtk-3.0/pages.c:3258
-#: client/gui-gtk-3.22/pages.c:3257 client/gui-qt/pages.cpp:1485
+#: client/gui-gtk-3.22/pages.c:3257 client/gui-qt/pages.cpp:1486
 msgid "Format:"
 msgstr "Versioyhteensopivuus:"
 
@@ -6327,7 +6327,7 @@ msgid "Research"
 msgstr "Tutkimus"
 
 #: client/gui-gtk-2.0/repodlgs.c:547 client/gui-gtk-3.0/repodlgs.c:569
-#: client/gui-gtk-3.22/repodlgs.c:568 client/gui-qt/pages.cpp:1357
+#: client/gui-gtk-3.22/repodlgs.c:568 client/gui-qt/pages.cpp:1358
 msgid "Researching"
 msgstr "Tutkimuskohde nyt"
 
@@ -6373,7 +6373,7 @@ msgid "U Total"
 msgstr "Yhteensä"
 
 #: client/gui-gtk-2.0/repodlgs.c:865 client/gui-gtk-3.0/repodlgs.c:907
-#: client/gui-gtk-3.22/repodlgs.c:906 client/gui-qt/pages.cpp:2127
+#: client/gui-gtk-3.22/repodlgs.c:906 client/gui-qt/pages.cpp:2128
 #: client/gui-qt/repodlgs.cpp:1384
 #, c-format
 msgid "Income: %d    Total Costs: %d"
@@ -7164,7 +7164,7 @@ msgid "E_xit"
 msgstr "Poistu (_X)"
 
 #: client/gui-gtk-3.22/pages.c:1225 client/gui-gtk-3.22/pages.c:1270
-#: client/gui-qt/pages.cpp:1242
+#: client/gui-qt/pages.cpp:1243
 msgid "Players"
 msgstr "Pelaajat"
 
@@ -7585,7 +7585,7 @@ msgid_plural "Are you sure you want to disband those %1 units?"
 msgstr[0] "Haluatko todella poistaa käytöstä %1 yksikön?"
 msgstr[1] "Haluatko todella poistaa käytöstä %1 yksikköä?"
 
-#: client/gui-qt/dialogs.cpp:3082 client/gui-qt/pages.cpp:1718
+#: client/gui-qt/dialogs.cpp:3082 client/gui-qt/pages.cpp:1719
 #: client/gui-qt/voteinfo_bar.cpp:39 client/gui-sdl2/action_dialog.c:2300
 #: client/gui-sdl2/action_dialog.c:2529 client/gui-sdl2/citydlg.c:1213
 #: client/gui-sdl2/cma_fe.c:353 client/gui-sdl2/diplodlg.c:1419
@@ -7594,7 +7594,7 @@ msgstr[1] "Haluatko todella poistaa käytöstä %1 yksikköä?"
 msgid "Yes"
 msgstr "Kyllä"
 
-#: client/gui-qt/dialogs.cpp:3083 client/gui-qt/pages.cpp:1720
+#: client/gui-qt/dialogs.cpp:3083 client/gui-qt/pages.cpp:1721
 #: client/gui-qt/voteinfo_bar.cpp:40 client/gui-sdl2/action_dialog.c:2311
 #: client/gui-sdl2/action_dialog.c:2539 client/gui-sdl2/citydlg.c:1202
 #: client/gui-sdl2/cma_fe.c:362 client/gui-sdl2/diplodlg.c:1408
@@ -7698,12 +7698,12 @@ msgstr "Tervetuloa pelaamaan Freeciviä"
 msgid "This is Qt-client for Freeciv."
 msgstr "Freecivin Qt-pohjainen asiakasohjelma."
 
-#: client/gui-qt/fc_client.cpp:513 client/gui-qt/pages.cpp:1856
+#: client/gui-qt/fc_client.cpp:513 client/gui-qt/pages.cpp:1857
 msgid "Don't Observe"
 msgstr "Älä tarkkaile"
 
 #: client/gui-qt/fc_client.cpp:516 client/gui-qt/pages.cpp:673
-#: client/gui-qt/pages.cpp:1858 client/gui-qt/pages.cpp:1960
+#: client/gui-qt/pages.cpp:1859 client/gui-qt/pages.cpp:1961
 msgid "Observe"
 msgstr "Tarkkaile"
 
@@ -8587,8 +8587,8 @@ msgstr "Lataa skenaario"
 msgid "Disconnect"
 msgstr "Katkaise yhteys"
 
-#: client/gui-qt/pages.cpp:679 client/gui-qt/pages.cpp:1880
-#: client/gui-qt/pages.cpp:1884 client/gui-sdl2/chatline.c:805
+#: client/gui-qt/pages.cpp:679 client/gui-qt/pages.cpp:1881
+#: client/gui-qt/pages.cpp:1885 client/gui-sdl2/chatline.c:805
 msgid "Start"
 msgstr "Aloita"
 
@@ -8608,40 +8608,40 @@ msgstr "Skenaariotallennukset"
 msgid "Open Scenario File"
 msgstr "Avaa skenaario"
 
-#: client/gui-qt/pages.cpp:1235
+#: client/gui-qt/pages.cpp:1236
 msgid "Turn"
 msgstr "Vuoro"
 
-#: client/gui-qt/pages.cpp:1488
+#: client/gui-qt/pages.cpp:1489
 msgid "Authors: "
 msgstr "Tekijät: "
 
-#: client/gui-qt/pages.cpp:1645 client/gui-sdl2/connectdlg.c:336
+#: client/gui-qt/pages.cpp:1646 client/gui-sdl2/connectdlg.c:336
 #: client/gui-sdl2/plrdlg.c:388
 msgid "?header:Players"
 msgstr "Pelaajat"
 
-#: client/gui-qt/pages.cpp:1790
+#: client/gui-qt/pages.cpp:1791
 msgid "Global observers"
 msgstr "Yleiset tarkkailijat"
 
-#: client/gui-qt/pages.cpp:1865
+#: client/gui-qt/pages.cpp:1866
 msgid "Not ready"
 msgstr "Ei valmis"
 
-#: client/gui-qt/pages.cpp:2001
+#: client/gui-qt/pages.cpp:2002
 msgid "Set difficulty"
 msgstr "Aseta vaikeusaste"
 
-#: client/gui-qt/pages.cpp:2024
+#: client/gui-qt/pages.cpp:2025
 msgid "Put on team"
 msgstr "Liitä joukkueeseen"
 
-#: client/gui-qt/pages.cpp:2115
+#: client/gui-qt/pages.cpp:2116
 msgid "Tax: %1% Science: %2% Luxury: %3%\n"
 msgstr "Raha: %1% Tiede: %2% Luksus: %3%\n"
 
-#: client/gui-qt/pages.cpp:2120 client/gui-qt/ratesdlg.cpp:66
+#: client/gui-qt/pages.cpp:2121 client/gui-qt/ratesdlg.cpp:66
 msgid "%1 - max rate: %2%"
 msgstr "%1 - maksimiosuus: %2%"
 
@@ -37142,18 +37142,15 @@ msgstr ""
 msgid ""
 "    freeciv-dev@freelists.org   - public development mailing\n"
 "                                  list (archives are public)\n"
-"    freeciv-maintainers@lists.sourceforge.net\n"
+"    freeciv-private@lists.sourceforge.net\n"
 "                                - private project administration\n"
 "                                  list (for security issues, etc)"
 msgstr ""
-"    freeciv-dev@freelists.org    - julkinen keskustelu freecivin "
-"kehittämisestä\n"
-"                                   (viestit tallettuvat julkiseen "
-"arkistoon)\n"
-"    freeciv-maintainers@lists.sourceforge.net\n"
+"    freeciv-dev@freelists.org    - julkinen keskustelu freecivin kehittämisestä\n"
+"                                   (viestit tallettuvat julkiseen arkistoon)\n"
+"    freeciv-private@lists.sourceforge.net\n"
 "                                 - projektin ylläpitäjien lukema lista\n"
-"                                   (tietoturva ja muut luottamukselliset "
-"asiat)"
+"                                   (tietoturva ja muut luottamukselliset asiat)"
 
 #: data/helpdata.txt:2353
 msgid ""
