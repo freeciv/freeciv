@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 2005 The Freeciv Team
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -13,10 +13,18 @@
 #ifndef FC__TECHTOOLS_H
 #define FC__TECHTOOLS_H
 
+/* common */
+#include "government.h"
 #include "player.h"
 #include "tech.h"
 
 struct research;
+
+struct cur_govs_data {
+  struct {
+    bool *govs;
+  } *players;
+};
 
 void research_apply_penalty(struct research *presearch, Tech_type_id tech,
                             int penalty_percent);
@@ -44,5 +52,10 @@ void give_initial_techs(struct research *presearch, int num_random_techs);
 
 bool tech_transfer(struct player *plr_recv, struct player *plr_donor,
                    Tech_type_id tech);
+
+struct cur_govs_data *create_current_governments_data(struct research *presearch);
+void free_current_governments_data(struct cur_govs_data *data);
+void notify_new_government_options(struct player *pplayer, struct cur_govs_data *data,
+                                   const char *reason);
 
 #endif  /* FC__TECHTOOLS_H */

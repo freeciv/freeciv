@@ -318,7 +318,7 @@ void found_new_tech(struct research *presearch, Tech_type_id tech_found,
                     bool was_discovery, bool saving_bulbs)
 {
   int had_embassies[player_slot_count()];
-  bool could_switch[player_slot_count()][government_count()];
+  struct cur_govs_data *could_switch;
   bool was_first = FALSE;
   bool bonus_tech_hack = FALSE;
   int i;
@@ -374,18 +374,9 @@ void found_new_tech(struct research *presearch, Tech_type_id tech_found,
 
     /* Count EFT_HAVE_EMBASSIES effect for each player. */
     had_embassies[i] = get_player_bonus(aplayer, EFT_HAVE_EMBASSIES);
-
-    if (presearch != research_get(aplayer)) {
-      continue;
-    }
-
-    /* Memorize for the players sharing the research what government
-     * they could switch on. */
-    governments_iterate(pgov) {
-      could_switch[i][government_index(pgov)]
-          = can_change_to_government(aplayer, pgov);
-    } governments_iterate_end;
   } players_iterate_end;
+
+  could_switch = create_current_governments_data(presearch);
 
   /* got_tech allows us to change research without applying techpenalty
    * (without losing bulbs) */
@@ -420,6 +411,8 @@ void found_new_tech(struct research *presearch, Tech_type_id tech_found,
     i = player_index(aplayer);
 
     if (presearch == research_get(aplayer)) {
+      char buf[250];
+
       /* Only for players sharing the research. */
       remove_obsolete_buildings(aplayer);
 
@@ -441,17 +434,9 @@ void found_new_tech(struct research *presearch, Tech_type_id tech_found,
        * that world-ranged effects will not be updated immediately. */
       unit_list_refresh_vision(aplayer->units);
 
-      /* Notify a player about new governments available */
-      governments_iterate(pgov) {
-        if (!could_switch[i][government_index(pgov)]
-            && can_change_to_government(aplayer, pgov)) {
-          notify_player(aplayer, NULL, E_NEW_GOVERNMENT, ftc_server,
-                        _("Discovery of %s makes the government form %s"
-                          " available. You may want to start a revolution."),
-                        advance_name,
-                        government_name_translation(pgov));
-        }
-      } governments_iterate_end;
+      fc_snprintf(buf, sizeof(buf), _("Discovery of %s"), advance_name);
+
+      notify_new_government_options(aplayer, could_switch, buf);
     }
 
     /* For any player. */
@@ -478,6 +463,8 @@ void found_new_tech(struct research *presearch, Tech_type_id tech_found,
       } players_iterate_end;
     }
   } shuffled_players_iterate_end;
+
+  free_current_governments_data(could_switch);
 
   if (tech_found == presearch->tech_goal) {
     presearch->tech_goal = A_UNSET;
@@ -1403,4 +1390,66 @@ bool tech_transfer(struct player *plr_recv, struct player *plr_donor,
   }
 
   return TRUE;
+}
+
+/************************************************************************//**
+  Create data block listing what are the current government options of
+  the players participating in the research.
+
+  Use free_current_governments_data() to free the returned data.
+****************************************************************************/
+struct cur_govs_data *create_current_governments_data(struct research *presearch)
+{
+  struct cur_govs_data *data = fc_malloc(sizeof(struct cur_govs_data));
+
+  data->players = fc_malloc(sizeof(*data->players) * player_slot_count());
+
+  players_iterate(pplayer) {
+    data->players[player_index(pplayer)].govs = fc_malloc(sizeof(bool) * government_count());
+  } players_iterate_end;
+
+  research_players_iterate(presearch, pplayer) {
+    /* Memorize for the players sharing the research what government
+     * they could switch on. */
+    governments_iterate(pgov) {
+      data->players[player_index(pplayer)].govs[government_index(pgov)]
+        = can_change_to_government(pplayer, pgov);
+    } governments_iterate_end;
+  } research_players_iterate_end;
+
+  return data;
+}
+
+/************************************************************************//**
+  Free the data block returned from the create_current_governments_data()
+****************************************************************************/
+void free_current_governments_data(struct cur_govs_data *data)
+{
+  players_iterate(pplayer) {
+    free(data->players[player_index(pplayer)].govs);
+  } players_iterate_end;
+
+  free(data->players);
+  free(data);
+}
+
+/************************************************************************//**
+  Notify player about any new government options they have compared
+  to the data block provided.
+****************************************************************************/
+void notify_new_government_options(struct player *pplayer,
+                                   struct cur_govs_data *data,
+                                   const char *reason)
+{
+  governments_iterate(pgov) {
+    if (!data->players[player_index(pplayer)].govs[government_index(pgov)]
+        && can_change_to_government(pplayer, pgov)) {
+      notify_player(pplayer, NULL, E_NEW_GOVERNMENT, ftc_server,
+                    /* TRANS: "Discovery of <tech>" */
+                    _("%s makes the government form %s"
+                      " available. You may want to start a revolution."),
+                    reason,
+                    government_name_translation(pgov));
+    }
+  } governments_iterate_end;
 }
