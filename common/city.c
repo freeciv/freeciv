@@ -1446,7 +1446,7 @@ bool city_can_be_built_here(const struct tile *ptile,
   }
 
   if (punit == NULL) {
-    /* The reamining checks tests if punit can found a city here */
+    /* The remaining checks tests if punit can found a city here */
     return TRUE;
   }
 
