@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
+
 <svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://web.resource.org/cc/"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    width="600"
    height="400"
    id="svg3853"
    sodipodi:version="0.32"
-   inkscape:version="0.44"
+   inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
    version="1.0"
-   sodipodi:docbase="C:\freeciv"
-   sodipodi:docname="nuu-chah-nulth.svg">
+   sodipodi:docname="nuu-chah-nulth.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
   <defs
      id="defs3855" />
   <sodipodi:namedview
@@ -29,16 +29,19 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="1.415"
-     inkscape:cx="300"
-     inkscape:cy="200"
+     inkscape:cx="299.64664"
+     inkscape:cy="199.64664"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      height="400px"
      width="600px"
-     inkscape:window-width="1056"
-     inkscape:window-height="768"
-     inkscape:window-x="127"
-     inkscape:window-y="99" />
+     inkscape:window-width="1101"
+     inkscape:window-height="796"
+     inkscape:window-x="583"
+     inkscape:window-y="94"
+     inkscape:pagecheckerboard="0"
+     showgrid="false"
+     inkscape:window-maximized="0" />
   <metadata
      id="metadata3858">
     <rdf:RDF>
