@@ -1128,7 +1128,7 @@ void fc_client::start_from_save()
 }
 
 /**********************************************************************//**
-  Selection chnaged in some tableview on some page
+  Selection changed in some tableview on some page
 **************************************************************************/
 void fc_client::slot_selection_changed(const QItemSelection &selected,
                                        const QItemSelection &deselected)
