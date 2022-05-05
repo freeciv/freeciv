@@ -1406,7 +1406,7 @@ void fc_client::update_load_page(void)
     QDateTime dt;
 
     item = new QTableWidgetItem();
-    item->setData(Qt::UserRole, pfile->fullname);
+    item->setData(Qt::UserRole, QString(pfile->fullname));
     saves_load->insertRow(row);
     item->setText(pfile->name);
     saves_load->setItem(row, 0, item);
