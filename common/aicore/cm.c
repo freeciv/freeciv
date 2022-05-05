@@ -2046,7 +2046,13 @@ static void cm_find_best_solution(struct cm_state *state,
     loop_count++;
 
     if (loop_count == max_count + 1) {
-      log_warn("Did not find a cm solution in %d iterations for %s.",
+      log_base(
+#ifdef FREECIV_TESTMATIC
+               LOG_DEBUG,
+#else  /* FREECIV_TESTMATIC */
+               LOG_WARN,
+#endif /* FREECIV_TESTMATIC */
+               "Did not find a cm solution in %d iterations for %s.",
                max_count, city_name_get(state->pcity));
 #ifndef CM_LOOP_NO_LIMIT
       result->aborted = TRUE;
