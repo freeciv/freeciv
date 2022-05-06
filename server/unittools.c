@@ -995,19 +995,14 @@ static void update_unit_activity(struct unit *punit)
 
   if (unit_activity_done) {
     update_tile_knowledge(ptile);
-    if (ACTIVITY_IRRIGATE == activity
-        || ACTIVITY_MINE == activity
-        || ACTIVITY_CULTIVATE == activity
+    if (ACTIVITY_CULTIVATE == activity
         || ACTIVITY_PLANT == activity
         || ACTIVITY_TRANSFORM == activity) {
-      /* FIXME: As we might probably do the activity again, because of the
-       * terrain change cycles, we need to treat these cases separatly.
-       * Probably ACTIVITY_TRANSFORM should be associated to its terrain
-       * target, whereas ACTIVITY_IRRIGATE and ACTIVITY_MINE should only
-       * used for extras. */
       unit_list_iterate(ptile->units, punit2) {
         if (punit2->activity == activity) {
-          unit_activities_cancel(punit2);
+          fc_assert(punit->activity_target == NULL);
+
+          set_unit_activity(punit2, ACTIVITY_IDLE);
         }
       } unit_list_iterate_end;
     } else {
@@ -1022,9 +1017,9 @@ static void update_unit_activity(struct unit *punit)
           set_unit_activity(punit2, ACTIVITY_IDLE);
         }
       } unit_list_iterate_end;
-
-      unit_activities_cancel_all_illegal_tile(ptile);
     }
+
+    unit_activities_cancel_all_illegal_tile(ptile);
 
     tile_changing_activities_iterate(act) {
       if (act == activity) {
