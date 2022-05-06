@@ -1,5 +1,5 @@
 
-project('freeciv', ['c', 'cpp'], meson_version: '>= 0.48.0')
+project('freeciv', ['c', 'cpp'], meson_version: '>= 0.57.0')
 
 if not get_option('ack_experimental')
   error('Autotools are still the only fully supported way to build freeciv.\nSet configure option "ack_experimental" to true if you really want to do experimental meson build.\n' +
@@ -484,7 +484,7 @@ verhdr = custom_target('verhdr', output: 'version_gen.h',
 
 ls_core = custom_target('langstat_core', output: 'langstat_core.txt',
               command: [sh_exe, files('bootstrap/generate_langstat.sh'), 'core',
-                        meson.source_root(), meson.build_root()])
+                        meson.project_source_root(), meson.project_build_root()])
 
 specenum = custom_target('specenum_gen.h', output: 'specenum_gen.h',
                          command: [python_exe, files('utility/generate_specenum.py'),
@@ -511,7 +511,8 @@ pack_client = custom_target('packets_client', output: ['packhand_gen.h',
                             depend_files: files('common/networking/packets.def'))
 
 gitrev = custom_target('gitrev', output: 'fc_gitrev_gen.h',
-                       command: [sh_exe, files('bootstrap/generate_gitrev.sh'), meson.source_root(), '@OUTPUT@'],
+                       command: [sh_exe, files('bootstrap/generate_gitrev.sh'),
+                       meson.project_source_root(), '@OUTPUT@'],
                        build_by_default: get_option('gitrev'))
 
 if host_system == 'windows'
