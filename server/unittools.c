@@ -1001,37 +1001,21 @@ static void update_unit_activity(struct unit *punit)
   }
 
   if (unit_activity_done) {
+    struct extra_type *act_tgt = punit->activity_target;
+
     update_tile_knowledge(ptile);
-    if (ACTIVITY_IRRIGATE == activity
-        || ACTIVITY_MINE == activity
-        || ACTIVITY_CULTIVATE == activity
-        || ACTIVITY_PLANT == activity
-        || ACTIVITY_TRANSFORM == activity) {
-      /* FIXME: As we might probably do the activity again, because of the
-       * terrain change cycles, we need to treat these cases separatly.
-       * Probably ACTIVITY_TRANSFORM should be associated to its terrain
-       * target, whereas ACTIVITY_IRRIGATE and ACTIVITY_MINE should only
-       * used for extras. */
-      unit_list_iterate(ptile->units, punit2) {
-        if (punit2->activity == activity) {
-          unit_activities_cancel(punit2);
-        }
-      } unit_list_iterate_end;
-    } else {
-      struct extra_type *act_tgt = punit->activity_target;
 
-      unit_list_iterate(ptile->units, punit2) {
-        if (punit2->activity == activity
-            && punit2->activity_target == act_tgt) {
-          /* This unit was helping with the work just finished.
-           * Mark it idle (already finished) so its "current"
-           * activity is not considered illegal below. */
-          set_unit_activity(punit2, ACTIVITY_IDLE);
-        }
-      } unit_list_iterate_end;
+    unit_list_iterate(ptile->units, punit2) {
+      if (punit2->activity == activity
+          && punit2->activity_target == act_tgt) {
+        /* This unit was helping with the work just finished.
+         * Mark it idle (already finished) so its "current"
+         * activity is not considered illegal below. */
+        set_unit_activity(punit2, ACTIVITY_IDLE);
+      }
+    } unit_list_iterate_end;
 
-      unit_activities_cancel_all_illegal_tile(ptile);
-    }
+    unit_activities_cancel_all_illegal_tile(ptile);
 
     tile_changing_activities_iterate(act) {
       if (act == activity) {
