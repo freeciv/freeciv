@@ -220,6 +220,7 @@ type TECH_UPKEEP_STYLE  = uint8(enum tech_upkeep_style)
 type AUTH_TYPE          = uint8(enum authentication_type)
 type BARBARIAN_TYPE     = uint8(enum barbarian_type)
 type BASE_GUI           = uint8(enum base_gui_type)
+type ROAD_GUI           = uint8(enum road_gui_type)
 type BORDERS_MODE       = uint8(enum borders_mode)
 type CLAUSE             = uint8(enum clause_type)
 type CMDLEVEL           = uint8(enum cmdlevel)
@@ -1769,6 +1770,7 @@ end
 
 PACKET_RULESET_ROAD = 220; sc, lsend
   UINT8 id;
+  ROAD_GUI gui_type;
   UINT8 first_reqs_count;
   REQUIREMENT first_reqs[MAX_NUM_REQS:first_reqs_count];
   SINT16 move_cost; # not MOVEFRAGS because -1 is valid

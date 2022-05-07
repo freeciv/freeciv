@@ -4113,6 +4113,7 @@ static bool load_ruleset_terrain(struct section_file *file,
       const char *special;
       const char *modestr;
       struct requirement_vector *reqs;
+      const char *gui_str;
 
       if (!proad) {
         ruleset_error(LOG_ERROR,
@@ -4192,6 +4193,29 @@ static bool load_ruleset_terrain(struct section_file *file,
 
       if (!ok) {
         break;
+      }
+
+      gui_str = secfile_lookup_str_default(file, NULL, "%s.gui_type", section);
+      if (gui_str == NULL) {
+        if (compat->compat_mode && compat->version < RSFORMAT_3_1) {
+          proad->gui_type = rscompat_road_gui_type_3_1(proad);
+        } else {
+          ruleset_error(LOG_ERROR, "\"%s\" road \"%s\": no gui_type.",
+                      filename,
+                      extra_rule_name(pextra));
+          ok = FALSE;
+          break;
+        }
+      } else {
+        proad->gui_type = road_gui_type_by_name(gui_str, fc_strcasecmp);
+        if (!road_gui_type_is_valid(proad->gui_type)) {
+          ruleset_error(LOG_ERROR, "\"%s\" road \"%s\": unknown gui_type \"%s\".",
+                        filename,
+                        extra_rule_name(pextra),
+                        gui_str);
+          ok = FALSE;
+          break;
+        }
       }
 
       slist = secfile_lookup_str_vec(file, &nval, "%s.integrates", section);
@@ -8520,6 +8544,8 @@ static void send_ruleset_roads(struct conn_list *dest)
     int j;
 
     packet.id = road_number(r);
+
+    packet.gui_type = r->gui_type;
 
     j = 0;
     requirement_vector_iterate(&r->first_reqs, preq) {

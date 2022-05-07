@@ -79,6 +79,7 @@ void rscompat_uclass_flags_3_1(struct rscompat_info *compat,
                                struct unit_class *pclass);
 void rscompat_extra_adjust_3_1(struct rscompat_info *compat,
                                struct extra_type *pextra);
+enum road_gui_type rscompat_road_gui_type_3_1(struct road_type *proad);
 bool rscompat_old_slow_invasions_3_1(struct rscompat_info *compat,
                                      bool slow_invasions);
 

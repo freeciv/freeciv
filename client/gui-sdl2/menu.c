@@ -198,7 +198,7 @@ static int unit_order_callback(struct widget *order_widget)
       break;
     case ID_UNIT_ORDER_CONNECT_ROAD:
       {
-        struct road_type *proad = road_by_compat_special(ROCO_ROAD);
+        struct road_type *proad = road_by_gui_type(ROAD_GUI_ROAD);
 
         if (proad != NULL) {
           struct extra_type *tgt;
@@ -211,7 +211,7 @@ static int unit_order_callback(struct widget *order_widget)
       break;
     case ID_UNIT_ORDER_CONNECT_RAILROAD:
       {
-        struct road_type *prail = road_by_compat_special(ROCO_RAILROAD);
+        struct road_type *prail = road_by_gui_type(ROAD_GUI_RAILROAD);
 
         if (prail != NULL) {
           struct extra_type *tgt;
@@ -577,7 +577,7 @@ void create_units_order_widgets(void)
   /* --------- */
 
   /* Connect road */
-  proad = road_by_compat_special(ROCO_ROAD);
+  proad = road_by_gui_type(ROAD_GUI_ROAD);
 
   if (proad != NULL) {
     fc_snprintf(cbuf, sizeof(cbuf),
@@ -597,7 +597,7 @@ void create_units_order_widgets(void)
   /* --------- */
 
   /* Connect railroad */
-  prail = road_by_compat_special(ROCO_RAILROAD);
+  prail = road_by_gui_type(ROAD_GUI_RAILROAD);
   if (prail != NULL) {
     fc_snprintf(cbuf, sizeof(cbuf),
                 _("Connect With %s (%s)"),
@@ -1401,7 +1401,7 @@ void real_menus_update(void)
       }
 
       {
-        struct road_type *proad = road_by_compat_special(ROCO_ROAD);
+        struct road_type *proad = road_by_gui_type(ROAD_GUI_ROAD);
         bool road_conn_possible;
 
         if (proad != NULL) {
@@ -1422,7 +1422,7 @@ void real_menus_update(void)
       }
 
       {
-        struct road_type *proad = road_by_compat_special(ROCO_RAILROAD);
+        struct road_type *proad = road_by_gui_type(ROAD_GUI_RAILROAD);
         bool road_conn_possible;
 
         if (proad != NULL) {

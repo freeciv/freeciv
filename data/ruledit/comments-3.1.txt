@@ -906,7 +906,9 @@ roads = "\
 ;   (base_prod + roads.incr_const + roads.incr*terrain.incr_pct) * roads.bonus\n\
 ; compat_special          = what kind of pre-2.5 special this road corresponds\n\
 ;                           to, if any: \"Road\", \"Railroad\", \"River\", or \"None\".\n\
-;                           Used for UI and loading old savegames\n\
+;                           Used for loading old savegames.\n\
+; gui_type                = How gui should handle this base.\n\
+;                           Value can be \"Road\", \"Railroad\", \"Maglev\", or \"Other\"\n\
 ; integrates              = list of road types that are suitable next steps\n\
 ;                           for travel from this road type; such steps are\n\
 ;                           possible for units native to both roads and don`t\n\

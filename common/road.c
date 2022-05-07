@@ -174,6 +174,27 @@ struct road_type *road_by_compat_special(enum road_compat compat)
 }
 
 /************************************************************************//**
+  Return road type represented by given gui_type, or NULL if
+  it does not represent road type at all.
+****************************************************************************/
+struct road_type *road_by_gui_type(enum road_gui_type gui_type)
+{
+  if (gui_type == ROAD_GUI_OTHER) {
+    return NULL;
+  }
+
+  extra_type_by_cause_iterate(EC_ROAD, pextra) {
+    struct road_type *proad = extra_road_get(pextra);
+
+    if (proad->gui_type == gui_type) {
+      return proad;
+    }
+  } extra_type_by_cause_iterate_end;
+
+  return NULL;
+}
+
+/************************************************************************//**
   Tells if road can build to tile if all other requirements are met.
 ****************************************************************************/
 bool road_can_be_built(const struct road_type *proad, const struct tile *ptile)

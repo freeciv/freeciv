@@ -2215,6 +2215,24 @@ void rscompat_extra_adjust_3_1(struct rscompat_info *compat,
 }
 
 /**********************************************************************//**
+  Determine freeciv-3.1 road gui_type from freeciv-3.0 compat_special
+**************************************************************************/
+enum road_gui_type rscompat_road_gui_type_3_1(struct road_type *proad)
+{
+  switch (proad->compat) {
+  case ROCO_ROAD:
+    return ROAD_GUI_ROAD;
+  case ROCO_RAILROAD:
+    return ROAD_GUI_RAILROAD;
+  case ROCO_RIVER:
+  case ROCO_NONE:
+    break;
+  }
+
+  return ROAD_GUI_OTHER;
+}
+
+/**********************************************************************//**
   Adjust freeciv-3.0 ruleset action ui_name to freeciv-3.1
 **************************************************************************/
 const char *rscompat_action_ui_name_S3_1(struct rscompat_info *compat,

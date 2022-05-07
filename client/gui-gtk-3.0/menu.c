@@ -1638,7 +1638,7 @@ static void plant_callback(GtkMenuItem *action, gpointer data)
 ****************************************************************************/
 static void connect_road_callback(GtkMenuItem *action, gpointer data)
 {
-  struct road_type *proad = road_by_compat_special(ROCO_ROAD);
+  struct road_type *proad = road_by_gui_type(ROAD_GUI_ROAD);
 
   if (proad != NULL) {
     struct extra_type *tgt;
@@ -1654,7 +1654,7 @@ static void connect_road_callback(GtkMenuItem *action, gpointer data)
 ****************************************************************************/
 static void connect_rail_callback(GtkMenuItem *action, gpointer data)
 {
-  struct road_type *prail = road_by_compat_special(ROCO_RAILROAD);
+  struct road_type *prail = road_by_gui_type(ROAD_GUI_RAILROAD);
 
   if (prail != NULL) {
     struct extra_type *tgt;
@@ -2174,7 +2174,7 @@ void real_menus_update(void)
   {
     char road_buf[500];
 
-    proad = road_by_compat_special(ROCO_ROAD);
+    proad = road_by_gui_type(ROAD_GUI_ROAD);
     if (proad != NULL) {
       /* TRANS: Connect with some road type (Road/Railroad) */
       snprintf(road_buf, sizeof(road_buf), _("Connect With %s"),
@@ -2182,7 +2182,7 @@ void real_menus_update(void)
       menus_rename("CONNECT_ROAD", road_buf);
     }
 
-    proad = road_by_compat_special(ROCO_RAILROAD);
+    proad = road_by_gui_type(ROAD_GUI_RAILROAD);
     if (proad != NULL) {
       snprintf(road_buf, sizeof(road_buf), _("Connect With %s"),
                extra_name_translation(road_extra_get(proad)));
@@ -2348,7 +2348,7 @@ void real_menus_update(void)
   menu_entry_set_sensitive("UNIT_EXPLORE",
                            can_units_do_activity(punits, ACTIVITY_EXPLORE));
 
-  proad = road_by_compat_special(ROCO_ROAD);
+  proad = road_by_gui_type(ROAD_GUI_ROAD);
   if (proad != NULL) {
     struct extra_type *tgt;
 
@@ -2360,7 +2360,7 @@ void real_menus_update(void)
   }
   menu_entry_set_sensitive("CONNECT_ROAD", conn_possible);
 
-  proad = road_by_compat_special(ROCO_RAILROAD);
+  proad = road_by_gui_type(ROAD_GUI_RAILROAD);
   if (proad != NULL) {
     struct extra_type *tgt;
 
