@@ -2187,7 +2187,9 @@ vision_main_sq = 5
 ;   (base_prod + roads.incr_const + roads.incr*terrain.incr_pct) * roads.bonus
 ; compat_special          = what kind of pre-2.5 special this road corresponds
 ;                           to, if any: "Road", "Railroad", "River", or "None".
-;                           Used for UI and loading old savegames
+;                           Used for loading old savegames.
+; gui_type                = How gui should handle this base.
+;                           Value can be "Road", "Railroad", "Maglev", or "Other"
 ; integrates              = list of road types that are suitable next steps
 ;                           for travel from this road type; such steps are
 ;                           possible for units native to both roads and don`t
@@ -2215,6 +2217,7 @@ food_bonus     = 0
 shield_bonus   = 0
 trade_bonus    = 0
 compat_special = "Road"
+gui_type       = "Road"
 
 [road_railroad]
 extra          = "Railroad"
@@ -2226,6 +2229,7 @@ food_bonus     = 0
 shield_bonus   = 50
 trade_bonus    = 0
 compat_special = "Railroad"
+gui_type       = "Railroad"
 
 [road_maglev]
 extra          = "Maglev"
@@ -2236,6 +2240,7 @@ trade_incr     = 0
 food_bonus     = 0
 shield_bonus   = 0
 trade_bonus    = 0
+gui_type       = "Maglev"
 
 [road_river]
 extra          = "River"
@@ -2244,3 +2249,4 @@ move_mode      = "Cardinal"
 trade_incr_const = 1
 compat_special = "River"
 flags          = "River"
+gui_type       = "Other"

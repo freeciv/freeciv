@@ -2848,6 +2848,9 @@ static bool save_terrain_ruleset(const char *filename, const char *name)
         break;
       }
 
+      secfile_insert_str(sfile, road_gui_type_name(proad->gui_type),
+                         "%s.gui_type", path);
+
       set_count = 0;
       for (flagi = 0; flagi < RF_COUNT; flagi++) {
         if (road_has_flag(proad, flagi)) {

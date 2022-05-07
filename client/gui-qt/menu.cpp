@@ -2406,7 +2406,7 @@ void mr_menu::menus_sensitive()
         }
         break;
       case CONNECT_ROAD:
-        proad = road_by_compat_special(ROCO_ROAD);
+        proad = road_by_gui_type(ROAD_GUI_ROAD);
         if (proad != NULL) {
           tgt = road_extra_get(proad);
         } else {
@@ -2424,7 +2424,7 @@ void mr_menu::menus_sensitive()
         break;
 
       case CONNECT_RAIL:
-        proad = road_by_compat_special(ROCO_RAILROAD);
+        proad = road_by_gui_type(ROAD_GUI_RAILROAD);
         if (proad != NULL) {
           tgt = road_extra_get(proad);
         } else {
@@ -2633,7 +2633,7 @@ void mr_menu::slot_conn_irrigation()
 **************************************************************************/
 void mr_menu::slot_conn_rail()
 {
-  struct road_type *prail = road_by_compat_special(ROCO_RAILROAD);
+  struct road_type *prail = road_by_gui_type(ROAD_GUI_RAILROAD);
 
   if (prail != NULL) {
     struct extra_type *tgt;
@@ -2664,7 +2664,7 @@ void mr_menu::slot_unit_airbase()
 **************************************************************************/
 void mr_menu::slot_conn_road()
 {
-  struct road_type *proad = road_by_compat_special(ROCO_ROAD);
+  struct road_type *proad = road_by_gui_type(ROAD_GUI_ROAD);
 
   if (proad != NULL) {
     struct extra_type *tgt;

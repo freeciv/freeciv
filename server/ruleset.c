@@ -3977,6 +3977,7 @@ static bool load_ruleset_terrain(struct section_file *file,
       const char *special;
       const char *modestr;
       struct requirement_vector *reqs;
+      const char *gui_str;
 
       if (!proad) {
         ruleset_error(LOG_ERROR,
@@ -3987,6 +3988,17 @@ static bool load_ruleset_terrain(struct section_file *file,
         break;
       }
       section = &road_sections[road_number(proad) * MAX_SECTION_LABEL];
+
+      gui_str = secfile_lookup_str(file, "%s.gui_type", section);
+      proad->gui_type = road_gui_type_by_name(gui_str, fc_strcasecmp);
+      if (!road_gui_type_is_valid(proad->gui_type)) {
+        ruleset_error(LOG_ERROR, "\"%s\" road \"%s\": unknown gui_type \"%s\".",
+                      filename,
+                      extra_rule_name(pextra),
+                      gui_str);
+        ok = FALSE;
+        break;
+      }
 
       reqs = lookup_req_list(file, compat, section, "first_reqs", extra_rule_name(pextra));
       if (reqs == NULL) {
@@ -8191,6 +8203,8 @@ static void send_ruleset_roads(struct conn_list *dest)
     int j;
 
     packet.id = road_number(r);
+
+    packet.gui_type = r->gui_type;
 
     j = 0;
     requirement_vector_iterate(&r->first_reqs, preq) {

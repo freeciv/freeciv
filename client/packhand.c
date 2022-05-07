@@ -4228,6 +4228,8 @@ void handle_ruleset_road(const struct packet_ruleset_road *p)
 
   fc_assert_ret_msg(NULL != proad, "Bad road %d.", p->id);
 
+  proad->gui_type = p->gui_type;
+
   for (i = 0; i < p->first_reqs_count; i++) {
     requirement_vector_append(&proad->first_reqs, p->first_reqs[i]);
   }
