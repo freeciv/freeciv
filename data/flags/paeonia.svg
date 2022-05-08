@@ -2,13 +2,6 @@
 <!-- Creator: CorelDRAW -->
 
 <svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xml:space="preserve"
    width="450px"
    height="300px"
@@ -16,14 +9,21 @@
    viewBox="75 0 450 300"
    id="svg3165"
    version="1.1"
-   inkscape:version="0.47 r22583"
+   inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
    sodipodi:docname="paeonia.svg"
    inkscape:export-filename="/home/mixcoatl/Bureaublad/New Folder/paeonia.png"
    inkscape:export-xdpi="8.3999996"
-   inkscape:export-ydpi="8.3999996"><metadata
+   inkscape:export-ydpi="8.3999996"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/"><metadata
    id="metadata3210"><rdf:RDF><cc:Work
        rdf:about=""><dc:format>image/svg+xml</dc:format><dc:type
-         rdf:resource="http://purl.org/dc/dcmitype/StillImage" /><dc:title></dc:title></cc:Work></rdf:RDF></metadata><sodipodi:namedview
+         rdf:resource="http://purl.org/dc/dcmitype/StillImage" /></cc:Work></rdf:RDF></metadata><sodipodi:namedview
    pagecolor="#ffffff"
    bordercolor="#666666"
    borderopacity="1"
@@ -32,17 +32,18 @@
    guidetolerance="10"
    inkscape:pageopacity="0"
    inkscape:pageshadow="2"
-   inkscape:window-width="1022"
-   inkscape:window-height="643"
+   inkscape:window-width="825"
+   inkscape:window-height="471"
    id="namedview3208"
    showgrid="false"
    inkscape:zoom="0.78666667"
-   inkscape:cx="320.06421"
-   inkscape:cy="150"
-   inkscape:window-x="-2"
-   inkscape:window-y="0"
+   inkscape:cx="218.64407"
+   inkscape:cy="151.27119"
+   inkscape:window-x="640"
+   inkscape:window-y="115"
    inkscape:window-maximized="0"
-   inkscape:current-layer="svg3165" />
+   inkscape:current-layer="svg3165"
+   inkscape:pagecheckerboard="0" />
  <defs
    id="defs3167"><inkscape:perspective
    sodipodi:type="inkscape:persp3d"
