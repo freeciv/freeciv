@@ -55,11 +55,11 @@ class qdef_act
 
 private:
   explicit qdef_act();
-  static qdef_act* m_instance;
+  static qdef_act *m_instance;
   action_id vs_city;
   action_id vs_unit;
 public:
-  static qdef_act* action();
+  static qdef_act *action();
   static void drop();
   void vs_city_set(int i);
   void vs_unit_set(int i);
@@ -81,7 +81,7 @@ private:
   bool moving_now;
   QPixmap close_pix;
 protected:
-  void paintEvent(QPaintEvent* event);
+  void paintEvent(QPaintEvent *event);
   void mouseMoveEvent(QMouseEvent *event);
   void mousePressEvent(QMouseEvent *event);
   void mouseReleaseEvent(QMouseEvent *event);
@@ -202,8 +202,8 @@ class units_select: public fcwidget
 {
   Q_OBJECT
   QPixmap *pix;
-  QPixmap *h_pix; /** pixmap for highlighting */
-  QSize item_size; /** size of each pixmap of unit */
+  QPixmap *h_pix; // pixmap for highlighting
+  QSize item_size; // size of each pixmap of unit
   QList<unit*> unit_list; /** storing units only for drawing, for rest units
                             * iterate utile->units */
   QFont ufont;
@@ -282,7 +282,7 @@ public:
   int unit_id;
   int target_id[ATK_COUNT];
   int sub_target_id[ASTK_COUNT];
-  struct unit* targeted_unit;
+  struct unit *targeted_unit;
   void update_dialog(const struct act_prob *act_probs);
 public slots:
   void execute_action(const int action);
@@ -298,4 +298,4 @@ void popup_disband_dialog(struct unit_list *punits);
 bool try_default_unit_action(QVariant q1, QVariant q2);
 bool try_default_city_action(QVariant q1, QVariant q2);
 
-#endif /* FC__DIALOGS_H */
+#endif // FC__DIALOGS_H
