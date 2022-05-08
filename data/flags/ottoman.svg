@@ -1,13 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!-- Created with Sodipodi ("http://www.sodipodi.com/") -->
+
 <svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://web.resource.org/cc/"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    version="1"
    x="0.00000000"
    y="0.00000000"
@@ -16,8 +10,14 @@
    id="svg378"
    sodipodi:version="0.32"
    sodipodi:docname="ottoman.svg"
-   sodipodi:docbase="C:\flags"
-   inkscape:version="0.44">
+   inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
   <metadata
      id="metadata20">
     <rdf:RDF>
@@ -34,13 +34,21 @@
      showguides="true"
      inkscape:guide-bbox="true"
      inkscape:zoom="0.46230688"
-     inkscape:cx="531.49426"
-     inkscape:cy="393.3391"
-     inkscape:window-width="847"
+     inkscape:cx="532.11408"
+     inkscape:cy="391.51483"
+     inkscape:window-width="825"
      inkscape:window-height="579"
-     inkscape:window-x="20"
-     inkscape:window-y="42"
-     inkscape:current-layer="svg378" />
+     inkscape:window-x="698"
+     inkscape:window-y="174"
+     inkscape:current-layer="svg378"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     showgrid="false"
+     inkscape:window-maximized="0" />
   <defs
      id="defs380" />
   <rect
