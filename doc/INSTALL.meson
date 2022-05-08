@@ -138,6 +138,9 @@ freeciv-web (boolean):
 gen-packets-args (array):
   Aditional packet generator arguments passed to common/generate_packets.py.
 
+qtver ('qt5'/'qt6'):
+  Whether to build Qt5 or Qt6 versions of the binaries.
+
 
 run.sh
 ------

@@ -59,3 +59,9 @@ option('gen-packets-args',
        type: 'array',
        value: [],
        description: 'Additional arguments for the packet generator')
+
+option('qtver',
+       type: 'combo',
+       choices: ['qt5', 'qt6'],
+       value: 'qt6',
+       description: 'Whether to build Qt5 or Qt6 versions of the binaries')

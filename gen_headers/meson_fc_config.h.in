@@ -49,7 +49,7 @@
 #define HAVE_FCDB_SQLITE3 1
 
 /* Build in Qt5 mode */
-#define FC_QT5_MODE
+#mesondefine FC_QT5_MODE
 
 /* Release cycle information */
 #mesondefine IS_DEVEL_VERSION
