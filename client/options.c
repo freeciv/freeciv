@@ -2250,7 +2250,11 @@ static struct client_option client_options[] = {
                      "uninteresting action."),
                   COC_INTERFACE, GUI_STUB, TRUE, NULL),
   GEN_BOOL_OPTION(popup_last_move_to_allied,
-                  N_("Pop up actions last move to allied"),
+                  /* TODO: Rename option ..._last_... to match _final_ in
+                   *       the descriptions.
+                   *       Changes options file format, needs migration
+                   *       when loading old version. */
+                  N_("Pop up actions when final move to allied tile"),
                   N_("If this option is enabled the final move in a unit's"
                      " orders to a tile with allied units or cities it can"
                      " perform an action to is interpreted as an attempted"
