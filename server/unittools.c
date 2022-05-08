@@ -2259,8 +2259,9 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
 
   if (unitcount == 0) {
     unit_list_iterate(deftile->units, vunit) {
-      if (pplayers_at_war(pvictor, unit_owner(vunit))) {
-	unitcount++;
+      if (pplayers_at_war(pvictor, unit_owner(vunit))
+          && is_unit_reachable_at(vunit, pkiller, deftile)) {
+        unitcount++;
       }
     } unit_list_iterate_end;
   }
