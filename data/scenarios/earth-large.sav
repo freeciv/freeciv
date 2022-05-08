@@ -1,6 +1,6 @@
 
 [scenario]
-game_version=3000000
+game_version=3000100
 is_scenario=TRUE
 name=_("Earth (classic/large)")
 authors=_("Map: Daniel Gudlat, Daniel Markstedt\nStart positions: Jason Dorje Short, Mateusz Stefek, Mathieu Roy, David Fernandez, Rhue")
@@ -17,7 +17,7 @@ ruleset_caps="+std-terrains"
 options=" +version3"
 version=40
 reason="Scenario"
-revision="3.0.0-alpha3+"
+revision="3.0.1"
 rulesetdir="classic"
 improvement_size=68
 improvement_vector="Airport","Aqueduct","Bank","Barracks","Barracks II","Barracks III","Cathedral","City Walls","Coastal Defense","Colosseum","Courthouse","Factory","Granary","Harbour","Hydro Plant","Library","Marketplace","Mass Transit","Mfg. Plant","Nuclear Plant","Offshore Platform","Palace","Police Station","Port Facility","Power Plant","Recycling Center","Research Lab","SAM Battery","SDI Defense","Sewer System","Solar Plant","Space Component","Space Module","Space Structural","Stock Exchange","Super Highways","Supermarket","Temple","University","Apollo Program","A.Smith's Trading Co.","Colossus","Copernicus' Observatory","Cure For Cancer","Darwin's Voyage","Eiffel Tower","Great Library","Great Wall","Hanging Gardens","Hoover Dam","Isaac Newton's College","J.S. Bach's Cathedral","King Richard's Crusade","Leonardo's Workshop","Lighthouse","Magellan's Expedition","Manhattan Project","Marco Polo's Embassy","Michelangelo's Chapel","Oracle","Pyramids","SETI Program","Shakespeare's Theatre","Statue of Liberty","Sun Tzu's War Academy","United Nations","Women's Suffrage","Coinage"
@@ -82,7 +82,7 @@ warminglevel=8
 nuclearwinter=0
 cooling=0
 coolinglevel=8
-random_seed=1586958160
+random_seed=1288807539
 global_advances="1000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
 save_players=FALSE
 save_known=FALSE
@@ -231,7 +231,7 @@ t0088="aa      aa    aa      aa    aaaaaaaaaa          aa      aa        aa     
 t0089="aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
 startpos_count=91
 startpos={"x","y","exclude","nations"
-31,36,FALSE,"Tunisian#Carthaginian#Vandalic"
+31,36,FALSE,"Vandalic#Tunisian#Carthaginian"
 46,54,FALSE,"Kenyan#Maasai"
 154,28,FALSE,"Canadian#Iroquois"
 60,31,FALSE,"Sarmatian#Uzbek#Timurid"
@@ -249,33 +249,33 @@ startpos={"x","y","exclude","nations"
 45,47,FALSE,"Abyssinian#Ethiopian"
 149,56,FALSE,"Ecuadorian"
 5,75,FALSE,"Argentine"
-142,44,FALSE,"Mexican#Aztec"
 71,36,FALSE,"Tibetan"
+142,44,FALSE,"Mexican#Aztec"
 138,38,FALSE,"Apache"
-37,70,FALSE,"Boer#South African"
+37,70,FALSE,"South African#Boer"
 150,50,FALSE,"Panamanian#Kuna"
 42,29,FALSE,"Hunnic#Hungarian#Avar"
 152,44,FALSE,"Cuban"
 0,51,FALSE,"Venezuelan"
 42,23,FALSE,"Lithuanian#Teutonic#Prussian"
 76,18,FALSE,"Evenki"
-64,41,FALSE,"Mughal#Indian"
 82,24,FALSE,"Mongol"
+64,41,FALSE,"Mughal#Indian"
 50,17,FALSE,"Karelian"
-76,47,FALSE,"Khmer#Cambodian"
+76,47,FALSE,"Cambodian#Khmer"
 98,71,FALSE,"Australian"
-41,40,FALSE,"Egyptian Arab#Egyptian#Mamluk"
 92,24,FALSE,"Manchu"
+41,40,FALSE,"Mamluk#Egyptian Arab#Egyptian"
 157,61,FALSE,"Acrean"
 29,22,FALSE,"English#Briton#British"
 3,68,FALSE,"Paraguayan#Guarani"
 41,34,FALSE,"Pelasgian#Greek#Hellenic"
 70,29,FALSE,"Saka"
 8,68,FALSE,"Brazilian"
-48,34,FALSE,"Ottoman#Turkish#Phrygian#Hittite"
 71,23,FALSE,"Tuvan#Buryat"
 142,31,FALSE,"Sioux"
-25,45,FALSE,"Malian#Songhai#Mali"
+48,34,FALSE,"Phrygian#Hittite#Ottoman#Turkish"
+25,45,FALSE,"Mali#Malian#Songhai"
 38,51,FALSE,"Central African"
 49,22,FALSE,"Soviet#Muscovite#Russian"
 54,28,FALSE,"Khazar"
@@ -297,7 +297,7 @@ startpos={"x","y","exclude","nations"
 30,26,FALSE,"Gallic#French"
 35,32,FALSE,"Etruscan#Sabine#Roman#Papal#Italian"
 94,63,FALSE,"Australian Aboriginal"
-20,49,FALSE,"Guinean#Sierra Leonean"
+20,49,FALSE,"Sierra Leonean#Guinean"
 157,18,FALSE,"Inuit"
 154,53,FALSE,"Colombian"
 64,21,FALSE,"Siberian"
@@ -310,7 +310,7 @@ startpos={"x","y","exclude","nations"
 141,23,FALSE,"Metis"
 116,22,FALSE,"Aleut"
 55,14,FALSE,"Nenets"
-132,28,FALSE,"Chinook#Salishan"
+132,28,FALSE,"Salishan#Chinook"
 147,46,FALSE,"Belizean#Mayan"
 50,43,FALSE,"Arab"
 46,37,FALSE,"Israeli#Phoenician#Palmyrene#Palestinian#Lebanese#Syrian#Israelite"

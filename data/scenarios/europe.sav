@@ -1,6 +1,6 @@
 
 [scenario]
-game_version=3000000
+game_version=3000100
 is_scenario=TRUE
 name=_("Europe (classic/giant)")
 authors=_("Map: Christian Grothoff, Jerzy Klek, Mateusz Stefek, Daniel Markstedt\nStart positions: Jason Dorje Short, Mateusz Stefek")
@@ -17,7 +17,7 @@ ruleset_caps="+std-terrains"
 options=" +version3"
 version=40
 reason="Scenario"
-revision="3.0.0-alpha3+"
+revision="3.0.1"
 rulesetdir="classic"
 improvement_size=68
 improvement_vector="Airport","Aqueduct","Bank","Barracks","Barracks II","Barracks III","Cathedral","City Walls","Coastal Defense","Colosseum","Courthouse","Factory","Granary","Harbour","Hydro Plant","Library","Marketplace","Mass Transit","Mfg. Plant","Nuclear Plant","Offshore Platform","Palace","Police Station","Port Facility","Power Plant","Recycling Center","Research Lab","SAM Battery","SDI Defense","Sewer System","Solar Plant","Space Component","Space Module","Space Structural","Stock Exchange","Super Highways","Supermarket","Temple","University","Apollo Program","A.Smith's Trading Co.","Colossus","Copernicus' Observatory","Cure For Cancer","Darwin's Voyage","Eiffel Tower","Great Library","Great Wall","Hanging Gardens","Hoover Dam","Isaac Newton's College","J.S. Bach's Cathedral","King Richard's Crusade","Leonardo's Workshop","Lighthouse","Magellan's Expedition","Manhattan Project","Marco Polo's Embassy","Michelangelo's Chapel","Oracle","Pyramids","SETI Program","Shakespeare's Theatre","Statue of Liberty","Sun Tzu's War Academy","United Nations","Women's Suffrage","Coinage"
@@ -82,7 +82,7 @@ warminglevel=8
 nuclearwinter=0
 cooling=0
 coolinglevel=8
-random_seed=1586959453
+random_seed=1985303550
 global_advances="1000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
 save_players=FALSE
 save_known=FALSE
@@ -260,9 +260,9 @@ startpos={"x","y","exclude","nations"
 76,50,FALSE,"Czech"
 120,24,FALSE,"Russian"
 29,32,FALSE,"Irish"
-155,84,FALSE,"Arab"
-101,87,FALSE,"Greek"
 121,80,FALSE,"Turkish"
+101,87,FALSE,"Greek"
+155,84,FALSE,"Arab"
 58,60,FALSE,"Swiss"
 77,62,FALSE,"Slovenian"
 8,7,FALSE,"Icelandic"
