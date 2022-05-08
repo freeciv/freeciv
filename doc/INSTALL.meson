@@ -135,6 +135,9 @@ gitrev (boolean):
 freeciv-web (boolean):
   Build freeciv-web version instead of normal one.
 
+qtver ('qt5'/'qt6'):
+  Whether to build Qt5 or Qt6 versions of the binaries.
+
 
 run.sh
 ------
