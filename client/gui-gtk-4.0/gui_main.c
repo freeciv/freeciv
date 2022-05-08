@@ -1470,15 +1470,15 @@ static void setup_widgets(void)
   g_signal_connect(mc_controller, "scroll",
                    G_CALLBACK(mouse_scroll_mapcanvas), NULL);
   gtk_widget_add_controller(map_canvas, mc_controller);
+  mc_controller = gtk_event_controller_motion_new();
+  g_signal_connect(mc_controller, "motion",
+                   G_CALLBACK(move_mapcanvas), NULL);
+  g_signal_connect(mc_controller, "leave",
+                   G_CALLBACK(leave_mapcanvas), NULL);
+  gtk_widget_add_controller(map_canvas, mc_controller);
 
   g_signal_connect(map_canvas, "resize",
                    G_CALLBACK(map_canvas_resize), NULL);
-
-  g_signal_connect(map_canvas, "motion_notify_event",
-                   G_CALLBACK(move_mapcanvas), NULL);
-
-  g_signal_connect(toplevel, "enter_notify_event",
-                   G_CALLBACK(leave_mapcanvas), NULL);
 
   g_signal_connect(toplevel, "key_press_event",
                    G_CALLBACK(toplevel_key_press_handler), NULL);
