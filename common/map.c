@@ -1139,11 +1139,13 @@ struct tile *rand_map_pos_filtered(const struct civ_map *nmap, void *data,
    * tries could use some tweaking. */
   do {
     ptile = nmap->tiles + fc_rand(MAP_INDEX_SIZE);
-  } while (filter && !filter(ptile, data) && ++tries < max_tries);
+  } while (filter != NULL && !filter(ptile, data) && ++tries < max_tries);
 
   /* If that fails, count all available spots and pick one.
    * Slow but reliable. */
-  if (tries == max_tries) {
+  if (filter == NULL) {
+    ptile = NULL;
+  } else if (tries == max_tries) {
     int count = 0, *positions;
 
     positions = fc_calloc(MAP_INDEX_SIZE, sizeof(*positions));
