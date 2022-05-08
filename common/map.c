@@ -1114,8 +1114,8 @@ struct tile *rand_map_pos(void)
   effects.
 **************************************************************************/
 struct tile *rand_map_pos_filtered(void *data,
-				   bool (*filter)(const struct tile *ptile,
-						  const void *data))
+                                   bool (*filter)(const struct tile *ptile,
+                                                  const void *data))
 {
   struct tile *ptile;
   int tries = 0;
@@ -1125,11 +1125,13 @@ struct tile *rand_map_pos_filtered(void *data,
    * tries could use some tweaking. */
   do {
     ptile = wld.map.tiles + fc_rand(MAP_INDEX_SIZE);
-  } while (filter && !filter(ptile, data) && ++tries < max_tries);
+  } while (filter != NULL && !filter(ptile, data) && ++tries < max_tries);
 
   /* If that fails, count all available spots and pick one.
    * Slow but reliable. */
-  if (tries == max_tries) {
+  if (filter == NULL) {
+    ptile = NULL;
+  } else if (tries == max_tries) {
     int count = 0, *positions;
 
     positions = fc_calloc(MAP_INDEX_SIZE, sizeof(*positions));
@@ -1149,11 +1151,12 @@ struct tile *rand_map_pos_filtered(void *data,
 
     FC_FREE(positions);
   }
+
   return ptile;
 }
 
 /**************************************************************************
-Return the debugging name of the direction.
+  Return the debugging name of the direction.
 **************************************************************************/
 const char *dir_get_name(enum direction8 dir)
 {
