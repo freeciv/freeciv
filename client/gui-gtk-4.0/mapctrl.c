@@ -404,10 +404,10 @@ void update_rect_at_mouse_pos(void)
   Triggered by the mouse moving on the mapcanvas, this function will
   update the mouse cursor and goto lines.
 **************************************************************************/
-gboolean move_mapcanvas(GtkWidget *w, GdkEvent *ev, gpointer data)
+gboolean move_mapcanvas(GtkEventControllerMotion *controller,
+                        gdouble x, gdouble y, gpointer data)
 {
   GdkModifierType state;
-  gdouble e_x, e_y;
 
   if (GUI_GTK_OPTION(mouse_over_map_focus)
       && !gtk_widget_has_focus(map_canvas)) {
@@ -415,22 +415,21 @@ gboolean move_mapcanvas(GtkWidget *w, GdkEvent *ev, gpointer data)
   }
 
   if (editor_is_active()) {
-    return handle_edit_mouse_move(ev);
+    return handle_edit_mouse_move(controller, x, y);
   }
 
-  gdk_event_get_position(ev, &e_x, &e_y);
-  cur_x = e_x;
-  cur_y = e_y;
-  update_line(e_x, e_y);
-  state = gdk_event_get_modifier_state(ev);
+  cur_x = x;
+  cur_y = y;
+  update_line(x, y);
+  state = gtk_event_controller_get_current_event_state(GTK_EVENT_CONTROLLER(controller));
   if (rbutton_down && (state & GDK_BUTTON3_MASK)) {
-    update_selection_rectangle(e_x, e_y);
+    update_selection_rectangle(x, y);
   }
 
   if (keyboardless_goto_button_down && hover_state == HOVER_NONE) {
-    maybe_activate_keyboardless_goto(e_x, e_y);
+    maybe_activate_keyboardless_goto(x, y);
   }
-  control_mouse_cursor(canvas_pos_to_tile(e_x, e_y));
+  control_mouse_cursor(canvas_pos_to_tile(x, y));
 
   return TRUE;
 }
@@ -438,30 +437,12 @@ gboolean move_mapcanvas(GtkWidget *w, GdkEvent *ev, gpointer data)
 /**********************************************************************//**
   This function will reset the mouse cursor if it leaves the map.
 **************************************************************************/
-gboolean leave_mapcanvas(GtkWidget *widget, GdkEvent *ev)
+gboolean leave_mapcanvas(GtkEventControllerMotion *controller,
+                         gpointer data)
 {
-  gdouble e_x, e_y;
-
-  if (gtk_notebook_get_current_page(GTK_NOTEBOOK(top_notebook))
-      != gtk_notebook_page_num(GTK_NOTEBOOK(top_notebook), map_widget)) {
-    /* Map is not currently topmost tab. Do not use tile specific cursors. */
-    update_mouse_cursor(CURSOR_DEFAULT);
-    return TRUE;
-  }
-
-  /* Bizarrely, this function can be called even when we don't "leave"
-   * the map canvas, for instance, it gets called any time the mouse is
-   * clicked. */
-  gdk_event_get_position(ev, &e_x, &e_y);
-  if (!map_is_empty()
-      && e_x >= 0 && e_y >= 0
-      && e_x < mapview.width && e_y < mapview.height) {
-    control_mouse_cursor(canvas_pos_to_tile(e_x, e_y));
-  } else {
-    update_mouse_cursor(CURSOR_DEFAULT);
-  }
-
+  update_mouse_cursor(CURSOR_DEFAULT);
   update_unit_info_label(get_units_in_focus());
+
   return TRUE;
 }
 

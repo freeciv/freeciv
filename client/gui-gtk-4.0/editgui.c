@@ -953,14 +953,13 @@ gboolean handle_edit_mouse_button_release(GtkGestureClick *gesture,
 /************************************************************************//**
   Pass on the gdk mouse event to the editor's handler.
 ****************************************************************************/
-gboolean handle_edit_mouse_move(GdkEvent *ev)
+gboolean handle_edit_mouse_move(GtkEventControllerMotion *controller,
+                                gdouble x, gdouble y)
 {
-  gdouble e_x, e_y;
   GdkModifierType state;
 
-  gdk_event_get_position(ev, &e_x, &e_y);
-  state = gdk_event_get_modifier_state(ev);
-  editor_mouse_move(e_x, e_y, convert_modifiers(state));
+  state = gtk_event_controller_get_current_event_state(GTK_EVENT_CONTROLLER(controller));
+  editor_mouse_move(x, y, convert_modifiers(state));
 
   return TRUE;
 }
