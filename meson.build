@@ -3073,11 +3073,18 @@ ruleset_files = [
   'units.ruleset',
   ]
 
+install_data(
+  'data/civ2civ3.modpack',
+  'data/classic.modpack',
+  'data/multiplayer.modpack',
+  'data/alien.modpack',
+  'data/sandbox.modpack',
+  'data/civ1.modpack',
+  'data/civ2.modpack',
+  install_dir : join_paths(get_option('datadir'), 'freeciv')
+  )
+
 foreach rs : rulesets
-  install_data(
-    join_paths('data', rs + '.modpack'),
-    install_dir : join_paths(get_option('datadir'), 'freeciv')
-    )
   foreach rsf : ruleset_files
     install_data(
       join_paths('data', rs, rsf),
@@ -3087,7 +3094,6 @@ foreach rs : rulesets
 endforeach
 
 install_data(
-  'data/stub.serv',
   install_dir : join_paths(get_option('datadir'), 'freeciv')
   )
 
