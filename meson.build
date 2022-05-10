@@ -3062,11 +3062,18 @@ ruleset_files = [
   'units.ruleset',
   ]
 
+install_data(
+  'data/civ2civ3.serv',
+  'data/classic.serv',
+  'data/multiplayer.serv',
+  'data/alien.serv',
+  'data/sandbox.serv',
+  'data/civ1.serv',
+  'data/civ2.serv',
+  install_dir : join_paths(get_option('datadir'), 'freeciv')
+  )
+
 foreach rs : rulesets
-  install_data(
-    join_paths('data', rs + '.serv'),
-    install_dir : join_paths(get_option('datadir'), 'freeciv')
-    )
   foreach rsf : ruleset_files
     install_data(
       join_paths('data', rs, rsf),
