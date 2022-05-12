@@ -237,15 +237,9 @@ def prefix(prefix, text):
     """Prepend prefix to every line of text"""
     return "\n".join(prefix + line for line in text.split("\n"))
 
-# A simple container for a type alias
-class Type:
-    def __init__(self,alias,dest):
-        self.alias=alias
-        self.dest=dest
 
 # Parses a line of the form "COORD x, y; key" and returns a list of
-# Field objects. types is a list of Type objects which are used to
-# dereference type names.
+# Field objects. types is a dict mapping type aliases to their meaning
 def parse_fields(line, types):
     mo = re.search(r"^\s*(\S+(?:\(.*\))?)\s+([^;()]*)\s*;\s*(.*)\s*$", line)
     assert mo, line
@@ -259,15 +253,9 @@ def parse_fields(line, types):
     #print arr
 
     # analyze type
-    while 1:
-        found=0
-        for i in types:
-            if i.alias == type_text:
-                type_text = i.dest
-                found=1
-                break
-        if not found:
-            break
+    # FIXME: no infinite loop detection
+    while type_text in types:
+        type_text = types[type_text]
 
     typeinfo={}
     mo = re.search("^(.*)\((.*)\)$", type_text)
@@ -2008,6 +1996,8 @@ COMMENT_PATTERN = re.compile(r"""
         $           # matches line end in MULTILINE mode
     )
 """, re.VERBOSE | re.MULTILINE)
+# matches "type alias = dest" lines
+TYPE_PATTERN = re.compile(r"^type\s+(?P<alias>\S+)\s*=\s*(?P<dest>.+)\s*$")
 
 def packets_def_lines(def_text):
     """Yield only actual content lines without comments and whitespace"""
@@ -2018,18 +2008,28 @@ def parse_packets_def(def_text):
     """Parse the given string as contents of packets.def"""
 
     # parse type alias definitions
-    lines2=[]
-    types=[]
-    for i in packets_def_lines(def_text):
-        mo=re.search("^type\s+(\S+)\s*=\s*(.+)\s*$",i)
-        if mo:
-            types.append(Type(mo.group(1),mo.group(2)))
-        else:
-            lines2.append(i)
+    packets_lines = []
+    types = {}
+    for line in packets_def_lines(def_text):
+        mo = TYPE_PATTERN.fullmatch(line)
+        if mo is None:
+            packets_lines.append(line)
+            continue
+
+        alias = mo.group("alias")
+        dest = mo.group("dest")
+        if alias in types:
+            if dest == types[alias]:
+                verbose("duplicate typedef: %r = %r" % (alias, dest))
+                continue
+            else:
+                raise ValueError("duplicate type alias %r: %r and %r"
+                                    % (alias, types[alias], dest))
+        types[alias] = dest
 
     # parse packet definitions
     packets=[]
-    for packet_text in re.split("(?m)^end$","\n".join(lines2)):
+    for packet_text in re.split("(?m)^end$", "\n".join(packets_lines)):
         packet_text = packet_text.strip()
         if packet_text:
             packets.append(Packet(packet_text, types))
