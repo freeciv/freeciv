@@ -1996,31 +1996,25 @@ def get_enum_packet(packets):
 
 ####################### Parsing packets.def contents #######################
 
-def strip_c_comment(s):
-  # The obvious way:
-  #    s=re.sub(r"/\*(.|\n)*?\*/","",s)
-  # doesn't work with python version 2.2 and 2.3.
-  # Do it by hand then.
-  result=""
-  for i in filter(lambda x:x,s.split("/*")):
-      l=i.split("*/",1)
-      assert len(l)==2,repr(i)
-      result=result+l[1]
-  return result
+# matches /* ... */ block comments in multiline text
+BLOCK_COMMENT_PATTERN = re.compile(r"/\*.*?\*/", re.DOTALL)
+# matches # ... and // ... EOL comments in individual lines
+LINE_COMMENT_PATTERN = re.compile(r"\s*(?:#|//).*$")
+
+def packets_def_lines(def_text):
+    """Yield only actual content lines without comments and whitespace"""
+    text = BLOCK_COMMENT_PATTERN.sub("", def_text)
+    lines = (LINE_COMMENT_PATTERN.sub("", line)
+             for line in text.split("\n"))
+    return filter(None, map(str.strip, lines))
 
 def parse_packets_def(def_text):
     """Parse the given string as contents of packets.def"""
 
-    def_text = strip_c_comment(def_text)
-    lines = def_text.split("\n")
-    lines=map(lambda x: re.sub("\s*#.*$","",x),lines)
-    lines=map(lambda x: re.sub("\s*//.*$","",x),lines)
-    lines=filter(lambda x:not re.search("^\s*$",x),lines)
-
     # parse type alias definitions
     lines2=[]
     types=[]
-    for i in lines:
+    for i in packets_def_lines(def_text):
         mo=re.search("^type\s+(\S+)\s*=\s*(.+)\s*$",i)
         if mo:
             types.append(Type(mo.group(1),mo.group(2)))
