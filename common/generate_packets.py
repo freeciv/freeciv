@@ -1996,17 +1996,23 @@ def get_enum_packet(packets):
 
 ####################### Parsing packets.def contents #######################
 
-# matches /* ... */ block comments in multiline text
-BLOCK_COMMENT_PATTERN = re.compile(r"/\*.*?\*/", re.DOTALL)
-# matches # ... and // ... EOL comments in individual lines
-LINE_COMMENT_PATTERN = re.compile(r"\s*(?:#|//).*$")
+# matches /* ... */ block comments as well as # ... and // ... EOL comments
+COMMENT_PATTERN = re.compile(r"""
+    (?:         # block comment
+        /\*         # initial /*
+        (?:.|\s)*?  # note the reluctant quantifier
+        \*/         # terminating */
+    ) | (?:     # EOL comment
+        (?:\#|//)   # initial # or //
+        .*          # does *not* match newline without DOTALL
+        $           # matches line end in MULTILINE mode
+    )
+""", re.VERBOSE | re.MULTILINE)
 
 def packets_def_lines(def_text):
     """Yield only actual content lines without comments and whitespace"""
-    text = BLOCK_COMMENT_PATTERN.sub("", def_text)
-    lines = (LINE_COMMENT_PATTERN.sub("", line)
-             for line in text.split("\n"))
-    return filter(None, map(str.strip, lines))
+    text = COMMENT_PATTERN.sub("", def_text)
+    return filter(None, map(str.strip, text.split("\n")))
 
 def parse_packets_def(def_text):
     """Parse the given string as contents of packets.def"""
