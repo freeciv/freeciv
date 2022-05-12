@@ -55,6 +55,7 @@ enum sset_class {
   SSET_MAP_GEN,
   SSET_MAP_ADD,
   SSET_PLAYERS,
+  SSET_PLAYERS_CHANGEABLE,
   SSET_GAME_INIT,
   SSET_RULES,
   SSET_RULES_SCENARIO,
@@ -1044,7 +1045,8 @@ static bool maxplayers_callback(int value, struct connection *caller,
   }
   /* If any start positions are defined by a scenario, we can only
    * accommodate as many players as we have start positions. */
-  if (0 < map_startpos_count() && value > map_startpos_count()) {
+  if (server_state() < S_S_RUNNING
+      && 0 < map_startpos_count() && value > map_startpos_count()) {
     settings_snprintf(reject_msg, reject_msg_len,
                       _("Requested value (%d) is greater than number of "
                         "available start positions (%d). Keeping old value."),
@@ -1779,7 +1781,7 @@ static struct setting settings[] = {
           GAME_MIN_MIN_PLAYERS, GAME_MAX_MIN_PLAYERS, GAME_DEFAULT_MIN_PLAYERS)
 
   GEN_INT("maxplayers", game.server.max_players,
-          SSET_PLAYERS, SSET_INTERNAL, SSET_VITAL, ALLOW_NONE, ALLOW_BASIC,
+          SSET_PLAYERS_CHANGEABLE, SSET_INTERNAL, SSET_VITAL, ALLOW_NONE, ALLOW_BASIC,
           N_("Maximum number of players"),
           N_("The maximal number of human and AI players who can be in "
              "the game. When this number of players are connected in "
@@ -3265,6 +3267,7 @@ static bool setting_is_free_to_change(const struct setting *pset,
                         "has started."), setting_name(pset));
     return FALSE;
 
+  case SSET_PLAYERS_CHANGEABLE:
   case SSET_RULES_FLEXIBLE:
   case SSET_META:
     /* These can always be changed: */
