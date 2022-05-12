@@ -351,7 +351,7 @@ class Field:
         self.is_struct=not not re.search("^struct.*",self.struct_type)
 
     # Helper function for the dictionary variant of the % operator
-    # ("%(name)s"%dict).
+    # ("%(name)s"%dict) or str.format ("{name}".format(**dict)).
     def get_dict(self, vars_):
         result=self.__dict__.copy()
         result.update(vars_)
@@ -370,30 +370,30 @@ class Field:
     # the packet struct.
     def get_declar(self):
         if self.is_array==2:
-            return "%(struct_type)s %(name)s[%(array_size1_d)s][%(array_size2_d)s]"%self.__dict__
+            return "{struct_type} {name}[{array_size1_d}][{array_size2_d}]".format(**self.__dict__)
         if self.is_array:
-            return "%(struct_type)s %(name)s[%(array_size_d)s]"%self.__dict__
+            return "{struct_type} {name}[{array_size_d}]".format(**self.__dict__)
         else:
-            return "%(struct_type)s %(name)s"%self.__dict__
+            return "{struct_type} {name}".format(**self.__dict__)
 
     # Returns code which copies the arguments of the direct send
     # functions in the packet struct.
     def get_fill(self):
         if self.dataio_type=="worklist":
-            return "  worklist_copy(&real_packet->%(name)s, %(name)s);"%self.__dict__
+            return "  worklist_copy(&real_packet->{name}, {name});".format(**self.__dict__)
         if self.is_array==0:
-            return "  real_packet->%(name)s = %(name)s;"%self.__dict__
+            return "  real_packet->{name} = {name};".format(**self.__dict__)
         if self.dataio_type=="string" or self.dataio_type=="estring":
-            return "  sz_strlcpy(real_packet->%(name)s, %(name)s);"%self.__dict__
+            return "  sz_strlcpy(real_packet->{name}, {name});".format(**self.__dict__)
         if self.is_array==1:
-            tmp="real_packet->%(name)s[i] = %(name)s[i]"%self.__dict__
-            return '''  {
+            tmp = "real_packet->{name}[i] = {name}[i]".format(**self.__dict__)
+            return """  {{
     int i;
 
-    for (i = 0; i < %(array_size_u) s; i++) {
-      %(tmp)s;
-    }
-  }'''%self.get_dict(vars())
+    for (i = 0; i < {array_size_u}; i++) {{
+      {tmp};
+    }}
+  }}""".format(**self.get_dict(vars()))
 
         return repr(self.__dict__)
 
@@ -401,41 +401,41 @@ class Field:
     # instances of "old" and "readl_packet".
     def get_cmp(self):
         if self.dataio_type=="memory":
-            return "  differ = (memcmp(old->%(name)s, real_packet->%(name)s, %(array_size_d)s) != 0);"%self.__dict__
+            return "  differ = (memcmp(old->{name}, real_packet->{name}, {array_size_d}) != 0);".format(**self.__dict__)
         if self.dataio_type=="bitvector":
-            return "  differ = !BV_ARE_EQUAL(old->%(name)s, real_packet->%(name)s);"%self.__dict__
+            return "  differ = !BV_ARE_EQUAL(old->{name}, real_packet->{name});".format(**self.__dict__)
         if self.dataio_type in ["string", "estring"] and self.is_array==1:
-            return "  differ = (strcmp(old->%(name)s, real_packet->%(name)s) != 0);"%self.__dict__
+            return "  differ = (strcmp(old->{name}, real_packet->{name}) != 0);".format(**self.__dict__)
         if self.dataio_type == "cm_parameter":
-            return "  differ = !cm_are_parameter_equal(&old->%(name)s, &real_packet->%(name)s);" % self.__dict__
+            return "  differ = !cm_are_parameter_equal(&old->{name}, &real_packet->{name});".format(**self.__dict__)
         if self.is_struct and self.is_array==0:
-            return "  differ = !are_%(dataio_type)ss_equal(&old->%(name)s, &real_packet->%(name)s);"%self.__dict__
+            return "  differ = !are_{dataio_type}s_equal(&old->{name}, &real_packet->{name});".format(**self.__dict__)
         if not self.is_array:
-            return "  differ = (old->%(name)s != real_packet->%(name)s);"%self.__dict__
+            return "  differ = (old->{name} != real_packet->{name});".format(**self.__dict__)
 
         if self.dataio_type=="string" or self.dataio_type=="estring":
-            c="strcmp(old->%(name)s[i], real_packet->%(name)s[i]) != 0"%self.__dict__
+            c = "strcmp(old->{name}[i], real_packet->{name}[i]) != 0".format(**self.__dict__)
             array_size_u=self.array_size1_u
             array_size_o=self.array_size1_o
         elif self.is_struct:
-            c="!are_%(dataio_type)ss_equal(&old->%(name)s[i], &real_packet->%(name)s[i])"%self.__dict__
+            c = "!are_{dataio_type}s_equal(&old->{name}[i], &real_packet->{name}[i])".format(**self.__dict__)
         else:
-            c="old->%(name)s[i] != real_packet->%(name)s[i]"%self.__dict__
+            c = "old->{name}[i] != real_packet->{name}[i]".format(**self.__dict__)
 
-        return '''
-    {
-      differ = (%(array_size_o)s != %(array_size_u)s);
-      if (!differ) {
+        return """
+    {{
+      differ = ({array_size_o} != {array_size_u});
+      if (!differ) {{
         int i;
 
-        for (i = 0; i < %(array_size_u)s; i++) {
-          if (%(c)s) {
+        for (i = 0; i < {array_size_u}; i++) {{
+          if ({c}) {{
             differ = TRUE;
             break;
-          }
-        }
-      }
-    }'''%self.get_dict(vars())
+          }}
+        }}
+      }}
+    }}""".format(**self.get_dict(vars()))
 
     @property
     def folded_into_head(self):
@@ -459,10 +459,10 @@ class Field:
   }
 '''
             else:
-                cmp = ''''''
-                differ_part = ''''''
-            b="packet->%(name)s"%self.get_dict(vars())
-            return '''%s'''%(cmp) + differ_part + '''  if (%s) {
+                cmp = ""
+                differ_part = ""
+            b = "packet->{name}".format(**self.get_dict(vars()))
+            return cmp + differ_part + '''  if (%s) {
     BV_SET(fields, %d);
   }
 
@@ -490,82 +490,82 @@ class Field:
     def get_put_wrapper(self,packet,i,deltafragment):
         if fold_bool_into_header and self.struct_type=="bool" and \
            not self.is_array:
-            return "  /* field %(i)d is folded into the header */\n"%vars()
+            return "  /* field {i:d} is folded into the header */\n".format(**vars())
         put=self.get_put(deltafragment)
         packet_name=packet.name
         log_macro=packet.log_macro
         if packet.gen_log:
-            f='    %(log_macro)s("  field \'%(name)s\' has changed");\n'%self.get_dict(vars())
+            f = '    {log_macro}("  field \'{name}\' has changed");\n'.format(**self.get_dict(vars()))
         else:
             f=""
         if packet.gen_stats:
-            s='    stats_%(packet_name)s_counters[%(i)d]++;\n'%self.get_dict(vars())
+            s = '    stats_{packet_name}_counters[{i:d}]++;\n'.format(**self.get_dict(vars()))
         else:
             s=""
-        return '''  if (BV_ISSET(fields, %(i)d)) {
-%(f)s%(s)s  %(put)s
-  }
-'''%self.get_dict(vars())
+        return """  if (BV_ISSET(fields, {i:d})) {{
+{f}{s}  {put}
+  }}
+""".format(**self.get_dict(vars()))
 
     # Returns code which put this field.
     def get_put(self,deltafragment):
-        return '''#ifdef FREECIV_JSON_CONNECTION
-  field_addr.name = \"%(name)s\";
+        return """#ifdef FREECIV_JSON_CONNECTION
+  field_addr.name = \"{name}\";
 #endif /* FREECIV_JSON_CONNECTION */
-'''%self.__dict__ \
+""".format(**self.__dict__) \
                + self.get_put_real(deltafragment);
 
     # The code which put this field before it is wrapped in address adding.
     def get_put_real(self,deltafragment):
         if self.dataio_type=="bitvector":
-            return "DIO_BV_PUT(&dout, &field_addr, packet->%(name)s);"%self.__dict__
+            return "DIO_BV_PUT(&dout, &field_addr, packet->{name});".format(**self.__dict__)
 
         if self.struct_type=="float" and not self.is_array:
-            return "  DIO_PUT(%(dataio_type)s, &dout, &field_addr, real_packet->%(name)s, %(float_factor)d);"%self.__dict__
+            return "  DIO_PUT({dataio_type}, &dout, &field_addr, real_packet->{name}, {float_factor:d});".format(**self.__dict__)
 
         if self.dataio_type in ["worklist", "cm_parameter"]:
-            return "  DIO_PUT(%(dataio_type)s, &dout, &field_addr, &real_packet->%(name)s);"%self.__dict__
+            return "  DIO_PUT({dataio_type}, &dout, &field_addr, &real_packet->{name});".format(**self.__dict__)
 
         if self.dataio_type in ["memory"]:
-            return "  DIO_PUT(%(dataio_type)s, &dout, &field_addr, &real_packet->%(name)s, %(array_size_u)s);"%self.__dict__
+            return "  DIO_PUT({dataio_type}, &dout, &field_addr, &real_packet->{name}, {array_size_u});".format(**self.__dict__)
 
         arr_types=["string","estring","city_map"]
         if (self.dataio_type in arr_types and self.is_array==1) or \
            (self.dataio_type not in arr_types and self.is_array==0):
-            return "  DIO_PUT(%(dataio_type)s, &dout, &field_addr, real_packet->%(name)s);"%self.__dict__
+            return "  DIO_PUT({dataio_type}, &dout, &field_addr, real_packet->{name});".format(**self.__dict__)
         if self.is_struct:
             if self.is_array==2:
-                c="DIO_PUT(%(dataio_type)s, &dout, &field_addr, &real_packet->%(name)s[i][j]);"%self.__dict__
+                c = "DIO_PUT({dataio_type}, &dout, &field_addr, &real_packet->{name}[i][j]);".format(**self.__dict__)
             else:
-                c="DIO_PUT(%(dataio_type)s, &dout, &field_addr, &real_packet->%(name)s[i]);"%self.__dict__
+                c = "DIO_PUT({dataio_type}, &dout, &field_addr, &real_packet->{name}[i]);".format(**self.__dict__)
         elif self.dataio_type=="string" or self.dataio_type=="estring":
-            c="DIO_PUT(%(dataio_type)s, &dout, &field_addr, real_packet->%(name)s[i]);"%self.__dict__
+            c = "DIO_PUT({dataio_type}, &dout, &field_addr, real_packet->{name}[i]);".format(**self.__dict__)
             array_size_u=self.array_size1_u
 
         elif self.struct_type=="float":
             if self.is_array==2:
-                c="  DIO_PUT(%(dataio_type)s, &dout, &field_addr, real_packet->%(name)s[i][j], %(float_factor)d);"%self.__dict__
+                c = "  DIO_PUT({dataio_type}, &dout, &field_addr, real_packet->{name}[i][j], {float_factor:d});".format(**self.__dict__)
             else:
-                c="  DIO_PUT(%(dataio_type)s, &dout, &field_addr, real_packet->%(name)s[i], %(float_factor)d);"%self.__dict__
+                c = "  DIO_PUT({dataio_type}, &dout, &field_addr, real_packet->{name}[i], {float_factor:d});".format(**self.__dict__)
         else:
             if self.is_array==2:
-                c="DIO_PUT(%(dataio_type)s, &dout, &field_addr, real_packet->%(name)s[i][j]);"%self.__dict__
+                c = "DIO_PUT({dataio_type}, &dout, &field_addr, real_packet->{name}[i][j]);".format(**self.__dict__)
             else:
-                c="DIO_PUT(%(dataio_type)s, &dout, &field_addr, real_packet->%(name)s[i]);"%self.__dict__
+                c = "DIO_PUT({dataio_type}, &dout, &field_addr, real_packet->{name}[i]);".format(**self.__dict__)
 
         if deltafragment and self.diff and self.is_array == 1:
-            return '''
-    {
+            return """
+    {{
       int i;
 
 #ifdef FREECIV_JSON_CONNECTION
       int count = 0;
 
-      for (i = 0; i < %(array_size_u)s; i++) {
-        if (old->%(name)s[i] != real_packet->%(name)s[i]) {
+      for (i = 0; i < {array_size_u}; i++) {{
+        if (old->{name}[i] != real_packet->{name}[i]) {{
           count++;
-        }
-      }
+        }}
+      }}
       /* Create the array. */
       DIO_PUT(farray, &dout, &field_addr, count + 1);
 
@@ -575,10 +575,10 @@ class Field:
       count = 0;
 #endif /* FREECIV_JSON_CONNECTION */
 
-      fc_assert(%(array_size_u)s < 255);
+      fc_assert({array_size_u} < 255);
 
-      for (i = 0; i < %(array_size_u)s; i++) {
-        if (old->%(name)s[i] != real_packet->%(name)s[i]) {
+      for (i = 0; i < {array_size_u}; i++) {{
+        if (old->{name}[i] != real_packet->{name}[i]) {{
 #ifdef FREECIV_JSON_CONNECTION
           /* Next diff array element. */
           field_addr.sub_location->number = count - 1;
@@ -595,20 +595,20 @@ class Field:
           /* Content address. */
           field_addr.sub_location->sub_location->number = 1;
 #endif /* FREECIV_JSON_CONNECTION */
-          %(c)s
+          {c}
 
 #ifdef FREECIV_JSON_CONNECTION
           /* Exit diff array element. */
           free(field_addr.sub_location->sub_location);
           field_addr.sub_location->sub_location = NULL;
 #endif /* FREECIV_JSON_CONNECTION */
-        }
-      }
+        }}
+      }}
 #ifdef FREECIV_JSON_CONNECTION
       field_addr.sub_location->number = count - 1;
 
       /* Create the diff array element. */
-      DIO_PUT(farray, &dout, &field_addr, %(array_size_u)s);
+      DIO_PUT(farray, &dout, &field_addr, {array_size_u});
 
       /* Enter diff array element. Point to index address. */
       field_addr.sub_location->sub_location = plocation_elem_new(0);
@@ -624,81 +624,81 @@ class Field:
       free(field_addr.sub_location);
       field_addr.sub_location = NULL;
 #endif /* FREECIV_JSON_CONNECTION */
-    }'''%self.get_dict(vars())
+    }}""".format(**self.get_dict(vars()))
         if self.is_array == 2 and self.dataio_type != "string" \
            and self.dataio_type != "estring":
-            return '''
-    {
+            return """
+    {{
       int i, j;
 
 #ifdef FREECIV_JSON_CONNECTION
       /* Create the outer array. */
-      DIO_PUT(farray, &dout, &field_addr, %(array_size_u)s);
+      DIO_PUT(farray, &dout, &field_addr, {array_size_u});
 
       /* Enter the outer array. */
       field_addr.sub_location = plocation_elem_new(0);
 #endif /* FREECIV_JSON_CONNECTION */
 
-      for (i = 0; i < %(array_size1_u)s; i++) {
+      for (i = 0; i < {array_size1_u}; i++) {{
 #ifdef FREECIV_JSON_CONNECTION
         /* Next inner array (an element in the outer array). */
         field_addr.sub_location->number = i;
 
         /* Create the inner array. */
-        DIO_PUT(farray, &dout, &field_addr, %(array_size_u)s);
+        DIO_PUT(farray, &dout, &field_addr, {array_size_u});
 
         /* Enter the inner array. */
         field_addr.sub_location->sub_location = plocation_elem_new(0);
 #endif /* FREECIV_JSON_CONNECTION */
 
-        for (j = 0; j < %(array_size2_u)s; j++) {
+        for (j = 0; j < {array_size2_u}; j++) {{
 #ifdef FREECIV_JSON_CONNECTION
           /* Next element (in the inner array). */
           field_addr.sub_location->sub_location->number = j;
 #endif /* FREECIV_JSON_CONNECTION */
-          %(c)s
-        }
+          {c}
+        }}
 
 #ifdef FREECIV_JSON_CONNECTION
         /* Exit the inner array. */
         free(field_addr.sub_location->sub_location);
         field_addr.sub_location->sub_location = NULL;
 #endif /* FREECIV_JSON_CONNECTION */
-      }
+      }}
 
 #ifdef FREECIV_JSON_CONNECTION
       /* Exit the outer array. */
       free(field_addr.sub_location);
       field_addr.sub_location = NULL;
 #endif /* FREECIV_JSON_CONNECTION */
-    }'''%self.get_dict(vars())
+    }}""".format(**self.get_dict(vars()))
         else:
-            return '''
-    {
+            return """
+    {{
       int i;
 
 #ifdef FREECIV_JSON_CONNECTION
       /* Create the array. */
-      DIO_PUT(farray, &dout, &field_addr, %(array_size_u)s);
+      DIO_PUT(farray, &dout, &field_addr, {array_size_u});
 
       /* Enter the array. */
       field_addr.sub_location = plocation_elem_new(0);
 #endif /* FREECIV_JSON_CONNECTION */
 
-      for (i = 0; i < %(array_size_u)s; i++) {
+      for (i = 0; i < {array_size_u}; i++) {{
 #ifdef FREECIV_JSON_CONNECTION
         /* Next array element. */
         field_addr.sub_location->number = i;
 #endif /* FREECIV_JSON_CONNECTION */
-        %(c)s
-      }
+        {c}
+      }}
 
 #ifdef FREECIV_JSON_CONNECTION
       /* Exit array. */
       free(field_addr.sub_location);
       field_addr.sub_location = NULL;
 #endif /* FREECIV_JSON_CONNECTION */
-    }'''%self.get_dict(vars())
+    }}""".format(**self.get_dict(vars()))
 
     # Returns a code fragment which will get the field if the
     # "fields" bitvector says so.
@@ -706,109 +706,109 @@ class Field:
         get=self.get_get(deltafragment)
         if fold_bool_into_header and self.struct_type=="bool" and \
            not self.is_array:
-            return  "  real_packet->%(name)s = BV_ISSET(fields, %(i)d);\n"%self.get_dict(vars())
+            return  "  real_packet->{name} = BV_ISSET(fields, {i:d});\n".format(**self.get_dict(vars()))
         get=prefix("    ",get)
         log_macro=packet.log_macro
         if packet.gen_log:
-            f="    %(log_macro)s(\"  got field '%(name)s'\");\n"%self.get_dict(vars())
+            f = "    {log_macro}(\"  got field '{name}'\");\n".format(**self.get_dict(vars()))
         else:
             f=""
-        return '''  if (BV_ISSET(fields, %(i)d)) {
-%(f)s%(get)s
-  }
-'''%self.get_dict(vars())
+        return """  if (BV_ISSET(fields, {i:d})) {{
+{f}{get}
+  }}
+""".format(**self.get_dict(vars()))
 
     # Returns code which get this field.
     def get_get(self,deltafragment):
-        return '''#ifdef FREECIV_JSON_CONNECTION
-field_addr.name = \"%(name)s\";
+        return """#ifdef FREECIV_JSON_CONNECTION
+field_addr.name = \"{name}\";
 #endif /* FREECIV_JSON_CONNECTION */
-'''%self.__dict__ \
+""".format(**self.__dict__) \
                + self.get_get_real(deltafragment);
 
     # The code which get this field before it is wrapped in address adding.
     def get_get_real(self,deltafragment):
         if self.struct_type=="float" and not self.is_array:
-            return '''if (!DIO_GET(%(dataio_type)s, &din, &field_addr, &real_packet->%(name)s, %(float_factor)d)) {
-  RECEIVE_PACKET_FIELD_ERROR(%(name)s);
-}'''%self.__dict__
+            return """if (!DIO_GET({dataio_type}, &din, &field_addr, &real_packet->{name}, {float_factor:d})) {{
+  RECEIVE_PACKET_FIELD_ERROR({name});
+}}""".format(**self.__dict__)
         if self.dataio_type=="bitvector":
-            return '''if (!DIO_BV_GET(&din, &field_addr, real_packet->%(name)s)) {
-  RECEIVE_PACKET_FIELD_ERROR(%(name)s);
-}'''%self.__dict__
+            return """if (!DIO_BV_GET(&din, &field_addr, real_packet->{name})) {{
+  RECEIVE_PACKET_FIELD_ERROR({name});
+}}""".format(**self.__dict__)
         if self.dataio_type in ["string","estring","city_map"] and \
            self.is_array!=2:
-            return '''if (!DIO_GET(%(dataio_type)s, &din, &field_addr, real_packet->%(name)s, sizeof(real_packet->%(name)s))) {
-  RECEIVE_PACKET_FIELD_ERROR(%(name)s);
-}'''%self.__dict__
+            return """if (!DIO_GET({dataio_type}, &din, &field_addr, real_packet->{name}, sizeof(real_packet->{name}))) {{
+  RECEIVE_PACKET_FIELD_ERROR({name});
+}}""".format(**self.__dict__)
         if self.is_struct and self.is_array==0:
-            return '''if (!DIO_GET(%(dataio_type)s, &din, &field_addr, &real_packet->%(name)s)) {
-  RECEIVE_PACKET_FIELD_ERROR(%(name)s);
-}'''%self.__dict__
+            return """if (!DIO_GET({dataio_type}, &din, &field_addr, &real_packet->{name})) {{
+  RECEIVE_PACKET_FIELD_ERROR({name});
+}}""".format(**self.__dict__)
         if not self.is_array:
             if self.struct_type in ["int","bool"]:
-                return '''if (!DIO_GET(%(dataio_type)s, &din, &field_addr, &real_packet->%(name)s)) {
-  RECEIVE_PACKET_FIELD_ERROR(%(name)s);
-}'''%self.__dict__
+                return """if (!DIO_GET({dataio_type}, &din, &field_addr, &real_packet->{name})) {{
+  RECEIVE_PACKET_FIELD_ERROR({name});
+}}""".format(**self.__dict__)
             else:
-                return '''{
+                return """{{
   int readin;
 
-  if (!DIO_GET(%(dataio_type)s, &din, &field_addr, &readin)) {
-    RECEIVE_PACKET_FIELD_ERROR(%(name)s);
-  }
-  real_packet->%(name)s = readin;
-}'''%self.__dict__
+  if (!DIO_GET({dataio_type}, &din, &field_addr, &readin)) {{
+    RECEIVE_PACKET_FIELD_ERROR({name});
+  }}
+  real_packet->{name} = readin;
+}}""".format(**self.__dict__)
 
         if self.is_struct:
             if self.is_array==2:
-                c='''if (!DIO_GET(%(dataio_type)s, &din, &field_addr, &real_packet->%(name)s[i][j])) {
-      RECEIVE_PACKET_FIELD_ERROR(%(name)s);
-    }'''%self.__dict__
+                c = """if (!DIO_GET({dataio_type}, &din, &field_addr, &real_packet->{name}[i][j])) {{
+      RECEIVE_PACKET_FIELD_ERROR({name});
+    }}""".format(**self.__dict__)
             else:
-                c='''if (!DIO_GET(%(dataio_type)s, &din, &field_addr, &real_packet->%(name)s[i])) {
-      RECEIVE_PACKET_FIELD_ERROR(%(name)s);
-    }'''%self.__dict__
+                c = """if (!DIO_GET({dataio_type}, &din, &field_addr, &real_packet->{name}[i])) {{
+      RECEIVE_PACKET_FIELD_ERROR({name});
+    }}""".format(**self.__dict__)
         elif self.dataio_type=="string" or self.dataio_type=="estring":
-            c='''if (!DIO_GET(%(dataio_type)s, &din, &field_addr, real_packet->%(name)s[i], sizeof(real_packet->%(name)s[i]))) {
-      RECEIVE_PACKET_FIELD_ERROR(%(name)s);
-    }'''%self.__dict__
+            c = """if (!DIO_GET({dataio_type}, &din, &field_addr, real_packet->{name}[i], sizeof(real_packet->{name}[i]))) {{
+      RECEIVE_PACKET_FIELD_ERROR({name});
+    }}""".format(**self.__dict__)
         elif self.struct_type=="float":
             if self.is_array==2:
-                c='''if (!DIO_GET(%(dataio_type)s, &din, &field_addr, &real_packet->%(name)s[i][j], %(float_factor)d)) {
-      RECEIVE_PACKET_FIELD_ERROR(%(name)s);
-    }'''%self.__dict__
+                c = """if (!DIO_GET({dataio_type}, &din, &field_addr, &real_packet->{name}[i][j], {float_factor:d})) {{
+      RECEIVE_PACKET_FIELD_ERROR({name});
+    }}""".format(**self.__dict__)
             else:
-                c='''if (!DIO_GET(%(dataio_type)s, &din, &field_addr, &real_packet->%(name)s[i], %(float_factor)d)) {
-      RECEIVE_PACKET_FIELD_ERROR(%(name)s);
-    }'''%self.__dict__
+                c = """if (!DIO_GET({dataio_type}, &din, &field_addr, &real_packet->{name}[i], {float_factor:d})) {{
+      RECEIVE_PACKET_FIELD_ERROR({name});
+    }}""".format(**self.__dict__)
         elif self.is_array==2:
             if self.struct_type in ["int","bool"]:
-                c='''if (!DIO_GET(%(dataio_type)s, &din, &field_addr, &real_packet->%(name)s[i][j])) {
-      RECEIVE_PACKET_FIELD_ERROR(%(name)s);
-    }'''%self.__dict__
+                c = """if (!DIO_GET({dataio_type}, &din, &field_addr, &real_packet->{name}[i][j])) {{
+      RECEIVE_PACKET_FIELD_ERROR({name});
+    }}""".format(**self.__dict__)
             else:
-                c='''{
+                c = """{{
       int readin;
 
-      if (!DIO_GET(%(dataio_type)s, &din, &field_addr, &readin)) {
-        RECEIVE_PACKET_FIELD_ERROR(%(name)s);
-      }
-      real_packet->%(name)s[i][j] = readin;
-    }'''%self.__dict__
+      if (!DIO_GET({dataio_type}, &din, &field_addr, &readin)) {{
+        RECEIVE_PACKET_FIELD_ERROR({name});
+      }}
+      real_packet->{name}[i][j] = readin;
+    }}""".format(**self.__dict__)
         elif self.struct_type in ["int","bool"]:
-            c='''if (!DIO_GET(%(dataio_type)s, &din, &field_addr, &real_packet->%(name)s[i])) {
-      RECEIVE_PACKET_FIELD_ERROR(%(name)s);
-    }'''%self.__dict__
+            c = """if (!DIO_GET({dataio_type}, &din, &field_addr, &real_packet->{name}[i])) {{
+      RECEIVE_PACKET_FIELD_ERROR({name});
+    }}""".format(**self.__dict__)
         else:
-            c='''{
+            c = """{{
       int readin;
 
-      if (!DIO_GET(%(dataio_type)s, &din, &field_addr, &readin)) {
-        RECEIVE_PACKET_FIELD_ERROR(%(name)s);
-      }
-      real_packet->%(name)s[i] = readin;
-    }'''%self.__dict__
+      if (!DIO_GET({dataio_type}, &din, &field_addr, &readin)) {{
+        RECEIVE_PACKET_FIELD_ERROR({name});
+      }}
+      real_packet->{name}[i] = readin;
+    }}""".format(**self.__dict__)
 
         if self.is_array==2:
             array_size_u=self.array_size1_u
@@ -819,29 +819,29 @@ field_addr.name = \"%(name)s\";
 
         if not self.diff or self.dataio_type=="memory":
             if array_size_u != array_size_d:
-                extra='''
-  if (%(array_size_u)s > %(array_size_d)s) {
-    RECEIVE_PACKET_FIELD_ERROR(%(name)s, ": truncation array");
-  }'''%self.get_dict(vars())
+                extra = """
+  if ({array_size_u} > {array_size_d}) {{
+    RECEIVE_PACKET_FIELD_ERROR({name}, ": truncation array");
+  }}""".format(**self.get_dict(vars()))
             else:
                 extra=""
             if self.dataio_type=="memory":
-                return '''%(extra)s
-  if (!DIO_GET(%(dataio_type)s, &din, &field_addr, real_packet->%(name)s, %(array_size_u)s)) {
-    RECEIVE_PACKET_FIELD_ERROR(%(name)s);
-  }'''%self.get_dict(vars())
+                return """{extra}
+  if (!DIO_GET({dataio_type}, &din, &field_addr, real_packet->{name}, {array_size_u})) {{
+    RECEIVE_PACKET_FIELD_ERROR({name});
+  }}""".format(**self.get_dict(vars()))
             elif self.is_array==2 and self.dataio_type!="string" \
                  and self.dataio_type!="estring":
-                return '''
-{
+                return """
+{{
   int i, j;
 
 #ifdef FREECIV_JSON_CONNECTION
   /* Enter outer array. */
   field_addr.sub_location = plocation_elem_new(0);
 #endif /* FREECIV_JSON_CONNECTION */
-%(extra)s
-  for (i = 0; i < %(array_size1_u)s; i++) {
+{extra}
+  for (i = 0; i < {array_size1_u}; i++) {{
 #ifdef FREECIV_JSON_CONNECTION
     /* Update address of outer array element (inner array). */
     field_addr.sub_location->number = i;
@@ -849,60 +849,60 @@ field_addr.name = \"%(name)s\";
     /* Enter inner array. */
     field_addr.sub_location->sub_location = plocation_elem_new(0);
 #endif /* FREECIV_JSON_CONNECTION */
-    for (j = 0; j < %(array_size2_u)s; j++) {
+    for (j = 0; j < {array_size2_u}; j++) {{
 #ifdef FREECIV_JSON_CONNECTION
       /* Update address of element in inner array. */
       field_addr.sub_location->sub_location->number = j;
 #endif /* FREECIV_JSON_CONNECTION */
-      %(c)s
-    }
+      {c}
+    }}
 
 #ifdef FREECIV_JSON_CONNECTION
     /* Exit inner array. */
     free(field_addr.sub_location->sub_location);
     field_addr.sub_location->sub_location = NULL;
 #endif /* FREECIV_JSON_CONNECTION */
-  }
+  }}
 
 #ifdef FREECIV_JSON_CONNECTION
   /* Exit outer array. */
   free(field_addr.sub_location);
   field_addr.sub_location = NULL;
 #endif /* FREECIV_JSON_CONNECTION */
-}'''%self.get_dict(vars())
+}}""".format(**self.get_dict(vars()))
             else:
-                return '''
-{
+                return """
+{{
   int i;
 
 #ifdef FREECIV_JSON_CONNECTION
   /* Enter array. */
   field_addr.sub_location = plocation_elem_new(0);
 #endif /* FREECIV_JSON_CONNECTION */
-%(extra)s
-  for (i = 0; i < %(array_size_u)s; i++) {
+{extra}
+  for (i = 0; i < {array_size_u}; i++) {{
 #ifdef FREECIV_JSON_CONNECTION
     field_addr.sub_location->number = i;
 #endif /* FREECIV_JSON_CONNECTION */
-    %(c)s
-  }
+    {c}
+  }}
 
 #ifdef FREECIV_JSON_CONNECTION
   /* Exit array. */
   free(field_addr.sub_location);
   field_addr.sub_location = NULL;
 #endif /* FREECIV_JSON_CONNECTION */
-}'''%self.get_dict(vars())
+}}""".format(**self.get_dict(vars()))
         elif deltafragment and self.diff and self.is_array == 1:
-            return '''
-{
+            return """
+{{
 #ifdef FREECIV_JSON_CONNECTION
 int count;
 
 /* Enter array. */
 field_addr.sub_location = plocation_elem_new(0);
 
-for (count = 0;; count++) {
+for (count = 0;; count++) {{
   int i;
 
   field_addr.sub_location->number = count;
@@ -910,14 +910,14 @@ for (count = 0;; count++) {
   /* Enter diff array element (start at the index address). */
   field_addr.sub_location->sub_location = plocation_elem_new(0);
 #else /* FREECIV_JSON_CONNECTION */
-while (TRUE) {
+while (TRUE) {{
   int i;
 #endif /* FREECIV_JSON_CONNECTION */
 
-  if (!DIO_GET(uint8, &din, &field_addr, &i)) {
-    RECEIVE_PACKET_FIELD_ERROR(%(name)s);
-  }
-  if (i == 255) {
+  if (!DIO_GET(uint8, &din, &field_addr, &i)) {{
+    RECEIVE_PACKET_FIELD_ERROR({name});
+  }}
+  if (i == 255) {{
 #ifdef FREECIV_JSON_CONNECTION
     /* Exit diff array element. */
     free(field_addr.sub_location->sub_location);
@@ -929,42 +929,42 @@ while (TRUE) {
 #endif /* FREECIV_JSON_CONNECTION */
 
     break;
-  }
-  if (i > %(array_size_u)s) {
-    RECEIVE_PACKET_FIELD_ERROR(%(name)s,
-                               \": unexpected value %%%%d \"
-                               \"(> %(array_size_u)s) in array diff\",
+  }}
+  if (i > {array_size_u}) {{
+    RECEIVE_PACKET_FIELD_ERROR({name},
+                               \": unexpected value %%d \"
+                               \"(> {array_size_u}) in array diff\",
                                i);
-  } else {
+  }} else {{
 #ifdef FREECIV_JSON_CONNECTION
     /* Content address. */
     field_addr.sub_location->sub_location->number = 1;
 #endif /* FREECIV_JSON_CONNECTION */
-    %(c)s
-  }
+    {c}
+  }}
 
 #ifdef FREECIV_JSON_CONNECTION
   /* Exit diff array element. */
   free(field_addr.sub_location->sub_location);
   field_addr.sub_location->sub_location = NULL;
 #endif /* FREECIV_JSON_CONNECTION */
-}
+}}
 
 #ifdef FREECIV_JSON_CONNECTION
 /* Exit array. */
 free(field_addr.sub_location);
 field_addr.sub_location = NULL;
 #endif /* FREECIV_JSON_CONNECTION */
-}'''%self.get_dict(vars())
+}}""".format(**self.get_dict(vars()))
         else:
-            return '''
-{
+            return """
+{{
   int i;
 
-  for (i = 0; i < %(array_size_u)s; i++) {
-    %(c)s
-  }
-}'''%self.get_dict(vars())
+  for (i = 0; i < {array_size_u}; i++) {{
+    {c}
+  }}
+}}""".format(**self.get_dict(vars()))
 
 
 # Class which represents a capability variant.
@@ -1034,7 +1034,7 @@ class Variant:
             self.extra_send_args3=", "+self.extra_send_args3
 
         if not self.no_packet:
-            self.extra_send_args=', const struct %(packet_name)s *packet'%self.__dict__+self.extra_send_args
+            self.extra_send_args = ", const struct {packet_name} *packet".format(**self.__dict__) + self.extra_send_args
             self.extra_send_args2=', packet'+self.extra_send_args2
 
         if self.want_force:
@@ -1042,17 +1042,17 @@ class Variant:
             self.extra_send_args2=self.extra_send_args2+', force_to_send'
             self.extra_send_args3=self.extra_send_args3+', bool force_to_send'
 
-        self.receive_prototype='static struct %(packet_name)s *receive_%(name)s(struct connection *pc)'%self.__dict__
-        self.send_prototype='static int send_%(name)s(struct connection *pc%(extra_send_args)s)'%self.__dict__
+        self.receive_prototype = "static struct {packet_name} *receive_{name}(struct connection *pc)".format(**self.__dict__)
+        self.send_prototype = "static int send_{name}(struct connection *pc{extra_send_args})".format(**self.__dict__)
 
 
         if self.no_packet:
-            self.send_handler='phandlers->send[%(type)s].no_packet = (int(*)(struct connection *)) send_%(name)s;'%self.__dict__
+            self.send_handler = "phandlers->send[{type}].no_packet = (int(*)(struct connection *)) send_{name};".format(**self.__dict__)
         elif self.want_force:
-            self.send_handler='phandlers->send[%(type)s].force_to_send = (int(*)(struct connection *, const void *, bool)) send_%(name)s;'%self.__dict__
+            self.send_handler = "phandlers->send[{type}].force_to_send = (int(*)(struct connection *, const void *, bool)) send_{name};".format(**self.__dict__)
         else:
-            self.send_handler='phandlers->send[%(type)s].packet = (int(*)(struct connection *, const void *)) send_%(name)s;'%self.__dict__
-        self.receive_handler='phandlers->receive[%(type)s] = (void *(*)(struct connection *)) receive_%(name)s;'%self.__dict__
+            self.send_handler = "phandlers->send[{type}].packet = (int(*)(struct connection *, const void *)) send_{name};".format(**self.__dict__)
+        self.receive_handler = "phandlers->receive[{type}] = (void *(*)(struct connection *)) receive_{name};".format(**self.__dict__)
 
     # See Field.get_dict
     def get_dict(self,vars_):
@@ -1066,67 +1066,67 @@ class Variant:
         names=map(lambda x:'"'+x.name+'"',self.other_fields)
         names=", ".join(names)
 
-        return '''static int stats_%(name)s_sent;
-static int stats_%(name)s_discarded;
-static int stats_%(name)s_counters[%(bits)d];
-static char *stats_%(name)s_names[] = {%(names)s};
+        return """static int stats_{name}_sent;
+static int stats_{name}_discarded;
+static int stats_{name}_counters[{bits:d}];
+static char *stats_{name}_names[] = {{{names}}};
 
-'''%self.get_dict(vars())
+""".format(**self.get_dict(vars()))
 
     # Returns a code fragment which declares the packet specific
     # bitvector. Each bit in this bitvector represents one non-key
     # field.
     def get_bitvector(self):
-        return "BV_DEFINE(%(name)s_fields, %(bits)d);\n"%self.__dict__
+        return "BV_DEFINE({name}_fields, {bits});\n".format(**self.__dict__)
 
     # Returns a code fragment which is the packet specific part of
     # the delta_stats_report() function.
     def get_report_part(self):
-        return '''
-  if (stats_%(name)s_sent > 0
-      && stats_%(name)s_discarded != stats_%(name)s_sent) {
-    log_test(\"%(name)s %%d out of %%d got discarded\",
-      stats_%(name)s_discarded, stats_%(name)s_sent);
-    for (i = 0; i < %(bits)d; i++) {
-      if (stats_%(name)s_counters[i] > 0) {
-        log_test(\"  %%4d / %%4d: %%2d = %%s\",
-          stats_%(name)s_counters[i],
-          (stats_%(name)s_sent - stats_%(name)s_discarded),
-          i, stats_%(name)s_names[i]);
-      }
-    }
-  }
-'''%self.__dict__
+        return """
+  if (stats_{name}_sent > 0
+      && stats_{name}_discarded != stats_{name}_sent) {{
+    log_test(\"{name} %d out of %d got discarded\",
+      stats_{name}_discarded, stats_{name}_sent);
+    for (i = 0; i < {bits}; i++) {{
+      if (stats_{name}_counters[i] > 0) {{
+        log_test(\"  %4d / %4d: %2d = %s\",
+          stats_{name}_counters[i],
+          (stats_{name}_sent - stats_{name}_discarded),
+          i, stats_{name}_names[i]);
+      }}
+    }}
+  }}
+""".format(**self.__dict__)
 
     # Returns a code fragment which is the packet specific part of
     # the delta_stats_reset() function.
     def get_reset_part(self):
-        return '''
-  stats_%(name)s_sent = 0;
-  stats_%(name)s_discarded = 0;
-  memset(stats_%(name)s_counters, 0,
-         sizeof(stats_%(name)s_counters));
-'''%self.__dict__
+        return """
+  stats_{name}_sent = 0;
+  stats_{name}_discarded = 0;
+  memset(stats_{name}_counters, 0,
+         sizeof(stats_{name}_counters));
+""".format(**self.__dict__)
 
     # Returns a code fragment which is the implementation of the hash
     # function. The hash function is using all key fields.
     def get_hash(self):
         if len(self.key_fields)==0:
-            return "#define hash_%(name)s hash_const\n\n"%self.__dict__
+            return "#define hash_{name} hash_const\n\n".format(**self.__dict__)
         else:
-            intro='''static genhash_val_t hash_%(name)s(const void *vkey)
-{
-'''%self.__dict__
+            intro = """static genhash_val_t hash_{name}(const void *vkey)
+{{
+""".format(**self.__dict__)
 
-            body='''  const struct %(packet_name)s *key = (const struct %(packet_name)s *) vkey;
+            body = """  const struct {packet_name} *key = (const struct {packet_name} *) vkey;
 
-'''%self.__dict__
+""".format(**self.__dict__)
 
             keys=list(map(lambda x:"key->"+x.name,self.key_fields))
             if len(keys)==1:
                 a=keys[0]
             elif len(keys)==2:
-                a="(%s << 8) ^ %s"%(keys[0], keys[1])
+                a="({} << 8) ^ {}".format(*keys)
             else:
                 assert 0
             body=body+('  return %s;\n'%a)
@@ -1138,19 +1138,19 @@ static char *stats_%(name)s_names[] = {%(names)s};
     # function is used for the hash table.
     def get_cmp(self):
         if len(self.key_fields)==0:
-            return "#define cmp_%(name)s cmp_const\n\n"%self.__dict__
+            return "#define cmp_{name} cmp_const\n\n".format(**self.__dict__)
         else:
-            intro='''static bool cmp_%(name)s(const void *vkey1, const void *vkey2)
-{
-'''%self.__dict__
+            intro = """static bool cmp_{name}(const void *vkey1, const void *vkey2)
+{{
+""".format(**self.__dict__)
             body=""
-            body=body+'''  const struct %(packet_name)s *key1 = (const struct %(packet_name)s *) vkey1;
-  const struct %(packet_name)s *key2 = (const struct %(packet_name)s *) vkey2;
+            body += """  const struct {packet_name} *key1 = (const struct {packet_name} *) vkey1;
+  const struct {packet_name} *key2 = (const struct {packet_name} *) vkey2;
 
-'''%self.__dict__
+""".format(**self.__dict__)
             for field in self.key_fields:
-                body=body+'''  return key1->%s == key2->%s;
-'''%(field.name,field.name)
+                body += """  return key1->{field.name} == key2->{field.name};
+""".format(field = field)
             extro="}\n"
             return intro+body+extro
 
@@ -1298,11 +1298,11 @@ static char *stats_%(name)s_names[] = {%(names)s};
             s=""
 
         if self.is_info != "no":
-            body=body+'''
-  if (different == 0) {
-%(fl)s%(s)s<pre2>    return 0;
-  }
-'''%self.get_dict(vars())
+            body += """
+  if (different == 0) {{
+{fl}{s}<pre2>    return 0;
+  }}
+""".format(**self.get_dict(vars()))
 
         body=body+'''
 #ifdef FREECIV_JSON_CONNECTION
@@ -1406,8 +1406,8 @@ static char *stats_%(name)s_names[] = {%(names)s};
 
     # Helper for get_receive()
     def get_delta_receive_body(self):
-        key1=map(lambda x:"    %s %s = real_packet->%s;"%(x.struct_type,x.name,x.name),self.key_fields)
-        key2=map(lambda x:"    real_packet->%s = %s;"%(x.name,x.name),self.key_fields)
+        key1 = map("    {0.struct_type} {0.name} = real_packet->{0.name};".format, self.key_fields)
+        key2 = map("    real_packet->{0.name} = {0.name};".format, self.key_fields)
         key1="\n".join(key1)
         key2="\n".join(key2)
         if key1: key1=key1+"\n\n"
@@ -1416,24 +1416,24 @@ static char *stats_%(name)s_names[] = {%(names)s};
             fl='    %(log_macro)s("  no old info");\n'
         else:
             fl=""
-        body='''
+        body = """
 #ifdef FREECIV_DELTA_PROTOCOL
-  if (NULL == *hash) {
-    *hash = genhash_new_full(hash_%(name)s, cmp_%(name)s,
+  if (NULL == *hash) {{
+    *hash = genhash_new_full(hash_{name}, cmp_{name},
                              NULL, NULL, NULL, free);
-  }
+  }}
 
-  if (genhash_lookup(*hash, real_packet, (void **) &old)) {
+  if (genhash_lookup(*hash, real_packet, (void **) &old)) {{
     *real_packet = *old;
-  } else {
-%(key1)s%(fl)s    memset(real_packet, 0, sizeof(*real_packet));%(key2)s
-  }
+  }} else {{
+{key1}{fl}    memset(real_packet, 0, sizeof(*real_packet));{key2}
+  }}
 
-'''%self.get_dict(vars())
+""".format(**self.get_dict(vars()))
         for i, field in enumerate(self.other_fields):
             body=body+field.get_get_wrapper(self,i,1)
 
-        extro='''
+        extro="""
   if (NULL == old) {
     old = fc_malloc(sizeof(*old));
     *old = *real_packet;
@@ -1441,7 +1441,7 @@ static char *stats_%(name)s_names[] = {%(names)s};
   } else {
     *old = *real_packet;
   }
-'''%self.get_dict(vars())
+"""
 
         # Cancel some is-info packets.
         for i in self.cancel:
@@ -1578,7 +1578,7 @@ class Packet:
             self.extra_send_args3=", "+self.extra_send_args3
 
         if not self.no_packet:
-            self.extra_send_args=', const struct %(name)s *packet'%self.__dict__+self.extra_send_args
+            self.extra_send_args = ", const struct {name} *packet".format(**self.__dict__) + self.extra_send_args
             self.extra_send_args2=', packet'+self.extra_send_args2
 
         if self.want_force:
@@ -1586,13 +1586,13 @@ class Packet:
             self.extra_send_args2=self.extra_send_args2+', force_to_send'
             self.extra_send_args3=self.extra_send_args3+', bool force_to_send'
 
-        self.send_prototype='int send_%(name)s(struct connection *pc%(extra_send_args)s)'%self.__dict__
+        self.send_prototype = "int send_{name}(struct connection *pc{extra_send_args})".format(**self.__dict__)
         if self.want_lsend:
-            self.lsend_prototype='void lsend_%(name)s(struct conn_list *dest%(extra_send_args)s)'%self.__dict__
+            self.lsend_prototype = "void lsend_{name}(struct conn_list *dest{extra_send_args})".format(**self.__dict__)
         if self.want_dsend:
-            self.dsend_prototype='int dsend_%(name)s(struct connection *pc%(extra_send_args3)s)'%self.__dict__
+            self.dsend_prototype = "int dsend_{name}(struct connection *pc{extra_send_args3})".format(**self.__dict__)
             if self.want_lsend:
-                self.dlsend_prototype='void dlsend_%(name)s(struct conn_list *dest%(extra_send_args3)s)'%self.__dict__
+                self.dlsend_prototype = "void dlsend_{name}(struct conn_list *dest{extra_send_args3})".format(**self.__dict__)
 
         # create cap variants
         all_caps = self.all_caps    # valid, since self.fields is already set
@@ -1620,7 +1620,7 @@ class Packet:
 
     # Returns a code fragment which contains the struct for this packet.
     def get_struct(self):
-        intro="struct %(name)s {\n"%self.__dict__
+        intro = "struct {name} {{\n".format(**self.__dict__)
         extro="};\n\n"
 
         body=""
@@ -1672,19 +1672,19 @@ class Packet:
             func="packet"
             args=", packet"
 
-        return '''%(send_prototype)s
-{
-  if (!pc->used) {
-    log_error("WARNING: trying to send data to the closed connection %%s",
+        return """{send_prototype}
+{{
+  if (!pc->used) {{
+    log_error("WARNING: trying to send data to the closed connection %s",
               conn_description(pc));
     return -1;
-  }
-  fc_assert_ret_val_msg(pc->phs.handlers->send[%(type)s].%(func)s != NULL, -1,
-                        "Handler for %(type)s not installed");
-  return pc->phs.handlers->send[%(type)s].%(func)s(pc%(args)s);
-}
+  }}
+  fc_assert_ret_val_msg(pc->phs.handlers->send[{type}].{func} != NULL, -1,
+                        "Handler for {type} not installed");
+  return pc->phs.handlers->send[{type}].{func}(pc{args});
+}}
 
-'''%self.get_dict(vars())
+""".format(**self.get_dict(vars()))
 
     def get_variants(self):
         result=""
@@ -1703,46 +1703,46 @@ class Packet:
     # lsend function.
     def get_lsend(self):
         if not self.want_lsend: return ""
-        return '''%(lsend_prototype)s
-{
-  conn_list_iterate(dest, pconn) {
-    send_%(name)s(pconn%(extra_send_args2)s);
-  } conn_list_iterate_end;
-}
+        return """{lsend_prototype}
+{{
+  conn_list_iterate(dest, pconn) {{
+    send_{name}(pconn{extra_send_args2});
+  }} conn_list_iterate_end;
+}}
 
-'''%self.__dict__
+""".format(**self.__dict__)
 
     # Returns a code fragment which is the implementation of the
     # dsend function.
     def get_dsend(self):
         if not self.want_dsend: return ""
         fill="\n".join(map(lambda x:x.get_fill(),self.fields))
-        return '''%(dsend_prototype)s
-{
-  struct %(name)s packet, *real_packet = &packet;
+        return """{dsend_prototype}
+{{
+  struct {name} packet, *real_packet = &packet;
 
-%(fill)s
+{fill}
 
-  return send_%(name)s(pc, real_packet);
-}
+  return send_{name}(pc, real_packet);
+}}
 
-'''%self.get_dict(vars())
+""".format(**self.get_dict(vars()))
 
     # Returns a code fragment which is the implementation of the
     # dlsend function.
     def get_dlsend(self):
         if not (self.want_lsend and self.want_dsend): return ""
         fill="\n".join(map(lambda x:x.get_fill(),self.fields))
-        return '''%(dlsend_prototype)s
-{
-  struct %(name)s packet, *real_packet = &packet;
+        return """{dlsend_prototype}
+{{
+  struct {name} packet, *real_packet = &packet;
 
-%(fill)s
+{fill}
 
-  lsend_%(name)s(dest, real_packet);
-}
+  lsend_{name}(dest, real_packet);
+}}
 
-'''%self.get_dict(vars())
+""".format(**self.get_dict(vars()))
 
 
 def all_caps_union(packets):
@@ -1855,9 +1855,9 @@ def get_packet_handlers_fill_initial(packets):
 '''
     all_caps = all_caps_union(packets)
     for cap in sorted(all_caps):
-        intro=intro+'''  fc_assert_msg(has_capability("%s", our_capability),
-                "Packets have support for unknown '%s' capability!");
-'''%(cap,cap)
+        intro=intro+'''  fc_assert_msg(has_capability("{0}", our_capability),
+                "Packets have support for unknown '{0}' capability!");
+'''.format(cap)
 
     sc_packets=[]
     cs_packets=[]
@@ -1878,25 +1878,25 @@ def get_packet_handlers_fill_initial(packets):
 
     body=""
     for p in unrestricted:
-        body=body+'''  %(send_handler)s
-  %(receive_handler)s
-'''%p.variants[0].__dict__
+        body += """  {send_handler}
+  {receive_handler}
+""".format(**p.variants[0].__dict__)
     body=body+'''  if (is_server()) {
 '''
     for p in sc_packets:
-        body=body+'''    %(send_handler)s
-'''%p.variants[0].__dict__
+        body += """    {send_handler}
+""".format(**p.variants[0].__dict__)
     for p in cs_packets:
-        body=body+'''    %(receive_handler)s
-'''%p.variants[0].__dict__
+        body += """    {receive_handler}
+""".format(**p.variants[0].__dict__)
     body=body+'''  } else {
 '''
     for p in cs_packets:
-        body=body+'''    %(send_handler)s
-'''%p.variants[0].__dict__
+        body += """    {send_handler}
+""".format(**p.variants[0].__dict__)
     for p in sc_packets:
-        body=body+'''    %(receive_handler)s
-'''%p.variants[0].__dict__
+        body += """    {receive_handler}
+""".format(**p.variants[0].__dict__)
 
     extro='''  }
 }
@@ -1928,64 +1928,64 @@ def get_packet_handlers_fill_capability(packets):
     for p in unrestricted:
         body=body+"  "
         for v in p.variants:
-            body=body+'''if (%(condition)s) {
-    %(log_macro)s("%(type)s: using variant=%(no)s cap=%%s", capability);
-    %(send_handler)s
-    %(receive_handler)s
-  } else '''%v.__dict__
-        body=body+'''{
-    log_error("Unknown %(type)s variant for cap %%s", capability);
-  }
-'''%v.__dict__
+            body += """if ({condition}) {{
+    {log_macro}("{type}: using variant={no} cap=%s", capability);
+    {send_handler}
+    {receive_handler}
+  }} else """.format(**v.__dict__)
+        body += """{{
+    log_error("Unknown {type} variant for cap %s", capability);
+  }}
+""".format(**v.__dict__)
     if len(cs_packets)>0 or len(sc_packets)>0:
         body=body+'''  if (is_server()) {
 '''
         for p in sc_packets:
             body=body+"    "
             for v in p.variants:
-                body=body+'''if (%(condition)s) {
-      %(log_macro)s("%(type)s: using variant=%(no)s cap=%%s", capability);
-      %(send_handler)s
-    } else '''%v.__dict__
-            body=body+'''{
-      log_error("Unknown %(type)s variant for cap %%s", capability);
-    }
-'''%v.__dict__
+                body += """if ({condition}) {{
+      {log_macro}("{type}: using variant={no} cap=%s", capability);
+      {send_handler}
+    }} else """.format(**v.__dict__)
+            body += """{{
+      log_error("Unknown {type} variant for cap %s", capability);
+    }}
+""".format(**v.__dict__)
         for p in cs_packets:
             body=body+"    "
             for v in p.variants:
-                body=body+'''if (%(condition)s) {
-      %(log_macro)s("%(type)s: using variant=%(no)s cap=%%s", capability);
-      %(receive_handler)s
-    } else '''%v.__dict__
-            body=body+'''{
-      log_error("Unknown %(type)s variant for cap %%s", capability);
-    }
-'''%v.__dict__
+                body += """if ({condition}) {{
+      {log_macro}("{type}: using variant={no} cap=%s", capability);
+      {receive_handler}
+    }} else """.format(**v.__dict__)
+            body += """{{
+      log_error("Unknown {type} variant for cap %s", capability);
+    }}
+""".format(**v.__dict__)
         body=body+'''  } else {
 '''
         for p in cs_packets:
             body=body+"    "
             for v in p.variants:
-                body=body+'''if (%(condition)s) {
-      %(log_macro)s("%(type)s: using variant=%(no)s cap=%%s", capability);
-      %(send_handler)s
-    } else '''%v.__dict__
-            body=body+'''{
-      log_error("Unknown %(type)s variant for cap %%s", capability);
-    }
-'''%v.__dict__
+                body += """if ({condition}) {{
+      {log_macro}("{type}: using variant={no} cap=%s", capability);
+      {send_handler}
+    }} else """.format(**v.__dict__)
+            body += """{{
+      log_error("Unknown {type} variant for cap %s", capability);
+    }}
+""".format(**v.__dict__)
         for p in sc_packets:
             body=body+"    "
             for v in p.variants:
-                body=body+'''if (%(condition)s) {
-      %(log_macro)s("%(type)s: using variant=%(no)s cap=%%s", capability);
-      %(receive_handler)s
-    } else '''%v.__dict__
-            body=body+'''{
-      log_error("Unknown %(type)s variant for cap %%s", capability);
-    }
-'''%v.__dict__
+                body += """if ({condition}) {{
+      {log_macro}("{type}: using variant={no} cap=%s", capability);
+      {receive_handler}
+    }} else """.format(**v.__dict__)
+            body += """{{
+      log_error("Unknown {type} variant for cap %s", capability);
+    }}
+""".format(**v.__dict__)
         body=body+'''  }
 '''
 
