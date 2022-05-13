@@ -64,11 +64,14 @@ fi
 SETUP=$(grep "CrosserSetup=" $DLLSPATH/crosser.txt | sed -e 's/CrosserSetup="//' -e 's/"//')
 
 case $GUI in
-  gtk3.22) FCMP="gtk3" ;;
-  sdl2) FCMP="gtk4" ;;
+  gtk3.22) FCMP="gtk3"
+           RULEDIT=false ;;
+  sdl2) FCMP="gtk4"
+        RULEDIT=false ;;
   qt5) CLIENT="qt"
        FCMP="qt"
-       NLS="-Dnls=false" ;;
+       NLS="-Dnls=false"
+       RULEDIT=true ;;
 esac
 
 if test "x$CLIENT" = "x" ; then
@@ -110,7 +113,7 @@ cd meson-build-${SETUP}-${GUI}
 export PKG_CONFIG_PATH=${DLLSPATH}/lib/pkgconfig
 
 if ! meson --cross-file=cross.txt -Dprefix=$MESON_INSTALL_DIR -Dclients=$CLIENT -Dfcmp=$FCMP \
-           ${NLS} -Dsyslua=false \
+           ${NLS} -Dsyslua=false -Druledit=$RULEDIT \
            ../../.. $EXTRA_CONFIG ; then
   echo "Meson run failed!" >&2
   exit 1
