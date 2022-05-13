@@ -238,10 +238,25 @@ def prefix(prefix, text):
     return "\n".join(prefix + line for line in text.split("\n"))
 
 
+# matches an entire field definition line (type, fields and flag info)
+FIELDS_LINE_PATTERN = re.compile(r"^\s*(\S+(?:\(.*\))?)\s+([^;()]*)\s*;\s*(.*)\s*$")
+# matches a field type (dataio type and struct/public type)
+TYPE_INFO_PATTERN = re.compile(r"^(.*)\((.*)\)$")
+# matches a dataio type with float factor
+FLOAT_FACTOR_PATTERN = re.compile(r"^(\D+)(\d+)$")
+# matches a 2D-array field definition (name, first array size, second array size)
+ARRAY_2D_PATTERN = re.compile(r"^(.*)\[(.*)\]\[(.*)\]$")
+# matches a 1D-array field definition (name, array size)
+ARRAY_1D_PATTERN = re.compile(r"^(.*)\[(.*)\]$")
+# matches an add-cap flag (optional capability)
+ADD_CAP_PATTERN = re.compile(r"^add-cap\((.*)\)$")
+# matches a remove-cap flag (optional capability)
+REMOVE_CAP_PATTERN = re.compile(r"^remove-cap\((.*)\)$")
+
 # Parses a line of the form "COORD x, y; key" and returns a list of
 # Field objects. types is a dict mapping type aliases to their meaning
 def parse_fields(line, types):
-    mo = re.search(r"^\s*(\S+(?:\(.*\))?)\s+([^;()]*)\s*;\s*(.*)\s*$", line)
+    mo = FIELDS_LINE_PATTERN.fullmatch(line)
     assert mo, line
     arr=[]
     for i in mo.groups():
@@ -258,12 +273,12 @@ def parse_fields(line, types):
         type_text = types[type_text]
 
     typeinfo={}
-    mo = re.search("^(.*)\((.*)\)$", type_text)
+    mo = TYPE_INFO_PATTERN.fullmatch(type_text)
     assert mo, repr(type_text)
     typeinfo["dataio_type"],typeinfo["struct_type"]=mo.groups()
 
     if typeinfo["struct_type"]=="float":
-        mo=re.search("^(\D+)(\d+)$",typeinfo["dataio_type"])
+        mo = FLOAT_FACTOR_PATTERN.fullmatch(typeinfo["dataio_type"])
         assert mo
         typeinfo["dataio_type"]=mo.group(1)
         typeinfo["float_factor"]=int(mo.group(2))
@@ -284,14 +299,14 @@ def parse_fields(line, types):
                 arr[1]="real_packet->"+arr[1]
                 return arr
 
-        mo=re.search(r"^(.*)\[(.*)\]\[(.*)\]$",i)
+        mo = ARRAY_2D_PATTERN.fullmatch(i)
         if mo:
             t["name"]=mo.group(1)
             t["is_array"]=2
             t["array_size1_d"],t["array_size1_u"],t["array_size1_o"]=f(mo.group(2))
             t["array_size2_d"],t["array_size2_u"],t["array_size2_o"]=f(mo.group(3))
         else:
-            mo=re.search(r"^(.*)\[(.*)\]$",i)
+            mo = ARRAY_1D_PATTERN.fullmatch(i)
             if mo:
                 t["name"]=mo.group(1)
                 t["is_array"]=1
@@ -313,11 +328,11 @@ def parse_fields(line, types):
     removes=[]
     remaining=[]
     for i in arr:
-        mo=re.search("^add-cap\((.*)\)$",i)
+        mo = ADD_CAP_PATTERN.fullmatch(i)
         if mo:
             adds.append(mo.group(1))
             continue
-        mo=re.search("^remove-cap\((.*)\)$",i)
+        mo = REMOVE_CAP_PATTERN.fullmatch(i)
         if mo:
             removes.append(mo.group(1))
             continue
@@ -1481,6 +1496,11 @@ static char *stats_{self.name}_names[] = {{{names}}};
 
 # Class which represents a packet. A packet contains a list of fields.
 class Packet:
+    # matches a packet's header line (packet type, number, flags)
+    HEADER_PATTERN = re.compile(r"^\s*(\S+)\s*=\s*(\d+)\s*;\s*(.*?)\s*$")
+    # matches a packet cancel flag (cancelled packet type)
+    CANCEL_PATTERN = re.compile(r"^cancel\((.*)\)$")
+
     def __init__(self, text, types):
         self.types=types
         self.log_macro=use_log_macro
@@ -1489,7 +1509,7 @@ class Packet:
         text = text.strip()
         lines = text.split("\n")
 
-        mo=re.search("^\s*(\S+)\s*=\s*(\d+)\s*;\s*(.*?)\s*$",lines[0])
+        mo = __class__.HEADER_PATTERN.fullmatch(lines[0])
         assert mo,repr(lines[0])
 
         self.type=mo.group(1)
@@ -1560,7 +1580,7 @@ class Packet:
         removes=[]
         remaining=[]
         for i in arr:
-            mo=re.search("^cancel\((.*)\)$",i)
+            mo = __class__.CANCEL_PATTERN.fullmatch(i)
             if mo:
                 self.cancel.append(mo.group(1))
                 continue
@@ -2066,6 +2086,8 @@ COMMENT_PATTERN = re.compile(r"""
 """, re.VERBOSE | re.MULTILINE)
 # matches "type alias = dest" lines
 TYPE_PATTERN = re.compile(r"^type\s+(?P<alias>\S+)\s*=\s*(?P<dest>.+)\s*$")
+# matches the "end" line separating packet definitions
+PACKET_SEP_PATTERN = re.compile(r"^end$", re.MULTILINE)
 
 def packets_def_lines(def_text):
     """Yield only actual content lines without comments and whitespace"""
@@ -2097,7 +2119,7 @@ def parse_packets_def(def_text):
 
     # parse packet definitions
     packets=[]
-    for packet_text in re.split("(?m)^end$", "\n".join(packets_lines)):
+    for packet_text in PACKET_SEP_PATTERN.split("\n".join(packets_lines)):
         packet_text = packet_text.strip()
         if packet_text:
             packets.append(Packet(packet_text, types))
