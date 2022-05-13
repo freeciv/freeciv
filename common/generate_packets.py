@@ -345,10 +345,30 @@ def parse_fields(line, types):
 # Class for a field (part of a packet). It has a name, serveral types,
 # flags and some other attributes.
 class Field:
-    def __init__(self,fieldinfo,typeinfo,flaginfo):
-        for i in fieldinfo,typeinfo,flaginfo:
-            self.__dict__.update(i)
-        self.is_struct=not not re.search("^struct.*",self.struct_type)
+    def __init__(self, fieldinfo, typeinfo, flaginfo):
+        self.name = fieldinfo["name"]
+        self.is_array = fieldinfo["is_array"]
+        if self.is_array == 2:
+            self.array_size1_d = fieldinfo["array_size1_d"]
+            self.array_size1_u = fieldinfo["array_size1_u"]
+            self.array_size1_o = fieldinfo["array_size1_o"]
+            self.array_size2_d = fieldinfo["array_size2_d"]
+            self.array_size2_u = fieldinfo["array_size2_u"]
+            self.array_size2_o = fieldinfo["array_size2_o"]
+        elif self.is_array == 1:
+            self.array_size_d = fieldinfo["array_size_d"]
+            self.array_size_u = fieldinfo["array_size_u"]
+            self.array_size_o = fieldinfo["array_size_o"]
+
+        self.dataio_type = typeinfo["dataio_type"]
+        self.struct_type = typeinfo["struct_type"]
+        self.float_factor = typeinfo.get("float_factor")
+        self.is_struct = self.struct_type.startswith("struct")
+
+        self.is_key = flaginfo["is_key"]
+        self.diff = flaginfo["diff"]
+        self.add_cap = flaginfo["add_cap"]
+        self.remove_cap = flaginfo["remove_cap"]
 
     # Helper function for the dictionary variant of the % operator
     # ("%(name)s"%dict) or str.format ("{name}".format(**dict)).
