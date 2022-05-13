@@ -167,6 +167,36 @@ def write_disclaimer(f):
 ''')
 
 @contextmanager
+def wrap_header(file, header_name, cplusplus=True):
+    """Add multiple inclusion protection to the given file. If cplusplus
+    is given (default), also add code for `extern "C" {}` wrapping"""
+    name = "FC__%s_H" % header_name.upper()
+    file.write("""
+#ifndef {name}
+#define {name}
+""".format(name = name))
+
+    if cplusplus:
+        file.write("""
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
+""")
+
+    yield
+
+    if cplusplus:
+        file.write("""
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
+""")
+
+    file.write("""
+#endif /* {name} */
+""".format(name = name))
+
+@contextmanager
 def fc_open(path):
     """Open a file for writing and write disclaimer.
 
@@ -223,7 +253,6 @@ def lazy_overwrite_open(path, suffix=".tmp"):
     else:
         verbose("lazy: content changed, replacing...")
         tmp_path.replace(path)
-
 
 ######################### General helper functions #########################
 
@@ -2142,12 +2171,8 @@ def write_common_header(path, packets):
     """Write contents for common/packets_gen.h to the given path"""
     if path is None:
         return
-    with fc_open(path) as output_h:
+    with fc_open(path) as output_h, wrap_header(output_h, "packets_gen"):
         output_h.write('''
-#ifdef __cplusplus
-extern "C" {
-#endif /* __cplusplus */
-
 /* common */
 #include "actions.h"
 #include "city.h"
@@ -2171,10 +2196,6 @@ extern "C" {
         output_h.write('''
 void delta_stats_report(void);
 void delta_stats_reset(void);
-
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
 ''')
 
 def write_common_impl(path, packets):
@@ -2252,11 +2273,8 @@ def write_server_header(path, packets):
     """Write contents for server/hand_gen.h to the given path"""
     if path is None:
         return
-    with fc_open(path) as f:
+    with fc_open(path) as f, wrap_header(f, "hand_gen", cplusplus = False):
         f.write('''
-#ifndef FC__HAND_GEN_H
-#define FC__HAND_GEN_H
-
 /* utility */
 #include "shared.h"
 
@@ -2289,23 +2307,13 @@ bool server_handle_packet(enum packet_type type, const void *packet,
                         f.write('void handle_%s(struct connection *pc%s);\n'%(a,b))
                     else:
                         f.write('void handle_%s(struct player *pplayer%s);\n'%(a,b))
-        f.write('''
-#endif /* FC__HAND_GEN_H */
-''')
 
 def write_client_header(path, packets):
     """Write contents for client/packhand_gen.h to the given path"""
     if path is None:
         return
-    with fc_open(path) as f:
+    with fc_open(path) as f, wrap_header(f, "packhand_gen"):
         f.write('''
-#ifndef FC__PACKHAND_GEN_H
-#define FC__PACKHAND_GEN_H
-
-#ifdef __cplusplus
-extern "C" {
-#endif /* __cplusplus */
-
 /* utility */
 #include "shared.h"
 
@@ -2328,13 +2336,6 @@ bool client_handle_packet(enum packet_type type, const void *packet);
                 f.write('void handle_%s(const struct %s *packet);\n'%(a,p.name))
             else:
                 f.write('void handle_%s(%s);\n'%(a,b))
-        f.write('''
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
-
-#endif /* FC__PACKHAND_GEN_H */
-''')
 
 def write_server_impl(path, packets):
     """Write contents for server/hand_gen.c to the given path"""
