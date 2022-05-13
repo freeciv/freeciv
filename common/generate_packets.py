@@ -258,14 +258,7 @@ REMOVE_CAP_PATTERN = re.compile(r"^remove-cap\((.*)\)$")
 def parse_fields(line, types):
     mo = FIELDS_LINE_PATTERN.fullmatch(line)
     assert mo, line
-    arr=[]
-    for i in mo.groups():
-        if i:
-            arr.append(i.strip())
-        else:
-            arr.append("")
-    type_text, fields_, flags = arr
-    #print arr
+    type_text, fields_, flags = (i.strip() for i in mo.groups(""))
 
     # analyze type
     # FIXME: no infinite loop detection
@@ -355,11 +348,7 @@ def parse_fields(line, types):
     else:
         flaginfo["remove_cap"]=""
 
-    #print typeinfo,flaginfo,fields
-    result=[]
-    for f in fields:
-        result.append(Field(f,typeinfo,flaginfo))
-    return result
+    return [Field(fieldinfo, typeinfo, flaginfo) for fieldinfo in fields]
 
 # Class for a field (part of a packet). It has a name, serveral types,
 # flags and some other attributes.
@@ -1593,9 +1582,11 @@ class Packet:
 
         assert len(arr)==0,repr(arr)
 
-        self.fields=[]
-        for i in lines:
-            self.fields=self.fields+parse_fields(i,types)
+        self.fields = [
+            field
+            for line in lines
+            for field in parse_fields(line, types)
+        ]
         self.key_fields = [field for field in self.fields if field.is_key]
         self.other_fields = [field for field in self.fields if not field.is_key]
         self.bits=len(self.other_fields)
@@ -1647,14 +1638,13 @@ class Packet:
         self.variants=[]
         for i, poscaps in enumerate(powerset(sorted(all_caps))):
             negcaps = all_caps.difference(poscaps)
-            fields=[]
-            for field in self.fields:
-                if not field.add_cap and not field.remove_cap:
-                    fields.append(field)
-                elif field.add_cap and field.add_cap in poscaps:
-                    fields.append(field)
-                elif field.remove_cap and field.remove_cap in negcaps:
-                    fields.append(field)
+            fields = [
+                field
+                for field in self.fields
+                if (not field.add_cap and not field.remove_cap)
+                or (field.add_cap and field.add_cap in poscaps)
+                or (field.remove_cap and field.remove_cap in negcaps)
+            ]
             no=i+100
 
             self.variants.append(Variant(poscaps,negcaps,"%s_%d"%(self.name,no),fields,self,no))
@@ -1671,11 +1661,10 @@ class Packet:
         intro = "struct {self.name} {{\n".format(self = self)
         extro="};\n\n"
 
-        body=""
-        for field in self.key_fields+self.other_fields:
-            body=body+"  %s;\n"%field.get_declar()
-        if not body:
-            body="  char __dummy;			/* to avoid malloc(0); */\n"
+        body = "".join(
+            "  %s;\n" % field.get_declar()
+            for field in chain(self.key_fields, self.other_fields)
+        ) or "  char __dummy;\t\t\t/* to avoid malloc(0); */\n"
         return intro+body+extro
     # '''
 
@@ -1816,10 +1805,10 @@ void delta_stats_report(void) {
 
 '''
     extro='}\n\n'
-    body=""
-
-    for p in packets:
-        body=body+p.get_report_part()
+    body = "".join(
+        packet.get_report_part()
+        for packet in packets
+    )
     return intro+body+extro
 
 # Returns a code fragment which is the implementation of the
@@ -1830,10 +1819,10 @@ def get_reset(packets):
 void delta_stats_reset(void) {
 '''
     extro='}\n\n'
-    body=""
-
-    for p in packets:
-        body=body+p.get_reset_part()
+    body = "".join(
+        packet.get_reset_part()
+        for packet in packets
+    )
     return intro+body+extro
 
 # Returns a code fragment which is the implementation of the
@@ -1844,15 +1833,15 @@ def get_packet_name(packets):
   static const char *const names[PACKET_LAST] = {
 '''
 
-    mapping={}
-    for p in packets:
-        mapping[p.type_number]=p
+    mapping = {
+        packet.type_number: packet
+        for packet in packets
+    }
 
     last=-1
     body=""
     for n in sorted(mapping.keys()):
-        for i in range(last + 1, n):
-            body=body+'    "unknown",\n'
+        body += '    "unknown",\n' * (n - last - 1)
         body=body+'    "%s",\n'%mapping[n].type
         last=n
 
@@ -1872,15 +1861,15 @@ def get_packet_has_game_info_flag(packets):
   static const bool flag[PACKET_LAST] = {
 '''
 
-    mapping={}
-    for p in packets:
-        mapping[p.type_number]=p
+    mapping = {
+        packet.type_number: packet
+        for packet in packets
+    }
 
     last=-1
     body=""
     for n in sorted(mapping.keys()):
-        for i in range(last + 1, n):
-            body=body+'    FALSE,\n'
+        body += '    FALSE,\n' * (n - last - 1)
         if mapping[n].is_info!="game":
             body=body+'    FALSE, /* %s */\n'%mapping[n].type
         else:
