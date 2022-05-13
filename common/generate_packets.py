@@ -257,7 +257,8 @@ REMOVE_CAP_PATTERN = re.compile(r"^remove-cap\((.*)\)$")
 # Field objects. types is a dict mapping type aliases to their meaning
 def parse_fields(line, types):
     mo = FIELDS_LINE_PATTERN.fullmatch(line)
-    assert mo, line
+    if mo is None:
+        raise ValueError("invalid field definition: %r" % line)
     type_text, fields_, flags = (i.strip() for i in mo.groups(""))
 
     # analyze type
@@ -267,12 +268,14 @@ def parse_fields(line, types):
 
     typeinfo={}
     mo = TYPE_INFO_PATTERN.fullmatch(type_text)
-    assert mo, repr(type_text)
+    if mo is None:
+        raise ValueError("malformed or undefined type: %r" % type_text)
     typeinfo["dataio_type"],typeinfo["struct_type"]=mo.groups()
 
     if typeinfo["struct_type"]=="float":
         mo = FLOAT_FACTOR_PATTERN.fullmatch(typeinfo["dataio_type"])
-        assert mo
+        if mo is None:
+            raise ValueError("float type without float factor: %r" % type_text)
         typeinfo["dataio_type"]=mo.group(1)
         typeinfo["float_factor"]=int(mo.group(2))
 
@@ -286,11 +289,12 @@ def parse_fields(line, types):
             arr=x.split(":")
             if len(arr)==1:
                 return [x,x,x]
-            else:
-                assert len(arr)==2
+            elif len(arr) == 2:
                 arr.append("old->"+arr[1])
                 arr[1]="real_packet->"+arr[1]
                 return arr
+            else:
+                raise ValueError("Invalid array size declaration: %r" % x)
 
         mo = ARRAY_2D_PATTERN.fullmatch(i)
         if mo:
@@ -334,9 +338,11 @@ def parse_fields(line, types):
             removes.append(mo.group(1))
             continue
         remaining.append(i)
-    arr=remaining
-    assert len(arr)==0,repr(arr)
-    assert len(adds)+len(removes) in [0,1]
+    if len(adds) + len(removes) > 1:
+        raise ValueError("A field can only have one add-cap or remove-cap: %s" % line)
+
+    if remaining:
+        raise ValueError("unrecognized flags in field declaration: %s" % " ".join(remaining))
 
     if adds:
         flaginfo["add_cap"]=adds[0]
@@ -1159,7 +1165,7 @@ static char *stats_{self.name}_names[] = {{{names}}};
             elif len(keys)==2:
                 a="({} << 8) ^ {}".format(*keys)
             else:
-                assert 0
+                raise ValueError("unsupported number of key fields for %s" % self.name)
             body=body+('  return %s;\n'%a)
             extro="}\n\n"
             return intro+body+extro
@@ -1503,12 +1509,14 @@ class Packet:
         lines = text.split("\n")
 
         mo = __class__.HEADER_PATTERN.fullmatch(lines[0])
-        assert mo,repr(lines[0])
+        if mo is None:
+            raise ValueError("not a valid packet header line: %r" % lines[0])
 
         self.type=mo.group(1)
         self.name=self.type.lower()
         self.type_number=int(mo.group(2))
-        assert 0<=self.type_number<=65535
+        if self.type_number not in range(65536):
+            raise ValueError("packet number %d for %s outside legal range [0,65536)" % (self.type_number, self.name))
         dummy=mo.group(3)
 
         del lines[0]
@@ -1523,7 +1531,9 @@ class Packet:
         if "cs" in arr:
             self.dirs.append("cs")
             arr.remove("cs")
-        assert len(self.dirs)>0,repr(self.name)+repr(self.dirs)
+
+        if not self.dirs:
+            raise ValueError("no directions defined for %s" % self.name)
 
         # "no" means normal packet
         # "yes" means is-info packet
@@ -1578,9 +1588,9 @@ class Packet:
                 self.cancel.append(mo.group(1))
                 continue
             remaining.append(i)
-        arr=remaining
 
-        assert len(arr)==0,repr(arr)
+        if remaining:
+            raise ValueError("unrecognized flags for %s: %r" % (self.name, remaining))
 
         self.fields = [
             field
@@ -1604,7 +1614,9 @@ class Packet:
         if len(self.fields)==0:
             self.delta=0
             self.no_packet=1
-            assert not self.want_dsend,"dsend for a packet without fields isn't useful"
+
+            if self.want_dsend:
+                raise ValueError("requested dsend for %s without fields isn't useful" % self.name)
 
         if len(self.fields)>5 or self.name.split("_")[1]=="ruleset":
             self.handle_via_packet=1
@@ -2037,9 +2049,10 @@ def get_enum_packet(packets):
 
     mapping={}
     for p in packets:
-        if p.type_number in mapping :
-            print(p.name,mapping[p.type_number].name)
-            assert 0
+        if p.type_number in mapping:
+            num = p.type_number
+            other = mapping[num]
+            raise ValueError("Duplicate packet ID %d: %s and %s" % (num, other.name, p.name))
         mapping[p.type_number]=p
 
     last=-1
