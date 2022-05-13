@@ -318,8 +318,12 @@ def parse_fields(line, types):
 
     # analyze flags
     flaginfo={}
-    arr=list(item.strip() for item in flags.split(","))
-    arr=list(filter(lambda x:len(x)>0,arr))
+    arr = [
+        stripped
+        for flag in flags.split(",")
+        for stripped in (flag.strip(),)
+        if stripped
+    ]
     flaginfo["is_key"]=("key" in arr)
     if flaginfo["is_key"]: arr.remove("key")
     flaginfo["diff"]=("diff" in arr)
@@ -1047,12 +1051,11 @@ class Variant:
             ))
         else:
             self.condition="TRUE"
-        self.key_fields=list(filter(lambda x:x.is_key,self.fields))
-        self.other_fields=list(filter(lambda x:not x.is_key,self.fields))
+        self.key_fields = [field for field in self.fields if field.is_key]
+        self.other_fields = [field for field in self.fields if not field.is_key]
         self.bits=len(self.other_fields)
         self.keys_format=", ".join(["%d"]*len(self.key_fields))
-        self.keys_arg=", ".join(map(lambda x:"real_packet->"+x.name,
-                                      self.key_fields))
+        self.keys_arg = ", ".join("real_packet->" + field.name for field in self.key_fields)
         if self.keys_arg:
             self.keys_arg=",\n    "+self.keys_arg
 
@@ -1065,11 +1068,10 @@ class Variant:
 
         self.extra_send_args=""
         self.extra_send_args2=""
-        self.extra_send_args3=", ".join(
-            map(lambda x:"%s%s"%(x.get_handle_type(), x.name),
-                self.fields))
-        if self.extra_send_args3:
-            self.extra_send_args3=", "+self.extra_send_args3
+        self.extra_send_args3 = "".join(
+            ", %s%s" % (field.get_handle_type(), field.name)
+            for field in self.fields
+        )
 
         if not self.no_packet:
             self.extra_send_args = ", const struct {self.packet_name} *packet".format(self = self) + self.extra_send_args
@@ -1101,8 +1103,10 @@ class Variant:
     # Returns a code fragment which contains the declarations of the
     # statistical counters of this packet.
     def get_stats(self):
-        names=map(lambda x:'"'+x.name+'"',self.other_fields)
-        names=", ".join(names)
+        names = ", ".join(
+            "\"%s\"" % field.name
+            for field in self.other_fields
+        )
 
         return """static int stats_{self.name}_sent;
 static int stats_{self.name}_discarded;
@@ -1160,7 +1164,7 @@ static char *stats_{self.name}_names[] = {{{names}}};
 
 """.format(self = self)
 
-            keys=list(map(lambda x:"key->"+x.name,self.key_fields))
+            keys = ["key->" + field.name for field in self.key_fields]
             if len(keys)==1:
                 a=keys[0]
             elif len(keys)==2:
@@ -1592,12 +1596,14 @@ class Packet:
         self.fields=[]
         for i in lines:
             self.fields=self.fields+parse_fields(i,types)
-        self.key_fields=list(filter(lambda x:x.is_key,self.fields))
-        self.other_fields=list(filter(lambda x:not x.is_key,self.fields))
+        self.key_fields = [field for field in self.fields if field.is_key]
+        self.other_fields = [field for field in self.fields if not field.is_key]
         self.bits=len(self.other_fields)
         self.keys_format=", ".join(["%d"]*len(self.key_fields))
-        self.keys_arg=", ".join(map(lambda x:"real_packet->"+x.name,
-                                      self.key_fields))
+        self.keys_arg = ", ".join(
+            "real_packet->" + field.name
+            for field in self.key_fields
+        )
         if self.keys_arg:
             self.keys_arg=",\n    "+self.keys_arg
 
@@ -1614,11 +1620,10 @@ class Packet:
 
         self.extra_send_args=""
         self.extra_send_args2=""
-        self.extra_send_args3=", ".join(
-            map(lambda x:"%s%s"%(x.get_handle_type(), x.name),
-                self.fields))
-        if self.extra_send_args3:
-            self.extra_send_args3=", "+self.extra_send_args3
+        self.extra_send_args3 = "".join(
+            ", %s%s" % (field.get_handle_type(), field.name)
+            for field in self.fields
+        )
 
         if not self.no_packet:
             self.extra_send_args = ", const struct {self.name} *packet".format(self = self) + self.extra_send_args
@@ -1759,7 +1764,7 @@ class Packet:
     # dsend function.
     def get_dsend(self):
         if not self.want_dsend: return ""
-        fill="\n".join(map(lambda x:x.get_fill(),self.fields))
+        fill = "\n".join(field.get_fill() for field in self.fields)
         return """{self.dsend_prototype}
 {{
   struct {self.name} packet, *real_packet = &packet;
@@ -1775,7 +1780,7 @@ class Packet:
     # dlsend function.
     def get_dlsend(self):
         if not (self.want_lsend and self.want_dsend): return ""
-        fill="\n".join(map(lambda x:x.get_fill(),self.fields))
+        fill = "\n".join(field.get_fill() for field in self.fields)
         return """{self.dlsend_prototype}
 {{
   struct {self.name} packet, *real_packet = &packet;
@@ -2267,11 +2272,10 @@ bool server_handle_packet(enum packet_type type, const void *packet,
         for p in packets:
             if "cs" in p.dirs and not p.no_handle:
                 a=p.name[len("packet_"):]
-                b=p.fields
-                b=map(lambda x:"%s%s"%(x.get_handle_type(), x.name),b)
-                b=", ".join(b)
-                if b:
-                    b=", "+b
+                b = "".join(
+                    ", %s%s" % (field.get_handle_type(), field.name)
+                    for field in p.fields
+                )
                 if p.handle_via_packet:
                     f.write('struct %s;\n'%p.name)
                     if p.handle_per_conn:
@@ -2313,12 +2317,10 @@ bool client_handle_packet(enum packet_type type, const void *packet);
             if "sc" not in p.dirs: continue
 
             a=p.name[len("packet_"):]
-            b=p.fields
-            #print len(p.fields),p.name
-            b=map(lambda x:"%s%s"%(x.get_handle_type(), x.name),b)
-            b=", ".join(b)
-            if not b:
-                b="void"
+            b = ", ".join(
+                "%s%s" % (field.get_handle_type(), field.name)
+                for field in p.fields
+            ) or "void"
             if p.handle_via_packet:
                 f.write('struct %s;\n'%p.name)
                 f.write('void handle_%s(const struct %s *packet);\n'%(a,p.name))
