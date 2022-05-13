@@ -66,6 +66,7 @@ cd build
  --enable-client=gtk3.22,sdl2,qt,gtk4 \
  --enable-fcmp=gtk3,gtk4,qt,cli \
  --enable-freeciv-manual \
+ --disable-mapimg \
  || (let config_exit_status=$? \
      && echo "Config exit status: $config_exit_status" \
      && cat config.log \
