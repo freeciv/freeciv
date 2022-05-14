@@ -1224,13 +1224,6 @@ static char *stats_{self.name}_names[] = {{{names}}};
     # function. This is one of the two real functions. So it is rather
     # complex to create.
     def get_send(self):
-        temp='''%(send_prototype)s
-{
-<real_packet1><delta_header>  SEND_PACKET_START(%(type)s);
-<faddr><log><report><pre1><body><pre2><post>  SEND_PACKET_END(%(type)s);
-}
-
-'''
         if self.gen_stats:
             report='''
   stats_total_sent++;
@@ -1322,13 +1315,30 @@ static char *stats_{self.name}_names[] = {{{names}}};
 ''' + delta_header2
             else:
                 delta_header = delta_header + delta_header2
-        for i in range(2):
-            for k,v in vars().items():
-                if type(v)==type(""):
-                    temp=temp.replace("<%s>"%k,v)
-        return temp%self.get_dict(vars())
 
-    # '''
+        return "".join((
+            """\
+%(send_prototype)s
+{
+""",
+            real_packet1,
+            delta_header,
+            """\
+  SEND_PACKET_START(%(type)s);
+""",
+            faddr,
+            log,
+            report,
+            pre1,
+            body,
+            pre2,
+            post,
+            """\
+  SEND_PACKET_END(%(type)s);
+}
+
+""",
+        )) % self.get_dict(vars())
 
     # Helper for get_send()
     def get_delta_send_body(self, before_return=""):
