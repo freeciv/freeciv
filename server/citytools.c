@@ -1636,6 +1636,35 @@ void create_city(struct player *pplayer, struct tile *ptile,
 }
 
 /************************************************************************//**
+  Create city for player, doing necessary checks and adjustments.
+
+  Return whether it was legal to create the city. If not, city was not
+  created.
+****************************************************************************/
+bool create_city_for_player(struct player *pplayer, struct tile *ptile,
+                            const char *name)
+{
+  if (is_enemy_unit_tile(ptile, pplayer) != NULL
+      || !city_can_be_built_here(ptile, NULL)) {
+    return FALSE;
+  }
+
+  if (!pplayer->is_alive) {
+    pplayer->is_alive = TRUE;
+    send_player_info_c(pplayer, NULL);
+  }
+
+  if (name == NULL || name[0] == '\0') {
+    name = city_name_suggestion(pplayer, ptile);
+  }
+
+  map_show_tile(pplayer, ptile);
+  create_city(pplayer, ptile, name, pplayer);
+
+  return TRUE;
+}
+
+/************************************************************************//**
   Remove a city from the game.
 ****************************************************************************/
 void remove_city(struct city *pcity)

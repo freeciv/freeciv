@@ -69,7 +69,7 @@ void api_edit_unit_kill(lua_State *L, Unit *punit, const char *reason,
 
 bool api_edit_change_terrain(lua_State *L, Tile *ptile, Terrain *pterr);
 
-void api_edit_create_city(lua_State *L, Player *pplayer, Tile *ptile,
+bool api_edit_create_city(lua_State *L, Player *pplayer, Tile *ptile,
                           const char *name);
 void api_edit_remove_city(lua_State *L, City *pcity);
 void api_edit_create_building(lua_State *L, City *pcity, Building_Type *impr);
