@@ -1283,7 +1283,7 @@ static char *stats_{self.name}_names[] = {{{names}}};
 """.format(diff = diff)
                 delta_header2 = delta_header2 + '''#endif /* FREECIV_DELTA_PROTOCOL */
 '''
-                body = self.get_delta_send_body(pre2) % self.__dict__ + "\n#ifndef FREECIV_DELTA_PROTOCOL"
+                body = self.get_delta_send_body(pre2) + "\n#ifndef FREECIV_DELTA_PROTOCOL"
             else:
                 delta_header=""
                 body="#if 1 /* To match endif */"
@@ -1353,20 +1353,20 @@ static char *stats_{self.name}_names[] = {{{names}}};
 
     # Helper for get_send()
     def get_delta_send_body(self, before_return=""):
-        intro='''
+        intro = """
 #ifdef FREECIV_DELTA_PROTOCOL
-  if (NULL == *hash) {
-    *hash = genhash_new_full(hash_%(name)s, cmp_%(name)s,
+  if (NULL == *hash) {{
+    *hash = genhash_new_full(hash_{self.name}, cmp_{self.name},
                              NULL, NULL, NULL, free);
-  }
+  }}
   BV_CLR_ALL(fields);
 
-  if (!genhash_lookup(*hash, real_packet, (void **) &old)) {
+  if (!genhash_lookup(*hash, real_packet, (void **) &old)) {{
     old = fc_malloc(sizeof(*old));
     *old = *real_packet;
     genhash_insert(*hash, old, old);
     memset(old, 0, sizeof(*old));
-'''
+""".format(self = self)
         if self.is_info != "no":
             intro = intro + '''    different = 1;      /* Force to send. */
 '''
@@ -1376,11 +1376,15 @@ static char *stats_{self.name}_names[] = {{{names}}};
         for i, field in enumerate(self.other_fields):
             body = body + field.get_cmp_wrapper(i, self)
         if self.gen_log:
-            fl='    %(log_macro)s("  no change -> discard");\n'
+            fl = """\
+    {self.log_macro}("  no change -> discard");
+""".format(self = self)
         else:
             fl=""
         if self.gen_stats:
-            s='    stats_%(name)s_discarded++;\n'
+            s = """\
+    stats_{self.name}_discarded++;
+""".format(self = self)
         else:
             s=""
 
