@@ -100,6 +100,8 @@ freeciv_client_src = $(AUDIO_SDL_FILES) \
 	climap.h	\
 	clinet.c	\
 	clinet.h	\
+	clitreaty.c	\
+	clitreaty.h	\
 	colors_common.c		\
 	colors_common.h		\
 	control.c	\

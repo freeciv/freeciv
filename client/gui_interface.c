@@ -24,6 +24,7 @@
 #include "citydlg_g.h"
 #include "connectdlg_g.h"
 #include "dialogs_g.h"
+#include "diplodlg_g.h"
 #include "editgui_g.h"
 #include "graphics_g.h"
 #include "gui_main_g.h"
@@ -628,4 +629,54 @@ char **get_gui_specific_themes_directories(int *count)
 char **get_useable_themes_in_directory(const char *directory, int *count)
 {
   return funcs.get_useable_themes_in_directory(directory, count);
+}
+
+/**********************************************************************//**
+  Call gui_init_meeting callback
+**************************************************************************/
+void gui_init_meeting(struct Treaty *ptreaty, struct player *they,
+                      struct player *initiator)
+{
+  funcs.gui_init_meeting(ptreaty, they, initiator);
+}
+
+/**********************************************************************//**
+  Call gui_recv_cancel_meeting callback
+**************************************************************************/
+void gui_recv_cancel_meeting(struct Treaty *ptreaty, struct player *they,
+                             struct player *initiator)
+{
+  funcs.gui_recv_cancel_meeting(ptreaty, they, initiator);
+}
+
+/**********************************************************************//**
+  Call gui_prepare_clause_updt callback
+**************************************************************************/
+void gui_prepare_clause_updt(struct Treaty *ptreaty, struct player *they)
+{
+  funcs.gui_prepare_clause_updt(ptreaty, they);
+}
+
+/**********************************************************************//**
+  Call gui_recv_create_clause callback
+**************************************************************************/
+void gui_recv_create_clause(struct Treaty *ptreaty, struct player *they)
+{
+  funcs.gui_recv_create_clause(ptreaty, they);
+}
+
+/**********************************************************************//**
+  Call gui_recv_remove_clause callback
+**************************************************************************/
+void gui_recv_remove_clause(struct Treaty *ptreaty, struct player *they)
+{
+  funcs.gui_recv_remove_clause(ptreaty, they);
+}
+
+/**********************************************************************//**
+  Call gui_recv_accept_treaty callback
+**************************************************************************/
+void gui_recv_accept_treaty(struct Treaty *ptreaty, struct player *they)
+{
+  funcs.gui_recv_accept_treaty(ptreaty, they);
 }

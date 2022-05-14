@@ -53,7 +53,7 @@
 #define MAX_NUM_CLAUSES 64
 
 struct diplomacy_dialog {
-  struct Treaty treaty;
+  struct Treaty *treaty;
   struct advanced_dialog *pdialog;
   struct advanced_dialog *pwants;
   struct advanced_dialog *poffers;
@@ -72,9 +72,9 @@ static struct dialog_list *dialog_list;
 static void update_diplomacy_dialog(struct diplomacy_dialog *pdialog);
 static void update_acceptance_icons(struct diplomacy_dialog *pdialog);
 static void update_clauses_list(struct diplomacy_dialog *pdialog);
-static void remove_clause_widget_from_list(int counterpart, int giver,
+static void remove_clause_widget_from_list(struct player *they, struct player *giver,
                                            enum clause_type type, int value);
-static void popdown_diplomacy_dialog(int counterpart);
+static void popdown_diplomacy_dialog(struct player *they);
 static void popdown_diplomacy_dialogs(void);
 static void popdown_sdip_dialog(void);
 
@@ -97,14 +97,13 @@ void diplomacy_dialog_done(void)
 /**********************************************************************//**
   Get diplomacy dialog between client user and other player.
 **************************************************************************/
-static struct diplomacy_dialog *get_diplomacy_dialog(int other_player_id)
+static struct diplomacy_dialog *get_diplomacy_dialog(struct player *they)
 {
-  struct player *plr0 = client.conn.playing;
-  struct player *plr1 = player_by_number(other_player_id);
+  struct player *we = client_player();
 
   dialog_list_iterate(dialog_list, pdialog) {
-    if ((pdialog->treaty.plr0 == plr0 && pdialog->treaty.plr1 == plr1)
-        || (pdialog->treaty.plr0 == plr1 && pdialog->treaty.plr1 == plr0)) {
+    if ((pdialog->treaty->plr0 == we && pdialog->treaty->plr1 == they)
+        || (pdialog->treaty->plr0 == they && pdialog->treaty->plr1 == we)) {
       return pdialog;
     }
   } dialog_list_iterate_end;
@@ -116,17 +115,15 @@ static struct diplomacy_dialog *get_diplomacy_dialog(int other_player_id)
   Update a player's acceptance status of a treaty (traditionally shown
   with the thumbs-up/thumbs-down sprite).
 **************************************************************************/
-void handle_diplomacy_accept_treaty(int counterpart, bool I_accepted,
-                                    bool other_accepted)
+void gui_recv_accept_treaty(struct Treaty *ptreaty, struct player *they)
 {
-  struct diplomacy_dialog *pdialog = get_diplomacy_dialog(counterpart);
+  struct diplomacy_dialog *pdialog = get_diplomacy_dialog(they);
 
   if (!pdialog) {
     return;
   }
 
-  pdialog->treaty.accept0 = I_accepted;
-  pdialog->treaty.accept1 = other_accepted;
+  fc_assert(pdialog->treaty == ptreaty);
 
   update_acceptance_icons(pdialog);
 }
@@ -135,9 +132,10 @@ void handle_diplomacy_accept_treaty(int counterpart, bool I_accepted,
   Update the diplomacy dialog when the meeting is canceled (the dialog
   should be closed).
 **************************************************************************/
-void handle_diplomacy_cancel_meeting(int counterpart, int initiated_from)
+void gui_recv_cancel_meeting(struct Treaty *ptreaty, struct player *they,
+                             struct player *initiator)
 {
-  popdown_diplomacy_dialog(counterpart);
+  popdown_diplomacy_dialog(they);
   flush_dirty();
 }
 
@@ -151,12 +149,12 @@ static int remove_clause_callback(struct widget *pwidget)
   if (PRESSED_EVENT(main_data.event)) {
     struct diplomacy_dialog *pdialog;
 
-    if (!(pdialog = get_diplomacy_dialog(pwidget->data.cont->id1))) {
-      pdialog = get_diplomacy_dialog(pwidget->data.cont->id0);
+    if (!(pdialog = get_diplomacy_dialog(player_by_number(pwidget->data.cont->id1)))) {
+      pdialog = get_diplomacy_dialog(player_by_number(pwidget->data.cont->id0));
     }
 
     dsend_packet_diplomacy_remove_clause_req(&client.conn,
-                                             player_number(pdialog->treaty.plr1),
+                                             player_number(pdialog->treaty->plr1),
                                              pwidget->data.cont->id0,
                                              (enum clause_type) ((pwidget->data.
                                              cont->value >> 16) & 0xFFFF),
@@ -167,25 +165,38 @@ static int remove_clause_callback(struct widget *pwidget)
 }
 
 /**********************************************************************//**
-  Update the diplomacy dialog by adding a clause.
+  Prepare to clause creation or removal.
 **************************************************************************/
-void handle_diplomacy_create_clause(int counterpart, int giver,
-                                    enum clause_type type, int value)
+void gui_prepare_clause_updt(struct Treaty *ptreaty, struct player *they)
 {
-  struct diplomacy_dialog *pdialog = get_diplomacy_dialog(counterpart);
+  struct diplomacy_dialog *pdialog = get_diplomacy_dialog(they);
 
   if (!pdialog) {
     return;
   }
 
-  clause_list_iterate(pdialog->treaty.clauses, pclause) {
-    remove_clause_widget_from_list(player_number(pdialog->treaty.plr1),
-                                   player_number(pclause->from),
+  fc_assert(pdialog->treaty == ptreaty);
+
+  clause_list_iterate(pdialog->treaty->clauses, pclause) {
+    remove_clause_widget_from_list(pdialog->treaty->plr1,
+                                   pclause->from,
                                    pclause->type,
                                    pclause->value);
   } clause_list_iterate_end;
+}
 
-  add_clause(&pdialog->treaty, player_by_number(giver), type, value);
+/**********************************************************************//**
+  Update the diplomacy dialog by adding a clause.
+**************************************************************************/
+void gui_recv_create_clause(struct Treaty *ptreaty, struct player *they)
+{
+  struct diplomacy_dialog *pdialog = get_diplomacy_dialog(they);
+
+  if (!pdialog) {
+    return;
+  }
+
+  fc_assert(pdialog->treaty == ptreaty);
 
   update_clauses_list(pdialog);
   update_acceptance_icons(pdialog);
@@ -194,23 +205,13 @@ void handle_diplomacy_create_clause(int counterpart, int giver,
 /**********************************************************************//**
   Update the diplomacy dialog by removing a clause.
 **************************************************************************/
-void handle_diplomacy_remove_clause(int counterpart, int giver,
-                                    enum clause_type type, int value)
+void gui_recv_remove_clause(struct Treaty *ptreaty, struct player *they)
 {
-  struct diplomacy_dialog *pdialog = get_diplomacy_dialog(counterpart);
+  struct diplomacy_dialog *pdialog = get_diplomacy_dialog(they);
 
   if (!pdialog) {
     return;
   }
-
-  clause_list_iterate(pdialog->treaty.clauses, pclause) {
-    remove_clause_widget_from_list(player_number(pdialog->treaty.plr1),
-                                   player_number(pclause->from),
-                                   pclause->type,
-                                   pclause->value);
-  } clause_list_iterate_end;
-
-  remove_clause(&pdialog->treaty, player_by_number(giver), type, value);
 
   update_clauses_list(pdialog);
   update_acceptance_icons(pdialog);
@@ -255,8 +256,8 @@ static int pact_callback(struct widget *pwidget)
     int clause_type;
     struct diplomacy_dialog *pdialog;
 
-    if (!(pdialog = get_diplomacy_dialog(pwidget->data.cont->id1))) {
-      pdialog = get_diplomacy_dialog(pwidget->data.cont->id0);
+    if (!(pdialog = get_diplomacy_dialog(player_by_number(pwidget->data.cont->id1)))) {
+      pdialog = get_diplomacy_dialog(player_by_number(pwidget->data.cont->id0));
     }
 
     switch (MAX_ID - pwidget->id) {
@@ -272,7 +273,7 @@ static int pact_callback(struct widget *pwidget)
     }
 
     dsend_packet_diplomacy_create_clause_req(&client.conn,
-                                             player_number(pdialog->treaty.plr1),
+                                             player_number(pdialog->treaty->plr1),
                                              pwidget->data.cont->id0,
                                              clause_type, 0);
   }
@@ -288,12 +289,12 @@ static int vision_callback(struct widget *pwidget)
   if (PRESSED_EVENT(main_data.event)) {
     struct diplomacy_dialog *pdialog;
 
-    if (!(pdialog = get_diplomacy_dialog(pwidget->data.cont->id1))) {
-      pdialog = get_diplomacy_dialog(pwidget->data.cont->id0);
+    if (!(pdialog = get_diplomacy_dialog(player_by_number(pwidget->data.cont->id1)))) {
+      pdialog = get_diplomacy_dialog(player_by_number(pwidget->data.cont->id0));
     }
   
     dsend_packet_diplomacy_create_clause_req(&client.conn,
-                                             player_number(pdialog->treaty.plr1),
+                                             player_number(pdialog->treaty->plr1),
                                              pwidget->data.cont->id0,
                                              CLAUSE_VISION, 0);
   }
@@ -309,12 +310,12 @@ static int embassy_callback(struct widget *pwidget)
   if (PRESSED_EVENT(main_data.event)) {
     struct diplomacy_dialog *pdialog;
 
-    if (!(pdialog = get_diplomacy_dialog(pwidget->data.cont->id1))) {
-      pdialog = get_diplomacy_dialog(pwidget->data.cont->id0);
+    if (!(pdialog = get_diplomacy_dialog(player_by_number(pwidget->data.cont->id1)))) {
+      pdialog = get_diplomacy_dialog(player_by_number(pwidget->data.cont->id0));
     }
 
     dsend_packet_diplomacy_create_clause_req(&client.conn,
-                                             player_number(pdialog->treaty.plr1),
+                                             player_number(pdialog->treaty->plr1),
                                              pwidget->data.cont->id0,
                                              CLAUSE_EMBASSY, 0);
   }
@@ -331,8 +332,8 @@ static int maps_callback(struct widget *pwidget)
     int clause_type;
     struct diplomacy_dialog *pdialog;
 
-    if (!(pdialog = get_diplomacy_dialog(pwidget->data.cont->id1))) {
-      pdialog = get_diplomacy_dialog(pwidget->data.cont->id0);
+    if (!(pdialog = get_diplomacy_dialog(player_by_number(pwidget->data.cont->id1)))) {
+      pdialog = get_diplomacy_dialog(player_by_number(pwidget->data.cont->id0));
     }
 
     switch (MAX_ID - pwidget->id) {
@@ -345,7 +346,7 @@ static int maps_callback(struct widget *pwidget)
     }
 
     dsend_packet_diplomacy_create_clause_req(&client.conn,
-                                             player_number(pdialog->treaty.plr1),
+                                             player_number(pdialog->treaty->plr1),
                                              pwidget->data.cont->id0,
                                              clause_type, 0);
   }
@@ -361,12 +362,12 @@ static int techs_callback(struct widget *pwidget)
   if (PRESSED_EVENT(main_data.event)) {
     struct diplomacy_dialog *pdialog;
 
-    if (!(pdialog = get_diplomacy_dialog(pwidget->data.cont->id1))) {
-      pdialog = get_diplomacy_dialog(pwidget->data.cont->id0);
+    if (!(pdialog = get_diplomacy_dialog(player_by_number(pwidget->data.cont->id1)))) {
+      pdialog = get_diplomacy_dialog(player_by_number(pwidget->data.cont->id0));
     }
 
     dsend_packet_diplomacy_create_clause_req(&client.conn,
-                                             player_number(pdialog->treaty.plr1),
+                                             player_number(pdialog->treaty->plr1),
                                              pwidget->data.cont->id0,
                                              CLAUSE_ADVANCE,
                                              (MAX_ID - pwidget->id));
@@ -384,8 +385,8 @@ static int gold_callback(struct widget *pwidget)
     int amount;
     struct diplomacy_dialog *pdialog;
 
-    if (!(pdialog = get_diplomacy_dialog(pwidget->data.cont->id1))) {
-      pdialog = get_diplomacy_dialog(pwidget->data.cont->id0);
+    if (!(pdialog = get_diplomacy_dialog(player_by_number(pwidget->data.cont->id1)))) {
+      pdialog = get_diplomacy_dialog(player_by_number(pwidget->data.cont->id0));
     }
 
     if (pwidget->string_utf8->text != NULL) {
@@ -402,7 +403,7 @@ static int gold_callback(struct widget *pwidget)
 
     if (amount > 0) {
       dsend_packet_diplomacy_create_clause_req(&client.conn,
-                                               player_number(pdialog->treaty.plr1),
+                                               player_number(pdialog->treaty->plr1),
                                                pwidget->data.cont->id0,
                                                CLAUSE_GOLD, amount);
       
@@ -429,12 +430,12 @@ static int cities_callback(struct widget *pwidget)
   if (PRESSED_EVENT(main_data.event)) {
     struct diplomacy_dialog *pdialog;
 
-    if (!(pdialog = get_diplomacy_dialog(pwidget->data.cont->id1))) {
-      pdialog = get_diplomacy_dialog(pwidget->data.cont->id0);
+    if (!(pdialog = get_diplomacy_dialog(player_by_number(pwidget->data.cont->id1)))) {
+      pdialog = get_diplomacy_dialog(player_by_number(pwidget->data.cont->id0));
     }
 
     dsend_packet_diplomacy_create_clause_req(&client.conn,
-                                             player_number(pdialog->treaty.plr1),
+                                             player_number(pdialog->treaty->plr1),
                                              pwidget->data.cont->id0,
                                              CLAUSE_CITY,
                                              (MAX_ID - pwidget->id));
@@ -827,12 +828,13 @@ static struct advanced_dialog *popup_diplomatic_objects(struct player *pplayer0,
 /**********************************************************************//**
   Open new diplomacy dialog between players.
 **************************************************************************/
-static struct diplomacy_dialog *create_diplomacy_dialog(struct player *plr0, 
+static struct diplomacy_dialog *create_diplomacy_dialog(struct Treaty *ptreaty,
+                                                        struct player *plr0,
                                                         struct player *plr1)
 {
   struct diplomacy_dialog *pdialog = fc_calloc(1, sizeof(struct diplomacy_dialog));
 
-  init_treaty(&pdialog->treaty, plr0, plr1);
+  pdialog->treaty = ptreaty;
 
   pdialog->pdialog = fc_calloc(1, sizeof(struct advanced_dialog));
 
@@ -872,8 +874,8 @@ static void update_diplomacy_dialog(struct diplomacy_dialog *pdialog)
                                   pdialog->pdialog->end_widget_list);
     }
 
-    pplayer0 = pdialog->treaty.plr0;
-    pplayer1 = pdialog->treaty.plr1;
+    pplayer0 = pdialog->treaty->plr0;
+    pplayer1 = pdialog->treaty->plr1;
 
     cont->id0 = player_number(pplayer0);
     cont->id1 = player_number(pplayer1);
@@ -1029,7 +1031,7 @@ static void update_acceptance_icons(struct diplomacy_dialog *pdialog)
   /* updates your own acceptance status */
   label = pdialog->pdialog->end_widget_list->prev;
 
-  label->private_data.cbox->state = pdialog->treaty.accept0;
+  label->private_data.cbox->state = pdialog->treaty->accept0;
   if (label->private_data.cbox->state) {
     thm = label->private_data.cbox->true_theme;
   } else {
@@ -1048,7 +1050,7 @@ static void update_acceptance_icons(struct diplomacy_dialog *pdialog)
   /* updates other player's acceptance status */
   label = pdialog->pdialog->end_widget_list->prev->prev;
 
-  label->private_data.cbox->state = pdialog->treaty.accept1;
+  label->private_data.cbox->state = pdialog->treaty->accept1;
   if (label->private_data.cbox->state) {
     thm = label->private_data.cbox->true_theme;
   } else {
@@ -1075,20 +1077,20 @@ static void update_clauses_list(struct diplomacy_dialog *pdialog)
   bool redraw_all, scroll = (pdialog->pdialog->active_widget_list != NULL);
   int len = pdialog->pdialog->scroll->up_left_button->size.w;
 
-  clause_list_iterate(pdialog->treaty.clauses, pclause) {
+  clause_list_iterate(pdialog->treaty->clauses, pclause) {
     client_diplomacy_clause_string(cbuf, sizeof(cbuf), pclause);
 
     pstr = create_utf8_from_char(cbuf, adj_font(12));
     pbuf = create_iconlabel(NULL, pwindow->dst, pstr,
      (WF_FREE_DATA|WF_DRAW_TEXT_LABEL_WITH_SPACE|WF_RESTORE_BACKGROUND));
 
-    if (pclause->from != client.conn.playing) {
+    if (pclause->from != client_player()) {
        pbuf->string_utf8->style |= SF_CENTER_RIGHT;
     }
 
     pbuf->data.cont = fc_calloc(1, sizeof(struct container));
     pbuf->data.cont->id0 = player_number(pclause->from);
-    pbuf->data.cont->id1 = player_number(pdialog->treaty.plr1);
+    pbuf->data.cont->id1 = player_number(pdialog->treaty->plr1);
     pbuf->data.cont->value = ((int)pclause->type << 16) + pclause->value;
 
     pbuf->action = remove_clause_callback;
@@ -1130,25 +1132,26 @@ static void update_clauses_list(struct diplomacy_dialog *pdialog)
 /**********************************************************************//**
   Remove widget related to clause from list of widgets.
 **************************************************************************/
-static void remove_clause_widget_from_list(int counterpart, int giver,
+static void remove_clause_widget_from_list(struct player *they,
+                                           struct player *giver,
                                            enum clause_type type, int value)
 {
   struct widget *buf;
   SDL_Rect src = {0, 0, 0, 0};
   bool scroll = TRUE;
-  struct diplomacy_dialog *pdialog = get_diplomacy_dialog(counterpart);
+  struct diplomacy_dialog *pdialog = get_diplomacy_dialog(they);
 
   /* find widget with clause */
   buf = pdialog->pdialog->end_active_widget_list->next;
 
   do {
     buf = buf->prev;
-  } while (!((buf->data.cont->id0 == giver)
+  } while (!((buf->data.cont->id0 == player_number(giver))
              && (((buf->data.cont->value >> 16) & 0xFFFF) == (int)type)
              && ((buf->data.cont->value & 0xFFFF) == value))
            && (buf != pdialog->pdialog->begin_active_widget_list));
 
-  if (!(buf->data.cont->id0 == giver
+  if (!(buf->data.cont->id0 == player_number(giver)
         && ((buf->data.cont->value >> 16) & 0xFFFF) == (int)type
         && (buf->data.cont->value & 0xFFFF) == value)) {
      return;
@@ -1189,7 +1192,8 @@ static void remove_clause_widget_from_list(int counterpart, int giver,
   Handle the start of a diplomacy meeting - usually by popping up a
   diplomacy dialog.
 **************************************************************************/
-void handle_diplomacy_init_meeting(int counterpart, int initiated_from)
+void gui_init_meeting(struct Treaty *ptreaty, struct player *they,
+                      struct player *initiator)
 {
   struct diplomacy_dialog *pdialog;
 
@@ -1197,13 +1201,12 @@ void handle_diplomacy_init_meeting(int counterpart, int initiated_from)
     return;
   }
 
-  if (!is_human(client.conn.playing)) {
+  if (!is_human(client_player())) {
     return; /* Don't show if we are not under human control. */
   }
 
-  if (!(pdialog = get_diplomacy_dialog(counterpart))) {
-    pdialog = create_diplomacy_dialog(client.conn.playing,
-                                      player_by_number(counterpart));
+  if (!(pdialog = get_diplomacy_dialog(they))) {
+    pdialog = create_diplomacy_dialog(ptreaty, client_player(), they);
   } else {
     /* bring existing dialog to front */
     select_window_group_dialog(pdialog->pdialog->begin_widget_list,
@@ -1216,9 +1219,9 @@ void handle_diplomacy_init_meeting(int counterpart, int initiated_from)
 /**********************************************************************//**
   Close diplomacy dialog between client user and given counterpart.
 **************************************************************************/
-static void popdown_diplomacy_dialog(int counterpart)
+static void popdown_diplomacy_dialog(struct player *they)
 {
-  struct diplomacy_dialog *pdialog = get_diplomacy_dialog(counterpart);
+  struct diplomacy_dialog *pdialog = get_diplomacy_dialog(they);
 
   if (pdialog) {
     popdown_window_group_dialog(pdialog->poffers->begin_widget_list,
@@ -1248,7 +1251,7 @@ static void popdown_diplomacy_dialog(int counterpart)
 static void popdown_diplomacy_dialogs(void)
 {
   dialog_list_iterate(dialog_list, pdialog) {
-    popdown_diplomacy_dialog(player_number(pdialog->treaty.plr1));
+    popdown_diplomacy_dialog(pdialog->treaty->plr1);
   } dialog_list_iterate_end;
 }
 

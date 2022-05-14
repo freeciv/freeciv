@@ -112,4 +112,11 @@ void setup_gui_funcs()
   funcs->gui_clear_theme = qtg_gui_clear_theme;
   funcs->get_gui_specific_themes_directories = qtg_get_gui_specific_themes_directories;
   funcs->get_useable_themes_in_directory = qtg_get_useable_themes_in_directory;
+
+  funcs->gui_init_meeting = qtg_init_meeting;
+  funcs->gui_recv_cancel_meeting = qtg_recv_cancel_meeting;
+  funcs->gui_prepare_clause_updt = qtg_prepare_clause_updt;
+  funcs->gui_recv_create_clause = qtg_recv_create_clause;
+  funcs->gui_recv_remove_clause = qtg_recv_remove_clause;
+  funcs->gui_recv_accept_treaty = qtg_recv_accept_treaty;
 }

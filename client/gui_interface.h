@@ -19,6 +19,7 @@ extern "C" {
 #endif /* __cplusplus */
 
 /* common */
+#include "diptreaty.h"
 #include "fc_types.h"
 #include "featured_text.h"
 #include "tile.h"
@@ -143,6 +144,15 @@ struct gui_funcs {
   void (*gui_clear_theme)(void);
   char **(*get_gui_specific_themes_directories)(int *count);
   char **(*get_useable_themes_in_directory)(const char *directory, int *count);
+
+  void (*gui_init_meeting)(struct Treaty *ptreaty, struct player *they,
+                           struct player *initiator);
+  void (*gui_recv_cancel_meeting)(struct Treaty *ptreaty, struct player *they,
+                                  struct player *initiator);
+  void (*gui_prepare_clause_updt)(struct Treaty *ptreaty, struct player *they);
+  void (*gui_recv_create_clause)(struct Treaty *ptreaty, struct player *they);
+  void (*gui_recv_remove_clause)(struct Treaty *ptreaty, struct player *they);
+  void (*gui_recv_accept_treaty)(struct Treaty *ptreaty, struct player *they);
 };
 
 struct gui_funcs *get_gui_funcs(void);

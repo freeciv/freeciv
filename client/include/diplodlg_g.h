@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -13,23 +13,28 @@
 #ifndef FC__DIPLODLG_G_H
 #define FC__DIPLODLG_G_H
 
+/* utility */
 #include "shared.h"
 
+/* common */
 #include "diptreaty.h"
 
 #include "gui_proto_constructor.h"
 
-GUI_FUNC_PROTO(void, handle_diplomacy_init_meeting,
-               int counterpart, int initiated_from)
-GUI_FUNC_PROTO(void, handle_diplomacy_cancel_meeting,
-               int counterpart, int initiated_from)
-GUI_FUNC_PROTO(void, handle_diplomacy_create_clause, int counterpart, int giver,
-               enum clause_type type, int value)
-GUI_FUNC_PROTO(void, handle_diplomacy_remove_clause, int counterpart, int giver,
-               enum clause_type type, int value)
-GUI_FUNC_PROTO(void, handle_diplomacy_accept_treaty,
-               int counterpart, bool I_accepted,
-               bool other_accepted)
+GUI_FUNC_PROTO(void, gui_init_meeting,
+               struct Treaty *ptreaty, struct player *they,
+               struct player *initiator)
+GUI_FUNC_PROTO(void, gui_recv_cancel_meeting,
+               struct Treaty *ptreaty, struct player *they,
+               struct player *initiator)
+GUI_FUNC_PROTO(void, gui_prepare_clause_updt,
+               struct Treaty *ptreaty, struct player *they)
+GUI_FUNC_PROTO(void, gui_recv_create_clause,
+               struct Treaty *ptreaty, struct player *they)
+GUI_FUNC_PROTO(void, gui_recv_remove_clause,
+               struct Treaty *ptreaty, struct player *they)
+GUI_FUNC_PROTO(void, gui_recv_accept_treaty, struct Treaty *ptreaty,
+               struct player *they)
 
 GUI_FUNC_PROTO(void, close_all_diplomacy_dialogs, void)
 

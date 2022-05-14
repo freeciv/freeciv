@@ -83,6 +83,7 @@
 #include "client_main.h"
 #include "climap.h"
 #include "climisc.h"
+#include "clitreaty.h"
 #include "connectdlg_common.h"
 #include "control.h"
 #include "editor.h"
@@ -5403,4 +5404,47 @@ void handle_vote_resolve(int vote_no, bool passed)
 void handle_play_music(const char *tag)
 {
   play_single_track(tag);
+}
+
+/************************************************************************//**
+  Open meeting
+****************************************************************************/
+void handle_diplomacy_init_meeting(int counterpart, int initiated_from)
+{
+  client_init_meeting(counterpart, initiated_from);
+}
+
+/************************************************************************//**
+  Server tells us that either party has accepted treaty
+****************************************************************************/
+void handle_diplomacy_accept_treaty(int counterpart, bool I_accepted,
+                                    bool other_accepted)
+{
+  client_recv_accept_treaty(counterpart, I_accepted, other_accepted);
+}
+
+/************************************************************************//**
+  Meeting has been cancelled.
+****************************************************************************/
+void handle_diplomacy_cancel_meeting(int counterpart, int initiated_from)
+{
+  client_recv_cancel_meeting(counterpart, initiated_from);
+}
+
+/************************************************************************//**
+  Add clause to the meeting
+****************************************************************************/
+void handle_diplomacy_create_clause(int counterpart, int giver,
+                                    enum clause_type type, int value)
+{
+  client_recv_create_clause(counterpart, giver, type, value);
+}
+
+/************************************************************************//**
+  Remove clause from meeting.
+****************************************************************************/
+void handle_diplomacy_remove_clause(int counterpart, int giver,
+                                    enum clause_type type, int value)
+{
+  client_recv_remove_clause(counterpart, giver, type, value);
 }
