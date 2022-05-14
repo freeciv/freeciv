@@ -56,6 +56,8 @@ void city_build_free_buildings(struct city *pcity);
 
 void create_city(struct player *pplayer, struct tile *ptile,
 		 const char *name, struct player *nationality);
+bool create_city_for_player(struct player *pplayer, struct tile *ptile,
+                            const char *name);
 void remove_city(struct city *pcity);
 
 void establish_trade_route(struct city *pc1, struct city *pc2);

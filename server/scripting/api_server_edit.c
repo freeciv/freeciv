@@ -231,7 +231,7 @@ void api_edit_create_city(lua_State *L, Player *pplayer, Tile *ptile,
   }
 
   /* TODO: Allow initial citizen to be of nationality other than owner */
-  create_city(pplayer, ptile, name, pplayer);
+  create_city_for_player(pplayer, ptile, name);
 }
 
 /*****************************************************************************
