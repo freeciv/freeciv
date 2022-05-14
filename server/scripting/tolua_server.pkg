@@ -128,7 +128,7 @@ module edit {
                 Player *killer);
   bool api_edit_change_terrain
     @ change_terrain(lua_State *L, Tile *ptile, Terrain *pterr);
-  void api_edit_create_city
+  bool api_edit_create_city
     @ create_city (lua_State *L, Player *pplayer, Tile *ptile,
                    const char *name);
   void api_edit_remove_city
