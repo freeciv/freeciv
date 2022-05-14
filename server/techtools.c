@@ -1398,7 +1398,21 @@ bool tech_transfer(struct player *plr_recv, struct player *plr_donor,
   }
 
   if (fc_rand(100) < game.server.techlost_recv) {
-    forget_tech_transfered(plr_recv, tech);
+    struct research *presearch = research_get(plr_recv);
+
+    /* We've not received the tech yet, and never will.
+     * Do not call forget_tech_transfered() that would handle it
+     * as something we had and now lose.
+     * (e.g. subtracting techs_researched counter) */
+    notify_player(plr_recv, NULL, E_TECH_LOST, ftc_server,
+                  _("Too bad! You made a mistake transferring the tech %s and "
+                    "didn't get it."),
+                  research_advance_name_translation(presearch, tech));
+    notify_research(presearch, plr_recv, E_TECH_LOST, ftc_server,
+                    _("Too bad! The %s made a mistake transferring the tech "
+                      "%s and didn't get it."),
+                    nation_plural_for_player(plr_recv),
+                    research_advance_name_translation(presearch, tech));
     return FALSE;
   }
 
