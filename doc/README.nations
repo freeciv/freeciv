@@ -40,8 +40,10 @@ one.
 ~/.freeciv/<version>/override/shields.spec
 ~/.freeciv/<version>/override/flags-large.spec
 ~/.freeciv/<version>/override/shields-large.spec
-  Spec files for flag graphics to add. See below sections for the format
-  of spec files and graphics files.
+  Spec file fragments for flag graphics to add.
+  These should consist of lines mapping flag tags to flag graphics files.
+  "f.example", "override/example"
+  Of course you need to provide those flag graphics files as well.
 
 
 How to add a Nation:
