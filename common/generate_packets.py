@@ -1225,26 +1225,28 @@ static char *stats_{self.name}_names[] = {{{names}}};
     # complex to create.
     def get_send(self):
         if self.gen_stats:
-            report='''
+            report = """
   stats_total_sent++;
-  stats_%(name)s_sent++;
-''' % self.__dict__
+  stats_{self.name}_sent++;
+""".format(self = self)
         else:
             report=""
         if self.gen_log:
-            log='\n  %(log_macro)s("%(name)s: sending info about (%(keys_format)s)"%(keys_arg)s);\n' % self.__dict__
+            log = """
+  {self.log_macro}("{self.name}: sending info about ({self.keys_format})"{self.keys_arg});
+""".format(self = self)
         else:
             log=""
         if self.want_pre_send:
-            pre1='''
-  {
-    struct %(packet_name)s *tmp = fc_malloc(sizeof(*tmp));
+            pre1 = """
+  {{
+    struct {self.packet_name} *tmp = fc_malloc(sizeof(*tmp));
 
     *tmp = *packet;
-    pre_send_%(packet_name)s(pc, tmp);
+    pre_send_{self.packet_name}(pc, tmp);
     real_packet = tmp;
-  }
-''' % self.__dict__
+  }}
+""".format(self = self)
             pre2='''
   if (real_packet != packet) {
     free((void *) real_packet);
@@ -1255,7 +1257,9 @@ static char *stats_{self.name}_names[] = {{{names}}};
             pre2=""
 
         if not self.no_packet:
-            real_packet1="  const struct %(packet_name)s *real_packet = packet;\n" % self.__dict__
+            real_packet1 = """\
+  const struct {self.packet_name} *real_packet = packet;
+""".format(self = self)
         else:
             real_packet1=""
 
@@ -1265,15 +1269,18 @@ static char *stats_{self.name}_names[] = {{{names}}};
                     diff='force_to_send'
                 else:
                     diff='0'
-                delta_header = '''#ifdef FREECIV_DELTA_PROTOCOL
-  %(name)s_fields fields;
-  struct %(packet_name)s *old;
-''' % self.__dict__
-                delta_header2 = '''  struct genhash **hash = pc->phs.sent + %(type)s;
-''' % self.__dict__
+                delta_header = """\
+#ifdef FREECIV_DELTA_PROTOCOL
+  {self.name}_fields fields;
+  struct {self.packet_name} *old;
+""".format(self = self)
+                delta_header2 = """\
+  struct genhash **hash = pc->phs.sent + {self.type};
+""".format(self = self)
                 if self.is_info != "no":
-                    delta_header2 = delta_header2 + '''  int different = %(diff)s;
-''' % {"diff": diff}
+                    delta_header2 += """\
+  int different = {diff};
+""".format(diff = diff)
                 delta_header2 = delta_header2 + '''#endif /* FREECIV_DELTA_PROTOCOL */
 '''
                 body = self.get_delta_send_body(pre2) % self.__dict__ + "\n#ifndef FREECIV_DELTA_PROTOCOL"
@@ -1290,9 +1297,13 @@ static char *stats_{self.name}_names[] = {{{names}}};
 
         if self.want_post_send:
             if self.no_packet:
-                post="  post_send_%(packet_name)s(pc, NULL);\n" % self.__dict__
+                post = """\
+  post_send_{self.packet_name}(pc, NULL);
+""".format(self = self)
             else:
-                post="  post_send_%(packet_name)s(pc, real_packet);\n" % self.__dict__
+                post = """\
+  post_send_{self.packet_name}(pc, real_packet);
+""".format(self = self)
         else:
             post=""
 
@@ -1318,14 +1329,14 @@ static char *stats_{self.name}_names[] = {{{names}}};
 
         return "".join((
             """\
-%(send_prototype)s
-{
-""" % self.__dict__,
+{self.send_prototype}
+{{
+""".format(self = self),
             real_packet1,
             delta_header,
             """\
-  SEND_PACKET_START(%(type)s);
-""" % self.__dict__,
+  SEND_PACKET_START({self.type});
+""".format(self = self),
             faddr,
             log,
             report,
@@ -1334,10 +1345,10 @@ static char *stats_{self.name}_names[] = {{{names}}};
             pre2,
             post,
             """\
-  SEND_PACKET_END(%(type)s);
-}
+  SEND_PACKET_END({self.type});
+}}
 
-""" % self.__dict__,
+""".format(self = self),
         ))
 
     # Helper for get_send()
