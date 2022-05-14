@@ -1228,11 +1228,11 @@ static char *stats_{self.name}_names[] = {{{names}}};
             report='''
   stats_total_sent++;
   stats_%(name)s_sent++;
-'''
+''' % self.__dict__
         else:
             report=""
         if self.gen_log:
-            log='\n  %(log_macro)s("%(name)s: sending info about (%(keys_format)s)"%(keys_arg)s);\n'
+            log='\n  %(log_macro)s("%(name)s: sending info about (%(keys_format)s)"%(keys_arg)s);\n' % self.__dict__
         else:
             log=""
         if self.want_pre_send:
@@ -1244,7 +1244,7 @@ static char *stats_{self.name}_names[] = {{{names}}};
     pre_send_%(packet_name)s(pc, tmp);
     real_packet = tmp;
   }
-'''
+''' % self.__dict__
             pre2='''
   if (real_packet != packet) {
     free((void *) real_packet);
@@ -1255,7 +1255,7 @@ static char *stats_{self.name}_names[] = {{{names}}};
             pre2=""
 
         if not self.no_packet:
-            real_packet1="  const struct %(packet_name)s *real_packet = packet;\n"
+            real_packet1="  const struct %(packet_name)s *real_packet = packet;\n" % self.__dict__
         else:
             real_packet1=""
 
@@ -1268,15 +1268,15 @@ static char *stats_{self.name}_names[] = {{{names}}};
                 delta_header = '''#ifdef FREECIV_DELTA_PROTOCOL
   %(name)s_fields fields;
   struct %(packet_name)s *old;
-'''
+''' % self.__dict__
                 delta_header2 = '''  struct genhash **hash = pc->phs.sent + %(type)s;
-'''
+''' % self.__dict__
                 if self.is_info != "no":
                     delta_header2 = delta_header2 + '''  int different = %(diff)s;
-'''
+''' % {"diff": diff}
                 delta_header2 = delta_header2 + '''#endif /* FREECIV_DELTA_PROTOCOL */
 '''
-                body = self.get_delta_send_body(pre2) + "\n#ifndef FREECIV_DELTA_PROTOCOL"
+                body = self.get_delta_send_body(pre2) % self.__dict__ + "\n#ifndef FREECIV_DELTA_PROTOCOL"
             else:
                 delta_header=""
                 body="#if 1 /* To match endif */"
@@ -1290,9 +1290,9 @@ static char *stats_{self.name}_names[] = {{{names}}};
 
         if self.want_post_send:
             if self.no_packet:
-                post="  post_send_%(packet_name)s(pc, NULL);\n"
+                post="  post_send_%(packet_name)s(pc, NULL);\n" % self.__dict__
             else:
-                post="  post_send_%(packet_name)s(pc, real_packet);\n"
+                post="  post_send_%(packet_name)s(pc, real_packet);\n" % self.__dict__
         else:
             post=""
 
@@ -1320,12 +1320,12 @@ static char *stats_{self.name}_names[] = {{{names}}};
             """\
 %(send_prototype)s
 {
-""",
+""" % self.__dict__,
             real_packet1,
             delta_header,
             """\
   SEND_PACKET_START(%(type)s);
-""",
+""" % self.__dict__,
             faddr,
             log,
             report,
@@ -1337,8 +1337,8 @@ static char *stats_{self.name}_names[] = {{{names}}};
   SEND_PACKET_END(%(type)s);
 }
 
-""",
-        )) % self.get_dict(vars())
+""" % self.__dict__,
+        ))
 
     # Helper for get_send()
     def get_delta_send_body(self, before_return=""):
