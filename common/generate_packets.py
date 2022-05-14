@@ -1404,12 +1404,13 @@ static char *stats_{self.name}_names[] = {{{names}}};
     # complex to create.
     def get_receive(self):
         if self.delta:
-            delta_header='''#ifdef FREECIV_DELTA_PROTOCOL
-  %(name)s_fields fields;
-  struct %(packet_name)s *old;
-  struct genhash **hash = pc->phs.received + %(type)s;
+            delta_header = """\
+#ifdef FREECIV_DELTA_PROTOCOL
+  {self.name}_fields fields;
+  struct {self.packet_name} *old;
+  struct genhash **hash = pc->phs.received + {self.type};
 #endif /* FREECIV_DELTA_PROTOCOL */
-''' % self.__dict__
+""".format(self = self)
             delta_body1='''
 #ifdef FREECIV_DELTA_PROTOCOL
 #ifdef FREECIV_JSON_CONNECTION
@@ -1435,12 +1436,16 @@ static char *stats_{self.name}_names[] = {{{names}}};
         body1=body1+nondelta+"\n#endif\n"
 
         if self.gen_log:
-            log = '  %(log_macro)s("%(name)s: got info about (%(keys_format)s)"%(keys_arg)s);\n' % self.__dict__
+            log = """\
+  {self.log_macro}("{self.name}: got info about ({self.keys_format})"{self.keys_arg});
+""".format(self = self)
         else:
             log=""
 
         if self.want_post_recv:
-            post = "  post_receive_%(packet_name)s(pc, real_packet);\n" % self.__dict__
+            post = """\
+  post_receive_{self.packet_name}(pc, real_packet);
+""".format(self = self)
         else:
             post=""
 
@@ -1459,13 +1464,13 @@ static char *stats_{self.name}_names[] = {{{names}}};
 
         return "".join((
             """\
-%(receive_prototype)s
-{
-""" % self.__dict__,
+{self.receive_prototype}
+{{
+""".format(self = self),
             delta_header,
             """\
-  RECEIVE_PACKET_START(%(packet_name)s, real_packet);
-""" % self.__dict__,
+  RECEIVE_PACKET_START({self.packet_name}, real_packet);
+""".format(self = self),
             faddr,
             delta_body1,
             body1,
