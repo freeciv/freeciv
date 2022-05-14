@@ -217,7 +217,11 @@ static const char *audiospec_fullname(const char *audioset_name,
     return NULL;
   }
 
-  log_error("Couldn't find audioset \"%s\", trying \"%s\".",
+  /* Marked for translation, as user may see this when
+   * their client configuration from older version has
+   * a musicset that they have not yet installed for the
+   * new version. */
+  log_error(_("Couldn't find audioset \"%s\", trying \"%s\"."),
             audioset_name, audioset_default);
 
   return audiospec_fullname(audioset_default, music);
