@@ -998,7 +998,7 @@ while (TRUE) {{
   }}
   if (i > {array_size_u}) {{
     RECEIVE_PACKET_FIELD_ERROR({self.name},
-                               \": unexpected value %%d \"
+                               \": unexpected value %d \"
                                \"(> {array_size_u}) in array diff\",
                                i);
   }} else {{
@@ -1420,9 +1420,9 @@ static char *stats_{self.name}_names[] = {{{names}}};
   '''
             body1=""
             for field in self.key_fields:
-                body1 += prefix("  ", field.get_get(1) % self.__dict__) + "\n"
+                body1 += prefix("  ", field.get_get(1)) + "\n"
             body1=body1+"\n#else /* FREECIV_DELTA_PROTOCOL */\n"
-            body2 = self.get_delta_receive_body() % self.__dict__
+            body2 = self.get_delta_receive_body()
         else:
             delta_header=""
             delta_body1=""
@@ -1430,7 +1430,7 @@ static char *stats_{self.name}_names[] = {{{names}}};
             body2=""
         nondelta=""
         for field in self.fields:
-            nondelta += prefix("  ", field.get_get(0) % self.__dict__) + "\n"
+            nondelta += prefix("  ", field.get_get(0)) + "\n"
         if not nondelta:
             nondelta="  real_packet->__dummy = 0xff;"
         body1=body1+nondelta+"\n#endif\n"
@@ -1493,7 +1493,9 @@ static char *stats_{self.name}_names[] = {{{names}}};
         if key1: key1=key1+"\n\n"
         if key2: key2="\n\n"+key2
         if self.gen_log:
-            fl='    %(log_macro)s("  no old info");\n'
+            fl = """\
+    {self.log_macro}("  no old info");
+""".format(self = self)
         else:
             fl=""
         body = """
