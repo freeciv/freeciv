@@ -1403,13 +1403,6 @@ static char *stats_{self.name}_names[] = {{{names}}};
     # function. This is one of the two real functions. So it is rather
     # complex to create.
     def get_receive(self):
-        temp='''%(receive_prototype)s
-{
-<delta_header>  RECEIVE_PACKET_START(%(packet_name)s, real_packet);
-<faddr><delta_body1><body1><log><body2><post>  RECEIVE_PACKET_END(real_packet);
-}
-
-'''
         if self.delta:
             delta_header='''#ifdef FREECIV_DELTA_PROTOCOL
   %(name)s_fields fields;
@@ -1464,11 +1457,27 @@ static char *stats_{self.name}_names[] = {{{names}}};
         else:
             faddr = ""
 
-        for i in range(2):
-            for k,v in vars().items():
-                if type(v)==type(""):
-                    temp=temp.replace("<%s>"%k,v)
-        return temp%self.get_dict(vars())
+        return "".join((
+            """\
+%(receive_prototype)s
+{
+""",
+            delta_header,
+            """\
+  RECEIVE_PACKET_START(%(packet_name)s, real_packet);
+""",
+            faddr,
+            delta_body1,
+            body1,
+            log,
+            body2,
+            post,
+            """\
+  RECEIVE_PACKET_END(real_packet);
+}
+
+""",
+        )) % self.get_dict(vars())
 
     # Helper for get_receive()
     def get_delta_receive_body(self):
