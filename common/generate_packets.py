@@ -1409,7 +1409,7 @@ static char *stats_{self.name}_names[] = {{{names}}};
   struct %(packet_name)s *old;
   struct genhash **hash = pc->phs.received + %(type)s;
 #endif /* FREECIV_DELTA_PROTOCOL */
-'''
+''' % self.__dict__
             delta_body1='''
 #ifdef FREECIV_DELTA_PROTOCOL
 #ifdef FREECIV_JSON_CONNECTION
@@ -1419,9 +1419,9 @@ static char *stats_{self.name}_names[] = {{{names}}};
   '''
             body1=""
             for field in self.key_fields:
-                body1=body1+prefix("  ",field.get_get(1))+"\n"
+                body1 += prefix("  ", field.get_get(1) % self.__dict__) + "\n"
             body1=body1+"\n#else /* FREECIV_DELTA_PROTOCOL */\n"
-            body2=self.get_delta_receive_body()
+            body2 = self.get_delta_receive_body() % self.__dict__
         else:
             delta_header=""
             delta_body1=""
@@ -1429,18 +1429,18 @@ static char *stats_{self.name}_names[] = {{{names}}};
             body2=""
         nondelta=""
         for field in self.fields:
-            nondelta=nondelta+prefix("  ",field.get_get(0))+"\n"
+            nondelta += prefix("  ", field.get_get(0) % self.__dict__) + "\n"
         if not nondelta:
             nondelta="  real_packet->__dummy = 0xff;"
         body1=body1+nondelta+"\n#endif\n"
 
         if self.gen_log:
-            log='  %(log_macro)s("%(name)s: got info about (%(keys_format)s)"%(keys_arg)s);\n'
+            log = '  %(log_macro)s("%(name)s: got info about (%(keys_format)s)"%(keys_arg)s);\n' % self.__dict__
         else:
             log=""
 
         if self.want_post_recv:
-            post="  post_receive_%(packet_name)s(pc, real_packet);\n"
+            post = "  post_receive_%(packet_name)s(pc, real_packet);\n" % self.__dict__
         else:
             post=""
 
@@ -1461,11 +1461,11 @@ static char *stats_{self.name}_names[] = {{{names}}};
             """\
 %(receive_prototype)s
 {
-""",
+""" % self.__dict__,
             delta_header,
             """\
   RECEIVE_PACKET_START(%(packet_name)s, real_packet);
-""",
+""" % self.__dict__,
             faddr,
             delta_body1,
             body1,
@@ -1477,7 +1477,7 @@ static char *stats_{self.name}_names[] = {{{names}}};
 }
 
 """,
-        )) % self.get_dict(vars())
+        ))
 
     # Helper for get_receive()
     def get_delta_receive_body(self):
