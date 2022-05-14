@@ -1283,7 +1283,7 @@ static char *stats_{self.name}_names[] = {{{names}}};
 '''
                 delta_header2 = delta_header2 + '''#endif /* FREECIV_DELTA_PROTOCOL */
 '''
-                body=self.get_delta_send_body()+"\n#ifndef FREECIV_DELTA_PROTOCOL"
+                body = self.get_delta_send_body(pre2) + "\n#ifndef FREECIV_DELTA_PROTOCOL"
             else:
                 delta_header=""
                 body="#if 1 /* To match endif */"
@@ -1331,7 +1331,7 @@ static char *stats_{self.name}_names[] = {{{names}}};
     # '''
 
     # Helper for get_send()
-    def get_delta_send_body(self):
+    def get_delta_send_body(self, before_return=""):
         intro='''
 #ifdef FREECIV_DELTA_PROTOCOL
   if (NULL == *hash) {
@@ -1366,9 +1366,9 @@ static char *stats_{self.name}_names[] = {{{names}}};
         if self.is_info != "no":
             body += """
   if (different == 0) {{
-{fl}{s}<pre2>    return 0;
+{fl}{s}{before_return}    return 0;
   }}
-""".format(fl = fl, s = s)
+""".format(fl = fl, s = s, before_return = before_return)
 
         body=body+'''
 #ifdef FREECIV_JSON_CONNECTION
