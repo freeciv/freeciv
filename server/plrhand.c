@@ -586,7 +586,11 @@ void handle_player_change_government(struct player *pplayer,
   /* Now see if the revolution is instantaneous. */
   if (turns <= 0
       && pplayer->target_government != game.government_during_revolution) {
-    government_change(pplayer, pplayer->target_government, TRUE);
+    notify_player(pplayer, NULL, E_REVOLT_START, ftc_server,
+                  _("The %s will switch to %s in the end of "
+                    "the player phase."),
+                  nation_plural_for_player(pplayer),
+                  government_name_translation(pplayer->target_government));
     return;
   } else if (turns > 0) {
     notify_player(pplayer, NULL, E_REVOLT_START, ftc_server,

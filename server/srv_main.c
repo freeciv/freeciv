@@ -1358,10 +1358,17 @@ static void end_phase(void)
     lsend_packet_end_phase(pplayer->connections);
   } phase_players_iterate_end;
 
-  /* Enact any policy changes.
+  /* Enact any government and/or policy changes.
    * Do this first so that following end-phase activities take the
    * change into account. */
   phase_players_iterate(pplayer) {
+    if (pplayer->revolution_finishes <= game.info.turn
+        && pplayer->target_government != NULL
+        && pplayer->target_government != game.government_during_revolution
+        && pplayer->target_government != pplayer->government) {
+      government_change(pplayer, pplayer->target_government, TRUE);
+    }
+
     multipliers_iterate(pmul) {
       int idx = multiplier_index(pmul);
 
