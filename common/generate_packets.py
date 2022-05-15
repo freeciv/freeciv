@@ -1288,8 +1288,10 @@ static char *stats_{self.name}_names[] = {{{names}}};
                 delta_header=""
                 body="#if 1 /* To match endif */"
             body=body+"\n"
-            for field in self.fields:
-                body=body+field.get_put(0)+"\n"
+            body += "".join(
+                field.get_put(0) + "\n"
+                for field in self.fields
+            )
             body=body+"\n#endif\n"
         else:
             body=""
@@ -1372,9 +1374,10 @@ static char *stats_{self.name}_names[] = {{{names}}};
 '''
         intro = intro + '''  }
 '''
-        body=""
-        for i, field in enumerate(self.other_fields):
-            body = body + field.get_cmp_wrapper(i, self)
+        body = "".join(
+            field.get_cmp_wrapper(i, self)
+            for i, field in enumerate(self.other_fields)
+        )
         if self.gen_log:
             fl = """\
     {self.log_macro}("  no change -> discard");
@@ -1402,12 +1405,16 @@ static char *stats_{self.name}_names[] = {{{names}}};
   DIO_BV_PUT(&dout, &field_addr, fields);
 '''
 
-        for field in self.key_fields:
-            body=body+field.get_put(1)+"\n"
+        body += "".join(
+            field.get_put(1) + "\n"
+            for field in self.key_fields
+        )
         body=body+"\n"
 
-        for i, field in enumerate(self.other_fields):
-            body=body+field.get_put_wrapper(self,i,1)
+        body += "".join(
+            field.get_put_wrapper(self,i,1)
+            for i, field in enumerate(self.other_fields)
+        )
         body=body+'''
   *old = *real_packet;
 '''
@@ -1443,9 +1450,10 @@ static char *stats_{self.name}_names[] = {{{names}}};
 #endif /* FREECIV_JSON_CONNECTION */
   DIO_BV_GET(&din, &field_addr, fields);
   '''
-            body1=""
-            for field in self.key_fields:
-                body1 += prefix("  ", field.get_get(1)) + "\n"
+            body1 = "".join(
+                prefix("  ", field.get_get(1)) + "\n"
+                for field in self.key_fields
+            )
             body1=body1+"\n#else /* FREECIV_DELTA_PROTOCOL */\n"
             body2 = self.get_delta_receive_body()
         else:
@@ -1453,11 +1461,10 @@ static char *stats_{self.name}_names[] = {{{names}}};
             delta_body1=""
             body1="#if 1 /* To match endif */\n"
             body2=""
-        nondelta=""
-        for field in self.fields:
-            nondelta += prefix("  ", field.get_get(0)) + "\n"
-        if not nondelta:
-            nondelta="  real_packet->__dummy = 0xff;"
+        nondelta = "".join(
+            prefix("  ", field.get_get(0)) + "\n"
+            for field in self.fields
+        ) or "  real_packet->__dummy = 0xff;"
         body1=body1+nondelta+"\n#endif\n"
 
         if self.gen_log:
@@ -1537,8 +1544,10 @@ static char *stats_{self.name}_names[] = {{{names}}};
   }}
 
 """.format(self = self, key1 = key1, key2 = key2, fl = fl)
-        for i, field in enumerate(self.other_fields):
-            body=body+field.get_get_wrapper(self,i,1)
+        body += "".join(
+            field.get_get_wrapper(self,i,1)
+            for i, field in enumerate(self.other_fields)
+        )
 
         extro="""
   if (NULL == old) {
@@ -1551,13 +1560,15 @@ static char *stats_{self.name}_names[] = {{{names}}};
 """
 
         # Cancel some is-info packets.
-        for i in self.cancel:
-            extro=extro+'''
+        extro += "".join(
+            '''
   hash = pc->phs.received + %s;
   if (NULL != *hash) {
     genhash_remove(*hash, real_packet);
   }
-'''%i
+''' % cancel_pack
+            for cancel_pack in self.cancel
+        )
 
         return body+extro+'''
 #endif /* FREECIV_DELTA_PROTOCOL */
