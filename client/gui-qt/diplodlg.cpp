@@ -875,7 +875,7 @@ void handle_diplomacy_accept_treaty(int counterpart, bool I_accepted,
 }
 
 /************************************************************************//**
-  Handle the start of a diplomacy meeting - usually by poping up a
+  Handle the start of a diplomacy meeting - usually by popping up a
   diplomacy dialog.
 ****************************************************************************/
 void handle_diplomacy_init_meeting(int counterpart, int initiated_from)
