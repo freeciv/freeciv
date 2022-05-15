@@ -79,7 +79,7 @@ jobs:
         shell: bash
         run: ./scripts/ci-build.sh os_x
   normal:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
       - name: check out Freeciv
         uses: actions/checkout@v2
@@ -95,7 +95,7 @@ jobs:
             autoconf \
             autotools-dev \
             language-pack-en \
-            python3.7 \
+            python3.10 \
             liblzma-dev \
             libicu-dev \
             libsqlite3-dev \
@@ -109,7 +109,7 @@ jobs:
         shell: bash
         run: ./scripts/ci-build.sh normal
   dist:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
       - name: check out Freeciv
         uses: actions/checkout@v2
@@ -125,7 +125,7 @@ jobs:
             automake \
             autoconf \
             autotools-dev \
-            python3.7 \
+            python3.10 \
             liblzma-dev \
             libicu-dev \
             libsqlite3-dev \
@@ -140,7 +140,7 @@ jobs:
         shell: bash
         run: ./scripts/ci-build.sh dist
   meson:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
       - name: check out Freeciv
         uses: actions/checkout@v2
@@ -158,7 +158,7 @@ jobs:
             autoconf \
             autotools-dev \
             language-pack-en \
-            python3.7 \
+            python3.10 \
             liblzma-dev \
             libicu-dev \
             libsqlite3-dev \
@@ -172,13 +172,12 @@ jobs:
         shell: bash
         run: ./scripts/ci-build.sh meson
   clang_debug:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
       - name: check out Freeciv
         uses: actions/checkout@v2
       - name: install dependencies
         run: |
-          sudo add-apt-repository ppa:kvilhaugsvik/backports
           sudo apt-get update
           sudo DEBIAN_FRONTEND=noninteractive apt-get -y install \
             clang \
@@ -192,7 +191,7 @@ jobs:
             autoconf \
             autotools-dev \
             language-pack-en \
-            python3.7 \
+            python3.10 \
             liblzma-dev \
             libicu-dev \
             libsqlite3-dev \
