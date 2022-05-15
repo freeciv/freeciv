@@ -2880,7 +2880,7 @@ enabler_first_self_contradiction(const struct action_enabler *enabler)
 /**********************************************************************//**
   Returns a suggestion to fix the specified action enabler or NULL if no
   fix is found to be needed. It is the responsibility of the caller to
-  free the suggestion when it is done with it.
+  free the suggestion with req_vec_problem_free() when it is done with it.
 **************************************************************************/
 struct req_vec_problem *
 action_enabler_suggest_repair(const struct action_enabler *enabler)
