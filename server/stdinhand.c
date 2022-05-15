@@ -871,6 +871,10 @@ enum rfc_status create_command_newcomer(const char *name,
                     _("Can't create players, no slots available."));
         return C_FAIL;
       }
+    } else if (normal_player_count() == game.server.max_players) {
+      fc_snprintf(buf, buflen,
+                  _("Maxplayers setting prevents creation of more players."));
+      return C_FAIL;
     }
   }
 
@@ -914,16 +918,6 @@ enum rfc_status create_command_newcomer(const char *name,
   } else {
     /* [3] An empty player slot must be used for the new player. */
     new_slot = TRUE;
-  }
-
-  if (new_slot) {
-    if (normal_player_count() == game.server.max_players) {
-
-      fc_assert(game.server.max_players < MAX_NUM_PLAYERS);
-
-      game.server.max_players++;
-      log_debug("Increased 'maxplayers' for creation of a new player.");
-    }
   }
 
   /* Create the new player. */
