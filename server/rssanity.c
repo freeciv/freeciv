@@ -1266,6 +1266,7 @@ bool sanity_check_ruleset_data(struct rscompat_info *compat)
 
         if (problem != NULL) {
           ruleset_error(LOG_ERROR, "%s", problem->description);
+          req_vec_problem_free(problem);
           ok = FALSE;
         }
 
@@ -1273,6 +1274,7 @@ bool sanity_check_ruleset_data(struct rscompat_info *compat)
         if (problem != NULL) {
           /* There is a potential for improving this enabler. */
           log_deprecation("%s", problem->description);
+          req_vec_problem_free(problem);
         }
       }
     } action_enabler_list_iterate_end;
