@@ -449,41 +449,55 @@ gboolean leave_mapcanvas(GtkEventControllerMotion *controller,
 /**********************************************************************//**
   Overview canvas moved
 **************************************************************************/
-gboolean move_overviewcanvas(GtkWidget *w, GdkEvent *ev, gpointer data)
+gboolean move_overviewcanvas(GtkEventControllerMotion *controller,
+                             gdouble x, gdouble y, gpointer data)
 {
-  gdouble e_x, e_y;
-
-  gdk_event_get_position(ev, &e_x, &e_y);
-  overview_update_line(e_x, e_y);
+  overview_update_line(x, y);
 
   return TRUE;
 }
 
 /**********************************************************************//**
-  Button pressed at overview
+  Left button pressed at overview
 **************************************************************************/
-gboolean butt_down_overviewcanvas(GtkWidget *w, GdkEvent *ev, gpointer data)
+gboolean left_butt_down_overviewcanvas(GtkGestureClick *gesture, int n_press,
+                                       double x, double y)
 {
   int xtile, ytile;
-  gdouble e_x, e_y;
-  guint button;
 
-  if (gdk_event_get_event_type(ev) != GDK_BUTTON_PRESS) {
+  if (n_press != 1) {
     return TRUE; /* Double-clicks? Triple-clicks? No thanks! */
   }
 
-  gdk_event_get_position(ev, &e_x, &e_y);
-  overview_to_map_pos(&xtile, &ytile, e_x, e_y);
+  overview_to_map_pos(&xtile, &ytile, x, y);
 
-  button = gdk_button_event_get_button(ev);
-  if (can_client_change_view() && (button == 3)) {
-    center_tile_mapcanvas(map_pos_to_tile(&(wld.map), xtile, ytile));
-  } else if (can_client_issue_orders() && (button == 1)) {
+  if (can_client_issue_orders()) {
     GdkModifierType state;
 
-    state = gdk_event_get_modifier_state(ev);
+    state = gtk_event_controller_get_current_event_state(GTK_EVENT_CONTROLLER(gesture));
     do_map_click(map_pos_to_tile(&(wld.map), xtile, ytile),
                  (state & GDK_SHIFT_MASK) ? SELECT_APPEND : SELECT_POPUP);
+  }
+
+  return TRUE;
+}
+
+/**********************************************************************//**
+  Right button pressed at overview
+**************************************************************************/
+gboolean right_butt_down_overviewcanvas(GtkGestureClick *gesture, int n_press,
+                                        double x, double y)
+{
+  int xtile, ytile;
+
+  if (n_press != 1) {
+    return TRUE; /* Double-clicks? Triple-clicks? No thanks! */
+  }
+
+  overview_to_map_pos(&xtile, &ytile, x, y);
+
+  if (can_client_change_view()) {
+    center_tile_mapcanvas(map_pos_to_tile(&(wld.map), xtile, ytile));
   }
 
   return TRUE;

@@ -1239,11 +1239,20 @@ static void setup_widgets(void)
   gtk_drawing_area_set_draw_func(GTK_DRAWING_AREA(overview_canvas),
                                  overview_canvas_draw, NULL, NULL);
 
-  g_signal_connect(overview_canvas, "motion_notify_event",
-        	   G_CALLBACK(move_overviewcanvas), NULL);
-
-  g_signal_connect(overview_canvas, "button_press_event",
-        	   G_CALLBACK(butt_down_overviewcanvas), NULL);
+  mc_controller = GTK_EVENT_CONTROLLER(gtk_gesture_click_new());
+  g_signal_connect(mc_controller, "pressed",
+                   G_CALLBACK(left_butt_down_overviewcanvas), NULL);
+  gtk_widget_add_controller(overview_canvas, mc_controller);
+  mc_gesture = gtk_gesture_click_new();
+  gtk_gesture_single_set_button(GTK_GESTURE_SINGLE(mc_gesture), 3);
+  mc_controller = GTK_EVENT_CONTROLLER(mc_gesture);
+  g_signal_connect(mc_controller, "pressed",
+                   G_CALLBACK(right_butt_down_overviewcanvas), NULL);
+  gtk_widget_add_controller(overview_canvas, mc_controller);
+  mc_controller = gtk_event_controller_motion_new();
+  g_signal_connect(mc_controller, "motion",
+                   G_CALLBACK(move_overviewcanvas), NULL);
+  gtk_widget_add_controller(overview_canvas, mc_controller);
 
   /* The rest */
 
