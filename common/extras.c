@@ -368,6 +368,8 @@ static bool can_build_extra_base(const struct extra_type *pextra,
                                  const struct player *pplayer,
                                  const struct tile *ptile)
 {
+  struct terrain *pterr;
+
   if (is_extra_caused_by(pextra, EC_BASE)
       && !base_can_be_built(extra_base_get(pextra), ptile)) {
     return FALSE;
@@ -375,6 +377,18 @@ static bool can_build_extra_base(const struct extra_type *pextra,
 
   if (is_extra_caused_by(pextra, EC_ROAD)
       && !can_build_road_base(extra_road_get(pextra), pplayer, ptile)) {
+    return FALSE;
+  }
+
+  pterr = tile_terrain(ptile);
+
+  if (is_extra_caused_by(pextra, EC_IRRIGATION)
+      && pterr->irrigation_time == 0) {
+    return FALSE;
+  }
+
+  if (is_extra_caused_by(pextra, EC_MINE)
+      && pterr->mining_time == 0) {
     return FALSE;
   }
 
