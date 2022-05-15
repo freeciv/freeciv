@@ -474,11 +474,13 @@ const char *fix_enabler_item::name()
 /**********************************************************************//**
   Returns the next detected requirement vector problem for the ruleset
   item or nullptr if no fix is found to be needed.
+  Caller needs to free the result with req_vec_problem_free()
   @return the next requirement vector problem for the item.
 **************************************************************************/
 struct req_vec_problem *fix_enabler_item::find_next_problem(void)
 {
   struct req_vec_problem *out = action_enabler_suggest_repair(local_copy);
+
   if (out != NULL) {
     return out;
   }
