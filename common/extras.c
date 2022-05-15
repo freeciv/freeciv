@@ -373,12 +373,16 @@ bool can_build_extra_base(const struct extra_type *pextra,
                           const struct player *pplayer,
                           const struct tile *ptile)
 {
+  struct terrain *pterr;
+
   if (!extra_can_be_built(pextra, ptile)) {
     return FALSE;
   }
 
+  pterr = tile_terrain(ptile);
+
   if (is_extra_caused_by(pextra, EC_BASE)) {
-    if (tile_terrain(ptile)->base_time == 0) {
+    if (pterr->base_time == 0) {
       return FALSE;
     }
     if (tile_city(ptile) != NULL && extra_base_get(pextra)->border_sq >= 0) {
@@ -386,8 +390,21 @@ bool can_build_extra_base(const struct extra_type *pextra,
     }
   }
 
+  /* Even if it's a multi-cause extra, just having Build Road as one of the
+   * causes makes it to require that road_time != 0.
+   * Correct functioning of EC_PLACE extras depend on this. */
   if (is_extra_caused_by(pextra, EC_ROAD)
-      && tile_terrain(ptile)->road_time == 0) {
+      && pterr->road_time == 0) {
+    return FALSE;
+  }
+
+  if (is_extra_caused_by(pextra, EC_IRRIGATION)
+      && pterr->irrigation_time == 0) {
+    return FALSE;
+  }
+
+  if (is_extra_caused_by(pextra, EC_MINE)
+      && pterr->mining_time == 0) {
     return FALSE;
   }
 
