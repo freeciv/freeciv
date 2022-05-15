@@ -413,13 +413,6 @@ class Field:
         self.add_cap = flaginfo["add_cap"]
         self.remove_cap = flaginfo["remove_cap"]
 
-    # Helper function for the dictionary variant of the % operator
-    # ("%(name)s"%dict) or str.format ("{name}".format(**dict)).
-    def get_dict(self, vars_):
-        result=self.__dict__.copy()
-        result.update(vars_)
-        return result
-
     def get_handle_type(self):
         if self.dataio_type=="string" or self.dataio_type=="estring":
             return "const char *"
@@ -1118,12 +1111,6 @@ class Variant:
             self.send_handler = "phandlers->send[{self.type}].packet = (int(*)(struct connection *, const void *)) send_{self.name};".format(self = self)
         self.receive_handler = "phandlers->receive[{self.type}] = (void *(*)(struct connection *)) receive_{self.name};".format(self = self)
 
-    # See Field.get_dict
-    def get_dict(self,vars_):
-        result=self.__dict__.copy()
-        result.update(vars_)
-        return result
-
     # Returns a code fragment which contains the declarations of the
     # statistical counters of this packet.
     def get_stats(self):
@@ -1772,12 +1759,6 @@ class Packet:
             if self.want_lsend:
                 result=result+self.dlsend_prototype+";\n"
         return result+"\n"
-
-    # See Field.get_dict
-    def get_dict(self, vars_):
-        result=self.__dict__.copy()
-        result.update(vars_)
-        return result
 
     # See Variant.get_stats
     def get_stats(self):
