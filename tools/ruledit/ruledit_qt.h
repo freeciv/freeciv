@@ -30,6 +30,7 @@ class QStackedLayout;
 
 class requirers_dlg;
 class tab_building;
+class tab_counter;
 class tab_good;
 class tab_gov;
 class tab_misc;
@@ -130,6 +131,7 @@ signals:
     QStackedLayout *main_layout;
 
     tab_building *bldg;
+    tab_counter *counter;
     tab_misc *misc;
     tab_tech *tech;
     tab_unit *unit;

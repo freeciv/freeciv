@@ -46,6 +46,7 @@
 #include "req_vec_fix.h"
 #include "ruledit.h"
 #include "tab_building.h"
+#include "tab_counters.h"
 #include "tab_enablers.h"
 #include "tab_extras.h"
 #include "tab_good.h"
@@ -185,6 +186,8 @@ void ruledit_gui::setup(QWidget *central_in)
   stack->addTab(terrains, QString::fromUtf8(R__("Terrains")));
   multipliers = new tab_multiplier(this);
   stack->addTab(multipliers, QString::fromUtf8(R__("Multipliers")));
+  counter = new tab_counter(this);
+  stack->addTab(counter, QString::fromUtf8(R__("Counters")));
   nation = new tab_nation(this);
   stack->addTab(nation, QString::fromUtf8(R__("Nations")));
 
@@ -250,6 +253,7 @@ void ruledit_gui::launch_now()
     extras->refresh();
     multipliers->refresh();
     terrains->refresh();
+    counter->refresh();
     main_layout->setCurrentIndex(1);
   } else {
     display_msg(R__("Ruleset loading failed!"));

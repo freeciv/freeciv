@@ -1793,7 +1793,7 @@ static bool save_game_ruleset(const char *filename, const char *name)
   comment_counters(sfile);
 
   sect_idx = 0;
-  city_counters_iterate(pcounter) {
+  counters_re_iterate(pcounter) {
     char path[512];
 
     fc_snprintf(path, sizeof(path), "counter_%d", sect_idx++);
@@ -1805,7 +1805,7 @@ static bool save_game_ruleset(const char *filename, const char *name)
 
     secfile_insert_str(sfile, counter_behaviour_name(pcounter->type), "%s.type", path);
 
-  } city_counters_iterate_end;
+  } counters_re_iterate_end;
 
   locks = FALSE;
   settings_iterate(SSET_ALL, pset) {
