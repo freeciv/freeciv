@@ -3947,7 +3947,6 @@ static void game_load_internal(struct section_file *file)
 
   if (!game.info.is_new_game) {
     int *worked_tiles = NULL; /* temporary map for worked tiles */
-    int loaded_players = 0;
     int players;
 
     /* Update time has been saved as year in legacysave.c */
@@ -3996,7 +3995,6 @@ static void game_load_internal(struct section_file *file)
                                      default_ai_type_name(), NULL,
                                      FALSE);
       server_player_init(pplayer, FALSE, FALSE);
-      loaded_players++;
     } player_slots_iterate_end;
 
     /* check number of players */

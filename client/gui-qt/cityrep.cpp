@@ -474,7 +474,6 @@ void city_widget::display_list_menu(const QPoint &)
   cid id;
   const char *imprname;
   enum menu_labels m_state;
-  int sell_count;
   int sell_gold;
   int sell_ret = QMessageBox::Cancel;
   struct city *pcity;
@@ -552,7 +551,6 @@ void city_widget::display_list_menu(const QPoint &)
     connect(&cty_center, &QAction::triggered, this, &city_widget::center);
   }
   act = 0;
-  sell_count = 0;
   sell_gold = 0;
   sell_ask = true;
   act = list_menu.exec(QCursor::pos());
@@ -666,7 +664,6 @@ void city_widget::display_list_menu(const QPoint &)
           }
           if (sell_ret == QMessageBox::Ok) {
             if (!pcity->did_sell && city_has_building(pcity, building)) {
-              sell_count++;
               sell_gold += impr_sell_gold(building);
               city_sell_improvement(pcity, improvement_number(building));
             }

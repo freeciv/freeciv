@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -734,9 +734,8 @@ static void help_update_improvement(const struct help_item *pitem,
   
   create_help_page(HELP_IMPROVEMENT);
 
-  if (imp  &&  !is_great_wonder(imp)) {
+  if (imp && !is_great_wonder(imp)) {
     char req_buf[512];
-    int i;
 
     sprintf(buf, "%d ", impr_build_shield_cost(imp));
     xaw_set_label(help_improvement_cost_data, buf);
@@ -748,13 +747,12 @@ static void help_update_improvement(const struct help_item *pitem,
       xaw_set_label(help_improvement_req_data,
 		    advance_name_translation(advance_by_number(imp->tech_req)));
     }*/
-    
+
     /* FIXME: this should show ranges, negated reqs, and all the
      * MAX_NUM_REQS reqs. 
      * Currently it's limited to 1 req but this code is partially prepared
      * to be extended.  Remember MAX_NUM_REQS is a compile-time
      * definition. */
-    i = 0;
     requirement_vector_iterate(&imp->reqs, preq) {
       if (!preq->present) {
         continue;
@@ -762,7 +760,6 @@ static void help_update_improvement(const struct help_item *pitem,
       xaw_set_label(help_improvement_req_data,
                     universal_name_translation(&preq->source,
                                                req_buf, sizeof(req_buf)));
-      i++;
       break;
     } requirement_vector_iterate_end;
 /*    create_tech_tree(help_tech_tree, 0,
@@ -783,16 +780,15 @@ static void help_update_improvement(const struct help_item *pitem,
   Update wonder help.
 **************************************************************************/
 static void help_update_wonder(const struct help_item *pitem,
-			       char *title)
+                               char *title)
 {
   char buf[64000];
   struct impr_type *imp = improvement_by_translated_name(title);
 
   create_help_page(HELP_WONDER);
 
-  if (imp  &&  is_great_wonder(imp)) {
+  if (imp && is_great_wonder(imp)) {
     char req_buf[512];
-    int i;
     struct advance *obs_tech = NULL;
 
     sprintf(buf, "%d ", impr_build_shield_cost(imp));
@@ -802,7 +798,6 @@ static void help_update_wonder(const struct help_item *pitem,
       * Currently it's limited to 1 req but this code is partially prepared
       * to be extended.  Remember MAX_NUM_REQS is a compile-time
       * definition. */
-    i = 0;
     requirement_vector_iterate(&imp->reqs, preq) {
       if (!preq->present) {
         continue;
@@ -810,7 +805,6 @@ static void help_update_wonder(const struct help_item *pitem,
       xaw_set_label(help_improvement_req_data,
                     universal_name_translation(&preq->source,
                                                req_buf, sizeof(req_buf)));
-      i++;
       break;
     } requirement_vector_iterate_end;
 
