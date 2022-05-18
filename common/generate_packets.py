@@ -297,32 +297,53 @@ class Field:
       }
     }'''%self.get_dict(vars())
 
+    @property
+    def folded_into_head(self):
+        return (
+            fold_bool_into_header
+            and self.struct_type == "bool"
+            and not self.is_array
+        )
+
     # Returns a code fragment which updates the bit of the this field
     # in the "fields" bitvector. The bit is either a "content-differs"
     # bit or (for bools which gets folded in the header) the actual
     # value of the bool.
-    def get_cmp_wrapper(self,i):
-        cmp=self.get_cmp()
-        if fold_bool_into_header and self.struct_type=="bool" and \
-           not self.is_array:
+    def get_cmp_wrapper(self, i, pack):
+        if self.folded_into_head:
+            if pack.is_info != "no":
+                cmp = self.get_cmp()
+                differ_part = '''
+  if (differ) {
+    different++;
+  }
+'''
+            else:
+                cmp = ''''''
+                differ_part = ''''''
             b="packet->%(name)s"%self.get_dict(vars())
-            return '''%s
-  if (differ) {
-    different++;
-  }
-  if (%s) {
+            return '''%s'''%(cmp) + differ_part + '''  if (%s) {
     BV_SET(fields, %d);
   }
 
-'''%(cmp,b,i)
+'''%(b,i)
         else:
-            return '''%s
+            cmp = self.get_cmp()
+            if pack.is_info != "no":
+                return '''%s
   if (differ) {
     different++;
     BV_SET(fields, %d);
   }
 
-'''%(cmp,i)
+'''%(cmp, i)
+            else:
+                return '''%s
+  if (differ) {
+    BV_SET(fields, %d);
+  }
+
+'''%(cmp, i)
 
     # Returns a code fragment which will put this field if the
     # content has changed. Does nothing for bools-in-header.    
@@ -609,6 +630,17 @@ class Variant:
         self.type=packet.type
         self.delta=packet.delta
         self.is_info=packet.is_info
+        self.differ_used = (
+            (not self.no_packet)
+            and self.delta
+            and (
+                self.is_info != "no"
+                or any(
+                    not field.folded_into_head
+                    for field in self.fields
+                )
+            )
+        )
         self.cancel=packet.cancel
         self.want_force=packet.want_force
 
@@ -822,9 +854,11 @@ static char *stats_%(name)s_names[] = {%(names)s};
                 body=self.get_delta_send_body()
                 delta_header='''  %(name)s_fields fields;
   struct %(packet_name)s *old;
-  bool differ;
-  struct genhash **hash = pc->phs.sent + %(type)s;
-  int different = %(diff)s;
+'''
+                delta_header2 = '''  struct genhash **hash = pc->phs.sent + %(type)s;
+'''
+                if self.is_info != "no":
+                    delta_header2 = delta_header2 + '''  int different = %(diff)s;
 '''
             else:
                 body="\n"
@@ -844,6 +878,12 @@ static char *stats_%(name)s_names[] = {%(names)s};
         else:
             post=""
 
+        if delta_header != "":
+            if self.differ_used:
+                delta_header = delta_header + '''  bool differ;
+''' + delta_header2
+            else:
+                delta_header = delta_header + delta_header2
         for i in range(2):
             for k,v in vars().items():
                 if type(v)==type(""):
@@ -866,14 +906,16 @@ static char *stats_%(name)s_names[] = {%(names)s};
     *old = *real_packet;
     genhash_insert(*hash, old, old);
     memset(old, 0, sizeof(*old));
-    different = 1;      /* Force to send. */
-  }
-
+'''
+        if self.is_info != "no":
+            intro = intro + '''    different = 1;      /* Force to send. */
+'''
+        intro = intro + '''  }
 '''
         body=""
         for i in range(len(self.other_fields)):
             field=self.other_fields[i]
-            body=body+field.get_cmp_wrapper(i)
+            body=body+field.get_cmp_wrapper(i, self)
         if self.gen_log:
             fl='    %(log_macro)s("  no change -> discard");\n'
         else:
