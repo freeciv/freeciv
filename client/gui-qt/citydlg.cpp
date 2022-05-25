@@ -241,7 +241,7 @@ void progress_bar::paintEvent(QPaintEvent *event)
   c = palette().color(QPalette::Window);
   p.fillRect(r2, c);
 
-  /* draw icon */
+  // Draw icon
   if (pix != nullptr) {
     p.setCompositionMode(QPainter::CompositionMode_SourceOver);
     p.drawPixmap(2 , 2, pix_width
@@ -249,7 +249,7 @@ void progress_bar::paintEvent(QPaintEvent *event)
                  pix_width, *pix, 0, 0, pix->width(), pix->height());
   }
 
-  /* draw text */
+  // Draw text
   c = palette().color(QPalette::Text);
   p.setPen(c);
   sfont->setCapitalization(QFont::AllUppercase);
@@ -536,13 +536,13 @@ void impr_info::wheelEvent(QWheelEvent *event)
 			event->buttons(),
 			event->modifiers(),
 			event->phase(), false, event->source());
-#else  /* FC_QT5_MODE */
+#else  // FC_QT5_MODE
   QWheelEvent new_event(QPoint(5, 5), p + QPoint(5,5), event->pixelDelta(),
                         event->angleDelta(),
                         event->angleDelta().y(),
                         Qt::Horizontal, event->buttons(),
                         event->modifiers(), event->phase(), event->source());
-#endif /* FC_QT5_MODE */
+#endif // FC_QT5_MODE
   QApplication::sendEvent(parentWidget(), &new_event);
 }
 
@@ -593,13 +593,13 @@ void impr_item::wheelEvent(QWheelEvent *event)
 			event->buttons(),
 			event->modifiers(),
 			event->phase(), false, event->source());
-#else  /* FC_QT5_MODE */
+#else  // FC_QT5_MODE
   QWheelEvent new_event(QPoint(5, 5), p + QPoint(5,5), event->pixelDelta(),
                         event->angleDelta(),
                         event->angleDelta().y(),
                         Qt::Horizontal, event->buttons(),
                         event->modifiers(), event->phase(), event->source());
-#endif /* FC_QT5_MODE */
+#endif // FC_QT5_MODE
   QApplication::sendEvent(parentWidget()->parentWidget(),
                           &new_event);
 }
@@ -1007,13 +1007,13 @@ void unit_item::wheelEvent(QWheelEvent *event)
 			event->buttons(),
 			event->modifiers(),
 			event->phase(), false, event->source());
-#else  /* FC_QT5_MODE */
+#else  // FC_QT5_MODE
   QWheelEvent new_event(QPoint(5, 5), p + QPoint(5,5), event->pixelDelta(),
                         event->angleDelta(),
                         event->angleDelta().y(),
                         Qt::Horizontal, event->buttons(),
                         event->modifiers(), event->phase(), event->source());
-#endif /* FC_QT5_MODE */
+#endif // FC_QT5_MODE
   QApplication::sendEvent(parentWidget()->parentWidget(),
                           &new_event);
 }
@@ -1095,13 +1095,13 @@ void unit_info::wheelEvent(QWheelEvent *event)
 			event->buttons(),
 			event->modifiers(),
 			event->phase(), false, event->source());
-#else  /* FC_QT5_MODE */
+#else  // FC_QT5_MODE
   QWheelEvent new_event(QPoint(5, 5), p + QPoint(5,5), event->pixelDelta(),
                         event->angleDelta(),
                         event->angleDelta().y(),
                         Qt::Horizontal, event->buttons(),
                         event->modifiers(), event->phase(), event->source());
-#endif /* FC_QT5_MODE */
+#endif // FC_QT5_MODE
   QApplication::sendEvent(parentWidget(), &new_event);
 }
 
@@ -1258,7 +1258,7 @@ void city_map::paintEvent(QPaintEvent *event)
     painter.fillRect(0, 0, zoomed_pixmap.width(), zoomed_pixmap.height(),
                      QBrush(QColor(60, 60 , 60 , 110)));
     painter.setPen(QColor(255, 255, 255));
-    /* TRANS: %1 is custom string choosen by player. */
+    // TRANS: %1 is custom string choosen by player.
     str = QString(_("Governor %1"))
           .arg(cmafec_get_short_descr_of_city(mcity));
     painter.drawText(5, zoomed_pixmap.height() - 10, str);
@@ -1462,7 +1462,7 @@ void city_map::context_menu(QPoint point)
     } else if (act == con_clear) {
       task.activity = ACTIVITY_LAST;
     } else {
-      /* Closed dialog without selecting any activity entry. */
+      // Closed dialog without selecting any activity entry.
       return;
     }
 
@@ -1548,13 +1548,13 @@ city_dialog::city_dialog(QWidget *parent): qfc_dialog(parent)
   setSizePolicy(size_expanding_policy);
   current_building = 0;
 
-  /* map view */
+  // Map view
   map_box = new QGroupBox(this);
 
-  /* City information widget texts about surpluses and so on */
+  // City information widget texts about surpluses and so on
   info_wdg = new QWidget(this);
 
-  /* Fill info_wdg with labels */
+  // Fill info_wdg with labels
   info_grid_layout = new QGridLayout(parent);
 
   info_wdg->setFont(*small_font);
@@ -1579,7 +1579,7 @@ city_dialog::city_dialog(QWidget *parent): qfc_dialog(parent)
 
   info_wdg->setLayout(info_grid_layout);
 
-  /* Buy button */
+  // Buy button
   buy_button = new QPushButton();
   buy_button->setIcon(fc_icons::instance()->get_icon("help-donate"));
   connect(buy_button, &QAbstractButton::clicked, this, &city_dialog::buy);
@@ -1605,7 +1605,7 @@ city_dialog::city_dialog(QWidget *parent): qfc_dialog(parent)
   zoom_vbox->addWidget(zoom_in_button);
   zoom_vbox->addWidget(zoom_out_button);
 
-  /* City map group box */
+  // City map group box
   vbox_layout = new QVBoxLayout;
   hbox_layout = new QHBoxLayout;
   hbox_layout->addStretch(100);
@@ -1617,7 +1617,7 @@ city_dialog::city_dialog(QWidget *parent): qfc_dialog(parent)
   map_box->setLayout(vbox_layout);
   map_box->setTitle(_("City map"));
 
-  /* current/supported units/improvements widgets */
+  // Current/supported units/improvements widgets
   supp_units = new QLabel();
   curr_units = new QLabel();
   curr_impr = new QLabel();
@@ -1699,7 +1699,7 @@ city_dialog::city_dialog(QWidget *parent): qfc_dialog(parent)
   prod_options->setLayout(prod_option_layout);
   prod_options->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Maximum);
 
-  /* prev/next and close buttons */
+  // Prev/next and close buttons
   button = new QPushButton;
   button->setIcon(fc_icons::instance()->get_icon("city-close"));
   button->setIconSize(QSize(56, 56));
@@ -1739,13 +1739,13 @@ city_dialog::city_dialog(QWidget *parent): qfc_dialog(parent)
   hbox_layout->addWidget(info_wdg, Qt::AlignLeft);
   hbox_layout->addWidget(map_box, Qt::AlignCenter);
 
-  /* Layout with city view and buttons */
+  // Layout with city view and buttons
   lefttop_layout->addWidget(citizens_label, Qt::AlignHCenter);
   lefttop_layout->addStretch(0);
   lefttop_layout->addLayout(hbox_layout);
   lefttop_layout->addStretch(50);
 
-  /* Layout for units/buildings */
+  // Layout for units/buildings
   curr_unit_wdg = new QWidget();
   supp_unit_wdg = new QWidget();
   curr_impr_wdg = new QWidget();
@@ -2552,7 +2552,7 @@ void city_dialog::update_cma_tab()
                      Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
     cma_result_pix->setPixmap(pix);
     cma_result_pix->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
-    /* TRANS: %1 is custom string chosen by player */
+    // TRANS: %1 is custom string chosen by player
     cma_result->setText(QString(_("<h3>Governor Enabled<br>(%1)</h3>"))
                         .arg(s.toHtmlEscaped()));
     cma_result->setAlignment(Qt::AlignCenter);
@@ -3008,7 +3008,7 @@ void city_dialog::update_info_label()
     buf_tooltip[i][0] = '\0';
   }
 
-  /* fill the buffers with the necessary info */
+  // Fill the buffers with the necessary info
   spec = city_specialists(dlgcity);
   fc_snprintf(buf_info[INFO_CITIZEN], sizeof(buf_info[INFO_CITIZEN]),
               "%3d (%4d)", dlgcity->size, spec);
@@ -3055,15 +3055,15 @@ void city_dialog::update_info_label()
   granaryturns = city_turns_to_grow(dlgcity);
 
   if (granaryturns == 0) {
-    /* TRANS: city growth is blocked.  Keep short. */
+    // TRANS: city growth is blocked. Keep short.
     fc_snprintf(buf_info[INFO_GROWTH], sizeof(buf_info[INFO_GROWTH]), _("blocked"));
   } else if (granaryturns == FC_INFINITY) {
-    /* TRANS: city is not growing.  Keep short. */
+    // TRANS: city is not growing. Keep short.
     fc_snprintf(buf_info[INFO_GROWTH], sizeof(buf_info[INFO_GROWTH]), _("never"));
   } else {
     /* A negative value means we'll have famine in that many turns.
        But that's handled down below. */
-    /* TRANS: city growth turns.  Keep short. */
+    // TRANS: city growth turns. Keep short.
     fc_snprintf(buf_info[INFO_GROWTH], sizeof(buf_info[INFO_GROWTH]),
                 PL_("%d turn", "%d turns", abs(granaryturns)),
                 abs(granaryturns));
@@ -3083,7 +3083,7 @@ void city_dialog::update_info_label()
                 "  -.-");
   } else {
     illness = city_illness_calc(dlgcity, NULL, NULL, NULL, NULL);
-    /* illness is in tenth of percent */
+    // Illness is in tenth of percent
     fc_snprintf(buf_info[INFO_ILLNESS], sizeof(buf_info[INFO_ILLNESS]),
                 "%5.1f%%", (float) illness / 10.0);
   }
@@ -3649,19 +3649,19 @@ void city_dialog::update_title()
                       .replace("&", "&&"));
 
   if (city_unhappy(dlgcity)) {
-    /* TRANS: city dialog title */
+    // TRANS: city dialog title
     buf = QString(_("%1 - %2 citizens - DISORDER")).arg(city_name_get(dlgcity),
           population_to_text(city_population(dlgcity)));
   } else if (city_celebrating(dlgcity)) {
-    /* TRANS: city dialog title */
+    // TRANS: city dialog title
     buf = QString(_("%1 - %2 citizens - celebrating")).arg(city_name_get(dlgcity),
           population_to_text(city_population(dlgcity)));
   } else if (city_happy(dlgcity)) {
-    /* TRANS: city dialog title */
+    // TRANS: city dialog title
     buf = QString(_("%1 - %2 citizens - happy")).arg(city_name_get(dlgcity),
           population_to_text(city_population(dlgcity)));
   } else {
-    /* TRANS: city dialog title */
+    // TRANS: city dialog title
     buf = QString(_("%1 - %2 citizens")).arg(city_name_get(dlgcity),
           population_to_text(city_population(dlgcity)));
   }
@@ -3993,7 +3993,7 @@ QString get_tooltip(QVariant qvar)
                             NULL, target->value.building);
   }
 
-  /* Remove all lines from help which has '*' in first 3 chars */
+  // Remove all lines from help which has '*' in first 3 chars
   ret_str = cut_helptext(str);
   ret_str = split_text(ret_str, true);
   ret_str = ret_str.trimmed();
@@ -4198,7 +4198,7 @@ production_item::production_item(struct universal *ptarget,
 ****************************************************************************/
 production_item::~production_item()
 {
-  /* allocated as renegade in model */
+  // Allocated as renegade in model
   if (target != NULL) {
     delete target;
   }
@@ -4255,12 +4255,13 @@ QVariant city_production_model::data(const QModelIndex &index, int role) const
   if (index.row() >= 0 && index.row() < rowCount() && index.column() >= 0
       && index.column() < columnCount()
       && (index.column() + index.row() * 3 < city_target_list.count())) {
-    int r, c, t ,new_index;
+    int r, c, t, new_index;
+
     r = index.row();
     c = index.column();
     t = r * 3 + c;
     new_index = t / 3 + rowCount() * c;
-    /* Exception, shift whole column */
+    // Exception, shift whole column
     if ((c == 2) && city_target_list.count() % 3 == 1) {
       new_index = t / 3 + rowCount() * c - 1;
     }
@@ -4302,7 +4303,7 @@ void city_production_model::populate()
     if (future_t || can_city_build_now(mcity, &items[item].item)) {
       renegade = new universal(items[item].item);
 
-      /* renagade deleted in production_item destructor */
+      // Renagade deleted in production_item destructor
       if (VUT_UTYPE == renegade->kind) {
         str = utype_name_translation(renegade->value.utype);
         sh.setX(qMax(sh.x(), fm.horizontalAdvance(str)));
@@ -4493,14 +4494,14 @@ void production_widget::prod_selected(const QItemSelection &sl,
   if (target != NULL) {
     city_get_queue(pw_city, &queue);
     switch (when_change) {
-    case 0: /* Change current target */
+    case 0: // Change current target
       city_change_production(pw_city, target);
       if (city_can_buy(pw_city) && buy_it) {
         city_buy_production(pw_city);
       }
       break;
 
-    case 1:                 /* Change current (selected on list)*/
+    case 1:                 // Change current (selected on list)
       if (curr_selection < 0 || curr_selection > worklist_length(&queue)) {
         city_change_production(pw_city, target);
       } else {
@@ -4510,7 +4511,7 @@ void production_widget::prod_selected(const QItemSelection &sl,
       }
       break;
 
-    case 2:                 /* Insert before */
+    case 2:                 // Insert before
       if (curr_selection < 0 || curr_selection > worklist_length(&queue)) {
         curr_selection = 0;
       }
@@ -4520,7 +4521,7 @@ void production_widget::prod_selected(const QItemSelection &sl,
       city_set_queue(pw_city, &queue);
       break;
 
-    case 3:                 /* Insert after */
+    case 3:                 // Insert after
       if (curr_selection < 0 || curr_selection > worklist_length(&queue)) {
         city_queue_insert(pw_city, -1, target);
         break;
@@ -4530,7 +4531,7 @@ void production_widget::prod_selected(const QItemSelection &sl,
       city_set_queue(pw_city, &queue);
       break;
 
-    case 4:                 /* Add last */
+    case 4:                 // Add last
       city_queue_insert(pw_city, -1, target);
       break;
 

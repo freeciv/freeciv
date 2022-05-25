@@ -82,7 +82,7 @@ class QVBoxLayout;
 #define SPECENUM_VALUE15 INFO_AIRLIFT
 #define SPECENUM_VALUE15NAME N_("Airlift:")
 
-#define SPECENUM_COUNT    NUM_INFO_FIELDS /* number of city_info panel enumerated fields */
+#define SPECENUM_COUNT    NUM_INFO_FIELDS // number of city_info panel enumerated fields
 #include "specenum_gen.h"
 
 class QImage;
@@ -561,4 +561,4 @@ protected:
 void destroy_city_dialog();
 void city_font_update();
 
-#endif                          /* FC__CITYDLG_H */
+#endif // FC__CITYDLG_H

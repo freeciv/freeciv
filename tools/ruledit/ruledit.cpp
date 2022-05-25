@@ -17,7 +17,7 @@
 
 #include "fc_prehdrs.h"
 
-/* ANSI */
+// ANSI
 #include <stdlib.h>
 
 #include <signal.h>
@@ -26,26 +26,26 @@
 #include <windows.h>
 #endif
 
-/* utility */
+// utility
 #include "fc_cmdline.h"
 #include "fciconv.h"
 #include "fcintl.h"
 #include "log.h"
 #include "registry.h"
 
-/* common */
+// common
 #include "fc_cmdhelp.h"
 #include "fc_interface.h"
 #include "version.h"
 
-/* server */
+// server
 #include "sernet.h"
 #include "settings.h"
 
-/* tools/shared */
+// tools/shared
 #include "tools_fc_interface.h"
 
-/* ruledit */
+// ruledit
 #include "comments.h"
 #include "ruledit_qt.h"
 
@@ -72,10 +72,10 @@ int main(int argc, char **argv)
   if (LoadLibrary("exchndl.dll") == NULL) {
 #  ifdef FREECIV_DEBUG
     fprintf(stderr, "exchndl.dll could not be loaded, no crash debugger\n");
-#  endif /* FREECIV_DEBUG */
+#  endif // FREECIV_DEBUG
   }
-# endif /* FREECIV_NDEBUG */
-#endif /* FREECIV_MSWINDOWS */
+# endif // FREECIV_NDEBUG
+#endif // FREECIV_MSWINDOWS
 
   init_nls();
 
@@ -92,7 +92,7 @@ int main(int argc, char **argv)
 
   log_init(NULL, loglevel, NULL, NULL, fatal_assertions);
 
-  /* Initialize command line arguments. */
+  // Initialize command line arguments.
   reargs.ruleset = NULL;
 
   ui_options = re_parse_cmdline(argc, argv);
@@ -102,13 +102,13 @@ int main(int argc, char **argv)
 
     settings_init(FALSE);
 
-    /* Reset aifill to zero */
+    // Reset aifill to zero
     game.info.aifill = 0;
 
     game_init(FALSE);
     i_am_tool();
 
-    /* Initialize the fc_interface functions needed to understand rules. */
+    // Initialize the fc_interface functions needed to understand rules.
     fc_interface_init_tool();
 
     if (comments_load()) {
@@ -129,7 +129,7 @@ int main(int argc, char **argv)
   free_libfreeciv();
   free_nls();
 
-  /* Clean up command line arguments. */
+  // Clean up command line arguments.
   cmdline_option_values_free();
 
   return exit_status;
@@ -158,15 +158,15 @@ static int re_parse_cmdline(int argc, char *argv[])
       cmdhelp_add(help, "v", "version",
                   R__("Print the version number"));
       cmdhelp_add(help, "r",
-                  /* TRANS: argument (don't translate) VALUE (translate) */
+                  // TRANS: argument (don't translate) VALUE (translate)
                   R__("ruleset RULESET"),
                   R__("Ruleset to use as the starting point."));
 #ifndef FREECIV_NDEBUG
       cmdhelp_add(help, "F",
-                  /* TRANS: "Fatal" is exactly what user must type, do not translate. */
+                  // TRANS: "Fatal" is exactly what user must type, do not translate.
                   R__("Fatal [SIGNAL]"),
                   R__("Raise a signal on failed assertion"));
-#endif /* FREECIV_NDEBUG */
+#endif // FREECIV_NDEBUG
       /* The function below prints a header and footer for the options.
        * Furthermore, the options are sorted. */
       cmdhelp_display(help, TRUE, TRUE, TRUE);
@@ -195,7 +195,7 @@ static int re_parse_cmdline(int argc, char *argv[])
         fc_fprintf(stderr, R__("Try using --help.\n"));
         exit(EXIT_FAILURE);
       }
-#endif /* FREECIV_NDEBUG */
+#endif // FREECIV_NDEBUG
     } else if (is_option("--", argv[i])) {
       ui_separator = TRUE;
     } else {

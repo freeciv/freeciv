@@ -132,6 +132,7 @@ public:
   struct impr_type *timpr;
   struct government *tgov;
 };
+
 /****************************************************************************
   Custom widget representing research diagram in science_report
 ****************************************************************************/
@@ -264,4 +265,4 @@ void popdown_endgame_report();
 void popup_endgame_report();
 void toggle_units_report(bool);
 
-#endif /* FC__REPODLGS_H */
+#endif // FC__REPODLGS_H

@@ -290,7 +290,7 @@ public:
   bool quick_airlifting;
   Unit_type_id airlift_type_id;
 private slots:
-  /* game menu */
+  // game menu
   void local_options();
   void shortcut_options();
   void server_options();
@@ -305,10 +305,10 @@ private slots:
   bool confirm_disruptive_selection();
   void quit_game();
 
-  /* help menu */
+  // help menu
   void slot_help(const QString &topic);
 
-  /*used by work menu*/
+  // used by work menu
   void slot_build_path(int id);
   void slot_build_base(int id);
   void slot_build_city();
@@ -325,7 +325,7 @@ private slots:
   void slot_clean_pollution();
   void slot_clean_fallout();
 
-  /*used by unit menu */
+  // used by unit menu
   void slot_unit_sentry();
   void slot_unit_explore();
   void slot_unit_goto();
@@ -341,14 +341,14 @@ private slots:
   void slot_convert();
   void slot_disband();
 
-  /*used by combat menu*/
+  // used by combat menu
   void slot_unit_fortify();
   void slot_unit_fortress();
   void slot_unit_airbase();
   void slot_pillage();
   void slot_action();
 
-  /*used by view menu*/
+  // used by view menu
   void slot_center_view();
   void slot_minimap_view();
   void slot_show_new_turn_text();
@@ -372,7 +372,7 @@ private slots:
   void zoom_reset();
   void zoom_out();
 
-  /*used by select menu */
+  // used by select menu
   void slot_select_one();
   void slot_select_all_tile();
   void slot_select_same_tile();
@@ -382,7 +382,7 @@ private slots:
   void slot_wait();
   void slot_unit_filter();
 
-  /* used by multiplayer menu */
+  // used by multiplayer menu
   void slot_orders_clear();
   void slot_execute_orders();
   void slot_delayed_goto();
@@ -397,7 +397,7 @@ private slots:
   void slot_action_vs_unit();
   void slot_action_vs_city();
 
-  /*used by civilization menu */
+  // used by civilization menu
   void slot_show_map();
   void calc_trade_routes();
   void slot_popup_tax_rates();
@@ -423,4 +423,4 @@ private:
                                    QString *ret);
 };
 
-#endif /* FC__MENU_H */
+#endif // FC__MENU_H

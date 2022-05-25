@@ -24,7 +24,7 @@
 // common
 #include "featured_text.h"
 
-/* client/luascript */
+// client/luascript
 #include "script_client.h"
 
 // gui-qt
@@ -39,7 +39,7 @@ QString qlua_filename;
 *****************************************************************************/
 void luaconsole_dialog_popup(bool raise)
 {
-  /* lua output is in chat */
+  // Lua output is in chat
 }
 
 /*************************************************************************//**

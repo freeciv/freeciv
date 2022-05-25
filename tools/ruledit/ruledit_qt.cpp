@@ -232,7 +232,7 @@ void ruledit_gui::launch_now()
   if (load_rulesets(NULL, NULL, TRUE, conversion_log_cb, FALSE, TRUE, TRUE)) {
     display_msg(R__("Ruleset loaded"));
 
-    /* Make freeable copy */
+    // Make freeable copy
     if (game.server.ruledit.nationlist != NULL) {
       data.nationlist = fc_strdup(game.server.ruledit.nationlist);
     } else {
@@ -351,7 +351,7 @@ void ruledit_gui::open_req_vec_fix(req_vec_fix_item *item_info)
     if (old_fixer->item() == item_info->item()) {
       item_info->close();
 
-      /* Already open */
+      // Already open
       return;
     }
   } req_vec_fix_list_iterate_end;

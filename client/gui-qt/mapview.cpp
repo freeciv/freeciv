@@ -70,8 +70,8 @@ extern int last_center_enemy_city;
 bool is_point_in_area(int x, int y, int px, int py, int pxe, int pye)
 {
   if (x >= px && y >= py && x <= pxe && y <= pye) {
-      return true;
-    }
+    return true;
+  }
   return false;
 }
 
@@ -93,7 +93,7 @@ void draw_calculated_trade_routes(QPainter *painter)
     return;
   }
   pcolor = get_color(tileset, COLOR_MAPVIEW_TRADE_ROUTES_NO_BUILT);
-  /* Draw calculated trade routes */
+  // Draw calculated trade routes
   if (gui_options.draw_city_trade_routes) {
 
     foreach (qgilles, gui()->trade_gen.lines) {
@@ -104,7 +104,7 @@ void draw_calculated_trade_routes(QPainter *painter)
       tile_to_canvas_pos(&x1, &y1, qgilles.t1);
       tile_to_canvas_pos(&x2, &y2, qgilles.t2);
 
-      /* Dont draw if route was already established */
+      // Dont draw if route was already established
       if (tile_city(qgilles.t1) && tile_city(qgilles.t2)
           && have_cities_trade_route(tile_city(qgilles.t1),
                                      tile_city(qgilles.t2))) {
@@ -133,7 +133,7 @@ void draw_calculated_trade_routes(QPainter *painter)
                         y2 + tileset_tile_height(tileset) / 2 - h);
     }
   }
-  /* Draw virtual cities */
+  // Draw virtual cities
   foreach (pcity, gui()->trade_gen.virtual_cities) {
     float canvas_x, canvas_y;
     if (pcity->tile != nullptr
@@ -333,9 +333,7 @@ void map_view::find_place(int pos_x, int pos_y, int &w, int &h, int wdth,
   bool cont_searching = false;
 
   if (recursive_nr >= 1000) {
-    /**
-     * give up searching position
-     */
+    // Give up searching position
     return;
   }
   /**
@@ -1207,7 +1205,7 @@ void update_map_canvas_scrollbars(void)
 **************************************************************************/
 void update_map_canvas_scrollbars_size(void)
 {
-  /* PORTME */
+  // PORTME
 }
 
 /**********************************************************************//**
@@ -1228,7 +1226,7 @@ void pixmap_put_overlay_tile(int canvas_x, int  canvas_y,
     return;
   }
 
-  /* PORTME */
+  // PORTME
 }
 
 /**********************************************************************//**
@@ -1250,7 +1248,7 @@ void put_cross_overlay_tile(struct tile *ptile)
 **************************************************************************/
 void draw_selection_rectangle(int canvas_x, int canvas_y, int w, int h)
 {
-  /* PORTME */
+  // PORTME
 }
 
 /**********************************************************************//**
@@ -1264,7 +1262,7 @@ void tileset_changed(void)
 
   update_unit_info_label(get_units_in_focus());
   destroy_city_dialog();
-  /* Update science report if open */
+  // Update science report if open
   if (gui()->is_repo_dlg_open("SCI")) {
     i = gui()->gimme_index_of("SCI");
     fc_assert(i != -1);
@@ -1312,7 +1310,7 @@ void overview_size_changed(void)
 **************************************************************************/
 void update_overview_scroll_window_pos(int x, int y)
 {
-  /* TODO: PORTME. */
+  // TODO: PORTME.
 }
 
 /**********************************************************************//**

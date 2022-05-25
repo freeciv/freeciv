@@ -41,6 +41,7 @@ void side_right_click_diplomacy();
 void side_right_click_science();
 void side_left_click_science(bool nothing);
 void side_show_map(bool nothing);
+
 /***************************************************************************
   Class representing single widget(icon) on sidebar
 ***************************************************************************/
@@ -121,6 +122,4 @@ private:
   QVBoxLayout *layout;
 };
 
-
-#endif /* FC__SIDEBAR_H */
-
+#endif // FC__SIDEBAR_H

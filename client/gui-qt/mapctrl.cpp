@@ -106,7 +106,7 @@ void create_line_at_mouse_pos(void)
 **************************************************************************/
 void update_rect_at_mouse_pos(void)
 {
-  /* PLS DONT PORT IT */
+  // PLS DONT PORT IT
 }
 
 /**********************************************************************//**
@@ -229,7 +229,7 @@ void map_view::shortcut_pressed(int key)
     pcity = nullptr;
   }
 
-  /* Trade Generator - skip */
+  // Trade Generator - skip
   sc = fc_shortcuts::sc()->get_shortcut(SC_SELECT_BUTTON);
   if (bt == sc->mouse && md == sc->mod
       && gui()->trade_gen.hover_city) {
@@ -240,7 +240,7 @@ void map_view::shortcut_pressed(int key)
     return;
   }
 
-  /* Rally point - select city - skip */
+  // Rally point - select city - skip
   if (bt == sc->mouse && md == sc->mod
       && gui()->rallies.hover_city) {
     char text[1024];
@@ -263,7 +263,7 @@ void map_view::shortcut_pressed(int key)
     return;
   }
 
-  /* Rally point - select tile  - skip */
+  // Rally point - select tile  - skip
   if (bt == Qt::LeftButton && gui()->rallies.hover_tile && ctile != NULL) {
     char text[1024];
 
@@ -316,7 +316,7 @@ void map_view::shortcut_pressed(int key)
     return;
   }
 
-  /* Check configured shortcuts */
+  // Check configured shortcuts
   if (!gui()->menu_bar->delayed_order) {
     sc = fc_shortcuts::sc()->get_shortcut(SC_QUICK_SELECT);
     if (((key && key == sc->key) || bt == sc->mouse) && md == sc->mod
@@ -438,7 +438,7 @@ void map_view::shortcut_pressed(int key)
   sc = fc_shortcuts::sc()->get_shortcut(SC_SCROLL_MAP);
   sc_sec = fc_shortcuts::sc()->get_shortcut(SC_SELECT_BUTTON);
   if ((((key && key == sc->key) || (bt == sc->mouse
-      /* check if keyboardless goto active and its shortcut if pressed */
+      // Check if keyboardless goto active and its shortcut if pressed
       || (goto_is_active() && (bt == (sc->mouse | sc_sec->mouse)))))
       && md == sc->mod)) {
     recenter_button_pressed(pos.x(), pos.y());

@@ -15,7 +15,7 @@
 #include <fc_config.h>
 #endif
 
-//Qt
+// Qt
 #include <QApplication>
 #include <QCheckBox>
 #include <QCompleter>
@@ -34,7 +34,7 @@
 // client
 #include "audio.h"
 #include "climap.h"
-#include "climisc.h"      /* for write_chatline_content */
+#include "climisc.h"      // For write_chatline_content
 #include "connectdlg_common.h"
 #include "control.h"
 #include "game.h"
@@ -122,7 +122,7 @@ void chat_listener::send_chat_message(const QString &message)
 
   if (index != -1) {
     s = s.remove("PICK:");
-    /* now should be playername left in string */
+    // Now should be playername left in string
     players_iterate(pplayer) {
       splayer = QString(pplayer->name);
 
@@ -136,9 +136,7 @@ void chat_listener::send_chat_message(const QString &message)
   history << message;
   reset_history_position();
 
-  /*
-   * If client send commands to take ai, set /away to disable AI
-   */
+  // If client send commands to take ai, set /away to disable AI
   if (message.startsWith("/take ")) {
     s = s.remove("/take ");
     players_iterate(pplayer) {
@@ -155,9 +153,7 @@ void chat_listener::send_chat_message(const QString &message)
     } players_iterate_end;
   }
 
-  /*
-   * Option to send to allies by default
-   */
+  // Option to send to allies by default
   if (!message.isEmpty()) {
     if (client_state() >= C_S_RUNNING && gui_options.gui_qt_allied_chat_only
         && is_plain_public_message(message)) {
@@ -423,6 +419,7 @@ void chatwdg::chat_message_received(const QString& message,
                                     const struct text_tag_list *tags)
 {
   QColor col = chat_output->palette().color(QPalette::Text);
+
   append(apply_tags(message, tags, col));
 }
 
@@ -467,6 +464,7 @@ bool chatwdg::eventFilter(QObject *obj, QEvent *event)
   if (obj == chat_line) {
     if (event->type() == QEvent::KeyPress) {
       QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
+
       if (keyEvent->key() == Qt::Key_Escape) {
         gui()->infotab->restore_chat();
         gui()->mapview_wdg->setFocus();
@@ -639,7 +637,7 @@ QString apply_tags(QString str, const struct text_tag_list *tags,
       }
 
       if (!pcolor) {
-        break; /* Not a valid link type case. */
+        break; // Not a valid link type case.
       }
       color = pcolor->qcolor.name(QColor::HexRgb);
       str_col = QString("<font color=\"%1\">").arg(color);
@@ -653,7 +651,7 @@ QString apply_tags(QString str, const struct text_tag_list *tags,
     }
   } text_tag_list_iterate_end;
 
-  /* insert html starting from last items */
+  // Insert html starting from last items
   last_i = str.count();
   QMultiMap<int, QString>::const_iterator i = mm.constEnd();
   QMultiMap<int, QString>::const_iterator j = mm.constEnd();
@@ -700,14 +698,14 @@ static bool is_plain_public_message(QString s)
     return false;
   }
 
-  /* Search for private message */
+  // Search for private message
   if (!str.contains(CHAT_DIRECT_PREFIX)) {
     return true;
   }
   i = str.indexOf(CHAT_DIRECT_PREFIX);
   str = str.left(i);
 
-  /* Compare all players and connections looking for match */
+  // Compare all players and connections looking for match
   conn_list_iterate(game.all_connections, pconn) {
     s1 = pconn->username;
     if (s1.length() < i) {
@@ -746,7 +744,7 @@ void qtg_real_output_window_append(const char *astring,
 
   wakeup = gui_options.gui_qt_wakeup_text;
 
-  /* Format wakeup string if needed */
+  // Format wakeup string if needed
   if (wakeup.contains("%1")) {
     wakeup = wakeup.arg(client.conn.username);
   }
@@ -755,7 +753,7 @@ void qtg_real_output_window_append(const char *astring,
     qapp->alert(gui()->central_wdg);
   }
 
-  /* Play sound if we encountered wakeup string */
+  // Play sound if we encountered wakeup string
   if (str.contains(wakeup) && client_state() < C_S_RUNNING
       && !wakeup.isEmpty()) {
     qapp->alert(gui()->central_wdg);
@@ -773,7 +771,7 @@ void qtg_real_output_window_append(const char *astring,
 ***************************************************************************/
 void log_output_window(void)
 {
-  /* PORTME */
+  // PORTME
   write_chatline_content(NULL);
 }
 
@@ -782,7 +780,7 @@ void log_output_window(void)
 ***************************************************************************/
 void clear_output_window(void)
 {
-  /* PORTME */
+  // PORTME
 #if 0
   set_output_window_text(_("Cleared output window."));
 #endif

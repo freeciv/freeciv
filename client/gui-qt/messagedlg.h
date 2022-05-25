@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 2003 - The Freeciv Project
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -17,7 +17,7 @@ extern "C" {
 #include "messagedlg_g.h"
 }
 
-//Qt
+// Qt
 #include <QWidget>
 
 class QTableWidget;
@@ -42,4 +42,4 @@ private slots:
 
 void popup_messageopt_dialog(void);
 
-#endif /* FC__MESSAGEDLG_H */
+#endif // FC__MESSAGEDLG_H

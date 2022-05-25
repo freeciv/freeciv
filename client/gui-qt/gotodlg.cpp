@@ -26,10 +26,10 @@
 #include <QPushButton>
 #include <QTableWidget>
 
-/* common */
+// common
 #include "game.h"
 
-/* client */
+// client
 #include "client_main.h"
 #include "control.h"
 #include "goto.h"
@@ -60,7 +60,7 @@
 #define SPECENUM_VALUE7 GOTODLG_TRADE
 #define SPECENUM_VALUE7NAME N_("Trade")
 
-#define SPECENUM_COUNT NUM_GOTODLG_COLUMNS /* number of columns in the goto dialog */
+#define SPECENUM_COUNT NUM_GOTODLG_COLUMNS // number of columns in the goto dialog
 #include "specenum_gen.h"
 
 

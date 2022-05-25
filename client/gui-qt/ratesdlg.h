@@ -113,4 +113,4 @@ private slots:
 
 void popup_multiplier_dialog(void);
 
-#endif /* FC__RATESDLG_H */
+#endif // FC__RATESDLG_H

@@ -22,10 +22,10 @@ extern "C" {
 #include "gotodlg_g.h"
 }
 
-//Qt
+// Qt
 #include <QDialog>
 
-//common
+// common
 #include "dialogs.h"
 #include "unit.h"
 
@@ -75,4 +75,4 @@ private:
   struct tile *original_tile;
 };
 
-#endif /* FC__GOTODLG_H */
+#endif // FC__GOTODLG_H

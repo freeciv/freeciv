@@ -32,6 +32,7 @@
 #include "messagedlg.h"
 
 extern QApplication *qapp;
+
 /**********************************************************************//**
   Message widget constructor
 **************************************************************************/
@@ -139,8 +140,9 @@ void message_dlg::apply_changes()
   int i, j;
   QTableWidgetItem *item;
   Qt::CheckState state;
+
   for (i = 0; i <= event_type_max(); i++) {
-    /* Include possible undefined messages. */
+    // Include possible undefined messages.
     messages_where[i] = 0;
   }
   i = 0;

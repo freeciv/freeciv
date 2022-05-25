@@ -36,7 +36,7 @@
 
 #ifdef FC_QT5_MODE
 #include <QTextCodec>
-#endif /* FC_QT5_MODE */
+#endif // FC_QT5_MODE
 
 #include <QTextEdit>
 
@@ -71,7 +71,7 @@ fc_client::fc_client() : QMainWindow()
 {
 #ifdef FC_QT5_MODE
   QTextCodec::setCodecForLocale(QTextCodec::codecForName("UTF-8"));
-#endif /* FC_QT5_MODE */
+#endif // FC_QT5_MODE
   /**
    * Somehow freeciv-client-common asks to switch to page when all widgets
    * haven't been created yet by Qt, even constructor finished job,
@@ -362,7 +362,7 @@ void fc_client::switch_page(int new_pg)
       setWindowFlags(Qt::Window | Qt::CustomizeWindowHint);
     }
     showMaximized();
-    /* For MS Windows, it might ingore first */
+    // For MS Windows, it might ingore first
     showMaximized();
     gui()->infotab->chtwdg->update_widgets();
     status_bar->setVisible(false);
@@ -818,7 +818,7 @@ void fc_client::popdown_unit_sel()
 ****************************************************************************/
 void fc_client::remove_repo_dlg(QString str)
 {
-  /* if app is closing opened_repo_dlg is already deleted */
+  // If app is closing, opened_repo_dlg is already deleted */
   if (!is_closing()) {
     opened_repo_dlgs.remove(str);
   }
@@ -970,14 +970,14 @@ QIcon fc_icons::get_icon(const QString &id)
   QByteArray png_bytes;
 
   str = QString("themes") + DIR_SEPARATOR + "gui-qt" + DIR_SEPARATOR;
-  /* Try custom icon from theme */
+  // Try custom icon from theme
   pn_bytes = str.toLocal8Bit();
   png_bytes = QString(pn_bytes.data() + current_theme + DIR_SEPARATOR
                       + id + ".png").toLocal8Bit();
   icon.addFile(fileinfoname(get_data_dirs(),
                             png_bytes.data()));
   str = str + "icons" + DIR_SEPARATOR;
-  /* Try icon from icons dir */
+  // Try icon from icons dir
   if (icon.isNull()) {
     pn_bytes = str.toLocal8Bit();
     png_bytes = QString(pn_bytes.data() + id + ".png").toLocal8Bit();
@@ -1094,7 +1094,7 @@ void fc_game_tab_widget::current_changed(int index)
   currentWidget()->hide();
   widget(index)->show();
 
-  /* Set focus to map instead sidebar */
+  // Set focus to map instead sidebar
   if (gui()->mapview_wdg && gui()->current_page() == PAGE_GAME
      && index == 0) {
     gui()->mapview_wdg->setFocus();
@@ -1187,7 +1187,7 @@ void pregame_options::set_rulesets(int num_rulesets, char **rulesets)
     }
   }
 
-  /* HACK: server should tell us the current ruleset. */
+  // HACK: server should tell us the current ruleset.
   cruleset->setCurrentIndex(def_idx);
   cruleset->blockSignals(false);
 }
@@ -1263,7 +1263,7 @@ void pregame_options::ailevel_change(int i)
   if (v.isValid()) {
     enum ai_level k = static_cast<ai_level>(v.toInt());
 
-    /* Suppress changes provoked by server rather than local user */
+    // Suppress changes provoked by server rather than local user
     if (server_ai_level() != k) {
       const char *name = ai_level_cmd(k);
 

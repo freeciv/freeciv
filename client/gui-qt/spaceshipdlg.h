@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -22,11 +22,11 @@ extern "C" {
 #include "spaceshipdlg_g.h"
 }
 
-/* client */
-#include "text.h"
-
 // Qt
 #include <QWidget>
+
+// client
+#include "text.h"
 
 class QLabel;
 class QPixmap;
@@ -59,4 +59,4 @@ private:
 void popup_spaceship_dialog(struct player *pplayer);
 void popdown_all_spaceships_dialogs();
 
-#endif /* FC__SPACESHIPDLG_H */
+#endif // FC__SPACESHIPDLG_H

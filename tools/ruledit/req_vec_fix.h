@@ -18,10 +18,10 @@
 #include <fc_config.h>
 #endif
 
-/* Qt */
+// Qt
 #include <QWidget>
 
-/* common */
+// common
 #include "requirements.h"
 
 class QButtonGroup;
@@ -31,7 +31,7 @@ class QStackedLayout;
 
 class ruledit_gui;
 
-/* How serious a req_vec_problem is considered */
+// How serious a req_vec_problem is considered
 enum req_vec_problem_seriousness {
   RVPS_NO_PROBLEM,
   RVPS_IMPROVE,
@@ -192,4 +192,4 @@ private slots:
   void incoming_req_vec_change(const requirement_vector *vec);
 };
 
-#endif /* FC__REQ_VEC_FIX_H */
+#endif // FC__REQ_VEC_FIX_H

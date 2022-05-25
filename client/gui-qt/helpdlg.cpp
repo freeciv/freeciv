@@ -252,7 +252,7 @@ void help_dialog::make_tree()
     title = pitem->topic;
 
     for (s = pitem->topic; *s == ' '; s++) {
-      /* nothing */
+      // Nothing
     }
 
     item = new QTreeWidgetItem(QStringList(title));
@@ -922,7 +922,7 @@ void help_widget::set_topic_unit(const help_item *topic,
       QLabel *tb;
 
       tb = new QLabel(this);
-      /* TRANS: this and similar literal strings interpreted as (Qt) HTML */
+      // TRANS: this and similar literal strings interpreted as (Qt) HTML
       str = _("Requires");
       str = "<b>" + str + "</b> "
             + link_me(advance_name_translation(tech), HELP_TECH);
@@ -1390,7 +1390,7 @@ void help_widget::set_topic_terrain(const help_item *topic,
     }
 
     if (action_id_univs_not_blocking(ACTION_IRRIGATE, NULL, &for_terr)) {
-      /* TRANS: this and similar literal strings interpreted as (Qt) HTML */
+      // TRANS: this and similar literal strings interpreted as (Qt) HTML
       add_extras_of_act_for_terrain(pterrain, ACTIVITY_IRRIGATE, _("Build as irrigation"));
     }
     if (action_id_univs_not_blocking(ACTION_MINE, NULL, &for_terr)) {
@@ -1414,7 +1414,7 @@ void help_widget::set_topic_terrain(const help_item *topic,
     if (*(pterrain->resources)) {
       struct extra_type **r;
 
-      /* TODO: include resource frequency information */
+      // TODO: include resource frequency information
       for (r = pterrain->resources; *r; r++) {
         canvas = terrain_canvas(pterrain, *r);
         vbox->addLayout(create_terrain_widget(

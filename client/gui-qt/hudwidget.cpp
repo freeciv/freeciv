@@ -455,7 +455,6 @@ void hud_input_box::timerEvent(QTimerEvent *event)
   update();
 }
 
-
 /************************************************************************//**
   Paint event for custom input box
 ****************************************************************************/
@@ -636,7 +635,7 @@ void hud_units::update_actions(unit_list *punits)
                                      + punit->moves_left), false))
                                      + QString(")");
   }
-  /* TRANS: MP = Movement points */
+  // TRANS: MP = Movement points
   mp = QString(_("MP: ")) + mp;
   text_str = text_str + mp + " ";
   text_str += QString(_("HP:%1/%2")).arg(
@@ -646,7 +645,8 @@ void hud_units::update_actions(unit_list *punits)
   snum = QString::number(unit_list_size(punit->tile->units) - 1);
   if (unit_list_size(get_units_in_focus()) > 1) {
     int n = unit_list_size(get_units_in_focus());
-    /* TRANS: preserve leading space; always at least 2 */
+
+    // TRANS: preserve leading space; always at least 2
     text_str = text_str + QString(PL_(" (Selected %1 unit)",
                                       " (Selected %1 units)", n))
                .arg(n);
@@ -654,7 +654,7 @@ void hud_units::update_actions(unit_list *punits)
     QByteArray ut_bytes;
 
     ut_bytes = snum.toLocal8Bit();
-    /* TRANS: preserve leading space */
+    // TRANS: preserve leading space
     text_str = text_str + QString(PL_(" +%1 unit",
                                       " +%1 units", num-1))
                                   .arg(ut_bytes.data());
@@ -688,7 +688,7 @@ void hud_units::update_actions(unit_list *punits)
     p.end();
     pix = pix2;
   }
-  /* Draw movement points */
+  // Draw movement points
   move_pt_text = move_points_text(punit->moves_left, false);
   if (move_pt_text.contains('/')) {
     fraction2 = move_pt_text.right(1);
@@ -988,7 +988,7 @@ int unit_actions::update_actions()
   qDeleteAll(actions);
   actions.clear();
 
-  /* Create possible actions */
+  // Create possible actions
 
   if (unit_can_add_or_build_city(current_unit)) {
     a = new hud_action(this);
@@ -1033,11 +1033,13 @@ int unit_actions::update_actions()
     actions.append(a);
   }
 
-  /* Road */
+  // Road
   {
     bool ok = false;
+
     extra_type_by_cause_iterate(EC_ROAD, pextra) {
       struct road_type *proad = extra_road_get(pextra);
+
       if (can_build_road(proad, current_unit, unit_tile(current_unit))) {
         ok = true;
       }
@@ -1049,7 +1051,7 @@ int unit_actions::update_actions()
       actions.append(a);
     }
   }
-  /* Goto */
+  // Goto
   a = new hud_action(this);
   a->action_shortcut = SC_GOTO;
   a->set_pixmap(fc_icons::instance()->get_pixmap("goto"));
@@ -1071,7 +1073,7 @@ int unit_actions::update_actions()
     actions.append(a);
   }
 
-  /* Load */
+  // Load
   if (unit_can_load(current_unit)) {
     a = new hud_action(this);
     a->action_shortcut = SC_LOAD;
@@ -1079,7 +1081,7 @@ int unit_actions::update_actions()
     actions.append(a);
   }
 
-  /* Set homecity */
+  // Set homecity
   if (tile_city(unit_tile(current_unit))) {
     if (can_unit_change_homecity_to(current_unit,
                                     tile_city(unit_tile(current_unit)))) {
@@ -1090,7 +1092,7 @@ int unit_actions::update_actions()
     }
   }
 
-  /* Upgrade */
+  // Upgrade
   if (UU_OK == unit_upgrade_test(current_unit, FALSE)) {
     a = new hud_action(this);
     a->action_shortcut = SC_UPGRADE_UNIT;
@@ -1098,7 +1100,7 @@ int unit_actions::update_actions()
     actions.append(a);
   }
 
-  /* Automate */
+  // Automate
   if (can_unit_do_autosettlers(current_unit)) {
     a = new hud_action(this);
     a->action_shortcut = SC_AUTOMATE;
@@ -1106,7 +1108,7 @@ int unit_actions::update_actions()
     actions.append(a);
   }
 
-  /* Paradrop */
+  // Paradrop
   if (can_unit_paradrop(current_unit)) {
     a = new hud_action(this);
     a->action_shortcut = SC_PARADROP;
@@ -1114,7 +1116,7 @@ int unit_actions::update_actions()
     actions.append(a);
   }
 
-  /* Clean pollution */
+  // Clean pollution
   if (can_unit_do_activity(current_unit, ACTIVITY_POLLUTION)) {
     a = new hud_action(this);
     a->action_shortcut = SC_PARADROP;
@@ -1122,7 +1124,7 @@ int unit_actions::update_actions()
     actions.append(a);
   }
 
-  /* Unload */
+  // Unload
   if (unit_transported(current_unit)
       && can_unit_unload(current_unit, unit_transport_get(current_unit))
       && can_unit_exist_at_tile(&(wld.map), current_unit,
@@ -1133,7 +1135,7 @@ int unit_actions::update_actions()
     actions.append(a);
   }
 
-  /* Nuke */
+  // Nuke
   if (unit_can_do_action(current_unit, ACTION_NUKE)) {
     a = new hud_action(this);
     a->action_shortcut = SC_NUKE;
@@ -1141,13 +1143,13 @@ int unit_actions::update_actions()
     actions.append(a);
   }
 
-  /* Wait */
+  // Wait
   a = new hud_action(this);
   a->action_shortcut = SC_WAIT;
   a->set_pixmap(fc_icons::instance()->get_pixmap("wait"));
   actions.append(a);
 
-  /* Done moving */
+  // Done moving
   a = new hud_action(this);
   a->action_shortcut = SC_DONE_MOVING;
   a->set_pixmap(fc_icons::instance()->get_pixmap("done"));
@@ -1246,10 +1248,11 @@ void hud_unit_loader::show_me()
   setColumnCount(max_size + 1);
   for (i = 0 ; i < transports.count(); i++) {
     QString str;
+
     spite = get_unittype_sprite(tileset, transports.at(i)->utype,
                                 direction8_invalid());
     str = utype_rule_name(transports.at(i)->utype);
-    /* TRANS: MP - just movement points */
+    // TRANS: MP - just movement points
     str = str + " ("
           + QString(move_points_text(transports.at(i)->moves_left, false))
           + _("MP") + ")";
@@ -1685,10 +1688,10 @@ void show_new_turn_info()
   }
   s = s + "\n" + science_dialog_text() + "\n";
 
-  /* Can't use QString().sprintf() as msys libintl.h defines sprintf() as a macro */
+  // Can't use QString().sprintf() as msys libintl.h defines sprintf() as a macro
   fc_snprintf(buf, sizeof(buf), "%+d", player_get_expected_income(client.conn.playing));
 
-  /* TRANS: current gold, then loss/gain per turn */
+  // TRANS: current gold, then loss/gain per turn
   s = s + QString(_("Gold: %1 (%2)"))
       .arg(client.conn.playing->economic.gold)
       .arg(buf);

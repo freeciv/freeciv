@@ -150,4 +150,4 @@ void qtg_recv_create_clause(struct Treaty *ptreaty, struct player *they);
 void qtg_recv_remove_clause(struct Treaty *ptreaty, struct player *they);
 void qtg_recv_accept_treaty(struct Treaty *ptreaty, struct player *they);
 
-#endif /* FC__QTG_CXXSIDE_H */
+#endif // FC__QTG_CXXSIDE_H

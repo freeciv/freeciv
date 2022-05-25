@@ -31,8 +31,8 @@ class QSpinBox;
 class ruledit_gui;
 
 enum effect_filter_main_class { EFMC_NORMAL,
-                                EFMC_NONE, /* No requirements */
-                                EFMC_ALL   /* Any requirements */
+                                EFMC_NONE, // No requirements
+                                EFMC_ALL   // Any requirements
 };
 
 struct effect_list_fill_data

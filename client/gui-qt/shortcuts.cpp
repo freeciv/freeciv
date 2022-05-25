@@ -554,14 +554,14 @@ void fc_sc_button::popup_error()
   QList<fc_shortcut_popup *> fsb_list;
   QString title;
 
-  /* wait until shortcut popup is destroyed */
+  // Wait until shortcut popup is destroyed
   fsb_list = findChildren<fc_shortcut_popup *>();
   if (fsb_list.count() > 0) {
     QTimer::singleShot(20, this, SLOT(popup_error()));
     return;
   }
 
-  /* TRANS: Given shortcut(%1) is already assigned */
+  // TRANS: Given shortcut(%1) is already assigned
   title = QString(_("%1 is already assigned to"))
                   .arg(shortcut_to_string(sc));
   scinfo = new hud_message_box(gui()->central_wdg);

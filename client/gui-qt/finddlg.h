@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 2003 - The Freeciv Project
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -17,4 +17,4 @@ extern "C" {
 #include "finddlg_g.h"
 }
 
-#endif  /* FC__FINDDLG_H */
+#endif // FC__FINDDLG_H

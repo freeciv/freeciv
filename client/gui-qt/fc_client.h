@@ -236,7 +236,7 @@ public:
 
   void set_status_bar(QString str, int timeout = 2000);
   int add_game_tab(QWidget *widget);
-  void rm_game_tab(int index); /* doesn't delete widget */
+  void rm_game_tab(int index); // Doesn't delete widget
   void update_start_page();
   void toggle_unit_sel_widget(struct tile *ptile);
   void update_unit_sel();
@@ -386,6 +386,4 @@ public slots:
 // Return fc_client instance. Implementation in gui_main.cpp
 class fc_client *gui();
 
-#endif /* FC__FC_CLIENT_H */
-
-
+#endif // FC__FC_CLIENT_H

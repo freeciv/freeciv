@@ -20,4 +20,4 @@ extern "C" {
 void qload_lua_script();
 void qreload_lua_script();
 
-#endif  /* FC__LUACONSOLE_H */
+#endif // FC__LUACONSOLE_H

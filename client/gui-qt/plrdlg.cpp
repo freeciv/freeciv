@@ -518,9 +518,9 @@ void plr_widget::nation_selected(const QItemSelection &sl,
     egold = _("(Unknown)");
     egov = _("(Unknown)");
   }
-  /** Formatting rich text */
+  // Formatting rich text
   intel_str =
-    /* TRANS: this and similar literal strings interpreted as (Qt) HTML */
+    // TRANS: this and similar literal strings interpreted as (Qt) HTML
     QString("<table><tr><td><b>") + _("Nation") + QString("</b></td><td>")
     + QString(nation_adjective_for_player(pplayer)).toHtmlEscaped()
     + QString("</td><tr><td><b>") + _("Ruler:") + QString("</b></td><td>")
@@ -874,7 +874,7 @@ void plr_report::update_report(bool update_selection)
     plr_wdg->get_model()->populate();
   }
 
-  /* Force updating selected player information */
+  // Force updating selected player information
   if (update_selection) {
     qmi = plr_wdg->currentIndex();
     if (qmi.isValid()) {

@@ -39,6 +39,7 @@ class QPushButton;
 QString apply_tags(QString str, const struct text_tag_list *tags,
                    QColor bg_color);
 template<> std::set<chat_listener *> listener<chat_listener>::instances;
+
 /***************************************************************************
   Listener for chat. See listener<> for information about how to use it
 ***************************************************************************/
@@ -150,4 +151,4 @@ public:
   QString get_message() const { return message; }
 };
 
-#endif                        /* FC__CHATLINE_H */
+#endif // FC__CHATLINE_H

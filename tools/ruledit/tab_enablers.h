@@ -21,7 +21,7 @@
 // Qt
 #include <QWidget>
 
-/* ruledit */
+// ruledit
 #include "req_vec_fix.h"
 
 class QPushButton;

@@ -262,4 +262,4 @@ bool mapview_is_frozen(void);
 void pixmap_put_overlay_tile(int canvas_x, int  canvas_y,
                              struct sprite *ssprite);
 
-#endif /* FC__MAPVIEW_H */
+#endif // FC__MAPVIEW_H

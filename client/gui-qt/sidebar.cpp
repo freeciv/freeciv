@@ -561,7 +561,7 @@ void fc_sidebar::resize_me(int hght, bool force)
   non_std = 0;
   non_std_count = 0;
 
-  /* resize all non standard sidewidgets first*/
+  // Resize all non standard sidewidgets first
   foreach (fc_sidewidget * sw,  objects) {
     if (sw->standard != SW_STD) {
       sw->resize_pixmap(w, 0);
@@ -574,7 +574,7 @@ void fc_sidebar::resize_me(int hght, bool force)
 
   h = h - non_std;
   h = h / (objects.count() - non_std_count) - 2;
-  /* resize all standard sidewidgets */
+  // Resize all standard sidewidgets
   foreach (fc_sidewidget * sw,  objects) {
     if (sw->standard == SW_STD) {
       sw->resize_pixmap(w, h);
@@ -583,7 +583,6 @@ void fc_sidebar::resize_me(int hght, bool force)
     }
   }
 }
-
 
 /***********************************************************************//**
   Callback to show map

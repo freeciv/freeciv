@@ -198,7 +198,7 @@ struct sprite *qtg_load_gfxnumber(int num)
   QString ns;
   int w, h;
   QPixmap *pm;
-  /* FIXME: This should not depend on city_productions font setting */
+  // FIXME: This should not depend on city_productions font setting
   QFont *qf = fc_font::instance()->get_font(fonts::city_productions);
 
   if (gui()->map_scale != 1.0f && gui()->map_font_scale) {

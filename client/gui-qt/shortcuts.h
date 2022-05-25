@@ -29,7 +29,7 @@ void write_shortcuts();
 bool read_shortcuts();
 void shortcutreset();
 
-/* Assing numbers for casting */
+// Assing numbers for casting
 enum shortcut_id {
   SC_NONE = 0,
   SC_SCROLL_MAP = 1,
@@ -203,4 +203,4 @@ private slots:
   void edit_shortcut();
 };
 
-#endif /* FC__SHORTCUSDLG_H */
+#endif // FC__SHORTCUSDLG_H

@@ -86,7 +86,7 @@ int main(int argc, char **argv)
 
   fcmp_init();
 
-  /* This modifies argv! */
+  // This modifies argv!
   ui_options = fcmp_parse_cmdline(argc, argv);
 
   if (ui_options != -1) {
@@ -98,7 +98,7 @@ int main(int argc, char **argv)
              _("This modpack installer accepts the standard Qt command-line options\n"
                "after '--'. See the Qt documentation.\n\n"));
 
-        /* TRANS: No full stop after the URL, could cause confusion. */
+        // TRANS: No full stop after the URL, could cause confusion.
         fc_fprintf(stderr, _("Report bugs at %s\n"), BUG_URL);
 
         ui_options = -1;
@@ -391,14 +391,14 @@ void mpgui::setup_list(const char *name, const char *URL,
   if (modpack_type_is_valid(type)) {
     type_str = _(modpack_type_name(type));
   } else {
-    /* TRANS: Unknown modpack type */
+    // TRANS: Unknown modpack type
     type_str = _("?");
   }
 
   if (license != nullptr) {
     lic_str = license;
   } else {
-    /* TRANS: License of modpack is not known */
+    // TRANS: License of modpack is not known
     lic_str = Q_("?license:Unknown");
   }
 

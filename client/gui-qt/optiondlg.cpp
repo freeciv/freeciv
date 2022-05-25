@@ -52,7 +52,7 @@ enum {
   RESPONSE_SAVE
 };
 
-/* global value to store pointers to opened config dialogs */
+// Global value to store pointers to opened config dialogs
 QMap<const struct option_set *, option_dialog *> dialog_list;
 
 /************************************************************************//**
@@ -105,7 +105,7 @@ QString cut_helptext(QString text)
   QStringList sl;
   QString ret_str;
 
-  /* Remove all lines from help which has '*' in first 3 chars */
+  // Remove all lines from help which has '*' in first 3 chars
   sl = text.split('\n');
   foreach (const QString & s, sl) {
     if (s.count() > 2) {
@@ -688,7 +688,7 @@ void option_dialog::add_option(struct option *poption)
     combo = new QComboBox();
 
     for (i = 0; (str = option_enum_int_to_str(poption, i)); i++) {
-      /* we store enum value in QVariant */
+      // We store enum value in QVariant
       combo->addItem(_(str), i);
     }
     widget = combo;

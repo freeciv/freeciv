@@ -435,7 +435,7 @@ void units_reports::update_units(bool show)
   clear_layout();
   memset(unit_array, '\0', sizeof(unit_array));
   memset(&unit_totals, '\0', sizeof(unit_totals));
-  /* Count units. */
+  // Count units.
   players_iterate(pplayer) {
     if (client_has_player() && pplayer != client_player()) {
       continue;
@@ -453,9 +453,9 @@ void units_reports::update_units(bool show)
       if (VUT_UTYPE == pcity->production.kind) {
         int num_units;
         info = unit_array + utype_index(pcity->production.value.utype);
-        /* Account for build slots in city */
+        // Account for build slots in city
         (void) city_production_build_units(pcity, true, &num_units);
-        /* Unit is in progress even if it won't be done this turn */
+        // Unit is in progress even if it won't be done this turn
         num_units = MAX(num_units, 1);
         info->building_count += num_units;
       }
@@ -468,7 +468,7 @@ void units_reports::update_units(bool show)
     upgradable = client_has_player()
                  && nullptr != can_upgrade_unittype(client_player(), utype);
     if (0 == info->active_count && 0 == info->building_count) {
-      continue;                 /* We don't need a row for this type. */
+      continue;                 // We don't need a row for this type.
     }
     ui = new unittype_item(this, utype);
     ui->label_info_active.setText("⚔:" + QString::number(info->active_count));
@@ -1003,7 +1003,7 @@ void science_report::update_report()
     progress->setValue(done);
   }
 
-  /** Collect all techs which are reachable in the next step. */
+  // Collect all techs which are reachable in the next step.
   advance_index_iterate(A_FIRST, i) {
     if (TECH_PREREQS_KNOWN == research->inventions[i].state) {
       item.tech_str
@@ -1015,7 +1015,7 @@ void science_report::update_report()
   } advance_index_iterate_end;
 
 
-  /** Collect all techs which are reachable in next 10 steps. */
+  // Collect all techs which are reachable in next 10 steps.
   advance_index_iterate(A_FIRST, i) {
     if (research_invention_reachable(research, i)
         && TECH_KNOWN != research->inventions[i].state
@@ -1028,11 +1028,11 @@ void science_report::update_report()
     }
   } advance_index_iterate_end;
 
-  /** sort both lists */
+  // Sort both lists
   std::sort(goal_list->begin(), goal_list->end(), comp_less_than);
   std::sort(curr_list->begin(), curr_list->end(), comp_less_than);
 
-  /** fill combo boxes */
+  // Fill combo boxes
   researching_combo->blockSignals(true);
   goal_combo->blockSignals(true);
 
@@ -1060,7 +1060,7 @@ void science_report::update_report()
     goal_combo->insertItem(i, ic, goal_list->at(i).tech_str, qvar);
   }
 
-  /** set current tech and goal */
+  // Set current tech and goal
   qres = research->researching;
   if (qres == A_UNSET || is_future_tech(research->researching)) {
     researching_combo->insertItem(0, research_advance_name_translation(

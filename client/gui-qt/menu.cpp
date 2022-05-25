@@ -516,7 +516,7 @@ void real_menus_init(void)
 
   gov_menu::create_all();
 
-  /* A new ruleset may have been loaded. */
+  // A new ruleset may have been loaded.
   go_act_menu::reset_all();
 }
 
@@ -695,7 +695,7 @@ void gov_menu::update_all()
 go_act_menu::go_act_menu(QWidget* parent)
   : QMenu(_("Go to and..."), parent)
 {
-  /* Will need auto updates etc. */
+  // Will need auto updates etc.
   instances << this;
 }
 
@@ -704,7 +704,7 @@ go_act_menu::go_act_menu(QWidget* parent)
 **************************************************************************/
 go_act_menu::~go_act_menu()
 {
-  /* Updates are no longer needed. */
+  // Updates are no longer needed.
   instances.remove(this);
 }
 
@@ -715,10 +715,10 @@ static void reset_menu_and_sub_menues(QMenu *menu)
 {
   QAction *action;
 
-  /* Delete each existing menu item. */
+  // Delete each existing menu item.
   foreach(action, menu->actions()) {
     if (action->menu() != nullptr) {
-      /* Delete the sub menu */
+      // Delete the sub menu
       reset_menu_and_sub_menues(action->menu());
       action->menu()->deleteLater();
     }
@@ -733,10 +733,10 @@ static void reset_menu_and_sub_menues(QMenu *menu)
 **************************************************************************/
 void go_act_menu::reset()
 {
-  /* Clear menu item to action ID mapping. */
+  // Clear menu item to action ID mapping.
   items.clear();
 
-  /* Remove the menu items */
+  // Remove the menu items
   reset_menu_and_sub_menues(this);
 }
 
@@ -748,7 +748,7 @@ void go_act_menu::create()
   QAction *item;
   int tgt_kind_group;
 
-  /* Group goto and perform action menu items by target kind. */
+  // Group goto and perform action menu items by target kind.
   for (tgt_kind_group = 0; tgt_kind_group < ATK_COUNT; tgt_kind_group++) {
     action_iterate(act_id) {
       struct action *paction = action_by_number(act_id);
@@ -756,12 +756,12 @@ void go_act_menu::create()
                              .replace("&", "&&"));
 
       if (action_id_get_actor_kind(act_id) != AAK_UNIT) {
-        /* This action isn't performed by a unit. */
+        // This action isn't performed by an unit.
         continue;
       }
 
       if (action_id_get_target_kind(act_id) != tgt_kind_group) {
-        /* Wrong group. */
+        // Wrong group.
         continue;
       }
 
@@ -799,7 +799,7 @@ void go_act_menu::create()
           extra_type_iterate(pextra) {
             if (!(action_creates_extra(paction, pextra)
                   || action_removes_extra(paction, pextra))) {
-              /* Not relevant */
+              // Not relevant
               continue;
             }
 
@@ -809,11 +809,11 @@ void go_act_menu::create()
           } extra_type_iterate_end;
           break;
         case ASTK_NONE:
-          /* Should not be here. */
+          // Should not be here.
           fc_assert(action_get_sub_target_kind(paction) != ASTK_NONE);
           break;
         case ASTK_COUNT:
-          /* Should not exits */
+          // Should not exits
           fc_assert(action_get_sub_target_kind(paction) != ASTK_COUNT);
           break;
         }
@@ -852,12 +852,12 @@ void go_act_menu::update()
   bool can_do_something = false;
 
   if (!actions_are_ready()) {
-    /* Nothing to do. */
+    // Nothing to do.
     return;
   }
 
   if (items.isEmpty()) {
-    /* The goto and act menu needs menu items. */
+    // The goto and act menu needs menu items.
     create();
   }
 
@@ -876,10 +876,10 @@ void go_act_menu::update()
   }
 
   if (can_do_something) {
-    /* At least one menu item is enabled for one of the selected units. */
+    // At least one menu item is enabled for one of the selected units.
     setEnabled(true);
   } else {
-    /* No menu item is enabled any of the selected units. */
+    // No menu item is enabled any of the selected units.
     setEnabled(false);
   }
 }
@@ -940,7 +940,7 @@ struct tile *mr_menu::find_last_unit_pos(unit *punit, int pos)
       continue;
     }
 
-    if (punit == zunit) {  /* Unit found */
+    if (punit == zunit) {  // Unit found
       /* Unit was ordered to attack city so it might stay in
          front of that city */
       if (is_non_allied_city_tile(fui->ptile, unit_owner(punit))) {
@@ -951,7 +951,7 @@ struct tile *mr_menu::find_last_unit_pos(unit *punit, int pos)
       } else {
         ptile = fui->ptile;
       }
-      /* unit found in tranporter */
+      // Unit found in tranporter
     } else if (unit_contained_in(punit, zunit)) {
       ptile = fui->ptile;
     }
@@ -983,7 +983,7 @@ void mr_menu::setup_menus()
   airlift_type_id = 0;
   quick_airlifting = false;
 
-  /* Game Menu */
+  // Game Menu
   main_menu = this->addMenu(_("Game"));
 
 #ifdef __APPLE__
@@ -1033,7 +1033,7 @@ void mr_menu::setup_menus()
   act->setIcon(style()->standardIcon(QStyle::SP_TitleBarCloseButton));
   connect(act, &QAction::triggered, this, &mr_menu::quit_game);
 
-  /* View Menu */
+  // View Menu
   main_menu = this->addMenu(Q_("?verb:View"));
   act = main_menu->addAction(_("Center View"));
   act->setShortcut(QKeySequence(shortcut_to_string(
@@ -1156,7 +1156,7 @@ void mr_menu::setup_menus()
                    fc_shortcuts::sc()->get_shortcut(SC_STACK_SIZE))));
   connect(act, &QAction::triggered, this, &mr_menu::slot_stack_size);
 
-  /* Select Menu */
+  // Select Menu
   main_menu = this->addMenu(_("Select"));
   act = main_menu->addAction(_("Single Unit (Unselect Others)"));
   act->setShortcut(QKeySequence(tr("shift+z")));
@@ -1198,7 +1198,7 @@ void mr_menu::setup_menus()
   menu_list.insert(NOT_4_OBS, act);
   connect(act, &QAction::triggered, this, &mr_menu::slot_unit_filter);
 
-  /* Unit Menu */
+  // Unit Menu
   main_menu = this->addMenu(_("Unit"));
   act = main_menu->addAction(_("Go to Tile"));
   act->setShortcut(QKeySequence(shortcut_to_string(
@@ -1206,7 +1206,7 @@ void mr_menu::setup_menus()
   menu_list.insert(STANDARD, act);
   connect(act, &QAction::triggered, this, &mr_menu::slot_unit_goto);
 
-  /* The goto and act sub menu is handled as a separate object. */
+  // The goto and act sub menu is handled as a separate object.
   main_menu->addMenu(new go_act_menu());
 
   act = main_menu->addAction(_("Go to Nearest City"));
@@ -1279,7 +1279,7 @@ void mr_menu::setup_menus()
   menu_list.insert(DISBAND, act);
   connect(act, &QAction::triggered, this, &mr_menu::slot_disband);
 
-  /* Combat Menu */
+  // Combat Menu
   main_menu = this->addMenu(_("Combat"));
   act = main_menu->addAction(_("Fortify Unit"));
   menu_list.insert(FORTIFY, act);
@@ -1302,14 +1302,14 @@ void mr_menu::setup_menus()
   menu_list.insert(PILLAGE, act);
   act->setShortcut(QKeySequence(tr("shift+p")));
   connect(act, &QAction::triggered, this, &mr_menu::slot_pillage);
-  /* TRANS: Menu item to bring up the action selection dialog. */
+  // TRANS: Menu item to bring up the action selection dialog.
   act = main_menu->addAction(_("Do..."));
   menu_list.insert(ORDER_DIPLOMAT_DLG, act);
   act->setShortcut(QKeySequence(shortcut_to_string(
                    fc_shortcuts::sc()->get_shortcut(SC_DO))));
   connect(act, &QAction::triggered, this, &mr_menu::slot_action);
 
-  /* Work Menu */
+  // Work Menu
   main_menu = this->addMenu(_("Work"));
   act = main_menu->addAction(QString(action_id_name_translation(ACTION_FOUND_CITY))
                              .replace("&", "&&"));
@@ -1420,7 +1420,7 @@ void mr_menu::setup_menus()
   airlift_type = new QActionGroup(this);
   airlift_menu = multiplayer_menu->addMenu(_("Unit type for quickairlifting"));
 
-  /* Default diplo */
+  // Default diplo
   action_vs_city = new QActionGroup(this);
   action_vs_unit = new QActionGroup(this);
   action_unit_menu = multiplayer_menu->addMenu(_("Default action vs unit"));
@@ -1531,7 +1531,7 @@ void mr_menu::setup_menus()
   action_vs_city->addAction(act);
   connect(act, &QAction::triggered, this, &mr_menu::slot_action_vs_city);
 
-  /* Civilization menu */
+  // Civilization menu
   main_menu = this->addMenu(_("Civilization"));
   act = main_menu->addAction(_("Tax Rates..."));
   menu_list.insert(NOT_4_OBS, act);
@@ -1593,7 +1593,7 @@ void mr_menu::setup_menus()
   menu_list.insert(ENDGAME, act);
   connect(act, &QAction::triggered, this, &mr_menu::slot_endgame);
 
-  /* Help Menu */
+  // Help Menu
   main_menu = this->addMenu(_("Help"));
 
   act = main_menu->addAction(Q_(HELP_OVERVIEW_ITEM));
@@ -2029,7 +2029,7 @@ void mr_menu::menus_sensitive()
     }
   } players_iterate_end;
 
-  /** Disable first all sensitive menus */
+  // Disable first all sensitive menus
   foreach(QAction *a, menu_list) {
     a->setEnabled(false);
   }
@@ -2040,7 +2040,7 @@ void mr_menu::menus_sensitive()
     multiplayer_menu->setDisabled(false);
   }
 
-  /* Non unit menus */
+  // Non unit menus
   keys = menu_list.keys();
   foreach (munit key, keys) {
     i = menu_list.find(key);
@@ -2168,7 +2168,7 @@ void mr_menu::menus_sensitive()
 
             if (pextra != NULL) {
               i.value()->setText(
-                /* TRANS: Build mine of specific type */
+                // TRANS: Build mine of specific type
                 QString(_("Build %1"))
                 .arg(extra_name_translation(pextra))
                 .replace("&", "&&"));
@@ -2205,7 +2205,7 @@ void mr_menu::menus_sensitive()
 
             if (pextra != NULL) {
               i.value()->setText(
-                /* TRANS: Build irrigation of specific type */
+                // TRANS: Build irrigation of specific type
                 QString(_("Build %1"))
                 .arg(extra_name_translation(pextra))
                 .replace("&", "&&"));
@@ -2228,7 +2228,7 @@ void mr_menu::menus_sensitive()
           pterrain = tile_terrain(unit_tile(punit));
           if (pterrain->cultivate_result != T_NONE) {
             i.value()->setText(
-              /* TRANS: Transform terrain to specific type */
+              // TRANS: Transform terrain to specific type
               QString(_("Cultivate to %1"))
               .arg(QString(get_tile_change_menu_text
                            (unit_tile(punit), ACTIVITY_CULTIVATE)))
@@ -2251,7 +2251,7 @@ void mr_menu::menus_sensitive()
           pterrain = tile_terrain(unit_tile(punit));
           if (pterrain->plant_result != T_NONE) {
             i.value()->setText(
-              /* TRANS: Transform terrain to specific type */
+              // TRANS: Transform terrain to specific type
               QString(_("Plant to %1"))
               .arg(QString(get_tile_change_menu_text
                            (unit_tile(punit), ACTIVITY_PLANT)))
@@ -2278,7 +2278,7 @@ void mr_menu::menus_sensitive()
           if (pterrain->transform_result != T_NONE
               && pterrain->transform_result != pterrain) {
             i.value()->setText(
-              /* TRANS: Transform terrain to specific type */
+              // TRANS: Transform terrain to specific type
               QString(_("Transform to %1"))
               .arg(QString(get_tile_change_menu_text
                            (unit_tile(punit), ACTIVITY_TRANSFORM)))
@@ -2322,7 +2322,7 @@ void mr_menu::menus_sensitive()
 
           if (pextra != nullptr) {
             i.value()->setText(
-              /* TRANS: Build road of specific type */
+              // TRANS: Build road of specific type
               QString(_("Build %1"))
               .arg(extra_name_translation(pextra))
               .replace("&", "&&"));
@@ -2865,7 +2865,7 @@ void mr_menu::slot_autocaravan()
   foreach(gilles, gui()->trade_gen.lines) {
     if ((gilles.t1 == home_tile || gilles.t2 == home_tile)
          && gilles.autocaravan == nullptr) {
-      /* send caravan */
+      // Send caravan
       if (gilles.t1 == home_tile) {
         dest_tile = gilles.t2;
       } else {
@@ -3265,7 +3265,6 @@ void mr_menu::zoom_scale_fonts()
   update_city_descriptions();
 }
 
-
 /**********************************************************************//**
   Action "RELOAD ZOOMED OUT TILESET"
 **************************************************************************/
@@ -3405,6 +3404,7 @@ void mr_menu::slot_wait()
 void mr_menu::slot_unit_filter()
 {
   unit_hud_selector *uhs;
+
   uhs = new unit_hud_selector(gui()->central_wdg);
   uhs->show_me();
 }
@@ -3562,7 +3562,7 @@ void mr_menu::slot_build_base(int id)
       if (pextra->buildable && pextra->id == id
           && can_unit_do_activity_targeted(punit, ACTIVITY_BASE,
                                            pextra)) {
-          request_new_unit_activity_targeted(punit, ACTIVITY_BASE, pextra);
+        request_new_unit_activity_targeted(punit, ACTIVITY_BASE, pextra);
       }
     } extra_type_by_cause_iterate_end;
   } unit_list_iterate_end;

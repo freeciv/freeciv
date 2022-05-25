@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -31,4 +31,5 @@ void pixmap_copy(QPixmap *dest, QPixmap *src, int src_x, int src_y,
 void image_copy(QImage *dest, QImage *src, int src_x, int src_y,
                  int dest_x, int dest_y, int width, int height);
 QRect zealous_crop_rect(QImage &p);
-#endif /* FC__CANVAS_H */
+
+#endif // FC__CANVAS_H

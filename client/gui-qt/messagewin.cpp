@@ -202,7 +202,7 @@ messagewdg::messagewdg(QWidget *parent): QWidget(parent)
   layout->setContentsMargins(0, 0, 3, 3);
   setLayout(layout);
 
-  /* dont highlight show current cell - set the same colors*/
+  // Dont highlight show current cell - set the same colors
   palette.setColor(QPalette::Highlight, QColor(0, 0, 0, 0));
   palette.setColor(QPalette::HighlightedText, QColor(205, 206, 173));
   palette.setColor(QPalette::Text, QColor(205, 206, 173));
@@ -361,7 +361,7 @@ void messagewdg::resizeEvent(QResizeEvent* event)
 ***************************************************************************/
 void meswin_dialog_popup(bool raise)
 {
-  /* PORTME */
+  // PORTME
 }
 
 /***********************************************************************//**
@@ -369,7 +369,7 @@ void meswin_dialog_popup(bool raise)
 ***************************************************************************/
 bool meswin_dialog_is_open(void)
 {
-  /* PORTME */
+  // PORTME
   return true;
 }
 
@@ -378,7 +378,7 @@ bool meswin_dialog_is_open(void)
 ***************************************************************************/
 void real_meswin_dialog_update(void *unused)
 {
-  int  i, num;
+  int i, num;
   const struct message *pmsg;
 
   if (gui()->infotab == NULL) {

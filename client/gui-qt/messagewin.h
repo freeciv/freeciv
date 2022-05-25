@@ -22,10 +22,10 @@ extern "C" {
 #include "messagewin_g.h"
 }
 
-//Qt
+// Qt
 #include <QWidget>
 
-//qt-client
+// gui-qt
 #include "chatline.h"
 #include "mapview.h"
 
@@ -97,4 +97,4 @@ protected:
   int& e_pos();
 };
 
-#endif /* FC__MESSAGEWIN_H */
+#endif // FC__MESSAGEWIN_H

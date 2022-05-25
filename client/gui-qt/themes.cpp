@@ -21,13 +21,13 @@
 #include <QStyleFactory>
 #include <QTextStream>
 
-/* utility */
+// utility
 #include "mem.h"
 
-/* client */
+// client
 #include "themes_common.h"
 
-/* client/include */
+// client/include
 #include "themes_g.h"
 
 // gui-qt
@@ -69,7 +69,7 @@ void qtg_gui_load_theme(const char *directory, const char *theme_name)
     }
     return;
   }
-  /* Stylesheet uses UNIX separators */
+  // Stylesheet uses UNIX separators
   fake_dir = data_dir;
   fake_dir.replace(QString(DIR_SEPARATOR), "/");
   QTextStream in(&f);
@@ -105,7 +105,7 @@ void qtg_gui_load_theme(const char *directory, const char *theme_name)
 void qtg_gui_clear_theme()
 {
   if (!load_theme(FC_QT_DEFAULT_THEME_NAME)) {
-    /* TRANS: No full stop after the URL, could cause confusion. */
+    // TRANS: No full stop after the URL, could cause confusion.
     log_fatal(_("No Qt-client theme was found. For instructions on how to "
                 "get one, please visit %s"), HOMEPAGE_URL);
     exit(EXIT_FAILURE);
@@ -168,7 +168,7 @@ char **qtg_get_useable_themes_in_directory(const char *directory, int *count)
   }
 
   qtheme_name = gui_options.gui_qt_default_theme_name;
-  /* move current theme on first position */
+  // Move current theme on first position
   if (theme_list.contains(qtheme_name)) {
     theme_list.removeAll(qtheme_name);
     theme_list.prepend(qtheme_name);

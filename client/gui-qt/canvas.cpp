@@ -29,6 +29,7 @@
 #include "sprite.h"
 
 static QFont *get_font(enum client_font font);
+
 /************************************************************************//**
   Create a canvas of the given size.
 ****************************************************************************/
@@ -54,7 +55,7 @@ void qtg_canvas_free(struct canvas *store)
 ****************************************************************************/
 void qtg_canvas_set_zoom(struct canvas *store, float zoom)
 {
-  /* Qt-client has no zoom support */
+  // Qt-client has no zoom support
 }
 
 /************************************************************************//**
@@ -117,7 +118,7 @@ void pixmap_copy(QPixmap *dest, QPixmap *src, int src_x, int src_y,
   Copies an area from the source image to the destination image.
 ****************************************************************************/
 void image_copy(QImage *dest, QImage *src, int src_x, int src_y,
-                 int dest_x, int dest_y, int width, int height)
+                int dest_x, int dest_y, int width, int height)
 {
   QRectF source_rect(src_x, src_y, width, height);
   QRectF dest_rect(dest_x, dest_y, width, height);
@@ -309,7 +310,7 @@ void qtg_canvas_put_curved_line(struct canvas *pcanvas, struct color *pcolor,
   may be NULL in which case those values simply shouldn't be filled out.
 ****************************************************************************/
 void qtg_get_text_size(int *width, int *height,
-                        enum client_font font, const char *text)
+                       enum client_font font, const char *text)
 {
   QFont *afont;
   QFontMetrics *fm;

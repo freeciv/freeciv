@@ -378,5 +378,5 @@ private:
   QElapsedTimer m_timer;
 };
 
-#endif /* FC__HUDWIDGET_H */
+#endif // FC__HUDWIDGET_H
 

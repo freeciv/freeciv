@@ -23,5 +23,5 @@
 **************************************************************************/
 void update_worklist_report_dialog(void)
 {
-  /* PORTME */
+  // PORTME
 }

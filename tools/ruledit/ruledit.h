@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -16,10 +16,10 @@
 void show_experimental(QWidget *wdg);
 
 struct ruledit_arguments {
-  /* Ruleset name. Is NULL if not specified. */
+  // Ruleset name. Is NULL if not specified.
   char *ruleset;
 };
 
 extern struct ruledit_arguments reargs;
 
-#endif /* FC__RULEDIT_H */
+#endif // FC__RULEDIT_H

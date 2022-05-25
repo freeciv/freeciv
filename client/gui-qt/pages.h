@@ -27,4 +27,4 @@ struct server_scan;
 void create_conn_menu(player*, connection*);
 void server_scan_error(server_scan*, const char*);
 
-#endif  /* FC__PAGES_H */
+#endif // FC__PAGES_H

@@ -15,15 +15,15 @@
 #include <fc_config.h>
 #endif
 
-/* utility */
+// utility
 #include "fcintl.h"
 #include "log.h"
 #include "support.h"
 
 #include "connectdlg_g.h"
 
-/* client */
-#include "chatline_common.h"	/* for append_output_window */
+// client
+#include "chatline_common.h"	// For append_output_window
 #include "client_main.h"
 #include "packhand_gen.h"
 
@@ -65,7 +65,7 @@ void handle_game_load(bool load_successful, const char *filename)
     set_client_page(PAGE_START);
 
     if (game.info.is_new_game) {
-      /* It's pregame. Create a player and connect to it */
+      // It's pregame. Create a player and connect to it
       send_chat("/take -");
     }
   }
@@ -76,5 +76,5 @@ void handle_game_load(bool load_successful, const char *filename)
 **************************************************************************/
 void qtg_server_connect()
 {
-  /* PORTME */
+  // PORTME
 }

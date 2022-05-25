@@ -11,7 +11,7 @@
    GNU General Public License for more details.
 ***********************************************************************/
 
-/* Qt */
+// Qt
 #include <QButtonGroup>
 #include <QHBoxLayout>
 #include <QLabel>
@@ -22,7 +22,7 @@
 #include <QStackedLayout>
 #include <QVBoxLayout>
 
-/* ruledit */
+// ruledit
 #include "ruledit_qt.h"
 
 
@@ -37,6 +37,7 @@ void mark_item(QListWidgetItem *item,
                enum req_vec_problem_seriousness problem_level)
 {
   QWidget *in = item->listWidget();
+
   switch (problem_level) {
   case RVPS_NO_PROBLEM:
     item->setIcon(QIcon());
@@ -65,14 +66,14 @@ req_vec_fix_problem::req_vec_fix_problem(
 
   QVBoxLayout *layout_main = new QVBoxLayout();
 
-  /* Sanity check. */
+  // Sanity check.
   fc_assert_ret(item_info);
 
   description = new QLabel();
   layout_main->addWidget(description);
 
   if (problem == nullptr) {
-    /* Everything is OK. */
+    // Everything is OK.
 
     /* TRANS: Trying to fix a requirement vector problem but can't find
      * any. */
@@ -82,7 +83,7 @@ req_vec_fix_problem::req_vec_fix_problem(
   }
 
   if (problem->num_suggested_solutions == 0) {
-    /* Didn't get any suggestions about how to solve this. */
+    // Didn't get any suggestions about how to solve this.
 
     char buf[MAX_LEN_NAME * 3];
 
@@ -97,13 +98,13 @@ req_vec_fix_problem::req_vec_fix_problem(
     return;
   }
 
-  /* A problem with at least one solution exists. */
+  // A problem with at least one solution exists.
   fc_assert_ret(problem && problem->num_suggested_solutions > 0);
 
-  /* Display the problem text */
+  // Display the problem text
   description->setText(QString::fromUtf8(problem->description_translated));
 
-  /* Display each solution */
+  // Display each solution
   solutions = new QButtonGroup(this);
   for (i = 0; i < problem->num_suggested_solutions; i++) {
     QRadioButton *solution = new QRadioButton(
@@ -116,7 +117,7 @@ req_vec_fix_problem::req_vec_fix_problem(
     layout_main->addWidget(solution);
   }
 
-  /* TRANS: Apply the selected requirement vector problem fix. */
+  // TRANS: Apply the selected requirement vector problem fix.
   accept = new QPushButton(R__("Accept selected solution"));
   connect(accept, SIGNAL(pressed()), this, SLOT(accept_solution()));
   layout_main->addWidget(accept);
@@ -158,7 +159,7 @@ req_vec_fix::req_vec_fix(ruledit_gui *ui_in,
   this->setWindowTitle(R__("Requirement problem"));
   this->setAttribute(Qt::WA_DeleteOnClose);
 
-  /* Set up the area for viewing problems */
+  // Set up the area for viewing problems
   this->current_problem_viewer = nullptr;
   this->current_problem_area = new QStackedLayout();
   layout_main->addLayout(current_problem_area);
@@ -231,10 +232,10 @@ bool req_vec_fix::refresh()
     req_vec_problem_free(current_problem);
   }
 
-  /* Update the current problem. */
+  // Update the current problem.
   this->current_problem = item_info->find_next_problem();
 
-  /* Display the new problem */
+  // Display the new problem
   if (current_problem_viewer != nullptr) {
     current_problem_viewer->hide();
     current_problem_viewer->deleteLater();
@@ -246,11 +247,11 @@ bool req_vec_fix::refresh()
   current_problem_area->addWidget(current_problem_viewer);
   current_problem_area->setCurrentWidget(current_problem_viewer);
 
-  /* Only shown when there is something to do */
+  // Only shown when there is something to do
   apply_changes->setVisible(did_apply_a_solution);
   abort->setVisible(did_apply_a_solution);
 
-  /* Only shown when no work will be lost */
+  // Only shown when no work will be lost
   close->setVisible(!did_apply_a_solution);
 
   return current_problem != nullptr;
@@ -278,7 +279,7 @@ void req_vec_fix::apply_solution(int selected_solution)
     box->setWindowTitle(R__("Unable to apply solution"));
 
     box->setText(
-          /* TRANS: requirement vector fix failed to apply */
+          // TRANS: requirement vector fix failed to apply
           QString(R__("Failed to apply solution %1 for %2 to %3."))
                  .arg(req_vec_change_translation(solution,
                                                  item_info->vector_namer()),
@@ -286,7 +287,7 @@ void req_vec_fix::apply_solution(int selected_solution)
     box->setStandardButtons(QMessageBox::Ok);
     box->exec();
   } else {
-    /* A solution has been applied */
+    // A solution has been applied
     this->did_apply_a_solution = true;
   }
 
@@ -302,10 +303,10 @@ void req_vec_fix::accept_applied_solutions()
 
   this->item_info->apply_accepted_changes();
 
-  /* All is accepted */
+  // All is accepted
   this->did_apply_a_solution = false;
 
-  /* New check point. */
+  // New check point.
   this->refresh();
 
   for (i = 0; i < item_info->num_vectors(); i++) {
@@ -321,10 +322,10 @@ void req_vec_fix::reject_applied_solutions()
 {
   this->item_info->undo_accepted_changes();
 
-  /* All is gone */
+  // All is gone
   this->did_apply_a_solution = false;
 
-  /* Back to the start again. */
+  // Back to the start again.
   this->refresh();
 }
 
@@ -335,7 +336,7 @@ void req_vec_fix::reject_applied_solutions()
 void req_vec_fix::incoming_req_vec_change(const requirement_vector *vec)
 {
   if (this->item_info->vector_in_item(vec)) {
-    /* Can't trust the changes done against a previous version. */
+    // Can't trust the changes done against a previous version.
     reject_applied_solutions();
   }
 }

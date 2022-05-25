@@ -144,7 +144,7 @@ void popup_spaceship_dialog(struct player *pplayer)
 ****************************************************************************/
 void popdown_spaceship_dialog(struct player *pplayer)
 {
-  /* PORTME */
+  // PORTME
 }
 
 /************************************************************************//**
@@ -188,4 +188,3 @@ void popdown_all_spaceships_dialogs()
     ss_rep->deleteLater();
   }
 }
-

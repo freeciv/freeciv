@@ -793,7 +793,6 @@ void city_widget::invert_selection()
   struct city *pcity;
   QVariant qvar;
 
-
   for (int j = 0; j < filter_model->rowCount(); j++) {
     i = filter_model->index(j, 0);
     qvar = i.data(Qt::UserRole);
@@ -1355,7 +1354,7 @@ void popdown_city_report()
 ***************************************************************************/
 void hilite_cities_from_canvas(void)
 {
-  /* PORTME */
+  // PORTME
 }
 
 /***********************************************************************//**
@@ -1363,5 +1362,5 @@ void hilite_cities_from_canvas(void)
 ***************************************************************************/
 void toggle_city_hilite(struct city *pcity, bool on_off)
 {
-  /* PORTME */
+  // PORTME
 }

@@ -62,9 +62,7 @@ void fc_font::drop()
 ****************************************************************************/
 QFont *fc_font::get_font(QString name)
 {
-  /**
-   * example: get_font("gui_qt_font_notify_label")
-   */
+  // Example: get_font("gui_qt_font_notify_label")
 
   if (font_map.contains(name)) {
     return font_map.value(name);
@@ -146,7 +144,7 @@ void configure_fonts()
   smaller = qRound(scale * 12);
   default_size = qRound(scale *14);
 
-  /* default and help label*/
+  // Default and help label
   sl << "Segoe UI" << "Cousine" << "Liberation Sans" << "Droid Sans" 
      << "Ubuntu" << "Noto Sans" << "DejaVu Sans" << "Luxi Sans"
      << "Lucida Sans" << "Trebuchet MS" << "Times New Roman";
@@ -162,7 +160,7 @@ void configure_fonts()
     fc_strlcpy(gui_options.gui_qt_font_city_names,
                fn_bytes.data(), 512);
   }
-  /* default for help text */
+  // Default for help text
   font_name = configure_font(fonts::help_text, sl, default_size);
   if (!font_name.isEmpty()) {
     fn_bytes = font_name.toLocal8Bit();
@@ -171,7 +169,7 @@ void configure_fonts()
   }
   sl.clear();
 
-  /* notify */
+  // Notify
   sl  <<  "Cousine" << "Liberation Mono" << "Source Code Pro"
       << "Source Code Pro [ADBO]"
       << "Noto Mono" << "Ubuntu Mono" << "Courier New";
@@ -182,7 +180,7 @@ void configure_fonts()
                fn_bytes.data(), 512);
   }
 
-  /* standard for chat */
+  // Standard for chat
   font_name = configure_font(fonts::chatline, sl, default_size);
   if (!font_name.isEmpty()) {
     fn_bytes = font_name.toLocal8Bit();
@@ -190,7 +188,7 @@ void configure_fonts()
                fn_bytes.data(), 512);
   }
 
-  /* City production */
+  // City production
   sl.clear();
   sl  << "Arimo" << "Play" <<  "Tinos" << "Ubuntu" << "Times New Roman"
       << "Droid Sans" << "Noto Sans";
@@ -201,7 +199,8 @@ void configure_fonts()
     fc_strlcpy(gui_options.gui_qt_font_city_productions,
                fn_bytes.data(), 512);
   }
-  /* Reqtree */
+
+  // Reqtree
   sl.clear();
   sl  << "Papyrus" << "Segoe Script" << "Comic Sans MS"
       << "Droid Sans" << "Noto Sans" << "Ubuntu";

@@ -119,15 +119,15 @@ void pregamevote::update_vote()
   vote_count = voteinfo_queue_size();
   vi = voteinfo_queue_get_current(&index);
   if (vi != NULL && vi->resolved && vi->passed) {
-    /* TRANS: Describing a vote that passed. */
+    // TRANS: Describing a vote that passed.
     fc_snprintf(status, sizeof(status), _("[passed]"));
     sz_strlcpy(color, "green");
   } else if (vi != NULL && vi->resolved && !vi->passed) {
-    /* TRANS: Describing a vote that failed. */
+    // TRANS: Describing a vote that failed.
     fc_snprintf(status, sizeof(status), _("[failed]"));
     sz_strlcpy(color, "red");
   } else if (vi != NULL && vi->remove_time > 0) {
-    /* TRANS: Describing a vote that was removed. */
+    // TRANS: Describing a vote that was removed.
     fc_snprintf(status, sizeof(status), _("[removed]"));
     sz_strlcpy(color, "grey");
   } else {

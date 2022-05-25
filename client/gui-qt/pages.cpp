@@ -157,7 +157,7 @@ void fc_client::create_main_page(void)
   rev_ver = fc_git_revision();
 
   if (rev_ver == NULL) {
-    /* TRANS: "version 3.1.0, Qt5 client" */
+    // TRANS: "version 3.1.0, Qt5 client"
 #ifdef FC_QT5_MODE
     fc_snprintf(msgbuf, sizeof(msgbuf), _("%s%s, Qt5 client"),
                 word_version(), VERSION_STRING);
@@ -172,7 +172,7 @@ void fc_client::create_main_page(void)
                      main_graphics.height() - fm.descent() - fm.height() * 2,
                      msgbuf);
 
-    /* TRANS: "commit: [modified] <git commit id>" */
+    // TRANS: "commit: [modified] <git commit id>"
     fc_snprintf(msgbuf, sizeof(msgbuf), _("commit: %s"), rev_ver);
     painter.drawText(10,
                      main_graphics.height() - fm.descent() - fm.height(),
@@ -955,7 +955,7 @@ void fc_client::update_server_list(enum server_scan_type sstype,
     row++;
   } server_list_iterate_end;
 
-  /* Remove unneeded rows, if there are any */
+  // Remove unneeded rows, if there are any
   while (old_row_count - row > 0) {
     sel->removeRow(old_row_count - 1);
     old_row_count--;
@@ -1087,7 +1087,7 @@ void fc_client::slot_meta_scan()
 void fc_client::start_new_game()
 {
   if (is_server_running() || client_start_server()) {
-    /* saved settings are sent in client/options.c load_settable_options() */
+    // Saved settings are sent in client/options.c load_settable_options()
   }
 }
 
@@ -1268,13 +1268,13 @@ void fc_client::slot_selection_changed(const QItemSelection &selected,
           }
         }
       }
-      /* Break case (and return) if no human player found */
+      // Break case (and return) if no human player found
       if (pl_str == nullptr) {
         load_save_text->setText(final_str);
         break;
       }
 
-      /* Information about human player */
+      // Information about human player
       pl_bytes = pl_str.toLocal8Bit();
       if ((sf = secfile_load_section(fn_bytes.data(),
                                      pl_bytes.data(), true))) {
@@ -1314,17 +1314,18 @@ void fc_client::slot_selection_changed(const QItemSelection &selected,
           str_pixmap = str_pixmap + line;
         }
 
-        /* Reset terrain information */
+        // Reset terrain information
         terrain_type_iterate(pterr) {
           pterr->identifier_load = '\0';
         } terrain_type_iterate_end;
 
-        /* Load possible terrains and their identifiers (chars) */
+        // Load possible terrains and their identifiers (chars)
         if ((sf = secfile_load_section(fn_bytes.data(),
-                                       "savefile", true)))
+                                       "savefile", true))) {
           while ((terr_name = secfile_lookup_str_default(sf, NULL,
                                  "savefile.terrident%d.name", ii)) != NULL) {
             struct terrain *pterr = terrain_by_rule_name(terr_name);
+
             if (pterr != NULL) {
               const char *iptr = secfile_lookup_str_default(sf, NULL,
                                       "savefile.terrident%d.identifier", ii);
@@ -1332,8 +1333,9 @@ void fc_client::slot_selection_changed(const QItemSelection &selected,
             }
             ii++;
           }
+        }
 
-        /* Create image */
+        // Create image
         QImage img(nat_x, nat_y, QImage::Format_ARGB32_Premultiplied);
 
         img.fill(Qt::black);
@@ -1363,10 +1365,10 @@ void fc_client::slot_selection_changed(const QItemSelection &selected,
 
         load_pix->setFixedSize(pm.width(),
                                pm.height());
-#else  /* FC_QT5_MODE */
+#else  // FC_QT5_MODE
         load_pix->setFixedSize(load_pix->pixmap()->width(),
                                load_pix->pixmap()->height());
-#endif /* FC_QT5_MODE */
+#endif // FC_QT5_MODE
 
         if ((sf = secfile_load_section(fn_bytes.data(),
                                        "research", TRUE))) {
@@ -1495,7 +1497,7 @@ void fc_client::update_scenarios_page(void)
             version = QString("%1.%2").arg(maj).arg(min);
           }
         } else {
-          /* TRANS: Unknown scenario format */
+          // TRANS: Unknown scenario format
           version = QString(_("pre-2.6"));
         }
 
@@ -1554,7 +1556,6 @@ void fc_client::update_scenarios_page(void)
   scenarios_load->sortItems(0);
   scenarios_load->update();
 }
-
 
 /**********************************************************************//**
   Configure the dialog depending on what type of authentication request the
@@ -1690,9 +1691,7 @@ void fc_client::update_start_page()
     i++;
   } players_iterate_end;
   gui()->pr_options->set_aifill(i);
-  /**
-   * Inserts playing players, observing custom players, and AI)
-   */
+  // Inserts playing players, observing custom players, and AI)
 
   players_iterate(pplayer) {
     host = "";
@@ -1800,9 +1799,7 @@ void fc_client::update_start_page()
         }
       }
 
-      /**
-       * find any custom observers
-       */
+      // Find any custom observers
       recursed_items.clear();
       conn_list_iterate(pplayer->connections, pconn) {
         if (pconn->id == conn_id) {
@@ -1822,9 +1819,7 @@ void fc_client::update_start_page()
   player_item->addChildren(items);
   start_players_tree->insertTopLevelItem(0, player_item);
 
-  /**
-   * Insert global observers
-   */
+  // Insert global observers
   items.clear();
   global_item = new QTreeWidgetItem();
   global_item->setText(0, _("Global observers"));
@@ -1858,9 +1853,7 @@ void fc_client::update_start_page()
   start_players_tree->insertTopLevelItem(1, global_item);
   items.clear();
 
-  /**
-  * Insert detached
-  */
+  // Insert detached
   detach_item = new QTreeWidgetItem();
   detach_item->setText(0, _("Detached"));
   qvar2 = 0;
@@ -1891,14 +1884,14 @@ void fc_client::update_buttons()
   bool sensitive;
   QString text;
 
-  /* Observe button */
+  // Observe button
   if (client_is_observer() || client_is_global_observer()) {
     obs_button->setText(_("Don't Observe"));
   } else {
     obs_button->setText(_("Observe"));
   }
 
-  /* Ready button */
+  // Ready button
   if (can_client_control()) {
     sensitive = true;
     if (client_player()->is_ready) {
@@ -1939,7 +1932,7 @@ void fc_client::update_buttons()
   start_button->setEnabled(sensitive);
   start_button->setText(text);
 
-  /* Nation button */
+  // Nation button
   sensitive = game.info.is_new_game && can_client_control();
   nation_button->setEnabled(sensitive);
 
@@ -2025,7 +2018,7 @@ void fc_client::start_page_menu(QPoint pos)
       if (can_conn_edit_players_nation(&client.conn, pplayer)) {
         str = QString(_("Pick nation"));
         action = new QAction(str, start_players_tree);
-        str = "PICK:" + QString(player_name(pplayer));  /* PICK is a key */
+        str = "PICK:" + QString(player_name(pplayer));  // PICK is a key
         QObject::connect(action, &QAction::triggered, [this,str]() {
           send_fake_chat_message(str);
         });
@@ -2033,9 +2026,7 @@ void fc_client::start_page_menu(QPoint pos)
       }
 
       if (is_ai(pplayer)) {
-        /**
-         * Set AI difficulty submenu
-         */
+        // Set AI difficulty submenu
         if (ALLOW_CTRL <= client.conn.access_level) {
           submenu_AI->setTitle(_("Set difficulty"));
           menu->addMenu(submenu_AI);
@@ -2055,9 +2046,7 @@ void fc_client::start_page_menu(QPoint pos)
         }
       }
 
-      /**
-      * Put to Team X submenu
-      */
+      // Put to Team X submenu
       if (pplayer && game.info.is_new_game) {
         menu->addMenu(submenu_team);
         submenu_team->setTitle(_("Put on team"));
