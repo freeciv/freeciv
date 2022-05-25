@@ -1069,7 +1069,7 @@ void unit_info::add_item(unit_item *item)
 }
 
 /************************************************************************//**
-  Initiazlizes layout ( layout needs to be changed after adding units )
+  Initializes layout ( layout needs to be changed after adding units )
 ****************************************************************************/
 void unit_info::init_layout()
 {
