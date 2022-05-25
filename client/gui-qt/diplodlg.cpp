@@ -930,6 +930,7 @@ void qtg_init_meeting(struct Treaty *ptreaty, struct player *they,
                                                                they)));
   gui()->sw_diplo->update_final_pixmap();
   delete pix2;
+  delete def_pix;
   delete def_pix_del;
 
   if (!gui()->is_repo_dlg_open("DDI")) {
