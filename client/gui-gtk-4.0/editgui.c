@@ -1622,7 +1622,7 @@ static void editinfobox_refresh(struct editinfobox *ei)
 /************************************************************************//**
   Handle ctrl+<key> combinations.
 ****************************************************************************/
-static gboolean handle_edit_key_press_with_ctrl(GdkEvent *ev)
+static gboolean handle_edit_key_press_with_ctrl(guint keyval)
 {
   return FALSE; /* Don't gobble. */
 }
@@ -1630,13 +1630,11 @@ static gboolean handle_edit_key_press_with_ctrl(GdkEvent *ev)
 /************************************************************************//**
   Handle shift+<key> combinations.
 ****************************************************************************/
-static gboolean handle_edit_key_press_with_shift(GdkEvent *ev)
+static gboolean handle_edit_key_press_with_shift(guint keyval)
 {
   enum editor_tool_type ett;
-  guint keyval;
 
   ett = editor_get_tool();
-  keyval = gdk_key_event_get_keyval(ev);
   switch (keyval) {
   case GDK_KEY_D:
     editor_tool_toggle_mode(ett, ETM_ERASE);
@@ -1680,24 +1678,20 @@ static gboolean handle_edit_key_press_with_shift(GdkEvent *ev)
 /************************************************************************//**
   Handle any kind of key press event.
 ****************************************************************************/
-gboolean handle_edit_key_press(GdkEvent *ev)
+gboolean handle_edit_key_press(guint keyval, GdkModifierType state)
 {
   enum editor_tool_type ett, new_ett = NUM_EDITOR_TOOL_TYPES;
-  GdkModifierType state;
-  guint keyval;
 
-  state = gdk_event_get_modifier_state(ev);
   if (state & GDK_SHIFT_MASK) {
-    return handle_edit_key_press_with_shift(ev);
+    return handle_edit_key_press_with_shift(keyval);
   }
 
   if (state & GDK_CONTROL_MASK) {
-    return handle_edit_key_press_with_ctrl(ev);
+    return handle_edit_key_press_with_ctrl(keyval);
   }
 
   ett = editor_get_tool();
 
-  keyval = gdk_key_event_get_keyval(ev);
   switch (keyval) {
   case GDK_KEY_t:
     new_ett = ETT_TERRAIN;

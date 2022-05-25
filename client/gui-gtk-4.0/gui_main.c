@@ -195,7 +195,11 @@ static void set_wait_for_writable_socket(struct connection *pc,
 static void print_usage(void);
 static void activate_gui(GtkApplication *app, gpointer data);
 static void parse_options(int argc, char **argv);
-static gboolean toplevel_key_press_handler(GtkWidget *w, GdkEvent *ev, gpointer data);
+static gboolean toplevel_key_press_handler(GtkEventControllerKey *controller,
+                                           guint keyval,
+                                           guint keycode,
+                                           GdkModifierType state,
+                                           gpointer data);
 static gboolean mouse_scroll_mapcanvas(GtkEventControllerScroll *controller,
                                        gdouble dx, gdouble dy,
                                        gpointer data);
@@ -377,14 +381,8 @@ gboolean map_canvas_focus(void)
 /**********************************************************************//**
   Handle keypress events when map canvas is in focus
 **************************************************************************/
-static gboolean key_press_map_canvas(GtkWidget *w, GdkEvent *ev,
-                                     gpointer data)
+static gboolean key_press_map_canvas(guint keyval, GdkModifierType state)
 {
-  GdkModifierType state;
-  guint keyval;
-
-  state = gdk_event_get_modifier_state(ev);
-  keyval = gdk_key_event_get_keyval(ev);
   if ((state & GDK_SHIFT_MASK)) {
     switch (keyval) {
 
@@ -410,12 +408,12 @@ static gboolean key_press_map_canvas(GtkWidget *w, GdkEvent *ev,
 
     case GDK_KEY_Page_Up:
       g_signal_emit_by_name(main_message_area, "move_cursor",
-	                          GTK_MOVEMENT_PAGES, -1, FALSE);
+                            GTK_MOVEMENT_PAGES, -1, FALSE);
       return TRUE;
 
     case GDK_KEY_Page_Down:
       g_signal_emit_by_name(main_message_area, "move_cursor",
-	                          GTK_MOVEMENT_PAGES, 1, FALSE);
+                            GTK_MOVEMENT_PAGES, 1, FALSE);
       return TRUE;
 
     default:
@@ -581,17 +579,16 @@ static gboolean key_press_map_canvas(GtkWidget *w, GdkEvent *ev,
 /**********************************************************************//**
   Handle a keyboard key press made in the client's toplevel window.
 **************************************************************************/
-static gboolean toplevel_key_press_handler(GtkWidget *w, GdkEvent *ev,
+static gboolean toplevel_key_press_handler(GtkEventControllerKey *controller,
+                                           guint keyval,
+                                           guint keycode,
+                                           GdkModifierType state,
                                            gpointer data)
 {
-  guint keyval;
-  GdkModifierType state;
-
   if (inputline_has_focus()) {
     return FALSE;
   }
 
-  keyval = gdk_key_event_get_keyval(ev);
   switch (keyval) {
 
   case GDK_KEY_apostrophe:
@@ -630,12 +627,11 @@ static gboolean toplevel_key_press_handler(GtkWidget *w, GdkEvent *ev,
   }
 
   if (editor_is_active()) {
-    if (handle_edit_key_press(ev)) {
+    if (handle_edit_key_press(keyval, state)) {
       return TRUE;
     }
   }
 
-  state = gdk_event_get_modifier_state(ev);
   if (state & GDK_SHIFT_MASK) {
     switch (keyval) {
 
@@ -651,7 +647,7 @@ static gboolean toplevel_key_press_handler(GtkWidget *w, GdkEvent *ev,
 
   if (0 == gtk_notebook_get_current_page(GTK_NOTEBOOK(top_notebook))) {
     /* 0 means the map view is focused. */
-    return key_press_map_canvas(w, ev, data);
+    return key_press_map_canvas(keyval, state);
   }
 
 #if 0
@@ -1541,8 +1537,10 @@ static void setup_widgets(void)
   g_signal_connect(map_canvas, "resize",
                    G_CALLBACK(map_canvas_resize), NULL);
 
-  g_signal_connect(toplevel, "key_press_event",
+  mc_controller = gtk_event_controller_key_new();
+  g_signal_connect(mc_controller, "key-pressed",
                    G_CALLBACK(toplevel_key_press_handler), NULL);
+  gtk_widget_add_controller(toplevel, mc_controller);
 
   /* *** The message window -- this is a detachable widget *** */
 
