@@ -384,7 +384,7 @@ void units_reports::update_menu()
 }
 
 /************************************************************************//**
-  Initiazlizes layout ( layout needs to be changed after adding units )
+  Initializes layout ( layout needs to be changed after adding units )
 ****************************************************************************/
 void units_reports::init_layout()
 {
