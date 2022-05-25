@@ -939,6 +939,7 @@ void handle_diplomacy_init_meeting(int counterpart, int initiated_from)
                                             player_by_number(counterpart))));
   gui()->sw_diplo->update_final_pixmap();
   delete pix2;
+  delete def_pix;
   delete def_pix_del;
 
   if (!gui()->is_repo_dlg_open("DDI")) {
