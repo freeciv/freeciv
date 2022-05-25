@@ -7098,6 +7098,8 @@ static void sg_load_sanitycheck(struct loaddata *loading)
 
   /* Check researching technologies and goals. */
   researches_iterate(presearch) {
+    int techs;
+
     if (presearch->researching != A_UNSET
         && !is_future_tech(presearch->researching)
         && (valid_advance_by_number(presearch->researching) == NULL
@@ -7116,6 +7118,14 @@ static void sg_load_sanitycheck(struct loaddata *loading)
       log_sg(_("%s had invalid technology goal."),
              research_name_translation(presearch));
       presearch->tech_goal = A_UNSET;
+    }
+
+    techs = recalculate_techs_researched(presearch);
+
+    if (presearch->techs_researched != techs) {
+      log_sg(_("%s had finished researches count wrong."),
+             research_name_translation(presearch));
+      presearch->techs_researched = techs;
     }
   } researches_iterate_end;
 

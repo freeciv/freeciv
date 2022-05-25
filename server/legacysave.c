@@ -4143,6 +4143,8 @@ static void game_load_internal(struct section_file *file)
     /* In case of tech_leakage, we can update research only after all
      * the players have been loaded */
     researches_iterate(presearch) {
+      int techs;
+
       /* Mark the reachable techs */
       research_update(presearch);
 
@@ -4166,6 +4168,14 @@ static void game_load_internal(struct section_file *file)
         log_error(_("%s had invalid technology goal."),
                   research_name_translation(presearch));
         presearch->tech_goal = A_UNSET;
+      }
+
+      techs = recalculate_techs_researched(presearch);
+
+      if (presearch->techs_researched != techs) {
+        log_sg(_("%s had finished researches count wrong."),
+               research_name_translation(presearch));
+        presearch->techs_researched = techs;
       }
     } researches_iterate_end;
 
