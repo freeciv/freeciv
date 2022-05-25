@@ -72,6 +72,8 @@ EXTRA_DIST =	autogen.sh 			\
 		m4/web-client.m4		\
 		m4/winsock2.m4			\
 		m4/testmatic.m4			\
+		flatpak/build_flatpak.sh	\
+		flatpak/org.freeciv.gtk322.yml	\
 		scripts/mapimg2anim		\
 		scripts/setup_auth_server.sh	\
 		scripts/diff_ignore		\

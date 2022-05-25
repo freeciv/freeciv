@@ -1,0 +1,22 @@
+app-id: org.freeciv.gtk322
+runtime: org.freedesktop.Platform
+runtime-version: '21.08'
+sdk: org.freedesktop.Sdk
+command: freeciv-gtk3.22
+rename-icon: freeciv-client
+modules:
+  - name: freeciv-gtk3.22
+    buildsystem: simple
+    build-commands:
+      # On git clone, regenerate configure with autogen.sh
+      - if test -f ./.git && test -x ./autogen.sh ; then ./autogen.sh --no-configure-run ; fi
+      - mkdir build
+      - cd build && ../configure --prefix=/app --disable-fcmp --disable-freeciv-manual && make -j$(nproc) && make install
+    sources:
+      - type: dir
+        path: ..
+finish-args:
+  - --socket=x11
+  - --share=network
+  - --socket=pulseaudio
+  - --filesystem=home
