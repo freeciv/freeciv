@@ -1306,3 +1306,20 @@ struct iterator *research_player_iter_init(struct research_player_iter *it,
 
   return base;
 }
+
+/************************************************************************//**
+  Return recalculated number of techs researched. Useful for
+  sanity checking techs_researched counter.
+****************************************************************************/
+int recalculate_techs_researched(const struct research *presearch)
+{
+  int techs = 1; /* A_NONE known, and not part of below iteration */
+
+  advance_iterate(A_FIRST, t) {
+    if (research_invention_state(presearch, advance_number(t)) == TECH_KNOWN) {
+      techs++;
+    }
+  } advance_iterate_end;
+
+  return techs + presearch->future_tech;
+}
