@@ -991,7 +991,7 @@ QIcon fc_icons::get_icon(const QString &id)
 /************************************************************************//**
   Returns pixmap by given name, pixmap needs to be deleted by someone else
 ****************************************************************************/
-QPixmap* fc_icons::get_pixmap(const QString &id)
+QPixmap *fc_icons::get_pixmap(const QString &id)
 {
   QPixmap *pm;
   bool status;
