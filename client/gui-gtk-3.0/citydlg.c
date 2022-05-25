@@ -657,8 +657,12 @@ static gboolean show_info_popup(GtkWidget *w, GdkEventButton *ev,
   if (ev->button == 1) {
     GtkWidget *p, *label, *frame;
     char buf[1024];
-    
+
     switch (GPOINTER_TO_UINT(data)) {
+    case INFO_SIZE:
+      fc_snprintf(buf, sizeof(buf), _("Population: %d, Specialists: %d"),
+                  pdialog->pcity->size, city_specialists(pdialog->pcity));
+      break;
     case INFO_FOOD:
       get_city_dialog_output_text(pdialog->pcity, O_FOOD, buf, sizeof(buf));
       break;
