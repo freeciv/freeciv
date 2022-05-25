@@ -75,7 +75,7 @@ QFont *fc_font::get_font(QString name)
 }
 
 /****************************************************************************
-  Initiazlizes fonts from client options
+  Initializes fonts from client options
 ****************************************************************************/
 void fc_font::init_fonts()
 {

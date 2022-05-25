@@ -937,9 +937,8 @@ unit_actions::~unit_actions()
   actions.clear();
 }
 
-
 /****************************************************************************
-  Initiazlizes layout ( layout needs to be changed after adding units )
+  Initializes layout ( layout needs to be changed after adding units )
 ****************************************************************************/
 void unit_actions::init_layout()
 {

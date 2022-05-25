@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -384,7 +384,7 @@ void units_reports::update_menu()
 }
 
 /****************************************************************************
-  Initiazlizes layout ( layout needs to be changed after adding units )
+  Initializes layout ( layout needs to be changed after adding units )
 ****************************************************************************/
 void units_reports::init_layout()
 {
