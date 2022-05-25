@@ -1858,7 +1858,8 @@ static void city_dialog_update_information(GtkWidget **info_ebox,
                 (float)illness / 10.0);
   }
   if (pcity->steal) {
-    fc_snprintf(buf[INFO_STEAL], sizeof(buf[INFO_STEAL]), _("%d times"), pcity->steal);
+    fc_snprintf(buf[INFO_STEAL], sizeof(buf[INFO_STEAL]), PL_("%d time", "%d times", pcity->steal),
+                pcity->steal);
   } else {
     fc_snprintf(buf[INFO_STEAL], sizeof(buf[INFO_STEAL]), _("Not stolen"));
   }
