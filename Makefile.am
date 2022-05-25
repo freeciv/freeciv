@@ -81,6 +81,8 @@ EXTRA_DIST =	autogen.sh 			\
 		m4/testmatic.m4			\
 		meson.build			\
 		meson_options.txt		\
+		flatpak/build_flatpak.sh	\
+		flatpak/org.freeciv.gtk322.yml	\
 		scripts/mapimg2anim		\
 		scripts/setup_auth_server.sh	\
 		scripts/replace			\
