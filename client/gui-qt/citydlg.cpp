@@ -3089,7 +3089,7 @@ void city_dialog::update_info_label()
   }
   if (dlgcity->steal) {
     fc_snprintf(buf_info[INFO_STEAL], sizeof(buf_info[INFO_STEAL]),
-                _("%d times"), dlgcity->steal);
+                PL_("%d time", "%d times", dlgcity->steal), dlgcity->steal);
   } else {
     fc_snprintf(buf_info[INFO_STEAL], sizeof(buf_info[INFO_STEAL]),
                 _("Not stolen"));
