@@ -170,12 +170,13 @@ void trade_generator::add_all_cities()
 }
 
 /**************************************************************************
-  Clears genrated routes, virtual cities, cities
+  Clears generated routes, virtual cities, cities
 **************************************************************************/
 void trade_generator::clear_trade_planing()
 {
   struct city *pcity;
   trade_city *tc;
+
   foreach(pcity, virtual_cities) {
     destroy_city_virtual(pcity);
   }
