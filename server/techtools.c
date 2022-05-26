@@ -1455,15 +1455,30 @@ void notify_new_government_options(struct player *pplayer,
                                    struct cur_govs_data *data,
                                    const char *reason)
 {
+  struct government *available = NULL;
+
   governments_iterate(pgov) {
     if (!data->players[player_index(pplayer)].govs[government_index(pgov)]
         && can_change_to_government(pplayer, pgov)) {
-      notify_player(pplayer, NULL, E_NEW_GOVERNMENT, ftc_server,
-                    /* TRANS: "Discovery of <tech>" */
-                    _("%s makes the government form %s"
-                      " available. You may want to start a revolution."),
-                    reason,
-                    government_name_translation(pgov));
+      if (available != NULL) {
+        notify_player(pplayer, NULL, E_NEW_GOVERNMENT, ftc_server,
+                  /* TRANS: "Discovery of <tech>" */
+                      _("%s makes several new government forms"
+                        " available. You may want to start a revolution."),
+                      reason);
+        return;
+      }
+
+      available = pgov;
     }
   } governments_iterate_end;
+
+  if (available != NULL) {
+    notify_player(pplayer, NULL, E_NEW_GOVERNMENT, ftc_server,
+                  /* TRANS: "Discovery of <tech>" */
+                  _("%s makes the government form %s"
+                    " available. You may want to start a revolution."),
+                  reason,
+                  government_name_translation(available));
+  }
 }
