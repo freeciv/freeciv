@@ -387,7 +387,7 @@ int city_num_trade_routes(const struct city *pcity)
 
 /*********************************************************************//**
   Comparator used in max_tile_trade.
-**************************************************************************/
+*************************************************************************/
 static int best_value(const void *a, const void *b)
 {
   return *(int *)a < *(int *)b;
@@ -395,7 +395,7 @@ static int best_value(const void *a, const void *b)
 
 /*********************************************************************//**
   Returns the maximum trade production of the tiles of the city.
-**************************************************************************/
+*************************************************************************/
 static int max_tile_trade(const struct city *pcity)
 {
   int i, total = 0;
@@ -439,7 +439,7 @@ static int max_tile_trade(const struct city *pcity)
 
 /*********************************************************************//**
   Returns the maximum trade production of a city.
-**************************************************************************/
+*************************************************************************/
 static int max_trade_prod(const struct city *pcity)
 {
   /* Trade tile base */
@@ -644,7 +644,7 @@ struct goods_type *goods_by_rule_name(const char *name)
   return NULL;
 }
 
-/*********************************************************************//*
+/*********************************************************************//**
   Returns goods type matching the translated name, or NULL if there is no
   goods type with that name.
 *************************************************************************/

@@ -1389,9 +1389,9 @@ static void compat_load_030000(struct loaddata *loading,
   secfile_replace_int(loading->file, num_settings, "settings.set_count");
 }
 
-/************************************************************************//*
+/************************************************************************//**
   Insert server side agent information.
-***************************************************************************/
+****************************************************************************/
 static void insert_server_side_agent(struct loaddata *loading,
                                      enum sgf_version format_class)
 {
@@ -1611,9 +1611,9 @@ static void compat_load_030100(struct loaddata *loading,
   insert_server_side_agent(loading, format_class);
 }
 
-/**********************************************************************//**
+/************************************************************************//**
   Upgrade unit activity orders to unit action orders.
-**************************************************************************/
+****************************************************************************/
 static void unit_order_activity_to_action(struct unit *act_unit)
 {
   int i;
@@ -1669,9 +1669,9 @@ static void unit_order_activity_to_action(struct unit *act_unit)
   }
 }
 
-/*******************************************************************//**
+/************************************************************************//**
   Returns the opposite direction.
-***********************************************************************/
+****************************************************************************/
 static enum direction8 dir_opposite(enum direction8 dir)
 {
   switch (dir) {
@@ -1696,9 +1696,9 @@ static enum direction8 dir_opposite(enum direction8 dir)
   return DIR8_ORIGIN;
 }
 
-/**********************************************************************//**
+/************************************************************************//**
   Upgrade unit action order target encoding.
-**************************************************************************/
+****************************************************************************/
 static void upgrade_unit_order_targets(struct unit *act_unit)
 {
   int i;
@@ -1766,9 +1766,9 @@ static void upgrade_unit_order_targets(struct unit *act_unit)
   }
 }
 
-/************************************************************************//*
+/************************************************************************//**
   Correct the server side agent information.
-***************************************************************************/
+****************************************************************************/
 static void upgrade_server_side_agent(struct loaddata *loading)
 {
   players_iterate_alive(pplayer) {
@@ -2319,9 +2319,9 @@ enum barbarian_type barb_type_convert(int old_type)
   return barbarian_type_invalid();
 }
 
-/**********************************************************************//**
+/************************************************************************//**
   Assign a new base building task to unit
-**************************************************************************/
+****************************************************************************/
 void set_unit_activity_base(struct unit *punit,
                             Base_type_id base)
 {
@@ -2329,9 +2329,9 @@ void set_unit_activity_base(struct unit *punit,
                              base_extra_get(base_by_number(base)));
 }
 
-/**********************************************************************//**
+/************************************************************************//**
   Assign a new road building task to unit
-**************************************************************************/
+****************************************************************************/
 void set_unit_activity_road(struct unit *punit,
                             Road_type_id road)
 {
