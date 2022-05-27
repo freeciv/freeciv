@@ -111,12 +111,15 @@ enum unit_role_id crole_to_role_id(char crole)
 }
 
 /****************************************************************************
-  Get unit_type for given role character
+  Get unit_type for given role character.
+  If pplayer given, will check also that they don't already have
+  an unique unit.
 ****************************************************************************/
 struct unit_type *crole_to_unit_type(char crole, struct player *pplayer)
 {
   struct unit_type *utype = NULL;
   enum unit_role_id role = crole_to_role_id(crole);
+  int num;
 
   if (role == 0) {
     fc_assert_ret_val(FALSE, NULL);
@@ -124,11 +127,20 @@ struct unit_type *crole_to_unit_type(char crole, struct player *pplayer)
   }
 
   /* Create the unit of an appropriate type, if it exists */
-  if (num_role_units(role) > 0) {
+  num = num_role_units(role);
+  if (num > 0) {
     if (pplayer != NULL) {
+      int i;
+
       utype = first_role_unit_for_player(pplayer, role);
-    }
-    if (utype == NULL) {
+      for (i = 0; utype == NULL && i < num; i++) {
+        struct unit_type *ntype = get_role_unit(role, i);
+
+        if (!utype_player_already_has_this_unique(pplayer, ntype)) {
+          utype = ntype;
+        }
+      }
+    } else {
       utype = get_role_unit(role, 0);
     }
   }
