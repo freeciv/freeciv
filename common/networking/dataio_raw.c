@@ -1138,7 +1138,7 @@ const char *plocation_name(const struct plocation *loc)
   case PADR_FIELD:
     return loc->name;
   case PADR_ELEMENT:
-    fc_snprintf(locname, sizeof(locname), "%d", loc->number);
+    fc_snprintf(locname, sizeof(locname), SIZE_T_PRINTF, loc->number);
     return locname;
   }
 

@@ -35,7 +35,7 @@ struct data_in {
 struct raw_data_out {
   void *dest;
   size_t dest_size, used, current;
-  bool too_short;		/* set to 1 if try to read past end */
+  bool too_short;              /* set to 1 if try to read past end */
 };
 
 /* Used for dio_<put|get>_type() methods.
@@ -65,8 +65,9 @@ struct plocation {
   enum plocation_kind kind;
 
   union {
+    // PTZ190716 int is too small for indexing
     /* Used if this is an array element */
-    int number;
+    size_t number;
 
     /* Used if this is a field. */
     char *name;
@@ -91,7 +92,7 @@ typedef char *(*DIO_PUT_CONV_FUN) (const char *src, size_t *length);
 void dio_set_put_conv_callback(DIO_PUT_CONV_FUN fun);
 
 typedef bool(*DIO_GET_CONV_FUN) (char *dst, size_t ndst,
-				 const char *src, size_t nsrc);
+                                 const char *src, size_t nsrc);
 void dio_set_get_conv_callback(DIO_GET_CONV_FUN fun);
 
 bool dataio_get_conv_callback(char *dst, size_t ndst, const char *src,
@@ -99,7 +100,7 @@ bool dataio_get_conv_callback(char *dst, size_t ndst, const char *src,
 
 /* General functions */
 void dio_output_init(struct raw_data_out *dout, void *destination,
-		     size_t dest_size);
+                     size_t dest_size);
 void dio_output_rewind(struct raw_data_out *dout);
 size_t dio_output_used(struct raw_data_out *dout);
 
