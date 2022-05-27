@@ -552,7 +552,7 @@ uk_happy      = 0
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
-flags         = "Settlers", "NonMil", "HasNoZOC", "Transform", "Airbase"
+flags         = "Settlers", "NonMil", "HasNoZOC", "Transform", "Airbase", "Shield2Gold"
 veteran_names             =
 ; /* TRANS: Worker veteran level */
   _("?worker_level:apprentice"),
