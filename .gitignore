@@ -32,7 +32,6 @@
 /.deps
 /*.sav
 /*.sav.gz
-/freeciv_user_database
 /manual*.html
 /core
 /libtool
