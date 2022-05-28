@@ -2,24 +2,42 @@
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    id="svg1920"
    sodipodi:version="0.32"
-   inkscape:version="0.47 r22583"
+   inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
    width="600"
    height="400"
    version="1.0"
-   sodipodi:docname="rapa_nui.svg">
+   sodipodi:docname="rapa_nui.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs28" />
+  <sodipodi:namedview
+     id="namedview26"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     showgrid="false"
+     inkscape:zoom="1.4672466"
+     inkscape:cx="299.88143"
+     inkscape:cy="200.03454"
+     inkscape:window-width="1123"
+     inkscape:window-height="826"
+     inkscape:window-x="434"
+     inkscape:window-y="108"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg1920" />
   <rect
      fill="#ffffff"
      width="600"
-     height="400"/>
+     height="400"
+     id="rect2" />
   <path
      style="fill:#ff0000"
      d="m 551.88588,88.820009 0.85424,-7.320228 -2.0769,7.146619 c -4.3382,14.92806 -16.68881,27.65727 -29.33603,30.23489 -9.4083,1.91745 -17.70721,4.95472 -20.99566,7.68393 -2.05747,1.70762 -2.82571,1.64495 -5.10363,-0.41649 -1.72894,-1.56455 -5.30435,-2.42669 -10.0641,-2.42669 -6.52669,0 -7.77295,0.52864 -10.75444,4.5609 -1.8546,2.50851 -3.74179,4.19129 -4.19348,3.73952 -0.4518,-0.45178 0.022,-1.83752 1.0525,-3.07943 1.37024,-1.65089 1.40673,-2.25804 0.13561,-2.25804 -0.95612,0 -2.65466,2.19257 -3.77423,4.87232 -2.5172,6.02482 -9.35105,12.25076 -12.70278,12.25076 -10.31014,-3.62302 -11.66695,-19.69265 -23.46083,-20.53903 -3.98869,0.20108 -3.98972,0.20409 -0.2991,0.87582 5.10572,0.92922 7.05193,6.3142 13.56483,14.61592 41.02928,52.29691 98.27628,6.52941 107.154,-49.940771 z"
