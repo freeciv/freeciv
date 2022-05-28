@@ -842,8 +842,15 @@ dnl fi
 
 AC_DEFINE_UNQUOTED([FREECIV_STORAGE_DIR], ["$FREECIV_STORAGE_DIR"], [Location for freeciv to store its information])
 
+AC_ARG_WITH([localedir],
+  AS_HELP_STRING([--with-localedir], [directory where produced binaries will look locales from]),
+[LOCALEDIR="${withval}"],
+[LOCALEDIR=""])
+
 dnl note this has to match the path installed by translations/*/Makefile
-if test x"$MINGW" != "xyes"; then
+if test "x$LOCALEDIR" != "x" ; then
+  CPPFLAGS="$CPPFLAGS -DLOCALEDIR=\"\\\"$LOCALEDIR\\\"\""
+elif test "x$MINGW" != "xyes"; then
   CPPFLAGS="$CPPFLAGS -DLOCALEDIR=\"\\\"$localedir\\\"\""
 else
   AC_DEFINE_UNQUOTED([LOCALEDIR], [".\\\\share\\\\locale"], [Locale directory (windows)])
