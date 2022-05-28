@@ -209,7 +209,7 @@ void ruleset_error_real(const char *file, const char *function,
                         const char *format, ...)
 {
   va_list args;
-  char buf[1024];
+  char buf[MAX_LEN_LOG_LINE];
 
   va_start(args, format);
   vdo_log(file, function, line, FALSE, level, buf, sizeof(buf), format, args);
