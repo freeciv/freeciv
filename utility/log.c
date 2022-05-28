@@ -21,6 +21,7 @@
 #include <string.h>
 
 /* utility */
+#include "deprecations.h"
 #include "fciconv.h"
 #include "fcintl.h"
 #include "fcthread.h"
@@ -29,9 +30,6 @@
 #include "support.h"
 
 #include "log.h"
-#include "deprecations.h"
-
-#define MAX_LEN_LOG_LINE 5120
 
 static void log_write(FILE *fs, enum log_level level, bool print_from_where,
                       const char *where, const char *message);

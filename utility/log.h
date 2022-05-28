@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -20,7 +20,10 @@ extern "C" {
 #include <stdarg.h>
 #include <stdlib.h>
 
+/* utility */
 #include "support.h"            /* bool type and fc__attribute */
+
+#define MAX_LEN_LOG_LINE 5120
 
 enum log_level {
   LOG_FATAL = 0,
