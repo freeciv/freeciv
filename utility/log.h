@@ -20,7 +20,10 @@ extern "C" {
 #include <stdarg.h>
 #include <stdlib.h>
 
+/* utility */
 #include "support.h"            /* bool type and fc__attribute */
+
+#define MAX_LEN_LOG_LINE 5120
 
 enum log_level {
   LOG_FATAL = 0,
