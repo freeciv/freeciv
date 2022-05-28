@@ -71,7 +71,7 @@ static void update_acceptance_icons(struct diplomacy_dialog *pdialog);
 static void update_clauses_list(struct diplomacy_dialog *pdialog);
 static void remove_clause_widget_from_list(int counterpart, int giver,
                                            enum clause_type type, int value);
-static void popdown_diplomacy_dialog(int counterpart);
+static void popdown_diplomacy_dialog(struct diplomacy_dialog *pdialog);
 static void popdown_diplomacy_dialogs(void);
 static void popdown_sdip_dialog(void);
 
@@ -134,8 +134,13 @@ void handle_diplomacy_accept_treaty(int counterpart, bool I_accepted,
 **************************************************************************/
 void handle_diplomacy_cancel_meeting(int counterpart, int initiated_from)
 {
-  popdown_diplomacy_dialog(counterpart);
-  flush_dirty();
+  struct diplomacy_dialog *pdialog = get_diplomacy_dialog(counterpart);
+
+  if (pdialog != NULL) {
+    dialog_list_remove(dialog_list, pdialog);
+    popdown_diplomacy_dialog(pdialog);
+    flush_dirty();
+  }
 }
 /* ----------------------------------------------------------------------- */
 
@@ -1207,26 +1212,22 @@ void handle_diplomacy_init_meeting(int counterpart, int initiated_from)
 /**************************************************************************
   Close diplomacy dialog between client user and given counterpart.
 **************************************************************************/
-static void popdown_diplomacy_dialog(int counterpart)
+static void popdown_diplomacy_dialog(struct diplomacy_dialog *pdialog)
 {
-  struct diplomacy_dialog *pdialog = get_diplomacy_dialog(counterpart);
-    
-  if (pdialog) {
+  if (pdialog != NULL) {
     popdown_window_group_dialog(pdialog->poffers->pBeginWidgetList,
-			        pdialog->poffers->pEndWidgetList);
+                                pdialog->poffers->pEndWidgetList);
     FC_FREE(pdialog->poffers->pScroll);
     FC_FREE(pdialog->poffers);
-    
+
     popdown_window_group_dialog(pdialog->pwants->pBeginWidgetList,
-			        pdialog->pwants->pEndWidgetList);
+                                pdialog->pwants->pEndWidgetList);
     FC_FREE(pdialog->pwants->pScroll);
     FC_FREE(pdialog->pwants);
-    
+
     popdown_window_group_dialog(pdialog->pdialog->pBeginWidgetList,
-			                  pdialog->pdialog->pEndWidgetList);
-      
-    dialog_list_remove(dialog_list, pdialog);
-      
+                                pdialog->pdialog->pEndWidgetList);
+
     FC_FREE(pdialog->pdialog->pScroll);
     FC_FREE(pdialog->pdialog);  
     FC_FREE(pdialog);
@@ -1239,8 +1240,10 @@ static void popdown_diplomacy_dialog(int counterpart)
 static void popdown_diplomacy_dialogs(void)
 {
   dialog_list_iterate(dialog_list, pdialog) {
-    popdown_diplomacy_dialog(player_number(pdialog->treaty.plr1));
+    popdown_diplomacy_dialog(pdialog);
   } dialog_list_iterate_end;
+
+  dialog_list_clear(dialog_list);
 }
 
 /**************************************************************************
