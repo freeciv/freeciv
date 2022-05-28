@@ -2222,6 +2222,8 @@ static struct tileset *tileset_read_toplevel(const char *tileset_name,
         goto ON_ERROR;
       }
     }
+
+    free(layer_order);
   } else {
     /* There is no layer_order tag in the specfile -> use the default */
     for (i = 0; i < LAYER_COUNT; i++) {
