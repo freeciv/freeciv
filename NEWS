@@ -3248,7 +3248,7 @@ WHAT'S CHANGED SINCE 1.14.2
  - New (and incompatible) metaserver.
  - New ALSA sound plugin.
  - The s(entry) command no longer doubles as a means to put units on
-   boats - use the new l(oad) command instead. 
+   boats - use the new l(oad) command instead.
  - Many more (smaller) changes, and massive changes under the hood.
 
 WHAT'S CHANGED SINCE 1.13.0
@@ -3261,22 +3261,22 @@ WHAT'S CHANGED SINCE 1.13.0
  - Specialists are taken from content citizens first, instead of from
    unhappy citizens first. This makes it more difficult to quell unrest
    using taxmen and scientists.
- - You now start with no technologies by default, and angry citizens 
+ - You now start with no technologies by default, and angry citizens
    are enabled by default, although they will rarely make an apperance.
  - The algorithm used for calculating the effects of tax settings has
-   been changed. It is now no longer possible to get 100% effect from 
+   been changed. It is now no longer possible to get 100% effect from
    60% choice of tax goal.
  - A new, historically more correct version of the rulesets included.
- - There is an option to require several turns of rapture/celebration 
+ - There is an option to require several turns of rapture/celebration
    before it takes effect. See "show rapturedelay" in server.
  - The sequence of some end of turn activities have been regrouped.
- - Several AI improvements. It should now build and buy units and 
+ - Several AI improvements. It should now build and buy units and
    buildings slightly more intelligently.
  - Many internal code improvements that will lead to more features
    later.
  - /fix and /unfix commands to stop modifications after game has
    started.
- - The server commands "rulesout", "log", "freestyle" and "crash" 
+ - The server commands "rulesout", "log", "freestyle" and "crash"
    have been removed, while "rfcstyle" now toggles between rfcstyle
    and freestyle.
  - civ2 ruleset now more accurately reflects civ2 deity level defaults.
@@ -3294,7 +3294,7 @@ WHAT'S CHANGED SINCE 1.12.0
  - Windows version of the client. It has improved connection
    dialog and supports loading and saving from the client.
  - GTK 2.0 version of the client.
- - The client will try to suggest names for your cities that 
+ - The client will try to suggest names for your cities that
    correspond with what they mean.
  - Improved players dialog shows sortable and colored information,
    including the players' flags.
@@ -3306,14 +3306,14 @@ WHAT'S CHANGED SINCE 1.12.0
  - A new flexible timeout set through "timeoutinc" server option.
  - Leftover research bulbs will carry over to next advance.
  - Trade routes are more effective.
- - Units attacking ships in cities double their firepower, while 
+ - Units attacking ships in cities double their firepower, while
    defenders get only 1 firepower.
  - Helicopters defending against air units get 50% penalty, and
    have their firepower reduced to 1 against fighter units.
  - You can build city walls even though you have Great Wall wonder.
  - The Communism government's food cost in default ruleset has
    been changed to 1, while it has been changed to 2 for the Civ2
-   ruleset. 
+   ruleset.
  - Stealth fighter and bomber now really are stealthy, and are
    partially invisible just like subs. Also, stealth bombers have
    increased their attack strength from 14 to 18.
@@ -3323,19 +3323,19 @@ WHAT'S CHANGED SINCE 1.12.0
    Rulesets can specify starting techs. You can have more than one
    bonus tech. Split settler abilities. Buildings ruleset syntax
    has been significantly extended, but effects do not work yet.
- - Server option "tinyisles" allow 1x1 size islands and 
+ - Server option "tinyisles" allow 1x1 size islands and
    "separatepoles" allow continents connected to the poles
- - "citymindist" specify minimum distance between cities, while 
-   "notradesize" and "fulltradesize" regulate the trade generated 
+ - "citymindist" specify minimum distance between cities, while
+   "notradesize" and "fulltradesize" regulate the trade generated
    by smaller cities.
  - You can turn on angry citizens with "angrycitizens" option.
  - Fortresses may give you extended vision. See watchtower options.
- - If you lose your palace, you get a new one for free in a 
+ - If you lose your palace, you get a new one for free in a
    randomly chosen city. This behaviour can be turned off with the
    server option "savepalace".
  - Rulesets are now loaded from inside the server through the
    "rulesetdir" command.
- - The limit on the number of nations that can be included with 
+ - The limit on the number of nations that can be included with
    Freeciv has been removed.
  - The format of the isometric tileset spec-files has changed.
  - The map and ai code has been cleaned up significantly.
@@ -3554,7 +3554,7 @@ WHAT'S CHANGED SINCE 1.9.0:
  - Several AI improvements.
  - New ruleset support for CITIES, most notably cities are now drawn in
    different sizes and styles.
- - Allow specifying unambiguous player name prefix, instead of full 
+ - Allow specifying unambiguous player name prefix, instead of full
    player name, for server commands taking a player name argument.
  - Added multi-client configuration support.
  - Added 'read' and 'write' server commands.

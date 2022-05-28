@@ -116,9 +116,9 @@ These forms have different prerequisites, explained separately below.
 
 Your system will need to satisfy at least one of these sets of prerequisites.
 
-Note that most Linux systems have separate library packages for "runtime" 
-library support and for development support (for compiling programs 
-which use those libraries).  To compile Freeciv on such systems you 
+Note that most Linux systems have separate library packages for "runtime"
+library support and for development support (for compiling programs
+which use those libraries).  To compile Freeciv on such systems you
 will need to have the appropriate "development" packages installed.
 
 Sound support is built in by default if development files for
@@ -213,11 +213,11 @@ following order: pkg-config, Glib, Atk, Pango, Gdk-Pixbuf, Gtk+.
    https://www.libsdl.org/release/SDL2-2.0.18.tar.gz
 
    To compile the client using the "SDL2" library add "--enable-client=sdl2"
-   to the Freeciv configure script.  See the section below for more 
+   to the Freeciv configure script.  See the section below for more
    information about the configure script.
 
  - The "SDL2_image" library.
- 
+
    This library loads the PNG images (with the help of libpng) and converts
    them to "SDL surfaces" that can be handled by the "SDL" library. You may
    obtain it at:
@@ -309,7 +309,7 @@ script, try the --help option, like this:
 
  % ./configure --help
 
-By default the configure script will choose the Gtk+ client if the 
+By default the configure script will choose the Gtk+ client if the
 required libraries are found. If you prefer to override this default,
 you can give configure the "--enable-client=sdl2" option.
 
@@ -358,7 +358,7 @@ If for some reason using "configure" gives you trouble, follow these steps:
 If all has gone well previous to this point, then compiling Freeciv
 should be as easy as typing "make" (or preferably, "gmake").
 
-If you have problems, read the file BUGS, and follow the advice 
+If you have problems, read the file BUGS, and follow the advice
 carefully.  If the problem is with "gettext", please read the Native
 Language Support section, below, for possible work-arounds.
 
@@ -391,10 +391,10 @@ Typing "make install" should install everything correctly on your machine.
 You may like to use the --prefix=DIR configure option (see the Generating
 the Makefile section) to ensure the files get placed where you want.
 
-When the Freeciv client and Freeciv server are run they both need to 
+When the Freeciv client and Freeciv server are run they both need to
 find some files from the "data" directory.  By default freeciv looks
-in the following directories, in order, for any data files: the current 
-directory; the "data" subdirectory of the current directory; the 
+in the following directories, in order, for any data files: the current
+directory; the "data" subdirectory of the current directory; the
 subdirectory ".freeciv" in the user's home directory; and the directory
 where the files are placed by running "make install".  You can override
 this search patch by setting the FREECIV_DATA_PATH environment variable, to
