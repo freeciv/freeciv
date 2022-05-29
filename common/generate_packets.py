@@ -1081,11 +1081,11 @@ class Variant:
             self.keys_arg=",\n    "+self.keys_arg
 
         if len(self.fields)==0:
-            self.delta=0
-            self.no_packet=1
+            self.delta = False
+            self.no_packet = True
 
         if len(self.fields)>5 or self.name.split("_")[1]=="ruleset":
-            self.handle_via_packet=1
+            self.handle_via_packet = True
 
         self.extra_send_args=""
         self.extra_send_args2=""
@@ -1280,7 +1280,7 @@ static char *stats_{self.name}_names[] = {{{names}}};
                 body="#if 1 /* To match endif */"
             body=body+"\n"
             body += "".join(
-                field.get_put(0) + "\n"
+                field.get_put(False) + "\n"
                 for field in self.fields
             )
             body=body+"\n#endif\n"
@@ -1397,13 +1397,13 @@ static char *stats_{self.name}_names[] = {{{names}}};
 '''
 
         body += "".join(
-            field.get_put(1) + "\n"
+            field.get_put(True) + "\n"
             for field in self.key_fields
         )
         body=body+"\n"
 
         body += "".join(
-            field.get_put_wrapper(self,i,1)
+            field.get_put_wrapper(self, i, True)
             for i, field in enumerate(self.other_fields)
         )
         body=body+'''
@@ -1442,7 +1442,7 @@ static char *stats_{self.name}_names[] = {{{names}}};
   DIO_BV_GET(&din, &field_addr, fields);
   '''
             body1 = "".join(
-                prefix("  ", field.get_get(1)) + "\n"
+                prefix("  ", field.get_get(True)) + "\n"
                 for field in self.key_fields
             )
             body1=body1+"\n#else /* FREECIV_DELTA_PROTOCOL */\n"
@@ -1453,7 +1453,7 @@ static char *stats_{self.name}_names[] = {{{names}}};
             body1="#if 1 /* To match endif */\n"
             body2=""
         nondelta = "".join(
-            prefix("  ", field.get_get(0)) + "\n"
+            prefix("  ", field.get_get(False)) + "\n"
             for field in self.fields
         ) or "  real_packet->__dummy = 0xff;"
         body1=body1+nondelta+"\n#endif\n"
@@ -1536,7 +1536,7 @@ static char *stats_{self.name}_names[] = {{{names}}};
 
 """.format(self = self, key1 = key1, key2 = key2, fl = fl)
         body += "".join(
-            field.get_get_wrapper(self,i,1)
+            field.get_get_wrapper(self, i, True)
             for i, field in enumerate(self.other_fields)
         )
 
@@ -1684,14 +1684,14 @@ class Packet:
         self.want_dsend=self.dsend_given
 
         if len(self.fields)==0:
-            self.delta=0
-            self.no_packet=1
+            self.delta = False
+            self.no_packet = True
 
             if self.want_dsend:
                 raise ValueError("requested dsend for %s without fields isn't useful" % self.name)
 
         if len(self.fields)>5 or self.name.split("_")[1]=="ruleset":
-            self.handle_via_packet=1
+            self.handle_via_packet = True
 
         self.extra_send_args=""
         self.extra_send_args2=""
