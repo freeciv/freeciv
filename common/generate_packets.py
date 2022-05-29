@@ -596,6 +596,7 @@ class Field:
         if self.is_struct:
             if self.is_array==2:
                 c = "DIO_PUT({self.dataio_type}, &dout, &field_addr, &real_packet->{self.name}[i][j]);".format(self = self)
+                array_size_u = "#error Codegen error"   # avoid "possibly unbound" warnings
             else:
                 c = "DIO_PUT({self.dataio_type}, &dout, &field_addr, &real_packet->{self.name}[i]);".format(self = self)
                 array_size_u = self.array_size_u
@@ -606,12 +607,14 @@ class Field:
         elif self.struct_type=="float":
             if self.is_array==2:
                 c = "  DIO_PUT({self.dataio_type}, &dout, &field_addr, real_packet->{self.name}[i][j], {self.float_factor:d});".format(self = self)
+                array_size_u = "#error Codegen error"   # avoid "possibly unbound" warnings
             else:
                 c = "  DIO_PUT({self.dataio_type}, &dout, &field_addr, real_packet->{self.name}[i], {self.float_factor:d});".format(self = self)
                 array_size_u = self.array_size_u
         else:
             if self.is_array==2:
                 c = "DIO_PUT({self.dataio_type}, &dout, &field_addr, real_packet->{self.name}[i][j]);".format(self = self)
+                array_size_u = "#error Codegen error"   # avoid "possibly unbound" warnings
             else:
                 c = "DIO_PUT({self.dataio_type}, &dout, &field_addr, real_packet->{self.name}[i]);".format(self = self)
                 array_size_u = self.array_size_u
@@ -1265,14 +1268,17 @@ static char *stats_{self.name}_names[] = {{{names}}};
   {self.name}_fields fields;
   struct {self.packet_name} *old;
 """.format(self = self)
-                delta_header2 = """\
+                if self.differ_used:
+                    delta_header += '''  bool differ;
+'''
+                delta_header += """\
   struct genhash **hash = pc->phs.sent + {self.type};
 """.format(self = self)
                 if self.is_info != "no":
-                    delta_header2 += """\
+                    delta_header += """\
   int different = {diff};
 """.format(diff = diff)
-                delta_header2 = delta_header2 + '''#endif /* FREECIV_DELTA_PROTOCOL */
+                delta_header += '''#endif /* FREECIV_DELTA_PROTOCOL */
 '''
                 body = self.get_delta_send_body(pre2) + "\n#ifndef FREECIV_DELTA_PROTOCOL"
             else:
@@ -1312,13 +1318,6 @@ static char *stats_{self.name}_names[] = {{{names}}};
 '''
         else:
             faddr = ""
-
-        if delta_header != "":
-            if self.differ_used:
-                delta_header = delta_header + '''  bool differ;
-''' + delta_header2
-            else:
-                delta_header = delta_header + delta_header2
 
         return "".join((
             """\
@@ -2049,9 +2048,9 @@ def get_packet_handlers_fill_capability(packets: typing.Iterable[Packet]) -> str
     {v.receive_handler}
   }} else """.format(v = v)
         body += """{{
-    log_error("Unknown {v.type} variant for cap %s", capability);
+    log_error("Unknown {p.type} variant for cap %s", capability);
   }}
-""".format(v = v)
+""".format(p = p)
     if len(cs_packets)>0 or len(sc_packets)>0:
         body=body+'''  if (is_server()) {
 '''
@@ -2063,9 +2062,9 @@ def get_packet_handlers_fill_capability(packets: typing.Iterable[Packet]) -> str
       {v.send_handler}
     }} else """.format(v = v)
             body += """{{
-      log_error("Unknown {v.type} variant for cap %s", capability);
+      log_error("Unknown {p.type} variant for cap %s", capability);
     }}
-""".format(v = v)
+""".format(p = p)
         for p in cs_packets:
             body=body+"    "
             for v in p.variants:
@@ -2074,9 +2073,9 @@ def get_packet_handlers_fill_capability(packets: typing.Iterable[Packet]) -> str
       {v.receive_handler}
     }} else """.format(v = v)
             body += """{{
-      log_error("Unknown {v.type} variant for cap %s", capability);
+      log_error("Unknown {p.type} variant for cap %s", capability);
     }}
-""".format(v = v)
+""".format(p = p)
         body=body+'''  } else {
 '''
         for p in cs_packets:
@@ -2087,9 +2086,9 @@ def get_packet_handlers_fill_capability(packets: typing.Iterable[Packet]) -> str
       {v.send_handler}
     }} else """.format(v = v)
             body += """{{
-      log_error("Unknown {v.type} variant for cap %s", capability);
+      log_error("Unknown {p.type} variant for cap %s", capability);
     }}
-""".format(v = v)
+""".format(p = p)
         for p in sc_packets:
             body=body+"    "
             for v in p.variants:
@@ -2098,9 +2097,9 @@ def get_packet_handlers_fill_capability(packets: typing.Iterable[Packet]) -> str
       {v.receive_handler}
     }} else """.format(v = v)
             body += """{{
-      log_error("Unknown {v.type} variant for cap %s", capability);
+      log_error("Unknown {p.type} variant for cap %s", capability);
     }}
-""".format(v = v)
+""".format(p = p)
         body=body+'''  }
 '''
 
