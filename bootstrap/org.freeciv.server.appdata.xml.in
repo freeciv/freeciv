@@ -2,6 +2,7 @@
 <component>
     <name>Freeciv server</name>
     <id>org.freeciv.server</id>
+    <project_license>GPL-2.0-or-later</project_license>
     <metadata_license>CC0</metadata_license>
     <summary>Server component for the Freeciv game</summary>
     <description>
