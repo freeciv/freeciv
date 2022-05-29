@@ -345,16 +345,17 @@ static bool chatline_autocomplete(GtkEditable *editable)
 /**********************************************************************//**
   Called when a key is pressed.
 **************************************************************************/
-static gboolean inputline_handler(GtkWidget *w, GdkEvent *ev)
+static gboolean inputline_handler(GtkEventControllerKey *controller,
+                                  guint keyval,
+                                  guint keycode,
+                                  GdkModifierType state,
+                                  gpointer data)
 {
-  GdkModifierType state;
+  GtkWidget *w = gtk_event_controller_get_widget(GTK_EVENT_CONTROLLER(controller));
 
-  state = gdk_event_get_modifier_state(ev);
   if ((state & GDK_CONTROL_MASK)) {
     /* Chatline featured text support. */
-    guint keyval;
 
-    keyval = gdk_key_event_get_keyval(ev);
     switch (keyval) {
     case GDK_KEY_b:
       inputline_make_tag(GTK_ENTRY(w), TTT_BOLD);
@@ -382,10 +383,8 @@ static gboolean inputline_handler(GtkWidget *w, GdkEvent *ev)
 
   } else {
     /* Chatline history controls. */
-    guint keyval;
     GtkEntryBuffer *buffer = gtk_entry_get_buffer(GTK_ENTRY(w));
 
-    keyval = gdk_key_event_get_keyval(ev);
     switch (keyval) {
     case GDK_KEY_Up:
       if (history_pos < genlist_size(history_list) - 1) {
@@ -1325,6 +1324,7 @@ void chatline_init(void)
   GdkRGBA color;
 #endif /* TOOLBUTTON_GTK3 */
   int grid_col = 0;
+  GtkEventController *chat_controller;
 
   /* Chatline history. */
   if (!history_list) {
@@ -1452,7 +1452,7 @@ void chatline_init(void)
                               /* TRANS: "Return" means the return key. */
                               _("Send the chat (Return)"));
 #endif /* TOOLBUTTON_GTK3 */
-  
+
   /* Second line */
   gtk_box_append(GTK_BOX(vbox), hgrid);
 
@@ -1468,8 +1468,11 @@ void chatline_init(void)
   /* Entry. */
   gtk_grid_attach(GTK_GRID(hgrid), entry, grid_col++, 0, 1, 1);
   g_signal_connect(entry, "activate", G_CALLBACK(inputline_return), NULL);
-  g_signal_connect(entry, "key_press_event",
+
+  chat_controller = gtk_event_controller_key_new();
+  g_signal_connect(chat_controller, "key-pressed",
                    G_CALLBACK(inputline_handler), NULL);
+  gtk_widget_add_controller(entry, chat_controller);
 
   /* Button box. */
   bbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 2);
