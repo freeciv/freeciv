@@ -88,6 +88,7 @@
 #define BUILDING_SECTION_PREFIX "building_"
 #define CITYSTYLE_SECTION_PREFIX "citystyle_"
 #define MUSICSTYLE_SECTION_PREFIX "musicstyle_"
+#define UEFF_SECTION_PREFIX "ueff_"
 #define EFFECT_SECTION_PREFIX "effect_"
 #define GOVERNMENT_SECTION_PREFIX "government_"
 #define NATION_SET_SECTION_PREFIX "nset" /* without underscore? */
@@ -5937,7 +5938,6 @@ static bool load_ruleset_effects(struct section_file *file,
                                  struct rscompat_info *compat)
 {
   struct section_list *sec;
-  const char *type;
   const char *filename;
   bool ok = TRUE;
 
@@ -5950,6 +5950,69 @@ static bool load_ruleset_effects(struct section_file *file,
   (void) secfile_entry_by_path(file, "datafile.description");   /* unused */
   (void) secfile_entry_by_path(file, "datafile.ruledit");       /* unused */
 
+  sec = secfile_sections_by_name_prefix(file, UEFF_SECTION_PREFIX);
+
+  if (sec != NULL) {
+    section_list_iterate(sec, psection) {
+      const char *sec_name = section_name(psection);
+      enum effect_type main_type;
+      enum effect_type ai_valued_as;
+      const char *type;
+
+      type = secfile_lookup_str(file, "%s.type", sec_name);
+      if (type == NULL) {
+        ruleset_error(LOG_ERROR, "\"%s\" [%s] missing effect type.", filename, sec_name);
+        ok = FALSE;
+        break;
+      }
+      main_type = effect_type_by_name(type, fc_strcasecmp);
+      if (!effect_type_is_valid(main_type)) {
+        ruleset_error(LOG_ERROR, "\"%s\" [%s] lists unknown effect type \"%s\".",
+                      filename, sec_name, type);
+        ok = FALSE;
+        break;
+      }
+      if (!is_user_effect(main_type)) {
+        ruleset_error(LOG_ERROR, "\"%s\" [%s] type \"%s\" is not an user effect.",
+                      filename, sec_name, type);
+        ok = FALSE;
+        break;
+      }
+
+      type = secfile_lookup_str(file, "%s.ai_valued_as", sec_name);
+      if (type == NULL) {
+        ruleset_error(LOG_ERROR, "\"%s\" [%s] missing ai_valued_as.", filename, sec_name);
+        ok = FALSE;
+        break;
+      }
+      ai_valued_as = effect_type_by_name(type, fc_strcasecmp);
+      if (!effect_type_is_valid(ai_valued_as)) {
+        ruleset_error(LOG_ERROR, "\"%s\" [%s] lists unknown ai_valued_as \"%s\".",
+                      filename, sec_name, type);
+        ok = FALSE;
+        break;
+      }
+      if (is_user_effect(ai_valued_as)) {
+        ruleset_error(LOG_ERROR, "\"%s\" [%s] ai_valued_as \"%s\" is an user effect.",
+                      filename, sec_name, type);
+        ok = FALSE;
+        break;
+      }
+
+      if (user_effect_ai_valued_as(main_type) != main_type) {
+        /* It has been set already! */
+        ruleset_error(LOG_ERROR, "\"%s\" [%s] Duplicate \"%s\" entry.",
+                      filename, sec_name, type);
+        ok = FALSE;
+        break;
+      }
+
+      user_effect_ai_valued_set(main_type, ai_valued_as);
+    } section_list_iterate_end;
+
+    section_list_destroy(sec);
+  }
+
   /* Parse effects and add them to the effects ruleset cache. */
   sec = secfile_sections_by_name_prefix(file, EFFECT_SECTION_PREFIX);
   section_list_iterate(sec, psection) {
@@ -5959,6 +6022,7 @@ static bool load_ruleset_effects(struct section_file *file,
     struct effect *peffect;
     const char *sec_name = section_name(psection);
     struct requirement_vector *reqs;
+    const char *type;
 
     type = secfile_lookup_str(file, "%s.type", sec_name);
 

@@ -41,6 +41,12 @@
 
 static bool initialized = FALSE;
 
+struct user_effect {
+  enum effect_type ai_value_as;
+};
+
+struct user_effect ueffects[EFT_USER_EFFECT_LAST + 1 - EFT_USER_EFFECT_1];
+
 /**************************************************************************
   The code creates a ruleset cache on ruleset load. This constant cache
   is used to speed up effects queries.  After the cache is created it is
@@ -254,6 +260,12 @@ void ruleset_cache_init(void)
   }
   for (i = 0; i < ARRAY_SIZE(ruleset_cache.reqs.advances); i++) {
     ruleset_cache.reqs.advances[i] = effect_list_new();
+  }
+
+  /* By default, user effects are valued as themselves
+   * (currently meaning that they get no value at all) */
+  for (i = EFT_USER_EFFECT_1 ; i <= EFT_USER_EFFECT_LAST; i++) {
+    ueffects[USER_EFFECT_NUMBER(i)].ai_value_as = i;
   }
 }
 
@@ -1240,4 +1252,43 @@ bool iterate_effect_cache(iec_cb cb, void *data)
   } effect_list_iterate_end;
 
   return TRUE;
+}
+
+/**********************************************************************//**
+  Is the effect type an user effect type?
+**************************************************************************/
+bool is_user_effect(enum effect_type eff)
+{
+  return eff >= EFT_USER_EFFECT_1 && eff <= EFT_USER_EFFECT_LAST;
+}
+
+/**********************************************************************//**
+  Set the ai_valued_as effect type for the target effect.
+  Target must be an user effect.
+**************************************************************************/
+void user_effect_ai_valued_set(enum effect_type tgt, enum effect_type valued_as)
+{
+  fc_assert(is_user_effect(tgt));
+
+  ueffects[USER_EFFECT_NUMBER(tgt)].ai_value_as = valued_as;
+}
+
+/**********************************************************************//**
+  Get the ai_valued_as effect type for effect. Can be used also
+  for non-user effects - then it just returns the effect itself.
+**************************************************************************/
+enum effect_type user_effect_ai_valued_as(enum effect_type real)
+{
+  /* Client doesn't know these. */
+  fc_assert(is_server());
+
+  if (!is_user_effect(real)) {
+    return real;
+  }
+
+  if (!is_user_effect(ueffects[USER_EFFECT_NUMBER(real)].ai_value_as)) {
+    return ueffects[USER_EFFECT_NUMBER(real)].ai_value_as;
+  }
+
+  return real;
 }

@@ -784,6 +784,8 @@ static bool save_effects_ruleset(const char *filename, const char *name)
 {
   struct section_file *sfile = create_ruleset_file(name, "effect");
   effect_cb_data data;
+  int i;
+  int sidx;
 
   if (sfile == NULL) {
     return FALSE;
@@ -791,6 +793,24 @@ static bool save_effects_ruleset(const char *filename, const char *name)
 
   data.idx = 0;
   data.sfile = sfile;
+
+  comment_ueffs(sfile);
+
+  sidx = 0;
+  for (i = EFT_USER_EFFECT_1 ; i <= EFT_USER_EFFECT_LAST; i++) {
+    enum effect_type val = user_effect_ai_valued_as(i);
+
+    if (val != i) {
+      char path[512];
+
+      fc_snprintf(path, sizeof(path), "ueff_%d", sidx++);
+
+      secfile_insert_str(sfile, effect_type_name(i),
+                         "%s.type", path);
+      secfile_insert_str(sfile, effect_type_name(val),
+                         "%s.ai_valued_as", path);
+    }
+  }
 
   comment_effects(sfile);
 

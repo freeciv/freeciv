@@ -8,6 +8,19 @@ format_version = 30
 
 ; /* <-- avoid gettext warnings
 ;
+; User effect types
+;
+; type                    = Effect type to define. Must be one of user effects.
+; ai_valued_as            = Hardcoded effect type that AI considers this to match
+;
+; */ <-- avoid gettext warnings
+
+;[ueff_1]
+;type         = "User_Effect_1"
+;ai_valued_as = ""
+
+; /* <-- avoid gettext warnings
+;
 ; Effects
 ;
 ; type                    = What the effect does. Values of multiple active effects

@@ -1009,6 +1009,18 @@ effects = "\
 ; */ <-- avoid gettext warnings\n\
 "
 
+ueffs = "\
+\n\
+; /* <-- avoid gettext warnings\n\
+;\n\
+; User effect types\n\
+;\n\
+; type                    = Effect type to define. Must be one of user effects.\n\
+; ai_valued_as            = Hardcoded effect type that AI considers this to match\n\
+;\n\
+; */ <-- avoid gettext warnings\n\
+"
+
 disasters = "\
 \n\
 ; /* <-- avoid gettext warnings\n\

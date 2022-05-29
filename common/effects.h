@@ -341,6 +341,10 @@ extern "C" {
 #define SPECENUM_COUNT EFT_COUNT
 #include "specenum_gen.h"
 
+#define EFT_USER_EFFECT_LAST EFT_USER_EFFECT_4
+
+#define USER_EFFECT_NUMBER(eff) (eff - EFT_USER_EFFECT_1)
+
 /* An effect is provided by a source.  If the source is present, and the
  * other conditions (described below) are met, the effect will be active.
  * Note the difference between effect and effect_type. */
@@ -477,6 +481,10 @@ struct effect_list *get_effects(enum effect_type effect_type);
 
 typedef bool (*iec_cb)(struct effect*, void *data);
 bool iterate_effect_cache(iec_cb cb, void *data);
+
+bool is_user_effect(enum effect_type eff);
+enum effect_type user_effect_ai_valued_as(enum effect_type);
+void user_effect_ai_valued_set(enum effect_type tgt, enum effect_type valued_as);
 
 #ifdef __cplusplus
 }

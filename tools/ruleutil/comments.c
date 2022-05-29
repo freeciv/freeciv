@@ -41,6 +41,7 @@ static struct {
   char *citystyles;
   char *musicstyles;
   char *effects;
+  char *ueffs;
   char *disasters;
   char *achievements;
   char *goods;
@@ -144,6 +145,7 @@ bool comments_load(void)
   comment_load(comments_storage.musicstyles,
                comment_file, "typedoc.musicstyles");
   comment_load(comments_storage.effects, comment_file, "typedoc.effects");
+  comment_load(comments_storage.ueffs, comment_file, "typedoc.ueffs");
   comment_load(comments_storage.disasters,
                comment_file, "typedoc.disasters");
   comment_load(comments_storage.achievements,
@@ -404,6 +406,14 @@ void comment_musicstyles(struct section_file *sfile)
 void comment_effects(struct section_file *sfile)
 {
   comment_write(sfile, comments_storage.effects, "Effects");
+}
+
+/**********************************************************************//**
+  Write User effects header.
+**************************************************************************/
+void comment_ueffs(struct section_file *sfile)
+{
+  comment_write(sfile, comments_storage.ueffs, "User Effects");
 }
 
 /**********************************************************************//**

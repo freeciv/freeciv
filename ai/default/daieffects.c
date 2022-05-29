@@ -145,6 +145,7 @@ adv_want dai_effect_value(struct player *pplayer, struct government *gov,
   int num;
   int trait;
   adv_want v = 0;
+  enum effect_type value_as;
 
   if (peffect->multiplier) {
     if (pplayer) {
@@ -166,7 +167,9 @@ adv_want dai_effect_value(struct player *pplayer, struct government *gov,
     return 0;
   }
 
-  switch (peffect->type) {
+  value_as = user_effect_ai_valued_as(peffect->type);
+
+  switch (value_as) {
   /* These effects have already been evaluated in base_want() */
   case EFT_CAPITAL_CITY:
   case EFT_GOV_CENTER:
