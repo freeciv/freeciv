@@ -6185,6 +6185,7 @@ static bool sg_load_player_unit(struct loaddata *loading,
             free(punit->orders.list);
             punit->orders.list = NULL;
             punit->has_orders = FALSE;
+            break;
           }
         } else if (order->order != ORDER_PERFORM_ACTION) {
           if (order_sub_tgt != -1) {
