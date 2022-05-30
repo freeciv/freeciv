@@ -9,16 +9,16 @@
 # Variable setup
 #
 
-WINARCH=$(shell ./win_arch.sh)
-
-ifeq ($(WINARCH),win64)
+ifeq ($(MSYSTEM),MINGW64)
 ARCHDIR=mingw64
 LIBGCCDLL=libgcc_s_seh-1.dll
 CRYPTOLIB_SUFFIX=-x64
-else
+else ifeq ($(MSYSTEM),MINGW32)
 ARCHDIR=mingw32
 LIBGCCDLL=libgcc_s_dw2-1.dll
 CRYPTOLIB_SUFFIX=
+else
+error "Unsupported MSYSTEM environment"
 endif
 
 ICUVER=69
