@@ -1,6 +1,7 @@
 # Check for postgres
 #
 # http://ac-archive.sourceforge.net/ac-archive/ax_lib_postgresql.html
+# Modified for freeciv use.
 #
 # FC_CHECK_POSTGRES([ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND[, VERSION]]])
 
