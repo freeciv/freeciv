@@ -1,13 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!-- Created with Sodipodi ("http://www.sodipodi.com/") -->
+
 <svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://web.resource.org/cc/"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://inkscape.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    version="1"
    x="0"
    y="0"
@@ -15,9 +9,15 @@
    height="708.661"
    id="svg378"
    sodipodi:version="0.32"
-   inkscape:version="0.42"
+   inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
    sodipodi:docname="ryukyu.svg"
-   sodipodi:docbase="/Users/daniel/Desktop/to be posted">
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
   <metadata
      id="metadata1411">
     <rdf:RDF>
@@ -26,7 +26,6 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title>Ryukyu kingdom flag</dc:title>
         <dc:creator>
           <cc:Agent>
             <dc:title>Daniel Markstedt</dc:title>
@@ -48,20 +47,27 @@
     </rdf:RDF>
   </metadata>
   <sodipodi:namedview
-     inkscape:window-height="650"
-     inkscape:window-width="883"
+     inkscape:window-height="911"
+     inkscape:window-width="1227"
      inkscape:pageshadow="2"
      inkscape:pageopacity="0.0"
      borderopacity="1.0"
      bordercolor="#666666"
      pagecolor="#ffffff"
      id="base"
-     inkscape:zoom="1.0000000"
-     inkscape:cx="504.83439"
-     inkscape:cy="365.74674"
-     inkscape:window-x="85"
-     inkscape:window-y="74"
-     inkscape:current-layer="svg378" />
+     inkscape:zoom="1"
+     inkscape:cx="539"
+     inkscape:cy="350"
+     inkscape:window-x="155"
+     inkscape:window-y="47"
+     inkscape:current-layer="svg378"
+     inkscape:pagecheckerboard="0"
+     showgrid="false"
+     showguides="false"
+     inkscape:snap-global="true"
+     inkscape:snap-nodes="true"
+     inkscape:lockguides="false"
+     inkscape:window-maximized="0" />
   <defs
      id="defs380" />
   <rect
