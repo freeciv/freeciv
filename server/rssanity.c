@@ -1002,6 +1002,16 @@ bool sanity_check_ruleset_data(struct rscompat_info *compat)
                     putype->paratroopers_range, UNIT_MAX_PARADROP_RANGE);
       ok = FALSE;
     }
+    /* never fires if game.scenario.prevent_new_cities is TRUE */
+    if ((putype->city_size <= 0 || putype->city_size > MAX_CITY_SIZE)
+        && utype_is_cityfounder(putype)) {
+      ruleset_error(LOG_ERROR,
+                    "Unit type '%s' would build size %d cities. "
+                    "City sizes must be from 1 to %d.",
+                    utype_rule_name(putype), putype->city_size,
+                    MAX_CITY_SIZE);
+      ok = FALSE;
+    }
   } unit_type_iterate_end;
 
   memset(&els, 0, sizeof(els));

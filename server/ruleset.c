@@ -2532,15 +2532,6 @@ static bool load_ruleset_units(struct section_file *file,
         ok = FALSE;
         break;
       }
-
-      if (utype_has_flag(u, UTYF_SETTLERS)
-          && u->city_size <= 0) {
-        ruleset_error(LOG_ERROR, "\"%s\": Unit %s would build size %d cities",
-                      filename, utype_rule_name(u), u->city_size);
-        u->city_size = 1;
-        ok = FALSE;
-        break;
-      }
     } unit_type_iterate_end;
   }
 
