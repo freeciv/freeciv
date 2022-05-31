@@ -1,6 +1,7 @@
 # Check for mysql
 #
 # http://ac-archive.sourceforge.net/ac-archive/ax_lib_mysql.html
+# Modified for freeciv use.
 #
 # FC_CHECK_MYSQL([ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND[, VERSION]]])
 
