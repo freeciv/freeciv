@@ -1548,12 +1548,12 @@ bool is_airunit_refuel_point(const struct tile *ptile,
   Really transforms a single unit to another type.
 
   This function performs no checks. You should perform the appropriate
-  test first to check that the transformation is legal (test_unit_upgrade()
-  or test_unit_convert()).
+  test first to check that the transformation is legal (unit_upgrade_test()
+  or unit_can_convert()).
 
   vet_loss: Number of veteran levels lost in process.
 
-  Note that this function is strongly tied to unit.c:test_unit_upgrade().
+  Note that this function is strongly tied to unit.c:unit_upgrade_test().
 **************************************************************************/
 void transform_unit(struct unit *punit, const struct unit_type *to_unit,
                     int vet_loss)
