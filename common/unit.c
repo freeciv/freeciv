@@ -1901,7 +1901,7 @@ unit_transform_result(const struct unit *punit,
   is_free should be set if the unit upgrade is "free" (e.g., Leonardo's).
   Otherwise money is needed and the unit must be in an owned city.
 
-  Note that this function is strongly tied to unittools.c:upgrade_unit().
+  Note that this function is strongly tied to unittools.c:transform_unit().
 **************************************************************************/
 enum unit_upgrade_result unit_upgrade_test(const struct unit *punit,
                                            bool is_free)
