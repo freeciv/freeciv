@@ -2577,6 +2577,7 @@ static struct player *split_player(struct player *pplayer)
   new_research->bulbs_researched = 0;
   new_research->techs_researched = old_research->techs_researched;
   new_research->researching = old_research->researching;
+  new_research->future_tech = old_research->future_tech;
   new_research->tech_goal = old_research->tech_goal;
 
   advance_index_iterate(A_NONE, i) {
