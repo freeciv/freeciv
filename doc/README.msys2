@@ -26,7 +26,7 @@ using MSYS2 from https://www.msys2.org/
 1) Install MSYS2 following the documentation on their homepage
 
 1.1) Download
- https://repo.msys2.org/distrib/x86_64/msys2-x86_64-20220118.exe
+ https://repo.msys2.org/distrib/x86_64/msys2-x86_64-20220503.exe
  for win64 host
 
 1.2) Run it to install MSYS2 on build system
@@ -62,7 +62,8 @@ using MSYS2 from https://www.msys2.org/
  - git
  - automake1.16
  - libtool
- - autoconf
+ - autoconf2.71
+ - autoconf-wrapper
 
 2.1.2) Arch-specific packages needed for building freeciv
 
@@ -113,9 +114,9 @@ Current version is
 
 win64 host:
 -----------
-msys2-freeciv-win64-220309.7z, based on
-https://repo.msys2.org/distrib/x86_64/msys2-x86_64-20220118.exe
-with packages updated to 09-Mar-2022 level.
+msys2-freeciv-win64-220529.7z, based on
+https://repo.msys2.org/distrib/x86_64/msys2-x86_64-20220503.exe
+with packages updated to 29-May-2022 level.
 
 Most packages are included for both win32 and win64 targets. For each package
 listed below with <arch> in the name, actually two packages are installed;
@@ -130,7 +131,8 @@ Following packages have been installed:
 - patch
 - automake1.16
 - libtool
-- autoconf
+- autoconf2.71
+- autoconf-wrapper
 - gdb
 - mingw-w64-<arch>-gcc
 - mingw-w64-<arch>-pkgconf
