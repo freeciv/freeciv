@@ -307,7 +307,7 @@ EOF
 
 find $1 -type f |
 grep -v '/$' |
-sed 's|[^/]*||' |
+sed "s|$1||" |
 while read -r name
 do
 echo "  Delete \"\$INSTDIR$name\"" | sed 's,/,\\,g'
@@ -315,7 +315,7 @@ done
 
 find $1 -type l |
 grep -v '/$' |
-sed 's|[^/]*||' |
+sed "s|$1||" |
 while read -r name
 do
 echo "  Delete \"\$INSTDIR$name\"" | sed 's,/,\\,g'
@@ -323,7 +323,7 @@ done
 
 find $1 -depth -type d |
 grep -v '/$' |
-sed 's|[^/]*||' |
+sed "s|$1||" |
 while read -r name
 do
 echo "  RMDir \"\$INSTDIR$name\"" | sed 's,/,\\,g'
