@@ -1571,10 +1571,6 @@ class Packet:
     CANCEL_PATTERN = re.compile(r"^cancel\((.*)\)$")
 
     def __init__(self, text: str, types: typing.Mapping[str, str]):
-        self.types=types
-        self.log_macro=use_log_macro
-        self.gen_stats=generate_stats
-        self.gen_log=generate_logs
         text = text.strip()
         lines = text.split("\n")
 
@@ -1640,8 +1636,8 @@ class Packet:
         self.no_handle="no-handle" in arr
         if self.no_handle: arr.remove("no-handle")
 
-        self.dsend_given="dsend" in arr
-        if self.dsend_given: arr.remove("dsend")
+        self.want_dsend = "dsend" in arr
+        if self.want_dsend: arr.remove("dsend")
 
         self.want_lsend="lsend" in arr
         if self.want_lsend: arr.remove("lsend")
@@ -1669,17 +1665,6 @@ class Packet:
         ]
         self.key_fields = [field for field in self.fields if field.is_key]
         self.other_fields = [field for field in self.fields if not field.is_key]
-        self.bits=len(self.other_fields)
-        self.keys_format=", ".join(["%d"]*len(self.key_fields))
-        self.keys_arg = ", ".join(
-            "real_packet->" + field.name
-            for field in self.key_fields
-        )
-        if self.keys_arg:
-            self.keys_arg=",\n    "+self.keys_arg
-
-
-        self.want_dsend=self.dsend_given
 
         if len(self.fields)==0:
             self.delta = False
