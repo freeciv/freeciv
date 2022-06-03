@@ -77,6 +77,9 @@ bool city_illness_strike(struct city *pcity);
 
 void do_sell_building(struct player *pplayer, struct city *pcity,
                       struct impr_type *pimprove, const char *reason);
+struct city
+*build_or_move_building(struct city *pcity, struct impr_type *pimprove,
+                        struct player **oldcity_owner);
 bool building_removed(struct city *pcity, const struct impr_type *pimprove,
                       const char *reason, struct unit *destroyer);
 void building_lost(struct city *pcity, const struct impr_type *pimprove,

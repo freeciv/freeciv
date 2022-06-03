@@ -2851,6 +2851,44 @@ void do_sell_building(struct player *pplayer, struct city *pcity,
 }
 
 /************************************************************************//**
+  Creates an improvement in a city. If the improvement is a present wonder,
+  moves it from a city it is in now, returns that city.
+  If it is a wonder not present (never built or destroyed), returns pcity.
+  If the wonder is great, also tells its owner.
+  If it is not a wonder (must be a regular improvement), returns NULL.
+  It's up to the caller to update the necessary cities and emit signals.
+  FIXME: If governmental center status of a city is changed, check if other
+  cities of its owner need update. And what's there with trade partners?
+  FIXME: it is not checked if the improvement is obsolete or obsoletes
+  other building, should we?
+****************************************************************************/
+struct city
+*build_or_move_building(struct city *pcity, struct impr_type *pimprove,
+                        struct player **oldcity_owner)
+{
+  struct city *oldcity = NULL;
+
+  fc_assert_ret_val(!city_has_building(pcity, pimprove), NULL);
+  if (is_great_wonder(pimprove)) {
+    if (!(oldcity = city_from_great_wonder(pimprove))) {
+      oldcity = pcity;
+    }
+    *oldcity_owner = city_owner(oldcity);
+  } else if (is_small_wonder(pimprove)) {
+    if (!(oldcity
+          = city_from_small_wonder(city_owner(pcity), pimprove))) {
+      oldcity = pcity;
+    }
+  }
+  if (oldcity && oldcity != pcity) {
+    city_remove_improvement(oldcity, pimprove);
+  }
+
+  city_add_improvement(pcity, pimprove);
+  return oldcity;
+}
+
+/************************************************************************//**
   Remove building from the city. Emits lua signal.
 ****************************************************************************/
 bool building_removed(struct city *pcity, const struct impr_type *pimprove,

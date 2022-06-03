@@ -32,6 +32,7 @@
 #include "aiiface.h"
 #include "barbarian.h"
 #include "citytools.h"
+#include "cityturn.h" /* city_refresh() auto_arrange_workers() */
 #include "console.h" /* enum rfc_status */
 #include "gamehand.h"
 #include "maphand.h"
@@ -604,38 +605,42 @@ void api_edit_create_building(lua_State *L, City *pcity, Building_Type *impr)
   LUASCRIPT_CHECK_STATE(L);
   LUASCRIPT_CHECK_ARG_NIL(L, pcity, 2, City);
   LUASCRIPT_CHECK_ARG_NIL(L, impr, 3, Building_Type);
+  /* FIXME: may "Special" impr be buildable? */
+  LUASCRIPT_CHECK_ARG(L, !is_special_improvement(impr), 3,
+                      "It is a special item, not a city building");
 
   if (!city_has_building(pcity, impr)) {
     bool need_game_info = FALSE;
     bool need_plr_info = FALSE;
+    struct player *old_owner = NULL, *pplayer = city_owner(pcity);
+    struct city *oldcity;
 
-    if (is_great_wonder(impr)) {
-      if (city_from_great_wonder(impr) != NULL) {
-        /* Can't rebuild great wonders */
-        return;
-      }
-
-      need_game_info = TRUE;
-      need_plr_info = TRUE;
-    } else if (is_small_wonder(impr)) {
-      struct city *oldcity = city_from_small_wonder(city_owner(pcity), impr);
-
-      /* Since we already checked that pcity does not have the building,
-       * we can be sure it's not the same as oldcity. */
-      city_remove_improvement(oldcity, impr);
-      send_city_info(NULL, oldcity);
-
+    oldcity = build_or_move_building(pcity, impr, &old_owner);
+    if (oldcity) {
       need_plr_info = TRUE;
     }
+    if (old_owner && old_owner != pplayer) {
+      /* Great wonders make more changes. */
+      need_game_info = TRUE;
+    }
 
-    city_add_improvement(pcity, impr);
+    if (oldcity) {
+      if (city_refresh(oldcity)) {
+        auto_arrange_workers(oldcity);
+      }
+      send_city_info(NULL, oldcity);
+    }
+
+    if (city_refresh(pcity)) {
+      auto_arrange_workers(pcity);
+    }
     send_city_info(NULL, pcity);
-
     if (need_game_info) {
       send_game_info(NULL);
+      send_player_info_c(old_owner, NULL);
     }
     if (need_plr_info) {
-      send_player_info_c(city_owner(pcity), NULL);
+      send_player_info_c(pplayer, NULL);
     }
   }
 }
