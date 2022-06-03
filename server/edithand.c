@@ -790,30 +790,23 @@ void handle_edit_city(struct connection *pc,
 
     } else if (!city_has_building(pcity, pimprove)
                && packet->built[id] >= 0) {
+      struct player *old_owner = NULL;
 
-      if (is_great_wonder(pimprove)) {
-        oldcity = city_from_great_wonder(pimprove);
-        if (oldcity != pcity) {
-          BV_SET(need_player_info, player_index(pplayer));
-        }
-        if (NULL != oldcity && city_owner(oldcity) != pplayer) {
-          /* Great wonders make more changes. */
-          need_game_info = TRUE;
-          BV_SET(need_player_info, player_index(city_owner(oldcity)));
-        }
-      } else if (is_small_wonder(pimprove)) {
-        oldcity = city_from_small_wonder(pplayer, pimprove);
-        if (oldcity != pcity) {
-          BV_SET(need_player_info, player_index(pplayer));
+      oldcity = build_or_move_building(pcity, pimprove, &old_owner);
+      if (oldcity != pcity) {
+        BV_SET(need_player_info, player_index(pplayer));
+      }
+      if (oldcity && old_owner != pplayer) {
+        /* Great wonders make more changes. */
+        need_game_info = TRUE;
+        if (old_owner) {
+          BV_SET(need_player_info, player_index(old_owner));
         }
       }
 
       if (oldcity) {
-        city_remove_improvement(oldcity, pimprove);
         city_refresh_queue_add(oldcity);
       }
-
-      city_add_improvement(pcity, pimprove);
       changed = TRUE;
     }
   } improvement_iterate_end;
