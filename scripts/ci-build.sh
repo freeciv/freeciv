@@ -29,7 +29,9 @@ echo "Freeciv distribution check successful!"
 ;;
 
 "meson")
-FC_MESON_VER="0.57.2"
+
+# Minimum version to have Qt6 detection actually working
+FC_MESON_VER="0.62.1"
 if test "$FC_MESON_VER" != "" ; then
   mkdir meson-install
   cd meson-install
@@ -42,7 +44,7 @@ fi
 
 mkdir build
 cd build
-meson .. -Dprefix=${HOME}/freeciv/meson -Ddebug=true -Dack_experimental=true -Dclients='gtk3.22','qt','sdl2' -Dfcmp='gtk3','qt','cli' -Dqtver=qt5
+meson .. -Dprefix=${HOME}/freeciv/meson -Ddebug=true -Dack_experimental=true -Dclients='gtk3.22','qt','sdl2' -Dfcmp='gtk3','qt','cli' -Dqtver=qt6
 ninja
 ninja install
 ;;
@@ -86,7 +88,7 @@ cd build
  --enable-sys-lua \
  --enable-sys-tolua-cmd \
  --disable-fcdb \
- --with-qtver=qt5 \
+ --with-qtver=qt6 \
  --enable-client=gtk3.22,qt,sdl2,stub \
  --enable-fcmp=cli,gtk3,qt \
  --enable-freeciv-manual \
@@ -110,7 +112,7 @@ cd build
 ../autogen.sh \
  CFLAGS="-O3" \
  CXXFLAGS="-O3" \
- --with-qtver=qt5 \
+ --with-qtver=qt6 \
  --enable-client=gtk3.22,qt,sdl2,stub \
  --enable-fcmp=cli,gtk3,qt \
  --enable-freeciv-manual \
