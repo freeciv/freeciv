@@ -1,6 +1,6 @@
 /*********************************************************
 *                                                        *
-* (c) 2011-2015 Marko Lindqvist                          *
+* (c) 2011-2016 Marko Lindqvist                          *
 *                                                        *
 * Version contributed to Freeciv has been made available *
 * under GNU Public License; either version 2, or         *
@@ -237,11 +237,11 @@ static char **cvercmp_ver_tokenize(const char *ver)
     num++;
   }
 
-  tokens = calloc(sizeof(char *), num + 1);
+  tokens = (char **) calloc(sizeof(char *), num + 1);
 
   for (i = 0, idx = 0; i < num; i++) {
     tokenlen = cvercmp_next_token(ver + idx);
-    tokens[i] = malloc(sizeof(char) * (tokenlen + 1));
+    tokens[i] = (char *) malloc(sizeof(char) * (tokenlen + 1));
     strncpy(tokens[i], ver + idx, tokenlen);
     tokens[i][tokenlen] = '\0';
     idx += tokenlen + 1; /* Skip character separating tokens. */
@@ -281,11 +281,11 @@ static char **cvercmp_ver_subtokenize(const char *ver)
     num++;
   }
 
-  tokens = calloc(sizeof(char *), num + 1);
+  tokens = (char **) calloc(sizeof(char *), num + 1);
 
   for (i = 0, idx = 0; i < num; i++) {
     tokenlen = cvercmp_next_subtoken(ver + idx);
-    tokens[i] = malloc(sizeof(char) * (tokenlen + 1));
+    tokens[i] = (char *) malloc(sizeof(char) * (tokenlen + 1));
     if (tokenlen > 0) {
       strncpy(tokens[i], ver + idx, tokenlen);
     }
