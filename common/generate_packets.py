@@ -1083,9 +1083,8 @@ class Variant:
         if self.keys_arg:
             self.keys_arg=",\n    "+self.keys_arg
 
-        if len(self.fields)==0:
-            self.delta = False
-            self.no_packet = True
+        if not self.fields and packet.fields:
+            raise ValueError("empty variant for nonempty {self.packet_name} with capabilities {self.poscaps}".format(self = self))
 
         if len(self.fields)>5 or self.name.split("_")[1]=="ruleset":
             self.handle_via_packet = True
