@@ -1040,14 +1040,12 @@ class Variant:
         self.gen_stats=generate_stats
         self.gen_log=generate_logs
         self.name=name
+        self.packet = packet
         self.packet_name=packet.name
         self.fields=fields
         self.no=no
 
         self.no_packet=packet.no_packet
-        self.want_post_recv=packet.want_post_recv
-        self.want_pre_send=packet.want_pre_send
-        self.want_post_send=packet.want_post_send
         self.type=packet.type
         self.delta=packet.delta
         self.is_info=packet.is_info
@@ -1086,27 +1084,8 @@ class Variant:
         if not self.fields and packet.fields:
             raise ValueError("empty variant for nonempty {self.packet_name} with capabilities {self.poscaps}".format(self = self))
 
-        if len(self.fields)>5 or self.name.split("_")[1]=="ruleset":
-            self.handle_via_packet = True
-
-        self.extra_send_args=""
-        self.extra_send_args2=""
-        self.extra_send_args3 = "".join(
-            ", %s%s" % (field.get_handle_type(), field.name)
-            for field in self.fields
-        )
-
-        if not self.no_packet:
-            self.extra_send_args = ", const struct {self.packet_name} *packet".format(self = self) + self.extra_send_args
-            self.extra_send_args2=', packet'+self.extra_send_args2
-
-        if self.want_force:
-            self.extra_send_args=self.extra_send_args+', bool force_to_send'
-            self.extra_send_args2=self.extra_send_args2+', force_to_send'
-            self.extra_send_args3=self.extra_send_args3+', bool force_to_send'
-
         self.receive_prototype = "static struct {self.packet_name} *receive_{self.name}(struct connection *pc)".format(self = self)
-        self.send_prototype = "static int send_{self.name}(struct connection *pc{self.extra_send_args})".format(self = self)
+        self.send_prototype = "static int send_{self.name}(struct connection *pc{packet.extra_send_args})".format(self = self, packet = packet)
 
 
         if self.no_packet:
@@ -1230,7 +1209,7 @@ static char *stats_{self.name}_names[] = {{{names}}};
 """.format(self = self)
         else:
             log=""
-        if self.want_pre_send:
+        if self.packet.want_pre_send:
             pre1 = """
   {{
     struct {self.packet_name} *tmp = fc_malloc(sizeof(*tmp));
@@ -1293,7 +1272,7 @@ static char *stats_{self.name}_names[] = {{{names}}};
             body=""
             delta_header=""
 
-        if self.want_post_send:
+        if self.packet.want_post_send:
             if self.no_packet:
                 post = """\
   post_send_{self.packet_name}(pc, NULL);
@@ -1463,7 +1442,7 @@ static char *stats_{self.name}_names[] = {{{names}}};
         else:
             log=""
 
-        if self.want_post_recv:
+        if self.packet.want_post_recv:
             post = """\
   post_receive_{self.packet_name}(pc, real_packet);
 """.format(self = self)
