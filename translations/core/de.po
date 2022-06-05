@@ -1095,8 +1095,8 @@ msgstr[1] " (bis alle Anlandungen verbraucht wurden)"
 #, c-format
 msgid "%d take off"
 msgid_plural "%d take offs"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d Start oder Landung"
+msgstr[1] "%d Starts oder Landungen"
 
 #. TRANS: airlift. Possible landings text.
 #: client/citydlg_common.c:1105
