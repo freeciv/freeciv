@@ -921,8 +921,8 @@ msgstr "%s%d %s"
 #, c-format
 msgid "%d take off or landing"
 msgid_plural "%d take offs or landings"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d Start oder Landung"
+msgstr[1] "%d Starts oder Landungen"
 
 #. TRANS: airlift. Possible take offs text. String is a symbol that
 #. * indicates that terms and conditions apply when landings are limited
