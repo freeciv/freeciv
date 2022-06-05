@@ -1982,7 +1982,7 @@ GtkWidget *setup_menus(GtkWidget *window)
 }
 
 /************************************************************************//**
-  Find menu entry constrution data
+  Find menu entry construction data
 ****************************************************************************/
 static struct menu_entry_info *menu_entry_info_find(const char *key)
 {
