@@ -74,7 +74,7 @@
 #define GTK_STOCK_EDIT NULL
 #endif
 
-static GtkBuilder *ui_builder = NULL;
+static bool menus_built = FALSE;
 
 #ifndef FREECIV_DEBUG
 static void menu_entry_set_visible(const char *key,
@@ -88,26 +88,43 @@ static void menu_entry_set_active(const char *key,
 static void menu_entry_set_sensitive(const char *key,
                                      gboolean is_sensitive);
 static void view_menu_update_sensitivity(void);
+#endif /* MENUS_GTK3 */
 
 enum menu_entry_grouping { MGROUP_SAFE, MGROUP_EDIT, MGROUP_PLAYING,
                            MGROUP_UNIT, MGROUP_PLAYER, MGROUP_ALL };
 
+#ifdef MENUS_GTK3
 static void menu_entry_group_set_sensitive(enum menu_entry_grouping group,
                                            gboolean is_sensitive);
+#endif /* MENUS_GTK3 */
 
 struct menu_entry_info {
   const char *key;
   const char *name;
+  const char *action;
+  const char *accl;
+#ifdef MENUS_GTK3
   guint accel;
   GdkModifierType accel_mod;
   GCallback cb;
+#endif /* MENUS_GTK3 */
   enum menu_entry_grouping grouping;
 };
 
-static void clear_chat_logs_callback(GtkMenuItem *item, gpointer data);
-static void save_chat_logs_callback(GtkMenuItem *item, gpointer data);
-static void local_options_callback(GtkMenuItem *item, gpointer data);
-static void message_options_callback(GtkMenuItem *item, gpointer data);
+static void clear_chat_logs_callback(GSimpleAction *action,
+                                     GVariant *parameter,
+                                     gpointer data);
+static void save_chat_logs_callback(GSimpleAction *action,
+                                    GVariant *parameter,
+                                    gpointer data);
+static void local_options_callback(GSimpleAction *action,
+                                   GVariant *parameter,
+                                   gpointer data);
+static void message_options_callback(GSimpleAction *action,
+                                     GVariant *parameter,
+                                     gpointer data);
+
+#ifdef MENUS_GTK3
 static void server_options_callback(GtkMenuItem *item, gpointer data);
 static void save_options_callback(GtkMenuItem *item, gpointer data);
 static void reload_tileset_callback(GtkMenuItem *item, gpointer data);
@@ -118,8 +135,16 @@ static void save_mapimg_as_callback(GtkMenuItem *item, gpointer data);
 static void find_city_callback(GtkMenuItem *item, gpointer data);
 static void worklists_callback(GtkMenuItem *item, gpointer data);
 static void client_lua_script_callback(GtkMenuItem *item, gpointer data);
-static void leave_callback(GtkMenuItem *item, gpointer data);
-static void quit_callback(GtkMenuItem *item, gpointer data);
+#endif /* MENUS_GTK3 */
+
+static void leave_callback(GSimpleAction *action,
+                           GVariant *parameter,
+                           gpointer data);
+static void quit_callback(GSimpleAction *action,
+                          GVariant *parameter,
+                          gpointer data);
+
+#ifdef MENUS_GTK3
 static void map_view_callback(GtkMenuItem *item, gpointer data);
 static void report_units_callback(GtkMenuItem *item, gpointer data);
 static void report_nations_callback(GtkMenuItem *item, gpointer data);
@@ -248,9 +273,25 @@ static void build_fortress_callback(GtkMenuItem *item, gpointer data);
 static void build_airbase_callback(GtkMenuItem *item, gpointer data);
 static void do_pillage_callback(GtkMenuItem *item, gpointer data);
 static void diplomat_action_callback(GtkMenuItem *item, gpointer data);
+#endif /* MENUS_GTK3 */
 
 static struct menu_entry_info menu_entries[] =
 {
+  { "CLEAR_CHAT_LOGS", N_("_Clear Chat Log"),
+    "app.clear_chat", NULL, MGROUP_SAFE },
+  { "SAVE_CHAT_LOGS", N_("Save Chat _Log"),
+    "app.save_chat", NULL, MGROUP_SAFE, },
+  { "LOCAL_OPTIONS", N_("_Local Client"),
+    "app.local_options", NULL, MGROUP_SAFE },
+  { "MESSAGE_OPTIONS", N_("_Message"),
+    "app.message_options", NULL, MGROUP_SAFE },
+
+  { "LEAVE", N_("_Leave"),
+    "app.leave", NULL, MGROUP_SAFE },
+  { "QUIT", N_("_Quit"),
+    "app.quit", "<ctrl>q", MGROUP_SAFE },
+
+#ifdef MENUS_GTK3
   { "MENU_GAME", N_("_Game"), 0, 0, NULL, MGROUP_SAFE },
   { "MENU_OPTIONS", N_("_Options"), 0, 0, NULL, MGROUP_SAFE },
   { "MENU_EDIT", N_("_Edit"), 0, 0, NULL, MGROUP_SAFE },
@@ -260,14 +301,6 @@ static struct menu_entry_info menu_entries[] =
   { "MENU_CIVILIZATION", N_("C_ivilization"), 0, 0,
     NULL, MGROUP_SAFE },
   { "MENU_HELP", N_("_Help"), 0, 0, NULL, MGROUP_SAFE },
-  { "CLEAR_CHAT_LOGS", N_("_Clear Chat Log"), 0, 0,
-    G_CALLBACK(clear_chat_logs_callback), MGROUP_SAFE },
-  { "SAVE_CHAT_LOGS", N_("Save Chat _Log"), 0, 0,
-    G_CALLBACK(save_chat_logs_callback), MGROUP_SAFE },
-  { "LOCAL_OPTIONS", N_("_Local Client"), 0, 0,
-    G_CALLBACK(local_options_callback), MGROUP_SAFE },
-  { "MESSAGE_OPTIONS", N_("_Message"), 0, 0,
-    G_CALLBACK(message_options_callback), MGROUP_SAFE },
   { "SERVER_OPTIONS", N_("_Remote Server"), 0, 0,
     G_CALLBACK(server_options_callback), MGROUP_SAFE },
   { "SAVE_OPTIONS", N_("Save Options _Now"), 0, 0,
@@ -283,9 +316,7 @@ static struct menu_entry_info menu_entries[] =
     G_CALLBACK(save_mapimg_callback), MGROUP_SAFE },
   { "MAPIMG_SAVE_AS", N_("Save _Map Image As..."), 0, 0,
     G_CALLBACK(save_mapimg_as_callback), MGROUP_SAFE },
-  { "LEAVE", N_("_Leave"), 0, 0, G_CALLBACK(leave_callback), MGROUP_SAFE },
-  { "QUIT", N_("_Quit"), GDK_KEY_q, GDK_CONTROL_MASK,
-    G_CALLBACK(quit_callback), MGROUP_SAFE },
+
   { "FIND_CITY", N_("_Find City"), GDK_KEY_f, GDK_CONTROL_MASK,
     G_CALLBACK(find_city_callback), MGROUP_SAFE },
   { "WORKLISTS", N_("Work_lists"), GDK_KEY_l, GDK_CONTROL_MASK,
@@ -545,15 +576,30 @@ static struct menu_entry_info menu_entries[] =
   { "START_REVOLUTION", N_("_Revolution..."),
     GDK_KEY_r, GDK_SHIFT_MASK | GDK_CONTROL_MASK,
     G_CALLBACK(government_callback), MGROUP_PLAYING },
+#endif /* MENUS_GTK3 */
+
   { NULL }
+};
+
+const GActionEntry acts[] = {
+  { "clear_chat", clear_chat_logs_callback },
+  { "save_chat", save_chat_logs_callback },
+  { "local_options", local_options_callback },
+  { "message_options", message_options_callback },
+
+  { "leave", leave_callback },
+  { "quit", quit_callback }
 };
 
 static struct menu_entry_info *menu_entry_info_find(const char *key);
 
+
 /************************************************************************//**
   Item "CLEAR_CHAT_LOGS" callback.
 ****************************************************************************/
-static void clear_chat_logs_callback(GtkMenuItem *item, gpointer data)
+static void clear_chat_logs_callback(GSimpleAction *action,
+                                     GVariant *parameter,
+                                     gpointer data)
 {
   clear_output_window();
 }
@@ -561,7 +607,9 @@ static void clear_chat_logs_callback(GtkMenuItem *item, gpointer data)
 /************************************************************************//**
   Item "SAVE_CHAT_LOGS" callback.
 ****************************************************************************/
-static void save_chat_logs_callback(GtkMenuItem *item, gpointer data)
+static void save_chat_logs_callback(GSimpleAction *action,
+                                    GVariant *parameter,
+                                    gpointer data)
 {
   log_output_window();
 }
@@ -569,7 +617,9 @@ static void save_chat_logs_callback(GtkMenuItem *item, gpointer data)
 /************************************************************************//**
   Item "LOCAL_OPTIONS" callback.
 ****************************************************************************/
-static void local_options_callback(GtkMenuItem *item, gpointer data)
+static void local_options_callback(GSimpleAction *action,
+                                   GVariant *parameter,
+                                   gpointer data)
 {
   option_dialog_popup(_("Set local options"), client_optset);
 }
@@ -577,11 +627,14 @@ static void local_options_callback(GtkMenuItem *item, gpointer data)
 /************************************************************************//**
   Item "MESSAGE_OPTIONS" callback.
 ****************************************************************************/
-static void message_options_callback(GtkMenuItem *item, gpointer data)
+static void message_options_callback(GSimpleAction *action,
+                                     GVariant *parameter,
+                                     gpointer data)
 {
   popup_messageopt_dialog();
 }
 
+#ifdef MENUS_GTK3
 /************************************************************************//**
   Item "SERVER_OPTIONS" callback.
 ****************************************************************************/
@@ -637,6 +690,7 @@ static void save_mapimg_as_callback(GtkMenuItem *item, gpointer data)
 {
   save_mapimg_dialog_popup();
 }
+#endif /* MENUS_GTK3 */
 
 /************************************************************************//**
   This is the response callback for the dialog with the message:
@@ -657,7 +711,9 @@ static void leave_local_game_response(GtkWidget *dialog, gint response)
 /************************************************************************//**
   Item "LEAVE" callback.
 ****************************************************************************/
-static void leave_callback(GtkMenuItem *item, gpointer data)
+static void leave_callback(GSimpleAction *action,
+                           GVariant *parameter,
+                           gpointer data)
 {
   if (is_server_running()) {
     GtkWidget* dialog =
@@ -676,11 +732,14 @@ static void leave_callback(GtkMenuItem *item, gpointer data)
 /************************************************************************//**
   Item "QUIT" callback.
 ****************************************************************************/
-static void quit_callback(GtkMenuItem *item, gpointer data)
+static void quit_callback(GSimpleAction *action,
+                          GVariant *parameter,
+                          gpointer data)
 {
   popup_quit_dialog();
 }
 
+#ifdef MENUS_GTK3
 /************************************************************************//**
   Item "FIND_CITY" callback.
 ****************************************************************************/
@@ -1883,132 +1942,79 @@ static void report_spaceship_callback(GtkMenuItem *action, gpointer data)
     popup_spaceship_dialog(client.conn.playing);
   }
 }
+#endif /* MENUS_GTK3 */
 
 /************************************************************************//**
   Set name of the menu item.
 ****************************************************************************/
-static void menu_entry_init(GtkBuildable *item)
+static void menu_entry_init(GMenu *sub, const char *key)
 {
-  const char *key = gtk_buildable_get_name(item);
   struct menu_entry_info *info = menu_entry_info_find(key);
 
   if (info != NULL) {
-    gtk_menu_item_set_label(GTK_MENU_ITEM(item),
-                            Q_(info->name));
-    gtk_menu_item_set_use_underline(GTK_MENU_ITEM(item), TRUE);
-    if (info->cb != NULL) {
-      g_signal_connect(item, "activate", info->cb, NULL);
-    }
+    GMenuItem *item;
 
-    if (info->accel != 0) {
-      const char *path = gtk_menu_item_get_accel_path(GTK_MENU_ITEM(item));
-
-      if (path == NULL) {
-        char buf[512];
-
-        fc_snprintf(buf, sizeof(buf), "<MENU>/%s", key);
-        gtk_menu_item_set_accel_path(GTK_MENU_ITEM(item), buf);
-        path = buf; /* Not NULL, but not usable either outside this block */
-      }
-
-      if (path != NULL) {
-        gtk_accel_map_add_entry(gtk_menu_item_get_accel_path(GTK_MENU_ITEM(item)),
-                                info->accel, info->accel_mod);
-      }
-    }
-
-    return;
+    item = g_menu_item_new(Q_(info->name), info->action);
+    g_menu_append_item(sub, item);
   }
-
-  /* temporary naming solution */
-  gtk_menu_item_set_label(GTK_MENU_ITEM(item), key);
 }
-#endif /* MENUS_GTK3 */
 
 /************************************************************************//**
-  Returns the name of the file readable by the GtkUIManager.
+  Registers menu actions for the application.
 ****************************************************************************/
-static const gchar *get_ui_filename(void)
+void setup_app_actions(GApplication *fc_app)
 {
-  static char filename[256];
-  const char *name;
-
-  if ((name = getenv("FREECIV_MENUS"))
-      || (name = fileinfoname(get_data_dirs(), "gtk4_menus.xml"))) {
-    sz_strlcpy(filename, name);
-  } else {
-    log_error("Gtk menus: file definition not found");
-    filename[0] = '\0';
-  }
-
-  log_verbose("ui menu file is \"%s\".", filename);
-  return filename;
+  g_action_map_add_action_entries(G_ACTION_MAP(fc_app), acts,
+                                  G_N_ELEMENTS(acts), fc_app);
 }
 
 /************************************************************************//**
   Creates the menu bar.
 ****************************************************************************/
-GtkWidget *setup_menus(GtkWidget *window)
+GMenu *setup_menus(GtkApplication *app)
 {
-  GtkWidget *menubar = NULL;
-  GError *error = NULL;
+  GMenu *menubar;
+  GMenu *topmenu;
+  GMenu *submenu;
+  int i;
 
-  ui_builder = gtk_builder_new();
-  if (!gtk_builder_add_from_file(ui_builder, get_ui_filename(), &error)) {
-    log_error("Gtk menus: %s", error->message);
-    g_error_free(error);
-  } else {
-    GSList *entries;
-    GSList *next;
+  fc_assert(!menus_built);
 
-    entries = gtk_builder_get_objects(ui_builder);
-    next = entries;
+  menubar = g_menu_new();
 
-    while (next != NULL) {
-#ifdef MENUS_GTK3
-      GObject *obj = next->data;
+  topmenu = g_menu_new();
+  menu_entry_init(topmenu, "CLEAR_CHAT_LOGS");
+  menu_entry_init(topmenu, "SAVE_CHAT_LOGS");
+  submenu = g_menu_new();
+  menu_entry_init(submenu, "LOCAL_OPTIONS");
+  menu_entry_init(submenu, "MESSAGE_OPTIONS");
 
-      if (GTK_IS_MENU_ITEM(obj)) {
-        if (!GTK_IS_SEPARATOR_MENU_ITEM(obj)) {
-          menu_entry_init(GTK_BUILDABLE(obj));
-        }
-      } else if (GTK_IS_MENU(obj)) {
-        const char *key = gtk_buildable_get_name(GTK_BUILDABLE(obj));
+  g_menu_append_submenu(topmenu, _("_Options"), G_MENU_MODEL(submenu));
 
-        if (key[0] == '<') {
-          GtkAccelGroup *ac_group = gtk_menu_get_accel_group(GTK_MENU(obj));
+  menu_entry_init(topmenu, "LEAVE");
+  menu_entry_init(topmenu, "QUIT");
 
-          if (ac_group == NULL) {
-            ac_group = gtk_accel_group_new();
-            gtk_menu_set_accel_group(GTK_MENU(obj), ac_group);
-          }
-
-          gtk_window_add_accel_group(GTK_WINDOW(window), ac_group);
-
-          gtk_menu_set_accel_path(GTK_MENU(obj), key);
-        }
-      }
-
-#endif /* MENUS_GTK3 */
-
-      next = next->next;
-    }
-
-    g_slist_free(entries);
-
-    menubar = GTK_WIDGET(gtk_builder_get_object(ui_builder, "MENU"));
-    gtk_widget_set_visible(menubar, TRUE);
-    gtk_widget_show(menubar);
-  }
+  g_menu_append_submenu(menubar, _("_Game"), G_MENU_MODEL(topmenu));
 
 #ifndef FREECIV_DEBUG
   menu_entry_set_visible("RELOAD_TILESET", FALSE, FALSE);
 #endif /* FREECIV_DEBUG */
 
+  for (i = 0; menu_entries[i].key != NULL; i++) {
+    if (menu_entries[i].accl != NULL) {
+      const char *accls[2] = { menu_entries[i].accl, NULL };
+
+      gtk_application_set_accels_for_action(app,
+                                            menu_entries[i].action,
+                                            accls);
+    }
+  }
+
+  menus_built = TRUE;
+
   return menubar;
 }
 
-#ifdef MENUS_GTK3
 /************************************************************************//**
   Find menu entry construction data
 ****************************************************************************/
@@ -2025,6 +2031,7 @@ static struct menu_entry_info *menu_entry_info_find(const char *key)
   return NULL;
 }
 
+#ifdef MENUS_GTK3
 /************************************************************************//**
   Sets an menu entry sensitive.
 ****************************************************************************/
@@ -2075,12 +2082,14 @@ static void menu_entry_set_visible(const char *key,
                                    gboolean is_visible,
                                    gboolean is_sensitive)
 {
+#ifdef MENUS_GTK3
   GtkWidget *item = GTK_WIDGET(gtk_builder_get_object(ui_builder, key));
 
   if (item != NULL) {
     gtk_widget_set_visible(item, is_visible);
     gtk_widget_set_sensitive(item, is_sensitive);
   }
+#endif /* MENUS_GTK3 */
 }
 #endif /* FREECIV_DEBUG */
 
@@ -2169,7 +2178,7 @@ void real_menus_update(void)
   struct extra_type_list *extras;
 #endif /* MENUS_GTK3 */
 
-  if (ui_builder == NULL || !can_client_change_view()) {
+  if (!menus_built || !can_client_change_view()) {
     return;
   }
 
@@ -2683,7 +2692,7 @@ static void menu_remove_previous_entries(GtkMenu *menu)
 ****************************************************************************/
 void real_menus_init(void)
 {
-  if (ui_builder == NULL) {
+  if (!menus_built) {
     return;
   }
 

@@ -18,6 +18,7 @@
 /* client */
 #include "menu_g.h"
 
-GtkWidget *setup_menus(GtkWidget *window);
+void setup_app_actions(GApplication *fc_app);
+GMenu *setup_menus(GtkApplication *app);
 
 #endif  /* FC__MENU_H */
