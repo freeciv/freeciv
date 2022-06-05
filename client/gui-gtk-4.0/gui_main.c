@@ -154,7 +154,7 @@ GtkWidget *econ_widget;
 const char *const gui_character_encoding = "UTF-8";
 const bool gui_use_transliteration = FALSE;
 
-static GtkWidget *main_menubar;
+static GMenu *main_menubar = NULL;
 static GtkWidget *unit_image_table;
 static GtkWidget *unit_image;
 static GtkWidget *unit_below_image[MAX_NUM_UNITS_BELOW];
@@ -977,20 +977,27 @@ void reset_unit_table(void)
 void enable_menus(bool enable)
 {
   if (enable) {
-    main_menubar = setup_menus(toplevel);
-    /* Ensure the menus are really created before performing any operations
-     * on them. */
-    while (g_main_context_pending(NULL)) {
-      g_main_context_iteration(NULL, FALSE);
+    if (main_menubar == NULL) {
+      setup_app_actions(G_APPLICATION(fc_app));
+      main_menubar = setup_menus(fc_app);
+      /* Ensure the menus are really created before performing any operations
+       * on them. */
+      while (g_main_context_pending(NULL)) {
+        g_main_context_iteration(NULL, FALSE);
+      }
+
+      gtk_application_window_set_show_menubar(GTK_APPLICATION_WINDOW(toplevel), TRUE);
     }
-    gtk_grid_attach_next_to(GTK_GRID(top_vbox), main_menubar, NULL, GTK_POS_TOP, 1, 1);
-    menus_init();
-    gtk_widget_show(main_menubar);
+
+    gtk_application_set_menubar(fc_app, G_MENU_MODEL(main_menubar));
+
   } else {
-#ifdef MENUS_GTK3
-    gtk_widget_destroy(main_menubar);
-#endif
+    gtk_application_set_menubar(fc_app, NULL);
   }
+
+  /* Workaround for gtk bug that (re)setting the menubar after the window has
+   * been already created is not noticed. */
+  g_object_notify(G_OBJECT(gtk_settings_get_default()), "gtk-shell-shows-menubar");
 }
 
 /**********************************************************************//**
