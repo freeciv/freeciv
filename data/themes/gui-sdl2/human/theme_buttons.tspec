@@ -13,7 +13,7 @@ artists = "
     Hogne Håskjold <haskjold@gmail.com>
     Icons from Ubuntu Human Theme: next arrow, back arrow, left arrow, right arrow,
     up arrow, down arrow, new turn gear, CMA monitor
-    lock icon and floppy disk (modified by Hogne Håskjold) from gnome-icon-theme 
+    lock icon and floppy disk (modified by Hogne Håskjold) from gnome-icon-theme
     (http://ftp.gnome.org/pub/GNOME/sources/gnome-icon-theme/)
 "
 
@@ -50,7 +50,7 @@ tiles = { "row", "column","tag"
   17,   0,  "theme.BUY_button"
   18,   0,  "theme.PROD_button"
   19,   0,  "theme.WORK_LIST_button"
-  
+
   0,    1,  "theme.CMA_button"
   1,    1,  "theme.UNLOCK_button"
   2,    1,  "theme.LOCK_button"

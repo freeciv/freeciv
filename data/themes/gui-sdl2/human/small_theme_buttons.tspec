@@ -26,5 +26,5 @@ tiles = { "row", "column","tag"
 
   0,    0,  "theme.SMALL_FAIL_button"
   1,    0,  "theme.SMALL_OK_button"
-  
+
 }

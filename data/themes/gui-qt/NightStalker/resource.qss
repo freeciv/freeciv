@@ -43,7 +43,7 @@ QMainWindow {
   border-radius: none;
 }
 
-close_widget 
+close_widget
 {
   background: #1155BB;
 }
@@ -196,7 +196,7 @@ QLineEdit {
   color: rgb( 210, 210, 210);
 }
 
-QTabWidget {  
+QTabWidget {
   background: #343446;
 }
 
@@ -272,11 +272,11 @@ QSplitter::handle:horizontal {
   width: 8px;
 }
 
-QMenuBar { 
+QMenuBar {
   background-color: #3A3A3A;
 }
 
-QMenuBar::item { 
+QMenuBar::item {
   spacing: 3px;
   padding: 1px 4px;
   color: #FFFFFF;
@@ -284,7 +284,7 @@ QMenuBar::item {
   border-radius: none
 }
 
-QMenuBar::item:selected { 
+QMenuBar::item:selected {
   color: #3399FF;
   background: qlineargradient(x1:0, y1:0, x2:0, y2:1,stop:0 #111111,stop:0.89 #111111 stop: 0.9 #3399FF,stop: 1 #3399FF);
 }
@@ -442,7 +442,7 @@ QTabBar::tab {
 
 QTabBar::tab:!selected {
   margin-top: 3px;
-} 
+}
 
 QTabBar::tab:first {
   border-left: 1px solid #3399FF;
@@ -450,7 +450,7 @@ QTabBar::tab:first {
   border-bottom: 1px solid #3399FF;
   border-right: 1px solid #3399FF;
   border-top-right-radius: 15;
-  border-top-left-radius: 5;    
+  border-top-left-radius: 5;
   color:white;
   padding:5px;
 }
@@ -462,7 +462,7 @@ QTabBar::tab::selected {
   border-bottom: 1px solid #2c84dc;
   border-right: 2px solid #2c84dc;
   border-top-right-radius: 15;
-  border-top-left-radius: 5;    
+  border-top-left-radius: 5;
   color:white;
   padding:5px;
 }

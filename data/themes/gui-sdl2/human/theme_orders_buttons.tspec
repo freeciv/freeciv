@@ -36,9 +36,9 @@ tiles = { "row", "column","tag"
   5,    0,  "theme.order_cutdown_forest"
   6,    0,  "theme.order_plant_forest"
   7,    0,  "theme.order_build_mining"
-  8,    0,  "theme.order_irrigation"    
+  8,    0,  "theme.order_irrigation"
   9,    0,  "theme.order_done"
-  10,   0,  "theme.order_disband"  
+  10,   0,  "theme.order_disband"
   11,   0,  "theme.order_fortify"
   12,   0,  "theme.order_goto"
   13,   0,  "theme.order_goto_city"
@@ -68,5 +68,5 @@ tiles = { "row", "column","tag"
 ; 37,   0,  "theme.order_"
 ; 38,   0,  "theme.order_"
   39,   0,  "theme.order_empty"
- 
+
 }

@@ -17,11 +17,11 @@ font_file_ja      = "themes/gui-sdl2/human/sazanami-gothic.ttf"
 font_file_ko      = "themes/gui-sdl2/human/UnDotum.ttf"
 default_font_size = 18
 
-; Below, the graphics spec files; must be somewhere (anywhere) in 
-; the data path. Order may be important for color allocation on 
+; Below, the graphics spec files; must be somewhere (anywhere) in
+; the data path. Order may be important for color allocation on
 ; low-color systems, and if there are any duplicate tags (lattermost
 ; tag is used).
-files = 
+files =
   "themes/gui-sdl2/human/city.tspec",
   "themes/gui-sdl2/human/city_fist.tspec",
   "themes/gui-sdl2/human/dip_icons.tspec",
@@ -29,8 +29,8 @@ files =
   "themes/gui-sdl2/human/small_theme_buttons.tspec",
   "themes/gui-sdl2/human/tech_tree.tspec",
   "themes/gui-sdl2/human/theme_boxs.tspec",
-  "themes/gui-sdl2/human/theme_buttons.tspec",  
-  "themes/gui-sdl2/human/theme_orders_buttons.tspec",  
+  "themes/gui-sdl2/human/theme_buttons.tspec",
+  "themes/gui-sdl2/human/theme_orders_buttons.tspec",
   "themes/gui-sdl2/human/theme_scrolls.tspec"
 
 ; Include background image definitions

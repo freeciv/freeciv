@@ -3,9 +3,9 @@
  * Necrophos theme for
  * freeciv-qt by
  * Pennart Loettering
- * 
+ *
  * Credits:
- * systemctl restart dbus  
+ * systemctl restart dbus
  */
 
 
@@ -37,7 +37,7 @@ QMainWindow {
   border: 2px solid black;
 }
 
-close_widget 
+close_widget
 {
   background: #006633;
 }
@@ -118,7 +118,7 @@ QLineEdit {
   color: black;
 }
 
-QTabWidget {  
+QTabWidget {
   background: #e3e3e3;
 }
 
@@ -194,11 +194,11 @@ QSplitter::handle:horizontal {
   width: 3px;
 }
 
-QMenuBar { 
+QMenuBar {
   background-color: #3A3A3A;
 }
 
-QMenuBar::item { 
+QMenuBar::item {
   spacing: 3px;
   padding: 1px 4px;
   color: #FFFFFF;
@@ -206,7 +206,7 @@ QMenuBar::item {
   border-radius: none
 }
 
-QMenuBar::item:selected { 
+QMenuBar::item:selected {
   color: white;
   background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1,stop:0 #595f63, stop:1 #4f5458);
 }
@@ -336,7 +336,7 @@ QTabBar::tab {
 
 QTabBar::tab:!selected {
   margin-top: 3px;
-} 
+}
 
 QTabBar::tab:first {
   border-left: 1px solid #a5a5a5;
@@ -344,7 +344,7 @@ QTabBar::tab:first {
   border-bottom: 1px solid #a5a5a5;
   border-right: 1px solid #a5a5a5;
   border-top-right-radius: 15;
-  border-top-left-radius: 5;    
+  border-top-left-radius: 5;
   color: black;
   padding:5px;
 }
