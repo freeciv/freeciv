@@ -863,8 +863,8 @@ void handle_city_info(const struct packet_city_info *packet)
 
   /* Update the panel text (including civ population). */
   update_info_label();
-  
-  /* update caravan dialog */
+
+  /* Update caravan dialog */
   if ((production_changed || shield_stock_changed)
       && action_selection_target_city() == pcity->id) {   
     dsend_packet_unit_get_actions(&client.conn,
@@ -4305,7 +4305,8 @@ void handle_unit_actions(const struct packet_unit_actions *packet)
   } else {
     /* This was a background request. */
 
-    if (action_selection_actor_unit() == actor_unit->id) {
+    if (actor_unit != NULL
+        && action_selection_actor_unit() == actor_unit->id) {
       /* The situation may have changed. */
       action_selection_refresh(actor_unit,
                                target_city, target_unit, target_tile,
