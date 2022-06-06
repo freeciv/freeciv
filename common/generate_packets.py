@@ -13,7 +13,7 @@
 #   GNU General Public License for more details.
 #
 
-# This script runs under Python 3.4 and up. Please leave it so.
+# This script runs under Python 3.5 and up. Please leave it so.
 # It might also run under older versions, but no such guarantees are made.
 
 import re
