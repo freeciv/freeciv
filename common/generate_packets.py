@@ -409,12 +409,16 @@ class Field:
         self.dataio_type = typeinfo["dataio_type"]
         self.struct_type = typeinfo["struct_type"]
         self.float_factor = typeinfo.get("float_factor")
-        self.is_struct = self.struct_type.startswith("struct")
 
         self.is_key = flaginfo["is_key"]
         self.diff = flaginfo["diff"]
         self.add_cap = flaginfo["add_cap"]
         self.remove_cap = flaginfo["remove_cap"]
+
+    @property
+    def is_struct(self) -> bool:
+        """Whether the base type of this field is a struct"""
+        return self.struct_type.startswith("struct")
 
     def get_handle_type(self) -> str:
         if self.dataio_type=="string" or self.dataio_type=="estring":
@@ -1041,15 +1045,74 @@ class Variant:
         self.gen_log=generate_logs
         self.name=name
         self.packet = packet
-        self.packet_name=packet.name
         self.fields=fields
         self.no=no
 
-        self.no_packet=packet.no_packet
-        self.type=packet.type
-        self.delta=packet.delta
-        self.is_info=packet.is_info
-        self.differ_used = (
+        self.poscaps = set(poscaps)
+        self.negcaps = set(negcaps)
+        self.key_fields = [field for field in self.fields if field.is_key]
+        self.other_fields = [field for field in self.fields if not field.is_key]
+        self.keys_format=", ".join(["%d"]*len(self.key_fields))
+        self.keys_arg = ", ".join("real_packet->" + field.name for field in self.key_fields)
+        if self.keys_arg:
+            self.keys_arg=",\n    "+self.keys_arg
+
+        if not self.fields and packet.fields:
+            raise ValueError("empty variant for nonempty {self.packet_name} with capabilities {self.poscaps}".format(self = self))
+
+    @property
+    def packet_name(self) -> str:
+        """Name of the packet this is a variant of
+
+        See Packet.name"""
+        return self.packet.name
+
+    @property
+    def type(self) -> str:
+        """Type (enum constant) of the packet this is a variant of
+
+        See Packet.type"""
+        return self.packet.type
+
+    @property
+    def no_packet(self) -> bool:
+        """Whether the send function should not take/need a packet struct
+
+        See Packet.no_packet"""
+        return self.packet.no_packet
+
+    @property
+    def delta(self) -> bool:
+        """Whether this packet can use delta optimization
+
+        See Packet.delta"""
+        return self.packet.delta
+
+    @property
+    def want_force(self):
+        """Whether send function takes a force_to_send boolean
+
+        See Packet.want_force"""
+        return self.packet.want_force
+
+    @property
+    def is_info(self) -> str:
+        """Whether this is an info or game-info packet"""
+        return self.packet.is_info
+
+    @property
+    def cancel(self) -> "list[str]":
+        """List of packets to cancel when sending or receiving this packet
+
+        See Packet.cancel"""
+        return self.packet.cancel
+
+    @property
+    def differ_used(self) -> bool:
+        """Whether the send function needs a `differ` boolean.
+
+        See get_send()"""
+        return (
             (not self.no_packet)
             and self.delta
             and (
@@ -1060,41 +1123,55 @@ class Variant:
                 )
             )
         )
-        self.cancel=packet.cancel
-        self.want_force=packet.want_force
 
-        self.poscaps = set(poscaps)
-        self.negcaps = set(negcaps)
+    @property
+    def condition(self) -> str:
+        """The condition determining whether this variant should be used,
+        based on capabilities.
+
+        See get_packet_handlers_fill_capability()"""
         if self.poscaps or self.negcaps:
             cap_fmt = """has_capability("%s", capability)"""
-            self.condition = " && ".join(chain(
+            return " && ".join(chain(
                 (cap_fmt % cap for cap in sorted(self.poscaps)),
                 ("!" + cap_fmt % cap for cap in sorted(self.negcaps)),
             ))
         else:
-            self.condition="TRUE"
-        self.key_fields = [field for field in self.fields if field.is_key]
-        self.other_fields = [field for field in self.fields if not field.is_key]
-        self.bits=len(self.other_fields)
-        self.keys_format=", ".join(["%d"]*len(self.key_fields))
-        self.keys_arg = ", ".join("real_packet->" + field.name for field in self.key_fields)
-        if self.keys_arg:
-            self.keys_arg=",\n    "+self.keys_arg
+            return "TRUE"
 
-        if not self.fields and packet.fields:
-            raise ValueError("empty variant for nonempty {self.packet_name} with capabilities {self.poscaps}".format(self = self))
+    @property
+    def bits(self) -> int:
+        """The length of the bitvector for this variant."""
+        return len(self.other_fields)
 
-        self.receive_prototype = "static struct {self.packet_name} *receive_{self.name}(struct connection *pc)".format(self = self)
-        self.send_prototype = "static int send_{self.name}(struct connection *pc{packet.extra_send_args})".format(self = self, packet = packet)
+    @property
+    def receive_prototype(self) -> str:
+        """The prototype of this variant's receive function"""
+        return "static struct {self.packet_name} *receive_{self.name}(struct connection *pc)".format(self = self)
 
+    @property
+    def send_prototype(self) -> str:
+        """The prototype of this variant's send function"""
+        return "static int send_{self.name}(struct connection *pc{self.packet.extra_send_args})".format(self = self)
 
+    @property
+    def send_handler(self) -> str:
+        """Code to set the send handler for this variant
+
+        See get_packet_handlers_fill_capability"""
         if self.no_packet:
-            self.send_handler = "phandlers->send[{self.type}].no_packet = (int(*)(struct connection *)) send_{self.name};".format(self = self)
+            return "phandlers->send[{self.type}].no_packet = (int(*)(struct connection *)) send_{self.name};".format(self = self)
         elif self.want_force:
-            self.send_handler = "phandlers->send[{self.type}].force_to_send = (int(*)(struct connection *, const void *, bool)) send_{self.name};".format(self = self)
+            return "phandlers->send[{self.type}].force_to_send = (int(*)(struct connection *, const void *, bool)) send_{self.name};".format(self = self)
         else:
-            self.send_handler = "phandlers->send[{self.type}].packet = (int(*)(struct connection *, const void *)) send_{self.name};".format(self = self)
-        self.receive_handler = "phandlers->receive[{self.type}] = (void *(*)(struct connection *)) receive_{self.name};".format(self = self)
+            return "phandlers->send[{self.type}].packet = (int(*)(struct connection *, const void *)) send_{self.name};".format(self = self)
+
+    @property
+    def receive_handler(self) -> str:
+        """Code to set the receive handler for this variant
+
+        See get_packet_handlers_fill_capability"""
+        return "phandlers->receive[{self.type}] = (void *(*)(struct connection *)) receive_{self.name};".format(self = self)
 
     # Returns a code fragment which contains the declarations of the
     # statistical counters of this packet.
@@ -1558,7 +1635,6 @@ class Packet:
             raise ValueError("not a valid packet header line: %r" % lines[0])
 
         self.type=mo.group(1)
-        self.name=self.type.lower()
         self.type_number=int(mo.group(2))
         if self.type_number not in range(65536):
             raise ValueError("packet number %d for %s outside legal range [0,65536)" % (self.type_number, self.name))
@@ -1655,30 +1731,6 @@ class Packet:
         if len(self.fields)>5 or self.name.split("_")[1]=="ruleset":
             self.handle_via_packet = True
 
-        self.extra_send_args=""
-        self.extra_send_args2=""
-        self.extra_send_args3 = "".join(
-            ", %s%s" % (field.get_handle_type(), field.name)
-            for field in self.fields
-        )
-
-        if not self.no_packet:
-            self.extra_send_args = ", const struct {self.name} *packet".format(self = self) + self.extra_send_args
-            self.extra_send_args2=', packet'+self.extra_send_args2
-
-        if self.want_force:
-            self.extra_send_args=self.extra_send_args+', bool force_to_send'
-            self.extra_send_args2=self.extra_send_args2+', force_to_send'
-            self.extra_send_args3=self.extra_send_args3+', bool force_to_send'
-
-        self.send_prototype = "int send_{self.name}(struct connection *pc{self.extra_send_args})".format(self = self)
-        if self.want_lsend:
-            self.lsend_prototype = "void lsend_{self.name}(struct conn_list *dest{self.extra_send_args})".format(self = self)
-        if self.want_dsend:
-            self.dsend_prototype = "int dsend_{self.name}(struct connection *pc{self.extra_send_args3})".format(self = self)
-            if self.want_lsend:
-                self.dlsend_prototype = "void dlsend_{self.name}(struct conn_list *dest{self.extra_send_args3})".format(self = self)
-
         # create cap variants
         all_caps = self.all_caps    # valid, since self.fields is already set
         self.variants=[]
@@ -1694,6 +1746,65 @@ class Packet:
             no=i+100
 
             self.variants.append(Variant(poscaps,negcaps,"%s_%d"%(self.name,no),fields,self,no))
+
+    @property
+    def name(self) -> str:
+        """Snake-case name of this packet type"""
+        return self.type.lower()
+
+    @property
+    def extra_send_args(self) -> str:
+        """Argements for the regular send function"""
+        return (
+            ", const struct {self.name} *packet".format(self = self) if not self.no_packet else ""
+        ) + (
+            ", bool force_to_send" if self.want_force else ""
+        )
+
+    @property
+    def extra_send_args2(self) -> str:
+        """Arguments passed from lsend to send
+
+        See also extra_send_args"""
+        assert self.want_lsend
+        return (
+            ", packet" if not self.no_packet else ""
+        ) + (
+            ", force_to_send" if self.want_force else ""
+        )
+
+    @property
+    def extra_send_args3(self) -> str:
+        """Arguments for the dsend and dlsend functions"""
+        assert self.want_dsend
+        return "".join(
+            ", %s%s" % (field.get_handle_type(), field.name)
+            for field in self.fields
+        ) + (", bool force_to_send" if self.want_force else "")
+
+    @property
+    def send_prototype(self) -> str:
+        """Prototype for the regular send function"""
+        return "int send_{self.name}(struct connection *pc{self.extra_send_args})".format(self = self)
+
+    @property
+    def lsend_prototype(self) -> str:
+        """Prototype for the lsend function (takes a list of connections)"""
+        assert self.want_lsend
+        return "void lsend_{self.name}(struct conn_list *dest{self.extra_send_args})".format(self = self)
+
+    @property
+    def dsend_prototype(self) -> str:
+        """Prototype for the dsend function (directly takes values instead of a packet struct)"""
+        assert self.want_dsend
+        return "int dsend_{self.name}(struct connection *pc{self.extra_send_args3})".format(self = self)
+
+    @property
+    def dlsend_prototype(self) -> str:
+        """Prototype for the dlsend function (directly takes values; list of connections)"""
+        assert self.want_dsend
+        assert self.want_lsend
+        return "void dlsend_{self.name}(struct conn_list *dest{self.extra_send_args3})".format(self = self)
 
     @property
     def all_caps(self) -> "set[str]":
