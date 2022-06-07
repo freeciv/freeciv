@@ -55,6 +55,7 @@ install-freeciv-common:
 	cd meson-build-$(GUI); meson ../../.. -Dprefix=`pwd`/../meson-install-$(GUI) -Dclients=$(CLIENT) -Dfcmp=$(FCMP) -Druledit=false $(EXTRA_CONFIG)
 	cd meson-build-$(GUI); ninja
 	cd meson-build-$(GUI); ninja install
+	cd meson-build-$(GUI); ninja langstat_core.txt
 	# reorder directory layout
 	mv meson-install-$(GUI)/bin/* meson-install-$(GUI)/
 	rm -Rf meson-install-$(GUI)/bin
