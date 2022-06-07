@@ -3830,10 +3830,10 @@ bool fc_tooltip::eventFilter(QObject *obj, QEvent *ev)
   return false;
 }
 
-/**************************************************************************
+/************************************************************************//**
   'text' is assumed to have already been HTML-escaped if necessary
-**************************************************************************/
-QString bold(QString text)
+****************************************************************************/
+static QString bold(QString text)
 {
   return QString("<b>" + text + "</b>");
 }

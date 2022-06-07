@@ -92,7 +92,6 @@ QString get_tooltip_improvement(const impr_type *building,
                                 struct city *pcity = nullptr,
                                 bool ext = false);
 QString get_tooltip_unit(const struct unit_type *utype, bool ext = false);
-QString bold(QString text);
 
 class fc_tooltip : public QObject
 {
