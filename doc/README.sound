@@ -1,5 +1,18 @@
 
 ===========================================================================
+ Acquiring soundsets and musicsets
+===========================================================================
+
+Some soundsets (sound effects) and musicsets (soundtrack) are available
+for install via the modpack installer utility.
+See README.modpack_installer for more information about the utility.
+
+Some older soundsets (sound files and a spec file) are available
+from <http://files.freeciv.org/contrib/audio/soundsets>. At this
+address you find also extra sound files to change an existing soundset or
+create a new one.
+
+===========================================================================
  Sound Support
 ===========================================================================
 
@@ -22,11 +35,6 @@ default relative to the data/ directory. Soundpacks can be downloaded from
 the Freeciv website in the tar format. You will either need to unpack them
 with eg "tar -xzvf stdsoundsX.tar.gz" or use 7-Zip (for Windows etc.), and
 put the files in the data directory mentioned above.
-
-You can get additional soundsets (sound files and a spec file)
-from <http://files.freeciv.org/contrib/audio/soundsets>. At this
-address you find also extra sound files to change an existing soundset or
-create a new one.
 
 ================================
  Plugins
