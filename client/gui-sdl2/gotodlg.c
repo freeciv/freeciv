@@ -354,23 +354,25 @@ static void popup_goto_airlift_dialog(void)
   i = 0;
   x = block_x + adj_size(5);
   y = area.y + adj_size(1);
-  while (pBuf) {
-    pBuf->size.x = x;
-    pBuf->size.y = y;
+  if (col > 0) {
+    while (pBuf) {
+      pBuf->size.x = x;
+      pBuf->size.y = y;
 
-    if (!((i + 1) % col)) {
-      x = block_x + adj_size(5);
-      y += pBuf->size.h + adj_size(1);
-    } else {
-      x += pBuf->size.w + adj_size(5);
+      if (!((i + 1) % col)) {
+        x = block_x + adj_size(5);
+        y += pBuf->size.h + adj_size(1);
+      } else {
+        x += pBuf->size.w + adj_size(5);
+      }
+
+      if (pBuf == pGotoDlg->pBeginWidgetList) {
+        break;
+      }
+
+      i++;
+      pBuf = pBuf->prev;
     }
-
-    if (pBuf == pGotoDlg->pBeginWidgetList) {
-      break;
-    }
-
-    i++;
-    pBuf = pBuf->prev;
   }
 
   setup_vertical_scrollbar_area(pGotoDlg->pScroll,
