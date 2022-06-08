@@ -965,7 +965,7 @@ void choose_tech(struct research *research, Tech_type_id tech)
       }
     } advance_index_iterate_end;
     research->researching = tech;
-    if (research->got_tech_multi == FALSE) {
+    if (!research->got_tech_multi) {
       research->bulbs_researched = 0;
     }
     research->bulbs_researched = research->bulbs_researched + bulbs_res;

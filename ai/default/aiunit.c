@@ -996,12 +996,12 @@ static void single_invader(struct ai_city *city_data,
 /**********************************************************************//**
   Mark invasion possibilities of punit in the surrounding cities. The
   given radius limites the area which is searched for cities. The
-  center of the area is either the unit itself (dest == FALSE) or the
-  destination of the current goto (dest == TRUE). The invasion threat
+  center of the area is either the unit itself (dest FALSE) or the
+  destination of the current goto (dest TRUE). The invasion threat
   is marked in pcity->server.ai.invasion by setting the "which" bit (to
   tell attack which can only kill units from occupy possibility).
 
-  If dest == TRUE then a valid goto is presumed.
+  If dest is TRUE then a valid goto is presumed.
 **************************************************************************/
 static void invasion_funct(struct ai_type *ait, struct unit *punit,
                            bool dest, int radius, int which)

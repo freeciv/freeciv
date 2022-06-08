@@ -295,6 +295,7 @@ void rscompat_enablers_add_obligatory_hard_reqs(void)
 
   action_iterate(act_id) {
     bool restart_enablers_for_action;
+
     do {
       restart_enablers_for_action = FALSE;
       action_enabler_list_iterate(action_enablers_for_action(act_id), ae) {
@@ -310,7 +311,7 @@ void rscompat_enablers_add_obligatory_hard_reqs(void)
           break;
         }
       } action_enabler_list_iterate_end;
-    } while (restart_enablers_for_action == TRUE);
+    } while (restart_enablers_for_action);
   } action_iterate_end;
 }
 

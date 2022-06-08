@@ -1247,7 +1247,7 @@ bool add_widget_to_vertical_scroll_widget_list(struct advanced_dialog *dlg,
   if (seen) {
     if (!dlg->begin_active_widget_list) {
       /* first element ( active list empty ) */
-      fc_assert_msg(FALSE == dir, "Forbided List Operation");
+      fc_assert_msg(!dir, "Forbidden List Operation");
       new_widget->size.x = start_x;
       new_widget->size.y = start_y;
       dlg->begin_active_widget_list = new_widget;

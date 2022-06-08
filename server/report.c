@@ -1598,7 +1598,7 @@ void report_final_scores(struct conn_list *dest)
 
   i = 0;
   players_iterate(pplayer) {
-    if (is_barbarian(pplayer) == FALSE) {
+    if (!is_barbarian(pplayer)) {
       size[i].value = pplayer->score.game;
       size[i].player = pplayer;
       i++;

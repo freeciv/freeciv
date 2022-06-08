@@ -651,7 +651,7 @@ static void dai_manage_taxes(struct ai_type *ait, struct player *pplayer)
     city_list_iterate(pplayer->cities, pcity) {
       struct cm_result *cmr = cm_result_new(pcity);
 
-      if (def_ai_city_data(pcity, ait)->celebrate == TRUE) {
+      if (def_ai_city_data(pcity, ait)->celebrate) {
         log_base(LOGLEVEL_TAX, "setting %s to celebrate", city_name_get(pcity));
         cm_query_result(pcity, &cmp, cmr, FALSE);
         if (cmr->found_a_valid) {

@@ -1312,7 +1312,7 @@ bool is_server_busy(void)
 **************************************************************************/
 bool client_is_global_observer(void)
 {
-  return client.conn.playing == NULL && client.conn.observer == TRUE;
+  return client.conn.playing == NULL && client.conn.observer;
 }
 
 /**********************************************************************//**

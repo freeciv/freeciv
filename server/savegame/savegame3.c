@@ -1247,7 +1247,7 @@ static void sg_load_savefile(struct loaddata *loading)
   bool ruleset_datafile;
   bool current_ruleset_rejected;
 
-  /* Check status and return if not OK (sg_success != TRUE). */
+  /* Check status and return if not OK (sg_success FALSE). */
   sg_check_ret();
 
   /* Load savefile options. */
@@ -1648,7 +1648,7 @@ static void sg_save_savefile(struct savedata *saving)
 {
   int i;
 
-  /* Check status and return if not OK (sg_success != TRUE). */
+  /* Check status and return if not OK (sg_success FALSE). */
   sg_check_ret();
 
   /* Save savefile options. */
@@ -1927,7 +1927,7 @@ static void sg_save_savefile(struct savedata *saving)
 static void sg_save_savefile_options(struct savedata *saving,
                                      const char *option)
 {
-  /* Check status and return if not OK (sg_success != TRUE). */
+  /* Check status and return if not OK (sg_success FALSE). */
   sg_check_ret();
 
   if (option == NULL) {
@@ -1952,7 +1952,7 @@ static void sg_load_ruledata(struct loaddata *loading)
   int i;
   const char *name;
 
-  /* Check status and return if not OK (sg_success != TRUE). */
+  /* Check status and return if not OK (sg_success FALSE). */
   sg_check_ret();
 
   for (i = 0;
@@ -1976,7 +1976,7 @@ static void sg_load_game(struct loaddata *loading)
   const char *str;
   int i;
 
-  /* Check status and return if not OK (sg_success != TRUE). */
+  /* Check status and return if not OK (sg_success FALSE). */
   sg_check_ret();
 
   /* Load server state. */
@@ -2146,7 +2146,7 @@ static void sg_save_game(struct savedata *saving)
   char global_advances[game.control.num_tech_types + 1];
   int i;
 
-  /* Check status and return if not OK (sg_success != TRUE). */
+  /* Check status and return if not OK (sg_success FALSE). */
   sg_check_ret();
 
   /* Game state: once the game is no longer a new game (ie, has been
@@ -2272,7 +2272,7 @@ static void sg_save_game(struct savedata *saving)
 ****************************************************************************/
 static void sg_load_random(struct loaddata *loading)
 {
-  /* Check status and return if not OK (sg_success != TRUE). */
+  /* Check status and return if not OK (sg_success FALSE). */
   sg_check_ret();
 
   if (secfile_lookup_bool_default(loading->file, FALSE, "random.saved")) {
@@ -2313,7 +2313,7 @@ static void sg_load_random(struct loaddata *loading)
 ****************************************************************************/
 static void sg_save_random(struct savedata *saving)
 {
-  /* Check status and return if not OK (sg_success != TRUE). */
+  /* Check status and return if not OK (sg_success FALSE). */
   sg_check_ret();
 
   if (fc_rand_is_init() && (!saving->scenario || game.scenario.save_random)) {
@@ -2351,7 +2351,7 @@ static void sg_save_random(struct savedata *saving)
 ****************************************************************************/
 static void sg_load_script(struct loaddata *loading)
 {
-  /* Check status and return if not OK (sg_success != TRUE). */
+  /* Check status and return if not OK (sg_success FALSE). */
   sg_check_ret();
 
   script_server_state_load(loading->file);
@@ -2362,7 +2362,7 @@ static void sg_load_script(struct loaddata *loading)
 ****************************************************************************/
 static void sg_save_script(struct savedata *saving)
 {
-  /* Check status and return if not OK (sg_success != TRUE). */
+  /* Check status and return if not OK (sg_success FALSE). */
   sg_check_ret();
 
   script_server_state_save(saving->file);
@@ -2380,7 +2380,7 @@ static void sg_load_scenario(struct loaddata *loading)
   const char *buf;
   int game_version;
 
-  /* Check status and return if not OK (sg_success != TRUE). */
+  /* Check status and return if not OK (sg_success FALSE). */
   sg_check_ret();
 
   /* Load version. */
@@ -2451,7 +2451,7 @@ static void sg_load_scenario(struct loaddata *loading)
 
   sg_failure_ret(loading->server_state == S_S_INITIAL
                  || (loading->server_state == S_S_RUNNING
-                     && game.scenario.players == TRUE),
+                     && game.scenario.players),
                  "Invalid scenario definition (server state '%s' and "
                  "players are %s).",
                  server_states_name(loading->server_state),
@@ -2466,7 +2466,7 @@ static void sg_save_scenario(struct savedata *saving)
   struct entry *mod_entry;
   int game_version;
 
-  /* Check status and return if not OK (sg_success != TRUE). */
+  /* Check status and return if not OK (sg_success FALSE). */
   sg_check_ret();
 
   game_version = MAJOR_VERSION * 1000000 + MINOR_VERSION * 10000 + PATCH_VERSION * 100;
@@ -2540,7 +2540,7 @@ static void sg_save_scenario(struct savedata *saving)
 ****************************************************************************/
 static void sg_load_settings(struct loaddata *loading)
 {
-  /* Check status and return if not OK (sg_success != TRUE). */
+  /* Check status and return if not OK (sg_success FALSE). */
   sg_check_ret();
 
   settings_game_load(loading->file, "settings");
@@ -2558,7 +2558,7 @@ static void sg_save_settings(struct savedata *saving)
 {
   enum map_generator real_generator = wld.map.server.generator;
 
-  /* Check status and return if not OK (sg_success != TRUE). */
+  /* Check status and return if not OK (sg_success FALSE). */
   sg_check_ret();
 
   if (saving->scenario) {
@@ -2628,7 +2628,7 @@ Save [counters].
 ****************************************************************************/
 static void sg_save_counters(struct savedata *saving)
 {
-  /* Check status and return if not OK (sg_success != TRUE). */
+  /* Check status and return if not OK (sg_success FALSE). */
   sg_check_ret();
 
   const char **countnames;;
@@ -2683,7 +2683,7 @@ static void sg_save_counters(struct savedata *saving)
 ****************************************************************************/
 static void sg_load_map(struct loaddata *loading)
 {
-  /* Check status and return if not OK (sg_success != TRUE). */
+  /* Check status and return if not OK (sg_success FALSE). */
   sg_check_ret();
 
   /* This defaults to TRUE even if map has not been generated.
@@ -2729,7 +2729,7 @@ static void sg_load_map(struct loaddata *loading)
 ****************************************************************************/
 static void sg_save_map(struct savedata *saving)
 {
-  /* Check status and return if not OK (sg_success != TRUE). */
+  /* Check status and return if not OK (sg_success FALSE). */
   sg_check_ret();
 
   if (map_is_empty()) {
@@ -2769,7 +2769,7 @@ static void sg_save_map(struct savedata *saving)
 ****************************************************************************/
 static void sg_load_map_tiles(struct loaddata *loading)
 {
-  /* Check status and return if not OK (sg_success != TRUE). */
+  /* Check status and return if not OK (sg_success FALSE). */
   sg_check_ret();
 
   /* Initialize the map for the current topology. 'map.xsize' and
@@ -2809,7 +2809,7 @@ static void sg_load_map_tiles(struct loaddata *loading)
 ****************************************************************************/
 static void sg_save_map_tiles(struct savedata *saving)
 {
-  /* Check status and return if not OK (sg_success != TRUE). */
+  /* Check status and return if not OK (sg_success FALSE). */
   sg_check_ret();
 
   /* Save the terrain type. */
@@ -2837,7 +2837,7 @@ static void sg_save_map_tiles(struct savedata *saving)
 ****************************************************************************/
 static void sg_load_map_tiles_extras(struct loaddata *loading)
 {
-  /* Check status and return if not OK (sg_success != TRUE). */
+  /* Check status and return if not OK (sg_success FALSE). */
   sg_check_ret();
 
   /* Load extras. */
@@ -2868,7 +2868,7 @@ static void sg_load_map_tiles_extras(struct loaddata *loading)
 ****************************************************************************/
 static void sg_save_map_tiles_extras(struct savedata *saving)
 {
-  /* Check status and return if not OK (sg_success != TRUE). */
+  /* Check status and return if not OK (sg_success FALSE). */
   sg_check_ret();
 
   /* Save extras. */
@@ -2903,7 +2903,7 @@ static void sg_load_map_startpos(struct loaddata *loading)
   bool exclude;
   int i, startpos_count;
 
-  /* Check status and return if not OK (sg_success != TRUE). */
+  /* Check status and return if not OK (sg_success FALSE). */
   sg_check_ret();
 
   startpos_count
@@ -2985,7 +2985,7 @@ static void sg_save_map_startpos(struct savedata *saving)
   const char SEPARATOR = '#';
   int i = 0;
 
-  /* Check status and return if not OK (sg_success != TRUE). */
+  /* Check status and return if not OK (sg_success FALSE). */
   sg_check_ret();
 
   if (!game.server.save_options.save_starts) {
@@ -3040,7 +3040,7 @@ static void sg_load_map_owner(struct loaddata *loading)
   struct tile *claimer = NULL;
   struct extra_type *placing = NULL;
 
-  /* Check status and return if not OK (sg_success != TRUE). */
+  /* Check status and return if not OK (sg_success FALSE). */
   sg_check_ret();
 
   if (game.info.is_new_game) {
@@ -3159,7 +3159,7 @@ static void sg_save_map_owner(struct savedata *saving)
 {
   int x, y;
 
-  /* Check status and return if not OK (sg_success != TRUE). */
+  /* Check status and return if not OK (sg_success FALSE). */
   sg_check_ret();
 
   if (saving->scenario && !saving->save_players) {
@@ -3285,7 +3285,7 @@ static void sg_load_map_worked(struct loaddata *loading)
 {
   int x, y;
 
-  /* Check status and return if not OK (sg_success != TRUE). */
+  /* Check status and return if not OK (sg_success FALSE). */
   sg_check_ret();
 
   sg_failure_ret(loading->worked_tiles == NULL,
@@ -3329,7 +3329,7 @@ static void sg_save_map_worked(struct savedata *saving)
 {
   int x, y;
 
-  /* Check status and return if not OK (sg_success != TRUE). */
+  /* Check status and return if not OK (sg_success FALSE). */
   sg_check_ret();
 
   if (saving->scenario && !saving->save_players) {
@@ -3366,7 +3366,7 @@ static void sg_save_map_worked(struct savedata *saving)
 ****************************************************************************/
 static void sg_load_map_known(struct loaddata *loading)
 {
-  /* Check status and return if not OK (sg_success != TRUE). */
+  /* Check status and return if not OK (sg_success FALSE). */
   sg_check_ret();
 
   players_iterate(pplayer) {
@@ -3422,7 +3422,7 @@ static void sg_load_map_known(struct loaddata *loading)
 ****************************************************************************/
 static void sg_save_map_known(struct savedata *saving)
 {
-  /* Check status and return if not OK (sg_success != TRUE). */
+  /* Check status and return if not OK (sg_success FALSE). */
   sg_check_ret();
 
   if (!saving->save_players) {
@@ -3489,7 +3489,7 @@ static void sg_load_players_basic(struct loaddata *loading)
   const char *str;
   bool shuffle_loaded = TRUE;
 
-  /* Check status and return if not OK (sg_success != TRUE). */
+  /* Check status and return if not OK (sg_success FALSE). */
   sg_check_ret();
 
   if (S_S_INITIAL == loading->server_state
@@ -3737,7 +3737,7 @@ static void sg_load_players_basic(struct loaddata *loading)
 ****************************************************************************/
 static void sg_load_players(struct loaddata *loading)
 {
-  /* Check status and return if not OK (sg_success != TRUE). */
+  /* Check status and return if not OK (sg_success FALSE). */
   sg_check_ret();
 
   if (game.info.is_new_game) {
@@ -3897,7 +3897,7 @@ static void sg_load_players(struct loaddata *loading)
 ****************************************************************************/
 static void sg_save_players(struct savedata *saving)
 {
-  /* Check status and return if not OK (sg_success != TRUE). */
+  /* Check status and return if not OK (sg_success FALSE). */
   sg_check_ret();
 
   if ((saving->scenario && !saving->save_players)
@@ -3968,7 +3968,7 @@ static void sg_load_player_main(struct loaddata *loading,
   size_t nval;
   const char *kind;
 
-  /* Check status and return if not OK (sg_success != TRUE). */
+  /* Check status and return if not OK (sg_success FALSE). */
   sg_check_ret();
 
   /* Basic player data. */
@@ -4435,7 +4435,7 @@ static void sg_save_player_main(struct savedata *saving,
   const char *flag_names[PLRF_COUNT];
   int set_count;
 
-  /* Check status and return if not OK (sg_success != TRUE). */
+  /* Check status and return if not OK (sg_success FALSE). */
   sg_check_ret();
 
   set_count = 0;
@@ -4740,7 +4740,7 @@ static void sg_load_player_cities(struct loaddata *loading,
   int ncities, i, plrno = player_number(plr);
   bool tasks_handled;
 
-  /* Check status and return if not OK (sg_success != TRUE). */
+  /* Check status and return if not OK (sg_success FALSE). */
   sg_check_ret();
 
   sg_failure_ret(secfile_lookup_int(loading->file, &ncities,
@@ -5325,7 +5325,7 @@ static void sg_save_player_cities(struct savedata *saving,
   int plrno = player_number(plr);
   bool nations[MAX_NUM_PLAYER_SLOTS];
 
-  /* Check status and return if not OK (sg_success != TRUE). */
+  /* Check status and return if not OK (sg_success FALSE). */
   sg_check_ret();
 
   secfile_insert_int(saving->file, city_list_size(plr->cities),
@@ -5702,7 +5702,7 @@ static void sg_load_player_units(struct loaddata *loading,
 {
   int nunits, i, plrno = player_number(plr);
 
-  /* Check status and return if not OK (sg_success != TRUE). */
+  /* Check status and return if not OK (sg_success FALSE). */
   sg_check_ret();
 
   sg_failure_ret(secfile_lookup_int(loading->file, &nunits,
@@ -6222,7 +6222,7 @@ static void sg_load_player_units_transport(struct loaddata *loading,
 {
   int nunits, i, plrno = player_number(plr);
 
-  /* Check status and return if not OK (sg_success != TRUE). */
+  /* Check status and return if not OK (sg_success FALSE). */
   sg_check_ret();
 
   /* Recheck the number of units for the player. This is a copied from
@@ -6276,7 +6276,7 @@ static void sg_save_player_units(struct savedata *saving,
   int i = 0;
   int longest_order = 0;
 
-  /* Check status and return if not OK (sg_success != TRUE). */
+  /* Check status and return if not OK (sg_success FALSE). */
   sg_check_ret();
 
   secfile_insert_int(saving->file, unit_list_size(plr->units),
@@ -6525,7 +6525,7 @@ static void sg_load_player_attributes(struct loaddata *loading,
 {
   int plrno = player_number(plr);
 
-  /* Check status and return if not OK (sg_success != TRUE). */
+  /* Check status and return if not OK (sg_success FALSE). */
   sg_check_ret();
 
   /* Toss any existing attribute_block (should not exist) */
@@ -6606,7 +6606,7 @@ static void sg_save_player_attributes(struct savedata *saving,
 {
   int plrno = player_number(plr);
 
-  /* Check status and return if not OK (sg_success != TRUE). */
+  /* Check status and return if not OK (sg_success FALSE). */
   sg_check_ret();
 
   /* This is a big heap of opaque data from the client.  Although the binary
@@ -6694,7 +6694,7 @@ static void sg_load_player_vision(struct loaddata *loading,
   int i;
   bool someone_alive = FALSE;
 
-  /* Check status and return if not OK (sg_success != TRUE). */
+  /* Check status and return if not OK (sg_success FALSE). */
   sg_check_ret();
 
   if (game.server.revealmap & REVEAL_MAP_DEAD) {
@@ -6712,7 +6712,7 @@ static void sg_load_player_vision(struct loaddata *loading,
   }
 
   if (-1 == total_ncities
-      || FALSE == game.info.fogofwar
+      || !game.info.fogofwar
       || !secfile_lookup_bool_default(loading->file, TRUE,
                                       "game.save_private_map")) {
     /* We have:
@@ -6984,7 +6984,7 @@ static void sg_save_player_vision(struct savedata *saving,
 {
   int i, plrno = player_number(plr);
 
-  /* Check status and return if not OK (sg_success != TRUE). */
+  /* Check status and return if not OK (sg_success FALSE). */
   sg_check_ret();
 
   if (!game.info.fogofwar || !game.server.save_options.save_private_map) {
@@ -7151,7 +7151,7 @@ static void sg_load_researches(struct loaddata *loading)
   int *vlist_research;
 
   vlist_research = NULL;
-  /* Check status and return if not OK (sg_success != TRUE). */
+  /* Check status and return if not OK (sg_success FALSE). */
   sg_check_ret();
 
   /* Initialize all researches. */
@@ -7257,7 +7257,7 @@ static void sg_save_researches(struct savedata *saving)
   int *vlist_research;
 
   vlist_research = NULL;
-  /* Check status and return if not OK (sg_success != TRUE). */
+  /* Check status and return if not OK (sg_success FALSE). */
   sg_check_ret();
 
   if (saving->save_players) {
@@ -7317,7 +7317,7 @@ static void sg_save_researches(struct savedata *saving)
 ****************************************************************************/
 static void sg_load_event_cache(struct loaddata *loading)
 {
-  /* Check status and return if not OK (sg_success != TRUE). */
+  /* Check status and return if not OK (sg_success FALSE). */
   sg_check_ret();
 
   event_cache_load(loading->file, "event_cache");
@@ -7328,7 +7328,7 @@ static void sg_load_event_cache(struct loaddata *loading)
 ****************************************************************************/
 static void sg_save_event_cache(struct savedata *saving)
 {
-  /* Check status and return if not OK (sg_success != TRUE). */
+  /* Check status and return if not OK (sg_success FALSE). */
   sg_check_ret();
 
   if (saving->scenario) {
@@ -7351,7 +7351,7 @@ static void sg_load_treaties(struct loaddata *loading)
   int tidx;
   const char *plr0;
 
-  /* Check status and return if not OK (sg_success != TRUE). */
+  /* Check status and return if not OK (sg_success FALSE). */
   sg_check_ret();
 
   for (tidx = 0; (plr0 = secfile_lookup_str_default(loading->file, NULL,
@@ -7475,7 +7475,7 @@ static void sg_load_history(struct loaddata *loading)
   struct history_report *hist = history_report_get();
   int turn;
 
-  /* Check status and return if not OK (sg_success != TRUE). */
+  /* Check status and return if not OK (sg_success FALSE). */
   sg_check_ret();
 
   turn = secfile_lookup_int_default(loading->file, -2, "history.turn");
@@ -7519,7 +7519,7 @@ static void sg_load_mapimg(struct loaddata *loading)
 {
   int mapdef_count, i;
 
-  /* Check status and return if not OK (sg_success != TRUE). */
+  /* Check status and return if not OK (sg_success FALSE). */
   sg_check_ret();
 
   /* Clear all defined map images. */
@@ -7557,7 +7557,7 @@ static void sg_load_mapimg(struct loaddata *loading)
 ****************************************************************************/
 static void sg_save_mapimg(struct savedata *saving)
 {
-  /* Check status and return if not OK (sg_success != TRUE). */
+  /* Check status and return if not OK (sg_success FALSE). */
   sg_check_ret();
 
   secfile_insert_int(saving->file, mapimg_count(), "mapimg.count");
@@ -7584,7 +7584,7 @@ static void sg_load_sanitycheck(struct loaddata *loading)
 {
   int players;
 
-  /* Check status and return if not OK (sg_success != TRUE). */
+  /* Check status and return if not OK (sg_success FALSE). */
   sg_check_ret();
 
   if (game.info.is_new_game) {
@@ -7749,6 +7749,6 @@ static void sg_load_sanitycheck(struct loaddata *loading)
 ****************************************************************************/
 static void sg_save_sanitycheck(struct savedata *saving)
 {
-  /* Check status and return if not OK (sg_success != TRUE). */
+  /* Check status and return if not OK (sg_success FALSE). */
   sg_check_ret();
 }
