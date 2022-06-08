@@ -25,7 +25,7 @@ using MSYS2 from https://www.msys2.org/
 1) Install MSYS2 following the documentation on their homepage
 
 1.1) Download
- https://repo.msys2.org/distrib/x86_64/msys2-x86_64-20210215.exe
+ https://repo.msys2.org/distrib/x86_64/msys2-x86_64-20220503.exe
  for win64 host
 
 1.2) Run it to install MSYS2 on build system
@@ -48,7 +48,6 @@ using MSYS2 from https://www.msys2.org/
 
  - make
  - gettext
- - pkg-config
 
 2.1.1.2) Arch independent packages needed for getting and extracting freeciv
  source tarball
@@ -60,14 +59,16 @@ using MSYS2 from https://www.msys2.org/
  freeciv.
 
  - git
- - automake
+ - automake1.16
  - libtool
- - autoconf
+ - autoconf2.71
+ - autoconf-wrapper
 
 2.1.2) Arch-specific packages needed for building freeciv
 
 2.1.2.1) Arch-specific packages for building common parts
  - mingw-w64-i686-gcc / mingw-w64-x86_64-gcc
+ - mingw-w64-i686-pkgconf / mingw-w64-x86_64-pkgconf
  - mingw-w64-i686-icu / mingw-w64-x86_64-icu
  - mingw-w64-i686-curl / mingw-w64-x86_64-curl
  - mingw-w64-i686-imagemagick / mingw-w64-x86_64-imagemagick
@@ -111,31 +112,33 @@ Current version is
 
 win64 host:
 -----------
-msys2-freeciv-win64-210226.7z, based on
-https://repo.msys2.org/distrib/x86_64/msys2-x86_64-20210215.exe
-with packages updated to 26-Feb-2021 level.
+msys2-freeciv-win64-220529.7z, based on
+https://repo.msys2.org/distrib/x86_64/msys2-x86_64-20220503.exe
+with packages updated to 29-May-2022 level.
 
-Both win32 and win64 targets are included. For each package listed below with <arch>
-in the name, actually two packages is installed; one with a name where <arch> is
-replaced by 'i686' and one where <arch> is replaced by 'x86_64'
+Most packages are included for both win32 and win64 targets. For each package
+listed below with <arch> in the name, actually two packages are installed;
+one with a name where <arch> is replaced by 'i686' and
+one where <arch> is replaced by 'x86_64'
 
 
 Following packages have been installed:
 - make
-- pkg-config
 - tar
 - git
 - patch
-- nano
-- automake
+- automake1.16
 - libtool
-- autoconf
+- autoconf2.71
+- autoconf-wrapper
 - gdb
 - mingw-w64-<arch>-gcc
+- mingw-w64-<arch>-pkgconf
 - mingw-w64-<arch>-icu
 - mingw-w64-<arch>-curl
 - mingw-w64-<arch>-sqlite3
 - mingw-w64-<arch>-gtk3
+- mingw-w64-<arch>-gtk4
 - mingw-w64-<arch>-nsis
 - mingw-w64-<arch>-SDL2_mixer
 - mingw-w64-<arch>-SDL2_image
@@ -146,6 +149,7 @@ Following packages have been installed:
 - mingw-w64-<arch>-drmingw
 - mingw-w64-<arch>-meson
 - mingw-w64-<arch>-tolua
+- minww-w64-x86_64-qt6-base
 
 After all the packages were installed 'pacman -Scc' was run to completely
 empty the package cache for having smaller environment package.

@@ -30,8 +30,8 @@ ifeq ($(MAKE_PARAMS),)
 MAKE_PARAMS="-j$(shell nproc)"
 endif
 
-ICUVER=68
-MAGICKVER=7.Q16HDRI-7
+ICUVER=69
+MAGICKVER=7.Q16HDRI-10
 
 INSTSUB=${ARCHDIR}
 
@@ -157,14 +157,14 @@ install-ruledit: configure-freeciv-ruledit install-ruledit-dir
 SOUND_DLLS := \
 	SDL2.dll \
 	SDL2_mixer.dll \
-	libFLAC-8.dll \
-	libfluidsynth-2.dll \
+	libFLAC.dll \
+	libfluidsynth-3.dll \
 	libmodplug-1.dll \
 	libvorbis-0.dll \
 	libvorbisenc-2.dll \
 	libvorbisfile-3.dll \
 	libogg-0.dll \
-	libportaudio-2.dll \
+	libportaudio.dll \
 	libsndfile-1.dll \
 	libmpg123-0.dll \
 	libopusfile-0.dll \
@@ -294,7 +294,9 @@ SDL2_DLLS := \
 	libtiff-5.dll \
 	libwebp-7.dll \
 	libzstd.dll \
-	libdeflate.dll
+	libdeflate.dll \
+	libjbig-0.dll \
+	libLerc.dll
 
 install-env-sdl2: install-env-default-fcmp
 	# add DLLs
@@ -317,7 +319,8 @@ QT_DLLS := \
 	libbrotlidec.dll \
 	libbrotlicommon.dll \
 	libdouble-conversion.dll \
-	libzstd.dll
+	libzstd.dll \
+	libmd4c.dll
 
 install-env-qt: install-env-common
 	# add DLLs
@@ -374,7 +377,8 @@ RULEDIT_DLLS := \
 	libltdl-7.dll \
 	libraqm-0.dll \
 	libexpat-1.dll \
-	libfribidi-0.dll
+	libfribidi-0.dll \
+	libmd4c.dll
 
 install-env-ruledit:
 	# add DLLs
