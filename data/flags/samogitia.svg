@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
+
 <svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://web.resource.org/cc/"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://inkscape.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    width="600"
    height="400"
    id="svg2919"
    sodipodi:version="0.32"
-   inkscape:version="0.43"
+   inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
    version="1.0"
-   sodipodi:docbase="/Users/daniel/Desktop/freeciv"
-   sodipodi:docname="samogitia.svg">
+   sodipodi:docname="samogitia.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
   <defs
      id="defs2921" />
   <sodipodi:namedview
@@ -28,19 +28,22 @@
      objecttolerance="10"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="3.2195204"
-     inkscape:cx="299.99119"
-     inkscape:cy="271.85878"
+     inkscape:zoom="1.6097602"
+     inkscape:cx="300.04469"
+     inkscape:cy="198.47677"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      width="600px"
      height="400px"
-     inkscape:window-width="1000"
-     inkscape:window-height="720"
-     inkscape:window-x="22"
-     inkscape:window-y="29"
+     inkscape:window-width="1141"
+     inkscape:window-height="866"
+     inkscape:window-x="470"
+     inkscape:window-y="69"
      showguides="true"
-     inkscape:guide-bbox="true" />
+     inkscape:guide-bbox="true"
+     inkscape:pagecheckerboard="0"
+     showgrid="false"
+     inkscape:window-maximized="0" />
   <metadata
      id="metadata2924">
     <rdf:RDF>
