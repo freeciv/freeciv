@@ -1152,7 +1152,7 @@ static void sg_load_savefile(struct loaddata *loading)
   int i;
   const char *terr_name;
 
-  /* Check status and return if not OK (sg_success != TRUE). */
+  /* Check status and return if not OK (sg_success FALSE). */
   sg_check_ret();
 
   /* Load savefile options. */
@@ -1486,7 +1486,7 @@ static void sg_load_ruledata(struct loaddata *loading)
   int i;
   const char *name;
 
-  /* Check status and return if not OK (sg_success != TRUE). */
+  /* Check status and return if not OK (sg_success FALSE). */
   sg_check_ret();
 
   for (i = 0;
@@ -1512,7 +1512,7 @@ static void sg_load_game(struct loaddata *loading)
   const char *level;
   int i;
 
-  /* Check status and return if not OK (sg_success != TRUE). */
+  /* Check status and return if not OK (sg_success FALSE). */
   sg_check_ret();
 
   /* Load version. */
@@ -1670,7 +1670,7 @@ static void sg_load_game(struct loaddata *loading)
 ****************************************************************************/
 static void sg_load_random(struct loaddata *loading)
 {
-  /* Check status and return if not OK (sg_success != TRUE). */
+  /* Check status and return if not OK (sg_success FALSE). */
   sg_check_ret();
 
   if (secfile_lookup_bool_default(loading->file, FALSE, "random.saved")) {
@@ -1729,7 +1729,7 @@ static void sg_load_random(struct loaddata *loading)
 ****************************************************************************/
 static void sg_load_script(struct loaddata *loading)
 {
-  /* Check status and return if not OK (sg_success != TRUE). */
+  /* Check status and return if not OK (sg_success FALSE). */
   sg_check_ret();
 
   script_server_state_load(loading->file);
@@ -1747,7 +1747,7 @@ static void sg_load_scenario(struct loaddata *loading)
   const char *buf;
   bool lake_flood_default;
 
-  /* Check status and return if not OK (sg_success != TRUE). */
+  /* Check status and return if not OK (sg_success FALSE). */
   sg_check_ret();
 
   if (NULL == secfile_section_lookup(loading->file, "scenario")) {
@@ -1819,7 +1819,7 @@ static void sg_load_scenario(struct loaddata *loading)
 
   sg_failure_ret(loading->server_state == S_S_INITIAL
                  || (loading->server_state == S_S_RUNNING
-                     && game.scenario.players == TRUE),
+                     && game.scenario.players),
                  "Invalid scenario definition (server state '%s' and "
                  "players are %s).",
                  server_states_name(loading->server_state),
@@ -1839,7 +1839,7 @@ static void sg_load_scenario(struct loaddata *loading)
 ****************************************************************************/
 static void sg_load_settings(struct loaddata *loading)
 {
-  /* Check status and return if not OK (sg_success != TRUE). */
+  /* Check status and return if not OK (sg_success FALSE). */
   sg_check_ret();
 
   settings_game_load(loading->file, "settings");
@@ -1859,7 +1859,7 @@ static void sg_load_settings(struct loaddata *loading)
 ****************************************************************************/
 static void sg_load_map(struct loaddata *loading)
 {
-  /* Check status and return if not OK (sg_success != TRUE). */
+  /* Check status and return if not OK (sg_success FALSE). */
   sg_check_ret();
 
   /* This defaults to TRUE even if map has not been generated. Also,
@@ -1937,7 +1937,7 @@ static void sg_load_map(struct loaddata *loading)
 ****************************************************************************/
 static void sg_load_map_tiles(struct loaddata *loading)
 {
-  /* Check status and return if not OK (sg_success != TRUE). */
+  /* Check status and return if not OK (sg_success FALSE). */
   sg_check_ret();
 
   /* Initialize the map for the current topology. 'map.xsize' and
@@ -1977,7 +1977,7 @@ static void sg_load_map_tiles(struct loaddata *loading)
 ****************************************************************************/
 static void sg_load_map_tiles_extras(struct loaddata *loading)
 {
-  /* Check status and return if not OK (sg_success != TRUE). */
+  /* Check status and return if not OK (sg_success FALSE). */
   sg_check_ret();
 
   /* Load extras. */
@@ -1992,7 +1992,7 @@ static void sg_load_map_tiles_extras(struct loaddata *loading)
 ****************************************************************************/
 static void sg_load_map_tiles_bases(struct loaddata *loading)
 {
-  /* Check status and return if not OK (sg_success != TRUE). */
+  /* Check status and return if not OK (sg_success FALSE). */
   sg_check_ret();
 
   /* Load bases. */
@@ -2008,7 +2008,7 @@ static void sg_load_map_tiles_bases(struct loaddata *loading)
 ****************************************************************************/
 static void sg_load_map_tiles_roads(struct loaddata *loading)
 {
-  /* Check status and return if not OK (sg_success != TRUE). */
+  /* Check status and return if not OK (sg_success FALSE). */
   sg_check_ret();
 
   /* Load roads. */
@@ -2025,7 +2025,7 @@ static void sg_load_map_tiles_roads(struct loaddata *loading)
 static void sg_load_map_tiles_specials(struct loaddata *loading,
                                        bool rivers_overlay)
 {
-  /* Check status and return if not OK (sg_success != TRUE). */
+  /* Check status and return if not OK (sg_success FALSE). */
   sg_check_ret();
 
   /* If 'rivers_overlay' is set to TRUE, load only the rivers overlay map
@@ -2055,7 +2055,7 @@ static void sg_load_map_tiles_specials(struct loaddata *loading,
 ****************************************************************************/
 static void sg_load_map_tiles_resources(struct loaddata *loading)
 {
-  /* Check status and return if not OK (sg_success != TRUE). */
+  /* Check status and return if not OK (sg_success FALSE). */
   sg_check_ret();
 
   LOAD_MAP_CHAR(ch, ptile, tile_set_resource(ptile, char2resource(ch)),
@@ -2091,7 +2091,7 @@ static void sg_load_map_startpos(struct loaddata *loading)
   bool exclude;
   int i, startpos_count;
 
-  /* Check status and return if not OK (sg_success != TRUE). */
+  /* Check status and return if not OK (sg_success FALSE). */
   sg_check_ret();
 
   startpos_count
@@ -2174,7 +2174,7 @@ static void sg_load_map_owner(struct loaddata *loading)
   struct tile *claimer = NULL;
   struct player *eowner = NULL;
 
-  /* Check status and return if not OK (sg_success != TRUE). */
+  /* Check status and return if not OK (sg_success FALSE). */
   sg_check_ret();
 
   if (game.info.is_new_game) {
@@ -2258,7 +2258,7 @@ static void sg_load_map_worked(struct loaddata *loading)
 {
   int x, y;
 
-  /* Check status and return if not OK (sg_success != TRUE). */
+  /* Check status and return if not OK (sg_success FALSE). */
   sg_check_ret();
 
   sg_failure_ret(loading->worked_tiles == NULL,
@@ -2300,7 +2300,7 @@ static void sg_load_map_worked(struct loaddata *loading)
 ****************************************************************************/
 static void sg_load_map_known(struct loaddata *loading)
 {
-  /* Check status and return if not OK (sg_success != TRUE). */
+  /* Check status and return if not OK (sg_success FALSE). */
   sg_check_ret();
 
   players_iterate(pplayer) {
@@ -2368,7 +2368,7 @@ static void sg_load_players_basic(struct loaddata *loading)
   const char *string;
   bool shuffle_loaded = TRUE;
 
-  /* Check status and return if not OK (sg_success != TRUE). */
+  /* Check status and return if not OK (sg_success FALSE). */
   sg_check_ret();
 
   if (S_S_INITIAL == loading->server_state
@@ -2612,7 +2612,7 @@ static void sg_load_players_basic(struct loaddata *loading)
 ****************************************************************************/
 static void sg_load_players(struct loaddata *loading)
 {
-  /* Check status and return if not OK (sg_success != TRUE). */
+  /* Check status and return if not OK (sg_success FALSE). */
   sg_check_ret();
 
   if (game.info.is_new_game) {
@@ -2781,7 +2781,7 @@ static void sg_load_player_main(struct loaddata *loading,
   const char *barb_str;
   size_t nval;
 
-  /* Check status and return if not OK (sg_success != TRUE). */
+  /* Check status and return if not OK (sg_success FALSE). */
   sg_check_ret();
 
   /* Basic player data. */
@@ -3267,7 +3267,7 @@ static void sg_load_player_cities(struct loaddata *loading,
   int ncities, i, plrno = player_number(plr);
   bool tasks_handled;
 
-  /* Check status and return if not OK (sg_success != TRUE). */
+  /* Check status and return if not OK (sg_success FALSE). */
   sg_check_ret();
 
   sg_failure_ret(secfile_lookup_int(loading->file, &ncities,
@@ -3686,7 +3686,7 @@ static void sg_load_player_units(struct loaddata *loading,
 {
   int nunits, i, plrno = player_number(plr);
 
-  /* Check status and return if not OK (sg_success != TRUE). */
+  /* Check status and return if not OK (sg_success FALSE). */
   sg_check_ret();
 
   sg_failure_ret(secfile_lookup_int(loading->file, &nunits,
@@ -4364,7 +4364,7 @@ static void sg_load_player_units_transport(struct loaddata *loading,
 {
   int nunits, i, plrno = player_number(plr);
 
-  /* Check status and return if not OK (sg_success != TRUE). */
+  /* Check status and return if not OK (sg_success FALSE). */
   sg_check_ret();
 
   /* Recheck the number of units for the player. This is a copied from
@@ -4417,7 +4417,7 @@ static void sg_load_player_attributes(struct loaddata *loading,
 {
   int plrno = player_number(plr);
 
-  /* Check status and return if not OK (sg_success != TRUE). */
+  /* Check status and return if not OK (sg_success FALSE). */
   sg_check_ret();
 
   /* Toss any existing attribute_block (should not exist) */
@@ -4503,7 +4503,7 @@ static void sg_load_player_vision(struct loaddata *loading,
   int i;
   bool someone_alive = FALSE;
 
-  /* Check status and return if not OK (sg_success != TRUE). */
+  /* Check status and return if not OK (sg_success FALSE). */
   sg_check_ret();
 
   if (game.server.revealmap & REVEAL_MAP_DEAD) {
@@ -4522,7 +4522,7 @@ static void sg_load_player_vision(struct loaddata *loading,
 
   if (!plr->is_alive
       || -1 == total_ncities
-      || FALSE == game.info.fogofwar
+      || !game.info.fogofwar
       || !secfile_lookup_bool_default(loading->file, TRUE,
                                       "game.save_private_map")) {
     /* We have:
@@ -4821,7 +4821,7 @@ static void sg_load_researches(struct loaddata *loading)
   const char *string;
   int i, j;
 
-  /* Check status and return if not OK (sg_success != TRUE). */
+  /* Check status and return if not OK (sg_success FALSE). */
   sg_check_ret();
 
   /* Initialize all researches. */
@@ -4907,7 +4907,7 @@ static void sg_load_researches(struct loaddata *loading)
 ****************************************************************************/
 static void sg_load_event_cache(struct loaddata *loading)
 {
-  /* Check status and return if not OK (sg_success != TRUE). */
+  /* Check status and return if not OK (sg_success FALSE). */
   sg_check_ret();
 
   event_cache_load(loading->file, "event_cache");
@@ -4926,7 +4926,7 @@ static void sg_load_treaties(struct loaddata *loading)
   const char *plr0;
   struct treaty_list *treaties = get_all_treaties();
 
-  /* Check status and return if not OK (sg_success != TRUE). */
+  /* Check status and return if not OK (sg_success FALSE). */
   sg_check_ret();
 
   for (tidx = 0; (plr0 = secfile_lookup_str_default(loading->file, NULL,
@@ -5012,7 +5012,7 @@ static void sg_load_history(struct loaddata *loading)
   struct history_report *hist = history_report_get();
   int turn;
 
-  /* Check status and return if not OK (sg_success != TRUE). */
+  /* Check status and return if not OK (sg_success FALSE). */
   sg_check_ret();
 
   turn = secfile_lookup_int_default(loading->file, -2, "history.turn");
@@ -5041,7 +5041,7 @@ static void sg_load_mapimg(struct loaddata *loading)
 {
   int mapdef_count, i;
 
-  /* Check status and return if not OK (sg_success != TRUE). */
+  /* Check status and return if not OK (sg_success FALSE). */
   sg_check_ret();
 
   /* Clear all defined map images. */
@@ -5085,7 +5085,7 @@ static void sg_load_sanitycheck(struct loaddata *loading)
 {
   int players;
 
-  /* Check status and return if not OK (sg_success != TRUE). */
+  /* Check status and return if not OK (sg_success FALSE). */
   sg_check_ret();
 
   if (game.info.is_new_game) {

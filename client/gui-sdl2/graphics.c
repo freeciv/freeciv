@@ -1708,7 +1708,7 @@ SDL_Surface *ResizeSurfaceBox(const SDL_Surface *pSrc,
     return NULL;
   }
 
-  if (!((scale_up == FALSE) && ((new_width >= pSrc->w) && (new_height >= pSrc->h)))) {
+  if (!((!scale_up) && ((new_width >= pSrc->w) && (new_height >= pSrc->h)))) {
     if ((new_width - pSrc->w) <= (new_height - pSrc->h)) {
       /* horizontal limit */
       tmpSurface = zoomSurface((SDL_Surface*)pSrc,

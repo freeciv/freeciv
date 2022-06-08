@@ -124,7 +124,7 @@ void sg_load_compat(struct loaddata *loading)
 {
   int i;
 
-  /* Check status and return if not OK (sg_success != TRUE). */
+  /* Check status and return if not OK (sg_success FALSE). */
   sg_check_ret();
 
   loading->version = secfile_lookup_int_default(loading->file, -1,
@@ -261,7 +261,7 @@ struct extra_type *resource_by_identifier(const char identifier)
 ****************************************************************************/
 static void compat_load_020400(struct loaddata *loading)
 {
-  /* Check status and return if not OK (sg_success != TRUE). */
+  /* Check status and return if not OK (sg_success FALSE). */
   sg_check_ret();
 
   log_debug("Upgrading data from savegame to version 2.4.0");
@@ -515,7 +515,7 @@ static void compat_load_020500(struct loaddata *loading)
     "Base"
   };
 
-  /* Check status and return if not OK (sg_success != TRUE). */
+  /* Check status and return if not OK (sg_success FALSE). */
   sg_check_ret();
 
   log_debug("Upgrading data from savegame to version 2.5.0");
@@ -620,7 +620,7 @@ static void compat_load_020600(struct loaddata *loading)
   int ti;
   int turn;
 
-  /* Check status and return if not OK (sg_success != TRUE). */
+  /* Check status and return if not OK (sg_success FALSE). */
   sg_check_ret();
 
   log_debug("Upgrading data from savegame to version 2.6.0");
@@ -1222,7 +1222,7 @@ static void compat_load_030000(struct loaddata *loading)
   bool started;
   int old_turn;
 
-  /* Check status and return if not OK (sg_success != TRUE). */
+  /* Check status and return if not OK (sg_success FALSE). */
   sg_check_ret();
 
   log_debug("Upgrading data from savegame to version 3.0.0");

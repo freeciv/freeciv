@@ -162,7 +162,7 @@ static inline bool fz_method_is_valid(enum fz_method method)
 
 #define fz_method_validate(method)                                          \
     (fz_method_is_valid(method) ? method                                    \
-     : (fc_assert_msg(TRUE == fz_method_is_valid(method),                   \
+     : (fc_assert_msg(fz_method_is_valid(method),                           \
                       "Unsupported compress method %d, reverting to plain.",\
                       method), FZ_PLAIN))
 

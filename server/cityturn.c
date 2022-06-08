@@ -3134,7 +3134,7 @@ static void update_city_activity(struct city *pcity)
 
     /* Keep old behaviour when building new improvement could keep
        city celebrating */
-    if (is_happy == FALSE) {
+    if (!is_happy) {
       is_happy = city_happy(pcity);
     }
 
