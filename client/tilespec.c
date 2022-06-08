@@ -5226,7 +5226,7 @@ static int fill_terrain_sprite_layer(struct tileset *t,
   Indicate whether a unit is to be drawn with a surrounding city outline
   under current conditions.
   (This includes being in focus, but if the caller has already checked that,
-  they can bypass this slightly expensive check with check_focus == FALSE.)
+  they can bypass this slightly expensive check with check_focus FALSE.)
 ****************************************************************************/
 bool unit_drawn_with_city_outline(const struct unit *punit, bool check_focus)
 {

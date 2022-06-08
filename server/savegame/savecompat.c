@@ -138,7 +138,7 @@ void sg_load_compat(struct loaddata *loading, enum sgf_version format_class)
 {
   int i;
 
-  /* Check status and return if not OK (sg_success != TRUE). */
+  /* Check status and return if not OK (sg_success FALSE). */
   sg_check_ret();
 
   loading->version = secfile_lookup_int_default(loading->file, -1,
@@ -190,7 +190,7 @@ void sg_load_post_load_compat(struct loaddata *loading,
 {
   int i;
 
-  /* Check status and return if not OK (sg_success != TRUE). */
+  /* Check status and return if not OK (sg_success FALSE). */
   sg_check_ret();
 
   for (i = 0; i < compat_num; i++) {
@@ -335,7 +335,7 @@ struct extra_type *resource_by_identifier(const char identifier)
 static void compat_load_020400(struct loaddata *loading,
                                enum sgf_version format_class)
 {
-  /* Check status and return if not OK (sg_success != TRUE). */
+  /* Check status and return if not OK (sg_success FALSE). */
   sg_check_ret();
 
   log_debug("Upgrading data from savegame to version 2.4.0");
@@ -590,7 +590,7 @@ static void compat_load_020500(struct loaddata *loading,
     "Base"
   };
 
-  /* Check status and return if not OK (sg_success != TRUE). */
+  /* Check status and return if not OK (sg_success FALSE). */
   sg_check_ret();
 
   log_debug("Upgrading data from savegame to version 2.5.0");
@@ -696,7 +696,7 @@ static void compat_load_020600(struct loaddata *loading,
   int ti;
   int turn;
 
-  /* Check status and return if not OK (sg_success != TRUE). */
+  /* Check status and return if not OK (sg_success FALSE). */
   sg_check_ret();
 
   log_debug("Upgrading data from savegame to version 2.6.0");
@@ -1299,7 +1299,7 @@ static void compat_load_030000(struct loaddata *loading,
   bool started;
   int old_turn;
 
-  /* Check status and return if not OK (sg_success != TRUE). */
+  /* Check status and return if not OK (sg_success FALSE). */
   sg_check_ret();
 
   log_debug("Upgrading data from savegame to version 3.0.0");
@@ -1486,7 +1486,7 @@ static void insert_server_side_agent(struct loaddata *loading,
 static void compat_load_030100(struct loaddata *loading,
                                enum sgf_version format_class)
 {
-  /* Check status and return if not OK (sg_success != TRUE). */
+  /* Check status and return if not OK (sg_success FALSE). */
   sg_check_ret();
 
   log_debug("Upgrading data from savegame to version 3.1.0");
@@ -1786,7 +1786,7 @@ static void upgrade_server_side_agent(struct loaddata *loading)
 static void compat_post_load_030100(struct loaddata *loading,
                                     enum sgf_version format_class)
 {
-  /* Check status and return if not OK (sg_success != TRUE). */
+  /* Check status and return if not OK (sg_success FALSE). */
   sg_check_ret();
 
   /* Action orders were new in 3.0 */
@@ -1877,7 +1877,7 @@ static void compat_load_dev(struct loaddata *loading)
 {
   int game_version;
 
-  /* Check status and return if not OK (sg_success != TRUE). */
+  /* Check status and return if not OK (sg_success FALSE). */
   sg_check_ret();
 
   log_debug("Upgrading data between development revisions");
@@ -2212,7 +2212,7 @@ static void compat_post_load_dev(struct loaddata *loading)
 {
   int game_version;
 
-  /* Check status and return if not OK (sg_success != TRUE). */
+  /* Check status and return if not OK (sg_success FALSE). */
   sg_check_ret();
 
   if (!secfile_lookup_int(loading->file, &game_version, "scenario.game_version")) {
