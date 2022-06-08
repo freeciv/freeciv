@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv Ruledit\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2022-04-12 03:46+0300\n"
+"POT-Creation-Date: 2022-06-08 12:27+0500\n"
 "PO-Revision-Date: 2022-04-07 01:03+0500\n"
 "Last-Translator: Konstantin Vedeneev <konved@gmail.com>\n"
 "Language-Team: Russian <freeciv.ru@freelists.org>\n"
@@ -262,11 +262,11 @@ msgstr "Ошибка загрузки набора правил!"
 msgid "Freeciv Ruleset Editor"
 msgstr "Редактор наборов правил Freeciv"
 
-#: tools/ruledit/ruledit_qt.cpp:392
+#: tools/ruledit/ruledit_qt.cpp:405
 msgid "Are you sure you want to quit?"
 msgstr "Вы действительно хотите выйти?"
 
-#: tools/ruledit/ruledit_qt.cpp:396
+#: tools/ruledit/ruledit_qt.cpp:409
 msgid "Quit?"
 msgstr "Выйти?"
 
@@ -278,20 +278,20 @@ msgid "Rule Name"
 msgstr "Название Правила"
 
 #: tools/ruledit/tab_building.cpp:69 tools/ruledit/tab_building.cpp:79
-#: tools/ruledit/tab_building.cpp:147 tools/ruledit/tab_building.cpp:148
+#: tools/ruledit/tab_building.cpp:148 tools/ruledit/tab_building.cpp:149
 #: tools/ruledit/tab_enablers.cpp:131 tools/ruledit/tab_enablers.cpp:241
 #: tools/ruledit/tab_extras.cpp:67 tools/ruledit/tab_extras.cpp:77
-#: tools/ruledit/tab_extras.cpp:142 tools/ruledit/tab_extras.cpp:143
+#: tools/ruledit/tab_extras.cpp:143 tools/ruledit/tab_extras.cpp:144
 #: tools/ruledit/tab_good.cpp:68 tools/ruledit/tab_good.cpp:78
-#: tools/ruledit/tab_good.cpp:143 tools/ruledit/tab_good.cpp:144
+#: tools/ruledit/tab_good.cpp:144 tools/ruledit/tab_good.cpp:145
 #: tools/ruledit/tab_gov.cpp:67 tools/ruledit/tab_gov.cpp:77
-#: tools/ruledit/tab_gov.cpp:142 tools/ruledit/tab_gov.cpp:143
+#: tools/ruledit/tab_gov.cpp:143 tools/ruledit/tab_gov.cpp:144
 #: tools/ruledit/tab_tech.cpp:66 tools/ruledit/tab_tech.cpp:76
 #: tools/ruledit/tab_tech.cpp:226 tools/ruledit/tab_tech.cpp:227
 #: tools/ruledit/tab_terrains.cpp:67 tools/ruledit/tab_terrains.cpp:77
-#: tools/ruledit/tab_terrains.cpp:138 tools/ruledit/tab_terrains.cpp:139
+#: tools/ruledit/tab_terrains.cpp:139 tools/ruledit/tab_terrains.cpp:140
 #: tools/ruledit/tab_unit.cpp:68 tools/ruledit/tab_unit.cpp:78
-#: tools/ruledit/tab_unit.cpp:142 tools/ruledit/tab_unit.cpp:143
+#: tools/ruledit/tab_unit.cpp:143 tools/ruledit/tab_unit.cpp:144
 msgid "None"
 msgstr "(Нет)"
 
@@ -319,7 +319,7 @@ msgstr "Добавить Здание"
 msgid "Remove this Building"
 msgstr "Удалить это Здание"
 
-#: tools/ruledit/tab_building.cpp:182
+#: tools/ruledit/tab_building.cpp:183
 msgid "A building with that rule name already exists!"
 msgstr "Здание с этим названием правила уже существует!"
 
@@ -379,7 +379,7 @@ msgstr "Добавить Сооружение"
 msgid "Remove this Extra"
 msgstr "Удалить это Сооружение"
 
-#: tools/ruledit/tab_extras.cpp:177
+#: tools/ruledit/tab_extras.cpp:178
 msgid "An extra with that rule name already exists!"
 msgstr "Сооружение с этим названием правила уже существует!"
 
@@ -391,7 +391,7 @@ msgstr "Добавить товар"
 msgid "Remove this Good"
 msgstr "Удалить этот товар"
 
-#: tools/ruledit/tab_good.cpp:178
+#: tools/ruledit/tab_good.cpp:179
 msgid "A good with that rule name already exists!"
 msgstr "Товар с этим названием правила уже существует!"
 
@@ -403,7 +403,7 @@ msgstr "Добавить Форму правления"
 msgid "Remove this Government"
 msgstr "Удалить эту Форму правления"
 
-#: tools/ruledit/tab_gov.cpp:177
+#: tools/ruledit/tab_gov.cpp:178
 msgid "A government with that rule name already exists!"
 msgstr "Форма правления с этим названием правила уже существует!"
 
@@ -574,7 +574,7 @@ msgstr "Добавить Рельеф"
 msgid "Remove this Terrain"
 msgstr "Удалить этот Рельеф"
 
-#: tools/ruledit/tab_terrains.cpp:173
+#: tools/ruledit/tab_terrains.cpp:174
 msgid "A terrain with that rule name already exists!"
 msgstr "Рельеф с этим названием правила уже существует!"
 
@@ -586,7 +586,7 @@ msgstr "Добавить Соединение"
 msgid "Remove this Unit"
 msgstr "Удалить это Соединение"
 
-#: tools/ruledit/tab_unit.cpp:177
+#: tools/ruledit/tab_unit.cpp:178
 msgid "A unit type with that rule name already exists!"
 msgstr "Соединение с этим названием правила уже существует!"
 
