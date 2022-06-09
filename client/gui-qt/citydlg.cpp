@@ -1743,7 +1743,6 @@ city_dialog::city_dialog(QWidget *parent): qfc_dialog(parent)
   work_but_layout->addWidget(work_next_but);
   work_but_layout->addWidget(work_prev_but);
   work_but_layout->addWidget(work_rem_but);
-  but_menu_worklist = new QPushButton;
   production_combo_p = new progress_bar(parent);
   production_combo_p->setToolTip(_("Click to change current production"));
   p_table_p = new QTableWidget;
@@ -1781,15 +1780,11 @@ city_dialog::city_dialog(QWidget *parent): qfc_dialog(parent)
   qgbprod->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
   qgbprod->setLayout(vbox_layout);
 
-  but_menu_worklist->setText(_("Worklist menu"));
-  but_menu_worklist->setIcon(style()->standardIcon(
-                               QStyle::SP_FileLinkIcon));
   worklist_layout->setSpacing(0);
   worklist_layout->addWidget(qgbprod);
   connect(p_table_p,
           &QWidget::customContextMenuRequested, this,
           &city_dialog::display_worklist_menu);
-  connect(but_menu_worklist, &QAbstractButton::clicked, this, &city_dialog::delete_prod);
   connect(production_combo_p, &progress_bar::clicked, this, &city_dialog::show_targets);
   connect(work_add_but, &QAbstractButton::clicked, this, &city_dialog::show_targets_worklist);
   connect(work_prev_but, &QAbstractButton::clicked, this, &city_dialog::worklist_up);
@@ -2095,7 +2090,6 @@ void city_dialog::update_disabled()
     buy_button->setDisabled(true);
     cma_enable_but->setDisabled(true);
     production_combo_p->setDisabled(true);
-    but_menu_worklist->setDisabled(true);
     current_units->setDisabled(true);
     supported_units->setDisabled(true);
     view->setDisabled(true);
@@ -2108,7 +2102,6 @@ void city_dialog::update_disabled()
     buy_button->setEnabled(true);
     cma_enable_but->setEnabled(true);
     production_combo_p->setEnabled(true);
-    but_menu_worklist->setEnabled(true);
     current_units->setEnabled(true);
     supported_units->setEnabled(true);
     view->setEnabled(true);
@@ -3080,16 +3073,6 @@ void city_dialog::setup_ui(struct city *qcity)
   production_combo_p->blockSignals(true);
   refresh();
   production_combo_p->blockSignals(false);
-
-}
-
-
-/****************************************************************************
-  Removes selected item from city worklist
-****************************************************************************/
-void city_dialog::delete_prod()
-{
-  display_worklist_menu(QCursor::pos());
 }
 
 /****************************************************************************
@@ -3098,6 +3081,7 @@ void city_dialog::delete_prod()
 void city_dialog::dbl_click_p(QTableWidgetItem *item)
 {
   struct worklist queue;
+
   city_get_queue(pcity, &queue);
 
   if (selected_row_p < 0 || selected_row_p > worklist_length(&queue)) {
