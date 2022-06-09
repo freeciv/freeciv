@@ -141,7 +141,9 @@ void update_infra_dialog(void)
   if (infra_dialog_open()) {
     char buffer[100];
 
-    fc_snprintf(buffer, sizeof(buffer), _("%d infrapoints"),
+    fc_snprintf(buffer, sizeof(buffer),
+                PL_("%d infrapoint", "%d infrapoints",
+                    client.conn.playing->economic.infra_points),
                 client.conn.playing->economic.infra_points);
 
     gtk_label_set_text(GTK_LABEL(points_label), buffer);
