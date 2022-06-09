@@ -7,7 +7,7 @@
 # This script is licensed under Gnu General Public License version 2 or later.
 # See COPYING available from the same location you got this script.
 
-# Version 2.4.0 (30-Jan-22)
+# Version 2.4.1 (09-Jun-22)
 
 WINBUILD_VERSION="2.4.0"
 MIN_WINVER=0x0601 # Windows 7
@@ -124,15 +124,15 @@ else
   VERREV="win32-$VERREV"
 fi
 
-if test "x$SINGLE_GUI" != "xtrue" || test "x$2" = "xruledit" ; then
-  if grep "CROSSER_QT5" $DLLSPATH/crosser.txt | grep yes > /dev/null
-  then
-    QT5="yes"
-    QTVER="Qt5"
-  elif grep "CROSSER_QT6" $DLLSPATH/crosser.txt | grep yes > /dev/null
+if test "$SINGLE_GUI" != "true" || test "$2" = "ruledit" ; then
+  if grep "CROSSER_QT6" $DLLSPATH/crosser.txt | grep yes > /dev/null
   then
     QT6="yes"
     QTVER="Qt6"
+  elif grep "CROSSER_QT5" $DLLSPATH/crosser.txt | grep yes > /dev/null
+  then
+    QT5="yes"
+    QTVER="Qt5"
   fi
 fi
 

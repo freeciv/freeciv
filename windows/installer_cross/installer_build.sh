@@ -214,8 +214,8 @@ if test "x$GUI" = "xruledit" ; then
     exit 1
   fi
 
-  if ! add_qt5_env $DLLSPATH $INSTDIR ; then
-    echo "Copying Qt5 environment failed!" >&2
+  if ! add_qt6_env $DLLSPATH $INSTDIR ; then
+    echo "Copying Qt6 environment failed!" >&2
     exit 1
   fi
 

@@ -91,7 +91,7 @@ else
   SDL2="Success"
 fi
 
-if test "x$CROSSER_QT5" != "xyes" ; then
+if test "$CROSSER_QT6" != "yes" ; then
   RULEDIT="N/A"
 elif ! ./installer_build.sh $DLLSPATH ruledit ; then
   RET=1
