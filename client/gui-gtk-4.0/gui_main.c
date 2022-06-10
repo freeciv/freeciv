@@ -1808,7 +1808,10 @@ void ui_main(int argc, char **argv)
    * locale logic in gtk_init() causes problems with zh_CN (see PR#39475) */
   gtk_disable_setlocale();
 
-  gtk_init();
+  if (!gtk_init_check()) {
+    log_fatal(_("Failed to open graphical mode."));
+    exit(EXIT_FAILURE);
+  }
 
   gui_up = TRUE;
   fc_app = gtk_application_new(NULL, 0);

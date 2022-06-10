@@ -1711,7 +1711,10 @@ void ui_main(int argc, char **argv)
   gtk_disable_setlocale();
 
   /* GTK withdraw gtk options. Process GTK arguments */
-  gtk_init(&argc, &argv);
+  if (!gtk_init_check(&argc, &argv)) {
+    log_fatal(_("Failed to open graphical mode."));
+    exit(EXIT_FAILURE);
+  }
 
   toplevel = gtk_window_new(GTK_WINDOW_TOPLEVEL);
   gtk_window_set_position(GTK_WINDOW(toplevel), GTK_WIN_POS_CENTER);

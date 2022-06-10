@@ -633,13 +633,16 @@ int main(int argc, char *argv[])
   if (ui_options != -1) {
     load_install_info_lists(&fcmp);
 
-    gtk_init();
+    if (gtk_init_check()) {
+      fcmp_app = gtk_application_new(NULL, 0);
+      g_signal_connect(fcmp_app, "activate", G_CALLBACK(activate_gui), NULL);
+      g_application_run(G_APPLICATION(fcmp_app), 0, NULL);
 
-    fcmp_app = gtk_application_new(NULL, 0);
-    g_signal_connect(fcmp_app, "activate", G_CALLBACK(activate_gui), NULL);
-    g_application_run(G_APPLICATION(fcmp_app), 0, NULL);
+      g_object_unref(fcmp_app);
+    } else {
+      log_fatal(_("Failed to open graphical mode."));
+    }
 
-    g_object_unref(fcmp_app);
     close_mpdbs();
   }
 
