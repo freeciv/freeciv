@@ -1264,7 +1264,8 @@ bool transfer_city(struct player *ptaker, struct city *pcity,
 
     /* Restore any global improvement effects that this city confers */
     city_built_iterate(pcity, pimprove) {
-      city_add_improvement(pcity, pimprove);
+      city_add_improvement_with_gov_notice(pcity, pimprove,
+                                           _("Transfer of %s"));
     } city_built_iterate_end;
 
     /* Set production to something valid for pplayer, if not.
@@ -1438,7 +1439,8 @@ void city_build_free_buildings(struct city *pcity)
     if (first_city
         || (game.server.savepalace
             && improvement_has_flag(pimprove, IF_SAVE_SMALL_WONDER))) {
-      city_add_improvement(pcity, pimprove);
+      city_add_improvement_with_gov_notice(pcity, pimprove,
+                                           _("Free %s"));
       if (is_small_wonder(pimprove)) {
         has_small_wonders = TRUE;
       }
@@ -1458,7 +1460,8 @@ void city_build_free_buildings(struct city *pcity)
     if (first_city
         || (game.server.savepalace
             && improvement_has_flag(pimprove, IF_SAVE_SMALL_WONDER))) {
-      city_add_improvement(pcity, pimprove);
+      city_add_improvement_with_gov_notice(pcity, pimprove,
+                                           _("Free %s"));
       if (is_small_wonder(pimprove)) {
         has_small_wonders = TRUE;
       } else if (is_great_wonder(pimprove)) {
@@ -2882,9 +2885,13 @@ struct city
   }
   if (oldcity && oldcity != pcity) {
     city_remove_improvement(oldcity, pimprove);
+    city_add_improvement_with_gov_notice(pcity, pimprove,
+                                         _("Moving %s"));
+  } else {
+    city_add_improvement_with_gov_notice(pcity, pimprove,
+                                         _("Acquiring %s"));
   }
 
-  city_add_improvement(pcity, pimprove);
   return oldcity;
 }
 
@@ -3475,4 +3482,30 @@ int city_production_buy_gold_cost(const struct city *pcity)
   };
 
   return FC_INFINITY;
+}
+
+/************************************************************************//**
+  Add improvement to the city, notifying all players about the new
+  government forms it enables for them.
+****************************************************************************/
+void city_add_improvement_with_gov_notice(struct city *pcity,
+                                          const struct impr_type *pimprove,
+                                          const char *format)
+{
+  if (is_wonder(pimprove)) {
+    /* Only wonders may grant governments */
+    struct cur_govs_data *govs_data;
+    char buf[250];
+
+    govs_data = create_current_governments_data_all();
+    city_add_improvement(pcity, pimprove);
+
+    fc_snprintf(buf, sizeof(buf), format, improvement_name_translation(pimprove));
+
+    players_iterate_alive(pplayer) {
+      notify_new_government_options(pplayer, govs_data, buf);
+    } players_iterate_alive_end;
+  } else {
+    city_add_improvement(pcity, pimprove);
+  }
 }

@@ -1435,6 +1435,29 @@ struct cur_govs_data *create_current_governments_data(struct research *presearch
 }
 
 /************************************************************************//**
+  Create data block listing what are the current government options of
+  the all players.
+
+  Use free_current_governments_data() to free the returned data.
+****************************************************************************/
+struct cur_govs_data *create_current_governments_data_all(void)
+{
+  struct cur_govs_data *data = fc_malloc(sizeof(struct cur_govs_data));
+
+  data->players = fc_malloc(sizeof(*data->players) * player_slot_count());
+
+  players_iterate(pplayer) {
+    data->players[player_index(pplayer)].govs = fc_malloc(sizeof(bool) * government_count());
+    governments_iterate(pgov) {
+      data->players[player_index(pplayer)].govs[government_index(pgov)]
+        = can_change_to_government(pplayer, pgov);
+    } governments_iterate_end;
+  } players_iterate_end;
+
+  return data;
+}
+
+/************************************************************************//**
   Free the data block returned from the create_current_governments_data()
 ****************************************************************************/
 void free_current_governments_data(struct cur_govs_data *data)

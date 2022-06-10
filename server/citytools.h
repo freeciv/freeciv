@@ -125,4 +125,8 @@ void package_and_send_worker_tasks(struct city *pcity);
 
 int city_production_buy_gold_cost(const struct city *pcity);
 
+void city_add_improvement_with_gov_notice(struct city *pcity,
+                                          const struct impr_type *pimprove,
+                                          const char *format);
+
 #endif  /* FC__CITYTOOLS_H */

@@ -54,6 +54,7 @@ bool tech_transfer(struct player *plr_recv, struct player *plr_donor,
                    Tech_type_id tech);
 
 struct cur_govs_data *create_current_governments_data(struct research *presearch);
+struct cur_govs_data *create_current_governments_data_all(void);
 void free_current_governments_data(struct cur_govs_data *data);
 void notify_new_government_options(struct player *pplayer, struct cur_govs_data *data,
                                    const char *reason);

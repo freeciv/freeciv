@@ -2402,7 +2402,8 @@ static bool city_build_building(struct player *pplayer, struct city *pcity)
       pplayer->spaceship.modules++;
     } else {
       space_part = FALSE;
-      city_add_improvement(pcity, pimprove);
+      city_add_improvement_with_gov_notice(pcity, pimprove,
+                                           _("Completion of %s"));
     }
     cost = impr_build_shield_cost(pcity, pimprove);
     pcity->before_change_shields -= cost;
