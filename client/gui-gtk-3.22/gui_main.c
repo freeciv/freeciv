@@ -1843,7 +1843,10 @@ void ui_main(int argc, char **argv)
   gtk_disable_setlocale();
 
   /* GTK withdraw gtk options. Process GTK arguments */
-  gtk_init(&argc, &argv);
+  if (!gtk_init_check(&argc, &argv)) {
+    log_fatal(_("Failed to open graphical mode."));
+    exit(EXIT_FAILURE);
+  }
 
   dlg_tab_provider_prepare();
 
