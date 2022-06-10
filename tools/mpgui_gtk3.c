@@ -588,41 +588,44 @@ int main(int argc, char *argv[])
     load_install_info_lists(&fcmp);
 
     /* Process GTK arguments */
-    gtk_init(&ui_options, &argv);
+    if (gtk_init_check(&ui_options, &argv)) {
+      toplevel = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 
-    toplevel = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+      gtk_widget_realize(toplevel);
+      gtk_widget_set_name(toplevel, "Freeciv-modpack");
+      gtk_window_set_title(GTK_WINDOW(toplevel),
+                           _("Freeciv modpack installer (gtk3)"));
 
-    gtk_widget_realize(toplevel);
-    gtk_widget_set_name(toplevel, "Freeciv-modpack");
-    gtk_window_set_title(GTK_WINDOW(toplevel),
-                         _("Freeciv modpack installer (gtk3)"));
-
-    /* Keep the icon of the executable on Windows */
+      /* Keep the icon of the executable on Windows */
 #ifndef FREECIV_MSWINDOWS
-    {
-      /* Unlike main client, this only works if installed. Ignore any
-       * errors loading the icon. */
-      GError *err;
+      {
+        /* Unlike main client, this only works if installed. Ignore any
+         * errors loading the icon. */
+        GError *err;
 
-      (void) gtk_window_set_icon_from_file(GTK_WINDOW(toplevel), MPICON_PATH,
-                                           &err);
-    }
+        (void) gtk_window_set_icon_from_file(GTK_WINDOW(toplevel), MPICON_PATH,
+                                             &err);
+      }
 #endif /* FREECIV_MSWINDOWS */
 
-    g_signal_connect(toplevel, "delete_event",
-                     G_CALLBACK(quit_dialog_callback), NULL);
+      g_signal_connect(toplevel, "delete_event",
+                       G_CALLBACK(quit_dialog_callback), NULL);
 
-    modinst_setup_widgets(toplevel);
+      modinst_setup_widgets(toplevel);
 
-    gtk_widget_show_all(toplevel);
+      gtk_widget_show_all(toplevel);
 
-    if (fcmp.autoinstall != NULL) {
-      gui_download_modpack(fcmp.autoinstall);
+      if (fcmp.autoinstall != NULL) {
+        gui_download_modpack(fcmp.autoinstall);
+      }
+
+      gtk_main();
+
+      gtk_widget_destroy(toplevel);
+    } else {
+      log_fatal(_("Failed to open graphical mode."));
     }
 
-    gtk_main();
-
-    gtk_widget_destroy(toplevel);
     save_install_info_lists(&fcmp);
   }
 
