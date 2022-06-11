@@ -1392,7 +1392,7 @@ void city_map::context_menu(QPoint point)
     con_plant = con_menu->addAction(_("Plant"));
   }
   if (action_id_univs_not_blocking(ACTION_MINE, NULL, &for_terr)) {
-    con_mine = con_menu->addAction(_("Mine"));
+    con_mine = con_menu->addAction(Q_("?act:Mine"));
   }
 
   if (pterr->cultivate_result != NULL

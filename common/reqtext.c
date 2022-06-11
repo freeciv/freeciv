@@ -1790,11 +1790,11 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
         if (preq->present) {
           cat_snprintf(buf, bufsz,
                        _("Requires that the unit is performing activity %s."),
-                       _(unit_activity_name(preq->source.value.activity)));
+                       Q_(unit_activity_name(preq->source.value.activity)));
         } else {
           cat_snprintf(buf, bufsz,
                        _("Requires that the unit is not performing activity %s."),
-                       _(unit_activity_name(preq->source.value.activity)));
+                       Q_(unit_activity_name(preq->source.value.activity)));
         }
         return TRUE;
       case REQ_RANGE_TILE:
