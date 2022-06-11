@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -105,70 +105,70 @@ bool dio_get_uint16_vec8_json(struct connection *pc, struct data_in *din,
   dio_get_##f##_json(pc, d, l, ## __VA_ARGS__)
 
 /* puts */
-void dio_put_farray_json(struct json_data_out *dout,
-                         const struct plocation *location, int size);
+int dio_put_farray_json(struct json_data_out *dout,
+                        const struct plocation *location, int size);
 
-void dio_put_type_json(struct json_data_out *dout, enum data_type type,
-                       const struct plocation *location,
-                       int value);
+int dio_put_type_json(struct json_data_out *dout, enum data_type type,
+                      const struct plocation *location,
+                      int value);
 
-void dio_put_uint8_json(struct json_data_out *dout,
+int dio_put_uint8_json(struct json_data_out *dout,
+                       const struct plocation *location, int value);
+int dio_put_sint8_json(struct json_data_out *dout,
+                       const struct plocation *location, int value);
+int dio_put_uint16_json(struct json_data_out *dout,
                         const struct plocation *location, int value);
-void dio_put_sint8_json(struct json_data_out *dout,
+int dio_put_sint16_json(struct json_data_out *dout,
                         const struct plocation *location, int value);
-void dio_put_uint16_json(struct json_data_out *dout,
-                         const struct plocation *location, int value);
-void dio_put_sint16_json(struct json_data_out *dout,
-                         const struct plocation *location, int value);
-void dio_put_uint32_json(struct json_data_out *dout,
-                         const struct plocation *location, int value);
-void dio_put_sint32_json(struct json_data_out *dout,
-                         const struct plocation *location, int value);
-void dio_put_bool8_json(struct json_data_out *dout,
+int dio_put_uint32_json(struct json_data_out *dout,
+                        const struct plocation *location, int value);
+int dio_put_sint32_json(struct json_data_out *dout,
+                        const struct plocation *location, int value);
+int dio_put_bool8_json(struct json_data_out *dout,
+                       const struct plocation *location, bool value);
+int dio_put_bool32_json(struct json_data_out *dout,
                         const struct plocation *location, bool value);
-void dio_put_bool32_json(struct json_data_out *dout,
-                         const struct plocation *location, bool value);
-void dio_put_ufloat_json(struct json_data_out *dout,
-                         const struct plocation *location,
-                         float value, int float_factor);
-void dio_put_sfloat_json(struct json_data_out *dout,
-                         const struct plocation *location,
-                         float value, int float_factor);
+int dio_put_ufloat_json(struct json_data_out *dout,
+                        const struct plocation *location,
+                        float value, int float_factor);
+int dio_put_sfloat_json(struct json_data_out *dout,
+                        const struct plocation *location,
+                        float value, int float_factor);
 
-void dio_put_memory_json(struct json_data_out *dout,
-                         struct plocation *location,
-                         const void *value, size_t size);
-void dio_put_string_json(struct json_data_out *dout,
+int dio_put_memory_json(struct json_data_out *dout,
+                        struct plocation *location,
+                        const void *value, size_t size);
+int dio_put_string_json(struct json_data_out *dout,
+                        const struct plocation *location,
+                        const char *value);
+int dio_put_estring_json(struct json_data_out *dout,
                          const struct plocation *location,
                          const char *value);
-void dio_put_estring_json(struct json_data_out *dout,
+int dio_put_city_map_json(struct json_data_out *dout,
                           const struct plocation *location,
                           const char *value);
-void dio_put_city_map_json(struct json_data_out *dout,
-                           const struct plocation *location,
-                           const char *value);
-void dio_put_cm_parameter_json(struct json_data_out *dout,
-                               struct plocation *location,
-                               const struct cm_parameter *order);
-void dio_put_unit_order_json(struct json_data_out *dout,
-                             struct plocation *location,
-                             const struct unit_order *order);
-void dio_put_worklist_json(struct json_data_out *dout,
-                           struct plocation *location,
-                           const struct worklist *pwl);
-void dio_put_requirement_json(struct json_data_out *dout,
-                              const struct plocation *location,
-                              const struct requirement *preq);
-void dio_put_action_probability_json(struct json_data_out *dout,
-                                     const struct plocation *location,
-                                     const struct act_prob *prob);
+int dio_put_cm_parameter_json(struct json_data_out *dout,
+                              struct plocation *location,
+                              const struct cm_parameter *order);
+int dio_put_unit_order_json(struct json_data_out *dout,
+                            struct plocation *location,
+                            const struct unit_order *order);
+int dio_put_worklist_json(struct json_data_out *dout,
+                          struct plocation *location,
+                          const struct worklist *pwl);
+int dio_put_requirement_json(struct json_data_out *dout,
+                             const struct plocation *location,
+                             const struct requirement *preq);
+int dio_put_action_probability_json(struct json_data_out *dout,
+                                    const struct plocation *location,
+                                    const struct act_prob *prob);
 
-void dio_put_uint8_vec8_json(struct json_data_out *dout,
+int dio_put_uint8_vec8_json(struct json_data_out *dout,
+                            const struct plocation *location,
+                            int *values, int stop_value);
+int dio_put_uint16_vec8_json(struct json_data_out *dout,
                              const struct plocation *location,
                              int *values, int stop_value);
-void dio_put_uint16_vec8_json(struct json_data_out *dout,
-                              const struct plocation *location,
-                              int *values, int stop_value);
 
 /* Should be a function but we need some macro magic. */
 #define DIO_BV_PUT(pdout, location, bv) \

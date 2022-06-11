@@ -627,6 +627,7 @@ class Field:
             return """
     {{
       int i;
+      int e = 0;
 
 #ifdef FREECIV_JSON_CONNECTION
       int count = 0;
@@ -637,7 +638,7 @@ class Field:
         }}
       }}
       /* Create the array. */
-      DIO_PUT(farray, &dout, &field_addr, count + 1);
+      e |= DIO_PUT(farray, &dout, &field_addr, count + 1);
 
       /* Enter array. */
       field_addr.sub_location = plocation_elem_new(0);
@@ -654,18 +655,18 @@ class Field:
           field_addr.sub_location->number = count - 1;
 
           /* Create the diff array element. */
-          DIO_PUT(farray, &dout, &field_addr, 2);
+          e |= DIO_PUT(farray, &dout, &field_addr, 2);
 
           /* Enter diff array element (start at the index address). */
           field_addr.sub_location->sub_location = plocation_elem_new(0);
 #endif /* FREECIV_JSON_CONNECTION */
-          DIO_PUT(uint8, &dout, &field_addr, i);
+          e |= DIO_PUT(uint8, &dout, &field_addr, i);
 
 #ifdef FREECIV_JSON_CONNECTION
           /* Content address. */
           field_addr.sub_location->sub_location->number = 1;
 #endif /* FREECIV_JSON_CONNECTION */
-          {c}
+          e |= {c}
 
 #ifdef FREECIV_JSON_CONNECTION
           /* Exit diff array element. */
@@ -678,14 +679,18 @@ class Field:
       field_addr.sub_location->number = count - 1;
 
       /* Create the diff array element. */
-      DIO_PUT(farray, &dout, &field_addr, {self.array_size_u});
+      e |= DIO_PUT(farray, &dout, &field_addr, {self.array_size_u});
 
       /* Enter diff array element. Point to index address. */
       field_addr.sub_location->sub_location = plocation_elem_new(0);
 #endif /* FREECIV_JSON_CONNECTION */
-      DIO_PUT(uint8, &dout, &field_addr, 255);
+      e |= DIO_PUT(uint8, &dout, &field_addr, 255);
 
+      if (e) {{
+        log_packet_detailed("{self.name} field error detected");
+      }}
 #ifdef FREECIV_JSON_CONNECTION
+
       /* Exit diff array element. */
       free(field_addr.sub_location->sub_location);
       field_addr.sub_location->sub_location = NULL;

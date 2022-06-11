@@ -187,63 +187,71 @@ static json_t *plocation_read_data(json_t *item,
 /**********************************************************************//**
   Insert 8 bit value with json.
 **************************************************************************/
-void dio_put_uint8_json(struct json_data_out *dout,
-                        const struct plocation *location,
-                        int value)
+int dio_put_uint8_json(struct json_data_out *dout,
+                       const struct plocation *location,
+                       int value)
 {
   if (dout->json) {
     plocation_write_data(dout->json, location, json_integer(value));
   } else {
     dio_put_uint8_raw(&dout->raw, value);
   }
+
+  return 0;
 }
 
 /**********************************************************************//**
   Insert 8 bit value with json.
 **************************************************************************/
-void dio_put_sint8_json(struct json_data_out *dout,
-                        const struct plocation *location,
-                        int value)
+int dio_put_sint8_json(struct json_data_out *dout,
+                       const struct plocation *location,
+                       int value)
 {
   if (dout->json) {
     plocation_write_data(dout->json, location, json_integer(value));
   } else {
     dio_put_sint8_raw(&dout->raw, value);
   }
+
+  return 0;
 }
 
 /**********************************************************************//**
   Insert value using 32 bits. May overflow.
 **************************************************************************/
-void dio_put_uint16_json(struct json_data_out *dout,
-                         const struct plocation *location, int value)
+int dio_put_uint16_json(struct json_data_out *dout,
+                        const struct plocation *location, int value)
 {
   if (dout->json) {
     plocation_write_data(dout->json, location, json_integer(value));
   } else {
     dio_put_uint16_raw(&dout->raw, value);
   }
+
+  return 0;
 }
 
 /**********************************************************************//**
   Insert value using 32 bits. May overflow.
 **************************************************************************/
-void dio_put_sint16_json(struct json_data_out *dout,
-                         const struct plocation *location, int value)
+int dio_put_sint16_json(struct json_data_out *dout,
+                        const struct plocation *location, int value)
 {
   if (dout->json) {
     plocation_write_data(dout->json, location, json_integer(value));
   } else {
     dio_put_sint16_raw(&dout->raw, value);
   }
+
+  return 0;
 }
 
 /**********************************************************************//**
   Insert the given cm_parameter struct
 **************************************************************************/
-void dio_put_cm_parameter_json(struct json_data_out *dout,
-                               struct plocation *location,
-                               const struct cm_parameter *param)
+int dio_put_cm_parameter_json(struct json_data_out *dout,
+                              struct plocation *location,
+                              const struct cm_parameter *param)
 {
   if (dout->json) {
     json_t *obj = json_object();
@@ -273,14 +281,16 @@ void dio_put_cm_parameter_json(struct json_data_out *dout,
   } else {
     dio_put_cm_parameter_raw(&dout->raw, param);
   }
+
+  return 0;
 }
 
 /**********************************************************************//**
   Insert the given unit_order struct
 **************************************************************************/
-void dio_put_unit_order_json(struct json_data_out *dout,
-                             struct plocation *location,
-                             const struct unit_order *order)
+int dio_put_unit_order_json(struct json_data_out *dout,
+                            struct plocation *location,
+                            const struct unit_order *order)
 {
   if (dout->json) {
     json_t *obj = json_object();
@@ -299,14 +309,16 @@ void dio_put_unit_order_json(struct json_data_out *dout,
   } else {
     dio_put_unit_order_raw(&dout->raw, order);
   }
+
+  return 0;
 }
 
 /**********************************************************************//**
   Insert worklist information.
 **************************************************************************/
-void dio_put_worklist_json(struct json_data_out *dout,
-                           struct plocation *location,
-                           const struct worklist *pwl)
+int dio_put_worklist_json(struct json_data_out *dout,
+                          struct plocation *location,
+                          const struct worklist *pwl)
 {
   if (dout->json) {
     int i;
@@ -334,6 +346,8 @@ void dio_put_worklist_json(struct json_data_out *dout,
   } else {
     dio_put_worklist_raw(&dout->raw, pwl);
   }
+
+  return 0;
 }
 
 /**********************************************************************//**
@@ -827,8 +841,8 @@ bool dio_get_action_probability_json(struct connection *pc, struct data_in *din,
 /**********************************************************************//**
   Create an empty field array.
 **************************************************************************/
-void dio_put_farray_json(struct json_data_out *dout,
-                         const struct plocation *location, int size)
+int dio_put_farray_json(struct json_data_out *dout,
+                        const struct plocation *location, int size)
 {
   if (dout->json) {
     int i;
@@ -844,94 +858,108 @@ void dio_put_farray_json(struct json_data_out *dout,
   } else {
     /* No caller needs this */
   }
+
+  return 0;
 }
 
 /**********************************************************************//**
   Insert uint32 value.
 **************************************************************************/
-void dio_put_uint32_json(struct json_data_out *dout,
-                         const struct plocation *location, int value)
+int dio_put_uint32_json(struct json_data_out *dout,
+                        const struct plocation *location, int value)
 {
   if (dout->json) {
     plocation_write_data(dout->json, location, json_integer(value));
   } else {
     dio_put_uint32_raw(&dout->raw, value);
   }
+
+  return 0;
 }
 
 /**********************************************************************//**
   Insert sint32 value.
 **************************************************************************/
-void dio_put_sint32_json(struct json_data_out *dout,
-                         const struct plocation *location, int value)
+int dio_put_sint32_json(struct json_data_out *dout,
+                        const struct plocation *location, int value)
 {
   if (dout->json) {
     plocation_write_data(dout->json, location, json_integer(value));
   } else {
     dio_put_sint32_raw(&dout->raw, value);
   }
+
+  return 0;
 }
 
 /**********************************************************************//**
   Insert bool value.
 **************************************************************************/
-void dio_put_bool8_json(struct json_data_out *dout,
-                        const struct plocation *location, bool value)
+int dio_put_bool8_json(struct json_data_out *dout,
+                       const struct plocation *location, bool value)
 {
   if (dout->json) {
     plocation_write_data(dout->json, location, value ? json_true() : json_false());
   } else {
     dio_put_bool8_raw(&dout->raw, value);
   }
+
+  return 0;
 }
 
 /**********************************************************************//**
   Insert bool value.
 **************************************************************************/
-void dio_put_bool32_json(struct json_data_out *dout,
-                         const struct plocation *location, bool value)
+int dio_put_bool32_json(struct json_data_out *dout,
+                        const struct plocation *location, bool value)
 {
   if (dout->json) {
     plocation_write_data(dout->json, location, value ? json_true() : json_false());
   } else {
     dio_put_bool32_raw(&dout->raw, value);
   }
+
+  return 0;
 }
 
 /**********************************************************************//**
   Insert unsigned floating point value.
 **************************************************************************/
-void dio_put_ufloat_json(struct json_data_out *dout,
-                         const struct plocation *location,
-                         float value, int float_factor)
+int dio_put_ufloat_json(struct json_data_out *dout,
+                        const struct plocation *location,
+                        float value, int float_factor)
 {
   if (dout->json) {
     plocation_write_data(dout->json, location, json_real(value));
   } else {
     dio_put_ufloat_raw(&dout->raw, value, float_factor);
   }
+
+  return 0;
 }
 
 /**********************************************************************//**
   Insert signed floating point value.
 **************************************************************************/
-void dio_put_sfloat_json(struct json_data_out *dout,
-                         const struct plocation *location,
-                         float value, int float_factor)
+int dio_put_sfloat_json(struct json_data_out *dout,
+                        const struct plocation *location,
+                        float value, int float_factor)
 {
   if (dout->json) {
     plocation_write_data(dout->json, location, json_real(value));
   } else {
     dio_put_sfloat_raw(&dout->raw, value, float_factor);
   }
+
+  return 0;
 }
 
 /**********************************************************************//**
   Insert vector of uint8 values, terminated by stop_value.
 **************************************************************************/
-void dio_put_uint8_vec8_json(struct json_data_out *dout,
-                             const struct plocation *location,
-                             int *values, int stop_value)
+int dio_put_uint8_vec8_json(struct json_data_out *dout,
+                            const struct plocation *location,
+                            int *values, int stop_value)
 {
   if (dout->json) {
     /* TODO: implement. */
@@ -939,14 +967,16 @@ void dio_put_uint8_vec8_json(struct json_data_out *dout,
   } else {
     dio_put_uint8_vec8_raw(&dout->raw, values, stop_value);
   }
+
+  return 0;
 }
 
 /**********************************************************************//**
   Insert vector of uint16 values, terminated by stop_value.
 **************************************************************************/
-void dio_put_uint16_vec8_json(struct json_data_out *dout,
-                              const struct plocation *location, int *values,
-                              int stop_value)
+int dio_put_uint16_vec8_json(struct json_data_out *dout,
+                             const struct plocation *location, int *values,
+                             int stop_value)
 {
   if (dout->json) {
     /* TODO: implement. */
@@ -954,15 +984,17 @@ void dio_put_uint16_vec8_json(struct json_data_out *dout,
   } else {
     dio_put_uint16_vec8_raw(&dout->raw, values, stop_value);
   }
+
+  return 0;
 }
 
 /**********************************************************************//**
   Send block of memory as byte array.
 **************************************************************************/
-void dio_put_memory_json(struct json_data_out *dout,
-                         struct plocation *location,
-                         const void *value,
-                         size_t size)
+int dio_put_memory_json(struct json_data_out *dout,
+                        struct plocation *location,
+                        const void *value,
+                        size_t size)
 {
   if (dout->json) {
     int i;
@@ -982,28 +1014,32 @@ void dio_put_memory_json(struct json_data_out *dout,
   } else {
     dio_put_memory_raw(&dout->raw, value, size);
   }
+
+  return 0;
 }
 
 /**********************************************************************//**
   Insert NULL-terminated string.
 **************************************************************************/
-void dio_put_string_json(struct json_data_out *dout,
-                         const struct plocation *location,
-                         const char *value)
+int dio_put_string_json(struct json_data_out *dout,
+                        const struct plocation *location,
+                        const char *value)
 {
   if (dout->json) {
     plocation_write_data(dout->json, location, json_string(value));
   } else {
     dio_put_string_raw(&dout->raw, value);
   }
+
+  return 0;
 }
 
 /**********************************************************************//**
   Encode and write the specified string to the specified location.
 **************************************************************************/
-void dio_put_estring_json(struct json_data_out *dout,
-                          const struct plocation *location,
-                          const char *value)
+int dio_put_estring_json(struct json_data_out *dout,
+                         const struct plocation *location,
+                         const char *value)
 {
   if (dout->json) {
     char *escaped_value;
@@ -1019,14 +1055,16 @@ void dio_put_estring_json(struct json_data_out *dout,
   } else {
     dio_put_estring_raw(&dout->raw, value);
   }
+
+  return 0;
 }
 
 /**********************************************************************//**
   Insert a single requirement.
 **************************************************************************/
-void dio_put_requirement_json(struct json_data_out *dout,
-                              const struct plocation *location,
-                              const struct requirement *preq)
+int dio_put_requirement_json(struct json_data_out *dout,
+                             const struct plocation *location,
+                             const struct requirement *preq)
 {
   if (dout->json) {
     int kind, range, value;
@@ -1054,14 +1092,16 @@ void dio_put_requirement_json(struct json_data_out *dout,
   } else {
     dio_put_requirement_raw(&dout->raw, preq);
   }
+
+  return 0;
 }
 
 /**********************************************************************//**
   Serialize an action probability.
 **************************************************************************/
-void dio_put_action_probability_json(struct json_data_out *dout,
-                                     const struct plocation *location,
-                                     const struct act_prob *prob)
+int dio_put_action_probability_json(struct json_data_out *dout,
+                                    const struct plocation *location,
+                                    const struct act_prob *prob)
 {
   if (dout->json) {
     /* Create the action probability object. */
@@ -1077,6 +1117,8 @@ void dio_put_action_probability_json(struct json_data_out *dout,
   } else {
     dio_put_action_probability_raw(&dout->raw, prob);
   }
+
+  return 0;
 }
 
 /**********************************************************************//**
