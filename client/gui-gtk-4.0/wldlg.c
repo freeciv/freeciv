@@ -1237,8 +1237,11 @@ GtkWidget *create_worklist(void)
   g_signal_connect(menu, "show",
                    G_CALLBACK(popup_add_menu), ptr);
   ptr->add_cmd = item;
-#endif /* MENUS_GTK3 */
   gtk_widget_set_sensitive(ptr->add_cmd, FALSE);
+#else  /* MENUS_GTK3 */
+  /* Dummy (non-NULL) add_cmd widget */
+  ptr->add_cmd = gtk_label_new("Dummy");
+#endif /* MENUS_GTK3 */
 
   button = icon_label_button_new("help-browser", _("Help"));
   gtk_box_append(GTK_BOX(bbox), button);
