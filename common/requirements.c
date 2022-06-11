@@ -4504,7 +4504,7 @@ const char *universal_name_translation(const struct universal *psource,
     return buf;
   case VUT_ACTIVITY:
     cat_snprintf(buf, bufsz, _("%s activity"),
-                 _(unit_activity_name(psource->value.activity)));
+                 Q_(unit_activity_name(psource->value.activity)));
     return buf;
   case VUT_MINMOVES:
     /* TRANS: Minimum unit movement points left for requirement to be met

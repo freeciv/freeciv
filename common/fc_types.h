@@ -109,7 +109,7 @@ enum output_type_id {
 #define SPECENUM_VALUE2NAME "Unused Road"
 /* Action with the result ACTRES_CULTIVATE */
 #define SPECENUM_VALUE3 ACTIVITY_MINE
-#define SPECENUM_VALUE3NAME N_("Mine")
+#define SPECENUM_VALUE3NAME N_("?act:Mine")
 /* Action with the result ACTRES_IRRIGATE */
 #define SPECENUM_VALUE4 ACTIVITY_IRRIGATE
 #define SPECENUM_VALUE4NAME N_("Irrigate")

@@ -2954,7 +2954,7 @@ static void popup_workertask_dlg(struct city *pcity, struct tile *ptile)
     }
 
     if (action_id_univs_not_blocking(ACTION_MINE, NULL, &for_terr)) {
-      choice_dialog_add(shl, _("Mine"),
+      choice_dialog_add(shl, Q_("?act:Mine"),
                         G_CALLBACK(set_city_workertask),
                         GINT_TO_POINTER(ACTIVITY_MINE), FALSE, NULL);
     }
