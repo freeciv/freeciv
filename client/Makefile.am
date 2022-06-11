@@ -14,14 +14,14 @@ GUI_SUBDIRS += gui-sdl2
 desktopfile_DATA += \
 	org.freeciv.sdl2.desktop
 metainfofile_DATA += \
-	org.freeciv.sdl2.appdata.xml
+	org.freeciv.sdl2.metainfo.xml
 endif
 if CLIENT_GUI_GTK_3_22
 GUI_SUBDIRS += gui-gtk-3.22
 desktopfile_DATA += \
 	org.freeciv.gtk322.desktop
 metainfofile_DATA += \
-	org.freeciv.gtk322.appdata.xml
+	org.freeciv.gtk322.metainfo.xml
 endif
 if CLIENT_GUI_GTK_4
 GUI_SUBDIRS += gui-gtk-4.0
@@ -31,7 +31,7 @@ GUI_SUBDIRS += gui-qt
 desktopfile_DATA += \
 	org.freeciv.qt.desktop
 metainfofile_DATA += \
-	org.freeciv.qt.appdata.xml
+	org.freeciv.qt.metainfo.xml
 endif
 if CLIENT_GUI_STUB
 GUI_SUBDIRS += gui-stub

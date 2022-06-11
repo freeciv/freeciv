@@ -188,4 +188,4 @@ desktopfile_DATA = \
 
 metainfofiledir = @METAINFODIR@
 metainfofile_DATA = \
-	org.freeciv.server.appdata.xml
+	org.freeciv.server.metainfo.xml
