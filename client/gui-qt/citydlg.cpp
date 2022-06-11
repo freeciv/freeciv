@@ -1312,7 +1312,7 @@ void city_map::context_menu(QPoint point)
   QAction con_irrig_tf(_("Irrigate"), this);
   QAction con_irrig(_("Irrigate"), this);
   QAction con_mine_tf(_("Plant"), this);
-  QAction con_mine(_("Mine"), this);
+  QAction con_mine(Q_("?act:Mine"), this);
   QAction con_road(_("Road"), this);
   QAction con_trfrm(_("Transform"), this);
   QAction con_pollution(_("Clean Pollution"), this);

@@ -1157,7 +1157,7 @@ further bonus.\
 ")
 
 [extra_mine]
-name           = _("Mine")
+name           = _("?extra:Mine")
 category       = "Infra"
 causes         = "Mine"
 rmcauses       = "Pillage"

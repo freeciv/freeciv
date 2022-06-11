@@ -2986,7 +2986,7 @@ static void popup_workertask_dlg(struct city *pcity, struct tile *ptile)
          && effect_cumulative_max(EFT_MINING_POSSIBLE, &for_terr) > 0)
         || (pterr->mining_result != pterr && pterr->mining_result != NULL
             && effect_cumulative_max(EFT_MINING_TF_POSSIBLE, &for_terr) > 0)) {
-      choice_dialog_add(shl, _("Mine"),
+      choice_dialog_add(shl, Q_("?act:Mine"),
                         G_CALLBACK(set_city_workertask),
                         GINT_TO_POINTER(ACTIVITY_MINE), FALSE, NULL);
     }
