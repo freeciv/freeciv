@@ -1,10 +1,170 @@
 ========================
-Welcome to Freeciv 3.0.1
+Welcome to Freeciv 3.0.2
 ========================
 
 The changes in the 3.0.x series are summarised below.
 For changes prior to 3.0, see NEWS. For more detailed changes,
 see the ChangeLog file.
+
+
+CHANGES FROM 3.0.1 to 3.0.2
+---------------------------
+
+   (from <http://www.freeciv.org/wiki/NEWS-3.0.2>, 2022-06-11)
+
+3.0.2 is a generic bugfix release.
+
+Server / General
+
+    * Savegame integrity check improvements osdn#44211
+    * Improved the way lua variables are included to the savegame osdn#44447
+
+Changes affecting players (supplied rulesets)
+
+    * Also unit's further orders are cancelled, not only the current one,
+      when it turns illegal osdn#44370 osdn#44504 osdn#44519
+    * Unit upgrade is disallowed when it's in the process of converting
+      osdn#43328
+    * Activities illegal for the new unit type are cancelled after
+      unit upgrade and conversion osdn#44410
+    * When a city is disbanded to an unit, and that unit cannot stay
+      at the spot, it now can escape to neighboring tile HRM#692482
+    * Supplied scenarios have been refreshed to match how 3.0.1 saves them
+      osdn#44152
+    * Destroyed cities are now removed from the maps of players seeing them
+      through Reveal_Cities' effect, like then one civ1 ruleset
+      Apollo Program gives osdn#444028
+    * Fixed generated team names like Team 1 to be consistent which team
+      they refer to in all situations osdn#44382
+    * Corrected the number of "other units killed" when the attacked tile
+      has also unreachable units osdn#44416
+    * Fixed bookkeeping of number of techs known, when one is about to
+      receive a tech but fails to do so.
+      This affects research cost of later techs osdn#44593
+    * Prevented startunits setting from creating multiple units of a type
+      that is supposed to be unique osdn#44685
+    * Fixed the player created by a civil war to have as many future techs
+      as the original player osdn#44737
+
+    * experimental
+         + Upkeep of Engineers is now switched to gold once the player
+           knows The Corporation osdn#43848
+
+    * Europe 1900 WWI scenario
+         + Added missing information for tex AI module osdn#44445
+
+Changes affecting other rulesets / modders
+
+    * Check that resources have "extra" defined now works correctly osdn#44191
+    * Fixed zombies appearing on the client side when unit was created by lua
+      upon receiving "unit_lost" signal HRM#867958
+    * Made lua city creation methods to not allow illegal city placement
+      osdn#44508
+    * Improved ruleset load time checking against illegal city_size values
+      for units for which it's relevant osdn#44730
+    * Log messages about ruleset errors are less likely to get cut.
+      They can now be as long as other log messages osdn#44704
+
+Changes affecting server operators
+
+    * Fixed /create command used midgame not to assume that there's
+      a dead player's slot for it to take when there is not osdn#44495
+    * maxplayers setting can now be changed also after the game has started
+      osdn#44567
+    * /create command used midgame now respects maxplayers setting osdn#44185
+
+Low-level changes
+
+    * Improved freeciv's idea of what are the minimum and maximum values
+      an effect can ever reach in a given ruleset. This allows both
+      gui and AI to adjust better to the ruleset osdn#44303
+    * Fixed chance for a diplomat to win a battle sometimes being over 100%
+      osdn#44291
+
+General
+
+    * Minor optimizations osdn#44089 osdn#43432 osdn#44090
+    * Fixed memory leaks osdn#44492 osdn#44432 osdn#44618 osdn#44682
+    * Various internal changes which should only affect developers.
+      HRM#700913 osdn#41785 osdn#44130 osdn#44212 osdn#44178 osdn#44415
+      osdn#43620 osdn#43900 osdn#44547 osdn#43970 osdn#44404
+
+Clients
+
+    * Client now sends the governors data to the server just before it
+      requests saving the game, so more up-to-date data will be saved
+      osdn#44304
+    * freeciv-3.1 development version scenarios are no longer listed as
+      compatible with freeciv-3.0 osdn#44452
+    * Fixed potential crash when unit awaiting details of its orders dies
+      osdn#44757
+
+    * gtk
+          +Added tooltip for the "Size" line in the city dialog osdn#44515
+
+    * qt
+         + Added tooltip for the "Size" line in the city dialog osdn#44409
+         + Fixed memory handling problem in server list display osdn#44421
+         + Fixed option dialog crash osdn#44484
+
+    * sdl2
+         + Fixed memory handling problem when the diplomacy dialogs
+           are being closed osdn#44687
+
+Tools
+Ruledit
+
+    * Have the "same name" toggle consistenly toggled initially in all tabs
+      osdn#44140
+    * Made the initial size of the window bigger HRM#721403
+
+Ruleup
+
+    * Fixed rare case of some resources not loading correctly from
+      a 2.6 ruleset osdn#44190
+    * Fixed upgrading activities of units doing terrain transforming
+      Irrigation on Mine activitity in a 2.6 ruleset osdn#44591
+
+Tilesets, Art, etc
+
+    * Corrected/updated flag file formats osdn#44427 osdn#44619 osdn#44701
+
+Help / Documentation
+
+    * Vulnerability reporting email address updated osdn#44479
+    * Miscellaneous improvements to in-game text and user documentation.
+      osdn#44194 osdn#44331 osdn#44120 osdn#44438 osdn#44473
+    * Miscellaneous changes to developer/install/ruleset docs.
+      osdn#44309 osdn#44039 osdn#44453 osdn#43945
+
+Translations
+
+    * Updated translations: Catalan, Finnish, German
+    * Updated translations:
+         + Complete translations: French, Polish, Russian
+         + Incomplete translations:
+           Catalan (99% core, 100% nations, 100% ruledit)
+           Finnish (100% core, 91% nations, 100% ruledit)
+           German (76% core, 85% nations, 5% ruledit)
+    * Marked strings for translations where they erroneously were not.
+      osdn#44556
+
+Build/portability
+
+    * Natural languages (translations) support now works on
+      crosser-based Qt-client installers osdn#44293 osdn#44294 osdn#44292
+    * Applied CVE-2022-28805 fix to included lua osdn#44467
+    * Improved macOS configure options for building Qt-programs
+         + Added new --with-qt5-framework option osdn#44412
+         + Fixed --with-qt5-framework-bin option osdn#44422
+    * Fixed compiler warnings from builds where asserts are not enabled
+      osdn#44395 osdn#43868
+    * Fixed some clang analyzer warnings osdn#44449 osdn#44437 osdn#44569
+    * Appdata files have been renamed as org.freeciv.*.appdata.xml osdn#44466
+    * project_license field has been added to appdata files osdn#44712
+    * Fixed compiler warnings from clang-15 (development version)
+      osdn#44563 osdn#44564
+    * Added support for flatpak packaging osdn#44463
 
 
 CHANGES FROM 3.0.0 to 3.0.1
