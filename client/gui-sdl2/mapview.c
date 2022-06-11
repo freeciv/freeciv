@@ -74,7 +74,7 @@ int overview_start_x = 0;
 int overview_start_y = 0;
 
 static struct canvas *overview_canvas;
-static struct canvas *city_map_canvas;
+static struct canvas *city_map_canvas = NULL;
 static struct canvas *terrain_canvas;
 
 /* ================================================================ */
@@ -1172,20 +1172,28 @@ void tileset_changed(void)
    ===================================================================== */
 
 /**************************************************************************
+  Free memory allocated for the city map canvas
+**************************************************************************/
+void city_map_canvas_free(void)
+{
+  if (city_map_canvas != NULL) {
+    canvas_free(city_map_canvas);
+    city_map_canvas = NULL;
+  }
+}
+
+/**************************************************************************
   Create new city map surface.
 **************************************************************************/
 SDL_Surface *create_city_map(struct city *pcity)
 {
-  /* city map dimensions might have changed, so create a new canvas each time */
+  /* City map dimensions might have changed, so create a new canvas each time */
+  city_map_canvas_free();
 
-  if (city_map_canvas) {
-    canvas_free(city_map_canvas);
-  }
-
-  city_map_canvas = canvas_create(get_citydlg_canvas_width(), 
+  city_map_canvas = canvas_create(get_citydlg_canvas_width(),
                                   get_citydlg_canvas_height());
 
-  city_dialog_redraw_map(pcity, city_map_canvas);  
+  city_dialog_redraw_map(pcity, city_map_canvas);
 
   return city_map_canvas->surf;
 }
