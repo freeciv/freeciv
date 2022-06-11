@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -20,6 +20,7 @@
 extern "C" {
 #endif /* __cplusplus */
 
+/* utility */
 #include "support.h"            /* bool type */
 
 /* Undefine this if you don't want timing measurements to appear in logs.
@@ -37,14 +38,15 @@ extern "C" {
 #endif
 
 enum timer_timetype {
-  TIMER_CPU,			/* time spent by the CPU */
-  TIMER_USER			/* time as seen by the user ("wall clock") */
+  TIMER_CPU,                    /* Time spent by the CPU */
+  TIMER_USER                    /* Time as seen by the user ("wall clock") */
 };
 
 enum timer_use {
-  TIMER_ACTIVE,			/* use this timer */
-  TIMER_IGNORE			/* ignore this timer */
+  TIMER_ACTIVE,                 /* Use this timer */
+  TIMER_IGNORE                  /* Ignore this timer */
 };
+
 /*
  * TIMER_IGNORE is to leave a timer in the code, but not actually
  * use it, and not make any time-related system calls for it.
@@ -59,7 +61,7 @@ enum timer_use {
 #define TIMER_DEBUG TIMER_IGNORE
 #endif
 
-struct timer;		/* opaque type; see comments in timing.c */
+struct timer;           /* opaque type; see comments in timing.c */
 
 #define SPECLIST_TAG timer
 #define SPECLIST_TYPE struct timer
@@ -71,7 +73,7 @@ struct timer;		/* opaque type; see comments in timing.c */
 
 struct timer *timer_new(enum timer_timetype type, enum timer_use use);
 struct timer *timer_renew(struct timer *t, enum timer_timetype type,
-			  enum timer_use use);
+                          enum timer_use use);
 
 void timer_destroy(struct timer *t);
 bool timer_in_use(struct timer *t);
@@ -88,4 +90,4 @@ void timer_usleep_since_start(struct timer *t, long usec);
 }
 #endif /* __cplusplus */
 
-#endif  /* FC__TIMER_H */
+#endif /* FC__TIMER_H */

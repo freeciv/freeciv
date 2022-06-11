@@ -11,7 +11,7 @@
    GNU General Public License for more details.
 ***********************************************************************/
 
-/********************************************************************** 
+/***********************************************************************
   Measuring times; original author: David Pfitzner <dwp@mso.anu.edu.au>
 
   We assume we have at least ANSI/ISO C timing functions, so
@@ -52,13 +52,13 @@
 #endif
 
 #ifdef HAVE_FTIME
-# include <sys/timeb.h>
+#include <sys/timeb.h>
 #endif
 
 /* utility */
 #include "log.h"
 #include "mem.h"
-#include "shared.h"		/* TRUE, FALSE */
+#include "shared.h"    /* TRUE, FALSE */
 #include "support.h"
 
 #include "timing.h"
@@ -67,11 +67,11 @@
 #ifdef CLOCKS_PER_SECOND
 #define CLOCKS_PER_SEC CLOCKS_PER_SECOND
 #else
-#define CLOCKS_PER_SEC 1000000	/* wild guess!! */
+#define CLOCKS_PER_SEC 1000000  /* wild guess!! */
 #endif
 #endif
 
-#define N_USEC_PER_SEC 1000000L	  /* not 1000! :-) */
+#define N_USEC_PER_SEC 1000000L /* not 1000! :-) */
 
 enum timer_state {
   TIMER_STARTED,
@@ -149,7 +149,6 @@ static void report_time_failed(struct timer *t)
 }
 #endif
 
-
 /*******************************************************************//**
   Allocate a new timer with specified "type" and "use".
   The timer is created as cleared, and stopped.
@@ -166,7 +165,7 @@ struct timer *timer_new(enum timer_timetype type, enum timer_use use)
   just re-initialise t and return t.
   This is intended to be useful to allocate a static t just once, eg:
   {
-     static struct timer *t = NULL; 
+     static struct timer *t = NULL;
      t = timer_renew(t, TIMER_CPU, TIMER_USE);
      ... stuff ...
      log_verbose("That took %g seconds.", timer_read_seconds(t));
@@ -174,14 +173,16 @@ struct timer *timer_new(enum timer_timetype type, enum timer_use use)
   }
 ***********************************************************************/
 struct timer *timer_renew(struct timer *t, enum timer_timetype type,
-			  enum timer_use use)
+                          enum timer_use use)
 {
-  if (!t) {
+  if (t == NULL) {
     t = (struct timer *)fc_malloc(sizeof(struct timer));
   }
+
   t->type = type;
   t->use = use;
   timer_clear(t);
+
   return t;
 }
 
@@ -201,7 +202,7 @@ void timer_destroy(struct timer *t)
 ***********************************************************************/
 bool timer_in_use(struct timer *t)
 {
-  return (t && t->use != TIMER_IGNORE);
+  return (t != NULL && t->use != TIMER_IGNORE);
 }
 
 /*******************************************************************//**
@@ -352,6 +353,7 @@ double timer_read_seconds(struct timer *t)
     timer_stop(t);
     t->state = TIMER_STARTED;
   }
+
   return t->sec + t->usec / (double)N_USEC_PER_SEC;
 }
 
@@ -386,8 +388,9 @@ void timer_usleep_since_start(struct timer *t, long usec)
     (tv_now.tv_usec - t->start.tv.tv_usec);
   wait_usec = usec - elapsed_usec;
 
-  if (wait_usec > 0)
+  if (wait_usec > 0) {
     fc_usleep(wait_usec);
+  }
 #elif HAVE_FTIME
   struct timeb now;
   long elapsed_usec, wait_usec;
