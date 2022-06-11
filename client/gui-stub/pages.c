@@ -55,5 +55,5 @@ enum client_pages gui_get_current_client_page(void)
 **************************************************************************/
 void update_start_page(void)
 {
-  /* PORTME */    
+  /* PORTME */
 }

@@ -85,7 +85,7 @@ void handle_authentication_req(enum authentication_type type,
   server.
 **************************************************************************/
 void handle_game_load(bool load_successful, const char *filename)
-{ 
+{
   /* PORTME */
 }
 

@@ -51,7 +51,7 @@ void gui_gui_clear_theme(void)
 char **gui_get_gui_specific_themes_directories(int *count)
 {
   *count = 0;
-  
+
   return fc_malloc(sizeof(char*) * 0);
 }
 

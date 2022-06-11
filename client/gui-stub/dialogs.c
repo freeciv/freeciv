@@ -233,7 +233,7 @@ void popdown_all_game_dialogs(void)
 **************************************************************************/
 int action_selection_actor_unit(void)
 {
-  /* PORTME */    
+  /* PORTME */
   return IDENTITY_NUMBER_ZERO;
 }
 

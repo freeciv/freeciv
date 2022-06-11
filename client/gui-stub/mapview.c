@@ -92,7 +92,7 @@ void update_mouse_cursor(enum cursor_type new_cursor_type)
 void gui_update_timeout_label(void)
 {
   /* PORTME */
-    
+
   /* set some widget based on get_timeout_label_text() */
 }
 
@@ -105,7 +105,7 @@ void gui_update_timeout_label(void)
 void update_turn_done_button(bool do_restore)
 {
   static bool flip = FALSE;
-  
+
   if (!get_turn_done_button_state()) {
     return;
   }
