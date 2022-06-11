@@ -83,7 +83,7 @@ static inline void science_report_store_set(GtkListStore *store,
                                             Tech_type_id tech);
 static bool science_report_combo_get_active(GtkComboBox *combo,
                                             Tech_type_id *tech,
-                                            const char **name);
+                                            char **name);
 static void science_report_combo_set_active(GtkComboBox *combo,
                                             Tech_type_id tech);
 static gboolean science_diagram_button_release_callback(GtkWidget *widget,
@@ -153,7 +153,7 @@ static inline void science_report_store_set(GtkListStore *store,
 ****************************************************************************/
 static bool science_report_combo_get_active(GtkComboBox *combo,
                                             Tech_type_id *tech,
-                                            const char **name)
+                                            char **name)
 {
   GtkTreeIter iter;
 
@@ -166,6 +166,7 @@ static bool science_report_combo_get_active(GtkComboBox *combo,
                      SRD_COL_NAME, name,
                      SRD_COL_ID, tech,
                      -1);
+
   return TRUE;
 }
 
@@ -494,7 +495,7 @@ static void science_report_current_callback(GtkComboBox *combo,
                                             gpointer data)
 {
   Tech_type_id tech;
-  const char *tech_name;
+  char *tech_name;
 
   if (!science_report_combo_get_active(combo, &tech, &tech_name)) {
     return;
@@ -505,6 +506,8 @@ static void science_report_current_callback(GtkComboBox *combo,
   } else if (can_client_issue_orders()) {
     dsend_packet_player_research(&client.conn, tech);
   }
+
+  free(tech_name);
   /* Revert, or we will be not synchron with the server. */
   science_report_combo_set_active(combo, research_get
                                   (client_player())->researching);
@@ -527,7 +530,7 @@ static void science_report_show_all_callback(GtkComboBox *combo,
 static void science_report_goal_callback(GtkComboBox *combo, gpointer data)
 {
   Tech_type_id tech;
-  const char *tech_name;
+  char *tech_name;
 
   if (!science_report_combo_get_active(combo, &tech, &tech_name)) {
     return;
@@ -538,6 +541,8 @@ static void science_report_goal_callback(GtkComboBox *combo, gpointer data)
   } else if (can_client_issue_orders()) {
     dsend_packet_player_tech_goal(&client.conn, tech);
   }
+
+  free(tech_name);
   /* Revert, or we will be not synchron with the server. */
   science_report_combo_set_active(combo, research_get
                                   (client_player())->tech_goal);
