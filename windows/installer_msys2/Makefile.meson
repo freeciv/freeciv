@@ -10,10 +10,12 @@
 #
 
 ifeq ($(MSYSTEM),MINGW64)
+WINARCH=win64
 ARCHDIR=mingw64
 LIBGCCDLL=libgcc_s_seh-1.dll
 CRYPTOLIB_SUFFIX=-x64
 else ifeq ($(MSYSTEM),MINGW32)
+WINARCH=win32
 ARCHDIR=mingw32
 LIBGCCDLL=libgcc_s_dw2-1.dll
 CRYPTOLIB_SUFFIX=
@@ -44,10 +46,10 @@ sdl2-installer:
 installer-common: clean-install-common install-freeciv-$(GUI) install-env-$(GUI)
 	# extract Freeciv version
 	$(eval FREECIV_VERSION := $(shell ../../fc_version))
-	./create-freeciv-$(CLIENT)-nsi.sh meson-install-$(GUI) $(FREECIV_VERSION) win64 > Freeciv-meson-$(FREECIV_VERSION)-$(GUI).nsi
+	./create-freeciv-$(CLIENT)-nsi.sh meson-install-$(GUI) $(FREECIV_VERSION) $(WINARCH) > Freeciv-meson-$(WINARCH)-$(FREECIV_VERSION)-$(GUI).nsi
 	# create installer executable
 	mkdir -p Output
-	makensis Freeciv-meson-$(FREECIV_VERSION)-$(GUI).nsi
+	makensis Freeciv-meson-$(WINARCH)-$(FREECIV_VERSION)-$(GUI).nsi
 
 install-freeciv-common:
 	# create build directory
