@@ -11,7 +11,7 @@ desktopfiledir = @DESKTOPDIR@
 desktopfile_DATA = org.freeciv.ruledit.desktop
 
 metainfofiledir = @METAINFODIR@
-metainfofile_DATA = org.freeciv.ruledit.appdata.xml
+metainfofile_DATA = org.freeciv.ruledit.metainfo.xml
 
 bin_PROGRAMS = freeciv-ruledit
 
