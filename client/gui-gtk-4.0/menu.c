@@ -255,7 +255,11 @@ static void unit_homecity_callback(GtkMenuItem *item, gpointer data);
 static void unit_upgrade_callback(GtkMenuItem *item, gpointer data);
 static void unit_convert_callback(GtkMenuItem *item, gpointer data);
 static void unit_disband_callback(GtkMenuItem *item, gpointer data);
-static void build_city_callback(GtkMenuItem *item, gpointer data);
+#endif /* MENUS_GTK3 */
+static void build_city_callback(GSimpleAction *action,
+                                GVariant *parameter,
+                                gpointer data);
+#ifdef MENUS_GTK3
 static void auto_settle_callback(GtkMenuItem *item, gpointer data);
 static void build_road_callback(GtkMenuItem *item, gpointer data);
 static void build_irrigation_callback(GtkMenuItem *item, gpointer data);
@@ -277,6 +281,7 @@ static void diplomat_action_callback(GtkMenuItem *item, gpointer data);
 
 static struct menu_entry_info menu_entries[] =
 {
+  /* Game menu */
   { "CLEAR_CHAT_LOGS", N_("_Clear Chat Log"),
     "app.clear_chat", NULL, MGROUP_SAFE },
   { "SAVE_CHAT_LOGS", N_("Save Chat _Log"),
@@ -290,6 +295,11 @@ static struct menu_entry_info menu_entries[] =
     "app.leave", NULL, MGROUP_SAFE },
   { "QUIT", N_("_Quit"),
     "app.quit", "<ctrl>q", MGROUP_SAFE },
+
+
+  /* Work menu */
+  { "BUILD_CITY", N_("_Build City"),
+    "app.build_city", "b", MGROUP_UNIT },
 
 #ifdef MENUS_GTK3
   { "MENU_GAME", N_("_Game"), 0, 0, NULL, MGROUP_SAFE },
@@ -531,8 +541,7 @@ static struct menu_entry_info menu_entries[] =
     G_CALLBACK(unit_convert_callback), MGROUP_UNIT },
   { "UNIT_DISBAND", N_("_Disband"), GDK_KEY_d, GDK_SHIFT_MASK,
     G_CALLBACK(unit_disband_callback), MGROUP_UNIT },
-  { "BUILD_CITY", N_("_Build City"), GDK_KEY_b, 0,
-    G_CALLBACK(build_city_callback), MGROUP_UNIT },
+
   { "AUTO_SETTLER", N_("_Auto Settler"), GDK_KEY_a, 0,
     G_CALLBACK(auto_settle_callback), MGROUP_UNIT },
   { "BUILD_ROAD", N_("Build _Road"), GDK_KEY_r, 0,
@@ -588,7 +597,9 @@ const GActionEntry acts[] = {
   { "message_options", message_options_callback },
 
   { "leave", leave_callback },
-  { "quit", quit_callback }
+  { "quit", quit_callback },
+
+  { "build_city", build_city_callback }
 };
 
 static struct menu_entry_info *menu_entry_info_find(const char *key);
@@ -1629,11 +1640,14 @@ static void unit_disband_callback(GtkMenuItem *item, gpointer data)
 {
   popup_disband_dialog(get_units_in_focus());
 }
+#endif /* MENUS_GTK3 */
 
 /************************************************************************//**
   Item "BUILD_CITY" callback.
 ****************************************************************************/
-static void build_city_callback(GtkMenuItem *item, gpointer data)
+static void build_city_callback(GSimpleAction *action,
+                                GVariant *parameter,
+                                gpointer data)
 {
   unit_list_iterate(get_units_in_focus(), punit) {
     /* FIXME: this can provide different items for different units...
@@ -1649,6 +1663,7 @@ static void build_city_callback(GtkMenuItem *item, gpointer data)
   } unit_list_iterate_end;
 }
 
+#ifdef MENUS_GTK3
 /************************************************************************//**
   Action "AUTO_SETTLE" callback.
 ****************************************************************************/
@@ -1995,6 +2010,11 @@ GMenu *setup_menus(GtkApplication *app)
   menu_entry_init(topmenu, "QUIT");
 
   g_menu_append_submenu(menubar, _("_Game"), G_MENU_MODEL(topmenu));
+
+  topmenu = g_menu_new();
+  menu_entry_init(topmenu, "BUILD_CITY");
+
+  g_menu_append_submenu(menubar, _("_Work"), G_MENU_MODEL(topmenu));
 
 #ifndef FREECIV_DEBUG
   menu_entry_set_visible("RELOAD_TILESET", FALSE, FALSE);
