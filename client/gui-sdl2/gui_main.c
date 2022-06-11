@@ -1071,6 +1071,8 @@ void ui_exit(void)
   set_video_mode(320, 240, SDL_SWSURFACE | SDL_ANYFORMAT);
 #endif
 
+  city_map_canvas_free();
+
   free_mapcanvas_and_overview();
 
   free_auxiliary_tech_icons();
