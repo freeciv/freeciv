@@ -486,6 +486,15 @@ void handle_edit_unit_create(struct connection *pc, int owner, int tile,
     return;
   }
 
+  if (utype_has_flag(punittype, UTYF_UNIQUE)) {
+    if (utype_player_already_has_this_unique(pplayer, punittype)) {
+      return;
+    }
+    if (count > 1) {
+      return;
+    }
+  }
+
   if (is_non_allied_unit_tile(ptile, pplayer)
       || (tile_city(ptile)
           && !pplayers_allied(pplayer, city_owner(tile_city(ptile))))) {
