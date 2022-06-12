@@ -459,6 +459,22 @@ void handle_edit_unit_create(struct connection *pc, int owner, int tile,
     return;
   }
 
+  if (utype_has_flag(punittype, UTYF_UNIQUE)) {
+    if (utype_player_already_has_this_unique(pplayer, punittype)) {
+      notify_conn(pc->self, ptile, E_BAD_COMMAND, ftc_editor,
+                  _("Cannot create another instance of unique unit type %s. "
+                    "Player already has one such unit."),
+                  utype_name_translation(punittype));
+      return;
+    }
+    if (count > 1) {
+      notify_conn(pc->self, ptile, E_BAD_COMMAND, ftc_editor,
+                  _("Cannot create multiple instances of unique unit type %s."),
+                  utype_name_translation(punittype));
+      return;
+    }
+  }
+
   if (is_non_allied_unit_tile(ptile, pplayer)
       || (tile_city(ptile)
           && !pplayers_allied(pplayer, city_owner(tile_city(ptile))))) {
