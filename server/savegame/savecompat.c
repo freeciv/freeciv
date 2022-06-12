@@ -2479,6 +2479,23 @@ static void compat_load_dev(struct loaddata *loading)
         free(savemod);
       }
     }
+
+    player_slots_iterate(pslot) {
+      int plrno = player_slot_index(pslot);
+      int wonder_city = secfile_lookup_int_default(loading->file, -1,
+                                                   "player%d.adv.wonder_city",
+                                                   plrno);
+      if (wonder_city < 0) {
+        /* No wonder_city saved with the new name. Check for the old name */
+        wonder_city = secfile_lookup_int_default(loading->file, -1,
+                                                 "player%d.wonder_city",
+                                                 plrno);
+        if (wonder_city >= 0) {
+          secfile_replace_int(loading->file, wonder_city,
+                              "player%d.adv.wonder_city", plrno);
+        }
+      }
+    } player_slots_iterate_end;
   } /* Version < 3.1.92 */
 
 #endif /* FREECIV_DEV_SAVE_COMPAT_3_2 */

@@ -4092,7 +4092,7 @@ static void sg_load_player_main(struct loaddata *loading,
   } players_iterate_end;
 
   plr->server.adv->wonder_city = secfile_lookup_int_default(loading->file, 0,
-                                                            "player%d.wonder_city",
+                                                            "player%d.adv.wonder_city",
                                                             plrno);
 
   CALL_FUNC_EACH_AI(player_load, plr, loading->file, plrno);
@@ -4546,7 +4546,7 @@ static void sg_save_player_main(struct savedata *saving,
   } players_iterate_end;
 
   secfile_insert_int(saving->file, plr->server.adv->wonder_city,
-                     "player%d.wonder_city", plrno);
+                     "player%d.adv.wonder_city", plrno);
 
   CALL_FUNC_EACH_AI(player_save, plr, saving->file, plrno);
 

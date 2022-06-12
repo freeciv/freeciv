@@ -1246,7 +1246,7 @@ ai={"love","spam","countdown","war_reason","patience","warn_space","ask_peace","
 1,3,-1,5,0,0,0,0,0
 1,4,-1,5,0,0,0,0,0
 }
-wonder_city=0
+adv.wonder_city=0
 ai.level="Easy"
 ai.barb_type="None"
 gold=50
@@ -2099,7 +2099,7 @@ ai={"love","spam","countdown","war_reason","patience","warn_space","ask_peace","
 0,4,-1,5,0,0,0,0,0
 0,0,-1,5,0,0,0,0,0
 }
-wonder_city=0
+adv.wonder_city=0
 ai.level="Easy"
 ai.barb_type="None"
 gold=50
@@ -2925,7 +2925,7 @@ ai={"love","spam","countdown","war_reason","patience","warn_space","ask_peace","
 0,0,-1,5,0,0,0,0,0
 0,1,-1,5,0,0,0,0,0
 }
-wonder_city=0
+adv.wonder_city=0
 ai.level="Easy"
 ai.barb_type="None"
 gold=50
@@ -3773,7 +3773,7 @@ ai={"love","spam","countdown","war_reason","patience","warn_space","ask_peace","
 0,1,-1,5,0,0,0,0,0
 0,2,-1,5,0,0,0,0,0
 }
-wonder_city=0
+adv.wonder_city=0
 ai.level="Easy"
 ai.barb_type="None"
 gold=50
@@ -4617,7 +4617,7 @@ ai={"love","spam","countdown","war_reason","patience","warn_space","ask_peace","
 0,2,-1,5,0,0,0,0,0
 0,3,-1,5,0,0,0,0,0
 }
-wonder_city=0
+adv.wonder_city=0
 ai.level="Easy"
 ai.barb_type="None"
 gold=50
