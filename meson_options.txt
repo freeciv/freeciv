@@ -5,7 +5,7 @@ option('ack_experimental',
 
 option('clients',
        type: 'array',
-       choices: ['gtk3.22','sdl2', 'qt'],
+       choices: ['gtk3.22','sdl2', 'qt', 'gtk4'],
        value: ['gtk3.22'],
        description: 'Clients to build')
 

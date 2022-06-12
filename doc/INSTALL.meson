@@ -98,8 +98,9 @@ ack_experimental (boolean):
 
 clients (array):
   List of clients to build. To disable client build completely, give an
-  empty array ('-Dclients=[]'). Currently gtk3.22-, sdl2-client, and qt-client
-  builds are supported. By default builds only gtk3.22-client
+  empty array ('-Dclients=[]'). Currently gtk3.22-, sdl2-, qt-,
+  and gtk4-client builds are supported.
+  By default builds just gtk3.22-client.
 
 fcmp (array):
   List of freeciv modpack installer UIs to build. To disable their build
