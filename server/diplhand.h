@@ -43,4 +43,8 @@ void reject_all_treaties(struct player *pplayer);
 
 struct treaty_list *get_all_treaties(void);
 
+void set_diplstate_type(struct player_diplstate *state1,
+                        struct player_diplstate *state2,
+                        enum diplstate_type type);
+
 #endif  /* FC__DIPLHAND_H */
