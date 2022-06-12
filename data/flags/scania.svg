@@ -1,20 +1,21 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!-- Created with Sodipodi ("http://www.sodipodi.com/") -->
+
 <svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://web.resource.org/cc/"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://inkscape.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    id="svg548"
    sodipodi:version="0.32"
    width="655.51184px"
    height="437.01000px"
-   sodipodi:docbase="/Users/daniel/Desktop"
    sodipodi:docname="scania.svg"
-   inkscape:version="0.42">
+   inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
+   version="1.1"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
   <metadata
      id="metadata2579">
     <rdf:RDF>
@@ -31,17 +32,36 @@
   <sodipodi:namedview
      id="base"
      snaptogrid="true"
-     gridspacingy="0.5cm"
-     gridspacingx="0.5cm"
-     showgrid="true"
+     showgrid="false"
      inkscape:zoom="0.78716732"
-     inkscape:cx="327.75592"
-     inkscape:cy="218.50500"
-     inkscape:window-width="701"
-     inkscape:window-height="507"
-     inkscape:window-x="17"
-     inkscape:window-y="52"
-     inkscape:current-layer="svg548" />
+     inkscape:cx="327.75751"
+     inkscape:cy="218.50501"
+     inkscape:window-width="825"
+     inkscape:window-height="527"
+     inkscape:window-x="579"
+     inkscape:window-y="250"
+     inkscape:current-layer="svg548"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     showguides="true"
+     inkscape:window-maximized="0">
+    <inkscape:grid
+       id="GridFromPre046Settings"
+       type="xygrid"
+       originx="0"
+       originy="0"
+       spacingx="18.897638"
+       spacingy="18.897638"
+       color="#3f3fff"
+       empcolor="#3f3fff"
+       opacity="0.15"
+       empopacity="0.38"
+       empspacing="5" />
+  </sodipodi:namedview>
   <rect
      width="655.51184"
      y="0.0000000"
