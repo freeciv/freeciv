@@ -154,12 +154,27 @@ static enum diplstate_type dst_closest(enum diplstate_type a,
 }
 
 /**************************************************************************
-pplayer clicked the accept button. If he accepted the treaty we check the
-clauses. If both players have now accepted the treaty we execute the agreed
-clauses.
+  Set diplstate between two players.
+**************************************************************************/
+void set_diplstate_type(struct player_diplstate *state1,
+                        struct player_diplstate *state2,
+                        enum diplstate_type type)
+{
+  enum diplstate_type max = dst_closest(type, state1->max_state);
+
+  state1->type = type;
+  state2->type = type;
+  state1->max_state = max;
+  state2->max_state = max;
+}
+
+/**************************************************************************
+  pplayer clicked the accept button. If they accepted the treaty we check
+  the clauses. If both players have now accepted the treaty we execute the
+  agreed clauses.
 **************************************************************************/
 void handle_diplomacy_accept_treaty_req(struct player *pplayer,
-					int counterpart)
+                                        int counterpart)
 {
   struct Treaty *ptreaty;
   bool *player_accept, *other_accept;
