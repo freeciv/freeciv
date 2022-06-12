@@ -2231,8 +2231,7 @@ void make_contact(struct player *pplayer1, struct player *pplayer2,
     enum diplstate_type new_state = get_default_diplstate(pplayer1,
                                                           pplayer2);
 
-    ds_plr1plr2->type = new_state;
-    ds_plr2plr1->type = new_state;
+    set_diplstate_type(ds_plr1plr2, ds_plr2plr1, new_state);
     ds_plr1plr2->first_contact_turn = game.info.turn;
     ds_plr2plr1->first_contact_turn = game.info.turn;
     notify_player(pplayer1, ptile, E_FIRST_CONTACT, ftc_server,

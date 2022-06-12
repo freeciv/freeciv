@@ -27,4 +27,8 @@ void send_diplomatic_meetings(struct connection *dest);
 void cancel_all_meetings(struct player *pplayer);
 void reject_all_treaties(struct player *pplayer);
 
+void set_diplstate_type(struct player_diplstate *state1,
+                        struct player_diplstate *state2,
+                        enum diplstate_type type);
+
 #endif  /* FC__DIPLHAND_H */
