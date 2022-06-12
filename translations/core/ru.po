@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2022-06-08 12:28+0500\n"
+"POT-Creation-Date: 2022-06-13 02:40+0300\n"
 "PO-Revision-Date: 2022-06-08 12:15+0500\n"
 "Last-Translator: Konstantin Vedeneev <konved@gmail.com>\n"
 "Language-Team: Russian <freeciv.ru@freelists.org>\n"
@@ -1276,14 +1276,14 @@ msgstr "Лучшие защитные соединения"
 #: client/gui-gtk-2.0/cityrep.c:1496 client/gui-gtk-2.0/cityrep.c:1515
 #: client/gui-gtk-2.0/cityrep.c:1534 client/gui-gtk-2.0/cityrep.c:1553
 #: client/gui-gtk-2.0/cityrep.c:1573 client/gui-gtk-2.0/menu.c:1480
-#: client/gui-gtk-2.0/repodlgs.c:1576 client/gui-gtk-3.0/cityrep.c:1515
+#: client/gui-gtk-2.0/repodlgs.c:1581 client/gui-gtk-3.0/cityrep.c:1515
 #: client/gui-gtk-3.0/cityrep.c:1534 client/gui-gtk-3.0/cityrep.c:1553
 #: client/gui-gtk-3.0/cityrep.c:1572 client/gui-gtk-3.0/cityrep.c:1592
-#: client/gui-gtk-3.0/menu.c:321 client/gui-gtk-3.0/repodlgs.c:1625
+#: client/gui-gtk-3.0/menu.c:321 client/gui-gtk-3.0/repodlgs.c:1629
 #: client/gui-gtk-3.22/cityrep.c:1514 client/gui-gtk-3.22/cityrep.c:1533
 #: client/gui-gtk-3.22/cityrep.c:1552 client/gui-gtk-3.22/cityrep.c:1571
 #: client/gui-gtk-3.22/cityrep.c:1591 client/gui-gtk-3.22/menu.c:320
-#: client/gui-gtk-3.22/repodlgs.c:1625 client/gui-qt/cityrep.cpp:712
+#: client/gui-gtk-3.22/repodlgs.c:1629 client/gui-qt/cityrep.cpp:712
 #: client/gui-qt/menu.cpp:1574 client/gui-qt/pages.cpp:723
 #: client/gui-qt/pages.cpp:1286 client/gui-sdl2/helpdlg.c:750
 #: client/gui-sdl2/mapctrl.c:1709 client/gui-sdl2/repodlgs.c:391
@@ -1375,9 +1375,9 @@ msgid "Corruption"
 msgstr "Коррупция"
 
 #: client/cityrepdata.c:755 client/gui-gtk-2.0/menu.c:1472
-#: client/gui-gtk-2.0/repodlgs.c:1049 client/gui-gtk-3.0/menu.c:313
-#: client/gui-gtk-3.0/repodlgs.c:1091 client/gui-gtk-3.22/menu.c:312
-#: client/gui-gtk-3.22/repodlgs.c:1090 client/gui-qt/menu.cpp:1586
+#: client/gui-gtk-2.0/repodlgs.c:1054 client/gui-gtk-3.0/menu.c:313
+#: client/gui-gtk-3.0/repodlgs.c:1095 client/gui-gtk-3.22/menu.c:312
+#: client/gui-gtk-3.22/repodlgs.c:1094 client/gui-qt/menu.cpp:1586
 #: client/gui-qt/pages.cpp:738 client/gui-sdl2/mapctrl.c:1479
 #: client/include/helpdlg_g.h:42 data/helpdata.txt:454
 msgid "Economy"
@@ -2260,11 +2260,11 @@ msgstr "(без названия)"
 #. * if this is plural.
 #: client/gui-gtk-2.0/action_dialog.c:488
 #: client/gui-gtk-2.0/action_dialog.c:1437 client/gui-gtk-2.0/citydlg.c:2655
-#: client/gui-gtk-2.0/repodlgs.c:1531 client/gui-gtk-3.0/action_dialog.c:498
+#: client/gui-gtk-2.0/repodlgs.c:1536 client/gui-gtk-3.0/action_dialog.c:498
 #: client/gui-gtk-3.0/action_dialog.c:1457 client/gui-gtk-3.0/citydlg.c:3073
-#: client/gui-gtk-3.0/repodlgs.c:1580 client/gui-gtk-3.22/action_dialog.c:498
+#: client/gui-gtk-3.0/repodlgs.c:1584 client/gui-gtk-3.22/action_dialog.c:498
 #: client/gui-gtk-3.22/action_dialog.c:1451 client/gui-gtk-3.22/citydlg.c:3106
-#: client/gui-gtk-3.22/repodlgs.c:1580 client/gui-qt/citydlg.cpp:3294
+#: client/gui-gtk-3.22/repodlgs.c:1584 client/gui-qt/citydlg.cpp:3294
 #: client/gui-qt/dialogs.cpp:2831 client/gui-qt/dialogs.cpp:2894
 #: client/gui-qt/repodlgs.cpp:214 client/gui-sdl2/action_dialog.c:2229
 #: client/gui-sdl2/action_dialog.c:2492 client/gui-sdl2/citydlg.c:1145
@@ -2834,10 +2834,10 @@ msgid "Science"
 msgstr "Наука"
 
 #: client/gui-gtk-2.0/citydlg.c:1156 client/gui-gtk-2.0/editprop.c:4463
-#: client/gui-gtk-2.0/repodlgs.c:1250 client/gui-gtk-3.0/citydlg.c:1373
-#: client/gui-gtk-3.0/editprop.c:4528 client/gui-gtk-3.0/repodlgs.c:1295
+#: client/gui-gtk-2.0/repodlgs.c:1255 client/gui-gtk-3.0/citydlg.c:1373
+#: client/gui-gtk-3.0/editprop.c:4528 client/gui-gtk-3.0/repodlgs.c:1299
 #: client/gui-gtk-3.22/citydlg.c:1411 client/gui-gtk-3.22/editprop.c:4528
-#: client/gui-gtk-3.22/repodlgs.c:1295 client/gui-qt/citydlg.cpp:1883
+#: client/gui-gtk-3.22/repodlgs.c:1299 client/gui-qt/citydlg.cpp:1883
 #: client/gui-qt/pages.cpp:1292 common/city.c:86 data/civ1/terrain.ruleset:1140
 #: data/civ2/terrain.ruleset:1281 data/classic/terrain.ruleset:1575
 #: data/sandbox/terrain.ruleset:1863 data/experimental/terrain.ruleset:1594
@@ -3553,19 +3553,19 @@ msgstr "Вы должны ввести допустимое имя."
 msgid "Upgrade Unit!"
 msgstr "Модернизировать соединение!"
 
-#: client/gui-gtk-2.0/dialogs.c:1436 client/gui-gtk-2.0/repodlgs.c:1551
-#: client/gui-gtk-3.0/dialogs.c:1447 client/gui-gtk-3.0/repodlgs.c:1600
-#: client/gui-gtk-3.22/dialogs.c:1441 client/gui-gtk-3.22/repodlgs.c:1600
+#: client/gui-gtk-2.0/dialogs.c:1436 client/gui-gtk-2.0/repodlgs.c:1556
+#: client/gui-gtk-3.0/dialogs.c:1447 client/gui-gtk-3.0/repodlgs.c:1604
+#: client/gui-gtk-3.22/dialogs.c:1441 client/gui-gtk-3.22/repodlgs.c:1604
 #: client/gui-qt/dialogs.cpp:3517 client/gui-qt/repodlgs.cpp:226
 #: client/gui-sdl2/dialogs.c:692 client/gui-sdl2/repodlgs.c:225
 msgid "Upgrade Obsolete Units"
 msgstr "Модернизировать устаревшие Соединения"
 
 #: client/gui-gtk-2.0/dialogs.c:1465 client/gui-gtk-2.0/dialogs.c:1474
-#: client/gui-gtk-2.0/repodlgs.c:960 client/gui-gtk-3.0/dialogs.c:1476
-#: client/gui-gtk-3.0/dialogs.c:1485 client/gui-gtk-3.0/repodlgs.c:1002
+#: client/gui-gtk-2.0/repodlgs.c:965 client/gui-gtk-3.0/dialogs.c:1476
+#: client/gui-gtk-3.0/dialogs.c:1485 client/gui-gtk-3.0/repodlgs.c:1006
 #: client/gui-gtk-3.22/dialogs.c:1470 client/gui-gtk-3.22/dialogs.c:1479
-#: client/gui-gtk-3.22/repodlgs.c:1001 client/gui-qt/repodlgs.cpp:1458
+#: client/gui-gtk-3.22/repodlgs.c:1005 client/gui-qt/repodlgs.cpp:1458
 #: client/gui-sdl2/dialogs.c:888
 msgid "Disband Units"
 msgstr "Расформировать соединения"
@@ -3765,10 +3765,10 @@ msgstr ""
 "контролирует, например, сколько соединений размещаются одновременно при "
 "использовании панели соединений."
 
-#: client/gui-gtk-2.0/editgui.c:1272 client/gui-gtk-2.0/repodlgs.c:768
+#: client/gui-gtk-2.0/editgui.c:1272 client/gui-gtk-2.0/repodlgs.c:773
 #: client/gui-gtk-2.0/unitselect.c:97 client/gui-gtk-3.0/editgui.c:1291
-#: client/gui-gtk-3.0/repodlgs.c:800 client/gui-gtk-3.0/unitselect.c:97
-#: client/gui-gtk-3.22/editgui.c:1290 client/gui-gtk-3.22/repodlgs.c:799
+#: client/gui-gtk-3.0/repodlgs.c:804 client/gui-gtk-3.0/unitselect.c:97
+#: client/gui-gtk-3.22/editgui.c:1290 client/gui-gtk-3.22/repodlgs.c:803
 #: client/gui-gtk-3.22/unitselect.c:97 client/gui-qt/repodlgs.cpp:1214
 msgid "Count"
 msgstr "Количество"
@@ -4062,11 +4062,11 @@ msgstr "Народы"
 
 #. TRANS: Image header
 #: client/gui-gtk-2.0/editprop.c:4396 client/gui-gtk-2.0/pages.c:1309
-#: client/gui-gtk-2.0/repodlgs.c:762 client/gui-gtk-2.0/wldlg.c:999
+#: client/gui-gtk-2.0/repodlgs.c:767 client/gui-gtk-2.0/wldlg.c:999
 #: client/gui-gtk-3.0/editprop.c:4457 client/gui-gtk-3.0/pages.c:1393
-#: client/gui-gtk-3.0/repodlgs.c:794 client/gui-gtk-3.0/wldlg.c:1002
+#: client/gui-gtk-3.0/repodlgs.c:798 client/gui-gtk-3.0/wldlg.c:1002
 #: client/gui-gtk-3.22/editprop.c:4456 client/gui-gtk-3.22/pages.c:1394
-#: client/gui-gtk-3.22/repodlgs.c:793 client/gui-gtk-3.22/wldlg.c:1000
+#: client/gui-gtk-3.22/repodlgs.c:797 client/gui-gtk-3.22/wldlg.c:1000
 #: client/gui-qt/pages.cpp:314 client/gui-qt/repodlgs.cpp:1213
 msgid "Type"
 msgstr "Тип"
@@ -5536,9 +5536,9 @@ msgstr "(_a) Модернизировать"
 msgid "C_onvert"
 msgstr "(_o) Переформировать"
 
-#: client/gui-gtk-2.0/menu.c:1709 client/gui-gtk-2.0/repodlgs.c:1126
-#: client/gui-gtk-3.0/menu.c:491 client/gui-gtk-3.0/repodlgs.c:1164
-#: client/gui-gtk-3.22/menu.c:490 client/gui-gtk-3.22/repodlgs.c:1164
+#: client/gui-gtk-2.0/menu.c:1709 client/gui-gtk-2.0/repodlgs.c:1131
+#: client/gui-gtk-3.0/menu.c:491 client/gui-gtk-3.0/repodlgs.c:1168
+#: client/gui-gtk-3.22/menu.c:490 client/gui-gtk-3.22/repodlgs.c:1168
 msgid "_Disband"
 msgstr "(_D) Расформировать"
 
@@ -6363,180 +6363,180 @@ msgstr "Отозвать видение обстановки"
 #. TRANS: Research report title
 #. TRANS: Research report action
 #. TRANS: Research report title
-#: client/gui-gtk-2.0/repodlgs.c:535 client/gui-gtk-3.0/repodlgs.c:556
-#: client/gui-gtk-3.22/repodlgs.c:554 client/gui-qt/menu.cpp:1590
+#: client/gui-gtk-2.0/repodlgs.c:540 client/gui-gtk-3.0/repodlgs.c:560
+#: client/gui-gtk-3.22/repodlgs.c:558 client/gui-qt/menu.cpp:1590
 #: client/gui-qt/pages.cpp:735 client/gui-sdl2/mapctrl.c:1494
 #: client/gui-sdl2/mapview.c:345 client/gui-sdl2/mapview.c:353
 #: client/gui-sdl2/mapview.c:361 client/gui-sdl2/repodlgs.c:3360
 msgid "Research"
 msgstr "Открытия"
 
-#: client/gui-gtk-2.0/repodlgs.c:547 client/gui-gtk-3.0/repodlgs.c:569
-#: client/gui-gtk-3.22/repodlgs.c:568 client/gui-qt/pages.cpp:1358
+#: client/gui-gtk-2.0/repodlgs.c:552 client/gui-gtk-3.0/repodlgs.c:573
+#: client/gui-gtk-3.22/repodlgs.c:572 client/gui-qt/pages.cpp:1358
 msgid "Researching"
 msgstr "Исследуется"
 
-#: client/gui-gtk-2.0/repodlgs.c:554 client/gui-gtk-3.0/repodlgs.c:576
-#: client/gui-gtk-3.22/cma_fe.c:428 client/gui-gtk-3.22/repodlgs.c:575
+#: client/gui-gtk-2.0/repodlgs.c:559 client/gui-gtk-3.0/repodlgs.c:580
+#: client/gui-gtk-3.22/cma_fe.c:428 client/gui-gtk-3.22/repodlgs.c:579
 #: client/gui-gtk-3.22/wldlg.c:1232 client/gui-qt/menu.cpp:1618
 msgid "Help"
 msgstr "Справка"
 
-#: client/gui-gtk-2.0/repodlgs.c:576 client/gui-gtk-3.0/repodlgs.c:601
-#: client/gui-gtk-3.22/repodlgs.c:600
+#: client/gui-gtk-2.0/repodlgs.c:581 client/gui-gtk-3.0/repodlgs.c:605
+#: client/gui-gtk-3.22/repodlgs.c:604
 msgid "Goal"
 msgstr "Цель"
 
 #. TRANS: As in 'Show all (even not reachable) techs'.
-#: client/gui-gtk-2.0/repodlgs.c:607 client/gui-gtk-3.0/repodlgs.c:634
-#: client/gui-gtk-3.22/repodlgs.c:633
+#: client/gui-gtk-2.0/repodlgs.c:612 client/gui-gtk-3.0/repodlgs.c:638
+#: client/gui-gtk-3.22/repodlgs.c:637
 msgid "Show all"
 msgstr "Показать все"
 
-#: client/gui-gtk-2.0/repodlgs.c:764 client/gui-gtk-3.0/repodlgs.c:796
-#: client/gui-gtk-3.22/repodlgs.c:795 client/gui-qt/repodlgs.cpp:1213
+#: client/gui-gtk-2.0/repodlgs.c:769 client/gui-gtk-3.0/repodlgs.c:800
+#: client/gui-gtk-3.22/repodlgs.c:799 client/gui-qt/repodlgs.cpp:1213
 msgid "?Building or Unit type:Name"
 msgstr "Название"
 
-#: client/gui-gtk-2.0/repodlgs.c:766 client/gui-gtk-3.0/repodlgs.c:798
-#: client/gui-gtk-3.22/repodlgs.c:797 client/gui-qt/repodlgs.cpp:1213
+#: client/gui-gtk-2.0/repodlgs.c:771 client/gui-gtk-3.0/repodlgs.c:802
+#: client/gui-gtk-3.22/repodlgs.c:801 client/gui-qt/repodlgs.cpp:1213
 msgid "Redundant"
 msgstr "Ненужных"
 
-#: client/gui-gtk-2.0/repodlgs.c:770 client/gui-gtk-2.0/wldlg.c:999
-#: client/gui-gtk-3.0/repodlgs.c:802 client/gui-gtk-3.0/wldlg.c:1002
-#: client/gui-gtk-3.22/repodlgs.c:801 client/gui-gtk-3.22/wldlg.c:1000
+#: client/gui-gtk-2.0/repodlgs.c:775 client/gui-gtk-2.0/wldlg.c:999
+#: client/gui-gtk-3.0/repodlgs.c:806 client/gui-gtk-3.0/wldlg.c:1002
+#: client/gui-gtk-3.22/repodlgs.c:805 client/gui-gtk-3.22/wldlg.c:1000
 #: client/gui-qt/repodlgs.cpp:1214 tools/civmanual.c:513
 msgid "Cost"
 msgstr "Содержание"
 
 #. TRANS: Upkeep total, count*cost.
-#: client/gui-gtk-2.0/repodlgs.c:773 client/gui-gtk-3.0/repodlgs.c:805
-#: client/gui-gtk-3.22/repodlgs.c:804 client/gui-qt/repodlgs.cpp:1214
+#: client/gui-gtk-2.0/repodlgs.c:778 client/gui-gtk-3.0/repodlgs.c:809
+#: client/gui-gtk-3.22/repodlgs.c:808 client/gui-qt/repodlgs.cpp:1214
 #: client/gui-sdl2/repodlgs.c:2102
 msgid "U Total"
 msgstr "Затраты"
 
-#: client/gui-gtk-2.0/repodlgs.c:865 client/gui-gtk-3.0/repodlgs.c:907
-#: client/gui-gtk-3.22/repodlgs.c:906 client/gui-qt/pages.cpp:2146
+#: client/gui-gtk-2.0/repodlgs.c:870 client/gui-gtk-3.0/repodlgs.c:911
+#: client/gui-gtk-3.22/repodlgs.c:910 client/gui-qt/pages.cpp:2146
 #: client/gui-qt/repodlgs.cpp:1384
 #, c-format
 msgid "Income: %d    Total Costs: %d"
 msgstr "Доход: %d    Затраты на здания: %d"
 
 #. TRANS: %s is an improvement
-#: client/gui-gtk-2.0/repodlgs.c:926 client/gui-gtk-3.0/repodlgs.c:968
-#: client/gui-gtk-3.22/repodlgs.c:967 client/gui-qt/repodlgs.cpp:1533
+#: client/gui-gtk-2.0/repodlgs.c:931 client/gui-gtk-3.0/repodlgs.c:972
+#: client/gui-gtk-3.22/repodlgs.c:971 client/gui-qt/repodlgs.cpp:1533
 #, c-format
 msgid "Do you really wish to sell every redundant %s (%d total)?"
 msgstr "Вы действительно хотите продать все ненужные здания (%s, всего %d)?"
 
 #. TRANS: %s is an improvement
-#: client/gui-gtk-2.0/repodlgs.c:929 client/gui-gtk-3.0/repodlgs.c:971
-#: client/gui-gtk-3.22/repodlgs.c:970 client/gui-qt/repodlgs.cpp:1493
+#: client/gui-gtk-2.0/repodlgs.c:934 client/gui-gtk-3.0/repodlgs.c:975
+#: client/gui-gtk-3.22/repodlgs.c:974 client/gui-qt/repodlgs.cpp:1493
 #, c-format
 msgid "Do you really wish to sell every %s (%d total)?"
 msgstr "Вы действительно хотите продать все эти здания (%s, всего %d)?"
 
-#: client/gui-gtk-2.0/repodlgs.c:934 client/gui-gtk-3.0/repodlgs.c:976
-#: client/gui-gtk-3.22/repodlgs.c:975 client/gui-qt/repodlgs.cpp:1498
+#: client/gui-gtk-2.0/repodlgs.c:939 client/gui-gtk-3.0/repodlgs.c:980
+#: client/gui-gtk-3.22/repodlgs.c:979 client/gui-qt/repodlgs.cpp:1498
 #: client/gui-qt/repodlgs.cpp:1538
 msgid "Sell Improvements"
 msgstr "Продать здания"
 
 #. TRANS: %s is a unit
-#: client/gui-gtk-2.0/repodlgs.c:955 client/gui-gtk-3.0/repodlgs.c:997
-#: client/gui-gtk-3.22/repodlgs.c:996 client/gui-qt/repodlgs.cpp:1453
+#: client/gui-gtk-2.0/repodlgs.c:960 client/gui-gtk-3.0/repodlgs.c:1001
+#: client/gui-gtk-3.22/repodlgs.c:1000 client/gui-qt/repodlgs.cpp:1453
 #, c-format
 msgid "Do you really wish to disband every %s (%d total)?"
 msgstr ""
 "Вы действительно хотите расформировать все эти соединения (%s, всего %d)?"
 
-#: client/gui-gtk-2.0/repodlgs.c:980 client/gui-gtk-3.0/repodlgs.c:1022
-#: client/gui-gtk-3.22/repodlgs.c:1021 client/gui-qt/repodlgs.cpp:1512
+#: client/gui-gtk-2.0/repodlgs.c:985 client/gui-gtk-3.0/repodlgs.c:1026
+#: client/gui-gtk-3.22/repodlgs.c:1025 client/gui-qt/repodlgs.cpp:1512
 #: client/gui-qt/repodlgs.cpp:1552
 msgid "Sell-Off: Results"
 msgstr "Распродажа: Результаты"
 
-#: client/gui-gtk-2.0/repodlgs.c:1118 client/gui-gtk-3.0/repodlgs.c:1172
-#: client/gui-gtk-3.22/repodlgs.c:1172
+#: client/gui-gtk-2.0/repodlgs.c:1123 client/gui-gtk-3.0/repodlgs.c:1176
+#: client/gui-gtk-3.22/repodlgs.c:1176
 msgid "Sell _Redundant"
 msgstr "(_R) Продать ненужные"
 
-#: client/gui-gtk-2.0/repodlgs.c:1122 client/gui-gtk-3.0/repodlgs.c:1168
-#: client/gui-gtk-3.22/repodlgs.c:1168
+#: client/gui-gtk-2.0/repodlgs.c:1127 client/gui-gtk-3.0/repodlgs.c:1172
+#: client/gui-gtk-3.22/repodlgs.c:1172
 msgid "Sell _All"
 msgstr "(_A) Продать все"
 
-#: client/gui-gtk-2.0/repodlgs.c:1235 client/gui-gtk-3.0/repodlgs.c:1280
-#: client/gui-gtk-3.22/repodlgs.c:1280
+#: client/gui-gtk-2.0/repodlgs.c:1240 client/gui-gtk-3.0/repodlgs.c:1284
+#: client/gui-gtk-3.22/repodlgs.c:1284
 msgid "Unit Type"
 msgstr "Тип Соед."
 
-#: client/gui-gtk-2.0/repodlgs.c:1237 client/gui-gtk-3.0/repodlgs.c:1282
-#: client/gui-gtk-3.22/repodlgs.c:1282
+#: client/gui-gtk-2.0/repodlgs.c:1242 client/gui-gtk-3.0/repodlgs.c:1286
+#: client/gui-gtk-3.22/repodlgs.c:1286
 msgid "?Upgradable unit [short]:U"
 msgstr "Мод"
 
-#: client/gui-gtk-2.0/repodlgs.c:1238 client/gui-gtk-3.0/repodlgs.c:1283
-#: client/gui-gtk-3.22/repodlgs.c:1283
+#: client/gui-gtk-2.0/repodlgs.c:1243 client/gui-gtk-3.0/repodlgs.c:1287
+#: client/gui-gtk-3.22/repodlgs.c:1287
 msgid "Upgradable"
 msgstr "Можно модернизировать"
 
 #. TRANS: "In progress" abbreviation.
 #. URD_COL_IN_PROGRESS
-#: client/gui-gtk-2.0/repodlgs.c:1242 client/gui-gtk-3.0/repodlgs.c:1287
-#: client/gui-gtk-3.22/repodlgs.c:1287
+#: client/gui-gtk-2.0/repodlgs.c:1247 client/gui-gtk-3.0/repodlgs.c:1291
+#: client/gui-gtk-3.22/repodlgs.c:1291
 msgid "In-Prog"
 msgstr "Форм"
 
-#: client/gui-gtk-2.0/repodlgs.c:1243 client/gui-gtk-3.0/repodlgs.c:1288
-#: client/gui-gtk-3.22/repodlgs.c:1288
+#: client/gui-gtk-2.0/repodlgs.c:1248 client/gui-gtk-3.0/repodlgs.c:1292
+#: client/gui-gtk-3.22/repodlgs.c:1292
 msgid "In progress"
 msgstr "Формируемых"
 
-#: client/gui-gtk-2.0/repodlgs.c:1244 client/gui-gtk-3.0/repodlgs.c:1289
-#: client/gui-gtk-3.22/repodlgs.c:1289
+#: client/gui-gtk-2.0/repodlgs.c:1249 client/gui-gtk-3.0/repodlgs.c:1293
+#: client/gui-gtk-3.22/repodlgs.c:1293
 msgid "Active"
 msgstr "Действующих"
 
-#: client/gui-gtk-2.0/repodlgs.c:1246 client/gui-gtk-3.0/repodlgs.c:1291
-#: client/gui-gtk-3.22/repodlgs.c:1291 client/gui-qt/citydlg.cpp:1883
+#: client/gui-gtk-2.0/repodlgs.c:1251 client/gui-gtk-3.0/repodlgs.c:1295
+#: client/gui-gtk-3.22/repodlgs.c:1295 client/gui-qt/citydlg.cpp:1883
 #: common/city.c:84
 msgid "Shield"
 msgstr "Щиты"
 
-#: client/gui-gtk-2.0/repodlgs.c:1247 client/gui-gtk-3.0/repodlgs.c:1292
-#: client/gui-gtk-3.22/repodlgs.c:1292
+#: client/gui-gtk-2.0/repodlgs.c:1252 client/gui-gtk-3.0/repodlgs.c:1296
+#: client/gui-gtk-3.22/repodlgs.c:1296
 msgid "Total shield upkeep"
 msgstr "Общие затраты Щитов"
 
-#: client/gui-gtk-2.0/repodlgs.c:1248 client/gui-gtk-3.0/repodlgs.c:1293
-#: client/gui-gtk-3.22/repodlgs.c:1293 client/gui-qt/citydlg.cpp:1883
+#: client/gui-gtk-2.0/repodlgs.c:1253 client/gui-gtk-3.0/repodlgs.c:1297
+#: client/gui-gtk-3.22/repodlgs.c:1297 client/gui-qt/citydlg.cpp:1883
 #: common/city.c:83
 msgid "Food"
 msgstr "Еда"
 
-#: client/gui-gtk-2.0/repodlgs.c:1249 client/gui-gtk-3.0/repodlgs.c:1294
-#: client/gui-gtk-3.22/repodlgs.c:1294
+#: client/gui-gtk-2.0/repodlgs.c:1254 client/gui-gtk-3.0/repodlgs.c:1298
+#: client/gui-gtk-3.22/repodlgs.c:1298
 msgid "Total food upkeep"
 msgstr "Общие затраты Еды"
 
-#: client/gui-gtk-2.0/repodlgs.c:1251 client/gui-gtk-3.0/repodlgs.c:1296
-#: client/gui-gtk-3.22/repodlgs.c:1296
+#: client/gui-gtk-2.0/repodlgs.c:1256 client/gui-gtk-3.0/repodlgs.c:1300
+#: client/gui-gtk-3.22/repodlgs.c:1300
 msgid "Total gold upkeep"
 msgstr "Общие затраты Золота"
 
-#: client/gui-gtk-2.0/repodlgs.c:1390 client/gui-gtk-3.0/repodlgs.c:1438
-#: client/gui-gtk-3.22/repodlgs.c:1438
+#: client/gui-gtk-2.0/repodlgs.c:1395 client/gui-gtk-3.0/repodlgs.c:1442
+#: client/gui-gtk-3.22/repodlgs.c:1442
 msgid "Totals:"
 msgstr "Всего:"
 
 #. TRANS: Last %s is pre-pluralised
 #. * "Treasury contains %d gold."
 #. TRANS: Last %s is pre-pluralised "Treasury contains %d gold."
-#: client/gui-gtk-2.0/repodlgs.c:1542 client/gui-gtk-3.0/repodlgs.c:1591
-#: client/gui-gtk-3.22/repodlgs.c:1591 client/gui-qt/repodlgs.cpp:219
+#: client/gui-gtk-2.0/repodlgs.c:1547 client/gui-gtk-3.0/repodlgs.c:1595
+#: client/gui-gtk-3.22/repodlgs.c:1595 client/gui-qt/repodlgs.cpp:219
 #: client/gui-sdl2/repodlgs.c:218
 #, c-format
 msgid ""
@@ -6558,33 +6558,33 @@ msgstr[2] ""
 "золотых за каждое)?\n"
 "%s"
 
-#: client/gui-gtk-2.0/repodlgs.c:1643 client/gui-gtk-3.0/repodlgs.c:1697
-#: client/gui-gtk-3.22/repodlgs.c:1698
+#: client/gui-gtk-2.0/repodlgs.c:1648 client/gui-gtk-3.0/repodlgs.c:1701
+#: client/gui-gtk-3.22/repodlgs.c:1702
 msgid "Find _Nearest"
 msgstr "(_N) Найти ближайшее"
 
-#: client/gui-gtk-2.0/repodlgs.c:1646 client/gui-gtk-3.0/repodlgs.c:1692
-#: client/gui-gtk-3.22/repodlgs.c:1693
+#: client/gui-gtk-2.0/repodlgs.c:1651 client/gui-gtk-3.0/repodlgs.c:1696
+#: client/gui-gtk-3.22/repodlgs.c:1697
 msgid "_Upgrade"
 msgstr "(_U) Модернизировать"
 
-#: client/gui-gtk-2.0/repodlgs.c:1742 client/gui-gtk-3.0/repodlgs.c:1790
-#: client/gui-gtk-3.22/repodlgs.c:1791
+#: client/gui-gtk-2.0/repodlgs.c:1747 client/gui-gtk-3.0/repodlgs.c:1794
+#: client/gui-gtk-3.22/repodlgs.c:1795
 msgid "Player\n"
 msgstr "Игрок\n"
 
-#: client/gui-gtk-2.0/repodlgs.c:1744 client/gui-gtk-3.0/repodlgs.c:1792
-#: client/gui-gtk-3.22/repodlgs.c:1793
+#: client/gui-gtk-2.0/repodlgs.c:1749 client/gui-gtk-3.0/repodlgs.c:1796
+#: client/gui-gtk-3.22/repodlgs.c:1797
 msgid "Nation\n"
 msgstr "Народ\n"
 
-#: client/gui-gtk-2.0/repodlgs.c:1746 client/gui-gtk-3.0/repodlgs.c:1794
-#: client/gui-gtk-3.22/repodlgs.c:1795
+#: client/gui-gtk-2.0/repodlgs.c:1751 client/gui-gtk-3.0/repodlgs.c:1798
+#: client/gui-gtk-3.22/repodlgs.c:1799
 msgid "Score\n"
 msgstr "Счёт\n"
 
-#: client/gui-gtk-2.0/repodlgs.c:1857 client/gui-gtk-3.0/repodlgs.c:1905
-#: client/gui-gtk-3.22/repodlgs.c:1906 client/gui-qt/repodlgs.cpp:1569
+#: client/gui-gtk-2.0/repodlgs.c:1862 client/gui-gtk-3.0/repodlgs.c:1909
+#: client/gui-gtk-3.22/repodlgs.c:1910 client/gui-qt/repodlgs.cpp:1569
 #: client/plrdlg_common.c:313
 msgid "Score"
 msgstr "Счёт"
@@ -7032,8 +7032,8 @@ msgstr "Дополнительная информация доступна%sпр
 #: client/gui-gtk-3.22/gamedlgs.c:326 client/gui-gtk-3.22/helpdlg.c:460
 #: client/gui-gtk-3.22/inteldlg.c:256 client/gui-gtk-3.22/inteldlg.c:387
 #: client/gui-gtk-3.22/luaconsole.c:242 client/gui-gtk-3.22/messagewin.c:379
-#: client/gui-gtk-3.22/plrdlg.c:434 client/gui-gtk-3.22/repodlgs.c:556
-#: client/gui-gtk-3.22/repodlgs.c:1161 client/gui-gtk-3.22/repodlgs.c:1690
+#: client/gui-gtk-3.22/plrdlg.c:434 client/gui-gtk-3.22/repodlgs.c:560
+#: client/gui-gtk-3.22/repodlgs.c:1165 client/gui-gtk-3.22/repodlgs.c:1694
 #: client/gui-gtk-3.22/spaceshipdlg.c:230 client/gui-gtk-3.22/unitselect.c:281
 #: client/gui-gtk-3.22/wldlg.c:228 client/gui-gtk-3.22/wldlg.c:404
 msgid "_Close"
@@ -45097,39 +45097,39 @@ msgstr "Плохо названный игрок"
 msgid "You have made contact with the %s, ruled by %s."
 msgstr "Вы вступили в контакт с народом, именуемым %s, их лидер — %s."
 
-#: server/plrhand.c:2761
+#: server/plrhand.c:2762
 #, c-format
 msgid "Could not throw %s into civil war - too many players"
 msgstr "%s не могут скатиться в гражданскую войну — слишком много игроков"
 
-#: server/plrhand.c:2767
+#: server/plrhand.c:2768
 #, c-format
 msgid "Could not throw %s into civil war - no available nations"
 msgstr "%s не могут скатиться в гражданскую войну — нет доступных народов"
 
-#: server/plrhand.c:2801
+#: server/plrhand.c:2802
 #, c-format
 msgid "Could not throw %s into civil war - no available cities"
 msgstr "%s не могут скатиться в гражданскую войну — нет доступных городов"
 
-#: server/plrhand.c:2834
+#: server/plrhand.c:2835
 msgid "Your nation is thrust into civil war."
 msgstr "Ваша страна погрузилась в гражданскую войну."
 
 #. TRANS: <leader> ... the Poles.
-#: server/plrhand.c:2838
+#: server/plrhand.c:2839
 #, c-format
 msgid "%s is the rebellious leader of the %s."
 msgstr "Игрок %s провозглашён лидером повстанцев, народа %s."
 
 #. TRANS: <city> ... the Poles.
-#: server/plrhand.c:2860
+#: server/plrhand.c:2861
 #, c-format
 msgid "%s declares allegiance to the %s."
 msgstr "Город %s объявил о переходе в подданство к народу %s."
 
 #. TRANS: ... Danes ... Poles ... <7> cities.
-#: server/plrhand.c:2885
+#: server/plrhand.c:2886
 #, c-format
 msgid "Civil war partitions the %s; the %s now hold %d city."
 msgid_plural "Civil war partitions the %s; the %s now hold %d cities."
@@ -45145,7 +45145,7 @@ msgstr[2] ""
 
 #. TRANS: '/delegate cancel' is a server command and must not
 #. * be translated
-#: server/plrhand.c:3027
+#: server/plrhand.c:3028
 #, c-format
 msgid ""
 "User '%s' is currently allowed to take control of your player while you are "
@@ -45155,14 +45155,14 @@ msgstr ""
 "игроком во время Вашего отсутствия. Используйте команду '/delegate cancel' "
 "для отмены такого доступа."
 
-#: server/plrhand.c:3039
+#: server/plrhand.c:3040
 #, c-format
 msgid "Control of player '%s' is delegated to you."
 msgstr "Вам было передано управление игроком '%s'."
 
 #. TRANS: '/delegate take' is a server command and must not
 #. * be translated; but <player> should be translated.
-#: server/plrhand.c:3048
+#: server/plrhand.c:3049
 msgid "Use '/delegate take <player>' to take control of a delegated player."
 msgstr ""
 "Используйте команду '/delegate take <игрок>' для получения контроля над "

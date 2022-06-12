@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 3.0\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2022-06-05 23:33+0200\n"
+"POT-Creation-Date: 2022-06-13 02:40+0300\n"
 "PO-Revision-Date: 2022-06-03 05:45+0200\n"
 "Last-Translator: Igx <igx31 hotmail.com>\n"
 "Language-Team: French <freeciv-l10n-fr@yahoogroupes.fr>\n"
@@ -545,7 +545,7 @@ msgstr "Le gouverneur s'est embrouillé en gérant %s. Vous devriez intervenir."
 
 #. TRANS: No full stop after the URL, could cause confusion.
 #: client/agents/cma_core.c:430 client/gui-sdl2/mapview.c:164
-#: server/console.c:72 server/srv_main.c:3166 utility/log.c:566
+#: server/console.c:72 server/srv_main.c:3166 utility/log.c:564
 #: utility/netintf.c:96 utility/registry_ini.c:785
 #, c-format
 msgid "Please report this message at %s"
@@ -1235,14 +1235,14 @@ msgstr "Meilleures unités défensives"
 #: client/gui-gtk-2.0/cityrep.c:1496 client/gui-gtk-2.0/cityrep.c:1515
 #: client/gui-gtk-2.0/cityrep.c:1534 client/gui-gtk-2.0/cityrep.c:1553
 #: client/gui-gtk-2.0/cityrep.c:1573 client/gui-gtk-2.0/menu.c:1480
-#: client/gui-gtk-2.0/repodlgs.c:1576 client/gui-gtk-3.0/cityrep.c:1515
+#: client/gui-gtk-2.0/repodlgs.c:1581 client/gui-gtk-3.0/cityrep.c:1515
 #: client/gui-gtk-3.0/cityrep.c:1534 client/gui-gtk-3.0/cityrep.c:1553
 #: client/gui-gtk-3.0/cityrep.c:1572 client/gui-gtk-3.0/cityrep.c:1592
-#: client/gui-gtk-3.0/menu.c:321 client/gui-gtk-3.0/repodlgs.c:1625
+#: client/gui-gtk-3.0/menu.c:321 client/gui-gtk-3.0/repodlgs.c:1629
 #: client/gui-gtk-3.22/cityrep.c:1514 client/gui-gtk-3.22/cityrep.c:1533
 #: client/gui-gtk-3.22/cityrep.c:1552 client/gui-gtk-3.22/cityrep.c:1571
 #: client/gui-gtk-3.22/cityrep.c:1591 client/gui-gtk-3.22/menu.c:320
-#: client/gui-gtk-3.22/repodlgs.c:1625 client/gui-qt/cityrep.cpp:712
+#: client/gui-gtk-3.22/repodlgs.c:1629 client/gui-qt/cityrep.cpp:712
 #: client/gui-qt/menu.cpp:1574 client/gui-qt/pages.cpp:723
 #: client/gui-qt/pages.cpp:1286 client/gui-sdl2/helpdlg.c:750
 #: client/gui-sdl2/mapctrl.c:1709 client/gui-sdl2/repodlgs.c:391
@@ -1334,9 +1334,9 @@ msgid "Corruption"
 msgstr "Corruption"
 
 #: client/cityrepdata.c:755 client/gui-gtk-2.0/menu.c:1472
-#: client/gui-gtk-2.0/repodlgs.c:1049 client/gui-gtk-3.0/menu.c:313
-#: client/gui-gtk-3.0/repodlgs.c:1091 client/gui-gtk-3.22/menu.c:312
-#: client/gui-gtk-3.22/repodlgs.c:1090 client/gui-qt/menu.cpp:1586
+#: client/gui-gtk-2.0/repodlgs.c:1054 client/gui-gtk-3.0/menu.c:313
+#: client/gui-gtk-3.0/repodlgs.c:1095 client/gui-gtk-3.22/menu.c:312
+#: client/gui-gtk-3.22/repodlgs.c:1094 client/gui-qt/menu.cpp:1586
 #: client/gui-qt/pages.cpp:738 client/gui-sdl2/mapctrl.c:1479
 #: client/include/helpdlg_g.h:42 data/helpdata.txt:454
 msgid "Economy"
@@ -2222,11 +2222,11 @@ msgstr "(sans-nom)"
 #. * if this is plural.
 #: client/gui-gtk-2.0/action_dialog.c:488
 #: client/gui-gtk-2.0/action_dialog.c:1437 client/gui-gtk-2.0/citydlg.c:2655
-#: client/gui-gtk-2.0/repodlgs.c:1531 client/gui-gtk-3.0/action_dialog.c:498
+#: client/gui-gtk-2.0/repodlgs.c:1536 client/gui-gtk-3.0/action_dialog.c:498
 #: client/gui-gtk-3.0/action_dialog.c:1457 client/gui-gtk-3.0/citydlg.c:3073
-#: client/gui-gtk-3.0/repodlgs.c:1580 client/gui-gtk-3.22/action_dialog.c:498
+#: client/gui-gtk-3.0/repodlgs.c:1584 client/gui-gtk-3.22/action_dialog.c:498
 #: client/gui-gtk-3.22/action_dialog.c:1451 client/gui-gtk-3.22/citydlg.c:3106
-#: client/gui-gtk-3.22/repodlgs.c:1580 client/gui-qt/citydlg.cpp:3294
+#: client/gui-gtk-3.22/repodlgs.c:1584 client/gui-qt/citydlg.cpp:3294
 #: client/gui-qt/dialogs.cpp:2831 client/gui-qt/dialogs.cpp:2894
 #: client/gui-qt/repodlgs.cpp:214 client/gui-sdl2/action_dialog.c:2229
 #: client/gui-sdl2/action_dialog.c:2492 client/gui-sdl2/citydlg.c:1145
@@ -2784,10 +2784,10 @@ msgid "Science"
 msgstr "Recherche"
 
 #: client/gui-gtk-2.0/citydlg.c:1156 client/gui-gtk-2.0/editprop.c:4463
-#: client/gui-gtk-2.0/repodlgs.c:1250 client/gui-gtk-3.0/citydlg.c:1373
-#: client/gui-gtk-3.0/editprop.c:4528 client/gui-gtk-3.0/repodlgs.c:1295
+#: client/gui-gtk-2.0/repodlgs.c:1255 client/gui-gtk-3.0/citydlg.c:1373
+#: client/gui-gtk-3.0/editprop.c:4528 client/gui-gtk-3.0/repodlgs.c:1299
 #: client/gui-gtk-3.22/citydlg.c:1411 client/gui-gtk-3.22/editprop.c:4528
-#: client/gui-gtk-3.22/repodlgs.c:1295 client/gui-qt/citydlg.cpp:1883
+#: client/gui-gtk-3.22/repodlgs.c:1299 client/gui-qt/citydlg.cpp:1883
 #: client/gui-qt/pages.cpp:1292 common/city.c:86 data/civ1/terrain.ruleset:1140
 #: data/civ2/terrain.ruleset:1281 data/classic/terrain.ruleset:1575
 #: data/sandbox/terrain.ruleset:1863 data/experimental/terrain.ruleset:1594
@@ -3496,19 +3496,19 @@ msgstr "Vous devez taper un nom valide."
 msgid "Upgrade Unit!"
 msgstr "Mettre à jour l'unité !"
 
-#: client/gui-gtk-2.0/dialogs.c:1436 client/gui-gtk-2.0/repodlgs.c:1551
-#: client/gui-gtk-3.0/dialogs.c:1447 client/gui-gtk-3.0/repodlgs.c:1600
-#: client/gui-gtk-3.22/dialogs.c:1441 client/gui-gtk-3.22/repodlgs.c:1600
+#: client/gui-gtk-2.0/dialogs.c:1436 client/gui-gtk-2.0/repodlgs.c:1556
+#: client/gui-gtk-3.0/dialogs.c:1447 client/gui-gtk-3.0/repodlgs.c:1604
+#: client/gui-gtk-3.22/dialogs.c:1441 client/gui-gtk-3.22/repodlgs.c:1604
 #: client/gui-qt/dialogs.cpp:3517 client/gui-qt/repodlgs.cpp:226
 #: client/gui-sdl2/dialogs.c:692 client/gui-sdl2/repodlgs.c:225
 msgid "Upgrade Obsolete Units"
 msgstr "Mettre à jour les unités obsolètes"
 
 #: client/gui-gtk-2.0/dialogs.c:1465 client/gui-gtk-2.0/dialogs.c:1474
-#: client/gui-gtk-2.0/repodlgs.c:960 client/gui-gtk-3.0/dialogs.c:1476
-#: client/gui-gtk-3.0/dialogs.c:1485 client/gui-gtk-3.0/repodlgs.c:1002
+#: client/gui-gtk-2.0/repodlgs.c:965 client/gui-gtk-3.0/dialogs.c:1476
+#: client/gui-gtk-3.0/dialogs.c:1485 client/gui-gtk-3.0/repodlgs.c:1006
 #: client/gui-gtk-3.22/dialogs.c:1470 client/gui-gtk-3.22/dialogs.c:1479
-#: client/gui-gtk-3.22/repodlgs.c:1001 client/gui-qt/repodlgs.cpp:1458
+#: client/gui-gtk-3.22/repodlgs.c:1005 client/gui-qt/repodlgs.cpp:1458
 #: client/gui-sdl2/dialogs.c:888
 msgid "Disband Units"
 msgstr "Congédier les unités"
@@ -3710,10 +3710,10 @@ msgstr ""
 "contrôle par exemple combien d'unités seront placées d'un seul coup par "
 "l'outil unités."
 
-#: client/gui-gtk-2.0/editgui.c:1272 client/gui-gtk-2.0/repodlgs.c:768
+#: client/gui-gtk-2.0/editgui.c:1272 client/gui-gtk-2.0/repodlgs.c:773
 #: client/gui-gtk-2.0/unitselect.c:97 client/gui-gtk-3.0/editgui.c:1291
-#: client/gui-gtk-3.0/repodlgs.c:800 client/gui-gtk-3.0/unitselect.c:97
-#: client/gui-gtk-3.22/editgui.c:1290 client/gui-gtk-3.22/repodlgs.c:799
+#: client/gui-gtk-3.0/repodlgs.c:804 client/gui-gtk-3.0/unitselect.c:97
+#: client/gui-gtk-3.22/editgui.c:1290 client/gui-gtk-3.22/repodlgs.c:803
 #: client/gui-gtk-3.22/unitselect.c:97 client/gui-qt/repodlgs.cpp:1214
 msgid "Count"
 msgstr "Nombre"
@@ -4006,11 +4006,11 @@ msgstr "Nations"
 
 #. TRANS: Image header
 #: client/gui-gtk-2.0/editprop.c:4396 client/gui-gtk-2.0/pages.c:1309
-#: client/gui-gtk-2.0/repodlgs.c:762 client/gui-gtk-2.0/wldlg.c:999
+#: client/gui-gtk-2.0/repodlgs.c:767 client/gui-gtk-2.0/wldlg.c:999
 #: client/gui-gtk-3.0/editprop.c:4457 client/gui-gtk-3.0/pages.c:1393
-#: client/gui-gtk-3.0/repodlgs.c:794 client/gui-gtk-3.0/wldlg.c:1002
+#: client/gui-gtk-3.0/repodlgs.c:798 client/gui-gtk-3.0/wldlg.c:1002
 #: client/gui-gtk-3.22/editprop.c:4456 client/gui-gtk-3.22/pages.c:1394
-#: client/gui-gtk-3.22/repodlgs.c:793 client/gui-gtk-3.22/wldlg.c:1000
+#: client/gui-gtk-3.22/repodlgs.c:797 client/gui-gtk-3.22/wldlg.c:1000
 #: client/gui-qt/pages.cpp:314 client/gui-qt/repodlgs.cpp:1213
 msgid "Type"
 msgstr "Type"
@@ -5493,9 +5493,9 @@ msgstr "_Mettre à niveau"
 msgid "C_onvert"
 msgstr "_Convertir"
 
-#: client/gui-gtk-2.0/menu.c:1709 client/gui-gtk-2.0/repodlgs.c:1126
-#: client/gui-gtk-3.0/menu.c:491 client/gui-gtk-3.0/repodlgs.c:1164
-#: client/gui-gtk-3.22/menu.c:490 client/gui-gtk-3.22/repodlgs.c:1164
+#: client/gui-gtk-2.0/menu.c:1709 client/gui-gtk-2.0/repodlgs.c:1131
+#: client/gui-gtk-3.0/menu.c:491 client/gui-gtk-3.0/repodlgs.c:1168
+#: client/gui-gtk-3.22/menu.c:490 client/gui-gtk-3.22/repodlgs.c:1168
 msgid "_Disband"
 msgstr "Con_gédier"
 
@@ -6323,179 +6323,179 @@ msgstr "Retirer la vue partagée"
 #. TRANS: Research report title
 #. TRANS: Research report action
 #. TRANS: Research report title
-#: client/gui-gtk-2.0/repodlgs.c:535 client/gui-gtk-3.0/repodlgs.c:556
-#: client/gui-gtk-3.22/repodlgs.c:554 client/gui-qt/menu.cpp:1590
+#: client/gui-gtk-2.0/repodlgs.c:540 client/gui-gtk-3.0/repodlgs.c:560
+#: client/gui-gtk-3.22/repodlgs.c:558 client/gui-qt/menu.cpp:1590
 #: client/gui-qt/pages.cpp:735 client/gui-sdl2/mapctrl.c:1494
 #: client/gui-sdl2/mapview.c:345 client/gui-sdl2/mapview.c:353
 #: client/gui-sdl2/mapview.c:361 client/gui-sdl2/repodlgs.c:3360
 msgid "Research"
 msgstr "Recherche"
 
-#: client/gui-gtk-2.0/repodlgs.c:547 client/gui-gtk-3.0/repodlgs.c:569
-#: client/gui-gtk-3.22/repodlgs.c:568 client/gui-qt/pages.cpp:1358
+#: client/gui-gtk-2.0/repodlgs.c:552 client/gui-gtk-3.0/repodlgs.c:573
+#: client/gui-gtk-3.22/repodlgs.c:572 client/gui-qt/pages.cpp:1358
 msgid "Researching"
 msgstr "Recherche"
 
-#: client/gui-gtk-2.0/repodlgs.c:554 client/gui-gtk-3.0/repodlgs.c:576
-#: client/gui-gtk-3.22/cma_fe.c:428 client/gui-gtk-3.22/repodlgs.c:575
+#: client/gui-gtk-2.0/repodlgs.c:559 client/gui-gtk-3.0/repodlgs.c:580
+#: client/gui-gtk-3.22/cma_fe.c:428 client/gui-gtk-3.22/repodlgs.c:579
 #: client/gui-gtk-3.22/wldlg.c:1232 client/gui-qt/menu.cpp:1618
 msgid "Help"
 msgstr "Aide"
 
-#: client/gui-gtk-2.0/repodlgs.c:576 client/gui-gtk-3.0/repodlgs.c:601
-#: client/gui-gtk-3.22/repodlgs.c:600
+#: client/gui-gtk-2.0/repodlgs.c:581 client/gui-gtk-3.0/repodlgs.c:605
+#: client/gui-gtk-3.22/repodlgs.c:604
 msgid "Goal"
 msgstr "But"
 
 #. TRANS: As in 'Show all (even not reachable) techs'.
-#: client/gui-gtk-2.0/repodlgs.c:607 client/gui-gtk-3.0/repodlgs.c:634
-#: client/gui-gtk-3.22/repodlgs.c:633
+#: client/gui-gtk-2.0/repodlgs.c:612 client/gui-gtk-3.0/repodlgs.c:638
+#: client/gui-gtk-3.22/repodlgs.c:637
 msgid "Show all"
 msgstr "Monter toutes"
 
-#: client/gui-gtk-2.0/repodlgs.c:764 client/gui-gtk-3.0/repodlgs.c:796
-#: client/gui-gtk-3.22/repodlgs.c:795 client/gui-qt/repodlgs.cpp:1213
+#: client/gui-gtk-2.0/repodlgs.c:769 client/gui-gtk-3.0/repodlgs.c:800
+#: client/gui-gtk-3.22/repodlgs.c:799 client/gui-qt/repodlgs.cpp:1213
 msgid "?Building or Unit type:Name"
 msgstr "Nom"
 
-#: client/gui-gtk-2.0/repodlgs.c:766 client/gui-gtk-3.0/repodlgs.c:798
-#: client/gui-gtk-3.22/repodlgs.c:797 client/gui-qt/repodlgs.cpp:1213
+#: client/gui-gtk-2.0/repodlgs.c:771 client/gui-gtk-3.0/repodlgs.c:802
+#: client/gui-gtk-3.22/repodlgs.c:801 client/gui-qt/repodlgs.cpp:1213
 msgid "Redundant"
 msgstr "Redondant"
 
-#: client/gui-gtk-2.0/repodlgs.c:770 client/gui-gtk-2.0/wldlg.c:999
-#: client/gui-gtk-3.0/repodlgs.c:802 client/gui-gtk-3.0/wldlg.c:1002
-#: client/gui-gtk-3.22/repodlgs.c:801 client/gui-gtk-3.22/wldlg.c:1000
+#: client/gui-gtk-2.0/repodlgs.c:775 client/gui-gtk-2.0/wldlg.c:999
+#: client/gui-gtk-3.0/repodlgs.c:806 client/gui-gtk-3.0/wldlg.c:1002
+#: client/gui-gtk-3.22/repodlgs.c:805 client/gui-gtk-3.22/wldlg.c:1000
 #: client/gui-qt/repodlgs.cpp:1214 tools/civmanual.c:513
 msgid "Cost"
 msgstr "Coût"
 
 #. TRANS: Upkeep total, count*cost.
-#: client/gui-gtk-2.0/repodlgs.c:773 client/gui-gtk-3.0/repodlgs.c:805
-#: client/gui-gtk-3.22/repodlgs.c:804 client/gui-qt/repodlgs.cpp:1214
+#: client/gui-gtk-2.0/repodlgs.c:778 client/gui-gtk-3.0/repodlgs.c:809
+#: client/gui-gtk-3.22/repodlgs.c:808 client/gui-qt/repodlgs.cpp:1214
 #: client/gui-sdl2/repodlgs.c:2102
 msgid "U Total"
 msgstr "Total"
 
-#: client/gui-gtk-2.0/repodlgs.c:865 client/gui-gtk-3.0/repodlgs.c:907
-#: client/gui-gtk-3.22/repodlgs.c:906 client/gui-qt/pages.cpp:2146
+#: client/gui-gtk-2.0/repodlgs.c:870 client/gui-gtk-3.0/repodlgs.c:911
+#: client/gui-gtk-3.22/repodlgs.c:910 client/gui-qt/pages.cpp:2146
 #: client/gui-qt/repodlgs.cpp:1384
 #, c-format
 msgid "Income: %d    Total Costs: %d"
 msgstr "Revenu: %d    Coûts Totaux: %d"
 
 #. TRANS: %s is an improvement
-#: client/gui-gtk-2.0/repodlgs.c:926 client/gui-gtk-3.0/repodlgs.c:968
-#: client/gui-gtk-3.22/repodlgs.c:967 client/gui-qt/repodlgs.cpp:1533
+#: client/gui-gtk-2.0/repodlgs.c:931 client/gui-gtk-3.0/repodlgs.c:972
+#: client/gui-gtk-3.22/repodlgs.c:971 client/gui-qt/repodlgs.cpp:1533
 #, c-format
 msgid "Do you really wish to sell every redundant %s (%d total)?"
 msgstr "Voulez-vous réellement vendre tous les %s redondants (%d au total) ?"
 
 #. TRANS: %s is an improvement
-#: client/gui-gtk-2.0/repodlgs.c:929 client/gui-gtk-3.0/repodlgs.c:971
-#: client/gui-gtk-3.22/repodlgs.c:970 client/gui-qt/repodlgs.cpp:1493
+#: client/gui-gtk-2.0/repodlgs.c:934 client/gui-gtk-3.0/repodlgs.c:975
+#: client/gui-gtk-3.22/repodlgs.c:974 client/gui-qt/repodlgs.cpp:1493
 #, c-format
 msgid "Do you really wish to sell every %s (%d total)?"
 msgstr "Voulez-vous réellement vendre tous les %s (%d au total) ?"
 
-#: client/gui-gtk-2.0/repodlgs.c:934 client/gui-gtk-3.0/repodlgs.c:976
-#: client/gui-gtk-3.22/repodlgs.c:975 client/gui-qt/repodlgs.cpp:1498
+#: client/gui-gtk-2.0/repodlgs.c:939 client/gui-gtk-3.0/repodlgs.c:980
+#: client/gui-gtk-3.22/repodlgs.c:979 client/gui-qt/repodlgs.cpp:1498
 #: client/gui-qt/repodlgs.cpp:1538
 msgid "Sell Improvements"
 msgstr "Vendre des bâtiments"
 
 #. TRANS: %s is a unit
-#: client/gui-gtk-2.0/repodlgs.c:955 client/gui-gtk-3.0/repodlgs.c:997
-#: client/gui-gtk-3.22/repodlgs.c:996 client/gui-qt/repodlgs.cpp:1453
+#: client/gui-gtk-2.0/repodlgs.c:960 client/gui-gtk-3.0/repodlgs.c:1001
+#: client/gui-gtk-3.22/repodlgs.c:1000 client/gui-qt/repodlgs.cpp:1453
 #, c-format
 msgid "Do you really wish to disband every %s (%d total)?"
 msgstr "Voulez-vous réellement congédier tous les %s (%d au total) ?"
 
-#: client/gui-gtk-2.0/repodlgs.c:980 client/gui-gtk-3.0/repodlgs.c:1022
-#: client/gui-gtk-3.22/repodlgs.c:1021 client/gui-qt/repodlgs.cpp:1512
+#: client/gui-gtk-2.0/repodlgs.c:985 client/gui-gtk-3.0/repodlgs.c:1026
+#: client/gui-gtk-3.22/repodlgs.c:1025 client/gui-qt/repodlgs.cpp:1512
 #: client/gui-qt/repodlgs.cpp:1552
 msgid "Sell-Off: Results"
 msgstr "Ventes : Résultats"
 
-#: client/gui-gtk-2.0/repodlgs.c:1118 client/gui-gtk-3.0/repodlgs.c:1172
-#: client/gui-gtk-3.22/repodlgs.c:1172
+#: client/gui-gtk-2.0/repodlgs.c:1123 client/gui-gtk-3.0/repodlgs.c:1176
+#: client/gui-gtk-3.22/repodlgs.c:1176
 msgid "Sell _Redundant"
 msgstr "Vendre le _redondant"
 
-#: client/gui-gtk-2.0/repodlgs.c:1122 client/gui-gtk-3.0/repodlgs.c:1168
-#: client/gui-gtk-3.22/repodlgs.c:1168
+#: client/gui-gtk-2.0/repodlgs.c:1127 client/gui-gtk-3.0/repodlgs.c:1172
+#: client/gui-gtk-3.22/repodlgs.c:1172
 msgid "Sell _All"
 msgstr "To_ut vendre"
 
-#: client/gui-gtk-2.0/repodlgs.c:1235 client/gui-gtk-3.0/repodlgs.c:1280
-#: client/gui-gtk-3.22/repodlgs.c:1280
+#: client/gui-gtk-2.0/repodlgs.c:1240 client/gui-gtk-3.0/repodlgs.c:1284
+#: client/gui-gtk-3.22/repodlgs.c:1284
 msgid "Unit Type"
 msgstr "Type d'unité"
 
-#: client/gui-gtk-2.0/repodlgs.c:1237 client/gui-gtk-3.0/repodlgs.c:1282
-#: client/gui-gtk-3.22/repodlgs.c:1282
+#: client/gui-gtk-2.0/repodlgs.c:1242 client/gui-gtk-3.0/repodlgs.c:1286
+#: client/gui-gtk-3.22/repodlgs.c:1286
 msgid "?Upgradable unit [short]:U"
 msgstr "U"
 
-#: client/gui-gtk-2.0/repodlgs.c:1238 client/gui-gtk-3.0/repodlgs.c:1283
-#: client/gui-gtk-3.22/repodlgs.c:1283
+#: client/gui-gtk-2.0/repodlgs.c:1243 client/gui-gtk-3.0/repodlgs.c:1287
+#: client/gui-gtk-3.22/repodlgs.c:1287
 msgid "Upgradable"
 msgstr "Améliorable"
 
 #. TRANS: "In progress" abbreviation.
 #. URD_COL_IN_PROGRESS
-#: client/gui-gtk-2.0/repodlgs.c:1242 client/gui-gtk-3.0/repodlgs.c:1287
-#: client/gui-gtk-3.22/repodlgs.c:1287
+#: client/gui-gtk-2.0/repodlgs.c:1247 client/gui-gtk-3.0/repodlgs.c:1291
+#: client/gui-gtk-3.22/repodlgs.c:1291
 msgid "In-Prog"
 msgstr "En cours"
 
-#: client/gui-gtk-2.0/repodlgs.c:1243 client/gui-gtk-3.0/repodlgs.c:1288
-#: client/gui-gtk-3.22/repodlgs.c:1288
+#: client/gui-gtk-2.0/repodlgs.c:1248 client/gui-gtk-3.0/repodlgs.c:1292
+#: client/gui-gtk-3.22/repodlgs.c:1292
 msgid "In progress"
 msgstr "En cours"
 
-#: client/gui-gtk-2.0/repodlgs.c:1244 client/gui-gtk-3.0/repodlgs.c:1289
-#: client/gui-gtk-3.22/repodlgs.c:1289
+#: client/gui-gtk-2.0/repodlgs.c:1249 client/gui-gtk-3.0/repodlgs.c:1293
+#: client/gui-gtk-3.22/repodlgs.c:1293
 msgid "Active"
 msgstr "Actif"
 
-#: client/gui-gtk-2.0/repodlgs.c:1246 client/gui-gtk-3.0/repodlgs.c:1291
-#: client/gui-gtk-3.22/repodlgs.c:1291 client/gui-qt/citydlg.cpp:1883
+#: client/gui-gtk-2.0/repodlgs.c:1251 client/gui-gtk-3.0/repodlgs.c:1295
+#: client/gui-gtk-3.22/repodlgs.c:1295 client/gui-qt/citydlg.cpp:1883
 #: common/city.c:84
 msgid "Shield"
 msgstr "Production"
 
-#: client/gui-gtk-2.0/repodlgs.c:1247 client/gui-gtk-3.0/repodlgs.c:1292
-#: client/gui-gtk-3.22/repodlgs.c:1292
+#: client/gui-gtk-2.0/repodlgs.c:1252 client/gui-gtk-3.0/repodlgs.c:1296
+#: client/gui-gtk-3.22/repodlgs.c:1296
 msgid "Total shield upkeep"
 msgstr "Entretien total en production"
 
-#: client/gui-gtk-2.0/repodlgs.c:1248 client/gui-gtk-3.0/repodlgs.c:1293
-#: client/gui-gtk-3.22/repodlgs.c:1293 client/gui-qt/citydlg.cpp:1883
+#: client/gui-gtk-2.0/repodlgs.c:1253 client/gui-gtk-3.0/repodlgs.c:1297
+#: client/gui-gtk-3.22/repodlgs.c:1297 client/gui-qt/citydlg.cpp:1883
 #: common/city.c:83
 msgid "Food"
 msgstr "Nourriture"
 
-#: client/gui-gtk-2.0/repodlgs.c:1249 client/gui-gtk-3.0/repodlgs.c:1294
-#: client/gui-gtk-3.22/repodlgs.c:1294
+#: client/gui-gtk-2.0/repodlgs.c:1254 client/gui-gtk-3.0/repodlgs.c:1298
+#: client/gui-gtk-3.22/repodlgs.c:1298
 msgid "Total food upkeep"
 msgstr "Entretien total en nourriture"
 
-#: client/gui-gtk-2.0/repodlgs.c:1251 client/gui-gtk-3.0/repodlgs.c:1296
-#: client/gui-gtk-3.22/repodlgs.c:1296
+#: client/gui-gtk-2.0/repodlgs.c:1256 client/gui-gtk-3.0/repodlgs.c:1300
+#: client/gui-gtk-3.22/repodlgs.c:1300
 msgid "Total gold upkeep"
 msgstr "Entretien total en or"
 
-#: client/gui-gtk-2.0/repodlgs.c:1390 client/gui-gtk-3.0/repodlgs.c:1438
-#: client/gui-gtk-3.22/repodlgs.c:1438
+#: client/gui-gtk-2.0/repodlgs.c:1395 client/gui-gtk-3.0/repodlgs.c:1442
+#: client/gui-gtk-3.22/repodlgs.c:1442
 msgid "Totals:"
 msgstr "Totaux :"
 
 #. TRANS: Last %s is pre-pluralised
 #. * "Treasury contains %d gold."
 #. TRANS: Last %s is pre-pluralised "Treasury contains %d gold."
-#: client/gui-gtk-2.0/repodlgs.c:1542 client/gui-gtk-3.0/repodlgs.c:1591
-#: client/gui-gtk-3.22/repodlgs.c:1591 client/gui-qt/repodlgs.cpp:219
+#: client/gui-gtk-2.0/repodlgs.c:1547 client/gui-gtk-3.0/repodlgs.c:1595
+#: client/gui-gtk-3.22/repodlgs.c:1595 client/gui-qt/repodlgs.cpp:219
 #: client/gui-sdl2/repodlgs.c:218
 #, c-format
 msgid ""
@@ -6511,33 +6511,33 @@ msgstr[1] ""
 "Mettre à jour autant de %s en %s que possible pour %d lingots chacun ?\n"
 "%s"
 
-#: client/gui-gtk-2.0/repodlgs.c:1643 client/gui-gtk-3.0/repodlgs.c:1697
-#: client/gui-gtk-3.22/repodlgs.c:1698
+#: client/gui-gtk-2.0/repodlgs.c:1648 client/gui-gtk-3.0/repodlgs.c:1701
+#: client/gui-gtk-3.22/repodlgs.c:1702
 msgid "Find _Nearest"
 msgstr "_Trouver au plus proche"
 
-#: client/gui-gtk-2.0/repodlgs.c:1646 client/gui-gtk-3.0/repodlgs.c:1692
-#: client/gui-gtk-3.22/repodlgs.c:1693
+#: client/gui-gtk-2.0/repodlgs.c:1651 client/gui-gtk-3.0/repodlgs.c:1696
+#: client/gui-gtk-3.22/repodlgs.c:1697
 msgid "_Upgrade"
 msgstr "Mettre à _niveau"
 
-#: client/gui-gtk-2.0/repodlgs.c:1742 client/gui-gtk-3.0/repodlgs.c:1790
-#: client/gui-gtk-3.22/repodlgs.c:1791
+#: client/gui-gtk-2.0/repodlgs.c:1747 client/gui-gtk-3.0/repodlgs.c:1794
+#: client/gui-gtk-3.22/repodlgs.c:1795
 msgid "Player\n"
 msgstr "Joueur\n"
 
-#: client/gui-gtk-2.0/repodlgs.c:1744 client/gui-gtk-3.0/repodlgs.c:1792
-#: client/gui-gtk-3.22/repodlgs.c:1793
+#: client/gui-gtk-2.0/repodlgs.c:1749 client/gui-gtk-3.0/repodlgs.c:1796
+#: client/gui-gtk-3.22/repodlgs.c:1797
 msgid "Nation\n"
 msgstr "Nation\n"
 
-#: client/gui-gtk-2.0/repodlgs.c:1746 client/gui-gtk-3.0/repodlgs.c:1794
-#: client/gui-gtk-3.22/repodlgs.c:1795
+#: client/gui-gtk-2.0/repodlgs.c:1751 client/gui-gtk-3.0/repodlgs.c:1798
+#: client/gui-gtk-3.22/repodlgs.c:1799
 msgid "Score\n"
 msgstr "Score\n"
 
-#: client/gui-gtk-2.0/repodlgs.c:1857 client/gui-gtk-3.0/repodlgs.c:1905
-#: client/gui-gtk-3.22/repodlgs.c:1906 client/gui-qt/repodlgs.cpp:1569
+#: client/gui-gtk-2.0/repodlgs.c:1862 client/gui-gtk-3.0/repodlgs.c:1909
+#: client/gui-gtk-3.22/repodlgs.c:1910 client/gui-qt/repodlgs.cpp:1569
 #: client/plrdlg_common.c:313
 msgid "Score"
 msgstr "Score"
@@ -6989,8 +6989,8 @@ msgstr ""
 #: client/gui-gtk-3.22/gamedlgs.c:326 client/gui-gtk-3.22/helpdlg.c:460
 #: client/gui-gtk-3.22/inteldlg.c:256 client/gui-gtk-3.22/inteldlg.c:387
 #: client/gui-gtk-3.22/luaconsole.c:242 client/gui-gtk-3.22/messagewin.c:379
-#: client/gui-gtk-3.22/plrdlg.c:434 client/gui-gtk-3.22/repodlgs.c:556
-#: client/gui-gtk-3.22/repodlgs.c:1161 client/gui-gtk-3.22/repodlgs.c:1690
+#: client/gui-gtk-3.22/plrdlg.c:434 client/gui-gtk-3.22/repodlgs.c:560
+#: client/gui-gtk-3.22/repodlgs.c:1165 client/gui-gtk-3.22/repodlgs.c:1694
 #: client/gui-gtk-3.22/spaceshipdlg.c:230 client/gui-gtk-3.22/unitselect.c:281
 #: client/gui-gtk-3.22/wldlg.c:228 client/gui-gtk-3.22/wldlg.c:404
 msgid "_Close"
@@ -17485,8 +17485,8 @@ msgstr ""
 #, c-format
 msgid "Requires that no player knows any technology with the \"%s\" flag."
 msgstr ""
-"Nécessite qu'aucun joueur ne connaisse de technologie avec l'indicateur \"%s"
-"\"."
+"Nécessite qu'aucun joueur ne connaisse de technologie avec l'indicateur "
+"\"%s\"."
 
 #: common/reqtext.c:222
 #, c-format
@@ -34481,8 +34481,8 @@ msgid ""
 "capacity, and once full the city grows by one citizen and the granary starts "
 "again at empty. But since granary capacity increases with population, each "
 "citizen is more costly than the last, making this mode of growth important "
-"only for small cities. (An alternative way for cities to grow is \"rapture"
-"\", described in the section on Happiness.)"
+"only for small cities. (An alternative way for cities to grow is "
+"\"rapture\", described in the section on Happiness.)"
 msgstr ""
 "Les excédents de nourriture peuvent augmenter la population : le grenier a "
 "une capacité limitée et une fois rempli, la ville gagne un citoyen "
@@ -34881,9 +34881,9 @@ msgid ""
 "citizen a city disappears (in the classic ruleset, this can leave ruins, "
 "although these have no effect on gameplay)."
 msgstr ""
-"Une ville est créée quand des Colons exécutent la commande \"Bâtir une ville"
-"\" sur un terrain propice, ce qui retire l'unité du jeu pour donner à la "
-"ville ses premiers citoyens. Une ville peut croître et compter de très "
+"Une ville est créée quand des Colons exécutent la commande \"Bâtir une "
+"ville\" sur un terrain propice, ce qui retire l'unité du jeu pour donner à "
+"la ville ses premiers citoyens. Une ville peut croître et compter de très "
 "nombreux habitants, certains travaillant à l'intérieur de la ville et "
 "d'autres envoyés comme nouveaux colons. La famine, la guerre et les "
 "épidémies tuent les citoyens et réduisent la population ; avec la perte de "
@@ -35017,8 +35017,8 @@ msgstr ""
 "l'Irrigation ou la construction de Route (voir la section sur les "
 "Altérations de Terrains) ; vous pouvez sélectionner une amélioration par "
 "case à la fois. Ces \"tâches de travailleurs\" seront réalisées par "
-"n'importe quelle unité qui en est capable et qui est en mode \"Auto-Coloniser"
-"\"."
+"n'importe quelle unité qui en est capable et qui est en mode \"Auto-"
+"Coloniser\"."
 
 #: data/helpdata.txt:731
 msgid ""
@@ -36963,8 +36963,8 @@ msgstr ""
 "\n"
 "  Ces combinaisons choisissent et sélectionnent une unité parmi celles "
 "présentes sur une case. Toutes choses égales par ailleurs, les unités "
-"disposant encore de points de mouvement sont préférées. Si l'option \"Aller à"
-"\" sans clavier est activée, un clic+glisser permet sélectionner et de "
+"disposant encore de points de mouvement sont préférées. Si l'option \"Aller "
+"à\" sans clavier est activée, un clic+glisser permet sélectionner et de "
 "déplacer l'unité d'un seul geste."
 
 #: data/helpdata.txt:1738
@@ -42717,11 +42717,11 @@ msgstr "Affiche les options du serveur."
 msgid ""
 "With no arguments, shows vital server options (or available options, when "
 "used by clients). With an option name argument, show only the named option, "
-"or options with that prefix. With \"all\", it shows all options. With \"vital"
-"\", \"situational\" or \"rare\", a set of options with this level. With "
-"\"changed\", it shows only the options which have been modified, while with "
-"\"locked\" all settings locked by the ruleset will be listed. With \"ruleset"
-"\", it will show the current ruleset directory name."
+"or options with that prefix. With \"all\", it shows all options. With "
+"\"vital\", \"situational\" or \"rare\", a set of options with this level. "
+"With \"changed\", it shows only the options which have been modified, while "
+"with \"locked\" all settings locked by the ruleset will be listed. With "
+"\"ruleset\", it will show the current ruleset directory name."
 msgstr ""
 "Sans argument, affiche les options vitales du serveur (ou les options "
 "disponibles, lorsqu'utilisée depuis un client). Avec un nom d'option comme "
@@ -43291,10 +43291,10 @@ msgstr ""
 #: server/commands.c:475
 msgid ""
 "The given pattern will be added to your ignore list; you will not receive "
-"any messages from users matching this pattern. The type may be either \"user"
-"\", \"host\", or \"ip\". The default type (if omitted) is to match against "
-"the username. The pattern supports unix glob style wildcards, i.e., * "
-"matches zero or more character, ? exactly one character, [abc] exactly one "
+"any messages from users matching this pattern. The type may be either "
+"\"user\", \"host\", or \"ip\". The default type (if omitted) is to match "
+"against the username. The pattern supports unix glob style wildcards, i.e., "
+"* matches zero or more character, ? exactly one character, [abc] exactly one "
 "of 'a' 'b' or 'c', etc. To access your current ignore list, issue \"/list "
 "ignore\"."
 msgstr ""
@@ -45192,40 +45192,40 @@ msgstr "Un joueur mal nommé"
 msgid "You have made contact with the %s, ruled by %s."
 msgstr "Vous avez établi un contact avec les %s, dirigés par %s."
 
-#: server/plrhand.c:2761
+#: server/plrhand.c:2762
 #, c-format
 msgid "Could not throw %s into civil war - too many players"
 msgstr "Impossible de plonger %s dans une guerre civile - trop de joueurs"
 
-#: server/plrhand.c:2767
+#: server/plrhand.c:2768
 #, c-format
 msgid "Could not throw %s into civil war - no available nations"
 msgstr "Impossible de plonger %s dans une guerre civile - pas assez de nations"
 
-#: server/plrhand.c:2801
+#: server/plrhand.c:2802
 #, c-format
 msgid "Could not throw %s into civil war - no available cities"
 msgstr ""
 "Impossible de plonger %s dans une guerre civile - pas de ville disponible"
 
-#: server/plrhand.c:2834
+#: server/plrhand.c:2835
 msgid "Your nation is thrust into civil war."
 msgstr "Votre nation plonge dans la guerre civile."
 
 #. TRANS: <leader> ... the Poles.
-#: server/plrhand.c:2838
+#: server/plrhand.c:2839
 #, c-format
 msgid "%s is the rebellious leader of the %s."
 msgstr "%s est déclaré chef des États rebelles %s."
 
 #. TRANS: <city> ... the Poles.
-#: server/plrhand.c:2860
+#: server/plrhand.c:2861
 #, c-format
 msgid "%s declares allegiance to the %s."
 msgstr "%s fait allégeance à %s."
 
 #. TRANS: ... Danes ... Poles ... <7> cities.
-#: server/plrhand.c:2885
+#: server/plrhand.c:2886
 #, c-format
 msgid "Civil war partitions the %s; the %s now hold %d city."
 msgid_plural "Civil war partitions the %s; the %s now hold %d cities."
@@ -45236,7 +45236,7 @@ msgstr[1] ""
 
 #. TRANS: '/delegate cancel' is a server command and must not
 #. * be translated
-#: server/plrhand.c:3027
+#: server/plrhand.c:3028
 #, c-format
 msgid ""
 "User '%s' is currently allowed to take control of your player while you are "
@@ -45246,14 +45246,14 @@ msgstr ""
 "joueur tant que vous êtes parti. Utilisez la commande '/delegate cancel' "
 "pour révoquer cet accès."
 
-#: server/plrhand.c:3039
+#: server/plrhand.c:3040
 #, c-format
 msgid "Control of player '%s' is delegated to you."
 msgstr "Le contrôle du joueur '%s' vous a été délégué."
 
 #. TRANS: '/delegate take' is a server command and must not
 #. * be translated; but <player> should be translated.
-#: server/plrhand.c:3048
+#: server/plrhand.c:3049
 msgid "Use '/delegate take <player>' to take control of a delegated player."
 msgstr ""
 "Utilisez '/delegate take <nom de joueur>' pour prendre le contrôle d'un "
@@ -46473,8 +46473,8 @@ msgstr ""
 "  size = 4 est une carte normale de 4000 cases (défaut)\n"
 "  size = 20 est une carte énorme de 20000 cases\n"
 "Pour que cette option soit prise en compte, l'option \"Définition de la "
-"taille de la carte\" ('Mapsize') doit être positionnée à \"Nombre de cases"
-"\" (FULLSIZE)."
+"taille de la carte\" ('Mapsize') doit être positionnée à \"Nombre de "
+"cases\" (FULLSIZE)."
 
 #: server/settings.c:1396
 msgid "Number of (land) tiles per player"
@@ -46497,8 +46497,8 @@ msgstr ""
 "permet de calculer la taille de la carte au commencement du jeu en se basant "
 "sur le nombre de joueurs et la valeur de l'option 'landmass'.\n"
 "Pour que cette option soit prise en compte, l'option \"Définition de la "
-"taille de la carte\" ('mapsize') doit être positionnée à \"Cases par joueur"
-"\" (PLAYER)."
+"taille de la carte\" ('mapsize') doit être positionnée à \"Cases par "
+"joueur\" (PLAYER)."
 
 #: server/settings.c:1413
 msgid "Map width in tiles"
@@ -46517,8 +46517,8 @@ msgid ""
 msgstr ""
 "Définit la largeur de la carte.\n"
 "Pour que cette option soit prise en compte, l'option \"Définition de la "
-"taille de la carte\" ('mapsize') doit être positionnée à \"Largeur et hauteur"
-"\" (XYSIZE)."
+"taille de la carte\" ('mapsize') doit être positionnée à \"Largeur et "
+"hauteur\" (XYSIZE)."
 
 #: server/settings.c:1427
 msgid "Map height in tiles"
@@ -46537,8 +46537,8 @@ msgid ""
 msgstr ""
 "Définit la hauteur de la carte.\n"
 "Pour que cette option soit prise en compte, l'option \"Définition de la "
-"taille de la carte\" ('mapsize') doit être positionnée à \"Largeur et hauteur"
-"\" (XYSIZE)."
+"taille de la carte\" ('mapsize') doit être positionnée à \"Largeur et "
+"hauteur\" (XYSIZE)."
 
 #: server/settings.c:1442
 msgid "Map topology"
@@ -47961,10 +47961,10 @@ msgid ""
 msgstr ""
 "Cette option affecte l'aéroportage d'unités entre les villes. Ce peut être "
 "un ensemble des valeurs suivantes :\n"
-"- \"Permet aux unités d'être aéroportées depuis des villes alliées"
-"\" (FROM_ALLIES).\n"
-"- \"Permet aux unités d'être aéroportées vers des villes alliées"
-"\" (TO_ALLIES)\n"
+"- \"Permet aux unités d'être aéroportées depuis des villes "
+"alliées\" (FROM_ALLIES).\n"
+"- \"Permet aux unités d'être aéroportées vers des villes "
+"alliées\" (TO_ALLIES)\n"
 "- \"Unités illimitées depuis la ville source\" (SRC_UNLIMITED) : notez que "
 "l'aéroportage depuis une ville ne réduit pas le compteur d'aéroportage, mais "
 "nécessite une capacité d'aéroportage minimale de 1.\n"
@@ -48170,12 +48170,13 @@ msgid ""
 msgstr ""
 "Ceci est l'option maîtresse qui contrôle si l'émigration des citoyens est "
 "activée dans la partie. Si elle est activée, les citoyens peuvent se "
-"déplacer automatiquement d'une ville à une autre plus attrayante. L'\"attrait"
-"\" d'une ville donnée est calculé par de nombreux facteurs. En général, les "
-"cités les plus importantes dotées de plus de revenu et d'améliorations sont "
-"préférées. Les citoyens n'émigreront jamais de la capitale, et ne causeront "
-"pas la perte d'une merveille en démantelant une ville. De nombreux autres "
-"paramètres affectent le comportement de l'émigration :\n"
+"déplacer automatiquement d'une ville à une autre plus attrayante. "
+"L'\"attrait\" d'une ville donnée est calculé par de nombreux facteurs. En "
+"général, les cités les plus importantes dotées de plus de revenu et "
+"d'améliorations sont préférées. Les citoyens n'émigreront jamais de la "
+"capitale, et ne causeront pas la perte d'une merveille en démantelant une "
+"ville. De nombreux autres paramètres affectent le comportement de "
+"l'émigration :\n"
 "  mgr_turninterval - Fréquence de migration des citoyens.\n"
 "  mgr_foodneeded   - Si la nourriture est un facteur d'immigration.\n"
 "  mgr_distance     - Distance à laquelle les citoyens peuvent migrer.\n"
@@ -48745,8 +48746,8 @@ msgstr ""
 "Exemple: 'civgame-T%04T-A%+05Y%S-%R' => 'civgame-T0100-A00001-manual'\n"
 "\n"
 "Prenez garde d'utiliser au moins un fois %T ou %Y, sinon les nouvelles "
-"sauvegardes écraseront les anciennes. Si aucun des formats n'est utilisé '-T"
-"%04T-Y%05Y-%R' est ajouté à la valeur de 'savename'."
+"sauvegardes écraseront les anciennes. Si aucun des formats n'est utilisé '-"
+"T%04T-Y%05Y-%R' est ajouté à la valeur de 'savename'."
 
 #: server/settings.c:2993
 msgid "Whether to log player statistics"
@@ -52048,8 +52049,8 @@ msgid ""
 "%sA:%.1f lost %d HP, has %d HP remaining%s]."
 msgstr ""
 "Votre %2$s %1$s [id:%3$d %4$sD:%5$.1f PV:%6$d] a été perdu dans une attaque "
-"de %9$s %8$s %7$s [id:%10$d %11$sA:%12$.1f %13$d PV perdus, %14$d PV restants"
-"%15$s]."
+"de %9$s %8$s %7$s [id:%10$d %11$sA:%12$.1f %13$d PV perdus, %14$d PV "
+"restants%15$s]."
 
 #. TRANS: "Your attacking green Legion [id:200 ...A:4.0
 #. * lost 1 HP, has 9 HP remaining] succeeded against the
@@ -52649,13 +52650,13 @@ msgstr "Impossible de trouver le fichier de chaînes \"%s\"."
 msgid "Cannot open stringfile \"%s\"."
 msgstr "Impossible d'ouvrir le fichier de chaînes \"%s\"."
 
-#: utility/log.c:121
+#: utility/log.c:119
 #, c-format
 msgid "Bad log level \"%s\".\n"
 msgstr "Mauvais niveau de journal dans \"%s\".\n"
 
 #. TRANS: Do not translate log level names that user has to provide in English
-#: utility/log.c:126
+#: utility/log.c:124
 msgid ""
 "Do not provide log level with a numerical value. Use one of the levels "
 "Fatal, Error, Warning, Normal, Verbose, Debug"
@@ -52663,12 +52664,12 @@ msgstr ""
 "Ne donnez pas de valeur numérique au niveau de logs. Utilisez l'un des "
 "niveaux : Fatal, Error, Warning, Normal, Verbose, Debug."
 
-#: utility/log.c:135
+#: utility/log.c:133
 #, c-format
 msgid "Bad log level %d in \"%s\".\n"
 msgstr "Mauvais niveau (%d) de log dans \"%s\".\n"
 
-#: utility/log.c:140
+#: utility/log.c:138
 #, c-format
 msgid ""
 "Freeciv must be compiled with the FREECIV_DEBUG flag to use debug level %d.\n"
@@ -52676,28 +52677,28 @@ msgstr ""
 "Freeciv doit être compilé avec l'indicateur FREECIV_DEBUG pour pouvoir "
 "utiliser le niveau de débogage %d.\n"
 
-#: utility/log.c:162
+#: utility/log.c:160
 #, c-format
 msgid "Bad log level %c in \"%s\".\n"
 msgstr "Mauvais niveau de journal %c dans \"%s\".\n"
 
-#: utility/log.c:167 utility/log.c:181 utility/log.c:224
+#: utility/log.c:165 utility/log.c:179 utility/log.c:222
 #, c-format
 msgid "Badly formed log level argument \"%s\".\n"
 msgstr "Le niveau de journal \"%s\" en argument est mal formaté.\n"
 
-#: utility/log.c:201 utility/log.c:206
+#: utility/log.c:199 utility/log.c:204
 #, c-format
 msgid "Not an unsigned integer: '%s'\n"
 msgstr "Ce n'est pas un entier non signé : \"%s\"\n"
 
-#: utility/log.c:213
+#: utility/log.c:211
 #, c-format
 msgid "Empty filename in log level argument \"%s\".\n"
 msgstr ""
 "Nom de fichier non renseigné dans l'argument niveau de journal \"%s\".\n"
 
-#: utility/log.c:235
+#: utility/log.c:233
 msgid ""
 "Freeciv must be compiled with the FREECIV_DEBUG flag to use advanced log "
 "levels based on files.\n"
@@ -52705,12 +52706,12 @@ msgstr ""
 "Freeciv doit être compilé avec l'indicateur FREECIV_DEBUG pour pouvoir "
 "utiliser les niveaux de débogage avancés basés sur les fichiers.\n"
 
-#: utility/log.c:448
+#: utility/log.c:446
 #, c-format
 msgid "Couldn't open logfile: %s for appending \"%s\".\n"
 msgstr "Impossible d'ouvrir le fichier de journal %s pour y ajouter \"%s\".\n"
 
-#: utility/log.c:461 utility/log.c:482
+#: utility/log.c:459 utility/log.c:480
 #, c-format
 msgid "last message repeated %d time"
 msgid_plural "last message repeated %d times"
@@ -52718,7 +52719,7 @@ msgstr[0] "dernier message répété %d fois"
 msgstr[1] "dernier message répété %d fois"
 
 #. TRANS: preserve leading space
-#: utility/log.c:467 utility/log.c:487
+#: utility/log.c:465 utility/log.c:485
 #, c-format
 msgid " (total %d repeat)"
 msgid_plural " (total %d repeats)"
@@ -52818,8 +52819,8 @@ msgstr ""
 #, c-format
 msgid "\"%s\" is set but empty; using default \"%s\" save directories instead."
 msgstr ""
-"\"%s\" est spécifié mais vide ; les répertoires de sauvegarde par défaut \"%s"
-"\" seront utilisés à la place."
+"\"%s\" est spécifié mais vide ; les répertoires de sauvegarde par défaut "
+"\"%s\" seront utilisés à la place."
 
 #. TRANS: <FREECIV_SCENARIO_PATH> configuration error
 #: utility/shared.c:969
@@ -52827,8 +52828,8 @@ msgstr ""
 msgid ""
 "\"%s\" is set but empty; using default \"%s\" scenario directories instead."
 msgstr ""
-"\"%s\" est spécifié mais vide ; les répertoires de scenario par défaut \"%s"
-"\" seront utilisés à la place."
+"\"%s\" est spécifié mais vide ; les répertoires de scenario par défaut "
+"\"%s\" seront utilisés à la place."
 
 #. TRANS: "...: <externally translated error string>."
 #: utility/shared.c:1018
@@ -53332,8 +53333,8 @@ msgstr "erreur %d (compilation sans strerror)"
 #~ "On terrain unsuitable for irrigation systems or mines, issuing the "
 #~ "\"irrigate\" or \"mine\" order may permanently convert the terrain to "
 #~ "another type; this is usually more expensive. For instance, Swamp may be "
-#~ "\"irrigated\" to yield Grassland. (Terrain conversion with the \"irrigate"
-#~ "\" order does not require a water source.)"
+#~ "\"irrigated\" to yield Grassland. (Terrain conversion with the "
+#~ "\"irrigate\" order does not require a water source.)"
 #~ msgstr ""
 #~ " - Sur des terrains qui ne conviennent pas aux systèmes d'irrigation ou "
 #~ "aux mines, lancer la commande \"Irriguer\" ou \"Miner\" peut convertir de "
@@ -54159,16 +54160,16 @@ msgstr "erreur %d (compilation sans strerror)"
 #~ "l'indicateur \"%s\".\n"
 
 #~ msgid ""
-#~ "Prevented if any player allied to you knows any technology with the \"%s"
-#~ "\" flag.\n"
+#~ "Prevented if any player allied to you knows any technology with the "
+#~ "\"%s\" flag.\n"
 #~ msgstr ""
 #~ "Empêché si un joueur allié à vous a la connaissance d'une technologie "
 #~ "avec l'indictateur \"%s\".\n"
 
 #~ msgid "Requires that some player knows a technology with the \"%s\" flag.\n"
 #~ msgstr ""
-#~ "Nécessite qu'un joueur connaisse une technologie avec l'indicateur \"%s"
-#~ "\".\n"
+#~ "Nécessite qu'un joueur connaisse une technologie avec l'indicateur "
+#~ "\"%s\".\n"
 
 #~ msgid "Requires that no player knows any technology with the \"%s\" flag.\n"
 #~ msgstr ""
@@ -58231,8 +58232,8 @@ msgstr "erreur %d (compilation sans strerror)"
 
 #~ msgid "Requires you to have researched technology with \\%s\" flag.\n"
 #~ msgstr ""
-#~ "Nécessite que vous ayez recherché une technologie avec indicateur \"%s"
-#~ "\".\n"
+#~ "Nécessite que vous ayez recherché une technologie avec indicateur "
+#~ "\"%s\".\n"
 
 #~ msgid ""
 #~ "Requires that any player has researched technology with \"%s\" flag.\n"
@@ -59266,8 +59267,8 @@ msgstr "erreur %d (compilation sans strerror)"
 #~ "Argentina is located on the south-eastern coast of South America. Since "
 #~ "independence from Spain in 1816, it has been plagued by several internal "
 #~ "and external conflicts. In the decades after World War II, the country's "
-#~ "politics was dominated by Juan Peron and his charismatic wife Eva \"Evita"
-#~ "\" Peron."
+#~ "politics was dominated by Juan Peron and his charismatic wife Eva "
+#~ "\"Evita\" Peron."
 #~ msgstr ""
 #~ "L'Argentine est un pays de la côte est de l'Amérique du Sud. Depuis son "
 #~ "indépendance en 1816, il a été le théâtre de plusieurs conflits tant "
@@ -61167,8 +61168,8 @@ msgstr "erreur %d (compilation sans strerror)"
 #~ msgstr ""
 #~ "Les Cris est le plus grand groupe d'autochtones du Canada, avec plus de "
 #~ "200.000 membres parlant une langue algonquienne et se désignant eux-mêmes "
-#~ "souvent sous le nom de \"Iiyiyuu\" ou \"Iinuu\", ce qui signifie \"peuple"
-#~ "\". Ils peuplaient à l'origine une part importante du Québec, du "
+#~ "souvent sous le nom de \"Iiyiyuu\" ou \"Iinuu\", ce qui signifie "
+#~ "\"peuple\". Ils peuplaient à l'origine une part importante du Québec, du "
 #~ "Labrador, de l'Alberta, du Saskatchewan, de l'Ontario et du Manitoba."
 
 #~ msgid "Cretan"
@@ -62804,8 +62805,8 @@ msgstr "erreur %d (compilation sans strerror)"
 #~ "comprenant les états chrétiens d'Aksoum et l'Empire Byzantin d'une part, "
 #~ "l'Empire Sassanide mandéen de Perse d'autre part, et diverses factions "
 #~ "sud-arabiques au milieu. Le pays passa d'une autorité aksoumite à "
-#~ "sassanide en 575 et, en 628, le cinquième satrape sassanide de \"al-Yaman"
-#~ "\" se convertir à l'Islam et l'Arabie du Sud fut incorporée dans le "
+#~ "sassanide en 575 et, en 628, le cinquième satrape sassanide de \"al-"
+#~ "Yaman\" se convertir à l'Islam et l'Arabie du Sud fut incorporée dans le "
 #~ "nouvel empire musulman en expansion."
 
 #~ msgid "Holy Roman"
@@ -63665,9 +63666,9 @@ msgstr "erreur %d (compilation sans strerror)"
 #~ "capture de Constantinople au cours de la Quatrième Croisade en 1204, se "
 #~ "voulant comme un remplacement amical à l'église Catholique Romaine de "
 #~ "l'Empire Byzantin. Dans l'histoire grecque, la période de régence par "
-#~ "l'Empire Latin et ses royaumes engendrés est connu comme la \"Frankokratia"
-#~ "\", le gouverment des Francs. L'Empire cessa d'exister quand "
-#~ "Constantinople fut reconquis par les Byzantins en 1261."
+#~ "l'Empire Latin et ses royaumes engendrés est connu comme la "
+#~ "\"Frankokratia\", le gouverment des Francs. L'Empire cessa d'exister "
+#~ "quand Constantinople fut reconquis par les Byzantins en 1261."
 
 #~ msgid "Latvian"
 #~ msgstr "Letton"
@@ -64825,8 +64826,8 @@ msgstr "erreur %d (compilation sans strerror)"
 #~ "The Muskogee was a confederacy of North American tribes, including the "
 #~ "Creek, Seminole, Choctaw, and Chickasaw. They were based in the area now "
 #~ "encompassed by the U.S. states of Georgia and Alabama. Creek and Seminole "
-#~ "tribes briefly formed a sovereign state known as the \"State of Muskogee"
-#~ "\" during the early 1800s."
+#~ "tribes briefly formed a sovereign state known as the \"State of "
+#~ "Muskogee\" during the early 1800s."
 #~ msgstr ""
 #~ "Les Muscogees étaient une confédération de tribus nord-américaines, qui "
 #~ "comprenait les Creeks, les Séminoles, les Choctaws et les Chickasaws. Ils "
@@ -65536,11 +65537,11 @@ msgstr "erreur %d (compilation sans strerror)"
 #~ "Quadling Country, Munchkin Country, and Gillikin Country. Oz is "
 #~ "surrounded by an impassable desert."
 #~ msgstr ""
-#~ "Le Pays d'Oz a été créé par L. Franck Baum en 1900 dans \"Le Magicien d'Oz"
-#~ "\" et fut par la suite agrémenté dans d'autres livres. Le pays consiste "
-#~ "en quatre territoires principaux : le pays Winkie, le pays Quadling, le "
-#~ "pays Munchkin et le pays Gillikin. Oz est encerclé par un désert "
-#~ "impénétrable."
+#~ "Le Pays d'Oz a été créé par L. Franck Baum en 1900 dans \"Le Magicien "
+#~ "d'Oz\" et fut par la suite agrémenté dans d'autres livres. Le pays "
+#~ "consiste en quatre territoires principaux : le pays Winkie, le pays "
+#~ "Quadling, le pays Munchkin et le pays Gillikin. Oz est encerclé par un "
+#~ "désert impénétrable."
 
 #~ msgid "Wizard %s"
 #~ msgstr "Magicien %s"
@@ -68868,10 +68869,10 @@ msgstr "erreur %d (compilation sans strerror)"
 
 #~ msgid ""
 #~ "Yucatan is a peninsula of Mexico, famous for its Maya heritage and its "
-#~ "white beaches. Its name is often claimed to mean \"we don't understand you"
-#~ "\" in Yucatec Maya. On two occasions in the 19th century Yucatan declared "
-#~ "independence from Mexico. Currently it is divided into three states: "
-#~ "Yucatan, Campeche and Quintana Roo."
+#~ "white beaches. Its name is often claimed to mean \"we don't understand "
+#~ "you\" in Yucatec Maya. On two occasions in the 19th century Yucatan "
+#~ "declared independence from Mexico. Currently it is divided into three "
+#~ "states: Yucatan, Campeche and Quintana Roo."
 #~ msgstr ""
 #~ "Le Yucatán est une péninsule du Mexique, célèbre pour son héritage Maya "
 #~ "et ses plages blanches. On dit souvent que son nom signifie \"Nous ne "
@@ -69071,8 +69072,8 @@ msgstr "erreur %d (compilation sans strerror)"
 
 #~ msgid "The path may be set via the \"%s\" environment variable."
 #~ msgstr ""
-#~ "Le chemin d'accès peut être spécifié par la variable d'environnement \"%s"
-#~ "\"."
+#~ "Le chemin d'accès peut être spécifié par la variable d'environnement "
+#~ "\"%s\"."
 
 #~ msgid "Current path is: \"%s\""
 #~ msgstr "Le chemin d'accès actuel est : \"%s\""
@@ -71342,9 +71343,9 @@ msgstr "erreur %d (compilation sans strerror)"
 #~ "plus disponible, car elle ne servirait à rien."
 
 #~ msgid ""
-#~ "With no arguments gives some introductory help.  With argument \"commands"
-#~ "\" or \"options\" gives respectively a list of all commands or all "
-#~ "options.  Otherwise the argument is taken as a command name or option "
+#~ "With no arguments gives some introductory help.  With argument "
+#~ "\"commands\" or \"options\" gives respectively a list of all commands or "
+#~ "all options.  Otherwise the argument is taken as a command name or option "
 #~ "name, and help is given for that command or option.  For options, the "
 #~ "help information includes the current and default values for that "
 #~ "option.  The argument may be abbreviated where unambiguous."
@@ -71438,11 +71439,11 @@ msgstr "erreur %d (compilation sans strerror)"
 #~ "against it."
 #~ msgstr ""
 #~ "Un joueur avec le niveau basic passant une commande de niveau contrôle "
-#~ "initie un nouveau vote pour celle-ci.  La commande /vote suivie par \"yes"
-#~ "\", \"no\" ou \"abstain\", et éventuellement d'un numéro de vote donne "
-#~ "votre voix. Si vous ne spécifiez pas de numéro de vote, vous votez pour "
-#~ "la dernière commande. Vous ne pouvez suggérer qu'un vote à la fois. Le "
-#~ "vote se termine après qu'un tour complet se soit écoulé ou que plus de "
+#~ "initie un nouveau vote pour celle-ci.  La commande /vote suivie par "
+#~ "\"yes\", \"no\" ou \"abstain\", et éventuellement d'un numéro de vote "
+#~ "donne votre voix. Si vous ne spécifiez pas de numéro de vote, vous votez "
+#~ "pour la dernière commande. Vous ne pouvez suggérer qu'un vote à la fois. "
+#~ "Le vote se termine après qu'un tour complet se soit écoulé ou que plus de "
 #~ "50% des voix aient été exprimées pour ou contre."
 
 #~ msgid ""
@@ -73078,17 +73079,18 @@ msgstr "erreur %d (compilation sans strerror)"
 #~ msgstr ""
 #~ "Les Tarasques sont un peuple natif de l'état du Michoacán dans le Mexique "
 #~ "moderne, le cœur d'un ancien empire connu pour eux sous le nom de "
-#~ "\"Irechecua Tzintzuntzani\", ce qui signifie \"les terres de Tzintzuntzán"
-#~ "\", leur capitale. Leurs rois étaient les perpétuels ennemis de l'empire "
-#~ "aztèque, qui tenta vainement une invasion des terres tarasques. Quand les "
-#~ "espagnols arrivèrent et entamèrent leur conquête de Mexico en 1519, les "
-#~ "aztèques envoyèrent une ambassade chercher le soutien des Tarasque, mais "
-#~ "celle-ci leur fut refusée. La réputation des conquistadors les avait "
-#~ "précédés, et les Tarasques préférèrent proposer de devenir état vassal du "
-#~ "roi d'Espagne plutôt que de subir le même sort que leurs anciens ennemis, "
-#~ "les aztèques. Cependant, la transition vers la domination espagnole ne se "
-#~ "fit pas en douceur et dégénéra dans la violence. L'empire, fondé aux "
-#~ "alentours des années 1450, s'effondra en 1521."
+#~ "\"Irechecua Tzintzuntzani\", ce qui signifie \"les terres de "
+#~ "Tzintzuntzán\", leur capitale. Leurs rois étaient les perpétuels ennemis "
+#~ "de l'empire aztèque, qui tenta vainement une invasion des terres "
+#~ "tarasques. Quand les espagnols arrivèrent et entamèrent leur conquête de "
+#~ "Mexico en 1519, les aztèques envoyèrent une ambassade chercher le soutien "
+#~ "des Tarasque, mais celle-ci leur fut refusée. La réputation des "
+#~ "conquistadors les avait précédés, et les Tarasques préférèrent proposer "
+#~ "de devenir état vassal du roi d'Espagne plutôt que de subir le même sort "
+#~ "que leurs anciens ennemis, les aztèques. Cependant, la transition vers la "
+#~ "domination espagnole ne se fit pas en douceur et dégénéra dans la "
+#~ "violence. L'empire, fondé aux alentours des années 1450, s'effondra en "
+#~ "1521."
 
 #~ msgid "Caconzi"
 #~ msgstr "Caconzi"
@@ -73262,8 +73264,8 @@ msgstr "erreur %d (compilation sans strerror)"
 #~ msgstr "Préfixe pour les sauvegardes automatiques"
 
 #~ msgid ""
-#~ "Automatically saved games will have name \"<prefix>-T<turn>-Y<year>.sav"
-#~ "\". This setting sets the <prefix> part."
+#~ "Automatically saved games will have name \"<prefix>-T<turn>-Y<year>."
+#~ "sav\". This setting sets the <prefix> part."
 #~ msgstr ""
 #~ "Les sauvegardes automatiques auront le nom \"<préfixe>-T<turn>-Y<année>."
 #~ "sav\". Ce paramètre définit la partie <préfixe>."
@@ -73853,19 +73855,19 @@ msgstr "erreur %d (compilation sans strerror)"
 
 #~ msgid ""
 #~ "A player with basic level access issuing a control level command starts a "
-#~ "new vote for the command.  The /vote command followed by \"yes\" or \"no"
-#~ "\", and optionally a vote number, gives your vote.  If you do not add a "
-#~ "vote number, your vote applies to the latest command.  You can only "
+#~ "new vote for the command.  The /vote command followed by \"yes\" or "
+#~ "\"no\", and optionally a vote number, gives your vote.  If you do not add "
+#~ "a vote number, your vote applies to the latest command.  You can only "
 #~ "suggest one vote at a time.  The vote will pass immediately if more than "
 #~ "half of the players vote for it, or fail immediately if at least half of "
 #~ "the players vote against it."
 #~ msgstr ""
 #~ "Un joueur avec le niveau basic passant une commande de niveau contrôle "
-#~ "initie un nouveau vote pour celle-ci.  La commande /vote suivie par \"yes"
-#~ "\" ou \"no\", et éventuellement d'un numéro de vote donne votre voix. Si "
-#~ "vous ne spécifiez pas de numéro de vote, vous votez pour la dernière "
-#~ "commande. Vous ne pouvez suggérer qu'un vote à la fois. Le vote se "
-#~ "termine après qu'un tour complet se soit écoulé ou que plus de 50% des "
+#~ "initie un nouveau vote pour celle-ci.  La commande /vote suivie par "
+#~ "\"yes\" ou \"no\", et éventuellement d'un numéro de vote donne votre "
+#~ "voix. Si vous ne spécifiez pas de numéro de vote, vous votez pour la "
+#~ "dernière commande. Vous ne pouvez suggérer qu'un vote à la fois. Le vote "
+#~ "se termine après qu'un tour complet se soit écoulé ou que plus de 50% des "
 #~ "voix aient été exprimées pour ou contre."
 
 #~ msgid ""
@@ -75278,11 +75280,11 @@ msgstr "erreur %d (compilation sans strerror)"
 #~ "\n"
 #~ "    Si vous avez récemment eu un contact (ou établi une ambassade) avec "
 #~ "un autre joueur, alors vous pouvez organiser une rencontre diplomatique. "
-#~ "Pour cela, vous devez aller dans le menu \"Rapports\", choisir \"Joueurs"
-#~ "\", cliquer sur le joueur que vous voulez rencontrer et sélectionner "
-#~ "\"Réunir\" dans le menu \"Joueurs\". Si l'entrée sous la colonne "
-#~ "Ambassade n'est pas vide et si l'autre joueur est connecté (ou bien est "
-#~ "une IA) alors le menu diplomatique s'affichera."
+#~ "Pour cela, vous devez aller dans le menu \"Rapports\", choisir "
+#~ "\"Joueurs\", cliquer sur le joueur que vous voulez rencontrer et "
+#~ "sélectionner \"Réunir\" dans le menu \"Joueurs\". Si l'entrée sous la "
+#~ "colonne Ambassade n'est pas vide et si l'autre joueur est connecté (ou "
+#~ "bien est une IA) alors le menu diplomatique s'affichera."
 
 #~ msgid ""
 #~ "    In this menu you can choose to:\n"
@@ -79338,8 +79340,8 @@ msgstr "erreur %d (compilation sans strerror)"
 
 #~ msgid "Maxplayers smaller than aifill; aifill reduced to %d."
 #~ msgstr ""
-#~ "Le nombre maximum de joueurs est plus petit que l'\"aifill\" ; l'\"aifill"
-#~ "\" a été réduit à %d."
+#~ "Le nombre maximum de joueurs est plus petit que l'\"aifill\" ; "
+#~ "l'\"aifill\" a été réduit à %d."
 
 #~ msgid "Error creating new AI player: %s\n"
 #~ msgstr "Erreur lors de la création d'un nouveau joueur IA : %s\n"

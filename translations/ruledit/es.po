@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2022-04-12 03:46+0300\n"
+"POT-Creation-Date: 2022-05-26 10:04+0300\n"
 "PO-Revision-Date: 2021-12-04 14:09+0100\n"
 "Last-Translator: Jordi Negrevernis <jorneg4@gmail.com>\n"
 "Language-Team: Español; Castellano <>\n"
@@ -265,11 +265,11 @@ msgstr "Falló la carga del ruleset!"
 msgid "Freeciv Ruleset Editor"
 msgstr "Editor de Ruleset de Freeciv"
 
-#: tools/ruledit/ruledit_qt.cpp:392
+#: tools/ruledit/ruledit_qt.cpp:405
 msgid "Are you sure you want to quit?"
 msgstr "¿Estás seguro de que quieres salir?"
 
-#: tools/ruledit/ruledit_qt.cpp:396
+#: tools/ruledit/ruledit_qt.cpp:409
 msgid "Quit?"
 msgstr "Salir?"
 
@@ -281,20 +281,20 @@ msgid "Rule Name"
 msgstr "Nombre de la Regla"
 
 #: tools/ruledit/tab_building.cpp:69 tools/ruledit/tab_building.cpp:79
-#: tools/ruledit/tab_building.cpp:147 tools/ruledit/tab_building.cpp:148
+#: tools/ruledit/tab_building.cpp:148 tools/ruledit/tab_building.cpp:149
 #: tools/ruledit/tab_enablers.cpp:131 tools/ruledit/tab_enablers.cpp:241
 #: tools/ruledit/tab_extras.cpp:67 tools/ruledit/tab_extras.cpp:77
-#: tools/ruledit/tab_extras.cpp:142 tools/ruledit/tab_extras.cpp:143
+#: tools/ruledit/tab_extras.cpp:143 tools/ruledit/tab_extras.cpp:144
 #: tools/ruledit/tab_good.cpp:68 tools/ruledit/tab_good.cpp:78
-#: tools/ruledit/tab_good.cpp:143 tools/ruledit/tab_good.cpp:144
+#: tools/ruledit/tab_good.cpp:144 tools/ruledit/tab_good.cpp:145
 #: tools/ruledit/tab_gov.cpp:67 tools/ruledit/tab_gov.cpp:77
-#: tools/ruledit/tab_gov.cpp:142 tools/ruledit/tab_gov.cpp:143
+#: tools/ruledit/tab_gov.cpp:143 tools/ruledit/tab_gov.cpp:144
 #: tools/ruledit/tab_tech.cpp:66 tools/ruledit/tab_tech.cpp:76
 #: tools/ruledit/tab_tech.cpp:226 tools/ruledit/tab_tech.cpp:227
 #: tools/ruledit/tab_terrains.cpp:67 tools/ruledit/tab_terrains.cpp:77
-#: tools/ruledit/tab_terrains.cpp:138 tools/ruledit/tab_terrains.cpp:139
+#: tools/ruledit/tab_terrains.cpp:139 tools/ruledit/tab_terrains.cpp:140
 #: tools/ruledit/tab_unit.cpp:68 tools/ruledit/tab_unit.cpp:78
-#: tools/ruledit/tab_unit.cpp:142 tools/ruledit/tab_unit.cpp:143
+#: tools/ruledit/tab_unit.cpp:143 tools/ruledit/tab_unit.cpp:144
 msgid "None"
 msgstr ""
 
@@ -324,7 +324,7 @@ msgstr "Instalaciones"
 msgid "Remove this Building"
 msgstr "¿Quieres borrar esta configuración?"
 
-#: tools/ruledit/tab_building.cpp:182
+#: tools/ruledit/tab_building.cpp:183
 msgid "A building with that rule name already exists!"
 msgstr "¡Ya existe un edificio con ese nombre de regla!"
 
@@ -393,7 +393,7 @@ msgstr ""
 msgid "Remove this Extra"
 msgstr "¿Quieres borrar esta configuración?"
 
-#: tools/ruledit/tab_extras.cpp:177
+#: tools/ruledit/tab_extras.cpp:178
 #, fuzzy
 #| msgid "A tech with that rule name already exists!"
 msgid "An extra with that rule name already exists!"
@@ -408,7 +408,7 @@ msgstr ""
 msgid "Remove this Good"
 msgstr "¿Quieres borrar esta configuración?"
 
-#: tools/ruledit/tab_good.cpp:178
+#: tools/ruledit/tab_good.cpp:179
 #, fuzzy
 #| msgid "A tech with that rule name already exists!"
 msgid "A good with that rule name already exists!"
@@ -425,7 +425,7 @@ msgstr "Gobiernos"
 msgid "Remove this Government"
 msgstr "¿Quieres borrar esta configuración?"
 
-#: tools/ruledit/tab_gov.cpp:177
+#: tools/ruledit/tab_gov.cpp:178
 #, fuzzy
 #| msgid "A tech with that rule name already exists!"
 msgid "A government with that rule name already exists!"
@@ -605,7 +605,7 @@ msgstr ""
 msgid "Remove this Terrain"
 msgstr "¿Quieres borrar esta configuración?"
 
-#: tools/ruledit/tab_terrains.cpp:173
+#: tools/ruledit/tab_terrains.cpp:174
 #, fuzzy
 #| msgid "A tech with that rule name already exists!"
 msgid "A terrain with that rule name already exists!"
@@ -621,7 +621,7 @@ msgstr "Añadir siguiente"
 msgid "Remove this Unit"
 msgstr "¿Quieres borrar esta configuración?"
 
-#: tools/ruledit/tab_unit.cpp:177
+#: tools/ruledit/tab_unit.cpp:178
 msgid "A unit type with that rule name already exists!"
 msgstr "¡Ya existe un tipo de unidad con ese nombre de regla!"
 
