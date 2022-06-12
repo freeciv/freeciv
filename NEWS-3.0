@@ -10,7 +10,7 @@ see the ChangeLog file.
 CHANGES FROM 3.0.1 to 3.0.2
 ---------------------------
 
-   (from <http://www.freeciv.org/wiki/NEWS-3.0.2>, 2022-06-11)
+   (from <http://www.freeciv.org/wiki/NEWS-3.0.2>, 2022-06-12)
 
 3.0.2 is a generic bugfix release.
 
@@ -84,7 +84,8 @@ Low-level changes
 General
 
     * Minor optimizations osdn#44089 osdn#43432 osdn#44090
-    * Fixed memory leaks osdn#44492 osdn#44432 osdn#44618 osdn#44682
+    * Fixed memory leaks
+      osdn#44492 osdn#44432 osdn#44618 osdn#44682 osdn#44790
     * Various internal changes which should only affect developers.
       HRM#700913 osdn#41785 osdn#44130 osdn#44212 osdn#44178 osdn#44415
       osdn#43620 osdn#43900 osdn#44547 osdn#43970 osdn#44404
@@ -133,13 +134,12 @@ Help / Documentation
 
     * Vulnerability reporting email address updated osdn#44479
     * Miscellaneous improvements to in-game text and user documentation.
-      osdn#44194 osdn#44331 osdn#44120 osdn#44438 osdn#44473
+      osdn#44194 osdn#44331 osdn#44120 osdn#44438 osdn#44473 osdn#43857
     * Miscellaneous changes to developer/install/ruleset docs.
       osdn#44309 osdn#44039 osdn#44453 osdn#43945
 
 Translations
 
-    * Updated translations: Catalan, Finnish, German
     * Updated translations:
          + Complete translations: French, Polish, Russian
          + Incomplete translations:
