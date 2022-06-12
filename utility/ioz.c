@@ -244,12 +244,12 @@ fz_FILE *fz_from_file(const char *filename, const char *in_mode,
     /* Writing: */
     fp->mode = 'w';
   } else {
-#if defined(FREECIV_HAVE_LIBBZ2) || defined(FREECIV_HAVE_LIBLZMA)
+#if defined(FREECIV_HAVE_LIBBZ2) || defined(FREECIV_HAVE_LIBLZMA) || defined (FREECIV_HAVE_LIBZSTD)
     char test_mode[4];
 
     sz_strlcpy(test_mode, mode);
     sz_strlcat(test_mode, "b");
-#endif /* FREECIV_HAVE_LIBBZ2 || FREECIV_HAVE_LIBLZMA */
+#endif /* FREECIV_HAVE_LIBBZ2 || FREECIV_HAVE_LIBLZMA || FREECIV_HAVE_LIBZSTD */
 
     /* Reading: ignore specified method and try each: */
     fp->mode = 'r';
