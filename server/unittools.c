@@ -2124,20 +2124,27 @@ static bool try_to_save_unit(struct unit *punit, const struct unit_type *pttype,
 /**********************************************************************//**
   We don't really change owner of the unit, but create completely new
   unit as its copy. The new pointer to 'punit' is returned.
+  Always wipes the source unit but sometimes returns NULL or a unit
+  of a player other than pplayer.
 **************************************************************************/
 struct unit *unit_change_owner(struct unit *punit, struct player *pplayer,
                                int homecity, enum unit_loss_reason reason)
 {
   struct unit *gained_unit;
+  int id = 0;
 
   fc_assert(!utype_player_already_has_this_unique(pplayer,
                                                   unit_type_get(punit)));
 
   /* Convert the unit to your cause. Fog is lifted in the create algorithm. */
+  /* This call supposes that the original unit is on a valid tile
+   * and is not transported. */
   gained_unit = create_unit_full(pplayer, unit_tile(punit),
                                  unit_type_get(punit), punit->veteran,
                                  homecity, punit->moves_left,
                                  punit->hp, NULL);
+  fc_assert_action(gained_unit, goto uco_wipe); /* Tile must be valid */
+  id = gained_unit->id;
 
   /* Owner changes, nationality not. */
   gained_unit->nationality = punit->nationality;
@@ -2149,19 +2156,19 @@ struct unit *unit_change_owner(struct unit *punit, struct player *pplayer,
 
   send_unit_info(NULL, gained_unit);
 
-  /* update unit upkeep in the homecity of the victim */
-  if (punit->homecity > 0) {
-    /* update unit upkeep */
-    city_units_upkeep(game_city_by_number(punit->homecity));
-  }
   /* update unit upkeep in the new homecity */
   if (homecity > 0) {
     city_units_upkeep(game_city_by_number(homecity));
   }
 
   /* Be sure to wipe the converted unit! */
-  wipe_unit(punit, reason, NULL);
+  /* Old homecity upkeep is updated in process */
+  uco_wipe: wipe_unit(punit, reason, NULL);
 
+  if (!unit_is_alive(id)) {
+    /* Destroyed by a script */
+    return NULL;
+  }
   return gained_unit;   /* Returns the replacement. */
 }
 
