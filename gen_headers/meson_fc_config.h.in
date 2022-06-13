@@ -20,7 +20,7 @@
 #define AI_MOD_STATIC_CLASSIC
 #define AI_MOD_STATIC_TEX
 
-#define DEFAULT_SOCK_PORT 5556
+#mesondefine DEFAULT_SOCK_PORT
 
 #define INIT_BRACE_BEGIN {
 #define INIT_BRACE_END   }

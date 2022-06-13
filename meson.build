@@ -13,9 +13,48 @@ add_global_arguments('-DQT_DISABLE_DEPRECATED_BEFORE=0x050b00', language : 'cpp'
 
 host_system = host_machine.system()
 
+meta_url = 'http://meta.freeciv.org/metaserver.php'
+mp_list_url = ''
+storage_dir = ''
+default_port = ''
+
+proj_def = get_option('project-definition')
+if proj_def != ''
+  fs = import('fs')
+  if fs.is_file(proj_def)
+    proj = fs.read(proj_def).strip().split('\n')
+    foreach item : proj
+      if item.startswith('META_URL')
+        meta_url = item.substring(9)
+      elif item.startswith('MODPACK_LIST_URL')
+        mp_list_url = item.substring(17)
+      elif item.startswith('FREECIV_STORAGE_DIR')
+        storage_dir = item.substring(20)
+      elif item.startswith('FREECIV_DEFAULT_PORT')
+        default_port = item.substring(21)
+      elif not item.startswith('#') and item != ''
+        error('Unknown parameter ' + item + ' in project definition')
+      endif
+    endforeach
+  else
+    error('Project definition file ' + proj_def + ' not found!')
+  endif
+endif
+
 priv_conf_data = configuration_data()
 pub_conf_data = configuration_data()
 liblua_conf_data = configuration_data()
+
+pub_conf_data.set('FREECIV_META_URL', '"' + meta_url + '"')
+
+if mp_list_url != ''
+  pub_conf_data.set('MODPACK_LIST_URL', '"' + mp_list_url + '"')
+endif
+
+if default_port == ''
+  default_port = 5556
+endif
+priv_conf_data.set('DEFAULT_SOCK_PORT', default_port)
 
 pub_conf_data.set('FREECIV_AI_MOD_LAST', 3)
 priv_conf_data.set('BINDIR',
@@ -42,7 +81,22 @@ else
 endif
 
 if host_system == 'windows'
-  pub_conf_data.set('FREECIV_STORAGE_DIR', '~\\\\.freeciv')
+  def_storage_dir = '"~\\\\.freeciv"'
+else
+  if host_system == 'haiku'
+    def_storage_dir = '"~/config/settings/freeciv"'
+  else
+    def_storage_dir = '"~/.freeciv"'
+  endif
+endif
+
+if storage_dir != ''
+  pub_conf_data.set('FREECIV_STORAGE_DIR', '"' + storage_dir + '"')
+else
+  pub_conf_data.set('FREECIV_STORAGE_DIR', def_storage_dir)
+endif
+
+if host_system == 'windows'
   priv_conf_data.set('LOCALEDIR',
                      join_paths('.', get_option('datadir'), 'locale'))
 
@@ -53,11 +107,6 @@ if host_system == 'windows'
   priv_conf_data.set('DEFAULT_SCENARIO_PATH',
     '".;data/scenarios;@FREECIV_STORAGE_DIR@/@DATASUBDIR@/scenarios;@FREECIV_STORAGE_DIR@/scenarios;@DATADIR@/freeciv/scenarios"')
 else
-  if host_system == 'haiku'
-    pub_conf_data.set('FREECIV_STORAGE_DIR', '~/config/settings/freeciv')
-  else
-    pub_conf_data.set('FREECIV_STORAGE_DIR', '~/.freeciv')
-  endif
   priv_conf_data.set('LOCALEDIR',
                      join_paths(get_option('prefix'),
                                 get_option('datadir'), 'locale'))

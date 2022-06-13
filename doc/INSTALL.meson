@@ -141,6 +141,24 @@ gen-packets-args (array):
 qtver ('qt5'/'qt6'):
   Whether to build Qt5 or Qt6 versions of the binaries.
 
+project-definition (string):
+  Filename of the project definition to use. See below for contents of
+  such a file
+
+
+Project definition file
+-----------------------
+Each line of project definition line must have keyword in the beginning,
+separated by a space from the rest of the line containing the value.
+
+There's an example file bootstrap/freeciv.fcproj
+
+Supported keys:
+META_URL            - URL of the default metaserver
+MODPACK_LIST_URL    - URL of the default modpack list
+FREECIV_STORAGE_DIR - Directory where freeciv stores user files
+FREECIV_DEFAULT_POR - Default port of the server
+
 
 run.sh
 ------

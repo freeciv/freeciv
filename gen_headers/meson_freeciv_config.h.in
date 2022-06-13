@@ -43,9 +43,13 @@
 #define FREECIV_HAVE_SOCKLEN_T
 
 /* Location for freeciv to store its information */
-#define FREECIV_STORAGE_DIR "@FREECIV_STORAGE_DIR@"
+#mesondefine FREECIV_STORAGE_DIR
 
-#define FREECIV_META_URL "http://meta.freeciv.org/metaserver.php"
+/* Metaserver URL */
+#mesondefine FREECIV_META_URL
+
+/* Default modpack list URL */
+#mesondefine MODPACK_LIST_URL
 
 /* IPv6 Support built in */
 #define FREECIV_IPV6_SUPPORT
