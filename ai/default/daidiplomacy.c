@@ -775,11 +775,11 @@ void dai_treaty_accepted(struct ai_type *ait, struct player *pplayer,
 }
 
 /******************************************************************//**
-  Calculate our desire to go to war against aplayer.  We want to
+  Calculate our desire to go to war against aplayer. We want to
   attack a player that is easy to beat and will yield a nice profit.
 
-  This function is full of hardcoded constants by necessity.  They are
-  not #defines since they are not used anywhere else.
+  This function is full of hardcoded constants by necessity. They are
+  not macros since they are not used anywhere else.
 **********************************************************************/
 static int dai_war_desire(struct ai_type *ait, struct player *pplayer,
                           struct player *target)
