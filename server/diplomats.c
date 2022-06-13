@@ -464,19 +464,23 @@ bool diplomat_bribe(struct player *pplayer, struct unit *pdiplomat,
   char victim_link[MAX_LEN_LINK];
   struct player *uplayer;
   struct tile *victim_tile;
+  struct unit_type *victim_type, *diplo_type;
   int bribe_cost;
-  int diplomat_id = pdiplomat->id;
+  int diplomat_id;
   struct city *pcity;
   bool bounce;
 
   /* Fetch target unit's player.  Sanity checks. */
   fc_assert_ret_val(pvictim, FALSE);
   uplayer = unit_owner(pvictim);
+  victim_type = unit_type_get(pvictim);
   fc_assert_ret_val(uplayer, FALSE);
 
   /* Sanity check: The actor still exists. */
   fc_assert_ret_val(pplayer, FALSE);
   fc_assert_ret_val(pdiplomat, FALSE);
+  diplomat_id = pdiplomat->id;
+  diplo_type = unit_type_get(pdiplomat);
 
   /* Sanity check: The target is foreign. */
   if (uplayer == pplayer) {
@@ -524,17 +528,27 @@ bool diplomat_bribe(struct player *pplayer, struct unit *pdiplomat,
   pvictim = unit_change_owner(pvictim, pplayer, pdiplomat->homecity,
                               ULR_BRIBED);
 
-  /* N.B.: unit_link always returns the same pointer. As unit_change_owner()
-   * currently remove the old unit and replace by a new one (with a new id),
-   * we want to make link to the new unit. */
-  sz_strlcpy(victim_link, unit_link(pvictim));
+  if (pvictim) {
+    /* N.B.: unit_link always returns the same pointer. As unit_change_owner()
+     * currently remove the old unit and replace by a new one (with a new id),
+     * we want to make link to the new unit. */
+    sz_strlcpy(victim_link, unit_link(pvictim));
+  } else {
+    sz_strlcpy(victim_link, utype_name_translation(victim_type));
+  }
+
+  if (!unit_is_alive(diplomat_id)) {
+    /* Destroyed by a script */
+    pdiplomat = NULL;
+  }
 
   /* Notify everybody involved. */
   notify_player(pplayer, victim_tile, E_MY_DIPLOMAT_BRIBE, ftc_server,
                 /* TRANS: <diplomat> ... <unit> */
                 _("Your %s succeeded in bribing the %s."),
-                unit_link(pdiplomat), victim_link);
-  if (maybe_make_veteran(pdiplomat)) {
+                pdiplomat ? unit_link(pdiplomat)
+                : utype_name_translation(diplo_type), victim_link);
+  if (pdiplomat && maybe_make_veteran(pdiplomat)) {
     notify_unit_experience(pdiplomat);
   }
   notify_player(uplayer, victim_tile, E_ENEMY_DIPLOMAT_BRIBE, ftc_server,
@@ -544,35 +558,50 @@ bool diplomat_bribe(struct player *pplayer, struct unit *pdiplomat,
 
   /* The unit may have been on a tile shared with a city or a unit
    * it no longer can share a tile with. */
-  pcity = tile_city(unit_tile(pvictim));
-  bounce = ((NULL != pcity && !pplayers_allied(city_owner(pcity), pplayer))
-            || 1 < unit_list_size(unit_tile(pvictim)->units));
-  if (bounce) {
-    bounce_unit(pvictim, TRUE);
+  if (pvictim) {
+    pcity = tile_city(unit_tile(pvictim));
+    bounce = ((NULL != pcity && !pplayers_allied(city_owner(pcity), pplayer))
+              || 1 < unit_list_size(unit_tile(pvictim)->units));
+    if (bounce) {
+      bounce_unit(pvictim, TRUE);
+    }
+  } else {
+    bounce = FALSE;
   }
 
   /* This costs! */
   pplayer->economic.gold -= bribe_cost;
+  if (pplayer->economic.gold < 0) {
+    /* Scripts have deprived us of too much gold before we paid */
+    log_normal("%s has bribed %s but has not %d gold at payment time, "
+               "%d is the discount", player_name(pplayer),
+               utype_rule_name(victim_type), bribe_cost,
+               -pplayer->economic.gold);
+    pplayer->economic.gold = 0;
+  }
 
   /* This may cause a diplomatic incident */
   action_consequence_success(paction, pplayer, uplayer,
                              victim_tile, victim_link);
 
-  if (!unit_is_alive(diplomat_id)) {
-    return TRUE;
-  }
+  if (pdiplomat) {
+    if (!unit_is_alive(diplomat_id)) {
+      /* Destroyed during bouncing */
+      return TRUE;
+    }
 
-  /* Try to move the briber onto the victim's square unless the victim has
-   * been bounced because it couldn't share tile with a unit or city. */
-  if (!bounce
-      /* Post bribe move. */
-      && !unit_move_handling(pdiplomat, victim_tile, FALSE, TRUE, NULL)
-      /* May have died while trying to move. */
-      && unit_is_alive(diplomat_id)) {
-    pdiplomat->moves_left = 0;
-  }
-  if (NULL != player_unit_by_number(pplayer, diplomat_id)) {
-    send_unit_info(NULL, pdiplomat);
+    /* Try to move the briber onto the victim's square unless the victim has
+     * been bounced because it couldn't share tile with a unit or city. */
+    if (!bounce
+        /* Post bribe move. */
+        && !unit_move_handling(pdiplomat, victim_tile, FALSE, TRUE, NULL)
+        /* May have died while trying to move. */
+        && unit_is_alive(diplomat_id)) {
+      pdiplomat->moves_left = 0;
+    }
+    if (NULL != player_unit_by_number(pplayer, diplomat_id)) {
+      send_unit_info(NULL, pdiplomat);
+    }
   }
 
   /* Update clients. */
