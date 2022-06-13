@@ -172,6 +172,9 @@ static bool do_action_activity(struct unit *punit,
 static bool do_action_activity_targeted(struct unit *punit,
                                         const struct action *paction,
                                         struct extra_type **new_target);
+static inline bool
+non_allied_not_listed_at(const struct player *pplayer,
+                         const int *list, int n, const struct tile *ptile);
 
 /**********************************************************************//**
   Upgrade all units of a given type.
@@ -271,6 +274,33 @@ static bool do_unit_upgrade(struct player *pplayer,
 }
 
 /**********************************************************************//**
+  Helper function for do_capture_units(). Tells if ptile contains
+  a unit not allied to pplayer whose id is not on the list.
+**************************************************************************/
+static inline bool
+non_allied_not_listed_at(const struct player *pplayer,
+                         const int *list, int n, const struct tile *ptile)
+{
+  unit_list_iterate(ptile->units, punit) {
+    if (!pplayers_allied(pplayer, unit_owner(punit))) {
+      bool listed = FALSE;
+      int id = punit->id;
+
+      for (int i = 0; i < n; i++) {
+        if (id == list[i]) {
+          listed = TRUE;
+          break;
+        }
+      }
+      if (!listed) {
+        return TRUE;
+      }
+    }
+  } unit_list_iterate_end;
+  return FALSE;
+}
+
+/**********************************************************************//**
   Capture all the units at pdesttile using punit.
 
   Returns TRUE iff action could be done, FALSE if it couldn't. Even if
@@ -283,13 +313,18 @@ static bool do_capture_units(struct player *pplayer,
 {
   struct city *pcity;
   char capturer_link[MAX_LEN_LINK];
+  char hcity_name[MAX_LEN_NAME] = {'\0'};
   const char *capturer_nation = nation_plural_for_player(pplayer);
   bv_unit_types unique_on_tile;
   const struct unit_type *act_utype;
+  int id, hcity;
+  int n = 0, capt[unit_list_size(pdesttile->units)];
+  bool lost_with_city = FALSE;
 
   /* Sanity check: The actor still exists. */
   fc_assert_ret_val(pplayer, FALSE);
   fc_assert_ret_val(punit, FALSE);
+  id = punit->id;
 
   act_utype = unit_type_get(punit);
 
@@ -331,33 +366,64 @@ static bool do_capture_units(struct player *pplayer,
 
       return FALSE;
     }
+    /* Remember the units here
+     * for the mess callbacks may do in the process of transferring */
+     capt[n++] = to_capture->id;
   } unit_list_iterate_end;
 
   /* N.B: unit_link() always returns the same pointer. */
   sz_strlcpy(capturer_link, unit_link(punit));
 
   pcity = tile_city(pdesttile);
-  unit_list_iterate(pdesttile->units, to_capture) {
-    struct player *uplayer = unit_owner(to_capture);
+  hcity = game.server.homecaughtunits
+    ? punit->homecity : IDENTITY_NUMBER_ZERO;
+  if (hcity) {
+    /* Rarely, we'll need it... */
+    sz_strlcpy(hcity_name, city_name_get(game_city_by_number(hcity)));
+  }
+  for (int i = 0; i < n; i++) {
+    struct unit *to_capture = game_unit_by_number(capt[i]);
+    struct player *uplayer;
     const char *victim_link;
+    const struct unit_type *utype;
+    struct tile *ptile = NULL;
+    bool really_lost = FALSE;
 
-    unit_owner(to_capture)->score.units_lost++;
-    to_capture = unit_change_owner(to_capture, pplayer,
-                                   (game.server.homecaughtunits
-                                    ? punit->homecity
-                                    : IDENTITY_NUMBER_ZERO),
-                                   ULR_CAPTURED);
-    /* As unit_change_owner() currently remove the old unit and
-     * replace by a new one (with a new id), we want to make link to
-     * the new unit. */
-    victim_link = unit_link(to_capture);
+    if (!to_capture) {
+      continue;
+    }
+    uplayer = unit_owner(to_capture);
+    if (uplayer == pplayer) {
+      /* Somehow transferred by scripts (e.g. diplomat incited a city) */
+      continue;
+    }
+    utype = unit_type_get(to_capture);
+    really_lost = lost_with_city && !utype_has_flag(utype, UTYF_NOHOME);
+    uplayer->score.units_lost++;
+    if (!really_lost) {
+      /* A hack: if the captured unit is lost with a capturer's city,
+       * we link the old unit, otherwise the new one */
+      to_capture = unit_change_owner(to_capture, pplayer,
+                                     hcity, ULR_CAPTURED);
+    }
+    if (!to_capture) {
+      /* Lost during capturing */
+      victim_link = utype_name_translation(utype);
+    } else {
+      /* As unit_change_owner() currently remove the old unit and
+       * replace by a new one (with a new id), we want to make link to
+       * the new unit. */
+      victim_link = unit_link(to_capture);
+      ptile = unit_tile(to_capture);
+      /* Notify capturer only if there is a gain */
+      notify_player(pplayer, pdesttile, E_MY_DIPLOMAT_BRIBE, ftc_server,
+                    /* TRANS: <unit> ... <unit> */
+                    _("Your %s succeeded in capturing the %s %s."),
+                    capturer_link, nation_adjective_for_player(uplayer),
+                    victim_link);
+    }
 
-    /* Notify players */
-    notify_player(pplayer, pdesttile, E_MY_DIPLOMAT_BRIBE, ftc_server,
-                  /* TRANS: <unit> ... <unit> */
-                  _("Your %s succeeded in capturing the %s %s."),
-                  capturer_link, nation_adjective_for_player(uplayer),
-                  victim_link);
+    /* Notify loser */
     notify_player(uplayer, pdesttile,
                   E_ENEMY_DIPLOMAT_BRIBE, ftc_server,
                   /* TRANS: <unit> ... <Poles> */
@@ -368,12 +434,49 @@ static bool do_capture_units(struct player *pplayer,
     action_consequence_success(paction, pplayer, act_utype, uplayer,
                                pdesttile, victim_link);
 
-    if (NULL != pcity) {
-      /* The captured unit is in a city. Bounce it. */
+    if (really_lost) {
+      /* The city for which the unit was captured has perished! */
+      /* Nobody actually gets the unit. */
+      pplayer->score.units_lost++;
+      notify_player(pplayer, pdesttile,
+                    E_UNIT_LOST_MISC, ftc_server,
+                    _("%s lost along with control of %s."),
+                    victim_link, hcity_name);
+      /* As in unit_change_owner(), don't say pplayer is killer */
+      wipe_unit(to_capture, ULR_CAPTURED, NULL);
+      continue;
+    }
+
+    if (to_capture
+        && (NULL != pcity /* Keep old behavior */
+            || is_non_allied_city_tile(ptile, unit_owner(to_capture))
+            || (unit_owner(to_capture) == pplayer
+                ? non_allied_not_listed_at(pplayer, capt + (i + 1),
+                                           n - (i + 1), ptile)
+                : (bool)
+                  is_non_allied_unit_tile(ptile, unit_owner(to_capture))))) {
+      /* The captured unit is in a city or with a foreign unit
+       * that its owner is not capturing. Bounce it. */
       bounce_unit(to_capture, TRUE);
     }
-  } unit_list_iterate_end;
 
+    /* Check if the city we are going to home units in stays. */
+    if (hcity && i + 1 < n && !player_city_by_number(pplayer, hcity)) {
+      /* Oops, it's lost. Maybe the capturer is rehomed? */
+      if (player_unit_by_number(pplayer, id)) {
+        /* Well, it's natural to home them here now */
+        hcity = punit->homecity;
+      } else {
+        /* Removing the rest of the stack (except "NoHome" units) */
+        lost_with_city = TRUE;
+      }
+    }
+  }
+
+  if (!unit_is_alive(id)) {
+    /* Callbacks took the capturer, nothing more to do */
+    return TRUE;
+  }
   unit_did_action(punit);
   unit_forget_last_activity(punit);
 
