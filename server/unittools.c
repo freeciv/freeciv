@@ -1189,11 +1189,11 @@ void place_partisans(struct tile *pcenter, struct player *powner,
                                       sq_radius, &ptile)) {
     struct unit *punit;
 
-    punit = create_unit(powner, ptile, u_type, 0, 0, -1);
+    punit = unit_virtual_prepare(powner, ptile, u_type, 0, 0, -1, -1);
     if (can_unit_do_activity(punit, ACTIVITY_FORTIFYING)) {
       punit->activity = ACTIVITY_FORTIFIED; /* yes; directly fortified */
-      send_unit_info(NULL, punit);
     }
+    (void) place_unit(punit, powner, NULL, NULL, FALSE);
   }
 }
 
@@ -1627,26 +1627,54 @@ void unit_get_goods(struct unit *punit)
 }
 
 /**********************************************************************//**
-  Creates a unit, and set it's initial values, and put it into the right
-  lists.
-  If moves_left is less than zero, unit will get max moves.
+  Creates a unit, sets its initial values, and puts it into the right
+  lists. The unit must be placed to a valid tile or a loadable transport.
+  See unit_virtual_prepare() for the processing of moves_left and hp_left
 **************************************************************************/
 struct unit *create_unit_full(struct player *pplayer, struct tile *ptile,
                               const struct unit_type *type, int veteran_level, 
                               int homecity_id, int moves_left, int hp_left,
                               struct unit *ptrans)
 {
-  struct unit *punit = unit_virtual_create(pplayer, NULL, type, veteran_level);
-  struct city *pcity;
+  struct unit *punit
+    = unit_virtual_prepare(pplayer, ptile, type, veteran_level,
+                           homecity_id, moves_left, hp_left);
+  struct city *pcity = (!homecity_id || utype_has_flag(type, UTYF_NOHOME))
+      ? NULL : game_city_by_number(homecity_id);
+  bool could_place;
 
-  /* Register unit */
-  punit->id = identity_number();
-  idex_register_unit(&wld, punit);
+  fc_assert_ret_val(punit, NULL);
+  could_place = place_unit(punit, pplayer, pcity, ptrans, FALSE);
+  fc_assert(could_place);
+  if (!could_place) {
+    unit_virtual_destroy(punit);
+    punit = NULL;
+  }
+
+  return punit;
+}
+
+/**********************************************************************//**
+  Creates a virtual unit, and sets its initial values, but does not
+  register the unit in any other data structures or set the vision.
+  If moves_left is less than zero, unit will get max moves;
+  otherwise, it will get the specified number of movement fragments
+  and will be considered moved.
+  If hp_left is zero or less, unit will get full hp.
+  homecity_id won't be set to units with "NoHome" flag.
+  ptile must be a valid tile (its livability for the unit is not checked)
+**************************************************************************/
+struct unit *unit_virtual_prepare(struct player *pplayer, struct tile *ptile,
+                                  const struct unit_type *type,
+                                  int veteran_level, int homecity_id,
+                                  int moves_left, int hp_left)
+{
+  struct unit *punit;
 
   fc_assert_ret_val(ptile != NULL, NULL);
+  punit = unit_virtual_create(pplayer, NULL, type, veteran_level);
   unit_tile_set(punit, ptile);
 
-  pcity = game_city_by_number(homecity_id);
   if (utype_has_flag(type, UTYF_NOHOME)) {
     punit->homecity = 0; /* none */
   } else {
@@ -1660,28 +1688,60 @@ struct unit *create_unit_full(struct player *pplayer, struct tile *ptile,
 
   if (moves_left >= 0) {
     /* Override default full MP */
+    /* FIXME: there are valid situations when a unit have mp
+     * over its move rate. Here, keeping the old behavior. */
     punit->moves_left = MIN(moves_left, unit_move_rate(punit));
+    /* Assume that if moves_left < 0 then the unit is "fresh",
+     * and not moved; else the unit has had something happen
+     * to it (eg, bribed) which we treat as equivalent to moved.
+     * (Otherwise could pass moved arg too...)  --dwp */
+    punit->moved = TRUE;
   }
+
+  return punit;
+}
+
+/**********************************************************************//**
+  Places a virtual unit into the game, assigning it an index, putting it
+  on the right lists and dispatching the information around.
+  The unit must have a tile, pcity and pplayer must be valid
+  and accord to the unit's fields (basically, set by unit_virtual_prepare()).
+  ptrans if not NULL must be a transporter on the same tile
+  the unit can freely load into (or just that can transport it if force)
+  Returns if the unit is placed (must be TRUE if input data are valid)
++**************************************************************************/
+bool place_unit(struct unit *punit, struct player *pplayer,
+                struct city *pcity, struct unit *ptrans, bool force)
+{
+  struct tile *ptile;
+
+  fc_assert_ret_val(pplayer, FALSE);
+  fc_assert_ret_val(punit, FALSE);
+  ptile = punit->tile;
+  fc_assert_ret_val(ptile, FALSE);
+
+  /* Register unit */
+  punit->id = identity_number();
+  idex_register_unit(&wld, punit);
 
   if (ptrans) {
     /* Set transporter for unit. */
-    unit_transport_load_tp_status(punit, ptrans, FALSE);
-  } else {
-    fc_assert_ret_val(!ptile
-                      || can_unit_exist_at_tile(&(wld.map), punit, ptile), NULL);
+    unit_transport_load_tp_status(punit, ptrans, force);
   }
 
-  /* Assume that if moves_left < 0 then the unit is "fresh",
-   * and not moved; else the unit has had something happen
-   * to it (eg, bribed) which we treat as equivalent to moved.
-   * (Otherwise could pass moved arg too...)  --dwp */
-  punit->moved = (moves_left >= 0);
+  fc_assert_ret_val(unit_transport_get(punit)
+                    || can_unit_exist_at_tile(&(wld.map), punit, ptile),
+                    FALSE);
 
   unit_list_prepend(pplayer->units, punit);
   unit_list_prepend(ptile->units, punit);
-  if (pcity && !utype_has_flag(type, UTYF_NOHOME)) {
+  maybe_make_contact(ptile, unit_owner(punit));
+  if (pcity) {
+    fc_assert(punit->homecity == pcity->id);
     fc_assert(city_owner(pcity) == pplayer);
     unit_list_prepend(pcity->units_supported, punit);
+    /* update unit upkeep */
+    city_units_upkeep(pcity);
     /* Refresh the unit's homecity. */
     city_refresh(pcity);
     send_city_info(pplayer, pcity);
@@ -1691,11 +1751,7 @@ struct unit *create_unit_full(struct player *pplayer, struct tile *ptile,
   unit_refresh_vision(punit);
 
   send_unit_info(NULL, punit);
-  maybe_make_contact(ptile, unit_owner(punit));
   wakeup_neighbor_sentries(punit);
-
-  /* update unit upkeep */
-  city_units_upkeep(game_city_by_number(homecity_id));
 
   /* The unit may have changed the available tiles in nearby cities. */
   city_map_update_tile_now(ptile);
@@ -1706,7 +1762,7 @@ struct unit *create_unit_full(struct player *pplayer, struct tile *ptile,
   CALL_FUNC_EACH_AI(unit_created, punit);
   CALL_PLR_AI_FUNC(unit_got, pplayer, punit);
 
-  return punit;
+  return TRUE;
 }
 
 /**********************************************************************//**
@@ -2132,19 +2188,17 @@ struct unit *unit_change_owner(struct unit *punit, struct player *pplayer,
 {
   struct unit *gained_unit;
   int id = 0;
+  bool placed;
 
   fc_assert(!utype_player_already_has_this_unique(pplayer,
                                                   unit_type_get(punit)));
 
-  /* Convert the unit to your cause. Fog is lifted in the create algorithm. */
-  /* This call supposes that the original unit is on a valid tile
-   * and is not transported. */
-  gained_unit = create_unit_full(pplayer, unit_tile(punit),
-                                 unit_type_get(punit), punit->veteran,
-                                 homecity, punit->moves_left,
-                                 punit->hp, NULL);
+  /* Convert the unit to your cause. It's supposed that the original unit
+   * is on a valid tile and is not transported. */
+  gained_unit = unit_virtual_prepare(pplayer, unit_tile(punit),
+                                     unit_type_get(punit), punit->veteran,
+                                     homecity, punit->moves_left, punit->hp);
   fc_assert_action(gained_unit, goto uco_wipe); /* Tile must be valid */
-  id = gained_unit->id;
 
   /* Owner changes, nationality not. */
   gained_unit->nationality = punit->nationality;
@@ -2154,7 +2208,12 @@ struct unit *unit_change_owner(struct unit *punit, struct player *pplayer,
   gained_unit->paradropped = punit->paradropped;
   gained_unit->server.birth_turn = punit->server.birth_turn;
 
-  send_unit_info(NULL, gained_unit);
+  /* Fog is lifted in the placing algorithm. */
+  placed = place_unit(gained_unit, pplayer,
+                      homecity ? game_city_by_number(homecity) : NULL,
+                      NULL, FALSE);
+  fc_assert_action(placed, unit_virtual_destroy(gained_unit); goto uco_wipe);
+  id = gained_unit->id;
 
   /* update unit upkeep in the new homecity */
   if (homecity > 0) {

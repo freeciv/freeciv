@@ -128,6 +128,12 @@ struct unit *create_unit_full(struct player *pplayer, struct tile *ptile,
                               const struct unit_type *punittype, int veteran_level,
                               int homecity_id, int moves_left, int hp_left,
                               struct unit *ptrans);
+struct unit *unit_virtual_prepare(struct player *pplayer, struct tile *ptile,
+                                  const struct unit_type *type,
+                                  int veteran_level, int homecity_id,
+                                  int moves_left, int hp_left);
+bool place_unit(struct unit *punit, struct player *pplayer,
+                struct city *pcity, struct unit *ptrans, bool force);
 void wipe_unit(struct unit *punit, enum unit_loss_reason reason,
                struct player *killer);
 void kill_unit(struct unit *pkiller, struct unit *punit, bool vet);
