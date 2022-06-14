@@ -19,5 +19,6 @@
 #include "menu_g.h"
 
 GtkWidget *setup_menus(GtkWidget *window);
+void menus_free(void);
 
 #endif  /* FC__MENU_H */
