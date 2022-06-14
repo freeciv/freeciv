@@ -2939,3 +2939,14 @@ void real_menus_init(void)
 
   menu_entry_set_active("FULL_SCREEN", GUI_GTK_OPTION(fullscreen));
 }
+
+/**************************************************************************
+  Free resources allocated by the menu system.
+**************************************************************************/
+void menus_free(void)
+{
+  if (ui_builder != NULL) {
+    g_object_unref(ui_builder);
+    ui_builder = NULL;
+  }
+}

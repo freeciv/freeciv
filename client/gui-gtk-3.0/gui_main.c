@@ -1850,6 +1850,7 @@ void ui_main(int argc, char **argv)
   editgui_free();
   gtk_widget_destroy(toplevel_tabs);
   gtk_widget_destroy(toplevel);
+  menus_free();
   message_buffer = NULL; /* Result of destruction of everything */
   tileset_free_tiles(tileset);
 }
