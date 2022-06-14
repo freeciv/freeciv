@@ -14,8 +14,4 @@ Freeciv website: [Freeciv.org](http://www.freeciv.org/)
 
 Submit patches: [OSDN](https://osdn.net/projects/freeciv/ticket/)
 
-Community forum: [forum.freeciv.org](http://forum.freeciv.org/) 
-
-
-
-
+Community forum: [forum.freeciv.org](https://forum.freeciv.org/)
