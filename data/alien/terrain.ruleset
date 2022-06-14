@@ -867,6 +867,8 @@ rmact_gfx_alt  = "-"
 reqs           =
     { "type", "name", "range"
       "TerrainClass", "Land", "Tile"
+      "MaxLatitude", "980", "Tile"
+      "MinLatitude", "-980", "Tile"
     }
 helptext = _("\
 Space Capsules have landed to the surface of Deneb Seven. \

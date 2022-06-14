@@ -497,3 +497,22 @@ void rscompat_req_adjust_3_2(const struct rscompat_info *compat,
     }
   }
 }
+
+/**********************************************************************//**
+  Adjust values of an extra loaded from a 3.1 ruleset.
+**************************************************************************/
+void rscompat_extra_adjust_3_2(struct extra_type *pextra)
+{
+  /* Huts were not allowed on polar regions
+   * (defined as "Frozen" - but that was just workaround we don't want to reproduce) */
+  if (is_extra_caused_by(pextra, EC_HUT)) {
+    requirement_vector_append(&pextra->reqs,
+                              req_from_str("MaxLatitude", "Tile",
+                                           FALSE, TRUE, FALSE,
+                                           "980"));
+    requirement_vector_append(&pextra->reqs,
+                              req_from_str("MinLatitude", "Tile",
+                                           FALSE, TRUE, FALSE,
+                                           "-980"));
+  }
+}

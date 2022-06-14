@@ -239,17 +239,17 @@ struct DataFilter {
 };
 
 /**********************************************************************//**
-  A filter function to be passed to rand_map_pos_filtered().  See
+  A filter function to be passed to rand_map_pos_filtered(). See
   rand_map_pos_characteristic for more explanation.
 **************************************************************************/
 static bool condition_filter(const struct tile *ptile, const void *data)
 {
   const struct DataFilter *filter = data;
 
-  return  not_placed(ptile) 
-       && tmap_is(ptile, filter->tc) 
-       && test_wetness(ptile, filter->wc) 
-       && test_miscellaneous(ptile, filter->mc) ;
+  return not_placed(ptile)
+       && tmap_is(ptile, filter->tc)
+       && test_wetness(ptile, filter->wc)
+       && test_miscellaneous(ptile, filter->mc);
 }
 
 /**********************************************************************//**
@@ -261,11 +261,7 @@ static struct tile *rand_map_pos_characteristic(wetness_c wc,
                                                 temperature_type tc,
                                                 miscellaneous_c mc )
 {
-  struct DataFilter filter;
-
-  filter.wc = wc;
-  filter.tc = tc;
-  filter.mc = mc;
+  struct DataFilter filter = { .wc = wc, .tc = tc, .mc = mc };
 
   return rand_map_pos_filtered(&(wld.map), &filter, condition_filter);
 }
@@ -1526,8 +1522,8 @@ static void make_huts(int number)
 
   while (number > 0 && count++ < map_num_tiles() * 2) {
 
-    /* Add a hut.  But not on a polar area, or too close to another hut. */
-    if ((ptile = rand_map_pos_characteristic(WC_ALL, TT_NFROZEN, MC_NONE))) {
+    /* Add a hut.  But not too close to another hut. */
+    if ((ptile = rand_map_pos_characteristic(WC_ALL, TT_ALL, MC_NONE))) {
       struct extra_type *phut = rand_extra_for_tile(ptile, EC_HUT, TRUE);
 
       number--;

@@ -3794,6 +3794,10 @@ static bool load_ruleset_terrain(struct section_file *file,
       pextra->visibility_req = advance_number(vis_req);
 
       pextra->helptext = lookup_strvec(file, section, "helptext");
+
+      if (compat->compat_mode && compat->version < RSFORMAT_3_2) {
+        rscompat_extra_adjust_3_2(pextra);
+      }
     } extra_type_iterate_end;
   }
 

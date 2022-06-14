@@ -1045,6 +1045,8 @@ rmact_gfx_alt  = "-"
 reqs           =
     { "type", "name", "range"
       "TerrainClass", "Land", "Tile"
+      "MaxLatitude", "980", "Tile"
+      "MinLatitude", "-980", "Tile"
     }
 helptext = _("\
 Villages (also called \"huts\") are primitive communities spread \
