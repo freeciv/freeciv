@@ -1,6 +1,6 @@
                   Freeciv Frequently Asked Questions (FAQ)
 
-                 (from http://www.freeciv.org/wiki/FAQ)
+                 (from https://www.freeciv.org/wiki/FAQ)
 
    Contents
 
@@ -87,7 +87,7 @@
 1.1 What do I need to play, where can I go to play?
 
     You will need to download freeciv from
-    http://www.freeciv.org/download.html and then install as described
+    https://www.freeciv.org/download.html and then install as described
     in INSTALL document.
 
 -------
@@ -615,8 +615,8 @@ I cannot conquer it, and they won't give up. What can I do?
    To start your local server, run freeciv-server. Then type start at the
    server prompt to begin!
 mike@localhost:/usr/local/bin$ ./freeciv-server
-This is the server for Freeciv version 2.6.0
-You can learn a lot about Freeciv at http://www.freeciv.org/
+This is the server for Freeciv version 3.0.3
+You can learn a lot about Freeciv at https://www.freeciv.org/
 2: Loading rulesets.
 2: AI*1 has been added as Easy level AI-controlled player (classic).
 2: AI*2 has been added as Easy level AI-controlled player (classic).
