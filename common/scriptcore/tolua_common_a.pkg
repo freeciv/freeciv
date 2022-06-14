@@ -176,7 +176,7 @@ end
 -- ***************************************************************************
 -- List environment.
 -- Implementation by nef:
--- http://forum.freeciv.org/f/viewtopic.php?f=14&t=91972&p=103953#p103948
+-- https://forum.freeciv.org/f/viewtopic.php?f=14&t=91972&p=103953#p103948
 -- nef version 2 20211221
 --
 --   Arguments:  (all for advanced use)
