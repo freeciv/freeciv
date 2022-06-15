@@ -16,4 +16,6 @@
 /* client */
 #include "optiondlg_g.h"
 
-#endif  /* FC__OPTIONDLG_H */
+void option_dialog_popup(const char *name, const struct option_set *poptset);
+
+#endif /* FC__OPTIONDLG_H */

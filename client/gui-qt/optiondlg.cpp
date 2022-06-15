@@ -119,11 +119,10 @@ QString cut_helptext(QString text)
   return ret_str;
 }
 
-
 /************************************************************************//**
   Constructor for options dialog.
 ****************************************************************************/
-option_dialog::option_dialog(const QString & name,
+option_dialog::option_dialog(const QString &name,
                              const option_set *options, QWidget *parent)
   : qfc_dialog(parent)
 {
@@ -768,7 +767,7 @@ void option_dialog::add_option(struct option *poption)
 /************************************************************************//**
   Popup the option dialog for the option set.
 ****************************************************************************/
-void option_dialog_popup(const char *name, const struct option_set *poptset)
+void option_dialog_popup(QString name, const struct option_set *poptset)
 {
   option_dialog *opt_dialog;
 

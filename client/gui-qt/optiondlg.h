@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -34,6 +34,9 @@ class QString;
 
 QString split_text(QString text, bool cut);
 QString cut_helptext(QString text);
+
+void option_dialog_popup(QString name, const struct option_set *poptset);
+
 /****************************************************************************
   Dialog for client/server options
 ****************************************************************************/
