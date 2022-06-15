@@ -22,10 +22,13 @@
 #ifndef FC__OPTIONDLG_H
 #define FC__OPTIONDLG_H
 
+/* client */
 #include "optiondlg_g.h"
 
 void popup_optiondlg(void);
 void popdown_optiondlg(bool leave_game);
+
+void option_dialog_popup(const char *name, const struct option_set *poptset);
 
 void init_options_button(void);
 void enable_options_button(void);

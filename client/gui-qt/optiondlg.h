@@ -35,6 +35,8 @@ class QString;
 QString split_text(QString text, bool cut);
 QString cut_helptext(QString text);
 
+void option_dialog_popup(QString name, const struct option_set *poptset);
+
 /****************************************************************************
   Dialog for client/server options
 ****************************************************************************/
