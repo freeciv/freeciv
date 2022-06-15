@@ -221,7 +221,9 @@ static void dai_manage_taxes(struct ai_type *ait, struct player *pplayer)
   int expenses = 0;      /* total amount of gold upkeep */
   int income = 0;        /* total amount of gold income */
   int turns_for_rapture; /* additional reserve needed for rapture */
-  int rates_save[AI_RATE_COUNT], rates[AI_RATE_COUNT], result[AI_RATE_COUNT];
+  unsigned rates_save[AI_RATE_COUNT], rates_tmp[AI_RATE_COUNT];
+  int rates[AI_RATE_COUNT];
+  int result[AI_RATE_COUNT];
   int rate_tax_min = RATE_NOT_SET;
   int rate_tax_balance = RATE_NOT_SET;
   int rate_sci_min = RATE_NOT_SET;
@@ -310,8 +312,13 @@ static void dai_manage_taxes(struct ai_type *ait, struct player *pplayer)
          && rates[AI_RATE_LUX] >= 0) {
     bool refill_coffers = pplayer->economic.gold < dai_gold_reserve(pplayer);
     int balance_tax, balance_tax_min;
+    int i;
 
-    distribute(trade, AI_RATE_COUNT, rates, result);
+    for (i = 0; i < AI_RATE_COUNT; i++) {
+      fc_assert(rates[i] >= 0);
+      rates_tmp[i] = rates[i];
+    }
+    distribute(trade, AI_RATE_COUNT, rates_tmp, result);
 
     /* Consider the delta between the result and the real value from the
      * last turn to get better estimates. */
@@ -394,8 +401,13 @@ static void dai_manage_taxes(struct ai_type *ait, struct player *pplayer)
            && rates[AI_RATE_TAX] >= 0
            && rates[AI_RATE_LUX] >= 0) {
       int balance_sci, balance_sci_min;
+      int i;
 
-      distribute(trade, AI_RATE_COUNT, rates, result);
+      for (i = 0; i < AI_RATE_COUNT; i++) {
+        fc_assert(rates[i] >= 0);
+        rates_tmp[i] = rates[i];
+      }
+      distribute(trade, AI_RATE_COUNT, rates_tmp, result);
 
       /* Consider the delta between the result and the real value from the
        * last turn. */
