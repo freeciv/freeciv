@@ -186,6 +186,14 @@ void qtg_ui_main(int argc, char *argv[])
       qtg_gui_clear_theme();
     }
     freeciv_qt = new fc_client();
+
+    // Initial fonts setup by forcing running change-callback for each
+    options_iterate(client_optset, poption) {
+      if (OT_FONT == option_type(poption)) {
+        option_changed(poption);
+      }
+    } options_iterate_end;
+
     freeciv_qt->fc_main(qapp);
   }
 }
