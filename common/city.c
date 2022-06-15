@@ -2154,13 +2154,14 @@ int get_city_tithes_bonus(const struct city *pcity)
 }
 
 /**********************************************************************//**
-  Add the incomes of a city according to the taxrates (ignore # of 
+  Add the incomes of a city according to the taxrates (ignore # of
   specialists). trade should be in output[O_TRADE].
 **************************************************************************/
 void add_tax_income(const struct player *pplayer, int trade, int *output)
 {
   const int SCIENCE = 0, TAX = 1, LUXURY = 2;
-  int rates[3], result[3];
+  unsigned rates[3];
+  int result[3];
 
   if (game.info.changable_tax) {
     rates[SCIENCE] = pplayer->economic.science;

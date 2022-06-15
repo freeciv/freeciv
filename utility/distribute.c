@@ -31,14 +31,15 @@
 
   The algorithm used to determine the distribution is Hamilton's Method.
 ****************************************************************************/
-void distribute(int number, int groups, int *ratios, int *result)
+void distribute(int number, unsigned groups, const unsigned *ratios,
+                int *result)
 {
   int i, sum = 0, rest[groups], max_groups[groups], max_count, max;
 #ifdef FREECIV_DEBUG
   const int original_number = number;
 #endif
 
-  /* 
+  /*
    * Distribution of a number of items into a number of groups with a given
    * ratio.  This follows a modified Hare/Niemeyer algorithm (also known
    * as "Hamilton's Method"):
@@ -53,7 +54,6 @@ void distribute(int number, int groups, int *ratios, int *result)
    */
 
   for (i = 0; i < groups; i++) {
-    fc_assert(ratios[i] >= 0);
     sum += ratios[i];
   }
 
