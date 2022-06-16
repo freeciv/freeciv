@@ -67,6 +67,22 @@ add_gtk3_env() {
   cp ./helpers/installer-helper-gtk3.cmd $2/bin/installer-helper.cmd
 }
 
+add_gtk4_env() {
+  add_gtk_common_env $1 $2 &&
+  cp $1/bin/libgtk-4-1.dll $2/ &&
+  cp $1/bin/libgraphene-1.0-0.dll $2/ &&
+  cp $1/bin/libcairo-script-interpreter-2.dll $2/ &&
+  cp $1/bin/gdbus.exe $2/ &&
+  cp $1/bin/gtk4-update-icon-cache.exe $2/bin/ &&
+  cp ./helpers/installer-helper-gtk4.cmd $2/bin/installer-helper.cmd
+}
+
+add_sdl2_env() {
+  cp $1/bin/SDL2_image.dll $2/ &&
+  cp $1/bin/SDL2_ttf.dll $2/ &&
+  cp $1/bin/libtiff-5.dll $2/
+}
+
 if test "$1" = "" || test "$1" = "-h" || test "$1" = "--help" ||
    test "$2" = "" ; then
   echo "Usage: $0 <crosser dir> <gui>"
@@ -81,6 +97,9 @@ case $GUI in
     GUINAME="GTK3.22"
     MPGUI="gtk3"
     FCMP="gtk3" ;;
+  sdl2)
+    GUINAME="SDL2"
+    FCMP="gtk4" ;;
   *)
     echo "Unknown gui type \"$GUI\"" >&2
     exit 1 ;;
@@ -150,13 +169,23 @@ else
       if ! add_gtk3_env "$DLLSPATH" "$INSTDIR" ; then
         echo "Copying gtk3 environment failed!" >&2
         exit 1
-      fi ;;
+      fi
+      ;;
     sdl2)
-      echo "sdl2 installer build not supported yet!" >&2
-      exit 1 ;;
+      # For gtk4 modpack installer
+      if ! add_gtk4_env "$DLLSPATH" "$INSTDIR" ; then
+        echo "Copying gtk3 environment failed!" >&2
+        exit 1
+      fi
+      if ! add_sdl2_env "$DLLSPATH" "$INSTDIR" ; then
+        echo "Copying sdl2 environment failed!" >&2
+        exit 1
+      fi
+      ;;
     qt5|qt6)
       echo "Qt installer build not supported yet!" >&2
-      exit 1 ;;
+      exit 1
+      ;;
   esac
 
   if test "$GUI" = "qt5" || test "$GUI" = "qt6" ; then
@@ -165,16 +194,26 @@ else
     EXE_ID="$GUI"
   fi
 
-  if test "$GUI" = "gtk3.22" || test "$GUI" = "gtk4" ; then
+  if test "$GUI" = "gtk3.22" || test "$GUI" = "gtk4" ||
+     test "$GUI" = "sdl2" ; then
     UNINSTALLER="helpers/uninstaller-helper-gtk3.sh"
   else
     UNINSTALLER=""
   fi
 
-  if ! ./create-freeciv-gtk-qt-nsi.sh "$INSTDIR" "$VERREV" "$GUI" "$GUINAME" \
-       "$SETUP" "$MPGUI" "$EXE_ID" "$UNINSTALLER" > meson-freeciv-$SETUP-$VERREV-$GUI.nsi
-  then
-    exit 1
+  if test "$GUI" = "sdl2" ; then
+    if ! ./create-freeciv-sdl2-nsi.sh "$INSTDIR" "$VERREV" "$SETUP" "$UNINSTALLER" \
+         > meson-freeciv-$SETUP-$VERREV-$GUI.nsi
+    then
+      exit 1
+    fi
+  else
+    if ! ./create-freeciv-gtk-qt-nsi.sh "$INSTDIR" "$VERREV" "$GUI" "$GUINAME" \
+         "$SETUP" "$MPGUI" "$EXE_ID" "$UNINSTALLER" \
+         > meson-freeciv-$SETUP-$VERREV-$GUI.nsi
+    then
+      exit 1
+    fi
   fi
 
   if ! mkdir -p Output ; then
