@@ -546,9 +546,9 @@ fz_FILE *fc_querysocket(int sock, void *buf, size_t size)
   return fz_from_stream(fp);
 }
 
-/************************************************************************** 
+/**************************************************************************
   Finds the next (lowest) free port.
-**************************************************************************/ 
+**************************************************************************/
 int find_next_free_port(int starting_port, int highest_port,
                         enum fc_addr_family family,
                         char *net_interface, bool not_avail_ok)
@@ -676,4 +676,23 @@ int find_next_free_port(int starting_port, int highest_port,
   port--;
 
   return port;
+}
+
+/*************************************************************************
+  Return address family matching the announce type
+*************************************************************************/
+int addr_family_for_announce_type(enum announce_type announce)
+{
+  switch (announce) {
+  case ANNOUNCE_IPV6:
+    return AF_INET;
+  case ANNOUNCE_IPV4:
+    return AF_INET;
+  case ANNOUNCE_NONE:
+    return AF_UNSPEC;
+  }
+
+  fc_assert(FALSE);
+
+  return AF_UNSPEC;
 }

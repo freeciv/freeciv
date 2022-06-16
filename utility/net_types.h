@@ -67,6 +67,8 @@ enum fc_addr_family {
 void fc_init_network(void);
 void fc_shutdown_network(void);
 
+int addr_family_for_announce_type(enum announce_type announce);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */
