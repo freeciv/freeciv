@@ -391,10 +391,10 @@ static struct city_dialog *get_city_dialog(struct city *pcity)
 }
 
 /***********************************************************************//**
-  Redraw map canvas on expose.
+  Redraw map canvas.
 ***************************************************************************/
-static gboolean canvas_exposed_cb(GtkWidget *w, cairo_t *cr,
-                                  gpointer data)
+static void canvas_draw_cb(GtkDrawingArea *w, cairo_t *cr,
+                           int width, int height, gpointer data)
 {
   struct city_dialog *pdialog = data;
 
@@ -405,8 +405,6 @@ static gboolean canvas_exposed_cb(GtkWidget *w, cairo_t *cr,
   } else {
     cairo_paint(cr);
   }
-
-  return TRUE;
 }
 
 /***********************************************************************//**
@@ -428,10 +426,10 @@ static void city_dialog_map_create(struct city_dialog *pdialog,
 
   darea = gtk_drawing_area_new();
   gtk_widget_set_size_request(darea, CITYMAP_WIDTH, CITYMAP_HEIGHT);
+  gtk_drawing_area_set_draw_func(GTK_DRAWING_AREA(darea),
+                                 canvas_draw_cb, pdialog, NULL);
   g_signal_connect(darea, "button-press-event",
                    G_CALLBACK(button_down_citymap), pdialog);
-  g_signal_connect(darea, "draw",
-                   G_CALLBACK(canvas_exposed_cb), pdialog);
   gtk_scrolled_window_set_child(GTK_SCROLLED_WINDOW(sw), darea);
 
   /* save all widgets for the city map */
