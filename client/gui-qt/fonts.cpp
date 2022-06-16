@@ -222,10 +222,37 @@ QString configure_font(QString font_name, QStringList sl, int size,
   QFontDatabase database;
   QString str;
   QFont *f;
+  QString style;
+
+  if (bold) {
+    style = "Bold";
+  }
 
   foreach (str, sl)  {
-    if (database.families().contains(str)) {
+    QList<int> sizes = database.smoothSizes(str, style);
+
+    if (!sizes.isEmpty()) {
+      QListIterator<int> i(sizes);
+      int lower = -1;
+      int upper = -1;
       QByteArray fn_bytes;
+
+      while (i.hasNext()) {
+        int cur = i.next();
+
+        if (cur <= size && lower < cur) {
+          lower = cur;
+        }
+        if (cur >= size && (upper < 0 || upper > cur)) {
+          upper = cur;
+        }
+      }
+
+      if (size - lower > upper - size) {
+        size = upper;
+      } else {
+        size = lower;
+      }
 
       f = new QFont(str, size);
       if (bold) {
