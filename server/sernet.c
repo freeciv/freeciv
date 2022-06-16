@@ -1487,7 +1487,7 @@ static void get_lanserver_announcement(void)
      * Generally we just want to run select again. */
   }
 
-    /* We would need a raw network connection for broadcast messages */
+  /* We would need a raw network connection for broadcast messages */
   if (FD_ISSET(socklan, &readfs)) {
     if (0 < recvfrom(socklan, msgbuf, sizeof(msgbuf), 0, NULL, NULL)) {
       dio_input_init(&din, msgbuf, 1);
@@ -1506,7 +1506,7 @@ static void get_lanserver_announcement(void)
   This function broadcasts an UDP packet to clients with
   that requests information about the server state.
 *****************************************************************************/
-  /* We would need a raw network connection for broadcast messages */
+/* We would need a raw network connection for broadcast messages */
 static void send_lanserver_response(void)
 {
 #ifndef FREECIV_HAVE_WINSOCK
@@ -1529,9 +1529,10 @@ static void send_lanserver_response(void)
 #ifndef FREECIV_HAVE_WINSOCK
   unsigned char ttl;
 #endif
+  int addr_fam = addr_family_for_announce_type(srvarg.announce);
 
   /* Create a socket to broadcast to client. */
-  if ((socksend = socket(AF_INET, SOCK_DGRAM, 0)) < 0) {
+  if ((socksend = socket(addr_fam, SOCK_DGRAM, 0)) < 0) {
     log_error("Lan response socket failed: %s", fc_strerror(fc_get_errno()));
     return;
   }
@@ -1539,19 +1540,41 @@ static void send_lanserver_response(void)
   /* Set the UDP Multicast group IP address of the packet. */
   group = get_multicast_group(srvarg.announce == ANNOUNCE_IPV6);
   memset(&addr, 0, sizeof(addr));
-  addr.saddr_in4.sin_family = AF_INET;
-  addr.saddr_in4.sin_addr.s_addr = inet_addr(group);
-  addr.saddr_in4.sin_port = htons(SERVER_LAN_PORT + 1);
+#ifdef FREECIV_IPV6_SUPPORT
+  if (addr_fam == AF_INET6) {
+    addr.saddr_in6.sin6_family = AF_INET6;
+    addr.saddr_in6.sin6_port = htons(SERVER_LAN_PORT + 1);
+    inet_pton(addr_fam, group, &addr.saddr_in6.sin6_addr);
+  } else
+#endif /* FREECIV_IPV6_SUPPORT */
+  {
+    addr.saddr_in4.sin_family = AF_INET;
+    addr.saddr_in4.sin_addr.s_addr = inet_addr(group);
+    addr.saddr_in4.sin_port = htons(SERVER_LAN_PORT + 1);
+  }
 
-/* this setsockopt call fails on Windows 98, so we stick with the default
- * value of 1 on Windows, which should be fine in most cases */
+  /* This setsockopt call fails on Windows 98, so we stick with the default
+   * value of 1 on Windows, which should be fine in most cases */
 #ifndef FREECIV_HAVE_WINSOCK
-  /* Set the Time-to-Live field for the packet.  */
-  ttl = SERVER_LAN_TTL;
-  if (setsockopt(socksend, IPPROTO_IP, IP_MULTICAST_TTL, 
-                 (const char*)&ttl, sizeof(ttl))) {
-    log_error("setsockopt failed: %s", fc_strerror(fc_get_errno()));
-    return;
+  {
+    int proto;
+
+#ifdef FREECIV_IPV6_SUPPORT
+    if (addr_fam == AF_INET6) {
+      proto = IPPROTO_IPV6;
+    } else
+#endif /* FREECIV_IPV6_SUPPORT */
+    {
+      proto = IPPROTO_IP;
+    }
+
+    /* Set the Time-to-Live field for the packet.  */
+    ttl = SERVER_LAN_TTL;
+    if (setsockopt(socksend, proto, IP_MULTICAST_TTL,
+                   (const char*)&ttl, sizeof(ttl))) {
+      log_error("setsockopt failed: %s", fc_strerror(fc_get_errno()));
+      return;
+    }
   }
 #endif /* FREECIV_HAVE_WINSOCK */
 
