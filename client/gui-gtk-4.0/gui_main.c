@@ -397,10 +397,12 @@ static gboolean key_press_map_canvas(guint keyval, GdkModifierType state)
   if (!(state & GDK_CONTROL_MASK)) {
     switch (keyval) {
     case GDK_KEY_plus:
+    case GDK_KEY_KP_Add:
       zoom_step_up();
       return TRUE;
 
     case GDK_KEY_minus:
+    case GDK_KEY_KP_Subtract:
       zoom_step_down();
       return TRUE;
 
