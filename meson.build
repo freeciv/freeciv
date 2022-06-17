@@ -238,7 +238,6 @@ priv_functions = [
   'getentropy',
   'gettimeofday',
   'ftime',
-  'getaddrinfo',
   'gethostbyname',
   'getline',
   'getnameinfo',
@@ -304,6 +303,11 @@ if c_compiler.has_function('BCryptGenRandom', args: '-lbcrypt')
   priv_conf_data.set('HAVE_BCRYPTGENRANDOM', 1)
 else
   bcrypt_lib_dep = []
+endif
+
+if c_compiler.has_function('getaddrinfo', dependencies: net_dep)
+  priv_conf_data.set('HAVE_GETADDRINFO', 1)
+  pub_conf_data.set('FREECIV_IPV6_SUPPORT', 1)
 endif
 
 if c_compiler.has_header('libcharset.h', args: header_arg)

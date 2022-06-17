@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -52,7 +52,7 @@
 #mesondefine MODPACK_LIST_URL
 
 /* IPv6 Support built in */
-#define FREECIV_IPV6_SUPPORT
+#mesondefine FREECIV_IPV6_SUPPORT
 
 /* MS Windows host */
 #mesondefine FREECIV_MSWINDOWS
