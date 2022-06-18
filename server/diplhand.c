@@ -160,7 +160,15 @@ void set_diplstate_type(struct player_diplstate *state1,
                         struct player_diplstate *state2,
                         enum diplstate_type type)
 {
-  enum diplstate_type max = dst_closest(type, state1->max_state);
+  enum diplstate_type max;
+
+  if (type ==  DS_ARMISTICE) {
+    max = DS_PEACE;
+  } else {
+    max = type;
+  }
+
+  max = dst_closest(max, state1->max_state);
 
   state1->type = type;
   state2->type = type;
@@ -580,14 +588,9 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
           pgiver_seen_units = get_units_seen_via_ally(pgiver, pdest);
           pdest_seen_units = get_units_seen_via_ally(pdest, pgiver);
         }
-        ds_giverdest->type = DS_ARMISTICE;
-        ds_destgiver->type = DS_ARMISTICE;
+        set_diplstate_type(ds_giverdest, ds_destgiver, DS_ARMISTICE);
         ds_giverdest->turns_left = TURNS_LEFT;
         ds_destgiver->turns_left = TURNS_LEFT;
-        ds_giverdest->max_state = dst_closest(DS_PEACE,
-                                              ds_giverdest->max_state);
-        ds_destgiver->max_state = dst_closest(DS_PEACE,
-                                              ds_destgiver->max_state);
         notify_player(pgiver, NULL, E_TREATY_PEACE, ftc_server,
                       /* TRANS: ... the Poles ... Polish territory */
                       PL_("You agree on an armistice with the %s. In %d turn, "
@@ -627,12 +630,7 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
         worker_refresh_required = TRUE;
 	break;
       case CLAUSE_ALLIANCE:
-        ds_giverdest->type = DS_ALLIANCE;
-        ds_destgiver->type = DS_ALLIANCE;
-        ds_giverdest->max_state = dst_closest(DS_ALLIANCE,
-                                              ds_giverdest->max_state);
-        ds_destgiver->max_state = dst_closest(DS_ALLIANCE,
-                                              ds_destgiver->max_state);
+        set_diplstate_type(ds_giverdest, ds_destgiver, DS_ALLIANCE);
         notify_player(pgiver, NULL, E_TREATY_ALLIANCE, ftc_server,
                       _("You agree on an alliance with %s."),
                       player_name(pdest));
