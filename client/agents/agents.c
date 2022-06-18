@@ -387,7 +387,8 @@ void register_agent(const struct agent *agent)
   priv_agent->first_outstanding_request_id = 0;
   priv_agent->last_outstanding_request_id = 0;
 
-  priv_agent->stats.network_wall_timer = timer_new(TIMER_USER, TIMER_ACTIVE);
+  priv_agent->stats.network_wall_timer = timer_new(TIMER_USER, TIMER_ACTIVE,
+                                                   "agent: network");
   priv_agent->stats.wait_at_network = 0;
   priv_agent->stats.wait_at_network_requests = 0;
 

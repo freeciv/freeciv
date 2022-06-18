@@ -248,9 +248,9 @@ static void dai_manage_taxes(struct ai_type *ait, struct player *pplayer)
   }
 
 #ifdef DEBUG_TIMERS
-  taxtimer = timer_new(TIMER_CPU, TIMER_DEBUG);
+  taxtimer = timer_new(TIMER_CPU, TIMER_DEBUG, "AI tax");
   timer_start(taxtimer);
-#endif
+#endif /* DEBUG_TIMERS */
 
   /* City parameters needed for celebrations. */
   cm_init_parameter(&cmp);

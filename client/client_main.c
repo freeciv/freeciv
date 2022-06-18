@@ -1081,7 +1081,8 @@ void set_seconds_to_turndone(double seconds)
 {
   if (current_turn_timeout() > 0) {
     seconds_to_turndone = seconds;
-    turndone_timer = timer_renew(turndone_timer, TIMER_USER, TIMER_ACTIVE);
+    turndone_timer = timer_renew(turndone_timer, TIMER_USER, TIMER_ACTIVE,
+                                 turndone_timer != NULL ? NULL : "turndone");
     timer_start(turndone_timer);
 
     /* Maybe we should do an update_timeout_label here, but it doesn't
@@ -1104,7 +1105,8 @@ bool is_waiting_turn_change(void)
 void start_turn_change_wait(void)
 {
   seconds_shown_to_new_turn = ceil(game.tinfo.last_turn_change_time) + 0.1;
-  between_turns = timer_renew(between_turns, TIMER_USER, TIMER_ACTIVE);
+  between_turns = timer_renew(between_turns, TIMER_USER, TIMER_ACTIVE,
+                              between_turns != NULL ? NULL : "between turns");
   timer_start(between_turns);
 
   waiting_turn_change = TRUE;

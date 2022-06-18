@@ -102,9 +102,10 @@ enum tile_update_type {
   TILE_UPDATE_TILE_LABEL,
   TILE_UPDATE_COUNT
 };
+
 static void queue_mapview_update(enum update_type update);
 static void queue_mapview_tile_update(struct tile *ptile,
-				      enum tile_update_type type);
+                                      enum tile_update_type type);
 
 /* Helper struct for drawing trade routes. */
 struct trade_route_line {
@@ -182,13 +183,22 @@ void animations_free(void)
 }
 
 /************************************************************************//**
+  Start or renew animation timer.
+****************************************************************************/
+static void anim_timer_renew(void)
+{
+  anim_timer = timer_renew(anim_timer, TIMER_USER, TIMER_ACTIVE,
+                           anim_timer != NULL ? NULL : "anim");
+  timer_start(anim_timer);
+}
+
+/************************************************************************//**
   Add new animation to the queue
 ****************************************************************************/
 static void animation_add(struct animation *anim)
 {
   if (animation_list_size(animations) == 0) {
-    anim_timer = timer_renew(anim_timer, TIMER_USER, TIMER_ACTIVE);
-    timer_start(anim_timer);
+    anim_timer_renew();
   }
 
   anim->finished = FALSE;
@@ -410,8 +420,7 @@ void update_animation(void)
 
       if (animation_list_size(animations) > 0) {
         /* Start next */
-        anim_timer = timer_renew(anim_timer, TIMER_USER, TIMER_ACTIVE);
-        timer_start(anim_timer);
+        anim_timer_renew();
       }
     } else {
       double time_gone = timer_read_seconds(anim_timer);
@@ -989,8 +998,7 @@ void set_mapview_origin(float gui_x0, float gui_y0)
 
       gui_distance_vector(tileset,
                           &diff_x, &diff_y, start_x, start_y, gui_x0, gui_y0);
-      anim_timer = timer_renew(anim_timer, TIMER_USER, TIMER_ACTIVE);
-      timer_start(anim_timer);
+      anim_timer_renew();
 
       unqueue_mapview_updates(TRUE);
 
@@ -2563,8 +2571,7 @@ void decrease_unit_hp_smooth(struct unit *punit0, int hp0,
     while (punit0->hp > hp0 || punit1->hp > hp1) {
       const int diff0 = punit0->hp - hp0, diff1 = punit1->hp - hp1;
 
-      anim_timer = timer_renew(anim_timer, TIMER_USER, TIMER_ACTIVE);
-      timer_start(anim_timer);
+      anim_timer_renew();
 
       if (fc_rand(diff0 + diff1) < diff0) {
         punit0->hp--;
@@ -2596,8 +2603,7 @@ void decrease_unit_hp_smooth(struct unit *punit0, int hp0,
         struct sprite *sprite = *sprite_vector_get(anim, i);
 
         get_sprite_dimensions(sprite, &w, &h);
-        anim_timer = timer_renew(anim_timer, TIMER_USER, TIMER_ACTIVE);
-        timer_start(anim_timer);
+        anim_timer_renew();
 
         /* We first draw the explosion onto the unit and draw draw the
          * complete thing onto the map canvas window. This avoids
@@ -2696,8 +2702,7 @@ void move_unit_map_canvas(struct unit *punit,
     } else {
 
       /* Start the timer (AFTER the unqueue above). */
-      anim_timer = timer_renew(anim_timer, TIMER_USER, TIMER_ACTIVE);
-      timer_start(anim_timer);
+      anim_timer_renew();
 
       do {
         int new_x, new_y;

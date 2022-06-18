@@ -3826,9 +3826,9 @@ bool load_command(struct connection *caller, const char *filename, bool check,
    * or to initialize new value itself. */
   server_game_init(TRUE);
 
-  loadtimer = timer_new(TIMER_CPU, TIMER_ACTIVE);
+  loadtimer = timer_new(TIMER_CPU, TIMER_ACTIVE, "load cpu");
   timer_start(loadtimer);
-  uloadtimer = timer_new(TIMER_USER, TIMER_ACTIVE);
+  uloadtimer = timer_new(TIMER_USER, TIMER_ACTIVE, "load user");
   timer_start(uloadtimer);
 
   sz_strlcpy(srvarg.load_filename, arg);

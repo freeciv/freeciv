@@ -84,6 +84,10 @@ struct timer {
   enum timer_use use;
   enum timer_state state;
 
+#ifdef FREECIV_DEBUG
+  char *name;
+#endif
+
   /* this is accumulated time for previous timings: */
   double sec;
   long usec;            /* not always used, in which case zero,
@@ -153,9 +157,10 @@ static void report_time_failed(struct timer *t)
   Allocate a new timer with specified "type" and "use".
   The timer is created as cleared, and stopped.
 ***********************************************************************/
-struct timer *timer_new(enum timer_timetype type, enum timer_use use)
+struct timer *timer_new(enum timer_timetype type, enum timer_use use,
+                        const char *name)
 {
-  return timer_renew(NULL, type, use);
+  return timer_renew(NULL, type, use, name);
 }
 
 /*******************************************************************//**
@@ -173,14 +178,25 @@ struct timer *timer_new(enum timer_timetype type, enum timer_use use)
   }
 ***********************************************************************/
 struct timer *timer_renew(struct timer *t, enum timer_timetype type,
-                          enum timer_use use)
+                          enum timer_use use, const char *name)
 {
   if (t == NULL) {
     t = (struct timer *)fc_malloc(sizeof(struct timer));
+#ifdef FREECIV_DEBUG
+    t->name = NULL;
+#endif
   }
 
   t->type = type;
   t->use = use;
+#ifdef FREECIV_DEBUG
+  if (name != NULL) {
+    if (t->name != NULL) {
+      free(t->name);
+    }
+    t->name = fc_strdup(name);
+  }
+#endif
   timer_clear(t);
 
   return t;
@@ -192,8 +208,31 @@ struct timer *timer_renew(struct timer *t, enum timer_timetype type,
 void timer_destroy(struct timer *t)
 {
   if (t != NULL) {
+
+#ifdef FREECIV_DEBUG
+    if (t->name != NULL) {
+      free(t->name);
+    }
+#endif /* FREECIV_DEBUG */
+
     free(t);
   }
+}
+
+/*******************************************************************//**
+  Return name of the timer, or some placeholder string (never NULL)
+***********************************************************************/
+static char *timer_name(struct timer *t)
+{
+#ifdef FREECIV_DEBUG
+  if (t->name != NULL) {
+    return t->name;
+  } else {
+    return "Nameless";
+  }
+#endif /* FREECIV_DEBUG */
+
+  return "-";
 }
 
 /*******************************************************************//**
@@ -230,7 +269,7 @@ void timer_start(struct timer *t)
     return;
   }
   if (t->state == TIMER_STARTED) {
-    log_error("tried to start already started timer");
+    log_error("Tried to start already started timer: %s", timer_name(t));
     return;
   }
   if (t->type == TIMER_CPU) {
@@ -274,7 +313,7 @@ void timer_stop(struct timer *t)
     return;
   }
   if (t->state == TIMER_STOPPED) {
-    log_error("tried to stop already stopped timer");
+    log_error("Tried to stop already stopped timer: %s", timer_name(t));
     return;
   }
   if (t->type == TIMER_CPU) {

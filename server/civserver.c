@@ -97,7 +97,8 @@ static void signal_handler(int sig)
                      "within one second to make it exit."));
       }
     }
-    timer = timer_renew(timer, TIMER_USER, TIMER_ACTIVE);
+    timer = timer_renew(timer, TIMER_USER, TIMER_ACTIVE,
+                        timer != NULL ? NULL : "ctrlc");
     timer_start(timer);
     break;
 

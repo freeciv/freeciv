@@ -531,9 +531,9 @@ bool send_server_info_to_metaserver(enum meta_flag flag)
     return FALSE;
   }
 
-  /* start a new timer if we haven't already */
+  /* Start a new timer if we haven't already */
   if (!last_send_timer) {
-    last_send_timer = timer_new(TIMER_USER, TIMER_ACTIVE);
+    last_send_timer = timer_new(TIMER_USER, TIMER_ACTIVE, "meta");
   }
 
   timer_clear(last_send_timer);

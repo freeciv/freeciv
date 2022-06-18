@@ -71,9 +71,10 @@ struct timer;           /* opaque type; see comments in timing.c */
 #define timer_list_iterate_end LIST_ITERATE_END
 
 
-struct timer *timer_new(enum timer_timetype type, enum timer_use use);
+struct timer *timer_new(enum timer_timetype type, enum timer_use use,
+                        const char *name);
 struct timer *timer_renew(struct timer *t, enum timer_timetype type,
-                          enum timer_use use);
+                          enum timer_use use, const char *name);
 
 void timer_destroy(struct timer *t);
 bool timer_in_use(struct timer *t);

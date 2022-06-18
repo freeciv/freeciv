@@ -882,7 +882,8 @@ double blink_active_unit(void)
 
       /* If we lag, we don't try to catch up.  Instead we just start a
        * new blink_time on every update. */
-      blink_timer = timer_renew(blink_timer, TIMER_USER, TIMER_ACTIVE);
+      blink_timer = timer_renew(blink_timer, TIMER_USER, TIMER_ACTIVE,
+                                blink_timer != NULL ? NULL : "blink");
       timer_start(blink_timer);
 
       unit_list_iterate(get_units_in_focus(), punit) {
@@ -938,7 +939,8 @@ double blink_turn_done_button(void)
       if (is_moving == 1 && is_waiting > 0) {
 	update_turn_done_button(FALSE);	/* stress the slow player! */
       }
-      blink_timer = timer_renew(blink_timer, TIMER_USER, TIMER_ACTIVE);
+      blink_timer = timer_renew(blink_timer, TIMER_USER, TIMER_ACTIVE,
+                                blink_timer != NULL ? NULL : "blink");
       timer_start(blink_timer);
     }
     return blink_time - timer_read_seconds(blink_timer);

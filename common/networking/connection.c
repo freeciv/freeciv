@@ -216,7 +216,8 @@ static int write_socket_data(struct connection *pc,
   if (start > 0) {
     buf->ndata -= start;
     memmove(buf->data, buf->data+start, buf->ndata);
-    pc->last_write = timer_renew(pc->last_write, TIMER_USER, TIMER_ACTIVE);
+    pc->last_write = timer_renew(pc->last_write, TIMER_USER, TIMER_ACTIVE,
+                                 pc->last_write != NULL ? NULL : "socket write");
     timer_start(pc->last_write);
   }
 

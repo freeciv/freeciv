@@ -1326,7 +1326,9 @@ static void begin_phase(bool is_new_phase)
   game.tinfo.last_turn_change_time = (float)game.server.turn_change_time;
   game.tinfo.seconds_to_phasedone = (double)current_turn_timeout();
   game.server.phase_timer = timer_renew(game.server.phase_timer,
-                                        TIMER_USER, TIMER_ACTIVE);
+                                        TIMER_USER, TIMER_ACTIVE,
+                                        game.server.phase_timer != NULL
+                                        ? NULL : "phase");
   timer_start(game.server.phase_timer);
   send_game_info(NULL);
 
@@ -2787,7 +2789,9 @@ static void srv_running(void)
 
   if (game.server.autosaves & (1 << AS_TIMER)) {
     game.server.save_timer = timer_renew(game.server.save_timer,
-                                         TIMER_USER, TIMER_ACTIVE);
+                                         TIMER_USER, TIMER_ACTIVE,
+                                         game.server.save_timer != NULL
+                                         ? NULL : "save interval");
     timer_start(game.server.save_timer);
   }
 
@@ -2886,7 +2890,8 @@ static void srv_running(void)
         /* nothing */
       }
 
-      between_turns = timer_renew(between_turns, TIMER_USER, TIMER_ACTIVE);
+      between_turns = timer_renew(between_turns, TIMER_USER, TIMER_ACTIVE,
+                                  between_turns != NULL ? NULL : "between turns");
       timer_start(between_turns);
 
       /* After sniff, re-zero the timer: (read-out above on next loop) */
@@ -3045,7 +3050,7 @@ static void srv_prepare(void)
     }
   }
 
-  eot_timer = timer_new(TIMER_CPU, TIMER_ACTIVE);
+  eot_timer = timer_new(TIMER_CPU, TIMER_ACTIVE, "end-of-turn");
 }
 
 /**********************************************************************//**

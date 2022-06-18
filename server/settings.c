@@ -942,7 +942,9 @@ static bool autosaves_callback(unsigned value, struct connection *caller,
     if ((value & (1 << AS_TIMER))
         && !(game.server.autosaves & (1 << AS_TIMER))) {
       game.server.save_timer = timer_renew(game.server.save_timer,
-                                           TIMER_USER, TIMER_ACTIVE);
+                                           TIMER_USER, TIMER_ACTIVE,
+                                           game.server.save_timer != NULL
+                                           ? NULL : "save interval");
       timer_start(game.server.save_timer);
     } else if (!(value & (1 << AS_TIMER))
                && (game.server.autosaves & (1 << AS_TIMER))) {

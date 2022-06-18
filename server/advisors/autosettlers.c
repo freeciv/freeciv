@@ -1148,7 +1148,8 @@ void auto_settlers_player(struct player *pplayer)
 
   state = fc_calloc(MAP_INDEX_SIZE, sizeof(*state));
 
-  as_timer = timer_renew(as_timer, TIMER_CPU, TIMER_DEBUG);
+  as_timer = timer_renew(as_timer, TIMER_CPU, TIMER_DEBUG,
+                         as_timer != NULL ? NULL : "autosettlers");
   timer_start(as_timer);
 
   if (is_ai(pplayer)) {

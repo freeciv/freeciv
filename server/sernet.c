@@ -448,7 +448,8 @@ static void incoming_client_packets(struct connection *pconn)
 #if PROCESSING_TIME_STATISTICS
     int request_id;
 
-    request_time = timer_renew(request_time, TIMER_USER, TIMER_ACTIVE);
+    request_time = timer_renew(request_time, TIMER_USER, TIMER_ACTIVE,
+                               request_time != NULL ? NULL : "request");
     timer_start(request_time);
 #endif /* PROCESSING_TIME_STATISTICS */
 
@@ -719,7 +720,9 @@ enum server_events server_sniff_all_input(void)
               >= game.server.save_frequency * 60)) {
         save_game_auto("Timer", AS_TIMER);
         game.server.save_timer = timer_renew(game.server.save_timer,
-                                             TIMER_USER, TIMER_ACTIVE);
+                                             TIMER_USER, TIMER_ACTIVE,
+                                             game.server.save_timer != NULL
+                                             ? NULL : "save interval");
         timer_start(game.server.save_timer);
       }
 
@@ -910,7 +913,9 @@ enum server_events server_sniff_all_input(void)
           >= game.server.save_frequency * 60)) {
     save_game_auto("Timer", AS_TIMER);
     game.server.save_timer = timer_renew(game.server.save_timer,
-                                         TIMER_USER, TIMER_ACTIVE);
+                                         TIMER_USER, TIMER_ACTIVE,
+                                         game.server.save_timer != NULL
+                                         ? NULL : "save interval");
     timer_start(game.server.save_timer);
   }
 
@@ -1081,7 +1086,7 @@ int server_make_connection(int new_sock, const char *client_addr,
       /* Give a ping timeout to send the PACKET_SERVER_JOIN_REQ, or close
        * the mute connection. This timer will be canceled into
        * connecthand.c:handle_login_request(). */
-      timer = timer_new(TIMER_USER, TIMER_ACTIVE);
+      timer = timer_new(TIMER_USER, TIMER_ACTIVE, "ping timer");
       timer_start(timer);
       timer_list_append(pconn->server.ping_timers, timer);
 
@@ -1394,7 +1399,7 @@ static void finish_processing_request(struct connection *pconn)
 *****************************************************************************/
 static void connection_ping(struct connection *pconn)
 {
-  struct timer *timer = timer_new(TIMER_USER, TIMER_ACTIVE);
+  struct timer *timer = timer_new(TIMER_USER, TIMER_ACTIVE, "connection ping");
 
   log_debug("sending ping to %s (open=%d)", conn_description(pconn),
             timer_list_size(pconn->server.ping_timers));

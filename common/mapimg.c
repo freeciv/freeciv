@@ -1358,13 +1358,13 @@ bool mapimg_create(struct mapdef *pmapdef, bool force, const char *savename,
   }
 
 #ifdef FREECIV_DEBUG
-  timer_cpu = timer_new(TIMER_CPU, TIMER_ACTIVE);
+  timer_cpu = timer_new(TIMER_CPU, TIMER_ACTIVE, "mapimg cpu");
   timer_start(timer_cpu);
-  timer_user = timer_new(TIMER_USER, TIMER_ACTIVE);
+  timer_user = timer_new(TIMER_USER, TIMER_ACTIVE, "mapimg user");
   timer_start(timer_user);
 #endif /* FREECIV_DEBUG */
 
-  /* create map */
+  /* Create map */
   switch (pmapdef->player.show) {
   case SHOW_PLRNAME: /* display player given by name */
   case SHOW_PLRID:   /* display player given by id */

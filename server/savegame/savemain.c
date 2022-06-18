@@ -47,9 +47,9 @@ void savegame_load(struct section_file *sfile)
   fc_assert_ret(sfile != NULL);
 
 #ifdef DEBUG_TIMERS
-  struct timer *loadtimer = timer_new(TIMER_CPU, TIMER_DEBUG);
+  struct timer *loadtimer = timer_new(TIMER_CPU, TIMER_DEBUG, "load");
   timer_start(loadtimer);
-#endif
+#endif /* DEBUG_TIMERS */
 
   savefile_options = secfile_lookup_str(sfile, "savefile.options");
 
@@ -189,9 +189,9 @@ void save_game(const char *orig_filename, const char *save_reason,
                        sizeof(stdata->filepath) + stdata->filepath - filename, "manual");
   }
 
-  timer_cpu = timer_new(TIMER_CPU, TIMER_ACTIVE);
+  timer_cpu = timer_new(TIMER_CPU, TIMER_ACTIVE, "save cpu");
+  timer_user = timer_new(TIMER_USER, TIMER_ACTIVE, "save user");
   timer_start(timer_cpu);
-  timer_user = timer_new(TIMER_USER, TIMER_ACTIVE);
   timer_start(timer_user);
 
   /* Allowing duplicates shouldn't be allowed. However, it takes very too

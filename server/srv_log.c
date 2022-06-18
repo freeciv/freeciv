@@ -219,8 +219,12 @@ void timing_log_init(void)
   int i;
 
   for (i = 0; i < AIT_LAST; i++) {
-    aitimer[i][0] = timer_new(TIMER_CPU, TIMER_ACTIVE);
-    aitimer[i][1] = timer_new(TIMER_CPU, TIMER_ACTIVE);
+    char buf[60];
+
+    fc_snprintf(buf, sizeof(buf), "AI type %d turn", i);
+    aitimer[i][0] = timer_new(TIMER_CPU, TIMER_ACTIVE, buf);
+    fc_snprintf(buf, sizeof(buf), "AI type %d game", i);
+    aitimer[i][1] = timer_new(TIMER_CPU, TIMER_ACTIVE, buf);
     recursion[i] = 0;
   }
 }
