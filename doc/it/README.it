@@ -246,7 +246,7 @@ Annunciare il gioco:
 Se non vuoi limitare il gioco ad amici o giocatori artificiali, visita il
 metaserver di Freeciv:
 
-  http://meta.freeciv.org/
+  https://meta.freeciv.org/
 
 E' una lista di server Freeciv. Perche' il tuo server sia annunciato sul
 metaserver, devi avviare civserver con l'opzione '--meta', o solo '-m'

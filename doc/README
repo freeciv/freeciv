@@ -283,7 +283,7 @@ Announcing the game:
 If you do not want to limit your opponents to local friends or AI players,
 visit the Freeciv metaserver:
 
-  http://meta.freeciv.org/
+  https://meta.freeciv.org/
 
 It is a list of Freeciv servers.  To make your own server announce itself
 there, start freeciv-server with the '--meta' option, or just '-m' for short.

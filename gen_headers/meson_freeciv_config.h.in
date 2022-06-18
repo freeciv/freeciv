@@ -45,7 +45,7 @@
 /* Location for freeciv to store its information */
 #define FREECIV_STORAGE_DIR "@FREECIV_STORAGE_DIR@"
 
-#define FREECIV_META_URL "http://meta.freeciv.org/metaserver.php"
+#define FREECIV_META_URL "https://meta.freeciv.org/metaserver.php"
 
 /* IPv6 Support built in */
 #define FREECIV_IPV6_SUPPORT

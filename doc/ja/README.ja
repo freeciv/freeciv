@@ -235,7 +235,7 @@ Freeciv の実行には、サーバ、それからクライアント、AI の起
 ローカルの友達や AI プレイヤーに敵を限定したくなければ、 Freeciv メタ
 サーバを訪れて下さい。
 
-  http://meta.freeciv.org/
+  https://meta.freeciv.org/
 
 ここには Freeciv サーバがリストされます。自分のサーバをそこへアナウン
 スするには、 '--meta' もしくは短かく '-m' オプション付きで civserver 
