@@ -229,7 +229,7 @@ Aankondigen van het spel:
 Als u uw opponenten niet wilt beperken tot lokale vrienden of KI-spelers,
 bezoek dan de Freeciv metaserver:
 
-  http://meta.freeciv.org/
+  https://meta.freeciv.org/
 
 Het is een lijst van Freeciv servers. Om uw eigen server zich daar te laten
 aankondigen, start civserver met de '--meta' optie, of gewoon '-m'.

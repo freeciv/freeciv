@@ -13,7 +13,7 @@ add_global_arguments('-DQT_DISABLE_DEPRECATED_BEFORE=0x050b00', language : 'cpp'
 
 host_system = host_machine.system()
 
-meta_url = 'http://meta.freeciv.org/metaserver.php'
+meta_url = 'https://meta.freeciv.org/metaserver.php'
 mp_list_url = ''
 storage_dir = ''
 default_port = ''
