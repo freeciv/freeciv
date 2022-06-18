@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 2003 - The Freeciv Project
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -69,18 +69,18 @@ struct player *player_leading_spacerace(void)
 }
 
 /**********************************************************************
-  Calculate average distances to other players. We calculate the 
+  Calculate average distances to other players. We calculate the
   average distance from all of our cities to the closest enemy city.
 ***********************************************************************/
 int player_distance_to_player(struct player *pplayer, struct player *target)
 {
-  int cities = 0;
+  int cities = city_list_size(pplayer->cities);
   int dists = 0;
 
   if (pplayer == target
       || !target->is_alive
       || !pplayer->is_alive
-      || city_list_size(pplayer->cities) == 0
+      || cities == 0
       || city_list_size(target->cities) == 0) {
     return 1;
   }
@@ -97,7 +97,6 @@ int player_distance_to_player(struct player *pplayer, struct player *target)
       }
     } city_list_iterate_end;
     dists += min_dist;
-    cities++;
   } city_list_iterate_end;
 
   return MAX(dists / cities, 1);
