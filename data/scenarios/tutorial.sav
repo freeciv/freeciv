@@ -58,7 +58,7 @@ terrident={"name","identifier"
 [game]
 server_state="S_S_INITIAL"
 meta_patches=""
-meta_server="http://meta.freeciv.org/metaserver.php"
+meta_server="https://meta.freeciv.org/metaserver.php"
 id=""
 serverid=""
 level="Easy"
