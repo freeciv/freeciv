@@ -786,7 +786,7 @@ void handle_diplomacy_cancel_pact(struct player *pplayer,
 
   /* if there's a reason to cancel the pact, do it without penalty */
   /* FIXME: in the current implementation if you break more than one
-   * treaty simultaneously it may partially succed: the first treaty-breaking
+   * treaty simultaneously it may success partially: the first treaty-breaking
    * will happen but the second one will fail. */
   if (get_player_bonus(pplayer, EFT_HAS_SENATE) > 0 && !repeat) {
     if (ds_plrplr2->has_reason_to_cancel > 0) {
