@@ -25,7 +25,7 @@
 #include "citytools.h"
 
 /* ai/default */
-#include "aidata.h"
+#include "daidata.h"
 #include "daimilitary.h"
 
 #include "daiplayer.h"

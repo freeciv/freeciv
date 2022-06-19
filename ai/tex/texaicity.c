@@ -37,7 +37,7 @@
 #include "infracache.h"
 
 /* ai/default */
-#include "aidata.h"
+#include "daidata.h"
 
 /* ai/tex */
 #include "texaimsg.h"

@@ -19,7 +19,6 @@
 #include "ai.h"
 
 /* ai/default */
-#include "aidata.h"
 #include "aiferry.h"
 #include "aihand.h"
 #include "ailog.h"

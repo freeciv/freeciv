@@ -20,7 +20,7 @@
 #include "player.h"
 
 /* ai/default */
-#include "aidata.h"
+#include "daidata.h"
 
 /* ai/tex */
 #include "texaimsg.h"

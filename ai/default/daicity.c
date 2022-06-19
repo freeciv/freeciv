@@ -52,11 +52,11 @@
 #include "handicaps.h"
 
 /* ai/default */
-#include "aidata.h"
 #include "aihand.h"
 #include "ailog.h"
 #include "aitools.h"
 #include "aiunit.h"
+#include "daidata.h"
 #include "daidiplomacy.h"
 #include "daidomestic.h"
 #include "daimilitary.h"

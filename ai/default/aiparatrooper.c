@@ -46,11 +46,11 @@
 #include "handicaps.h"
 
 /* ai/default */
-#include "aidata.h"
 #include "ailog.h"
 #include "aiunit.h"
 #include "aitools.h"
 #include "daicity.h"
+#include "daidata.h"
 #include "daiplayer.h"
 
 #include "aiparatrooper.h"

@@ -60,7 +60,6 @@
 #include "handicaps.h"
 
 /* ai/default */
-#include "aidata.h"
 #include "aiguard.h"
 #include "aihand.h"
 #include "ailog.h"
@@ -68,6 +67,7 @@
 #include "aiunit.h"
 #include "daiactions.h"
 #include "daicity.h"
+#include "daidata.h"
 #include "daimilitary.h"
 #include "daiplayer.h"
 

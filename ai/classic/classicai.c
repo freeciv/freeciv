@@ -24,13 +24,13 @@
 #include "autosettlers.h"
 
 /* ai/default */
-#include "aidata.h"
 #include "aiferry.h"
 #include "aihand.h"
 #include "ailog.h"
 #include "aitools.h"
 #include "aiunit.h"
 #include "daicity.h"
+#include "daidata.h"
 #include "daidiplomacy.h"
 #include "daidomestic.h"
 #include "daimilitary.h"

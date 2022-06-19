@@ -10,8 +10,8 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef FC__AIDATA_H
-#define FC__AIDATA_H
+#ifndef FC__DAIDATA_H
+#define FC__DAIDATA_H
 
 /* utility */
 #include "support.h"
@@ -120,9 +120,10 @@ struct ai_dip_intel *dai_diplomacy_get(struct ai_type *ait,
                                        const struct player *plr1,
                                        const struct player *plr2);
 
-void dai_gov_value(struct ai_type *ait, struct player *pplayer, struct government *gov,
+void dai_gov_value(struct ai_type *ait, struct player *pplayer,
+                   struct government *gov,
                    adv_want *val, bool *override);
 
 void dai_adjust_policies(struct ai_type *ait, struct player *pplayer);
 
-#endif /* FC__AIDATA_H */
+#endif /* FC__DAIDATA_H */

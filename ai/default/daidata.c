@@ -41,7 +41,7 @@
 #include "daiplayer.h"
 #include "daisettler.h"
 
-#include "aidata.h"
+#include "daidata.h"
 
 static void dai_diplomacy_new(struct ai_type *ait,
                               const struct player *plr1,

@@ -26,9 +26,9 @@
 #include "notify.h"
 
 /* ai/default */
-#include "aidata.h"
 #include "aiunit.h"
 #include "daicity.h"
+#include "daidata.h"
 #include "daiplayer.h"
 
 #include "ailog.h"
