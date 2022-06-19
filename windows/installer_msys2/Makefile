@@ -8,18 +8,23 @@
 # Variable setup
 #
 
-WINARCH=$(shell ./win_arch.sh)
-
-ifeq ($(WINARCH),win64)
+ifeq ($(MSYSTEM),MINGW64)
+WINARCH=win64
 ARCHDIR=mingw64
 LIBGCCDLL=libgcc_s_seh-1.dll
-GCCDLL=gcc_s-seh-1.dll
 CRYPTOLIB_SUFFIX=-x64
-else
+else ifeq ($(MSYSTEM),MINGW32)
+WINARCH=win32
 ARCHDIR=mingw32
 LIBGCCDLL=libgcc_s_dw2-1.dll
-GCCDLL=gcc_s-1.dll
 CRYPTOLIB_SUFFIX=
+else ifeq ($(MSYSTEM),UCRT64)
+WINARCH=win64-10
+ARCHDIR=ucrt64
+CRYPTOLIB_SUFFIX=-x64
+LIBGCCDLL=libgcc_s_seh-1.dll
+else
+error "Unsupported MSYSTEM environment"
 endif
 
 ifeq ($(MIN_WIN_VER),)
@@ -59,6 +64,8 @@ all-win64: gtk3.22-installer sdl2-installer ruledit-installer qt5-installer qt6-
 
 all-win32: gtk3.22-installer sdl2-installer ruledit-installer-qt5 qt5-installer
 
+all-win64-10: gtk3.22-installer sdl2-installer ruledit-installer qt5-installer qt6-installer
+
 gtk3.22-installer:
 	make GUI=gtk3.22 CLIENT=gtk3.22 FCMP=gtk3 EXTRA_CONFIG="--disable-ruledit $(EXTRA_CONFIG)" wrap-gtk3.22
 
@@ -85,9 +92,6 @@ ruledit-installer-qt6:
 	# of escapes, needed for snapshot builds.
 	make EXTRA_CONFIG="$(EXTRA_CONFIG)" MOCCMD="$(QT6_MOCCMD)" wrap-ruledit-qt6
 
-# Autogen.sh here will make ./win_arch.sh to work.
-# The $(WINARCH) value we got for this run is not good. The new run
-# launched from this target will pick correct value.
 snapshot:
 	cd ../.. ; ./autogen.sh --no-configure-run
 	make VERSION_REVTYPE="git" EXTRA_CONFIG="--enable-gitrev --with-project-definition=../../../bootstrap/snapshot.project CFLAGS=\\\"-Werror $$CFLAGS\\\" CXXFLAGS=\\\"$$CXXFLAGS\\\"" all
