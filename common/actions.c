@@ -830,20 +830,6 @@ enum action_battle_kind action_get_battle_kind(const struct action *pact)
 }
 
 /**************************************************************************
-  Returns TRUE iff performing the specified action has the specified
-  result.
-**************************************************************************/
-bool action_has_result(const struct action *paction,
-                       enum gen_action result)
-{
-  fc_assert_ret_val(paction, FALSE);
-  fc_assert_ret_val(gen_action_is_valid(result), FALSE);
-
-  /* The action result is currently used as the action id. */
-  return paction->id == result;
-}
-
-/**************************************************************************
   Returns TRUE iff the specified action is hostile.
 **************************************************************************/
 bool action_is_hostile(action_id act_id)
