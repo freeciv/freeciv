@@ -843,6 +843,21 @@ void unit_activities_cancel_all_illegal_tile(const struct tile *ptile)
 }
 
 /**********************************************************************//**
+  Cancel all illegal activities done by units at the specified tile,
+  and surrounding tiles. For most rulesets this is for cancelling
+  irrigation on surrounding tiles when the central tile was the only
+  source of water, but does not provide water any more.
+**************************************************************************/
+void unit_activities_cancel_all_illegal_area(const struct tile *ptile)
+{
+  unit_activities_cancel_all_illegal_tile(ptile);
+
+  adjc_iterate(&(wld.map), ptile, ptile2) {
+    unit_activities_cancel_all_illegal_tile(ptile2);
+  } adjc_iterate_end;
+}
+
+/**********************************************************************//**
   Progress settlers in their current tasks,
   and units that is pillaging.
   also move units that is on a goto.
@@ -1015,19 +1030,7 @@ static void update_unit_activity(struct unit *punit)
       }
     } unit_list_iterate_end;
 
-    unit_activities_cancel_all_illegal_tile(ptile);
-
-    tile_changing_activities_iterate(act) {
-      if (act == activity) {
-        /* Some units nearby may not be able to continue their action,
-         * such as building irrigation if we removed the only source
-         * of water from them. */
-        adjc_iterate(&(wld.map), ptile, ptile2) {
-          unit_activities_cancel_all_illegal_tile(ptile2);
-        } adjc_iterate_end;
-        break;
-      }
-    } tile_changing_activities_iterate_end;
+    unit_activities_cancel_all_illegal_area(ptile);
   }
 
   if (activity == ACTIVITY_FORTIFYING) {
