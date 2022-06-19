@@ -672,30 +672,16 @@ const char *get_activity_text(enum unit_activity activity)
 }
 
 /**********************************************************************//**
-  Return TRUE iff the given unit could be loaded into the transporter
-  if we moved there.
+  Tells wether pcargo could possibly be in ptrans, disregarding
+  unit positions and ownership and load actions possibility,
+  but regarding number and types of their current cargo.
+  pcargo and ptrans must be valid unit pointers, pcargo not loaded anywhere
 **************************************************************************/
-bool could_unit_load(const struct unit *pcargo, const struct unit *ptrans)
+bool could_unit_be_in_transport(const struct unit *pcargo,
+                                const struct unit *ptrans)
 {
-  if (!pcargo || !ptrans || pcargo == ptrans) {
-    return FALSE;
-  }
-
-  /* Double-check ownership of the units: you can load into an allied unit
-   * (of course only allied units can be on the same tile). */
-  if (!pplayers_allied(unit_owner(pcargo), unit_owner(ptrans))) {
-    return FALSE;
-  }
-
   /* Make sure this transporter can carry this type of unit. */
   if (!can_unit_transport(ptrans, pcargo)) {
-    return FALSE;
-  }
-
-  /* Un-embarkable transport must be in city or base to load cargo. */
-  if (!utype_can_freely_load(unit_type_get(pcargo), unit_type_get(ptrans))
-      && !tile_city(unit_tile(ptrans))
-      && !tile_has_native_base(unit_tile(ptrans), unit_type_get(ptrans))) {
     return FALSE;
   }
 
@@ -717,6 +703,32 @@ bool could_unit_load(const struct unit *pcargo, const struct unit *ptrans)
   }
 
   return TRUE;
+}
+
+/**********************************************************************//**
+  Return TRUE iff the given unit could be loaded into the transporter
+  if we moved there.
+**************************************************************************/
+bool could_unit_load(const struct unit *pcargo, const struct unit *ptrans)
+{
+  if (!pcargo || !ptrans || pcargo == ptrans) {
+    return FALSE;
+  }
+
+  /* Double-check ownership of the units: you can load into an allied unit
+   * (of course only allied units can be on the same tile). */
+  if (!pplayers_allied(unit_owner(pcargo), unit_owner(ptrans))) {
+    return FALSE;
+  }
+
+  /* Un-embarkable transport must be in city or base to load cargo. */
+  if (!utype_can_freely_load(unit_type_get(pcargo), unit_type_get(ptrans))
+      && !tile_city(unit_tile(ptrans))
+      && !tile_has_native_base(unit_tile(ptrans), unit_type_get(ptrans))) {
+    return FALSE;
+  }
+
+  return could_unit_be_in_transport(pcargo, ptrans);
 }
 
 /**********************************************************************//**

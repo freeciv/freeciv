@@ -317,6 +317,8 @@ enum unit_airlift_result
 bool unit_can_airlift_to(const struct unit *punit, const struct city *pcity);
 bool unit_has_orders(const struct unit *punit);
 
+bool could_unit_be_in_transport(const struct unit *pcargo,
+                                const struct unit *ptrans);
 bool could_unit_load(const struct unit *pcargo, const struct unit *ptrans);
 bool can_unit_load(const struct unit *punit, const struct unit *ptrans);
 bool can_unit_unload(const struct unit *punit, const struct unit *ptrans);
