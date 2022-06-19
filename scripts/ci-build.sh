@@ -44,7 +44,7 @@ fi
 
 mkdir build
 cd build
-meson .. -Dprefix=${HOME}/freeciv/meson -Ddebug=true -Dack_experimental=true -Dclients='gtk3.22','qt','sdl2' -Dfcmp='gtk3','qt','cli' -Dqtver=qt6
+meson .. -Dprefix=${HOME}/freeciv/meson -Ddebug=true -Dack_experimental=true -Dclients='gtk3.22','qt','sdl2','gtk4' -Dfcmp='gtk3','qt','cli','gtk4' -Dqtver=qt6
 ninja
 ninja install
 ;;
@@ -89,8 +89,8 @@ cd build
  --enable-sys-tolua-cmd \
  --disable-fcdb \
  --with-qtver=qt6 \
- --enable-client=gtk3.22,qt,sdl2,stub \
- --enable-fcmp=cli,gtk3,qt \
+ --enable-client=gtk3.22,qt,sdl2,gtk4,stub \
+ --enable-fcmp=cli,gtk3,qt,gtk4 \
  --enable-freeciv-manual \
  --enable-ai-static=classic,threaded,tex,stub \
  --prefix=${HOME}/freeciv/clang \
@@ -113,8 +113,8 @@ cd build
  CFLAGS="-O3" \
  CXXFLAGS="-O3" \
  --with-qtver=qt6 \
- --enable-client=gtk3.22,qt,sdl2,stub \
- --enable-fcmp=cli,gtk3,qt \
+ --enable-client=gtk3.22,qt,sdl2,gtk4,stub \
+ --enable-fcmp=cli,gtk3,qt,gtk4 \
  --enable-freeciv-manual \
  --enable-ruledit=experimental \
  --enable-ai-static=classic,threaded,tex,stub \
