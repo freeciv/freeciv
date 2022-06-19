@@ -178,6 +178,7 @@ bool unit_can_be_retired(struct unit *punit);
 void unit_activities_cancel(struct unit *punit);
 void unit_activities_cancel_all_illegal_plr(const struct player *pplayer);
 void unit_activities_cancel_all_illegal_tile(const struct tile *ptile);
+void unit_activities_cancel_all_illegal_area(const struct tile *ptile);
 
 void unit_get_goods(struct unit *punit);
 
