@@ -130,6 +130,10 @@ Unit *api_edit_create_unit_full(lua_State *L, Player *pplayer,
 {
   struct fc_lua *fcl;
   struct city *pcity;
+  struct unit *punit;
+#ifndef FREECIV_NDEBUG
+  bool placed;
+#endif
 
   LUASCRIPT_CHECK_STATE(L, NULL);
   LUASCRIPT_CHECK_ARG_NIL(L, pplayer, 2, Player, NULL);
@@ -141,28 +145,6 @@ Unit *api_edit_create_unit_full(lua_State *L, Player *pplayer,
 
   if (ptype == NULL
       || ptype < unit_type_array_first() || ptype > unit_type_array_last()) {
-    return NULL;
-  }
-
-  if (ptransport) {
-    /* Extensive check to see if transport and unit are compatible */
-    int ret;
-    struct unit *pvirt = unit_virtual_create(pplayer, NULL, ptype,
-                                             veteran_level);
-    unit_tile_set(pvirt, ptile);
-    pvirt->homecity = homecity ? homecity->id : 0;
-    ret = can_unit_load(pvirt, ptransport);
-    unit_virtual_destroy(pvirt);
-    if (!ret) {
-      luascript_log(fcl, LOG_ERROR, "create_unit_full: '%s' cannot transport "
-                                    "'%s' here",
-                    utype_rule_name(unit_type_get(ptransport)),
-                    utype_rule_name(ptype));
-      return NULL;
-    }
-  } else if (!can_exist_at_tile(&(wld.map), ptype, ptile)) {
-    luascript_log(fcl, LOG_ERROR, "create_unit_full: '%s' cannot exist at "
-                                  "tile", utype_rule_name(ptype));
     return NULL;
   }
 
@@ -179,9 +161,37 @@ Unit *api_edit_create_unit_full(lua_State *L, Player *pplayer,
     return NULL;
   }
 
-  return create_unit_full(pplayer, ptile, ptype, veteran_level,
-                          homecity ? homecity->id : 0, moves_left,
-                          hp_left, ptransport);
+  punit = unit_virtual_prepare(pplayer, ptile, ptype, veteran_level,
+                               homecity ? homecity->id : 0,
+                               moves_left, hp_left);
+  if (ptransport) {
+    /* The unit maybe can't freely load into the transport
+     * but must be able to be in it, see can_unit_load() */
+    int ret = same_pos(ptile, unit_tile(ptransport))
+       && could_unit_be_in_transport(punit, ptransport);
+
+    if (!ret) {
+      unit_virtual_destroy(punit);
+      luascript_log(fcl, LOG_ERROR, "create_unit_full: '%s' cannot transport "
+                                    "'%s' here",
+                    utype_rule_name(unit_type_get(ptransport)),
+                    utype_rule_name(ptype));
+      return NULL;
+    }
+  } else if (!can_exist_at_tile(&(wld.map), ptype, ptile)) {
+    unit_virtual_destroy(punit);
+    luascript_log(fcl, LOG_ERROR, "create_unit_full: '%s' cannot exist at "
+                                  "tile", utype_rule_name(ptype));
+    return NULL;
+  }
+
+#ifndef FREECIV_NDEBUG
+  placed =
+#endif
+  place_unit(punit, pplayer, homecity, ptransport, TRUE);
+  fc_assert_action(placed, unit_virtual_destroy(punit); punit = NULL);
+
+  return punit;
 }
 
 /**********************************************************************//**
