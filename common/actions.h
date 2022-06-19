@@ -458,6 +458,8 @@ struct action_enabler
   bool ruledit_disabled;
 };
 
+#define action_has_result(_act_, _res_) ((_act_)->result == (_res_))
+
 #define enabler_get_action(_enabler_) action_by_number(_enabler_->action)
 
 #define SPECLIST_TAG action_enabler
@@ -656,8 +658,6 @@ enum action_battle_kind action_get_battle_kind(const struct action *pact);
 
 int action_number(const struct action *action);
 
-bool action_has_result(const struct action *paction,
-                       enum action_result result);
 #define action_has_result_safe(paction, result)                           \
   (paction && action_has_result(paction, result))
 #define action_id_has_result_safe(act_id, result)                         \

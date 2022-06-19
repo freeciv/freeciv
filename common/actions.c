@@ -1817,19 +1817,6 @@ enum action_battle_kind action_get_battle_kind(const struct action *pact)
 }
 
 /**********************************************************************//**
-  Returns TRUE iff performing the specified action has the specified
-  result.
-**************************************************************************/
-bool action_has_result(const struct action *paction,
-                       enum action_result result)
-{
-  fc_assert_ret_val(paction, FALSE);
-  fc_assert_ret_val(action_result_is_valid(result), FALSE);
-
-  return paction->result == result;
-}
-
-/**********************************************************************//**
   Returns TRUE iff the specified action allows the player to provide
   details in addition to actor and target. Returns FALSE if the action
   doesn't support any additional details.
