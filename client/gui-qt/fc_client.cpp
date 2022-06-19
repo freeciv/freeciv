@@ -610,8 +610,14 @@ int fc_client::gimme_index_of(QString str)
 ****************************************************************************/
 void fc_client::read_settings()
 {
+  // This can't be shared between freeciv versions as the content
+  // might be incompatible.
+  QString sname = "freeciv-qt-client-set-"
+    + QString::number(MAJOR_NEW_OPTION_FILE_NAME) + "."
+    + QString::number(MINOR_NEW_OPTION_FILE_NAME);
   QSettings s(QSettings::IniFormat, QSettings::UserScope,
-              "freeciv-qt-client");
+              sname);
+
   if (!s.contains("Fonts-set")) {
     configure_fonts();
   }
@@ -746,8 +752,12 @@ void fc_client::read_settings()
 ****************************************************************************/
 void fc_client::write_settings()
 {
+  QString sname = "freeciv-qt-client-set-"
+    + QString::number(MAJOR_NEW_OPTION_FILE_NAME) + "."
+    + QString::number(MINOR_NEW_OPTION_FILE_NAME);
   QSettings s(QSettings::IniFormat, QSettings::UserScope,
-              "freeciv-qt-client");
+              sname);
+
   s.setValue("Fonts-set", true);
   s.setValue("Chat-fx-size", qt_settings.chat_fwidth);
   s.setValue("Chat-fy-size", qt_settings.chat_fheight);
