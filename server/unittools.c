@@ -792,7 +792,22 @@ void unit_activities_cancel(struct unit *punit)
   send_unit_info(NULL, punit);
 }
 
-/**********************************************************************//**
+/**************************************************************************
+  Cancel all illegal activities done by units at the specified tile,
+  and surrounding tiles. For most rulesets this is for cancelling
+  irrigation on surrounding tiles when the central tile was the only
+  source of water, but does not provide water any more.
+**************************************************************************/
+void unit_activities_cancel_all_illegal_area(const struct tile *ptile)
+{
+  unit_activities_cancel_all_illegal_tile(ptile);
+
+  adjc_iterate(ptile, ptile2) {
+    unit_activities_cancel_all_illegal_tile(ptile2);
+  } adjc_iterate_end;
+}
+
+/**************************************************************************
   Cancel all illegal activities done by units of the specified owner.
 **************************************************************************/
 void unit_activities_cancel_all_illegal_plr(const struct player *pplayer)
@@ -824,16 +839,10 @@ void unit_activities_cancel_all_illegal_tile(const struct tile *ptile)
 **************************************************************************/
 static void update_unit_activity(struct unit *punit)
 {
-  const enum unit_activity tile_changing_actions[] =
-    { ACTIVITY_PILLAGE, ACTIVITY_GEN_ROAD, ACTIVITY_IRRIGATE, ACTIVITY_MINE,
-      ACTIVITY_BASE, ACTIVITY_TRANSFORM, ACTIVITY_POLLUTION,
-      ACTIVITY_FALLOUT, ACTIVITY_LAST };
-
   struct player *pplayer = unit_owner(punit);
   bool unit_activity_done = FALSE;
   enum unit_activity activity = punit->activity;
   struct tile *ptile = unit_tile(punit);
-  int i;
   
   switch (activity) {
   case ACTIVITY_IDLE:
@@ -1004,19 +1013,7 @@ static void update_unit_activity(struct unit *punit)
       } unit_list_iterate_end;
     }
 
-    unit_activities_cancel_all_illegal_tile(ptile);
-
-    for (i = 0; tile_changing_actions[i] != ACTIVITY_LAST; i++) {
-      if (tile_changing_actions[i] == activity) {
-        /* Some units nearby may not be able to continue their action,
-         * such as building irrigation if we removed the only source
-         * of water from them. */
-        adjc_iterate(ptile, ptile2) {
-          unit_activities_cancel_all_illegal_tile(ptile2);
-        } adjc_iterate_end;
-        break;
-      }
-    }
+    unit_activities_cancel_all_illegal_area(ptile);
   }
 
   if (activity == ACTIVITY_FORTIFYING) {

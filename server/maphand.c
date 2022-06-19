@@ -220,7 +220,7 @@ void climate_change(bool warming, int effect)
       update_tile_knowledge(ptile);
 
       /* Check the unit activities. */
-      unit_activities_cancel_all_illegal_tile(ptile);
+      unit_activities_cancel_all_illegal_area(ptile);
 
     } else if (old == new) {
       /* This counts toward a climate change although nothing is changed. */
