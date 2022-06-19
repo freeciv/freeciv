@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
+
 <svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    id="svg2211"
    sodipodi:version="0.32"
-   inkscape:version="0.46"
+   inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
    width="720"
    height="480"
    version="1.0"
-   sodipodi:docbase="C:\Users\Daniel\Documents\freeciv"
    sodipodi:docname="shawnee.svg"
-   inkscape:output_extension="org.inkscape.output.svg.inkscape">
+   inkscape:output_extension="org.inkscape.output.svg.inkscape"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
   <metadata
      id="metadata2216">
     <rdf:RDF>
@@ -40,7 +40,7 @@
   </defs>
   <sodipodi:namedview
      inkscape:window-height="729"
-     inkscape:window-width="1280"
+     inkscape:window-width="918"
      inkscape:pageshadow="2"
      inkscape:pageopacity="0.0"
      guidetolerance="10.0"
@@ -53,12 +53,14 @@
      showguides="true"
      inkscape:guide-bbox="true"
      inkscape:zoom="1.0263363"
-     inkscape:cx="400.00001"
-     inkscape:cy="240"
-     inkscape:window-x="0"
-     inkscape:window-y="0"
+     inkscape:cx="362.94146"
+     inkscape:cy="239.68752"
+     inkscape:window-x="421"
+     inkscape:window-y="108"
      inkscape:current-layer="svg2211"
-     showgrid="false">
+     showgrid="false"
+     inkscape:pagecheckerboard="0"
+     inkscape:window-maximized="0">
     <sodipodi:guide
        orientation="horizontal"
        position="264.14428"
