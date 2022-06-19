@@ -217,7 +217,7 @@ static void metaserver_failed(void)
 }
 
 /****************************************************************************
-  Insert a setting in the metaserver message. Return TRUE if it succeded.
+  Insert a setting in the metaserver message. Return TRUE if it succeeded.
 ****************************************************************************/
 static inline bool meta_insert_setting(struct netfile_post *post,
                                        const char *set_name)
