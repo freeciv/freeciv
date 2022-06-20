@@ -1345,9 +1345,8 @@ bool tilespec_reread(const char *new_tileset_name,
     new_tileset_in_use = FALSE;
 
     if (!(tileset = tileset_read_toplevel(old_name, FALSE, -1, scale))) {
-      /* Always fails. */
-      fc_assert_exit_msg(NULL != tileset,
-                         "Failed to re-read the currently loaded tileset.");
+      log_fatal("Failed to re-read the currently loaded tileset.");
+      exit(EXIT_FAILURE);
     }
   }
   tileset_load_tiles(tileset);
