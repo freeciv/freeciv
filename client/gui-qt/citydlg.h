@@ -425,10 +425,9 @@ protected:
 ****************************************************************************/
 class city_dialog: public qfc_dialog
 {
-
   Q_OBJECT
 
-  bool happines_shown;
+  bool happiness_shown;
   QHBoxLayout *single_page_layout;
   QHBoxLayout *happiness_layout;
   QSplitter *prod_unit_splitter;
