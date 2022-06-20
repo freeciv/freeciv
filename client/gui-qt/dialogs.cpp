@@ -371,13 +371,17 @@ void qfc_dialog::mouseMoveEvent(QMouseEvent *event)
 ***************************************************************************/
 void qfc_dialog::mousePressEvent(QMouseEvent *event)
 {
-  if (event->pos().y() <= titlebar_height
-      && event->pos().x() <= width() - close_pix.width()) {
+  QPoint pos = event->pos();
+  int x = pos.x();
+  int y = pos.y();
+
+  if (y <= titlebar_height
+      && x <= width() - close_pix.width()) {
     point = event->globalPos() - geometry().topLeft();
     moving_now = true;
     setCursor(Qt::SizeAllCursor);
-  } else if (event->pos().y() <= titlebar_height
-      && event->pos().x() > width() - close_pix.width()) {
+  } else if (y <= titlebar_height
+             && x > width() - close_pix.width()) {
     close();
   }
 }
@@ -4447,16 +4451,19 @@ void units_select::mouseMoveEvent(QMouseEvent *event)
   int a, b;
   int old_h;
   QFontMetrics fm(info_font);
+  QPoint pos = event->pos();
+  int x = pos.x();
+  int y = pos.y();
 
   old_h = highligh_num;
   highligh_num = -1;
-  if (event->x() > width() - 11
-      || event->y() > height() - fm.height() - 5
-      || event->y() < fm.height() + 3 || event->x() < 11) {
-    /** do nothing if mouse is on border, just skip next if */
+  if (x > width() - 11
+      || y > height() - fm.height() - 5
+      || y < fm.height() + 3 || x < 11) {
+    // Do nothing if mouse is on border, just skip next if
   } else if (row_count > 0) {
-    a = (event->x() - 10) / item_size.width();
-    b = (event->y() - fm.height() - 3) / item_size.height();
+    a = (x - 10) / item_size.width();
+    b = (y - fm.height() - 3) / item_size.height();
     highligh_num = b * 4 + a;
   }
   if (old_h != highligh_num) {

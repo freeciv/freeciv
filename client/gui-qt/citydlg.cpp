@@ -1195,7 +1195,7 @@ void city_label::mousePressEvent(QMouseEvent *event)
 
   i = 1 + (num_citizens * 5 / 200);
   w = w / i;
-  citnum = event->x() / w;
+  citnum = event->pos().x() / w;
 
   if (!can_client_issue_orders()) {
     return;
@@ -1325,13 +1325,15 @@ QSize city_map::minimumSizeHint() const
 void city_map::mousePressEvent(QMouseEvent *event)
 {
   int canvas_x, canvas_y, city_x, city_y;
+  QPoint pos;
 
   if (!can_client_issue_orders() || event->button() != Qt::LeftButton) {
     return;
   }
 
-  canvas_x = event->x() / zoom + delta_x;
-  canvas_y = event->y() / zoom + delta_y;
+  pos = event->pos();
+  canvas_x = pos.x() / zoom + delta_x;
+  canvas_y = pos.y() / zoom + delta_y;
 
   if (canvas_to_city_pos(&city_x, &city_y, city_map_radius_sq_get(mcity),
                          canvas_x, canvas_y)) {
