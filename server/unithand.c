@@ -6061,9 +6061,8 @@ static bool do_unit_establish_trade(struct player *pplayer,
       send_city_info(city_owner(pcity), pcity);
     } city_list_iterate_end;
 
-    /* Notify each player about the other cities so that they know about
-     * its size for the trade calculation. */
-    if (pplayer != partner_player) {
+    /* Notify each player about the other's cities. */
+    if (pplayer != partner_player && game.info.reveal_trade_partner) {
       map_show_tile(partner_player, city_tile(pcity_homecity));
       send_city_info(partner_player, pcity_homecity);
       map_show_tile(pplayer, city_tile(pcity_dest));

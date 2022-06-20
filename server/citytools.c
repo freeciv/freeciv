@@ -950,7 +950,7 @@ static void raze_city(struct city *pcity)
   The following has to be called every time AFTER a city (pcity) has changed
   owner to update the city's trade routes.
 ****************************************************************************/
-static void reestablish_city_trade_routes(struct city *pcity) 
+static void reestablish_city_trade_routes(struct city *pcity)
 {
   trade_routes_iterate_safe(pcity, proute) {
     bool keep_route;
@@ -992,9 +992,13 @@ static void reestablish_city_trade_routes(struct city *pcity)
 
     /* Give the new owner infos about the city which has a trade route
      * with the transferred city. */
-    map_show_tile(city_owner(pcity), partner->tile);
-    update_dumb_city(city_owner(pcity), partner);
-    send_city_info(city_owner(pcity), partner);
+    if (game.info.reveal_trade_partner) {
+      struct player *owner = city_owner(pcity);
+
+      map_show_tile(owner, partner->tile);
+      update_dumb_city(owner, partner);
+      send_city_info(owner, partner);
+    }
   } trade_routes_iterate_safe_end;
 }
 

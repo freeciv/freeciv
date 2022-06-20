@@ -515,6 +515,7 @@ PACKET_GAME_INFO = 16; sc, is-info
   UINT8 fulltradesize;
   UINT8 trade_world_rel_pct;
   UINT8 min_trade_route_val;
+  BOOL reveal_trade_partner;
   GOODS_SELECTION goods_selection;
   /* True if at least one civilization has researched a tech */
   UINT16 global_advance_count;

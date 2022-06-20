@@ -7502,9 +7502,19 @@ static bool load_ruleset_game(struct section_file *file, bool act,
 
   if (ok) {
     const char *str;
+    bool reveal_default = FALSE;
 
     game.info.min_trade_route_val
       = secfile_lookup_int_default(file, 0, "trade.min_trade_route_val");
+
+    if (compat->compat_mode && compat->version < RSFORMAT_3_2) {
+      /* Old hardcoded behavior was to reveal the trade partner. */
+      reveal_default = TRUE;
+    }
+
+    game.info.reveal_trade_partner
+      = secfile_lookup_bool_default(file, reveal_default,
+                                    "trade.reveal_trade_partner");
 
     str = secfile_lookup_str_default(file,
                                      goods_selection_method_name(RS_DEFAULT_GOODS_SELECTION),

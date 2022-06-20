@@ -98,7 +98,8 @@ static bool save_default_int(struct section_file *sfile, int value,
   Save bool value that has default applied upon loading.
 **************************************************************************/
 static bool save_default_bool(struct section_file *sfile, bool value,
-                              bool default_value, const char *path, const char *entry)
+                              bool default_value, const char *path,
+                              const char *entry)
 {
   if ((value && !default_value)
       || (!value && default_value)) {
@@ -1661,6 +1662,9 @@ static bool save_game_ruleset(const char *filename, const char *name)
 
   save_default_int(sfile, game.info.min_trade_route_val,
                    0, "trade.min_trade_route_val", NULL);
+
+  save_default_bool(sfile, game.info.reveal_trade_partner,
+                    FALSE, "trade.reveal_trade_partner", NULL);
 
   if (game.info.goods_selection != RS_DEFAULT_GOODS_SELECTION) {
     secfile_insert_str(sfile, goods_selection_method_name(game.info.goods_selection),
