@@ -810,7 +810,7 @@ static gboolean check_server_scan(gpointer data)
   Callback function for when there's an error in the server scan.
 **************************************************************************/
 static void server_scan_error(struct server_scan *scan,
-			      const char *message)
+                              const char *message)
 {
   output_window_append(ftc_client, message);
   log_error("%s", message);
@@ -1199,7 +1199,6 @@ GtkWidget *create_network_page(void)
   int box_row = 0;
   int sbox_row = 0;
   int grid_col = 0;
-  int bbox_col = 0;
 
   box = gtk_grid_new();
   gtk_orientable_set_orientation(GTK_ORIENTABLE(box),
@@ -1432,23 +1431,22 @@ GtkWidget *create_network_page(void)
   gtk_grid_attach(GTK_GRID(sbox), bbox, 0, sbox_row++, 1, 1);
 
   button = gtk_button_new_from_icon_name("view-refresh");
-  gtk_grid_attach(GTK_GRID(bbox), button, bbox_col++, 0, 1, 1);
+  gtk_box_append(GTK_BOX(bbox), button);
   g_signal_connect(button, "clicked",
-      G_CALLBACK(update_network_lists), NULL);
+                   G_CALLBACK(update_network_lists), NULL);
 
   button = gtk_button_new_with_mnemonic(_("_Cancel"));
-  gtk_grid_attach(GTK_GRID(bbox), button, bbox_col++, 0, 1, 1);
+  gtk_box_append(GTK_BOX(bbox), button);
   g_signal_connect(button, "clicked",
                    G_CALLBACK(main_callback), NULL);
 
   button = gtk_button_new_with_mnemonic(_("C_onnect"));
-  gtk_grid_attach(GTK_GRID(bbox), button, bbox_col++, 0, 1, 1);
+  gtk_box_append(GTK_BOX(bbox), button);
   g_signal_connect(button, "clicked",
-      G_CALLBACK(connect_callback), NULL);
+                   G_CALLBACK(connect_callback), NULL);
 
   return box;
 }
-
 
 /****************************************************************************
                                   START PAGE
