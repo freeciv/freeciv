@@ -80,7 +80,6 @@ void info_tab::maximize_chat()
   chtwdg->scroll_to_bottom();
 }
 
-
 /***********************************************************************//**
   Checks if info_tab can be moved
 ***************************************************************************/
@@ -89,22 +88,27 @@ void info_tab::mousePressEvent(QMouseEvent *event)
   if (gui()->interface_locked) {
     return;
   }
+
   if (event->button() == Qt::LeftButton) {
+    QPoint pos = event->pos();
+    int x = pos.x();
+    int y = pos.y();
+
     cursor = event->globalPos() - geometry().topLeft();
-    if (event->y() > 0 && event->y() < 25 && event->x() > width() - 25
-        && event->x() < width()) {
+    if (y > 0 && y < 25 && x > width() - 25 && x < width()) {
       resize_mode = true;
       resxy = true;
       return;
     }
-    if (event->y() > 0 && event->y() < 5) {
+    if (y > 0 && y < 5) {
       resize_mode = true;
       resy = true;
-    } else if (event->x() > width() - 5 && event->x() < width()) {
+    } else if (x > width() - 5 && x < width()) {
       resize_mode = true;
       resx = true;
     }
   }
+
   event->setAccepted(true);
 }
 
@@ -141,30 +145,40 @@ void info_tab::mouseReleaseEvent(QMouseEvent* event)
 ***************************************************************************/
 void info_tab::mouseMoveEvent(QMouseEvent *event)
 {
+  QPoint pos;
+  int ex, ey;
+
   if (gui()->interface_locked) {
     return;
   }
+
+  pos = event->pos();
+  ex = pos.x();
+  ey = pos.y();
+
   if ((event->buttons() & Qt::LeftButton) && resize_mode && resy) {
     QPoint to_move;
     int newheight = event->globalY() - cursor.y() - geometry().y();
+
     resize(width(), this->geometry().height()-newheight);
     to_move = event->globalPos() - cursor;
     move(this->x(), to_move.y());
     setCursor(Qt::SizeVerCursor);
     restore_chat();
-  } else if (event->x() > width() - 9 && event->y() > 0 && event->y() < 9) {
+  } else if (ex > width() - 9 && ey > 0 && ey < 9) {
     setCursor(Qt::SizeBDiagCursor);
   } else if ((event->buttons() & Qt::LeftButton) && resize_mode && resx) {
-    resize(event->x(), height());
+    resize(ex, height());
     setCursor(Qt::SizeHorCursor);
-  } else if (event->x() > width() - 5 && event->x() < width()) {
+  } else if (ex > width() - 5 && ex < width()) {
     setCursor(Qt::SizeHorCursor);
-  } else if (event->y() > 0 && event->y() < 5) {
+  } else if (ey > 0 && ey < 5) {
     setCursor(Qt::SizeVerCursor);
   } else if (resxy && (event->buttons() & Qt::LeftButton)) {
     QPoint to_move;
     int newheight = event->globalY() - cursor.y() - geometry().y();
-    resize(event->x(), this->geometry().height()- newheight);
+
+    resize(ex, this->geometry().height()- newheight);
     to_move = event->globalPos() - cursor;
     move(this->x(), to_move.y());
     setCursor(Qt::SizeBDiagCursor);
@@ -172,6 +186,7 @@ void info_tab::mouseMoveEvent(QMouseEvent *event)
   } else {
     setCursor(Qt::ArrowCursor);
   }
+
   event->setAccepted(true);
 }
 

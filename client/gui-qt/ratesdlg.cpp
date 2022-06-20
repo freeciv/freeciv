@@ -387,7 +387,7 @@ void fc_double_edge::paintEvent(QPaintEvent *event)
 void fc_double_edge::mousePressEvent(QMouseEvent *event)
 {
   if (event->buttons() & Qt::LeftButton) {
-    mouse_x = static_cast<double>(event->x());
+    mouse_x = static_cast<double>(event->pos().x());
 
     if (mouse_x <= current_max * width() / 10 - 2 * cursor_size) {
       moved = 1;
@@ -414,7 +414,7 @@ void fc_double_edge::mouseMoveEvent(QMouseEvent *event)
     setCursor(Qt::ArrowCursor);
   }
 
-  x_mouse = static_cast<float>(event->x());
+  x_mouse = static_cast<float>(event->pos().x());
   x_min = static_cast<float>(current_min) / 10 *
           ((width() - 1)  - 2 * cursor_size) + cursor_size;
   x_max = static_cast<float>(current_max) / 10 *

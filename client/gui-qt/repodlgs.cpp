@@ -712,7 +712,8 @@ void research_diagram::reset()
 ****************************************************************************/
 void research_diagram::mousePressEvent(QMouseEvent *event)
 {
-  Tech_type_id tech = get_tech_on_reqtree(req, event->x(), event->y());
+  QPoint pos = event->pos();
+  Tech_type_id tech = get_tech_on_reqtree(req, pos.x(), pos.y());
   req_tooltip_help *rttp;
   int i;
 
