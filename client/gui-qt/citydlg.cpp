@@ -1529,7 +1529,7 @@ city_dialog::city_dialog(QWidget *parent): qfc_dialog(parent)
   small_font = fc_font::instance()->get_font(fonts::notify_label);
   zoom = 1.0;
 
-  happines_shown = false;
+  happiness_shown = false;
   central_splitter = new QSplitter;
   central_splitter->setOpaqueResize(false);
   central_left_splitter = new QSplitter;
@@ -2091,7 +2091,7 @@ void city_dialog::change_production(bool next)
 ****************************************************************************/
 void city_dialog::update_happiness_button()
 {
-  if (happines_shown) {
+  if (happiness_shown) {
     happiness_button->setToolTip(_("Show city production"));
   } else {
     happiness_button->setToolTip(_("Show happiness information"));
@@ -2105,7 +2105,7 @@ void city_dialog::show_happiness()
 {
   setUpdatesEnabled(false);
 
-  if (!happines_shown) {
+  if (!happiness_shown) {
     leftbot_layout->replaceWidget(prod_unit_splitter,
                                   happiness_widget,
                                   Qt::FindDirectChildrenOnly);
@@ -2123,10 +2123,9 @@ void city_dialog::show_happiness()
 
   setUpdatesEnabled(true);
   update();
-  happines_shown = !happines_shown;
+  happiness_shown = !happiness_shown;
   update_happiness_button();
 }
-
 
 /************************************************************************//**
   Updates buttons/widgets which should be enabled/disabled
@@ -2210,6 +2209,13 @@ city_dialog::~city_dialog()
   supported_units->clear_layout();
   removeEventFilter(this);
   ::city_dlg_created = false;
+
+  // Delete the one widget that currently does NOT have a parent
+  if (happiness_shown) {
+    delete prod_unit_splitter;
+  } else {
+    delete happiness_widget;
+  }
 }
 
 /************************************************************************//**
