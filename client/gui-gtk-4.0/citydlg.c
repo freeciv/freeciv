@@ -95,6 +95,9 @@ struct unit_node {
   GtkWidget *cmd;
   GtkWidget *pix;
   int height;
+  GtkEventController *left;
+  GtkEventController *middle;
+  GtkEventController *right;
 };
 
 /* get 'struct unit_node' and related function */
@@ -260,16 +263,18 @@ static void city_dialog_update_prev_next(void);
 
 static void show_units_response(void *data);
 
-static gboolean supported_unit_callback(GtkWidget *w, GdkEvent *ev,
-                                        gpointer data);
-static gboolean present_unit_callback(GtkWidget *w, GdkEvent *ev,
-                                      gpointer data);
-static gboolean supported_unit_middle_callback(GtkWidget *w,
-                                               GdkEvent *ev,
-                                               gpointer data);
-static gboolean present_unit_middle_callback(GtkWidget *w,
-                                             GdkEvent *ev,
-                                             gpointer data);
+static gboolean supported_unit_callback(GtkGestureClick *gesture, int n_press,
+                                        double x, double y, gpointer data);
+static gboolean present_unit_callback(GtkGestureClick *gesture, int n_press,
+                                      double x, double y, gpointer data);
+static gboolean middle_supported_unit_release(GtkGestureClick *gesture, int n_press,
+                                              double x, double y, gpointer data);
+static gboolean right_supported_unit_release(GtkGestureClick *gesture, int n_press,
+                                             double x, double y, gpointer data);
+static gboolean middle_present_unit_release(GtkGestureClick *gesture, int n_press,
+                                            double x, double y, gpointer data);
+static gboolean right_present_unit_release(GtkGestureClick *gesture, int n_press,
+                                           double x, double y, gpointer data);
 
 #ifdef MENUS_GTK3
 static void unit_center_callback(GtkWidget *w, gpointer data);
@@ -287,10 +292,12 @@ static void unit_homecity_callback(GtkWidget * w, gpointer data);
 static void unit_upgrade_callback(GtkWidget * w, gpointer data);
 #endif /* MENUS_GTK3 */
 
-static gboolean citizens_callback(GtkWidget *w, GdkEvent *ev,
-                                  gpointer data);
-static gboolean button_down_citymap(GtkWidget *w, GdkEvent *ev,
-                                    gpointer data);
+static gboolean citizens_callback(GtkGestureClick *gesture, int n_press,
+                                  double x, double y, gpointer data);
+static gboolean left_button_down_citymap(GtkGestureClick *gesture, int n_press,
+                                         double x, double y, gpointer data);
+static gboolean right_button_down_citymap(GtkGestureClick *gesture, int n_press,
+                                          double x, double y, gpointer data);
 static void draw_map_canvas(struct city_dialog *pdialog);
 
 static void buy_callback(GtkWidget * w, gpointer data);
@@ -414,6 +421,8 @@ static void city_dialog_map_create(struct city_dialog *pdialog,
                                    struct city_map_canvas *cmap_canvas)
 {
   GtkWidget *sw, *darea;
+  GtkGesture *gesture;
+  GtkEventController *controller;
 
   sw = gtk_scrolled_window_new();
   gtk_scrolled_window_set_min_content_width(GTK_SCROLLED_WINDOW(sw),
@@ -428,8 +437,17 @@ static void city_dialog_map_create(struct city_dialog *pdialog,
   gtk_widget_set_size_request(darea, CITYMAP_WIDTH, CITYMAP_HEIGHT);
   gtk_drawing_area_set_draw_func(GTK_DRAWING_AREA(darea),
                                  canvas_draw_cb, pdialog, NULL);
-  g_signal_connect(darea, "button-press-event",
-                   G_CALLBACK(button_down_citymap), pdialog);
+
+  controller = GTK_EVENT_CONTROLLER(gtk_gesture_click_new());
+  g_signal_connect(controller, "pressed",
+                   G_CALLBACK(left_button_down_citymap), pdialog);
+  gtk_widget_add_controller(darea, controller);
+  gesture = gtk_gesture_click_new();
+  gtk_gesture_single_set_button(GTK_GESTURE_SINGLE(gesture), 3);
+  controller = GTK_EVENT_CONTROLLER(gesture);
+  g_signal_connect(controller, "pressed",
+                   G_CALLBACK(right_button_down_citymap), pdialog);
+  gtk_widget_add_controller(darea, controller);
   gtk_scrolled_window_set_child(GTK_SCROLLED_WINDOW(sw), darea);
 
   /* save all widgets for the city map */
@@ -629,79 +647,75 @@ static gboolean keyboard_handler(GtkWidget *widget, GdkEvent *event,
 /***********************************************************************//**
   Popup info dialog
 ***************************************************************************/
-static gboolean show_info_popup(GtkWidget *w, GdkEvent *ev,
-                                gpointer data)
+static gboolean show_info_popup(GtkGestureClick *gesture, int n_press,
+                                double x, double y, gpointer data)
 {
+  GtkWidget *w = gtk_event_controller_get_widget(GTK_EVENT_CONTROLLER(gesture));
   struct city_dialog *pdialog = g_object_get_data(G_OBJECT(w), "pdialog");
-  guint button;
+  GtkWidget *p, *label, *frame;
+  char buf[1024];
 
-  button = gdk_button_event_get_button(ev);
-  if (button == 1) {
-    GtkWidget *p, *label, *frame;
-    char buf[1024];
-
-    switch (GPOINTER_TO_UINT(data)) {
-    case INFO_SIZE:
-      fc_snprintf(buf, sizeof(buf), _("Population: %d, Specialists: %d"),
-                  pdialog->pcity->size, city_specialists(pdialog->pcity));
-      break;
-    case INFO_FOOD:
-      get_city_dialog_output_text(pdialog->pcity, O_FOOD, buf, sizeof(buf));
-      break;
-    case INFO_SHIELD:
-      get_city_dialog_output_text(pdialog->pcity, O_SHIELD,
-				  buf, sizeof(buf));
-      break;
-    case INFO_TRADE:
-      get_city_dialog_output_text(pdialog->pcity, O_TRADE, buf, sizeof(buf));
-      break;
-    case INFO_GOLD:
-      get_city_dialog_output_text(pdialog->pcity, O_GOLD, buf, sizeof(buf));
-      break;
-    case INFO_SCIENCE:
-      get_city_dialog_output_text(pdialog->pcity, O_SCIENCE,
-				  buf, sizeof(buf));
-      break;
-    case INFO_LUXURY:
-      get_city_dialog_output_text(pdialog->pcity, O_LUXURY,
-				  buf, sizeof(buf));
-      break;
-    case INFO_CULTURE:
-      get_city_dialog_culture_text(pdialog->pcity, buf, sizeof(buf));
-      break;
-    case INFO_POLLUTION:
-      get_city_dialog_pollution_text(pdialog->pcity, buf, sizeof(buf));
-      break;
-    case INFO_ILLNESS:
-      get_city_dialog_illness_text(pdialog->pcity, buf, sizeof(buf));
-      break;
-    case INFO_AIRLIFT:
-      get_city_dialog_airlift_text(pdialog->pcity, buf, sizeof(buf));
-      break;
-    default:
-      return TRUE;
-    }
-
-    p = gtk_window_new();
-    gtk_widget_set_name(p, "Freeciv");
-    gtk_widget_set_margin_start(p, 2);
-    gtk_widget_set_margin_end(p, 2);
-    gtk_widget_set_margin_top(p, 2);
-    gtk_widget_set_margin_bottom(p, 2);
-    gtk_window_set_transient_for(GTK_WINDOW(p), GTK_WINDOW(pdialog->shell));
-
-    frame = gtk_frame_new(NULL);
-    gtk_window_set_child(GTK_WINDOW(p), frame);
-
-    label = gtk_label_new(buf);
-    gtk_widget_set_name(label, "city_label");
-    gtk_widget_set_margin_start(label, 4);
-    gtk_widget_set_margin_end(label, 4);
-    gtk_widget_set_margin_top(label, 4);
-    gtk_widget_set_margin_bottom(label, 4);
-    gtk_frame_set_child(GTK_FRAME(frame), label);
-    gtk_widget_show(p);
+  switch (GPOINTER_TO_UINT(data)) {
+  case INFO_SIZE:
+    fc_snprintf(buf, sizeof(buf), _("Population: %d, Specialists: %d"),
+                pdialog->pcity->size, city_specialists(pdialog->pcity));
+    break;
+  case INFO_FOOD:
+    get_city_dialog_output_text(pdialog->pcity, O_FOOD, buf, sizeof(buf));
+    break;
+  case INFO_SHIELD:
+    get_city_dialog_output_text(pdialog->pcity, O_SHIELD,
+                                buf, sizeof(buf));
+    break;
+  case INFO_TRADE:
+    get_city_dialog_output_text(pdialog->pcity, O_TRADE, buf, sizeof(buf));
+    break;
+  case INFO_GOLD:
+    get_city_dialog_output_text(pdialog->pcity, O_GOLD, buf, sizeof(buf));
+    break;
+  case INFO_SCIENCE:
+    get_city_dialog_output_text(pdialog->pcity, O_SCIENCE,
+                                buf, sizeof(buf));
+    break;
+  case INFO_LUXURY:
+    get_city_dialog_output_text(pdialog->pcity, O_LUXURY,
+                                buf, sizeof(buf));
+    break;
+  case INFO_CULTURE:
+    get_city_dialog_culture_text(pdialog->pcity, buf, sizeof(buf));
+    break;
+  case INFO_POLLUTION:
+    get_city_dialog_pollution_text(pdialog->pcity, buf, sizeof(buf));
+    break;
+  case INFO_ILLNESS:
+    get_city_dialog_illness_text(pdialog->pcity, buf, sizeof(buf));
+    break;
+  case INFO_AIRLIFT:
+    get_city_dialog_airlift_text(pdialog->pcity, buf, sizeof(buf));
+    break;
+  default:
+    return TRUE;
   }
+
+  p = gtk_window_new();
+  gtk_widget_set_name(p, "Freeciv");
+  gtk_widget_set_margin_start(p, 2);
+  gtk_widget_set_margin_end(p, 2);
+  gtk_widget_set_margin_top(p, 2);
+  gtk_widget_set_margin_bottom(p, 2);
+  gtk_window_set_transient_for(GTK_WINDOW(p), GTK_WINDOW(pdialog->shell));
+
+  frame = gtk_frame_new(NULL);
+  gtk_window_set_child(GTK_WINDOW(p), frame);
+
+  label = gtk_label_new(buf);
+  gtk_widget_set_name(label, "city_label");
+  gtk_widget_set_margin_start(label, 4);
+  gtk_widget_set_margin_end(label, 4);
+  gtk_widget_set_margin_top(label, 4);
+  gtk_widget_set_margin_bottom(label, 4);
+  gtk_frame_set_child(GTK_FRAME(frame), label);
+  gtk_widget_show(p);
 
   return TRUE;
 }
@@ -735,6 +749,7 @@ static GtkWidget *create_city_info_table(struct city_dialog *pdialog,
     N_("Airlift:"),
   };
   static bool output_label_done;
+  GtkEventController *controller;
 
   table = gtk_grid_new();
   g_object_set(table, "margin", 4, NULL);
@@ -782,9 +797,13 @@ static GtkWidget *create_city_info_table(struct city_dialog *pdialog,
       default:
         break;
     }
+
     g_object_set_data(G_OBJECT(label), "pdialog", pdialog);
-    g_signal_connect(label, "button_press_event",
-	G_CALLBACK(show_info_popup), GUINT_TO_POINTER(i));
+
+    controller = GTK_EVENT_CONTROLLER(gtk_gesture_click_new());
+    g_signal_connect(controller, "pressed",
+                     G_CALLBACK(show_info_popup), GUINT_TO_POINTER(i));
+    gtk_widget_add_controller(label, controller);
 
     info_label[i] = label;
     gtk_widget_set_name(label, "city_label");	/* ditto */
@@ -1542,13 +1561,13 @@ static void create_and_append_settings_page(struct city_dialog *pdialog)
 static struct city_dialog *create_city_dialog(struct city *pcity)
 {
   struct city_dialog *pdialog;
-
   GtkWidget *close_command;
   GtkWidget *vbox, *hgrid, *cbox;
   int citizen_bar_width;
   int citizen_bar_height;
   int grid_col = 0;
   int ccol = 0;
+  GtkEventController *controller;
 
   if (!city_dialogs_have_been_initialised) {
     initialize_city_dialogs();
@@ -1614,8 +1633,11 @@ static struct city_dialog *create_city_dialog(struct city *pcity)
   gtk_widget_set_halign(pdialog->citizen_images, GTK_ALIGN_START);
   gtk_widget_set_valign(pdialog->citizen_images, GTK_ALIGN_CENTER);
   gtk_grid_attach(GTK_GRID(cbox), pdialog->citizen_images, ccol++, 0, 1, 1);
-  g_signal_connect(G_OBJECT(pdialog->citizen_images), "button-press-event",
+
+  controller = GTK_EVENT_CONTROLLER(gtk_gesture_click_new());
+  g_signal_connect(controller, "pressed",
                    G_CALLBACK(citizens_callback), pdialog);
+  gtk_widget_add_controller(pdialog->citizen_images, controller);
 
   /**** City name label here ****/
   pdialog->name_label = gtk_label_new(NULL);
@@ -2191,6 +2213,11 @@ static void city_dialog_update_supported_units(struct city_dialog *pdialog)
 
       gtk_box_append(GTK_BOX(pdialog->overview.supported_unit_table),
                      cmd);
+
+      node.left = NULL;
+      node.middle = NULL;
+      node.right = NULL;
+
       unit_node_vector_append(nodes, node);
     }
   }
@@ -2203,6 +2230,8 @@ static void city_dialog_update_supported_units(struct city_dialog *pdialog)
     pnode = unit_node_vector_get(nodes, i);
     if (pnode) {
       GtkWidget *cmd, *pix;
+      GtkGesture *gesture;
+      GtkEventController *controller;
 
       cmd = pnode->cmd;
       pix = pnode->pix;
@@ -2210,23 +2239,36 @@ static void city_dialog_update_supported_units(struct city_dialog *pdialog)
       put_unit_image_city_overlays(punit, GTK_IMAGE(pix), pnode->height,
                                    punit->upkeep, happy_cost);
 
-      g_signal_handlers_disconnect_matched(cmd,
-	  G_SIGNAL_MATCH_FUNC,
-	  0, 0, NULL, supported_unit_callback, NULL);
-
-      g_signal_handlers_disconnect_matched(cmd,
-	  G_SIGNAL_MATCH_FUNC,
-	  0, 0, NULL, supported_unit_middle_callback, NULL);
+      if (pnode->left != NULL) {
+        gtk_widget_remove_controller(cmd, pnode->left);
+        gtk_widget_remove_controller(cmd, pnode->middle);
+        gtk_widget_remove_controller(cmd, pnode->right);
+      }
 
       gtk_widget_set_tooltip_text(cmd, unit_description(punit));
 
-      g_signal_connect(cmd, "button_press_event",
-	  G_CALLBACK(supported_unit_callback),
-	  GINT_TO_POINTER(punit->id));
-
-      g_signal_connect(cmd, "button_release_event",
-	  G_CALLBACK(supported_unit_middle_callback),
-	  GINT_TO_POINTER(punit->id));
+      controller = GTK_EVENT_CONTROLLER(gtk_gesture_click_new());
+      g_signal_connect(controller, "pressed",
+                       G_CALLBACK(supported_unit_callback),
+                       GINT_TO_POINTER(punit->id));
+      gtk_widget_add_controller(cmd, controller);
+      pnode->left = controller;
+      gesture = gtk_gesture_click_new();
+      gtk_gesture_single_set_button(GTK_GESTURE_SINGLE(gesture), 2);
+      controller = GTK_EVENT_CONTROLLER(gesture);
+      g_signal_connect(controller, "released",
+                       G_CALLBACK(middle_supported_unit_release),
+                       GINT_TO_POINTER(punit->id));
+      gtk_widget_add_controller(cmd, controller);
+      pnode->middle = controller;
+      gesture = gtk_gesture_click_new();
+      gtk_gesture_single_set_button(GTK_GESTURE_SINGLE(gesture), 3);
+      controller = GTK_EVENT_CONTROLLER(gesture);
+      g_signal_connect(controller, "released",
+                       G_CALLBACK(right_supported_unit_release),
+                       GINT_TO_POINTER(punit->id));
+      gtk_widget_add_controller(cmd, controller);
+      pnode->right = controller;
 
       if (city_owner(pdialog->pcity) != client.conn.playing) {
 	gtk_widget_set_sensitive(cmd, FALSE);
@@ -2295,6 +2337,11 @@ static void city_dialog_update_present_units(struct city_dialog *pdialog)
 
       gtk_box_append(GTK_BOX(pdialog->overview.present_unit_table),
                      cmd);
+
+      node.left = NULL;
+      node.middle = NULL;
+      node.right = NULL;
+
       unit_node_vector_append(nodes, node);
     }
   }
@@ -2306,29 +2353,44 @@ static void city_dialog_update_present_units(struct city_dialog *pdialog)
     pnode = unit_node_vector_get(nodes, i);
     if (pnode) {
       GtkWidget *cmd, *pix;
+      GtkEventController *controller;
+      GtkGesture *gesture;
 
       cmd = pnode->cmd;
       pix = pnode->pix;
 
       put_unit_image(punit, GTK_IMAGE(pix), pnode->height);
 
-      g_signal_handlers_disconnect_matched(cmd,
-	  G_SIGNAL_MATCH_FUNC,
-	  0, 0, NULL, present_unit_callback, NULL);
-
-      g_signal_handlers_disconnect_matched(cmd,
-	  G_SIGNAL_MATCH_FUNC,
-	  0, 0, NULL, present_unit_middle_callback, NULL);
+      if (pnode->left != NULL) {
+        gtk_widget_remove_controller(cmd, pnode->left);
+        gtk_widget_remove_controller(cmd, pnode->middle);
+        gtk_widget_remove_controller(cmd, pnode->right);
+      }
 
       gtk_widget_set_tooltip_text(cmd, unit_description(punit));
 
-      g_signal_connect(cmd, "button_press_event",
-	  G_CALLBACK(present_unit_callback),
-	  GINT_TO_POINTER(punit->id));
-
-      g_signal_connect(cmd, "button_release_event",
-	  G_CALLBACK(present_unit_middle_callback),
-	  GINT_TO_POINTER(punit->id));
+      controller = GTK_EVENT_CONTROLLER(gtk_gesture_click_new());
+      g_signal_connect(controller, "pressed",
+                       G_CALLBACK(present_unit_callback),
+                       GINT_TO_POINTER(punit->id));
+      gtk_widget_add_controller(cmd, controller);
+      pnode->left = controller;
+      gesture = gtk_gesture_click_new();
+      gtk_gesture_single_set_button(GTK_GESTURE_SINGLE(gesture), 2);
+      controller = GTK_EVENT_CONTROLLER(gesture);
+      g_signal_connect(controller, "released",
+                       G_CALLBACK(middle_present_unit_release),
+                       GINT_TO_POINTER(punit->id));
+      gtk_widget_add_controller(cmd, controller);
+      pnode->middle = controller;
+      gesture = gtk_gesture_click_new();
+      gtk_gesture_single_set_button(GTK_GESTURE_SINGLE(gesture), 3);
+      controller = GTK_EVENT_CONTROLLER(gesture);
+      g_signal_connect(controller, "released",
+                       G_CALLBACK(right_present_unit_release),
+                       GINT_TO_POINTER(punit->id));
+      gtk_widget_add_controller(cmd, controller);
+      pnode->right = controller;
 
       if (city_owner(pdialog->pcity) != client.conn.playing) {
 	gtk_widget_set_sensitive(cmd, FALSE);
@@ -2429,8 +2491,8 @@ static void destroy_func(GtkWidget *w, gpointer data)
 /***********************************************************************//**
   Pop-up menu to change attributes of supported units
 ***************************************************************************/
-static gboolean supported_unit_callback(GtkWidget *w, GdkEvent *ev,
-                                        gpointer data)
+static gboolean supported_unit_callback(GtkGestureClick *gesture, int n_press,
+                                        double x, double y, gpointer data)
 {
   struct city_dialog *pdialog;
   struct city *pcity;
@@ -2440,14 +2502,8 @@ static gboolean supported_unit_callback(GtkWidget *w, GdkEvent *ev,
   if (NULL != punit
       && NULL != (pcity = game_city_by_number(punit->homecity))
       && NULL != (pdialog = get_city_dialog(pcity))) {
-    guint button;
 
-    if (gdk_event_get_event_type(ev) != GDK_BUTTON_PRESS) {
-      return FALSE;
-    }
-
-    button = gdk_button_event_get_button(ev);
-    if (button == 2 || button == 3 || !can_client_issue_orders()) {
+    if (!can_client_issue_orders()) {
       return FALSE;
     }
 
@@ -2499,8 +2555,8 @@ static gboolean supported_unit_callback(GtkWidget *w, GdkEvent *ev,
 /***********************************************************************//**
   Pop-up menu to change attributes of units, ex. change homecity.
 ***************************************************************************/
-static gboolean present_unit_callback(GtkWidget *w, GdkEvent *ev,
-                                      gpointer data)
+static gboolean present_unit_callback(GtkGestureClick *gesture, int n_press,
+                                      double x, double y, gpointer data)
 {
   struct city_dialog *pdialog;
   struct city *pcity;
@@ -2510,14 +2566,8 @@ static gboolean present_unit_callback(GtkWidget *w, GdkEvent *ev,
   if (NULL != punit
       && NULL != (pcity = tile_city(unit_tile(punit)))
       && NULL != (pdialog = get_city_dialog(pcity))) {
-    guint button;
 
-    if (gdk_event_get_event_type(ev) != GDK_BUTTON_PRESS) {
-      return FALSE;
-    }
-
-    button = gdk_button_event_get_button(ev);
-    if (button == 2 || button == 3 || !can_client_issue_orders()) {
+    if (!can_client_issue_orders()) {
       return FALSE;
     }
 
@@ -2627,9 +2677,8 @@ static gboolean present_unit_callback(GtkWidget *w, GdkEvent *ev,
 /***********************************************************************//**
   If user middle-clicked on a unit, activate it and close dialog
 ***************************************************************************/
-static gboolean present_unit_middle_callback(GtkWidget *w,
-                                             GdkEvent *ev,
-                                             gpointer data)
+static gboolean middle_present_unit_release(GtkGestureClick *gesture, int n_press,
+                                            double x, double y, gpointer data)
 {
   struct city_dialog *pdialog;
   struct city *pcity;
@@ -2637,18 +2686,32 @@ static gboolean present_unit_middle_callback(GtkWidget *w,
     player_unit_by_number(client_player(), (size_t) data);
 
   if (NULL != punit
-   && NULL != (pcity = tile_city(unit_tile(punit)))
-   && NULL != (pdialog = get_city_dialog(pcity))
-   && can_client_issue_orders()) {
-    guint button;
+      && NULL != (pcity = tile_city(unit_tile(punit)))
+      && NULL != (pdialog = get_city_dialog(pcity))
+      && can_client_issue_orders()) {
+    unit_focus_set(punit);
+    close_city_dialog(pdialog);
+  }
 
-    button = gdk_button_event_get_button(ev);
-    if (button == 3) {
-      unit_focus_set(punit);
-    } else if (button == 2) {
-      unit_focus_set(punit);
-      close_city_dialog(pdialog);
-    }
+  return TRUE;
+}
+
+/***********************************************************************//**
+  If user right-clicked on a unit, activate it
+***************************************************************************/
+static gboolean right_present_unit_release(GtkGestureClick *gesture, int n_press,
+                                           double x, double y, gpointer data)
+{
+  struct city_dialog *pdialog;
+  struct city *pcity;
+  struct unit *punit =
+    player_unit_by_number(client_player(), (size_t) data);
+
+  if (NULL != punit
+      && NULL != (pcity = tile_city(unit_tile(punit)))
+      && NULL != (pdialog = get_city_dialog(pcity))
+      && can_client_issue_orders()) {
+    unit_focus_set(punit);
   }
 
   return TRUE;
@@ -2657,9 +2720,8 @@ static gboolean present_unit_middle_callback(GtkWidget *w,
 /***********************************************************************//**
   If user middle-clicked on a unit, activate it and close dialog
 ***************************************************************************/
-static gboolean supported_unit_middle_callback(GtkWidget *w,
-                                               GdkEvent *ev,
-                                               gpointer data)
+static gboolean middle_supported_unit_release(GtkGestureClick *gesture, int n_press,
+                                              double x, double y, gpointer data)
 {
   struct city_dialog *pdialog;
   struct city *pcity;
@@ -2670,15 +2732,29 @@ static gboolean supported_unit_middle_callback(GtkWidget *w,
       && NULL != (pcity = game_city_by_number(punit->homecity))
       && NULL != (pdialog = get_city_dialog(pcity))
       && can_client_issue_orders()) {
-    guint button;
+    unit_focus_set(punit);
+    close_city_dialog(pdialog);
+  }
 
-    button = gdk_button_event_get_button(ev);
-    if (button == 3) {
-      unit_focus_set(punit);
-    } else if (button == 2) {
-      unit_focus_set(punit);
-      close_city_dialog(pdialog);
-    }
+  return TRUE;
+}
+
+/***********************************************************************//**
+  If user right-clicked on a unit, activate it
+***************************************************************************/
+static gboolean right_supported_unit_release(GtkGestureClick *gesture, int n_press,
+                                             double x, double y, gpointer data)
+{
+  struct city_dialog *pdialog;
+  struct city *pcity;
+  struct unit *punit =
+    player_unit_by_number(client_player(), (size_t) data);
+
+  if (NULL != punit
+      && NULL != (pcity = game_city_by_number(punit->homecity))
+      && NULL != (pdialog = get_city_dialog(pcity))
+      && can_client_issue_orders()) {
+    unit_focus_set(punit);
   }
 
   return TRUE;
@@ -2868,16 +2944,15 @@ static void unit_upgrade_callback(GtkWidget *w, gpointer data)
 /******** Callbacks for citizen bar, map funcs that are not update ********/
 
 /***********************************************************************//**
-  Somebody clicked our list of citizens. If they clicked a specialist
+  User clicked the list of citizens. If they clicked a specialist
   then change its type, else do nothing.
 ***************************************************************************/
-static gboolean citizens_callback(GtkWidget *w, GdkEvent *ev,
-                                  gpointer data)
+static gboolean citizens_callback(GtkGestureClick *gesture, int n_press,
+                                  double x, double y, gpointer data)
 {
   struct city_dialog *pdialog = data;
   struct city *pcity = pdialog->pcity;
   int citnum, tlen, len;
-  gdouble e_x, e_y;
 
   if (!can_client_issue_orders()) {
     return FALSE;
@@ -2886,12 +2961,11 @@ static gboolean citizens_callback(GtkWidget *w, GdkEvent *ev,
   tlen = tileset_small_sprite_width(tileset);
   len = (city_size_get(pcity) - 1) * pdialog->cwidth + tlen;
 
-  gdk_event_get_position(ev, &e_x, &e_y);
-  if (e_x > len) {
+  if (x > len) {
     /* no citizen that far to the right */
     return FALSE;
   }
-  citnum = MIN(city_size_get(pcity) - 1, e_x / pdialog->cwidth);
+  citnum = MIN(city_size_get(pcity) - 1, x / pdialog->cwidth);
 
   city_rotate_specialist(pcity, citnum);
 
@@ -3046,38 +3120,55 @@ static void popup_workertask_dlg(struct city *pcity, struct tile *ptile)
 }
 
 /***********************************************************************//**
-  User has pressed button on citymap
+  User has pressed left button on citymap
 ***************************************************************************/
-static gboolean button_down_citymap(GtkWidget *w, GdkEvent *ev,
-                                    gpointer data)
+static gboolean left_button_down_citymap(GtkGestureClick *gesture, int n_press,
+                                         double x, double y, gpointer data)
 {
   struct city_dialog *pdialog = data;
   int canvas_x, canvas_y, city_x, city_y;
-  gdouble e_x, e_y;
 
   if (!can_client_issue_orders()) {
     return FALSE;
   }
 
-  gdk_event_get_position(ev, &e_x, &e_y);
-  canvas_x = e_x * (double)canvas_width / (double)CITYMAP_WIDTH;
-  canvas_y = e_y * (double)canvas_height / (double)CITYMAP_HEIGHT;
+  canvas_x = x * (double)canvas_width / (double)CITYMAP_WIDTH;
+  canvas_y = y * (double)canvas_height / (double)CITYMAP_HEIGHT;
 
   if (canvas_to_city_pos(&city_x, &city_y,
                          city_map_radius_sq_get(pdialog->pcity),
                          canvas_x, canvas_y)) {
-    guint button;
+    city_toggle_worker(pdialog->pcity, city_x, city_y);
+  }
 
-    button = gdk_button_event_get_button(ev);
-    if (button == 1) {
-      city_toggle_worker(pdialog->pcity, city_x, city_y);
-    } else if (button == 3) {
-      struct city *pcity = pdialog->pcity;
+  return TRUE;
+}
 
-      popup_workertask_dlg(pdialog->pcity,
-                           city_map_to_tile(pcity->tile, city_map_radius_sq_get(pcity),
-                                            city_x, city_y));
-    }
+
+/***********************************************************************//**
+  User has pressed right button on citymap
+***************************************************************************/
+static gboolean right_button_down_citymap(GtkGestureClick *gesture, int n_press,
+                                          double x, double y, gpointer data)
+{
+  struct city_dialog *pdialog = data;
+  int canvas_x, canvas_y, city_x, city_y;
+
+  if (!can_client_issue_orders()) {
+    return FALSE;
+  }
+
+  canvas_x = x * (double)canvas_width / (double)CITYMAP_WIDTH;
+  canvas_y = y * (double)canvas_height / (double)CITYMAP_HEIGHT;
+
+  if (canvas_to_city_pos(&city_x, &city_y,
+                         city_map_radius_sq_get(pdialog->pcity),
+                         canvas_x, canvas_y)) {
+    struct city *pcity = pdialog->pcity;
+
+    popup_workertask_dlg(pdialog->pcity,
+                         city_map_to_tile(pcity->tile, city_map_radius_sq_get(pcity),
+                                          city_x, city_y));
   }
 
   return TRUE;
