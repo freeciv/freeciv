@@ -221,7 +221,7 @@ static void luascript_traceback_func_push(lua_State *L)
 }
 
 /*****************************************************************************
-  Check currently excecuting lua function for execution time limit
+  Check currently executing lua function for execution time limit
 *****************************************************************************/
 static void luascript_exec_check(lua_State *L, lua_Debug *ar)
 {
