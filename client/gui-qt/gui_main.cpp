@@ -187,6 +187,11 @@ void qtg_ui_main(int argc, char *argv[])
     }
     freeciv_qt = new fc_client();
 
+    if (!gui_options.gui_qt_default_fonts_set) {
+      configure_fonts();
+      gui_options.gui_qt_default_fonts_set = TRUE;
+    }
+
     // Initial fonts setup by forcing running change-callback for each
     options_iterate(client_optset, poption) {
       if (OT_FONT == option_type(poption)) {

@@ -131,6 +131,7 @@ struct client_options
   bool gui_gtk2_migrated_from_2_5;
   bool gui_gtk3_migrated_from_2_5;
   bool gui_qt_migrated_from_2_5;
+  bool gui_qt_default_fonts_set;
 
   bool migrate_fullscreen;
 
