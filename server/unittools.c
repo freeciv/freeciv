@@ -2280,14 +2280,15 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
     wipe_unit(punit, ULR_KILLED, pvictor);
   } else { /* unitcount > 1 */
     int i;
-    int num_killed[player_slot_count()];
-    int num_escaped[player_slot_count()];
-    struct unit *other_killed[player_slot_count()];
+    int slots = player_slot_count();
+    int num_killed[slots];
+    int num_escaped[slots];
+    struct unit *other_killed[slots];
 
     fc_assert(unitcount > 1);
 
     /* initialize */
-    for (i = 0; i < player_slot_count(); i++) {
+    for (i = 0; i < slots; i++) {
       num_killed[i] = 0;
       other_killed[i] = NULL;
       num_escaped[i] = 0;
@@ -2374,7 +2375,7 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
      *
      * Also if a large number of units die you don't find out what type
      * they all are. */
-    for (i = 0; i < player_slot_count(); i++) {
+    for (i = 0; i < slots; i++) {
       if (num_killed[i] == 1) {
         if (i == player_index(pvictim)) {
           fc_assert(other_killed[i] == NULL);
@@ -2449,7 +2450,7 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
      * 'deftile' is the original tile they defended at, not where
      * they escaped to, as there might be multiple different tiles
      * different units escaped to. */
-    for (i = 0; i < player_slot_count(); ++i) {
+    for (i = 0; i < slots; i++) {
       if (0 < num_escaped[i]) {
         notify_player(player_by_number(i), deftile,
                       E_UNIT_ESCAPED, ftc_server,
