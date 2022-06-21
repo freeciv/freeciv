@@ -2746,7 +2746,12 @@ void city_dialog::display_worklist_menu(const QPoint &p)
       return;
     }
 
+#ifndef FC_QT5_MODE
+    fc_assert_ret(id.typeId() == QMetaType::Int);
+#else  // FC_QT5_MODE
     fc_assert_ret(id.type() == QVariant::Int);
+#endif // FC_QT5_MODE
+
     worklist = global_worklist_get(global_worklist_by_id(id.toInt()));
     city_set_queue(pcity, worklist);
   });
@@ -2760,7 +2765,12 @@ void city_dialog::display_worklist_menu(const QPoint &p)
       return;
     }
 
+#ifndef FC_QT5_MODE
+    fc_assert_ret(id.typeId() == QMetaType::Int);
+#else  // FC_QT5_MODE
     fc_assert_ret(id.type() == QVariant::Int);
+#endif // FC_QT5_MODE
+
     worklist = global_worklist_get(global_worklist_by_id(id.toInt()));
     city_queue_insert_worklist(pcity, selected_row_p + 1, worklist);
   });
