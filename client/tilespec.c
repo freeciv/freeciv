@@ -76,14 +76,14 @@
 
 #include "tilespec.h"
 
-#define TILESPEC_CAPSTR "+Freeciv-tilespec-Devel-2019-Jul-03 duplicates_ok"
+#define TILESPEC_CAPSTR "+Freeciv-tilespec-3.2-Devel-2022-Jun-21 duplicates_ok"
 /*
  * Tilespec capabilities acceptable to this program:
  *
- * +Freeciv-3.1-tilespec
- *    - basic format for Freeciv versions 3.1.x; required
+ * +Freeciv-3.2-tilespec
+ *    - basic format for Freeciv versions 3.2.x; required
  *
- * +Freeciv-tilespec-Devel-YYYY.MMM.DD
+ * +Freeciv-tilespec-3.2-Devel-YYYY.MMM.DD
  *    - tilespec of the development version at the given date
  *
  * duplicates_ok
