@@ -15,7 +15,7 @@
         </p>
     </description>
     <launchable type="desktop-id">org.freeciv.ruledit.desktop</launchable>
-    <url type="homepage">http://www.freeciv.org/</url>
+    <url type="homepage">https://www.freeciv.org/</url>
     <screenshots>
       <screenshot type="default">
         <image>https://images1.wikia.nocookie.net/__cb20120308234702/freeciv/images/thumb/4/43/Hex2.3.png/1000px-Hex2.3.png</image>
