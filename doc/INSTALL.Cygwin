@@ -44,6 +44,7 @@ a) Install or update your Cygwin by downloading and running installer
    - libzstd-devel (Libs) (for support of zst-compressed savegames)
    - liblzma-devel (Libs) (for support of xz-compressed savegames)
    - libbz2-devel (Archive) (for deprecated bz2-compressed savegames support)
+   - libMagick-devel (Graphics) (for better mapimg support)
 
   To get and build freeciv development version directly from version control,
   you need also
