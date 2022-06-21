@@ -4341,6 +4341,7 @@ static bool quit_game(struct connection *caller, bool check)
     cmd_reply(CMD_QUIT, caller, C_OK, _("Goodbye."));
     server_quit();
   }
+
   return TRUE;
 }
 

@@ -1815,7 +1815,7 @@ void start_game(void)
 /**********************************************************************//**
   Quit the server and exit.
 **************************************************************************/
-void server_quit(void)
+void fc__noreturn server_quit(void)
 {
   if (server_state() == S_S_RUNNING) {
     /* Quitting mid-game. */
@@ -3451,7 +3451,7 @@ void server_game_free(void)
 /**********************************************************************//**
   Server main loop.
 **************************************************************************/
-void srv_main(void)
+void fc__noreturn srv_main(void)
 {
   fc_interface_init_server();
 
@@ -3510,7 +3510,8 @@ void srv_main(void)
     game.info.is_new_game = TRUE;
   } while (TRUE);
 
-  /* Technically, we won't ever get here. We exit via server_quit. */
+  /* Technically, we won't ever get here. We exit via server_quit(). */
+  fc_assert(FALSE);
 }
 
 /**********************************************************************//**
