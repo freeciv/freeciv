@@ -41,6 +41,7 @@ a) Install or update your Cygwin by downloading and running installer
    - libSDL2_mixer-devel (Libs) (for client audio support)
    - liblzma-devel (Libs) (for support of xz-compressed savegames)
    - libbz2-devel (Archive) (for support of bz2-compressed savegames)
+   - libMagick-devel (Graphics) (for better mapimg support)
 
   To get and build freeciv development version directly from version control,
   you need also
