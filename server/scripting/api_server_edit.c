@@ -115,7 +115,7 @@ Unit *api_edit_create_unit(lua_State *L, Player *pplayer, Tile *ptile,
                            City *homecity, int moves_left)
 {
   return api_edit_create_unit_full(L, pplayer, ptile, ptype, veteran_level,
-                                      homecity, moves_left, -1, NULL);
+                                   homecity, moves_left, -1, NULL);
 }
 
 /**********************************************************************//**
@@ -158,6 +158,12 @@ Unit *api_edit_create_unit_full(lua_State *L, Player *pplayer,
   if (pcity != NULL && !pplayers_allied(pplayer, city_owner(pcity))) {
     luascript_log(fcl, LOG_ERROR, "create_unit_full: tile is occupied by "
                                   "enemy city");
+    return NULL;
+  }
+
+  if (utype_player_already_has_this_unique(pplayer, ptype)) {
+    luascript_log(fcl, LOG_ERROR,
+                  "create_unit_full: player already has unique unit");
     return NULL;
   }
 
