@@ -103,6 +103,10 @@ struct client_options gui_options = {
 
   .migrate_fullscreen = FALSE,
 
+/** Flags **/
+
+  .gui_qt_default_fonts_set = FALSE,
+
 /** Local Options: **/
 
   .solid_color_behind_units = FALSE,
@@ -5916,6 +5920,11 @@ void options_load(void)
     secfile_lookup_bool_default(sf, gui_options.gui_qt_migrated_from_2_5,
                                 "%s.migration_qt_from_2_5", prefix);
 
+  /* Flag values */
+  gui_options.gui_qt_default_fonts_set =
+    secfile_lookup_bool_default(sf, gui_options.gui_qt_default_fonts_set,
+                                "%s.flag_qt_default_fonts_set", prefix);
+
   /* These are not gui-enabled yet */
   gui_options.zoom_set =
     secfile_lookup_bool_default(sf, FALSE, "%s.zoom_set", prefix);
@@ -6034,6 +6043,10 @@ void options_save(option_save_log_callback log_cb)
                       "client.migration_gtk3_from_2_5");
   secfile_insert_bool(sf, gui_options.gui_qt_migrated_from_2_5,
                       "client.migration_qt_from_2_5");
+
+  /* Flag */
+  secfile_insert_bool(sf, gui_options.gui_qt_default_fonts_set,
+                      "client.flag_qt_default_fonts_set");
 
   /* gui-enabled options */
   client_options_iterate_all(poption) {

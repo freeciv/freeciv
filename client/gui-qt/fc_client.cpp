@@ -618,9 +618,6 @@ void fc_client::read_settings()
   QSettings s(QSettings::IniFormat, QSettings::UserScope,
               sname);
 
-  if (!s.contains("Fonts-set")) {
-    configure_fonts();
-  }
   if (s.contains("Chat-fx-size")) {
     qt_settings.chat_fwidth = s.value("Chat-fx-size").toFloat();
   } else {
@@ -758,7 +755,6 @@ void fc_client::write_settings()
   QSettings s(QSettings::IniFormat, QSettings::UserScope,
               sname);
 
-  s.setValue("Fonts-set", true);
   s.setValue("Chat-fx-size", qt_settings.chat_fwidth);
   s.setValue("Chat-fy-size", qt_settings.chat_fheight);
   s.setValue("Chat-fx-pos", qt_settings.chat_fx_pos);
