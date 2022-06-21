@@ -1444,8 +1444,6 @@ static void end_phase(void)
 **************************************************************************/
 static void end_turn(void)
 {
-  int food = 0, shields = 0, trade = 0, settlers = 0;
-
   log_debug("Endturn");
 
   /* Hack: because observer players never get an end-phase packet we send
@@ -1460,27 +1458,37 @@ static void end_turn(void)
 
   map_calculate_borders();
 
-  /* Output some AI measurement information */
+#ifdef FREECIV_DEBUG
+  /* Output some AI measurement information
+   * log_debug() means that the values would never be used outside FREECIV_DEBUG
+   * build even if we calculated them. */
   players_iterate(pplayer) {
+    int food = 0, shields = 0, trade = 0, settlers = 0;
+
     if (!is_ai(pplayer) || is_barbarian(pplayer)) {
       continue;
     }
+
     unit_list_iterate(pplayer->units, punit) {
       if (unit_is_cityfounder(punit)) {
         settlers++;
       }
     } unit_list_iterate_end;
+
     city_list_iterate(pplayer->cities, pcity) {
       shields += pcity->prod[O_SHIELD];
       food += pcity->prod[O_FOOD];
       trade += pcity->prod[O_TRADE];
     } city_list_iterate_end;
+
     log_debug("%s T%d cities:%d pop:%d food:%d prod:%d "
               "trade:%d settlers:%d units:%d", player_name(pplayer),
               game.info.turn, city_list_size(pplayer->cities),
               total_player_citizens(pplayer), food, shields, trade,
               settlers, unit_list_size(pplayer->units));
+
   } players_iterate_end;
+#endif /* FREECIV_DEBUG */
 
   log_debug("Season of native unrests");
   summon_barbarians(); /* wild guess really, no idea where to put it, but
