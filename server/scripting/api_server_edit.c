@@ -84,7 +84,7 @@ Unit *api_edit_create_unit(lua_State *L, Player *pplayer, Tile *ptile,
                            City *homecity, int moves_left)
 {
   return api_edit_create_unit_full(L, pplayer, ptile, ptype, veteran_level,
-                                      homecity, moves_left, -1, NULL);
+                                   homecity, moves_left, -1, NULL);
 }
 
 /*****************************************************************************
@@ -108,6 +108,12 @@ Unit *api_edit_create_unit_full(lua_State *L, Player *pplayer, Tile *ptile,
 
   if (ptype == NULL
       || ptype < unit_type_array_first() || ptype > unit_type_array_last()) {
+    return NULL;
+  }
+
+  if (utype_player_already_has_this_unique(pplayer, ptype)) {
+    luascript_log(fcl, LOG_ERROR,
+                  "create_unit_full: player already has unique unit");
     return NULL;
   }
 
