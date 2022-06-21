@@ -50,7 +50,7 @@ static const struct unit_type *animal_for_terrain(struct terrain *pterr)
 /************************************************************************//**
   Try to add one animal to the map.
 ****************************************************************************/
-static void place_animal(struct player *plr)
+static void place_animal(struct player *plr, int sqrdist)
 {
   struct tile *ptile = rand_map_pos(&(wld.map));
   const struct unit_type *ptype;
@@ -63,15 +63,17 @@ static void place_animal(struct player *plr)
     }
   } extra_type_by_rmcause_iterate_end;
 
-  if (unit_list_size(ptile->units) > 0 || tile_city(ptile)) {
+  if (unit_list_size(ptile->units) > 0) {
+    /* Below we check against enemy units nearby. Here we make sure
+     * there's no multiple animals in the very same tile. */
     return;
   }
-  adjc_iterate(&(wld.map), ptile, padj) {
-    if (unit_list_size(padj->units) > 0 || tile_city(padj)) {
-      /* No animals next to start units or start city */
+
+  circle_iterate(&(wld.map), ptile, sqrdist, check) {
+    if (tile_city(check) || is_non_allied_unit_tile(check, plr)) {
       return;
     }
-  } adjc_iterate_end;
+  } circle_iterate_end;
 
   ptype = animal_for_terrain(tile_terrain(ptile));
 
@@ -150,7 +152,9 @@ void create_animals(void)
    * about invalid team. */
   send_research_info(presearch, NULL);
 
-  for (i = 0; i < wld.map.xsize * wld.map.ysize * wld.map.server.animals / 1000; i++) {
-    place_animal(plr);
+  for (i = 0;
+       i < wld.map.xsize * wld.map.ysize * wld.map.server.animals / 1000;
+       i++) {
+    place_animal(plr, 2 * 2 + 1 * 1);
   }
 }
