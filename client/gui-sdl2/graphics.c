@@ -1392,6 +1392,7 @@ SDL_Rect get_smaller_surface_rect(SDL_Surface *pSurface)
   int w, h, x, y;
   Uint16 minX, maxX, minY, maxY;
   Uint32 colorkey;
+  Uint32 mask;
 
   fc_assert(pSurface != NULL);
 
@@ -1399,7 +1400,14 @@ SDL_Rect get_smaller_surface_rect(SDL_Surface *pSurface)
   maxX = 0;
   minY = pSurface->h;
   maxY = 0;
-  SDL_GetColorKey(pSurface, &colorkey);
+
+  if (SDL_GetColorKey(pSurface, &colorkey) < 0) {
+    /* Use alpha instead of colorkey */
+    mask = pSurface->format->Amask;
+    colorkey = 0;
+  } else {
+    mask = 0xffffffff;
+  }
 
   lock_surf(pSurface);
 
@@ -1605,7 +1613,7 @@ SDL_Rect get_smaller_surface_rect(SDL_Surface *pSurface)
       h = pSurface->h;
       while (h--) {
         do {
-          if (*pixel != colorkey) {
+          if (((*pixel) & mask) != colorkey) {
             if (minY > y) {
               minY = y;
             }
@@ -1633,7 +1641,7 @@ SDL_Rect get_smaller_surface_rect(SDL_Surface *pSurface)
       start = pixel;
       while (h--) {
         do {
-          if (*pixel != colorkey) {
+          if (((*pixel) & mask) != colorkey) {
             if (maxY < y) {
               maxY = y;
             }

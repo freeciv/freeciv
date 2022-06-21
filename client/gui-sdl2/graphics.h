@@ -304,7 +304,7 @@ SDL_Surface *ResizeSurfaceBox(const SDL_Surface *pSrc,
                               bool scale_up, bool absolute_dimensions);
 
 SDL_Surface *crop_visible_part_from_surface(SDL_Surface *pSrc);
-SDL_Rect get_smaller_surface_rect(SDL_Surface *pSrc);
+SDL_Rect get_smaller_surface_rect(SDL_Surface *pSurface);
 
 #define map_rgba(format, color) \
   SDL_MapRGBA(format, (color).r, (color).g, (color).b, (color).a)
