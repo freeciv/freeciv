@@ -2119,7 +2119,11 @@ struct unit *unit_change_owner(struct unit *punit, struct player *pplayer,
 
   /* Be sure to wipe the converted unit! */
   /* Old homecity upkeep is updated in process */
-  uco_wipe: wipe_unit(punit, reason, NULL);
+#ifndef FREECIV_NDEBUG
+  uco_wipe:
+#endif
+
+  wipe_unit(punit, reason, NULL);
 
   if (!unit_is_alive(id)) {
     /* Destroyed by a script */
