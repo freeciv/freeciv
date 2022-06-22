@@ -997,7 +997,7 @@ void reset_unit_table(void)
   /* Unreference all of the widgets that we're about to reallocate, thus
    * avoiding a memory leak. Remove them from the container first, just
    * to be safe. Note, the widgets are ref'd in
-   * populatate_unit_image_table. */
+   * populate_unit_image_table. */
   free_unit_table();
 
   populate_unit_image_table();
