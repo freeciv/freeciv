@@ -41,7 +41,7 @@ gtk3.22-installer:
 	make -f Makefile.meson GUI=gtk3.22 CLIENT=gtk3.22 FCMP=gtk3 installer-common
 
 sdl2-installer:
-	make -f Makefile.meson GUI=sdl2 CLIENT=sdl2 FCMP=gtk3 installer-common
+	make -f Makefile.meson GUI=sdl2 CLIENT=sdl2 FCMP=gtk4 installer-common
 
 installer-common: clean-install-common install-freeciv-$(GUI) install-env-$(GUI)
 	# extract Freeciv version
@@ -122,6 +122,8 @@ COMMON_DLLS := \
 	libssl-1_1${CRYPTOLIB_SUFFIX}.dll \
 	libreadline8.dll \
 	libtermcap-0.dll \
+	libharfbuzz-0.dll \
+	libgraphite2.dll \
 	$(SOUND_DLLS)
 
 install-env-common:
@@ -134,10 +136,8 @@ FCMP_GTK3_DLLS := \
 	libgdk-3-0.dll \
 	libgtk-3-0.dll \
 	libepoxy-0.dll \
-	libharfbuzz-0.dll \
 	libpangoft2-1.0-0.dll \
 	libthai-0.dll \
-	libgraphite2.dll \
 	libdatrie-1.dll \
 	libunistring-2.dll
 
@@ -157,6 +157,25 @@ install-env-gtk3-fcmp: install-env-common
 	cp -R /$(ARCHDIR)/share/locale meson-install-$(GUI)/share/
 	find meson-install-$(GUI)/share/locale -type f -not -name "freeciv-*.mo" -and -not -name gtk30.mo -delete
 
+FCMP_GTK4_DLLS := \
+	libgtk-4-1.dll \
+	libgraphene-1.0-0.dll \
+	libcairo-script-interpreter-2.dll \
+	libepoxy-0.dll \
+	libpangoft2-1.0-0.dll \
+	liblzo2-2.dll \
+	libthai-0.dll \
+	libdatrie-1.dll
+
+install-env-gtk4-fcmp: install-env-common
+	cp -R $(addprefix $(DLLPATH_PREFIX), $(FCMP_GTK4_DLLS)) meson-install-$(GUI)/
+	# add additional GTK4 files
+	cp /$(ARCHDIR)/bin/gdbus.exe meson-install-$(GUI)/
+	mkdir -p meson-install-$(GUI)/lib/gdk-pixbuf-2.0/
+	cp -R /$(ARCHDIR)/lib/gdk-pixbuf-2.0/* meson-install-$(GUI)/lib/gdk-pixbuf-2.0/
+	cp -R /$(ARCHDIR)/share/locale meson-install-$(GUI)/share/
+	find meson-install-$(GUI)/share/locale -type f -not -name "freeciv-*.mo" -and -not -name gtk40.mo -delete
+
 install-freeciv-gtk3.22: install-freeciv-common
 
 install-freeciv-sdl2: install-freeciv-common
@@ -172,9 +191,10 @@ SDL2_DLLS := \
 	libwebp-7.dll \
 	libdeflate.dll \
 	libjbig-0.dll \
-	libLerc.dll
+	libLerc.dll \
+	libunistring-2.dll
 
-install-env-sdl2: install-env-gtk3-fcmp
+install-env-sdl2: install-env-gtk4-fcmp
 	# add DLLs
 	cp -R $(addprefix $(DLLPATH_PREFIX), $(SDL2_DLLS)) meson-install-$(GUI)/
 
