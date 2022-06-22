@@ -886,7 +886,7 @@ static GtkWidget *detached_widget_fill(GtkWidget *tearbox)
 }
 
 /**********************************************************************//**
-  Called to build the unit_below pixmap table.  This is the table on the
+  Called to build the unit_below pixmap table. This is the table on the
   left of the screen that shows all of the inactive units in the current
   tile.
 
@@ -897,10 +897,14 @@ static void populate_unit_image_table(void)
   int i, width;
   GtkWidget *table = unit_image_table;
   GdkPixbuf *pix;
+  int ttw;
 
-  /* get width of the overview window */
-  width = (overview_canvas_store_width > GUI_GTK_OVERVIEW_MIN_XSIZE) ? overview_canvas_store_width
-                                               : GUI_GTK_OVERVIEW_MIN_XSIZE;
+  /* Get width of the overview window */
+  width = (overview_canvas_store_width > GUI_GTK_OVERVIEW_MIN_XSIZE)
+    ? overview_canvas_store_width
+    : GUI_GTK_OVERVIEW_MIN_XSIZE;
+
+  ttw = tileset_tile_width(tileset);
 
   if (GUI_GTK_OPTION(small_display_layout)) {
     /* We want arrow to appear if there is other units in addition
@@ -908,7 +912,7 @@ static void populate_unit_image_table(void)
        can be 0 other units to not to display arrow. */
     num_units_below = 1 - 1;
   } else {
-    num_units_below = width / (int) tileset_tile_width(tileset);
+    num_units_below = width / ttw;
     num_units_below = CLIP(1, num_units_below, MAX_NUM_UNITS_BELOW);
   }
 
@@ -917,7 +921,7 @@ static void populate_unit_image_table(void)
    * in reset_unit_table. */
   unit_image = gtk_image_new();
   g_object_ref(unit_image);
-  gtk_widget_set_size_request(unit_image, tileset_tile_width(tileset), -1);
+  gtk_widget_set_size_request(unit_image, ttw, -1);
   gtk_grid_attach(GTK_GRID(table), unit_image, 0, 0, 1, 1);
   g_signal_connect(unit_image, "button_press_event",
                    G_CALLBACK(select_unit_image_callback),
@@ -928,8 +932,7 @@ static void populate_unit_image_table(void)
     for (i = 0; i < num_units_below; i++) {
       unit_below_image[i] = gtk_image_new();
       g_object_ref(unit_below_image[i]);
-      gtk_widget_set_size_request(unit_below_image[i],
-                                  tileset_tile_width(tileset), -1);
+      gtk_widget_set_size_request(unit_below_image[i], ttw, -1);
       g_signal_connect(unit_below_image[i],
                        "button_press_event",
                        G_CALLBACK(select_unit_image_callback),
@@ -940,7 +943,7 @@ static void populate_unit_image_table(void)
     }
   }
 
-  /* create arrow (popup for all units on the selected tile) */
+  /* Create arrow (popup for all units on the selected tile) */
   pix = sprite_get_pixbuf(get_arrow_sprite(tileset, ARROW_RIGHT));
   more_arrow_pixmap = gtk_image_new_from_pixbuf(pix);
   g_object_ref(more_arrow_pixmap);
@@ -962,11 +965,11 @@ static void populate_unit_image_table(void)
   if (!GUI_GTK_OPTION(small_display_layout)) {
     /* Display on bottom row. */
     gtk_grid_attach(GTK_GRID(table), more_arrow_pixmap_container,
-                    MAX_NUM_UNITS_BELOW, 1, 1, 1);
+                    num_units_below, 1, 1, 1);
   } else {
     /* Display on top row (there is no bottom row). */
     gtk_grid_attach(GTK_GRID(table), more_arrow_pixmap_container,
-                    MAX_NUM_UNITS_BELOW, 0, 1, 1);
+                    1, 0, 1, 1);
   }
 
   gtk_widget_show(table);
