@@ -114,7 +114,6 @@ pub_headers = [
   'libintl.h',
   'inttypes.h',
   'stdint.h',
-  'ws2tcpip.h',
   'sys/types.h',
   'unistd.h',
   'sys/time.h',
@@ -169,6 +168,14 @@ foreach hdr : pub_headers
     priv_conf_data.set('HAVE_' + hdr.underscorify().to_upper(), 1)
   endif
 endforeach
+
+if c_compiler.has_header('ws2tcpip.h', args: header_arg)
+  net_incl = '''#include <ws2tcpip.h>'''
+  pub_conf_data.set('FREECIV_HAVE_WS2TCPIP_H', 1)
+  priv_conf_data.set('HAVE_WS2TCPIP_H', 1)
+else
+  net_incl = ''
+endif
 
 foreach hdr : priv_headers
   if c_compiler.has_header(hdr, args: header_arg)
@@ -259,6 +266,13 @@ endif
 if c_compiler.has_function('getaddrinfo', dependencies: net_dep)
   priv_conf_data.set('HAVE_GETADDRINFO', 1)
   pub_conf_data.set('FREECIV_IPV6_SUPPORT', 1)
+else
+  # Maybe it exist as a macro instead?
+  if c_compiler.compiles(net_incl + '''
+int main(void) { getaddrinfo(NULL, NULL, NULL, NULL); }''')
+    priv_conf_data.set('HAVE_GETADDRINFO', 1)
+    pub_conf_data.set('FREECIV_IPV6_SUPPORT', 1)
+  endif
 endif
 
 if c_compiler.has_header('libcharset.h', args: header_arg)
