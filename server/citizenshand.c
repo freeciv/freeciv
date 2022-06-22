@@ -33,7 +33,21 @@
 
 #include "citizenshand.h"
 
+#define LOG_CITIZENS_DEBUG
+
+#ifdef LOG_CITIZENS_DEBUG
 #define log_citizens log_debug
+#ifdef FREECIV_DEBUG
+#define LOG_CITIZENS
+#endif /* FREECIV_DEBUG      */
+#else  /* LOG_CITIZENS_DEBUG */
+#define log_citizens log_verbose
+#define LOG_CITIZENS
+#endif /* LOG_CITIZENS_DEBUG */
+
+#if !defined(FREECIV_NDEBUG) || defined(LOG_CITIZENS)
+#define LOG_OR_ASSERT_CITIZENS
+#endif
 
 /*************************************************************************//**
   Get the nationality of a unit built by the city and optionally the numbers
@@ -77,8 +91,11 @@ struct player
     citizens nationality = city_nations[selected].remain;
     citizens change = city_nations[selected].change;
     int idx = city_nations[selected].idx;
-    struct player *pplayer = player_slot_get_player(pslot);
     int diff; /* Number of citizens sent out on this iteration */
+
+#ifndef FREECIV_NDEBUG
+    struct player *pplayer = player_slot_get_player(pslot);
+#endif
 
     fc_assert_ret_val(nationality != 0, NULL);
     fc_assert_ret_val(pplayer != NULL, NULL);
@@ -156,14 +173,17 @@ struct player
 void citizens_reduction_apply(struct city *pcity,
                               const struct citizens_reduction *pchange)
 {
-  struct player *pplayer;
+#ifdef LOG_CITIZENS
+  struct player *pplayer = city_owner(pcity);
+#endif
+
   fc_assert_ret(pcity);
   fc_assert_ret(pchange);
-  pplayer = city_owner(pcity);
 
   if (!pcity->nationality) {
     return;
   }
+
   while (pchange->change) {
     int pres = citizens_nation_get(pcity, pchange->pslot);
     int diff = -MIN(pres, pchange->change);
@@ -230,8 +250,10 @@ void citizens_update(struct city *pcity, struct player *plr)
     while (count > 0 && delta < 0) {
       int selected = fc_rand(count);
       struct player_slot *pslot = city_nations[selected];
-      struct player *pplayer = player_slot_get_player(pslot);
       citizens nationality = citizens_nation_get(pcity, pslot);
+#ifdef LOG_OR_ASSERT_CITIZENS
+      struct player *pplayer = player_slot_get_player(pslot);
+#endif /* LOG_OR_ASSERT_CITIZENS */
 
       fc_assert_ret(nationality != 0);
       fc_assert_ret(pplayer != NULL);
@@ -251,6 +273,7 @@ void citizens_update(struct city *pcity, struct player *plr)
         /* Get the minimal reduction = the maximum value of two negative
          * numbers. */
         int diff = MAX(delta, - nationality / 2);
+
         delta -= diff;
         citizens_nation_add(pcity, pslot, diff);
         log_citizens_add(pcity, diff, pplayer);
@@ -288,6 +311,7 @@ void citizens_print(const struct city *pcity)
                city_name_get(pcity), city_size_get(pcity),
                player_name(city_owner(pcity)), citizens_count(pcity));
 
+#ifdef LOG_OR_ASSERT_CITIZENS
   citizens_iterate(pcity, pslot, nationality) {
     struct player *pplayer = player_slot_get_player(pslot);
 
@@ -298,6 +322,7 @@ void citizens_print(const struct city *pcity)
                  player_name(city_owner(pcity)), nationality,
                  player_name(pplayer));
   } citizens_iterate_end;
+#endif /* LOG_OR_ASSERT_CITIZENS */
 }
 
 /*************************************************************************//**
@@ -318,7 +343,6 @@ static bool citizen_convert_check(struct city *pcity)
 void citizens_convert(struct city *pcity)
 {
   struct player_slot *city_nations[MAX_CITY_NATIONALITIES + 1], *pslot;
-  struct player *pplayer;
   int count = 0;
 
   fc_assert_ret(pcity);
@@ -345,13 +369,17 @@ void citizens_convert(struct city *pcity)
 
   /* Now convert one citizens to the city owners nationality. */
   pslot = city_nations[fc_rand(count)];
-  pplayer = player_slot_get_player(pslot);
+
+#ifdef LOG_CITIZENS
+  struct player *pplayer = player_slot_get_player(pslot);
+#endif
 
   fc_assert_ret(pplayer != NULL);
 
   log_citizens("%s (size %d; %s): convert 1 citizen from %s",
                city_name_get(pcity), city_size_get(pcity),
                player_name(city_owner(pcity)), player_name(pplayer));
+
   citizens_nation_move(pcity, pslot, city_owner(pcity)->slot, 1);
 }
 
@@ -373,7 +401,10 @@ void citizens_convert_conquest(struct city *pcity)
      * nationality to the nation of the new owner (but at least 1). */
     citizens convert = MAX(1, nat * game.info.conquest_convert_pct
                            / 100);
+
+#ifdef LOG_CITIZENS
     struct player *pplayer = player_slot_get_player(pslot);
+#endif
 
     fc_assert_ret(pplayer != NULL);
 

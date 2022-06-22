@@ -2184,7 +2184,10 @@ struct unit *unit_change_owner(struct unit *punit, struct player *pplayer,
 {
   struct unit *gained_unit;
   int id = 0;
+
+#ifndef FREECIV_NDEBUG
   bool placed;
+#endif
 
   fc_assert(!utype_player_already_has_this_unique(pplayer,
                                                   unit_type_get(punit)));
@@ -2205,20 +2208,29 @@ struct unit *unit_change_owner(struct unit *punit, struct player *pplayer,
   gained_unit->server.birth_turn = punit->server.birth_turn;
 
   /* Fog is lifted in the placing algorithm. */
-  placed = place_unit(gained_unit, pplayer,
-                      homecity ? game_city_by_number(homecity) : NULL,
-                      NULL, FALSE);
+#ifndef FREECIV_NDEBUG
+  placed =
+#endif
+    place_unit(gained_unit, pplayer,
+               homecity ? game_city_by_number(homecity) : NULL,
+               NULL, FALSE);
+
   fc_assert_action(placed, unit_virtual_destroy(gained_unit); goto uco_wipe);
+
   id = gained_unit->id;
 
-  /* update unit upkeep in the new homecity */
+  /* Update unit upkeep in the new homecity */
   if (homecity > 0) {
     city_units_upkeep(game_city_by_number(homecity));
   }
 
   /* Be sure to wipe the converted unit! */
   /* Old homecity upkeep is updated in process */
-  uco_wipe: wipe_unit(punit, reason, NULL);
+#ifndef FREECIV_NDEBUG
+  uco_wipe:
+#endif
+
+  wipe_unit(punit, reason, NULL);
 
   if (!unit_is_alive(id)) {
     /* Destroyed by a script */
