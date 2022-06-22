@@ -799,7 +799,7 @@ static GtkWidget *detached_widget_fill(GtkWidget *tearbox)
 }
 
 /**************************************************************************
-  Called to build the unit_below pixmap table.  This is the table on the
+  Called to build the unit_below pixmap table. This is the table on the
   left of the screen that shows all of the inactive units in the current
   tile.
 
@@ -810,9 +810,10 @@ static void populate_unit_pixmap_table(void)
   int i, width;
   GtkWidget *table = unit_pixmap_table;
 
-  /* get width of the overview window */
-  width = (overview_canvas_store_width > GUI_GTK_OVERVIEW_MIN_XSIZE) ? overview_canvas_store_width
-                                               : GUI_GTK_OVERVIEW_MIN_XSIZE;
+  /* Get width of the overview window */
+  width = (overview_canvas_store_width > GUI_GTK_OVERVIEW_MIN_XSIZE)
+    ? overview_canvas_store_width
+    : GUI_GTK_OVERVIEW_MIN_XSIZE;
 
   if (gui_options.gui_gtk2_small_display_layout) {
     /* We want arrow to appear if there is other units in addition
@@ -824,12 +825,13 @@ static void populate_unit_pixmap_table(void)
     num_units_below = CLIP(1, num_units_below, MAX_NUM_UNITS_BELOW);
   }
 
-  gtk_table_resize(GTK_TABLE(table), 2, MAX(1,num_units_below));
+  gtk_table_resize(GTK_TABLE(table), 2, MAX(1, num_units_below));
 
   /* Top row: the active unit. */
   /* Note, we ref this and other widgets here so that we can unref them
    * in reset_unit_table. */
-  unit_pixmap = gtk_pixcomm_new(tileset_unit_width(tileset), tileset_unit_height(tileset));
+  unit_pixmap = gtk_pixcomm_new(tileset_unit_width(tileset),
+                                tileset_unit_height(tileset));
   g_object_ref(unit_pixmap);
   gtk_pixcomm_clear(GTK_PIXCOMM(unit_pixmap));
   unit_pixmap_button = gtk_event_box_new();
@@ -837,8 +839,8 @@ static void populate_unit_pixmap_table(void)
   gtk_container_add(GTK_CONTAINER(unit_pixmap_button), unit_pixmap);
   gtk_table_attach_defaults(GTK_TABLE(table), unit_pixmap_button, 0, 1, 0, 1);
   g_signal_connect(unit_pixmap_button, "button_press_event",
-		   G_CALLBACK(select_unit_pixmap_callback), 
-		   GINT_TO_POINTER(-1));
+                   G_CALLBACK(select_unit_pixmap_callback),
+                   GINT_TO_POINTER(-1));
 
   if (!gui_options.gui_gtk2_small_display_layout) {
     /* Bottom row: other units in the same tile. */
@@ -861,7 +863,7 @@ static void populate_unit_pixmap_table(void)
     }
   }
 
-  /* create arrow (popup for all units on the selected tile) */
+  /* Create arrow (popup for all units on the selected tile) */
   {
     GdkPixbuf *more_arrow = 
       sprite_get_pixbuf(get_arrow_sprite(tileset, ARROW_RIGHT));
@@ -890,11 +892,11 @@ static void populate_unit_pixmap_table(void)
   if (!gui_options.gui_gtk2_small_display_layout) {
     /* Display on bottom row. */
     gtk_table_attach_defaults(GTK_TABLE(table), more_arrow_pixmap_container,
-                              MAX_NUM_UNITS_BELOW, MAX_NUM_UNITS_BELOW+1, 1, 2);
+                              num_units_below, num_units_below + 1, 1, 2);
   } else {
     /* Display on top row (there is no bottom row). */
     gtk_table_attach_defaults(GTK_TABLE(table), more_arrow_pixmap_container,
-                              MAX_NUM_UNITS_BELOW, MAX_NUM_UNITS_BELOW+1, 0, 1);
+                              1, 1 + 1, 0, 1);
   }
 
   gtk_widget_show_all(table);
@@ -1822,7 +1824,7 @@ void real_focus_units_changed(void)
  these are the units on the same tile as the focus unit.
 **************************************************************************/
 static gboolean select_unit_pixmap_callback(GtkWidget *w, GdkEvent *ev, 
-                                        gpointer data) 
+                                            gpointer data)
 {
   int i = GPOINTER_TO_INT(data);
   struct unit *punit;
