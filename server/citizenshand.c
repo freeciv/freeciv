@@ -370,7 +370,7 @@ void citizens_convert(struct city *pcity)
   /* Now convert one citizens to the city owners nationality. */
   pslot = city_nations[fc_rand(count)];
 
-#ifdef LOG_CITIZENS
+#ifdef LOG_OR_ASSERT_CITIZENS
   struct player *pplayer = player_slot_get_player(pslot);
 #endif
 
@@ -402,7 +402,7 @@ void citizens_convert_conquest(struct city *pcity)
     citizens convert = MAX(1, nat * game.info.conquest_convert_pct
                            / 100);
 
-#ifdef LOG_CITIZENS
+#ifdef LOG_OR_ASSERT_CITIZENS
     struct player *pplayer = player_slot_get_player(pslot);
 #endif
 
