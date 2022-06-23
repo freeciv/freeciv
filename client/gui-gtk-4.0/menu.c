@@ -228,7 +228,16 @@ static void report_research_callback(GtkMenuItem *item, gpointer data);
 static void multiplier_callback(GtkMenuItem *item, gpointer data);
 static void report_spaceship_callback(GtkMenuItem *item, gpointer data);
 static void report_achievements_callback(GtkMenuItem *item, gpointer data);
-static void government_callback(GtkMenuItem *item, gpointer data);
+#endif /* MENUS_GTK3 */
+
+static void government_callback(GSimpleAction *action,
+                                GVariant *parameter,
+                                gpointer data);
+static void revolution_callback(GSimpleAction *action,
+                                GVariant *parameter,
+                                gpointer data);
+
+#ifdef MENUS_GTK3
 static void tax_rate_callback(GtkMenuItem *item, gpointer data);
 static void select_single_callback(GtkMenuItem *item, gpointer data);
 static void select_all_on_tile_callback(GtkMenuItem *item, gpointer data);
@@ -300,6 +309,12 @@ static struct menu_entry_info menu_entries[] =
   /* Work menu */
   { "BUILD_CITY", N_("_Build City"),
     "app.build_city", "b", MGROUP_UNIT },
+
+
+  /* Civilization */
+
+  { "START_REVOLUTION", N_("_Revolution..."),
+    "app.revolution", "<shift><ctrl>r", MGROUP_PLAYING },
 
 #ifdef MENUS_GTK3
   { "MENU_GAME", N_("_Game"), 0, 0, NULL, MGROUP_SAFE },
@@ -582,9 +597,7 @@ static struct menu_entry_info menu_entries[] =
     NULL, MGROUP_PLAYING },
   { "TAX_RATE", N_("_Tax Rates..."), GDK_KEY_t, GDK_CONTROL_MASK,
     G_CALLBACK(tax_rate_callback), MGROUP_PLAYING },
-  { "START_REVOLUTION", N_("_Revolution..."),
-    GDK_KEY_r, GDK_SHIFT_MASK | GDK_CONTROL_MASK,
-    G_CALLBACK(government_callback), MGROUP_PLAYING },
+
 #endif /* MENUS_GTK3 */
 
   { NULL }
@@ -599,7 +612,9 @@ const GActionEntry acts[] = {
   { "leave", leave_callback },
   { "quit", quit_callback },
 
-  { "build_city", build_city_callback }
+  { "build_city", build_city_callback },
+
+  { "revolution", revolution_callback }
 };
 
 static struct menu_entry_info *menu_entry_info_find(const char *key);
@@ -1874,15 +1889,29 @@ static void multiplier_callback(GtkMenuItem *action, gpointer data)
 {
   popup_multiplier_dialog();
 }
+#endif /* MENUS_GTK3 */
 
 /************************************************************************//**
   The player has chosen a government from the menu.
 ****************************************************************************/
-static void government_callback(GtkMenuItem *item, gpointer data)
+static void government_callback(GSimpleAction *action,
+                                GVariant *parameter,
+                                gpointer data)
 {
   popup_revolution_dialog((struct government *) data);
 }
 
+/************************************************************************//**
+  The player has chosen targetless revolution from the menu.
+****************************************************************************/
+static void revolution_callback(GSimpleAction *action,
+                                GVariant *parameter,
+                                gpointer data)
+{
+  popup_revolution_dialog(NULL);
+}
+
+#ifdef MENUS_GTK3
 /************************************************************************//**
   The player has chosen a base to build from the menu.
 ****************************************************************************/
@@ -1992,6 +2021,7 @@ GMenu *setup_menus(GtkApplication *app)
   GMenu *topmenu;
   GMenu *submenu;
   int i;
+  GApplication *fc_app = G_APPLICATION(app);
 
   fc_assert(!menus_built);
 
@@ -2015,6 +2045,37 @@ GMenu *setup_menus(GtkApplication *app)
   menu_entry_init(topmenu, "BUILD_CITY");
 
   g_menu_append_submenu(menubar, _("_Work"), G_MENU_MODEL(topmenu));
+
+  topmenu = g_menu_new();
+
+  submenu = g_menu_new();
+  menu_entry_init(submenu, "START_REVOLUTION");
+  governments_iterate(g) {
+    if (g != game.government_during_revolution) {
+      GMenuItem *item;
+      char name[256];
+      char actname[256];
+      GSimpleAction *act;
+      const char *grname = government_rule_name(g);
+
+      fc_snprintf(actname, sizeof(actname), "government_%s", grname);
+      act = g_simple_action_new(actname, NULL);
+      g_simple_action_set_enabled(act, can_change_to_government(client_player(), g));
+      g_action_map_add_action(G_ACTION_MAP(fc_app), G_ACTION(act));
+      g_signal_connect(act, "activate", G_CALLBACK(government_callback), g);
+
+      /* TRANS: %s is a government name */
+      fc_snprintf(name, sizeof(name), _("%s..."),
+                  government_name_translation(g));
+      fc_snprintf(actname, sizeof(actname), "app.government_%s",
+                  grname);
+      item = g_menu_item_new(name, actname);
+      g_menu_append_item(submenu, item);
+    }
+  } governments_iterate_end;
+  g_menu_append_submenu(topmenu, _("_Government"), G_MENU_MODEL(submenu));
+
+  g_menu_append_submenu(menubar, _("C_ivilization"), G_MENU_MODEL(topmenu));
 
 #ifndef FREECIV_DEBUG
   menu_entry_set_visible("RELOAD_TILESET", FALSE, FALSE);
