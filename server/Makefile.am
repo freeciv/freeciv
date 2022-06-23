@@ -110,6 +110,8 @@ libfreeciv_srv_la_SOURCES = \
 		srv_log.h	\
 		srv_main.c	\
 		srv_main.h	\
+		srv_signal.c	\
+		srv_signal.h	\
 		stdinhand.c	\
 		stdinhand.h	\
 		techtools.h	\
