@@ -692,6 +692,12 @@ void fc_client::read_settings()
   if (s.contains("help_splitter1")) {
     qt_settings.help_splitter1 = s.value("help_splitter1").toByteArray();
   }
+  if (s.contains("opt-client-dialog")) {
+    qt_settings.options_client_geometry = s.value("opt-client-dialog").toByteArray();
+  }
+  if (s.contains("opt-server-dialog")) {
+    qt_settings.options_server_geometry = s.value("opt-server-dialog").toByteArray();
+  }
   if (s.contains("new_turn_text")) {
     qt_settings.show_new_turn_text = s.value("new_turn_text").toBool();
   } else {
@@ -765,6 +771,8 @@ void fc_client::write_settings()
   s.setValue("splitter3", qt_settings.city_splitter3);
   s.setValue("help-dialog", qt_settings.help_geometry);
   s.setValue("help_splitter1", qt_settings.help_splitter1);
+  s.setValue("opt-client-dialog", qt_settings.options_client_geometry);
+  s.setValue("opt-server-dialog", qt_settings.options_server_geometry);
   s.setValue("unit_fx", qt_settings.unit_info_pos_fx);
   s.setValue("unit_fy", qt_settings.unit_info_pos_fy);
   s.setValue("minimap_x", qt_settings.minimap_x);
@@ -835,7 +843,7 @@ void fc_client::remove_repo_dlg(QString str)
 ****************************************************************************/
 void fc_client::popup_client_options()
 {
-  option_dialog_popup(_("Set local options"), client_optset);
+  option_dialog_popup(_("Set local options"), client_optset, true);
 }
 
 /************************************************************************//**
@@ -1304,5 +1312,5 @@ void pregame_options::pick_nation()
 ****************************************************************************/
 void pregame_options::popup_server_options()
 {
-  option_dialog_popup(_("Set server options"), server_optset);
+  option_dialog_popup(_("Set server options"), server_optset, false);
 }

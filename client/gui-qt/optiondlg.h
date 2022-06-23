@@ -35,7 +35,8 @@ class QString;
 QString split_text(QString text, bool cut);
 QString cut_helptext(QString text);
 
-void option_dialog_popup(QString name, const struct option_set *poptset);
+void option_dialog_popup(QString name, const struct option_set *poptset,
+                         bool client);
 
 /****************************************************************************
   Dialog for client/server options
@@ -43,15 +44,15 @@ void option_dialog_popup(QString name, const struct option_set *poptset);
 class option_dialog : public qfc_dialog
 {
   Q_OBJECT
-  QVBoxLayout * main_layout;
+  QVBoxLayout *main_layout;
   QTabWidget *tab_widget;
   QDialogButtonBox *button_box;
   QList <QString> categories;
   QMap <QString, QWidget *> widget_map;
 
 public:
-   option_dialog(const QString &name, const option_set *options,
-                 QWidget *parent = 0);
+  option_dialog(const QString &name, const option_set *options, bool client_set,
+                QWidget *parent = nullptr);
   ~option_dialog();
   void fill(const struct option_set *poptset);
   void add_option(struct option *poption);
@@ -59,7 +60,9 @@ public:
   void option_dialog_reset(struct option *poption);
   void full_refresh();
   void apply_options();
+
 private:
+  bool client_settings; // As opposed to server ones
   const option_set *curr_options;
   void set_bool(struct option *poption, bool value);
   void set_int(struct option *poption, int value);
@@ -78,6 +81,12 @@ private:
   struct option* get_color_option();
   unsigned get_bitwise(struct option *poption);
   void full_reset();
+
+protected:
+  void showEvent(QShowEvent *event);
+  void hideEvent(QHideEvent *event);
+  void closeEvent(QCloseEvent *event);
+
 private slots:
   void apply_option(int response);
   void set_color();
