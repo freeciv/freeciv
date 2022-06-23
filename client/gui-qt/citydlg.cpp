@@ -60,7 +60,7 @@
 #include "text.h"
 #include "tilespec.h"
 
-//gui-qt
+// gui-qt
 #include "citydlg.h"
 #include "colors.h"
 #include "fc_client.h"
@@ -3811,6 +3811,7 @@ bool fc_tooltip::eventFilter(QObject *obj, QEvent *ev)
     help_event = static_cast<QHelpEvent *>(ev);
     QPoint pos = help_event->pos();
     QModelIndex index = view->indexAt(pos);
+    QPoint hpos;
 
     if (!index.isValid()) {
       return false;
@@ -3818,8 +3819,11 @@ bool fc_tooltip::eventFilter(QObject *obj, QEvent *ev)
 
     item_tooltip = view->model()->data(index, Qt::ToolTipRole).toString();
     rect = view->visualRect(index);
-    rect.setX(rect.x() + help_event->globalPos().x());
-    rect.setY(rect.y() + help_event->globalPos().y());
+
+    hpos = help_event->globalPos();
+
+    rect.setX(rect.x() + hpos.x());
+    rect.setY(rect.y() + hpos.y());
 
     if (!item_tooltip.isEmpty()) {
       QToolTip::showText(help_event->globalPos(), item_tooltip, view, rect);

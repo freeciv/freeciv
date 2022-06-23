@@ -17,4 +17,12 @@
 void popup_quit_dialog();
 QApplication *current_app();
 
+// Compatibility layer between Qt5 and Qt6 while we support
+// also the former.
+#ifndef FC_QT5_MODE
+#define mevent_gpos(__ev__) (__ev__)->globalPosition().toPoint()
+#else  // FC_QT5_MODE
+#define mevent_gpos(__ev__) (__ev__)->globalPos()
+#endif // FC_QT5_MODE
+
 #endif // FC__GUI_MAIN_H
