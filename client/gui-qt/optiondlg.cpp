@@ -123,8 +123,9 @@ QString cut_helptext(QString text)
   Constructor for options dialog.
 ****************************************************************************/
 option_dialog::option_dialog(const QString &name,
-                             const option_set *options, QWidget *parent)
-  : qfc_dialog(parent)
+                             const option_set *options, bool client_set,
+                             QWidget *parent)
+  : qfc_dialog(parent), client_settings(client_set)
 {
   QPushButton *but;
 
@@ -767,7 +768,8 @@ void option_dialog::add_option(struct option *poption)
 /************************************************************************//**
   Popup the option dialog for the option set.
 ****************************************************************************/
-void option_dialog_popup(QString name, const struct option_set *poptset)
+void option_dialog_popup(QString name, const struct option_set *poptset,
+                         bool client_set)
 {
   option_dialog *opt_dialog;
 
@@ -775,7 +777,8 @@ void option_dialog_popup(QString name, const struct option_set *poptset)
     opt_dialog = dialog_list[poptset];
     opt_dialog->show();
   } else {
-    opt_dialog = new option_dialog(name, poptset, gui()->central_wdg);
+    opt_dialog = new option_dialog(name, poptset, client_set,
+                                   gui()->central_wdg);
     ::dialog_list.insert(poptset, opt_dialog);
     opt_dialog->show();
   }
@@ -854,6 +857,46 @@ void option_dialog::set_color()
       pal.setColor(QPalette::Button, color);
       but->setPalette(pal);
     }
+  }
+}
+
+/************************************************************************//**
+  Show event for options dialog
+****************************************************************************/
+void option_dialog::showEvent(QShowEvent *event)
+{
+  if (client_settings) {
+    if (!gui()->qt_settings.options_client_geometry.isNull()) {
+      restoreGeometry(gui()->qt_settings.options_client_geometry);
+    }
+  } else {
+    if (!gui()->qt_settings.options_server_geometry.isNull()) {
+      restoreGeometry(gui()->qt_settings.options_server_geometry);
+    }
+  }
+}
+
+/************************************************************************//**
+  Hide event for options dialog
+****************************************************************************/
+void option_dialog::hideEvent(QHideEvent *event)
+{
+  if (client_settings) {
+    gui()->qt_settings.options_client_geometry = saveGeometry();
+  } else {
+    gui()->qt_settings.options_server_geometry = saveGeometry();
+  }
+}
+
+/************************************************************************//**
+  Close event for options dialog
+****************************************************************************/
+void option_dialog::closeEvent(QCloseEvent *event)
+{
+  if (client_settings) {
+    gui()->qt_settings.options_client_geometry = saveGeometry();
+  } else {
+    gui()->qt_settings.options_server_geometry = saveGeometry();
   }
 }
 

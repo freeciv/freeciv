@@ -136,6 +136,8 @@ struct fc_settings
   QByteArray city_splitter3;
   QByteArray help_geometry;
   QByteArray help_splitter1;
+  QByteArray options_client_geometry;
+  QByteArray options_server_geometry;
   float unit_info_pos_fx;
   float unit_info_pos_fy;
   float minimap_x;
