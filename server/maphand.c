@@ -34,6 +34,7 @@
 #include "packets.h"
 #include "player.h"
 #include "road.h"
+#include "specialist.h"
 #include "unit.h"
 #include "unitlist.h"
 #include "vision.h"
@@ -973,8 +974,17 @@ void map_change_seen(struct player *pplayer,
 
   /* Fog the tile. */
   if (0 > change[V_MAIN] && 0 == plrtile->seen_count[V_MAIN]) {
+    struct city *pcity;
+
     log_debug("(%d, %d): fogging tile for player %s (nb %d).",
               TILE_XY(ptile), player_name(pplayer), player_number(pplayer));
+
+    pcity = ptile->worked;
+
+    if (pcity != NULL && city_owner(pcity) == pplayer) {
+      city_map_update_empty(pcity, ptile);
+      pcity->specialists[DEFAULT_SPECIALIST]++;
+    }
 
     update_player_tile_last_seen(pplayer, ptile);
     if (game.server.foggedborders) {
