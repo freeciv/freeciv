@@ -95,9 +95,17 @@ AC_DEFUN([FC_QT5_COMPILETEST],
      CXXFLAGS="${CXXFLAGS} -fPIC"
      AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[#include <QApplication>]],
 [[int a; QApplication app(a, 0);]])],
-      [qt5_headers=yes
-       FC_QT5_CPPFLAGS="${FC_QT5_CPPFLAGS}${CPPFADD}"
-       FC_QT5_CXXFLAGS="${FC_QT5_CXXFLAGS} -fPIC"])
+       [qt5_headers=yes
+        FC_QT5_CPPFLAGS="${FC_QT5_CPPFLAGS}${CPPFADD}"
+        FC_QT5_CXXFLAGS="${FC_QT5_CXXFLAGS} -fPIC"
+        dnl So, Qt requires -fPIC. At the same time it might conflict with -fPIE
+        dnl Try to disable pie (but even if that fails, we have -fPIC)
+        dnl Only add -no-pie if it works also with -Werror
+        CXXFLAGS="${CXXFLAGS} -no-pie -Werror"
+        AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[#include <QApplication>]],
+[[int a; QApplication app(a, 0);]])],
+          [FC_QT5_CXXFLAGS="${FC_QT5_CXXFLAGS} -no-pie"])
+       ])
      CXXFLAGS="${CXXFLAGS_SAVE}"])
 
   CPPFLAGS="$CPPFLAGS_SAVE"
