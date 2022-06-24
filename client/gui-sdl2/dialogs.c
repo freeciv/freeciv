@@ -3091,6 +3091,7 @@ void popup_races_dialog(struct player *pplayer)
     dst.y = (pTmp_Surf->h - len) / 2;
     alphablit(pTmp_Surf_zoomed, NULL, pTmp_Surf, &dst, 255);
     dst.y += (pTmp_Surf_zoomed->h + adj_size(10));
+    FREESURFACE(pTmp_Surf_zoomed);
 
     dst.x = (pTmp_Surf->w - pText_Name->w) / 2;
     alphablit(pText_Name, NULL, pTmp_Surf, &dst, 255);
