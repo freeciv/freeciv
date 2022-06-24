@@ -6,7 +6,7 @@ META_URL https://meta.freeciv.org/metaserver.php
 
 # We want default MODPACK_LIST_URL constructed compile time, so not giving
 # one here. This is just an example.
-# MODPACK_LIST_URL http://modpack.freeciv.org/3.2/modpack.list
+# MODPACK_LIST_URL https://modpack.freeciv.org/3.2/modpack.list
 
 # Where to store user files. Note that changing this after user has already stored
 # something to the old dir with older version of the project means that those

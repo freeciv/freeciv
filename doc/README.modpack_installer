@@ -126,7 +126,7 @@ modpacks, you need not read on.)
 To host modpacks, you just need a web server that can host plain static
 files; you do not need to run any custom code or frameworks on that web
 server, just to publish files with a specific layout, detailed below.
-(You can browse http://modpack.freeciv.org/ for some working examples of
+(You can browse https://modpack.freeciv.org/ for some working examples of
 modpack trees.)
 
 Unlike some previous versions, all the standard Windows Freeciv 3.1.x

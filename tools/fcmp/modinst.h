@@ -22,14 +22,14 @@ struct fcmp_params
 
 #if IS_DEVEL_VERSION && ! IS_FREEZE_VERSION
 #ifndef MODPACK_LIST_URL
-#define MODPACK_LIST_URL "http://files.freeciv.org/modinst/" DATASUBDIR "/modpack.list"
+#define MODPACK_LIST_URL "https://files.freeciv.org/modinst/" DATASUBDIR "/modpack.list"
 #endif
-#define DEFAULT_URL_START "http://files.freeciv.org/modinst/" DATASUBDIR "/"
+#define DEFAULT_URL_START "https://files.freeciv.org/modinst/" DATASUBDIR "/"
 #else  /* IS_DEVEL_VERSION */
 #ifndef MODPACK_LIST_URL
-#define MODPACK_LIST_URL  "http://modpack.freeciv.org/" DATASUBDIR "/modpack.list"
+#define MODPACK_LIST_URL  "https://modpack.freeciv.org/" DATASUBDIR "/modpack.list"
 #endif
-#define DEFAULT_URL_START "http://modpack.freeciv.org/" DATASUBDIR "/"
+#define DEFAULT_URL_START "https://modpack.freeciv.org/" DATASUBDIR "/"
 #endif /* IS_DEVEL_VERSION */
 
 #define EXAMPLE_URL DEFAULT_URL_START "ancients.modpack"
