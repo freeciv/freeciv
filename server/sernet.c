@@ -360,12 +360,15 @@ void flush_packets(void)
   (void) time(&start);
 
   for (;;) {
-    tv.tv_sec = (game.server.netwait - (time(NULL) - start));
-    tv.tv_usec = 0;
+    /* Can't assign to tv.tv_sec directly on systems where it's unsigned */
+    signed signsecs = (game.server.netwait - (time(NULL) - start));
 
-    if (tv.tv_sec < 0) {
+    if (signsecs < 0) {
       return;
     }
+
+    tv.tv_usec = 0;
+    tv.tv_sec = signsecs;
 
     FC_FD_ZERO(&writefs);
     FC_FD_ZERO(&exceptfs);
