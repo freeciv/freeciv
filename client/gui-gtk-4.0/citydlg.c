@@ -407,7 +407,7 @@ static void canvas_draw_cb(GtkDrawingArea *w, cairo_t *cr,
 
   cairo_scale(cr, CITYMAP_SCALE, CITYMAP_SCALE);
   cairo_set_source_surface(cr, pdialog->map_canvas_store_unscaled, 0, 0);
-  if (!gtk_widget_get_sensitive(pdialog->overview.map_canvas.darea)) {
+  if (cma_is_city_under_agent(pdialog->pcity, NULL)) {
     cairo_paint_with_alpha(cr, 0.5);
   } else {
     cairo_paint(cr);
@@ -1969,18 +1969,6 @@ static void city_dialog_update_map(struct city_dialog *pdialog)
 
   /* draw to real window */
   draw_map_canvas(pdialog);
-
-  if (cma_is_city_under_agent(pdialog->pcity, NULL)) {
-    gtk_widget_set_sensitive(pdialog->overview.map_canvas.darea, FALSE);
-    if (pdialog->happiness.map_canvas.darea) {
-      gtk_widget_set_sensitive(pdialog->happiness.map_canvas.darea, FALSE);
-    }
-  } else {
-    gtk_widget_set_sensitive(pdialog->overview.map_canvas.darea, TRUE);
-    if (pdialog->happiness.map_canvas.darea) {
-      gtk_widget_set_sensitive(pdialog->happiness.map_canvas.darea, TRUE);
-    }
-  }
 }
 
 /***********************************************************************//**
@@ -3132,6 +3120,10 @@ static gboolean left_button_down_citymap(GtkGestureClick *gesture, int n_press,
     return FALSE;
   }
 
+  if (cma_is_city_under_agent(pdialog->pcity, NULL)) {
+    return FALSE;
+  }
+
   canvas_x = x * (double)canvas_width / (double)CITYMAP_WIDTH;
   canvas_y = y * (double)canvas_height / (double)CITYMAP_HEIGHT;
 
@@ -3143,7 +3135,6 @@ static gboolean left_button_down_citymap(GtkGestureClick *gesture, int n_press,
 
   return TRUE;
 }
-
 
 /***********************************************************************//**
   User has pressed right button on citymap

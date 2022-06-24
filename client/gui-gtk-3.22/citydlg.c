@@ -401,7 +401,7 @@ static gboolean canvas_exposed_cb(GtkWidget *w, cairo_t *cr,
 
   cairo_scale(cr, CITYMAP_SCALE, CITYMAP_SCALE);
   cairo_set_source_surface(cr, pdialog->map_canvas_store_unscaled, 0, 0);
-  if (!gtk_widget_get_sensitive(pdialog->overview.map_canvas.ebox)) {
+  if (cma_is_city_under_agent(pdialog->pcity, NULL)) {
     cairo_paint_with_alpha(cr, 0.5);
   } else {
     cairo_paint(cr);
@@ -1505,7 +1505,7 @@ static void create_and_append_settings_page(struct city_dialog *pdialog)
 		   G_CALLBACK(rename_callback), pdialog);
 
   gtk_widget_set_sensitive(button, can_client_issue_orders());
-  
+
   /* the disband-city-on-unit-production button */
   button = gtk_check_button_new_with_mnemonic(_(disband_label));
   pdialog->misc.disband_on_settler = button;
@@ -1955,18 +1955,6 @@ static void city_dialog_update_map(struct city_dialog *pdialog)
 
   /* draw to real window */
   draw_map_canvas(pdialog);
-
-  if (cma_is_city_under_agent(pdialog->pcity, NULL)) {
-    gtk_widget_set_sensitive(pdialog->overview.map_canvas.ebox, FALSE);
-    if (pdialog->happiness.map_canvas.ebox) {
-      gtk_widget_set_sensitive(pdialog->happiness.map_canvas.ebox, FALSE);
-    }
-  } else {
-    gtk_widget_set_sensitive(pdialog->overview.map_canvas.ebox, TRUE);
-    if (pdialog->happiness.map_canvas.ebox) {
-      gtk_widget_set_sensitive(pdialog->happiness.map_canvas.ebox, TRUE);
-    }
-  }
 }
 
 /**********************************************************************//**
@@ -3037,6 +3025,10 @@ static gboolean button_down_citymap(GtkWidget *w, GdkEventButton *ev,
   int canvas_x, canvas_y, city_x, city_y;
 
   if (!can_client_issue_orders()) {
+    return FALSE;
+  }
+
+  if (ev->button == 1 && cma_is_city_under_agent(pdialog->pcity, NULL)) {
     return FALSE;
   }
 
