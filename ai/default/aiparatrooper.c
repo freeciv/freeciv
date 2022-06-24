@@ -414,16 +414,16 @@ void dai_choose_paratrooper(struct ai_type *ait,
       continue;
     }
 
-    /* assign tech for paratroopers */
+    /* Assign tech for paratroopers */
     tech_req = advance_index(u_type->require_advance);
     if (tech_req != A_NONE && tech_req != A_UNSET) {
       for (i = 0; i < num_requirements; i++) {
         if (requirements[i] == tech_req) {
-	  break;
-	}
+          break;
+        }
       }
       if (i == num_requirements) {
-        requirements[i++] = tech_req;
+        requirements[num_requirements++] = tech_req;
       }
     }
 
