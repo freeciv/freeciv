@@ -29,6 +29,7 @@
 
 // gui-qt
 #include "fc_client.h"
+
 #include "messagedlg.h"
 
 extern QApplication *qapp;
@@ -173,20 +174,21 @@ void message_dlg::cancel_changes()
 **************************************************************************/
 void popup_messageopt_dialog(void)
 {
-  message_dlg *mdlg;
   int i;
   QWidget *w;
 
   if (!gui()->is_repo_dlg_open("MSD")) {
-    mdlg = new message_dlg;
+    new message_dlg;
   } else {
     i = gui()->gimme_index_of("MSD");
+
     fc_assert(i != -1);
+
     if (gui()->game_tab_widget->currentIndex() == i) {
       return;
     }
+
     w = gui()->game_tab_widget->widget(i);
-    mdlg = reinterpret_cast<message_dlg *>(w);
-    gui()->game_tab_widget->setCurrentWidget(mdlg);
+    gui()->game_tab_widget->setCurrentWidget(w);
   }
 }
