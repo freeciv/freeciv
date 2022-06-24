@@ -19,4 +19,4 @@ finish-args:
   - --socket=x11
   - --share=network
   - --socket=pulseaudio
-  - --filesystem=home
+  - --filesystem=~/.freeciv:create
