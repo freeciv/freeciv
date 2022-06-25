@@ -1802,6 +1802,7 @@ void server_quit(void)
   free_nls();
   con_log_close();
   cmdline_option_values_free();
+  readline_atexit();
   exit(EXIT_SUCCESS);
 }
 
