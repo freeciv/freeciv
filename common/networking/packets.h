@@ -44,12 +44,16 @@ struct data_in;
 #define MAX_LEN_ROUTE		2000	  /* MAX_LEN_PACKET / 2 - header */
 
 #ifdef FREECIV_WEB
-#define web_send_packet(packetname, ...) \
-  send_packet_web_ ##packetname( __VA_ARGS__ )
+#define web_send_packet(packetname, pconn, ...)         \
+do {                                                    \
+  if (conn_is_webclient(pconn)) {                       \
+    send_packet_web_ ##packetname(pconn, __VA_ARGS__ ); \
+  }                                                     \
+} while (FALSE)
 #define web_lsend_packet(packetname, ...) \
   lsend_packet_web_ ##packetname( __VA_ARGS__ )
 #else  /* FREECIV_WEB */
-#define web_send_packet(packetname, ...)
+#define web_send_packet(packetname, pconn, ...)
 #define web_lsend_packet(packetname, ...)
 #endif /* FREECIV_WEB */
 

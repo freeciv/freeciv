@@ -183,7 +183,7 @@ struct connection {
 
   enum gui_type client_gui;
 
-  void (*notify_of_writable_data) (struct connection * pc,
+  void (*notify_of_writable_data) (struct connection *pc,
                                    bool data_available_and_socket_full);
 
   union {
@@ -368,6 +368,8 @@ struct conn_pattern *conn_pattern_from_string(const char *pattern,
                                               size_t error_buf_len);
 
 bool conn_is_valid(const struct connection *pconn);
+
+#define conn_is_webclient(__pconn__) ((__pconn__)->client_gui == GUI_WEB)
 
 #ifdef __cplusplus
 }
