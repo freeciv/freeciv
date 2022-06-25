@@ -70,6 +70,7 @@ private:
   void set_enum(struct option *poption, int index);
   void set_bitwise(struct option *poption, unsigned value);
   void set_color(struct option *poption, struct ft_color color);
+  void set_button_color(QPushButton *button, const char *colorname);
   void set_font(struct option *poption, QString s);
   void get_color(struct option *poption, QByteArray &a1, QByteArray &a2);
   bool get_bool(struct option *poption);
@@ -78,7 +79,6 @@ private:
   QByteArray get_button_font(struct option *poption);
   QByteArray get_string(struct option *poption);
   int get_enum(struct option *poption);
-  struct option* get_color_option();
   unsigned get_bitwise(struct option *poption);
   void full_reset();
 
@@ -89,7 +89,7 @@ protected:
 
 private slots:
   void apply_option(int response);
-  void set_color();
+  void select_color();
   void set_font();
 };
 
