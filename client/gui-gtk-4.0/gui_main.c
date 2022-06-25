@@ -155,9 +155,10 @@ const char *const gui_character_encoding = "UTF-8";
 const bool gui_use_transliteration = FALSE;
 
 static GMenu *main_menubar = NULL;
-static GtkWidget *unit_image_table;
-static GtkWidget *unit_image;
-static GtkWidget *unit_below_image[MAX_NUM_UNITS_BELOW];
+static GdkPaintable *empty_unit_paintable = NULL;
+static GtkWidget *unit_pic_table;
+static GtkWidget *unit_pic;
+static GtkWidget *unit_below_pic[MAX_NUM_UNITS_BELOW];
 static GtkWidget *more_arrow_pixmap;
 static GtkWidget *more_arrow_pixmap_container;
 
@@ -204,8 +205,8 @@ static void tearoff_callback(GtkWidget *b, gpointer data);
 static GtkWidget *detached_widget_new(void);
 static GtkWidget *detached_widget_fill(GtkWidget *tearbox);
 
-static gboolean select_unit_image_callback(GtkWidget *w, GdkEvent *ev,
-                                           gpointer data);
+static gboolean select_unit_pic_callback(GtkWidget *w, GdkEvent *ev,
+                                         gpointer data);
 static gboolean select_more_arrow_pixmap_callback(GtkWidget *w, GdkEvent *ev,
                                                   gpointer data);
 static gboolean quit_dialog_callback(void);
@@ -840,10 +841,10 @@ static GtkWidget *detached_widget_fill(GtkWidget *tearbox)
 
   It may be called again if the tileset changes.
 **************************************************************************/
-static void populate_unit_image_table(void)
+static void populate_unit_pic_table(void)
 {
   int i, width;
-  GtkWidget *table = unit_image_table;
+  GtkWidget *table = unit_pic_table;
   GdkPixbuf *pix;
   int ttw;
 
@@ -867,26 +868,26 @@ static void populate_unit_image_table(void)
   /* Top row: the active unit. */
   /* Note, we ref this and other widgets here so that we can unref them
    * in reset_unit_table. */
-  unit_image = gtk_image_new();
-  g_object_ref(unit_image);
-  gtk_widget_set_size_request(unit_image, ttw, -1);
-  gtk_grid_attach(GTK_GRID(table), unit_image, 0, 0, 1, 1);
-  g_signal_connect(unit_image, "button_press_event",
-                   G_CALLBACK(select_unit_image_callback),
+  unit_pic = gtk_picture_new();
+  g_object_ref(unit_pic);
+  gtk_widget_set_size_request(unit_pic, ttw, -1);
+  gtk_grid_attach(GTK_GRID(table), unit_pic, 0, 0, 1, 1);
+  g_signal_connect(unit_pic, "button_press_event",
+                   G_CALLBACK(select_unit_pic_callback),
                    GINT_TO_POINTER(-1));
 
   if (!GUI_GTK_OPTION(small_display_layout)) {
     /* Bottom row: other units in the same tile. */
     for (i = 0; i < num_units_below; i++) {
-      unit_below_image[i] = gtk_image_new();
-      g_object_ref(unit_below_image[i]);
-      gtk_widget_set_size_request(unit_below_image[i], ttw, -1);
-      g_signal_connect(unit_below_image[i],
+      unit_below_pic[i] = gtk_picture_new();
+      g_object_ref(unit_below_pic[i]);
+      gtk_widget_set_size_request(unit_below_pic[i], ttw, -1);
+      g_signal_connect(unit_below_pic[i],
                        "button_press_event",
-                       G_CALLBACK(select_unit_image_callback),
+                       G_CALLBACK(select_unit_pic_callback),
                        GINT_TO_POINTER(i));
 
-      gtk_grid_attach(GTK_GRID(table), unit_below_image[i],
+      gtk_grid_attach(GTK_GRID(table), unit_below_pic[i],
                       i, 1, 1, 1);
     }
   }
@@ -928,19 +929,19 @@ static void populate_unit_image_table(void)
 **************************************************************************/
 static void free_unit_table(void)
 {
-  if (unit_image) {
-    gtk_grid_remove(GTK_GRID(unit_image_table), unit_image);
-    g_object_unref(unit_image);
+  if (unit_pic != NULL) {
+    gtk_grid_remove(GTK_GRID(unit_pic_table), unit_pic);
+    g_object_unref(unit_pic);
     if (!GUI_GTK_OPTION(small_display_layout)) {
       int i;
 
       for (i = 0; i < num_units_below; i++) {
-        gtk_grid_remove(GTK_GRID(unit_image_table),
-                        unit_below_image[i]);
-        g_object_unref(unit_below_image[i]);
+        gtk_grid_remove(GTK_GRID(unit_pic_table),
+                        unit_below_pic[i]);
+        g_object_unref(unit_below_pic[i]);
       }
     }
-    gtk_grid_remove(GTK_GRID(unit_image_table),
+    gtk_grid_remove(GTK_GRID(unit_pic_table),
                     more_arrow_pixmap_container);
     g_object_unref(more_arrow_pixmap);
     g_object_unref(more_arrow_pixmap_container);
@@ -955,10 +956,10 @@ void reset_unit_table(void)
   /* Unreference all of the widgets that we're about to reallocate, thus
    * avoiding a memory leak. Remove them from the container first, just
    * to be safe. Note, the widgets are ref'd in
-   * populate_unit_image_table. */
+   * populate_unit_pic_table(). */
   free_unit_table();
 
-  populate_unit_image_table();
+  populate_unit_pic_table();
 
   /* We have to force a redraw of the units.  And we explicitly have
    * to force a redraw of the focus unit, which is normally only
@@ -1389,7 +1390,7 @@ static void setup_widgets(void)
   gtk_grid_set_row_spacing(GTK_GRID(table), 2);
   gtk_grid_set_column_spacing(GTK_GRID(table), 2);
 
-  unit_image_table = table;
+  unit_pic_table = table;
 
   /* Map canvas, editor toolbar, and scrollbars */
 
@@ -1828,6 +1829,9 @@ void ui_main(int argc, char **argv)
    * it from getting destroyed when editinfobox_refresh()
    * moves widgets around. Free that extra ref here. */
   g_object_unref(unit_info_box);
+  if (empty_unit_paintable != NULL) {
+    g_object_unref(empty_unit_paintable);
+  }
 
   destroy_server_scans();
   free_mapcanvas_and_overview();
@@ -2012,10 +2016,10 @@ void set_unit_icon(int idx, struct unit *punit)
   fc_assert_ret(idx >= -1 && idx < num_units_below);
 
   if (idx == -1) {
-    w = unit_image;
+    w = unit_pic;
     unit_id_top = punit ? punit->id : 0;
   } else {
-    w = unit_below_image[idx];
+    w = unit_below_pic[idx];
     unit_ids[idx] = punit ? punit->id : 0;
   }
 
@@ -2024,9 +2028,16 @@ void set_unit_icon(int idx, struct unit *punit)
   }
 
   if (punit) {
-    put_unit_image(punit, GTK_IMAGE(w), -1);
+    put_unit_picture(punit, GTK_PICTURE(w), -1);
   } else {
-    gtk_image_clear(GTK_IMAGE(w));
+    if (empty_unit_paintable == NULL) {
+      /* FIXME: Use proper icon height instead of hardcoded 50 */
+      empty_unit_paintable = gdk_paintable_new_empty(tileset_tile_width(tileset), 50);
+
+      /* Add ref to avoid it getting destroyed along any single parent widget. */
+      g_object_ref(empty_unit_paintable);
+    }
+    gtk_picture_set_paintable(GTK_PICTURE(w), empty_unit_paintable);
   }
 }
 
@@ -2064,11 +2075,11 @@ void real_focus_units_changed(void)
 }
 
 /**********************************************************************//**
- callback for clicking a unit icon underneath unit info box.
- these are the units on the same tile as the focus unit.
+  Callback for clicking a unit icon underneath unit info box.
+  these are the units on the same tile as the focus unit.
 **************************************************************************/
-static gboolean select_unit_image_callback(GtkWidget *w, GdkEvent *ev,
-                                           gpointer data)
+static gboolean select_unit_pic_callback(GtkWidget *w, GdkEvent *ev,
+                                         gpointer data)
 {
   int i = GPOINTER_TO_INT(data);
   struct unit *punit;
