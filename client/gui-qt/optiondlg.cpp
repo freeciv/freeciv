@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -42,6 +42,7 @@
 
 // gui-qt
 #include "fc_client.h"
+
 #include "optiondlg.h"
 
 enum {
@@ -225,7 +226,7 @@ void option_dialog::apply_option(int response)
 }
 
 /****************************************************************************
-  Return selected colors (for highlighting chat).
+  Return selected colors
 ****************************************************************************/
 void option_dialog::get_color(struct option *poption, QByteArray &a1,
                               QByteArray &a2)
@@ -233,7 +234,7 @@ void option_dialog::get_color(struct option *poption, QByteArray &a1,
   QPalette pal;
   QColor col1, col2;
   QWidget *w;
-  QPushButton* but;
+  QPushButton *but;
 
   w = reinterpret_cast<QPushButton *>(option_get_gui_data(poption));
   but = w->findChild<QPushButton *>("text_color");
@@ -274,7 +275,7 @@ void option_dialog::apply_options()
       option_font_set(poption, get_button_font(poption).constData());
       break;
     case OT_COLOR:
-      get_color(poption,  ba1,  ba2);
+      get_color(poption, ba1, ba2);
       option_color_set(poption, ft_color_construct(ba1.data(), ba2.data()));
       break;
     case OT_VIDEO_MODE:
@@ -468,16 +469,19 @@ unsigned int option_dialog::get_bitwise(struct option *poption)
 }
 
 /****************************************************************************
-  Find option indicating colors.
+  Update color button stylesheet to show new color
 ****************************************************************************/
-struct option* option_dialog::get_color_option()
+void option_dialog::set_button_color(QPushButton *button,
+                                     const char *colorname)
 {
-  options_iterate(curr_options, poption) {
-    if (option_type(poption) == OT_COLOR) {
-      return poption;
-    }
-  } options_iterate_end;
-  return NULL;
+  if (button != nullptr && colorname != NULL && colorname[0] != '\0') {
+    QString s1 = "QPushButton { background-color: ";
+    QString s2 = ";}";
+    QColor col;
+
+    col.setNamedColor(colorname);
+    button->setStyleSheet(s1 + col.name() + s2);
+  }
 }
 
 /****************************************************************************
@@ -485,35 +489,22 @@ struct option* option_dialog::get_color_option()
 ****************************************************************************/
 void option_dialog::set_color(struct option *poption, struct ft_color color)
 {
-  QPalette pal, pal2;
-  QColor col;
   QWidget *w;
   QPushButton *but;
-  QString s1 = "QPushButton { background-color: ";
-  QString s2 = ";}";
 
   w = reinterpret_cast<QPushButton *>(option_get_gui_data(poption));
   but = w->findChild<QPushButton *>("text_color");
-  if (NULL != but && NULL != color.foreground 
-      && '\0' != color.foreground[0]) {
-    col.setNamedColor(color.foreground);
-    but->setStyleSheet(s1 + col.name() + s2);
-  }
+  set_button_color(but, color.foreground);
+
   but = w->findChild<QPushButton *>("text_background");
-  if (NULL != but && NULL != color.background
-      && '\0' != color.background[0]) {
-    col.setNamedColor(color.background);
-    but->setStyleSheet(s1 + col.name() + s2);
-  }
+  set_button_color(but, color.background);
 }
 
-
 /****************************************************************************
-  Refresh one given option for  option dialog.
+  Refresh one given option for option dialog.
 ****************************************************************************/
 void option_dialog::option_dialog_refresh(struct option *poption)
 {
-
   switch (option_type(poption)) {
   case OT_BOOLEAN:
     set_bool(poption, option_bool_get(poption));
@@ -634,6 +625,8 @@ void option_dialog::add_option(struct option *poption)
   QPalette pal;
   int min, max, i;
   unsigned int j;
+  struct ft_color ft_color;
+  QColor c;
 
   category_name = option_category_name(poption);
   widget = nullptr;
@@ -721,12 +714,17 @@ void option_dialog::add_option(struct option *poption)
     break;
 
   case OT_COLOR:
+    ft_color = option_color_get(poption);
     button = new QPushButton();
     button->setToolTip(_("Select the text color"));
     button->setObjectName("text_color");
     button->setAutoFillBackground(true);
     button->setAutoDefault(false);
-    connect(button, SIGNAL(clicked()), this, SLOT(set_color()));
+    c.setNamedColor(ft_color.foreground);
+    pal = button->palette();
+    pal.setColor(QPalette::Button, c);
+    button->setPalette(pal);
+    connect(button, SIGNAL(clicked()), this, SLOT(select_color()));
     hbox_layout = new QHBoxLayout();
     hbox_layout->addWidget(button);
     button = new QPushButton();
@@ -734,9 +732,14 @@ void option_dialog::add_option(struct option *poption)
     button->setObjectName("text_background");
     button->setAutoFillBackground(true);
     button->setAutoDefault(false);
-    connect(button, SIGNAL(clicked()), this, SLOT(set_color()));
+    c.setNamedColor(ft_color.background);
+    pal = button->palette();
+    pal.setColor(QPalette::Button, c);
+    button->setPalette(pal);
+    connect(button, SIGNAL(clicked()), this, SLOT(select_color()));
     hbox_layout->addWidget(button);
     widget = new QWidget();
+    widget->setObjectName(option_name(poption));
     widget->setLayout(hbox_layout);
     break;
 
@@ -831,34 +834,23 @@ QByteArray option_dialog::get_button_font(struct option *poption)
 }
 
 /****************************************************************************
-  Set color of buttons (user just changed colors).
+  Ask user for the color option value
 ****************************************************************************/
-void option_dialog::set_color()
+void option_dialog::select_color()
 {
   QPushButton *but;
-  QColor color, c;
-  struct option *color_option;
-  struct ft_color ft_color;
+  QColor color;
   QPalette pal;
 
-  color_option = get_color_option();
-  ft_color = option_color_get(color_option);
   but = qobject_cast<QPushButton *>(QObject::sender());
 
-  if (but->objectName() == "text_color") {
-    c.setNamedColor(ft_color.foreground);
-    color = QColorDialog::getColor(c, this);
-    if (color.isValid()) {
-      pal.setColor(QPalette::Button, color);
-      but->setPalette(pal);
-    }
-  } else if (but->objectName() == "text_background") {
-    c.setNamedColor(ft_color.background);
-    color = QColorDialog::getColor(c, this);
-    if (color.isValid()) {
-      pal.setColor(QPalette::Button, color);
-      but->setPalette(pal);
-    }
+  pal = but->palette();
+  color = QColorDialog::getColor(pal.color(QPalette::Button), this);
+  if (color.isValid()) {
+    pal.setColor(QPalette::Button, color);
+    but->setPalette(pal);
+
+    set_button_color(but, color.name().toUtf8());
   }
 }
 
