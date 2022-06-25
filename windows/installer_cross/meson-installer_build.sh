@@ -72,6 +72,7 @@ add_gtk4_env() {
   cp $1/bin/libgtk-4-1.dll $2/ &&
   cp $1/bin/libgraphene-1.0-0.dll $2/ &&
   cp $1/bin/libcairo-script-interpreter-2.dll $2/ &&
+  cp $1/bin/libtiff-5.dll $2/ &&
   cp $1/bin/gdbus.exe $2/ &&
   cp $1/bin/gtk4-update-icon-cache.exe $2/bin/ &&
   cp ./helpers/installer-helper-gtk4.cmd $2/bin/installer-helper.cmd
@@ -79,8 +80,7 @@ add_gtk4_env() {
 
 add_sdl2_env() {
   cp $1/bin/SDL2_image.dll $2/ &&
-  cp $1/bin/SDL2_ttf.dll $2/ &&
-  cp $1/bin/libtiff-5.dll $2/
+  cp $1/bin/SDL2_ttf.dll $2/
 }
 
 if test "$1" = "" || test "$1" = "-h" || test "$1" = "--help" ||
@@ -97,6 +97,10 @@ case $GUI in
     GUINAME="GTK3.22"
     MPGUI="gtk3"
     FCMP="gtk3" ;;
+  gtk4)
+    GUINAME="GTK4"
+    MPGUI="gtk4"
+    FCMP="gtk4" ;;
   sdl2)
     GUINAME="SDL2"
     FCMP="gtk4" ;;
@@ -168,6 +172,12 @@ else
     gtk3.22)
       if ! add_gtk3_env "$DLLSPATH" "$INSTDIR" ; then
         echo "Copying gtk3 environment failed!" >&2
+        exit 1
+      fi
+      ;;
+    gtk4)
+      if ! add_gtk4_env "$DLLSPATH" "$INSTDIR" ; then
+        echo "Copying gtk4 environment failed!" >&2
         exit 1
       fi
       ;;

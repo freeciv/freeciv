@@ -53,6 +53,15 @@ else
   GTK322="Success"
 fi
 
+if test "$CROSSER_GTK4" != "yes" ; then
+  GTK4="N/A"
+elif ! ./meson-installer_build.sh "$DLLSPATH" gtk4 ; then
+  RET=1
+  GTK4="Fail"
+else
+  GTK4="Success"
+fi
+
 # sdl2-client comes with gtk4 modpack installer
 if test "$CROSSER_GTK4" != "yes" ; then
   SDL2="N/A"
@@ -64,6 +73,7 @@ else
 fi
 
 echo "Gtk3.22: $GTK322"
+echo "Gtk4:    $GTK4"
 echo "Sdl2:    $SDL2"
 
 exit $RET
