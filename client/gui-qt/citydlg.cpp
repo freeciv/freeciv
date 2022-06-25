@@ -191,24 +191,30 @@ void progress_bar::paintEvent(QPaintEvent *event)
   QColor c;
   QRect r, rx, r2;
   int max;
-  int f_size;
+  int f_pixel_size;
   int pix_width = 0;
-  int point_size = sfont->pointSize();
   int pixel_size = sfont->pixelSize();
+  int pbw, pbh;
 
   if (pix != nullptr) {
     pix_width = height() - 4;
   }
-  if (point_size < 0) {
-    f_size = pixel_size;
+
+  if (pixel_size > 0) {
+    f_pixel_size = pixel_size;
   } else {
-    f_size = point_size;
+    QFontMetrics fm(*sfont);
+
+    f_pixel_size = fm.height();
   }
+
+  pbw = width();
+  pbh = height();
 
   rx.setX(0);
   rx.setY(0);
-  rx.setWidth(width());
-  rx.setHeight(height());
+  rx.setWidth(pbw);
+  rx.setHeight(pbh);
   p.begin(this);
   p.drawLine(rx.topLeft(), rx.topRight());
   p.drawLine(rx.bottomLeft(), rx.bottomRight());
@@ -219,9 +225,9 @@ void progress_bar::paintEvent(QPaintEvent *event)
     max = 1;
   }
 
-  r = QRect(0, 0, width() * value() / max, height());
+  r = QRect(0, 0, pbw * value() / max, pbh);
 
-  gx = QLinearGradient(0 , 0, 0, height());
+  gx = QLinearGradient(0 , 0, 0, pbh);
   c = QColor(palette().color(QPalette::Highlight));
   gx.setColorAt(0, c);
   gx.setColorAt(0.5, QColor(40, 40, 40));
@@ -229,7 +235,7 @@ void progress_bar::paintEvent(QPaintEvent *event)
   p.fillRect(r, QBrush(gx));
   p.setClipRegion(reg.translated(m_animate_step % 32, 0));
 
-  g = QLinearGradient(0 , 0, width(), height());
+  g = QLinearGradient(0 , 0, pbw, pbh);
   c.setAlphaF(0.1);
   g.setColorAt(0, c);
   c.setAlphaF(0.9);
@@ -237,7 +243,7 @@ void progress_bar::paintEvent(QPaintEvent *event)
   p.fillRect(r, QBrush(g));
 
   p.setClipping(false);
-  r2 = QRect(width() * value() / max, 0, width(), height());
+  r2 = QRect(pbw * value() / max, 0, pbw, pbh);
   c = palette().color(QPalette::Window);
   p.fillRect(r2, c);
 
@@ -254,27 +260,25 @@ void progress_bar::paintEvent(QPaintEvent *event)
   p.setPen(c);
   sfont->setCapitalization(QFont::AllUppercase);
   sfont->setBold(true);
-  p.setFont(*sfont);
 
   if (text().contains('\n')) {
     QString s1, s2;
     int i, j;
+    QFont tmp_font = *sfont; // Don't make changes to font to be kept
 
     i = text().indexOf('\n');
     s1 = text().left(i);
     s2 = text().right(text().count() - i);
 
-    if (2 * f_size >= 2 * height() / 3) {
-      if (point_size < 0) {
-        sfont->setPixelSize(height() / 4);
-      } else  {
-        sfont->setPointSize(height() / 4);
-      }
+    if (2 * f_pixel_size >= 3 * pbh / 2) {
+      tmp_font.setPixelSize(pbh / 3);
     }
 
-    j = height() - 2 * f_size;
+    p.setFont(tmp_font);
+
+    j = pbh - 2 * f_pixel_size;
     p.setCompositionMode(QPainter::CompositionMode_ColorDodge);
-    QFontMetrics fm(*sfont);
+    QFontMetrics fm(tmp_font);
 
     if (fm.horizontalAdvance(s1) > rx.width()) {
       s1 = fm.elidedText(s1, Qt::ElideRight, rx.width());
@@ -282,7 +286,7 @@ void progress_bar::paintEvent(QPaintEvent *event)
 
     i = rx.width() - fm.horizontalAdvance(s1) + pix_width;
     i = qMax(0, i);
-    p.drawText(i / 2, j / 3 + f_size, s1);
+    p.drawText(i / 2, j / 3 + f_pixel_size, s1);
 
     if (fm.horizontalAdvance(s2) > rx.width()) {
       s2 = fm.elidedText(s2, Qt::ElideRight, rx.width());
@@ -291,12 +295,15 @@ void progress_bar::paintEvent(QPaintEvent *event)
     i = rx.width() - fm.horizontalAdvance(s2) + pix_width;
     i = qMax(0, i);
 
-    p.drawText(i / 2, height() - j / 3, s2);
+    p.drawText(i / 2, pbh - j / 3, s2);
   } else {
     QString s;
     int i, j;
+
+    p.setFont(*sfont);
+
     s = text();
-    j = height() - f_size;
+    j = pbh - f_pixel_size;
     p.setCompositionMode(QPainter::CompositionMode_ColorDodge);
     QFontMetrics fm(*sfont);
 
@@ -306,8 +313,9 @@ void progress_bar::paintEvent(QPaintEvent *event)
 
     i = rx.width() - fm.horizontalAdvance(s) + pix_width;
     i = qMax(0, i);
-    p.drawText(i / 2, j / 2 + f_size, s);
+    p.drawText(i / 2, j / 2 + f_pixel_size, s);
   }
+
   p.end();
 }
 
