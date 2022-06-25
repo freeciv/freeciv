@@ -459,9 +459,9 @@ void update_city_descriptions(void)
 }
 
 /**********************************************************************//**
-  Fill image with unit gfx
+  Fill picture with unit gfx
 **************************************************************************/
-void put_unit_image(struct unit *punit, GtkImage *p, int height)
+void put_unit_picture(struct unit *punit, GtkPicture *p, int height)
 {
   struct canvas store = FC_STATIC_CANVAS_INIT;
   int width;
@@ -476,7 +476,7 @@ void put_unit_image(struct unit *punit, GtkImage *p, int height)
 
   put_unit(punit, &store, 1.0, 0, 0);
 
-  image_set_from_surface(p, store.surface);
+  picture_set_from_surface(p, store.surface);
   cairo_surface_destroy(store.surface);
 }
 
@@ -486,9 +486,9 @@ void put_unit_image(struct unit *punit, GtkImage *p, int height)
   unit, the proper way to do this is probably something like what Civ II does.
   (One food/shield/mask drawn N times, possibly one top of itself. -- SKi
 **************************************************************************/
-void put_unit_image_city_overlays(struct unit *punit, GtkImage *p,
-                                  int height,
-                                  int *upkeep_cost, int happy_cost)
+void put_unit_picture_city_overlays(struct unit *punit, GtkPicture *p,
+                                    int height,
+                                    int *upkeep_cost, int happy_cost)
 {
   struct canvas store = FC_STATIC_CANVAS_INIT;
   int width = tileset_full_tile_width(tileset);
@@ -501,7 +501,7 @@ void put_unit_image_city_overlays(struct unit *punit, GtkImage *p,
   put_unit_city_overlays(punit, &store, 0, tileset_unit_layout_offset_y(tileset),
                          upkeep_cost, happy_cost);
 
-  image_set_from_surface(p, store.surface);
+  picture_set_from_surface(p, store.surface);
   cairo_surface_destroy(store.surface);
 }
 

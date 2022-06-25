@@ -2205,7 +2205,7 @@ static void city_dialog_update_supported_units(struct city_dialog *pdialog)
 
       gtk_button_set_has_frame(GTK_BUTTON(cmd), FALSE);
 
-      pix = gtk_image_new();
+      pix = gtk_picture_new();
       node.pix = pix;
       node.height = tileset_unit_with_upkeep_height(tileset);
 
@@ -2236,8 +2236,8 @@ static void city_dialog_update_supported_units(struct city_dialog *pdialog)
       cmd = pnode->cmd;
       pix = pnode->pix;
 
-      put_unit_image_city_overlays(punit, GTK_IMAGE(pix), pnode->height,
-                                   punit->upkeep, happy_cost);
+      put_unit_picture_city_overlays(punit, GTK_PICTURE(pix), pnode->height,
+                                     punit->upkeep, happy_cost);
 
       if (pnode->left != NULL) {
         gtk_widget_remove_controller(cmd, pnode->left);
@@ -2329,7 +2329,7 @@ static void city_dialog_update_present_units(struct city_dialog *pdialog)
 
       gtk_button_set_has_frame(GTK_BUTTON(cmd), FALSE);
 
-      pix = gtk_image_new();
+      pix = gtk_picture_new();
       node.pix = pix;
       node.height = tileset_full_tile_height(tileset);
 
@@ -2359,7 +2359,7 @@ static void city_dialog_update_present_units(struct city_dialog *pdialog)
       cmd = pnode->cmd;
       pix = pnode->pix;
 
-      put_unit_image(punit, GTK_IMAGE(pix), pnode->height);
+      put_unit_picture(punit, GTK_PICTURE(pix), pnode->height);
 
       if (pnode->left != NULL) {
         gtk_widget_remove_controller(cmd, pnode->left);

@@ -545,6 +545,21 @@ void image_set_from_surface(GtkImage *image, cairo_surface_t *surf)
 }
 
 /************************************************************************//**
+  Set a GtkPicture from cairo surface.
+****************************************************************************/
+void picture_set_from_surface(GtkPicture *pic, cairo_surface_t *surf)
+{
+  GdkPixbuf *pb;
+
+  pb = surface_get_pixbuf(surf,
+                          cairo_image_surface_get_width(surf),
+                          cairo_image_surface_get_height(surf));
+
+  gtk_picture_set_pixbuf(pic, pb);
+  g_object_unref(pb);
+}
+
+/************************************************************************//**
   Return a sprite image of a number.
 ****************************************************************************/
 struct sprite *load_gfxnumber(int num)

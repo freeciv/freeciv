@@ -38,10 +38,10 @@ void map_canvas_draw(GtkDrawingArea *w, cairo_t *cr,
 void map_canvas_resize(GtkWidget *w, int width, int height,
                        gpointer data);
 
-void put_unit_image(struct unit *punit, GtkImage *p, int height);
+void put_unit_picture(struct unit *punit, GtkPicture *p, int height);
 
-void put_unit_image_city_overlays(struct unit *punit, GtkImage *p,
-                                  int height, int *upkeep_cost, int happy_cost);
+void put_unit_picture_city_overlays(struct unit *punit, GtkPicture *p,
+                                    int height, int *upkeep_cost, int happy_cost);
 
 void scrollbar_jump_callback(GtkAdjustment *adj, gpointer hscrollbar);
 void update_map_canvas_scrollbars_size(void);
