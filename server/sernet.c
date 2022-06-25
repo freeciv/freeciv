@@ -161,18 +161,15 @@ static void handle_stdin_close(void)
 #define HISTORY_LENGTH    100
 
 static char *history_file = NULL;
-
 static bool readline_handled_input = FALSE;
-
 static bool readline_initialized = FALSE;
+static char *current_internal = NULL;
 
 /*************************************************************************//**
   Readline callback for input.
 *****************************************************************************/
 static void handle_readline_input_callback(char *line)
 {
-  char *line_internal;
-
   if (no_input) {
     return;
   }
@@ -187,14 +184,43 @@ static void handle_readline_input_callback(char *line)
   }
 
   con_prompt_enter();      /* just got an 'Enter' hit */
-  line_internal = local_to_internal_string_malloc(line);
-  (void) handle_stdin_input(NULL, line_internal);
-  free(line_internal);
-  free(line);
+  current_internal = local_to_internal_string_malloc(line);
+  free(line); /* This is already freed if we exit() with /quit command */
+  (void) handle_stdin_input(NULL, current_internal);
+  free(current_internal); /* Since handle_stdin_input() returned,
+                           * we can be sure this was not freed in atexit. */
+  current_internal = NULL;
 
   readline_handled_input = TRUE;
 }
 #endif /* FREECIV_HAVE_LIBREADLINE */
+
+/*************************************************************************//**
+  Clear readline stuff at exit. To cater for as many different cases as
+  possible, we call this both like any function call from server_quit()
+  before exit(), and as a atexit handler. Former is to get everything
+  cleared already before exit(), before any other atexit handler comes
+  to play. Latter is to make sure that the function gets called also when
+  in those rare cases where we exit some other way than server_quit() -
+  that's important for always restoring terminal to a working state.
+
+  That means that in usual case this function gets called twice.
+  Make sure that it doesn't try double frees or similar when that happens.
+*****************************************************************************/
+void readline_atexit(void)
+{
+#ifdef FREECIV_HAVE_LIBREADLINE
+  if (readline_initialized) {
+    rl_callback_handler_remove();
+    readline_initialized = FALSE;
+  }
+
+  if (current_internal != NULL) {
+    free(current_internal);
+    current_internal = NULL;
+  }
+#endif /* FREECIV_HAVE_LIBREADLINE */
+}
 
 /*************************************************************************//**
   Close the connection (very low-level). See also
@@ -542,7 +568,7 @@ enum server_events server_sniff_all_input(void)
       rl_attempted_completion_function = freeciv_completion;
 
       readline_initialized = TRUE;
-      atexit(rl_callback_handler_remove);
+      atexit(readline_atexit);
     }
   }
 #endif /* FREECIV_HAVE_LIBREADLINE */
