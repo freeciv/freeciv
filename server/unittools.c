@@ -1561,13 +1561,14 @@ void transform_unit(struct unit *punit, const struct unit_type *to_unit,
   const struct unit_type *old_type = punit->utype;
   int old_mr = unit_move_rate(punit);
   int old_hp = unit_type_get(punit)->hp;
+  int lvls;
 
   punit->utype = to_unit;
 
   /* New type may not have the same veteran system, and we may want to
    * knock some levels off. */
-  punit->veteran = MIN(punit->veteran,
-                       utype_veteran_system(to_unit)->levels - 1);
+  lvls = utype_veteran_system(to_unit)->levels - 1;
+  punit->veteran = MIN(punit->veteran, lvls);
   /* Keeping the old behaviour, so first clip top, then reduce */
   punit->veteran = MAX(punit->veteran - vet_loss, 0);
 
@@ -1686,10 +1687,12 @@ struct unit *unit_virtual_prepare(struct player *pplayer, struct tile *ptile,
   }
 
   if (moves_left >= 0) {
+    int mr = unit_move_rate(punit);
+
     /* Override default full MP */
     /* FIXME: there are valid situations when a unit have mp
      * over its move rate. Here, keeping the old behavior. */
-    punit->moves_left = MIN(moves_left, unit_move_rate(punit));
+    punit->moves_left = MIN(moves_left, mr);
     /* Assume that if moves_left < 0 then the unit is "fresh",
      * and not moved; else the unit has had something happen
      * to it (eg, bribed) which we treat as equivalent to moved.

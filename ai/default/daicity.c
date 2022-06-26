@@ -1873,8 +1873,10 @@ static void adjust_improvement_wants_by_effects(struct ai_type *ait,
     /* Reduce want if building gets obsoleted soon */
     requirement_vector_iterate(&pimprove->obsolete_by, pobs) {
       if (pobs->source.kind == VUT_ADVANCE && pobs->present) {
-        v -= v / MAX(1, research_goal_unknown_techs(presearch,
-                            advance_number(pobs->source.value.advance)));
+        int num_tech = research_goal_unknown_techs(presearch,
+                             advance_number(pobs->source.value.advance));
+
+        v -= v / MAX(1, num_tech);
       }
     } requirement_vector_iterate_end;
 

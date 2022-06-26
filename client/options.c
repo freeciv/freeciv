@@ -6024,9 +6024,10 @@ void options_init(void)
     case OT_INTEGER:
       if (option_int_def(poption) < option_int_min(poption)
           || option_int_def(poption) > option_int_max(poption)) {
-        int new_default = MAX(MIN(option_int_def(poption),
-                                  option_int_max(poption)),
-                              option_int_min(poption));
+        int int_def = option_int_def(poption);
+        int int_max = option_int_max(poption);
+        int int_min = option_int_min(poption);
+        int new_default = MAX(MIN(int_def, int_max), int_min);
 
         log_error("option %s has default value of %d, which is "
                   "out of its range [%d; %d], changing to %d.",
