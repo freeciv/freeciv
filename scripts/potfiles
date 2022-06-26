@@ -24,4 +24,4 @@ find "$1" -name '*.c' -o -name '*.cpp' -o -name '*.h' -o -name '*.sav' -o -name 
   xargs grep -l -I '_("' |
     sort |
       diff -u /tmp/potfile - |
-        egrep '^[+-]'
+        grep -E '^[+-]'
