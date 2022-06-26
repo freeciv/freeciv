@@ -3,7 +3,7 @@ dnl Process this file with autoconf to produce a configure script.
 
 AC_INIT([Freeciv], m4_esyscmd([./fc_version | tr -d '\n']),
         [https://osdn.net/projects/freeciv/ticket/],
-        [freeciv], [http://www.freeciv.org/])
+        [freeciv], [https://www.freeciv.org/])
 AC_PREREQ(2.65)
 
 dnl Initialize with some random file to ensure the source is here.
@@ -19,7 +19,7 @@ AC_C_BIGENDIAN
 FC_EMSCRIPTEN
 
 BUG_URL="$PACKAGE_BUGREPORT"
-WIKI_URL="http://www.freeciv.org/"
+WIKI_URL="https://www.freeciv.org/"
 MAIL_ADDRESS="freeciv-dev AT freelists.org"
 
 dnl Explain fc_config.h to end users (e.g., on Windows)

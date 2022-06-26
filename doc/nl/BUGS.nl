@@ -165,4 +165,4 @@ VERDERE INFORMATIE:
 
 Voor meer informatie, als altijd, kom naar het Freeciv website:
 
-        http://www.freeciv.org/
+        https://www.freeciv.org/

@@ -446,7 +446,7 @@ des problèmes, essayez les étapes suivantes :
   par le script configure.
 
   Vous pouvez en savoir plus sur la liste de diffusion freeciv-dev sur
-  notre site web, à http://www.freeciv.org/
+  notre site web, à https://www.freeciv.org/
 
 
 3. Compilation de Freeciv :

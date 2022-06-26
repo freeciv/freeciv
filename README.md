@@ -10,7 +10,7 @@ Please see the [doc](doc) directory for a complete list of documentation files.
 
 Links
 =====
-Freeciv website: [Freeciv.org](http://www.freeciv.org/) 
+Freeciv website: [Freeciv.org](https://www.freeciv.org/)
 
 Submit patches: [OSDN](https://osdn.net/projects/freeciv/ticket/)
 

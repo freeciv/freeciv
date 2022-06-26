@@ -31,7 +31,7 @@ Webbplats:
 
 Freecivs webbplats är:
 
-  http://www.freeciv.org/
+  https://www.freeciv.org/
 
 Här kan man få de senaste nyheterna, utgåvorna och uppdateringarna,
 hitta information om Freecivs diskussionslistor samt se metaservern
