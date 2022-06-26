@@ -163,6 +163,25 @@ void qtg_canvas_put_sprite_full(struct canvas *pcanvas,
 }
 
 /************************************************************************//**
+  Draw a full sprite onto the canvas, scaled to the canvas size.
+****************************************************************************/
+void qtg_canvas_put_sprite_full_scaled(struct canvas *pcanvas,
+                                       int canvas_x, int canvas_y,
+                                       int canvas_w, int canvas_h,
+                                       struct sprite *sprite)
+{
+  QPainter p;
+  int width, height;
+
+  get_sprite_dimensions(sprite, &width, &height);
+
+  p.begin(&pcanvas->map_pixmap);
+  p.drawPixmap(canvas_x, canvas_y, canvas_w, canvas_h,
+               *sprite->pm, 0, 0, width, height);
+  p.end();
+}
+
+/************************************************************************//**
   Draw a full sprite onto the canvas.  If "fog" is specified draw it with
   fog.
 ****************************************************************************/

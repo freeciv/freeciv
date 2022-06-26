@@ -259,6 +259,18 @@ void canvas_put_sprite_full(struct canvas *pcanvas,
 }
 
 /**********************************************************************//**
+  Call canvas_put_sprite_full_scaled callback
+**************************************************************************/
+void canvas_put_sprite_full_scaled(struct canvas *pcanvas,
+                                   int canvas_x, int canvas_y,
+                                   int canvas_w, int canvas_h,
+                                   struct sprite *psprite)
+{
+  funcs.canvas_put_sprite_full_scaled(pcanvas, canvas_x, canvas_y,
+                                      canvas_w, canvas_h, psprite);
+}
+
+/**********************************************************************//**
   Call canvas_put_sprite_fogged callback
 **************************************************************************/
 void canvas_put_sprite_fogged(struct canvas *pcanvas,

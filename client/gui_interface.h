@@ -75,6 +75,10 @@ struct gui_funcs {
   void (*canvas_put_sprite_full)(struct canvas *pcanvas,
                                  int canvas_x, int canvas_y,
                                  struct sprite *psprite);
+  void (*canvas_put_sprite_full_scaled)(struct canvas *pcanvas,
+                                        int canvas_x, int canvas_y,
+                                        int canvas_w, int canvas_h,
+                                        struct sprite *psprite);
   void (*canvas_put_sprite_fogged)(struct canvas *pcanvas,
                                    int canvas_x, int canvas_y,
                                    struct sprite *psprite,

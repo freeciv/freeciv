@@ -20,7 +20,7 @@
 struct color;
 struct sprite;
 
-struct canvas;			/* opaque type, real type is gui-dep */
+struct canvas;                  /* opaque type, real type is gui-dep */
 
 enum line_type {
   LINE_NORMAL, LINE_BORDER, LINE_TILE_FRAME, LINE_GOTO
@@ -44,6 +44,9 @@ GUI_FUNC_PROTO(void, canvas_put_sprite, struct canvas *pcanvas,
                int offset_x, int offset_y, int width, int height);
 GUI_FUNC_PROTO(void, canvas_put_sprite_full, struct canvas *pcanvas, 
                int canvas_x, int canvas_y,
+               struct sprite *sprite)
+GUI_FUNC_PROTO(void, canvas_put_sprite_full_scaled, struct canvas *pcanvas,
+               int canvas_x, int canvas_y, int canvas_w, int canvas_h,
                struct sprite *sprite)
 GUI_FUNC_PROTO(void, canvas_put_sprite_fogged, struct canvas *pcanvas,
                int canvas_x, int canvas_y,

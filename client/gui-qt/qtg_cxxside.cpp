@@ -60,6 +60,7 @@ void setup_gui_funcs()
   funcs->canvas_copy = qtg_canvas_copy;
   funcs->canvas_put_sprite = qtg_canvas_put_sprite;
   funcs->canvas_put_sprite_full = qtg_canvas_put_sprite_full;
+  funcs->canvas_put_sprite_full_scaled = qtg_canvas_put_sprite_full_scaled;
   funcs->canvas_put_sprite_fogged = qtg_canvas_put_sprite_fogged;
   funcs->canvas_put_rectangle = qtg_canvas_put_rectangle;
   funcs->canvas_fill_sprite_area = qtg_canvas_fill_sprite_area;

@@ -122,6 +122,19 @@ void canvas_put_sprite_full(struct canvas *pcanvas,
   alphablit(GET_SURF(sprite), NULL, pcanvas->surf, &dst, 255);
 }
 
+/************************************************************************//**
+  Draw a full sprite onto the canvas, scaled to the canvas size.
+****************************************************************************/
+void canvas_put_sprite_full_scaled(struct canvas *pcanvas,
+                                   int canvas_x, int canvas_y,
+                                   int canvas_w, int canvas_h,
+                                   struct sprite *sprite)
+{
+  /* This should never be called as we have not enabled support
+   * in this client yet. */
+  fc_assert(FALSE);
+}
+
 /**********************************************************************//**
   Draw a full sprite onto the canvas.  If "fog" is specified draw it with
   fog.

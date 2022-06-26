@@ -70,6 +70,10 @@ void qtg_canvas_put_sprite(struct canvas *pcanvas,
 void qtg_canvas_put_sprite_full(struct canvas *pcanvas,
                                 int canvas_x, int canvas_y,
                                 struct sprite *sprite);
+void qtg_canvas_put_sprite_full_scaled(struct canvas *pcanvas,
+                                       int canvas_x, int canvas_y,
+                                       int canvas_w, int canvas_h,
+                                       struct sprite *sprite);
 void qtg_canvas_put_sprite_fogged(struct canvas *pcanvas,
                                   int canvas_x, int canvas_y,
                                   struct sprite *psprite,
