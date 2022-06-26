@@ -720,7 +720,7 @@ static void update_server_list(enum server_scan_type sstype,
   port = atoi(portstr);
 
   server_list_iterate(list, pserver) {
-    char buf[20];
+    char buf[35];
 
     if (pserver->humans >= 0) {
       fc_snprintf(buf, sizeof(buf), "%d", pserver->humans);
