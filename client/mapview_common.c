@@ -2701,8 +2701,9 @@ void move_unit_map_canvas(struct unit *punit,
 
       do {
         int new_x, new_y;
+        int asecs = timer_read_seconds(anim_timer);
 
-        mytime = MIN(timer_read_seconds(anim_timer), timing_sec);
+        mytime = MIN(asecs, timing_sec);
 
         new_x = start_x + canvas_dx * (mytime / timing_sec);
         new_y = start_y + canvas_dy * (mytime / timing_sec);

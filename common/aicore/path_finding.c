@@ -1426,11 +1426,14 @@ static inline int
 pf_danger_map_adjust_cost(const struct pf_parameter *params,
                           int cost, bool to_danger, int moves_left)
 {
+  int mr;
+
   if (cost == PF_IMPOSSIBLE_MC) {
     return PF_IMPOSSIBLE_MC;
   }
 
-  cost = MIN(cost, pf_move_rate(params));
+  mr = pf_move_rate(params);
+  cost = MIN(cost, mr);
 
   if (to_danger && cost >= moves_left) {
     /* We would have to end the turn on a dangerous tile! */

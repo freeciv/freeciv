@@ -177,11 +177,14 @@ static bool insert_veteran_help(char *outbuf, size_t outlen,
     for (i = 0; i < veteran->levels; i++) {
       const struct veteran_level *level = &veteran->definitions[i];
       const char *name = name_translation_get(&level->name);
+      int slen;
+
       /* Use get_internal_string_length() for correct alignment with
        * multibyte character encodings */
+      slen = 25 - (int)get_internal_string_length(name);
       cat_snprintf(outbuf, outlen,
           "\n%s%*s %4d%% %12s",
-          name, MAX(0, 25 - (int)get_internal_string_length(name)), "",
+          name, MAX(0, slen), "",
           level->power_fact,
           /* e.g. "-    ", "+ 1/3", "+ 1    ", "+ 2 2/3" */
           move_points_text_full(level->move_bonus, TRUE, "+ ", "-", TRUE));
@@ -216,6 +219,7 @@ static bool insert_generated_text(char *outbuf, size_t outlen, const char *name)
         const char *terrain, *cultivate_result,
                    *plant_result,*transform_result;
         struct universal for_terr = { .kind = VUT_TERRAIN, .value = { .terrain = pterrain }};
+        int cslen, pslen, tslen;
 
         fc_snprintf(cultivation_time, sizeof(cultivation_time),
                     "%d", pterrain->cultivate_time);
@@ -240,18 +244,22 @@ static bool insert_generated_text(char *outbuf, size_t outlen, const char *name)
            || !action_id_univs_not_blocking(ACTION_TRANSFORM_TERRAIN,
                                             NULL, &for_terr)) ? ""
           : terrain_name_translation(pterrain->transform_result);
+
         /* Use get_internal_string_length() for correct alignment with
          * multibyte character encodings */
+        tslen = 12 - (int)get_internal_string_length(terrain);
+        cslen = 12 - (int)get_internal_string_length(cultivate_result);
+        pslen = 12 - (int)get_internal_string_length(plant_result);
         cat_snprintf(outbuf, outlen,
             "%s%*s %3s %s%*s %3s %s%*s %3s %s\n",
             terrain,
-            MAX(0, 12 - (int)get_internal_string_length(terrain)), "",
+            MAX(0, tslen), "",
             (pterrain->cultivate_result == T_NONE) ? "-" : cultivation_time,
             cultivate_result,
-            MAX(0, 12 - (int)get_internal_string_length(cultivate_result)), "",
+            MAX(0, cslen), "",
             (pterrain->plant_result == T_NONE) ? "-" : plant_time,
             plant_result,
-            MAX(0, 12 - (int)get_internal_string_length(plant_result)), "",
+            MAX(0, pslen), "",
             (pterrain->transform_result == T_NONE) ? "-" : transform_time,
             transform_result);
 
@@ -452,22 +460,24 @@ static bool insert_generated_text(char *outbuf, size_t outlen, const char *name)
       extra_type_by_cause_iterate(EC_ROAD, pextra) {
         if (pextra->buildable && pextra->build_time > 0) {
           const char *rname = extra_name_translation(pextra);
+          int slen = 18 - (int)get_internal_string_length(rname);
 
           cat_snprintf(outbuf, outlen,
                        "\n%s%*s %3d",
                        rname,
-                       MAX(0, 18 - (int)get_internal_string_length(rname)), "",
+                       MAX(0, slen), "",
                        pextra->build_time);
         }
       } extra_type_by_cause_iterate_end;
       extra_type_by_cause_iterate(EC_BASE, pextra) {
         if (pextra->buildable && pextra->build_time > 0) {
           const char *bname = extra_name_translation(pextra);
+          int slen = 18 - (int)get_internal_string_length(bname);
 
           cat_snprintf(outbuf, outlen,
                        "\n%s%*s %3d",
                        bname,
-                       MAX(0, 18 - (int)get_internal_string_length(bname)), "",
+                       MAX(0, slen), "",
                        pextra->build_time);
         }
       } extra_type_by_cause_iterate_end;
@@ -4003,10 +4013,11 @@ void helptext_extra(char *buf, size_t bufsz, struct player *pplayer,
           = road ? helptext_road_bonus_str(t, proad) : NULL;
         if (turns > 0 || bonus_text) {
           const char *terrain = terrain_name_translation(t);
+          int slen = 12 - (int)get_internal_string_length(terrain);
 
           cat_snprintf(buf, bufsz,
                        "%s%*s ", terrain,
-                       MAX(0, 12 - (int)get_internal_string_length(terrain)),
+                       MAX(0, slen),
                        "");
           if (do_time) {
             if (turns > 0) {
