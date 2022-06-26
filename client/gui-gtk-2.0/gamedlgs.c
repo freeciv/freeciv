@@ -340,6 +340,7 @@ static GtkWidget *create_multiplier_dialog(void)
 
   multipliers_iterate(pmul) {
     Multiplier_type_id multiplier = multiplier_index(pmul);
+    int mscale;
 
     fc_assert(multiplier < ARRAY_SIZE(multipliers_scale));
     label = gtk_label_new(multiplier_name_translation(pmul));
@@ -348,8 +349,9 @@ static GtkWidget *create_multiplier_dialog(void)
     scale = gtk_hscale_new_with_range(mult_to_scale(pmul, pmul->start),
                                       mult_to_scale(pmul, pmul->stop), 1);
     multipliers_scale[multiplier] = scale;
+    mscale = mult_to_scale(pmul, pmul->stop) / 10;
     gtk_range_set_increments(GTK_RANGE(multipliers_scale[multiplier]),
-                             1, MAX(2, mult_to_scale(pmul, pmul->stop) / 10));
+                             1, MAX(2, mscale));
     g_signal_connect(multipliers_scale[multiplier], "format-value",
                      G_CALLBACK(multiplier_value_callback), pmul);
     g_signal_connect(multipliers_scale[multiplier], "destroy",

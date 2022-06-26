@@ -963,8 +963,10 @@ void adv_best_government(struct player *pplayer)
         dist = 0;
         requirement_vector_iterate(&gov->reqs, preq) {
           if (VUT_ADVANCE == preq->source.kind) {
-            dist += MAX(1, research_goal_unknown_techs(presearch,
-                                                       advance_number(preq->source.value.advance)));
+            int gut = research_goal_unknown_techs(presearch,
+                                      advance_number(preq->source.value.advance));
+
+            dist += MAX(1, gut);
           }
         } requirement_vector_iterate_end;
         val = amortize(val, dist);

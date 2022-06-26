@@ -334,8 +334,10 @@ static int dai_goldequiv_clause(struct ai_type *ait,
 
         /* Make sure there's no division by zero */
         if (research->techs_researched > 0) {
-          limit = MAX(1, player_tech_upkeep(pplayer)
-                      / research->techs_researched);
+          int upk_per_tech = player_tech_upkeep(pplayer)
+            / research->techs_researched;
+
+          limit = MAX(1, upk_per_tech);
         } else {
           limit = 1;
           fc_assert(player_tech_upkeep(pplayer) == 0);
@@ -1019,6 +1021,7 @@ void dai_diplomacy_begin_new_phase(struct ai_type *ait, struct player *pplayer)
   players_iterate_alive(aplayer) {
     struct ai_dip_intel *adip = dai_diplomacy_get(ait, pplayer, aplayer);
     int amount = 0;
+    int pit;
 
     if (pplayer == aplayer) {
       continue;
@@ -1072,8 +1075,9 @@ void dai_diplomacy_begin_new_phase(struct ai_type *ait, struct player *pplayer)
 
     /* Reduce love due to units in our territory.
      * AI is so naive, that we have to count it even if players are allied */
-    amount -= MIN(player_in_territory(pplayer, aplayer) * (MAX_AI_LOVE / 200),
-                  ai->diplomacy.love_incr 
+    pit = player_in_territory(pplayer, aplayer) * (MAX_AI_LOVE / 200);
+    amount -= MIN(pit,
+                  ai->diplomacy.love_incr
                   * ((adip->is_allied_with_enemy != NULL) + 1));
     pplayer->ai_common.love[player_index(aplayer)] += amount;
     if (amount != 0) {

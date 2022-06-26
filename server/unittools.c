@@ -1517,13 +1517,14 @@ void transform_unit(struct unit *punit, struct unit_type *to_unit,
   struct unit_type *old_type = punit->utype;
   int old_mr = unit_move_rate(punit);
   int old_hp = unit_type_get(punit)->hp;
+  int lvls;
 
   punit->utype = to_unit;
 
   /* New type may not have the same veteran system, and we may want to
    * knock some levels off. */
-  punit->veteran = MIN(punit->veteran,
-                       utype_veteran_system(to_unit)->levels - 1);
+  lvls = utype_veteran_system(to_unit)->levels - 1;
+  punit->veteran = MIN(punit->veteran, lvls);
   /* Keeping the old behaviour, so first clip top, then reduce */
   punit->veteran = MAX(punit->veteran - vet_loss, 0);
 
@@ -1614,8 +1615,10 @@ struct unit *create_unit_full(struct player *pplayer, struct tile *ptile,
   }
 
   if (moves_left >= 0) {
+    int mr = unit_move_rate(punit);
+
     /* Override default full MP */
-    punit->moves_left = MIN(moves_left, unit_move_rate(punit));
+    punit->moves_left = MIN(moves_left, mr);
   }
 
   if (ptrans) {

@@ -328,6 +328,7 @@ const char *cmafec_get_result_descr(struct city *pcity,
   char buf[RESULT_COLUMNS][BUFFER_SIZE];
   char citizen_types[BUFFER_SIZE];
   static char buffer[600];
+  int slen;
 
   /* TRANS: "W" is worker citizens, as opposed to specialists;
    * %s will represent the specialist types, for instance "E/S/T" */
@@ -356,6 +357,7 @@ const char *cmafec_get_result_descr(struct city *pcity,
                 cmafec_get_short_descr(parameter));
   }
 
+  slen = 20 - (int)get_internal_string_length(citizen_types);
   fc_snprintf(buffer, sizeof(buffer),
               _("Name: %s\n"
                 "Food:       %10s Gold:    %10s\n"
@@ -367,14 +369,14 @@ const char *cmafec_get_result_descr(struct city *pcity,
                 "Production completed: %s"),
               buf[9], buf[O_FOOD], buf[O_GOLD], buf[O_SHIELD], buf[O_LUXURY],
               buf[O_TRADE], buf[O_SCIENCE],
-              MAX(0, 20 - (int)get_internal_string_length(citizen_types)), "",
+              MAX(0, slen), "",
               citizen_types,
               buf[6], buf[7], buf[8]);
 
   log_debug("\n%s", buffer);
+
   return buffer;
 }
-
 
 /**************************************************************************
   Create default cma presets for a new user (or without configuration file)
