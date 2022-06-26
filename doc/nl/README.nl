@@ -28,7 +28,7 @@ Web site:
 
 Freeciv's web site is hier:
 
-  http://www.freeciv.org/
+  https://www.freeciv.org/
 
 Wij nodigen u uit deze te bezoeken. U kunt hier het laatste Freeciv nieuws,
 nieuwe versies en patches vinden, meer te weten komen over de mailinglijsten

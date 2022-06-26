@@ -313,7 +313,7 @@ durchgeführt werden:
     erstellt.
 
     Mehr zur Mailingliste freeciv-dev gibt es unter
-    http://www.freeciv.org
+    https://www.freeciv.org
 
 Achtung: Seit der Freeciv Version 1.7.2 wird Imake nicht mehr
 unterstützt, und seit Version 1.8.1 gehört die Datei Makefile.noimake

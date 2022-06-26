@@ -317,7 +317,7 @@ seguenti passi:
     vengono generati dallo script configure.
 
     Ulteriori informazioni riguardo la mailing list freeciv-dev presso il sito
-    ufficiale del gioco:  http://www.freeciv.org/
+    ufficiale del gioco:  https://www.freeciv.org/
 
 Da notare che dalla versione 1.7.2 abbiamo interrotto il supporto di
 Imake, e dalla versione  1.8.1 non includiamo piu' il file Makefile.noimake

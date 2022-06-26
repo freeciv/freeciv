@@ -17,7 +17,7 @@ Så här gör man:
 
         http://www.freeciv.org/wiki/Known_Bugs
 
-- Tittar på <http://www.freeciv.org> och försäkrar sig om att man har
+- Tittar på <https://www.freeciv.org> och försäkrar sig om att man har
   den nyaste versionen. (Vi kanske redan har rättat felet.)
 
 - Tittar på Freecivs system för spårning av buggar vid:
@@ -83,4 +83,4 @@ YTTERLIGARE INFORMATION:
 
 Freecivs webbplats tillhandahåller mycket mer material:
 
-        http://www.freeciv.org/
+        https://www.freeciv.org/

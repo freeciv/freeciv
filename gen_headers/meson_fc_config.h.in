@@ -11,7 +11,7 @@
 #define LOCALEDIR "@LOCALEDIR@"
 
 #define BUG_URL "https://osdn.net/projects/freeciv/ticket/"
-#define HOMEPAGE_URL "http://www.freeciv.org/"
+#define HOMEPAGE_URL "https://www.freeciv.org/"
 
 #define DATASUBDIR "@DATASUBDIR@"
 
