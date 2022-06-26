@@ -4,7 +4,7 @@ Installing Freeciv:
 
 This file describes how to compile and install Freeciv. Last time we
 made sure this file is up to date was 16-Jul-06.
-Last minor update was 04-Jun-22.
+Last minor update was 26-Jun-22.
 
 There may be a localized version of this file in the ./doc directory,
 named INSTALL.<locale> (e.g., INSTALL.de).
@@ -481,7 +481,7 @@ If for some reason using "configure" gives you trouble, follow these steps:
     configure script.
 
     You can find out about the freeciv-dev mailing list on our web
-    site, at http://www.freeciv.org/
+    site, at https://www.freeciv.org/
 
 
 3. Compiling Freeciv:

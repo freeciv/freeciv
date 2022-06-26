@@ -282,7 +282,7 @@ problème, suivez ces étapes :
     "config.log", qui sont générés par le script configure.
 
     Vous pouvez en savoir plus à propos de la liste de diffusion
-    freeciv-dev sur notre site web, à l'adresse http://www.freeciv.org/
+    freeciv-dev sur notre site web, à l'adresse https://www.freeciv.org/
 
 Notez que, depuis Freeciv 1.7.2, nous avons cessé d'utiliser Imake et
 que, depuis Freeciv 1.8.1, nous n'incluons plus le Makefile.noimake "de
