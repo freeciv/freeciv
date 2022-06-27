@@ -1281,6 +1281,7 @@ static void sg_load_savefile(struct loaddata *loading)
   const char *terr_name;
   const char *ruleset = NULL;
   bool current_ruleset_rejected;
+  size_t dummy_size;
 
   /* Check status and return if not OK (sg_success FALSE). */
   sg_check_ret();
@@ -1393,6 +1394,19 @@ static void sg_load_savefile(struct loaddata *loading)
     sg_failure_ret(loading->technology.size != 0,
                    "Failed to load technology order: %s",
                    secfile_error());
+  }
+
+  /* Freeciv-3.0 savegame format contains activities order, for the
+   * benefit of future versions. Freeciv-3.0 itself does not need it.
+   * Just lookup the entries to avoid warnings about unused entries. */
+  dummy_size = secfile_lookup_int_default(loading->file, 0,
+                                          "savefile.activities_size");
+  if (dummy_size > 0) {
+    const char **order = secfile_lookup_str_vec(loading->file, &dummy_size,
+                                                "savefile.activities_vector");
+    if (order != NULL) {
+      free(order);
+    }
   }
 
   /* Load traits. */
