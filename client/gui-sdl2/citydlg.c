@@ -606,16 +606,21 @@ static SDL_Surface *create_unit_surface(struct unit *punit, bool support,
 
   put_unit(punit, destcanvas, 1.0, 0, 0);
 
-  /* Get unit sprite width, but do not limit height by it */
+  /* Get unit sprite width, and crop top. Bottom might get restored in 'support'
+   * case below. */
   src_rect = get_smaller_surface_rect(destcanvas->surf);
-  src_rect.y = 0;
-  src_rect.h = destcanvas->surf->h;
 
   if (support) {
     int i, step;
     int free_unhappy;
     int happy_cost;
     SDL_Rect dest;
+    int offset = tileset_unit_layout_small_offset_y(tileset);
+
+    /* Support also layouts placing support icons higher than unit. */
+    src_rect.y = MIN(src_rect.y, offset);
+    /* Restore bottom space when needed for support icons. */
+    src_rect.h = destcanvas->surf->h - src_rect.y;
 
     free_unhappy = get_city_bonus(pCityDlg->pCity, EFT_MAKE_CONTENT_MIL);
     happy_cost = city_unit_unhappiness(punit, &free_unhappy);
