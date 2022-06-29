@@ -247,12 +247,26 @@ static void select_same_type_callback(GtkMenuItem *item, gpointer data);
 static void select_dialog_callback(GtkMenuItem *item, gpointer data);
 static void rally_dialog_callback(GtkMenuItem *item, gpointer data);
 static void infra_dialog_callback(GtkMenuItem *item, gpointer data);
-static void unit_wait_callback(GtkMenuItem *item, gpointer data);
-static void unit_done_callback(GtkMenuItem *item, gpointer data);
+#endif /* MENUS_GTK3 */
+
+static void unit_wait_callback(GSimpleAction *action,
+                               GVariant *parameter,
+                               gpointer data);
+static void unit_done_callback(GSimpleAction *action,
+                               GVariant *parameter,
+                               gpointer data);
+
+#ifdef MENUS_GTK3
 static void unit_goto_callback(GtkMenuItem *item, gpointer data);
 static void unit_goto_city_callback(GtkMenuItem *item, gpointer data);
 static void unit_return_callback(GtkMenuItem *item, gpointer data);
-static void unit_explore_callback(GtkMenuItem *item, gpointer data);
+#endif /* MENUS_GTK3 */
+
+static void unit_explore_callback(GSimpleAction *action,
+                                  GVariant *parameter,
+                                  gpointer data);
+
+#ifdef MENUS_GTK3
 static void unit_patrol_callback(GtkMenuItem *item, gpointer data);
 static void unit_sentry_callback(GtkMenuItem *item, gpointer data);
 static void unit_unsentry_callback(GtkMenuItem *item, gpointer data);
@@ -268,8 +282,11 @@ static void unit_disband_callback(GtkMenuItem *item, gpointer data);
 static void build_city_callback(GSimpleAction *action,
                                 GVariant *parameter,
                                 gpointer data);
+static void auto_settle_callback(GSimpleAction *action,
+                                 GVariant *parameter,
+                                 gpointer data);
+
 #ifdef MENUS_GTK3
-static void auto_settle_callback(GtkMenuItem *item, gpointer data);
 static void build_road_callback(GtkMenuItem *item, gpointer data);
 static void build_irrigation_callback(GtkMenuItem *item, gpointer data);
 static void cultivate_callback(GtkMenuItem *item, gpointer data);
@@ -305,10 +322,19 @@ static struct menu_entry_info menu_entries[] =
   { "QUIT", N_("_Quit"),
     "app.quit", "<ctrl>q", MGROUP_SAFE },
 
+  /* Unit menu */
+  { "UNIT_EXPLORE", N_("Auto E_xplore"),
+    "app.explore", "x", MGROUP_UNIT },
+  { "UNIT_WAIT", N_("_Wait"),
+    "app.wait", "w", MGROUP_UNIT },
+  { "UNIT_DONE", N_("_Done"),
+    "app.done", "space", MGROUP_UNIT },
 
   /* Work menu */
   { "BUILD_CITY", N_("_Build City"),
     "app.build_city", "b", MGROUP_UNIT },
+  { "AUTO_SETTLER", N_("_Auto Settler"),
+    "app.auto_settle", "a", MGROUP_UNIT },
 
 
   /* Civilization */
@@ -522,10 +548,6 @@ static struct menu_entry_info menu_entries[] =
     G_CALLBACK(select_same_type_callback), MGROUP_UNIT },
   { "SELECT_DLG", N_("Unit Selection Dialog"), 0, 0,
     G_CALLBACK(select_dialog_callback), MGROUP_UNIT },
-  { "UNIT_WAIT", N_("_Wait"), GDK_KEY_w, 0,
-    G_CALLBACK(unit_wait_callback), MGROUP_UNIT },
-  { "UNIT_DONE", N_("_Done"), GDK_KEY_space, 0,
-    G_CALLBACK(unit_done_callback), MGROUP_UNIT },
   { "UNIT_GOTO", N_("_Go to"), GDK_KEY_g, 0,
     G_CALLBACK(unit_goto_callback), MGROUP_UNIT },
   { "MENU_GOTO_AND", N_("Go to a_nd..."), 0, 0, NULL, MGROUP_UNIT },
@@ -533,8 +555,6 @@ static struct menu_entry_info menu_entries[] =
     G_CALLBACK(unit_goto_city_callback), MGROUP_UNIT },
   { "UNIT_RETURN", N_("_Return to Nearest City"), GDK_KEY_g, GDK_SHIFT_MASK,
     G_CALLBACK(unit_return_callback), MGROUP_UNIT },
-  { "UNIT_EXPLORE", N_("Auto E_xplore"), GDK_KEY_x, 0,
-    G_CALLBACK(unit_explore_callback), MGROUP_UNIT },
   { "UNIT_PATROL", N_("_Patrol"), GDK_KEY_q, 0,
     G_CALLBACK(unit_patrol_callback), MGROUP_UNIT },
   { "UNIT_SENTRY", N_("_Sentry"), GDK_KEY_s, 0,
@@ -557,8 +577,6 @@ static struct menu_entry_info menu_entries[] =
   { "UNIT_DISBAND", N_("_Disband"), GDK_KEY_d, GDK_SHIFT_MASK,
     G_CALLBACK(unit_disband_callback), MGROUP_UNIT },
 
-  { "AUTO_SETTLER", N_("_Auto Settler"), GDK_KEY_a, 0,
-    G_CALLBACK(auto_settle_callback), MGROUP_UNIT },
   { "BUILD_ROAD", N_("Build _Road"), GDK_KEY_r, 0,
     G_CALLBACK(build_road_callback), MGROUP_UNIT },
   { "BUILD_IRRIGATION", N_("Build _Irrigation"), GDK_KEY_i, 0,
@@ -612,7 +630,12 @@ const GActionEntry acts[] = {
   { "leave", leave_callback },
   { "quit", quit_callback },
 
+  { "explore", unit_explore_callback },
+  { "wait", unit_wait_callback },
+  { "done", unit_done_callback },
+
   { "build_city", build_city_callback },
+  { "auto_settle", auto_settle_callback },
 
   { "revolution", revolution_callback }
 };
@@ -1470,11 +1493,14 @@ static void infra_dialog_callback(GtkMenuItem *item, gpointer data)
 {
   infra_dialog_popup();
 }
+#endif /* MENUS_GTK3 */
 
 /************************************************************************//**
   Item "UNIT_WAIT" callback.
 ****************************************************************************/
-static void unit_wait_callback(GtkMenuItem *item, gpointer data)
+static void unit_wait_callback(GSimpleAction *action,
+                               GVariant *parameter,
+                               gpointer data)
 {
   key_unit_wait();
 }
@@ -1482,11 +1508,14 @@ static void unit_wait_callback(GtkMenuItem *item, gpointer data)
 /************************************************************************//**
   Item "UNIT_DONE" callback.
 ****************************************************************************/
-static void unit_done_callback(GtkMenuItem *item, gpointer data)
+static void unit_done_callback(GSimpleAction *action,
+                               GVariant *parameter,
+                               gpointer data)
 {
   key_unit_done();
 }
 
+#ifdef MENUS_GTK3
 /************************************************************************//**
   Item "UNIT_GOTO" callback.
 ****************************************************************************/
@@ -1562,15 +1591,19 @@ static void unit_return_callback(GtkMenuItem *item, gpointer data)
     request_unit_return(punit);
   } unit_list_iterate_end;
 }
+#endif /* MENUS_GTK3 */
 
 /************************************************************************//**
   Item "UNIT_EXPLORE" callback.
 ****************************************************************************/
-static void unit_explore_callback(GtkMenuItem *item, gpointer data)
+static void unit_explore_callback(GSimpleAction *action,
+                                  GVariant *parameter,
+                                  gpointer data)
 {
   key_unit_auto_explore();
 }
 
+#ifdef MENUS_GTK3
 /************************************************************************//**
   Item "UNIT_PATROL" callback.
 ****************************************************************************/
@@ -1678,15 +1711,17 @@ static void build_city_callback(GSimpleAction *action,
   } unit_list_iterate_end;
 }
 
-#ifdef MENUS_GTK3
 /************************************************************************//**
   Action "AUTO_SETTLE" callback.
 ****************************************************************************/
-static void auto_settle_callback(GtkMenuItem *action, gpointer data)
+static void auto_settle_callback(GSimpleAction *action,
+                                 GVariant *parameter,
+                                 gpointer data)
 {
   key_unit_auto_settle();
 }
 
+#ifdef MENUS_GTK3
 /************************************************************************//**
   Action "BUILD_ROAD" callback.
 ****************************************************************************/
@@ -2042,7 +2077,16 @@ GMenu *setup_menus(GtkApplication *app)
   g_menu_append_submenu(menubar, _("_Game"), G_MENU_MODEL(topmenu));
 
   topmenu = g_menu_new();
+
+  menu_entry_init(topmenu, "UNIT_EXPLORE");
+  menu_entry_init(topmenu, "UNIT_WAIT");
+  menu_entry_init(topmenu, "UNIT_DONE");
+
+  g_menu_append_submenu(menubar, _("_Unit"), G_MENU_MODEL(topmenu));
+
+  topmenu = g_menu_new();
   menu_entry_init(topmenu, "BUILD_CITY");
+  menu_entry_init(topmenu, "AUTO_SETTLER");
 
   g_menu_append_submenu(menubar, _("_Work"), G_MENU_MODEL(topmenu));
 
