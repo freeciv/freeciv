@@ -550,9 +550,8 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
           pgiver_seen_units = get_units_seen_via_ally(pgiver, pdest);
           pdest_seen_units = get_units_seen_via_ally(pdest, pgiver);
         }
-        ds_giverdest->type = DS_CEASEFIRE;
+        set_diplstate_type(ds_giverdest, ds_destgiver, DS_CEASEFIRE);
         ds_giverdest->turns_left = TURNS_LEFT;
-        ds_destgiver->type = DS_CEASEFIRE;
         ds_destgiver->turns_left = TURNS_LEFT;
         notify_player(pgiver, NULL, E_TREATY_CEASEFIRE, ftc_server,
                       _("You agree on a cease-fire with %s."),
