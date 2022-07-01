@@ -106,9 +106,6 @@ Syntax:
      (packet_req_join_game). Sadly this also disables the use of 0 as
      the default value.
 
-     no-packet: don't generate a packet argument for the send
-     function. Currently only used by packet_generic_empty.
-
      no-handle: don't generate handle_* prototypes. The generated
      switch statements (server/hand_gen.c, client/packhand_gen.c)
      doesn't include code for this packet. You have to handle this by

@@ -1689,9 +1689,6 @@ class Packet:
         self.delta="no-delta" not in arr
         if not self.delta: arr.remove("no-delta")
 
-        self.no_packet="no-packet" in arr
-        if self.no_packet: arr.remove("no-packet")
-
         self.handle_via_packet="handle-via-packet" in arr
         if self.handle_via_packet: arr.remove("handle-via-packet")
 
@@ -1731,9 +1728,9 @@ class Packet:
         self.key_fields = [field for field in self.fields if field.is_key]
         self.other_fields = [field for field in self.fields if not field.is_key]
 
-        if len(self.fields)==0:
+        # valid, since self.fields is already set
+        if self.no_packet:
             self.delta = False
-            self.no_packet = True
 
             if self.want_dsend:
                 raise ValueError("requested dsend for %s without fields isn't useful" % self.name)
@@ -1761,6 +1758,12 @@ class Packet:
     def name(self) -> str:
         """Snake-case name of this packet type"""
         return self.type.lower()
+
+    @property
+    def no_packet(self) -> bool:
+        """Whether this packet's send functions should take no packet
+        argument. This is the case iff this packet has no fields."""
+        return not self.fields
 
     @property
     def extra_send_args(self) -> str:
