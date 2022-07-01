@@ -265,9 +265,14 @@ def powerset(iterable: typing.Iterable[T_co]) -> "typing.Iterator[tuple[T_co, ..
     s = list(iterable)
     return chain.from_iterable(combinations(s, r) for r in range(len(s)+1))
 
+# matches the beginning of a line followed by neither a # nor the line end,
+# i.e. the beginning of any nonempty line that doesn't start with #
+INSERT_PREFIX_PATTERN = re.compile(r"^(?!#|$)", re.MULTILINE)
+
 def prefix(prefix: str, text: str) -> str:
-    """Prepend prefix to every line of text"""
-    return "\n".join(prefix + line for line in text.split("\n"))
+    """Prepend prefix to every line of text, except blank lines and those
+    starting with #"""
+    return INSERT_PREFIX_PATTERN.sub(prefix, text)
 
 
 # matches an entire field definition line (type, fields and flag info)
