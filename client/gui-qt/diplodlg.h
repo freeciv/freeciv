@@ -110,6 +110,7 @@ class diplo_dlg: public QTabWidget
 public:
   diplo_dlg(int counterpart, int initiated_from);
   ~diplo_dlg();
+  void reactivate();
   void update_dlg();
   bool init(bool raise);
   diplo_wdg *find_widget(int counterpart);

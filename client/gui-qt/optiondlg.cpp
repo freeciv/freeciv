@@ -776,6 +776,7 @@ void option_dialog_popup(const char *name, const struct option_set *poptset)
 
   if (::dialog_list.contains(poptset)) {
     opt_dialog = dialog_list[poptset];
+    opt_dialog->reactivate();
     opt_dialog->show();
   } else {
     opt_dialog = new option_dialog(name, poptset, gui()->central_wdg);
