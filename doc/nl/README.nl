@@ -314,7 +314,7 @@ Voor heel veel meer informatie over de client, de server en de concepten
 en regels van het spel, bekijk de Freeciv handleiding, beschikbaar op de
 webpagina's op:
 
-  http://freeciv.org/wiki/Manual
+  https://www.freeciv.org/wiki/Manual
 
 
 Beëindigen van het spel:

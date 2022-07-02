@@ -15,7 +15,7 @@ Så här gör man:
 
 - Ser efter att det inte är en känd bugg! Se listan vid:
 
-        http://www.freeciv.org/wiki/Known_Bugs
+        https://www.freeciv.org/wiki/Known_Bugs
 
 - Tittar på <https://www.freeciv.org> och försäkrar sig om att man har
   den nyaste versionen. (Vi kanske redan har rättat felet.)

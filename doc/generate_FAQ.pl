@@ -4,7 +4,7 @@ $test_data = "";
 # uncomment the following to run from named file
 #$test_data = "sample.txt";
 
-$faq_url = "http://www.freeciv.org/wiki/FAQ";
+$faq_url = "https://www.freeciv.org/wiki/FAQ";
 $faq_file = "FAQ";
 
 @sections;

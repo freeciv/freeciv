@@ -89,7 +89,7 @@ FAIRE UN RAPPORT DE BUG :
 =======================
 
 (S'il s'agit d'un bug dans la traduction, il doit être rapporté au contact
-primaire pour la langage. Voyez <http://freeciv.org/wiki/Translations> pour
+primaire pour la langage. Voyez <https://www.freeciv.org/wiki/Translations> pour
 les noms et adresses des personnes.)
 
 Voici ce qu'il faut faire :

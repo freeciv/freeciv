@@ -10,7 +10,7 @@ Als u nog nooit Freeciv gespeeld hebt, is het het gemakkelijkst
 om te beginnen met de Freeciv handleiding (in Engels), apart
 beschikbaar op:
 
-     http://freeciv.org/wiki/Manual
+     https://www.freeciv.org/wiki/Manual
 
 Als u zoekt naar ideëen om Freeciv te spelen, blijf dan lezen!!
 
@@ -149,7 +149,7 @@ V. Welke strategieën zijn er nog meer?
         Er zijn een aantal (Engelstalige) instructie- en strategie-documenten
 beschikbaar op de Freeciv web pagina's op:
 
-	 http://freeciv.org/wiki/Tutorials
+	 https://www.freeciv.org/wiki/Tutorials
 
 Plus, de Freeciv online help beschrijft een andere strategie.
 

@@ -184,7 +184,7 @@ Client:
 
   |  % civclient --tiles trident
 
-  Es poden obtenir altres jocs de caselles a http://www.freeciv.org/wiki/Tilesets
+  Es poden obtenir altres jocs de caselles a https://www.freeciv.org/wiki/Tilesets
 
 
   Es pot autoritzar als clients a donar comandes de servidor. Per
@@ -333,7 +333,7 @@ Per molta més informació sobre el client, el servidor, i els
 conceptes i regles del joc, veure el manual de Freeciv, disponible
 a la wiki també en català:
 
-  http://www.freeciv.org/wiki-ca/Manual
+  https://www.freeciv.org/wiki-ca/Manual
 
 
 Final de la partida:
