@@ -99,7 +99,7 @@ RAPPORTEREN VAN FOUTEN:
 (Als het vertalingsfouten betreft in de Nederlandse versie, neem dan contact
 op met Pieter J. Kersten <kersten@dia.eur.nl>. Voor vertalingsfouten in andere
 talen, neem contact op met de primaire contactpersoon voor die taal. Kijk op 
-<http://freeciv.org/wiki/Translations> voor de namen en mailadressen van deze
+<https://www.freeciv.org/wiki/Translations> voor de namen en mailadressen van deze
 mensen.)
 
 Dit is wat u moet doen:

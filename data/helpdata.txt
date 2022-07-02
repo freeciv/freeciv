@@ -2001,12 +2001,12 @@ on how to use one of these languages.\
 First, check whether a localization is already in progress \
 for your language:\
 "), "\
-  http://www.freeciv.org/wiki/Translations\
+  https://www.freeciv.org/wiki/Translations\
 ", _("\
 If you would like to add a localization (translation) for your \
 language, please see the instructions at:\
 "), "\
-  http://www.freeciv.org/wiki/Localization\
+  https://www.freeciv.org/wiki/Localization\
 ", _("\
 You are also welcome to send any questions to the translation \
 mailing list:\
