@@ -182,7 +182,6 @@ pub_headers = [
 
 priv_headers = [
   'arpa/inet.h',
-  'bcrypt.h',
   'bzlib.h',
   'direct.h',
   'dlfcn.h',
@@ -224,19 +223,35 @@ foreach hdr : pub_headers
   endif
 endforeach
 
-if c_compiler.has_header('ws2tcpip.h', args: header_arg)
-  net_incl = '''#include <ws2tcpip.h>'''
-  pub_conf_data.set('FREECIV_HAVE_WS2TCPIP_H', 1)
-  priv_conf_data.set('HAVE_WS2TCPIP_H', 1)
-else
-  net_incl = ''
-endif
-
 foreach hdr : priv_headers
   if c_compiler.has_header(hdr, args: header_arg)
     priv_conf_data.set('HAVE_' + hdr.underscorify().to_upper(), 1)
   endif
 endforeach
+
+if host_system == 'windows'
+  # We don't want Cygwin to find these, so checking only under "real" Windows layer
+
+  win_priv_headers= [
+    'bcrypt.h'
+  ]
+
+  if c_compiler.has_header('ws2tcpip.h', args: header_arg)
+    net_incl = '''#include <ws2tcpip.h>'''
+    pub_conf_data.set('FREECIV_HAVE_WS2TCPIP_H', 1)
+    priv_conf_data.set('HAVE_WS2TCPIP_H', 1)
+  else
+    net_incl = ''
+  endif
+
+  foreach hdr : win_priv_headers
+    if c_compiler.has_header(hdr, args: header_arg)
+      priv_conf_data.set('HAVE_' + hdr.underscorify().to_upper(), 1)
+    endif
+  endforeach
+else
+  net_incl = ''
+endif
 
 priv_functions = [
   'fork',
