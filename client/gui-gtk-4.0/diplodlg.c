@@ -98,6 +98,7 @@ static void diplomacy_dialog_peace_callback(GtkWidget *w, gpointer data);
 static void diplomacy_dialog_alliance_callback(GtkWidget *w, gpointer data);
 static void diplomacy_dialog_vision_callback(GtkWidget *w, gpointer data);
 static void diplomacy_dialog_embassy_callback(GtkWidget *w, gpointer data);
+static void diplomacy_dialog_shared_tiles_callback(GtkWidget *w, gpointer data);
 #endif /* MENUS_GTK3 */
 
 static void close_diplomacy_dialog(struct Diplomacy_dialog *pdialog);
@@ -411,7 +412,6 @@ static void popup_add_menu(GtkMenuShell *parent, gpointer data)
   gtk_menu_shell_append(GTK_MENU_SHELL(parent), item);
   gtk_widget_show(item);
 
-
   /* Give embassy. */
   item = gtk_menu_item_new_with_mnemonic(_("Give _embassy"));
   g_object_set_data(G_OBJECT(item), "plr", pgiver);
@@ -425,6 +425,14 @@ static void popup_add_menu(GtkMenuShell *parent, gpointer data)
   gtk_menu_shell_append(GTK_MENU_SHELL(parent), item);
   gtk_widget_show(item);
 
+  /* Shared tiles */
+  item = gtk_menu_item_new_with_mnemonic(_("_Share tiles"));
+  g_object_set_data(G_OBJECT(item), "plr", pgiver);
+  g_signal_connect(item, "activate",
+		   G_CALLBACK(diplomacy_dialog_shared_tiles_callback), pdialog);
+  gtk_widget_set_sensitive(item, TRUE);
+  gtk_menu_shell_append(GTK_MENU_SHELL(parent), item);
+  gtk_widget_show(item);
 
   /* Pacts. */
   if (pgiver == pdialog->treaty->plr0) {
@@ -1131,6 +1139,22 @@ static void diplomacy_dialog_embassy_callback(GtkWidget *w, gpointer data)
   dsend_packet_diplomacy_create_clause_req(&client.conn,
                                            player_number(pdialog->treaty->plr1),
                                            player_number(pgiver), CLAUSE_EMBASSY,
+                                           0);
+}
+
+/************************************************************************//**
+  Shared tiles menu item activated
+****************************************************************************/
+static void diplomacy_dialog_shared_tiles_callback(GtkWidget *w, gpointer data)
+{
+  struct Diplomacy_dialog *pdialog = (struct Diplomacy_dialog *) data;
+  struct player *pgiver =
+      (struct player *) g_object_get_data(G_OBJECT(w), "plr");
+
+  dsend_packet_diplomacy_create_clause_req(&client.conn,
+                                           player_number(pdialog->treaty->plr1),
+                                           player_number(pgiver),
+                                           CLAUSE_SHARED_TILES,
                                            0);
 }
 #endif /* MENUS_GTK3 */

@@ -3840,9 +3840,10 @@ static void sg_load_players(struct loaddata *loading)
     sg_check_ret();
   } players_iterate_end;
 
-  /* Check shared vision. */
+  /* Check shared vision and tiles. */
   players_iterate(pplayer) {
     BV_CLR_ALL(pplayer->gives_shared_vision);
+    BV_CLR_ALL(pplayer->gives_shared_tiles);
     BV_CLR_ALL(pplayer->server.really_gives_vision);
   } players_iterate_end;
 
@@ -3851,9 +3852,14 @@ static void sg_load_players(struct loaddata *loading)
 
     players_iterate(pplayer2) {
       int plr2 = player_index(pplayer2);
+
       if (secfile_lookup_bool_default(loading->file, FALSE,
               "player%d.diplstate%d.gives_shared_vision", plr1, plr2)) {
         give_shared_vision(pplayer, pplayer2);
+      }
+      if (secfile_lookup_bool_default(loading->file, FALSE,
+              "player%d.diplstate%d.gives_shared_tiles", plr1, plr2)) {
+        BV_SET(pplayer->gives_shared_tiles, player_index(pplayer2));
       }
     } players_iterate_end;
   } players_iterate_end;
@@ -4535,6 +4541,8 @@ static void sg_save_player_main(struct savedata *saving,
                         "%s.embassy", buf);
     secfile_insert_bool(saving->file, gives_shared_vision(plr, pplayer),
                         "%s.gives_shared_vision", buf);
+    secfile_insert_bool(saving->file, gives_shared_tiles(plr, pplayer),
+                        "%s.gives_shared_tiles", buf);
   } players_iterate_end;
 
   players_iterate(aplayer) {

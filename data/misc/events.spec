@@ -51,6 +51,7 @@ tiles = { "row", "column", "tag"
   1,  3,  "e_treaty_ceasefire"
   1,  4,  "e_treaty_broken"
   1,  5,  "e_treaty_embassy"
+  1,  0,  "e_treaty_shared_tiles"
 
   1,  6, "e_imp_buy"
   1,  7, "e_imp_build"

@@ -2464,6 +2464,7 @@ void handle_player_info(const struct packet_player_info *pinfo)
     }
   }
   pplayer->gives_shared_vision = pinfo->gives_shared_vision;
+  pplayer->gives_shared_tiles = pinfo->gives_shared_tiles;
   pplayer->style = style_by_number(pinfo->style);
 
   if (pplayer == client.conn.playing) {

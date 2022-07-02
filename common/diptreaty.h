@@ -43,6 +43,8 @@ extern "C" {
 #define SPECENUM_VALUE8NAME "Vision"
 #define SPECENUM_VALUE9 CLAUSE_EMBASSY
 #define SPECENUM_VALUE9NAME "Embassy"
+#define SPECENUM_VALUE10 CLAUSE_SHARED_TILES
+#define SPECENUM_VALUE10NAME "SharedTiles"
 #define SPECENUM_COUNT CLAUSE_COUNT
 #include "specenum_gen.h"
 

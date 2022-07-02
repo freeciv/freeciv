@@ -298,6 +298,7 @@ struct player
   struct conn_list *connections;       /* will replace conn */
   bv_player gives_shared_vision;       /* bitvector those that give you
                                         * shared vision */
+  bv_player gives_shared_tiles;
   int wonders[B_LAST];              /* contains city id's, WONDER_NOT_BUILT,
                                      * or WONDER_LOST */
   struct attribute_block_s attribute_block;
@@ -491,6 +492,7 @@ static inline bool is_barbarian(const struct player *pplayer)
 }
 
 bool gives_shared_vision(const struct player *me, const struct player *them);
+bool gives_shared_tiles(const struct player *me, const struct player *them);
 
 void diplrel_mess_close(void);
 bool is_diplrel_between(const struct player *player1,

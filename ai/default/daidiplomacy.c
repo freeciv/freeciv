@@ -587,6 +587,20 @@ static int dai_goldequiv_clause(struct ai_type *ait,
     DIPLO_LOG(ait, LOG_DIPL, pplayer, aplayer, "embassy clause worth %d",
               worth);
     break;
+  case CLAUSE_SHARED_TILES:
+    if (give) {
+      if (ds_after == DS_ALLIANCE) {
+        worth = 0;
+      } else {
+        /* Here we assume that number of cities correlate with number of tiles. */
+        worth = -3 * (city_list_size(pplayer->cities) + 1);
+      }
+    } else {
+      int cities = city_list_size(aplayer->cities);
+
+      worth = MIN(cities, 3);
+    }
+    break;
   case CLAUSE_COUNT:
     fc_assert(pclause->type != CLAUSE_COUNT);
     break;

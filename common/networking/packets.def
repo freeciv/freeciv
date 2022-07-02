@@ -927,6 +927,7 @@ PACKET_PLAYER_INFO = 51; sc, is-info
   AI_LEVEL ai_skill_level;
   BARBARIAN_TYPE barbarian_type;
   BV_PLAYER gives_shared_vision;
+  BV_PLAYER gives_shared_tiles;
   UINT32 history;
   UINT32 culture;
   SINT16 love[MAX_NUM_PLAYER_SLOTS];

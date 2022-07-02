@@ -2708,9 +2708,10 @@ static void sg_load_players(struct loaddata *loading)
     sg_check_ret();
   } players_iterate_end;
 
-  /* Check shared vision. */
+  /* Check shared vision. Shared tiles are never given in savegame2 save */
   players_iterate(pplayer) {
     BV_CLR_ALL(pplayer->gives_shared_vision);
+    BV_CLR_ALL(pplayer->gives_shared_tiles);
     BV_CLR_ALL(pplayer->server.really_gives_vision);
   } players_iterate_end;
 

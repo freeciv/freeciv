@@ -248,7 +248,7 @@ void client_diplomacy_clause_string(char *buf, int bufsiz,
     fc_snprintf(buf, bufsiz, _("The %s give %s"),
                 nation_plural_for_player(pclause->from),
                 advance_name_translation(advance_by_number(pclause->value)));
-    break;
+    return;
   case CLAUSE_CITY:
     pcity = game_city_by_number(pclause->value);
     if (pcity) {
@@ -259,44 +259,50 @@ void client_diplomacy_clause_string(char *buf, int bufsiz,
       fc_snprintf(buf, bufsiz,_("The %s give an unknown city"),
                   nation_plural_for_player(pclause->from));
     }
-    break;
+    return;
   case CLAUSE_GOLD:
     fc_snprintf(buf, bufsiz, PL_("The %s give %d gold",
                                  "The %s give %d gold", pclause->value),
                 nation_plural_for_player(pclause->from),
                 pclause->value);
-    break;
+    return;
   case CLAUSE_MAP:
     fc_snprintf(buf, bufsiz, _("The %s give their worldmap"),
                 nation_plural_for_player(pclause->from));
-    break;
+    return;
   case CLAUSE_SEAMAP:
     fc_snprintf(buf, bufsiz, _("The %s give their seamap"),
                 nation_plural_for_player(pclause->from));
-    break;
+    return;
   case CLAUSE_CEASEFIRE:
     fc_snprintf(buf, bufsiz, _("The parties agree on a cease-fire"));
-    break;
+    return;
   case CLAUSE_PEACE:
     fc_snprintf(buf, bufsiz, _("The parties agree on a peace"));
-    break;
+    return;
   case CLAUSE_ALLIANCE:
     fc_snprintf(buf, bufsiz, _("The parties create an alliance"));
-    break;
+    return;
   case CLAUSE_VISION:
     fc_snprintf(buf, bufsiz, _("The %s give shared vision"),
                 nation_plural_for_player(pclause->from));
-    break;
+    return;
   case CLAUSE_EMBASSY:
     fc_snprintf(buf, bufsiz, _("The %s give an embassy"),
                 nation_plural_for_player(pclause->from));
-    break;
-  default:
+    return;
+  case CLAUSE_SHARED_TILES:
+    fc_snprintf(buf, bufsiz, _("The %s share tiles"),
+                nation_plural_for_player(pclause->from));
+    return;
+  case CLAUSE_COUNT:
     fc_assert(FALSE);
-    if (bufsiz > 0) {
-      *buf = '\0';
-    }
-    break;
+    return;
+  }
+
+  fc_assert(FALSE);
+  if (bufsiz > 0) {
+    *buf = '\0';
   }
 }
 

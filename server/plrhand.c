@@ -39,6 +39,7 @@
 #include "player.h"
 #include "research.h"
 #include "rgbcolor.h"
+#include "specialist.h"
 #include "tech.h"
 #include "unitlist.h"
 
@@ -860,6 +861,26 @@ void handle_diplomacy_cancel_pact(struct player *pplayer,
     remove_shared_vision(pplayer, pplayer2);
     notify_player(pplayer2, NULL, E_TREATY_BROKEN, ftc_server,
                   _("%s no longer gives us shared vision!"),
+                  player_name(pplayer));
+    return;
+  }
+
+  if (clause == CLAUSE_SHARED_TILES) {
+    if (!gives_shared_tiles(pplayer, pplayer2)) {
+      return;
+    }
+    BV_CLR(pplayer->gives_shared_tiles, player_index(pplayer2));
+    whole_map_iterate(&(wld.map), ptile) {
+      if (tile_owner(ptile) == pplayer && ptile->worked != NULL
+          && city_owner(ptile->worked) == pplayer2) {
+        struct city *pcity = ptile->worked;
+
+        city_map_update_empty(pcity, ptile);
+        pcity->specialists[DEFAULT_SPECIALIST]++;
+      }
+    } whole_map_iterate_end;
+    notify_player(pplayer2, NULL, E_TREATY_BROKEN, ftc_server,
+                  _("%s no longer shares tiles with us!"),
                   player_name(pplayer));
     return;
   }

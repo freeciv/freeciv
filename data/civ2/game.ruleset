@@ -1630,7 +1630,8 @@ flags = "Bidirectional"
 ; Clause types that are not listed here, are not enabled at all.
 ;
 ; type                   = Type of the clause, one of "Advance", "Gold", "Map", "Seamap",
-;                          "City", "Ceasefire", "Peace", "Alliance", "Vision", "Embassy"
+;                          "City", "Ceasefire", "Peace", "Alliance", "Vision", "Embassy",
+;                          "SharedTiles"
 ; giver_reqs             = requirements that the giving side of the clause needs to fulfill
 ;                          (see effects.ruleset and README.effects for help on requirements)
 ; receiver_reqs          = requirements that the receiving side of the clause needs to fulfill

@@ -605,6 +605,7 @@ static void player_defaults(struct player *pplayer)
   pplayer->current_conn = NULL;
   pplayer->connections = conn_list_new();
   BV_CLR_ALL(pplayer->gives_shared_vision);
+  BV_CLR_ALL(pplayer->gives_shared_tiles);
   for (i = 0; i < B_LAST; i++) {
     pplayer->wonders[i] = WONDER_NOT_BUILT;
   }
@@ -1422,6 +1423,14 @@ bool players_on_same_team(const struct player *pplayer1,
 bool gives_shared_vision(const struct player *me, const struct player *them)
 {
   return BV_ISSET(me->gives_shared_vision, player_index(them));
+}
+
+/*******************************************************************//**
+  Return TRUE iff the player me gives shared tiles to player them.
+***********************************************************************/
+bool gives_shared_tiles(const struct player *me, const struct player *them)
+{
+  return BV_ISSET(me->gives_shared_tiles, player_index(them));
 }
 
 /*******************************************************************//**

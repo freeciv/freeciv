@@ -279,9 +279,13 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
 	    return;
 	  }
 	  break;
-	default:
-	  ; /* nothing */
-	}
+        case CLAUSE_MAP:
+        case CLAUSE_SEAMAP:
+        case CLAUSE_VISION:
+        case CLAUSE_SHARED_TILES:
+        case CLAUSE_COUNT:
+          break;
+        }
       }
     } clause_list_iterate_end;
   }
@@ -641,6 +645,16 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
          * within radius of our own city. */
         worker_refresh_required = TRUE;
 	break;
+      case CLAUSE_SHARED_TILES:
+        BV_SET(pgiver->gives_shared_tiles, player_index(pdest));
+        notify_player(pgiver, NULL, E_TREATY_SHARED_TILES, ftc_server,
+                      _("You share your tiles with %s."),
+                      player_name(pdest));
+        notify_player(pdest, NULL, E_TREATY_SHARED_TILES, ftc_server,
+                      _("%s shares their tiles with you."),
+                      player_name(pgiver));
+        worker_refresh_required = TRUE;
+        break;
       case CLAUSE_COUNT:
         fc_assert(pclause->type != CLAUSE_COUNT);
         break;
@@ -754,8 +768,9 @@ void handle_diplomacy_create_clause_req(struct player *pplayer,
     if (type == CLAUSE_CITY) {
       struct city *pcity = game_city_by_number(value);
 
-      if (pcity && !map_is_known_and_seen(pcity->tile, pother, V_MAIN))
+      if (pcity && !map_is_known_and_seen(pcity->tile, pother, V_MAIN)) {
 	give_citymap_from_player_to_player(pcity, pplayer, pother);
+      }
     }
 
     dlsend_packet_diplomacy_create_clause(pplayer->connections,

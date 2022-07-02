@@ -1363,6 +1363,7 @@ bool base_city_can_work_tile(const struct player *restriction,
 {
   struct player *powner = city_owner(pcity);
   int city_map_x, city_map_y;
+  struct player *towner;
 
   if (NULL == ptile) {
     return FALSE;
@@ -1377,7 +1378,9 @@ bool base_city_can_work_tile(const struct player *restriction,
     return FALSE;
   }
 
-  if (NULL != tile_owner(ptile) && tile_owner(ptile) != powner) {
+  towner = tile_owner(ptile);
+  if (NULL != towner && towner != powner
+      && !gives_shared_tiles(towner, powner)) {
     return FALSE;
   }
   /* TODO: civ3-like option for borders */
