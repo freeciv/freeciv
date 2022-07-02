@@ -849,6 +849,14 @@ void diplo_dlg::update_dlg()
 }
 
 /************************************************************************//**
+  Existing dialog requested again.
+****************************************************************************/
+void diplo_dlg::reactivate()
+{
+  raise();
+}
+
+/************************************************************************//**
   Update a player's acceptance status of a treaty (traditionally shown
   with the thumbs-up/thumbs-down sprite).
 ****************************************************************************/
@@ -887,6 +895,7 @@ void handle_diplomacy_init_meeting(int counterpart, int initiated_from)
   QPixmap *pix, *def_pix, *pix2, *pix3, *def_pix_del;
   QWidget *w;
   QWidget *fw;
+  bool was_open;
 
   if (client_is_observer()) {
     return;
@@ -928,7 +937,8 @@ void handle_diplomacy_init_meeting(int counterpart, int initiated_from)
   delete def_pix;
   delete def_pix_del;
 
-  if (!gui()->is_repo_dlg_open("DDI")) {
+  was_open = gui()->is_repo_dlg_open("DDI");
+  if (!was_open) {
     dd = new diplo_dlg(counterpart, initiated_from);
 
     if (!dd->init(false)) {
@@ -942,6 +952,11 @@ void handle_diplomacy_init_meeting(int counterpart, int initiated_from)
   fc_assert(i != -1);
   w = gui()->game_tab_widget->widget(i);
   dd = qobject_cast<diplo_dlg *>(w);
+
+  if (was_open) {
+    dd->reactivate();
+  }
+
   fw = dd->find_widget(counterpart);
   if (fw == NULL) {
     dd->add_widget(counterpart, initiated_from);

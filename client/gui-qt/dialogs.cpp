@@ -316,6 +316,14 @@ qfc_dialog::qfc_dialog(QWidget* parent) : QDialog(parent,
 }
 
 /***********************************************************************//**
+  Existing dialog requested again.
+***************************************************************************/
+void qfc_dialog::reactivate()
+{
+  raise();
+}
+
+/***********************************************************************//**
   Paint event for themed dialog
 ***************************************************************************/
 void qfc_dialog::paintEvent(QPaintEvent *event)

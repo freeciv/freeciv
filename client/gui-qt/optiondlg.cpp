@@ -775,6 +775,7 @@ void option_dialog_popup(QString name, const struct option_set *poptset,
 
   if (::dialog_list.contains(poptset)) {
     opt_dialog = dialog_list[poptset];
+    opt_dialog->reactivate();
     opt_dialog->show();
   } else {
     opt_dialog = new option_dialog(name, poptset, client_set,

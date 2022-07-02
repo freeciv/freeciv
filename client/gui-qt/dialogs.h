@@ -75,6 +75,7 @@ class qfc_dialog : public QDialog
   Q_OBJECT
 public:
   qfc_dialog(QWidget *parent);
+  void reactivate();
 private:
   int titlebar_height;
   QPoint point;
