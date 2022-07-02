@@ -1356,13 +1356,20 @@ char *helptext_building(char *buf, size_t bufsz, struct player *pplayer,
     } action_list_iterate_end;
 
     if (u) {
-      cat_snprintf(buf, bufsz,
-                   /* TRANS: 'Allows all players with knowledge of atomic
-                    * power to build nuclear units.' */
-                   _("* Allows all players with knowledge of %s "
-                     "to build %s units.\n"),
-                   advance_name_translation(u->require_advance),
-                   utype_name_translation(u));
+      if (advance_number(u->require_advance) != A_NONE) {
+        cat_snprintf(buf, bufsz,
+                     /* TRANS: 'Allows all players with knowledge of atomic
+                      * power to build nuclear units.' */
+                     _("* Allows all players with knowledge of %s "
+                       "to build %s units.\n"),
+                     advance_name_translation(u->require_advance),
+                     utype_name_translation(u));
+      } else {
+        cat_snprintf(buf, bufsz,
+                     /* TRANS: 'Allows all players to build nuclear units.' */
+                     _("* Allows all players to build %s units.\n"),
+                     utype_name_translation(u));
+      }
     }
   }
 
