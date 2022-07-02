@@ -80,9 +80,12 @@ void popup_help_dialog_typed(const char *item, enum help_page_type htype)
   int pos;
   const help_item *topic;
 
-  if (!help_dlg) {
+  if (help_dlg == nullptr) {
     help_dlg = new help_dialog();
+  } else {
+    help_dlg->reactivate();
   }
+
   topic = get_help_item_spec(item, htype, &pos);
   if (pos >= 0) {
     help_dlg->set_topic(topic);

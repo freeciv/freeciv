@@ -112,6 +112,7 @@ public:
   diplo_dlg(struct Treaty *ptreaty, struct player *they,
             struct player *initiator);
   ~diplo_dlg();
+  void reactivate();
   void update_dlg();
   bool init(bool raise);
   diplo_wdg *find_widget(struct player *they);
