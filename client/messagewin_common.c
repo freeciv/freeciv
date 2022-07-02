@@ -117,7 +117,7 @@ void meswin_add(const char *message, const struct text_tag_list *tags,
 
   nspc = min_msg_len - strlen(s);
   if (nspc > 0) {
-    strncat(s, "                                                  ", nspc);
+    fc_strlcat(s, "                                                  ", min_msg_len);
   }
 
   msg->tile = ptile;
