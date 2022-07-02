@@ -4807,7 +4807,7 @@ static bool reset_command(struct connection *caller, char *arg, bool check,
     break;
 
   case RESET_RULESET:
-    /* Restore game settings save in game.ruleset. */
+    /* Restore game settings saved in game.ruleset. */
     if (reload_rulesets_settings()) {
       cmd_reply(CMD_RESET, caller, C_OK,
                 _("Reset all settings to ruleset values."));
