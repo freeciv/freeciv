@@ -219,7 +219,7 @@ Client:
 
   |  % freeciv-gtk3.22 --tiles trident
 
-  Other tilesets are available from http://www.freeciv.org/wiki/Tilesets
+  Other tilesets are available from https://www.freeciv.org/wiki/Tilesets
 
 
   Clients can be authorized to issue server commands.  To allow them
@@ -371,7 +371,7 @@ For lots more information about the client, the server, and the
 concepts and rules of the game, see the Freeciv manual, available
 at the wiki:
 
-  http://www.freeciv.org/wiki/Manual
+  https://www.freeciv.org/wiki/Manual
 
 
 Ending the game:

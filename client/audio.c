@@ -311,7 +311,7 @@ void audio_real_init(const char *const soundset_name,
               soundset_name, musicset_name);
     log_normal(_("To get sound you need to download a sound set!"));
     log_normal(_("Get sound sets from <%s>."),
-               "http://www.freeciv.org/wiki/Sounds");
+               "https://www.freeciv.org/wiki/Sounds");
     log_normal(_("Proceeding with sound support disabled."));
     ss_tagfile = NULL;
     ms_tagfile = NULL;

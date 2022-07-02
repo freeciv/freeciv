@@ -259,7 +259,7 @@ Client :
   |  % freeciv-gtk3 --tiles trident
 
   D'autres jeux de tuiles sont disponibles sur
-  http://www.freeciv.org/wiki/Tilesets
+  https://www.freeciv.org/wiki/Tilesets
 
   Les clients peuvent être autorisés à utiliser des commandes du
   serveur. Pour les autoriser à n'utiliser que des commandes
@@ -427,9 +427,9 @@ Pour avoir beaucoup plus de renseignements à propos du client, du
 serveur et des concepts et des règles du jeu, consultez le manuel de
 Freeciv disponible sur le site wiki :
 
-  http://www.freeciv.org/wiki-fr/Manuel
+  https://www.freeciv.org/wiki-fr/Manuel
   ou
-  http://www.freeciv.org/wiki/Manual (en anglais)
+  https://www.freeciv.org/wiki/Manual (en anglais)
 
 Fin de la partie :
 ==================

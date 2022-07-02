@@ -9,7 +9,7 @@ Om man aldrig har spelat något av spelen i Civilization-serien
 är det bäst om man börjar med att läsa Freecivs handbok som är
 tillgänglig vid:
 
-     http://www.freeciv.org/wiki/Manual
+     https://www.freeciv.org/wiki/Manual
 
 För upplysningar om hur man spelar Freeciv, fortsätt läsa!
 
@@ -151,7 +151,7 @@ Fråga: Vilka andra strategier finns det?
 	Det finns ett antal handledningar och strategianvisningar
 tillgängliga vid Freecivs webplats vid:
 
-	 http://www.freeciv.org/wiki/Tutorials
+	 https://www.freeciv.org/wiki/Tutorials
 
 Dessutom beskriver Freecivs inbyggda hjälp en annan strategi.
 

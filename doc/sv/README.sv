@@ -170,7 +170,7 @@ Klient:
 
   Andra uppsättningar kan hämtas från:
 
-       http://www.freeciv.org/wiki/Tilesets
+       https://www.freeciv.org/wiki/Tilesets
 
   Klienter kan ges tillåtelse att utföra serverkommandon. Skriv
   följande vid serverprompten för att endast ge dem tillåtelse att
@@ -320,7 +320,7 @@ kan man titta i filen "HOWTOPLAY.sv".
 Se freecivhandboken på följande adress för mycket mer information om
 klienten, servern och spelet:
 
-  http://www.freeciv.org/wiki/Manual
+  https://www.freeciv.org/wiki/Manual
 
 
 Avsluta spelet:

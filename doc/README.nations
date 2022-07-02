@@ -9,7 +9,7 @@ nation files for Freeciv. A nation consists of a nation file in the
 rulesets and a flag in the tilesets. 
 
 The contents of this file is based on this page from the Freeciv wiki:
-http://www.freeciv.org/wiki/Nations
+https://www.freeciv.org/wiki/Nations
 
 
 
@@ -427,8 +427,8 @@ different versions of Freeciv is kept in the wiki at https://www.freeciv.org/
 as part of the ruleset differences. The URLs below list the differences
 between the freeciv versions from 2.3.x to the current version:
 
-http://www.freeciv.org/wiki/How_to_update_a_ruleset_from_2.2_to_2.3
+https://www.freeciv.org/wiki/How_to_update_a_ruleset_from_2.2_to_2.3
 
 The description of a nation file can be found at:
 
-http://www.freeciv.org/wiki/Nations
+https://www.freeciv.org/wiki/Nations
