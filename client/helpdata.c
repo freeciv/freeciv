@@ -1317,13 +1317,20 @@ char *helptext_building(char *buf, size_t bufsz, struct player *pplayer,
       && num_role_units(action_id_get_role(ACTION_NUKE)) > 0) {
     struct unit_type *u = get_role_unit(action_id_get_role(ACTION_NUKE), 0);
 
-    cat_snprintf(buf, bufsz,
-		 /* TRANS: 'Allows all players with knowledge of atomic
-		  * power to build nuclear units.' */
-		 _("* Allows all players with knowledge of %s "
-		   "to build %s units.\n"),
-                 advance_name_translation(u->require_advance),
-		 utype_name_translation(u));
+    if (advance_number(u->require_advance) != A_NONE) {
+      cat_snprintf(buf, bufsz,
+                   /* TRANS: 'Allows all players with knowledge of atomic
+                    * power to build nuclear units.' */
+                   _("* Allows all players with knowledge of %s "
+                     "to build %s units.\n"),
+                   advance_name_translation(u->require_advance),
+                   utype_name_translation(u));
+    } else {
+      cat_snprintf(buf, bufsz,
+                   /* TRANS: 'Allows all players to build nuclear units.' */
+                   _("* Allows all players to build %s units.\n"),
+                   utype_name_translation(u));
+    }
   }
 
   insert_allows(&source, buf + strlen(buf), bufsz - strlen(buf),
