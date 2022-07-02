@@ -25,6 +25,7 @@ jobs:
             automake1.16
             libtool
             autoconf
+            mingw-w64-x86_64-meson
             mingw-w64-x86_64-pkgconf
             mingw-w64-x86_64-gcc
             mingw-w64-x86_64-icu
@@ -47,7 +48,7 @@ jobs:
         shell: msys2 {0}
         run: |
           cd windows/installer_msys2
-          make ci
+          make ci && EXTRA_CONFIG="-Dack_experimental=true" make -f Makefile.meson ci
   os_x:
     runs-on: macos-12
     steps:
