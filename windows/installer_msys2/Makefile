@@ -351,6 +351,7 @@ GTK4_FCMP_DLLS := \
 install-env-gtk4-fcmp: install-env-common
 	cp -R $(addprefix $(DLLPATH_PREFIX), $(GTK4_FCMP_DLLS)) install-$(WINARCH)-$(GUI)/
 	# add additional GTK4 files
+	cp /$(ARCHDIR)/bin/gdbus.exe install-$(WINARCH)-$(GUI)/
 	mkdir -p install-$(WINARCH)-$(GUI)/lib/gdk-pixbuf-2.0/
 	cp -R /$(ARCHDIR)/lib/gdk-pixbuf-2.0/* install-$(WINARCH)-$(GUI)/lib/gdk-pixbuf-2.0/
 	cp -R /$(ARCHDIR)/share/locale install-$(WINARCH)-$(GUI)/share/
