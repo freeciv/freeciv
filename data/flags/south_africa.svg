@@ -34,21 +34,21 @@ xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
 -->
 
 <svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    version="1"
    x="0.00000000"
    y="0.00000000"
    width="749.409424"
    height="499.606293"
    id="svg548"
-   inkscape:version="0.47 r22583"
-   sodipodi:docname="south_africa.svg">
+   inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
+   sodipodi:docname="south_africa.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
   <metadata
      id="metadata8024">
     <rdf:RDF>
@@ -69,17 +69,18 @@ xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
      guidetolerance="10"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:window-width="913"
-     inkscape:window-height="713"
+     inkscape:window-width="825"
+     inkscape:window-height="568"
      id="namedview8022"
      showgrid="false"
-     inkscape:zoom="0.47237195"
-     inkscape:cx="374.70471"
-     inkscape:cy="249.80315"
-     inkscape:window-x="421"
-     inkscape:window-y="35"
+     inkscape:zoom="0.66803482"
+     inkscape:cx="374.23199"
+     inkscape:cy="249.23851"
+     inkscape:window-x="488"
+     inkscape:window-y="211"
      inkscape:window-maximized="0"
-     inkscape:current-layer="svg548" />
+     inkscape:current-layer="svg548"
+     inkscape:pagecheckerboard="0" />
   <defs
      id="defs550">
     <inkscape:perspective
