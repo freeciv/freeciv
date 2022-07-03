@@ -38,15 +38,17 @@
 #endif
 #ifdef HAVE_NETDB_H
 #include <netdb.h>
-#endif 
+#endif
 #ifdef HAVE_SYS_IOCTL_H
 #include <sys/ioctl.h>
 #endif
-#ifdef HAVE_SYS_SIGNAL_H
+#ifdef HAVE_SIGNAL_H
+#include <signal.h>
+#elif defined(HAVE_SYS_SIGNAL_H)
 #include <sys/signal.h>
 #endif
 #ifdef FREECIV_MSWINDOWS
-#include <windows.h>	/* GetTempPath */
+#include <windows.h>   /* GetTempPath */
 #endif
 
 /* utility */
