@@ -708,7 +708,7 @@ void option_dialog::add_option(struct option *poption)
     qlist = qstr.split(",");
     button->setFont(qf);
     button->setText(qlist[0] + " " + qlist[1]);
-    connect(button, SIGNAL(clicked()), this, SLOT(set_font()));
+    connect(button, SIGNAL(clicked()), this, SLOT(select_font()));
     widget = button;
     break;
 
@@ -790,9 +790,9 @@ void option_dialog_popup(QString name, const struct option_set *poptset,
 }
 
 /************************************************************************//**
-  Sets font and text in pushbutton (user just chosen font)
+  Ask user for the font option value
 ****************************************************************************/
-void option_dialog::set_font()
+void option_dialog::select_font()
 {
   QStringList ql;
   bool ok;
@@ -801,7 +801,8 @@ void option_dialog::set_font()
 
   pb = (QPushButton *) QObject::sender();
   qf = pb->font();
-  qf = QFontDialog::getFont(&ok, qf, this);
+  qf = QFontDialog::getFont(&ok, qf, this,
+                            _("Select Font"));
   pb->setFont(qf);
   ql = qf.toString().split(",");
   pb->setText(ql[0] + " " + ql[1]);
@@ -845,7 +846,8 @@ void option_dialog::select_color()
   but = qobject_cast<QPushButton *>(QObject::sender());
 
   pal = but->palette();
-  color = QColorDialog::getColor(pal.color(QPalette::Button), this);
+  color = QColorDialog::getColor(pal.color(QPalette::Button), this,
+                                 _("Select Color"));
   if (color.isValid()) {
     pal.setColor(QPalette::Button, color);
     but->setPalette(pal);

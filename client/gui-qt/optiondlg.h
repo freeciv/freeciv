@@ -90,7 +90,7 @@ protected:
 private slots:
   void apply_option(int response);
   void select_color();
-  void set_font();
+  void select_font();
 };
 
 #endif /* FC__OPTIONDLG_H */
