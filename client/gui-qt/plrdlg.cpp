@@ -428,11 +428,14 @@ void plr_widget::nation_selected(const QItemSelection &sl,
   intel_str.clear();
   tech_str.clear();
   ally_str.clear();
+  wonder_str.clear();
+
   if (indexes.isEmpty()) {
     selected_player = nullptr;
     plr->update_report(false);
     return;
   }
+
   index = indexes.at(0);
   qvar = index.data(Qt::UserRole);
   pplayer = reinterpret_cast<player *>(qvar.value<void *>());
@@ -612,6 +615,44 @@ void plr_widget::nation_selected(const QItemSelection &sl,
                     + QString("</i>") + sp;
     }
   }
+
+  wonder_str = QString("<b>Wonders of %1 Empire.</b>").
+    arg(QString(nation_plural_for_player(pplayer)).toHtmlEscaped())
+    + nl;
+
+  improvement_iterate(impr) {
+    if (is_wonder(impr)) {
+      const char *cityname;
+      QString notes;
+      QString wonstr;
+
+      if (wonder_is_built(pplayer, impr)) {
+        struct city *wcity = city_from_wonder(pplayer, impr);
+
+        if (wcity != NULL) {
+          cityname = city_name_get(wcity);
+        } else {
+          cityname = _("(unknown city)");
+        }
+        if (improvement_obsolete(pplayer, impr, NULL)) {
+          notes = _(" (obsolete)");
+        }
+      } else if (wonder_is_lost(pplayer, impr)) {
+        cityname = _("(lost)");
+      } else {
+        continue;
+      }
+
+      if (is_great_wonder(impr)) {
+        wonstr = QString("<b>") + improvement_name_translation(impr) + QString("</b>");
+      } else {
+        wonstr = improvement_name_translation(impr);
+      }
+
+      wonder_str += wonstr + QString(" ") + cityname + notes + nl;
+    }
+  } improvement_iterate_end;
+
   plr->update_report(false);
 }
 
@@ -660,6 +701,11 @@ plr_report::plr_report():QWidget()
   tech_label->setFrameStyle(QFrame::StyledPanel);
   tech_label->setAlignment(Qt::AlignTop | Qt::AlignLeft);
   tech_label->setWordWrap(true);
+  wonder_label = new QLabel;
+  wonder_label->setFrameStyle(QFrame::StyledPanel);
+  wonder_label->setAlignment(Qt::AlignTop | Qt::AlignLeft);
+  wonder_label->setWordWrap(true);
+  wonder_label->setTextFormat(Qt::RichText);
   meet_but = new QPushButton;
   meet_but->setText(_("Meet"));
   cancel_but = new QPushButton;
@@ -668,6 +714,8 @@ plr_report::plr_report():QWidget()
   withdraw_but->setText(_("Withdraw Vision"));
   toggle_ai_but = new QPushButton;
   toggle_ai_but->setText(_("Toggle AI Mode"));
+  show_wonders = new QPushButton;
+  show_wonders->setText(_("Show Wonders"));
   meet_but->setDisabled(true);
   cancel_but->setDisabled(true);
   withdraw_but->setDisabled(true);
@@ -676,18 +724,21 @@ plr_report::plr_report():QWidget()
   h_splitter->addWidget(plr_label);
   h_splitter->addWidget(ally_label);
   h_splitter->addWidget(tech_label);
+  h_splitter->addWidget(wonder_label);
   v_splitter->addWidget(h_splitter);
   layout->addWidget(v_splitter);
   hlayout->addWidget(meet_but);
   hlayout->addWidget(cancel_but);
   hlayout->addWidget(withdraw_but);
   hlayout->addWidget(toggle_ai_but);
+  hlayout->addWidget(show_wonders);
   hlayout->addStretch();
   layout->addLayout(hlayout);
   connect(meet_but, &QAbstractButton::pressed, this, &plr_report::req_meeeting);
   connect(cancel_but, &QAbstractButton::pressed, this, &plr_report::req_caancel_threaty);
   connect(withdraw_but, &QAbstractButton::pressed, this, &plr_report::req_wiithdrw_vision);
   connect(toggle_ai_but, &QAbstractButton::pressed, this, &plr_report::toggle_ai_mode);
+  connect(show_wonders, &QAbstractButton::pressed, this, &plr_report::show_wonders_toggle);
   setLayout(layout);
   if (gui()->qt_settings.player_repo_sort_col != -1) {
     plr_wdg->sortByColumn(gui()->qt_settings.player_repo_sort_col,
@@ -794,6 +845,18 @@ void plr_report::toggle_ai_mode()
 }
 
 /**************************************************************************
+  Slot to enable/disable wonders display
+**************************************************************************/
+void plr_report::show_wonders_toggle()
+{
+  if (wonder_label->isVisible()) {
+    wonder_label->hide();
+  } else {
+    wonder_label->show();
+  }
+}
+
+/**************************************************************************
   Handle mouse click
 **************************************************************************/
 void plr_widget::mousePressEvent(QMouseEvent *event)
@@ -846,6 +909,7 @@ void plr_report::update_report(bool update_selection)
   plr_label->setText(plr_wdg->intel_str);
   ally_label->setText(plr_wdg->ally_str);
   tech_label->setText(plr_wdg->tech_str);
+  wonder_label->setText(plr_wdg->wonder_str);
   other_player = plr_wdg->other_player;
   if (other_player == NULL || !can_client_issue_orders()) {
     return;
