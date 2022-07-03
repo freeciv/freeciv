@@ -619,39 +619,45 @@ if (BV_ISSET(fields, {i:d})) {{
 
     # Returns code which put this field.
     def get_put(self, deltafragment: bool) -> str:
+        real = self.get_put_real(deltafragment)
         return """\
 #ifdef FREECIV_JSON_CONNECTION
 field_addr.name = "{self.name}";
 #endif /* FREECIV_JSON_CONNECTION */
-""".format(self = self) + self.get_put_real(deltafragment)
+e = 0;
+{real}\
+if (e) {{
+  log_packet_detailed("'{self.name}' field error detected");
+}}
+""".format(self = self, real = real)
 
     # The code which put this field before it is wrapped in address adding.
     def get_put_real(self, deltafragment: bool) -> str:
         if self.dataio_type=="bitvector":
             return """\
-DIO_BV_PUT(&dout, &field_addr, packet->{self.name});
+e |= DIO_BV_PUT(&dout, &field_addr, packet->{self.name});
 """.format(self = self)
 
         if self.struct_type=="float" and not self.is_array:
             return """\
-DIO_PUT({self.dataio_type}, &dout, &field_addr, real_packet->{self.name}, {self.float_factor:d});
+e |= DIO_PUT({self.dataio_type}, &dout, &field_addr, real_packet->{self.name}, {self.float_factor:d});
 """.format(self = self)
 
         if self.dataio_type in ["worklist", "cm_parameter"]:
             return """\
-DIO_PUT({self.dataio_type}, &dout, &field_addr, &real_packet->{self.name});
+e |= DIO_PUT({self.dataio_type}, &dout, &field_addr, &real_packet->{self.name});
 """.format(self = self)
 
         if self.dataio_type in ["memory"]:
             return """\
-DIO_PUT({self.dataio_type}, &dout, &field_addr, &real_packet->{self.name}, {self.array_size_u});
+e |= DIO_PUT({self.dataio_type}, &dout, &field_addr, &real_packet->{self.name}, {self.array_size_u});
 """.format(self = self)
 
         arr_types=["string","estring","city_map"]
         if (self.dataio_type in arr_types and self.is_array==1) or \
            (self.dataio_type not in arr_types and self.is_array==0):
             return """\
-DIO_PUT({self.dataio_type}, &dout, &field_addr, real_packet->{self.name});
+e |= DIO_PUT({self.dataio_type}, &dout, &field_addr, real_packet->{self.name});
 """.format(self = self)
 
         if self.is_struct:
@@ -699,7 +705,6 @@ e |= DIO_PUT({self.dataio_type}, &dout, &field_addr, real_packet->{self.name}[i]
             return """\
 {{
   int i;
-  int e = 0;
 
 #ifdef FREECIV_JSON_CONNECTION
   int count = 0;
@@ -764,10 +769,6 @@ e |= DIO_PUT({self.dataio_type}, &dout, &field_addr, real_packet->{self.name}[i]
   /* Exit array. */
   FC_FREE(field_addr.sub_location);
 #endif /* FREECIV_JSON_CONNECTION */
-
-  if (e) {{
-    log_packet_detailed("{self.name} field error detected");
-  }}
 }}
 """.format(self = self, c = c)
         if self.is_array == 2 and self.dataio_type != "string" \
@@ -776,7 +777,6 @@ e |= DIO_PUT({self.dataio_type}, &dout, &field_addr, real_packet->{self.name}[i]
             return """\
 {{
   int i, j;
-  int e = 0;
 
 #ifdef FREECIV_JSON_CONNECTION
   /* Create the outer array. */
@@ -816,10 +816,6 @@ e |= DIO_PUT({self.dataio_type}, &dout, &field_addr, real_packet->{self.name}[i]
   /* Exit the outer array. */
   FC_FREE(field_addr.sub_location);
 #endif /* FREECIV_JSON_CONNECTION */
-
-  if (e) {{
-    log_packet_detailed("{self.name} field error detected");
-  }}
 }}
 """.format(self = self, c = c)
         else:
@@ -827,7 +823,6 @@ e |= DIO_PUT({self.dataio_type}, &dout, &field_addr, real_packet->{self.name}[i]
             return """\
 {{
   int i;
-  int e = 0;
 
 #ifdef FREECIV_JSON_CONNECTION
   /* Create the array. */
@@ -849,10 +844,6 @@ e |= DIO_PUT({self.dataio_type}, &dout, &field_addr, real_packet->{self.name}[i]
   /* Exit array. */
   FC_FREE(field_addr.sub_location);
 #endif /* FREECIV_JSON_CONNECTION */
-
-  if (e) {{
-    log_packet_detailed("{self.name} field error detected");
-  }}
 }}
 """.format(self = self, c = c, array_size_u = array_size_u)
 
@@ -1451,17 +1442,21 @@ static bool cmp_{self.name}(const void *vkey1, const void *vkey2)
             log=""
 
         if self.no_packet:
-            declare_packet = ""
-        elif self.packet.want_pre_send:
-            declare_packet = """\
+            main_header = ""
+        else:
+            if self.packet.want_pre_send:
+                main_header = """\
   /* copy packet for pre-send */
   struct {self.packet_name} packet_buf = *packet;
   const struct {self.packet_name} *real_packet = &packet_buf;
 """.format(self = self)
-        else:
-            declare_packet = """\
+            else:
+                main_header = """\
   const struct {self.packet_name} *real_packet = packet;
 """.format(self = self)
+            main_header += """\
+  int e;
+"""
 
         if not self.packet.want_pre_send:
             pre = ""
@@ -1552,7 +1547,7 @@ static bool cmp_{self.name}(const void *vkey1, const void *vkey2)
 {self.send_prototype}
 {{
 """.format(self = self),
-            declare_packet,
+            main_header,
             delta_header,
             """\
   SEND_PACKET_START({self.type});
@@ -1626,7 +1621,11 @@ if (different == 0) {{
 #ifdef FREECIV_JSON_CONNECTION
 field_addr.name = "fields";
 #endif /* FREECIV_JSON_CONNECTION */
-DIO_BV_PUT(&dout, &field_addr, fields);
+e = 0;
+e |= DIO_BV_PUT(&dout, &field_addr, fields);
+if (e) {
+  log_packet_detailed("fields bitvector error detected");
+}
 """
 
         body += "".join(
