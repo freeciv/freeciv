@@ -19,6 +19,11 @@ WINARCH=win32
 ARCHDIR=mingw32
 LIBGCCDLL=libgcc_s_dw2-1.dll
 CRYPTOLIB_SUFFIX=
+else ifeq ($(MSYSTEM),UCRT64)
+WINARCH=win64-10
+ARCHDIR=ucrt64
+LIBGCCDLL=libgcc_s_seh-1.dll
+CRYPTOLIB_SUFFIX=-x64
 else
 error "Unsupported MSYSTEM environment"
 endif
