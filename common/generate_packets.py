@@ -654,50 +654,48 @@ DIO_PUT({self.dataio_type}, &dout, &field_addr, &real_packet->{self.name}, {self
 DIO_PUT({self.dataio_type}, &dout, &field_addr, real_packet->{self.name});
 """.format(self = self)
 
-        # FIXME: cannot properly treat c as "lines of code" type string yet,
-        # since "e |= " sometimes gets prepended
-        # ~> make other array put cases also use e?
         if self.is_struct:
             if self.is_array==2:
                 c = """\
-DIO_PUT({self.dataio_type}, &dout, &field_addr, &real_packet->{self.name}[i][j]);
+e |= DIO_PUT({self.dataio_type}, &dout, &field_addr, &real_packet->{self.name}[i][j]);
 """.format(self = self)
                 array_size_u = "#error Codegen error"   # avoid "possibly unbound" warnings
             else:
                 c = """\
-DIO_PUT({self.dataio_type}, &dout, &field_addr, &real_packet->{self.name}[i]);
+e |= DIO_PUT({self.dataio_type}, &dout, &field_addr, &real_packet->{self.name}[i]);
 """.format(self = self)
                 array_size_u = self.array_size_u
         elif self.dataio_type=="string" or self.dataio_type=="estring":
             c = """\
-DIO_PUT({self.dataio_type}, &dout, &field_addr, real_packet->{self.name}[i]);
+e |= DIO_PUT({self.dataio_type}, &dout, &field_addr, real_packet->{self.name}[i]);
 """.format(self = self)
             array_size_u=self.array_size1_u
 
         elif self.struct_type=="float":
             if self.is_array==2:
                 c = """\
-DIO_PUT({self.dataio_type}, &dout, &field_addr, real_packet->{self.name}[i][j], {self.float_factor:d});
+e |= DIO_PUT({self.dataio_type}, &dout, &field_addr, real_packet->{self.name}[i][j], {self.float_factor:d});
 """.format(self = self)
                 array_size_u = "#error Codegen error"   # avoid "possibly unbound" warnings
             else:
                 c = """\
-DIO_PUT({self.dataio_type}, &dout, &field_addr, real_packet->{self.name}[i], {self.float_factor:d});
+e |= DIO_PUT({self.dataio_type}, &dout, &field_addr, real_packet->{self.name}[i], {self.float_factor:d});
 """.format(self = self)
                 array_size_u = self.array_size_u
         else:
             if self.is_array==2:
                 c = """\
-DIO_PUT({self.dataio_type}, &dout, &field_addr, real_packet->{self.name}[i][j]);
+e |= DIO_PUT({self.dataio_type}, &dout, &field_addr, real_packet->{self.name}[i][j]);
 """.format(self = self)
                 array_size_u = "#error Codegen error"   # avoid "possibly unbound" warnings
             else:
                 c = """\
-DIO_PUT({self.dataio_type}, &dout, &field_addr, real_packet->{self.name}[i]);
+e |= DIO_PUT({self.dataio_type}, &dout, &field_addr, real_packet->{self.name}[i]);
 """.format(self = self)
                 array_size_u = self.array_size_u
 
         if deltafragment and self.diff and self.is_array == 1:
+            c = prefix("      ", c)
             return """\
 {{
   int i;
@@ -740,7 +738,7 @@ DIO_PUT({self.dataio_type}, &dout, &field_addr, real_packet->{self.name}[i]);
       /* Content address. */
       field_addr.sub_location->sub_location->number = 1;
 #endif /* FREECIV_JSON_CONNECTION */
-      e |= {c}\
+{c}\
 
 #ifdef FREECIV_JSON_CONNECTION
       /* Exit diff array element. */
@@ -759,28 +757,30 @@ DIO_PUT({self.dataio_type}, &dout, &field_addr, real_packet->{self.name}[i]);
 #endif /* FREECIV_JSON_CONNECTION */
   e |= DIO_PUT(uint8, &dout, &field_addr, 255);
 
-  if (e) {{
-    log_packet_detailed("{self.name} field error detected");
-  }}
 #ifdef FREECIV_JSON_CONNECTION
-
   /* Exit diff array element. */
   FC_FREE(field_addr.sub_location->sub_location);
 
   /* Exit array. */
   FC_FREE(field_addr.sub_location);
 #endif /* FREECIV_JSON_CONNECTION */
+
+  if (e) {{
+    log_packet_detailed("{self.name} field error detected");
+  }}
 }}
 """.format(self = self, c = c)
         if self.is_array == 2 and self.dataio_type != "string" \
            and self.dataio_type != "estring":
+            c = prefix("      ", c)
             return """\
 {{
   int i, j;
+  int e = 0;
 
 #ifdef FREECIV_JSON_CONNECTION
   /* Create the outer array. */
-  DIO_PUT(farray, &dout, &field_addr, {self.array_size1_u});
+  e |= DIO_PUT(farray, &dout, &field_addr, {self.array_size1_u});
 
   /* Enter the outer array. */
   field_addr.sub_location = plocation_elem_new(0);
@@ -792,7 +792,7 @@ DIO_PUT({self.dataio_type}, &dout, &field_addr, real_packet->{self.name}[i]);
     field_addr.sub_location->number = i;
 
     /* Create the inner array. */
-    DIO_PUT(farray, &dout, &field_addr, {self.array_size2_u});
+    e |= DIO_PUT(farray, &dout, &field_addr, {self.array_size2_u});
 
     /* Enter the inner array. */
     field_addr.sub_location->sub_location = plocation_elem_new(0);
@@ -803,7 +803,7 @@ DIO_PUT({self.dataio_type}, &dout, &field_addr, real_packet->{self.name}[i]);
       /* Next element (in the inner array). */
       field_addr.sub_location->sub_location->number = j;
 #endif /* FREECIV_JSON_CONNECTION */
-      {c}\
+{c}\
     }}
 
 #ifdef FREECIV_JSON_CONNECTION
@@ -816,16 +816,22 @@ DIO_PUT({self.dataio_type}, &dout, &field_addr, real_packet->{self.name}[i]);
   /* Exit the outer array. */
   FC_FREE(field_addr.sub_location);
 #endif /* FREECIV_JSON_CONNECTION */
+
+  if (e) {{
+    log_packet_detailed("{self.name} field error detected");
+  }}
 }}
 """.format(self = self, c = c)
         else:
+            c = prefix("    ", c)
             return """\
 {{
   int i;
+  int e = 0;
 
 #ifdef FREECIV_JSON_CONNECTION
   /* Create the array. */
-  DIO_PUT(farray, &dout, &field_addr, {array_size_u});
+  e |= DIO_PUT(farray, &dout, &field_addr, {array_size_u});
 
   /* Enter the array. */
   field_addr.sub_location = plocation_elem_new(0);
@@ -836,15 +842,19 @@ DIO_PUT({self.dataio_type}, &dout, &field_addr, real_packet->{self.name}[i]);
     /* Next array element. */
     field_addr.sub_location->number = i;
 #endif /* FREECIV_JSON_CONNECTION */
-    {c}\
+{c}\
   }}
 
 #ifdef FREECIV_JSON_CONNECTION
   /* Exit array. */
   FC_FREE(field_addr.sub_location);
 #endif /* FREECIV_JSON_CONNECTION */
+
+  if (e) {{
+    log_packet_detailed("{self.name} field error detected");
+  }}
 }}
-""".format(c = c, array_size_u = array_size_u)
+""".format(self = self, c = c, array_size_u = array_size_u)
 
     # Returns a code fragment which will get the field if the
     # "fields" bitvector says so.
