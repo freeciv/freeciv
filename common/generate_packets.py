@@ -1437,33 +1437,32 @@ static bool cmp_{self.name}(const void *vkey1, const void *vkey2)
 """.format(self = self)
         else:
             log=""
-        if self.packet.want_pre_send:
-            pre1 = """\
 
-  {{
-    struct {self.packet_name} *tmp = fc_malloc(sizeof(*tmp));
-
-    *tmp = *packet;
-    pre_send_{self.packet_name}(pc, tmp);
-    real_packet = tmp;
-  }}
+        if self.no_packet:
+            declare_packet = ""
+        elif self.packet.want_pre_send:
+            declare_packet = """\
+  /* copy packet for pre-send */
+  struct {self.packet_name} packet_buf = *packet;
+  const struct {self.packet_name} *real_packet = &packet_buf;
 """.format(self = self)
-            pre2 = """\
-
-  if (real_packet != packet) {
-    free((void *) real_packet);
-  }
-"""
         else:
-            pre1=""
-            pre2=""
-
-        if not self.no_packet:
-            real_packet1 = """\
+            declare_packet = """\
   const struct {self.packet_name} *real_packet = packet;
 """.format(self = self)
+
+        if not self.packet.want_pre_send:
+            pre = ""
+        elif self.no_packet:
+            pre = """\
+
+  pre_send_{self.packet_name}(pc, NULL);
+""".format(self = self)
         else:
-            real_packet1=""
+            pre = """\
+
+  pre_send_{self.packet_name}(pc, &packet_buf);
+""".format(self = self)
 
         if not self.no_packet:
             if self.delta:
@@ -1490,7 +1489,7 @@ static bool cmp_{self.name}(const void *vkey1, const void *vkey2)
                 delta_header += """\
 #endif /* FREECIV_DELTA_PROTOCOL */
 """
-                body = self.get_delta_send_body(pre2) + """\
+                body = self.get_delta_send_body() + """\
 #ifndef FREECIV_DELTA_PROTOCOL
 """
             else:
@@ -1541,7 +1540,7 @@ static bool cmp_{self.name}(const void *vkey1, const void *vkey2)
 {self.send_prototype}
 {{
 """.format(self = self),
-            real_packet1,
+            declare_packet,
             delta_header,
             """\
   SEND_PACKET_START({self.type});
@@ -1549,9 +1548,8 @@ static bool cmp_{self.name}(const void *vkey1, const void *vkey2)
             faddr,
             log,
             report,
-            pre1,
+            pre,
             body,
-            pre2,
             post,
             """\
   SEND_PACKET_END({self.type});
