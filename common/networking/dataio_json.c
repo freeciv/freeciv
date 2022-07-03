@@ -312,7 +312,7 @@ void dio_put_worklist_json(struct json_data_out *dout,
     int i;
     const int size = worklist_length(pwl);
 
-    /* Must create the array before instertion. */
+    /* Must create the array before insertion. */
     dio_put_farray_json(dout, location, size);
 
     location->sub_location = plocation_elem_new(0);
