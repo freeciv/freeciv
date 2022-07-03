@@ -459,25 +459,25 @@ class Field:
     def get_fill(self) -> str:
         if self.dataio_type=="worklist":
             return """\
-  worklist_copy(&real_packet->{self.name}, {self.name});
+worklist_copy(&real_packet->{self.name}, {self.name});
 """.format(self = self)
         if self.is_array==0:
             return """\
-  real_packet->{self.name} = {self.name};
+real_packet->{self.name} = {self.name};
 """.format(self = self)
         if self.dataio_type=="string" or self.dataio_type=="estring":
             return """\
-  sz_strlcpy(real_packet->{self.name}, {self.name});
+sz_strlcpy(real_packet->{self.name}, {self.name});
 """.format(self = self)
         if self.is_array==1:
             return """\
-  {{
-    int i;
+{{
+  int i;
 
-    for (i = 0; i < {self.array_size_u}; i++) {{
-      real_packet->{self.name}[i] = {self.name}[i];
-    }}
+  for (i = 0; i < {self.array_size_u}; i++) {{
+    real_packet->{self.name}[i] = {self.name}[i];
   }}
+}}
 """.format(self = self)
 
         return repr(self.__dict__)
@@ -487,27 +487,27 @@ class Field:
     def get_cmp(self) -> str:
         if self.dataio_type=="memory":
             return """\
-  differ = (memcmp(old->{self.name}, real_packet->{self.name}, {self.array_size_d}) != 0);
+differ = (memcmp(old->{self.name}, real_packet->{self.name}, {self.array_size_d}) != 0);
 """.format(self = self)
         if self.dataio_type=="bitvector":
             return """\
-  differ = !BV_ARE_EQUAL(old->{self.name}, real_packet->{self.name});
+differ = !BV_ARE_EQUAL(old->{self.name}, real_packet->{self.name});
 """.format(self = self)
         if self.dataio_type in ["string", "estring"] and self.is_array==1:
             return """\
-  differ = (strcmp(old->{self.name}, real_packet->{self.name}) != 0);
+differ = (strcmp(old->{self.name}, real_packet->{self.name}) != 0);
 """.format(self = self)
         if self.dataio_type == "cm_parameter":
             return """\
-  differ = !cm_are_parameter_equal(&old->{self.name}, &real_packet->{self.name});
+differ = !cm_are_parameter_equal(&old->{self.name}, &real_packet->{self.name});
 """.format(self = self)
         if self.is_struct and self.is_array==0:
             return """\
-  differ = !are_{self.dataio_type}s_equal(&old->{self.name}, &real_packet->{self.name});
+differ = !are_{self.dataio_type}s_equal(&old->{self.name}, &real_packet->{self.name});
 """.format(self = self)
         if not self.is_array:
             return """\
-  differ = (old->{self.name} != real_packet->{self.name});
+differ = (old->{self.name} != real_packet->{self.name});
 """.format(self = self)
 
         if self.dataio_type=="string" or self.dataio_type=="estring":
@@ -524,19 +524,17 @@ class Field:
             array_size_o = self.array_size_o
 
         return """\
-    {{
-      differ = ({array_size_o} != {array_size_u});
-      if (!differ) {{
-        int i;
+differ = ({array_size_o} != {array_size_u});
+if (!differ) {{
+  int i;
 
-        for (i = 0; i < {array_size_u}; i++) {{
-          if ({c}) {{
-            differ = TRUE;
-            break;
-          }}
-        }}
-      }}
+  for (i = 0; i < {array_size_u}; i++) {{
+    if ({c}) {{
+      differ = TRUE;
+      break;
     }}
+  }}
+}}
 """.format(c = c, array_size_u = array_size_u, array_size_o = array_size_o)
 
     @property
@@ -556,18 +554,18 @@ class Field:
             if pack.is_info != "no":
                 cmp = self.get_cmp()
                 differ_part = """\
-  if (differ) {
-    different++;
-  }
+if (differ) {
+  different++;
+}
 """
             else:
                 cmp = ""
                 differ_part = ""
             b = "packet->{self.name}".format(self = self)
             return cmp + differ_part + """\
-  if (%s) {
-    BV_SET(fields, %d);
-  }
+if (%s) {
+  BV_SET(fields, %d);
+}
 
 """ % (b, i)
         else:
@@ -575,18 +573,18 @@ class Field:
             if pack.is_info != "no":
                 return """\
 %s\
-  if (differ) {
-    different++;
-    BV_SET(fields, %d);
-  }
+if (differ) {
+  different++;
+  BV_SET(fields, %d);
+}
 
 """ % (cmp, i)
             else:
                 return """\
 %s\
-  if (differ) {
-    BV_SET(fields, %d);
-  }
+if (differ) {
+  BV_SET(fields, %d);
+}
 
 """ % (cmp, i)
 
@@ -596,65 +594,64 @@ class Field:
         if fold_bool_into_header and self.struct_type=="bool" and \
            not self.is_array:
             return """\
-  /* field {i:d} is folded into the header */
+/* field {i:d} is folded into the header */
 """.format(i = i)
-        put=self.get_put(deltafragment)
+        put = prefix("  ", self.get_put(deltafragment))
         if packet.gen_log:
             f = """\
-    {packet.log_macro}("  field \'{self.name}\' has changed");
+  {packet.log_macro}("  field \'{self.name}\' has changed");
 """.format(packet = packet, self = self)
         else:
             f=""
         if packet.gen_stats:
             s = """\
-    stats_{packet.name}_counters[{i:d}]++;
+  stats_{packet.name}_counters[{i:d}]++;
 """.format(packet = packet, i = i)
         else:
             s=""
         return """\
-  if (BV_ISSET(fields, {i:d})) {{
+if (BV_ISSET(fields, {i:d})) {{
 {f}\
 {s}\
 {put}\
-  }}
+}}
 """.format(i = i, f = f, s = s, put = put)
 
     # Returns code which put this field.
     def get_put(self, deltafragment: bool) -> str:
         return """\
 #ifdef FREECIV_JSON_CONNECTION
-  field_addr.name = "{self.name}";
+field_addr.name = "{self.name}";
 #endif /* FREECIV_JSON_CONNECTION */
-""".format(self = self) \
-               + self.get_put_real(deltafragment);
+""".format(self = self) + self.get_put_real(deltafragment)
 
     # The code which put this field before it is wrapped in address adding.
     def get_put_real(self, deltafragment: bool) -> str:
         if self.dataio_type=="bitvector":
             return """\
-  DIO_BV_PUT(&dout, &field_addr, packet->{self.name});
+DIO_BV_PUT(&dout, &field_addr, packet->{self.name});
 """.format(self = self)
 
         if self.struct_type=="float" and not self.is_array:
             return """\
-  DIO_PUT({self.dataio_type}, &dout, &field_addr, real_packet->{self.name}, {self.float_factor:d});
+DIO_PUT({self.dataio_type}, &dout, &field_addr, real_packet->{self.name}, {self.float_factor:d});
 """.format(self = self)
 
         if self.dataio_type in ["worklist", "cm_parameter"]:
             return """\
-  DIO_PUT({self.dataio_type}, &dout, &field_addr, &real_packet->{self.name});
+DIO_PUT({self.dataio_type}, &dout, &field_addr, &real_packet->{self.name});
 """.format(self = self)
 
         if self.dataio_type in ["memory"]:
             return """\
-  DIO_PUT({self.dataio_type}, &dout, &field_addr, &real_packet->{self.name}, {self.array_size_u});
+DIO_PUT({self.dataio_type}, &dout, &field_addr, &real_packet->{self.name}, {self.array_size_u});
 """.format(self = self)
 
         arr_types=["string","estring","city_map"]
         if (self.dataio_type in arr_types and self.is_array==1) or \
            (self.dataio_type not in arr_types and self.is_array==0):
             return """\
-  DIO_PUT({self.dataio_type}, &dout, &field_addr, real_packet->{self.name});
+DIO_PUT({self.dataio_type}, &dout, &field_addr, real_packet->{self.name});
 """.format(self = self)
 
         # FIXME: cannot properly treat c as "lines of code" type string yet,
@@ -702,151 +699,151 @@ DIO_PUT({self.dataio_type}, &dout, &field_addr, real_packet->{self.name}[i]);
 
         if deltafragment and self.diff and self.is_array == 1:
             return """\
-    {{
-      int i;
-      int e = 0;
+{{
+  int i;
+  int e = 0;
 
 #ifdef FREECIV_JSON_CONNECTION
-      int count = 0;
+  int count = 0;
 
-      for (i = 0; i < {self.array_size_u}; i++) {{
-        if (old->{self.name}[i] != real_packet->{self.name}[i]) {{
-          count++;
-        }}
-      }}
-      /* Create the array. */
-      e |= DIO_PUT(farray, &dout, &field_addr, count + 1);
+  for (i = 0; i < {self.array_size_u}; i++) {{
+    if (old->{self.name}[i] != real_packet->{self.name}[i]) {{
+      count++;
+    }}
+  }}
+  /* Create the array. */
+  e |= DIO_PUT(farray, &dout, &field_addr, count + 1);
 
-      /* Enter array. */
-      field_addr.sub_location = plocation_elem_new(0);
+  /* Enter array. */
+  field_addr.sub_location = plocation_elem_new(0);
 
-      count = 0;
+  count = 0;
 #endif /* FREECIV_JSON_CONNECTION */
 
-      fc_assert({self.array_size_u} < 255);
+  fc_assert({self.array_size_u} < 255);
 
-      for (i = 0; i < {self.array_size_u}; i++) {{
-        if (old->{self.name}[i] != real_packet->{self.name}[i]) {{
+  for (i = 0; i < {self.array_size_u}; i++) {{
+    if (old->{self.name}[i] != real_packet->{self.name}[i]) {{
 #ifdef FREECIV_JSON_CONNECTION
-          /* Next diff array element. */
-          field_addr.sub_location->number = count - 1;
-
-          /* Create the diff array element. */
-          e |= DIO_PUT(farray, &dout, &field_addr, 2);
-
-          /* Enter diff array element (start at the index address). */
-          field_addr.sub_location->sub_location = plocation_elem_new(0);
-#endif /* FREECIV_JSON_CONNECTION */
-          e |= DIO_PUT(uint8, &dout, &field_addr, i);
-
-#ifdef FREECIV_JSON_CONNECTION
-          /* Content address. */
-          field_addr.sub_location->sub_location->number = 1;
-#endif /* FREECIV_JSON_CONNECTION */
-          e |= {c}\
-
-#ifdef FREECIV_JSON_CONNECTION
-          /* Exit diff array element. */
-          FC_FREE(field_addr.sub_location->sub_location);
-#endif /* FREECIV_JSON_CONNECTION */
-        }}
-      }}
-#ifdef FREECIV_JSON_CONNECTION
+      /* Next diff array element. */
       field_addr.sub_location->number = count - 1;
 
       /* Create the diff array element. */
-      e |= DIO_PUT(farray, &dout, &field_addr, {self.array_size_u});
+      e |= DIO_PUT(farray, &dout, &field_addr, 2);
 
-      /* Enter diff array element. Point to index address. */
+      /* Enter diff array element (start at the index address). */
       field_addr.sub_location->sub_location = plocation_elem_new(0);
 #endif /* FREECIV_JSON_CONNECTION */
-      e |= DIO_PUT(uint8, &dout, &field_addr, 255);
+      e |= DIO_PUT(uint8, &dout, &field_addr, i);
 
-      if (e) {{
-        log_packet_detailed("{self.name} field error detected");
-      }}
 #ifdef FREECIV_JSON_CONNECTION
+      /* Content address. */
+      field_addr.sub_location->sub_location->number = 1;
+#endif /* FREECIV_JSON_CONNECTION */
+      e |= {c}\
 
+#ifdef FREECIV_JSON_CONNECTION
       /* Exit diff array element. */
       FC_FREE(field_addr.sub_location->sub_location);
-
-      /* Exit array. */
-      FC_FREE(field_addr.sub_location);
 #endif /* FREECIV_JSON_CONNECTION */
     }}
+  }}
+#ifdef FREECIV_JSON_CONNECTION
+  field_addr.sub_location->number = count - 1;
+
+  /* Create the diff array element. */
+  e |= DIO_PUT(farray, &dout, &field_addr, {self.array_size_u});
+
+  /* Enter diff array element. Point to index address. */
+  field_addr.sub_location->sub_location = plocation_elem_new(0);
+#endif /* FREECIV_JSON_CONNECTION */
+  e |= DIO_PUT(uint8, &dout, &field_addr, 255);
+
+  if (e) {{
+    log_packet_detailed("{self.name} field error detected");
+  }}
+#ifdef FREECIV_JSON_CONNECTION
+
+  /* Exit diff array element. */
+  FC_FREE(field_addr.sub_location->sub_location);
+
+  /* Exit array. */
+  FC_FREE(field_addr.sub_location);
+#endif /* FREECIV_JSON_CONNECTION */
+}}
 """.format(self = self, c = c)
         if self.is_array == 2 and self.dataio_type != "string" \
            and self.dataio_type != "estring":
             return """\
-    {{
-      int i, j;
+{{
+  int i, j;
 
 #ifdef FREECIV_JSON_CONNECTION
-      /* Create the outer array. */
-      DIO_PUT(farray, &dout, &field_addr, {self.array_size1_u});
+  /* Create the outer array. */
+  DIO_PUT(farray, &dout, &field_addr, {self.array_size1_u});
 
-      /* Enter the outer array. */
-      field_addr.sub_location = plocation_elem_new(0);
+  /* Enter the outer array. */
+  field_addr.sub_location = plocation_elem_new(0);
 #endif /* FREECIV_JSON_CONNECTION */
 
-      for (i = 0; i < {self.array_size1_u}; i++) {{
+  for (i = 0; i < {self.array_size1_u}; i++) {{
 #ifdef FREECIV_JSON_CONNECTION
-        /* Next inner array (an element in the outer array). */
-        field_addr.sub_location->number = i;
+    /* Next inner array (an element in the outer array). */
+    field_addr.sub_location->number = i;
 
-        /* Create the inner array. */
-        DIO_PUT(farray, &dout, &field_addr, {self.array_size2_u});
+    /* Create the inner array. */
+    DIO_PUT(farray, &dout, &field_addr, {self.array_size2_u});
 
-        /* Enter the inner array. */
-        field_addr.sub_location->sub_location = plocation_elem_new(0);
+    /* Enter the inner array. */
+    field_addr.sub_location->sub_location = plocation_elem_new(0);
 #endif /* FREECIV_JSON_CONNECTION */
 
-        for (j = 0; j < {self.array_size2_u}; j++) {{
+    for (j = 0; j < {self.array_size2_u}; j++) {{
 #ifdef FREECIV_JSON_CONNECTION
-          /* Next element (in the inner array). */
-          field_addr.sub_location->sub_location->number = j;
+      /* Next element (in the inner array). */
+      field_addr.sub_location->sub_location->number = j;
 #endif /* FREECIV_JSON_CONNECTION */
-          {c}\
-        }}
-
-#ifdef FREECIV_JSON_CONNECTION
-        /* Exit the inner array. */
-        FC_FREE(field_addr.sub_location->sub_location);
-#endif /* FREECIV_JSON_CONNECTION */
-      }}
-
-#ifdef FREECIV_JSON_CONNECTION
-      /* Exit the outer array. */
-      FC_FREE(field_addr.sub_location);
-#endif /* FREECIV_JSON_CONNECTION */
+      {c}\
     }}
+
+#ifdef FREECIV_JSON_CONNECTION
+    /* Exit the inner array. */
+    FC_FREE(field_addr.sub_location->sub_location);
+#endif /* FREECIV_JSON_CONNECTION */
+  }}
+
+#ifdef FREECIV_JSON_CONNECTION
+  /* Exit the outer array. */
+  FC_FREE(field_addr.sub_location);
+#endif /* FREECIV_JSON_CONNECTION */
+}}
 """.format(self = self, c = c)
         else:
             return """\
-    {{
-      int i;
+{{
+  int i;
 
 #ifdef FREECIV_JSON_CONNECTION
-      /* Create the array. */
-      DIO_PUT(farray, &dout, &field_addr, {array_size_u});
+  /* Create the array. */
+  DIO_PUT(farray, &dout, &field_addr, {array_size_u});
 
-      /* Enter the array. */
-      field_addr.sub_location = plocation_elem_new(0);
+  /* Enter the array. */
+  field_addr.sub_location = plocation_elem_new(0);
 #endif /* FREECIV_JSON_CONNECTION */
 
-      for (i = 0; i < {array_size_u}; i++) {{
+  for (i = 0; i < {array_size_u}; i++) {{
 #ifdef FREECIV_JSON_CONNECTION
-        /* Next array element. */
-        field_addr.sub_location->number = i;
+    /* Next array element. */
+    field_addr.sub_location->number = i;
 #endif /* FREECIV_JSON_CONNECTION */
-        {c}\
-      }}
+    {c}\
+  }}
 
 #ifdef FREECIV_JSON_CONNECTION
-      /* Exit array. */
-      FC_FREE(field_addr.sub_location);
+  /* Exit array. */
+  FC_FREE(field_addr.sub_location);
 #endif /* FREECIV_JSON_CONNECTION */
-    }}
+}}
 """.format(c = c, array_size_u = array_size_u)
 
     # Returns a code fragment which will get the field if the
@@ -855,20 +852,20 @@ DIO_PUT({self.dataio_type}, &dout, &field_addr, real_packet->{self.name}[i]);
         if fold_bool_into_header and self.struct_type=="bool" and \
            not self.is_array:
             return  """\
-  real_packet->{self.name} = BV_ISSET(fields, {i:d});
+real_packet->{self.name} = BV_ISSET(fields, {i:d});
 """.format(self = self, i = i)
-        get = prefix("    ", self.get_get(deltafragment))
+        get = prefix("  ", self.get_get(deltafragment))
         if packet.gen_log:
             f = """\
-    {packet.log_macro}("  got field '{self.name}'");
+  {packet.log_macro}("  got field '{self.name}'");
 """.format(self = self, packet = packet)
         else:
             f=""
         return """\
-  if (BV_ISSET(fields, {i:d})) {{
+if (BV_ISSET(fields, {i:d})) {{
 {f}\
 {get}\
-  }}
+}}
 """.format(i = i, f = f, get = get)
 
     # Returns code which get this field.
@@ -877,8 +874,7 @@ DIO_PUT({self.dataio_type}, &dout, &field_addr, real_packet->{self.name}[i]);
 #ifdef FREECIV_JSON_CONNECTION
 field_addr.name = \"{self.name}\";
 #endif /* FREECIV_JSON_CONNECTION */
-""".format(self = self) \
-               + self.get_get_real(deltafragment);
+""".format(self = self) + self.get_get_real(deltafragment)
 
     # The code which get this field before it is wrapped in address adding.
     def get_get_real(self, deltafragment: bool) -> str:
@@ -929,69 +925,69 @@ if (!DIO_GET({self.dataio_type}, &din, &field_addr, &real_packet->{self.name})) 
         if self.is_struct:
             if self.is_array==2:
                 c = """\
-      if (!DIO_GET({self.dataio_type}, &din, &field_addr, &real_packet->{self.name}[i][j])) {{
-        RECEIVE_PACKET_FIELD_ERROR({self.name});
-      }}
+if (!DIO_GET({self.dataio_type}, &din, &field_addr, &real_packet->{self.name}[i][j])) {{
+  RECEIVE_PACKET_FIELD_ERROR({self.name});
+}}
 """.format(self = self)
             else:
                 c = """\
-    if (!DIO_GET({self.dataio_type}, &din, &field_addr, &real_packet->{self.name}[i])) {{
-      RECEIVE_PACKET_FIELD_ERROR({self.name});
-    }}
+if (!DIO_GET({self.dataio_type}, &din, &field_addr, &real_packet->{self.name}[i])) {{
+  RECEIVE_PACKET_FIELD_ERROR({self.name});
+}}
 """.format(self = self)
         elif self.dataio_type=="string" or self.dataio_type=="estring":
             c = """\
-    if (!DIO_GET({self.dataio_type}, &din, &field_addr, real_packet->{self.name}[i], sizeof(real_packet->{self.name}[i]))) {{
-      RECEIVE_PACKET_FIELD_ERROR({self.name});
-    }}
+if (!DIO_GET({self.dataio_type}, &din, &field_addr, real_packet->{self.name}[i], sizeof(real_packet->{self.name}[i]))) {{
+  RECEIVE_PACKET_FIELD_ERROR({self.name});
+}}
 """.format(self = self)
         elif self.struct_type=="float":
             if self.is_array==2:
                 c = """\
-      if (!DIO_GET({self.dataio_type}, &din, &field_addr, &real_packet->{self.name}[i][j], {self.float_factor:d})) {{
-        RECEIVE_PACKET_FIELD_ERROR({self.name});
-      }}
+if (!DIO_GET({self.dataio_type}, &din, &field_addr, &real_packet->{self.name}[i][j], {self.float_factor:d})) {{
+  RECEIVE_PACKET_FIELD_ERROR({self.name});
+}}
 """.format(self = self)
             else:
                 c = """\
-    if (!DIO_GET({self.dataio_type}, &din, &field_addr, &real_packet->{self.name}[i], {self.float_factor:d})) {{
-      RECEIVE_PACKET_FIELD_ERROR({self.name});
-    }}
+if (!DIO_GET({self.dataio_type}, &din, &field_addr, &real_packet->{self.name}[i], {self.float_factor:d})) {{
+  RECEIVE_PACKET_FIELD_ERROR({self.name});
+}}
 """.format(self = self)
         elif self.is_array==2:
             if self.struct_type in ["int","bool"]:
                 c = """\
-      if (!DIO_GET({self.dataio_type}, &din, &field_addr, &real_packet->{self.name}[i][j])) {{
-        RECEIVE_PACKET_FIELD_ERROR({self.name});
-      }}
+if (!DIO_GET({self.dataio_type}, &din, &field_addr, &real_packet->{self.name}[i][j])) {{
+  RECEIVE_PACKET_FIELD_ERROR({self.name});
+}}
 """.format(self = self)
             else:
                 c = """\
-      {{
-        int readin;
+{{
+  int readin;
 
-        if (!DIO_GET({self.dataio_type}, &din, &field_addr, &readin)) {{
-          RECEIVE_PACKET_FIELD_ERROR({self.name});
-        }}
-        real_packet->{self.name}[i][j] = readin;
-      }}
+  if (!DIO_GET({self.dataio_type}, &din, &field_addr, &readin)) {{
+    RECEIVE_PACKET_FIELD_ERROR({self.name});
+  }}
+  real_packet->{self.name}[i][j] = readin;
+}}
 """.format(self = self)
         elif self.struct_type in ["int","bool"]:
             c = """\
-    if (!DIO_GET({self.dataio_type}, &din, &field_addr, &real_packet->{self.name}[i])) {{
-      RECEIVE_PACKET_FIELD_ERROR({self.name});
-    }}
+if (!DIO_GET({self.dataio_type}, &din, &field_addr, &real_packet->{self.name}[i])) {{
+  RECEIVE_PACKET_FIELD_ERROR({self.name});
+}}
 """.format(self = self)
         else:
             c = """\
-    {{
-      int readin;
+{{
+  int readin;
 
-      if (!DIO_GET({self.dataio_type}, &din, &field_addr, &readin)) {{
-        RECEIVE_PACKET_FIELD_ERROR({self.name});
-      }}
-      real_packet->{self.name}[i] = readin;
-    }}
+  if (!DIO_GET({self.dataio_type}, &din, &field_addr, &readin)) {{
+    RECEIVE_PACKET_FIELD_ERROR({self.name});
+  }}
+  real_packet->{self.name}[i] = readin;
+}}
 """.format(self = self)
 
         if self.is_array==2:
@@ -1004,9 +1000,9 @@ if (!DIO_GET({self.dataio_type}, &din, &field_addr, &real_packet->{self.name})) 
         if not self.diff or self.dataio_type=="memory":
             if array_size_u != array_size_d:
                 extra = """\
-  if ({array_size_u} > {array_size_d}) {{
-    RECEIVE_PACKET_FIELD_ERROR({self.name}, ": truncation array");
-  }}
+if ({array_size_u} > {array_size_d}) {{
+  RECEIVE_PACKET_FIELD_ERROR({self.name}, ": truncation array");
+}}
 """.format(self = self, array_size_u = array_size_u, array_size_d = array_size_d)
             else:
                 extra=""
@@ -1014,12 +1010,14 @@ if (!DIO_GET({self.dataio_type}, &din, &field_addr, &real_packet->{self.name})) 
                 return """\
 
 {extra}\
-  if (!DIO_GET({self.dataio_type}, &din, &field_addr, real_packet->{self.name}, {array_size_u})) {{
-    RECEIVE_PACKET_FIELD_ERROR({self.name});
-  }}
+if (!DIO_GET({self.dataio_type}, &din, &field_addr, real_packet->{self.name}, {array_size_u})) {{
+  RECEIVE_PACKET_FIELD_ERROR({self.name});
+}}
 """.format(self = self, array_size_u = array_size_u, extra = extra)
             elif self.is_array==2 and self.dataio_type!="string" \
                  and self.dataio_type!="estring":
+                extra = prefix("  ", extra)
+                c = prefix("      ", c)
                 return """\
 {{
   int i, j;
@@ -1059,6 +1057,8 @@ if (!DIO_GET({self.dataio_type}, &din, &field_addr, &real_packet->{self.name})) 
 }}
 """.format(self = self, c = c, extra = extra)
             else:
+                extra = prefix("  ", extra)
+                c = prefix("    ", c)
                 return """\
 {{
   int i;
@@ -1083,66 +1083,68 @@ if (!DIO_GET({self.dataio_type}, &din, &field_addr, &real_packet->{self.name})) 
 }}
 """.format(array_size_u = array_size_u, c = c, extra = extra)
         elif deltafragment and self.diff and self.is_array == 1:
+            c = prefix("      ", c)
             return """\
 {{
 #ifdef FREECIV_JSON_CONNECTION
-int count;
+  int count;
 
-/* Enter array. */
-field_addr.sub_location = plocation_elem_new(0);
+  /* Enter array. */
+  field_addr.sub_location = plocation_elem_new(0);
 
-for (count = 0;; count++) {{
-  int i;
+  for (count = 0;; count++) {{
+    int i;
 
-  field_addr.sub_location->number = count;
+    field_addr.sub_location->number = count;
 
-  /* Enter diff array element (start at the index address). */
-  field_addr.sub_location->sub_location = plocation_elem_new(0);
+    /* Enter diff array element (start at the index address). */
+    field_addr.sub_location->sub_location = plocation_elem_new(0);
 #else /* FREECIV_JSON_CONNECTION */
-while (TRUE) {{
-  int i;
+  while (TRUE) {{
+    int i;
 #endif /* FREECIV_JSON_CONNECTION */
 
-  if (!DIO_GET(uint8, &din, &field_addr, &i)) {{
-    RECEIVE_PACKET_FIELD_ERROR({self.name});
-  }}
-  if (i == 255) {{
+    if (!DIO_GET(uint8, &din, &field_addr, &i)) {{
+      RECEIVE_PACKET_FIELD_ERROR({self.name});
+    }}
+    if (i == 255) {{
+#ifdef FREECIV_JSON_CONNECTION
+      /* Exit diff array element. */
+      FC_FREE(field_addr.sub_location->sub_location);
+
+      /* Exit diff array. */
+      FC_FREE(field_addr.sub_location);
+#endif /* FREECIV_JSON_CONNECTION */
+
+      break;
+    }}
+    if (i > {array_size_u}) {{
+      RECEIVE_PACKET_FIELD_ERROR({self.name},
+                                 ": unexpected value %d "
+                                 "(> {array_size_u}) in array diff",
+                                 i);
+    }} else {{
+#ifdef FREECIV_JSON_CONNECTION
+      /* Content address. */
+      field_addr.sub_location->sub_location->number = 1;
+#endif /* FREECIV_JSON_CONNECTION */
+{c}\
+    }}
+
 #ifdef FREECIV_JSON_CONNECTION
     /* Exit diff array element. */
     FC_FREE(field_addr.sub_location->sub_location);
-
-    /* Exit diff array. */
-    FC_FREE(field_addr.sub_location);
 #endif /* FREECIV_JSON_CONNECTION */
-
-    break;
-  }}
-  if (i > {array_size_u}) {{
-    RECEIVE_PACKET_FIELD_ERROR({self.name},
-                               ": unexpected value %d "
-                               "(> {array_size_u}) in array diff",
-                               i);
-  }} else {{
-#ifdef FREECIV_JSON_CONNECTION
-    /* Content address. */
-    field_addr.sub_location->sub_location->number = 1;
-#endif /* FREECIV_JSON_CONNECTION */
-{c}\
   }}
 
 #ifdef FREECIV_JSON_CONNECTION
-  /* Exit diff array element. */
-  FC_FREE(field_addr.sub_location->sub_location);
-#endif /* FREECIV_JSON_CONNECTION */
-}}
-
-#ifdef FREECIV_JSON_CONNECTION
-/* Exit array. */
-FC_FREE(field_addr.sub_location);
+  /* Exit array. */
+  FC_FREE(field_addr.sub_location);
 #endif /* FREECIV_JSON_CONNECTION */
 }}
 """.format(self = self, array_size_u = array_size_u, c = c)
         else:
+            c = prefix("    ", c)
             return """\
 {{
   int i;
@@ -1330,29 +1332,29 @@ BV_DEFINE({self.name}_fields, {self.bits});
     def get_report_part(self) -> str:
         return """\
 
-  if (stats_{self.name}_sent > 0
-      && stats_{self.name}_discarded != stats_{self.name}_sent) {{
-    log_test(\"{self.name} %d out of %d got discarded\",
-      stats_{self.name}_discarded, stats_{self.name}_sent);
-    for (i = 0; i < {self.bits}; i++) {{
-      if (stats_{self.name}_counters[i] > 0) {{
-        log_test(\"  %4d / %4d: %2d = %s\",
-          stats_{self.name}_counters[i],
-          (stats_{self.name}_sent - stats_{self.name}_discarded),
-          i, stats_{self.name}_names[i]);
-      }}
+if (stats_{self.name}_sent > 0
+    && stats_{self.name}_discarded != stats_{self.name}_sent) {{
+  log_test(\"{self.name} %d out of %d got discarded\",
+    stats_{self.name}_discarded, stats_{self.name}_sent);
+  for (i = 0; i < {self.bits}; i++) {{
+    if (stats_{self.name}_counters[i] > 0) {{
+      log_test(\"  %4d / %4d: %2d = %s\",
+        stats_{self.name}_counters[i],
+        (stats_{self.name}_sent - stats_{self.name}_discarded),
+        i, stats_{self.name}_names[i]);
     }}
   }}
+}}
 """.format(self = self)
 
     # Returns a code fragment which is the packet specific part of
     # the delta_stats_reset() function.
     def get_reset_part(self) -> str:
         return """\
-  stats_{self.name}_sent = 0;
-  stats_{self.name}_discarded = 0;
-  memset(stats_{self.name}_counters, 0,
-         sizeof(stats_{self.name}_counters));
+stats_{self.name}_sent = 0;
+stats_{self.name}_discarded = 0;
+memset(stats_{self.name}_counters, 0,
+       sizeof(stats_{self.name}_counters));
 """.format(self = self)
 
     # Returns a code fragment which is the implementation of the hash
@@ -1489,7 +1491,7 @@ static bool cmp_{self.name}(const void *vkey1, const void *vkey2)
                 delta_header += """\
 #endif /* FREECIV_DELTA_PROTOCOL */
 """
-                body = self.get_delta_send_body() + """\
+                body = prefix("  ", self.get_delta_send_body()) + """\
 #ifndef FREECIV_DELTA_PROTOCOL
 """
             else:
@@ -1498,7 +1500,7 @@ static bool cmp_{self.name}(const void *vkey1, const void *vkey2)
 #if 1 /* To match endif */
 """
             body += "".join(
-                field.get_put(False)
+                prefix("  ", field.get_put(False))
                 for field in self.fields
             )
             body += """\
@@ -1563,24 +1565,24 @@ static bool cmp_{self.name}(const void *vkey1, const void *vkey2)
         intro = """\
 
 #ifdef FREECIV_DELTA_PROTOCOL
-  if (NULL == *hash) {{
-    *hash = genhash_new_full(hash_{self.name}, cmp_{self.name},
-                             NULL, NULL, NULL, free);
-  }}
-  BV_CLR_ALL(fields);
+if (NULL == *hash) {{
+  *hash = genhash_new_full(hash_{self.name}, cmp_{self.name},
+                           NULL, NULL, NULL, free);
+}}
+BV_CLR_ALL(fields);
 
-  if (!genhash_lookup(*hash, real_packet, (void **) &old)) {{
-    old = fc_malloc(sizeof(*old));
-    *old = *real_packet;
-    genhash_insert(*hash, old, old);
-    memset(old, 0, sizeof(*old));
+if (!genhash_lookup(*hash, real_packet, (void **) &old)) {{
+  old = fc_malloc(sizeof(*old));
+  *old = *real_packet;
+  genhash_insert(*hash, old, old);
+  memset(old, 0, sizeof(*old));
 """.format(self = self)
         if self.is_info != "no":
             intro += """\
-    different = 1;      /* Force to send. */
+  different = 1;      /* Force to send. */
 """
         intro += """\
-  }
+}
 """
         body = "".join(
             field.get_cmp_wrapper(i, self)
@@ -1588,33 +1590,33 @@ static bool cmp_{self.name}(const void *vkey1, const void *vkey2)
         )
         if self.gen_log:
             fl = """\
-    {self.log_macro}("  no change -> discard");
+  {self.log_macro}("  no change -> discard");
 """.format(self = self)
         else:
             fl=""
         if self.gen_stats:
             s = """\
-    stats_{self.name}_discarded++;
+  stats_{self.name}_discarded++;
 """.format(self = self)
         else:
             s=""
 
         if self.is_info != "no":
             body += """\
-  if (different == 0) {{
+if (different == 0) {{
 {fl}\
 {s}\
 {before_return}\
-    return 0;
-  }}
+  return 0;
+}}
 """.format(fl = fl, s = s, before_return = before_return)
 
         body += """\
 
 #ifdef FREECIV_JSON_CONNECTION
-  field_addr.name = "fields";
+field_addr.name = "fields";
 #endif /* FREECIV_JSON_CONNECTION */
-  DIO_BV_PUT(&dout, &field_addr, fields);
+DIO_BV_PUT(&dout, &field_addr, fields);
 """
 
         body += "".join(
@@ -1629,17 +1631,17 @@ static bool cmp_{self.name}(const void *vkey1, const void *vkey2)
         )
         body += """\
 
-  *old = *real_packet;
+*old = *real_packet;
 """
 
         # Cancel some is-info packets.
         for i in self.cancel:
             body += """\
 
-  hash = pc->phs.sent + %s;
-  if (NULL != *hash) {
-    genhash_remove(*hash, real_packet);
-  }
+hash = pc->phs.sent + %s;
+if (NULL != *hash) {
+  genhash_remove(*hash, real_packet);
+}
 """ % i
         body += """\
 #endif /* FREECIV_DELTA_PROTOCOL */
@@ -1675,7 +1677,7 @@ static bool cmp_{self.name}(const void *vkey1, const void *vkey2)
 
 #else /* FREECIV_DELTA_PROTOCOL */
 """
-            body2 = self.get_delta_receive_body()
+            body2 = prefix("  ", self.get_delta_receive_body())
         else:
             delta_header=""
             delta_body1=""
@@ -1747,40 +1749,40 @@ static bool cmp_{self.name}(const void *vkey1, const void *vkey2)
     def get_delta_receive_body(self) -> str:
         key1 = "".join(
             """\
-    {field.struct_type} {field.name} = real_packet->{field.name};
+  {field.struct_type} {field.name} = real_packet->{field.name};
 """.format(field = field)
             for field in self.key_fields
         )
         if key1: key1 += "\n"
         key2 = "".join(
             """\
-    real_packet->{field.name} = {field.name};
+  real_packet->{field.name} = {field.name};
 """.format(field = field)
             for field in self.key_fields
         )
         if key2: key2 = "\n" + key2
         if self.gen_log:
             fl = """\
-    {self.log_macro}("  no old info");
+  {self.log_macro}("  no old info");
 """.format(self = self)
         else:
             fl=""
         body = """\
 
 #ifdef FREECIV_DELTA_PROTOCOL
-  if (NULL == *hash) {{
-    *hash = genhash_new_full(hash_{self.name}, cmp_{self.name},
-                             NULL, NULL, NULL, free);
-  }}
+if (NULL == *hash) {{
+  *hash = genhash_new_full(hash_{self.name}, cmp_{self.name},
+                           NULL, NULL, NULL, free);
+}}
 
-  if (genhash_lookup(*hash, real_packet, (void **) &old)) {{
-    *real_packet = *old;
-  }} else {{
+if (genhash_lookup(*hash, real_packet, (void **) &old)) {{
+  *real_packet = *old;
+}} else {{
 {key1}\
 {fl}\
-    memset(real_packet, 0, sizeof(*real_packet));
+  memset(real_packet, 0, sizeof(*real_packet));
 {key2}\
-  }}
+}}
 
 """.format(self = self, key1 = key1, key2 = key2, fl = fl)
         body += "".join(
@@ -1790,23 +1792,23 @@ static bool cmp_{self.name}(const void *vkey1, const void *vkey2)
 
         extro = """\
 
-  if (NULL == old) {
-    old = fc_malloc(sizeof(*old));
-    *old = *real_packet;
-    genhash_insert(*hash, old, old);
-  } else {
-    *old = *real_packet;
-  }
+if (NULL == old) {
+  old = fc_malloc(sizeof(*old));
+  *old = *real_packet;
+  genhash_insert(*hash, old, old);
+} else {
+  *old = *real_packet;
+}
 """
 
         # Cancel some is-info packets.
         extro += "".join(
             """\
 
-  hash = pc->phs.received + %s;
-  if (NULL != *hash) {
-    genhash_remove(*hash, real_packet);
-  }
+hash = pc->phs.received + %s;
+if (NULL != *hash) {
+  genhash_remove(*hash, real_packet);
+}
 """ % cancel_pack
             for cancel_pack in self.cancel
         )
@@ -2125,7 +2127,10 @@ struct {self.name} {{
     # dsend function.
     def get_dsend(self) -> str:
         if not self.want_dsend: return ""
-        fill = "".join(field.get_fill() for field in self.fields)
+        fill = "".join(
+            prefix("  ", field.get_fill())
+            for field in self.fields
+        )
         return """\
 {self.dsend_prototype}
 {{
@@ -2142,7 +2147,10 @@ struct {self.name} {{
     # dlsend function.
     def get_dlsend(self) -> str:
         if not (self.want_lsend and self.want_dsend): return ""
-        fill = "".join(field.get_fill() for field in self.fields)
+        fill = "".join(
+            prefix("  ", field.get_fill())
+            for field in self.fields
+        )
         return """\
 {self.dlsend_prototype}
 {{
@@ -2186,7 +2194,7 @@ void delta_stats_report(void) {
 
 """
     body = "".join(
-        packet.get_report_part()
+        prefix("  ", packet.get_report_part())
         for packet in packets
     )
     return intro+body+extro
@@ -2207,7 +2215,7 @@ void delta_stats_reset(void) {
 
 """
     body = "\n".join(
-        packet.get_reset_part()
+        prefix("  ", packet.get_reset_part())
         for packet in packets
     )
     return intro+body+extro
