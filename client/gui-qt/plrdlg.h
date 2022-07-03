@@ -111,6 +111,7 @@ private:
 class plr_widget: public QTreeView
 {
   Q_OBJECT
+
   plr_model *list_model;
   QSortFilterProxyModel *filter_model;
   plr_item_delegate *pid;
@@ -126,6 +127,7 @@ public:
   QString intel_str;
   QString ally_str;
   QString tech_str;
+  QString wonder_str;
   struct player *other_player;
 public slots:
   void display_header_menu(const QPoint &);
@@ -141,16 +143,19 @@ private:
 class plr_report: public QWidget
 {
   Q_OBJECT
+
   plr_widget *plr_wdg;
   QLabel *plr_label;
   QLabel *ally_label;
   QLabel *tech_label;
+  QLabel *wonder_label;
   QSplitter *v_splitter;
   QSplitter *h_splitter;
   QPushButton *meet_but;
   QPushButton *cancel_but;
   QPushButton *withdraw_but;
   QPushButton *toggle_ai_but;
+  QPushButton *show_wonders;
   QVBoxLayout *layout;
   QHBoxLayout *hlayout;
 public:
@@ -169,6 +174,7 @@ private slots:
                                *  autoconnect */
   void req_wiithdrw_vision();
   void toggle_ai_mode();
+  void show_wonders_toggle();
 };
 
 void popup_players_dialog(bool raise);
