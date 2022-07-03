@@ -1,8 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg
-   xmlns="http://www.w3.org/2000/svg"
    width="900"
    height="600"
-   version="1.0">
+   version="1.0"
+   id="svg5"
+   sodipodi:docname="somalia.svg"
+   inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs9" />
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     showgrid="false"
+     inkscape:zoom="0.84734963"
+     inkscape:cx="449.6373"
+     inkscape:cy="300.34828"
+     inkscape:window-width="921"
+     inkscape:window-height="708"
+     inkscape:window-x="499"
+     inkscape:window-y="116"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg5" />
   <rect
      style="fill:#4189dd"
      id="rect2391"
