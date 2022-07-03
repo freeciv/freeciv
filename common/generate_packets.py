@@ -747,8 +747,7 @@ DIO_PUT({self.dataio_type}, &dout, &field_addr, real_packet->{self.name}[i]);
 
 #ifdef FREECIV_JSON_CONNECTION
           /* Exit diff array element. */
-          free(field_addr.sub_location->sub_location);
-          field_addr.sub_location->sub_location = NULL;
+          FC_FREE(field_addr.sub_location->sub_location);
 #endif /* FREECIV_JSON_CONNECTION */
         }}
       }}
@@ -769,12 +768,10 @@ DIO_PUT({self.dataio_type}, &dout, &field_addr, real_packet->{self.name}[i]);
 #ifdef FREECIV_JSON_CONNECTION
 
       /* Exit diff array element. */
-      free(field_addr.sub_location->sub_location);
-      field_addr.sub_location->sub_location = NULL;
+      FC_FREE(field_addr.sub_location->sub_location);
 
       /* Exit array. */
-      free(field_addr.sub_location);
-      field_addr.sub_location = NULL;
+      FC_FREE(field_addr.sub_location);
 #endif /* FREECIV_JSON_CONNECTION */
     }}
 """.format(self = self, c = c)
@@ -814,15 +811,13 @@ DIO_PUT({self.dataio_type}, &dout, &field_addr, real_packet->{self.name}[i]);
 
 #ifdef FREECIV_JSON_CONNECTION
         /* Exit the inner array. */
-        free(field_addr.sub_location->sub_location);
-        field_addr.sub_location->sub_location = NULL;
+        FC_FREE(field_addr.sub_location->sub_location);
 #endif /* FREECIV_JSON_CONNECTION */
       }}
 
 #ifdef FREECIV_JSON_CONNECTION
       /* Exit the outer array. */
-      free(field_addr.sub_location);
-      field_addr.sub_location = NULL;
+      FC_FREE(field_addr.sub_location);
 #endif /* FREECIV_JSON_CONNECTION */
     }}
 """.format(self = self, c = c)
@@ -849,8 +844,7 @@ DIO_PUT({self.dataio_type}, &dout, &field_addr, real_packet->{self.name}[i]);
 
 #ifdef FREECIV_JSON_CONNECTION
       /* Exit array. */
-      free(field_addr.sub_location);
-      field_addr.sub_location = NULL;
+      FC_FREE(field_addr.sub_location);
 #endif /* FREECIV_JSON_CONNECTION */
     }}
 """.format(c = c, array_size_u = array_size_u)
@@ -1054,15 +1048,13 @@ if (!DIO_GET({self.dataio_type}, &din, &field_addr, &real_packet->{self.name})) 
 
 #ifdef FREECIV_JSON_CONNECTION
     /* Exit inner array. */
-    free(field_addr.sub_location->sub_location);
-    field_addr.sub_location->sub_location = NULL;
+    FC_FREE(field_addr.sub_location->sub_location);
 #endif /* FREECIV_JSON_CONNECTION */
   }}
 
 #ifdef FREECIV_JSON_CONNECTION
   /* Exit outer array. */
-  free(field_addr.sub_location);
-  field_addr.sub_location = NULL;
+  FC_FREE(field_addr.sub_location);
 #endif /* FREECIV_JSON_CONNECTION */
 }}
 """.format(self = self, c = c, extra = extra)
@@ -1086,8 +1078,7 @@ if (!DIO_GET({self.dataio_type}, &din, &field_addr, &real_packet->{self.name})) 
 
 #ifdef FREECIV_JSON_CONNECTION
   /* Exit array. */
-  free(field_addr.sub_location);
-  field_addr.sub_location = NULL;
+  FC_FREE(field_addr.sub_location);
 #endif /* FREECIV_JSON_CONNECTION */
 }}
 """.format(array_size_u = array_size_u, c = c, extra = extra)
@@ -1118,12 +1109,10 @@ while (TRUE) {{
   if (i == 255) {{
 #ifdef FREECIV_JSON_CONNECTION
     /* Exit diff array element. */
-    free(field_addr.sub_location->sub_location);
-    field_addr.sub_location->sub_location = NULL;
+    FC_FREE(field_addr.sub_location->sub_location);
 
     /* Exit diff array. */
-    free(field_addr.sub_location);
-    field_addr.sub_location = NULL;
+    FC_FREE(field_addr.sub_location);
 #endif /* FREECIV_JSON_CONNECTION */
 
     break;
@@ -1143,15 +1132,13 @@ while (TRUE) {{
 
 #ifdef FREECIV_JSON_CONNECTION
   /* Exit diff array element. */
-  free(field_addr.sub_location->sub_location);
-  field_addr.sub_location->sub_location = NULL;
+  FC_FREE(field_addr.sub_location->sub_location);
 #endif /* FREECIV_JSON_CONNECTION */
 }}
 
 #ifdef FREECIV_JSON_CONNECTION
 /* Exit array. */
-free(field_addr.sub_location);
-field_addr.sub_location = NULL;
+FC_FREE(field_addr.sub_location);
 #endif /* FREECIV_JSON_CONNECTION */
 }}
 """.format(self = self, array_size_u = array_size_u, c = c)
