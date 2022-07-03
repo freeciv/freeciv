@@ -222,17 +222,18 @@ SDL_Surface *create_bcgnd_surf(SDL_Surface *ptheme, enum widget_state state,
 struct widget *find_next_widget_at_pos(struct widget *start_widget,
                                        int x, int y)
 {
-  SDL_Rect area = {0, 0, 0, 0};
   struct widget *pwidget;
 
   pwidget = start_widget ? start_widget : begin_main_widget_list;
 
   while (pwidget) {
-    area.x = pwidget->dst->dest_rect.x + pwidget->size.x;
-    area.y = pwidget->dst->dest_rect.y + pwidget->size.y;
-    area.w = pwidget->size.w;
-    area.h = pwidget->size.h;
-    if (is_in_rect_area(x, y, area)
+    SDL_Rect area = {
+      .x = pwidget->dst->dest_rect.x + pwidget->size.x,
+      .y = pwidget->dst->dest_rect.y + pwidget->size.y,
+      .w = pwidget->size.w,
+      .h = pwidget->size.h};
+
+    if (is_in_rect_area(x, y, &area)
         && !((get_wflags(pwidget) & WF_HIDDEN) == WF_HIDDEN)) {
       return (struct widget *) pwidget;
     }

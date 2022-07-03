@@ -202,7 +202,7 @@ static int city_dlg_callback(struct widget *pwindow)
         && city_owner(pcity_dlg->pcity) == client.conn.playing) {
 
       if (is_in_rect_area(main_data.event.motion.x, main_data.event.motion.y,
-                          pcity_dlg->spec_area)) {
+                          &(pcity_dlg->spec_area))) {
         city_rotate_specialist(pcity_dlg->pcity,
                                (main_data.event.motion.x - pcity_dlg->spec_area.x)
                                / pcity_dlg->citizen_step);
@@ -618,7 +618,7 @@ static SDL_Surface *create_unit_surface(struct unit *punit, bool support,
 
   /* Get unit sprite width, and crop top. Bottom might get restored in 'support'
    * case below. */
-  src_rect = get_smaller_surface_rect(destcanvas->surf);
+  get_smaller_surface_rect(destcanvas->surf, &src_rect);
 
   if (support) {
     int i, step;

@@ -1377,10 +1377,10 @@ bool correct_rect_region(SDL_Rect *prect)
 /**********************************************************************//**
   Return whether coordinates are in rectangle.
 **************************************************************************/
-bool is_in_rect_area(int x, int y, SDL_Rect rect)
+bool is_in_rect_area(int x, int y, const SDL_Rect *rect)
 {
-  return ((x >= rect.x) && (x < rect.x + rect.w)
-          && (y >= rect.y) && (y < rect.y + rect.h));
+  return ((x >= rect->x) && (x < rect->x + rect->w)
+          && (y >= rect->y) && (y < rect->y + rect->h));
 }
 
 /* ===================================================================== */
@@ -1388,15 +1388,15 @@ bool is_in_rect_area(int x, int y, SDL_Rect rect)
 /**********************************************************************//**
   Get visible rectangle from surface.
 **************************************************************************/
-SDL_Rect get_smaller_surface_rect(SDL_Surface *surf)
+void get_smaller_surface_rect(SDL_Surface *surf, SDL_Rect *rect)
 {
-  SDL_Rect src;
   int w, h, x, y;
   Uint16 minX, maxX, minY, maxY;
   Uint32 colorkey;
   Uint32 mask;
 
   fc_assert(surf != NULL);
+  fc_assert(rect != NULL);
 
   minX = surf->w;
   maxX = 0;
@@ -1418,6 +1418,7 @@ SDL_Rect get_smaller_surface_rect(SDL_Surface *surf)
   {
     Uint8 *pixel = (Uint8 *)surf->pixels;
     Uint8 *start = pixel;
+
     x = 0;
     y = 0;
     w = surf->w;
@@ -1667,12 +1668,10 @@ SDL_Rect get_smaller_surface_rect(SDL_Surface *surf)
   }
 
   unlock_surf(surf);
-  src.x = minX;
-  src.y = minY;
-  src.w = maxX - minX + 1;
-  src.h = maxY - minY + 1;
-
-  return src;
+  rect->x = minX;
+  rect->y = minY;
+  rect->w = maxX - minX + 1;
+  rect->h = maxY - minY + 1;
 }
 
 /**********************************************************************//**
@@ -1680,7 +1679,9 @@ SDL_Rect get_smaller_surface_rect(SDL_Surface *surf)
 **************************************************************************/
 SDL_Surface *crop_visible_part_from_surface(SDL_Surface *psrc)
 {
-  SDL_Rect src = get_smaller_surface_rect(psrc);
+  SDL_Rect src;
+
+  get_smaller_surface_rect(psrc, &src);
 
   return crop_rect_from_surface(psrc, &src);
 }
@@ -1808,7 +1809,7 @@ void create_frame(SDL_Surface *dest, Sint16 left, Sint16 top,
   struct color gsdl2_color = { .color = pcolor };
   struct sprite *vertical = create_sprite(1, height, &gsdl2_color);
   struct sprite *horizontal = create_sprite(width, 1, &gsdl2_color);
-  SDL_Rect tmp,dst = { left, top, 0, 0 };
+  SDL_Rect tmp, dst = { .x = left, .y = top, .w = 0, .h = 0 };
 
   tmp = dst;
   alphablit(vertical->psurface, NULL, dest, &tmp, 255);

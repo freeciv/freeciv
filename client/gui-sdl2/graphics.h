@@ -287,7 +287,7 @@ int main_window_height(void);
 
 /* Rect */
 bool correct_rect_region(SDL_Rect *prect);
-bool is_in_rect_area(int x, int y, SDL_Rect rect);
+bool is_in_rect_area(int x, int y, const SDL_Rect *rect);
 
 int fill_rect_alpha(SDL_Surface *surf, SDL_Rect *prect,
                     SDL_Color *pcolor);
@@ -305,7 +305,7 @@ SDL_Surface *resize_surface_box(const SDL_Surface *psrc,
                                 bool absolute_dimensions);
 
 SDL_Surface *crop_visible_part_from_surface(SDL_Surface *psrc);
-SDL_Rect get_smaller_surface_rect(SDL_Surface *psrc);
+void get_smaller_surface_rect(SDL_Surface *surf, SDL_Rect *rect);
 
 #define map_rgba(format, color) \
   SDL_MapRGBA(format, (color).r, (color).g, (color).b, (color).a)

@@ -486,33 +486,35 @@ static void update_button_hold_state(void)
 **************************************************************************/
 static int check_scroll_area(int x, int y)
 {
-  SDL_Rect rect_north = {0, 0, main_data.map->w, SCROLL_MAP_AREA};
-  SDL_Rect rect_east = {main_data.map->w - SCROLL_MAP_AREA, 0, SCROLL_MAP_AREA, main_data.map->h};
-  SDL_Rect rect_south = {0, main_data.map->h - SCROLL_MAP_AREA, main_data.map->w, SCROLL_MAP_AREA};
-  SDL_Rect rect_west = {0, 0, SCROLL_MAP_AREA, main_data.map->h};
+  SDL_Rect rect_north = {.x = 0, .y = 0, .w = main_data.map->w, .y = SCROLL_MAP_AREA};
+  SDL_Rect rect_east = {.x = main_data.map->w - SCROLL_MAP_AREA, .y = 0,
+    .w = SCROLL_MAP_AREA, .h = main_data.map->h};
+  SDL_Rect rect_south = {.x = 0, .y = main_data.map->h - SCROLL_MAP_AREA,
+    .w = main_data.map->w, .h = SCROLL_MAP_AREA};
+  SDL_Rect rect_west = {.x = 0, .y = 0, .w = SCROLL_MAP_AREA, .h = main_data.map->h};
 
-  if (is_in_rect_area(x, y, rect_north)) {
+  if (is_in_rect_area(x, y, &rect_north)) {
     is_map_scrolling = TRUE;
-    if (is_in_rect_area(x, y, rect_west)) {
+    if (is_in_rect_area(x, y, &rect_west)) {
       scroll_dir = DIR8_NORTHWEST;
-    } else if (is_in_rect_area(x, y, rect_east)) {
+    } else if (is_in_rect_area(x, y, &rect_east)) {
       scroll_dir = DIR8_NORTHEAST;
     } else {
       scroll_dir = DIR8_NORTH;
     }
-  } else if (is_in_rect_area(x, y, rect_south)) {
+  } else if (is_in_rect_area(x, y, &rect_south)) {
     is_map_scrolling = TRUE;
-    if (is_in_rect_area(x, y, rect_west)) {
+    if (is_in_rect_area(x, y, &rect_west)) {
       scroll_dir = DIR8_SOUTHWEST;
-    } else if (is_in_rect_area(x, y, rect_east)) {
+    } else if (is_in_rect_area(x, y, &rect_east)) {
       scroll_dir = DIR8_SOUTHEAST;
     } else {
       scroll_dir = DIR8_SOUTH;
     }
-  } else if (is_in_rect_area(x, y, rect_east)) {
+  } else if (is_in_rect_area(x, y, &rect_east)) {
     is_map_scrolling = TRUE;
     scroll_dir = DIR8_EAST;
-  } else if (is_in_rect_area(x, y, rect_west)) {
+  } else if (is_in_rect_area(x, y, &rect_west)) {
     is_map_scrolling = TRUE;
     scroll_dir = DIR8_WEST;
   } else {

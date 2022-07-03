@@ -153,14 +153,18 @@ void set_new_icon_theme(struct widget *icon_widget, SDL_Surface *new_theme)
 }
 
 /**********************************************************************//**
-  Ugly hack to create 4-state icon theme from static icon;
+  Ugly hack to create 4-state icon theme from static icon.
 **************************************************************************/
 SDL_Surface *create_icon_theme_surf(SDL_Surface *icon)
 {
   SDL_Color bg_color = { 255, 255, 255, 128 };
-  SDL_Rect dest, src = get_smaller_surface_rect(icon);
-  SDL_Surface *ptheme = create_surf((src.w + adj_size(4)) * 4, src.h + adj_size(4),
-                                    SDL_SWSURFACE);
+  SDL_Rect dest;
+  SDL_Rect src;
+  SDL_Surface *ptheme;
+
+  get_smaller_surface_rect(icon, &src);
+  ptheme = create_surf((src.w + adj_size(4)) * 4, src.h + adj_size(4),
+                       SDL_SWSURFACE);
 
   dest.x = adj_size(2);
   dest.y = (ptheme->h - src.h) / 2;
@@ -264,9 +268,9 @@ int draw_icon(struct widget *icon, Sint16 start_x, Sint16 start_y)
 int draw_icon_from_theme(SDL_Surface *icon_theme, Uint8 state,
                          struct gui_layer *pdest, Sint16 start_x, Sint16 start_y)
 {
-  SDL_Rect src, des = {start_x, start_y, 0, 0};
+  SDL_Rect src, des = {.x = start_x, .y = start_y, .w = 0, .h = 0};
 
-  if (!icon_theme) {
+  if (icon_theme == NULL) {
     return -3;
   }
 
@@ -295,7 +299,7 @@ SDL_Surface *create_icon_from_theme(SDL_Surface *icon_theme, Uint8 state)
 {
   SDL_Rect src;
 
-  if (!icon_theme) {
+  if (icon_theme == NULL) {
     return NULL;
   }
 
