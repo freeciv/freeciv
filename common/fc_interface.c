@@ -16,6 +16,7 @@
 #endif
 
 /* utility */
+#include "netfile.h"
 #include "shared.h"
 
 /* common */
@@ -84,5 +85,6 @@ void free_libfreeciv(void)
   free_freeciv_storage_dir();
   free_user_home_dir();
   free_fileinfo_data();
+  netfile_free();
   fc_strAPI_free();
 }
