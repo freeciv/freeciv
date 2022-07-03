@@ -692,7 +692,7 @@ void gov_menu::update_all()
 /**********************************************************************//**
   Instantiate a new goto and act sub menu.
 **************************************************************************/
-go_act_menu::go_act_menu(QWidget* parent)
+go_act_menu::go_act_menu(QWidget *parent)
   : QMenu(_("Go to and..."), parent)
 {
   // Will need auto updates etc.
@@ -1207,7 +1207,7 @@ void mr_menu::setup_menus()
   connect(act, &QAction::triggered, this, &mr_menu::slot_unit_goto);
 
   // The goto and act sub menu is handled as a separate object.
-  main_menu->addMenu(new go_act_menu());
+  main_menu->addMenu(new go_act_menu(this));
 
   act = main_menu->addAction(_("Go to Nearest City"));
   act->setShortcut(QKeySequence(tr("shift+g")));
