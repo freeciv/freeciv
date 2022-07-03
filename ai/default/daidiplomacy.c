@@ -1300,7 +1300,7 @@ static void dai_share(struct ai_type *ait, struct player *pplayer,
 }
 
 /******************************************************************//**
-  Go to war.  Explain to target why we did it, and set countdown to
+  Go to war. Explain to target why we did it, and set countdown to
   some negative value to make us a bit stubborn to avoid immediate
   reversal to ceasefire.
 **********************************************************************/
@@ -1314,7 +1314,7 @@ static void dai_go_to_war(struct ai_type *ait, struct player *pplayer,
 
   switch (reason) {
   case DAI_WR_SPACE:
-    dai_diplo_notify(target, _("*%s (AI)* Space will never be yours. "),
+    dai_diplo_notify(target, _("*%s (AI)* Space will never be yours."),
                      player_name(pplayer));
     adip->countdown = -10;
     break;
@@ -1369,17 +1369,33 @@ static void dai_go_to_war(struct ai_type *ait, struct player *pplayer,
     remove_shared_vision(pplayer, target);
   }
 
-  /* Check for Senate obstruction.  If so, dissolve it. */
+  /* Check for Senate obstruction. If so, dissolve it. */
   if (pplayer_can_cancel_treaty(pplayer, target) == DIPL_SENATE_BLOCKING) {
-    handle_player_change_government(pplayer, 
-                                    game.info.government_during_revolution_id);
+    struct government *real_gov = pplayer->government;
+
+    pplayer->government = game.government_during_revolution;
+
+    if (pplayer_can_cancel_treaty(pplayer, target) == DIPL_OK) {
+      /* It seems that revolution would help. */
+      pplayer->government = real_gov;
+      handle_player_change_government(pplayer,
+                                      game.info.government_during_revolution_id);
+    } else {
+      /* There would be Senate even during revolution. Better not to revolt for nothing */
+      pplayer->government = real_gov;
+
+      DIPLO_LOG(ait, LOG_DEBUG, pplayer, target,
+                "Not revolting, as there would be Senate regardless.");
+
+      return;
+    }
   }
 
   /* This will take us straight to war. */
   while (player_diplstate_get(pplayer, target)->type != DS_WAR) {
     if (pplayer_can_cancel_treaty(pplayer, target) != DIPL_OK) {
-      DIPLO_LOG(ait, LOG_ERROR, pplayer, target, "Wanted to cancel treaty but "
-                "was unable to.");
+      DIPLO_LOG(ait, LOG_ERROR, pplayer, target,
+                "Wanted to cancel treaty but was unable to.");
       return;
     }
     handle_diplomacy_cancel_pact(pplayer, player_number(target), clause_type_invalid());
