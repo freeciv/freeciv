@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -17,6 +17,9 @@
 #ifdef __cplusplus
 extern "C" {
 #endif /* __cplusplus */
+
+/* utility */
+#include "support.h" /* bool */
 
 struct netfile_post;
 
@@ -44,6 +47,8 @@ void netfile_close_post(struct netfile_post *post);
 bool netfile_send_post(const char *URL, struct netfile_post *post,
                        FILE *reply_fp, struct netfile_write_cb_data *mem_data,
                        const char *addr);
+
+void netfile_free(void);
 
 #ifdef __cplusplus
 }
