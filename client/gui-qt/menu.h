@@ -237,7 +237,7 @@ class go_act_menu : public QMenu
   QMap<QAction *, int> items;
 
 public:
-  go_act_menu(QWidget* parent = 0);
+  go_act_menu(QWidget *parent = nullptr);
   virtual ~go_act_menu();
 
   static void reset_all();
