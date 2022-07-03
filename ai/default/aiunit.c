@@ -2107,8 +2107,13 @@ static bool dai_is_unit_tired_waiting_boat(struct ai_type *ait,
     if (src == NULL || dest == NULL) {
       return FALSE;
     }
-    /* if we're not at home continent (FIXME: well, why?) */
-    if (tile_continent(src) != tile_continent(src_home_city)) {
+
+    /* If we have a home continent, and are not there.
+     * (FIXME: well, why?)
+     * (I guess because home continent is which we were supposed to leave,
+     *  not the target continent) */
+    if (src_home_city != NULL
+        && tile_continent(src) != tile_continent(src_home_city)) {
       return FALSE;
     }
 
