@@ -54,7 +54,7 @@ struct happiness_dialog {
   GtkWidget *win;
   GtkWidget *shell;
   GtkWidget *cityname_label;
-  GtkWidget *feeling_images[NUM_HAPPINESS_MODIFIERS];
+  GtkWidget *feeling_pics[NUM_HAPPINESS_MODIFIERS];
   cairo_surface_t *feeling_surfaces[NUM_HAPPINESS_MODIFIERS];
   GtkWidget *happiness_label[NUM_HAPPINESS_MODIFIERS];
   GtkWidget *close;
@@ -214,11 +214,11 @@ static struct happiness_dialog *create_happiness_dialog(struct city *pcity,
   gtk_frame_set_child(GTK_FRAME(pdialog->cityname_label), table);
 
   for (i = 0; i < NUM_HAPPINESS_MODIFIERS; i++) {
-    GtkWidget *img;
+    GtkWidget *pic;
 
-    /* set spacing between lines of citizens*/
+    /* Set spacing between lines of citizens*/
 
-    /* happiness labels */
+    /* Happiness labels */
     label = gtk_label_new(happiness_label_str[i]);
     pdialog->happiness_label[i] = label;
     gtk_widget_set_name(label, "city_label");
@@ -229,17 +229,18 @@ static struct happiness_dialog *create_happiness_dialog(struct city *pcity,
 
     /* list of citizens */
     pdialog->feeling_surfaces[i] = cairo_image_surface_create(CAIRO_FORMAT_ARGB32,
-                                                              FEELING_WIDTH, FEELING_HEIGHT);
-    img = gtk_image_new();
-    pdialog->feeling_images[i] = img;
-    gtk_widget_set_margin_start(img, 5);
-    g_object_set_data(G_OBJECT(img), "pdialog", pdialog);
-    g_signal_connect(img, "button_press_event",
+                                                              FEELING_WIDTH,
+                                                              FEELING_HEIGHT);
+    pic = gtk_picture_new();
+    pdialog->feeling_pics[i] = pic;
+    gtk_widget_set_margin_start(pic, 5);
+    g_object_set_data(G_OBJECT(pic), "pdialog", pdialog);
+    g_signal_connect(pic, "button_press_event",
                      G_CALLBACK(show_happiness_popup), GUINT_TO_POINTER(i));
-    gtk_widget_set_halign(img, GTK_ALIGN_START);
-    gtk_widget_set_valign(img, GTK_ALIGN_START);
+    gtk_widget_set_halign(pic, GTK_ALIGN_START);
+    gtk_widget_set_valign(pic, GTK_ALIGN_START);
 
-    gtk_grid_attach(GTK_GRID(table), img, 1, i, 1, 1);
+    gtk_grid_attach(GTK_GRID(table), pic, 1, i, 1, 1);
   }
 
   /* TRANS: the width of this text defines the width of the city dialog.
@@ -265,7 +266,7 @@ static struct happiness_dialog *create_happiness_dialog(struct city *pcity,
 /**********************************************************************//**
   Refresh citizens surface
 **************************************************************************/
-static void refresh_feeling_surface(GtkWidget *image,
+static void refresh_feeling_surface(GtkWidget *pic,
                                     cairo_surface_t *dst, struct city *pcity,
                                     enum citizen_feeling index)
 {
@@ -285,7 +286,7 @@ static void refresh_feeling_surface(GtkWidget *image,
     cairo_fill(cr);
   }
 
-  image_set_from_surface(GTK_IMAGE(image), dst);
+  picture_set_from_surface(GTK_PICTURE(pic), dst);
 
   cairo_destroy(cr);
 }
@@ -299,7 +300,7 @@ void refresh_happiness_dialog(struct city *pcity)
   struct happiness_dialog *pdialog = get_happiness_dialog(pcity);
 
   for (i = 0; i < FEELING_LAST; i++) {
-    refresh_feeling_surface(pdialog->feeling_images[i],
+    refresh_feeling_surface(pdialog->feeling_pics[i],
                             pdialog->feeling_surfaces[i], pdialog->pcity, i);
   }
 }
