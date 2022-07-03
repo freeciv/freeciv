@@ -46,14 +46,14 @@ fc_font *fc_font::instance()
 }
 
 /************************************************************************//**
-  Deletes fc_icons instance
+  Deletes fc_font instance
 ****************************************************************************/
 void fc_font::drop()
 {
   if (m_instance) {
     m_instance->release_fonts();
     delete m_instance;
-    m_instance = 0;
+    m_instance = nullptr;
   }
 }
 
