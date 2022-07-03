@@ -86,6 +86,14 @@ debug (boolean):
   Whether debug version of Freeciv should be built. While this is generic
   option, some functionality in Freeciv depends on this setting.
 
+default_library ('shared'/'static'/'both')
+  In case of freeciv, this affects build of common libfreeciv library.
+  The default is to build shared library, and as the binaries then
+  need to find the shared library at their run time, setting
+  system up for that may require some extra work. If one uses
+  this setting to build static library instead, it's going to be
+  included in the binaries themselves, so they don't need to find it.
+
 
 Freeciv specific configure options:
 -----------------------------------
