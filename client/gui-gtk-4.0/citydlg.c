@@ -146,7 +146,7 @@ struct city_dialog {
 #ifdef MENUS_GTK3
   GtkWidget *popup_menu;
 #endif
-  GtkWidget *citizen_images;
+  GtkWidget *citizen_pics;
   cairo_surface_t *citizen_surface;
 
   struct {
@@ -1623,21 +1623,22 @@ static struct city_dialog *create_city_dialog(struct city *pcity)
   citizen_bar_height = tileset_small_sprite_height(tileset);
 
   pdialog->citizen_surface = cairo_image_surface_create(CAIRO_FORMAT_ARGB32,
-                                                        citizen_bar_width, citizen_bar_height);
-  pdialog->citizen_images = gtk_image_new();
+                                                        citizen_bar_width,
+                                                        citizen_bar_height);
+  pdialog->citizen_pics = gtk_picture_new();
 
-  gtk_widget_set_margin_start(pdialog->citizen_images, 2);
-  gtk_widget_set_margin_end(pdialog->citizen_images, 2);
-  gtk_widget_set_margin_top(pdialog->citizen_images, 2);
-  gtk_widget_set_margin_bottom(pdialog->citizen_images, 2);
-  gtk_widget_set_halign(pdialog->citizen_images, GTK_ALIGN_START);
-  gtk_widget_set_valign(pdialog->citizen_images, GTK_ALIGN_CENTER);
-  gtk_grid_attach(GTK_GRID(cbox), pdialog->citizen_images, ccol++, 0, 1, 1);
+  gtk_widget_set_margin_start(pdialog->citizen_pics, 2);
+  gtk_widget_set_margin_end(pdialog->citizen_pics, 2);
+  gtk_widget_set_margin_top(pdialog->citizen_pics, 2);
+  gtk_widget_set_margin_bottom(pdialog->citizen_pics, 2);
+  gtk_widget_set_halign(pdialog->citizen_pics, GTK_ALIGN_START);
+  gtk_widget_set_valign(pdialog->citizen_pics, GTK_ALIGN_CENTER);
+  gtk_grid_attach(GTK_GRID(cbox), pdialog->citizen_pics, ccol++, 0, 1, 1);
 
   controller = GTK_EVENT_CONTROLLER(gtk_gesture_click_new());
   g_signal_connect(controller, "pressed",
                    G_CALLBACK(citizens_callback), pdialog);
-  gtk_widget_add_controller(pdialog->citizen_images, controller);
+  gtk_widget_add_controller(pdialog->citizen_pics, controller);
 
   /**** City name label here ****/
   pdialog->name_label = gtk_label_new(NULL);
@@ -1830,9 +1831,10 @@ static void city_dialog_update_citizens(struct city_dialog *pdialog)
 
   cairo_destroy(cr);
 
-  image_set_from_surface(GTK_IMAGE(pdialog->citizen_images), pdialog->citizen_surface);
+  picture_set_from_surface(GTK_PICTURE(pdialog->citizen_pics),
+                           pdialog->citizen_surface);
 
-  gtk_widget_queue_draw(pdialog->citizen_images);
+  gtk_widget_queue_draw(pdialog->citizen_pics);
 }
 
 /***********************************************************************//**
