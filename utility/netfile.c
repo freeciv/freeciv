@@ -41,28 +41,28 @@ typedef size_t (*netfile_write_cb)(char *ptr, size_t size, size_t nmemb, void *u
 
 static char error_buf_curl[CURL_ERROR_SIZE];
 
+/* Consecutive transfers can use same handle for better performance */
+static CURL *chandle = NULL;
+
 /*******************************************************************//**
   Set handle to usable state.
 ***********************************************************************/
 static CURL *netfile_init_handle(void)
 {
-  /* Consecutive transfers can use same handle for better performance */
-  static CURL *handle = NULL;
-
-  if (handle == NULL) {
-    handle = curl_easy_init();
+  if (chandle == NULL) {
+    chandle = curl_easy_init();
   } else {
-    curl_easy_reset(handle);
+    curl_easy_reset(chandle);
   }
 
   error_buf_curl[0] = '\0';
-  curl_easy_setopt(handle, CURLOPT_ERRORBUFFER, error_buf_curl);
+  curl_easy_setopt(chandle, CURLOPT_ERRORBUFFER, error_buf_curl);
 
 #ifdef CUSTOM_CACERT_PATH
-  curl_easy_setopt(handle, CURLOPT_CAINFO, CUSTOM_CACERT_PATH);
+  curl_easy_setopt(chandle, CURLOPT_CAINFO, CUSTOM_CACERT_PATH);
 #endif /* CUSTOM_CERT_PATH */
 
-  return handle;
+  return chandle;
 }
 
 /*******************************************************************//**
@@ -284,3 +284,16 @@ bool netfile_send_post(const char *URL, struct netfile_post *post,
 }
 
 #endif /* __EMSCRIPTEN__ */
+
+/*******************************************************************//**
+  Free resources reserved by the netfile system
+***********************************************************************/
+void netfile_free(void)
+{
+#ifndef __EMSCRIPTEN__
+  if (chandle != NULL) {
+    curl_easy_cleanup(chandle);
+    chandle = NULL;
+  }
+#endif /* __EMSCRIPTEN__ */
+}
