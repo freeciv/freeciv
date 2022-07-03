@@ -39,7 +39,7 @@
  * client. */
 #define LOG_BACKTRACE LOG_NORMAL
 
-#define MAX_NUM_FRAMES 64
+#define MAX_NUM_FRAMES 256
 
 static log_pre_callback_fn previous = NULL;
 
