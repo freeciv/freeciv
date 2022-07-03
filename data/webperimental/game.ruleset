@@ -2225,7 +2225,7 @@ colorlist =
 ; freeciv game settings for the experimental freeciv-web ruleset
 set =
   { "name", "value", "lock"
-    "topology", "WRAPX", FALSE
+    "wrap", "WRAPX", FALSE
     "nationset", "all", FALSE
     "traitdistribution", "EVEN", FALSE
     "maxplayers", 32, TRUE

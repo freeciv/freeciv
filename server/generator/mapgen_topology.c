@@ -134,8 +134,8 @@ static void set_sizes(double size, int Xratio, int Yratio)
 ****************************************************************************/
 static void get_ratios(int *x_ratio, int *y_ratio)
 {
-  if (current_topo_has_flag(TF_WRAPX)) {
-    if (current_topo_has_flag(TF_WRAPY)) {
+  if (current_wrap_has_flag(WRAP_X)) {
+    if (current_wrap_has_flag(WRAP_Y)) {
       /* Ratios for torus map. */
       *x_ratio = 1;
       *y_ratio = 1;
@@ -145,7 +145,7 @@ static void get_ratios(int *x_ratio, int *y_ratio)
       *y_ratio = 2;
     }
   } else {
-    if (current_topo_has_flag(TF_WRAPY)) {
+    if (current_wrap_has_flag(WRAP_Y)) {
       /* Ratios for uranus map. */
       *x_ratio = 2;
       *y_ratio = 3;

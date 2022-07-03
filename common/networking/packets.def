@@ -627,6 +627,7 @@ PACKET_MAP_INFO = 17; sc, lsend
   XYSIZE xsize;
   XYSIZE ysize;
   UINT8 topology_id;
+  UINT8 wrap_id;
   BOOL alltemperate;
   BOOL single_pole;
 end
@@ -2049,6 +2050,7 @@ end
 
 PACKET_SET_TOPOLOGY = 253; sc
   UINT8 topology_id;
+  UINT8 wrap_id;
 end
 
 /************** Effects hash packets **********************/

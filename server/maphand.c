@@ -631,6 +631,7 @@ void send_map_info(struct conn_list *dest)
   minfo.xsize = wld.map.xsize;
   minfo.ysize = wld.map.ysize;
   minfo.topology_id = wld.map.topology_id;
+  minfo.wrap_id = wld.map.wrap_id;
   minfo.alltemperate = wld.map.alltemperate;
   minfo.single_pole = wld.map.single_pole;
 

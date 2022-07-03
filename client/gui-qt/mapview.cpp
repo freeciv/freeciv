@@ -616,14 +616,14 @@ static void gui_to_overview(int *ovr_x, int *ovr_y, int gui_x, int gui_y)
   *ovr_y = floor((ntl_y - (double)gui_options.overview.map_y0)
            * OVERVIEW_TILE_SIZE);
 
-  if (current_topo_has_flag(TF_WRAPX)) {
+  if (current_wrap_has_flag(WRAP_X)) {
     *ovr_x = FC_WRAP(*ovr_x, NATURAL_WIDTH * OVERVIEW_TILE_SIZE);
   } else {
     if (MAP_IS_ISOMETRIC) {
       *ovr_x -= OVERVIEW_TILE_SIZE;
     }
   }
-  if (current_topo_has_flag(TF_WRAPY)) {
+  if (current_wrap_has_flag(WRAP_Y)) {
     *ovr_y = FC_WRAP(*ovr_y, NATURAL_HEIGHT * OVERVIEW_TILE_SIZE);
   }
 }

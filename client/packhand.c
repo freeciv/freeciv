@@ -2153,9 +2153,10 @@ void handle_unit_short_info(const struct packet_unit_short_info *packet)
 /************************************************************************//**
   Server requested topology change.
 ****************************************************************************/
-void handle_set_topology(int topology_id)
+void handle_set_topology(int topology_id, int wrap_id)
 {
   wld.map.topology_id = topology_id;
+  wld.map.wrap_id = wrap_id;
 
   if (forced_tileset_name[0] == '\0'
       && (tileset_map_topo_compatible(topology_id, tileset, NULL)
@@ -2172,11 +2173,10 @@ void handle_set_topology(int topology_id)
 }
 
 /************************************************************************//**
-  Receive information about the map size and topology from the server.  We
+  Receive information about the map size and topology from the server. We
   initialize some global variables at the same time.
 ****************************************************************************/
-void handle_map_info(int xsize, int ysize, int topology_id,
-                     bool alltemperate, bool single_pole)
+void handle_map_info(const struct packet_map_info *packet)
 {
   int ts_topo;
 
@@ -2185,18 +2185,19 @@ void handle_map_info(int xsize, int ysize, int topology_id,
     free_city_map_index();
   }
 
-  wld.map.xsize = xsize;
-  wld.map.ysize = ysize;
+  wld.map.xsize = packet->xsize;
+  wld.map.ysize = packet->ysize;
 
-  wld.map.alltemperate = alltemperate;
-  wld.map.single_pole = single_pole;
+  wld.map.alltemperate = packet->alltemperate;
+  wld.map.single_pole = packet->single_pole;
 
-  if (tileset_map_topo_compatible(topology_id, tileset, &ts_topo) == TOPO_INCOMP_HARD) {
+  if (tileset_map_topo_compatible(packet->topology_id, tileset, &ts_topo) == TOPO_INCOMP_HARD) {
     tileset_error(LOG_NORMAL, _("Map topology (%s) and tileset (%s) incompatible."),
-                  describe_topology(topology_id), describe_topology(ts_topo));
+                  describe_topology(packet->topology_id), describe_topology(ts_topo));
   }
 
-  wld.map.topology_id = topology_id;
+  wld.map.topology_id = packet->topology_id;
+  wld.map.wrap_id = packet->wrap_id;
 
   map_init_topology();
   main_map_allocate();

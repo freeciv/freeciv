@@ -40,9 +40,13 @@ static const bool C_PERCENT = TRUE;
 #define MAP_IS_ISOMETRIC (CURRENT_TOPOLOGY & (TF_ISO + TF_HEX))
 
 #define CURRENT_TOPOLOGY (wld.map.topology_id)
+#define CURRENT_WRAP (wld.map.wrap_id)
 
 #define topo_has_flag(topo, flag) (((topo) & (flag)) != 0)
 #define current_topo_has_flag(flag) topo_has_flag((CURRENT_TOPOLOGY), (flag))
+
+#define wrap_has_flag(wrap, flag) (((wrap) & (flag)) != 0)
+#define current_wrap_has_flag(flag) wrap_has_flag((CURRENT_WRAP), (flag))
 
 #define ALL_DIRECTIONS_CARDINAL() topo_has_flag((CURRENT_TOPOLOGY), TF_HEX)
 
@@ -639,9 +643,11 @@ moves. Includes MAP_MAX_LINEAR_SIZE because a map can be non wrapping. */
 #define MAP_ORIGINAL_TOPO        TF_WRAPX
 #ifdef FREECIV_WEB
 /* Freeciv-web doesn't support isometric maps yet. */
-#define MAP_DEFAULT_TOPO         TF_WRAPX
+#define MAP_DEFAULT_TOPO         0
+#define MAP_DEFAULT_WRAP         WRAP_X
 #else /* FREECIV_WEB */
-#define MAP_DEFAULT_TOPO         (TF_WRAPX|TF_ISO|TF_HEX)
+#define MAP_DEFAULT_TOPO         (TF_ISO|TF_HEX)
+#define MAP_DEFAULT_WRAP         (WRAP_X)
 #endif /* FREECIV_WEB */
 
 #define MAP_DEFAULT_SEED         0

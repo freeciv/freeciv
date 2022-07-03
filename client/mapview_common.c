@@ -771,10 +771,10 @@ static void normalize_gui_pos(const struct tileset *t,
    * we wrap even if the map position is unreal, which normalize_map_pos
    * doesn't necessarily do. */
   MAP_TO_NATIVE_POS(&nat_x, &nat_y, map_x, map_y);
-  if (current_topo_has_flag(TF_WRAPX)) {
+  if (current_wrap_has_flag(WRAP_X)) {
     nat_x = FC_WRAP(nat_x, wld.map.xsize);
   }
-  if (current_topo_has_flag(TF_WRAPY)) {
+  if (current_wrap_has_flag(WRAP_Y)) {
     nat_y = FC_WRAP(nat_y, wld.map.ysize);
   }
   NATIVE_TO_MAP_POS(&map_x, &map_y, nat_x, nat_y);
@@ -946,11 +946,11 @@ static bool calc_mapview_origin(float *gui_x0, float *gui_y0)
    * while clipping is done in scroll (native) positions. */
   get_mapview_scroll_window(&xmin, &ymin, &xmax, &ymax, &xsize, &ysize);
 
-  if (!current_topo_has_flag(TF_WRAPX)) {
+  if (!current_wrap_has_flag(WRAP_X)) {
     *gui_x0 = CLIP(xmin, *gui_x0, xmax - xsize);
   }
 
-  if (!current_topo_has_flag(TF_WRAPY)) {
+  if (!current_wrap_has_flag(WRAP_Y)) {
     *gui_y0 = CLIP(ymin, *gui_y0, ymax - ysize);
   }
 
@@ -1088,13 +1088,13 @@ void get_mapview_scroll_window(float *xmin, float *ymin,
      * iso-view or a full tile in non-iso view.  The above math already has
      * taken care of some of this so all that's left is to fix the corner
      * cases. */
-    if (current_topo_has_flag(TF_WRAPX)) {
+    if (current_wrap_has_flag(WRAP_X)) {
       *xmax += *xsize;
 
       /* We need to be able to scroll a little further to the left. */
       *xmin -= tileset_tile_width(tileset) * map_zoom;
     }
-    if (current_topo_has_flag(TF_WRAPY)) {
+    if (current_wrap_has_flag(WRAP_Y)) {
       *ymax += *ysize;
 
       /* We need to be able to scroll a little further up. */
@@ -1260,19 +1260,19 @@ bool tile_visible_and_not_on_border_mapcanvas(struct tile *ptile)
    * border, then it's a border tile.  We can only really check the
    * scrolling when the mapview window lines up with the map. */
   if (canvas_x < border_x
-      && (!same || scroll_x > xmin || current_topo_has_flag(TF_WRAPX))) {
+      && (!same || scroll_x > xmin || current_wrap_has_flag(WRAP_X))) {
     return FALSE;
   }
   if (canvas_y < border_y
-      && (!same || scroll_y > ymin || current_topo_has_flag(TF_WRAPY))) {
+      && (!same || scroll_y > ymin || current_wrap_has_flag(WRAP_Y))) {
     return FALSE;
   }
   if (canvas_x + tileset_tile_width(tileset) * map_zoom > mapview.width - border_x
-      && (!same || scroll_x + xsize < xmax || current_topo_has_flag(TF_WRAPX))) {
+      && (!same || scroll_x + xsize < xmax || current_wrap_has_flag(WRAP_X))) {
     return FALSE;
   }
   if (canvas_y + tileset_tile_height(tileset) * map_zoom > mapview.height - border_y
-      && (!same || scroll_y + ysize < ymax || current_topo_has_flag(TF_WRAPY))) {
+      && (!same || scroll_y + ysize < ymax || current_wrap_has_flag(WRAP_Y))) {
     return FALSE;
   }
 
@@ -3212,7 +3212,7 @@ static bool can_do_cached_drawing(void)
    *
    * The logic below is complicated and determined in part by
    * trial-and-error. */
-  if (!current_topo_has_flag(TF_WRAPX) && !current_topo_has_flag(TF_WRAPY)) {
+  if (!current_wrap_has_flag(WRAP_X) && !current_wrap_has_flag(WRAP_Y)) {
     /* An unwrapping map: no limitation.  On an unwrapping map no tile can
      * be visible twice so there's no problem. */
     return TRUE;
@@ -3238,11 +3238,11 @@ static bool can_do_cached_drawing(void)
 
     /* Now we can use the full width and height, with the exception of a small
      * area on each side. */
-    if (current_topo_has_flag(TF_WRAPX)
+    if (current_wrap_has_flag(WRAP_X)
 	&& w > (NATURAL_WIDTH - isodiff) * W / isofactor) {
       return FALSE;
     }
-    if (current_topo_has_flag(TF_WRAPY)
+    if (current_wrap_has_flag(WRAP_Y)
 	&& h > (NATURAL_HEIGHT - isodiff) * H / isofactor) {
       return FALSE;
     }

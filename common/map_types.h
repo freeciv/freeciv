@@ -70,6 +70,7 @@ enum map_startpos {
 
 struct civ_map {
   int topology_id;
+  int wrap_id;
   enum direction8 valid_dirs[8], cardinal_dirs[8];
   int num_valid_dirs, num_cardinal_dirs;
   struct iter_index *iterate_outwards_indices;

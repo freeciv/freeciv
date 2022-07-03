@@ -26,6 +26,7 @@
 /* server */
 #include "aiiface.h"
 #include "setcompat.h"
+#include "settings.h"
 #include "unittools.h"
 
 #include "savecompat.h"
@@ -1901,6 +1902,8 @@ static void compat_load_030200(struct loaddata *loading,
   /* Server setting migration. */
   {
     if (secfile_lookup_int(loading->file, &set_count, "settings.set_count")) {
+      bool count_changed = FALSE;
+
       gamestart_valid
         = secfile_lookup_bool_default(loading->file, FALSE,
                                       "settings.gamestart_valid");
@@ -1959,7 +1962,97 @@ static void compat_load_030200(struct loaddata *loading,
 #endif
             }
           }
+        } else if (!fc_strcasecmp("topology", name)) {
+          struct setting *pset = setting_by_name(name);
+          const char *val = secfile_lookup_str(loading->file,
+                                               "settings.set%d.value", i);
+
+          if (setting_bitwise_set(pset, val, NULL, NULL, 0)) {
+            enum topo_flag otopo = setting_bitwise_get(pset);
+            char wrap[100];
+            char buf[100];
+
+            if (topo_has_flag(otopo, TF_OLD_WRAPX)) {
+              if (topo_has_flag(otopo, TF_OLD_WRAPY)) {
+                fc_strlcpy(wrap, "WrapX|WrapY", sizeof(wrap));
+              } else {
+                fc_strlcpy(wrap, "WrapX", sizeof(wrap));
+              }
+            } else if (topo_has_flag(otopo, TF_OLD_WRAPY)) {
+              fc_strlcpy(wrap, "WrapY", sizeof(wrap));
+            } else {
+              fc_strlcpy(wrap, "", sizeof(wrap));
+            }
+
+            if (topo_has_flag(otopo, TF_ISO)) {
+              if (topo_has_flag(otopo, TF_HEX)) {
+                setting_bitwise_set(pset, "ISO|HEX", NULL, NULL, 0);
+              } else {
+                setting_bitwise_set(pset, "ISO", NULL, NULL, 0);
+              }
+            } else if (topo_has_flag(otopo, TF_HEX)) {
+              setting_bitwise_set(pset, "HEX", NULL, NULL, 0);
+            } else {
+              setting_bitwise_set(pset, "", NULL, NULL, 0);
+            }
+
+            setting_value_name(pset, FALSE, buf, sizeof(buf));
+            secfile_replace_str(loading->file, buf,
+                                "settings.set%d.value", i);
+
+            secfile_insert_str(loading->file,
+                               "wrap", "settings.set%d.name", set_count);
+            secfile_insert_str(loading->file,
+                               wrap, "settings.set%d.value", set_count);
+
+            if (gamestart_valid) {
+              val = secfile_lookup_str(loading->file,
+                                       "settings.set%d.gamestart", i);
+              if (setting_bitwise_set(pset, val, NULL, NULL, 0)) {
+                otopo = setting_bitwise_get(pset);
+
+                if (topo_has_flag(otopo, TF_OLD_WRAPX)) {
+                  if (topo_has_flag(otopo, TF_OLD_WRAPY)) {
+                    fc_strlcpy(wrap, "WrapX|WrapY", sizeof(wrap));
+                  } else {
+                    fc_strlcpy(wrap, "WrapX", sizeof(wrap));
+                  }
+                } else if (topo_has_flag(otopo, TF_OLD_WRAPY)) {
+                  fc_strlcpy(wrap, "WrapY", sizeof(wrap));
+                } else {
+                  fc_strlcpy(wrap, "", sizeof(wrap));
+                }
+
+                if (topo_has_flag(otopo, TF_ISO)) {
+                  if (topo_has_flag(otopo, TF_HEX)) {
+                    setting_bitwise_set(pset, "ISO|HEX", NULL, NULL, 0);
+                  } else {
+                    setting_bitwise_set(pset, "ISO", NULL, NULL, 0);
+                  }
+                } else if (topo_has_flag(otopo, TF_HEX)) {
+                  setting_bitwise_set(pset, "HEX", NULL, NULL, 0);
+                } else {
+                  setting_bitwise_set(pset, "", NULL, NULL, 0);
+                }
+
+                setting_value_name(pset, FALSE, buf, sizeof(buf));
+                secfile_replace_str(loading->file, buf,
+                                    "settings.set%d.gamestart", i);
+
+                secfile_insert_str(loading->file,
+                                   wrap, "settings.set%d.gamestart", set_count);
+              }
+            }
+
+            set_count++;
+            count_changed = TRUE;
+          }
         }
+      }
+
+      if (count_changed) {
+        secfile_replace_int(loading->file, set_count,
+                            "settings.set_count");
       }
     }
   }
@@ -2340,7 +2433,12 @@ static void compat_load_dev(struct loaddata *loading)
     int set_count;
     bool gamestart_valid = FALSE;
     bool al_set_already = FALSE;
+    bool wrap_set_already = FALSE;
     const char *level;
+    bool count_changed = FALSE;
+    bool topo_defined = FALSE;
+    char wrap[100];
+    char wrap_gs[100];
 
     if (secfile_lookup_int(loading->file, &set_count, "settings.set_count")) {
       int i;
@@ -2405,6 +2503,96 @@ static void compat_load_dev(struct loaddata *loading)
           }
         } else if (!fc_strcasecmp("ailevel", name)) {
           al_set_already = TRUE;
+        } else if (!fc_strcasecmp("topology", name)) {
+          struct setting *pset = setting_by_name(name);
+          const char *val = secfile_lookup_str(loading->file,
+                                               "settings.set%d.value", i);
+
+          if (setting_bitwise_set(pset, val, NULL, NULL, 0)) {
+            enum topo_flag otopo = setting_bitwise_get(pset);
+            bool topo_changed = TRUE;
+
+            if (topo_has_flag(otopo, TF_OLD_WRAPX)) {
+              if (topo_has_flag(otopo, TF_OLD_WRAPY)) {
+                fc_strlcpy(wrap, "WrapX|WrapY", sizeof(wrap));
+              } else {
+                fc_strlcpy(wrap, "WrapX", sizeof(wrap));
+              }
+            } else if (topo_has_flag(otopo, TF_OLD_WRAPY)) {
+              fc_strlcpy(wrap, "WrapY", sizeof(wrap));
+            } else {
+              fc_strlcpy(wrap, "", sizeof(wrap));
+              topo_changed = FALSE;
+            }
+
+            if (topo_changed) {
+              char buf[100];
+
+              if (topo_has_flag(otopo, TF_ISO)) {
+                if (topo_has_flag(otopo, TF_HEX)) {
+                  setting_bitwise_set(pset, "ISO|HEX", NULL, NULL, 0);
+                } else {
+                  setting_bitwise_set(pset, "ISO", NULL, NULL, 0);
+                }
+              } else if (topo_has_flag(otopo, TF_HEX)) {
+                setting_bitwise_set(pset, "HEX", NULL, NULL, 0);
+              } else {
+                setting_bitwise_set(pset, "", NULL, NULL, 0);
+              }
+
+              setting_value_name(pset, FALSE, buf, sizeof(buf));
+              secfile_replace_str(loading->file, buf,
+                                  "settings.set%d.value", i);
+            }
+
+            if (gamestart_valid) {
+              val = secfile_lookup_str(loading->file,
+                                       "settings.set%d.gamestart", i);
+
+              if (setting_bitwise_set(pset, val, NULL, NULL, 0)) {
+                otopo = setting_bitwise_get(pset);
+
+                topo_changed = TRUE;
+
+                if (topo_has_flag(otopo, TF_OLD_WRAPX)) {
+                  if (topo_has_flag(otopo, TF_OLD_WRAPY)) {
+                    fc_strlcpy(wrap_gs, "WrapX|WrapY", sizeof(wrap));
+                  } else {
+                    fc_strlcpy(wrap_gs, "WrapX", sizeof(wrap));
+                  }
+                } else if (topo_has_flag(otopo, TF_OLD_WRAPY)) {
+                  fc_strlcpy(wrap_gs, "WrapY", sizeof(wrap));
+                } else {
+                  fc_strlcpy(wrap_gs, "", sizeof(wrap));
+                  topo_changed = FALSE;
+                }
+
+                if (topo_changed) {
+                  char buf[100];
+
+                  if (topo_has_flag(otopo, TF_ISO)) {
+                    if (topo_has_flag(otopo, TF_HEX)) {
+                      setting_bitwise_set(pset, "ISO|HEX", NULL, NULL, 0);
+                    } else {
+                      setting_bitwise_set(pset, "ISO", NULL, NULL, 0);
+                    }
+                  } else if (topo_has_flag(otopo, TF_HEX)) {
+                    setting_bitwise_set(pset, "HEX", NULL, NULL, 0);
+                  } else {
+                    setting_bitwise_set(pset, "", NULL, NULL, 0);
+                  }
+
+                  setting_value_name(pset, FALSE, buf, sizeof(buf));
+                  secfile_replace_str(loading->file, buf,
+                                      "settings.set%d.gamestart", i);
+                }
+              }
+            }
+
+            topo_defined = TRUE;
+          }
+        } else if (!fc_strcasecmp("wrap", name)) {
+          wrap_set_already = TRUE;
         }
       }
     }
@@ -2445,6 +2633,22 @@ static void compat_load_dev(struct loaddata *loading)
       }
 
       set_count++;
+      count_changed = TRUE;
+    }
+
+    if (!wrap_set_already && topo_defined) {
+      secfile_insert_str(loading->file, "wrap", "settings.set%d.name", set_count);
+      secfile_insert_str(loading->file, wrap, "settings.set%d.value", set_count);
+
+      if (gamestart_valid) {
+        secfile_insert_str(loading->file, wrap_gs, "settings.set%d.value", set_count);
+      }
+
+      set_count++;
+      count_changed = TRUE;
+    }
+
+    if (count_changed) {
       secfile_replace_int(loading->file, set_count, "settings.set_count");
     }
 

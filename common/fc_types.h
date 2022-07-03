@@ -571,15 +571,23 @@ const char *ai_level_name_update_cb(const char *old);
  * Changing the names will break file format compatibility. */
 #define SPECENUM_NAME topo_flag
 #define SPECENUM_BITWISE
-#define SPECENUM_VALUE0 TF_WRAPX
-#define SPECENUM_VALUE0NAME N_("WrapX")
-#define SPECENUM_VALUE1 TF_WRAPY
-#define SPECENUM_VALUE1NAME N_("WrapY")
-#define SPECENUM_VALUE2 TF_ISO
-#define SPECENUM_VALUE2NAME N_("ISO")
-#define SPECENUM_VALUE3 TF_HEX
-#define SPECENUM_VALUE3NAME N_("Hex")
+#define SPECENUM_VALUE0 TF_ISO
+#define SPECENUM_VALUE0NAME N_("ISO")
+#define SPECENUM_VALUE1 TF_HEX
+#define SPECENUM_VALUE1NAME N_("Hex")
+#define SPECENUM_VALUE2 TF_OLD_WRAPX
+#define SPECENUM_VALUE2NAME N_("WrapX")
+#define SPECENUM_VALUE3 TF_OLD_WRAPY
+#define SPECENUM_VALUE3NAME N_("WrapY")
 #define TOPO_FLAG_BITS  4
+#include "specenum_gen.h"
+
+#define SPECENUM_NAME wrap_flag
+#define SPECENUM_BITWISE
+#define SPECENUM_VALUE0 WRAP_X
+#define SPECENUM_VALUE0NAME N_("WrapX")
+#define SPECENUM_VALUE1 WRAP_Y
+#define SPECENUM_VALUE1NAME N_("WrapY")
 #include "specenum_gen.h"
 
 /* Used in the network protocol. */

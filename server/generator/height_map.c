@@ -196,14 +196,14 @@ static void gen5rec(int step, int xl, int yt, int xr, int yb)
 **************************************************************************/
 void make_pseudofractal1_hmap(int extra_div)
 {
-  const bool xnowrap = !current_topo_has_flag(TF_WRAPX);
-  const bool ynowrap = !current_topo_has_flag(TF_WRAPY);
+  const bool xnowrap = !current_wrap_has_flag(WRAP_X);
+  const bool ynowrap = !current_wrap_has_flag(WRAP_Y);
 
-  /* 
+  /*
    * How many blocks should the x and y directions be divided into
-   * initially. 
+   * initially.
    */
-  const int xdiv = 5 + extra_div;		
+  const int xdiv = 5 + extra_div;
   const int ydiv = 5 + extra_div;
 
   int xdiv2 = xdiv + (xnowrap ? 1 : 0);
@@ -213,9 +213,9 @@ void make_pseudofractal1_hmap(int extra_div)
   int ymax = wld.map.ysize - (ynowrap ? 1 : 0);
   int x_current, y_current;
   /* just need something > log(max(xsize, ysize)) for the recursion */
-  int step = wld.map.xsize + wld.map.ysize; 
+  int step = wld.map.xsize + wld.map.ysize;
   /* edges are avoided more strongly as this increases */
-  int avoidedge = (100 - wld.map.server.landpercent) * step / 100 + step / 3; 
+  int avoidedge = (100 - wld.map.server.landpercent) * step / 100 + step / 3;
 
   height_map = fc_malloc(sizeof(*height_map) * MAP_INDEX_SIZE);
 

@@ -157,6 +157,7 @@ bool map_is_empty(void)
 void map_init(struct civ_map *imap, bool server_side)
 {
   imap->topology_id = MAP_DEFAULT_TOPO;
+  imap->wrap_id = MAP_DEFAULT_WRAP;
   imap->num_continents = 0;
   imap->num_oceans = 0;
   imap->tiles = NULL;
@@ -240,13 +241,13 @@ static void generate_map_indices(void)
    * case we're not concerned with going too far and wrapping around, so we
    * just have to make sure we go far enough if we're at one edge of the
    * map. */
-  nat_min_x = (current_topo_has_flag(TF_WRAPX) ? 0 : (nat_center_x - wld.map.xsize + 1));
-  nat_min_y = (current_topo_has_flag(TF_WRAPY) ? 0 : (nat_center_y - wld.map.ysize + 1));
+  nat_min_x = (current_wrap_has_flag(WRAP_X) ? 0 : (nat_center_x - wld.map.xsize + 1));
+  nat_min_y = (current_wrap_has_flag(WRAP_Y) ? 0 : (nat_center_y - wld.map.ysize + 1));
 
-  nat_max_x = (current_topo_has_flag(TF_WRAPX)
+  nat_max_x = (current_wrap_has_flag(WRAP_X)
 	       ? (wld.map.xsize - 1)
 	       : (nat_center_x + wld.map.xsize - 1));
-  nat_max_y = (current_topo_has_flag(TF_WRAPY)
+  nat_max_y = (current_wrap_has_flag(WRAP_Y)
 	       ? (wld.map.ysize - 1)
 	       : (nat_center_y + wld.map.ysize - 1));
   tiles = (nat_max_x - nat_min_x + 1) * (nat_max_y - nat_min_y + 1);
@@ -397,12 +398,12 @@ static inline struct tile *base_native_pos_to_tile(const struct civ_map *nmap,
   /* Wrap in X and Y directions, as needed. */
   /* If the position is out of range in a non-wrapping direction, it is
    * unreal. */
-  if (current_topo_has_flag(TF_WRAPX)) {
+  if (current_wrap_has_flag(WRAP_X)) {
     nat_x = FC_WRAP(nat_x, wld.map.xsize);
   } else if (nat_x < 0 || nat_x >= wld.map.xsize) {
     return NULL;
   }
-  if (current_topo_has_flag(TF_WRAPY)) {
+  if (current_wrap_has_flag(WRAP_Y)) {
     nat_y = FC_WRAP(nat_y, wld.map.ysize);
   } else if (nat_y < 0 || nat_y >= wld.map.ysize) {
     return NULL;
@@ -989,10 +990,10 @@ struct tile *nearest_real_tile(const struct civ_map *nmap, int x, int y)
   int nat_x, nat_y;
 
   MAP_TO_NATIVE_POS(&nat_x, &nat_y, x, y);
-  if (!current_topo_has_flag(TF_WRAPX)) {
+  if (!current_wrap_has_flag(WRAP_X)) {
     nat_x = CLIP(0, nat_x, wld.map.xsize - 1);
   }
-  if (!current_topo_has_flag(TF_WRAPY)) {
+  if (!current_wrap_has_flag(WRAP_Y)) {
     nat_y = CLIP(0, nat_y, wld.map.ysize - 1);
   }
   NATIVE_TO_MAP_POS(&x, &y, nat_x, nat_y);
@@ -1014,9 +1015,9 @@ int map_num_tiles(void)
   instead.
 ***********************************************************************/
 void base_map_distance_vector(int *dx, int *dy,
-			      int x0dv, int y0dv, int x1dv, int y1dv)
+                              int x0dv, int y0dv, int x1dv, int y1dv)
 {
-  if (current_topo_has_flag(TF_WRAPX) || current_topo_has_flag(TF_WRAPY)) {
+  if (current_wrap_has_flag(WRAP_X) || current_wrap_has_flag(WRAP_Y)) {
     /* Wrapping is done in native coordinates. */
     MAP_TO_NATIVE_POS(&x0dv, &y0dv, x0dv, y0dv);
     MAP_TO_NATIVE_POS(&x1dv, &y1dv, x1dv, y1dv);
@@ -1025,11 +1026,11 @@ void base_map_distance_vector(int *dx, int *dy,
      * map distance vector but is easier to wrap. */
     *dx = x1dv - x0dv;
     *dy = y1dv - y0dv;
-    if (current_topo_has_flag(TF_WRAPX)) {
+    if (current_wrap_has_flag(WRAP_X)) {
       /* Wrap dx to be in [-map.xsize/2, map.xsize/2). */
       *dx = FC_WRAP(*dx + wld.map.xsize / 2, wld.map.xsize) - wld.map.xsize / 2;
     }
-    if (current_topo_has_flag(TF_WRAPY)) {
+    if (current_wrap_has_flag(WRAP_Y)) {
       /* Wrap dy to be in [-map.ysize/2, map.ysize/2). */
       *dy = FC_WRAP(*dy + wld.map.ysize / 2, wld.map.ysize) - wld.map.ysize / 2;
     }
@@ -1440,14 +1441,14 @@ static double map_relative_southness(const struct tile *ptile)
     y = (double)ntl_y / (NATURAL_HEIGHT - 1);
   } do_in_natural_pos_end;
 
-  if (!current_topo_has_flag(TF_WRAPY)) {
+  if (!current_wrap_has_flag(WRAP_Y)) {
     /* In an Earth-like topology, north and south are at the top and
      * bottom of the map.
      * This is equivalent to a Mercator projection. */
     return y;
   }
 
-  if (!current_topo_has_flag(TF_WRAPX) && current_topo_has_flag(TF_WRAPY)) {
+  if (!current_wrap_has_flag(WRAP_X) && current_wrap_has_flag(WRAP_Y)) {
     /* In a Uranus-like topology, north and south are at the left and
      * right side of the map.
      * This isn't really the way Uranus is; it's the way Earth would look
@@ -1616,10 +1617,10 @@ bool is_singular_tile(const struct tile *ptile, int dist)
     /* Iso-natural coordinates are doubled in scale. */
     dist *= MAP_IS_ISOMETRIC ? 2 : 1;
 
-    return ((!current_topo_has_flag(TF_WRAPX) 
-	     && (ntl_x < dist || ntl_x >= NATURAL_WIDTH - dist))
-	    || (!current_topo_has_flag(TF_WRAPY)
-		&& (ntl_y < dist || ntl_y >= NATURAL_HEIGHT - dist)));
+    return ((!current_wrap_has_flag(WRAP_X)
+             && (ntl_x < dist || ntl_x >= NATURAL_WIDTH - dist))
+            || (!current_wrap_has_flag(WRAP_Y)
+                && (ntl_y < dist || ntl_y >= NATURAL_HEIGHT - dist)));
   } do_in_natural_pos_end;
 }
 

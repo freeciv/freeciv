@@ -1995,7 +1995,8 @@ set =
     { "name", "value", "lock"
       "minplayers", 2, FALSE
       "generator", "ISLAND", FALSE
-      "topology", "HEX|WRAPX|WRAPY|ISO", FALSE
+      "topology", "HEX|ISO", FALSE
+      "wrap", "WRAPX|WRAPY", FALSE
       "startpos", "SINGLE", FALSE
       "tinyisles", FALSE, FALSE
       "alltemperate", TRUE, FALSE

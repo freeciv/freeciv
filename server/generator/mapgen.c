@@ -2551,14 +2551,14 @@ fair_map_pos_tile(struct fair_tile *pmap, int x, int y)
 
   /* Wrap in X and Y directions, as needed. */
   if (nat_x < 0 || nat_x >= wld.map.xsize) {
-    if (current_topo_has_flag(TF_WRAPX)) {
+    if (current_wrap_has_flag(WRAP_X)) {
       nat_x = FC_WRAP(nat_x, wld.map.xsize);
     } else {
       return NULL;
     }
   }
   if (nat_y < 0 || nat_y >= wld.map.ysize) {
-    if (current_topo_has_flag(TF_WRAPY)) {
+    if (current_wrap_has_flag(WRAP_Y)) {
       nat_y = FC_WRAP(nat_y, wld.map.ysize);
     } else {
       return NULL;
@@ -2594,7 +2594,7 @@ fair_map_tile_border(struct fair_tile *pmap, struct fair_tile *ptile,
 
   index_to_native_pos(&nat_x, &nat_y, ptile - pmap);
 
-  if (!current_topo_has_flag(TF_WRAPX)
+  if (!current_wrap_has_flag(WRAP_X)
       && (nat_x < dist || nat_x >= wld.map.xsize - dist)) {
     return TRUE;
   }
@@ -2603,7 +2603,7 @@ fair_map_tile_border(struct fair_tile *pmap, struct fair_tile *ptile,
     dist *= 2;
   }
 
-  if (!current_topo_has_flag(TF_WRAPY)
+  if (!current_wrap_has_flag(WRAP_Y)
       && (nat_y < dist || nat_y >= wld.map.ysize - dist)) {
     return TRUE;
   }
@@ -3548,19 +3548,19 @@ static bool map_generate_fair_islands(void)
       }
 
       /* Make start point for teams. */
-      if (current_topo_has_flag(TF_WRAPX)) {
+      if (current_wrap_has_flag(WRAP_X)) {
         dx = fc_rand(wld.map.xsize);
       }
-      if (current_topo_has_flag(TF_WRAPY)) {
+      if (current_wrap_has_flag(WRAP_Y)) {
         dy = fc_rand(wld.map.ysize);
       }
       for (j = 0; j < teams_num; j++) {
         start_x[j] = (wld.map.xsize * (2 * j + 1)) / (2 * teams_num) + dx;
         start_y[j] = (wld.map.ysize * (2 * j + 1)) / (2 * teams_num) + dy;
-        if (current_topo_has_flag(TF_WRAPX)) {
+        if (current_wrap_has_flag(WRAP_X)) {
           start_x[j] = FC_WRAP(start_x[j], wld.map.xsize);
         }
-        if (current_topo_has_flag(TF_WRAPY)) {
+        if (current_wrap_has_flag(WRAP_Y)) {
           start_y[j] = FC_WRAP(start_y[j], wld.map.ysize);
         }
       }

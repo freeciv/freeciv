@@ -1665,7 +1665,8 @@ colorlist =
 ; freeciv game settings for the alien ruleset
 set =
    { "name", "value", "lock"
-     "topology",       "WRAPX|WRAPY|ISO|HEX",   FALSE
+     "topology",       "ISO|HEX",               FALSE
+     "wrap",           "WRAPX|WRAPY",           FALSE
      "mapsize",        "PLAYER",                FALSE
      "tilesperplayer", 300,                     FALSE
      "aifill",         7,                       FALSE

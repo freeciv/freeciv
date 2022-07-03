@@ -389,7 +389,8 @@ struct img {
   const struct rgbcolor **map;
 };
 
-static struct img *img_new(struct mapdef *mapdef, int topo, int xsize, int ysize);
+static struct img *img_new(struct mapdef *mapdef, int topo, int wrap,
+                           int xsize, int ysize);
 static void img_destroy(struct img *pimg);
 static inline void img_set_pixel(struct img *pimg, const int mindex,
                                  const struct rgbcolor *pcolor);
@@ -1374,7 +1375,8 @@ bool mapimg_create(struct mapdef *pmapdef, bool force, const char *savename,
     generate_save_name(savename, mapimgfile, sizeof(mapimgfile),
                        mapimg_generate_name(pmapdef));
 
-    pimg = img_new(pmapdef, CURRENT_TOPOLOGY, wld.map.xsize, wld.map.ysize);
+    pimg = img_new(pmapdef, CURRENT_TOPOLOGY, CURRENT_WRAP,
+                   wld.map.xsize, wld.map.ysize);
     img_createmap(pimg);
     if (!img_save(pimg, mapimgfile, path)) {
       ret = FALSE;
@@ -1397,7 +1399,8 @@ bool mapimg_create(struct mapdef *pmapdef, bool force, const char *savename,
       generate_save_name(savename, mapimgfile, sizeof(mapimgfile),
                          mapimg_generate_name(pmapdef));
 
-      pimg = img_new(pmapdef, CURRENT_TOPOLOGY, wld.map.xsize, wld.map.ysize);
+      pimg = img_new(pmapdef, CURRENT_TOPOLOGY, CURRENT_WRAP,
+                     wld.map.xsize, wld.map.ysize);
       img_createmap(pimg);
       if (!img_save(pimg, mapimgfile, path)) {
         ret = FALSE;
@@ -1444,7 +1447,7 @@ bool mapimg_colortest(const char *savename, const char *path)
 #define SIZE_X 16
 #define SIZE_Y 5
 
-  pimg = img_new(pmapdef, 0, SIZE_X + 2,
+  pimg = img_new(pmapdef, 0, 0, SIZE_X + 2,
                  SIZE_Y * (max_playercolor / SIZE_X) + 2);
 
   pixel = pimg->pixel_tile(NULL, NULL, FALSE);
@@ -1863,7 +1866,8 @@ static const struct toolkit *img_toolkit_get(enum imagetool tool)
 /************************************************************************//**
   Create a new image.
 ****************************************************************************/
-static struct img *img_new(struct mapdef *mapdef, int topo, int xsize, int ysize)
+static struct img *img_new(struct mapdef *mapdef, int topo, int wrap,
+                           int xsize, int ysize)
 {
   struct img *pimg;
 
@@ -1894,8 +1898,8 @@ static struct img *img_new(struct mapdef *mapdef, int topo, int xsize, int ysize
                          * TILE_SIZE;
 
       /* magic for isohexa: change size if wrapping in only one direction */
-      if ((topo_has_flag(topo, TF_WRAPX) && !topo_has_flag(topo, TF_WRAPY))
-          || (!topo_has_flag(topo, TF_WRAPX) && topo_has_flag(topo, TF_WRAPY))) {
+      if ((wrap_has_flag(wrap, WRAP_X) && !wrap_has_flag(wrap, WRAP_Y))
+          || (!wrap_has_flag(wrap, WRAP_X) && wrap_has_flag(wrap, WRAP_Y))) {
         pimg->imgsize.y += (pimg->mapsize.x - pimg->mapsize.y / 2) / 2
                            * TILE_SIZE;
       }

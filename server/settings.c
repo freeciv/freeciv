@@ -256,11 +256,23 @@ static const struct sset_val_name *mapsize_name(int mapsize)
 static const struct sset_val_name *topology_name(int topology_bit)
 {
   switch (1 << topology_bit) {
-  NAME_CASE(TF_WRAPX, "WRAPX", N_("Wrap East-West"));
-  NAME_CASE(TF_WRAPY, "WRAPY", N_("Wrap North-South"));
   NAME_CASE(TF_ISO, "ISO", N_("Isometric"));
   NAME_CASE(TF_HEX, "HEX", N_("Hexagonal"));
   }
+
+  return NULL;
+}
+
+/************************************************************************//**
+  Map wrap setting names accessor.
+****************************************************************************/
+static const struct sset_val_name *wrap_name(int wrap_bit)
+{
+  switch (1 << wrap_bit) {
+  NAME_CASE(WRAP_X, "WRAPX", N_("Wrap East-West"));
+  NAME_CASE(WRAP_Y, "WRAPY", N_("Wrap North-South"));
+  }
+
   return NULL;
 }
 
@@ -811,6 +823,22 @@ static void topology_action(const struct setting *pset)
   struct packet_set_topology packet;
 
   packet.topology_id = *pset->integer.pvalue;
+  packet.wrap_id = wld.map.wrap_id;
+
+  conn_list_iterate(game.est_connections, pconn) {
+    send_packet_set_topology(pconn, &packet);
+  } conn_list_iterate_end;
+}
+
+/************************************************************************//**
+  Map wrap setting changed.
+****************************************************************************/
+static void wrap_action(const struct setting *pset)
+{
+  struct packet_set_topology packet;
+
+  packet.topology_id = wld.map.topology_id;
+  packet.wrap_id = *pset->integer.pvalue;
 
   conn_list_iterate(game.est_connections, pconn) {
     send_packet_set_topology(pconn, &packet);
@@ -1300,11 +1328,11 @@ static bool topology_callback(unsigned value, struct connection *caller,
 #ifdef FREECIV_WEB
   /* Remember to update the help text too if Freeciv-web gets the ability
    * to display other map topologies. */
-  if ((value & (TF_WRAPY)) != 0
-      /* Are you removing this because Freeciv-web gained the ability to
-       * display isometric maps? Why don't you remove the Freeciv-web
-       * specific MAP_DEFAULT_TOPO too? */
-      || (value & (TF_ISO)) != 0
+
+  /* Are you removing this because Freeciv-web gained the ability to
+   * display isometric maps? Why don't you remove the Freeciv-web
+   * specific MAP_DEFAULT_TOPO too? */
+  if ((value & (TF_ISO)) != 0
       || (value & (TF_HEX)) != 0) {
     /* The Freeciv-web client can't display these topologies yet. */
     settings_snprintf(reject_msg, reject_msg_len,
@@ -1328,6 +1356,26 @@ static bool aitype_callback(const char *value, struct connection *caller,
 
     return FALSE;
   }
+
+  return TRUE;
+}
+
+/************************************************************************//**
+  Map wrap setting validation callback.
+****************************************************************************/
+static bool wrap_callback(unsigned value, struct connection *caller,
+                          char *reject_msg, size_t reject_msg_len)
+{
+#ifdef FREECIV_WEB
+  /* Remember to update the help text too if Freeciv-web gets the ability
+   * to display other map wraps. */
+  if ((value & (WRAP_Y)) != 0) {
+    /* The Freeciv-web client can't display wraps mapped this way. */
+    settings_snprintf(reject_msg, reject_msg_len,
+                      _("Freeciv-web doesn't support this map wrap."));
+    return FALSE;
+  }
+#endif /* FREECIV_WEB */
 
   return TRUE;
 }
@@ -1505,14 +1553,11 @@ static struct setting settings[] = {
               N_("Map topology"),
 #ifdef FREECIV_WEB
               /* TRANS: Freeciv-web version of the help text. */
-              N_("Freeciv-web maps are always two-dimensional. They may wrap "
-                 "at the east-west directions to form a flat map or a "
-                 "cylinder.\n"),
+              N_("Freeciv-web maps are always two-dimensional.\n"),
 #else /* FREECIV_WEB */
               /* TRANS: do not edit the ugly ASCII art */
-              N_("Freeciv maps are always two-dimensional. They may wrap at "
-                 "the north-south and east-west directions to form a flat "
-                 "map, a cylinder, or a torus (donut). Individual tiles may "
+              N_("Freeciv maps are always two-dimensional. "
+                 "Individual tiles may "
                  "be rectangular or hexagonal, with either an overhead "
                  "(\"classic\") or isometric alignment.\n"
                  "To play with a particular topology, clients will need a "
@@ -1533,6 +1578,22 @@ static struct setting settings[] = {
                  "             \\_/ \\_/ \\_/ \\_/ \\_/\n"),
 #endif /* FREECIV_WEB */
               topology_callback, topology_action, topology_name, MAP_DEFAULT_TOPO)
+
+  GEN_BITWISE("wrap", wld.map.wrap_id, SSET_MAP_SIZE,
+              SSET_GEOLOGY, SSET_VITAL, ALLOW_NONE, ALLOW_BASIC,
+              N_("Map wrap"),
+#ifdef FREECIV_WEB
+              /* TRANS: Freeciv-web version of the help text. */
+              N_("Freeciv-web maps may wrap "
+                 "at the east-west directions to form a flat map or a "
+                 "cylinder.\n"),
+#else /* FREECIV_WEB */
+              /* TRANS: do not edit the ugly ASCII art */
+              N_("Freeciv maps may wrap at "
+                 "the north-south and east-west directions to form a flat "
+                 "map, a cylinder, or a torus (donut)."),
+#endif /* FREECIV_WEB */
+              wrap_callback, wrap_action, wrap_name, MAP_DEFAULT_WRAP)
 
   GEN_ENUM("generator", wld.map.server.generator,
            SSET_MAP_GEN, SSET_GEOLOGY, SSET_VITAL, ALLOW_NONE, ALLOW_BASIC,
@@ -3766,8 +3827,7 @@ const char *setting_enum_secfile_str(secfile_data_t data, int val)
   Convert the integer to the string representation of an enumerator.
   Return NULL if 'val' is not a valid enumerator.
 ****************************************************************************/
-const char *setting_enum_val(const struct setting *pset, int val,
-                             bool pretty)
+const char *setting_enum_val(const struct setting *pset, int val, bool pretty)
 {
   const struct sset_val_name *name;
 
@@ -3941,8 +4001,19 @@ bool setting_enum_validate(const struct setting *pset, const char *val,
 ****************************************************************************/
 const char *setting_bitwise_secfile_str(secfile_data_t data, int bit)
 {
-  const struct sset_val_name *name =
-      ((const struct setting *) data)->bitwise.name(bit);
+  struct sf_cb_data *info = (struct sf_cb_data *)data;
+  const struct sset_val_name *name = info->set->bitwise.name(bit);
+
+  if (info->compat && name == NULL) {
+    if (!fc_strcasecmp("topology", setting_name(info->set))) {
+      if ((1 << bit) == TF_OLD_WRAPX) {
+        return "WrapX";
+      }
+      if ((1 << bit) == TF_OLD_WRAPY) {
+        return "WrapY";
+      }
+    }
+  }
 
   return (NULL != name ? name->support : NULL);
 }
@@ -4307,6 +4378,7 @@ static bool setting_ruleset_one(struct section_file *file,
   struct setting *pset = NULL;
   char reject_msg[256], buf[256];
   bool lock;
+  struct sf_cb_data info = { pset, compat };
 
   settings_iterate(SSET_ALL, pset_check) {
     if (0 == fc_strcasecmp(setting_name(pset_check), name)) {
@@ -4319,6 +4391,9 @@ static bool setting_ruleset_one(struct section_file *file,
     /* No setting found or it's not settable by ruleset */
     return FALSE;
   }
+
+  info.set = pset;
+  info.compat = compat;
 
   switch (pset->stype) {
   case SST_BOOL:
@@ -4395,7 +4470,6 @@ static bool setting_ruleset_one(struct section_file *file,
   case SST_ENUM:
     {
       int val;
-      struct sf_cb_data info = { pset, compat };
 
       if (!secfile_lookup_enum_data(file, &val, FALSE,
                                     setting_enum_secfile_str, &info,
@@ -4422,11 +4496,34 @@ static bool setting_ruleset_one(struct section_file *file,
       int val;
 
       if (!secfile_lookup_enum_data(file, &val, TRUE,
-                                    setting_bitwise_secfile_str, pset,
+                                    setting_bitwise_secfile_str, &info,
                                     "%s.value", path)) {
         log_error("Can't read value for setting '%s': %s",
                   name, secfile_error());
       } else if (val != *pset->bitwise.pvalue) {
+        /* RSFORMAT_3_1 */
+        if (compat && !fc_strcasecmp("topology", name)) {
+          struct setting *wrap = setting_by_name("wrap");
+
+          if (val & TF_OLD_WRAPX) {
+            if (val & TF_OLD_WRAPY) {
+              setting_bitwise_set(wrap, "WrapX|WrapY", NULL, NULL, 0);
+            } else {
+              setting_bitwise_set(wrap, "WrapX", NULL, NULL, 0);
+            }
+          } else if (val & TF_OLD_WRAPY) {
+            setting_bitwise_set(wrap, "WrapY", NULL, NULL, 0);
+          } else {
+            setting_bitwise_set(wrap, "", NULL, NULL, 0);
+          }
+
+          val &= ~(TF_OLD_WRAPX | TF_OLD_WRAPY);
+
+          log_normal(_("Ruleset: '%s' has been set to %s."),
+                     setting_name(wrap),
+                     setting_value_name(wrap, TRUE, buf, sizeof(buf)));
+        }
+
         if (NULL == pset->bitwise.validate
             || pset->bitwise.validate((unsigned) val, NULL,
                                       reject_msg, sizeof(reject_msg))) {
@@ -4637,6 +4734,7 @@ void settings_game_save(struct section_file *file, const char *section)
 
   settings_iterate(SSET_ALL, pset) {
     char errbuf[200];
+    struct sf_cb_data info = { pset, FALSE };
 
     if (/* It's explicitly set to some value to save */
         setting_get_setdef(pset) == SETDEF_CHANGED
@@ -4665,23 +4763,19 @@ void settings_game_save(struct section_file *file, const char *section)
                            "%s.set%d.gamestart", section, set_count);
         break;
       case SST_ENUM:
-        {
-          struct sf_cb_data info = { pset, FALSE };
-
-          secfile_insert_enum_data(file, read_enum_value(pset), FALSE,
-                                   setting_enum_secfile_str, &info,
-                                   "%s.set%d.value", section, set_count);
-          secfile_insert_enum_data(file, pset->enumerator.game_value, FALSE,
-                                   setting_enum_secfile_str, &info,
-                                   "%s.set%d.gamestart", section, set_count);
-        }
+        secfile_insert_enum_data(file, read_enum_value(pset), FALSE,
+                                 setting_enum_secfile_str, &info,
+                                 "%s.set%d.value", section, set_count);
+        secfile_insert_enum_data(file, pset->enumerator.game_value, FALSE,
+                                 setting_enum_secfile_str, &info,
+                                 "%s.set%d.gamestart", section, set_count);
         break;
       case SST_BITWISE:
         secfile_insert_enum_data(file, *pset->bitwise.pvalue, TRUE,
-                                 setting_bitwise_secfile_str, pset,
+                                 setting_bitwise_secfile_str, &info,
                                  "%s.set%d.value", section, set_count);
         secfile_insert_enum_data(file, pset->bitwise.game_value, TRUE,
-                                 setting_bitwise_secfile_str, pset,
+                                 setting_bitwise_secfile_str, &info,
                                  "%s.set%d.gamestart", section, set_count);
         break;
       case SST_COUNT:
@@ -4731,6 +4825,8 @@ void settings_game_load(struct section_file *file, const char *section)
     name = secfile_lookup_str(file, "%s.set%d.name", section, i);
 
     settings_iterate(SSET_ALL, pset) {
+      struct sf_cb_data info = { pset, FALSE };
+
       if (fc_strcasecmp(setting_name(pset), name) != 0) {
         continue;
       }
@@ -4834,7 +4930,6 @@ void settings_game_load(struct section_file *file, const char *section)
       case SST_ENUM:
         {
           int val;
-          struct sf_cb_data info = { pset, FALSE };
 
           if (!secfile_lookup_enum_data(file, &val, FALSE,
                                         setting_enum_secfile_str, &info,
@@ -4871,7 +4966,7 @@ void settings_game_load(struct section_file *file, const char *section)
           int val;
 
           if (!secfile_lookup_enum_data(file, &val, TRUE,
-                                        setting_bitwise_secfile_str, pset,
+                                        setting_bitwise_secfile_str, &info,
                                         "%s.set%d.value", section, i)) {
             log_verbose("Option '%s' not defined in the savegame: %s", name,
                         secfile_error());
@@ -4931,21 +5026,17 @@ void settings_game_load(struct section_file *file, const char *section)
           break;
 
         case SST_ENUM:
-          {
-            struct sf_cb_data info = { pset, FALSE };
-
-            pset->enumerator.game_value =
-              secfile_lookup_enum_default_data(file,
+          pset->enumerator.game_value =
+            secfile_lookup_enum_default_data(file,
                   read_enum_value(pset), FALSE, setting_enum_secfile_str,
                   &info, "%s.set%d.gamestart", section, i);
-          }
           break;
 
         case SST_BITWISE:
           pset->bitwise.game_value =
               secfile_lookup_enum_default_data(file,
                   *pset->bitwise.pvalue, TRUE, setting_bitwise_secfile_str,
-                  pset, "%s.set%d.gamestart", section, i);
+                  &info, "%s.set%d.gamestart", section, i);
           break;
 
         case SST_COUNT:
