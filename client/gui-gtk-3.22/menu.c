@@ -1472,7 +1472,7 @@ static void unit_unsentry_callback(GtkMenuItem *item, gpointer data)
 static void unit_load_callback(GtkMenuItem *item, gpointer data)
 {
   unit_list_iterate(get_units_in_focus(), punit) {
-    request_unit_load(punit, NULL, unit_tile(punit));
+    request_transport(punit, unit_tile(punit));
   } unit_list_iterate_end;
 }
 
