@@ -1,23 +1,24 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!-- Created with Notepad -->
+
 <!-- (PD) December 16, 2005 - _Crotalus horridus_  -->
+
 <svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://web.resource.org/cc/"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:xlink="http://www.w3.org/1999/xlink"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    version="1.0"
    width="262.5"
    height="175"
    id="Confederate Battle Flag"
    sodipodi:version="0.32"
-   inkscape:version="0.44"
+   inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
    sodipodi:docname="southern_cross.svg"
-   sodipodi:docbase="C:\Documents and Settings\다니엘\바탕 화면">
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
   <metadata
      id="metadata42">
     <rdf:RDF>
@@ -30,8 +31,8 @@
     </rdf:RDF>
   </metadata>
   <sodipodi:namedview
-     inkscape:window-height="807"
-     inkscape:window-width="1052"
+     inkscape:window-height="566"
+     inkscape:window-width="825"
      inkscape:pageshadow="2"
      inkscape:pageopacity="0.0"
      guidetolerance="10.0"
@@ -43,11 +44,14 @@
      id="base"
      width="262.5px"
      inkscape:zoom="2.1542857"
-     inkscape:cx="137.5"
-     inkscape:cy="87.5"
-     inkscape:window-x="66"
-     inkscape:window-y="87"
-     inkscape:current-layer="Confederate Battle Flag" />
+     inkscape:cx="137.40053"
+     inkscape:cy="87.500001"
+     inkscape:window-x="482"
+     inkscape:window-y="137"
+     inkscape:current-layer="Confederate Battle Flag"
+     inkscape:pagecheckerboard="0"
+     showgrid="false"
+     inkscape:window-maximized="0" />
   <rect
      style="fill:#002366"
      x="0"
