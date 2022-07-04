@@ -131,9 +131,6 @@ void dio_put_string_json(struct json_data_out *dout,
 void dio_put_estring_json(struct json_data_out *dout,
                           const struct plocation *location,
                           const char *value);
-void dio_put_city_map_json(struct json_data_out *dout,
-                           const struct plocation *location,
-                           const char *value);
 void dio_put_worklist_json(struct json_data_out *dout,
                            struct plocation *location,
                            const struct worklist *pwl);
