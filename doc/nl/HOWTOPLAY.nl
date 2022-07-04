@@ -233,7 +233,7 @@ Zoek de technologie op in de online help. Het zal u de technologieën tonen die
 u eerst dient te ontwikkelen.
 
 Alternatief: u kunt David Pfitzner's "techtree" kaart van
-http://files.freeciv.org/contrib/charts/ downloaden.
+https://files.freeciv.org/contrib/charts/ downloaden.
 
 Als dat allemaal niet lukt, dan kunt u de technologie spelregels in
 'data/default/techs.ruleset' lezen. Het toont de lijst van alle technologieën

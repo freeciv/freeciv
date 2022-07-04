@@ -80,7 +80,7 @@
         </dc:subject>
         <dc:publisher>
           <cc:Agent
-             rdf:about="http://www.freeciv.org">
+             rdf:about="https://www.freeciv.org">
             <dc:title>William Allen Simpson</dc:title>
           </cc:Agent>
         </dc:publisher>
