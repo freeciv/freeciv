@@ -22,8 +22,8 @@ fi
 
 GUI="$2"
 
-if test "$GUI" != "gtk3.22" && test "$GUI" != "sdl2" &&
-   test "$GUI" != "qt5" ; then
+if test "$GUI" != "gtk3.22" && test "$GUI" != "gtk4" &&
+   test "$GUI" != "sdl2" && test "$GUI" != "qt5" ; then
   echo "Unknown gui \"$2\"" >&2
   exit 1
 fi
@@ -68,6 +68,8 @@ QTPARAMS=""
 case $GUI in
   gtk3.22) FCMP="gtk3"
            RULEDIT=false ;;
+  gtk4) FCMP="gtk4"
+        RULEDIT=false ;;
   sdl2) FCMP="gtk4"
         RULEDIT=false ;;
   qt5) CLIENT="qt"
@@ -77,7 +79,7 @@ case $GUI in
        QTPARAMS="-Dqtver=qt5" ;;
 esac
 
-if test "x$CLIENT" = "x" ; then
+if test "$CLIENT" = "" ; then
   CLIENT="$GUI"
 fi
 
