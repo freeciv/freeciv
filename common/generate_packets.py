@@ -653,7 +653,7 @@ e |= DIO_PUT({self.dataio_type}, &dout, &field_addr, &real_packet->{self.name});
 e |= DIO_PUT({self.dataio_type}, &dout, &field_addr, &real_packet->{self.name}, {self.array_size_u});
 """.format(self = self)
 
-        arr_types=["string","estring","city_map"]
+        arr_types = ["string", "estring"]
         if (self.dataio_type in arr_types and self.is_array==1) or \
            (self.dataio_type not in arr_types and self.is_array==0):
             return """\
@@ -891,8 +891,7 @@ if (!DIO_BV_GET(&din, &field_addr, real_packet->{self.name})) {{
   RECEIVE_PACKET_FIELD_ERROR({self.name});
 }}
 """.format(self = self)
-        if self.dataio_type in ["string","estring","city_map"] and \
-           self.is_array!=2:
+        if self.dataio_type in ["string", "estring"] and self.is_array != 2:
             return """\
 if (!DIO_GET({self.dataio_type}, &din, &field_addr, real_packet->{self.name}, sizeof(real_packet->{self.name}))) {{
   RECEIVE_PACKET_FIELD_ERROR({self.name});
