@@ -1320,7 +1320,7 @@ bool tilespec_reread(const char *new_tileset_name,
 
   /* Step 1:  Cleanup.
    *
-   * Free old tileset or keep it in memeory if we are loading the same
+   * Free old tileset or keep it in memory if we are loading the same
    * tileset with scaling and old one was not scaled.
    */
 
