@@ -28,7 +28,7 @@ Site web :
 
 Le site web de Freeciv se trouve à cette adresse :
 
-  http://www.freeciv.org/
+  https://www.freeciv.org/
 
 Nous vous invitons à le visiter. Vous pourrez y connaître les dernières
 nouvelles concernant Freeciv, télécharger les dernières versions et

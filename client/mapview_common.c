@@ -615,9 +615,6 @@ static void gui_to_map_pos(const struct tileset *t,
      *
      * Here the division is proper mathematical floating point division.
      *
-     * A picture demonstrating this can be seen at
-     * http://bugs.freeciv.org/Ticket/Attachment/16782/9982/grid1.png.
-     *
      * We have to subtract off a half-tile in the X direction before doing
      * the transformation.  This is because, although the origin of the tile
      * is the top-left corner of the bounding box, after the transformation

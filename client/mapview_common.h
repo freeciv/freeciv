@@ -85,11 +85,11 @@ extern bool can_slide;
  *
  * _x, _y: the canvas position of the current element, declared inside
  * the macro.  Each element is assumed to be tileset_tile_width(tileset) *
- * tileset_tile_height(tileset) in size.  If an element is larger, the 
+ * tileset_tile_height(tileset) in size.  If an element is larger, the
  * caller needs to use a larger rectangle of iteration.
  *
  * The grid of iteration is rather complicated. For a picture of it see
- * http://files.freeciv.org/dev/newgrid.png
+ * https://files.freeciv.org/dev/newgrid.png
  * (originally newgrid.png in PR#12085).
  */
 #define gui_rect_iterate(GRI_x0, GRI_y0, GRI_width, GRI_height,         \
