@@ -1240,7 +1240,7 @@ class Variant:
                 self.is_info != "no"
                 or any(
                     not field.folded_into_head
-                    for field in self.fields
+                    for field in self.other_fields
                 )
             )
         )
