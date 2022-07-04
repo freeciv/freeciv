@@ -190,7 +190,6 @@ int dio_put_sfloat_raw(struct raw_data_out *dout, float value, int float_factor)
 
 int dio_put_memory_raw(struct raw_data_out *dout, const void *value, size_t size);
 int dio_put_string_raw(struct raw_data_out *dout, const char *value);
-int dio_put_city_map_raw(struct raw_data_out *dout, const char *value);
 int dio_put_cm_parameter_raw(struct raw_data_out *dout,
                              const struct cm_parameter *param);
 int dio_put_worklist_raw(struct raw_data_out *dout, const struct worklist *pwl);

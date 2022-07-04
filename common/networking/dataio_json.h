@@ -144,9 +144,6 @@ int dio_put_string_json(struct json_data_out *dout,
 int dio_put_estring_json(struct json_data_out *dout,
                          const struct plocation *location,
                          const char *value);
-int dio_put_city_map_json(struct json_data_out *dout,
-                          const struct plocation *location,
-                          const char *value);
 int dio_put_cm_parameter_json(struct json_data_out *dout,
                               struct plocation *location,
                               const struct cm_parameter *order);
