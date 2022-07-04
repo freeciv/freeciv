@@ -899,8 +899,9 @@ void handle_edit_player_create(struct connection *pc, int tag)
   struct player *pplayer;
   struct nation_type *pnation;
   struct research *presearch;
+  int existing = player_count();
 
-  if (player_count() >= player_slot_count()) {
+  if (existing >= player_slot_count()) {
     notify_conn(pc->self, NULL, E_BAD_COMMAND, ftc_editor,
                 _("No more players can be added because the maximum "
                   "number of players (%d) has been reached."),
@@ -908,7 +909,15 @@ void handle_edit_player_create(struct connection *pc, int tag)
     return;
   }
 
-  if (player_count() >= nation_count() ) {
+  if (existing >= game.server.max_players) {
+    notify_conn(pc->self, NULL, E_BAD_COMMAND, ftc_editor,
+                _("No more players can be added because there's "
+                  "already maximum number of players allowed by maxplayers setting (value %d)"),
+                game.server.max_players);
+    return;
+  }
+
+  if (existing >= nation_count() ) {
     notify_conn(pc->self, NULL, E_BAD_COMMAND, ftc_editor,
                 _("No more players can be added because there are "
                   "no available nations (%d used)."),
