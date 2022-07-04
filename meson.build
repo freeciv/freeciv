@@ -90,10 +90,12 @@ if meson.is_cross_build()
   cross_inc_str = meson.get_cross_property('cross_inc_path')
   cross_inc_path = [cross_inc_str]
   cross_lib_path = [meson.get_cross_property('cross_lib_path')]
+  crosser = meson.get_cross_property('crosser')
 else
   cross_inc_str = ''
   cross_inc_path = []
   cross_lib_path = []
+  crosser = false
 endif
 
 # From this, at least the _WIN32_WINNT must be set before
@@ -475,6 +477,10 @@ m_dep = c_compiler.find_library('m', dirs: cross_lib_path)
 
 if get_option('gitrev')
   priv_conf_data.set('GITREV', 1)
+endif
+
+if crosser
+  pub_conf_data.set('FREECIV_CROSSER', 1)
 endif
 
 configure_file(input : 'gen_headers/meson_fc_config.h.in',

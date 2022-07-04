@@ -56,6 +56,9 @@
 /* Native language support enabled */
 #mesondefine FREECIV_ENABLE_NLS
 
+/* This is crosser-based build */
+#mesondefine FREECIV_CROSSER
+
 /* Produce debug version */
 #mesondefine FREECIV_DEBUG
 
