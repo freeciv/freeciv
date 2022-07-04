@@ -53,6 +53,7 @@ add_gtk4_env() {
   cp $1/bin/libgtk-4-1.dll $2/ &&
   cp $1/bin/libgraphene-1.0-0.dll $2/ &&
   cp $1/bin/libcairo-script-interpreter-2.dll $2/ &&
+  cp $1/bin/gdbus.exe $2/ &&
   cp $1/bin/gtk4-update-icon-cache.exe $2/bin/ &&
   cp ./helpers/installer-helper-gtk4.cmd $2/bin/installer-helper.cmd
 }
