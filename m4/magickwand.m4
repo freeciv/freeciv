@@ -17,7 +17,7 @@ AC_DEFUN([FC_CHECK_MAGICKWAND],
 
       for i in /usr/local /usr;
       do
-        test -r $i/bin/${host}-MagicWand-config &&
+        test -r $i/bin/${host}-MagickWand-config &&
         WAND_CONFIG_PATH=$i/bin && WAND_CONFIG_NAME=${host}-MagickWand-config &&
         break
       done
@@ -71,7 +71,7 @@ AC_DEFUN([FC_CHECK_MAGICKWAND],
     LIBS="$WAND_LIBS $LIBS"
 
     AC_MSG_CHECKING([for all development tools needed for MagickWand])
-    dnl First look for MagicWand-7
+    dnl First look for MagickWand-7
     AC_LINK_IFELSE([AC_LANG_PROGRAM([[#include <MagickWand/MagickWand.h>]],
 [MagickWand *mw = NewMagickWand();])],
     [AC_MSG_RESULT([yes])
