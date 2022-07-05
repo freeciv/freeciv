@@ -2413,7 +2413,6 @@ static struct advanced_dialog *change_tech_dlg = NULL;
 SDL_Surface *create_select_tech_icon(utf8_str *pstr, Tech_type_id tech_id,
                                      enum tech_info_mode mode)
 {
-  struct unit_type *punit = NULL;
   SDL_Surface *surf, *text, *tmp, *tmp2;
   SDL_Surface *surf_array[10], **buf_array;
   SDL_Rect dst;
@@ -2526,8 +2525,7 @@ SDL_Surface *create_select_tech_icon(utf8_str *pstr, Tech_type_id tech_id,
   /* -------------------------------------------------------- */
     w = 0;
     unit_type_iterate(un) {
-      punit = un;
-      if (advance_number(punit->require_advance) == tech_id) {
+      if (is_tech_req_for_utype(un, advance_by_number(tech_id))) {
         surf_array[w++] = adj_surf(get_unittype_surface(un, direction8_invalid()));
       }
     } unit_type_iterate_end;
@@ -2618,7 +2616,6 @@ void real_science_report_dialog_update(void *unused)
     SDL_Surface *colb_surface = icons->big_colb;
     int step, i, cost;
     SDL_Rect dest;
-    struct unit_type *punit;
     struct widget *change_research_button;
     struct widget *change_research_goal_button;
     SDL_Rect area;
@@ -2745,10 +2742,9 @@ void real_science_report_dialog_update(void *unused)
 
     dest.x += adj_size(5);
 
-    /* units */
+    /* Units */
     unit_type_iterate(un) {
-      punit = un;
-      if (advance_number(punit->require_advance) == presearch->researching) {
+      if (is_tech_req_for_utype(un, advance_by_number(presearch->researching))) {
         SDL_Surface *usurf = get_unittype_surface(un, direction8_invalid());
         int w = usurf->w;
 
@@ -2825,8 +2821,7 @@ void real_science_report_dialog_update(void *unused)
 
       /* units */
       unit_type_iterate(un) {
-        punit = un;
-        if (advance_number(punit->require_advance) == presearch->tech_goal) {
+        if (is_tech_req_for_utype(un, advance_by_number(presearch->tech_goal))) {
           SDL_Surface *usurf = get_unittype_surface(un, direction8_invalid());
           int w = usurf->w;
 

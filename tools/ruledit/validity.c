@@ -191,7 +191,7 @@ bool is_tech_needed(struct advance *padv, requirers_cb cb, void *data)
   } advance_re_active_iterate_end;
 
   unit_type_re_active_iterate(ptype) {
-    if (ptype->require_advance == padv) {
+    if (is_tech_req_for_utype(ptype, padv)) {
       cb(utype_rule_name(ptype), data);
       needed = TRUE;
     }

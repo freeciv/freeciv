@@ -620,9 +620,11 @@ void research_diagram::create_tooltip_help()
 
         if (gui_options.reqtree_show_icons) {
           unit_type_iterate(unit) {
-            if (advance_number(unit->require_advance) != node->tech) {
+
+            if (!is_tech_req_for_utype(unit, advance_by_number(node->tech))) {
               continue;
             }
+
             sprite = get_unittype_sprite(tileset, unit, direction8_invalid());
             get_sprite_dimensions(sprite, &swidth, &sheight);
             rttp = new req_tooltip_help();

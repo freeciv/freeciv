@@ -3927,7 +3927,8 @@ QString get_tooltip_unit(const struct unit_type *utype, bool ext)
     + "</b>\n";
   obsolete = utype->obsoleted_by;
   if (obsolete) {
-    tech = obsolete->require_advance;
+    // FIXME: Don't give the impression that primary tech is (always) the only one.
+    tech = utype_primary_tech_req(obsolete);
     obsolete_str = QString("</td></tr><tr><td colspan=\"3\">");
     if (tech && tech != advance_by_number(0)) {
       /* TRANS: this and nearby literal strings are interpreted

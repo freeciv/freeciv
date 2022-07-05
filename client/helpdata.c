@@ -1363,14 +1363,32 @@ char *helptext_building(char *buf, size_t bufsz, struct player *pplayer,
     } action_list_iterate_end;
 
     if (u) {
-      if (advance_number(u->require_advance) != A_NONE) {
-        cat_snprintf(buf, bufsz,
-                     /* TRANS: 'Allows all players with knowledge of atomic
-                      * power to build nuclear units.' */
-                     _("%s Allows all players with knowledge of %s "
-                       "to build %s units.\n"), BULLET,
-                     advance_name_translation(u->require_advance),
-                     utype_name_translation(u));
+      struct advance *req = NULL;
+      int count = 0;
+
+      unit_tech_reqs_iterate(u, preq) {
+        req = preq;
+        count++;
+      } unit_tech_reqs_iterate_end;
+
+      if (req != NULL) {
+        if (count == 1) {
+          cat_snprintf(buf, bufsz,
+                       /* TRANS: 'Allows all players with knowledge of atomic
+                        * power to build nuclear units.' */
+                       _("%s Allows all players with knowledge of %s "
+                         "to build %s units.\n"), BULLET,
+                       advance_name_translation(req),
+                       utype_name_translation(u));
+        } else {
+          /* Multiple tech requirements */
+          cat_snprintf(buf, bufsz,
+                       /* TRANS: 'Allows all players with knowledge of required
+                        * techs to build nuclear units.' */
+                       _("%s Allows all players with knowledge of required "
+                         "techs to build %s units.\n"), BULLET,
+                       utype_name_translation(u));
+        }
       } else {
         cat_snprintf(buf, bufsz,
                      /* TRANS: 'Allows all players to build nuclear units.' */

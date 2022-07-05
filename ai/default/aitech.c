@@ -415,15 +415,23 @@ struct unit_type *dai_wants_defender_against(struct ai_type *ait,
       /* It would be better than current best. Consider researching tech */
       const struct impr_type *building;
       int cost = 0;
-      struct advance *itech = deftype->require_advance;
+      struct advance *itech = A_NEVER;
       bool impossible_to_get = FALSE;
 
-      if (A_NEVER != itech
-          && research_invention_state(presearch,
-                                      advance_number(itech)) != TECH_KNOWN) {
-        /* See if we want to invent this. */
-        cost = research_goal_bulbs_required(presearch,
-                                            advance_number(itech));
+      if (A_NEVER != deftype->_retire.require_advance) {
+        unit_tech_reqs_iterate(deftype, padv) {
+          if (research_invention_state(presearch,
+                                       advance_number(padv)) != TECH_KNOWN) {
+            /* See if we want to invent this. */
+            int ucost = research_goal_bulbs_required(presearch,
+                                                     advance_number(padv));
+
+            if (cost == 0 || ucost < cost) {
+              cost = ucost;
+              itech = padv;
+            }
+          }
+        } unit_tech_reqs_iterate_end;
       }
 
       building = utype_needs_improvement(deftype, pcity);
@@ -450,9 +458,8 @@ struct unit_type *dai_wants_defender_against(struct ai_type *ait,
                  * or the building's tech is cheaper,
                  * go for the building's required tech. */
                 itech = preq->source.value.advance;
-                cost = 0;
+                cost = imprcost;
               }
-              cost += imprcost;
             } else if (!dai_can_requirement_be_met_in_city(preq, pplayer,
                                                            pcity)) {
               impossible_to_get = TRUE;
@@ -461,7 +468,7 @@ struct unit_type *dai_wants_defender_against(struct ai_type *ait,
         } requirement_vector_iterate_end;
       }
 
-      if (cost < best_cost && !impossible_to_get
+      if (cost < best_cost && !impossible_to_get && itech != A_NEVER
           && research_invention_reachable(presearch, advance_number(itech))) {
         best_tech = itech;
         best_cost = cost;
@@ -491,8 +498,8 @@ struct unit_type *dai_wants_defender_against(struct ai_type *ait,
 }
 
 /**********************************************************************//**
-  Returns the best unit we can build, or NULL if none.  "Best" here
-  means last in the unit list as defined in the ruleset.  Assigns tech
+  Returns the best unit we can build, or NULL if none. "Best" here
+  means last in the unit list as defined in the ruleset. Assigns tech
   wants for techs to get better units with given role, but only for the
   cheapest to research "next" unit up the "chain".
 **************************************************************************/
@@ -509,21 +516,29 @@ struct unit_type *dai_wants_role_unit(struct ai_type *ait, struct player *pplaye
   n = num_role_units(role);
   for (i = n - 1; i >= 0; i--) {
     struct unit_type *iunit = get_role_unit(role, i);
-    struct advance *itech = iunit->require_advance;
 
     if (can_city_build_unit_now(pcity, iunit)) {
       build_unit = iunit;
       break;
     } else if (can_city_build_unit_later(pcity, iunit)) {
       const struct impr_type *building;
+      struct advance *itech = A_NEVER;
       int cost = 0;
 
-      if (A_NEVER != itech
-       && research_invention_state(presearch,
-                                   advance_number(itech)) != TECH_KNOWN) {
-        /* See if we want to invent this. */
-        cost = research_goal_bulbs_required(presearch,
-                                            advance_number(itech));
+      if (A_NEVER != iunit->_retire.require_advance) {
+        unit_tech_reqs_iterate(iunit, padv) {
+          if (research_invention_state(presearch,
+                                       advance_number(padv)) != TECH_KNOWN) {
+            /* See if we want to invent this. */
+            int ucost = research_goal_bulbs_required(presearch,
+                                                     advance_number(padv));
+
+            if (cost == 0 || ucost < cost) {
+              cost = ucost;
+              itech = padv;
+            }
+          }
+        } unit_tech_reqs_iterate_end;
       }
 
       building = utype_needs_improvement(iunit, pcity);
@@ -543,15 +558,14 @@ struct unit_type *dai_wants_role_unit(struct ai_type *ait, struct player *pplaye
                  * or the building's tech is cheaper,
                  * go for the building's required tech. */
                 itech = preq->source.value.advance;
-                cost = 0;
+                cost = imprcost;
               }
-              cost += imprcost;
             }
           }
         } requirement_vector_iterate_end;
       }
 
-      if (cost < best_cost
+      if (cost < best_cost && itech != A_NEVER
           && research_invention_reachable(presearch, advance_number(itech))) {
         best_tech = itech;
         best_cost = cost;

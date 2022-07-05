@@ -918,8 +918,8 @@ void help_widget::set_topic_unit(const help_item *topic,
     add_info_separator();
 
     // Tech requirement
-    tech = utype->require_advance;
-    if (tech && tech != advance_by_number(0)) {
+    tech = utype_primary_tech_req(utype);
+    if (tech && advance_number(tech) != A_NONE) {
       QLabel *tb;
 
       tb = new QLabel(this);
@@ -942,8 +942,8 @@ void help_widget::set_topic_unit(const help_item *topic,
     // Obsolescence
     obsolete = utype->obsoleted_by;
     if (obsolete) {
-      tech = obsolete->require_advance;
-      if (tech && tech != advance_by_number(0)) {
+      tech = utype_primary_tech_req(obsolete);
+      if (tech && advance_number(tech) != A_NONE) {
         QLabel *tb;
 
         tb = new QLabel(this);
@@ -1154,9 +1154,11 @@ void help_widget::set_topic_tech(const help_item *topic,
       } improvement_iterate_end;
 
       unit_type_iterate(punittype) {
-        if (padvance != punittype->require_advance) {
+
+        if (!is_tech_req_for_utype(punittype, padvance)) {
           continue;
         }
+
         str = _("Allows");
         str = "<b>" + str + "</b> "
               + link_me(utype_name_translation(punittype), HELP_UNIT);

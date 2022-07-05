@@ -640,6 +640,7 @@ void popup_unit_info(Unit_type_id type_id)
   struct unit_type *punittype;
   char buffer[bufsz];
   SDL_Rect area;
+  struct advance *req;
 
   if (current_help_dlg != HELP_UNIT) {
     popdown_help_dialog();
@@ -843,7 +844,7 @@ void popup_unit_info(Unit_type_id type_id)
     dock = unit_info_label;
   }
 
-  /* requirement */
+  /* Requirement */
   requirement_label = create_iconlabel_from_chars(NULL, pwindow->dst,
                                                   _("Requirement:"),
                                                   adj_font(12), 0);
@@ -851,18 +852,22 @@ void popup_unit_info(Unit_type_id type_id)
   widget_add_as_prev(requirement_label, dock);
   dock = requirement_label;
 
-  if (A_NEVER == punittype->require_advance
-      || advance_by_number(A_NONE) == punittype->require_advance) {
+  req = utype_primary_tech_req(punittype);
+
+  if (A_NEVER == punittype->_retire.require_advance
+      || advance_number(req) == A_NONE) {
     requirement_label2 = create_iconlabel_from_chars(NULL, pwindow->dst,
                                                      Q_("?tech:None"), adj_font(12), 0);
     requirement_label2->id = ID_LABEL;
   } else {
+    Tech_type_id req_id = advance_number(req);
+
     requirement_label2 = create_iconlabel_from_chars(NULL, pwindow->dst,
-          advance_name_translation(punittype->require_advance),
+          advance_name_translation(req),
           adj_font(12),
           WF_RESTORE_BACKGROUND);
-    requirement_label2->id = MAX_ID - advance_number(punittype->require_advance);
-    requirement_label2->string_utf8->fgcol = *get_tech_color(advance_number(punittype->require_advance));
+    requirement_label2->id = MAX_ID - req_id;
+    requirement_label2->string_utf8->fgcol = *get_tech_color(req_id);
     requirement_label2->action = change_tech_callback;
     set_wstate(requirement_label2, FC_WS_NORMAL);
   }
@@ -885,13 +890,14 @@ void popup_unit_info(Unit_type_id type_id)
     obsolete_by_label2->id = ID_LABEL;
   } else {
     const struct unit_type *utype = punittype->obsoleted_by;
+    struct advance *obs_req = utype_primary_tech_req(utype);
 
     obsolete_by_label2 = create_iconlabel_from_chars(NULL, pwindow->dst,
                                                     utype_name_translation(utype),
                                                     adj_font(12),
                                                     WF_RESTORE_BACKGROUND);
-    obsolete_by_label2->string_utf8->fgcol = *get_tech_color(advance_number(utype->require_advance));
-    obsolete_by_label2->id = MAX_ID - utype_number(punittype->obsoleted_by);
+    obsolete_by_label2->string_utf8->fgcol = *get_tech_color(advance_number(obs_req));
+    obsolete_by_label2->id = MAX_ID - utype_number(utype);
     obsolete_by_label2->action = change_unit_callback;
     set_wstate(obsolete_by_label2, FC_WS_NORMAL);
   }
@@ -1256,13 +1262,11 @@ static struct widget *create_tech_info(Tech_type_id tech, int width,
 
   unit_count = 0;
   unit_type_iterate(un) {
-    struct unit_type *punittype = un;
-
-    if (advance_number(punittype->require_advance) == tech) {
+    if (is_tech_req_for_utype(un, advance_by_number(tech))) {
       pwidget = create_iconlabel_from_chars(
                                    resize_surface_box(get_unittype_surface(un, direction8_invalid()),
                                    adj_size(48), adj_size(48), 1, TRUE, TRUE),
-                  pwindow->dst, utype_name_translation(punittype), adj_font(14),
+                  pwindow->dst, utype_name_translation(un), adj_font(14),
                   (WF_FREE_THEME | WF_RESTORE_BACKGROUND | WF_SELECT_WITHOUT_BAR));
       set_wstate(pwidget, FC_WS_NORMAL);
       pwidget->action = change_unit_callback;

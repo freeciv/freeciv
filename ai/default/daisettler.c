@@ -923,17 +923,20 @@ static struct cityresult *find_best_city_placement(struct ai_type *ait,
         boattype = get_role_unit(L_FERRYBOAT, 0);
 
         if (NULL != boattype
-            && A_NEVER != boattype->require_advance) {
+            && A_NEVER != boattype->_retire.require_advance) {
           struct ai_plr *plr_data = def_ai_player_data(pplayer, ait);
 
-          plr_data->tech_want[advance_index(boattype->require_advance)]
-            += FERRY_TECH_WANT;
-          TECH_LOG(ait, LOG_DEBUG, pplayer, boattype->require_advance,
-                   "+ %d for %s to ferry settler",
-                   FERRY_TECH_WANT,
-                   utype_rule_name(boattype));
+          unit_tech_reqs_iterate(boattype, padv) {
+            plr_data->tech_want[advance_index(padv)]
+              += FERRY_TECH_WANT;
+            TECH_LOG(ait, LOG_DEBUG, pplayer, padv,
+                     "+ %d for %s to ferry settler",
+                     FERRY_TECH_WANT,
+                     utype_rule_name(boattype));
+          } unit_tech_reqs_iterate_end;
         }
-        /* return the result from the search on our current continent */
+
+        /* Return the result from the search on our current continent */
         return cr1;
       }
       ferry = unit_virtual_create(pplayer, NULL, boattype, 0);

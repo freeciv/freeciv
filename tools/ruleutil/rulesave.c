@@ -3089,7 +3089,7 @@ static bool save_units_ruleset(const char *filename, const char *name)
       secfile_insert_str(sfile, uclass_rule_name(put->uclass),
                          "%s.class", path);
 
-      save_tech_ref(sfile, put->require_advance, path, "tech_req");
+      save_tech_ref(sfile, put->_retire.require_advance, path, "tech_req");
 
       /* Extract the government requirement from the requirement vector so
        * it can be written in the old format.

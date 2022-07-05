@@ -121,7 +121,7 @@ void edit_utype::closeEvent(QCloseEvent *cevent)
 **************************************************************************/
 void edit_utype::refresh()
 {
-  req_button->setText(tab_tech::tech_name(utype->require_advance));
+  req_button->setText(tab_tech::tech_name(utype->_retire.require_advance));
   bcost->setValue(utype->build_cost);
   attack->setValue(utype->attack_strength);
   defense->setValue(utype->defense_strength);
@@ -140,7 +140,7 @@ void edit_utype::req_menu(QAction *action)
   padv = advance_by_rule_name(an_bytes.data());
 
   if (padv != nullptr) {
-    utype->require_advance = padv;
+    utype->_retire.require_advance = padv;
 
     refresh();
   }

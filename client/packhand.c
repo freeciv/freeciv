@@ -3536,7 +3536,7 @@ void handle_ruleset_unit(const struct packet_ruleset_unit *p)
   u->attack_strength    = p->attack_strength;
   u->defense_strength   = p->defense_strength;
   u->move_rate          = p->move_rate;
-  u->require_advance    = advance_by_number(p->tech_requirement);
+  u->_retire.require_advance    = advance_by_number(p->tech_requirement);
   for (i = 0; i < p->build_reqs_count; i++) {
     requirement_vector_append(&u->build_reqs, p->build_reqs[i]);
   }

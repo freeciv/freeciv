@@ -2012,17 +2012,38 @@ static bool worklist_change_build_target(struct player *pplayer,
 
       /* Maybe we can just upgrade the target to what the city /can/ build. */
       if (U_NOT_OBSOLETED == pupdate) {
-	/* Nope, we're stuck.  Skip this item from the worklist. */
-        if (ptarget->require_advance != NULL
-            && TECH_KNOWN != research_invention_state
-                          (research_get(pplayer),
-                           advance_number(ptarget->require_advance))) {
-          notify_player(pplayer, city_tile(pcity),
-                        E_CITY_CANTBUILD, ftc_server,
-                        _("%s can't build %s from the worklist; "
-                          "tech %s not yet available. Postponing..."),
-                        city_link(pcity), utype_name_translation(ptarget),
-                        advance_name_translation(ptarget->require_advance));
+	/* Nope, we're stuck. Skip this item from the worklist. */
+        struct research *presearch = research_get(pplayer);
+        struct advance *missing = NULL;
+        bool multiple = FALSE;
+
+        unit_tech_reqs_iterate(ptarget, padv) {
+          if (research_invention_state(presearch, advance_number(padv) != TECH_KNOWN)) {
+            if (missing != NULL) {
+              multiple = TRUE;
+            } else {
+              missing = padv;
+            }
+          }
+        } unit_tech_reqs_iterate_end;
+
+
+        if (missing != NULL) {
+          if (!multiple) {
+            notify_player(pplayer, city_tile(pcity),
+                          E_CITY_CANTBUILD, ftc_server,
+                          _("%s can't build %s from the worklist; "
+                            "tech %s not yet available. Postponing..."),
+                          city_link(pcity), utype_name_translation(ptarget),
+                          advance_name_translation(missing));
+          } else {
+            notify_player(pplayer, city_tile(pcity),
+                          E_CITY_CANTBUILD, ftc_server,
+                          _("%s can't build %s from the worklist; "
+                            "multiple techs still needed. Postponing..."),
+                          city_link(pcity), utype_name_translation(ptarget));
+          }
+
           script_server_signal_emit("unit_cant_be_built", ptarget, pcity,
                                     "need_tech");
         } else {

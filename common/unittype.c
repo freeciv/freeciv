@@ -2024,10 +2024,11 @@ bool can_player_build_unit_direct(const struct player *p,
                                   bool consider_reg_impr_req)
 {
   const struct req_context context = { .player = p, .unittype = punittype };
+  bool barbarian = is_barbarian(p);
 
   fc_assert_ret_val(NULL != punittype, FALSE);
 
-  if (is_barbarian(p)
+  if (barbarian
       && !utype_has_role(punittype, L_BARBARIAN_BUILD)
       && !utype_has_role(punittype, L_BARBARIAN_BUILD_TECH)) {
     /* Barbarians can build only role units */
@@ -2044,7 +2045,7 @@ bool can_player_build_unit_direct(const struct player *p,
   }
 
   if (utype_has_flag(punittype, UTYF_BARBARIAN_ONLY)
-      && !is_barbarian(p)) {
+      && !barbarian) {
     /* Unit can be built by barbarians only and this player is
      * not barbarian */
     return FALSE;
@@ -2095,36 +2096,37 @@ bool can_player_build_unit_direct(const struct player *p,
     }
   } requirement_vector_iterate_end;
 
-  if (research_invention_state(research_get(p),
-                               advance_number(punittype->require_advance))
-      != TECH_KNOWN) {
-    if (!is_barbarian(p)) {
-      /* Normal players can never build units without knowing tech
-       * requirements. */
-      return FALSE;
-    }
-    if (!utype_has_role(punittype, L_BARBARIAN_BUILD)) {
-      /* Even barbarian cannot build this unit without tech */
-
-      /* Unit has to have L_BARBARIAN_BUILD_TECH role
-       * In the beginning of this function we checked that
-       * barbarian player tries to build only role
-       * L_BARBARIAN_BUILD or L_BARBARIAN_BUILD_TECH units. */
-      fc_assert_ret_val(utype_has_role(punittype, L_BARBARIAN_BUILD_TECH),
-                        FALSE);
-
-      /* Client does not know all the advances other players have
-       * got. So following gives wrong answer in the client.
-       * This is called at the client when received create_city
-       * packet for a barbarian city. City initialization tries
-       * to find L_FIRSTBUILD unit. */
-
-      if (!game.info.global_advances[advance_index(punittype->require_advance)]) {
-        /* Nobody knows required tech */
+  unit_tech_reqs_iterate(punittype, padv) {
+    if (research_invention_state(research_get(p), advance_number(padv))
+        != TECH_KNOWN) {
+      if (!barbarian) {
+        /* Normal players can never build units without knowing tech
+         * requirements. */
         return FALSE;
       }
+      if (!utype_has_role(punittype, L_BARBARIAN_BUILD)) {
+        /* Even barbarian cannot build this unit without tech */
+
+        /* Unit has to have L_BARBARIAN_BUILD_TECH role
+         * In the beginning of this function we checked that
+         * barbarian player tries to build only role
+         * L_BARBARIAN_BUILD or L_BARBARIAN_BUILD_TECH units. */
+        fc_assert_ret_val(utype_has_role(punittype, L_BARBARIAN_BUILD_TECH),
+                          FALSE);
+
+        /* Client does not know all the advances other players have
+         * got. So following gives wrong answer in the client.
+         * This is called at the client when received create_city
+         * packet for a barbarian city. City initialization tries
+         * to find L_FIRSTBUILD unit. */
+
+        if (!game.info.global_advances[advance_index(padv)]) {
+          /* Nobody knows required tech */
+          return FALSE;
+        }
+      }
     }
-  }
+  } unit_tech_reqs_iterate_end;
 
   if (utype_player_already_has_this_unique(p, punittype)) {
     /* A player can only have one unit of each unique unit type. */
@@ -2737,6 +2739,38 @@ void veteran_system_definition(struct veteran_system *vsystem, int level,
   vlevel->move_bonus = vlist_move;
   vlevel->base_raise_chance = vlist_raise;
   vlevel->work_raise_chance = vlist_wraise;
+}
+
+/**********************************************************************//**
+  Return primary tech requirement for the unit type.
+  Avoid using this, and support full list of requirements instead.
+  Returns pointer to A_NONE if there's no requirements for
+  the unit type.
+**************************************************************************/
+struct advance *utype_primary_tech_req(const struct unit_type *ptype)
+{
+  unit_tech_reqs_iterate(ptype, padv) {
+    /* Return the very first! */
+    return padv;
+  } unit_tech_reqs_iterate_end;
+
+  /* There was no tech requirements */
+  return advance_by_number(A_NONE);
+}
+
+/**********************************************************************//**
+  Tell if the given tech is one of unit's tech requirements
+**************************************************************************/
+bool is_tech_req_for_utype(const struct unit_type *ptype,
+                           struct advance *padv)
+{
+  unit_tech_reqs_iterate(ptype, preq) {
+    if (padv == preq) {
+      return TRUE;
+    }
+  } unit_tech_reqs_iterate_end;
+
+  return FALSE;
 }
 
 /**********************************************************************//**

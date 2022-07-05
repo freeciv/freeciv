@@ -889,9 +889,14 @@ bool dai_process_defender_want(struct ai_type *ait, struct player *pplayer,
       /* Cost (shield equivalent) of gaining these techs. */
       /* FIXME? Katvrr advises that this should be weighted more heavily in
        * big danger. */
-      int tech_cost = research_goal_bulbs_required(presearch,
-                          advance_number(punittype->require_advance)) / 4
-                          / city_list_size(pplayer->cities);
+      int tech_cost = 0;
+
+      unit_tech_reqs_iterate(punittype, padv) {
+        tech_cost = research_goal_bulbs_required(presearch,
+                                                 advance_number(padv));
+      } unit_tech_reqs_iterate_end;
+
+      tech_cost = tech_cost / 4 / city_list_size(pplayer->cities);
 
       /* Contrary to the above, we don't care if walls are actually built 
        * - we're looking into the future now. */
@@ -931,13 +936,15 @@ bool dai_process_defender_want(struct ai_type *ait, struct player *pplayer,
        * it is written this way, and the results seem strange to me. - Per */
       int desire = tech_desire[utype_index(punittype)] * best_unit_cost / best;
 
-      plr_data->tech_want[advance_index(punittype->require_advance)]
-        += desire;
-      TECH_LOG(ait, LOG_DEBUG, pplayer, punittype->require_advance,
-               "+ %d for %s to defend %s",
-               desire,
-               utype_rule_name(punittype),
-               city_name_get(pcity));
+      unit_tech_reqs_iterate(punittype, padv) {
+        plr_data->tech_want[advance_index(padv)]
+          += desire;
+        TECH_LOG(ait, LOG_DEBUG, pplayer, padv,
+                 "+ %d for %s to defend %s",
+                 desire,
+                 utype_rule_name(punittype),
+                 city_name_get(pcity));
+      } unit_tech_reqs_iterate_end;
     }
   } simple_ai_unit_type_iterate_end;
 
@@ -1012,9 +1019,6 @@ static void process_attacker_want(struct ai_type *ait,
   }
 
   simple_ai_unit_type_iterate(punittype) {
-    Tech_type_id tech_req = advance_number(punittype->require_advance);
-    int tech_dist = research_goal_unknown_techs(presearch, tech_req);
-
     if (dai_can_unit_type_follow_unit_type(punittype, orig_utype, ait)
         && is_native_near_tile(&(wld.map), utype_class(punittype), ptile)
         && (U_NOT_OBSOLETED == punittype->obsoleted_by
@@ -1038,14 +1042,25 @@ static void process_attacker_want(struct ai_type *ait,
       /* Cost (shield equivalent) of gaining these techs. */
       /* FIXME? Katvrr advises that this should be weighted more heavily in big
        * danger. */
-      int tech_cost = research_goal_bulbs_required(presearch, tech_req) / 4
-                      / city_list_size(pplayer->cities);
+      int tech_cost = 0;
       int bcost_balanced = build_cost_balanced(punittype);
       /* See description of kill_desire() for info about this variables. */
       int bcost = utype_build_shield_cost(pcity, NULL, punittype);
       int attack = adv_unittype_att_rating(punittype, veteran_level,
                                            SINGLE_MOVE,
                                            punittype->hp);
+      int tech_dist = 0;
+
+      unit_tech_reqs_iterate(punittype, padv) {
+        Tech_type_id tech_req = advance_number(padv);
+
+        tech_cost += research_goal_bulbs_required(presearch, tech_req);
+        if (tech_dist == 0) {
+          tech_dist = research_goal_unknown_techs(presearch, tech_req);
+        }
+      } unit_tech_reqs_iterate_end;
+
+      tech_cost = tech_cost / 4 / city_list_size(pplayer->cities);
 
       /* Take into account reinforcements strength */
       if (acity) {
@@ -1169,14 +1184,16 @@ static void process_attacker_want(struct ai_type *ait,
       if (want > 0) {
         if (tech_dist > 0) {
           /* This is a future unit, tell the scientist how much we need it */
-          plr_data->tech_want[advance_index(punittype->require_advance)]
-            += want;
-          TECH_LOG(ait, LOG_DEBUG, pplayer, punittype->require_advance,
-                   "+ " ADV_WANT_PRINTF " for %s vs %s(%d,%d)",
-                   want,
-                   utype_rule_name(punittype),
-                   (acity ? city_name_get(acity) : utype_rule_name(victim_unit_type)),
-                   TILE_XY(ptile));
+          unit_tech_reqs_iterate(punittype, padv) {
+            plr_data->tech_want[advance_index(padv)]
+              += want;
+            TECH_LOG(ait, LOG_DEBUG, pplayer, padv,
+                     "+ " ADV_WANT_PRINTF " for %s vs %s(%d,%d)",
+                     want,
+                     utype_rule_name(punittype),
+                     (acity ? city_name_get(acity) : utype_rule_name(victim_unit_type)),
+                     TILE_XY(ptile));
+          } unit_tech_reqs_iterate_end;
         } else if (want > best_choice->want) {
           const struct impr_type *impr_req;
 

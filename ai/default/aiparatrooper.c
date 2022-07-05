@@ -380,12 +380,8 @@ void dai_choose_paratrooper(struct ai_type *ait,
                             struct player *pplayer, struct city *pcity,
                             struct adv_choice *choice, bool allow_gold_upkeep)
 {
-  const struct research *presearch;
+  const struct research *presearch = research_get(pplayer);
   int profit;
-  Tech_type_id tech_req;
-  Tech_type_id requirements[A_LAST];
-  int num_requirements = 0;
-  int i;
   struct ai_plr *plr_data = def_ai_player_data(pplayer, ait);
 
   /* military_advisor_choose_build does something idiotic,
@@ -401,7 +397,8 @@ void dai_choose_paratrooper(struct ai_type *ait,
         && !utype_can_do_action(u_type, ACTION_PARADROP_CONQUER)) {
       continue;
     }
-    if (A_NEVER == u_type->require_advance) {
+
+    if (A_NEVER == u_type->_retire.require_advance) {
       continue;
     }
 
@@ -416,17 +413,28 @@ void dai_choose_paratrooper(struct ai_type *ait,
     }
 
     /* Assign tech for paratroopers */
-    tech_req = advance_index(u_type->require_advance);
-    if (tech_req != A_NONE && tech_req != A_UNSET) {
-      for (i = 0; i < num_requirements; i++) {
-        if (requirements[i] == tech_req) {
-          break;
-        }
+    unit_tech_reqs_iterate(u_type, padv) {
+      /* We raise want if the required tech is not known */
+      Tech_type_id tech_req = advance_index(padv);
+
+      if (research_invention_state(presearch, tech_req) != TECH_KNOWN) {
+        plr_data->tech_want[tech_req] += 2;
+        log_base(LOGLEVEL_PARATROOPER, "Raising tech want in city %s for %s "
+                 "stimulating %s with %d (" ADV_WANT_PRINTF ") and req",
+                 city_name_get(pcity),
+                 player_name(pplayer),
+                 advance_rule_name(padv),
+                 2,
+                 plr_data->tech_want[tech_req]);
+
+        /* Now, we raise want for prerequisites */
+        advance_index_iterate(A_FIRST, k) {
+          if (research_goal_tech_req(presearch, tech_req, k)) {
+            plr_data->tech_want[k] += 1;
+          }
+        } advance_index_iterate_end;
       }
-      if (i == num_requirements) {
-        requirements[num_requirements++] = tech_req;
-      }
-    }
+    } unit_tech_reqs_iterate_end;
 
     /* we only update choice struct if we can build it! */
     if (!can_city_build_unit_now(pcity, u_type)) {
@@ -453,25 +461,5 @@ void dai_choose_paratrooper(struct ai_type *ait,
     }
   } unit_type_iterate_end;
 
-  /* we raise want if the required tech is not known */
-  presearch = research_get(pplayer);
-  for (i = 0; i < num_requirements; i++) {
-    tech_req = requirements[i];
-    plr_data->tech_want[tech_req] += 2;
-    log_base(LOGLEVEL_PARATROOPER, "Raising tech want in city %s for %s "
-             "stimulating %s with %d (" ADV_WANT_PRINTF ") and req",
-             city_name_get(pcity),
-             player_name(pplayer),
-             advance_rule_name(advance_by_number(tech_req)),
-             2,
-             plr_data->tech_want[tech_req]);
-
-    /* now, we raise want for prerequisites */
-    advance_index_iterate(A_FIRST, k) {
-      if (research_goal_tech_req(presearch, tech_req, k)) {
-        plr_data->tech_want[k] += 1;
-      }
-    } advance_index_iterate_end;
-  }
   return;
 }

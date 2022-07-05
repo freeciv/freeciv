@@ -904,12 +904,8 @@ static void help_update_unit_type(const struct help_item *pitem,
 		       helptext_unit_upkeep_str(utype));
     sprintf(buf, "%d", (int)sqrt((double)utype->vision_radius_sq));
     gtk_label_set_text(GTK_LABEL(help_ulabel[3][4]), buf);
-    if (A_NEVER == utype->require_advance) {
-      gtk_label_set_text(GTK_LABEL(help_ulabel[4][1]), REQ_LABEL_NEVER);
-    } else {
-      gtk_label_set_text(GTK_LABEL(help_ulabel[4][1]),
-                         advance_name_translation(utype->require_advance));
-    }
+    gtk_label_set_text(GTK_LABEL(help_ulabel[4][1]),
+                       advance_name_translation(utype_primary_tech_req(utype)));
 /*    create_tech_tree(help_improvement_tree, 0, advance_number(utype->require_advance), 3);*/
     if (U_NOT_OBSOLETED == utype->obsoleted_by) {
       gtk_label_set_text(GTK_LABEL(help_ulabel[4][4]), skip_intl_qualifier_prefix(REQ_LABEL_NONE));
@@ -1073,9 +1069,11 @@ static void help_update_tech(const struct help_item *pitem, char *title)
     } improvement_iterate_end;
 
     unit_type_iterate(punittype) {
-      if (padvance != punittype->require_advance) {
+
+      if (!is_tech_req_for_utype(punittype, padvance)) {
 	continue;
       }
+
       hbox = gtk_grid_new();
       gtk_container_add(GTK_CONTAINER(help_vbox), hbox);
       w = gtk_label_new(_("Allows"));

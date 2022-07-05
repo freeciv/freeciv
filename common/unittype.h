@@ -497,7 +497,10 @@ struct unit_type {
   int move_rate;
   int unknown_move_cost; /* See utype_unknown_move_cost(). */
 
-  struct advance *require_advance;	/* may be NULL */
+  struct {
+    struct advance *require_advance;  /* may be NULL */
+  } _retire; /* Do not write new code to rely on things here! */
+
   struct requirement_vector build_reqs;
 
   int vision_radius_sq;
@@ -848,6 +851,19 @@ const struct unit_type *unit_type_array_last(void);
     }                                                                   \
   } unit_type_iterate_end;
 
+#define unit_tech_reqs_iterate(_utype_, _p)                             \
+do {                                                                    \
+  struct advance *_p = (_utype_)->_retire.require_advance;              \
+  if (advance_number(_p) != A_NONE && _p != A_NEVER) {
+
+#define unit_tech_reqs_iterate_end                                      \
+  }                                                                     \
+} while (FALSE);
+
+/* Used on client to show just one req */
+struct advance *utype_primary_tech_req(const struct unit_type *ptype);
+bool is_tech_req_for_utype(const struct unit_type *ptype,
+                           struct advance *padv);
 
 void *utype_ai_data(const struct unit_type *ptype, const struct ai_type *ai);
 void utype_set_ai_data(struct unit_type *ptype, const struct ai_type *ai,

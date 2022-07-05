@@ -481,7 +481,7 @@ static int spy_steal_popup_shared(struct widget *pwidget)
 
   /* Get Spy tech to use for "At Spy's Discretion" -- this will have the
    * side effect of displaying the unit's icon */
-  tech = advance_number(unit_type_get(actor_unit)->require_advance);
+  tech = advance_number(utype_primary_tech_req(unit_type_get(actor_unit)));
 
   if (action_prob_possible(actor_unit->client.act_prob_cache[
                            get_non_targeted_action_id(act_id)])) {

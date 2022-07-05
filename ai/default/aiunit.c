@@ -3142,7 +3142,7 @@ static void update_simple_ai_types(void)
   unit_type_iterate(punittype) {
     struct unit_class *pclass = utype_class(punittype);
 
-    if (A_NEVER != punittype->require_advance
+    if (A_NEVER != punittype->_retire.require_advance
         && !utype_has_flag(punittype, UTYF_CIVILIAN)
         && !utype_can_do_action(punittype, ACTION_SUICIDE_ATTACK)
         && !(pclass->adv.land_move == MOVE_NONE

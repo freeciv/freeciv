@@ -2141,13 +2141,13 @@ static bool load_ruleset_units(struct section_file *file,
       const struct section *psection = section_list_get(sec, i);
       const char *sec_name = section_name(psection);
 
-      if (!lookup_tech(file, &u->require_advance, sec_name,
+      if (!lookup_tech(file, &u->_retire.require_advance, sec_name,
                        "tech_req", filename,
                        rule_name_get(&u->name))) {
         ok = FALSE;
         break;
       }
-      if (u->require_advance == A_NEVER) {
+      if (u->_retire.require_advance == A_NEVER) {
         ruleset_error(LOG_ERROR, "%s lacks valid tech_req.",
                       rule_name_get(&u->name));
         ok = FALSE;
@@ -2562,12 +2562,17 @@ static bool load_ruleset_units(struct section_file *file,
   if (ok) { 
     /* Some more consistency checking: */
     unit_type_iterate(u) {
-      if (!valid_advance(u->require_advance)) {
-        ruleset_error(LOG_ERROR, "\"%s\" unit_type \"%s\": depends on removed tech \"%s\".",
-                       filename, utype_rule_name(u),
-                       advance_rule_name(u->require_advance));
-        u->require_advance = A_NEVER;
-        ok = FALSE;
+      unit_tech_reqs_iterate(u, padv) {
+        if (!valid_advance(padv)) {
+          ruleset_error(LOG_ERROR, "\"%s\" unit_type \"%s\": depends on removed tech \"%s\".",
+                        filename, utype_rule_name(u),
+                        advance_rule_name(padv));
+          ok = FALSE;
+          break;
+        }
+      } unit_tech_reqs_iterate_end;
+
+      if (!ok) {
         break;
       }
     } unit_type_iterate_end;
@@ -7833,8 +7838,8 @@ static void send_ruleset_units(struct conn_list *dest)
     packet.attack_strength = u->attack_strength;
     packet.defense_strength = u->defense_strength;
     packet.move_rate = u->move_rate;
-    packet.tech_requirement = u->require_advance
-                              ? advance_number(u->require_advance)
+    packet.tech_requirement = u->_retire.require_advance
+                              ? advance_number(u->_retire.require_advance)
                               : advance_count();
 
     i = 0;
