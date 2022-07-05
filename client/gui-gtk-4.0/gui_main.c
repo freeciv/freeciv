@@ -160,8 +160,8 @@ static GdkPaintable *empty_unit_paintable = NULL;
 static GtkWidget *unit_pic_table;
 static GtkWidget *unit_pic;
 static GtkWidget *unit_below_pic[MAX_NUM_UNITS_BELOW];
-static GtkWidget *more_arrow_pixmap;
-static GtkWidget *more_arrow_pixmap_container;
+static GtkWidget *more_arrow;
+static GtkWidget *more_arrow_container;
 
 static int unit_id_top;
 static int unit_ids[MAX_NUM_UNITS_BELOW];  /* ids of the units icons in
@@ -209,10 +209,10 @@ static void tearoff_callback(GtkWidget *b, gpointer data);
 static GtkWidget *detached_widget_new(void);
 static GtkWidget *detached_widget_fill(GtkWidget *tearbox);
 
-static gboolean select_unit_pic_callback(GtkWidget *w, GdkEvent *ev,
-                                         gpointer data);
-static gboolean select_more_arrow_pixmap_callback(GtkWidget *w, GdkEvent *ev,
-                                                  gpointer data);
+static gboolean select_unit_pic_callback(GtkGestureClick *gesture, int n_press,
+                                         double x, double y, gpointer data);
+static gboolean select_more_arrow_callback(GtkGestureClick *gesture, int n_press,
+                                         double x, double y, gpointer data);
 static gboolean quit_dialog_callback(void);
 
 static void allied_chat_button_toggled(GtkToggleButton *button,
@@ -899,6 +899,7 @@ static void populate_unit_pic_table(void)
   GtkWidget *table = unit_pic_table;
   GdkPixbuf *pix;
   int ttw;
+  GtkEventController *controller;
 
   /* Get width of the overview window */
   width = (overview_canvas_store_width > GUI_GTK_OVERVIEW_MIN_XSIZE)
@@ -924,9 +925,12 @@ static void populate_unit_pic_table(void)
   g_object_ref(unit_pic);
   gtk_widget_set_size_request(unit_pic, ttw, -1);
   gtk_grid_attach(GTK_GRID(table), unit_pic, 0, 0, 1, 1);
-  g_signal_connect(unit_pic, "button_press_event",
+
+  controller = GTK_EVENT_CONTROLLER(gtk_gesture_click_new());
+  g_signal_connect(controller, "pressed",
                    G_CALLBACK(select_unit_pic_callback),
                    GINT_TO_POINTER(-1));
+  gtk_widget_add_controller(unit_pic, controller);
 
   if (!GUI_GTK_OPTION(small_display_layout)) {
     /* Bottom row: other units in the same tile. */
@@ -934,10 +938,12 @@ static void populate_unit_pic_table(void)
       unit_below_pic[i] = gtk_picture_new();
       g_object_ref(unit_below_pic[i]);
       gtk_widget_set_size_request(unit_below_pic[i], ttw, -1);
-      g_signal_connect(unit_below_pic[i],
-                       "button_press_event",
+
+      controller = GTK_EVENT_CONTROLLER(gtk_gesture_click_new());
+      g_signal_connect(controller, "pressed",
                        G_CALLBACK(select_unit_pic_callback),
                        GINT_TO_POINTER(i));
+      gtk_widget_add_controller(unit_below_pic[i], controller);
 
       gtk_grid_attach(GTK_GRID(table), unit_below_pic[i],
                       i, 1, 1, 1);
@@ -946,30 +952,33 @@ static void populate_unit_pic_table(void)
 
   /* Create arrow (popup for all units on the selected tile) */
   pix = sprite_get_pixbuf(get_arrow_sprite(tileset, ARROW_RIGHT));
-  more_arrow_pixmap = gtk_image_new_from_pixbuf(pix);
-  g_object_ref(more_arrow_pixmap);
-  g_signal_connect(more_arrow_pixmap,
-                   "button_press_event",
-                   G_CALLBACK(select_more_arrow_pixmap_callback), NULL);
+  more_arrow = gtk_image_new_from_pixbuf(pix);
+  g_object_ref(more_arrow);
+
+  controller = GTK_EVENT_CONTROLLER(gtk_gesture_click_new());
+  g_signal_connect(controller, "pressed",
+                   G_CALLBACK(select_more_arrow_callback),
+                   NULL);
+  gtk_widget_add_controller(more_arrow, controller);
+
   /* An extra layer so that we can hide the clickable button but keep
    * an explicit size request to avoid the layout jumping around */
-  more_arrow_pixmap_container = gtk_frame_new(NULL);
-  gtk_widget_set_halign(more_arrow_pixmap_container, GTK_ALIGN_CENTER);
-  gtk_widget_set_valign(more_arrow_pixmap_container, GTK_ALIGN_CENTER);
-  g_object_ref(more_arrow_pixmap_container);
-  gtk_frame_set_child(GTK_FRAME(more_arrow_pixmap_container),
-                      more_arrow_pixmap);
-  gtk_widget_set_size_request(more_arrow_pixmap_container,
+  more_arrow_container = gtk_frame_new(NULL);
+  gtk_widget_set_halign(more_arrow_container, GTK_ALIGN_CENTER);
+  gtk_widget_set_valign(more_arrow_container, GTK_ALIGN_CENTER);
+  g_object_ref(more_arrow_container);
+  gtk_frame_set_child(GTK_FRAME(more_arrow_container), more_arrow);
+  gtk_widget_set_size_request(more_arrow_container,
                               gdk_pixbuf_get_width(pix), -1);
   g_object_unref(G_OBJECT(pix));
 
   if (!GUI_GTK_OPTION(small_display_layout)) {
     /* Display on bottom row. */
-    gtk_grid_attach(GTK_GRID(table), more_arrow_pixmap_container,
+    gtk_grid_attach(GTK_GRID(table), more_arrow_container,
                     num_units_below, 1, 1, 1);
   } else {
     /* Display on top row (there is no bottom row). */
-    gtk_grid_attach(GTK_GRID(table), more_arrow_pixmap_container,
+    gtk_grid_attach(GTK_GRID(table), more_arrow_container,
                     1, 0, 1, 1);
   }
 
@@ -994,9 +1003,9 @@ static void free_unit_table(void)
       }
     }
     gtk_grid_remove(GTK_GRID(unit_pic_table),
-                    more_arrow_pixmap_container);
-    g_object_unref(more_arrow_pixmap);
-    g_object_unref(more_arrow_pixmap_container);
+                    more_arrow_container);
+    g_object_unref(more_arrow);
+    g_object_unref(more_arrow_container);
   }
 }
 
@@ -1019,7 +1028,7 @@ void reset_unit_table(void)
    * arrow to go away, both by expicitly hiding it and telling it to
    * do so (this will be reset immediately afterwards if necessary,
    * but we have to make the *internal* state consistent). */
-  gtk_widget_hide(more_arrow_pixmap);
+  gtk_widget_hide(more_arrow);
   set_unit_icons_more_arrow(FALSE);
   if (get_num_units_in_focus() == 1) {
     set_unit_icon(-1, head_of_units_in_focus());
@@ -2107,15 +2116,15 @@ void set_unit_icons_more_arrow(bool onoff)
 {
   static bool showing = FALSE;
 
-  if (!more_arrow_pixmap) {
+  if (!more_arrow) {
     return;
   }
 
   if (onoff && !showing) {
-    gtk_widget_show(more_arrow_pixmap);
+    gtk_widget_show(more_arrow);
     showing = TRUE;
   } else if (!onoff && showing) {
-    gtk_widget_hide(more_arrow_pixmap);
+    gtk_widget_hide(more_arrow);
     showing = FALSE;
   }
 }
@@ -2135,8 +2144,8 @@ void real_focus_units_changed(void)
   Callback for clicking a unit icon underneath unit info box.
   these are the units on the same tile as the focus unit.
 **************************************************************************/
-static gboolean select_unit_pic_callback(GtkWidget *w, GdkEvent *ev,
-                                         gpointer data)
+static gboolean select_unit_pic_callback(GtkGestureClick *gesture, int n_press,
+                                         double x, double y, gpointer data)
 {
   int i = GPOINTER_TO_INT(data);
   struct unit *punit;
@@ -2150,11 +2159,12 @@ static gboolean select_unit_pic_callback(GtkWidget *w, GdkEvent *ev,
     return TRUE;
   }
 
-  if (unit_ids[i] == 0) /* no unit displayed at this place */
+  if (unit_ids[i] == 0) { /* No unit displayed at this place */
     return TRUE;
+  }
 
   punit = game_unit_by_number(unit_ids[i]);
-  if (NULL != punit && unit_owner(punit) == client.conn.playing) {
+  if (NULL != punit && unit_owner(punit) == client_player()) {
     /* Unit shouldn't be NULL but may be owned by an ally. */
     unit_focus_set(punit);
   }
@@ -2166,8 +2176,8 @@ static gboolean select_unit_pic_callback(GtkWidget *w, GdkEvent *ev,
   Callback for clicking a unit icon underneath unit info box.
   these are the units on the same tile as the focus unit.
 **************************************************************************/
-static gboolean select_more_arrow_pixmap_callback(GtkWidget *w, GdkEvent *ev,
-                                                  gpointer data)
+static gboolean select_more_arrow_callback(GtkGestureClick *gesture, int n_press,
+                                           double x, double y, gpointer data)
 {
   struct unit *punit = game_unit_by_number(unit_id_top);
 
