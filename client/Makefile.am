@@ -136,8 +136,10 @@ freeciv_client_src = $(AUDIO_SDL_FILES) \
 	repodlgs_common.h \
 	reqtree.c \
 	reqtree.h \
-	servers.c		\
-	servers.h		\
+	servers.c	\
+	servers.h	\
+	svgflag.c	\
+	svgflag.h	\
 	text.c	\
 	text.h	\
 	themes_common.c	\

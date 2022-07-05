@@ -94,6 +94,7 @@
 #include "options.h"
 #include "overview_common.h"
 #include "packhand.h"
+#include "svgflag.h"
 #include "tilespec.h"
 #include "themes_common.h"
 #include "update_queue.h"
@@ -727,6 +728,7 @@ void fc__noreturn client_exit(int return_value)
   conn_list_destroy(game.all_connections);
   conn_list_destroy(game.est_connections);
 
+  free_svg_flag_API();
   registry_module_close();
   free_libfreeciv();
   free_nls();

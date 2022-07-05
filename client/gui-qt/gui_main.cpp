@@ -45,6 +45,7 @@
 #include "editgui_g.h"
 #include "options.h"
 #include "sprite.h"
+#include "svgflag.h"
 #include "themes_common.h"
 #include "tilespec.h"
 
@@ -75,6 +76,9 @@ static void apply_notify_font(struct option *poption);
 static void apply_sidebar(struct option *poption);
 static void apply_titlebar(struct option *poption);
 
+// Uncomment to enable svg flags
+//#define FC_QT_SVGFLAG
+
 /**********************************************************************//**
   Return fc_client instance
 **************************************************************************/
@@ -95,6 +99,11 @@ void qtg_ui_init()
 int main(int argc, char **argv)
 {
   setup_gui_funcs();
+
+#ifdef FC_QT_SVGFLAG
+  svg_flag_enable();
+#endif // FC_QT_SVGFLAG
+
   return client_main(argc, argv);
 }
 

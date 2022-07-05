@@ -43,6 +43,7 @@
 #include "goto.h"
 #include "citydlg_common.h"
 #include "overview_common.h"
+#include "svgflag.h"
 #include "tilespec.h"
 #include "zoom.h"
 
@@ -1848,9 +1849,8 @@ static void show_full_citybar(struct canvas *pcanvas,
    * COLOR_MAPVIEW_CITYTEXT in get_city_mapview_trade_routes() */
   enum color_std trade_routes_color = COLOR_MAPVIEW_CITYTEXT;
   struct color *owner_color;
-  struct {
-    int x, y, w, h;
-  } name_rect = {0, 0, 0, 0}, growth_rect = {0, 0, 0, 0},
+  struct area_rect
+    name_rect = {0, 0, 0, 0}, growth_rect = {0, 0, 0, 0},
     prod_rect = {0, 0, 0, 0}, size_rect = {0, 0, 0, 0},
     flag_rect = {0, 0, 0, 0}, occupy_rect = {0, 0, 0, 0},
     food_rect = {0, 0, 0, 0}, shield_rect = {0, 0, 0, 0},
@@ -1917,7 +1917,8 @@ static void show_full_citybar(struct canvas *pcanvas,
       }
     }
 
-    get_sprite_dimensions(flag, &flag_rect.w, &flag_rect.h);
+    /* TODO: Configurable "svg_height" (here 44) */
+    get_flag_dimensions(flag, &flag_rect, 44);
     flag_rect.w *= map_zoom; flag_rect.h *= map_zoom;
     get_sprite_dimensions(occupy, &occupy_rect.w, &occupy_rect.h);
     occupy_rect.w *= map_zoom; occupy_rect.h *= map_zoom;
@@ -2038,8 +2039,9 @@ static void show_full_citybar(struct canvas *pcanvas,
   owner_color = get_player_color(tileset, city_owner(pcity));
 
   if (gui_options.draw_city_names) {
-    canvas_put_sprite_full(pcanvas,
+    canvas_put_flag_sprite(pcanvas,
                            flag_rect.x / map_zoom, flag_rect.y / map_zoom,
+                           flag_rect.w / map_zoom, flag_rect.h / map_zoom,
                            flag);
     /* XXX: canvas_put_line() doesn't currently take map_zoom into account.
      * Should it?
