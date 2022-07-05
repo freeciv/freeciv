@@ -341,43 +341,48 @@ static void popup_add_menu(GtkMenuShell *parent, gpointer data)
 
   /****************************************************************
   Creates a sorted list of plr0's cities, excluding the capital and
-  any cities not visible to plr1.  This means that you can only trade 
-  cities visible to requesting player.  
+  any cities not visible to plr1. This means that you can only trade
+  cities visible to requesting player.
 
 			      - Kris Bubendorfer
   *****************************************************************/
   if (game.info.trading_city) {
-    int i = 0, j = 0, n = city_list_size(pgiver->cities);
-    struct city **city_list_ptrs;
-
-    if (n > 0) {
-      city_list_ptrs = fc_malloc(sizeof(struct city *) * n);
-    } else {
-      city_list_ptrs = NULL;
-    }
-
-    city_list_iterate(pgiver->cities, pcity) {
-      if (!is_capital(pcity)) {
-        city_list_ptrs[i] = pcity;
-        i++;
-      }
-    } city_list_iterate_end;
-
-    qsort(city_list_ptrs, i, sizeof(struct city *), city_name_compare);
+    int i = 0;
+    int n = city_list_size(pgiver->cities);
 
     menu = gtk_menu_new();
 
-    for (j = 0; j < i; j++) {
-      item = gtk_menu_item_new_with_label(city_name_get(city_list_ptrs[j]));
+    if (n > 0) {
+      struct city **city_list_ptrs;
 
-      gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-      g_signal_connect(item, "activate",
-                       G_CALLBACK(diplomacy_dialog_city_callback),
-                       GINT_TO_POINTER((player_number(pgiver) << 24) |
-                                       (player_number(pother) << 16) |
-                                       city_list_ptrs[j]->id));
+      city_list_ptrs = fc_malloc(sizeof(struct city *) * n);
+
+      city_list_iterate(pgiver->cities, pcity) {
+        if (!is_capital(pcity)) {
+          city_list_ptrs[i] = pcity;
+          i++;
+        }
+      } city_list_iterate_end;
+
+      if (i > 0) { /* Cities other than capitals */
+        int j;
+
+        qsort(city_list_ptrs, i, sizeof(struct city *), city_name_compare);
+
+        for (j = 0; j < i; j++) {
+          item = gtk_menu_item_new_with_label(city_name_get(city_list_ptrs[j]));
+
+          gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+          g_signal_connect(item, "activate",
+                           G_CALLBACK(diplomacy_dialog_city_callback),
+                           GINT_TO_POINTER((player_number(pgiver) << 24) |
+                                           (player_number(pother) << 16) |
+                                           city_list_ptrs[j]->id));
+        }
+      }
+
+      free(city_list_ptrs);
     }
-    free(city_list_ptrs);
 
     item = gtk_menu_item_new_with_mnemonic(_("_Cities"));
     gtk_widget_set_sensitive(item, (i > 0));
@@ -385,7 +390,6 @@ static void popup_add_menu(GtkMenuShell *parent, gpointer data)
     gtk_menu_shell_append(GTK_MENU_SHELL(parent), item);
     gtk_widget_show_all(item);
   }
-
 
   /* Give shared vision. */
   item = gtk_menu_item_new_with_mnemonic(_("_Give shared vision"));
