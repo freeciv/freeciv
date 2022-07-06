@@ -314,13 +314,13 @@ class FieldFlags:
     diff = False
     """Whether the field should be deep-diffed for transmission"""
 
-    add_cap = None
-    """If present, the capability required to enable the field"""
-
-    remove_cap = None
-    """If present, the capability that disables the field"""
-
     def __init__(self, flag_texts: typing.Iterable[str]):
+        self.add_caps = set()
+        """The capabilities required to enable the field"""
+
+        self.remove_caps = set()
+        """The capabilities that disable the field"""
+
         for flag in flag_texts:
             if flag == "key":
                 self.is_key = True
@@ -330,20 +330,17 @@ class FieldFlags:
                 continue
             mo = __class__.ADD_CAP_PATTERN.fullmatch(flag)
             if mo is not None:
-                if self.add_cap is not None:
-                    raise ValueError("multiple add-caps given: %s, %s" % (self.add_cap, mo.group(1)))
-                self.add_cap = mo.group(1)
+                self.add_caps.add(mo.group(1))
                 continue
             mo = __class__.REMOVE_CAP_PATTERN.fullmatch(flag)
             if mo is not None:
-                if self.remove_cap is not None:
-                    raise ValueError("multiple remove-caps given: %s, %s" % (self.remove_cap, mo.group(1)))
-                self.remove_cap = mo.group(1)
+                self.remove_caps.add(mo.group(1))
                 continue
             raise ValueError("unrecognized flag in field declaration: %s" % flag)
 
-        if None not in (self.add_cap, self.remove_cap):
-            raise ValueError("cannot have both add-cap (%s) and remove-cap (%s)" % (self.add_cap, self.remove_cap))
+        contradictions = self.add_caps & self.remove_caps
+        if contradictions:
+            raise ValueError("cannot have same capabilities as both add-cap and remove-cap: %s" % ", ".join(contradictions))
 
 
 # matches an entire field definition line (type, fields and flag info)
@@ -462,20 +459,16 @@ class Field:
     @property
     def all_caps(self) -> "typing.AbstractSet[str]":
         """Set of all capabilities affecting this field"""
-        return {
-            cap
-            for cap in (self.flags.add_cap, self.flags.remove_cap)
-            if cap is not None
-        }
+        return self.flags.add_caps | self.flags.remove_caps
 
     def present_with_caps(self, caps: typing.Container[str]) -> bool:
         """Determine whether this field should be part of a variant with the
         given capabilities"""
-        if self.flags.add_cap is not None:
-            return self.flags.add_cap in caps
-        if self.flags.remove_cap is not None:
-            return self.flags.remove_cap not in caps
-        return True
+        return (
+            all(cap in caps for cap in self.flags.add_caps)
+        ) and (
+            all(cap not in caps for cap in self.flags.remove_caps)
+        )
 
     def get_handle_type(self) -> str:
         if self.dataio_type=="string" or self.dataio_type=="estring":
