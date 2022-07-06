@@ -1891,7 +1891,7 @@ static void explain_why_no_action_enabled(struct unit *punit,
     break;
   case ANEK_NO_WAR:
     notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
-                  _("You must declare war on %s first.  Try using "
+                  _("You must declare war on %s first. Try using "
                     "the Nations report"
 #ifndef FREECIV_WEB
                     " (F3)"
@@ -1901,8 +1901,8 @@ static void explain_why_no_action_enabled(struct unit *punit,
     break;
   case ANEK_PEACE:
     notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
-                  _("You must break peace with %s first.  Try using"
-                    " the Nations report"
+                  _("You must break peace with %s first. Try using "
+                    "the Nations report to declare war"
 #ifndef FREECIV_WEB
                     " (F3)"
 #endif /* FREECIV_WEB */
@@ -2515,9 +2515,9 @@ void illegal_action_msg(struct player *pplayer,
                    * "Your Spy can't do Industrial Sabotage while you
                    * are at peace with Prester John. Try using the
                    * Nations report (F3)." */
-                  _("Your %s can't do %s while you"
-                    " are at peace with %s. Try using"
-                    " the Nations report"
+                  _("Your %s can't do %s while you "
+                    "are at peace with %s. Try using "
+                    "the Nations report to declare war"
 #ifndef FREECIV_WEB
                     " (F3)"
 #endif /* FREECIV_WEB */
