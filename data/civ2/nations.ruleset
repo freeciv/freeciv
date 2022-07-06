@@ -14,7 +14,7 @@
 
 [datafile]
 description="Civ2-equivalent nations data for Freeciv"
-options="+Freeciv-ruleset-3.1-Devel-2021.May.03"
+options="+Freeciv-3.1-ruleset"
 format_version=20
 
 ; This section contains meta information for freeciv-ruledit and freeciv-ruleup

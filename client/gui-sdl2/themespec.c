@@ -59,7 +59,7 @@
  *                   have duplicates should specify "+duplicates_ok")
  */
 
-#define SPEC_SDL2_CAPSTR "+Freeciv-sdl2-spec-Devel-2021-Jan-16"
+#define SPEC_SDL2_CAPSTR "+Freeciv-3.1-sdl2-spec"
 /*
  * Individual spec file capabilities acceptable to this program:
  *

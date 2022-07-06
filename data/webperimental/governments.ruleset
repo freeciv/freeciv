@@ -12,7 +12,7 @@
 
 [datafile]
 description="Experimental web-client governments data for Freeciv (as Civ2, minus fundamentalism)"
-options="+Freeciv-ruleset-3.1-Devel-2021.May.03 web-compatible"
+options="+Freeciv-3.1-ruleset web-compatible"
 format_version=20
 
 [governments]

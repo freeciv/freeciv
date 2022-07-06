@@ -179,7 +179,7 @@ general syntax.
 Here's an example:
 
 [info]
-options = "+Freeciv-modlist-Devel-3.1-2019.Jul.15"
+options = "+Freeciv-3.1-modlist"
 message = "2019-12-31: updated Mappamundi tileset. Happy new year!"
 
 [modpacks]
@@ -236,7 +236,7 @@ of the general syntax. Its filename must end in ".mpdl".
 Here is an example of a .mpdl file:
 
 [info]
-options = "+Freeciv-mpdl-Devel-3.1-2019.Jul.15"
+options = "+Freeciv-3.1-mpdl"
 baseURL = "./ancients-6f88ee23de"
 name    = "Ancients"
 type    = "Modpack"

@@ -22,8 +22,8 @@ extern "C" {
 
 #define MODPACKDL_SUFFIX ".mpdl"
 
-#define MODPACK_CAPSTR "+Freeciv-mpdl-Devel-3.1-2019.Jul.15"
-#define MODLIST_CAPSTR "+Freeciv-modlist-Devel-3.1-2019.Jul.15"
+#define MODPACK_CAPSTR "+Freeciv-3.1-mpdl"
+#define MODLIST_CAPSTR "+Freeciv-3.1-modlist"
 
 #define FCMP_CONTROLD ".control"
 

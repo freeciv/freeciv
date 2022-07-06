@@ -12,7 +12,7 @@
 
 [datafile]
 description="Civ2Civ3 buildings data for Freeciv"
-options="+Freeciv-ruleset-3.1-Devel-2021.May.03 web-compatible"
+options="+Freeciv-3.1-ruleset web-compatible"
 format_version=20
 
 ; /* <-- avoid gettext warnings
