@@ -3918,6 +3918,14 @@ bool set_rulesetdir(struct connection *caller, const char *str, bool check,
                 "see what is the current ruleset."));
     return FALSE;
   }
+
+  if (srvarg.ruleset != NULL && is_restricted(caller)) {
+    cmd_reply(CMD_RULESETDIR, caller, C_FAIL,
+              _("Changing ruleset not allowed. It was locked from the commandline."));
+
+    return FALSE;
+  }
+
   if (game_was_started() || !map_is_empty()) {
     cmd_reply(CMD_RULESETDIR, caller, C_FAIL,
               _("This setting can't be modified after the game has started."));
