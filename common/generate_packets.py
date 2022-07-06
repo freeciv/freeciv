@@ -23,6 +23,13 @@ from contextlib import contextmanager
 from functools import partial
 from itertools import chain, combinations
 
+try:
+    from functools import cache
+except ImportError:
+    from functools import lru_cache
+    cache = lru_cache(None)
+    del lru_cache
+
 import typing
 T_co = typing.TypeVar("T_co", covariant = True)
 
@@ -279,6 +286,66 @@ def prefix(prefix: str, text: str) -> str:
     return INSERT_PREFIX_PATTERN.sub(prefix, text)
 
 
+#################### Components of a packets definition ####################
+
+class FieldFlags:
+    """Information about flags of a given Field. Multiple Field objects can
+    share one FieldFlags instance, e.g. when defined on the same line."""
+
+    ADD_CAP_PATTERN = re.compile(r"^add-cap\(([^()]+)\)$")
+    """Matches an add-cap flag (optional capability)"""
+
+    REMOVE_CAP_PATTERN = re.compile(r"^remove-cap\(([^()]+)\)$")
+    """Matches a remove-cap flag (optional capability)"""
+
+    @classmethod
+    @cache
+    def parse(cls, flags_text: str) -> "FieldFlags":
+        return cls(
+            stripped
+            for flag in flags_text.split(",")
+            for stripped in (flag.strip(),)
+            if stripped
+        )
+
+    is_key = False
+    """Whether the field is a key field"""
+
+    diff = False
+    """Whether the field should be deep-diffed for transmission"""
+
+    add_cap = None
+    """If present, the capability required to enable the field"""
+
+    remove_cap = None
+    """If present, the capability that disables the field"""
+
+    def __init__(self, flag_texts: typing.Iterable[str]):
+        for flag in flag_texts:
+            if flag == "key":
+                self.is_key = True
+                continue
+            if flag == "diff":
+                self.diff = True
+                continue
+            mo = __class__.ADD_CAP_PATTERN.fullmatch(flag)
+            if mo is not None:
+                if self.add_cap is not None:
+                    raise ValueError("multiple add-caps given: %s, %s" % (self.add_cap, mo.group(1)))
+                self.add_cap = mo.group(1)
+                continue
+            mo = __class__.REMOVE_CAP_PATTERN.fullmatch(flag)
+            if mo is not None:
+                if self.remove_cap is not None:
+                    raise ValueError("multiple remove-caps given: %s, %s" % (self.remove_cap, mo.group(1)))
+                self.remove_cap = mo.group(1)
+                continue
+            raise ValueError("unrecognized flag in field declaration: %s" % flag)
+
+        if None not in (self.add_cap, self.remove_cap):
+            raise ValueError("cannot have both add-cap (%s) and remove-cap (%s)" % (self.add_cap, self.remove_cap))
+
+
 # matches an entire field definition line (type, fields and flag info)
 FIELDS_LINE_PATTERN = re.compile(r"^\s*(\S+(?:\(.*\))?)\s+([^;()]*)\s*;\s*(.*)\s*$")
 # matches a field type (dataio type and struct/public type)
@@ -289,10 +356,6 @@ FLOAT_FACTOR_PATTERN = re.compile(r"^(\D+)(\d+)$")
 ARRAY_2D_PATTERN = re.compile(r"^(.*)\[(.*)\]\[(.*)\]$")
 # matches a 1D-array field definition (name, array size)
 ARRAY_1D_PATTERN = re.compile(r"^(.*)\[(.*)\]$")
-# matches an add-cap flag (optional capability)
-ADD_CAP_PATTERN = re.compile(r"^add-cap\((.*)\)$")
-# matches a remove-cap flag (optional capability)
-REMOVE_CAP_PATTERN = re.compile(r"^remove-cap\((.*)\)$")
 
 # Parses a line of the form "COORD x, y; key" and returns a list of
 # Field objects. types is a dict mapping type aliases to their meaning
@@ -319,6 +382,9 @@ def parse_fields(line: str, types: typing.Mapping[str, str]) -> "list[Field]":
             raise ValueError("float type without float factor: %r" % type_text)
         typeinfo["dataio_type"]=mo.group(1)
         typeinfo["float_factor"]=int(mo.group(2))
+
+    # analyze flags
+    flaginfo = FieldFlags.parse(flags)
 
     # analyze fields
     fields=[]
@@ -354,53 +420,12 @@ def parse_fields(line: str, types: typing.Mapping[str, str]) -> "list[Field]":
                 t["is_array"]=0
         fields.append(t)
 
-    # analyze flags
-    flaginfo={}
-    arr = [
-        stripped
-        for flag in flags.split(",")
-        for stripped in (flag.strip(),)
-        if stripped
-    ]
-    flaginfo["is_key"]=("key" in arr)
-    if flaginfo["is_key"]: arr.remove("key")
-    flaginfo["diff"]=("diff" in arr)
-    if flaginfo["diff"]: arr.remove("diff")
-    adds=[]
-    removes=[]
-    remaining=[]
-    for i in arr:
-        mo = ADD_CAP_PATTERN.fullmatch(i)
-        if mo:
-            adds.append(mo.group(1))
-            continue
-        mo = REMOVE_CAP_PATTERN.fullmatch(i)
-        if mo:
-            removes.append(mo.group(1))
-            continue
-        remaining.append(i)
-    if len(adds) + len(removes) > 1:
-        raise ValueError("A field can only have one add-cap or remove-cap: %s" % line)
-
-    if remaining:
-        raise ValueError("unrecognized flags in field declaration: %s" % " ".join(remaining))
-
-    if adds:
-        flaginfo["add_cap"]=adds[0]
-    else:
-        flaginfo["add_cap"]=""
-
-    if removes:
-        flaginfo["remove_cap"]=removes[0]
-    else:
-        flaginfo["remove_cap"]=""
-
     return [Field(fieldinfo, typeinfo, flaginfo) for fieldinfo in fields]
 
 # Class for a field (part of a packet). It has a name, serveral types,
 # flags and some other attributes.
 class Field:
-    def __init__(self, fieldinfo: typing.Mapping, typeinfo: typing.Mapping, flaginfo: typing.Mapping):
+    def __init__(self, fieldinfo: typing.Mapping, typeinfo: typing.Mapping, flags: FieldFlags):
         self.name = fieldinfo["name"]
         self.is_array = fieldinfo["is_array"]
         if self.is_array == 2:
@@ -419,15 +444,38 @@ class Field:
         self.struct_type = typeinfo["struct_type"]
         self.float_factor = typeinfo.get("float_factor")
 
-        self.is_key = flaginfo["is_key"]
-        self.diff = flaginfo["diff"]
-        self.add_cap = flaginfo["add_cap"]
-        self.remove_cap = flaginfo["remove_cap"]
+        self.flags = flags
 
     @property
     def is_struct(self) -> bool:
         """Whether the base type of this field is a struct"""
         return self.struct_type.startswith("struct")
+
+    @property
+    def is_key(self) -> bool:
+        return self.flags.is_key
+
+    @property
+    def diff(self) -> bool:
+        return self.flags.diff
+
+    @property
+    def all_caps(self) -> "typing.AbstractSet[str]":
+        """Set of all capabilities affecting this field"""
+        return {
+            cap
+            for cap in (self.flags.add_cap, self.flags.remove_cap)
+            if cap is not None
+        }
+
+    def present_with_caps(self, caps: typing.Container[str]) -> bool:
+        """Determine whether this field should be part of a variant with the
+        given capabilities"""
+        if self.flags.add_cap is not None:
+            return self.flags.add_cap in caps
+        if self.flags.remove_cap is not None:
+            return self.flags.remove_cap not in caps
+        return True
 
     def get_handle_type(self) -> str:
         if self.dataio_type=="string" or self.dataio_type=="estring":
@@ -1943,9 +1991,7 @@ class Packet:
             fields = [
                 field
                 for field in self.fields
-                if (not field.add_cap and not field.remove_cap)
-                or (field.add_cap and field.add_cap in poscaps)
-                or (field.remove_cap and field.remove_cap in negcaps)
+                if field.present_with_caps(poscaps)
             ]
             no=i+100
 
@@ -2019,8 +2065,7 @@ class Packet:
     @property
     def all_caps(self) -> "set[str]":
         """Set of all capabilities affecting this packet"""
-        return ({f.add_cap for f in self.fields if f.add_cap}
-                | {f.remove_cap for f in self.fields if f.remove_cap})
+        return {cap for field in self.fields for cap in field.all_caps}
 
 
     # Returns a code fragment which contains the struct for this packet.
