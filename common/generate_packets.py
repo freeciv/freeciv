@@ -1200,17 +1200,22 @@ if (!DIO_GET({self.dataio_type}, &din, &field_addr, real_packet->{self.name}, {a
 # Class which represents a capability variant.
 class Variant:
     def __init__(self, poscaps: typing.Iterable[str], negcaps: typing.Iterable[str],
-                       name: str, fields: typing.Sequence[Field], packet: "Packet", no: int):
+                       packet: "Packet", no: int):
         self.log_macro=use_log_macro
         self.gen_stats=generate_stats
         self.gen_log=generate_logs
-        self.name=name
+
         self.packet = packet
-        self.fields=fields
         self.no=no
+        self.name = "%s_%d" % (packet.name, no)
 
         self.poscaps = set(poscaps)
         self.negcaps = set(negcaps)
+        self.fields = [
+            field
+            for field in packet.fields
+            if field.present_with_caps(self.poscaps)
+        ]
         self.key_fields = [field for field in self.fields if field.is_key]
         self.other_fields = [field for field in self.fields if not field.is_key]
         self.keys_format=", ".join(["%d"]*len(self.key_fields))
@@ -1978,17 +1983,10 @@ class Packet:
 
         # create cap variants
         all_caps = self.all_caps    # valid, since self.fields is already set
-        self.variants=[]
-        for i, poscaps in enumerate(powerset(sorted(all_caps))):
-            negcaps = all_caps.difference(poscaps)
-            fields = [
-                field
-                for field in self.fields
-                if field.present_with_caps(poscaps)
-            ]
-            no=i+100
-
-            self.variants.append(Variant(poscaps,negcaps,"%s_%d"%(self.name,no),fields,self,no))
+        self.variants = [
+            Variant(caps, all_caps.difference(caps), self, i + 100)
+            for i, caps in enumerate(powerset(sorted(all_caps)))
+        ]
 
     @property
     def name(self) -> str:
