@@ -31,6 +31,7 @@
 #include "climisc.h"
 
 /* gui-sdl2 */
+#include "chatline.h"
 #include "colors.h"
 #include "diplodlg.h"
 #include "graphics.h"
@@ -54,6 +55,8 @@
 
 static struct SMALL_DLG  *pPlayers_Dlg = NULL;
 
+static int player_nation_callback(struct widget *pwidget);
+
 /**************************************************************************
   User interacted with player dialog close button.
 **************************************************************************/
@@ -70,39 +73,10 @@ static int exit_players_dlg_callback(struct widget *pWidget)
 /**************************************************************************
   User interacted with player widget.
 **************************************************************************/
-static int player_callback(struct widget *pWidget)
+static int player_callback(struct widget *pwidget)
 {
-  struct player *pPlayer = pWidget->data.player;
-
-  if (Main.event.type == SDL_MOUSEBUTTONDOWN) {
-    switch (Main.event.button.button) {
-#if 0
-    case SDL_BUTTON_LEFT:
-
-      break;
-    case SDL_BUTTON_MIDDLE:
-
-      break;
-#endif /* 0 */
-    case SDL_BUTTON_RIGHT:
-      if (can_intel_with_player(pPlayer)) {
-        popdown_players_dialog();
-        popup_intel_dialog(pPlayer);
-        return -1;
-      }
-      break;
-    default:
-      popdown_players_dialog();
-      popup_diplomacy_dialog(pPlayer);
-      return -1;
-      break;
-    }
-  } else if (PRESSED_EVENT(Main.event)) {
-    popdown_players_dialog();
-    popup_diplomacy_dialog(pPlayer);
-  }
-
-  return -1;
+  /* We want exactly same functionality that the small dialog has. */
+  return player_nation_callback(pwidget);
 }
 
 /**************************************************************************
@@ -626,11 +600,12 @@ static int exit_players_nations_dlg_callback(struct widget *pWidget)
 /**************************************************************************
   User interacted with widget of a single nation/player.
 **************************************************************************/
-static int player_nation_callback(struct widget *pWidget)
+static int player_nation_callback(struct widget *pwidget)
 {
-  struct player *pPlayer = pWidget->data.player;
+  struct player *pplayer = pwidget->data.player;
+  bool try_dlg = FALSE;
+  bool popdown = FALSE;
 
-  popdown_players_nations_dialog();
   if (Main.event.type == SDL_MOUSEBUTTONDOWN) {
     switch (Main.event.button.button) {
 #if 0
@@ -642,22 +617,42 @@ static int player_nation_callback(struct widget *pWidget)
       break;
 #endif /* 0 */
     case SDL_BUTTON_RIGHT:
-      if (can_intel_with_player(pPlayer)) {
-        popup_intel_dialog(pPlayer);
-      } else {
-        flush_dirty();
-      }
+      popup_intel_dialog(pplayer);
+
+      popdown = TRUE;
       break;
     default:
-      if (pPlayer != client.conn.playing) {
-        popup_diplomacy_dialog(pPlayer);
-      }
+      try_dlg = TRUE;
       break;
     }
   } else if (PRESSED_EVENT(Main.event)) {
-    if (pPlayer != client.conn.playing) {
-      popup_diplomacy_dialog(pPlayer);
+    try_dlg = TRUE;
+  }
+
+  if (try_dlg && pplayer != client_player()) {
+    const struct player_diplstate *ds;
+
+    ds = player_diplstate_get(client_player(), pplayer);
+
+    if (ds->type != DS_NO_CONTACT
+        && (ds->type != DS_WAR
+            || can_meet_with_player(pplayer)
+            || can_intel_with_player(pplayer))) {
+      popup_diplomacy_dialog(pplayer);
+
+      popdown = TRUE;
+    } else {
+      set_output_window_text(_("You cannot interact with that player "
+                               "with your current contact state - "
+                               "Try right mouse button for intelligence."));
     }
+  }
+
+  if (popdown) {
+    /* We came from one of these dialogs. Just try to pop down both -
+     * the one open will react. */
+    popdown_players_nations_dialog();
+    popdown_players_dialog();
   }
 
   return -1;
@@ -673,7 +668,6 @@ void popup_players_nations_dialog(void)
   utf8_str *pstr;
   char cBuf[128], *state;
   int n = 0, w = 0, units_h = 0;
-  const struct player_diplstate *pDS;
   SDL_Rect area;
 
   if (pShort_Players_Dlg) {
@@ -712,11 +706,13 @@ void popup_players_nations_dialog(void)
 
   players_iterate(pPlayer) {
     if (pPlayer != client.conn.playing) {
+      const struct player_diplstate *ds;
+
       if (!pPlayer->is_alive || is_barbarian(pPlayer)) {
         continue;
       }
 
-      pDS = player_diplstate_get(client.conn.playing, pPlayer);
+      ds = player_diplstate_get(client.conn.playing, pPlayer);
 
       if (is_ai(pPlayer)) {
 	state = _("AI");
@@ -732,11 +728,11 @@ void popup_players_nations_dialog(void)
         }
       }
 
-      if (pDS->type == DS_CEASEFIRE) {
+      if (ds->type == DS_CEASEFIRE) {
 	fc_snprintf(cBuf, sizeof(cBuf), "%s(%s) - %d %s",
                     nation_adjective_for_player(pPlayer),
                     state,
-                    pDS->turns_left, PL_("turn", "turns", pDS->turns_left));
+                    ds->turns_left, PL_("turn", "turns", ds->turns_left));
       } else {
 	fc_snprintf(cBuf, sizeof(cBuf), "%s(%s)",
                     nation_adjective_for_player(pPlayer),
@@ -751,15 +747,16 @@ void popup_players_nations_dialog(void)
       pBuf = create_iconlabel(pLogo, pWindow->dst, pstr,
                               (WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
 
-      /* now add some eye candy ... */
-      switch (pDS->type) {
+      /* At least RMB works always */
+      set_wstate(pBuf, FC_WS_NORMAL);
+
+      /* Now add some eye candy ... */
+      switch (ds->type) {
       case DS_ARMISTICE:
         pBuf->string_utf8->fgcol = *get_theme_color(COLOR_THEME_PLRDLG_ARMISTICE);
-        set_wstate(pBuf, FC_WS_NORMAL);
         break;
       case DS_WAR:
         if (can_meet_with_player(pPlayer) || can_intel_with_player(pPlayer)) {
-          set_wstate(pBuf, FC_WS_NORMAL);
           pBuf->string_utf8->fgcol = *get_theme_color(COLOR_THEME_PLRDLG_WAR);
         } else {
           pBuf->string_utf8->fgcol = *(get_theme_color(COLOR_THEME_PLRDLG_WAR_RESTRICTED));
@@ -767,21 +764,19 @@ void popup_players_nations_dialog(void)
         break;
       case DS_CEASEFIRE:
         pBuf->string_utf8->fgcol = *get_theme_color(COLOR_THEME_PLRDLG_CEASEFIRE);
-        set_wstate(pBuf, FC_WS_NORMAL);
         break;
       case DS_PEACE:
         pBuf->string_utf8->fgcol = *get_theme_color(COLOR_THEME_PLRDLG_PEACE);
-        set_wstate(pBuf, FC_WS_NORMAL);
         break;
       case DS_ALLIANCE:
         pBuf->string_utf8->fgcol = *get_theme_color(COLOR_THEME_PLRDLG_ALLIANCE);
-        set_wstate(pBuf, FC_WS_NORMAL);
         break;
       case DS_NO_CONTACT:
+        /* TODO: Add a color for this. Widget is not disabled! */
         pBuf->string_utf8->fgcol = *(get_theme_color(COLOR_THEME_WIDGET_DISABLED_TEXT));
 	break;
-      default:
-        set_wstate(pBuf, FC_WS_NORMAL);
+      case DS_TEAM:
+      case DS_LAST:
         break;
       }
 
@@ -803,6 +798,7 @@ void popup_players_nations_dialog(void)
       n++;
     }
   } players_iterate_end;
+
   pShort_Players_Dlg->pBeginWidgetList = pBuf;
   pShort_Players_Dlg->pBeginActiveWidgetList = pShort_Players_Dlg->pBeginWidgetList;
   pShort_Players_Dlg->pEndActiveWidgetList = pWindow->prev->prev;
