@@ -11,6 +11,10 @@ PATCH_VERSION="91"
 EMERGENCY_VERSION="7"
 VERSION_LABEL="-dev"
 
+#
+# At the time being these same updates need to be made to the meson.build,
+# it does not get them automatically from here.
+#
 # 1) Development until MAJOR and MINOR version numbers are
 #    set to new release series:
 #   - IS_DEVEL_VERSION=1
