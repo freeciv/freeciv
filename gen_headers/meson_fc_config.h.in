@@ -53,6 +53,10 @@
 
 /* Release cycle information */
 #mesondefine IS_DEVEL_VERSION
+#mesondefine IS_FREEZE_VERSION
+#mesondefine IS_BETA_VERSION
+#mesondefine FREECIV_RELEASE_MONTH
+#mesondefine NEXT_STABLE_VERSION
 
 /* Produce debug version */
 #mesondefine FREECIV_DEBUG
