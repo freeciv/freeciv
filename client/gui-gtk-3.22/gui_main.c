@@ -356,7 +356,7 @@ gboolean map_canvas_focus(void)
   This function ensures an entry widget (like the inputline) always gets
   first dibs at handling a keyboard event.
 **************************************************************************/
-static gboolean toplevel_handler(GtkWidget *w, GdkEventKey *ev, gpointer data)
+static gboolean toplevel_handler(GtkWidget *w, GdkEvent *ev, gpointer data)
 {
   GtkWidget *focus;
 
@@ -366,7 +366,7 @@ static gboolean toplevel_handler(GtkWidget *w, GdkEventKey *ev, gpointer data)
         || (GTK_IS_TEXT_VIEW(focus)
             && gtk_text_view_get_editable(GTK_TEXT_VIEW(focus)))) {
       /* Propagate event to currently focused entry widget. */
-      if (gtk_widget_event(focus, (GdkEvent *) ev)) {
+      if (gtk_widget_event(focus, ev)) {
 	/* Do not propagate event to our children. */
 	return TRUE;
       }
@@ -765,9 +765,9 @@ static void tearoff_destroy(GtkWidget *w, gpointer data)
 /**********************************************************************//**
   Propagates a keypress in a tearoff back to the toplevel window.
 **************************************************************************/
-static gboolean propagate_keypress(GtkWidget *w, GdkEventKey *ev)
+static gboolean propagate_keypress(GtkWidget *w, GdkEvent *ev)
 {
-  gtk_widget_event(toplevel, (GdkEvent *)ev);
+  gtk_widget_event(toplevel, ev);
 
   return FALSE;
 }
