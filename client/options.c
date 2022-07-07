@@ -4034,6 +4034,8 @@ void server_options_init(void)
 ****************************************************************************/
 static void server_option_free(struct server_option *poption)
 {
+  option_gui_remove(&(poption->base_option));
+
   switch (poption->base_option.type) {
   case OT_STRING:
     if (NULL != poption->string.value) {
@@ -6116,6 +6118,8 @@ void options_free(void)
 {
   client_options_iterate_all(poption) {
     struct client_option *pcoption = CLIENT_OPTION(poption);
+
+    option_gui_remove(poption);
 
     switch (option_type(poption)) {
     case OT_ENUM:
