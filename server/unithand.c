@@ -266,8 +266,9 @@ non_allied_not_listed_at(const struct player *pplayer,
     if (!pplayers_allied(pplayer, unit_owner(punit))) {
       bool listed = FALSE;
       int id = punit->id;
+      int i;
 
-      for (int i = 0; i < n; i++) {
+      for (i = 0; i < n; i++) {
         if (id == list[i]) {
           listed = TRUE;
           break;
@@ -300,6 +301,7 @@ static bool do_capture_units(struct player *pplayer,
   int id, hcity;
   int n = 0, capt[unit_list_size(pdesttile->units)];
   bool lost_with_city = FALSE;
+  int i;
 
   /* Sanity check: The actor still exists. */
   fc_assert_ret_val(pplayer, FALSE);
@@ -359,7 +361,8 @@ static bool do_capture_units(struct player *pplayer,
     /* Rarely, we'll need it... */
     sz_strlcpy(hcity_name, city_name_get(game_city_by_number(hcity)));
   }
-  for (int i = 0; i < n; i++) {
+
+  for (i = 0; i < n; i++) {
     struct unit *to_capture = game_unit_by_number(capt[i]);
     struct player *uplayer;
     const char *victim_link;
