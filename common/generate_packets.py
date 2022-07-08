@@ -343,6 +343,55 @@ class FieldFlags:
             raise ValueError("cannot have same capabilities as both add-cap and remove-cap: %s" % ", ".join(contradictions))
 
 
+class SizeInfo:
+    """Information about size along one dimension of an array or other sized
+    field type. Contains both the declared / maximum size, and the actual
+    used size (if different)."""
+
+    ARRAY_SIZE_PATTERN = re.compile(r"^([^:]+)(?:\:([^:]+))?$")
+    """Matches an array size declaration (without the brackets)
+
+    Groups:
+    - the declared / maximum size
+    - the field name for the actual size (optional)"""
+
+    @classmethod
+    def parse(cls, size_text) -> "SizeInfo":
+        """Parse the given array size text (without brackets)"""
+        mo = cls.ARRAY_SIZE_PATTERN.fullmatch(size_text)
+        if mo is None:
+            raise ValueError("invalid array size declaration: [%s]" % size_text)
+        return cls(*mo.groups())
+
+    def __init__(self, declared: str, actual: "str | None"):
+        self.declared = declared
+        """Maximum size; used in declarations"""
+        self._actual = actual
+        """Name of the field to use for the actual size, or None if the
+        entire array should always be transmitted."""
+
+    @property
+    def real(self) -> str:
+        """The number of elements to transmit. Either the same as the
+        declared size, or a field of `*real_packet`."""
+        if self._actual is None:
+            return self.declared
+        return "real_packet->" + self._actual
+
+    @property
+    def old(self) -> str:
+        """The number of elements transmitted last time. Either the same as
+        the declared size, or a field of `*old`."""
+        if self._actual is None:
+            return self.declared
+        return "old->" + self._actual
+
+    def __str__(self) -> str:
+        if self._actual is None:
+            return self.declared
+        return "%s:%s" % (self.declared, self._actual)
+
+
 # matches an entire field definition line (type, fields and flag info)
 FIELDS_LINE_PATTERN = re.compile(r"^\s*(\S+(?:\(.*\))?)\s+([^;()]*)\s*;\s*(.*)\s*$")
 # matches a field type (dataio type and struct/public type)
@@ -385,57 +434,36 @@ def parse_fields(line: str, types: typing.Mapping[str, str]) -> "list[Field]":
 
     # analyze fields
     fields=[]
-    for i in fields_.split(","):
-        i=i.strip()
-        t={}
+    for field_text in fields_.split(","):
+        field_text = field_text.strip()
 
-        def f(x):
-            arr=x.split(":")
-            if len(arr)==1:
-                return [x,x,x]
-            elif len(arr) == 2:
-                arr.append("old->"+arr[1])
-                arr[1]="real_packet->"+arr[1]
-                return arr
-            else:
-                raise ValueError("Invalid array size declaration: %r" % x)
-
-        mo = ARRAY_2D_PATTERN.fullmatch(i)
+        mo = ARRAY_2D_PATTERN.fullmatch(field_text)
         if mo:
-            t["name"]=mo.group(1)
-            t["is_array"]=2
-            t["array_size1_d"],t["array_size1_u"],t["array_size1_o"]=f(mo.group(2))
-            t["array_size2_d"],t["array_size2_u"],t["array_size2_o"]=f(mo.group(3))
+            fields.append((mo.group(1), SizeInfo.parse(mo.group(2)), SizeInfo.parse(mo.group(3))))
         else:
-            mo = ARRAY_1D_PATTERN.fullmatch(i)
+            mo = ARRAY_1D_PATTERN.fullmatch(field_text)
             if mo:
-                t["name"]=mo.group(1)
-                t["is_array"]=1
-                t["array_size_d"],t["array_size_u"],t["array_size_o"]=f(mo.group(2))
+                fields.append((mo.group(1), SizeInfo.parse(mo.group(2))))
             else:
-                t["name"]=i
-                t["is_array"]=0
-        fields.append(t)
+                fields.append((field_text,))
 
-    return [Field(fieldinfo, typeinfo, flaginfo) for fieldinfo in fields]
+    return [
+        Field(name, typeinfo, sizes, flaginfo)
+        for name, *sizes in fields
+    ]
 
 # Class for a field (part of a packet). It has a name, serveral types,
 # flags and some other attributes.
 class Field:
-    def __init__(self, fieldinfo: typing.Mapping, typeinfo: typing.Mapping, flags: FieldFlags):
-        self.name = fieldinfo["name"]
-        self.is_array = fieldinfo["is_array"]
-        if self.is_array == 2:
-            self.array_size1_d = fieldinfo["array_size1_d"]
-            self.array_size1_u = fieldinfo["array_size1_u"]
-            self.array_size1_o = fieldinfo["array_size1_o"]
-            self.array_size2_d = fieldinfo["array_size2_d"]
-            self.array_size2_u = fieldinfo["array_size2_u"]
-            self.array_size2_o = fieldinfo["array_size2_o"]
-        elif self.is_array == 1:
-            self.array_size_d = fieldinfo["array_size_d"]
-            self.array_size_u = fieldinfo["array_size_u"]
-            self.array_size_o = fieldinfo["array_size_o"]
+    def __init__(self, name: str, typeinfo: typing.Mapping,
+                       sizes: typing.Iterable[SizeInfo], flags: FieldFlags):
+        self.name = name
+        """Field name"""
+        self.sizes = tuple(sizes)
+        """Array sizes for this field"""
+
+        if self.dimensions > 2:
+            raise ValueError("Too many array dimensions for field %s" % name)
 
         self.dataio_type = typeinfo["dataio_type"]
         self.struct_type = typeinfo["struct_type"]
@@ -447,6 +475,11 @@ class Field:
     def is_struct(self) -> bool:
         """Whether the base type of this field is a struct"""
         return self.struct_type.startswith("struct")
+
+    @property
+    def dimensions(self) -> int:
+        """Number of array dimensions"""
+        return len(self.sizes)
 
     @property
     def is_key(self) -> bool:
@@ -475,25 +508,20 @@ class Field:
             return "const char *"
         if self.dataio_type=="worklist":
             return "const %s *"%self.struct_type
-        if self.is_array:
+        if self.dimensions:
             return "const %s *"%self.struct_type
         return self.struct_type+" "
 
     # Returns code which is used in the declaration of the field in
     # the packet struct.
     def get_declar(self) -> str:
-        if self.is_array==2:
-            return """\
-{self.struct_type} {self.name}[{self.array_size1_d}][{self.array_size2_d}];
-""".format(self = self)
-        if self.is_array:
-            return """\
-{self.struct_type} {self.name}[{self.array_size_d}];
-""".format(self = self)
-        else:
-            return """\
-{self.struct_type} {self.name};
-""".format(self = self)
+        sizes = "".join(
+            "[{size.declared}]".format(size = size)
+            for size in self.sizes
+        )
+        return """\
+{self.struct_type} {self.name}{sizes};
+""".format(self = self, sizes = sizes)
 
     # Returns code which copies the arguments of the direct send
     # functions in the packet struct.
@@ -502,7 +530,7 @@ class Field:
             return """\
 worklist_copy(&real_packet->{self.name}, {self.name});
 """.format(self = self)
-        if self.is_array==0:
+        if self.dimensions == 0:
             return """\
 real_packet->{self.name} = {self.name};
 """.format(self = self)
@@ -510,12 +538,12 @@ real_packet->{self.name} = {self.name};
             return """\
 sz_strlcpy(real_packet->{self.name}, {self.name});
 """.format(self = self)
-        if self.is_array==1:
+        if self.dimensions == 1:
             return """\
 {{
   int i;
 
-  for (i = 0; i < {self.array_size_u}; i++) {{
+  for (i = 0; i < {self.sizes[0].real}; i++) {{
     real_packet->{self.name}[i] = {self.name}[i];
   }}
 }}
@@ -528,13 +556,13 @@ sz_strlcpy(real_packet->{self.name}, {self.name});
     def get_cmp(self) -> str:
         if self.dataio_type=="memory":
             return """\
-differ = (memcmp(old->{self.name}, real_packet->{self.name}, {self.array_size_d}) != 0);
+differ = (memcmp(old->{self.name}, real_packet->{self.name}, {self.sizes[0].declared}) != 0);
 """.format(self = self)
         if self.dataio_type=="bitvector":
             return """\
 differ = !BV_ARE_EQUAL(old->{self.name}, real_packet->{self.name});
 """.format(self = self)
-        if self.dataio_type in ["string", "estring"] and self.is_array==1:
+        if self.dataio_type in ["string", "estring"] and self.dimensions == 1:
             return """\
 differ = (strcmp(old->{self.name}, real_packet->{self.name}) != 0);
 """.format(self = self)
@@ -542,48 +570,42 @@ differ = (strcmp(old->{self.name}, real_packet->{self.name}) != 0);
             return """\
 differ = !cm_are_parameter_equal(&old->{self.name}, &real_packet->{self.name});
 """.format(self = self)
-        if self.is_struct and self.is_array==0:
+        if self.is_struct and self.dimensions == 0:
             return """\
 differ = !are_{self.dataio_type}s_equal(&old->{self.name}, &real_packet->{self.name});
 """.format(self = self)
-        if not self.is_array:
+        if not self.dimensions:
             return """\
 differ = (old->{self.name} != real_packet->{self.name});
 """.format(self = self)
 
         if self.dataio_type=="string" or self.dataio_type=="estring":
             c = "strcmp(old->{self.name}[i], real_packet->{self.name}[i]) != 0".format(self = self)
-            array_size_u = self.array_size1_u
-            array_size_o = self.array_size1_o
         elif self.is_struct:
             c = "!are_{self.dataio_type}s_equal(&old->{self.name}[i], &real_packet->{self.name}[i])".format(self = self)
-            array_size_u = self.array_size_u
-            array_size_o = self.array_size_o
         else:
             c = "old->{self.name}[i] != real_packet->{self.name}[i]".format(self = self)
-            array_size_u = self.array_size_u
-            array_size_o = self.array_size_o
 
         return """\
-differ = ({array_size_o} != {array_size_u});
+differ = ({self.sizes[0].old} != {self.sizes[0].real});
 if (!differ) {{
   int i;
 
-  for (i = 0; i < {array_size_u}; i++) {{
+  for (i = 0; i < {self.sizes[0].real}; i++) {{
     if ({c}) {{
       differ = TRUE;
       break;
     }}
   }}
 }}
-""".format(c = c, array_size_u = array_size_u, array_size_o = array_size_o)
+""".format(self = self, c = c)
 
     @property
     def folded_into_head(self) -> bool:
         return (
             fold_bool_into_header
             and self.struct_type == "bool"
-            and not self.is_array
+            and not self.dimensions
         )
 
     # Returns a code fragment which updates the bit of the this field
@@ -632,8 +654,7 @@ if (differ) {
     # Returns a code fragment which will put this field if the
     # content has changed. Does nothing for bools-in-header.
     def get_put_wrapper(self, packet: "Variant", i: int, deltafragment: bool) -> str:
-        if fold_bool_into_header and self.struct_type=="bool" and \
-           not self.is_array:
+        if self.folded_into_head:
             return """\
 /* field {i:d} is folded into the header */
 """.format(i = i)
@@ -679,7 +700,7 @@ if (e) {{
 e |= DIO_BV_PUT(&dout, &field_addr, packet->{self.name});
 """.format(self = self)
 
-        if self.struct_type=="float" and not self.is_array:
+        if self.struct_type == "float" and not self.dimensions:
             return """\
 e |= DIO_PUT({self.dataio_type}, &dout, &field_addr, real_packet->{self.name}, {self.float_factor:d});
 """.format(self = self)
@@ -691,57 +712,50 @@ e |= DIO_PUT({self.dataio_type}, &dout, &field_addr, &real_packet->{self.name});
 
         if self.dataio_type in ["memory"]:
             return """\
-e |= DIO_PUT({self.dataio_type}, &dout, &field_addr, &real_packet->{self.name}, {self.array_size_u});
+e |= DIO_PUT({self.dataio_type}, &dout, &field_addr, &real_packet->{self.name}, {self.sizes[0].real});
 """.format(self = self)
 
         arr_types = ["string", "estring"]
-        if (self.dataio_type in arr_types and self.is_array==1) or \
-           (self.dataio_type not in arr_types and self.is_array==0):
+        if (self.dataio_type in arr_types and self.dimensions == 1) or \
+           (self.dataio_type not in arr_types and self.dimensions == 0):
             return """\
 e |= DIO_PUT({self.dataio_type}, &dout, &field_addr, real_packet->{self.name});
 """.format(self = self)
 
         if self.is_struct:
-            if self.is_array==2:
+            if self.dimensions == 2:
                 c = """\
 e |= DIO_PUT({self.dataio_type}, &dout, &field_addr, &real_packet->{self.name}[i][j]);
 """.format(self = self)
-                array_size_u = "#error Codegen error"   # avoid "possibly unbound" warnings
             else:
                 c = """\
 e |= DIO_PUT({self.dataio_type}, &dout, &field_addr, &real_packet->{self.name}[i]);
 """.format(self = self)
-                array_size_u = self.array_size_u
         elif self.dataio_type=="string" or self.dataio_type=="estring":
             c = """\
 e |= DIO_PUT({self.dataio_type}, &dout, &field_addr, real_packet->{self.name}[i]);
 """.format(self = self)
-            array_size_u=self.array_size1_u
 
         elif self.struct_type=="float":
-            if self.is_array==2:
+            if self.dimensions == 2:
                 c = """\
 e |= DIO_PUT({self.dataio_type}, &dout, &field_addr, real_packet->{self.name}[i][j], {self.float_factor:d});
 """.format(self = self)
-                array_size_u = "#error Codegen error"   # avoid "possibly unbound" warnings
             else:
                 c = """\
 e |= DIO_PUT({self.dataio_type}, &dout, &field_addr, real_packet->{self.name}[i], {self.float_factor:d});
 """.format(self = self)
-                array_size_u = self.array_size_u
         else:
-            if self.is_array==2:
+            if self.dimensions == 2:
                 c = """\
 e |= DIO_PUT({self.dataio_type}, &dout, &field_addr, real_packet->{self.name}[i][j]);
 """.format(self = self)
-                array_size_u = "#error Codegen error"   # avoid "possibly unbound" warnings
             else:
                 c = """\
 e |= DIO_PUT({self.dataio_type}, &dout, &field_addr, real_packet->{self.name}[i]);
 """.format(self = self)
-                array_size_u = self.array_size_u
 
-        if deltafragment and self.diff and self.is_array == 1:
+        if deltafragment and self.diff and self.dimensions == 1:
             c = prefix("      ", c)
             return """\
 {{
@@ -750,7 +764,7 @@ e |= DIO_PUT({self.dataio_type}, &dout, &field_addr, real_packet->{self.name}[i]
 #ifdef FREECIV_JSON_CONNECTION
   int count = 0;
 
-  for (i = 0; i < {self.array_size_u}; i++) {{
+  for (i = 0; i < {self.sizes[0].real}; i++) {{
     if (old->{self.name}[i] != real_packet->{self.name}[i]) {{
       count++;
     }}
@@ -764,9 +778,9 @@ e |= DIO_PUT({self.dataio_type}, &dout, &field_addr, real_packet->{self.name}[i]
   count = 0;
 #endif /* FREECIV_JSON_CONNECTION */
 
-  fc_assert({self.array_size_u} < 255);
+  fc_assert({self.sizes[0].real} < 255);
 
-  for (i = 0; i < {self.array_size_u}; i++) {{
+  for (i = 0; i < {self.sizes[0].real}; i++) {{
     if (old->{self.name}[i] != real_packet->{self.name}[i]) {{
 #ifdef FREECIV_JSON_CONNECTION
       /* Next diff array element. */
@@ -796,7 +810,7 @@ e |= DIO_PUT({self.dataio_type}, &dout, &field_addr, real_packet->{self.name}[i]
   field_addr.sub_location->number = count - 1;
 
   /* Create the diff array element. */
-  e |= DIO_PUT(farray, &dout, &field_addr, {self.array_size_u});
+  e |= DIO_PUT(farray, &dout, &field_addr, {self.sizes[0].real});
 
   /* Enter diff array element. Point to index address. */
   field_addr.sub_location->sub_location = plocation_elem_new(0);
@@ -812,8 +826,7 @@ e |= DIO_PUT({self.dataio_type}, &dout, &field_addr, real_packet->{self.name}[i]
 #endif /* FREECIV_JSON_CONNECTION */
 }}
 """.format(self = self, c = c)
-        if self.is_array == 2 and self.dataio_type != "string" \
-           and self.dataio_type != "estring":
+        if self.dimensions == 2 and self.dataio_type not in ("string", "estring"):
             c = prefix("      ", c)
             return """\
 {{
@@ -821,25 +834,25 @@ e |= DIO_PUT({self.dataio_type}, &dout, &field_addr, real_packet->{self.name}[i]
 
 #ifdef FREECIV_JSON_CONNECTION
   /* Create the outer array. */
-  e |= DIO_PUT(farray, &dout, &field_addr, {self.array_size1_u});
+  e |= DIO_PUT(farray, &dout, &field_addr, {self.sizes[0].real});
 
   /* Enter the outer array. */
   field_addr.sub_location = plocation_elem_new(0);
 #endif /* FREECIV_JSON_CONNECTION */
 
-  for (i = 0; i < {self.array_size1_u}; i++) {{
+  for (i = 0; i < {self.sizes[0].real}; i++) {{
 #ifdef FREECIV_JSON_CONNECTION
     /* Next inner array (an element in the outer array). */
     field_addr.sub_location->number = i;
 
     /* Create the inner array. */
-    e |= DIO_PUT(farray, &dout, &field_addr, {self.array_size2_u});
+    e |= DIO_PUT(farray, &dout, &field_addr, {self.sizes[1].real});
 
     /* Enter the inner array. */
     field_addr.sub_location->sub_location = plocation_elem_new(0);
 #endif /* FREECIV_JSON_CONNECTION */
 
-    for (j = 0; j < {self.array_size2_u}; j++) {{
+    for (j = 0; j < {self.sizes[1].real}; j++) {{
 #ifdef FREECIV_JSON_CONNECTION
       /* Next element (in the inner array). */
       field_addr.sub_location->sub_location->number = j;
@@ -867,13 +880,13 @@ e |= DIO_PUT({self.dataio_type}, &dout, &field_addr, real_packet->{self.name}[i]
 
 #ifdef FREECIV_JSON_CONNECTION
   /* Create the array. */
-  e |= DIO_PUT(farray, &dout, &field_addr, {array_size_u});
+  e |= DIO_PUT(farray, &dout, &field_addr, {self.sizes[0].real});
 
   /* Enter the array. */
   field_addr.sub_location = plocation_elem_new(0);
 #endif /* FREECIV_JSON_CONNECTION */
 
-  for (i = 0; i < {array_size_u}; i++) {{
+  for (i = 0; i < {self.sizes[0].real}; i++) {{
 #ifdef FREECIV_JSON_CONNECTION
     /* Next array element. */
     field_addr.sub_location->number = i;
@@ -886,13 +899,12 @@ e |= DIO_PUT({self.dataio_type}, &dout, &field_addr, real_packet->{self.name}[i]
   FC_FREE(field_addr.sub_location);
 #endif /* FREECIV_JSON_CONNECTION */
 }}
-""".format(self = self, c = c, array_size_u = array_size_u)
+""".format(self = self, c = c)
 
     # Returns a code fragment which will get the field if the
     # "fields" bitvector says so.
     def get_get_wrapper(self, packet: "Variant", i: int, deltafragment: bool) -> str:
-        if fold_bool_into_header and self.struct_type=="bool" and \
-           not self.is_array:
+        if self.folded_into_head:
             return  """\
 real_packet->{self.name} = BV_ISSET(fields, {i:d});
 """.format(self = self, i = i)
@@ -920,7 +932,7 @@ field_addr.name = \"{self.name}\";
 
     # The code which get this field before it is wrapped in address adding.
     def get_get_real(self, deltafragment: bool) -> str:
-        if self.struct_type=="float" and not self.is_array:
+        if self.struct_type == "float" and not self.dimensions:
             return """\
 if (!DIO_GET({self.dataio_type}, &din, &field_addr, &real_packet->{self.name}, {self.float_factor:d})) {{
   RECEIVE_PACKET_FIELD_ERROR({self.name});
@@ -932,19 +944,19 @@ if (!DIO_BV_GET(&din, &field_addr, real_packet->{self.name})) {{
   RECEIVE_PACKET_FIELD_ERROR({self.name});
 }}
 """.format(self = self)
-        if self.dataio_type in ["string", "estring"] and self.is_array != 2:
+        if self.dataio_type in ["string", "estring"] and self.dimensions != 2:
             return """\
 if (!DIO_GET({self.dataio_type}, &din, &field_addr, real_packet->{self.name}, sizeof(real_packet->{self.name}))) {{
   RECEIVE_PACKET_FIELD_ERROR({self.name});
 }}
 """.format(self = self)
-        if self.is_struct and self.is_array==0:
+        if self.is_struct and self.dimensions == 0:
             return """\
 if (!DIO_GET({self.dataio_type}, &din, &field_addr, &real_packet->{self.name})) {{
   RECEIVE_PACKET_FIELD_ERROR({self.name});
 }}
 """.format(self = self)
-        if not self.is_array:
+        if not self.dimensions:
             if self.struct_type in ["int","bool"]:
                 return """\
 if (!DIO_GET({self.dataio_type}, &din, &field_addr, &real_packet->{self.name})) {{
@@ -964,7 +976,7 @@ if (!DIO_GET({self.dataio_type}, &din, &field_addr, &real_packet->{self.name})) 
 """.format(self = self)
 
         if self.is_struct:
-            if self.is_array==2:
+            if self.dimensions == 2:
                 c = """\
 if (!DIO_GET({self.dataio_type}, &din, &field_addr, &real_packet->{self.name}[i][j])) {{
   RECEIVE_PACKET_FIELD_ERROR({self.name});
@@ -983,7 +995,7 @@ if (!DIO_GET({self.dataio_type}, &din, &field_addr, real_packet->{self.name}[i],
 }}
 """.format(self = self)
         elif self.struct_type=="float":
-            if self.is_array==2:
+            if self.dimensions == 2:
                 c = """\
 if (!DIO_GET({self.dataio_type}, &din, &field_addr, &real_packet->{self.name}[i][j], {self.float_factor:d})) {{
   RECEIVE_PACKET_FIELD_ERROR({self.name});
@@ -995,7 +1007,7 @@ if (!DIO_GET({self.dataio_type}, &din, &field_addr, &real_packet->{self.name}[i]
   RECEIVE_PACKET_FIELD_ERROR({self.name});
 }}
 """.format(self = self)
-        elif self.is_array==2:
+        elif self.dimensions == 2:
             if self.struct_type in ["int","bool"]:
                 c = """\
 if (!DIO_GET({self.dataio_type}, &din, &field_addr, &real_packet->{self.name}[i][j])) {{
@@ -1031,31 +1043,24 @@ if (!DIO_GET({self.dataio_type}, &din, &field_addr, &real_packet->{self.name}[i]
 }}
 """.format(self = self)
 
-        if self.is_array==2:
-            array_size_u=self.array_size1_u
-            array_size_d=self.array_size1_d
-        else:
-            array_size_u=self.array_size_u
-            array_size_d=self.array_size_d
-
         if not self.diff or self.dataio_type=="memory":
-            if array_size_u != array_size_d:
+            if self.sizes[0].real != self.sizes[0].declared:
                 extra = """\
-if ({array_size_u} > {array_size_d}) {{
+if ({self.sizes[0].real} > {self.sizes[0].declared}) {{
   RECEIVE_PACKET_FIELD_ERROR({self.name}, ": truncation array");
 }}
-""".format(self = self, array_size_u = array_size_u, array_size_d = array_size_d)
+""".format(self = self)
             else:
                 extra=""
             if self.dataio_type=="memory":
                 return """\
 
 {extra}\
-if (!DIO_GET({self.dataio_type}, &din, &field_addr, real_packet->{self.name}, {array_size_u})) {{
+if (!DIO_GET({self.dataio_type}, &din, &field_addr, real_packet->{self.name}, {self.sizes[0].real})) {{
   RECEIVE_PACKET_FIELD_ERROR({self.name});
 }}
-""".format(self = self, array_size_u = array_size_u, extra = extra)
-            elif self.is_array==2 and self.dataio_type!="string" \
+""".format(self = self, extra = extra)
+            elif self.dimensions==2 and self.dataio_type!="string" \
                  and self.dataio_type!="estring":
                 extra = prefix("  ", extra)
                 c = prefix("      ", c)
@@ -1069,7 +1074,7 @@ if (!DIO_GET({self.dataio_type}, &din, &field_addr, real_packet->{self.name}, {a
 #endif /* FREECIV_JSON_CONNECTION */
 
 {extra}\
-  for (i = 0; i < {self.array_size1_u}; i++) {{
+  for (i = 0; i < {self.sizes[0].real}; i++) {{
 #ifdef FREECIV_JSON_CONNECTION
     /* Update address of outer array element (inner array). */
     field_addr.sub_location->number = i;
@@ -1077,7 +1082,7 @@ if (!DIO_GET({self.dataio_type}, &din, &field_addr, real_packet->{self.name}, {a
     /* Enter inner array. */
     field_addr.sub_location->sub_location = plocation_elem_new(0);
 #endif /* FREECIV_JSON_CONNECTION */
-    for (j = 0; j < {self.array_size2_u}; j++) {{
+    for (j = 0; j < {self.sizes[1].real}; j++) {{
 #ifdef FREECIV_JSON_CONNECTION
       /* Update address of element in inner array. */
       field_addr.sub_location->sub_location->number = j;
@@ -1110,7 +1115,7 @@ if (!DIO_GET({self.dataio_type}, &din, &field_addr, real_packet->{self.name}, {a
 #endif /* FREECIV_JSON_CONNECTION */
 
 {extra}\
-  for (i = 0; i < {array_size_u}; i++) {{
+  for (i = 0; i < {self.sizes[0].real}; i++) {{
 #ifdef FREECIV_JSON_CONNECTION
     field_addr.sub_location->number = i;
 #endif /* FREECIV_JSON_CONNECTION */
@@ -1122,8 +1127,8 @@ if (!DIO_GET({self.dataio_type}, &din, &field_addr, real_packet->{self.name}, {a
   FC_FREE(field_addr.sub_location);
 #endif /* FREECIV_JSON_CONNECTION */
 }}
-""".format(array_size_u = array_size_u, c = c, extra = extra)
-        elif deltafragment and self.diff and self.is_array == 1:
+""".format(self = self, c = c, extra = extra)
+        elif deltafragment and self.diff and self.dimensions == 1:
             c = prefix("      ", c)
             return """\
 {{
@@ -1159,10 +1164,10 @@ if (!DIO_GET({self.dataio_type}, &din, &field_addr, real_packet->{self.name}, {a
 
       break;
     }}
-    if (i > {array_size_u}) {{
+    if (i > {self.sizes[0].real}) {{
       RECEIVE_PACKET_FIELD_ERROR({self.name},
                                  ": unexpected value %d "
-                                 "(> {array_size_u}) in array diff",
+                                 "(> {self.sizes[0].real}) in array diff",
                                  i);
     }} else {{
 #ifdef FREECIV_JSON_CONNECTION
@@ -1183,18 +1188,18 @@ if (!DIO_GET({self.dataio_type}, &din, &field_addr, real_packet->{self.name}, {a
   FC_FREE(field_addr.sub_location);
 #endif /* FREECIV_JSON_CONNECTION */
 }}
-""".format(self = self, array_size_u = array_size_u, c = c)
+""".format(self = self, c = c)
         else:
             c = prefix("    ", c)
             return """\
 {{
   int i;
 
-  for (i = 0; i < {array_size_u}; i++) {{
+  for (i = 0; i < {self.sizes[0].real}; i++) {{
 {c}\
   }}
 }}
-""".format(array_size_u = array_size_u, c = c)
+""".format(self = self, c = c)
 
 
 # Class which represents a capability variant.
