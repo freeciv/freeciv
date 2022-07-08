@@ -1,0 +1,12 @@
+# Project file that still sets default metaserver and
+# modpack list URL with http -protocol instead of https.
+#
+# To use, configure with:
+# "--with-project-definition=<freeciv srcdir>/bootstrap/http.project"
+#
+
+# Load freeciv defaults as the base to modify
+. ${srcdir}/bootstrap/freeciv.project
+
+META_URL="http://meta.freeciv.org/metaserver.php"
+MODPACK_LIST_URL="http://modpack.freeciv.org/3.0/modpack.list"
