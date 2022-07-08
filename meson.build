@@ -490,6 +490,9 @@ endif
 
 if get_option('qtver') == 'qt5'
   priv_conf_data.set('FC_QT5_MODE', 1)
+  qt_opts = []
+else
+  qt_opts = 'cpp_std=c++17'
 endif
 
 if get_option('audio')
@@ -2768,6 +2771,7 @@ executable('freeciv-qt',
   mocced_client, clienticon,
   include_directories: [client_inc, include_directories('client/gui-qt')],
   dependencies: [qt_dep, net_dep, gettext_dep],
+  override_options: qt_opts,
   link_with: client_common,
   install: true)
 
@@ -3110,6 +3114,7 @@ executable('freeciv-mp-qt',
   include_directories: tool_inc,
   dependencies: [qt_dep, sqlite3_dep, gettext_dep],
   link_with: [common_lib, fcmp_common],
+  override_options: qt_opts,
   install: true
   )
 
@@ -3204,6 +3209,7 @@ executable('freeciv-ruledit',
   include_directories: tool_inc,
   dependencies: [qt_dep, m_dep, net_dep, readline_dep, gettext_dep],
   link_with: [common_lib, server_lib, ais, tool_lib],
+  override_options: qt_opts,
   install: true
   )
 
