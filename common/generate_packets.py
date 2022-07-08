@@ -398,10 +398,13 @@ FIELDS_LINE_PATTERN = re.compile(r"^\s*(\S+(?:\(.*\))?)\s+([^;()]*)\s*;\s*(.*)\s
 TYPE_INFO_PATTERN = re.compile(r"^(.*)\((.*)\)$")
 # matches a dataio type with float factor
 FLOAT_FACTOR_PATTERN = re.compile(r"^(\D+)(\d+)$")
-# matches a 2D-array field definition (name, first array size, second array size)
-ARRAY_2D_PATTERN = re.compile(r"^(.*)\[(.*)\]\[(.*)\]$")
-# matches a 1D-array field definition (name, array size)
-ARRAY_1D_PATTERN = re.compile(r"^(.*)\[(.*)\]$")
+
+FIELD_ARRAY_PATTERN = re.compile(r"^(.+)\[([^][]+)\]$")
+"""Matches a field definition with one or more array sizes
+
+Groups:
+- everything except the final array size
+- the final array size"""
 
 # Parses a line of the form "COORD x, y; key" and returns a list of
 # Field objects. types is a dict mapping type aliases to their meaning
@@ -436,30 +439,29 @@ def parse_fields(line: str, types: typing.Mapping[str, str]) -> "list[Field]":
     fields=[]
     for field_text in fields_.split(","):
         field_text = field_text.strip()
+        sizes = typing.Deque[SizeInfo]()
 
-        mo = ARRAY_2D_PATTERN.fullmatch(field_text)
-        if mo:
-            fields.append((mo.group(1), SizeInfo.parse(mo.group(2)), SizeInfo.parse(mo.group(3))))
-        else:
-            mo = ARRAY_1D_PATTERN.fullmatch(field_text)
-            if mo:
-                fields.append((mo.group(1), SizeInfo.parse(mo.group(2))))
-            else:
-                fields.append((field_text,))
+        ## while (mo := FIELD_ARRAY_PATTERN.fullmatch(field_text)) is not None:
+        mo = FIELD_ARRAY_PATTERN.fullmatch(field_text)
+        while mo is not None:
+            field_text = mo.group(1)
+            sizes.appendleft(SizeInfo.parse(mo.group(2)))
+            mo = FIELD_ARRAY_PATTERN.fullmatch(field_text)
+        fields.append((field_text, tuple(sizes)))
 
     return [
         Field(name, typeinfo, sizes, flaginfo)
-        for name, *sizes in fields
+        for name, sizes in fields
     ]
 
 # Class for a field (part of a packet). It has a name, serveral types,
 # flags and some other attributes.
 class Field:
     def __init__(self, name: str, typeinfo: typing.Mapping,
-                       sizes: typing.Iterable[SizeInfo], flags: FieldFlags):
+                       sizes: "tuple[SizeInfo, ...]", flags: FieldFlags):
         self.name = name
         """Field name"""
-        self.sizes = tuple(sizes)
+        self.sizes = sizes
         """Array sizes for this field"""
 
         if self.dimensions > 2:
