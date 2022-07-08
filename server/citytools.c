@@ -2638,6 +2638,9 @@ bool update_dumb_city(struct player *pplayer, struct city *pcity)
   int city_image = get_city_bonus(pcity, EFT_CITY_IMAGE);
   enum capital_type capital = pcity->capital;
 
+  /* Only someone knowing the tile should ever know a city on it. */
+  fc_assert(map_is_known(pcenter, pplayer));
+
   BV_CLR_ALL(improvements);
   improvement_iterate(pimprove) {
     if (is_improvement_visible(pimprove)
