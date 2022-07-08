@@ -392,76 +392,85 @@ class SizeInfo:
         return "%s:%s" % (self.declared, self._actual)
 
 
-# matches an entire field definition line (type, fields and flag info)
-FIELDS_LINE_PATTERN = re.compile(r"^\s*(\S+(?:\(.*\))?)\s+([^;()]*)\s*;\s*(.*)\s*$")
-# matches a field type (dataio type and struct/public type)
-TYPE_INFO_PATTERN = re.compile(r"^(.*)\((.*)\)$")
-# matches a dataio type with float factor
-FLOAT_FACTOR_PATTERN = re.compile(r"^(\D+)(\d+)$")
-
-FIELD_ARRAY_PATTERN = re.compile(r"^(.+)\[([^][]+)\]$")
-"""Matches a field definition with one or more array sizes
-
-Groups:
-- everything except the final array size
-- the final array size"""
-
-# Parses a line of the form "COORD x, y; key" and returns a list of
-# Field objects. types is a dict mapping type aliases to their meaning
-def parse_fields(line: str, types: typing.Mapping[str, str]) -> "list[Field]":
-    mo = FIELDS_LINE_PATTERN.fullmatch(line)
-    if mo is None:
-        raise ValueError("invalid field definition: %r" % line)
-    type_text, fields_, flags = (i.strip() for i in mo.groups(""))
-
-    # analyze type
-    # FIXME: no infinite loop detection
-    while type_text in types:
-        type_text = types[type_text]
-
-    typeinfo={}
-    mo = TYPE_INFO_PATTERN.fullmatch(type_text)
-    if mo is None:
-        raise ValueError("malformed or undefined type: %r" % type_text)
-    typeinfo["dataio_type"],typeinfo["struct_type"]=mo.groups()
-
-    if typeinfo["struct_type"]=="float":
-        mo = FLOAT_FACTOR_PATTERN.fullmatch(typeinfo["dataio_type"])
-        if mo is None:
-            raise ValueError("float type without float factor: %r" % type_text)
-        typeinfo["dataio_type"]=mo.group(1)
-        typeinfo["float_factor"]=int(mo.group(2))
-
-    # analyze flags
-    flaginfo = FieldFlags.parse(flags)
-
-    # analyze fields
-    fields=[]
-    for field_text in fields_.split(","):
-        field_text = field_text.strip()
-        sizes = typing.Deque[SizeInfo]()
-
-        ## while (mo := FIELD_ARRAY_PATTERN.fullmatch(field_text)) is not None:
-        mo = FIELD_ARRAY_PATTERN.fullmatch(field_text)
-        while mo is not None:
-            field_text = mo.group(1)
-            sizes.appendleft(SizeInfo.parse(mo.group(2)))
-            mo = FIELD_ARRAY_PATTERN.fullmatch(field_text)
-        fields.append((field_text, tuple(sizes)))
-
-    return [
-        Field(name, typeinfo, sizes, flaginfo)
-        for name, sizes in fields
-    ]
-
-# Class for a field (part of a packet). It has a name, serveral types,
-# flags and some other attributes.
 class Field:
+    """A single field of a packet. Consists of a name, type information
+    (including array sizes) and flags."""
+
+    FIELDS_LINE_PATTERN = re.compile(r"^\s*(\S+(?:\(.*\))?)\s+([^;()]*)\s*;\s*(.*)\s*$")
+    """Matches an entire field definition line.
+
+    Groups:
+    - type
+    - field names and array sizes
+    - flags"""
+
+    TYPE_INFO_PATTERN = re.compile(r"^(.*)\((.*)\)$")
+    """Matches a field type.
+
+    Groups:
+    - dataio type
+    - public type (aka struct type)"""
+
+    FLOAT_FACTOR_PATTERN = re.compile(r"^(\D+)(\d+)$")
+    """Matches a dataio type with float factor
+
+    Groups:
+    - non-numeric dataio type
+    - numeric float factor"""
+
+    FIELD_ARRAY_PATTERN = re.compile(r"^(.+)\[([^][]+)\]$")
+    """Matches a field definition with one or more array sizes
+
+    Groups:
+    - everything except the final array size
+    - the final array size"""
+
+    @classmethod
+    def parse(cls, line: str, types: typing.Mapping[str, str]) -> "typing.Iterable[Field]":
+        """Parse a single line defining one or more fields"""
+        mo = cls.FIELDS_LINE_PATTERN.fullmatch(line)
+        if mo is None:
+            raise ValueError("invalid field definition: %r" % line)
+        type_text, fields, flags = (i.strip() for i in mo.groups(""))
+
+        # analyze type
+        # FIXME: no infinite loop detection
+        while type_text in types:
+            type_text = types[type_text]
+
+        type_info = {}
+        mo = cls.TYPE_INFO_PATTERN.fullmatch(type_text)
+        if mo is None:
+            raise ValueError("malformed or undefined type: %r" % type_text)
+        type_info["dataio_type"], type_info["struct_type"] = mo.groups()
+
+        if type_info["struct_type"] == "float":
+            mo = cls.FLOAT_FACTOR_PATTERN.fullmatch(type_info["dataio_type"])
+            if mo is None:
+                raise ValueError("float type without float factor: %r" % type_text)
+            type_info["dataio_type"] = mo.group(1)
+            type_info["float_factor"] = int(mo.group(2))
+
+        # analyze flags
+        flag_info = FieldFlags.parse(flags)
+
+        # analyze fields
+        for field_text in fields.split(","):
+            field_text = field_text.strip()
+            sizes = typing.Deque[SizeInfo]()
+
+            mo = cls.FIELD_ARRAY_PATTERN.fullmatch(field_text)
+            while mo is not None:
+                field_text = mo.group(1)
+                sizes.appendleft(SizeInfo.parse(mo.group(2)))
+                mo = cls.FIELD_ARRAY_PATTERN.fullmatch(field_text)
+            yield Field(field_text, type_info, sizes, flag_info)
+
     def __init__(self, name: str, typeinfo: typing.Mapping,
-                       sizes: "tuple[SizeInfo, ...]", flags: FieldFlags):
+                       sizes: typing.Iterable[SizeInfo], flags: FieldFlags):
         self.name = name
         """Field name"""
-        self.sizes = sizes
+        self.sizes = tuple(sizes)
         """Array sizes for this field"""
 
         if self.dimensions > 2:
@@ -1973,7 +1982,7 @@ class Packet:
         self.fields = [
             field
             for line in lines
-            for field in parse_fields(line, types)
+            for field in Field.parse(line, types)
         ]
         self.key_fields = [field for field in self.fields if field.is_key]
         self.other_fields = [field for field in self.fields if not field.is_key]
