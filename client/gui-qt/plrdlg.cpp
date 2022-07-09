@@ -76,13 +76,24 @@ void plr_item_delegate::paint(QPainter *painter, const QStyleOptionViewItem
   QRect rct;
   QPixmap pix(16, 16);
   QStyleOptionViewItem opt = QItemDelegate::setOptions(index, option);
+  QFontMetrics *fm;
+  QFont f;
+  QPixmap pm;
 
   painter->save();
   switch (player_dlg_columns[index.column()].type) {
   case COL_FLAG:
     QItemDelegate::drawBackground(painter, opt, index);
-    QItemDelegate::drawDecoration(painter, opt, option.rect,
-                                  index.data().value<QPixmap>());
+    pm = index.data().value<QPixmap>();
+    f = *fc_font::instance()->get_font(fonts::default_font);
+    fm = new QFontMetrics(f);
+
+    // We used to do the scaling on index.data() side,
+    // but it was scaling the original flag, needed in the
+    // full size for other uses.
+    pm = pm.scaledToHeight(fm->height());
+    delete fm;
+    QItemDelegate::drawDecoration(painter, opt, option.rect, pm);
     break;
   case COL_COLOR:
     pix.fill(index.data().value <QColor> ());
@@ -148,8 +159,6 @@ bool plr_item::setData(int column, const QVariant &value, int role)
 QVariant plr_item::data(int column, int role) const
 {
   QFont f;
-  QFontMetrics *fm;
-  QPixmap *pix;
   QString str;
   struct player_dlg_column *pdc;
 
@@ -162,12 +171,7 @@ QVariant plr_item::data(int column, int role) const
   pdc = &player_dlg_columns[column];
   switch (player_dlg_columns[column].type) {
   case COL_FLAG:
-    pix = get_nation_flag_sprite(tileset, nation_of_player(ipplayer))->pm;
-    f = *fc_font::instance()->get_font(fonts::default_font);
-    fm = new QFontMetrics(f);
-    *pix = pix->scaledToHeight(fm->height());
-    delete fm;
-    return *pix;
+    return *(get_nation_flag_sprite(tileset, nation_of_player(ipplayer))->pm);
     break;
   case COL_COLOR:
     return get_player_color(tileset, ipplayer)->qcolor;
