@@ -6,6 +6,7 @@ pkgdatadir = $(datadir)/$(PACKAGE)/stub
 SUBDIRS = nations
 
 pkgdata_DATA =          	\
+	actions.ruleset		\
 	buildings.ruleset 	\
 	cities.ruleset		\
 	effects.ruleset		\

@@ -4,6 +4,7 @@
 pkgdatadir = $(datadir)/$(PACKAGE)/multiplayer
 
 pkgdata_DATA =          \
+	actions.ruleset	\
 	buildings.ruleset \
 	cities.ruleset	\
 	effects.ruleset	\

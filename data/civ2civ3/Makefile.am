@@ -4,6 +4,7 @@
 pkgdatadir = $(datadir)/$(PACKAGE)/civ2civ3
 
 pkgdata_DATA =          \
+	actions.ruleset	\
 	buildings.ruleset \
 	cities.ruleset	\
 	effects.ruleset	\

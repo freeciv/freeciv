@@ -4,6 +4,7 @@
 pkgdatadir = $(datadir)/$(PACKAGE)/classic
 
 pkgdata_DATA =			\
+	actions.ruleset		\
 	buildings.ruleset	\
 	cities.ruleset		\
 	effects.ruleset		\

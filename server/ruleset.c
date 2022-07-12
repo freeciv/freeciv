@@ -175,6 +175,8 @@ static bool load_ruleset_effects(struct section_file *file,
                                  struct rscompat_info *compat);
 static bool load_ruleset_game(struct section_file *file, bool act,
                               struct rscompat_info *compat);
+static bool load_ruleset_actions(struct section_file *file,
+                                 struct rscompat_info *compat);
 
 static void send_ruleset_tech_classes(struct conn_list *dest);
 static void send_ruleset_techs(struct conn_list *dest);
@@ -7722,6 +7724,16 @@ static bool load_ruleset_game(struct section_file *file, bool act,
 }
 
 /**********************************************************************//**
+ loads action information from a file
+**************************************************************************/
+static bool load_ruleset_actions(struct section_file *file,
+                                 struct rscompat_info *compat)
+{
+  /* For now no code is here */
+  return TRUE;
+}
+
+/**********************************************************************//**
   Send the units ruleset information (all individual unit classes) to the
   specified connections.
 **************************************************************************/
@@ -9063,6 +9075,7 @@ static bool load_rulesetdir(const char *rsdir, bool compat_mode,
 {
   struct section_file *techfile, *unitfile, *buildfile, *govfile, *terrfile;
   struct section_file *stylefile, *cityfile, *nationfile, *effectfile, *gamefile;
+  struct section_file *actionfile;
   bool ok = TRUE;
   struct rscompat_info compat_info;
 
@@ -9129,6 +9142,29 @@ static bool load_rulesetdir(const char *rsdir, bool compat_mode,
       && load_terrain_names(terrfile, &compat_info)
       && load_style_names(stylefile, &compat_info)
       && load_nation_names(nationfile, &compat_info);
+  }
+
+  if (ok) {
+    /* Can only happen here because 3.1 rulesets may not have a
+     * actions.ruleset. remember to in 3.3 move it with the others. */
+    if (compat_info.version < RSFORMAT_3_2) {
+      if (!compat_info.compat_mode) {
+        ok = FALSE;
+        ruleset_error(LOG_ERROR, "Tried to load ruleset of earlier version without compatibility mode.");
+      } else {
+        load_ruleset_actions(gamefile, &compat_info);
+      }
+    }
+    else {
+      actionfile = openload_ruleset_file("actions", rsdir);
+      if (actionfile == NULL) {
+        ok = FALSE;
+      }
+      if (ok) {
+        /* It may be necessary to further divide load_ruleset_actions in a load_action_names. */
+        ok = load_ruleset_actions(actionfile, &compat_info);
+      }
+    }
   }
 
   if (ok) {

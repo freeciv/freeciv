@@ -3252,6 +3252,7 @@ rulesets = [
   ]
 
 ruleset_files = [
+  'actions.ruleset',
   'buildings.ruleset',
   'cities.ruleset',
   'effects.ruleset',

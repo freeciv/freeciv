@@ -1049,6 +1049,19 @@ static bool save_bv_actions(struct section_file *sfile,
 
   return TRUE;
 }
+/**********************************************************************//**
+  Save actions.ruleset
+**************************************************************************/
+static bool save_actions_ruleset(const char *filename, const char *name)
+{
+  struct section_file *sfile = create_ruleset_file(name, "actions");
+
+  /* TODO: move action logic from save_game_ruleset to here */
+  if (sfile == NULL) {
+    return FALSE;
+  }
+  return save_ruleset_file(sfile, filename);
+}
 
 /**********************************************************************//**
   Save game.ruleset
@@ -1287,7 +1300,7 @@ static bool save_game_ruleset(const char *filename, const char *name)
   save_default_int(sfile, game.server.incite_total_factor,
                    RS_DEFAULT_INCITE_TOTAL_FCT,
                    "incite_cost.total_factor", NULL);
-
+  /*start of action related code */
   {
     /* Action auto performers aren't ready to be exposed in the ruleset
      * yet. The behavior when two action auto performers for the same
@@ -1405,7 +1418,7 @@ static bool save_game_ruleset(const char *filename, const char *name)
     save_reqs_vector(sfile, &(pae->actor_reqs), path, "actor_reqs");
     save_reqs_vector(sfile, &(pae->target_reqs), path, "target_reqs");
   } action_enablers_iterate_end;
-
+  /* action related code seems to end here */
   if (game.info.tired_attack != RS_DEFAULT_TIRED_ATTACK) {
     comment_combat_rules_tired_attack(sfile);
   }
@@ -3325,6 +3338,11 @@ bool save_ruleset(const char *path, const char *name, struct rule_data *data)
     if (success) {
       fc_snprintf(filename, sizeof(filename), "%s/units.ruleset", path);
       success = save_units_ruleset(filename, name);
+    }
+
+    if (success) {
+      fc_snprintf(filename,sizeof(filename), "%s/actions.ruleset",path);
+      success = save_actions_ruleset(filename, name);
     }
 
     if (success) {
