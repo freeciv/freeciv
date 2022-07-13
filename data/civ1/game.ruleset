@@ -1420,6 +1420,23 @@ type = "Vision"
 [clause_embassy]
 type = "Embassy"
 
+; /* <-- avoid gettext warnings
+;Counter types
+;
+;name                    = translatable name as seen by user
+;rule_name               = (optional) internal name for savegames, rulesets
+;                          etc; if not present, "name" is used for this
+;                          purpose too. Since the name used in savegames must
+;                          not change, if you want to rename an item after a
+;                          ruleset has been released, you should set
+;                          "rule_name" to the original value of "name".
+;checkpoint              = Trigger value of the counter. When counter`s
+;                          value is at least this much, the "Counter" requirement
+;                          is fulfilled.
+;def                     = Initial value of the counter.
+;type                    = Behavior of the counter:
+;                          "Owned" - Increased each turn, zeroed when city changes owner
+; */ <-- avoid gettext warnings
 
 [playercolors]
 background.r = 86

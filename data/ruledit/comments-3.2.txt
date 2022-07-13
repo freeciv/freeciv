@@ -1219,6 +1219,26 @@ clauses = "\
 ; */ <-- avoid gettext warnings\n\
 "
 
+counters = "\n\
+; /* <-- avoid gettext warnings\n\
+;Counter types\n\
+;\n\
+;name                    = translatable name as seen by user\n\
+;rule_name               = (optional) internal name for savegames, rulesets\n\
+;                          etc; if not present, \"name\" is used for this\n\
+;                          purpose too. Since the name used in savegames must\n\
+;                          not change, if you want to rename an item after a\n\
+;                          ruleset has been released, you should set\n\
+;                          \"rule_name\" to the original value of \"name\".\n\
+;checkpoint              = Trigger value of the counter. When counter`s\n\
+;                          value is at least this much, the \"Counter\" requirement\n\
+;                          is fulfilled.\n\
+;def                     = Initial value of the counter.\n\
+;type                    = Behavior of the counter:\n\
+;                          \"Owned\" - Increased each turn, zeroed when city changes owner\n\
+; */ <-- avoid gettext warnings\n\
+"
+
 [sectiondoc]
 ; This section has comments documenting other sections
 nations_ruledit = "\n\

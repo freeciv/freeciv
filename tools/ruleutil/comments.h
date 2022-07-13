@@ -91,6 +91,7 @@ void comment_research_free_tech_method(struct section_file *sfile);
 void comment_culture_history_interest(struct section_file *sfile);
 void comment_culture_migration_pml(struct section_file *sfile);
 void comment_calendar_fragments(struct section_file *sfile);
+void comment_counters(struct section_file *sfile);
 
 #ifdef __cplusplus
 }

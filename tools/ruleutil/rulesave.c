@@ -1744,6 +1744,9 @@ static bool save_game_ruleset(const char *filename, const char *name)
     }
   }
 
+  /* Counters */
+  comment_counters(sfile);
+  
   sect_idx = 0;
   city_counters_iterate(pcounter) {
     char path[512];

@@ -51,6 +51,7 @@ static struct {
   char *nationgroups;
   char *nationsets;
   char *clauses;
+  char *counters;
 
   /* Other section entries */
   char *nations_ruledit;
@@ -160,6 +161,8 @@ bool comments_load(void)
   comment_load(comments_storage.nationsets,
                comment_file, "typedoc.nationsets");
   comment_load(comments_storage.clauses, comment_file, "typedoc.clauses");
+  comment_load(comments_storage.counters, comment_file,
+               "typedoc.counters");
 
   comment_load(comments_storage.nations_ruledit, comment_file,
                "sectiondoc.nations_ruledit");
@@ -486,6 +489,15 @@ void comment_nationsets(struct section_file *sfile)
 void comment_clauses(struct section_file *sfile)
 {
   comment_write(sfile, comments_storage.clauses, "Clauses");
+}
+
+/**********************************************************************//**
+  Write counters comment header.
+**************************************************************************/
+void comment_counters(struct section_file *sfile)
+{
+  comment_write(sfile, comments_storage.counters,
+                      "counters");
 }
 
 /**********************************************************************//**
