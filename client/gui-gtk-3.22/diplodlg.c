@@ -236,9 +236,9 @@ static void popup_add_menu(GtkMenuShell *parent, gpointer data)
   struct Diplomacy_dialog *pdialog;
   struct player *pgiver, *pother;
   GtkWidget *item, *menu;
+  bool any_map = FALSE;
 
-
-  /* init. */
+  /* Init. */
   gtk_container_foreach(GTK_CONTAINER(parent),
                         (GtkCallback) gtk_widget_destroy, NULL);
 
@@ -249,26 +249,39 @@ static void popup_add_menu(GtkMenuShell *parent, gpointer data)
 
 
   /* Maps. */
-  menu = gtk_menu_new();
-  item = gtk_menu_item_new_with_mnemonic(_("World-map"));
-  gtk_menu_shell_append(GTK_MENU_SHELL(menu),item);
-  g_object_set_data(G_OBJECT(item), "plr", pgiver);
-  g_signal_connect(item, "activate",
-		   G_CALLBACK(diplomacy_dialog_map_callback), pdialog);
+  if (clause_enabled(CLAUSE_MAP)) {
+    menu = gtk_menu_new();
 
-  item = gtk_menu_item_new_with_mnemonic(_("Sea-map"));
-  gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-  g_object_set_data(G_OBJECT(item), "plr", pgiver);
-  g_signal_connect(item, "activate",
-		   G_CALLBACK(diplomacy_dialog_seamap_callback), pdialog);
+    item = gtk_menu_item_new_with_mnemonic(_("World-map"));
+    gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+    g_object_set_data(G_OBJECT(item), "plr", pgiver);
+    g_signal_connect(item, "activate",
+                     G_CALLBACK(diplomacy_dialog_map_callback), pdialog);
+    any_map = TRUE;
+  }
 
-  item = gtk_menu_item_new_with_mnemonic(_("_Maps"));
-  gtk_menu_item_set_submenu(GTK_MENU_ITEM(item), menu);
-  gtk_menu_shell_append(GTK_MENU_SHELL(parent), item);
-  gtk_widget_show_all(item);
+  if (clause_enabled(CLAUSE_SEAMAP)) {
+    if (!any_map) {
+      menu = gtk_menu_new();
+    }
+
+    item = gtk_menu_item_new_with_mnemonic(_("Sea-map"));
+    gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+    g_object_set_data(G_OBJECT(item), "plr", pgiver);
+    g_signal_connect(item, "activate",
+                     G_CALLBACK(diplomacy_dialog_seamap_callback), pdialog);
+    any_map = TRUE;
+  }
+
+  if (any_map) {
+    item = gtk_menu_item_new_with_mnemonic(_("_Maps"));
+    gtk_menu_item_set_submenu(GTK_MENU_ITEM(item), menu);
+    gtk_menu_shell_append(GTK_MENU_SHELL(parent), item);
+    gtk_widget_show_all(item);
+  }
 
   /* Trading: advances */
-  if (game.info.trading_tech) {
+  if (clause_enabled(CLAUSE_ADVANCE)) {
     const struct research *gresearch = research_get(pgiver);
     const struct research *oresearch = research_get(pother);
     GtkWidget *advance_item;
@@ -345,7 +358,7 @@ static void popup_add_menu(GtkMenuShell *parent, gpointer data)
 
 			      - Kris Bubendorfer
   *****************************************************************/
-  if (game.info.trading_city) {
+  if (clause_enabled(CLAUSE_CITY)) {
     int i = 0;
     int n = city_list_size(pgiver->cities);
 
@@ -391,61 +404,78 @@ static void popup_add_menu(GtkMenuShell *parent, gpointer data)
   }
 
   /* Give shared vision. */
-  item = gtk_menu_item_new_with_mnemonic(_("_Give shared vision"));
-  g_object_set_data(G_OBJECT(item), "plr", pgiver);
-  g_signal_connect(item, "activate",
-		   G_CALLBACK(diplomacy_dialog_vision_callback), pdialog);
+  if (clause_enabled(CLAUSE_VISION)) {
+    item = gtk_menu_item_new_with_mnemonic(_("_Give shared vision"));
+    g_object_set_data(G_OBJECT(item), "plr", pgiver);
+    g_signal_connect(item, "activate",
+                     G_CALLBACK(diplomacy_dialog_vision_callback), pdialog);
 
-  if (gives_shared_vision(pgiver, pother)) {
-    gtk_widget_set_sensitive(item, FALSE);
+    if (gives_shared_vision(pgiver, pother)) {
+      gtk_widget_set_sensitive(item, FALSE);
+    }
+    gtk_menu_shell_append(GTK_MENU_SHELL(parent), item);
+    gtk_widget_show(item);
   }
-  gtk_menu_shell_append(GTK_MENU_SHELL(parent), item);
-  gtk_widget_show(item);
-
 
   /* Give embassy. */
-  item = gtk_menu_item_new_with_mnemonic(_("Give _embassy"));
-  g_object_set_data(G_OBJECT(item), "plr", pgiver);
-  g_signal_connect(item, "activate",
-		   G_CALLBACK(diplomacy_dialog_embassy_callback), pdialog);
+  if (clause_enabled(CLAUSE_EMBASSY)) {
+    item = gtk_menu_item_new_with_mnemonic(_("Give _embassy"));
+    g_object_set_data(G_OBJECT(item), "plr", pgiver);
+    g_signal_connect(item, "activate",
+                     G_CALLBACK(diplomacy_dialog_embassy_callback), pdialog);
 
-  /* Don't take in account the embassy effects. */
-  if (player_has_real_embassy(pother, pgiver)) {
-    gtk_widget_set_sensitive(item, FALSE);
+    /* Don't take in account the embassy effects. */
+    if (player_has_real_embassy(pother, pgiver)) {
+      gtk_widget_set_sensitive(item, FALSE);
+    }
+    gtk_menu_shell_append(GTK_MENU_SHELL(parent), item);
+    gtk_widget_show(item);
   }
-  gtk_menu_shell_append(GTK_MENU_SHELL(parent), item);
-  gtk_widget_show(item);
-
 
   /* Pacts. */
   if (pgiver == pdialog->treaty.plr0) {
     enum diplstate_type ds;
+    int pact_clauses = 0;
 
     ds = player_diplstate_get(pgiver, pother)->type;
 
     menu = gtk_menu_new();
-    item = gtk_menu_item_new_with_mnemonic(Q_("?diplomatic_state:Cease-fire"));
-    gtk_menu_shell_append(GTK_MENU_SHELL(menu),item);
-    g_signal_connect(item, "activate",
-		     G_CALLBACK(diplomacy_dialog_ceasefire_callback), pdialog);
-    gtk_widget_set_sensitive(item, ds != DS_CEASEFIRE && ds != DS_TEAM);
 
-    item = gtk_menu_item_new_with_mnemonic(Q_("?diplomatic_state:Peace"));
-    gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-    g_signal_connect(item, "activate",
-		     G_CALLBACK(diplomacy_dialog_peace_callback), pdialog);
-    gtk_widget_set_sensitive(item, ds != DS_PEACE && ds != DS_TEAM);
+    if (clause_enabled(CLAUSE_CEASEFIRE)) {
+      item = gtk_menu_item_new_with_mnemonic(Q_("?diplomatic_state:Cease-fire"));
+      gtk_menu_shell_append(GTK_MENU_SHELL(menu),item);
+      g_signal_connect(item, "activate",
+                       G_CALLBACK(diplomacy_dialog_ceasefire_callback), pdialog);
+      gtk_widget_set_sensitive(item, ds != DS_CEASEFIRE && ds != DS_TEAM);
+      pact_clauses++;
+    }
 
-    item = gtk_menu_item_new_with_mnemonic(Q_("?diplomatic_state:Alliance"));
-    gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-    g_signal_connect(item, "activate",
-		     G_CALLBACK(diplomacy_dialog_alliance_callback), pdialog);
-    gtk_widget_set_sensitive(item, ds != DS_ALLIANCE && ds != DS_TEAM);
+    if (clause_enabled(CLAUSE_PEACE)) {
+      item = gtk_menu_item_new_with_mnemonic(Q_("?diplomatic_state:Peace"));
+      gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+      g_signal_connect(item, "activate",
+                       G_CALLBACK(diplomacy_dialog_peace_callback), pdialog);
+      gtk_widget_set_sensitive(item, ds != DS_PEACE && ds != DS_TEAM);
+      pact_clauses++;
+    }
 
-    item = gtk_menu_item_new_with_mnemonic(_("_Pacts"));
-    gtk_menu_item_set_submenu(GTK_MENU_ITEM(item), menu);
-    gtk_menu_shell_append(GTK_MENU_SHELL(parent), item);
-    gtk_widget_show_all(item);
+    if (clause_enabled(CLAUSE_ALLIANCE)) {
+      item = gtk_menu_item_new_with_mnemonic(Q_("?diplomatic_state:Alliance"));
+      gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+      g_signal_connect(item, "activate",
+                       G_CALLBACK(diplomacy_dialog_alliance_callback), pdialog);
+      gtk_widget_set_sensitive(item, ds != DS_ALLIANCE && ds != DS_TEAM);
+      pact_clauses++;
+    }
+
+    if (pact_clauses > 0) {
+      item = gtk_menu_item_new_with_mnemonic(_("_Pacts"));
+      gtk_menu_item_set_submenu(GTK_MENU_ITEM(item), menu);
+      gtk_menu_shell_append(GTK_MENU_SHELL(parent), item);
+      gtk_widget_show_all(item);
+    } else {
+      g_object_unref(menu);
+    }
   }
 }
 
@@ -751,7 +781,7 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   gtk_grid_set_column_spacing(GTK_GRID(table), 16);
   gtk_container_add(GTK_CONTAINER(vbox), table);
 
-  if (game.info.trading_gold) {
+  if (clause_enabled(CLAUSE_GOLD)) {
     spin = gtk_spin_button_new_with_range(0.0, plr0->economic.gold + 0.1,
                                           1.0);
     gtk_spin_button_set_digits(GTK_SPIN_BUTTON(spin), 0);
@@ -833,7 +863,7 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   gtk_grid_set_column_spacing(GTK_GRID(table), 16);
   gtk_container_add(GTK_CONTAINER(vbox), table);
 
-  if (game.info.trading_gold) {
+  if (clause_enabled(CLAUSE_GOLD)) {
     spin = gtk_spin_button_new_with_range(0.0, plr1->economic.gold + 0.1,
                                           1.0);
     gtk_spin_button_set_digits(GTK_SPIN_BUTTON(spin), 0);

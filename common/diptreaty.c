@@ -179,7 +179,7 @@ bool add_clause(struct Treaty *ptreaty, struct player *pfrom,
     return FALSE;
   }
 
-  if (!clause_enabled(type, pfrom, pto)) {
+  if (!clause_enabled(type)) {
     return FALSE;
   }
 
@@ -270,14 +270,11 @@ struct clause_info *clause_info_get(enum clause_type type)
 
 /**********************************************************************//**
   Is clause enabled in this game?
-  Currently this does not consider clause requirements that may change
+  This does not consider clause requirements that may change
   during the game, but returned value is constant for the given clause type
-  thought the game. Try not to rely on that, though, as the goal is to
-  change this so that also non-constant requirements will be considered
-  in the future.
+  thought the game.
 **************************************************************************/
-bool clause_enabled(enum clause_type type, struct player *from,
-                    struct player *to)
+bool clause_enabled(enum clause_type type)
 {
   struct clause_info *info = &clause_infos[type];
 
