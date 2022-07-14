@@ -1368,11 +1368,22 @@ bool sanity_check_ruleset_data(struct rscompat_info *compat)
   } music_styles_iterate_end;
 
   terrain_type_iterate(pterr) {
+    struct extra_type **pres;
+
     if (pterr->animal != NULL) {
       if (!is_native_to_class(utype_class(pterr->animal), pterr, NULL)) {
         ruleset_error(LOG_ERROR,
                       "%s has %s as animal to appear, but it's not native to the terrain.",
                       terrain_rule_name(pterr), utype_rule_name(pterr->animal));
+        ok = FALSE;
+      }
+    }
+
+    for (pres = pterr->resources; *pres != NULL; pres++) {
+      if (!is_extra_caused_by((*pres), EC_RESOURCE)) {
+        ruleset_error(LOG_ERROR,
+                      "%s has %s as a resource, but it's not a resource extra.",
+                      terrain_rule_name(pterr), extra_rule_name(*pres));
         ok = FALSE;
       }
     }
