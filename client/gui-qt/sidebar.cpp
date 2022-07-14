@@ -66,12 +66,17 @@ fc_sidewidget::fc_sidewidget(QPixmap *pix, QString label, QString pg,
     pix = new QPixmap(12,12);
     pix->fill(Qt::black);
   }
+
   blink = false;
   disabled = false;
   def_pixmap = pix;
   scaled_pixmap = new QPixmap;
   final_pixmap = new QPixmap;
-  sfont = new QFont(*fc_font::instance()->get_font(fonts::notify_label));
+
+  sfont = nullptr;
+  info_font = nullptr;
+  update_fonts();
+
   left_click = func;
   desc = label;
   standard = type;
@@ -84,11 +89,7 @@ fc_sidewidget::fc_sidewidget(QPixmap *pix, QString label, QString pg,
   timer = new QTimer;
   timer->setSingleShot(false);
   timer->setInterval(700);
-  sfont->setCapitalization(QFont::SmallCaps);
-  sfont->setItalic(true);
-  info_font = new  QFont(*sfont);
-  info_font->setBold(true);
-  info_font->setItalic(false);
+
   connect(timer, &QTimer::timeout, this, &fc_sidewidget::sblink);
 }
 
@@ -123,6 +124,26 @@ void fc_sidewidget::set_pixmap(QPixmap *pm)
   }
 
   def_pixmap = pm;
+}
+
+/***********************************************************************//**
+  Update sidebar fonts
+***************************************************************************/
+void fc_sidewidget::update_fonts()
+{
+  if (sfont != nullptr) {
+    delete sfont;
+  }
+  sfont = new QFont(*fc_font::instance()->get_font(fonts::notify_label));
+  sfont->setCapitalization(QFont::SmallCaps);
+  sfont->setItalic(true);
+
+  if (info_font != nullptr) {
+    delete info_font;
+  }
+  info_font = new QFont(*sfont);
+  info_font->setBold(true);
+  info_font->setItalic(false);
 }
 
 /***********************************************************************//**
@@ -398,8 +419,9 @@ void fc_sidewidget::update_final_pixmap()
   p.setPen(pen);
 
   if (standard == SW_TAX && !client_is_global_observer()) {
-    pos = 0;
     int d, modulo;
+
+    pos = 0;
     sprite = get_tax_sprite(tileset, O_GOLD);
     if (sprite == nullptr) {
       return;
@@ -562,7 +584,7 @@ void fc_sidebar::resize_me(int hght, bool force)
   non_std_count = 0;
 
   // Resize all non standard sidewidgets first
-  foreach (fc_sidewidget * sw,  objects) {
+  foreach (fc_sidewidget *sw, objects) {
     if (sw->standard != SW_STD) {
       sw->resize_pixmap(w, 0);
       sw->setFixedSize(w, sw->get_pixmap()->height());
@@ -575,12 +597,23 @@ void fc_sidebar::resize_me(int hght, bool force)
   h = h - non_std;
   h = h / (objects.count() - non_std_count) - 2;
   // Resize all standard sidewidgets
-  foreach (fc_sidewidget * sw,  objects) {
+  foreach (fc_sidewidget *sw, objects) {
     if (sw->standard == SW_STD) {
       sw->resize_pixmap(w, h);
       sw->setFixedSize(w, h);
       sw->update_final_pixmap();
     }
+  }
+}
+
+/***********************************************************************//**
+  Refresh fonts for all the sidebar widgets.
+***************************************************************************/
+void fc_sidebar::update_fonts()
+{
+  foreach (fc_sidewidget *sw, objects) {
+    sw->update_fonts();
+    sw->update_final_pixmap();
   }
 }
 

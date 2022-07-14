@@ -65,6 +65,7 @@ public:
   void set_wheel_down(pfcn func);
   void set_wheel_up(pfcn func);
   void update_final_pixmap();
+  void update_fonts();
 
   bool blink;
   bool keep_blinking;
@@ -115,6 +116,7 @@ public:
   void add_widget(fc_sidewidget *fsw);
   void paint(QPainter *painter, QPaintEvent *event);
   void resize_me(int height, bool force = false);
+  void update_fonts();
   QList<fc_sidewidget*> objects;
 protected:
   void paintEvent(QPaintEvent *event);

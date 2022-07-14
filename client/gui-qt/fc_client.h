@@ -226,7 +226,7 @@ public:
   fc_client();
   ~fc_client();
 
-  void fc_main(QApplication *);
+  void fc_main(QApplication *qapp);
   map_view *mapview_wdg;
   fc_sidebar *sidebar_wdg;
   minimap_view *minimapview_wdg;
@@ -285,6 +285,7 @@ public:
   bool is_closing();
   void update_sidebar_tooltips();
   void reload_sidebar_icons();
+  void update_fonts();
 
 private slots:
   void send_fake_chat_message(const QString &message);
