@@ -22,6 +22,7 @@ from pathlib import Path
 from contextlib import contextmanager
 from functools import partial
 from itertools import chain, combinations
+from collections import deque
 
 try:
     from functools import cache
@@ -457,7 +458,7 @@ class Field:
         # analyze fields
         for field_text in fields.split(","):
             field_text = field_text.strip()
-            sizes = typing.Deque[SizeInfo]()
+            sizes = deque()
 
             mo = cls.FIELD_ARRAY_PATTERN.fullmatch(field_text)
             while mo is not None:
