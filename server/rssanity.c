@@ -1357,6 +1357,16 @@ bool sanity_check_ruleset_data(struct rscompat_info *compat)
         ok = FALSE;
       }
     }
+
+    terrain_resources_iterate(pterr, pres, freq) {
+      (void) freq;
+      if (!is_extra_caused_by(pres, EC_RESOURCE)) {
+        ruleset_error(LOG_ERROR,
+                      "%s has %s as a resource, but it's not a resource extra.",
+                      terrain_rule_name(pterr), extra_rule_name(pres));
+        ok = FALSE;
+      }
+    } terrain_resources_iterate_end;
   } terrain_type_iterate_end;
 
   /* Check that all unit classes can exist somewhere */
