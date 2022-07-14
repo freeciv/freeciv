@@ -400,7 +400,7 @@ struct city {
   int steal; /* diplomats steal once; for spies, gets harder */
 
   struct {
-    int length;
+    size_t length;
     /* If true, rally point is active until owner cancels or loses city. */
     bool persistent;
     /* Orders should be cleared if an enemy is met. */
