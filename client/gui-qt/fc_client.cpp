@@ -425,6 +425,14 @@ void fc_client::add_server_source(int sock)
 }
 
 /************************************************************************//**
+  Refresh fonts
+****************************************************************************/
+void fc_client::update_fonts()
+{
+  sidebar_wdg->update_fonts();
+}
+
+/************************************************************************//**
   Event handler
 ****************************************************************************/
 bool fc_client::event(QEvent *event)
@@ -1110,7 +1118,7 @@ void fc_game_tab_widget::current_changed(int index)
 
   /* Set focus to map instead sidebar */
   if (gui()->mapview_wdg && gui()->current_page() == PAGE_GAME
-     && index == 0) {
+      && index == 0) {
     gui()->mapview_wdg->setFocus();
   }
 

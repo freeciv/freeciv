@@ -403,6 +403,7 @@ static void apply_font(struct option *poption)
   QString s;
 
   if (gui()) {
+    // FIXME: All this should be within gui()->update_fonts()
     f = new QFont;
     s = option_font_get(poption);
     f->fromString(s);
@@ -415,7 +416,9 @@ static void apply_font(struct option *poption)
     QApplication::setFont(*fc_font::instance()->get_font(fonts::default_font));
     real_science_report_dialog_update(nullptr);
     fc_font::instance()->get_mapfont_size();
+    gui()->update_fonts();
   }
+
   apply_help_font(poption);
 }
 
