@@ -234,7 +234,6 @@ static void dai_tech_effect_values(struct ai_type *ait, struct player *pplayer)
 {
   /* TODO: Currently this duplicates code from aicity.c improvement effect
    *       evaluating almost verbose - refactor so that they can share code. */
-  struct government *gov = government_of_player(pplayer);
   struct adv_data *adv = adv_data_get(pplayer, NULL);
   struct ai_plr *aip = def_ai_player_data(pplayer, ait);
   int turns = 9999; /* TODO: Set to correct value */
@@ -289,7 +288,7 @@ static void dai_tech_effect_values(struct ai_type *ait, struct player *pplayer)
           if (active) {
             adv_want v1;
 
-            v1 = dai_effect_value(pplayer, gov, adv, pcity, capital,
+            v1 = dai_effect_value(pplayer, adv, pcity, capital,
                                   turns, peffect, 1,
                                   nplayers);
 
