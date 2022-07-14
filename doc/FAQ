@@ -98,8 +98,11 @@
    menu, double-click on the freeciv-gtk3.22 executable program, or type
    freeciv-gtk3.22 in a terminal (to start the default "gtk3.22" client).
 
-   Once the client starts, to begin a single-player game, select Start new
-   game. Now edit your game settings (the defaults should be fine for a
+   As your very first game, you may want to try the '''Tutorial''' scenario
+   under Start Scenario Game.
+
+   To begin regular single-player game, select Start new game.
+   Now edit your game settings (the defaults should be fine for a
    beginner-level single-player game) and press the Start button.
 
    (Freeciv is a client/server system. But in most cases you don't have to
