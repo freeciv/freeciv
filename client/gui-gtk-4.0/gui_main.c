@@ -1052,13 +1052,13 @@ void enable_menus(bool enable)
       while (g_main_context_pending(NULL)) {
         g_main_context_iteration(NULL, FALSE);
       }
-
-      gtk_application_window_set_show_menubar(GTK_APPLICATION_WINDOW(toplevel), TRUE);
     }
 
+    gtk_application_window_set_show_menubar(GTK_APPLICATION_WINDOW(toplevel), TRUE);
     gtk_application_set_menubar(fc_app, G_MENU_MODEL(main_menubar));
 
   } else {
+    gtk_application_window_set_show_menubar(GTK_APPLICATION_WINDOW(toplevel), FALSE);
     gtk_application_set_menubar(fc_app, NULL);
   }
 
