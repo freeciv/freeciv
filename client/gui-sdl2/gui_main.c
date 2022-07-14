@@ -401,7 +401,7 @@ static Uint16 main_mouse_button_up_handler(SDL_MouseButtonEvent *button_event,
 #ifdef UNDER_CE
   #define SCROLL_MAP_AREA       8
 #else
-  #define SCROLL_MAP_AREA       1 
+  #define SCROLL_MAP_AREA       1
 #endif
 
 /**********************************************************************//**
@@ -486,12 +486,14 @@ static void update_button_hold_state(void)
 **************************************************************************/
 static int check_scroll_area(int x, int y)
 {
-  SDL_Rect rect_north = {.x = 0, .y = 0, .w = main_data.map->w, .y = SCROLL_MAP_AREA};
+  SDL_Rect rect_north = {.x = 0, .y = 0,
+    .w = main_data.map->w, .h = SCROLL_MAP_AREA};
   SDL_Rect rect_east = {.x = main_data.map->w - SCROLL_MAP_AREA, .y = 0,
     .w = SCROLL_MAP_AREA, .h = main_data.map->h};
   SDL_Rect rect_south = {.x = 0, .y = main_data.map->h - SCROLL_MAP_AREA,
     .w = main_data.map->w, .h = SCROLL_MAP_AREA};
-  SDL_Rect rect_west = {.x = 0, .y = 0, .w = SCROLL_MAP_AREA, .h = main_data.map->h};
+  SDL_Rect rect_west = {.x = 0, .y = 0,
+    .w = SCROLL_MAP_AREA, .h = main_data.map->h};
 
   if (is_in_rect_area(x, y, &rect_north)) {
     is_map_scrolling = TRUE;
