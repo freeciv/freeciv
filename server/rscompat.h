@@ -23,7 +23,7 @@ extern "C" {
 /* server */
 #include "ruleset.h"
 
-#define RULESET_COMPAT_CAP "+Freeciv-ruleset-3.1-Devel-2021.May.03"
+#define RULESET_COMPAT_CAP "+Freeciv-3.1-ruleset"
 
 struct rscompat_info
 {
