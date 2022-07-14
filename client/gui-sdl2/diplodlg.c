@@ -1302,12 +1302,11 @@ static int sdip_window_callback(struct widget *pwindow)
 static int withdraw_vision_dlg_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    popdown_sdip_dialog();
-
     dsend_packet_diplomacy_cancel_pact(&client.conn,
                                        player_number(pwidget->data.player),
                                        CLAUSE_VISION);
 
+    popdown_sdip_dialog();
     flush_dirty();
   }
 
@@ -1320,12 +1319,11 @@ static int withdraw_vision_dlg_callback(struct widget *pwidget)
 static int cancel_pact_dlg_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    popdown_sdip_dialog();
-
     dsend_packet_diplomacy_cancel_pact(&client.conn,
                                        player_number(pwidget->data.player),
                                        CLAUSE_CEASEFIRE);
 
+    popdown_sdip_dialog();
     flush_dirty();
   }
 
@@ -1338,14 +1336,13 @@ static int cancel_pact_dlg_callback(struct widget *pwidget)
 static int call_meeting_dlg_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    popdown_sdip_dialog();
-
     if (can_meet_with_player(pwidget->data.player)) {
       dsend_packet_diplomacy_init_meeting_req(&client.conn,
                                               player_number
                                               (pwidget->data.player));
     }
 
+    popdown_sdip_dialog();
     flush_dirty();
   }
 
