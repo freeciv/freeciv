@@ -134,7 +134,7 @@ static int num_affected_units(const struct effect *peffect,
   How desirable is a particular effect for a particular city,
   given the number of cities in range (c).
 **************************************************************************/
-adv_want dai_effect_value(struct player *pplayer, struct government *gov,
+adv_want dai_effect_value(struct player *pplayer,
                           const struct adv_data *ai, const struct city *pcity,
                           const bool capital, int turns,
                           const struct effect *peffect, const int c,

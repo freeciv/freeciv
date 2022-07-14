@@ -558,7 +558,7 @@ void dai_gov_value(struct ai_type *ait, struct player *pplayer,
       if (active) {
         adv_want v1;
 
-        v1 = dai_effect_value(pplayer, gov, adv, pcity, capital,
+        v1 = dai_effect_value(pplayer, adv, pcity, capital,
                               turns, peffect, 1,
                               nplayers);
 
