@@ -1575,7 +1575,6 @@ static void adjust_improvement_wants_by_effects(struct ai_type *ait,
   struct adv_data *ai = adv_data_get(pplayer, NULL);
   bool capital = is_capital(pcity);
   bool can_build = TRUE;
-  struct government *gov = government_of_player(pplayer);
   struct universal source = {
     .kind = VUT_IMPROVEMENT,
     .value = {.building = pimprove}
@@ -1704,7 +1703,7 @@ static void adjust_improvement_wants_by_effects(struct ai_type *ait,
 
     n_needed_techs = tech_vector_size(&needed_techs);
     if ((active || n_needed_techs) && !impossible_to_get) {
-      adv_want v1 = dai_effect_value(pplayer, gov, ai, pcity, capital, 
+      adv_want v1 = dai_effect_value(pplayer, ai, pcity, capital,
                                      turns, peffect, cities[mypreq->range],
                                      nplayers);
       /* v1 could be negative (the effect could be undesirable),

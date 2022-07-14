@@ -13,7 +13,7 @@
 #ifndef FC__DAI_EFFECTS_H
 #define FC__DAI_EFFECTS_H
 
-adv_want dai_effect_value(struct player *pplayer, struct government *gov,
+adv_want dai_effect_value(struct player *pplayer,
                           const struct adv_data *adv, const struct city *pcity,
                           const bool capital, int turns,
                           const struct effect *peffect, const int c,
