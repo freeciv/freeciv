@@ -774,20 +774,13 @@ e |= DIO_PUT({self.dataio_type}, &dout, &field_addr, real_packet->{self.name}[i]
   int i;
 
 #ifdef FREECIV_JSON_CONNECTION
-  int count = 0;
+  size_t c = 0;
 
-  for (i = 0; i < {self.sizes[0].real}; i++) {{
-    if (old->{self.name}[i] != real_packet->{self.name}[i]) {{
-      count++;
-    }}
-  }}
   /* Create the array. */
-  e |= DIO_PUT(farray, &dout, &field_addr, count + 1);
+  e |= DIO_PUT(farray, &dout, &field_addr, 0);
 
   /* Enter array. */
   field_addr.sub_location = plocation_elem_new(0);
-
-  count = 0;
 #endif /* FREECIV_JSON_CONNECTION */
 
   fc_assert({self.sizes[0].real} < 255);
@@ -795,13 +788,14 @@ e |= DIO_PUT({self.dataio_type}, &dout, &field_addr, real_packet->{self.name}[i]
   for (i = 0; i < {self.sizes[0].real}; i++) {{
     if (old->{self.name}[i] != real_packet->{self.name}[i]) {{
 #ifdef FREECIV_JSON_CONNECTION
-      /* Next diff array element. */
-      field_addr.sub_location->number = count - 1;
+      /* Append next diff array element. */
+      field_addr.sub_location->number = -1;
 
       /* Create the diff array element. */
       e |= DIO_PUT(farray, &dout, &field_addr, 2);
 
       /* Enter diff array element (start at the index address). */
+      field_addr.sub_location->number = c++;
       field_addr.sub_location->sub_location = plocation_elem_new(0);
 #endif /* FREECIV_JSON_CONNECTION */
       e |= DIO_PUT(uint8, &dout, &field_addr, i);
@@ -819,13 +813,8 @@ e |= DIO_PUT({self.dataio_type}, &dout, &field_addr, real_packet->{self.name}[i]
     }}
   }}
 #ifdef FREECIV_JSON_CONNECTION
-  field_addr.sub_location->number = count - 1;
-
-  /* Create the diff array element. */
-  e |= DIO_PUT(farray, &dout, &field_addr, {self.sizes[0].real});
-
-  /* Enter diff array element. Point to index address. */
-  field_addr.sub_location->sub_location = plocation_elem_new(0);
+  /* Append diff array element. */
+  field_addr.sub_location->number = -1;
 #endif /* FREECIV_JSON_CONNECTION */
   e |= DIO_PUT(uint8, &dout, &field_addr, 255);
 
