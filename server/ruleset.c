@@ -9356,6 +9356,11 @@ void send_rulesets(struct conn_list *dest)
   /* ruleset_control also indicates to client that ruleset sending starts. */
   send_ruleset_control(dest);
 
+  /* Currently containing control-kind of data of nation sets and groups,
+   * this too must be sent before any requirement vector may depend on
+   * that data. */
+  send_ruleset_nations(dest);
+
   send_ruleset_game(dest);
   send_ruleset_disasters(dest);
   send_ruleset_achievements(dest);
@@ -9377,7 +9382,6 @@ void send_rulesets(struct conn_list *dest)
   send_ruleset_terrain(dest);
   send_ruleset_goods(dest);
   send_ruleset_buildings(dest);
-  send_ruleset_nations(dest);
   send_ruleset_styles(dest);
   send_ruleset_clauses(dest);
   send_ruleset_cities(dest);
