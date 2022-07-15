@@ -709,26 +709,6 @@ go_act_menu::~go_act_menu()
 }
 
 /**********************************************************************//**
-  Empty a menu of all its items and sub menues.
-**************************************************************************/
-static void reset_menu_and_sub_menues(QMenu *menu)
-{
-  QAction *action;
-
-  // Delete each existing menu item.
-  foreach(action, menu->actions()) {
-    if (action->menu() != nullptr) {
-      // Delete the sub menu
-      reset_menu_and_sub_menues(action->menu());
-      action->menu()->deleteLater();
-    }
-
-    menu->removeAction(action);
-    action->deleteLater();
-  }
-}
-
-/**********************************************************************//**
   Reset the goto and act menu so it will be recreated.
 **************************************************************************/
 void go_act_menu::reset()
@@ -737,7 +717,7 @@ void go_act_menu::reset()
   items.clear();
 
   // Remove the menu items
-  reset_menu_and_sub_menues(this);
+  clear();
 }
 
 /**********************************************************************//**
