@@ -1866,15 +1866,17 @@ static struct client_option client_options[] = {
                   COC_NETWORK, GUI_STUB, TRUE, NULL),
   GEN_STR_LIST_OPTION(default_sound_set_name,
                       N_("Soundset"),
-                      N_("This is the soundset that will be used.  Changing "
+                      N_("This is the soundset that will be used. Changing "
                          "this is the same as using the -S command-line "
-                         "parameter."),
+                         "parameter. Use modpack installer utility to install "
+                         "additional soundsets."),
                       COC_SOUND, GUI_STUB, "stdsounds", get_soundset_list, NULL, 0),
   GEN_STR_LIST_OPTION(default_music_set_name,
                       N_("Musicset"),
-                      N_("This is the musicset that will be used.  Changing "
+                      N_("This is the musicset that will be used. Changing "
                          "this is the same as using the -m command-line "
-                         "parameter."),
+                         "parameter. Use modpack installer utility to install "
+                         "additional musicsets."),
                       COC_SOUND, GUI_STUB, "stdmusic", get_musicset_list, musicspec_reread_callback, 0),
   GEN_STR_LIST_OPTION(default_sound_plugin_name,
                       N_("Sound plugin"),
@@ -1926,7 +1928,9 @@ static struct client_option client_options[] = {
                          "This may change the currently active tileset, if "
                          "you are playing on such a map, in which "
                          "case this is the same as using the -t "
-                         "command-line parameter."),
+                         "command-line parameter. "
+                         "Use modpack installer utility to install "
+                         "additional tilesets."),
                       COC_GRAPHICS, GUI_STUB, "",
                       get_tileset_list, tilespec_reread_callback, 0),
   GEN_STR_LIST_OPTION(default_tileset_hex_name, N_("Tileset (Hex)"),
@@ -1934,7 +1938,9 @@ static struct client_option client_options[] = {
                          "This may change the currently active tileset, if "
                          "you are playing on such a map, in which "
                          "case this is the same as using the -t "
-                         "command-line parameter."),
+                         "command-line parameter. "
+                         "Use modpack installer utility to install "
+                         "additional tilesets."),
                       COC_GRAPHICS, GUI_STUB, "",
                       get_tileset_list, tilespec_reread_callback, TF_HEX),
   GEN_STR_LIST_OPTION(default_tileset_isohex_name, N_("Tileset (Iso-Hex)"),
@@ -1942,7 +1948,9 @@ static struct client_option client_options[] = {
                          "This may change the currently active tileset, if "
                          "you are playing on such a map, in which "
                          "case this is the same as using the -t "
-                         "command-line parameter."),
+                         "command-line parameter."
+                         "Use modpack installer utility to install "
+                         "additional tilesets."),
                       COC_GRAPHICS, GUI_STUB, "",
                       get_tileset_list, tilespec_reread_callback, TF_ISO | TF_HEX),
 
