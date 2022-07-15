@@ -2094,15 +2094,16 @@ GMenu *setup_menus(GtkApplication *app)
 
   submenu = g_menu_new();
   menu_entry_init(submenu, "START_REVOLUTION");
+
+  i = 0;
   governments_iterate(g) {
     if (g != game.government_during_revolution) {
       GMenuItem *item;
       char name[256];
       char actname[256];
       GSimpleAction *act;
-      const char *grname = government_rule_name(g);
 
-      fc_snprintf(actname, sizeof(actname), "government_%s", grname);
+      fc_snprintf(actname, sizeof(actname), "government_%d", i);
       act = g_simple_action_new(actname, NULL);
       g_simple_action_set_enabled(act, can_change_to_government(client_player(), g));
       g_action_map_add_action(G_ACTION_MAP(fc_app), G_ACTION(act));
@@ -2111,8 +2112,7 @@ GMenu *setup_menus(GtkApplication *app)
       /* TRANS: %s is a government name */
       fc_snprintf(name, sizeof(name), _("%s..."),
                   government_name_translation(g));
-      fc_snprintf(actname, sizeof(actname), "app.government_%s",
-                  grname);
+      fc_snprintf(actname, sizeof(actname), "app.government_%d", i++);
       item = g_menu_item_new(name, actname);
       g_menu_append_item(submenu, item);
     }
