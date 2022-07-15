@@ -344,6 +344,8 @@ else
 int main(void) { getaddrinfo(NULL, NULL, NULL, NULL); }''')
     priv_conf_data.set('HAVE_GETADDRINFO', 1)
     pub_conf_data.set('FREECIV_IPV6_SUPPORT', 1)
+  else
+    warning('IPv6 support not enabled')
   endif
 endif
 
