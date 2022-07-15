@@ -614,6 +614,15 @@ struct universal universal_by_number(const enum universals_n kind,
 }
 
 /**********************************************************************//**
+  Fill in copy of universal
+**************************************************************************/
+void universal_copy(struct universal *dst, const struct universal *src)
+{
+  dst->value = src->value;
+  dst->kind = src->kind;
+}
+
+/**********************************************************************//**
   Extract universal structure into its components for serialization;
   the opposite of universal_by_number().
 **************************************************************************/
@@ -1108,7 +1117,7 @@ struct requirement req_from_str(const char *type, const char *range,
 }
 
 /**********************************************************************//**
-  Set the values of a req from serializable integers.  This is the opposite
+  Set the values of a req from serializable integers. This is the opposite
   of req_get_values.
 **************************************************************************/
 struct requirement req_from_values(int type, int range,
@@ -1140,6 +1149,17 @@ void req_get_values(const struct requirement *req,
   *survives = req->survives;
   *present = req->present;
   *quiet = req->quiet;
+}
+
+/**********************************************************************//**
+  Fill in copy of the requirement.
+**************************************************************************/
+void req_copy(struct requirement *dst, const struct requirement *src)
+{
+  universal_copy(&(dst->source), &(src->source));
+  dst->range = src->range;
+  dst->survives = src->survives;
+  dst->quiet = src->quiet;
 }
 
 /**********************************************************************//**

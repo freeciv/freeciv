@@ -123,6 +123,8 @@ struct requirement req_from_values(int type, int range,
                                    bool survives, bool present, bool quiet,
                                    int value);
 
+void req_copy(struct requirement *dst, const struct requirement *src);
+
 bool are_requirements_equal(const struct requirement *req1,
 			    const struct requirement *req2);
 
@@ -273,6 +275,7 @@ struct universal universal_by_number(const enum universals_n kind,
 struct universal universal_by_rule_name(const char *kind,
                                         const char *value);
 void universal_value_from_str(struct universal *source, const char *value);
+void universal_copy(struct universal *dst, const struct universal *src);
 void universal_extraction(const struct universal *source,
                           int *kind, int *value);
 
