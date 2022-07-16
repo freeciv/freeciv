@@ -190,6 +190,8 @@ static bool client_focus = TRUE;
 
 static struct video_mode vmode = { -1, -1 };
 
+static void set_g_log_callbacks(void);
+
 static gboolean show_info_button_release(GtkWidget *w, GdkEventButton *ev, gpointer data);
 static gboolean show_info_popup(GtkWidget *w, GdkEventButton *ev, gpointer data);
 
@@ -234,8 +236,8 @@ static void log_callback_utf8(enum log_level level, const char *message,
 }
 
 /**********************************************************************//**
- Called while in gtk_main() (which is all of the time)
- TIMER_INTERVAL is now set by real_timer_callback()
+  Called while in gtk_main() (which is all of the time)
+  TIMER_INTERVAL is now set by real_timer_callback()
 **************************************************************************/
 static gboolean timer_callback(gpointer data)
 {
@@ -1703,11 +1705,84 @@ static void setup_widgets(void)
 }
 
 /**********************************************************************//**
+  g_log callback to log with freelog
+**************************************************************************/
+static void g_log_to_freelog_cb(const gchar *log_domain,
+                                GLogLevelFlags log_level,
+                                const gchar *message,
+                                gpointer user_data)
+{
+  enum log_level fllvl = LOG_ERROR;
+
+  switch (log_level) {
+  case G_LOG_LEVEL_DEBUG:
+    fllvl = LOG_DEBUG;
+    break;
+  case G_LOG_LEVEL_WARNING:
+    fllvl = LOG_WARN;
+    break;
+  default:
+    break;
+  }
+
+  if (log_domain != NULL) {
+    log_base(fllvl, "%s: %s", log_domain, message);
+  } else {
+    log_base(fllvl, "%s", message);
+  }
+}
+
+/**********************************************************************//**
+  g_log callback to log with freelog
+**************************************************************************/
+static GLogWriterOutput g_log_writer_to_freelog_cb(GLogLevelFlags log_level,
+                                                   const GLogField *fields,
+                                                   gsize n_fields,
+                                                   gpointer user_data)
+{
+  /* No need to have formatter of our own - let's use glib's default one. */
+  gchar *out = g_log_writer_format_fields(log_level, fields, n_fields, FALSE);
+
+  g_log_to_freelog_cb(NULL, log_level, out, NULL);
+
+  return G_LOG_WRITER_HANDLED;
+}
+
+/**********************************************************************//**
+  Set up g_log callback for a single domain.
+**************************************************************************/
+static void set_g_log_callback_domain(const char *domain)
+{
+  g_log_set_handler(domain,
+                    G_LOG_LEVEL_CRITICAL | G_LOG_LEVEL_ERROR | G_LOG_LEVEL_WARNING
+                    | G_LOG_LEVEL_MASK
+                    | G_LOG_FLAG_FATAL | G_LOG_FLAG_RECURSION,
+                    g_log_to_freelog_cb, NULL);
+}
+
+/**********************************************************************//**
+  Set up g_log callbacks.
+**************************************************************************/
+static void set_g_log_callbacks(void)
+{
+  /* Old API, still used by many log producers */
+  g_log_set_default_handler(g_log_to_freelog_cb, NULL);
+
+  set_g_log_callback_domain("Gtk");
+  set_g_log_callback_domain("Gdk");
+  set_g_log_callback_domain("Glib");
+
+  /* glib >= 2.50 API */
+  g_log_set_writer_func(g_log_writer_to_freelog_cb, NULL, NULL);
+}
+
+/**********************************************************************//**
   Called from main().
 **************************************************************************/
 void ui_init(void)
 {
   log_set_callback(log_callback_utf8);
+  set_g_log_callbacks();
   set_frame_by_frame_animation();
 }
 
