@@ -622,8 +622,8 @@ ui_name_build_mine = _("Build %sMine%s")
 ; /* TRANS: Build _Irrigation (100% chance of success). */
 ui_name_irrigate = _("Build %sIrrigation%s")
 
-; /* TRANS: _Alight (100% chance of success). */
-ui_name_transport_alight = _("%sAlight%s")
+; /* TRANS: _Deboard (100% chance of success). */
+ui_name_transport_alight = _("%sDeboard%s")
 
 ; /* TRANS: _Board (100% chance of success). */
 ui_name_transport_board = _("%sBoard%s")

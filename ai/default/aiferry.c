@@ -708,7 +708,7 @@ bool dai_amphibious_goto_constrained(struct ai_type *ait,
       }
       /* else at sea */
     } else if (alive) {
-      /* Arrived all the way to the destination by boat. Alight. */
+      /* Arrived all the way to the destination by boat. Deboard. */
       if (can_unit_exist_at_tile(parameter->land.map, passenger, ptile)) {
         unit_transport_unload_send(passenger);
       }

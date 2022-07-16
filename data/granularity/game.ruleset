@@ -434,8 +434,8 @@ ui_name_found_city = _("%sBuild City%s")
 ; [actionenabler_embassy]
 ; action = "Establish Embassy"
 
-; /* TRANS: _Alight (100% chance of success). */
-ui_name_transport_alight = _("%sAlight%s")
+; /* TRANS: _Deboard (100% chance of success). */
+ui_name_transport_alight = _("%sDeboard%s")
 
 ; /* TRANS: _Board (100% chance of success). */
 ui_name_transport_board = _("%sBoard%s")
