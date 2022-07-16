@@ -7,7 +7,7 @@
 # See COPYING available from the same location you got this script.
 #
 
-MESON_WINBUILD_VERSION="3.0.94-alpha"
+MESON_WINBUILD_VERSION="3.1.0-alpha"
 CROSSER_FEATURE_LEVEL=2.3
 
 if test "x$1" = x || test "x$1" = "x-h" || test "x$1" = "x--help" ; then
@@ -23,7 +23,8 @@ fi
 GUI="$2"
 
 if test "$GUI" != "gtk3.22" && test "$GUI" != "gtk4" &&
-   test "$GUI" != "sdl2" && test "$GUI" != "qt5" ; then
+   test "$GUI" != "sdl2" &&
+   test "$GUI" != "qt5" && test "$GUI" != "qt6" ; then
   echo "Unknown gui \"$2\"" >&2
   exit 1
 fi
@@ -77,6 +78,10 @@ case $GUI in
        NLS="-Dnls=false"
        RULEDIT=true
        QTPARAMS="-Dqtver=qt5" ;;
+  qt6) CLIENT="qt"
+       FCMP="qt"
+       RULEDIT=true
+       QTPARAMS="-Dqtver=qt6" ;;
 esac
 
 if test "$CLIENT" = "" ; then
@@ -116,6 +121,8 @@ if ! (
 cd meson-build-${SETUP}-${GUI}
 
 export PKG_CONFIG_PATH=${DLLSPATH}/lib/pkgconfig
+
+export PATH="$DLLSPATH/linux/libexec:$PATH"
 
 if ! meson --cross-file=cross.txt -Dprefix=$MESON_INSTALL_DIR -Dclients=$CLIENT -Dfcmp=$FCMP \
            ${NLS} -Dsyslua=false -Druledit=$RULEDIT $QTPARAMS \
