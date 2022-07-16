@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
+
 <svg:svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    version="1.0"
    x="0.0000000"
    y="0.0000000"
@@ -14,12 +9,18 @@
    height="300.00000"
    id="svg1"
    sodipodi:version="0.32"
-   inkscape:version="0.46"
-   sodipodi:docname="Flag_of_Saint_Vincent_and_the_Grenadines.svg"
-   inkscape:output_extension="org.inkscape.output.svg.inkscape">
+   inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
+   sodipodi:docname="svg.svg"
+   inkscape:output_extension="org.inkscape.output.svg.inkscape"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
   <sodipodi:namedview
-     inkscape:window-height="480"
-     inkscape:window-width="640"
+     inkscape:window-height="941"
+     inkscape:window-width="1272"
      inkscape:pageshadow="2"
      inkscape:pageopacity="0.0"
      guidetolerance="10.0"
@@ -31,9 +32,13 @@
      id="base"
      showgrid="false"
      inkscape:zoom="2.4833333"
-     inkscape:cx="225"
-     inkscape:cy="150"
-     inkscape:current-layer="svg1" />
+     inkscape:cx="224.89933"
+     inkscape:cy="149.79866"
+     inkscape:current-layer="svg1"
+     inkscape:pagecheckerboard="0"
+     inkscape:window-x="455"
+     inkscape:window-y="93"
+     inkscape:window-maximized="0" />
   <svg:defs
      id="defs3">
     <inkscape:perspective
