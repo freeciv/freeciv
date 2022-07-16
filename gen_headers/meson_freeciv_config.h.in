@@ -48,6 +48,10 @@
 /* Metaserver URL */
 #mesondefine FREECIV_META_URL
 
+#ifndef __EMSCRIPTEN__
+#define FREECIV_META_ENABLED
+#endif /* __EMSCRIPTEN__ */
+
 /* Default modpack list URL */
 #mesondefine MODPACK_LIST_URL
 
