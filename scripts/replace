@@ -1,15 +1,15 @@
 #!/bin/bash
 
-if test "x$1" = "x-h" || test "x$1" = "x--help" || test "x$3" = "x" ; then
-    echo "Usage: $0 <path> <string to replace> <replace with>"
-    exit
+if test "$1" = "-h" || test "$1" = "--help" || test "$3" = "" ; then
+  echo "Usage: $0 <path> <string to replace> <replace with>"
+  exit
 fi
 
-find $1 -name "*.[ch]" |
-    (while read FILE ; do
-         if grep "$2" $FILE >/dev/null ; then
-             echo "Updating $FILE"
-             sed "s/$2/$3/g" $FILE > $FILE.new
-             mv $FILE.new $FILE
-         fi
-     done )
+find "$1" -name "*.[ch]" |
+  (while read FILE ; do
+     if grep "$2" "$FILE" >/dev/null ; then
+       echo "Updating $FILE"
+       sed "s/$2/$3/g" "$FILE" > "$FILE.new"
+       mv "$FILE.new" "$FILE"
+     fi
+   done )
