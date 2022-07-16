@@ -72,7 +72,9 @@ static int meta_retry_wait = 0;
 static char meta_patches[256] = "";
 static char meta_message[256] = "";
 
+#ifdef FREECIV_META_ENABLED
 static fc_thread *meta_srv_thread = NULL;
+#endif /* FREECIV_META_ENABLED */
 
 /*********************************************************************//**
   The default metaserver patches for this server
@@ -114,6 +116,7 @@ const char *get_meta_message_string(void)
   return meta_message;
 }
 
+#ifdef FREECIV_META_ENABLED
 /*********************************************************************//**
   The server metaserver type
 *************************************************************************/
@@ -125,6 +128,7 @@ static const char *get_meta_type_string(void)
 
   return NULL;
 }
+#endif /* FREECIV_META_ENABLED */
 
 /*********************************************************************//**
   The metaserver message set by user
@@ -200,6 +204,7 @@ char *meta_addr_port(void)
   return srvarg.metaserver_addr;
 }
 
+#ifdef FREECIV_META_ENABLED
 /*********************************************************************//**
   We couldn't find or connect to the metaserver.
 *************************************************************************/
@@ -441,6 +446,7 @@ static bool send_to_metaserver(enum meta_flag flag)
 
   return TRUE;
 }
+#endif /* FREECIV_META_ENABLED */
 
 /*********************************************************************//**
   Stop sending updates to metaserver
@@ -483,6 +489,12 @@ bool is_metaserver_open(void)
 *************************************************************************/
 bool send_server_info_to_metaserver(enum meta_flag flag)
 {
+#ifndef FREECIV_META_ENABLED
+
+  return FALSE;
+
+#else  /* FREECIV_META_ENABLED */
+
   static struct timer *last_send_timer = NULL;
   static bool want_update;
 
@@ -541,4 +553,5 @@ bool send_server_info_to_metaserver(enum meta_flag flag)
   want_update = FALSE;
 
   return send_to_metaserver(flag);
+#endif /* FREECIV_META_ENABLED */
 }

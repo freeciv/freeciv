@@ -47,6 +47,10 @@
 
 #define FREECIV_META_URL "https://meta.freeciv.org/metaserver.php"
 
+#ifndef __EMSCRIPTEN__
+#define FREECIV_META_ENABLED
+#endif /* __EMSCRIPTEN__ */
+
 /* IPv6 Support built in */
 #mesondefine FREECIV_IPV6_SUPPORT
 

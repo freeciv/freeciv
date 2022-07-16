@@ -87,6 +87,7 @@ struct server_scan {
   struct srv_list srvrs;
   int sock;
 
+#ifdef FREECIV_META_ENABLED
   /* Only used for metaserver */
   struct {
     enum server_scan_status status;
@@ -97,12 +98,15 @@ struct server_scan {
     const char *urlpath;
     struct netfile_write_cb_data mem;
   } meta;
+#endif /* FREECIV_META_ENABLED */
 };
 
 extern enum announce_type announce;
 
-static bool begin_metaserver_scan(struct server_scan *scan);
 static void delete_server_list(struct server_list *server_list);
+
+#ifdef FREECIV_META_ENABLED
+static bool begin_metaserver_scan(struct server_scan *scan);
 
 /**********************************************************************//**
   The server sends a stream in a registry 'ini' type format.
@@ -309,6 +313,7 @@ static bool begin_metaserver_scan(struct server_scan *scan)
 
   return retval;
 }
+#endif /* FREECIV_META_ENABLED */
 
 /**********************************************************************//**
   Frees everything associated with a server list including
@@ -727,6 +732,12 @@ struct server_scan *server_scan_begin(enum server_scan_type type,
   struct server_scan *scan;
   bool ok = FALSE;
 
+#ifndef FREECIV_META_ENABLED
+  if (type == SERVER_SCAN_GLOBAL) {
+    return NULL;
+  }
+#endif /* FREECIV_META_ENABLED */
+
   scan = fc_calloc(1, sizeof(*scan));
   scan->type = type;
   scan->error_func = error_func;
@@ -736,6 +747,7 @@ struct server_scan *server_scan_begin(enum server_scan_type type,
   switch (type) {
   case SERVER_SCAN_GLOBAL:
     {
+#ifdef FREECIV_META_ENABLED
       int thr_ret;
 
       fc_init_mutex(&scan->meta.mutex);
@@ -746,12 +758,13 @@ struct server_scan *server_scan_begin(enum server_scan_type type,
       } else {
         ok = TRUE;
       }
+#endif /* FREECIV_META_ENABLED */
     }
     break;
   case SERVER_SCAN_LOCAL:
     ok = begin_lanserver_scan(scan);
     break;
-  default:
+  case SERVER_SCAN_LAST:
     break;
   }
 
@@ -798,6 +811,7 @@ enum server_scan_status server_scan_poll(struct server_scan *scan)
 
   switch (scan->type) {
   case SERVER_SCAN_GLOBAL:
+#ifdef FREECIV_META_ENABLED
     {
       enum server_scan_status status;
 
@@ -807,11 +821,12 @@ enum server_scan_status server_scan_poll(struct server_scan *scan)
 
       return status;
     }
+#endif /* FREECIV_META_ENABLED */
     break;
   case SERVER_SCAN_LOCAL:
     return get_lan_server_list(scan);
     break;
-  default:
+  case SERVER_SCAN_LAST:
     break;
   }
 
@@ -842,6 +857,7 @@ void server_scan_finish(struct server_scan *scan)
   }
 
   if (scan->type == SERVER_SCAN_GLOBAL) {
+#ifdef FREECIV_META_ENABLED
     /* Signal metaserver scan thread to stop */
     fc_allocate_mutex(&scan->meta.mutex);
     scan->meta.status = SCAN_STATUS_ABORT;
@@ -870,6 +886,7 @@ void server_scan_finish(struct server_scan *scan)
       FC_FREE(scan->meta.mem.mem);
       scan->meta.mem.mem = NULL;
     }
+#endif /* FREECIV_META_ENABLED */
   } else {
     if (scan->sock >= 0) {
       fc_closesocket(scan->sock);
