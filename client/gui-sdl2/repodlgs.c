@@ -2544,6 +2544,7 @@ SDL_Surface *create_select_tech_icon(utf8_str *pstr, Tech_type_id tech_id,
           dst.x = (surf->w - surf_array[0]->w) / 2;
           alphablit(surf_array[0], NULL, surf, &dst, 255);
         }
+        FREESURFACE(surf_array[0]);
       } else {
         float zoom;
 
@@ -2558,6 +2559,7 @@ SDL_Surface *create_select_tech_icon(utf8_str *pstr, Tech_type_id tech_id,
         while (w) {
           SDL_Surface *zoomed = zoomSurface((*buf_array), zoom, zoom, 1);
 
+          FREESURFACE(*buf_array);
           alphablit(zoomed, NULL, surf, &dst, 255);
           dst.x += zoomed->w + 2;
           w--;
