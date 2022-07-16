@@ -7999,8 +7999,8 @@ const char *action_ui_name_default(int act)
     /* TRANS: Build _Irrigation (100% chance of success). */
     return N_("Build %sIrrigation%s");
   case ACTION_TRANSPORT_ALIGHT:
-    /* TRANS: _Alight (100% chance of success). */
-    return N_("%sAlight%s");
+    /* TRANS: _Deboard (100% chance of success). */
+    return N_("%sDeboard%s");
   case ACTION_TRANSPORT_BOARD:
   case ACTION_TRANSPORT_BOARD2:
   case ACTION_TRANSPORT_BOARD3:
