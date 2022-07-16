@@ -14,7 +14,7 @@ AC_DEFUN([FC_FCDB_ODBC],
          found_odbc=yes])])
 
     if test "x$found_odbc" != "xyes" ; then
-      if test "x$fcdb_odbc" != "xyes" ; then
+      if test "x$fcdb_odbc" = "xyes" ; then
         AC_MSG_ERROR([Could not find odbc devel files])
       fi
       fcdb_odbc=no
