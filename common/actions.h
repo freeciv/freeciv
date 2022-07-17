@@ -640,7 +640,22 @@ bool actions_are_ready(void);
 
 bool action_id_exists(const action_id act_id);
 
-struct action *action_by_number(action_id act_id);
+extern struct action **_actions;
+/**********************************************************************//**
+  Return the action with the given id.
+
+  Returns NULL if no action with the given id exists.
+**************************************************************************/
+static inline struct action *action_by_number(action_id act_id)
+{
+  if (!gen_action_is_valid((enum gen_action)act_id)) {
+    return NULL;
+  }
+
+  /* We return NULL if there's NULL there, no need to special case it */
+  return _actions[act_id];
+}
+
 struct action *action_by_rule_name(const char *name);
 
 enum action_actor_kind action_get_actor_kind(const struct action *paction);

@@ -94,6 +94,7 @@ struct obligatory_req {
 #define ACTPROB_VAL_NOT_IMPL 254
 
 static struct action *actions[MAX_NUM_ACTIONS];
+struct action **_actions = actions;
 struct action_auto_perf auto_perfs[MAX_NUM_ACTION_AUTO_PERFORMERS];
 static bool actions_initialized = FALSE;
 
@@ -1712,26 +1713,6 @@ bool action_id_exists(const action_id act_id)
 {
   /* Actions are still hard coded. */
   return gen_action_is_valid(act_id) && actions[act_id];
-}
-
-/**********************************************************************//**
-  Return the action with the given id.
-
-  Returns NULL if no action with the given id exists.
-**************************************************************************/
-struct action *action_by_number(action_id act_id)
-{
-  if (!action_id_exists(act_id)) {
-    /* Nothing to return. */
-
-    log_verbose("Asked for non existing action numbered %d", act_id);
-
-    return NULL;
-  }
-
-  fc_assert_msg(actions[act_id], "Action %d don't exist.", act_id);
-
-  return actions[act_id];
 }
 
 /**********************************************************************//**
