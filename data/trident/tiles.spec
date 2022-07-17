@@ -28,7 +28,7 @@ dy = 30
 
 tiles = { "row", "column", "tag"
 
-; Grassland, and whether terrain to north, south, east, west 
+; Grassland, and whether terrain to north, south, east, west
 ; is more grassland:
 
   0,  2, "t.l0.grassland1"
@@ -60,67 +60,67 @@ tiles = { "row", "column", "tag"
 ; re-use values but provide for future expansion; current sets
 ; effectively ignore N/S terrain.
 
-; Hills, and whether terrain to north, south, east, west 
+; Hills, and whether terrain to north, south, east, west
 ; is more hills.
 
   0,  4, "t.l0.hills_n0e0s0w0",  ; not-hills E and W
-         "t.l0.hills_n0e0s1w0", 
-         "t.l0.hills_n1e0s0w0", 
-         "t.l0.hills_n1e0s1w0" 
+         "t.l0.hills_n0e0s1w0",
+         "t.l0.hills_n1e0s0w0",
+         "t.l0.hills_n1e0s1w0"
   0,  5, "t.l0.hills_n0e1s0w0",  ; hills E
-         "t.l0.hills_n0e1s1w0", 
-         "t.l0.hills_n1e1s0w0", 
-         "t.l0.hills_n1e1s1w0" 
+         "t.l0.hills_n0e1s1w0",
+         "t.l0.hills_n1e1s0w0",
+         "t.l0.hills_n1e1s1w0"
   0,  6, "t.l0.hills_n0e1s0w1",  ; hills E and W
-         "t.l0.hills_n0e1s1w1", 
-         "t.l0.hills_n1e1s0w1", 
-         "t.l0.hills_n1e1s1w1" 
+         "t.l0.hills_n0e1s1w1",
+         "t.l0.hills_n1e1s0w1",
+         "t.l0.hills_n1e1s1w1"
   0,  7, "t.l0.hills_n0e0s0w1",  ; hills W
-         "t.l0.hills_n0e0s1w1", 
-         "t.l0.hills_n1e0s0w1", 
-         "t.l0.hills_n1e0s1w1" 
+         "t.l0.hills_n0e0s1w1",
+         "t.l0.hills_n1e0s0w1",
+         "t.l0.hills_n1e0s1w1"
 
-; Forest, and whether terrain to north, south, east, west 
+; Forest, and whether terrain to north, south, east, west
 ; is more forest.
 
   0,  8, "t.l0.forest_n0e0s0w0",  ; not-forest E and W
-         "t.l0.forest_n0e0s1w0", 
-         "t.l0.forest_n1e0s0w0", 
-         "t.l0.forest_n1e0s1w0" 
+         "t.l0.forest_n0e0s1w0",
+         "t.l0.forest_n1e0s0w0",
+         "t.l0.forest_n1e0s1w0"
   0,  9, "t.l0.forest_n0e1s0w0",  ; forest E
-         "t.l0.forest_n0e1s1w0", 
-         "t.l0.forest_n1e1s0w0", 
-         "t.l0.forest_n1e1s1w0" 
+         "t.l0.forest_n0e1s1w0",
+         "t.l0.forest_n1e1s0w0",
+         "t.l0.forest_n1e1s1w0"
   0, 10, "t.l0.forest_n0e1s0w1",  ; forest E and W
-         "t.l0.forest_n0e1s1w1", 
-         "t.l0.forest_n1e1s0w1", 
-         "t.l0.forest_n1e1s1w1" 
+         "t.l0.forest_n0e1s1w1",
+         "t.l0.forest_n1e1s0w1",
+         "t.l0.forest_n1e1s1w1"
   0, 11, "t.l0.forest_n0e0s0w1",  ; forest W
-         "t.l0.forest_n0e0s1w1", 
-         "t.l0.forest_n1e0s0w1", 
-         "t.l0.forest_n1e0s1w1" 
+         "t.l0.forest_n0e0s1w1",
+         "t.l0.forest_n1e0s0w1",
+         "t.l0.forest_n1e0s1w1"
 
-; Mountains, and whether terrain to north, south, east, west 
+; Mountains, and whether terrain to north, south, east, west
 ; is more mountains.
 
   0, 12, "t.l0.mountains_n0e0s0w0",  ; not-mountains E and W
-         "t.l0.mountains_n0e0s1w0", 
-         "t.l0.mountains_n1e0s0w0", 
-         "t.l0.mountains_n1e0s1w0" 
+         "t.l0.mountains_n0e0s1w0",
+         "t.l0.mountains_n1e0s0w0",
+         "t.l0.mountains_n1e0s1w0"
   0, 13, "t.l0.mountains_n0e1s0w0",  ; mountains E
-         "t.l0.mountains_n0e1s1w0", 
-         "t.l0.mountains_n1e1s0w0", 
-         "t.l0.mountains_n1e1s1w0" 
+         "t.l0.mountains_n0e1s1w0",
+         "t.l0.mountains_n1e1s0w0",
+         "t.l0.mountains_n1e1s1w0"
   0, 14, "t.l0.mountains_n0e1s0w1",  ; mountains E and W
-         "t.l0.mountains_n0e1s1w1", 
-         "t.l0.mountains_n1e1s0w1", 
-         "t.l0.mountains_n1e1s1w1" 
+         "t.l0.mountains_n0e1s1w1",
+         "t.l0.mountains_n1e1s0w1",
+         "t.l0.mountains_n1e1s1w1"
   0, 15, "t.l0.mountains_n0e0s0w1",  ; mountains W
-         "t.l0.mountains_n0e0s1w1", 
-         "t.l0.mountains_n1e0s0w1", 
-         "t.l0.mountains_n1e0s1w1" 
+         "t.l0.mountains_n0e0s1w1",
+         "t.l0.mountains_n1e0s0w1",
+         "t.l0.mountains_n1e0s1w1"
 
-; Desert, and whether terrain to north, south, east, west 
+; Desert, and whether terrain to north, south, east, west
 ; is more desert:
 
   1,  0, "t.l0.desert_n1e1s1w1"
@@ -140,7 +140,7 @@ tiles = { "row", "column", "tag"
   1, 14, "t.l0.desert_n1e0s0w0"
   1, 15, "t.l0.desert_n0e0s0w0"
 
-; Arctic, and whether terrain to north, south, east, west 
+; Arctic, and whether terrain to north, south, east, west
 ; is more arctic:
 
   6,  0, "t.l0.arctic_n1e1s1w1"
@@ -177,7 +177,7 @@ tiles = { "row", "column", "tag"
   2, 14, "t.l1.arctic_n1e0s0w0"
   2, 15, "t.l1.arctic_n0e0s0w0"
 
-; Jungle, and whether terrain to north, south, east, west 
+; Jungle, and whether terrain to north, south, east, west
 ; is more jungle:
 
   3,  0, "t.l0.jungle_n1e1s1w1"
@@ -197,7 +197,7 @@ tiles = { "row", "column", "tag"
   3, 14, "t.l0.jungle_n1e0s0w0"
   3, 15, "t.l0.jungle_n0e0s0w0"
 
-; Plains, and whether terrain to north, south, east, west 
+; Plains, and whether terrain to north, south, east, west
 ; is more plains:
 
   4,  0, "t.l0.plains_n1e1s1w1"
@@ -217,7 +217,7 @@ tiles = { "row", "column", "tag"
   4, 14, "t.l0.plains_n1e0s0w0"
   4, 15, "t.l0.plains_n0e0s0w0"
 
-; Swamp, and whether terrain to north, south, east, west 
+; Swamp, and whether terrain to north, south, east, west
 ; is more swamp:
 
   5,  0, "t.l0.swamp_n1e1s1w1"
@@ -237,7 +237,7 @@ tiles = { "row", "column", "tag"
   5, 14, "t.l0.swamp_n1e0s0w0"
   5, 15, "t.l0.swamp_n0e0s0w0"
 
-; Tundra, and whether terrain to north, south, east, west 
+; Tundra, and whether terrain to north, south, east, west
 ; is more tundra:
 
   6,  0, "t.l0.tundra_n1e1s1w1"
@@ -257,7 +257,7 @@ tiles = { "row", "column", "tag"
   6, 14, "t.l0.tundra_n1e0s0w0"
   6, 15, "t.l0.tundra_n0e0s0w0"
 
-; Ocean, and whether terrain to north, south, east, west 
+; Ocean, and whether terrain to north, south, east, west
 ; is more ocean (else shoreline)
 
   10,  0, "t.l1.coast_n1e1s1w1"
@@ -401,7 +401,7 @@ tiles = { "row", "column", "tag"
   11, 14, "t.l2.inaccessible_n1e0s0w0"
   11, 15, "t.l2.inaccessible_n0e0s0w0"
 
-; Darkness (unexplored) to north, south, east, west 
+; Darkness (unexplored) to north, south, east, west
 
  12,  0, "mask.tile"
  12,  1, "tx.darkness_n1e0s0w0"
@@ -423,7 +423,7 @@ tiles = { "row", "column", "tag"
 
 
 
-; Rivers (as special type), and whether north, south, east, west 
+; Rivers (as special type), and whether north, south, east, west
 ; also has river or is ocean:
 
  13,  0, "road.river_s_n0e0s0w0"
@@ -443,7 +443,7 @@ tiles = { "row", "column", "tag"
  13, 14, "road.river_s_n0e1s1w1"
  13, 15, "road.river_s_n1e1s1w1"
 
-; River outlets, river to north, south, east, west 
+; River outlets, river to north, south, east, west
 
   14, 12, "road.river_outlet_n"
   14, 13, "road.river_outlet_w"

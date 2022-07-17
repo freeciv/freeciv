@@ -69,10 +69,10 @@ tiles = { "row", "column", "tag"
   0, 20, "citizen.content_1"
   0, 21, "citizen.happy_0"
   0, 22, "citizen.happy_1"
-  0, 23, "citizen.unhappy_0" 
-  0, 24, "citizen.unhappy_1" 
-  0, 25, "citizen.angry_0" 
-  0, 26, "citizen.angry_1" 
+  0, 23, "citizen.unhappy_0"
+  0, 24, "citizen.unhappy_1"
+  0, 25, "citizen.angry_0"
+  0, 26, "citizen.angry_1"
 
 ; Right arrow icon:
 

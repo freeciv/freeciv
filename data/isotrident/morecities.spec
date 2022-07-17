@@ -61,7 +61,7 @@ tiles = { "row", "column", "tag"
  0,  5, "city.asian_wall_0"
  0,  6, "city.asian_wall_1"
  0,  7, "city.asian_wall_2"
-   
+
 
  1,  0, "city.tropical_city_0"
  1,  1, "city.tropical_city_1"
@@ -71,5 +71,5 @@ tiles = { "row", "column", "tag"
  1,  5, "city.tropical_wall_0"
  1,  6, "city.tropical_wall_1"
  1,  7, "city.tropical_wall_2"
-   
+
 }

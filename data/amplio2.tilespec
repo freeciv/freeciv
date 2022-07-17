@@ -15,7 +15,7 @@ priority = 25
 summary = _("Large isometric tileset.")
 ;description = ""
 
-; TODO: add more overall information fields on tiles, 
+; TODO: add more overall information fields on tiles,
 ; eg, authors, colors, etc.
 
 ; What is the primary ruleset this tileset is meant for.
@@ -132,8 +132,8 @@ tilelabel_offset_y = 15
 ; This is special because it gets freed and reloaded as required:
 main_intro_file    = "misc/intro"
 
-; Below, the graphics spec files; must be somewhere (anywhere) in 
-; the data path. Order may be important for color allocation on 
+; Below, the graphics spec files; must be somewhere (anywhere) in
+; the data path. Order may be important for color allocation on
 ; low-color systems, and if there are any duplicate tags (lattermost
 ; tag is used).
 files =

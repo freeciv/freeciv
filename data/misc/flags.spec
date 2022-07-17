@@ -84,7 +84,7 @@ artists = "
    Brasil		Cezary Biele
    Britannia		J.M. Maalderink
    Brittany		Lexicon
-   Brunei		Gustav Broberg 
+   Brunei		Gustav Broberg
    Bulgaria		Daniel McRae
    Burgundic		Andrzej G.
    Burgundy		Daniel Markstedt
@@ -101,7 +101,7 @@ artists = "
    Cantonese		Cezary Biele and J.M. Maalderink
    Cape Verde		Open Clip Art
    CAR			Vzb83 (Wikimedia Commons)
-   Carantanian		Andrzej M. Gorzym 
+   Carantanian		Andrzej M. Gorzym
    Cartago		Daniel Markstedt and Matt Jecrell
    Catalan		Xavier Conde Rueda
    Celtiberian		J.M. Maalderink
@@ -120,7 +120,7 @@ artists = "
    China		Stephen Silver
    Choctaw		Daniel Markstedt
    Chola		Dan Cottrell and Daniel Markstedt
-   Chrobatian		Andrzej M. Gorzym 
+   Chrobatian		Andrzej M. Gorzym
    Chumash		Daniel Markstedt
    Chuvashia		Urmas (Wikimedia Commons)
    Clatsop		Euku (Wikimedia Commons)
@@ -142,8 +142,8 @@ artists = "
    Cyrenaica		Daniel Markstedt and J.M. Maalderink
    Czech		Lauris Kaplinski
    Czechoslovakia	Tlusťa (Wikimedia Commons)
-   Dacian		Andrzej M. Gorzym 
-   Dahomey		Daniel Markstedt 
+   Dacian		Andrzej M. Gorzym
+   Dahomey		Daniel Markstedt
    Darfur		Daniel Markstedt
    DDR			Jwnabd (Wikimedia Commons)
    Denmark		Jens Bech Madsen
@@ -443,7 +443,7 @@ artists = "
    Samoa		Vzb83 (Wikimedia Commons)
    Samogitia		Daniel Markstedt and Jarno Vasamaa
    San Marino		Tobias Jakobs
-   S. Tome and Principe	Vzb83 (Wikimedia Commons)	
+   S. Tome and Principe	Vzb83 (Wikimedia Commons)
    Sapmi		Dean Tersigni
    Sardinia		Patricia Fidi and J.M. Maalderink
    Sarmatia		Andrzej G.
@@ -478,7 +478,7 @@ artists = "
    Slovenia		Matthew Gatto
    Solomon Islands	SKopp (Wikimedia Commons)
    Somalia		J.M. Maalderink
-   Somaliland		Cezary Biele and J.M. Maalderink 
+   Somaliland		Cezary Biele and J.M. Maalderink
    Songhai		Daniel Markstedt
    South Africa		Farrel Lifson
    Southern Cross	Crotalus horridus
@@ -1061,7 +1061,7 @@ sprites =
 		"f.spain", "flags/spain"
 		"f.srilanka", "flags/srilanka"
 		"f.srivijaya", "flags/srivijaya"
-;		"f.stpatrick", "flags/stpatrick"	; Alternate Irish 
+;		"f.stpatrick", "flags/stpatrick"	; Alternate Irish
 		"f.sudan", "flags/sudan"
 		"f.suebian", "flags/suebian"
 		"f.sumeria", "flags/sumeria"

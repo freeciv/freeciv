@@ -124,7 +124,7 @@ tiles = { "row", "column","tag"
   4,    5, "tx.fallout"
   4,    6, "tx.pollution"
   4,    7, "tx.village"
- 
+
 ; misc
 
   5,    0, "t.coast_color"

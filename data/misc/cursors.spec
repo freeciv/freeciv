@@ -12,7 +12,7 @@ artists = "
     edit_paint cursor take from GIMP
 
     Hourglass and Add from Bluecurve theme in redhat-artwork
-    
+
 "
 
 [file]

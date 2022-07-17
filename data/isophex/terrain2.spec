@@ -48,7 +48,7 @@ tiles = { "row", "column","tag"
 
  ; The below sprites are duplicates of the previous sprites,
  ; since there aren't yet graphics for the extra hex directions.
- 
+
  0,  0, "t.l1.forest_n0e0se0s0w0nw1"
  0,  1, "t.l1.forest_n1e0se0s0w0nw1"
  0,  2, "t.l1.forest_n0e1se0s0w0nw1"
@@ -119,7 +119,7 @@ tiles = { "row", "column","tag"
 
  ; The below sprites are duplicates of the previous sprites,
  ; since there aren't yet graphics for the extra hex directions.
- 
+
  2,  0, "t.l1.mountains_n0e0se0s0w0nw1"
  2,  1, "t.l1.mountains_n1e0se0s0w0nw1"
  2,  2, "t.l1.mountains_n0e1se0s0w0nw1"
@@ -190,7 +190,7 @@ tiles = { "row", "column","tag"
 
  ; The below sprites are duplicates of the previous sprites,
  ; since there aren't yet graphics for the extra hex directions.
- 
+
  4,  0, "t.l1.hills_n0e0se0s0w0nw1"
  4,  1, "t.l1.hills_n1e0se0s0w0nw1"
  4,  2, "t.l1.hills_n0e1se0s0w0nw1"
@@ -272,7 +272,7 @@ tiles = { "row", "column","tag"
  0, 10, "t.l0.lake_cell_u101"
  0, 12, "t.l0.lake_cell_u011"
  0, 14, "t.l0.lake_cell_u111"
- 
+
  1, 0,  "t.l0.lake_cell_d000"
  1, 2,  "t.l0.lake_cell_d100"
  1, 4,  "t.l0.lake_cell_d010"
@@ -310,7 +310,7 @@ tiles = { "row", "column","tag"
  3, 10, "t.l0.coast_cell_u101"
  3, 12, "t.l0.coast_cell_u011"
  3, 14, "t.l0.coast_cell_u111"
- 
+
  4, 0,  "t.l0.coast_cell_d000"
  4, 2,  "t.l0.coast_cell_d100"
  4, 4,  "t.l0.coast_cell_d010"
@@ -348,7 +348,7 @@ tiles = { "row", "column","tag"
  6, 10, "t.l0.floor_cell_u101"
  6, 12, "t.l0.floor_cell_u011"
  6, 14, "t.l0.floor_cell_u111"
- 
+
  7, 0,  "t.l0.floor_cell_d000"
  7, 2,  "t.l0.floor_cell_d100"
  7, 4,  "t.l0.floor_cell_d010"

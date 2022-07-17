@@ -9,7 +9,7 @@ options = "+Freeciv-spec-Devel-2019-Jul-03"
 artists = "
     Tim F. Smith <yoohootim@hotmail.com>
     Andreas Røsdal <andrearo@pvv.ntnu.no> (hex mode)
-    Daniel Speyer <dspeyer@users.sf.net> 
+    Daniel Speyer <dspeyer@users.sf.net>
 "
 
 [file]

@@ -84,7 +84,7 @@ tiles = { "row", "column", "tag"
  1,  5, "city.european_wall_0"
  1,  6, "city.european_wall_1"
  1,  7, "city.european_wall_2"
-   
+
 
  5,  0, "city.classical_city_0"
  5,  1, "city.classical_city_1"
@@ -94,7 +94,7 @@ tiles = { "row", "column", "tag"
  5,  5, "city.classical_wall_0"
  5,  6, "city.classical_wall_1"
  5,  7, "city.classical_wall_2"
-   
+
  2,  0, "city.industrial_city_0"
  2,  1, "city.industrial_city_1"
  2,  2, "city.industrial_city_2"
@@ -112,7 +112,7 @@ tiles = { "row", "column", "tag"
  6,  5, "city.electricage_wall_0"
  6,  6, "city.electricage_wall_1"
  6,  7, "city.electricage_wall_2"
-   
+
  3,  0, "city.modern_city_0"
  3,  1, "city.modern_city_1"
  3,  2, "city.modern_city_2"
@@ -121,7 +121,7 @@ tiles = { "row", "column", "tag"
  3,  5, "city.modern_wall_0"
  3,  6, "city.modern_wall_1"
  3,  7, "city.modern_wall_2"
-   
+
  4,  0, "city.postmodern_city_0"
  4,  1, "city.postmodern_city_1"
  4,  2, "city.postmodern_city_2"
@@ -130,5 +130,5 @@ tiles = { "row", "column", "tag"
  4,  5, "city.postmodern_wall_0"
  4,  6, "city.postmodern_wall_1"
  4,  7, "city.postmodern_wall_2"
-   
+
 }

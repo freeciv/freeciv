@@ -15,7 +15,7 @@ priority = 3
 summary = _("Small iso-hex tileset.")
 ;description = ""
 
-; TODO: add more overall information fields on tiles, 
+; TODO: add more overall information fields on tiles,
 ; eg, authors, colors, etc.
 
 ; What is the primary ruleset this tileset is meant for.
@@ -37,7 +37,7 @@ fog_style      = "Auto"
 
 ; Was darkness style "IsoRect" (single-sprite)
 darkness_style = "CardinalSingle"
- 
+
 ; offset the flags by this amount when drawing units
 unit_flag_offset_x = 17
 unit_flag_offset_y = 11
@@ -135,8 +135,8 @@ tilelabel_offset_y = 10
 ; This is special because it gets freed and reloaded as required:
 main_intro_file    = "misc/intro"
 
-; Below, the graphics spec files; must be somewhere (anywhere) in 
-; the data path. Order may be important for color allocation on 
+; Below, the graphics spec files; must be somewhere (anywhere) in
+; the data path. Order may be important for color allocation on
 ; low-color systems, and if there are any duplicate tags (lattermost
 ; tag is used).
 files =

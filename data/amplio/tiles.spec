@@ -145,7 +145,7 @@ tiles = { "row", "column", "tag"
 ;  7, 18, "upkeep.unhappy2"
 ;  7, 19, "upkeep.shield"
 
-; Nuclear explosion: this could maybe now be handled as one 
+; Nuclear explosion: this could maybe now be handled as one
 ; big graphic (?), but for now is done old way as 3 by 3:
 
   0,  0, "explode.nuke_00"

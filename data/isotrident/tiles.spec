@@ -45,7 +45,7 @@ tiles = { "row", "column", "tag"
   1, 14, "unit.oil_mine"
   1, 15, "unit.oil_rig"
   1, 16, "unit.buoy"
-  
+
   1, 17, "unit.loaded"
   1, 18, "unit.connect"
   1, 19, "unit.auto_explore"

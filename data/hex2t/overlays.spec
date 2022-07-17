@@ -24,7 +24,7 @@ pixel_border = 2
 tiles = { "row", "column","tag"
 ; All matched Overlays go in this file.
 ; This includes rivers, hills, mountains, forest and beaches.
-; 
+;
 ; Note that for matching a hex2 tileset
 ; the directions are classed as follows:
 ;
@@ -375,7 +375,7 @@ tiles = { "row", "column","tag"
  0, 5,  "t.l0.coast_cell_u101"
  0, 6,  "t.l0.coast_cell_u011"
  0, 7,  "t.l0.coast_cell_u111"
- 
+
  1, 0,  "t.l0.coast_cell_r000"
  1, 1,  "t.l0.coast_cell_r100"
  1, 2,  "t.l0.coast_cell_r010"
@@ -412,7 +412,7 @@ tiles = { "row", "column","tag"
  4, 5,  "t.l0.floor_cell_u101"
  4, 6,  "t.l0.floor_cell_u011"
  4, 7,  "t.l0.floor_cell_u111"
- 
+
  5, 0,  "t.l0.floor_cell_r000"
  5, 1,  "t.l0.floor_cell_r100"
  5, 2,  "t.l0.floor_cell_r010"

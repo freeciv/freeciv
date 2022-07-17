@@ -2,7 +2,7 @@
 options = "+Freeciv-spec-Devel-2019-Jul-03"
 [info]
 artists = "
- Frederic Rodrigo 
+ Frederic Rodrigo
  a.atomic_theory      a.explosives           a.monotheism
  a.automobile         a.fusion_power         a.mysticism
  a.chemistry          a.genetic_engineering  a.plastics
@@ -18,7 +18,7 @@ artists = "
  a.advanced_flight    a.industrialization    a.polytheism
  a.alphabet           a.navigation           a.stealth
  a.combustion         a.physics              a.the_corporation
- 
+
  feler404
  a.construction       a.nuclear_power        a.sanitation
  a.engineering        a.robotics             a.warrior_code
@@ -36,11 +36,11 @@ artists = "
 
  Dan Gerhards
  a.astronomy
- 
+
  Philippe Verdy
  a.medicine
- 
- Xuacu 
+
+ Xuacu
  a.monarchy
 
  Jim Fitzpatrick
@@ -48,11 +48,11 @@ artists = "
 
  Patricia Fidi
  a.seafaring
- 
- Cosmin Stroe 
+
+ Cosmin Stroe
  a.nuclear_fission
- 
- Multimotyl 
+
+ Multimotyl
  a.philosophy
 
  Michael Reeve
@@ -87,16 +87,16 @@ artists = "
 
  Chris Buckley
  a.recycling
- 
+
  Liquid_2003
  a.democracy
- 
+
  Mpalacios
  a.bridge_building
- 
+
  Jose-Manuel Benito Alvarez
  a.pottery
- 
+
  Adrian Pingstone
  a.conscription
 
@@ -105,11 +105,11 @@ artists = "
 
  Oliver Wolters
  a.fundamentalism
- 
+
  PD - Unknown author
  a.communism         a.flight             a.refining
  a.chivalry          a.leadership         a.writing
- a.feudalism         a.mass_production    
+ a.feudalism         a.mass_production
 "
 
 

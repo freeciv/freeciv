@@ -22,7 +22,7 @@ dy = 64
 pixel_border = 1
 
 tiles = { "row", "column","tag"
-; Tunnels (as special type), and whether north, south, east, west 
+; Tunnels (as special type), and whether north, south, east, west
 
  2,  0, "road.tunnel_n0e0se0s0w0nw0"
  2,  1, "road.tunnel_n1e0se0s0w0nw0"

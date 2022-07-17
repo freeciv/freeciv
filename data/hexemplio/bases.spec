@@ -51,7 +51,7 @@ pixel_border = 1
 tiles = { "row", "column", "tag"
 
 ;[HH][GS]
- 0,  0, "base.airstrip_mg"			
+ 0,  0, "base.airstrip_mg"
  1,  0, "tx.airstrip_full"
 ;[HH][GS]
  0,  1, "base.airbase_mg"

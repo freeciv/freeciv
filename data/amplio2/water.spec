@@ -27,7 +27,7 @@ pixel_border = 1
 
 tiles = { "row", "column", "tag"
 
-; Rivers (as special type), and whether north, south, east, west 
+; Rivers (as special type), and whether north, south, east, west
 ; also has river or is ocean:
 
  2,  0, "road.river_s_n0e0s0w0"
@@ -74,7 +74,7 @@ tiles = { "row", "column", "tag"
  0, 10, "t.l1.coast_cell_u_i_w_i"
  0, 12, "t.l1.coast_cell_u_w_i_i"
  0, 14, "t.l1.coast_cell_u_i_i_i"
- 
+
  1, 0,  "t.l1.coast_cell_d_w_w_w" ;vacant cell
  1, 2,  "t.l1.coast_cell_d_i_w_w"
  1, 4,  "t.l1.coast_cell_d_w_i_w"
@@ -111,7 +111,7 @@ tiles = { "row", "column", "tag"
  0, 10, "t.l1.floor_cell_u_i_w_i"
  0, 12, "t.l1.floor_cell_u_w_i_i"
  0, 14, "t.l1.floor_cell_u_i_i_i"
- 
+
  1, 0,  "t.l1.floor_cell_d_w_w_w" ;vacant cell
  1, 2,  "t.l1.floor_cell_d_i_w_w"
  1, 4,  "t.l1.floor_cell_d_w_i_w"
@@ -148,7 +148,7 @@ tiles = { "row", "column", "tag"
  9, 10, "t.l0.lake_cell_u_l_s_l"
  9, 12, "t.l0.lake_cell_u_s_l_l"
  9, 14, "t.l0.lake_cell_u_l_l_l"
- 
+
  10, 0,  "t.l0.lake_cell_d_s_s_s" ;vacant cell
  10, 2,  "t.l0.lake_cell_d_l_s_s"
  10, 4,  "t.l0.lake_cell_d_s_l_s"

@@ -108,7 +108,7 @@ tiles = { "row", "column","tag"
 
 ;misc
  5, 5, "mask.tile"
- 5, 1, "t.dither_tile"										
+ 5, 1, "t.dither_tile"
  5, 1, "tx.darkness"										;[DS][?][GS]
  0, 0, "t.coast_color"										;[?]
 ; 0, 0, "t.floor_color"										;[?]
@@ -131,7 +131,7 @@ tiles = { "row", "column","tag"
  6, 2, "path.normal"          ; tip of path with MP remaining
  6, 3, "path.waypoint"
 
-; Irrigation (as special type), and whether north, south, east, west 
+; Irrigation (as special type), and whether north, south, east, west
 
  4,  3, "tx.irrigation_s_n0e0se0s0w0nw0"
  4,  3, "tx.irrigation_s_n1e0se0s0w0nw0"
@@ -198,7 +198,7 @@ tiles = { "row", "column","tag"
  4,  3, "tx.irrigation_s_n0e1se1s1w1nw1"
  4,  3, "tx.irrigation_s_n1e1se1s1w1nw1"
 
-; Farmland (as special type), and whether north, south, east, west 
+; Farmland (as special type), and whether north, south, east, west
 
  4,  4, "tx.farmland_s_n0e0se0s0w0nw0"
  4,  4, "tx.farmland_s_n1e0se0s0w0nw0"
