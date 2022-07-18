@@ -2031,9 +2031,9 @@ void unit_enter_city(struct unit *punit, struct city *pcity, bool passenger)
 }
 
 /**************************************************************************
- Which wall gfx city should display?
+  Which wall gfx city should display?
 **************************************************************************/
-static int city_got_citywalls(const struct city *pcity)
+static int city_citywalls_gfx(const struct city *pcity)
 {
   int walls = get_city_bonus(pcity, EFT_VISIBLE_WALLS);
 
@@ -2451,7 +2451,7 @@ void package_city(struct city *pcity, struct packet_city_info *packet,
   packet->did_sell = pcity->did_sell;
   packet->was_happy = pcity->was_happy;
 
-  packet->walls = city_got_citywalls(pcity);
+  packet->walls = city_citywalls_gfx(pcity);
   packet->style = pcity->style;
   packet->city_image = get_city_bonus(pcity, EFT_CITY_IMAGE);
 
@@ -2481,7 +2481,7 @@ bool update_dumb_city(struct player *pplayer, struct city *pcity)
   /* pcity->client.occupied isn't used at the server, so we go straight to the
    * unit list to check the occupied status. */
   bool occupied = (unit_list_size(pcenter->units) > 0);
-  bool walls = city_got_citywalls(pcity);
+  int walls = city_citywalls_gfx(pcity);
   bool happy = city_happy(pcity);
   bool unhappy = city_unhappy(pcity);
   int style = pcity->style;
