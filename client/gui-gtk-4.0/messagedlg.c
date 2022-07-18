@@ -75,7 +75,10 @@ static void create_messageopt_dialog(void)
   gui_dialog_add_button(shell, NULL, _("_Cancel"), GTK_RESPONSE_CANCEL);
 
   explanation = gtk_label_new(NULL);
-  g_object_set(explanation, "margin", 4, NULL);
+  gtk_widget_set_margin_bottom(explanation, 4);
+  gtk_widget_set_margin_end(explanation, 4);
+  gtk_widget_set_margin_start(explanation, 4);
+  gtk_widget_set_margin_top(explanation, 4);
   gtk_label_set_markup(GTK_LABEL(explanation),
     _("Where to display messages?\n"
       "<b>Out</b>put window ; "

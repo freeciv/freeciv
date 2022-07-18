@@ -274,7 +274,10 @@ static struct intel_dialog *create_intel_dialog(struct player *p)
 
   /* overview tab. */
   table = gtk_grid_new();
-  g_object_set(table, "margin", 6, NULL);
+  gtk_widget_set_margin_bottom(table, 6);
+  gtk_widget_set_margin_end(table, 6);
+  gtk_widget_set_margin_start(table, 6);
+  gtk_widget_set_margin_top(table, 6);
 
   gtk_grid_set_row_spacing(GTK_GRID(table), 2);
   gtk_grid_set_column_spacing(GTK_GRID(table), 12);
@@ -304,7 +307,10 @@ static struct intel_dialog *create_intel_dialog(struct player *p)
   pdialog->diplstates = gtk_tree_store_new(1, G_TYPE_STRING);
 
   view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(pdialog->diplstates));
-  g_object_set(view, "margin", 6, NULL);
+  gtk_widget_set_margin_bottom(view, 6);
+  gtk_widget_set_margin_end(view, 6);
+  gtk_widget_set_margin_start(view, 6);
+  gtk_widget_set_margin_top(view, 6);
   gtk_widget_set_hexpand(view, TRUE);
   gtk_widget_set_vexpand(view, TRUE);
   g_object_unref(pdialog->diplstates);
@@ -337,7 +343,10 @@ static struct intel_dialog *create_intel_dialog(struct player *p)
       1, GTK_SORT_ASCENDING);
 
   view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(pdialog->techs));
-  g_object_set(view, "margin", 6, NULL);
+  gtk_widget_set_margin_bottom(view, 6);
+  gtk_widget_set_margin_end(view, 6);
+  gtk_widget_set_margin_start(view, 6);
+  gtk_widget_set_margin_top(view, 6);
   gtk_widget_set_hexpand(view, TRUE);
   gtk_widget_set_vexpand(view, TRUE);
   g_object_unref(pdialog->techs);
@@ -417,7 +426,10 @@ static struct intel_wonder_dialog *create_intel_wonder_dialog(struct player *p)
   gtk_tree_sortable_set_sort_column_id(GTK_TREE_SORTABLE(pdialog->wonders),
                                        3, GTK_SORT_DESCENDING);
   view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(pdialog->wonders));
-  g_object_set(view, "margin", 6, NULL);
+  gtk_widget_set_margin_bottom(view, 6);
+  gtk_widget_set_margin_end(view, 6);
+  gtk_widget_set_margin_start(view, 6);
+  gtk_widget_set_margin_top(view, 6);
   gtk_widget_set_hexpand(view, TRUE);
   gtk_widget_set_vexpand(view, TRUE);
   g_object_unref(pdialog->wonders);

@@ -1079,6 +1079,7 @@ static void setup_widgets(void)
   int grid2_col = 0;
   GtkGesture *mc_gesture;
   GtkEventController *mc_controller;
+  GtkWidget *ebar;
 
   message_buffer = gtk_text_buffer_new(NULL);
 
@@ -1114,7 +1115,10 @@ static void setup_widgets(void)
   editgui_create_widgets();
 
   ingame_votebar = voteinfo_bar_new(FALSE);
-  g_object_set(ingame_votebar, "margin", 2, NULL);
+  gtk_widget_set_margin_bottom(ingame_votebar, 2);
+  gtk_widget_set_margin_end(ingame_votebar, 2);
+  gtk_widget_set_margin_start(ingame_votebar, 2);
+  gtk_widget_set_margin_top(ingame_votebar, 2);
 
   /* *** everything in the top *** */
 
@@ -1393,7 +1397,10 @@ static void setup_widgets(void)
   gtk_box_append(GTK_BOX(unit_info_box), hgrid2);
 
   table = gtk_grid_new();
-  g_object_set(table, "margin", 5, NULL);
+  gtk_widget_set_margin_bottom(table, 5);
+  gtk_widget_set_margin_end(table, 5);
+  gtk_widget_set_margin_start(table, 5);
+  gtk_widget_set_margin_top(table, 5);
   gtk_grid_attach(GTK_GRID(hgrid2), table, grid2_col++, 0, 1, 1);
 
   gtk_grid_set_row_spacing(GTK_GRID(table), 2);
@@ -1435,7 +1442,11 @@ static void setup_widgets(void)
 
   gtk_grid_attach(GTK_GRID(vgrid), editgui_get_editbar()->widget,
                   0, grid_row++, 1, 1);
-  g_object_set(editgui_get_editbar()->widget, "margin", 4, NULL);
+  ebar = editgui_get_editbar()->widget;
+  gtk_widget_set_margin_bottom(ebar, 4);
+  gtk_widget_set_margin_end(ebar, 4);
+  gtk_widget_set_margin_start(ebar, 4);
+  gtk_widget_set_margin_top(ebar, 4);
 
   label = gtk_label_new(Q_("?noun:View"));
   gtk_notebook_append_page(GTK_NOTEBOOK(top_notebook), vgrid, label);
@@ -1537,7 +1548,10 @@ static void setup_widgets(void)
       hpaned = gtk_paned_new(GTK_ORIENTATION_HORIZONTAL);
     }
     gtk_grid_attach(GTK_GRID(vgrid), hpaned, 0, grid_row++, 1, 1);
-    g_object_set(hpaned, "margin", 4, NULL);
+    gtk_widget_set_margin_bottom(hpaned, 4);
+    gtk_widget_set_margin_end(hpaned, 4);
+    gtk_widget_set_margin_start(hpaned, 4);
+    gtk_widget_set_margin_top(hpaned, 4);
     bottom_hpaned = hpaned;
 
     bottom_notebook = gtk_notebook_new();
@@ -1597,7 +1611,10 @@ static void setup_widgets(void)
   /* the chat line */
   view = inputline_toolkit_view_new();
   gtk_grid_attach(GTK_GRID(vgrid), view, 0, grid_row++, 1, 1);
-  g_object_set(view, "margin", 3, NULL);
+  gtk_widget_set_margin_bottom(view, 3);
+  gtk_widget_set_margin_end(view, 3);
+  gtk_widget_set_margin_start(view, 3);
+  gtk_widget_set_margin_top(view, 3);
 
   button = gtk_check_button_new_with_label(_("Allies Only"));
   gtk_widget_set_focus_on_click(button, FALSE);

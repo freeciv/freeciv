@@ -1048,7 +1048,10 @@ static void help_update_tech(const struct help_item *pitem, char *title)
     }
 
     w = gtk_separator_new(GTK_ORIENTATION_HORIZONTAL);
-    g_object_set(w, "margin", 5, NULL);
+    gtk_widget_set_margin_bottom(w, 5);
+    gtk_widget_set_margin_end(w, 5);
+    gtk_widget_set_margin_start(w, 5);
+    gtk_widget_set_margin_top(w, 5);
     gtk_widget_set_hexpand(w, TRUE);
     gtk_widget_set_vexpand(w, TRUE);
     help_box_add(w);

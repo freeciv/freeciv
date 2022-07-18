@@ -752,7 +752,10 @@ static GtkWidget *create_city_info_table(struct city_dialog *pdialog,
   GtkEventController *controller;
 
   table = gtk_grid_new();
-  g_object_set(table, "margin", 4, NULL);
+  gtk_widget_set_margin_bottom(table, 4);
+  gtk_widget_set_margin_end(table, 4);
+  gtk_widget_set_margin_start(table, 4);
+  gtk_widget_set_margin_top(table, 4);
 
   intl_slist(ARRAY_SIZE(output_label), output_label, &output_label_done);
 
@@ -1192,7 +1195,10 @@ static int create_production_header(struct city_dialog *pdialog,
   int grid_col = 0;
 
   hgrid = gtk_grid_new();
-  g_object_set(hgrid, "margin", 2, NULL);
+  gtk_widget_set_margin_bottom(hgrid, 2);
+  gtk_widget_set_margin_end(hgrid, 2);
+  gtk_widget_set_margin_start(hgrid, 2);
+  gtk_widget_set_margin_top(hgrid, 2);
   gtk_grid_set_column_spacing(GTK_GRID(hgrid), 10);
   gtk_grid_attach(GTK_GRID(grid), hgrid, 0, row++, 1, 1);
 
@@ -1294,7 +1300,10 @@ static void create_and_append_worklist_page(struct city_dialog *pdialog)
   }
 
   editor = create_worklist();
-  g_object_set(editor, "margin", 6, NULL);
+  gtk_widget_set_margin_bottom(editor, 6);
+  gtk_widget_set_margin_end(editor, 6);
+  gtk_widget_set_margin_start(editor, 6);
+  gtk_widget_set_margin_top(editor, 6);
   reset_city_worklist(editor, pdialog->pcity);
   gtk_grid_attach(GTK_GRID(page), editor, 0, page_row++, 1, 1);
   pdialog->production.worklist = editor;
