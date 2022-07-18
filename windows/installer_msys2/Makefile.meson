@@ -37,16 +37,19 @@ DLLPATH_PREFIX=/$(ARCHDIR)/bin/
 # Make rules
 #
 
-all: gtk3.22-installer sdl2-installer
+all: gtk3.22-installer sdl2-installer gtk4-installer
 
 snapshot:
 	make -f Makefile.meson VERSION_REVTYPE="git" EXTRA_CONFIG="-Dgitrev=true $(EXTRA_CONFIG)" all
 
 ci:
-	make -f Makefile.meson VERSION_REVTYPE="git" CI=yes EXTRA_CONFIG="-Dgitrev=true $(EXTRA_CONFIG)" gtk3.22-installer sdl2-installer
+	make -f Makefile.meson VERSION_REVTYPE="git" CI=yes EXTRA_CONFIG="-Dgitrev=true $(EXTRA_CONFIG)" gtk3.22-installer sdl2-installer gtk4-installer
 
 gtk3.22-installer:
 	make -f Makefile.meson GUI=gtk3.22 CLIENT=gtk3.22 FCMP=gtk3 installer-common
+
+gtk4-installer:
+	make -f Makefile.meson GUI=gtk4 CLIENT=gtk4 FCMP=gtk4 installer-common
 
 sdl2-installer:
 	make -f Makefile.meson GUI=sdl2 CLIENT=sdl2 FCMP=gtk4 installer-common
@@ -173,7 +176,14 @@ FCMP_GTK4_DLLS := \
 	libpangoft2-1.0-0.dll \
 	liblzo2-2.dll \
 	libthai-0.dll \
-	libdatrie-1.dll
+	libdatrie-1.dll \
+	libtiff-5.dll \
+	libjpeg-8.dll \
+	libunistring-2.dll \
+	libjbig-0.dll \
+	libwebp-7.dll \
+	libdeflate.dll \
+	libLerc.dll
 
 install-env-gtk4-fcmp: install-env-common
 	cp -R $(addprefix $(DLLPATH_PREFIX), $(FCMP_GTK4_DLLS)) meson-install-$(GUI)/
@@ -186,21 +196,18 @@ install-env-gtk4-fcmp: install-env-common
 
 install-freeciv-gtk3.22: install-freeciv-common
 
+install-freeciv-gtk4: install-freeciv-common
+
 install-freeciv-sdl2: install-freeciv-common
 
 install-env-gtk3.22: install-env-gtk3-fcmp
 
+install-env-gtk4: install-env-gtk4-fcmp
+
 SDL2_DLLS := \
 	SDL2_ttf.dll \
 	libSDL2_gfx-1-0-0.dll \
-	SDL2_image.dll \
-	libtiff-5.dll \
-	libjpeg-8.dll \
-	libwebp-7.dll \
-	libdeflate.dll \
-	libjbig-0.dll \
-	libLerc.dll \
-	libunistring-2.dll
+	SDL2_image.dll
 
 install-env-sdl2: install-env-gtk4-fcmp
 	# add DLLs
@@ -220,4 +227,5 @@ clean-installer-common:
 
 clean:
 	make -f Makefile.meson GUI=gtk3.22 clean-build-common clean-install-common clean-installer-common
+	make -f Makefile.meson GUI=gtk4 clean-build-common clean-install-common clean-installer-common
 	make -f Makefile.meson GUI=sdl2 clean-build-common clean-install-common clean-installer-common
