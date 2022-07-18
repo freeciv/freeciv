@@ -254,7 +254,7 @@ static bool save_terrain_ref(struct section_file *sfile,
   if (save == NULL) {
     secfile_insert_str(sfile, "none", "%s.%s", path, entry);
   } else if (save == pthis) {
-    secfile_insert_str(sfile, "yes", "%s.%s", path, entry);   
+    secfile_insert_str(sfile, "yes", "%s.%s", path, entry);
   } else {
     secfile_insert_str(sfile, terrain_rule_name(save),
                         "%s.%s", path, entry);
@@ -1075,11 +1075,132 @@ static bool save_bv_actions(struct section_file *sfile,
 static bool save_actions_ruleset(const char *filename, const char *name)
 {
   struct section_file *sfile = create_ruleset_file(name, "actions");
+  enum gen_action action_vec[MAX_NUM_ACTIONS];
+  int i = 0;
+  int sect_idx = 0;
 
   /* TODO: move action logic from save_game_ruleset to here */
   if (sfile == NULL) {
     return FALSE;
   }
+  {
+    /* Action auto performers aren't ready to be exposed in the ruleset
+     * yet. The behavior when two action auto performers for the same
+     * cause can fire isn't set in stone yet. How is one of them chosen?
+     * What if all the actions of the chosen action auto performer turned
+     * out to be illegal but one of the other action auto performers that
+     * fired has legal actions? These issues can decide what other action
+     * rules action auto performers can represent in the future. Deciding
+     * should therefore wait until a rule needs action auto performers to
+     * work a certain way. */
+    /* Only one action auto performer, ACTION_AUTO_MOVED_ADJ, is caused
+     * by AAPC_UNIT_MOVED_ADJ. It is therefore safe to expose the full
+     * requirement vector to the ruleset. */
+    const struct action_auto_perf *auto_perf =
+        action_auto_perf_by_number(ACTION_AUTO_MOVED_ADJ);
+
+    comment_auto_attack(sfile);
+
+    save_action_auto_actions(sfile, ACTION_AUTO_MOVED_ADJ,
+                             "auto_attack.attack_actions");
+
+    save_reqs_vector(sfile, &auto_perf->reqs,
+                     "auto_attack", "if_attacker");
+  }
+
+  comment_actions_dc_initial_odds(sfile);
+  if (!save_bv_actions(sfile, game.info.diplchance_initial_odds,
+                       "actions.diplchance_initial_odds")) {
+    return FALSE;
+  }
+
+  if (!save_action_post_success_force(sfile, ACTION_AUTO_POST_BRIBE,
+                                      action_by_number(
+                                        ACTION_SPY_BRIBE_UNIT))) {
+    log_error("Didn't save all post success forced actions.");
+    return FALSE;
+  }
+
+  if (!save_action_post_success_force(sfile, ACTION_AUTO_POST_ATTACK,
+                                      action_by_number(ACTION_ATTACK))) {
+    log_error("Didn't save all post success forced actions.");
+    return FALSE;
+  }
+
+  if (!save_action_post_success_force(sfile, ACTION_AUTO_POST_WIPE_UNITS,
+                                      action_by_number(ACTION_WIPE_UNITS))) {
+    log_error("Didn't save all post success forced actions.");
+    return FALSE;
+  }
+
+  if (!save_action_auto_actions(sfile, ACTION_AUTO_ESCAPE_CITY,
+                                "actions.escape_city")) {
+    log_error("Didn't save all escape city forced actions.");
+    return FALSE;
+  }
+
+  if (!save_action_auto_actions(sfile, ACTION_AUTO_ESCAPE_STACK,
+                                "actions.unit_stack_death")) {
+    log_error("Didn't save all escape unit stack death forced actions.");
+    return FALSE;
+  }
+
+  save_default_bool(sfile, game.info.poison_empties_food_stock,
+                    RS_DEFAULT_POISON_EMPTIES_FOOD_STOCK,
+                    "actions.poison_empties_food_stock", NULL);
+
+  save_default_bool(sfile, game.info.steal_maps_reveals_all_cities,
+                    RS_DEFAULT_STEAL_MAP_REVEALS_CITIES,
+                    "actions.steal_maps_reveals_all_cities", NULL);
+
+  comment_actions_ui_names(sfile);
+
+  action_iterate(act_id) {
+    struct action *act = action_by_number(act_id);
+
+    save_action_ui_name(sfile,
+                        act_id, action_ui_name_ruleset_var_name(act_id));
+    save_action_kind(sfile, act_id);
+    save_action_range(sfile, act_id);
+    save_action_actor_consuming_always(sfile, act_id);
+    save_action_blocked_by(sfile, act);
+  } action_iterate_end;
+
+  comment_actions_quiet_actions(sfile);
+
+  i = 0;
+  action_iterate(act) {
+    if (action_by_number(act)->quiet) {
+      action_vec[i] = act;
+      i++;
+    }
+  } action_iterate_end;
+
+  if (secfile_insert_enum_vec(sfile, &action_vec, i, gen_action,
+                              "actions.quiet_actions") != i) {
+    log_error("Didn't save all quiet actions.");
+
+    return FALSE;
+  }
+
+  comment_enablers(sfile);
+  sect_idx = 0;
+  action_enablers_iterate(pae) {
+    char path[512];
+
+    if (pae->ruledit_disabled) {
+      continue;
+    }
+
+    fc_snprintf(path, sizeof(path), "actionenabler_%d", sect_idx++);
+
+    secfile_insert_str(sfile, action_id_rule_name(pae->action),
+                       "%s.action", path);
+
+    save_reqs_vector(sfile, &(pae->actor_reqs), path, "actor_reqs");
+    save_reqs_vector(sfile, &(pae->target_reqs), path, "target_reqs");
+  } action_enablers_iterate_end;
+
   return save_ruleset_file(sfile, filename);
 }
 
@@ -1099,7 +1220,6 @@ static bool save_game_ruleset(const char *filename, const char *name)
   const char *tnames[game.server.ruledit.named_teams];
   enum trade_route_type trt;
   int i;
-  enum gen_action action_vec[MAX_NUM_ACTIONS];
   bool locks;
 
   if (sfile == NULL) {
@@ -1325,125 +1445,7 @@ static bool save_game_ruleset(const char *filename, const char *name)
   save_default_int(sfile, game.server.incite_total_factor,
                    RS_DEFAULT_INCITE_TOTAL_FCT,
                    "incite_cost.total_factor", NULL);
-  /*start of action related code */
-  {
-    /* Action auto performers aren't ready to be exposed in the ruleset
-     * yet. The behavior when two action auto performers for the same
-     * cause can fire isn't set in stone yet. How is one of them chosen?
-     * What if all the actions of the chosen action auto performer turned
-     * out to be illegal but one of the other action auto performers that
-     * fired has legal actions? These issues can decide what other action
-     * rules action auto performers can represent in the future. Deciding
-     * should therefore wait until a rule needs action auto performers to
-     * work a certain way. */
-    /* Only one action auto performer, ACTION_AUTO_MOVED_ADJ, is caused
-     * by AAPC_UNIT_MOVED_ADJ. It is therefore safe to expose the full
-     * requirement vector to the ruleset. */
-    const struct action_auto_perf *auto_perf =
-        action_auto_perf_by_number(ACTION_AUTO_MOVED_ADJ);
 
-    comment_auto_attack(sfile);
-
-    save_action_auto_actions(sfile, ACTION_AUTO_MOVED_ADJ,
-                             "auto_attack.attack_actions");
-
-    save_reqs_vector(sfile, &auto_perf->reqs,
-                     "auto_attack", "if_attacker");
-  }
-
-  comment_actions_dc_initial_odds(sfile);
-  if (!save_bv_actions(sfile, game.info.diplchance_initial_odds,
-                       "actions.diplchance_initial_odds")) {
-    return FALSE;
-  }
-
-  if (!save_action_post_success_force(sfile, ACTION_AUTO_POST_BRIBE,
-                                      action_by_number(
-                                        ACTION_SPY_BRIBE_UNIT))) {
-    log_error("Didn't save all post success forced actions.");
-    return FALSE;
-  }
-
-  if (!save_action_post_success_force(sfile, ACTION_AUTO_POST_ATTACK,
-                                      action_by_number(ACTION_ATTACK))) {
-    log_error("Didn't save all post success forced actions.");
-    return FALSE;
-  }
-
-  if (!save_action_post_success_force(sfile, ACTION_AUTO_POST_WIPE_UNITS,
-                                      action_by_number(ACTION_WIPE_UNITS))) {
-    log_error("Didn't save all post success forced actions.");
-    return FALSE;
-  }
-
-  if (!save_action_auto_actions(sfile, ACTION_AUTO_ESCAPE_CITY,
-                                "actions.escape_city")) {
-    log_error("Didn't save all escape city forced actions.");
-    return FALSE;
-  }
-
-  if (!save_action_auto_actions(sfile, ACTION_AUTO_ESCAPE_STACK,
-                                "actions.unit_stack_death")) {
-    log_error("Didn't save all escape unit stack death forced actions.");
-    return FALSE;
-  }
-
-  save_default_bool(sfile, game.info.poison_empties_food_stock,
-                    RS_DEFAULT_POISON_EMPTIES_FOOD_STOCK,
-                    "actions.poison_empties_food_stock", NULL);
-
-  save_default_bool(sfile, game.info.steal_maps_reveals_all_cities,
-                    RS_DEFAULT_STEAL_MAP_REVEALS_CITIES,
-                    "actions.steal_maps_reveals_all_cities", NULL);
-
-  comment_actions_ui_names(sfile);
-
-  action_iterate(act_id) {
-    struct action *act = action_by_number(act_id);
-
-    save_action_ui_name(sfile,
-                        act_id, action_ui_name_ruleset_var_name(act_id));
-    save_action_kind(sfile, act_id);
-    save_action_range(sfile, act_id);
-    save_action_actor_consuming_always(sfile, act_id);
-    save_action_blocked_by(sfile, act);
-  } action_iterate_end;
-
-  comment_actions_quiet_actions(sfile);
-  
-  i = 0;
-  action_iterate(act) {
-    if (action_by_number(act)->quiet) {
-      action_vec[i] = act;
-      i++;
-    }
-  } action_iterate_end;
-
-  if (secfile_insert_enum_vec(sfile, &action_vec, i, gen_action,
-                              "actions.quiet_actions") != i) {
-    log_error("Didn't save all quiet actions.");
-
-    return FALSE;
-  }
-
-  comment_enablers(sfile);
-  sect_idx = 0;
-  action_enablers_iterate(pae) {
-    char path[512];
-
-    if (pae->ruledit_disabled) {
-      continue;
-    }
-
-    fc_snprintf(path, sizeof(path), "actionenabler_%d", sect_idx++);
-
-    secfile_insert_str(sfile, action_id_rule_name(pae->action),
-                       "%s.action", path);
-
-    save_reqs_vector(sfile, &(pae->actor_reqs), path, "actor_reqs");
-    save_reqs_vector(sfile, &(pae->target_reqs), path, "target_reqs");
-  } action_enablers_iterate_end;
-  /* action related code seems to end here */
   if (game.info.tired_attack != RS_DEFAULT_TIRED_ATTACK) {
     comment_combat_rules_tired_attack(sfile);
   }
@@ -1767,7 +1769,7 @@ static bool save_game_ruleset(const char *filename, const char *name)
 
   /* Counters */
   comment_counters(sfile);
-  
+
   sect_idx = 0;
   city_counters_iterate(pcounter) {
     char path[512];
@@ -2008,7 +2010,7 @@ static bool save_nation(struct section_file *sfile, struct nation_type *pnat,
   nation_groups_iterate(pgroup) {
     if (nation_is_in_group(pnat, pgroup)) {
       list_items[set_count++] = nation_group_rule_name(pgroup);
-    } 
+    }
   } nation_groups_iterate_end;
 
   if (set_count > 0) {
@@ -3315,7 +3317,7 @@ bool save_ruleset(const char *path, const char *name, struct rule_data *data)
       fc_snprintf(filename, sizeof(filename), "%s/governments.ruleset", path);
       success = save_governments_ruleset(filename, name);
     }
-    
+
     if (success) {
       fc_snprintf(filename, sizeof(filename), "%s/nations.ruleset", path);
       success = save_nations_ruleset(filename, name, data);
