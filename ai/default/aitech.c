@@ -417,21 +417,19 @@ struct unit_type *dai_wants_defender_against(struct ai_type *ait,
       struct advance *itech = A_NEVER;
       bool impossible_to_get = FALSE;
 
-      if (A_NEVER != deftype->_retire.require_advance) {
-        unit_tech_reqs_iterate(deftype, padv) {
-          if (research_invention_state(presearch,
-                                       advance_number(padv)) != TECH_KNOWN) {
-            /* See if we want to invent this. */
-            int ucost = research_goal_bulbs_required(presearch,
-                                                     advance_number(padv));
+      unit_tech_reqs_iterate(deftype, padv) {
+        if (research_invention_state(presearch,
+                                     advance_number(padv)) != TECH_KNOWN) {
+          /* See if we want to invent this. */
+          int ucost = research_goal_bulbs_required(presearch,
+                                                   advance_number(padv));
 
-            if (cost == 0 || ucost < cost) {
-              cost = ucost;
-              itech = padv;
-            }
+          if (cost == 0 || ucost < cost) {
+            cost = ucost;
+            itech = padv;
           }
-        } unit_tech_reqs_iterate_end;
-      }
+        }
+      } unit_tech_reqs_iterate_end;
 
       building = utype_needs_improvement(deftype, pcity);
       if (building != NULL
@@ -524,21 +522,19 @@ struct unit_type *dai_wants_role_unit(struct ai_type *ait, struct player *pplaye
       struct advance *itech = A_NEVER;
       int cost = 0;
 
-      if (A_NEVER != iunit->_retire.require_advance) {
-        unit_tech_reqs_iterate(iunit, padv) {
-          if (research_invention_state(presearch,
-                                       advance_number(padv)) != TECH_KNOWN) {
-            /* See if we want to invent this. */
-            int ucost = research_goal_bulbs_required(presearch,
-                                                     advance_number(padv));
+      unit_tech_reqs_iterate(iunit, padv) {
+        if (research_invention_state(presearch,
+                                     advance_number(padv)) != TECH_KNOWN) {
+          /* See if we want to invent this. */
+          int ucost = research_goal_bulbs_required(presearch,
+                                                   advance_number(padv));
 
-            if (cost == 0 || ucost < cost) {
-              cost = ucost;
-              itech = padv;
-            }
+          if (cost == 0 || ucost < cost) {
+            cost = ucost;
+            itech = padv;
           }
-        } unit_tech_reqs_iterate_end;
-      }
+        }
+      } unit_tech_reqs_iterate_end;
 
       building = utype_needs_improvement(iunit, pcity);
       if (building != NULL

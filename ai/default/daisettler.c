@@ -922,8 +922,7 @@ static struct cityresult *find_best_city_placement(struct ai_type *ait,
         /* Sea travel not possible yet. Bump tech want for ferries. */
         boattype = get_role_unit(L_FERRYBOAT, 0);
 
-        if (NULL != boattype
-            && A_NEVER != boattype->_retire.require_advance) {
+        if (NULL != boattype) {
           struct ai_plr *plr_data = def_ai_player_data(pplayer, ait);
 
           unit_tech_reqs_iterate(boattype, padv) {

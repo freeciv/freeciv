@@ -854,10 +854,10 @@ void popup_unit_info(Unit_type_id type_id)
 
   req = utype_primary_tech_req(punittype);
 
-  if (A_NEVER == punittype->_retire.require_advance
-      || advance_number(req) == A_NONE) {
+  if (advance_number(req) == A_NONE) {
     requirement_label2 = create_iconlabel_from_chars(NULL, pwindow->dst,
-                                                     Q_("?tech:None"), adj_font(12), 0);
+                                                     Q_("?tech:None"),
+                                                     adj_font(12), 0);
     requirement_label2->id = ID_LABEL;
   } else {
     Tech_type_id req_id = advance_number(req);

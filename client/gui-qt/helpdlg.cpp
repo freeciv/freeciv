@@ -919,7 +919,7 @@ void help_widget::set_topic_unit(const help_item *topic,
 
     // Tech requirement
     tech = utype_primary_tech_req(utype);
-    if (tech && advance_number(tech) != A_NONE) {
+    if (advance_number(tech) != A_NONE) {
       QLabel *tb;
 
       tb = new QLabel(this);
@@ -943,7 +943,7 @@ void help_widget::set_topic_unit(const help_item *topic,
     obsolete = utype->obsoleted_by;
     if (obsolete) {
       tech = utype_primary_tech_req(obsolete);
-      if (tech && advance_number(tech) != A_NONE) {
+      if (advance_number(tech) != A_NONE) {
         QLabel *tb;
 
         tb = new QLabel(this);

@@ -854,7 +854,7 @@ const struct unit_type *unit_type_array_last(void);
 #define unit_tech_reqs_iterate(_utype_, _p)                             \
 do {                                                                    \
   struct advance *_p = (_utype_)->_retire.require_advance;              \
-  if (advance_number(_p) != A_NONE && _p != A_NEVER) {
+  if (advance_number(_p) != A_NONE) {
 
 #define unit_tech_reqs_iterate_end                                      \
   }                                                                     \

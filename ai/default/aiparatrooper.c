@@ -398,10 +398,6 @@ void dai_choose_paratrooper(struct ai_type *ait,
       continue;
     }
 
-    if (A_NEVER == u_type->_retire.require_advance) {
-      continue;
-    }
-
     if (!allow_gold_upkeep && utype_upkeep_cost(u_type, pplayer, O_GOLD) > 0) {
       continue;
     }
