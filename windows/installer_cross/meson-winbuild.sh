@@ -125,7 +125,7 @@ export PKG_CONFIG_PATH=${DLLSPATH}/lib/pkgconfig
 export PATH="$DLLSPATH/linux/libexec:$PATH"
 
 if ! meson --cross-file=cross.txt -Dprefix=$MESON_INSTALL_DIR -Dclients=$CLIENT -Dfcmp=$FCMP \
-           ${NLS} -Dsyslua=false -Druledit=$RULEDIT $QTPARAMS \
+           ${NLS} -Dsyslua=false -Dmwand=false -Druledit=$RULEDIT $QTPARAMS \
            ../../.. $EXTRA_CONFIG ; then
   echo "Meson run failed!" >&2
   exit 1

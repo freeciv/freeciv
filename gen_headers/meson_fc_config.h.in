@@ -76,6 +76,9 @@
 /* Can run programs as root */
 #mesondefine ALWAYS_ROOT
 
+/* Have magickwand mapimg toolkit */
+#mesondefine HAVE_MAPIMG_MAGICKWAND
+
 /* struct ip_mreqn available */
 #mesondefine HAVE_IP_MREQN
 
