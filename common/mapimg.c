@@ -2276,7 +2276,6 @@ static bool img_save_magickwand(const struct img *pimg,
         continue;
       }
 
-      pcolor = imgcolor_player(player_index(pplayer));
       cat_snprintf(comment, sizeof(comment), "%s\n", img_playerstr(pplayer));
     } players_iterate_end;
   }
@@ -2339,7 +2338,6 @@ static bool img_save_ppm(const struct img *pimg, const char *mapimgfile)
         continue;
       }
 
-      pcolor = imgcolor_player(player_index(pplayer));
       fprintf(fp, "# %s\n", img_playerstr(pplayer));
     } players_iterate_end;
   } else {
