@@ -121,7 +121,7 @@ struct vision_site {
   citizens size;         /* city size (0 <= size <= MAX_CITY_SIZE) */
 
   bool occupied;
-  bool walls;
+  int  walls;
   bool happy;
   bool unhappy;
   int style;
