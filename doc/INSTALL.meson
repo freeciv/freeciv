@@ -129,6 +129,10 @@ syslua ('try'/'true'/'false')
   source tree. The default is 'try' to use lua from the system if possible,
   but fallback to using freeciv's included one if not found from system.
 
+mwand ('try'/'true'/'false')
+  Whether to build against MagickWand to have support for additional
+  mapimg formats. The default is 'try' to enable the support if possible.
+
 audio (boolean):
   Build sound support to the clients. Defaults to true.
 

@@ -387,6 +387,23 @@ if zstd_dep.found()
   pub_conf_data.set('FREECIV_HAVE_LIBZSTD', 1)
 endif
 
+mw_req = get_option('mwand')
+if mw_req != 'false'
+  mw_dep = dependency('MagickWand', version : '>= 7.0', required : false)
+  if mw_dep.found()
+    pub_conf_data.set('FREECIV_MWAND7', '1')
+  else
+    mw_dep = dependency('MagickWand', version : '>= 6.0', required : false)
+  endif
+  if mw_dep.found()
+    priv_conf_data.set('HAVE_MAPIMG_MAGICKWAND', '1')
+  elif mw_req == 'true'
+    error('MagickWand support requested but not found.')
+  endif
+else
+  mw_dep = []
+endif
+
 syslua = get_option('syslua')
 lua_dep_tmp = dependency('lua-5.4', required:false)
 
@@ -833,7 +850,7 @@ common_lib = library('freeciv',
                  m_dep, sqlite3_dep,
                  net_dep, jansson_dep, lua_dep, lzma_dep, zstd_dep,
                  bcrypt_lib_dep, iconv_lib_dep,
-                 gettext_dep, charset_dep,
+                 gettext_dep, charset_dep, mw_dep,
                  dependency('threads')],
   install : true
   )
