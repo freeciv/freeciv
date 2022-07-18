@@ -2112,7 +2112,7 @@ bool unit_conquer_city(struct unit *punit, struct city *pcity)
 /************************************************************************//**
   Which wall gfx city should display?
 ****************************************************************************/
-static int city_got_citywalls(const struct city *pcity)
+static int city_citywalls_gfx(const struct city *pcity)
 {
   int walls = get_city_bonus(pcity, EFT_VISIBLE_WALLS);
 
@@ -2133,7 +2133,7 @@ bool send_city_suppression(bool now)
 /************************************************************************//**
   This fills out a package from a player's vision_site.
 ****************************************************************************/
-static void package_dumb_city(struct player* pplayer, struct tile *ptile,
+static void package_dumb_city(struct player *pplayer, struct tile *ptile,
                               struct packet_city_short_info *packet)
 {
   struct vision_site *pdcity = map_get_player_city(ptile, pplayer);
@@ -2584,7 +2584,7 @@ void package_city(struct city *pcity, struct packet_city_info *packet,
   packet->was_happy = pcity->was_happy;
   packet->had_famine = pcity->had_famine;
 
-  packet->walls = city_got_citywalls(pcity);
+  packet->walls = city_citywalls_gfx(pcity);
   packet->style = pcity->style;
   packet->city_image = get_city_bonus(pcity, EFT_CITY_IMAGE);
   packet->capital = pcity->capital;
@@ -2631,7 +2631,7 @@ bool update_dumb_city(struct player *pplayer, struct city *pcity)
   /* pcity->client.occupied isn't used at the server, so we go straight to the
    * unit list to check the occupied status. */
   bool occupied = (unit_list_size(pcenter->units) > 0);
-  bool walls = city_got_citywalls(pcity);
+  int walls = city_citywalls_gfx(pcity);
   bool happy = city_happy(pcity);
   bool unhappy = city_unhappy(pcity);
   int style = pcity->style;
