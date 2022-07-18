@@ -325,7 +325,10 @@ struct cma_dialog *create_cma_dialog(struct city *pcity, bool tiny)
 
   vgrid = gtk_grid_new();
   grid_row = 0;
-  g_object_set(vgrid, "margin", 2, NULL);
+  gtk_widget_set_margin_bottom(vgrid, 2);
+  gtk_widget_set_margin_end(vgrid, 2);
+  gtk_widget_set_margin_start(vgrid, 2);
+  gtk_widget_set_margin_top(vgrid, 2);
   gtk_orientable_set_orientation(GTK_ORIENTABLE(vgrid),
                                  GTK_ORIENTATION_VERTICAL);
   gtk_grid_attach(GTK_GRID(page), vgrid, 0, page_row++, 1, 1);
@@ -349,7 +352,10 @@ struct cma_dialog *create_cma_dialog(struct city *pcity, bool tiny)
   /* Minimal Surplus and Factor */
 
   table = gtk_grid_new();
-  g_object_set(table, "margin", 2, NULL);
+  gtk_widget_set_margin_bottom(table, 2);
+  gtk_widget_set_margin_end(table, 2);
+  gtk_widget_set_margin_start(table, 2);
+  gtk_widget_set_margin_top(table, 2);
   gtk_grid_attach(GTK_GRID(vgrid), table, 0, grid_row++, 1, 1);
 
   label = gtk_label_new(_("Minimal Surplus"));

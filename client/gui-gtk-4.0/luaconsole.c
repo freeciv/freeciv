@@ -225,7 +225,10 @@ static void luaconsole_dialog_create(struct luaconsole_data *pdialog)
 
   /* The lua console input line. */
   entry = gtk_entry_new();
-  g_object_set(entry, "margin", 2, NULL);
+  gtk_widget_set_margin_bottom(entry, 2);
+  gtk_widget_set_margin_end(entry, 2);
+  gtk_widget_set_margin_start(entry, 2);
+  gtk_widget_set_margin_top(entry, 2);
   gtk_grid_attach(GTK_GRID(vgrid), entry, 0, grid_row++, 1, 1);
   g_signal_connect(entry, "activate", G_CALLBACK(luaconsole_input_return),
                    NULL);

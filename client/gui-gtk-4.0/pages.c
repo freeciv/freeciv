@@ -240,7 +240,10 @@ GtkWidget *create_main_page(void)
   widget = vgrid;
 
   frame = gtk_frame_new(NULL);
-  g_object_set(frame, "margin", 18, NULL);
+  gtk_widget_set_margin_bottom(frame, 18);
+  gtk_widget_set_margin_end(frame, 18);
+  gtk_widget_set_margin_start(frame, 18);
+  gtk_widget_set_margin_top(frame, 18);
   gtk_widget_set_halign(frame, GTK_ALIGN_CENTER);
   gtk_grid_attach(GTK_GRID(vgrid), frame, 0, grid_row++, 1, 1);
 
@@ -297,7 +300,10 @@ GtkWidget *create_main_page(void)
 #endif /* IS_BETA_VERSION || IS_DEVEL_VERSION */
 
   table = gtk_grid_new();
-  g_object_set(table, "margin", 12, NULL);
+  gtk_widget_set_margin_bottom(table, 12);
+  gtk_widget_set_margin_end(table, 12);
+  gtk_widget_set_margin_start(table, 12);
+  gtk_widget_set_margin_top(table, 12);
   gtk_widget_set_hexpand(table, TRUE);
   gtk_widget_set_vexpand(table, TRUE);
   gtk_widget_set_halign(table, GTK_ALIGN_CENTER);
@@ -652,7 +658,10 @@ static GtkWidget *save_dialog_new(const char *title, const char *savelabel,
 
   sbox = gtk_grid_new();
   grids_row = 0;
-  g_object_set(sbox, "margin", 12, NULL);
+  gtk_widget_set_margin_bottom(sbox, 12);
+  gtk_widget_set_margin_end(sbox, 12);
+  gtk_widget_set_margin_start(sbox, 12);
+  gtk_widget_set_margin_top(sbox, 12);
   gtk_orientable_set_orientation(GTK_ORIENTABLE(sbox),
                                  GTK_ORIENTATION_VERTICAL);
   gtk_grid_set_row_spacing(GTK_GRID(sbox), 2);
@@ -1316,7 +1325,10 @@ GtkWidget *create_network_page(void)
 
   hgrid = gtk_grid_new();
   gtk_grid_set_column_spacing(GTK_GRID(hgrid), 12);
-  g_object_set(hgrid, "margin", 8, NULL);
+  gtk_widget_set_margin_bottom(hgrid, 8);
+  gtk_widget_set_margin_end(hgrid, 8);
+  gtk_widget_set_margin_start(hgrid, 8);
+  gtk_widget_set_margin_top(hgrid, 8);
   gtk_grid_attach(GTK_GRID(sbox), hgrid, 0, sbox_row++, 1, 1);
 
   table = gtk_grid_new();
@@ -1426,7 +1438,10 @@ GtkWidget *create_network_page(void)
   gtk_grid_attach(GTK_GRID(hgrid), sw, grid_col++, 0, 1, 1);
 
   bbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 2);
-  g_object_set(bbox, "margin", 2, NULL);
+  gtk_widget_set_margin_bottom(bbox, 2);
+  gtk_widget_set_margin_end(bbox, 2);
+  gtk_widget_set_margin_start(bbox, 2);
+  gtk_widget_set_margin_top(bbox, 2);
   gtk_box_set_spacing(GTK_BOX(bbox), 12);
   gtk_grid_attach(GTK_GRID(sbox), bbox, 0, sbox_row++, 1, 1);
 
@@ -2660,7 +2675,10 @@ GtkWidget *create_start_page(void)
   gtk_grid_attach(GTK_GRID(box), sbox, 0, box_row++, 1, 1);
 
   vgrid = gtk_grid_new();
-  g_object_set(vgrid, "margin", 12, NULL);
+  gtk_widget_set_margin_bottom(vgrid, 12);
+  gtk_widget_set_margin_end(vgrid, 12);
+  gtk_widget_set_margin_start(vgrid, 12);
+  gtk_widget_set_margin_top(vgrid, 12);
   gtk_orientable_set_orientation(GTK_ORIENTABLE(vgrid),
                                  GTK_ORIENTATION_VERTICAL);
   gtk_grid_set_row_spacing(GTK_GRID(vgrid), 2);
@@ -2744,7 +2762,10 @@ GtkWidget *create_start_page(void)
 
   button = icon_label_button_new("preferences-system",
                                  _("_More Game Options..."));
-  g_object_set(button, "margin", 8, NULL);
+  gtk_widget_set_margin_bottom(button, 8);
+  gtk_widget_set_margin_end(button, 8);
+  gtk_widget_set_margin_start(button, 8);
+  gtk_widget_set_margin_top(button, 8);
   gtk_widget_set_halign(button, GTK_ALIGN_CENTER);
   gtk_widget_set_valign(button, GTK_ALIGN_CENTER);
   g_signal_connect(button, "clicked",
@@ -3304,7 +3325,10 @@ GtkWidget *create_scenario_page(void)
 
   filenamebox = gtk_grid_new();
   gtk_grid_set_column_spacing(GTK_GRID(hbox), 12);
-  g_object_set(filenamebox, "margin", 5, NULL);
+  gtk_widget_set_margin_bottom(filenamebox, 5);
+  gtk_widget_set_margin_end(filenamebox, 5);
+  gtk_widget_set_margin_start(filenamebox, 5);
+  gtk_widget_set_margin_top(filenamebox, 5);
 
   gtk_grid_attach(GTK_GRID(filenamebox), text, filenamecol++, 0, 1, 1);
   gtk_grid_attach(GTK_GRID(filenamebox), scenario_filename,
@@ -3319,7 +3343,10 @@ GtkWidget *create_scenario_page(void)
 
   versionbox = gtk_grid_new();
   gtk_grid_set_column_spacing(GTK_GRID(hbox), 12);
-  g_object_set(versionbox, "margin", 5, NULL);
+  gtk_widget_set_margin_bottom(versionbox, 5);
+  gtk_widget_set_margin_end(versionbox, 5);
+  gtk_widget_set_margin_start(versionbox, 5);
+  gtk_widget_set_margin_top(versionbox, 5);
 
   gtk_grid_attach(GTK_GRID(versionbox), vertext, vercol++, 0, 1, 1);
   gtk_grid_attach(GTK_GRID(versionbox), scenario_version,

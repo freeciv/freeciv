@@ -1342,7 +1342,10 @@ void chatline_init(void)
                    G_CALLBACK(set_toolbar_visibility), &toolkit);
 
   entry = gtk_entry_new();
-  g_object_set(entry, "margin", 2, NULL);
+  gtk_widget_set_margin_bottom(entry, 2);
+  gtk_widget_set_margin_end(entry, 2);
+  gtk_widget_set_margin_start(entry, 2);
+  gtk_widget_set_margin_top(entry, 2);
   gtk_widget_set_hexpand(entry, TRUE);
   toolkit.entry = entry;
 
@@ -1458,7 +1461,10 @@ void chatline_init(void)
 
   /* Toggle button. */
   button = gtk_toggle_button_new();
-  g_object_set(button, "margin", 2, NULL);
+  gtk_widget_set_margin_bottom(button, 2);
+  gtk_widget_set_margin_end(button, 2);
+  gtk_widget_set_margin_start(button, 2);
+  gtk_widget_set_margin_top(button, 2);
   gtk_grid_attach(GTK_GRID(hgrid), button, grid_col++, 0, 1, 1);
   gtk_button_set_icon_name(GTK_BUTTON(button), "gtk-edit");
   g_signal_connect(button, "toggled", G_CALLBACK(button_toggled), &toolkit);

@@ -1063,7 +1063,10 @@ static void create_races_dialog(struct player *pplayer)
   races_properties = table = gtk_grid_new();
   g_signal_connect(table, "destroy",
                    G_CALLBACK(widget_destroyed), &races_properties);
-  g_object_set(table, "margin", 6, NULL);
+  gtk_widget_set_margin_bottom(table, 6);
+  gtk_widget_set_margin_end(table, 6);
+  gtk_widget_set_margin_start(table, 6);
+  gtk_widget_set_margin_top(table, 6);
   gtk_grid_set_row_spacing(GTK_GRID(table), 2);
   gtk_notebook_append_page(GTK_NOTEBOOK(notebook), table, label);
 
@@ -1168,7 +1171,10 @@ static void create_races_dialog(struct player *pplayer)
   label = gtk_label_new_with_mnemonic(_("_Description"));
 
   text = gtk_text_view_new();
-  g_object_set(text, "margin", 6, NULL);
+  gtk_widget_set_margin_bottom(text, 6);
+  gtk_widget_set_margin_end(text, 6);
+  gtk_widget_set_margin_start(text, 6);
+  gtk_widget_set_margin_top(text, 6);
   gtk_widget_set_hexpand(text, TRUE);
   gtk_widget_set_vexpand(text, TRUE);
   races_text = gtk_text_view_get_buffer(GTK_TEXT_VIEW(text));

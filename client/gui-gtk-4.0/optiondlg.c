@@ -512,7 +512,10 @@ static void option_dialog_option_add(struct option_dialog *pdialog,
     }
 
     pdialog->vboxes[category] = gtk_box_new(GTK_ORIENTATION_VERTICAL, 2);
-    g_object_set(pdialog->vboxes[category], "margin", 8, NULL);
+    gtk_widget_set_margin_bottom(pdialog->vboxes[category], 8);
+    gtk_widget_set_margin_end(pdialog->vboxes[category], 8);
+    gtk_widget_set_margin_start(pdialog->vboxes[category], 8);
+    gtk_widget_set_margin_top(pdialog->vboxes[category], 8);
     gtk_widget_set_hexpand(pdialog->vboxes[category], TRUE);
     gtk_scrolled_window_set_child(GTK_SCROLLED_WINDOW(sw), pdialog->vboxes[category]);
 
@@ -522,7 +525,10 @@ static void option_dialog_option_add(struct option_dialog *pdialog,
 
   main_hbox = gtk_grid_new();
   label = gtk_label_new(option_description(poption));
-  g_object_set(label, "margin", 2, NULL);
+  gtk_widget_set_margin_bottom(label, 2);
+  gtk_widget_set_margin_end(label, 2);
+  gtk_widget_set_margin_start(label, 2);
+  gtk_widget_set_margin_top(label, 2);
   gtk_grid_attach(GTK_GRID(main_hbox), label, main_col++, 0, 1, 1);
   gtk_widget_set_tooltip_text(main_hbox, option_help_text(poption));
   g_signal_connect(main_hbox, "button_press_event",

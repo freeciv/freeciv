@@ -99,7 +99,10 @@ void popup_find_dialog(void)
     gtk_tree_view_append_column(GTK_TREE_VIEW(find_view), column);
 
     sw = gtk_scrolled_window_new();
-    g_object_set(sw, "margin", 2, NULL);
+    gtk_widget_set_margin_bottom(sw, 2);
+    gtk_widget_set_margin_end(sw, 2);
+    gtk_widget_set_margin_start(sw, 2);
+    gtk_widget_set_margin_top(sw, 2);
     gtk_scrolled_window_set_has_frame(GTK_SCROLLED_WINDOW(sw), TRUE);
     gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
 	GTK_POLICY_AUTOMATIC, GTK_POLICY_ALWAYS);

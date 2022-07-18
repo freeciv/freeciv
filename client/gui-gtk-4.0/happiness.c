@@ -205,7 +205,10 @@ static struct happiness_dialog *create_happiness_dialog(struct city *pcity,
   gtk_grid_attach(GTK_GRID(pdialog->shell), pdialog->cityname_label, 0, 0, 1, 1);
 
   table = gtk_grid_new();
-  g_object_set(table, "margin", 4, NULL);
+  gtk_widget_set_margin_bottom(table, 4);
+  gtk_widget_set_margin_end(table, 4);
+  gtk_widget_set_margin_start(table, 4);
+  gtk_widget_set_margin_top(table, 4);
   gtk_grid_set_row_spacing(GTK_GRID(table), 10);
 
   intl_slist(ARRAY_SIZE(happiness_label_str), happiness_label_str,
