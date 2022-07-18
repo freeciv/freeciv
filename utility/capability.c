@@ -39,7 +39,7 @@
   }
 
 /***********************************************************************//**
-  This routine returns true if the capability in cap appears
+  This routine returns TRUE if the capability in cap appears
   in the capability list in capstr.  The capabilities in capstr
   are allowed to start with a "+", but the capability in cap must not.
 ***************************************************************************/
@@ -80,7 +80,7 @@ bool has_capability(const char *cap, const char *capstr)
 }
 
 /***********************************************************************//**
-  This routine returns true if all the mandatory capabilities in
+  This routine returns TRUE if all the mandatory capabilities in
   us appear in them.
 ***************************************************************************/
 bool has_capabilities(const char *us, const char *them)
