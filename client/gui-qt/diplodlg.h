@@ -54,8 +54,6 @@ class diplo_wdg: public QWidget
   QLabel *plr2_accept;
   QPushButton *accept_treaty;
   QPushButton *cancel_treaty;
-  QSpinBox *gold_edit1;
-  QSpinBox *gold_edit2;
   QTableWidget *text_edit;
 
 public:

@@ -65,8 +65,6 @@ diplo_wdg::diplo_wdg(struct Treaty *ptreaty,
   QLabel *label2;
   QLabel *label3;
   QLabel *label4;
-  QLabel *goldlab1;
-  QLabel *goldlab2;
   QPushButton *add_clause1;
   QPushButton *add_clause2;
   QPixmap *pix = NULL;
@@ -79,6 +77,8 @@ diplo_wdg::diplo_wdg(struct Treaty *ptreaty,
     get_color(tileset, COLOR_MAPVIEW_CITYTEXT),
     get_color(tileset, COLOR_MAPVIEW_CITYTEXT_DARK)
   };
+  int clause_column;
+
   if (they == initiator) {
     we = client_player();
   } else {
@@ -161,22 +161,36 @@ diplo_wdg::diplo_wdg(struct Treaty *ptreaty,
   layout->addWidget(plr2_label, 6, 0);
   layout->addWidget(label2, 6, 5);
   layout->addWidget(plr2_accept, 6, 10);
-  goldlab1 = new QLabel(_("Gold:"));
-  goldlab1->setAlignment(Qt::AlignRight);
-  goldlab2 = new QLabel(_("Gold:"));
-  goldlab2->setAlignment(Qt::AlignRight);
-  gold_edit1 = new QSpinBox;
-  gold_edit2 = new QSpinBox;
-  gold_edit1->setMinimum(0);
-  gold_edit2->setMinimum(0);
-  gold_edit1->setFocusPolicy(Qt::ClickFocus);
-  gold_edit2->setFocusPolicy(Qt::ClickFocus);
-  if (game.info.trading_gold) {
+
+  if (clause_enabled(CLAUSE_GOLD)) {
+    QLabel *goldlab1;
+    QLabel *goldlab2;
+    QSpinBox *gold_edit1;
+    QSpinBox *gold_edit2;
+
+    goldlab1 = new QLabel(_("Gold:"));
+    goldlab1->setAlignment(Qt::AlignRight);
+    goldlab2 = new QLabel(_("Gold:"));
+    goldlab2->setAlignment(Qt::AlignRight);
+    gold_edit1 = new QSpinBox;
+    gold_edit2 = new QSpinBox;
+    gold_edit1->setMinimum(0);
+    gold_edit2->setMinimum(0);
+    gold_edit1->setFocusPolicy(Qt::ClickFocus);
+    gold_edit2->setFocusPolicy(Qt::ClickFocus);
     gold_edit2->setMaximum(we->economic.gold);
     gold_edit1->setMaximum(they->economic.gold);
+    connect(gold_edit1, SIGNAL(valueChanged(int)), SLOT(gold_changed1(int)));
+    connect(gold_edit2, SIGNAL(valueChanged(int)), SLOT(gold_changed2(int)));
+    layout->addWidget(goldlab1, 7, 4);
+    layout->addWidget(goldlab2, 3, 4);
+    layout->addWidget(gold_edit1, 7, 5);
+    layout->addWidget(gold_edit2, 3, 5);
+    clause_column = 6;
+  } else {
+    clause_column = 5;
   }
-  connect(gold_edit1, SIGNAL(valueChanged(int)), SLOT(gold_changed1(int)));
-  connect(gold_edit2, SIGNAL(valueChanged(int)), SLOT(gold_changed2(int)));
+
   add_clause1 = new QPushButton(style()->standardIcon(QStyle::SP_ArrowRight),
                                 _("Add Clause..."));
   add_clause2 = new QPushButton(style()->standardIcon(QStyle::SP_ArrowRight),
@@ -185,12 +199,8 @@ diplo_wdg::diplo_wdg(struct Treaty *ptreaty,
   add_clause2->setFocusPolicy(Qt::ClickFocus);
   connect(add_clause1, &QAbstractButton::clicked, this, &diplo_wdg::show_menu_p2);
   connect(add_clause2, &QAbstractButton::clicked, this, &diplo_wdg::show_menu_p1);
-  layout->addWidget(goldlab1, 7, 4);
-  layout->addWidget(goldlab2, 3, 4);
-  layout->addWidget(gold_edit1, 7, 5);
-  layout->addWidget(gold_edit2, 3, 5);
-  layout->addWidget(add_clause1, 7, 6);
-  layout->addWidget(add_clause2, 3, 6);
+  layout->addWidget(add_clause1, 7, clause_column);
+  layout->addWidget(add_clause2, 3, clause_column);
 
   text_edit = new QTableWidget();
   text_edit->setColumnCount(1);
