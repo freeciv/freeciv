@@ -29,8 +29,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 3.0\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2022-07-15 22:20+0300\n"
-"PO-Revision-Date: 2022-07-15 22:26+0300\n"
+"POT-Creation-Date: 2022-07-18 21:09+0300\n"
+"PO-Revision-Date: 2022-07-18 21:15+0300\n"
 "Last-Translator: Sini Ruohomaa <sini.ruohomaa@iki.fi>\n"
 "Language-Team: None <freeciv-i18n@freelists.org>\n"
 "Language: fi\n"
@@ -2625,12 +2625,12 @@ msgstr "Tuotanto:"
 msgid "Trade:"
 msgstr "Kauppaa:"
 
-#: client/gui-gtk-2.0/citydlg.c:691 client/gui-gtk-2.0/diplodlg.c:759
-#: client/gui-gtk-2.0/diplodlg.c:843 client/gui-gtk-2.0/inteldlg.c:51
-#: client/gui-gtk-3.0/citydlg.c:748 client/gui-gtk-3.0/diplodlg.c:765
-#: client/gui-gtk-3.0/diplodlg.c:850 client/gui-gtk-3.0/inteldlg.c:51
-#: client/gui-gtk-3.22/citydlg.c:749 client/gui-gtk-3.22/diplodlg.c:762
-#: client/gui-gtk-3.22/diplodlg.c:844 client/gui-gtk-3.22/inteldlg.c:51
+#: client/gui-gtk-2.0/citydlg.c:691 client/gui-gtk-2.0/diplodlg.c:763
+#: client/gui-gtk-2.0/diplodlg.c:847 client/gui-gtk-2.0/inteldlg.c:51
+#: client/gui-gtk-3.0/citydlg.c:748 client/gui-gtk-3.0/diplodlg.c:769
+#: client/gui-gtk-3.0/diplodlg.c:854 client/gui-gtk-3.0/inteldlg.c:51
+#: client/gui-gtk-3.22/citydlg.c:749 client/gui-gtk-3.22/diplodlg.c:766
+#: client/gui-gtk-3.22/diplodlg.c:848 client/gui-gtk-3.22/inteldlg.c:51
 #: client/gui-qt/citydlg.h:61 client/gui-qt/diplodlg.cpp:165
 #: client/gui-qt/diplodlg.cpp:167 client/gui-qt/plrdlg.cpp:503
 msgid "Gold:"
@@ -3548,88 +3548,88 @@ msgstr "Edistys_askeleet"
 msgid "All advances"
 msgstr "Kaikki teknologiat"
 
-#: client/gui-gtk-2.0/diplodlg.c:382 client/gui-gtk-2.0/menu.c:1452
-#: client/gui-gtk-3.0/diplodlg.c:382 client/gui-gtk-3.0/menu.c:295
-#: client/gui-gtk-3.22/diplodlg.c:382 client/gui-gtk-3.22/menu.c:294
+#: client/gui-gtk-2.0/diplodlg.c:387 client/gui-gtk-2.0/menu.c:1452
+#: client/gui-gtk-3.0/diplodlg.c:387 client/gui-gtk-3.0/menu.c:295
+#: client/gui-gtk-3.22/diplodlg.c:387 client/gui-gtk-3.22/menu.c:294
 msgid "_Cities"
 msgstr "Kaupun_git"
 
-#: client/gui-gtk-2.0/diplodlg.c:391 client/gui-gtk-3.0/diplodlg.c:391
-#: client/gui-gtk-3.22/diplodlg.c:391
+#: client/gui-gtk-2.0/diplodlg.c:395 client/gui-gtk-3.0/diplodlg.c:395
+#: client/gui-gtk-3.22/diplodlg.c:395
 msgid "_Give shared vision"
 msgstr "Jaa näk_ymä"
 
-#: client/gui-gtk-2.0/diplodlg.c:404 client/gui-gtk-3.0/diplodlg.c:404
-#: client/gui-gtk-3.22/diplodlg.c:404
+#: client/gui-gtk-2.0/diplodlg.c:408 client/gui-gtk-3.0/diplodlg.c:408
+#: client/gui-gtk-3.22/diplodlg.c:408
 msgid "Give _embassy"
 msgstr "Läh_etystö"
 
-#: client/gui-gtk-2.0/diplodlg.c:424 client/gui-gtk-3.0/diplodlg.c:424
-#: client/gui-gtk-3.22/diplodlg.c:424 client/gui-qt/diplodlg.cpp:421
+#: client/gui-gtk-2.0/diplodlg.c:428 client/gui-gtk-3.0/diplodlg.c:428
+#: client/gui-gtk-3.22/diplodlg.c:428 client/gui-qt/diplodlg.cpp:421
 #: client/gui-sdl2/diplodlg.c:511 common/player.h:147
 msgid "?diplomatic_state:Cease-fire"
 msgstr "Tulitauko"
 
-#: client/gui-gtk-2.0/diplodlg.c:430 client/gui-gtk-3.0/diplodlg.c:430
-#: client/gui-gtk-3.22/diplodlg.c:430 client/gui-qt/diplodlg.cpp:427
+#: client/gui-gtk-2.0/diplodlg.c:434 client/gui-gtk-3.0/diplodlg.c:434
+#: client/gui-gtk-3.22/diplodlg.c:434 client/gui-qt/diplodlg.cpp:427
 #: client/gui-sdl2/diplodlg.c:525 common/player.h:149
 msgid "?diplomatic_state:Peace"
 msgstr "Rauha"
 
-#: client/gui-gtk-2.0/diplodlg.c:436 client/gui-gtk-3.0/diplodlg.c:436
-#: client/gui-gtk-3.22/diplodlg.c:436 client/gui-qt/diplodlg.cpp:433
+#: client/gui-gtk-2.0/diplodlg.c:440 client/gui-gtk-3.0/diplodlg.c:440
+#: client/gui-gtk-3.22/diplodlg.c:440 client/gui-qt/diplodlg.cpp:433
 #: client/gui-sdl2/diplodlg.c:541 common/player.h:151
 msgid "?diplomatic_state:Alliance"
 msgstr "Liittouma"
 
-#: client/gui-gtk-2.0/diplodlg.c:442 client/gui-gtk-3.0/diplodlg.c:442
-#: client/gui-gtk-3.22/diplodlg.c:442
+#: client/gui-gtk-2.0/diplodlg.c:446 client/gui-gtk-3.0/diplodlg.c:446
+#: client/gui-gtk-3.22/diplodlg.c:446
 msgid "_Pacts"
 msgstr "So_pimukset"
 
-#: client/gui-gtk-2.0/diplodlg.c:501 client/gui-gtk-3.0/diplodlg.c:501
-#: client/gui-gtk-3.22/diplodlg.c:501
+#: client/gui-gtk-2.0/diplodlg.c:505 client/gui-gtk-3.0/diplodlg.c:505
+#: client/gui-gtk-3.22/diplodlg.c:505
 msgid "Cancel _all meetings"
 msgstr "Peruuta k_aikki tapaamiset"
 
-#: client/gui-gtk-2.0/diplodlg.c:578 client/gui-gtk-2.0/diplodlg.c:646
-#: client/gui-gtk-3.0/diplodlg.c:578 client/gui-gtk-3.0/diplodlg.c:647
-#: client/gui-gtk-3.22/diplodlg.c:578 client/gui-gtk-3.22/diplodlg.c:647
+#: client/gui-gtk-2.0/diplodlg.c:582 client/gui-gtk-2.0/diplodlg.c:650
+#: client/gui-gtk-3.0/diplodlg.c:582 client/gui-gtk-3.0/diplodlg.c:651
+#: client/gui-gtk-3.22/diplodlg.c:582 client/gui-gtk-3.22/diplodlg.c:651
 #, c-format
 msgid "Diplomacy [%d]"
 msgstr "Diplomatia [%d]"
 
-#: client/gui-gtk-2.0/diplodlg.c:656 client/gui-gtk-3.0/diplodlg.c:659
-#: client/gui-gtk-3.22/diplodlg.c:659 client/gui-qt/diplodlg.cpp:217
+#: client/gui-gtk-2.0/diplodlg.c:660 client/gui-gtk-3.0/diplodlg.c:663
+#: client/gui-gtk-3.22/diplodlg.c:663 client/gui-qt/diplodlg.cpp:217
 #: client/gui-sdl2/diplodlg.c:936
 msgid "Cancel meeting"
 msgstr "Peruuta tapaaminen"
 
-#: client/gui-gtk-2.0/diplodlg.c:658 client/gui-gtk-3.0/diplodlg.c:657
-#: client/gui-gtk-3.22/diplodlg.c:657 client/gui-qt/diplodlg.cpp:214
+#: client/gui-gtk-2.0/diplodlg.c:662 client/gui-gtk-3.0/diplodlg.c:661
+#: client/gui-gtk-3.22/diplodlg.c:661 client/gui-qt/diplodlg.cpp:214
 #: client/gui-sdl2/diplodlg.c:947
 msgid "Accept treaty"
 msgstr "Hyväksy sopimus"
 
-#: client/gui-gtk-2.0/diplodlg.c:731 client/gui-gtk-2.0/diplodlg.c:815
-#: client/gui-gtk-3.0/diplodlg.c:738 client/gui-gtk-3.0/diplodlg.c:823
-#: client/gui-gtk-3.22/diplodlg.c:738 client/gui-gtk-3.22/diplodlg.c:820
+#: client/gui-gtk-2.0/diplodlg.c:735 client/gui-gtk-2.0/diplodlg.c:819
+#: client/gui-gtk-3.0/diplodlg.c:742 client/gui-gtk-3.0/diplodlg.c:827
+#: client/gui-gtk-3.22/diplodlg.c:742 client/gui-gtk-3.22/diplodlg.c:824
 #: client/gui-qt/diplodlg.cpp:182 client/gui-qt/diplodlg.cpp:184
 msgid "Add Clause..."
 msgstr "Lisää ehto..."
 
-#: client/gui-gtk-2.0/diplodlg.c:882 client/gui-gtk-3.0/diplodlg.c:890
-#: client/gui-gtk-3.22/diplodlg.c:884
+#: client/gui-gtk-2.0/diplodlg.c:886 client/gui-gtk-3.0/diplodlg.c:894
+#: client/gui-gtk-3.22/diplodlg.c:888
 msgid "C_lauses:"
 msgstr "Eh_dot:"
 
-#: client/gui-gtk-2.0/diplodlg.c:927 client/gui-gtk-3.0/diplodlg.c:938
-#: client/gui-gtk-3.22/diplodlg.c:932 client/gui-qt/diplodlg.cpp:685
+#: client/gui-gtk-2.0/diplodlg.c:931 client/gui-gtk-3.0/diplodlg.c:942
+#: client/gui-gtk-3.22/diplodlg.c:936 client/gui-qt/diplodlg.cpp:685
 msgid "--- This treaty is blank. Please add some clauses. ---"
 msgstr "--- Tämä sopimus on tyhjä. Ole hyvä ja lisää ehtoja. ---"
 
-#: client/gui-gtk-2.0/diplodlg.c:1163 client/gui-gtk-3.0/diplodlg.c:1176
-#: client/gui-gtk-3.22/diplodlg.c:1170 client/gui-sdl2/diplodlg.c:416
+#: client/gui-gtk-2.0/diplodlg.c:1167 client/gui-gtk-3.0/diplodlg.c:1180
+#: client/gui-gtk-3.22/diplodlg.c:1174 client/gui-sdl2/diplodlg.c:416
 msgid "Invalid amount of gold specified."
 msgstr "Annettu rahamäärä on sopimaton."
 
@@ -3996,7 +3996,7 @@ msgstr "Vältä kansakuntia"
 #: client/gui-gtk-3.0/editprop.c:4445 client/gui-gtk-3.0/plrdlg.c:434
 #: client/gui-gtk-3.22/editprop.c:4444 client/gui-gtk-3.22/plrdlg.c:432
 #: client/gui-qt/menu.cpp:1578 client/gui-qt/pages.cpp:731
-#: client/gui-sdl2/mapctrl.c:1682 client/gui-sdl2/plrdlg.c:686
+#: client/gui-sdl2/mapctrl.c:1682 client/gui-sdl2/plrdlg.c:680
 msgid "Nations"
 msgstr "Kansakunnat"
 
@@ -4396,63 +4396,63 @@ msgstr ""
 msgid "Report bugs at %s\n"
 msgstr "Ilmoita ohjelman virheistä osoitteessa %s\n"
 
-#: client/gui-gtk-2.0/gui_main.c:759 client/gui-gtk-2.0/gui_main.c:1575
+#: client/gui-gtk-2.0/gui_main.c:760 client/gui-gtk-2.0/gui_main.c:1576
 #: client/gui-gtk-3.0/gui_main.c:808 client/gui-gtk-3.0/gui_main.c:1764
 #: client/gui-gtk-3.22/gui_main.c:796 client/gui-gtk-3.22/gui_main.c:1848
 msgid "Freeciv"
 msgstr "Freeciv"
 
-#: client/gui-gtk-2.0/gui_main.c:1246 client/gui-gtk-2.0/gui_main.c:1254
+#: client/gui-gtk-2.0/gui_main.c:1247 client/gui-gtk-2.0/gui_main.c:1255
 #: client/gui-gtk-3.0/gui_main.c:1352 client/gui-gtk-3.0/gui_main.c:1360
 #: client/gui-gtk-3.22/gui_main.c:1383 client/gui-gtk-3.22/gui_main.c:1391
 #: client/gui-qt/pages.cpp:741 client/gui-sdl2/mapctrl.c:1667
 msgid "Turn Done"
 msgstr "Vuoro valmis"
 
-#: client/gui-gtk-2.0/gui_main.c:1254 client/gui-gtk-3.0/gui_main.c:1360
+#: client/gui-gtk-2.0/gui_main.c:1255 client/gui-gtk-3.0/gui_main.c:1360
 #: client/gui-gtk-3.22/gui_main.c:1391 client/gui-sdl2/mapctrl.c:1667
 #: client/gui-sdl2/mapview.c:939
 msgid "Shift+Return"
 msgstr "Shift+Enter"
 
-#: client/gui-gtk-2.0/gui_main.c:1325 client/gui-gtk-3.0/gui_main.c:1443
+#: client/gui-gtk-2.0/gui_main.c:1326 client/gui-gtk-3.0/gui_main.c:1443
 #: client/gui-gtk-3.22/gui_main.c:1474 client/gui-qt/menu.cpp:1570
 #: client/gui-qt/pages.cpp:717
 msgid "?noun:View"
 msgstr "Näkymä"
 
-#: client/gui-gtk-2.0/gui_main.c:1437 client/gui-gtk-3.0/gui_main.c:1562
+#: client/gui-gtk-2.0/gui_main.c:1438 client/gui-gtk-3.0/gui_main.c:1562
 #: client/gui-gtk-3.22/gui_main.c:1595
 msgid "Chat"
 msgstr "Keskustelu"
 
-#: client/gui-gtk-2.0/gui_main.c:1461 client/gui-gtk-3.0/gui_main.c:1592
+#: client/gui-gtk-2.0/gui_main.c:1462 client/gui-gtk-3.0/gui_main.c:1592
 #: client/gui-gtk-3.22/gui_main.c:1625
 msgid "Allies Only"
 msgstr "Vain liittolaiset"
 
-#: client/gui-gtk-2.0/gui_main.c:1470 client/gui-gtk-3.0/gui_main.c:1601
+#: client/gui-gtk-2.0/gui_main.c:1471 client/gui-gtk-3.0/gui_main.c:1601
 #: client/gui-gtk-3.22/gui_main.c:1634 client/gui-qt/chatline.cpp:287
 msgid "Clear links"
 msgstr "Poista linkkimerkinnät"
 
-#: client/gui-gtk-2.0/gui_main.c:1513
+#: client/gui-gtk-2.0/gui_main.c:1514
 msgid "Migrating gtk2-client options from freeciv-2.5 options."
 msgstr ""
 "Kopioin gtk2-asiakasohjelman asetuksia freecivin version 2.5 asetuksista."
 
-#: client/gui-gtk-2.0/gui_main.c:1536 client/gui-gtk-3.0/gui_main.c:1723
+#: client/gui-gtk-2.0/gui_main.c:1537 client/gui-gtk-3.0/gui_main.c:1723
 #: client/gui-gtk-3.22/gui_main.c:1803 tools/mpgui_gtk2.c:619
 #: tools/mpgui_gtk3.c:626
 msgid "Failed to open graphical mode."
 msgstr "Graafisen tilan avaaminen epäonnistui."
 
-#: client/gui-gtk-2.0/gui_main.c:2023 client/gui-gtk-3.0/gui_main.c:2165
+#: client/gui-gtk-2.0/gui_main.c:2024 client/gui-gtk-3.0/gui_main.c:2165
 #: client/gui-gtk-3.22/gui_main.c:2251 client/gui-qt/gui_main.cpp:553
 msgid "Are you sure you want to quit?"
 msgstr "Haluatko todella lopettaa?"
 
-#: client/gui-gtk-2.0/gui_main.c:2192 client/gui-gtk-3.0/gui_main.c:2334
+#: client/gui-gtk-2.0/gui_main.c:2193 client/gui-gtk-3.0/gui_main.c:2334
 #: client/gui-gtk-3.22/gui_main.c:2420
 #, c-format
 msgid ""
@@ -7598,7 +7598,7 @@ msgstr[1] "Haluatko todella poistaa käytöstä %1 yksikköä?"
 #: client/gui-qt/voteinfo_bar.cpp:39 client/gui-sdl2/action_dialog.c:2300
 #: client/gui-sdl2/action_dialog.c:2529 client/gui-sdl2/citydlg.c:1218
 #: client/gui-sdl2/cma_fe.c:353 client/gui-sdl2/diplodlg.c:1422
-#: client/gui-sdl2/plrdlg.c:274 client/gui-sdl2/repodlgs.c:266
+#: client/gui-sdl2/plrdlg.c:248 client/gui-sdl2/repodlgs.c:266
 #: client/text.c:653
 msgid "Yes"
 msgstr "Kyllä"
@@ -7607,7 +7607,7 @@ msgstr "Kyllä"
 #: client/gui-qt/voteinfo_bar.cpp:40 client/gui-sdl2/action_dialog.c:2311
 #: client/gui-sdl2/action_dialog.c:2539 client/gui-sdl2/citydlg.c:1207
 #: client/gui-sdl2/cma_fe.c:362 client/gui-sdl2/diplodlg.c:1411
-#: client/gui-sdl2/plrdlg.c:274 client/gui-sdl2/repodlgs.c:254
+#: client/gui-sdl2/plrdlg.c:248 client/gui-sdl2/repodlgs.c:254
 #: client/gui-sdl2/repodlgs.c:1645
 msgid "No"
 msgstr "Ei"
@@ -8634,7 +8634,7 @@ msgid "Authors: "
 msgstr "Tekijät: "
 
 #: client/gui-qt/pages.cpp:1664 client/gui-sdl2/connectdlg.c:336
-#: client/gui-sdl2/plrdlg.c:388
+#: client/gui-sdl2/plrdlg.c:362
 msgid "?header:Players"
 msgstr "Pelaajat"
 
@@ -9000,7 +9000,7 @@ msgstr "<b>%s pyysi äänestyksen:</b>"
 #: client/gui-sdl2/gotodlg.c:277 client/gui-sdl2/helpdlg.c:265
 #: client/gui-sdl2/helpdlg.c:679 client/gui-sdl2/helpdlg.c:1943
 #: client/gui-sdl2/inteldlg.c:269 client/gui-sdl2/optiondlg.c:802
-#: client/gui-sdl2/plrdlg.c:402 client/gui-sdl2/plrdlg.c:703
+#: client/gui-sdl2/plrdlg.c:376 client/gui-sdl2/plrdlg.c:697
 #: client/gui-sdl2/repodlgs.c:415 client/gui-sdl2/repodlgs.c:2059
 #: client/gui-sdl2/repodlgs.c:2950 client/gui-sdl2/repodlgs.c:3138
 #: client/gui-sdl2/repodlgs.c:3421 client/gui-sdl2/spaceshipdlg.c:178
@@ -9188,7 +9188,7 @@ msgstr "Kaupunki kutistuu: %d %s"
 #: client/gui-sdl2/menu.c:1202 client/gui-sdl2/menu.c:1208
 #: client/gui-sdl2/menu.c:1230 client/gui-sdl2/menu.c:1245
 #: client/gui-sdl2/menu.c:1266 client/gui-sdl2/menu.c:1282
-#: client/gui-sdl2/menu.c:1304 client/gui-sdl2/plrdlg.c:739
+#: client/gui-sdl2/menu.c:1304 client/gui-sdl2/plrdlg.c:735
 #: client/gui-sdl2/repodlgs.c:587 client/gui-sdl2/repodlgs.c:976
 #: client/gui-sdl2/wldlg.c:958 client/gui-sdl2/wldlg.c:1162
 #: client/gui-sdl2/wldlg.c:1470 client/gui-sdl2/wldlg.c:1476
@@ -10145,25 +10145,31 @@ msgid "Commit: %s"
 msgstr "revisiotunniste: %s"
 
 #. TRANS: Dead -- Rest In Peace -- Reqia In Pace
-#: client/gui-sdl2/plrdlg.c:481 client/plrdlg_common.c:231
+#: client/gui-sdl2/plrdlg.c:455 client/plrdlg_common.c:231
 msgid "R.I.P."
 msgstr "R.I.P."
 
-#: client/gui-sdl2/plrdlg.c:722 client/plrdlg_common.c:315
+#: client/gui-sdl2/plrdlg.c:645
+msgid ""
+"You cannot interact with that player with your current contact state - Try "
+"right mouse button for intelligence."
+msgstr "Et voi olla yhteydessä tähän pelaajaan ilman asianmukaista kontaktia - Voit silti avata tiedusteluraportin hiiren oikealla napilla."
+
+#: client/gui-sdl2/plrdlg.c:718 client/plrdlg_common.c:315
 #: server/stdinhand.c:3582 server/stdinhand.c:6531
 msgid "AI"
 msgstr "AI"
 
-#: client/gui-sdl2/plrdlg.c:726 client/plrdlg_common.c:253
+#: client/gui-sdl2/plrdlg.c:722 client/plrdlg_common.c:253
 #: client/plrdlg_common.c:262
 msgid "done"
 msgstr "valmis"
 
-#: client/gui-sdl2/plrdlg.c:728 client/plrdlg_common.c:264
+#: client/gui-sdl2/plrdlg.c:724 client/plrdlg_common.c:264
 msgid "moving"
 msgstr "liikkuu"
 
-#: client/gui-sdl2/plrdlg.c:731
+#: client/gui-sdl2/plrdlg.c:727
 msgid "disconnected"
 msgstr "yhteys katkesi"
 
@@ -12925,17 +12931,14 @@ msgstr "Jos asetus on käytössä, valtioiden väliset rajat piirretään kartal
 
 #: client/options.c:2072
 msgid "Draw whether tiles are native to selected unit"
-msgstr "Piirrä kuuluvatko ruudut valitun yksikön kansalle"
+msgstr "Piirrä ovatko ruudut sopivia valitulle yksikölle"
 
 #: client/options.c:2074
 msgid ""
 "Setting this option will highlight tiles that the currently selected unit "
 "cannot enter unaided due to non-native terrain. (If multiple units are "
 "selected, only tiles that all of them can enter are indicated.)"
-msgstr ""
-"Jos asetettu, korostaa ruudut joihin valittu yksikkö ei voi avustamatta "
-"mennä koska kuuluvat vieraalle kansalle. (Jos useita yksiköitä on valittu, "
-"näet ruudut joihin kaikki voivat mennä.)"
+msgstr "Jos asetettu, korostaa ruudut joihin valittu yksikkö ei voi maaston vuoksi avustamatta mennä. (Jos useita yksiköitä on valittu, näet ruudut joihin kaikki voivat mennä.)"
 
 #: client/options.c:2081
 msgid "Show dead players in Nations report"
@@ -29982,9 +29985,7 @@ msgstr ""
 msgid ""
 "TIP: Migrants can be a good alternative to Workers in overpopulated cities, "
 "as they benefit from free food upkeep."
-msgstr ""
-"VIHJE: Siirotlaiset voivat olla hyvä vaihtoehto työläisille kaupungeissa "
-"joissa on turhan suuri väestö, koska ne hyötyvät ilmaisesta ruokaylläpidosta."
+msgstr "VIHJE: Siirtolaiset voivat olla hyvä vaihtoehto työläisille kaupungeissa joissa on turhan suuri väestö, koska ne hyötyvät ilmaisesta ruokaylläpidosta."
 
 #: data/sandbox/units.ruleset:584 data/civ2civ3/units.ruleset:573
 msgid ""
@@ -31263,9 +31264,12 @@ msgid ""
 "See https://www.freeciv.org/wiki/Alien_World and https://www.cazfi.net/"
 "freeciv/alien/ for additional ruleset info."
 msgstr ""
-"Yksi tavoite tämän sääntökokoelman kehittämisesssä on ollut erilaisen pelikokemuksen tarjoaminen tavallisiin sääntöihin nähden. Älä oleta että mikään tavallisista säännöistä tietämäsi pätee tämän sääntösetin kanssa.\n"
+"Yksi tavoite tämän sääntökokoelman kehittämisesssä on ollut erilaisen "
+"pelikokemuksen tarjoaminen tavallisiin sääntöihin nähden. Älä oleta että "
+"mikään tavallisista säännöistä tietämäsi pätee tämän sääntösetin kanssa.\n"
 "\n"
-"Lisätietoa sääntökokoelmasta löytyy osoitteista https://www.freeciv.org/wiki/Alien_World ja https://www.cazfi.net/freeciv/alien/"
+"Lisätietoa sääntökokoelmasta löytyy osoitteista https://www.freeciv.org/wiki/"
+"Alien_World ja https://www.cazfi.net/freeciv/alien/"
 
 #. TRANS: Copy Research _Data (3% chance of success).
 #: data/alien/game.ruleset:273
@@ -44040,7 +44044,9 @@ msgstr ""
 msgid ""
 "No more players can be added because there's already maximum number of "
 "players allowed by maxplayers setting (value %d)"
-msgstr "Uusia pelaajia ei voi lisätä, koska pelaajien määrä on jo saavuttanut maxplayers asetuksen (arvo %d)."
+msgstr ""
+"Uusia pelaajia ei voi lisätä, koska pelaajien määrä on jo saavuttanut "
+"maxplayers asetuksen (arvo %d)."
 
 #: server/edithand.c:922
 #, c-format
@@ -50870,17 +50876,17 @@ msgstr "Tämä yksikkö ei voi toimia kun sille ei ole määritetty kotikaupunki
 
 #: server/unithand.c:1665
 #, c-format
-msgid "You must declare war on %s first.  Try using the Nations report (F3)."
+msgid "You must declare war on %s first. Try using the Nations report (F3)."
 msgstr ""
 "Tämä vaatii että sinä ja %s olette julistaneet sodan. Käytä tähän "
 "Kansakunnat-näkymää (F3)."
 
 #: server/unithand.c:1671
 #, c-format
-msgid "You must break peace with %s first.  Try using the Nations report (F3)."
-msgstr ""
-"Tämä vaatii että sinä katkaiset rauhansopimuksen, jonka toisena osapuolena "
-"ovat %s. Käytä tähän Kansakunnat-näkymää (F3)."
+msgid ""
+"You must break peace with %s first. Try using the Nations report to declare "
+"war (F3)."
+msgstr "Tämä vaatii että sinä katkaiset rauhansopimuksen, jonka toisena osapuolena ovat %s. Julista sota Kansakunnat-näkymästä (F3)."
 
 #: server/unithand.c:1681
 msgid "This unit cannot act against domestic targets."
@@ -51117,10 +51123,8 @@ msgstr ""
 #, c-format
 msgid ""
 "Your %s can't do %s while you are at peace with %s. Try using the Nations "
-"report (F3)."
-msgstr ""
-"Yksikkösi %s ei voi tehdä toimintoa %s kun sinä ja %s olette rauhassa. Käytä "
-"sodan julistamiseen Kansakunnat-näkymää (F3)."
+"report to declare war (F3)."
+msgstr "Yksikkösi %s ei voi tehdä toimintoa %s kun sinä ja %s olette rauhassa. Julista sota Kansakunnat-näkymästä (F3)."
 
 #. TRANS: action name.
 #. * "Your Riflemen can't do Expel Unit to domestic
