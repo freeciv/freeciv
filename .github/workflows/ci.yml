@@ -37,7 +37,6 @@ jobs:
             mingw-w64-x86_64-tolua
             mingw-w64-x86_64-gtk3
             mingw-w64-x86_64-gtk4
-            mingw-w64-x86_64-qt5
             mingw-w64-x86_64-qt6-base
             mingw-w64-x86_64-SDL2_image
             mingw-w64-x86_64-SDL2_ttf
