@@ -1953,6 +1953,12 @@ static void wipe_unit_full(struct unit *punit, bool transported,
   struct unit *ptrans = unit_transport_get(punit);
   struct city *pexclcity;
 
+  if (killer != NULL
+      && (game.info.gameloss_style & GAMELOSS_STYLE_LOOT)
+      && unit_has_type_flag(punit, UTYF_GAMELOSS)) {
+    player_loot_player(killer, pplayer);
+  }
+
   /* The unit is doomed. */
   punit->server.dying = TRUE;
 
@@ -2265,11 +2271,6 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
 
   /* The unit is doomed. */
   punit->server.dying = TRUE;
-
-  if ((game.info.gameloss_style & GAMELOSS_STYLE_LOOT) 
-      && unit_has_type_flag(punit, UTYF_GAMELOSS)) {
-    player_loot_player(pvictor, pvictim);
-  }
 
   /* barbarian leader ransom hack */
   if (is_barbarian(pvictim)
