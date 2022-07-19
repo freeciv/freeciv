@@ -412,7 +412,7 @@ static void editbar_add_tool_button(struct editbar *eb,
 {
   GdkPixbuf *pixbuf;
   GtkWidget *image, *button, *hbox;
-  GtkCheckButton *parent = NULL;
+  GtkToggleButton *parent = NULL;
   struct sprite *sprite;
   int i;
 
@@ -422,17 +422,17 @@ static void editbar_add_tool_button(struct editbar *eb,
 
   for (i = 0; i < NUM_EDITOR_TOOL_TYPES; i++) {
     if (eb->tool_buttons[i] != NULL) {
-      parent = GTK_CHECK_BUTTON(eb->tool_buttons[i]);
+      parent = GTK_TOGGLE_BUTTON(eb->tool_buttons[i]);
       break;
     }
   }
 
   if (parent == NULL) {
-    button = gtk_check_button_new();
+    button = gtk_toggle_button_new();
   } else {
-    button = gtk_check_button_new();
-    gtk_check_button_set_group(GTK_CHECK_BUTTON(button),
-                               GTK_CHECK_BUTTON(parent));
+    button = gtk_toggle_button_new();
+    gtk_toggle_button_set_group(GTK_TOGGLE_BUTTON(button),
+                                GTK_TOGGLE_BUTTON(parent));
   }
 
   sprite = editor_tool_get_sprite(ett);
