@@ -269,10 +269,10 @@ bool adv_data_phase_init(struct player *pplayer, bool is_new_phase)
     int i = 0;
 
     /* Conventional nukes */
-    action_list_add_all_by_result(nuke_actions, &i, ACTRES_NUKE);
-    action_list_add_all_by_result(nuke_actions, &i, ACTRES_NUKE_UNITS);
+    action_array_add_all_by_result(nuke_actions, &i, ACTRES_NUKE);
+    action_array_add_all_by_result(nuke_actions, &i, ACTRES_NUKE_UNITS);
     /* TODO: worry about spy nuking too? */
-    action_list_end(nuke_actions, i);
+    action_array_end(nuke_actions, i);
   }
 
   fc_assert_ret_val(adv != NULL, FALSE);
@@ -364,15 +364,15 @@ bool adv_data_phase_init(struct player *pplayer, bool is_new_phase)
       }
 
       /* If they build nukes, worry a lot. */
-      action_list_iterate(nuke_actions, act_id) {
+      action_array_iterate(nuke_actions, act_id) {
         if (unit_can_do_action(punit, act_id)) {
           danger_of_nukes = TRUE;
         }
-      } action_list_iterate_end;
+      } action_array_iterate_end;
     } unit_list_iterate_end;
 
     /* Check for nuke capability */
-    action_list_iterate(nuke_actions, act_id) {
+    action_array_iterate(nuke_actions, act_id) {
       int i;
       int nuke_units = num_role_units(action_id_get_role(act_id));
 
@@ -384,7 +384,7 @@ bool adv_data_phase_init(struct player *pplayer, bool is_new_phase)
           adv->threats.nuclear = 1;
         }
       }
-    } action_list_iterate_end;
+    } action_array_iterate_end;
   } players_iterate_end;
 
   /* Increase from fear to terror if opponent actually has nukes */

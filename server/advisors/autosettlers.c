@@ -96,32 +96,32 @@ void auto_settlers_ruleset_init(void)
   int i;
 
   i = 0;
-  action_list_add_all_by_result(as_actions_transform, &i,
+  action_array_add_all_by_result(as_actions_transform, &i,
                                 ACTRES_CULTIVATE);
-  action_list_add_all_by_result(as_actions_transform, &i,
+  action_array_add_all_by_result(as_actions_transform, &i,
                                 ACTRES_PLANT);
-  action_list_add_all_by_result(as_actions_transform, &i,
+  action_array_add_all_by_result(as_actions_transform, &i,
                                 ACTRES_TRANSFORM_TERRAIN);
-  action_list_end(as_actions_transform, i);
+  action_array_end(as_actions_transform, i);
 
   i = 0;
-  action_list_add_all_by_result(as_actions_extra, &i,
+  action_array_add_all_by_result(as_actions_extra, &i,
                                 ACTRES_IRRIGATE);
-  action_list_add_all_by_result(as_actions_extra, &i,
+  action_array_add_all_by_result(as_actions_extra, &i,
                                 ACTRES_MINE);
-  action_list_add_all_by_result(as_actions_extra, &i,
+  action_array_add_all_by_result(as_actions_extra, &i,
                                 ACTRES_ROAD);
-  action_list_add_all_by_result(as_actions_extra, &i,
+  action_array_add_all_by_result(as_actions_extra, &i,
                                 ACTRES_BASE);
-  action_list_end(as_actions_extra, i);
+  action_array_end(as_actions_extra, i);
 
   i = 0;
-  action_list_add_all_by_result(as_actions_rmextra, &i,
+  action_array_add_all_by_result(as_actions_rmextra, &i,
                                 ACTRES_CLEAN_POLLUTION);
-  action_list_add_all_by_result(as_actions_rmextra, &i,
+  action_array_add_all_by_result(as_actions_rmextra, &i,
                                 ACTRES_CLEAN_FALLOUT);
   /* We could have ACTRES_PILLAGE here, but currently we don't */
-  action_list_end(as_actions_rmextra, i);
+  action_array_end(as_actions_rmextra, i);
 }
 
 /**********************************************************************//**

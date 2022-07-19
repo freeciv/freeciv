@@ -7473,28 +7473,28 @@ bool action_univs_not_blocking(const struct action *paction,
 }
 
 /**********************************************************************//**
-  Terminate an action list of the specified size.
-  @param act_list the list to end
+  Terminate an action array of the specified size.
+  @param act_array the array to end
   @param size the number of elements to include in the list
 **************************************************************************/
-void action_list_end(action_id *act_list, int size)
+void action_array_end(action_id *act_array, int size)
 {
   fc_assert_ret(size <= MAX_NUM_ACTIONS);
 
   if (size < MAX_NUM_ACTIONS) {
-    /* An action list is terminated by ACTION_NONE */
-    act_list[size] = ACTION_NONE;
+    /* An action array is terminated by ACTION_NONE */
+    act_array[size] = ACTION_NONE;
   }
 }
 
 /**********************************************************************//**
-  Add all actions with the specified result to the specified action list
+  Add all actions with the specified result to the specified action array
   starting at the specified position.
-  @param act_list the list to add the actions to
-  @param position index in act_list that is updated as action are added
+  @param act_array the array to add the actions to
+  @param position index in act_array that is updated as action are added
   @param result all actions with this result are added.
 **************************************************************************/
-void action_list_add_all_by_result(action_id *act_list,
+void action_array_add_all_by_result(action_id *act_array,
                                    int *position,
                                    enum action_result result)
 {
@@ -7504,7 +7504,7 @@ void action_list_add_all_by_result(action_id *act_list,
       /* Assume one result for each action. */
       fc_assert_ret(*position < MAX_NUM_ACTIONS);
 
-      act_list[(*position)++] = paction->id;
+      act_array[(*position)++] = paction->id;
     }
   } action_iterate_end;
 }

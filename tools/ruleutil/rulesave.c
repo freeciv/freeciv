@@ -586,7 +586,7 @@ static bool save_action_auto_actions(struct section_file *sfile,
     j++;
   }
 
-  action_list_end((action_id *)unit_acts, j);
+  action_array_end((action_id *)unit_acts, j);
   ret = secfile_insert_enum_vec(sfile, &unit_acts, j, gen_action,
                                 "%s", actions_path);
 

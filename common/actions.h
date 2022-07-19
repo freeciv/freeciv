@@ -510,19 +510,19 @@ struct action_enabler
   } action_iterate_end;                                                   \
 }
 
-#define action_list_iterate(_act_list_, _act_id_)                         \
+#define action_array_iterate(_act_array_, _act_id_)                         \
 {                                                                         \
   int _pos_;                                                              \
                                                                           \
   for (_pos_ = 0; _pos_ < NUM_ACTIONS; _pos_++) {                         \
-    const action_id _act_id_ = _act_list_[_pos_];                         \
+    const action_id _act_id_ = _act_array_[_pos_];                         \
                                                                           \
     if (_act_id_ == ACTION_NONE) {                                        \
       /* No more actions in this list. */                                 \
       break;                                                              \
     }
 
-#define action_list_iterate_end                              \
+#define action_array_iterate_end                              \
   }                                                                       \
 }
 
@@ -613,10 +613,10 @@ action_auto_perf_iterate(_act_perf_) {                                    \
 } action_auto_perf_iterate_end
 
 #define action_auto_perf_actions_iterate(_autoperf_, _act_id_)            \
-  action_list_iterate(_autoperf_->alternatives, _act_id_)
+  action_array_iterate(_autoperf_->alternatives, _act_id_)
 
 #define action_auto_perf_actions_iterate_end                              \
-  action_list_iterate_end
+  action_array_iterate_end
 
 /* Hard coded location of action auto performers. Used for conversion while
  * action auto performers aren't directly exposed to the ruleset. */
@@ -952,8 +952,8 @@ bool action_mp_full_makes_legal(const struct unit *actor,
 bool action_is_in_use(struct action *paction);
 
 /* Action lists */
-void action_list_end(action_id *act_list, int size);
-void action_list_add_all_by_result(action_id *act_list,
+void action_array_end(action_id *act_array, int size);
+void action_array_add_all_by_result(action_id *act_array,
                                    int *position,
                                    enum action_result result);
 

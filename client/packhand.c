@@ -1638,7 +1638,7 @@ void handle_unit_info(const struct packet_unit_info *packet)
 static void action_decision_handle(struct unit *punit)
 {
   if (!gui_options.popup_attack_actions) {
-    action_list_iterate(auto_attack_actions, act_id) {
+    action_array_iterate(auto_attack_actions, act_id) {
       if (utype_can_do_action(unit_type_get(punit), act_id)) {
         /* An auto action like auto attack could be legal. Check for those
          * at once so they won't have to wait for player focus. */
@@ -1650,7 +1650,7 @@ static void action_decision_handle(struct unit *punit)
                                       REQEST_BACKGROUND_FAST_AUTO_ATTACK);
         return;
       }
-    } action_list_iterate_end;
+    } action_array_iterate_end;
   }
 
   /* This should be done in the foreground */
@@ -4891,7 +4891,7 @@ static action_id auto_attack_act(const struct act_prob *act_probs)
 {
   action_id attack_action = ACTION_NONE;
 
-  action_list_iterate(auto_attack_actions, act_id) {
+  action_array_iterate(auto_attack_actions, act_id) {
     if (action_prob_possible(act_probs[act_id])) {
       /* An attack. */
       if (attack_action == ACTION_NONE) {
@@ -4902,13 +4902,13 @@ static action_id auto_attack_act(const struct act_prob *act_probs)
         return ACTION_NONE;
       }
     }
-  } action_list_iterate_end;
-  action_list_iterate(auto_attack_blockers, act_id) {
+  } action_array_iterate_end;
+  action_array_iterate(auto_attack_blockers, act_id) {
     if (action_prob_possible(act_probs[act_id])) {
       /* An interesting non attack action has been found. */
       return ACTION_NONE;
     }
-  } action_list_iterate_end;
+  } action_array_iterate_end;
 
   return attack_action;
 }

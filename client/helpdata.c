@@ -1349,18 +1349,18 @@ char *helptext_building(char *buf, size_t bufsz, struct player *pplayer,
       /* Find Manhattan dependent nuke actions */
       int i = 0;
 
-      action_list_add_all_by_result(nuke_actions, &i, ACTRES_NUKE);
-      action_list_add_all_by_result(nuke_actions, &i, ACTRES_NUKE_UNITS);
+      action_array_add_all_by_result(nuke_actions, &i, ACTRES_NUKE);
+      action_array_add_all_by_result(nuke_actions, &i, ACTRES_NUKE_UNITS);
 
-      action_list_end(nuke_actions, i);
+      action_array_end(nuke_actions, i);
     }
 
-    action_list_iterate(nuke_actions, act_id) {
+    action_array_iterate(nuke_actions, act_id) {
       if (num_role_units(action_id_get_role(act_id)) > 0) {
         u = get_role_unit(action_id_get_role(act_id), 0);
         break;
       }
-    } action_list_iterate_end;
+    } action_array_iterate_end;
 
     if (u) {
       struct advance *req = NULL;
