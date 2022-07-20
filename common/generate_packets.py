@@ -2517,104 +2517,109 @@ void packet_handlers_fill_initial(struct packet_handlers *phandlers)
 """
         return intro + body + extro
 
-
-# Returns a code fragment which is the implementation of the
-# packet_handlers_fill_capability() function.
-def get_packet_handlers_fill_capability(packets: typing.Iterable[Packet]) -> str:
-    intro = """\
+    @property
+    def code_packet_handlers_fill_capability(self) -> str:
+        """Code fragment implementing the packet_handlers_fill_capability()
+        function"""
+        intro = """\
 void packet_handlers_fill_capability(struct packet_handlers *phandlers,
                                      const char *capability)
 {
 """
 
-    sc_packets=[]
-    cs_packets=[]
-    unrestricted=[]
-    for p in packets:
-        if len(p.variants)>1:
-            if p.dirs is Directions.DOWN_ONLY:
-                sc_packets.append(p)
-            elif p.dirs is Directions.UP_ONLY:
-                cs_packets.append(p)
-            else:
-                unrestricted.append(p)
+        down_only = [
+            packet
+            for packet in self.packets_by_dirs[Directions.DOWN_ONLY]
+            if len(packet.variants) > 1
+        ]
+        up_only = [
+            packet
+            for packet in self.packets_by_dirs[Directions.UP_ONLY]
+            if len(packet.variants) > 1
+        ]
+        unrestricted = [
+            packet
+            for packet in self.packets_by_dirs[Directions.UNRESTRICTED]
+            if len(packet.variants) > 1
+        ]
 
-    body=""
-    for p in unrestricted:
-        body=body+"  "
-        for v in p.variants:
-            hand = prefix("    ", v.send_handler + v.receive_handler)
-            body += """if ({v.condition}) {{
+        body = ""
+        for p in unrestricted:
+            body += "  "
+            for v in p.variants:
+                hand = prefix("    ", v.send_handler + v.receive_handler)
+                body += """if ({v.condition}) {{
     {v.log_macro}("{v.type}: using variant={v.no} cap=%s", capability);
 {hand}\
   }} else """.format(v = v, hand = hand)
-        body += """{{
+            body += """{{
     log_error("Unknown {p.type} variant for cap %s", capability);
   }}
 """.format(p = p)
-    if len(cs_packets)>0 or len(sc_packets)>0:
-        body += """\
+        if up_only or down_only:
+            body += """\
   if (is_server()) {
 """
-        for p in sc_packets:
-            body=body+"    "
-            for v in p.variants:
-                hand = prefix("      ", v.send_handler)
-                body += """if ({v.condition}) {{
+            for p in down_only:
+                body += "    "
+                for v in p.variants:
+                    hand = prefix("      ", v.send_handler)
+                    body += """if ({v.condition}) {{
       {v.log_macro}("{v.type}: using variant={v.no} cap=%s", capability);
 {hand}\
     }} else """.format(v = v, hand = hand)
-            body += """{{
+                body += """{{
       log_error("Unknown {p.type} variant for cap %s", capability);
     }}
 """.format(p = p)
-        for p in cs_packets:
-            body=body+"    "
-            for v in p.variants:
-                hand = prefix("      ", v.receive_handler)
-                body += """if ({v.condition}) {{
+            for p in up_only:
+                body += "    "
+                for v in p.variants:
+                    hand = prefix("      ", v.receive_handler)
+                    body += """if ({v.condition}) {{
       {v.log_macro}("{v.type}: using variant={v.no} cap=%s", capability);
 {hand}\
     }} else """.format(v = v, hand = hand)
-            body += """{{
+                body += """{{
       log_error("Unknown {p.type} variant for cap %s", capability);
     }}
 """.format(p = p)
-        body += """\
+            body += """\
   } else {
 """
-        for p in cs_packets:
-            body=body+"    "
-            for v in p.variants:
-                hand = prefix("      ", v.send_handler)
-                body += """if ({v.condition}) {{
+            for p in up_only:
+                body += "    "
+                for v in p.variants:
+                    hand = prefix("      ", v.send_handler)
+                    body += """if ({v.condition}) {{
       {v.log_macro}("{v.type}: using variant={v.no} cap=%s", capability);
 {hand}\
     }} else """.format(v = v, hand = hand)
-            body += """{{
+                body += """{{
       log_error("Unknown {p.type} variant for cap %s", capability);
     }}
 """.format(p = p)
-        for p in sc_packets:
-            body=body+"    "
-            for v in p.variants:
-                hand = prefix("      ", v.receive_handler)
-                body += """if ({v.condition}) {{
+            for p in down_only:
+                body += "    "
+                for v in p.variants:
+                    hand = prefix("      ", v.receive_handler)
+                    body += """if ({v.condition}) {{
       {v.log_macro}("{v.type}: using variant={v.no} cap=%s", capability);
 {hand}\
     }} else """.format(v = v, hand = hand)
-            body += """{{
+                body += """{{
       log_error("Unknown {p.type} variant for cap %s", capability);
     }}
 """.format(p = p)
-        body += """\
+            body += """\
   }
 """
 
-    extro = """\
+        extro = """\
 }
 """
-    return intro+body+extro
+        return intro + body + extro
+
 
 # Returns a code fragment which is the declartion of
 # "enum packet_type".
@@ -2744,7 +2749,7 @@ static int stats_total_sent;
             output_c.write(p.get_dlsend())
 
         output_c.write(packets.code_packet_handlers_fill_initial)
-        output_c.write(get_packet_handlers_fill_capability(packets))
+        output_c.write(packets.code_packet_handlers_fill_capability)
 
 def write_server_header(path: "str | Path | None", packets: typing.Iterable[Packet]):
     """Write contents for server/hand_gen.h to the given path"""
