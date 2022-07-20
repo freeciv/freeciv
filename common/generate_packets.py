@@ -428,7 +428,7 @@ class Field:
     - the final array size"""
 
     @classmethod
-    def parse(cls, line: str, types: typing.Mapping[str, str]) -> "typing.Iterable[Field]":
+    def parse(cls, line: str, resolve_type: typing.Callable[[str], str]) -> "typing.Iterable[Field]":
         """Parse a single line defining one or more fields"""
         mo = cls.FIELDS_LINE_PATTERN.fullmatch(line)
         if mo is None:
@@ -436,10 +436,7 @@ class Field:
         type_text, fields, flags = (i.strip() for i in mo.groups(""))
 
         # analyze type
-        # FIXME: no infinite loop detection
-        while type_text in types:
-            type_text = types[type_text]
-
+        type_text = resolve_type(type_text)
         type_info = {}
         mo = cls.TYPE_INFO_PATTERN.fullmatch(type_text)
         if mo is None:
@@ -1921,7 +1918,7 @@ class Packet:
     # matches a packet cancel flag (cancelled packet type)
     CANCEL_PATTERN = re.compile(r"^cancel\((.*)\)$")
 
-    def __init__(self, text: str, types: typing.Mapping[str, str]):
+    def __init__(self, text: str, resolve_type: typing.Callable[[str], str]):
         text = text.strip()
         lines = text.split("\n")
 
@@ -2010,7 +2007,7 @@ class Packet:
         self.fields = [
             field
             for line in lines
-            for field in Field.parse(line, types)
+            for field in Field.parse(line, resolve_type)
         ]
         self.key_fields = [field for field in self.fields if field.is_key]
         self.other_fields = [field for field in self.fields if not field.is_key]
@@ -2295,22 +2292,14 @@ class PacketsDefinition(typing.Iterable[Packet]):
                 packets_lines.append(line)
                 continue
 
-            alias, dest = mo.groups("")
-            if alias in self.types:
-                if dest == self.types[alias]:
-                    verbose("duplicate typedef: %r = %r" % (alias, dest))
-                    continue
-                else:
-                    raise ValueError("duplicate type alias %r: %r and %r"
-                                        % (alias, self.types[alias], dest))
-            self.types[alias] = dest
+            self.define_type(*mo.groups())
 
         # parse packet definitions
         for packet_text in self.PACKET_SEP_PATTERN.split("\n".join(packets_lines)):
             packet_text = packet_text.strip()
             if not packet_text: continue
 
-            packet = Packet(packet_text, self.types)
+            packet = Packet(packet_text, self.resolve_type)
 
             if packet.type in self.packets_by_type:
                 raise ValueError("Duplicate packet type: " + packet.type)
@@ -2326,6 +2315,24 @@ class PacketsDefinition(typing.Iterable[Packet]):
             self.packets_by_number[packet.type_number] = packet
             self.packets_by_type[packet.type] = packet
             self.packets_by_dirs[packet.dirs].append(packet)
+
+    def resolve_type(self, type_text: str) -> str:
+        """Resolve the given type"""
+        # FIXME: no infinite loop detection
+        while type_text in self.types:
+            type_text = self.types[type_text]
+        return type_text
+
+    def define_type(self, alias: str, meaning: str):
+        """Define a type alias"""
+        if alias in self.types:
+            if meaning == self.types[alias]:
+                verbose("duplicate typedef: %r = %r" % (alias, meaning))
+                return
+            else:
+                raise ValueError("duplicate type alias %r: %r and %r"
+                                    % (alias, self.types[alias], meaning))
+        self.types[alias] = meaning
 
     def __init__(self):
         self.types = {}
