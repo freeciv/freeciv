@@ -4,7 +4,7 @@ Installing Freeciv:
 
 This file describes how to compile and install Freeciv. Last time we
 made sure this file is up to date was 16-Jul-06.
-Last minor update was 26-Jun-22.
+Last minor update was 20-Jul-22.
 
 There may be a localized version of this file in the ./doc directory,
 named INSTALL.<locale> (e.g., INSTALL.de).
@@ -498,6 +498,20 @@ from normal path. This shows up as a configure error:
 "icu development files not found. Adjusting PKG_CONFIG_PATH may help"
 One needs to adjust PKG_CONFIG_PATH before configure, like this:
 > export PKG_CONFIG_PATH="/usr/local/opt/icu4c/lib/pkgconfig:$PKG_CONFIG_PATH"
+
+Mac OS has a library called libedit that provides similar functionality to
+readline, but is not a suitable replacement for freeciv use of readline.
+You need to provide real readline implementation (e.g. from homebrew) to
+get readline functionality to the freeciv server.
+
+Readline files from homebrew are not found from normal paths, but
+you need to adjust CPPFLAGS and LDFLAGS before configure.
+If you don't have CPPFLAGS or LDFLAGS defined at all beforehand, use:
+> export CPPFLAGS="-I$(brew --prefix readline)/include"
+> export LDFLAGS="-L$(brew --prefix readline)/lib"
+If you already have either defined, include also those existing
+path components, e.g. CPPFLAGS:
+> export CPPFLAGS="-I$(brew --prefix readline)/include:$CPPFLAGS"
 
 
 9. Windows notes:
