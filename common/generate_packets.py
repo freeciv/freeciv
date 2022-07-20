@@ -21,7 +21,7 @@ import argparse
 from pathlib import Path
 from contextlib import contextmanager
 from functools import partial
-from itertools import chain, combinations, takewhile
+from itertools import chain, combinations, takewhile, zip_longest
 from collections import deque
 from enum import Enum
 
@@ -230,20 +230,10 @@ def fc_open(path: "str | Path") -> typing.Iterator[typing.TextIO]:
         yield file
     verbose("done writing %s" % path)
 
-def read_text(path: "str | Path", allow_missing: bool = True) -> str:
-    """Load all text from the file at the given path
-
-    If allow_missing is True, return the empty string if the file does not
-    exist. Otherwise, raise FileNotFoundException as per open()."""
-    path = Path(path)
-    if allow_missing and not path.exists():
-        return ""
-    with path.open() as file:
-        return file.read()
-
 def files_equal(path_a: "str | Path", path_b: "str | Path") -> bool:
     """Return whether the contents of two text files are identical"""
-    return read_text(path_a) == read_text(path_b)
+    with Path(path_a).open() as file_a, Path(path_b).open() as file_b:
+        return all(a == b for a, b in zip_longest(file_a, file_b))
 
 @contextmanager
 def lazy_overwrite_open(path: "str | Path", suffix: str = ".tmp") -> typing.Iterator[typing.TextIO]:
