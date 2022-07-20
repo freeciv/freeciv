@@ -2620,31 +2620,30 @@ void packet_handlers_fill_capability(struct packet_handlers *phandlers,
 """
         return intro + body + extro
 
-
-# Returns a code fragment which is the declartion of
-# "enum packet_type".
-def get_enum_packet(packets: PacketsDefinition) -> str:
-    intro = """\
+    @property
+    def code_enum_packet(self) -> str:
+        """Code fragment declaring the packet_type enum"""
+        intro = """\
 enum packet_type {
 """
-    body=""
-    for n, packet, skipped in packets.iter_by_number():
-        if skipped:
-            line = "  %s = %d," % (packet.type, n)
-        else:
-            line = "  %s," % (packet.type)
+        body = ""
+        for n, packet, skipped in self.iter_by_number():
+            if skipped:
+                line = "  %s = %d," % (packet.type, n)
+            else:
+                line = "  %s," % (packet.type)
 
-        if not (n % 10):
-            line = "%-40s /* %d */" % (line, n)
-        body=body+line+"\n"
+            if not (n % 10):
+                line = "%-40s /* %d */" % (line, n)
+            body += line + "\n"
 
-    extro = """\
+        extro = """\
 
   PACKET_LAST  /* leave this last */
 };
 
 """
-    return intro+body+extro
+        return intro + body + extro
 
 
 ########################### Writing output files ###########################
@@ -2670,7 +2669,7 @@ def write_common_header(path: "str | Path | None", packets: PacketsDefinition):
         for p in packets:
             output_h.write(p.get_struct())
 
-        output_h.write(get_enum_packet(packets))
+        output_h.write(packets.code_enum_packet)
 
         # write function prototypes
         for p in packets:
