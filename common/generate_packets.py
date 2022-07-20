@@ -23,6 +23,7 @@ from contextlib import contextmanager
 from functools import partial
 from itertools import chain, combinations
 from collections import deque
+from enum import Enum
 
 try:
     from functools import cache
@@ -1878,6 +1879,33 @@ if (NULL != *hash) {
 #endif /* FREECIV_DELTA_PROTOCOL */
 """
 
+
+class Directions(Enum):
+    """Describes the possible combinations of directions for which a packet
+    can be valid"""
+
+    # Note: "sc" and "cs" are used to match the packet flags
+
+    DOWN_ONLY = frozenset({"sc"})
+    """Packet may only be sent from server to client"""
+
+    UP_ONLY = frozenset({"cs"})
+    """Packet may only be sent from client to server"""
+
+    UNRESTRICTED = frozenset({"sc", "cs"})
+    """Packet may be sent both ways"""
+
+    @property
+    def down(self) -> bool:
+        """Whether a packet may be sent from server to client"""
+        return "sc" in self.value
+
+    @property
+    def up(self) -> bool:
+        """Whether a packet may be sent from client to server"""
+        return "cs" in self.value
+
+
 # Class which represents a packet. A packet contains a list of fields.
 class Packet:
     # matches a packet's header line (packet type, number, flags)
@@ -1903,17 +1931,19 @@ class Packet:
 
         arr=list(item.strip() for item in dummy.split(",") if item)
 
-        self.dirs=[]
+        dirs = set()
 
         if "sc" in arr:
-            self.dirs.append("sc")
+            dirs.add("sc")
             arr.remove("sc")
         if "cs" in arr:
-            self.dirs.append("cs")
+            dirs.add("cs")
             arr.remove("cs")
 
-        if not self.dirs:
+        if not dirs:
             raise ValueError("no directions defined for %s" % self.name)
+
+        self.dirs = Directions(dirs)
 
         # "no" means normal packet
         # "yes" means is-info packet
@@ -2367,9 +2397,9 @@ void packet_handlers_fill_initial(struct packet_handlers *phandlers)
             # handler at connecting time, because it would be anyway wrong
             # to use them before the network capability string would be
             # known.
-            if len(p.dirs)==1 and p.dirs[0]=="sc":
+            if p.dirs is Directions.DOWN_ONLY:
                 sc_packets.append(p)
-            elif len(p.dirs)==1 and p.dirs[0]=="cs":
+            elif p.dirs is Directions.UP_ONLY:
                 cs_packets.append(p)
             else:
                 unrestricted.append(p)
@@ -2414,9 +2444,9 @@ void packet_handlers_fill_capability(struct packet_handlers *phandlers,
     unrestricted=[]
     for p in packets:
         if len(p.variants)>1:
-            if len(p.dirs)==1 and p.dirs[0]=="sc":
+            if p.dirs is Directions.DOWN_ONLY:
                 sc_packets.append(p)
-            elif len(p.dirs)==1 and p.dirs[0]=="cs":
+            elif p.dirs is Directions.UP_ONLY:
                 cs_packets.append(p)
             else:
                 unrestricted.append(p)
@@ -2720,7 +2750,7 @@ bool server_handle_packet(enum packet_type type, const void *packet,
 """)
 
         for p in packets:
-            if "cs" in p.dirs and not p.no_handle:
+            if p.dirs.up and not p.no_handle:
                 a=p.name[len("packet_"):]
                 b = "".join(
                     ", %s%s" % (field.get_handle_type(), field.name)
@@ -2756,7 +2786,7 @@ bool client_handle_packet(enum packet_type type, const void *packet);
 
 """)
         for p in packets:
-            if "sc" not in p.dirs: continue
+            if not p.dirs.down: continue
 
             a=p.name[len("packet_"):]
             b = ", ".join(
@@ -2794,7 +2824,7 @@ bool server_handle_packet(enum packet_type type, const void *packet,
   switch (type) {
 """)
         for p in packets:
-            if "cs" not in p.dirs: continue
+            if not p.dirs.up: continue
             if p.no_handle: continue
             a=p.name[len("packet_"):]
             c = "((const struct %s *)packet)->" % p.name
@@ -2853,7 +2883,7 @@ bool client_handle_packet(enum packet_type type, const void *packet)
   switch (type) {
 """)
         for p in packets:
-            if "sc" not in p.dirs: continue
+            if not p.dirs.down: continue
             if p.no_handle: continue
             a=p.name[len("packet_"):]
             c = "((const struct %s *)packet)->" % p.name
