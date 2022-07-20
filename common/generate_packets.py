@@ -2461,62 +2461,62 @@ bool packet_has_game_info_flag(enum packet_type type)
 """
         return intro + body + extro
 
-
-# Returns a code fragment which is the implementation of the
-# packet_handlers_fill_initial() function.
-def get_packet_handlers_fill_initial(packets: PacketsDefinition) -> str:
-    intro = """\
+    @property
+    def code_packet_handlers_fill_initial(self) -> str:
+        """Code fragment implementing the packet_handlers_fill_initial()
+        function"""
+        intro = """\
 void packet_handlers_fill_initial(struct packet_handlers *phandlers)
 {
 """
-    for cap in sorted(packets.all_caps):
-        intro += """\
+        for cap in sorted(self.all_caps):
+            intro += """\
   fc_assert_msg(has_capability("{0}", our_capability),
                 "Packets have support for unknown '{0}' capability!");
 """.format(cap)
 
-    sc_packets=[]
-    cs_packets=[]
-    unrestricted=[]
-    for p in packets:
-        if len(p.variants)==1:
-            # Packets with variants are correctly handled in
-            # packet_handlers_fill_capability(). They may remain without
-            # handler at connecting time, because it would be anyway wrong
-            # to use them before the network capability string would be
-            # known.
-            if p.dirs is Directions.DOWN_ONLY:
-                sc_packets.append(p)
-            elif p.dirs is Directions.UP_ONLY:
-                cs_packets.append(p)
-            else:
-                unrestricted.append(p)
+        down_only = [
+            packet.variants[0]
+            for packet in self.packets_by_dirs[Directions.DOWN_ONLY]
+            if len(packet.variants) == 1
+        ]
+        up_only = [
+            packet.variants[0]
+            for packet in self.packets_by_dirs[Directions.UP_ONLY]
+            if len(packet.variants) == 1
+        ]
+        unrestricted = [
+            packet.variants[0]
+            for packet in self.packets_by_dirs[Directions.UNRESTRICTED]
+            if len(packet.variants) == 1
+        ]
 
-    body=""
-    for p in unrestricted:
-        body += prefix("  ", p.variants[0].send_handler)
-        body += prefix("  ", p.variants[0].receive_handler)
-    body += """\
+        body = ""
+        for variant in unrestricted:
+            body += prefix("  ", variant.send_handler)
+            body += prefix("  ", variant.receive_handler)
+        body += """\
   if (is_server()) {
 """
-    for p in sc_packets:
-        body += prefix("    ", p.variants[0].send_handler)
-    for p in cs_packets:
-        body += prefix("    ", p.variants[0].receive_handler)
-    body += """\
+        for variant in down_only:
+            body += prefix("    ", variant.send_handler)
+        for variant in up_only:
+            body += prefix("    ", variant.receive_handler)
+        body += """\
   } else {
 """
-    for p in cs_packets:
-        body += prefix("    ", p.variants[0].send_handler)
-    for p in sc_packets:
-        body += prefix("    ", p.variants[0].receive_handler)
+        for variant in up_only:
+            body += prefix("    ", variant.send_handler)
+        for variant in down_only:
+            body += prefix("    ", variant.receive_handler)
 
-    extro = """\
+        extro = """\
   }
 }
 
 """
-    return intro+body+extro
+        return intro + body + extro
+
 
 # Returns a code fragment which is the implementation of the
 # packet_handlers_fill_capability() function.
@@ -2743,7 +2743,7 @@ static int stats_total_sent;
             output_c.write(p.get_dsend())
             output_c.write(p.get_dlsend())
 
-        output_c.write(get_packet_handlers_fill_initial(packets))
+        output_c.write(packets.code_packet_handlers_fill_initial)
         output_c.write(get_packet_handlers_fill_capability(packets))
 
 def write_server_header(path: "str | Path | None", packets: typing.Iterable[Packet]):
