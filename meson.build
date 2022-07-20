@@ -366,11 +366,18 @@ else
   charset_dep = []
 endif
 
-readline_dep = c_compiler.find_library('readline', dirs: cross_lib_path,
-                                       required:false)
+rl_req = get_option('readline')
+if rl_req != 'false'
+  readline_dep = c_compiler.find_library('readline', dirs: cross_lib_path,
+                                         required:false)
 
-if readline_dep.found()
-  pub_conf_data.set('FREECIV_HAVE_LIBREADLINE', 1)
+  if readline_dep.found()
+    pub_conf_data.set('FREECIV_HAVE_LIBREADLINE', 1)
+  elif rl_req == 'true'
+    error('Readline support requested but not found.')
+  endif
+else
+  readline_dep = []
 endif
 
 lzma_dep = c_compiler.find_library('lzma', dirs: cross_lib_path,
