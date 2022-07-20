@@ -2381,27 +2381,27 @@ void delta_stats_report(void) {
         )
         return intro + body + extro
 
-
-# Returns a code fragment which is the implementation of the
-# delta_stats_reset() function.
-def get_reset(packets: typing.Iterable[Packet]) -> str:
-    if not generate_stats: return """\
+    @property
+    def code_delta_stats_reset(self) -> str:
+        """Code fragment implementing the delta_stats_reset() function"""
+        if not generate_stats: return """\
 void delta_stats_reset(void) {}
 
 """
 
-    intro = """\
+        intro = """\
 void delta_stats_reset(void) {
 """
-    extro = """\
+        extro = """\
 }
 
 """
-    body = "\n".join(
-        prefix("  ", packet.get_reset_part())
-        for packet in packets
-    )
-    return intro+body+extro
+        body = "\n".join(
+            prefix("  ", packet.get_reset_part())
+            for packet in self
+        )
+        return intro + body + extro
+
 
 # Returns a code fragment which is the implementation of the
 # packet_name() function.
@@ -2729,7 +2729,7 @@ static int stats_total_sent;
                 output_c.write(p.get_stats())
             # write report()
         output_c.write(packets.code_delta_stats_report)
-        output_c.write(get_reset(packets))
+        output_c.write(packets.code_delta_stats_reset)
 
         output_c.write(get_packet_name(packets))
         output_c.write(get_packet_has_game_info_flag(packets))
