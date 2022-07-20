@@ -2332,6 +2332,20 @@ class PacketsDefinition(typing.Iterable[Packet]):
     def __iter__(self) -> typing.Iterator[Packet]:
         return iter(self.packets)
 
+    def iter_by_number(self) -> "typing.Generator[tuple[int, Packet, int], None, int]":
+        """Yield (number, packet, skipped) tuples in order of packet number.
+
+        skipped is how many numbers were skipped since the last packet
+
+        Return the maximum packet number (or -1 if there are no packets)
+        when used with `yield from`."""
+        last = -1
+        for n, packet in sorted(self.packets_by_number.items()):
+            assert n == packet.type_number
+            yield (n, packet, n - last - 1)
+            last = n
+        return last
+
 
 def all_caps_union(packets: typing.Iterable[Packet]) -> "set[str]":
     """Return a set of all capabilities affecting the given packets"""
@@ -2391,28 +2405,21 @@ void delta_stats_reset(void) {
 
 # Returns a code fragment which is the implementation of the
 # packet_name() function.
-def get_packet_name(packets: typing.Iterable[Packet]) -> str:
+def get_packet_name(packets: PacketsDefinition) -> str:
     intro = """\
 const char *packet_name(enum packet_type type)
 {
   static const char *const names[PACKET_LAST] = {
 """
 
-    mapping = {
-        packet.type_number: packet
-        for packet in packets
-    }
-
-    last=-1
     body=""
-    for n in sorted(mapping.keys()):
+    for _, packet, skipped in packets.iter_by_number():
         body += """\
     "unknown",
-""" * (n - last - 1)
+""" * skipped
         body += """\
     "%s",
-""" % mapping[n].type
-        last=n
+""" % packet.type
 
     extro = """\
   };
@@ -2425,33 +2432,25 @@ const char *packet_name(enum packet_type type)
 
 # Returns a code fragment which is the implementation of the
 # packet_has_game_info_flag() function.
-def get_packet_has_game_info_flag(packets: typing.Iterable[Packet]) -> str:
+def get_packet_has_game_info_flag(packets: PacketsDefinition) -> str:
     intro = """\
 bool packet_has_game_info_flag(enum packet_type type)
 {
   static const bool flag[PACKET_LAST] = {
 """
-
-    mapping = {
-        packet.type_number: packet
-        for packet in packets
-    }
-
-    last=-1
     body=""
-    for n in sorted(mapping.keys()):
+    for _, packet, skipped in packets.iter_by_number():
         body += """\
     FALSE,
-""" * (n - last - 1)
-        if mapping[n].is_info!="game":
+""" * skipped
+        if packet.is_info!="game":
             body += """\
     FALSE, /* %s */
-""" % mapping[n].type
+""" % packet.type
         else:
             body += """\
     TRUE, /* %s */
-""" % mapping[n].type
-        last=n
+""" % packet.type
 
     extro = """\
   };
@@ -2619,33 +2618,21 @@ void packet_handlers_fill_capability(struct packet_handlers *phandlers,
 
 # Returns a code fragment which is the declartion of
 # "enum packet_type".
-def get_enum_packet(packets: typing.Iterable[Packet]) -> str:
+def get_enum_packet(packets: PacketsDefinition) -> str:
     intro = """\
 enum packet_type {
 """
-
-    mapping={}
-    for p in packets:
-        if p.type_number in mapping:
-            num = p.type_number
-            other = mapping[num]
-            raise ValueError("Duplicate packet ID %d: %s and %s" % (num, other.name, p.name))
-        mapping[p.type_number]=p
-
-    last=-1
     body=""
-    for i in sorted(mapping.keys()):
-        p=mapping[i]
-        if i!=last+1:
-            line="  %s = %d,"%(p.type,i)
+    for n, packet, skipped in packets.iter_by_number():
+        if skipped:
+            line = "  %s = %d," % (packet.type, n)
         else:
-            line="  %s,"%(p.type)
+            line = "  %s," % (packet.type)
 
-        if (i%10)==0:
-            line="%-40s /* %d */"%(line,i)
+        if not (n % 10):
+            line = "%-40s /* %d */" % (line, n)
         body=body+line+"\n"
 
-        last=i
     extro = """\
 
   PACKET_LAST  /* leave this last */
@@ -2657,7 +2644,7 @@ enum packet_type {
 
 ########################### Writing output files ###########################
 
-def write_common_header(path: "str | Path | None", packets: typing.Iterable[Packet]):
+def write_common_header(path: "str | Path | None", packets: PacketsDefinition):
     """Write contents for common/packets_gen.h to the given path"""
     if path is None:
         return
@@ -2688,7 +2675,7 @@ void delta_stats_report(void);
 void delta_stats_reset(void);
 """)
 
-def write_common_impl(path: "str | Path | None", packets: typing.Iterable[Packet]):
+def write_common_impl(path: "str | Path | None", packets: PacketsDefinition):
     """Write contents for common/packets_gen.c to the given path"""
     if path is None:
         return
