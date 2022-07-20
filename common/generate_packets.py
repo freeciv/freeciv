@@ -275,13 +275,24 @@ class Field:
             array_size_o=self.array_size1_o
         elif self.is_struct:
             c="!are_%(dataio_type)ss_equal(&old->%(name)s[i], &real_packet->%(name)s[i])"%self.__dict__
+            array_size_u = self.array_size_u
+            array_size_o = self.array_size_o
         else:
             c="old->%(name)s[i] != real_packet->%(name)s[i]"%self.__dict__
+            array_size_u = self.array_size_u
+            array_size_o = self.array_size_o
 
-        return '''
+        if array_size_u != array_size_o:
+            head = '''
     {
       differ = (%(array_size_o)s != %(array_size_u)s);
-      if (!differ) {
+      if (!differ) {''' % self.get_dict(vars())
+        else:
+            head = '''
+    {
+      differ = FALSE;
+      {'''
+        return head + '''
         int i;
 
         for (i = 0; i < %(array_size_u)s; i++) {
