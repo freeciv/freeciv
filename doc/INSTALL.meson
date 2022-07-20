@@ -133,6 +133,10 @@ mwand ('try'/'true'/'false')
   Whether to build against MagickWand to have support for additional
   mapimg formats. The default is 'try' to enable the support if possible.
 
+readline ('try'/'true'/'false')
+  Whether to enable readline functionality on server.
+  The default is 'try' to enable it if suitable readline found.
+
 audio (boolean):
   Build sound support to the clients. Defaults to true.
 

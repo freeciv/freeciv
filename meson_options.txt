@@ -35,6 +35,11 @@ option('mwand',
        choices: ['try', 'true', 'false'],
        description: 'Build MagickWand support to mapimg')
 
+option('readline',
+       type: 'combo',
+       choices: ['try', 'true', 'false'],
+       description: 'Enable readline functionality')
+
 option('audio',
        type: 'boolean',
        value: true,
