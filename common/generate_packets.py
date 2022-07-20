@@ -21,7 +21,7 @@ import argparse
 from pathlib import Path
 from contextlib import contextmanager
 from functools import partial
-from itertools import chain, combinations
+from itertools import chain, combinations, takewhile
 from collections import deque
 from enum import Enum
 
@@ -1913,27 +1913,8 @@ class Directions(Enum):
 
 # Class which represents a packet. A packet contains a list of fields.
 class Packet:
-    # matches a packet's header line (packet type, number, flags)
-    HEADER_PATTERN = re.compile(r"^\s*(\S+)\s*=\s*(\d+)\s*;\s*(.*?)\s*$")
     # matches a packet cancel flag (cancelled packet type)
     CANCEL_PATTERN = re.compile(r"^cancel\((.*)\)$")
-
-    @classmethod
-    def parse(cls, text: str, resolve_type: typing.Callable[[str], str]) -> "Packet":
-        """Parse a packet from the given text (without the end line)"""
-        text = text.strip()
-        header, *lines = text.split("\n")
-
-        mo = __class__.HEADER_PATTERN.fullmatch(header)
-        if mo is None:
-            raise ValueError("not a valid packet header line: %r" % header)
-
-        packet_type, packet_number, flags_text = mo.groups("")
-        packet_number = int(packet_number)
-        if packet_number not in range(65536):
-            raise ValueError("packet number %d for %s outside legal range [0,65536)" % (packet_number, packet_type))
-
-        return cls(packet_type, packet_number, flags_text, lines, resolve_type)
 
     def __init__(self, packet_type: str, packet_number: int, flags_text: str,
                        lines: typing.Iterable[str], resolve_type: typing.Callable[[str], str]):
@@ -2276,15 +2257,23 @@ class PacketsDefinition(typing.Iterable[Packet]):
     """, re.VERBOSE | re.MULTILINE)
     """Matches /* ... */ block comments and # ... and // ... EOL comments"""
 
-    TYPE_PATTERN = re.compile(r"^\s*type\s+(\S+)\s*=\s*(.+)\s*$")
+    TYPE_PATTERN = re.compile(r"^\s*type\s+(\w+)\s*=\s*(.+?)\s*$")
     """Matches type alias definition lines
 
     Groups:
     - the alias to define
     - the meaning for the alias"""
 
-    PACKET_SEP_PATTERN = re.compile(r"^end$", re.MULTILINE)
-    """Matches the "end" line separating packet definitions"""
+    PACKET_HEADER_PATTERN = re.compile(r"^\s*(PACKET_\w+)\s*=\s*(\d+)\s*;\s*(.*?)\s*$")
+    """Matches the header line of a packet definition
+
+    Groups:
+    - packet type name
+    - packet number
+    - packet flags text"""
+
+    PACKET_END_PATTERN = re.compile(r"^\s*end\s*$")
+    """Matches the "end" line terminating a packet definition"""
 
     @classmethod
     def packets_def_lines(cls, def_text: str) -> typing.Iterator[str]:
@@ -2294,38 +2283,52 @@ class PacketsDefinition(typing.Iterable[Packet]):
 
     def parse_text(self, def_text: str):
         """Parse the given string as contents of packets.def"""
+        self.parse_clean_lines(self.packets_def_lines(def_text))
 
-        # parse type alias definitions
-        packets_lines = []
-        for line in self.packets_def_lines(def_text):
+    def parse_clean_lines(self, lines: typing.Iterable[str]):
+        """Parse the given lines as type and packet definitions. Comments
+        and blank lines must already be removed beforehand."""
+        # hold on to the iterator itself
+        lines_iter = iter(lines)
+        for line in lines_iter:
             mo = self.TYPE_PATTERN.fullmatch(line)
-            if mo is None:
-                packets_lines.append(line)
+            if mo is not None:
+                self.define_type(*mo.groups())
                 continue
 
-            self.define_type(*mo.groups())
+            mo = self.PACKET_HEADER_PATTERN.fullmatch(line)
+            if mo is not None:
+                packet_type, packet_number, flags_text = mo.groups("")
+                packet_number = int(packet_number)
 
-        # parse packet definitions
-        for packet_text in self.PACKET_SEP_PATTERN.split("\n".join(packets_lines)):
-            packet_text = packet_text.strip()
-            if not packet_text: continue
+                if packet_type in self.packets_by_type:
+                    raise ValueError("Duplicate packet type: " + packet_type)
 
-            packet = Packet.parse(packet_text, self.resolve_type)
+                if packet_number not in range(65536):
+                    raise ValueError("packet number %d for %s outside legal range [0,65536)" % (packet_number, packet_type))
+                if packet_number in self.packets_by_number:
+                    raise ValueError("Duplicate packet number: %d (%s and %s)" % (
+                        packet_number,
+                        self.packets_by_number[packet_number].type,
+                        packet_type,
+                    ))
 
-            if packet.type in self.packets_by_type:
-                raise ValueError("Duplicate packet type: " + packet.type)
+                packet = Packet(
+                    packet_type, packet_number, flags_text,
+                    takewhile(
+                        lambda line: self.PACKET_END_PATTERN.fullmatch(line) is None,
+                        lines_iter, # advance the iterator used by this for loop
+                    ),
+                    self.resolve_type,
+                )
 
-            if packet.type_number in self.packets_by_number:
-                raise ValueError("Duplicate packet number: %d (%s and %s)" % (
-                    packet.type_number,
-                    self.packets_by_number[packet.type_number].type,
-                    packet.type,
-                ))
+                self.packets.append(packet)
+                self.packets_by_number[packet_number] = packet
+                self.packets_by_type[packet_type] = packet
+                self.packets_by_dirs[packet.dirs].append(packet)
+                continue
 
-            self.packets.append(packet)
-            self.packets_by_number[packet.type_number] = packet
-            self.packets_by_type[packet.type] = packet
-            self.packets_by_dirs[packet.dirs].append(packet)
+            raise ValueError("Unexpected line: " + line)
 
     def resolve_type(self, type_text: str) -> str:
         """Resolve the given type"""
