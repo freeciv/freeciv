@@ -2429,37 +2429,38 @@ const char *packet_name(enum packet_type type)
 """
         return intro + body + extro
 
-
-# Returns a code fragment which is the implementation of the
-# packet_has_game_info_flag() function.
-def get_packet_has_game_info_flag(packets: PacketsDefinition) -> str:
-    intro = """\
+    @property
+    def code_packet_has_game_info_flag(self) -> str:
+        """Code fragment implementing the packet_has_game_info_flag()
+        function"""
+        intro = """\
 bool packet_has_game_info_flag(enum packet_type type)
 {
   static const bool flag[PACKET_LAST] = {
 """
-    body=""
-    for _, packet, skipped in packets.iter_by_number():
-        body += """\
+        body = ""
+        for _, packet, skipped in self.iter_by_number():
+            body += """\
     FALSE,
 """ * skipped
-        if packet.is_info!="game":
-            body += """\
+            if packet.is_info != "game":
+                body += """\
     FALSE, /* %s */
 """ % packet.type
-        else:
-            body += """\
+            else:
+                body += """\
     TRUE, /* %s */
 """ % packet.type
 
-    extro = """\
+        extro = """\
   };
 
   return (type < PACKET_LAST ? flag[type] : FALSE);
 }
 
 """
-    return intro+body+extro
+        return intro + body + extro
+
 
 # Returns a code fragment which is the implementation of the
 # packet_handlers_fill_initial() function.
@@ -2732,7 +2733,7 @@ static int stats_total_sent;
         output_c.write(packets.code_delta_stats_reset)
 
         output_c.write(packets.code_packet_name)
-        output_c.write(get_packet_has_game_info_flag(packets))
+        output_c.write(packets.code_packet_has_game_info_flag)
 
         # write hash, cmp, send, receive
         for p in packets:
