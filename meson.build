@@ -2421,6 +2421,51 @@ install_data('data/cimpletoon/orient_units.spec',
              'data/cimpletoon/orient_units.png',
              install_dir : join_paths(get_option('datadir'), 'freeciv/cimpletoon'))
 
+ct_extra_units = [
+  'abrams',
+  'assaultgun',
+  'biplane',
+  'container_ship',
+  'flak88',
+  'icebreaker',
+  'light_howitzer',
+  'locomotive',
+  'm4sherman',
+  'mig15',
+  'missile_sub',
+  'panther',
+  'panzer_iii',
+  'pt-boat',
+  'ROMB',
+  'stationary_sam',
+  'steamer',
+  'technical',
+  'tiger',
+  'truck',
+  'zeppelin',
+  ]
+
+ct_extra_per_unit_files = [
+  '0001.png',
+  '0002.png',
+  '0003.png',
+  '0004.png',
+  '0005.png',
+  '0006.png',
+  '0007.png',
+  '0008.png',
+  'xxx.spec',
+  ]
+
+foreach cteu : ct_extra_units
+  foreach cteuf : ct_extra_per_unit_files
+    install_data(
+      join_paths('data/cimpletoon/units', cteu, cteuf),
+      install_dir : join_paths(get_option('datadir'), 'freeciv/cimpletoon/units', cteu)
+      )
+  endforeach
+endforeach
+
 install_data('data/alio/burrowtubes.png',
              'data/alio/burrowtubes.spec',
              'data/alio/fortresses.png',

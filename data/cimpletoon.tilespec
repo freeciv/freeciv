@@ -174,7 +174,29 @@ files =
   "misc/citybar.spec",
   "misc/shields-large.spec",
   "misc/editor.spec",
-  "misc/icons.spec"
+  "misc/icons.spec",
+  ;add XYZ and Elefant units
+  "cimpletoon/units/abrams/xxx.spec",
+  "cimpletoon/units/assaultgun/xxx.spec",
+  "cimpletoon/units/biplane/xxx.spec",
+  "cimpletoon/units/container_ship/xxx.spec",
+  "cimpletoon/units/flak88/xxx.spec",
+  "cimpletoon/units/icebreaker/xxx.spec",
+  "cimpletoon/units/light_howitzer/xxx.spec",
+  "cimpletoon/units/locomotive/xxx.spec",
+  "cimpletoon/units/m4sherman/xxx.spec",
+  "cimpletoon/units/mig15/xxx.spec",
+  "cimpletoon/units/missile_sub/xxx.spec",
+  "cimpletoon/units/panther/xxx.spec",
+  "cimpletoon/units/panzer_iii/xxx.spec",
+  "cimpletoon/units/pt-boat/xxx.spec",
+  "cimpletoon/units/ROMB/xxx.spec",
+  "cimpletoon/units/stationary_sam/xxx.spec",
+  "cimpletoon/units/steamer/xxx.spec",
+  "cimpletoon/units/technical/xxx.spec",
+  "cimpletoon/units/tiger/xxx.spec",
+  "cimpletoon/units/truck/xxx.spec",
+  "cimpletoon/units/zeppelin/xxx.spec"
 
 
 ; Include color definitions
