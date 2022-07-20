@@ -18,6 +18,9 @@
 #include <stdlib.h>
 #include <string.h>
 
+/* utility */
+#include "support.h"
+
 #include "cvercmp.h"
 
 static char **cvercmp_ver_tokenize(const char *ver);
@@ -134,7 +137,7 @@ static enum cvercmp_type cvercmp_tokens(const char *token1, const char *token2)
         solution = true;
       }
     } else {
-      int alphacmp = strcasecmp(t1[i], t2[i]);
+      int alphacmp = fc_strcasecmp(t1[i], t2[i]);
 
       if (alphacmp) {
         enum cvercmp_prever pre1 = cvercmp_parse_prever(t1[i]);
@@ -200,7 +203,7 @@ enum cvercmp_type cvercmp_cmp(const char *ver1, const char *ver2)
   char **tokens2 = cvercmp_ver_tokenize(ver2);
 
   for (i = 0; (tokens1[i] != NULL && tokens2[i] != NULL) && !solution; i++) {
-    if (strcasecmp(tokens1[i], tokens2[i])) {
+    if (fc_strcasecmp(tokens1[i], tokens2[i])) {
       /* Parts are not equal */
       result = cvercmp_tokens(tokens1[i], tokens2[i]);
       solution = true;
@@ -323,7 +326,7 @@ static enum cvercmp_prever cvercmp_parse_prever(const char *ver)
   int i;
 
   for (i = 0; preverstrs[i].str != NULL; i++) {
-    if (!strcasecmp(ver, preverstrs[i].str)) {
+    if (!fc_strcasecmp(ver, preverstrs[i].str)) {
       return preverstrs[i].prever;
     }
   }

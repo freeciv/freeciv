@@ -1319,11 +1319,11 @@ static void sg_load_savefile(struct loaddata *loading)
     loading->special.order = fc_calloc(nmod,
                                        sizeof(*loading->special.order));
     for (j = 0; j < loading->special.size; j++) {
-      if (!strcasecmp("Road", modname[j])) {
+      if (!fc_strcasecmp("Road", modname[j])) {
         loading->special.order[j] = S_OLD_ROAD;
-      } else if (!strcasecmp("Railroad", modname[j])) {
+      } else if (!fc_strcasecmp("Railroad", modname[j])) {
         loading->special.order[j] = S_OLD_RAILROAD;
-      } else if (!strcasecmp("River", modname[j])) {
+      } else if (!fc_strcasecmp("River", modname[j])) {
         loading->special.order[j] = S_OLD_RIVER;
       } else {
         loading->special.order[j] = special_by_rule_name(modname[j]);

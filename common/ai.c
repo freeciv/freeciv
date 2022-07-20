@@ -369,7 +369,7 @@ const char *ai_level_name_update_cb(const char *old)
 {
 #ifndef FREECIV_DEBUG
   /* No experimental level in !FREECIV_DEBUG build */
-  if (!strcasecmp("Experimental", old)) {
+  if (!fc_strcasecmp("Experimental", old)) {
     /* Convert it to hard */
     return ai_level_name(AI_LEVEL_HARD);
   }

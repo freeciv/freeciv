@@ -558,12 +558,12 @@ int client_main(int argc, char *argv[], bool postpone_tileset)
       sz_strlcpy(forced_tileset_name, option);
       free(option);
     } else if ((option = get_option_malloc("--Announce", argv, &i, argc, FALSE))) {
-      if (!strcasecmp(option, "ipv4")) {
+      if (!fc_strcasecmp(option, "ipv4")) {
         announce = ANNOUNCE_IPV4;
-      } else if (!strcasecmp(option, "none")) {
+      } else if (!fc_strcasecmp(option, "none")) {
         announce = ANNOUNCE_NONE;
 #ifdef FREECIV_IPV6_SUPPORT
-      } else if (!strcasecmp(option, "ipv6")) {
+      } else if (!fc_strcasecmp(option, "ipv6")) {
         announce = ANNOUNCE_IPV6;
 #endif /* IPv6 support */
       } else {
