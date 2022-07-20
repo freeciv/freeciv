@@ -2351,14 +2351,14 @@ class PacketsDefinition(typing.Iterable[Packet]):
         """Set of all capabilities affecting the defined packets"""
         return set().union(*(p.all_caps for p in self))
 
-
-# Returns a code fragment which is the implementation of the
-# packet_functional_capability string.
-def get_packet_functional_capability(packets: PacketsDefinition) -> str:
-    return """\
+    @property
+    def code_packet_functional_capability(self) -> str:
+        """Code fragment defining the packet_functional_capability string"""
+        return """\
 
 const char *const packet_functional_capability = "%s";
-""" % " ".join(sorted(packets.all_caps))
+""" % " ".join(sorted(self.all_caps))
+
 
 # Returns a code fragment which is the implementation of the
 # delta_stats_report() function.
@@ -2702,7 +2702,7 @@ def write_common_impl(path: "str | Path | None", packets: PacketsDefinition):
 
 #include "packets.h"
 """)
-        output_c.write(get_packet_functional_capability(packets))
+        output_c.write(packets.code_packet_functional_capability)
         output_c.write("""\
 
 #ifdef FREECIV_DELTA_PROTOCOL
