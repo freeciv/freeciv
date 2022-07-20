@@ -359,7 +359,7 @@ void effect_edit::multiplier_menu(QAction *action)
     return;
   }
 
-  if (!strcasecmp(NO_MULTIPLIER_NAME, an_bytes)) {
+  if (!fc_strcasecmp(NO_MULTIPLIER_NAME, an_bytes)) {
     selected->multiplier = NULL;
   } else {
     selected->multiplier = multiplier_by_rule_name(an_bytes);

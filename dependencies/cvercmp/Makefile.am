@@ -10,6 +10,8 @@
 
 noinst_LTLIBRARIES = libcvercmp.la
 
+AM_CPPFLAGS = -I$(top_srcdir)/utility
+
 libcvercmp_la_SOURCES = \
 	cvercmp.c	\
 	cvercmp.h

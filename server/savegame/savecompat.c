@@ -1580,7 +1580,7 @@ static void compat_load_030100(struct loaddata *loading,
       savemod = fc_calloc(action_count, sizeof(*savemod));
 
       for (j = 0; j < action_count; j++) {
-        if (!strcasecmp("Recycle Unit", modname[j])) {
+        if (!fc_strcasecmp("Recycle Unit", modname[j])) {
           savemod[j] = dur_name;
         } else {
           savemod[j] = modname[j];
@@ -2211,7 +2211,7 @@ static void compat_load_dev(struct loaddata *loading)
         savemod = fc_calloc(action_count, sizeof(*savemod));
 
         for (j = 0; j < action_count; j++) {
-          if (!strcasecmp("Recycle Unit", modname[j])) {
+          if (!fc_strcasecmp("Recycle Unit", modname[j])) {
             savemod[j] = dur_name;
           } else {
             savemod[j] = modname[j];
