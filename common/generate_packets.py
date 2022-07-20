@@ -2318,7 +2318,7 @@ class PacketsDefinition(typing.Iterable[Packet]):
 
     def resolve_type(self, type_text: str) -> str:
         """Resolve the given type"""
-        # FIXME: no infinite loop detection
+        # cycle not possible due to checks in define_type()
         while type_text in self.types:
             type_text = self.types[type_text]
         return type_text
@@ -2332,7 +2332,12 @@ class PacketsDefinition(typing.Iterable[Packet]):
             else:
                 raise ValueError("duplicate type alias %r: %r and %r"
                                     % (alias, self.types[alias], meaning))
-        self.types[alias] = meaning
+
+        final = self.resolve_type(meaning)
+        if final == alias:
+            raise ValueError("cyclic type alias definitions: %r -> %r -> %r"
+                             % (alias, meaning, final))
+        self.types[alias] = final
 
     def __init__(self):
         self.types = {}
