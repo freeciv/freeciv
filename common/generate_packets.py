@@ -2244,18 +2244,50 @@ struct {self.name} {{
 class PacketsDefinition(typing.Iterable[Packet]):
     """Represents an entire packets definition file"""
 
-    COMMENT_PATTERN = re.compile(r"""
-        (?:         # block comment
-            /\*         # initial /*
-            (?:.|\s)*?  # note the reluctant quantifier
-            \*/         # terminating */
-        ) | (?:     # EOL comment
-            (?:\#|//)   # initial # or //
-            .*          # does *not* match newline without DOTALL
-            $           # matches line end in MULTILINE mode
+    COMMENT_START_PATTERN = re.compile(r"""
+        ^\s*    # strip initial whitespace
+        (.*?)   # actual content; note the reluctant quantifier
+        \s*     # note: this can cause quadratic backtracking
+        (?:     # match a potential comment
+            (?:     # EOL comment (or just EOL)
+                (?:
+                    (?:\#|//)   # opening # or //
+                    .*
+                )?
+            ) | (?: # block comment ~> capture remaining text
+                /\*     # opening /*
+                [^*]*   # text that definitely can't end the block comment
+                (.*)    # remaining text, might contain a closing */
+            )
         )
-    """, re.VERBOSE | re.MULTILINE)
-    """Matches /* ... */ block comments and # ... and // ... EOL comments"""
+        (?:\n)? # optional newline in case those aren't stripped
+        $
+    """, re.VERBOSE)
+    """Used to clean lines when not starting inside a block comment. Finds
+    the start of a block comment, if it exists.
+
+    Groups:
+    - Actual content before any comment starts; stripped.
+    - Remaining text after the start of a block comment. Not present if no
+      block comment starts on this line."""
+
+    COMMENT_END_PATTERN = re.compile(r"""
+        ^
+        .*?     # comment; note the reluctant quantifier
+        (?:     # end of block comment ~> capture remaining text
+            \*/     # closing */
+            \s*     # strip whitespace after comment
+            (.*)    # remaining text
+        )?
+        (?:\n)? # optional newline in case those aren't stripped
+        $
+    """, re.VERBOSE)
+    """Used to clean lines when starting inside a block comment. Finds the
+    end of a block comment, if it exists.
+
+    Groups:
+    - Remaining text after the end of the block comment; lstripped. Not
+      present if the block comment doesn't end on this line."""
 
     TYPE_PATTERN = re.compile(r"^\s*type\s+(\w+)\s*=\s*(.+?)\s*$")
     """Matches type alias definition lines
@@ -2276,14 +2308,45 @@ class PacketsDefinition(typing.Iterable[Packet]):
     """Matches the "end" line terminating a packet definition"""
 
     @classmethod
-    def packets_def_lines(cls, def_text: str) -> typing.Iterator[str]:
-        """Yield only actual content lines without comments and whitespace"""
-        text = cls.COMMENT_PATTERN.sub("", def_text)
-        return filter(None, map(str.strip, text.split("\n")))
+    def _clean_lines(cls, lines: typing.Iterable[str]) -> typing.Iterator[str]:
+        """Strip comments and leading/trailing whitespace from the given
+        lines. If a block comment starts in one line and ends in another,
+        the remaining parts are joined together and yielded as one line."""
+        inside_comment = False
+        parts = []
 
-    def parse_text(self, def_text: str):
-        """Parse the given string as contents of packets.def"""
-        self.parse_clean_lines(self.packets_def_lines(def_text))
+        for line in lines:
+            while line:
+                if inside_comment:
+                    # currently inside a block comment ~> look for */
+                    mo = cls.COMMENT_END_PATTERN.fullmatch(line)
+                    assert mo, repr(line)
+                    # If the group wasn't captured (None), we haven't found
+                    # a */ to end our comment ~> still inside_comment
+                    # Otherwise, group captured remaining line content
+                    line, = mo.groups(None)
+                    inside_comment = line is None
+                else:
+                    mo = cls.COMMENT_START_PATTERN.fullmatch(line)
+                    assert mo, repr(line)
+                    # If the second group wasn't captured (None), there is
+                    # no /* to start a block comment ~> not inside_comment
+                    part, line = mo.groups(None)
+                    inside_comment = line is not None
+                    if part: parts.append(part)
+
+            if (not inside_comment) and parts:
+                # when ending a line outside a block comment, yield what
+                # we've accumulated
+                yield " ".join(parts)
+                parts.clear()
+
+        if inside_comment:
+            raise ValueError("EOF while scanning block comment")
+
+    def parse_lines(self, lines: typing.Iterable[str]):
+        """Parse the given lines as type and packet definitions."""
+        self.parse_clean_lines(self._clean_lines(lines))
 
     def parse_clean_lines(self, lines: typing.Iterable[str]):
         """Parse the given lines as type and packet definitions. Comments
@@ -2983,9 +3046,9 @@ def main(raw_args: "typing.Sequence[str] | None" = None):
     src_dir = Path(__file__).parent
     input_path = src_dir / "networking" / "packets.def"
 
-    def_text = read_text(input_path, allow_missing = False)
     packets = PacketsDefinition()
-    packets.parse_text(def_text)
+    with input_path.open() as input_file:
+        packets.parse_lines(input_file)
     ### parsing finished
 
     write_common_header(script_args.common_header_path, packets)
