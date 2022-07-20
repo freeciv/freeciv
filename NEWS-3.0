@@ -7,6 +7,30 @@ For changes prior to 3.0, see NEWS. For more detailed changes,
 see the ChangeLog file.
 
 
+CHANGES FROM 3.0.2 to 3.0.3
+---------------------------
+
+Default metaserver connection URL and URL used to fetch
+default modpack list have been updated to use https -protocol.
+This should cause no problems if https has been working
+for you all the time. However, if it was already broken
+(e.g. you couldn't download modpacks located on https even
+with earlier freeciv version), this makes the problem
+worse for you.
+The most likely cause for any problems with https
+is that certificates (cacerts) are not set up properly.
+From freeciv side, the configuration option
+--with-cacert-path
+may help.
+In case everything else fails, we provide, for now,
+a .project file that you can use to build freeciv
+so that metaserver and modpack list default URLs
+still use http:
+--with-project-definition=<freeciv srcdir>/bootstrap/http.project
+We won't support that on freeciv-3.1.
+
+
+
 CHANGES FROM 3.0.1 to 3.0.2
 ---------------------------
 
