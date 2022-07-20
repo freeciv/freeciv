@@ -3286,15 +3286,15 @@ static void game_load_internal(struct section_file *file)
     nmod = num_special_types + (4 - (num_special_types % 4));
     special_order = fc_calloc(nmod, sizeof(*special_order));
     for (j = 0; j < num_special_types; j++) {
-      if (!strcasecmp("Road", modname[j])) {
+      if (!fc_strcasecmp("Road", modname[j])) {
         special_order[j] = S_OLD_ROAD;
-      } else if (!strcasecmp("Railroad", modname[j])) {
+      } else if (!fc_strcasecmp("Railroad", modname[j])) {
         special_order[j] = S_OLD_RAILROAD;
-      } else if (!strcasecmp("River", modname[j])) {
+      } else if (!fc_strcasecmp("River", modname[j])) {
         special_order[j] = S_OLD_RIVER;
-      } else if (!strcasecmp("Fortress", modname[j])) {
+      } else if (!fc_strcasecmp("Fortress", modname[j])) {
         special_order[j] = S_OLD_FORTRESS;
-      } else if (!strcasecmp("Airbase", modname[j])) {
+      } else if (!fc_strcasecmp("Airbase", modname[j])) {
         special_order[j] = S_OLD_AIRBASE;
       } else {
         special_order[j] = special_by_rule_name(modname[j]);
