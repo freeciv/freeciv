@@ -1788,6 +1788,28 @@ AC_CONFIG_FILES([Makefile
 	  data/flags/Makefile
 	  data/misc/Makefile
 	  data/cimpletoon/Makefile
+	  data/cimpletoon/units/Makefile
+	  data/cimpletoon/units/abrams/Makefile
+	  data/cimpletoon/units/assaultgun/Makefile
+	  data/cimpletoon/units/biplane/Makefile
+	  data/cimpletoon/units/container_ship/Makefile
+	  data/cimpletoon/units/flak88/Makefile
+	  data/cimpletoon/units/icebreaker/Makefile
+	  data/cimpletoon/units/light_howitzer/Makefile
+	  data/cimpletoon/units/locomotive/Makefile
+	  data/cimpletoon/units/m4sherman/Makefile
+	  data/cimpletoon/units/mig15/Makefile
+	  data/cimpletoon/units/missile_sub/Makefile
+	  data/cimpletoon/units/panther/Makefile
+	  data/cimpletoon/units/panzer_iii/Makefile
+	  data/cimpletoon/units/pt-boat/Makefile
+	  data/cimpletoon/units/ROMB/Makefile
+	  data/cimpletoon/units/stationary_sam/Makefile
+	  data/cimpletoon/units/steamer/Makefile
+	  data/cimpletoon/units/technical/Makefile
+	  data/cimpletoon/units/tiger/Makefile
+	  data/cimpletoon/units/truck/Makefile
+	  data/cimpletoon/units/zeppelin/Makefile
 	  data/trident/Makefile
 	  data/isophex/Makefile
 	  data/isotrident/Makefile

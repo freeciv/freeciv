@@ -3,6 +3,8 @@
 ## Override automake so that "make install" puts these in proper place:
 pkgdatadir = $(datadir)/$(PACKAGE)/cimpletoon
 
+SUBDIRS = units
+
 pkgdata_DATA =        		\
 	orient_units.png	\
 	orient_units.spec
