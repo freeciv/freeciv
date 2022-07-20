@@ -599,9 +599,17 @@ differ = (old->{self.name} != real_packet->{self.name});
         else:
             c = "old->{self.name}[i] != real_packet->{self.name}[i]".format(self = self)
 
-        return """\
+        if self.sizes[0].real != self.sizes[0].declared:
+            head = """\
 differ = ({self.sizes[0].old} != {self.sizes[0].real});
 if (!differ) {{
+""".format(self = self)
+        else:
+            head = """\
+differ = FALSE;
+{
+"""
+        return head + """\
   int i;
 
   for (i = 0; i < {self.sizes[0].real}; i++) {{
