@@ -224,7 +224,7 @@ static bool sanity_check_req_individual(struct requirement *preq,
 }
 
 /**************************************************************************
-  Helper function for sanity_check_req_list() and sanity_check_req_vec()
+  Helper function for sanity_check_req_vec()
 **************************************************************************/
 static bool sanity_check_req_set(int reqs_of_type[], int local_reqs_of_type[],
                                  struct requirement *preq, bool conjunctive,
