@@ -758,7 +758,8 @@ static void move_from_container_to_container(GtkWidget *wdg,
 /**********************************************************************//**
   Freeciv window has lost focus
 **************************************************************************/
-gboolean fc_lost_focus(GtkWidget *w, GdkEvent *ev, gpointer data)
+gboolean fc_lost_focus(GtkEventControllerFocus *controller,
+                       gpointer data)
 {
   client_focus = FALSE;
 
@@ -768,7 +769,8 @@ gboolean fc_lost_focus(GtkWidget *w, GdkEvent *ev, gpointer data)
 /**********************************************************************//**
   Freeciv window has gained focus
 **************************************************************************/
-gboolean fc_gained_focus(GtkWidget *w, GdkEvent *ev, gpointer data)
+gboolean fc_gained_focus(GtkEventControllerFocus *controller,
+                         gpointer data)
 {
   client_focus = TRUE;
 
@@ -2009,6 +2011,7 @@ static void activate_gui(GtkApplication *app, gpointer data)
 {
   PangoFontDescription *toplevel_font_name;
   guint sig;
+  GtkEventController *controller;
 
   toplevel = gtk_application_window_new(app);
   if (vmode.width > 0 && vmode.height > 0) {
@@ -2016,10 +2019,12 @@ static void activate_gui(GtkApplication *app, gpointer data)
                                 vmode.width, vmode.height);
   }
 
-  g_signal_connect(toplevel, "focus_out_event",
-                   G_CALLBACK(fc_lost_focus), NULL);
-  g_signal_connect(toplevel, "focus_in_event",
+  controller = GTK_EVENT_CONTROLLER(gtk_event_controller_focus_new());
+  g_signal_connect(controller, "enter",
                    G_CALLBACK(fc_gained_focus), NULL);
+  g_signal_connect(controller, "leave",
+                   G_CALLBACK(fc_lost_focus), NULL);
+  gtk_widget_add_controller(toplevel, controller);
 
   gtk_widget_realize(toplevel);
   gtk_widget_set_name(toplevel, "Freeciv");
