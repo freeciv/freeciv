@@ -2705,7 +2705,7 @@ void move_unit_map_canvas(struct unit *punit,
 
       do {
         int new_x, new_y;
-        int asecs = timer_read_seconds(anim_timer);
+        double asecs = timer_read_seconds(anim_timer);
 
         mytime = MIN(asecs, timing_sec);
 
