@@ -4,3 +4,5 @@ some files needed for Freeciv usage have been added.
 
 Changes applied to included tolua source files are included in
 freeciv_tolua.patch
+Changes to toluabind.c are not included in the patch - one needs
+to regenerate that file after applying the patch.
