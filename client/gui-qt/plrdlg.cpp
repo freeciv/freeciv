@@ -516,6 +516,9 @@ void plr_widget::nation_selected(const QItemSelection &sl,
     + QString("</b></td><td>") + res.toHtmlEscaped()
     + QString("<td></tr><tr><td><b>") + _("Culture:")
     + QString("</b></td><td>") + cult.toHtmlEscaped()
+
+    // HACK: Reserve extra line of space in case some line wraps to two later
+    + QString("</td>\u200B<td>")
     + QString("</td></table>");
 
   for (int i = 0; i < static_cast<int>(DS_LAST); i++) {
