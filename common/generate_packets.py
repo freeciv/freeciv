@@ -394,13 +394,6 @@ class FieldType:
     - dataio type
     - public type (aka struct type)"""
 
-    FLOAT_FACTOR_PATTERN = re.compile(r"^(\D+)(\d+)$")
-    """Matches a dataio type with float factor
-
-    Groups:
-    - non-numeric dataio type
-    - numeric float factor"""
-
     @classmethod
     def parse(cls, type_text: str) -> "FieldType":
         """Parse a single field type"""
@@ -409,19 +402,48 @@ class FieldType:
             raise ValueError("malformed type or undefined alias: %r" % type_text)
         dataio_type, public_type = mo.groups("")
 
-        if public_type != "float":
-            return cls(dataio_type, public_type)
+        mo = FloatType.FLOAT_TYPE_PATTERN.fullmatch(dataio_type)
+        if mo is not None:
+            return FloatType(mo, public_type)
 
-        mo = cls.FLOAT_FACTOR_PATTERN.fullmatch(dataio_type)
-        if mo is None:
-            raise ValueError("float type without float factor: %r" % type_text)
-        dataio_type, float_factor = mo.groups("")
-        return cls(dataio_type, public_type, int(float_factor))
+        # default fallback case
+        return cls(dataio_type, public_type)
 
-    def __init__(self, dataio_type: str, public_type: str, float_factor: int = -1):
+    def __init__(self, dataio_type: str, public_type: str):
         self.dataio_type = dataio_type
         self.public_type = public_type
-        self.float_factor = float_factor
+
+
+class FloatType(FieldType):
+    """Type information for a float field"""
+
+    FLOAT_TYPE_PATTERN = re.compile(r"^([su]float)(\d+)?$")
+    """Matches a float dataio type
+
+    Note: Will also match float types without a float factor to avoid
+    falling back to the default; in this case, the second capturing group
+    will not match.
+
+    Groups:
+    - non-numeric dataio type
+    - numeric float factor"""
+
+    @typing.overload
+    def __init__(self, dataio_info: str, public_type: str): ...
+    @typing.overload
+    def __init__(self, dataio_info: "re.Match[str]", public_type: str): ...
+    def __init__(self, dataio_info: "str | re.Match[str]", public_type: str):
+        if isinstance(dataio_info, str):
+            mo = self.FLOAT_TYPE_PATTERN.fullmatch(dataio_info)
+            if mo is None:
+                raise ValueError("not a valid float type")
+            dataio_info = mo
+        dataio_type, float_factor = dataio_info.groups()
+        if float_factor is None:
+            raise ValueError("float type without float factor: %r" % dataio_info.string)
+
+        super().__init__(dataio_type, public_type)
+        self.float_factor = int(float_factor)
 
 
 class Field:
@@ -488,12 +510,6 @@ class Field:
     def struct_type(self) -> str:
         """The public type for this field used in the packet struct"""
         return self.type_info.public_type
-
-    @property
-    def float_factor(self) -> int:
-        """The granularity for transmitting this field. Meaningless for
-        non-float fields."""
-        return self.type_info.float_factor
 
     @property
     def is_struct(self) -> bool:
@@ -732,9 +748,9 @@ if (e) {{
 e |= DIO_BV_PUT(&dout, &field_addr, packet->{self.name});
 """.format(self = self)
 
-        if self.struct_type == "float" and not self.dimensions:
+        if isinstance(self.type_info, FloatType) and not self.dimensions:
             return """\
-e |= DIO_PUT({self.dataio_type}, &dout, &field_addr, real_packet->{self.name}, {self.float_factor:d});
+e |= DIO_PUT({self.dataio_type}, &dout, &field_addr, real_packet->{self.name}, {self.type_info.float_factor:d});
 """.format(self = self)
 
         if self.dataio_type in ["worklist", "cm_parameter"]:
@@ -768,14 +784,14 @@ e |= DIO_PUT({self.dataio_type}, &dout, &field_addr, &real_packet->{self.name}[i
 e |= DIO_PUT({self.dataio_type}, &dout, &field_addr, real_packet->{self.name}[i]);
 """.format(self = self)
 
-        elif self.struct_type=="float":
+        elif isinstance(self.type_info, FloatType):
             if self.dimensions == 2:
                 c = """\
-e |= DIO_PUT({self.dataio_type}, &dout, &field_addr, real_packet->{self.name}[i][j], {self.float_factor:d});
+e |= DIO_PUT({self.dataio_type}, &dout, &field_addr, real_packet->{self.name}[i][j], {self.type_info.float_factor:d});
 """.format(self = self)
             else:
                 c = """\
-e |= DIO_PUT({self.dataio_type}, &dout, &field_addr, real_packet->{self.name}[i], {self.float_factor:d});
+e |= DIO_PUT({self.dataio_type}, &dout, &field_addr, real_packet->{self.name}[i], {self.type_info.float_factor:d});
 """.format(self = self)
         else:
             if self.dimensions == 2:
@@ -960,9 +976,9 @@ field_addr.name = \"{self.name}\";
 
     # The code which get this field before it is wrapped in address adding.
     def get_get_real(self, deltafragment: bool) -> str:
-        if self.struct_type == "float" and not self.dimensions:
+        if isinstance(self.type_info, FloatType) and not self.dimensions:
             return """\
-if (!DIO_GET({self.dataio_type}, &din, &field_addr, &real_packet->{self.name}, {self.float_factor:d})) {{
+if (!DIO_GET({self.dataio_type}, &din, &field_addr, &real_packet->{self.name}, {self.type_info.float_factor:d})) {{
   RECEIVE_PACKET_FIELD_ERROR({self.name});
 }}
 """.format(self = self)
@@ -1022,16 +1038,16 @@ if (!DIO_GET({self.dataio_type}, &din, &field_addr, real_packet->{self.name}[i],
   RECEIVE_PACKET_FIELD_ERROR({self.name});
 }}
 """.format(self = self)
-        elif self.struct_type=="float":
+        elif isinstance(self.type_info, FloatType):
             if self.dimensions == 2:
                 c = """\
-if (!DIO_GET({self.dataio_type}, &din, &field_addr, &real_packet->{self.name}[i][j], {self.float_factor:d})) {{
+if (!DIO_GET({self.dataio_type}, &din, &field_addr, &real_packet->{self.name}[i][j], {self.type_info.float_factor:d})) {{
   RECEIVE_PACKET_FIELD_ERROR({self.name});
 }}
 """.format(self = self)
             else:
                 c = """\
-if (!DIO_GET({self.dataio_type}, &din, &field_addr, &real_packet->{self.name}[i], {self.float_factor:d})) {{
+if (!DIO_GET({self.dataio_type}, &din, &field_addr, &real_packet->{self.name}[i], {self.type_info.float_factor:d})) {{
   RECEIVE_PACKET_FIELD_ERROR({self.name});
 }}
 """.format(self = self)

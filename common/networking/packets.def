@@ -140,8 +140,9 @@ Syntax:
 
       <type> is an alias or a basic type. A basic type has the format
       "<dataio-type>(<public-type>)". Exception here is the float
-      type. You can specify with the dataio-type "float<number>" the
-      transmission of a float in a uint32 multiplied by this factor.
+      type. You can specify with the dataio-type "ufloat<number>" or
+      "sfloat<number>" the transmission of a float in a uint32 or sint32
+      multiplied by this factor.
 
     Fields:
     -------
