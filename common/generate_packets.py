@@ -439,7 +439,11 @@ class FieldType(ABC):
             raise ValueError("malformed type or undefined alias: %r" % type_text)
         dataio_type, public_type = mo.groups("")
 
-        mo = FloatType.FLOAT_TYPE_PATTERN.fullmatch(dataio_type)
+        mo = BoolType.TYPE_PATTERN.fullmatch(dataio_type)
+        if mo is not None:
+            return BoolType(mo, public_type)
+
+        mo = FloatType.TYPE_PATTERN.fullmatch(dataio_type)
         if mo is not None:
             return FloatType(mo, public_type)
 
@@ -448,6 +452,9 @@ class FieldType(ABC):
 
     dataio_type = ""
     public_type = ""
+
+    foldable = False
+    """Whether a field of this type can be folded into the packet header"""
 
     @cache
     def array(self, size: SizeInfo) -> "FieldType":
@@ -492,10 +499,36 @@ class BasicType(FieldType):
         return "{self.dataio_type}({self.public_type})".format(self = self)
 
 
+class BoolType(BasicType):
+    """Type information for a boolean field"""
+
+    TYPE_PATTERN = re.compile(r"^bool\d*$")
+    """Matches a bool dataio type"""
+
+    foldable = True
+
+    @typing.overload
+    def __init__(self, dataio_info: str, public_type: str): ...
+    @typing.overload
+    def __init__(self, dataio_info: "re.Match[str]", public_type: str): ...
+    def __init__(self, dataio_info: "str | re.Match[str]", public_type: str):
+        if isinstance(dataio_info, str):
+            mo = self.TYPE_PATTERN.fullmatch(dataio_info)
+            if mo is None:
+                raise ValueError("not a valid bool type")
+            dataio_info = mo
+        dataio_type = dataio_info.group(0)
+
+        if public_type != "bool":
+            raise ValueError("bool dataio type with non-bool public type: %r" % public_type)
+
+        super().__init__(dataio_type, public_type)
+
+
 class FloatType(BasicType):
     """Type information for a float field"""
 
-    FLOAT_TYPE_PATTERN = re.compile(r"^([su]float)(\d+)?$")
+    TYPE_PATTERN = re.compile(r"^([su]float)(\d+)?$")
     """Matches a float dataio type
 
     Note: Will also match float types without a float factor to avoid
@@ -512,13 +545,16 @@ class FloatType(BasicType):
     def __init__(self, dataio_info: "re.Match[str]", public_type: str): ...
     def __init__(self, dataio_info: "str | re.Match[str]", public_type: str):
         if isinstance(dataio_info, str):
-            mo = self.FLOAT_TYPE_PATTERN.fullmatch(dataio_info)
+            mo = self.TYPE_PATTERN.fullmatch(dataio_info)
             if mo is None:
                 raise ValueError("not a valid float type")
             dataio_info = mo
         dataio_type, float_factor = dataio_info.groups()
         if float_factor is None:
             raise ValueError("float type without float factor: %r" % dataio_info.string)
+
+        if public_type != "float":
+            raise ValueError("float dataio type with non-float public type: %r" % public_type)
 
         super().__init__(dataio_type, public_type)
         self.float_factor = int(float_factor)
@@ -756,8 +792,7 @@ differ = FALSE;
     def folded_into_head(self) -> bool:
         return (
             fold_bool_into_header
-            and self.struct_type == "bool"
-            and not self.dimensions
+            and self.type_info.foldable
         )
 
     # Returns a code fragment which updates the bit of the this field
