@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
+
 <svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://web.resource.org/cc/"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:xlink="http://www.w3.org/1999/xlink"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    version="1.0"
    width="1062.9921"
    height="708.66138"
    id="svg3446"
    sodipodi:version="0.32"
-   inkscape:version="0.45"
+   inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
    sodipodi:docname="tajikistan.svg"
-   sodipodi:docbase="/home/divanov/tmp/ttt"
    inkscape:output_extension="org.inkscape.output.svg.inkscape"
-   sodipodi:modified="true">
+   sodipodi:modified="true"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
   <metadata
      id="metadata20">
     <rdf:RDF>
@@ -31,8 +31,8 @@
     </rdf:RDF>
   </metadata>
   <sodipodi:namedview
-     inkscape:window-height="755"
-     inkscape:window-width="1280"
+     inkscape:window-height="986"
+     inkscape:window-width="1314"
      inkscape:pageshadow="2"
      inkscape:pageopacity="0.0"
      guidetolerance="10.0"
@@ -43,15 +43,18 @@
      pagecolor="#ffffff"
      id="base"
      inkscape:zoom="1.066317"
-     inkscape:cx="460.83894"
-     inkscape:cy="278.18837"
-     inkscape:window-x="-5"
-     inkscape:window-y="-5"
+     inkscape:cx="521.88983"
+     inkscape:cy="346.51984"
+     inkscape:window-x="365"
+     inkscape:window-y="37"
      inkscape:current-layer="svg3446"
      showguides="true"
      inkscape:guide-bbox="true"
      width="300mm"
-     height="200mm" />
+     height="200mm"
+     inkscape:pagecheckerboard="0"
+     showgrid="false"
+     inkscape:window-maximized="0" />
   <defs
      id="defs3448" />
   <path
