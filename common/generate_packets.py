@@ -523,6 +523,10 @@ class FieldType(RawFieldType):
         raise NotImplementedError
 
     @abstractmethod
+    def get_code_handle_param(self, location: Location) -> str:
+        raise NotImplementedError
+
+    @abstractmethod
     def get_code_fill(self, location: Location) -> str:
         raise NotImplementedError
 
@@ -543,6 +547,9 @@ class BasicType(FieldType):
         return """\
 {self.public_type} {location};
 """.format(self = self, location = location)
+
+    def get_code_handle_param(self, location: Location) -> str:
+        return "{self.public_type} {location}".format(self = self, location = location)
 
     def get_code_fill(self, location: Location) -> str:
         return """\
@@ -632,6 +639,12 @@ class WorklistType(BasicType):
 
         super().__init__(dataio_type, public_type)
 
+    def get_code_handle_param(self, location: Location) -> str:
+        if not location.depth:
+            # top level: pass by-reference
+            return "const " + super().get_code_handle_param(location.deeper("*%s" % location))
+        return super().get_code_handle_param(location)
+
     def get_code_fill(self, location: Location) -> str:
         return """\
 worklist_copy(&real_packet->{location}, {location});
@@ -649,6 +662,11 @@ class SizedType(BasicType):
         return super().get_code_declaration(
             location.deeper("%s[%s]" % (location, self.size.declared))
         )
+
+    def get_code_handle_param(self, location: Location) -> str:
+        # add "const" if top level
+        pre = "" if location.depth else "const "
+        return pre + super().get_code_handle_param(location.deeper("*%s" % location))
 
     @abstractmethod
     def get_code_fill(self, location: Location) -> str:
@@ -701,6 +719,11 @@ class ArrayType(FieldType):
         return self.elem.get_code_declaration(
             location.deeper("%s[%s]" % (location, self.size.declared))
         )
+
+    def get_code_handle_param(self, location: Location) -> str:
+        # add "const" if top level
+        pre = "" if location.depth else "const "
+        return pre + self.elem.get_code_handle_param(location.deeper("*%s" % location))
 
     def get_code_fill(self, location: Location) -> str:
         inner_fill = prefix("    ", self.elem.get_code_fill(location.sub))
@@ -822,19 +845,13 @@ class Field:
             all(cap not in caps for cap in self.flags.remove_caps)
         )
 
-    def get_handle_type(self) -> str:
-        if self.dataio_type=="string" or self.dataio_type=="estring":
-            return "const char *"
-        if self.dataio_type=="worklist":
-            return "const %s *"%self.struct_type
-        if self.dimensions:
-            return "const %s *"%self.struct_type
-        return self.struct_type+" "
-
     # Returns code which is used in the declaration of the field in
     # the packet struct.
     def get_declar(self) -> str:
         return self.type_info.get_code_declaration(Location(self.name))
+
+    def get_handle_param(self) -> str:
+        return self.type_info.get_code_handle_param(Location(self.name))
 
     # Returns code which copies the arguments of the direct send
     # functions in the packet struct.
@@ -2344,7 +2361,7 @@ class Packet:
         """Arguments for the dsend and dlsend functions"""
         assert self.want_dsend
         return "".join(
-            ", %s%s" % (field.get_handle_type(), field.name)
+            ", %s" % field.get_handle_param()
             for field in self.fields
         ) + (", bool force_to_send" if self.want_force else "")
 
@@ -3152,7 +3169,7 @@ bool server_handle_packet(enum packet_type type, const void *packet,
             if p.dirs.up and not p.no_handle:
                 a=p.name[len("packet_"):]
                 b = "".join(
-                    ", %s%s" % (field.get_handle_type(), field.name)
+                    ", %s" % field.get_handle_param()
                     for field in p.fields
                 )
                 if p.handle_per_conn:
@@ -3189,7 +3206,7 @@ bool client_handle_packet(enum packet_type type, const void *packet);
 
             a=p.name[len("packet_"):]
             b = ", ".join(
-                "%s%s" % (field.get_handle_type(), field.name)
+                field.get_handle_param()
                 for field in p.fields
             ) or "void"
             if p.handle_via_packet:
