@@ -526,6 +526,9 @@ class FieldType(RawFieldType):
     def get_code_handle_param(self, location: Location) -> str:
         raise NotImplementedError
 
+    def get_code_handle_arg(self, location: Location) -> str:
+        return str(location)
+
     @abstractmethod
     def get_code_fill(self, location: Location) -> str:
         raise NotImplementedError
@@ -644,6 +647,12 @@ class WorklistType(BasicType):
             # top level: pass by-reference
             return "const " + super().get_code_handle_param(location.deeper("*%s" % location))
         return super().get_code_handle_param(location)
+
+    def get_code_handle_arg(self, location: Location) -> str:
+        if not location.depth:
+            # top level: pass by-reference
+            return super().get_code_handle_arg(location.deeper("&%s" % location))
+        return super().get_code_handle_arg(location)
 
     def get_code_fill(self, location: Location) -> str:
         return """\
@@ -852,6 +861,12 @@ class Field:
 
     def get_handle_param(self) -> str:
         return self.type_info.get_code_handle_param(Location(self.name))
+
+    def get_handle_arg(self, packet_arrow: str) -> str:
+        return self.type_info.get_code_handle_arg(Location(
+            self.name,
+            packet_arrow + self.name,
+        ))
 
     # Returns code which copies the arguments of the direct send
     # functions in the packet struct.
@@ -3243,35 +3258,28 @@ bool server_handle_packet(enum packet_type type, const void *packet,
             if not p.dirs.up: continue
             if p.no_handle: continue
             a=p.name[len("packet_"):]
-            c = "((const struct %s *)packet)->" % p.name
-            b=[]
-            for x in p.fields:
-                y="%s%s"%(c,x.name)
-                if x.dataio_type=="worklist":
-                    y="&"+y
-                b.append(y)
-            b=",\n      ".join(b)
-            if b:
-                b=",\n      "+b
 
             if p.handle_via_packet:
-                if p.handle_per_conn:
-                    args="pconn, packet"
-                else:
-                    args="pplayer, packet"
+                args = ", packet"
 
             else:
-                if p.handle_per_conn:
-                    args="pconn"+b
-                else:
-                    args="pplayer"+b
+                packet_arrow = "((const struct %s *)packet)->" % p.name
+                args = "".join(
+                    ",\n      " + field.get_handle_arg(packet_arrow)
+                    for field in p.fields
+                )
+
+            if p.handle_per_conn:
+                first_arg = "pconn"
+            else:
+                first_arg = "pplayer"
 
             f.write("""\
   case %s:
-    handle_%s(%s);
+    handle_%s(%s%s);
     return TRUE;
 
-""" % (p.type, a, args))
+""" % (p.type, a, first_arg, args))
         f.write("""\
   default:
     return FALSE;
@@ -3302,21 +3310,15 @@ bool client_handle_packet(enum packet_type type, const void *packet)
             if not p.dirs.down: continue
             if p.no_handle: continue
             a=p.name[len("packet_"):]
-            c = "((const struct %s *)packet)->" % p.name
-            b=[]
-            for x in p.fields:
-                y="%s%s"%(c,x.name)
-                if x.dataio_type=="worklist":
-                    y="&"+y
-                b.append(y)
-            b=",\n      ".join(b)
-            if b:
-                b="\n      "+b
 
             if p.handle_via_packet:
                 args="packet"
             else:
-                args=b
+                packet_arrow = "((const struct %s *)packet)->" % p.name
+                args = "".join(
+                    ",\n      " + field.get_handle_arg(packet_arrow)
+                    for field in p.fields
+                )[1:]   # cut off initial comma
 
             f.write("""\
   case %s:
