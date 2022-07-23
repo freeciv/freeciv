@@ -422,6 +422,15 @@ class SizeInfo:
             return self.declared
         return "old->" + self._actual
 
+    def receive_size_check(self, field_name: str) -> str:
+        if self._actual is None:
+            return ""
+        return """\
+if ({self.real} > {self.declared}) {{
+  RECEIVE_PACKET_FIELD_ERROR({field_name}, ": truncation array");
+}}
+""".format(self = self, field_name = field_name)
+
     def __str__(self) -> str:
         if self._actual is None:
             return self.declared
@@ -460,6 +469,12 @@ class RawFieldType(ABC):
         if dataio_type == "worklist":
             return WorklistType(dataio_type, public_type)
 
+        if dataio_type == "bitvector":
+            return BitvectorType(dataio_type, public_type)
+
+        if dataio_type == "memory":
+            return NeedSizeType(dataio_type, public_type, MemoryType)
+
         if dataio_type in ("string", "estring"):
             return NeedSizeType(dataio_type, public_type, StringType)
 
@@ -470,6 +485,13 @@ class RawFieldType(ABC):
         mo = FloatType.TYPE_PATTERN.fullmatch(dataio_type)
         if mo is not None:
             return FloatType(mo, public_type)
+
+        mo = IntType.TYPE_PATTERN.fullmatch(dataio_type)
+        if mo is not None:
+            return IntType(mo, public_type)
+
+        if public_type.startswith("struct "):
+            return StructType(dataio_type, public_type)
 
         # default fallback case
         return BasicType(dataio_type, public_type)
@@ -534,6 +556,10 @@ class FieldType(RawFieldType):
         raise NotImplementedError
 
     @abstractmethod
+    def get_code_get(self, location: Location, deep_diff: bool = False) -> str:
+        raise NotImplementedError
+
+    @abstractmethod
     def sizes(self) -> typing.Iterable[SizeInfo]:
         """Yield the sizes associated with this type, from outer to inner"""
         raise NotImplementedError
@@ -559,6 +585,13 @@ class BasicType(FieldType):
 real_packet->{location} = {location};
 """.format(location = location)
 
+    def get_code_get(self, location: Location, deep_diff: bool = False) -> str:
+        return """\
+if (!DIO_GET({self.dataio_type}, &din, &field_addr, &real_packet->{location})) {{
+  RECEIVE_PACKET_FIELD_ERROR({location.name});
+}}
+""".format(self = self, location = location)
+
     def sizes(self) -> typing.Iterable[SizeInfo]:
         return ()
 
@@ -566,7 +599,45 @@ real_packet->{location} = {location};
         return "{self.dataio_type}({self.public_type})".format(self = self)
 
 
-class BoolType(BasicType):
+class IntType(BasicType):
+    """Type information for an integer field"""
+
+    TYPE_PATTERN = re.compile(r"^[su]int\d+$")
+    """Matches an int dataio type"""
+
+    @typing.overload
+    def __init__(self, dataio_info: str, public_type: str): ...
+    @typing.overload
+    def __init__(self, dataio_info: "re.Match[str]", public_type: str): ...
+    def __init__(self, dataio_info: "str | re.Match[str]", public_type: str):
+        if isinstance(dataio_info, str):
+            mo = self.TYPE_PATTERN.fullmatch(dataio_info)
+            if mo is None:
+                raise ValueError("not a valid int type")
+            dataio_info = mo
+        dataio_type = dataio_info.group(0)
+
+        super().__init__(dataio_type, public_type)
+
+    def get_code_get(self, location: Location, deep_diff: bool = False) -> str:
+        if self.public_type in ("int", "bool"):
+            # read directly
+            return super().get_code_get(location, deep_diff)
+        # read indirectly to make sure coercions between different integer
+        # types happen correctly
+        return """\
+{{
+  int readin;
+
+  if (!DIO_GET({self.dataio_type}, &din, &field_addr, &readin)) {{
+    RECEIVE_PACKET_FIELD_ERROR({location.name});
+  }}
+  real_packet->{location} = readin;
+}}
+""".format(self = self, location = location)
+
+
+class BoolType(IntType):
     """Type information for a boolean field"""
 
     TYPE_PATTERN = re.compile(r"^bool\d*$")
@@ -584,12 +655,11 @@ class BoolType(BasicType):
             if mo is None:
                 raise ValueError("not a valid bool type")
             dataio_info = mo
-        dataio_type = dataio_info.group(0)
 
         if public_type != "bool":
             raise ValueError("bool dataio type with non-bool public type: %r" % public_type)
 
-        super().__init__(dataio_type, public_type)
+        super().__init__(dataio_info, public_type)
 
 
 class FloatType(BasicType):
@@ -626,20 +696,39 @@ class FloatType(BasicType):
         super().__init__(dataio_type, public_type)
         self.float_factor = int(float_factor)
 
+    def get_code_get(self, location: Location, deep_diff: bool = False) -> str:
+        return """\
+if (!DIO_GET({self.dataio_type}, &din, &field_addr, &real_packet->{location}, {self.float_factor:d})) {{
+  RECEIVE_PACKET_FIELD_ERROR({location.name});
+}}
+""".format(self = self, location = location)
+
     def __str__(self) -> str:
         return "{self.dataio_type}{self.float_factor:d}({self.public_type})".format(self = self)
 
 
-class WorklistType(BasicType):
-    """Type information for a worklist field"""
+class BitvectorType(BasicType):
+    """Type information for a bitvector field"""
 
     def __init__(self, dataio_type: str, public_type: str):
-        if dataio_type != "worklist":
-            raise ValueError("not a valid worklist type")
+        if dataio_type != "bitvector":
+            raise ValueError("not a valid bitvector type")
 
-        if public_type != "struct worklist":
-            raise ValueError("worklist dataio type with non-worklist public type: %r" % public_type)
+        super().__init__(dataio_type, public_type)
 
+    def get_code_get(self, location: Location, deep_diff: bool = False) -> str:
+        return """\
+if (!DIO_BV_GET(&din, &field_addr, real_packet->{location})) {{
+  RECEIVE_PACKET_FIELD_ERROR({location.name});
+}}
+""".format(self = self, location = location)
+
+
+class StructType(BasicType):
+    """Type information for a field of some general struct type"""
+
+    def __init__(self, dataio_type: str, public_type: str):
+        assert public_type.startswith("struct ")
         super().__init__(dataio_type, public_type)
 
     def get_code_handle_param(self, location: Location) -> str:
@@ -653,6 +742,19 @@ class WorklistType(BasicType):
             # top level: pass by-reference
             return super().get_code_handle_arg(location.deeper("&%s" % location))
         return super().get_code_handle_arg(location)
+
+
+class WorklistType(StructType):
+    """Type information for a worklist field"""
+
+    def __init__(self, dataio_type: str, public_type: str):
+        if dataio_type != "worklist":
+            raise ValueError("not a valid worklist type")
+
+        if public_type != "struct worklist":
+            raise ValueError("worklist dataio type with non-worklist public type: %r" % public_type)
+
+        super().__init__(dataio_type, public_type)
 
     def get_code_fill(self, location: Location) -> str:
         return """\
@@ -706,6 +808,36 @@ class StringType(SizedType):
 sz_strlcpy(real_packet->{location}, {location});
 """.format(location = location)
 
+    def get_code_get(self, location: Location, deep_diff: bool = False) -> str:
+        return """\
+if (!DIO_GET({self.dataio_type}, &din, &field_addr, real_packet->{location}, sizeof(real_packet->{location}))) {{
+  RECEIVE_PACKET_FIELD_ERROR({location.name});
+}}
+""".format(self = self, location = location)
+
+
+class MemoryType(SizedType):
+    """Type information for a memory field"""
+
+    def __init__(self, dataio_type: str, public_type: str, size: SizeInfo):
+        if dataio_type != "memory":
+            raise ValueError("not a valid memory type")
+
+        super().__init__(dataio_type, public_type, size)
+
+    def get_code_fill(self, location: Location) -> str:
+        raise NotImplementedError("fill not supported for memory-type fields")
+
+    def get_code_get(self, location: Location, deep_diff: bool = False) -> str:
+        size_check = self.size.receive_size_check(location.name)
+        return """\
+
+{size_check}\
+if (!DIO_GET({self.dataio_type}, &din, &field_addr, real_packet->{location}, {self.size.real})) {{
+  RECEIVE_PACKET_FIELD_ERROR({location.name});
+}}
+""".format(self = self, location = location, size_check = size_check)
+
 
 class ArrayType(FieldType):
     """Type information for an array field. Consists of size information and
@@ -745,6 +877,102 @@ class ArrayType(FieldType):
   }}
 }}
 """.format(self = self, location = location, inner_fill = inner_fill)
+
+    def _get_code_get_full(self, location: Location, inner_get: str) -> str:
+        size_check = prefix("  ", self.size.receive_size_check(location.name))
+        inner_get = prefix("    ", inner_get)
+        return """\
+{{
+  int {location.index};
+
+#ifdef FREECIV_JSON_CONNECTION
+  /* Enter array. */
+  field_addr.sub_location = plocation_elem_new(0);
+#endif /* FREECIV_JSON_CONNECTION */
+
+{size_check}\
+  for ({location.index} = 0; {location.index} < {self.size.real}; {location.index}++) {{
+#ifdef FREECIV_JSON_CONNECTION
+    field_addr.sub_location->number = {location.index};
+#endif /* FREECIV_JSON_CONNECTION */
+{inner_get}\
+  }}
+
+#ifdef FREECIV_JSON_CONNECTION
+  /* Exit array. */
+  FC_FREE(field_addr.sub_location);
+#endif /* FREECIV_JSON_CONNECTION */
+}}
+""".format(self = self, location = location, inner_get = inner_get, size_check = size_check)
+
+    def _get_code_get_diff(self, location: Location, inner_get: str) -> str:
+        inner_get = prefix("      ", inner_get)
+        return """\
+{{
+#ifdef FREECIV_JSON_CONNECTION
+  int count;
+
+  /* Enter array. */
+  field_addr.sub_location = plocation_elem_new(0);
+
+  for (count = 0;; count++) {{
+    int {location.index};
+
+    field_addr.sub_location->number = count;
+
+    /* Enter diff array element (start at the index address). */
+    field_addr.sub_location->sub_location = plocation_elem_new(0);
+#else /* FREECIV_JSON_CONNECTION */
+  while (TRUE) {{
+    int {location.index};
+#endif /* FREECIV_JSON_CONNECTION */
+
+    if (!DIO_GET(uint8, &din, &field_addr, &{location.index})) {{
+      RECEIVE_PACKET_FIELD_ERROR({location.name});
+    }}
+    if ({location.index} == 255) {{
+#ifdef FREECIV_JSON_CONNECTION
+      /* Exit diff array element. */
+      FC_FREE(field_addr.sub_location->sub_location);
+
+      /* Exit diff array. */
+      FC_FREE(field_addr.sub_location);
+#endif /* FREECIV_JSON_CONNECTION */
+
+      break;
+    }}
+    if ({location.index} > {self.size.real}) {{
+      RECEIVE_PACKET_FIELD_ERROR({location.name},
+                                 ": unexpected value %d "
+                                 "(> {self.size.real}) in array diff",
+                                 {location.index});
+    }} else {{
+#ifdef FREECIV_JSON_CONNECTION
+      /* Content address. */
+      field_addr.sub_location->sub_location->number = 1;
+#endif /* FREECIV_JSON_CONNECTION */
+{inner_get}\
+    }}
+
+#ifdef FREECIV_JSON_CONNECTION
+    /* Exit diff array element. */
+    FC_FREE(field_addr.sub_location->sub_location);
+#endif /* FREECIV_JSON_CONNECTION */
+  }}
+
+#ifdef FREECIV_JSON_CONNECTION
+  /* Exit array. */
+  FC_FREE(field_addr.sub_location);
+#endif /* FREECIV_JSON_CONNECTION */
+}}
+""".format(self = self, location = location, inner_get = inner_get)
+
+    def get_code_get(self, location: Location, deep_diff: bool = False) -> str:
+        inner_get = self.elem.get_code_get(location.sub, deep_diff)
+        if deep_diff:
+            return self._get_code_get_diff(location, inner_get)
+        else:
+            return self._get_code_get_full(location, inner_get)
 
     def sizes(self) -> typing.Iterable[SizeInfo]:
         yield self.size
@@ -1257,274 +1485,7 @@ field_addr.name = \"{self.name}\";
 
     # The code which get this field before it is wrapped in address adding.
     def get_get_real(self, deltafragment: bool) -> str:
-        if isinstance(self.type_info, FloatType):
-            return """\
-if (!DIO_GET({self.dataio_type}, &din, &field_addr, &real_packet->{self.name}, {self.type_info.float_factor:d})) {{
-  RECEIVE_PACKET_FIELD_ERROR({self.name});
-}}
-""".format(self = self)
-        if self.dataio_type=="bitvector":
-            return """\
-if (!DIO_BV_GET(&din, &field_addr, real_packet->{self.name})) {{
-  RECEIVE_PACKET_FIELD_ERROR({self.name});
-}}
-""".format(self = self)
-        if self.dataio_type in ["string", "estring"] and self.dimensions != 2:
-            return """\
-if (!DIO_GET({self.dataio_type}, &din, &field_addr, real_packet->{self.name}, sizeof(real_packet->{self.name}))) {{
-  RECEIVE_PACKET_FIELD_ERROR({self.name});
-}}
-""".format(self = self)
-        if self.is_struct and self.dimensions == 0:
-            return """\
-if (!DIO_GET({self.dataio_type}, &din, &field_addr, &real_packet->{self.name})) {{
-  RECEIVE_PACKET_FIELD_ERROR({self.name});
-}}
-""".format(self = self)
-        if not self.dimensions:
-            if self.struct_type in ["int","bool"]:
-                return """\
-if (!DIO_GET({self.dataio_type}, &din, &field_addr, &real_packet->{self.name})) {{
-  RECEIVE_PACKET_FIELD_ERROR({self.name});
-}}
-""".format(self = self)
-            else:
-                return """\
-{{
-  int readin;
-
-  if (!DIO_GET({self.dataio_type}, &din, &field_addr, &readin)) {{
-    RECEIVE_PACKET_FIELD_ERROR({self.name});
-  }}
-  real_packet->{self.name} = readin;
-}}
-""".format(self = self)
-
-        assert isinstance(self.type_info, ArrayType), self.type_info
-        if self.is_struct:
-            if self.dimensions == 2:
-                c = """\
-if (!DIO_GET({self.dataio_type}, &din, &field_addr, &real_packet->{self.name}[i][j])) {{
-  RECEIVE_PACKET_FIELD_ERROR({self.name});
-}}
-""".format(self = self)
-            else:
-                c = """\
-if (!DIO_GET({self.dataio_type}, &din, &field_addr, &real_packet->{self.name}[i])) {{
-  RECEIVE_PACKET_FIELD_ERROR({self.name});
-}}
-""".format(self = self)
-        elif self.dataio_type=="string" or self.dataio_type=="estring":
-            c = """\
-if (!DIO_GET({self.dataio_type}, &din, &field_addr, real_packet->{self.name}[i], sizeof(real_packet->{self.name}[i]))) {{
-  RECEIVE_PACKET_FIELD_ERROR({self.name});
-}}
-""".format(self = self)
-        elif isinstance(self.type_info.elem, ArrayType) and isinstance(self.type_info.elem.elem, FloatType):
-            c = """\
-if (!DIO_GET({self.dataio_type}, &din, &field_addr, &real_packet->{self.name}[i][j], {self.type_info.elem.elem.float_factor:d})) {{
-  RECEIVE_PACKET_FIELD_ERROR({self.name});
-}}
-""".format(self = self)
-        elif isinstance(self.type_info.elem, FloatType):
-            c = """\
-if (!DIO_GET({self.dataio_type}, &din, &field_addr, &real_packet->{self.name}[i], {self.type_info.elem.float_factor:d})) {{
-  RECEIVE_PACKET_FIELD_ERROR({self.name});
-}}
-""".format(self = self)
-        elif self.dimensions == 2:
-            if self.struct_type in ["int","bool"]:
-                c = """\
-if (!DIO_GET({self.dataio_type}, &din, &field_addr, &real_packet->{self.name}[i][j])) {{
-  RECEIVE_PACKET_FIELD_ERROR({self.name});
-}}
-""".format(self = self)
-            else:
-                c = """\
-{{
-  int readin;
-
-  if (!DIO_GET({self.dataio_type}, &din, &field_addr, &readin)) {{
-    RECEIVE_PACKET_FIELD_ERROR({self.name});
-  }}
-  real_packet->{self.name}[i][j] = readin;
-}}
-""".format(self = self)
-        elif self.struct_type in ["int","bool"]:
-            c = """\
-if (!DIO_GET({self.dataio_type}, &din, &field_addr, &real_packet->{self.name}[i])) {{
-  RECEIVE_PACKET_FIELD_ERROR({self.name});
-}}
-""".format(self = self)
-        else:
-            c = """\
-{{
-  int readin;
-
-  if (!DIO_GET({self.dataio_type}, &din, &field_addr, &readin)) {{
-    RECEIVE_PACKET_FIELD_ERROR({self.name});
-  }}
-  real_packet->{self.name}[i] = readin;
-}}
-""".format(self = self)
-
-        if not self.diff or self.dataio_type=="memory":
-            if self.sizes[0].real != self.sizes[0].declared:
-                extra = """\
-if ({self.sizes[0].real} > {self.sizes[0].declared}) {{
-  RECEIVE_PACKET_FIELD_ERROR({self.name}, ": truncation array");
-}}
-""".format(self = self)
-            else:
-                extra=""
-            if self.dataio_type=="memory":
-                return """\
-
-{extra}\
-if (!DIO_GET({self.dataio_type}, &din, &field_addr, real_packet->{self.name}, {self.sizes[0].real})) {{
-  RECEIVE_PACKET_FIELD_ERROR({self.name});
-}}
-""".format(self = self, extra = extra)
-            elif self.dimensions==2 and self.dataio_type!="string" \
-                 and self.dataio_type!="estring":
-                extra = prefix("  ", extra)
-                c = prefix("      ", c)
-                return """\
-{{
-  int i, j;
-
-#ifdef FREECIV_JSON_CONNECTION
-  /* Enter outer array. */
-  field_addr.sub_location = plocation_elem_new(0);
-#endif /* FREECIV_JSON_CONNECTION */
-
-{extra}\
-  for (i = 0; i < {self.sizes[0].real}; i++) {{
-#ifdef FREECIV_JSON_CONNECTION
-    /* Update address of outer array element (inner array). */
-    field_addr.sub_location->number = i;
-
-    /* Enter inner array. */
-    field_addr.sub_location->sub_location = plocation_elem_new(0);
-#endif /* FREECIV_JSON_CONNECTION */
-    for (j = 0; j < {self.sizes[1].real}; j++) {{
-#ifdef FREECIV_JSON_CONNECTION
-      /* Update address of element in inner array. */
-      field_addr.sub_location->sub_location->number = j;
-#endif /* FREECIV_JSON_CONNECTION */
-{c}\
-    }}
-
-#ifdef FREECIV_JSON_CONNECTION
-    /* Exit inner array. */
-    FC_FREE(field_addr.sub_location->sub_location);
-#endif /* FREECIV_JSON_CONNECTION */
-  }}
-
-#ifdef FREECIV_JSON_CONNECTION
-  /* Exit outer array. */
-  FC_FREE(field_addr.sub_location);
-#endif /* FREECIV_JSON_CONNECTION */
-}}
-""".format(self = self, c = c, extra = extra)
-            else:
-                extra = prefix("  ", extra)
-                c = prefix("    ", c)
-                return """\
-{{
-  int i;
-
-#ifdef FREECIV_JSON_CONNECTION
-  /* Enter array. */
-  field_addr.sub_location = plocation_elem_new(0);
-#endif /* FREECIV_JSON_CONNECTION */
-
-{extra}\
-  for (i = 0; i < {self.sizes[0].real}; i++) {{
-#ifdef FREECIV_JSON_CONNECTION
-    field_addr.sub_location->number = i;
-#endif /* FREECIV_JSON_CONNECTION */
-{c}\
-  }}
-
-#ifdef FREECIV_JSON_CONNECTION
-  /* Exit array. */
-  FC_FREE(field_addr.sub_location);
-#endif /* FREECIV_JSON_CONNECTION */
-}}
-""".format(self = self, c = c, extra = extra)
-        elif deltafragment and self.diff and self.dimensions == 1:
-            c = prefix("      ", c)
-            return """\
-{{
-#ifdef FREECIV_JSON_CONNECTION
-  int count;
-
-  /* Enter array. */
-  field_addr.sub_location = plocation_elem_new(0);
-
-  for (count = 0;; count++) {{
-    int i;
-
-    field_addr.sub_location->number = count;
-
-    /* Enter diff array element (start at the index address). */
-    field_addr.sub_location->sub_location = plocation_elem_new(0);
-#else /* FREECIV_JSON_CONNECTION */
-  while (TRUE) {{
-    int i;
-#endif /* FREECIV_JSON_CONNECTION */
-
-    if (!DIO_GET(uint8, &din, &field_addr, &i)) {{
-      RECEIVE_PACKET_FIELD_ERROR({self.name});
-    }}
-    if (i == 255) {{
-#ifdef FREECIV_JSON_CONNECTION
-      /* Exit diff array element. */
-      FC_FREE(field_addr.sub_location->sub_location);
-
-      /* Exit diff array. */
-      FC_FREE(field_addr.sub_location);
-#endif /* FREECIV_JSON_CONNECTION */
-
-      break;
-    }}
-    if (i > {self.sizes[0].real}) {{
-      RECEIVE_PACKET_FIELD_ERROR({self.name},
-                                 ": unexpected value %d "
-                                 "(> {self.sizes[0].real}) in array diff",
-                                 i);
-    }} else {{
-#ifdef FREECIV_JSON_CONNECTION
-      /* Content address. */
-      field_addr.sub_location->sub_location->number = 1;
-#endif /* FREECIV_JSON_CONNECTION */
-{c}\
-    }}
-
-#ifdef FREECIV_JSON_CONNECTION
-    /* Exit diff array element. */
-    FC_FREE(field_addr.sub_location->sub_location);
-#endif /* FREECIV_JSON_CONNECTION */
-  }}
-
-#ifdef FREECIV_JSON_CONNECTION
-  /* Exit array. */
-  FC_FREE(field_addr.sub_location);
-#endif /* FREECIV_JSON_CONNECTION */
-}}
-""".format(self = self, c = c)
-        else:
-            c = prefix("    ", c)
-            return """\
-{{
-  int i;
-
-  for (i = 0; i < {self.sizes[0].real}; i++) {{
-{c}\
-  }}
-}}
-""".format(self = self, c = c)
+        return self.type_info.get_code_get(Location(self.name), deltafragment and self.diff)
 
 
 # Class which represents a capability variant.
