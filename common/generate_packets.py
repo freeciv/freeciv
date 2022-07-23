@@ -261,7 +261,7 @@ def lazy_overwrite_open(path: "str | Path", suffix: str = ".tmp") -> typing.Iter
         verbose("lazy: content changed, replacing...")
         tmp_path.replace(path)
 
-######################### General helper functions #########################
+################### General helper functions and classes ###################
 
 # Taken from https://docs.python.org/3.4/library/itertools.html#itertools-recipes
 def powerset(iterable: typing.Iterable[T_co]) -> "typing.Iterator[tuple[T_co, ...]]":
@@ -277,6 +277,31 @@ def prefix(prefix: str, text: str) -> str:
     """Prepend prefix to every line of text, except blank lines and those
     starting with #"""
     return INSERT_PREFIX_PATTERN.sub(prefix, text)
+
+
+class Location:
+    """Roughly represents a location in memory for the generated code;
+    outside of recursive field types like arrays, this will usually just be
+    a field of a packet, but it serves to concisely handle the recursion."""
+
+    def __init__(self, name: str, location: "str | None" = None, depth: int = 0):
+        self.name = name
+        if location is None:
+            self.location = name
+        else:
+            self.location = location
+        self.depth = depth
+
+    def deeper(self, new_location: str) -> "Location":
+        """Return the given string as a new Location with the same name as
+        self and incremented depth"""
+        return type(self)(self.name, new_location, self.depth + 1)
+
+    def __str__(self) -> str:
+        return self.location
+
+    def __repr__(self) -> str:
+        return "{self.__class__.__name__}({self.name!r}, {self.location!r}, {self.depth!r})".format(self = self)
 
 
 #################### Components of a packets definition ####################
@@ -431,6 +456,11 @@ class FieldType(ABC):
         return ArrayType(self, size)
 
     @abstractmethod
+    def get_code_declaration(self, location: Location) -> str:
+        """Generate a code snippet declaring this field in a packet struct."""
+        raise NotImplementedError
+
+    @abstractmethod
     def sizes(self) -> typing.Iterable[SizeInfo]:
         """Yield the sizes associated with this type, from outer to inner"""
         raise NotImplementedError
@@ -449,6 +479,11 @@ class BasicType(FieldType):
     def __init__(self, dataio_type: str, public_type: str):
         self.dataio_type = dataio_type
         self.public_type = public_type
+
+    def get_code_declaration(self, location: Location) -> str:
+        return """\
+{self.public_type} {location};
+""".format(self = self, location = location)
 
     def sizes(self) -> typing.Iterable[SizeInfo]:
         return ()
@@ -508,6 +543,11 @@ class ArrayType(FieldType):
     @property
     def public_type(self) -> str:
         return self.elem.public_type
+
+    def get_code_declaration(self, location: Location) -> str:
+        return self.elem.get_code_declaration(
+            location.deeper("%s[%s]" % (location, self.size.declared))
+        )
 
     def sizes(self) -> typing.Iterable[SizeInfo]:
         yield self.size
@@ -625,13 +665,7 @@ class Field:
     # Returns code which is used in the declaration of the field in
     # the packet struct.
     def get_declar(self) -> str:
-        sizes = "".join(
-            "[{size.declared}]".format(size = size)
-            for size in self.sizes
-        )
-        return """\
-{self.struct_type} {self.name}{sizes};
-""".format(self = self, sizes = sizes)
+        return self.type_info.get_code_declaration(Location(self.name))
 
     # Returns code which copies the arguments of the direct send
     # functions in the packet struct.
