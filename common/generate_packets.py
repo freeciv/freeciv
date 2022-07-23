@@ -24,6 +24,7 @@ from functools import partial
 from itertools import chain, combinations, takewhile, zip_longest
 from collections import deque
 from enum import Enum
+from abc import ABC, abstractmethod
 
 try:
     from functools import cache
@@ -348,6 +349,7 @@ class SizeInfo:
     - the field name for the actual size (optional)"""
 
     @classmethod
+    @cache
     def parse(cls, size_text) -> "SizeInfo":
         """Parse the given array size text (without brackets)"""
         mo = cls.ARRAY_SIZE_PATTERN.fullmatch(size_text)
@@ -383,9 +385,19 @@ class SizeInfo:
             return self.declared
         return "%s:%s" % (self.declared, self._actual)
 
+    def __eq__(self, other) -> bool:
+        if not isinstance(other, __class__):
+            return NotImplemented
+        return (self.declared == other.declared
+                and self._actual == other._actual)
 
-class FieldType:
-    """Type information for a field"""
+    def __hash__(self) -> int:
+        return hash((__class__, self.declared, self._actual))
+
+
+class FieldType(ABC):
+    """Abstract base class (ABC) for classes representing type information
+    for fields of a packet"""
 
     TYPE_INFO_PATTERN = re.compile(r"^([^()]*)\(([^()]*)\)$")
     """Matches a field type.
@@ -394,10 +406,10 @@ class FieldType:
     - dataio type
     - public type (aka struct type)"""
 
-    @classmethod
-    def parse(cls, type_text: str) -> "FieldType":
+    @staticmethod
+    def parse(type_text: str) -> "FieldType":
         """Parse a single field type"""
-        mo = cls.TYPE_INFO_PATTERN.fullmatch(type_text)
+        mo = __class__.TYPE_INFO_PATTERN.fullmatch(type_text)
         if mo is None:
             raise ValueError("malformed type or undefined alias: %r" % type_text)
         dataio_type, public_type = mo.groups("")
@@ -407,14 +419,45 @@ class FieldType:
             return FloatType(mo, public_type)
 
         # default fallback case
-        return cls(dataio_type, public_type)
+        return BasicType(dataio_type, public_type)
+
+    dataio_type = ""
+    public_type = ""
+
+    @cache
+    def array(self, size: SizeInfo) -> "FieldType":
+        """Construct a FieldType for an array with element type self and the
+        given size"""
+        return ArrayType(self, size)
+
+    @abstractmethod
+    def sizes(self) -> typing.Iterable[SizeInfo]:
+        """Yield the sizes associated with this type, from outer to inner"""
+        raise NotImplementedError
+
+    @abstractmethod
+    def __str__(self) -> str:
+        return super().__str__()
+
+    def __repr__(self) -> str:
+        return "<{self.__class__.__name__} {self}>".format(self = self)
+
+
+class BasicType(FieldType):
+    """Type information for a field without any specialized treatment"""
 
     def __init__(self, dataio_type: str, public_type: str):
         self.dataio_type = dataio_type
         self.public_type = public_type
 
+    def sizes(self) -> typing.Iterable[SizeInfo]:
+        return ()
 
-class FloatType(FieldType):
+    def __str__(self) -> str:
+        return "{self.dataio_type}({self.public_type})".format(self = self)
+
+
+class FloatType(BasicType):
     """Type information for a float field"""
 
     FLOAT_TYPE_PATTERN = re.compile(r"^([su]float)(\d+)?$")
@@ -444,6 +487,34 @@ class FloatType(FieldType):
 
         super().__init__(dataio_type, public_type)
         self.float_factor = int(float_factor)
+
+    def __str__(self) -> str:
+        return "{self.dataio_type}{self.float_factor:d}({self.public_type})".format(self = self)
+
+
+class ArrayType(FieldType):
+    """Type information for an array field. Consists of size information and
+    another FieldType for the array's elements, which may also be an
+    ArrayType (for multi-dimensionaly arrays)."""
+
+    def __init__(self, elem: FieldType, size: SizeInfo):
+        self.elem = elem
+        self.size = size
+
+    @property
+    def dataio_type(self) -> str:
+        return self.elem.dataio_type
+
+    @property
+    def public_type(self) -> str:
+        return self.elem.public_type
+
+    def sizes(self) -> typing.Iterable[SizeInfo]:
+        yield self.size
+        yield from self.elem.sizes()
+
+    def __str__(self) -> str:
+        return "{self.elem}[{self.size}]".format(self = self)
 
 
 class Field:
@@ -479,20 +550,19 @@ class Field:
         # analyze fields
         for field_text in fields.split(","):
             field_text = field_text.strip()
-            sizes = deque()
+            field_type = type_info
 
             mo = cls.FIELD_ARRAY_PATTERN.fullmatch(field_text)
             while mo is not None:
                 field_text = mo.group(1)
-                sizes.appendleft(SizeInfo.parse(mo.group(2)))
+                field_type = field_type.array(SizeInfo.parse(mo.group(2)))
                 mo = cls.FIELD_ARRAY_PATTERN.fullmatch(field_text)
-            yield Field(field_text, type_info, sizes, flag_info)
+            yield Field(field_text, field_type, flag_info)
 
-    def __init__(self, name: str, type_info: FieldType,
-                       sizes: typing.Iterable[SizeInfo], flags: FieldFlags):
+    def __init__(self, name: str, type_info: FieldType, flags: FieldFlags):
         self.name = name
         """Field name"""
-        self.sizes = tuple(sizes)
+        self.sizes = tuple(type_info.sizes())
         """Array sizes for this field"""
 
         if self.dimensions > 2:
@@ -748,7 +818,7 @@ if (e) {{
 e |= DIO_BV_PUT(&dout, &field_addr, packet->{self.name});
 """.format(self = self)
 
-        if isinstance(self.type_info, FloatType) and not self.dimensions:
+        if isinstance(self.type_info, FloatType):
             return """\
 e |= DIO_PUT({self.dataio_type}, &dout, &field_addr, real_packet->{self.name}, {self.type_info.float_factor:d});
 """.format(self = self)
@@ -770,6 +840,7 @@ e |= DIO_PUT({self.dataio_type}, &dout, &field_addr, &real_packet->{self.name}, 
 e |= DIO_PUT({self.dataio_type}, &dout, &field_addr, real_packet->{self.name});
 """.format(self = self)
 
+        assert isinstance(self.type_info, ArrayType), self.type_info
         if self.is_struct:
             if self.dimensions == 2:
                 c = """\
@@ -784,14 +855,13 @@ e |= DIO_PUT({self.dataio_type}, &dout, &field_addr, &real_packet->{self.name}[i
 e |= DIO_PUT({self.dataio_type}, &dout, &field_addr, real_packet->{self.name}[i]);
 """.format(self = self)
 
-        elif isinstance(self.type_info, FloatType):
-            if self.dimensions == 2:
-                c = """\
-e |= DIO_PUT({self.dataio_type}, &dout, &field_addr, real_packet->{self.name}[i][j], {self.type_info.float_factor:d});
+        elif isinstance(self.type_info.elem, ArrayType) and isinstance(self.type_info.elem.elem, FloatType):
+            c = """\
+e |= DIO_PUT({self.dataio_type}, &dout, &field_addr, real_packet->{self.name}[i][j], {self.type_info.elem.elem.float_factor:d});
 """.format(self = self)
-            else:
-                c = """\
-e |= DIO_PUT({self.dataio_type}, &dout, &field_addr, real_packet->{self.name}[i], {self.type_info.float_factor:d});
+        elif isinstance(self.type_info.elem, FloatType):
+            c = """\
+e |= DIO_PUT({self.dataio_type}, &dout, &field_addr, real_packet->{self.name}[i], {self.type_info.elem.float_factor:d});
 """.format(self = self)
         else:
             if self.dimensions == 2:
@@ -976,7 +1046,7 @@ field_addr.name = \"{self.name}\";
 
     # The code which get this field before it is wrapped in address adding.
     def get_get_real(self, deltafragment: bool) -> str:
-        if isinstance(self.type_info, FloatType) and not self.dimensions:
+        if isinstance(self.type_info, FloatType):
             return """\
 if (!DIO_GET({self.dataio_type}, &din, &field_addr, &real_packet->{self.name}, {self.type_info.float_factor:d})) {{
   RECEIVE_PACKET_FIELD_ERROR({self.name});
@@ -1019,6 +1089,7 @@ if (!DIO_GET({self.dataio_type}, &din, &field_addr, &real_packet->{self.name})) 
 }}
 """.format(self = self)
 
+        assert isinstance(self.type_info, ArrayType), self.type_info
         if self.is_struct:
             if self.dimensions == 2:
                 c = """\
@@ -1038,16 +1109,15 @@ if (!DIO_GET({self.dataio_type}, &din, &field_addr, real_packet->{self.name}[i],
   RECEIVE_PACKET_FIELD_ERROR({self.name});
 }}
 """.format(self = self)
-        elif isinstance(self.type_info, FloatType):
-            if self.dimensions == 2:
-                c = """\
-if (!DIO_GET({self.dataio_type}, &din, &field_addr, &real_packet->{self.name}[i][j], {self.type_info.float_factor:d})) {{
+        elif isinstance(self.type_info.elem, ArrayType) and isinstance(self.type_info.elem.elem, FloatType):
+            c = """\
+if (!DIO_GET({self.dataio_type}, &din, &field_addr, &real_packet->{self.name}[i][j], {self.type_info.elem.elem.float_factor:d})) {{
   RECEIVE_PACKET_FIELD_ERROR({self.name});
 }}
 """.format(self = self)
-            else:
-                c = """\
-if (!DIO_GET({self.dataio_type}, &din, &field_addr, &real_packet->{self.name}[i], {self.type_info.float_factor:d})) {{
+        elif isinstance(self.type_info.elem, FloatType):
+            c = """\
+if (!DIO_GET({self.dataio_type}, &din, &field_addr, &real_packet->{self.name}[i], {self.type_info.elem.float_factor:d})) {{
   RECEIVE_PACKET_FIELD_ERROR({self.name});
 }}
 """.format(self = self)
