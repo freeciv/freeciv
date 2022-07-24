@@ -538,7 +538,6 @@ class FieldType(RawFieldType):
     """Abstract base class (ABC) for classes representing type information
     usable for fields of a packet"""
 
-    dataio_type = ""
     public_type = ""
 
     foldable = False
@@ -571,12 +570,11 @@ class FieldType(RawFieldType):
         raise NotImplementedError
 
     @abstractmethod
-    def get_code_get(self, location: Location, deep_diff: bool = False) -> str:
+    def get_code_put(self, location: Location, deep_diff: bool = False) -> str:
         raise NotImplementedError
 
     @abstractmethod
-    def sizes(self) -> typing.Iterable[SizeInfo]:
-        """Yield the sizes associated with this type, from outer to inner"""
+    def get_code_get(self, location: Location, deep_diff: bool = False) -> str:
         raise NotImplementedError
 
 
@@ -605,15 +603,17 @@ real_packet->{location} = {location};
 differ = (old->{location} != real_packet->{location});
 """.format(self = self, location = location)
 
+    def get_code_put(self, location: Location, deep_diff: bool = False) -> str:
+        return """\
+e |= DIO_PUT({self.dataio_type}, &dout, &field_addr, real_packet->{location});
+""".format(self = self, location = location)
+
     def get_code_get(self, location: Location, deep_diff: bool = False) -> str:
         return """\
 if (!DIO_GET({self.dataio_type}, &din, &field_addr, &real_packet->{location})) {{
   RECEIVE_PACKET_FIELD_ERROR({location.name});
 }}
 """.format(self = self, location = location)
-
-    def sizes(self) -> typing.Iterable[SizeInfo]:
-        return ()
 
     def __str__(self) -> str:
         return "{self.dataio_type}({self.public_type})".format(self = self)
@@ -716,6 +716,11 @@ class FloatType(BasicType):
         super().__init__(dataio_type, public_type)
         self.float_factor = int(float_factor)
 
+    def get_code_put(self, location: Location, deep_diff: bool = False) -> str:
+        return """\
+e |= DIO_PUT({self.dataio_type}, &dout, &field_addr, real_packet->{location}, {self.float_factor:d});
+""".format(self = self, location = location)
+
     def get_code_get(self, location: Location, deep_diff: bool = False) -> str:
         return """\
 if (!DIO_GET({self.dataio_type}, &din, &field_addr, &real_packet->{location}, {self.float_factor:d})) {{
@@ -740,6 +745,11 @@ class BitvectorType(BasicType):
         return """\
 differ = !BV_ARE_EQUAL(old->{location}, real_packet->{location});
 """.format(self = self, location = location)
+
+    def get_code_put(self, location: Location, deep_diff: bool = False) -> str:
+        return """\
+e |= DIO_BV_PUT(&dout, &field_addr, packet->{location});
+""".format(location = location)
 
     def get_code_get(self, location: Location, deep_diff: bool = False) -> str:
         return """\
@@ -771,6 +781,11 @@ class StructType(BasicType):
     def get_code_cmp(self, location: Location) -> str:
         return """\
 differ = !are_{self.dataio_type}s_equal(&old->{location}, &real_packet->{location});
+""".format(self = self, location = location)
+
+    def get_code_put(self, location: Location, deep_diff: bool = False) -> str:
+        return """\
+e |= DIO_PUT({self.dataio_type}, &dout, &field_addr, &real_packet->{location});
 """.format(self = self, location = location)
 
 
@@ -831,10 +846,6 @@ class SizedType(BasicType):
     def get_code_fill(self, location: Location) -> str:
         return super().get_code_fill(location)
 
-    def sizes(self) -> typing.Iterable[SizeInfo]:
-        yield self.size
-        yield from super().sizes()
-
     def __str__(self) -> str:
         return "%s[%s]" % (super().__str__(), self.size)
 
@@ -891,6 +902,11 @@ differ = (({self.size.old} != {self.size.real})
           || (memcmp(old->{location}, real_packet->{location}, {self.size.real}) != 0));
 """.format(self = self, location = location)
 
+    def get_code_put(self, location: Location, deep_diff: bool = False) -> str:
+        return """\
+e |= DIO_PUT({self.dataio_type}, &dout, &field_addr, &real_packet->{location}, {self.size.real});
+""".format(self = self, location = location)
+
     def get_code_get(self, location: Location, deep_diff: bool = False) -> str:
         size_check = self.size.receive_size_check(location.name)
         return """\
@@ -910,10 +926,6 @@ class ArrayType(FieldType):
     def __init__(self, elem: FieldType, size: SizeInfo):
         self.elem = elem
         self.size = size
-
-    @property
-    def dataio_type(self) -> str:
-        return self.elem.dataio_type
 
     @property
     def public_type(self) -> str:
@@ -964,6 +976,113 @@ differ = FALSE;
   }}
 }}
 """.format(self = self, location = location, inner_cmp = inner_cmp)
+
+    def _get_code_put_full(self, location: Location, inner_put: str) -> str:
+        inner_put = prefix("    ", inner_put)
+        return """\
+{{
+  int {location.index};
+
+#ifdef FREECIV_JSON_CONNECTION
+  /* Create the array. */
+  e |= DIO_PUT(farray, &dout, &field_addr, {self.size.real});
+
+  /* Enter the array. */
+  field_addr.sub_location = plocation_elem_new(0);
+#endif /* FREECIV_JSON_CONNECTION */
+
+  for ({location.index} = 0; {location.index} < {self.size.real}; {location.index}++) {{
+#ifdef FREECIV_JSON_CONNECTION
+    /* Next array element. */
+    field_addr.sub_location->number = {location.index};
+#endif /* FREECIV_JSON_CONNECTION */
+{inner_put}\
+  }}
+
+#ifdef FREECIV_JSON_CONNECTION
+  /* Exit array. */
+  FC_FREE(field_addr.sub_location);
+#endif /* FREECIV_JSON_CONNECTION */
+}}
+""".format(self = self, location = location, inner_put = inner_put)
+
+    def _get_code_put_diff(self, location: Location, inner_put: str) -> str:
+        inner_put = prefix("      ", inner_put)
+        inner_cmp = prefix("    ", self.elem.get_code_cmp(location.sub))
+        return """\
+{{
+  int {location.index};
+
+#ifdef FREECIV_JSON_CONNECTION
+  size_t count_{location.index} = 0;
+
+  /* Create the array. */
+  e |= DIO_PUT(farray, &dout, &field_addr, 0);
+
+  /* Enter array. */
+  field_addr.sub_location = plocation_elem_new(0);
+#endif /* FREECIV_JSON_CONNECTION */
+
+  fc_assert({self.size.real} < 255);
+
+  for ({location.index} = 0; {location.index} < {self.size.real}; {location.index}++) {{
+{inner_cmp}\
+
+    if (differ) {{
+#ifdef FREECIV_JSON_CONNECTION
+      /* Append next diff array element. */
+      field_addr.sub_location->number = -1;
+
+      /* Create the diff array element. */
+      e |= DIO_PUT(farray, &dout, &field_addr, 2);
+
+      /* Enter diff array element (start at the index address). */
+      field_addr.sub_location->number = count_{location.index}++;
+      field_addr.sub_location->sub_location = plocation_elem_new(0);
+#endif /* FREECIV_JSON_CONNECTION */
+      e |= DIO_PUT(uint8, &dout, &field_addr, {location.index});
+
+#ifdef FREECIV_JSON_CONNECTION
+      /* Content address. */
+      field_addr.sub_location->sub_location->number = 1;
+#endif /* FREECIV_JSON_CONNECTION */
+{inner_put}\
+
+#ifdef FREECIV_JSON_CONNECTION
+      /* Exit diff array element. */
+      FC_FREE(field_addr.sub_location->sub_location);
+#endif /* FREECIV_JSON_CONNECTION */
+    }}
+  }}
+#ifdef FREECIV_JSON_CONNECTION
+  /* Append diff array element. */
+  field_addr.sub_location->number = -1;
+
+  /* Create the terminating diff array element. */
+  e |= DIO_PUT(farray, &dout, &field_addr, 1);
+
+  /* Enter diff array element (start at the index address). */
+  field_addr.sub_location->number = count_{location.index};
+  field_addr.sub_location->sub_location = plocation_elem_new(0);
+#endif /* FREECIV_JSON_CONNECTION */
+  e |= DIO_PUT(uint8, &dout, &field_addr, 255);
+
+#ifdef FREECIV_JSON_CONNECTION
+  /* Exit diff array element. */
+  FC_FREE(field_addr.sub_location->sub_location);
+
+  /* Exit array. */
+  FC_FREE(field_addr.sub_location);
+#endif /* FREECIV_JSON_CONNECTION */
+}}
+""".format(self = self, location = location, inner_cmp = inner_cmp, inner_put = inner_put)
+
+    def get_code_put(self, location: Location, deep_diff: bool = False) -> str:
+        inner_put = self.elem.get_code_put(location.sub, deep_diff)
+        if deep_diff:
+            return self._get_code_put_diff(location, inner_put)
+        else:
+            return self._get_code_put_full(location, inner_put)
 
     def _get_code_get_full(self, location: Location, inner_get: str) -> str:
         size_check = prefix("  ", self.size.receive_size_check(location.name))
@@ -1061,10 +1180,6 @@ differ = FALSE;
         else:
             return self._get_code_get_full(location, inner_get)
 
-    def sizes(self) -> typing.Iterable[SizeInfo]:
-        yield self.size
-        yield from self.elem.sizes()
-
     def __str__(self) -> str:
         return "{self.elem}[{self.size}]".format(self = self)
 
@@ -1118,34 +1233,14 @@ class Field:
     def __init__(self, name: str, type_info: FieldType, flags: FieldFlags):
         self.name = name
         """Field name"""
-        self.sizes = tuple(type_info.sizes())
-        """Array sizes for this field"""
-
-        if self.dimensions > 2:
-            raise ValueError("Too many array dimensions for field %s" % name)
 
         self.type_info = type_info
         self.flags = flags
 
     @property
-    def dataio_type(self) -> str:
-        """The type this field is transmitted as"""
-        return self.type_info.dataio_type
-
-    @property
     def struct_type(self) -> str:
         """The public type for this field used in the packet struct"""
         return self.type_info.public_type
-
-    @property
-    def is_struct(self) -> bool:
-        """Whether the base type of this field is a struct"""
-        return self.struct_type.startswith("struct")
-
-    @property
-    def dimensions(self) -> int:
-        """Number of array dimensions"""
-        return len(self.sizes)
 
     @property
     def is_key(self) -> bool:
@@ -1287,207 +1382,7 @@ if (e) {{
 
     # The code which put this field before it is wrapped in address adding.
     def get_put_real(self, deltafragment: bool) -> str:
-        if self.dataio_type=="bitvector":
-            return """\
-e |= DIO_BV_PUT(&dout, &field_addr, packet->{self.name});
-""".format(self = self)
-
-        if isinstance(self.type_info, FloatType):
-            return """\
-e |= DIO_PUT({self.dataio_type}, &dout, &field_addr, real_packet->{self.name}, {self.type_info.float_factor:d});
-""".format(self = self)
-
-        if self.dataio_type in ["worklist", "cm_parameter"]:
-            return """\
-e |= DIO_PUT({self.dataio_type}, &dout, &field_addr, &real_packet->{self.name});
-""".format(self = self)
-
-        if self.dataio_type in ["memory"]:
-            return """\
-e |= DIO_PUT({self.dataio_type}, &dout, &field_addr, &real_packet->{self.name}, {self.sizes[0].real});
-""".format(self = self)
-
-        arr_types = ["string", "estring"]
-        if (self.dataio_type in arr_types and self.dimensions == 1) or \
-           (self.dataio_type not in arr_types and self.dimensions == 0):
-            return """\
-e |= DIO_PUT({self.dataio_type}, &dout, &field_addr, real_packet->{self.name});
-""".format(self = self)
-
-        assert isinstance(self.type_info, ArrayType), self.type_info
-        if self.is_struct:
-            if self.dimensions == 2:
-                c = """\
-e |= DIO_PUT({self.dataio_type}, &dout, &field_addr, &real_packet->{self.name}[i][j]);
-""".format(self = self)
-            else:
-                c = """\
-e |= DIO_PUT({self.dataio_type}, &dout, &field_addr, &real_packet->{self.name}[i]);
-""".format(self = self)
-        elif self.dataio_type=="string" or self.dataio_type=="estring":
-            c = """\
-e |= DIO_PUT({self.dataio_type}, &dout, &field_addr, real_packet->{self.name}[i]);
-""".format(self = self)
-
-        elif isinstance(self.type_info.elem, ArrayType) and isinstance(self.type_info.elem.elem, FloatType):
-            c = """\
-e |= DIO_PUT({self.dataio_type}, &dout, &field_addr, real_packet->{self.name}[i][j], {self.type_info.elem.elem.float_factor:d});
-""".format(self = self)
-        elif isinstance(self.type_info.elem, FloatType):
-            c = """\
-e |= DIO_PUT({self.dataio_type}, &dout, &field_addr, real_packet->{self.name}[i], {self.type_info.elem.float_factor:d});
-""".format(self = self)
-        else:
-            if self.dimensions == 2:
-                c = """\
-e |= DIO_PUT({self.dataio_type}, &dout, &field_addr, real_packet->{self.name}[i][j]);
-""".format(self = self)
-            else:
-                c = """\
-e |= DIO_PUT({self.dataio_type}, &dout, &field_addr, real_packet->{self.name}[i]);
-""".format(self = self)
-
-        if deltafragment and self.diff and self.dimensions == 1:
-            c = prefix("      ", c)
-            return """\
-{{
-  int i;
-
-#ifdef FREECIV_JSON_CONNECTION
-  size_t c = 0;
-
-  /* Create the array. */
-  e |= DIO_PUT(farray, &dout, &field_addr, 0);
-
-  /* Enter array. */
-  field_addr.sub_location = plocation_elem_new(0);
-#endif /* FREECIV_JSON_CONNECTION */
-
-  fc_assert({self.sizes[0].real} < 255);
-
-  for (i = 0; i < {self.sizes[0].real}; i++) {{
-    if (old->{self.name}[i] != real_packet->{self.name}[i]) {{
-#ifdef FREECIV_JSON_CONNECTION
-      /* Append next diff array element. */
-      field_addr.sub_location->number = -1;
-
-      /* Create the diff array element. */
-      e |= DIO_PUT(farray, &dout, &field_addr, 2);
-
-      /* Enter diff array element (start at the index address). */
-      field_addr.sub_location->number = c++;
-      field_addr.sub_location->sub_location = plocation_elem_new(0);
-#endif /* FREECIV_JSON_CONNECTION */
-      e |= DIO_PUT(uint8, &dout, &field_addr, i);
-
-#ifdef FREECIV_JSON_CONNECTION
-      /* Content address. */
-      field_addr.sub_location->sub_location->number = 1;
-#endif /* FREECIV_JSON_CONNECTION */
-{c}\
-
-#ifdef FREECIV_JSON_CONNECTION
-      /* Exit diff array element. */
-      FC_FREE(field_addr.sub_location->sub_location);
-#endif /* FREECIV_JSON_CONNECTION */
-    }}
-  }}
-#ifdef FREECIV_JSON_CONNECTION
-  /* Append diff array element. */
-  field_addr.sub_location->number = -1;
-
-  /* Create the terminating diff array element. */
-  e |= DIO_PUT(farray, &dout, &field_addr, 1);
-
-  /* Enter diff array element (start at the index address). */
-  field_addr.sub_location->number = c;
-  field_addr.sub_location->sub_location = plocation_elem_new(0);
-#endif /* FREECIV_JSON_CONNECTION */
-  e |= DIO_PUT(uint8, &dout, &field_addr, 255);
-
-#ifdef FREECIV_JSON_CONNECTION
-  /* Exit diff array element. */
-  FC_FREE(field_addr.sub_location->sub_location);
-
-  /* Exit array. */
-  FC_FREE(field_addr.sub_location);
-#endif /* FREECIV_JSON_CONNECTION */
-}}
-""".format(self = self, c = c)
-        if self.dimensions == 2 and self.dataio_type not in ("string", "estring"):
-            c = prefix("      ", c)
-            return """\
-{{
-  int i, j;
-
-#ifdef FREECIV_JSON_CONNECTION
-  /* Create the outer array. */
-  e |= DIO_PUT(farray, &dout, &field_addr, {self.sizes[0].real});
-
-  /* Enter the outer array. */
-  field_addr.sub_location = plocation_elem_new(0);
-#endif /* FREECIV_JSON_CONNECTION */
-
-  for (i = 0; i < {self.sizes[0].real}; i++) {{
-#ifdef FREECIV_JSON_CONNECTION
-    /* Next inner array (an element in the outer array). */
-    field_addr.sub_location->number = i;
-
-    /* Create the inner array. */
-    e |= DIO_PUT(farray, &dout, &field_addr, {self.sizes[1].real});
-
-    /* Enter the inner array. */
-    field_addr.sub_location->sub_location = plocation_elem_new(0);
-#endif /* FREECIV_JSON_CONNECTION */
-
-    for (j = 0; j < {self.sizes[1].real}; j++) {{
-#ifdef FREECIV_JSON_CONNECTION
-      /* Next element (in the inner array). */
-      field_addr.sub_location->sub_location->number = j;
-#endif /* FREECIV_JSON_CONNECTION */
-{c}\
-    }}
-
-#ifdef FREECIV_JSON_CONNECTION
-    /* Exit the inner array. */
-    FC_FREE(field_addr.sub_location->sub_location);
-#endif /* FREECIV_JSON_CONNECTION */
-  }}
-
-#ifdef FREECIV_JSON_CONNECTION
-  /* Exit the outer array. */
-  FC_FREE(field_addr.sub_location);
-#endif /* FREECIV_JSON_CONNECTION */
-}}
-""".format(self = self, c = c)
-        else:
-            c = prefix("    ", c)
-            return """\
-{{
-  int i;
-
-#ifdef FREECIV_JSON_CONNECTION
-  /* Create the array. */
-  e |= DIO_PUT(farray, &dout, &field_addr, {self.sizes[0].real});
-
-  /* Enter the array. */
-  field_addr.sub_location = plocation_elem_new(0);
-#endif /* FREECIV_JSON_CONNECTION */
-
-  for (i = 0; i < {self.sizes[0].real}; i++) {{
-#ifdef FREECIV_JSON_CONNECTION
-    /* Next array element. */
-    field_addr.sub_location->number = i;
-#endif /* FREECIV_JSON_CONNECTION */
-{c}\
-  }}
-
-#ifdef FREECIV_JSON_CONNECTION
-  /* Exit array. */
-  FC_FREE(field_addr.sub_location);
-#endif /* FREECIV_JSON_CONNECTION */
-}}
-""".format(self = self, c = c)
+        return self.type_info.get_code_put(Location(self.name), deltafragment and self.diff)
 
     # Returns a code fragment which will get the field if the
     # "fields" bitvector says so.
