@@ -676,8 +676,10 @@ void update_map_canvas_scrollbars_size(void)
   map_hadj = gtk_adjustment_new(-1, xmin, xmax, xstep, xsize, xsize);
   map_vadj = gtk_adjustment_new(-1, ymin, ymax, ystep, ysize, ysize);
 
-  gtk_range_set_adjustment(GTK_RANGE(map_horizontal_scrollbar), map_hadj);
-  gtk_range_set_adjustment(GTK_RANGE(map_vertical_scrollbar), map_vadj);
+  gtk_scrollbar_set_adjustment(GTK_SCROLLBAR(map_horizontal_scrollbar),
+                               map_hadj);
+  gtk_scrollbar_set_adjustment(GTK_SCROLLBAR(map_vertical_scrollbar),
+                               map_vadj);
 
   g_signal_connect(map_hadj, "value_changed",
 	G_CALLBACK(scrollbar_jump_callback),
