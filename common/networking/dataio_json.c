@@ -189,34 +189,12 @@ static json_t *plocation_read_field(json_t *item,
 static json_t *plocation_read_elem(json_t *item,
                                    const struct plocation *location)
 {
-  // PTZ200719 sanity checks
-  if (!json_is_array(item)) {
-    log_error("ERROR:plocation_read_elem of non array :%s",
-              json_dumps(item, JSON_DECODE_ANY));
-    return item;
-  } else if (location->number >= json_array_size(item)) {
-    log_error("ERROR:plocation_read_elem: number="
-              SIZE_T_PRINTF " ge array_size=" SIZE_T_PRINTF,
-              location->number, json_array_size(item));
+  if (location->sub_location == NULL) {
+    return json_array_get(item, location->number);
+  } else {
+    return plocation_read_data(json_array_get(item, location->number),
+                               location->sub_location);
   }
-
-  json_t *sub_item = json_array_get(item, location->number);
-
-  if (location->sub_location != NULL) {
-    if (json_is_array(sub_item)) {
-      // TODO::PTZ200717 not good... location->name loses its meaning here...
-      // as could be calling another plocation_read_field....
-      return plocation_read_data(sub_item, location->sub_location);
-    } else if (sub_item == NULL) {
-      // TODO::PTZ200717 this could be an error with too many sub_location ....
-      // occuring when mixed elements in the root array
-      log_packet("plocation_read_elem too many sub location of non array:"
-                 "%s @[" SIZE_T_PRINTF "]",
-                 json_dumps(item, JSON_DECODE_ANY), location->number);
-    }
-  }
-
-  return sub_item;
 }
 
 /**********************************************************************//**

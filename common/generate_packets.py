@@ -811,6 +811,13 @@ e |= DIO_PUT({self.dataio_type}, &dout, &field_addr, real_packet->{self.name}[i]
 #ifdef FREECIV_JSON_CONNECTION
   /* Append diff array element. */
   field_addr.sub_location->number = -1;
+
+  /* Create the terminating diff array element. */
+  e |= DIO_PUT(farray, &dout, &field_addr, 1);
+
+  /* Enter diff array element (start at the index address). */
+  field_addr.sub_location->number = c;
+  field_addr.sub_location->sub_location = plocation_elem_new(0);
 #endif /* FREECIV_JSON_CONNECTION */
   e |= DIO_PUT(uint8, &dout, &field_addr, 255);
 
