@@ -318,12 +318,12 @@ void diplo_wdg::show_menu(int player)
   enum diplstate_type ds;
   QAction *all_advancs;
   QAction *some_action;
-  QAction *world_map, *sea_map;
   QMap <QString, int>city_list;
   QMap <QString, int>::const_iterator city_iter;
   QMap <QString, Tech_type_id> adv_list;
   QMap <QString, Tech_type_id>::const_iterator adv_iter;
-  QMenu *map_menu, *adv_menu, *city_menu, *pacts_menu;
+  QMenu *map_menu = nullptr;
+  QMenu *adv_menu, *city_menu, *pacts_menu;
   QMenu *menu = new QMenu(this);
   int id;
 
@@ -336,17 +336,30 @@ void diplo_wdg::show_menu(int player)
   pgiver = player_by_number(player);
   pother = player_by_number(other_player);
 
-  /* Maps */
-  map_menu = menu->addMenu(_("Maps"));
-  world_map = new QAction(_("World-map"), this);
-  connect(world_map, &QAction::triggered, this, &diplo_wdg::world_map_clause);
-  map_menu->addAction(world_map);
-  sea_map = new QAction(_("Sea-map"), this);
-  connect(sea_map, &QAction::triggered, this, &diplo_wdg::sea_map_clause);
-  map_menu->addAction(sea_map);
+  // Maps
+  if (clause_enabled(CLAUSE_MAP)) {
+    QAction *world_map;
 
-  /* Trading: advances */
-  if (game.info.trading_tech) {
+    map_menu = menu->addMenu(_("Maps"));
+    world_map = new QAction(_("World-map"), this);
+    connect(world_map, &QAction::triggered, this, &diplo_wdg::world_map_clause);
+    map_menu->addAction(world_map);
+  }
+
+  if (clause_enabled(CLAUSE_SEAMAP)) {
+    QAction *sea_map;
+
+    if (map_menu == nullptr) {
+      map_menu = menu->addMenu(_("Maps"));
+    }
+
+    sea_map = new QAction(_("Sea-map"), this);
+    connect(sea_map, &QAction::triggered, this, &diplo_wdg::sea_map_clause);
+    map_menu->addAction(sea_map);
+  }
+
+  // Trading: advances
+  if (clause_enabled(CLAUSE_ADVANCE)) {
     const struct research *gresearch = research_get(pgiver);
     const struct research *oresearch = research_get(pother);
     adv_menu = menu->addMenu(_("Advances"));
@@ -363,13 +376,13 @@ void diplo_wdg::show_menu(int player)
       }
     } advance_iterate_end;
 
-    /* All advances */
+    // All advances
     all_advancs = new QAction(_("All advances"), this);
     connect(all_advancs, &QAction::triggered, this, &diplo_wdg::all_advances);
     adv_menu->addAction(all_advancs);
     adv_menu->addSeparator();
 
-    /* QMap is sorted by default when iterating */
+    // QMap is sorted by default when iterating
     adv_iter = adv_list.constBegin();
     if (adv_list.count() > 0) {
       while (adv_iter != adv_list.constEnd()) {
@@ -386,8 +399,8 @@ void diplo_wdg::show_menu(int player)
 
   }
 
-  /* Trading: cities. */
-  if (game.info.trading_city) {
+  // Trading: cities.
+  if (clause_enabled(CLAUSE_CITY)) {
     city_menu = menu->addMenu(_("Cities"));
 
     city_list_iterate(pgiver->cities, pcity) {
@@ -409,41 +422,56 @@ void diplo_wdg::show_menu(int player)
       city_menu->setDisabled(true);
     }
   }
-  some_action = new QAction(_("Give shared vision"), this);
-  connect(some_action, &QAction::triggered, this,
-          &diplo_wdg::give_shared_vision);
-  menu->addAction(some_action);
-  if (gives_shared_vision(pgiver, pother)) {
-    some_action->setDisabled(true);
-  }
-  some_action = new QAction(_("Give embassy"), this);
-  connect(some_action, &QAction::triggered, this, &diplo_wdg::give_embassy);
-  menu->addAction(some_action);
-  if (player_has_real_embassy(pother, pgiver)) {
-    some_action->setDisabled(true);
+
+  if (clause_enabled(CLAUSE_VISION)) {
+    some_action = new QAction(_("Give shared vision"), this);
+    connect(some_action, &QAction::triggered, this,
+            &diplo_wdg::give_shared_vision);
+    menu->addAction(some_action);
+    if (gives_shared_vision(pgiver, pother)) {
+      some_action->setDisabled(true);
+    }
   }
 
-  /* Pacts */
+  if (clause_enabled(CLAUSE_EMBASSY)) {
+    some_action = new QAction(_("Give embassy"), this);
+    connect(some_action, &QAction::triggered, this, &diplo_wdg::give_embassy);
+    menu->addAction(some_action);
+    if (player_has_real_embassy(pother, pgiver)) {
+      some_action->setDisabled(true);
+    }
+  }
+
+  // Pacts
   if (player_by_number(curr_player) == client_player()) {
     pacts_menu = menu->addMenu(_("Pacts"));
     ds = player_diplstate_get(pgiver, pother)->type;
-    some_action = new QAction(Q_("?diplomatic_state:Cease-fire"), this);
-    connect(some_action, &QAction::triggered, this, &diplo_wdg::pact_ceasfire);
-    pacts_menu->addAction(some_action);
-    if (ds == DS_CEASEFIRE || ds == DS_TEAM) {
-      some_action->setDisabled(true);
+
+    if (clause_enabled(CLAUSE_CEASEFIRE)) {
+      some_action = new QAction(Q_("?diplomatic_state:Cease-fire"), this);
+      connect(some_action, &QAction::triggered, this, &diplo_wdg::pact_ceasfire);
+      pacts_menu->addAction(some_action);
+      if (ds == DS_CEASEFIRE || ds == DS_TEAM) {
+        some_action->setDisabled(true);
+      }
     }
-    some_action = new QAction(Q_("?diplomatic_state:Peace"), this);
-    connect(some_action, &QAction::triggered, this, &diplo_wdg::pact_peace);
-    pacts_menu->addAction(some_action);
-    if (ds == DS_PEACE || ds == DS_TEAM) {
-      some_action->setDisabled(true);
+
+    if (clause_enabled(CLAUSE_PEACE)) {
+      some_action = new QAction(Q_("?diplomatic_state:Peace"), this);
+      connect(some_action, &QAction::triggered, this, &diplo_wdg::pact_peace);
+      pacts_menu->addAction(some_action);
+      if (ds == DS_PEACE || ds == DS_TEAM) {
+        some_action->setDisabled(true);
+      }
     }
-    some_action = new QAction(Q_("?diplomatic_state:Alliance"), this);
-    connect(some_action, &QAction::triggered, this, &diplo_wdg::pact_allianze);
-    pacts_menu->addAction(some_action);
-    if (ds == DS_ALLIANCE || ds == DS_TEAM) {
-      some_action->setDisabled(true);
+
+    if (clause_enabled(CLAUSE_ALLIANCE)) {
+      some_action = new QAction(Q_("?diplomatic_state:Alliance"), this);
+      connect(some_action, &QAction::triggered, this, &diplo_wdg::pact_allianze);
+      pacts_menu->addAction(some_action);
+      if (ds == DS_ALLIANCE || ds == DS_TEAM) {
+        some_action->setDisabled(true);
+      }
     }
   }
 
