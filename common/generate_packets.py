@@ -407,23 +407,31 @@ class SizeInfo:
         entire array should always be transmitted."""
 
     @property
+    def constant(self) -> bool:
+        """Whether the actual size doesn't change"""
+        return self._actual is None
+
+    def actual_for(self, packet: str) -> str:
+        """Return a code expression representing the actual size for the
+        given packet"""
+        if self.constant:
+            return self.declared
+        return "%s->%s" % (packet, self._actual)
+
+    @property
     def real(self) -> str:
         """The number of elements to transmit. Either the same as the
         declared size, or a field of `*real_packet`."""
-        if self._actual is None:
-            return self.declared
-        return "real_packet->" + self._actual
+        return self.actual_for("real_packet")
 
     @property
     def old(self) -> str:
         """The number of elements transmitted last time. Either the same as
         the declared size, or a field of `*old`."""
-        if self._actual is None:
-            return self.declared
-        return "old->" + self._actual
+        return self.actual_for("old")
 
     def receive_size_check(self, field_name: str) -> str:
-        if self._actual is None:
+        if self.constant:
             return ""
         return """\
 if ({self.real} > {self.declared}) {{
@@ -468,6 +476,9 @@ class RawFieldType(ABC):
 
         if dataio_type == "worklist":
             return WorklistType(dataio_type, public_type)
+
+        if dataio_type == "cm_paramter":
+            return CmParameterType(dataio_type, public_type)
 
         if dataio_type == "bitvector":
             return BitvectorType(dataio_type, public_type)
@@ -556,6 +567,10 @@ class FieldType(RawFieldType):
         raise NotImplementedError
 
     @abstractmethod
+    def get_code_cmp(self, location: Location) -> str:
+        raise NotImplementedError
+
+    @abstractmethod
     def get_code_get(self, location: Location, deep_diff: bool = False) -> str:
         raise NotImplementedError
 
@@ -584,6 +599,11 @@ class BasicType(FieldType):
         return """\
 real_packet->{location} = {location};
 """.format(location = location)
+
+    def get_code_cmp(self, location: Location) -> str:
+        return """\
+differ = (old->{location} != real_packet->{location});
+""".format(self = self, location = location)
 
     def get_code_get(self, location: Location, deep_diff: bool = False) -> str:
         return """\
@@ -716,6 +736,11 @@ class BitvectorType(BasicType):
 
         super().__init__(dataio_type, public_type)
 
+    def get_code_cmp(self, location: Location) -> str:
+        return """\
+differ = !BV_ARE_EQUAL(old->{location}, real_packet->{location});
+""".format(self = self, location = location)
+
     def get_code_get(self, location: Location, deep_diff: bool = False) -> str:
         return """\
 if (!DIO_BV_GET(&din, &field_addr, real_packet->{location})) {{
@@ -742,6 +767,29 @@ class StructType(BasicType):
             # top level: pass by-reference
             return super().get_code_handle_arg(location.deeper("&%s" % location))
         return super().get_code_handle_arg(location)
+
+    def get_code_cmp(self, location: Location) -> str:
+        return """\
+differ = !are_{self.dataio_type}s_equal(&old->{location}, &real_packet->{location});
+""".format(self = self, location = location)
+
+
+class CmParameterType(StructType):
+    """Type information for a worklist field"""
+
+    def __init__(self, dataio_type: str, public_type: str):
+        if dataio_type != "cm_parameter":
+            raise ValueError("not a valid cm_parameter type")
+
+        if public_type != "struct cm_parameter":
+            raise ValueError("cm_parameter dataio type with non-cm_parameter public type: %r" % public_type)
+
+        super().__init__(dataio_type, public_type)
+
+    def get_code_cmp(self, location: Location) -> str:
+        return """\
+differ = !cm_are_parameter_equal(&old->{location}, &real_packet->{location});
+""".format(self = self, location = location)
 
 
 class WorklistType(StructType):
@@ -808,6 +856,11 @@ class StringType(SizedType):
 sz_strlcpy(real_packet->{location}, {location});
 """.format(location = location)
 
+    def get_code_cmp(self, location: Location) -> str:
+        return """\
+differ = (strcmp(old->{location}, real_packet->{location}) != 0);
+""".format(self = self, location = location)
+
     def get_code_get(self, location: Location, deep_diff: bool = False) -> str:
         return """\
 if (!DIO_GET({self.dataio_type}, &din, &field_addr, real_packet->{location}, sizeof(real_packet->{location}))) {{
@@ -827,6 +880,16 @@ class MemoryType(SizedType):
 
     def get_code_fill(self, location: Location) -> str:
         raise NotImplementedError("fill not supported for memory-type fields")
+
+    def get_code_cmp(self, location: Location) -> str:
+        if self.size.constant:
+            return """\
+differ = (memcmp(old->{location}, real_packet->{location}, {self.size.real}) != 0);
+""".format(self = self, location = location)
+        return """\
+differ = (({self.size.old} != {self.size.real})
+          || (memcmp(old->{location}, real_packet->{location}, {self.size.real}) != 0));
+""".format(self = self, location = location)
 
     def get_code_get(self, location: Location, deep_diff: bool = False) -> str:
         size_check = self.size.receive_size_check(location.name)
@@ -877,6 +940,30 @@ class ArrayType(FieldType):
   }}
 }}
 """.format(self = self, location = location, inner_fill = inner_fill)
+
+    def get_code_cmp(self, location: Location) -> str:
+        if not self.size.constant:
+            head = """\
+differ = ({self.size.old} != {self.size.real});
+if (!differ) {{
+""".format(self = self)
+        else:
+            head = """\
+differ = FALSE;
+{
+"""
+        inner_cmp = prefix("    ", self.elem.get_code_cmp(location.sub))
+        return head + """\
+  int {location.index};
+
+  for ({location.index} = 0; {location.index} < {self.size.real}; {location.index}++) {{
+{inner_cmp}\
+    if (differ) {{
+      break;
+    }}
+  }}
+}}
+""".format(self = self, location = location, inner_cmp = inner_cmp)
 
     def _get_code_get_full(self, location: Location, inner_get: str) -> str:
         size_check = prefix("  ", self.size.receive_size_check(location.name))
@@ -1104,59 +1191,7 @@ class Field:
     # Returns code which sets "differ" by comparing the field
     # instances of "old" and "readl_packet".
     def get_cmp(self) -> str:
-        if self.dataio_type=="memory":
-            return """\
-differ = (memcmp(old->{self.name}, real_packet->{self.name}, {self.sizes[0].declared}) != 0);
-""".format(self = self)
-        if self.dataio_type=="bitvector":
-            return """\
-differ = !BV_ARE_EQUAL(old->{self.name}, real_packet->{self.name});
-""".format(self = self)
-        if self.dataio_type in ["string", "estring"] and self.dimensions == 1:
-            return """\
-differ = (strcmp(old->{self.name}, real_packet->{self.name}) != 0);
-""".format(self = self)
-        if self.dataio_type == "cm_parameter":
-            return """\
-differ = !cm_are_parameter_equal(&old->{self.name}, &real_packet->{self.name});
-""".format(self = self)
-        if self.is_struct and self.dimensions == 0:
-            return """\
-differ = !are_{self.dataio_type}s_equal(&old->{self.name}, &real_packet->{self.name});
-""".format(self = self)
-        if not self.dimensions:
-            return """\
-differ = (old->{self.name} != real_packet->{self.name});
-""".format(self = self)
-
-        if self.dataio_type=="string" or self.dataio_type=="estring":
-            c = "strcmp(old->{self.name}[i], real_packet->{self.name}[i]) != 0".format(self = self)
-        elif self.is_struct:
-            c = "!are_{self.dataio_type}s_equal(&old->{self.name}[i], &real_packet->{self.name}[i])".format(self = self)
-        else:
-            c = "old->{self.name}[i] != real_packet->{self.name}[i]".format(self = self)
-
-        if self.sizes[0].real != self.sizes[0].declared:
-            head = """\
-differ = ({self.sizes[0].old} != {self.sizes[0].real});
-if (!differ) {{
-""".format(self = self)
-        else:
-            head = """\
-differ = FALSE;
-{
-"""
-        return head + """\
-  int i;
-
-  for (i = 0; i < {self.sizes[0].real}; i++) {{
-    if ({c}) {{
-      differ = TRUE;
-      break;
-    }}
-  }}
-}}
-""".format(self = self, c = c)
+        return self.type_info.get_code_cmp(Location(self.name))
 
     @property
     def folded_into_head(self) -> bool:
