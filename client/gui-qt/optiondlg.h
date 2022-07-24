@@ -23,7 +23,7 @@ extern "C" {
 #include <QMap>
 
 // qt-client
-#include <dialogs.h>
+#include "dialogs.h"
 
 class Qdialog;
 class QVBoxLayout;
