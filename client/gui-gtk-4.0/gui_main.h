@@ -64,9 +64,6 @@ extern GtkTextBuffer *	message_buffer;
 extern int overview_canvas_store_width;
 extern int overview_canvas_store_height;
 
-
-void enable_menus(bool enable);
-
 gboolean map_canvas_focus(void);
 
 void reset_unit_table(void);
@@ -78,6 +75,7 @@ int screen_width(void);
 int screen_height(void);
 struct video_mode *resolution_request_get(void);
 
+GtkApplication *gui_app(void);
 bool is_gui_up(void);
 
 bool terminate_signal_processing(void);

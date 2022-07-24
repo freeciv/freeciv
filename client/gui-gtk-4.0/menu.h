@@ -18,7 +18,8 @@
 /* client */
 #include "menu_g.h"
 
+void enable_menus(bool enable);
+
 void setup_app_actions(GApplication *fc_app);
-GMenu *setup_menus(GtkApplication *app);
 
 #endif  /* FC__MENU_H */
