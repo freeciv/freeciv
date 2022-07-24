@@ -6612,21 +6612,18 @@ static bool load_ruleset_game(struct section_file *file, bool act,
       = secfile_lookup_int_default(file, RS_DEFAULT_CIVIL_WAR_UNHAPPY,
                                    "civstyle.civil_war_bonus_unhappy");
 
-    /* TODO: move to global_unit_options */
     game.info.base_bribe_cost
       = secfile_lookup_int_default_min_max(file,
                                            RS_DEFAULT_BASE_BRIBE_COST,
                                            RS_MIN_BASE_BRIBE_COST,
                                            RS_MAX_BASE_BRIBE_COST,
                                            "civstyle.base_bribe_cost");
-    /* TODO: move to global_unit_options */
     game.server.ransom_gold
       = secfile_lookup_int_default_min_max(file,
                                            RS_DEFAULT_RANSOM_GOLD,
                                            RS_MIN_RANSOM_GOLD,
                                            RS_MAX_RANSOM_GOLD,
                                            "civstyle.ransom_gold");
-    /* TODO: move to global_unit_options */
     game.info.pillage_select
       = secfile_lookup_bool_default(file, RS_DEFAULT_PILLAGE_SELECT,
                                     "civstyle.pillage_select");
@@ -6647,14 +6644,12 @@ static bool load_ruleset_game(struct section_file *file, bool act,
       = secfile_lookup_bool_default(file, RS_DEFAULT_TECH_LOSS_HOLES,
                                     "civstyle.tech_loss_allow_holes");
 
-    /* TODO: move to global_unit_options */
     game.server.upgrade_veteran_loss
       = secfile_lookup_int_default_min_max(file,
                                            RS_DEFAULT_UPGRADE_VETERAN_LOSS,
                                            RS_MIN_UPGRADE_VETERAN_LOSS,
                                            RS_MAX_UPGRADE_VETERAN_LOSS,
                                            "civstyle.upgrade_veteran_loss");
-    /* TODO: move to global_unit_options */
     game.server.autoupgrade_veteran_loss
       = secfile_lookup_int_default_min_max(file,
                                            RS_DEFAULT_UPGRADE_VETERAN_LOSS,
