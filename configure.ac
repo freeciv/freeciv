@@ -1478,9 +1478,9 @@ CPPFLAGS="$CPPFLAGS -Werror $EXTRA_DEBUG_CFLAGS"
 AC_CHECK_FUNCS([_mkdir])
 CPPFLAGS="$fc_save_CPPFLAGS"
 
-AC_MSG_CHECKING(for working gettimeofday)
-  FC_CHECK_GETTIMEOFDAY_RUNTIME(,AC_DEFINE([HAVE_GETTIMEOFDAY], [1],
-	[Define if the gettimeofday function works and is sane.]),)
+FC_CHECK_GETTIMEOFDAY_RUNTIME([],
+  [AC_DEFINE([HAVE_GETTIMEOFDAY], [1],
+    [Define if the gettimeofday function works and is sane.])])
 
 AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[#include <netinet/in.h>]],
 [[struct ip_mreqn req; req.imr_ifindex = 0;]])],
