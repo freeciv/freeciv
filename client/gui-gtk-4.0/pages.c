@@ -52,6 +52,7 @@
 #include "gui_main.h"
 #include "gui_stuff.h"
 #include "mapview.h"
+#include "menu.h"
 #include "optiondlg.h"
 #include "plrdlg.h"             /* get_flag() */
 #include "repodlgs.h"

@@ -74,7 +74,10 @@
 #define GTK_STOCK_EDIT NULL
 #endif
 
+static GMenu *main_menubar = NULL;
 static bool menus_built = FALSE;
+
+static GMenu *setup_menus(GtkApplication *app);
 
 #ifndef FREECIV_DEBUG
 static void menu_entry_set_visible(const char *key,
@@ -97,6 +100,8 @@ enum menu_entry_grouping { MGROUP_SAFE, MGROUP_EDIT, MGROUP_PLAYING,
 static void menu_entry_group_set_sensitive(enum menu_entry_grouping group,
                                            gboolean is_sensitive);
 #endif /* MENUS_GTK3 */
+
+static GMenu *gov_menu = NULL;
 
 struct menu_entry_info {
   const char *key;
@@ -2050,13 +2055,13 @@ void setup_app_actions(GApplication *fc_app)
 /************************************************************************//**
   Creates the menu bar.
 ****************************************************************************/
-GMenu *setup_menus(GtkApplication *app)
+static GMenu *setup_menus(GtkApplication *app)
 {
   GMenu *menubar;
   GMenu *topmenu;
   GMenu *submenu;
   int i;
-  GApplication *fc_app = G_APPLICATION(app);
+  //  GApplication *fc_app = G_APPLICATION(app);
 
   fc_assert(!menus_built);
 
@@ -2090,36 +2095,13 @@ GMenu *setup_menus(GtkApplication *app)
 
   g_menu_append_submenu(menubar, _("_Work"), G_MENU_MODEL(topmenu));
 
-  topmenu = g_menu_new();
+  gov_menu = g_menu_new();
 
+  /* Placeholder submenu (so that menu update has something to replace) */
   submenu = g_menu_new();
-  menu_entry_init(submenu, "START_REVOLUTION");
+  g_menu_append_submenu(gov_menu, _("_Government"), G_MENU_MODEL(submenu));
 
-  i = 0;
-  governments_iterate(g) {
-    if (g != game.government_during_revolution) {
-      GMenuItem *item;
-      char name[256];
-      char actname[256];
-      GSimpleAction *act;
-
-      fc_snprintf(actname, sizeof(actname), "government_%d", i);
-      act = g_simple_action_new(actname, NULL);
-      g_simple_action_set_enabled(act, can_change_to_government(client_player(), g));
-      g_action_map_add_action(G_ACTION_MAP(fc_app), G_ACTION(act));
-      g_signal_connect(act, "activate", G_CALLBACK(government_callback), g);
-
-      /* TRANS: %s is a government name */
-      fc_snprintf(name, sizeof(name), _("%s..."),
-                  government_name_translation(g));
-      fc_snprintf(actname, sizeof(actname), "app.government_%d", i++);
-      item = g_menu_item_new(name, actname);
-      g_menu_append_item(submenu, item);
-    }
-  } governments_iterate_end;
-  g_menu_append_submenu(topmenu, _("_Government"), G_MENU_MODEL(submenu));
-
-  g_menu_append_submenu(menubar, _("C_ivilization"), G_MENU_MODEL(topmenu));
+  g_menu_append_submenu(menubar, _("C_ivilization"), G_MENU_MODEL(gov_menu));
 
 #ifndef FREECIV_DEBUG
   menu_entry_set_visible("RELOAD_TILESET", FALSE, FALSE);
@@ -2136,6 +2118,8 @@ GMenu *setup_menus(GtkApplication *app)
   }
 
   menus_built = TRUE;
+
+  real_menus_update();
 
   return menubar;
 }
@@ -2291,6 +2275,44 @@ static const char *get_tile_change_menu_text(struct tile *ptile,
 ****************************************************************************/
 void real_menus_update(void)
 {
+  GtkApplication *fc_app = gui_app();
+  GMenu *submenu;
+  int i;
+
+  if (!menus_built) {
+    return;
+  }
+
+  submenu = g_menu_new();
+  menu_entry_init(submenu, "START_REVOLUTION");
+
+  i = 0;
+  governments_iterate(g) {
+    if (g != game.government_during_revolution) {
+      GMenuItem *item;
+      char name[256];
+      char actname[256];
+      GSimpleAction *act;
+
+      fc_snprintf(actname, sizeof(actname), "government_%d", i);
+      act = g_simple_action_new(actname, NULL);
+      g_simple_action_set_enabled(act, can_change_to_government(client_player(), g));
+      g_action_map_add_action(G_ACTION_MAP(fc_app), G_ACTION(act));
+      g_signal_connect(act, "activate", G_CALLBACK(government_callback), g);
+
+      /* TRANS: %s is a government name */
+      fc_snprintf(name, sizeof(name), _("%s..."),
+                  government_name_translation(g));
+      fc_snprintf(actname, sizeof(actname), "app.government_%d", i++);
+      item = g_menu_item_new(name, actname);
+      g_menu_append_item(submenu, item);
+    }
+  } governments_iterate_end;
+  g_menu_remove(gov_menu, 0);
+  g_menu_insert_submenu(gov_menu, 0, _("_Government"), G_MENU_MODEL(submenu));
+
+  return;
+
   struct unit_list *punits = NULL;
 #ifdef MENUS_GTK3
   bool units_all_same_tile = TRUE, units_all_same_type = TRUE;
@@ -3105,4 +3127,35 @@ void real_menus_init(void)
   menu_entry_set_active("FULL_SCREEN", GUI_GTK_OPTION(fullscreen));
 
 #endif /* MENUS_GTK3 */
+}
+
+/**********************************************************************//**
+  Enable/Disable the game page menu bar.
+**************************************************************************/
+void enable_menus(bool enable)
+{
+  GtkApplication *fc_app = gui_app();
+
+  if (enable) {
+    if (main_menubar == NULL) {
+      setup_app_actions(G_APPLICATION(fc_app));
+      main_menubar = setup_menus(fc_app);
+      /* Ensure the menus are really created before performing any operations
+       * on them. */
+      while (g_main_context_pending(NULL)) {
+        g_main_context_iteration(NULL, FALSE);
+      }
+    }
+
+    gtk_application_window_set_show_menubar(GTK_APPLICATION_WINDOW(toplevel), TRUE);
+    gtk_application_set_menubar(fc_app, G_MENU_MODEL(main_menubar));
+
+  } else {
+    gtk_application_window_set_show_menubar(GTK_APPLICATION_WINDOW(toplevel), FALSE);
+    gtk_application_set_menubar(fc_app, NULL);
+  }
+
+  /* Workaround for gtk bug that (re)setting the menubar after the window has
+   * been already created is not noticed. */
+  g_object_notify(G_OBJECT(gtk_settings_get_default()), "gtk-shell-shows-menubar");
 }

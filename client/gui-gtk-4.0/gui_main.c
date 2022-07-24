@@ -155,7 +155,6 @@ GtkWidget *econ_widget;
 const char *const gui_character_encoding = "UTF-8";
 const bool gui_use_transliteration = FALSE;
 
-static GMenu *main_menubar = NULL;
 static GdkPaintable *empty_unit_paintable = NULL;
 static GtkWidget *unit_pic_table;
 static GtkWidget *unit_pic;
@@ -1040,35 +1039,6 @@ void reset_unit_table(void)
     set_unit_icon(-1, NULL);
   }
   update_unit_pix_label(get_units_in_focus());
-}
-
-/**********************************************************************//**
-  Enable/Disable the game page menu bar.
-**************************************************************************/
-void enable_menus(bool enable)
-{
-  if (enable) {
-    if (main_menubar == NULL) {
-      setup_app_actions(G_APPLICATION(fc_app));
-      main_menubar = setup_menus(fc_app);
-      /* Ensure the menus are really created before performing any operations
-       * on them. */
-      while (g_main_context_pending(NULL)) {
-        g_main_context_iteration(NULL, FALSE);
-      }
-    }
-
-    gtk_application_window_set_show_menubar(GTK_APPLICATION_WINDOW(toplevel), TRUE);
-    gtk_application_set_menubar(fc_app, G_MENU_MODEL(main_menubar));
-
-  } else {
-    gtk_application_window_set_show_menubar(GTK_APPLICATION_WINDOW(toplevel), FALSE);
-    gtk_application_set_menubar(fc_app, NULL);
-  }
-
-  /* Workaround for gtk bug that (re)setting the menubar after the window has
-   * been already created is not noticed. */
-  g_object_notify(G_OBJECT(gtk_settings_get_default()), "gtk-shell-shows-menubar");
 }
 
 /**********************************************************************//**
@@ -2697,4 +2667,12 @@ static void adjust_default_options(void)
       GUI_GTK_OPTION(message_chat_location) = GUI_GTK_MSGCHAT_MERGED;
     }
   }
+}
+
+/**********************************************************************//**
+  Return the client GtkApplication
+**************************************************************************/
+GtkApplication *gui_app(void)
+{
+  return fc_app;
 }
