@@ -557,7 +557,7 @@ struct tileset {
 };
 
 struct tileset *tileset;
-struct tileset *unscaled_tileset;
+struct tileset *unscaled_tileset = NULL;
 
 int focus_unit_state = 0;
 
@@ -679,7 +679,7 @@ static void drawing_data_destroy(struct drawing_data *draw)
 /************************************************************************//**
   Return unscaled tileset if it exists, or default otherwise
 ****************************************************************************/
-struct tileset* get_tileset(void)
+struct tileset *get_tileset(void)
 {
   if (unscaled_tileset != NULL) {
     return unscaled_tileset;
