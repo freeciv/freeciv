@@ -538,8 +538,6 @@ class FieldType(RawFieldType):
     """Abstract base class (ABC) for classes representing type information
     usable for fields of a packet"""
 
-    public_type = ""
-
     foldable = False
     """Whether a field of this type can be folded into the packet header"""
 
@@ -563,6 +561,10 @@ class FieldType(RawFieldType):
 
     @abstractmethod
     def get_code_fill(self, location: Location) -> str:
+        raise NotImplementedError
+
+    @abstractmethod
+    def get_code_unfill(self, location: Location) -> str:
         raise NotImplementedError
 
     @abstractmethod
@@ -596,6 +598,11 @@ class BasicType(FieldType):
     def get_code_fill(self, location: Location) -> str:
         return """\
 real_packet->{location} = {location};
+""".format(location = location)
+
+    def get_code_unfill(self, location: Location) -> str:
+        return """\
+{location} = real_packet->{location};
 """.format(location = location)
 
     def get_code_cmp(self, location: Location) -> str:
@@ -824,6 +831,9 @@ class WorklistType(StructType):
 worklist_copy(&real_packet->{location}, {location});
 """.format(location = location)
 
+    def get_code_unfill(self, location: Location) -> str:
+        raise NotImplementedError("unfill not supported for worklist-type fields")
+
 
 class SizedType(BasicType):
     """Abstract base class (ABC) for field types that include a size"""
@@ -846,6 +856,10 @@ class SizedType(BasicType):
     def get_code_fill(self, location: Location) -> str:
         return super().get_code_fill(location)
 
+    @abstractmethod
+    def get_code_unfill(self, location: Location) -> str:
+        return super().get_code_unfill(location)
+
     def __str__(self) -> str:
         return "%s[%s]" % (super().__str__(), self.size)
 
@@ -865,6 +879,11 @@ class StringType(SizedType):
     def get_code_fill(self, location: Location) -> str:
         return """\
 sz_strlcpy(real_packet->{location}, {location});
+""".format(location = location)
+
+    def get_code_unfill(self, location: Location) -> str:
+        return """\
+sz_strlcpy({location}, real_packet->{location});
 """.format(location = location)
 
     def get_code_cmp(self, location: Location) -> str:
@@ -891,6 +910,9 @@ class MemoryType(SizedType):
 
     def get_code_fill(self, location: Location) -> str:
         raise NotImplementedError("fill not supported for memory-type fields")
+
+    def get_code_unfill(self, location: Location) -> str:
+        raise NotImplementedError("unfill not supported for memory-type fields")
 
     def get_code_cmp(self, location: Location) -> str:
         if self.size.constant:
@@ -927,10 +949,6 @@ class ArrayType(FieldType):
         self.elem = elem
         self.size = size
 
-    @property
-    def public_type(self) -> str:
-        return self.elem.public_type
-
     def get_code_declaration(self, location: Location) -> str:
         return self.elem.get_code_declaration(
             location.deeper("%s[%s]" % (location, self.size.declared))
@@ -952,6 +970,18 @@ class ArrayType(FieldType):
   }}
 }}
 """.format(self = self, location = location, inner_fill = inner_fill)
+
+    def get_code_unfill(self, location: Location) -> str:
+        inner_unfill = prefix("    ", self.elem.get_code_unfill(location.sub))
+        return """\
+{{
+  int {location.index};
+
+  for ({location.index} = 0; {location.index} < {self.size.real}; {location.index}++) {{
+{inner_unfill}\
+  }}
+}}
+""".format(self = self, location = location, inner_unfill = inner_unfill)
 
     def get_code_cmp(self, location: Location) -> str:
         if not self.size.constant:
@@ -1238,11 +1268,6 @@ class Field:
         self.flags = flags
 
     @property
-    def struct_type(self) -> str:
-        """The public type for this field used in the packet struct"""
-        return self.type_info.public_type
-
-    @property
     def is_key(self) -> bool:
         return self.flags.is_key
 
@@ -1282,6 +1307,9 @@ class Field:
     # functions in the packet struct.
     def get_fill(self) -> str:
         return self.type_info.get_code_fill(Location(self.name))
+
+    def get_unfill(self) -> str:
+        return self.type_info.get_code_unfill(Location(self.name))
 
     # Returns code which sets "differ" by comparing the field
     # instances of "old" and "readl_packet".
@@ -2022,20 +2050,20 @@ if (NULL != *hash) {
 
     # Helper for get_receive()
     def get_delta_receive_body(self) -> str:
-        key1 = "".join(
-            """\
-  {field.struct_type} {field.name} = real_packet->{field.name};
-""".format(field = field)
-            for field in self.key_fields
-        )
-        if key1: key1 += "\n"
-        key2 = "".join(
-            """\
-  real_packet->{field.name} = {field.name};
-""".format(field = field)
-            for field in self.key_fields
-        )
-        if key2: key2 = "\n" + key2
+        if self.key_fields:
+            backup_key = "".join(
+                prefix("  ", field.get_declar())
+                for field in self.key_fields
+            ) + "\n"+ "".join(
+                prefix("  ", field.get_unfill())
+                for field in self.key_fields
+            ) + "\n"
+            restore_key = "\n" + "".join(
+                prefix("  ", field.get_fill())
+                for field in self.key_fields
+            )
+        else:
+            backup_key = restore_key = ""
         if self.gen_log:
             fl = """\
   {self.log_macro}("  no old info");
@@ -2053,13 +2081,13 @@ if (NULL == *hash) {{
 if (genhash_lookup(*hash, real_packet, (void **) &old)) {{
   *real_packet = *old;
 }} else {{
-{key1}\
+{backup_key}\
 {fl}\
   memset(real_packet, 0, sizeof(*real_packet));
-{key2}\
+{restore_key}\
 }}
 
-""".format(self = self, key1 = key1, key2 = key2, fl = fl)
+""".format(self = self, backup_key = backup_key, restore_key = restore_key, fl = fl)
         body += "".join(
             field.get_get_wrapper(self, i, True)
             for i, field in enumerate(self.other_fields)
