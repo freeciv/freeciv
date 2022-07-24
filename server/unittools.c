@@ -1742,7 +1742,7 @@ bool place_unit(struct unit *punit, struct player *pplayer,
   unit_list_prepend(pplayer->units, punit);
   unit_list_prepend(ptile->units, punit);
   maybe_make_contact(ptile, unit_owner(punit));
-  if (pcity) {
+  if (pcity && !unit_has_type_flag(punit, UTYF_NOHOME)) {
     fc_assert(punit->homecity == pcity->id);
     fc_assert(city_owner(pcity) == pplayer);
     unit_list_prepend(pcity->units_supported, punit);
