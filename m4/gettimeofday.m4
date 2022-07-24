@@ -6,6 +6,8 @@ dnl a huge amount. It seems that glibc 2.3.1 is broken in this respect.
 
 AC_DEFUN([FC_CHECK_GETTIMEOFDAY_RUNTIME],
 [
+AC_CACHE_CHECK([for working gettimeofday], [ac_cv_working_gettimeofday],
+[
 templibs="$LIBS"
 LIBS="$1 $LIBS"
 AC_RUN_IFELSE([AC_LANG_SOURCE([[
@@ -101,9 +103,17 @@ int main(int argc, char **argv)
 #endif
   return 0;
 }
-]])],[AC_MSG_RESULT(yes)
-  [$2]],[AC_MSG_RESULT(no)
-  [$3]],[AC_MSG_RESULT(unknown: cross-compiling)
-  [$3]])
-LIBS="$templibs"
+]])],
+[ac_cv_working_gettimeofday=yes],
+[ac_cv_working_gettimeofday=no],
+[ac_cv_working_gettimeofday=cross-compiling])
+LIBS="$templibs"])
+
+if test "x$ac_cv_working_gettimeofday" = "xyes" ; then
+  $2
+  :
+else
+  $3
+  :
+fi
 ])
