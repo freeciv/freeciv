@@ -795,6 +795,10 @@ dnl Defaults to override with host specific values
 HOST_PATH_SEPARATOR=":"
 HOST_DIR_SEPARATOR="/"
 
+if test "x$emscripten" = "xyes" ; then
+  AC_DEFINE([ALWAYS_ROOT], [1], [Can execute program as root - emscripten])
+fi
+
 dnl Settings specific to host OS
 case "$host_os" in
 
