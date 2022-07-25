@@ -1405,7 +1405,7 @@ static bool does_nation_block_action(const action_id act_id,
 }
 
 /**********************************************************************//**
-  Returns an explaination why punit can't perform the specified action
+  Returns an explanation why punit can't perform the specified action
   based on the current game state.
 **************************************************************************/
 static struct ane_expl *expl_act_not_enabl(struct unit *punit,
