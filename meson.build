@@ -457,11 +457,11 @@ endforeach
 
 if get_option('audio') or get_option('clients').contains('sdl2')
   if host_system == 'windows'
-    sdl2main_dep = [c_compiler.find_library('libmingw32', dirs: cross_lib_path),
-                    c_compiler.find_library('libSDL2main', dirs: cross_lib_path),
-                    c_compiler.find_library('libSDL2', dirs: cross_lib_path)]
+    sdl2main_dep = [c_compiler.find_library('mingw32', dirs: cross_lib_path),
+                    c_compiler.find_library('SDL2main', dirs: cross_lib_path),
+                    c_compiler.find_library('SDL2', dirs: cross_lib_path)]
   else
-    sdl2main_dep = [c_compiler.find_library('libSDL2', dirs: cross_lib_path)]
+    sdl2main_dep = [c_compiler.find_library('SDL2', dirs: cross_lib_path)]
   endif
 endif
 
@@ -475,7 +475,7 @@ endif
 if get_option('audio')
   priv_conf_data.set('AUDIO_SDL', 1)
 
-  audio_sdl2_dep = c_compiler.find_library('libSDL2_mixer',
+  audio_sdl2_dep = c_compiler.find_library('SDL2_mixer',
                                            dirs: cross_lib_path)
   audio_dep = [sdl2main_dep, audio_sdl2_dep]
 else
@@ -501,7 +501,7 @@ else
   gettext_dep = []
 endif
 
-sqlite3_dep = c_compiler.find_library('libsqlite3', dirs: cross_lib_path)
+sqlite3_dep = c_compiler.find_library('sqlite3', dirs: cross_lib_path)
 m_dep = c_compiler.find_library('m', dirs: cross_lib_path)
 
 if get_option('gitrev')
@@ -793,9 +793,9 @@ common_lib = library('freeciv',
   sources: [specenum, pack_common,
             tolua_com_a, tolua_com_z, tolua_game, tolua_signal],
   link_whole: fc_deps,
-  dependencies: [c_compiler.find_library('libicuuc', dirs: cross_lib_path),
+  dependencies: [c_compiler.find_library('icuuc', dirs: cross_lib_path),
                  c_compiler.find_library('z', dirs: cross_lib_path),
-                 c_compiler.find_library('libcurl', dirs: cross_lib_path),
+                 c_compiler.find_library('curl', dirs: cross_lib_path),
                  m_dep, sqlite3_dep,
                  net_dep, jansson_dep, lua_dep, lzma_dep, zstd_dep,
                  bcrypt_lib_dep, iconv_lib_dep,
@@ -2943,9 +2943,9 @@ executable('freeciv-sdl2',
   clienticon,
   include_directories: client_inc,
   dependencies: [sdl2main_dep, audio_dep,
-                 c_compiler.find_library('libSDL2_image', dirs: cross_lib_path),
-                 c_compiler.find_library('libSDL2_gfx', dirs: cross_lib_path),
-                 c_compiler.find_library('libSDL2_ttf', dirs: cross_lib_path),
+                 c_compiler.find_library('SDL2_image', dirs: cross_lib_path),
+                 c_compiler.find_library('SDL2_gfx', dirs: cross_lib_path),
+                 c_compiler.find_library('SDL2_ttf', dirs: cross_lib_path),
                  net_dep, gettext_dep],
   link_with: client_common,
   install: true
