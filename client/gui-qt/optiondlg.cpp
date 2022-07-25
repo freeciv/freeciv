@@ -806,6 +806,7 @@ void option_dialog::select_font()
   pb->setFont(qf);
   ql = qf.toString().split(",");
   pb->setText(ql[0] + " " + ql[1]);
+  raise();
 }
 
 /************************************************************************//**
@@ -854,6 +855,8 @@ void option_dialog::select_color()
 
     set_button_color(but, color.name().toUtf8());
   }
+
+  raise();
 }
 
 /************************************************************************//**
