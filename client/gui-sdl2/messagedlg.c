@@ -15,15 +15,4 @@
 #include <fc_config.h>
 #endif
 
-/* utility */
-#include "log.h"
-
 #include "messagedlg.h"
-
-/**********************************************************************//**
-  Popup a window to let the user edit their message options.
-**************************************************************************/
-void popup_messageopt_dialog(void)
-{
-  log_debug("popup_messageopt_dialog : PORT ME");
-}

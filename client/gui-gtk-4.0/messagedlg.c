@@ -50,7 +50,7 @@ static void item_toggled(GtkCellRendererToggle *cell,
 **************************************************************************/
 void popup_messageopt_dialog(void)
 {
-  if (!shell) {
+  if (shell == NULL) {
     create_messageopt_dialog();
   }
 

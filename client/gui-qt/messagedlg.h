@@ -40,6 +40,6 @@ private slots:
   void cancel_changes();
 };
 
-void popup_messageopt_dialog(void);
+void popup_messageopt_dialog();
 
 #endif // FC__MESSAGEDLG_H

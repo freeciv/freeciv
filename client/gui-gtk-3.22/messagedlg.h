@@ -13,9 +13,6 @@
 #ifndef FC__MESSAGEDLG_H
 #define FC__MESSAGEDLG_H
 
-/* client */
-#include "messagedlg_g.h"
+void popup_messageopt_dialog(void);
 
-/* nothing to add */
-
-#endif  /* FC__MESSAGEDLG_H */
+#endif /* FC__MESSAGEDLG_H */
