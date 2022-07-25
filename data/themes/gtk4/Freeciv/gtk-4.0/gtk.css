@@ -1,12 +1,18 @@
 * {
   -GtkWidget-outline-style: auto;
-  -GtkButton-margin: 1;
+  -GtkButton-margin-start: 1;
+  -GtkButton-margin-end: 1;
+  -GtkButton-margin-top: 1;
+  -GtkButton-margin-bottom: 1;
   -GtkButton-padding: 2;
- 
-  -GtkRange-margin: 1;
+
+  -GtkRange-margin-start: 1;
+  -GtkRange-margin-end: 1;
+  -GtkRange-margin-top: 1;
+  -GtkRange-margin-bottom: 1;
   -GtkRange-min-width: 15;
   -GtkRange-min-height: 15;
- 
+
   -GtkScale-min-width: 11;
   -GtkScale-min-height: 21;
 
@@ -15,7 +21,10 @@
   -GtkScrollbar-min-height: 50;
   -GtkCheckButton-min-width: 12;
   -GtkCheckButton-min-height: 12;
-  -GtkCheckButton-margin: 3;
+  -GtkCheckButton-margin-start: 3;
+  -GtkCheckButton-margin-end: 3;
+  -GtkCheckButton-margin-top: 3;
+  -GtkCheckButton-margin-bottom: 3;
   -GtkStatusbar-text-shadow: none;
   -GtkSpinButton-text-shadow: none;
 
@@ -200,24 +209,14 @@ GtkTreeMenu.menu {
 }
 
 GtkTreeView {
-/*
-  #Comment out the ythickness setting below for thicker column headers.
-  #ythickness = 0
-*/
   -GtkTreeView-odd-row-color: #ffffff;
   -GtkTreeView-even-row-color: #ffffff;
-
-/*
-#  fg[NORMAL] = "#ffffff"
-#  text[NORMAL] = "#ffffff"
-*/
 
   border-width: 2px;
 
 }
 
 GtkTreeview column-header {
-  /* border-color : #e1cea1; */
   background-color : #e1cea1;
 }
 
