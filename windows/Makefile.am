@@ -48,7 +48,12 @@ dist_noinst_DATA = \
 		installer_cross/helpers/installer-helper-gtk3.cmd \
 		installer_cross/helpers/installer-helper-gtk4.cmd \
 		installer_cross/helpers/installer-helper-qt.cmd \
-		installer_cross/helpers/uninstaller-helper-gtk3.sh
+		installer_cross/helpers/uninstaller-helper-gtk3.sh \
+		installer_cross/meson-build_all_installers.sh	\
+		installer_cross/meson-installer_build.sh	\
+		installer_cross/meson-winbuild.sh		\
+		installer_cross/meson/cross-win32.tmpl		\
+		installer_cross/meson/cross-win64.tmpl
 
 if MINGW
 nodist_noinst_DATA = 		\
