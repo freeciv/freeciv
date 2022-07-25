@@ -1,21 +1,22 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
+
 <svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    id="svg2388"
    sodipodi:version="0.32"
-   inkscape:version="0.46"
+   inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
    width="600"
    height="400"
    version="1.0"
    sodipodi:docname="tatarstan.svg"
-   inkscape:output_extension="org.inkscape.output.svg.inkscape">
+   inkscape:output_extension="org.inkscape.output.svg.inkscape"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
   <metadata
      id="metadata2393">
     <rdf:RDF>
@@ -38,8 +39,8 @@
        id="perspective2395" />
   </defs>
   <sodipodi:namedview
-     inkscape:window-height="729"
-     inkscape:window-width="1280"
+     inkscape:window-height="525"
+     inkscape:window-width="827"
      inkscape:pageshadow="2"
      inkscape:pageopacity="0.0"
      guidetolerance="10.0"
@@ -50,31 +51,33 @@
      pagecolor="#ffffff"
      id="base"
      showgrid="false"
-     inkscape:zoom="0.57875767"
-     inkscape:cx="372.04724"
-     inkscape:cy="318.84043"
-     inkscape:window-x="0"
-     inkscape:window-y="0"
-     inkscape:current-layer="svg2388" />
+     inkscape:zoom="0.81848695"
+     inkscape:cx="293.22398"
+     inkscape:cy="208.92209"
+     inkscape:window-x="331"
+     inkscape:window-y="106"
+     inkscape:current-layer="svg2388"
+     inkscape:pagecheckerboard="0"
+     inkscape:window-maximized="0" />
   <rect
      style="opacity:1;fill:#ffffff;fill-opacity:1"
      id="rect2397"
      width="600"
      height="400"
      x="0"
-     y="-7.6293945e-06" />
+     y="0" />
   <rect
      style="opacity:1;fill:#ff0000;fill-opacity:1"
      id="rect2399"
      width="600"
      height="184"
      x="0"
-     y="215.99998" />
+     y="216" />
   <rect
      style="opacity:1;fill:#008000;fill-opacity:1"
      id="rect2401"
      width="600"
      height="184"
      x="0"
-     y="0" />
+     y="7.6293945e-06" />
 </svg>
