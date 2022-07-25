@@ -1098,7 +1098,7 @@ static bool foreign_tgt_tile_makes_illegal(const struct action *paction,
 }
 
 /**************************************************************************
-  Returns an explaination why punit can't perform the specified action
+  Returns an explanation why punit can't perform the specified action
   based on the current game state.
 **************************************************************************/
 static struct ane_expl *expl_act_not_enabl(struct unit *punit,
