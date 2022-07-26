@@ -771,6 +771,7 @@ bool aiferry_gobyboat(struct ai_type *ait, struct player *pplayer,
     int boatid;
     struct unit *ferryboat = NULL;
     int cap = with_bodyguard ? 2 : 1;
+    bool board_success = FALSE;
 
     UNIT_LOG(LOGLEVEL_GOBYBOAT, punit, "will have to go to (%d,%d) by boat",
              TILE_XY(dest_tile));
@@ -841,10 +842,22 @@ bool aiferry_gobyboat(struct ai_type *ait, struct player *pplayer,
         if (unit_perform_action(pplayer,
                                 punit->id, ferryboat->id, 0, "",
                                 paction->id, ACT_REQ_PLAYER)) {
+          board_success = TRUE;
           break;
         }
       }
     } action_by_result_iterate_end;
+
+    if (!board_success) {
+      /* No action enabler active.
+       * TODO: Try to predict this failure so that the units wouldn't
+       *       waste turns to travel to the rendezvous point. */
+      UNIT_LOG(LOGLEVEL_GOBYBOAT, punit, "boarding boat[%d](%d,%d) not enabled",
+	       ferryboat->id, TILE_XY(unit_tile(ferryboat)));
+
+      return FALSE;
+    }
+
     fc_assert(unit_transported(punit));
   }
 
