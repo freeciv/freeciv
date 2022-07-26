@@ -3089,7 +3089,22 @@ static bool save_units_ruleset(const char *filename, const char *name)
       secfile_insert_str(sfile, uclass_rule_name(put->uclass),
                          "%s.class", path);
 
-      save_tech_ref(sfile, put->_retire.require_advance, path, "tech_req");
+      /* Extract the tech requirement from the requirement vector so
+       * it can be written in the old format.
+       * The build_reqs requirement vector isn't ready to be exposed in the
+       * ruleset yet. */
+      requirement_vector_iterate(&put->build_reqs, preq) {
+        if (preq->source.kind == VUT_ADVANCE) {
+          fc_assert_msg(preq->range == REQ_RANGE_PLAYER,
+                        "can't convert non player range to the rs format");
+          fc_assert_msg(preq->present,
+                        "can't convert not present reqs to the rs format");
+          secfile_insert_str(sfile,
+                             universal_rule_name(&preq->source),
+                             "%s.tech_req", path);
+          break; /* We save first one only */
+        }
+      } requirement_vector_iterate_end;
 
       /* Extract the government requirement from the requirement vector so
        * it can be written in the old format.

@@ -2057,11 +2057,13 @@ bool can_player_build_unit_direct(const struct player *p,
     return FALSE;
   }
 
+  barbarian = is_barbarian(p);
+
   requirement_vector_iterate(&punittype->build_reqs, preq) {
     if (preq->source.kind == VUT_IMPROVEMENT
         && preq->range == REQ_RANGE_CITY && preq->present) {
       /* If the unit has a building requirement, we check to see if the
-       * player can build that building.  Note that individual cities may
+       * player can build that building. Note that individual cities may
        * not have that building, so they still may not be able to build the
        * unit. */
       if (is_great_wonder(preq->source.value.building)
@@ -2091,42 +2093,22 @@ bool can_player_build_unit_direct(const struct player *p,
       /* The question *here* is if the *player* can build this unit */
       continue;
     }
-    if (!is_req_active(&context, NULL, preq, RPT_CERTAIN)) {
+
+    if (preq->source.kind == VUT_ADVANCE && barbarian && preq->range < REQ_RANGE_WORLD
+        && utype_has_role(punittype, L_BARBARIAN_BUILD)) {
+      /* Barbarians can build L_BARBARIAN_BUILD when anyone has the tech requirements. */
+      struct requirement copy;
+
+      req_copy(&copy, preq);
+      copy.range = REQ_RANGE_WORLD;
+
+      if (!is_req_active(&context, NULL, &copy, RPT_CERTAIN)) {
+        return FALSE;
+      }
+    } else if (!is_req_active(&context, NULL, preq, RPT_CERTAIN)) {
       return FALSE;
     }
   } requirement_vector_iterate_end;
-
-  unit_tech_reqs_iterate(punittype, padv) {
-    if (research_invention_state(research_get(p), advance_number(padv))
-        != TECH_KNOWN) {
-      if (!barbarian) {
-        /* Normal players can never build units without knowing tech
-         * requirements. */
-        return FALSE;
-      }
-      if (!utype_has_role(punittype, L_BARBARIAN_BUILD)) {
-        /* Even barbarian cannot build this unit without tech */
-
-        /* Unit has to have L_BARBARIAN_BUILD_TECH role
-         * In the beginning of this function we checked that
-         * barbarian player tries to build only role
-         * L_BARBARIAN_BUILD or L_BARBARIAN_BUILD_TECH units. */
-        fc_assert_ret_val(utype_has_role(punittype, L_BARBARIAN_BUILD_TECH),
-                          FALSE);
-
-        /* Client does not know all the advances other players have
-         * got. So following gives wrong answer in the client.
-         * This is called at the client when received create_city
-         * packet for a barbarian city. City initialization tries
-         * to find L_FIRSTBUILD unit. */
-
-        if (!game.info.global_advances[advance_index(padv)]) {
-          /* Nobody knows required tech */
-          return FALSE;
-        }
-      }
-    }
-  } unit_tech_reqs_iterate_end;
 
   if (utype_player_already_has_this_unique(p, punittype)) {
     /* A player can only have one unit of each unique unit type. */

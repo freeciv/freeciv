@@ -2140,18 +2140,24 @@ static bool load_ruleset_units(struct section_file *file,
       const int i = utype_index(u);
       const struct section *psection = section_list_get(sec, i);
       const char *sec_name = section_name(psection);
+      struct advance *adv_req;
 
-      if (!lookup_tech(file, &u->_retire.require_advance, sec_name,
+      if (!lookup_tech(file, &adv_req, sec_name,
                        "tech_req", filename,
                        rule_name_get(&u->name))) {
         ok = FALSE;
         break;
       }
-      if (u->_retire.require_advance == A_NEVER) {
+      if (adv_req == A_NEVER) {
         ruleset_error(LOG_ERROR, "%s lacks valid tech_req.",
                       rule_name_get(&u->name));
         ok = FALSE;
         break;
+      } else if (adv_req != A_NONE) {
+        requirement_vector_append(&u->build_reqs,
+                                  req_from_values(VUT_ADVANCE, REQ_RANGE_PLAYER,
+                                                  FALSE, TRUE, FALSE,
+                                                  advance_number(adv_req)));
       }
 
       /* Read the government build requirement from the old ruleset format
@@ -2171,6 +2177,7 @@ static bool load_ruleset_units(struct section_file *file,
       if (NULL != section_entry_by_name(psection, "gov_req")) {
         char tmp[200] = "\0";
         struct government *need_government;
+
         fc_strlcat(tmp, section_name(psection), sizeof(tmp));
         fc_strlcat(tmp, ".gov_req", sizeof(tmp));
         need_government = lookup_government(file, tmp, filename, NULL);
@@ -7833,9 +7840,6 @@ static void send_ruleset_units(struct conn_list *dest)
     packet.attack_strength = u->attack_strength;
     packet.defense_strength = u->defense_strength;
     packet.move_rate = u->move_rate;
-    packet.tech_requirement = u->_retire.require_advance
-                              ? advance_number(u->_retire.require_advance)
-                              : advance_count();
 
     i = 0;
     requirement_vector_iterate(&u->build_reqs, req) {

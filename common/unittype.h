@@ -497,10 +497,6 @@ struct unit_type {
   int move_rate;
   int unknown_move_cost; /* See utype_unknown_move_cost(). */
 
-  struct {
-    struct advance *require_advance;  /* may be NULL */
-  } _retire; /* Do not write new code to rely on things here! */
-
   struct requirement_vector build_reqs;
 
   int vision_radius_sq;
@@ -853,11 +849,13 @@ const struct unit_type *unit_type_array_last(void);
 
 #define unit_tech_reqs_iterate(_utype_, _p)                             \
 do {                                                                    \
-  struct advance *_p = (_utype_)->_retire.require_advance;              \
-  if (advance_number(_p) != A_NONE) {
+ requirement_vector_iterate(&(_utype_)->build_reqs, preq_##_p) {        \
+ if (preq_##_p->source.kind == VUT_ADVANCE) {                           \
+   struct advance *_p = preq_##_p->source.value.advance;
 
 #define unit_tech_reqs_iterate_end                                      \
-  }                                                                     \
+    }                                                                   \
+  } requirement_vector_iterate_end;                                     \
 } while (FALSE);
 
 /* Used on client to show just one req */

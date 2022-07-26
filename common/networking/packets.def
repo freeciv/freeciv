@@ -1383,7 +1383,6 @@ PACKET_RULESET_UNIT = 140; sc, lsend
   UINT8 attack_strength;
   UINT8 defense_strength;
   MOVEFRAGS move_rate;
-  TECH tech_requirement;
   UINT8 build_reqs_count;
   REQUIREMENT build_reqs[MAX_NUM_REQS:build_reqs_count];
   UINT16 vision_radius_sq;

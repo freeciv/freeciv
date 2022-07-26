@@ -121,7 +121,7 @@ void edit_utype::closeEvent(QCloseEvent *cevent)
 **************************************************************************/
 void edit_utype::refresh()
 {
-  req_button->setText(tab_tech::tech_name(utype->_retire.require_advance));
+  req_button->setText(tab_tech::tech_name(utype_primary_tech_req(utype)));
   bcost->setValue(utype->build_cost);
   attack->setValue(utype->attack_strength);
   defense->setValue(utype->defense_strength);
@@ -140,7 +140,36 @@ void edit_utype::req_menu(QAction *action)
   padv = advance_by_rule_name(an_bytes.data());
 
   if (padv != nullptr) {
-    utype->_retire.require_advance = padv;
+    if (padv != advance_by_number(A_NONE)) {
+      bool found = FALSE;
+
+      requirement_vector_iterate(&utype->build_reqs, preq) {
+        if (preq->source.kind == VUT_ADVANCE) {
+          preq->source.value.advance = padv;
+          found = TRUE;
+          break;
+        }
+      } requirement_vector_iterate_end;
+
+      if (!found) {
+        requirement_vector_append(&utype->build_reqs,
+                                  req_from_values(VUT_ADVANCE, REQ_RANGE_PLAYER,
+                                                  FALSE, TRUE, FALSE,
+                                                  advance_number(padv)));
+      }
+    } else {
+      size_t i;
+      size_t vsize = requirement_vector_size(&utype->build_reqs);
+
+      for (i = 0; i < vsize; i++) {
+        struct requirement *cur = requirement_vector_get(&utype->build_reqs, i);
+
+        if (cur->source.kind == VUT_ADVANCE) {
+          requirement_vector_remove(&utype->build_reqs, i);
+          break;
+        }
+      }
+    }
 
     refresh();
   }
