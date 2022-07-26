@@ -91,6 +91,15 @@ else
   SDL2="Success"
 fi
 
+if test "$CROSSER_GTK4" != "yes" ; then
+  GTK4="N/A"
+elif ! ./installer_build.sh "$DLLSPATH" gtk4 ; then
+  RET=1
+  GTK4="Fail"
+else
+  GTK4="Success"
+fi
+
 if test "$CROSSER_QT6" != "yes" ; then
   RULEDIT="N/A"
 elif ! ./installer_build.sh $DLLSPATH ruledit ; then
@@ -101,6 +110,7 @@ else
 fi
 
 echo "Gtk3.22: $GTK322"
+echo "Gtk4:    $GTK4"
 echo "Qt5:     $QT5"
 echo "Qt6:     $QT6"
 echo "Sdl2:    $SDL2"
