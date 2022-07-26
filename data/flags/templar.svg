@@ -6,26 +6,26 @@
 
      The original author was K. Bolino (kbolino@sdf.lonestar.org)
      This document was released into the public domain by the author. -->
+
 <svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://web.resource.org/cc/"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    width="1500"
    height="1000"
    viewBox="0 0 50 50"
    id="svg2"
    sodipodi:version="0.32"
-   inkscape:version="0.44"
-   sodipodi:docname="templars.svg"
-   sodipodi:docbase="C:\freeciv"
+   inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
+   sodipodi:docname="templar.svg"
    version="1.0"
    inkscape:export-filename="C:\flags\Cross_of_the_Knights_Templar.png"
    inkscape:export-xdpi="1.62"
-   inkscape:export-ydpi="1.62">
+   inkscape:export-ydpi="1.62"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
   <metadata
      id="metadata24">
     <rdf:RDF>
@@ -51,11 +51,14 @@
      id="base"
      width="1500px"
      inkscape:zoom="0.377"
-     inkscape:cx="750"
-     inkscape:cy="500"
-     inkscape:window-x="66"
-     inkscape:window-y="87"
-     inkscape:current-layer="svg2" />
+     inkscape:cx="748.01061"
+     inkscape:cy="498.67374"
+     inkscape:window-x="581"
+     inkscape:window-y="212"
+     inkscape:current-layer="svg2"
+     inkscape:pagecheckerboard="0"
+     showgrid="false"
+     inkscape:window-maximized="0" />
   <defs
      id="defs4">
     <clipPath
