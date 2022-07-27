@@ -416,8 +416,8 @@ struct cma_dialog *create_cma_dialog(struct city *pcity, bool tiny)
 
   pdialog->happy_button = gtk_check_button_new();
   gtk_widget_set_halign(pdialog->happy_button, GTK_ALIGN_END);
-  gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(pdialog->happy_button),
-                               FALSE);
+  gtk_check_button_set_active(GTK_CHECK_BUTTON(pdialog->happy_button),
+                              FALSE);
   gtk_grid_attach(GTK_GRID(table), pdialog->happy_button, 1, O_LAST + 1, 1, 1);
 
   g_signal_connect(pdialog->happy_button, "toggled",
@@ -736,8 +736,8 @@ static void set_hscales(const struct cm_parameter *const parameter,
                         parameter->minimal_surplus[i]);
     gtk_range_set_value(GTK_RANGE(pdialog->factor[i]), parameter->factor[i]);
   } output_type_iterate_end;
-  gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(pdialog->happy_button),
-			       parameter->require_happy);
+  gtk_check_button_set_active(GTK_CHECK_BUTTON(pdialog->happy_button),
+                              parameter->require_happy);
   gtk_range_set_value(GTK_RANGE(pdialog->factor[O_LAST]),
                       parameter->happy_factor);
   allow_refreshes = 1;
@@ -763,7 +763,7 @@ static void hscale_changed(GtkWidget *get, gpointer data)
         (int) (gtk_range_get_value(GTK_RANGE(pdialog->factor[i])));
   } output_type_iterate_end;
   param.require_happy =
-      (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(pdialog->happy_button)) ? 1 : 0);
+      (gtk_check_button_get_active(GTK_CHECK_BUTTON(pdialog->happy_button)) ? 1 : 0);
   param.happy_factor =
       (int) (gtk_range_get_value(GTK_RANGE(pdialog->factor[O_LAST])));
 
