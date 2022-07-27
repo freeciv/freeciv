@@ -29,6 +29,7 @@ error "Unsupported MSYSTEM environment"
 endif
 
 ICUVER=69
+MAGICKVER=7.Q16HDRI-10
 
 # msys2 has dlls in...
 DLLPATH_PREFIX=/$(ARCHDIR)/bin/
@@ -65,7 +66,7 @@ installer-common: clean-install-common install-freeciv-$(GUI) install-env-$(GUI)
 install-freeciv-common:
 	# create build directory
 	mkdir -p meson-build-$(GUI)
-	cd meson-build-$(GUI); meson ../../.. -Dprefix=`pwd`/../meson-install-$(GUI) -Dclients=$(CLIENT) -Dfcmp=$(FCMP) -Druledit=false -Dcacert-path='./ssl/certs/ca-bundle.crt' -Dmwand=false $(EXTRA_CONFIG)
+	cd meson-build-$(GUI); meson ../../.. -Dprefix=`pwd`/../meson-install-$(GUI) -Dclients=$(CLIENT) -Dfcmp=$(FCMP) -Druledit=false -Dcacert-path='./ssl/certs/ca-bundle.crt' $(EXTRA_CONFIG)
 	cd meson-build-$(GUI); ninja
 	cd meson-build-$(GUI); ninja install
 	cd meson-build-$(GUI); ninja langstat_core.txt
@@ -135,6 +136,15 @@ COMMON_DLLS := \
 	libtermcap-0.dll \
 	libharfbuzz-0.dll \
 	libgraphite2.dll \
+	libMagickWand-${MAGICKVER}.dll \
+	libMagickCore-${MAGICKVER}.dll \
+	libgomp-1.dll \
+	libfftw3-3.dll \
+	liblcms2-2.dll \
+	liblqr-1-0.dll \
+	libltdl-7.dll \
+	libxml2-2.dll \
+	libraqm-0.dll \
 	$(SOUND_DLLS)
 
 install-env-common:
