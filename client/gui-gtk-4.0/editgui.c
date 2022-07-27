@@ -1620,7 +1620,7 @@ static void editinfobox_refresh(struct editinfobox *ei)
 }
 
 /************************************************************************//**
-  Handle ctrl+<key> combinations.
+  Handle ctrl+[key] combinations.
 ****************************************************************************/
 static gboolean handle_edit_key_press_with_ctrl(guint keyval)
 {
@@ -1628,7 +1628,7 @@ static gboolean handle_edit_key_press_with_ctrl(guint keyval)
 }
 
 /************************************************************************//**
-  Handle shift+<key> combinations.
+  Handle shift+[key] combinations.
 ****************************************************************************/
 static gboolean handle_edit_key_press_with_shift(guint keyval)
 {

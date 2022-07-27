@@ -1320,8 +1320,8 @@ bool mapimg_id2str(int id, char *str, size_t str_len)
 
 /************************************************************************//**
   Create the requested map image. The filename is created as
-  <basename as used for savegames>-<mapstr>.<mapext> where <mapstr>
-  contains the map definition and <mapext> the selected image extension.
+  [basename as used for savegames]-[mapstr].[mapext] where [mapstr]
+  contains the map definition and [mapext] the selected image extension.
   If 'force' is FALSE, the image is only created if game.info.turn is a
   multiple of the map setting turns.
 ****************************************************************************/
@@ -1429,7 +1429,7 @@ bool mapimg_create(struct mapdef *pmapdef, bool force, const char *savename,
 /************************************************************************//**
   Create images which shows all map colors (playercolor, terrain colors). One
   image is created for each supported toolkit and image format. The filename
-  will be <basename as used for savegames>-colortest-<toolkit>.<format>.
+  will be [basename as used for savegames]-colortest-[toolkit].[format].
 ****************************************************************************/
 bool mapimg_colortest(const char *savename, const char *path)
 {
@@ -1717,11 +1717,11 @@ static void mapimg_log(const char *file, const char *function, int line,
 /************************************************************************//**
   Generate an identifier for a map image.
 
-  M<map options>Z<zoom factor>P<players>
+  M[map options]Z[zoom factor]P[players]
 
-  <map options>    map options
-  <zoom factor>    zoom factor
-  <players>        player ID or vector of size MAX_NUM_PLAYER_SLOTS [0/1]
+  [map options]    map options
+  [zoom factor]    zoom factor
+  [players]        player ID or vector of size MAX_NUM_PLAYER_SLOTS [0/1]
 
   For the player bitvector all MAX_NUM_PLAYER_SLOTS values are used due to
   the possibility of additional players during the game (civil war,

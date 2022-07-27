@@ -578,7 +578,7 @@ static void script_server_signals_create(void)
 
 /***********************************************************************//**
   Add server callback functions; these must be defined in the lua script
-  '<rulesetdir>/script.lua':
+  '[rulesetdir]/script.lua':
 
   respawn_callback (optional):
     - callback lua function for the respawn command
