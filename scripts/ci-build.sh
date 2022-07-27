@@ -52,10 +52,10 @@ ninja install
 "os_x")
 # gcc is an alias for clang on OS X
 
-export PATH="/usr/local/opt/llvm/bin:/usr/local/opt/gettext/bin:/usr/local/opt/icu4c/bin:$(brew --prefix qt@6)/bin:$PATH"
-export CPPFLAGS="-I/usr/local/opt/gettext/include -I/usr/local/opt/icu4c/include -I$(brew --prefix qt@6)/include -I$(brew --prefix readline)/include"
-export LDFLAGS="-L/usr/local/opt/gettext/lib -L/usr/local/opt/icu4c/lib -L$(brew --prefix qt@6)/lib -L$(brew --prefix readline)/lib"
-export PKG_CONFIG_PATH="/usr/local/opt/icu4c/lib/pkgconfig:$PKG_CONFIG_PATH"
+export PATH="$(brew --prefix llvm)/bin:$(brew --prefix gettext)/bin:$(brew --prefix icu4c)/bin:$(brew --prefix qt@6)/bin:$PATH"
+export CPPFLAGS="-I$(brew --prefix gettext)/include -I$(brew --prefix icu4c)/include -I$(brew --prefix qt@6)/include -I$(brew --prefix readline)/include"
+export LDFLAGS="-L$(brew --prefix gettext)/lib -L$(brew --prefix icu4c)/lib -L$(brew --prefix qt@6)/lib -L$(brew --prefix readline)/lib"
+export PKG_CONFIG_PATH="$(brew --prefix icu4c)/lib/pkgconfig"
 
 export MOCCMD=$(find /usr/local/Cellar/qt -name "moc" | head -n 1)
 
