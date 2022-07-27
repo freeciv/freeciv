@@ -767,10 +767,10 @@ static char *year_suffix(void)
   Generate a default save file name and place it in the provided buffer.
   Within the name the following custom formats are allowed:
 
-    %R = <reason>
-    %S = <suffix>
-    %T = <game.info.turn>
-    %Y = <game.info.year>
+    %R = reason
+    %S = suffix
+    %T = game.info.turn
+    %Y = game.info.year
 
   Examples:
     'freeciv-T%04T-Y%+04Y-%R' => 'freeciv-T0099-Y-0050-manual'

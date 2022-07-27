@@ -319,7 +319,7 @@ int luascript_error_vargs(lua_State *L, const char *format, va_list vargs)
 /**********************************************************************//**
   Like script_error, but using a prefix identifying the called lua
   function:
-    bad argument #narg to '<func>': msg
+    bad argument narg to '[func]': msg
 **************************************************************************/
 int luascript_arg_error(lua_State *L, int narg, const char *msg)
 {

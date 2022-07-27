@@ -283,7 +283,7 @@ void unit_register_battlegroup(struct unit *punit)
     order => The last order (ORDER_PERFORM_ACTION, ORDER_LAST, etc.)
 **************************************************************************/
 void set_hover_state(struct unit_list *punits, enum cursor_hover_state state,
-		     enum unit_activity activity,
+                     enum unit_activity activity,
                      struct extra_type *tgt,
                      int last_tgt,
                      int last_sub_tgt,
@@ -1169,7 +1169,7 @@ void request_unit_goto(enum unit_orders last_order,
   Return TRUE if at least one of the units can do an attack at the tile.
 **************************************************************************/
 static bool can_units_attack_at(struct unit_list *punits,
-				const struct tile *ptile)
+                                const struct tile *ptile)
 {
   unit_list_iterate(punits, punit) {
     if (is_attack_unit(punit)
@@ -1289,7 +1289,7 @@ void control_mouse_cursor(struct tile *ptile)
   Return TRUE if there are any units doing the activity on the tile.
 **************************************************************************/
 static bool is_activity_on_tile(struct tile *ptile,
-				enum unit_activity activity)
+                                enum unit_activity activity)
 {
   unit_list_iterate(ptile->units, punit) {
     if (punit->activity == activity) {
@@ -1829,8 +1829,8 @@ void request_new_unit_activity(struct unit *punit, enum unit_activity act)
   activities that are targeted to certain special or base type.
 **************************************************************************/
 void request_new_unit_activity_targeted(struct unit *punit,
-					enum unit_activity act,
-					struct extra_type *tgt)
+                                        enum unit_activity act,
+                                        struct extra_type *tgt)
 {
   if (!can_client_issue_orders()) {
     return;
@@ -2841,7 +2841,7 @@ void do_map_click(struct tile *ptile, enum quickselect_type qtype)
 }
 
 /**********************************************************************//**
-  Quickselecting a unit is normally done with <control> left, right click,
+  Quickselecting a unit is normally done with [control] left, right click,
   for the current tile. Bypassing the stack popup is quite convenient,
   and can be tactically important in furious multiplayer games.
 **************************************************************************/
@@ -3045,7 +3045,7 @@ void do_unit_patrol_to(struct tile *ptile)
   "Connect" to the given location.
 **************************************************************************/
 void do_unit_connect(struct tile *ptile,
-		     enum unit_activity activity,
+                     enum unit_activity activity,
                      struct extra_type *tgt)
 {
   if (is_valid_goto_draw_line(ptile)) {

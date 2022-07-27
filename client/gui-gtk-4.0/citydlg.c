@@ -1564,7 +1564,7 @@ static void create_and_append_settings_page(struct city_dialog *pdialog)
  +----------------------------+-------------------------------+
  | GtkWidget *top: Citizens   | city name                     |
  +----------------------------+-------------------------------+
- | <notebook tab>                                             |
+ | [notebook tab]                                             |
  +------------------------------------------------------------+
 ***************************************************************************/
 static struct city_dialog *create_city_dialog(struct city *pcity)
