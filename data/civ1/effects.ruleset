@@ -1337,23 +1337,30 @@ reqs    =
       "Extra", "Fortress", "Local"
     }
 
-[effect_fortified]
+; FIXME: How accurate this is for civ1? Currently same as civ2.
+; City ranged requirement (present or not) would always
+; fail if there's no city.
+[effect_fortified_no_city]
 type    = "Fortify_Defense_Bonus"
 value   = 50
 reqs    =
-    { "type", "name", "range"
-      "Activity", "Fortified", "Local"
+    { "type",     "name",       "range",  "present"
+      "Activity", "Fortified",  "Local",  TRUE
+      "CityTile", "Center",     "Local",  FALSE
+      "Building", "Great Wall", "Player", FALSE
+      "Extra",    "Fortress",   "Local",  FALSE
     }
 
-[effect_city_fortified]
+[effect_fortified_city]
 type    = "Fortify_Defense_Bonus"
 value   = 50
 reqs    =
-    { "type",          "name",         "range", "present"
-      "CityTile",      "Center",       "Local", TRUE
-      "Activity",      "Fortified",    "Local", FALSE
-      "UnitClassFlag", "CanFortify",   "Local", TRUE
-      "UnitFlag",      "Cant_Fortify", "Local", FALSE
+    { "type",     "name",       "range",  "present"
+      "Activity", "Fortified",  "Local",  TRUE
+      "CityTile", "Center",     "Local",  TRUE
+      "Building", "City Walls", "City",   FALSE
+      "Building", "Great Wall", "Player", FALSE
+      "Extra",    "Fortress",   "Local",  FALSE
     }
 
 [effect_city_min_hp]
