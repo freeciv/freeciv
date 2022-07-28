@@ -1044,17 +1044,17 @@ void chatline_scroll_to_bottom(bool delayed)
   }
 }
 
-#ifdef TOOLBUTTON_GTK3
 /**********************************************************************//**
   Tool button clicked.
 **************************************************************************/
-static void make_tag_callback(GtkToolButton *button, gpointer data)
+static void make_tag_callback(GtkButton *button, gpointer data)
 {
   inputline_make_tag(GTK_ENTRY(data),
                      GPOINTER_TO_INT(g_object_get_data(G_OBJECT(button),
                                                        "text_tag_type")));
 }
 
+#ifdef TOOLBUTTON_GTK3
 /**********************************************************************//**
   Set the color for an object.  Update the button if not NULL.
 **************************************************************************/
@@ -1318,9 +1318,9 @@ void chatline_init(void)
 {
   GtkWidget *vbox, *hgrid, *entry, *bbox;
   GtkWidget *button;
-#ifdef TOOLBUTTON_GTK3
   GtkWidget *toolbar;
-  GtkToolItem *item;
+  GtkWidget *item;
+#ifdef TOOLBUTTON_GTK3
   GdkRGBA color;
 #endif /* TOOLBUTTON_GTK3 */
   int grid_col = 0;
@@ -1352,53 +1352,56 @@ void chatline_init(void)
   hgrid = gtk_grid_new();
   gtk_grid_set_column_spacing(GTK_GRID(hgrid), 4);
 
-#ifdef TOOLBUTTON_GTK3
   /* First line: toolbar */
-  toolbar = gtk_toolbar_new();
-  gtk_box_append(GTK_GRID(vbox), toolbar);
-  gtk_toolbar_set_show_arrow(GTK_TOOLBAR(toolbar), FALSE);
-  gtk_toolbar_set_style(GTK_TOOLBAR(toolbar), GTK_TOOLBAR_BOTH_HORIZ);
-  gtk_orientable_set_orientation(GTK_ORIENTABLE(toolbar),
-                                 GTK_ORIENTATION_HORIZONTAL);
+  toolbar = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 2);
+  gtk_box_append(GTK_BOX(vbox), toolbar);
   toolkit.toolbar = toolbar;
 
-  /* Bold button. */
-  item = gtk_tool_button_new(gtk_image_new_from_icon_name("format-text-bold"),
-                             _("Bold"));
+  // #ifdef TOOLBUTTON_GTK3
 
-  gtk_toolbar_insert(GTK_TOOLBAR(toolbar), item, -1);
+  /* Bold button. */
+  item = gtk_button_new_from_icon_name("format-text-bold");
+
+  /* _("Bold")); */
+
+  gtk_box_append(GTK_BOX(toolbar), item);
   g_object_set_data(G_OBJECT(item), "text_tag_type",
                     GINT_TO_POINTER(TTT_BOLD));
   g_signal_connect(item, "clicked", G_CALLBACK(make_tag_callback), entry);
   gtk_widget_set_tooltip_text(GTK_WIDGET(item), _("Bold (Ctrl-B)"));
 
   /* Italic button. */
-  item = gtk_tool_button_new(gtk_image_new_from_icon_name("format-text-italic"),
-                             _("Italic"));
-  gtk_toolbar_insert(GTK_TOOLBAR(toolbar), item, -1);
+  item = gtk_button_new_from_icon_name("format-text-italic");
+
+  /* _("Italic")); */
+
+  gtk_box_append(GTK_BOX(toolbar), item);
   g_object_set_data(G_OBJECT(item), "text_tag_type",
                     GINT_TO_POINTER(TTT_ITALIC));
   g_signal_connect(item, "clicked", G_CALLBACK(make_tag_callback), entry);
   gtk_widget_set_tooltip_text(GTK_WIDGET(item), _("Italic (Ctrl-I)"));
 
   /* Strike button. */
-  item = gtk_tool_button_new(gtk_image_new_from_icon_name("format-text-strikethrough"),
-                             _("Strikethrough"));
-  gtk_toolbar_insert(GTK_TOOLBAR(toolbar), item, -1);
+  item = gtk_button_new_from_icon_name("format-text-strikethrough");
+
+  /* _("Strikethrough")); */
+  gtk_box_append(GTK_BOX(toolbar), item);
   g_object_set_data(G_OBJECT(item), "text_tag_type",
                     GINT_TO_POINTER(TTT_STRIKE));
   g_signal_connect(item, "clicked", G_CALLBACK(make_tag_callback), entry);
   gtk_widget_set_tooltip_text(GTK_WIDGET(item), _("Strikethrough (Ctrl-S)"));
 
   /* Underline button. */
-  item = gtk_tool_button_new(gtk_image_new_from_icon_name("format-text-underline"),
-                             _("Underline"));
-  gtk_toolbar_insert(GTK_TOOLBAR(toolbar), item, -1);
+  item = gtk_button_new_from_icon_name("format-text-underline");
+
+  /* _("Underline")); */
+  gtk_box_append(GTK_BOX(toolbar), item);
   g_object_set_data(G_OBJECT(item), "text_tag_type",
                     GINT_TO_POINTER(TTT_UNDERLINE));
   g_signal_connect(item, "clicked", G_CALLBACK(make_tag_callback), entry);
   gtk_widget_set_tooltip_text(GTK_WIDGET(item), _("Underline (Ctrl-U)"));
 
+#ifdef TOOLBUTTON_GTK3
   /* Color button. */
   item = gtk_tool_button_new(NULL, _("Color"));
   gtk_toolbar_insert(GTK_TOOLBAR(toolbar), item, -1);
@@ -1445,16 +1448,16 @@ void chatline_init(void)
 
   gtk_toolbar_insert(GTK_TOOLBAR(toolbar),
                      gtk_separator_tool_item_new(), -1);
+#endif /* TOOLBUTTON_GTK3 */
 
   /* Return button. */
-  item = gtk_tool_button_new(NULL, _("OK"));
-  gtk_toolbar_insert(GTK_TOOLBAR(toolbar), item, -1);
+  item = gtk_button_new_with_label(_("OK"));
+  gtk_box_append(GTK_BOX(toolbar), item);
   g_signal_connect_swapped(item, "clicked",
                            G_CALLBACK(inputline_return), entry);
   gtk_widget_set_tooltip_text(GTK_WIDGET(item),
                               /* TRANS: "Return" means the return key. */
                               _("Send the chat (Return)"));
-#endif /* TOOLBUTTON_GTK3 */
 
   /* Second line */
   gtk_box_append(GTK_BOX(vbox), hgrid);
