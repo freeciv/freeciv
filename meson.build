@@ -411,6 +411,8 @@ else
   mw_dep = []
 endif
 
+icu_dep = dependency('icu-uc')
+
 syslua = get_option('syslua')
 lua_dep_tmp = dependency('lua-5.4', required:false)
 
@@ -851,10 +853,9 @@ common_lib = library('freeciv',
   sources: [specenum, pack_common,
             tolua_com_a, tolua_com_z, tolua_game, tolua_signal],
   link_whole: fc_deps,
-  dependencies: [c_compiler.find_library('icuuc', dirs: cross_lib_path),
-                 c_compiler.find_library('z', dirs: cross_lib_path),
+  dependencies: [c_compiler.find_library('z', dirs: cross_lib_path),
                  c_compiler.find_library('curl', dirs: cross_lib_path),
-                 m_dep, sqlite3_dep,
+                 m_dep, sqlite3_dep, icu_dep,
                  net_dep, jansson_dep, lua_dep, lzma_dep, zstd_dep,
                  bcrypt_lib_dep, iconv_lib_dep,
                  gettext_dep, charset_dep, mw_dep,
