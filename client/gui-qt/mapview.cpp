@@ -1370,9 +1370,6 @@ void info_tile::calc_size()
 {
   QFontMetrics fm(info_font);
   QString str;
-  int hh = tileset_tile_height(tileset);
-  int fin_x;
-  int fin_y;
   float x, y;
   int w = 0;
 
@@ -1384,16 +1381,22 @@ void info_tile::calc_size()
   }
   setFixedHeight(str_list.count() * (fm.height() + 5));
   setFixedWidth(w + 10);
+
   if (tile_to_canvas_pos(&x, &y, itile)) {
+    int fin_x;
+    int fin_y;
+    int wh = height();
+    int ww = width();
+    int pw = parentWidget()->width();
+
     fin_x = x;
-    fin_y = y;
-    if (y - height() > 0) {
-      fin_y = y - height();
+    if (y - wh > 0) {
+      fin_y = y - wh;
     } else {
-      fin_y = y + hh;
+      fin_y = y + tileset_tile_height(tileset);
     }
-    if (x + width() > parentWidget()->width()) {
-      fin_x = parentWidget()->width() - width();
+    if (x + ww > pw) {
+      fin_x = pw - ww;
     }
     move(fin_x, fin_y);
   }
