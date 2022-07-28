@@ -194,6 +194,7 @@ void establish_new_connection(struct connection *pconn)
   send_scenario_description(dest);
   send_game_info(dest);
   topo_packet.topology_id = wld.map.topology_id;
+  topo_packet.wrap_id = wld.map.wrap_id;
   send_packet_set_topology(pconn, &topo_packet);
 
   /* Do we have a player that a delegate is currently controlling? */
