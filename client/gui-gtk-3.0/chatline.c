@@ -1225,7 +1225,7 @@ static gboolean set_toolbar_visibility(GtkWidget *w,
     }
   } else {
     if (gtk_toggle_button_get_active(button)) {
-      /* button_toggled() will be called and the toolbar hiden. */
+      /* button_toggled() will be called and the toolbar hidden. */
       gtk_toggle_button_set_active(button, FALSE);
     } else {
       /* Unsure the widget is visible. */
