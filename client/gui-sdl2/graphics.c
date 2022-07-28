@@ -543,6 +543,9 @@ void quit_sdl(void)
   gui_layer_destroy(&Main.gui);
   FREESURFACE(Main.map);
   FREESURFACE(Main.dummy);
+  SDL_DestroyTexture(Main.maintext);
+  SDL_DestroyRenderer(Main.renderer);
+  FREESURFACE(main_surface);
 }
 
 /**************************************************************************
@@ -569,9 +572,9 @@ int set_video_mode(int iWidth, int iHeight, int iFlags)
   }
 
   if (is_bigendian()) {
-      main_surface = SDL_CreateRGBSurface(0, iWidth, iHeight, 32,
-                                          0x0000FF00, 0x00FF0000,
-                                          0xFF000000, 0x000000FF);
+    main_surface = SDL_CreateRGBSurface(0, iWidth, iHeight, 32,
+                                        0x0000FF00, 0x00FF0000,
+                                        0xFF000000, 0x000000FF);
   } else {
     main_surface = SDL_CreateRGBSurface(0, iWidth, iHeight, 32,
                                         0x00FF0000, 0x0000FF00,
