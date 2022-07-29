@@ -1644,8 +1644,8 @@ static void setup_widgets(void)
 
   button = gtk_check_button_new_with_label(_("Allies Only"));
   gtk_widget_set_focus_on_click(button, FALSE);
-  gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(button),
-                               GUI_GTK_OPTION(allied_chat_only));
+  gtk_check_button_set_active(GTK_CHECK_BUTTON(button),
+                              GUI_GTK_OPTION(allied_chat_only));
   g_signal_connect(button, "toggled",
                    G_CALLBACK(allied_chat_button_toggled), NULL);
   inputline_toolkit_view_append_button(view, button);
@@ -2461,10 +2461,10 @@ static void allied_chat_only_callback(struct option *poption)
 
   button = allied_chat_toggle_button;
   fc_assert_ret(button != NULL);
-  fc_assert_ret(GTK_IS_TOGGLE_BUTTON(button));
+  fc_assert_ret(GTK_IS_CHECK_BUTTON(button));
 
-  gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(button),
-                               option_bool_get(poption));
+  gtk_check_button_set_active(GTK_CHECK_BUTTON(button),
+                              option_bool_get(poption));
 }
 
 /**********************************************************************//**
@@ -2538,15 +2538,15 @@ void refresh_chat_buttons(void)
 
   button = allied_chat_toggle_button;
   fc_assert_ret(button != NULL);
-  fc_assert_ret(GTK_IS_TOGGLE_BUTTON(button));
+  fc_assert_ret(GTK_IS_CHECK_BUTTON(button));
 
   /* Hide the "Allies Only" button for local games. */
   if (is_server_running()) {
     gtk_widget_hide(button);
   } else {
     gtk_widget_show(button);
-    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(button),
-                                 GUI_GTK_OPTION(allied_chat_only));
+    gtk_check_button_set_active(GTK_CHECK_BUTTON(button),
+                                GUI_GTK_OPTION(allied_chat_only));
   }
 }
 
