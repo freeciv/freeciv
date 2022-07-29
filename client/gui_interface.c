@@ -55,9 +55,9 @@ void ui_init(void)
 /**********************************************************************//**
   Call ui_main callback
 **************************************************************************/
-void ui_main(int argc, char *argv[])
+int ui_main(int argc, char *argv[])
 {
-  funcs.ui_main(argc, argv);
+  return funcs.ui_main(argc, argv);
 }
 
 /**********************************************************************//**

@@ -104,7 +104,7 @@ int main(int argc, char **argv)
   svg_flag_enable();
 #endif // FC_QT_SVGFLAG
 
-  return client_main(argc, argv);
+  return client_main(argc, argv, TRUE);
 }
 
 /**********************************************************************//**
@@ -172,12 +172,18 @@ static void migrate_options_from_2_5()
   The main loop for the UI.  This is called from main(), and when it
   exits the client will exit.
 **************************************************************************/
-void qtg_ui_main(int argc, char *argv[])
+int qtg_ui_main(int argc, char *argv[])
 {
   if (parse_options(argc, argv)) {
     qapp = new QApplication(argc, argv);
     QPixmap *qpm;
     QIcon app_icon;
+    int tsret;
+
+    tsret = default_tileset_select();
+    if (tsret != EXIT_SUCCESS) {
+      return tsret;
+    }
 
     tileset_init(tileset);
     tileset_load_tiles(tileset);
@@ -210,6 +216,8 @@ void qtg_ui_main(int argc, char *argv[])
 
     freeciv_qt->fc_main(qapp);
   }
+
+  return EXIT_SUCCESS;
 }
 
 /**********************************************************************//**

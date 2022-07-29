@@ -318,9 +318,31 @@ static void client_game_reset(void)
 }
 
 /**********************************************************************//**
+  Do the initial default tileset selection.
+**************************************************************************/
+int default_tileset_select(void)
+{
+  fill_topo_ts_default();
+
+  if (forced_tileset_name[0] != '\0') {
+    if (!tilespec_try_read(forced_tileset_name, TRUE, -1, TRUE)) {
+      log_error(_("Can't load requested tileset %s!"), forced_tileset_name);
+      client_exit(EXIT_FAILURE);
+      return EXIT_FAILURE;
+    }
+  } else {
+    tilespec_try_read(gui_options.default_tileset_name, FALSE, -1, TRUE);
+  }
+
+  editor_init();
+
+  return EXIT_SUCCESS;
+}
+
+/**********************************************************************//**
   Entry point for common client code.
 **************************************************************************/
-int client_main(int argc, char *argv[])
+int client_main(int argc, char *argv[], bool postpone_tileset)
 {
   int i;
   enum log_level loglevel = LOG_NORMAL;
@@ -329,6 +351,7 @@ int client_main(int argc, char *argv[])
   char *option = NULL;
   int fatal_assertions = -1;
   int aii;
+  int uret;
 
   /* Load Windows post-crash debugger */
 #ifdef FREECIV_MSWINDOWS
@@ -654,28 +677,22 @@ int client_main(int argc, char *argv[])
   helpdata_init();
   boot_help_texts();
 
-  fill_topo_ts_default();
-
-  if (forced_tileset_name[0] != '\0') {
-    if (!tilespec_try_read(forced_tileset_name, TRUE, -1, TRUE)) {
-      log_error(_("Can't load requested tileset %s!"), forced_tileset_name);
-      client_exit(EXIT_FAILURE);
-      return EXIT_FAILURE;
-    }
-  } else {
-    tilespec_try_read(gui_options.default_tileset_name, FALSE, -1, TRUE);
-  }
-
   audio_real_init(sound_set_name, music_set_name, sound_plugin_name);
   start_menu_music("music_menu", NULL);
 
-  editor_init();
+  if (!postpone_tileset) {
+    int tsret = default_tileset_select();
+
+    if (tsret != EXIT_SUCCESS) {
+      return tsret;
+    }
+  }
 
   /* run gui-specific client */
-  ui_main(argc, argv);
+  uret = ui_main(argc, argv);
 
   /* termination */
-  client_exit(EXIT_SUCCESS);
+  client_exit(uret);
 
   /* not reached */
   return EXIT_SUCCESS;

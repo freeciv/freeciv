@@ -1760,7 +1760,7 @@ void ui_init(void)
 **************************************************************************/
 int main(int argc, char **argv)
 {
-  return client_main(argc, argv);
+  return client_main(argc, argv, FALSE);
 }
 
 /**********************************************************************//**
@@ -1931,7 +1931,7 @@ static void migrate_options_from_gtk3_22(void)
 /**********************************************************************//**
   Called from client_main(), is what it's named.
 **************************************************************************/
-void ui_main(int argc, char **argv)
+int ui_main(int argc, char **argv)
 {
   parse_options(argc, argv);
 
@@ -1972,6 +1972,8 @@ void ui_main(int argc, char **argv)
   gtk_window_destroy(GTK_WINDOW(toplevel));
   message_buffer = NULL; /* Result of destruction of everything */
   tileset_free_tiles(tileset);
+
+  return EXIT_SUCCESS;
 }
 
 /**********************************************************************//**
