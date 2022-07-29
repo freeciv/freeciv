@@ -52,7 +52,7 @@ void gui_ui_init(void)
 int main(int argc, char **argv)
 {
   setup_gui_funcs();
-  return client_main(argc, argv);
+  return client_main(argc, argv, FALSE);
 }
 
 /**************************************************************************
@@ -94,7 +94,7 @@ static void parse_options(int argc, char **argv)
   The main loop for the UI.  This is called from main(), and when it
   exits the client will exit.
 **************************************************************************/
-void gui_ui_main(int argc, char *argv[])
+int gui_ui_main(int argc, char *argv[])
 {
   parse_options(argc, argv);
 
@@ -104,6 +104,8 @@ void gui_ui_main(int argc, char *argv[])
   /* Main loop here */
 
   start_quitting();
+
+  return EXIT_SUCCESS;
 }
 
 /****************************************************************************

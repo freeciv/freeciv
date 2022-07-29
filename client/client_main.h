@@ -48,7 +48,8 @@ enum client_states {
   C_S_OVER,
 };
 
-int client_main(int argc, char *argv[]);
+int client_main(int argc, char *argv[], bool postpone_tileset);
+int default_tileset_select(void);
 
 void client_packet_input(void *packet, int type);
 

@@ -1634,7 +1634,7 @@ void ui_init(void)
 **************************************************************************/
 int main(int argc, char **argv)
 {
-  return client_main(argc, argv);
+  return client_main(argc, argv, FALSE);
 }
 
 /**************************************************************************
@@ -1707,7 +1707,7 @@ static void migrate_options_from_2_5(void)
 /**************************************************************************
   Called from client_main(), is what it's named.
 **************************************************************************/
-void ui_main(int argc, char **argv)
+int ui_main(int argc, char **argv)
 {
   PangoFontDescription *toplevel_font_name;
   guint sig;
@@ -1859,6 +1859,8 @@ void ui_main(int argc, char **argv)
   menus_free();
   message_buffer = NULL; /* Result of destruction of everything */
   tileset_free_tiles(tileset);
+
+  return EXIT_SUCCESS;
 }
 
 /**************************************************************************

@@ -935,7 +935,7 @@ static void clear_double_messages_call(void)
 **************************************************************************/
 int main(int argc, char **argv)
 {
-  return client_main(argc, argv);
+  return client_main(argc, argv, FALSE);
 }
 
 /**************************************************************************
@@ -962,7 +962,7 @@ static void migrate_options_from_sdl(void)
   The main loop for the UI.  This is called from main(), and when it
   exits the client will exit.
 **************************************************************************/
-void ui_main(int argc, char *argv[])
+int ui_main(int argc, char *argv[])
 {
   SDL_Event __Net_User_Event;
   SDL_Event __Anim_User_Event;
@@ -1058,6 +1058,8 @@ void ui_main(int argc, char *argv[])
                  main_mouse_button_down_handler, main_mouse_button_up_handler,
                  main_mouse_motion_handler);
   start_quitting();
+
+  return EXIT_SUCCESS;
 }
 
 /**************************************************************************
