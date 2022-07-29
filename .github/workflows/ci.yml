@@ -10,7 +10,7 @@ jobs:
     runs-on: windows-2022
     steps:
       - name: check out Freeciv
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: install dependencies
         # A mapping from msys2/setup-msys2 version to msys2 version can be
         # found at
@@ -52,7 +52,7 @@ jobs:
     runs-on: macos-12
     steps:
       - name: check out Freeciv
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: install dependencies
         run: |
           brew install \
@@ -83,7 +83,7 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - name: check out Freeciv
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: install dependencies
         run: |
           sudo apt-get update
@@ -114,7 +114,7 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - name: check out Freeciv
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: install dependencies
         run: |
           sudo apt-get update
@@ -145,7 +145,7 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - name: check out Freeciv
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: install dependencies
         run: |
           sudo apt-get update
@@ -178,7 +178,7 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - name: check out Freeciv
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: install dependencies
         run: |
           sudo apt-get update
