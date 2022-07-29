@@ -96,6 +96,7 @@ struct civ_game {
   struct conn_list *all_connections;   /* including not yet established */
   struct conn_list *est_connections;   /* all established client conns */
   struct conn_list *glob_observers;    /* global observers */
+  struct conn_list *web_client_connections; /* Connections from web client */
 
   struct veteran_system *veteran; /* veteran system */
 

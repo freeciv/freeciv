@@ -315,6 +315,13 @@ void handle_client_info(struct connection *pc, enum gui_type gui,
   if (strcmp(distribution, "")) {
     log_debug("It comes from %s distribution.", distribution);
   }
+
+  /* In case a modified client sends multiple client_info packets */
+  conn_list_remove(game.web_client_connections, pc);
+
+  if (gui == GUI_WEB) {
+    conn_list_append(game.web_client_connections, pc);
+  }
 }
 
 /**********************************************************************//**

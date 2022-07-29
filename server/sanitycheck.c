@@ -647,9 +647,11 @@ check_researches(const char *file, const char *function, int line)
 static void check_connections(const char *file, const char *function,
                               int line)
 {
-  /* est_connections is a subset of all_connections */
-  SANITY_CHECK(conn_list_size(game.all_connections)
-	       >= conn_list_size(game.est_connections));
+  int all = conn_list_size(game.all_connections);
+
+  /* Other lists are subsets of all_connections */
+  SANITY_CHECK(all >= conn_list_size(game.est_connections));
+  SANITY_CHECK(all >= conn_list_size(game.web_client_connections));
 }
 
 /**********************************************************************//**
