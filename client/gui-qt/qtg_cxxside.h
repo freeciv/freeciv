@@ -28,7 +28,7 @@
 void setup_gui_funcs();
 
 void qtg_ui_init();
-void qtg_ui_main(int argc, char *argv[]);
+int qtg_ui_main(int argc, char *argv[]);
 void qtg_ui_exit();
 
 enum gui_type qtg_get_gui_type();
