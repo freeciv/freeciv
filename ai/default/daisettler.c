@@ -346,7 +346,7 @@ static struct cityresult *cityresult_fill(struct ai_type *ait,
         }
 
         if (!city_center && virtual_city) {
-          /* real cities and any city center will give us spossibly
+          /* real cities and any city center will give us possibly
            * skewed results */
           tdc_plr_set(ait, pplayer, tindex, tile_data_cache_copy(ptdc));
         }
