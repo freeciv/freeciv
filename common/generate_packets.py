@@ -477,7 +477,7 @@ class RawFieldType(ABC):
         if dataio_type == "worklist":
             return WorklistType(dataio_type, public_type)
 
-        if dataio_type == "cm_paramter":
+        if dataio_type == "cm_parameter":
             return CmParameterType(dataio_type, public_type)
 
         if dataio_type == "bitvector":
