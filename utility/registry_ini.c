@@ -3013,7 +3013,7 @@ struct entry *section_entry_lookup(const struct section *psection,
   /* Try with full path. */
   if ((pentry = secfile_entry_by_path(psection->secfile, fullpath))
       && psection == entry_section(pentry)) {
-    /* Unsure this is really owned by this section. */
+    /* Ensured this is really owned by this section. */
     return pentry;
   }
 
