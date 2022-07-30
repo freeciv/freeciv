@@ -1225,7 +1225,7 @@ static gboolean set_toolbar_visibility(GtkWidget *w,
       /* button_toggled() will be called and the toolbar shown. */
       gtk_toggle_button_set_active(button, TRUE);
     } else {
-      /* Unsure the widget is visible. */
+      /* Ensure the widget is visible. */
       gtk_widget_show(ptoolkit->toolbar);
     }
   } else {
@@ -1233,7 +1233,7 @@ static gboolean set_toolbar_visibility(GtkWidget *w,
       /* button_toggled() will be called and the toolbar hidden. */
       gtk_toggle_button_set_active(button, FALSE);
     } else {
-      /* Unsure the widget is visible. */
+      /* Ensure the widget is not visible. */
       gtk_widget_hide(ptoolkit->toolbar);
     }
   }

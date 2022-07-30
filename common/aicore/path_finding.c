@@ -2217,11 +2217,12 @@ static inline bool pf_fuel_node_dangerous(const struct pf_fuel_node *node)
 static inline struct pf_fuel_pos *pf_fuel_pos_ref(struct pf_fuel_pos *pos)
 {
 #ifdef PF_DEBUG
-  /* Unsure we have enough space to store the new count. Maximum is 10
+  /* Assert we have enough space to store the new count. Maximum is 10
    * (node->pos, node->segment, and 8 for other_pos->prev). */
   fc_assert(15 > pos->ref_count);
 #endif
   pos->ref_count++;
+
   return pos;
 }
 
