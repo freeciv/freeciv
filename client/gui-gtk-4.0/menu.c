@@ -151,9 +151,19 @@ static void quit_callback(GSimpleAction *action,
 
 #ifdef MENUS_GTK3
 static void map_view_callback(GtkMenuItem *item, gpointer data);
-static void report_units_callback(GtkMenuItem *item, gpointer data);
-static void report_nations_callback(GtkMenuItem *item, gpointer data);
-static void report_cities_callback(GtkMenuItem *item, gpointer data);
+#endif /* MENUS_GTK3 */
+
+static void report_units_callback(GSimpleAction *action,
+                                  GVariant *parameter,
+                                  gpointer data);
+static void report_nations_callback(GSimpleAction *action,
+                                    GVariant *parameter,
+                                    gpointer data);
+static void report_cities_callback(GSimpleAction *action,
+                                   GVariant *parameter,
+                                   gpointer data);
+
+#ifdef MENUS_GTK3
 static void report_wow_callback(GtkMenuItem *item, gpointer data);
 static void report_top_cities_callback(GtkMenuItem *item, gpointer data);
 static void report_messages_callback(GtkMenuItem *item, gpointer data);
@@ -228,8 +238,16 @@ static void toggle_fog_callback(GtkMenuItem *item, gpointer data);
 static void scenario_properties_callback(GtkMenuItem *item, gpointer data);
 static void save_scenario_callback(GtkMenuItem *item, gpointer data);
 static void center_view_callback(GtkMenuItem *item, gpointer data);
-static void report_economy_callback(GtkMenuItem *item, gpointer data);
-static void report_research_callback(GtkMenuItem *item, gpointer data);
+#endif /* MENUS_GTK3 */
+
+static void report_economy_callback(GSimpleAction *action,
+                                    GVariant *parameter,
+                                    gpointer data);
+static void report_research_callback(GSimpleAction *action,
+                                     GVariant *parameter,
+                                     gpointer data);
+
+#ifdef MENUS_GTK3
 static void multiplier_callback(GtkMenuItem *item, gpointer data);
 static void report_spaceship_callback(GtkMenuItem *item, gpointer data);
 static void report_achievements_callback(GtkMenuItem *item, gpointer data);
@@ -344,6 +362,17 @@ static struct menu_entry_info menu_entries[] =
 
   /* Civilization */
 
+  { "REPORT_UNITS", N_("_Units"),
+    "app.report_units", "F2", MGROUP_SAFE },
+  { "REPORT_NATIONS", N_("_Nations"),
+    "app.report_nations", "F3", MGROUP_SAFE },
+  { "REPORT_CITIES", N_("_Cities"),
+    "app.report_cities", "F4", MGROUP_SAFE },
+  { "REPORT_ECONOMY", N_("_Economy"),
+    "app.report_economy", "F5", MGROUP_PLAYER },
+  { "REPORT_RESEARCH", N_("_Research"),
+    "app.report_research", "F6", MGROUP_PLAYER },
+
   { "START_REVOLUTION", N_("_Revolution..."),
     "app.revolution", "<shift><ctrl>r", MGROUP_PLAYING },
 
@@ -385,12 +414,6 @@ static struct menu_entry_info menu_entries[] =
     G_CALLBACK(client_lua_script_callback), MGROUP_SAFE },
   { "MAP_VIEW", N_("?noun:_View"), GDK_KEY_F1, 0,
     G_CALLBACK(map_view_callback), MGROUP_SAFE },
-  { "REPORT_UNITS", N_("_Units"), GDK_KEY_F2, 0,
-    G_CALLBACK(report_units_callback), MGROUP_SAFE },
-  { "REPORT_NATIONS", N_("_Nations"), GDK_KEY_F3, 0,
-    G_CALLBACK(report_nations_callback), MGROUP_SAFE },
-  { "REPORT_CITIES", N_("_Cities"), GDK_KEY_F4, 0,
-    G_CALLBACK(report_cities_callback), MGROUP_SAFE },
   { "REPORT_WOW", N_("_Wonders of the World"), GDK_KEY_F7, 0,
     G_CALLBACK(report_wow_callback), MGROUP_SAFE },
   { "REPORT_TOP_CITIES", N_("Top _Five Cities"), GDK_KEY_F8, 0,
@@ -521,10 +544,7 @@ static struct menu_entry_info menu_entries[] =
 
   { "CENTER_VIEW", N_("_Center View"), GDK_KEY_c, 0,
     G_CALLBACK(center_view_callback), MGROUP_PLAYER },
-  { "REPORT_ECONOMY", N_("_Economy"), GDK_KEY_F5, 0,
-    G_CALLBACK(report_economy_callback), MGROUP_PLAYER },
-  { "REPORT_RESEARCH", N_("_Research"), GDK_KEY_F6, 0,
-    G_CALLBACK(report_research_callback), MGROUP_PLAYER },
+
   { "POLICIES", N_("_Policies..."),
     GDK_KEY_p, GDK_SHIFT_MASK | GDK_CONTROL_MASK,
     G_CALLBACK(multiplier_callback), MGROUP_PLAYER },
@@ -642,7 +662,12 @@ const GActionEntry acts[] = {
   { "build_city", build_city_callback },
   { "auto_settle", auto_settle_callback },
 
-  { "revolution", revolution_callback }
+  { "revolution", revolution_callback },
+  { "report_units", report_units_callback },
+  { "report_nations", report_nations_callback },
+  { "report_cities", report_cities_callback },
+  { "report_economy", report_economy_callback },
+  { "report_research", report_research_callback }
 };
 
 static struct menu_entry_info *menu_entry_info_find(const char *key);
@@ -817,15 +842,19 @@ static void map_view_callback(GtkMenuItem *item, gpointer data)
 {
   map_canvas_focus();
 }
+#endif /* MENUS_GTK3 */
 
 /************************************************************************//**
   Item "REPORT_NATIONS" callback.
 ****************************************************************************/
-static void report_nations_callback(GtkMenuItem *item, gpointer data)
+static void report_nations_callback(GSimpleAction *action,
+                                    GVariant *parameter,
+                                    gpointer data)
 {
   popup_players_dialog(TRUE);
 }
 
+#ifdef MENUS_GTK3
 /************************************************************************//**
   Item "REPORT_WOW" callback.
 ****************************************************************************/
@@ -1984,11 +2013,14 @@ static void center_view_callback(GtkMenuItem *action, gpointer data)
 {
   center_on_unit();
 }
+#endif /* MENUS_GTK3 */
 
 /************************************************************************//**
   Action "REPORT_UNITS" callback.
 ****************************************************************************/
-static void report_units_callback(GtkMenuItem *action, gpointer data)
+static void report_units_callback(GSimpleAction *action,
+                                  GVariant *parameter,
+                                  gpointer data)
 {
   units_report_dialog_popup(TRUE);
 }
@@ -1996,7 +2028,10 @@ static void report_units_callback(GtkMenuItem *action, gpointer data)
 /************************************************************************//**
   Action "REPORT_CITIES" callback.
 ****************************************************************************/
-static void report_cities_callback(GtkMenuItem *action, gpointer data)
+static void report_cities_callback(GSimpleAction *action,
+                                   GVariant *parameter,
+                                   gpointer data)
+
 {
   city_report_dialog_popup(TRUE);
 }
@@ -2004,7 +2039,9 @@ static void report_cities_callback(GtkMenuItem *action, gpointer data)
 /************************************************************************//**
   Action "REPORT_ECONOMY" callback.
 ****************************************************************************/
-static void report_economy_callback(GtkMenuItem *action, gpointer data)
+static void report_economy_callback(GSimpleAction *action,
+                                    GVariant *parameter,
+                                    gpointer data)
 {
   economy_report_dialog_popup(TRUE);
 }
@@ -2012,11 +2049,14 @@ static void report_economy_callback(GtkMenuItem *action, gpointer data)
 /************************************************************************//**
   Action "REPORT_RESEARCH" callback.
 ****************************************************************************/
-static void report_research_callback(GtkMenuItem *action, gpointer data)
+static void report_research_callback(GSimpleAction *action,
+                                     GVariant *parameter,
+                                     gpointer data)
 {
   science_report_dialog_popup(TRUE);
 }
 
+#ifdef MENUS_GTK3
 /************************************************************************//**
   Action "REPORT_SPACESHIP" callback.
 ****************************************************************************/
@@ -2096,6 +2136,12 @@ static GMenu *setup_menus(GtkApplication *app)
   g_menu_append_submenu(menubar, _("_Work"), G_MENU_MODEL(topmenu));
 
   gov_menu = g_menu_new();
+
+  menu_entry_init(gov_menu, "REPORT_UNITS");
+  menu_entry_init(gov_menu, "REPORT_NATIONS");
+  menu_entry_init(gov_menu, "REPORT_CITIES");
+  menu_entry_init(gov_menu, "REPORT_ECONOMY");
+  menu_entry_init(gov_menu, "REPORT_RESEARCH");
 
   /* Placeholder submenu (so that menu update has something to replace) */
   submenu = g_menu_new();
@@ -2308,8 +2354,8 @@ void real_menus_update(void)
       g_menu_append_item(submenu, item);
     }
   } governments_iterate_end;
-  g_menu_remove(gov_menu, 0);
-  g_menu_insert_submenu(gov_menu, 0, _("_Government"), G_MENU_MODEL(submenu));
+  g_menu_remove(gov_menu, 5);
+  g_menu_insert_submenu(gov_menu, 5, _("_Government"), G_MENU_MODEL(submenu));
 
   return;
 
