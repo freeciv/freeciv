@@ -558,22 +558,20 @@ static void dai_spend_gold(struct ai_type *ait, struct player *pplayer)
 
       if (acity_data->choice.want
           > bestchoice.want && ai_fuzzy(pplayer, TRUE)) {
-        bestchoice.value = acity_data->choice.value;
-        bestchoice.want = acity_data->choice.want;
-        bestchoice.type = acity_data->choice.type;
+        adv_choice_copy(&bestchoice, &(acity_data->choice));
         pcity = acity;
       }
     } city_list_iterate_end;
 
     /* We found nothing, so we're done */
-    if (bestchoice.want == 0) {
+    if (pcity == NULL) {
       break;
     }
 
     city_data = def_ai_city_data(pcity, ait);
 
     /* Not dealing with this city a second time */
-    city_data->choice.want = 0;
+    city_data->choice.want = -1;
 
     ADV_CHOICE_ASSERT(bestchoice);
 
