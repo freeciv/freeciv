@@ -1936,6 +1936,7 @@ PACKET_RULESET_CONTROL = 155; sc, lsend
   STRING version[MAX_LEN_NAME];
   STRING alt_dir[MAX_LEN_NAME];
   UINT16 desc_length;
+  UINT16 num_counters;
 end
 
 PACKET_RULESET_SUMMARY = 251; sc, lsend

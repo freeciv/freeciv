@@ -17,14 +17,20 @@
 
 #include <stdlib.h>
 
+/* common */
+#include "game.h"
 
 /* utility */
 #include "fcintl.h"
 
 #include "counters.h"
 
+/* All (of each type) counters array + related data.
+ * The number of length of data in this array
+ * game kept in game control packet/struct */
 static struct counter counters[MAX_COUNTERS];
 
+/* City counters array + related data */
 static struct counter *counters_city[MAX_COUNTERS];
 static int number_city_counters;
 
@@ -33,6 +39,7 @@ static int number_city_counters;
 ****************************************************************************/
 void counters_init(void)
 {
+  game.control.num_counters = 0;
   number_city_counters = 0;
 }
 
@@ -42,6 +49,11 @@ void counters_init(void)
 ****************************************************************************/
 void counters_free(void)
 {
+  /* TODO: Is freeing translated name needed? If is, write the right
+   * code here
+   */
+
+  game.control.num_counters = 0;
   number_city_counters = 0;
 }
 
@@ -58,7 +70,7 @@ int counters_get_city_counters_count(void)
 ****************************************************************************/
 struct counter *counter_by_id(int id)
 {
-  fc_assert_ret_val(id < MAX_COUNTERS, NULL);
+  fc_assert_ret_val(id < game.control.num_counters, NULL);
 
   return &counters[id];
 }
@@ -71,6 +83,7 @@ struct counter *counter_by_id(int id)
 void attach_city_counter(struct counter *counter)
 {
   counters_city[number_city_counters] = counter;
+  counters_city[number_city_counters]->index = number_city_counters;
   number_city_counters++;
 }
 
@@ -93,7 +106,7 @@ struct counter *counter_by_rule_name(const char *name)
   fc_assert_ret_val(NULL != name, NULL);
   fc_assert_ret_val('\0' != name[0], NULL);
 
-  for (i = 0; i < MAX_COUNTERS; i++)
+  for (i = 0; i < game.control.num_counters; i++)
   {
     if (0 == fc_strcasecmp(name, counter_rule_name(&counters[i])))
     {
@@ -114,7 +127,7 @@ struct counter *counter_by_translated_name(const char *name)
   fc_assert_ret_val(NULL != name, NULL);
   fc_assert_ret_val('\0' != name[0], NULL);
 
-  for (i = 0; i < MAX_COUNTERS; i++)
+  for (i = 0; i < game.control.num_counters; i++)
   {
     if (0 == fc_strcasecmp(name,
                            counter_name_translation(&counters[i])))

@@ -1432,10 +1432,13 @@ static bool load_game_names(struct section_file *file,
     if (ok) {
       int count_idx;
 
+      game.control.num_counters = nval;
+
       for (count_idx = 0; count_idx < nval; count_idx++) {
+
         struct counter *pcount = counter_by_id(count_idx);
         const char *sec_name
-        = section_name(section_list_get(sec, counter_index(pcount)));
+        = section_name(section_list_get(sec, count_idx));
 
         if (!ruleset_load_names(&pcount->name, NULL, file, sec_name)) {
           ruleset_error(LOG_ERROR, "\"%s\": Cannot load counters names",
@@ -1445,6 +1448,7 @@ static bool load_game_names(struct section_file *file,
         }
       }
     }
+
     section_list_destroy(sec);
   }
 

@@ -29,7 +29,7 @@ extern "C" {
 
 enum counter_target { CTGT_CITY };
 
-#define MAX_COUNTERS COUNTER_BEHAVIOUR_LAST
+#define MAX_COUNTERS 20
 
 struct counter
 {
