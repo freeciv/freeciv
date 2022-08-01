@@ -2089,7 +2089,7 @@ static void city_dialog_update_building(struct city_dialog *pdialog)
         gtk_list_store_append(store, &iter);
         gtk_list_store_set(store, &iter, 0, pix,
                            1, name, 3, useless,
-                           2, (gint)cid_encode(items[item].item),-1);
+                           2, (gint)cid_encode(items[item].item), -1);
         g_object_unref(G_OBJECT(pix));
       }
     }

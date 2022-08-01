@@ -68,6 +68,9 @@ const char *text_happiness_luxuries(const struct city *pcity);
 const char *text_happiness_units(const struct city *pcity);
 const char *text_happiness_wonders(const struct city *pcity);
 
+const char *production_help(const struct universal *uni, char *buf,
+                            size_t bufsize);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

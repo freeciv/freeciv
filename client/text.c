@@ -46,6 +46,7 @@
 #include "climisc.h"
 #include "control.h"
 #include "goto.h"
+#include "helpdata.h"
 
 #include "text.h"
 
@@ -2039,4 +2040,38 @@ const char *text_happiness_luxuries(const struct city *pcity)
                 _("Luxury: %d total."),
                 pcity->prod[O_LUXURY]);
   return astr_str(&str);
+}
+
+/************************************************************************//**
+  Fill provided buffer with relatively short (not full) helptext
+  of the universal.
+****************************************************************************/
+const char *production_help(const struct universal *uni, char *buf,
+                            size_t bufsize)
+{
+  buf[0] = '\0';
+  int segments = 0;
+
+  if (uni->kind == VUT_UTYPE) {
+    if (uni->value.utype->helptext != NULL) {
+      strvec_iterate(uni->value.utype->helptext, text) {
+        if (segments++) {
+          cat_snprintf(buf, bufsize, "\n\n");
+        }
+        cat_snprintf(buf, bufsize, "%s", _(text));
+      } strvec_iterate_end;
+    }
+  } else {
+    fc_assert(uni->kind == VUT_IMPROVEMENT);
+    if (uni->value.building->helptext != NULL) {
+      strvec_iterate(uni->value.building->helptext, text) {
+        if (segments++) {
+          cat_snprintf(buf, bufsize, "\n\n");
+        }
+        cat_snprintf(buf, bufsize, "%s", _(text));
+      } strvec_iterate_end;
+    }
+  }
+
+  return buf;
 }
