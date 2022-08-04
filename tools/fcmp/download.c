@@ -119,6 +119,10 @@ static const char *download_modpack_recursive(const char *URL,
     /* Nothing */
   }
 
+  if (start_idx <= 0) {
+    return _("This does not look like modpack URL");
+  }
+
   log_normal(_("Installing modpack %s from %s"), URL + start_idx, URL);
 
   if (fcmp->inst_prefix == NULL) {
@@ -424,6 +428,10 @@ const char *download_modpack_list(const struct fcmp_params *fcmp,
        start_idx > 0 && fcmp->list_url[start_idx - 1] != '/';
        start_idx--) {
     /* Nothing */
+  }
+
+  if (start_idx <= 0) {
+    return _("Invalid modpack list URL");
   }
 
   list_capstr = secfile_lookup_str(list_file, "info.options");
