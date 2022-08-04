@@ -123,7 +123,7 @@ Modpack installer
 
     * Default modpack list accessed by https-protocol osdn#44807
     * Vulnerability related to handling potentially crafted modpack URLs fixed
-      osdn#
+      osdn#45299
 
 Tilesets, Art, etc
 
