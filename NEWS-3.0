@@ -1,5 +1,5 @@
 ========================
-Welcome to Freeciv 3.0.2
+Welcome to Freeciv 3.0.3
 ========================
 
 The changes in the 3.0.x series are summarised below.
@@ -10,25 +10,156 @@ see the ChangeLog file.
 CHANGES FROM 3.0.2 to 3.0.3
 ---------------------------
 
-Default metaserver connection URL and URL used to fetch
-default modpack list have been updated to use https -protocol.
-This should cause no problems if https has been working
-for you all the time. However, if it was already broken
-(e.g. you couldn't download modpacks located on https even
-with earlier freeciv version), this makes the problem
-worse for you.
-The most likely cause for any problems with https
-is that certificates (cacerts) are not set up properly.
-From freeciv side, the configuration option
---with-cacert-path
-may help.
-In case everything else fails, we provide, for now,
-a .project file that you can use to build freeciv
-so that metaserver and modpack list default URLs
-still use http:
+   (from <https://www.freeciv.org/wiki/NEWS-3.0.3>, 2022-08-04)
+
+3.0.3 is a bugfix release.
+
+Default metaserver connection URL and URL used to fetch default modpack list
+have been updated to use https -protocol. This should cause no problems if
+https has been working for you all the time. However, if it was already broken
+(e.g. you couldn't download modpacks located on https even with earlier freeciv
+version), this makes the problem worse for you. The most likely cause for any
+problems with https is that root certificates (cacerts) are not set up properly.
+From freeciv side, building with the configuration option --with-cacert-path
+may help. In case everything else fails, we provide, for now, a .project file
+that you can use to build freeciv so that metaserver and modpack list
+default URLs still use http:
 --with-project-definition=<freeciv srcdir>/bootstrap/http.project
 We won't support that on freeciv-3.1.
 
+
+Server / General
+
+    * Sanity check, and fix, player researched techs count loaded from
+      the savegame. Older versions may have saved miscounted value osdn#44595
+    * Disallowed creation more than one unit of a type expected to be unique
+         + By editor osdn#44793
+         + By lua script HRM#870631
+    * Fixed IPv6 LAN announcement handling HRM#912661
+    * Fixed some "unused entry" warnings when loading saved game osdn#44958
+    * City worker gets removed from a tile that gets fogged for the owner
+      HRM#697685
+    * Default metaserver access is set to use https-protocol osdn#44806
+    * Disallowed creation more than maxplayers players from the editor
+      osdn#44811
+
+Changes affecting players (supplied rulesets)
+
+    * Legality of the activities of the units in the surrounding tiles are
+      checked also when the tile terrain changes because of climate change
+      osdn#44155
+
+    * 'civ1/civ1
+         + AI may build air units HRM#922066
+
+Changes affecting other rulesets / modders
+
+    * Improved handling of lua-script initiated unit owner change.
+      osdn#44778 osdn#45056
+    * Animals are initially placed further away from the players HRM#697677
+    * Added sanity check that resources defined for the terrains really
+      are resources osdn#45099
+    * Fixed client end problems in receiving requirements of type NationGroup
+      osdn#45109
+    * Fixed potential issue with modpacks with multiple city wall
+      graphic types and fogged tiles osdn#45063
+
+General
+
+    * Fixed memory leaks and improved cleanup on shutdown
+      osdn#44785 osdn#44755 osdn#44832 osdn#44754 osdn#44885 osdn#44893
+      osdn#44948 osdn#44983 osdn#44945 osdn#45022 osdn#45035 osdn#45184
+    * Optimizations osdn#44688 osdn#44879 osdn#44797 osdn#44611
+    * Various internal changes which should only affect developers.
+      osdn#44401 osdn#44759 osdn#44810 osdn#44854 osdn#44882 osdn#44849
+      osdn#44905 osdn#44115 osdn#45011 osdn#44994 osdn#45002 osdn#42889
+      osdn#44713 osdn#45159 osdn#44837 osdn#44612 osdn#43059
+
+AI
+
+    * Fixed AI want for techs providing paradropping units osdn#44926
+    * Fixed crash when a unit without homecity has waited for a ferry too long
+      osdn#44987
+    * AI no longer revolts to get rid of Senate, if it would not help
+      osdn#44847
+
+Clients
+
+    * gtk
+         + Log initialization failures instead of just quitting osdn#44118
+         + Numpad '+' and '-' now work for controlling zoom osdn#44846
+         + Allow setting worker tasks also when the governor is active
+           HRM#697695
+         + Fixed memory handling problem in server list display osdn#44944
+         + Transport selection dialog will show up when loading unit
+           with L)oad key osdn#43950
+
+    * qt
+         + Fixed font selection problems osdn#44389 osdn#44906
+         + Raise dialogs when they are accessed again. On macOS they
+           often ended behind the main window before this osdn#43943 osdn#44851
+         + Fixed changing color options from the options dialog osdn#44947
+         + Display intelligence information about Wonders osdn#44990
+         + Stopped flags on map from shrinking after user visited
+           nations report HRM#857120
+         + Make diplomacy dialog UI adjustments for disabled trading_gold
+           server setting more sane osdn#45149
+         + Made intelligence information display higher by one line of text,
+           in case leader title wraps to two lines osdn#45191
+         + Fixed potential memory problem after using scaled tileset osdn#45130
+
+    * sdl2
+         + Fixed size of the scaled unit icons osdn#44892 osdn#44891
+         + Intelligence dialog can now be always opened, as it has some
+           information even when players have no contact osdn#44991
+         + Fixed memory handling issues when selecting action from
+           small diplomacy dialog osdn#45046
+
+Tools
+Modpack installer
+
+    * Default modpack list accessed by https-protocol osdn#44807
+
+Tilesets, Art, etc
+
+    * Corrected/updated flag file formats osdn#45069
+
+Help / Documentation
+
+    * Miscellaneous improvements to in-game text and user documentation.
+      osdn#44668 osdn#44829 osdn#44826 osdn#44954 osdn#44981 osdn#45019
+      osdn#44941 osdn#41841 osdn#45043
+    * Miscellaneous changes to developer/install/ruleset docs.
+      osdn#44896 osdn#45164
+
+Translations
+
+    * Updated translations: ca, fi, fr, pl, ru
+    * Marked more strings for translations osdn#44957
+
+Build/portability
+
+    * Added configure option --with-localedir osdn#44525
+    * Windows msys2 environment updated to 220529 (29-May-22) snapshot
+      osdn#44056
+    * Warn when building gtk3-client instead of gtk3.22-client when
+      dependencies of latter would be available osdn#44792
+    * Fixed some clang analyzer warnings
+      osdn#44679 osdn#44617 osdn#44856 osdn#44937 osdn#44833 osdn#44897
+    * Fixed build on systems with unsigned time_t osdn#44886
+    * Fixed build when Qt headers require PIC, but user has enabled PIE
+      osdn#44917
+    * Flatpak safety improvements
+         + Give permissions only to .freeciv subdirectory,
+           not entire home directory osdn#44925
+         + Prefer wayland osdn#45103
+    * Replaced strncat() call with a portable fc_strlcat() one osdn#44919
+    * Provide http.project configuration osdn#45071
+    * Fixed detection of cross-MagickWand-config osdn#45009
+    * Fixed compiler warnings on x32 platform osdn#44920
+    * Updated bootstrap files from gnulib upstream osdn#45025
+    * Added autoconf cache variable for gettimeofday detection,
+      to make it possible to set it when cross-compiling osdn#45050
 
 
 CHANGES FROM 3.0.1 to 3.0.2
