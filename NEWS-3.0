@@ -10,9 +10,12 @@ see the ChangeLog file.
 CHANGES FROM 3.0.2 to 3.0.3
 ---------------------------
 
-   (from <https://www.freeciv.org/wiki/NEWS-3.0.3>, 2022-08-04)
+   (from <https://www.freeciv.org/wiki/NEWS-3.0.3>, 2022-08-05)
 
 3.0.3 is a bugfix release.
+
+There's a vulnerability fixed in modpack installer. All users
+of older versions are adviced to upgrade.
 
 Default metaserver connection URL and URL used to fetch default modpack list
 have been updated to use https -protocol. This should cause no problems if
@@ -119,6 +122,8 @@ Tools
 Modpack installer
 
     * Default modpack list accessed by https-protocol osdn#44807
+    * Vulnerability related to handling potentially crafted modpack URLs fixed
+      osdn#
 
 Tilesets, Art, etc
 
