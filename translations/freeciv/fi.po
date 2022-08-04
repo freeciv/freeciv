@@ -29,7 +29,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 2.6\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2022-07-09 04:48+0300\n"
+"POT-Creation-Date: 2022-08-05 00:27+0300\n"
 "PO-Revision-Date: 2022-07-09 04:48+0300\n"
 "Last-Translator: Sini Ruohomaa <sini.ruohomaa@iki.fi>\n"
 "Language-Team: None <freeciv-i18n@freelists.org>\n"
@@ -1123,7 +1123,7 @@ msgstr "Kaupungin nimi"
 #: client/gui-gtk-3.22/pages.c:2738 client/gui-qt/citydlg.cpp:2899
 #: client/gui-qt/gotodlg.cpp:53 client/gui-qt/pages.cpp:314
 #: client/gui-qt/pages.cpp:644 client/gui-qt/pages.cpp:1274
-#: client/gui-qt/plrdlg.cpp:484 client/gui-qt/repodlgs.cpp:1570
+#: client/gui-qt/plrdlg.cpp:488 client/gui-qt/repodlgs.cpp:1570
 #: client/gui-sdl/repodlgs.c:2082 client/gui-sdl2/repodlgs.c:2134
 #: client/plrdlg_common.c:308
 msgid "Nation"
@@ -2605,21 +2605,21 @@ msgstr "Kauppaa:"
 #: client/gui-gtk-3.22/citydlg.c:744 client/gui-gtk-3.22/diplodlg.c:765
 #: client/gui-gtk-3.22/diplodlg.c:849 client/gui-gtk-3.22/inteldlg.c:51
 #: client/gui-qt/citydlg.h:61 client/gui-qt/diplodlg.cpp:165
-#: client/gui-qt/diplodlg.cpp:167 client/gui-qt/plrdlg.cpp:495
+#: client/gui-qt/diplodlg.cpp:167 client/gui-qt/plrdlg.cpp:499
 msgid "Gold:"
 msgstr "Kultaa:"
 
 #: client/gui-gtk-2.0/citydlg.c:692 client/gui-gtk-2.0/inteldlg.c:55
 #: client/gui-gtk-3.0/citydlg.c:745 client/gui-gtk-3.0/inteldlg.c:55
 #: client/gui-gtk-3.22/citydlg.c:745 client/gui-gtk-3.22/inteldlg.c:55
-#: client/gui-qt/citydlg.h:63 client/gui-qt/plrdlg.cpp:501
+#: client/gui-qt/citydlg.h:63 client/gui-qt/plrdlg.cpp:505
 msgid "Luxury:"
 msgstr "Luksus:"
 
 #: client/gui-gtk-2.0/citydlg.c:693 client/gui-gtk-2.0/inteldlg.c:54
 #: client/gui-gtk-3.0/citydlg.c:746 client/gui-gtk-3.0/inteldlg.c:54
 #: client/gui-gtk-3.22/citydlg.c:746 client/gui-gtk-3.22/inteldlg.c:54
-#: client/gui-qt/citydlg.h:65 client/gui-qt/plrdlg.cpp:499
+#: client/gui-qt/citydlg.h:65 client/gui-qt/plrdlg.cpp:503
 msgid "Science:"
 msgstr "Tiede:"
 
@@ -4429,60 +4429,60 @@ msgstr ""
 msgid "Report bugs at %s\n"
 msgstr "Ilmoita ohjelman virheistä osoitteessa %s\n"
 
-#: client/gui-gtk-2.0/gui_main.c:770 client/gui-gtk-2.0/gui_main.c:1581
-#: client/gui-gtk-3.0/gui_main.c:819 client/gui-gtk-3.0/gui_main.c:1765
+#: client/gui-gtk-2.0/gui_main.c:771 client/gui-gtk-2.0/gui_main.c:1582
+#: client/gui-gtk-3.0/gui_main.c:819 client/gui-gtk-3.0/gui_main.c:1770
 #: client/gui-gtk-3.22/gui_main.c:806 client/gui-gtk-3.22/gui_main.c:1839
 #: client/gui-sdl/gui_main.c:797 client/gui-sdl/gui_main.c:812
 msgid "Freeciv"
 msgstr "Freeciv"
 
-#: client/gui-gtk-2.0/gui_main.c:1255 client/gui-gtk-2.0/gui_main.c:1263
-#: client/gui-gtk-3.0/gui_main.c:1356 client/gui-gtk-3.0/gui_main.c:1364
+#: client/gui-gtk-2.0/gui_main.c:1256 client/gui-gtk-2.0/gui_main.c:1264
+#: client/gui-gtk-3.0/gui_main.c:1361 client/gui-gtk-3.0/gui_main.c:1369
 #: client/gui-gtk-3.22/gui_main.c:1377 client/gui-gtk-3.22/gui_main.c:1385
 #: client/gui-qt/pages.cpp:741 client/gui-sdl/mapctrl.c:1555
 #: client/gui-sdl2/mapctrl.c:1668 data/Freeciv.in:2622
 msgid "Turn Done"
 msgstr "Vuoro valmis"
 
-#: client/gui-gtk-2.0/gui_main.c:1263 client/gui-gtk-3.0/gui_main.c:1364
+#: client/gui-gtk-2.0/gui_main.c:1264 client/gui-gtk-3.0/gui_main.c:1369
 #: client/gui-gtk-3.22/gui_main.c:1385 client/gui-sdl/mapctrl.c:1555
 #: client/gui-sdl/mapview.c:919 client/gui-sdl2/mapctrl.c:1668
 #: client/gui-sdl2/mapview.c:939
 msgid "Shift+Return"
 msgstr "Shift+Enter"
 
-#: client/gui-gtk-2.0/gui_main.c:1334 client/gui-gtk-3.0/gui_main.c:1447
+#: client/gui-gtk-2.0/gui_main.c:1335 client/gui-gtk-3.0/gui_main.c:1452
 #: client/gui-gtk-3.22/gui_main.c:1468 client/gui-qt/menu.cpp:1336
 #: client/gui-qt/pages.cpp:717
 msgid "?noun:View"
 msgstr "Näkymä"
 
-#: client/gui-gtk-2.0/gui_main.c:1446 client/gui-gtk-3.0/gui_main.c:1566
+#: client/gui-gtk-2.0/gui_main.c:1447 client/gui-gtk-3.0/gui_main.c:1571
 #: client/gui-gtk-3.22/gui_main.c:1589
 msgid "Chat"
 msgstr "Keskustelu"
 
-#: client/gui-gtk-2.0/gui_main.c:1470 client/gui-gtk-3.0/gui_main.c:1596
+#: client/gui-gtk-2.0/gui_main.c:1471 client/gui-gtk-3.0/gui_main.c:1601
 #: client/gui-gtk-3.22/gui_main.c:1619
 msgid "Allies Only"
 msgstr "Vain liittolaiset"
 
-#: client/gui-gtk-2.0/gui_main.c:1479 client/gui-gtk-3.0/gui_main.c:1605
+#: client/gui-gtk-2.0/gui_main.c:1480 client/gui-gtk-3.0/gui_main.c:1610
 #: client/gui-gtk-3.22/gui_main.c:1628 client/gui-qt/chatline.cpp:287
 msgid "Clear links"
 msgstr "Poista linkkimerkinnät"
 
-#: client/gui-gtk-2.0/gui_main.c:1522
+#: client/gui-gtk-2.0/gui_main.c:1523
 msgid "Migrating gtk2-client options from freeciv-2.5 options."
 msgstr ""
 "Kopioin gtk2-asiakasohjelman asetuksia freecivin version 2.5 asetuksista."
 
-#: client/gui-gtk-2.0/gui_main.c:2029 client/gui-gtk-3.0/gui_main.c:2166
+#: client/gui-gtk-2.0/gui_main.c:2030 client/gui-gtk-3.0/gui_main.c:2171
 #: client/gui-gtk-3.22/gui_main.c:2242 client/gui-qt/gui_main.cpp:551
 msgid "Are you sure you want to quit?"
 msgstr "Haluatko todella lopettaa?"
 
-#: client/gui-gtk-2.0/gui_main.c:2198 client/gui-gtk-3.0/gui_main.c:2335
+#: client/gui-gtk-2.0/gui_main.c:2199 client/gui-gtk-3.0/gui_main.c:2340
 #: client/gui-gtk-3.22/gui_main.c:2411
 #, c-format
 msgid ""
@@ -4679,8 +4679,8 @@ msgstr "Bonus (R/T/K):"
 #. TRANS: "None" tech
 #: client/gui-gtk-2.0/helpdlg.c:129 client/gui-gtk-3.0/helpdlg.c:130
 #: client/gui-gtk-3.22/helpdlg.c:130 client/gui-qt/citydlg.cpp:3793
-#: client/gui-qt/helpdlg.cpp:54 client/gui-qt/plrdlg.cpp:581
-#: client/gui-qt/plrdlg.cpp:587 client/gui-qt/repodlgs.cpp:1085
+#: client/gui-qt/helpdlg.cpp:54 client/gui-qt/plrdlg.cpp:585
+#: client/gui-qt/plrdlg.cpp:591 client/gui-qt/repodlgs.cpp:1085
 #: client/gui-sdl/gui_tilespec.c:374 client/gui-sdl/helpdlg.c:852
 #: client/gui-sdl/mapview.c:331 client/gui-sdl2/gui_tilespec.c:381
 #: client/gui-sdl2/helpdlg.c:855 client/gui-sdl2/mapview.c:346
@@ -4768,7 +4768,7 @@ msgstr " kanssa)"
 #: client/gui-gtk-2.0/inteldlg.c:443 client/gui-gtk-3.0/helpdlg.c:1215
 #: client/gui-gtk-3.0/helpdlg.c:1323 client/gui-gtk-3.0/inteldlg.c:437
 #: client/gui-gtk-3.22/helpdlg.c:1249 client/gui-gtk-3.22/helpdlg.c:1357
-#: client/gui-gtk-3.22/inteldlg.c:436 client/gui-qt/plrdlg.cpp:452
+#: client/gui-gtk-3.22/inteldlg.c:436 client/gui-qt/plrdlg.cpp:456
 #: client/gui-sdl/inteldlg.c:319 client/gui-sdl2/inteldlg.c:339
 #: client/gui-xaw/helpdlg.c:1025 client/gui-xaw/helpdlg.c:1110
 #: common/requirements.c:3224
@@ -4841,27 +4841,27 @@ msgstr "ei mitään"
 
 # Jostain pääministeristä vähän vahvasti sanottu.
 #: client/gui-gtk-2.0/inteldlg.c:48 client/gui-gtk-3.0/inteldlg.c:48
-#: client/gui-gtk-3.22/inteldlg.c:48 client/gui-qt/plrdlg.cpp:486
+#: client/gui-gtk-3.22/inteldlg.c:48 client/gui-qt/plrdlg.cpp:490
 msgid "Ruler:"
 msgstr "Hallitsija:"
 
 #: client/gui-gtk-2.0/inteldlg.c:49 client/gui-gtk-3.0/inteldlg.c:49
-#: client/gui-gtk-3.22/inteldlg.c:49 client/gui-qt/plrdlg.cpp:489
+#: client/gui-gtk-3.22/inteldlg.c:49 client/gui-qt/plrdlg.cpp:493
 msgid "Government:"
 msgstr "Valtiomuoto:"
 
 #: client/gui-gtk-2.0/inteldlg.c:50 client/gui-gtk-3.0/inteldlg.c:50
-#: client/gui-gtk-3.22/inteldlg.c:50 client/gui-qt/plrdlg.cpp:491
+#: client/gui-gtk-3.22/inteldlg.c:50 client/gui-qt/plrdlg.cpp:495
 msgid "Capital:"
 msgstr "Pääkaupunki:"
 
 #: client/gui-gtk-2.0/inteldlg.c:53 client/gui-gtk-3.0/inteldlg.c:53
-#: client/gui-gtk-3.22/inteldlg.c:53 client/gui-qt/plrdlg.cpp:497
+#: client/gui-gtk-3.22/inteldlg.c:53 client/gui-qt/plrdlg.cpp:501
 msgid "Tax:"
 msgstr "Vero:"
 
 #: client/gui-gtk-2.0/inteldlg.c:57 client/gui-gtk-3.0/inteldlg.c:57
-#: client/gui-gtk-3.22/inteldlg.c:57 client/gui-qt/plrdlg.cpp:503
+#: client/gui-gtk-3.22/inteldlg.c:57 client/gui-qt/plrdlg.cpp:507
 msgid "Researching:"
 msgstr "Tutkimuskohde:"
 
@@ -4902,10 +4902,10 @@ msgstr "Ulkomaantiedustelu: %s valtakunta"
 #: client/gui-gtk-3.22/inteldlg.c:400 client/gui-gtk-3.22/inteldlg.c:407
 #: client/gui-gtk-3.22/inteldlg.c:414 client/gui-gtk-3.22/inteldlg.c:421
 #: client/gui-gtk-3.22/inteldlg.c:431 client/gui-gtk-3.22/inteldlg.c:438
-#: client/gui-qt/plrdlg.cpp:448 client/gui-qt/plrdlg.cpp:454
-#: client/gui-qt/plrdlg.cpp:469 client/gui-qt/plrdlg.cpp:470
-#: client/gui-qt/plrdlg.cpp:471 client/gui-qt/plrdlg.cpp:478
-#: client/gui-qt/plrdlg.cpp:479 client/gui-qt/plrdlg.cpp:493
+#: client/gui-qt/plrdlg.cpp:452 client/gui-qt/plrdlg.cpp:458
+#: client/gui-qt/plrdlg.cpp:473 client/gui-qt/plrdlg.cpp:474
+#: client/gui-qt/plrdlg.cpp:475 client/gui-qt/plrdlg.cpp:482
+#: client/gui-qt/plrdlg.cpp:483 client/gui-qt/plrdlg.cpp:497
 #: client/gui-sdl/inteldlg.c:316 client/gui-sdl/inteldlg.c:319
 #: client/gui-sdl/inteldlg.c:330 client/gui-sdl/inteldlg.c:348
 #: client/gui-sdl2/inteldlg.c:336 client/gui-sdl2/inteldlg.c:339
@@ -6411,7 +6411,7 @@ msgstr "Lopeta näkymän jakaminen"
 #: client/gui-sdl/mapview.c:346 client/gui-sdl/repodlgs.c:3291
 #: client/gui-sdl2/mapctrl.c:1495 client/gui-sdl2/mapview.c:345
 #: client/gui-sdl2/mapview.c:353 client/gui-sdl2/mapview.c:361
-#: client/gui-sdl2/repodlgs.c:3360 client/gui-xaw/menu.c:229
+#: client/gui-sdl2/repodlgs.c:3362 client/gui-xaw/menu.c:229
 #: client/gui-xaw/repodlgs.c:253 client/gui-xaw/repodlgs.c:476
 #: data/Freeciv.in:1384
 msgid "Research"
@@ -7052,12 +7052,12 @@ msgstr "-r, --resolution LEVEYSxKORKEUS\tOleta näytön kooksi annettu arvo\n"
 msgid "Illegal video mode '%s'"
 msgstr "Virheellinen videomoodi '%s'"
 
-#: client/gui-gtk-3.0/gui_main.c:1649 client/gui-gtk-3.22/gui_main.c:1672
+#: client/gui-gtk-3.0/gui_main.c:1654 client/gui-gtk-3.22/gui_main.c:1672
 msgid "Migrating options from gtk2 to gtk3 client"
 msgstr ""
 "Kopioin gtk2-asiakasohjelman asetuksia gtk3-asiakasohjelman asetuksiksi."
 
-#: client/gui-gtk-3.0/gui_main.c:1704 client/gui-gtk-3.22/gui_main.c:1738
+#: client/gui-gtk-3.0/gui_main.c:1709 client/gui-gtk-3.22/gui_main.c:1738
 msgid "Migrating gtk3-client options from freeciv-2.5 options."
 msgstr ""
 "Kopioin gtk3-asiakasohjelman asetuksia freecivin version 2.5 asetuksista."
@@ -7179,7 +7179,7 @@ msgid "Color"
 msgstr "Väri"
 
 #: client/gui-gtk-3.22/chatline.c:1426 client/gui-sdl/dialogs.c:2846
-#: client/gui-sdl/dialogs.c:3283 client/gui-sdl/mapctrl.c:2560
+#: client/gui-sdl/dialogs.c:3282 client/gui-sdl/mapctrl.c:2560
 #: client/gui-sdl2/dialogs.c:2833 client/gui-sdl2/dialogs.c:3266
 #: client/gui-sdl2/mapctrl.c:2768 common/mapimg.c:304
 msgid "OK"
@@ -7556,7 +7556,7 @@ msgstr "Vanhentuu %1 keksimisen myötä"
 #: client/gui-sdl/connectdlg.c:320 client/gui-sdl/connectdlg.c:637
 #: client/gui-sdl/connectdlg.c:832 client/gui-sdl/connectdlg.c:1005
 #: client/gui-sdl/dialogs.c:706 client/gui-sdl/dialogs.c:900
-#: client/gui-sdl/dialogs.c:3273 client/gui-sdl/mapctrl.c:2570
+#: client/gui-sdl/dialogs.c:3272 client/gui-sdl/mapctrl.c:2570
 #: client/gui-sdl2/action_dialog.c:1014 client/gui-sdl2/citydlg.c:528
 #: client/gui-sdl2/citydlg.c:1421 client/gui-sdl2/connectdlg.c:324
 #: client/gui-sdl2/connectdlg.c:634 client/gui-sdl2/connectdlg.c:828
@@ -7611,7 +7611,7 @@ msgstr "Myy"
 msgid "Sell?"
 msgstr "Myy?"
 
-#: client/gui-qt/cityrep.cpp:1111 client/gui-qt/plrdlg.cpp:352
+#: client/gui-qt/cityrep.cpp:1111 client/gui-qt/plrdlg.cpp:356
 msgid "Column visibility"
 msgstr "Sarakkeen näkyvyys"
 
@@ -7630,7 +7630,7 @@ msgid "Female"
 msgstr "Nainen"
 
 #: client/gui-qt/dialogs.cpp:318 client/gui-sdl/dialogs.c:2563
-#: client/gui-sdl/dialogs.c:2978 client/gui-sdl/dialogs.c:3233
+#: client/gui-sdl/dialogs.c:2978 client/gui-sdl/dialogs.c:3232
 #: client/gui-sdl2/dialogs.c:2551 client/gui-sdl2/dialogs.c:2962
 #: client/gui-sdl2/dialogs.c:3216
 msgid "Male"
@@ -7699,7 +7699,7 @@ msgstr[1] "Haluatko todella poistaa käytöstä %1 yksikköä?"
 #: client/gui-sdl/plrdlg.c:227 client/gui-sdl/repodlgs.c:245
 #: client/gui-sdl2/action_dialog.c:1567 client/gui-sdl2/action_dialog.c:1794
 #: client/gui-sdl2/citydlg.c:1219 client/gui-sdl2/cma_fe.c:354
-#: client/gui-sdl2/diplodlg.c:1423 client/gui-sdl2/plrdlg.c:274
+#: client/gui-sdl2/diplodlg.c:1420 client/gui-sdl2/plrdlg.c:274
 #: client/gui-sdl2/repodlgs.c:266 client/gui-xaw/citydlg.c:2476
 #: client/gui-xaw/cityrep.c:676 client/gui-xaw/cma_fe.c:332
 #: client/gui-xaw/cma_fe.c:522 client/gui-xaw/cma_fe.c:794
@@ -7718,7 +7718,7 @@ msgstr "Kyllä"
 #: client/gui-sdl/plrdlg.c:227 client/gui-sdl/repodlgs.c:233
 #: client/gui-sdl/repodlgs.c:1590 client/gui-sdl2/action_dialog.c:1578
 #: client/gui-sdl2/action_dialog.c:1804 client/gui-sdl2/citydlg.c:1208
-#: client/gui-sdl2/cma_fe.c:363 client/gui-sdl2/diplodlg.c:1412
+#: client/gui-sdl2/cma_fe.c:363 client/gui-sdl2/diplodlg.c:1409
 #: client/gui-sdl2/plrdlg.c:274 client/gui-sdl2/repodlgs.c:254
 #: client/gui-sdl2/repodlgs.c:1645 client/gui-xaw/citydlg.c:2476
 #: client/gui-xaw/cityrep.c:676 client/gui-xaw/cma_fe.c:332
@@ -8804,32 +8804,32 @@ msgstr "Raha: %1% Tiede: %2% Luksus: %3%\n"
 msgid "%1 - max rate: %2%"
 msgstr "%1 - maksimiosuus: %2%"
 
-#: client/gui-qt/plrdlg.cpp:546
+#: client/gui-qt/plrdlg.cpp:550
 msgid "<b>Techs unknown by %1:</b>"
 msgstr "<b>Teknologiat, joita %1 eivät tunne:</b>"
 
-#: client/gui-qt/plrdlg.cpp:549
+#: client/gui-qt/plrdlg.cpp:553
 msgid "<b>Techs unknown by you :</b>"
 msgstr "<b>Teknologiat, joita et tunne:</b>"
 
-#: client/gui-qt/plrdlg.cpp:594
+#: client/gui-qt/plrdlg.cpp:598
 msgid "<b>Techs known by %1:</b>"
 msgstr "<b>Teknologiat, jotka %1 tuntevat:</b>"
 
-#: client/gui-qt/plrdlg.cpp:657 data/Freeciv.in:3246
+#: client/gui-qt/plrdlg.cpp:661 data/Freeciv.in:3246
 msgid "Meet"
 msgstr "Tapaa"
 
-#: client/gui-qt/plrdlg.cpp:659 client/gui-sdl/diplodlg.c:1548
-#: client/gui-sdl2/diplodlg.c:1560
+#: client/gui-qt/plrdlg.cpp:663 client/gui-sdl/diplodlg.c:1548
+#: client/gui-sdl2/diplodlg.c:1557
 msgid "Cancel Treaty"
 msgstr "Pura sopimus"
 
-#: client/gui-qt/plrdlg.cpp:661
+#: client/gui-qt/plrdlg.cpp:665
 msgid "Withdraw Vision"
 msgstr "Lopeta näkymän jakaminen"
 
-#: client/gui-qt/plrdlg.cpp:663 client/gui-qt/plrdlg.cpp:761
+#: client/gui-qt/plrdlg.cpp:667 client/gui-qt/plrdlg.cpp:765
 msgid "Toggle AI Mode"
 msgstr "Aseta AI-tila"
 
@@ -9133,8 +9133,8 @@ msgstr "<b>%s pyysi äänestyksen:</b>"
 #: client/gui-sdl2/inteldlg.c:269 client/gui-sdl2/optiondlg.c:789
 #: client/gui-sdl2/plrdlg.c:402 client/gui-sdl2/plrdlg.c:703
 #: client/gui-sdl2/repodlgs.c:415 client/gui-sdl2/repodlgs.c:2059
-#: client/gui-sdl2/repodlgs.c:2950 client/gui-sdl2/repodlgs.c:3138
-#: client/gui-sdl2/repodlgs.c:3421 client/gui-sdl2/spaceshipdlg.c:178
+#: client/gui-sdl2/repodlgs.c:2952 client/gui-sdl2/repodlgs.c:3140
+#: client/gui-sdl2/repodlgs.c:3423 client/gui-sdl2/spaceshipdlg.c:178
 msgid "Close Dialog (Esc)"
 msgstr "Sulje valintaikkuna (Esc)"
 
@@ -9660,7 +9660,7 @@ msgstr "Valitse uusi valtiomuotosi"
 msgid "What nation will you be?"
 msgstr "Mitä kansakuntaa haluat johtaa?"
 
-#: client/gui-sdl/dialogs.c:3143 client/gui-sdl2/dialogs.c:3126
+#: client/gui-sdl/dialogs.c:3142 client/gui-sdl2/dialogs.c:3126
 msgid "Nation set"
 msgstr "Kansavalikoima"
 
@@ -9684,20 +9684,20 @@ msgid "Diplomacy meeting"
 msgstr "Diplomaattinen kohtaaminen"
 
 #. TRANS: "Polish incident !" FIXME!!!
-#: client/gui-sdl/diplodlg.c:1371 client/gui-sdl2/diplodlg.c:1382
+#: client/gui-sdl/diplodlg.c:1371 client/gui-sdl2/diplodlg.c:1379
 #, c-format
 msgid "%s incident !"
 msgstr "%s selkkaus!"
 
-#: client/gui-sdl/diplodlg.c:1389 client/gui-sdl2/diplodlg.c:1400
+#: client/gui-sdl/diplodlg.c:1389 client/gui-sdl2/diplodlg.c:1397
 msgid "Shall we declare WAR on them?"
 msgstr "Julistammeko SODAN heitä vastaan?"
 
-#: client/gui-sdl/diplodlg.c:1506 client/gui-sdl2/diplodlg.c:1518
+#: client/gui-sdl/diplodlg.c:1506 client/gui-sdl2/diplodlg.c:1515
 msgid "Foreign Minister"
 msgstr "Ulkoministeri"
 
-#: client/gui-sdl/diplodlg.c:1523 client/gui-sdl2/diplodlg.c:1535
+#: client/gui-sdl/diplodlg.c:1523 client/gui-sdl2/diplodlg.c:1532
 #, c-format
 msgid ""
 "Sir!, the %s ambassador has arrived\n"
@@ -9706,7 +9706,7 @@ msgstr ""
 "Kunnioitettu hallitsija, %s lähettiläs on saapunut.\n"
 "Mitä määräätte?"
 
-#: client/gui-sdl/diplodlg.c:1527 client/gui-sdl2/diplodlg.c:1539
+#: client/gui-sdl/diplodlg.c:1527 client/gui-sdl2/diplodlg.c:1536
 #, c-format
 msgid ""
 "Ma'am!, the %s ambassador has arrived\n"
@@ -9715,20 +9715,20 @@ msgstr ""
 "Kunnioitettu hallitsija, %s lähettiläs on saapunut.\n"
 "Mitä määräätte?"
 
-#: client/gui-sdl/diplodlg.c:1546 client/gui-sdl2/diplodlg.c:1558
+#: client/gui-sdl/diplodlg.c:1546 client/gui-sdl2/diplodlg.c:1555
 msgid "Declare WAR"
 msgstr "Julista SOTA"
 
-#: client/gui-sdl/diplodlg.c:1573 client/gui-sdl2/diplodlg.c:1586
+#: client/gui-sdl/diplodlg.c:1573 client/gui-sdl2/diplodlg.c:1583
 #: data/Freeciv.in:3262
 msgid "Withdraw vision"
 msgstr "Irtisano jaettu näkymä"
 
-#: client/gui-sdl/diplodlg.c:1592 client/gui-sdl2/diplodlg.c:1605
+#: client/gui-sdl/diplodlg.c:1592 client/gui-sdl2/diplodlg.c:1602
 msgid "Call Diplomatic Meeting"
 msgstr "Kutsu diplomaattinen kokous"
 
-#: client/gui-sdl/diplodlg.c:1608 client/gui-sdl2/diplodlg.c:1621
+#: client/gui-sdl/diplodlg.c:1608 client/gui-sdl2/diplodlg.c:1618
 msgid "Send him back"
 msgstr "Lähetä hänet pois"
 
@@ -10529,21 +10529,21 @@ msgstr "Päivitä"
 msgid "Wonder"
 msgstr "Ihme"
 
-#: client/gui-sdl/repodlgs.c:2879 client/gui-sdl2/repodlgs.c:2934
+#: client/gui-sdl/repodlgs.c:2879 client/gui-sdl2/repodlgs.c:2936
 msgid "What should we focus on now?"
 msgstr "Mihin meidän tulisi nyt keskittyä?"
 
-#: client/gui-sdl/repodlgs.c:3066 client/gui-sdl2/repodlgs.c:3122
+#: client/gui-sdl/repodlgs.c:3066 client/gui-sdl2/repodlgs.c:3124
 msgid "Select target :"
 msgstr "Valitse kohde :"
 
-#: client/gui-sdl/repodlgs.c:3135 client/gui-sdl2/repodlgs.c:3191
+#: client/gui-sdl/repodlgs.c:3135 client/gui-sdl2/repodlgs.c:3193
 msgid "step"
 msgid_plural "steps"
 msgstr[0] "vaihe"
 msgstr[1] "vaihetta"
 
-#: client/gui-sdl/repodlgs.c:3428 client/gui-sdl2/repodlgs.c:3497
+#: client/gui-sdl/repodlgs.c:3428 client/gui-sdl2/repodlgs.c:3499
 #: client/gui-xaw/repodlgs.c:1197
 #, c-format
 msgid "%2d: The %s ruler %s scored %d point\n"
@@ -10551,12 +10551,12 @@ msgid_plural "%2d: The %s ruler %s scored %d points\n"
 msgstr[0] "%2d: %s hallitsija %s sai %d pisteen\n"
 msgstr[1] "%2d: %s hallitsija %s sai %d pistettä\n"
 
-#: client/gui-sdl/repodlgs.c:3435 client/gui-sdl2/repodlgs.c:3504
+#: client/gui-sdl/repodlgs.c:3435 client/gui-sdl2/repodlgs.c:3506
 #: client/gui-xaw/repodlgs.c:1204
 msgid "Final Report:"
 msgstr "Lopullinen raportti:"
 
-#: client/gui-sdl/repodlgs.c:3436 client/gui-sdl2/repodlgs.c:3505
+#: client/gui-sdl/repodlgs.c:3436 client/gui-sdl2/repodlgs.c:3507
 #: client/gui-xaw/repodlgs.c:1205
 msgid "The Greatest Civilizations in the world."
 msgstr "Maailman mahtavimmat sivilisaatiot."
@@ -37259,93 +37259,99 @@ msgstr "Sisäkkäisiä riippuvuuksia liian monessa kerroksessa"
 msgid "No URL given"
 msgstr "URL:ia ei annettu"
 
-#: tools/download.c:109
+#: tools/download.c:109 tools/download.c:119
 msgid "This does not look like modpack URL"
 msgstr "Tämä ei näytä muunnospaketin URL:ilta"
 
-#: tools/download.c:118
+#: tools/download.c:122
 #, c-format
 msgid "Installing modpack %s from %s"
 msgstr "Asennan munnospakettia %s osoitteesta %s"
 
-#: tools/download.c:121
+#: tools/download.c:125
 msgid "Cannot install to given directory hierarchy"
 msgstr "En onnistu asentamaan annettuun hakemistoon"
 
 #. TRANS: %s is a filename with suffix '.modpack'
-#: tools/download.c:128
+#: tools/download.c:132
 #, c-format
 msgid "Downloading \"%s\" control file."
 msgstr "Ladataan muunnospaketin kontrollitiedostoa \"%s\"."
 
-#: tools/download.c:135
+#: tools/download.c:139
 msgid "Failed to get and parse modpack control file"
 msgstr "Virhe muunnospaketin kontrollitiedoston noutamisessa ja tulkinnassa"
 
-#: tools/download.c:141
+#: tools/download.c:145
 msgid "Modpack control file has no capability string"
 msgstr "Muunnospaketin kontrollitiedoston ominaisuuksia ei ole listattu"
 
-#: tools/download.c:151
+#: tools/download.c:155
 msgid "Modpack control file is incompatible"
 msgstr "Muunnospaketin kontrollitiedosto ei ole yhteensopiva"
 
-#: tools/download.c:156
+#: tools/download.c:160
 msgid "Modpack name not defined in control file"
 msgstr "Muunnospaketin nimeä ei ole määritetty kontrollitiedostossa"
 
-#: tools/download.c:160
+#: tools/download.c:164
 msgid "Modpack version not defined in control file"
 msgstr "Muunnospaketin versiota ei ole määritetty kontrollitiedostossa"
 
-#: tools/download.c:166
+#: tools/download.c:170
 msgid "Illegal modpack type"
 msgstr "Virheellinen muunnospaketin tyyppi"
 
-#: tools/download.c:205
+#: tools/download.c:209
 msgid "Dependency has no download URL"
 msgstr "Riippuvuuden latausosoitetta ei ole annettu"
 
-#: tools/download.c:211
+#: tools/download.c:215
 msgid "Illegal dependency modpack type"
 msgstr "Virheellinen pohjalle tarvittavan muunnospaketin tyyppi"
 
-#: tools/download.c:234
+#: tools/download.c:238
 msgid "Download dependency modpack"
 msgstr "Lataa muunnospaketin tarvitsema toinen muunnospaketti"
 
-#: tools/download.c:309
+#: tools/download.c:313
 #, c-format
 msgid "Illegal path for %s"
 msgstr "Polku %s ei kelpaa"
 
-#: tools/download.c:345
+#: tools/download.c:349
 msgid "Cannot create required directories"
 msgstr "Vaadittavia hakemistoja ei voi luoda"
 
-#: tools/download.c:352
+#: tools/download.c:356
 #, c-format
 msgid "Downloading %s"
 msgstr "Ladataan %s"
 
-#: tools/download.c:362
+#: tools/download.c:366
 #, c-format
 msgid "Failed to download %s"
 msgstr "Virhe ladattaessa %s"
 
-#: tools/download.c:383
+#: tools/download.c:387
 msgid "Some parts of the modpack failed to install."
 msgstr "Joitain muunnospaketin osia ei voitu asentaa."
 
-#: tools/download.c:410
+#: tools/download.c:414
 msgid "Cannot fetch and parse modpack list"
 msgstr "Virhe muunnospakettiluettelon noutamisessa ja tulkinnassa"
 
-#: tools/download.c:422
+#: tools/download.c:424
+#, fuzzy
+#| msgid "Load modpack list from given URL"
+msgid "Invalid modpack list URL"
+msgstr "Lataa muunnospakettiluettelo annetusta osoitteesta"
+
+#: tools/download.c:430
 msgid "Modpack list has no capability string"
 msgstr "Muunnospakettiluettelon ominaisuuksia ei ole listattu"
 
-#: tools/download.c:432
+#: tools/download.c:440
 msgid "Modpack list is incompatible"
 msgstr "Muunnospakettilista ei ole yhteensopiva"
 

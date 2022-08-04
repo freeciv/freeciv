@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.6\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2022-07-29 18:48+0200\n"
+"POT-Creation-Date: 2022-08-05 00:27+0300\n"
 "PO-Revision-Date: 2022-01-21 19:58+0100\n"
 "Last-Translator: Igx <igx31 hotmail.com>\n"
 "Language-Team: French <freeciv-l10n-fr@yahoogroupes.fr>\n"
@@ -37699,93 +37699,99 @@ msgstr "Dépendances réccursives trop profondes"
 msgid "No URL given"
 msgstr "Pas d'URL donnée"
 
-#: tools/download.c:109
+#: tools/download.c:109 tools/download.c:119
 msgid "This does not look like modpack URL"
 msgstr "Cela ne ressemble pas à une URL de modpack"
 
-#: tools/download.c:118
+#: tools/download.c:122
 #, c-format
 msgid "Installing modpack %s from %s"
 msgstr "Installation du modpack %s de %s"
 
-#: tools/download.c:121
+#: tools/download.c:125
 msgid "Cannot install to given directory hierarchy"
 msgstr "Impossible d'installer dans l'arboresence donnée"
 
 #. TRANS: %s is a filename with suffix '.modpack'
-#: tools/download.c:128
+#: tools/download.c:132
 #, c-format
 msgid "Downloading \"%s\" control file."
 msgstr "Téléchargement du fichier de contrôle \"%s\"."
 
-#: tools/download.c:135
+#: tools/download.c:139
 msgid "Failed to get and parse modpack control file"
 msgstr "Impossible d'obtenir et de parcourir le fichier de contrôle du modpack"
 
-#: tools/download.c:141
+#: tools/download.c:145
 msgid "Modpack control file has no capability string"
 msgstr "Le fichier de contrôle du modpack n'a pas de chaîne de capacité"
 
-#: tools/download.c:151
+#: tools/download.c:155
 msgid "Modpack control file is incompatible"
 msgstr "Le fichier de contrôle du modpack est incompatible"
 
-#: tools/download.c:156
+#: tools/download.c:160
 msgid "Modpack name not defined in control file"
 msgstr "Le nom du modpack n'est pas défini dans le fichier de contrôle"
 
-#: tools/download.c:160
+#: tools/download.c:164
 msgid "Modpack version not defined in control file"
 msgstr "La version du modpack n'est pas définie dans le fichier de contrôle"
 
-#: tools/download.c:166
+#: tools/download.c:170
 msgid "Illegal modpack type"
 msgstr "Type de modpack illégal"
 
-#: tools/download.c:205
+#: tools/download.c:209
 msgid "Dependency has no download URL"
 msgstr "La dépendance n'a pas d'URL de téléchargement"
 
-#: tools/download.c:211
+#: tools/download.c:215
 msgid "Illegal dependency modpack type"
 msgstr "Type de modpack de dépendance illégal"
 
-#: tools/download.c:234
+#: tools/download.c:238
 msgid "Download dependency modpack"
 msgstr "Télécharger le modpack de dépendance"
 
-#: tools/download.c:309
+#: tools/download.c:313
 #, c-format
 msgid "Illegal path for %s"
 msgstr "Chemin illégal pour %s"
 
-#: tools/download.c:345
+#: tools/download.c:349
 msgid "Cannot create required directories"
 msgstr "Impossible de créer les répertoires nécessaires"
 
-#: tools/download.c:352
+#: tools/download.c:356
 #, c-format
 msgid "Downloading %s"
 msgstr "Téléchargement de %s"
 
-#: tools/download.c:362
+#: tools/download.c:366
 #, c-format
 msgid "Failed to download %s"
 msgstr "Impossible de télécharger %s"
 
-#: tools/download.c:383
+#: tools/download.c:387
 msgid "Some parts of the modpack failed to install."
 msgstr "Certaines parties du modpack n'ont pas pu être installées."
 
-#: tools/download.c:410
+#: tools/download.c:414
 msgid "Cannot fetch and parse modpack list"
 msgstr "Impossible de récupérer et d'interpréter la liste des modpacks"
 
-#: tools/download.c:422
+#: tools/download.c:424
+#, fuzzy
+#| msgid "Load modpack list from given URL"
+msgid "Invalid modpack list URL"
+msgstr "Charger la liste des modpacks depuis l'URL donné"
+
+#: tools/download.c:430
 msgid "Modpack list has no capability string"
 msgstr "La liste des modpacks n'a pas de chaîne de capacité"
 
-#: tools/download.c:432
+#: tools/download.c:440
 msgid "Modpack list is incompatible"
 msgstr "La liste des modpacks est incompatible"
 

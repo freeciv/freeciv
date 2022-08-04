@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2022-07-29 13:53+0500\n"
+"POT-Creation-Date: 2022-08-05 00:27+0300\n"
 "PO-Revision-Date: 2022-07-29 13:25+0500\n"
 "Last-Translator: Konstantin Vedeneev <konved@gmail.com>\n"
 "Language-Team: Russian <freeciv.ru@freelists.org>\n"
@@ -4483,44 +4483,44 @@ msgid "Report bugs at %s\n"
 msgstr "Сообщайте об ошибках по адресу %s\n"
 
 #: client/gui-gtk-2.0/gui_main.c:771 client/gui-gtk-2.0/gui_main.c:1582
-#: client/gui-gtk-3.0/gui_main.c:819 client/gui-gtk-3.0/gui_main.c:1765
+#: client/gui-gtk-3.0/gui_main.c:819 client/gui-gtk-3.0/gui_main.c:1770
 #: client/gui-gtk-3.22/gui_main.c:806 client/gui-gtk-3.22/gui_main.c:1839
 #: client/gui-sdl/gui_main.c:797 client/gui-sdl/gui_main.c:812
 msgid "Freeciv"
 msgstr "Freeciv"
 
 #: client/gui-gtk-2.0/gui_main.c:1256 client/gui-gtk-2.0/gui_main.c:1264
-#: client/gui-gtk-3.0/gui_main.c:1356 client/gui-gtk-3.0/gui_main.c:1364
+#: client/gui-gtk-3.0/gui_main.c:1361 client/gui-gtk-3.0/gui_main.c:1369
 #: client/gui-gtk-3.22/gui_main.c:1377 client/gui-gtk-3.22/gui_main.c:1385
 #: client/gui-qt/pages.cpp:741 client/gui-sdl/mapctrl.c:1555
 #: client/gui-sdl2/mapctrl.c:1668 data/Freeciv.in:2622
 msgid "Turn Done"
 msgstr "Ход сделан"
 
-#: client/gui-gtk-2.0/gui_main.c:1264 client/gui-gtk-3.0/gui_main.c:1364
+#: client/gui-gtk-2.0/gui_main.c:1264 client/gui-gtk-3.0/gui_main.c:1369
 #: client/gui-gtk-3.22/gui_main.c:1385 client/gui-sdl/mapctrl.c:1555
 #: client/gui-sdl/mapview.c:919 client/gui-sdl2/mapctrl.c:1668
 #: client/gui-sdl2/mapview.c:939
 msgid "Shift+Return"
 msgstr "Shift+Enter"
 
-#: client/gui-gtk-2.0/gui_main.c:1335 client/gui-gtk-3.0/gui_main.c:1447
+#: client/gui-gtk-2.0/gui_main.c:1335 client/gui-gtk-3.0/gui_main.c:1452
 #: client/gui-gtk-3.22/gui_main.c:1468 client/gui-qt/menu.cpp:1336
 #: client/gui-qt/pages.cpp:717
 msgid "?noun:View"
 msgstr "Обзор"
 
-#: client/gui-gtk-2.0/gui_main.c:1447 client/gui-gtk-3.0/gui_main.c:1566
+#: client/gui-gtk-2.0/gui_main.c:1447 client/gui-gtk-3.0/gui_main.c:1571
 #: client/gui-gtk-3.22/gui_main.c:1589
 msgid "Chat"
 msgstr "Общение"
 
-#: client/gui-gtk-2.0/gui_main.c:1471 client/gui-gtk-3.0/gui_main.c:1596
+#: client/gui-gtk-2.0/gui_main.c:1471 client/gui-gtk-3.0/gui_main.c:1601
 #: client/gui-gtk-3.22/gui_main.c:1619
 msgid "Allies Only"
 msgstr "Только союзники"
 
-#: client/gui-gtk-2.0/gui_main.c:1480 client/gui-gtk-3.0/gui_main.c:1605
+#: client/gui-gtk-2.0/gui_main.c:1480 client/gui-gtk-3.0/gui_main.c:1610
 #: client/gui-gtk-3.22/gui_main.c:1628 client/gui-qt/chatline.cpp:287
 msgid "Clear links"
 msgstr "Очистить строку"
@@ -4529,12 +4529,12 @@ msgstr "Очистить строку"
 msgid "Migrating gtk2-client options from freeciv-2.5 options."
 msgstr "Перенос параметров gtk2-клиента из параметров freeciv-2.5."
 
-#: client/gui-gtk-2.0/gui_main.c:2030 client/gui-gtk-3.0/gui_main.c:2166
+#: client/gui-gtk-2.0/gui_main.c:2030 client/gui-gtk-3.0/gui_main.c:2171
 #: client/gui-gtk-3.22/gui_main.c:2242 client/gui-qt/gui_main.cpp:551
 msgid "Are you sure you want to quit?"
 msgstr "Вы действительно хотите выйти?"
 
-#: client/gui-gtk-2.0/gui_main.c:2199 client/gui-gtk-3.0/gui_main.c:2335
+#: client/gui-gtk-2.0/gui_main.c:2199 client/gui-gtk-3.0/gui_main.c:2340
 #: client/gui-gtk-3.22/gui_main.c:2411
 #, c-format
 msgid ""
@@ -7092,11 +7092,11 @@ msgstr ""
 msgid "Illegal video mode '%s'"
 msgstr "Неверный видеорежим '%s'"
 
-#: client/gui-gtk-3.0/gui_main.c:1649 client/gui-gtk-3.22/gui_main.c:1672
+#: client/gui-gtk-3.0/gui_main.c:1654 client/gui-gtk-3.22/gui_main.c:1672
 msgid "Migrating options from gtk2 to gtk3 client"
 msgstr "Перенос параметров из gtk2-клиента в клиент gtk3"
 
-#: client/gui-gtk-3.0/gui_main.c:1704 client/gui-gtk-3.22/gui_main.c:1738
+#: client/gui-gtk-3.0/gui_main.c:1709 client/gui-gtk-3.22/gui_main.c:1738
 msgid "Migrating gtk3-client options from freeciv-2.5 options."
 msgstr "Перенос параметров gtk3-клиента из параметров freeciv-2.5."
 
@@ -37662,93 +37662,99 @@ msgstr "Глубина вложения зависимостей слишком 
 msgid "No URL given"
 msgstr "Не указан URL"
 
-#: tools/download.c:109
+#: tools/download.c:109 tools/download.c:119
 msgid "This does not look like modpack URL"
 msgstr "Это не похоже на URL модпака"
 
-#: tools/download.c:118
+#: tools/download.c:122
 #, c-format
 msgid "Installing modpack %s from %s"
 msgstr "Установка модпака %s из %s"
 
-#: tools/download.c:121
+#: tools/download.c:125
 msgid "Cannot install to given directory hierarchy"
 msgstr "Невозможно установить в данную структуру каталогов"
 
 #. TRANS: %s is a filename with suffix '.modpack'
-#: tools/download.c:128
+#: tools/download.c:132
 #, c-format
 msgid "Downloading \"%s\" control file."
 msgstr "Загрузка файла спецификации \"%s\"."
 
-#: tools/download.c:135
+#: tools/download.c:139
 msgid "Failed to get and parse modpack control file"
 msgstr "Ошибка загрузки и распознавания файла спецификации модпака"
 
-#: tools/download.c:141
+#: tools/download.c:145
 msgid "Modpack control file has no capability string"
 msgstr "Файл спецификации модпака не содержит строку совместимости"
 
-#: tools/download.c:151
+#: tools/download.c:155
 msgid "Modpack control file is incompatible"
 msgstr "Файл спецификации модпака несовместим"
 
-#: tools/download.c:156
+#: tools/download.c:160
 msgid "Modpack name not defined in control file"
 msgstr "Имя модпака не определено в файле спецификации"
 
-#: tools/download.c:160
+#: tools/download.c:164
 msgid "Modpack version not defined in control file"
 msgstr "Версия модпака не определена в файле спецификации"
 
-#: tools/download.c:166
+#: tools/download.c:170
 msgid "Illegal modpack type"
 msgstr "Неверный тип модпака"
 
-#: tools/download.c:205
+#: tools/download.c:209
 msgid "Dependency has no download URL"
 msgstr "Зависимый пакет не имеет URL для загрузки"
 
-#: tools/download.c:211
+#: tools/download.c:215
 msgid "Illegal dependency modpack type"
 msgstr "Неверный тип зависимости модпака"
 
-#: tools/download.c:234
+#: tools/download.c:238
 msgid "Download dependency modpack"
 msgstr "Загрузка зависимого модпака"
 
-#: tools/download.c:309
+#: tools/download.c:313
 #, c-format
 msgid "Illegal path for %s"
 msgstr "Неверный путь для %s"
 
-#: tools/download.c:345
+#: tools/download.c:349
 msgid "Cannot create required directories"
 msgstr "Невозможно создать требуемые каталоги"
 
-#: tools/download.c:352
+#: tools/download.c:356
 #, c-format
 msgid "Downloading %s"
 msgstr "Загружаю %s"
 
-#: tools/download.c:362
+#: tools/download.c:366
 #, c-format
 msgid "Failed to download %s"
 msgstr "Ошибка загрузки %s"
 
-#: tools/download.c:383
+#: tools/download.c:387
 msgid "Some parts of the modpack failed to install."
 msgstr "Некоторые части модпака не были установлены."
 
-#: tools/download.c:410
+#: tools/download.c:414
 msgid "Cannot fetch and parse modpack list"
 msgstr "Невозможно получить и распознать список модпаков"
 
-#: tools/download.c:422
+#: tools/download.c:424
+#, fuzzy
+#| msgid "Load modpack list from given URL"
+msgid "Invalid modpack list URL"
+msgstr "Загрузить список модпаков из данного URL"
+
+#: tools/download.c:430
 msgid "Modpack list has no capability string"
 msgstr "Список модпаков не имеет строки совместимости"
 
-#: tools/download.c:432
+#: tools/download.c:440
 msgid "Modpack list is incompatible"
 msgstr "Список модпаков выдан в несовместимом формате"
 
