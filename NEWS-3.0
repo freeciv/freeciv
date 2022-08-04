@@ -134,7 +134,10 @@ Help / Documentation
 
 Translations
 
-    * Updated translations: ca, fi, fr, pl, ru
+    * Updated translations:
+         + Complete translations: Catalan, French, Polish, Russian
+         + Incomplete translations:
+           Finnish (100% core, 91% nations, 100% ruledit)
     * Marked more strings for translations osdn#44957
 
 Build/portability
