@@ -29,7 +29,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 3.0\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2022-07-24 18:32+0300\n"
+"POT-Creation-Date: 2022-08-05 00:27+0300\n"
 "PO-Revision-Date: 2022-07-24 18:41+0300\n"
 "Last-Translator: Sini Ruohomaa <sini.ruohomaa@iki.fi>\n"
 "Language-Team: None <freeciv-i18n@freelists.org>\n"
@@ -2631,8 +2631,8 @@ msgstr "Kauppaa:"
 #: client/gui-gtk-3.0/diplodlg.c:854 client/gui-gtk-3.0/inteldlg.c:51
 #: client/gui-gtk-3.22/citydlg.c:749 client/gui-gtk-3.22/diplodlg.c:766
 #: client/gui-gtk-3.22/diplodlg.c:848 client/gui-gtk-3.22/inteldlg.c:51
-#: client/gui-qt/citydlg.h:61 client/gui-qt/diplodlg.cpp:165
-#: client/gui-qt/diplodlg.cpp:167 client/gui-qt/plrdlg.cpp:507
+#: client/gui-qt/citydlg.h:61 client/gui-qt/diplodlg.cpp:172
+#: client/gui-qt/diplodlg.cpp:174 client/gui-qt/plrdlg.cpp:507
 msgid "Gold:"
 msgstr "Kultaa:"
 
@@ -3144,7 +3144,7 @@ msgstr "_Näytä"
 #: client/gui-gtk-2.0/cityrep.c:1136 client/gui-gtk-2.0/menu.c:1474
 #: client/gui-gtk-3.0/cityrep.c:1146 client/gui-gtk-3.0/menu.c:315
 #: client/gui-gtk-3.22/cityrep.c:1146 client/gui-gtk-3.22/menu.c:314
-#: client/gui-qt/diplodlg.cpp:383 client/gui-qt/menu.cpp:1582
+#: client/gui-qt/diplodlg.cpp:393 client/gui-qt/menu.cpp:1582
 #: client/gui-qt/pages.cpp:726 client/gui-qt/pages.cpp:1280
 #: client/gui-sdl2/diplodlg.c:746 client/include/helpdlg_g.h:43
 #: data/civ1/units.ruleset:26 data/civ2/units.ruleset:31
@@ -3523,12 +3523,12 @@ msgstr ""
 "%s"
 
 #: client/gui-gtk-2.0/diplodlg.c:254 client/gui-gtk-3.0/diplodlg.c:254
-#: client/gui-gtk-3.22/diplodlg.c:254 client/gui-qt/diplodlg.cpp:333
+#: client/gui-gtk-3.22/diplodlg.c:254 client/gui-qt/diplodlg.cpp:343
 msgid "World-map"
 msgstr "Maailmankartta"
 
 #: client/gui-gtk-2.0/diplodlg.c:260 client/gui-gtk-3.0/diplodlg.c:260
-#: client/gui-gtk-3.22/diplodlg.c:260 client/gui-qt/diplodlg.cpp:336
+#: client/gui-gtk-3.22/diplodlg.c:260 client/gui-qt/diplodlg.cpp:346
 msgid "Sea-map"
 msgstr "Merikartta"
 
@@ -3544,7 +3544,7 @@ msgstr "Edistys_askeleet"
 
 #. TRANS: All technologies menu item in the diplomatic dialog.
 #: client/gui-gtk-2.0/diplodlg.c:305 client/gui-gtk-3.0/diplodlg.c:305
-#: client/gui-gtk-3.22/diplodlg.c:305 client/gui-qt/diplodlg.cpp:359
+#: client/gui-gtk-3.22/diplodlg.c:305 client/gui-qt/diplodlg.cpp:369
 msgid "All advances"
 msgstr "Kaikki teknologiat"
 
@@ -3565,19 +3565,19 @@ msgid "Give _embassy"
 msgstr "Läh_etystö"
 
 #: client/gui-gtk-2.0/diplodlg.c:428 client/gui-gtk-3.0/diplodlg.c:428
-#: client/gui-gtk-3.22/diplodlg.c:428 client/gui-qt/diplodlg.cpp:421
+#: client/gui-gtk-3.22/diplodlg.c:428 client/gui-qt/diplodlg.cpp:431
 #: client/gui-sdl2/diplodlg.c:511 common/player.h:147
 msgid "?diplomatic_state:Cease-fire"
 msgstr "Tulitauko"
 
 #: client/gui-gtk-2.0/diplodlg.c:434 client/gui-gtk-3.0/diplodlg.c:434
-#: client/gui-gtk-3.22/diplodlg.c:434 client/gui-qt/diplodlg.cpp:427
+#: client/gui-gtk-3.22/diplodlg.c:434 client/gui-qt/diplodlg.cpp:437
 #: client/gui-sdl2/diplodlg.c:525 common/player.h:149
 msgid "?diplomatic_state:Peace"
 msgstr "Rauha"
 
 #: client/gui-gtk-2.0/diplodlg.c:440 client/gui-gtk-3.0/diplodlg.c:440
-#: client/gui-gtk-3.22/diplodlg.c:440 client/gui-qt/diplodlg.cpp:433
+#: client/gui-gtk-3.22/diplodlg.c:440 client/gui-qt/diplodlg.cpp:443
 #: client/gui-sdl2/diplodlg.c:541 common/player.h:151
 msgid "?diplomatic_state:Alliance"
 msgstr "Liittouma"
@@ -3600,13 +3600,13 @@ msgid "Diplomacy [%d]"
 msgstr "Diplomatia [%d]"
 
 #: client/gui-gtk-2.0/diplodlg.c:660 client/gui-gtk-3.0/diplodlg.c:663
-#: client/gui-gtk-3.22/diplodlg.c:663 client/gui-qt/diplodlg.cpp:217
+#: client/gui-gtk-3.22/diplodlg.c:663 client/gui-qt/diplodlg.cpp:227
 #: client/gui-sdl2/diplodlg.c:936
 msgid "Cancel meeting"
 msgstr "Peruuta tapaaminen"
 
 #: client/gui-gtk-2.0/diplodlg.c:662 client/gui-gtk-3.0/diplodlg.c:661
-#: client/gui-gtk-3.22/diplodlg.c:661 client/gui-qt/diplodlg.cpp:214
+#: client/gui-gtk-3.22/diplodlg.c:661 client/gui-qt/diplodlg.cpp:224
 #: client/gui-sdl2/diplodlg.c:947
 msgid "Accept treaty"
 msgstr "Hyväksy sopimus"
@@ -3614,7 +3614,7 @@ msgstr "Hyväksy sopimus"
 #: client/gui-gtk-2.0/diplodlg.c:735 client/gui-gtk-2.0/diplodlg.c:819
 #: client/gui-gtk-3.0/diplodlg.c:742 client/gui-gtk-3.0/diplodlg.c:827
 #: client/gui-gtk-3.22/diplodlg.c:742 client/gui-gtk-3.22/diplodlg.c:824
-#: client/gui-qt/diplodlg.cpp:182 client/gui-qt/diplodlg.cpp:184
+#: client/gui-qt/diplodlg.cpp:196 client/gui-qt/diplodlg.cpp:198
 msgid "Add Clause..."
 msgstr "Lisää ehto..."
 
@@ -3624,7 +3624,7 @@ msgid "C_lauses:"
 msgstr "Eh_dot:"
 
 #: client/gui-gtk-2.0/diplodlg.c:931 client/gui-gtk-3.0/diplodlg.c:942
-#: client/gui-gtk-3.22/diplodlg.c:936 client/gui-qt/diplodlg.cpp:685
+#: client/gui-gtk-3.22/diplodlg.c:936 client/gui-qt/diplodlg.cpp:695
 msgid "--- This treaty is blank. Please add some clauses. ---"
 msgstr "--- Tämä sopimus on tyhjä. Ole hyvä ja lisää ehtoja. ---"
 
@@ -4635,8 +4635,8 @@ msgstr "Bonus (R/T/K):"
 #. TRANS: "None" tech
 #: client/gui-gtk-2.0/helpdlg.c:129 client/gui-gtk-3.0/helpdlg.c:130
 #: client/gui-gtk-3.22/helpdlg.c:130 client/gui-qt/citydlg.cpp:3805
-#: client/gui-qt/helpdlg.cpp:54 client/gui-qt/plrdlg.cpp:595
-#: client/gui-qt/plrdlg.cpp:601 client/gui-qt/repodlgs.cpp:1084
+#: client/gui-qt/helpdlg.cpp:54 client/gui-qt/plrdlg.cpp:598
+#: client/gui-qt/plrdlg.cpp:604 client/gui-qt/repodlgs.cpp:1084
 #: client/gui-sdl2/gui_tilespec.c:381 client/gui-sdl2/helpdlg.c:855
 #: client/gui-sdl2/mapview.c:346 common/research.c:86 common/tech.c:470
 #: tools/civmanual.c:557
@@ -7002,12 +7002,12 @@ msgid "Wonders of %s Empire"
 msgstr "%s valtakunnan ihmeet"
 
 #: client/gui-gtk-3.0/inteldlg.c:652 client/gui-gtk-3.22/inteldlg.c:650
-#: client/gui-qt/plrdlg.cpp:639
+#: client/gui-qt/plrdlg.cpp:642
 msgid "(unknown city)"
 msgstr "(tuntematon kaupunki)"
 
 #: client/gui-gtk-3.0/inteldlg.c:658 client/gui-gtk-3.22/inteldlg.c:656
-#: client/gui-qt/plrdlg.cpp:645
+#: client/gui-qt/plrdlg.cpp:648
 msgid "(lost)"
 msgstr "(menetetty)"
 
@@ -7678,24 +7678,24 @@ msgid_plural "%1 turns left"
 msgstr[0] "%1 vuoro jäljellä"
 msgstr[1] "%1 vuoroa jäljellä"
 
-#: client/gui-qt/diplodlg.cpp:332 client/gui-sdl2/diplodlg.c:574
+#: client/gui-qt/diplodlg.cpp:342 client/gui-sdl2/diplodlg.c:574
 msgid "Maps"
 msgstr "Kartat"
 
-#: client/gui-qt/diplodlg.cpp:344 client/gui-sdl2/diplodlg.c:667
+#: client/gui-qt/diplodlg.cpp:354 client/gui-sdl2/diplodlg.c:667
 #: client/gui-sdl2/helpdlg.c:1991
 msgid "Advances"
 msgstr "Edistysaskeleet"
 
-#: client/gui-qt/diplodlg.cpp:403 client/gui-sdl2/diplodlg.c:560
+#: client/gui-qt/diplodlg.cpp:413 client/gui-sdl2/diplodlg.c:560
 msgid "Give shared vision"
 msgstr "Jaa näkymä"
 
-#: client/gui-qt/diplodlg.cpp:410 client/gui-sdl2/diplodlg.c:614
+#: client/gui-qt/diplodlg.cpp:420 client/gui-sdl2/diplodlg.c:614
 msgid "Give embassy"
 msgstr "Myönnä lähetystö"
 
-#: client/gui-qt/diplodlg.cpp:419 client/gui-sdl2/diplodlg.c:503
+#: client/gui-qt/diplodlg.cpp:429 client/gui-sdl2/diplodlg.c:503
 msgid "Pacts"
 msgstr "Sopimukset"
 
@@ -8519,7 +8519,7 @@ msgstr "Käytä kerran"
 msgid "Select Font"
 msgstr "Valitse kirjasin"
 
-#: client/gui-qt/optiondlg.cpp:849
+#: client/gui-qt/optiondlg.cpp:850
 msgid "Select Color"
 msgstr "Valitse väri"
 
@@ -8662,39 +8662,39 @@ msgstr "Raha: %1% Tiede: %2% Luksus: %3%\n"
 msgid "%1 - max rate: %2%"
 msgstr "%1 - maksimiosuus: %2%"
 
-#: client/gui-qt/plrdlg.cpp:560
+#: client/gui-qt/plrdlg.cpp:563
 msgid "<b>Techs unknown by %1:</b>"
 msgstr "<b>Teknologiat, joita %1 eivät tunne:</b>"
 
-#: client/gui-qt/plrdlg.cpp:563
+#: client/gui-qt/plrdlg.cpp:566
 msgid "<b>Techs unknown by you :</b>"
 msgstr "<b>Teknologiat, joita et tunne:</b>"
 
-#: client/gui-qt/plrdlg.cpp:608
+#: client/gui-qt/plrdlg.cpp:611
 msgid "<b>Techs known by %1:</b>"
 msgstr "<b>Teknologiat, jotka %1 tuntevat:</b>"
 
-#: client/gui-qt/plrdlg.cpp:642
+#: client/gui-qt/plrdlg.cpp:645
 msgid " (obsolete)"
 msgstr " (vanhentunut)"
 
-#: client/gui-qt/plrdlg.cpp:714
+#: client/gui-qt/plrdlg.cpp:717
 msgid "Meet"
 msgstr "Tapaa"
 
-#: client/gui-qt/plrdlg.cpp:716 client/gui-sdl2/diplodlg.c:1556
+#: client/gui-qt/plrdlg.cpp:719 client/gui-sdl2/diplodlg.c:1556
 msgid "Cancel Treaty"
 msgstr "Pura sopimus"
 
-#: client/gui-qt/plrdlg.cpp:718
+#: client/gui-qt/plrdlg.cpp:721
 msgid "Withdraw Vision"
 msgstr "Lopeta näkymän jakaminen"
 
-#: client/gui-qt/plrdlg.cpp:720 client/gui-qt/plrdlg.cpp:823
+#: client/gui-qt/plrdlg.cpp:723 client/gui-qt/plrdlg.cpp:826
 msgid "Toggle AI Mode"
 msgstr "Aseta AI-tila"
 
-#: client/gui-qt/plrdlg.cpp:722
+#: client/gui-qt/plrdlg.cpp:725
 msgid "Show Wonders"
 msgstr "Näytä ihmeet"
 
@@ -12595,7 +12595,10 @@ msgid ""
 "This is the soundset that will be used. Changing this is the same as using "
 "the -S command-line parameter. Use modpack installer utility to install "
 "additional soundsets."
-msgstr "Tämä on käytettävä äänistö. Asetuksen muuttamisella on sama vaikutus kuin komentoriviparametrin -S käytöllä. Käytä muunnospakettien asennusohjelmaa uusien äänistöjen asentamiseksi."
+msgstr ""
+"Tämä on käytettävä äänistö. Asetuksen muuttamisella on sama vaikutus kuin "
+"komentoriviparametrin -S käytöllä. Käytä muunnospakettien asennusohjelmaa "
+"uusien äänistöjen asentamiseksi."
 
 #: client/options.c:1875 tools/modinst.h:49
 msgid "Musicset"
@@ -12606,7 +12609,10 @@ msgid ""
 "This is the musicset that will be used. Changing this is the same as using "
 "the -m command-line parameter. Use modpack installer utility to install "
 "additional musicsets."
-msgstr "Tämä on käytettävä musiikkivalikoima. Asetuksen muuttamisella on sama vaikutus kuin komentoriviparametrin -m käytöllä. Käytä muunnospakettien asennusohjelmaa uusien musiikkivalikoimien asentamiseksi."
+msgstr ""
+"Tämä on käytettävä musiikkivalikoima. Asetuksen muuttamisella on sama "
+"vaikutus kuin komentoriviparametrin -m käytöllä. Käytä muunnospakettien "
+"asennusohjelmaa uusien musiikkivalikoimien asentamiseksi."
 
 #: client/options.c:1882
 msgid "Sound plugin"
@@ -12651,7 +12657,12 @@ msgid ""
 "currently active tileset, if you are playing on such a map, in which case "
 "this is the same as using the -t command-line parameter. Use modpack "
 "installer utility to install additional tilesets."
-msgstr "Asetus kertoo kuvituksen, jota käytetään neliöpohjaisella kartalla pelattaessa. Mikäli sellainen peli on juuri käynnissä, asetuksen muutos vaihtaa käytössä olevaa kuvitusta. Silloin sen vaikutus on sama kuin komentoriviparametrin -t käytöllä. Käytä muunnospakettien asennusohjelmaa uusien kuvitusten asentamiseksi."
+msgstr ""
+"Asetus kertoo kuvituksen, jota käytetään neliöpohjaisella kartalla "
+"pelattaessa. Mikäli sellainen peli on juuri käynnissä, asetuksen muutos "
+"vaihtaa käytössä olevaa kuvitusta. Silloin sen vaikutus on sama kuin "
+"komentoriviparametrin -t käytöllä. Käytä muunnospakettien asennusohjelmaa "
+"uusien kuvitusten asentamiseksi."
 
 #: client/options.c:1936
 msgid "Tileset (Hex)"
@@ -12663,7 +12674,12 @@ msgid ""
 "tileset, if you are playing on such a map, in which case this is the same as "
 "using the -t command-line parameter. Use modpack installer utility to "
 "install additional tilesets."
-msgstr "Asetus kertoo kuvituksen, jota käytetään heksakartalla pelattaessa. Mikäli sellaista karttaa käyttävä peli on juuri käynnissä, asetuksen muutos vaihtaa käytössä olevaa kuvitusta. Silloin sen vaikutus on sama kuin komentoriviparametrin -t käytöllä. Käytä muunnospakettien asennusohjelmaa uusien kuvitusten asentamiseksi."
+msgstr ""
+"Asetus kertoo kuvituksen, jota käytetään heksakartalla pelattaessa. Mikäli "
+"sellaista karttaa käyttävä peli on juuri käynnissä, asetuksen muutos vaihtaa "
+"käytössä olevaa kuvitusta. Silloin sen vaikutus on sama kuin "
+"komentoriviparametrin -t käytöllä. Käytä muunnospakettien asennusohjelmaa "
+"uusien kuvitusten asentamiseksi."
 
 #: client/options.c:1946
 msgid "Tileset (Iso-Hex)"
@@ -12675,7 +12691,12 @@ msgid ""
 "active tileset, if you are playing on such a map, in which case this is the "
 "same as using the -t command-line parameter.Use modpack installer utility to "
 "install additional tilesets."
-msgstr "Asetus kertoo kuvituksen, jota käytetään isometrisellä kuusikulmio- eli heksagonaalikartalla pelattaessa. Mikäli sellaista karttaa käyttävä peli on juuri käynnissä, asetuksen muutos vaihtaa käytössä olevaa kuvitusta. Silloin sen vaikutus on sama kuin komentoriviparametrin -t käytöllä. Käytä muunnospakettien asennusohjelmaa uusien kuvitusten asentamiseksi."
+msgstr ""
+"Asetus kertoo kuvituksen, jota käytetään isometrisellä kuusikulmio- eli "
+"heksagonaalikartalla pelattaessa. Mikäli sellaista karttaa käyttävä peli on "
+"juuri käynnissä, asetuksen muutos vaihtaa käytössä olevaa kuvitusta. Silloin "
+"sen vaikutus on sama kuin komentoriviparametrin -t käytöllä. Käytä "
+"muunnospakettien asennusohjelmaa uusien kuvitusten asentamiseksi."
 
 #: client/options.c:1957
 msgid "Draw city outlines"
@@ -17192,20 +17213,20 @@ msgstr "Vuoro: %4d - Vuosi: %10s"
 msgid "toolkit not defined"
 msgstr "toolkittiä ei määritty"
 
-#: common/mapimg.c:2107 common/mapimg.c:2315
+#: common/mapimg.c:2107 common/mapimg.c:2314
 msgid "error generating the file name"
 msgstr "virhe tiedoston nimeä luodessa"
 
-#: common/mapimg.c:2281
+#: common/mapimg.c:2280
 #, c-format
 msgid "error saving map image '%s'"
 msgstr "virhe karttakuvaa '%s' tallennettaessa"
 
-#: common/mapimg.c:2309
+#: common/mapimg.c:2308
 msgid "the ppm toolkit can only create images in the ppm format"
 msgstr "ppm-työkalu osaa luoda vain ppm-formaattisia kuvia"
 
-#: common/mapimg.c:2321
+#: common/mapimg.c:2320
 #, c-format
 msgid "could not open file: %s"
 msgstr "Tiedoston '%s' avaaminen epäonnistui"
@@ -40055,93 +40076,99 @@ msgstr "Sisäkkäisiä riippuvuuksia liian monessa kerroksessa"
 msgid "No URL given"
 msgstr "URL:ia ei annettu"
 
-#: tools/download.c:110
+#: tools/download.c:110 tools/download.c:120
 msgid "This does not look like modpack URL"
 msgstr "Tämä ei näytä muunnospaketin URL:ilta"
 
-#: tools/download.c:119
+#: tools/download.c:123
 #, c-format
 msgid "Installing modpack %s from %s"
 msgstr "Asennan munnospakettia %s osoitteesta %s"
 
-#: tools/download.c:122
+#: tools/download.c:126
 msgid "Cannot install to given directory hierarchy"
 msgstr "En onnistu asentamaan annettuun hakemistoon"
 
 #. TRANS: %s is a filename with suffix '.mpdl'
-#: tools/download.c:129
+#: tools/download.c:133
 #, c-format
 msgid "Downloading \"%s\" control file."
 msgstr "Ladataan muunnospaketin kontrollitiedostoa \"%s\"."
 
-#: tools/download.c:136
+#: tools/download.c:140
 msgid "Failed to get and parse modpack control file"
 msgstr "Virhe muunnospaketin kontrollitiedoston noutamisessa ja tulkinnassa"
 
-#: tools/download.c:142
+#: tools/download.c:146
 msgid "Modpack control file has no capability string"
 msgstr "Muunnospaketin kontrollitiedoston ominaisuuksia ei ole listattu"
 
-#: tools/download.c:152
+#: tools/download.c:156
 msgid "Modpack control file is incompatible"
 msgstr "Muunnospaketin kontrollitiedosto ei ole yhteensopiva"
 
-#: tools/download.c:157
+#: tools/download.c:161
 msgid "Modpack name not defined in control file"
 msgstr "Muunnospaketin nimeä ei ole määritetty kontrollitiedostossa"
 
-#: tools/download.c:161
+#: tools/download.c:165
 msgid "Modpack version not defined in control file"
 msgstr "Muunnospaketin versiota ei ole määritetty kontrollitiedostossa"
 
-#: tools/download.c:167
+#: tools/download.c:171
 msgid "Illegal modpack type"
 msgstr "Virheellinen muunnospaketin tyyppi"
 
-#: tools/download.c:206
+#: tools/download.c:210
 msgid "Dependency has no download URL"
 msgstr "Riippuvuuden latausosoitetta ei ole annettu"
 
-#: tools/download.c:212
+#: tools/download.c:216
 msgid "Illegal dependency modpack type"
 msgstr "Virheellinen pohjalle tarvittavan muunnospaketin tyyppi"
 
-#: tools/download.c:235
+#: tools/download.c:239
 msgid "Download dependency modpack"
 msgstr "Lataa muunnospaketin tarvitsema toinen muunnospaketti"
 
-#: tools/download.c:310
+#: tools/download.c:314
 #, c-format
 msgid "Illegal path for %s"
 msgstr "Polku %s ei kelpaa"
 
-#: tools/download.c:346
+#: tools/download.c:350
 msgid "Cannot create required directories"
 msgstr "Vaadittavia hakemistoja ei voi luoda"
 
-#: tools/download.c:353
+#: tools/download.c:357
 #, c-format
 msgid "Downloading %s"
 msgstr "Ladataan %s"
 
-#: tools/download.c:363
+#: tools/download.c:367
 #, c-format
 msgid "Failed to download %s"
 msgstr "Virhe ladattaessa %s"
 
-#: tools/download.c:384
+#: tools/download.c:388
 msgid "Some parts of the modpack failed to install."
 msgstr "Joitain muunnospaketin osia ei voitu asentaa."
 
-#: tools/download.c:411
+#: tools/download.c:415
 msgid "Cannot fetch and parse modpack list"
 msgstr "Virhe muunnospakettiluettelon noutamisessa ja tulkinnassa"
 
-#: tools/download.c:423
+#: tools/download.c:425
+#, fuzzy
+#| msgid "Load modpack list from given URL"
+msgid "Invalid modpack list URL"
+msgstr "Lataa muunnospakettiluettelo annetusta osoitteesta"
+
+#: tools/download.c:431
 msgid "Modpack list has no capability string"
 msgstr "Muunnospakettiluettelon ominaisuuksia ei ole listattu"
 
-#: tools/download.c:433
+#: tools/download.c:441
 msgid "Modpack list is incompatible"
 msgstr "Muunnospakettilista ei ole yhteensopiva"
 
@@ -40225,7 +40252,9 @@ msgstr "Kommentti=\"%s\""
 msgid ""
 "This modpack installer does not support any specific options\n"
 "\n"
-msgstr "Tämä muunnospakettien asennusohjelma tuntee vain yleisiä parametreja\n\n"
+msgstr ""
+"Tämä muunnospakettien asennusohjelma tuntee vain yleisiä parametreja\n"
+"\n"
 
 #: tools/mpcli.c:119
 #, c-format
@@ -45170,15 +45199,15 @@ msgstr ""
 "Efektimäärityksissä tulisi olla kenttä \"type\", eikä enää ennen samassa "
 "merkityksessä käytetty \"name\"."
 
-#: server/ruleset.c:7877
+#: server/ruleset.c:7872
 msgid "Ruleset couldn't be loaded. Keeping previous one."
 msgstr "Sääntökokoelmaa ei voitu ladata. Pidetään edellinen käytössä."
 
-#: server/ruleset.c:7895
+#: server/ruleset.c:7890
 msgid "Ruleset couldn't be loaded. Switching to default one."
 msgstr "Sääntökokoelmaa ei voitu ladata. Palataan oletuskokoelmaan."
 
-#: server/ruleset.c:7902
+#: server/ruleset.c:7897
 msgid ""
 "Cannot load any ruleset. Freeciv-web ruleset is available from https://"
 "github.com/freeciv/freeciv-web"
@@ -45187,7 +45216,7 @@ msgstr ""
 "yhteensopiva sääntökokoelma on olemassa git-repositoryssa https://github.com/"
 "freeciv/freeciv-web"
 
-#: server/ruleset.c:7945
+#: server/ruleset.c:7940
 msgid "Loading rulesets."
 msgstr "Lataan sääntökokoelmaa."
 

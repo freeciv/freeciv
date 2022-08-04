@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ca\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2022-07-24 18:06+0200\n"
+"POT-Creation-Date: 2022-08-05 00:27+0300\n"
 "PO-Revision-Date: 2022-07-24 18:18+0200\n"
 "Last-Translator: Joan Creus <joan.creusandreu at gmail dot com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -122,7 +122,6 @@ msgstr ""
 
 #: ai/default/daidiplomacy.c:1290
 #, c-format
-#| msgid "*%s (AI)* Space will never be yours. "
 msgid "*%s (AI)* Space will never be yours."
 msgstr "*%s (IA)* L'espai no serà mai teu."
 
@@ -2620,8 +2619,8 @@ msgstr "Comerç:"
 #: client/gui-gtk-3.0/diplodlg.c:854 client/gui-gtk-3.0/inteldlg.c:51
 #: client/gui-gtk-3.22/citydlg.c:749 client/gui-gtk-3.22/diplodlg.c:766
 #: client/gui-gtk-3.22/diplodlg.c:848 client/gui-gtk-3.22/inteldlg.c:51
-#: client/gui-qt/citydlg.h:61 client/gui-qt/diplodlg.cpp:165
-#: client/gui-qt/diplodlg.cpp:167 client/gui-qt/plrdlg.cpp:507
+#: client/gui-qt/citydlg.h:61 client/gui-qt/diplodlg.cpp:172
+#: client/gui-qt/diplodlg.cpp:174 client/gui-qt/plrdlg.cpp:507
 msgid "Gold:"
 msgstr "Or:"
 
@@ -3132,7 +3131,7 @@ msgstr "_Mostrar"
 #: client/gui-gtk-2.0/cityrep.c:1136 client/gui-gtk-2.0/menu.c:1474
 #: client/gui-gtk-3.0/cityrep.c:1146 client/gui-gtk-3.0/menu.c:315
 #: client/gui-gtk-3.22/cityrep.c:1146 client/gui-gtk-3.22/menu.c:314
-#: client/gui-qt/diplodlg.cpp:383 client/gui-qt/menu.cpp:1582
+#: client/gui-qt/diplodlg.cpp:393 client/gui-qt/menu.cpp:1582
 #: client/gui-qt/pages.cpp:726 client/gui-qt/pages.cpp:1280
 #: client/gui-sdl2/diplodlg.c:746 client/include/helpdlg_g.h:43
 #: data/civ1/units.ruleset:26 data/civ2/units.ruleset:31
@@ -3511,12 +3510,12 @@ msgstr ""
 "%s"
 
 #: client/gui-gtk-2.0/diplodlg.c:254 client/gui-gtk-3.0/diplodlg.c:254
-#: client/gui-gtk-3.22/diplodlg.c:254 client/gui-qt/diplodlg.cpp:333
+#: client/gui-gtk-3.22/diplodlg.c:254 client/gui-qt/diplodlg.cpp:343
 msgid "World-map"
 msgstr "Mapa mundial"
 
 #: client/gui-gtk-2.0/diplodlg.c:260 client/gui-gtk-3.0/diplodlg.c:260
-#: client/gui-gtk-3.22/diplodlg.c:260 client/gui-qt/diplodlg.cpp:336
+#: client/gui-gtk-3.22/diplodlg.c:260 client/gui-qt/diplodlg.cpp:346
 msgid "Sea-map"
 msgstr "Mapa marítim"
 
@@ -3532,7 +3531,7 @@ msgstr "_Avenços"
 
 #. TRANS: All technologies menu item in the diplomatic dialog.
 #: client/gui-gtk-2.0/diplodlg.c:305 client/gui-gtk-3.0/diplodlg.c:305
-#: client/gui-gtk-3.22/diplodlg.c:305 client/gui-qt/diplodlg.cpp:359
+#: client/gui-gtk-3.22/diplodlg.c:305 client/gui-qt/diplodlg.cpp:369
 msgid "All advances"
 msgstr "Tots els avenços"
 
@@ -3553,19 +3552,19 @@ msgid "Give _embassy"
 msgstr "Donar A_mbaixada"
 
 #: client/gui-gtk-2.0/diplodlg.c:428 client/gui-gtk-3.0/diplodlg.c:428
-#: client/gui-gtk-3.22/diplodlg.c:428 client/gui-qt/diplodlg.cpp:421
+#: client/gui-gtk-3.22/diplodlg.c:428 client/gui-qt/diplodlg.cpp:431
 #: client/gui-sdl2/diplodlg.c:511 common/player.h:147
 msgid "?diplomatic_state:Cease-fire"
 msgstr "Alto el foc"
 
 #: client/gui-gtk-2.0/diplodlg.c:434 client/gui-gtk-3.0/diplodlg.c:434
-#: client/gui-gtk-3.22/diplodlg.c:434 client/gui-qt/diplodlg.cpp:427
+#: client/gui-gtk-3.22/diplodlg.c:434 client/gui-qt/diplodlg.cpp:437
 #: client/gui-sdl2/diplodlg.c:525 common/player.h:149
 msgid "?diplomatic_state:Peace"
 msgstr "Pau"
 
 #: client/gui-gtk-2.0/diplodlg.c:440 client/gui-gtk-3.0/diplodlg.c:440
-#: client/gui-gtk-3.22/diplodlg.c:440 client/gui-qt/diplodlg.cpp:433
+#: client/gui-gtk-3.22/diplodlg.c:440 client/gui-qt/diplodlg.cpp:443
 #: client/gui-sdl2/diplodlg.c:541 common/player.h:151
 msgid "?diplomatic_state:Alliance"
 msgstr "Aliança"
@@ -3588,13 +3587,13 @@ msgid "Diplomacy [%d]"
 msgstr "Diplomàcia [%d]"
 
 #: client/gui-gtk-2.0/diplodlg.c:660 client/gui-gtk-3.0/diplodlg.c:663
-#: client/gui-gtk-3.22/diplodlg.c:663 client/gui-qt/diplodlg.cpp:217
+#: client/gui-gtk-3.22/diplodlg.c:663 client/gui-qt/diplodlg.cpp:227
 #: client/gui-sdl2/diplodlg.c:936
 msgid "Cancel meeting"
 msgstr "Cancel·lar cimera"
 
 #: client/gui-gtk-2.0/diplodlg.c:662 client/gui-gtk-3.0/diplodlg.c:661
-#: client/gui-gtk-3.22/diplodlg.c:661 client/gui-qt/diplodlg.cpp:214
+#: client/gui-gtk-3.22/diplodlg.c:661 client/gui-qt/diplodlg.cpp:224
 #: client/gui-sdl2/diplodlg.c:947
 msgid "Accept treaty"
 msgstr "Acceptar tractat"
@@ -3602,7 +3601,7 @@ msgstr "Acceptar tractat"
 #: client/gui-gtk-2.0/diplodlg.c:735 client/gui-gtk-2.0/diplodlg.c:819
 #: client/gui-gtk-3.0/diplodlg.c:742 client/gui-gtk-3.0/diplodlg.c:827
 #: client/gui-gtk-3.22/diplodlg.c:742 client/gui-gtk-3.22/diplodlg.c:824
-#: client/gui-qt/diplodlg.cpp:182 client/gui-qt/diplodlg.cpp:184
+#: client/gui-qt/diplodlg.cpp:196 client/gui-qt/diplodlg.cpp:198
 msgid "Add Clause..."
 msgstr "Afegir Clàusula..."
 
@@ -3612,7 +3611,7 @@ msgid "C_lauses:"
 msgstr "C_làusules:"
 
 #: client/gui-gtk-2.0/diplodlg.c:931 client/gui-gtk-3.0/diplodlg.c:942
-#: client/gui-gtk-3.22/diplodlg.c:936 client/gui-qt/diplodlg.cpp:685
+#: client/gui-gtk-3.22/diplodlg.c:936 client/gui-qt/diplodlg.cpp:695
 msgid "--- This treaty is blank. Please add some clauses. ---"
 msgstr "--- Tractat en blanc. Si us plau, afegeix clàusules. ---"
 
@@ -4619,8 +4618,8 @@ msgstr "Bonificació (M/P/C):"
 #. TRANS: "None" tech
 #: client/gui-gtk-2.0/helpdlg.c:129 client/gui-gtk-3.0/helpdlg.c:130
 #: client/gui-gtk-3.22/helpdlg.c:130 client/gui-qt/citydlg.cpp:3805
-#: client/gui-qt/helpdlg.cpp:54 client/gui-qt/plrdlg.cpp:595
-#: client/gui-qt/plrdlg.cpp:601 client/gui-qt/repodlgs.cpp:1084
+#: client/gui-qt/helpdlg.cpp:54 client/gui-qt/plrdlg.cpp:598
+#: client/gui-qt/plrdlg.cpp:604 client/gui-qt/repodlgs.cpp:1084
 #: client/gui-sdl2/gui_tilespec.c:381 client/gui-sdl2/helpdlg.c:855
 #: client/gui-sdl2/mapview.c:346 common/research.c:86 common/tech.c:470
 #: tools/civmanual.c:557
@@ -6877,7 +6876,6 @@ msgstr "Esborrar sol·licitud"
 #. TRANS: Activity name, verb in English
 #: client/gui-gtk-3.0/citydlg.c:2944 client/gui-gtk-3.22/citydlg.c:2977
 #: client/gui-qt/citydlg.cpp:1323 common/unit.c:530
-#| msgid "CanMine"
 msgid "?act:Mine"
 msgstr "Mineria"
 
@@ -6971,12 +6969,12 @@ msgid "Wonders of %s Empire"
 msgstr "Meravelles de l'Imperi %s"
 
 #: client/gui-gtk-3.0/inteldlg.c:652 client/gui-gtk-3.22/inteldlg.c:650
-#: client/gui-qt/plrdlg.cpp:639
+#: client/gui-qt/plrdlg.cpp:642
 msgid "(unknown city)"
 msgstr "(ciutat desconeguda)"
 
 #: client/gui-gtk-3.0/inteldlg.c:658 client/gui-gtk-3.22/inteldlg.c:656
-#: client/gui-qt/plrdlg.cpp:645
+#: client/gui-qt/plrdlg.cpp:648
 msgid "(lost)"
 msgstr "(perduda)"
 
@@ -7646,24 +7644,24 @@ msgid_plural "%1 turns left"
 msgstr[0] "Queda %d torn"
 msgstr[1] "Queden %d torns"
 
-#: client/gui-qt/diplodlg.cpp:332 client/gui-sdl2/diplodlg.c:574
+#: client/gui-qt/diplodlg.cpp:342 client/gui-sdl2/diplodlg.c:574
 msgid "Maps"
 msgstr "Mapes"
 
-#: client/gui-qt/diplodlg.cpp:344 client/gui-sdl2/diplodlg.c:667
+#: client/gui-qt/diplodlg.cpp:354 client/gui-sdl2/diplodlg.c:667
 #: client/gui-sdl2/helpdlg.c:1991
 msgid "Advances"
 msgstr "Avenços"
 
-#: client/gui-qt/diplodlg.cpp:403 client/gui-sdl2/diplodlg.c:560
+#: client/gui-qt/diplodlg.cpp:413 client/gui-sdl2/diplodlg.c:560
 msgid "Give shared vision"
 msgstr "Donar visió compartida"
 
-#: client/gui-qt/diplodlg.cpp:410 client/gui-sdl2/diplodlg.c:614
+#: client/gui-qt/diplodlg.cpp:420 client/gui-sdl2/diplodlg.c:614
 msgid "Give embassy"
 msgstr "Donar ambaixada"
 
-#: client/gui-qt/diplodlg.cpp:419 client/gui-sdl2/diplodlg.c:503
+#: client/gui-qt/diplodlg.cpp:429 client/gui-sdl2/diplodlg.c:503
 msgid "Pacts"
 msgstr "Pactes"
 
@@ -8484,12 +8482,10 @@ msgid "Apply"
 msgstr "Aplicar"
 
 #: client/gui-qt/optiondlg.cpp:804
-#| msgid "Select Nation"
 msgid "Select Font"
 msgstr "Seleccionar Tipus de Lletra"
 
-#: client/gui-qt/optiondlg.cpp:849
-#| msgid "Select a color"
+#: client/gui-qt/optiondlg.cpp:850
 msgid "Select Color"
 msgstr "Seleccionar Color"
 
@@ -8632,41 +8628,39 @@ msgstr "Impostos: %1% Ciència: %2% Luxes: %3%\n"
 msgid "%1 - max rate: %2%"
 msgstr "%1 - taxa màxima: %2%"
 
-#: client/gui-qt/plrdlg.cpp:560
+#: client/gui-qt/plrdlg.cpp:563
 msgid "<b>Techs unknown by %1:</b>"
 msgstr "<b>Tecnologies desconegudes per %1:</b>"
 
-#: client/gui-qt/plrdlg.cpp:563
+#: client/gui-qt/plrdlg.cpp:566
 msgid "<b>Techs unknown by you :</b>"
 msgstr "<b>Tecnologies desconegudes per tu:</b>"
 
-#: client/gui-qt/plrdlg.cpp:608
+#: client/gui-qt/plrdlg.cpp:611
 msgid "<b>Techs known by %1:</b>"
 msgstr "<b>Tecnologies conegudes per %1:</b>"
 
-#: client/gui-qt/plrdlg.cpp:642
-#| msgid "Obsolete"
+#: client/gui-qt/plrdlg.cpp:645
 msgid " (obsolete)"
 msgstr "(obsoleta)"
 
-#: client/gui-qt/plrdlg.cpp:714
+#: client/gui-qt/plrdlg.cpp:717
 msgid "Meet"
 msgstr "Cimera"
 
-#: client/gui-qt/plrdlg.cpp:716 client/gui-sdl2/diplodlg.c:1556
+#: client/gui-qt/plrdlg.cpp:719 client/gui-sdl2/diplodlg.c:1556
 msgid "Cancel Treaty"
 msgstr "Cancel·lar el tractat"
 
-#: client/gui-qt/plrdlg.cpp:718
+#: client/gui-qt/plrdlg.cpp:721
 msgid "Withdraw Vision"
 msgstr "Retirar Visió"
 
-#: client/gui-qt/plrdlg.cpp:720 client/gui-qt/plrdlg.cpp:823
+#: client/gui-qt/plrdlg.cpp:723 client/gui-qt/plrdlg.cpp:826
 msgid "Toggle AI Mode"
 msgstr "Commuta el mode d'IA"
 
-#: client/gui-qt/plrdlg.cpp:722
-#| msgid "Show wonders"
+#: client/gui-qt/plrdlg.cpp:725
 msgid "Show Wonders"
 msgstr "Mostrar Meravelles"
 
@@ -10125,8 +10119,8 @@ msgid ""
 "You cannot interact with that player with your current contact state - Try "
 "right mouse button for intelligence."
 msgstr ""
-"No podeu interactuar amb aquest jugador amb el vostre estat de contacte"
-" actual - Proveu el botó dret del ratolí per a obtenir intel·ligència."
+"No podeu interactuar amb aquest jugador amb el vostre estat de contacte "
+"actual - Proveu el botó dret del ratolí per a obtenir intel·ligència."
 
 #: client/gui-sdl2/plrdlg.c:718 client/plrdlg_common.c:315
 #: server/stdinhand.c:3582 server/stdinhand.c:6531
@@ -10644,7 +10638,6 @@ msgstr ""
 #. TRANS: 'Allows all players to build nuclear units.'
 #: client/helpdata.c:1331
 #, c-format
-#| msgid "* Allows all players with knowledge of %s to build %s units.\n"
 msgid "* Allows all players to build %s units.\n"
 msgstr "* Permet a tots els jugadors construir unitats %s.\n"
 
@@ -12565,34 +12558,28 @@ msgid "Soundset"
 msgstr "Joc de sons"
 
 #: client/options.c:1869
-#| msgid ""
-#| "This is the soundset that will be used.  Changing this is the same as "
-#| "using the -S command-line parameter."
 msgid ""
 "This is the soundset that will be used. Changing this is the same as using "
 "the -S command-line parameter. Use modpack installer utility to install "
 "additional soundsets."
 msgstr ""
 "Aquest és el joc de sons que es farà servir. Modificar això és el mateix que "
-"fer servir el paràmetre de línia de comandes -S. Feu servir la utilitat"
-" d'instal·lació de modpacks per a instal·lar jocs de sons addicionals."
+"fer servir el paràmetre de línia de comandes -S. Feu servir la utilitat "
+"d'instal·lació de modpacks per a instal·lar jocs de sons addicionals."
 
 #: client/options.c:1875 tools/modinst.h:49
 msgid "Musicset"
 msgstr "Joc de músiques"
 
 #: client/options.c:1876
-#| msgid ""
-#| "This is the musicset that will be used.  Changing this is the same as "
-#| "using the -m command-line parameter."
 msgid ""
 "This is the musicset that will be used. Changing this is the same as using "
 "the -m command-line parameter. Use modpack installer utility to install "
 "additional musicsets."
 msgstr ""
 "Aquest és el joc de músiques que es farà servir. Modificar això és el mateix "
-"que fer servir el paràmetre de línia de comandes -m. Feu servir la utilitat"
-" d'instal·lació de modpacks per a instal·lar jocs de músiques addicionals."
+"que fer servir el paràmetre de línia de comandes -m. Feu servir la utilitat "
+"d'instal·lació de modpacks per a instal·lar jocs de músiques addicionals."
 
 #: client/options.c:1882
 msgid "Sound plugin"
@@ -12631,10 +12618,6 @@ msgid "Tileset (Square)"
 msgstr "Joc de caselles (Quadrat)"
 
 #: client/options.c:1927
-#| msgid ""
-#| "Select the tileset used with Square based maps. This may change the "
-#| "currently active tileset, if you are playing on such a map, in which case "
-#| "this is the same as using the -t command-line parameter."
 msgid ""
 "Select the tileset used with Square based maps. This may change the "
 "currently active tileset, if you are playing on such a map, in which case "
@@ -12644,18 +12627,14 @@ msgstr ""
 "Seleccionar el joc de caselles utilitzat amb mapes basats en Quadrat. Això "
 "pot modificar el joc de caselles actiu actualment, si estàs jugant en aquest "
 "tipus de mapa; en aquest cas és el mateix que fer servir el paràmetre de "
-"línia de comandes -t. Feu servir la utilitat d'instal·lació de modpacks per a"
-" instal·lar jocs de caselles addicionals."
+"línia de comandes -t. Feu servir la utilitat d'instal·lació de modpacks per "
+"a instal·lar jocs de caselles addicionals."
 
 #: client/options.c:1936
 msgid "Tileset (Hex)"
 msgstr "Joc de caselles (Hexa)"
 
 #: client/options.c:1937
-#| msgid ""
-#| "Select the tileset used with Hex maps. This may change the currently "
-#| "active tileset, if you are playing on such a map, in which case this is "
-#| "the same as using the -t command-line parameter."
 msgid ""
 "Select the tileset used with Hex maps. This may change the currently active "
 "tileset, if you are playing on such a map, in which case this is the same as "
@@ -12665,18 +12644,14 @@ msgstr ""
 "Seleccionar el joc de caselles utilitzat amb mapes Hex. Això pot modificar "
 "el joc de caselles actiu actualment, si estàs jugant en aquest tipus de "
 "mapa; en aquest cas és el mateix que fer servir el paràmetre de línia de "
-"comandes -t. Feu servir la utilitat d'instal·lació de modpacks per a"
-" instal·lar jocs de caselles addicionals."
+"comandes -t. Feu servir la utilitat d'instal·lació de modpacks per a "
+"instal·lar jocs de caselles addicionals."
 
 #: client/options.c:1946
 msgid "Tileset (Iso-Hex)"
 msgstr "Joc de caselles (Iso-Hex)"
 
 #: client/options.c:1947
-#| msgid ""
-#| "Select the tileset used with Iso-Hex maps. This may change the currently "
-#| "active tileset, if you are playing on such a map, in which case this is "
-#| "the same as using the -t command-line parameter."
 msgid ""
 "Select the tileset used with Iso-Hex maps. This may change the currently "
 "active tileset, if you are playing on such a map, in which case this is the "
@@ -12686,8 +12661,8 @@ msgstr ""
 "Seleccionar el joc de caselles utilitzat amb mapes Iso-Hex. Això pot "
 "modificar el joc de caselles actiu actualment, si estàs jugant en aquest "
 "tipus de mapa; en aquest cas és el mateix que fer servir el paràmetre de "
-"línia de comandes -t. Feu servir la utilitat d'instal·lació de modpacks per a"
-" instal·lar jocs de caselles addicionals."
+"línia de comandes -t. Feu servir la utilitat d'instal·lació de modpacks per "
+"a instal·lar jocs de caselles addicionals."
 
 #: client/options.c:1957
 msgid "Draw city outlines"
@@ -15432,8 +15407,8 @@ msgstr "No hi són les etiquetes gràfiques \"%s\" ni \"%s\" per a %s \"%s\"."
 #, c-format
 msgid "Missing %s unit sprite for tags \"%s\" and alternative \"%s\"."
 msgstr ""
-"No hi ha sprite de la unitat %s per les etiquetes \"%s\" i l'alternativa \"%s"
-"\"."
+"No hi ha sprite de la unitat %s per les etiquetes \"%s\" i l'alternativa "
+"\"%s\"."
 
 #: client/tilespec.c:3611
 #, c-format
@@ -17224,20 +17199,20 @@ msgstr "Torn: %4d - Any: %10s"
 msgid "toolkit not defined"
 msgstr "toolkit no definit"
 
-#: common/mapimg.c:2107 common/mapimg.c:2315
+#: common/mapimg.c:2107 common/mapimg.c:2314
 msgid "error generating the file name"
 msgstr "error generant el nom de fitxer"
 
-#: common/mapimg.c:2281
+#: common/mapimg.c:2280
 #, c-format
 msgid "error saving map image '%s'"
 msgstr "error desant la imatge de mapa '%s'"
 
-#: common/mapimg.c:2309
+#: common/mapimg.c:2308
 msgid "the ppm toolkit can only create images in the ppm format"
 msgstr "el toolkit ppm només pot crear imatges en format ppm"
 
-#: common/mapimg.c:2321
+#: common/mapimg.c:2320
 #, c-format
 msgid "could not open file: %s"
 msgstr "no s'ha pogut obrir l'arxiu: %s"
@@ -23086,7 +23061,6 @@ msgstr ""
 #: data/classic/terrain.ruleset:1160 data/sandbox/terrain.ruleset:1188
 #: data/experimental/terrain.ruleset:1136 data/civ2civ3/terrain.ruleset:1187
 #: data/alien/terrain.ruleset:770 data/multiplayer/terrain.ruleset:1134
-#| msgid "Central Mine"
 msgid "?extra:Mine"
 msgstr "Mina"
 
@@ -31381,13 +31355,6 @@ msgstr "Món Alienígena"
 #. TRANS: In the client, this is displayed alongside the contents of
 #. ;    README.alien, which are not localized.
 #: data/alien/game.ruleset:36
-#| msgid ""
-#| "One of the design goals of this ruleset was that it has to provide "
-#| "gameplay different from standard rules. Do not assume that any rules you "
-#| "know from classic rules apply with this ruleset.\n"
-#| "\n"
-#| "See http://www.freeciv.org/wiki/Alien_World and https://www.cazfi.net/"
-#| "freeciv/alien/ for additional ruleset info."
 msgid ""
 "One of the design goals of this ruleset was that it has to provide gameplay "
 "different from standard rules. Do not assume that any rules you know from "
@@ -34284,8 +34251,8 @@ msgid ""
 "capacity, and once full the city grows by one citizen and the granary starts "
 "again at empty. But since granary capacity increases with population, each "
 "citizen is more costly than the last, making this mode of growth important "
-"only for small cities. (An alternative way for cities to grow is \"rapture"
-"\", described in the section on Happiness.)"
+"only for small cities. (An alternative way for cities to grow is "
+"\"rapture\", described in the section on Happiness.)"
 msgstr ""
 "El menjar que sobra pot fer augmentar la població: el graner de la ciutat té "
 "una capacitat limitada, i un cop és ple la ciutat creix en un ciutadà i el "
@@ -37229,8 +37196,9 @@ msgid ""
 "i] test[/b] this[/s] [/c]new[/u] feature[/c]'."
 msgstr ""
 "Evidentment, les diferents seqüències d'escapament es poden combinar a la "
-"mateixa frase, com a '[i][c fg=\"blue\"]això [b]és [s]divertit[c bg=\"green"
-"\"] [u]per[/i] provar[/b] aquesta[/s] [/c]nova[/u] funcionalitat[/c]'."
+"mateixa frase, com a '[i][c fg=\"blue\"]això [b]és [s]divertit[c "
+"bg=\"green\"] [u]per[/i] provar[/b] aquesta[/s] [/c]nova[/u] funcionalitat[/"
+"c]'."
 
 #: data/helpdata.txt:1972
 msgid ""
@@ -40267,93 +40235,99 @@ msgstr "Les dependències recursives són massa profundes"
 msgid "No URL given"
 msgstr "No s'ha donat URL"
 
-#: tools/download.c:110
+#: tools/download.c:110 tools/download.c:120
 msgid "This does not look like modpack URL"
 msgstr "Això no té aspecte d'URL de modpack"
 
-#: tools/download.c:119
+#: tools/download.c:123
 #, c-format
 msgid "Installing modpack %s from %s"
 msgstr "Instal·lant el modpack %s des de %s"
 
-#: tools/download.c:122
+#: tools/download.c:126
 msgid "Cannot install to given directory hierarchy"
 msgstr "No es pot instal·lar en la jerarquia de directoris donada"
 
 #. TRANS: %s is a filename with suffix '.mpdl'
-#: tools/download.c:129
+#: tools/download.c:133
 #, c-format
 msgid "Downloading \"%s\" control file."
 msgstr "Baixant fitxer de control %s."
 
-#: tools/download.c:136
+#: tools/download.c:140
 msgid "Failed to get and parse modpack control file"
 msgstr "No s'ha pogut obtenir ni processar el fitxer de control del modpack"
 
-#: tools/download.c:142
+#: tools/download.c:146
 msgid "Modpack control file has no capability string"
 msgstr "El fitxer de control del modpack no té cadena de capacitats"
 
-#: tools/download.c:152
+#: tools/download.c:156
 msgid "Modpack control file is incompatible"
 msgstr "El fitxer de control del modpack és incompatible"
 
-#: tools/download.c:157
+#: tools/download.c:161
 msgid "Modpack name not defined in control file"
 msgstr "El nom del modpack no està definit al fitxer de control"
 
-#: tools/download.c:161
+#: tools/download.c:165
 msgid "Modpack version not defined in control file"
 msgstr "La versió del modpack no està definida al fitxer de control"
 
-#: tools/download.c:167
+#: tools/download.c:171
 msgid "Illegal modpack type"
 msgstr "Tipus de modpack il·legal"
 
-#: tools/download.c:206
+#: tools/download.c:210
 msgid "Dependency has no download URL"
 msgstr "La dependència no té URL per baixar-se"
 
-#: tools/download.c:212
+#: tools/download.c:216
 msgid "Illegal dependency modpack type"
 msgstr "Tipus de modpack de dependència il·legal"
 
-#: tools/download.c:235
+#: tools/download.c:239
 msgid "Download dependency modpack"
 msgstr "Baixar modpack de dependència"
 
-#: tools/download.c:310
+#: tools/download.c:314
 #, c-format
 msgid "Illegal path for %s"
 msgstr "Camí il·legal per %s"
 
-#: tools/download.c:346
+#: tools/download.c:350
 msgid "Cannot create required directories"
 msgstr "No s'han pogut crear els directoris requerits"
 
-#: tools/download.c:353
+#: tools/download.c:357
 #, c-format
 msgid "Downloading %s"
 msgstr "Baixant %s"
 
-#: tools/download.c:363
+#: tools/download.c:367
 #, c-format
 msgid "Failed to download %s"
 msgstr "No s'ha pogut baixar %s"
 
-#: tools/download.c:384
+#: tools/download.c:388
 msgid "Some parts of the modpack failed to install."
 msgstr "Algunes parts del modpack no s'han pogut instal·lar."
 
-#: tools/download.c:411
+#: tools/download.c:415
 msgid "Cannot fetch and parse modpack list"
 msgstr "No es pot obtenir i processar la llista de modpacks"
 
-#: tools/download.c:423
+#: tools/download.c:425
+#, fuzzy
+#| msgid "Load modpack list from given URL"
+msgid "Invalid modpack list URL"
+msgstr "Carregar llista de modpacks de la URL donada"
+
+#: tools/download.c:431
 msgid "Modpack list has no capability string"
 msgstr "La llista de modpacks no té cadena de capacitats"
 
-#: tools/download.c:433
+#: tools/download.c:441
 msgid "Modpack list is incompatible"
 msgstr "La llista de modpacks és incompatible"
 
@@ -41378,8 +41352,8 @@ msgid ""
 "%s can't build %s from the worklist; it needs \"%s\" achievement. "
 "Postponing..."
 msgstr ""
-"%s no pot construir %s de la llista de treball; necessita l'assoliment \"%s"
-"\".  S'ajorna..."
+"%s no pot construir %s de la llista de treball; necessita l'assoliment "
+"\"%s\".  S'ajorna..."
 
 #: server/cityturn.c:1247 server/cityturn.c:1270
 #, c-format
@@ -41599,8 +41573,8 @@ msgid ""
 "%s can't build %s from the worklist; terrain with \"%s\" flag is required. "
 "Postponing..."
 msgstr ""
-"%s no pot construir %s de la llista de treball; cal terreny amb la marca \"%s"
-"\".  S'ajorna..."
+"%s no pot construir %s de la llista de treball; cal terreny amb la marca "
+"\"%s\".  S'ajorna..."
 
 #: server/cityturn.c:1579
 #, c-format
@@ -41608,8 +41582,8 @@ msgid ""
 "%s can't build %s from the worklist; terrain with \"%s\" flag is prohibited. "
 "Postponing..."
 msgstr ""
-"%s no pot construir %s de la llista de treball; el terreny amb la marca \"%s"
-"\" està prohibit. S'ajorna..."
+"%s no pot construir %s de la llista de treball; el terreny amb la marca "
+"\"%s\" està prohibit. S'ajorna..."
 
 #: server/cityturn.c:1593
 #, c-format
@@ -41635,8 +41609,8 @@ msgid ""
 "%s can't build %s from the worklist; road with \"%s\" flag is required. "
 "Postponing..."
 msgstr ""
-"%s no pot construir %s de la llista de treball; cal un camí amb la marca \"%s"
-"\".  S'ajorna..."
+"%s no pot construir %s de la llista de treball; cal un camí amb la marca "
+"\"%s\".  S'ajorna..."
 
 #: server/cityturn.c:1629
 #, c-format
@@ -42276,12 +42250,12 @@ msgid ""
 "includes the current and default values for that option. The argument may be "
 "abbreviated where unambiguous."
 msgstr ""
-"Sense arguments dóna una introducció. Amb l'argument \"commands\" o \"options"
-"\" dóna respectivament una llista de totes les comandes o totes les opcions. "
-"En qualsevol altre cas es considera que l'argument és un nom de comanda o un "
-"nom d'opció, i surt ajuda d'aquesta comanda o opció. Per les opcions, la "
-"informació de l'ajuda inclou els valors actuals i predeterminats per a "
-"aquesta opció. L'argument es pot abreujar si no és ambigu."
+"Sense arguments dóna una introducció. Amb l'argument \"commands\" o "
+"\"options\" dóna respectivament una llista de totes les comandes o totes les "
+"opcions. En qualsevol altre cas es considera que l'argument és un nom de "
+"comanda o un nom d'opció, i surt ajuda d'aquesta comanda o opció. Per les "
+"opcions, la informació de l'ajuda inclou els valors actuals i predeterminats "
+"per a aquesta opció. L'argument es pot abreujar si no és ambigu."
 
 #: server/commands.c:101
 msgid "Show a list of various things."
@@ -42403,11 +42377,11 @@ msgstr "Mostra les opcions del servidor."
 msgid ""
 "With no arguments, shows vital server options (or available options, when "
 "used by clients). With an option name argument, show only the named option, "
-"or options with that prefix. With \"all\", it shows all options. With \"vital"
-"\", \"situational\" or \"rare\", a set of options with this level. With "
-"\"changed\", it shows only the options which have been modified, while with "
-"\"locked\" all settings locked by the ruleset will be listed. With \"ruleset"
-"\", it will show the current ruleset directory name."
+"or options with that prefix. With \"all\", it shows all options. With "
+"\"vital\", \"situational\" or \"rare\", a set of options with this level. "
+"With \"changed\", it shows only the options which have been modified, while "
+"with \"locked\" all settings locked by the ruleset will be listed. With "
+"\"ruleset\", it will show the current ruleset directory name."
 msgstr ""
 "Sense arguments, mostra opcions vitals del servidor (o les disponibles, quan "
 "ho fan servir els clients). Amb un argument de nom d'opció, mostra només "
@@ -42970,10 +42944,10 @@ msgstr "Bloquejar tots els missatges dels usuaris que concordin amb el patró."
 #: server/commands.c:475
 msgid ""
 "The given pattern will be added to your ignore list; you will not receive "
-"any messages from users matching this pattern. The type may be either \"user"
-"\", \"host\", or \"ip\". The default type (if omitted) is to match against "
-"the username. The pattern supports unix glob style wildcards, i.e., * "
-"matches zero or more character, ? exactly one character, [abc] exactly one "
+"any messages from users matching this pattern. The type may be either "
+"\"user\", \"host\", or \"ip\". The default type (if omitted) is to match "
+"against the username. The pattern supports unix glob style wildcards, i.e., "
+"* matches zero or more character, ? exactly one character, [abc] exactly one "
 "of 'a' 'b' or 'c', etc. To access your current ignore list, issue \"/list "
 "ignore\"."
 msgstr ""
@@ -44131,12 +44105,11 @@ msgid ""
 "Cannot create another instance of unique unit type %s. Player already has "
 "one such unit."
 msgstr ""
-"No es pot crear una altra instància de la unitat de tipus únic %s. El jugador"
-" ja en té una."
+"No es pot crear una altra instància de la unitat de tipus únic %s. El "
+"jugador ja en té una."
 
 #: server/edithand.c:472
 #, c-format
-#| msgid "Cannot create unit of type %s on enemy tile %s."
 msgid "Cannot create multiple instances of unique unit type %s."
 msgstr "No es poden crear múltiples instàncies de la unitat de tipus únic %s."
 
@@ -44260,15 +44233,12 @@ msgstr ""
 
 #: server/edithand.c:914
 #, c-format
-#| msgid ""
-#| "No more players can be added because the maximum number of players (%d) "
-#| "has been reached."
 msgid ""
 "No more players can be added because there's already maximum number of "
 "players allowed by maxplayers setting (value %d)"
 msgstr ""
-"No es poden afegir més jugadors perquè ja hi ha el màxim nombre de jugadors"
-" permès pel paràmetre maxplayers (valor %d)"
+"No es poden afegir més jugadors perquè ja hi ha el màxim nombre de jugadors "
+"permès pel paràmetre maxplayers (valor %d)"
 
 #: server/edithand.c:922
 #, c-format
@@ -44603,7 +44573,6 @@ msgstr "%s tenia un objectiu de tecnologia no vàlid."
 
 #: server/legacysave.c:4176 server/savegame2.c:5213 server/savegame3.c:7140
 #, c-format
-#| msgid "%s had invalid researching technology."
 msgid "%s had finished researches count wrong."
 msgstr "%s tenia malament el comptador de recerques acabades."
 
@@ -45396,15 +45365,15 @@ msgstr ""
 "Els efectes han de tenir \"tipus\", no el mateix camp \"nom\" amb el nom "
 "vell."
 
-#: server/ruleset.c:7877
+#: server/ruleset.c:7872
 msgid "Ruleset couldn't be loaded. Keeping previous one."
 msgstr "No s'ha pogut carregar el joc de regles. Es manté l'anterior."
 
-#: server/ruleset.c:7895
+#: server/ruleset.c:7890
 msgid "Ruleset couldn't be loaded. Switching to default one."
 msgstr "No s'ha pogut carregar el joc de regles. Es canvia al predeterminat."
 
-#: server/ruleset.c:7902
+#: server/ruleset.c:7897
 msgid ""
 "Cannot load any ruleset. Freeciv-web ruleset is available from https://"
 "github.com/freeciv/freeciv-web"
@@ -45412,7 +45381,7 @@ msgstr ""
 "No es pot carregar cap joc de regles. El joc de regles de Freeciv-web està "
 "disponible a https://github.com/freeciv/freeciv-web"
 
-#: server/ruleset.c:7945
+#: server/ruleset.c:7940
 msgid "Loading rulesets."
 msgstr "Carregant els jocs de regles."
 
@@ -45962,8 +45931,8 @@ msgid ""
 "Demography string validation failed at character: '%c'. Try \"/help "
 "demography\"."
 msgstr ""
-"La validació de la cadena de demografia ha fallat al caràcter: '%c'. Proveu"
-"\"/help demography\"."
+"La validació de la cadena de demografia ha fallat al caràcter: '%c'. "
+"Proveu\"/help demography\"."
 
 #: server/settings.c:949
 #, c-format
@@ -45988,8 +45957,8 @@ msgid ""
 "The first starting unit must be native to at least one \"Starter\" terrain. "
 "Try \"/help startunits\"."
 msgstr ""
-"La primera unitat d'inici ha de ser nadiua com a mínim d'un terreny \"Inicial"
-"\". Prova \"/help startunits\"."
+"La primera unitat d'inici ha de ser nadiua com a mínim d'un terreny "
+"\"Inicial\". Prova \"/help startunits\"."
 
 #: server/settings.c:1023
 msgid "Cannot set endturn earlier than current turn."
@@ -46164,8 +46133,8 @@ msgid ""
 "('mapsize') must be set to \"Width and height\" (XYSIZE)."
 msgstr ""
 "Defineix l'amplada del mapa.\n"
-"Perquè aquesta opció sigui efectiva, l'opció \"Definició de la mida del mapa"
-"\" ('mapsize') ha de ser \"Amplada i alçada\" (XYSIZE)."
+"Perquè aquesta opció sigui efectiva, l'opció \"Definició de la mida del "
+"mapa\" ('mapsize') ha de ser \"Amplada i alçada\" (XYSIZE)."
 
 #: server/settings.c:1427
 msgid "Map height in tiles"
@@ -46183,8 +46152,8 @@ msgid ""
 "('mapsize') must be set to \"Width and height\" (XYSIZE)."
 msgstr ""
 "Defineix l'alçada del mapa.\n"
-"Perquè aquesta opció sigui efectiva, l'opció \"Definició de la mida del mapa"
-"\" ('mapsize') ha de ser \"Amplada i alçada\" (XYSIZE)."
+"Perquè aquesta opció sigui efectiva, l'opció \"Definició de la mida del "
+"mapa\" ('mapsize') ha de ser \"Amplada i alçada\" (XYSIZE)."
 
 #: server/settings.c:1442
 msgid "Map topology"
@@ -47220,9 +47189,9 @@ msgid ""
 msgstr ""
 "Perquè dues ciutats de la mateixa civilització puguin establir una ruta "
 "comercial, les ciutats han d'estar com a mínim a aquesta distància sobre el "
-"mapa. Per graelles quadrades, la distància es calcula a l'estil \"Manhattan"
-"\", seguint la graella i sense utilitzar diagonals, és a dir, la suma dels "
-"desplaçaments al llarg dels eixos x i y."
+"mapa. Per graelles quadrades, la distància es calcula a l'estil "
+"\"Manhattan\", seguint la graella i sense utilitzar diagonals, és a dir, la "
+"suma dels desplaçaments al llarg dels eixos x i y."
 
 #: server/settings.c:2188
 msgid "Number of turns between rapture effect"
@@ -47579,10 +47548,10 @@ msgid ""
 msgstr ""
 "Aquesta opció afecta l'aerotransport d'unitats entre ciutats. Pot tenir un "
 "conjunt dels següents valors:\n"
-"- \"Permet que les unitats s'aerotransportin des de ciutats aliades"
-"\" (FROM_ALLIES).\n"
-"- \"Permet que les unitats s'aerotransportin cap a ciutats aliades"
-"\" (TO_ALLIES).\n"
+"- \"Permet que les unitats s'aerotransportin des de ciutats "
+"aliades\" (FROM_ALLIES).\n"
+"- \"Permet que les unitats s'aerotransportin cap a ciutats "
+"aliades\" (TO_ALLIES).\n"
 "- \"Unitats il·limitades des de l'origen\" (SCR_UNLIMITED): fixeu-vos que "
 "aerotransportar-se des d'una ciutat no redueix el comptador "
 "d'aerotransports, però igualment necessita una capacitat d'aerotransport de "
@@ -48025,9 +47994,9 @@ msgstr ""
 "Si no tots els jugadors han premut \"Acabar el torn\" abans que passi aquest "
 "temps, el torn s'acaba automàticament. Zero significa que no hi ha temps "
 "màxim. En servidors compilats amb depuració, un temps de -1 fixa la "
-"modalitat de prova automàtica. Només les connexions amb nivell d'accés \"hack"
-"\" poden fixar un temps màxim de menys de 30 segons. Useu-lo juntament amb "
-"la comanda \"timeoutincrease\" per a tenir un temporitzador dinàmic. El "
+"modalitat de prova automàtica. Només les connexions amb nivell d'accés "
+"\"hack\" poden fixar un temps màxim de menys de 30 segons. Useu-lo juntament "
+"amb la comanda \"timeoutincrease\" per a tenir un temporitzador dinàmic. El "
 "primer torn es tracta com un cas especial, i el controla el paràmetre "
 "'first_timeout'."
 
@@ -51114,8 +51083,6 @@ msgstr "Aquesta unitat no pot actuar si no té ciutat origen."
 
 #: server/unithand.c:1665
 #, c-format
-#| msgid ""
-#| "You must declare war on %s first.  Try using the Nations report (F3)."
 msgid "You must declare war on %s first. Try using the Nations report (F3)."
 msgstr ""
 "Primer has de declarar la guerra a %s. Prova-ho amb l'informe de Nacions "
@@ -51123,14 +51090,12 @@ msgstr ""
 
 #: server/unithand.c:1671
 #, c-format
-#| msgid ""
-#| "You must break peace with %s first.  Try using the Nations report (F3)."
 msgid ""
 "You must break peace with %s first. Try using the Nations report to declare "
 "war (F3)."
 msgstr ""
-"Primer has de trencar la pau amb %s. Prova de fer servir l'informe de Nacions"
-" per declarar la guerra (F3)."
+"Primer has de trencar la pau amb %s. Prova de fer servir l'informe de "
+"Nacions per declarar la guerra (F3)."
 
 #: server/unithand.c:1681
 msgid "This unit cannot act against domestic targets."
@@ -51355,16 +51320,12 @@ msgstr "Els teus %s no poden fer %s mentre no estàs en guerra amb %s."
 #. * Nations report (F3)."
 #: server/unithand.c:2256
 #, c-format
-#| msgid ""
-#| "Your %s can't do %s while you are at peace with %s. Try using the Nations "
-#| "report (F3)."
 msgid ""
 "Your %s can't do %s while you are at peace with %s. Try using the Nations "
 "report to declare war (F3)."
 msgstr ""
-"El teu %s no pot fer %s perquè estàs en pau amb %s. Prova de fer servir"
-" l'Informe "
-"de Nacions per declarar la guerra (F3)."
+"El teu %s no pot fer %s perquè estàs en pau amb %s. Prova de fer servir "
+"l'Informe de Nacions per declarar la guerra (F3)."
 
 #. TRANS: action name.
 #. * "Your Riflemen can't do Expel Unit to domestic
@@ -53240,16 +53201,16 @@ msgstr "error %d (compilat sense strerror)"
 #~ "marca \"%s\".\n"
 
 #~ msgid ""
-#~ "Prevented if any player allied to you knows any technology with the \"%s"
-#~ "\" flag.\n"
+#~ "Prevented if any player allied to you knows any technology with the "
+#~ "\"%s\" flag.\n"
 #~ msgstr ""
 #~ "S'evita si algun jugador aliat amb tu coneix alguna tecnologia amb la "
 #~ "marca \"%s\".\n"
 
 #~ msgid "Requires that some player knows a technology with the \"%s\" flag.\n"
 #~ msgstr ""
-#~ "Requereix que algun jugador conegui alguna tecnologia amb la marca \"%s"
-#~ "\".\n"
+#~ "Requereix que algun jugador conegui alguna tecnologia amb la marca "
+#~ "\"%s\".\n"
 
 #~ msgid "Requires that no player knows any technology with the \"%s\" flag.\n"
 #~ msgstr ""
@@ -53269,13 +53230,13 @@ msgstr "error %d (compilat sense strerror)"
 
 #~ msgid "Requires that at least one of your team-mates has achieved \"%s\".\n"
 #~ msgstr ""
-#~ "Requereix que almenys un dels teus companys d'equip hagi aconseguit \"%s"
-#~ "\".\n"
+#~ "Requereix que almenys un dels teus companys d'equip hagi aconseguit "
+#~ "\"%s\".\n"
 
 #~ msgid "Not available if any of your team-mates has achieved \"%s\".\n"
 #~ msgstr ""
-#~ "No està disponible si algun dels teus companys d'equip ha aconseguit \"%s"
-#~ "\".\n"
+#~ "No està disponible si algun dels teus companys d'equip ha aconseguit "
+#~ "\"%s\".\n"
 
 #~ msgid "Requires that at least one of your allies has achieved \"%s\".\n"
 #~ msgstr "Requereix que almenys un dels teus aliats hagi aconseguit \"%s\".\n"
@@ -55519,8 +55480,8 @@ msgstr "error %d (compilat sense strerror)"
 #~ "On terrain unsuitable for irrigation systems or mines, issuing the "
 #~ "\"irrigate\" or \"mine\" order may permanently convert the terrain to "
 #~ "another type; this is usually more expensive. For instance, Swamp may be "
-#~ "\"irrigated\" to yield Grassland. (Terrain conversion with the \"irrigate"
-#~ "\" order does not require a water source.)"
+#~ "\"irrigated\" to yield Grassland. (Terrain conversion with the "
+#~ "\"irrigate\" order does not require a water source.)"
 #~ msgstr ""
 #~ "Sobre terreny que no sigui apropiat per a sistemes de regadiu ni mines, "
 #~ "donar l'ordre \"irrigar\" o \"mina\" pot convertir de forma permanent el "
@@ -58175,13 +58136,14 @@ msgstr "error %d (compilat sense strerror)"
 #~ "neighboring tiles when the transformation takes place, if possible.)"
 #~ msgstr ""
 #~ " - Els Enginyers poden fer un rang molt més ample de transformacions "
-#~ "sobre gairebé qualsevol tipus de terreny amb la comanda de \"transformar"
-#~ "\". En alguns jocs de regles, els Enginyers sobre barques al mar poden "
-#~ "fins i tot convertir en terra caselles d'aigua, i de forma similar, la "
-#~ "terra es pot transformar en oceà, encara que transformacions tan radicals "
-#~ "poden requerir que algun cert nombre de caselles properes ja siguin de "
-#~ "terra o aigua, respectivament. (Les unitats es mouran a caselles veïnes "
-#~ "segures quan la transformació tingui lloc, si és possible)."
+#~ "sobre gairebé qualsevol tipus de terreny amb la comanda de "
+#~ "\"transformar\". En alguns jocs de regles, els Enginyers sobre barques al "
+#~ "mar poden fins i tot convertir en terra caselles d'aigua, i de forma "
+#~ "similar, la terra es pot transformar en oceà, encara que transformacions "
+#~ "tan radicals poden requerir que algun cert nombre de caselles properes ja "
+#~ "siguin de terra o aigua, respectivament. (Les unitats es mouran a "
+#~ "caselles veïnes segures quan la transformació tingui lloc, si és "
+#~ "possible)."
 
 #~ msgid ""
 #~ "Roads can be built on any land tile, even if there are other improvements "
@@ -58354,14 +58316,14 @@ msgstr "error %d (compilat sense strerror)"
 #~ "aquesta regla; només es poden fer d'una en una, igual que els edificis."
 
 #~ msgid ""
-#~ "A city can be given a list of several products to build in its \"worklist"
-#~ "\", avoiding the need to pay attention to it every few turns. Each item "
-#~ "on the worklist represents a single product (such as a unit); the city "
-#~ "will work through them in order. When a city has finished all the work "
-#~ "you have given it to do, it will try to build the last item again if "
-#~ "possible, otherwise it will choose a new target itself. If a city is "
-#~ "currently producing gold (building Coinage in the default rules), an "
-#~ "activity which never completes, putting an item on its worklist will "
+#~ "A city can be given a list of several products to build in its "
+#~ "\"worklist\", avoiding the need to pay attention to it every few turns. "
+#~ "Each item on the worklist represents a single product (such as a unit); "
+#~ "the city will work through them in order. When a city has finished all "
+#~ "the work you have given it to do, it will try to build the last item "
+#~ "again if possible, otherwise it will choose a new target itself. If a "
+#~ "city is currently producing gold (building Coinage in the default rules), "
+#~ "an activity which never completes, putting an item on its worklist will "
 #~ "cause it to stop producing gold and start working on the new item next "
 #~ "turn. In rulesets which permit it, a city may take several units of the "
 #~ "same type off its worklist in a single turn, but if a different kind of "
@@ -59859,8 +59821,8 @@ msgstr "error %d (compilat sense strerror)"
 #~ "Argentina is located on the south-eastern coast of South America. Since "
 #~ "independence from Spain in 1816, it has been plagued by several internal "
 #~ "and external conflicts. In the decades after World War II, the country's "
-#~ "politics was dominated by Juan Peron and his charismatic wife Eva \"Evita"
-#~ "\" Peron."
+#~ "politics was dominated by Juan Peron and his charismatic wife Eva "
+#~ "\"Evita\" Peron."
 #~ msgstr ""
 #~ "Argentina està situada a la costa sud-est de Sudamèrica. Des de la seva "
 #~ "independència d'Espanya el 1816, ha sofert diversos conflictes interns i "
@@ -61262,8 +61224,8 @@ msgstr "error %d (compilat sense strerror)"
 #~ "Els chickasaw eren una de les anomenades Cinc Tribus Civilitzades, i "
 #~ "ocupaven principalment el que avui en dia és el nord de l'estat americà "
 #~ "de Mississippi a l'època del primer contacte amb els europeus. El nom "
-#~ "\"Mississippi\" prové d'una paraula chickasaw que significa \"sense font"
-#~ "\"."
+#~ "\"Mississippi\" prové d'una paraula chickasaw que significa \"sense "
+#~ "font\"."
 
 #~ msgid "Chilean"
 #~ msgstr "Xilè"
@@ -64233,9 +64195,9 @@ msgstr "error %d (compilat sense strerror)"
 #~ "capturar Constantinoble durant la Quarta Croada el 1204, amb la intenció "
 #~ "de ser un substitut de l'Imperi Bizantí, fidel a l'Església Catòlica "
 #~ "Romana. En la història de Grècia, el període de dominació de l'Imperi "
-#~ "Llatí i dels regnes que se'n van disgregar es coneix com a \"Frankokratia"
-#~ "\", o poder dels francs. L'Imperi va deixar d'existir quan Constantinoble "
-#~ "fou recuperat pels bizantins el 1261."
+#~ "Llatí i dels regnes que se'n van disgregar es coneix com a "
+#~ "\"Frankokratia\", o poder dels francs. L'Imperi va deixar d'existir quan "
+#~ "Constantinoble fou recuperat pels bizantins el 1261."
 
 #~ msgid "Latvian"
 #~ msgstr "Letó"
@@ -65389,8 +65351,8 @@ msgstr "error %d (compilat sense strerror)"
 #~ "The Muskogee was a confederacy of North American tribes, including the "
 #~ "Creek, Seminole, Choctaw, and Chickasaw. They were based in the area now "
 #~ "encompassed by the U.S. states of Georgia and Alabama. Creek and Seminole "
-#~ "tribes briefly formed a sovereign state known as the \"State of Muskogee"
-#~ "\" during the early 1800s."
+#~ "tribes briefly formed a sovereign state known as the \"State of "
+#~ "Muskogee\" during the early 1800s."
 #~ msgstr ""
 #~ "Els Muskogee eren una confederació de tribus nordamericanes, que incloïen "
 #~ "els Creek, Seminole, Choctaw, i Chicasaw. Vivien a la zona on ara es "
@@ -68322,14 +68284,14 @@ msgstr "error %d (compilat sense strerror)"
 #~ "Lama - established a buddhist religious state under the control of the "
 #~ "Gelugpa school of Tibetan Buddhism."
 #~ msgstr ""
-#~ "El territori original del Tíbet s'anomena de vegades el \"Sostre del Món"
-#~ "\", la regió més elevada del món. El segle VII, Tíbet va emergir com un "
-#~ "imperi formidable sota el lideratge del rei Sogtsen Gampo, sent reconegut "
-#~ "tant per la Xina com per l'Índia. Aquesta dinastia va durar fins el segle "
-#~ "XI, quan Tíbet va ser conquerit pels mongols. Al cap d'uns segles, quan "
-#~ "la dominació mongol s'havia debilitat, Lozang Gyatso - nascut el 1617 i "
-#~ "cinquè Dalai Lama - va establir un estat religiós budista sota el control "
-#~ "de l'escola Gelugpa de budisme tibetà."
+#~ "El territori original del Tíbet s'anomena de vegades el \"Sostre del "
+#~ "Món\", la regió més elevada del món. El segle VII, Tíbet va emergir com "
+#~ "un imperi formidable sota el lideratge del rei Sogtsen Gampo, sent "
+#~ "reconegut tant per la Xina com per l'Índia. Aquesta dinastia va durar "
+#~ "fins el segle XI, quan Tíbet va ser conquerit pels mongols. Al cap d'uns "
+#~ "segles, quan la dominació mongol s'havia debilitat, Lozang Gyatso - "
+#~ "nascut el 1617 i cinquè Dalai Lama - va establir un estat religiós "
+#~ "budista sota el control de l'escola Gelugpa de budisme tibetà."
 
 #~ msgid "Dalai Lama %s"
 #~ msgstr "Dalai Lama %s"
@@ -68966,11 +68928,11 @@ msgstr "error %d (compilat sense strerror)"
 #~ msgstr ""
 #~ "Veneçuela és el país més septentrional de Sudamèrica. Va ser una colònia "
 #~ "espanyola des del segle XVI fins que el 5 de Juliol de 1811 va obtenir la "
-#~ "independència sota el lideratge de Simón Bolívar \"El Libertador"
-#~ "\" (l'Alliberador). Veneçuela té una de les reserves de petroli i gas "
-#~ "demostrades més grans del món; durant el \"boom\" del petroli dels anys "
-#~ "1970, era el país més ric de Llatinoamèrica. El país és conegut per la "
-#~ "varietat dels seus paisatges i per la seva gran biodiversitat."
+#~ "independència sota el lideratge de Simón Bolívar \"El "
+#~ "Libertador\" (l'Alliberador). Veneçuela té una de les reserves de petroli "
+#~ "i gas demostrades més grans del món; durant el \"boom\" del petroli dels "
+#~ "anys 1970, era el país més ric de Llatinoamèrica. El país és conegut per "
+#~ "la varietat dels seus paisatges i per la seva gran biodiversitat."
 
 #~ msgid "Vermont"
 #~ msgstr "de Vermont"
@@ -69381,10 +69343,10 @@ msgstr "error %d (compilat sense strerror)"
 
 #~ msgid ""
 #~ "Yucatan is a peninsula of Mexico, famous for its Maya heritage and its "
-#~ "white beaches. Its name is often claimed to mean \"we don't understand you"
-#~ "\" in Yucatec Maya. On two occasions in the 19th century Yucatan declared "
-#~ "independence from Mexico. Currently it is divided into three states: "
-#~ "Yucatan, Campeche and Quintana Roo."
+#~ "white beaches. Its name is often claimed to mean \"we don't understand "
+#~ "you\" in Yucatec Maya. On two occasions in the 19th century Yucatan "
+#~ "declared independence from Mexico. Currently it is divided into three "
+#~ "states: Yucatan, Campeche and Quintana Roo."
 #~ msgstr ""
 #~ "Yucatán és una península de Mèxic, famós per la seva herència maia i les "
 #~ "seves platges blanques. Sovint es diu que el seu nom significa \"no "

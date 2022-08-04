@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2022-07-29 13:39+0500\n"
+"POT-Creation-Date: 2022-08-05 00:27+0300\n"
 "PO-Revision-Date: 2022-07-29 13:25+0500\n"
 "Last-Translator: Konstantin Vedeneev <konved@gmail.com>\n"
 "Language-Team: Russian <freeciv.ru@freelists.org>\n"
@@ -40472,93 +40472,99 @@ msgstr "Глубина вложения зависимостей слишком 
 msgid "No URL given"
 msgstr "Не указан URL"
 
-#: tools/download.c:110
+#: tools/download.c:110 tools/download.c:120
 msgid "This does not look like modpack URL"
 msgstr "Это не похоже на URL модпака"
 
-#: tools/download.c:119
+#: tools/download.c:123
 #, c-format
 msgid "Installing modpack %s from %s"
 msgstr "Установка модпака %s из %s"
 
-#: tools/download.c:122
+#: tools/download.c:126
 msgid "Cannot install to given directory hierarchy"
 msgstr "Невозможно установить в данную структуру каталогов"
 
 #. TRANS: %s is a filename with suffix '.mpdl'
-#: tools/download.c:129
+#: tools/download.c:133
 #, c-format
 msgid "Downloading \"%s\" control file."
 msgstr "Загрузка файла спецификации \"%s\"."
 
-#: tools/download.c:136
+#: tools/download.c:140
 msgid "Failed to get and parse modpack control file"
 msgstr "Ошибка загрузки и распознавания файла спецификации модпака"
 
-#: tools/download.c:142
+#: tools/download.c:146
 msgid "Modpack control file has no capability string"
 msgstr "Файл спецификации модпака не содержит строку совместимости"
 
-#: tools/download.c:152
+#: tools/download.c:156
 msgid "Modpack control file is incompatible"
 msgstr "Файл спецификации модпака несовместим"
 
-#: tools/download.c:157
+#: tools/download.c:161
 msgid "Modpack name not defined in control file"
 msgstr "Имя модпака не определено в файле спецификации"
 
-#: tools/download.c:161
+#: tools/download.c:165
 msgid "Modpack version not defined in control file"
 msgstr "Версия модпака не определена в файле спецификации"
 
-#: tools/download.c:167
+#: tools/download.c:171
 msgid "Illegal modpack type"
 msgstr "Неверный тип модпака"
 
-#: tools/download.c:206
+#: tools/download.c:210
 msgid "Dependency has no download URL"
 msgstr "Зависимый пакет не имеет URL для загрузки"
 
-#: tools/download.c:212
+#: tools/download.c:216
 msgid "Illegal dependency modpack type"
 msgstr "Неверный тип зависимости модпака"
 
-#: tools/download.c:235
+#: tools/download.c:239
 msgid "Download dependency modpack"
 msgstr "Загрузка зависимого модпака"
 
-#: tools/download.c:310
+#: tools/download.c:314
 #, c-format
 msgid "Illegal path for %s"
 msgstr "Неверный путь для %s"
 
-#: tools/download.c:346
+#: tools/download.c:350
 msgid "Cannot create required directories"
 msgstr "Невозможно создать требуемые каталоги"
 
-#: tools/download.c:353
+#: tools/download.c:357
 #, c-format
 msgid "Downloading %s"
 msgstr "Загружаю %s"
 
-#: tools/download.c:363
+#: tools/download.c:367
 #, c-format
 msgid "Failed to download %s"
 msgstr "Ошибка загрузки %s"
 
-#: tools/download.c:384
+#: tools/download.c:388
 msgid "Some parts of the modpack failed to install."
 msgstr "Некоторые части модпака не были установлены."
 
-#: tools/download.c:411
+#: tools/download.c:415
 msgid "Cannot fetch and parse modpack list"
 msgstr "Невозможно получить и распознать список модпаков"
 
-#: tools/download.c:423
+#: tools/download.c:425
+#, fuzzy
+#| msgid "Load modpack list from given URL"
+msgid "Invalid modpack list URL"
+msgstr "Загрузить список модпаков из данного URL"
+
+#: tools/download.c:431
 msgid "Modpack list has no capability string"
 msgstr "Список модпаков не имеет строки совместимости"
 
-#: tools/download.c:433
+#: tools/download.c:441
 msgid "Modpack list is incompatible"
 msgstr "Список модпаков выдан в несовместимом формате"
 
@@ -45708,17 +45714,17 @@ msgstr ""
 "У эффекта должен быть \"тип\", это не то же самое, что и ранее "
 "использовавшееся поле \"название\"."
 
-#: server/ruleset.c:7877
+#: server/ruleset.c:7872
 msgid "Ruleset couldn't be loaded. Keeping previous one."
 msgstr "Невозможно загрузить набор правил. Оставляем предыдущий."
 
-#: server/ruleset.c:7895
+#: server/ruleset.c:7890
 msgid "Ruleset couldn't be loaded. Switching to default one."
 msgstr ""
 "Невозможно загрузить набор правил. Переключаемся на набор правил по "
 "умолчанию."
 
-#: server/ruleset.c:7902
+#: server/ruleset.c:7897
 msgid ""
 "Cannot load any ruleset. Freeciv-web ruleset is available from https://"
 "github.com/freeciv/freeciv-web"
@@ -45726,7 +45732,7 @@ msgstr ""
 "Невозможно загрузить какой-либо набор правил. Набор Freeciv-web доступен по "
 "адресу https://github.com/freeciv/freeciv-web"
 
-#: server/ruleset.c:7945
+#: server/ruleset.c:7940
 msgid "Loading rulesets."
 msgstr "Загружаем правила."
 

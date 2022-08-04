@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 3.0\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2022-07-29 18:50+0200\n"
+"POT-Creation-Date: 2022-08-05 00:27+0300\n"
 "PO-Revision-Date: 2022-07-31 09:15+0200\n"
 "Last-Translator: Igx <igx31 hotmail.com>\n"
 "Language-Team: French <freeciv-l10n-fr@yahoogroupes.fr>\n"
@@ -10167,7 +10167,10 @@ msgstr "Mort"
 msgid ""
 "You cannot interact with that player with your current contact state - Try "
 "right mouse button for intelligence."
-msgstr "Vous ne pouvez pas interagir avec ce joueur dans votre état de contact courant - Essayez le bouton droit de la souris pour le service de renseignement."
+msgstr ""
+"Vous ne pouvez pas interagir avec ce joueur dans votre état de contact "
+"courant - Essayez le bouton droit de la souris pour le service de "
+"renseignement."
 
 #: client/gui-sdl2/plrdlg.c:718 client/plrdlg_common.c:315
 #: server/stdinhand.c:3582 server/stdinhand.c:6531
@@ -12608,7 +12611,10 @@ msgid ""
 "This is the soundset that will be used. Changing this is the same as using "
 "the -S command-line parameter. Use modpack installer utility to install "
 "additional soundsets."
-msgstr "C'est le jeu de sons qui sera utilisé. Changer ceci est la même chose que d'utiliser le paramètre -S en ligne de commande. Utilisez l'utilitaire installateur de modpacks pour installer des jeux de sons supplémentaires."
+msgstr ""
+"C'est le jeu de sons qui sera utilisé. Changer ceci est la même chose que "
+"d'utiliser le paramètre -S en ligne de commande. Utilisez l'utilitaire "
+"installateur de modpacks pour installer des jeux de sons supplémentaires."
 
 #: client/options.c:1875 tools/modinst.h:49
 msgid "Musicset"
@@ -12619,7 +12625,10 @@ msgid ""
 "This is the musicset that will be used. Changing this is the same as using "
 "the -m command-line parameter. Use modpack installer utility to install "
 "additional musicsets."
-msgstr "C'est le jeu de musiques qui sera utilisé. Changer ceci revient au même qu'utiliser le paramètre -m en ligne de commande. Utilisez l'utilitaire installateur de modpacks pour installer des jeux de musiques supplémentaires."
+msgstr ""
+"C'est le jeu de musiques qui sera utilisé. Changer ceci revient au même "
+"qu'utiliser le paramètre -m en ligne de commande. Utilisez l'utilitaire "
+"installateur de modpacks pour installer des jeux de musiques supplémentaires."
 
 #: client/options.c:1882
 msgid "Sound plugin"
@@ -12664,7 +12673,12 @@ msgid ""
 "currently active tileset, if you are playing on such a map, in which case "
 "this is the same as using the -t command-line parameter. Use modpack "
 "installer utility to install additional tilesets."
-msgstr "Sélectionne le jeu de tuiles utilisé dans les cartes à base carrée. Ceci peut modifier le jeu de tuiles actuellement actif, si vous jouez sur une telle carte, auquel cas, cela revient au même qu'utiliser le paramètre -t en ligne de commande. Utilisez l'utilitaire installateur de modpacks pour installer des jeux de tuiles supplémentaires."
+msgstr ""
+"Sélectionne le jeu de tuiles utilisé dans les cartes à base carrée. Ceci "
+"peut modifier le jeu de tuiles actuellement actif, si vous jouez sur une "
+"telle carte, auquel cas, cela revient au même qu'utiliser le paramètre -t en "
+"ligne de commande. Utilisez l'utilitaire installateur de modpacks pour "
+"installer des jeux de tuiles supplémentaires."
 
 #: client/options.c:1936
 msgid "Tileset (Hex)"
@@ -12676,7 +12690,12 @@ msgid ""
 "tileset, if you are playing on such a map, in which case this is the same as "
 "using the -t command-line parameter. Use modpack installer utility to "
 "install additional tilesets."
-msgstr "Sélectionne le jeu de tuiles utilisé avec les cartes hexagonales. Ceci peut modifier le jeu de tuiles actif, si vous jouez sur une telle carte, auquel cas ceci revient au même qu'utiliser le paramètre -t en ligne de commande. Utilisez l'utilitaire installateur de modpacks pour installer des jeux de tuiles supplémentaires."
+msgstr ""
+"Sélectionne le jeu de tuiles utilisé avec les cartes hexagonales. Ceci peut "
+"modifier le jeu de tuiles actif, si vous jouez sur une telle carte, auquel "
+"cas ceci revient au même qu'utiliser le paramètre -t en ligne de commande. "
+"Utilisez l'utilitaire installateur de modpacks pour installer des jeux de "
+"tuiles supplémentaires."
 
 #: client/options.c:1946
 msgid "Tileset (Iso-Hex)"
@@ -12688,7 +12707,12 @@ msgid ""
 "active tileset, if you are playing on such a map, in which case this is the "
 "same as using the -t command-line parameter.Use modpack installer utility to "
 "install additional tilesets."
-msgstr "Sélectionne le jeu de tuiles utilisé avec les cartes hexagonales isométriques. Ceci peut modifier le jeu de tuiles actif, si vous jouez sur une telle carte, auquel cas ceci revient au même qu'utiliser le paramètre -t en ligne de commande. Utilisez l'utilitaire installateur de modpacks pour installer des jeux de tuiles supplémentaires."
+msgstr ""
+"Sélectionne le jeu de tuiles utilisé avec les cartes hexagonales "
+"isométriques. Ceci peut modifier le jeu de tuiles actif, si vous jouez sur "
+"une telle carte, auquel cas ceci revient au même qu'utiliser le paramètre -t "
+"en ligne de commande. Utilisez l'utilitaire installateur de modpacks pour "
+"installer des jeux de tuiles supplémentaires."
 
 #: client/options.c:1957
 msgid "Draw city outlines"
@@ -31562,9 +31586,13 @@ msgid ""
 "See https://www.freeciv.org/wiki/Alien_World and https://www.cazfi.net/"
 "freeciv/alien/ for additional ruleset info."
 msgstr ""
-"L'un des buts de la conception de ces règles du jeu est qu'il doit fournir une expérience de jeu différente des règles standard. Ne supposez pas qu'une quelconque règle que vous connaissez des règles classiques s'applique dans ces règles du jeu.\n"
+"L'un des buts de la conception de ces règles du jeu est qu'il doit fournir "
+"une expérience de jeu différente des règles standard. Ne supposez pas qu'une "
+"quelconque règle que vous connaissez des règles classiques s'applique dans "
+"ces règles du jeu.\n"
 "\n"
-"Voir https://www.freeciv.org/wiki/Alien_World et https://www.cazfi.net/freeciv/alien/ pour des informations complémentaires sur ces règles du jeu."
+"Voir https://www.freeciv.org/wiki/Alien_World et https://www.cazfi.net/"
+"freeciv/alien/ pour des informations complémentaires sur ces règles du jeu."
 
 #. TRANS: Copy Research _Data (3% chance of success).
 #: data/alien/game.ruleset:273
@@ -40563,93 +40591,99 @@ msgstr "Dépendances réccursives trop profondes"
 msgid "No URL given"
 msgstr "Pas d'URL donnée"
 
-#: tools/download.c:110
+#: tools/download.c:110 tools/download.c:120
 msgid "This does not look like modpack URL"
 msgstr "Cela ne ressemble pas à une URL de modpack"
 
-#: tools/download.c:119
+#: tools/download.c:123
 #, c-format
 msgid "Installing modpack %s from %s"
 msgstr "Installation du modpack %s de %s"
 
-#: tools/download.c:122
+#: tools/download.c:126
 msgid "Cannot install to given directory hierarchy"
 msgstr "Impossible d'installer dans l'arboresence donnée"
 
 #. TRANS: %s is a filename with suffix '.mpdl'
-#: tools/download.c:129
+#: tools/download.c:133
 #, c-format
 msgid "Downloading \"%s\" control file."
 msgstr "Téléchargement du fichier de contrôle \"%s\"."
 
-#: tools/download.c:136
+#: tools/download.c:140
 msgid "Failed to get and parse modpack control file"
 msgstr "Impossible d'obtenir et de parcourir le fichier de contrôle du modpack"
 
-#: tools/download.c:142
+#: tools/download.c:146
 msgid "Modpack control file has no capability string"
 msgstr "Le fichier de contrôle du modpack n'a pas de chaîne de capacité"
 
-#: tools/download.c:152
+#: tools/download.c:156
 msgid "Modpack control file is incompatible"
 msgstr "Le fichier de contrôle du modpack est incompatible"
 
-#: tools/download.c:157
+#: tools/download.c:161
 msgid "Modpack name not defined in control file"
 msgstr "Le nom du modpack n'est pas défini dans le fichier de contrôle"
 
-#: tools/download.c:161
+#: tools/download.c:165
 msgid "Modpack version not defined in control file"
 msgstr "La version du modpack n'est pas définie dans le fichier de contrôle"
 
-#: tools/download.c:167
+#: tools/download.c:171
 msgid "Illegal modpack type"
 msgstr "Type de modpack illégal"
 
-#: tools/download.c:206
+#: tools/download.c:210
 msgid "Dependency has no download URL"
 msgstr "La dépendance n'a pas d'URL de téléchargement"
 
-#: tools/download.c:212
+#: tools/download.c:216
 msgid "Illegal dependency modpack type"
 msgstr "Type de modpack de dépendance illégal"
 
-#: tools/download.c:235
+#: tools/download.c:239
 msgid "Download dependency modpack"
 msgstr "Télécharger le modpack de dépendance"
 
-#: tools/download.c:310
+#: tools/download.c:314
 #, c-format
 msgid "Illegal path for %s"
 msgstr "Chemin illégal pour %s"
 
-#: tools/download.c:346
+#: tools/download.c:350
 msgid "Cannot create required directories"
 msgstr "Impossible de créer les répertoires nécessaires"
 
-#: tools/download.c:353
+#: tools/download.c:357
 #, c-format
 msgid "Downloading %s"
 msgstr "Téléchargement de %s"
 
-#: tools/download.c:363
+#: tools/download.c:367
 #, c-format
 msgid "Failed to download %s"
 msgstr "Impossible de télécharger %s"
 
-#: tools/download.c:384
+#: tools/download.c:388
 msgid "Some parts of the modpack failed to install."
 msgstr "Certaines parties du modpack n'ont pas pu être installées."
 
-#: tools/download.c:411
+#: tools/download.c:415
 msgid "Cannot fetch and parse modpack list"
 msgstr "Impossible de récupérer et d'interpréter la liste des modpacks"
 
-#: tools/download.c:423
+#: tools/download.c:425
+#, fuzzy
+#| msgid "Load modpack list from given URL"
+msgid "Invalid modpack list URL"
+msgstr "Charger la liste des modpacks depuis l'URL donné"
+
+#: tools/download.c:431
 msgid "Modpack list has no capability string"
 msgstr "La liste des modpacks n'a pas de chaîne de capacité"
 
-#: tools/download.c:433
+#: tools/download.c:441
 msgid "Modpack list is incompatible"
 msgstr "La liste des modpacks est incompatible"
 
@@ -44620,7 +44654,9 @@ msgstr ""
 msgid ""
 "No more players can be added because there's already maximum number of "
 "players allowed by maxplayers setting (value %d)"
-msgstr "Plus aucun joueur ne peut être ajouté parce qu'il y a déjà le nombre maximum de joueurs permis par l'option maxplayers (valeur %d)"
+msgstr ""
+"Plus aucun joueur ne peut être ajouté parce qu'il y a déjà le nombre maximum "
+"de joueurs permis par l'option maxplayers (valeur %d)"
 
 #: server/edithand.c:922
 #, c-format
@@ -45777,18 +45813,18 @@ msgstr ""
 "Les effets devraient avoir un \"type\", et non le même champ avec l'ancien "
 "nom \"nom\"."
 
-#: server/ruleset.c:7877
+#: server/ruleset.c:7872
 msgid "Ruleset couldn't be loaded. Keeping previous one."
 msgstr ""
 "Les règles du jeu n'ont pas pu être chargées. On garde les précédentes."
 
-#: server/ruleset.c:7895
+#: server/ruleset.c:7890
 msgid "Ruleset couldn't be loaded. Switching to default one."
 msgstr ""
 "Les règles du jeu n'ont pas pu être chargées. On bascule sur celles par "
 "défaut."
 
-#: server/ruleset.c:7902
+#: server/ruleset.c:7897
 msgid ""
 "Cannot load any ruleset. Freeciv-web ruleset is available from https://"
 "github.com/freeciv/freeciv-web"
@@ -45796,7 +45832,7 @@ msgstr ""
 "Aucune règle du jeu n'a pu être chargée. Les règles du jeu Freeciv-web sont "
 "disponibles sur https://github.com/freeciv/freeciv-web"
 
-#: server/ruleset.c:7945
+#: server/ruleset.c:7940
 msgid "Loading rulesets."
 msgstr "Chargement des différentes règles du jeu."
 
@@ -51601,7 +51637,9 @@ msgstr ""
 msgid ""
 "You must break peace with %s first. Try using the Nations report to declare "
 "war (F3)."
-msgstr "Vous devez d'abord rompre la paix avec %s. Essayez d'utiliser le dialogue des nations pour déclarer la guerre (F3)."
+msgstr ""
+"Vous devez d'abord rompre la paix avec %s. Essayez d'utiliser le dialogue "
+"des nations pour déclarer la guerre (F3)."
 
 #: server/unithand.c:1681
 msgid "This unit cannot act against domestic targets."
@@ -51828,7 +51866,9 @@ msgstr "Votre %s ne peut faire %s tant que vous n'êtes pas en guerre avec %s."
 msgid ""
 "Your %s can't do %s while you are at peace with %s. Try using the Nations "
 "report to declare war (F3)."
-msgstr "Votre %s ne peut pas faire %s tant que vous êtes en paix avec %s. Essayez d'utiliser le dialogue des nations pour déclarer la guerre (F3)."
+msgstr ""
+"Votre %s ne peut pas faire %s tant que vous êtes en paix avec %s. Essayez "
+"d'utiliser le dialogue des nations pour déclarer la guerre (F3)."
 
 #. TRANS: action name.
 #. * "Your Riflemen can't do Expel Unit to domestic
