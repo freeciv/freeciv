@@ -74,7 +74,7 @@ struct science_report {
   GtkLabel *main_label;         /* Gets science_dialog_text(). */
   GtkProgressBar *progress_bar;
   GtkLabel *goal_label;
-  GtkFixed *drawing_area;
+  GtkDrawingArea *drawing_area;
 };
 
 static GtkListStore *science_report_store_new(void);
@@ -88,9 +88,8 @@ static void science_report_combo_set_active(GtkComboBox *combo,
                                             Tech_type_id tech);
 static gboolean science_diagram_button_release_callback(GtkWidget *widget,
                                                         GdkEvent *ev, gpointer data);
-static gboolean science_diagram_update(GtkWidget *widget,
-                                       cairo_t *cr,
-                                       gpointer data);
+static void science_diagram_update(GtkDrawingArea *widget, cairo_t *cr,
+                                   int width, int height, gpointer data);
 static GtkWidget *science_diagram_new(void);
 static void science_diagram_data(GtkWidget *widget, bool show_all);
 static void science_diagram_center(GtkWidget *diagram, Tech_type_id tech);
@@ -246,23 +245,26 @@ static gboolean science_diagram_button_release_callback(GtkWidget *widget,
 /************************************************************************//**
   Draw the invalidated portion of the reqtree.
 ****************************************************************************/
-static gboolean science_diagram_update(GtkWidget *widget, cairo_t *cr, gpointer data)
+static void science_diagram_update(GtkDrawingArea *widget, cairo_t *cr,
+                                   int width, int height, gpointer data)
 {
   /* FIXME: this currently redraws everything! */
   struct canvas canvas = FC_STATIC_CANVAS_INIT;
   struct reqtree *reqtree = g_object_get_data(G_OBJECT(widget), "reqtree");
-  int width, height;
+  int rtwidth, rtheight;
   GtkAdjustment *hadjustment;
   GtkAdjustment *vadjustment;
   gint hadjustment_value;
   gint vadjustment_value;
+  GtkScrolledWindow *sw;
 
   if (!tileset_is_fully_loaded()) {
-    return TRUE;
+    return;
   }
 
-  hadjustment = gtk_scrollable_get_hadjustment(GTK_SCROLLABLE(widget));
-  vadjustment = gtk_scrollable_get_vadjustment(GTK_SCROLLABLE(widget));
+  sw = GTK_SCROLLED_WINDOW(gtk_widget_get_parent(GTK_WIDGET(widget)));
+  hadjustment = gtk_scrollable_get_hadjustment(GTK_SCROLLABLE(sw));
+  vadjustment = gtk_scrollable_get_vadjustment(GTK_SCROLLABLE(sw));
 
   hadjustment_value = (gint)gtk_adjustment_get_value(hadjustment);
   vadjustment_value = (gint)gtk_adjustment_get_value(vadjustment);
@@ -271,10 +273,8 @@ static gboolean science_diagram_update(GtkWidget *widget, cairo_t *cr, gpointer 
 
   canvas.drawable = cr;
 
-  get_reqtree_dimensions(reqtree, &width, &height);
-  draw_reqtree(reqtree, &canvas, 0, 0, 0, 0, width, height);
-
-  return TRUE;
+  get_reqtree_dimensions(reqtree, &rtwidth, &rtheight);
+  draw_reqtree(reqtree, &canvas, 0, 0, 0, 0, rtwidth, rtheight);
 }
 
 /************************************************************************//**
@@ -285,9 +285,9 @@ static GtkWidget *science_diagram_new(void)
 {
   GtkWidget *diagram;
 
-  diagram = gtk_fixed_new();
-  g_signal_connect(diagram, "draw",
-                   G_CALLBACK(science_diagram_update), NULL);
+  diagram = gtk_drawing_area_new();
+  gtk_drawing_area_set_draw_func(GTK_DRAWING_AREA(diagram),
+                                 science_diagram_update, NULL, NULL);
   g_signal_connect(diagram, "button-release-event",
                    G_CALLBACK(science_diagram_button_release_callback),
                    NULL);
@@ -657,7 +657,7 @@ static void science_report_init(struct science_report *preport)
   gtk_widget_set_hexpand(w, TRUE);
   gtk_widget_set_vexpand(w, TRUE);
   gtk_scrolled_window_set_child(GTK_SCROLLED_WINDOW(sw), w);
-  preport->drawing_area = GTK_FIXED(w);
+  preport->drawing_area = GTK_DRAWING_AREA(w);
 
   science_report_update(preport);
   gui_dialog_show_all(preport->shell);
