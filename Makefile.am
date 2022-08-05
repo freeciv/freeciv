@@ -83,6 +83,7 @@ EXTRA_DIST =	autogen.sh 			\
 		meson_options.txt		\
 		flatpak/build_flatpak.sh	\
 		flatpak/org.freeciv.gtk322.yml	\
+		flatpak/org.freeciv.mp.gtk3.yml	\
 		scripts/mapimg2anim		\
 		scripts/setup_auth_server.sh	\
 		scripts/replace			\
