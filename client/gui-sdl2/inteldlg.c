@@ -219,7 +219,7 @@ void popdown_intel_dialogs(void)
 }
 
 /****************************************************************************
-  Update the intelligence dialog for the given player.  This is called by
+  Update the intelligence dialog for the given player. This is called by
   the core client code when that player's information changes.
 ****************************************************************************/
 void update_intel_dialog(struct player *p)
@@ -228,11 +228,12 @@ void update_intel_dialog(struct player *p)
   struct intel_dialog *pdialog = get_intel_dialog(p);
   struct widget *pWindow = NULL, *pBuf = NULL, *pLast;
   SDL_Surface *pLogo = NULL, *pTmpSurf = NULL;
-  SDL_Surface *pText1, *pInfo, *pText2 = NULL;
+  SDL_Surface *pText1, *pInfo, *pText2 = NULL, *text3 = NULL;
   utf8_str *pstr;
   SDL_Rect dst;
-  char cBuf[256], plr_buf[4 * MAX_LEN_NAME];
-  int n = 0, count = 0, col;
+  char cBuf[2560], plr_buf[4 * MAX_LEN_NAME];
+  int ntech = 0, count = 0, col;
+  int nwonder = 0;
   struct city *pCapital;
   SDL_Rect area;
   struct research *research;
@@ -376,13 +377,12 @@ void update_intel_dialog(struct player *p)
     copy_chars_to_utf8_str(pstr, cBuf);
     pInfo = create_text_surf_from_utf8(pstr);
     area.w = MAX(area.w, pLogo->w + adj_size(10) + pInfo->w + adj_size(20));
-    area.h += MAX(pLogo->h + adj_size(20), pInfo->h + adj_size(20));
 
     /* ---------- */
     pTmpSurf = get_tech_icon(A_FIRST);
     col = area.w / (pTmpSurf->w + adj_size(4));
     FREESURFACE(pTmpSurf);
-    n = 0;
+    ntech = 0;
     pLast = pBuf;
     mresearch = research_get(client_player());
     presearch = research_get(p);
@@ -403,26 +403,26 @@ void update_intel_dialog(struct player *p)
 
         add_to_gui_list(ID_ICON, pBuf);
 
-        if (n > ((2 * col) - 1)) {
+        if (ntech > ((2 * col) - 1)) {
           set_wflag(pBuf, WF_HIDDEN);
         }
 
-        n++;
+        ntech++;
       }
     } advance_index_iterate_end;
 
     pdialog->pdialog->pBeginWidgetList = pBuf;
 
-    if (n > 0) {
+    if (ntech > 0) {
       pdialog->pdialog->pEndActiveWidgetList = pLast->prev;
       pdialog->pdialog->pBeginActiveWidgetList = pdialog->pdialog->pBeginWidgetList;
-      if (n > 2 * col) {
+      if (ntech > 2 * col) {
         pdialog->pdialog->pActiveWidgetList = pdialog->pdialog->pEndActiveWidgetList;
         count = create_vertical_scrollbar(pdialog->pdialog, col, 2, TRUE, TRUE);
         area.h += (2 * pBuf->size.h + adj_size(10));
       } else {
         count = 0;
-        if (n > col) {
+        if (ntech > col) {
           area.h += pBuf->size.h;
         }
         area.h += (adj_size(10) + pBuf->size.h);
@@ -434,6 +434,46 @@ void update_intel_dialog(struct player *p)
       copy_chars_to_utf8_str(pstr, cBuf);
       pstr->style |= TTF_STYLE_BOLD;
       pText2 = create_text_surf_from_utf8(pstr);
+    }
+
+    nwonder = 0;
+    cBuf[0] = '\0';
+    improvement_iterate(impr) {
+      if (is_wonder(impr)) {
+        const char *cityname;
+        const char *notes = NULL;
+
+        if (wonder_is_built(p, impr)) {
+          struct city *wcity = city_from_wonder(p, impr);
+
+          if (wcity != NULL) {
+            cityname = city_name_get(wcity);
+          } else {
+            cityname = _("(unknown city)");
+          }
+          if (improvement_obsolete(p, impr, NULL)) {
+            notes = _(" (obsolete)");
+          }
+        } else if (wonder_is_lost(p, impr)) {
+          cityname = _("(lost)");
+        } else {
+          continue;
+        }
+
+        cat_snprintf(cBuf, sizeof(cBuf), "%s: %s%s\n",
+                     improvement_name_translation(impr), cityname,
+                     notes != NULL ? notes : "");
+
+        nwonder++;
+      }
+    } improvement_iterate_end;
+
+    if (nwonder > 0) {
+      copy_chars_to_utf8_str(pstr, cBuf);
+      text3 = create_text_surf_from_utf8(pstr);
+      area.h += MAX(pLogo->h + adj_size(20), pInfo->h + text3->h + adj_size(20));
+    } else {
+      area.h += MAX(pLogo->h + adj_size(20), pInfo->h + adj_size(20));
     }
 
     FREEUTF8STR(pstr);
@@ -474,12 +514,21 @@ void update_intel_dialog(struct player *p)
 
     /* --------------------- */
 
-    if (n) {
+    if (ntech > 0) {
       dst.x = area.x + adj_size(5);
       alphablit(pText2, NULL, pWindow->theme, &dst, 255);
       dst.y += pText2->h + adj_size(2);
       FREESURFACE(pText2);
+    }
 
+    if (nwonder > 0) {
+      dst.x = area.x + adj_size(5);
+      alphablit(text3, NULL, pWindow->theme, &dst, 255);
+      dst.y += text3->h + adj_size(2);
+      FREESURFACE(text3);
+    }
+
+    if (ntech > 0 || nwonder > 0) {
       setup_vertical_widgets_position(col, area.x, dst.y, 0, 0,
                                       pdialog->pdialog->pBeginActiveWidgetList,
                                       pdialog->pdialog->pEndActiveWidgetList);
