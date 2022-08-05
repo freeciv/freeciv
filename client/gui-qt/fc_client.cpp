@@ -147,8 +147,8 @@ void fc_client::init()
 
   // General part not related to any single page
   menu_bar = new mr_menu();
-  corner_wid = new fc_corner(this);
   if (!gui_options.gui_qt_show_titlebar) {
+    corner_wid = new fc_corner(this);
     menu_bar->setCornerWidget(corner_wid);
   }
   setMenuBar(menu_bar);
