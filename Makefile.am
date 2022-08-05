@@ -74,6 +74,7 @@ EXTRA_DIST =	autogen.sh 			\
 		m4/testmatic.m4			\
 		flatpak/build_flatpak.sh	\
 		flatpak/org.freeciv.gtk322.yml	\
+		flatpak/org.freeciv.mp.gtk3.yml	\
 		scripts/mapimg2anim		\
 		scripts/setup_auth_server.sh	\
 		scripts/diff_ignore		\
