@@ -376,7 +376,7 @@ type    = "HP_Regen"
 value   = 25
 reqs    =
     { "type", "name", "range"
-      "Extra", "Fortress", "Tile"
+      "Extra", "Fortress", "Local"
       "UnitClass", "Land", "Local"
     }
 
