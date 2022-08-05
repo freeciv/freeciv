@@ -9,7 +9,6 @@ endif
 add_global_arguments('-Wno-nonnull-compare', language : 'c')
 
 add_global_arguments('-fPIC', language : 'cpp')
-add_global_arguments('-DQT_DISABLE_DEPRECATED_BEFORE=0x050b00', language : 'cpp')
 
 host_system = host_machine.system()
 
@@ -468,9 +467,11 @@ if get_option('audio') or get_option('clients').contains('sdl2')
 endif
 
 if get_option('qtver') == 'qt5'
+  add_global_arguments('-DQT_DISABLE_DEPRECATED_BEFORE=0x050b00', language : 'cpp')
   priv_conf_data.set('FC_QT5_MODE', 1)
   qt_opts = []
 else
+  add_global_arguments('-DQT_DISABLE_DEPRECATED_BEFORE=0x050b00', language : 'cpp')
   qt_opts = 'cpp_std=c++17'
 endif
 
