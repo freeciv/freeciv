@@ -692,10 +692,20 @@ struct requirement req_from_str(const char *type, const char *range,
   if (invalid) {
     error = "bad type or name";
   } else {
+    bool range_selected = FALSE;
+
     /* Scan the range string to find the range.  If no range is given a
      * default fallback is used rather than giving an error. */
-    req.range = req_range_by_name(range, fc_strcasecmp);
-    if (!req_range_is_valid(req.range)) {
+    if (range != NULL) {
+      req.range = req_range_by_name(range, fc_strcasecmp);
+      if (req_range_is_valid(req.range)) {
+        range_selected = TRUE;
+      } else {
+        log_normal("Unknown requirement range \"%s\", falling back to default one.",
+                   range);
+      }
+    }
+    if (!range_selected) {
       switch (req.source.kind) {
       case VUT_NONE:
       case VUT_COUNT:
