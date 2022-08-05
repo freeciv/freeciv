@@ -800,8 +800,12 @@ struct requirement req_from_str(const char *type, const char *range,
   } else {
     /* Scan the range string to find the range.  If no range is given a
      * default fallback is used rather than giving an error. */
-    req.range = req_range_by_name(range, fc_strcasecmp);
-    if (!req_range_is_valid(req.range)) {
+    if (range != NULL) {
+      req.range = req_range_by_name(range, fc_strcasecmp);
+      if (!req_range_is_valid(req.range)) {
+        invalid = TRUE;
+      }
+    } else {
       switch (req.source.kind) {
       case VUT_NONE:
       case VUT_COUNT:
