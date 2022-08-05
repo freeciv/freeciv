@@ -30,7 +30,9 @@ if test "x$enable_debug" = "xsome" -o "x$enable_debug" = "xyes" -o \
   FC_C_FLAGS([-Wall -Wpointer-arith -Wcast-align ],
              [], [EXTRA_DEBUG_CFLAGS])
   if test "x$cxx_works" = "xyes" ; then
-    AC_DEFINE([QT_NO_DEBUG], [1], [Qt debugging support disabled])
+    if test "x$enable_debug" = "xsome" || test "x$enable_debug" = "xyes"; then
+      AC_DEFINE([QT_NO_DEBUG], [1], [Qt debugging support disabled])
+    fi
     FC_CXX_FLAGS([-Wall -Wpointer-arith -Wcast-align],
                  [], [EXTRA_DEBUG_CXXFLAGS])
   fi
