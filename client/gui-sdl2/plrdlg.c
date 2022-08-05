@@ -659,7 +659,7 @@ static int player_nation_callback(struct widget *pwidget)
 }
 
 /**********************************************************************//**
-  Popup (or raise) the short player list dialog version.
+  Popup (or raise) the small player list dialog version.
 **************************************************************************/
 void popup_players_nations_dialog(void)
 {
