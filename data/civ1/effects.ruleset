@@ -1368,7 +1368,7 @@ type    = "Min_HP_Pct"
 value   = 33
 reqs    =
     { "type",     "name",   "range"
-      "CityTile", "Center", "Tile"
+      "CityTile", "Center", "Local"
     }
 
 [effect_fortified_regen]
