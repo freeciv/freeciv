@@ -1654,7 +1654,7 @@ static int next_prev_city_dlg_callback(struct widget *pButton)
 
     fc_assert_ret_val(non_open_size > 0, -1);
 
-    if (non_open_size == 1) {
+    if (non_open_size <= 1) {
       FC_FREE(array);
       return -1;
     }
