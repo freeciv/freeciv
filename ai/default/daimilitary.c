@@ -1353,7 +1353,7 @@ static void dai_unit_consider_bodyguard(struct ai_type *ait,
                                     city_production_unit_veteran_level(pcity, punittype));
 
   if (choice->want < 100) {
-    const int want = look_for_charge(ait, pplayer, virtualunit, &aunit, &acity);
+    const adv_want want = look_for_charge(ait, pplayer, virtualunit, &aunit, &acity);
 
     if (want > choice->want) {
       choice->want = want;
@@ -1362,6 +1362,7 @@ static void dai_unit_consider_bodyguard(struct ai_type *ait,
       adv_choice_set_use(choice, "bodyguard");
     }
   }
+
   unit_virtual_destroy(virtualunit);
 }
 
