@@ -833,7 +833,7 @@ void popup_unit_info(Unit_type_id type_id)
               _("Defense:"), punittype->defense_strength,
               _("Move:"), move_points_text(punittype->move_rate, TRUE),
               _("Vision:"), punittype->vision_radius_sq,
-              _("FirePower:"), punittype->firepower,
+              _("Firepower:"), punittype->firepower,
               _("Hitpoints:"), punittype->hp);
 
     unit_info_label = create_iconlabel_from_chars(NULL, pwindow->dst, buf,
