@@ -77,6 +77,29 @@ make -j$(sysctl -n hw.logicalcpu)
 make install
 ;;
 
+"mac-meson")
+
+export CPPFLAGS="-I$(brew --prefix readline)/include"
+export LDFLAGS="-L$(brew --prefix icu4c)/lib -L$(brew --prefix readline)/lib"
+export PKG_CONFIG_PATH="$(brew --prefix icu4c)/lib/pkgconfig"
+
+mkdir build
+cd build
+meson .. \
+  -Dack_experimental=true \
+  -Ddebug=false \
+  -Druledit=false \
+  -Dsyslua=true \
+  -Dclients=gtk3.22 \
+  -Dfcmp=gtk3 \
+  || (let meson_exit_status=$? \
+      && echo "meson.log:" \
+      && cat meson-logs/meson-log.txt \
+      && exit $meson_exit_status)
+ninja
+ninja install
+;;
+
 "clang_debug")
 # Configure and build Freeciv
 mkdir build
