@@ -1724,7 +1724,7 @@ hud_unit_combat::hud_unit_combat(int attacker_unit_id, int defender_unit_id,
   init_images();
 }
 
-/****************************************************************************
+/************************************************************************//**
   Draws images of units to pixmaps for later use
 ****************************************************************************/
 void hud_unit_combat::init_images(bool redraw)
@@ -1791,7 +1791,7 @@ void hud_unit_combat::init_images(bool redraw)
   delete attacker_pixmap;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Sets scale for images
 ****************************************************************************/
 void hud_unit_combat::set_scale(float scale)
@@ -1922,7 +1922,7 @@ void hud_unit_combat::enterEvent(QEvent *event)
 }
 
 
-/****************************************************************************
+/************************************************************************//**
   Scale widget allowing scaling other widgets, shown in right top corner
 ****************************************************************************/
 scale_widget::scale_widget(QRubberBand::Shape s,
@@ -1942,20 +1942,21 @@ scale_widget::scale_widget(QRubberBand::Shape s,
   setAttribute(Qt::WA_TransparentForMouseEvents, false);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Draws 2 icons for resizing
 ****************************************************************************/
 void scale_widget::paintEvent(QPaintEvent *event)
 {
   QRubberBand::paintEvent(event);
   QPainter p;
+
   p.begin(this);
   p.drawPixmap(0, 0, minus);
   p.drawPixmap(size, 0, plus);
   p.end();
 }
 
-/****************************************************************************
+/************************************************************************//**
   Mouse press event for scale widget
 ****************************************************************************/
 void scale_widget::mousePressEvent(QMouseEvent *event)
@@ -1994,7 +1995,7 @@ hud_battle_log::~hud_battle_log()
   delete mw;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Updates size when scale has changed
 ****************************************************************************/
 void hud_battle_log::update_size()
@@ -2019,8 +2020,7 @@ void hud_battle_log::update_size()
   startTimer(50);
 }
 
-
-/****************************************************************************
+/************************************************************************//**
   Set scale
 ****************************************************************************/
 void hud_battle_log::set_scale(float s)
@@ -2133,4 +2133,3 @@ void hud_battle_log::showEvent(QShowEvent *event)
   m_timer.restart();
   setVisible(true);
 }
-
