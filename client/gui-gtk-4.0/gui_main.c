@@ -186,7 +186,8 @@ static struct video_mode vmode = { -1, -1 };
 
 static void set_g_log_callbacks(void);
 
-static gboolean show_info_popup(GtkWidget *w, GdkEvent *ev, gpointer data);
+static gboolean show_info_popup(GtkGestureClick *gesture, int n_press,
+                                double x, double y, gpointer data);
 
 static void end_turn_callback(GtkWidget *w, gpointer data);
 static gboolean get_net_input(GIOChannel *source, GIOCondition condition,
@@ -1279,8 +1280,11 @@ static void setup_widgets(void)
   gtk_widget_set_margin_end(label, 2);
   gtk_widget_set_margin_top(label, 2);
   gtk_widget_set_margin_bottom(label, 2);
-  g_signal_connect(label, "button_press_event",
-                   G_CALLBACK(show_info_popup), NULL);
+
+  mc_controller = GTK_EVENT_CONTROLLER(gtk_gesture_click_new());
+  g_signal_connect(mc_controller, "pressed",
+                   G_CALLBACK(show_info_popup), frame);
+  gtk_widget_add_controller(label, mc_controller);
   gtk_grid_attach(GTK_GRID(vgrid), label, 0, grid_row++, 1, 1);
   main_label_info = label;
 
@@ -2258,28 +2262,31 @@ static gboolean select_more_arrow_callback(GtkGestureClick *gesture, int n_press
 }
 
 /**********************************************************************//**
+  On close of the info popup
+**************************************************************************/
+static void info_popup_closed(GtkWidget *self, gpointer data)
+{
+  gtk_widget_unparent(self);
+}
+
+/**********************************************************************//**
   Popup info box
 **************************************************************************/
-static gboolean show_info_popup(GtkWidget *w, GdkEvent *ev, gpointer data)
+static gboolean show_info_popup(GtkGestureClick *gesture, int n_press,
+                                double x, double y, gpointer data)
 {
-  guint button;
+  GtkWidget *p;
+  GtkWidget *child;
+  GtkWidget *frame = GTK_WIDGET(data);
 
-  button = gdk_button_event_get_button(ev);
-  if (button == 1) {
-    GtkWidget *p;
-    GtkWidget *child;
+  p = gtk_popover_new();
 
-    p = gtk_window_new();
-    gtk_widget_set_margin_start(p, 4);
-    gtk_widget_set_margin_end(p, 4);
-    gtk_widget_set_margin_top(p, 4);
-    gtk_widget_set_margin_bottom(p, 4);
-    gtk_window_set_transient_for(GTK_WINDOW(p), GTK_WINDOW(toplevel));
-
-    child = gtk_label_new(get_info_label_text_popup());
-    gtk_window_set_child(GTK_WINDOW(p), child);
-    gtk_widget_show(p);
-  }
+  gtk_widget_set_parent(p, frame);
+  child = gtk_label_new(get_info_label_text_popup());
+  gtk_popover_set_child(GTK_POPOVER(p), child);
+  g_signal_connect(p, "closed",
+                   G_CALLBACK(info_popup_closed), NULL);
+  gtk_popover_popup(GTK_POPOVER(p));
 
   return TRUE;
 }
@@ -2289,8 +2296,8 @@ static gboolean show_info_popup(GtkWidget *w, GdkEvent *ev, gpointer data)
 **************************************************************************/
 static void end_turn_callback(GtkWidget *w, gpointer data)
 {
-    gtk_widget_set_sensitive(turn_done_button, FALSE);
-    user_ended_turn();
+  gtk_widget_set_sensitive(turn_done_button, FALSE);
+  user_ended_turn();
 }
 
 /**********************************************************************//**
