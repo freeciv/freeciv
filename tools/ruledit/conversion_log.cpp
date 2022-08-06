@@ -27,7 +27,7 @@
 /**********************************************************************//**
   Setup conversion_log object
 **************************************************************************/
-conversion_log::conversion_log() : QDialog()
+conversion_log::conversion_log(QString title) : QDialog()
 {
   QGridLayout *main_layout = new QGridLayout(this);
   QPushButton *close_button;
@@ -43,7 +43,7 @@ conversion_log::conversion_log() : QDialog()
   main_layout->addWidget(close_button, row++, 0);
 
   setLayout(main_layout);
-  setWindowTitle(QString::fromUtf8(R__("Old ruleset to a new format")));
+  setWindowTitle(title);
 
   setVisible(false);
 }

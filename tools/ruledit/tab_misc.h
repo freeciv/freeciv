@@ -39,6 +39,7 @@ class tab_misc : public QWidget
     void edit_aae_effects();
     void edit_all_effects();
     void desc_file_toggle(bool checked);
+    void sanity_check();
 
   private:
     ruledit_gui *ui;
