@@ -2,22 +2,42 @@
 <!-- Created with Sodipodi ("http://www.sodipodi.com/") -->
 
 <svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:xlink="http://www.w3.org/1999/xlink"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    id="svg551"
    sodipodi:version="0.32"
    width="1200"
-   height="800">
+   height="800"
+   version="1.1"
+   sodipodi:docname="transnistria.svg"
+   inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs14" />
+  <sodipodi:namedview
+     id="namedview12"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     showgrid="false"
+     inkscape:zoom="0.63551222"
+     inkscape:cx="599.5164"
+     inkscape:cy="399.6776"
+     inkscape:window-width="949"
+     inkscape:window-height="715"
+     inkscape:window-x="456"
+     inkscape:window-y="119"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg551" />
   <rect
      fill="#cc0000"
      width="1200"
-     height="800" />
+     height="800"
+     id="rect2" />
   <g
      id="g3163"
      transform="matrix(1.1665327,0,0,1.1665242,-14.809452,-26.530762)">
@@ -47,5 +67,6 @@
      fill="#00a651"
      width="1200"
      height="200"
-     y="300" />
+     y="300"
+     id="rect9" />
 </svg>
