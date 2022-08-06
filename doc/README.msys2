@@ -9,7 +9,7 @@ using MSYS2 from https://www.msys2.org/
  Status
 ====================================
 
-- Buildable clients are gtk3, gtk3.22, sdl2, and Qt5 for
+- Buildable clients are gtk3, gtk3.22, gtk4, sdl2, and Qt5 for
   both win64 and win32 targets. For win64 target, one
   can build also Qt6-client.
 
@@ -83,13 +83,16 @@ using MSYS2 from https://www.msys2.org/
 2.1.2.2) Arch-specific packages for building gtk3-client
  - mingw-w64-i686-gtk3 / mingw-w64-x86_64-gtk3
 
-2.1.2.3) Arch-specific packages for buildind Qt5-client and/or Qt5 Ruledit
+2.1.2.3) Arch-specific packages for building gtk4-client
+ - mingw-w64-i686-gtk4 / mingw-w64-x86_64-gtk4
+
+2.1.2.4) Arch-specific packages for buildind Qt5-client and/or Qt5 Ruledit
  - mingw-w64-i686-qt5 / mingw-w64-x86_64-qt5
 
-2.1.2.4) Arch-specific packages for building Qt6-client and/or Qt6 Ruledit
+2.1.2.5) Arch-specific packages for building Qt6-client and/or Qt6 Ruledit
  - mingw-w64-x86_64-qt6-base
 
-2.1.2.5) Arch-specific packages for building sdl2-client
+2.1.2.6) Arch-specific packages for building sdl2-client
  - mingw-w64-i686-SDL2_image / mingw-w64-x86_64-SDL2_image
  - mingw-w64-i686-SDL2_ttf / mingw-w64-x86_64-SDL2_ttf
  - mingw-w64-i686-SDL2_gfx / mingw-w64-x86_64-SDL2_gfx
@@ -174,6 +177,7 @@ Get the freeciv sources there somehow. Some options are:
   - "all" (default), build all installers
   - "<gui>-installer", where <gui> is
      - gtk3.22
+     - gtk4
      - sdl2
      - qt5
      - qt6

@@ -60,14 +60,17 @@ endif
 # by default build all installers.
 all: all-$(WINARCH)
 
-all-win64: gtk3.22-installer sdl2-installer ruledit-installer qt5-installer qt6-installer
+all-win64: gtk3.22-installer sdl2-installer ruledit-installer qt5-installer qt6-installer gtk4-installer
 
-all-win32: gtk3.22-installer sdl2-installer ruledit-installer-qt5 qt5-installer
+all-win32: gtk3.22-installer sdl2-installer ruledit-installer-qt5 qt5-installer gtk4-installer
 
-all-win64-10: gtk3.22-installer sdl2-installer ruledit-installer qt5-installer qt6-installer
+all-win64-10: gtk3.22-installer sdl2-installer ruledit-installer qt5-installer qt6-installer gtk4-installer
 
 gtk3.22-installer:
 	make GUI=gtk3.22 CLIENT=gtk3.22 FCMP=gtk3 EXTRA_CONFIG="--disable-ruledit $(EXTRA_CONFIG)" wrap-gtk3.22
+
+gtk4-installer:
+	make GUI=gtk4 CLIENT=gtk4 FCMP=gtk4 EXTRA_CONFIG="--disable-ruledit $(EXTRA_CONFIG)" wrap-gtk4
 
 sdl2-installer:
 	make GUI=sdl2 CLIENT=sdl2 FCMP=gtk4 EXTRA_CONFIG="--disable-ruledit $(EXTRA_CONFIG)" wrap-sdl2
@@ -150,6 +153,8 @@ install-freeciv-common: configure-freeciv-common
 	cp freeciv-server.cmd freeciv-mp-$(FCMP).cmd freeciv-$(CLIENT).cmd Freeciv.url install-$(WINARCH)-$(GUI)/
 
 install-freeciv-gtk3.22: install-freeciv-common
+
+install-freeciv-gtk4: install-freeciv-common
 
 install-freeciv-sdl2: install-freeciv-common
 
@@ -346,7 +351,13 @@ GTK4_FCMP_DLLS := \
 	libthai-0.dll \
 	liblzo2-2.dll \
 	libgraphite2.dll \
-	libdatrie-1.dll
+	libdatrie-1.dll \
+	libtiff-5.dll \
+	libjpeg-8.dll \
+	libLerc.dll \
+	libwebp-7.dll \
+	libdeflate.dll \
+	libjbig-0.dll
 
 install-env-gtk4-fcmp: install-env-common
 	cp -R $(addprefix $(DLLPATH_PREFIX), $(GTK4_FCMP_DLLS)) install-$(WINARCH)-$(GUI)/
@@ -357,17 +368,13 @@ install-env-gtk4-fcmp: install-env-common
 	cp -R /$(ARCHDIR)/share/locale install-$(WINARCH)-$(GUI)/share/
 	find install-$(WINARCH)-$(GUI)/share/locale -type f -not -name "freeciv-*.mo" -and -not -name gtk40.mo -delete
 
+install-env-gtk4: install-env-gtk4-fcmp
+
 SDL2_DLLS := \
 	libSDL2_gfx-1-0-0.dll \
 	SDL2_image.dll \
 	SDL2_ttf.dll \
-	libjpeg-8.dll \
-	libtiff-5.dll \
-	libwebp-7.dll \
-	libzstd.dll \
-	libdeflate.dll \
-	libjbig-0.dll \
-	libLerc.dll
+	libzstd.dll
 
 install-env-sdl2: install-env-gtk4-fcmp
 	# add DLLs
@@ -576,6 +583,8 @@ installer-ruledit-qt6: clean-install-ruledit-qt6 install-ruledit-qt6 install-env
 
 wrap-gtk3.22: installer-common
 
+wrap-gtk4: installer-common
+
 wrap-sdl2: installer-common
 
 wrap-qt5: installer-common
@@ -623,6 +632,7 @@ clean-installer-ruledit-qt6:
 
 clean:
 	make GUI=gtk3.22 CLIENT=gtk3.22 clean-build-common clean-install-common clean-installer-common
+	make GUI=gtk4 CLIENT=gtk4 clean-build-common clean-install-common clean-installer-common
 	make GUI=sdl2 CLIENT=sdl2 clean-build-common clean-install-common clean-installer-common
 	make GUI=qt5 CLIENT=qt clean-build-common clean-install-common clean-installer-common
 	make GUI=qt6 CLIENT=qt clean-build-common clean-install-common clean-installer-common
