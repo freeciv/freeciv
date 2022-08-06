@@ -67,7 +67,6 @@ static void player_diplstate_destroy(const struct player *plr1,
 enum diplstate_type cancel_pact_result(enum diplstate_type oldstate)
 {
   switch (oldstate) {
-  case DS_NO_CONTACT: /* possible if someone declares war on our ally */
   case DS_WAR: /* no change */
   case DS_ARMISTICE:
   case DS_CEASEFIRE:
@@ -77,10 +76,16 @@ enum diplstate_type cancel_pact_result(enum diplstate_type oldstate)
     return DS_ARMISTICE;
   case DS_TEAM: /* no change */
     return DS_TEAM;
-  default:
-    log_error("non-pact diplstate %d in cancel_pact_result", oldstate);
-    return DS_WAR; /* arbitrary */
+  case DS_NO_CONTACT:     /* Possible if someone declares war on our ally */
+    return DS_NO_CONTACT; /* Can't cancel lack of contact */
+  case DS_LAST:
+    fc_assert(oldstate != DS_LAST);
+    return DS_WAR; /* Arbitrary */
   }
+
+  fc_assert(FALSE);
+
+  return DS_WAR; /* Arbitrary */
 }
 
 /*******************************************************************//**

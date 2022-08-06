@@ -909,6 +909,11 @@ void handle_diplomacy_cancel_pact(struct player *pplayer,
   /* check what the new status will be */
   new_type = cancel_pact_result(old_type);
 
+  if (new_type == old_type) {
+    /* No change */
+    return;
+  }
+
   ds_plrplr2 = player_diplstate_get(pplayer, pplayer2);
   ds_plr2plr = player_diplstate_get(pplayer2, pplayer);
 
