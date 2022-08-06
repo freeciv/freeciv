@@ -102,11 +102,11 @@ static const char *help_wlabel_name[6] =
 
 static const char *help_ulabel_name[5][5] =
 {
-    { N_("Cost:"),		NULL, NULL, N_("Attack:"),	NULL },
-    { N_("Defense:"),		NULL, NULL, N_("Move:")	,	NULL },
-    { N_("FirePower:"),		NULL, NULL, N_("Hitpoints:"),	NULL },
-    { N_("Basic Upkeep:"),	NULL, NULL, N_("Vision:"),	NULL },
-    { N_("Requirement:"),	NULL, NULL, N_("Obsolete by:"),	NULL }
+    { N_("Cost:"),              NULL, NULL, N_("Attack:"),      NULL },
+    { N_("Defense:"),           NULL, NULL, N_("Move:"),        NULL },
+    { N_("Firepower:"),         NULL, NULL, N_("Hitpoints:"),   NULL },
+    { N_("Basic Upkeep:"),      NULL, NULL, N_("Vision:"),      NULL },
+    { N_("Requirement:"),       NULL, NULL, N_("Obsolete by:"), NULL }
 };
 
 static const char *help_tlabel_name[2][5] =

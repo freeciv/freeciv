@@ -3886,7 +3886,7 @@ QString get_tooltip_unit(struct unit_type *unit, bool ext)
              + QString("</td></tr><tr><td>")
              + bold(QString(_("Hitpoints:"))) + " "
              + QString::number(unit->hp).toHtmlEscaped()
-             + QString("</td><td>") + bold(QString(_("FirePower:"))) + " "
+             + QString("</td><td>") + bold(QString(_("Firepower:"))) + " "
              + QString::number(unit->firepower).toHtmlEscaped()
              + QString("</td><td>") + bold(QString(_("Vision:"))) + " "
              + QString::number((int) sqrt((double) unit->vision_radius_sq))
