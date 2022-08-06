@@ -6298,8 +6298,12 @@ static void view_option_changed_callback(struct option *poption)
 static void manual_turn_done_callback(struct option *poption)
 {
   update_turn_done_button_state();
-  if (!gui_options.ai_manual_turn_done && is_ai(client.conn.playing)) {
-    if (can_end_turn()) {
+
+  if (!gui_options.ai_manual_turn_done) {
+    struct player *pplayer = client_player();
+
+    if (pplayer != NULL && is_ai(pplayer)
+        && can_end_turn()) {
       user_ended_turn();
     }
   }
