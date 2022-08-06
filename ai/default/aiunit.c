@@ -703,9 +703,9 @@ static bool unit_role_defender(const struct unit_type *punittype)
   do we attempt to bodyguard units with higher defence than us, or military
   units with lower attack than us that are not transports.
 **************************************************************************/
-int look_for_charge(struct ai_type *ait, struct player *pplayer,
-                    struct unit *punit,
-                    struct unit **aunit, struct city **acity)
+adv_want look_for_charge(struct ai_type *ait, struct player *pplayer,
+                         struct unit *punit,
+                         struct unit **aunit, struct city **acity)
 {
   struct pf_parameter parameter;
   struct pf_map *pfm;
