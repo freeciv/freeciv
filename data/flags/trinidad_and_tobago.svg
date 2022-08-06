@@ -1,6 +1,46 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="900" height="600">
-  <rect width="900" height="600" fill="#ce1126"/>
-  <path d="M 270,0 900,600 630,600 0,0" fill="#ffffff"/>
-  <path d="M 225,0 855,600 675,600 45,0" fill="#000000"/>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="900"
+   height="600"
+   version="1.1"
+   id="svg8"
+   sodipodi:docname="trinidad_and_tobago.svg"
+   inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs12" />
+  <sodipodi:namedview
+     id="namedview10"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     showgrid="false"
+     inkscape:zoom="0.84734963"
+     inkscape:cx="450.22738"
+     inkscape:cy="300.34828"
+     inkscape:window-width="932"
+     inkscape:window-height="710"
+     inkscape:window-x="517"
+     inkscape:window-y="140"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg8" />
+  <rect
+     width="900"
+     height="600"
+     fill="#ce1126"
+     id="rect2" />
+  <path
+     d="M 270,0 900,600 630,600 0,0"
+     fill="#ffffff"
+     id="path4" />
+  <path
+     d="M 225,0 855,600 675,600 45,0"
+     fill="#000000"
+     id="path6" />
 </svg>
