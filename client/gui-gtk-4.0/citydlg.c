@@ -999,6 +999,13 @@ static void create_and_append_overview_page(struct city_dialog *pdialog)
                                           G_TYPE_INT, G_TYPE_BOOLEAN);
     pdialog->overview.change_production_store = production_store;
 
+    bar = gtk_progress_bar_new();
+    gtk_progress_bar_set_show_text(GTK_PROGRESS_BAR(bar), TRUE);
+    pdialog->overview.production_bar = bar;
+    gtk_grid_attach(GTK_GRID(hgrid), bar, grid_col++, 0, 1, 1);
+
+    gtk_progress_bar_set_text(GTK_PROGRESS_BAR(bar), _("%d/%d %d turns"));
+
     production_combo =
       gtk_combo_box_new_with_model(GTK_TREE_MODEL(production_store));
     gtk_widget_set_hexpand(production_combo, TRUE);
@@ -1019,13 +1026,6 @@ static void create_and_append_overview_page(struct city_dialog *pdialog)
     gtk_cell_layout_pack_start(GTK_CELL_LAYOUT(production_combo), rend, TRUE);
     gtk_cell_layout_set_attributes(GTK_CELL_LAYOUT(production_combo),
                                    rend, "text", 1, "strikethrough", 3, NULL);
-
-    bar = gtk_progress_bar_new();
-    gtk_progress_bar_set_show_text(GTK_PROGRESS_BAR(bar), TRUE);
-    pdialog->overview.production_bar = bar;
-    gtk_combo_box_set_child(GTK_COMBO_BOX(production_combo), bar);
-
-    gtk_progress_bar_set_text(GTK_PROGRESS_BAR(bar), _("%d/%d %d turns"));
 
     pdialog->overview.buy_command
       = icon_label_button_new("system-run", _("_Buy"));
