@@ -3484,7 +3484,7 @@ set =
       "restrictinfra", "ENABLED"
       "unreachableprotects", "DISABLED"
       "onsetbarbs", 120
-      "occupychance", 100
+      "occupychance", 50
       "techlossforgiveness", 0
       "techlossrestore", 50
       "multiresearch", "ENABLED"
