@@ -37,6 +37,7 @@ class tab_misc : public QWidget
     void save_now();
     void refresh_stats();
     void desc_file_toggle(bool checked);
+    void sanity_check();
 
   private:
     ruledit_gui *ui;

@@ -8042,7 +8042,7 @@ static bool load_rulesetdir(const char *rsdir, bool compat_mode,
     actions_rs_pre_san_gen();
 
     ok = autoadjust_ruleset_data()
-      && sanity_check_ruleset_data(compat_info.compat_mode);
+      && sanity_check_ruleset_data(&compat_info);
   }
 
   if (ok) {

@@ -726,7 +726,7 @@ static bool sanity_check_boolean_effects(void)
 
   Returns TRUE iff everything ok.
 **************************************************************************/
-bool sanity_check_ruleset_data(bool ignore_retired)
+bool sanity_check_ruleset_data(struct rscompat_info *compat)
 {
   int num_utypes;
   int i;
@@ -735,6 +735,7 @@ bool sanity_check_ruleset_data(bool ignore_retired)
                    * one. */
   bool default_gov_failed = FALSE;
   bool obsoleted_by_loop = FALSE;
+  bool ignore_retired = (compat != NULL && compat->compat_mode);
 
   if (!sanity_check_metadata()) {
     ok = FALSE;

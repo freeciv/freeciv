@@ -211,7 +211,7 @@ void ruledit_gui::launch_now()
 {
   QByteArray rn_bytes;
 
-  convlog = new conversion_log();
+  convlog = new conversion_log(QString::fromUtf8(R__("Old ruleset to a new format")));
 
   rn_bytes = ruleset_select->text().toUtf8();
   sz_strlcpy(game.server.rulesetdir, rn_bytes.data());

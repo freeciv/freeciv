@@ -40,9 +40,11 @@
 #include "specialist.h"
 
 // server
+#include "rscompat.h"
 #include "rssanity.h"
 
 // ruledit
+#include "conversion_log.h"
 #include "ruledit.h"
 #include "ruledit_qt.h"
 #include "rulesave.h"
@@ -60,8 +62,7 @@ tab_misc::tab_misc(ruledit_gui *ui_in) : QWidget()
   QLabel *label;
   QLabel *name_label;
   QLabel *version_label;
-  QPushButton *save_button;
-  QPushButton *refresh_button;
+  QPushButton *button;
   int row = 0;
   QTableWidgetItem *item;
   char ttbuf[2048];
@@ -116,9 +117,9 @@ tab_misc::tab_misc(ruledit_gui *ui_in) : QWidget()
   main_layout->addWidget(save_ver_label, row, 0);
   savedir_version = new QCheckBox(this);
   main_layout->addWidget(savedir_version, row++, 1);
-  save_button = new QPushButton(QString::fromUtf8(R__("Save now")), this);
-  connect(save_button, SIGNAL(pressed()), this, SLOT(save_now()));
-  main_layout->addWidget(save_button, row++, 1);
+  button = new QPushButton(QString::fromUtf8(R__("Save now")), this);
+  connect(button, SIGNAL(pressed()), this, SLOT(save_now()));
+  main_layout->addWidget(button, row++, 1);
 
   label = new QLabel(QString::fromUtf8(R__("Description from file")));
   label->setParent(this);
@@ -132,6 +133,10 @@ tab_misc::tab_misc(ruledit_gui *ui_in) : QWidget()
   main_layout->addWidget(label, row, 0);
   desc_file = new QLineEdit(this);
   main_layout->addWidget(desc_file, row++, 1);
+
+  button = new QPushButton(QString::fromUtf8(R__("Sanity check rules")), this);
+  connect(button, SIGNAL(pressed()), this, SLOT(sanity_check()));
+  main_layout->addWidget(button, row++, 1);
 
   stats = new QTableWidget(this);
   stats->setColumnCount(8);
@@ -216,13 +221,13 @@ tab_misc::tab_misc(ruledit_gui *ui_in) : QWidget()
   stats->horizontalHeader()->setVisible(false);
   stats->setEditTriggers(QAbstractItemView::NoEditTriggers);
   main_layout->addWidget(stats, row++, 0, 1, 2);
-  refresh_button = new QPushButton(QString::fromUtf8(R__("Refresh Stats")), this);
-  connect(refresh_button, SIGNAL(pressed()), this, SLOT(refresh_stats()));
-  main_layout->addWidget(refresh_button, row++, 0, 1, 2);
+  button = new QPushButton(QString::fromUtf8(R__("Refresh Stats")), this);
+  connect(button, SIGNAL(pressed()), this, SLOT(refresh_stats()));
+  main_layout->addWidget(button, row++, 0, 1, 2);
 
   // Stats never change except with experimental features. Hide useless
   // button.
-  show_experimental(refresh_button);
+  show_experimental(button);
 
   refresh();
 
@@ -276,7 +281,7 @@ void tab_misc::save_now()
   strncpy(game.control.version, ba_bytes.data(),
           sizeof(game.control.version) - 1);
 
-  if (!autoadjust_ruleset_data() || !sanity_check_ruleset_data(false)) {
+  if (!autoadjust_ruleset_data() || !sanity_check_ruleset_data(NULL)) {
     QMessageBox *box = new QMessageBox();
 
     box->setText("Current data fails sanity checks. Save anyway?");
@@ -445,4 +450,34 @@ void tab_misc::flush_widgets()
 void tab_misc::desc_file_toggle(bool checked)
 {
   desc_file->setEnabled(checked);
+}
+
+static conversion_log *sanitylog;
+
+/**************************************************************************
+  Ruleset conversion log callback
+**************************************************************************/
+static void sanity_log_cb(const char *msg)
+{
+  sanitylog->add(msg);
+}
+
+/**************************************************************************
+  Run sanity check for current rules
+**************************************************************************/
+void tab_misc::sanity_check()
+{
+  struct rscompat_info compat_info;
+
+  sanitylog = new conversion_log(QString::fromUtf8(R__("Sanity Check")));
+
+  rscompat_init_info(&compat_info);
+  compat_info.compat_mode = FALSE;
+  compat_info.log_cb = sanity_log_cb;
+
+  if (!sanity_check_ruleset_data(&compat_info)) {
+    ui->display_msg(R__("Sanity check failed!"));
+  } else {
+    ui->display_msg(R__("Sanity check success"));
+  }
 }
