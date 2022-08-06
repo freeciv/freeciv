@@ -252,7 +252,7 @@ static void create_coltypes (lua_State *L, cur_data *cur) {
 ** a reference to it on the cursor structure.
 */
 static void _pushtable (lua_State *L, cur_data *cur, size_t off, creator func) {
-	int *ref = (int *)((char *)cur + off);
+	int *ref = (int *)cur + off / sizeof(int);
 	if (*ref != LUA_NOREF)
 		lua_rawgeti (L, LUA_REGISTRYINDEX, *ref);
 	else {
