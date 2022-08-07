@@ -1540,11 +1540,11 @@ static void create_and_append_settings_page(struct city_dialog *pdialog)
   g_signal_connect(button, "toggled",
 		   G_CALLBACK(cityopt_callback), pdialog);
 
-  /* we choose which page to popup by default */
-  gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON
-			       (pdialog->
-				misc.whichtab_radio[new_dialog_def_page]),
-			       TRUE);
+  /* We choose which page to popup by default */
+  gtk_check_button_set_active(GTK_CHECK_BUTTON
+                              (pdialog->
+                               misc.whichtab_radio[new_dialog_def_page]),
+                              TRUE);
 
   set_cityopt_values(pdialog);
 
@@ -3421,13 +3421,13 @@ static void cityopt_callback(GtkWidget *w, gpointer data)
     fc_assert(CITYO_LAST == 3);
 
     BV_CLR_ALL(new_options);
-    if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(pdialog->misc.disband_on_settler))) {
+    if (gtk_check_button_get_active(GTK_CHECK_BUTTON(pdialog->misc.disband_on_settler))) {
       BV_SET(new_options, CITYO_DISBAND);
     }
-    if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(pdialog->misc.new_citizens_radio[1]))) {
+    if (gtk_check_button_get_active(GTK_CHECK_BUTTON(pdialog->misc.new_citizens_radio[1]))) {
       BV_SET(new_options, CITYO_SCIENCE_SPECIALISTS);
     }
-    if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(pdialog->misc.new_citizens_radio[2]))) {
+    if (gtk_check_button_get_active(GTK_CHECK_BUTTON(pdialog->misc.new_citizens_radio[2]))) {
       BV_SET(new_options, CITYO_GOLD_SPECIALISTS);
     }
 
@@ -3445,18 +3445,18 @@ static void set_cityopt_values(struct city_dialog *pdialog)
 
   pdialog->misc.block_signal = 1;
 
-  gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(pdialog->misc.disband_on_settler),
-                               is_city_option_set(pcity, CITYO_DISBAND));
+  gtk_check_button_set_active(GTK_CHECK_BUTTON(pdialog->misc.disband_on_settler),
+                              is_city_option_set(pcity, CITYO_DISBAND));
 
   if (is_city_option_set(pcity, CITYO_SCIENCE_SPECIALISTS)) {
-    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON
-                                 (pdialog->misc.new_citizens_radio[1]), TRUE);
+    gtk_check_button_set_active(GTK_CHECK_BUTTON
+                                (pdialog->misc.new_citizens_radio[1]), TRUE);
   } else if (is_city_option_set(pcity, CITYO_GOLD_SPECIALISTS)) {
-    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON
-                                 (pdialog->misc.new_citizens_radio[2]), TRUE);
+    gtk_check_button_set_active(GTK_CHECK_BUTTON
+                                (pdialog->misc.new_citizens_radio[2]), TRUE);
   } else {
-    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON
-                                 (pdialog->misc.new_citizens_radio[0]), TRUE);
+    gtk_check_button_set_active(GTK_CHECK_BUTTON
+                                (pdialog->misc.new_citizens_radio[0]), TRUE);
   }
   pdialog->misc.block_signal = 0;
 }
