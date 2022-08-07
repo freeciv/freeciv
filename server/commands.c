@@ -699,6 +699,20 @@ static struct command commands[] = {
    NULL, mapimg_help,
    CMD_ECHO_ADMINS, VCF_NONE, 50
   },
+  {"lock",   ALLOW_HACK,
+   /* TRANS: translate text between <> only */
+   N_("lock <setting>"),
+   N_("Lock setting so that non-admins can't change it."),
+   NULL, NULL,
+   CMD_ECHO_ADMINS, VCF_NONE, 50
+  },
+  {"unlock",   ALLOW_HACK,
+   /* TRANS: translate text between <> only */
+   N_("unlock <setting>"),
+   N_("Unlock setting so that non-admins can change it."),
+   NULL, NULL,
+   CMD_ECHO_ADMINS, VCF_NONE, 50
+  },
   {"rfcstyle",	ALLOW_HACK,
    /* no translatable parameters */
    SYN_ORIG_("rfcstyle"),
@@ -712,7 +726,6 @@ static struct command commands[] = {
    CMD_ECHO_NONE, VCF_NONE, 0
   }
 };
-
 
 /**********************************************************************//**
   Return command by its number.

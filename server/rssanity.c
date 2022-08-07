@@ -1551,11 +1551,11 @@ bool autolock_settings(void)
 
     log_normal(_("Disabling 'barbarians' setting for lack of suitable "
                  "unit types."));
-    setting_lock_set(pset, FALSE);
+    setting_ruleset_lock_clear(pset);
     if (!setting_enum_set(pset, "DISABLED", NULL, NULL, 0)) {
       ok = FALSE;
     }
-    setting_lock_set(pset, TRUE);
+    setting_ruleset_lock_set(pset);
   }
 
   return ok;

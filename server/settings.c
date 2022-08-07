@@ -170,8 +170,11 @@ struct setting {
   /* action function */
   const action_callback_func_t action;
 
-  /* ruleset lock for game settings */
-  bool locked;
+  /* Lock for game settings */
+  enum setting_lock_level lock;
+
+  /* Remember if there's also ruleset lock. */
+  bool rslock;
 
   bool ruleset_settable;
 
@@ -3415,10 +3418,19 @@ bool setting_is_changeable(const struct setting *pset,
     return FALSE;
   }
 
-  if (setting_locked(pset)) {
-    /* setting is locked by the ruleset */
+  switch (pset->lock) {
+  case SLOCK_NONE:
+    break;
+  case SLOCK_RULESET:
+    /* Setting is locked by the ruleset */
     settings_snprintf(reject_msg, reject_msg_len,
                       _("The setting '%s' is locked by the ruleset."),
+                      setting_name(pset));
+    return FALSE;
+  case SLOCK_ADMIN:
+    /* Setting is locked by admin */
+    settings_snprintf(reject_msg, reject_msg_len,
+                      _("The setting '%s' is locked by admin."),
                       setting_name(pset));
     return FALSE;
   }
@@ -4321,15 +4333,15 @@ bool settings_ruleset(struct section_file *file, const char *section,
 
   /* Unlock all settings. */
   settings_iterate(SSET_ALL, pset) {
-    setting_lock_set(pset, FALSE);
-    if (pset->ruleset_settable) {
+    setting_ruleset_lock_clear(pset);
+    if (pset->ruleset_settable && !setting_locked(pset)) {
       setting_set_to_default(pset);
     }
   } settings_iterate_end;
 
-  /* settings */
+  /* Settings */
   if (NULL == secfile_section_by_name(file, section)) {
-    /* no settings in ruleset file */
+    /* No settings in ruleset file */
     log_verbose("no [%s] section for game settings in %s", section,
                 secfile_name(file));
   } else {
@@ -4392,11 +4404,12 @@ static bool setting_ruleset_one(struct section_file *file,
     return FALSE;
   }
 
-  info.set = pset;
-  info.compat = compat;
+  if (!setting_locked(pset)) {
+    info.set = pset;
+    info.compat = compat;
 
-  switch (pset->stype) {
-  case SST_BOOL:
+    switch (pset->stype) {
+    case SST_BOOL:
     {
       int ival;
       bool val;
@@ -4427,7 +4440,7 @@ static bool setting_ruleset_one(struct section_file *file,
     }
     break;
 
-  case SST_INT:
+    case SST_INT:
     {
       int val;
 
@@ -4447,7 +4460,7 @@ static bool setting_ruleset_one(struct section_file *file,
     }
     break;
 
-  case SST_STRING:
+    case SST_STRING:
     {
       const char *val = secfile_lookup_str(file, "%s.value", path);
 
@@ -4467,7 +4480,7 @@ static bool setting_ruleset_one(struct section_file *file,
     }
     break;
 
-  case SST_ENUM:
+    case SST_ENUM:
     {
       int val;
 
@@ -4491,7 +4504,7 @@ static bool setting_ruleset_one(struct section_file *file,
     }
     break;
 
-  case SST_BITWISE:
+    case SST_BITWISE:
     {
       int val;
 
@@ -4538,19 +4551,20 @@ static bool setting_ruleset_one(struct section_file *file,
     }
     break;
 
-  case SST_COUNT:
-    fc_assert(pset->stype != SST_COUNT);
-    break;
-  }
+    case SST_COUNT:
+      fc_assert(pset->stype != SST_COUNT);
+      break;
+    }
 
-  pset->setdef = SETDEF_RULESET;
+    pset->setdef = SETDEF_RULESET;
+  }
 
   /* set lock */
   lock = secfile_lookup_bool_default(file, FALSE, "%s.lock", path);
 
   if (lock) {
-    /* set lock */
-    setting_lock_set(pset, lock);
+    /* Set lock */
+    setting_ruleset_lock_set(pset);
     log_normal(_("Ruleset: '%s' has been locked by the ruleset."),
                setting_name(pset));
   }
@@ -4589,15 +4603,59 @@ bool setting_non_default(const struct setting *pset)
 ****************************************************************************/
 bool setting_locked(const struct setting *pset)
 {
-  return pset->locked;
+  return pset->lock != SLOCK_NONE;
 }
 
 /************************************************************************//**
-  Set the value for the lock of a setting.
+  Returns if the setting is locked by the ruleset.
 ****************************************************************************/
-void setting_lock_set(struct setting *pset, bool lock)
+bool setting_ruleset_locked(const struct setting *pset)
 {
-  pset->locked = lock;
+  return pset->rslock;
+}
+
+/************************************************************************//**
+  Set ruleset level lock for the setting
+****************************************************************************/
+void setting_ruleset_lock_set(struct setting *pset)
+{
+  if (pset->lock < SLOCK_RULESET) {
+    /* No downgrading the lock */
+    pset->lock = SLOCK_RULESET;
+  }
+  pset->rslock = TRUE;
+}
+
+/************************************************************************//**
+  Set admin level lock for the setting
+****************************************************************************/
+void setting_admin_lock_set(struct setting *pset)
+{
+  pset->lock = SLOCK_ADMIN;
+}
+
+/************************************************************************//**
+  Clear ruleset level lock from the setting
+****************************************************************************/
+void setting_ruleset_lock_clear(struct setting *pset)
+{
+  if (pset->lock == SLOCK_RULESET) {
+    /* No clearing upper level locks */
+    pset->lock = SLOCK_RULESET;
+  }
+  pset->rslock = FALSE;
+}
+
+/************************************************************************//**
+  Clear admin level lock from the setting
+****************************************************************************/
+void setting_admin_lock_clear(struct setting *pset)
+{
+  if (pset->rslock) {
+    pset->lock = SLOCK_RULESET;
+  } else {
+    pset->lock = SLOCK_NONE;
+  }
 }
 
 /************************************************************************//**
@@ -5104,7 +5162,8 @@ void settings_init(bool act)
   settings_list_init();
 
   settings_iterate(SSET_ALL, pset) {
-    setting_lock_set(pset, FALSE);
+    setting_ruleset_lock_clear(pset);
+    setting_admin_lock_clear(pset);
     setting_set_to_default(pset);
     setting_game_set(pset, TRUE);
     if (act) {

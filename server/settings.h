@@ -73,7 +73,9 @@ struct sset_val_name {
 #define SPECENUM_COUNT      OLEVELS_NUM
 #include "specenum_gen.h"
 
-/* forward declaration */
+enum setting_lock_level { SLOCK_NONE = 0, SLOCK_RULESET, SLOCK_ADMIN };
+
+/* Forward declaration */
 struct setting;
 
 struct sf_cb_data {
@@ -165,7 +167,11 @@ void setting_action(const struct setting *pset);
 
 bool setting_non_default(const struct setting *pset);
 bool setting_locked(const struct setting *pset);
-void setting_lock_set(struct setting *pset, bool lock);
+bool setting_ruleset_locked(const struct setting *pset);
+void setting_ruleset_lock_set(struct setting *pset);
+void setting_admin_lock_set(struct setting *pset);
+void setting_ruleset_lock_clear(struct setting *pset);
+void setting_admin_lock_clear(struct setting *pset);
 
 /* get 'struct setting_list' and related functions: */
 #define SPECLIST_TAG setting

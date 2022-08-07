@@ -1755,7 +1755,7 @@ static bool save_game_ruleset(const char *filename, const char *name)
 
   locks = FALSE;
   settings_iterate(SSET_ALL, pset) {
-    if (setting_locked(pset)) {
+    if (setting_ruleset_locked(pset)) {
       locks = TRUE;
       break;
     }
@@ -1765,7 +1765,7 @@ static bool save_game_ruleset(const char *filename, const char *name)
   settings_iterate(SSET_ALL, pset) {
     struct sf_cb_data info = { pset, FALSE };
 
-    if (setting_get_setdef(pset) == SETDEF_RULESET || setting_locked(pset)) {
+    if (setting_get_setdef(pset) == SETDEF_RULESET || setting_ruleset_locked(pset)) {
       secfile_insert_str(sfile, setting_name(pset),
                          "settings.set%d.name", set_count);
       switch (setting_type(pset)) {
@@ -1799,7 +1799,7 @@ static bool save_game_ruleset(const char *filename, const char *name)
       }
 
       if (locks) {
-        secfile_insert_bool(sfile, setting_locked(pset),
+        secfile_insert_bool(sfile, setting_ruleset_locked(pset),
                             "settings.set%d.lock", set_count);
       }
 

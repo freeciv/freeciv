@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996-2004 - The Freeciv Project
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -14,6 +14,7 @@
 #ifndef FC__COMMANDS_H
 #define FC__COMMANDS_H
 
+/* common */
 #include "connection.h"         /* enum cmdlevel */
 
 enum cmd_echo {
@@ -97,14 +98,17 @@ enum command_id {
   CMD_FCDB,
   CMD_MAPIMG,
 
+  CMD_LOCK,
+  CMD_UNLOCK,
+
   /* undocumented */
   CMD_RFCSTYLE,
   CMD_SRVID,
 
   /* pseudo-commands: */
-  CMD_NUM,		/* the number of commands - for iterations */
-  CMD_UNRECOGNIZED,	/* used as a possible iteration result */
-  CMD_AMBIGUOUS		/* used as a possible iteration result */
+  CMD_NUM,              /* the number of commands - for iterations */
+  CMD_UNRECOGNIZED,     /* used as a possible iteration result */
+  CMD_AMBIGUOUS         /* used as a possible iteration result */
 };
 
 const struct command *command_by_number(int i);
@@ -120,4 +124,4 @@ enum cmd_echo command_echo(const struct command *pcommand);
 int command_vote_flags(const struct command *pcommand);
 int command_vote_percent(const struct command *pcommand);
 
-#endif				/* FC__COMMANDS_H */
+#endif /* FC__COMMANDS_H */

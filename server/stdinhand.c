@@ -134,6 +134,8 @@ static void show_ruleset_info(struct connection *caller, enum command_id cmd,
                               bool check, int read_recursion);
 static void show_mapimg(struct connection *caller, enum command_id cmd);
 static bool set_command(struct connection *caller, char *str, bool check);
+static bool lock_command(struct connection *caller, char *str, bool check);
+static bool unlock_command(struct connection *caller, char *str, bool check);
 
 static bool create_command(struct connection *caller, const char *str,
                            bool check);
@@ -301,10 +303,10 @@ static bool may_use_nothing(struct connection *caller)
 static char setting_status(struct connection *caller,
                            const struct setting *pset)
 {
-  /* first check for a ruleset lock as this is included in
+  /* First check for a ruleset lock as this is included in
    * setting_is_changeable() */
   if (setting_locked(pset)) {
-    /* setting is locked by the ruleset */
+    /* Setting is locked */
     return '!';
   }
 
@@ -3128,6 +3130,62 @@ static bool set_command(struct connection *caller, char *str, bool check)
 }
 
 /**********************************************************************//**
+  Handle lock command
+**************************************************************************/
+static bool lock_command(struct connection *caller, char *str, bool check)
+{
+  char *args[1];
+  int nargs;
+
+  nargs = get_tokens(str, args, ARRAY_SIZE(args), TOKEN_DELIMITERS);
+
+  if (nargs < 1) {
+    cmd_reply(CMD_LOCK, caller, C_SYNTAX,
+              _("Undefined argument. Usage:\n%s"),
+              command_synopsis(command_by_number(CMD_LOCK)));
+  } else {
+    struct setting *pset;
+
+    pset = validate_setting_arg(CMD_SET, caller, args[0]);
+
+    if (pset != NULL) {
+      setting_admin_lock_set(pset);
+      return TRUE;
+    }
+  }
+
+  return FALSE;
+}
+
+/**********************************************************************//**
+  Handle unlock command
+**************************************************************************/
+static bool unlock_command(struct connection *caller, char *str, bool check)
+{
+  char *args[1];
+  int nargs;
+
+  nargs = get_tokens(str, args, ARRAY_SIZE(args), TOKEN_DELIMITERS);
+
+  if (nargs < 1) {
+    cmd_reply(CMD_LOCK, caller, C_SYNTAX,
+              _("Undefined argument. Usage:\n%s"),
+              command_synopsis(command_by_number(CMD_LOCK)));
+  } else {
+    struct setting *pset;
+
+    pset = validate_setting_arg(CMD_SET, caller, args[0]);
+
+    if (pset != NULL) {
+      setting_admin_lock_clear(pset);
+      return TRUE;
+    }
+  }
+
+  return FALSE;
+}
+
+/**********************************************************************//**
   Check game.allow_take and fcdb if enabled for permission to take or
   observe a player.
 
@@ -4633,6 +4691,10 @@ static bool handle_stdin_input_real(struct connection *caller, char *str,
     return fcdb_command(caller, arg, check);
   case CMD_MAPIMG:
     return mapimg_command(caller, arg, check);
+  case CMD_LOCK:
+    return lock_command(caller, arg, check);
+  case CMD_UNLOCK:
+    return unlock_command(caller, arg, check);
   case CMD_RFCSTYLE:	/* see console.h for an explanation */
     if (!check) {
       con_set_style(!con_get_style());

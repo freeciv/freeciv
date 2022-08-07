@@ -349,9 +349,9 @@ static bool manual_command(struct tag_types *tag_info)
         fprintf(doc, _("Category: %s.<br>"),
                 _(sset_category_name(setting_category(pset))));
 
-        /* first check if the setting is locked because this is included in
+        /* First check if the setting is locked because this is included in
          * the function setting_is_changeable() */
-        if (setting_locked(pset)) {
+        if (setting_ruleset_locked(pset)) {
           fprintf(doc, _("Is locked by the ruleset."));
         } else if (!setting_is_changeable(pset, &my_conn, NULL, 0)) {
           fprintf(doc, _("Can only be used in server console."));
