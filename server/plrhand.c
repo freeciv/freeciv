@@ -1875,8 +1875,8 @@ struct player_economic player_limit_to_max_rates(struct player *pplayer)
   int maxrate, surplus;
   struct player_economic economic;
 
-  /* ai players allowed to cheat */
-  if (is_ai(pplayer)) {
+  /* AI players allowed to cheat */
+  if (is_ai(pplayer) && !has_handicap(pplayer, H_RATES)) {
     return pplayer->economic;
   }
 
