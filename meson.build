@@ -3323,10 +3323,6 @@ foreach rs : rulesets
 endforeach
 
 install_data(
-  install_dir : join_paths(get_option('datadir'), 'freeciv')
-  )
-
-install_data(
   'data/civ2civ3/README.civ2civ3',
   install_dir : join_paths(get_option('datadir'), 'freeciv/civ2civ3')
   )
