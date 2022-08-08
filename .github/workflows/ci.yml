@@ -75,7 +75,9 @@ jobs:
             sdl2_image \
             sdl2_mixer \
             sdl2_ttf \
-            qt@6
+            qt@6 \
+            mysql-client \
+            unixodbc
       - name: build
         shell: bash
         run: ./scripts/ci-build.sh os_x
@@ -122,7 +124,8 @@ jobs:
             libsdl2-gfx-dev \
             libsdl2-image-dev \
             libsdl2-ttf-dev \
-            libmysqlclient-dev
+            libmysqlclient-dev \
+            unixodbc-dev
       - name: build
         shell: bash
         run: ./scripts/ci-build.sh normal
@@ -220,7 +223,8 @@ jobs:
             libsdl2-gfx-dev \
             libsdl2-image-dev \
             libsdl2-ttf-dev \
-            libmysqlclient-dev
+            libmysqlclient-dev \
+            unixodbc-dev
       - name: build
         shell: bash
         run: ./scripts/ci-build.sh clang_debug
