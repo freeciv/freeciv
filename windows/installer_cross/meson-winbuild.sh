@@ -75,7 +75,6 @@ case $GUI in
         RULEDIT=false ;;
   qt5) CLIENT="qt"
        FCMP="qt"
-       NLS="-Dnls=false"
        RULEDIT=true
        QTPARAMS="-Dqtver=qt5" ;;
   qt6) CLIENT="qt"
@@ -128,7 +127,6 @@ if ! meson \
      --cross-file=cross.txt \
      -Dprefix="$MESON_INSTALL_DIR" \
      -Dclients="$CLIENT" -Dfcmp="$FCMP" \
-     ${NLS} \
      -Dsyslua=false \
      -Dmwand=false \
      -Dreadline=false \
