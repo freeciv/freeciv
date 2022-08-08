@@ -52,9 +52,9 @@ ninja install
 "os_x")
 # gcc is an alias for clang on OS X
 
-export PATH="$(brew --prefix llvm)/bin:$(brew --prefix gettext)/bin:$(brew --prefix icu4c)/bin:$(brew --prefix qt@6)/bin:$PATH"
-export CPPFLAGS="-I$(brew --prefix gettext)/include -I$(brew --prefix icu4c)/include -I$(brew --prefix qt@6)/include -I$(brew --prefix readline)/include"
-export LDFLAGS="-L$(brew --prefix gettext)/lib -L$(brew --prefix icu4c)/lib -L$(brew --prefix qt@6)/lib -L$(brew --prefix readline)/lib"
+export PATH="$(brew --prefix llvm)/bin:$(brew --prefix gettext)/bin:$(brew --prefix icu4c)/bin:$(brew --prefix qt@6)/bin:$(brew --prefix mysql-client)/bin:$PATH"
+export CPPFLAGS="-I$(brew --prefix gettext)/include -I$(brew --prefix icu4c)/include -I$(brew --prefix qt@6)/include -I$(brew --prefix readline)/include -I$(brew --prefix unixodbc)/include"
+export LDFLAGS="-L$(brew --prefix gettext)/lib -L$(brew --prefix icu4c)/lib -L$(brew --prefix qt@6)/lib -L$(brew --prefix readline)/lib -L$(brew --prefix unixodbc)/lib"
 export PKG_CONFIG_PATH="$(brew --prefix icu4c)/lib/pkgconfig"
 
 export MOCCMD=$(find /usr/local/Cellar/qt -name "moc" | head -n 1)
@@ -68,6 +68,7 @@ cd build
  --enable-sys-lua --with-qtver=qt6 \
  --enable-client=gtk3.22,sdl2,qt,gtk4 \
  --enable-fcmp=gtk3,gtk4,qt,cli \
+ --enable-fcdb=sqlite3,mysql,postgres,odbc \
  --enable-freeciv-manual \
  || (let config_exit_status=$? \
      && echo "Config exit status: $config_exit_status" \
@@ -114,6 +115,7 @@ cd build
  --with-qtver=qt6 \
  --enable-client=gtk3.22,qt,sdl2,gtk4,stub \
  --enable-fcmp=cli,gtk3,qt,gtk4 \
+ --enable-fcdb=sqlite3,mysql,postgres,odbc \
  --enable-freeciv-manual \
  --enable-ai-static=classic,threaded,tex,stub \
  --prefix=${HOME}/freeciv/clang \
@@ -138,10 +140,10 @@ cd build
  --with-qtver=qt6 \
  --enable-client=gtk3.22,qt,sdl2,gtk4,stub \
  --enable-fcmp=cli,gtk3,qt,gtk4 \
+ --enable-fcdb=sqlite3,mysql,postgres,odbc \
  --enable-freeciv-manual \
  --enable-ruledit=experimental \
  --enable-ai-static=classic,threaded,tex,stub \
- --enable-fcdb=sqlite3,mysql \
  --prefix=${HOME}/freeciv/default \
  || (let config_exit_status=$? \
      && echo "Config exit status: $config_exit_status" \
