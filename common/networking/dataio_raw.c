@@ -75,20 +75,21 @@ static DIO_GET_CONV_FUN get_conv_callback = get_conv;
 #endif
 
 #ifdef FIELD_RANGE_ASSERT
-/* This evaluates _test_ twice. If that's a problem,
- * it should evaluate it just once and store result to variable.
- * That would lose verbosity of the assert message. */
+/* Do log_error() first, so we get its output even if
+ * fc_assert() is fatal.
+ * fc_assert() before the _action_ might fix
+ * what we should find out to fail. */
 #define FIELD_RANGE_TEST(_test_, _action_, _format_, ...) \
-  fc_assert(!(_test_));                                   \
   if (_test_) {                                           \
-    _action_                                              \
     log_error(_format_, ## __VA_ARGS__);                  \
+    fc_assert(!(_test_));                                 \
+    _action_                                              \
   }
 #else  /* FIELD_RANGE_ASSERT */
 #define FIELD_RANGE_TEST(_test_, _action_, _format_, ...) \
   if (_test_) {                                           \
-    _action_                                              \
     log_error(_format_, ## __VA_ARGS__);                  \
+    _action_                                              \
   }
 #endif /* FIELD_RANGE_ASSERT */
 
