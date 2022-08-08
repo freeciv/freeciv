@@ -86,8 +86,7 @@ bool request_transport(struct unit *cargo, struct tile *ptile)
   struct unit *best_transport = transporter_for_unit_at(cargo, ptile);
 
   unit_list_iterate(ptile->units, ptransport) {
-    if (can_unit_transport(ptransport, cargo)
-        && get_transporter_occupancy(ptransport) < get_transporter_capacity(ptransport)) {
+    if (could_unit_load(cargo, ptransport)) {
       unit_list_append(potential_transports, ptransport);
     }
   } unit_list_iterate_end;
