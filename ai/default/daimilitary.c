@@ -58,7 +58,6 @@
 #include "aiferry.h"
 #include "aihand.h"
 #include "aihunt.h"
-#include "ailog.h"
 #include "aiparatrooper.h"
 #include "aitech.h"
 #include "aitools.h"
@@ -66,6 +65,7 @@
 #include "daicity.h"
 #include "daidata.h"
 #include "daieffects.h"
+#include "dailog.h"
 #include "daiplayer.h"
 
 #include "daimilitary.h"

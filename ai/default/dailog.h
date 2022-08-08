@@ -10,8 +10,8 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef FC__AILOG_H
-#define FC__AILOG_H
+#ifndef FC__DAILOG_H
+#define FC__DAILOG_H
 
 /* utility */
 #include "log.h"
@@ -78,4 +78,4 @@ void real_bodyguard_log(struct ai_type *ait, const char *file,
   }                                                                         \
 }
 
-#endif /* FC__AILOG_H */
+#endif /* FC__DAILOG_H */

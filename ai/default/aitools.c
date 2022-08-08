@@ -61,10 +61,10 @@
 /* ai/default */
 #include "aiferry.h"
 #include "aiguard.h"
-#include "ailog.h"
 #include "aitech.h"
 #include "aiunit.h"
 #include "daidata.h"
+#include "dailog.h"
 #include "daimilitary.h"
 #include "daiplayer.h"
 

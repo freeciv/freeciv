@@ -71,12 +71,12 @@
 #include "aiguard.h"
 #include "aihand.h"
 #include "aihunt.h"
-#include "ailog.h"
 #include "aiparatrooper.h"
 #include "aitools.h"
 #include "daicity.h"
 #include "daidata.h"
 #include "daieffects.h"
+#include "dailog.h"
 #include "daimilitary.h"
 #include "daiplayer.h"
 

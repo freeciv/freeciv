@@ -53,7 +53,6 @@
 #include "handicaps.h"
 
 /* ai/default */
-#include "ailog.h"
 #include "aitech.h"
 #include "aitools.h"
 #include "aiunit.h"

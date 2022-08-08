@@ -53,7 +53,6 @@
 
 /* ai/default */
 #include "aihand.h"
-#include "ailog.h"
 #include "aitools.h"
 #include "aiunit.h"
 #include "daidata.h"

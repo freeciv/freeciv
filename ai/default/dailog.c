@@ -31,7 +31,7 @@
 #include "daidata.h"
 #include "daiplayer.h"
 
-#include "ailog.h"
+#include "dailog.h"
 
 
 /**********************************************************************//**

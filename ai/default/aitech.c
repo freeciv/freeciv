@@ -36,10 +36,10 @@
 #include "advdata.h"
 
 /* ai/default */
-#include "ailog.h"
 #include "aitools.h"
 #include "daidata.h"
 #include "daieffects.h"
+#include "dailog.h"
 #include "daiplayer.h"
 
 #include "aitech.h"

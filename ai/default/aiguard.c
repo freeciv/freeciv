@@ -26,9 +26,9 @@
 #include "srv_log.h"
 
 /* ai */
-#include "ailog.h"
 #include "aitools.h"
 #include "aiunit.h"
+#include "dailog.h"
 #include "daiplayer.h"
 
 #include "aiguard.h"
