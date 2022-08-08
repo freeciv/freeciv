@@ -3998,8 +3998,7 @@ bool qtg_request_transport(struct unit *pcargo, struct tile *ptile)
 #endif
 
   unit_list_iterate(ptile->units, ptransport) {
-    if (can_unit_transport(ptransport, pcargo)
-        && get_transporter_occupancy(ptransport) < get_transporter_capacity(ptransport)) {
+    if (could_unit_load(pcargo, ptransport)) {
       unit_list_append(potential_transports, ptransport);
     }
   } unit_list_iterate_end;
