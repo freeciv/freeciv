@@ -231,6 +231,7 @@ struct cma_dialog *create_cma_dialog(struct city *pcity, bool tiny)
   int shell_row = 0;
   int grid_row = 0;
   int page_row = 0;
+  PangoLayout *layout;
 
   cmafec_get_fe_parameter(pcity, &param);
   pdialog = fc_malloc(sizeof(struct cma_dialog));
@@ -379,9 +380,11 @@ struct cma_dialog *create_cma_dialog(struct city *pcity, bool tiny)
                         GUI_GTK_OPTION(governor_range_min),
                         GUI_GTK_OPTION(governor_range_max));
     gtk_range_set_increments(GTK_RANGE(hscale), 1, 1);
-    pango_layout_get_pixel_size(gtk_scale_get_layout(GTK_SCALE(hscale)),
-                                &layout_width, NULL);
-    gtk_widget_set_size_request(hscale, layout_width + 51 * 2, -1);
+    layout = gtk_scale_get_layout(GTK_SCALE(hscale));
+    if (layout != NULL) {
+      pango_layout_get_pixel_size(layout, &layout_width, NULL);
+      gtk_widget_set_size_request(hscale, layout_width + 51 * 2, -1);
+    }
 
     gtk_grid_attach(GTK_GRID(table), hscale, 1, i + 1, 1, 1);
     gtk_scale_set_digits(GTK_SCALE(hscale), 0);
@@ -395,9 +398,11 @@ struct cma_dialog *create_cma_dialog(struct city *pcity, bool tiny)
         gtk_scale_new(GTK_ORIENTATION_HORIZONTAL, NULL);
     gtk_range_set_range(GTK_RANGE(hscale), 0, 25);
     gtk_range_set_increments(GTK_RANGE(hscale), 1, 1);
-    pango_layout_get_pixel_size(gtk_scale_get_layout(GTK_SCALE(hscale)),
-                                &layout_width, NULL);
-    gtk_widget_set_size_request(hscale, layout_width + 26 * 2, -1);
+    layout = gtk_scale_get_layout(GTK_SCALE(hscale));
+    if (layout != NULL) {
+      pango_layout_get_pixel_size(layout, &layout_width, NULL);
+      gtk_widget_set_size_request(hscale, layout_width + 26 * 2, -1);
+    }
 
     gtk_grid_attach(GTK_GRID(table), hscale, 2, i + 1, 1, 1);
     gtk_scale_set_digits(GTK_SCALE(hscale), 0);
@@ -427,9 +432,11 @@ struct cma_dialog *create_cma_dialog(struct city *pcity, bool tiny)
       gtk_scale_new(GTK_ORIENTATION_HORIZONTAL, NULL);
   gtk_range_set_range(GTK_RANGE(hscale), 0, 50);
   gtk_range_set_increments(GTK_RANGE(hscale), 1, 1);
-  pango_layout_get_pixel_size(gtk_scale_get_layout(GTK_SCALE(hscale)),
-                              &layout_width, NULL);
-  gtk_widget_set_size_request(hscale, layout_width + 51 * 2, -1);
+  layout = gtk_scale_get_layout(GTK_SCALE(hscale));
+  if (layout != NULL) {
+    pango_layout_get_pixel_size(layout, &layout_width, NULL);
+    gtk_widget_set_size_request(hscale, layout_width + 51 * 2, -1);
+  }
 
   gtk_grid_attach(GTK_GRID(table), hscale, 2, O_LAST + 1, 1, 1);
   gtk_scale_set_digits(GTK_SCALE(hscale), 0);
@@ -439,7 +446,7 @@ struct cma_dialog *create_cma_dialog(struct city *pcity, bool tiny)
                    "value-changed",
                    G_CALLBACK(hscale_changed), pdialog);
 
-  /* buttons */
+  /* Buttons */
 
   hbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 2);
   gtk_grid_attach(GTK_GRID(vgrid), hbox, 0, grid_row++, 1, 1);
