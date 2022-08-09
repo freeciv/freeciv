@@ -1325,7 +1325,6 @@ void help_widget::set_topic_terrain(const help_item *topic,
       QLabel *tb;
       char irrig_buffer[1024];
 
-      tb = new QLabel(this);
       fc_snprintf(irrig_buffer, sizeof(irrig_buffer), PL_("%d turn", "%d turns",
                                                           pterrain->irrigation_time),
                   pterrain->irrigation_time);
@@ -1350,7 +1349,6 @@ void help_widget::set_topic_terrain(const help_item *topic,
       QLabel *tb;
       char mine_buffer[1024];
 
-      tb = new QLabel(this);
       fc_snprintf(mine_buffer, sizeof(mine_buffer), PL_("%d turn", "%d turns",
                                                         pterrain->mining_time),
                   pterrain->mining_time);
@@ -1374,7 +1372,6 @@ void help_widget::set_topic_terrain(const help_item *topic,
       QLabel *tb;
       char tf_buffer[1024];
 
-      tb = new QLabel(this);
       fc_snprintf(tf_buffer, sizeof(tf_buffer), PL_("%d turn", "%d turns",
                                                     pterrain->transform_time),
                   pterrain->transform_time);
