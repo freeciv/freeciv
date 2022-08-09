@@ -1325,7 +1325,6 @@ void help_widget::set_topic_terrain(const help_item *topic,
       QLabel *tb;
       char cult_buffer[1024];
 
-      tb = new QLabel(this);
       fc_snprintf(cult_buffer, sizeof(cult_buffer), PL_("%d turn", "%d turns",
                                                         pterrain->cultivate_time),
                   pterrain->cultivate_time);
@@ -1348,7 +1347,6 @@ void help_widget::set_topic_terrain(const help_item *topic,
       QLabel *tb;
       char plant_buffer[1024];
 
-      tb = new QLabel(this);
       fc_snprintf(plant_buffer, sizeof(plant_buffer), PL_("%d turn", "%d turns",
                                                           pterrain->plant_time),
                   pterrain->plant_time);
@@ -1372,7 +1370,6 @@ void help_widget::set_topic_terrain(const help_item *topic,
       QLabel *tb;
       char tf_buffer[1024];
 
-      tb = new QLabel(this);
       fc_snprintf(tf_buffer, sizeof(tf_buffer), PL_("%d turn", "%d turns",
                                                     pterrain->transform_time),
                   pterrain->transform_time);
