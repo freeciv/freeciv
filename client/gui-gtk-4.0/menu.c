@@ -102,6 +102,7 @@ static void menu_entry_group_set_sensitive(enum menu_entry_grouping group,
 #endif /* MENUS_GTK3 */
 
 static GMenu *gov_menu = NULL;
+static GMenu *unit_menu = NULL;
 
 struct menu_entry_info {
   const char *key;
@@ -1557,21 +1558,24 @@ static void unit_goto_callback(GtkMenuItem *item, gpointer data)
 {
   key_unit_goto();
 }
+#endif /* MENUS_GTK3 */
 
 /************************************************************************//**
   Activate the goto system with an action to perform once there.
 ****************************************************************************/
-static void unit_goto_and_callback(GtkMenuItem *item, gpointer data)
+static void unit_goto_and_callback(GSimpleAction *action,
+                                   GVariant *parameter,
+                                   gpointer data)
 {
   int sub_target = NO_TARGET;
-  struct action *paction = g_object_get_data(G_OBJECT(item), "end_action");
+  struct action *paction = (struct action *)data;
 
   fc_assert_ret(paction != NULL);
 
   switch (action_get_sub_target_kind(paction)) {
   case ASTK_BUILDING:
     {
-      struct impr_type *pbuilding = g_object_get_data(G_OBJECT(item),
+      struct impr_type *pbuilding = g_object_get_data(G_OBJECT(action),
                                                       "end_building");
       fc_assert_ret(pbuilding != NULL);
       sub_target = improvement_number(pbuilding);
@@ -1579,7 +1583,7 @@ static void unit_goto_and_callback(GtkMenuItem *item, gpointer data)
     break;
   case ASTK_TECH:
     {
-      struct advance *ptech = g_object_get_data(G_OBJECT(item),
+      struct advance *ptech = g_object_get_data(G_OBJECT(action),
                                                 "end_tech");
       fc_assert_ret(ptech != NULL);
       sub_target = advance_number(ptech);
@@ -1588,7 +1592,7 @@ static void unit_goto_and_callback(GtkMenuItem *item, gpointer data)
   case ASTK_EXTRA:
   case ASTK_EXTRA_NOT_THERE:
     {
-      struct extra_type *pextra = g_object_get_data(G_OBJECT(item),
+      struct extra_type *pextra = g_object_get_data(G_OBJECT(action),
                                                     "end_extra");
       fc_assert_ret(pextra != NULL);
       sub_target = extra_number(pextra);
@@ -1606,6 +1610,7 @@ static void unit_goto_and_callback(GtkMenuItem *item, gpointer data)
   request_unit_goto(ORDER_PERFORM_ACTION, paction->id, sub_target);
 }
 
+#ifdef MENUS_GTK3
 /************************************************************************//**
   Item "UNIT_GOTO_CITY" callback.
 ****************************************************************************/
@@ -2101,7 +2106,6 @@ static GMenu *setup_menus(GtkApplication *app)
   GMenu *topmenu;
   GMenu *submenu;
   int i;
-  //  GApplication *fc_app = G_APPLICATION(app);
 
   fc_assert(!menus_built);
 
@@ -2110,6 +2114,7 @@ static GMenu *setup_menus(GtkApplication *app)
   topmenu = g_menu_new();
   menu_entry_init(topmenu, "CLEAR_CHAT_LOGS");
   menu_entry_init(topmenu, "SAVE_CHAT_LOGS");
+
   submenu = g_menu_new();
   menu_entry_init(submenu, "LOCAL_OPTIONS");
   menu_entry_init(submenu, "MESSAGE_OPTIONS");
@@ -2121,13 +2126,17 @@ static GMenu *setup_menus(GtkApplication *app)
 
   g_menu_append_submenu(menubar, _("_Game"), G_MENU_MODEL(topmenu));
 
-  topmenu = g_menu_new();
+  unit_menu = g_menu_new();
 
-  menu_entry_init(topmenu, "UNIT_EXPLORE");
-  menu_entry_init(topmenu, "UNIT_WAIT");
-  menu_entry_init(topmenu, "UNIT_DONE");
+  /* Placeholder submenu (so that menu update has something to replace) */
+  submenu = g_menu_new();
+  g_menu_append_submenu(unit_menu, N_("Go to a_nd..."), G_MENU_MODEL(submenu));
 
-  g_menu_append_submenu(menubar, _("_Unit"), G_MENU_MODEL(topmenu));
+  menu_entry_init(unit_menu, "UNIT_EXPLORE");
+  menu_entry_init(unit_menu, "UNIT_WAIT");
+  menu_entry_init(unit_menu, "UNIT_DONE");
+
+  g_menu_append_submenu(menubar, _("_Unit"), G_MENU_MODEL(unit_menu));
 
   topmenu = g_menu_new();
   menu_entry_init(topmenu, "BUILD_CITY");
@@ -2323,11 +2332,117 @@ void real_menus_update(void)
 {
   GtkApplication *fc_app = gui_app();
   GMenu *submenu;
-  int i;
+  int i, j;
+  int tgt_kind_group;
 
   if (!menus_built) {
     return;
   }
+
+  submenu = g_menu_new();
+
+  i = 0;
+  j = 0;
+  /* Add the new action entries grouped by target kind. */
+  for (tgt_kind_group = 0; tgt_kind_group < ATK_COUNT; tgt_kind_group++) {
+    action_iterate(act_id) {
+      struct action *paction = action_by_number(act_id);
+      GSimpleAction *act;
+      char actname[256];
+      GMenuItem *item;
+      char name[256];
+
+      if (action_id_get_actor_kind(act_id) != AAK_UNIT) {
+        /* This action isn't performed by a unit. */
+        continue;
+      }
+
+      if (action_id_get_target_kind(act_id) != tgt_kind_group) {
+        /* Wrong group. */
+        continue;
+      }
+
+      if (!units_can_do_action(get_units_in_focus(),
+                               act_id, TRUE)) {
+        continue;
+      }
+
+      /* Create and add the menu item. */
+      fc_snprintf(actname, sizeof(actname), "action_%d", i);
+      act = g_simple_action_new(actname, NULL);
+      g_action_map_add_action(G_ACTION_MAP(fc_app), G_ACTION(act));
+
+      fc_snprintf(name, sizeof(name), "%s",
+                  action_get_ui_name_mnemonic(act_id, "_"));
+      fc_snprintf(actname, sizeof(actname), "app.action_%d", i++);
+
+      if (action_id_has_complex_target(act_id)) {
+        GMenu *sub_target_menu = g_menu_new();
+        char subname[256];
+
+#define CREATE_SUB_ITEM(_sub_target_, _sub_target_key_, _sub_target_name_) \
+{                                                                          \
+  GMenuItem *sub_item;                                                     \
+  fc_snprintf(actname, sizeof(actname), "subtgt_%d", j);                   \
+  act = g_simple_action_new(actname, NULL);                                \
+  g_action_map_add_action(G_ACTION_MAP(fc_app), G_ACTION(act));            \
+  g_object_set_data(G_OBJECT(act), _sub_target_key_, _sub_target_);        \
+  g_signal_connect(act, "activate", G_CALLBACK(unit_goto_and_callback),    \
+                   paction);                                               \
+  fc_snprintf(subname, sizeof(subname), "%s", _sub_target_name_);          \
+  fc_snprintf(actname, sizeof(actname), "app.subtgt_%d", j++);             \
+  sub_item = g_menu_item_new(subname, actname);                            \
+  g_menu_append_item(sub_target_menu, sub_item);                           \
+}
+
+        switch (action_get_sub_target_kind(paction)) {
+        case ASTK_BUILDING:
+          improvement_iterate(pimpr) {
+            CREATE_SUB_ITEM(pimpr, "end_building",
+                            improvement_name_translation(pimpr));
+          } improvement_iterate_end;
+          break;
+        case ASTK_TECH:
+          advance_iterate(A_FIRST, ptech) {
+            CREATE_SUB_ITEM(ptech, "end_tech",
+                            advance_name_translation(ptech));
+          } advance_iterate_end;
+          break;
+        case ASTK_EXTRA:
+        case ASTK_EXTRA_NOT_THERE:
+          extra_type_iterate(pextra) {
+            if (!(action_creates_extra(paction, pextra)
+                  || action_removes_extra(paction, pextra))) {
+              /* Not relevant */
+              continue;
+            }
+            CREATE_SUB_ITEM(pextra, "end_extra",
+                            extra_name_translation(pextra));
+          } extra_type_iterate_end;
+          break;
+        case ASTK_NONE:
+          /* Should not be here. */
+          fc_assert(action_get_sub_target_kind(paction) != ASTK_NONE);
+          break;
+        case ASTK_COUNT:
+          /* Should not exits */
+          fc_assert(action_get_sub_target_kind(paction) != ASTK_COUNT);
+          break;
+        }
+
+#undef CREATE_SUB_ITEM
+
+        g_menu_append_submenu(submenu, name, G_MENU_MODEL(sub_target_menu));
+      } else {
+        item = g_menu_item_new(name, actname);
+        g_signal_connect(act, "activate",
+                         G_CALLBACK(unit_goto_and_callback), paction);
+        g_menu_append_item(submenu, item);
+      }
+    } action_iterate_end;
+  }
+  g_menu_remove(unit_menu, 0);
+  g_menu_insert_submenu(unit_menu, 0, _("Go to a_nd..."), G_MENU_MODEL(submenu));
 
   submenu = g_menu_new();
   menu_entry_init(submenu, "START_REVOLUTION");
@@ -2999,108 +3114,6 @@ void real_menus_init(void)
         gtk_widget_show(item);
       }
     } extra_type_by_cause_iterate_end;
-  }
-
-  /* Initialize the Go to and... actions. */
-  if ((menu = find_menu("<MENU>/GOTO_AND"))) {
-    GtkWidget *item;
-    int tgt_kind_group;
-
-    /* Remove previous action entries. */
-    menu_remove_previous_entries(menu);
-
-    /* Add the new action entries grouped by target kind. */
-    for (tgt_kind_group = 0; tgt_kind_group < ATK_COUNT; tgt_kind_group++) {
-      action_iterate(act_id) {
-        struct action *paction = action_by_number(act_id);
-
-        if (action_id_get_actor_kind(act_id) != AAK_UNIT) {
-          /* This action isn't performed by a unit. */
-          continue;
-        }
-
-        if (action_id_get_target_kind(act_id) != tgt_kind_group) {
-          /* Wrong group. */
-          continue;
-        }
-
-        /* Create and add the menu item. It will be hidden or shown based on
-         * unit type.  */
-        item = gtk_menu_item_new_with_mnemonic(
-              action_get_ui_name_mnemonic(act_id, "_"));
-        g_object_set_data(G_OBJECT(item), "end_action", paction);
-
-        if (action_id_has_complex_target(act_id)) {
-          GtkWidget *sub_target_menu = gtk_menu_button_new();
-
-#define CREATE_SUB_ITEM(_sub_target_, _sub_target_key_, _sub_target_name_) \
-  GtkWidget *sub_item = gtk_menu_item_new_with_label(_sub_target_name_);   \
-  g_object_set_data(G_OBJECT(sub_item), "end_action", paction);            \
-  g_object_set_data(G_OBJECT(sub_item), _sub_target_key_, _sub_target_);   \
-  g_signal_connect(sub_item, "activate",                                   \
-                   G_CALLBACK(unit_goto_and_callback), paction);           \
-  gtk_menu_shell_append(GTK_MENU_SHELL(sub_target_menu), sub_item);        \
-  gtk_widget_show(sub_item);
-
-          switch (action_get_sub_target_kind(paction)) {
-          case ASTK_BUILDING:
-            improvement_iterate(pimpr) {
-              CREATE_SUB_ITEM(pimpr, "end_building",
-                              improvement_name_translation(pimpr));
-            } improvement_iterate_end;
-            break;
-          case ASTK_TECH:
-            advance_iterate(A_FIRST, ptech) {
-              CREATE_SUB_ITEM(ptech, "end_tech",
-                              advance_name_translation(ptech));
-            } advance_iterate_end;
-            break;
-          case ASTK_EXTRA:
-          case ASTK_EXTRA_NOT_THERE:
-            extra_type_iterate(pextra) {
-              if (!(action_creates_extra(paction, pextra)
-                    || action_removes_extra(paction, pextra))) {
-                /* Not relevant */
-                continue;
-              }
-              CREATE_SUB_ITEM(pextra, "end_extra",
-                              extra_name_translation(pextra));
-            } extra_type_iterate_end;
-            break;
-          case ASTK_NONE:
-            /* Should not be here. */
-            fc_assert(action_get_sub_target_kind(paction) != ASTK_NONE);
-            break;
-          case ASTK_COUNT:
-            /* Should not exits */
-            fc_assert(action_get_sub_target_kind(paction) != ASTK_COUNT);
-            break;
-          }
-
-#undef CREATE_SUB_ITEM
-
-          gtk_menu_item_set_submenu(GTK_MENU_ITEM(item), sub_target_menu);
-        } else {
-          g_signal_connect(item, "activate",
-                           G_CALLBACK(unit_goto_and_callback), paction);
-
-#define ADD_OLD_ACCELERATOR(wanted_action_id, accel_key, accel_mods)      \
-  if (act_id == wanted_action_id) {                                    \
-    menu_unit_goto_and_add_accel(item, act_id, accel_key, accel_mods); \
-  }
-
-          /* Add the keyboard shortcuts for "Go to and..." menu items that
-           * existed independently before the "Go to and..." menu arrived.
-           */
-          ADD_OLD_ACCELERATOR(ACTION_FOUND_CITY, GDK_KEY_b, GDK_SHIFT_MASK);
-          ADD_OLD_ACCELERATOR(ACTION_JOIN_CITY, GDK_KEY_j, GDK_SHIFT_MASK);
-          ADD_OLD_ACCELERATOR(ACTION_NUKE, GDK_KEY_n, GDK_SHIFT_MASK);
-        }
-
-        gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-        gtk_widget_show(item);
-      } action_iterate_end;
-    }
   }
 
   menu_entry_group_set_sensitive(MGROUP_SAFE, TRUE);
