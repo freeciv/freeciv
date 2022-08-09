@@ -1898,6 +1898,12 @@ void send_goto_route(void)
       goto_last_order = ORDER_ACTION_MOVE;
     }
 
+    /* Handle single-step goto like single-step move. */
+    if (goto_last_order == ORDER_LAST && path->length == 2
+        && gui_options.popup_last_move_to_allied) {
+      goto_last_order = ORDER_ACTION_MOVE;
+    }
+
     if (goto_last_order == ORDER_LAST) {
       send_goto_path(punit, path, NULL);
     } else if (path->length > 1
