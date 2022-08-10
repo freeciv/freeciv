@@ -1298,6 +1298,8 @@ static void compat_load_030000(struct loaddata *loading,
   int num_settings;
   bool started;
   int old_turn;
+  int event_count;
+  int i;
 
   /* Check status and return if not OK (sg_success FALSE). */
   sg_check_ret();
@@ -1341,7 +1343,6 @@ static void compat_load_030000(struct loaddata *loading,
       int num = secfile_lookup_int_default(loading->file, 0,
                                            "player%d.nunits",
                                            plrno);
-      int i;
 
       for (i = 0; i < num; i++) {
         char buf[64];
@@ -1387,6 +1388,19 @@ static void compat_load_030000(struct loaddata *loading,
   }
 
   secfile_replace_int(loading->file, num_settings, "settings.set_count");
+
+  event_count = secfile_lookup_int_default(loading->file, 0, "event_cache.count");
+
+  for (i = 0; i < event_count; i++) {
+    const char *etype;
+
+    etype = secfile_lookup_str(loading->file, "event_cache.events%d.event", i);
+
+    if (etype != NULL && !fc_strcasecmp("E_UNIT_WIN", etype)) {
+      secfile_replace_str(loading->file, "E_UNIT_WIN_DEF",
+                          "event_cache.events%d.event", i);
+    }
+  }
 }
 
 /************************************************************************//**
