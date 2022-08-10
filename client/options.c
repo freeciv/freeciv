@@ -6164,7 +6164,9 @@ static void view_option_changed_callback(struct option *poption)
 static void manual_turn_done_callback(struct option *poption)
 {
   update_turn_done_button_state();
-  if (!gui_options.ai_manual_turn_done && client.conn.playing->ai_controlled) {
+  if (!gui_options.ai_manual_turn_done
+      && client.conn.playing != NULL
+      && client.conn.playing->ai_controlled) {
     if (can_end_turn()) {
       user_ended_turn();
     }
