@@ -1964,33 +1964,34 @@ static void compat_load_030200(struct loaddata *loading,
           }
         } else if (!fc_strcasecmp("topology", name)) {
           struct setting *pset = setting_by_name(name);
-          const char *val = secfile_lookup_str(loading->file,
-                                               "settings.set%d.value", i);
+          struct sf_cb_data info = { pset, TRUE };
+          int val;
 
-          if (setting_bitwise_set(pset, val, NULL, NULL, 0)) {
-            enum topo_flag otopo = setting_bitwise_get(pset);
+          if (secfile_lookup_enum_data(loading->file, &val, TRUE,
+                                       setting_bitwise_secfile_str, &info,
+                                       "settings.set%d.value", i)) {
             char wrap[100];
             char buf[100];
 
-            if (topo_has_flag(otopo, TF_OLD_WRAPX)) {
-              if (topo_has_flag(otopo, TF_OLD_WRAPY)) {
+            if (val & TF_OLD_WRAPX) {
+              if (val & TF_OLD_WRAPY) {
                 fc_strlcpy(wrap, "WrapX|WrapY", sizeof(wrap));
               } else {
                 fc_strlcpy(wrap, "WrapX", sizeof(wrap));
               }
-            } else if (topo_has_flag(otopo, TF_OLD_WRAPY)) {
+            } else if (val & TF_OLD_WRAPY) {
               fc_strlcpy(wrap, "WrapY", sizeof(wrap));
             } else {
               fc_strlcpy(wrap, "", sizeof(wrap));
             }
 
-            if (topo_has_flag(otopo, TF_ISO)) {
-              if (topo_has_flag(otopo, TF_HEX)) {
+            if (val & TF_ISO) {
+              if (val & TF_HEX) {
                 setting_bitwise_set(pset, "ISO|HEX", NULL, NULL, 0);
               } else {
                 setting_bitwise_set(pset, "ISO", NULL, NULL, 0);
               }
-            } else if (topo_has_flag(otopo, TF_HEX)) {
+            } else if (val & TF_HEX) {
               setting_bitwise_set(pset, "HEX", NULL, NULL, 0);
             } else {
               setting_bitwise_set(pset, "", NULL, NULL, 0);
@@ -2006,30 +2007,28 @@ static void compat_load_030200(struct loaddata *loading,
                                wrap, "settings.set%d.value", set_count);
 
             if (gamestart_valid) {
-              val = secfile_lookup_str(loading->file,
-                                       "settings.set%d.gamestart", i);
-              if (setting_bitwise_set(pset, val, NULL, NULL, 0)) {
-                otopo = setting_bitwise_get(pset);
-
-                if (topo_has_flag(otopo, TF_OLD_WRAPX)) {
-                  if (topo_has_flag(otopo, TF_OLD_WRAPY)) {
+              if (secfile_lookup_enum_data(loading->file, &val, TRUE,
+                                           setting_bitwise_secfile_str, &info,
+                                           "settings.set%d.gamestart", i)) {
+                if (val & TF_OLD_WRAPX) {
+                  if (val & TF_OLD_WRAPY) {
                     fc_strlcpy(wrap, "WrapX|WrapY", sizeof(wrap));
                   } else {
                     fc_strlcpy(wrap, "WrapX", sizeof(wrap));
                   }
-                } else if (topo_has_flag(otopo, TF_OLD_WRAPY)) {
+                } else if (val & TF_OLD_WRAPY) {
                   fc_strlcpy(wrap, "WrapY", sizeof(wrap));
                 } else {
                   fc_strlcpy(wrap, "", sizeof(wrap));
                 }
 
-                if (topo_has_flag(otopo, TF_ISO)) {
-                  if (topo_has_flag(otopo, TF_HEX)) {
+                if (val & TF_ISO) {
+                  if (val & TF_HEX) {
                     setting_bitwise_set(pset, "ISO|HEX", NULL, NULL, 0);
                   } else {
                     setting_bitwise_set(pset, "ISO", NULL, NULL, 0);
                   }
-                } else if (topo_has_flag(otopo, TF_HEX)) {
+                } else if (val & TF_HEX) {
                   setting_bitwise_set(pset, "HEX", NULL, NULL, 0);
                 } else {
                   setting_bitwise_set(pset, "", NULL, NULL, 0);
@@ -2505,20 +2504,21 @@ static void compat_load_dev(struct loaddata *loading)
           al_set_already = TRUE;
         } else if (!fc_strcasecmp("topology", name)) {
           struct setting *pset = setting_by_name(name);
-          const char *val = secfile_lookup_str(loading->file,
-                                               "settings.set%d.value", i);
+          struct sf_cb_data info = { pset, TRUE };
+          int val;
 
-          if (setting_bitwise_set(pset, val, NULL, NULL, 0)) {
-            enum topo_flag otopo = setting_bitwise_get(pset);
+          if (secfile_lookup_enum_data(loading->file, &val, TRUE,
+                                       setting_bitwise_secfile_str, &info,
+                                       "settings.set%d.value", i)) {
             bool topo_changed = TRUE;
 
-            if (topo_has_flag(otopo, TF_OLD_WRAPX)) {
-              if (topo_has_flag(otopo, TF_OLD_WRAPY)) {
+            if (val & TF_OLD_WRAPX) {
+              if (val & TF_OLD_WRAPY) {
                 fc_strlcpy(wrap, "WrapX|WrapY", sizeof(wrap));
               } else {
                 fc_strlcpy(wrap, "WrapX", sizeof(wrap));
               }
-            } else if (topo_has_flag(otopo, TF_OLD_WRAPY)) {
+            } else if (val & TF_OLD_WRAPY) {
               fc_strlcpy(wrap, "WrapY", sizeof(wrap));
             } else {
               fc_strlcpy(wrap, "", sizeof(wrap));
@@ -2528,13 +2528,13 @@ static void compat_load_dev(struct loaddata *loading)
             if (topo_changed) {
               char buf[100];
 
-              if (topo_has_flag(otopo, TF_ISO)) {
-                if (topo_has_flag(otopo, TF_HEX)) {
+              if (val & TF_ISO) {
+                if (val & TF_HEX) {
                   setting_bitwise_set(pset, "ISO|HEX", NULL, NULL, 0);
                 } else {
                   setting_bitwise_set(pset, "ISO", NULL, NULL, 0);
                 }
-              } else if (topo_has_flag(otopo, TF_HEX)) {
+              } else if (val & TF_HEX) {
                 setting_bitwise_set(pset, "HEX", NULL, NULL, 0);
               } else {
                 setting_bitwise_set(pset, "", NULL, NULL, 0);
@@ -2546,21 +2546,18 @@ static void compat_load_dev(struct loaddata *loading)
             }
 
             if (gamestart_valid) {
-              val = secfile_lookup_str(loading->file,
-                                       "settings.set%d.gamestart", i);
-
-              if (setting_bitwise_set(pset, val, NULL, NULL, 0)) {
-                otopo = setting_bitwise_get(pset);
-
+              if (secfile_lookup_enum_data(loading->file, &val, TRUE,
+                                           setting_bitwise_secfile_str, &info,
+                                           "settings.set%d.gamestart", i)) {
                 topo_changed = TRUE;
 
-                if (topo_has_flag(otopo, TF_OLD_WRAPX)) {
-                  if (topo_has_flag(otopo, TF_OLD_WRAPY)) {
+                if (val & TF_OLD_WRAPX) {
+                  if (val & TF_OLD_WRAPY) {
                     fc_strlcpy(wrap_gs, "WrapX|WrapY", sizeof(wrap));
                   } else {
                     fc_strlcpy(wrap_gs, "WrapX", sizeof(wrap));
                   }
-                } else if (topo_has_flag(otopo, TF_OLD_WRAPY)) {
+                } else if (val & TF_OLD_WRAPY) {
                   fc_strlcpy(wrap_gs, "WrapY", sizeof(wrap));
                 } else {
                   fc_strlcpy(wrap_gs, "", sizeof(wrap));
@@ -2570,13 +2567,13 @@ static void compat_load_dev(struct loaddata *loading)
                 if (topo_changed) {
                   char buf[100];
 
-                  if (topo_has_flag(otopo, TF_ISO)) {
-                    if (topo_has_flag(otopo, TF_HEX)) {
+                  if (val & TF_ISO) {
+                    if (val & TF_HEX) {
                       setting_bitwise_set(pset, "ISO|HEX", NULL, NULL, 0);
                     } else {
                       setting_bitwise_set(pset, "ISO", NULL, NULL, 0);
                     }
-                  } else if (topo_has_flag(otopo, TF_HEX)) {
+                  } else if (val & TF_HEX) {
                     setting_bitwise_set(pset, "HEX", NULL, NULL, 0);
                   } else {
                     setting_bitwise_set(pset, "", NULL, NULL, 0);
