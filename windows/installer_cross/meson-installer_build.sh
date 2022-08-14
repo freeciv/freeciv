@@ -2,7 +2,7 @@
 
 add_common_env() {
   cp $1/bin/libcurl-4.dll $2/ &&
-  cp $1/bin/libz.dll.1.2.11 $2/ &&
+  cp $1/bin/libz.dll.1.2.12 $2/ &&
   cp $1/bin/liblzma-5.dll $2/ &&
   cp $1/bin/libzstd-1.dll $2/ &&
   cp $1/bin/libintl-8.dll $2/ &&
