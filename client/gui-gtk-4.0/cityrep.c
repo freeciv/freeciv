@@ -1027,7 +1027,7 @@ static void toggle_view(GtkCheckMenuItem *item, gpointer data)
 }
 
 /************************************************************************//**
-  Create view menu for city report menubar.
+  Create view menu for city report menu.
 ****************************************************************************/
 static void update_view_menu(GtkWidget *show_item)
 {
@@ -1047,12 +1047,12 @@ static void update_view_menu(GtkWidget *show_item)
 #endif /* MENUS_GTK3 */
 
 /************************************************************************//**
-  Create menubar for city report
+  Create menu for city report
 ****************************************************************************/
-static GtkWidget *create_city_report_menubar(void)
+static GtkWidget *create_city_report_menu(void)
 {
   GtkWidget *vgrid, *sep;
-  GtkWidget *menubar;
+  GtkWidget *aux_menu;
   int grid_row = 0;
 
   vgrid = gtk_grid_new();
@@ -1061,15 +1061,15 @@ static GtkWidget *create_city_report_menubar(void)
   sep = gtk_separator_new(GTK_ORIENTATION_HORIZONTAL);
   gtk_grid_attach(GTK_GRID(vgrid), sep, 0, grid_row++, 1, 1);
 
-  menubar = gtk_aux_menu_bar_new();
-  gtk_grid_attach(GTK_GRID(vgrid), menubar, 0, grid_row++, 1, 1);
+  aux_menu = aux_menu_new();
+  gtk_grid_attach(GTK_GRID(vgrid), aux_menu, 0, grid_row++, 1, 1);
 
 #ifdef MENUS_GTK3
   GtkWidget *menu, *item;
 
   item = gtk_menu_item_new_with_mnemonic(_("_Production"));
   city_production_command = item;
-  gtk_menu_shell_append(GTK_MENU_SHELL(menubar), item);
+  gtk_menu_shell_append(GTK_MENU_SHELL(aux_menu), item);
 
   menu = gtk_menu_button_new();
   gtk_menu_item_set_submenu(GTK_MENU_ITEM(item), menu);
@@ -1116,20 +1116,20 @@ static GtkWidget *create_city_report_menubar(void)
 
   item = gtk_menu_item_new_with_mnemonic(_("Gover_nor"));
   city_governor_command = item;
-  gtk_menu_shell_append(GTK_MENU_SHELL(menubar), item);
+  gtk_menu_shell_append(GTK_MENU_SHELL(aux_menu), item);
   append_cma_to_menu_item(GTK_MENU_ITEM(item), TRUE);
 
   item = gtk_menu_item_new_with_mnemonic(_("S_ell"));
-  gtk_menu_shell_append(GTK_MENU_SHELL(menubar), item);
+  gtk_menu_shell_append(GTK_MENU_SHELL(aux_menu), item);
   city_sell_command = item;
   create_sell_menu(item);
 
   item = gtk_menu_item_new_with_mnemonic(_("_Select"));
-  gtk_menu_shell_append(GTK_MENU_SHELL(menubar), item);
+  gtk_menu_shell_append(GTK_MENU_SHELL(aux_menu), item);
   create_select_menu(item);
 
   item = gtk_menu_item_new_with_mnemonic(_("_Display"));
-  gtk_menu_shell_append(GTK_MENU_SHELL(menubar), item);
+  gtk_menu_shell_append(GTK_MENU_SHELL(aux_menu), item);
   update_view_menu(item);
 #endif /* MENUS_GTK3 */
 
@@ -1160,7 +1160,7 @@ static void create_city_report_dialog(bool make_modal)
   static char (*buf)[128];
   struct city_report_spec *spec;
 
-  GtkWidget *w, *sw, *menubar;
+  GtkWidget *w, *sw, *aux_menu;
   int i;
 
   gui_dialog_new(&city_dialog_shell, GTK_NOTEBOOK(top_notebook), NULL, TRUE);
@@ -1169,11 +1169,11 @@ static void create_city_report_dialog(bool make_modal)
   gui_dialog_set_default_size(city_dialog_shell, -1, 420);
 
   gui_dialog_response_set_callback(city_dialog_shell,
-      city_command_callback);
+                                   city_command_callback);
 
-  /* menubar */
-  menubar = create_city_report_menubar();
-  gui_dialog_add_action_widget(city_dialog_shell, menubar);
+  /* Menu */
+  aux_menu = create_city_report_menu();
+  gui_dialog_add_action_widget(city_dialog_shell, aux_menu);
 
   /* buttons */
   city_total_buy_cost_label = gtk_label_new(NULL);

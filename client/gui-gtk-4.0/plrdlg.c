@@ -58,11 +58,11 @@
 struct gui_dialog *players_dialog_shell;
 static GtkWidget *players_list;
 static GtkTreeSelection *players_selection;
-static GtkWidget *players_int_command;
-static GtkWidget *players_meet_command;
-static GtkWidget *players_war_command;
-static GtkWidget *players_vision_command;
-static GtkWidget *players_sship_command;
+static GSimpleAction *players_int_command;
+static GSimpleAction *players_meet_command;
+static GSimpleAction *players_war_command;
+static GSimpleAction *players_vision_command;
+static GSimpleAction *players_sship_command;
 
 static GtkListStore *players_dialog_store;
 #define PLR_DLG_COL_STYLE       (0 + num_player_dlg_columns)
@@ -70,13 +70,20 @@ static GtkListStore *players_dialog_store;
 #define PLR_DLG_COL_ID          (2 + num_player_dlg_columns)
 
 static void create_players_dialog(void);
+static void players_meet_callback(GSimpleAction *action, GVariant *parameter,
+                                  gpointer data);
+static void players_war_callback(GSimpleAction *action, GVariant *parameter,
+                                 gpointer data);
+static void players_vision_callback(GSimpleAction *action, GVariant *parameter,
+                                    gpointer data);
+static void players_intel_callback(GSimpleAction *action, GVariant *parameter,
+                                   gpointer data);
+static void players_intel_wonder_callback(GSimpleAction *action,
+                                          GVariant *parameter, gpointer data);
+static void players_sship_callback(GSimpleAction *action, GVariant *parameter,
+                                   gpointer data);
+
 #ifdef MENUS_GTK3
-static void players_meet_callback(GtkMenuItem *item, gpointer data);
-static void players_war_callback(GtkMenuItem *item, gpointer data);
-static void players_vision_callback(GtkMenuItem *item, gpointer data);
-static void players_intel_callback(GtkMenuItem *item, gpointer data);
-static void players_intel_wonder_callback(GtkMenuItem *item, gpointer data);
-static void players_sship_callback(GtkMenuItem *item, gpointer data);
 static void players_ai_toggle_callback(GtkMenuItem *item, gpointer data);
 static void players_ai_skill_callback(GtkMenuItem *item, gpointer data);
 #endif /* MENUS_GTK3 */
@@ -162,35 +169,35 @@ static void update_players_menu(void)
     plr = player_by_number(plrno);
 
     if (plr->spaceship.state != SSHIP_NONE) {
-      gtk_widget_set_sensitive(players_sship_command, TRUE);
+      g_simple_action_set_enabled(players_sship_command, TRUE);
     } else {
-      gtk_widget_set_sensitive(players_sship_command, FALSE);
+      g_simple_action_set_enabled(players_sship_command, FALSE);
     }
 
     if (NULL != client.conn.playing) {
       /* We keep button sensitive in case of DIPL_SENATE_BLOCKING, so that player
        * can request server side to check requirements of those effects with omniscience */
-      gtk_widget_set_sensitive(players_war_command,
-                               can_client_issue_orders()
-                               && pplayer_can_cancel_treaty(client_player(),
-                                                            player_by_number(plrno))
-                               != DIPL_ERROR);
+      g_simple_action_set_enabled(players_war_command,
+                                  can_client_issue_orders()
+                                  && pplayer_can_cancel_treaty(client_player(),
+                                                               player_by_number(plrno))
+                                  != DIPL_ERROR);
     } else {
-      gtk_widget_set_sensitive(players_war_command, FALSE);
+      g_simple_action_set_enabled(players_war_command, FALSE);
     }
 
-    gtk_widget_set_sensitive(players_vision_command,
-			     can_client_issue_orders()
-			     && gives_shared_vision(client.conn.playing, plr)
-                             && !players_on_same_team(client.conn.playing, plr));
+    g_simple_action_set_enabled(players_vision_command,
+                                can_client_issue_orders()
+                                && gives_shared_vision(client.conn.playing, plr)
+                                && !players_on_same_team(client.conn.playing, plr));
 
-    gtk_widget_set_sensitive(players_meet_command, can_meet_with_player(plr));
-    gtk_widget_set_sensitive(players_int_command, can_intel_with_player(plr));
+    g_simple_action_set_enabled(players_meet_command, can_meet_with_player(plr));
+    g_simple_action_set_enabled(players_int_command, can_intel_with_player(plr));
     return;
   }
 
-  gtk_widget_set_sensitive(players_meet_command, FALSE);
-  gtk_widget_set_sensitive(players_int_command, FALSE);
+  g_simple_action_set_enabled(players_meet_command, FALSE);
+  g_simple_action_set_enabled(players_int_command, FALSE);
 }
 
 /**********************************************************************//**
@@ -359,34 +366,40 @@ static void toggle_dead_players(GtkCheckMenuItem* item, gpointer data)
     gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(item));
   real_players_dialog_update(NULL);
 }
+#endif /* MENUS_GTK3 */
 
 /**********************************************************************//**
   Create and return the "diplomacy" menu for the player report. This menu
   contains diplomacy actions the current player can use on other nations.
 **************************************************************************/
-static GtkWidget *create_diplomacy_menu(void)
+static GMenu *create_diplomacy_menu(GActionGroup *group)
 {
-  GtkWidget *menu, *item;
+  GMenu *menu;
+  GMenuItem *item;
+  GSimpleAction *act;
 
-  menu = gtk_menu_button_new();
+  menu = g_menu_new();
 
-  item = gtk_menu_item_new_with_mnemonic(_("_Meet"));
-  g_signal_connect(item, "activate",
-                   G_CALLBACK(players_meet_callback), NULL);
-  gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-  players_meet_command = item;
+  act = g_simple_action_new("meet", NULL);
+  g_action_map_add_action(G_ACTION_MAP(group), G_ACTION(act));
+  g_signal_connect(act, "activate", G_CALLBACK(players_meet_callback), NULL);
+  item = g_menu_item_new(_("_Meet"), "win.meet");
+  g_menu_append_item(menu, item);
+  players_meet_command = act;
 
-  item = gtk_menu_item_new_with_mnemonic(_("Cancel _Treaty"));
-  g_signal_connect(item, "activate",
-                   G_CALLBACK(players_war_callback), NULL);
-  gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-  players_war_command = item;
+  act = g_simple_action_new("cancel_treaty", NULL);
+  g_action_map_add_action(G_ACTION_MAP(group), G_ACTION(act));
+  g_signal_connect(act, "activate", G_CALLBACK(players_war_callback), NULL);
+  item = g_menu_item_new(_("Cancel _Treaty"), "win.cancel_treaty");
+  g_menu_append_item(menu, item);
+  players_war_command = act;
 
-  item = gtk_menu_item_new_with_mnemonic(_("_Withdraw Vision"));
-  g_signal_connect(item, "activate",
-                   G_CALLBACK(players_vision_callback), NULL);
-  gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-  players_vision_command = item;
+  act = g_simple_action_new("withdraw_vision", NULL);
+  g_action_map_add_action(G_ACTION_MAP(group), G_ACTION(act));
+  g_signal_connect(act, "activate", G_CALLBACK(players_vision_callback), NULL);
+  item = g_menu_item_new(_("_Withdraw Vision"), "win.withdraw_vision");
+  g_menu_append_item(menu, item);
+  players_vision_command = act;
 
   return menu;
 }
@@ -395,28 +408,33 @@ static GtkWidget *create_diplomacy_menu(void)
   Create and return the "intelligence" menu. The items in this menu are
   used by the player to see more detailed information about other nations.
 **************************************************************************/
-static GtkWidget *create_intelligence_menu(void)
+static GMenu *create_intelligence_menu(GActionGroup *group)
 {
-  GtkWidget *menu, *item;
+  GMenu *menu;
+  GMenuItem *item;
+  GSimpleAction *act;
 
-  menu = gtk_menu_button_new();
+  menu = g_menu_new();
 
-  item = gtk_menu_item_new_with_mnemonic(_("_Report"));
-  g_signal_connect(item, "activate",
-                   G_CALLBACK(players_intel_callback), NULL);
-  gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-  players_int_command = item;
+  act = g_simple_action_new("report", NULL);
+  g_action_map_add_action(G_ACTION_MAP(group), G_ACTION(act));
+  g_signal_connect(act, "activate", G_CALLBACK(players_intel_callback), NULL);
+  item = g_menu_item_new(_("_Report"), "win.report");
+  g_menu_append_item(menu, item);
+  players_int_command = act;
 
-  item = gtk_menu_item_new_with_mnemonic(_("_Wonders"));
-  g_signal_connect(item, "activate",
-                   G_CALLBACK(players_intel_wonder_callback), NULL);
-  gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+  act = g_simple_action_new("wonders", NULL);
+  g_action_map_add_action(G_ACTION_MAP(group), G_ACTION(act));
+  g_signal_connect(act, "activate", G_CALLBACK(players_intel_wonder_callback), NULL);
+  item = g_menu_item_new(_("_Wonders"), "win.wonders");
+  g_menu_append_item(menu, item);
 
-  item = gtk_menu_item_new_with_mnemonic(_("_Spaceship"));
-  g_signal_connect(item, "activate",
-                   G_CALLBACK(players_sship_callback), NULL);
-  gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-  players_sship_command = item;
+  act = g_simple_action_new("spaceship", NULL);
+  g_action_map_add_action(G_ACTION_MAP(group), G_ACTION(act));
+  g_signal_connect(act, "activate", G_CALLBACK(players_sship_callback), NULL);
+  item = g_menu_item_new(_("_Spaceship"), "win.spaceship");
+  g_menu_append_item(menu, item);
+  players_sship_command = act;
 
   return menu;
 }
@@ -424,11 +442,14 @@ static GtkWidget *create_intelligence_menu(void)
 /**********************************************************************//**
   Create 'show' menu for player dialog
 **************************************************************************/
-static GtkWidget *create_show_menu(void)
+static GMenu *create_show_menu(GActionGroup *group)
 {
+  GMenu *menu;
+
+  menu = g_menu_new();
+
+#ifdef MENUS_GTK3
   int i;
-  GtkWidget *menu = gtk_menu_button_new();
-  GtkWidget *item;
 
   /* index starting at one (1) here to force playername to always be shown */
   for (i = 1; i < num_player_dlg_columns; i++) {
@@ -449,10 +470,10 @@ static GtkWidget *create_show_menu(void)
                                  gui_options.player_dlg_show_dead_players);
   gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
   g_signal_connect(item, "toggled", G_CALLBACK(toggle_dead_players), NULL);
+#endif /* MENUS_GTK3 */
 
   return menu;
 }
-#endif /* MENUS_GTK3 */
 
 /**********************************************************************//**
   Create all of player dialog
@@ -461,9 +482,10 @@ void create_players_dialog(void)
 {
   int i;
   GtkWidget *sep, *sw;
-  GtkWidget *menubar;
+  GtkWidget *aux_menu;
+  GMenu *topmenu, *submenu;
+  GActionGroup *group;
 #ifdef MENUS_GTK3
-  GtkWidget *menu, *item;
   enum ai_level level;
 #endif /* MENUS_GTK3 */
   GtkWidget *vgrid;
@@ -582,29 +604,32 @@ void create_players_dialog(void)
   sep = gtk_separator_new(GTK_ORIENTATION_HORIZONTAL);
   gtk_grid_attach(GTK_GRID(vgrid), sep, 0, grid_row++, 1, 1);
 
-  menubar = gtk_aux_menu_bar_new();
-  gtk_grid_attach(GTK_GRID(vgrid), menubar, 0, grid_row++, 1, 1);
+  aux_menu = aux_menu_new();
+  gtk_grid_attach(GTK_GRID(vgrid), aux_menu, 0, grid_row++, 1, 1);
 
   gui_dialog_add_action_widget(players_dialog_shell, vgrid);
 
+  group = G_ACTION_GROUP(g_simple_action_group_new());
+  topmenu = g_menu_new();
+
+  submenu = create_diplomacy_menu(group);
+  g_menu_append_submenu(topmenu, _("Di_plomacy"), G_MENU_MODEL(submenu));
+
+  submenu = create_intelligence_menu(group);
+  g_menu_append_submenu(topmenu, _("_Intelligence"), G_MENU_MODEL(submenu));
+
+  submenu = create_show_menu(group);
+  g_menu_append_submenu(topmenu, _("_Display"), G_MENU_MODEL(submenu));
+
+  submenu = g_menu_new();
+  g_menu_append_submenu(topmenu, _("_AI"), G_MENU_MODEL(submenu));
+
+  gtk_widget_insert_action_group(aux_menu, "win", group);
+  gtk_menu_button_set_menu_model(GTK_MENU_BUTTON(aux_menu), G_MENU_MODEL(topmenu));
+
 #ifdef MENUS_GTK3
-  item = gtk_menu_item_new_with_mnemonic(_("Di_plomacy"));
-  menu = create_diplomacy_menu();
-  gtk_menu_item_set_submenu(GTK_MENU_ITEM(item), menu);
-  gtk_menu_shell_append(GTK_MENU_SHELL(menubar), item);
-
-  item = gtk_menu_item_new_with_mnemonic(_("_Intelligence"));
-  menu = create_intelligence_menu();
-  gtk_menu_item_set_submenu(GTK_MENU_ITEM(item), menu);
-  gtk_menu_shell_append(GTK_MENU_SHELL(menubar), item);
-
-  item = gtk_menu_item_new_with_mnemonic(_("_Display"));
-  menu = create_show_menu();
-  gtk_menu_item_set_submenu(GTK_MENU_ITEM(item), menu);
-  gtk_menu_shell_append(GTK_MENU_SHELL(menubar), item);
-
   item = gtk_menu_item_new_with_mnemonic(_("_AI"));
-  gtk_menu_shell_append(GTK_MENU_SHELL(menubar), item);
+  gtk_menu_shell_append(GTK_MENU_SHELL(aux_menu), item);
 
   menu = gtk_menu_button_new();
   gtk_menu_item_set_submenu(GTK_MENU_ITEM(item), menu);
@@ -801,12 +826,12 @@ void real_players_dialog_update(void *unused)
   update_views();
 }
 
-#ifdef MENUS_GTK3
 /**********************************************************************//**
   Callback for diplomatic meetings button. This button is enabled iff
   we can meet with the other player.
 **************************************************************************/
-void players_meet_callback(GtkMenuItem *item, gpointer data)
+void players_meet_callback(GSimpleAction *action, GVariant *parameter,
+                           gpointer data)
 {
   GtkTreeModel *model;
   GtkTreeIter it;
@@ -847,7 +872,8 @@ static void confirm_cancel_pact(enum clause_type clause, int plrno,
 /**********************************************************************//**
   Pact cancellation requested
 **************************************************************************/
-void players_war_callback(GtkMenuItem *item, gpointer data)
+void players_war_callback(GSimpleAction *action, GVariant *parameter,
+                          gpointer data)
 {
   GtkTreeModel *model;
   GtkTreeIter it;
@@ -888,7 +914,8 @@ void players_war_callback(GtkMenuItem *item, gpointer data)
 /**********************************************************************//**
   Withdrawing shared vision
 **************************************************************************/
-void players_vision_callback(GtkMenuItem *item, gpointer data)
+void players_vision_callback(GSimpleAction *action, GVariant *parameter,
+                             gpointer data)
 {
   GtkTreeModel *model;
   GtkTreeIter it;
@@ -915,7 +942,8 @@ void players_vision_callback(GtkMenuItem *item, gpointer data)
 /**********************************************************************//**
   Intelligence report query
 **************************************************************************/
-void players_intel_callback(GtkMenuItem *item, gpointer data)
+void players_intel_callback(GSimpleAction *action, GVariant *parameter,
+                            gpointer data)
 {
   GtkTreeModel *model;
   GtkTreeIter it;
@@ -934,7 +962,8 @@ void players_intel_callback(GtkMenuItem *item, gpointer data)
 /**********************************************************************//**
   Wonders list report query
 **************************************************************************/
-void players_intel_wonder_callback(GtkMenuItem *item, gpointer data)
+void players_intel_wonder_callback(GSimpleAction *action, GVariant *parameter,
+                                   gpointer data)
 {
   GtkTreeModel *model;
   GtkTreeIter it;
@@ -951,7 +980,8 @@ void players_intel_wonder_callback(GtkMenuItem *item, gpointer data)
 /**********************************************************************//**
   Spaceship query callback
 **************************************************************************/
-void players_sship_callback(GtkMenuItem *item, gpointer data)
+void players_sship_callback(GSimpleAction *action, GVariant *parameter,
+                            gpointer data)
 {
   GtkTreeModel *model;
   GtkTreeIter it;
@@ -964,6 +994,7 @@ void players_sship_callback(GtkMenuItem *item, gpointer data)
   }
 }
 
+#ifdef MENUS_GTK3
 /**********************************************************************//**
   AI toggle callback.
 **************************************************************************/

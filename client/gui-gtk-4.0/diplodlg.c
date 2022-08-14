@@ -669,7 +669,7 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
 #ifdef MENUS_GTK3
   GtkWidget *menuitem;
 #endif /* MENUS_GTK3 */
-  GtkWidget *menubar, *notebook;
+  GtkWidget *aux_menu, *notebook;
   struct sprite *flag_spr;
   GtkListStore *store;
   GtkCellRenderer *rend;
@@ -774,7 +774,7 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   gtk_grid_attach(GTK_GRID(hgrid), image, grid_col++, 0, 1, 1);
 
   /* Menu for clauses: we. */
-  menubar = gtk_aux_menu_bar_new();
+  aux_menu = aux_menu_new();
 
   menu = gtk_menu_button_new();
   pdialog->menu0 = menu;
@@ -782,7 +782,7 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
 #ifdef MENUS_GTK3
   menuitem = gtk_menu_item_new_with_label(_("Add Clause..."));
   gtk_menu_item_set_submenu(GTK_MENU_ITEM(menuitem), menu);
-  gtk_menu_shell_append(GTK_MENU_SHELL(menubar), menuitem);
+  gtk_menu_shell_append(GTK_MENU_SHELL(aux_menu), menuitem);
   g_object_set_data(G_OBJECT(menu), "plr", plr0);
   g_signal_connect(menu, "show", G_CALLBACK(popup_add_menu), pdialog);
 #endif /* MENUS_GTK3 */
@@ -809,9 +809,9 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
                          "xalign", 0.0, "yalign", 0.5, NULL);
     gtk_grid_attach(GTK_GRID(table), label, 0, 0, 1, 1);
 
-    gtk_grid_attach(GTK_GRID(table), menubar, 2, 0, 1, 1);
+    gtk_grid_attach(GTK_GRID(table), aux_menu, 2, 0, 1, 1);
   } else {
-    gtk_grid_attach(GTK_GRID(table), menubar, 0, 0, 1, 1);
+    gtk_grid_attach(GTK_GRID(table), aux_menu, 0, 0, 1, 1);
   }
 
   /* them. */
@@ -863,7 +863,7 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   gtk_grid_attach(GTK_GRID(hgrid), image, grid_col++, 0, 1, 1);
 
   /* Menu for clauses: they. */
-  menubar = gtk_aux_menu_bar_new();
+  aux_menu = aux_menu_new();
 
   menu = gtk_menu_button_new();
   pdialog->menu1 = menu;
@@ -871,7 +871,7 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
 #ifdef MENUS_GTK3
   menuitem = gtk_menu_item_new_with_label(_("Add Clause..."));
   gtk_menu_item_set_submenu(GTK_MENU_ITEM(menuitem), menu);
-  gtk_menu_shell_append(GTK_MENU_SHELL(menubar), menuitem);
+  gtk_menu_shell_append(GTK_MENU_SHELL(aux_menu), menuitem);
   g_object_set_data(G_OBJECT(menu), "plr", plr1);
   g_signal_connect(menu, "show", G_CALLBACK(popup_add_menu), pdialog);
 #endif /* MENUS_GTK3 */
@@ -898,9 +898,9 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
                          "xalign", 0.0, "yalign", 0.5, NULL);
     gtk_grid_attach(GTK_GRID(table), label, 0, 0, 1, 1);
 
-    gtk_grid_attach(GTK_GRID(table), menubar, 2, 0, 1, 1);
+    gtk_grid_attach(GTK_GRID(table), aux_menu, 2, 0, 1, 1);
   } else {
-    gtk_grid_attach(GTK_GRID(table), menubar, 0, 0, 1, 1);
+    gtk_grid_attach(GTK_GRID(table), aux_menu, 0, 0, 1, 1);
   }
 
   /* Clauses. */

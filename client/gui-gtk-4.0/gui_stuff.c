@@ -233,27 +233,11 @@ void gtk_tree_view_focus(GtkTreeView *view)
   Create an auxiliary menubar (i.e., not the main menubar at the top of
   the window).
 **************************************************************************/
-GtkWidget *gtk_aux_menu_bar_new(void)
+GtkWidget *aux_menu_new(void)
 {
-#ifdef MENUS_GTK3
-  GtkWidget *menubar = gtk_menu_bar_new();
+  GtkWidget *menu_button = gtk_menu_button_new();
 
-  /*
-   * Ubuntu Linux's Ayatana/Unity desktop environment likes to steal the
-   * application's main menu bar from its window and put it at the top of
-   * the screen. It needs a hint in order not to steal menu bars other
-   * than the main one. Gory details at
-   * https://bugs.launchpad.net/ubuntu/+source/freeciv/+bug/743265
-   */
-  if (g_object_class_find_property(
-        G_OBJECT_CLASS(GTK_MENU_BAR_GET_CLASS(menubar)), "ubuntu-local")) {
-    g_object_set(G_OBJECT(menubar), "ubuntu-local", TRUE, NULL);
-  }
-
-  return menubar;
-#else  /* MENUS_GTK3 */
-  return NULL;
-#endif /* MENUS_GTK3 */
+  return menu_button;
 }
 
 /**********************************************************************//**

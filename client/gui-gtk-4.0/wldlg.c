@@ -1073,7 +1073,7 @@ GtkWidget *create_worklist(void)
 {
   GtkWidget *editor, *table, *sw, *bbox;
   GtkWidget *src_view, *dst_view, *label, *button;
-  GtkWidget *menubar;
+  GtkWidget *aux_menu;
 #ifdef MENUS_GTK3
   GtkWidget *item, *menu;
 #endif /* MENUS_GTK3 */
@@ -1231,15 +1231,15 @@ GtkWidget *create_worklist(void)
   gtk_box_set_spacing(GTK_BOX(bbox), 10);
   gtk_grid_attach(GTK_GRID(editor), bbox, 0, editor_row++, 1, 1);
 
-  menubar = gtk_aux_menu_bar_new();
-  gtk_box_append(GTK_BOX(bbox), menubar);
+  aux_menu = aux_menu_new();
+  gtk_box_append(GTK_BOX(bbox), aux_menu);
 
 #ifdef MENUS_GTK3
   menu = gtk_menu_button_new();
 
   item = gtk_menu_item_new_with_mnemonic(_("_Add Global Worklist"));
   gtk_menu_item_set_submenu(GTK_MENU_ITEM(item), menu);
-  gtk_menu_shell_append(GTK_MENU_SHELL(menubar), item);
+  gtk_menu_shell_append(GTK_MENU_SHELL(aux_menu), item);
   g_signal_connect(menu, "show",
                    G_CALLBACK(popup_add_menu), ptr);
   ptr->add_cmd = item;
