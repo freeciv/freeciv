@@ -87,6 +87,7 @@ add_qt6_env() {
   cp $1/bin/Qt6Core.dll $2/ &&
   cp $1/bin/Qt6Gui.dll $2/ &&
   cp $1/bin/Qt6Widgets.dll $2/ &&
+  cp $1/bin/libpcre2-16-0.dll $2/ &&
   mkdir -p $2/bin &&
   cp ./helpers/installer-helper-qt.cmd $2/bin/installer-helper.cmd
 }
@@ -98,7 +99,7 @@ add_common_env() {
   cp $1/bin/libintl-8.dll $2/ &&
   cp $1/bin/libsqlite3-0.dll $2/ &&
   cp $1/bin/libiconv-2.dll $2/ &&
-  cp $1/bin/libz.dll.1.2.11 $2/ &&
+  cp $1/bin/libz.dll.1.2.12 $2/ &&
   cp $1/lib/icuuc64.dll     $2/ &&
   cp $1/lib/icudt64.dll     $2/ &&
   cp $1/bin/libpng16-16.dll $2/ &&
