@@ -385,43 +385,41 @@ static int techs_callback(struct widget *pWidget)
 **************************************************************************/
 static int gold_callback(struct widget *pWidget)
 {
-  if (PRESSED_EVENT(Main.event)) {
-    int amount;
-    struct diplomacy_dialog *pdialog;
+  int amount;
+  struct diplomacy_dialog *pdialog;
 
-    if (!(pdialog = get_diplomacy_dialog(pWidget->data.cont->id1))) {
-      pdialog = get_diplomacy_dialog(pWidget->data.cont->id0);
-    }
-
-    if (pWidget->string_utf8->text != NULL) {
-      sscanf(pWidget->string_utf8->text, "%d", &amount);
-
-      if (amount > pWidget->data.cont->value) {
-        /* max player gold */
-        amount = pWidget->data.cont->value;
-      }
-
-    } else {
-      amount = 0;
-    }
-
-    if (amount > 0) {
-      dsend_packet_diplomacy_create_clause_req(&client.conn,
-                                               player_number(pdialog->treaty.plr1),
-                                               pWidget->data.cont->id0,
-                                               CLAUSE_GOLD, amount);
-      
-    } else {
-      output_window_append(ftc_client,
-                           _("Invalid amount of gold specified."));
-    }
-
-    if (amount || pWidget->string_utf8->text == NULL) {
-      copy_chars_to_utf8_str(pWidget->string_utf8, "0");
-      widget_redraw(pWidget);
-      widget_flush(pWidget);
-    }
+  if (!(pdialog = get_diplomacy_dialog(pWidget->data.cont->id1))) {
+    pdialog = get_diplomacy_dialog(pWidget->data.cont->id0);
   }
+
+  if (pWidget->string_utf8->text != NULL) {
+    sscanf(pWidget->string_utf8->text, "%d", &amount);
+
+    if (amount > pWidget->data.cont->value) {
+      /* max player gold */
+      amount = pWidget->data.cont->value;
+    }
+
+  } else {
+    amount = 0;
+  }
+
+  if (amount > 0) {
+    dsend_packet_diplomacy_create_clause_req(&client.conn,
+                                             player_number(pdialog->treaty.plr1),
+                                             pWidget->data.cont->id0,
+                                             CLAUSE_GOLD, amount);
+      
+  } else {
+    output_window_append(ftc_client,
+                         _("Invalid amount of gold specified."));
+  }
+
+  if (amount || pWidget->string_utf8->text == NULL) {
+    copy_chars_to_utf8_str(pWidget->string_utf8, "0");
+    widget_redraw(pWidget);
+    widget_flush(pWidget);
+    }
 
   return -1;
 }
