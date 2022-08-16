@@ -386,42 +386,39 @@ static int techs_callback(struct widget *pwidget)
 **************************************************************************/
 static int gold_callback(struct widget *pwidget)
 {
-  if (PRESSED_EVENT(main_data.event)) {
-    int amount;
-    struct diplomacy_dialog *pdialog;
+  int amount;
+  struct diplomacy_dialog *pdialog;
 
-    if (!(pdialog = get_diplomacy_dialog(player_by_number(pwidget->data.cont->id1)))) {
-      pdialog = get_diplomacy_dialog(player_by_number(pwidget->data.cont->id0));
+  if (!(pdialog = get_diplomacy_dialog(player_by_number(pwidget->data.cont->id1)))) {
+    pdialog = get_diplomacy_dialog(player_by_number(pwidget->data.cont->id0));
+  }
+
+  if (pwidget->string_utf8->text != NULL) {
+    sscanf(pwidget->string_utf8->text, "%d", &amount);
+
+    if (amount > pwidget->data.cont->value) {
+      /* Max player gold */
+      amount = pwidget->data.cont->value;
     }
 
-    if (pwidget->string_utf8->text != NULL) {
-      sscanf(pwidget->string_utf8->text, "%d", &amount);
+  } else {
+    amount = 0;
+  }
 
-      if (amount > pwidget->data.cont->value) {
-        /* max player gold */
-        amount = pwidget->data.cont->value;
-      }
+  if (amount > 0) {
+    dsend_packet_diplomacy_create_clause_req(&client.conn,
+                                             player_number(pdialog->treaty->plr1),
+                                             pwidget->data.cont->id0,
+                                             CLAUSE_GOLD, amount);
+  } else {
+    output_window_append(ftc_client,
+                         _("Invalid amount of gold specified."));
+  }
 
-    } else {
-      amount = 0;
-    }
-
-    if (amount > 0) {
-      dsend_packet_diplomacy_create_clause_req(&client.conn,
-                                               player_number(pdialog->treaty->plr1),
-                                               pwidget->data.cont->id0,
-                                               CLAUSE_GOLD, amount);
-      
-    } else {
-      output_window_append(ftc_client,
-                           _("Invalid amount of gold specified."));
-    }
-
-    if (amount || pwidget->string_utf8->text == NULL) {
-      copy_chars_to_utf8_str(pwidget->string_utf8, "0");
-      widget_redraw(pwidget);
-      widget_flush(pwidget);
-    }
+  if (amount || pwidget->string_utf8->text == NULL) {
+    copy_chars_to_utf8_str(pwidget->string_utf8, "0");
+    widget_redraw(pwidget);
+    widget_flush(pwidget);
   }
 
   return -1;
