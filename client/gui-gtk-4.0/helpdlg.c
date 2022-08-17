@@ -470,7 +470,6 @@ static void create_help_dialog(void)
   GtkTreeStore      *store;
   GtkTreeSelection  *selection;
   int grid_col = 0;
-  int help_box_row = 0;
   int buttons_col = 0;
 
   help_history = g_ptr_array_new();
@@ -561,17 +560,17 @@ static void create_help_dialog(void)
   gtk_widget_set_size_request(help_frame, 520, 350);
   gtk_widget_show(help_frame);
 
-  help_box = gtk_grid_new();
-  gtk_grid_set_row_spacing(GTK_GRID(help_box), 5);
-  gtk_orientable_set_orientation(GTK_ORIENTABLE(help_box),
-                                 GTK_ORIENTATION_VERTICAL);
+  help_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 5);
   gtk_frame_set_child(GTK_FRAME(help_frame), help_box);
 
-  help_tile = gtk_image_new();
-  gtk_grid_attach(GTK_GRID(help_box), help_tile, 0, help_box_row++, 1, 1);
+  help_tile = gtk_picture_new();
+  gtk_picture_set_can_shrink(GTK_PICTURE(help_tile), FALSE);
+  gtk_widget_set_valign(help_tile, GTK_ALIGN_CENTER);
+  gtk_widget_set_halign(help_tile, GTK_ALIGN_CENTER);
+  gtk_box_append(GTK_BOX(help_box), help_tile);
 
   help_itable = gtk_grid_new();
-  gtk_grid_attach(GTK_GRID(help_box), help_itable, 0, help_box_row++, 1, 1);
+  gtk_box_append(GTK_BOX(help_box), help_itable);
 
   for (i = 0; i < 6; i++) {
     help_ilabel[i] =
@@ -589,7 +588,7 @@ static void create_help_dialog(void)
   }
 
   help_wtable = gtk_grid_new();
-  gtk_grid_attach(GTK_GRID(help_box), help_wtable, 0, help_box_row++, 1, 1);
+  gtk_box_append(GTK_BOX(help_box), help_wtable);
 
   for (i = 0; i < 6; i++) {
     help_wlabel[i] =
@@ -608,7 +607,7 @@ static void create_help_dialog(void)
 
 
   help_utable = gtk_grid_new();
-  gtk_grid_attach(GTK_GRID(help_box), help_utable, 0, help_box_row++, 1, 1);
+  gtk_box_append(GTK_BOX(help_box), help_utable);
 
   for (i = 0; i < 5; i++) {
     for (j = 0; j < 5; j++) {
@@ -634,7 +633,7 @@ static void create_help_dialog(void)
   }
 
   help_ttable = gtk_grid_new();
-  gtk_grid_attach(GTK_GRID(help_box), help_ttable, 0, help_box_row++, 1, 1);
+  gtk_box_append(GTK_BOX(help_box), help_ttable);
 
   for (j = 0; j < 2; j++) {
     for (i = 0; i < 5; i++) {
@@ -659,7 +658,7 @@ static void create_help_dialog(void)
   }
 
   help_etable = gtk_grid_new();
-  gtk_grid_attach(GTK_GRID(help_box), help_etable, 0, help_box_row++, 1, 1);
+  gtk_box_append(GTK_BOX(help_box), help_etable);
 
   for (i = 0; i < 6; i++) {
     help_elabel[i] =
@@ -679,7 +678,7 @@ static void create_help_dialog(void)
   gtk_widget_set_margin_end(help_vgrid, 5);
   gtk_widget_set_margin_top(help_vgrid, 5);
   gtk_widget_set_margin_bottom(help_vgrid, 5);
-  gtk_grid_attach(GTK_GRID(help_box), help_vgrid, 0, help_box_row++, 1, 1);
+  gtk_box_append(GTK_BOX(help_box), help_vgrid);
 
   text = gtk_text_view_new();
   gtk_widget_set_hexpand(text, TRUE);
@@ -699,7 +698,7 @@ static void create_help_dialog(void)
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(help_text_sw),
 				 GTK_POLICY_AUTOMATIC, GTK_POLICY_ALWAYS);
   gtk_scrolled_window_set_child(GTK_SCROLLED_WINDOW(help_text_sw), text);
-  gtk_grid_attach(GTK_GRID(help_box), help_text_sw, 0, help_box_row++, 1, 1);
+  gtk_box_append(GTK_BOX(help_box), help_text_sw);
 
   /* build tech store. */
   tstore = gtk_tree_store_new(4,
@@ -742,7 +741,7 @@ static void create_help_dialog(void)
 				 GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
   gtk_scrolled_window_set_child(GTK_SCROLLED_WINDOW(help_tree_sw), help_tree);
   gtk_widget_show(help_tree);
-  gtk_grid_attach(GTK_GRID(help_box), help_tree_sw, 0, help_box_row++, 1, 1);
+  gtk_box_append(GTK_BOX(help_box), help_tree_sw);
 
   help_tree_expand =
 	gtk_button_new_with_label(_("Expand All"));
@@ -756,7 +755,7 @@ static void create_help_dialog(void)
   help_tree_buttons_hbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
   gtk_grid_attach(GTK_GRID(help_tree_buttons_hbox), help_tree_expand, buttons_col++, 0, 1, 1);
   gtk_grid_attach(GTK_GRID(help_tree_buttons_hbox), help_tree_collapse, buttons_col++, 0, 1, 1);
-  gtk_grid_attach(GTK_GRID(help_box), help_tree_buttons_hbox, 0, help_box_row++, 1, 1);
+  gtk_box_append(GTK_BOX(help_box), help_tree_buttons_hbox);
   gtk_widget_show(help_tree_buttons_hbox);
 }
 
@@ -769,7 +768,7 @@ static void set_help_tile_from_sprite(struct sprite *spr)
     return;
   }
 
-  image_set_from_surface(GTK_IMAGE(help_tile), spr->surface);
+  picture_set_from_surface(GTK_PICTURE(help_tile), spr->surface);
   gtk_widget_show(help_tile);
 }
 
@@ -799,7 +798,7 @@ static void set_help_tile_from_terrain(struct terrain *pterr)
     put_drawn_sprites(&canvas, 1.0, 0, 0, count, sprs, FALSE);
   }
 
-  image_set_from_surface(GTK_IMAGE(help_tile), canvas.surface);
+  picture_set_from_surface(GTK_PICTURE(help_tile), canvas.surface);
   gtk_widget_show(help_tile);
   cairo_surface_destroy(canvas.surface);
 }
