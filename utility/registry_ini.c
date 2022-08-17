@@ -3408,7 +3408,7 @@ static inline void entry_use(struct entry *pentry)
 }
 
 /**********************************************************************//**
-  Gets an boolean value.  Returns TRUE on success.
+  Gets an boolean value. Returns TRUE on success.
   On old saved files, 0 and 1 can also be considered as bool.
 **************************************************************************/
 bool entry_bool_get(const struct entry *pentry, bool *value)
@@ -3425,7 +3425,9 @@ bool entry_bool_get(const struct entry *pentry, bool *value)
     return TRUE;
   }
 
-  SECFILE_RETURN_VAL_IF_FAIL(pentry->psection->secfile, pentry->psection,
+  SECFILE_RETURN_VAL_IF_FAIL(pentry->psection != NULL
+                             ? pentry->psection->secfile : NULL,
+                             pentry->psection,
                              ENTRY_BOOL == pentry->type, FALSE);
 
   if (NULL != value) {
