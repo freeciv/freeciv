@@ -613,12 +613,15 @@ void send_tile_info(struct conn_list *dest, struct tile *ptile,
 }
 
 /**********************************************************************//**
-  Assumption: Each unit type is visible on only one layer.
+  Return whether unit is on this particular layer.
+  Callers assume that each unit is in just one layer, i.e.,
+  though all units can be seen on V_MAIN, this returns FALSE
+  for layer V_MAIN for units that are visible ALSO in other layers.
 **************************************************************************/
-static bool unit_is_visible_on_layer(const struct unit *punit,
-                                     enum vision_layer vlayer)
+static bool unit_is_on_layer(const struct unit *punit,
+                             enum vision_layer vlayer)
 {
-  return XOR(vlayer == V_MAIN, is_hiding_unit(punit));
+  return unit_type_get(punit)->vlayer == vlayer;
 }
 
 /**********************************************************************//**
@@ -774,7 +777,7 @@ void map_show_tile(struct player *src_player, struct tile *ptile)
         vision_layer_iterate(v) {
           if (0 < map_get_seen(pplayer, ptile, v)) {
             unit_list_iterate(ptile->units, punit) {
-              if (unit_is_visible_on_layer(punit, v)) {
+              if (unit_is_on_layer(punit, v)) {
                 send_unit_info(pplayer->connections, punit);
               }
             } unit_list_iterate_end;
@@ -815,7 +818,7 @@ void map_hide_tile(struct player *src_player, struct tile *ptile)
         vision_layer_iterate(v) {
           if (0 < map_get_seen(pplayer, ptile, v)) {
             unit_list_iterate(ptile->units, punit) {
-              if (unit_is_visible_on_layer(punit, v)) {
+              if (unit_is_on_layer(punit, v)) {
                 unit_goes_out_of_sight(pplayer, punit);
               }
             } unit_list_iterate_end;
@@ -935,7 +938,7 @@ void map_change_seen(struct player *pplayer,
               TILE_XY(ptile), player_name(pplayer), player_number(pplayer));
 
     unit_list_iterate(ptile->units, punit) {
-      if (unit_is_visible_on_layer(punit, V_INVIS)
+      if (unit_is_on_layer(punit, V_INVIS)
           && can_player_see_unit(pplayer, punit)
           && (plrtile->seen_count[V_MAIN] + change[V_MAIN] <= 0
               || !pplayers_allied(pplayer, unit_owner(punit)))) {
@@ -951,7 +954,7 @@ void map_change_seen(struct player *pplayer,
               TILE_XY(ptile), player_name(pplayer), player_number(pplayer));
 
     unit_list_iterate(ptile->units, punit) {
-      if (unit_is_visible_on_layer(punit, V_SUBSURFACE)
+      if (unit_is_on_layer(punit, V_SUBSURFACE)
           && can_player_see_unit(pplayer, punit)) {
         unit_goes_out_of_sight(pplayer, punit);
       }
@@ -964,7 +967,7 @@ void map_change_seen(struct player *pplayer,
               TILE_XY(ptile), player_name(pplayer), player_number(pplayer));
 
     unit_list_iterate(ptile->units, punit) {
-      if (unit_is_visible_on_layer(punit, V_MAIN)
+      if (unit_is_on_layer(punit, V_MAIN)
           && can_player_see_unit(pplayer, punit)) {
         unit_goes_out_of_sight(pplayer, punit);
       }
@@ -1045,7 +1048,7 @@ void map_change_seen(struct player *pplayer,
       /* Be sure not to revive dead unit on client when it's not yet
        * removed from the tile. This could happen when "unit_lost" lua script
        * somehow causes tile of the dead unit to unfog again. */
-      if (unit_is_visible_on_layer(punit, V_MAIN)
+      if (unit_is_on_layer(punit, V_MAIN)
           && !punit->server.dying) {
         send_unit_info(pplayer->connections, punit);
       }
@@ -1067,7 +1070,7 @@ void map_change_seen(struct player *pplayer,
               player_number(pplayer));
     /* Discover units. */
     unit_list_iterate(ptile->units, punit) {
-      if (unit_is_visible_on_layer(punit, V_INVIS)) {
+      if (unit_is_on_layer(punit, V_INVIS)) {
         send_unit_info(pplayer->connections, punit);
       }
     } unit_list_iterate_end;
@@ -1080,7 +1083,7 @@ void map_change_seen(struct player *pplayer,
               player_number(pplayer));
     /* Discover units. */
     unit_list_iterate(ptile->units, punit) {
-      if (unit_is_visible_on_layer(punit, V_SUBSURFACE)) {
+      if (unit_is_on_layer(punit, V_SUBSURFACE)) {
         send_unit_info(pplayer->connections, punit);
       }
     } unit_list_iterate_end;
