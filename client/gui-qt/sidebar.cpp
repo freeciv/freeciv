@@ -798,7 +798,7 @@ void side_left_click_science(bool nothing)
   }
   if (!gui()->is_repo_dlg_open("SCI")) {
     sci_rep = new science_report;
-    sci_rep->init(true);
+    sci_rep->init();
   } else {
     i = gui()->gimme_index_of("SCI");
     w = gui()->game_tab_widget->widget(i);
