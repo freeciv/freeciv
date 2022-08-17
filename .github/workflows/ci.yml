@@ -66,6 +66,7 @@ jobs:
             freetype \
             gettext \
             glib \
+            jpeg \
             gtk+3 \
             gtk4 \
             icu4c \
@@ -88,6 +89,7 @@ jobs:
           brew install \
             meson \
             lua@5.4 \
+            jpeg \
             gtk+3 \
             sdl2_mixer
       - name: build
