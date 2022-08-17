@@ -22,17 +22,17 @@ extern "C" {
 #include "repodlgs_g.h"
 }
 
+// Qt
+#include <QLabel>
+#include <QPushButton>
+#include <QWidget>
+
 // client
 #include "climisc.h"
 
 // gui-qt
 #include "fonts.h"
 #include "mapview.h"
-
-// Qt
-#include <QLabel>
-#include <QPushButton>
-#include <QWidget>
 
 class progress_bar;
 class QComboBox;
@@ -189,7 +189,7 @@ public:
   science_report();
   ~science_report();
   void update_report();
-  void init(bool raise);
+  void init();
   void redraw();
   void reset_tree();
 

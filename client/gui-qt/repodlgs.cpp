@@ -927,7 +927,7 @@ science_report::~science_report()
   It has to be called soon after constructor.
   It could be in constructor but compiler will yell about not used variable
 ****************************************************************************/
-void science_report::init(bool raise)
+void science_report::init()
 {
   gui()->gimme_place(this, "SCI");
   index = gui()->add_game_tab(this);
@@ -1647,7 +1647,7 @@ void endgame_report::update_report(const struct packet_endgame_player *packet)
 }
 
 /************************************************************************//**
-  Display the science report.  Optionally raise it.
+  Display the science report. Optionally raise it.
   Typically triggered by F6.
 ****************************************************************************/
 void science_report_dialog_popup(bool raise)
@@ -1661,7 +1661,7 @@ void science_report_dialog_popup(bool raise)
   }
   if (!gui()->is_repo_dlg_open("SCI")) {
     sci_rep = new science_report;
-    sci_rep->init(raise);
+    sci_rep->init();
   } else {
     i = gui()->gimme_index_of("SCI");
     w = gui()->game_tab_widget->widget(i);
@@ -1695,14 +1695,14 @@ void real_economy_report_dialog_update(void *unused)
 }
 
 /************************************************************************//**
-  Display the economy report.  Optionally raise it.
-  Typically triggered by F5.
+  Display the economy report. Typically triggered by F5.
 ****************************************************************************/
 void economy_report_dialog_popup(bool raise)
 {
   int i;
   eco_report *eco_rep;
   QWidget *w;
+
   if (!gui()->is_repo_dlg_open("ECO")) {
     eco_rep = new eco_report;
     eco_rep->init();
@@ -1732,8 +1732,7 @@ void real_units_report_dialog_update(void *unused)
 }
 
 /************************************************************************//**
-  Display the units report.  Optionally raise it.
-  Typically triggered by F2.
+  Display the units report. Typically triggered by F2.
 ****************************************************************************/
 void units_report_dialog_popup(bool raise)
 {
