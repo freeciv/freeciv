@@ -262,6 +262,9 @@ static void science_diagram_update(GtkDrawingArea *widget, cairo_t *cr,
     return;
   }
 
+  get_reqtree_dimensions(reqtree, &rtwidth, &rtheight);
+  gtk_widget_set_size_request(GTK_WIDGET(widget), rtwidth, rtheight);
+
   sw = GTK_SCROLLED_WINDOW(gtk_widget_get_parent(GTK_WIDGET(widget)));
   hadjustment = gtk_scrollable_get_hadjustment(GTK_SCROLLABLE(sw));
   vadjustment = gtk_scrollable_get_vadjustment(GTK_SCROLLABLE(sw));
@@ -273,7 +276,6 @@ static void science_diagram_update(GtkDrawingArea *widget, cairo_t *cr,
 
   canvas.drawable = cr;
 
-  get_reqtree_dimensions(reqtree, &rtwidth, &rtheight);
   draw_reqtree(reqtree, &canvas, 0, 0, 0, 0, rtwidth, rtheight);
 }
 
