@@ -329,10 +329,8 @@ utypes = "\
 ;                 present; especially if preferred graphic is non-standard,\n\
 ;                 this should be a standard tag.  Otherwise can use eg \"-\"\n\
 ;                 for no alternate graphic.\n\
-; tech_req      = required advance, names from techs.ruleset, or special:\n\
-;                 \"None\" => available from start\n\
-; impr_req      = required city improvement, names from buildings.ruleset\n\
-; gov_req       = required government, names from governments.ruleset\n\
+; reqs          = requirements to build the unit (see effects.ruleset\n\
+;                 and README.effects for help on requirements)\n\
 ; obsolete_by   = can be upgraded to and made obsolete by another unit by name\n\
 ; build_cost    = production shields required to build\n\
 ; pop_cost      = population removed from city when built; for \'Join City\'\n\

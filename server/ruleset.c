@@ -2144,55 +2144,90 @@ static bool load_ruleset_units(struct section_file *file,
       const int i = utype_index(u);
       const struct section *psection = section_list_get(sec, i);
       const char *sec_name = section_name(psection);
-      struct advance *adv_req;
 
-      if (!lookup_tech(file, &adv_req, sec_name,
-                       "tech_req", filename,
-                       rule_name_get(&u->name))) {
-        ok = FALSE;
-        break;
-      }
-      if (adv_req == A_NEVER) {
-        ruleset_error(LOG_ERROR, "%s lacks valid tech_req.",
-                      rule_name_get(&u->name));
-        ok = FALSE;
-        break;
-      } else if (adv_req != A_NONE) {
-        requirement_vector_append(&u->build_reqs,
-                                  req_from_values(VUT_ADVANCE, REQ_RANGE_PLAYER,
-                                                  FALSE, TRUE, FALSE,
-                                                  advance_number(adv_req)));
-      }
+      if (compat->compat_mode && compat->version < RSFORMAT_3_2) {
+        struct advance *adv_req;
+        struct impr_type *impr_req = NULL;
 
-      /* Read the government build requirement from the old ruleset format
-       * and put it in unit_type's build_reqs requirement vector.
-       * The build_reqs requirement vector isn't ready to be exposed in the
-       * ruleset yet.
-       * Barbarians can build certain units as long as anyone in the world
-       * has the required tech. Regular players must have the required tech
-       * them self to build the same unit. One way to solve this is to make
-       * unit building an action enabler controlled action with a city (not
-       * unit) actor.
-       * Putting a requirement vector on unit types in the ruleset will
-       * force ruleset authors to change all their unit type build
-       * requirements to a requirement vector. Forcing them to convert their
-       * unit type requirements again in the next version (should building be
-       * switched to an action enabler with a city actor) is not good. */
-      if (NULL != section_entry_by_name(psection, "gov_req")) {
-        char tmp[200] = "\0";
-        struct government *need_government;
-
-        fc_strlcat(tmp, section_name(psection), sizeof(tmp));
-        fc_strlcat(tmp, ".gov_req", sizeof(tmp));
-        need_government = lookup_government(file, tmp, filename, NULL);
-        if (need_government == NULL) {
+        if (!lookup_tech(file, &adv_req, sec_name,
+                         "tech_req", filename,
+                         rule_name_get(&u->name))) {
           ok = FALSE;
           break;
         }
-        requirement_vector_append(&u->build_reqs, req_from_values(
-                                  VUT_GOVERNMENT, REQ_RANGE_PLAYER,
-                                  FALSE, TRUE, FALSE,
-                                  government_number(need_government)));
+        if (adv_req == A_NEVER) {
+          ruleset_error(LOG_ERROR, "%s lacks valid tech_req.",
+                        rule_name_get(&u->name));
+          ok = FALSE;
+          break;
+        } else if (adv_req != A_NONE) {
+          requirement_vector_append(&u->build_reqs,
+                                    req_from_values(VUT_ADVANCE, REQ_RANGE_PLAYER,
+                                                    FALSE, TRUE, FALSE,
+                                                    advance_number(adv_req)));
+        }
+
+        /* Read the government build requirement from the old ruleset format
+         * and put it in unit_type's build_reqs requirement vector.
+         * The build_reqs requirement vector isn't ready to be exposed in the
+         * ruleset yet.
+         * Barbarians can build certain units as long as anyone in the world
+         * has the required tech. Regular players must have the required tech
+         * them self to build the same unit. One way to solve this is to make
+         * unit building an action enabler controlled action with a city (not
+         * unit) actor.
+         * Putting a requirement vector on unit types in the ruleset will
+         * force ruleset authors to change all their unit type build
+         * requirements to a requirement vector. Forcing them to convert their
+         * unit type requirements again in the next version (should building be
+         * switched to an action enabler with a city actor) is not good. */
+        if (NULL != section_entry_by_name(psection, "gov_req")) {
+          char tmp[200] = "\0";
+          struct government *need_government;
+
+          fc_strlcat(tmp, section_name(psection), sizeof(tmp));
+          fc_strlcat(tmp, ".gov_req", sizeof(tmp));
+          need_government = lookup_government(file, tmp, filename, NULL);
+          if (need_government == NULL) {
+            ok = FALSE;
+            break;
+          }
+          requirement_vector_append(&u->build_reqs, req_from_values(
+                                    VUT_GOVERNMENT, REQ_RANGE_PLAYER,
+                                    FALSE, TRUE, FALSE,
+                                    government_number(need_government)));
+        }
+
+        /* Read the building build requirement from the old ruleset format
+         * and put it in unit_type's build_reqs requirement vector.
+         * The build_reqs requirement vector isn't ready to be exposed in the
+         * ruleset yet.
+         * See the comment for gov_req above for why. */
+        if (!lookup_building(file, sec_name, "impr_req",
+                             &impr_req, filename,
+                             rule_name_get(&u->name))) {
+          ok = FALSE;
+          break;
+        }
+        if (impr_req) {
+          requirement_vector_append(&u->build_reqs, req_from_values(
+                                    VUT_IMPROVEMENT, REQ_RANGE_CITY,
+                                    FALSE, TRUE, FALSE,
+                                    improvement_number(impr_req)));
+        }
+      } else {
+        /* Freeciv-3.2 format */
+        struct requirement_vector *reqs;
+
+        reqs = lookup_req_list(file, compat, sec_name, "reqs",
+                               utype_rule_name(u));
+
+        if (reqs == NULL) {
+          ok = FALSE;
+          break;
+        }
+
+        requirement_vector_copy(&u->build_reqs, reqs);
       }
 
       if (!load_ruleset_veteran(file, sec_name, &u->veteran,
@@ -2225,25 +2260,6 @@ static bool load_ruleset_units(struct section_file *file,
       struct unit_class *pclass;
       const char *sec_name = section_name(section_list_get(sec, i));
       const char *str;
-      struct impr_type *impr_req = NULL;
-
-      /* Read the building build requirement from the old ruleset format
-       * and put it in unit_type's build_reqs requirement vector.
-       * The build_reqs requirement vector isn't ready to be exposed in the
-       * ruleset yet.
-       * See the comment for gov_req above for why. */
-      if (!lookup_building(file, sec_name, "impr_req",
-                           &impr_req, filename,
-                           rule_name_get(&u->name))) {
-        ok = FALSE;
-        break;
-      }
-      if (impr_req) {
-        requirement_vector_append(&u->build_reqs, req_from_values(
-                                  VUT_IMPROVEMENT, REQ_RANGE_CITY,
-                                  FALSE, TRUE, FALSE,
-                                  improvement_number(impr_req)));
-      }
 
       sval = secfile_lookup_str(file, "%s.class", sec_name);
       pclass = unit_class_by_rule_name(sval);
@@ -2258,7 +2274,7 @@ static bool load_ruleset_units(struct section_file *file,
         break;
       }
       u->uclass = pclass;
-    
+
       sz_strlcpy(u->sound_move,
                  secfile_lookup_str_default(file, "-", "%s.sound_move",
                                             sec_name));

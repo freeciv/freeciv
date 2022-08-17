@@ -54,6 +54,7 @@ class tab_unit : public QWidget
     void delete_now();
     void edit_now();
     void same_name_toggle(bool checked);
+    void edit_reqs();
     void edit_effects();
 };
 

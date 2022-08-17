@@ -144,10 +144,8 @@ flags         = ""
 ;                 present; especially if preferred graphic is non-standard,
 ;                 this should be a standard tag.  Otherwise can use eg "-"
 ;                 for no alternate graphic.
-; tech_req      = required advance, names from techs.ruleset, or special:
-;                 "None" => available from start
-; impr_req	= required city improvement, names from buildings.ruleset
-; gov_req       = required government, names from governments.ruleset
+; reqs          = requirements to build the unit (see effects.ruleset
+;                 and README.effects for help on requirements)
 ; obsolete_by   = can be upgraded to and made obsolete by another unit by name
 ; build_cost    = production shields required to build
 ; pop_cost      = population removed from city when built; for 'Join City'
@@ -370,7 +368,7 @@ flags         = ""
 [unit_generic]
 name          = _("Generic")
 class         = "Generic"
-tech_req      = "None"
+;reqs
 obsolete_by   = "None"
 graphic       = "u.warriors"
 graphic_alt   = "-"
@@ -402,7 +400,7 @@ helptext      = _("\
 [unit_ship]
 name          = _("Generic Ship")
 class         = "Generic Ship"
-tech_req      = "None"
+;reqs
 obsolete_by   = "None"
 graphic       = "u.warriors"
 graphic_alt   = "-"

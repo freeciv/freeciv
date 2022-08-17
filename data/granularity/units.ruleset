@@ -160,10 +160,8 @@ flags         = "TerrainSpeed"
 ;                 present; especially if preferred graphic is non-standard,
 ;                 this should be a standard tag.  Otherwise can use eg "-"
 ;                 for no alternate graphic.
-; tech_req      = required advance, names from techs.ruleset, or special:
-;                 "None" => available from start
-; impr_req	= required city improvement, names from buildings.ruleset
-; gov_req       = required government, names from governments.ruleset
+; reqs          = requirements to build the unit (see effects.ruleset
+;                 and README.effects for help on requirements)
 ; obsolete_by   = can be upgraded to and made obsolete by another unit by name
 ; build_cost    = production shields required to build
 ; pop_cost      = population removed from city when built; for 'Join City'
@@ -386,7 +384,7 @@ flags         = "TerrainSpeed"
 [unit_nomad]
 name          = _("Nomad")
 class         = "Land"
-tech_req      = "None"
+;reqs
 obsolete_by   = "None"
 graphic       = "u.nomad"
 graphic_alt   = "u.worker"
@@ -419,7 +417,10 @@ helptext      = _("\
 [unit_warriors]
 name          = _("Warriors")
 class         = "Land"
-tech_req      = "Cave Painting"
+reqs          =
+  { "type", "name", "range"
+    "Tech", "Cave Painting", "Player"
+  }
 obsolete_by   = "None"
 graphic       = "u.warriors"
 graphic_alt   = "-"
@@ -451,7 +452,10 @@ helptext      = _("\
 [unit_hunters]
 name          = _("Hunters")
 class         = "Land"
-tech_req      = "Animal Taming"
+reqs          =
+  { "type", "name", "range"
+    "Tech", "Animal Taming", "Player"
+  }
 obsolete_by   = "None"
 graphic       = "u.hunters"
 graphic_alt   = "u.warriors"
@@ -484,7 +488,10 @@ Hunters and their dogs can mostly provide upkeep for themselves, not requiring\
 [unit_horsemen]
 name          = _("Horsemen")
 class         = "Land"
-tech_req      = "Horseback Riding"
+reqs          =
+  { "type", "name", "range"
+    "Tech", "Horseback Riding", "Player"
+  }
 obsolete_by   = "None"
 graphic       = "u.horsemen"
 graphic_alt   = "-"
@@ -516,7 +523,10 @@ Horsemen are the first fast unit.\
 [unit_settlers]
 name          = _("Settlers")
 class         = "Land"
-tech_req      = "Fire"
+reqs          =
+  { "type", "name", "range"
+    "Tech", "Fire", "Player"
+  }
 obsolete_by   = "None"
 graphic       = "u.settlers"
 graphic_alt   = "-"
@@ -547,7 +557,10 @@ helptext      = _("\
 [unit_worker]
 name          = _("?unit:Workers")
 class         = "Land"
-tech_req      = "Agriculture"
+reqs          =
+  { "type", "name", "range"
+    "Tech", "Agriculture", "Player"
+  }
 obsolete_by   = "None"
 graphic       = "u.worker"
 graphic_alt   = "-"
@@ -580,7 +593,10 @@ Workers have the ability to transform terrain by cutting and planting trees\
 [unit_boat]
 name          = _("Boats")
 class         = "Sea"
-tech_req      = "Carving"
+reqs          =
+  { "type", "name", "range"
+    "Tech", "Carving", "Player"
+  }
 obsolete_by   = "None"
 graphic       = "u.boats"
 graphic_alt   = "u.trireme"

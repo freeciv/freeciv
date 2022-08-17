@@ -48,10 +48,8 @@ tab_unit::tab_unit(ruledit_gui *ui_in) : QWidget()
   QVBoxLayout *main_layout = new QVBoxLayout(this);
   QGridLayout *unit_layout = new QGridLayout();
   QLabel *label;
-  QPushButton *effects_button;
-  QPushButton *add_button;
-  QPushButton *delete_button;
-  QPushButton *edit_button;
+  QPushButton *button;
+  int but_row = 0;
 
   ui = ui_in;
   selected = 0;
@@ -68,8 +66,8 @@ tab_unit::tab_unit(ruledit_gui *ui_in) : QWidget()
   rname = new QLineEdit(this);
   rname->setText(R__("None"));
   connect(rname, SIGNAL(returnPressed()), this, SLOT(name_given()));
-  unit_layout->addWidget(label, 0, 0);
-  unit_layout->addWidget(rname, 0, 2);
+  unit_layout->addWidget(label, but_row, 0);
+  unit_layout->addWidget(rname, but_row++, 2);
 
   label = new QLabel(QString::fromUtf8(R__("Name")));
   label->setParent(this);
@@ -78,27 +76,31 @@ tab_unit::tab_unit(ruledit_gui *ui_in) : QWidget()
   name = new QLineEdit(this);
   name->setText(R__("None"));
   connect(name, SIGNAL(returnPressed()), this, SLOT(name_given()));
-  unit_layout->addWidget(label, 1, 0);
-  unit_layout->addWidget(same_name, 1, 1);
-  unit_layout->addWidget(name, 1, 2);
+  unit_layout->addWidget(label, but_row, 0);
+  unit_layout->addWidget(same_name, but_row, 1);
+  unit_layout->addWidget(name, but_row++, 2);
 
-  edit_button = new QPushButton(QString::fromUtf8(R__("Edit Values")), this);
-  connect(edit_button, SIGNAL(pressed()), this, SLOT(edit_now()));
-  unit_layout->addWidget(edit_button, 2, 2);
+  button = new QPushButton(QString::fromUtf8(R__("Edit Values")), this);
+  connect(button, SIGNAL(pressed()), this, SLOT(edit_now()));
+  unit_layout->addWidget(button, but_row++, 2);
 
-  effects_button = new QPushButton(QString::fromUtf8(R__("Effects")), this);
-  connect(effects_button, SIGNAL(pressed()), this, SLOT(edit_effects()));
-  unit_layout->addWidget(effects_button, 3, 2);
+  button = new QPushButton(QString::fromUtf8(R__("Requirements")), this);
+  connect(button, SIGNAL(pressed()), this, SLOT(edit_reqs()));
+  unit_layout->addWidget(button, but_row++, 2);
 
-  add_button = new QPushButton(QString::fromUtf8(R__("Add Unit")), this);
-  connect(add_button, SIGNAL(pressed()), this, SLOT(add_now()));
-  unit_layout->addWidget(add_button, 4, 0);
-  show_experimental(add_button);
+  button = new QPushButton(QString::fromUtf8(R__("Effects")), this);
+  connect(button, SIGNAL(pressed()), this, SLOT(edit_effects()));
+  unit_layout->addWidget(button, but_row++, 2);
 
-  delete_button = new QPushButton(QString::fromUtf8(R__("Remove this Unit")), this);
-  connect(delete_button, SIGNAL(pressed()), this, SLOT(delete_now()));
-  unit_layout->addWidget(delete_button, 4, 2);
-  show_experimental(delete_button);
+  button = new QPushButton(QString::fromUtf8(R__("Add Unit")), this);
+  connect(button, SIGNAL(pressed()), this, SLOT(add_now()));
+  unit_layout->addWidget(button, but_row++, 0);
+  show_experimental(button);
+
+  button = new QPushButton(QString::fromUtf8(R__("Remove this Unit")), this);
+  connect(button, SIGNAL(pressed()), this, SLOT(delete_now()));
+  unit_layout->addWidget(button, but_row++, 2);
+  show_experimental(button);
 
   refresh();
   update_utype_info(nullptr);
@@ -299,6 +301,17 @@ void tab_unit::same_name_toggle(bool checked)
   name->setEnabled(!checked);
   if (checked) {
     name->setText(rname->text());
+  }
+}
+
+/**********************************************************************//**
+  User wants to edit reqs
+**************************************************************************/
+void tab_unit::edit_reqs()
+{
+  if (selected != nullptr) {
+    ui->open_req_edit(QString::fromUtf8(utype_rule_name(selected)),
+                      &selected->build_reqs);
   }
 }
 

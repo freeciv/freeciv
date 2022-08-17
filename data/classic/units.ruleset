@@ -213,10 +213,8 @@ flags         = "Unreachable", "DoesntOccupyTile", "HutFrighten"
 ;                 present; especially if preferred graphic is non-standard,
 ;                 this should be a standard tag.  Otherwise can use eg "-"
 ;                 for no alternate graphic.
-; tech_req      = required advance, names from techs.ruleset, or special:
-;                 "None" => available from start
-; impr_req	= required city improvement, names from buildings.ruleset
-; gov_req       = required government, names from governments.ruleset
+; reqs          = requirements to build the unit (see effects.ruleset
+;                 and README.effects for help on requirements)
 ; obsolete_by   = can be upgraded to and made obsolete by another unit by name
 ; build_cost    = production shields required to build
 ; pop_cost      = population removed from city when built; for 'Join City'
@@ -448,7 +446,7 @@ flags         = "Unreachable", "DoesntOccupyTile", "HutFrighten"
 [unit_settlers]
 name          = _("Settlers")
 class         = "Land"
-tech_req      = "None"
+;reqs
 obsolete_by   = "None"
 graphic       = "u.settlers"
 graphic_alt   = "-"
@@ -494,7 +492,10 @@ Upkeep for Settlers is in food as well as production, and a Settler\
 [unit_worker]
 name          = _("?unit:Workers")
 class         = "Land"
-tech_req      = "Pottery"
+reqs          =
+  { "type", "name", "range"
+    "Tech", "Pottery", "Player"
+  }
 obsolete_by   = "Engineers"
 graphic       = "u.worker"
 graphic_alt   = "u.engineers" ; for compatibility
@@ -536,7 +537,10 @@ Workers must be on board a ship to build buoys.\
 [unit_engineers]
 name          = _("Engineers")
 class         = "Land"
-tech_req      = "Explosives"
+reqs          =
+  { "type", "name", "range"
+    "Tech", "Explosives", "Player"
+  }
 obsolete_by   = "None"
 graphic       = "u.engineers"
 graphic_alt   = "-"
@@ -587,7 +591,7 @@ TIP 2:  If you manage to build Leonardo's Workshop, research\
 [unit_warriors]
 name          = _("Warriors")
 class         = "Land"
-tech_req      = "None"
+;reqs
 obsolete_by   = "Pikemen"
 graphic       = "u.warriors"
 graphic_alt   = "-"
@@ -620,7 +624,10 @@ This unit may be built from the start of the game.  It is the\
 [unit_phalanx]
 name          = _("Phalanx")
 class         = "Land"
-tech_req      = "Bronze Working"
+reqs          =
+  { "type", "name", "range"
+    "Tech", "Bronze Working", "Player"
+  }
 obsolete_by   = "Pikemen"
 graphic       = "u.phalanx"
 graphic_alt   = "-"
@@ -652,7 +659,10 @@ The Phalanx is armored infantry, suitable for defending your cities.\
 [unit_archers]
 name          = _("Archers")
 class         = "Land"
-tech_req      = "Warrior Code"
+reqs          =
+  { "type", "name", "range"
+    "Tech", "Warrior Code", "Player"
+  }
 obsolete_by   = "Musketeers"
 graphic       = "u.archers"
 graphic_alt   = "-"
@@ -685,7 +695,10 @@ Archers fight with bows and arrows and have a good offensive\
 [unit_legion]
 name          = _("Legion")
 class         = "Land"
-tech_req      = "Iron Working"
+reqs          =
+  { "type", "name", "range"
+    "Tech", "Iron Working", "Player"
+  }
 obsolete_by   = "Musketeers"
 graphic       = "u.legion"
 graphic_alt   = "-"
@@ -718,7 +731,10 @@ Legions are heavily armed and well disciplined infantry\
 [unit_pikemen]
 name          = _("Pikemen")
 class         = "Land"
-tech_req      = "Feudalism"
+reqs          =
+  { "type", "name", "range"
+    "Tech", "Feudalism", "Player"
+  }
 obsolete_by   = "Musketeers"
 graphic       = "u.pikemen"
 graphic_alt   = "-"
@@ -755,7 +771,10 @@ Equipped with long pikes, Pikemen replaces Phalanx\
 [unit_musketeers]
 name          = _("Musketeers")
 class         = "Land"
-tech_req      = "Gunpowder"
+reqs          =
+  { "type", "name", "range"
+    "Tech", "Gunpowder", "Player"
+  }
 obsolete_by   = "Riflemen"
 graphic       = "u.musketeers"
 graphic_alt   = "-"
@@ -790,7 +809,10 @@ Musketeers are infantry equipped with early\
 [unit_partisan]
 name          = _("Partisan")
 class         = "Land"
-tech_req      = "Guerilla Warfare"
+reqs          =
+  { "type", "name", "range"
+    "Tech", "Guerilla Warfare", "Player"
+  }
 obsolete_by   = "None"
 graphic       = "u.partisan"
 graphic_alt   = "-"
@@ -831,7 +853,10 @@ A number of Partisans are granted free when an enemy conquers your\
 [unit_alpine_troops]
 name          = _("Alpine Troops")
 class         = "Land"
-tech_req      = "Tactics"
+reqs          =
+  { "type", "name", "range"
+    "Tech", "Tactics", "Player"
+  }
 obsolete_by   = "None"
 graphic       = "u.alpine_troops"
 graphic_alt   = "-"
@@ -864,7 +889,10 @@ Alpine Troops are highly mobile units as well as\
 [unit_riflemen]
 name          = _("Riflemen")
 class         = "Land"
-tech_req      = "Conscription"
+reqs          =
+  { "type", "name", "range"
+    "Tech", "Conscription", "Player"
+  }
 obsolete_by   = "None"
 graphic       = "u.riflemen"
 graphic_alt   = "-"
@@ -897,7 +925,10 @@ Riflemen are World War-era infantry, very good\
 [unit_marines]
 name          = _("Marines")
 class         = "Land"
-tech_req      = "Amphibious Warfare"
+reqs          =
+  { "type", "name", "range"
+    "Tech", "Amphibious Warfare", "Player"
+  }
 obsolete_by   = "None"
 graphic       = "u.marines"
 graphic_alt   = "-"
@@ -929,7 +960,10 @@ Marines are infantry who are experts at marine warfare.\
 [unit_paratroopers]
 name          = _("Paratroopers")
 class         = "Land"
-tech_req      = "Combined Arms"
+reqs          =
+  { "type", "name", "range"
+    "Tech", "Combined Arms", "Player"
+  }
 obsolete_by   = "None"
 graphic       = "u.paratroopers"
 graphic_alt   = "-"
@@ -967,7 +1001,10 @@ paratroopers_range = 10
 [unit_mech_inf]
 name          = _("Mech. Inf.")
 class         = "Land"
-tech_req      = "Labor Union"
+reqs          =
+  { "type", "name", "range"
+    "Tech", "Labor Union", "Player"
+  }
 obsolete_by   = "None"
 graphic       = "u.mech_inf"
 graphic_alt   = "-"
@@ -1001,7 +1038,10 @@ The Mechanized Infantry has the strongest defensive strength\
 [unit_horsemen]
 name          = _("Horsemen")
 class         = "Land"
-tech_req      = "Horseback Riding"
+reqs          =
+  { "type", "name", "range"
+    "Tech", "Horseback Riding", "Player"
+  }
 obsolete_by   = "Knights"
 graphic       = "u.horsemen"
 graphic_alt   = "-"
@@ -1035,7 +1075,10 @@ Horsemen are mounted warriors and an early\
 [unit_chariot]
 name          = _("Chariot")
 class         = "Land"
-tech_req      = "The Wheel"
+reqs          =
+  { "type", "name", "range"
+    "Tech", "The Wheel", "Player"
+  }
 obsolete_by   = "Knights"
 graphic       = "u.chariot"
 graphic_alt   = "-"
@@ -1068,7 +1111,10 @@ Chariots are horse-pulled war wagons, stronger\
 [unit_knights]
 name          = _("Knights")
 class         = "Land"
-tech_req      = "Chivalry"
+reqs          =
+  { "type", "name", "range"
+    "Tech", "Chivalry", "Player"
+  }
 obsolete_by   = "Dragoons"
 graphic       = "u.knights"
 graphic_alt   = "-"
@@ -1101,7 +1147,10 @@ Knights are mounted and heavily armored warriors.\
 [unit_dragoons]
 name          = _("Dragoons")
 class         = "Land"
-tech_req      = "Leadership"
+reqs          =
+  { "type", "name", "range"
+    "Tech", "Leadership", "Player"
+  }
 obsolete_by   = "Cavalry"
 graphic       = "u.dragoons"
 graphic_alt   = "-"
@@ -1134,7 +1183,10 @@ Dragoons are mounted warriors carrying early firearms.\
 [unit_cavalry]
 name          = _("Cavalry")
 class         = "Land"
-tech_req      = "Tactics"
+reqs          =
+  { "type", "name", "range"
+    "Tech", "Tactics", "Player"
+  }
 obsolete_by   = "Armor"
 graphic       = "u.cavalry"
 graphic_alt   = "-"
@@ -1166,7 +1218,10 @@ Cavalry are mounted and highly trained soldiers.\
 [unit_armor]
 name          = _("Armor")
 class         = "Land"
-tech_req      = "Mobile Warfare"
+reqs          =
+  { "type", "name", "range"
+    "Tech", "Mobile Warfare", "Player"
+  }
 obsolete_by   = "None"
 graphic       = "u.armor"
 graphic_alt   = "-"
@@ -1200,7 +1255,10 @@ Armors are motorized war wagons that are faster,\
 [unit_catapult]
 name          = _("Catapult")
 class         = "Land"
-tech_req      = "Mathematics"
+reqs          =
+  { "type", "name", "range"
+    "Tech", "Mathematics", "Player"
+  }
 obsolete_by   = "Cannon"
 graphic       = "u.catapult"
 graphic_alt   = "-"
@@ -1234,7 +1292,10 @@ Catapults are large rock-throwing machines of war.\
 [unit_cannon]
 name          = _("Cannon")
 class         = "Land"
-tech_req      = "Metallurgy"
+reqs          =
+  { "type", "name", "range"
+    "Tech", "Metallurgy", "Player"
+  }
 obsolete_by   = "Artillery"
 graphic       = "u.cannon"
 graphic_alt   = "-"
@@ -1269,7 +1330,10 @@ Cannons are large firearms that can fire heavy\
 [unit_artillery]
 name          = _("Artillery")
 class         = "Land"
-tech_req      = "Machine Tools"
+reqs          =
+  { "type", "name", "range"
+    "Tech", "Machine Tools", "Player"
+  }
 obsolete_by   = "Howitzer"
 graphic       = "u.artillery"
 graphic_alt   = "-"
@@ -1303,7 +1367,10 @@ The artillery is an upgraded cannon. It is a very\
 [unit_howitzer]
 name          = _("Howitzer")
 class         = "Land"
-tech_req      = "Robotics"
+reqs          =
+  { "type", "name", "range"
+    "Tech", "Robotics", "Player"
+  }
 obsolete_by   = "None"
 graphic       = "u.howitzer"
 graphic_alt   = "-"
@@ -1337,7 +1404,10 @@ Howitzers are upgraded artillery with improved\
 [unit_fighter]
 name          = _("Fighter")
 class         = "Air"
-tech_req      = "Flight"
+reqs          =
+  { "type", "name", "range"
+    "Tech", "Flight", "Player"
+  }
 obsolete_by   = "Stealth Fighter"
 graphic       = "u.fighter"
 graphic_alt   = "-"
@@ -1377,7 +1447,10 @@ Fighters are your first airborne units. They can\
 [unit_bomber]
 name          = _("Bomber")
 class         = "Air"
-tech_req      = "Advanced Flight"
+reqs          =
+  { "type", "name", "range"
+    "Tech", "Advanced Flight", "Player"
+  }
 obsolete_by   = "Stealth Bomber"
 graphic       = "u.bomber"
 graphic_alt   = "-"
@@ -1412,7 +1485,10 @@ Bombers are specialized airborne units that may\
 ; /* TRANS: unit type */
 name          = _("Helicopter")
 class         = "Helicopter"
-tech_req      = "Combined Arms"
+reqs          =
+  { "type", "name", "range"
+    "Tech", "Combined Arms", "Player"
+  }
 obsolete_by   = "None"
 graphic       = "u.helicopter"
 graphic_alt   = "-"
@@ -1448,7 +1524,10 @@ The Helicopter is a very powerful unit, as it can both fly and\
 [unit_stealth_fighter]
 name          = _("Stealth Fighter")
 class         = "Air"
-tech_req      = "Stealth"
+reqs          =
+  { "type", "name", "range"
+    "Tech", "Stealth", "Player"
+  }
 obsolete_by   = "None"
 graphic       = "u.stealth_fighter"
 graphic_alt   = "-"
@@ -1489,7 +1568,10 @@ An improved Fighter, with improved attack and a higher movement\
 [unit_stealth_bomber]
 name          = _("Stealth Bomber")
 class         = "Air"
-tech_req      = "Stealth"
+reqs          =
+  { "type", "name", "range"
+    "Tech", "Stealth", "Player"
+  }
 obsolete_by   = "None"
 graphic       = "u.stealth_bomber"
 graphic_alt   = "-"
@@ -1525,7 +1607,10 @@ An improved Bomber, with improved attack and a higher movement\
 ; /* TRANS: unit type */
 name          = _("Trireme")
 class         = "Trireme"
-tech_req      = "Map Making"
+reqs          =
+  { "type", "name", "range"
+    "Tech", "Map Making", "Player"
+  }
 obsolete_by   = "Caravel"
 graphic       = "u.trireme"
 graphic_alt   = "-"
@@ -1560,7 +1645,10 @@ The Trireme is your first boat unit. It can act\
 [unit_caravel]
 name          = _("Caravel")
 class         = "Sea"
-tech_req      = "Navigation"
+reqs          =
+  { "type", "name", "range"
+    "Tech", "Navigation", "Player"
+  }
 obsolete_by   = "Galleon"
 graphic       = "u.caravel"
 graphic_alt   = "-"
@@ -1594,7 +1682,10 @@ The Caravel replaces the Trireme and can enter\
 [unit_galleon]
 name          = _("Galleon")
 class         = "Sea"
-tech_req      = "Magnetism"
+reqs          =
+  { "type", "name", "range"
+    "Tech", "Magnetism", "Player"
+  }
 obsolete_by   = "Transport"
 graphic       = "u.galleon"
 graphic_alt   = "-"
@@ -1629,7 +1720,10 @@ The Galleon is a pure transport ship and cannot\
 [unit_frigate]
 name          = _("Frigate")
 class         = "Sea"
-tech_req      = "Magnetism"
+reqs          =
+  { "type", "name", "range"
+    "Tech", "Magnetism", "Player"
+  }
 obsolete_by   = "Ironclad"
 graphic       = "u.frigate"
 graphic_alt   = "-"
@@ -1664,7 +1758,10 @@ The Frigate is a highly versatile boat unit,\
 [unit_ironclad]
 name          = _("Ironclad")
 class         = "Sea"
-tech_req      = "Steam Engine"
+reqs          =
+  { "type", "name", "range"
+    "Tech", "Steam Engine", "Player"
+  }
 obsolete_by   = "Destroyer"
 graphic       = "u.ironclad"
 graphic_alt   = "-"
@@ -1698,7 +1795,10 @@ The Ironclad is an armored ship that is\
 [unit_destroyer]
 name          = _("Destroyer")
 class         = "Sea"
-tech_req      = "Electricity"
+reqs          =
+  { "type", "name", "range"
+    "Tech", "Electricity", "Player"
+  }
 obsolete_by   = "None"
 graphic       = "u.destroyer"
 graphic_alt   = "-"
@@ -1733,7 +1833,10 @@ TIP:  A very fast unit, which is very useful for hunting down enemy\
 [unit_cruiser]
 name          = _("Cruiser")
 class         = "Sea"
-tech_req      = "Steel"
+reqs          =
+  { "type", "name", "range"
+    "Tech", "Steel", "Player"
+  }
 obsolete_by   = "AEGIS Cruiser"
 graphic       = "u.cruiser"
 graphic_alt   = "-"
@@ -1765,7 +1868,10 @@ The Cruiser is a strong offensive boat unit.\
 [unit_aegis_cruiser]
 name          = _("AEGIS Cruiser")
 class         = "Sea"
-tech_req      = "Rocketry"
+reqs          =
+  { "type", "name", "range"
+    "Tech", "Rocketry", "Player"
+  }
 obsolete_by   = "None"
 graphic       = "u.aegis_cruiser"
 graphic_alt   = "-"
@@ -1802,7 +1908,10 @@ The AEGIS Cruiser is equipped with an advanced\
 [unit_battleship]
 name          = _("Battleship")
 class         = "Sea"
-tech_req      = "Automobile"
+reqs          =
+  { "type", "name", "range"
+    "Tech", "Automobile", "Player"
+  }
 obsolete_by   = "None"
 graphic       = "u.battleship"
 graphic_alt   = "-"
@@ -1835,7 +1944,10 @@ The Battleship is the supreme naval unit with\
 [unit_submarine]
 name          = _("Submarine")
 class         = "Sea"
-tech_req      = "Combustion"
+reqs          =
+  { "type", "name", "range"
+    "Tech", "Combustion", "Player"
+  }
 obsolete_by   = "None"
 graphic       = "u.submarine"
 graphic_alt   = "-"
@@ -1872,7 +1984,10 @@ Traveling under the surface of the ocean, Submarines have\
 [unit_carrier]
 name          = _("Carrier")
 class         = "Sea"
-tech_req      = "Advanced Flight"
+reqs          =
+  { "type", "name", "range"
+    "Tech", "Advanced Flight", "Player"
+  }
 obsolete_by   = "None"
 graphic       = "u.carrier"
 graphic_alt   = "-"
@@ -1909,7 +2024,10 @@ TIP:  Guard Carriers with a handful of fast-moving ships and a\
 [unit_transport]
 name          = _("Transport")
 class         = "Sea"
-tech_req      = "Industrialization"
+reqs          =
+  { "type", "name", "range"
+    "Tech", "Industrialization", "Player"
+  }
 obsolete_by   = "None"
 graphic       = "u.transport"
 graphic_alt   = "-"
@@ -1943,7 +2061,10 @@ The Transport cannot attack on its own but\
 [unit_cruise_missile]
 name          = _("Cruise Missile")
 class         = "Missile"
-tech_req      = "Rocketry"
+reqs          =
+  { "type", "name", "range"
+    "Tech", "Rocketry", "Player"
+  }
 obsolete_by   = "None"
 graphic       = "u.cruise_missile"
 graphic_alt   = "-"
@@ -1979,7 +2100,10 @@ TIP:  A handful of these can successfully keep the waters around\
 [unit_nuclear]
 name          = _("Nuclear")
 class         = "Missile"
-tech_req      = "Rocketry"
+reqs          =
+  { "type", "name", "range"
+    "Tech", "Rocketry", "Player"
+  }
 obsolete_by   = "None"
 graphic       = "u.nuclear"
 graphic_alt   = "-"
@@ -2037,7 +2161,10 @@ TIP 2:  You may be involved in a situation where you've invaded an\
 [unit_diplomat]
 name          = _("Diplomat")
 class         = "Land"
-tech_req      = "Writing"
+reqs          =
+  { "type", "name", "range"
+    "Tech", "Writing", "Player"
+  }
 obsolete_by   = "Spy"
 graphic       = "u.diplomat"
 graphic_alt   = "-"
@@ -2145,7 +2272,10 @@ Diplomats built under a Communist government will start at the first\
 [unit_spy]
 name          = _("Spy")
 class         = "Land"
-tech_req      = "Espionage"
+reqs          =
+  { "type", "name", "range"
+    "Tech", "Espionage", "Player"
+  }
 obsolete_by   = "None"
 graphic       = "u.spy"
 graphic_alt   = "-"
@@ -2216,7 +2346,10 @@ Spies built under a Communist government will start at the first\
 [unit_caravan]
 name          = _("Caravan")
 class         = "Land"
-tech_req      = "Trade"
+reqs          =
+  { "type", "name", "range"
+    "Tech", "Trade", "Player"
+  }
 obsolete_by   = "Freight"
 graphic       = "u.caravan"
 graphic_alt   = "-"
@@ -2269,7 +2402,10 @@ TIP:  You can stockpile a stack of Caravans in advance and bring\
 [unit_freight]
 name          = _("Freight")
 class         = "Land"
-tech_req      = "The Corporation"
+reqs          =
+  { "type", "name", "range"
+    "Tech", "The Corporation", "Player"
+  }
 obsolete_by   = "None"
 graphic       = "u.freight"
 graphic_alt   = "-"
@@ -2301,7 +2437,10 @@ The Freight unit replaces the Caravan, and moves at twice the speed.\
 [unit_explorer]
 name          = _("Explorer")
 class         = "Land"
-tech_req      = "Seafaring"
+reqs          =
+  { "type", "name", "range"
+    "Tech", "Seafaring", "Player"
+  }
 obsolete_by   = "Partisan"
 graphic       = "u.explorer"
 graphic_alt   = "-"
@@ -2334,7 +2473,7 @@ Explorers are brave individuals that are very useful for\
 [unit_leader]
 name          = _("?unit:Leader")
 class         = "Land"
-tech_req      = "None"
+;reqs
 obsolete_by   = "None"
 graphic       = "u.leader"
 graphic_alt   = "u.explorer"
@@ -2376,7 +2515,7 @@ Won't unleash barbarians from huts.\
 [unit_barbarian_leader]
 name          = _("Barbarian Leader")
 class         = "Land"
-tech_req      = "None"
+;reqs
 obsolete_by   = "None"
 graphic       = "u.barbarian_leader"
 graphic_alt   = "u.diplomat"
@@ -2421,7 +2560,10 @@ When a Barbarian Leader is killed on a tile without any defending units,\
 [unit_awacs]
 name          = _("AWACS")
 class         = "Air"
-tech_req      = "Advanced Flight"
+reqs          =
+  { "type", "name", "range"
+    "Tech", "Advanced Flight", "Player"
+  }
 obsolete_by   = "None"
 graphic       = "u.awacs"
 graphic_alt   = "u.bomber"  ; backwards compatibility

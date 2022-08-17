@@ -38,28 +38,12 @@ edit_utype::edit_utype(ruledit_gui *ui_in, struct unit_type *utype_in) : QDialog
   QVBoxLayout *main_layout = new QVBoxLayout(this);
   QGridLayout *unit_layout = new QGridLayout();
   QLabel *label;
-  QMenu *req;
   int row = 0;
 
   ui = ui_in;
   utype = utype_in;
 
   setWindowTitle(QString::fromUtf8(utype_rule_name(utype)));
-
-  label = new QLabel(QString::fromUtf8(R__("Requirement")));
-  label->setParent(this);
-
-  req = new QMenu();
-  req_button = new QToolButton();
-  req_button->setParent(this);
-  req_button->setToolButtonStyle(Qt::ToolButtonTextOnly);
-  req_button->setPopupMode(QToolButton::MenuButtonPopup);
-  req_button->setMenu(req);
-  tab_tech::techs_to_menu(req);
-  connect(req_button, SIGNAL(triggered(QAction *)), this, SLOT(req_menu(QAction *)));
-
-  unit_layout->addWidget(label, row, 0);
-  unit_layout->addWidget(req_button, row++, 1);
 
   label = new QLabel(QString::fromUtf8(R__("Build Cost")));
   label->setParent(this);
@@ -121,58 +105,10 @@ void edit_utype::closeEvent(QCloseEvent *cevent)
 **************************************************************************/
 void edit_utype::refresh()
 {
-  req_button->setText(tab_tech::tech_name(utype_primary_tech_req(utype)));
   bcost->setValue(utype->build_cost);
   attack->setValue(utype->attack_strength);
   defense->setValue(utype->defense_strength);
   move_rate->setValue(utype->move_rate);
-}
-
-/**********************************************************************//**
-  User selected tech to be req of utype
-**************************************************************************/
-void edit_utype::req_menu(QAction *action)
-{
-  struct advance *padv;
-  QByteArray an_bytes;
-
-  an_bytes = action->text().toUtf8();
-  padv = advance_by_rule_name(an_bytes.data());
-
-  if (padv != nullptr) {
-    if (padv != advance_by_number(A_NONE)) {
-      bool found = FALSE;
-
-      requirement_vector_iterate(&utype->build_reqs, preq) {
-        if (preq->source.kind == VUT_ADVANCE) {
-          preq->source.value.advance = padv;
-          found = TRUE;
-          break;
-        }
-      } requirement_vector_iterate_end;
-
-      if (!found) {
-        requirement_vector_append(&utype->build_reqs,
-                                  req_from_values(VUT_ADVANCE, REQ_RANGE_PLAYER,
-                                                  FALSE, TRUE, FALSE,
-                                                  advance_number(padv)));
-      }
-    } else {
-      size_t i;
-      size_t vsize = requirement_vector_size(&utype->build_reqs);
-
-      for (i = 0; i < vsize; i++) {
-        struct requirement *cur = requirement_vector_get(&utype->build_reqs, i);
-
-        if (cur->source.kind == VUT_ADVANCE) {
-          requirement_vector_remove(&utype->build_reqs, i);
-          break;
-        }
-      }
-    }
-
-    refresh();
-  }
 }
 
 /**********************************************************************//**

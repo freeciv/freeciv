@@ -209,10 +209,8 @@ flags         = "Missile", "DoesntOccupyTile"
 ;                 present; especially if preferred graphic is non-standard,
 ;                 this should be a standard tag.  Otherwise can use eg "-"
 ;                 for no alternate graphic.
-; tech_req      = required advance, names from techs.ruleset, or special:
-;                 "None" => available from start
-; impr_req	= required city improvement, names from buildings.ruleset
-; gov_req       = required government, names from governments.ruleset
+; reqs          = requirements to build the unit (see effects.ruleset
+;                 and README.effects for help on requirements)
 ; obsolete_by   = can be upgraded to and made obsolete by another unit by name
 ; build_cost    = production shields required to build
 ; pop_cost      = population removed from city when built; for 'Join City'
@@ -445,7 +443,7 @@ flags         = "Missile", "DoesntOccupyTile"
 [unit_settlers]
 name          = _("Settlers")
 class         = "Earthly"
-tech_req      = "None"
+;reqs
 obsolete_by   = "Native Settlers"
 graphic       = "u.settlers"
 graphic_alt   = "-"
@@ -478,7 +476,10 @@ Most military enemy units can capture it instead of killing it.\
 [unit_native_settlers]
 name          = _("Native Settlers")
 class         = "Native"
-tech_req      = "Organic Structures"
+reqs          =
+  { "type", "name", "range"
+    "Tech", "Organic Structures", "Player"
+  }
 obsolete_by   = "None"
 graphic       = "u.native_settlers"
 graphic_alt   = "u.worker"
@@ -510,7 +511,7 @@ Most military enemy units can capture it instead of killing it.\
 [unit_engineer]
 name          = _("Engineer")
 class         = "Earthly"
-tech_req      = "None"
+;reqs
 obsolete_by   = "Native Engineer"
 graphic       = "u.engineer"
 graphic_alt   = "u.engineers"
@@ -542,7 +543,10 @@ This is Earth technology engineer.\
 [unit_native_engineer]
 name          = _("Native Engineer")
 class         = "Native"
-tech_req      = "Smart Aliens"
+reqs          =
+  { "type", "name", "range"
+    "Tech", "Smart Aliens", "Player"
+  }
 obsolete_by   = "None"
 graphic       = "u.native_engineer"
 graphic_alt   = "u.archers"
@@ -574,7 +578,10 @@ Native version of the Engineer unit.\
 [unit_water_engineer]
 name          = _("Water Engineer")
 class         = "Amphibious"
-tech_req      = "Ocean Cities"
+reqs          =
+  { "type", "name", "range"
+    "Tech", "Ocean Cities", "Player"
+  }
 obsolete_by   = "None"
 graphic       = "u.water_engineer"
 graphic_alt   = "u.legion"
@@ -608,7 +615,7 @@ Cities cannot be located on Boiling Ocean.\
 [unit_star_marines]
 name          = _("Star Marines")
 class         = "Earthly"
-tech_req      = "None"
+;reqs
 obsolete_by   = "None"
 graphic       = "u.star_marines"
 graphic_alt   = "u.marines"
@@ -641,7 +648,10 @@ This unit may be built from the start of the game.  It is the\
 [unit_cyborgs]
 name          = _("Cyborgs")
 class         = "Earthly"
-tech_req      = "Cybernetics"
+reqs          =
+  { "type", "name", "range"
+    "Tech", "Cybernetics", "Player"
+  }
 obsolete_by   = "None"
 graphic       = "u.cyborgs"
 graphic_alt   = "u.pikemen"
@@ -673,7 +683,10 @@ Attack power to the early game.\
 [unit_tank]
 name          = _("Tank")
 class         = "Earthly"
-tech_req      = "Brute Force"
+reqs          =
+  { "type", "name", "range"
+    "Tech", "Brute Force", "Player"
+  }
 obsolete_by   = "None"
 graphic       = "u.tank"
 graphic_alt   = "u.armor"
@@ -705,7 +718,10 @@ This is the most powerful Earth technology unit.\
 [unit_warmonster]
 name          = _("War Monster")
 class         = "Native"
-tech_req      = "War Monsters"
+reqs          =
+  { "type", "name", "range"
+    "Tech", "War Monsters", "Player"
+  }
 obsolete_by   = "None"
 graphic       = "u.war_monster"
 graphic_alt   = "u.alpine_troops"
@@ -737,7 +753,10 @@ As a native unit, this can move and fight on radiating areas too.\
 [unit_crusher]
 name          = _("Crusher")
 class         = "Native"
-tech_req      = "Alien Training"
+reqs          =
+  { "type", "name", "range"
+    "Tech", "Alien Training", "Player"
+  }
 obsolete_by   = "None"
 graphic       = "u.crusher"
 graphic_alt   = "u.horsemen"
@@ -769,7 +788,10 @@ Alien lifeform trained to be fast.\
 [unit_cyber_alien]
 name          = _("Cyber Alien")
 class         = "Native"
-tech_req      = "Cyber Aliens"
+reqs          =
+  { "type", "name", "range"
+    "Tech", "Cyber Aliens", "Player"
+  }
 obsolete_by   = "None"
 graphic       = "u.cyber_alien"
 graphic_alt   = "u.musketeers"
@@ -802,7 +824,10 @@ vision than any purely organic unit.")
 ; /* TRANS: Alien lifeform. Name refers to Tyrannosaurus Rex, not "King" role */
 name          = _("Rex")
 class         = "Native"
-tech_req      = "Synthetic Food"
+reqs          =
+  { "type", "name", "range"
+    "Tech", "Synthetic Food", "Player"
+  }
 obsolete_by   = "None"
 graphic       = "u.rex"
 graphic_alt   = "u.knights"
@@ -833,7 +858,10 @@ Most powerful alien lifeform, like one from Earth's Jurassic period.\
 [unit_paradropper]
 name          = _("Paradropper")
 class         = "Native"
-tech_req      = "Paradrop"
+reqs          =
+  { "type", "name", "range"
+    "Tech", "Paradrop", "Player"
+  }
 obsolete_by   = "None"
 graphic       = "u.paradropper"
 graphic_alt   = "u.paratroopers"
@@ -865,7 +893,10 @@ Alien lifeform able to paradrop.\
 [unit_turtle]
 name          = _("Turtle Defender")
 class         = "Earthly"
-tech_req      = "Composites"
+reqs          =
+  { "type", "name", "range"
+    "Tech", "Composites", "Player"
+  }
 obsolete_by   = "None"
 graphic       = "u.turtle_defender"
 graphic_alt   = "u.mech_inf"
@@ -897,7 +928,10 @@ This is excellent defense vehicle.\
 [unit_earth_sub]
 name          = _("Earth Sub")
 class         = "Burrowing"
-tech_req      = "Burrowing"
+reqs          =
+  { "type", "name", "range"
+    "Tech", "Burrowing", "Player"
+  }
 obsolete_by   = "None"
 graphic       = "u.earth_sub"
 graphic_alt   = "u.submarine"
@@ -929,7 +963,10 @@ These can pass ocean tiles only through Burrow Tubes.")
 [unit_hunter]
 name          = _("Hunter")
 class         = "Burrowing"
-tech_req      = "Supermodule"
+reqs          =
+  { "type", "name", "range"
+    "Tech", "Supermodule", "Player"
+  }
 obsolete_by   = "None"
 graphic       = "u.hunter"
 graphic_alt   = "u.frigate"
@@ -964,7 +1001,10 @@ itself.")
 [unit_light_saucer]
 name          = _("Light Saucer")
 class         = "Antigravity"
-tech_req      = "Antigravity"
+reqs          =
+  { "type", "name", "range"
+    "Tech", "Antigravity", "Player"
+  }
 obsolete_by   = "None"
 graphic       = "u.light_saucer"
 graphic_alt   = "u.fighter"
@@ -996,7 +1036,10 @@ This unit itself can attack other Antigravity units.")
 [unit_bomb_saucer]
 name          = _("Bomb Saucer")
 class         = "Antigravity"
-tech_req      = "Unified Theory"
+reqs          =
+  { "type", "name", "range"
+    "Tech", "Unified Theory", "Player"
+  }
 obsolete_by   = "None"
 graphic       = "u.bomb_saucer"
 graphic_alt   = "u.bomber"
@@ -1027,7 +1070,10 @@ Nobody, but some of the other Antigravity and Hunters units can attack this unit
 [unit_spitter]
 name          = _("Spitter")
 class         = "Native"
-tech_req      = "Spitter Control"
+reqs          =
+  { "type", "name", "range"
+    "Tech", "Spitter Control", "Player"
+  }
 obsolete_by   = "Heavy Spitter"
 graphic       = "u.spitter"
 graphic_alt   = "u.catapult"
@@ -1059,7 +1105,10 @@ This alien lifeform is first bombarding unit.\
 [unit_heavy_spitter]
 name          = _("Heavy Spitter")
 class         = "Native"
-tech_req      = "Modified Spitter"
+reqs          =
+  { "type", "name", "range"
+    "Tech", "Modified Spitter", "Player"
+  }
 obsolete_by   = "None"
 graphic       = "u.heavy_spitter"
 graphic_alt   = "u.cannon"
@@ -1092,7 +1141,10 @@ next to targets.")
 [unit_biomass]
 name          = _("Biomass")
 class         = "Native"
-tech_req      = "Controlled Biomass"
+reqs          =
+  { "type", "name", "range"
+    "Tech", "Controlled Biomass", "Player"
+  }
 obsolete_by   = "None"
 graphic       = "u.biomass"
 graphic_alt   = "u.transport"
@@ -1124,7 +1176,7 @@ the ride in the radiation-safe inside of the slimy being.")
 [unit_explorer]
 name          = _("Explorer")
 class         = "Earthly"
-tech_req      = "None"
+;reqs
 obsolete_by   = "Scout Animal"
 graphic       = "u.explorer"
 graphic_alt   = "-"
@@ -1157,7 +1209,10 @@ They can maintain themselves, no upkeep cost to homecity.\
 [unit_native_scout]
 name          = _("Scout Animal")
 class         = "Native"
-tech_req      = "Alien Taming"
+reqs          =
+  { "type", "name", "range"
+    "Tech", "Alien Taming", "Player"
+  }
 obsolete_by   = "None"
 graphic       = "u.scout_animal"
 graphic_alt   = "u.warriors"
@@ -1189,7 +1244,7 @@ This is native scout animal that can enter any land terrain.\
 [unit_raft]
 name          = _("Raft")
 class         = "Sea"
-tech_req      = "None"
+;reqs
 obsolete_by   = "None"
 graphic       = "u.raft"
 graphic_alt   = "u.trireme"
@@ -1222,7 +1277,10 @@ helptext      = _("\
 [unit_ship]
 name          = _("Ship")
 class         = "Sea"
-tech_req      = "Travel"
+reqs          =
+  { "type", "name", "range"
+    "Tech", "Travel", "Player"
+  }
 obsolete_by   = "None"
 graphic       = "u.ship"
 graphic_alt   = "u.caravel"
@@ -1256,7 +1314,10 @@ it cannot enter boiling seas.\
 [unit_destroyer]
 name          = _("Destroyer")
 class         = "Sea"
-tech_req      = "Naval Superiority"
+reqs          =
+  { "type", "name", "range"
+    "Tech", "Naval Superiority", "Player"
+  }
 obsolete_by   = "Battle Unit"
 graphic       = "u.destroyer"
 graphic_alt   = "-"
@@ -1287,7 +1348,10 @@ This vessel is for battle! Too bad it cannot enter boiling oceans.\
 [unit_battle_unit]
 name          = _("Battle Unit")
 class         = "Amphibious"
-tech_req      = "Amphibious Tactics"
+reqs          =
+  { "type", "name", "range"
+    "Tech", "Amphibious Tactics", "Player"
+  }
 obsolete_by   = "None"
 graphic       = "u.battle_unit"
 graphic_alt   = "u.battleship"
@@ -1317,7 +1381,10 @@ Amphibious battle machine.")
 [unit_amphibious_transport]
 name          = _("Amphibious Transport")
 class         = "Amphibious"
-tech_req      = "Thermal Module"
+reqs          =
+  { "type", "name", "range"
+    "Tech", "Thermal Module", "Player"
+  }
 obsolete_by   = "None"
 graphic       = "u.amphi_transport"
 graphic_alt   = "u.ironclad"
@@ -1350,7 +1417,10 @@ This is first unit that can enter boiling oceans - and more.\
 [unit_freight]
 name          = _("Freight")
 class         = "Earthly"
-tech_req      = "Faction Politics"
+reqs          =
+  { "type", "name", "range"
+    "Tech", "Faction Politics", "Player"
+  }
 obsolete_by   = "Caravan"
 graphic       = "u.freight"
 graphic_alt   = "-"
@@ -1387,7 +1457,10 @@ trade routes.\
 [unit_caravan]
 name          = _("Caravan")
 class         = "Native"
-tech_req      = "Smart Aliens"
+reqs          =
+  { "type", "name", "range"
+    "Tech", "Smart Aliens", "Player"
+  }
 obsolete_by   = "None"
 graphic       = "u.caravan"
 graphic_alt   = "-"
@@ -1423,7 +1496,10 @@ trade routes.\
 [unit_stealth_spy]
 name          = _("Stealth Spy")
 class         = "Earthly"
-tech_req      = "Stealth Module"
+reqs          =
+  { "type", "name", "range"
+    "Tech", "Stealth Module", "Player"
+  }
 obsolete_by   = "None"
 graphic       = "u.stealth_spy"
 graphic_alt   = "u.diplomat"
@@ -1461,7 +1537,10 @@ next to enemy unit or city.")
 [unit_teleporting_missile]
 name          = _("Teleporting Missile")
 class         = "Missile"
-tech_req      = "Teleportation"
+reqs          =
+  { "type", "name", "range"
+    "Tech", "Teleportation", "Player"
+  }
 obsolete_by   = "None"
 graphic       = "u.telep_missile"
 graphic_alt   = "u.cruise_missile"
@@ -1489,7 +1568,10 @@ Teleporting Missile can teleport and attack to neighbour tile.")
 [unit_antiburrow_missile]
 name          = _("Antiburrow Missile")
 class         = "Missile"
-tech_req      = "Crust Defense"
+reqs          =
+  { "type", "name", "range"
+    "Tech", "Crust Defense", "Player"
+  }
 obsolete_by   = "None"
 graphic       = "u.antib_missile"
 graphic_alt   = "u.nuclear"
