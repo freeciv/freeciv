@@ -54,8 +54,8 @@ differences.\
 capabilities = ""
 
 [options]
-global_init_techs=""
-global_init_buildings="Palace"
+global_init_techs = ""
+global_init_buildings = "Palace"
 
 [tileset]
 ; If preferred tileset is set, clients that support the feature will suggest

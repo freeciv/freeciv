@@ -48,8 +48,8 @@ description = *granularity/README.granularity*
 capabilities = ""
 
 [options]
-global_init_techs=""
-global_init_buildings=""
+global_init_techs = ""
+global_init_buildings = ""
 
 [tileset]
 ; If preferred tileset is set, clients that support the feature will suggest

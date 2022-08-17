@@ -16,7 +16,7 @@ options = "+Freeciv-ruleset-3.2-Devel-2022.Feb.02 web-compatible"
 format_version = 30
 
 [governments]
-during_revolution="Anarchy"
+during_revolution = "Anarchy"
 
 ; /* <-- avoid gettext warnings
 ;

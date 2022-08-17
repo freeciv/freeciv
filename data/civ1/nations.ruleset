@@ -84,8 +84,8 @@ default_government = "Despotism"
 ; description   = Optional short user description of this set.
 
 [nset_all]
-name=_("All nations")
-rule_name="all"
+name = _("All nations")
+rule_name = "all"
 
 ; Descriptions of nation groups
 ; These are more cosmetic than sets; they affect the "pick nation" dialog,
@@ -99,15 +99,17 @@ rule_name="all"
 ;                 group
 
 [ngroup_ancient]
-name=_("?nationgroup:Ancient")
-match=0
+name = _("?nationgroup:Ancient")
+match = 0
+
 [ngroup_modern]
-name=_("?nationgroup:Modern")
-match=0
+name = _("?nationgroup:Modern")
+match = 0
+
 [ngroup_barbarian]
-name=_("?nationgroup:Barbarian")
-match=0
-hidden=true
+name = _("?nationgroup:Barbarian")
+match = 0
+hidden = true
 
 [nation_american]
 
@@ -416,7 +418,7 @@ ruler_titles = {
 }
 
 flag = "han"
-flag_alt="-"
+flag_alt = "-"
 style = "Asian"
 
 color.r = 90

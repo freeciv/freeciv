@@ -71,8 +71,8 @@ format_version = 30
 ; description   = Optional short user description of this set.
 
 [nset_full]
-name=_("?nationset:Full")
-rule_name="all"
+name = _("?nationset:Full")
+rule_name = "all"
 
 ; Descriptions of nation groups
 ; These are more cosmetic than sets; they affect the "pick nation" dialog,
@@ -86,8 +86,8 @@ rule_name="all"
 ;                 group
 
 [ngroup_generic]
-name=_("?nationgroup:Generic")
-match=2
+name = _("?nationgroup:Generic")
+match = 2
 
 [compatibility]
 ; Initial government for all the nations that do not

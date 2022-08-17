@@ -55,8 +55,8 @@ description = *multiplayer/README.multiplayer*
 capabilities = "std-terrains"
 
 [options]
-global_init_techs=""
-global_init_buildings="Palace"
+global_init_techs = ""
+global_init_buildings = "Palace"
 
 [tileset]
 ; If preferred tileset is set, clients that support the feature will suggest
@@ -1920,7 +1920,7 @@ colorlist =
 
 [teams]
 ; Team names correspond roughly to colors defined above, so that
-; plrcolormode=TEAM_ORDER is not gratuitously confusing.
+; plrcolormode = TEAM_ORDER is not gratuitously confusing.
 names =
 ; /* TRANS: Name of a color; used as unique identifier for a team */
 ; /* TRANS: With this and other color team names, uniqueness is more */

@@ -40,11 +40,11 @@ flags =
 
 ; Percentage of "land" tiles required to be adjacent to a water tile before
 ; it may be "reclaimed" into a land tile (0-101; 0=anywhere, default 101=nowhere)
-ocean_reclaim_requirement=101
+ocean_reclaim_requirement = 101
 
 ; Percentage of "water" tiles required to be adjacent to a land tile before
 ; it may be "channeled" into a water tile (0-101; 0=anywhere, default 101=nowhere)
-land_channel_requirement=101
+land_channel_requirement = 101
 
 ; Percentage of unfrozen tiles (no "Frozen" flag) required to be adjacent
 ; to a frozen tile before it can thaw (0-101; 0=anywhere, default 101=nowhere)

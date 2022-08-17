@@ -55,8 +55,8 @@ description = *webperimental/README.webperimental*
 capabilities = "std-terrains"
 
 [options]
-global_init_techs=""
-global_init_buildings="Palace"
+global_init_techs = ""
+global_init_buildings = "Palace"
 
 
 [tileset]

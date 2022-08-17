@@ -50,8 +50,8 @@ You are playing with civ2 style rules. These are somewhat close to classic\
 capabilities = ""
 
 [options]
-global_init_techs=""
-global_init_buildings="Palace"
+global_init_techs = ""
+global_init_buildings = "Palace"
 
 [tileset]
 ; If preferred tileset is set, clients that support the feature will suggest

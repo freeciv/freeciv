@@ -70,10 +70,10 @@ builder_default = 50
 
 translation_domain = "freeciv-core"
 
-name=_("Barbarian")
-plural=_("?plural:Barbarians")
-groups="Core", "Barbarian"
-legend=_("Since the dawn of civilization, barbarians have been a threat to\
+name = _("Barbarian")
+plural = _("?plural:Barbarians")
+groups = "Core", "Barbarian"
+legend = _("Since the dawn of civilization, barbarians have been a threat to\
  cultured peoples everywhere.")
 
 leaders = {
@@ -86,13 +86,13 @@ leaders = {
  "Boadicea",    "Female"
 }
 
-flag="barbarian"
+flag = "barbarian"
 flag_alt = "-"
 style = "European"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
 cities = "Barbaricum"
 

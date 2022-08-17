@@ -55,8 +55,8 @@ description = *alien/README.alien*
 capabilities = ""
 
 [options]
-global_init_techs=""
-global_init_buildings="Headquarters", "Basic Infrastructure"
+global_init_techs = ""
+global_init_buildings = "Headquarters", "Basic Infrastructure"
 popup_tech_help = TRUE
 
 [tileset]

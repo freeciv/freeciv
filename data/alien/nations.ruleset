@@ -86,8 +86,8 @@ default_government = "Despotism"
 ; description   = Optional short user description of this set.
 
 [nset_all]
-name=_("All nations")
-rule_name="all"
+name = _("All nations")
+rule_name = "all"
 
 ; Descriptions of nation groups
 ; These are more cosmetic than sets; they affect the "pick nation" dialog,
@@ -101,9 +101,9 @@ rule_name="all"
 ;                 group
 
 [ngroup_barbarian]
-name=_("?nationgroup:Barbarian")
-match=0
-hidden=true
+name = _("?nationgroup:Barbarian")
+match = 0
+hidden = true
 
 *include "alien/nation/mathclub.ruleset"
 *include "alien/nation/secretsociety.ruleset"
