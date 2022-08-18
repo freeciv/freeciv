@@ -297,26 +297,26 @@ static void parse_options(int argc, char **argv)
 /**********************************************************************//**
   Focus on widget. Returns whether focus was really changed.
 **************************************************************************/
-static gboolean toplevel_focus(GtkWidget *w, GtkDirectionType arg)
+static void toplevel_focus(GtkWidget *w, GtkDirectionType arg,
+                           gpointer data)
 {
   switch (arg) {
     case GTK_DIR_TAB_FORWARD:
     case GTK_DIR_TAB_BACKWARD:
 
       if (!gtk_widget_get_can_focus(w)) {
-	return FALSE;
+	return;
       }
 
       if (!gtk_widget_is_focus(w)) {
 	gtk_widget_grab_focus(w);
-	return TRUE;
+	return;
       }
       break;
 
     default:
       break;
   }
-  return FALSE;
 }
 
 /**********************************************************************//**
@@ -1980,11 +1980,10 @@ static void activate_gui(GtkApplication *app, gpointer data)
                    G_CALLBACK(quit_dialog_callback), NULL);
 
   /* Disable GTK cursor key focus movement */
-  sig = g_signal_lookup("focus", GTK_TYPE_WIDGET);
+  sig = g_signal_lookup("move-focus", GTK_TYPE_WIDGET);
   g_signal_handlers_disconnect_matched(toplevel, G_SIGNAL_MATCH_ID, sig,
                                        0, 0, 0, 0);
-  g_signal_connect(toplevel, "focus", G_CALLBACK(toplevel_focus), NULL);
-
+  g_signal_connect(toplevel, "move-focus", G_CALLBACK(toplevel_focus), NULL);
 
   display_color_type = get_visual();
 
