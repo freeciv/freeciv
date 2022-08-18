@@ -20,15 +20,6 @@ extern "C" {
 /* common */
 #include "name_translation.h"
 
-#define SPECENUM_NAME counter_behaviour
-#define SPECENUM_VALUE1 CB_CITY_OWNED_TURNS
-#define SPECENUM_VALUE1NAME "Owned"
-
-#define SPECENUM_COUNT COUNTER_BEHAVIOUR_LAST
-#include "specenum_gen.h"
-
-enum counter_target { CTGT_CITY };
-
 #define MAX_COUNTERS 20
 
 struct counter

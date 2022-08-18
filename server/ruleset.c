@@ -8184,6 +8184,25 @@ static void send_ruleset_techs(struct conn_list *dest)
 }
 
 /**********************************************************************//**
+Send the counters ruleset information  to the specified connections.
+**************************************************************************/
+static void send_ruleset_counters(struct conn_list *dest)
+{
+  city_counters_iterate(pcount) {
+    struct packet_ruleset_counter packet;
+
+    sz_strlcpy(packet.name, untranslated_name(&pcount->name));
+    sz_strlcpy(packet.rule_name, rule_name_get(&pcount->name));
+    packet.checkpoint = pcount->checkpoint;
+    packet.behaviour = pcount->type;
+    packet.type = pcount->target;
+    packet.def = pcount->def;
+
+    lsend_packet_ruleset_counter(dest, &packet);
+  } city_counters_iterate_end;
+}
+
+/**********************************************************************//**
   Send the buildings ruleset information (all individual improvements and
   wonders) to the specified connections.
 **************************************************************************/
@@ -9484,6 +9503,7 @@ void send_rulesets(struct conn_list *dest)
   send_ruleset_game(dest);
   send_ruleset_disasters(dest);
   send_ruleset_achievements(dest);
+  send_ruleset_counters(dest);
   send_ruleset_trade_routes(dest);
   send_ruleset_team_names(dest);
   send_ruleset_actions(dest);

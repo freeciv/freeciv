@@ -93,6 +93,18 @@ enum output_type_id {
   O_FOOD, O_SHIELD, O_TRADE, O_GOLD, O_LUXURY, O_SCIENCE, O_LAST
 };
 
+/* Counters related types. See common/counters.h */
+/* Used in the network protocol. */
+#define SPECENUM_NAME counter_behaviour
+#define SPECENUM_VALUE1 CB_CITY_OWNED_TURNS
+#define SPECENUM_VALUE1NAME "Owned"
+
+#define SPECENUM_COUNT COUNTER_BEHAVIOUR_LAST
+#include "specenum_gen.h"
+
+/* Used in the network protocol. */
+enum counter_target { CTGT_CITY };
+
 /* Changing this enum will break savegame and network compatibility. */
 /* When changing this, also update the list of valid requirement "Activity"
  * values in doc/README.effects and the list of invalid requirement

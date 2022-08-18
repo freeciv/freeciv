@@ -32,6 +32,7 @@
 #include "actions.h"
 #include "capstr.h"
 #include "citizens.h"
+#include "counters.h"
 #include "events.h"
 #include "extras.h"
 #include "game.h"
@@ -3362,6 +3363,7 @@ void handle_ruleset_control(const struct packet_ruleset_control *packet)
   VALIDATE(num_resource_types,	MAX_RESOURCE_TYPES,     "resources");
   VALIDATE(num_disaster_types,  MAX_DISASTER_TYPES,     "disasters");
   VALIDATE(num_achievement_types, MAX_ACHIEVEMENT_TYPES, "achievements");
+  VALIDATE(num_counters, MAX_COUNTERS, "counters");
 
   /* game.control.government_count, game.control.nation_count and
    * game.control.num_city_styles are allocated dynamically, and does
@@ -5459,4 +5461,28 @@ void handle_diplomacy_remove_clause(int counterpart, int giver,
                                     enum clause_type type, int value)
 {
   client_recv_remove_clause(counterpart, giver, type, value);
+}
+
+/**********************************************************************//**
+Handle each counter ruleset's packet send from server instance to this
+client.
+**************************************************************************/
+void handle_ruleset_counter(const struct packet_ruleset_counter *packet)
+{
+  int counter_count = counters_get_city_counters_count();
+  struct counter *curr = counter_by_id(counter_count);
+
+  names_set(&curr->name, NULL, packet->name, packet->rule_name);
+  curr->checkpoint = packet->checkpoint;
+  curr->type = packet->behaviour;
+  curr->target = packet->type;
+  curr->def = packet->def;
+
+  if (curr->type != CB_CITY_OWNED_TURNS
+    || curr->target != CTGT_CITY) {
+
+    return;
+  }
+
+  attach_city_counter(curr);
 }
