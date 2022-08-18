@@ -1053,7 +1053,7 @@ void rscompat_postprocess(struct rscompat_info *info)
     /* The rule that unit in a city has at least 1/3 of its HP in the
      * beginning of the new turn has moved to the ruleset. */
     peffect = effect_new(EFT_MIN_HP_PCT, 33, NULL);
-    effect_req_append(peffect, req_from_str("CityTile", "Tile", FALSE, TRUE,
+    effect_req_append(peffect, req_from_str("CityTile", "Local", FALSE, TRUE,
                                             FALSE, "Center"));
 
     /* The base unit regeneration rule is in ruleset now. */
