@@ -9,7 +9,10 @@ add_common_env() {
   cp $1/bin/libiconv-2.dll $2/ &&
   cp $1/bin/libsqlite3-0.dll $2/ &&
   cp $1/lib/icuuc64.dll     $2/ &&
-  cp $1/lib/icudt64.dll     $2/
+  cp $1/lib/icudt64.dll     $2/ &&
+  cp $1/bin/libfreetype-6.dll $2/ &&
+  cp $1/bin/libpng16-16.dll $2/ &&
+  cp $1/bin/libharfbuzz-0.dll $2/
 }
 
 add_glib_env() {
@@ -36,8 +39,6 @@ add_gtk_common_env() {
   cp $1/bin/libpangowin32-1.0-0.dll $2/ &&
   cp $1/bin/libpangoft2-1.0-0.dll $2/ &&
   cp $1/bin/libfontconfig-1.dll $2/ &&
-  cp $1/bin/libfreetype-6.dll $2/ &&
-  cp $1/bin/libpng16-16.dll $2/ &&
   cp $1/bin/libpixman-1-0.dll $2/ &&
   cp $1/bin/libgmodule-2.0-0.dll $2/ &&
   cp $1/bin/libjpeg-9.dll $2/ &&
@@ -45,7 +46,6 @@ add_gtk_common_env() {
   cp $1/bin/libfribidi-0.dll $2/ &&
   cp $1/bin/libatk-1.0-0.dll $2/ &&
   cp $1/bin/libffi-8.dll $2/ &&
-  cp $1/bin/libharfbuzz-0.dll $2/ &&
   cp $1/bin/libxml2-2.dll $2/ &&
   mkdir -p $2/lib &&
   cp -R $1/lib/gdk-pixbuf-2.0 $2/lib/ &&
@@ -78,6 +78,17 @@ add_gtk4_env() {
   cp ./helpers/installer-helper-gtk4.cmd $2/bin/installer-helper.cmd
 }
 
+add_qt6_env() {
+  add_glib_env $1 $2 &&
+  cp -R $1/qt6/plugins $2/ &&
+  cp $1/bin/Qt6Core.dll $2/ &&
+  cp $1/bin/Qt6Gui.dll $2/ &&
+  cp $1/bin/Qt6Widgets.dll $2/ &&
+  cp $1/bin/libpcre2-16-0.dll $2/ &&
+  mkdir -p $2/bin &&
+  cp ./helpers/installer-helper-qt.cmd $2/bin/installer-helper.cmd
+}
+
 add_sdl2_env() {
   cp $1/bin/SDL2_image.dll $2/ &&
   cp $1/bin/SDL2_ttf.dll $2/
@@ -104,6 +115,11 @@ case $GUI in
   sdl2)
     GUINAME="SDL2"
     FCMP="gtk4" ;;
+  qt6)
+    GUINAME="Qt6"
+    CLIENT="qt"
+    MPGUI="qt"
+    FCMP="qt" ;;
   *)
     echo "Unknown gui type \"$GUI\"" >&2
     exit 1 ;;
@@ -192,8 +208,19 @@ else
         exit 1
       fi
       ;;
-    qt5|qt6)
-      echo "Qt installer build not supported yet!" >&2
+    qt6)
+      if ! cp freeciv-ruledit.cmd "$INSTDIR"
+      then
+        echo "Adding cmd-file failed!" >&2
+        exit 1
+      fi
+      if ! add_qt6_env "$DLLSPATH" "$INSTDIR" ; then
+        echo "Copying Qt6 environment failed!" >&2
+        exit 1
+      fi
+      ;;
+    qt5)
+      echo "Qt5 installer build not supported!" >&2
       exit 1
       ;;
   esac
