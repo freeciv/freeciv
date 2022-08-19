@@ -1533,6 +1533,8 @@ static void sg_load_game(struct loaddata *loading)
   sg_failure_ret(20299 <= game_version, "Saved game is too old, at least "
                                         "version 2.2.99 required.");
 
+  loading->full_version = game_version;
+
   /* Load server state. */
   string = secfile_lookup_str_default(loading->file, "S_S_INITIAL",
                                       "game.server_state");
@@ -5252,8 +5254,9 @@ static void sg_load_sanitycheck(struct loaddata *loading)
     techs = recalculate_techs_researched(presearch);
 
     if (presearch->techs_researched != techs) {
-      log_sg(_("%s had finished researches count wrong."),
-             research_name_translation(presearch));
+      sg_regr(03000300,
+              _("%s had finished researches count wrong."),
+              research_name_translation(presearch));
       presearch->techs_researched = techs;
     }
   } researches_iterate_end;
