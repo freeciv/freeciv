@@ -2350,6 +2350,8 @@ static void sg_load_scenario(struct loaddata *loading)
   sg_failure_ret(29099 <= game_version, "Saved game is too old, at least "
                                         "version 2.90.99 required.");
 
+  loading->full_version = game_version;
+
   sg_failure_ret(secfile_lookup_bool(loading->file, &game.scenario.is_scenario,
                                      "scenario.is_scenario"), "%s", secfile_error());
   if (!game.scenario.is_scenario) {
@@ -7137,8 +7139,9 @@ static void sg_load_sanitycheck(struct loaddata *loading)
     techs = recalculate_techs_researched(presearch);
 
     if (presearch->techs_researched != techs) {
-      log_sg(_("%s had finished researches count wrong."),
-             research_name_translation(presearch));
+      sg_regr(03000300,
+              _("%s had finished researches count wrong."),
+              research_name_translation(presearch));
       presearch->techs_researched = techs;
     }
   } researches_iterate_end;

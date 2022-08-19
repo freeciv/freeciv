@@ -46,6 +46,7 @@ struct loaddata {
   struct section_file *file;
   const char *secfile_options;
   int version;
+  int full_version;
 
   /* loaded in sg_load_savefile(); needed in sg_load_player() */
   struct {
@@ -121,7 +122,9 @@ struct loaddata {
   int *worked_tiles;
 };
 
-#define log_sg log_error
+#define log_sg    log_error
+/* Fixing known problems from older savegame formats */
+#define log_sgfix log_normal
 
 #define sg_check_ret(...)                                                   \
   if (!sg_success) {                                                        \
@@ -158,6 +161,13 @@ struct loaddata {
     sg_success = FALSE;                                                     \
     log_sg(message, ## __VA_ARGS__);                                        \
     sg_check_ret_val(_val);                                                 \
+  }
+
+#define sg_regr(fixversion, message, ...)                                   \
+  if (loading->full_version >= fixversion) {                                \
+    log_sg(message, ## __VA_ARGS__);                                        \
+  } else {                                                                  \
+    log_sgfix(message, ## __VA_ARGS__);                                     \
   }
 
 void sg_load_compat(struct loaddata *loading);
