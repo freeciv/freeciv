@@ -322,13 +322,11 @@ void dai_manage_tech(struct ai_type *ait, struct player *pplayer)
   dai_tech_effect_values(ait, pplayer);
 
   /* If there are humans in our team, they will choose the techs */
-  players_iterate(aplayer) {
-    const struct player_diplstate *ds = player_diplstate_get(pplayer, aplayer);
-
-    if (ds->type == DS_TEAM) {
+  research_players_iterate(research, aplayer) {
+    if (!aplayer->ai_controlled) {
       return;
     }
-  } players_iterate_end;
+  } research_players_iterate_end;
 
   dai_select_tech(ait, pplayer, &choice, &goal);
   if (choice.choice != research->researching) {
