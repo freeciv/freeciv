@@ -1058,10 +1058,6 @@ static void setup_widgets(void)
 
   notebook = gtk_notebook_new();
 
-  /* stop mouse wheel notebook page switching. */
-  g_signal_connect(notebook, "scroll_event",
-                   G_CALLBACK(terminate_signal_processing), NULL);
-
   toplevel_tabs = notebook;
   gtk_notebook_set_show_tabs(GTK_NOTEBOOK(notebook), FALSE);
   gtk_notebook_set_show_border(GTK_NOTEBOOK(notebook), FALSE);
