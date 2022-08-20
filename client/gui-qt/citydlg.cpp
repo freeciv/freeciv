@@ -4194,7 +4194,9 @@ city_production_model::~city_production_model()
 ****************************************************************************/
 QVariant city_production_model::data(const QModelIndex &index, int role) const
 {
-  if (!index.isValid()) return QVariant();
+  if (!index.isValid()) {
+    return QVariant();
+  }
 
   if (index.row() >= 0 && index.row() < rowCount() && index.column() >= 0
       && index.column() < columnCount()
@@ -4254,6 +4256,8 @@ void city_production_model::populate()
         if (show_units) {
           pi = new production_item(renegade, this);
           city_target_list << pi;
+        } else {
+          delete renegade;
         }
       } else {
         str = improvement_name_translation(renegade->value.building);
@@ -4266,13 +4270,14 @@ void city_production_model::populate()
             && show_buildings)) {
           pi = new production_item(renegade, this);
           city_target_list << pi;
+        } else {
+          delete renegade;
         }
       }
     }
   }
 
-  renegade = NULL;
-  pi = new production_item(renegade, this);
+  pi = new production_item(nullptr, this);
   city_target_list << pi;
   sh.setX(2 * sh.y() + sh.x());
   sh.setX(qMin(sh.x(), 250));
