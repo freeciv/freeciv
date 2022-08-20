@@ -66,17 +66,25 @@ extern gint cur_x, cur_y;
 **************************************************************************/
 static void popit(struct tile *ptile)
 {
-  GtkWidget *p;
-  struct unit *punit;
-
   if (TILE_UNKNOWN != client_tile_get_known(ptile)) {
-    p = gtk_window_new();
-    gtk_widget_set_margin_start(p, 4);
-    gtk_widget_set_margin_end(p, 4);
-    gtk_widget_set_margin_top(p, 4);
-    gtk_widget_set_margin_bottom(p, 4);
-    gtk_window_set_transient_for(GTK_WINDOW(p), GTK_WINDOW(toplevel));
-    gtk_window_set_child(GTK_WINDOW(p), gtk_label_new(popup_info_text(ptile)));
+    GtkWidget *p;
+    struct unit *punit;
+    GdkRectangle rect;
+    GtkAllocation alloc;
+    float canvas_x, canvas_y;
+
+    tile_to_canvas_pos(&canvas_x, &canvas_y, ptile);
+    gtk_widget_get_allocation(map_canvas, &alloc);
+    rect.x = canvas_x - alloc.x;
+    rect.y = canvas_y - alloc.y;
+    rect.width = tileset_full_tile_width(tileset);
+    rect.height = tileset_tile_height(tileset);
+
+    p = gtk_popover_new();
+
+    gtk_widget_set_parent(p, map_canvas);
+    gtk_popover_set_pointing_to(GTK_POPOVER(p), &rect);
+    gtk_popover_set_child(GTK_POPOVER(p), gtk_label_new(popup_info_text(ptile)));
 
     punit = find_visible_unit(ptile);
 
@@ -88,10 +96,10 @@ static void popit(struct tile *ptile)
     }
     mapdeco_set_crosshair(ptile, TRUE);
 
-    g_signal_connect(p, "destroy",
+    g_signal_connect(p, "closed",
                      G_CALLBACK(popupinfo_popdown_callback), NULL);
 
-    gtk_widget_show(p);
+    gtk_popover_popup(GTK_POPOVER(p));
   }
 }
 
