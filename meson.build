@@ -6,7 +6,11 @@ if not get_option('ack_experimental')
         'Most scripts that do freeciv build with meson allow you to pass configure options\nvia environment variable EXTRA_CONFIG.')
 endif
 
-add_global_arguments('-Wno-nonnull-compare', language : 'c')
+c_compiler = meson.get_compiler('c')
+
+if c_compiler.has_argument('-Wno-nonnull-compare')
+  add_global_arguments('-Wno-nonnull-compare', language : 'c')
+endif
 
 add_global_arguments('-fPIC', language : 'cpp')
 
@@ -82,8 +86,6 @@ else
   pub_conf_data.set('FREECIV_DELTA_PROTOCOL', 1)
   server_binary_name = 'freeciv-server'
 endif
-
-c_compiler = meson.get_compiler('c')
 
 if meson.is_cross_build()
   cross_inc_str = meson.get_cross_property('cross_inc_path')
