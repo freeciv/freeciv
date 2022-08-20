@@ -1,24 +1,23 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://web.resource.org/cc/"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:xlink="http://www.w3.org/1999/xlink"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    width="1062.9921"
    height="708.66138"
    viewBox="0 0 500 250"
    id="svg2482"
    sodipodi:version="0.32"
-   inkscape:version="0.45"
+   inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
    sodipodi:docname="uzbekistan.svg"
-   sodipodi:docbase="/home/divanov"
    inkscape:output_extension="org.inkscape.output.svg.inkscape"
    version="1.0"
-   sodipodi:modified="true">
+   sodipodi:modified="true"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
   <metadata
      id="metadata2527">
     <rdf:RDF>
@@ -31,8 +30,8 @@
     </rdf:RDF>
   </metadata>
   <sodipodi:namedview
-     inkscape:window-height="755"
-     inkscape:window-width="1280"
+     inkscape:window-height="629"
+     inkscape:window-width="870"
      inkscape:pageshadow="2"
      inkscape:pageopacity="0.0"
      guidetolerance="10.0"
@@ -46,11 +45,14 @@
      height="200mm"
      units="mm"
      inkscape:zoom="0.61557221"
-     inkscape:cx="500"
-     inkscape:cy="366.20116"
-     inkscape:window-x="-5"
-     inkscape:window-y="-5"
-     inkscape:current-layer="svg2482" />
+     inkscape:cx="527.1518"
+     inkscape:cy="355.76655"
+     inkscape:window-x="500"
+     inkscape:window-y="140"
+     inkscape:current-layer="svg2482"
+     inkscape:pagecheckerboard="0"
+     showgrid="false"
+     inkscape:window-maximized="0" />
   <rect
      width="500"
      height="106.89698"
