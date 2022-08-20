@@ -301,6 +301,9 @@ struct civ_game {
 
 extern bool am_i_server;
 
+extern struct civ_game game;
+extern struct world wld;
+
 /**********************************************************************//**
   Is the program type server?
 **************************************************************************/
@@ -319,6 +322,18 @@ static inline void i_am_tool(void)
 {
   i_am_server(); /* No difference between a tool and server at the moment */
 }
+
+#ifdef FREECIV_WEB
+/**********************************************************************//**
+  Is there currently any connections from web-client(s)
+**************************************************************************/
+static inline bool any_web_conns(void)
+{
+  return conn_list_size(game.web_client_connections) > 0;
+}
+#else  /* FREECIV_WEB */
+#define any_web_conns() (FALSE)
+#endif /* FREECIV_WEB */
 
 void game_init(bool keep_ruleset_value);
 void game_map_init(void);
@@ -367,9 +382,6 @@ static inline bool is_ruleset_compat_mode(void)
 {
   return _ruleset_compat_mode;
 }
-
-extern struct civ_game game;
-extern struct world wld;
 
 #define GAME_DEFAULT_SEED        0
 #define GAME_MIN_SEED            0

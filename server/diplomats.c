@@ -331,6 +331,7 @@ bool diplomat_investigate(struct player *pplayer, struct unit *pdiplomat,
   struct packet_web_city_info_addition web_packet;
   struct traderoute_packet_list *routes;
   const struct unit_type *act_utype;
+  struct packet_web_city_info_addition *webp_ptr;
 
   /* Fetch target city's player.  Sanity checks. */
   fc_assert_ret_val(pcity, FALSE);
@@ -374,12 +375,19 @@ bool diplomat_investigate(struct player *pplayer, struct unit *pdiplomat,
   } unit_list_iterate_end;
   /* Send city info to investigator's player.
      As this is a special case we bypass send_city_info. */
+
+  if (any_web_conns()) {
+    webp_ptr = &web_packet;
+  } else {
+    webp_ptr = NULL;
+  }
+
   routes = traderoute_packet_list_new();
-  package_city(pcity, &city_packet, &web_packet, routes, TRUE);
+  package_city(pcity, &city_packet, webp_ptr, routes, TRUE);
   /* We need to force to send the packet to ensure the client will receive
    * something and popup the city dialog. */
   lsend_packet_city_info(pplayer->connections, &city_packet, TRUE);
-  web_lsend_packet(city_info_addition, pplayer->connections, &web_packet, TRUE);
+  web_lsend_packet(city_info_addition, pplayer->connections, webp_ptr, TRUE);
   traderoute_packet_list_iterate(routes, route_packet) {
     lsend_packet_traderoute_info(pplayer->connections, route_packet);
     FC_FREE(route_packet);

@@ -1125,6 +1125,7 @@ static void send_player_info_c_real(struct player *src,
 {
   struct packet_player_info info;
   struct packet_web_player_info_addition web_info;
+  struct packet_web_player_info_addition *webp_ptr;
 
   fc_assert_ret(src != NULL);
 
@@ -1132,21 +1133,27 @@ static void send_player_info_c_real(struct player *src,
     dest = game.est_connections;
   }
 
-  package_player_common(src, &info, &web_info);
+  if (any_web_conns()) {
+    webp_ptr = &web_info;
+  } else {
+    webp_ptr = NULL;
+  }
+
+  package_player_common(src, &info, webp_ptr);
 
   conn_list_iterate(dest, pconn) {
     if (NULL == pconn->playing && pconn->observer) {
       /* Global observer. */
-      package_player_info(src, &info, &web_info, pconn->playing, INFO_FULL);
+      package_player_info(src, &info, webp_ptr, pconn->playing, INFO_FULL);
     } else if (NULL != pconn->playing) {
       /* Players (including regular observers) */
-      package_player_info(src, &info, &web_info,
+      package_player_info(src, &info, webp_ptr,
                           pconn->playing, INFO_MINIMUM);
     } else {
-      package_player_info(src, &info, &web_info, NULL, INFO_MINIMUM);
+      package_player_info(src, &info, webp_ptr, NULL, INFO_MINIMUM);
     }
     send_packet_player_info(pconn, &info);
-    web_send_packet(player_info_addition, pconn, &web_info);
+    web_send_packet(player_info_addition, pconn, webp_ptr);
   } conn_list_iterate_end;
 }
 
@@ -1256,7 +1263,9 @@ static void package_player_common(struct player *plr,
   packet->science_cost = plr->ai_common.science_cost;
 
 #ifdef FREECIV_WEB
-  web_packet->playerno = player_number(plr);
+  if (web_packet != NULL) {
+    web_packet->playerno = player_number(plr);
+  }
 #endif /* FREECIV_WEB */
 }
 
@@ -1444,10 +1453,12 @@ static void package_player_info(struct player *plr,
   }
 
 #ifdef FREECIV_WEB
-  if (info_level >= INFO_FULL) {
-    web_packet->expected_income = player_get_expected_income(plr);
-  } else {
-    web_packet->expected_income = 0;
+  if (web_packet != NULL) {
+    if (info_level >= INFO_FULL) {
+      web_packet->expected_income = player_get_expected_income(plr);
+    } else {
+      web_packet->expected_income = 0;
+    }
   }
 #endif /* FREECIV_WEB */
 }

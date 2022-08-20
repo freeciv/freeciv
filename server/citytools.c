@@ -42,6 +42,7 @@
 #include "idex.h"
 #include "map.h"
 #include "movement.h"
+#include "packets.h"
 #include "player.h"
 #include "requirements.h"
 #include "research.h"
@@ -2198,6 +2199,7 @@ void broadcast_city_info(struct city *pcity)
   struct packet_city_short_info sc_pack;
   struct player *powner = city_owner(pcity);
   struct traderoute_packet_list *routes;
+  struct packet_web_city_info_addition *webp_ptr;
 
   /* Send to everyone who can see the city. */
 
@@ -2210,15 +2212,22 @@ void broadcast_city_info(struct city *pcity)
     return;
   }
 
+  if (any_web_conns()) {
+    webp_ptr = &web_packet;
+  } else {
+    webp_ptr = NULL;
+  }
+
   routes = traderoute_packet_list_new();
-  package_city(pcity, &packet, &web_packet, routes, FALSE);
+  package_city(pcity, &packet, webp_ptr, routes, FALSE);
 
   players_iterate(pplayer) {
     if (!send_city_suppressed || pplayer != powner) {
       if (can_player_see_city_internals(pplayer, pcity)) {
         update_dumb_city(pplayer, pcity);
         lsend_packet_city_info(pplayer->connections, &packet, FALSE);
-        web_lsend_packet(city_info_addition, pplayer->connections, &web_packet, FALSE);
+        web_lsend_packet(city_info_addition, pplayer->connections,
+                         webp_ptr, FALSE);
         traderoute_packet_list_iterate(routes, route_packet) {
           lsend_packet_traderoute_info(pplayer->connections, route_packet);
         } traderoute_packet_list_iterate_end;
@@ -2235,7 +2244,7 @@ void broadcast_city_info(struct city *pcity)
   conn_list_iterate(game.est_connections, pconn) {
     if (conn_is_global_observer(pconn)) {
       send_packet_city_info(pconn, &packet, FALSE);
-      web_send_packet(city_info_addition, pconn, &web_packet, FALSE);
+      web_send_packet(city_info_addition, pconn, webp_ptr, FALSE);
     }
   } conn_list_iterate_end;
 
@@ -2349,6 +2358,7 @@ void send_city_info_at_tile(struct player *pviewer, struct conn_list *dest,
   struct packet_city_short_info sc_pack;
   struct player *powner = NULL;
   struct traderoute_packet_list *routes = NULL;
+  struct packet_web_city_info_addition *webp_ptr;
 
   if (!pcity) {
     pcity = tile_city(ptile);
@@ -2361,6 +2371,13 @@ void send_city_info_at_tile(struct player *pviewer, struct conn_list *dest,
   if (pcity) {
     powner = city_owner(pcity);
   }
+
+  if (any_web_conns()) {
+    webp_ptr = &web_packet;
+  } else {
+    webp_ptr = NULL;
+  }
+
   if (powner && powner == pviewer) {
     /* send info to owner */
     /* This case implies powner non-NULL which means pcity non-NULL */
@@ -2372,9 +2389,9 @@ void send_city_info_at_tile(struct player *pviewer, struct conn_list *dest,
 
       /* Send all info to the owner */
       update_dumb_city(powner, pcity);
-      package_city(pcity, &packet, &web_packet, routes, FALSE);
+      package_city(pcity, &packet, webp_ptr, routes, FALSE);
       lsend_packet_city_info(dest, &packet, FALSE);
-      web_lsend_packet(city_info_addition, dest, &web_packet, FALSE);
+      web_lsend_packet(city_info_addition, dest, webp_ptr, FALSE);
       traderoute_packet_list_iterate(routes, route_packet) {
         lsend_packet_traderoute_info(dest, route_packet);
       } traderoute_packet_list_iterate_end;
@@ -2396,9 +2413,10 @@ void send_city_info_at_tile(struct player *pviewer, struct conn_list *dest,
       if (pcity) {
         routes = traderoute_packet_list_new();
 
-        package_city(pcity, &packet, &web_packet, routes, FALSE); /* should be dumb_city info? */
+        /* Should be dumb_city info? */
+        package_city(pcity, &packet, webp_ptr, routes, FALSE);
         lsend_packet_city_info(dest, &packet, FALSE);
-        web_lsend_packet(city_info_addition, dest, &web_packet, FALSE);
+        web_lsend_packet(city_info_addition, dest, webp_ptr, FALSE);
         traderoute_packet_list_iterate(routes, route_packet) {
           lsend_packet_traderoute_info(dest, route_packet);
         } traderoute_packet_list_iterate_end;
@@ -2606,10 +2624,12 @@ void package_city(struct city *pcity, struct packet_city_info *packet,
   } improvement_iterate_end;
 
 #ifdef FREECIV_WEB
-  web_packet->id = pcity->id;
+  if (web_packet != NULL) {
+    web_packet->id = pcity->id;
 
-  web_packet->granary_size = city_granary_size(city_size_get(pcity));
-  web_packet->granary_turns = city_turns_to_grow(pcity);
+    web_packet->granary_size = city_granary_size(city_size_get(pcity));
+    web_packet->granary_turns = city_turns_to_grow(pcity);
+  }
 #endif /* FREECIV_WEB */
 }
 

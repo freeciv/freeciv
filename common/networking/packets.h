@@ -50,14 +50,19 @@ do {                                                    \
     send_packet_web_ ##packetname(pconn, __VA_ARGS__ ); \
   }                                                     \
 } while (FALSE)
-#define web_lsend_packet(packetname, ...) \
-  lsend_packet_web_ ##packetname( __VA_ARGS__ )
+#define web_lsend_packet(packetname, pconn, pack, ...)  \
+do {                                                    \
+  const struct packet_web_ ##packetname *_pptr_ = pack; \
+  if (_pptr_ != NULL) {                                 \
+    lsend_packet_web_ ##packetname(pconn, _pptr_, ##__VA_ARGS__ );  \
+  }                                                     \
+} while (FALSE);
 #else  /* FREECIV_WEB */
 #define web_send_packet(packetname, pconn, ...)
 #define web_lsend_packet(packetname, ...)
 #endif /* FREECIV_WEB */
 
-/* The size of opaque (void *) data sent in the network packet.  To avoid
+/* The size of opaque (void *) data sent in the network packet. To avoid
  * fragmentation issues, this SHOULD NOT be larger than the standard
  * ethernet or PPP 1500 byte frame size (with room for headers).
  *
