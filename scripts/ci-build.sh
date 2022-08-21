@@ -86,7 +86,7 @@ mkdir build
 cd build
 meson .. \
   -Dack_experimental=true \
-  -Ddebug=false \
+  -Ddebug=true \
   -Druledit=false \
   -Dsyslua=true \
   -Dclients=gtk3.22 \
