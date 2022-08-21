@@ -1163,9 +1163,10 @@ BUILD_CITY:
     adv_unit_new_task(punit, AUT_AUTO_SETTLER, best_tile);
   }
 
-  if (auto_settler_setup_work(pplayer, punit, state, 0, path,
-                              best_tile, best_act, &best_target,
-                              completion_time)) {
+  if (best_tile != NULL
+      && auto_settler_setup_work(pplayer, punit, state, 0, path,
+                                 best_tile, best_act, &best_target,
+                                 completion_time)) {
     if (pcity != NULL) {
       clear_worker_tasks(pcity);
     }
