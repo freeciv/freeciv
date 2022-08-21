@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
+
 <svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:xlink="http://www.w3.org/1999/xlink"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    version="1.0"
    width="3000"
    height="2000"
    id="svg548"
    sodipodi:version="0.32"
-   inkscape:version="0.46"
+   inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
    sodipodi:docname="vatican.svg"
-   sodipodi:docbase="C:\Documents and Settings\Flanker\Desktop"
-   inkscape:output_extension="org.inkscape.output.svg.inkscape">
+   inkscape:output_extension="org.inkscape.output.svg.inkscape"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
   <metadata
      id="metadata477">
     <rdf:RDF>
@@ -30,8 +30,8 @@
     </rdf:RDF>
   </metadata>
   <sodipodi:namedview
-     inkscape:window-height="729"
-     inkscape:window-width="1280"
+     inkscape:window-height="549"
+     inkscape:window-width="833"
      inkscape:pageshadow="2"
      inkscape:pageopacity="0.0"
      borderopacity="1.0"
@@ -41,13 +41,15 @@
      showguides="true"
      inkscape:guide-bbox="true"
      inkscape:zoom="0.16854167"
-     inkscape:cx="-93.839411"
-     inkscape:cy="930.48364"
-     inkscape:window-x="0"
-     inkscape:window-y="0"
+     inkscape:cx="1566.3782"
+     inkscape:cy="931.52038"
+     inkscape:window-x="467"
+     inkscape:window-y="118"
      inkscape:current-layer="svg548"
      inkscape:showpageshadow="false"
-     showgrid="false" />
+     showgrid="false"
+     inkscape:pagecheckerboard="0"
+     inkscape:window-maximized="0" />
   <defs
      id="defs550">
     <inkscape:perspective
