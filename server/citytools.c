@@ -1923,8 +1923,10 @@ void remove_city(struct city *pcity)
 
   sync_cities();
 
-  /* At least sentried helicopters need to go idle, maybe others. */
-  unit_activities_cancel_all_illegal_tile(pcenter);
+  /* At least sentried helicopters need to go idle, maybe others.
+   * In alien ruleset, city center might have provided water source
+   * for adjacent tile. */
+  unit_activities_cancel_all_illegal_area(pcenter);
 }
 
 /************************************************************************//**
