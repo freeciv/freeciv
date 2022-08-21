@@ -4067,6 +4067,14 @@ static void sg_load_player_main(struct loaddata *loading,
     ds->max_state =
       secfile_lookup_enum_default(loading->file, DS_WAR,
                                   diplstate_type, "%s.closest", buf);
+
+    if (ds->type == DS_WAR && ds->first_contact_turn <= 0) {
+      sg_regr(03020000,
+              "Player%d: War with player %d who has never been met. "
+              "Reverted to No Contact state.", plrno, i);
+      ds->type = DS_NO_CONTACT;
+    }
+
     ds->first_contact_turn =
       secfile_lookup_int_default(loading->file, 0,
                                  "%s.first_contact_turn", buf);
