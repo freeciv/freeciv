@@ -103,6 +103,8 @@ static void menu_entry_group_set_sensitive(enum menu_entry_grouping group,
 
 static GMenu *gov_menu = NULL;
 static GMenu *unit_menu = NULL;
+static GMenu *work_menu = NULL;
+static GMenu *combat_menu = NULL;
 
 struct menu_entry_info {
   const char *key;
@@ -1985,11 +1987,12 @@ static void revolution_callback(GSimpleAction *action,
   popup_revolution_dialog(NULL);
 }
 
-#ifdef MENUS_GTK3
 /************************************************************************//**
   The player has chosen a base to build from the menu.
 ****************************************************************************/
-static void base_callback(GtkMenuItem *item, gpointer data)
+static void base_callback(GSimpleAction *action,
+                          GVariant *parameter,
+                          gpointer data)
 {
   struct extra_type *pextra = data;
 
@@ -2001,7 +2004,9 @@ static void base_callback(GtkMenuItem *item, gpointer data)
 /************************************************************************//**
   The player has chosen a road to build from the menu.
 ****************************************************************************/
-static void road_callback(GtkMenuItem *item, gpointer data)
+static void road_callback(GSimpleAction *action,
+                          GVariant *parameter,
+                          gpointer data)
 {
   struct extra_type *pextra = data;
 
@@ -2011,6 +2016,22 @@ static void road_callback(GtkMenuItem *item, gpointer data)
   } unit_list_iterate_end;
 }
 
+/************************************************************************//**
+  The player has chosen a mine to build from the menu.
+****************************************************************************/
+static void mine_callback(GSimpleAction *action,
+                          GVariant *parameter,
+                          gpointer data)
+{
+  struct extra_type *pextra = data;
+
+  unit_list_iterate(get_units_in_focus(), punit) {
+    request_new_unit_activity_targeted(punit, ACTIVITY_MINE,
+                                       pextra);
+  } unit_list_iterate_end;
+}
+
+#ifdef MENUS_GTK3
 /************************************************************************//**
   Action "CENTER_VIEW" callback.
 ****************************************************************************/
@@ -2138,11 +2159,25 @@ static GMenu *setup_menus(GtkApplication *app)
 
   g_menu_append_submenu(menubar, _("_Unit"), G_MENU_MODEL(unit_menu));
 
-  topmenu = g_menu_new();
-  menu_entry_init(topmenu, "BUILD_CITY");
-  menu_entry_init(topmenu, "AUTO_SETTLER");
+  work_menu = g_menu_new();
+  menu_entry_init(work_menu, "BUILD_CITY");
+  menu_entry_init(work_menu, "AUTO_SETTLER");
 
-  g_menu_append_submenu(menubar, _("_Work"), G_MENU_MODEL(topmenu));
+  /* Placeholder submenus (so that menu update has something to replace) */
+  submenu = g_menu_new();
+  g_menu_append_submenu(work_menu, _("Build _Path"), G_MENU_MODEL(submenu));
+  submenu = g_menu_new();
+  g_menu_append_submenu(work_menu, _("Build _Mine"), G_MENU_MODEL(submenu));
+
+  g_menu_append_submenu(menubar, _("_Work"), G_MENU_MODEL(work_menu));
+
+  combat_menu = g_menu_new();
+
+  /* Placeholder submenu (so that menu update has something to replace) */
+  submenu = g_menu_new();
+  g_menu_append_submenu(combat_menu, _("Build _Base"), G_MENU_MODEL(submenu));
+
+  g_menu_append_submenu(menubar, _("_Combat"), G_MENU_MODEL(combat_menu));
 
   gov_menu = g_menu_new();
 
@@ -2334,10 +2369,13 @@ void real_menus_update(void)
   GMenu *submenu;
   int i, j;
   int tgt_kind_group;
+  struct unit_list *punits = NULL;
 
   if (!menus_built) {
     return;
   }
+
+  punits = get_units_in_focus();
 
   submenu = g_menu_new();
 
@@ -2472,9 +2510,86 @@ void real_menus_update(void)
   g_menu_remove(gov_menu, 5);
   g_menu_insert_submenu(gov_menu, 5, _("_Government"), G_MENU_MODEL(submenu));
 
+  submenu = g_menu_new();
+
+  extra_type_by_cause_iterate(EC_ROAD, pextra) {
+    if (pextra->buildable) {
+      GMenuItem *item;
+      char actname[256];
+      GSimpleAction *act;
+
+      fc_snprintf(actname, sizeof(actname), "path_%d", i);
+      act = g_simple_action_new(actname, NULL);
+      g_simple_action_set_enabled(act,
+                                  can_units_do_activity_targeted(punits,
+                                                                 ACTIVITY_GEN_ROAD,
+                                                                 pextra));
+      g_action_map_add_action(G_ACTION_MAP(fc_app), G_ACTION(act));
+      g_signal_connect(act, "activate", G_CALLBACK(road_callback), pextra);
+
+      fc_snprintf(actname, sizeof(actname), "app.path_%d", i++);
+      item = g_menu_item_new(extra_name_translation(pextra), actname);
+      g_menu_append_item(submenu, item);
+    }
+  } extra_type_by_cause_iterate_end;
+
+  g_menu_remove(work_menu, 2);
+  g_menu_insert_submenu(work_menu, 2, _("Build _Path"), G_MENU_MODEL(submenu));
+
+  submenu = g_menu_new();
+
+  extra_type_by_cause_iterate(EC_MINE, pextra) {
+    if (pextra->buildable) {
+      GMenuItem *item;
+      char actname[256];
+      GSimpleAction *act;
+
+      fc_snprintf(actname, sizeof(actname), "mine_%d", i);
+      act = g_simple_action_new(actname, NULL);
+      g_simple_action_set_enabled(act,
+                                  can_units_do_activity_targeted(punits,
+                                                                 ACTIVITY_MINE,
+                                                                 pextra));
+      g_action_map_add_action(G_ACTION_MAP(fc_app), G_ACTION(act));
+      g_signal_connect(act, "activate", G_CALLBACK(mine_callback), pextra);
+
+      fc_snprintf(actname, sizeof(actname), "app.mine_%d", i++);
+      item = g_menu_item_new(extra_name_translation(pextra), actname);
+      g_menu_append_item(submenu, item);
+    }
+  } extra_type_by_cause_iterate_end;
+
+  g_menu_remove(work_menu, 3);
+  g_menu_insert_submenu(work_menu, 3, _("Build _Mine"), G_MENU_MODEL(submenu));
+
+  submenu = g_menu_new();
+
+  extra_type_by_cause_iterate(EC_BASE, pextra) {
+    if (pextra->buildable) {
+      GMenuItem *item;
+      char actname[256];
+      GSimpleAction *act;
+
+      fc_snprintf(actname, sizeof(actname), "base_%d", i);
+      act = g_simple_action_new(actname, NULL);
+      g_simple_action_set_enabled(act,
+                                  can_units_do_activity_targeted(punits,
+                                                                 ACTIVITY_BASE,
+                                                                 pextra));
+      g_action_map_add_action(G_ACTION_MAP(fc_app), G_ACTION(act));
+      g_signal_connect(act, "activate", G_CALLBACK(base_callback), pextra);
+
+      fc_snprintf(actname, sizeof(actname), "app.base_%d", i++);
+      item = g_menu_item_new(extra_name_translation(pextra), actname);
+      g_menu_append_item(submenu, item);
+    }
+  } extra_type_by_cause_iterate_end;
+
+  g_menu_remove(combat_menu, 0);
+  g_menu_insert_submenu(combat_menu, 0, _("Build _Base"), G_MENU_MODEL(submenu));
+
   return;
 
-  struct unit_list *punits = NULL;
 #ifdef MENUS_GTK3
   bool units_all_same_tile = TRUE, units_all_same_type = TRUE;
   GtkMenu *menu;
@@ -3064,56 +3179,6 @@ void real_menus_init(void)
         gtk_widget_show(item);
       }
     } governments_iterate_end;
-  }
-
-  if ((menu = find_menu("<MENU>/BUILD_BASE"))) {
-    GtkWidget *iter;
-    GtkWidget *item;
-
-    /* Remove previous base entries. */
-    for (iter = gtk_widget_get_first_child(menu);
-         iter != NULL; ) {
-      GtkWidget *cur = iter;
-
-      iter = gtk_widget_get_next_sibling(iter);
-      gtk_widget_destroy(GTK_WIDGET(cur));
-    }
-
-    /* Add new base entries. */
-    extra_type_by_cause_iterate(EC_BASE, pextra) {
-      if (pextra->buildable) {
-        item = gtk_menu_item_new_with_label(extra_name_translation(pextra));
-        g_object_set_data(G_OBJECT(item), "base", pextra);
-        g_signal_connect(item, "activate", G_CALLBACK(base_callback), pextra);
-        gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-        gtk_widget_show(item);
-      }
-    } extra_type_by_cause_iterate_end;
-  }
-
-  if ((menu = find_menu("<MENU>/BUILD_PATH"))) {
-    GtkWidget *iter;
-    GtkWidget *item;
-
-    /* Remove previous road entries. */
-    for (iter = gtk_widget_get_first_child(menu);
-         iter != NULL; ) {
-      GtkWidget *cur = iter;
-
-      iter = gtk_widget_get_next_sibling(iter);
-      gtk_widget_destroy(GTK_WIDGET(cur));
-    }
-
-    /* Add new road entries. */
-    extra_type_by_cause_iterate(EC_ROAD, pextra) {
-      if (pextra->buildable) {
-        item = gtk_menu_item_new_with_label(extra_name_translation(pextra));
-        g_object_set_data(G_OBJECT(item), "road", pextra);
-        g_signal_connect(item, "activate", G_CALLBACK(road_callback), pextra);
-        gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-        gtk_widget_show(item);
-      }
-    } extra_type_by_cause_iterate_end;
   }
 
   menu_entry_group_set_sensitive(MGROUP_SAFE, TRUE);
