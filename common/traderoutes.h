@@ -93,7 +93,7 @@ struct trade_route {
   TYPED_LIST_ITERATE(struct trade_route, trade_route_list, proute)
 #define trade_route_list_iterate_end LIST_ITERATE_END
 
-int max_trade_routes(const struct city *pcity);
+unsigned max_trade_routes(const struct city *pcity);
 enum trade_route_type cities_trade_route_type(const struct city *pcity1,
                                               const struct city *pcity2);
 int trade_route_type_trade_pct(enum trade_route_type type);

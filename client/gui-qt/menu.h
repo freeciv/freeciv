@@ -153,7 +153,7 @@ public:
   bool done;
   int over_max;
   int poss_trade_num;
-  int trade_num; // already created + generated
+  unsigned trade_num; // already created + generated
   QList<struct city *> curr_tr_cities;
   QList<struct city *> new_tr_cities;
   QList<struct city *> pos_cities;
@@ -203,7 +203,7 @@ private:
   bool discard_any(trade_city *tc, int freeroutes);
   bool discard_one(trade_city *tc);
   int find_over_max(struct city *pcity);
-  trade_city* find_most_free();
+  trade_city *find_most_free();
   void check_if_done(trade_city *tc1, trade_city *tc2);
   void discard();
   void discard_trade(trade_city *tc1, trade_city *tc2);
