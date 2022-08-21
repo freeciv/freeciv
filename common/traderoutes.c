@@ -45,7 +45,7 @@ static struct goods_type goods[MAX_GOODS_TYPES];
 /*********************************************************************//**
   Return current maximum number of trade routes city can have.
 *************************************************************************/
-int max_trade_routes(const struct city *pcity)
+unsigned max_trade_routes(const struct city *pcity)
 {
   int eft = get_city_bonus(pcity, EFT_MAX_TRADE_ROUTES);
 
