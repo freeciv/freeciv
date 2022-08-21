@@ -1,12 +1,65 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "http://www.w3.org/TR/2001/PR-SVG-20010719/DTD/svg10.dtd">
-<svg width="16cm" height="11cm" viewBox="99 97 302 204" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-  <g>
-    <rect style="fill: #000000" x="100" y="99" width="300" height="202"/>
-    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="100" y="99" width="300" height="202"/>
+<svg
+   width="16cm"
+   height="10.807947cm"
+   viewBox="99 97 302 200.43829"
+   version="1.1"
+   id="svg14"
+   sodipodi:docname="vampire.svg"
+   inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs18" />
+  <sodipodi:namedview
+     id="namedview16"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:document-units="cm"
+     showgrid="false"
+     inkscape:zoom="1.2228796"
+     inkscape:cx="302.15567"
+     inkscape:cy="201.16453"
+     inkscape:window-width="908"
+     inkscape:window-height="691"
+     inkscape:window-x="549"
+     inkscape:window-y="131"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg14" />
+  <g
+     id="g6"
+     transform="translate(0,-2.8124933)">
+    <rect
+       style="fill:#000000"
+       x="100"
+       y="99"
+       width="300"
+       height="202"
+       id="rect2" />
+    <rect
+       style="fill:none;fill-opacity:0;stroke:#000000;stroke-width:2"
+       x="100"
+       y="99"
+       width="300"
+       height="202"
+       id="rect4" />
   </g>
-  <g>
-    <path style="fill: #f50021" d="M 254 133 C 260,133 356,256 256,257 C 156,258 248,133 254,133z"/>
-    <path style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #f50021" d="M 254 133 C 260,133 356,256 256,257 C 156,258 248,133 254,133"/>
+  <g
+     id="g12"
+     transform="translate(0,-2.8124933)">
+    <path
+       style="fill:#f50021"
+       d="m 254,133 c 6,0 102,123 2,124 -100,1 -8,-124 -2,-124 z"
+       id="path8" />
+    <path
+       style="fill:none;fill-opacity:0;stroke:#f50021;stroke-width:2"
+       d="m 254,133 c 6,0 102,123 2,124 -100,1 -8,-124 -2,-124"
+       id="path10" />
   </g>
 </svg>
