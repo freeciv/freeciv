@@ -58,8 +58,8 @@ struct Diplomacy_dialog {
   GtkWidget *menu0;
   GtkWidget *menu1;
 
-  GtkWidget *image0;
-  GtkWidget *image1;
+  GtkWidget *pic0;
+  GtkWidget *pic1;
 
   GtkListStore *store;
 };
@@ -664,7 +664,7 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
 {
   struct Diplomacy_notebook *dipl_dialog;
   GtkWidget *vgrid, *hgrid, *table, *mainbox;
-  GtkWidget *label, *sw, *view, *image, *spin;
+  GtkWidget *label, *sw, *view, *pic, *spin;
   GtkWidget *menu;
 #ifdef MENUS_GTK3
   GtkWidget *menuitem;
@@ -755,8 +755,9 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   /* Our flag */
   flag_spr = get_nation_flag_sprite(tileset, nation_of_player(plr0));
 
-  image = image_new_from_surface(flag_spr->surface);
-  gtk_grid_attach(GTK_GRID(hgrid), image, grid_col++, 0, 1, 1);
+  pic = gtk_picture_new();
+  picture_set_from_surface(GTK_PICTURE(pic), flag_spr->surface);
+  gtk_grid_attach(GTK_GRID(hgrid), pic, grid_col++, 0, 1, 1);
 
   /* Our name. */
   label = gtk_label_new(NULL);
@@ -769,9 +770,8 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   g_free(buf);
   gtk_grid_attach(GTK_GRID(hgrid), label, grid_col++, 0, 1, 1);
 
-  image = gtk_image_new();
-  pdialog->image0 = image;
-  gtk_grid_attach(GTK_GRID(hgrid), image, grid_col++, 0, 1, 1);
+  pdialog->pic0 = gtk_picture_new();
+  gtk_grid_attach(GTK_GRID(hgrid), pdialog->pic0, grid_col++, 0, 1, 1);
 
   /* Menu for clauses: we. */
   aux_menu = aux_menu_new();
@@ -844,8 +844,9 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   /* Their flag */
   flag_spr = get_nation_flag_sprite(tileset, nation_of_player(plr1));
 
-  image = image_new_from_surface(flag_spr->surface);
-  gtk_grid_attach(GTK_GRID(hgrid), image, grid_col++, 0, 1, 1);
+  pic = gtk_picture_new();
+  picture_set_from_surface(GTK_PICTURE(pic), flag_spr->surface);
+  gtk_grid_attach(GTK_GRID(hgrid), pic, grid_col++, 0, 1, 1);
 
   /* Their name. */
   label = gtk_label_new(NULL);
@@ -858,9 +859,8 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   g_free(buf);
   gtk_grid_attach(GTK_GRID(hgrid), label, grid_col++, 0, 1, 1);
 
-  image = gtk_image_new();
-  pdialog->image1 = image;
-  gtk_grid_attach(GTK_GRID(hgrid), image, grid_col++, 0, 1, 1);
+  pdialog->pic1 = gtk_picture_new();
+  gtk_grid_attach(GTK_GRID(hgrid), pdialog->pic1, grid_col++, 0, 1, 1);
 
   /* Menu for clauses: they. */
   aux_menu = aux_menu_new();
@@ -990,10 +990,10 @@ static void update_diplomacy_dialog(struct Diplomacy_dialog *pdialog)
   }
 
   pixbuf = get_thumb_pixbuf(pdialog->treaty.accept0);
-  gtk_image_set_from_pixbuf(GTK_IMAGE(pdialog->image0), pixbuf);
+  gtk_picture_set_pixbuf(GTK_PICTURE(pdialog->pic0), pixbuf);
   g_object_unref(G_OBJECT(pixbuf));
   pixbuf = get_thumb_pixbuf(pdialog->treaty.accept1);
-  gtk_image_set_from_pixbuf(GTK_IMAGE(pdialog->image1), pixbuf);
+  gtk_picture_set_pixbuf(GTK_PICTURE(pdialog->pic1), pixbuf);
   g_object_unref(G_OBJECT(pixbuf));
 }
 
