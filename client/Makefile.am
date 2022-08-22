@@ -25,6 +25,10 @@ metainfofile_DATA += \
 endif
 if CLIENT_GUI_GTK_4
 GUI_SUBDIRS += gui-gtk-4.0
+desktopfile_DATA += \
+	org.freeciv.gtk4.desktop
+metainfofile_DATA += \
+	org.freeciv.gtk4.metainfo.xml
 endif
 if CLIENT_GUI_QT
 GUI_SUBDIRS += gui-qt
