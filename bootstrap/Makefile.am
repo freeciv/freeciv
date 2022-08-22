@@ -19,6 +19,7 @@ EXTRA_DIST =	freeciv.project		\
 		langstat_ruledit.txt	\
 		org.freeciv.gtk3.desktop.in	\
 		org.freeciv.gtk322.desktop.in	\
+		org.freeciv.gtk4.desktop.in	\
 		org.freeciv.sdl2.desktop.in	\
 		org.freeciv.qt.desktop.in \
 		org.freeciv.server.desktop.in	\
@@ -28,6 +29,7 @@ EXTRA_DIST =	freeciv.project		\
 		org.freeciv.ruledit.desktop.in	\
 		org.freeciv.gtk3.metainfo.xml.in \
 		org.freeciv.gtk322.metainfo.xml.in \
+		org.freeciv.gtk4.metainfo.xml.in \
 		org.freeciv.sdl2.metainfo.xml.in \
 		org.freeciv.qt.metainfo.xml.in \
 		org.freeciv.server.metainfo.xml.in \
