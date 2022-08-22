@@ -2000,66 +2000,80 @@ static gboolean delayed_unselect_path(gpointer data)
 }
 
 /**********************************************************************//**
-  Called on a button event on the pregame player list.
+  Called on a left button click on the pregame player list.
 **************************************************************************/
-static gboolean connection_list_event(GtkWidget *widget,
-                                      GdkEvent *ev,
-                                      gpointer data)
+static gboolean connect_list_left_button(GtkGestureClick *gesture,
+                                         int n_press,
+                                         double x, double y, gpointer data)
 {
-  GtkTreeView *tree = GTK_TREE_VIEW(widget);
+  GtkEventController *controller = GTK_EVENT_CONTROLLER(gesture);
+  GtkTreeView *tree = GTK_TREE_VIEW(gtk_event_controller_get_widget(controller));
   GtkTreePath *path = NULL;
   GtkTreeSelection *selection = gtk_tree_view_get_selection(tree);
-  gboolean ret = FALSE;
-  GdkEventType type;
-  guint button;
-  gdouble x, y;
 
-  type = gdk_event_get_event_type(ev);
-  button = gdk_button_event_get_button(ev);
-  gdk_event_get_position(ev, &x, &y);
-
-  if ((1 != button && 3 != button)
-      || GDK_BUTTON_PRESS != type
-      || !gtk_tree_view_get_path_at_pos(tree,
-                                        x, y,
-                                        &path, NULL, NULL, NULL)) {
+  if (!gtk_tree_view_get_path_at_pos(tree,
+                                     x, y,
+                                     &path, NULL, NULL, NULL)) {
     return FALSE;
   }
 
-  if (1 == button) {
-    if (gtk_tree_selection_path_is_selected(selection, path)) {
-      /* Need to delay to avoid problem with the expander. */
-      g_idle_add(delayed_unselect_path, path);
-      return FALSE;     /* Return now, don't free the path. */
-    }
-  } else if (3 == button) {
-#ifdef MENUS_GTK3
-    GtkTreeModel *model = gtk_tree_view_get_model(tree);
-    GtkTreeIter iter;
-    GtkWidget *menu;
-    int player_no, conn_id;
-    struct player *pplayer;
-    struct connection *pconn;
-
-    if (!gtk_tree_selection_path_is_selected(selection, path)) {
-      gtk_tree_selection_select_path(selection, path);
-    }
-    gtk_tree_model_get_iter(model, &iter, path);
-
-    gtk_tree_model_get(model, &iter, CL_COL_PLAYER_NUMBER, &player_no, -1);
-    pplayer = player_by_number(player_no);
-
-    gtk_tree_model_get(model, &iter, CL_COL_CONN_ID, &conn_id, -1);
-    pconn = conn_by_number(conn_id);
-
-    menu = create_conn_menu(pplayer, pconn);
-    gtk_menu_popup_at_pointer(GTK_MENU(menu), NULL);
-#endif /* MENUS_GTK3 */
-    ret = TRUE;
+  if (gtk_tree_selection_path_is_selected(selection, path)) {
+    /* Need to delay to avoid problem with the expander. */
+    g_idle_add(delayed_unselect_path, path);
+    return FALSE;     /* Return now, don't free the path. */
   }
 
   gtk_tree_path_free(path);
-  return ret;
+
+  return FALSE;
+}
+
+/**********************************************************************//**
+  Called on a right button click on the pregame player list.
+**************************************************************************/
+static gboolean connect_list_right_button(GtkGestureClick *gesture,
+                                          int n_press,
+                                          double x, double y, gpointer data)
+{
+  GtkEventController *controller = GTK_EVENT_CONTROLLER(gesture);
+  GtkTreeView *tree = GTK_TREE_VIEW(gtk_event_controller_get_widget(controller));
+  GtkTreePath *path = NULL;
+#ifdef MENUS_GTK3
+  GtkTreeSelection *selection = gtk_tree_view_get_selection(tree);
+#endif
+
+  if (!gtk_tree_view_get_path_at_pos(tree,
+                                     x, y,
+                                     &path, NULL, NULL, NULL)) {
+    return FALSE;
+  }
+
+#ifdef MENUS_GTK3
+  GtkTreeModel *model = gtk_tree_view_get_model(tree);
+  GtkTreeIter iter;
+  GtkWidget *menu;
+  int player_no, conn_id;
+  struct player *pplayer;
+  struct connection *pconn;
+
+  if (!gtk_tree_selection_path_is_selected(selection, path)) {
+    gtk_tree_selection_select_path(selection, path);
+  }
+  gtk_tree_model_get_iter(model, &iter, path);
+
+  gtk_tree_model_get(model, &iter, CL_COL_PLAYER_NUMBER, &player_no, -1);
+  pplayer = player_by_number(player_no);
+
+  gtk_tree_model_get(model, &iter, CL_COL_CONN_ID, &conn_id, -1);
+  pconn = conn_by_number(conn_id);
+
+  menu = create_conn_menu(pplayer, pconn);
+  gtk_menu_popup_at_pointer(GTK_MENU(menu), NULL);
+#endif /* MENUS_GTK3 */
+
+  gtk_tree_path_free(path);
+
+  return TRUE;
 }
 
 /**********************************************************************//**
@@ -2661,6 +2675,8 @@ GtkWidget *create_start_page(void)
   int box_row = 0;
   int sbox_col = 0;
   int grid_row = 0;
+  GtkGesture *gesture;
+  GtkEventController *controller;
 
   box = gtk_grid_new();
   gtk_orientable_set_orientation(GTK_ORIENTABLE(box),
@@ -2800,8 +2816,17 @@ GtkWidget *create_start_page(void)
   add_tree_col(view, G_TYPE_STRING, _("Team"),
                CL_COL_TEAM, NULL);
 
-  g_signal_connect(view, "button-press-event",
-                   G_CALLBACK(connection_list_event), NULL);
+  controller = GTK_EVENT_CONTROLLER(gtk_gesture_click_new());
+  g_signal_connect(controller, "pressed",
+                   G_CALLBACK(connect_list_left_button), NULL);
+  gtk_widget_add_controller(view, controller);
+  gesture = gtk_gesture_click_new();
+  gtk_gesture_single_set_button(GTK_GESTURE_SINGLE(gesture), 3);
+  controller = GTK_EVENT_CONTROLLER(gesture);
+  g_signal_connect(controller, "pressed",
+                   G_CALLBACK(connect_list_right_button), NULL);
+  gtk_widget_add_controller(view, controller);
+
   g_signal_connect(view, "row-collapsed",
                    G_CALLBACK(connection_list_row_callback),
                    GINT_TO_POINTER(TRUE));
