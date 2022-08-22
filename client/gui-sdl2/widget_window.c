@@ -228,7 +228,7 @@ struct widget *create_window_skeleton(struct gui_layer *pDest,
 /**************************************************************************
   Create window widget
 **************************************************************************/
-struct widget *create_window(struct gui_layer *pDest, utf8_str *title, 
+struct widget *create_window(struct gui_layer *pDest, utf8_str *title,
                              Uint16 w, Uint16 h, Uint32 flags)
 {
   struct widget *pWindow = create_window_skeleton(pDest, title, flags);
