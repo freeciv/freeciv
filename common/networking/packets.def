@@ -205,6 +205,7 @@ type WORKLIST           = worklist(struct worklist)
 # string that is URI encoded in the JSON protocol
 type ESTRING            = estring(char)
 type UNIT_ORDER         = unit_order(struct unit_order)
+type CM_PARAMETER       = cm_parameter(struct cm_parameter)
 
 # typedefs for enums
 type ACHIEVEMENT_TYPE   = uint8(enum achievement_type)
@@ -2356,6 +2357,9 @@ end
 
 PACKET_WEB_CITY_INFO_ADDITION = 256; sc, lsend, is-game-info, force, cancel(PACKET_CITY_SHORT_INFO)
   CITY id; key
+
+  BOOL cma_enabled;
+  CM_PARAMETER cm_parameter;
 
   UINT16 granary_size;
   TURN granary_turns;

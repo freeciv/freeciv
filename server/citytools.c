@@ -2629,6 +2629,14 @@ void package_city(struct city *pcity, struct packet_city_info *packet,
   if (web_packet != NULL) {
     web_packet->id = pcity->id;
 
+    if (pcity->cm_parameter != NULL) {
+      web_packet->cma_enabled = TRUE;
+      cm_copy_parameter(&web_packet->cm_parameter, pcity->cm_parameter);
+    } else {
+      web_packet->cma_enabled = FALSE;
+      memset(&web_packet->cm_parameter, 0, sizeof(web_packet->cm_parameter));
+    }
+
     web_packet->granary_size = city_granary_size(city_size_get(pcity));
     web_packet->granary_turns = city_turns_to_grow(pcity);
   }
