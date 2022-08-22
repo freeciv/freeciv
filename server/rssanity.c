@@ -44,9 +44,9 @@ static bool sanity_check_metadata(void)
 {
   if (game.ruleset_summary != NULL
       && strlen(game.ruleset_summary) > MAX_LEN_CONTENT) {
-    log_error("Too long ruleset summary. It can be only %d bytes long. "
-              "Put longer explanations to ruleset description.",
-              MAX_LEN_CONTENT);
+    ruleset_error(LOG_ERROR, "Too long ruleset summary. It can be only %d bytes long. "
+                  "Put longer explanations to ruleset description.",
+                  MAX_LEN_CONTENT);
     return FALSE;
   }
 
@@ -160,15 +160,17 @@ static bool sanity_check_req_individual(struct requirement *preq,
       const struct impr_type *pimprove = preq->source.value.building;
 
       if (preq->range == REQ_RANGE_WORLD && !is_great_wonder(pimprove)) {
-        log_error("%s: World-ranged requirement not supported for "
-                  "%s (only great wonders supported)", list_for,
-                  improvement_name_translation(pimprove));
+        ruleset_error(LOG_ERROR,
+                      "%s: World-ranged requirement not supported for "
+                      "%s (only great wonders supported)", list_for,
+                      improvement_name_translation(pimprove));
         return FALSE;
       } else if (preq->range > REQ_RANGE_TRADEROUTE && !is_wonder(pimprove)) {
-        log_error("%s: %s-ranged requirement not supported for "
-                  "%s (only wonders supported)", list_for,
-                  req_range_name(preq->range),
-                  improvement_name_translation(pimprove));
+        ruleset_error(LOG_ERROR,
+                      "%s: %s-ranged requirement not supported for "
+                      "%s (only wonders supported)", list_for,
+                      req_range_name(preq->range),
+                      improvement_name_translation(pimprove));
         return FALSE;
       }
     }
@@ -177,13 +179,15 @@ static bool sanity_check_req_individual(struct requirement *preq,
     /* Currently [calendar] is loaded after some requirements are
      * parsed, so we can't do this in universal_value_from_str(). */
     if (game.calendar.calendar_fragments < 1) {
-      log_error("%s: MinCalFrag requirement used in ruleset without "
-                "calendar fragments", list_for);
+      ruleset_error(LOG_ERROR,
+                    "%s: MinCalFrag requirement used in ruleset without "
+                    "calendar fragments", list_for);
       return FALSE;
     } else if (preq->source.value.mincalfrag >= game.calendar.calendar_fragments) {
-      log_error("%s: MinCalFrag requirement %d out of range (max %d in "
-                "this ruleset)", list_for, preq->source.value.mincalfrag,
-                game.calendar.calendar_fragments-1);
+      ruleset_error(LOG_ERROR,
+                    "%s: MinCalFrag requirement %d out of range (max %d in "
+                    "this ruleset)", list_for, preq->source.value.mincalfrag,
+                    game.calendar.calendar_fragments-1);
       return FALSE;
     }
     break;
@@ -199,19 +203,21 @@ static bool sanity_check_req_individual(struct requirement *preq,
       pset = setting_by_number(id);
 
       if (!sanity_check_setting_is_seen(pset)) {
-        log_error("%s: ServerSetting requirement %s isn't visible enough "
-                  "to appear in a requirement. Everyone should be able to "
-                  "see the value of a server setting that appears in a "
-                  "requirement.", list_for, server_setting_name_get(id));
+        ruleset_error(LOG_ERROR,
+                      "%s: ServerSetting requirement %s isn't visible enough "
+                      "to appear in a requirement. Everyone should be able to "
+                      "see the value of a server setting that appears in a "
+                      "requirement.", list_for, server_setting_name_get(id));
         return FALSE;
       }
 
       if (!sanity_check_setting_is_game_rule(pset)) {
         /* This is a server operator related setting (like the compression
          * type of savegames), not a game rule. */
-        log_error("%s: ServerSetting requirement setting %s isn't about a "
-                  "game rule.",
-                  list_for, server_setting_name_get(id));
+        ruleset_error(LOG_ERROR,
+                      "%s: ServerSetting requirement setting %s isn't about a "
+                      "game rule.",
+                      list_for, server_setting_name_get(id));
         return FALSE;
       }
     }
@@ -257,15 +263,17 @@ static bool sanity_check_req_set(int reqs_of_type[], int local_reqs_of_type[],
     switch (preq->source.kind) {
      case VUT_TERRAINCLASS:
        if (local_reqs_of_type[VUT_TERRAIN] > 0) {
-         log_error("%s: Requirement list has both local terrain and terrainclass requirement",
-                   list_for);
+         ruleset_error(LOG_ERROR,
+                       "%s: Requirement list has both local terrain and terrainclass requirement",
+                       list_for);
          return FALSE;
        }
        break;
      case VUT_TERRAIN:
        if (local_reqs_of_type[VUT_TERRAINCLASS] > 0) {
-         log_error("%s: Requirement list has both local terrain and terrainclass requirement",
-                   list_for);
+         ruleset_error(LOG_ERROR,
+                       "%s: Requirement list has both local terrain and terrainclass requirement",
+                       list_for);
          return FALSE;
        }
        break;
@@ -301,26 +309,29 @@ static bool sanity_check_req_set(int reqs_of_type[], int local_reqs_of_type[],
         * Requirements might be identical, but we consider multiple
         * declarations error anyway. */
 
-       log_error("%s: Requirement list has multiple %s requirements",
-                 list_for, universal_type_rule_name(&preq->source));
+       ruleset_error(LOG_ERROR,
+                     "%s: Requirement list has multiple %s requirements",
+                     list_for, universal_type_rule_name(&preq->source));
        return FALSE;
        break;
 
      case VUT_TERRAIN:
        /* There can be only up to max_tiles requirements of these types */
        if (max_tiles != -1 && rc > max_tiles) {
-         log_error("%s: Requirement list has more %s requirements than "
-                   "can ever be fulfilled.", list_for,
-                   universal_type_rule_name(&preq->source));
+         ruleset_error(LOG_ERROR,
+                       "%s: Requirement list has more %s requirements than "
+                       "can ever be fulfilled.", list_for,
+                       universal_type_rule_name(&preq->source));
          return FALSE;
        }
        break;
 
      case VUT_TERRAINCLASS:
        if (rc > 2 || (max_tiles != -1 && rc > max_tiles)) {
-         log_error("%s: Requirement list has more %s requirements than "
-                   "can ever be fulfilled.", list_for,
-                   universal_type_rule_name(&preq->source));
+         ruleset_error(LOG_ERROR,
+                       "%s: Requirement list has more %s requirements than "
+                       "can ever be fulfilled.", list_for,
+                       universal_type_rule_name(&preq->source));
          return FALSE;
        }
        break;
@@ -328,9 +339,10 @@ static bool sanity_check_req_set(int reqs_of_type[], int local_reqs_of_type[],
     case VUT_AGE:
       /* There can be age of the city, unit, and player */
       if (rc > 3) {
-        log_error("%s: Requirement list has more %s requirements than "
-                  "can ever be fulfilled.", list_for,
-                  universal_type_rule_name(&preq->source));
+        ruleset_error(LOG_ERROR,
+                      "%s: Requirement list has more %s requirements than "
+                      "can ever be fulfilled.", list_for,
+                      universal_type_rule_name(&preq->source));
         return FALSE;
       }
       break;
@@ -338,9 +350,10 @@ static bool sanity_check_req_set(int reqs_of_type[], int local_reqs_of_type[],
     case VUT_MINTECHS:
       /* At ranges 'Player' and 'World' */
       if (rc > 2) {
-        log_error("%s: Requirement list has more %s requirements than "
-                  "can ever be fulfilled.", list_for,
-                  universal_type_rule_name(&preq->source));
+        ruleset_error(LOG_ERROR,
+                      "%s: Requirement list has more %s requirements than "
+                      "can ever be fulfilled.", list_for,
+                      universal_type_rule_name(&preq->source));
         return FALSE;
       }
       break;
@@ -434,14 +447,17 @@ sanity_check_req_vec_singlepole(const struct requirement_vector *preqs,
   }
 
   if (conjunctive) {
-    log_error("%s: Requirement list containing 'singlepole' server"
-              " setting requirement must also have negated (!present)"
-              " 'alltemperate' requirement", list_for);
+    ruleset_error(LOG_ERROR,
+                  "%s: Requirement list containing 'singlepole' server"
+                  " setting requirement must also have negated (!present)"
+                  " 'alltemperate' requirement", list_for);
   } else {
-    log_error("%s: Disjunctive requirement list containing 'singlepole'"
-              " server setting requirement must also have present"
-              " 'alltemperate' requirement", list_for);
+    ruleset_error(LOG_ERROR,
+                  "%s: Disjunctive requirement list containing 'singlepole'"
+                  " server setting requirement must also have present"
+                  " 'alltemperate' requirement", list_for);
   }
+
   return FALSE;
 }
 
@@ -486,7 +502,7 @@ static bool sanity_check_req_vec(const struct requirement_vector *preqs,
 
   problem = req_vec_suggest_repair(preqs, req_vec_vector_number, preqs);
   if (problem != NULL) {
-    log_error("%s: %s.", list_for, problem->description);
+    ruleset_error(LOG_ERROR, "%s: %s.", list_for, problem->description);
     req_vec_problem_free(problem);
     return FALSE;
   }
@@ -525,11 +541,12 @@ static bool effect_list_sanity_cb(struct effect *peffect, void *data)
            * supported unit stack targeted action performer (like
            * action_consequence_success() does) or to have the unit stack
            * targeted actions return a list of targets. */
-          log_error("The effect Action_Success_Target_Move_Cost has the"
-                    " requirement {%s} but the action %s isn't"
-                    " (single) unit targeted.",
-                    req_to_fstring(preq),
-                    universal_rule_name(&preq->source));
+          ruleset_error(LOG_ERROR,
+                        "The effect Action_Success_Target_Move_Cost has the"
+                        " requirement {%s} but the action %s isn't"
+                        " (single) unit targeted.",
+                        req_to_fstring(preq),
+                        universal_rule_name(&preq->source));
           return FALSE;
         }
       }
@@ -539,11 +556,12 @@ static bool effect_list_sanity_cb(struct effect *peffect, void *data)
     requirement_vector_iterate(&peffect->reqs, preq) {
       if (preq->source.kind == VUT_ACTION && preq->present) {
         if (action_get_actor_kind(preq->source.value.action) != AAK_UNIT) {
-          log_error("The effect Action_Success_Actor_Move_Cost has the"
-                    " requirement {%s} but the action %s isn't"
-                    " performed by a unit.",
-                    req_to_fstring(preq),
-                    universal_rule_name(&preq->source));
+          ruleset_error(LOG_ERROR,
+                        "The effect Action_Success_Actor_Move_Cost has the"
+                        " requirement {%s} but the action %s isn't"
+                        " performed by a unit.",
+                        req_to_fstring(preq),
+                        universal_rule_name(&preq->source));
           return FALSE;
         }
       }
@@ -554,11 +572,12 @@ static bool effect_list_sanity_cb(struct effect *peffect, void *data)
       if (preq->source.kind == VUT_ACTION && preq->present) {
         if (action_dice_roll_initial_odds(preq->source.value.action)
             == ACTION_ODDS_PCT_DICE_ROLL_NA) {
-          log_error("The effect Action_Odds_Pct has the"
-                    " requirement {%s} but the action %s doesn't"
-                    " roll the dice to see if it fails.",
-                    req_to_fstring(preq),
-                    universal_rule_name(&preq->source));
+          ruleset_error(LOG_ERROR,
+                        "The effect Action_Odds_Pct has the"
+                        " requirement {%s} but the action %s doesn't"
+                        " roll the dice to see if it fails.",
+                        req_to_fstring(preq),
+                        universal_rule_name(&preq->source));
           return FALSE;
         }
       }
