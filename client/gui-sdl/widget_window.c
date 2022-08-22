@@ -220,13 +220,13 @@ struct widget *create_window_skeleton(struct gui_layer *pDest,
   return pWindow;
 }
 
-struct widget * create_window(struct gui_layer *pDest, SDL_String16 *pTitle, 
-                              Uint16 w, Uint16 h, Uint32 flags)
+struct widget *create_window(struct gui_layer *pDest, SDL_String16 *pTitle,
+                             Uint16 w, Uint16 h, Uint32 flags)
 {
   struct widget *pWindow = create_window_skeleton(pDest, pTitle, flags);
 
   resize_window(pWindow, NULL, NULL, w, h);
-  
+
   return pWindow;
 }
 
@@ -245,8 +245,8 @@ struct widget * create_window(struct gui_layer *pDest, SDL_String16 *pTitle,
   }
 **************************************************************************/
 int resize_window(struct widget *pWindow,
-		  SDL_Surface * pBcgd,
-		  SDL_Color * pColor, Uint16 new_w, Uint16 new_h)
+                  SDL_Surface *pBcgd,
+                  SDL_Color *pColor, Uint16 new_w, Uint16 new_h)
 {
   SDL_Color color;
 
@@ -254,9 +254,9 @@ int resize_window(struct widget *pWindow,
   if ((new_w != pWindow->size.w) || (new_h != pWindow->size.h)) {
     pWindow->size.w = new_w;
     pWindow->size.h = new_h;
-  
+
     set_client_area(pWindow);
-    
+
     if (get_wflags(pWindow) & WF_RESTORE_BACKGROUND) {
       refresh_widget_background(pWindow);
     }
@@ -266,7 +266,7 @@ int resize_window(struct widget *pWindow,
                                               pWindow->size.h,
                                               SDL_SWSURFACE);
   }
-  
+
   if (pBcgd != pWindow->theme) {
     FREESURFACE(pWindow->theme);
   }
@@ -281,15 +281,15 @@ int resize_window(struct widget *pWindow,
     }
   } else {
     pWindow->theme = create_surf_alpha(new_w, new_h, SDL_SWSURFACE);
-    
+
     if (!pColor) {
       color = *get_theme_color(COLOR_THEME_BACKGROUND);
 
       pColor = &color;
     }
-  
+
     SDL_FillRect(pWindow->theme, NULL, map_rgba(pWindow->theme->format, *pColor));
-    
+
     return 1;
   }
 }

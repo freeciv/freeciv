@@ -3302,6 +3302,7 @@ void science_report_dialog_popup(bool raise)
   pScienceDlg->pEndWidgetList = pWindow;
 
   pBackground = theme_get_background(theme, BACKGROUND_SCIENCEDLG);
+  FREESURFACE(pWindow->theme);
   pWindow->theme = ResizeSurface(pBackground, pWindow->size.w, pWindow->size.h, 1);
   FREESURFACE(pBackground);
 
