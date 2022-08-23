@@ -488,8 +488,28 @@ void found_new_tech(struct research *presearch, Tech_type_id tech_found,
                           (presearch, presearch->tech_goal));
     } else {
       if (is_future_tech(tech_found)) {
-        /* Continue researching future tech. */
-        next_tech = A_FUTURE;
+        /* Use pick_random_tech() to determine if there now is
+         * a regular tech to research, e.g., if one was lost
+         * due to tech upkeep since we started researching future techs. */
+        next_tech = pick_random_tech(presearch);
+
+        /* Continue researching future tech, if possible. */
+        if (next_tech != A_FUTURE) {
+          bool ai_found = FALSE;
+
+          /* Otherwise check if there's an AI player to support
+           * randomly selected tech (one that "made" the decision) */
+          research_players_iterate(presearch, aplayer) {
+            if (is_ai(aplayer)) {
+              ai_found = TRUE;
+            }
+          } research_players_iterate_end;
+
+          if (!ai_found) {
+            /* Decision is humans' to make */
+            next_tech = A_UNSET;
+          }
+        }
       } else {
         /* If there is at least one AI player still alive, then pick
          * a random tech, else keep A_UNSET. */
