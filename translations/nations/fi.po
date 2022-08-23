@@ -12,21 +12,21 @@
 # Merging translations upwards to e.g. master is fine, do not merge downwards
 # by default.
 #
-# Prioritizing stable branch 2_6 for translations (September 2021), merge
+# Prioritizing stable branch S3_0 for translations (August 2022), merge
 # to master when feeling like it with:
-#   msgmerge --compendium=fi.po.master fi.po.s2_6 freeciv.pot -o fi.po.newmaster
-# where fi.po.master is current master version, fi.po.s2_6 the improved branch
+#   msgmerge --compendium=fi.po.master fi.po.s3_0 freeciv.pot -o fi.po.newmaster
+# where fi.po.master is current master version, fi.po.s3_0 the improved branch
 # version, freeciv.pot an up-to-date POT for the master.
 # Then upload the resulting fi.po.newmaster to master.
 #
 # For nationality translations, see
-# http://www.kotus.fi/julkaisut/nimijulkaisut/paikannimijulkaisut/maat_paakaupungit_ja_kansalaisuudet
+# https://www.kotus.fi/julkaisut/nimijulkaisut/maat_paakaupungit_ja_kansalaisuudet
 msgid ""
 msgstr ""
-"Project-Id-Version: freeciv 3.2\n"
+"Project-Id-Version: freeciv 3.1\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
 "POT-Creation-Date: 2021-02-06 00:29+0200\n"
-"PO-Revision-Date: 2021-09-25 17:37+0300\n"
+"PO-Revision-Date: 2022-08-23 03:50+0300\n"
 "Last-Translator: Markus Linnakangas <markus.linnakangas@luukku.com>\n"
 "Language-Team: None <freeciv-i18n@freelists.org>\n"
 "Language: fi\n"
@@ -3301,24 +3301,10 @@ msgid "Cañari"
 msgstr ""
 
 #: data/nation/canari.ruleset:6
-#, fuzzy
-#| msgid "?plural:Canaris"
 msgid "?plural:Cañaris"
 msgstr "kanarit"
 
 #: data/nation/canari.ruleset:8
-#, fuzzy
-#| msgid ""
-#| "The Canaris were a Pre-Columbian civilization in what is now Ecuador, "
-#| "whose existence can be traced from the 6th century onwards. They were one "
-#| "of the few Andean cultures not to worship the sun. The Canari language "
-#| "was probably related to the Mochica language of Peru, but by the time of "
-#| "the Spanish conquest the Canaris had mostly switched to Quechua. The "
-#| "Canaris formed a loose confederation with their main political center in "
-#| "Guapdondelig, currently the city of Cuenca, capital of the province of "
-#| "Azuay. They were subjugated by the Incas in the late 15th century, though "
-#| "they put up a fierce resistance. They rebelled during the Incan civil war "
-#| "and sided with the Spanish during their conquest of the Inca empire."
 msgid ""
 "The Cañaris were a pre-Columbian civilization in what is now Ecuador, whose "
 "existence can be traced from the 6th century onwards. They were one of the "
