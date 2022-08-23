@@ -1417,9 +1417,9 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
       fc_strlcat(buf, prefix, bufsz);
       if (preq->present) {
         cat_snprintf(buf, bufsz,
-                     _("Requires that there exists a unit at the tile with"
-                       " an owner allied to someone that "
-                       " has the relationship '%s' with at least one other "
+                     _("Requires that there exists a unit at the tile with "
+                       "an owner allied to someone that "
+                       "has the relationship '%s' with at least one other "
                        "living player."),
                      diplrel_name_translation(preq->source.value.diplrel));
       } else {
