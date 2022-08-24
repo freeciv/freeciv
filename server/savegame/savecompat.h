@@ -127,6 +127,10 @@ struct loaddata {
     enum server_side_agent *order;
     size_t size;
   } ssa;
+  struct {
+    enum city_options *order;
+    size_t size;
+  } coptions;
 
   /* loaded in sg_load_game(); needed in sg_load_random(), ... */
   enum server_states server_state;

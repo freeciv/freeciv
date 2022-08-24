@@ -480,6 +480,8 @@ static struct loaddata *loaddata_new(struct section_file *file)
   loading->specialist.size = -1;
   loading->ds_t.order = NULL;
   loading->ds_t.size = -1;
+  loading->coptions.order = NULL;
+  loading->coptions.size = -1;
 
   loading->server_state = S_S_INITIAL;
   loading->rstate = fc_rand_state();
@@ -535,6 +537,10 @@ static void loaddata_destroy(struct loaddata *loading)
 
   if (loading->ds_t.order != NULL) {
     free(loading->ds_t.order);
+  }
+
+  if (loading->coptions.order != NULL) {
+    free(loading->coptions.order);
   }
 
   if (loading->worked_tiles != NULL) {
@@ -1454,6 +1460,41 @@ static void sg_load_savefile(struct loaddata *loading)
     free(modname);
   }
 
+  /* Load city options order. */
+  loading->coptions.size
+      = secfile_lookup_int_default(loading->file, 0,
+                                   "savefile.city_options_size");
+
+  {
+    const char *modname_old[] = { "Disband", "Sci_Specialists", "Tax_Specialists" };
+    const char **modname;
+    int j;
+    bool compat;
+
+    if (loading->coptions.size > 0) {
+      modname = secfile_lookup_str_vec(loading->file, &loading->coptions.size,
+                                       "savefile.city_options_vector");
+      compat = FALSE;
+    } else {
+      modname = modname_old;
+      loading->coptions.size = 3;
+      compat = TRUE;
+    }
+
+    loading->coptions.order = fc_calloc(loading->coptions.size,
+                                        sizeof(*loading->coptions.order));
+
+    for (j = 0; j < loading->coptions.size; j++) {
+      loading->coptions.order[j] = city_options_by_name(modname[j],
+                                                        fc_strcasecmp);
+    }
+
+    if (!compat) {
+      free(modname);
+    }
+  }
+
+  /* Terrain identifiers */
   terrain_type_iterate(pterr) {
     pterr->identifier_load = '\0';
   } terrain_type_iterate_end;
@@ -3620,10 +3661,10 @@ static bool sg_load_player_city(struct loaddata *loading, struct player *plr,
 
   /* Load city options. */
   BV_CLR_ALL(pcity->city_options);
-  for (i = 0; i < CITYO_LAST; i++) {
+  for (i = 0; i < loading->coptions.size; i++) {
     if (secfile_lookup_bool_default(loading->file, FALSE, "%s.option%d",
                                     citystr, i)) {
-      BV_SET(pcity->city_options, i);
+      BV_SET(pcity->city_options, loading->coptions.order[i]);
     }
   }
 
