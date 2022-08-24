@@ -47,7 +47,7 @@ option('audio',
 
 option('ruledit',
        type: 'boolean',
-       value: true,
+       value: false,
        description: 'Build ruleset editor')
 
 option('nls',

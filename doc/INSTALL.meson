@@ -141,7 +141,7 @@ audio (boolean):
   Build sound support to the clients. Defaults to true.
 
 ruledit (boolean):
-  Build ruleset editor. Defaults to true.
+  Build ruleset editor. Defaults to false.
 
 nls (boolean):
   Build in Native Language Support. Defaults to true.
