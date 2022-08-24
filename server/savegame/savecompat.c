@@ -2442,7 +2442,7 @@ static void compat_load_dev(struct loaddata *loading)
   } /* Version < 3.1.91 */
 
   if (game_version < 3019200) {
-    /* Before version number bump to 3.1.92 */
+    /* Before version number bump to 3.1.92, August 2022 */
     int set_count;
     bool gamestart_valid = FALSE;
     bool al_set_already = FALSE;
@@ -2712,6 +2712,11 @@ static void compat_load_dev(struct loaddata *loading)
       }
     } player_slots_iterate_end;
   } /* Version < 3.1.92 */
+
+  if (game_version < 3019300) {
+    /* Before version number bump to 3.1.93 */
+
+  } /* Version < 3.1.93 */
 
 #endif /* FREECIV_DEV_SAVE_COMPAT_3_2 */
 }
