@@ -86,8 +86,13 @@ static bool science_report_combo_get_active(GtkComboBox *combo,
                                             char **name);
 static void science_report_combo_set_active(GtkComboBox *combo,
                                             Tech_type_id tech);
-static gboolean science_diagram_button_release_callback(GtkWidget *widget,
-                                                        GdkEvent *ev, gpointer data);
+static gboolean science_diagram_left_button_up(GtkGestureClick *gesture,
+                                               int n_press,
+                                               double x, double y);
+static gboolean science_diagram_right_button_up(GtkGestureClick *gesture,
+                                                int n_press,
+                                                double x, double y);
+
 static void science_diagram_update(GtkDrawingArea *widget, cairo_t *cr,
                                    int width, int height, gpointer data);
 static GtkWidget *science_diagram_new(void);
@@ -192,25 +197,16 @@ static void science_report_combo_set_active(GtkComboBox *combo,
 }
 
 /************************************************************************//**
-  Change tech goal, research or open help dialog.
+  Change tech goal or research.
 ****************************************************************************/
-static gboolean science_diagram_button_release_callback(GtkWidget *widget,
-                                                        GdkEvent *ev, gpointer data)
+static gboolean science_diagram_left_button_up(GtkGestureClick *gesture,
+                                               int n_press,
+                                               double x, double y)
 {
-  const struct research *presearch = research_get(client_player());
-  struct reqtree *reqtree = g_object_get_data(G_OBJECT(widget), "reqtree");
+  GtkEventController *controller = GTK_EVENT_CONTROLLER(gesture);
+  GtkWidget *w = gtk_event_controller_get_widget(controller);
+  struct reqtree *reqtree = g_object_get_data(G_OBJECT(w), "reqtree");
   Tech_type_id tech;
-  GdkEventType type;
-  gdouble x, y;
-  guint button;
-
-  type = gdk_event_get_event_type(ev);
-  if (type != GDK_BUTTON_RELEASE) {
-    return TRUE;
-  }
-
-  gdk_event_get_position(ev, &x, &y);
-  button = gdk_button_event_get_button(ev);
 
   tech = get_tech_on_reqtree(reqtree, x, y);
 
@@ -218,27 +214,50 @@ static gboolean science_diagram_button_release_callback(GtkWidget *widget,
     return TRUE;
   }
 
-  if (button == 3) {
-    /* RMB: get help */
-    popup_help_dialog_typed(research_advance_name_translation(presearch,
-                                                              tech),
-                            HELP_TECH);
-  } else {
-    if (button == 1 && can_client_issue_orders()) {
-      /* LMB: set research or research goal */
-      switch (research_invention_state(research_get(client_player()),
-                                       tech)) {
-       case TECH_PREREQS_KNOWN:
-         dsend_packet_player_research(&client.conn, tech);
-         break;
-       case TECH_UNKNOWN:
-         dsend_packet_player_tech_goal(&client.conn, tech);
-         break;
-       case TECH_KNOWN:
-         break;
-      }
+  if (can_client_issue_orders()) {
+    /* Set research or research goal */
+    switch (research_invention_state(research_get(client_player()),
+                                     tech)) {
+    case TECH_PREREQS_KNOWN:
+      dsend_packet_player_research(&client.conn, tech);
+      break;
+    case TECH_UNKNOWN:
+      dsend_packet_player_tech_goal(&client.conn, tech);
+      break;
+    case TECH_KNOWN:
+      break;
     }
   }
+
+  return TRUE;
+}
+
+/************************************************************************//**
+  Open tech help dialog.
+****************************************************************************/
+static gboolean science_diagram_right_button_up(GtkGestureClick *gesture,
+                                                int n_press,
+                                                double x, double y)
+{
+  const struct research *presearch;
+  GtkEventController *controller = GTK_EVENT_CONTROLLER(gesture);
+  GtkWidget *w = gtk_event_controller_get_widget(controller);
+  struct reqtree *reqtree = g_object_get_data(G_OBJECT(w), "reqtree");
+  Tech_type_id tech;
+
+  tech = get_tech_on_reqtree(reqtree, x, y);
+
+  if (tech == A_NONE) {
+    return TRUE;
+  }
+
+  presearch = research_get(client_player());
+
+  /* Open help */
+  popup_help_dialog_typed(research_advance_name_translation(presearch,
+                                                            tech),
+                          HELP_TECH);
+
   return TRUE;
 }
 
@@ -286,13 +305,23 @@ static void science_diagram_update(GtkDrawingArea *widget, cairo_t *cr,
 static GtkWidget *science_diagram_new(void)
 {
   GtkWidget *diagram;
+  GtkEventController *controller;
+  GtkGesture *gesture;
 
   diagram = gtk_drawing_area_new();
   gtk_drawing_area_set_draw_func(GTK_DRAWING_AREA(diagram),
                                  science_diagram_update, NULL, NULL);
-  g_signal_connect(diagram, "button-release-event",
-                   G_CALLBACK(science_diagram_button_release_callback),
-                   NULL);
+
+  controller = GTK_EVENT_CONTROLLER(gtk_gesture_click_new());
+  g_signal_connect(controller, "released",
+                   G_CALLBACK(science_diagram_left_button_up), NULL);
+  gtk_widget_add_controller(diagram, controller);
+  gesture = gtk_gesture_click_new();
+  gtk_gesture_single_set_button(GTK_GESTURE_SINGLE(gesture), 3);
+  controller = GTK_EVENT_CONTROLLER(gesture);
+  g_signal_connect(controller, "released",
+                   G_CALLBACK(science_diagram_right_button_up), NULL);
+  gtk_widget_add_controller(diagram, controller);
 
   return diagram;
 }
