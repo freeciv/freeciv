@@ -55,9 +55,6 @@ struct Diplomacy_dialog {
   struct Treaty treaty;
   struct gui_dialog* dialog;
 
-  GtkWidget *menu0;
-  GtkWidget *menu1;
-
   GtkWidget *pic0;
   GtkWidget *pic1;
 
@@ -85,10 +82,12 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
 
 static struct Diplomacy_dialog *find_diplomacy_dialog(int other_player_id);
 static void popup_diplomacy_dialog(int other_player_id, int initiated_from);
+static void diplomacy_dialog_map_callback(GSimpleAction *action, GVariant *parameter,
+                                          gpointer data);
+static void diplomacy_dialog_seamap_callback(GSimpleAction *action, GVariant *parameter,
+                                             gpointer data);
 
 #ifdef MENUS_GTK3
-static void diplomacy_dialog_map_callback(GtkWidget *w, gpointer data);
-static void diplomacy_dialog_seamap_callback(GtkWidget *w, gpointer data);
 static void diplomacy_dialog_tech_callback(GtkWidget *w, gpointer data);
 static void diplomacy_dialog_city_callback(GtkWidget *w, gpointer data);
 static void diplomacy_dialog_ceasefire_callback(GtkWidget *w, gpointer data);
@@ -232,17 +231,36 @@ static gint sort_advance_names(gconstpointer a, gconstpointer b)
   return fc_strcoll(advance_name_translation(padvance1),
                     advance_name_translation(padvance2));
 }
+#endif /* MENUS_GTK3 */
 
 /************************************************************************//**
   Popup menu about adding clauses
 ****************************************************************************/
-static void popup_add_menu(GtkMenuShell *parent, gpointer data)
+static GMenu *create_clause_menu(GActionGroup *group,
+                                 struct Diplomacy_dialog *pdialog,
+                                 struct player *partner, bool them)
 {
-  struct Diplomacy_dialog *pdialog;
-  struct player *pgiver, *pother;
-  GtkWidget *item, *menu;
+  GMenu *topmenu, *submenu;
+  GMenuItem *item;
+  GSimpleAction *act;
   bool any_map = FALSE;
+  char act_plr_part[20];
+  char act_name[60];
+  struct player *pgiver; /*, *pother; */
 
+  if (them) {
+    fc_strlcpy(act_plr_part, "_them", sizeof(act_plr_part));
+    pgiver = partner;
+    /* pother = client_player(); */
+  } else {
+    fc_strlcpy(act_plr_part, "_us", sizeof(act_plr_part));
+    pgiver = client_player();
+    /* pother = partner; */
+  }
+
+  topmenu = g_menu_new();
+
+#if 0
   /* Init. */
   gtk_container_foreach(GTK_CONTAINER(parent),
                         (GtkCallback) gtk_widget_destroy, NULL);
@@ -251,38 +269,50 @@ static void popup_add_menu(GtkMenuShell *parent, gpointer data)
   pgiver = (struct player *) g_object_get_data(G_OBJECT(parent), "plr");
   pother = (pgiver == pdialog->treaty.plr0
             ? pdialog->treaty.plr1 : pdialog->treaty.plr0);
-
+#endif
 
   /* Maps. */
   if (clause_enabled(CLAUSE_MAP)) {
-    menu = gtk_menu_button_new();
+    submenu = g_menu_new();
 
-    item = gtk_menu_item_new_with_mnemonic(_("World-map"));
-    gtk_menu_shell_append(GTK_MENU_SHELL(menu),item);
-    g_object_set_data(G_OBJECT(item), "plr", pgiver);
-    g_signal_connect(item, "activate",
-                     G_CALLBACK(diplomacy_dialog_map_callback), pdialog);
+    fc_snprintf(act_name, sizeof(act_name), "worldmap%s", act_plr_part);
+    act = g_simple_action_new(act_name, NULL);
+    g_object_set_data(G_OBJECT(act), "plr", pgiver);
+    g_action_map_add_action(G_ACTION_MAP(group), G_ACTION(act));
+    g_signal_connect(act, "activate", G_CALLBACK(diplomacy_dialog_map_callback),
+                     pdialog);
+
+    fc_snprintf(act_name, sizeof(act_name), "win.worldmap%s", act_plr_part);
+    item = g_menu_item_new(_("World-map"), act_name);
+    g_menu_append_item(submenu, item);
+
     any_map = TRUE;
   }
 
   if (clause_enabled(CLAUSE_SEAMAP)) {
     if (!any_map) {
-      menu = gtk_menu_button_new();
+      submenu = g_menu_new();
     }
-    item = gtk_menu_item_new_with_mnemonic(_("Sea-map"));
-    gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-    g_object_set_data(G_OBJECT(item), "plr", pgiver);
-    g_signal_connect(item, "activate",
-                     G_CALLBACK(diplomacy_dialog_seamap_callback), pdialog);
+
+    fc_snprintf(act_name, sizeof(act_name), "seamap%s", act_plr_part);
+    act = g_simple_action_new(act_name, NULL);
+    g_object_set_data(G_OBJECT(act), "plr", pgiver);
+    g_action_map_add_action(G_ACTION_MAP(group), G_ACTION(act));
+    g_signal_connect(act, "activate", G_CALLBACK(diplomacy_dialog_seamap_callback),
+                     pdialog);
+
+    fc_snprintf(act_name, sizeof(act_name), "win.seamap%s", act_plr_part);
+    item = g_menu_item_new(_("Sea-map"), act_name);
+    g_menu_append_item(submenu, item);
+
     any_map = TRUE;
   }
 
   if (any_map) {
-    item = gtk_menu_item_new_with_mnemonic(_("_Maps"));
-    gtk_menu_item_set_submenu(GTK_MENU_ITEM(item), menu);
-    gtk_menu_shell_append(GTK_MENU_SHELL(parent), item);
-    gtk_widget_show(item);
+    g_menu_append_submenu(topmenu, _("_Maps"), G_MENU_MODEL(submenu));
   }
+
+#if 0
 
   /* Trading: advances */
   if (clause_enabled(CLAUSE_ADVANCE)) {
@@ -481,8 +511,10 @@ static void popup_add_menu(GtkMenuShell *parent, gpointer data)
       g_object_unref(menu);
     }
   }
+#endif
+
+  return topmenu;
 }
-#endif /* MENUS_GTK3 */
 
 /************************************************************************//**
   Some clause activated
@@ -663,12 +695,8 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
                                                         struct player *plr1)
 {
   struct Diplomacy_notebook *dipl_dialog;
-  GtkWidget *vgrid, *hgrid, *table, *mainbox;
+  GtkWidget *vbox, *hgrid, *table, *mainbox;
   GtkWidget *label, *sw, *view, *pic, *spin;
-  GtkWidget *menu;
-#ifdef MENUS_GTK3
-  GtkWidget *menuitem;
-#endif /* MENUS_GTK3 */
   GtkWidget *aux_menu, *notebook;
   struct sprite *flag_spr;
   GtkListStore *store;
@@ -677,9 +705,10 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   struct Diplomacy_dialog *pdialog;
   char plr_buf[4 * MAX_LEN_NAME];
   gchar *buf;
-  int grid_row = 0;
   int grid_col = 0;
   int main_row = 0;
+  GActionGroup *group;
+  GMenu *menu;
 
   pdialog = fc_malloc(sizeof(*pdialog));
 
@@ -727,16 +756,13 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   }
   g_free(buf);
 
-  /* us. */
-  vgrid = gtk_grid_new();
-  gtk_orientable_set_orientation(GTK_ORIENTABLE(vgrid),
-                                 GTK_ORIENTATION_VERTICAL);
-  gtk_grid_set_row_spacing(GTK_GRID(vgrid), 5);
-  gtk_widget_set_margin_start(vgrid, 2);
-  gtk_widget_set_margin_end(vgrid, 2);
-  gtk_widget_set_margin_top(vgrid, 2);
-  gtk_widget_set_margin_bottom(vgrid, 2);
-  gui_dialog_add_content_widget(pdialog->dialog, vgrid);
+  /* Us. */
+  vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 5);
+  gtk_widget_set_margin_start(vbox, 2);
+  gtk_widget_set_margin_end(vbox, 2);
+  gtk_widget_set_margin_top(vbox, 2);
+  gtk_widget_set_margin_bottom(vbox, 2);
+  gui_dialog_add_content_widget(pdialog->dialog, vbox);
 
   /* Our nation. */
   label = gtk_label_new(NULL);
@@ -746,11 +772,11 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
                         nation_plural_for_player(plr0));
   gtk_label_set_markup(GTK_LABEL(label), buf);
   g_free(buf);
-  gtk_grid_attach(GTK_GRID(vgrid), label, 0, grid_row++, 1, 1);
+  gtk_box_append(GTK_BOX(vbox), label);
 
   hgrid = gtk_grid_new();
   gtk_grid_set_column_spacing(GTK_GRID(hgrid), 5);
-  gtk_grid_attach(GTK_GRID(vgrid), hgrid, 0, grid_row++, 1, 1);
+  gtk_box_append(GTK_BOX(vbox), hgrid);
 
   /* Our flag */
   flag_spr = get_nation_flag_sprite(tileset, nation_of_player(plr0));
@@ -775,9 +801,10 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
 
   /* Menu for clauses: we. */
   aux_menu = aux_menu_new();
+  group = G_ACTION_GROUP(g_simple_action_group_new());
 
-  menu = gtk_menu_button_new();
-  pdialog->menu0 = menu;
+  menu = create_clause_menu(group, pdialog, plr1, FALSE);
+  gtk_menu_button_set_menu_model(GTK_MENU_BUTTON(aux_menu), G_MENU_MODEL(menu));
 
 #ifdef MENUS_GTK3
   menuitem = gtk_menu_item_new_with_label(_("Add Clause..."));
@@ -792,7 +819,7 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   gtk_widget_set_halign(table, GTK_ALIGN_CENTER);
   gtk_widget_set_valign(table, GTK_ALIGN_CENTER);
   gtk_grid_set_column_spacing(GTK_GRID(table), 16);
-  gtk_grid_attach(GTK_GRID(vgrid), table, 0, grid_row++, 1, 1);
+  gtk_box_append(GTK_BOX(vbox), table);
 
   if (clause_enabled(CLAUSE_GOLD)) {
     spin = gtk_spin_button_new_with_range(0.0, plr0->economic.gold + 0.1,
@@ -813,18 +840,15 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   } else {
     gtk_grid_attach(GTK_GRID(table), aux_menu, 0, 0, 1, 1);
   }
+  gtk_widget_insert_action_group(aux_menu, "win", group);
 
-  /* them. */
-  vgrid = gtk_grid_new();
-  grid_row = 0;
-  gtk_orientable_set_orientation(GTK_ORIENTABLE(vgrid),
-                                 GTK_ORIENTATION_VERTICAL);
-  gtk_grid_set_row_spacing(GTK_GRID(vgrid), 5);
-  gtk_widget_set_margin_start(vgrid, 2);
-  gtk_widget_set_margin_end(vgrid, 2);
-  gtk_widget_set_margin_top(vgrid, 2);
-  gtk_widget_set_margin_bottom(vgrid, 2);
-  gui_dialog_add_content_widget(pdialog->dialog, vgrid);
+  /* Them. */
+  vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 5);
+  gtk_widget_set_margin_start(vbox, 2);
+  gtk_widget_set_margin_end(vbox, 2);
+  gtk_widget_set_margin_top(vbox, 2);
+  gtk_widget_set_margin_bottom(vbox, 2);
+  gui_dialog_add_content_widget(pdialog->dialog, vbox);
 
   /* Their nation. */
   label = gtk_label_new(NULL);
@@ -834,12 +858,12 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
                         nation_plural_for_player(plr1));
   gtk_label_set_markup(GTK_LABEL(label), buf);
   g_free(buf);
-  gtk_grid_attach(GTK_GRID(vgrid), label, 0, grid_row++, 1, 1);
+  gtk_box_append(GTK_BOX(vbox), label);
 
   hgrid = gtk_grid_new();
   grid_col = 0;
   gtk_grid_set_column_spacing(GTK_GRID(hgrid), 5);
-  gtk_grid_attach(GTK_GRID(vgrid), hgrid, 0, grid_row++, 1, 1);
+  gtk_box_append(GTK_BOX(vbox), hgrid);
 
   /* Their flag */
   flag_spr = get_nation_flag_sprite(tileset, nation_of_player(plr1));
@@ -864,9 +888,10 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
 
   /* Menu for clauses: they. */
   aux_menu = aux_menu_new();
+  group = G_ACTION_GROUP(g_simple_action_group_new());
 
-  menu = gtk_menu_button_new();
-  pdialog->menu1 = menu;
+  menu = create_clause_menu(group, pdialog, plr1, TRUE);
+  gtk_menu_button_set_menu_model(GTK_MENU_BUTTON(aux_menu), G_MENU_MODEL(menu));
 
 #ifdef MENUS_GTK3
   menuitem = gtk_menu_item_new_with_label(_("Add Clause..."));
@@ -881,7 +906,7 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   gtk_widget_set_halign(table, GTK_ALIGN_CENTER);
   gtk_widget_set_valign(table, GTK_ALIGN_CENTER);
   gtk_grid_set_column_spacing(GTK_GRID(table), 16);
-  gtk_grid_attach(GTK_GRID(vgrid), table, 0, grid_row++, 1, 1);
+  gtk_box_append(GTK_BOX(vbox), table);
 
   if (clause_enabled(CLAUSE_GOLD)) {
     spin = gtk_spin_button_new_with_range(0.0, plr1->economic.gold + 0.1,
@@ -902,6 +927,7 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   } else {
     gtk_grid_attach(GTK_GRID(table), aux_menu, 0, 0, 1, 1);
   }
+  gtk_widget_insert_action_group(aux_menu, "win", group);
 
   /* Clauses. */
   mainbox = gtk_grid_new();
@@ -941,13 +967,11 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
     "yalign", 0.5,
     NULL);
 
-  vgrid = gtk_grid_new();
-  grid_row = 0;
-  gtk_orientable_set_orientation(GTK_ORIENTABLE(vgrid),
-                                 GTK_ORIENTATION_VERTICAL);
-  gtk_grid_attach(GTK_GRID(mainbox), vgrid, 0, main_row++, 1, 1);
-  gtk_grid_attach(GTK_GRID(vgrid), label, 0, grid_row++, 1, 1);
-  gtk_grid_attach(GTK_GRID(vgrid), sw, 0, grid_row++, 1, 1);
+  vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
+
+  gtk_grid_attach(GTK_GRID(mainbox), vbox, 0, main_row++, 1, 1);
+  gtk_box_append(GTK_BOX(vbox), label);
+  gtk_box_append(GTK_BOX(vbox), sw);
 
   gtk_widget_show(mainbox);
 
@@ -1064,16 +1088,18 @@ static void diplomacy_dialog_city_callback(GtkWidget *w, gpointer data)
   dsend_packet_diplomacy_create_clause_req(&client.conn, other, giver,
                                            CLAUSE_CITY, city);
 }
+#endif /* MENUS_GTK3 */
 
 /************************************************************************//**
   Map menu item activated
 ****************************************************************************/
-static void diplomacy_dialog_map_callback(GtkWidget *w, gpointer data)
+static void diplomacy_dialog_map_callback(GSimpleAction *action, GVariant *parameter,
+                                          gpointer data)
 {
   struct Diplomacy_dialog *pdialog = (struct Diplomacy_dialog *)data;
   struct player *pgiver;
 
-  pgiver = (struct player *)g_object_get_data(G_OBJECT(w), "plr");
+  pgiver = (struct player *)g_object_get_data(G_OBJECT(action), "plr");
 
   dsend_packet_diplomacy_create_clause_req(&client.conn,
                                            player_number(pdialog->treaty.plr1),
@@ -1083,12 +1109,13 @@ static void diplomacy_dialog_map_callback(GtkWidget *w, gpointer data)
 /************************************************************************//**
   Seamap menu item activated
 ****************************************************************************/
-static void diplomacy_dialog_seamap_callback(GtkWidget *w, gpointer data)
+static void diplomacy_dialog_seamap_callback(GSimpleAction *action, GVariant *parameter,
+                                             gpointer data)
 {
   struct Diplomacy_dialog *pdialog = (struct Diplomacy_dialog *)data;
   struct player *pgiver;
 
-  pgiver = (struct player *)g_object_get_data(G_OBJECT(w), "plr");
+  pgiver = (struct player *)g_object_get_data(G_OBJECT(action), "plr");
 
   dsend_packet_diplomacy_create_clause_req(&client.conn,
                                            player_number(pdialog->treaty.plr1),
@@ -1096,6 +1123,7 @@ static void diplomacy_dialog_seamap_callback(GtkWidget *w, gpointer data)
                                            0);
 }
 
+#ifdef MENUS_GTK3
 /************************************************************************//**
   Adding pact clause
 ****************************************************************************/
