@@ -179,7 +179,7 @@ static void option_apply_callback(GtkMenuItem *menuitem, gpointer data)
 #endif /* MENUS_GTK3 */
 
 /************************************************************************//**
-  Called when a button is pressed on a option.
+  Called when a button is pressed on an option.
 ****************************************************************************/
 static gboolean option_button_press_callback(GtkWidget *widget,
                                              GdkEvent *ev,
@@ -434,7 +434,7 @@ static void option_dialog_destroy(struct option_dialog *pdialog)
 }
 
 /************************************************************************//**
-  Utility for sorting the pages of a option dialog.
+  Utility for sorting the pages of an option dialog.
 ****************************************************************************/
 static int option_dialog_pages_sort_func(const void *w1, const void *w2)
 {
