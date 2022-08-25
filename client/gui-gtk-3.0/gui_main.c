@@ -1081,7 +1081,7 @@ static void setup_canvas_color_for_state(GtkStateFlags state)
 static void setup_widgets(void)
 {
   GtkWidget *page, *ebox, *hgrid, *hgrid2, *label;
-  GtkWidget *frame, *table, *table2, *paned, *hpaned, *sw, *text;
+  GtkWidget *frame, *table, *table2, *paned, *sw, *text;
   GtkWidget *button, *view, *vgrid, *right_vbox = NULL;
   int i;
   char buf[256];
@@ -1508,9 +1508,11 @@ static void setup_widgets(void)
   /* *** The message window -- this is a detachable widget *** */
 
   if (GUI_GTK_OPTION(message_chat_location) == GUI_GTK_MSGCHAT_MERGED) {
-    bottom_hpaned = hpaned = paned;
+    bottom_hpaned = paned;
     right_notebook = bottom_notebook = top_notebook;
   } else {
+    GtkWidget *hpaned;
+
     dtach_lowbox = detached_widget_new();
     gtk_paned_pack2(GTK_PANED(paned), dtach_lowbox, FALSE, TRUE);
     avbox = detached_widget_fill(dtach_lowbox);

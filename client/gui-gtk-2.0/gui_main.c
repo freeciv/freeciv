@@ -1009,7 +1009,7 @@ static gboolean right_notebook_button_release(GtkWidget *widget,
 static void setup_widgets(void)
 {
   GtkWidget *page, *box, *ebox, *hbox, *sbox, *align, *label;
-  GtkWidget *frame, *table, *table2, *paned, *hpaned, *sw, *text;
+  GtkWidget *frame, *table, *table2, *paned, *sw, *text;
   GtkWidget *button, *view, *right_vbox = NULL;
   int i;
   char buf[256];
@@ -1389,9 +1389,11 @@ static void setup_widgets(void)
   /* *** The message window -- this is a detachable widget *** */
 
   if (gui_options.gui_gtk2_message_chat_location == GUI_GTK_MSGCHAT_MERGED) {
-    bottom_hpaned = hpaned = paned;
+    bottom_hpaned = paned;
     right_notebook = bottom_notebook = top_notebook;
   } else {
+    GtkWidget *hpaned;
+
     sbox = detached_widget_new();
     gtk_paned_pack2(GTK_PANED(paned), sbox, FALSE, TRUE);
     avbox = detached_widget_fill(sbox);
