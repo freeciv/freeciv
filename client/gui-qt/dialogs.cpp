@@ -1598,7 +1598,7 @@ void choice_dialog::next_unit()
       break;
     }
     if (ptgt == targeted_unit) {
-       break_next = true;
+      break_next = true;
     }
   } unit_list_iterate_end;
   targeted_unit = new_target;
@@ -3164,16 +3164,20 @@ static void spy_steal_shared(QVariant data1, QVariant data2,
   choice_dialog *cd;
   QList<QVariant> actor_and_target;
 
-  // Wait for the player's reply before moving on to the next queued diplomat.
-  is_more_user_input_needed = TRUE;
-
-  if (pvcity) {
-    pvictim = city_owner(pvcity);
-  }
   cd = gui()->get_diplo_dialog();
   if (cd != NULL) {
     cd->close();
   }
+
+  if (pvcity == nullptr) {
+    return;
+  }
+
+  // Wait for the player's reply before moving on to the next queued diplomat.
+  is_more_user_input_needed = TRUE;
+
+  pvictim = city_owner(pvcity);
+
   struct astring stra = ASTRING_INIT;
   cd = new choice_dialog(_("Steal"), _("Steal Technology"),
                          gui()->game_tab_widget,
@@ -3185,36 +3189,35 @@ static void spy_steal_shared(QVariant data1, QVariant data2,
   actor_and_target.append(act_id);
   qv1 = QVariant::fromValue(actor_and_target);
 
-  struct player *pplayer = client.conn.playing;
-  if (pvictim) {
-    const struct research *presearch = research_get(pplayer);
-    const struct research *vresearch = research_get(pvictim);
+  struct player *pplayer = client_player();
+  const struct research *presearch = research_get(pplayer);
+  const struct research *vresearch = research_get(pvictim);
 
-    advance_index_iterate(A_FIRST, i) {
-      if (research_invention_gettable(presearch, i,
-                                      game.info.tech_steal_allow_holes)
-          && research_invention_state(vresearch, i) == TECH_KNOWN
-          && research_invention_state(presearch, i) != TECH_KNOWN) {
-        func = spy_steal_something;
-        // Defeat keyboard shortcut mnemonics
-        str = QString(research_advance_name_translation(presearch, i))
-              .replace("&", "&&");
-        cd->add_item(str, func, qv1, i);
-      }
-    } advance_index_iterate_end;
-
-    if (action_prob_possible(actor_unit->client.act_prob_cache[
-                             get_non_targeted_action_id(act_id)])) {
-      astr_set(&stra, _("At %s's Discretion"),
-               unit_name_translation(actor_unit));
+  advance_index_iterate(A_FIRST, i) {
+    if (research_invention_gettable(presearch, i,
+                                    game.info.tech_steal_allow_holes)
+        && research_invention_state(vresearch, i) == TECH_KNOWN
+        && research_invention_state(presearch, i) != TECH_KNOWN) {
       func = spy_steal_something;
-      str = QString(astr_str(&stra)).replace("&", "&&");
-      cd->add_item(str, func, qv1, A_UNSET);
+      // Defeat keyboard shortcut mnemonics
+      str = QString(research_advance_name_translation(presearch, i))
+        .replace("&", "&&");
+      cd->add_item(str, func, qv1, i);
     }
+  } advance_index_iterate_end;
 
-    cd->set_layout();
-    cd->show_me();
+  if (action_prob_possible(actor_unit->client.act_prob_cache[
+                           get_non_targeted_action_id(act_id)])) {
+    astr_set(&stra, _("At %s's Discretion"),
+             unit_name_translation(actor_unit));
+    func = spy_steal_something;
+    str = QString(astr_str(&stra)).replace("&", "&&");
+    cd->add_item(str, func, qv1, A_UNSET);
   }
+
+  cd->set_layout();
+  cd->show_me();
+
   astr_free(&stra);
 }
 
