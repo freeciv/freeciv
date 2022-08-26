@@ -2,19 +2,19 @@
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    version="1.0"
    width="900"
    height="600"
    id="svg3105"
-   inkscape:version="0.47 r22583"
-   sodipodi:docname="Coat_of_Arms_of_Tatarstan.svg">
+   inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
+   sodipodi:docname="volga_bulgar.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
   <metadata
      id="metadata138">
     <rdf:RDF>
@@ -23,7 +23,6 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -36,17 +35,18 @@
      guidetolerance="10"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:window-width="1005"
-     inkscape:window-height="696"
+     inkscape:window-width="830"
+     inkscape:window-height="544"
      id="namedview136"
      showgrid="false"
-     inkscape:zoom="0.39333333"
-     inkscape:cx="300"
-     inkscape:cy="300"
-     inkscape:window-x="1495"
-     inkscape:window-y="227"
+     inkscape:zoom="0.55625733"
+     inkscape:cx="450.33114"
+     inkscape:cy="299.3219"
+     inkscape:window-x="482"
+     inkscape:window-y="185"
      inkscape:window-maximized="0"
-     inkscape:current-layer="svg3105" />
+     inkscape:current-layer="svg3105"
+     inkscape:pagecheckerboard="0" />
   <defs
      id="defs3107">
     <inkscape:perspective
