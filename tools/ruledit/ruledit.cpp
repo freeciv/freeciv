@@ -62,7 +62,6 @@ static int fatal_assertions = -1;
 **************************************************************************/
 int main(int argc, char **argv)
 {
-  enum log_level loglevel = LOG_NORMAL;
   int ui_options;
   int exit_status = EXIT_SUCCESS;
 
@@ -89,8 +88,6 @@ int main(int argc, char **argv)
 #endif
 
   registry_module_init();
-
-  log_init(NULL, loglevel, NULL, NULL, fatal_assertions);
 
   // Initialize command line arguments.
   reargs.ruleset = NULL;
@@ -140,6 +137,7 @@ int main(int argc, char **argv)
 **************************************************************************/
 static int re_parse_cmdline(int argc, char *argv[])
 {
+  enum log_level loglevel = LOG_NORMAL;
   int i = 1;
   bool ui_separator = FALSE;
   int ui_options = 0;
@@ -155,6 +153,18 @@ static int re_parse_cmdline(int argc, char *argv[])
 
       cmdhelp_add(help, "h", "help",
                   R__("Print a summary of the options"));
+#ifdef FREECIV_DEBUG
+      cmdhelp_add(help, "d",
+                  /* TRANS: "debug" is exactly what user must type, do not translate. */
+                  R__("debug LEVEL"),
+                  R__("Set debug log level (one of f,e,w,n,v,d, or "
+                      "d:file1,min,max:...)"));
+#else  /* FREECIV_DEBUG */
+      cmdhelp_add(help, "d",
+                  /* TRANS: "debug" is exactly what user must type, do not translate. */
+                  R__("debug LEVEL"),
+                  R__("Set debug log level (one of f,e,w,n,v)"));
+#endif /* FREECIV_DEBUG */
       cmdhelp_add(help, "v", "version",
                   R__("Print the version number"));
       cmdhelp_add(help, "r",
@@ -183,6 +193,15 @@ static int re_parse_cmdline(int argc, char *argv[])
       } else {
         reargs.ruleset = option;
       }
+    } else if ((option = get_option_malloc("--debug", argv, &i, argc, FALSE))) {
+      if (!log_parse_level_str(option, &loglevel)) {
+        fc_fprintf(stderr,
+                   R__("Invalid debug level \"%s\" specified with --debug "
+                       "option.\n"), option);
+        fc_fprintf(stderr, R__("Try using --help.\n"));
+        exit(EXIT_FAILURE);
+      }
+      free(option);
 #ifndef FREECIV_NDEBUG
     } else if (is_option("--Fatal", argv[i])) {
       if (i + 1 >= argc || '-' == argv[i + 1][0]) {
@@ -205,6 +224,8 @@ static int re_parse_cmdline(int argc, char *argv[])
 
     i++;
   }
+
+  log_init(NULL, loglevel, NULL, NULL, fatal_assertions);
 
   return ui_options;
 }
