@@ -2017,6 +2017,21 @@ static void road_callback(GSimpleAction *action,
 }
 
 /************************************************************************//**
+  The player has chosen an irrigation to build from the menu.
+****************************************************************************/
+static void irrigation_callback(GSimpleAction *action,
+                                GVariant *parameter,
+                                gpointer data)
+{
+  struct extra_type *pextra = data;
+
+  unit_list_iterate(get_units_in_focus(), punit) {
+    request_new_unit_activity_targeted(punit, ACTIVITY_IRRIGATE,
+                                       pextra);
+  } unit_list_iterate_end;
+}
+
+/************************************************************************//**
   The player has chosen a mine to build from the menu.
 ****************************************************************************/
 static void mine_callback(GSimpleAction *action,
@@ -2166,6 +2181,8 @@ static GMenu *setup_menus(GtkApplication *app)
   /* Placeholder submenus (so that menu update has something to replace) */
   submenu = g_menu_new();
   g_menu_append_submenu(work_menu, _("Build _Path"), G_MENU_MODEL(submenu));
+  submenu = g_menu_new();
+  g_menu_append_submenu(work_menu, _("Build _Irrigation"), G_MENU_MODEL(submenu));
   submenu = g_menu_new();
   g_menu_append_submenu(work_menu, _("Build _Mine"), G_MENU_MODEL(submenu));
 
@@ -2538,6 +2555,32 @@ void real_menus_update(void)
 
   submenu = g_menu_new();
 
+  extra_type_by_cause_iterate(EC_IRRIGATION, pextra) {
+    if (pextra->buildable) {
+      GMenuItem *item;
+      char actname[256];
+      GSimpleAction *act;
+
+      fc_snprintf(actname, sizeof(actname), "irrig_%d", i);
+      act = g_simple_action_new(actname, NULL);
+      g_simple_action_set_enabled(act,
+                                  can_units_do_activity_targeted(punits,
+                                                                 ACTIVITY_IRRIGATE,
+                                                                 pextra));
+      g_action_map_add_action(G_ACTION_MAP(fc_app), G_ACTION(act));
+      g_signal_connect(act, "activate", G_CALLBACK(irrigation_callback), pextra);
+
+      fc_snprintf(actname, sizeof(actname), "app.irrig_%d", i++);
+      item = g_menu_item_new(extra_name_translation(pextra), actname);
+      g_menu_append_item(submenu, item);
+    }
+  } extra_type_by_cause_iterate_end;
+
+  g_menu_remove(work_menu, 3);
+  g_menu_insert_submenu(work_menu, 3, _("Build _Irrigation"), G_MENU_MODEL(submenu));
+
+  submenu = g_menu_new();
+
   extra_type_by_cause_iterate(EC_MINE, pextra) {
     if (pextra->buildable) {
       GMenuItem *item;
@@ -2559,8 +2602,8 @@ void real_menus_update(void)
     }
   } extra_type_by_cause_iterate_end;
 
-  g_menu_remove(work_menu, 3);
-  g_menu_insert_submenu(work_menu, 3, _("Build _Mine"), G_MENU_MODEL(submenu));
+  g_menu_remove(work_menu, 4);
+  g_menu_insert_submenu(work_menu, 4, _("Build _Mine"), G_MENU_MODEL(submenu));
 
   submenu = g_menu_new();
 
