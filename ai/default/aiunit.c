@@ -1149,7 +1149,6 @@ int find_something_to_kill(struct ai_type *ait, struct player *pplayer,
   struct unit *pdefender;       /* Enemy city defender. */
   int move_time;        /* Turns needed to target. */
   int reserves;
-  int max_move_cost = max_move_cost = 10 * unit_move_rate(punit);
   int attack;           /* Our total attack value with reinforcements. */
   int victim_count;     /* Number of enemies there. */
   int needferry;        /* Cost of building a ferry boat. */
