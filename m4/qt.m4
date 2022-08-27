@@ -1,7 +1,5 @@
 # Detect Qt headers and libraries and set flag variables
 
-AC_ARG_VAR([MOCCMD], [QT moc command (autodetected it if not set)])
-
 AC_DEFUN([FC_QT],
 [
   case "x$1" in
