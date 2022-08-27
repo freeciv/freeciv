@@ -1216,7 +1216,7 @@ pf_danger_map_construct_path(const struct pf_danger_map *pfdm,
   struct pf_danger_pos *danger_seg = NULL;
   bool waited = FALSE;
   struct pf_danger_node *node = pfdm->lattice + tile_index(ptile);
-  int length = 1;
+  unsigned length = 1;
   struct tile *iter_tile = ptile;
   const struct pf_parameter *params = pf_map_parameter(PF_MAP(pfdm));
   struct pf_position *pos;
@@ -1374,7 +1374,8 @@ static void pf_danger_map_create_segment(struct pf_danger_map *pfdm,
   struct tile *ptile = PF_MAP(pfdm)->tile;
   struct pf_danger_node *node = pfdm->lattice + tile_index(ptile);
   struct pf_danger_pos *pos;
-  int length = 0, i;
+  unsigned length = 0;
+  unsigned i;
   const struct pf_parameter *params = pf_map_parameter(PF_MAP(pfdm));
 
 #ifdef PF_DEBUG
@@ -2370,7 +2371,7 @@ pf_fuel_map_construct_path(const struct pf_fuel_map *pffm,
   enum direction8 dir_next = direction8_invalid();
   struct pf_fuel_node *node = pffm->lattice + tile_index(ptile);
   struct pf_fuel_pos *segment = node->segment;
-  int length = 1;
+  unsigned length = 1;
   struct tile *iter_tile = ptile;
   const struct pf_parameter *params = pf_map_parameter(PF_MAP(pffm));
   struct pf_position *pos;
@@ -3465,7 +3466,7 @@ struct pf_path *pf_path_concat(struct pf_path *dest_path,
 ****************************************************************************/
 bool pf_path_advance(struct pf_path *path, struct tile *ptile)
 {
-  int i;
+  unsigned i;
   struct pf_position *new_positions;
 
   for (i = 0; path->positions[i].tile != ptile; i++) {
