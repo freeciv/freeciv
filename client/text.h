@@ -71,6 +71,8 @@ const char *text_happiness_wonders(const struct city *pcity);
 const char *production_help(const struct universal *uni, char *buf,
                             size_t bufsize);
 
+const char *score_tooltip(const struct player *pplayer, int score);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

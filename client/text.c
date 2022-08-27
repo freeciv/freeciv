@@ -2075,3 +2075,24 @@ const char *production_help(const struct universal *uni, char *buf,
 
   return buf;
 }
+
+/************************************************************************//**
+  Tooltip for the player row on reports.
+  Negative score is not shown.
+
+  Returns static buffer that gets overwritten on next call.
+****************************************************************************/
+const char *score_tooltip(const struct player *pplayer, int score)
+{
+  static char buf[1024];
+
+  if (score >= 0) {
+    /* TRANS: %s is a Nation */
+    fc_snprintf(buf, sizeof(buf), _("%s: score %d"), nation_adjective_for_player(pplayer),
+                score);
+  } else {
+    fc_snprintf(buf, sizeof(buf), "%s", nation_adjective_for_player(pplayer));
+  }
+
+  return buf;
+}
