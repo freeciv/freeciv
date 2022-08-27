@@ -502,6 +502,7 @@ static void option_dialog_option_add(struct option_dialog *pdialog,
     gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
                                    GTK_POLICY_NEVER,
                                    GTK_POLICY_AUTOMATIC);
+    gtk_scrolled_window_set_propagate_natural_height(GTK_SCROLLED_WINDOW(sw), TRUE);
     g_object_set_data(G_OBJECT(sw), "category", GINT_TO_POINTER(category));
     gtk_notebook_append_page(GTK_NOTEBOOK(pdialog->notebook), sw,
                              gtk_label_new_with_mnemonic
