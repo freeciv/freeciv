@@ -342,7 +342,7 @@ struct pf_position {
 
 /* Full specification of a path. */
 struct pf_path {
-  int length;                   /* Number of steps in the path */
+  unsigned length;                /* Number of steps in the path */
   struct pf_position *positions;
 };
 
