@@ -43,6 +43,10 @@ m4_include(fc_version)
 
 AC_ARG_VAR([FREECIV_LABEL_FORCE], [Forced version label format])
 
+dnl Logical place for this would be m4/qt.m4, but autoupdate can't
+dnl handle AC_ARG_VAR() outside configure.ac
+AC_ARG_VAR([MOCCMD], [QT moc command (autodetected if not set)])
+
 AC_DEFINE_UNQUOTED([MAJOR_VERSION], [$MAJOR_VERSION], [Major version])
 AC_DEFINE_UNQUOTED([MINOR_VERSION], [$MINOR_VERSION], [Minor version])
 AC_DEFINE_UNQUOTED([PATCH_VERSION], [$PATCH_VERSION], [Patch version])
