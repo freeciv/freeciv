@@ -2221,6 +2221,7 @@ void handle_game_info(const struct packet_game_info *pinfo)
 {
   bool boot_help;
   bool update_aifill_button = FALSE, update_ai_skill_level = FALSE;
+  bool enable_edit_ui = FALSE;
 
   if (game.info.aifill != pinfo->aifill) {
     update_aifill_button = TRUE;
@@ -2234,8 +2235,10 @@ void handle_game_info(const struct packet_game_info *pinfo)
     /* Clears the current goto command. */
     clear_hover_state();
 
-    if (pinfo->is_edit_mode && game.scenario.handmade) {
-      if (!handmade_scenario_warning()) {
+    if (pinfo->is_edit_mode) {
+      enable_edit_ui = TRUE;
+
+      if (game.scenario.handmade && !handmade_scenario_warning()) {
         /* Gui didn't handle this */
         output_window_append(ftc_client,
                              _("This scenario may have manually set properties the editor "
@@ -2278,6 +2281,10 @@ void handle_game_info(const struct packet_game_info *pinfo)
   
   if (can_client_change_view()) {
     update_info_label();
+  }
+
+  if (enable_edit_ui) {
+    editgui_refresh();
   }
 
   editgui_notify_object_changed(OBJTYPE_GAME, 1, FALSE);
