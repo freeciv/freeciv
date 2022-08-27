@@ -1807,6 +1807,7 @@ enum endgame_report_columns {
   FRD_COL_PLAYER,
   FRD_COL_NATION,
   FRD_COL_SCORE,
+  FRD_COL_TOOLTIP,
 
   FRD_COL_NUM
 };
@@ -1826,6 +1827,7 @@ endgame_report_column_name(enum endgame_report_columns col)
     return _("Nation\n");
   case FRD_COL_SCORE:
     return _("Score\n");
+  case FRD_COL_TOOLTIP:
   case FRD_COL_NUM:
     break;
   }
@@ -1856,6 +1858,7 @@ static void endgame_report_update(struct endgame_report *preport,
   col_types[FRD_COL_PLAYER] = G_TYPE_STRING;
   col_types[FRD_COL_NATION] = GDK_TYPE_PIXBUF;
   col_types[FRD_COL_SCORE] = G_TYPE_INT;
+  col_types[FRD_COL_TOOLTIP] = G_TYPE_STRING;
   for (i = FRD_COL_NUM; (guint)i < col_num; i++) {
     col_types[i] = G_TYPE_INT;
   }
@@ -1883,13 +1886,18 @@ static void endgame_report_update(struct endgame_report *preport,
       title = packet->category_name[i - FRD_COL_NUM];
     }
 
-    col = gtk_tree_view_column_new_with_attributes(Q_(title), renderer,
-                                                   attribute, i, NULL);
-    gtk_tree_view_append_column(preport->tree_view, col);
-    if (GDK_TYPE_PIXBUF != col_types[i]) {
-      gtk_tree_view_column_set_sort_column_id(col, i);
+    if (title != NULL) {
+      col = gtk_tree_view_column_new_with_attributes(Q_(title), renderer,
+                                                     attribute, i, NULL);
+      gtk_tree_view_append_column(preport->tree_view, col);
+      if (GDK_TYPE_PIXBUF != col_types[i]) {
+        gtk_tree_view_column_set_sort_column_id(col, i);
+      }
     }
   }
+
+  gtk_tree_view_set_tooltip_column(GTK_TREE_VIEW(preport->tree_view),
+                                   FRD_COL_TOOLTIP);
 
   preport->store = store;
   preport->player_count = packet->player_num;
@@ -1912,6 +1920,7 @@ void endgame_report_dialog_player(const struct packet_endgame_player *packet)
                      FRD_COL_PLAYER, player_name(pplayer),
                      FRD_COL_NATION, get_flag(nation_of_player(pplayer)),
                      FRD_COL_SCORE, packet->score,
+                     FRD_COL_TOOLTIP, score_tooltip(pplayer, packet->score),
                      -1);
   for (i = 0; i < packet->category_num; i++) {
     gtk_list_store_set(preport->store, &iter,
