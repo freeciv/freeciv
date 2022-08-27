@@ -1,28 +1,27 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!-- Created with Sodipodi ("http://www.sodipodi.com/") -->
+
 <svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    height="500"
    id="svg548"
-   sodipodi:docbase="/Users/daniel/Desktop/flags"
    sodipodi:docname="westphalia.svg"
    sodipodi:version="0.32"
    width="750"
-   inkscape:version="0.46"
+   inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
    inkscape:output_extension="org.inkscape.output.svg.inkscape"
-   version="1.0">
+   version="1.0"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
   <metadata
      id="metadata2301">
     <rdf:RDF>
       <cc:Work
          rdf:about="">
-        <dc:title>Clipart by Tobias Jakobs - Germany - North Rhine Westphalia</dc:title>
         <dc:description />
         <dc:subject>
           <rdf:Bag>
@@ -82,14 +81,21 @@
   <sodipodi:namedview
      id="base"
      inkscape:zoom="0.69346032"
-     inkscape:cx="413.37991"
-     inkscape:cy="263.135"
-     inkscape:window-width="1280"
-     inkscape:window-height="729"
-     inkscape:window-x="0"
-     inkscape:window-y="0"
+     inkscape:cx="412.42446"
+     inkscape:cy="255.24171"
+     inkscape:window-width="825"
+     inkscape:window-height="549"
+     inkscape:window-x="571"
+     inkscape:window-y="216"
      inkscape:current-layer="svg548"
-     showgrid="false" />
+     showgrid="false"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:window-maximized="0" />
   <rect
      height="500"
      id="rect1065"
