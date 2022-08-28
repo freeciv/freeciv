@@ -99,7 +99,7 @@ if test "x$NAMEP" = "x" ; then
 fi
 
 if test "x$MAKE_PARAMS" = "x" ; then
-  MAKE_PARAMS="-j6"
+  MAKE_PARAMS="-j$(nproc)"
 fi
 
 if ! mkdir -p build-${SETUP}${NAMEP} ; then
