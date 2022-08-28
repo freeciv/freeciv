@@ -323,7 +323,8 @@ if rl_req != 'false'
   readline_dep = c_compiler.find_library('readline', dirs: cross_lib_path,
                                          required:false)
 
-  if readline_dep.found()
+  if readline_dep.found() and c_compiler.has_function('rl_completion_suppress_append',
+                                                      dependencies: readline_dep)
     pub_conf_data.set('FREECIV_HAVE_LIBREADLINE', 1)
   elif rl_req == 'true'
     error('Readline support requested but not found.')
