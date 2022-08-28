@@ -2582,6 +2582,10 @@ static struct player *split_player(struct player *pplayer)
   if (!cplayer) {
     return NULL;
   }
+
+  /* While this sets player->economic according to max rates as know at this point,
+   * we redo that later, so that MaxRates effect requirements will be evaluated
+   * with more completely set up player (e.g. correct government) */
   server_player_init(cplayer, TRUE, TRUE);
 
   /* Rebel will always be an AI player */
@@ -2703,6 +2707,8 @@ static struct player *split_player(struct player *pplayer)
   CALL_PLR_AI_FUNC(gained_control, cplayer, cplayer);
   CALL_PLR_AI_FUNC(split_by_civil_war, pplayer, pplayer, cplayer);
   CALL_PLR_AI_FUNC(created_by_civil_war, cplayer, pplayer, cplayer);
+
+  cplayer->economic = player_limit_to_max_rates(cplayer);
 
   return cplayer;
 }
