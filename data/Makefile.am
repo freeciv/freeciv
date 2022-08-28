@@ -34,7 +34,8 @@ SRV_RE_FILES = \
 	default.serv \
 	multiplayer.modpack \
 	alien.modpack \
-	civ2civ3.modpack
+	civ2civ3.modpack \
+	sandbox.modpack
 
 if SERVER
 SERVER_FILES = $(SRV_RE_FILES)
