@@ -527,8 +527,8 @@ static void select_nation(int nation,
     if (leadername) {
       gtk_entry_buffer_set_text(buffer, leadername, -1);
       /* Assume is_male is valid too. */
-      gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(races_sex[is_male]),
-                                   TRUE);
+      gtk_check_button_set_active(GTK_CHECK_BUTTON(races_sex[is_male]),
+                                  TRUE);
     } else {
       int idx = fc_rand(nation_leader_list_size(
                         nation_leaders(nation_by_number(selected_nation))));
@@ -578,7 +578,7 @@ static void select_nation(int nation,
     /* Leader name */
     gtk_entry_buffer_set_text(buffer, "", -1);
     /* Leader sex (*shrug*) */
-    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(races_sex[0]), TRUE);
+    gtk_check_button_set_active(GTK_CHECK_BUTTON(races_sex[0]), TRUE);
     /* City style */
     {
       GtkTreeSelection* select
@@ -1345,8 +1345,8 @@ static void races_leader_callback(void)
       &&(pleader = nation_leader_by_name(nation_by_number(selected_nation),
                                          name))) {
     selected_sex = nation_leader_is_male(pleader);
-    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(races_sex[selected_sex]),
-                                 TRUE);
+    gtk_check_button_set_active(GTK_CHECK_BUTTON(races_sex[selected_sex]),
+                                TRUE);
   }
 }
 
