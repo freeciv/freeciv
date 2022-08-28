@@ -1590,7 +1590,7 @@ const char *format_duration(int duration)
 
 /****************************************************************************
   Return text giving the ping time for the player.  This is generally used
-  used in the playerdlg.  This should only be used in playerdlg_common.c.
+  in the playerdlg.  This should only be used in playerdlg_common.c.
 ****************************************************************************/
 const char *get_ping_time_text(const struct player *pplayer)
 {
