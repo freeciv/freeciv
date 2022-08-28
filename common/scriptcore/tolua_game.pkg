@@ -582,6 +582,8 @@ module Direction {
       @ id (lua_State *L, Direction dir);
     const char *api_utilities_dir2str
       @ name (lua_State *L, Direction dir);
+    bool api_utilities_direction_is_cardinal
+      @ cardinal(lua_State *L, Direction self);
   }
 }
 

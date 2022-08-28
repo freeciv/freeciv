@@ -146,6 +146,16 @@ const Direction *api_utilities_opposite_dir(lua_State *L, Direction dir)
 }
 
 /********************************************************************//**
+  Is a direction cardinal one?
+************************************************************************/
+bool api_utilities_direction_is_cardinal(lua_State *L, Direction dir)
+{
+  LUASCRIPT_CHECK_STATE(L, NULL);
+
+  return is_cardinal_dir(dir);
+}
+
+/********************************************************************//**
   Lua script wants to warn about use of deprecated construct.
 ************************************************************************/
 void api_utilities_deprecation_warning(lua_State *L, char *method,
