@@ -11457,14 +11457,14 @@ msgstr ""
 #, c-format
 msgid "  * target must be exactly %d tile away.\n"
 msgid_plural "  * target must be exactly %d tiles away.\n"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "  * Ziel muss genau %d Feld entfernt sein.\n"
+msgstr[1] "  * Ziel muss genau %d Felder entfernt sein.\n"
 
 #. TRANS: distance between an actor unit and its
 #. * target when performing a specific action.
 #: client/helpdata.c:2541
 msgid "  * target can be anywhere.\n"
-msgstr ""
+msgstr "  * Ziel kann überall sein.\n"
 
 #. TRANS: distance between an actor unit and its
 #. * target when performing a specific action.
@@ -11472,8 +11472,8 @@ msgstr ""
 #, c-format
 msgid "  * target must be at least %d tile away.\n"
 msgid_plural "  * target must be at least %d tiles away.\n"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "  * Ziel muss mindestens %d Feld entfernt sein.\n"
+msgstr[1] "  * Ziel muss mindestens %d Felder entfernt sein.\n"
 
 #. TRANS: distance between an actor unit and its
 #. * target when performing a specific action.
@@ -11481,8 +11481,8 @@ msgstr[1] ""
 #, c-format
 msgid "  * target can be max %d tile away.\n"
 msgid_plural "  * target can be max %d tiles away.\n"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "  * Ziel kann maximal %d Feld entfernt sein.\n"
+msgstr[1] "  * Ziel kann maximal %d Felder entfernt sein.\n"
 
 #. TRANS: distance between an actor unit and its
 #. * target when performing a specific action.
@@ -11490,8 +11490,8 @@ msgstr[1] ""
 #, c-format
 msgid "  * target must be between %d and %d tile away.\n"
 msgid_plural "  * target must be between %d and %d tiles away.\n"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "  * Ziel muss zwischen %d und %d Feld entfernt sein.\n"
+msgstr[1] "  * Ziel muss zwischen %d und %d Feldern entfernt sein.\n"
 
 #. TRANS: ...performing this action ... Casus Belli
 #: client/helpdata.c:2581
