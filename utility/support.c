@@ -680,7 +680,7 @@ char *fc_strrep_resize(char *str, size_t *len, const char *search,
 
   len_max = ceil((double)strlen(str) * strlen(replace) / strlen(search)) + 1;
   if ((*len) < len_max) {
-    /* replace string is longer than search string; allocated enough memory
+    /* replace string is longer than search string; allocate enough memory
      * for the worst case */
     (*len) = len_max;
     str = fc_realloc(str, len_max);
