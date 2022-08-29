@@ -1,22 +1,23 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
+
 <svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:xlink="http://www.w3.org/1999/xlink"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    version="1.0"
    width="450"
-   height="300"
+   height="299.99988"
    id="svg3337"
    sodipodi:version="0.32"
-   inkscape:version="0.46"
+   inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
    sodipodi:docname="yucatan.svg"
-   inkscape:output_extension="org.inkscape.output.svg.inkscape">
+   inkscape:output_extension="org.inkscape.output.svg.inkscape"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
   <metadata
      id="metadata18">
     <rdf:RDF>
@@ -29,8 +30,8 @@
     </rdf:RDF>
   </metadata>
   <sodipodi:namedview
-     inkscape:window-height="729"
-     inkscape:window-width="1280"
+     inkscape:window-height="496"
+     inkscape:window-width="830"
      inkscape:pageshadow="2"
      inkscape:pageopacity="0.0"
      guidetolerance="10.0"
@@ -42,19 +43,21 @@
      id="base"
      showgrid="false"
      inkscape:zoom="0.90666667"
-     inkscape:cx="300"
-     inkscape:cy="150"
-     inkscape:window-x="0"
-     inkscape:window-y="0"
-     inkscape:current-layer="svg3337" />
+     inkscape:cx="214.52206"
+     inkscape:cy="149.44853"
+     inkscape:window-x="527"
+     inkscape:window-y="220"
+     inkscape:current-layer="svg3337"
+     inkscape:pagecheckerboard="0"
+     inkscape:window-maximized="0" />
   <defs
      id="defs3339">
     <inkscape:perspective
        sodipodi:type="inkscape:persp3d"
-       inkscape:vp_x="0 : 150 : 1"
+       inkscape:vp_x="0 : 149.99988 : 1"
        inkscape:vp_y="0 : 1000 : 0"
-       inkscape:vp_z="600 : 150 : 1"
-       inkscape:persp3d-origin="300 : 100 : 1"
+       inkscape:vp_z="600 : 149.99988 : 1"
+       inkscape:persp3d-origin="300 : 99.999878 : 1"
        id="perspective20" />
     <linearGradient
        id="linearGradient623">
@@ -75,21 +78,21 @@
      width="270"
      height="100"
      x="180"
-     y="100"
+     y="100.00005"
      style="font-size:12px;fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke-width:1pt"
      id="rect880" />
   <rect
      width="180"
      height="299.99982"
      x="0"
-     y="-4.2236326e-05"
+     y="0"
      style="font-size:12px;fill:#006847;fill-opacity:1;fill-rule:evenodd;stroke-width:1pt"
      id="rect1200" />
   <rect
      width="270"
      height="100"
      x="180"
-     y="199.99985"
+     y="199.99989"
      style="font-size:12px;fill:#ce1126;fill-opacity:1;fill-rule:evenodd;stroke-width:1pt"
      id="rect1201" />
   <use
@@ -101,7 +104,7 @@
      height="300"
      xlink:href="#rect1201" />
   <path
-     d="M 160.29808,75 L 144.90646,62.955947 L 129.39638,74.831388 L 135.55246,55.743901 L 120,43.929693 L 139.19629,44.177031 L 145.09441,25.000006 L 150.8023,44.240356 L 170,44.202512 L 154.33138,55.846365 L 160.29808,75 z"
+     d="M 160.29808,75.000042 144.90646,62.955989 129.39638,74.83143 135.55246,55.743943 120,43.929735 l 19.19629,0.247338 5.89812,-19.177025 5.70789,19.24035 L 170,44.202554 154.33138,55.846407 Z"
      style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-opacity:1"
      id="path1644" />
   <use
@@ -113,7 +116,7 @@
      height="300"
      xlink:href="#path1644" />
   <use
-     transform="translate(-110,0)"
+     transform="translate(-110)"
      id="use2521"
      x="0"
      y="0"
@@ -129,7 +132,7 @@
      height="300"
      xlink:href="#use2521" />
   <use
-     transform="translate(110,0)"
+     transform="translate(110)"
      id="use2525"
      x="0"
      y="0"
