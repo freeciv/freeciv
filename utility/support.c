@@ -687,9 +687,11 @@ char *fc_strrep_resize(char *str, size_t *len, const char *search,
   }
 
 #ifndef FREECIV_NDEBUG
-  bool success = fc_strrep(str, (*len), search, replace);
+  bool success =
 #endif
-  /* should never happen */
+    fc_strrep(str, (*len), search, replace);
+
+  /* Should never happen */
   fc_assert_ret_val_msg(success, NULL,
                         "Can't replace '%s' by '%s' in '%s'. To small "
                         "size after reallocation: %lu.", search, replace,
