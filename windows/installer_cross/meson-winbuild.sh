@@ -24,7 +24,8 @@ GUI="$2"
 
 if test "$GUI" != "gtk3.22" && test "$GUI" != "gtk4" &&
    test "$GUI" != "sdl2" &&
-   test "$GUI" != "qt5" && test "$GUI" != "qt6" ; then
+   test "$GUI" != "qt5" && test "$GUI" != "qt6" &&
+   test "$GUI" != "ruledit" ; then
   echo "Unknown gui \"$2\"" >&2
   exit 1
 fi
@@ -81,6 +82,10 @@ case $GUI in
        FCMP="qt"
        RULEDIT=true
        QTPARAMS="-Dqtver=qt6" ;;
+  ruledit) CLIENT="[]"
+           FCMP="[]"
+           RULEDIT=true
+           QTPARAMS="-Dqtver=qt6" ;;
 esac
 
 if test "$CLIENT" = "" ; then

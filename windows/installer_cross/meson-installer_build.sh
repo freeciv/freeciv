@@ -120,6 +120,8 @@ case $GUI in
     CLIENT="qt"
     MPGUI="qt"
     FCMP="qt" ;;
+  ruledit)
+    ;;
   *)
     echo "Unknown gui type \"$GUI\"" >&2
     exit 1 ;;
@@ -174,8 +176,23 @@ if ! add_common_env "$DLLSPATH" "$INSTDIR" ; then
 fi
 
 if test "$GUI" = "ruledit" ; then
-  echo "Ruledit installer build not supported yet!" >&2
-  exit 1
+  if ! cp freeciv-ruledit.cmd "$INSTDIR"
+  then
+    echo "Adding cmd-file failed!" >&2
+    exit 1
+  fi
+  if ! add_qt6_env "$DLLSPATH" "$INSTDIR" ; then
+    echo "Copying Qt6 environment failed!" >&2
+    exit 1
+  fi
+
+  NSIFILE="meson-freeciv-ruledit-$SETUP-$VERREV.nsi"
+
+  if ! ./create-freeciv-ruledit-nsi.sh "$INSTDIR" "$VERREV" "$SETUP" \
+       > "$NSIFILE"
+  then
+    exit 1
+  fi
 else
   if ! cp freeciv-server.cmd freeciv-${CLIENT}.cmd freeciv-mp-${FCMP}.cmd $INSTDIR/
   then
@@ -242,28 +259,31 @@ else
     UNINSTALLER=""
   fi
 
+  NSIFILE="meson-freeciv-$SETUP-$VERREV-$GUI.nsi"
+
   if test "$GUI" = "sdl2" ; then
     if ! ./create-freeciv-sdl2-nsi.sh "$INSTDIR" "$VERREV" "$SETUP" "$UNINSTALLER" \
-         > meson-freeciv-$SETUP-$VERREV-$GUI.nsi
+         > "$NSIFILE"
     then
       exit 1
     fi
   else
     if ! ./create-freeciv-gtk-qt-nsi.sh "$INSTDIR" "$VERREV" "$GUI" "$GUINAME" \
          "$SETUP" "$MPGUI" "$EXE_ID" "$UNINSTALLER" \
-         > meson-freeciv-$SETUP-$VERREV-$GUI.nsi
+         > "$NSIFILE"
     then
       exit 1
     fi
   fi
+fi
 
-  if ! mkdir -p Output ; then
-    echo "Creating Output directory failed" >&2
-    exit 1
-  fi
-  if ! makensis meson-freeciv-$SETUP-$VERREV-$GUI.nsi
-  then
-    echo "Creating installer failed!" >&2
-    exit 1
-  fi
+if ! mkdir -p Output ; then
+  echo "Creating Output directory failed" >&2
+  exit 1
+fi
+
+if ! makensis "$NSIFILE"
+then
+  echo "Creating installer failed!" >&2
+  exit 1
 fi

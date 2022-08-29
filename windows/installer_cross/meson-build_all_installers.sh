@@ -86,9 +86,19 @@ else
   SDL2="Success"
 fi
 
+if test "$CROSSER_QT6" != "yes" ; then
+  RULEDIT="N/A"
+elif ! ./meson-installer_build.sh "$DLLSPATH" ruledit ; then
+  RET=1
+  RULEDIT="Fail"
+else
+  RULEDIT="Success"
+fi
+
 echo "Gtk3.22: $GTK322"
 echo "Gtk4:    $GTK4"
 echo "Qt6:     $QT6"
 echo "Sdl2:    $SDL2"
+echo "Ruledit: $RULEDIT"
 
 exit $RET
