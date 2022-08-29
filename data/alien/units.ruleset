@@ -45,7 +45,9 @@ class_flags =
     _("Airliftable"), _("Can be airlifted from a suitable city.")
     _("Missile")
     _("CanPillage")
-    _("CanFortify"), _("Gets a 50% defensive bonus while in cities.")
+    _("CanFortify"),
+    ; /* xgettext:no-c-format */
+                     _("Gets a 50% defensive bonus while in cities.")
   }
 
 [veteran_system]
