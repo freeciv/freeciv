@@ -700,9 +700,9 @@ static void option_dialog_option_remove(struct option_dialog *pdialog,
 static inline void option_dialog_option_bool_set(struct option *poption,
                                                  bool value)
 {
-  gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON
-                               (option_get_gui_data(poption)),
-                               value);
+  gtk_check_button_set_active(GTK_CHECK_BUTTON
+                              (option_get_gui_data(poption)),
+                              value);
 }
 
 /************************************************************************//**
@@ -766,8 +766,8 @@ static inline void option_dialog_option_bitwise_set(struct option *poption,
   int bit;
 
   for (bit = 0; NULL != iter; iter = g_list_next(iter), bit++) {
-    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(iter->data),
-                                 value & (1 << bit));
+    gtk_check_button_set_active(GTK_CHECK_BUTTON(iter->data),
+                                value & (1 << bit));
   }
 }
 
@@ -897,8 +897,8 @@ static void option_dialog_option_apply(struct option *poption)
 
   switch (option_type(poption)) {
   case OT_BOOLEAN:
-    (void) option_bool_set(poption, gtk_toggle_button_get_active
-                           (GTK_TOGGLE_BUTTON(w)));
+    (void) option_bool_set(poption, gtk_check_button_get_active
+                           (GTK_CHECK_BUTTON(w)));
     break;
 
   case OT_INTEGER:
@@ -939,7 +939,7 @@ static void option_dialog_option_apply(struct option *poption)
       int bit;
 
       for (bit = 0; NULL != iter; iter = g_list_next(iter), bit++) {
-        if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(iter->data))) {
+        if (gtk_check_button_get_active(GTK_CHECK_BUTTON(iter->data))) {
           value |= 1 << bit;
         }
       }
