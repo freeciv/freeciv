@@ -40,7 +40,9 @@ class_flags =
   { "name", "helptxt"
     _("Missile")
     _("CanPillage")
-    _("CanFortify"), _("Gets a 50% defensive bonus while in cities.")
+    _("CanFortify"),
+    ; /* xgettext:no-c-format */
+                     _("Gets a 50% defensive bonus while in cities.")
     _("HutNothing")
   }
 

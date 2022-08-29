@@ -39,7 +39,9 @@ format_version = 30
 ;                 with this flag (optional)
 class_flags =
   { "name", "helptxt"
-    _("CanFortify"), _("Gets a 50% defensive bonus while in cities.")
+    _("CanFortify"),
+    ; /* xgettext:no-c-format */
+                     _("Gets a 50% defensive bonus while in cities.")
   }
 
 [veteran_system]
