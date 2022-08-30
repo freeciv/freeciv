@@ -1448,10 +1448,20 @@ static void sg_load_savefile(struct loaddata *loading)
 
     for (j = 0; j < loading->ds_t.size; j++) {
       loading->ds_t.order[j] = diplstate_type_by_name(modname[j],
-                                                    fc_strcasecmp);
+                                                      fc_strcasecmp);
     }
 
     free(modname);
+  }
+
+  /* Not used by this freeciv version - for future use */
+  {
+    int j;
+
+    i = secfile_lookup_int_default(loading->file, 0, "savefile.city_options_size");
+    for (j = 0; j < i; j++) {
+      (void) secfile_entry_lookup(loading->file, "savefile.city_options_vector,%d", j);
+    }
   }
 
   terrain_type_iterate(pterr) {
