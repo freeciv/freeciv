@@ -1728,7 +1728,7 @@ sound_fight   = "f_trireme"
 sound_fight_alt = "f_generic"
 build_cost    = 20
 pop_cost      = 0
-attack        = 1
+attack        = 0
 defense       = 1
 hitpoints     = 10
 firepower     = 1
@@ -1736,19 +1736,20 @@ move_rate     = 3
 vision_radius_sq = 2
 transport_cap = 2
 fuel          = 0
-uk_happy      = 1
+uk_happy      = 0
 uk_shield     = 1
 uk_food       = 1
 uk_gold       = 1
 tp_defense    = "Alight"
 cargo         = "Land", "Small Land", "Merchant"
-flags         = "BadCityDefender", "HasNoZOC", "Provoking"
+flags         = "BadCityDefender", "HasNoZOC", "Provoking", "NonMil"
 roles         = "Ferryboat", "FerryStartUnit"
 helptext      = _("\
 The Trireme is your first boat unit. It can act\
- as a transport ship and has rudimentary offensive\
- capabilities, and unlike later boats can travel on\
- rivers, but it may not enter deep ocean tiles.\
+ as a transport ship, and unlike later boats can\
+ travel on rivers, but it may not enter deep ocean\
+ tiles. It cannot attack other ships, though it\
+ may still defend itself when attacked.\
 ")
 
 [unit_caravel]
@@ -1764,7 +1765,7 @@ sound_fight   = "f_caravel"
 sound_fight_alt = "f_generic"
 build_cost    = 30
 pop_cost      = 0
-attack        = 1
+attack        = 0
 defense       = 2
 hitpoints     = 10
 firepower     = 1
@@ -1772,14 +1773,14 @@ move_rate     = 3
 vision_radius_sq = 2
 transport_cap = 3
 fuel          = 0
-uk_happy      = 1
+uk_happy      = 0
 uk_shield     = 1
 uk_food       = 1
 uk_gold       = 1
 tp_defense    = "Alight"
 cargo         = "Land", "Small Land", "Merchant"
 flags         = "BadCityDefender", "Only_Native_Attack", "HasNoZOC",
-                "Provoking"
+                "Provoking", "NonMil"
 roles         = "Ferryboat", "FerryStartUnit", "BarbarianBoat"
 helptext      = _("\
 The Caravel is a sailing ship that can enter\
@@ -1813,12 +1814,11 @@ uk_food       = 1
 uk_gold       = 1
 tp_defense    = "Alight"
 cargo         = "Land", "Small Land", "Big Land", "Merchant"
-flags         = "BadCityDefender", "HasNoZOC", "Provoking"
+flags         = "BadCityDefender", "HasNoZOC", "Provoking", "NonMil"
 roles         = "Ferryboat", "FerryStartUnit", "BarbarianBoat"
 helptext      = _("\
-The Galleon is a pure transport ship, the first which can\
- transport large wheeled units. It cannot attack other ships, though\
- it may still defend itself when attacked.\
+The Galleon is a big transport ship, the first which can\
+ transport large wheeled units.\
 ")
 
 [unit_frigate]
@@ -2050,7 +2050,7 @@ move_rate     = 5
 vision_radius_sq = 8
 transport_cap = 8
 fuel          = 0
-uk_happy      = 0
+uk_happy      = 1
 uk_shield     = 1
 uk_food       = 1
 uk_gold       = 1
@@ -2135,7 +2135,7 @@ uk_gold       = 1
 tp_defense    = "Alight"
 cargo         = "Land", "Small Land", "Big Land", "Merchant"
 flags         = "Settlers", "BadCityDefender", "HasNoZOC",
-                "Provoking"
+                "Provoking", "NonMil"
 veteran_names = _("green"), _("veteran"), _("hardened"), _("elite")
 veteran_base_raise_chance      = 50, 33, 20, 0
 veteran_work_raise_chance = 0, 0, 0, 0
