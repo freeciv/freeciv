@@ -1571,6 +1571,16 @@ static void sg_load_savefile(struct loaddata *loading)
     free(modname);
   }
 
+  /* Not used by this freeciv version - for future use */
+  {
+    int j;
+
+    i = secfile_lookup_int_default(loading->file, 0, "savefile.city_options_size");
+    for (j = 0; j < i; j++) {
+      (void) secfile_entry_lookup(loading->file, "savefile.city_options_vector,%d", j);
+    }
+  }
+
   terrain_type_iterate(pterr) {
     pterr->identifier_load = '\0';
   } terrain_type_iterate_end;
