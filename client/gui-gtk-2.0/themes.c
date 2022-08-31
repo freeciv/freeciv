@@ -41,7 +41,7 @@
  * are files returned by gtk_rc_get_default_files() on client startup.
  * There are two extra positions allocated in the array - one for
  * specific Freeciv file and one for NULL. */
-static char** default_files;
+static char **default_files;
 static int num_default_files;
 
 /****************************************************************************
@@ -50,26 +50,29 @@ static int num_default_files;
 static void load_default_files(void)
 {
   int i = 0;
-  gchar** f;
-  
+  int lcl_num_def_files; /* Local variable so clang analyzer it not changing
+                          * outside this function. */
+  gchar **f;
+
   if (default_files != NULL) {
     return;
   }
-  
+
   f = gtk_rc_get_default_files();
 
   if (f != NULL) {
-    for (i = 0; f[i] ; i++) {
+    for (i = 0; f[i] != NULL; i++) {
       /* nothing */
     }
   }
-  num_default_files = i;
+  lcl_num_def_files = i;
   default_files = fc_malloc(sizeof(char*) * (i + 2));
-  
-  for (i = 0; i < num_default_files; i++) {
+
+  for (i = 0; i < lcl_num_def_files; i++) {
     default_files[i] = fc_strdup(f[i]);
   }
-  default_files[i] = default_files[i + 1] = NULL;
+  default_files[lcl_num_def_files] = default_files[lcl_num_def_files + 1] = NULL;
+  num_default_files = lcl_num_def_files;
 }
 
 /*****************************************************************************
