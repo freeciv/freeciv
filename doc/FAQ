@@ -509,8 +509,8 @@ I cannot conquer it, and they won't give up. What can I do?
 
    Now, you're ready to assign players to teams. To do this you use the
    team command. For example, if there's one human player and you want two
-   more AI players on the same team, you can do to create two AI players
-   and put them on the same team you can do
+   more AI players on the same team, to create two AI players and put them
+   on the same team you can do
 /set aifill 2
 /team AI*2 1
 /team AI*3 1
