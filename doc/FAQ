@@ -1,6 +1,6 @@
                   Freeciv Frequently Asked Questions (FAQ)
 
-                 (from https://www.freeciv.org/wiki/FAQ)
+                 (from https://www.freeciv.org/wiki/FAQ_3.1)
 
    Contents
 
@@ -509,8 +509,8 @@ I cannot conquer it, and they won't give up. What can I do?
 
    Now, you're ready to assign players to teams. To do this you use the
    team command. For example, if there's one human player and you want two
-   more AI players on the same team, you can do to create two AI players
-   and put them on the same team you can do
+   more AI players on the same team, to create two AI players and put them
+   on the same team you can do
 /set aifill 2
 /team AI*2 1
 /team AI*3 1
@@ -652,7 +652,7 @@ Starting game.
    wrong with your setup.
 
    First, check your Freeciv version. Freeciv clients can only talk to
-   servers of the same major version (3.0.x can only talk to 3.0.y), and
+   servers of the same major version (3.1.x can only talk to 3.1.y), and
    there may simply be no public servers for the version you're running.
    Check out the web interface (which shows servers for all versions) and
    look at the "version" column.
@@ -666,7 +666,9 @@ Starting game.
 
 3.4 How do I change the metaserver info string?
 
-   Use the /metamessage command. See /help metamessage.
+   Set the metamessage setting. See /explain metamessage.
+
+> set metamessage "Everybody Welcome!"
 
 -------
 
@@ -691,8 +693,8 @@ Starting game.
    Clients and servers of different major versions are generally
    incompatible due to changes in the client/server protocol. You will see
    incompatibilities as a 'mismatched capabilities' error. Different minor
-   versions should be compatible, however. For example, 3.0.3 and 3.0.0
-   are compatible; 2.6.7 and 3.0.3 are not.
+   versions should be compatible, however. For example, 3.1.2 and 3.1.0
+   are compatible; 3.0.3 and 3.1.0 are not.
 
 -------
 
@@ -711,12 +713,12 @@ Starting game.
 3.7 HOME directory not set?
 
    The Freeciv client wants to write a configuration file named
-   freeciv-client-rc-3.0 (for Freeciv 3.0.x) in a directory called
+   freeciv-client-rc-3.1 (for Freeciv 3.1.x) in a directory called
    .freeciv in your $HOME directory. On Windows the %HOME%-directory can
    be either explicitly set, or defaults to %APPDATA%. So for instance for
-   Freeciv 3.0 the Windows clients might put their common configuration
+   Freeciv 3.1 the Windows clients might put their common configuration
    file in
-   C:\Users\username\AppData\Roaming\.freeciv\freeciv-client-rc-3.0.
+   C:\Users\username\AppData\Roaming\.freeciv\freeciv-client-rc-3.1.
 
 -------
 
@@ -966,8 +968,8 @@ or add cities to the list for an existing nation?
 
    If you used one of the self installer versions then there's a program
    group with the name chosen at installation time (for example,
-   Freeciv 3.0.3 (GTK+3.22 client).) Just go to click on
-   Start→Programs→Freeciv 3.0.3 (GTK+3.22 client)→Freeciv
+   Freeciv 3.1.0 (GTK+3.22 client).) Just go to click on
+   Start→Programs→Freeciv 3.1.0 (GTK+3.22 client)→Freeciv
 
    That's it! You should be up and running.
 
@@ -1011,13 +1013,13 @@ or add cities to the list for an existing nation?
 
    Then you have to unpack the tileset into the appropriate place. It's
    best to install it in your user directory. Locate the existing client
-   settings file freeciv-client-rc-3.0; see the question HOME directory
+   settings file freeciv-client-rc-3.1; see the question HOME directory
    not set? to see where that might be. You want to put the tileset in a
-   subdirectory named after the current version (e.g., 3.0\) in the same
+   subdirectory named after the current version (e.g., 3.1\) in the same
    place as the client settings file. Usually, the main tilespec file
-   foo.tilespec goes directly under 3.0\, and the rest of the tileset
+   foo.tilespec goes directly under 3.1\, and the rest of the tileset
    files will go in a subdirectory named after the tileset (e.g.,
-   3.0\foo).
+   3.1\foo).
 
    You can alternatively unpack the tileset into the same data directory
    as the rest of your Freeciv installation, alongside the supplied
@@ -1048,7 +1050,7 @@ freeciv-gtk3.22 --tiles hexemplio
    and extracting it in the same place as you would a tileset (see
    previous question). Generally, the .ruleset and .lua files go in a
    subdirectory named after the ruleset (for instance ancients\*.ruleset;
-   if there is a .serv file it generally goes directly in the 3.0\
+   if there is a .serv file it generally goes directly in the 3.1\
    directory.
 
    Then you need to tell Freeciv to use it. For single-player games, if
