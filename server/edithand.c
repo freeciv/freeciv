@@ -1106,6 +1106,12 @@ void handle_edit_player(struct connection *pc,
     }
   }
 
+  /* Handle a change in the player's autoselect weight. */
+  if (packet->autoselect_weight != pplayer->autoselect_weight) {
+    pplayer->autoselect_weight = packet->autoselect_weight;
+    changed = TRUE;
+  }
+
   /* Handle player government change */
   gov = government_by_number(packet->government);
   if (gov != pplayer->government) {

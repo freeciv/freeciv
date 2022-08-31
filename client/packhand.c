@@ -2449,6 +2449,7 @@ void handle_player_info(const struct packet_player_info *pinfo)
   pplayer->score.game = pinfo->score;
   pplayer->was_created = pinfo->was_created;
 
+  pplayer->autoselect_weight = pinfo->autoselect_weight;
   pplayer->economic.gold = pinfo->gold;
   pplayer->economic.tax = pinfo->tax;
   pplayer->economic.science = pinfo->science;

@@ -1361,6 +1361,8 @@ static void package_player_info(struct player *plr,
     packet->score = 0;
   }
 
+  packet->autoselect_weight = plr->autoselect_weight;
+
   if (info_level >= INFO_MEETING) {
     packet->gold = plr->economic.gold;
     pgov = government_of_player(plr);

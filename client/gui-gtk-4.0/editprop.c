@@ -363,6 +363,7 @@ enum object_property_ids {
 #endif /* FREECIV_DEBUG */
   OPID_PLAYER_INVENTIONS,
   OPID_PLAYER_SCENARIO_RESERVED,
+  OPID_PLAYER_SELECT_WEIGHT,
   OPID_PLAYER_SCIENCE,
   OPID_PLAYER_GOLD,
 
@@ -1784,6 +1785,9 @@ static struct propval *objbind_get_value_from_object(struct objbind *ob,
       case OPID_PLAYER_SCENARIO_RESERVED:
         pv->data.v_bool = player_has_flag(pplayer, PLRF_SCENARIO_RESERVED);
         break;
+      case OPID_PLAYER_SELECT_WEIGHT:
+        pv->data.v_int = pplayer->autoselect_weight;
+        break;
       case OPID_PLAYER_SCIENCE:
         presearch = research_get(pplayer);
         pv->data.v_int = presearch->bulbs_researched;
@@ -2014,6 +2018,12 @@ static bool objbind_get_allowed_value_span(struct objbind *ob,
       *pmax = 1000000; /* Arbitrary. */
       *pstep = 1;
       *pbig_step = 100;
+      return TRUE;
+    case OPID_PLAYER_SELECT_WEIGHT:
+      *pmin = -1;
+      *pmax = 10000; /* Keep it under SINT16 */
+      *pstep = 1;
+      *pbig_step = 10;
       return TRUE;
     default:
       break;
@@ -2307,6 +2317,7 @@ static void objbind_pack_current_values(struct objbind *ob,
         packet->inventions[tech]
             = TECH_KNOWN == research_invention_state(presearch, tech);
       } advance_index_iterate_end;
+      packet->autoselect_weight = pplayer->autoselect_weight;
       packet->gold = pplayer->economic.gold;
       packet->government = government_index(pplayer->government);
       /* TODO: Set more packet fields. */
@@ -2539,6 +2550,9 @@ static void objbind_pack_modified_value(struct objbind *ob,
         return;
       case OPID_PLAYER_SCENARIO_RESERVED:
         packet->scenario_reserved = pv->data.v_bool;
+        return;
+      case OPID_PLAYER_SELECT_WEIGHT:
+        packet->autoselect_weight = pv->data.v_int;
         return;
       case OPID_PLAYER_SCIENCE:
         packet->bulbs_researched = pv->data.v_int;
@@ -3001,6 +3015,7 @@ static void objprop_setup_widget(struct objprop *op)
   case OPID_CITY_SIZE:
   case OPID_CITY_HISTORY:
   case OPID_CITY_SHIELD_STOCK:
+  case OPID_PLAYER_SELECT_WEIGHT:
   case OPID_PLAYER_SCIENCE:
   case OPID_PLAYER_GOLD:
     spin = gtk_spin_button_new_with_range(0.0, 100.0, 1.0);
@@ -3206,6 +3221,7 @@ static void objprop_refresh_widget(struct objprop *op,
   case OPID_CITY_SIZE:
   case OPID_CITY_HISTORY:
   case OPID_CITY_SHIELD_STOCK:
+  case OPID_PLAYER_SELECT_WEIGHT:
   case OPID_PLAYER_SCIENCE:
   case OPID_PLAYER_GOLD:
     spin = objprop_get_child_widget(op, "spin");
@@ -4534,6 +4550,10 @@ static void property_page_setup_objprops(struct property_page *pp)
             VALTYPE_INVENTIONS_ARRAY);
     ADDPROP(OPID_PLAYER_SCENARIO_RESERVED, _("Reserved"), NULL,
             OPF_HAS_WIDGET | OPF_EDITABLE, VALTYPE_BOOL);
+    ADDPROP(OPID_PLAYER_SELECT_WEIGHT, _("Select Weight"),
+            _("How likely user is to get this player by autoselect. '-1' for default behavior."),
+            OPF_HAS_WIDGET | OPF_EDITABLE,
+            VALTYPE_INT);
     ADDPROP(OPID_PLAYER_SCIENCE, _("Science"), NULL,
             OPF_HAS_WIDGET | OPF_EDITABLE, VALTYPE_INT);
     ADDPROP(OPID_PLAYER_GOLD, _("Gold"), NULL,

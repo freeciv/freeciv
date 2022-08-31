@@ -22,6 +22,7 @@
 #include "fcintl.h"
 #include "log.h"
 #include "mem.h"
+#include "rand.h"
 #include "support.h"
 
 /* common */
@@ -201,6 +202,7 @@ void establish_new_connection(struct connection *pconn)
   if ((pplayer = player_by_user_delegated(pconn->username))) {
     /* Reassert our control over the player. */
     struct connection *pdelegate;
+
     fc_assert_ret(player_delegation_get(pplayer) != NULL);
     pdelegate = conn_by_user(player_delegation_get(pplayer));
 
@@ -231,13 +233,43 @@ void establish_new_connection(struct connection *pconn)
   if (!delegation_error) {
     if ((pplayer = player_by_user(pconn->username))
         && connection_attach_real(pconn, pplayer, FALSE, TRUE)) {
-      /* a player has already been created for this user, reconnect */
+      /* A player has already been created for this user, reconnect */
 
       if (S_S_INITIAL == server_state()) {
         send_player_info_c(NULL, dest);
       }
     } else {
-      if (!game_was_started()) {
+      int total_free_weight = 0;
+
+      players_iterate(wplayer) {
+        if (wplayer->autoselect_weight > 0
+            && !wplayer->is_connected
+            && !player_has_flag(wplayer, PLRF_SCENARIO_RESERVED)) {
+          total_free_weight += wplayer->autoselect_weight;
+        }
+      } players_iterate_end;
+
+      if (total_free_weight > 0) {
+        int weight_rand = fc_rand(total_free_weight);
+
+        players_iterate(wplayer) {
+          if (wplayer->autoselect_weight > 0
+              && !wplayer->is_connected
+              && !player_has_flag(wplayer, PLRF_SCENARIO_RESERVED)) {
+            weight_rand -= wplayer->autoselect_weight;
+            if (weight_rand < 0) {
+              log_normal("Trying to attach %s to %s",
+                         pconn->username, wplayer->name);
+              if (!connection_attach_real(pconn, wplayer, FALSE, TRUE)) {
+                notify_conn(dest, NULL, E_CONNECTION, ftc_server,
+                            _("Couldn't attach your connection to a scenario player."));
+                log_verbose("%s is not attached to a player", pconn->username);
+              }
+              break;
+            }
+          }
+        } players_iterate_end;
+      } else if (!game_was_started()) {
         if (connection_attach_real(pconn, NULL, FALSE, TRUE)) {
           pplayer = conn_get_player(pconn);
           fc_assert(pplayer != NULL);

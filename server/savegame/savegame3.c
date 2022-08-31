@@ -3662,6 +3662,10 @@ static void sg_load_players_basic(struct loaddata *loading)
         secfile_lookup_bool_default(loading->file, FALSE,
                                     "player%d.border_vision",
                                     player_slot_index(pslot));
+
+    pplayer->autoselect_weight = secfile_lookup_int_default(loading->file, 0,
+                                                            "player%d.autoselect_weight",
+                                                            pslot_id);
   } player_slots_iterate_end;
 
   /* check number of players */
@@ -4781,6 +4785,23 @@ static void sg_save_player_main(struct savedata *saving,
 
   secfile_insert_bool(saving->file, plr->server.border_vision,
                       "player%d.border_vision", plrno);
+
+  if (saving->scenario) {
+    if (plr->autoselect_weight < 0) { /* Apply default behavior */
+      int def = 1; /* We want users to get a player in a scenario */
+
+      if (player_has_flag(plr, PLRF_SCENARIO_RESERVED)) {
+        /* This isn't usable player */
+        def = 0;
+      }
+
+      secfile_insert_int(saving->file, def,
+                         "player%d.autoselect_weight", plrno);
+    } else {
+      secfile_insert_int(saving->file, plr->autoselect_weight,
+                         "player%d.autoselect_weight", plrno);
+    }
+  }
 }
 
 /************************************************************************//**

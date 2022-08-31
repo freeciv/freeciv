@@ -918,6 +918,8 @@ PACKET_PLAYER_INFO = 51; sc, is-info
   TURN turns_alive;
   BOOL is_alive;
 
+  SINT16 autoselect_weight;
+
   GOLD gold;
   PERCENT tax, science,luxury;
   UINT32 infrapoints;
@@ -2299,6 +2301,8 @@ PACKET_EDIT_PLAYER = 216; cs, handle-per-conn, lsend
   TURN nturns_idle;
   BOOL is_alive;
   TURN revolution_finishes;
+
+  SINT16 autoselect_weight;
 
   BV_PLAYER embassy;
   GOLD gold;

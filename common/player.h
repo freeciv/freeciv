@@ -296,6 +296,9 @@ struct player
   bool is_connected;
   struct connection *current_conn;     /* non-null while handling packet */
   struct conn_list *connections;       /* will replace conn */
+  int autoselect_weight;               /* How likely scenario player is to get picked
+                                        * for an user to use. */
+
   bv_player gives_shared_vision;       /* bitvector those that give you
                                         * shared vision */
   bv_player gives_shared_tiles;

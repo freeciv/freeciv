@@ -89,6 +89,16 @@ Savegame [scenario] section can have following fields
   Luadata to load. See chapter 'Luadata' for details
 
 
+[player<num>] section additions:
+--------------------------------
+When saved in scenario mode, player sections have additional field:
+
+- autoselect_weight
+  When a user (client) connects, and there are free players with autoselect_weight
+  above zero, user gets automatically attached to one of those. The exact weight
+  determines how likely each of them is to get automatically chosen.
+
+
 Luadata:
 --------
 Some rulesets have a lua script that can parse special luadata file
