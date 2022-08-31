@@ -623,9 +623,9 @@ void plr_widget::nation_selected(const QItemSelection &sl,
     }
   }
 
-  wonder_str = QString("<b>Wonders of %1 Empire.</b>").
-    arg(QString(nation_plural_for_player(pplayer)).toHtmlEscaped())
-    + nl;
+  wonder_str = "<b>"
+    + QString(_("Wonders of %1 Empire.")).arg(QString(nation_plural_for_player(pplayer)).toHtmlEscaped())
+    + "</b>" + nl;
 
   improvement_iterate(impr) {
     if (is_wonder(impr)) {
