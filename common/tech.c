@@ -75,7 +75,7 @@ const struct advance *advance_array_last(void)
 /**************************************************************************
   Return the number of advances/technologies.
 **************************************************************************/
-Tech_type_id advance_count(void)
+Tech_type_id advance_count_real(void)
 {
   return game.control.num_tech_types;
 }

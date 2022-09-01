@@ -158,7 +158,21 @@ struct advance {
 BV_DEFINE(bv_techs, A_LAST);
 
 /* General advance/technology accessor functions. */
-Tech_type_id advance_count(void);
+Tech_type_id advance_count_real(void);
+
+/**************************************************************************
+  Inline wrapper for advance_count_real() that makes it clear to
+  the compiler that the value returned never exceeds A_LAST.
+  Making actual advance_count_real() inline would be more
+  complicated due to header interdependencies.
+**************************************************************************/
+static inline Tech_type_id advance_count(void)
+{
+  Tech_type_id rc = advance_count_real();
+
+  return MIN(rc, A_LAST);
+}
+
 Tech_type_id advance_index(const struct advance *padvance);
 Tech_type_id advance_number(const struct advance *padvance);
 
