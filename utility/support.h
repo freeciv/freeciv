@@ -28,7 +28,7 @@ extern "C" {
 
 #include <stdarg.h>
 #include <stdio.h>
-#include <stdlib.h>		/* size_t */
+#include <stdlib.h>             /* size_t */
 #include <sys/stat.h>
 
 #ifdef FREECIV_HAVE_SYS_TYPES_H
@@ -160,7 +160,7 @@ char *fc_strrep_resize(char *str, size_t *len, const char *search,
 size_t fc_strlcpy(char *dest, const char *src, size_t n);
 size_t fc_strlcat(char *dest, const char *src, size_t n);
 
-/* convenience macros for use when dest is a char ARRAY: */
+/* Convenience macros for use when dest is a char ARRAY: */
 #define sz_strlcpy(dest,src) ((void) fc_strlcpy((dest), (src), sizeof(dest)))
 #define sz_strlcat(dest,src) ((void) fc_strlcat((dest), (src), sizeof(dest)))
 
@@ -198,7 +198,7 @@ const char *fc_basename(const char *path);
 
 static inline bool is_bigendian(void)
 {
-#ifdef WORDS_BIGENDIAN 
+#ifdef WORDS_BIGENDIAN
   return TRUE;
 #else  /* WORDS_BIGENDIAN */
   return FALSE;

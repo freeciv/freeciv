@@ -13,10 +13,10 @@
 
 /***********************************************************************
   This module contains replacements for functions which are not
-  available on all platforms.  Where the functions are available
+  available on all platforms. Where the functions are available
   natively, these are (mostly) just wrappers.
 
-  Notice the function names here are prefixed by, eg, "fc".  An
+  Notice the function names here are prefixed by, eg, "fc_".  An
   alternative would be to use the "standard" function name, and
   provide the implementation only if required.  However the method
   here has some advantages:
@@ -32,8 +32,8 @@
 
    - We can add some extra stuff to these functions if we want.
 
-  The main disadvantage is remembering to use these "fc" functions on
-  systems which have the functions natively.
+  The main disadvantage is need to remember to use these
+  "fc_" functions on systems which have the functions natively.
 
 ***********************************************************************/
 
@@ -53,7 +53,7 @@
 #include <sys/stat.h>
 
 #ifdef GENERATING_MAC
-#include <events.h>		/* for WaitNextEvent() */
+#include <events.h>             /* for WaitNextEvent() */
 #endif
 #ifdef HAVE_FCNTL_H
 #include <fcntl.h>
@@ -71,7 +71,7 @@
 #include <sys/types.h>
 #endif
 #ifdef HAVE_UNISTD_H
-#include <unistd.h>		/* usleep, fcntl, gethostname */
+#include <unistd.h>             /* usleep, fcntl, gethostname */
 #endif
 #ifdef HAVE_TIME_H
 #include <time.h>               /* nanosleep */
@@ -172,7 +172,7 @@ void fc_strAPI_free(void)
 }
 
 /************************************************************************//**
-  Compare strings like strcmp(), but ignoring case.
+  Compare strings like strcmp(), but ignoring case. UTF8 aware.
 ****************************************************************************/
 int fc_strcasecmp(const char *str0, const char *str1)
 {
@@ -221,7 +221,7 @@ int fc_strcasecmp(const char *str0, const char *str1)
 
 /************************************************************************//**
   Compare strings like strncmp(), but ignoring case.
-  ie, only compares first n chars.
+  ie, only compares first n chars. UTF8 aware.
 ****************************************************************************/
 int fc_strncasecmp(const char *str0, const char *str1, size_t n)
 {
@@ -346,6 +346,7 @@ void remove_escapes(const char *str, bool full_escapes,
 size_t effectivestrlenquote(const char *str)
 {
   int len;
+
   if (!str) {
     return 0;
   }
@@ -590,9 +591,9 @@ const char *fc_strerror(fc_errno err)
   static char buf[256];
 
   if (!FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
-		     NULL, err, 0, buf, sizeof(buf), NULL)) {
+                     NULL, err, 0, buf, sizeof(buf), NULL)) {
     fc_snprintf(buf, sizeof(buf),
-		_("error %ld (failed FormatMessage)"), err);
+                _("error %ld (failed FormatMessage)"), err);
   }
   return buf;
 #else  /* FREECIV_MSWINDOWS */
@@ -605,7 +606,7 @@ const char *fc_strerror(fc_errno err)
   static char buf[64];
 
   fc_snprintf(buf, sizeof(buf),
-	      _("error %d (compiled without strerror)"), err);
+              _("error %d (compiled without strerror)"), err);
   return buf;
 #endif /* HAVE_STRERROR */
 #endif /* FREECIV_MSWINDOWS */
@@ -632,17 +633,18 @@ void fc_usleep(unsigned long usec)
 #ifdef HAVE_USLEEP
   usleep(usec);
 #else  /* HAVE_USLEEP */
-#ifdef HAVE_SNOOZE		/* BeOS */
+#ifdef HAVE_SNOOZE              /* BeOS */
   snooze(usec);
 #else  /* HAVE_SNOOZE */
 #ifdef GENERATING_MAC
-  EventRecord the_event;	/* dummy - always be a null event */
+  EventRecord the_event;        /* dummy - always be a null event */
 
-  usec /= 16666;		/* microseconds to 1/60th seconds */
+  usec /= 16666;                /* microseconds to 1/60th seconds */
   if (usec < 1) {
     usec = 1;
   }
-  /* supposed to give other application processor time for the mac */
+
+  /* Supposed to give other application processor time for the mac */
   WaitNextEvent(0, &the_event, usec, 0L);
 #else  /* GENERATING_MAC */
 #ifdef FREECIV_MSWINDOWS
@@ -652,7 +654,7 @@ void fc_usleep(unsigned long usec)
 
   tv.tv_sec = 0;
   tv.tv_usec = usec;
-  /* FIXME: an interrupt can cause an EINTR return here.  In that case we
+  /* FIXME: an interrupt can cause an EINTR return here. In that case we
    * need to have another select call. */
   fc_select(0, NULL, NULL, NULL, &tv);
 #endif /* FREECIV_MSWINDOWS */
@@ -674,13 +676,14 @@ char *fc_strrep_resize(char *str, size_t *len, const char *search,
 
   fc_assert_ret_val(str != NULL, NULL);
   fc_assert_ret_val(len != NULL, NULL);
+
   if (search == NULL || replace == NULL) {
     return str;
   }
 
   len_max = ceil((double)strlen(str) * strlen(replace) / strlen(search)) + 1;
   if ((*len) < len_max) {
-    /* replace string is longer than search string; allocate enough memory
+    /* Replace string is longer than search string; allocate enough memory
      * for the worst case */
     (*len) = len_max;
     str = fc_realloc(str, len_max);
@@ -712,6 +715,7 @@ bool fc_strrep(char *str, size_t len, const char *search,
   char *s, *p;
 
   fc_assert_ret_val(str != NULL, FALSE);
+
   if (search == NULL || replace == NULL) {
     return TRUE;
   }
@@ -723,7 +727,7 @@ bool fc_strrep(char *str, size_t len, const char *search,
   while (s != NULL) {
     p = strstr(s, search);
     if (p == NULL) {
-      /* nothing found */
+      /* Nothing found */
       break;
     }
 
@@ -897,7 +901,7 @@ int fc_vsnprintf(char *str, size_t n, const char *format, va_list ap)
   {
     /* Don't use fc_malloc() or log_*() here, since they may call
        fc_vsnprintf() if it fails.  */
- 
+
     static char *buf;
     size_t len;
 
@@ -905,9 +909,9 @@ int fc_vsnprintf(char *str, size_t n, const char *format, va_list ap)
       buf = malloc(VSNP_BUF_SIZE);
 
       if (!buf) {
-	fprintf(stderr, "Could not allocate %i bytes for vsnprintf() "
-		"replacement.", VSNP_BUF_SIZE);
-	exit(EXIT_FAILURE);
+        fprintf(stderr, "Could not allocate %i bytes for vsnprintf() "
+                "replacement.", VSNP_BUF_SIZE);
+        exit(EXIT_FAILURE);
       }
     }
 #ifdef HAVE_VSNPRINTF
@@ -948,15 +952,16 @@ int fc_snprintf(char *str, size_t n, const char *format, ...)
   va_start(ap, format);
   ret = fc_vsnprintf(str, n, format, ap);
   va_end(ap);
+
   return ret;
 }
 
 /************************************************************************//**
-  cat_snprintf is like a combination of fc_snprintf and fc_strlcat;
-  it does snprintf to the end of an existing string.
+  cat_snprintf() is like a combination of fc_snprintf() and fc_strlcat();
+  it does snprintf() to the end of an existing string.
 
-  Like fc_strlcat, n is the total length available for str, including
-  existing contents and trailing nul.  If there is no extra room
+  Like fc_strlcat(), n is the total length available for str, including
+  existing contents and trailing NULL. If there is no extra room
   available in str, does not change the string.
 
   Also like fc_strlcat, returns the final length that str would have
@@ -981,6 +986,7 @@ int cat_snprintf(char *str, size_t n, const char *format, ...)
   va_start(ap, format);
   ret = fc_vsnprintf(str+len, n-len, format, ap);
   va_end(ap);
+
   return (-1 == ret ? -1 : ret + len);
 }
 
@@ -1076,9 +1082,9 @@ char *fc_read_console(void)
         *bufptr = '\0';
       }
       if (*bufptr == '\0') {
-	bufptr = console_buf;
+        bufptr = console_buf;
 
-	return console_buf;
+        return console_buf;
       }
       if ((bufptr - console_buf) <= CONSOLE_BUF_SIZE) {
         bufptr++; /* prevent overrun */
@@ -1124,7 +1130,7 @@ int fc_break_lines(char *str, size_t desired_len)
 
     num_lines++;
 
-    /* check if there is already a newline: */
+    /* Check if there is already a newline: */
     for (c = str; c < str + desired_len; c++) {
       if (*c == '\n') {
         slen -= c + 1 - str;
@@ -1133,7 +1139,7 @@ int fc_break_lines(char *str, size_t desired_len)
       }
     }
 
-    /* find space and break: */
+    /* Find space and break: */
     for (c = str + desired_len; c > str; c--) {
       if (fc_isspace(*c)) {
         *c = '\n';
@@ -1143,7 +1149,7 @@ int fc_break_lines(char *str, size_t desired_len)
       }
     }
 
-    /* couldn't find a good break; settle for a bad one... */
+    /* Couldn't find a good break; settle for a bad one... */
     for (c = str + desired_len + 1; *c != '\0'; c++) {
       if (fc_isspace(*c)) {
         *c = '\n';
