@@ -132,9 +132,6 @@ static citizens city_reduce_workers(struct city *pcity, citizens change);
 
 static bool city_balance_treasury_buildings(struct city *pcity);
 static bool city_balance_treasury_units(struct city *pcity);
-static bool player_balance_treasury_units_and_buildings
-            (struct player *pplayer);
-static bool player_balance_treasury_units(struct player *pplayer);
 
 static bool disband_city(struct city *pcity);
 
@@ -579,15 +576,12 @@ void send_city_turn_notifications(struct connection *pconn)
 **************************************************************************/
 void update_city_activities(struct player *pplayer)
 {
-  char buf[4 * MAX_LEN_NAME];
-  int n, gold;
+  int n;
 
   fc_assert(NULL != pplayer);
   fc_assert(NULL != pplayer->cities);
 
   n = city_list_size(pplayer->cities);
-  gold = pplayer->economic.gold;
-  pplayer->server.bulbs_last_turn = 0;
 
   if (n > 0) {
     struct city *cities[n];
@@ -650,47 +644,7 @@ void update_city_activities(struct player *pplayer)
       update_city_activity(cities[r]);
       cities[r] = cities[--i];
     }
-
-    if (pplayer->economic.infra_points < 0) {
-      pplayer->economic.infra_points = 0;
-    }
-
-    if (pplayer->economic.gold < 0) {
-      switch (game.info.gold_upkeep_style) {
-      case GOLD_UPKEEP_CITY:
-        break;
-      case GOLD_UPKEEP_MIXED:
-        /* Nation pays for units. */
-        player_balance_treasury_units(pplayer);
-        break;
-      case GOLD_UPKEEP_NATION:
-        /* Nation pays for units and buildings. */
-        player_balance_treasury_units_and_buildings(pplayer);
-        break;
-      }
-    }
-
-    /* Should not happen. */
-    fc_assert(pplayer->economic.gold >= 0);
   }
-
-  /* This test includes the cost of the units because
-   * units are paid for in update_city_activity() or
-   * player_balance_treasury_units(). */
-  if (gold - (gold - pplayer->economic.gold) * 3 < 0) {
-    notify_player(pplayer, NULL, E_LOW_ON_FUNDS, ftc_server,
-                  _("WARNING, we're LOW on FUNDS %s."),
-                  ruler_title_for_player(pplayer, buf, sizeof(buf)));
-  }
-
-#if 0
-  /* Uncomment to unbalance the game, like in civ1 (CLG). */
-  if (pplayer->got_tech && pplayer->research->researched > 0) {
-    pplayer->research->researched = 0;
-  }
-#endif
-
-  city_refresh_queue_processing();
 }
 
 /**********************************************************************//**
@@ -2950,8 +2904,7 @@ static struct unit *sell_random_unit(struct player *pplayer,
 /**********************************************************************//**
   Balance the gold of a nation by selling some random units and buildings.
 **************************************************************************/
-static bool player_balance_treasury_units_and_buildings
-            (struct player *pplayer)
+bool player_balance_treasury_units_and_buildings(struct player *pplayer)
 {
   struct cityimpr_list *pimprlist;
   bool sell_unit = TRUE;
@@ -3014,7 +2967,7 @@ static bool player_balance_treasury_units_and_buildings
 /**********************************************************************//**
   Balance the gold of a nation by selling some units which need gold upkeep.
 **************************************************************************/
-static bool player_balance_treasury_units(struct player *pplayer)
+bool player_balance_treasury_units(struct player *pplayer)
 {
   if (!pplayer) {
     return FALSE;

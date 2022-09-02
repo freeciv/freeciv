@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -54,4 +54,7 @@ void check_disasters(void);
 
 void city_style_refresh(struct city *pcity);
 
-#endif  /* FC__CITYTURN_H */
+bool player_balance_treasury_units_and_buildings(struct player *pplayer);
+bool player_balance_treasury_units(struct player *pplayer);
+
+#endif /* FC__CITYTURN_H */

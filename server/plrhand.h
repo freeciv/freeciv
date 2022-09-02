@@ -169,4 +169,6 @@ void player_set_to_ai_mode(struct player *pplayer,
                            enum ai_level skill_level);
 void player_set_under_human_control(struct player *pplayer);
 
-#endif  /* FC__PLRHAND_H */
+void update_national_activities(struct player *pplayer, int old_gold);
+
+#endif /* FC__PLRHAND_H */

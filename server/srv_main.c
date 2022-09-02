@@ -1446,6 +1446,7 @@ static void end_phase(void)
 
   alive_phase_players_iterate(pplayer) {
     int plrid = player_number(pplayer);
+    int old_gold;
 
     do_tech_parasite_effect(pplayer);
     script_server_signal_emit("player_alive_phase_end", pplayer);
@@ -1466,13 +1467,16 @@ static void end_phase(void)
                     _("Automatically placed spaceship parts that were still not placed."));
     }
 
+    old_gold = pplayer->economic.gold;
+    pplayer->server.bulbs_last_turn = 0;
+
     update_city_activities(pplayer);
+
+    update_national_activities(pplayer, old_gold);
+
+    city_refresh_queue_processing();
     city_thaw_workers_queue();
-    pplayer->history += nation_history_gain(pplayer);
-    research_get(pplayer)->researching_saved = A_UNKNOWN;
-    /* reduce the number of bulbs by the amount needed for tech upkeep and
-     * check for finished research */
-    update_bulbs(pplayer, -player_tech_upkeep(pplayer), TRUE);
+
     flush_packets();
   } alive_phase_players_iterate_end;
 

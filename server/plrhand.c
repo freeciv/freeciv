@@ -3410,3 +3410,53 @@ void player_set_under_human_control(struct player *pplayer)
   }
   cancel_all_meetings(pplayer);
 }
+
+/**********************************************************************//**
+  National level turn change activities.
+**************************************************************************/
+void update_national_activities(struct player *pplayer, int old_gold)
+{
+  char buf[200 + MAX_LEN_NAME];
+
+  if (pplayer->economic.gold < 0) {
+    switch (game.info.gold_upkeep_style) {
+    case GOLD_UPKEEP_CITY:
+      break;
+    case GOLD_UPKEEP_MIXED:
+      /* Nation pays for units. */
+      player_balance_treasury_units(pplayer);
+      break;
+    case GOLD_UPKEEP_NATION:
+      /* Nation pays for units and buildings. */
+      player_balance_treasury_units_and_buildings(pplayer);
+      break;
+    }
+  }
+
+  /* This test includes the cost of the units because
+   * units are paid for in update_city_activity() or
+   * player_balance_treasury_units(). */
+  if (old_gold - (old_gold - pplayer->economic.gold) * 3 < 0) {
+    notify_player(pplayer, NULL, E_LOW_ON_FUNDS, ftc_server,
+                  _("WARNING, we're LOW on FUNDS %s."),
+                  ruler_title_for_player(pplayer, buf, sizeof(buf)));
+  }
+
+#if 0
+  /* Uncomment to unbalance the game, like in civ1 (CLG). */
+  if (pplayer->got_tech && pplayer->research->researched > 0) {
+    pplayer->research->researched = 0;
+  }
+#endif
+
+  if (pplayer->economic.infra_points < 0) {
+    pplayer->economic.infra_points = 0;
+  }
+
+  pplayer->history += nation_history_gain(pplayer);
+
+  research_get(pplayer)->researching_saved = A_UNKNOWN;
+  /* Reduce the number of bulbs by the amount needed for tech upkeep and
+   * check for finished research */
+  update_bulbs(pplayer, -player_tech_upkeep(pplayer), TRUE);
+}
