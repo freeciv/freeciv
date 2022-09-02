@@ -72,7 +72,7 @@ int rscompat_check_capabilities(struct section_file *file,
 
   if (!(datafile_options = secfile_lookup_str(file, "datafile.options"))) {
     log_fatal("\"%s\": ruleset capability problem:", filename);
-    ruleset_error(LOG_ERROR, "%s", secfile_error());
+    ruleset_error(NULL, LOG_ERROR, "%s", secfile_error());
 
     return 0;
   }
@@ -93,7 +93,7 @@ int rscompat_check_capabilities(struct section_file *file,
       log_fatal("\"%s\": ruleset datafile appears incompatible:", filename);
       log_fatal("  datafile options: %s", datafile_options);
       log_fatal("  supported options: %s", RULESET_CAPABILITIES);
-      ruleset_error(LOG_ERROR, "Capability problem");
+      ruleset_error(NULL, LOG_ERROR, "Capability problem");
 
       return 0;
     }
@@ -102,7 +102,7 @@ int rscompat_check_capabilities(struct section_file *file,
                 " that we don't support:", filename);
       log_fatal("  datafile options: %s", datafile_options);
       log_fatal("  supported options: %s", RULESET_CAPABILITIES);
-      ruleset_error(LOG_ERROR, "Capability problem");
+      ruleset_error(NULL, LOG_ERROR, "Capability problem");
 
       return 0;
     }
@@ -110,12 +110,12 @@ int rscompat_check_capabilities(struct section_file *file,
 
   if (!secfile_lookup_int(file, &format, "datafile.format_version")) {
     log_error("\"%s\": lacking legal format_version field", filename);
-    ruleset_error(LOG_ERROR, "%s", secfile_error());
+    ruleset_error(NULL, LOG_ERROR, "%s", secfile_error());
 
     return 0;
   } else if (format == 0) {
     log_error("\"%s\": Illegal format_version value", filename);
-    ruleset_error(LOG_ERROR, "Format version error");
+    ruleset_error(NULL, LOG_ERROR, "Format version error");
   }
 
   return format;
@@ -147,7 +147,7 @@ bool rscompat_check_cap_and_version(struct section_file *file,
               " other ruleset datafile(s):", filename);
     log_fatal("  datafile format version: %d", format_version);
     log_fatal("  expected format version: %d", info->version);
-    ruleset_error(LOG_ERROR, "Inconsistent format versions");
+    ruleset_error(NULL, LOG_ERROR, "Inconsistent format versions");
 
     return FALSE;
   }
@@ -428,7 +428,7 @@ bool rscompat_names(struct rscompat_info *info)
     for (i = 0; i < ARRAY_SIZE(new_flags_31); i++) {
       if (UTYF_USER_FLAG_1 + MAX_NUM_USER_UNIT_FLAGS <= first_free + i) {
         /* Can't add the user unit type flags. */
-        ruleset_error(LOG_ERROR,
+        ruleset_error(NULL, LOG_ERROR,
                       "Can't upgrade the ruleset. Not enough free unit type "
                       "user flags to add user flags for the unit type flags "
                       "that used to be hardcoded.");
@@ -438,7 +438,7 @@ bool rscompat_names(struct rscompat_info *info)
        * clash with these ones */
       if (unit_type_flag_id_by_name(new_flags_31[i].name, fc_strcasecmp)
           != unit_type_flag_id_invalid()) {
-        ruleset_error(LOG_ERROR,
+        ruleset_error(NULL, LOG_ERROR,
                       "Ruleset had illegal user unit type flag '%s'",
                       new_flags_31[i].name);
         return FALSE;
@@ -454,7 +454,7 @@ bool rscompat_names(struct rscompat_info *info)
     for (i = 0; i < ARRAY_SIZE(new_class_flags_31); i++) {
       if (UCF_USER_FLAG_1 + MAX_NUM_USER_UCLASS_FLAGS <= first_free + i) {
         /* Can't add the user unit type class flags. */
-        ruleset_error(LOG_ERROR,
+        ruleset_error(NULL, LOG_ERROR,
                       "Can't upgrade the ruleset. Not enough free unit "
                       "type class user flags to add user flags for the "
                       "unit type class flags that used to be hardcoded.");
@@ -465,7 +465,7 @@ bool rscompat_names(struct rscompat_info *info)
       if (unit_class_flag_id_by_name(new_class_flags_31[i].name,
                                      fc_strcasecmp)
           != unit_class_flag_id_invalid()) {
-        ruleset_error(LOG_ERROR,
+        ruleset_error(NULL, LOG_ERROR,
                       "Ruleset had illegal user unit class flag '%s'",
                       new_class_flags_31[i].name);
         return FALSE;
@@ -499,7 +499,7 @@ bool rscompat_names(struct rscompat_info *info)
     for (i = 0; i < ARRAY_SIZE(new_flags_31); i++) {
       if (TER_USER_1 + MAX_NUM_USER_TER_FLAGS <= first_free + i) {
         /* Can't add the user terrain flags. */
-        ruleset_error(LOG_ERROR,
+        ruleset_error(NULL, LOG_ERROR,
                       "Can't upgrade the ruleset. Not enough free terrain "
                       "user flags to add user flags for the terrain flags "
                       "that used to be hardcoded.");
@@ -509,7 +509,7 @@ bool rscompat_names(struct rscompat_info *info)
        * clash with these ones */
       if (terrain_flag_id_by_name(new_flags_31[i].name, fc_strcasecmp)
           != terrain_flag_id_invalid()) {
-        ruleset_error(LOG_ERROR,
+        ruleset_error(NULL, LOG_ERROR,
                       "Ruleset had illegal user terrain flag '%s'",
                       new_flags_31[i].name);
         return FALSE;
