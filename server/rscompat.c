@@ -72,7 +72,7 @@ int rscompat_check_capabilities(struct section_file *file,
 
   if (!(datafile_options = secfile_lookup_str(file, "datafile.options"))) {
     log_fatal("\"%s\": ruleset capability problem:", filename);
-    ruleset_error(LOG_ERROR, "%s", secfile_error());
+    ruleset_error(NULL, LOG_ERROR, "%s", secfile_error());
 
     return 0;
   }
@@ -93,7 +93,7 @@ int rscompat_check_capabilities(struct section_file *file,
       log_fatal("\"%s\": ruleset datafile appears incompatible:", filename);
       log_fatal("  datafile options: %s", datafile_options);
       log_fatal("  supported options: %s", RULESET_CAPABILITIES);
-      ruleset_error(LOG_ERROR, "Capability problem");
+      ruleset_error(NULL, LOG_ERROR, "Capability problem");
 
       return 0;
     }
@@ -102,7 +102,7 @@ int rscompat_check_capabilities(struct section_file *file,
                 " that we don't support:", filename);
       log_fatal("  datafile options: %s", datafile_options);
       log_fatal("  supported options: %s", RULESET_CAPABILITIES);
-      ruleset_error(LOG_ERROR, "Capability problem");
+      ruleset_error(NULL, LOG_ERROR, "Capability problem");
 
       return 0;
     }
@@ -110,12 +110,12 @@ int rscompat_check_capabilities(struct section_file *file,
 
   if (!secfile_lookup_int(file, &format, "datafile.format_version")) {
     log_error("\"%s\": lacking legal format_version field", filename);
-    ruleset_error(LOG_ERROR, "%s", secfile_error());
+    ruleset_error(NULL, LOG_ERROR, "%s", secfile_error());
 
     return 0;
   } else if (format == 0) {
     log_error("\"%s\": Illegal format_version value", filename);
-    ruleset_error(LOG_ERROR, "Format version error");
+    ruleset_error(NULL, LOG_ERROR, "Format version error");
   }
 
   return format;
@@ -146,7 +146,7 @@ bool rscompat_check_cap_and_version(struct section_file *file,
               " other ruleset datafile(s):", filename);
     log_fatal("  datafile format version: %d", format_version);
     log_fatal("  expected format version: %d", info->version);
-    ruleset_error(LOG_ERROR, "Inconsistent format versions");
+    ruleset_error(NULL, LOG_ERROR, "Inconsistent format versions");
 
     return FALSE;
   }
