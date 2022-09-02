@@ -60,7 +60,7 @@ int rscompat_check_capabilities(struct section_file *file,
 
   if (!(datafile_options = secfile_lookup_str(file, "datafile.options"))) {
     log_fatal("\"%s\": ruleset capability problem:", filename);
-    ruleset_error(LOG_ERROR, "%s", secfile_error());
+    ruleset_error(NULL, LOG_ERROR, "%s", secfile_error());
 
     return 0;
   }
@@ -81,7 +81,7 @@ int rscompat_check_capabilities(struct section_file *file,
       log_fatal("\"%s\": ruleset datafile appears incompatible:", filename);
       log_fatal("  datafile options: %s", datafile_options);
       log_fatal("  supported options: %s", RULESET_CAPABILITIES);
-      ruleset_error(LOG_ERROR, "Capability problem");
+      ruleset_error(NULL, LOG_ERROR, "Capability problem");
 
       return 0;
     }
@@ -90,7 +90,7 @@ int rscompat_check_capabilities(struct section_file *file,
                 " that we don't support:", filename);
       log_fatal("  datafile options: %s", datafile_options);
       log_fatal("  supported options: %s", RULESET_CAPABILITIES);
-      ruleset_error(LOG_ERROR, "Capability problem");
+      ruleset_error(NULL, LOG_ERROR, "Capability problem");
 
       return 0;
     }
@@ -209,7 +209,7 @@ bool rscompat_names(struct rscompat_info *info)
     for (i = 0; i < ARRAY_SIZE(new_flags_30); i++) {
       if (UTYF_USER_FLAG_1 + MAX_NUM_USER_UNIT_FLAGS <= first_free + i) {
         /* Can't add the user unit type flags. */
-        ruleset_error(LOG_ERROR,
+        ruleset_error(NULL, LOG_ERROR,
                       "Can't upgrade the ruleset. Not enough free unit type "
                       "user flags to add user flags for the unit type flags "
                       "that used to be hardcoded.");
@@ -219,7 +219,7 @@ bool rscompat_names(struct rscompat_info *info)
        * clash with these ones */
       if (unit_type_flag_id_by_name(new_flags_30[i].name, fc_strcasecmp)
           != unit_type_flag_id_invalid()) {
-        ruleset_error(LOG_ERROR,
+        ruleset_error(NULL, LOG_ERROR,
                       "Ruleset had illegal user unit type flag '%s'",
                       new_flags_30[i].name);
         return FALSE;
@@ -235,7 +235,7 @@ bool rscompat_names(struct rscompat_info *info)
     for (i = 0; i < ARRAY_SIZE(new_class_flags_30); i++) {
       if (UCF_USER_FLAG_1 + MAX_NUM_USER_UCLASS_FLAGS <= first_free + i) {
         /* Can't add the user unit type class flags. */
-        ruleset_error(LOG_ERROR,
+        ruleset_error(NULL, LOG_ERROR,
                       "Can't upgrade the ruleset. Not enough free unit "
                       "type class user flags to add user flags for the "
                       "unit type class flags that used to be hardcoded.");
@@ -245,7 +245,7 @@ bool rscompat_names(struct rscompat_info *info)
        * clash with these ones */
       if (unit_class_flag_id_by_name(new_class_flags_30[i].name, fc_strcasecmp)
           != unit_class_flag_id_invalid()) {
-        ruleset_error(LOG_ERROR,
+        ruleset_error(NULL, LOG_ERROR,
                       "Ruleset had illegal user unit class flag '%s'",
                       new_class_flags_30[i].name);
         return FALSE;
@@ -280,7 +280,7 @@ bool rscompat_names(struct rscompat_info *info)
     for (i = 0; i < ARRAY_SIZE(new_extra_flags_30); i++) {
       if (EF_USER_FLAG_1 + MAX_NUM_USER_EXTRA_FLAGS <= first_free + i) {
         /* Can't add the user extra flags. */
-        ruleset_error(LOG_ERROR,
+        ruleset_error(NULL, LOG_ERROR,
                       "Can't upgrade the ruleset. Not enough free extra "
                       "user flags to add user flags for the extra flags "
                       "that used to be hardcoded.");
@@ -291,7 +291,7 @@ bool rscompat_names(struct rscompat_info *info)
        * clash with these ones */
       if (extra_flag_id_by_name(new_extra_flags_30[i].name, fc_strcasecmp)
           != extra_flag_id_invalid()) {
-        ruleset_error(LOG_ERROR,
+        ruleset_error(NULL, LOG_ERROR,
                       "Ruleset had illegal user extra flag '%s'",
                       new_extra_flags_30[i].name);
         return FALSE;
@@ -1596,7 +1596,8 @@ struct extra_type *rscompat_extra_from_resource_3_0(struct section_file *sfile,
                                                     const char *sec_name)
 {
   if (game.control.num_extra_types >= MAX_EXTRA_TYPES) {
-    ruleset_error(LOG_ERROR, "Can't convert resource from %s to an extra. No free slots.",
+    ruleset_error(NULL, LOG_ERROR,
+                  "Can't convert resource from %s to an extra. No free slots.",
                   sec_name);
   } else {
     struct extra_type *pextra = extra_by_number(game.control.num_extra_types++);

@@ -40,11 +40,11 @@
 /**************************************************************************
   Is non-rule data in ruleset sane?
 **************************************************************************/
-static bool sanity_check_metadata(void)
+static bool sanity_check_metadata(rs_conversion_logger logger)
 {
   if (game.ruleset_summary != NULL &&
       strlen(game.ruleset_summary) > MAX_LEN_CONTENT) {
-    ruleset_error(LOG_ERROR,
+    ruleset_error(logger, LOG_ERROR,
                   "Too long ruleset summary. It can be only %d bytes long. "
                   "Put longer explanations to ruleset description.",
                   MAX_LEN_CONTENT);
@@ -149,7 +149,8 @@ bool sanity_check_server_setting_value_in_req(ssetv ssetval)
   ruleset load time because they would have referenced things not yet
   loaded from the ruleset.
 **************************************************************************/
-static bool sanity_check_req_individual(struct requirement *preq,
+static bool sanity_check_req_individual(rs_conversion_logger logger,
+                                        struct requirement *preq,
                                         const char *list_for)
 {
   switch (preq->source.kind) {
@@ -160,13 +161,13 @@ static bool sanity_check_req_individual(struct requirement *preq,
     {
       struct impr_type *pimprove = preq->source.value.building;
       if (preq->range == REQ_RANGE_WORLD && !is_great_wonder(pimprove)) {
-        ruleset_error(LOG_ERROR,
+        ruleset_error(logger, LOG_ERROR,
                       "%s: World-ranged requirement not supported for "
                       "%s (only great wonders supported)", list_for,
                       improvement_name_translation(pimprove));
         return FALSE;
       } else if (preq->range > REQ_RANGE_TRADEROUTE && !is_wonder(pimprove)) {
-        ruleset_error(LOG_ERROR,
+        ruleset_error(logger, LOG_ERROR,
                       "%s: %s-ranged requirement not supported for "
                       "%s (only wonders supported)", list_for,
                       req_range_name(preq->range),
@@ -179,12 +180,12 @@ static bool sanity_check_req_individual(struct requirement *preq,
     /* Currently [calendar] is loaded after some requirements are
      * parsed, so we can't do this in universal_value_from_str(). */
     if (game.calendar.calendar_fragments < 1) {
-      ruleset_error(LOG_ERROR,
+      ruleset_error(logger, LOG_ERROR,
                     "%s: MinCalFrag requirement used in ruleset without "
                     "calendar fragments", list_for);
       return FALSE;
     } else if (preq->source.value.mincalfrag >= game.calendar.calendar_fragments) {
-      ruleset_error(LOG_ERROR,
+      ruleset_error(logger, LOG_ERROR,
                     "%s: MinCalFrag requirement %d out of range (max %d in "
                     "this ruleset)", list_for, preq->source.value.mincalfrag,
                     game.calendar.calendar_fragments-1);
@@ -203,7 +204,7 @@ static bool sanity_check_req_individual(struct requirement *preq,
       pset = setting_by_number(id);
 
       if (!sanity_check_setting_is_seen(pset)) {
-        ruleset_error(LOG_ERROR,
+        ruleset_error(logger, LOG_ERROR,
                       "%s: ServerSetting requirement %s isn't visible enough "
                       "to appear in a requirement. Everyone should be able to "
                       "see the value of a server setting that appears in a "
@@ -214,7 +215,7 @@ static bool sanity_check_req_individual(struct requirement *preq,
       if (!sanity_check_setting_is_game_rule(pset)) {
         /* This is a server operator related setting (like the compression
          * type of savegames), not a game rule. */
-        ruleset_error(LOG_ERROR,
+        ruleset_error(logger, LOG_ERROR,
                       "%s: ServerSetting requirement setting %s isn't about a "
                       "game rule.",
                       list_for, server_setting_name_get(id));
@@ -233,7 +234,9 @@ static bool sanity_check_req_individual(struct requirement *preq,
 /**************************************************************************
   Helper function for sanity_check_req_vec()
 **************************************************************************/
-static bool sanity_check_req_set(int reqs_of_type[], int local_reqs_of_type[],
+static bool sanity_check_req_set(rs_conversion_logger logger,
+                                 int reqs_of_type[],
+                                 int local_reqs_of_type[],
                                  struct requirement *preq, bool conjunctive,
                                  int max_tiles, const char *list_for)
 {
@@ -241,7 +244,7 @@ static bool sanity_check_req_set(int reqs_of_type[], int local_reqs_of_type[],
 
   fc_assert_ret_val(universals_n_is_valid(preq->source.kind), FALSE);
 
-  if (!sanity_check_req_individual(preq, list_for)) {
+  if (!sanity_check_req_individual(logger, preq, list_for)) {
     return FALSE;
   }
 
@@ -263,7 +266,7 @@ static bool sanity_check_req_set(int reqs_of_type[], int local_reqs_of_type[],
     switch (preq->source.kind) {
      case VUT_TERRAINCLASS:
        if (local_reqs_of_type[VUT_TERRAIN] > 0) {
-         ruleset_error(LOG_ERROR,
+         ruleset_error(logger, LOG_ERROR,
                        "%s: Requirement list has both local terrain and terrainclass requirement",
                        list_for);
          return FALSE;
@@ -271,7 +274,7 @@ static bool sanity_check_req_set(int reqs_of_type[], int local_reqs_of_type[],
        break;
      case VUT_TERRAIN:
        if (local_reqs_of_type[VUT_TERRAINCLASS] > 0) {
-         ruleset_error(LOG_ERROR,
+         ruleset_error(logger, LOG_ERROR,
                        "%s: Requirement list has both local terrain and terrainclass requirement",
                        list_for);
          return FALSE;
@@ -307,7 +310,7 @@ static bool sanity_check_req_set(int reqs_of_type[], int local_reqs_of_type[],
         * Requirements might be identical, but we consider multiple
         * declarations error anyway. */
 
-       ruleset_error(LOG_ERROR,
+       ruleset_error(logger, LOG_ERROR,
                      "%s: Requirement list has multiple %s requirements",
                      list_for, universal_type_rule_name(&preq->source));
        return FALSE;
@@ -316,7 +319,7 @@ static bool sanity_check_req_set(int reqs_of_type[], int local_reqs_of_type[],
      case VUT_TERRAIN:
        /* There can be only up to max_tiles requirements of these types */
        if (max_tiles != -1 && rc > max_tiles) {
-         ruleset_error(LOG_ERROR,
+         ruleset_error(logger, LOG_ERROR,
                        "%s: Requirement list has more %s requirements than "
                        "can ever be fulfilled.", list_for,
                        universal_type_rule_name(&preq->source));
@@ -326,7 +329,7 @@ static bool sanity_check_req_set(int reqs_of_type[], int local_reqs_of_type[],
 
      case VUT_TERRAINCLASS:
        if (rc > 2 || (max_tiles != -1 && rc > max_tiles)) {
-         ruleset_error(LOG_ERROR,
+         ruleset_error(logger, LOG_ERROR,
                        "%s: Requirement list has more %s requirements than "
                        "can ever be fulfilled.", list_for,
                        universal_type_rule_name(&preq->source));
@@ -337,7 +340,7 @@ static bool sanity_check_req_set(int reqs_of_type[], int local_reqs_of_type[],
     case VUT_AGE:
       /* There can be age of the city, unit, and player */
       if (rc > 3) {
-        ruleset_error(LOG_ERROR,
+        ruleset_error(logger, LOG_ERROR,
                       "%s: Requirement list has more %s requirements than "
                       "can ever be fulfilled.", list_for,
                       universal_type_rule_name(&preq->source));
@@ -348,7 +351,7 @@ static bool sanity_check_req_set(int reqs_of_type[], int local_reqs_of_type[],
     case VUT_MINTECHS:
       /* At ranges 'Player' and 'World' */
       if (rc > 2) {
-        ruleset_error(LOG_ERROR,
+        ruleset_error(logger, LOG_ERROR,
                       "%s: Requirement list has more %s requirements than "
                       "can ever be fulfilled.", list_for,
                       universal_type_rule_name(&preq->source));
@@ -467,7 +470,8 @@ sanity_check_req_vec_singlepole(const struct requirement_vector *preqs,
         - This function should check also problems caused by defining
           range to less than hardcoded max for requirement type
 **************************************************************************/
-static bool sanity_check_req_vec(const struct requirement_vector *preqs,
+static bool sanity_check_req_vec(rs_conversion_logger logger,
+                                 const struct requirement_vector *preqs,
                                  bool conjunctive, int max_tiles,
                                  const char *list_for)
 {
@@ -480,7 +484,8 @@ static bool sanity_check_req_vec(const struct requirement_vector *preqs,
   memset(local_reqs_of_type, 0, sizeof(local_reqs_of_type));
 
   requirement_vector_iterate(preqs, preq) {
-    if (!sanity_check_req_set(reqs_of_type, local_reqs_of_type, preq,
+    if (!sanity_check_req_set(logger,
+                              reqs_of_type, local_reqs_of_type, preq,
                               conjunctive, max_tiles, list_for)) {
       return FALSE;
     }
@@ -491,13 +496,17 @@ static bool sanity_check_req_vec(const struct requirement_vector *preqs,
   problem = req_vec_get_first_contradiction(preqs,
                                             req_vec_vector_number, preqs);
   if (problem != NULL) {
-    ruleset_error(LOG_ERROR, "%s: %s.", list_for, problem->description);
+    ruleset_error(logger, LOG_ERROR, "%s: %s.", list_for, problem->description);
     req_vec_problem_free(problem);
     return FALSE;
   }
 
   return TRUE;
 }
+
+typedef struct {
+  rs_conversion_logger logger;
+} els_data;
 
 /**************************************************************************
   Sanity check callback for iterating effects cache.
@@ -506,27 +515,29 @@ static bool effect_list_sanity_cb(struct effect *peffect, void *data)
 {
   int one_tile = -1; /* TODO: Determine correct value from effect.
                       *       -1 disables checking */
+  els_data *els = (els_data *)data;
 
-  return sanity_check_req_vec(&peffect->reqs, TRUE, one_tile,
+  return sanity_check_req_vec(els->logger,
+                              &peffect->reqs, TRUE, one_tile,
                               effect_type_name(peffect->type));
 }
 
 /**************************************************************************
   Sanity check barbarian unit types
 **************************************************************************/
-static bool rs_barbarian_units(void)
+static bool rs_barbarian_units(rs_conversion_logger logger)
 {
   if (num_role_units(L_BARBARIAN) > 0) {
     if (num_role_units(L_BARBARIAN_LEADER) == 0) {
-      ruleset_error(LOG_ERROR, "No role barbarian leader units");
+      ruleset_error(logger, LOG_ERROR, "No role barbarian leader units");
       return FALSE;
     }
     if (num_role_units(L_BARBARIAN_BUILD) == 0) {
-      ruleset_error(LOG_ERROR, "No role barbarian build units");
+      ruleset_error(logger, LOG_ERROR, "No role barbarian build units");
       return FALSE;
     }
     if (num_role_units(L_BARBARIAN_BOAT) == 0) {
-      ruleset_error(LOG_ERROR, "No role barbarian ship units");
+      ruleset_error(logger, LOG_ERROR, "No role barbarian ship units");
       return FALSE;
     } else if (num_role_units(L_BARBARIAN_BOAT) > 0) {
       bool sea_capable = FALSE;
@@ -541,21 +552,21 @@ static bool rs_barbarian_units(void)
       } terrain_type_iterate_end;
 
       if (!sea_capable) {
-        ruleset_error(LOG_ERROR,
+        ruleset_error(logger, LOG_ERROR,
                       "Barbarian boat (%s) needs to be able to move at sea.",
                       utype_rule_name(u));
         return FALSE;
       }
     }
     if (num_role_units(L_BARBARIAN_SEA) == 0) {
-      ruleset_error(LOG_ERROR, "No role sea raider barbarian units");
+      ruleset_error(logger, LOG_ERROR, "No role sea raider barbarian units");
       return FALSE;
     }
 
     unit_type_iterate(ptype) {
       if (utype_has_role(ptype, L_BARBARIAN_BOAT)) {
         if (ptype->transport_capacity <= 1) {
-          ruleset_error(LOG_ERROR,
+          ruleset_error(logger, LOG_ERROR,
                         "Barbarian boat %s has no capacity for both "
                         "leader and at least one man.",
                         utype_rule_name(ptype));
@@ -567,7 +578,7 @@ static bool rs_barbarian_units(void)
               || utype_has_role(pbarb, L_BARBARIAN_SEA_TECH)
               || utype_has_role(pbarb, L_BARBARIAN_LEADER)) {
             if (!can_unit_type_transport(ptype, utype_class(pbarb))) {
-              ruleset_error(LOG_ERROR,
+              ruleset_error(logger, LOG_ERROR,
                             "Barbarian boat %s cannot transport "
                             "barbarian cargo %s.",
                             utype_rule_name(ptype),
@@ -586,21 +597,21 @@ static bool rs_barbarian_units(void)
 /**************************************************************************
   Sanity check common unit types
 **************************************************************************/
-static bool rs_common_units(void)
+static bool rs_common_units(rs_conversion_logger logger)
 {
   /* Check some required flags and roles etc: */
   if (num_role_units(UTYF_SETTLERS) == 0) {
-    ruleset_error(LOG_ERROR, "No flag Settler units");
+    ruleset_error(logger, LOG_ERROR, "No flag Settler units");
     return FALSE;
   }
   if (num_role_units(L_START_EXPLORER) == 0) {
-    ruleset_error(LOG_ERROR, "No role Start Explorer units");
+    ruleset_error(logger, LOG_ERROR, "No role Start Explorer units");
   }
   if (num_role_units(L_FERRYBOAT) == 0) {
-    ruleset_error(LOG_ERROR, "No role Ferryboat units");
+    ruleset_error(logger, LOG_ERROR, "No role Ferryboat units");
   }
   if (num_role_units(L_FIRSTBUILD) == 0) {
-    ruleset_error(LOG_ERROR, "No role Firstbuild units");
+    ruleset_error(logger, LOG_ERROR, "No role Firstbuild units");
   }
 
   if (num_role_units(L_FERRYBOAT) > 0) {
@@ -616,7 +627,7 @@ static bool rs_common_units(void)
     } terrain_type_iterate_end;
 
     if (!sea_capable) {
-      ruleset_error(LOG_ERROR,
+      ruleset_error(logger, LOG_ERROR,
                     "Ferryboat (%s) needs to be able to move at sea.",
                     utype_rule_name(u));
       return FALSE;
@@ -625,7 +636,7 @@ static bool rs_common_units(void)
 
   if (num_role_units(L_PARTISAN) == 0
       && effect_cumulative_max(EFT_INSPIRE_PARTISANS, NULL) > 0) {
-    ruleset_error(LOG_ERROR,
+    ruleset_error(logger, LOG_ERROR,
                   "Inspire_Partisans effect present, but no units with partisan role.");
     return FALSE;
   }
@@ -636,13 +647,13 @@ static bool rs_common_units(void)
 /**************************************************************************
   Sanity check buildings
 **************************************************************************/
-static bool rs_buildings(void)
+static bool rs_buildings(rs_conversion_logger logger)
 {
   /* Special Genus */
   improvement_iterate(pimprove) {
     if (improvement_has_flag(pimprove, IF_GOLD)
         && pimprove->genus != IG_SPECIAL) {
-      ruleset_error(LOG_ERROR,
+      ruleset_error(logger, LOG_ERROR,
                     "Gold producing improvement %s with genus other than \"Special\"",
                     improvement_rule_name(pimprove));
 
@@ -650,7 +661,7 @@ static bool rs_buildings(void)
     }
     if (improvement_has_flag(pimprove, IF_DISASTER_PROOF)
         && pimprove->genus != IG_IMPROVEMENT) {
-      ruleset_error(LOG_ERROR,
+      ruleset_error(logger, LOG_ERROR,
                     "Disasterproof improvement %s with genus other than \"Improvement\"",
                     improvement_rule_name(pimprove));
 
@@ -663,7 +674,7 @@ static bool rs_buildings(void)
                                                RPT_POSSIBLE, FALSE)
             || get_potential_improvement_bonus(pimprove, NULL, EFT_SS_MODULE,
                                                RPT_POSSIBLE, FALSE))) {
-      ruleset_error(LOG_ERROR,
+      ruleset_error(logger, LOG_ERROR,
                     "Space part %s with genus other than \"Special\"",
                     improvement_rule_name(pimprove));
       return FALSE;
@@ -684,7 +695,7 @@ static bool rs_buildings(void)
 /**************************************************************************
   Check that boolean effect types have sensible effects.
 **************************************************************************/
-static bool sanity_check_boolean_effects(void)
+static bool sanity_check_boolean_effects(rs_conversion_logger logger)
 {
   enum effect_type boolean_effects[] =
     {
@@ -724,7 +735,8 @@ static bool sanity_check_boolean_effects(void)
   for (i = 0; boolean_effects[i] != EFT_COUNT; i++) {
     if (effect_cumulative_min(boolean_effects[i], NULL) < 0
         && effect_cumulative_max(boolean_effects[i], NULL) == 0) {
-      ruleset_error(LOG_ERROR, "Boolean effect %s can get disabled, but it can't get "
+      ruleset_error(logger, LOG_ERROR,
+                    "Boolean effect %s can get disabled, but it can't get "
                     "enabled before that.", effect_type_name(boolean_effects[i]));
       ret = FALSE;
     }
@@ -750,14 +762,17 @@ bool sanity_check_ruleset_data(struct rscompat_info *compat)
   bool default_gov_failed = FALSE;
   bool obsoleted_by_loop = FALSE;
   bool ignore_retired = (compat != NULL && compat->compat_mode);
+  els_data els;
+  rs_conversion_logger logger = ((compat != NULL) ? compat->log_cb : NULL);
 
-  if (!sanity_check_metadata()) {
+  if (!sanity_check_metadata(logger)) {
     ok = FALSE;
   }
 
   if (game.info.tech_cost_style == TECH_COST_CIV1CIV2
       && game.info.free_tech_method == FTM_CHEAPEST) {
-    ruleset_error(LOG_ERROR, "Cost based free tech method, but tech cost style "
+    ruleset_error(logger, LOG_ERROR,
+                  "Cost based free tech method, but tech cost style "
                   "\"Civ I|II\" so all techs cost the same.");
     ok = FALSE;
   }
@@ -777,7 +792,7 @@ bool sanity_check_ruleset_data(struct rscompat_info *compat)
       if (A_NEVER == preq) {
         continue;
       } else if (preq == padvance) {
-        ruleset_error(LOG_ERROR, "Tech \"%s\" requires itself.",
+        ruleset_error(logger, LOG_ERROR, "Tech \"%s\" requires itself.",
                       advance_rule_name(padvance));
         ok = FALSE;
         continue;
@@ -785,7 +800,7 @@ bool sanity_check_ruleset_data(struct rscompat_info *compat)
 
       advance_req_iterate(preq, preqreq) {
         if (preqreq == padvance) {
-          ruleset_error(LOG_ERROR,
+          ruleset_error(logger, LOG_ERROR,
                         "Tech \"%s\" requires itself indirectly via \"%s\".",
                         advance_rule_name(padvance),
                         advance_rule_name(preq));
@@ -799,7 +814,7 @@ bool sanity_check_ruleset_data(struct rscompat_info *compat)
         /* Don't allow this even if allowing changing reqs. Players will
          * expect all tech reqs to appear in the client tech tree. That
          * should be taken care of first. */
-        ruleset_error(LOG_ERROR,
+        ruleset_error(logger, LOG_ERROR,
                       "Tech \"%s\" requires a tech in its research_reqs."
                       " This isn't supported yet. Please keep using req1"
                       " and req2 like before.",
@@ -809,7 +824,7 @@ bool sanity_check_ruleset_data(struct rscompat_info *compat)
         /* Only support unchanging requirements until the reachability code
          * can handle it and the tech tree can display changing
          * requirements. */
-        ruleset_error(LOG_ERROR,
+        ruleset_error(logger, LOG_ERROR,
                       "Tech \"%s\" has the requirement %s in its"
                       " research_reqs. This requirement may change during"
                       " the game. Changing requirements aren't supported"
@@ -822,7 +837,7 @@ bool sanity_check_ruleset_data(struct rscompat_info *compat)
 
     if (padvance->bonus_message != NULL) {
       if (!formats_match(padvance->bonus_message, "%s")) {
-        ruleset_error(LOG_ERROR,
+        ruleset_error(logger, LOG_ERROR,
                       "Tech \"%s\" bonus message is not format with %%s for a bonus tech name.",
                       advance_rule_name(padvance));
         ok = FALSE;
@@ -831,7 +846,7 @@ bool sanity_check_ruleset_data(struct rscompat_info *compat)
   } advance_iterate_end;
 
   if (game.default_government == game.government_during_revolution) {
-    ruleset_error(LOG_ERROR,
+    ruleset_error(logger, LOG_ERROR,
                   "The government form %s reserved for revolution handling has been set as "
                   "default_government.",
                   government_rule_name(game.government_during_revolution));
@@ -850,7 +865,7 @@ bool sanity_check_ruleset_data(struct rscompat_info *compat)
       struct advance *a = valid_advance_by_number(tech);
 
       if (a == NULL) {
-        ruleset_error(LOG_ERROR,
+        ruleset_error(logger, LOG_ERROR,
                       "Tech %s does not exist, but is initial "
                       "tech for everyone.",
                       advance_rule_name(advance_by_number(tech)));
@@ -858,7 +873,7 @@ bool sanity_check_ruleset_data(struct rscompat_info *compat)
       } else if (advance_by_number(A_NONE) != a->require[AR_ROOT]
           && !nation_has_initial_tech(pnation, a->require[AR_ROOT])) {
         /* Nation has no root_req for tech */
-        ruleset_error(LOG_ERROR,
+        ruleset_error(logger, LOG_ERROR,
                       "Tech %s is initial for everyone, but %s has "
                       "no root_req for it.",
                       advance_rule_name(a),
@@ -875,7 +890,7 @@ bool sanity_check_ruleset_data(struct rscompat_info *compat)
       struct advance *a = valid_advance_by_number(tech);
 
       if (a == NULL) {
-        ruleset_error(LOG_ERROR,
+        ruleset_error(logger, LOG_ERROR,
                       "Tech %s does not exist, but is tech for %s.",
                       advance_rule_name(advance_by_number(tech)),
                       nation_rule_name(pnation));
@@ -883,7 +898,7 @@ bool sanity_check_ruleset_data(struct rscompat_info *compat)
       } else if (advance_by_number(A_NONE) != a->require[AR_ROOT]
           && !nation_has_initial_tech(pnation, a->require[AR_ROOT])) {
         /* Nation has no root_req for tech */
-        ruleset_error(LOG_ERROR,
+        ruleset_error(logger, LOG_ERROR,
                       "Tech %s is initial for %s, but they have "
                       "no root_req for it.",
                       advance_rule_name(a),
@@ -895,13 +910,13 @@ bool sanity_check_ruleset_data(struct rscompat_info *compat)
     /* Check national initial buildings */
     if (nation_barbarian_type(pnation) != NOT_A_BARBARIAN
         && pnation->init_buildings[0] != B_LAST) {
-      ruleset_error(LOG_ERROR,
+      ruleset_error(logger, LOG_ERROR,
                     "Barbarian nation %s has init_buildings set but will "
                     "never see them", nation_rule_name(pnation));
     }
 
     if (!default_gov_failed && pnation->init_government == game.government_during_revolution) {
-      ruleset_error(LOG_ERROR,
+      ruleset_error(logger, LOG_ERROR,
                     "The government form %s reserved for revolution handling has been set as "
                     "initial government for %s.",
                     government_rule_name(game.government_during_revolution),
@@ -920,7 +935,7 @@ bool sanity_check_ruleset_data(struct rscompat_info *compat)
       upgraded = upgraded->obsoleted_by;
       chain_length++;
       if (chain_length > num_utypes) {
-        ruleset_error(LOG_ERROR,
+        ruleset_error(logger, LOG_ERROR,
                       "There seems to be obsoleted_by loop in update "
                       "chain that starts from %s", utype_rule_name(putype));
         ok = FALSE;
@@ -937,7 +952,7 @@ bool sanity_check_ruleset_data(struct rscompat_info *compat)
      * kept. */
     if (utype_has_flag(putype, UTYF_SPY)
         && !utype_has_flag(putype, UTYF_DIPLOMAT)) {
-      ruleset_error(LOG_ERROR,
+      ruleset_error(logger, LOG_ERROR,
                     "The unit type '%s' has the 'Spy' unit type flag but "
                     "not the 'Diplomat' unit type flag.",
                     utype_rule_name(putype));
@@ -950,7 +965,7 @@ bool sanity_check_ruleset_data(struct rscompat_info *compat)
     if (putype->paratroopers_range < 0
         || putype->paratroopers_range > UNIT_MAX_PARADROP_RANGE) {
       /* Paradrop range is limited by the network protocol. */
-      ruleset_error(LOG_ERROR,
+      ruleset_error(logger, LOG_ERROR,
                     "The paratroopers_range of the unit type '%s' is %d. "
                     "That is out of range. Max range is %d.",
                     utype_rule_name(putype),
@@ -960,7 +975,7 @@ bool sanity_check_ruleset_data(struct rscompat_info *compat)
     /* never fires if game.scenario.prevent_new_cities is TRUE */
     if ((putype->city_size <= 0 || putype->city_size > MAX_CITY_SIZE)
         && utype_is_cityfounder(putype)) {
-      ruleset_error(LOG_ERROR,
+      ruleset_error(logger, LOG_ERROR,
                     "Unit type '%s' would build size %d cities. "
                     "City sizes must be from 1 to %d.",
                     utype_rule_name(putype), putype->city_size,
@@ -969,15 +984,17 @@ bool sanity_check_ruleset_data(struct rscompat_info *compat)
     }
   } unit_type_iterate_end;
 
+  els.logger = logger;
+
   /* Check requirement sets against conflicting requirements.
    * Effects use requirement lists */
-  if (!iterate_effect_cache(effect_list_sanity_cb, NULL)) {
-    ruleset_error(LOG_ERROR,
+  if (!iterate_effect_cache(effect_list_sanity_cb, &els)) {
+    ruleset_error(logger, LOG_ERROR,
                   "Effects have conflicting or invalid requirements!");
     ok = FALSE;
   }
 
-  if (!sanity_check_boolean_effects()) {
+  if (!sanity_check_boolean_effects(logger)) {
     ok = FALSE;
   }
 
@@ -985,9 +1002,9 @@ bool sanity_check_ruleset_data(struct rscompat_info *compat)
 
   /* Disasters */
   disaster_type_iterate(pdis) {
-    if (!sanity_check_req_vec(&pdis->reqs, TRUE, -1,
+    if (!sanity_check_req_vec(logger, &pdis->reqs, TRUE, -1,
                               disaster_rule_name(pdis))) {
-      ruleset_error(LOG_ERROR,
+      ruleset_error(logger, LOG_ERROR,
                     "Disasters have conflicting or invalid requirements!");
       ok = FALSE;
     }
@@ -995,9 +1012,9 @@ bool sanity_check_ruleset_data(struct rscompat_info *compat)
 
   /* Goods */
   goods_type_iterate(pgood) {
-    if (!sanity_check_req_vec(&pgood->reqs, TRUE, -1,
+    if (!sanity_check_req_vec(logger, &pgood->reqs, TRUE, -1,
                               goods_rule_name(pgood))) {
-      ruleset_error(LOG_ERROR,
+      ruleset_error(logger, LOG_ERROR,
                     "Goods have conflicting or invalid requirements!");
       ok = FALSE;
     }
@@ -1005,15 +1022,15 @@ bool sanity_check_ruleset_data(struct rscompat_info *compat)
 
   /* Buildings */
   improvement_iterate(pimprove) {
-    if (!sanity_check_req_vec(&pimprove->reqs, TRUE, -1,
+    if (!sanity_check_req_vec(logger, &pimprove->reqs, TRUE, -1,
                               improvement_rule_name(pimprove))) {
-      ruleset_error(LOG_ERROR,
+      ruleset_error(logger, LOG_ERROR,
                     "Buildings have conflicting or invalid requirements!");
       ok = FALSE;
     }
-    if (!sanity_check_req_vec(&pimprove->obsolete_by, FALSE, -1,
+    if (!sanity_check_req_vec(logger, &pimprove->obsolete_by, FALSE, -1,
                               improvement_rule_name(pimprove))) {
-      ruleset_error(LOG_ERROR,
+      ruleset_error(logger, LOG_ERROR,
                     "Buildings have conflicting or invalid obsolescence req!");
       ok = FALSE;
     }
@@ -1021,9 +1038,9 @@ bool sanity_check_ruleset_data(struct rscompat_info *compat)
 
   /* Governments */
   governments_iterate(pgov) {
-    if (!sanity_check_req_vec(&pgov->reqs, TRUE, -1,
+    if (!sanity_check_req_vec(logger, &pgov->reqs, TRUE, -1,
                               government_rule_name(pgov))) {
-      ruleset_error(LOG_ERROR,
+      ruleset_error(logger, LOG_ERROR,
                     "Governments have conflicting or invalid requirements!");
       ok = FALSE;
     }
@@ -1033,9 +1050,9 @@ bool sanity_check_ruleset_data(struct rscompat_info *compat)
   specialist_type_iterate(sp) {
     struct specialist *psp = specialist_by_number(sp);
 
-    if (!sanity_check_req_vec(&psp->reqs, TRUE, -1,
+    if (!sanity_check_req_vec(logger, &psp->reqs, TRUE, -1,
                               specialist_rule_name(psp))) {
-      ruleset_error(LOG_ERROR,
+      ruleset_error(logger, LOG_ERROR,
                     "Specialists have conflicting or invalid requirements!");
       ok = FALSE;
     }
@@ -1043,15 +1060,15 @@ bool sanity_check_ruleset_data(struct rscompat_info *compat)
 
   /* Extras */
   extra_type_iterate(pextra) {
-    if (!sanity_check_req_vec(&pextra->reqs, TRUE, -1,
+    if (!sanity_check_req_vec(logger, &pextra->reqs, TRUE, -1,
                               extra_rule_name(pextra))) {
-      ruleset_error(LOG_ERROR,
+      ruleset_error(logger, LOG_ERROR,
                     "Extras have conflicting or invalid requirements!");
       ok = FALSE;
     }
-    if (!sanity_check_req_vec(&pextra->rmreqs, TRUE, -1,
+    if (!sanity_check_req_vec(logger, &pextra->rmreqs, TRUE, -1,
                               extra_rule_name(pextra))) {
-      ruleset_error(LOG_ERROR,
+      ruleset_error(logger, LOG_ERROR,
                     "Extras have conflicting or invalid removal requirements!");
       ok = FALSE;
     }
@@ -1068,7 +1085,7 @@ bool sanity_check_ruleset_data(struct rscompat_info *compat)
       if (pnbr != road_number(iroad)
           && !BV_ISSET(iroad->integrates, pnbr)) {
         /* We don't support non-symmetric integrator relationships yet. */
-        ruleset_error(LOG_ERROR,
+        ruleset_error(logger, LOG_ERROR,
                       "Road '%s' integrates with '%s' but not vice versa!",
                       extra_rule_name(pextra),
                       extra_rule_name(iextra));
@@ -1094,7 +1111,7 @@ bool sanity_check_ruleset_data(struct rscompat_info *compat)
       }
 
       if (BV_ISSET(pbase->flags, bfi)) {
-        ruleset_error(LOG_ERROR,
+        ruleset_error(logger, LOG_ERROR,
                       "Base %s uses the retired base flag %s!",
                       extra_name_translation(pextra),
                       base_flag_id_name(bfi));
@@ -1104,9 +1121,10 @@ bool sanity_check_ruleset_data(struct rscompat_info *compat)
 
   /* City styles */
   for (i = 0; i < game.control.styles_count; i++) {
-    if (!sanity_check_req_vec(&city_styles[i].reqs, TRUE, -1,
+    if (!sanity_check_req_vec(logger,
+                              &city_styles[i].reqs, TRUE, -1,
                               city_style_rule_name(i))) {
-      ruleset_error(LOG_ERROR,
+      ruleset_error(logger, LOG_ERROR,
                     "City styles have conflicting or invalid requirements!");
       ok = FALSE;
     }
@@ -1117,28 +1135,31 @@ bool sanity_check_ruleset_data(struct rscompat_info *compat)
     struct action *paction = action_by_number(act);
 
     if (paction->min_distance < 0) {
-      ruleset_error(LOG_ERROR, "Action %s: negative min distance (%d).",
+      ruleset_error(logger, LOG_ERROR,
+                    "Action %s: negative min distance (%d).",
                     action_id_rule_name(act), paction->min_distance);
       ok = FALSE;
     }
 
     if (paction->min_distance > ACTION_DISTANCE_LAST_NON_SIGNAL) {
-      ruleset_error(LOG_ERROR, "Action %s: min distance (%d) larger than "
-                               "any distance on a map can be (%d).",
+      ruleset_error(logger, LOG_ERROR,
+                    "Action %s: min distance (%d) larger than "
+                    "any distance on a map can be (%d).",
                     action_id_rule_name(act), paction->min_distance,
                     ACTION_DISTANCE_LAST_NON_SIGNAL);
       ok = FALSE;
     }
 
     if (paction->max_distance > ACTION_DISTANCE_MAX) {
-      ruleset_error(LOG_ERROR, "Action %s: max distance is %d. "
+      ruleset_error(logger, LOG_ERROR,
+                    "Action %s: max distance is %d. "
                     "A map can't be that big.",
                     action_id_rule_name(act), paction->max_distance);
       ok = FALSE;
     }
 
     if (!action_distance_inside_max(paction, paction->min_distance)) {
-      ruleset_error(LOG_ERROR,
+      ruleset_error(logger, LOG_ERROR,
                     "Action %s: min distance is %d but max distance is %d.",
                     action_id_rule_name(act),
                     paction->min_distance, paction->max_distance);
@@ -1152,7 +1173,7 @@ bool sanity_check_ruleset_data(struct rscompat_info *compat)
         /* Can't find an individual unit target to evaluate the blocking
          * action against. (A tile may have more than one individual
          * unit) */
-        ruleset_error(LOG_ERROR,
+        ruleset_error(logger, LOG_ERROR,
                       "The action %s can't block %s.",
                       action_id_rule_name(blocker),
                       action_id_rule_name(act));
@@ -1161,11 +1182,11 @@ bool sanity_check_ruleset_data(struct rscompat_info *compat)
     } action_iterate_end;
 
     action_enabler_list_iterate(action_enablers_for_action(act), enabler) {
-      if (!sanity_check_req_vec(&(enabler->actor_reqs), TRUE, -1,
+      if (!sanity_check_req_vec(logger, &(enabler->actor_reqs), TRUE, -1,
                                 "Action Enabler Actor Reqs")
-          || !sanity_check_req_vec(&(enabler->target_reqs), TRUE, -1,
+          || !sanity_check_req_vec(logger, &(enabler->target_reqs), TRUE, -1,
                                    "Action Enabler Target Reqs")) {
-        ruleset_error(LOG_ERROR,
+        ruleset_error(logger, LOG_ERROR,
                       "Action enabler for %s has conflicting or invalid "
                       "requirements!", action_id_rule_name(act));
         ok = FALSE;
@@ -1177,7 +1198,7 @@ bool sanity_check_ruleset_data(struct rscompat_info *compat)
         if (requirement_vector_size(&(enabler->target_reqs)) > 0) {
           /* Shouldn't have target requirements since the action doesn't
            * have a target. */
-          ruleset_error(LOG_ERROR,
+          ruleset_error(logger, LOG_ERROR,
                         "An action enabler for %s has a target "
                         "requirement vector. %s doesn't have a target.",
                         action_id_rule_name(act),
@@ -1192,7 +1213,7 @@ bool sanity_check_ruleset_data(struct rscompat_info *compat)
           /* A Local DiplRel requirement can be expressed as a requirement
            * in actor_reqs. Demand that it is there. This avoids breaking
            * code that reasons about actions. */
-          ruleset_error(LOG_ERROR,
+          ruleset_error(logger, LOG_ERROR,
                         "Action enabler for %s has a local DiplRel "
                         "requirement %s in target_reqs! Please read the "
                         "section \"Requirement vector rules\" in "
@@ -1212,7 +1233,7 @@ bool sanity_check_ruleset_data(struct rscompat_info *compat)
             = action_enabler_suggest_repair(enabler);
 
         if (problem != NULL) {
-          ruleset_error(LOG_ERROR, "%s", problem->description);
+          ruleset_error(logger, LOG_ERROR, "%s", problem->description);
           req_vec_problem_free(problem);
           ok = FALSE;
         }
@@ -1230,7 +1251,7 @@ bool sanity_check_ruleset_data(struct rscompat_info *compat)
   /* There must be basic city style for each nation style to start with */
   styles_iterate(pstyle) {
     if (basic_city_style_for_style(pstyle) < 0) {
-      ruleset_error(LOG_ERROR,
+      ruleset_error(logger, LOG_ERROR,
                     "There's no basic city style for nation style %s",
                     style_rule_name(pstyle));
       ok = FALSE;
@@ -1239,8 +1260,8 @@ bool sanity_check_ruleset_data(struct rscompat_info *compat)
 
   /* Music styles */
   music_styles_iterate(pmus) {
-    if (!sanity_check_req_vec(&pmus->reqs, TRUE, -1, "Music Style")) {
-      ruleset_error(LOG_ERROR,
+    if (!sanity_check_req_vec(logger, &pmus->reqs, TRUE, -1, "Music Style")) {
+      ruleset_error(logger, LOG_ERROR,
                     "Music Styles have conflicting or invalid requirements!");
       ok = FALSE;
     }
@@ -1251,7 +1272,7 @@ bool sanity_check_ruleset_data(struct rscompat_info *compat)
 
     if (pterr->animal != NULL) {
       if (!is_native_to_class(utype_class(pterr->animal), pterr, NULL)) {
-        ruleset_error(LOG_ERROR,
+        ruleset_error(logger, LOG_ERROR,
                       "%s has %s as animal to appear, but it's not native to the terrain.",
                       terrain_rule_name(pterr), utype_rule_name(pterr->animal));
         ok = FALSE;
@@ -1260,7 +1281,7 @@ bool sanity_check_ruleset_data(struct rscompat_info *compat)
 
     for (pres = pterr->resources; *pres != NULL; pres++) {
       if (!is_extra_caused_by((*pres), EC_RESOURCE)) {
-        ruleset_error(LOG_ERROR,
+        ruleset_error(logger, LOG_ERROR,
                       "%s has %s as a resource, but it's not a resource extra.",
                       terrain_rule_name(pterr), extra_rule_name(*pres));
         ok = FALSE;
@@ -1291,7 +1312,7 @@ bool sanity_check_ruleset_data(struct rscompat_info *compat)
       }
 
       if (!can_exist) {
-        ruleset_error(LOG_ERROR,
+        ruleset_error(logger, LOG_ERROR,
                       "Unit class %s cannot exist anywhere.",
                       uclass_rule_name(pclass));
         ok = FALSE;
@@ -1301,7 +1322,7 @@ bool sanity_check_ruleset_data(struct rscompat_info *compat)
 
   achievements_iterate(pach) {
     if (!pach->unique && pach->cons_msg == NULL) {
-      ruleset_error(LOG_ERROR,
+      ruleset_error(logger, LOG_ERROR,
                     "Achievement %s has no message for consecutive gainers though "
                     "it's possible to be gained by multiple players",
                     achievement_rule_name(pach));
@@ -1317,7 +1338,7 @@ bool sanity_check_ruleset_data(struct rscompat_info *compat)
         = nation_by_rule_name(game.server.ruledit.embedded_nations[nati]);
 
       if (pnat == NULL) {
-        ruleset_error(LOG_ERROR,
+        ruleset_error(logger, LOG_ERROR,
                       "There's nation %s listed in embedded nations, but there's "
                       "no such nation.",
                       game.server.ruledit.embedded_nations[nati]);
@@ -1327,13 +1348,13 @@ bool sanity_check_ruleset_data(struct rscompat_info *compat)
   }
 
   if (ok) {
-    ok = rs_common_units();
+    ok = rs_common_units(logger);
   }
   if (ok) {
-    ok = rs_barbarian_units();
+    ok = rs_barbarian_units(logger);
   }
   if (ok) {
-    ok = rs_buildings();
+    ok = rs_buildings(logger);
   }
 
   return ok;
