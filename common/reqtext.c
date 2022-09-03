@@ -1482,7 +1482,7 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
       } else {
         cat_snprintf(buf, bufsz,
                      _("Requires that you do not have the relationship '%s'"
-                       " with the owner of at least one unit at the tile."),
+                       " with the owner of any unit at the tile."),
                      diplrel_name_translation(preq->source.value.diplrel));
       }
       return TRUE;
@@ -1510,9 +1510,9 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
                      diplrel_name_translation(preq->source.value.diplrel));
       } else {
         cat_snprintf(buf, bufsz,
-                     _("Requires that the tile has at least one unit that"
-                       " doesn't have the relationship '%s' with"
-                       " the other player."),
+                     _("Requires that no unit at the tile has "
+                       "the relationship '%s' with "
+                       "the other player."),
                      diplrel_name_translation(preq->source.value.diplrel));
       }
       return TRUE;
