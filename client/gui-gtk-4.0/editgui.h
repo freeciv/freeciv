@@ -49,12 +49,12 @@ gboolean handle_edit_key_press(guint keyval, GdkModifierType state);
 struct editinfobox {
   GtkWidget *widget;
 
-  GtkWidget *mode_image;
+  GtkWidget *mode_pic;
   GtkWidget *mode_label;
 
   GtkWidget *tool_label;
   GtkWidget *tool_value_label;
-  GtkWidget *tool_image;
+  GtkWidget *tool_pic;
 
   GtkWidget *size_hbox;
   GtkWidget *size_spin_button;
