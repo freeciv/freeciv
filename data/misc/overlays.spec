@@ -19,7 +19,7 @@ x_top_left = 2
 y_top_left = 2
 dx = 128
 dy = 64
-pixel_border=2
+pixel_border = 2
 
 tiles = { "row", "column", "tag"
 
