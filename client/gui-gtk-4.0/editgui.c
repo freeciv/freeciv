@@ -411,7 +411,7 @@ static void editbar_add_tool_button(struct editbar *eb,
                                     enum editor_tool_type ett)
 {
   GdkPixbuf *pixbuf;
-  GtkWidget *image, *button, *hbox;
+  GtkWidget *pic, *button, *hbox;
   GtkToggleButton *parent = NULL;
   struct sprite *sprite;
   int i;
@@ -438,10 +438,10 @@ static void editbar_add_tool_button(struct editbar *eb,
   sprite = editor_tool_get_sprite(ett);
   fc_assert_ret(sprite != NULL);
   pixbuf = sprite_get_pixbuf(sprite);
-  image = gtk_image_new_from_pixbuf(pixbuf);
+  pic = gtk_picture_new_for_pixbuf(pixbuf);
   g_object_unref(G_OBJECT(pixbuf));
 
-  gtk_button_set_child(GTK_BUTTON(button), image);
+  gtk_button_set_child(GTK_BUTTON(button), pic);
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(button), FALSE);
   gtk_widget_set_tooltip_text(button, editor_tool_get_tooltip(ett));
   gtk_size_group_add_widget(eb->size_group, button);
@@ -484,7 +484,7 @@ static void editbar_add_mode_button(struct editbar *eb,
                                     enum editor_tool_mode etm)
 {
   GdkPixbuf *pixbuf;
-  GtkWidget *image, *button, *hbox;
+  GtkWidget *pic, *button, *hbox;
   struct sprite *sprite;
   const char *tooltip;
 
@@ -497,10 +497,10 @@ static void editbar_add_mode_button(struct editbar *eb,
   sprite = editor_get_mode_sprite(etm);
   fc_assert_ret(sprite != NULL);
   pixbuf = sprite_get_pixbuf(sprite);
-  image = gtk_image_new_from_pixbuf(pixbuf);
+  pic = gtk_picture_new_for_pixbuf(pixbuf);
   g_object_unref(G_OBJECT(pixbuf));
 
-  gtk_button_set_child(GTK_BUTTON(button), image);
+  gtk_button_set_child(GTK_BUTTON(button), pic);
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(button), FALSE);
   tooltip = editor_get_mode_tooltip(etm);
   if (tooltip != NULL) {
@@ -524,7 +524,7 @@ static void editbar_add_mode_button(struct editbar *eb,
 static struct editbar *editbar_create(void)
 {
   struct editbar *eb;
-  GtkWidget *hbox, *button, *combo, *image, *separator, *vgrid;
+  GtkWidget *hbox, *button, *combo, *pic, *separator, *vgrid;
   GtkListStore *store;
   GtkCellRenderer *cell;
   GdkPixbuf *pixbuf;
@@ -596,9 +596,9 @@ static struct editbar *editbar_create(void)
   /* Property editor button. */
   button = gtk_button_new();
   pixbuf = sprite_get_pixbuf(sprites->properties);
-  image = gtk_image_new_from_pixbuf(pixbuf);
+  pic = gtk_picture_new_for_pixbuf(pixbuf);
   g_object_unref(G_OBJECT(pixbuf));
-  gtk_button_set_child(GTK_BUTTON(button), image);
+  gtk_button_set_child(GTK_BUTTON(button), pic);
   gtk_widget_set_tooltip_text(button, _("Show the property editor."));
   gtk_size_group_add_widget(eb->size_group, button);
   gtk_button_set_has_frame(GTK_BUTTON(button), FALSE);
@@ -1158,7 +1158,7 @@ static void editinfobox_tool_applied_player_changed(GtkComboBox *combo,
 ****************************************************************************/
 static struct editinfobox *editinfobox_create(void)
 {
-  GtkWidget *label, *vgrid, *frame, *hgrid, *vgrid2, *image;
+  GtkWidget *label, *vgrid, *frame, *hgrid, *vgrid2, *pic;
   GtkWidget *spin, *combo;
   GtkListStore *store;
   GtkCellRenderer *cell;
@@ -1195,17 +1195,17 @@ static struct editinfobox *editinfobox_create(void)
   gtk_grid_set_column_spacing(GTK_GRID(hgrid), 8);
   gtk_grid_attach(GTK_GRID(vgrid), hgrid, 0, grid_row++, 1, 1);
 
-  image = gtk_image_new();
-  gtk_widget_set_tooltip_text(image, _("Click to change value if applicable."));
+  pic = gtk_picture_new();
+  gtk_widget_set_tooltip_text(pic, _("Click to change value if applicable."));
 
   controller = GTK_EVENT_CONTROLLER(gtk_gesture_click_new());
   g_signal_connect(controller, "pressed",
                    G_CALLBACK(editinfobox_handle_tool_image_button_press),
                    NULL);
-  gtk_widget_add_controller(image, controller);
+  gtk_widget_add_controller(pic, controller);
 
-  gtk_grid_attach(GTK_GRID(hgrid), image, grid_col++, 0, 1, 1);
-  ei->tool_image = image;
+  gtk_grid_attach(GTK_GRID(hgrid), pic, grid_col++, 0, 1, 1);
+  ei->tool_pic = pic;
 
   vgrid2 = gtk_grid_new();
   gtk_orientable_set_orientation(GTK_ORIENTABLE(vgrid2),
@@ -1231,17 +1231,17 @@ static struct editinfobox *editinfobox_create(void)
   gtk_grid_set_column_spacing(GTK_GRID(hgrid), 8);
   gtk_grid_attach(GTK_GRID(vgrid), hgrid, 0, grid_row++, 1, 1);
 
-  image = gtk_image_new();
-  gtk_widget_set_tooltip_text(image, _("Click to change tool mode."));
+  pic = gtk_picture_new();
+  gtk_widget_set_tooltip_text(pic, _("Click to change tool mode."));
 
   controller = GTK_EVENT_CONTROLLER(gtk_gesture_click_new());
   g_signal_connect(controller, "pressed",
                    G_CALLBACK(editinfobox_handle_mode_image_button_press),
                    NULL);
-  gtk_widget_add_controller(image, controller);
+  gtk_widget_add_controller(pic, controller);
 
-  gtk_grid_attach(GTK_GRID(hgrid), image, grid_col++, 0, 1, 1);
-  ei->mode_image = image;
+  gtk_grid_attach(GTK_GRID(hgrid), pic, grid_col++, 0, 1, 1);
+  ei->mode_pic = pic;
 
   vgrid2 = gtk_grid_new();
   grid2_row = 0;
@@ -1561,7 +1561,7 @@ static void editinfobox_refresh(struct editinfobox *ei)
   gtk_label_set_text(label, editor_tool_get_mode_name(ett, etm));
 
   pixbuf = get_tool_mode_pixbuf(etm);
-  gtk_image_set_from_pixbuf(GTK_IMAGE(ei->mode_image), pixbuf);
+  gtk_picture_set_pixbuf(GTK_PICTURE(ei->mode_pic), pixbuf);
   if (pixbuf) {
     g_object_unref(pixbuf);
     pixbuf = NULL;
@@ -1582,14 +1582,14 @@ static void editinfobox_refresh(struct editinfobox *ei)
 
     spr = editor_tool_get_sprite(ett);
     pixbuf = spr ? sprite_get_pixbuf(spr) : NULL;
-    gtk_image_set_from_pixbuf(GTK_IMAGE(ei->tool_image), pixbuf);
+    gtk_picture_set_pixbuf(GTK_PICTURE(ei->tool_pic), pixbuf);
     if (pixbuf) {
       g_object_unref(G_OBJECT(pixbuf));
       pixbuf = NULL;
     }
   } else {
     pixbuf = get_tool_value_pixbuf(ett, value);
-    gtk_image_set_from_pixbuf(GTK_IMAGE(ei->tool_image), pixbuf);
+    gtk_picture_set_pixbuf(GTK_PICTURE(ei->tool_pic), pixbuf);
     if (pixbuf) {
       g_object_unref(pixbuf);
       pixbuf = NULL;
