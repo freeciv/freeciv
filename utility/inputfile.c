@@ -302,11 +302,15 @@ void inf_close(struct inputfile *inf)
   inf_sanity_check(inf);
 
   log_debug("inputfile: closing \"%s\"", inf_filename(inf));
+
   if (inf->included_from) {
     inf_close(inf->included_from);
+    /* Stop anything from recursing to already closed including file */
+    inf->included_from = NULL;
   }
   inf_close_partial(inf);
   free(inf);
+
   log_debug("inputfile: closed ok");
 }
 
