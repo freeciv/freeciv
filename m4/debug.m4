@@ -44,14 +44,10 @@ if test "x$enable_debug" = "xyes" -o "x$enable_debug" = "xchecks"; then
   AC_DEFINE([FREECIV_DEBUG], [1], [Extra debugging support])
   AC_DEFINE([LUA_USE_APICHECK], [1], [Lua Api checks])
 
-  dnl With -Werror we have to have -Wno-array-bounds as gcc-12 generates
-  dnl a false positive about that kind of error.
-  dnl Deemed not-a-bug by gcc people:
-  dnl https://gcc.gnu.org/bugzilla/show_bug.cgi?id=102405
   FC_C_FLAGS([-Werror -Wmissing-prototypes -Wmissing-declarations \
               -Wformat -Wformat-security -Wnested-externs \
               -Wshadow -Wold-style-declaration -Wold-style-definition \
-              -Wtype-limits -Wno-array-bounds],
+              -Wtype-limits],
              [], [EXTRA_DEBUG_CFLAGS])
   if test "x$cxx_works" = "xyes" ; then
     FC_CXX_FLAGS([-Werror -Wmissing-prototypes -Wmissing-declarations \
