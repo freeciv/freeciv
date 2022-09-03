@@ -1171,8 +1171,7 @@ static void select_color_callback(GtkToolButton *button, gpointer data)
 /**********************************************************************//**
   Moves the tool kit to the toolkit view.
 **************************************************************************/
-static gboolean move_toolkit(GtkWidget *toolkit_view,
-                             gpointer data)
+static gboolean move_toolkit(GtkWidget *toolkit_view, gpointer data)
 {
   struct inputline_toolkit *ptoolkit = (struct inputline_toolkit *) data;
   GtkWidget *parent = gtk_widget_get_parent(ptoolkit->main_widget);
@@ -1203,7 +1202,7 @@ static gboolean move_toolkit(GtkWidget *toolkit_view,
       /* Attach to the toolkit button_box. */
       gtk_box_append(GTK_BOX(ptoolkit->button_box), button_box);
     }
-    gtk_widget_show(ptoolkit->main_widget);
+    gtk_widget_show(button_box);
     if (!ptoolkit->toolbar_displayed) {
       gtk_widget_hide(ptoolkit->toolbar);
     }
@@ -1231,8 +1230,7 @@ static gboolean move_toolkit(GtkWidget *toolkit_view,
 /**********************************************************************//**
   Show/Hide the toolbar.
 **************************************************************************/
-static gboolean set_toolbar_visibility(GtkWidget *w,
-                                       gpointer data)
+static gboolean set_toolbar_visibility(GtkWidget *w, gpointer data)
 {
   struct inputline_toolkit *ptoolkit = (struct inputline_toolkit *) data;
   GtkToggleButton *button = GTK_TOGGLE_BUTTON(toolkit.toggle_button);
@@ -1283,7 +1281,7 @@ static void button_toggled(GtkToggleButton *button, gpointer data)
   inputline.
 
   This widget has the following datas:
-  "button_box": pointer to the GtkHBox where to append buttons.
+  "button_box": pointer to the GtkBox where to append buttons.
 **************************************************************************/
 GtkWidget *inputline_toolkit_view_new(void)
 {
@@ -1292,7 +1290,7 @@ GtkWidget *inputline_toolkit_view_new(void)
   /* Main widget. */
   toolkit_view = gtk_box_new(GTK_ORIENTATION_VERTICAL, 2);
   g_signal_connect_after(toolkit_view, "map",
-                   G_CALLBACK(move_toolkit), &toolkit);
+                         G_CALLBACK(move_toolkit), &toolkit);
 
   /* Button box. */
   bbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 12);
@@ -1339,7 +1337,7 @@ void chatline_init(void)
 
   toolkit.main_widget = vbox;
   g_signal_connect_after(vbox, "map",
-                   G_CALLBACK(set_toolbar_visibility), &toolkit);
+                         G_CALLBACK(set_toolbar_visibility), &toolkit);
 
   entry = gtk_entry_new();
   gtk_widget_set_margin_bottom(entry, 2);
@@ -1356,8 +1354,6 @@ void chatline_init(void)
   toolbar = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 2);
   gtk_box_append(GTK_BOX(vbox), toolbar);
   toolkit.toolbar = toolbar;
-
-  // #ifdef TOOLBUTTON_GTK3
 
   /* Bold button. */
   item = gtk_button_new_from_icon_name("format-text-bold");
