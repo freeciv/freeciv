@@ -18,9 +18,10 @@
 extern "C" {
 #endif /* __cplusplus */
 
+/* common */
 #include "fc_types.h"
-#include "unit.h"		/* for diplomat_actions */
-#include "unittype.h"		/* for unit_type_flag_id */
+#include "unit.h"               /* for diplomat_actions */
+#include "unittype.h"           /* for unit_type_flag_id */
 
 /* get 'struct unit_list' and related functions: */
 #define SPECLIST_TAG unit
@@ -37,13 +38,14 @@ extern "C" {
 
 #define unit_list_iterate_safe(unitlist, _unit)				\
 {									\
-  int _unit##_size = unit_list_size(unitlist);				\
+  struct unit_list *_unit##_ul = unitlist;                              \
+  int _unit##_size = unit_list_size(_unit##_ul);			\
 									\
   if (_unit##_size > 0) {						\
     int _unit##_numbers[_unit##_size];					\
     int _unit##_index = 0;						\
 									\
-    unit_list_iterate(unitlist, _unit) {				\
+    unit_list_iterate(_unit##_ul, _unit) {				\
       _unit##_numbers[_unit##_index++] = _unit->id;			\
     } unit_list_iterate_end;						\
 									\
