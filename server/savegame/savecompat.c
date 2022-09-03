@@ -1739,7 +1739,7 @@ static void upgrade_unit_order_targets(struct unit *act_unit)
   current_tile = unit_tile(act_unit);
 
   /* Rewind to the beginning of the orders */
-  for (i = act_unit->orders.index; i > 0; i--) {
+  for (i = act_unit->orders.index; i > 0 && current_tile != NULL; i--) {
     struct unit_order *prev_order = &act_unit->orders.list[i - 1];
 
     if (!(prev_order->order == ORDER_PERFORM_ACTION
@@ -1752,7 +1752,7 @@ static void upgrade_unit_order_targets(struct unit *act_unit)
   }
 
   /* Upgrade to explicit target tile */
-  for (i = 0; i < act_unit->orders.length; i++) {
+  for (i = 0; i < act_unit->orders.length && current_tile != NULL; i++) {
     struct unit_order *order = &act_unit->orders.list[i];
 
     if (order->order == ORDER_PERFORM_ACTION
@@ -1772,23 +1772,32 @@ static void upgrade_unit_order_targets(struct unit *act_unit)
     }
 
     if (order->order == ORDER_PERFORM_ACTION) {
-      struct action *paction = action_by_number(order->action);
+      if (tgt_tile != NULL) {
+        struct action *paction = action_by_number(order->action);
 
-      order->target = tgt_tile->index;
-      /* Leave no traces. */
-      order->dir = DIR8_ORIGIN;
+        order->target = tgt_tile->index;
+        /* Leave no traces. */
+        order->dir = DIR8_ORIGIN;
 
-      if (!utype_is_unmoved_by_action(paction, unit_type_get(act_unit))) {
-        /* The action moves the unit to the target tile (unless this is the
-         * final order) */
-        fc_assert(utype_is_moved_to_tgt_by_action(paction,
-                                                  unit_type_get(act_unit))
-                  || i == act_unit->orders.length - 1);
-        current_tile = tgt_tile;
+        if (!utype_is_unmoved_by_action(paction, unit_type_get(act_unit))) {
+          /* The action moves the unit to the target tile (unless this is the
+           * final order) */
+          fc_assert(utype_is_moved_to_tgt_by_action(paction,
+                                                    unit_type_get(act_unit))
+                    || i == act_unit->orders.length - 1);
+          current_tile = tgt_tile;
+        }
+      } else {
+        current_tile = NULL;
       }
     } else {
       current_tile = tgt_tile;
     }
+  }
+
+  if (current_tile == NULL) {
+    log_sg("Illegal orders for %s. Cancelling.", unit_rule_name(act_unit));
+    free_unit_orders(act_unit);
   }
 }
 
