@@ -492,13 +492,14 @@ extern struct output_type output_types[];
 
 #define city_list_iterate_safe(citylist, _city)                        \
 {                                                                      \
-  int _city##_size = city_list_size(citylist);                         \
+  struct city_list *_city##_cl = citylist;                             \
+  int _city##_size = city_list_size(_city##_cl);                       \
                                                                        \
   if (_city##_size > 0) {                                              \
     int _city##_numbers[_city##_size];                                 \
     int _city##_index = 0;                                             \
                                                                        \
-    city_list_iterate(citylist, _city) {                               \
+    city_list_iterate(_city##_cl, _city) {                             \
       _city##_numbers[_city##_index++] = _city->id;                    \
     } city_list_iterate_end;                                           \
                                                                        \
@@ -506,7 +507,7 @@ extern struct output_type output_types[];
         _city##_index < _city##_size;                                  \
         _city##_index++) {                                             \
       struct city *_city =                                             \
-       game_city_by_number(_city##_numbers[_city##_index]);            \
+        game_city_by_number(_city##_numbers[_city##_index]);           \
                                                                        \
       if (NULL != _city) {
 
