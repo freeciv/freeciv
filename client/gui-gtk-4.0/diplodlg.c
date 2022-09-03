@@ -82,13 +82,18 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
 
 static struct Diplomacy_dialog *find_diplomacy_dialog(int other_player_id);
 static void popup_diplomacy_dialog(int other_player_id, int initiated_from);
-static void diplomacy_dialog_map_callback(GSimpleAction *action, GVariant *parameter,
+static void diplomacy_dialog_map_callback(GSimpleAction *action,
+                                          GVariant *parameter,
                                           gpointer data);
-static void diplomacy_dialog_seamap_callback(GSimpleAction *action, GVariant *parameter,
+static void diplomacy_dialog_seamap_callback(GSimpleAction *action,
+                                             GVariant *parameter,
                                              gpointer data);
 
+static void diplomacy_dialog_tech_callback(GSimpleAction *action,
+                                           GVariant *parameter,
+                                           gpointer data);
+
 #ifdef MENUS_GTK3
-static void diplomacy_dialog_tech_callback(GtkWidget *w, gpointer data);
 static void diplomacy_dialog_city_callback(GtkWidget *w, gpointer data);
 static void diplomacy_dialog_ceasefire_callback(GtkWidget *w, gpointer data);
 static void diplomacy_dialog_peace_callback(GtkWidget *w, gpointer data);
@@ -219,7 +224,6 @@ static void popup_diplomacy_dialog(int other_player_id, int initiated_from)
   }
 }
 
-#ifdef MENUS_GTK3
 /************************************************************************//**
   Utility for g_list_sort(). See below.
 ****************************************************************************/
@@ -231,7 +235,6 @@ static gint sort_advance_names(gconstpointer a, gconstpointer b)
   return fc_strcoll(advance_name_translation(padvance1),
                     advance_name_translation(padvance2));
 }
-#endif /* MENUS_GTK3 */
 
 /************************************************************************//**
   Popup menu about adding clauses
@@ -246,30 +249,19 @@ static GMenu *create_clause_menu(GActionGroup *group,
   bool any_map = FALSE;
   char act_plr_part[20];
   char act_name[60];
-  struct player *pgiver; /*, *pother; */
+  struct player *pgiver, *pother;
 
   if (them) {
     fc_strlcpy(act_plr_part, "_them", sizeof(act_plr_part));
     pgiver = partner;
-    /* pother = client_player(); */
+    pother = client_player();
   } else {
     fc_strlcpy(act_plr_part, "_us", sizeof(act_plr_part));
     pgiver = client_player();
-    /* pother = partner; */
+    pother = partner;
   }
 
   topmenu = g_menu_new();
-
-#if 0
-  /* Init. */
-  gtk_container_foreach(GTK_CONTAINER(parent),
-                        (GtkCallback) gtk_widget_destroy, NULL);
-
-  pdialog = (struct Diplomacy_dialog *) data;
-  pgiver = (struct player *) g_object_get_data(G_OBJECT(parent), "plr");
-  pother = (pgiver == pdialog->treaty.plr0
-            ? pdialog->treaty.plr1 : pdialog->treaty.plr0);
-#endif
 
   /* Maps. */
   if (clause_enabled(CLAUSE_MAP)) {
@@ -312,77 +304,81 @@ static GMenu *create_clause_menu(GActionGroup *group,
     g_menu_append_submenu(topmenu, _("_Maps"), G_MENU_MODEL(submenu));
   }
 
-#if 0
-
   /* Trading: advances */
   if (clause_enabled(CLAUSE_ADVANCE)) {
     const struct research *gresearch = research_get(pgiver);
     const struct research *oresearch = research_get(pother);
-    GtkWidget *advance_item;
     GList *sorting_list = NULL;
+    int i;
 
-    advance_item = gtk_menu_item_new_with_mnemonic(_("_Advances"));
-    gtk_menu_shell_append(GTK_MENU_SHELL(parent), advance_item);
+    submenu = g_menu_new();
 
     advance_iterate(A_FIRST, padvance) {
-      Tech_type_id i = advance_number(padvance);
+      Tech_type_id tech = advance_number(padvance);
 
-      if (research_invention_state(gresearch, i) == TECH_KNOWN
-          && research_invention_gettable(oresearch, i,
+      if (research_invention_state(gresearch, tech) == TECH_KNOWN
+          && research_invention_gettable(oresearch, tech,
                                          game.info.tech_trade_allow_holes)
-          && (research_invention_state(oresearch, i) == TECH_UNKNOWN
-              || research_invention_state(oresearch, i)
+          && (research_invention_state(oresearch, tech) == TECH_UNKNOWN
+              || research_invention_state(oresearch, tech)
                  == TECH_PREREQS_KNOWN)) {
         sorting_list = g_list_prepend(sorting_list, padvance);
       }
     } advance_iterate_end;
 
-    if (NULL == sorting_list) {
-      /* No advance. */
-      gtk_widget_set_sensitive(advance_item, FALSE);
-    } else {
+    if (NULL != sorting_list) {
       GList *list_item;
       const struct advance *padvance;
 
       sorting_list = g_list_sort(sorting_list, sort_advance_names);
-      menu = gtk_menu_button_new();
 
       /* TRANS: All technologies menu item in the diplomatic dialog. */
-      item = gtk_menu_item_new_with_label(_("All advances"));
-      gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-      g_object_set_data(G_OBJECT(item), "player_from",
+      fc_snprintf(act_name, sizeof(act_name), "advance%sall", act_plr_part);
+      act = g_simple_action_new(act_name, NULL);
+      g_object_set_data(G_OBJECT(act), "player_from",
                         GINT_TO_POINTER(player_number(pgiver)));
-      g_object_set_data(G_OBJECT(item), "player_to",
+      g_object_set_data(G_OBJECT(act), "player_to",
                         GINT_TO_POINTER(player_number(pother)));
-      g_signal_connect(item, "activate",
+      g_action_map_add_action(G_ACTION_MAP(group), G_ACTION(act));
+      g_signal_connect(act, "activate",
                        G_CALLBACK(diplomacy_dialog_tech_callback),
                        GINT_TO_POINTER(A_LAST));
-      gtk_menu_shell_append(GTK_MENU_SHELL(menu),
-                            gtk_separator_menu_item_new());
 
-      for (list_item = sorting_list; NULL != list_item;
-           list_item = g_list_next(list_item)) {
+      fc_snprintf(act_name, sizeof(act_name), "win.advance%sall", act_plr_part);
+      item = g_menu_item_new(_("All advances"), act_name);
+      g_menu_append_item(submenu, item);
+
+      for (list_item = sorting_list, i = 0; NULL != list_item;
+           list_item = g_list_next(list_item), i++) {
+
+        fc_snprintf(act_name, sizeof(act_name), "advance%s%d",
+                    act_plr_part, i);
+        act = g_simple_action_new(act_name, NULL);
+
         padvance = (const struct advance *) list_item->data;
-        item =
-            gtk_menu_item_new_with_label(advance_name_translation(padvance));
-        gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-        g_object_set_data(G_OBJECT(item), "player_from",
+        g_object_set_data(G_OBJECT(act), "player_from",
                           GINT_TO_POINTER(player_number(pgiver)));
-        g_object_set_data(G_OBJECT(item), "player_to",
+        g_object_set_data(G_OBJECT(act), "player_to",
                           GINT_TO_POINTER(player_number(pother)));
-        g_signal_connect(item, "activate",
+        g_action_map_add_action(G_ACTION_MAP(group), G_ACTION(act));
+        g_signal_connect(act, "activate",
                          G_CALLBACK(diplomacy_dialog_tech_callback),
                          GINT_TO_POINTER(advance_number(padvance)));
+
+        fc_snprintf(act_name, sizeof(act_name), "win.advance%s%d",
+                    act_plr_part, i);
+        item = g_menu_item_new(advance_name_translation(padvance), act_name);
+        g_menu_append_item(submenu, item);
       }
 
-      gtk_menu_item_set_submenu(GTK_MENU_ITEM(advance_item), menu);
       g_list_free(sorting_list);
     }
 
-    gtk_widget_show(advance_item);
+    g_menu_append_submenu(topmenu, _("_Advances"), G_MENU_MODEL(submenu));
   }
 
 
+#if 0
   /* Trading: cities. */
 
   /****************************************************************
@@ -1021,16 +1017,17 @@ static void update_diplomacy_dialog(struct Diplomacy_dialog *pdialog)
   g_object_unref(G_OBJECT(pixbuf));
 }
 
-#ifdef MENUS_GTK3
 /************************************************************************//**
   Callback for the diplomatic dialog: give tech.
 ****************************************************************************/
-static void diplomacy_dialog_tech_callback(GtkWidget *w, gpointer data)
+static void diplomacy_dialog_tech_callback(GSimpleAction *action,
+                                           GVariant *parameter,
+                                           gpointer data)
 {
   int giver, dest, other, tech;
 
-  giver = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(w), "player_from"));
-  dest = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(w), "player_to"));
+  giver = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(action), "player_from"));
+  dest = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(action), "player_to"));
   tech = GPOINTER_TO_INT(data);
   if (player_by_number(giver) == client_player()) {
     other = dest;
@@ -1069,6 +1066,7 @@ static void diplomacy_dialog_tech_callback(GtkWidget *w, gpointer data)
   }
 }
 
+#ifdef MENUS_GTK3
 /************************************************************************//**
   Callback for trading cities
 			      - Kris Bubendorfer
