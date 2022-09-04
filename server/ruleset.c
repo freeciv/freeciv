@@ -2191,7 +2191,7 @@ static bool load_ruleset_units(struct section_file *file,
                         rule_name_get(&u->name));
           ok = FALSE;
           break;
-        } else if (adv_req != A_NONE) {
+        } else if (adv_req != advance_by_number(A_NONE)) {
           requirement_vector_append(&u->build_reqs,
                                     req_from_values(VUT_ADVANCE, REQ_RANGE_PLAYER,
                                                     FALSE, TRUE, FALSE,
