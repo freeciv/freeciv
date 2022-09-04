@@ -1039,9 +1039,7 @@ void action_selection_no_longer_in_progress(const int old_actor_id)
 **************************************************************************/
 void action_decision_clear_want(const int old_actor_id)
 {
-  struct unit *old;
-
-  if ((old = game_unit_by_number(old_actor_id))) {
+  if (game_unit_by_number(old_actor_id) != NULL) {
     /* Have the server record that a decision no longer is wanted. */
     dsend_packet_unit_sscs_set(&client.conn, old_actor_id,
                                USSDT_UNQUEUE, IDENTITY_NUMBER_ZERO);
