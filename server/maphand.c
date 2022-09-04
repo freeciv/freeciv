@@ -2374,6 +2374,10 @@ void map_claim_base(struct tile *ptile, struct extra_type *pextra,
       i++;
     } unit_list_iterate_end;
   }
+
+  if (could_see_unit != NULL) {
+    free(could_see_unit);
+  }
 }
 
 /**********************************************************************//**
