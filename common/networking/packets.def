@@ -182,7 +182,7 @@ Syntax:
 # typedefs for numbers
 type BOOL               = bool8(bool)
 type SFLOAT10x3         = sfloat100(float)
-type SFLOAT10x7         = sfloat1000000(float)
+type SFLOAT10x6         = sfloat100000(float)
 type SINT8              = sint8(int)
 type SINT16             = sint16(int)
 type SINT32             = sint32(int)
@@ -1272,7 +1272,7 @@ end
 PACKET_CONN_PING_INFO = 116; sc, lsend
   UINT8 connections;
   CONNECTION conn_id[MAX_NUM_CONNECTIONS:connections];
-  SFLOAT10x7 ping_time[MAX_NUM_CONNECTIONS:connections];
+  SFLOAT10x6 ping_time[MAX_NUM_CONNECTIONS:connections];
 end
 
 # For compatibility with older versions, this number cannot be changed.
