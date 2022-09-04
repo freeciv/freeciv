@@ -652,7 +652,7 @@ static gboolean show_info_popup(GtkGestureClick *gesture, int n_press,
 {
   GtkWidget *w = gtk_event_controller_get_widget(GTK_EVENT_CONTROLLER(gesture));
   struct city_dialog *pdialog = g_object_get_data(G_OBJECT(w), "pdialog");
-  GtkWidget *p, *label, *frame;
+  GtkWidget *p, *label;
   char buf[1024];
 
   switch (GPOINTER_TO_UINT(data)) {
@@ -697,16 +697,9 @@ static gboolean show_info_popup(GtkGestureClick *gesture, int n_press,
     return TRUE;
   }
 
-  p = gtk_window_new();
-  gtk_widget_set_name(p, "Freeciv");
-  gtk_widget_set_margin_start(p, 2);
-  gtk_widget_set_margin_end(p, 2);
-  gtk_widget_set_margin_top(p, 2);
-  gtk_widget_set_margin_bottom(p, 2);
-  gtk_window_set_transient_for(GTK_WINDOW(p), GTK_WINDOW(pdialog->shell));
+  p = gtk_popover_new();
 
-  frame = gtk_frame_new(NULL);
-  gtk_window_set_child(GTK_WINDOW(p), frame);
+  gtk_widget_set_parent(p, w);
 
   label = gtk_label_new(buf);
   gtk_widget_set_name(label, "city_label");
@@ -714,8 +707,10 @@ static gboolean show_info_popup(GtkGestureClick *gesture, int n_press,
   gtk_widget_set_margin_end(label, 4);
   gtk_widget_set_margin_top(label, 4);
   gtk_widget_set_margin_bottom(label, 4);
-  gtk_frame_set_child(GTK_FRAME(frame), label);
-  gtk_widget_show(p);
+
+  gtk_popover_set_child(GTK_POPOVER(p), label);
+
+  gtk_popover_popup(GTK_POPOVER(p));
 
   return TRUE;
 }
