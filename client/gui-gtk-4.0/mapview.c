@@ -181,20 +181,20 @@ void update_info_label(void)
     for (; d < client.conn.playing->economic.luxury /10; d++) {
       struct sprite *spr = get_tax_sprite(tileset, O_LUXURY);
 
-      image_set_from_surface(GTK_IMAGE(econ_label[d]), spr->surface);
+      picture_set_from_surface(GTK_PICTURE(econ_label[d]), spr->surface);
     }
 
     for (; d < (client.conn.playing->economic.science
 		+ client.conn.playing->economic.luxury) / 10; d++) {
       struct sprite *spr = get_tax_sprite(tileset, O_SCIENCE);
 
-      image_set_from_surface(GTK_IMAGE(econ_label[d]), spr->surface);
+      picture_set_from_surface(GTK_PICTURE(econ_label[d]), spr->surface);
     }
 
     for (; d < 10; d++) {
       struct sprite *spr = get_tax_sprite(tileset, O_GOLD);
 
-      image_set_from_surface(GTK_IMAGE(econ_label[d]), spr->surface);
+      picture_set_from_surface(GTK_PICTURE(econ_label[d]), spr->surface);
     }
   }
 
@@ -288,10 +288,10 @@ GdkPixbuf *get_thumb_pixbuf(int onoff)
 void set_indicator_icons(struct sprite *bulb, struct sprite *sol,
                          struct sprite *flake, struct sprite *gov)
 {
-  image_set_from_surface(GTK_IMAGE(bulb_label), bulb->surface);
-  image_set_from_surface(GTK_IMAGE(sun_label), sol->surface);
-  image_set_from_surface(GTK_IMAGE(flake_label), flake->surface);
-  image_set_from_surface(GTK_IMAGE(government_label), gov->surface);
+  picture_set_from_surface(GTK_PICTURE(bulb_label), bulb->surface);
+  picture_set_from_surface(GTK_PICTURE(sun_label), sol->surface);
+  picture_set_from_surface(GTK_PICTURE(flake_label), flake->surface);
+  picture_set_from_surface(GTK_PICTURE(government_label), gov->surface);
 }
 
 /**********************************************************************//**
