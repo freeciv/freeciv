@@ -2790,20 +2790,36 @@ void handle_conn_info(const struct packet_conn_info *pinfo)
   Handles a conn_ping_info packet from the server.  This packet contains
   ping times for each connection.
 **************************************************************************/
-void handle_conn_ping_info(int connections, const int *conn_id,
-                           const float *ping_time)
+void handle_conn_ping_info(const struct packet_conn_ping_info *packet)
 {
   int i;
+  bool pingfix = has_capability("pingfix", client.conn.capability);
+  int connections = (pingfix ? packet->connections_16 : packet->connections_8);
 
-  for (i = 0; i < connections; i++) {
-    struct connection *pconn = conn_by_number(conn_id[i]);
+  if (pingfix) {
+    for (i = 0; i < connections; i++) {
+      struct connection *pconn = conn_by_number(packet->conn_id_new[i]);
 
-    if (!pconn) {
-      continue;
+      if (!pconn) {
+        continue;
+      }
+
+      pconn->ping_time = packet->ping_time_6[i];
+
+      log_debug("conn-id=%d, ping=%fs", pconn->id, pconn->ping_time);
     }
+  } else {
+    for (i = 0; i < connections; i++) {
+      struct connection *pconn = conn_by_number(packet->conn_id_old[i]);
 
-    pconn->ping_time = ping_time[i];
-    log_debug("conn-id=%d, ping=%fs", pconn->id, pconn->ping_time);
+      if (!pconn) {
+        continue;
+      }
+
+      pconn->ping_time = packet->ping_time_7[i];
+
+      log_debug("conn-id=%d, ping=%fs", pconn->id, pconn->ping_time);
+    }
   }
   /* The old_ping_time data is ignored. */
 

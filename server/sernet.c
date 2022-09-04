@@ -1467,12 +1467,17 @@ static void send_ping_times_to_all(void)
     if (!pconn->used) {
       continue;
     }
-    fc_assert(i < ARRAY_SIZE(packet.conn_id));
-    packet.conn_id[i] = pconn->id;
-    packet.ping_time[i] = pconn->ping_time;
+    fc_assert(i < ARRAY_SIZE(packet.conn_id_new));
+    packet.conn_id_new[i] = pconn->id;
+    packet.ping_time_6[i] = pconn->ping_time;
+    if (i < 256) {
+      packet.conn_id_old[i] = pconn->id;
+      packet.ping_time_7[i] = pconn->ping_time; /* _7 really is the OLD protocol */
+    }
     i++;
   } conn_list_iterate_end;
-  packet.connections = i;
+  packet.connections_8 = (i < 256) ? i : 255;
+  packet.connections_16 = i;
 
   lsend_packet_conn_ping_info(game.est_connections, &packet);
 }
