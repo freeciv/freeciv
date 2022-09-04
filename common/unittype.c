@@ -2415,8 +2415,9 @@ static void unit_type_free(struct unit_type *punittype)
   if (NULL != punittype->helptext) {
     strvec_destroy(punittype->helptext);
     punittype->helptext = NULL;
-    requirement_vector_free(&(punittype->build_reqs));
   }
+
+  requirement_vector_free(&(punittype->build_reqs));
 
   veteran_system_destroy(punittype->veteran);
   combat_bonus_list_iterate(punittype->bonuses, pbonus) {
