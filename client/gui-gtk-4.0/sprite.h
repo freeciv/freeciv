@@ -36,9 +36,13 @@ GdkPixbuf *surface_get_pixbuf(cairo_surface_t *surf, int width, int height);
 
 GdkPixbuf *create_extra_pixbuf(const struct extra_type *pextra);
 
+/* TODO: Remove as unused */
+#if 0
 GtkWidget *image_new_from_surface(cairo_surface_t *surf);
 void image_set_from_surface(GtkImage *image, cairo_surface_t *surf);
+#endif
 
+GtkWidget *picture_new_from_surface(cairo_surface_t *surf);
 void picture_set_from_surface(GtkPicture *image, cairo_surface_t *surf);
 
 #endif /* FC__SPRITE_H */
