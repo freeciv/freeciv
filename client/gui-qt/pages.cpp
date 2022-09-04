@@ -1133,7 +1133,6 @@ void fc_client::start_from_save()
 void fc_client::slot_selection_changed(const QItemSelection &selected,
                                        const QItemSelection &deselected)
 {
-
   QModelIndexList indexes = selected.indexes();
   QStringList sl;
   QModelIndex index;
@@ -1233,7 +1232,6 @@ void fc_client::slot_selection_changed(const QItemSelection &selected,
     if ((sf = secfile_load_section(fn_bytes.data(),
                                    "game", TRUE))) {
       const char *sname;
-      bool sbool;
       int integer;
       QString final_str;
       QString pl_str = nullptr;
@@ -1260,9 +1258,9 @@ void fc_client::slot_selection_changed(const QItemSelection &selected,
         pl_bytes = pl_str.toLocal8Bit();
         if ((sf = secfile_load_section(fn_bytes.data(),
                                        pl_bytes.data(), true))) {
-          if (!(sbool = secfile_lookup_bool_default(sf, true,
-                                       "player%d.unassigned_user",
-                                       i))) {
+          if (!secfile_lookup_bool_default(sf, true,
+                                           "player%d.unassigned_user",
+                                           i)) {
               curr_player = i;
               break;
           }
