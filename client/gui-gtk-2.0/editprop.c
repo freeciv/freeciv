@@ -90,7 +90,7 @@ static int get_next_unique_tag(void);
 #include "spechash.h"
 
 /* NB: If packet definitions change, be sure to
- * update objbind_pack_current_values!!! */
+ * update objbind_pack_current_values()!!! */
 union packetdata {
   struct {
     gpointer v_pointer1;
@@ -287,7 +287,7 @@ static struct propval *propstate_get_value(struct propstate *ps);
   6. Add a case handler in objbind_pack_modified_value.
   !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   !!! 7. Add code to set the packet field in  !!!
-  !!!    objbind_pack_current_values.         !!!
+  !!!    objbind_pack_current_values().       !!!
   !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   8. Add code to handle changes in the packet field in
      server/edithand.c handle_edit_<objtype>.
@@ -2305,6 +2305,7 @@ static void objbind_pack_current_values(struct objbind *ob,
       } advance_index_iterate_end;
       packet->gold = pplayer->economic.gold;
       packet->government = government_index(pplayer->government);
+      packet->scenario_reserved = player_has_flag(pplayer, PLRF_SCENARIO_RESERVED);
       /* TODO: Set more packet fields. */
     }
     return;
