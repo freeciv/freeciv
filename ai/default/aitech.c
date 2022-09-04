@@ -83,20 +83,31 @@ static void dai_select_tech(struct ai_type *ait,
   goal_values[A_UNSET] = -1;
   goal_values[A_NONE] = -1;
 
-  /* if we are researching future techs, then simply continue with that. 
-   * we don't need to do anything below. */
+  /* if we are researching future techs, then simply continue with that
+   * when possible. */
   if (is_future_tech(presearch->researching)) {
-    if (choice) {
-      choice->choice = presearch->researching;
-      choice->want = 1;
-      choice->current_want = 1;
+    bool real_found = FALSE;
+
+    advance_index_iterate(A_FIRST, i) {
+      if (research_invention_state(presearch, i) == TECH_PREREQS_KNOWN) {
+        real_found = TRUE;
+        break;
+      }
+    } advance_index_iterate_end;
+
+    if (!real_found) {
+      if (choice) {
+        choice->choice = presearch->researching;
+        choice->want = 1;
+        choice->current_want = 1;
+      }
+      if (goal) {
+        goal->choice = A_UNSET;
+        goal->want = 1;
+        goal->current_want = 1;
+      }
+      return;
     }
-    if (goal) {
-      goal->choice = A_UNSET;
-      goal->want = 1;
-      goal->current_want = 1;
-    }
-    return;
   }
 
   /* Fill in values for the techs: want of the tech 
