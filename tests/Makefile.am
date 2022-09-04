@@ -10,6 +10,7 @@ src-check:
 	$(srcdir)/fcintl.sh $(top_srcdir) >> check-output_
 	$(srcdir)/header_guard.sh $(top_srcdir) >> check-output_
 	$(srcdir)/va_list.sh $(top_srcdir) >> check-output_
+	$(srcdir)/trailing_spaces.sh $(top_srcdir) >> check-output_
 	cat check-output_ | sed "s,$(top_srcdir)/,," > check-output
 	rm -f check-output_
 
@@ -28,4 +29,5 @@ EXTRA_DIST =	check_macros.sh			\
 		rs_test_res/ruleset_list.txt	\
 		rs_test_res/ruleset_loads.sh.in	\
 		rulesets_autohelp.sh.in		\
+		trailing_spaces.sh		\
 		va_list.sh
