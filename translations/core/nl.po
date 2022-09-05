@@ -44918,7 +44918,7 @@ msgstr "U kunt deze technologie niet onderzoeken."
 #: server/settings.c:1924
 msgid ""
 "Allows switching to any technology without wasting old research. Bulbs are "
-"never transfered to new technology. Techpenalty options are inefective after "
+"never transferred to new technology. Techpenalty options are inefective after "
 "enabling that option."
 msgstr ""
 

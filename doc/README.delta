@@ -17,11 +17,11 @@ version exists the unchanged fields will be assumed to be zero.
 For bool field another optimization called bool-header-folding is
 applied. Instead of sending an indicator in the bitvector if the given
 bool values has changed (and so using 1 byte for the real value) the
-actual value of the bool is transfered in the bitvector bit of this
+actual value of the bool is transferred in the bitvector bit of this
 bool field.
 
 Another optimization called array-diff is used to reduce the amount of
-elements transfered if an array is changed. This is independent of the
+elements transferred if an array is changed. This is independent of the
 delta-header bit i.e. it will only be used if the array has changed
 its value and the bit indicates this. Instead of transferring the
 whole array only a list of (index, new value of this index) pairs are
@@ -45,7 +45,7 @@ To further reduce the network traffic the (delta) packets are
 compressed using the DEFLATE compression algorithm.
 To get better compression results multiple packets are
 grouped together and compressed into a chunk. This chunk is then
-transfered as a normal packet. A chunk packet starts with the 2 byte
+transferred as a normal packet. A chunk packet starts with the 2 byte
 length field which every packet has. A chunk packet has no type. A
 chunk packet is identified by having a too large length field. If the
 length of the packet is over COMPRESSION_BORDER it is a chunk
