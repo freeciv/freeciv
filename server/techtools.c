@@ -59,7 +59,7 @@ static Tech_type_id pick_random_tech(const struct research *presearch);
 static Tech_type_id pick_cheapest_tech(const struct research *presearch);
 static void research_tech_lost(struct research *presearch,
                                Tech_type_id tech);
-static void forget_tech_transfered(struct player *pplayer, Tech_type_id tech);
+static void forget_tech_transferred(struct player *pplayer, Tech_type_id tech);
 
 /****************************************************************************
   Apply a penalty to the research.
@@ -1371,7 +1371,7 @@ void give_immediate_free_tech(struct research *presearch, Tech_type_id tech)
 /****************************************************************************
   Let the player forget one tech.
 ****************************************************************************/
-static void forget_tech_transfered(struct player *pplayer, Tech_type_id tech)
+static void forget_tech_transferred(struct player *pplayer, Tech_type_id tech)
 {
   struct research *presearch = research_get(pplayer);
 
@@ -1413,7 +1413,7 @@ bool tech_transfer(struct player *plr_recv, struct player *plr_donor,
       }
     } advance_index_iterate_end;
     if (donor_can_lose && fc_rand(100) < game.server.techlost_donor) {
-      forget_tech_transfered(plr_donor, tech);
+      forget_tech_transferred(plr_donor, tech);
     }
   }
 
@@ -1421,7 +1421,7 @@ bool tech_transfer(struct player *plr_recv, struct player *plr_donor,
     struct research *presearch = research_get(plr_recv);
 
     /* We've not received the tech yet, and never will.
-     * Do not call forget_tech_transfered() that would handle it
+     * Do not call forget_tech_transferred() that would handle it
      * as something we had and now lose.
      * (e.g. subtracting techs_researched counter) */
     notify_player(plr_recv, NULL, E_TECH_LOST, ftc_server,

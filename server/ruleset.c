@@ -1312,7 +1312,7 @@ static bool load_ruleset_techs(struct section_file *file,
         a->tclass = tech_class_by_rule_name(classname);
         if (a->tclass == NULL) {
           ruleset_error(NULL, LOG_ERROR,
-                        "\"%s\" [%s] \"%s\": Uknown tech class \"%s\".",
+                        "\"%s\" [%s] \"%s\": Unknown tech class \"%s\".",
                         filename, sec_name, rule_name_get(&a->name), classname);
           ok = FALSE;
           break;

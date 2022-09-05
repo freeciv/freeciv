@@ -46823,7 +46823,7 @@ msgstr "Permet de fer recerca en múltiples tecnologies."
 #: server/settings.c:1917
 msgid ""
 "Allows switching to any technology without wasting old research. Bulbs are "
-"never transfered to new technology. Techpenalty options are inefective after "
+"never transferred to new technology. Techpenalty options are inefective after "
 "enabling that option."
 msgstr ""
 "Permet de canviar a qualsevol tecnologia sense malbaratar la recerca que "
