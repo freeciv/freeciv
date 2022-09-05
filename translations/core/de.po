@@ -31943,6 +31943,28 @@ msgid ""
 "You struggle to live on this planet, and read\n"
 "Roadside Picnic by Strugatsky brothers once more."
 msgstr ""
+"Deneb 7 war dafür bekannt, dass es von einem eigenartigen\n"
+"Kraftfeld umgeben war, das es unmöglich machte, dem Planeten\n"
+"mit der irdischen Technologie der 250 Galaktischen Era nahe\n"
+"zu kommen. Als Sie allerdings vorbei flogen, drehte sich das\n"
+"Feld plötzlich um und zog sie auf den Planeten zu.\n"
+"\n"
+"Sie finden sich in einer eigenartigen Welt wieder, die\n"
+"wahrscheinlich von einer überlegenen Technologie beeinflusst\n"
+"wurde. Große Teile der irdischen Wissenschaften gelten hier nicht\n"
+"Sie müssen neue Regeln lernen, die Regeln dieser Welt.\n"
+"\n"
+"Es gibt tödliche Strahlung, gegen die keine bekannte Abschirmung\n"
+"hilft. Es gibt fremdes Leben, aber zur großen Überraschung auch\n"
+"einige essbare Pflanzen genau wie auf der Erde.\n"
+"\n"
+"Funk funktioniert nicht, die Luft ermöglicht keinen Flug,\n"
+"einige physikalischen Grundsätze lassen sich hier nicht\n"
+"anwenden.\n"
+"\n"
+"Sie kämpfen auf dem Planeten ums nackte Überlegen während Sie\n"
+"sich an \"Picknick am Wegesrand\" von den Strugazki-Brüdern\n"
+"erinnert fühlen."
 
 #: data/alien/styles.ruleset:30
 #, fuzzy
@@ -31975,46 +31997,49 @@ msgid ""
 "\n"
 "Alien Forest tiles produce +1 production."
 msgstr ""
+"Sie sind intelligent. Sollten Sie auch Rechte haben?\n"
+"\n"
+"Außerirdische Wälder liefern +1 Produktion."
 
 #: data/alien/techs.ruleset:132
 msgid "Alien Taming"
-msgstr ""
+msgstr "Zähmung von Außerirdischen"
 
 #: data/alien/techs.ruleset:138
 msgid "Some of the Alien lifeforms now work for us."
-msgstr ""
+msgstr "Einige außerirdische Lebensformen arbeiten nun für uns."
 
 #: data/alien/techs.ruleset:141
 msgid "Alien Training"
-msgstr ""
+msgstr "Ausbildung von Aliens"
 
 #: data/alien/techs.ruleset:147
 msgid "Trained native lifeforms - deadly."
-msgstr ""
+msgstr "Ausgebildete eingeborene Lebensformen - tödlich."
 
 #: data/alien/techs.ruleset:150
-#, fuzzy
 msgid "Amphibious Tactics"
-msgstr "Amphibische Kriegführung"
+msgstr "Amphibische Taktiken"
 
 #: data/alien/techs.ruleset:156
 msgid "Warfare with amphibious units."
-msgstr ""
+msgstr "Kriegsführung mit amphibischen Einheiten."
 
 #: data/alien/techs.ruleset:159
-#, fuzzy
 msgid "Antigravity"
-msgstr "Jegliche Tätigkeit"
+msgstr "Antigravitation"
 
 #: data/alien/techs.ruleset:165
 msgid ""
 "Even if normal method of flying is impossible in this world antigravity "
 "works. We just need to master it."
 msgstr ""
+"Auch wenn normale Flugmethoden in dieser Welt nicht möglich sind, "
+"funktioniert Antigravitation. Wir müssen sie nur beherrschen."
 
 #: data/alien/techs.ruleset:169
 msgid "Burrowing"
-msgstr ""
+msgstr "Graben"
 
 #: data/alien/techs.ruleset:175
 msgid ""
@@ -32024,44 +32049,50 @@ msgid ""
 " In addition to making first burrowing units available, knowledge of this "
 "tech allows mining of Thick Mountains."
 msgstr ""
+"Da es unmöglich scheint, in dieser Welt zu fliegen, konzentrieren wir uns "
+"auf die andere Richtung. Es ist möglich, sich durch die Erde zu graben.\n"
+"\n"
+" Diese Technologie ermöglicht nicht nur erste grabende Einheiten, sie"
+"ermöglicht auch, Bergbau in dichten Bergen."
 
 #: data/alien/techs.ruleset:183
 msgid "Brain Development"
-msgstr ""
+msgstr "Entwicklung des Gehirns"
 
 #: data/alien/techs.ruleset:191
-#, fuzzy
 msgid "Brute Force"
-msgstr "Krebsheilung"
+msgstr "Rohe Gewalt"
 
 #: data/alien/techs.ruleset:197
 msgid "It's time to make more powerful weapons than ever before."
-msgstr ""
+msgstr "Es ist an der Zeit, stärkere Waffen als je zuvor zu entwickeln."
 
 #: data/alien/techs.ruleset:200
-#, fuzzy
 msgid "City Defense"
-msgstr "Küstenverteidigung"
+msgstr "Stadtverteidigung"
 
 #: data/alien/techs.ruleset:206
 msgid ""
 "Advanced form of force channeling allows us to protect city size objects "
 "with channeled radiation energy."
 msgstr ""
+"Fortschrittliche Form der Kraftlenkung ermöglicht es uns, Objekte der "
+"Größe einer Stadt durch gelenkte Strahlungsenergie zu beschützen."
 
 #: data/alien/techs.ruleset:210
 msgid "Commercial Antigravity"
-msgstr ""
+msgstr "Kommerzielle Antigravitation"
 
 #: data/alien/techs.ruleset:216
 msgid ""
 "Antigravity is not only for military. It has commercial applications as well."
 msgstr ""
+"Antigravitation ist nicht nur fürs Militär. Sie hat auch kommerzielle "
+"Anwendungen."
 
 #: data/alien/techs.ruleset:220
-#, fuzzy
 msgid "Communication"
-msgstr "Verbrennung"
+msgstr "Kommunikation"
 
 #: data/alien/techs.ruleset:226
 msgid ""
@@ -32072,36 +32103,44 @@ msgid ""
 "Also your own bases can communicate more efficiently with each other, so "
 "number of bases you have is not causing as much unhappiness as before."
 msgstr ""
+"Konventioneller Funk funktioniert hier nicht. Entwickeln Sie funktionierende "
+"Alternativen, die sich die lokale Form der Strahlung zunutze machen. Sie "
+"werden Kontakt zu anderen Faktionen und viel mehr Informationen über sie "
+"erlangen.\n"
+"\n"
+"Außerdem können Ihre Stützpunkte effizienter miteinander Kommunizieren. "
+"Dadurch verursacht die Anzahl der Stützpunkte weniger Unzufriedenheit als "
+"zuvor."
 
 #: data/alien/techs.ruleset:233
-#, fuzzy
 msgid "Composites"
-msgstr "Computer"
+msgstr "Verbundwerkstoffe"
 
 #: data/alien/techs.ruleset:239
 msgid "Stronger materials mean stronger armors."
-msgstr ""
+msgstr "Stabilere Materialien bedeuten stabilere Panzerungen."
 
 #: data/alien/techs.ruleset:242
-#, fuzzy
 msgid "Controlled Biomass"
-msgstr "Bedienungselemente"
+msgstr "Gesteuerte Biomasse"
 
 #: data/alien/techs.ruleset:248
 msgid ""
 "Bugs, Slimes, Molds. We can drive masses of them together and then control "
 "movement of that biomass to act like a one being."
 msgstr ""
+"Insekten, Schleim und Schimmel. Wir können große Mengen von ihnen "
+"zusammentreiben und die Bewegung dieser Biomasse kontrollieren, so dass sie "
+"sich wie ein Wesen verhalten."
 
 #: data/alien/techs.ruleset:252
-#, fuzzy
 msgid "Crust Defense"
-msgstr "Küstenverteidigung"
+msgstr "Verteidigunsschicht"
 
 #: data/alien/techs.ruleset:258
 #, fuzzy
 msgid "Defense against burrowing units."
-msgstr "Verteidigt sehr schlecht gegen Jäger."
+msgstr "Verteidigung gegen grabende Einheiten."
 
 #: data/alien/techs.ruleset:261
 msgid "Cyber Aliens"
@@ -32141,9 +32180,8 @@ msgid ""
 msgstr ""
 
 #: data/alien/techs.ruleset:300
-#, fuzzy
 msgid "Deep Pumping"
-msgstr "Weiterziehen"
+msgstr ""
 
 #: data/alien/techs.ruleset:306
 msgid ""
@@ -32162,9 +32200,8 @@ msgid ""
 msgstr ""
 
 #: data/alien/techs.ruleset:320
-#, fuzzy
 msgid "Dual Government"
-msgstr "Regierungsformen"
+msgstr ""
 
 #: data/alien/techs.ruleset:326
 msgid "Government should consider both Humans and Native aliens."
@@ -32177,18 +32214,16 @@ msgid ""
 msgstr ""
 
 #: data/alien/techs.ruleset:340
-#, fuzzy
 msgid "Faction Government"
-msgstr "_Regierung ändern"
+msgstr ""
 
 #: data/alien/techs.ruleset:346
 msgid "Familiar government types adjusted to local environment."
 msgstr ""
 
 #: data/alien/techs.ruleset:349
-#, fuzzy
 msgid "Faction Politics"
-msgstr "Startpositionen für Nationen"
+msgstr ""
 
 #: data/alien/techs.ruleset:355
 msgid ""
@@ -32198,9 +32233,8 @@ msgid ""
 msgstr ""
 
 #: data/alien/techs.ruleset:361
-#, fuzzy
 msgid "Food Regeneration"
-msgstr "Kältetechnik"
+msgstr ""
 
 #: data/alien/techs.ruleset:368
 #, no-c-format
@@ -32234,9 +32268,8 @@ msgid ""
 msgstr ""
 
 #: data/alien/techs.ruleset:394
-#, fuzzy
 msgid "Global Knowledge"
-msgstr "Globale Beobachter"
+msgstr ""
 
 #: data/alien/techs.ruleset:400
 msgid ""
@@ -32275,9 +32308,8 @@ msgid ""
 msgstr ""
 
 #: data/alien/techs.ruleset:445
-#, fuzzy
 msgid "Manufacturing"
-msgstr "Seefahrt"
+msgstr ""
 
 #: data/alien/techs.ruleset:451
 msgid ""
@@ -32298,9 +32330,8 @@ msgid ""
 msgstr ""
 
 #: data/alien/techs.ruleset:467
-#, fuzzy
 msgid "Mental Powers"
-msgstr "Atomkraft"
+msgstr ""
 
 #: data/alien/techs.ruleset:473
 msgid ""
@@ -32324,9 +32355,8 @@ msgid ""
 msgstr ""
 
 #: data/alien/techs.ruleset:488
-#, fuzzy
 msgid "Modified Spitter"
-msgstr "veränderte "
+msgstr ""
 
 #: data/alien/techs.ruleset:494
 msgid ""
@@ -32335,9 +32365,8 @@ msgid ""
 msgstr ""
 
 #: data/alien/techs.ruleset:498
-#, fuzzy
 msgid "Mood Manipulation"
-msgstr "Bevölkerung"
+msgstr ""
 
 #: data/alien/techs.ruleset:504
 msgid "People are happy if they believe that they are happy."
@@ -32354,9 +32383,8 @@ msgid ""
 msgstr ""
 
 #: data/alien/techs.ruleset:517
-#, fuzzy
 msgid "New Frontier"
-msgstr "Neue Abstimmung"
+msgstr ""
 
 #: data/alien/techs.ruleset:524
 #, no-c-format
@@ -32368,18 +32396,16 @@ msgid ""
 msgstr ""
 
 #: data/alien/techs.ruleset:529
-#, fuzzy
 msgid "Ocean Cities"
-msgstr "Keine Städte"
+msgstr ""
 
 #: data/alien/techs.ruleset:535
 msgid "Cities on ocean. Why not?"
 msgstr ""
 
 #: data/alien/techs.ruleset:538
-#, fuzzy
 msgid "Organic Structures"
-msgstr "Raumschiffkörper"
+msgstr ""
 
 #: data/alien/techs.ruleset:544
 msgid ""
@@ -32401,9 +32427,8 @@ msgid ""
 msgstr ""
 
 #: data/alien/techs.ruleset:559
-#, fuzzy
 msgid "Personal Contact"
-msgstr "Erster Kontakt"
+msgstr ""
 
 #: data/alien/techs.ruleset:565
 #, no-c-format
@@ -32441,9 +32466,8 @@ msgid ""
 msgstr ""
 
 #: data/alien/techs.ruleset:594
-#, fuzzy
 msgid "Regeneration"
-msgstr "Kältetechnik"
+msgstr ""
 
 #: data/alien/techs.ruleset:600
 msgid ""
@@ -32452,9 +32476,8 @@ msgid ""
 msgstr ""
 
 #: data/alien/techs.ruleset:604
-#, fuzzy
 msgid "Research Methods"
-msgstr "Forschungstempo"
+msgstr ""
 
 #: data/alien/techs.ruleset:611
 #, no-c-format
@@ -32490,9 +32513,8 @@ msgid ""
 msgstr ""
 
 #: data/alien/techs.ruleset:639
-#, fuzzy
 msgid "Specialist Training"
-msgstr "Spezialisten: "
+msgstr ""
 
 #: data/alien/techs.ruleset:645
 msgid ""
@@ -32503,9 +32525,8 @@ msgid ""
 msgstr ""
 
 #: data/alien/techs.ruleset:650
-#, fuzzy
 msgid "Spitter Control"
-msgstr "Bedienungselemente"
+msgstr ""
 
 #: data/alien/techs.ruleset:656
 msgid ""
@@ -32513,9 +32534,8 @@ msgid ""
 msgstr ""
 
 #: data/alien/techs.ruleset:660
-#, fuzzy
 msgid "Stealth Module"
-msgstr "Tarnkappenbomber"
+msgstr ""
 
 #: data/alien/techs.ruleset:666
 msgid ""
@@ -32548,9 +32568,8 @@ msgid ""
 msgstr ""
 
 #: data/alien/techs.ruleset:692
-#, fuzzy
 msgid "Supermodule"
-msgstr "Raumschiffmodule"
+msgstr ""
 
 #: data/alien/techs.ruleset:698
 msgid "Supermodule combines lesser modules in one extremely efficient pack."
@@ -32570,9 +32589,8 @@ msgid ""
 msgstr ""
 
 #: data/alien/techs.ruleset:714
-#, fuzzy
 msgid "Teleportation"
-msgstr "Die Firma"
+msgstr ""
 
 #: data/alien/techs.ruleset:720
 msgid ""
