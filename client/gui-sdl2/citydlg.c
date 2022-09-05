@@ -2098,8 +2098,8 @@ static void redraw_happiness_city_dialog(const struct widget *pCityWindow,
 
       if (j != 0) {
         create_line(pCityWindow->dst->surface,
-                dest.x, dest.y, dest.x + adj_size(176), dest.y,
-                get_theme_color(COLOR_THEME_CITYDLG_FRAME));
+                    dest.x, dest.y, dest.x + adj_size(176), dest.y,
+                    get_theme_color(COLOR_THEME_CITYDLG_FRAME));
         dest.y += adj_size(5);
       }
 
@@ -2173,113 +2173,56 @@ static void redraw_happiness_city_dialog(const struct widget *pCityWindow,
                    pIcons->pBIG_Luxury->h) / 2;
         alphablit(pIcons->pBIG_Luxury, NULL, pCityWindow->dst->surface, &dest, 255);
         dest.y = count;
-     }
+      }
 
-      if (j == 2) { /* improvements effects */
-	pSurf = NULL;
+      if (j == 2) { /* Improvements effects */
+	int w = -1;
 	count = 0;
 
         get_city_bonus_effects(sources, pCity, NULL, EFT_MAKE_CONTENT);
 
         effect_list_iterate(sources, psource) {
+          requirement_vector_iterate(&(psource->reqs), preq) {
+            if (preq->source.kind == VUT_IMPROVEMENT) {
+              pTmp = get_building_surface(preq->source.value.building);
+              pTmp = zoomSurface(pTmp, DEFAULT_ZOOM * ((float)18 / pTmp->w),
+                                 DEFAULT_ZOOM * ((float)18 / pTmp->w), 1);
 
-          pTmp = get_building_surface(get_building_for_effect(psource->type));
-          pTmp = zoomSurface(pTmp, DEFAULT_ZOOM * ((float)18 / pTmp->w), DEFAULT_ZOOM * ((float)18 / pTmp->w), 1);
+              count += (pTmp->h + 1);
 
-	  count += (pTmp->h + 1);
+              if (w < 0) {
+                w = pTmp->w;
+              }
 
-          if (!pSurf) {
-	    pSurf = pTmp;
-	  } else {
-            FREESURFACE(pTmp);
-          }
-
+              FREESURFACE(pTmp);
+            }
+          } requirement_vector_iterate_end;
         } effect_list_iterate_end;
 
-	dest.x = pCityWindow->size.x + adj_size(187) - pSurf->w - adj_size(2);
-	i = dest.y;
-	dest.y += (pIcons->pMale_Happy->h - count) / 2;
+        if (w >= 0) {
+          dest.x = pCityWindow->size.x + adj_size(187) - w - adj_size(2);
+          i = dest.y;
+          dest.y += (pIcons->pMale_Happy->h - count) / 2;
 
-        FREESURFACE(pSurf);
+          effect_list_iterate(sources, psource) {
+            requirement_vector_iterate(&(psource->reqs), preq) {
+              if (preq->source.kind == VUT_IMPROVEMENT) {
+                pTmp = get_building_surface(preq->source.value.building);
+                pTmp = zoomSurface(pTmp, DEFAULT_ZOOM * ((float)18 / pTmp->w),
+                                   DEFAULT_ZOOM * ((float)18 / pTmp->w), 1);
 
-        effect_list_iterate(sources, psource) {
-          pTmp = get_building_surface(get_building_for_effect(psource->type));
-          pTmp = zoomSurface(pTmp, DEFAULT_ZOOM * ((float)18 / pTmp->w), DEFAULT_ZOOM * ((float)18 / pTmp->w), 1);
+                alphablit(pTmp, NULL, pCityWindow->dst->surface, &dest, 255);
+                dest.y += (pTmp->h + 1);
 
-          alphablit(pTmp, NULL, pCityWindow->dst->surface, &dest, 255);
-          dest.y += (pTmp->h + 1);
+                FREESURFACE(pTmp);
+              }
+            } requirement_vector_iterate_end;
+          } effect_list_iterate_end;
 
-          FREESURFACE(pTmp);
-        } effect_list_iterate_end;
+          dest.y = i;
+        }
 
         effect_list_clear(sources);
-
-	dest.y = i;
-
-        /* TODO: check if code replacement above is correct */
-#if 0
-	if (city_has_building(pCity, improvement_by_number(B_TEMPLE))) {
-	  pTmp1 =
-	    zoomSurface(GET_SURF(improvement_by_number(B_TEMPLE)->sprite),
-			0.5, 0.5, 1);
-	  count += (pTmp1->h + 1);
-	  pSurf = pTmp1;
-	} else {
-	  pTmp1 = NULL;
-	}
-
-	if (city_has_building(pCity, improvement_by_number(B_COLOSSEUM))) {
-	  pTmp2 =
-	    zoomSurface(GET_SURF(improvement_by_number(B_COLOSSEUM)->sprite),
-			0.5, 0.5, 1);
-	  count += (pTmp2->h + 1);
-	  if (!pSurf) {
-	    pSurf = pTmp2;
-	  }
-	} else {
-	  pTmp2 = NULL;
-	}
-
-	if (city_has_building(pCity, improvement_by_number(B_CATHEDRAL))
-            || city_affected_by_wonder(pCity, B_MICHELANGELO)) {
-	  pTmp3 =
-	    zoomSurface(GET_SURF(improvement_by_number(B_CATHEDRAL)->sprite),
-                        0.5, 0.5, 1);
-	  count += (pTmp3->h + 1);
-	  if (!pSurf) {
-	    pSurf = pTmp3;
-	  }
-	} else {
-	  pTmp3 = NULL;
-	}
-
-
-	dest.x = pCityWindow->size.x + adj_size(212) - pSurf->w - adj_size(2);
-	i = dest.y;
-	dest.y += (pIcons->pMale_Happy->h - count) / 2;
-
-
-        if (pTmp1) { /* Temple */
-          alphablit(pTmp1, NULL, pCityWindow->dst->surface, &dest, 255);
-          dest.y += (pTmp1->h + 1);
-        }
-
-        if (pTmp2) { /* Colosseum */
-          alphablit(pTmp2, NULL, pCityWindow->dst->surface, &dest, 255);
-          dest.y += (pTmp2->h + 1);
-        }
-
-        if (pTmp3) { /* Cathedral */
-          alphablit(pTmp3, NULL, pCityWindow->dst->surface, &dest, 255);
-          /*dest.y += (pTmp3->h + 1); */
-        }
-
-
-	FREESURFACE(pTmp1);
-	FREESURFACE(pTmp2);
-	FREESURFACE(pTmp3);
-	dest.y = i;
-#endif /* 0 */
       }
 
       if (j == 3) { /* police effect */
@@ -2291,23 +2234,27 @@ static void redraw_happiness_city_dialog(const struct widget *pCityWindow,
         dest.y = i;
       }
 
-      if (j == 4) { /* wonders effect */
+      if (j == 4) { /* Wonders effect */
+        int w = -1;
 	count = 0;
 
         get_city_bonus_effects(sources, pCity, NULL, EFT_MAKE_HAPPY);
         effect_list_iterate(sources, psource) {
+          requirement_vector_iterate(&(psource->reqs), preq) {
+            if (preq->source.kind == VUT_IMPROVEMENT) {
+              pTmp = get_building_surface(preq->source.value.building);
+              pTmp = zoomSurface(pTmp, DEFAULT_ZOOM * ((float)18 / pTmp->w),
+                                 DEFAULT_ZOOM * ((float)18 / pTmp->w), 1);
 
-          pTmp = get_building_surface(get_building_for_effect(psource->type));
-          pTmp = zoomSurface(pTmp, DEFAULT_ZOOM * ((float)18 / pTmp->w), DEFAULT_ZOOM * ((float)18 / pTmp->w), 1);
+              count += (pTmp->h + 1);
 
-	  count += (pTmp->h + 1);
+              if (w < 0) {
+                w = pTmp->w;
+              }
 
-          if (!pSurf) {
-	    pSurf = pTmp;
-	  } else {
-            FREESURFACE(pTmp);
-          }
-
+              FREESURFACE(pTmp);
+            }
+          } requirement_vector_iterate_end;
         } effect_list_iterate_end;
 
         effect_list_clear(sources);
@@ -2315,17 +2262,20 @@ static void redraw_happiness_city_dialog(const struct widget *pCityWindow,
         get_city_bonus_effects(sources, pCity, NULL, EFT_FORCE_CONTENT);
 
         effect_list_iterate(sources, psource) {
+          requirement_vector_iterate(&(psource->reqs), preq) {
+            if (preq->source.kind == VUT_IMPROVEMENT) {
+              pTmp = get_building_surface(preq->source.value.building);
+              pTmp = zoomSurface(pTmp, DEFAULT_ZOOM * ((float)18 / pTmp->w),
+                                 DEFAULT_ZOOM * ((float)18 / pTmp->w), 1);
+              count += (pTmp->h + 1);
 
-          pTmp = get_building_surface(get_building_for_effect(psource->type));
-          pTmp = zoomSurface(pTmp, DEFAULT_ZOOM * ((float)18 / pTmp->w), DEFAULT_ZOOM * ((float)18 / pTmp->w), 1);
-	  count += (pTmp->h + 1);
+              if (w < 0) {
+                w = pTmp->w;
+              }
 
-          if (!pSurf) {
-	    pSurf = pTmp;
-	  } else {
-            FREESURFACE(pTmp);
-          }
-
+              FREESURFACE(pTmp);
+            }
+          } requirement_vector_iterate_end;
         } effect_list_iterate_end;
 
         effect_list_clear(sources);
@@ -2333,141 +2283,89 @@ static void redraw_happiness_city_dialog(const struct widget *pCityWindow,
         get_city_bonus_effects(sources, pCity, NULL, EFT_NO_UNHAPPY);
 
         effect_list_iterate(sources, psource) {
-          pTmp = get_building_surface(get_building_for_effect(psource->type));
-          pTmp = zoomSurface(pTmp, DEFAULT_ZOOM * ((float)18 / pTmp->w), DEFAULT_ZOOM * ((float)18 / pTmp->w), 1);
+          requirement_vector_iterate(&(psource->reqs), preq) {
+            if (preq->source.kind == VUT_IMPROVEMENT) {
+              pTmp = get_building_surface(preq->source.value.building);
+              pTmp = zoomSurface(pTmp, DEFAULT_ZOOM * ((float)18 / pTmp->w),
+                                 DEFAULT_ZOOM * ((float)18 / pTmp->w), 1);
 
-          count += (pTmp->h + 1);
+              count += (pTmp->h + 1);
 
-          FREESURFACE(pTmp);
+              if (w < 0) {
+                w = pTmp->w;
+              }
+
+              FREESURFACE(pTmp);
+            }
+          } requirement_vector_iterate_end;
         } effect_list_iterate_end;
 
         effect_list_clear(sources);
 
-	dest.x = pCityWindow->size.x + adj_size(187) - pSurf->w - adj_size(2);
-	i = dest.y;
-	dest.y += (pIcons->pMale_Happy->h - count) / 2;
+        if (w >= 0) {
+          dest.x = pCityWindow->size.x + adj_size(187) - w - adj_size(2);
+          i = dest.y;
+          dest.y += (pIcons->pMale_Happy->h - count) / 2;
 
-        FREESURFACE(pSurf);
+          get_city_bonus_effects(sources, pCity, NULL, EFT_MAKE_HAPPY);
 
-        get_city_bonus_effects(sources, pCity, NULL, EFT_MAKE_HAPPY);
+          effect_list_iterate(sources, psource) {
+            requirement_vector_iterate(&(psource->reqs), preq) {
+              if (preq->source.kind == VUT_IMPROVEMENT) {
+                pTmp = get_building_surface(preq->source.value.building);
+                pTmp = zoomSurface(pTmp, DEFAULT_ZOOM * ((float)18 / pTmp->w),
+                                   DEFAULT_ZOOM * ((float)18 / pTmp->w), 1);
 
-        effect_list_iterate(sources, psource) {
-          pTmp = get_building_surface(get_building_for_effect(psource->type));
-          pTmp = zoomSurface(pTmp, DEFAULT_ZOOM * ((float)18 / pTmp->w), DEFAULT_ZOOM * ((float)18 / pTmp->w), 1);
-
-          alphablit(pTmp, NULL, pCityWindow->dst->surface, &dest, 255);
-          dest.y += (pTmp->h + 1);
+                alphablit(pTmp, NULL, pCityWindow->dst->surface, &dest, 255);
+                dest.y += (pTmp->h + 1);
  
-          FREESURFACE(pTmp);
-        } effect_list_iterate_end;
-        effect_list_clear(sources);
+                FREESURFACE(pTmp);
+              }
+            } requirement_vector_iterate_end;
+          } effect_list_iterate_end;
 
-        get_city_bonus_effects(sources, pCity, NULL, EFT_FORCE_CONTENT);
+          effect_list_clear(sources);
 
-        effect_list_iterate(sources, psource) {
-          pTmp = get_building_surface(get_building_for_effect(psource->type));
-          pTmp = zoomSurface(pTmp, DEFAULT_ZOOM * ((float)18 / pTmp->w), DEFAULT_ZOOM * ((float)18 / pTmp->w), 1);
+          get_city_bonus_effects(sources, pCity, NULL, EFT_FORCE_CONTENT);
 
-          alphablit(pTmp, NULL, pCityWindow->dst->surface, &dest, 255);
-          dest.y += (pTmp->h + 1);
+          effect_list_iterate(sources, psource) {
+            requirement_vector_iterate(&(psource->reqs), preq) {
+              if (preq->source.kind == VUT_IMPROVEMENT) {
+                pTmp = get_building_surface(preq->source.value.building);
+                pTmp = zoomSurface(pTmp, DEFAULT_ZOOM * ((float)18 / pTmp->w),
+                                   DEFAULT_ZOOM * ((float)18 / pTmp->w), 1);
 
-          FREESURFACE(pTmp);
-        } effect_list_iterate_end;
-        effect_list_clear(sources);
+                alphablit(pTmp, NULL, pCityWindow->dst->surface, &dest, 255);
+                dest.y += (pTmp->h + 1);
 
-        get_city_bonus_effects(sources, pCity, NULL, EFT_NO_UNHAPPY);
+                FREESURFACE(pTmp);
+              }
+            } requirement_vector_iterate_end;
+          } effect_list_iterate_end;
 
-        effect_list_iterate(sources, psource) {
-          pTmp = get_building_surface(get_building_for_effect(psource->type));
-          pTmp = zoomSurface(pTmp, DEFAULT_ZOOM * ((float)18 / pTmp->w), DEFAULT_ZOOM * ((float)18 / pTmp->w), 1);
+          effect_list_clear(sources);
 
-          alphablit(pTmp, NULL, pCityWindow->dst->surface, &dest, 255);
-          dest.y += (pTmp->h + 1);
+          get_city_bonus_effects(sources, pCity, NULL, EFT_NO_UNHAPPY);
 
-          FREESURFACE(pTmp);
-        } effect_list_iterate_end;
-        effect_list_clear(sources);
+          effect_list_iterate(sources, psource) {
+            requirement_vector_iterate(&(psource->reqs), preq) {
+              if (preq->source.kind == VUT_IMPROVEMENT) {
+                pTmp = get_building_surface(preq->source.value.building);
+                pTmp = zoomSurface(pTmp, DEFAULT_ZOOM * ((float)18 / pTmp->w),
+                                   DEFAULT_ZOOM * ((float)18 / pTmp->w), 1);
 
-        dest.y = i;
+                alphablit(pTmp, NULL, pCityWindow->dst->surface, &dest, 255);
+                dest.y += (pTmp->h + 1);
 
-        /* TODO: check if code replacement above is correct */        
-#if 0	  
-	if (city_affected_by_wonder(pCity, B_CURE)) {
-	  pTmp1 =
-	    zoomSurface(GET_SURF(improvement_by_number(B_CURE)->sprite),
-			0.5, 0.5, 1);
-	  count += (pTmp1->h + 1);
-	  pSurf = pTmp1;
-	} else {
-	  pTmp1 = NULL;
-	}
+                FREESURFACE(pTmp);
+              }
+            } requirement_vector_iterate_end;
+          } effect_list_iterate_end;
 
-	if (city_affected_by_wonder(pCity, B_SHAKESPEARE)) {
-	  pTmp2 = zoomSurface(
-	  	GET_SURF(improvement_by_number(B_SHAKESPEARE)->sprite),
-			      0.5, 0.5, 1);
-	  count += (pTmp2->h + 1);
-	  if (!pSurf) {
-	    pSurf = pTmp2;
-	  }
-	} else {
-	  pTmp2 = NULL;
-	}
+          effect_list_clear(sources);
 
-	if (city_affected_by_wonder(pCity, B_BACH)) {
-	  pTmp3 =
-	    zoomSurface(GET_SURF(improvement_by_number(B_BACH)->sprite),
-			0.5, 0.5, 1);
-	  count += (pTmp3->h + 1);
-	  if (!pSurf) {
-	    pSurf = pTmp3;
-	  }
-	} else {
-	  pTmp3 = NULL;
-	}
-
-	if (city_affected_by_wonder(pCity, B_HANGING)) {
-	  pTmp4 =
-	    zoomSurface(GET_SURF(improvement_by_number(B_HANGING)->sprite),
-			0.5, 0.5, 1);
-	  count += (pTmp4->h + 1);
-	  if (!pSurf) {
-	    pSurf = pTmp4;
-	  }
-	} else {
-	  pTmp4 = NULL;
-	}
-
-        dest.x = pCityWindow->size.x + adj_size(187) - pSurf->w - adj_size(2);
-        i = dest.y;
-        dest.y += (pIcons->pMale_Happy->h - count) / 2;
-
-        if (pTmp1) { /* Cure of Cancer */
-          alphablit(pTmp1, NULL, pCityWindow->dst->surface, &dest, 255);
-          dest.y += (pTmp1->h + 1);
+          dest.y = i;
         }
-
-        if (pTmp2) { /* Shakespeare Theater */
-          alphablit(pTmp2, NULL, pCityWindow->dst->surface, &dest, 255);
-          dest.y += (pTmp2->h + 1);
-        }
-
-        if (pTmp3) { /* J. S. Bach ... */
-          alphablit(pTmp3, NULL, pCityWindow->dst->surface, &dest, 255);
-          dest.y += (pTmp3->h + 1);
-        }
-
-        if (pTmp4) { /* Hanging Gardens */
-          alphablit(pTmp4, NULL, pCityWindow->dst->surface, &dest, 255);
-          /*dest.y += (pTmp4->h + 1); */
-        }
-
-	FREESURFACE(pTmp1);
-	FREESURFACE(pTmp2);
-	FREESURFACE(pTmp3);
-	FREESURFACE(pTmp4);
-	dest.y = i;
-#endif /* 0 */
       }
 
       dest.x = pCityWindow->size.x + adj_size(10);
