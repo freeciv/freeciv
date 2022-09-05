@@ -523,6 +523,29 @@ static void popup_add_menu(GtkMenuShell *menu, gpointer data)
 #endif /* MENUS_GTK3 */
 
 /************************************************************************//**
+  Open help dialog for the cid pointed by iterator.
+****************************************************************************/
+static void wl_help_from_iter(GtkTreeModel *model, GtkTreeIter *it)
+{
+  gint id;
+  struct universal target;
+
+  gtk_tree_model_get(model, it, 0, &id, -1);
+  target = cid_decode(id);
+
+  if (VUT_UTYPE == target.kind) {
+    popup_help_dialog_typed(utype_name_translation(target.value.utype),
+                            HELP_UNIT);
+  } else if (is_great_wonder(target.value.building)) {
+    popup_help_dialog_typed(improvement_name_translation(target.value.building),
+                            HELP_WONDER);
+  } else {
+    popup_help_dialog_typed(improvement_name_translation(target.value.building),
+                            HELP_IMPROVEMENT);
+  }
+}
+
+/************************************************************************//**
   Help button clicked
 ****************************************************************************/
 static void help_callback(GtkWidget *w, gpointer data)
@@ -536,22 +559,7 @@ static void help_callback(GtkWidget *w, gpointer data)
   selection = ptr->src_selection;
 
   if (gtk_tree_selection_get_selected(selection, &model, &it)) {
-    gint id;
-    struct universal target;
-
-    gtk_tree_model_get(model, &it, 0, &id, -1);
-    target = cid_decode(id);
-
-    if (VUT_UTYPE == target.kind) {
-      popup_help_dialog_typed(utype_name_translation(target.value.utype),
-                              HELP_UNIT);
-    } else if (is_great_wonder(target.value.building)) {
-      popup_help_dialog_typed(improvement_name_translation(target.value.building),
-                              HELP_WONDER);
-    } else {
-      popup_help_dialog_typed(improvement_name_translation(target.value.building),
-                              HELP_IMPROVEMENT);
-    }
+    wl_help_from_iter(model, &it);
   } else {
     popup_help_dialog_string(HELP_WORKLIST_EDITOR_ITEM);
   }
@@ -1067,6 +1075,32 @@ static void populate_view(GtkTreeView *view, struct city **ppcity,
 }
 
 /************************************************************************//**
+  Open help dialog for the worklist item.
+****************************************************************************/
+static gboolean wl_right_button_up(GtkGestureClick *gesture,
+                                   int n_press,
+                                   double x, double y)
+{
+  GtkEventController *controller = GTK_EVENT_CONTROLLER(gesture);
+  GtkWidget *w = gtk_event_controller_get_widget(controller);
+  GtkTreeModel *model = gtk_tree_view_get_model(GTK_TREE_VIEW(w));
+  GtkTreePath *path;
+  int bx, by;
+
+  gtk_tree_view_convert_widget_to_bin_window_coords(GTK_TREE_VIEW(w), x, y, &bx, &by);
+
+  if (gtk_tree_view_get_path_at_pos(GTK_TREE_VIEW(w), bx, by, &path, NULL, NULL, NULL)) {
+    GtkTreeIter iter;
+
+    if (gtk_tree_model_get_iter(model, &iter, path)) {
+      wl_help_from_iter(model, &iter);
+    }
+  }
+
+  return TRUE;
+}
+
+/************************************************************************//**
   Worklist editor shell.
 ****************************************************************************/
 GtkWidget *create_worklist(void)
@@ -1082,6 +1116,8 @@ GtkWidget *create_worklist(void)
   GtkListStore *src_store, *dst_store;
   struct worklist_data *ptr;
   int editor_row = 0;
+  GtkEventController *controller;
+  GtkGesture *gesture;
 
   ptr = fc_malloc(sizeof(*ptr));
 
@@ -1123,6 +1159,13 @@ GtkWidget *create_worklist(void)
   gtk_size_group_add_widget(group, src_view);
   gtk_widget_set_name(src_view, "small_font");
   gtk_tree_view_set_tooltip_column(GTK_TREE_VIEW(src_view), 1);
+
+  gesture = gtk_gesture_click_new();
+  gtk_gesture_single_set_button(GTK_GESTURE_SINGLE(gesture), 3);
+  controller = GTK_EVENT_CONTROLLER(gesture);
+  g_signal_connect(controller, "pressed",
+                   G_CALLBACK(wl_right_button_up), NULL);
+  gtk_widget_add_controller(src_view, controller);
 
   populate_view(GTK_TREE_VIEW(src_view), &ptr->pcity, &ptr->src_col);
   gtk_scrolled_window_set_child(GTK_SCROLLED_WINDOW(sw), src_view);
@@ -1215,6 +1258,13 @@ GtkWidget *create_worklist(void)
   gtk_size_group_add_widget(group, dst_view);
   gtk_widget_set_name(dst_view, "small_font");
   gtk_tree_view_set_tooltip_column(GTK_TREE_VIEW(dst_view), 1);
+
+  gesture = gtk_gesture_click_new();
+  gtk_gesture_single_set_button(GTK_GESTURE_SINGLE(gesture), 3);
+  controller = GTK_EVENT_CONTROLLER(gesture);
+  g_signal_connect(controller, "pressed",
+                   G_CALLBACK(wl_right_button_up), NULL);
+  gtk_widget_add_controller(dst_view, controller);
 
   populate_view(GTK_TREE_VIEW(dst_view), &ptr->pcity, &ptr->dst_col);
   gtk_scrolled_window_set_child(GTK_SCROLLED_WINDOW(sw), dst_view);
