@@ -48039,7 +48039,7 @@ msgstr "Исследование нескольких технологий"
 #: server/settings.c:2049
 msgid ""
 "Allows switching to any technology without wasting old research. Bulbs are "
-"never transfered to new technology. Techpenalty options are inefective after "
+"never transferred to new technology. Techpenalty options are inefective after "
 "enabling that option."
 msgstr ""
 "Позволяет переключаться на исследование любой другой технологии без потери "

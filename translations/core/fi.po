@@ -48141,7 +48141,7 @@ msgstr "Salli useiden teknologioiden tutkiminen rinnakkain"
 #: server/settings.c:2052
 msgid ""
 "Allows switching to any technology without wasting old research. Bulbs are "
-"never transfered to new technology. Techpenalty options are inefective after "
+"never transferred to new technology. Techpenalty options are inefective after "
 "enabling that option."
 msgstr ""
 "Sallii vaihtaa toiseen teknologiaan hukkaamatta edellisen eteen tehtyä "

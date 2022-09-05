@@ -152,7 +152,7 @@ Syntax:
       possible. The array size in the "[]" can be specified plain as a
       term. In this case all elements will be transmitted. If this is
       not-desired you can specify the amount of elements to be
-      transfered by given the number. So the extended format is
+      transferred by given the number. So the extended format is
       "[<full-array-size>:<elements-to-transfer>]". elements-to-transfer
       is relative to the packet.
 
