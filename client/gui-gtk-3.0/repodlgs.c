@@ -483,7 +483,7 @@ static void science_report_update(struct science_report *preport)
 }
 
 /************************************************************************//**
-  Actived item in the reachable techs combo box.
+  Activated item in the reachable techs combo box.
 ****************************************************************************/
 static void science_report_current_callback(GtkComboBox *combo,
                                             gpointer data)
@@ -519,7 +519,7 @@ static void science_report_show_all_callback(GtkComboBox *combo,
 }
 
 /************************************************************************//**
-  Actived item in the reachable goals combo box.
+  Activated item in the reachable goals combo box.
 ****************************************************************************/
 static void science_report_goal_callback(GtkComboBox *combo, gpointer data)
 {
