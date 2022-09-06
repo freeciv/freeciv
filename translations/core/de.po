@@ -83,11 +83,11 @@ msgstr ""
 "X-Generator: Poedit 3.0.1\n"
 
 #: ai/default/aicity.c:967
-#, fuzzy, c-format
+#, c-format
 msgid "%s is selling %s for %d."
 msgid_plural "%s is selling %s for %d."
-msgstr[0] "%s verkauft %s (veraltet) für %d Goldstück."
-msgstr[1] "%s verkauft %s (veraltet) für %d Goldstück."
+msgstr[0] "%s verkauft %s zum Preis von %d."
+msgstr[1] "%s verkauft %s zum Preis von %d."
 
 #: ai/default/daidiplomacy.c:360
 #, c-format
@@ -182,10 +182,9 @@ msgstr ""
 "mir am Leben gelassen zu werden oder du wirst vernichtet."
 
 #: ai/default/daidiplomacy.c:1290
-#, fuzzy, c-format
-#| msgid "*%s (AI)* Space will never be yours. "
+#, c-format
 msgid "*%s (AI)* Space will never be yours."
-msgstr "*%s (KI)* Der Weltraum wird Dir niemals gehören. "
+msgstr "*%s (KI)* Der Weltraum wird Dir niemals gehören."
 
 #: ai/default/daidiplomacy.c:1296
 #, c-format
@@ -726,10 +725,9 @@ msgid "Plugin '%s' isn't available. Available are %s"
 msgstr "Plugin '%s' steht nicht zur Verfügung. Möglich sind %s"
 
 #: client/audio.c:224
-#, fuzzy, c-format
-#| msgid "Couldn't find soundset \"%s\" trying \"%s\"."
+#, c-format
 msgid "Couldn't find audioset \"%s\", trying \"%s\"."
-msgstr "Soundset '%s' nicht gefunden, versuche '%s'."
+msgstr "Audioset '%s' nicht gefunden, versuche '%s'."
 
 #: client/audio.c:286
 msgid "No real audio plugin present."
@@ -978,10 +976,8 @@ msgstr "%s"
 #. TRANS: Client cannot explain some aspect of city
 #. * output. Should never happen.
 #: client/citydlg_common.c:830
-#, fuzzy
-#| msgid "(unknown)"
 msgid "?city_sum:(unknown)"
-msgstr "(unbekannt)"
+msgstr "?city_sum:(unbekannt)"
 
 #. TRANS: format string for a row of the city output sum that adds up
 #. * to "Total surplus"
@@ -995,10 +991,8 @@ msgid "?city_surplus:Citizens"
 msgstr ""
 
 #: client/citydlg_common.c:881
-#, fuzzy
-#| msgid "%+4d : Taxed from trade\n"
 msgid "?city_surplus:Taxed from trade"
-msgstr "%+4d : Handelssteuern\n"
+msgstr "?city_surplus:Handelssteuern"
 
 #. TRANS: Trade partner unknown to client
 #. TRANS: unrecognized command
@@ -1007,25 +1001,23 @@ msgid "(unknown)"
 msgstr "(unbekannt)"
 
 #: client/citydlg_common.c:897
-#, fuzzy, c-format
+#, c-format
 msgid "?city_surplus:Trading %s with %s"
-msgstr "%+4d : Handelsroute mit %s\n"
+msgstr "?city_surplus:Handle %s mit %s"
 
 #: client/citydlg_common.c:902
-#, fuzzy, c-format
+#, c-format
 msgid "?city_surplus:Trading %s to %s"
-msgstr "%+4d : Handelsroute mit %s\n"
+msgstr "?city_surplus:Handel mit %s an %s"
 
 #: client/citydlg_common.c:907
-#, fuzzy, c-format
+#, c-format
 msgid "?city_surplus:Trading %s from %s"
-msgstr "%+4d : Handelssteuern\n"
+msgstr "?city_surplus:Handel mit %s von %s"
 
 #: client/citydlg_common.c:917
-#, fuzzy
-#| msgid "%+4d : Building tithes\n"
 msgid "?city_surplus:Building tithes"
-msgstr "%+4d : Gebäudeabgaben\n"
+msgstr "?city_surplus:Gebäudeabgaben"
 
 #. TRANS: percentage city output bonus/loss from
 #. * some source; preserve leading space
@@ -1053,24 +1045,22 @@ msgstr ""
 #: client/citydlg_common.c:991
 #, c-format
 msgid "?city_surplus:Waste%s"
-msgstr ""
+msgstr "?city_surplus:Verschwendung%s"
 
 #. TRANS: %s is normally empty, but becomes '?' if client is
 #. * uncertain about its accounting (should never happen)
 #: client/citydlg_common.c:996
 #, c-format
 msgid "?city_surplus:Corruption%s"
-msgstr ""
+msgstr "?city_surplus:Korruption%s"
 
 #: client/citydlg_common.c:1004
-#, fuzzy
-#| msgid "?city_state:Disorder"
 msgid "?city_surplus:Disorder"
-msgstr "?city_state:in Aufruhr"
+msgstr "?city_surplus:in Aufruhr"
 
 #: client/citydlg_common.c:1008
 msgid "?city_surplus:Used"
-msgstr ""
+msgstr "?city_surplus:verwendet"
 
 #: client/citydlg_common.c:1012
 #, c-format
@@ -1090,22 +1080,16 @@ msgstr ""
 
 # ? MG: Sollten diese "durch" nicht "wegen" sein?
 #: client/citydlg_common.c:1040
-#, fuzzy
-#| msgid "%+5.1f : Risk from overcrowding\n"
 msgid "?city_plague:Risk from overcrowding"
-msgstr "%+5.1f : Risiko durch Überbevölkerung\n"
+msgstr "?city_plague:Risiko durch Überbevölkerung"
 
 #: client/citydlg_common.c:1042
-#, fuzzy
-#| msgid "?city_state:Disorder"
 msgid "?city_plague:Risk from trade"
-msgstr "?city_state:in Aufruhr"
+msgstr "?city_plague:Risiko von Handel"
 
 #: client/citydlg_common.c:1044
-#, fuzzy
-#| msgid "%+5.1f : Risk from pollution\n"
 msgid "?city_plague:Risk from pollution"
-msgstr "%+5.1f : Risiko durch Umweltverschmutzung\n"
+msgstr "?city_plague:Risiko durch Umweltverschmutzung"
 
 #: client/citydlg_common.c:1072
 #, c-format
@@ -1135,22 +1119,16 @@ msgid "?city_pollution:%+4.0f : %s"
 msgstr ""
 
 #: client/citydlg_common.c:1106
-#, fuzzy
-#| msgid "%+4d : Pollution from shields\n"
 msgid "?city_pollution:Pollution from shields"
-msgstr "%+4d : Umweltverschmutzung durch Produktion\n"
+msgstr "?city_pollution:Umweltverschmutzung durch Produktion"
 
 #: client/citydlg_common.c:1107
-#, fuzzy
-#| msgid "%+4d : Pollution from citizens\n"
 msgid "?city_pollution:Pollution from citizens"
-msgstr "%+4d : Umweltverschmutzung durch Bevölkerung\n"
+msgstr "?city_pollution:Umweltverschmutzung durch Bevölkerung"
 
 #: client/citydlg_common.c:1108
-#, fuzzy
-#| msgid "%+4d : Pollution modifier\n"
 msgid "?city_pollution:Pollution modifier"
-msgstr "%+4d : Faktor Umweltverschmutzung\n"
+msgstr "?city_pollution:Faktor Umweltverschmutzung"
 
 #: client/citydlg_common.c:1110
 #, c-format
@@ -1455,9 +1433,8 @@ msgid "Economy: Science"
 msgstr "Wirtschaft: Forschung"
 
 #: client/cityrepdata.c:764
-#, fuzzy
 msgid "?Culture:Clt"
-msgstr "Stadt gründen"
+msgstr ""
 
 #: client/cityrepdata.c:764
 msgid "Culture (History+Performance)"
@@ -1480,9 +1457,8 @@ msgid "Culture: Performance"
 msgstr "Kultur: Leistung"
 
 #: client/cityrepdata.c:771
-#, fuzzy
 msgid "?Continent:C"
-msgstr "Kontinent"
+msgstr ""
 
 #: client/cityrepdata.c:771
 msgid "Continent number"
@@ -1594,16 +1570,13 @@ msgstr "Verbindungsdialog überspringen"
 #. TRANS: "debug" is exactly what user must type, do not translate.
 #: client/client_main.c:391 client/client_main.c:397 server/civserver.c:370
 #: server/civserver.c:375
-#, fuzzy
 msgid "debug LEVEL"
-msgstr "debug NUM"
+msgstr "debug LEVEL"
 
 #: client/client_main.c:392 tools/civmanual.c:777 tools/mpcmdline.c:78
 #: server/civserver.c:371
-#, fuzzy
-#| msgid "Set debug log level (%d to %d, or %d:file1,min,max:...)"
 msgid "Set debug log level (one of f,e,n,v,d, or d:file1,min,max:...)"
-msgstr "Setze Debugloglevel (%d bis %d oder %d:Datei1,min,max:...)"
+msgstr "Setze Debugloglevel (eines aus f,e,n,v,d, oder d:Datei1,min,max:...)"
 
 #: client/client_main.c:398 tools/civmanual.c:783 tools/mpcmdline.c:84
 #: server/civserver.c:376
@@ -1615,7 +1588,7 @@ msgstr "Setze Debugloglevel (%d bis %d)"
 #: client/client_main.c:404 tools/civmanual.c:789 tools/ruleup.c:68
 #: server/civserver.c:381
 msgid "Fatal [SIGNAL]"
-msgstr "FATAL [SIGNAL]"
+msgstr "Fatal [SIGNAL]"
 
 #: client/client_main.c:405 tools/civmanual.c:790 tools/ruleup.c:69
 #: server/civserver.c:382
@@ -1716,14 +1689,12 @@ msgstr "Sound-Tags aus DATEI laden"
 
 #. TRANS: "music" is exactly what user must type, do not translate.
 #: client/client_main.c:452
-#, fuzzy
 msgid "music FILE"
-msgstr "file DATEI"
+msgstr "music DATEI"
 
 #: client/client_main.c:453
-#, fuzzy
 msgid "Read music tags from FILE"
-msgstr "Sound-Tags aus DATEI laden"
+msgstr "Musik aus DATEI laden"
 
 #. TRANS: "tiles" is exactly what user must type, do not translate.
 #: client/client_main.c:456
@@ -2910,9 +2881,8 @@ msgstr "Letzte aktive Seite"
 
 #: client/gui-gtk-2.0/citydlg.c:1194 client/gui-gtk-3.0/citydlg.c:1406
 #: client/gui-gtk-3.22/citydlg.c:1444 client/gui-sdl2/citydlg.c:973
-#, fuzzy
 msgid "New citizens produce"
-msgstr "Neue Bürger werden"
+msgstr "Neue Bürger produzieren"
 
 #: client/gui-gtk-2.0/citydlg.c:1214 client/gui-gtk-3.0/citydlg.c:1429
 #: client/gui-gtk-3.22/citydlg.c:1467
@@ -4346,9 +4316,8 @@ msgstr "_Städte:"
 #. TRANS: current value of policy in force
 #: client/gui-gtk-2.0/gamedlgs.c:281 client/gui-gtk-3.0/gamedlgs.c:281
 #: client/gui-gtk-3.22/gamedlgs.c:281
-#, fuzzy
 msgid "?multiplier:Now"
-msgstr "Mehrspieler-Regelsatz"
+msgstr ""
 
 #: client/gui-gtk-2.0/gamedlgs.c:315 client/gui-gtk-3.0/gamedlgs.c:314
 #: client/gui-gtk-3.22/gamedlgs.c:314 client/gui-qt/ratesdlg.cpp:143
@@ -5383,9 +5352,8 @@ msgstr "_Basen"
 
 #: client/gui-gtk-2.0/menu.c:1573 client/gui-gtk-3.0/menu.c:395
 #: client/gui-gtk-3.22/menu.c:394
-#, fuzzy
 msgid "_Resources"
-msgstr "Ressourcen"
+msgstr "_Ressourcen"
 
 #: client/gui-gtk-2.0/menu.c:1575 client/gui-gtk-3.0/menu.c:397
 #: client/gui-gtk-3.22/menu.c:396
@@ -5723,7 +5691,7 @@ msgstr "_Forschung"
 #: client/gui-gtk-2.0/menu.c:1825 client/gui-gtk-3.0/menu.c:431
 #: client/gui-gtk-3.22/menu.c:430
 msgid "_Policies..."
-msgstr ""
+msgstr "_Politik..."
 
 #: client/gui-gtk-2.0/menu.c:1828 client/gui-gtk-2.0/plrdlg.c:363
 #: client/gui-gtk-3.0/menu.c:434 client/gui-gtk-3.0/plrdlg.c:380
@@ -5733,9 +5701,8 @@ msgstr "_Raumschiff"
 
 #: client/gui-gtk-2.0/menu.c:1830 client/gui-gtk-3.0/menu.c:436
 #: client/gui-gtk-3.22/menu.c:435
-#, fuzzy
 msgid "_Achievements"
-msgstr "_Stadterweiterungen:"
+msgstr "_Errungenschaften"
 
 #. TRANS: Connect with some road type (Road/Railroad)
 #: client/gui-gtk-2.0/menu.c:2138 client/gui-gtk-2.0/menu.c:2145
@@ -6957,10 +6924,9 @@ msgstr "Ziel der Einheit ändern"
 
 #: client/gui-gtk-3.0/citydlg.c:663 client/gui-gtk-3.22/citydlg.c:664
 #: client/gui-qt/citydlg.cpp:2985
-#, fuzzy, c-format
-#| msgid "Population:      %5d"
+#, c-format
 msgid "Population: %d, Specialists: %d"
-msgstr "Bevölkerung:     %5d"
+msgstr "Bevölkerung: %d, Spezialisten: %d"
 
 #: client/gui-gtk-3.0/citydlg.c:744 client/gui-gtk-3.22/citydlg.c:745
 #: client/gui-qt/citydlg.h:53
@@ -6990,16 +6956,14 @@ msgstr "Anfrage löschen"
 #. TRANS: Activity name, verb in English
 #: client/gui-gtk-3.0/citydlg.c:2944 client/gui-gtk-3.22/citydlg.c:2977
 #: client/gui-qt/citydlg.cpp:1323 common/unit.c:530
-#, fuzzy
 msgid "?act:Mine"
-msgstr "Bergwerk"
+msgstr "?act:Fördern"
 
 #: client/gui-gtk-3.0/citydlg.c:2952 client/gui-gtk-3.22/citydlg.c:2985
 #: client/gui-qt/citydlg.cpp:1320 client/gui-qt/citydlg.cpp:1321
 #: common/unit.c:532
-#, fuzzy
 msgid "Irrigate"
-msgstr "_Bewässern"
+msgstr "Bewässern"
 
 #: client/gui-gtk-3.0/citydlg.c:2963 client/gui-gtk-3.22/citydlg.c:2996
 #: client/gui-qt/citydlg.cpp:1325 client/gui-qt/shortcuts.cpp:134
@@ -7040,7 +7004,6 @@ msgstr ""
 " \n"
 
 #: client/gui-gtk-3.0/gui_main.c:264
-#, fuzzy
 msgid "-g, --gtk-warnings\tAllow Gtk+ to print warnings to console\n"
 msgstr ""
 "-g, --gtk-warnings\tErlaubt Gtk+, Warnungen auf der Konsole auszugeben\n"
@@ -7050,10 +7013,9 @@ msgid "-r, --resolution WIDTHxHEIGHT\tAssume given resolution screen\n"
 msgstr ""
 
 #: client/gui-gtk-3.0/gui_main.c:305 client/gui-gtk-3.22/gui_main.c:288
-#, fuzzy, c-format
-#| msgid "Illegal path for %s"
+#, c-format
 msgid "Illegal video mode '%s'\n"
-msgstr "Ungültiger Pfad für %s"
+msgstr "Ungültiger Video-Modus '%s'\n"
 
 #: client/gui-gtk-3.0/gui_main.c:1645 client/gui-gtk-3.22/gui_main.c:1678
 msgid "Migrating options from gtk2 to gtk3 client"
@@ -7080,10 +7042,8 @@ msgstr ""
 #: client/gui-gtk-3.22/repodlgs.c:1165 client/gui-gtk-3.22/repodlgs.c:1694
 #: client/gui-gtk-3.22/spaceshipdlg.c:230 client/gui-gtk-3.22/unitselect.c:281
 #: client/gui-gtk-3.22/wldlg.c:228 client/gui-gtk-3.22/wldlg.c:404
-#, fuzzy
-#| msgid "Close"
 msgid "_Close"
-msgstr "Schließen"
+msgstr "S_chließen"
 
 #: client/gui-gtk-3.0/inteldlg.c:632 client/gui-gtk-3.22/inteldlg.c:631
 #, c-format
@@ -7092,13 +7052,11 @@ msgstr "Wunder des %s Reiches"
 
 #: client/gui-gtk-3.0/inteldlg.c:652 client/gui-gtk-3.22/inteldlg.c:650
 #: client/gui-qt/plrdlg.cpp:642
-#, fuzzy
 msgid "(unknown city)"
 msgstr "(Stadt unbekannt)"
 
 #: client/gui-gtk-3.0/inteldlg.c:658 client/gui-gtk-3.22/inteldlg.c:656
 #: client/gui-qt/plrdlg.cpp:648
-#, fuzzy
 msgid "(lost)"
 msgstr "(verloren)"
 
@@ -7107,9 +7065,8 @@ msgid "Unit Selection Dialog"
 msgstr "Dialog zur Einheitenauswahl"
 
 #: client/gui-gtk-3.0/menu.c:465 client/gui-gtk-3.22/menu.c:464
-#, fuzzy
 msgid "Go to a_nd..."
-msgstr "Hingehen und Schließen"
+msgstr "Hingehen u_nd..."
 
 #: client/gui-gtk-3.0/pages.c:937 client/gui-gtk-3.22/pages.c:938
 msgid "New Pass_word:"
@@ -7187,10 +7144,8 @@ msgid "_Cancel"
 msgstr "_Abbrechen"
 
 #: client/gui-gtk-3.22/chatline.c:1135 client/gui-gtk-3.22/optiondlg.c:329
-#, fuzzy
-#| msgid "Clear"
 msgid "C_lear"
-msgstr "Leeren"
+msgstr "_Leeren"
 
 #: client/gui-gtk-3.22/chatline.c:1136 client/gui-gtk-3.22/dialogs.c:867
 #: client/gui-gtk-3.22/editgui.c:1010 client/gui-gtk-3.22/gamedlgs.c:319
@@ -7665,9 +7620,8 @@ msgid "Keep moving"
 msgstr "Weiterziehen"
 
 #: client/gui-qt/dialogs.cpp:2061
-#, fuzzy
 msgid "&Wait"
-msgstr "Warten"
+msgstr "&Warten"
 
 #: client/gui-qt/dialogs.cpp:2065
 msgid "Do nothing"
@@ -8456,7 +8410,6 @@ msgstr "Frage"
 
 # Bestechen? Bestich?
 #: client/gui-qt/menu.cpp:1456 common/events.c:118 common/events.c:130
-#, fuzzy
 msgid "Bribe"
 msgstr "Bestechung"
 
@@ -8537,9 +8490,8 @@ msgid "Achievements"
 msgstr "Errungenschaften"
 
 #: client/gui-qt/menu.cpp:1613
-#, fuzzy
 msgid "Endgame report"
-msgstr "Wirtschaftsbericht"
+msgstr "Bericht zum Endgame"
 
 #. TRANS: Transform terrain to specific type
 #: client/gui-qt/menu.cpp:2156 client/gui-qt/menu.cpp:2200
@@ -8594,7 +8546,6 @@ msgid "Selection will cancel current assignments!"
 msgstr "Die Auswahl hebt aktuelle Zuweisungen auf!"
 
 #: client/gui-qt/menu.cpp:3680
-#, fuzzy
 msgid "Confirm Disruptive Selection"
 msgstr "Disruptive Auswahl bestätigen"
 
@@ -8612,14 +8563,10 @@ msgid "Apply"
 msgstr "Anwenden"
 
 #: client/gui-qt/optiondlg.cpp:804
-#, fuzzy
-#| msgid "Select Nation"
 msgid "Select Font"
-msgstr "Nation wählen"
+msgstr "Schrift wählen"
 
 #: client/gui-qt/optiondlg.cpp:850
-#, fuzzy
-#| msgid "Select a color"
 msgid "Select Color"
 msgstr "Farbe wählen"
 
@@ -8775,10 +8722,8 @@ msgid "<b>Techs known by %1:</b>"
 msgstr "<b>%1 bekannte Technologien:</b>"
 
 #: client/gui-qt/plrdlg.cpp:645
-#, fuzzy
-#| msgid "Obsolete"
 msgid " (obsolete)"
-msgstr "Veraltet"
+msgstr " (veraltet)"
 
 #: client/gui-qt/plrdlg.cpp:717
 msgid "Meet"
@@ -8797,8 +8742,6 @@ msgid "Toggle AI Mode"
 msgstr "KI-Modus umschalten"
 
 #: client/gui-qt/plrdlg.cpp:725
-#, fuzzy
-#| msgid "Show wonders"
 msgid "Show Wonders"
 msgstr "Weltwunder zeigen"
 
@@ -8847,7 +8790,6 @@ msgid "Popup tile info"
 msgstr ""
 
 #: client/gui-qt/shortcuts.cpp:85
-#, fuzzy
 msgid "Wakeup sentries"
 msgstr "Wachtposten aufwecken"
 
@@ -8856,9 +8798,8 @@ msgid "Show link to tile"
 msgstr "Link zum Feld anzeigen"
 
 #: client/gui-qt/shortcuts.cpp:89
-#, fuzzy
 msgid "Paste production"
-msgstr "Produktion ändern"
+msgstr "Produktion einfügen"
 
 #: client/gui-qt/shortcuts.cpp:91
 msgid "Copy production"
@@ -8898,7 +8839,6 @@ msgstr "Arbeiter automatisieren"
 
 # Paradroppen? Fallschirmspringen?
 #: client/gui-qt/shortcuts.cpp:148
-#, fuzzy
 msgid "Paradrop/clean pollution"
 msgstr "Paradrop/Umweltverschmutzung beseitigen"
 
@@ -9673,15 +9613,15 @@ msgstr "Unable to create Sprite (Surface) of size %d x %d %d Bits in format %d"
 
 # CK: TECHNICAL
 #: client/gui-sdl2/graphics.c:522
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to initialize SDL2 library: %s"
-msgstr "Unable to initialize SDL library: %s"
+msgstr "Unable to initialize SDL2 library: %s"
 
 # CK: TECHNICAL
 #: client/gui-sdl2/graphics.c:530
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to initialize SDL2_ttf library: %s"
-msgstr "Unable to initialize SDL_ttf library: %s"
+msgstr "Unable to initialize SDL2_ttf library: %s"
 
 #: client/gui-sdl2/graphics.c:555
 msgid "SDL2 Client for Freeciv"
@@ -9906,9 +9846,9 @@ msgstr "Verstecke Logausgabe"
 
 # MG: TECHNICAL
 #: client/gui-sdl2/mapview.c:161
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to add events to SDL2 event buffer: %s"
-msgstr "Failed to read the metaserver data from %s."
+msgstr "Failed to add events to SDL2 event buffer: %s."
 
 #: client/gui-sdl2/mapview.c:329
 msgid "?gov:None"
@@ -10671,73 +10611,63 @@ msgstr "Dies ist %s, %s-Klient."
 
 #. TRANS: First %s is a government name.
 #: client/helpdata.c:607
-#, fuzzy, c-format
-#| msgid "?gov:* Allows %s (with %s but no %s)."
+#, c-format
 msgid "?gov:Allows %s (with %s but no %s)."
-msgstr "• Ermöglicht %s (mit %s, aber ohne %s)."
+msgstr "?gov:Ermöglicht %s (mit %s, aber ohne %s)."
 
 #. TRANS: First %s is a government name.
 #: client/helpdata.c:609
-#, fuzzy, c-format
-#| msgid "?gov:* Allows %s (with %s)."
+#, c-format
 msgid "?gov:Allows %s (with %s)."
-msgstr "• Ermöglicht %s (mit %s)."
+msgstr "?gov:Ermöglicht %s (mit %s)."
 
 #. TRANS: First %s is a government name.
 #: client/helpdata.c:611
-#, fuzzy, c-format
-#| msgid "?gov:* Allows %s (absent %s)."
+#, c-format
 msgid "?gov:Allows %s (absent %s)."
-msgstr "• Ermöglicht %s (Konflikt mit %s)."
+msgstr "?gov:Ermöglicht %s (Konflikt mit %s)."
 
 #. TRANS: %s is a government name.
 #: client/helpdata.c:613
-#, fuzzy, c-format
-#| msgid "?gov:* Allows %s."
+#, c-format
 msgid "?gov:Allows %s."
-msgstr "• Ermöglicht %s."
+msgstr "?gov:Ermöglicht %s."
 
 #. TRANS: %s is a government name.
 #: client/helpdata.c:615
-#, fuzzy, c-format
-#| msgid "?gov:* Prevents %s."
+#, c-format
 msgid "?gov:Prevents %s."
-msgstr "• Verhindert %s."
+msgstr "?gov:Verhindert %s."
 
 #. TRANS: First %s is a building name.
 #: client/helpdata.c:626
-#, fuzzy, c-format
-#| msgid "?improvement:* Allows %s (with %s but no %s)."
+#, c-format
 msgid "?improvement:Allows %s (with %s but no %s)."
-msgstr "• Ermöglicht %s (mit %s, aber ohne %s)."
+msgstr "?improvement:Ermöglicht %s (mit %s, aber ohne %s)."
 
 #. TRANS: First %s is a building name.
 #: client/helpdata.c:628
-#, fuzzy, c-format
-#| msgid "?improvement:* Allows %s (with %s)."
+#, c-format
 msgid "?improvement:Allows %s (with %s)."
-msgstr "• Ermöglicht %s (mit %s)."
+msgstr "?improvement:Ermöglicht %s (mit %s)."
 
 #. TRANS: First %s is a building name.
 #: client/helpdata.c:630
-#, fuzzy, c-format
-#| msgid "?improvement:* Allows %s (absent %s)."
+#, c-format
 msgid "?improvement:Allows %s (absent %s)."
-msgstr "• Ermöglicht %s (Konflikt mit %s)."
+msgstr "?improvement:Ermöglicht %s (Konflikt mit %s)."
 
 #. TRANS: %s is a building name.
 #: client/helpdata.c:632
-#, fuzzy, c-format
-#| msgid "?improvement:* Allows %s."
+#, c-format
 msgid "?improvement:Allows %s."
-msgstr "• Ermöglicht %s."
+msgstr "?improvement:Ermöglicht %s."
 
 #. TRANS: %s is a building name.
 #: client/helpdata.c:634
-#, fuzzy, c-format
-#| msgid "?improvement:* Prevents %s."
+#, c-format
 msgid "?improvement:Prevents %s."
-msgstr "• Blockiert %s."
+msgstr "?improvement:Blockiert %s."
 
 #: client/helpdata.c:930
 msgid "Current ruleset contains no summary."
@@ -10791,10 +10721,9 @@ msgstr "• Ermöglicht allen Spielern mit Kenntnis von %s den Bau von %s.\n"
 
 #. TRANS: 'Allows all players to build nuclear units.'
 #: client/helpdata.c:1331
-#, fuzzy, c-format
-#| msgid "* Allows all players with knowledge of %s to build %s units.\n"
+#, c-format
 msgid "* Allows all players to build %s units.\n"
-msgstr "• Ermöglicht allen Spielern mit Kenntnis von %s den Bau von %s.\n"
+msgstr "• Ermöglicht allen Spielern den Bau von %s Einheiten.\n"
 
 #. TRANS: bullet point; note trailing space
 #: client/helpdata.c:1338 client/helpdata.c:1968 client/helpdata.c:2969
@@ -11030,9 +10959,8 @@ msgstr "  ‒ Kann Einheiten auf nicht-nativen Feldern angreifen.\n"
 
 #. TRANS: indented unit class property, preserve leading spaces
 #: client/helpdata.c:1806
-#, fuzzy
 msgid "?bullet:  * "
-msgstr "• "
+msgstr "?bullet:  • "
 
 #. TRANS: multipied by ... or-list of unit types
 #: client/helpdata.c:1839
@@ -11354,10 +11282,10 @@ msgid ""
 msgid_plural ""
 "* Unit has to be next to safe coast, in a city or a base after %d turns.\n"
 msgstr[0] ""
-"* Einheit muss nach %d Runde an einer sicheren Küste, in einer Stadt oder "
+"• Einheit muss nach %d Runde an einer sicheren Küste, in einer Stadt oder "
 "einem Stützpunkt sein.\n"
 msgstr[1] ""
-"* Die Einheit muss nach %d Runden an einer sicheren Küste, in einer Stadt "
+"• Die Einheit muss nach %d Runden an einer sicheren Küste, in einer Stadt "
 "oder einem Stützpunkt sein.\n"
 
 #: client/helpdata.c:2375
@@ -11369,7 +11297,7 @@ msgstr[1] "• Einheit muss nach %d Runden in einer Stadt oder Basis sein.\n"
 
 #. TRANS: %s is a list of unit types separated by "or"
 #: client/helpdata.c:2388
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "* Unit has to be next to safe coast, in a city, a base, or on a %s after %d "
 "turn.\n"
@@ -11377,11 +11305,11 @@ msgid_plural ""
 "* Unit has to be next to safe coast, in a city, a base, or on a %s after %d "
 "turns.\n"
 msgstr[0] ""
-"* Die Einheit muss nach %d Runde an einer sicheren Küste, in einer Stadt, "
-"einem Stützpunkt oder auf einem %s sein.\n"
+"• Die Einheit muss nach %2$d Runde an einer sicheren Küste, in einer Stadt, "
+"einem Stützpunkt oder auf einem %1$s sein.\n"
 msgstr[1] ""
-"* Die Einheit muss nach %d Runden an einer sicheren Küste, in einer Stadt, "
-"einem Stützpunkt oder auf einem %s sein.\n"
+"• Die Einheit muss nach %2$d Runden an einer sicheren Küste, in einer Stadt, "
+"einem Stützpunkt oder auf einem %1$s sein.\n"
 
 #. TRANS: %s is a list of unit types separated by "or"
 #: client/helpdata.c:2397
@@ -11430,7 +11358,7 @@ msgstr "* wird mit %s%s gemacht.\n"
 #. TRANS: said about an action. %s is a unit type
 #. * name.
 #: client/helpdata.c:2484
-#, fuzzy, c-format
+#, c-format
 msgid "  * uses up the %s.\n"
 msgstr "  * verbraucht der/die/das %s.\n"
 
@@ -11538,11 +11466,11 @@ msgstr ""
 
 #. TRANS: the %d is initial population.
 #: client/helpdata.c:2676
-#, fuzzy, c-format
+#, c-format
 msgid "  * initial population: %d.\n"
 msgid_plural "  * initial population: %d.\n"
-msgstr[0] "• Kann neue Städte gründen (initiale Größe: %d).\n"
-msgstr[1] "• Kann neue Städte gründen (initiale Größe: %d).\n"
+msgstr[0] "  • initiale Bevölkerung: %d.\n"
+msgstr[1] "  • initiale Bevölkerung: %d.\n"
 
 #. TRANS: the %d is population.
 #: client/helpdata.c:2684
@@ -11554,27 +11482,26 @@ msgstr[1] ""
 
 #. TRANS: the %d is the population added.
 #: client/helpdata.c:2690
-#, fuzzy, c-format
+#, c-format
 msgid "  * adds %d population.\n"
 msgid_plural "  * adds %d population.\n"
-msgstr[0] "• Führt zur Einbuße von %d Bürger bei Fertigstellung.\n"
-msgstr[1] "• Führt zur Einbuße von %d Bürgern bei Fertigstellung.\n"
+msgstr[0] "  • fügt %d Bürger hinzu.\n"
+msgstr[1] "  • fügt %d Bürger hinzu.\n"
 
 #. TRANS: %d is bombard rate.
 #: client/helpdata.c:2698
-#, fuzzy, c-format
+#, c-format
 msgid "  * %d per turn.\n"
-msgstr "Nahrung: %d pro Runde"
+msgstr "  • %d pro Runde.\n"
 
 #. TRANS: talking about bombard
 #: client/helpdata.c:2702
-#, fuzzy
 msgid ""
 "  * These attacks will only damage (never kill) defenders, but damage all "
 "defenders on a tile, and have no risk for the attacker.\n"
 msgstr ""
-"• Kann Bombardierungen durchführen (%d pro Runde). Diese Angriffe können den "
-"Verteidiger lediglich beschädigen und nicht töten, dafür sind sind ohne "
+"  • Diese Angriffe beschädigen Verteidiger lediglich (töten sie aber nie), "
+"dafür beschädigen sie alle Verteidiger auf einem Feld und sind ohne "
 "Risiko für den Angreifer.\n"
 
 #. TRANS: %s is a unit type.
@@ -11591,10 +11518,8 @@ msgid ""
 msgstr ""
 
 #: client/helpdata.c:2725
-#, fuzzy
-#| msgid "* Making an attack ends this unit's turn.\n"
 msgid "  * ends this unit's turn.\n"
-msgstr "• Ein Angriff beendet die Runde für diese Einheit.\n"
+msgstr "  • Beendet die Runde für diese Einheit.\n"
 
 #. TRANS: %s is an action that can block another.
 #: client/helpdata.c:2747
@@ -11909,13 +11834,12 @@ msgstr ""
 
 #. TRANS: indented; preserve leading spaces
 #: client/helpdata.c:3672
-#, fuzzy
 msgid ""
 "  * Can be conquered by such units if at war with the nation that currently "
 "owns it.\n"
 msgstr ""
-"  ‒ Kann von solchen Einheiten gefangen genommen werden, wenn Sie mit der "
-"Nation, die sie besitzt, im Krieg sind.\n"
+"  ‒ Kann von solchen Einheiten erobert werden, wenn Sie mit der Nation im "
+"Krieg sind, die der aktuelle Besitzer ist.\n"
 
 #. TRANS: indented; preserve leading spaces
 #: client/helpdata.c:3679
@@ -12673,34 +12597,28 @@ msgid "Soundset"
 msgstr "Klangset"
 
 #: client/options.c:1869
-#, fuzzy
-#| msgid ""
-#| "This is the soundset that will be used.  Changing this is the same as "
-#| "using the -S command-line parameter."
 msgid ""
 "This is the soundset that will be used. Changing this is the same as using "
 "the -S command-line parameter. Use modpack installer utility to install "
 "additional soundsets."
 msgstr ""
 "Das verwendete Klangset. Kann auch über den Kommandozeilenparameter -S "
-"gesetzt werden."
+"gesetzt werden. Verwenden Sie den Modpack-Installer um weitere Klangsets "
+"zu installieren."
 
 #: client/options.c:1875 tools/modinst.h:49
 msgid "Musicset"
 msgstr "Musik-Set"
 
 #: client/options.c:1876
-#, fuzzy
-#| msgid ""
-#| "This is the musicset that will be used.  Changing this is the same as "
-#| "using the -m command-line parameter."
 msgid ""
 "This is the musicset that will be used. Changing this is the same as using "
 "the -m command-line parameter. Use modpack installer utility to install "
 "additional musicsets."
 msgstr ""
-"Dies ist das Musik-Set, der verwendet wird.  Das Ändern dieses Parameters "
-"entspricht der Verwendung des Befehlszeilenparameters -m."
+"Dies ist das Musik-Set, der verwendet wird. Das Ändern dieses Parameters "
+"entspricht der Verwendung des Befehlszeilenparameters -m. Verwenden Sie "
+"den Modpack-Installer um weitere Musik-Sets zu installieren."
 
 #: client/options.c:1882
 msgid "Sound plugin"
@@ -12736,52 +12654,54 @@ msgstr "Hiermit kann das aktive Thema geändert werden."
 
 #: client/options.c:1926
 msgid "Tileset (Square)"
-msgstr "Feldergrafik (tileset)"
+msgstr "Feldergrafik (quadratisch)"
 
 #: client/options.c:1927
-#, fuzzy
-#| msgid ""
-#| "Select the tileset used with Square based maps. This may change the "
-#| "currently active tileset, if you are playing on such a map, in which case "
-#| "this is the same as using the -t command-line parameter."
 msgid ""
 "Select the tileset used with Square based maps. This may change the "
 "currently active tileset, if you are playing on such a map, in which case "
 "this is the same as using the -t command-line parameter. Use modpack "
 "installer utility to install additional tilesets."
 msgstr ""
-"Mit dieser Option können Sie den für die Felder verwendeten Feldergrafiken "
-"(Tileset) festlegen. Das ist dasselbe wie der Kommandozeilenparameter -t."
+"Mit dieser Option können Sie den Feldgrafiksatz festlegen, der für Karten "
+"mit quadratischen Feldern verwendet wird. Das kann den aktuell verwendeten "
+"Feldgrafiksatz ändern, wenn Sie auf so einer Karte spielen. Das ist dasselbe "
+"wie der Kommandozeilenparameter -t. Verwenden Sie den Modpack-Installer um "
+"weitere Feldgrafiksätze zu installieren."
 
 #: client/options.c:1936
 msgid "Tileset (Hex)"
 msgstr "Feldergrafik (Hex)"
 
 #: client/options.c:1937
-#, fuzzy
 msgid ""
 "Select the tileset used with Hex maps. This may change the currently active "
 "tileset, if you are playing on such a map, in which case this is the same as "
 "using the -t command-line parameter. Use modpack installer utility to "
 "install additional tilesets."
 msgstr ""
-"Mit dieser Option können sie den für die Felder verwendeten Grafiksatz "
-"(Tileset) festlegen. Das ist dasselbe wie der Kommandozeilenparameter -t."
+"Mit dieser Option können Sie den Feldgrafiksatz festlegen, der für Karten "
+"mit Hex-Feldern verwendet wird. Das kann den aktuell verwendeten "
+"Feldgrafiksatz ändern, wenn Sie auf so einer Karte spielen. Das ist dasselbe "
+"wie der Kommandozeilenparameter -t. Verwenden Sie den Modpack-Installer um "
+"weitere Feldgrafiksätze zu installieren."
 
 #: client/options.c:1946
 msgid "Tileset (Iso-Hex)"
 msgstr "Feldergrafik (Iso-Hex)"
 
 #: client/options.c:1947
-#, fuzzy
 msgid ""
 "Select the tileset used with Iso-Hex maps. This may change the currently "
 "active tileset, if you are playing on such a map, in which case this is the "
 "same as using the -t command-line parameter.Use modpack installer utility to "
 "install additional tilesets."
 msgstr ""
-"Mit dieser Option können sie den für die Felder verwendeten Grafiksatz "
-"(Tileset) festlegen. Das ist dasselbe wie der Kommandozeilenparameter -t."
+"Mit dieser Option können Sie den Feldgrafiksatz festlegen, der für Karten "
+"mit Iso-Hex-Feldern verwendet wird. Das kann den aktuell verwendeten "
+"Feldgrafiksatz ändern, wenn Sie auf so einer Karte spielen. Das ist dasselbe "
+"wie der Kommandozeilenparameter -t. Verwenden Sie den Modpack-Installer um "
+"weitere Feldgrafiksätze zu installieren."
 
 #: client/options.c:1957
 msgid "Draw city outlines"
@@ -13503,13 +13423,12 @@ msgid "Autoaccept musicset suggestions"
 msgstr "Vorschläge zum Feldergrafik-Satz automatisch akzeptieren"
 
 #: client/options.c:2294
-#, fuzzy
 msgid ""
 "If this option is enabled, any musicset suggested by the ruleset is "
 "automatically used."
 msgstr ""
 "Wenn diese Option aktiv ist, wird jeder vom Regelwerk vorgeschlagene "
-"Soundsatz automatisch benutzt."
+"Musik-Satz automatisch benutzt."
 
 #: client/options.c:2299
 msgid "Background layer"
@@ -14040,9 +13959,6 @@ msgstr "Städtische Erzeugnisse"
 
 #: client/options.c:2583 client/options.c:2804 client/options.c:3025
 #: client/options.c:3171
-#, fuzzy
-#| msgid ""
-#| "This font is used to the display the city production names on the map."
 msgid "This font is used to display the city production on the map."
 msgstr ""
 "Diese Schriftart wird auf der Karte zur Anzeige der aktuellen Bauprojekte "
@@ -14311,9 +14227,9 @@ msgid "Welcome"
 msgstr "Willkommen"
 
 #: client/packhand.c:2078 client/tilespec.c:1384
-#, fuzzy, c-format
+#, c-format
 msgid "Map topology (%s) and tileset (%s) incompatible."
-msgstr "Modpack-Kontrolldatei ist inkompatibel."
+msgstr "Karten-Topologie (%s) und Feldgrafiksatz (%s) ist inkompatibel."
 
 #: client/packhand.c:2121
 msgid ""
@@ -15461,9 +15377,9 @@ msgstr "Couldn't find a supported gfx file extension for “%s”."
 # EH: Diese Fehlermeldung sollte mE nicht übersetzt werden.
 #. TRANS: "Overhead" or "Isometric"
 #: client/tilespec.c:1930
-#, fuzzy, c-format
+#, c-format
 msgid "Client does not support %s tilesets."
-msgstr "Client does not support isometric tilesets."
+msgstr "Client does not support %s tilesets."
 
 # CK: TECHNICAL
 #: client/tilespec.c:1932
