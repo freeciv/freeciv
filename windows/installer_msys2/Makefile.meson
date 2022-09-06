@@ -28,11 +28,20 @@ else
 error "Unsupported MSYSTEM environment"
 endif
 
-ICUVER=69
 MAGICKVER=7.Q16HDRI-10
 
 # msys2 has dlls in...
 DLLPATH_PREFIX=/$(ARCHDIR)/bin/
+
+ifeq ($(CI),yes)
+ICUVER=69
+FFIVER=7
+LIBJXL=
+else
+ICUVER=71
+FFIVER=8
+LIBJXL=libjxl.dll
+endif
 
 #
 # Make rules
@@ -112,7 +121,7 @@ COMMON_DLLS := \
 	libcairo-gobject-2.dll \
 	libfribidi-0.dll \
 	libpangowin32-1.0-0.dll \
-	libffi-7.dll \
+	libffi-${FFIVER}.dll \
 	libbz2-1.dll \
 	libbrotlidec.dll \
 	libbrotlicommon.dll \
@@ -217,7 +226,9 @@ install-env-gtk4: install-env-gtk4-fcmp
 SDL2_DLLS := \
 	SDL2_ttf.dll \
 	libSDL2_gfx-1-0-0.dll \
-	SDL2_image.dll
+	SDL2_image.dll \
+	${LIBJXL} \
+	libbrotlienc.dll
 
 install-env-sdl2: install-env-gtk4-fcmp
 	# add DLLs

@@ -26,7 +26,7 @@ using MSYS2 from https://www.msys2.org/
 1) Install MSYS2 following the documentation on their homepage
 
 1.1) Download
- https://repo.msys2.org/distrib/x86_64/msys2-x86_64-20220503.exe
+ https://repo.msys2.org/distrib/x86_64/msys2-x86_64-20220603.exe
  for win64 host
 
 1.2) Run it to install MSYS2 on build system
@@ -117,14 +117,17 @@ Current version is
 
 win64 host:
 -----------
-msys2-freeciv-win64-220529.7z, based on
-https://repo.msys2.org/distrib/x86_64/msys2-x86_64-20220503.exe
-with packages updated to 29-May-2022 level.
+msys2-freeciv-win64-220903.7z, based on
+https://repo.msys2.org/distrib/x86_64/msys2-x86_64-20220603.exe
+with packages updated to 03-Sep-2022 level.
 
-Most packages are included for both win32 and win64 targets. For each package
-listed below with <arch> in the name, actually two packages are installed;
-one with a name where <arch> is replaced by 'i686' and
-one where <arch> is replaced by 'x86_64'
+Most packages are included for all of win32, win64 and
+ucrt64 (win64, with minimum requirement of Windows 10) targets.
+For each package listed below with <arch> in the name, actually
+three packages are installed;
+one with a name where <arch> is replaced by 'i686',
+one where <arch> is replaced by 'x86_64', and
+one where <arch> is replaced by 'ucrt-x86_64'
 
 
 Following packages have been installed:
@@ -150,11 +153,11 @@ Following packages have been installed:
 - mingw-w64-<arch>-SDL2_ttf
 - mingw-w64-<arch>-SDL2_gfx
 - mingw-w64-<arch>-imagemagick
-- mingw-w64-<arch>-qt5
+- mingw-w64-i686-qt5, mingw-w64-x86_64-qt5
 - mingw-w64-<arch>-drmingw
 - mingw-w64-<arch>-meson
 - mingw-w64-<arch>-tolua
-- mingw-w64-x86_64-qt6-base
+- mingw-w64-x86_64-qt6-base, mingw-w64-ucrt-x86_64-qt6-base
 
 After all the packages were installed 'pacman -Scc' was run to completely
 empty the package cache for having smaller environment package.

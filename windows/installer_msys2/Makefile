@@ -41,7 +41,6 @@ else
 QT6_MOCCMD="$(MOCCMD)"
 endif
 
-ICUVER=69
 MAGICKVER=7.Q16HDRI-10
 
 INSTSUB=${ARCHDIR}
@@ -50,7 +49,13 @@ INSTSUB=${ARCHDIR}
 DLLPATH_PREFIX=/$(ARCHDIR)/bin/
 
 ifeq ($(CI),yes)
+ICUVER=69
+FFIVER=7
+LIBJXL=
 else
+ICUVER=71
+FFIVER=8
+LIBJXL=libjxl.dll
 endif
 
 #
@@ -64,7 +69,7 @@ all-win64: gtk3.22-installer sdl2-installer ruledit-installer qt5-installer qt6-
 
 all-win32: gtk3.22-installer sdl2-installer ruledit-installer-qt5 qt5-installer gtk4-installer
 
-all-win64-10: gtk3.22-installer sdl2-installer ruledit-installer qt5-installer qt6-installer gtk4-installer
+all-win64-10: gtk3.22-installer sdl2-installer ruledit-installer qt6-installer gtk4-installer
 
 gtk3.22-installer:
 	make GUI=gtk3.22 CLIENT=gtk3.22 FCMP=gtk3 EXTRA_CONFIG="--disable-ruledit $(EXTRA_CONFIG)" wrap-gtk3.22
@@ -258,7 +263,7 @@ COMMON_DLLS := \
 	libbz2-1.dll \
 	libcairo-2.dll \
 	libcairo-gobject-2.dll \
-	libffi-7.dll \
+	libffi-${FFIVER}.dll \
 	libfontconfig-1.dll \
 	libfreetype-6.dll \
 	$(LIBGCCDLL) \
@@ -374,7 +379,9 @@ SDL2_DLLS := \
 	libSDL2_gfx-1-0-0.dll \
 	SDL2_image.dll \
 	SDL2_ttf.dll \
-	libzstd.dll
+	libzstd.dll \
+	${LIBJXL} \
+	libbrotlienc.dll
 
 install-env-sdl2: install-env-gtk4-fcmp
 	# add DLLs
@@ -448,7 +455,7 @@ RULEDIT_QT5_DLLS := \
 	libbz2-1.dll \
 	libcairo-2.dll \
 	libcairo-gobject-2.dll \
-	libffi-7.dll \
+	libffi-${FFIVER}.dll \
 	libfontconfig-1.dll \
 	libfreetype-6.dll \
 	$(LIBGCCDLL) \
@@ -507,7 +514,7 @@ RULEDIT_QT6_DLLS := \
 	libbz2-1.dll \
 	libcairo-2.dll \
 	libcairo-gobject-2.dll \
-	libffi-7.dll \
+	libffi-${FFIVER}.dll \
 	libfontconfig-1.dll \
 	libfreetype-6.dll \
 	$(LIBGCCDLL) \
