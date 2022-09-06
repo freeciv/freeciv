@@ -940,7 +940,7 @@ static int optset_category_option_count(const struct option_set *poptset,
 }
 
 /************************************************************************//**
-  Initialize a option set page.
+  Initialize an option set page.
 ****************************************************************************/
 static void option_dialog_optset(struct option_dialog *pdialog,
                                  const struct option_set *poptset)
@@ -991,7 +991,7 @@ static void option_dialog_optset(struct option_dialog *pdialog,
 }
 
 /************************************************************************//**
-  Initialize a option set category page.
+  Initialize an option set category page.
 ****************************************************************************/
 static void option_dialog_optset_category(struct option_dialog *pdialog,
                                           int category)
