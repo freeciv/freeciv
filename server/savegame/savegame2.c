@@ -2928,12 +2928,16 @@ static void sg_load_player_main(struct loaddata *loading,
 
       ds->max_state = DS_WAR;
     }
+
+    /* FIXME: If either party is barbarian, we cannot enforce below check */
+#if 0
     if (ds->type == DS_WAR && ds->first_contact_turn <= 0) {
       sg_regr(03020000,
               "Player%d: War with player %d who has never been met. "
               "Reverted to No Contact state.", plrno, i);
       ds->type = DS_NO_CONTACT;
     }
+#endif
 
     ds->first_contact_turn =
       secfile_lookup_int_default(loading->file, 0,
