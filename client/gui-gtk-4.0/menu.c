@@ -88,18 +88,11 @@ static void menu_entry_set_visible(const char *key,
 #ifdef MENUS_GTK3
 static void menu_entry_set_active(const char *key,
                                   gboolean is_active);
-static void menu_entry_set_sensitive(const char *key,
-                                     gboolean is_sensitive);
 static void view_menu_update_sensitivity(void);
 #endif /* MENUS_GTK3 */
 
 enum menu_entry_grouping { MGROUP_SAFE, MGROUP_EDIT, MGROUP_PLAYING,
                            MGROUP_UNIT, MGROUP_PLAYER, MGROUP_ALL };
-
-#ifdef MENUS_GTK3
-static void menu_entry_group_set_sensitive(enum menu_entry_grouping group,
-                                           gboolean is_sensitive);
-#endif /* MENUS_GTK3 */
 
 static GMenu *gov_menu = NULL;
 static GMenu *unit_menu = NULL;
@@ -291,10 +284,16 @@ static void unit_return_callback(GtkMenuItem *item, gpointer data);
 static void unit_explore_callback(GSimpleAction *action,
                                   GVariant *parameter,
                                   gpointer data);
+static void unit_sentry_callback(GSimpleAction *action,
+                                 GVariant *parameter,
+                                 gpointer data);
+
+static void fortify_callback(GSimpleAction *action,
+                             GVariant *parameter,
+                             gpointer data);
 
 #ifdef MENUS_GTK3
 static void unit_patrol_callback(GtkMenuItem *item, gpointer data);
-static void unit_sentry_callback(GtkMenuItem *item, gpointer data);
 static void unit_unsentry_callback(GtkMenuItem *item, gpointer data);
 static void unit_load_callback(GtkMenuItem *item, gpointer data);
 static void unit_unload_callback(GtkMenuItem *item, gpointer data);
@@ -324,7 +323,6 @@ static void connect_irrigation_callback(GtkMenuItem *item, gpointer data);
 static void transform_terrain_callback(GtkMenuItem *item, gpointer data);
 static void clean_pollution_callback(GtkMenuItem *item, gpointer data);
 static void clean_fallout_callback(GtkMenuItem *item, gpointer data);
-static void fortify_callback(GtkMenuItem *item, gpointer data);
 static void build_fortress_callback(GtkMenuItem *item, gpointer data);
 static void build_airbase_callback(GtkMenuItem *item, gpointer data);
 static void do_pillage_callback(GtkMenuItem *item, gpointer data);
@@ -335,49 +333,54 @@ static struct menu_entry_info menu_entries[] =
 {
   /* Game menu */
   { "CLEAR_CHAT_LOGS", N_("_Clear Chat Log"),
-    "app.clear_chat", NULL, MGROUP_SAFE },
+    "clear_chat", NULL, MGROUP_SAFE },
   { "SAVE_CHAT_LOGS", N_("Save Chat _Log"),
-    "app.save_chat", NULL, MGROUP_SAFE, },
+    "save_chat", NULL, MGROUP_SAFE, },
   { "LOCAL_OPTIONS", N_("_Local Client"),
-    "app.local_options", NULL, MGROUP_SAFE },
+    "local_options", NULL, MGROUP_SAFE },
   { "MESSAGE_OPTIONS", N_("_Message"),
-    "app.message_options", NULL, MGROUP_SAFE },
+    "message_options", NULL, MGROUP_SAFE },
 
   { "LEAVE", N_("_Leave"),
-    "app.leave", NULL, MGROUP_SAFE },
+    "leave", NULL, MGROUP_SAFE },
   { "QUIT", N_("_Quit"),
-    "app.quit", "<ctrl>q", MGROUP_SAFE },
+    "quit", "<ctrl>q", MGROUP_SAFE },
 
   /* Unit menu */
   { "UNIT_EXPLORE", N_("Auto E_xplore"),
-    "app.explore", "x", MGROUP_UNIT },
+    "explore", "x", MGROUP_UNIT },
+  { "UNIT_SENTRY", N_("_Sentry"),
+    "sentry", "s", MGROUP_UNIT },
   { "UNIT_WAIT", N_("_Wait"),
-    "app.wait", "w", MGROUP_UNIT },
+    "wait", "w", MGROUP_UNIT },
   { "UNIT_DONE", N_("_Done"),
-    "app.done", "space", MGROUP_UNIT },
+    "done", "space", MGROUP_UNIT },
 
   /* Work menu */
   { "BUILD_CITY", N_("_Build City"),
-    "app.build_city", "b", MGROUP_UNIT },
+    "build_city", "b", MGROUP_UNIT },
   { "AUTO_SETTLER", N_("_Auto Settler"),
-    "app.auto_settle", "a", MGROUP_UNIT },
+    "auto_settle", "a", MGROUP_UNIT },
 
+  /* Combat menu */
+  { "FORTIFY", N_("Fortify"),
+    "fortify", "f", MGROUP_UNIT },
 
   /* Civilization */
 
   { "REPORT_UNITS", N_("_Units"),
-    "app.report_units", "F2", MGROUP_SAFE },
+    "report_units", "F2", MGROUP_SAFE },
   { "REPORT_NATIONS", N_("_Nations"),
-    "app.report_nations", "F3", MGROUP_SAFE },
+    "report_nations", "F3", MGROUP_SAFE },
   { "REPORT_CITIES", N_("_Cities"),
-    "app.report_cities", "F4", MGROUP_SAFE },
+    "report_cities", "F4", MGROUP_SAFE },
   { "REPORT_ECONOMY", N_("_Economy"),
-    "app.report_economy", "F5", MGROUP_PLAYER },
+    "report_economy", "F5", MGROUP_PLAYER },
   { "REPORT_RESEARCH", N_("_Research"),
-    "app.report_research", "F6", MGROUP_PLAYER },
+    "report_research", "F6", MGROUP_PLAYER },
 
   { "START_REVOLUTION", N_("_Revolution..."),
-    "app.revolution", "<shift><ctrl>r", MGROUP_PLAYING },
+    "revolution", "<shift><ctrl>r", MGROUP_PLAYING },
 
 #ifdef MENUS_GTK3
   { "MENU_GAME", N_("_Game"), 0, 0, NULL, MGROUP_SAFE },
@@ -585,8 +588,6 @@ static struct menu_entry_info menu_entries[] =
     G_CALLBACK(unit_return_callback), MGROUP_UNIT },
   { "UNIT_PATROL", N_("_Patrol"), GDK_KEY_q, 0,
     G_CALLBACK(unit_patrol_callback), MGROUP_UNIT },
-  { "UNIT_SENTRY", N_("_Sentry"), GDK_KEY_s, 0,
-    G_CALLBACK(unit_sentry_callback), MGROUP_UNIT },
   { "UNIT_UNSENTRY", N_("Uns_entry All On Tile"), GDK_KEY_s, GDK_SHIFT_MASK,
     G_CALLBACK(unit_unsentry_callback), MGROUP_UNIT },
   { "UNIT_LOAD", N_("_Load"), GDK_KEY_l, 0,
@@ -628,8 +629,6 @@ static struct menu_entry_info menu_entries[] =
     G_CALLBACK(clean_pollution_callback), MGROUP_UNIT },
   { "CLEAN_FALLOUT", N_("Clean _Nuclear Fallout"), GDK_KEY_n, 0,
     G_CALLBACK(clean_fallout_callback), MGROUP_UNIT },
-  { "FORTIFY", N_("Fortify"), GDK_KEY_f, 0,
-    G_CALLBACK(fortify_callback), MGROUP_UNIT },
   { "BUILD_FORTRESS", N_("Build Fortress"), GDK_KEY_f, GDK_SHIFT_MASK,
     G_CALLBACK(build_fortress_callback), MGROUP_UNIT },
   { "BUILD_AIRBASE", N_("Build Airbase"), GDK_KEY_e, GDK_SHIFT_MASK,
@@ -659,11 +658,14 @@ const GActionEntry acts[] = {
   { "quit", quit_callback },
 
   { "explore", unit_explore_callback },
+  { "sentry", unit_sentry_callback },
   { "wait", unit_wait_callback },
   { "done", unit_done_callback },
 
   { "build_city", build_city_callback },
   { "auto_settle", auto_settle_callback },
+
+  { "fortify", fortify_callback },
 
   { "revolution", revolution_callback },
   { "report_units", report_units_callback },
@@ -1644,6 +1646,28 @@ static void unit_explore_callback(GSimpleAction *action,
   key_unit_auto_explore();
 }
 
+/************************************************************************//**
+  Item "UNIT_SENTRY" callback.
+****************************************************************************/
+static void unit_sentry_callback(GSimpleAction *action,
+                                 GVariant *parameter,
+                                 gpointer data)
+{
+  key_unit_sentry();
+}
+
+/************************************************************************//**
+  Action "FORTIFY" callback.
+****************************************************************************/
+static void fortify_callback(GSimpleAction *action,
+                             GVariant *parameter,
+                             gpointer data)
+{
+  unit_list_iterate(get_units_in_focus(), punit) {
+    request_unit_fortify(punit);
+  } unit_list_iterate_end;
+}
+
 #ifdef MENUS_GTK3
 /************************************************************************//**
   Item "UNIT_PATROL" callback.
@@ -1651,14 +1675,6 @@ static void unit_explore_callback(GSimpleAction *action,
 static void unit_patrol_callback(GtkMenuItem *item, gpointer data)
 {
   key_unit_patrol();
-}
-
-/************************************************************************//**
-  Item "UNIT_SENTRY" callback.
-****************************************************************************/
-static void unit_sentry_callback(GtkMenuItem *item, gpointer data)
-{
-  key_unit_sentry();
 }
 
 /************************************************************************//**
@@ -1917,16 +1933,6 @@ static void build_fortress_callback(GtkMenuItem *action, gpointer data)
 }
 
 /************************************************************************//**
-  Action "FORTIFY" callback.
-****************************************************************************/
-static void fortify_callback(GtkMenuItem *action, gpointer data)
-{
-  unit_list_iterate(get_units_in_focus(), punit) {
-    request_unit_fortify(punit);
-  } unit_list_iterate_end;
-}
-
-/************************************************************************//**
   Action "BUILD_AIRBASE" callback.
 ****************************************************************************/
 static void build_airbase_callback(GtkMenuItem *action, gpointer data)
@@ -2118,8 +2124,10 @@ static void menu_entry_init(GMenu *sub, const char *key)
 
   if (info != NULL) {
     GMenuItem *item;
+    char actname[150];
 
-    item = g_menu_item_new(Q_(info->name), info->action);
+    fc_snprintf(actname, sizeof(actname), "app.%s", info->action);
+    item = g_menu_item_new(Q_(info->name), actname);
     g_menu_append_item(sub, item);
   }
 }
@@ -2169,6 +2177,7 @@ static GMenu *setup_menus(GtkApplication *app)
   g_menu_append_submenu(unit_menu, N_("Go to a_nd..."), G_MENU_MODEL(submenu));
 
   menu_entry_init(unit_menu, "UNIT_EXPLORE");
+  menu_entry_init(unit_menu, "UNIT_SENTRY");
   menu_entry_init(unit_menu, "UNIT_WAIT");
   menu_entry_init(unit_menu, "UNIT_DONE");
 
@@ -2189,6 +2198,7 @@ static GMenu *setup_menus(GtkApplication *app)
   g_menu_append_submenu(menubar, _("_Work"), G_MENU_MODEL(work_menu));
 
   combat_menu = g_menu_new();
+  menu_entry_init(combat_menu, "FORTIFY");
 
   /* Placeholder submenu (so that menu update has something to replace) */
   submenu = g_menu_new();
@@ -2217,10 +2227,10 @@ static GMenu *setup_menus(GtkApplication *app)
   for (i = 0; menu_entries[i].key != NULL; i++) {
     if (menu_entries[i].accl != NULL) {
       const char *accls[2] = { menu_entries[i].accl, NULL };
+      char actname[150];
 
-      gtk_application_set_accels_for_action(app,
-                                            menu_entries[i].action,
-                                            accls);
+      fc_snprintf(actname, sizeof(actname), "app.%s", menu_entries[i].action);
+      gtk_application_set_accels_for_action(app, actname, accls);
     }
   }
 
@@ -2260,35 +2270,51 @@ static void menu_entry_set_active(const char *key,
     gtk_check_menu_item_set_active(item, is_active);
   }
 }
+#endif /* MENUS_GTK3 */
+
+/************************************************************************//**
+  Sets sensitivity of an menu entry, found by info.
+****************************************************************************/
+static void menu_entry_set_sensitive_info(GActionMap *map,
+                                          struct menu_entry_info *info,
+                                          gboolean is_enabled)
+{
+  GAction *act = g_action_map_lookup_action(map, info->action);
+
+  if (act != NULL) {
+    g_simple_action_set_enabled(G_SIMPLE_ACTION(act), is_enabled);
+  }
+}
 
 /************************************************************************//**
   Sets sensitivity of an menu entry.
 ****************************************************************************/
-static void menu_entry_set_sensitive(const char *key,
-                                     gboolean is_sensitive)
+static void menu_entry_set_sensitive(GActionMap *map,
+                                     const char *key,
+                                     gboolean is_enabled)
 {
-  GtkWidget *item = GTK_WIDGET(gtk_builder_get_object(ui_builder, key));
+  struct menu_entry_info *info = menu_entry_info_find(key);
 
-  if (item != NULL) {
-    gtk_widget_set_sensitive(item, is_sensitive);
+  if (info != NULL) {
+    menu_entry_set_sensitive_info(map, info, is_enabled);
   }
 }
 
 /************************************************************************//**
   Set sensitivity of all entries in the group.
 ****************************************************************************/
-static void menu_entry_group_set_sensitive(enum menu_entry_grouping group,
-                                           gboolean is_sensitive)
+static void menu_entry_group_set_sensitive(GActionMap *map,
+                                           enum menu_entry_grouping group,
+                                           gboolean is_enabled)
 {
   int i;
 
   for (i = 0; menu_entries[i].key != NULL; i++) {
     if (menu_entries[i].grouping == group || group == MGROUP_ALL) {
-      menu_entry_set_sensitive(menu_entries[i].key, is_sensitive);
+      menu_entry_set_sensitive_info(map, &(menu_entries[i]), is_enabled);
     }
   }
 }
-#endif /* MENUS_GTK3 */
 
 /************************************************************************//**
   Sets an action visible.
@@ -2383,10 +2409,12 @@ static const char *get_tile_change_menu_text(struct tile *ptile,
 void real_menus_update(void)
 {
   GtkApplication *fc_app = gui_app();
+  GActionMap *map = G_ACTION_MAP(fc_app);
   GMenu *submenu;
   int i, j;
   int tgt_kind_group;
-  struct unit_list *punits = NULL;
+  struct unit_list *punits;
+  unsigned num_units;
 
   if (!menus_built) {
     return;
@@ -2417,15 +2445,14 @@ void real_menus_update(void)
         continue;
       }
 
-      if (!units_can_do_action(get_units_in_focus(),
-                               act_id, TRUE)) {
+      if (!units_can_do_action(punits, act_id, TRUE)) {
         continue;
       }
 
       /* Create and add the menu item. */
       fc_snprintf(actname, sizeof(actname), "action_%d", i);
       act = g_simple_action_new(actname, NULL);
-      g_action_map_add_action(G_ACTION_MAP(fc_app), G_ACTION(act));
+      g_action_map_add_action(map, G_ACTION(act));
 
       fc_snprintf(name, sizeof(name), "%s",
                   action_get_ui_name_mnemonic(act_id, "_"));
@@ -2440,7 +2467,7 @@ void real_menus_update(void)
   GMenuItem *sub_item;                                                     \
   fc_snprintf(actname, sizeof(actname), "subtgt_%d", j);                   \
   act = g_simple_action_new(actname, NULL);                                \
-  g_action_map_add_action(G_ACTION_MAP(fc_app), G_ACTION(act));            \
+  g_action_map_add_action(map, G_ACTION(act));                             \
   g_object_set_data(G_OBJECT(act), _sub_target_key_, _sub_target_);        \
   g_signal_connect(act, "activate", G_CALLBACK(unit_goto_and_callback),    \
                    paction);                                               \
@@ -2513,7 +2540,7 @@ void real_menus_update(void)
       fc_snprintf(actname, sizeof(actname), "government_%d", i);
       act = g_simple_action_new(actname, NULL);
       g_simple_action_set_enabled(act, can_change_to_government(client_player(), g));
-      g_action_map_add_action(G_ACTION_MAP(fc_app), G_ACTION(act));
+      g_action_map_add_action(map, G_ACTION(act));
       g_signal_connect(act, "activate", G_CALLBACK(government_callback), g);
 
       /* TRANS: %s is a government name */
@@ -2541,7 +2568,7 @@ void real_menus_update(void)
                                   can_units_do_activity_targeted(punits,
                                                                  ACTIVITY_GEN_ROAD,
                                                                  pextra));
-      g_action_map_add_action(G_ACTION_MAP(fc_app), G_ACTION(act));
+      g_action_map_add_action(map, G_ACTION(act));
       g_signal_connect(act, "activate", G_CALLBACK(road_callback), pextra);
 
       fc_snprintf(actname, sizeof(actname), "app.path_%d", i++);
@@ -2567,7 +2594,7 @@ void real_menus_update(void)
                                   can_units_do_activity_targeted(punits,
                                                                  ACTIVITY_IRRIGATE,
                                                                  pextra));
-      g_action_map_add_action(G_ACTION_MAP(fc_app), G_ACTION(act));
+      g_action_map_add_action(map, G_ACTION(act));
       g_signal_connect(act, "activate", G_CALLBACK(irrigation_callback), pextra);
 
       fc_snprintf(actname, sizeof(actname), "app.irrig_%d", i++);
@@ -2593,7 +2620,7 @@ void real_menus_update(void)
                                   can_units_do_activity_targeted(punits,
                                                                  ACTIVITY_MINE,
                                                                  pextra));
-      g_action_map_add_action(G_ACTION_MAP(fc_app), G_ACTION(act));
+      g_action_map_add_action(map, G_ACTION(act));
       g_signal_connect(act, "activate", G_CALLBACK(mine_callback), pextra);
 
       fc_snprintf(actname, sizeof(actname), "app.mine_%d", i++);
@@ -2619,7 +2646,7 @@ void real_menus_update(void)
                                   can_units_do_activity_targeted(punits,
                                                                  ACTIVITY_BASE,
                                                                  pextra));
-      g_action_map_add_action(G_ACTION_MAP(fc_app), G_ACTION(act));
+      g_action_map_add_action(map, G_ACTION(act));
       g_signal_connect(act, "activate", G_CALLBACK(base_callback), pextra);
 
       fc_snprintf(actname, sizeof(actname), "app.base_%d", i++);
@@ -2628,14 +2655,11 @@ void real_menus_update(void)
     }
   } extra_type_by_cause_iterate_end;
 
-  g_menu_remove(combat_menu, 0);
-  g_menu_insert_submenu(combat_menu, 0, _("Build _Base"), G_MENU_MODEL(submenu));
-
-  return;
+  g_menu_remove(combat_menu, 1);
+  g_menu_insert_submenu(combat_menu, 1, _("Build _Base"), G_MENU_MODEL(submenu));
 
 #ifdef MENUS_GTK3
   bool units_all_same_tile = TRUE, units_all_same_type = TRUE;
-  GtkMenu *menu;
   char acttext[128], irrtext[128], mintext[128], transtext[128];
   char cultext[128], plantext[128];
   struct terrain *pterrain;
@@ -2648,12 +2672,13 @@ void real_menus_update(void)
     return;
   }
 
+  num_units = get_num_units_in_focus();
+
 #ifdef MENUS_GTK3
-  if (get_num_units_in_focus() > 0) {
+  if (num_units > 0) {
     const struct tile *ptile = NULL;
     const struct unit_type *ptype = NULL;
 
-    punits = get_units_in_focus();
     unit_list_iterate(punits, punit) {
       fc_assert((ptile == NULL) == (ptype == NULL));
 
@@ -2670,12 +2695,17 @@ void real_menus_update(void)
       }
     } unit_list_iterate_end;
   }
+#endif /* MENUS_GTK3 */
 
-  menu_entry_group_set_sensitive(MGROUP_EDIT, editor_is_active());
-  menu_entry_group_set_sensitive(MGROUP_PLAYING, can_client_issue_orders()
+  menu_entry_group_set_sensitive(map, MGROUP_EDIT, editor_is_active());
+  menu_entry_group_set_sensitive(map, MGROUP_PLAYING,
+                                 can_client_issue_orders() && !editor_is_active());
+  menu_entry_group_set_sensitive(map, MGROUP_UNIT,
+                                 num_units > 0
+                                 && can_client_issue_orders()
                                  && !editor_is_active());
-  menu_entry_group_set_sensitive(MGROUP_UNIT, can_client_issue_orders()
-                                 && !editor_is_active() && punits != NULL);
+
+#ifdef MENUS_GTK3
 
   menu_entry_set_active("EDIT_MODE", game.info.is_edit_mode);
   menu_entry_set_sensitive("EDIT_MODE",
@@ -2707,29 +2737,6 @@ void real_menus_update(void)
   if (!can_client_issue_orders()) {
     return;
   }
-
-#ifdef MENUS_GTK3
-  /* Set government sensitivity. */
-  if ((menu = find_menu("<MENU>/GOVERNMENT"))) {
-    GtkWidget *iter;
-    struct government *pgov;
-
-    for (iter = gtk_widget_get_first_child(menu);
-         iter != NULL;
-         iter = gtk_widget_get_next_sibling(iter)) {
-      pgov = g_object_get_data(G_OBJECT(iter), "government");
-      if (NULL != pgov) {
-        gtk_widget_set_sensitive(GTK_WIDGET(iter),
-                                 can_change_to_government(client_player(),
-                                                          pgov));
-      } else {
-        /* Revolution without target government */
-        gtk_widget_set_sensitive(GTK_WIDGET(iter),
-                                 untargeted_revolution_allowed());
-      }
-    }
-  }
-#endif /* MENUS_GTK3 */
 
   if (!punits) {
     return;
@@ -2790,8 +2797,7 @@ void real_menus_update(void)
          iter = gtk_widget_get_next_sibling(iter)) {
       paction = g_object_get_data(G_OBJECT(iter), "end_action");
       if (NULL != paction) {
-        if (units_can_do_action(get_units_in_focus(),
-                                paction->id, TRUE)) {
+        if (units_can_do_action(punits, paction->id, TRUE)) {
           gtk_widget_set_visible(GTK_WIDGET(iter), TRUE);
           gtk_widget_set_sensitive(GTK_WIDGET(iter), TRUE);
           can_do_something = TRUE;
@@ -2825,9 +2831,13 @@ void real_menus_update(void)
                            can_units_do_activity(punits, ACTIVITY_PLANT));
   menu_entry_set_sensitive("TRANSFORM_TERRAIN",
                            can_units_do_activity(punits, ACTIVITY_TRANSFORM));
-  menu_entry_set_sensitive("FORTIFY",
+#endif /* MENUS_GTK3 */
+
+  menu_entry_set_sensitive(map, "FORTIFY",
                            can_units_do_activity(punits,
-                                            ACTIVITY_FORTIFYING));
+                                                 ACTIVITY_FORTIFYING));
+
+#ifdef MENUS_GTK3
   menu_entry_set_sensitive("BUILD_FORTRESS",
                            can_units_do_base_gui(punits, BASE_GUI_FORTRESS));
   menu_entry_set_sensitive("BUILD_AIRBASE",
@@ -2837,8 +2847,12 @@ void real_menus_update(void)
                             || can_units_do(punits, can_unit_paradrop)));
   menu_entry_set_sensitive("CLEAN_FALLOUT",
                            can_units_do_activity(punits, ACTIVITY_FALLOUT));
-  menu_entry_set_sensitive("UNIT_SENTRY",
+#endif /* MENUS_GTK3 */
+
+  menu_entry_set_sensitive(map, "UNIT_SENTRY",
                            can_units_do_activity(punits, ACTIVITY_SENTRY));
+
+#ifdef MENUS_GTK3
   /* FIXME: should conditionally rename "Pillage" to "Pillage..." in cases where
    * selecting the command results in a dialog box listing options of what to pillage */
   menu_entry_set_sensitive("DO_PILLAGE",
