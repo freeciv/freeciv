@@ -418,8 +418,7 @@ int client_main(int argc, char *argv[], bool postpone_tileset)
       cmdhelp_add(help, "d",
                   /* TRANS: "debug" is exactly what user must type, do not translate. */
                   _("debug LEVEL"),
-                  _("Set debug log level (%d to %d)"),
-                  LOG_FATAL, LOG_VERBOSE);
+                  _("Set debug log level (one of f,e,n,v)"));
 #endif /* FREECIV_DEBUG */
 #ifndef FREECIV_NDEBUG
       cmdhelp_add(help, "F",

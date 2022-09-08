@@ -74,15 +74,14 @@ int fcmp_parse_cmdline(int argc, char *argv[])
 #ifdef FREECIV_DEBUG
       cmdhelp_add(help, "d",
                   /* TRANS: "debug" is exactly what user must type, do not translate. */
-                  _("debug NUM"),
+                  _("debug LEVEL"),
                   _("Set debug log level (one of f,e,n,v,d, or "
                     "d:file1,min,max:...)"));
 #else  /* FREECIV_DEBUG */
       cmdhelp_add(help, "d",
                   /* TRANS: "debug" is exactly what user must type, do not translate. */
-                  _("debug NUM"),
-                  _("Set debug log level (%d to %d)"),
-                  LOG_FATAL, LOG_VERBOSE);
+                  _("debug LEVEL"),
+                  _("Set debug log level (one of f,e,n,v)"));
 #endif /* FREECIV_DEBUG */
       cmdhelp_add(help, "v", "version",
                   _("Print the version number"));

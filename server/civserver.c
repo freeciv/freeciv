@@ -368,12 +368,13 @@ int main(int argc, char *argv[])
     cmdhelp_add(help, "d",
                 /* TRANS: "debug" is exactly what user must type, do not translate. */
                 _("debug LEVEL"),
-                _("Set debug log level (one of f,e,n,v,d, or d:file1,min,max:...)"));
+                _("Set debug log level (one of f,e,n,v,d, or "
+                  "d:file1,min,max:...)"));
 #else  /* FREECIV_DEBUG */
     cmdhelp_add(help, "d",
                 /* TRANS: "debug" is exactly what user must type, do not translate. */
                 _("debug LEVEL"),
-                _("Set debug log level (%d to %d)"), LOG_FATAL, LOG_VERBOSE);
+                _("Set debug log level (one of f,e,n,v)"));
 #endif /* FREECIV_DEBUG */
 #ifndef FREECIV_NDEBUG
     cmdhelp_add(help, "F",
