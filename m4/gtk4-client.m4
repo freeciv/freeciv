@@ -5,8 +5,8 @@
 
 AC_DEFUN([FC_GTK4_CLIENT],
 [
-  # Add check "x$client" = "xauto" when this becomes supported client
-  if test "x$gui_gtk4" = "xyes" || test "x$client" = "xall" ; then
+  if test "x$gui_gtk4" = "xyes" ||
+     test "x$client" = "xall" || test "x$client" = "xauto" ; then
     PKG_CHECK_MODULES([GTK4], [gtk4 >= 4.0.0],
       [
         GTK4_CFLAGS="$GTK4_CFLAGS -DGDK_VERSION_MIN_REQUIRED=GDK_VERSION_4_0"
