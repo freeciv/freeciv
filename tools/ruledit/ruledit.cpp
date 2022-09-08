@@ -155,13 +155,13 @@ static int re_parse_cmdline(int argc, char *argv[])
                   R__("Print a summary of the options"));
 #ifdef FREECIV_DEBUG
       cmdhelp_add(help, "d",
-                  /* TRANS: "debug" is exactly what user must type, do not translate. */
+                  // TRANS: "debug" is exactly what user must type, do not translate.
                   R__("debug LEVEL"),
                   R__("Set debug log level (one of f,e,w,n,v,d, or "
                       "d:file1,min,max:...)"));
 #else  /* FREECIV_DEBUG */
       cmdhelp_add(help, "d",
-                  /* TRANS: "debug" is exactly what user must type, do not translate. */
+                  // TRANS: "debug" is exactly what user must type, do not translate.
                   R__("debug LEVEL"),
                   R__("Set debug log level (one of f,e,w,n,v)"));
 #endif /* FREECIV_DEBUG */
