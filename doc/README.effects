@@ -70,6 +70,7 @@ UnitClassFlag:   Local
 Nation:          World, Alliance, Team, Player
 NationGroup:     World, Alliance, Team, Player
 Nationality:     Traderoute, City
+OriginalOwner:   City
 DiplRel:         World, Alliance, Team, Player, Local
 DiplRelTile:     Alliance, Team, Player, Local
 DiplRelTileOther:Local
@@ -126,6 +127,7 @@ MinCalFrag is the minimum sub-year division the calendar must have reached,
 if enabled (see [calendar].fragments in game.ruleset).
 Nationality is fulfilled by any citizens of the given nationality
 present in the city.
+OriginalOwner is the city founding nation
 ServerSetting is if a Boolean server setting is enabled. The setting must be
 visible to all players and affect the game rules.
 

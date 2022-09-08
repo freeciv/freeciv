@@ -409,6 +409,7 @@ struct player *player_by_name_prefix(const char *name,
 struct player *player_by_user(const char *name);
 
 bool player_set_nation(struct player *pplayer, struct nation_type *pnation);
+#define player_nation(_plr_) (_plr_)->nation
 
 bool player_has_embassy(const struct player *pplayer,
                         const struct player *pplayer2);

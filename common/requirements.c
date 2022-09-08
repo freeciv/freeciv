@@ -193,6 +193,12 @@ void universal_value_from_str(struct universal *source, const char *value)
       return;
     }
     break;
+   case VUT_ORIGINAL_OWNER:
+    source->value.origowner = nation_by_rule_name(value);
+    if (source->value.origowner != NO_NATION_SELECTED) {
+      return;
+    }
+    break;
   case VUT_DIPLREL:
   case VUT_DIPLREL_TILE:
   case VUT_DIPLREL_TILE_O:
@@ -498,6 +504,12 @@ struct universal universal_by_number(const enum universals_n kind,
       return source;
     }
     break;
+  case VUT_ORIGINAL_OWNER:
+    source.value.origowner = nation_by_number(value);
+    if (source.value.origowner != NULL) {
+      return source;
+    }
+    break;
   case VUT_UTYPE:
     source.value.utype = utype_by_number(value);
     if (source.value.utype != NULL) {
@@ -669,6 +681,8 @@ int universal_number(const struct universal *source)
     return nation_group_number(source->value.nationgroup);
   case VUT_NATIONALITY:
     return nation_number(source->value.nationality);
+  case VUT_ORIGINAL_OWNER:
+    return nation_number(source->value.origowner);
   case VUT_DIPLREL:
   case VUT_DIPLREL_TILE:
   case VUT_DIPLREL_TILE_O:
@@ -850,6 +864,7 @@ struct requirement req_from_str(const char *type, const char *range,
       case VUT_MINCULTURE:
       case VUT_MINFOREIGNPCT:
       case VUT_NATIONALITY:
+      case VUT_ORIGINAL_OWNER:
       case VUT_CITYSTATUS:
       case VUT_GOOD:
         req.range = REQ_RANGE_CITY;
@@ -919,6 +934,7 @@ struct requirement req_from_str(const char *type, const char *range,
                  && req.range != REQ_RANGE_TRADEROUTE);
       break;
     case VUT_GOOD:
+    case VUT_ORIGINAL_OWNER:
       invalid = (req.range != REQ_RANGE_CITY);
       break;
     case VUT_MINCULTURE:
@@ -1081,6 +1097,7 @@ struct requirement req_from_str(const char *type, const char *range,
     case VUT_CITYSTATUS:
     case VUT_TERRFLAG:
     case VUT_NATIONALITY:
+    case VUT_ORIGINAL_OWNER:
     case VUT_ROADFLAG:
     case VUT_EXTRAFLAG:
     case VUT_EXTRA:
@@ -2723,6 +2740,42 @@ static enum fc_tristate is_nationality_in_range(const struct city *target_city,
 }
 
 /**********************************************************************//**
+  Is there a city originally owned by the nation in range?
+**************************************************************************/
+static enum fc_tristate is_origowner_in_range(const struct city *target_city,
+                                              enum req_range range,
+                                              const struct nation_type *nation)
+{
+  switch (range) {
+  case REQ_RANGE_CITY:
+    if (target_city == NULL) {
+      return TRI_MAYBE;
+    }
+    if (player_nation(target_city->original) == nation) {
+      return TRI_YES;
+    }
+
+    return TRI_NO;
+  case REQ_RANGE_TRADEROUTE:
+  case REQ_RANGE_PLAYER:
+  case REQ_RANGE_TEAM:
+  case REQ_RANGE_ALLIANCE:
+  case REQ_RANGE_WORLD:
+  case REQ_RANGE_LOCAL:
+  case REQ_RANGE_TILE:
+  case REQ_RANGE_CADJACENT:
+  case REQ_RANGE_ADJACENT:
+  case REQ_RANGE_CONTINENT:
+  case REQ_RANGE_COUNT:
+    break;
+  }
+
+  fc_assert_msg(FALSE, "Invalid range %d.", range);
+
+  return TRI_MAYBE;
+}
+
+/**********************************************************************//**
   Is the diplomatic state within range of the target?
 **************************************************************************/
 static enum fc_tristate is_diplrel_in_range(const struct player *target_player,
@@ -3536,6 +3589,10 @@ bool is_req_active(const struct req_context *context,
     eval = is_nationality_in_range(context->city, req->range,
                                    req->source.value.nationality);
     break;
+  case VUT_ORIGINAL_OWNER:
+    eval = is_origowner_in_range(context->city, req->range,
+                                 req->source.value.origowner);
+    break;
   case VUT_DIPLREL:
     eval = is_diplrel_in_range(context->player, other_player, req->range,
                                req->source.value.diplrel);
@@ -3885,6 +3942,8 @@ bool is_req_unchanging(const struct requirement *req)
   case VUT_MINLATITUDE: /* Might change if more ranges are supported */
   case VUT_MAXLATITUDE: /* Might change if more ranges are supported */
     return TRUE;
+  case VUT_ORIGINAL_OWNER:
+    return (req->range <= REQ_RANGE_CITY);
   case VUT_NATION:
   case VUT_NATIONGROUP:
     return (req->range != REQ_RANGE_ALLIANCE);
@@ -4020,6 +4079,7 @@ bool universal_never_there(const struct universal *source)
   case VUT_MINFOREIGNPCT:
   case VUT_MINTECHS:
   case VUT_NATIONALITY:
+  case VUT_ORIGINAL_OWNER: /* As long as midgame player creation or civil war possible */
   case VUT_DIPLREL:
   case VUT_DIPLREL_TILE:
   case VUT_DIPLREL_TILE_O:
@@ -4593,6 +4653,8 @@ bool are_universals_equal(const struct universal *psource1,
     return psource1->value.nationgroup == psource2->value.nationgroup;
   case VUT_NATIONALITY:
     return psource1->value.nationality == psource2->value.nationality;
+  case VUT_ORIGINAL_OWNER:
+    return psource1->value.origowner == psource2->value.origowner;
   case VUT_DIPLREL:
   case VUT_DIPLREL_TILE:
   case VUT_DIPLREL_TILE_O:
@@ -4733,6 +4795,8 @@ const char *universal_rule_name(const struct universal *psource)
     return diplrel_rule_name(psource->value.diplrel);
   case VUT_NATIONALITY:
     return nation_rule_name(psource->value.nationality);
+  case VUT_ORIGINAL_OWNER:
+    return nation_rule_name(psource->value.origowner);
   case VUT_UTYPE:
     return utype_rule_name(psource->value.utype);
   case VUT_UTFLAG:
@@ -4877,6 +4941,11 @@ const char *universal_name_translation(const struct universal *psource,
   case VUT_NATIONALITY:
     cat_snprintf(buf, bufsz, _("%s citizens"),
                  nation_adjective_translation(psource->value.nationality));
+    return buf;
+  case VUT_ORIGINAL_OWNER:
+    /* TRANS: Keep short. City founding nation. */
+    cat_snprintf(buf, bufsz, _("%s original owner"),
+                 nation_adjective_translation(psource->value.origowner));
     return buf;
   case VUT_DIPLREL:
   case VUT_DIPLREL_TILE:

@@ -1217,6 +1217,36 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
     }
     break;
 
+  case VUT_ORIGINAL_OWNER:
+    switch (preq->range) {
+    case REQ_RANGE_CITY:
+      fc_strlcat(buf, prefix, bufsz);
+      if (preq->present) {
+        cat_snprintf(buf, bufsz,
+                     _("Requires city to be founded by %s."),
+                     nation_adjective_translation(preq->source.value.origowner));
+      } else {
+        cat_snprintf(buf, bufsz,
+                     _("Requires that city was not originally owned by %s."),
+                     nation_adjective_translation(preq->source.value.origowner));
+      }
+      return TRUE;
+    case REQ_RANGE_TRADEROUTE:
+    case REQ_RANGE_WORLD:
+    case REQ_RANGE_ALLIANCE:
+    case REQ_RANGE_TEAM:
+    case REQ_RANGE_PLAYER:
+    case REQ_RANGE_LOCAL:
+    case REQ_RANGE_TILE:
+    case REQ_RANGE_CADJACENT:
+    case REQ_RANGE_ADJACENT:
+    case REQ_RANGE_CONTINENT:
+    case REQ_RANGE_COUNT:
+      /* Not supported. */
+      break;
+    }
+    break;
+
   case VUT_DIPLREL:
     switch (preq->range) {
     case REQ_RANGE_PLAYER:

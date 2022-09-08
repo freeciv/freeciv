@@ -642,6 +642,7 @@ typedef union {
   const struct impr_type *building;
   struct nation_type *nation;
   struct nation_type *nationality;
+  struct nation_type *origowner;
   struct specialist *specialist;
   struct terrain *terrain;
   struct unit_class *uclass;
@@ -799,6 +800,8 @@ typedef union {
 #define SPECENUM_VALUE50NAME "MaxLatitude"
 #define SPECENUM_VALUE51 VUT_COUNTER
 #define SPECENUM_VALUE51NAME "Counter"
+#define SPECENUM_VALUE52 VUT_ORIGINAL_OWNER
+#define SPECENUM_VALUE52NAME "OriginalOwner"
 
 /* Keep this last. */
 #define SPECENUM_COUNT VUT_COUNT

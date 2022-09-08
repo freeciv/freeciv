@@ -1436,6 +1436,11 @@ static bool worklist_item_postpone_req_vec(struct universal *target,
                                     pcity, "have_nationality");
         }
         break;
+      case VUT_ORIGINAL_OWNER:
+        /* Original owner won't change of this specic city won't change.
+         * Update this when supporting ranges other than REQ_RANGE_CITY. */
+        purge = TRUE;
+        break;
       case VUT_DIPLREL:
       case VUT_DIPLREL_TILE: /* The tile owner is the city owner */
       case VUT_DIPLREL_TILE_O: /* The tile owner is the city owner */

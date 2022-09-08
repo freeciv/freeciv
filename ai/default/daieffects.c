@@ -769,6 +769,9 @@ bool dai_can_requirement_be_met_in_city(const struct requirement *preq,
     /* Crude, but the right answer needs to consider civil wars. */
     return nation_is_in_current_set(preq->source.value.nation);
 
+  case VUT_ORIGINAL_OWNER:
+    return FALSE;
+
   case VUT_CITYSTATUS:
     if (pcity == NULL) {
       return preq->present;

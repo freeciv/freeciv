@@ -140,6 +140,12 @@ bool universal_value_initial(struct universal *src)
     }
     src->value.nationality = nation_by_number(0);
     return TRUE;
+  case VUT_ORIGINAL_OWNER:
+    if (game.control.nation_count <= 0) {
+      return FALSE;
+    }
+    src->value.origowner = nation_by_number(0);
+    return TRUE;
   case VUT_ROADFLAG:
     src->value.roadflag = RF_RIVER;
     return TRUE;
@@ -299,6 +305,11 @@ void universal_kind_values(struct universal *univ,
   case VUT_NATIONALITY:
     nations_iterate(pnat) {
       cb(nation_rule_name(pnat), univ->value.nationality == pnat, data);
+    } nations_iterate_end;
+    break;
+  case VUT_ORIGINAL_OWNER:
+    nations_iterate(pnat) {
+      cb(nation_rule_name(pnat), univ->value.origowner == pnat, data);
     } nations_iterate_end;
     break;
   case VUT_EXTRA:
