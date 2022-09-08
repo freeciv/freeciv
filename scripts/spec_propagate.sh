@@ -5,6 +5,9 @@
 # material that should stay in sync).
 # Must be run from the root of a git checkout.
 
+# Ruledit comments file name
+COMMENTS="comments-3.2.txt"
+
 usage() {
     echo "*** usage: $0 data/[changed-ruleset-dir]"
 }
@@ -38,8 +41,8 @@ patch_rulesetdir() {
     if [ "x$rej" != x ]; then
         echo "*** fix up rejects manually: $rej"
     fi
-    if [ -f "data/ruledit/comments-3.2.txt" ]; then
-        echo "*** fix up ruledit manually: data/ruledit/comments-3.2.txt"
+    if [ -f "data/ruledit/${COMMENTS}" ]; then
+        echo "*** fix up ruledit manually: data/ruledit/${COMMENTS}"
     fi
 }
 
