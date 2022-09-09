@@ -17,5 +17,6 @@
 #include "citydlg_g.h"
 
 void reset_city_dialogs(void);
+void refresh_all_city_worklists(void);
 
-#endif  /* FC__CITYDLG_H */
+#endif /* FC__CITYDLG_H */

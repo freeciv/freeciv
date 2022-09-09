@@ -110,7 +110,7 @@ static void worklists_destroy_callback(GtkWidget *w, gpointer data)
 }
 
 /************************************************************************//**
-  Refresh global worklists list
+  Refresh worklists, both global and those of open city dialogs.
 ****************************************************************************/
 void update_worklist_report_dialog(void)
 {
@@ -125,6 +125,8 @@ void update_worklist_report_dialog(void)
                        1, global_worklist_id(pgwl),
                        -1);
   } global_worklists_iterate_end;
+
+  refresh_all_city_worklists();
 }
 
 /************************************************************************//**
@@ -204,6 +206,8 @@ static void cell_edited(GtkCellRendererText *cell,
 
   global_worklist_set_name(pgwl, text);
   gtk_list_store_set(worklists_store, &it, 0, text, -1);
+
+  refresh_all_city_worklists();
 }
 
 /************************************************************************//**
@@ -255,7 +259,7 @@ static GtkWidget *create_worklists_report(void)
   rend = gtk_cell_renderer_text_new();
   g_object_set(rend, "editable", TRUE, NULL);
   g_signal_connect(rend, "edited",
-		   G_CALLBACK(cell_edited), NULL);
+                   G_CALLBACK(cell_edited), NULL);
   gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(list), -1, NULL,
                                               rend, "text", 0, NULL);
 
@@ -284,7 +288,7 @@ static GtkWidget *create_worklists_report(void)
 ****************************************************************************/
 void popup_worklists_report(void)
 {
-  if (!worklists_shell) {
+  if (worklists_shell == NULL) {
     worklists_shell = create_worklists_report();
 
     update_worklist_report_dialog();
@@ -292,7 +296,6 @@ void popup_worklists_report(void)
 
   gtk_window_present(GTK_WINDOW(worklists_shell));
 }
-
 
 /****************************************************************
   ...
@@ -305,11 +308,14 @@ struct worklist_data {
 
   GtkListStore *src, *dst;
   GtkWidget *src_view, *dst_view;
+  GMenu *menu;
+  int menu_size;
+  GActionGroup *group;
   GtkTreeSelection *src_selection, *dst_selection;
 
   GtkTreeViewColumn *src_col, *dst_col;
 
-  GtkWidget *add_cmd, *change_cmd, *help_cmd;
+  GtkWidget *change_cmd, *help_cmd;
   GtkWidget *up_cmd, *down_cmd, *prepend_cmd, *append_cmd, *remove_cmd;
 
   bool future;
@@ -450,14 +456,15 @@ static void worklist_destroy(GtkWidget *editor, gpointer data)
   free(ptr);
 }
 
-#ifdef MENUS_GTK3
 /************************************************************************//**
   Item activated from menu
 ****************************************************************************/
-static void menu_item_callback(GtkMenuItem *item, struct worklist_data *ptr)
+static void menu_item_callback(GSimpleAction *action, GVariant *parameter,
+                               gpointer data)
 {
   struct global_worklist *pgwl;
   const struct worklist *pwl;
+  struct worklist_data *ptr = (struct worklist_data *)data;
   size_t i;
 
   if (NULL == client.conn.playing) {
@@ -465,10 +472,11 @@ static void menu_item_callback(GtkMenuItem *item, struct worklist_data *ptr)
   }
 
   pgwl = global_worklist_by_id(GPOINTER_TO_INT
-                               (g_object_get_data(G_OBJECT(item), "id")));
-  if (!pgwl) {
+                               (g_object_get_data(G_OBJECT(action), "id")));
+  if (pgwl == NULL) {
     return;
   }
+
   pwl = global_worklist_get(pgwl);
 
   for (i = 0; i < (size_t) worklist_length(pwl); i++) {
@@ -490,37 +498,59 @@ static void menu_item_callback(GtkMenuItem *item, struct worklist_data *ptr)
 /************************************************************************//**
   Open menu for adding items to worklist
 ****************************************************************************/
-static void popup_add_menu(GtkMenuShell *menu, gpointer data)
+static GMenu *create_wl_menu(struct worklist_data *ptr)
 {
-  GtkWidget *item;
+  GMenuItem *item;
+  GSimpleAction *act;
+  int current_size = 0;
 
-  gtk_container_foreach(GTK_CONTAINER(menu),
-                        (GtkCallback) gtk_widget_destroy, NULL);
+  if (ptr->menu == NULL) {
+    ptr->menu = g_menu_new();
+    ptr->menu_size = 0;
+  }
 
   global_worklists_iterate(pgwl) {
-    item = gtk_menu_item_new_with_label(global_worklist_name(pgwl));
-    g_object_set_data(G_OBJECT(item), "id",
-                      GINT_TO_POINTER(global_worklist_id(pgwl)));
-    gtk_widget_show(item);
+    int id = global_worklist_id(pgwl);
+    char act_name[60];
 
-    gtk_container_add(GTK_CONTAINER(menu), item);
-    g_signal_connect(item, "activate",
-                     G_CALLBACK(menu_item_callback), data);
+    fc_snprintf(act_name, sizeof(act_name), "wl%d", id);
+    act = g_simple_action_new(act_name, NULL);
+
+    g_object_set_data(G_OBJECT(act), "id",
+                      GINT_TO_POINTER(global_worklist_id(pgwl)));
+    g_action_map_add_action(G_ACTION_MAP(ptr->group), G_ACTION(act));
+    g_signal_connect(act, "activate", G_CALLBACK(menu_item_callback), ptr);
+
+    fc_snprintf(act_name, sizeof(act_name), "win.wl%d", id);
+    item = g_menu_item_new(global_worklist_name(pgwl), act_name);
+
+    if (ptr->menu_size > current_size) {
+      g_menu_remove(ptr->menu, current_size);
+    }
+    g_menu_insert_item(ptr->menu, current_size++, item);
   } global_worklists_iterate_end;
 
-  item = gtk_separator_menu_item_new();
-  gtk_widget_show(item);
+  act = g_simple_action_new("wledit", NULL);
+  g_action_map_add_action(G_ACTION_MAP(ptr->group), G_ACTION(act));
+  g_signal_connect(act, "activate",
+                   G_CALLBACK(popup_worklists_report), NULL);
 
-  gtk_container_add(GTK_CONTAINER(menu), item);
+  item = g_menu_item_new(_("Edit Global _Worklists"), "win.wledit");
+  if (ptr->menu_size > current_size) {
+    g_menu_remove(ptr->menu, current_size);
+  }
+  g_menu_insert_item(ptr->menu, current_size++, item);
 
-  item = gtk_menu_item_new_with_mnemonic(_("Edit Global _Worklists"));
-  gtk_widget_show(item);
+  if (ptr->menu_size < current_size) {
+    ptr->menu_size = current_size;
+  } else {
+    while (ptr->menu_size > current_size) {
+      g_menu_remove(ptr->menu, --ptr->menu_size);
+    }
+  }
 
-  gtk_container_add(GTK_CONTAINER(menu), item);
-  g_signal_connect(item, "activate",
-  		   G_CALLBACK(popup_worklists_report), NULL);
+  return ptr->menu;
 }
-#endif /* MENUS_GTK3 */
 
 /************************************************************************//**
   Open help dialog for the cid pointed by iterator.
@@ -1108,11 +1138,9 @@ GtkWidget *create_worklist(void)
   GtkWidget *editor, *table, *sw, *bbox;
   GtkWidget *src_view, *dst_view, *label, *button;
   GtkWidget *aux_menu;
-#ifdef MENUS_GTK3
-  GtkWidget *item, *menu;
-#endif /* MENUS_GTK3 */
+  GMenu *menu;
   GtkWidget *table2, *arrow, *check;
-  GtkSizeGroup *group;
+  GtkSizeGroup *sgroup;
   GtkListStore *src_store, *dst_store;
   struct worklist_data *ptr;
   int editor_row = 0;
@@ -1130,7 +1158,7 @@ GtkWidget *create_worklist(void)
   ptr->dst = dst_store;
   ptr->future = FALSE;
 
-  /* create shell. */
+  /* Create shell. */
   editor = gtk_grid_new();
   gtk_grid_set_row_spacing(GTK_GRID(editor), 6);
   gtk_orientable_set_orientation(GTK_ORIENTABLE(editor),
@@ -1140,11 +1168,11 @@ GtkWidget *create_worklist(void)
 
   ptr->editor = editor;
 
-  /* add source and target lists.  */
+  /* Add source and target lists.  */
   table = gtk_grid_new();
   gtk_grid_attach(GTK_GRID(editor), table, 0, editor_row++, 1, 1);
 
-  group = gtk_size_group_new(GTK_SIZE_GROUP_HORIZONTAL);
+  sgroup = gtk_size_group_new(GTK_SIZE_GROUP_HORIZONTAL);
 
   sw = gtk_scrolled_window_new();
   gtk_scrolled_window_set_has_frame(GTK_SCROLLED_WINDOW(sw), TRUE);
@@ -1156,7 +1184,7 @@ GtkWidget *create_worklist(void)
   gtk_widget_set_hexpand(src_view, TRUE);
   gtk_widget_set_vexpand(src_view, TRUE);
   g_object_unref(src_store);
-  gtk_size_group_add_widget(group, src_view);
+  gtk_size_group_add_widget(sgroup, src_view);
   gtk_widget_set_name(src_view, "small_font");
   gtk_tree_view_set_tooltip_column(GTK_TREE_VIEW(src_view), 1);
 
@@ -1255,7 +1283,7 @@ GtkWidget *create_worklist(void)
   gtk_widget_set_hexpand(dst_view, TRUE);
   gtk_widget_set_vexpand(dst_view, TRUE);
   g_object_unref(dst_store);
-  gtk_size_group_add_widget(group, dst_view);
+  gtk_size_group_add_widget(sgroup, dst_view);
   gtk_widget_set_name(dst_view, "small_font");
   gtk_tree_view_set_tooltip_column(GTK_TREE_VIEW(dst_view), 1);
 
@@ -1276,28 +1304,19 @@ GtkWidget *create_worklist(void)
                        "xalign", 0.0, "yalign", 0.5, NULL);
   gtk_grid_attach(GTK_GRID(table), label, 0, 0, 1, 1);
 
-  /* add bottom menu and buttons. */
+  /* Add bottom menu and buttons. */
   bbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 2);
   gtk_box_set_spacing(GTK_BOX(bbox), 10);
   gtk_grid_attach(GTK_GRID(editor), bbox, 0, editor_row++, 1, 1);
 
+  ptr->menu = NULL;
   aux_menu = aux_menu_new();
+  ptr->group = G_ACTION_GROUP(g_simple_action_group_new());
+  menu = create_wl_menu(ptr);
+  gtk_menu_button_set_menu_model(GTK_MENU_BUTTON(aux_menu), G_MENU_MODEL(menu));
+
   gtk_box_append(GTK_BOX(bbox), aux_menu);
-
-#ifdef MENUS_GTK3
-  menu = gtk_menu_button_new();
-
-  item = gtk_menu_item_new_with_mnemonic(_("_Add Global Worklist"));
-  gtk_menu_item_set_submenu(GTK_MENU_ITEM(item), menu);
-  gtk_menu_shell_append(GTK_MENU_SHELL(aux_menu), item);
-  g_signal_connect(menu, "show",
-                   G_CALLBACK(popup_add_menu), ptr);
-  ptr->add_cmd = item;
-  gtk_widget_set_sensitive(ptr->add_cmd, FALSE);
-#else  /* MENUS_GTK3 */
-  /* Dummy (non-NULL) add_cmd widget */
-  ptr->add_cmd = gtk_label_new("Dummy");
-#endif /* MENUS_GTK3 */
+  gtk_widget_insert_action_group(aux_menu, "win", ptr->group);
 
   button = icon_label_button_new("help-browser", _("Help"));
   gtk_box_append(GTK_BOX(bbox), button);
@@ -1418,7 +1437,7 @@ void refresh_worklist(GtkWidget *editor)
 
   ptr = g_object_get_data(G_OBJECT(editor), "data");
 
-  /* refresh source tasks. */
+  /* Refresh source tasks. */
   if (gtk_tree_selection_get_selected(ptr->src_selection, NULL, &it)) {
     gtk_tree_model_get(GTK_TREE_MODEL(ptr->src), &it, 0, &id, -1);
     selected = TRUE;
@@ -1526,18 +1545,17 @@ void refresh_worklist(GtkWidget *editor)
     } while (more);
   }
 
-  /* update widget sensitivity. */
+  create_wl_menu(ptr);
+
+  /* Update widget sensitivity. */
   if (ptr->pcity) {
     if ((can_client_issue_orders()
          && city_owner(ptr->pcity) == client.conn.playing)) {
-      gtk_widget_set_sensitive(ptr->add_cmd, TRUE);
       gtk_widget_set_sensitive(ptr->dst_view, TRUE);
     } else {
-      gtk_widget_set_sensitive(ptr->add_cmd, FALSE);
       gtk_widget_set_sensitive(ptr->dst_view, FALSE);
     }
   } else {
-    gtk_widget_set_sensitive(ptr->add_cmd, TRUE);
     gtk_widget_set_sensitive(ptr->dst_view, TRUE);
   }
 }
@@ -1575,7 +1593,7 @@ static void commit_worklist(struct worklist_data *ptr)
     } while (gtk_tree_model_iter_next(model, &it));
   }
 
-  /* dance around worklist braindamage. */
+  /* Dance around worklist braindamage. */
   if (ptr->pcity) {
     if (!city_set_queue(ptr->pcity, &queue)) {
       /* Failed to change worklist. This means worklist visible
