@@ -2170,7 +2170,7 @@ static bool city_distribute_surplus_shields(struct player *pplayer,
         /* TODO: Should the unit try to help cities on adjacent tiles? That
          * would be a rules change. (This action is performed by the game
          * it self) */
-        if (upkeep_kill_unit(punit, O_SHIELD, ULR_DISBANDED,
+        if (upkeep_kill_unit(punit, O_SHIELD, ULR_UPKEEP,
                              game.info.muuk_shield_wipe)) {
           notify_player(pplayer, city_tile(pcity),
                         E_UNIT_LOST_MISC, ftc_server,

@@ -1770,8 +1770,12 @@ static void server_remove_unit_full(struct unit *punit, bool transported,
     player_status_add(unit_owner(punit), PSTATUS_DYING);
   }
 
+  /* Have to pass new ULR_UPKEEP as ULR_DISBAND for compatibility reasons.
+   * Changes in freeciv-3.2 */
   script_server_signal_emit("unit_lost", punit, unit_owner(punit),
-                            unit_loss_reason_name(reason));
+                            unit_loss_reason_name((reason == ULR_UPKEEP)
+                                                  ? ULR_DISBANDED
+                                                  : reason));
 
   script_server_remove_exported_object(punit);
   game_remove_unit(punit);
@@ -2010,6 +2014,7 @@ static void wipe_unit_full(struct unit *punit, bool transported,
   case ULR_BARB_UNLEASH:
   case ULR_CITY_LOST:
   case ULR_STARVED:
+  case ULR_UPKEEP:
   case ULR_NONNATIVE_TERR:
   case ULR_ARMISTICE:
   case ULR_HP_LOSS:
