@@ -47,6 +47,7 @@
 /* server */
 #include "aiiface.h"
 #include "citytools.h"
+#include "diplhand.h"
 #include "gamehand.h"
 #include "maphand.h"
 #include "notify.h"
@@ -179,12 +180,7 @@ struct player *create_barbarian_player(enum barbarian_type type)
   give_initial_techs(presearch, 0);
 
   /* Ensure that we are at war with everyone else */
-  players_iterate(pplayer) {
-    if (pplayer != barbarians) {
-      player_diplstate_get(pplayer, barbarians)->type = DS_WAR;
-      player_diplstate_get(barbarians, pplayer)->type = DS_WAR;
-    }
-  } players_iterate_end;
+  barbarian_initial_wars(barbarians);
 
   CALL_PLR_AI_FUNC(gained_control, barbarians, barbarians);
 
@@ -713,4 +709,27 @@ void summon_barbarians(void)
   for (i = 0; i < n * (game.server.barbarianrate - 1); i++) {
     try_summon_barbarians();
   }
+}
+
+/**************************************************************************
+  Set new barbarian player to war with everyone.
+**************************************************************************/
+void barbarian_initial_wars(struct player *barbarians)
+{
+  /* It would be nice to get rid of this special case,
+   * and make barbarians to switch from "No Contact" to "War"
+   * upon first contact like everyone else. Then other parts
+   * of the code would not need to be prepared to the possibility
+   * of a war between no-contact nations.
+   * The problem is that if barbarians were not in War, they would
+   * likely not to head to attack towards yet-unknown players
+   * as aggressively */
+
+  players_iterate(pplayer) {
+    if (pplayer != barbarians) {
+      set_diplstate_type(player_diplstate_get(pplayer, barbarians),
+                         player_diplstate_get(barbarians, pplayer),
+                         DS_WAR);
+    }
+  } players_iterate_end;
 }
