@@ -2039,6 +2039,7 @@ static void wipe_unit_full(struct unit *punit, bool transported,
   case ULR_BARB_UNLEASH:
   case ULR_CITY_LOST:
   case ULR_STARVED:
+  case ULR_UPKEEP:
   case ULR_NONNATIVE_TERR:
   case ULR_ARMISTICE:
   case ULR_HP_LOSS:
