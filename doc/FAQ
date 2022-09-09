@@ -840,7 +840,7 @@ types, and technologies?
    Further instructions are in ./doc/README.sound in the source tarball.
 
    If sound does not work, try:
-freeciv-gtk3.22 -d 3 -P <plugin> -S stdsounds
+freeciv-gtk3.22 -d verbose -P <plugin> -S stdsounds
 
    This will help you get some debug information, which might give a clue
    why the sound does not work.
@@ -991,7 +991,7 @@ or add cities to the list for an existing nation?
        includes yourself, so if you wanted to play against four AI
        players, you'd select 5).
     4. Click the Pick Nation button to choose your nation, leader name,
-       sex, and city style.
+       sex, and national style.
     5. Click the Start button.
 
    That's it! Enjoy!
