@@ -28,6 +28,7 @@
 
 /* server */
 #include "aiiface.h"
+#include "barbarian.h"
 #include "plrhand.h"
 #include "srv_main.h"
 #include "stdinhand.h"
@@ -138,12 +139,7 @@ void create_animals(void)
   give_initial_techs(presearch, 0);
 
   /* Ensure that we are at war with everyone else */
-  players_iterate(pplayer) {
-    if (pplayer != plr) {
-      player_diplstate_get(pplayer, plr)->type = DS_WAR;
-      player_diplstate_get(plr, pplayer)->type = DS_WAR;
-    }
-  } players_iterate_end;
+  barbarian_initial_wars(plr);
 
   CALL_PLR_AI_FUNC(gained_control, plr, plr);
 

@@ -36,4 +36,6 @@ bool is_sea_barbarian(struct player *pplayer);
 
 struct player *create_barbarian_player(enum barbarian_type type);
 
-#endif  /* FC__BARBARIAN_H */
+void barbarian_initial_wars(struct player *barbarians);
+
+#endif /* FC__BARBARIAN_H */
