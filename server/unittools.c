@@ -4707,7 +4707,7 @@ int get_unit_vision_at(struct unit *punit, const struct tile *ptile,
   Refresh the unit's vision.
 
   This function has very small overhead and can be called any time effects
-  may have changed the vision range of the city.
+  may have changed the vision range of the unit.
 **************************************************************************/
 void unit_refresh_vision(struct unit *punit)
 {
