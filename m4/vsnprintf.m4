@@ -16,7 +16,7 @@ AC_DEFUN([FC_FUNC_VSNPRINTF],
 #include <stdarg.h>
 
 int
-doit(char * s, ...)
+doit(char *s, ...)
 {
   char buffer[32];
   va_list args;
@@ -28,10 +28,9 @@ doit(char * s, ...)
   r = vsnprintf(buffer, 5, s, args);
   va_end(args);
 
-  /* -1 is pre-C99, 7 is C99. */
-
-  if (r != -1 && r != 7)
+  if (r != 7) {
     exit(1);
+  }
 
   /* We deliberately do not care if the result is NUL-terminated or
      not, since this is easy to work around like this.  */
