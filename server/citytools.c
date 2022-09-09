@@ -2842,27 +2842,23 @@ void building_lost(struct city *pcity, const struct impr_type *pimprove,
 void city_units_upkeep(const struct city *pcity)
 {
   int free_uk[O_LAST];
-  int cost;
-  struct unit_type *ut;
-  struct player *plr;
-  bool update;
 
   if (!pcity || !pcity->units_supported
       || unit_list_size(pcity->units_supported) < 1) {
     return;
   }
 
-  memset(free_uk, 0, O_LAST * sizeof(*free_uk));
   output_type_iterate(o) {
     free_uk[o] = get_city_output_bonus(pcity, get_output_type(o),
                                        EFT_UNIT_UPKEEP_FREE_PER_CITY);
   } output_type_iterate_end;
 
-  /* save the upkeep for all units in the corresponding punit struct */
+  /* Save the upkeep for all units in the corresponding punit struct */
   unit_list_iterate(pcity->units_supported, punit) {
-    ut = unit_type_get(punit);
-    plr = unit_owner(punit);
-    update = FALSE;
+    struct unit_type *ut = unit_type_get(punit);
+    struct player *plr = unit_owner(punit);
+    bool update = FALSE;
+    int cost;
 
     output_type_iterate(o) {
       cost = utype_upkeep_cost(ut, plr, o);
