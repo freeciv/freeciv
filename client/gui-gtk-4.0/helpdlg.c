@@ -463,14 +463,13 @@ static void create_help_dialog(void)
   GtkWidget *hgrid;
   GtkWidget *button;
   GtkWidget *text;
-  int	     i, j;
+  int        i, j;
   GtkCellRenderer   *rend;
   GtkTreeViewColumn *col;
   GArray            *array;
   GtkTreeStore      *store;
   GtkTreeSelection  *selection;
   int grid_col = 0;
-  int buttons_col = 0;
 
   help_history = g_ptr_array_new();
   help_history_pos = -1;
@@ -753,8 +752,8 @@ static void create_help_dialog(void)
 		   G_CALLBACK(help_tech_tree_collapse_callback), help_tree);
 
   help_tree_buttons_hbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
-  gtk_grid_attach(GTK_GRID(help_tree_buttons_hbox), help_tree_expand, buttons_col++, 0, 1, 1);
-  gtk_grid_attach(GTK_GRID(help_tree_buttons_hbox), help_tree_collapse, buttons_col++, 0, 1, 1);
+  gtk_box_append(GTK_BOX(help_tree_buttons_hbox), help_tree_expand);
+  gtk_box_append(GTK_BOX(help_tree_buttons_hbox), help_tree_collapse);
   gtk_box_append(GTK_BOX(help_box), help_tree_buttons_hbox);
   gtk_widget_show(help_tree_buttons_hbox);
 }
