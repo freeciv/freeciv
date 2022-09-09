@@ -1545,6 +1545,7 @@ struct adv_choice *military_advisor_choose_build(struct ai_type *ait,
     int num_defenders = unit_list_size(ptile->units);
     int wall_id, danger;
     bool build_walls = TRUE;
+    bool def_unit_selected = FALSE;
     int qdanger = city_data->danger * city_data->danger;
 
     /* First determine the danger.  It is measured in percents of our 
@@ -1576,6 +1577,7 @@ struct adv_choice *military_advisor_choose_build(struct ai_type *ait,
         choice->want = 100 + danger;
         adv_choice_set_use(choice, "first defender");
         build_walls = FALSE;
+        def_unit_selected = TRUE;
 
         CITY_LOG(LOG_DEBUG, pcity, "m_a_c_d wants first defender with " ADV_WANT_PRINTF,
                  choice->want);
@@ -1621,6 +1623,10 @@ struct adv_choice *military_advisor_choose_build(struct ai_type *ait,
       } else {
         build_walls = FALSE;
       }
+    }
+
+    /* If our choice isn't defender unit already, consider one */
+    if (!def_unit_selected) {
       if ((danger > 0 && num_defenders <= urgency) || martial_value > 0) {
         struct adv_choice uchoice;
 
