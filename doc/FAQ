@@ -61,12 +61,13 @@
              3.13 What other GUI options do I have for the Freeciv client?
              3.14 How do I enable/disable sound support?
              3.15 Where can I find more information on the *.ruleset files?
-             3.16 How can I add additional civilizations in the nation/
-               subdirectory, or add cities to the list for an existing
-               nation?
-             3.17 How can I change the language of my client/server?
-             3.18 How do I get the latest development code?
-             3.19 What are the system requirements?
+             3.16 How can I add additional civilizations to be used locally?
+             3.17 How can I add additional civilizations in the
+               nation/ subdirectory of freeciv installation,
+               or add cities to the list for an existing nation?
+             3.18 How can I change the language of my client/server?
+             3.19 How do I get the latest development code?
+             3.20 What are the system requirements?
         4 Windows
              4.1 How do I use Freeciv under MS Windows?
              4.2 OK, I've downloaded and installed it, how do I run it?
@@ -714,10 +715,9 @@ Starting game.
 
    The Freeciv client wants to write a configuration file named
    freeciv-client-rc-3.1 (for Freeciv 3.1.x) in a directory called
-   .freeciv in your $HOME directory. On Windows the %HOME%-directory can
-   be either explicitly set, or defaults to %APPDATA%. So for instance for
-   Freeciv 3.1 the Windows clients might put their common configuration
-   file in
+   .freeciv in your $HOME directory. On Windows that's %APPDATA%.
+   So for instance for Freeciv 3.1 the Windows clients might put
+   their common configuration file in
    C:\Users\username\AppData\Roaming\.freeciv\freeciv-client-rc-3.1.
 
 -------
@@ -842,7 +842,7 @@ types, and technologies?
    Further instructions are in ./doc/README.sound in the source tarball.
 
    If sound does not work, try:
-freeciv-gtk3.22 -d 3 -P <plugin> -S stdsounds
+freeciv-gtk3.22 -d verbose -P <plugin> -S stdsounds
 
    This will help you get some debug information, which might give a clue
    why the sound does not work.
@@ -860,20 +860,28 @@ freeciv-gtk3.22 -d 3 -P <plugin> -S stdsounds
 
 -------
 
-3.16 How can I add additional civilizations in the nation/ subdirectory,
-or add cities to the list for an existing nation?
+3.16 How can I add additional civilizations to be used locally?
+
+   See README.nations in the documentation directory,
+   chapter labeled ''Local Nation files''
+
+-------
+
+3.17 How can I add additional civilizations in the
+     nation/ subdirectory of freeciv installation,
+     or add cities to the list for an existing nation?
 
    See the Nations article or ./doc/README.nations in the source tarball.
 
 -------
 
-3.17 How can I change the language of my client/server?
+3.18 How can I change the language of my client/server?
 
    See the Interface Language wiki article.
 
 -------
 
-3.18 How do I get the latest development code?
+3.19 How do I get the latest development code?
 
    Use Git directly:
     1. Obtain and install Git on your Unix machine. On modern
@@ -898,7 +906,7 @@ or add cities to the list for an existing nation?
 
 -------
 
-3.19 What are the system requirements?
+3.20 What are the system requirements?
 
    Memory
 
@@ -960,7 +968,7 @@ or add cities to the list for an existing nation?
    Windows packages come as self-extracting installers.
 
    Simply download and install one of the .EXE installers (GTK, SDL, or
-   QT). All versions require Windows 7 or later.
+   QT). All versions require Windows 8.1 or later.
 
 -------
 
@@ -993,7 +1001,7 @@ or add cities to the list for an existing nation?
        includes yourself, so if you wanted to play against four AI
        players, you'd select 5).
     4. Click the Pick Nation button to choose your nation, leader name,
-       sex, and city style.
+       sex, and national style.
     5. Click the Start button.
 
    That's it! Enjoy!
