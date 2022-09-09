@@ -313,7 +313,7 @@ void make_escapes(const char *str, char *buf, size_t buf_len)
   removes the newline.
   If full_escapes is TRUE:
     - '\n' -> newline translation.
-    - Other '\c' sequences (any character 'c') are just passed
+    - Other '\?' sequences (any character '?') are just passed
       through with the '\' removed (eg, includes '\\', '\"').
   See also make_escapes().
 ****************************************************************************/
