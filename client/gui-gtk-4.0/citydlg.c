@@ -390,10 +390,11 @@ static struct city_dialog *get_city_dialog(struct city *pcity)
   }
 
   dialog_list_iterate(dialog_list, pdialog) {
-    if (pdialog->pcity == pcity)
+    if (pdialog->pcity == pcity) {
       return pdialog;
-  }
-  dialog_list_iterate_end;
+    }
+  } dialog_list_iterate_end;
+
   return NULL;
 }
 
@@ -2421,28 +2422,25 @@ static void city_dialog_update_prev_next(void)
     city_number = FC_INFINITY; /* ? */
   }
 
-  /* the first time, we see if all the city dialogs are open */
-
+  /* The first time, we see if all the city dialogs are open */
   dialog_list_iterate(dialog_list, pdialog) {
-    if (city_owner(pdialog->pcity) == client.conn.playing)
+    if (city_owner(pdialog->pcity) == client.conn.playing) {
       count++;
-  }
-  dialog_list_iterate_end;
+    }
+  } dialog_list_iterate_end;
 
-  if (count == city_number) {	/* all are open, shouldn't prev/next */
+  if (count == city_number) {   /* All are open, shouldn't prev/next */
     dialog_list_iterate(dialog_list, pdialog) {
       gtk_widget_set_sensitive(GTK_WIDGET(pdialog->prev_command), FALSE);
       gtk_widget_set_sensitive(GTK_WIDGET(pdialog->next_command), FALSE);
-    }
-    dialog_list_iterate_end;
+    } dialog_list_iterate_end;
   } else {
     dialog_list_iterate(dialog_list, pdialog) {
       if (city_owner(pdialog->pcity) == client.conn.playing) {
 	gtk_widget_set_sensitive(GTK_WIDGET(pdialog->prev_command), TRUE);
 	gtk_widget_set_sensitive(GTK_WIDGET(pdialog->next_command), TRUE);
       }
-    }
-    dialog_list_iterate_end;
+    } dialog_list_iterate_end;
   }
 }
 
@@ -3618,14 +3616,24 @@ static void switch_city_callback(GtkWidget *w, gpointer data)
   center_tile_mapcanvas(pdialog->pcity->tile);
   can_slide = TRUE;
   if (!client_is_observer()) {
-    set_cityopt_values(pdialog);  /* need not be in real_city_dialog_refresh */
+    set_cityopt_values(pdialog);  /* Need not be in real_city_dialog_refresh */
   }
 
   real_city_dialog_refresh(pdialog->pcity);
 
-  /* recenter the city map(s) */
+  /* Recenter the city map(s) */
   city_dialog_map_recenter(pdialog->overview.map_canvas.sw);
   if (pdialog->happiness.map_canvas.sw) {
     city_dialog_map_recenter(pdialog->happiness.map_canvas.sw);
   }
+}
+
+/***********************************************************************//**
+  Refresh worklist editor for all city dialogs.
+***************************************************************************/
+void refresh_all_city_worklists(void)
+{
+  dialog_list_iterate(dialog_list, pdialog) {
+    refresh_worklist(pdialog->production.worklist);
+  } dialog_list_iterate_end;
 }
