@@ -668,7 +668,7 @@ void plr_widget::nation_selected(const QItemSelection &sl,
   }
 
   wonder_str = "<b>"
-    + QString(_("Wonders of %1 Empire.")).arg(QString(nation_plural_for_player(pplayer)).toHtmlEscaped())
+    + QString(_("Wonders of %1 Empire")).arg(QString(nation_plural_for_player(pplayer)).toHtmlEscaped())
     + "</b>" + nl + QString(_("Rule: ")) + rule + nl;
 
   improvement_iterate(impr) {
