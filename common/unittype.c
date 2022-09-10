@@ -2094,16 +2094,25 @@ bool can_player_build_unit_direct(const struct player *p,
       continue;
     }
 
-    if (preq->source.kind == VUT_ADVANCE && barbarian && preq->range < REQ_RANGE_WORLD
-        && utype_has_role(punittype, L_BARBARIAN_BUILD)) {
-      /* Barbarians can build L_BARBARIAN_BUILD when anyone has the tech requirements. */
-      struct requirement copy;
+    if (preq->source.kind == VUT_ADVANCE && barbarian) {
+      /* Tech requirements do not apply to Barbarians building
+       * L_BARBARIAN_BUILD units. */
+      if (!utype_has_role(punittype, L_BARBARIAN_BUILD)) {
+        /* For L_BARBARIAN_BUILD_TECH the tech requirement must be met at World range
+         * (i.e. *anyone* must know the tech) */
+        if (preq->range < REQ_RANGE_WORLD /* If range already World, no need to adjust */
+            && utype_has_role(punittype, L_BARBARIAN_BUILD_TECH)) {
+          struct requirement copy;
 
-      req_copy(&copy, preq);
-      copy.range = REQ_RANGE_WORLD;
+          req_copy(&copy, preq);
+          copy.range = REQ_RANGE_WORLD;
 
-      if (!is_req_active(&context, NULL, &copy, RPT_CERTAIN)) {
-        return FALSE;
+          if (!is_req_active(&context, NULL, &copy, RPT_CERTAIN)) {
+            return FALSE;
+          }
+        } else if (!is_req_active(&context, NULL, preq, RPT_CERTAIN)) {
+          return FALSE;
+        }
       }
     } else if (!is_req_active(&context, NULL, preq, RPT_CERTAIN)) {
       return FALSE;
