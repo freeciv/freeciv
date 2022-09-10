@@ -1061,7 +1061,10 @@ void city_choose_build_default(struct city *pcity)
       if (!found) {
 	unit_type_iterate(punittype) {
 	  if (can_city_build_unit_direct(pcity, punittype)) {
+#ifndef FREECIV_NDEBUG
+            /* Later than this, 'found' is only needed in an fc_assert() */
 	    found = TRUE;
+#endif /* FREECIV_NDEBUG */
 	    pcity->production.kind = VUT_UTYPE;
 	    pcity->production.value.utype = punittype;
 	  }
