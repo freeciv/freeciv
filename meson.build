@@ -616,7 +616,7 @@ fc_deps = static_library('fc_dependencies',
   dependencies: lua_dep
   )
 
-if meson.is_cross_build()
+if meson.is_cross_build() or get_option('sys-tolua-cmd')
   tolua_cmd = find_program('tolua')
 else
   tolua_cmd = executable('tolua',

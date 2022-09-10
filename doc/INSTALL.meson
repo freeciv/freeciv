@@ -129,6 +129,13 @@ syslua ('try'/'true'/'false')
   source tree. The default is 'try' to use lua from the system if possible,
   but fallback to using freeciv's included one if not found from system.
 
+sys-tolua-cmd (boolean):
+  Whether to use tolua command from the system, or to build one
+  included in the freeciv source tree. For native build
+  the default is false, i.e., to use freeciv's own tolua.
+  When cross-compiling, this setting is ignored, and tolua is
+  always used from the build system.
+
 mwand ('try'/'true'/'false')
   Whether to build against MagickWand to have support for additional
   mapimg formats. The default is 'try' to enable the support if possible.
