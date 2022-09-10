@@ -215,7 +215,7 @@ bool select_tgt_extra(struct unit *actor, struct tile *ptile,
   gtk_grid_attach(GTK_GRID(main_box), box, 0, main_row++, 1, 1);
 
   fc_assert_ret_val(default_option, FALSE);
-  gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(default_option), TRUE);
+  gtk_check_button_set_active(GTK_CHECK_BUTTON(default_option), TRUE);
 
   gtk_box_append(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(dlg))),
                  main_box);
