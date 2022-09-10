@@ -1080,24 +1080,26 @@ void city_choose_build_default(struct city *pcity)
       bool found = FALSE;
 
       /* Just pick the first available item. */
-
       improvement_iterate(pimprove) {
-	if (can_city_build_improvement_direct(pcity, pimprove)) {
-	  found = TRUE;
-	  pcity->production.kind = VUT_IMPROVEMENT;
-	  pcity->production.value.building = pimprove;
-	  break;
-	}
+        if (can_city_build_improvement_direct(pcity, pimprove)) {
+          found = TRUE;
+          pcity->production.kind = VUT_IMPROVEMENT;
+          pcity->production.value.building = pimprove;
+          break;
+        }
       } improvement_iterate_end;
 
       if (!found) {
-	unit_type_iterate(punittype) {
-	  if (can_city_build_unit_direct(pcity, punittype)) {
-	    found = TRUE;
-	    pcity->production.kind = VUT_UTYPE;
-	    pcity->production.value.utype = punittype;
-	  }
-	} unit_type_iterate_end;
+        unit_type_iterate(punittype) {
+          if (can_city_build_unit_direct(pcity, punittype)) {
+#ifndef FREECIV_NDEBUG
+            /* Later than this, 'found' is only needed in an fc_assert() */
+            found = TRUE;
+#endif /* FREECIV_NDEBUG */
+            pcity->production.kind = VUT_UTYPE;
+            pcity->production.value.utype = punittype;
+          }
+        } unit_type_iterate_end;
       }
 
       fc_assert_msg(found, "No production found for city %s!",
