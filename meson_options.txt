@@ -30,6 +30,11 @@ option('syslua',
        choices: ['try', 'true', 'false'],
        description: 'Use lua from system')
 
+option('sys-tolua-cmd',
+       type: 'boolean',
+       value: false,
+       description: 'Use tolua cmd from the system even for native builds')
+
 option('mwand',
        type: 'combo',
        choices: ['try', 'true', 'false'],
