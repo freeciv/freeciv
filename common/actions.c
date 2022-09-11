@@ -2721,8 +2721,8 @@ enabler_tile_tgt_local_diplrel_implies_claimed(
   struct requirement *claimed_req;
   struct requirement tile_is_claimed;
   struct requirement tile_is_unclaimed;
-
   struct action *paction = action_by_number(enabler->action);
+  struct astring astr;
 
   if (action_get_target_kind(paction) != ATK_TILE) {
     /* Not tile targeted */
@@ -2766,7 +2766,9 @@ enabler_tile_tgt_local_diplrel_implies_claimed(
            * so this is implicit.) */
           N_("Requirement {%s} of action \"%s\" implies a claimed "
              "tile. No diplomatic relation to Nature."),
-          req_to_fstring(local_diplrel), action_rule_name(paction));
+          req_to_fstring(local_diplrel, &astr), action_rule_name(paction));
+
+  astr_free(&astr);
 
   /* The solution is to add the requirement that the tile is claimed */
   out->suggested_solutions[0].req = tile_is_claimed;
@@ -2790,8 +2792,9 @@ enabler_first_self_contradiction(const struct action_enabler *enabler)
   struct requirement *local_diplrel;
   struct requirement *unclaimed_req;
   struct requirement tile_is_claimed;
-
   struct action *paction = action_by_number(enabler->action);
+  struct astring astr1;
+  struct astring astr2;
 
   if (action_get_target_kind(paction) != ATK_TILE) {
     /* Not tile targeted */
@@ -2828,7 +2831,11 @@ enabler_first_self_contradiction(const struct action_enabler *enabler)
           N_("In enabler for \"%s\": No diplomatic relation to Nature."
              " Requirements {%s} and {%s} contradict each other."),
           action_rule_name(paction),
-          req_to_fstring(local_diplrel), req_to_fstring(unclaimed_req));
+          req_to_fstring(local_diplrel, &astr1),
+          req_to_fstring(unclaimed_req, &astr2));
+
+  astr_free(&astr1);
+  astr_free(&astr2);
 
   /* The first suggestion is to remove the diplrel */
   out->suggested_solutions[0].req = *local_diplrel;
