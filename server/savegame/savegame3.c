@@ -1843,26 +1843,6 @@ static void sg_save_savefile(struct savedata *saving)
     free(modname);
   }
 
-  /* Save diplstate type order in the savegame. */
-  secfile_insert_int(saving->file, DS_LAST,
-                     "savefile.diplstate_type_size");
-  if (DS_LAST > 0) {
-    const char **modname;
-    int j;
-
-    i = 0;
-    modname = fc_calloc(DS_LAST, sizeof(*modname));
-
-    for (j = 0; j < DS_LAST; j++) {
-      modname[i++] = diplstate_type_name(j);
-    }
-
-    secfile_insert_str_vec(saving->file, modname,
-                           DS_LAST,
-                           "savefile.diplstate_type_vector");
-    free(modname);
-  }
-
   /* Save city_option order in the savegame. */
   secfile_insert_int(saving->file, CITYO_LAST,
                      "savefile.city_options_size");

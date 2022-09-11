@@ -108,6 +108,7 @@ struct loaddata {
     size_t size;
   } specialist;
   /* loaded in sg_load_savefile(); needed in sg_load_player_main(), ... */
+  /* Deprecated in 3.0 (savegame3.c) Still saved up to 3.1. */
   struct {
     enum diplstate_type *order;
     size_t size;

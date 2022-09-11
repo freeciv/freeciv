@@ -2126,6 +2126,18 @@ static void compat_load_030200(struct loaddata *loading,
       }
     }
   }
+
+  /* Older savegames unnecessarily saved diplstate type order.
+   * Silence "unused entry" warnings about those. */
+  {
+    int dscount = secfile_lookup_int_default(loading->file, 0,
+                                             "savefile.diplstate_type_size");
+
+    for (i = 0; i < dscount; i++) {
+      (void) secfile_entry_lookup(loading->file,
+                                  "savefile.diplstate_type_vector,%d", i);
+    }
+  }
 }
 
 /************************************************************************//**
@@ -2726,6 +2738,19 @@ static void compat_load_dev(struct loaddata *loading)
 
   if (game_version < 3019300) {
     /* Before version number bump to 3.1.93 */
+
+    /* Older savegames unnecessarily saved diplstate type order.
+     * Silence "unused entry" warnings about those. */
+    {
+      int dscount = secfile_lookup_int_default(loading->file, 0,
+                                               "savefile.diplstate_type_size");
+      int i;
+
+      for (i = 0; i < dscount; i++) {
+        (void) secfile_entry_lookup(loading->file,
+                                    "savefile.diplstate_type_vector,%d", i);
+      }
+    }
 
   } /* Version < 3.1.93 */
 
