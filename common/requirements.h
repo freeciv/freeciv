@@ -18,6 +18,9 @@
 extern "C" {
 #endif /* __cplusplus */
 
+/* utility */
+#include "astring.h"
+
 /* common */
 #include "fc_types.h"
 
@@ -90,7 +93,8 @@ struct requirement {
 struct requirement req_from_str(const char *type, const char *range,
                                 bool survives, bool present, bool quiet,
                                 const char *value);
-const char *req_to_fstring(const struct requirement *req);
+const char *req_to_fstring(const struct requirement *req,
+                           struct astring *astr);
 
 void req_get_values(const struct requirement *req, int *type,
                     int *range, bool *survives, bool *present, bool *quiet,
@@ -100,7 +104,7 @@ struct requirement req_from_values(int type, int range,
                                    int value);
 
 bool are_requirements_equal(const struct requirement *req1,
-			    const struct requirement *req2);
+                            const struct requirement *req2);
 
 bool are_requirements_contradictions(const struct requirement *req1,
                                      const struct requirement *req2);

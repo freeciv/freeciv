@@ -821,6 +821,8 @@ bool sanity_check_ruleset_data(struct rscompat_info *compat)
                       advance_rule_name(padvance));
         ok = FALSE;
       } else if (!is_req_unchanging(preq)) {
+        struct astring astr;
+
         /* Only support unchanging requirements until the reachability code
          * can handle it and the tech tree can display changing
          * requirements. */
@@ -830,7 +832,8 @@ bool sanity_check_ruleset_data(struct rscompat_info *compat)
                       " the game. Changing requirements aren't supported"
                       " yet.",
                       advance_rule_name(padvance),
-                      req_to_fstring(preq));
+                      req_to_fstring(preq, &astr));
+        astr_free(&astr);
         ok = FALSE;
       }
     } requirement_vector_iterate_end;
@@ -1210,6 +1213,8 @@ bool sanity_check_ruleset_data(struct rscompat_info *compat)
       requirement_vector_iterate(&(enabler->target_reqs), preq) {
         if (preq->source.kind == VUT_DIPLREL
             && preq->range == REQ_RANGE_LOCAL) {
+          struct astring astr;
+
           /* A Local DiplRel requirement can be expressed as a requirement
            * in actor_reqs. Demand that it is there. This avoids breaking
            * code that reasons about actions. */
@@ -1219,7 +1224,8 @@ bool sanity_check_ruleset_data(struct rscompat_info *compat)
                         "section \"Requirement vector rules\" in "
                         "doc/README.actions",
                         action_id_rule_name(act),
-                        req_to_fstring(preq));
+                        req_to_fstring(preq, &astr));
+          astr_free(&astr);
           ok = FALSE;
         }
       } requirement_vector_iterate_end;

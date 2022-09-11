@@ -656,19 +656,24 @@ int universal_number(const struct universal *source)
 /****************************************************************************
   Returns the given requirement as a formatted string ready for printing.
   Does not care about the 'quiet' property.
-****************************************************************************/
-const char *req_to_fstring(const struct requirement *req)
-{
-  struct astring printable_req = ASTRING_INIT;
 
-  astr_set(&printable_req, "%s%s %s %s%s",
+  astring does not need to be initialized before the call,
+  but caller needs to call astr_free() for it once the returned
+  string is no longer needed.
+****************************************************************************/
+const char *req_to_fstring(const struct requirement *req,
+                           struct astring *astr)
+{
+  astr_init(astr);
+
+  astr_set(astr, "%s%s %s %s%s",
            req->survives ? "surviving " : "",
            req_range_name(req->range),
            universal_type_rule_name(&req->source),
            req->present ? "" : "!",
            universal_rule_name(&req->source));
 
-  return astr_str(&printable_req);
+  return astr_str(astr);
 }
 
 /****************************************************************************
@@ -3803,6 +3808,7 @@ const char *req_vec_change_translation(const struct req_vec_change *change,
 {
   const char *req_vec_description;
   static char buf[MAX_LEN_NAME * 3];
+  struct astring astr;
 
   fc_assert_ret_val(change, NULL);
   fc_assert_ret_val(req_vec_change_operation_is_valid(change->operation),
@@ -3830,8 +3836,9 @@ const char *req_vec_change_translation(const struct req_vec_change *change,
                  * like "actor_reqs" */
                 _("%s %s from %s"),
                 req_vec_change_operation_name(change->operation),
-                req_to_fstring(&change->req),
+                req_to_fstring(&change->req, &astr),
                 req_vec_description);
+    astr_free(&astr);
     break;
   case RVCO_APPEND:
     fc_snprintf(buf, sizeof(buf),
@@ -3843,8 +3850,9 @@ const char *req_vec_change_translation(const struct req_vec_change *change,
                  * like "actor_reqs" */
                 _("%s %s to %s"),
                 req_vec_change_operation_name(change->operation),
-                req_to_fstring(&change->req),
+                req_to_fstring(&change->req, &astr),
                 req_vec_description);
+    astr_free(&astr);
     break;
   case RVCO_NOOP:
     fc_snprintf(buf, sizeof(buf),
@@ -4011,10 +4019,15 @@ req_vec_get_first_contradiction(const struct requirement_vector *vec,
 
       if (are_requirements_contradictions(preq, nreq)) {
         struct req_vec_problem *problem;
+        struct astring astr;
+        struct astring nastr;
 
         problem = req_vec_problem_new(2,
             N_("Requirements {%s} and {%s} contradict each other."),
-            req_to_fstring(preq), req_to_fstring(nreq));
+            req_to_fstring(preq, &astr), req_to_fstring(nreq, &nastr));
+
+        astr_free(&astr);
+        astr_free(&nastr);
 
         /* The solution is to remove one of the contradictions. */
         problem->suggested_solutions[0].operation = RVCO_REMOVE;
