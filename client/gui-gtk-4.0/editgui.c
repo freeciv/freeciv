@@ -387,20 +387,11 @@ static bool editgui_run_tool_selection(enum editor_tool_type ett)
 /************************************************************************//**
   Handle a mouse click on any of the tool buttons.
 ****************************************************************************/
-static gboolean editbar_tool_button_mouse_click(GtkWidget *w,
-                                                GdkEvent *ev,
-                                                gpointer userdata)
+static gboolean editbar_tool_right_button(GtkGestureClick *gesture,
+                                          int n_press,
+                                          double x, double y, gpointer data)
 {
-  int ett;
-  guint button;
-
-  button = gdk_button_event_get_button(ev);
-  if (button != 3) {
-    return FALSE; /* Propagate event further. */
-  }
-
-  ett = GPOINTER_TO_INT(userdata);
-  return editgui_run_tool_selection(ett);
+  return editgui_run_tool_selection(GPOINTER_TO_INT(data));
 }
 
 /************************************************************************//**
@@ -415,6 +406,8 @@ static void editbar_add_tool_button(struct editbar *eb,
   GtkToggleButton *parent = NULL;
   struct sprite *sprite;
   int i;
+  GtkGesture *gesture;
+  GtkEventController *controller;
 
   if (!eb || !(ett < NUM_EDITOR_TOOL_TYPES)) {
     return;
@@ -449,9 +442,16 @@ static void editbar_add_tool_button(struct editbar *eb,
   gtk_widget_set_focus_on_click(button, FALSE);
 
   g_signal_connect(button, "toggled",
-      G_CALLBACK(editbar_tool_button_toggled), GINT_TO_POINTER(ett));
-  g_signal_connect(button, "button_press_event",
-      G_CALLBACK(editbar_tool_button_mouse_click), GINT_TO_POINTER(ett));
+                   G_CALLBACK(editbar_tool_button_toggled),
+                   GINT_TO_POINTER(ett));
+
+  gesture = gtk_gesture_click_new();
+  gtk_gesture_single_set_button(GTK_GESTURE_SINGLE(gesture), 3);
+  controller = GTK_EVENT_CONTROLLER(gesture);
+  g_signal_connect(controller, "pressed",
+                   G_CALLBACK(editbar_tool_right_button),
+                   GINT_TO_POINTER(ett));
+  gtk_widget_add_controller(button, controller);
 
   hbox = eb->widget;
   gtk_box_append(GTK_BOX(hbox), button);
