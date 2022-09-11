@@ -529,8 +529,11 @@ static bool save_action_auto_uflag_block(struct section_file *sfile,
 
       protecor_flag[i++] = req->source.value.unitflag;
     } else if (unexpected_req(req)) {
+      struct astring astr;
+
       log_error("Can't handle action auto performer requirement %s",
-                req_to_fstring(req));
+                req_to_fstring(req, &astr));
+      astr_free(&astr);
 
       return FALSE;
     }
