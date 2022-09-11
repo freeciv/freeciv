@@ -2202,8 +2202,9 @@ class Packet:
         self.delta="no-delta" not in arr
         if not self.delta: arr.remove("no-delta")
 
-        self.handle_via_packet="handle-via-packet" in arr
-        if self.handle_via_packet: arr.remove("handle-via-packet")
+        self.handle_via_packet = "handle-via-fields" not in arr
+        if not self.handle_via_packet:
+            arr.remove("handle-via-fields")
 
         self.handle_per_conn="handle-per-conn" in arr
         if self.handle_per_conn: arr.remove("handle-per-conn")
@@ -2244,12 +2245,10 @@ class Packet:
         # valid, since self.fields is already set
         if self.no_packet:
             self.delta = False
+            self.handle_via_packet = False
 
             if self.want_dsend:
                 raise ValueError("requested dsend for %s without fields isn't useful" % self.name)
-
-        if len(self.fields)>5 or self.name.split("_")[1]=="ruleset":
-            self.handle_via_packet = True
 
         # create cap variants
         all_caps = self.all_caps    # valid, since self.fields is already set
