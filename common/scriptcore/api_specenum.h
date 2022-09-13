@@ -18,6 +18,7 @@ extern "C" {
 #endif /* __cplusplus */
 
 #define API_SPECENUM_INDEX_NAME(type) api_specenum_##type##_index
+#define API_SPECENUM_NAME_NAME(type) api_specenum_##type##_name
 
 /**********************************************************************//**
   Define a the __index (table, key) -> value  metamethod
@@ -47,11 +48,40 @@ extern "C" {
     return 1;                                                             \
   }
 
+/**********************************************************************//**
+  Define the __index (table, key) -> value  metamethod
+  Return the enum name whose value is supplied.
+  The fetched value is written back to the lua table, and further accesses
+  will resolve there instead of this function.
+  Note that the indices usually go from 0, not 1.
+**************************************************************************/
+#define API_SPECENUM_DEFINE_INDEX_REV(type_name)                          \
+  static int (API_SPECENUM_NAME_NAME(type_name))(lua_State *L)            \
+  {                                                                       \
+    enum type_name _key;                                                  \
+    const char *_value;                                                   \
+    luaL_checktype(L, 1, LUA_TTABLE);                                     \
+    _key = luaL_checkinteger(L, 2);                                       \
+    if (type_name##_is_valid(_key)) {                                     \
+      _value = type_name##_name(_key);                                    \
+      /* T[_key] = _value */                                              \
+      lua_pushinteger(L, _key);                                           \
+      lua_pushstring(L, _value);                                          \
+      lua_rawset(L, 1);                                                   \
+      lua_pushstring(L, _value);                                          \
+    } else {                                                              \
+      lua_pushnil(L);                                                     \
+    }                                                                     \
+    return 1;                                                             \
+  }
+
 void api_specenum_create_table(lua_State *L, const char *name,
                                lua_CFunction findex);
 
 #define API_SPECENUM_CREATE_TABLE(L, type, name)                             \
   api_specenum_create_table((L), (name), API_SPECENUM_INDEX_NAME(type))
+#define API_SPECENUM_CREATE_TABLE_REV(L, type, name)                             \
+  api_specenum_create_table((L), (name), API_SPECENUM_NAME_NAME(type))
 
 
 

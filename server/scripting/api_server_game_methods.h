@@ -37,5 +37,8 @@ int api_methods_nation_trait_max(lua_State *L, Nation_Type *pnation,
                                  const char *tname);
 int api_methods_nation_trait_default(lua_State *L, Nation_Type *pnation,
                                      const char *tname);
+int api_methods_player_tech_bulbs(lua_State *L, Player *pplayer,
+                                  Tech_Type *tech);
+bool api_methods_player_got_tech(lua_State *L, Player *pplayer);
 
 #endif /* FC__API_SERVER_GAME_METHODS_H */

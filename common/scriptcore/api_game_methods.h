@@ -87,6 +87,15 @@ int api_methods_player_num_units(lua_State *L, Player *pplayer);
 int api_methods_player_gold(lua_State *L, Player *pplayer);
 bool api_methods_player_knows_tech(lua_State *L, Player *pplayer,
                                    Tech_Type *ptech);
+bool api_method_player_can_research(lua_State *L, Player *pplayer,
+                                    Tech_Type *ptech);
+int api_methods_player_tech_cost(lua_State *L, Player *pplayer,
+                                 Tech_Type *ptech);
+lua_Object
+api_methods_player_researching(lua_State *L, Player *pplayer);
+int api_methods_player_bulbs(lua_State *L, Player *pplayer);
+int api_methods_player_research_cost(lua_State *L, Player *pplayer);
+int api_methods_player_future(lua_State *L, Player *pplayer);
 bool api_methods_player_shares_research(lua_State *L, Player *pplayer,
                                         Player *aplayer);
 const char *api_methods_research_rule_name(lua_State *L, Player *pplayer);

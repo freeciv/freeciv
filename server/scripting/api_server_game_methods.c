@@ -15,6 +15,9 @@
 #include <fc_config.h>
 #endif
 
+/* common */
+#include "research.h"
+
 /* common/scriptcore */
 #include "luascript.h"
 
@@ -161,4 +164,58 @@ int api_methods_nation_trait_default(lua_State *L, Nation_Type *pnation,
   LUASCRIPT_CHECK_ARG(L, trait_is_valid(tr), 3, "no such trait", 0);
 
   return pnation->server.traits[tr].fixed;
+}
+
+/**********************************************************************//**
+  In multiresearch mode, returns bulbs saved for a specific tech
+  in pplayer's research.
+  In other modes, returns the additional bulbs the player may get switching
+  to this tech (negative for penalty)
+**************************************************************************/
+int api_methods_player_tech_bulbs(lua_State *L, Player *pplayer,
+                                  Tech_Type *tech)
+{
+  const struct research *presearch;
+  Tech_type_id tn;
+
+  LUASCRIPT_CHECK_STATE(L, 0);
+  LUASCRIPT_CHECK_SELF(L, pplayer, 0);
+  LUASCRIPT_CHECK_ARG_NIL(L, tech, 3, Tech_Type, 0);
+  tn = advance_number(tech);
+  presearch = research_get(pplayer);
+  LUASCRIPT_CHECK(L, presearch, "player's research not set", 0);
+
+  if (game.server.multiresearch) {
+    return presearch->inventions[tn].bulbs_researched_saved;
+  } else {
+    if (presearch->researching_saved == tn) {
+      return
+        presearch->bulbs_researching_saved - presearch->bulbs_researched;
+    } else if (!presearch->got_tech && tn != presearch->researching
+               && presearch->bulbs_researched > 0) {
+      return -presearch->bulbs_researched * game.server.techpenalty / 100;
+    } else {
+      return 0;
+    }
+  }
+}
+
+/**********************************************************************//**
+  Returns whether pplayer is in "got tech" state and can invest their
+  remaining rsearched bulbs freely.
+**************************************************************************/
+bool api_methods_player_got_tech(lua_State *L, Player *pplayer)
+{
+  const struct research *presearch;
+
+  LUASCRIPT_CHECK_STATE(L, 0);
+  LUASCRIPT_CHECK_SELF(L, pplayer, 0);
+  presearch = research_get(pplayer);
+  LUASCRIPT_CHECK(L, presearch, "player's research not set", 0);
+
+  if (game.server.multiresearch) {
+    return presearch->got_tech_multi;
+  } else {
+    return presearch->got_tech;
+  }
 }

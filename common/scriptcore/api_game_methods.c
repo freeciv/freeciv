@@ -521,6 +521,140 @@ bool api_methods_player_knows_tech(lua_State *L, Player *pplayer,
 }
 
 /**********************************************************************//**
+  Return TRUE iff pplayer can research ptech now (but does not know it).
+  In client, considers known information only.
+**************************************************************************/
+bool api_method_player_can_research(lua_State *L, Player *pplayer,
+                                    Tech_Type *ptech)
+{
+  LUASCRIPT_CHECK_STATE(L, FALSE);
+  LUASCRIPT_CHECK_SELF(L, pplayer, FALSE);
+  LUASCRIPT_CHECK_ARG_NIL(L, ptech, 3, Tech_Type, FALSE);
+
+  return TECH_PREREQS_KNOWN
+    == research_invention_state(research_get(pplayer),
+                                advance_number(ptech));
+}
+
+/**********************************************************************//**
+  Return current ptech research (or losing) cost for pplayer
+  pplayer is optional, simplified calculation occurs without it
+  that does not take into account "Tech_Cost_Factor" effect.
+  In client, calculates a value summing only known leakage
+  sources that may be different from the actual one given
+  by :researching_cost() method. For techs not currently
+  researchable, often can't calculate an actual value even
+  on server (bases on current potential leakage sources, and,
+  for "CivI|II" style, current pplayer's number of known techs or,
+  if pplayer is absent, minimal number of techs to get to ptech).
+**************************************************************************/
+int api_methods_player_tech_cost(lua_State *L, Player *pplayer,
+                                 Tech_Type *ptech)
+{
+  LUASCRIPT_CHECK_STATE(L, 0);
+  LUASCRIPT_CHECK_ARG_NIL(L, ptech, 3, Tech_Type, 0);
+
+  if (!pplayer && TECH_COST_CIV1CIV2 == game.info.tech_cost_style) {
+    /* Avoid getting error messages and return at least something */
+    return ptech->cost * (double) game.info.sciencebox / 100.0;
+  }
+  return
+    research_total_bulbs_required(pplayer ? research_get(pplayer) : NULL,
+                                  advance_index(ptech), TRUE);
+}
+
+/**********************************************************************//**
+  Returns current research target for a player.
+  If the player researches a future tech, returns a string with
+  its translated name.
+  If the target is unset or unknown, returns nil.
+  In clients, an unknown value usually is nil but may be different
+  if an embassy has been lost during the session (see OSDN#45076)
+**************************************************************************/
+lua_Object
+api_methods_player_researching(lua_State *L, Player *pplayer)
+{
+  const struct research *presearch;
+  int rr;
+
+  LUASCRIPT_CHECK_STATE(L, 0);
+  LUASCRIPT_CHECK_SELF(L, pplayer, 0);
+  presearch = research_get(pplayer);
+  LUASCRIPT_CHECK(L, presearch, "player's research not set", 0);
+
+  rr = presearch->researching;
+
+  switch (rr) {
+  case A_FUTURE:
+    lua_pushstring(L, research_advance_name_translation(presearch, rr));
+    break;
+  case A_UNSET:
+  case A_UNKNOWN:
+    lua_pushnil(L);
+    break;
+  default:
+    /* A regular tech */
+    fc_assert(rr >= A_FIRST && rr <= A_LAST);
+    tolua_pushusertype(L, advance_by_number(rr), "Tech_Type");
+  }
+
+  return lua_gettop(L);
+}
+
+/**********************************************************************//**
+  Number of bulbs on the research stock of pplayer
+  In clients, unknown value is initialized with 0 but can be different
+  if an embassy has been lost during the session (see OSDN#45076)
+**************************************************************************/
+int api_methods_player_bulbs(lua_State *L, Player *pplayer)
+{
+  const struct research *presearch;
+
+  LUASCRIPT_CHECK_STATE(L, 0);
+  LUASCRIPT_CHECK_SELF(L, pplayer, 0);
+  presearch = research_get(pplayer);
+  LUASCRIPT_CHECK(L, presearch, "player's research not set", 0);
+
+  return presearch->bulbs_researched;
+}
+
+/**********************************************************************//**
+  Total cost of pplayer's current research target.
+  In clients, unknown value is initialized with 0 but can be different
+  if an embassy has been lost during the session (see OSDN#45076)
+**************************************************************************/
+int api_methods_player_research_cost(lua_State *L, Player *pplayer)
+{
+  const struct research *presearch;
+
+  LUASCRIPT_CHECK_STATE(L, 0);
+  LUASCRIPT_CHECK_SELF(L, pplayer, 0);
+  presearch = research_get(pplayer);
+  LUASCRIPT_CHECK(L, presearch, "player's research not set", 0);
+
+  return is_server()
+   ? research_total_bulbs_required(presearch, presearch->researching, FALSE)
+   : presearch->client.researching_cost;
+}
+
+/**********************************************************************//**
+  Number of future techs known to pplayer
+  In clients, unknown value is initialized with 0 but can be different
+  if an embassy has been lost during the session (see OSDN#45076)
+**************************************************************************/
+int api_methods_player_future(lua_State *L, Player *pplayer)
+{
+  const struct research *presearch;
+
+  LUASCRIPT_CHECK_STATE(L, 0);
+  LUASCRIPT_CHECK_SELF(L, pplayer, 0);
+  presearch = research_get(pplayer);
+  LUASCRIPT_CHECK(L, presearch, "player's research not set", 0);
+
+  return presearch->future_tech;
+}
+
+/**********************************************************************//**
   How much culture player has?
 **************************************************************************/
 int api_methods_player_culture_get(lua_State *L, Player *pplayer)

@@ -52,7 +52,8 @@ do
     "Disaster",
     "Achievement",
     "Action",
-    "Direction"
+    "Direction",
+    "Game_Info"
   }
 
   local function id_eq (o1, o2)
@@ -123,6 +124,9 @@ end
 tolua = {
   type=tolua.type,
 }
+
+-- Hide some unwanted API
+game[".set"] = nil
 
 -- Hide all private methods
 methods_private = nil

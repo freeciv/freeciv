@@ -92,6 +92,7 @@ struct Unit_Type {
 
 struct Tech_Type {
   const int item_number @ id;
+  const int cost @ cost_base;
 };
 
 struct Terrain {
@@ -120,8 +121,26 @@ struct Unit_List_Link {
 struct City_List_Link {
 };
 
+/* Declaring all fields as const, readonly */
+struct Game_Info {
+  const int base_tech_cost;
+  const int min_tech_cost;
+  const int tech_leak_pct;
+  const bool tech_steal_allow_holes;
+  const bool tech_trade_allow_holes;
+  const bool tech_trade_loss_allow_holes;
+  const bool tech_parasite_allow_holes;
+  const bool tech_loss_allow_holes;
+  const int sciencebox;
+  const char tech_cost_style @ tech_cost_style_id;
+  const char tech_leakage @ tech_leakage_style_id;
+};
+
 /* Module Game */
+$#define game_info_substructure game.info
 module game {
+  extern Game_Info game_info_substructure @ info;
+
   int api_methods_game_turn
     @ current_turn (lua_State *L);
 
@@ -150,6 +169,8 @@ module Player {
   module properties {
     int api_methods_player_number
       @ id (lua_State *L, Player *self);
+    int api_methods_player_bulbs
+      @ bulbs (lua_State *L, Player *pplayer);
   }
 
   const char *api_methods_player_controlling_gui
@@ -159,12 +180,22 @@ module Player {
     @ num_cities (lua_State *L, Player *self);
   int api_methods_player_num_units
     @ num_units (lua_State *L, Player *self);
+  int api_methods_player_future
+    @ num_future_techs (lua_State *L, Player *pplayer);
   bool api_methods_player_has_wonder
     @ has_wonder (lua_State *L, Player *self, Building_Type *building);
   int api_methods_player_gold
     @ gold (lua_State *L, Player *self);
   bool api_methods_player_knows_tech
     @ knows_tech (lua_State *L, Player *self, Tech_Type *ptech);
+  bool api_method_player_can_research
+    @ can_research (lua_State *L, Player *pplayer, Tech_Type *ptech);
+  int api_methods_player_tech_cost
+    @ tech_cost (lua_State *L, Player *pplayer, Tech_Type *ptech);
+  lua_Object api_methods_player_researching
+    @ researching (lua_State *L, Player *pplayer);
+  int api_methods_player_research_cost
+    @ researching_cost (lua_State *L, Player *pplayer);
   bool api_methods_player_shares_research
     @ shares_research (lua_State *L, Player *self, Player *other);
   const char *api_methods_research_rule_name
@@ -433,6 +464,14 @@ module Tech_Type {
     @ name_translation (lua_State *L, Tech_Type *self);
 }
 
+$[
+local ptcost = Player.tech_cost
+-- Unpersonalized tech cost method (without "Tech_Cost_Factor" effect)
+function Tech_Type:cost()
+  return ptcost(nil, self)
+end
+$]
+
 /* Module Terrain. */
 module Terrain {
   const char *api_methods_terrain_rule_name
@@ -555,6 +594,13 @@ module find {
     @ nonexistent (lua_State *L);
 }
 
+$[
+local game_info = game.info
+function find.game_info()
+  return game_info
+end
+$]
+
 module E {
   /* Notify events module is exported by api_specenum */
 }
@@ -612,7 +658,24 @@ Direction.properties.next_cw = direction.next_cw
 Direction.properties.opposite = direction.opposite
 $]
 
+module Game_Info {
+
+}
+
 $[
+-- Getting enums from game.info as rule names
+-- The tables are defined and filled in api_game_specenum.c
+local tcs, tls = TECH_COST, TECH_LEAKAGE
+-- Remove the tables from _G, likely no more use for them
+TECH_COST, TECH_LEAKAGE = nil, nil
+Game_Info.properties = {
+  tech_cost_style = function(self)
+    return tcs[self.tech_cost_style_id];
+  end,
+  tech_leakage_style = function(self)
+    return tls[self.tech_leakage_style_id];
+  end
+}
 
 -- ***************************************************************************
 -- Player and Tile: cities_iterate and units_iterate methods

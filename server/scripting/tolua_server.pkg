@@ -497,6 +497,10 @@ $]
 
 /* Additions to common Player module. */
 module Player {
+  module properties {
+    bool api_methods_player_got_tech
+      @ got_tech (lua_State *L, Player *pplayer);
+  }
   int api_methods_player_trait
     @ trait (lua_State *L, Player *pplayer, const char *tname);
   int api_methods_player_trait_base
@@ -505,6 +509,8 @@ module Player {
     @ trait_current_mod (lua_State *L, Player *pplayer, const char *tname);
   void api_methods_player_lose
     @ lose (lua_State *L, Player *pplayer, Player *looter = NULL);
+  int api_methods_player_tech_bulbs
+    @ bulbs_saved (lua_State *L, Player *pplayer, Tech_Type *tech);
 }
 
 $[
@@ -514,9 +520,11 @@ $]
 /* server game parameters */
 $#define game_server_autoupgrade_veteran_loss (game.server.autoupgrade_veteran_loss)
 $#define game_server_upgrade_veteran_loss (game.server.upgrade_veteran_loss)
+$#define game_server_multiresearch (game.server.multiresearch)
 module game {
   extern const int game_server_autoupgrade_veteran_loss @ autoupgrade_veteran_loss;
   extern const int game_server_upgrade_veteran_loss @ upgrade_veteran_loss;
+  extern const bool game_server_multiresearch @ multiresearch;
 }
 
 /* Additions to common Nation_Type module. */

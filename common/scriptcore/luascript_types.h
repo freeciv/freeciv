@@ -58,6 +58,7 @@ typedef enum direction8 Direction;
 typedef struct disaster_type Disaster;
 typedef struct achievement Achievement;
 typedef struct action Action;
+typedef struct packet_game_info Game_Info;
 
 typedef void Nonexistent;
 
