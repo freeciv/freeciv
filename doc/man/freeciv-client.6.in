@@ -17,7 +17,7 @@ freeciv-gtk2, freeciv-gtk3, freeciv-gtk3.22, freeciv-sdl2, freeciv-qt \
 .B freeciv-gtk2|freeciv-gtk3|freeciv-gtk3.22|freeciv-sdl2|freeciv-qt \
 [ \-A|\-\-Announce \fIprotocol\fP ] \
 [ \-a|\-\-autoconnect ] \
-[ \-d|\-\-debug \fIlevel_number\fP ] \
+[ \-d|\-\-debug \fIlevel\fP ] \
 [ \-F|\-\-Fatal [ \fIsignal_number\fP ] ] \
 [ \-f|\-\-file \fIfilename\fP ] \
 [ \-h|\-\-help ] \
@@ -108,18 +108,18 @@ Possible values for \fIprotocol\fP are:
 Skips the connect dialog, automatically inserting the default values. This is
 quite convenient when all has been set up properly.
 .TP
-.BI "\-d \fIlevel_number\fP, \-\-debug \fIlevel_number\fP"
+.BI "\-d \fIlevel\fP, \-\-debug \fIlevel\fP"
 Sets the amount of debugging information to be logged in the file named by the
 .I \-l
 option. Acceptable values for the \fIlevel_number\fP are:
 
-\fB0\fP    for fatal messages only.
+\fBfatal\fP     for fatal messages only.
 
-\fB1\fP    for fatal and error messages.
+\fBerror\fP     for fatal and error messages.
 
-\fB2\fP    for fatal, error and normal messages (default).
+\fBnormal\fP    for fatal, error and normal messages (default).
 
-\fB3\fP    for fatal, error, normal, and verbose messages.
+\fBverbose\fP   for fatal, error, normal, and verbose messages.
 
 .TP
 .BI "\-F [ \fIsignal_number\fP ], \-\-Fatal [ \fIsignal_number\fP ]"
