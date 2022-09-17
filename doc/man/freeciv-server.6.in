@@ -17,7 +17,7 @@ freeciv-server \- The server for the Freeciv game
 [ \-A|\-\-Announce \fIprotocol\fP ] \
 [ \-b|\-\-bind \fIaddress\fP ] \
 [ \-B|\-\-Bind\-meta \fIaddress\fP ] \
-[ \-d|\-\-debug \fIlevel_number\fP ] \
+[ \-d|\-\-debug \fIlevel\fP ] \
 [ \-e|\-\-exit\-on\-end ] \
 [ \-F|\-\-Fatal [ \fIsignal_number\fP ] ] \
 [ \-f|\-\-file \fIfilename\fP ] \
@@ -101,20 +101,20 @@ address given by
 .I \-b
 option.
 .TP
-.BI "\-d \fIlevel_number\fP, \-\-debug \fIlevel_number\fP"
+.BI "\-d \fIlevel\fP, \-\-debug \fIlevel\fP"
 Sets the amount of debugging information to be logged in the file named by the
 .I \-l
-option. Acceptable values for the \fIlevel_number\fP are:
+option. Acceptable values for the \fIlevel\fP are:
 
-\fB0\fP    for fatal messages only.
+\fBfatal\fP     for fatal messages only.
 
-\fB1\fP    for fatal and error messages.
+\fBerror\fP     for fatal and error messages.
 
-\fB2\fP    for fatal, error and warning messages
+\fBwarning\fP   for fatal, error and warning messages
 
-\fB3\fP    for fatal, error, warning and normal messages (default).
+\fBnormal\fP    for fatal, error, warning and normal messages (default).
 
-\fB4\fP    for fatal, error, warning, normal, and verbose messages.
+\fBverbose\fP   for fatal, error, warning, normal, and verbose messages.
 
 .TP
 .BI "\-D \fIfilename\fP, \-\-Database \fIfilename\fP"
@@ -175,7 +175,7 @@ modules.
 .BI "\-l \fIfilename\fP, \-\-log \fIfilename\fP"
 Defines a log file, \fIfilename\fP, to be produced during processing. Use the
 .I \-d
-option to set how much is logged.  By default, fatal, error, and normal
+option to set how much is logged.  By default, fatal, error, warning, and normal
 messages are printed to standard output.  With a log file, such messages go
 to the log instead.  If \fIfilename\fP already exists, it is appended to.
 .TP
@@ -250,21 +250,21 @@ Starts a server on port \fI2244\fP, loading the save game file
 \fIoldgame.sav\fP.
 .TP
 .B freeciv-server \-R ranklog \-l logfile \-r script \-f oldgame.sav.gz -p 2244
-Starts a server on port \fI2244\fP, loading the save game file 
-\fIoldgame.sav.gz\fP. Ranking related events are written to \fIranklog\fP, other 
-logging information is written to \fIlogfile\fP. When the server starts, it 
+Starts a server on port \fI2244\fP, loading the save game file
+\fIoldgame.sav.gz\fP. Ranking related events are written to \fIranklog\fP, other
+logging information is written to \fIlogfile\fP. When the server starts, it
 immediately executes the commands contained in \fIscript\fP.
 .TP
-.B freeciv-server -m -a -D fc_auth.conf -q 60 -p 2244 -d 2 -l logfile -r script -s ~/saves
-Starts a server on port \fI2244\fP with authentication enabled and communicates 
-its existence to the standard Freeciv metaserver. Fatal, error, and normal 
-messages are written to \fIlogfile\fP. When the server starts it immediately 
-executes the commands contained in \fIscript\fP. Save game files are stored in 
+.B freeciv-server -m -a -D fc_auth.conf -q 60 -p 2244 -d normal -l logfile -r script -s ~/saves
+Starts a server on port \fI2244\fP with authentication enabled and communicates
+its existence to the standard Freeciv metaserver. Fatal, error, warning, and normal
+messages are written to \fIlogfile\fP. When the server starts it immediately
+executes the commands contained in \fIscript\fP. Save game files are stored in
 the \fI~/saves\fP directory. When there are no users on the server for \fI60\fP
 seconds, the server will restart.
 .SH COMMANDS
 You may enter commands into the server at any time, either before or during the
-running of a game. 
+running of a game.
 
 Type "help" or "help help" for starters.
 .SH FILES
