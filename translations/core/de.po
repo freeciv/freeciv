@@ -31927,7 +31927,7 @@ msgstr "Einige außerirdische Lebensformen arbeiten nun für uns."
 
 #: data/alien/techs.ruleset:141
 msgid "Alien Training"
-msgstr "Ausbildung von Aliens"
+msgstr "Ausbildung von Außerirdischen"
 
 #: data/alien/techs.ruleset:147
 msgid "Trained native lifeforms - deadly."
@@ -32054,92 +32054,106 @@ msgid "Crust Defense"
 msgstr "Verteidigunsschicht"
 
 #: data/alien/techs.ruleset:258
-#, fuzzy
 msgid "Defense against burrowing units."
 msgstr "Verteidigung gegen grabende Einheiten."
 
 #: data/alien/techs.ruleset:261
 msgid "Cyber Aliens"
-msgstr ""
+msgstr "Cyber Aliens"
 
 #: data/alien/techs.ruleset:267
 msgid "Alliance of the machine and alien organisms."
-msgstr ""
+msgstr "Allianz von Maschinen und außerirdischen Organismen"
 
 #: data/alien/techs.ruleset:270
 msgid "Cybermodules"
-msgstr ""
+msgstr "Cybermodule"
 
 #: data/alien/techs.ruleset:276
 msgid ""
 "Standardized cyber units save money - or make money to those producing them."
 msgstr ""
+"Standardisierte Cyber-Einheiten sparen Geld - oder generieren Geld für "
+"diejenigen, die sie produzieren."
 
 #: data/alien/techs.ruleset:280
 msgid "Cybernetics"
-msgstr ""
+msgstr "Kybernetik"
 
 #: data/alien/techs.ruleset:286
 msgid ""
 "Making old Earth technology better than before is relatively easy task to "
 "do. For small investment, cybernetics gives us much better attack units."
 msgstr ""
+"Alte Erdtechnologie zu verbessern ist eine relativ einfache Aufgabe. Mit "
+"geringen Investitionen liefert uns Kybernetik viel bessere Angriffseinheiten."
 
 #: data/alien/techs.ruleset:290
 msgid "Data Storage"
-msgstr ""
+msgstr "Datenspeicher"
 
 #: data/alien/techs.ruleset:296
 msgid ""
 "Needs to archive all the media produced for and by politics drive "
 "development of better data storage methods."
 msgstr ""
+"Die Notwendigkeit, alle Medien zu archivieren, die für und von der Politik "
+"generiert werden, treibt die Entwicklung besserer Methoden zur "
+"Datenspeicherung voran."
 
 #: data/alien/techs.ruleset:300
 msgid "Deep Pumping"
-msgstr ""
+msgstr "Tiefes Pumpen"
 
 #: data/alien/techs.ruleset:306
 msgid ""
 "We can pump water from the depths of the crust. We no longer need any of the "
 "adjacent tiles to have water in order to build Greenhouses."
 msgstr ""
+"Wir können Wasser aus den Tiefen der Planetenkruste fördern. Dadurch müssen "
+"wir keine anliegenden Felder mit Wasser mehr haben um Gewächshäuser zu bauen."
 
 #: data/alien/techs.ruleset:310
 msgid "Deneb Radar"
-msgstr ""
+msgstr "Deneb Radar"
 
 #: data/alien/techs.ruleset:316
 msgid ""
 "Not really an conventional radar, but named so as it fills similar role. "
 "It's based on Deneb 7 radiation and works on this planet."
 msgstr ""
+"Auch wenn es nicht wirklich das Gleiche ist, wie ein konventionelles Radar, "
+"hat es eine ähnliche Rolle. Es basiert auf der Strahlung von Deneb 7 und "
+"funktioniert auf dem Planeten."
 
 #: data/alien/techs.ruleset:320
 msgid "Dual Government"
-msgstr ""
+msgstr "Doppelregierung"
 
 #: data/alien/techs.ruleset:326
 msgid "Government should consider both Humans and Native aliens."
 msgstr ""
+"Die Regierung sollte Menschen und einheimische Außerirdische berücksichtigen."
 
 #: data/alien/techs.ruleset:336
 msgid ""
 "We are finally able to escape force field surrounding Deneb 7. In addition "
 "to technical insight it requires correct attitude."
 msgstr ""
+"Wir können nun endlich das Kraftfeld um Deneb 7 verlassen. Neben Technischem "
+"Einblick benötigt es die richtige Gesinnung."
 
 #: data/alien/techs.ruleset:340
 msgid "Faction Government"
-msgstr ""
+msgstr "Fraktionen-Regierung"
 
 #: data/alien/techs.ruleset:346
 msgid "Familiar government types adjusted to local environment."
-msgstr ""
+msgstr "Bekannte Regierungstypen, die auf die lokale Umgebung angepasst sind."
 
 #: data/alien/techs.ruleset:349
 msgid "Faction Politics"
-msgstr ""
+msgstr "Fraktionen-Politik"
 
 #: data/alien/techs.ruleset:355
 msgid ""
@@ -32147,10 +32161,14 @@ msgid ""
 "to this strange planet, are quite unlike anything seen before. It very well "
 "deserves small study. Maybe we then can co-operate with other factions."
 msgstr ""
+"Menschliche Beziehungen in dieser Situation, in der verschiedene Fraktionen "
+"auf diesen eigenartigen Planeten gezwungen wurden, unterscheiden sich von "
+"allem, was es je gab. Das verdient eine kleine Forschung. Eventuell können "
+"wir dann mit anderen Fraktionen kooperieren."
 
 #: data/alien/techs.ruleset:361
 msgid "Food Regeneration"
-msgstr ""
+msgstr "Nahrungsregeneration"
 
 #: data/alien/techs.ruleset:368
 #, no-c-format
@@ -32160,10 +32178,15 @@ msgid ""
 "\n"
 "Protein Houses tiles get additional 50% food production bonus."
 msgstr ""
+"Wenn das, was wir ernten, schneller wieder wächst, bekommen wir mehr zu "
+"Essen. So einfach ist das.\n"
+"\n"
+"Felder mit Protein-Häusern erlangen einen zusätzlichen 50% Bonus bei der "
+"Nahrungsherstellung."
 
 #: data/alien/techs.ruleset:373
 msgid "Force Channeling"
-msgstr ""
+msgstr "Kraftlenkung"
 
 #: data/alien/techs.ruleset:379
 msgid ""
@@ -32172,41 +32195,53 @@ msgid ""
 "\n"
 "Engineers can build Force Fortresses."
 msgstr ""
+"Die Strahlung ist ein Hindernis für uns. Jetzt ist es aber auch eine "
+"Ressource. Wir wissen, wie wir die Kraft von Deneb 7 für unsere Zwecke "
+"verwenden können.\n"
+"\n"
+"Ingenieure können Kraft-Festungen bauen."
 
 #: data/alien/techs.ruleset:384
 msgid "Gravity Manipulation"
-msgstr ""
+msgstr "Gravitations-Manipulation"
 
 #: data/alien/techs.ruleset:390
 msgid ""
 "From inside the crust we gather information required to understand how "
 "gravity works and what one can do with it."
 msgstr ""
+"Aus dem Inneren der Kruste können wir Informationen erlangen, die nötig sind, "
+"um zu verstehen wie die Gravitation funktioniert und was wir mit ihr tun "
+"können."
 
 #: data/alien/techs.ruleset:394
 msgid "Global Knowledge"
-msgstr ""
+msgstr "Globales Wissen"
 
 #: data/alien/techs.ruleset:400
 msgid ""
 "Information flows to us. We learn any tech known by four other factions."
 msgstr ""
+"Informationen fliesen uns zu. Wir lernen jede Technologie, die vier anderen "
+"Fraktionen bekannt ist."
 
 #: data/alien/techs.ruleset:404
 msgid "High-Tech Filtering"
-msgstr ""
+msgstr "High-Tech Filterung"
 
 #: data/alien/techs.ruleset:410
 msgid "You can get a lot of things from ocean if you know how."
-msgstr ""
+msgstr "Aus Ozeanen kann man eine Menge Sachen rausholen, wenn man weiß, wie."
 
 #: data/alien/techs.ruleset:419
 msgid "Simply knowing this tech makes two content citizens happy in each city."
 msgstr ""
+"Alleine das Wissen über die Technologie macht zwei Bürger in jeder Stadt "
+"glücklich."
 
 #: data/alien/techs.ruleset:423
 msgid "Low-Level Orbit"
-msgstr ""
+msgstr "Niedriger Orbit"
 
 #: data/alien/techs.ruleset:429
 msgid ""
@@ -32216,25 +32251,34 @@ msgid ""
 "Makes Antigrav Ports more efficient. They can airlift three units instead of "
 "just one."
 msgstr ""
+"Mit weiterem Fortschritt im Bereich der Antigravitation könne wir einen Orbit "
+"erreichen, auch wenn wir immer noch Gefangene des Kraftfelds um Deneb 7 "
+"sind.\n"
+"\n"
+"Erhöht die Effizienz von Antigrav-Häfen. Sie können nun drei Einheiten "
+"transportieren statt nur eine."
 
 #: data/alien/techs.ruleset:441
 msgid ""
 "Using Deneb 7's own power available everywhere land travel speeds can reach "
 "levels never seen before."
 msgstr ""
+"Durch die Nutzung der überall verfügbaren Energie von Deneb 7 können wir "
+"höhere Landreisegeschwindigkeiten als je zuvor erreichen."
 
 #: data/alien/techs.ruleset:445
 msgid "Manufacturing"
-msgstr ""
+msgstr "Produktion"
 
 #: data/alien/techs.ruleset:451
 msgid ""
 "It takes some research to even make basic manufacturing in this alien world."
 msgstr ""
+"Selbst für einfache Produktion ist in dieser Fremden Welt Forschung nötig."
 
 #: data/alien/techs.ruleset:455
 msgid "Martial Law"
-msgstr ""
+msgstr "Kriegsrecht"
 
 #: data/alien/techs.ruleset:461
 msgid ""
@@ -32244,10 +32288,15 @@ msgid ""
 "Maximum martial law for cities with Secret Police is increased from two to "
 "five."
 msgstr ""
+"Ein wirksames Kriegsrecht setzt voraus, dass wir schnell reagieren können, um "
+"sofort Truppen dorthin zu schicken, wo sie gebraucht werden.\n"
+"\n"
+"Das maximale Kriegsrecht für Städte mit einer Geheimpolizei wird von zwei auf "
+"fünf erhöht."
 
 #: data/alien/techs.ruleset:467
 msgid "Mental Powers"
-msgstr ""
+msgstr "Mentale Stärken"
 
 #: data/alien/techs.ruleset:473
 msgid ""
@@ -32257,50 +32306,60 @@ msgid ""
 "\n"
 "Simply knowing this tech allows cities to grow 3 sizes bigger."
 msgstr ""
+"ICH WILL\n"
+"\n"
+"Ein weg der Strahlung zu wiederstehen ist Willenskraft.\n"
+"\n"
+"Allein das Wissen über diese Technologie ermöglicht Städten um 3 größer zu "
+"werden."
 
 #: data/alien/techs.ruleset:478
-#, fuzzy
-#| msgid "Mining"
 msgid "?tech:Mining"
-msgstr "Bergbau"
+msgstr "?tech:Bergbau"
 
 #: data/alien/techs.ruleset:484
 msgid ""
 "Earthly mining technologies were not sufficient for heavy scale mining on "
 "this planet."
 msgstr ""
+"Irdische Bergbautechnologien haben für den schweren Bergbau auf diesem "
+"Planeten nicht ausgereicht."
 
 #: data/alien/techs.ruleset:488
 msgid "Modified Spitter"
-msgstr ""
+msgstr "Modifizierte Spucker"
 
 #: data/alien/techs.ruleset:494
 msgid ""
 "We already know how to make modifications to alien lifeforms. Let's improve "
 "spitters."
 msgstr ""
+"Wir wissen bereits, wie wir außerirdische Lebensformen modifizieren können. "
+"Verbessern wir die Spucker."
 
 #: data/alien/techs.ruleset:498
 msgid "Mood Manipulation"
-msgstr ""
+msgstr "Stimmungsmanipulation"
 
 #: data/alien/techs.ruleset:504
 msgid "People are happy if they believe that they are happy."
-msgstr ""
+msgstr "Leute sind glücklich, wenn sie glauben, dass sie glücklich sind."
 
 #: data/alien/techs.ruleset:507
 msgid "Naval Superiority"
-msgstr ""
+msgstr "Überlegene Seemacht"
 
 #: data/alien/techs.ruleset:513
 msgid ""
 "It's no longer enough to replicate old Earth technologies. We want "
 "superiority."
 msgstr ""
+"Es reicht nicht mehr, alte Erdentechnologie nachzubilden. Wir möchten "
+"Überlegenheit."
 
 #: data/alien/techs.ruleset:517
 msgid "New Frontier"
-msgstr ""
+msgstr "Neue Grenzen"
 
 #: data/alien/techs.ruleset:524
 #, no-c-format
@@ -32310,18 +32369,22 @@ msgid ""
 "\n"
 "Increases max tax/science/lux rate by 10%."
 msgstr ""
+"Wir haben endlich realisiert, dass wir nicht durch das begrenzt sind, was wir "
+"als Teil des Irdischen Imperiums hatten.\n"
+"\n"
+"Erhöht die maximale Rate für Steuern/Forschung/Luxus um 10%."
 
 #: data/alien/techs.ruleset:529
 msgid "Ocean Cities"
-msgstr ""
+msgstr "Ozean-Städte"
 
 #: data/alien/techs.ruleset:535
 msgid "Cities on ocean. Why not?"
-msgstr ""
+msgstr "Städte auf dem Ozean. Warum nicht?"
 
 #: data/alien/techs.ruleset:538
 msgid "Organic Structures"
-msgstr ""
+msgstr "Organische Strukturen"
 
 #: data/alien/techs.ruleset:544
 msgid ""
@@ -32330,6 +32393,11 @@ msgid ""
 "\n"
 "Cities can work radiating tiles."
 msgstr ""
+"Die Kunst Rüstungen aus außerirsichen Organismen herzustellen, die gegen die "
+"seltsame Strahlung von Deneb 7 beständig sind, erlaubt es uns, neue Gebiete "
+"zu betreten\n"
+"\n"
+"Städte können strahlende Felder bewirtschaften."
 
 #: data/alien/techs.ruleset:549
 msgid "Paradrop"
@@ -32341,10 +32409,13 @@ msgid ""
 "ready to act immediately after landing are hard for aliens. They need extra "
 "mental powers for that."
 msgstr ""
+"Es ist einfach, den ganzen weg aus dem Orbit zu fallen. Aber ein kleines Ziel "
+"zu treffen und sofort bereit zu sein, zu handeln, ist schwer für "
+"Außerirdische. Sie brauchen zusätzliche mentale Fähigkeiten dafür."
 
 #: data/alien/techs.ruleset:559
 msgid "Personal Contact"
-msgstr ""
+msgstr "Persönlicher Kontakt"
 
 #: data/alien/techs.ruleset:565
 #, no-c-format
@@ -32355,10 +32426,17 @@ msgid ""
 "Stealth Spies protecting your cities against enemy Spies will get 40% bonus. "
 "It also gets 40% harder for enemies to sabotage specific buildings."
 msgstr ""
+"Mit Virtueller Realität ist es, als ob die Schauspielern tatsächlich mit "
+"Ihnen dort war. Wenn Sie Schauspielern ermöglichen zu teleportieren, um Ihr "
+"Publikum zu treffen, war sie es vielleicht auch.\n"
+"\n"
+"Tarnkappen-Spione, die Ihre Städte vor feindlichen Spionen beschützen, "
+"erlangen einen Bonus von 40%. Es wird für Feinde auch 40% schwieriger, "
+"spezielle Gebäude zu sabotieren."
 
 #: data/alien/techs.ruleset:572
 msgid "Protein Modifications"
-msgstr ""
+msgstr "Proteinmodifikation"
 
 #: data/alien/techs.ruleset:578
 #, no-c-format
@@ -32368,10 +32446,15 @@ msgid ""
 "Engineers can build Protein Houses, which increases tile food production by "
 "50%."
 msgstr ""
+"Es hat sich herausgestellt, dass wir außerirdische Lebensformen essbar machen "
+"können.\n"
+"\n"
+"Ingenieure können Protein-Häuser bauen, die die Lebensmittelproduktion von "
+"Feldern um 50% erhöhen."
 
 #: data/alien/techs.ruleset:583
 msgid "Radiation Resistance"
-msgstr ""
+msgstr "Strahlungsbeständigkeit"
 
 #: data/alien/techs.ruleset:589
 msgid ""
@@ -32380,20 +32463,29 @@ msgid ""
 "\n"
 "Simply knowing this tech allows cities to grow 1 size bigger."
 msgstr ""
+"Durch genaue Analyse von außerirdischen Lebensformen und wie sie die "
+"Strahlung überleben, sind wir in der Lage, unsere Städte etwas "
+"strahlungsbeständiger zu bauen.\n"
+"\n"
+"Allein das Wissen über diese Technologie ermöglicht Städten um 1 größer zu "
+"werden."
 
 #: data/alien/techs.ruleset:594
 msgid "Regeneration"
-msgstr ""
+msgstr "Regeneration"
 
 #: data/alien/techs.ruleset:600
 msgid ""
 "We know how aliens regenerate, we know how self-repairing machines "
 "regenerate, we know how Earth organisms regenerate."
 msgstr ""
+"Wir wissen, wie sich die Außerirdischen regenerieren. Wir wissen, wie sich "
+"selbst-reparierende Maschinen regenerieren. Wir wissen, wie sich irdische "
+"Organismen regenerieren."
 
 #: data/alien/techs.ruleset:604
 msgid "Research Methods"
-msgstr ""
+msgstr "Forschungsmethoden"
 
 #: data/alien/techs.ruleset:611
 #, no-c-format
@@ -32403,20 +32495,27 @@ msgid ""
 "\n"
 "Simply knowing this tech increases science output by 35%."
 msgstr ""
+"Mit angepasste Forschungsmethoden für die Bewältigung der lokalen "
+"Herausforderungen, können wir viel Schneller Erkenntnisse gewinnen.\n"
+"\n"
+"Allein das Wissen über diese Technologie erhöht die Forschungsmenge um 35%."
 
 #: data/alien/techs.ruleset:616
 msgid "Smart Aliens"
-msgstr ""
+msgstr "Schlaue Außerirdische"
 
 #: data/alien/techs.ruleset:622
 msgid ""
 "Once we have given some smarts, backed with some remote control, to them, "
 "they can work on more demanding tasks."
 msgstr ""
+"Sobald wir ihnen ein gewisses Maß an Intelligenz, unterstützt mit einer "
+"gewissen Fernsteuerung gegeben haben, können sie anspruchsvollere Aufgaben "
+"bearbeiten."
 
 #: data/alien/techs.ruleset:626
 msgid "Soul"
-msgstr ""
+msgstr "Seele"
 
 #: data/alien/techs.ruleset:632
 msgid ""
@@ -32427,10 +32526,16 @@ msgid ""
 "citizens is converted to unhappy in every city in the world unless owner of "
 "the city also knows Soul."
 msgstr ""
+"Indem wir unser Wissen über Menschen und Außerirdische kombinieren, haben wir "
+"endlich das universelle Konzept der Seele verstanden.\n"
+"\n"
+"Wir können Angst unter unseren Feinden verbreiten. Sobald jemand die Seele "
+"erforscht hat, werden zwei Bürger in jeder Stadt unglücklich, außer der "
+"Besitzer der Stadt hat die Seele ebenfalls erforscht."
 
 #: data/alien/techs.ruleset:639
 msgid "Specialist Training"
-msgstr ""
+msgstr "Ausbildung von Spezialisten"
 
 #: data/alien/techs.ruleset:645
 msgid ""
@@ -32439,19 +32544,25 @@ msgid ""
 "\n"
 "Output of all specialists doubles."
 msgstr ""
+"Basierend auf unserer Taktik-Lehrtechnik können wir unseren Spezialisten ein "
+"oder zwei neue Tricks beibringen.\n"
+"\n"
+"Die Leistung aller Spezialisten wird verdoppelt."
 
 #: data/alien/techs.ruleset:650
 msgid "Spitter Control"
-msgstr ""
+msgstr "Kontrolle von Spuckern"
 
 #: data/alien/techs.ruleset:656
 msgid ""
 "Alien lifeforms spitting solid objects are interesting research subject."
 msgstr ""
+"Außerirdische Lebensformen, die feste Objekte spucken, sind ein interessantes "
+"Forschungsobjekt."
 
 #: data/alien/techs.ruleset:660
 msgid "Stealth Module"
-msgstr ""
+msgstr "Tarnkappen-Modul"
 
 #: data/alien/techs.ruleset:666
 msgid ""
@@ -32459,10 +32570,13 @@ msgid ""
 "expensive to be used for armies. It's perfect for individuals in espionage "
 "mission."
 msgstr ""
+"Auch wenn wir diese Technologie kennen, um unsere Einheiten unsichtbar zu "
+"machen, ist sie viel zu Teuer, um sie für Armeen zu verwenden. Sie ist aber "
+"ideal für Individuen auf Spionagemissionen."
 
 #: data/alien/techs.ruleset:671
 msgid "Strong Force"
-msgstr ""
+msgstr "Starke Kraft"
 
 #: data/alien/techs.ruleset:677
 msgid ""
@@ -32471,10 +32585,14 @@ msgid ""
 "\n"
 "Allows Engineers to build Towers instead of Force Fortresses."
 msgstr ""
+"Wir sind durchaus in der Lage, aus Strahlung verschiedene Energiefelder zu "
+"erzeugen. Wir können uns aber noch verbessern.\n"
+"\n"
+"Erlaubt es Ingenieuren, Türme anstelle von Kraft-Festungen zu bauen."
 
 #: data/alien/techs.ruleset:682
 msgid "Strong Resistance"
-msgstr ""
+msgstr "Starke Beständigkeit"
 
 #: data/alien/techs.ruleset:688
 msgid ""
@@ -32482,18 +32600,23 @@ msgid ""
 "\n"
 "Simply knowing this tech allows cities to grow 2 sizes bigger."
 msgstr ""
+"Wir werden besser darin, strahlungsbeständig zu bauen.\n"
+"\n"
+"Allein das Wissen über diese Technologie ermöglicht Städten um 2 größer zu "
+"werden."
 
 #: data/alien/techs.ruleset:692
 msgid "Supermodule"
-msgstr ""
+msgstr "Supermodul"
 
 #: data/alien/techs.ruleset:698
 msgid "Supermodule combines lesser modules in one extremely efficient pack."
 msgstr ""
+"Ein Supermodul kombiniert einfachere Module in ein sehr effizientes Packet."
 
 #: data/alien/techs.ruleset:702
 msgid "Synthetic Food"
-msgstr ""
+msgstr "Synthetische Nahrung"
 
 #: data/alien/techs.ruleset:708
 msgid ""
@@ -32503,21 +32626,27 @@ msgid ""
 "As their food consumption is no longer an problem, we can grow bigger, "
 "meaner, aliens."
 msgstr ""
+"Ein komplett neuer und sehr effizienter Weg, synthetische Nahrung "
+"herzustellen.\n"
+"\n"
+"Da ihr Nahrungsbedarf kein Problem mehr ist, können wir größere, fiesere"
+"Außerirdische züchten."
 
 #: data/alien/techs.ruleset:714
 msgid "Teleportation"
-msgstr ""
+msgstr "Teleportation"
 
 #: data/alien/techs.ruleset:720
 msgid ""
 "We can teleport relatively small objects relatively short distances. This "
 "reduces problem of not being able to fly."
 msgstr ""
+"Wir können relativ kleine Objekte über relativ kurze Entfernungen "
+"teleportieren. Das verringert das Problem, dass wir nicht fliegen können."
 
 #: data/alien/techs.ruleset:724
-#, fuzzy
 msgid "Thermal Module"
-msgstr "Raumschiffmodule"
+msgstr "Thermische Module"
 
 #: data/alien/techs.ruleset:730
 msgid ""
@@ -32527,61 +32656,73 @@ msgid ""
 "\n"
 "Cities can work Boiling Ocean tiles."
 msgstr ""
+"Der Umgang mit kochenden Gewässern setzt eine gute Kontrolle über die "
+"Temperatur um die Behälter voraus. Außerdem ermöglicht das Wissen über "
+"grundlegende Modul-Technologie in der Zukunft fortschrittlichere Module.\n"
+"\n"
+"Städte können kochende Ozean-Felder bewirtschaften."
 
 #: data/alien/techs.ruleset:736
 msgid "Underground Habitat"
-msgstr ""
+msgstr "Lebensraum im Untergrund"
 
 #: data/alien/techs.ruleset:742
 msgid ""
 "If needed, we can produce everything we need without ever leaving "
 "underground bunker."
 msgstr ""
+"Wenn notwendig können wir alles herstellen, ohne jemals den Untergrund-Bunker "
+"zu verlassen."
 
 #: data/alien/techs.ruleset:746
-#, fuzzy
 msgid "Travel"
-msgstr "Karavelle"
+msgstr "Seefahrt"
 
 #: data/alien/techs.ruleset:752
 msgid ""
 "Once we master ship manufacturing, traveling more hospitable seas of Deneb 7 "
 "proved to be no different from other planets."
 msgstr ""
+"Sobald wir die Herstellung von Schiffen beherrschen, unterscheidet sich das "
+"Reisen auf den gastfreundlicheren Meeren von Deneb 7 nicht mehr von anderen "
+"Planeten."
 
 #: data/alien/techs.ruleset:757
 msgid "Unified Theory"
-msgstr ""
+msgstr "Einheitstheorie"
 
 #: data/alien/techs.ruleset:763
 msgid ""
 "We now understand that radiation and antigravity are two sides of the same "
 "phenomenom."
 msgstr ""
+"Wir verstehen nun, dass es sich bei Strahlung und Antigravitation um zwei "
+"Seiten des gleichen Phänomens handelt."
 
 #: data/alien/techs.ruleset:767
-#, fuzzy
 msgid "Virtual Entertainment"
-msgstr "Unterhalter"
+msgstr "Virtuelle Unterhaltung"
 
 #: data/alien/techs.ruleset:773
 msgid "Another tech that Earth has long been close to mastering."
 msgstr ""
+"Eine weitere Technologie, die die Erde schon lange nicht mehr beherrscht."
 
 #: data/alien/techs.ruleset:776
 msgid "Virtual Reality Training"
-msgstr ""
+msgstr "Training in Virtueller Realität"
 
 #: data/alien/techs.ruleset:782
 msgid ""
 "Virtual Reality provides excellent way to train our forces, both infantry "
 "and naval forces."
 msgstr ""
+"Virtuelle Realität bietet eine hervorragende Möglichkeit, unsere Streitkräfte "
+"zu trainieren. Sowohl für die Infanterie als auch für Seestreitkräfte."
 
 #: data/alien/techs.ruleset:786
-#, fuzzy
 msgid "War Monsters"
-msgstr "Premierminister %s"
+msgstr "Kriegs-Monster"
 
 #: data/alien/techs.ruleset:792
 msgid ""
@@ -32589,10 +32730,13 @@ msgid ""
 "they are the only thing that can wage war on radiating areas for the time "
 "being."
 msgstr ""
+"Wir können Monster zähmen, die für den Krieg geeignet sind. Auch wenn sie "
+"relativ schwach sind, sind sie das einzige, was im Moment in verstrahlten "
+"Bereichen Krieg führen kann."
 
 #: data/alien/techs.ruleset:797
 msgid "Water Flow"
-msgstr ""
+msgstr "Wasserströmung"
 
 #: data/alien/techs.ruleset:803
 msgid ""
@@ -32600,19 +32744,19 @@ msgid ""
 "want. Building Greenhouses becomes possible in tiles adjacent to cities and "
 "rivers."
 msgstr ""
+"Wir verstehen die Strömungsdynamik von Deneb 7 und können damit Wasser dort "
+"hin fließen lassen, wo wir es wollen. Das Bauen von Gewächshäusern auf "
+"Feldern neben Städten und Flüssen wird möglich."
 
 #: data/alien/terrain.ruleset:27
-#, fuzzy
 msgid "Radiating"
-msgstr "Bewertung"
+msgstr "Strahlend"
 
 #: data/alien/terrain.ruleset:27
-#, fuzzy
 msgid "Terrain has alien radiation."
-msgstr " Geländeveränderungen"
+msgstr "Gelände hat fremdartige Strahlung."
 
 #: data/alien/terrain.ruleset:245
-#, fuzzy
 msgid "No unit can enter this terrain, nor can city work the tile."
 msgstr ""
 "Keine Einheit vermag dieses Gelände zu betreten, und keine Stadt kann es "
@@ -32621,11 +32765,11 @@ msgstr ""
 #: data/alien/terrain.ruleset:287
 msgid "For some reason, there is Earth like grass and animals around."
 msgstr ""
+"Aus irgendeinem Grund gibt es hier ähnliches Graß und Tiere wie auf der Erde."
 
 #: data/alien/terrain.ruleset:292
-#, fuzzy
 msgid "Alien Forest"
-msgstr "aufforsten"
+msgstr "Außerirdischer Wald"
 
 #: data/alien/terrain.ruleset:329
 msgid ""
@@ -32635,10 +32779,16 @@ msgid ""
 "Cities can work these tiles only when Organic Structures is known. Inventing "
 "Alien Rights gives +1 production bonus to Alien Forest tiles."
 msgstr ""
+"Diese Wälder sind voller außerirdischer Organismen. Die Strahlung des "
+"Planeten macht es irdischen Organismen unmöglich, hier zu überleben.\n"
+"\n"
+"Städte können diese Felder nur bewirtschaften, wenn Organische Strukturen "
+"erforscht wurden. Die Einführung von Außerirdischen-Rechten erhöht die "
+"Produktion von außerirdischen Wäldern um 1."
 
 #: data/alien/terrain.ruleset:337
 msgid "Radiating Rocks"
-msgstr ""
+msgstr "Strahlende Felsen"
 
 #: data/alien/terrain.ruleset:374
 msgid ""
@@ -32646,15 +32796,19 @@ msgid ""
 "\n"
 "Cities can work these tiles only when Organic Structures is known."
 msgstr ""
+"Die Strahlung des Planeten macht es irdischen Organismen unmöglich, hier zu "
+"überleben.\n"
+"\n"
+"Städte können diese Felder nur bewirtschaften, wenn Organische Strukturen "
+"erforscht wurden."
 
 #: data/alien/terrain.ruleset:417
 msgid "Hills just like on Earth."
-msgstr ""
+msgstr "Hügel wie auf der Erde."
 
 #: data/alien/terrain.ruleset:422
-#, fuzzy
 msgid "Thick Mountains"
-msgstr "Berge"
+msgstr "Dichte Berge"
 
 #: data/alien/terrain.ruleset:457
 msgid ""
@@ -32663,16 +32817,19 @@ msgid ""
 "Burrowing units are unable to burrow through these mountains, but at least "
 "Burrowing technology makes mining them possible."
 msgstr ""
+"Aus was bestehen diese Berge?!? Diamantbohrer hinterlassen nicht mal einen "
+"Kratzer.\n"
+"\n"
+"Grabende Einheiten können sich nicht durch diese Berge graben. Aber immerhin "
+"ermöglicht die Grabe-Technologie den Bergbau in ihnen."
 
 #: data/alien/terrain.ruleset:500
-#, fuzzy
 msgid "This is normal oceanic terrain."
-msgstr "• Landeinheiten können sich nicht auf dem Ozean bewegen."
+msgstr "Das ist ein normales ozeanisches Gelände."
 
 #: data/alien/terrain.ruleset:505
-#, fuzzy
 msgid "Boiling Ocean"
-msgstr "Einheit im Bau "
+msgstr "Kochender Ozean"
 
 #: data/alien/terrain.ruleset:541
 msgid ""
@@ -32681,10 +32838,14 @@ msgid ""
 "Cities can work these tiles only when Thermal Module is known, and city can "
 "never be located on Boiling Ocean."
 msgstr ""
+"Dieser Ozean kocht. Kein Schiff kann ihn ohne Spezialausrüstung befahren.\n"
+"\n"
+"Städte können diese Felder nur bewirtschaften, wenn Thermische Module "
+"erforscht wurden. Städte können nie auf kochenden Ozeanen errichtet werden."
 
 #: data/alien/terrain.ruleset:740
 msgid "Greenhouses"
-msgstr ""
+msgstr "Gewächshäuser"
 
 #: data/alien/terrain.ruleset:756
 msgid ""
@@ -32699,24 +32860,44 @@ msgid ""
 "- Deep Pumping allows water to be drawn from the depths of the crust, "
 "allowing Greenhouses to be built anywhere."
 msgstr ""
+"Gewächshäuser können auf bestimmten Geländetypen gebaut werden, um einen "
+"Lebensmittelbonus zu erhalten. Der Bau von Gewächshäusern setzt eine "
+"Wasserquelle voraus:\n"
+"- Städte haben integrierte Gewächshäuser, außer, wenn eine Mine auf dem Feld "
+"existiert. Sie müssen nicht extra gebaut werden.\n"
+"- Mit dem Wissen über Produktion können Gewächshäuser außerhalb von Städten "
+"direkt auf Fluss-Feldern oder grundsätzlich neben Ocean-Feldern gebaut "
+"werden.\n"
+"- Mit dem Wissen über Wasserströmung wird es möglich, Gewächshäuser auch "
+"auf Teilen zu bauen, die neben Flüssen oder Stadtzentren liegen.\n"
+"- Tiefes Pumpen ermöglicht es, Wasser aus den Tiefen der Planetenkruste zu "
+"hohlen und damit Gewächshäuser überall zu bauen."
 
 #: data/alien/terrain.ruleset:784
 msgid ""
 "Mines can be built on Hills for an extra production point. Once Burrowing is "
 "known, Thick Mountains can also be mined."
 msgstr ""
+"Mienen können auf Hügeln gebaut werden, um einen zusätzlichen "
+"Produktionspunkt zu erhalten. Sobald Graben erforscht wurde, können auch "
+"dichte Berge abgebaut werden."
 
 #: data/alien/terrain.ruleset:807
 msgid ""
 "Pollution appears on tiles around cities with high production. It halves all "
 "output from its tile."
 msgstr ""
+"Verschmutzung tritt auf Feldern rund um Städte mit hoher Produktion auf. Sie "
+"halbiert den Ertrag ihres Feldes."
 
 #: data/alien/terrain.ruleset:810
 msgid ""
 "The pollution can only be cleared by dispatching Engineer or Hunter units "
 "with the \"clean pollution\" order."
 msgstr ""
+"Die Verschmutzung kann nur entfernt werden, indem Ingenieure oder "
+"Jäger-Einheiten mit dem Befehl \"Umweltverschmutzung beseitigen\" beauftragt "
+"werden."
 
 #: data/alien/terrain.ruleset:813
 msgid ""
@@ -32724,11 +32905,14 @@ msgid ""
 "once it exceeds a threshold, the excess is the percent chance of pollution "
 "appearing each turn."
 msgstr ""
+"Der Beitrag der Produktion zur Verschmutzung kann in den Stadt-Dialogen "
+"abgelesen werden. Sobald sie einen Schwellwert überschreitet, bestimmt die "
+"Mehrmenge für jede Runde die Wahrscheinlichkeit, dass eine Verschmutzung "
+"auftaucht."
 
 #: data/alien/terrain.ruleset:820
-#, fuzzy
 msgid "Space Capsule"
-msgstr "Raumschiffmodule"
+msgstr "Raumkapsel"
 
 #: data/alien/terrain.ruleset:835
 msgid ""
@@ -32739,10 +32923,17 @@ msgid ""
 "Unfortunately it's also possible that Madmen or Lunatics have already found "
 "the capsule, and are there ready to kill anybody who enters."
 msgstr ""
+"Raumkapseln sind auf der Oberfläche von Deneb 7 gelandet. Jede Einheit kann "
+"ein Feld mit einer Kapsel betreten, um sie zu öffnen. Kapseln verschwinden "
+"dabei von der Karte. Es kann Gold, Pläne für neue Technologien, Ausrüstung "
+"für eine Einheit oder sogar ein Starter-Paket für eine neue Basis auf dem "
+"aktuellen Feld in einer Kapsel enthalten sein. Unglücklicherweise ist es auch "
+"möglich, dass Verrückte oder Wahnsinnige die Kapsel bereits gefunden haben "
+"und bereit sind, jeden zu töten, der sie betritt."
 
 #: data/alien/terrain.ruleset:846
 msgid "Protein Houses"
-msgstr ""
+msgstr "Protein-Häuser"
 
 #: data/alien/terrain.ruleset:867
 #, no-c-format
@@ -32752,31 +32943,40 @@ msgid ""
 "Protein Houses give a further 50% food. City center tiles automatically get "
 "Protein Houses as soon as they are available."
 msgstr ""
+"Sobald Proteinmodifikation erforscht wurde, können Gewächshäuser zu "
+"Protein-Häusern verbessert werden. Protein-Häuser liefern 50% mehr Nahrung. "
+"Sobald Nahrungsregeneration erforscht wurde, liefern Protein-Häuser noch "
+"einmal 50% mehr Nahrung. Felder mit Stadtzentren erhalten automatisch "
+"Protein-Häuser, sobald sie verfügbar sind."
 
 #: data/alien/terrain.ruleset:892
 msgid ""
 "Fallout appears after Rebels strike a city. It halves all output from its "
 "tile."
 msgstr ""
+"Fallout erscheint, nachdem Rebellen in einer Stadt zugeschlagen haben. Er "
+"halbiert alle Erträge des betroffenen Feldes."
 
 #: data/alien/terrain.ruleset:895
 msgid ""
 "Fallout can only be cleared by dispatching Engineer or Hunter units with the "
 "\"clean fallout\" order."
 msgstr ""
+"Fallout kann nur entfernt werden, indem Ingenieure oder Jäger-Einheiten mit "
+"dem Befehl \"Fallout beseitigen\" beauftragt werden."
 
 #: data/alien/terrain.ruleset:901
 msgid "Tower"
-msgstr ""
+msgstr "Turm"
 
 #: data/alien/terrain.ruleset:927
 #, fuzzy
 msgid "Force Fortress"
-msgstr "Befestigung"
+msgstr "Kraft-Festung"
 
 #: data/alien/terrain.ruleset:952
 msgid "Antigrav Base"
-msgstr ""
+msgstr "Antigravitations-Basis"
 
 #: data/alien/terrain.ruleset:999
 msgid ""
@@ -32784,16 +32984,17 @@ msgid ""
 "\n"
 "Having Road on Grassland tile provides increase of +1 to trade on that tile."
 msgstr ""
+"Grundlegende Straßen können von Anfang des Spiels an gebaut werden.\n"
+"\n"
+"Straßen auf Graßland-Feldern erhöhen den Handel auf diesem Feld um +1."
 
 #: data/alien/terrain.ruleset:1006
-#, fuzzy
 msgid "Highway"
-msgstr "Autobahnen"
+msgstr "Autobahn"
 
 #: data/alien/terrain.ruleset:1029
-#, fuzzy
 msgid "You can upgrade Roads to Highways."
-msgstr "Sie können nur Einheiten in Städten modernisieren."
+msgstr "Sie können Straßen zu Autobahnen ausbauen."
 
 #: data/alien/terrain.ruleset:1057
 #, no-c-format
@@ -32803,10 +33004,14 @@ msgid ""
 "Units can move via Maglevs indefinitely, Shield production of any tile with "
 "Maglev is increased by 50%."
 msgstr ""
+"Sie können Autobahnen zu Transrapidstrecken ausbauen.\n"
+"\n"
+"Einheiten können per Transrapid beliebig weit bewegt werden. Die Produktion "
+"von Feldern wird durch Transrapidstrecken um 50% erhöht."
 
 #: data/alien/terrain.ruleset:1065
 msgid "Tunnel"
-msgstr ""
+msgstr "Tunnel"
 
 #: data/alien/terrain.ruleset:1089
 #, no-c-format
@@ -32814,10 +33019,13 @@ msgid ""
 "Earthly units can travel on radiating tiles with tunnel built on them. "
 "Tunnel provides no increase to unit speed, but they give 35% defense bonus."
 msgstr ""
+"Irdische Einheiten können sich auf strahlenden Feldern bewegen, wenn dort "
+"Tunnel gebaut wurden. Tunnel erhöhen die Geschwindigkeit von Einheiten nicht, "
+"bieten aber einen 35% Verteidigungsbonus."
 
 #: data/alien/terrain.ruleset:1095
 msgid "Burrow Tube"
-msgstr ""
+msgstr "Grabungsröhre"
 
 #: data/alien/terrain.ruleset:1116
 msgid ""
@@ -32825,46 +33033,48 @@ msgid ""
 "can be built on oceanic terrains only, but first part of the tube must be "
 "built cardinally adjacent to land and following parts must be built in order."
 msgstr ""
+"Grabungsröhren sind der einzige Weg für grabende Einheiten, um den Ozean zu "
+"überqueren. Sie können nur auf Ozean-Feldern gebaut werden. Der erste Teil "
+"der Röhre muss grundsätzlich direkt neben Land gebaut werden. Alle "
+"nachfolgenden Teile müssen der Reihe nach gebaut werden."
 
 #: data/alien/terrain.ruleset:1124
-#, fuzzy
 msgid "Green River"
-msgstr " Flüsse"
+msgstr "Grüner Fluss"
 
 #: data/alien/terrain.ruleset:1140 data/alien/terrain.ruleset:1164
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "Any river increases a tile's natural defense factor by 50%. Native and "
 "Amphibious units may move along a River (but not diagonally) for fast travel."
 msgstr ""
-"Auf jeder Landgeländeform können Flüsse vorkommen. Ein Fluss gibt einen "
-"zusätzlichen Handelspunkt und erhöht den Verteidigungsfaktor um 50%. "
-"Zusätzlich kostet die (nicht-diagonale) Bewegung von Landeinheiten entlang "
-"eines Flusses nur 1/3 Bewegungspunkt pro Feld."
+"Jeder Fluss erhöht den natürlichen Verteidigungsfaktor eines Feldes um 50%. "
+"Eingeborene oder amphibische Einheiten können sich entlang eines Flusses "
+"(aber nicht diagonal dazu) schneller bewegen."
 
 #: data/alien/terrain.ruleset:1143
 msgid "Green River increases also tile's food production by 1."
-msgstr ""
+msgstr "Grüne Flüsse erhöhen auch den Nahrungsertrag eines Feldes um 1."
 
 #: data/alien/terrain.ruleset:1148
-#, fuzzy
 msgid "Brown River"
-msgstr " Flüsse"
+msgstr "Brauner Fluss"
 
 #: data/alien/terrain.ruleset:1167
 msgid "Brown River increases also tile's shield production by 1."
-msgstr ""
+msgstr "Braune Flüsse erhöhen auch die Produktion eines Feldes um 1."
 
 #: data/alien/terrain.ruleset:1184
 #, no-c-format
 msgid ""
 "There is more than average amount of various resources, but nothing exciting."
 msgstr ""
+"Es gibt überdurchschnittlich viele verschiedene Ressourcen, aber nichts "
+"aufregendes."
 
 #: data/alien/terrain.ruleset:1190
-#, fuzzy
 msgid "Alien Mine"
-msgstr "Bergwerk bauen"
+msgstr "Außerirdische Miene"
 
 #: data/alien/terrain.ruleset:1202
 #, no-c-format
@@ -32872,11 +33082,13 @@ msgid ""
 "Mine run by superior alien technology ready to operate. We have no idea who "
 "built it nor where they went."
 msgstr ""
+"Eine Miene, die von betriebsbereiter, überlegener außerirdischer Technologie "
+"angetrieben wird. Wir haben keine Ahnung, wer sie gebaut hat, noch wohin sie "
+"verschwunden sind."
 
 #: data/alien/terrain.ruleset:1208
-#, fuzzy
 msgid "Huge Plant"
-msgstr "Fertigungsstätte"
+msgstr "Riesige Pflanze"
 
 #: data/alien/terrain.ruleset:1220
 #, no-c-format
@@ -32884,11 +33096,15 @@ msgid ""
 "Entire forest seems to be of the single fast-growing organism with huge "
 "central blooming."
 msgstr ""
+"Der ganze Wald scheint aus einem einzigen, schnell wachsenden Organismus "
+"zu bestehen, der eine riesige zentrale Blüte hat."
 
 #: data/alien/terrain.ruleset:1238
 #, no-c-format
 msgid "Where the heat from inside the planet escapes, mineral rich hills form."
 msgstr ""
+"Wo die Hitze aus dem Planeteninneren austritt bilden sich mineralienreiche "
+"Hügelformationen."
 
 #: data/alien/terrain.ruleset:1256
 #, no-c-format
@@ -32896,204 +33112,208 @@ msgid ""
 "Weird alien fish might look like something escaped from nightmares, but are "
 "in fact very tasty."
 msgstr ""
+"Die eigenartigen außerirdische Fische sehen zwar aus, als wären sie aus einem "
+"Alptraum entwischt, sie schmecken aber tatsächlich sehr gut."
 
 #: data/alien/terrain.ruleset:1262
 msgid "Glowing Rocks"
-msgstr ""
+msgstr "Glühende Felsen"
 
 #: data/alien/terrain.ruleset:1274
 #, no-c-format
 msgid "Rocks in the area have unusually bright glow."
-msgstr ""
+msgstr "Die Felsen in diesem Gebiet glühen ungewöhnlich hell."
 
+# CM: Veteranensystem: Regular -> Elite -> Superb
+# CM: Nicht sicher, in welchem Kontext das verwendet wird. Eventuell
+# braucht man da andere Konstruktionen, damit die Sätze stimmen.
 #: data/alien/units.ruleset:49 data/alien/units.ruleset:1396
 msgid "Regular"
-msgstr ""
+msgstr "Normal"
 
-# MG: Veteranensystem: green -> veteran -> hardened -> elite
-# Muss in den Satz "wurden in den Rang eines XXXs erhoben" passen
+# CM: Veteranensystem: Regular -> Elite -> Superb
+# CM: Nicht sicher, in welchem Kontext das verwendet wird. Eventuell
+# braucht man da andere Konstruktionen, damit die Sätze stimmen.
 #: data/alien/units.ruleset:49 data/alien/units.ruleset:1396
-#, fuzzy
 msgid "Elite"
-msgstr "Elitesoldat"
+msgstr "Elite"
 
+# CM: Veteranensystem: Regular -> Elite -> Superb
+# CM: Nicht sicher, in welchem Kontext das verwendet wird. Eventuell
+# braucht man da andere Konstruktionen, damit die Sätze stimmen.
 #: data/alien/units.ruleset:49 data/alien/units.ruleset:1396
 msgid "Superb"
-msgstr ""
+msgstr "Überlegen"
 
 #: data/alien/units.ruleset:130
-#, fuzzy
 msgid "?unitclass:Earthly"
-msgstr "Seeeinheiten"
+msgstr "?unitclass:Irdisch"
 
 #: data/alien/units.ruleset:138
-#, fuzzy
 msgid "?unitclass:Native"
-msgstr "Seeeinheiten"
+msgstr "?unitclass:Eingeboren"
 
 #: data/alien/units.ruleset:155
-#, fuzzy
 msgid "?unitclass:Amphibious"
-msgstr "Luftwaffe"
+msgstr "?unitclass:Amphibisch"
 
 #: data/alien/units.ruleset:163
-#, fuzzy
 msgid "?unitclass:Antigravity"
-msgstr "Luftwaffe"
+msgstr "?unitclass:Antigravitation"
 
 #: data/alien/units.ruleset:169
-#, fuzzy
 msgid "?unitclass:Burrowing"
-msgstr "Große Landeinheit"
+msgstr "?unitclass:Grabend"
 
 #: data/alien/units.ruleset:447
 msgid ""
 "This is Earth technology settler. Most military enemy units can capture it "
 "instead of killing it."
 msgstr ""
+"Das ist ein Erdentechnologie-Siedler. Die meisten Militäreinheiten können ihn "
+"gefangen nehmen, statt ihn zu töten."
 
 #: data/alien/units.ruleset:453
-#, fuzzy
 msgid "Native Settlers"
-msgstr "Unpassierbare Felder"
+msgstr "Eingeborener Siedler"
 
 #: data/alien/units.ruleset:478
 msgid ""
 "This is native Settler that can enter radiating areas. Most military enemy "
 "units can capture it instead of killing it."
 msgstr ""
+"Das ist ein Eingeborener Siedler, der strahlende Bereiche betreten kann. Die "
+"meisten Militäreinheiten können ihn gefangen nehmen, statt ihn zu töten."
 
 #: data/alien/units.ruleset:484
-#, fuzzy
 msgid "Engineer"
-msgstr "Ingenieure"
+msgstr "Ingenieur"
 
 #: data/alien/units.ruleset:510
-#, fuzzy
 msgid "This is Earth technology engineer."
-msgstr "Zeige Icons im Technologiebaum"
+msgstr "Das ist ein Erdentechnologie-Ingenieur."
 
 #: data/alien/units.ruleset:515
-#, fuzzy
 msgid "Native Engineer"
-msgstr "Ingenieure"
+msgstr "Eingeborener Ingenieur"
 
 #: data/alien/units.ruleset:541
-#, fuzzy
 msgid "Native version of the Engineer unit."
-msgstr " Nation des neuen Spielers: %s."
+msgstr "Eingeborene Version eines Ingenieurs."
 
 #: data/alien/units.ruleset:546
-#, fuzzy
 msgid "Water Engineer"
-msgstr "Ingenieure"
+msgstr "Wasser-Ingenieur"
 
 #: data/alien/units.ruleset:573
 msgid ""
 "Amphibious Engineer that can also establish new cities on Ocean. Cities "
 "cannot be located on Boiling Ocean."
 msgstr ""
+"Amphibischer Ingenieur, der auch Städte auf dem Ozean errichten kann. Städte "
+"können nicht auf kochenden Ozeanfeldern platziert werden."
 
 #: data/alien/units.ruleset:579
-#, fuzzy
 msgid "Star Marines"
-msgstr "Marines"
+msgstr "Sternen-Marines"
 
 #: data/alien/units.ruleset:605
-#, fuzzy
 msgid ""
 "This unit may be built from the start of the game.  It is the weakest "
 "military unit."
 msgstr ""
 "Diese Einheit kann gleich vom Start an hergestellt werden, ist aber auch die "
-"schwächste Einheit."
+"schwächste Militäreinheit."
 
 #: data/alien/units.ruleset:611
 msgid "Cyborgs"
-msgstr ""
+msgstr "Cyborgs"
 
 #: data/alien/units.ruleset:637
 msgid "Attack power to the early game."
-msgstr ""
+msgstr "Angriffskraft für das frühe Spiel."
 
 #: data/alien/units.ruleset:642
 msgid "Tank"
-msgstr ""
+msgstr "Panzer"
 
 #: data/alien/units.ruleset:668
 msgid "This is the most powerful Earth technology unit."
-msgstr ""
+msgstr "Das ist die leistungsstärkste Einheit mit irdischer Technologie."
 
 #: data/alien/units.ruleset:673
 msgid "War Monster"
-msgstr ""
+msgstr "Kriegs-Monster"
 
 #: data/alien/units.ruleset:699
 msgid "As a native unit, this can move and fight on radiating areas too."
 msgstr ""
+"Als eingeborene Einheit kann es sich auch auf strahlenden Gebieten bewegen "
+"und kämpfen."
 
 #: data/alien/units.ruleset:704
-#, fuzzy
 msgid "Crusher"
-msgstr "Kreuzfahrer"
+msgstr ""
 
 #: data/alien/units.ruleset:730
 msgid "Alien lifeform trained to be fast."
-msgstr ""
+msgstr "Außerirdische Lebensform, die darauf trainiert wurde, schnell zu sein."
 
 #: data/alien/units.ruleset:735
 msgid "Cyber Alien"
-msgstr ""
+msgstr "Cyber Alien"
 
 #: data/alien/units.ruleset:761
 msgid ""
 "Alien lifeform with cybernetic implants. Good in combat, and has better "
 "vision than any purely organic unit."
 msgstr ""
+"Außerirdische Lebensform mit kybernetischen Implantaten. Gut im Kampf und hat "
+"eine bessere Sicht als eine rein organische Einheit."
 
 #. TRANS: Alien lifeform. Name refers to Tyrannosaurus Rex, not "King" role
 #: data/alien/units.ruleset:767
-#, fuzzy
 msgid "Rex"
-msgstr "Hex"
+msgstr "Rex"
 
 #: data/alien/units.ruleset:792
 msgid "Most powerful alien lifeform, like one from Earth's Jurassic period."
 msgstr ""
+"Leistungsstärkste außerirdische Lebensform, die wie aus der irdischen "
+"Jurazeit aussieht."
 
 #: data/alien/units.ruleset:797
-#, fuzzy
 msgid "Paradropper"
-msgstr "Fallschirmspringen"
+msgstr "Fallschirmspringer"
 
 #: data/alien/units.ruleset:825
 msgid "Alien lifeform able to paradrop."
-msgstr ""
+msgstr "Außerirdische Lebensform, die fähig ist, Fallschirm zu springen."
 
 #: data/alien/units.ruleset:830
-#, fuzzy
 msgid "Turtle Defender"
-msgstr "Küstenverteidigung"
+msgstr "Schildkröten-Verteidiger"
 
 #: data/alien/units.ruleset:856
 msgid "This is excellent defense vehicle."
-msgstr ""
+msgstr "Ein hervorragendes Verteidigungsfahrzeug."
 
 #: data/alien/units.ruleset:861
-#, fuzzy
 msgid "Earth Sub"
-msgstr "Erdbeben"
+msgstr "Unter-Erd-Boot"
 
 #: data/alien/units.ruleset:887
 msgid ""
 "Burrow through earth. Only some special units can attack against Earth Sub. "
 "These can pass ocean tiles only through Burrow Tubes."
 msgstr ""
+"Gräbt sich durch die Erde. Nur wenige spezielle Einheiten können ein "
+"Unter-Erd-Boot angreifen. Können Ozean-Felder nur durch Grabungsröhren "
+"passieren."
 
 #: data/alien/units.ruleset:892
-#, fuzzy
 msgid "Hunter"
-msgstr "Zentrieren"
+msgstr "Jäger"
 
 #: data/alien/units.ruleset:919
 msgid ""
@@ -33103,170 +33323,194 @@ msgid ""
 "It's also an settler type unit for hostile areas, well capable of defending "
 "itself."
 msgstr ""
+"Grabende Einheit, die auch Antigravitations-Einheiten mit ihren eigenen "
+"Miniraketen angreifen kann.\n"
+"\n"
+"Gleichzeitig eine Siedler-Einheit für feindliche Gebiete, mit der Fähigkeit, "
+"sich selbst zu verteidigen."
 
 #: data/alien/units.ruleset:926
-#, fuzzy
 msgid "Light Saucer"
-msgstr "den Leuchtturm"
+msgstr "Leichte Untertasse"
 
 #: data/alien/units.ruleset:952
 msgid ""
 "Nobody, but some of the other Antigravity units and Hunters can attack this "
 "unit. This unit itself can attack other Antigravity units."
 msgstr ""
+"Nur ein paar andere Antigravitations-Einheiten sowie Jäger können diese "
+"Einheit angreifen. Die Einheit selbst kann andere Antigravitations-Einheiten "
+"angreifen."
 
 #: data/alien/units.ruleset:957
-#, fuzzy
 msgid "Bomb Saucer"
-msgstr "Bomber"
+msgstr "Bomben-Untertasse"
 
 #: data/alien/units.ruleset:983
 msgid ""
 "Nobody, but some of the other Antigravity and Hunters units can attack this "
 "unit."
 msgstr ""
+"Nur ein paar andere Antigravitations-Einheiten sowie Jäger können diese "
+"Einheit angreifen."
 
 #: data/alien/units.ruleset:987
 msgid "Spitter"
-msgstr ""
+msgstr "Spucker"
 
 #: data/alien/units.ruleset:1013
 msgid "This alien lifeform is first bombarding unit."
-msgstr ""
+msgstr "Diese außerirdische Lebensform ist die erste bombardierende Einheit."
 
 #: data/alien/units.ruleset:1018
 msgid "Heavy Spitter"
-msgstr ""
+msgstr "Schwerer Spucker"
 
 #: data/alien/units.ruleset:1045
 msgid ""
 "This improved spitter can both make bombard attacks, and transport missiles "
 "next to targets."
 msgstr ""
+"Dieser verbesserte Spucker kann Bomben-Angriffe ausführen und kann außerdem "
+"Raketen in die Nähe des Ziels bringen."
 
 #: data/alien/units.ruleset:1050
 msgid "Biomass"
-msgstr ""
+msgstr "Biomasse"
 
 #: data/alien/units.ruleset:1076
 msgid ""
 "Just let the biomass to engulf your tank and pick it up, then enjoy the ride "
 "in the radiation-safe inside of the slimy being."
 msgstr ""
+"Lassen Sie die Biomasse einfach Ihren Panzer verschlingen und holen Sie ihn "
+"wieder ab. Dann genießen Sie die Fahrt in dem strahlungsfesten inneren des "
+"schleimigen Dings."
 
 #: data/alien/units.ruleset:1107
 msgid ""
 "Like all Earthly units, Explorer are unable to enter radiating tiles. They "
 "can maintain themselves, no upkeep cost to homecity."
 msgstr ""
+"Wie alle irdischen Einheiten können Kundschafter keine strahlenden Felder "
+"betreten. Sie können sich selbst erhalten und brauchen keinen Unterhalt der "
+"Heimatstadt."
 
 #: data/alien/units.ruleset:1113
 msgid "Scout Animal"
-msgstr ""
+msgstr "Späher-Tier"
 
 #: data/alien/units.ruleset:1139
-#, fuzzy
 msgid "This is native scout animal that can enter any land terrain."
 msgstr ""
-"Die Karavelle ist ein Segelschiff, das auf jedes Ozeanfeld ziehen kann."
+"Ein eingeborenes Tier, das als Späher beliebige Landfelder betreten kann."
 
 #: data/alien/units.ruleset:1144
 msgid "Raft"
-msgstr ""
+msgstr "Floß"
 
 #: data/alien/units.ruleset:1171
 msgid "  This vessel allows coastal travel, but not on Boiling Seas."
 msgstr ""
+"  Dieses Schiff ermöglicht küstennahe Reisen, allerdings nicht auf kochenden "
+"Seefeldern."
 
 #: data/alien/units.ruleset:1176
 msgid "Ship"
-msgstr ""
+msgstr "Schiff"
 
 #: data/alien/units.ruleset:1203
 msgid ""
 "  This is basic ship type. It has no any special equipment, so it cannot "
 "enter boiling seas."
 msgstr ""
+"  Der grundlegende Schifftyp. Hat keine spezielle Ausrüstung und kann daher "
+"keine kochenden Seefelder befahren."
 
 #: data/alien/units.ruleset:1234
 msgid "This vessel is for battle! Too bad it cannot enter boiling oceans."
 msgstr ""
+"Dieses Schiff ist für den Kampf! Schade, dass es keine kochenden Ozeane "
+"befahren kann."
 
 #: data/alien/units.ruleset:1239
-#, fuzzy
 msgid "Battle Unit"
-msgstr "Schlachtschiffe"
+msgstr "Kampfeinheit"
 
 #: data/alien/units.ruleset:1264
-#, fuzzy
 msgid "Amphibious battle machine."
-msgstr "Amphibische Kriegführung"
+msgstr "Amphibische Kriegsmaschine."
 
 #: data/alien/units.ruleset:1268
-#, fuzzy
 msgid "Amphibious Transport"
-msgstr "Amphibische Kriegführung"
+msgstr "Amphibischer Transporter"
 
 #: data/alien/units.ruleset:1295
 msgid "This is first unit that can enter boiling oceans - and more."
 msgstr ""
+"Das ist die erste Einheit, die kochende Ozeane befahren kann - und noch mehr."
 
 #: data/alien/units.ruleset:1326
 msgid ""
 "Earth technology unit that can establish trade routes and transfer goods to "
 "help build wonders in other cities."
 msgstr ""
+"Erdentechnologie-Einheit, die Handelsrouten etablieren und Waren "
+"transferieren kann, um dabei zu helfen, Wunder in anderen Städten zu bauen."
 
 #: data/alien/units.ruleset:1329 data/alien/units.ruleset:1364
 msgid ""
 "Trade routes with other factions provide three times as much ongoing trade "
 "as routes within your faction. Each city can support up to four trade routes."
 msgstr ""
+"Handelsrouten mit anderen Fraktionen liefern drei mal so viel fortlaufenden "
+"Handel wie Routen innerhalb Ihrer eigenen Fraktion. Jede Stadt kann bis zu "
+"vier Handelsrouten aufrechterhalten."
 
 #: data/alien/units.ruleset:1362
-#, fuzzy
 msgid "Native caravan unit, that can move on all land terrains."
-msgstr "• Landeinheiten können sich nicht auf dem Ozean bewegen."
+msgstr "Eingeborene Karawane, die sich auf allen Landfeldern bewegen kann."
 
 #: data/alien/units.ruleset:1371
-#, fuzzy
 msgid "Stealth Spy"
-msgstr "Stealth-Technologie"
+msgstr "Tarnkappen-Spion"
 
 #: data/alien/units.ruleset:1402
 msgid ""
 "Stealth Spy can make diplomatic actions, and is invisible until next to "
 "enemy unit or city."
 msgstr ""
+"Ein Tarnkappen-Spion kann diplomatische Aktionen ausführen. Er ist "
+"unsichtbar, bis er direkt neben einer feindlichen Einheit oder Stadt steht."
 
-# MG: Der Begriff "Cruise Missile" ist im Deutschen geläufig genug, um ihn stehen zu lassen.
 #: data/alien/units.ruleset:1407
-#, fuzzy
 msgid "Teleporting Missile"
-msgstr "Cruise-Missile"
+msgstr "Teleportations-Rakete"
 
 #: data/alien/units.ruleset:1431
 msgid "Teleporting Missile can teleport and attack to neighbour tile."
 msgstr ""
+"Teleportations-Raketen können teleportieren und benachbarte Felder angreifen."
 
 #: data/alien/units.ruleset:1435
 msgid "Antiburrow Missile"
-msgstr ""
+msgstr "Anti-Grabe-Rakete"
 
 #: data/alien/units.ruleset:1460
 msgid ""
 "Missile that can attack also against burrowing units. Since more expensive "
 "than normal Teleporting Missile, does not completely replace it."
 msgstr ""
+"Rakete, die auch grabende Einheiten angreifen kann. Teurer als eine normale "
+"teleportierende Rakete und ersetzt sie daher nicht vollständig."
 
 #: data/alien/nation/adventurers.ruleset:5
 msgid "Adventurers"
-msgstr ""
+msgstr "Abenteurer"
 
 #: data/alien/nation/adventurers.ruleset:6
-#, fuzzy
 msgid "?plural:Adventurers"
-msgstr "?plural:Azteken"
+msgstr "?plural:Abenteurer"
 
 #: data/alien/nation/adventurers.ruleset:7
 msgid ""
@@ -33276,15 +33520,18 @@ msgid ""
 "* All units have one extra movement point\n"
 "* City size limits one size bigger than for other factions"
 msgstr ""
+"Sie sind ohne spezielle Ziele einfach Herumgereist und haben Ärger gesucht.\n"
+"\n"
+"• Alle Einheiten haben einen extra Bewegungspunkt\n"
+"• Stadtgrößenlimits sind um eins größer als für andere Fraktionen"
 
 #: data/alien/nation/galacticsound.ruleset:5
 msgid "Galactic Sound"
-msgstr ""
+msgstr "Galaktische Klänge"
 
 #: data/alien/nation/galacticsound.ruleset:6
-#, fuzzy
 msgid "?plural:Fans"
-msgstr "Dänen"
+msgstr "?plural:Fans"
 
 #: data/alien/nation/galacticsound.ruleset:7
 msgid ""
@@ -33292,16 +33539,18 @@ msgid ""
 "\n"
 "* Three unhappy citizens in each city becomes content"
 msgstr ""
+"Eine Schiffsladung Musik-Fans, die ursprünglich zu einer großen "
+"Konzertveranstaltung unterwegs waren.\n"
+"\n"
+"• Drei unglückliche Einwohner werden in jeder Stadt zufrieden"
 
 #: data/alien/nation/jw.ruleset:5
-#, fuzzy
 msgid "J&W Corporation"
-msgstr "Die Firma"
+msgstr "J&W Gesellschaft"
 
 #: data/alien/nation/jw.ruleset:6
-#, fuzzy
 msgid "?plural:JeeWees"
-msgstr "Griechen"
+msgstr "?plural:JeeWees"
 
 #: data/alien/nation/jw.ruleset:8
 #, no-c-format
@@ -33310,15 +33559,18 @@ msgid ""
 "\n"
 "* 40% bonus to trade."
 msgstr ""
+"Das Schiff der J&W Gesellschaft war unterwegs, um eine weitere Zweigstelle "
+"zu gründen.\n"
+"\n"
+"• 40% Bonus auf Handel."
 
 #: data/alien/nation/kindergarden.ruleset:5
 msgid "Kindergarden"
-msgstr ""
+msgstr "Kindergarten"
 
 #: data/alien/nation/kindergarden.ruleset:6
-#, fuzzy
 msgid "?plural:Children"
-msgstr "Chinesen"
+msgstr "?plural:Kinder"
 
 #: data/alien/nation/kindergarden.ruleset:8
 #, no-c-format
@@ -33328,42 +33580,47 @@ msgid ""
 "\n"
 "* Granary is not emptied when city grows, but set to 25% full"
 msgstr ""
+"Deneb 7 hat den Urlaub von Kindern und ihren Eltern beendet. Jeder hatte "
+"Kinder, also hat offensichtlich niemand die Null-Kind-Politik unterstützt.\n"
+"\n"
+"• Der Kornspeicher wird nicht geleert, wenn die Stadt wächst, sondern wird\n"
+"auf 25% voll gesetzt."
 
 #: data/alien/nation/lunatics.ruleset:5
-#, fuzzy
 msgid "Lunatic"
-msgstr "Fanatiker"
+msgstr "Verrückter"
 
 #: data/alien/nation/lunatics.ruleset:6
-#, fuzzy
 msgid "?plural:Lunatics"
-msgstr "Hunnen"
+msgstr "?plural:Verrückte"
 
 #: data/alien/nation/lunatics.ruleset:8
 msgid "Something drove them crazy, made them escape the society to seas."
 msgstr ""
+"Irgendwas hat sie verrückt gemacht und ließ sie aus der Gesellschaft in die "
+"Meere fliehen."
 
 #: data/alien/nation/madmen.ruleset:5
 msgid "Madmen"
-msgstr ""
+msgstr "Wahnsinniger"
 
 #: data/alien/nation/madmen.ruleset:6
-#, fuzzy
 msgid "?plural:Madmen"
-msgstr "Malinke"
+msgstr "?plural:Wahnsinnige"
 
 #: data/alien/nation/madmen.ruleset:8
 msgid "They have escaped society, and attack it for no sane reason."
 msgstr ""
+"Sie haben die Gesellschaft verlassen und greifen ohne vernünftigen Grund an."
 
 #: data/alien/nation/mathclub.ruleset:5
 msgid "Math Club"
-msgstr ""
+msgstr "Mathematikclub"
 
 #: data/alien/nation/mathclub.ruleset:6
 #, fuzzy
 msgid "?plural:Mathematicians"
-msgstr "Karthager"
+msgstr "?plural:Mathematiker"
 
 #: data/alien/nation/mathclub.ruleset:8
 #, no-c-format
@@ -33373,15 +33630,18 @@ msgid ""
 "\n"
 "* 30% bonus to science output"
 msgstr ""
+"Der Mathematikclub war auf dem Heimweg von einem Mathematikwettbewerb, als "
+"Deneb 7 ihr Schiff erwischt hat.\n"
+"\n"
+"• 30% Bonus auf Wissenschaft"
 
 #: data/alien/nation/secretsociety.ruleset:5
 msgid "Secret Society"
-msgstr ""
+msgstr "Geheimgesellschaft"
 
 #: data/alien/nation/secretsociety.ruleset:6
-#, fuzzy
 msgid "?plural:Billionaries"
-msgstr "Brasilianer"
+msgstr "?plural:Milliardäre"
 
 #: data/alien/nation/secretsociety.ruleset:8
 #, no-c-format
@@ -33393,15 +33653,20 @@ msgid ""
 "* Has 50% spy resistance bonus\n"
 "* 20% bonus to trade"
 msgstr ""
+"Die wirklich Reichen von denen niemand weiß, da sie sich nur in ihren eigenen "
+"Kreisen bewegen.\n"
+"\n"
+"• Bauen Veteranen-Tarnkappen-Spione\n"
+"• Haben einen 50% Bonus bei Spionageabwher\n"
+"• 20% Bonus auf Handel"
 
 #: data/alien/nation/teamgladiators.ruleset:5
 msgid "Team Gladiators"
-msgstr ""
+msgstr "Team Gladiatoren"
 
 #: data/alien/nation/teamgladiators.ruleset:6
-#, fuzzy
 msgid "?plural:Athletes"
-msgstr "?plural:Azteken"
+msgstr "?plural:Athleten"
 
 #: data/alien/nation/teamgladiators.ruleset:7
 msgid ""
@@ -33411,6 +33676,13 @@ msgid ""
 "* Builds elite units, superb units in cities with Training Facility\n"
 "* Each city receives free unit upkeep worth one shield"
 msgstr ""
+"Spaceball ist eine Sportart für riesige Teams. Das Schiff des Team "
+"Gladiatoren hatte genug Spieler an Board, um eine eigene planetare Fraktion "
+"zu gründen.\n"
+"\n"
+"• Baut Eliteeinheiten bzw. Überlegene Einheiten in Städten mit "
+"Trainingsanlagen\n"
+"• Jede Stadt erhält freien Einheiten-Unterhalt im Wert von einem Schild"
 
 #: data/helpdata.txt:44
 msgid ""
