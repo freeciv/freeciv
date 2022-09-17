@@ -560,3 +560,44 @@ void handle_city_rally_point(struct player *pplayer,
 
   send_city_info(pplayer, pcity);
 }
+
+/**********************************************************************//**
+  Handles a request to change city CMA settings.
+**************************************************************************/
+void handle_web_cma_set(struct player *pplayer, int id,
+                        const struct cm_parameter *param)
+{
+  /* Supported only in freeciv-web builds for now -
+   * Let's be cautious for now, and not give any chance
+   * of client requests of server side CMA to overload
+   * server from a standard build. */
+#ifdef FREECIV_WEB
+  struct city *pcity = player_city_by_number(pplayer, id);
+
+  if (pcity != NULL) {
+    if (pcity->cm_parameter == NULL) {
+      pcity->cm_parameter = fc_calloc(1, sizeof(struct cm_parameter));
+    }
+
+    cm_copy_parameter(pcity->cm_parameter, param);
+
+    auto_arrange_workers(pcity);
+
+    sync_cities();
+  }
+#endif /* FREECIV_WEB */
+}
+
+/**********************************************************************//**
+  Handles a request to clear city CMA settings.
+**************************************************************************/
+void handle_web_cma_clear(struct player *pplayer, int id)
+{
+  struct city *pcity = player_city_by_number(pplayer, id);
+
+  if (pcity != NULL) {
+    free(pcity->cm_parameter);
+    pcity->cm_parameter = NULL;
+    send_city_info(pplayer, pcity);
+  }
+}
