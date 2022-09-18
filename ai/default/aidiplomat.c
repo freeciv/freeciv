@@ -727,8 +727,6 @@ void dai_manage_diplomat(struct ai_type *ait, struct player *pplayer,
   parameter.get_TB = no_intermediate_fights;
   pfm = pf_map_new(&parameter);
 
-  pcity = tile_city(unit_tile(punit));
-
   /* Look for someone to bribe */
   if (!dai_diplomat_bribe_nearby(ait, pplayer, punit, pfm)) {
     /* Died or ran out of moves */
