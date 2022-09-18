@@ -340,9 +340,9 @@ static int spy_steal_popup_shared(struct widget *pwidget)
   int max_col, max_row, col, count = 0;
   int tech, idx;
   SDL_Rect area;
-
   struct unit *actor_unit = game_unit_by_number(id);
   action_id act_id = diplomat_dlg->act_id;
+  Tech_type_id ac;
 
   is_more_user_input_needed = TRUE;
   popdown_diplomat_dialog();
@@ -361,14 +361,15 @@ static int spy_steal_popup_shared(struct widget *pwidget)
   count = 0;
   presearch = research_get(client_player());
   vresearch = research_get(victim);
-  advance_index_iterate(A_FIRST, i) {
+  ac = advance_count();
+  advance_index_iterate_max(A_FIRST, i, ac) {
     if (research_invention_gettable(presearch, i,
                                     game.info.tech_steal_allow_holes)
         && TECH_KNOWN == research_invention_state(vresearch, i)
         && TECH_KNOWN != research_invention_state(presearch, i)) {
       count++;
     }
-  } advance_index_iterate_end;
+  } advance_index_iterate_max_end;
 
   if (!count) {
     /* if there is no known tech to steal then
@@ -455,7 +456,7 @@ static int spy_steal_popup_shared(struct widget *pwidget)
   pstr->style |= (TTF_STYLE_BOLD | SF_CENTER);
 
   count = 0;
-  advance_index_iterate(A_FIRST, i) {
+  advance_index_iterate_max(A_FIRST, i, ac) {
     if (research_invention_gettable(presearch, i,
                                     game.info.tech_steal_allow_holes)
         && TECH_KNOWN == research_invention_state(vresearch, i)
@@ -477,7 +478,7 @@ static int spy_steal_popup_shared(struct widget *pwidget)
         set_wflag(buf, WF_HIDDEN);
       }
     }
-  } advance_index_iterate_end;
+  } advance_index_iterate_max_end;
 
   /* Get Spy tech to use for "At Spy's Discretion" -- this will have the
    * side effect of displaying the unit's icon */

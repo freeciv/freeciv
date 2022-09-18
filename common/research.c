@@ -501,8 +501,9 @@ void research_update(struct research *presearch)
 {
   enum tech_flag_id flag;
   int techs_researched;
+  Tech_type_id ac = advance_count();
 
-  advance_index_iterate(A_FIRST, i) {
+  advance_index_iterate_max(A_FIRST, i, ac) {
     enum tech_state state = presearch->inventions[i].state;
     bool root_reqs_known = TRUE;
     bool reachable = research_get_reachable(presearch, i);
@@ -566,19 +567,19 @@ void research_update(struct research *presearch)
       presearch->techs_researched++;
     } advance_req_iterate_end;
     presearch->techs_researched = techs_researched;
-  } advance_index_iterate_end;
+  } advance_index_iterate_max_end;
 
 #ifdef FREECIV_DEBUG
-  advance_index_iterate(A_FIRST, i) {
+  advance_index_iterate_max(A_FIRST, i, ac) {
     char buf[advance_count() + 1];
 
-    advance_index_iterate(A_NONE, j) {
+    advance_index_iterate_max(A_NONE, j, ac) {
       if (BV_ISSET(presearch->inventions[i].required_techs, j)) {
         buf[j] = '1';
       } else {
         buf[j] = '0';
       }
-    } advance_index_iterate_end;
+    } advance_index_iterate_max_end;
     buf[advance_count()] = '\0';
 
     log_debug("%s: [%3d] %-25s => %s%s%s",
@@ -590,19 +591,19 @@ void research_update(struct research *presearch)
               presearch->inventions[i].root_reqs_known
               ? "" : " [root reqs aren't known]");
     log_debug("%s: [%3d] %s", research_rule_name(presearch), i, buf);
-  } advance_index_iterate_end;
+  } advance_index_iterate_max_end;
 #endif /* FREECIV_DEBUG */
 
   for (flag = 0; flag <= tech_flag_id_max(); flag++) {
     /* Iterate over all possible tech flags (0..max). */
     presearch->num_known_tech_with_flag[flag] = 0;
 
-    advance_index_iterate(A_NONE, i) {
+    advance_index_iterate_max(A_NONE, i, ac) {
       if (TECH_KNOWN == research_invention_state(presearch, i)
           && advance_has_flag(i, flag)) {
         presearch->num_known_tech_with_flag[flag]++;
       }
-    } advance_index_iterate_end;
+    } advance_index_iterate_max_end;
   }
 }
 

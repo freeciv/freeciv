@@ -238,16 +238,24 @@ void techs_precalc_data(void);
 
 /* Iteration */
 
-/* This iterates over almost all technologies.  It includes non-existent
+/* This iterates over almost all technologies. It includes non-existent
  * technologies, but not A_FUTURE. */
 #define advance_index_iterate(_start, _index)				\
-{									\
-  Tech_type_id _index = (_start);					\
-  Tech_type_id _aco_##_index = advance_count();                         \
+{                                                                       \
+  advance_index_iterate_max(_start, _index, advance_count())
+
+#define advance_index_iterate_end                                       \
+  advance_index_iterate_max_end                                         \
+}
+
+#define advance_index_iterate_max(_start, _index, _max)                 \
+{                                                                       \
+  Tech_type_id _index = (_start);                                       \
+  Tech_type_id _aco_##_index = (_max);                                  \
   for (; _index < _aco_##_index; _index++) {
 
-#define advance_index_iterate_end					\
-  }									\
+#define advance_index_iterate_max_end                                   \
+  }                                                                     \
 }
 
 const struct advance *advance_array_last(void);

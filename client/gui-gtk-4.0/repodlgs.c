@@ -428,6 +428,7 @@ static void science_report_update(struct science_report *preport)
   const char *text;
   double pct;
   Tech_type_id tech;
+  Tech_type_id ac = advance_count();
 
   fc_assert_ret(NULL != preport);
   fc_assert_ret(NULL != presearch);
@@ -458,11 +459,11 @@ static void science_report_update(struct science_report *preport)
   }
 
   /* Collect all techs which are reachable in the next step. */
-  advance_index_iterate(A_FIRST, i) {
+  advance_index_iterate_max(A_FIRST, i, ac) {
     if (TECH_PREREQS_KNOWN == presearch->inventions[i].state) {
       sorting_list = g_list_prepend(sorting_list, GINT_TO_POINTER(i));
     }
-  } advance_index_iterate_end;
+  } advance_index_iterate_max_end;
 
   /* Sort the list, append it to the store. */
   sorting_list = g_list_sort(sorting_list, cmp_func);
@@ -492,14 +493,14 @@ static void science_report_update(struct science_report *preport)
   }
 
   /* Collect all techs which are reachable in next 10 steps. */
-  advance_index_iterate(A_FIRST, i) {
+  advance_index_iterate_max(A_FIRST, i, ac) {
     if (research_invention_reachable(presearch, i)
         && TECH_KNOWN != presearch->inventions[i].state
         && (i == presearch->tech_goal
             || 10 >= presearch->inventions[i].num_required_techs)) {
       sorting_list = g_list_prepend(sorting_list, GINT_TO_POINTER(i));
     }
-  } advance_index_iterate_end;
+  } advance_index_iterate_max_end;
 
   /* Sort the list, append it to the store. */
   sorting_list = g_list_sort(sorting_list, cmp_func);

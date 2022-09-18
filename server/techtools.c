@@ -689,13 +689,14 @@ static Tech_type_id
 pick_random_tech_to_lose(const struct research *presearch)
 {
   bv_techs eligible_techs;
+  Tech_type_id full_count = advance_count();
   /* A_NONE included in advance_count(). */
-  int eligible = advance_count() - 1;
+  int eligible = full_count - 1;
   int chosen;
 
   BV_SET_ALL(eligible_techs);
 
-  advance_index_iterate(A_FIRST, i) {
+  advance_index_iterate_max(A_FIRST, i, full_count) {
     if (research_invention_state(presearch, i) != TECH_KNOWN) {
       if (BV_ISSET(eligible_techs, i)) {
         eligible--;
@@ -704,6 +705,7 @@ pick_random_tech_to_lose(const struct research *presearch)
     } else {
       /* Knowing this tech may make others ineligible */
       Tech_type_id root = advance_required(i, AR_ROOT);
+
       /* Never lose techs that are root_req for a currently known tech
        * (including self root_req) */
       if (root != A_NONE && BV_ISSET(eligible_techs, root)) {
@@ -714,6 +716,7 @@ pick_random_tech_to_lose(const struct research *presearch)
         /* Ruleset can prevent this kind of tech loss from opening up
          * holes in the tech tree */
         Tech_type_id prereq;
+
         prereq = advance_required(i, AR_ONE);
         if (prereq != A_NONE && BV_ISSET(eligible_techs, prereq)) {
           eligible--;
@@ -726,7 +729,7 @@ pick_random_tech_to_lose(const struct research *presearch)
         }
       }
     }
-  } advance_index_iterate_end;
+  } advance_index_iterate_max_end;
 
   if (eligible == 0) {
     /* no researched technology at all */
@@ -735,14 +738,14 @@ pick_random_tech_to_lose(const struct research *presearch)
 
   chosen = fc_rand(eligible) + 1;
 
-  advance_index_iterate(A_FIRST, i) {
+  advance_index_iterate_max(A_FIRST, i, full_count) {
     if (BV_ISSET(eligible_techs, i)) {
       chosen--;
       if (chosen == 0) {
         return i;
       }
     }
-  } advance_index_iterate_end;
+  } advance_index_iterate_max_end;
 
   /* should never be reached */
   fc_assert_msg(chosen == 0, "internal error (eligible=%d, chosen=%d)",
@@ -900,6 +903,7 @@ static Tech_type_id pick_random_tech(const struct research *presearch)
       }
     }
   } advance_index_iterate_end;
+
   return tech;
 }
 
@@ -1042,11 +1046,13 @@ void choose_tech_goal(struct research *presearch, Tech_type_id tech)
 ****************************************************************************/
 void init_tech(struct research *research, bool update)
 {
+  Tech_type_id ac = advance_count();
+
   research_invention_set(research, A_NONE, TECH_KNOWN);
 
-  advance_index_iterate(A_FIRST, i) {
+  advance_index_iterate_max(A_FIRST, i, ac) {
     research_invention_set(research, i, TECH_UNKNOWN);
-  } advance_index_iterate_end;
+  } advance_index_iterate_max_end;
 
 #ifdef TECH_UPKEEP_DEBUGGING
   /* Print a list of the needed upkeep if 'i' techs are researched.
@@ -1056,15 +1062,15 @@ void init_tech(struct research *research, bool update)
     Tech_type_id tech = A_LAST;
 
     /* Save the game research state. */
-    advance_index_iterate(A_FIRST, i) {
+    advance_index_iterate_max(A_FIRST, i, ac) {
       global_state[i] = game.info.global_advances[i];
-    } advance_index_iterate_end;
+    } advance_index_iterate_max_end;
 
     research->techs_researched = 1;
     research_update(presearch);
 
     /* Show research costs. */
-    advance_index_iterate(A_NONE, i) {
+    advance_index_iterate_max(A_NONE, i, ac) {
       log_debug("[research %d] %-25s (ID: %3d) cost: %6d - reachable: %-3s "
                 "(now) / %-3s (ever)", research_number(research),
                 advance_rule_name(advance_by_number(i)), i,
@@ -1072,18 +1078,18 @@ void init_tech(struct research *research, bool update)
                 research_invention_gettable(research, i, FALSE)
                 ? "yes" : "no",
                 research_invention_reachable(research, i) ? "yes" : "no");
-    } advance_index_iterate_end;
+    } advance_index_iterate_max_end;
 
     /* Update step for step each tech as known and print the upkeep. */
     while (tech != A_NONE) {
       tech = A_NONE;
-      advance_index_iterate(A_FIRST, i) {
+      advance_index_iterate_max(A_FIRST, i, ac) {
         if (research_invention_state(research, i) == TECH_PREREQS_KNOWN) {
           /* Found a tech which can be researched. */
           tech = i;
           break;
         }
-      } advance_index_iterate_end;
+      } advance_index_iterate_max_end;
 
       if (tech != A_NONE) {
         research->inventions[tech].state = TECH_KNOWN;
@@ -1102,10 +1108,10 @@ void init_tech(struct research *research, bool update)
     }
 
     /* Reset the changes done. */
-    advance_index_iterate(A_FIRST, i) {
+    advance_index_iterate_max(A_FIRST, i, ac) {
       research_invention_set(research, i, TECH_UNKNOWN);
       game.info.global_advances[i] = global_state[i];
-    } advance_index_iterate_end;
+    } advance_index_iterate_max_end;
   }
 #endif /* TECH_UPKEEP_DEBUGGING */
 
@@ -1194,15 +1200,16 @@ Tech_type_id steal_a_tech(struct player *pplayer, struct player *victim,
 
   if (preferred == A_UNSET) {
     int j = 0;
+    Tech_type_id ac = advance_count();
 
-    advance_index_iterate(A_FIRST, i) {
+    advance_index_iterate_max(A_FIRST, i, ac) {
       if (research_invention_gettable(presearch, i,
                                       game.info.tech_steal_allow_holes)
           && research_invention_state(presearch, i) != TECH_KNOWN
           && research_invention_state(vresearch, i) == TECH_KNOWN) {
         j++;
       }
-    } advance_index_iterate_end;
+    } advance_index_iterate_max_end;
   
     if (j == 0)  {
       /* we've moved on to future tech */
@@ -1215,7 +1222,7 @@ Tech_type_id steal_a_tech(struct player *pplayer, struct player *victim,
       /* pick random tech */
       j = fc_rand(j) + 1;
       stolen_tech = A_NONE; /* avoid compiler warning */
-      advance_index_iterate(A_FIRST, i) {
+      advance_index_iterate_max(A_FIRST, i, ac) {
         if (research_invention_gettable(presearch, i,
                                         game.info.tech_steal_allow_holes)
             && research_invention_state(presearch, i) != TECH_KNOWN
@@ -1226,7 +1233,7 @@ Tech_type_id steal_a_tech(struct player *pplayer, struct player *victim,
 	  stolen_tech = i;
 	  break;
         }
-      } advance_index_iterate_end;
+      } advance_index_iterate_max_end;
       fc_assert(stolen_tech != A_NONE);
     }
   } else { /* preferred != A_UNSET */

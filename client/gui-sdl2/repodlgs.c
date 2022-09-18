@@ -2930,17 +2930,19 @@ static void popup_change_research_dialog(void)
   SDL_Surface *surf;
   int max_col, max_row, col, i, count = 0, h;
   SDL_Rect area;
+  Tech_type_id ac;
 
   if (is_future_tech(presearch->researching)) {
     return;
   }
 
-  advance_index_iterate(A_FIRST, aidx) {
+  ac = advance_count();
+  advance_index_iterate_max(A_FIRST, aidx, ac) {
     if (!research_invention_gettable(presearch, aidx, FALSE)) {
       continue;
     }
     count++;
-  } advance_index_iterate_end;
+  } advance_index_iterate_max_end;
 
   if (count < 2) {
     return;
@@ -3003,7 +3005,7 @@ static void popup_change_research_dialog(void)
 
   count = 0;
   h = col * max_row;
-  advance_index_iterate(A_FIRST, aidx) {
+  advance_index_iterate_max(A_FIRST, aidx, ac) {
     if (!research_invention_gettable(presearch, aidx, FALSE)) {
       continue;
     }
@@ -3023,7 +3025,7 @@ static void popup_change_research_dialog(void)
     if (count > h) {
       set_wflag(buf, WF_HIDDEN);
     }
-  } advance_index_iterate_end;
+  } advance_index_iterate_max_end;
 
   FREEUTF8STR(pstr);
 
@@ -3117,18 +3119,19 @@ static void popup_change_research_goal_dialog(void)
   char cbuf[128];
   int max_col, max_row, col, i, count = 0, h , num;
   SDL_Rect area;
+  Tech_type_id ac = advance_count();
 
   /* Collect all techs which are reachable in under 11 steps
    * hist will hold afterwards the techid of the current choice
    */
-  advance_index_iterate(A_FIRST, aidx) {
+  advance_index_iterate_max(A_FIRST, aidx, ac) {
     if (research_invention_reachable(presearch, aidx)
         && TECH_KNOWN != research_invention_state(presearch, aidx)
         && (11 > research_goal_unknown_techs(presearch, aidx)
             || aidx == presearch->tech_goal)) {
       count++;
     }
-  } advance_index_iterate_end;
+  } advance_index_iterate_max_end;
 
   if (count < 1) {
     return;
@@ -3195,7 +3198,7 @@ static void popup_change_research_goal_dialog(void)
    */
   count = 0;
   h = col * max_row;
-  advance_index_iterate(A_FIRST, aidx) {
+  advance_index_iterate_max(A_FIRST, aidx, ac) {
     if (research_invention_reachable(presearch, aidx)
         && TECH_KNOWN != research_invention_state(presearch, aidx)
         && (11 > (num = research_goal_unknown_techs(presearch, aidx))
@@ -3220,7 +3223,7 @@ static void popup_change_research_goal_dialog(void)
         set_wflag(buf, WF_HIDDEN);
       }
     }
-  } advance_index_iterate_end;
+  } advance_index_iterate_max_end;
 
   FREEUTF8STR(pstr);
 

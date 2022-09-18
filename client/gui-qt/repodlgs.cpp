@@ -970,6 +970,7 @@ void science_report::update_report()
   QString str;
   qlist_item item;
   struct sprite *sp;
+  Tech_type_id ac;
 
   fc_assert_ret(NULL != research);
 
@@ -1008,7 +1009,8 @@ void science_report::update_report()
   }
 
   // Collect all techs which are reachable in the next step.
-  advance_index_iterate(A_FIRST, i) {
+  ac = advance_count();
+  advance_index_iterate_max(A_FIRST, i, ac) {
     if (TECH_PREREQS_KNOWN == research->inventions[i].state) {
       item.tech_str
       =
@@ -1016,11 +1018,11 @@ void science_report::update_report()
       item.id = i;
       curr_list->append(item);
     }
-  } advance_index_iterate_end;
+  } advance_index_iterate_max_end;
 
 
   // Collect all techs which are reachable in next 10 steps.
-  advance_index_iterate(A_FIRST, i) {
+  advance_index_iterate_max(A_FIRST, i, ac) {
     if (research_invention_reachable(research, i)
         && TECH_KNOWN != research->inventions[i].state
         && (i == research->tech_goal
@@ -1030,7 +1032,7 @@ void science_report::update_report()
       item.id = i;
       goal_list->append(item);
     }
-  } advance_index_iterate_end;
+  } advance_index_iterate_max_end;
 
   // Sort both lists
   std::sort(goal_list->begin(), goal_list->end(), comp_less_than);

@@ -652,8 +652,9 @@ static struct advanced_dialog *popup_diplomatic_objects(struct player *pplayer0,
     const struct research *presearch0 = research_get(pplayer0);
     const struct research *presearch1 = research_get(pplayer1);
     int flag = A_NONE;
+    Tech_type_id ac = advance_count();
 
-    advance_index_iterate(A_FIRST, i) {
+    advance_index_iterate_max(A_FIRST, i, ac) {
       if (research_invention_state(presearch0, i) == TECH_KNOWN
           && research_invention_gettable(presearch1, i,
                                          game.info.tech_trade_allow_holes)
@@ -686,10 +687,10 @@ static struct advanced_dialog *popup_diplomatic_objects(struct player *pplayer0,
         flag = ++i;
         break;
       }
-    } advance_index_iterate_end;
+    } advance_index_iterate_max_end;
 
     if (flag > A_NONE) {
-      advance_index_iterate(flag, i) {
+      advance_index_iterate_max(flag, i, ac) {
         if (research_invention_state(presearch0, i) == TECH_KNOWN
             && research_invention_gettable(presearch1, i,
                                            game.info.tech_trade_allow_holes)
@@ -712,7 +713,7 @@ static struct advanced_dialog *popup_diplomatic_objects(struct player *pplayer0,
           count++;
         }
       }
-    } advance_index_iterate_end;
+    } advance_index_iterate_max_end;
   }  /* Advances */
 
   /* Trading: cities */

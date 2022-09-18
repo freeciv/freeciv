@@ -396,9 +396,10 @@ static struct reqtree *create_dummy_reqtree(struct player *pplayer,
   struct reqtree *tree = fc_malloc(sizeof(*tree));
   int j;
   struct tree_node *nodes[advance_count()];
+  Tech_type_id ac = advance_count();
 
   nodes[A_NONE] = NULL;
-  advance_index_iterate(A_FIRST, tech) {
+  advance_index_iterate_max(A_FIRST, tech, ac) {
     if (!valid_advance_by_number(tech)) {
       nodes[tech] = NULL;
       continue;
@@ -413,9 +414,9 @@ static struct reqtree *create_dummy_reqtree(struct player *pplayer,
     nodes[tech] = new_tree_node();
     nodes[tech]->is_dummy = FALSE;
     nodes[tech]->tech = tech;
-  } advance_index_iterate_end;
+  } advance_index_iterate_max_end;
 
-  advance_index_iterate(A_FIRST, tech) {
+  advance_index_iterate_max(A_FIRST, tech, ac) {
     struct advance *padvance = valid_advance_by_number(tech);
     Tech_type_id tech_one, tech_two;
 
@@ -447,18 +448,18 @@ static struct reqtree *create_dummy_reqtree(struct player *pplayer,
         add_requirement(nodes[tech], nodes[tech_two]);
       }
     }
-  } advance_index_iterate_end;
+  } advance_index_iterate_max_end;
 
   /* Copy nodes from local array to dynamically allocated one. 
    * Skip non-existing entries */
   tree->nodes = fc_calloc(advance_count(), sizeof(*tree->nodes));
   j = 0;
-  advance_index_iterate(A_FIRST, tech) {
+  advance_index_iterate_max(A_FIRST, tech, ac) {
     if (nodes[tech]) {
       fc_assert_action(valid_advance_by_number(nodes[tech]->tech), continue);
       tree->nodes[j++] = nodes[tech];
     }
-  } advance_index_iterate_end;
+  } advance_index_iterate_max_end;
   tree->num_nodes = j;
   tree->layers = NULL;
 
