@@ -2197,9 +2197,9 @@ static void redraw_happiness_city_dialog(const struct widget *city_window,
         }
       }
 
-      if (j == 1) { /* luxury effect */
+      if (j == 1) { /* Luxury effect */
         dest.x =
-          city_window->size.x + adj_size(212) - icons->big_luxury->w - adj_size(2);
+          city_window->size.x + adj_size(187) - icons->big_luxury->w - adj_size(2);
         count = dest.y;
         dest.y += (icons->male_happy->h -
                    icons->big_luxury->h) / 2;
