@@ -137,7 +137,7 @@ int city_map_radius_sq_get(const struct city *pcity)
 }
 
 /**********************************************************************//**
-  Returns the current squared radius of the city.
+  Sets the squared radius for the city.
 **************************************************************************/
 void city_map_radius_sq_set(struct city *pcity, int radius_sq)
 {
