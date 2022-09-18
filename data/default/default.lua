@@ -114,7 +114,7 @@ function _deflua_hut_get_barbarians(unit)
                    _("An abandoned village is here."))
     return true
   end
-  
+
   local alive = tile:unleash_barbarians()
   if alive then
     notify.event(owner, tile, E.HUT_BARB,

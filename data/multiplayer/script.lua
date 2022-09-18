@@ -137,6 +137,6 @@ function tech_researched_handler(tech, player, how)
             player:research_name_translation(),
             gained:name_translation())
   end
-end 
+end
 
 signal.connect("tech_researched", "tech_researched_handler")

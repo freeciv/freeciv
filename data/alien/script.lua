@@ -80,7 +80,7 @@ function alien_hut_get_barbarians(unit)
                    _("The Space Capsule was already scavenged by someone."))
     return true
   end
-  
+
   local alive = tile:unleash_barbarians()
   if alive then
     notify.event(owner, tile, E.HUT_BARB,
