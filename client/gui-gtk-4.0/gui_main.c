@@ -1136,10 +1136,9 @@ static void setup_widgets(void)
     overview_canvas_store_height = OVERVIEW_CANVAS_STORE_HEIGHT;
   }
 
-  /* this holds the overview canvas, production info, etc. */
+  /* This holds the overview canvas, production info, etc. */
   vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 3);
-  gtk_grid_set_column_spacing(GTK_GRID(vbox), 3);
-  /* Put vgrid to the left of anything else in hgrid -- right_vbox is either
+  /* Put vbox to the left of anything else in hgrid -- right_vbox is either
    * the chat/messages pane, or NULL which is OK */
   gtk_grid_attach_next_to(GTK_GRID(hgrid), vbox, right_vbox,
                           GTK_POS_LEFT, 1, 1);
