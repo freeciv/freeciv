@@ -219,40 +219,43 @@ static struct unit_type *dai_choose_bodyguard(struct ai_type *ait,
 }
 
 /**********************************************************************//**
-  Helper for assess_defense_quadratic and assess_defense_unit.
+  Helper for assess_defense_quadratic() and assess_defense_unit().
 **************************************************************************/
 static int base_assess_defense_unit(struct city *pcity, struct unit *punit,
                                     bool igwall, bool quadratic,
                                     int wall_value)
 {
   int defense;
-  bool do_wall = FALSE;
+  int fp;
 
   if (!is_military_unit(punit)) {
     return 0;
   }
 
   defense = get_fortified_defense_power(NULL, punit) * punit->hp;
+  fp = unit_type_get(punit)->firepower;
   if (unit_has_type_flag(punit, UTYF_BADCITYDEFENDER)) {
-    /* Attacker firepower doubled, defender firepower set to 1 */
+    /* Attacker firepower doubled, defender firepower set to
+     * game.info.low_firepower_pearl_harbour at max. */
+    defense *= MIN(fp, game.info.low_firepower_pearl_harbour);
     defense /= 2;
   } else {
-    defense *= unit_type_get(punit)->firepower;
+    defense *= fp;
   }
 
-  if (pcity) {
-    /* FIXME: We check if city got defense effect against *some*
-     * unit type. Sea unit danger might cause us to build defenses
-     * against air units... */
-    do_wall = (!igwall && city_got_defense_effect(pcity, NULL));
-  }
   defense /= POWER_DIVIDER;
 
   if (quadratic) {
     defense *= defense;
   }
 
-  if (do_wall) {
+  if (pcity != NULL && !igwall && city_got_defense_effect(pcity, NULL)) {
+    /* FIXME: We checked if city got defense effect against *some*
+     * unit type. Sea unit danger might cause us to build defenses
+     * against air units... */
+
+    /* TODO: What about wall_value < 10? Do we really want walls to
+     *       result in decrease in the returned value? */
     defense *= wall_value;
     defense /= 10;
   }
@@ -301,7 +304,7 @@ int assess_defense_unit(struct ai_type *ait, struct city *pcity,
                         struct unit *punit, bool igwall)
 {
   return base_assess_defense_unit(pcity, punit, igwall, TRUE,
-				  def_ai_city_data(pcity, ait)->wallvalue);
+                                  def_ai_city_data(pcity, ait)->wallvalue);
 }
 
 /**********************************************************************//**
@@ -752,15 +755,17 @@ int dai_unit_defence_desirability(struct ai_type *ait,
   int attack = punittype->attack_strength;
   int defense = punittype->defense_strength;
   int maxbonus_pct = 0;
+  int fp = punittype->firepower;
 
-  /* Sea and helicopters often have their firepower set to 1 when
+  /* Sea and helicopters often have their firepower set to low firepower when
    * defending. We can't have such units as defenders. */
-  if (!utype_has_flag(punittype, UTYF_BADCITYDEFENDER)
-      && !((struct unit_type_ai *)utype_ai_data(punittype, ait))->low_firepower) {
-    /* Sea units get 1 firepower in Pearl Harbour,
-     * and helicopters very bad against fighters */
-    desire *= punittype->firepower;
+  if (utype_has_flag(punittype, UTYF_BADCITYDEFENDER)) {
+    fp = MIN(fp, game.info.low_firepower_pearl_harbour);
   }
+  if (((struct unit_type_ai *)utype_ai_data(punittype, ait))->low_firepower) {
+    fp = MIN(fp, game.info.low_firepower_combat_bonus);
+  }
+  desire *= fp;
   desire *= defense;
   desire += punittype->move_rate / SINGLE_MOVE;
   desire += attack;
@@ -771,7 +776,7 @@ int dai_unit_defence_desirability(struct ai_type *ait,
   }
   desire += desire * maxbonus_pct / 100;
   if (utype_has_flag(punittype, UTYF_GAMELOSS)) {
-    desire /= 10; /* but might actually be worth it */
+    desire /= 10; /* But might actually be worth it */
   }
 
   return desire;
@@ -857,7 +862,7 @@ bool dai_process_defender_want(struct ai_type *ait, struct player *pplayer,
       desire /= 2;
     }      
 
-    desire /= POWER_DIVIDER/2; /* Good enough, no rounding errors. */
+    desire /= POWER_DIVIDER / 2; /* Good enough, no rounding errors. */
     desire *= desire;
 
     if (can_city_build_unit_now(pcity, punittype)) {
