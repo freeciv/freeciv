@@ -689,14 +689,14 @@ void fc_shortcuts_dialog::edit_shortcut()
 void fc_shortcuts_dialog::refresh()
 {
   QLayout *layout;
-  QLayout *sublayout;
   QLayoutItem *item;
   QWidget *widget;
 
   layout = main_layout;
   while ((item = layout->takeAt(0))) {
-    if ((sublayout = item->layout()) != 0) {
-    } else if ((widget = item->widget()) != 0) {
+    if (item->layout() != nullptr) {
+      // Nothing
+    } else if ((widget = item->widget()) != nullptr) {
       widget->hide();
       delete widget;
     } else {
