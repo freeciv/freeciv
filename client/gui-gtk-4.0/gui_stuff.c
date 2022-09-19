@@ -419,7 +419,7 @@ static void gui_dialog_switch_page_handler(GtkNotebook *notebook,
 /**********************************************************************//**
   Changes a tab into a window.
 **************************************************************************/
-static void gui_dialog_detach(struct gui_dialog* dlg)
+static void gui_dialog_detach(struct gui_dialog *dlg)
 {
   gint n;
   GtkWidget *window, *notebook;
@@ -462,24 +462,13 @@ static void gui_dialog_detach(struct gui_dialog* dlg)
 /**********************************************************************//**
   Someone has clicked on a label in a notebook
 **************************************************************************/
-static gboolean click_on_tab_callback(GtkWidget *w,
-                                      GdkEvent *button,
-                                      gpointer data)
+static gboolean click_on_tab_callback(GtkGestureClick *gesture,
+                                      int n_press,
+                                      double x, double y, gpointer data)
 {
-  GdkEventType type;
-  guint button_number;
-
-  type = gdk_event_get_event_type(button);
-  if (type != GDK_BUTTON_PRESS) {
-    return FALSE;
+  if (n_press == 2) {
+    gui_dialog_detach((struct gui_dialog *)data);
   }
-
-  button_number = gdk_button_event_get_button(button);
-
-  if (button_number != 1) {
-    return FALSE;
-  }
-  gui_dialog_detach((struct gui_dialog*) data);
 
   return TRUE;
 }
@@ -574,11 +563,11 @@ void gui_dialog_new(struct gui_dialog **pdlg, GtkNotebook *notebook,
     break;
   case GUI_DIALOG_TAB:
     {
-      GtkWidget *hgrid, *label, *button;
+      GtkWidget *hbox, *label, *button;
       gchar *buf;
-      int grid_col = 0;
+      GtkEventController *controller;
 
-      hgrid = gtk_grid_new();
+      hbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
 
       label = gtk_label_new(NULL);
       gtk_widget_set_halign(label, GTK_ALIGN_START);
@@ -587,7 +576,7 @@ void gui_dialog_new(struct gui_dialog **pdlg, GtkNotebook *notebook,
       gtk_widget_set_margin_end(label, 4);
       gtk_widget_set_margin_top(label, 0);
       gtk_widget_set_margin_bottom(label, 0);
-      gtk_grid_attach(GTK_GRID(hgrid), label, grid_col++, 0, 1, 1);
+      gtk_box_append(GTK_BOX(hbox), label);
 
       button = gtk_button_new();
       gtk_button_set_has_frame(GTK_BUTTON(button), FALSE);
@@ -600,11 +589,11 @@ void gui_dialog_new(struct gui_dialog **pdlg, GtkNotebook *notebook,
 
       gtk_button_set_icon_name(GTK_BUTTON(button), "window-close");
 
-      gtk_grid_attach(GTK_GRID(hgrid), button, grid_col++, 0, 1, 1);
+      gtk_box_append(GTK_BOX(hbox), button);
 
-      gtk_widget_show(hgrid);
+      gtk_widget_show(hbox);
 
-      gtk_notebook_append_page(GTK_NOTEBOOK(notebook), dlg->grid, hgrid);
+      gtk_notebook_append_page(GTK_NOTEBOOK(notebook), dlg->grid, hbox);
       dlg->v.tab.handler_id =
         g_signal_connect(notebook, "switch-page",
                          G_CALLBACK(gui_dialog_switch_page_handler), dlg);
@@ -616,8 +605,10 @@ void gui_dialog_new(struct gui_dialog **pdlg, GtkNotebook *notebook,
       dlg->v.tab.label = label;
       dlg->v.tab.notebook = GTK_WIDGET(notebook);
 
-      g_signal_connect(hgrid, "button-press-event",
+      controller = GTK_EVENT_CONTROLLER(gtk_gesture_click_new());
+      g_signal_connect(controller, "pressed",
                        G_CALLBACK(click_on_tab_callback), dlg);
+      gtk_widget_add_controller(hbox, controller);
     }
     break;
   }
