@@ -1160,7 +1160,6 @@ bool add_widget_to_vertical_scroll_widget_list(struct ADVANCED_DLG *pDlg,
 {
   struct widget *pBuf = NULL;
   struct widget *pEnd = NULL, *pOld_End = NULL;
-  int count = 0;
   bool last = FALSE, seen = TRUE;
 
   fc_assert_ret_val(pNew_Widget != NULL, FALSE);
@@ -1193,7 +1192,8 @@ bool add_widget_to_vertical_scroll_widget_list(struct ADVANCED_DLG *pDlg,
       }
 
       if (seen) {
-        count = (pDlg->pScroll->active * pDlg->pScroll->step) - 1;
+        int count = (pDlg->pScroll->active * pDlg->pScroll->step) - 1;
+
         if (i > count) {
           seen = FALSE;
         } else {
@@ -1214,11 +1214,9 @@ bool add_widget_to_vertical_scroll_widget_list(struct ADVANCED_DLG *pDlg,
     }
   }
 
-  count = 0;
-
-  /* add Pointer to list */
+  /* Add Pointer to list */
   if (dir) {
-    /* upper add */
+    /* Upper add */
     UpperAdd(pNew_Widget, pAdd_Dock);
 
     if (pAdd_Dock == pDlg->pEndWidgetList) {
@@ -1231,7 +1229,7 @@ bool add_widget_to_vertical_scroll_widget_list(struct ADVANCED_DLG *pDlg,
       pDlg->pActiveWidgetList = pNew_Widget;
     }
   } else {
-    /* down add */
+    /* Down add */
     DownAdd(pNew_Widget, pAdd_Dock);
 
     if (pAdd_Dock == pDlg->pBeginWidgetList) {
@@ -1282,10 +1280,11 @@ bool add_widget_to_vertical_scroll_widget_list(struct ADVANCED_DLG *pDlg,
         }
       } else { /* !last */
         pBuf = pNew_Widget;
-        /* find last seen widget */
+        /* Find last seen widget */
         if (pDlg->pActiveWidgetList) {
+          int count = pDlg->pScroll->active * pDlg->pScroll->step - 1;
+
           pEnd = pDlg->pActiveWidgetList;
-          count = pDlg->pScroll->active * pDlg->pScroll->step - 1;
           while (count && pEnd != pDlg->pBeginActiveWidgetList) {
             pEnd = pEnd->prev;
             count--;
@@ -1294,15 +1293,15 @@ bool add_widget_to_vertical_scroll_widget_list(struct ADVANCED_DLG *pDlg,
         while (pBuf) {
           if (pBuf == pDlg->pBeginActiveWidgetList) {
             struct widget *pTmp = pBuf;
+            int count = pDlg->pScroll->step;
 
-            count = pDlg->pScroll->step;
             while (count) {
               pTmp = pTmp->next;
               count--;
             }
             pBuf->size.x = pTmp->size.x;
             pBuf->size.y = pTmp->size.y + pTmp->size.h;
-            /* break when last active widget or last seen widget */
+            /* Break when last active widget or last seen widget */
             break;
           } else {
             pBuf->size.x = pBuf->prev->size.x;
@@ -1352,7 +1351,6 @@ bool add_widget_to_vertical_scroll_widget_list(struct ADVANCED_DLG *pDlg,
 bool del_widget_from_vertical_scroll_widget_list(struct ADVANCED_DLG *pDlg, 
                                                  struct widget *pWidget)
 {
-  int count = 0;
   struct widget *pBuf = pWidget;
 
   fc_assert_ret_val(pWidget != NULL, FALSE);
@@ -1387,6 +1385,7 @@ bool del_widget_from_vertical_scroll_widget_list(struct ADVANCED_DLG *pDlg,
     /* scrollbar exist and active, start mod. from last seen label */
     struct widget *pLast;
     bool widget_found = FALSE;
+    int count;
 
     /* this is always true because no-scrolbar case (active*step < count)
        will be supported in other part of code (see "else" part) */
