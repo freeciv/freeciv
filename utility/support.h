@@ -190,6 +190,9 @@ char fc_tolower(char c);
 
 const char *fc_basename(const char *path);
 
+/************************************************************************//**
+  Return whether the program is currently running on a bigendian system.
+****************************************************************************/
 static inline bool is_bigendian(void)
 {
 #ifdef WORDS_BIGENDIAN 
