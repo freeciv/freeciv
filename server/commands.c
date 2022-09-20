@@ -264,10 +264,11 @@ static struct command commands[] = {
    N_("Set metaserver patches line."), NULL, NULL,
    CMD_ECHO_ADMINS, VCF_NONE, 0
   },
-  {"metaconnection",	ALLOW_ADMIN,
-   /* no translatable parameters */
+  {"metaconnection", ALLOW_ADMIN,
+   /* No translatable parameters */
    SYN_ORIG_("metaconnection u|up\n"
              "metaconnection d|down\n"
+             "metaconnection p|persistent\n"
              "metaconnection ?"),
    N_("Control metaserver connection."),
    N_("'metaconnection ?' reports on the status of the connection to metaserver. "
