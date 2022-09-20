@@ -41,7 +41,9 @@ else
 QT6_MOCCMD="$(MOCCMD)"
 endif
 
+ICUVER=71
 MAGICKVER=7.Q16HDRI-10
+FFIVER=8
 
 INSTSUB=${ARCHDIR}
 
@@ -49,13 +51,7 @@ INSTSUB=${ARCHDIR}
 DLLPATH_PREFIX=/$(ARCHDIR)/bin/
 
 ifeq ($(CI),yes)
-ICUVER=69
-FFIVER=7
-LIBJXL=
 else
-ICUVER=71
-FFIVER=8
-LIBJXL=libjxl.dll
 endif
 
 #
@@ -380,7 +376,7 @@ SDL2_DLLS := \
 	SDL2_image.dll \
 	SDL2_ttf.dll \
 	libzstd.dll \
-	${LIBJXL} \
+	libjxl.dll \
 	libbrotlienc.dll
 
 install-env-sdl2: install-env-gtk4-fcmp

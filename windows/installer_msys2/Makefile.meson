@@ -28,19 +28,15 @@ else
 error "Unsupported MSYSTEM environment"
 endif
 
+ICUVER=71
 MAGICKVER=7.Q16HDRI-10
+FFIVER=8
 
 # msys2 has dlls in...
 DLLPATH_PREFIX=/$(ARCHDIR)/bin/
 
 ifeq ($(CI),yes)
-ICUVER=69
-FFIVER=7
-LIBJXL=
 else
-ICUVER=71
-FFIVER=8
-LIBJXL=libjxl.dll
 endif
 
 #
@@ -53,7 +49,7 @@ snapshot:
 	make -f Makefile.meson VERSION_REVTYPE="git" EXTRA_CONFIG="-Dgitrev=true $(EXTRA_CONFIG)" all
 
 ci:
-	make -f Makefile.meson VERSION_REVTYPE="git" CI=yes EXTRA_CONFIG="-Dgitrev=true $(EXTRA_CONFIG)" gtk3.22-installer sdl2-installer gtk4-installer
+	make -f Makefile.meson VERSION_REVTYPE="git" CI=yes EXTRA_CONFIG="-Dgitrev=true -Dsys-tolua-cmd=true $(EXTRA_CONFIG)" gtk3.22-installer sdl2-installer gtk4-installer
 
 gtk3.22-installer:
 	make -f Makefile.meson GUI=gtk3.22 CLIENT=gtk3.22 FCMP=gtk3 installer-common
@@ -227,7 +223,7 @@ SDL2_DLLS := \
 	SDL2_ttf.dll \
 	libSDL2_gfx-1-0-0.dll \
 	SDL2_image.dll \
-	${LIBJXL} \
+	libjxl.dll \
 	libbrotlienc.dll
 
 install-env-sdl2: install-env-gtk4-fcmp
