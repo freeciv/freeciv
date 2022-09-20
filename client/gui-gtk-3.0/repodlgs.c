@@ -502,7 +502,7 @@ static void science_report_current_callback(GtkComboBox *combo,
   }
 
   free(tech_name);
-  /* Revert, or we will be not synchron with the server. */
+  /* Revert, or we will not be in sync with the server. */
   science_report_combo_set_active(combo, research_get
                                   (client_player())->researching);
 }
@@ -537,7 +537,7 @@ static void science_report_goal_callback(GtkComboBox *combo, gpointer data)
   }
 
   free(tech_name);
-  /* Revert, or we will be not synchron with the server. */
+  /* Revert, or we will not be in sync with the server. */
   science_report_combo_set_active(combo, research_get
                                   (client_player())->tech_goal);
 }
