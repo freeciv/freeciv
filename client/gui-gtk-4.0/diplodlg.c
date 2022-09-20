@@ -92,9 +92,11 @@ static void diplomacy_dialog_seamap_callback(GSimpleAction *action,
 static void diplomacy_dialog_tech_callback(GSimpleAction *action,
                                            GVariant *parameter,
                                            gpointer data);
+static void diplomacy_dialog_city_callback(GSimpleAction *action,
+                                           GVariant *parameter,
+                                           gpointer data);
 
 #ifdef MENUS_GTK3
-static void diplomacy_dialog_city_callback(GtkWidget *w, gpointer data);
 static void diplomacy_dialog_ceasefire_callback(GtkWidget *w, gpointer data);
 static void diplomacy_dialog_peace_callback(GtkWidget *w, gpointer data);
 static void diplomacy_dialog_alliance_callback(GtkWidget *w, gpointer data);
@@ -377,8 +379,6 @@ static GMenu *create_clause_menu(GActionGroup *group,
     g_menu_append_submenu(topmenu, _("_Advances"), G_MENU_MODEL(submenu));
   }
 
-
-#if 0
   /* Trading: cities. */
 
   /****************************************************************
@@ -392,7 +392,7 @@ static GMenu *create_clause_menu(GActionGroup *group,
     int i = 0;
     int n = city_list_size(pgiver->cities);
 
-    menu = gtk_menu_button_new();
+    submenu = g_menu_new();
 
     if (n > 0) {
       struct city **city_list_ptrs;
@@ -412,27 +412,30 @@ static GMenu *create_clause_menu(GActionGroup *group,
         qsort(city_list_ptrs, i, sizeof(struct city *), city_name_compare);
 
         for (j = 0; j < i; j++) {
-          item = gtk_menu_item_new_with_label(city_name_get(city_list_ptrs[j]));
+          fc_snprintf(act_name, sizeof(act_name), "city%s%d", act_plr_part, i);
+          act = g_simple_action_new(act_name, NULL);
 
-          gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-          g_signal_connect(item, "activate",
+          g_action_map_add_action(G_ACTION_MAP(group), G_ACTION(act));
+          g_signal_connect(act, "activate",
                            G_CALLBACK(diplomacy_dialog_city_callback),
                            GINT_TO_POINTER((player_number(pgiver) << 24) |
                                            (player_number(pother) << 16) |
                                            city_list_ptrs[j]->id));
+
+          fc_snprintf(act_name, sizeof(act_name), "win.city%s%d",
+                      act_plr_part, i);
+          item = g_menu_item_new(city_name_get(city_list_ptrs[j]), act_name);
+          g_menu_append_item(submenu, item);
         }
       }
 
       free(city_list_ptrs);
     }
 
-    item = gtk_menu_item_new_with_mnemonic(_("_Cities"));
-    gtk_widget_set_sensitive(item, (i > 0));
-    gtk_menu_item_set_submenu(GTK_MENU_ITEM(item), menu);
-    gtk_menu_shell_append(GTK_MENU_SHELL(parent), item);
-    gtk_widget_show(item);
+    g_menu_append_submenu(topmenu, _("_Cities"), G_MENU_MODEL(submenu));
   }
 
+#if 0
   /* Give shared vision. */
   if (clause_enabled(CLAUSE_VISION)) {
     item = gtk_menu_item_new_with_mnemonic(_("_Give shared vision"));
@@ -1066,12 +1069,13 @@ static void diplomacy_dialog_tech_callback(GSimpleAction *action,
   }
 }
 
-#ifdef MENUS_GTK3
 /************************************************************************//**
   Callback for trading cities
 			      - Kris Bubendorfer
 ****************************************************************************/
-static void diplomacy_dialog_city_callback(GtkWidget *w, gpointer data)
+static void diplomacy_dialog_city_callback(GSimpleAction *action,
+                                           GVariant *parameter,
+                                           gpointer data)
 {
   size_t choice = GPOINTER_TO_UINT(data);
   int giver = (choice >> 24) & 0xff, dest = (choice >> 16) & 0xff, other;
@@ -1086,7 +1090,6 @@ static void diplomacy_dialog_city_callback(GtkWidget *w, gpointer data)
   dsend_packet_diplomacy_create_clause_req(&client.conn, other, giver,
                                            CLAUSE_CITY, city);
 }
-#endif /* MENUS_GTK3 */
 
 /************************************************************************//**
   Map menu item activated
