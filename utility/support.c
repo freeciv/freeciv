@@ -772,8 +772,8 @@ size_t fc_strlcat(char *dest, const char *src, size_t n)
   See also fc_utf8_vsnprintf_trunc(), fc_utf8_vsnprintf_rep().
 ****************************************************************************/
 
-/* "64k should be big enough for anyone" ;-) */
-#define VSNP_BUF_SIZE (64*1024)
+/* This must be at least as big as PLAIN_FILE_BUF_SIZE in ioz.c */
+#define VSNP_BUF_SIZE (8096*1024)
 int fc_vsnprintf(char *str, size_t n, const char *format, va_list ap)
 {
 #ifdef HAVE_WORKING_VSNPRINTF
