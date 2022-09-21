@@ -64,7 +64,8 @@
 
 #include "ioz.h"
 
-
+/* If you increase size of this, be sure to increase also
+ * VSNP_BUF_SIZE in support.c so that this still fits in. */
 #define PLAIN_FILE_BUF_SIZE (8096*1024)    // 8096kb
 
 #ifdef FREECIV_HAVE_LIBBZ2
