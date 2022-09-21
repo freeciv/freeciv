@@ -1830,7 +1830,6 @@ static void sg_save_savefile(struct savedata *saving)
   if (multiplier_count() > 0) {
     const char **modname;
 
-    i = 0;
     modname = fc_calloc(multiplier_count(), sizeof(*modname));
 
     multipliers_iterate(pmul) {
