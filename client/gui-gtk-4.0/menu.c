@@ -144,11 +144,9 @@ static void leave_callback(GSimpleAction *action,
 static void quit_callback(GSimpleAction *action,
                           GVariant *parameter,
                           gpointer data);
-
-#ifdef MENUS_GTK3
-static void map_view_callback(GtkMenuItem *item, gpointer data);
-#endif /* MENUS_GTK3 */
-
+static void map_view_callback(GSimpleAction *action,
+                              GVariant *parameter,
+                              gpointer data);
 static void report_units_callback(GSimpleAction *action,
                                   GVariant *parameter,
                                   gpointer data);
@@ -158,12 +156,20 @@ static void report_nations_callback(GSimpleAction *action,
 static void report_cities_callback(GSimpleAction *action,
                                    GVariant *parameter,
                                    gpointer data);
+static void report_wow_callback(GSimpleAction *action,
+                                GVariant *parameter,
+                                gpointer data);
+static void report_top_cities_callback(GSimpleAction *action,
+                                       GVariant *parameter,
+                                       gpointer data);
+static void report_messages_callback(GSimpleAction *action,
+                                     GVariant *parameter,
+                                     gpointer data);
+static void report_demographic_callback(GSimpleAction *action,
+                                        GVariant *parameter,
+                                        gpointer data);
 
 #ifdef MENUS_GTK3
-static void report_wow_callback(GtkMenuItem *item, gpointer data);
-static void report_top_cities_callback(GtkMenuItem *item, gpointer data);
-static void report_messages_callback(GtkMenuItem *item, gpointer data);
-static void report_demographic_callback(GtkMenuItem *item, gpointer data);
 static void help_overview_callback(GtkMenuItem *item, gpointer data);
 static void help_playing_callback(GtkMenuItem *item, gpointer data);
 static void help_policies_callback(GtkMenuItem *item, gpointer data);
@@ -233,9 +239,11 @@ static void recalc_borders_callback(GtkMenuItem *item, gpointer data);
 static void toggle_fog_callback(GtkMenuItem *item, gpointer data);
 static void scenario_properties_callback(GtkMenuItem *item, gpointer data);
 static void save_scenario_callback(GtkMenuItem *item, gpointer data);
-static void center_view_callback(GtkMenuItem *item, gpointer data);
 #endif /* MENUS_GTK3 */
 
+static void center_view_callback(GSimpleAction *action,
+                                 GVariant *parameter,
+                                 gpointer data);
 static void report_economy_callback(GSimpleAction *action,
                                     GVariant *parameter,
                                     gpointer data);
@@ -304,19 +312,24 @@ static void unit_upgrade_callback(GtkMenuItem *item, gpointer data);
 static void unit_convert_callback(GtkMenuItem *item, gpointer data);
 static void unit_disband_callback(GtkMenuItem *item, gpointer data);
 #endif /* MENUS_GTK3 */
+
 static void build_city_callback(GSimpleAction *action,
                                 GVariant *parameter,
                                 gpointer data);
 static void auto_settle_callback(GSimpleAction *action,
                                  GVariant *parameter,
                                  gpointer data);
+static void cultivate_callback(GSimpleAction *action,
+                               GVariant *parameter,
+                               gpointer data);
+static void plant_callback(GSimpleAction *action,
+                           GVariant *parameter,
+                           gpointer data);
 
 #ifdef MENUS_GTK3
 static void build_road_callback(GtkMenuItem *item, gpointer data);
 static void build_irrigation_callback(GtkMenuItem *item, gpointer data);
-static void cultivate_callback(GtkMenuItem *item, gpointer data);
 static void build_mine_callback(GtkMenuItem *item, gpointer data);
-static void plant_callback(GtkMenuItem *item, gpointer data);
 static void connect_road_callback(GtkMenuItem *item, gpointer data);
 static void connect_rail_callback(GtkMenuItem *item, gpointer data);
 static void connect_irrigation_callback(GtkMenuItem *item, gpointer data);
@@ -346,6 +359,10 @@ static struct menu_entry_info menu_entries[] =
   { "QUIT", N_("_Quit"),
     "quit", "<ctrl>q", MGROUP_SAFE },
 
+  /* View menu */
+  { "CENTER_VIEW", N_("_Center View"),
+    "center_view", "c", MGROUP_PLAYER },
+
   /* Unit menu */
   { "UNIT_EXPLORE", N_("Auto E_xplore"),
     "explore", "x", MGROUP_UNIT },
@@ -361,13 +378,18 @@ static struct menu_entry_info menu_entries[] =
     "build_city", "b", MGROUP_UNIT },
   { "AUTO_SETTLER", N_("_Auto Settler"),
     "auto_settle", "a", MGROUP_UNIT },
+  { "CULTIVATE", N_("Cultivate"),
+    "cultivate", "<shift>i", MGROUP_UNIT },
+  { "PLANT", N_("Plant"),
+    "plant", "<shift>m", MGROUP_UNIT },
 
   /* Combat menu */
   { "FORTIFY", N_("Fortify"),
     "fortify", "f", MGROUP_UNIT },
 
   /* Civilization */
-
+  { "MAP_VIEW", N_("?noun:_View"),
+    "map_view", "F1", MGROUP_SAFE },
   { "REPORT_UNITS", N_("_Units"),
     "report_units", "F2", MGROUP_SAFE },
   { "REPORT_NATIONS", N_("_Nations"),
@@ -381,6 +403,15 @@ static struct menu_entry_info menu_entries[] =
 
   { "START_REVOLUTION", N_("_Revolution..."),
     "revolution", "<shift><ctrl>r", MGROUP_PLAYING },
+
+  { "REPORT_WOW", N_("_Wonders of the World"),
+    "report_wow", "F7", MGROUP_SAFE },
+  { "REPORT_TOP_CITIES", N_("Top _Five Cities"),
+    "report_top_cities", "F8", MGROUP_SAFE },
+  { "REPORT_MESSAGES", N_("_Messages"),
+    "report_messages", "F9", MGROUP_SAFE },
+  { "REPORT_DEMOGRAPHIC", N_("_Demographics"),
+    "report_demographics", "F11", MGROUP_SAFE },
 
 #ifdef MENUS_GTK3
   { "MENU_GAME", N_("_Game"), 0, 0, NULL, MGROUP_SAFE },
@@ -418,16 +449,6 @@ static struct menu_entry_info menu_entries[] =
     G_CALLBACK(infra_dialog_callback), MGROUP_SAFE },
   { "CLIENT_LUA_SCRIPT", N_("Client _Lua Script"), 0, 0,
     G_CALLBACK(client_lua_script_callback), MGROUP_SAFE },
-  { "MAP_VIEW", N_("?noun:_View"), GDK_KEY_F1, 0,
-    G_CALLBACK(map_view_callback), MGROUP_SAFE },
-  { "REPORT_WOW", N_("_Wonders of the World"), GDK_KEY_F7, 0,
-    G_CALLBACK(report_wow_callback), MGROUP_SAFE },
-  { "REPORT_TOP_CITIES", N_("Top _Five Cities"), GDK_KEY_F8, 0,
-    G_CALLBACK(report_top_cities_callback), MGROUP_SAFE },
-  { "REPORT_MESSAGES", N_("_Messages"), GDK_KEY_F9, 0,
-    G_CALLBACK(report_messages_callback), MGROUP_SAFE },
-  { "REPORT_DEMOGRAPHIC", N_("_Demographics"), GDK_KEY_F11, 0,
-    G_CALLBACK(report_demographic_callback), MGROUP_SAFE },
   { "HELP_OVERVIEW", N_("?help:Overview"), 0, 0,
     G_CALLBACK(help_overview_callback), MGROUP_SAFE },
   { "HELP_PLAYING", N_("Strategy and Tactics"), 0, 0,
@@ -548,9 +569,6 @@ static struct menu_entry_info menu_entries[] =
   { "SAVE_SCENARIO", N_("Save Scenario"), 0, 0,
     G_CALLBACK(save_scenario_callback), MGROUP_EDIT },
 
-  { "CENTER_VIEW", N_("_Center View"), GDK_KEY_c, 0,
-    G_CALLBACK(center_view_callback), MGROUP_PLAYER },
-
   { "POLICIES", N_("_Policies..."),
     GDK_KEY_p, GDK_SHIFT_MASK | GDK_CONTROL_MASK,
     G_CALLBACK(multiplier_callback), MGROUP_PLAYER },
@@ -610,12 +628,8 @@ static struct menu_entry_info menu_entries[] =
     G_CALLBACK(build_road_callback), MGROUP_UNIT },
   { "BUILD_IRRIGATION", N_("Build _Irrigation"), GDK_KEY_i, 0,
     G_CALLBACK(build_irrigation_callback), MGROUP_UNIT },
-  { "CULTIVATE", N_("Cultivate"), GDK_KEY_i, GDK_SHIFT_MASK,
-    G_CALLBACK(cultivate_callback), MGROUP_UNIT },
   { "BUILD_MINE", N_("Build _Mine"), GDK_KEY_m, 0,
     G_CALLBACK(build_mine_callback), MGROUP_UNIT },
-  { "PLANT", N_("Plant"), GDK_KEY_m, GDK_SHIFT_MASK,
-    G_CALLBACK(plant_callback), MGROUP_UNIT },
   { "CONNECT_ROAD", N_("Connect With Roa_d"), GDK_KEY_r, GDK_CONTROL_MASK,
     G_CALLBACK(connect_road_callback), MGROUP_UNIT },
   { "CONNECT_RAIL", N_("Connect With Rai_l"), GDK_KEY_l, GDK_CONTROL_MASK,
@@ -657,6 +671,8 @@ const GActionEntry acts[] = {
   { "leave", leave_callback },
   { "quit", quit_callback },
 
+  { "center_view", center_view_callback },
+
   { "explore", unit_explore_callback },
   { "sentry", unit_sentry_callback },
   { "wait", unit_wait_callback },
@@ -664,15 +680,23 @@ const GActionEntry acts[] = {
 
   { "build_city", build_city_callback },
   { "auto_settle", auto_settle_callback },
+  { "cultivate", cultivate_callback },
+  { "plant", plant_callback },
 
   { "fortify", fortify_callback },
 
   { "revolution", revolution_callback },
+
+  { "map_view", map_view_callback },
   { "report_units", report_units_callback },
   { "report_nations", report_nations_callback },
   { "report_cities", report_cities_callback },
   { "report_economy", report_economy_callback },
-  { "report_research", report_research_callback }
+  { "report_research", report_research_callback },
+  { "report_wow", report_wow_callback },
+  { "report_top_cities", report_top_cities_callback },
+  { "report_messages", report_messages_callback },
+  { "report_demographics", report_demographic_callback }
 };
 
 static struct menu_entry_info *menu_entry_info_find(const char *key);
@@ -839,15 +863,16 @@ static void worklists_callback(GtkMenuItem *item, gpointer data)
 {
   popup_worklists_report();
 }
+#endif /* MENUS_GTK3 */
 
 /************************************************************************//**
   Item "MAP_VIEW" callback.
 ****************************************************************************/
-static void map_view_callback(GtkMenuItem *item, gpointer data)
+static void map_view_callback(GSimpleAction *action,
+                              GVariant *parameter, gpointer data)
 {
   map_canvas_focus();
 }
-#endif /* MENUS_GTK3 */
 
 /************************************************************************//**
   Item "REPORT_NATIONS" callback.
@@ -859,11 +884,12 @@ static void report_nations_callback(GSimpleAction *action,
   popup_players_dialog(TRUE);
 }
 
-#ifdef MENUS_GTK3
 /************************************************************************//**
   Item "REPORT_WOW" callback.
 ****************************************************************************/
-static void report_wow_callback(GtkMenuItem *item, gpointer data)
+static void report_wow_callback(GSimpleAction *action,
+                                GVariant *parameter,
+                                gpointer data)
 {
   send_report_request(REPORT_WONDERS_OF_THE_WORLD);
 }
@@ -871,7 +897,9 @@ static void report_wow_callback(GtkMenuItem *item, gpointer data)
 /************************************************************************//**
   Item "REPORT_TOP_CITIES" callback.
 ****************************************************************************/
-static void report_top_cities_callback(GtkMenuItem *item, gpointer data)
+static void report_top_cities_callback(GSimpleAction *action,
+                                       GVariant *parameter,
+                                       gpointer data)
 {
   send_report_request(REPORT_TOP_5_CITIES);
 }
@@ -879,11 +907,14 @@ static void report_top_cities_callback(GtkMenuItem *item, gpointer data)
 /************************************************************************//**
   Item "REPORT_MESSAGES" callback.
 ****************************************************************************/
-static void report_messages_callback(GtkMenuItem *item, gpointer data)
+static void report_messages_callback(GSimpleAction *action,
+                                     GVariant *parameter,
+                                     gpointer data)
 {
   meswin_dialog_popup(TRUE);
 }
 
+#ifdef MENUS_GTK3
 /************************************************************************//**
   Item "CLIENT_LUA_SCRIPT" callback.
 ****************************************************************************/
@@ -891,15 +922,19 @@ static void client_lua_script_callback(GtkMenuItem *item, gpointer data)
 {
   luaconsole_dialog_popup(TRUE);
 }
+#endif /* MENUS_GTK3 */
 
 /************************************************************************//**
   Item "REPORT_DEMOGRAPHIC" callback.
 ****************************************************************************/
-static void report_demographic_callback(GtkMenuItem *item, gpointer data)
+static void report_demographic_callback(GSimpleAction *action,
+                                        GVariant *parameter,
+                                        gpointer data)
 {
   send_report_request(REPORT_DEMOGRAPHIC);
 }
 
+#ifdef MENUS_GTK3
 /************************************************************************//**
   Item "REPORT_ACHIEVEMENTS" callback.
 ****************************************************************************/
@@ -1812,29 +1847,35 @@ static void build_irrigation_callback(GtkMenuItem *action, gpointer data)
 {
   key_unit_irrigate();
 }
+#endif /* MENUS_GTK3 */
 
 /************************************************************************//**
   Action "CULTIVATE" callback.
 ****************************************************************************/
-static void cultivate_callback(GtkMenuItem *action, gpointer data)
+static void cultivate_callback(GSimpleAction *action,
+                               GVariant *parameter,
+                               gpointer data)
 {
   key_unit_cultivate();
 }
 
+/************************************************************************//**
+  Action "PLANT" callback.
+****************************************************************************/
+static void plant_callback(GSimpleAction *action,
+                           GVariant *parameter,
+                           gpointer data)
+{
+  key_unit_plant();
+}
+
+#ifdef MENUS_GTK3
 /************************************************************************//**
   Action "BUILD_MINE" callback.
 ****************************************************************************/
 static void build_mine_callback(GtkMenuItem *action, gpointer data)
 {
   key_unit_mine();
-}
-
-/************************************************************************//**
-  Action "PLANT" callback.
-****************************************************************************/
-static void plant_callback(GtkMenuItem *action, gpointer data)
-{
-  key_unit_plant();
 }
 
 /************************************************************************//**
@@ -2052,15 +2093,15 @@ static void mine_callback(GSimpleAction *action,
   } unit_list_iterate_end;
 }
 
-#ifdef MENUS_GTK3
 /************************************************************************//**
   Action "CENTER_VIEW" callback.
 ****************************************************************************/
-static void center_view_callback(GtkMenuItem *action, gpointer data)
+static void center_view_callback(GSimpleAction *action,
+                                 GVariant *parameter,
+                                 gpointer data)
 {
   center_on_unit();
 }
-#endif /* MENUS_GTK3 */
 
 /************************************************************************//**
   Action "REPORT_UNITS" callback.
@@ -2170,6 +2211,12 @@ static GMenu *setup_menus(GtkApplication *app)
 
   g_menu_append_submenu(menubar, _("_Game"), G_MENU_MODEL(topmenu));
 
+  topmenu = g_menu_new();
+
+  menu_entry_init(topmenu, "CENTER_VIEW");
+
+  g_menu_append_submenu(menubar, Q_("?verb:_View"), G_MENU_MODEL(topmenu));
+
   unit_menu = g_menu_new();
 
   /* Placeholder submenu (so that menu update has something to replace) */
@@ -2195,6 +2242,9 @@ static GMenu *setup_menus(GtkApplication *app)
   submenu = g_menu_new();
   g_menu_append_submenu(work_menu, _("Build _Mine"), G_MENU_MODEL(submenu));
 
+  menu_entry_init(work_menu, "CULTIVATE");
+  menu_entry_init(work_menu, "PLANT");
+
   g_menu_append_submenu(menubar, _("_Work"), G_MENU_MODEL(work_menu));
 
   combat_menu = g_menu_new();
@@ -2208,6 +2258,7 @@ static GMenu *setup_menus(GtkApplication *app)
 
   gov_menu = g_menu_new();
 
+  menu_entry_init(gov_menu, "MAP_VIEW");
   menu_entry_init(gov_menu, "REPORT_UNITS");
   menu_entry_init(gov_menu, "REPORT_NATIONS");
   menu_entry_init(gov_menu, "REPORT_CITIES");
@@ -2217,6 +2268,11 @@ static GMenu *setup_menus(GtkApplication *app)
   /* Placeholder submenu (so that menu update has something to replace) */
   submenu = g_menu_new();
   g_menu_append_submenu(gov_menu, _("_Government"), G_MENU_MODEL(submenu));
+
+  menu_entry_init(gov_menu, "REPORT_WOW");
+  menu_entry_init(gov_menu, "REPORT_TOP_CITIES");
+  menu_entry_init(gov_menu, "REPORT_MESSAGES");
+  menu_entry_init(gov_menu, "REPORT_DEMOGRAPHIC");
 
   g_menu_append_submenu(menubar, _("C_ivilization"), G_MENU_MODEL(gov_menu));
 
@@ -2551,8 +2607,8 @@ void real_menus_update(void)
       g_menu_append_item(submenu, item);
     }
   } governments_iterate_end;
-  g_menu_remove(gov_menu, 5);
-  g_menu_insert_submenu(gov_menu, 5, _("_Government"), G_MENU_MODEL(submenu));
+  g_menu_remove(gov_menu, 6);
+  g_menu_insert_submenu(gov_menu, 6, _("_Government"), G_MENU_MODEL(submenu));
 
   submenu = g_menu_new();
 
@@ -2822,12 +2878,16 @@ void real_menus_update(void)
                                             unit_can_est_trade_route_here)));
   menu_entry_set_sensitive("BUILD_IRRIGATION",
                            can_units_do_activity(punits, ACTIVITY_IRRIGATE));
-  menu_entry_set_sensitive("CULTIVATE",
+#endif /* MENUS_GTK3 */
+
+  menu_entry_set_sensitive(map, "CULTIVATE",
                            can_units_do_activity(punits, ACTIVITY_CULTIVATE));
+  menu_entry_set_sensitive(map, "PLANT",
+                           can_units_do_activity(punits, ACTIVITY_PLANT));
+
+#ifdef MENUS_GTK3
   menu_entry_set_sensitive("BUILD_MINE",
                            can_units_do_activity(punits, ACTIVITY_MINE));
-  menu_entry_set_sensitive("PLANT",
-                           can_units_do_activity(punits, ACTIVITY_PLANT));
   menu_entry_set_sensitive("TRANSFORM_TERRAIN",
                            can_units_do_activity(punits, ACTIVITY_TRANSFORM));
 #endif /* MENUS_GTK3 */
