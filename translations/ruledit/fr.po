@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv trunk\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2022-05-03 11:38+0200\n"
-"PO-Revision-Date: 2022-01-21 21:55+0100\n"
+"POT-Creation-Date: 2022-08-29 08:10+0200\n"
+"PO-Revision-Date: 2022-09-22 11:18+0200\n"
 "Last-Translator: Igx <igx31 hotmail.com>\n"
 "Language-Team: French <freeciv-l10n-fr@yahoogroupes.fr>\n"
 "Language: fr\n"
@@ -22,10 +22,6 @@ msgstr ""
 #: tools/ruledit/req_edit.cpp:135
 msgid "Close"
 msgstr "Fermer"
-
-#: tools/ruledit/conversion_log.cpp:46
-msgid "Old ruleset to a new format"
-msgstr "Anciennes règles du jeu vers un nouveau format"
 
 #: tools/ruledit/edit_impr.cpp:50 tools/ruledit/edit_utype.cpp:64
 msgid "Build Cost"
@@ -290,6 +286,10 @@ msgstr "Nations"
 msgid "Welcome to freeciv-ruledit"
 msgstr "Bienvenue sur l'éditeur de règles de Freeciv"
 
+#: tools/ruledit/ruledit_qt.cpp:227
+msgid "Old ruleset to a new format"
+msgstr "Anciennes règles du jeu vers un nouveau format"
+
 #: tools/ruledit/ruledit_qt.cpp:233
 msgid "Ruleset loaded"
 msgstr "Règles du jeu chargées"
@@ -451,19 +451,19 @@ msgstr "Supprimer ce Gouvernement"
 msgid "A government with that rule name already exists!"
 msgstr "Un gouvernement avec ce nom existe déjà dans les règles !"
 
-#: tools/ruledit/tab_misc.cpp:75
+#: tools/ruledit/tab_misc.cpp:73
 msgid "Ruleset name"
 msgstr "Nom des règles du jeu"
 
-#: tools/ruledit/tab_misc.cpp:80
+#: tools/ruledit/tab_misc.cpp:78
 msgid "Ruleset version"
 msgstr "Version des règles du jeu"
 
-#: tools/ruledit/tab_misc.cpp:85
+#: tools/ruledit/tab_misc.cpp:83
 msgid "Save to directory"
 msgstr "Sauver dans le répertoire"
 
-#: tools/ruledit/tab_misc.cpp:107
+#: tools/ruledit/tab_misc.cpp:105
 #, c-format
 msgid ""
 "If you want to be able to load the ruleset directly to freeciv, place it as "
@@ -475,119 +475,135 @@ msgstr ""
 "Utilisez la commande serveur \"/rulesetdir <sous-répertoire>\" pour les "
 "charger dans Freeciv."
 
-#: tools/ruledit/tab_misc.cpp:116
+#: tools/ruledit/tab_misc.cpp:114
 msgid "Version suffix to directory name"
 msgstr "Suffixe de version au nom de répertoire"
 
-#: tools/ruledit/tab_misc.cpp:121
+#: tools/ruledit/tab_misc.cpp:119
 msgid "Save now"
 msgstr "Sauver maintenant"
 
-#: tools/ruledit/tab_misc.cpp:125
+#: tools/ruledit/tab_misc.cpp:123
 msgid "Description from file"
 msgstr "Description depuis le fichier"
 
-#: tools/ruledit/tab_misc.cpp:132
+#: tools/ruledit/tab_misc.cpp:130
 msgid "Description file"
 msgstr "Fichier de description"
 
-#: tools/ruledit/tab_misc.cpp:138
+#: tools/ruledit/tab_misc.cpp:136
+msgid "Sanity check rules"
+msgstr "Règles de vérification de cohérence"
+
+#: tools/ruledit/tab_misc.cpp:140
 msgid "Always active Effects"
 msgstr "Effets toujours actifs"
 
-#: tools/ruledit/tab_misc.cpp:141
+#: tools/ruledit/tab_misc.cpp:143
 msgid "All Effects"
 msgstr "Tous les effets"
 
-#: tools/ruledit/tab_misc.cpp:148
+#: tools/ruledit/tab_misc.cpp:150
 msgid "?stat:Terrains"
 msgstr "Terrains"
 
-#: tools/ruledit/tab_misc.cpp:152
+#: tools/ruledit/tab_misc.cpp:154
 msgid "?stat:Resources"
 msgstr "Ressources"
 
-#: tools/ruledit/tab_misc.cpp:156
+#: tools/ruledit/tab_misc.cpp:158
 msgid "?stat:Tech Classes"
 msgstr "Classes de technologies"
 
-#: tools/ruledit/tab_misc.cpp:160
+#: tools/ruledit/tab_misc.cpp:162
 msgid "?stat:Techs"
 msgstr "Technologies"
 
-#: tools/ruledit/tab_misc.cpp:164
+#: tools/ruledit/tab_misc.cpp:166
 msgid "?stat:Unit Classes"
 msgstr "Classes d'unités"
 
-#: tools/ruledit/tab_misc.cpp:168
+#: tools/ruledit/tab_misc.cpp:170
 msgid "?stat:Unit Types"
 msgstr "Types d'unités"
 
-#: tools/ruledit/tab_misc.cpp:172
+#: tools/ruledit/tab_misc.cpp:174
 msgid "?stat:Enablers"
 msgstr "Activateurs"
 
-#: tools/ruledit/tab_misc.cpp:176
+#: tools/ruledit/tab_misc.cpp:178
 msgid "?stat:Buildings"
 msgstr "Bâtiments"
 
-#: tools/ruledit/tab_misc.cpp:180
+#: tools/ruledit/tab_misc.cpp:182
 msgid "?stat:Nations"
 msgstr "Nations"
 
-#: tools/ruledit/tab_misc.cpp:184
+#: tools/ruledit/tab_misc.cpp:186
 msgid "?stat:Styles"
 msgstr "Styles"
 
-#: tools/ruledit/tab_misc.cpp:188
+#: tools/ruledit/tab_misc.cpp:190
 msgid "?stat:Specialists"
 msgstr "Spécialistes"
 
-#: tools/ruledit/tab_misc.cpp:192
+#: tools/ruledit/tab_misc.cpp:194
 msgid "?stat:Governments"
 msgstr "Gouvernements"
 
-#: tools/ruledit/tab_misc.cpp:196
+#: tools/ruledit/tab_misc.cpp:198
 msgid "?stat:Disasters"
 msgstr "Désastres"
 
-#: tools/ruledit/tab_misc.cpp:200
+#: tools/ruledit/tab_misc.cpp:202
 msgid "?stat:Achievements"
 msgstr "Réussites"
 
-#: tools/ruledit/tab_misc.cpp:204
+#: tools/ruledit/tab_misc.cpp:206
 msgid "?stat:Extras"
 msgstr "Extras"
 
-#: tools/ruledit/tab_misc.cpp:208
+#: tools/ruledit/tab_misc.cpp:210
 msgid "?stat:Bases"
 msgstr "Bases"
 
-#: tools/ruledit/tab_misc.cpp:212
+#: tools/ruledit/tab_misc.cpp:214
 msgid "?stat:Roads"
 msgstr "Routes"
 
-#: tools/ruledit/tab_misc.cpp:216
+#: tools/ruledit/tab_misc.cpp:218
 msgid "?stat:Goods"
 msgstr "Biens"
 
-#: tools/ruledit/tab_misc.cpp:220
+#: tools/ruledit/tab_misc.cpp:222
 msgid "?stat:Multipliers"
 msgstr "Multiplicateurs"
 
-#: tools/ruledit/tab_misc.cpp:228
+#: tools/ruledit/tab_misc.cpp:230
 msgid "Refresh Stats"
 msgstr "Rafraichir les stats"
 
-#: tools/ruledit/tab_misc.cpp:310
+#: tools/ruledit/tab_misc.cpp:312
 msgid "Ruleset saved"
 msgstr "Règles du jeu sauvegardées"
 
-#: tools/ruledit/tab_misc.cpp:438
+#: tools/ruledit/tab_misc.cpp:440
 msgid "Always active"
 msgstr "Toujours actif"
 
-#: tools/ruledit/tab_misc.cpp:447
+#: tools/ruledit/tab_misc.cpp:461
+msgid "Sanity Check"
+msgstr "Vérification de cohérence"
+
+#: tools/ruledit/tab_misc.cpp:468
+msgid "Sanity check failed!"
+msgstr "Vérification de cohérence échouée !"
+
+#: tools/ruledit/tab_misc.cpp:470
+msgid "Sanity check success"
+msgstr "Vérification de cohérence réussie"
+
+#: tools/ruledit/tab_misc.cpp:479
 msgid "All effects"
 msgstr "Tous les effets"
 
