@@ -1589,8 +1589,8 @@ const char *format_duration(int duration)
 }
 
 /****************************************************************************
-  Return text giving the ping time for the player.  This is generally used
-  in the playerdlg.  This should only be used in playerdlg_common.c.
+  Return text giving the ping time for the player. This is generally used
+  in the playerdlg. This should only be used in playerdlg_common.c.
 ****************************************************************************/
 const char *get_ping_time_text(const struct player *pplayer)
 {
@@ -1600,13 +1600,13 @@ const char *get_ping_time_text(const struct player *pplayer)
 
   conn_list_iterate(pplayer->connections, pconn) {
     if (!pconn->observer
-	/* Certainly not needed, but safer. */
-	&& 0 == strcmp(pconn->username, pplayer->username)) {
-      if (pconn->ping_time != -1) {
-	double ping_time_in_ms = 1000 * pconn->ping_time;
+        /* Certainly not needed, but safer. */
+        && 0 == strcmp(pconn->username, pplayer->username)) {
+      if (pconn->ping_time >= 0) {
+        double ping_time_in_ms = 1000 * pconn->ping_time;
 
-	astr_add(&str, _("%6d.%02d ms"), (int) ping_time_in_ms,
-		 ((int) (ping_time_in_ms * 100.0)) % 100);
+        astr_add(&str, _("%6d.%02d ms"), (int) ping_time_in_ms,
+                 ((int) (ping_time_in_ms * 100.0)) % 100);
       }
       break;
     }
