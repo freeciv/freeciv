@@ -20,6 +20,8 @@ libdefaultai_la_SOURCES = \
 		aicity.h	\
 		aidata.c	\
 		aidata.h	\
+		aidiplomat.c	\
+		aidiplomat.h	\
 		aiferry.c	\
 		aiferry.h	\
 		aiguard.c	\
@@ -42,8 +44,6 @@ libdefaultai_la_SOURCES = \
 		aitools.h	\
 		aiunit.c	\
 		aiunit.h	\
-		aidiplomat.c	\
-		aidiplomat.h	\
 		daiactions.c	\
 		daiactions.h	\
 		daidiplomacy.c	\
