@@ -285,7 +285,7 @@ struct widget *find_next_widget_for_key(struct widget *start_widget,
       call (button callback function)
 
     Function normal return Widget ID.
-    NOTE: NOZERO return of this function deterninate exit of
+    NOTE: NOZERO return of this function determinate exit of
         MAIN_SDL_GAME_LOOP
     if ( pwidget->action )
       if ( pwidget->action(pwidget)  ) ID = 0;
