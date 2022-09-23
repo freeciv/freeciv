@@ -339,19 +339,11 @@ static void popup_load_game_dialog(void)
 **************************************************************************/
 static int inputline_return_callback(struct widget *pWidget)
 {
-  if (Main.event.type == SDL_KEYDOWN
-      && (Main.event.key.keysym.sym == SDLK_RETURN
-          || Main.event.key.keysym.sym == SDLK_KP_ENTER)) {
+  if (pWidget->string_utf8->text != NULL
+      && pWidget->string_utf8->text[0] != '\0') {
+    send_chat(pWidget->string_utf8->text);
 
-    if (pWidget->string_utf8->text == NULL) {
-      return -1;
-    }
-
-    if (pWidget->string_utf8->text[0] != '\0') {
-      send_chat(pWidget->string_utf8->text);
-
-      output_window_append(ftc_any, pWidget->string_utf8->text);
-    }
+    output_window_append(ftc_any, pWidget->string_utf8->text);
   }
 
   return -1;
@@ -506,18 +498,15 @@ static void add_to_chat_list(char *msg, size_t n_alloc)
 **************************************************************************/
 static int input_edit_conn_callback(struct widget *pWidget)
 {
-  if (Main.event.type == SDL_KEYDOWN
-      && (Main.event.key.keysym.sym == SDLK_RETURN
-          || Main.event.key.keysym.sym == SDLK_KP_ENTER)) {
-    if (pWidget->string_utf8->text != NULL) {
-      if (pWidget->string_utf8->text[0] != '\0') {
-        send_chat(pWidget->string_utf8->text);
-      }
-
-      free(pWidget->string_utf8->text);
-      pWidget->string_utf8->text = fc_malloc(1);
-      pWidget->string_utf8->n_alloc = 0;
+  if (pWidget->string_utf8->text != NULL) {
+    if (pWidget->string_utf8->text[0] != '\0') {
+      send_chat(pWidget->string_utf8->text);
     }
+
+    free(pWidget->string_utf8->text);
+    pWidget->string_utf8->text = fc_malloc(1);
+    pWidget->string_utf8->text[0] = '\0';
+    pWidget->string_utf8->n_alloc = 0;
   }
 
   return -1;
@@ -775,7 +764,7 @@ static void popup_conn_list_dialog(void)
 
   /* -------------------------------- */
 
-  /* input field */
+  /* Input field */
 
   pBuf = create_edit_from_chars(NULL, pWindow->dst, "",
                                 adj_font(12), pWindow->size.w - adj_size(10) - adj_size(10),
@@ -788,7 +777,7 @@ static void popup_conn_list_dialog(void)
   pConnDlg->pEdit = pBuf;
   add_to_gui_list(ID_EDIT, pBuf);
 
-  /* buttons */
+  /* Buttons */
 
   pBuf = create_themeicon_button_from_chars(current_theme->BACK_Icon, pWindow->dst,
                                             _("Back"), adj_font(12), 0);
