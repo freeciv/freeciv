@@ -1604,10 +1604,10 @@ static void player_load_units(struct player *plr, int plrno,
             } else {
               log_error("Cannot find base %d for %s to build",
                         base, unit_rule_name(punit));
-              base = base_number(get_base_by_gui_type(BASE_GUI_FORTRESS, NULL, NULL));
+              order_base = get_base_by_gui_type(BASE_GUI_FORTRESS, NULL, NULL);
             }
 
-            order->target = extra_number(base_extra_get(base_by_number(base)));
+            order->target = extra_number(base_extra_get(order_base));
           } else {
             order->target = EXTRA_NONE;
           }
