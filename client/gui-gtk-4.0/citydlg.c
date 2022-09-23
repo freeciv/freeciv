@@ -1567,10 +1567,9 @@ static struct city_dialog *create_city_dialog(struct city *pcity)
 {
   struct city_dialog *pdialog;
   GtkWidget *close_command;
-  GtkWidget *vbox, *hgrid, *cbox;
+  GtkWidget *vbox, *hbox, *cbox;
   int citizen_bar_width;
   int citizen_bar_height;
-  int grid_col = 0;
   int ccol = 0;
   GtkEventController *controller;
 
@@ -1616,13 +1615,13 @@ static struct city_dialog *create_city_dialog(struct city *pcity)
 #endif
 
   vbox = gtk_dialog_get_content_area(GTK_DIALOG(pdialog->shell));
-  hgrid = gtk_grid_new();
-  gtk_grid_set_column_homogeneous(GTK_GRID(hgrid), TRUE);
-  gtk_box_append(GTK_BOX(vbox), hgrid);
+  hbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 2);
+  gtk_box_set_homogeneous(GTK_BOX(hbox), TRUE);
+  gtk_box_append(GTK_BOX(vbox), hbox);
 
   /**** Citizens bar here ****/
   cbox = gtk_grid_new();
-  gtk_grid_attach(GTK_GRID(hgrid), cbox, grid_col++, 0, 1, 1);
+  gtk_box_append(GTK_BOX(hbox), cbox);
 
   citizen_bar_width = tileset_small_sprite_width(tileset) * NUM_CITIZENS_SHOWN;
   citizen_bar_height = tileset_small_sprite_height(tileset);
@@ -1636,6 +1635,8 @@ static struct city_dialog *create_city_dialog(struct city *pcity)
   gtk_widget_set_margin_end(pdialog->citizen_pics, 2);
   gtk_widget_set_margin_top(pdialog->citizen_pics, 2);
   gtk_widget_set_margin_bottom(pdialog->citizen_pics, 2);
+  gtk_widget_set_size_request(pdialog->citizen_pics,
+                              citizen_bar_width, citizen_bar_height);
   gtk_widget_set_halign(pdialog->citizen_pics, GTK_ALIGN_START);
   gtk_widget_set_valign(pdialog->citizen_pics, GTK_ALIGN_CENTER);
   gtk_grid_attach(GTK_GRID(cbox), pdialog->citizen_pics, ccol++, 0, 1, 1);
@@ -1650,13 +1651,13 @@ static struct city_dialog *create_city_dialog(struct city *pcity)
   gtk_widget_set_hexpand(pdialog->name_label, TRUE);
   gtk_widget_set_halign(pdialog->name_label, GTK_ALIGN_START);
   gtk_widget_set_valign(pdialog->name_label, GTK_ALIGN_CENTER);
-  gtk_grid_attach(GTK_GRID(hgrid), pdialog->name_label, grid_col++, 0, 1, 1);
+  gtk_box_append(GTK_BOX(hbox), pdialog->name_label);
 
   /**** -Start of Notebook- ****/
 
   pdialog->notebook = gtk_notebook_new();
   gtk_notebook_set_tab_pos(GTK_NOTEBOOK(pdialog->notebook),
-			   GTK_POS_BOTTOM);
+                           GTK_POS_BOTTOM);
   gtk_box_append(GTK_BOX(vbox), pdialog->notebook);
 
   create_and_append_overview_page(pdialog);
