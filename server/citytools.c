@@ -2982,6 +2982,45 @@ void building_lost(struct city *pcity, const struct impr_type *pimprove,
 }
 
 /************************************************************************//**
+  Recalculate the upkeep needed for one unit.
+
+  Note that this modifies the free_uk array it gets, if
+  the unit uses some of that free upkeep.
+
+  If the upkeep for a unit changes, an update is send to the player.
+****************************************************************************/
+void update_unit_upkeep(struct unit *punit, int free_uk[O_LAST])
+{
+  const struct unit_type *ut = unit_type_get(punit);
+  struct player *plr = unit_owner(punit);
+  bool update = FALSE;
+  int cost;
+
+  output_type_iterate(o) {
+    cost = utype_upkeep_cost(ut, plr, o);
+    if (cost > 0) {
+      if (free_uk[o] > cost) {
+        free_uk[o] -= cost;
+        cost = 0;
+      } else {
+        cost -= free_uk[o];
+        free_uk[o] = 0;
+      }
+    }
+
+    if (cost != punit->upkeep[o]) {
+      update = TRUE;
+      punit->upkeep[o] = cost;
+    }
+  } output_type_iterate_end;
+
+  if (update) {
+    /* Update unit information to the player and global observers. */
+    send_unit_info(NULL, punit);
+  }
+}
+
+/************************************************************************//**
   Recalculate the upkeep needed for all units supported by the city. It has
   to be called
 
@@ -3017,33 +3056,7 @@ void city_units_upkeep(const struct city *pcity)
 
   /* Save the upkeep for all units in the corresponding punit struct */
   unit_list_iterate(pcity->units_supported, punit) {
-    const struct unit_type *ut = unit_type_get(punit);
-    struct player *plr = unit_owner(punit);
-    bool update = FALSE;
-    int cost;
-
-    output_type_iterate(o) {
-      cost = utype_upkeep_cost(ut, plr, o);
-      if (cost > 0) {
-        if (free_uk[o] > cost) {
-          free_uk[o] -= cost;
-          cost = 0;
-        } else {
-          cost -= free_uk[o];
-          free_uk[o] = 0;
-        }
-      }
-
-      if (cost != punit->upkeep[o]) {
-        update = TRUE;
-        punit->upkeep[o] = cost;
-      }
-    } output_type_iterate_end;
-
-    if (update) {
-      /* Update unit information to the player and global observers. */
-      send_unit_info(NULL, punit);
-    }
+    update_unit_upkeep(punit, free_uk);
   } unit_list_iterate_end;
 }
 

@@ -84,6 +84,7 @@ bool building_removed(struct city *pcity, const struct impr_type *pimprove,
                       const char *reason, struct unit *destroyer);
 void building_lost(struct city *pcity, const struct impr_type *pimprove,
                    const char *reason, struct unit *destroyer);
+void update_unit_upkeep(struct unit *punit, int free_uk[O_LAST]);
 void city_units_upkeep(const struct city *pcity);
 
 bool is_production_equal(const struct universal *one,
