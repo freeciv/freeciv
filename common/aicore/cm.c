@@ -1853,11 +1853,14 @@ static struct cm_state *cm_state_init(struct city *pcity, bool negative_ok)
 
   /* For the heuristic, make sorted copies of the lattice */
   output_type_iterate(stat_index) {
-    tile_type_vector_init(&state->lattice_by_prod[stat_index]);
-    tile_type_vector_copy(&state->lattice_by_prod[stat_index], &state->lattice);
-    compare_key = stat_index;
-    /* calculate effect of 1 trade production on interesting production */
-    switch (stat_index) {
+    int lsize = tile_type_vector_size(&state->lattice);
+
+    if (lsize > 0) {
+      tile_type_vector_init(&state->lattice_by_prod[stat_index]);
+      tile_type_vector_copy(&state->lattice_by_prod[stat_index], &state->lattice);
+      compare_key = stat_index;
+      /* Calculate effect of 1 trade production on interesting production */
+      switch (stat_index) {
       case O_SCIENCE:
         compare_key_trade_bonus = rates[SCIENCE] * pcity->bonus[O_TRADE] / 100.0;
         break;
@@ -1870,10 +1873,11 @@ static struct cm_state *cm_state_init(struct city *pcity, bool negative_ok)
       default:
         compare_key_trade_bonus = 0.0;
         break;
+      }
+      qsort(state->lattice_by_prod[stat_index].p, lsize,
+            sizeof(*state->lattice_by_prod[stat_index].p),
+            compare_tile_type_by_stat);
     }
-    qsort(state->lattice_by_prod[stat_index].p, state->lattice_by_prod[stat_index].size,
-          sizeof(*state->lattice_by_prod[stat_index].p),
-          compare_tile_type_by_stat);
   } output_type_iterate_end;
 
   state->min_luxury = - FC_INFINITY;
