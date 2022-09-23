@@ -1157,16 +1157,16 @@ helptext    = _("\
 Each tile around the city that is already generating some trade, produces \
 one extra trade resource.\
 "), _("\
-Adds 3 trade route slots to the city. \
+Adds 3 trade route slots to the city.\
 "), _("\
-Increases the city radius of the city. \
+Increases the radius of the city.\
 "), _("\
-Increases the city vision radius of the city. \
+Increases the vision radius of the city.\
 "), _("\
 A Space Elevator is too easy for an enemy to destroy to leave operational \
 and fully assembled during war. \
 It is therefore shut down and without any effect if its owner is at war \
-with anyone at all. \
+with anyone at all.\
 ")
 
 [building_space_module]
