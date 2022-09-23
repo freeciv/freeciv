@@ -342,19 +342,11 @@ static void popup_load_game_dialog(void)
 **************************************************************************/
 static int inputline_return_callback(struct widget *pwidget)
 {
-  if (main_data.event.type == SDL_KEYDOWN
-      && (main_data.event.key.keysym.sym == SDLK_RETURN
-          || main_data.event.key.keysym.sym == SDLK_KP_ENTER)) {
+  if (pwidget->string_utf8->text != NULL
+      && pwidget->string_utf8->text[0] != '\0') {
+    send_chat(pwidget->string_utf8->text);
 
-    if (pwidget->string_utf8->text == NULL) {
-      return -1;
-    }
-
-    if (pwidget->string_utf8->text[0] != '\0') {
-      send_chat(pwidget->string_utf8->text);
-
-      output_window_append(ftc_any, pwidget->string_utf8->text);
-    }
+    output_window_append(ftc_any, pwidget->string_utf8->text);
   }
 
   return -1;
@@ -368,7 +360,7 @@ void popup_input_line(void)
   struct widget *input_edit;
 
   input_edit = create_edit_from_chars(NULL, main_data.gui, "", adj_font(12),
-                                       adj_size(400), 0);
+                                      adj_size(400), 0);
 
   input_edit->size.x = (main_window_width() - input_edit->size.w) / 2;
   input_edit->size.y = (main_window_height() - input_edit->size.h) / 2;
@@ -509,18 +501,15 @@ static void add_to_chat_list(char *msg, size_t n_alloc)
 **************************************************************************/
 static int input_edit_conn_callback(struct widget *pwidget)
 {
-  if (main_data.event.type == SDL_KEYDOWN
-      && (main_data.event.key.keysym.sym == SDLK_RETURN
-          || main_data.event.key.keysym.sym == SDLK_KP_ENTER)) {
-    if (pwidget->string_utf8->text != NULL) {
-      if (pwidget->string_utf8->text[0] != '\0') {
-        send_chat(pwidget->string_utf8->text);
-      }
-
-      free(pwidget->string_utf8->text);
-      pwidget->string_utf8->text = fc_malloc(1);
-      pwidget->string_utf8->n_alloc = 0;
+  if (pwidget->string_utf8->text != NULL) {
+    if (pwidget->string_utf8->text[0] != '\0') {
+      send_chat(pwidget->string_utf8->text);
     }
+
+    free(pwidget->string_utf8->text);
+    pwidget->string_utf8->text = fc_malloc(1);
+    pwidget->string_utf8->text[0] = '\0';
+    pwidget->string_utf8->n_alloc = 0;
   }
 
   return -1;
@@ -780,7 +769,7 @@ static void popup_conn_list_dialog(void)
 
   /* -------------------------------- */
 
-  /* input field */
+  /* Input field */
 
   buf = create_edit_from_chars(NULL, pwindow->dst, "",
                                adj_font(12), pwindow->size.w - adj_size(10) - adj_size(10),
@@ -793,7 +782,7 @@ static void popup_conn_list_dialog(void)
   conn_dlg->pedit = buf;
   add_to_gui_list(ID_EDIT, buf);
 
-  /* buttons */
+  /* Buttons */
 
   buf = create_themeicon_button_from_chars(current_theme->back_icon, pwindow->dst,
                                            _("Back"), adj_font(12), 0);
