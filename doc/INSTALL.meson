@@ -98,12 +98,6 @@ default_library ('shared'/'static'/'both')
 Freeciv specific configure options:
 -----------------------------------
 
-ack_experimental (boolean):
-  As the official build system for freeciv is still autotools, user
-  has to acknowledge that they are using experimental build system when
-  using meson. This configure options must be set to 'true', or build
-  refuses to start
-
 clients (array):
   List of clients to build. To disable client build completely, give an
   empty array ('-Dclients=[]'). Currently gtk3.22-, sdl2-, qt-,

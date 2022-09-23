@@ -1,8 +1,3 @@
-option('ack_experimental',
-       type: 'boolean',
-       value: false,
-       description: 'User acknowledges experimental build')
-
 option('clients',
        type: 'array',
        choices: ['gtk3.22','sdl2', 'qt', 'gtk4'],

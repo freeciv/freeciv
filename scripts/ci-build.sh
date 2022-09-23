@@ -44,7 +44,12 @@ fi
 
 mkdir build
 cd build
-meson .. -Dprefix=${HOME}/freeciv/meson -Ddebug=true -Dack_experimental=true -Dclients='gtk3.22','qt','sdl2','gtk4' -Dfcmp='gtk3','qt','cli','gtk4' -Dqtver=qt6
+meson .. \
+  -Dprefix=${HOME}/freeciv/meson \
+  -Ddebug=true \
+  -Dclients='gtk3.22','qt','sdl2','gtk4' \
+  -Dfcmp='gtk3','qt','cli','gtk4' \
+  -Dqtver=qt6
 ninja
 ninja install
 ;;
@@ -87,7 +92,6 @@ export PKG_CONFIG_PATH="$(brew --prefix icu4c)/lib/pkgconfig"
 mkdir build
 cd build
 meson .. \
-  -Dack_experimental=true \
   -Ddebug=true \
   -Druledit=false \
   -Dsyslua=true \

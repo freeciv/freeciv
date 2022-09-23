@@ -47,7 +47,7 @@ jobs:
         shell: msys2 {0}
         run: |
           cd windows/installer_msys2
-          make ci && EXTRA_CONFIG="-Dack_experimental=true" make -f Makefile.meson ci
+          make ci && make -f Makefile.meson ci
   os_x:
     runs-on: macos-12
     steps:
