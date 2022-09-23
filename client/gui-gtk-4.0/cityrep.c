@@ -84,9 +84,8 @@ static void city_command_callback(struct gui_dialog *dlg, int response,
                                   gpointer data);
 
 static void city_selection_changed_callback(GtkTreeSelection *selection);
-#ifdef MENUS_GTK3
-static void city_clear_worklist_callback(GtkMenuItem *item, gpointer data);
-#endif /* MENUS_GTK3 */
+static void city_clear_worklist_callback(GSimpleAction *action, GVariant *parameter,
+                                         gpointer data);
 static void update_total_buy_cost(void);
 
 #ifdef MENUS_GTK3
@@ -125,7 +124,6 @@ static GtkWidget *city_center_command;
 static GtkWidget *city_popup_command;
 static GtkWidget *city_buy_command;
 #ifdef MENUS_GTK3
-static GtkWidget *city_production_command;
 static GtkWidget *city_governor_command;
 static GtkWidget *city_sell_command;
 #endif /* MENUS_GTK3 */
@@ -1051,26 +1049,35 @@ static void update_view_menu(GtkWidget *show_item)
 ****************************************************************************/
 static GtkWidget *create_city_report_menu(void)
 {
-  GtkWidget *vgrid, *sep;
+  GtkWidget *vbox, *sep;
   GtkWidget *aux_menu;
-  int grid_row = 0;
+  GMenu *menu;
+  GActionGroup *group;
+  GMenu *submenu;
+  GSimpleAction *act;
+  GMenuItem *item;
 
-  vgrid = gtk_grid_new();
-  gtk_orientable_set_orientation(GTK_ORIENTABLE(vgrid),
-                                 GTK_ORIENTATION_VERTICAL);
+  vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
   sep = gtk_separator_new(GTK_ORIENTATION_HORIZONTAL);
-  gtk_grid_attach(GTK_GRID(vgrid), sep, 0, grid_row++, 1, 1);
+  gtk_box_append(GTK_BOX(vbox), sep);
 
   aux_menu = aux_menu_new();
-  gtk_grid_attach(GTK_GRID(vgrid), aux_menu, 0, grid_row++, 1, 1);
+  group = G_ACTION_GROUP(g_simple_action_group_new());
+
+  menu = g_menu_new();
+
+  submenu = g_menu_new();
+
+  act = g_simple_action_new("clear_worklist", NULL);
+  g_action_map_add_action(G_ACTION_MAP(group), G_ACTION(act));
+  g_signal_connect(act, "activate", G_CALLBACK(city_clear_worklist_callback),
+                   NULL);
+  item = g_menu_item_new(_("Clear _Worklist"), "win.clear_worklist");
+  g_menu_append_item(submenu, item);
+
+  g_menu_append_submenu(menu, _("_Production"), G_MENU_MODEL(submenu));
 
 #ifdef MENUS_GTK3
-  GtkWidget *menu, *item;
-
-  item = gtk_menu_item_new_with_mnemonic(_("_Production"));
-  city_production_command = item;
-  gtk_menu_shell_append(GTK_MENU_SHELL(aux_menu), item);
-
   menu = gtk_menu_button_new();
   gtk_menu_item_set_submenu(GTK_MENU_ITEM(item), menu);
 
@@ -1109,11 +1116,6 @@ static GtkWidget *create_city_report_menu(void)
                     append_worklist_callback);
   g_signal_connect(menu, "show", G_CALLBACK(production_menu_shown), item);
 
-  item = gtk_menu_item_new_with_mnemonic(_("Clear _Worklist"));
-  gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-  g_signal_connect(item, "activate",
-                   G_CALLBACK(city_clear_worklist_callback), NULL);
-
   item = gtk_menu_item_new_with_mnemonic(_("Gover_nor"));
   city_governor_command = item;
   gtk_menu_shell_append(GTK_MENU_SHELL(aux_menu), item);
@@ -1133,7 +1135,11 @@ static GtkWidget *create_city_report_menu(void)
   update_view_menu(item);
 #endif /* MENUS_GTK3 */
 
-  return vgrid;
+  gtk_widget_insert_action_group(aux_menu, "win", group);
+  gtk_menu_button_set_menu_model(GTK_MENU_BUTTON(aux_menu), G_MENU_MODEL(menu));
+  gtk_box_append(GTK_BOX(vbox), aux_menu);
+
+  return vbox;
 }
 
 /************************************************************************//**
@@ -1175,7 +1181,7 @@ static void create_city_report_dialog(bool make_modal)
   aux_menu = create_city_report_menu();
   gui_dialog_add_action_widget(city_dialog_shell, aux_menu);
 
-  /* buttons */
+  /* Buttons */
   city_total_buy_cost_label = gtk_label_new(NULL);
   gtk_widget_set_hexpand(city_total_buy_cost_label, TRUE);
   gtk_label_set_ellipsize(GTK_LABEL(city_total_buy_cost_label),
@@ -2031,7 +2037,6 @@ static void city_selection_changed_callback(GtkTreeSelection *selection)
   obs_may = n > 0;
   plr_may = obs_may && can_client_issue_orders();
 
-  gtk_widget_set_sensitive(city_production_command, plr_may);
   gtk_widget_set_sensitive(city_governor_command, plr_may);
   gtk_widget_set_sensitive(city_center_command, obs_may);
   gtk_widget_set_sensitive(city_popup_command, obs_may);
@@ -2046,7 +2051,6 @@ static void city_selection_changed_callback(GtkTreeSelection *selection)
   update_total_buy_cost();
 }
 
-#ifdef MENUS_GTK3
 /************************************************************************//**
   Clear the worklist in one selected city in the city report.
 ****************************************************************************/
@@ -2068,7 +2072,8 @@ static void clear_worklist_foreach_func(GtkTreeModel *model,
 /************************************************************************//**
   Called when the "clear worklist" menu item is activated.
 ****************************************************************************/
-static void city_clear_worklist_callback(GtkMenuItem *item, gpointer data)
+static void city_clear_worklist_callback(GSimpleAction *action, GVariant *parameter,
+                                         gpointer data)
 {
   struct connection *pconn = &client.conn;
 
@@ -2079,7 +2084,6 @@ static void city_clear_worklist_callback(GtkMenuItem *item, gpointer data)
                                       clear_worklist_foreach_func, NULL);
   connection_do_unbuffer(pconn);
 }
-#endif /* MENUS_GTK3 */
 
 /************************************************************************//**
   After a selection rectangle is defined, make the cities that
