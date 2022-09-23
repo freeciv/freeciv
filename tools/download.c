@@ -62,7 +62,7 @@ static void nf_cb(const char *msg, void *data)
   Download modpack from a given URL
 **************************************************************************/
 const char *download_modpack(const char *URL,
-			     const struct fcmp_params *fcmp,
+                             const struct fcmp_params *fcmp,
                              dl_msg_callback mcb,
                              dl_pb_callback pbcb)
 {
@@ -278,7 +278,6 @@ static const char *download_modpack_recursive(const char *URL,
     pbcb(1, total_files + 1);
   }
 
-  filenbr = 0;
   for (filenbr = 0; filenbr < total_files; filenbr++) {
     const char *dest_name;
 
