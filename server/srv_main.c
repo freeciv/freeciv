@@ -178,15 +178,13 @@ struct civserver server;
 /* server state information */
 static enum server_states civserver_state = S_S_INITIAL;
 
-/* this global is checked deep down the netcode. 
+/* This global is checked deep down the netcode.
    packets handling functions can set it to none-zero, to
    force end-of-tick asap
 */
 bool force_end_of_sniff;
 
-#define IDENTITY_NUMBER_SIZE 250000
-BV_DEFINE(bv_identity_numbers, IDENTITY_NUMBER_SIZE);
-bv_identity_numbers identity_numbers_used;
+bv_id identity_numbers_used;
 
 /* server initialized flag */
 static bool has_been_srv_init = FALSE;
