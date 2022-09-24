@@ -1185,6 +1185,7 @@ void req_copy(struct requirement *dst, const struct requirement *src)
   universal_copy(&(dst->source), &(src->source));
   dst->range = src->range;
   dst->survives = src->survives;
+  dst->present = src->present;
   dst->quiet = src->quiet;
 }
 
