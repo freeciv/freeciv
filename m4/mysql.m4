@@ -20,7 +20,7 @@ AC_DEFUN([FC_CHECK_MYSQL],
   dnl
 
   if test -z "$MYSQL_CONFIG" -o test; then
-    AC_PATH_PROG([MYSQL_CONFIG], [mysql_config], [no])
+    AC_PATH_PROGS([MYSQL_CONFIG], [mysql_config mariadb-config], [no])
   fi
 
   if test "$MYSQL_CONFIG" != "no"; then
