@@ -20,6 +20,9 @@
 #include "fc_types.h"
 #include "tech.h"
 
+/* server */
+#include "srv_main.h" /* bv_id */
+
 /* server/advisors */
 #include "advtools.h"
 
@@ -57,11 +60,6 @@ struct ai_dip_intel {
   signed char asked_about_ceasefire; /* don't ... you get the point */
   signed char warned_about_space;
 };
-
-/* max size of a short */
-#define MAX_NUM_ID (1+MAX_UINT16)
-
-BV_DEFINE(bv_id, MAX_NUM_ID);
 
 struct ai_plr
 {

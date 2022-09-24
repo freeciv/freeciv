@@ -67,6 +67,9 @@ struct server_arguments {
 #define SPECENUM_VALUE2 S_S_OVER
 #include "specenum_gen.h"
 
+#define IDENTITY_NUMBER_SIZE 250000
+BV_DEFINE(bv_id, IDENTITY_NUMBER_SIZE);
+
 /* Structure for holding global server data.
  *
  * TODO: Lots more variables could be added here. */
