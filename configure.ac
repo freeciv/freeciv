@@ -1973,7 +1973,7 @@ AC_MSG_NOTICE([
   Build freeciv server:  $server
     AI modules support:    $enable_aimodules
     Database support:      $enable_fcdb
-      mysql:                 $fcdb_mysql
+      mysql/mariadb:         $fcdb_mysql
       odbc:                  $fcdb_odbc
       postgres:              $fcdb_postgres
       sqlite3:               $fcdb_sqlite3
