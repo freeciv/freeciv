@@ -3551,6 +3551,8 @@ void city_add_improvement_with_gov_notice(struct city *pcity,
     players_iterate_alive(pplayer) {
       notify_new_government_options(pplayer, govs_data, buf);
     } players_iterate_alive_end;
+
+    free_current_governments_data(govs_data);
   } else {
     city_add_improvement(pcity, pimprove);
   }
