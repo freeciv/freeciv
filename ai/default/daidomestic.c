@@ -234,7 +234,7 @@ static void dai_choose_trade_route(struct ai_type *ait, struct city *pcity,
   }
 
   fc_assert_msg(unit_type,
-                "Non existance of trade unit not caught");
+                "Non-existence of trade unit not caught");
 
   if (unit_type) {
     struct unit_class *pclass = utype_class(unit_type);
