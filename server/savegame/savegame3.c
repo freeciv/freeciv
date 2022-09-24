@@ -2653,9 +2653,6 @@ static void sg_save_counters(struct savedata *saving)
   count = counters_get_city_counters_count();
   countnames = fc_calloc(count, sizeof(*countnames));
 
-  secfile_insert_bool(saving->file, TRUE, "game.hardcoded_counters");
-
-
   secfile_insert_int(saving->file, count,
                      "savefile.city_counters_order_size");
 

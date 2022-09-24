@@ -2752,6 +2752,7 @@ static void compat_load_dev(struct loaddata *loading)
       }
     }
 
+    (void) secfile_entry_lookup(loading->file, "game.hardcoded_counters");
   } /* Version < 3.1.93 */
 
 #endif /* FREECIV_DEV_SAVE_COMPAT_3_2 */
