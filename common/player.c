@@ -955,7 +955,7 @@ bool can_player_see_hypotetic_units_at(const struct player *pplayer,
   struct city *pcity;
 
   if (!player_can_trust_tile_has_no_units(pplayer, ptile)) {
-    /* The existance of any units at all is hidden from the player. */
+    /* The existence of any units at all is hidden from the player. */
     return FALSE;
   }
 
