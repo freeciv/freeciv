@@ -25,8 +25,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 3.1\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2021-02-06 00:29+0200\n"
-"PO-Revision-Date: 2022-08-23 03:50+0300\n"
+"POT-Creation-Date: 2022-09-22 06:39+0300\n"
+"PO-Revision-Date: 2022-09-24 23:53+0300\n"
 "Last-Translator: Markus Linnakangas <markus.linnakangas@luukku.com>\n"
 "Language-Team: None <freeciv-i18n@freelists.org>\n"
 "Language: fi\n"
@@ -696,41 +696,22 @@ msgid "?female:Vizier %s"
 msgstr "Visiiri %s"
 
 #: data/nation/alander.ruleset:3
-#, fuzzy
-#| msgid "Alander"
 msgid "Ålander"
 msgstr "ahvenanmaalaisten"
 
 #: data/nation/alander.ruleset:6
-#, fuzzy
-#| msgid "?plural:Alanders"
 msgid "?plural:Ålanders"
 msgstr "ahvenanmaalaiset"
 
 # (Aland; translation > original)
 #: data/nation/alander.ruleset:8
-#, fuzzy
-#| msgid ""
-#| "Aland is an archipelago in the Baltic Sea, located between Sweden and "
-#| "Finland. The islands' inhabitants are Swedish speaking, but Aland is an "
-#| "autonomous province in Finland, a status that was reached in 1921 after a "
-#| "long period in which the islands were contested between Sweden and "
-#| "Finland. Aland's special and demilitarized status is protected by "
-#| "international law."
 msgid ""
 "Åland is an archipelago in the Baltic Sea, located between Sweden and "
 "Finland. The islands' inhabitants are Swedish speaking, but Åland is an "
 "autonomous province in Finland, a status that was reached in 1921 after a "
 "long period in which the islands were contested between Sweden and Finland. "
 "Åland's special and demilitarized status is protected by international law."
-msgstr ""
-"Ahvenanmaa on Itämeren saaristo, joka sijaitsee Ruotsin ja Suomen välissä. "
-"Saaren asukkaat puhuvat ruotsia, mutta Ahvenanmaan maakunta on osa Suomea. "
-"Ahvenanmaan itsehallinto myönnettiin 1921, mitä edelsi pitkä keskustelu "
-"siitä, kuuluisiko Ahvenanmaa liittää osaksi Ruotsia. Kansainliitto ratkaisi "
-"tämän Ahvenanmaan kysymyksen lopulta Suomen eduksi. Ahvenanmaan "
-"erikoisasemaa neutraalina ja linnoittamattomana suojaa Genevessä tehty "
-"kansainvälinen sopimus 1921."
+msgstr "Ahvenanmaa on Itämeren saaristo, joka sijaitsee Ruotsin ja Suomen välissä. Saaren asukkaat puhuvat ruotsia, mutta Ahvenanmaan maakunta on osa Suomea. Ahvenanmaan itsehallinto myönnettiin 1921, mitä edelsi pitkä keskustelu siitä, kuuluisiko Ahvenanmaa liittää osaksi Ruotsia. Kansainliitto ratkaisi tämän Ahvenanmaan kysymyksen lopulta Suomen eduksi. Ahvenanmaan erikoisasemaa neutraalina ja linnoittamattomana suojaa Genevessä 1921 tehty kansainvälinen sopimus."
 
 #: data/nation/alander.ruleset:28 data/nation/faroese.ruleset:31
 #: data/nation/icelandic.ruleset:22 data/nation/norwegian.ruleset:29
@@ -768,14 +749,6 @@ msgstr "albanialaiset"
 
 # Wikipedia (fi) ei käytä aksenttia.
 #: data/nation/albanian.ruleset:6
-#, fuzzy
-#| msgid ""
-#| "Inhabitants of the Balkan peninsula, the ethnic origins of the Albanians "
-#| "are uncertain, though it has been suggested they descend from the "
-#| "Illyrians of Classical Antiquity. Albania changed hands several times "
-#| "during its  history. It has been an independent state again since 1912. "
-#| "For much of the 20th century Albania was ruled by communist dictator "
-#| "Enver Hoxha."
 msgid ""
 "Inhabitants of the Balkan peninsula, the ethnic origins of the Albanians are "
 "uncertain, though it has been suggested they descend from the Illyrians of "
@@ -1426,13 +1399,6 @@ msgid "?plural:Argentines"
 msgstr "argentiinalaiset"
 
 #: data/nation/argentine.ruleset:6
-#, fuzzy
-#| msgid ""
-#| "Argentina is located on the south-eastern coast of South America. Since "
-#| "independence from Spain in 1816, it has been plagued by several internal "
-#| "and external conflicts. In the decades after World War II, the country's "
-#| "politics was dominated by Juan Peron and his charismatic wife Eva \"Evita"
-#| "\" Peron."
 msgid ""
 "Argentina is located on the south-eastern coast of South America. Since "
 "independence from Spain in 1816, it has been plagued by several internal and "
@@ -1526,7 +1492,7 @@ msgstr ""
 #: data/nation/etruscan.ruleset:31 data/nation/frankish.ruleset:39
 #: data/nation/gepid.ruleset:41 data/nation/israelite.ruleset:31
 #: data/nation/italiangreek.ruleset:45 data/nation/latin.ruleset:39
-#: data/nation/median.ruleset:29 data/nation/mitanni.ruleset:30
+#: data/nation/median.ruleset:31 data/nation/mitanni.ruleset:30
 #: data/nation/nubian.ruleset:32 data/nation/ostrogothic.ruleset:30
 #: data/nation/palatinate.ruleset:28 data/nation/palmyrene.ruleset:19
 #: data/nation/parthian.ruleset:33 data/nation/pelasgian.ruleset:24
@@ -1546,7 +1512,7 @@ msgstr "Vallananastaja %s"
 #: data/nation/etruscan.ruleset:31 data/nation/frankish.ruleset:39
 #: data/nation/gepid.ruleset:41 data/nation/israelite.ruleset:31
 #: data/nation/italiangreek.ruleset:45 data/nation/latin.ruleset:39
-#: data/nation/median.ruleset:29 data/nation/mitanni.ruleset:30
+#: data/nation/median.ruleset:31 data/nation/mitanni.ruleset:30
 #: data/nation/nubian.ruleset:32 data/nation/ostrogothic.ruleset:30
 #: data/nation/palatinate.ruleset:28 data/nation/palmyrene.ruleset:19
 #: data/nation/parthian.ruleset:33 data/nation/pelasgian.ruleset:24
@@ -1843,7 +1809,7 @@ msgid "%s Shah"
 msgstr "Šaahi %s"
 
 #: data/nation/azeri.ruleset:36 data/nation/iranian.ruleset:41
-#: data/nation/khwarezmian.ruleset:28 data/nation/median.ruleset:31
+#: data/nation/khwarezmian.ruleset:28 data/nation/median.ruleset:33
 #, c-format
 msgid "%s Shahbanu"
 msgstr "Šaahitar %s"
@@ -2649,16 +2615,6 @@ msgid "?plural:Bolivians"
 msgstr "bolivialaiset"
 
 #: data/nation/bolivian.ruleset:6
-#, fuzzy
-#| msgid ""
-#| "Bolivia is a landlocked country in South America with a large indigenous "
-#| "heritage. The country is named after Simon Bolivar. Independent since "
-#| "1825, the country was wrecked by instability and lost its Pacific coast "
-#| "to Chile. The 1932-1936 Chaco war against Paraguay led to another "
-#| "humiliating defeat. Discontent with Bolivia's oligarchic regime led to a "
-#| "revolution in 1952. After a series of military coups in the 1970s the "
-#| "country returned to democratic rule in the 1980s. In 2006 Evo Morales "
-#| "became the country's first indigenous president."
 msgid ""
 "Bolivia is a landlocked country in South America with a large indigenous "
 "heritage. The country is named after Simón Bolivar. Independent since 1825, "
@@ -3115,14 +3071,10 @@ msgstr ""
 "(ransk. Bourgogne) romaaniselle kansakunnalle ja alueelle."
 
 #: data/nation/burkinabe.ruleset:3
-#, fuzzy
-#| msgid "Burkinabe"
 msgid "Burkinabé"
 msgstr "burkinalaisten"
 
 #: data/nation/burkinabe.ruleset:6
-#, fuzzy
-#| msgid "?plural:Burkinabes"
 msgid "?plural:Burkinabés"
 msgstr "burkinalaiset"
 
@@ -3298,7 +3250,7 @@ msgstr ""
 
 #: data/nation/canari.ruleset:3
 msgid "Cañari"
-msgstr ""
+msgstr "kanarien"
 
 #: data/nation/canari.ruleset:6
 msgid "?plural:Cañaris"
@@ -3599,12 +3551,6 @@ msgid "?plural:Chadians"
 msgstr "tšadilaiset"
 
 #: data/nation/chadian.ruleset:6
-#, fuzzy
-#| msgid ""
-#| "Chad is a landlocked country in Africa. Once the site of the Kanem-Bornu "
-#| "Empire, Chad was colonized by France in 1900. Independent since 1960, "
-#| "Chad remains one of the poorest countries of the world. From 1982 to 1990 "
-#| "Hissene Habre led a notoriously brutal dictatorship."
 msgid ""
 "Chad is a landlocked country in Africa. Once the site of the Kanem-Bornu "
 "Empire, Chad was colonized by France in 1900. Independent since 1960, Chad "
@@ -4202,18 +4148,6 @@ msgstr "kongolaiset"
 
 # Paikalliskirjoitusasussa näköjään Leopold II:lle ei harrasteta aksentteja.
 #: data/nation/congolese.ruleset:7
-#, fuzzy
-#| msgid ""
-#| "The Democratic Republic of the Congo is a big country in Central Africa. "
-#| "Despite (or because of) its wealth of natural resources it has been in "
-#| "ruins for most of its modern history. In 1885 Congo was awarded to "
-#| "Leopold II of Belgium as his personal possession, the Congo Free State, "
-#| "which turned the country into a slaughterhouse. At least twenty per cent "
-#| "of the population perished and after an international outcry it became a "
-#| "Belgian colony in 1906. It achieved independence in 1960. The Mobutu "
-#| "dictatorship started a new round of pillaging. When Mobutu was toppled "
-#| "the country sank into a civil war, causing five million deaths, the "
-#| "bloodiest event since World War II."
 msgid ""
 "The Democratic Republic of the Congo is a big country in Central Africa. "
 "Despite (or because of) its wealth of natural resources it has been in ruins "
@@ -4486,15 +4420,7 @@ msgstr "kujavien"
 msgid "?plural:Cuyavians"
 msgstr "kujavit"
 
-# Markus (mlinnaka): I think the English description is incorrect regarding
-# Masovia being to the west and Greater poland to the east of Cuyavia. Finnish
-# translation is more correct than original.
 #: data/nation/cuyavian.ruleset:6
-#, fuzzy
-#| msgid ""
-#| "Cuyavia is a historical region in Northern-Central Poland, bordered to "
-#| "the West by Masovia, on the East by Greater Poland and on the North by "
-#| "Pomerania."
 msgid ""
 "Cuyavia is a historical region in Northern-Central Poland, bordered to the "
 "East by Masovia, on the West by Greater Poland and on the North by Pomerania."
@@ -4698,9 +4624,9 @@ msgstr "dominicalaiset"
 msgid ""
 "The island of Dominica was first sighted by Europeans, including Christopher "
 "Columbus, in 1493. Legend has it that the island was named so since the day "
-"of its first sighting was a Sunday. Officially the \"Commonwealth of Dominica"
-"\", the country should not be confused with the Dominican Republic, another "
-"Caribbean nation."
+"of its first sighting was a Sunday. Officially the \"Commonwealth of "
+"Dominica\", the country should not be confused with the Dominican Republic, "
+"another Caribbean nation."
 msgstr ""
 "Dominican saari tuli eurooppalaisten, mukaan lukien Kristoffer Kolumbuksen, "
 "tietoisuuteen vuonna 1493. Tarinan mukaan saari nimettiin löytöpäivänsä "
@@ -4802,16 +4728,6 @@ msgid "?plural:Ecuadorians"
 msgstr "ecuadorilaiset"
 
 #: data/nation/ecuadorian.ruleset:6
-#, fuzzy
-#| msgid ""
-#| "Ecuador is a country in western South America. It is divided into three "
-#| "very distinct geographic regions: the coastal lowlands, the mountains of "
-#| "the Andes and the jungles of the Oriente. The Galapagos islands are also "
-#| "part of Ecuador. The country gained independence from Spain in 1821 and "
-#| "from Colombia in 1830. Ecuador's history has been marked by rivalry "
-#| "between the coast (Guayaquil) and the mountains (Quito). It also fought "
-#| "numerous border wars with both Colombia and Peru. Nowadays Ecuador is one "
-#| "of the main oil producing countries of South America."
 msgid ""
 "Ecuador is a country in western South America. It is divided into three very "
 "distinct geographic regions: the coastal lowlands, the mountains of the "
@@ -5744,11 +5660,9 @@ msgstr ""
 
 #: data/nation/gokturk.ruleset:3
 msgid "Göktürk"
-msgstr ""
+msgstr "gökturkkilaisten"
 
 #: data/nation/gokturk.ruleset:6
-#, fuzzy
-#| msgid "?plural:Gokturks"
 msgid "?plural:Göktürks"
 msgstr "gökturkkilaiset"
 
@@ -5925,11 +5839,6 @@ msgid "?plural:Guinean"
 msgstr "guinealaiset"
 
 #: data/nation/guinean.ruleset:6
-#, fuzzy
-#| msgid ""
-#| "Guinea declared independence from France in 1958. Its first president "
-#| "Ahmed Sekou Toure continued to rule the country until his death in 1984. "
-#| "Guinea is not to be confused with neighboring Guinea-Bissau."
 msgid ""
 "Guinea declared independence from France in 1958. Its first president Ahmed "
 "Sékou Touré continued to rule the country until his death in 1984. Guinea is "
@@ -6714,11 +6623,6 @@ msgid "?plural:Ivoirian"
 msgstr "norsunluurannikkolaiset"
 
 #: data/nation/ivoirian.ruleset:6
-#, fuzzy
-#| msgid ""
-#| "Ivory Coast or Cote d'Ivoire achieved independence in 1960. It has been "
-#| "relatively stable compared to other West African countries, but in the "
-#| "2000s it lived through a civil war."
 msgid ""
 "Ivory Coast or Côte d'Ivoire achieved independence in 1960. It has been "
 "relatively stable compared to other West African countries, but in the 2000s "
@@ -7093,13 +6997,13 @@ msgid ""
 "Chinggis Khan conquered it in 1231."
 msgstr ""
 
-#: data/nation/khwarezmian.ruleset:27 data/nation/median.ruleset:30
+#: data/nation/khwarezmian.ruleset:27 data/nation/median.ruleset:32
 #: data/nation/parthian.ruleset:34 data/nation/seleucid.ruleset:29
 #, c-format
 msgid "Satrap %s"
 msgstr "Satraappi %s"
 
-#: data/nation/khwarezmian.ruleset:27 data/nation/median.ruleset:30
+#: data/nation/khwarezmian.ruleset:27 data/nation/median.ruleset:32
 #: data/nation/parthian.ruleset:34 data/nation/seleucid.ruleset:29
 #, c-format
 msgid "?female:Satrap %s"
@@ -8326,7 +8230,7 @@ msgstr ""
 "Halys-joelta nykyisen Afganistanin alueelle."
 
 # Shahanshah: vaihtoehtoisesti shaahien shaahi (oikeilla aksenteilla)
-#: data/nation/median.ruleset:31
+#: data/nation/median.ruleset:33
 #, c-format
 msgid "%s Shahanshah"
 msgstr "%s sâhanšâh"
@@ -8351,23 +8255,13 @@ msgstr ""
 
 #: data/nation/metis.ruleset:3
 msgid "Métis"
-msgstr ""
+msgstr "métisien"
 
 #: data/nation/metis.ruleset:6
-#, fuzzy
-#| msgid "?plural:Metis"
 msgid "?plural:Métis"
 msgstr "métisit"
 
 #: data/nation/metis.ruleset:8
-#, fuzzy
-#| msgid ""
-#| "The Metis are a people of mixed First Nations (Native American) and "
-#| "European (mostly French) descendance living mainly in the Canadian "
-#| "prairie provinces. Together with the First Nations and the Inuit they "
-#| "form one of the three indigenous groups of Canada. In the 19th century "
-#| "the Metis repeatedly rebelled against the British and Canadian "
-#| "authorities."
 msgid ""
 "The Métis are a people of mixed First Nations (Native American) and European "
 "(mostly French) descent living mainly in the Canadian prairie provinces. "
@@ -8391,21 +8285,6 @@ msgid "?plural:Mexicans"
 msgstr "meksikolaiset"
 
 #: data/nation/mexican.ruleset:6
-#, fuzzy
-#| msgid ""
-#| "Mexico borrows its name from the Mexica people, another name for the "
-#| "Aztecs. It achieved independence from Spain in 1821. For most of the 19th "
-#| "century the country was wrecked by rebellions and foreign invasions "
-#| "losing more than half of its territory to the United States. A liberal "
-#| "constitution was proclaimed in 1857, leading to ten years of civil war "
-#| "between liberals and conservatives, in which the latter crowned "
-#| "Maximilian of Austria as emperor under French occupation. The French and "
-#| "conservatives were ultimately defeated by the liberals of Benito Juarez "
-#| "in 1867. Mexico entered the modern era under Porifirio Diaz (1876-1911) "
-#| "but social inequality and political repression led to the Mexican "
-#| "Revolution of 1910 which left more than a million dead. The Revolution "
-#| "led to the establishment of a corporatist one party state in 1929. Only "
-#| "in 2000 did Mexico see its first democratic transfer of power."
 msgid ""
 "Mexico borrows its name from the Mexica people, another name for the Aztecs. "
 "It achieved independence from Spain in 1821. For most of the 19th century "
@@ -8895,11 +8774,6 @@ msgid "?plural:Navajo"
 msgstr "navajot"
 
 #: data/nation/navajo.ruleset:6
-#, fuzzy
-#| msgid ""
-#| "The Navajo or Dine are the most populous Native American nation of the "
-#| "United States. They are closely related to the Apache. Their language is "
-#| "famous for being one of the world's most complex."
 msgid ""
 "The Navajo or Diné are the most populous Native American nation of the "
 "United States. They are closely related to the Apache. Their language is "
@@ -9099,14 +8973,10 @@ msgstr ""
 
 # TODO: unconf
 #: data/nation/nimiipuu.ruleset:3
-#, fuzzy
-#| msgid "Nimiipuu"
 msgid "Nimíipuu"
 msgstr "nimíipuiden"
 
 #: data/nation/nimiipuu.ruleset:6
-#, fuzzy
-#| msgid "?plural:Nimiipuu"
 msgid "?plural:Nimíipuu"
 msgstr "nimíiput"
 
@@ -9491,14 +9361,10 @@ msgstr ""
 
 # TODO: unconf
 #: data/nation/otomi.ruleset:3
-#, fuzzy
-#| msgid "Otomi"
 msgid "Otomí"
 msgstr "otomíen"
 
 #: data/nation/otomi.ruleset:6
-#, fuzzy
-#| msgid "?plural:Otomies"
 msgid "?plural:Otomíes"
 msgstr "otomít"
 
@@ -10054,20 +9920,6 @@ msgid "?plural:P'urhepecha"
 msgstr "purépechalaiset"
 
 #: data/nation/purhepecha.ruleset:7
-#, fuzzy
-#| msgid ""
-#| "The P'urhepecha or Tarascans are a people native to the modern Mexican "
-#| "state of Michoacan, the heart of a former empire known to them as "
-#| "Irechikua Ts'intsuntsani, meaning the \"lands of Tzintzuntzan,\" their "
-#| "capital city. Their kings were the perennial enemy of the Aztec empire, "
-#| "who attempted an unsuccessful invasion of the P'urhepecha lands. When the "
-#| "Spanish arrived and began their conquest of Mexico in 1519, the Aztecs "
-#| "sent an embassy seeking the support of the P'urhepecha, but were "
-#| "rebuffed. The conquistadores' reputation preceded them and the "
-#| "P'urhepecha offered to become a subject state of the King of Spain rather "
-#| "than meet the same fate as their former enemies, the Aztecs. "
-#| "Nevertheless, the transition to Spanish rule was not smooth and devolved "
-#| "into violence. The empire, founded around 1450 CE, collapsed in 1530."
 msgid ""
 "The P'urhepecha or Tarascans are a people native to the modern Mexican state "
 "of Michoacán, the heart of a former empire known to them as Irechikua "
@@ -10152,14 +10004,10 @@ msgstr ""
 "Rapanuiden vanhaa rongorongo-kirjoitusta ei nykyään osata tulkita."
 
 #: data/nation/raramuri.ruleset:3
-#, fuzzy
-#| msgid "Raramuri"
 msgid "Rarámuri"
 msgstr "rarámurien"
 
 #: data/nation/raramuri.ruleset:6
-#, fuzzy
-#| msgid "?plural:Raramuris"
 msgid "?plural:Rarámuris"
 msgstr "rarámurit"
 
@@ -10469,18 +10317,6 @@ msgid "?plural:Salvadorans"
 msgstr "elsalvadorilaiset"
 
 #: data/nation/salvadoran.ruleset:6
-#, fuzzy
-#| msgid ""
-#| "Originally inhabited by Pipil Indians, in the 16th century El Salvador "
-#| "was conquered by the Spanish. It joined the Central American federation "
-#| "upon independence and became a fully independent republic in 1840. "
-#| "Although formally El Salvador has been a democracy for most of its "
-#| "independence, in reality the country's government is highly oligarchic, "
-#| "the 'fourteen families' having dominated the country's political and "
-#| "economic life since independence. In the 1930s general Hernandez Martinez "
-#| "established a dictatorship. A nonviolent revolution overthrew Hernandez "
-#| "in 1944 but the country remained unstable and from 1979-1992 the country "
-#| "lived through another bloody civil war."
 msgid ""
 "Originally inhabited by Pipil Indians, in the 16th century El Salvador was "
 "conquered by the Spanish. It joined the Central American federation upon "
@@ -10625,15 +10461,6 @@ msgid "?plural:Santomeans"
 msgstr "sãotoméprincipeläiset"
 
 #: data/nation/santomean.ruleset:6
-#, fuzzy
-#| msgid ""
-#| "Sao Tome and Principe are two islands in the Atlantic Ocean off the coast "
-#| "of Africa. The main island was named after Saint Thomas by the Portuguese "
-#| "sailors who first discovered the island on the saint's feast day around "
-#| "1470. The islands turned into the first major European plantation colony. "
-#| "Slavery was abolished in the 19th century and the country became "
-#| "independent in 1975. The islands' economy remains dependent on the export "
-#| "of cocoa."
 msgid ""
 "São Tomé and Príncipe are two islands in the Atlantic Ocean off the coast of "
 "Africa. The main island was named after Saint Thomas by the Portuguese "
@@ -12653,15 +12480,6 @@ msgid "?plural:Venezuelans"
 msgstr "venezuelalaiset"
 
 #: data/nation/venezuelan.ruleset:6
-#, fuzzy
-#| msgid ""
-#| "Venezuela is the northernmost country in South America. Having been a "
-#| "Spanish colony since the 16th century, the country gained independence on "
-#| "July 5th 1811 under the leadership of El Libertador Simon Bolivar - The "
-#| "Liberator. Venezuela has one of the largest proven oil and gas reserves "
-#| "of the world; during the oil boom of the 1970s it was the wealthiest "
-#| "country of Latin America. The country is known for its varied landscapes "
-#| "and high biodiversity."
 msgid ""
 "Venezuela is the northernmost country in South America. Having been a "
 "Spanish colony since the 16th century, the country gained independence on "
@@ -12779,26 +12597,14 @@ msgid ""
 msgstr ""
 
 #: data/nation/volapuk.ruleset:3
-#, fuzzy
-#| msgid "Volapukan"
 msgid "Volapükan"
 msgstr "volapükien"
 
 #: data/nation/volapuk.ruleset:6
-#, fuzzy
-#| msgid "?plural:Volapukans"
 msgid "?plural:Volapükans"
 msgstr "volapükit"
 
 #: data/nation/volapuk.ruleset:8
-#, fuzzy
-#| msgid ""
-#| "Volapuk is an international auxiliary language constructed by the German "
-#| "priest Johann Martin Schleyer in 1879. It enjoyed a brief popularity in "
-#| "the late 19th century. The language is often considered unnecessarily "
-#| "complex when compared with alternatives like Esperanto, which had almost "
-#| "completely displaced Volapuk by the turn of the century. Today only a few "
-#| "dozen Volapuk speakers remain."
 msgid ""
 "Volapük is an international auxiliary language constructed by the German "
 "priest Johann Martin Schleyer in 1879. It enjoyed a brief popularity in the "
@@ -13014,13 +12820,6 @@ msgid "?plural:amaXhosa"
 msgstr "xhosat"
 
 #: data/nation/xhosa.ruleset:6
-#, fuzzy
-#| msgid ""
-#| "The Xhosa are Bantu people in South Africa, having arrived there from the "
-#| "Great Lakes region by the 17th century. During the apartheid era there "
-#| "were two Xhosa Bantustans, Transkei and Ciskei. Many of the leading anti-"
-#| "apartheid activists, including Nelson Mandela and Desmond Tutu, where "
-#| "Xhosa."
 msgid ""
 "The Xhosa are Bantu people in South Africa, having arrived there from the "
 "Great Lakes region by the 17th century. During the apartheid era there were "
@@ -13110,13 +12909,6 @@ msgstr "jukatanilaiset"
 
 # TODO: confirm terms
 #: data/nation/yucatecan.ruleset:6
-#, fuzzy
-#| msgid ""
-#| "Yucatan is a peninsula of Mexico, famous for its Maya heritage and its "
-#| "white beaches. Its name is often claimed to mean \"we don't understand you"
-#| "\" in Yucatec Maya. On two occasions in the 19th century Yucatan declared "
-#| "independence from Mexico. Currently it is divided into three states: "
-#| "Yucatan, Campeche and Quintana Roo."
 msgid ""
 "Yucatán is a peninsula of Mexico, famous for its Maya heritage and its white "
 "beaches. Its name is often claimed to mean \"we don't understand you\" in "
