@@ -6,7 +6,7 @@
 
 (echo "lua unsafe-file @abs_top_srcdir@/tests/rs_test_res/ruleset_is.lua" \
  | (EXPECTED_RULESET=$1 @abs_top_builddir@/fcser \
-      --Announce none --ruleset $1)) \
+      -F --Announce none --ruleset $1)) \
 || exit 1
 
 # The ruleset was able to load.

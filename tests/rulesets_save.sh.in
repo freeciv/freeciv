@@ -50,7 +50,7 @@ for ruleset in $rulesets; do
   echo "Checking ruleset saving stability for $ruleset"
 
   echo "Resaving resaved $ruleset"
-  FREECIV_DATA_PATH=$tmpdir @abs_top_builddir@/fcruleup -c -r "$resaved" \
+  FREECIV_DATA_PATH=$tmpdir @abs_top_builddir@/fcruleup -F -c -r "$resaved" \
       --output "$reresaved_path" \
     || exit 1
   if [ ! -d "$reresaved_path" ] ; then
