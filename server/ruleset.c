@@ -4924,7 +4924,7 @@ static bool load_ruleset_nations(struct section_file *file,
   const char *sval;
   int default_set;
   const char *filename = secfile_name(file);
-  struct section_list *sec;
+  struct section_list *sec = NULL;
   enum trait tr;
   bool ok = TRUE;
 
@@ -5554,7 +5554,7 @@ static bool load_ruleset_nations(struct section_file *file,
   }
 
   /* Clean up on aborted load */
-  if (sec) {
+  if (sec != NULL) {
     fc_assert(!ok);
     section_list_destroy(sec);
   }
