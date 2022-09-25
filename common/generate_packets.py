@@ -568,6 +568,10 @@ class FieldType(RawFieldType):
         raise NotImplementedError
 
     @abstractmethod
+    def get_code_hash(self, location: Location) -> str:
+        raise NotImplementedError
+
+    @abstractmethod
     def get_code_cmp(self, location: Location) -> str:
         raise NotImplementedError
 
@@ -604,6 +608,9 @@ real_packet->{location} = {location};
         return """\
 {location} = real_packet->{location};
 """.format(location = location)
+
+    def get_code_hash(self, location: Location) -> str:
+        raise ValueError("hash not supported for type %s in field %s" % (self, location.name))
 
     def get_code_cmp(self, location: Location) -> str:
         return """\
@@ -645,6 +652,11 @@ class IntType(BasicType):
         dataio_type = dataio_info.group(0)
 
         super().__init__(dataio_type, public_type)
+
+    def get_code_hash(self, location: Location) -> str:
+        return """\
+result += key->%s;
+""" % location
 
     def get_code_get(self, location: Location, deep_diff: bool = False) -> str:
         if self.public_type in ("int", "bool"):
@@ -983,6 +995,9 @@ class ArrayType(FieldType):
 }}
 """.format(self = self, location = location, inner_unfill = inner_unfill)
 
+    def get_code_hash(self, location: Location) -> str:
+        raise ValueError("hash not supported for array type %s in field %s" % (self, location.name))
+
     def get_code_cmp(self, location: Location) -> str:
         if not self.size.constant:
             head = """\
@@ -1310,6 +1325,10 @@ class Field:
 
     def get_unfill(self) -> str:
         return self.type_info.get_code_unfill(Location(self.name))
+
+    def get_hash(self) -> str:
+        assert self.is_key
+        return self.type_info.get_code_hash(Location(self.name))
 
     # Returns code which sets "differ" by comparing the field
     # instances of "old" and "readl_packet".
@@ -1655,65 +1674,72 @@ memset(stats_{self.name}_counters, 0,
     # Returns a code fragment which is the implementation of the hash
     # function. The hash function is using all key fields.
     def get_hash(self) -> str:
-        if len(self.key_fields)==0:
+        if not self.key_fields:
             return """\
 #define hash_{self.name} hash_const
 
 """.format(self = self)
-        else:
-            intro = """\
+
+        intro = """\
 static genhash_val_t hash_{self.name}(const void *vkey)
 {{
-""".format(self = self)
-
-            body = """\
   const struct {self.packet_name} *key = (const struct {self.packet_name} *) vkey;
+  genhash_val_t result = 0;
 
 """.format(self = self)
 
-            keys = ["key->" + field.name for field in self.key_fields]
-            if len(keys)==1:
-                a=keys[0]
-            elif len(keys)==2:
-                a="({} << 8) ^ {}".format(*keys)
-            else:
-                raise ValueError("unsupported number of key fields for %s" % self.name)
-            body += """\
-  return %s;
-""" % a
-            extro = """\
+        body = """\
+
+  result *= 5;
+
+""".join(prefix("  ", field.get_hash()) for field in self.key_fields)
+
+        extro = """\
+
+  result &= 0xFFFFFFFF;
+  return result;
 }
 
 """
-            return intro+body+extro
+
+        return intro + body + extro
 
     # Returns a code fragment which is the implementation of the cmp
     # function. The cmp function is using all key fields. The cmp
     # function is used for the hash table.
     def get_cmp(self) -> str:
-        if len(self.key_fields)==0:
+        if not self.key_fields:
             return """\
 #define cmp_{self.name} cmp_const
 
 """.format(self = self)
-        else:
-            intro = """\
+
+        # note: the names `old` and `real_packet` allow reusing
+        # field-specific cmp code
+        intro = """\
 static bool cmp_{self.name}(const void *vkey1, const void *vkey2)
 {{
-""".format(self = self)
-            body = """\
-  const struct {self.packet_name} *key1 = (const struct {self.packet_name} *) vkey1;
-  const struct {self.packet_name} *key2 = (const struct {self.packet_name} *) vkey2;
+  const struct {self.packet_name} *old = (const struct {self.packet_name} *) vkey1;
+  const struct {self.packet_name} *real_packet = (const struct {self.packet_name} *) vkey2;
+  bool differ;
 
 """.format(self = self)
-            for field in self.key_fields:
-                body += """\
-  return key1->{field.name} == key2->{field.name};
-""".format(field = field)
-            extro = """\
+
+        body = """\
+
+  if (differ) {
+    return !differ;
+  }
+
+""".join(prefix("  ", field.get_cmp()) for field in self.key_fields)
+
+        extro = """\
+
+  return !differ;
 }
 """
-            return intro+body+extro
+
+        return intro + body + extro
 
     # Returns a code fragment which is the implementation of the send
     # function. This is one of the two real functions. So it is rather
