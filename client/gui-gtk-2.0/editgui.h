@@ -15,6 +15,7 @@
 
 #include <gtk/gtk.h>
 
+/* client */
 #include "editor.h"
 #include "editgui_g.h"
 
@@ -28,7 +29,6 @@ struct editbar {
 
   GtkWidget *mode_buttons[NUM_EDITOR_TOOL_MODES];
   GtkWidget *tool_buttons[NUM_EDITOR_TOOL_TYPES];
-  GtkWidget *player_properties_button;
   struct tool_value_selector *tool_selectors[NUM_EDITOR_TOOL_TYPES];
 
   GtkListStore *player_pov_store;
