@@ -606,7 +606,6 @@ static struct editbar *editbar_create(void)
   g_signal_connect(button, "clicked",
                    G_CALLBACK(editbar_player_properties_button_clicked), eb);
   gtk_box_append(GTK_BOX(hbox), button);
-  eb->player_properties_button = button;
 
   return eb;
 }
