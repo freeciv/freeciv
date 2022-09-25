@@ -564,10 +564,6 @@ class FieldType(RawFieldType):
         raise NotImplementedError
 
     @abstractmethod
-    def get_code_unfill(self, location: Location) -> str:
-        raise NotImplementedError
-
-    @abstractmethod
     def get_code_hash(self, location: Location) -> str:
         raise NotImplementedError
 
@@ -602,11 +598,6 @@ class BasicType(FieldType):
     def get_code_fill(self, location: Location) -> str:
         return """\
 real_packet->{location} = {location};
-""".format(location = location)
-
-    def get_code_unfill(self, location: Location) -> str:
-        return """\
-{location} = real_packet->{location};
 """.format(location = location)
 
     def get_code_hash(self, location: Location) -> str:
@@ -843,9 +834,6 @@ class WorklistType(StructType):
 worklist_copy(&real_packet->{location}, {location});
 """.format(location = location)
 
-    def get_code_unfill(self, location: Location) -> str:
-        raise NotImplementedError("unfill not supported for worklist-type fields")
-
 
 class SizedType(BasicType):
     """Abstract base class (ABC) for field types that include a size"""
@@ -868,10 +856,6 @@ class SizedType(BasicType):
     def get_code_fill(self, location: Location) -> str:
         return super().get_code_fill(location)
 
-    @abstractmethod
-    def get_code_unfill(self, location: Location) -> str:
-        return super().get_code_unfill(location)
-
     def __str__(self) -> str:
         return "%s[%s]" % (super().__str__(), self.size)
 
@@ -891,11 +875,6 @@ class StringType(SizedType):
     def get_code_fill(self, location: Location) -> str:
         return """\
 sz_strlcpy(real_packet->{location}, {location});
-""".format(location = location)
-
-    def get_code_unfill(self, location: Location) -> str:
-        return """\
-sz_strlcpy({location}, real_packet->{location});
 """.format(location = location)
 
     def get_code_cmp(self, location: Location) -> str:
@@ -922,9 +901,6 @@ class MemoryType(SizedType):
 
     def get_code_fill(self, location: Location) -> str:
         raise NotImplementedError("fill not supported for memory-type fields")
-
-    def get_code_unfill(self, location: Location) -> str:
-        raise NotImplementedError("unfill not supported for memory-type fields")
 
     def get_code_cmp(self, location: Location) -> str:
         if self.size.constant:
@@ -982,18 +958,6 @@ class ArrayType(FieldType):
   }}
 }}
 """.format(self = self, location = location, inner_fill = inner_fill)
-
-    def get_code_unfill(self, location: Location) -> str:
-        inner_unfill = prefix("    ", self.elem.get_code_unfill(location.sub))
-        return """\
-{{
-  int {location.index};
-
-  for ({location.index} = 0; {location.index} < {self.size.real}; {location.index}++) {{
-{inner_unfill}\
-  }}
-}}
-""".format(self = self, location = location, inner_unfill = inner_unfill)
 
     def get_code_hash(self, location: Location) -> str:
         raise ValueError("hash not supported for array type %s in field %s" % (self, location.name))
@@ -1322,9 +1286,6 @@ class Field:
     # functions in the packet struct.
     def get_fill(self) -> str:
         return self.type_info.get_code_fill(Location(self.name))
-
-    def get_unfill(self) -> str:
-        return self.type_info.get_code_unfill(Location(self.name))
 
     def get_hash(self) -> str:
         assert self.is_key
@@ -2077,15 +2038,22 @@ if (NULL != *hash) {
     # Helper for get_receive()
     def get_delta_receive_body(self) -> str:
         if self.key_fields:
+            # bit-copy the values, since we're moving (not cloning)
+            # the key fields
+            # FIXME: might not work for arrays
             backup_key = "".join(
                 prefix("  ", field.get_declar())
                 for field in self.key_fields
             ) + "\n"+ "".join(
-                prefix("  ", field.get_unfill())
+                """\
+  {field.name} = real_packet->{field.name};
+""".format(field = field)
                 for field in self.key_fields
             ) + "\n"
             restore_key = "\n" + "".join(
-                prefix("  ", field.get_fill())
+                """\
+  real_packet->{field.name} = {field.name};
+""".format(field = field)
                 for field in self.key_fields
             )
         else:
