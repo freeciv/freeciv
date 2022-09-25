@@ -414,6 +414,7 @@ server/settings.c
 server/settings.h
 server/spacerace.c
 server/srv_main.c
+server/srv_signal.c
 server/stdinhand.c
 server/techtools.c
 server/unithand.c
