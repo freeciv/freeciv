@@ -409,12 +409,19 @@ void auto_arrange_workers(struct city *pcity)
                     _("The citizen governor can't fulfill the requirements "
                      "for %s. Passing back control."),
                     city_link(pcity));
+
+      /* Switch to default parameters, and try with them */
+      set_default_city_manager(&cmp, pcity);
+      cm_query_result(pcity, &cmp, cmr, FALSE);
     }
-    /* Drop surpluses and try again. */
-    cmp.minimal_surplus[O_FOOD] = 0;
-    cmp.minimal_surplus[O_SHIELD] = 0;
-    cmp.minimal_surplus[O_GOLD] = -FC_INFINITY;
-    cm_query_result(pcity, &cmp, cmr, FALSE);
+
+    if (!cmr->found_a_valid) {
+      /* Drop surpluses and try again. */
+      cmp.minimal_surplus[O_FOOD] = 0;
+      cmp.minimal_surplus[O_SHIELD] = 0;
+      cmp.minimal_surplus[O_GOLD] = -FC_INFINITY;
+      cm_query_result(pcity, &cmp, cmr, FALSE);
+    }
   }
   if (!cmr->found_a_valid) {
     /* Emergency management.  Get _some_ result.  This doesn't use
