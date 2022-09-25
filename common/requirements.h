@@ -21,6 +21,8 @@ extern "C" {
 /* common */
 #include "fc_types.h"
 
+struct astring;
+
 /* Range of requirements.
  * Used in the network protocol.
  * Order is important -- wider ranges should come later -- some code
@@ -80,7 +82,8 @@ struct requirement {
 struct requirement req_from_str(const char *type, const char *range,
 				bool survives, bool present, bool quiet,
 				const char *value);
-const char *req_to_fstring(const struct requirement *req);
+const char *req_to_fstring(const struct requirement *req,
+                           struct astring *astr);
 
 void req_get_values(const struct requirement *req, int *type,
 		    int *range, bool *survives, bool *present, bool *quiet,

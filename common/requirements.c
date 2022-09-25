@@ -582,23 +582,27 @@ int universal_number(const struct universal *source)
   return 0;
 }
 
-
 /****************************************************************************
   Returns the given requirement as a formatted string ready for printing.
   Does not care about the 'quiet' property.
-****************************************************************************/
-const char *req_to_fstring(const struct requirement *req)
-{
-  struct astring printable_req = ASTRING_INIT;
 
-  astr_set(&printable_req, "%s%s %s %s%s",
+  astring does not need to be initialized before the call,
+  but caller needs to call astr_free() for it once the returned
+  string is no longer needed.
+****************************************************************************/
+const char *req_to_fstring(const struct requirement *req,
+                           struct astring *astr)
+{
+  astr_init(astr);
+
+  astr_set(astr, "%s%s %s %s%s",
            req->survives ? "surviving " : "",
            req_range_name(req->range),
            universal_type_rule_name(&req->source),
            req->present ? "" : "!",
            universal_rule_name(&req->source));
 
-  return astr_str(&printable_req);
+  return astr_str(astr);
 }
 
 /****************************************************************************

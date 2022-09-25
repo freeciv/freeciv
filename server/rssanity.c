@@ -16,6 +16,7 @@
 #endif
 
 /* utility */
+#include "astring.h"
 #include "deprecations.h"
 
 /* common */
@@ -300,10 +301,17 @@ static bool sanity_check_req_vec(const struct requirement_vector *preqs,
     }
     requirement_vector_iterate(preqs, nreq) {
       if (are_requirements_contradictions(preq, nreq)) {
+        struct astring astr;
+        struct astring nastr;
+
         log_error("%s: Requirements {%s} and {%s} contradict each other.",
                   list_for,
-                  req_to_fstring(preq),
-                  req_to_fstring(nreq));
+                  req_to_fstring(preq, &astr),
+                  req_to_fstring(nreq, &nastr));
+
+        astr_free(&astr);
+        astr_free(&nastr);
+
         return FALSE;
       }
     } requirement_vector_iterate_end;
@@ -857,6 +865,8 @@ bool sanity_check_ruleset_data(void)
       requirement_vector_iterate(&(enabler->target_reqs), preq) {
         if (preq->source.kind == VUT_DIPLREL
             && preq->range == REQ_RANGE_LOCAL) {
+          struct astring astr;
+
           /* A Local DiplRel requirement can be expressed as a requirement
            * in actor_reqs. Demand that it is there. This avoids breaking
            * code that reasons about actions. */
@@ -866,7 +876,8 @@ bool sanity_check_ruleset_data(void)
                         "section \"Requirement vector rules\" in "
                         "doc/README.actions",
                         action_id_rule_name(act),
-                        req_to_fstring(preq));
+                        req_to_fstring(preq, &astr));
+          astr_free(&astr);
           ok = FALSE;
         }
       } requirement_vector_iterate_end;
