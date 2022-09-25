@@ -1316,6 +1316,23 @@ struct iterator *research_player_iter_init(struct research_player_iter *it,
 }
 
 /************************************************************************//**
+  Return number of researches, i.e., either number of players or teams
+  depending on settings.
+****************************************************************************/
+int research_count(void)
+{
+  /* TODO: Should have the value stored at the time researches are created */
+  int count = 0;
+
+  researches_iterate(dummy) {
+    (void) dummy; /* To silence warning about unused 'dummy' */
+    count++;
+  } researches_iterate_end;
+
+  return count;
+}
+
+/************************************************************************//**
   Return recalculated number of techs researched. Useful for
   sanity checking techs_researched counter.
 ****************************************************************************/

@@ -249,6 +249,9 @@ adv_want dai_effect_value(struct player *pplayer,
       v += c * MAX(amount + 2, 1);
     }
     break;
+  case EFT_TECH_PARASITE_PCT_MAX:
+    amount = (amount * research_count()) / 100;
+    fc__fallthrough;
   case EFT_TECH_PARASITE:
     {
       int bulbs;

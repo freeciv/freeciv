@@ -614,6 +614,11 @@ Tech_Parasite
     one much worse effect (the number of players required to gain an advance
     is increased).
 
+Tech_Parasite_Pct_Max
+    Like Tech_Parasite, but the amount is a percentage. It's calculated
+    from the maximum number of players or teams ever in game, i.e.,
+    dead players do count.
+
 Tech_Upkeep_Free
     If this value is greater than 0, the tech upkeep is reduced by this value.
     For tech upkeep style "Basic" this is total reduction, for tech upkeep

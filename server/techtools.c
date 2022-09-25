@@ -137,26 +137,46 @@ static void tech_researched(struct research *research)
 }
 
 /************************************************************************//**
-  Give technologies to players with EFT_TECH_PARASITE (traditionally from
-  the Great Library).
+  Give technologies to players with EFT_TECH_PARASITE and the like
+  (traditionally from the Great Library).
 ****************************************************************************/
-void do_tech_parasite_effect(struct player *pplayer)
+void do_tech_parasite_effects(struct player *pplayer)
 {
-  struct effect_list *plist = effect_list_new();
+  struct effect_list *plist_abs = effect_list_new();
+  struct effect_list *plist_pct = effect_list_new();
+  struct effect_list *plist;
   struct astring effects;
   struct research *plr_research;
   char research_name[MAX_LEN_NAME * 2];
   const char *advance_name;
   Tech_type_id tech;
-  /* Note that two EFT_TECH_PARASITE effects will combine into a single,
+  /* Note that two EFT_TECH_PARASITE* effects will combine into a single,
    * much worse effect. */
-  int mod = get_player_bonus_effects(plist, pplayer, EFT_TECH_PARASITE);
+  int mod_abs;
+  int mod_pct;
+  int mod;
   int num_techs;
+  int rcount = research_count();
 
-  if (mod <= 0) {
-    /* No effect. */
-    effect_list_destroy(plist);
+  mod_abs = get_player_bonus_effects(plist_abs, pplayer, EFT_TECH_PARASITE);
+  mod_pct = get_player_bonus_effects(plist_pct, pplayer, EFT_TECH_PARASITE_PCT_MAX);
+
+  mod = (rcount * mod_pct) / 100;
+
+  if (mod <= 0 && mod_abs <= 0) {
+    /* No effects. */
+    effect_list_destroy(plist_abs);
+    effect_list_destroy(plist_pct);
     return;
+  }
+
+  if (mod > 0 && (mod_abs <= 0 || mod_abs > mod)) {
+    plist = plist_pct;
+    effect_list_destroy(plist_abs);
+  } else {
+    mod = mod_abs;
+    plist = plist_abs;
+    effect_list_destroy(plist_pct);
   }
 
   /* Pick a random technology. */

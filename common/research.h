@@ -171,10 +171,12 @@ struct iterator *research_player_iter_init(struct research_player_iter *it,
                   _presearch)
 #define research_players_iterate_end generic_iterate_end
 
+int research_count(void);
+
 int recalculate_techs_researched(const struct research *presearch);
 
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */
 
-#endif  /* FC__RESEARCH_H */
+#endif /* FC__RESEARCH_H */

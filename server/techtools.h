@@ -28,7 +28,7 @@ struct cur_govs_data {
 
 void research_apply_penalty(struct research *presearch, Tech_type_id tech,
                             int penalty_percent);
-void do_tech_parasite_effect(struct player *pplayer);
+void do_tech_parasite_effects(struct player *pplayer);
 
 void send_research_info(const struct research *presearch,
                         const struct conn_list *dest);

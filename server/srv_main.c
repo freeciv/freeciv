@@ -1446,14 +1446,14 @@ static void end_phase(void)
     int plrid = player_number(pplayer);
     int old_gold;
 
-    do_tech_parasite_effect(pplayer);
+    do_tech_parasite_effects(pplayer);
     script_server_signal_emit("player_alive_phase_end", pplayer);
     if (player_by_number(plrid) != pplayer) {
-      /* removed */
+      /* Removed */
       continue;
     }
     if (!pplayer->is_alive) {
-      /* died */
+      /* Died */
       continue;
     }
     player_restore_units(pplayer);
