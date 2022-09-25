@@ -172,7 +172,7 @@ echo "Checking ruleset auto help generation"
 
 echo "Running Freeciv server autogame"
 cd ${HOME}/freeciv/default/bin/
-./freeciv-server --Announce none -e --read ${basedir}/scripts/test-autogame.serv
+./freeciv-server --Announce none -e -F --read ${basedir}/scripts/test-autogame.serv
 
 echo "Freeciv server autogame successful!"
 ;;
