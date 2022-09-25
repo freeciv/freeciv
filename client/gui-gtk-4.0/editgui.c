@@ -511,7 +511,8 @@ static void editbar_add_mode_button(struct editbar *eb,
   gtk_widget_set_focus_on_click(button, FALSE);
 
   g_signal_connect(button, "toggled",
-      G_CALLBACK(editbar_mode_button_toggled), GINT_TO_POINTER(etm));
+                   G_CALLBACK(editbar_mode_button_toggled),
+                   GINT_TO_POINTER(etm));
 
   hbox = eb->widget;
   gtk_box_append(GTK_BOX(hbox), button);

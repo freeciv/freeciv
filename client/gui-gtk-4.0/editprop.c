@@ -3081,13 +3081,14 @@ static void objprop_setup_widget(struct objprop *op)
   case OPID_GAME_LAKE_FLOODING:
   case OPID_GAME_RULESET_LOCKED:
   case OPID_PLAYER_SCENARIO_RESERVED:
-    button = gtk_check_button_new();
+    button = gtk_toggle_button_new();
     gtk_widget_set_hexpand(button, TRUE);
     gtk_widget_set_halign(button, GTK_ALIGN_END);
     g_signal_connect(button, "toggled",
-        G_CALLBACK(objprop_widget_toggle_button_changed), op);
+                     G_CALLBACK(objprop_widget_toggle_button_changed),
+                     op);
     gtk_grid_attach(GTK_GRID(hgrid), button, grid_col++, 0, 1, 1);
-    objprop_set_child_widget(op, "checkbutton", button);
+    objprop_set_child_widget(op, "togglebutton", button);
     return;
   }
 
@@ -3301,9 +3302,9 @@ static void objprop_refresh_widget(struct objprop *op,
   case OPID_GAME_LAKE_FLOODING:
   case OPID_GAME_RULESET_LOCKED:
   case OPID_PLAYER_SCENARIO_RESERVED:
-    button = objprop_get_child_widget(op, "checkbutton");
+    button = objprop_get_child_widget(op, "togglebutton");
     disable_gobject_callback(G_OBJECT(button),
-        G_CALLBACK(objprop_widget_toggle_button_changed));
+                             G_CALLBACK(objprop_widget_toggle_button_changed));
     if (pv) {
       gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(button),
                                    pv->data.v_bool);
@@ -3311,7 +3312,7 @@ static void objprop_refresh_widget(struct objprop *op,
       gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(button), FALSE);
     }
     enable_gobject_callback(G_OBJECT(button),
-        G_CALLBACK(objprop_widget_toggle_button_changed));
+                            G_CALLBACK(objprop_widget_toggle_button_changed));
     gtk_widget_set_sensitive(button, pv != NULL);
     break;
   }
