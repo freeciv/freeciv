@@ -912,9 +912,11 @@ struct unit *get_attacker(const struct unit *defender,
 /**********************************************************************//**
   Returns the defender of the tile in a diplomatic battle or NULL if no
   diplomatic defender could be found.
+
   @param act_unit the diplomatic attacker, trying to perform an action.
   @param pvictim  unit that should be excluded as a defender.
   @param tgt_tile the tile to defend.
+  @param paction  action that the attacker performs.
   @return the defender or NULL if no diplomatic defender could be found.
 **************************************************************************/
 struct unit *get_diplomatic_defender(const struct unit *act_unit,
