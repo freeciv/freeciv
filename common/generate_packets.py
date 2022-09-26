@@ -2194,86 +2194,109 @@ class Packet:
     # matches a packet cancel flag (cancelled packet type)
     CANCEL_PATTERN = re.compile(r"^cancel\((.*)\)$")
 
+    is_info = "no"
+    """Whether this is an is-info or is-game-info packet.
+    "no" means normal, "yes" means is-info, "game" means is-game-info"""
+
+    want_dsend = False
+    """Whether to generate a direct-send function taking field values
+    instead of a packet struct"""
+
+    want_lsend = False
+    """Whether to generate a list-send function sending a packet to
+    multiple connections"""
+
+    want_force = False
+    """Whether send functions should take a force_to_send parameter
+    to override discarding is-info packets where nothing changed"""
+
+    want_pre_send = False
+    """Whether a pre-send hook should be called when sending this packet"""
+
+    want_post_send = False
+    """Whether a post-send hook should be called after sending this packet"""
+
+    want_post_recv = False
+    """Wheter a post-receive hook should be called when receiving this
+    packet"""
+
+    delta = True
+    """Whether to use delta optimization for this packet"""
+
+    no_handle = False
+    """Whether this packet should *not* be handled normally"""
+
+    handle_via_packet = True
+    """Whether to pass the entire packet (by reference) to the handle
+    function (rather than each field individually)"""
+
+    handle_per_conn = False
+    """Whether this packet's handle function should be called with the
+    connection instead of the attached player"""
+
     def __init__(self, packet_type: str, packet_number: int, flags_text: str,
                        lines: typing.Iterable[str], resolve_type: typing.Callable[[str], RawFieldType]):
         self.type = packet_type
         self.type_number = packet_number
 
-        arr = [
-            stripped
-            for flag in flags_text.split(",")
-            for stripped in (flag.strip(),)
-            if stripped
-        ]
-
+        self.cancel = []
         dirs = set()
 
-        if "sc" in arr:
-            dirs.add("sc")
-            arr.remove("sc")
-        if "cs" in arr:
-            dirs.add("cs")
-            arr.remove("cs")
+        for flag in flags_text.split(","):
+            flag = flag.strip()
+            if not flag:
+                continue
+
+            if flag in ("sc", "cs"):
+                dirs.add(flag)
+                continue
+            if flag == "is-info":
+                self.is_info = "yes"
+                continue
+            if flag == "is-game-info":
+                self.is_info = "game"
+                continue
+            if flag == "dsend":
+                self.want_dsend = True
+                continue
+            if flag == "lsend":
+                self.want_lsend = True
+                continue
+            if flag == "force":
+                self.want_force = True
+                continue
+            if flag == "pre-send":
+                self.want_pre_send = True
+                continue
+            if flag == "post-send":
+                self.want_post_send = True
+                continue
+            if flag == "post-recv":
+                self.want_post_recv = True
+                continue
+            if flag == "no-delta":
+                self.delta = False
+                continue
+            if flag == "no-handle":
+                self.no_handle = True
+                continue
+            if flag == "handle-via-fields":
+                self.handle_via_packet = False
+                continue
+            if flag == "handle-per-conn":
+                self.handle_per_conn = True
+                continue
+
+            mo = __class__.CANCEL_PATTERN.fullmatch(flag)
+            if mo is not None:
+                self.cancel.append(mo.group(1))
+                continue
+
+            raise ValueError("unrecognized flag for %s: %r" % (self.name, flag))
 
         if not dirs:
             raise ValueError("no directions defined for %s" % self.name)
-
         self.dirs = Directions(dirs)
-
-        # "no" means normal packet
-        # "yes" means is-info packet
-        # "game" means is-game-info packet
-        self.is_info="no"
-        if "is-info" in arr:
-            self.is_info="yes"
-            arr.remove("is-info")
-        if "is-game-info" in arr:
-            self.is_info="game"
-            arr.remove("is-game-info")
-
-        self.want_pre_send="pre-send" in arr
-        if self.want_pre_send: arr.remove("pre-send")
-
-        self.want_post_recv="post-recv" in arr
-        if self.want_post_recv: arr.remove("post-recv")
-
-        self.want_post_send="post-send" in arr
-        if self.want_post_send: arr.remove("post-send")
-
-        self.delta="no-delta" not in arr
-        if not self.delta: arr.remove("no-delta")
-
-        self.handle_via_packet = "handle-via-fields" not in arr
-        if not self.handle_via_packet:
-            arr.remove("handle-via-fields")
-
-        self.handle_per_conn="handle-per-conn" in arr
-        if self.handle_per_conn: arr.remove("handle-per-conn")
-
-        self.no_handle="no-handle" in arr
-        if self.no_handle: arr.remove("no-handle")
-
-        self.want_dsend = "dsend" in arr
-        if self.want_dsend: arr.remove("dsend")
-
-        self.want_lsend="lsend" in arr
-        if self.want_lsend: arr.remove("lsend")
-
-        self.want_force="force" in arr
-        if self.want_force: arr.remove("force")
-
-        self.cancel=[]
-        removes=[]
-        remaining=[]
-        for i in arr:
-            mo = __class__.CANCEL_PATTERN.fullmatch(i)
-            if mo:
-                self.cancel.append(mo.group(1))
-                continue
-            remaining.append(i)
-
-        if remaining:
-            raise ValueError("unrecognized flags for %s: %r" % (self.name, remaining))
 
         self.fields = [
             field
