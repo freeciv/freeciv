@@ -146,6 +146,12 @@ bool are_reqs_active(const struct req_context *context,
                      const struct player *other_player,
                      const struct requirement_vector *reqs,
                      const enum   req_problem_type prob_type);
+bool are_reqs_active_ranges(const enum req_range min_range,
+                            const enum req_range max_range,
+                            const struct req_context *context,
+                            const struct player *other_player,
+                            const struct requirement_vector *reqs,
+                            const enum   req_problem_type prob_type);
 
 bool is_req_unchanging(const struct requirement *req);
 

@@ -3919,6 +3919,29 @@ bool are_reqs_active(const struct req_context *context,
       return FALSE;
     }
   } requirement_vector_iterate_end;
+
+  return TRUE;
+}
+
+/**********************************************************************//**
+  Like are_reqs_active() but checks only requirements that have
+  one of the ranges between min_range and max_range.
+**************************************************************************/
+bool are_reqs_active_ranges(const enum req_range min_range,
+                            const enum req_range max_range,
+                            const struct req_context *context,
+                            const struct player *other_player,
+                            const struct requirement_vector *reqs,
+                            const enum   req_problem_type prob_type)
+{
+  requirement_vector_iterate(reqs, preq) {
+    if (preq->range >= min_range && preq->range <= max_range) {
+      if (!is_req_active(context, other_player, preq, prob_type)) {
+        return FALSE;
+      }
+    }
+  } requirement_vector_iterate_end;
+
   return TRUE;
 }
 

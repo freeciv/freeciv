@@ -897,15 +897,20 @@ bool can_city_build_unit_direct(const struct city *pcity,
     return FALSE;
   }
 
-  /* Check unit build requirements. */
-  if (!are_reqs_active(&(const struct req_context) {
-                         .player = city_owner(pcity),
-                         .city = pcity,
-                         .tile = city_tile(pcity),
-                         .unittype = punittype,
-                       },
-                       NULL,
-                       &punittype->build_reqs, RPT_CERTAIN)) {
+  /* Check unit build requirements.
+   * Above player level check already checked anything with range >= REQ_RANGE_PLAYER.
+   * Don't recheck those. Not only for optimization, but also not to override the
+   * special handling of tech requirements for barbarians */
+  if (!are_reqs_active_ranges(0, /* The lowest range; REQ_RANGE_LOCAL */
+                              REQ_RANGE_PLAYER - 1,
+                              &(const struct req_context) {
+                                .player = city_owner(pcity),
+                                .city = pcity,
+                                .tile = city_tile(pcity),
+                                .unittype = punittype,
+                              },
+                              NULL,
+                              &punittype->build_reqs, RPT_CERTAIN)) {
     return FALSE;
   }
 
