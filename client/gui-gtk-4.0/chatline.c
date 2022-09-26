@@ -1054,12 +1054,11 @@ static void make_tag_callback(GtkButton *button, gpointer data)
                                                        "text_tag_type")));
 }
 
-#ifdef TOOLBUTTON_GTK3
 /**********************************************************************//**
-  Set the color for an object.  Update the button if not NULL.
+  Set the color for an object. Update the button if not NULL.
 **************************************************************************/
 static void color_set(GObject *object, const gchar *color_target,
-                      GdkRGBA *color, GtkToolButton *button)
+                      GdkRGBA *color, GtkButton *button)
 {
   GdkRGBA *current_color = g_object_get_data(object, color_target);
 
@@ -1069,7 +1068,7 @@ static void color_set(GObject *object, const gchar *color_target,
       gdk_rgba_free(current_color);
       g_object_set_data(object, color_target, NULL);
       if (NULL != button) {
-        gtk_tool_button_set_icon_widget(button, NULL);
+        gtk_button_set_child(button, NULL);
       }
     }
   } else {
@@ -1088,6 +1087,8 @@ static void color_set(GObject *object, const gchar *color_target,
       GdkPixbuf *pixbuf;
       GtkWidget *image;
 
+      gtk_button_set_child(button, NULL);
+
       {
         cairo_surface_t *surface = cairo_image_surface_create(
             CAIRO_FORMAT_RGB24, 16, 16);
@@ -1099,7 +1100,7 @@ static void color_set(GObject *object, const gchar *color_target,
         cairo_surface_destroy(surface);
       }
       image = gtk_image_new_from_pixbuf(pixbuf);
-      gtk_tool_button_set_icon_widget(button, image);
+      gtk_button_set_child(button, image);
       gtk_widget_show(image);
       g_object_unref(G_OBJECT(pixbuf));
     }
@@ -1111,14 +1112,13 @@ static void color_set(GObject *object, const gchar *color_target,
 **************************************************************************/
 static void color_selected(GtkDialog *dialog, gint res, gpointer data)
 {
-  GtkToolButton *button =
-    GTK_TOOL_BUTTON(g_object_get_data(G_OBJECT(dialog), "button"));
   const gchar *color_target =
-    g_object_get_data(G_OBJECT(button), "color_target");
+    g_object_get_data(G_OBJECT(data), "color_target");
+  GObject *entry = g_object_get_data(G_OBJECT(data), "entry");
 
   if (res == GTK_RESPONSE_REJECT) {
     /* Clears the current color. */
-    color_set(G_OBJECT(data), color_target, NULL, button);
+    color_set(entry, color_target, NULL, data);
   } else if (res == GTK_RESPONSE_OK) {
     /* Apply the new color. */
     GtkColorChooser *chooser =
@@ -1126,16 +1126,16 @@ static void color_selected(GtkDialog *dialog, gint res, gpointer data)
     GdkRGBA new_color;
 
     gtk_color_chooser_get_rgba(chooser, &new_color);
-    color_set(G_OBJECT(data), color_target, &new_color, button);
+    color_set(entry, color_target, &new_color, data);
   }
 
   gtk_window_destroy(GTK_WINDOW(dialog));
 }
 
 /**********************************************************************//**
-  Color selection tool button clicked.
+  Color selection button clicked.
 **************************************************************************/
-static void select_color_callback(GtkToolButton *button, gpointer data)
+static void select_color_callback(GtkButton *button, gpointer data)
 {
   GtkWidget *dialog, *chooser;
   /* "fg_color" or "bg_color". */
@@ -1152,21 +1152,21 @@ static void select_color_callback(GtkToolButton *button, gpointer data)
                                        _("C_lear"), GTK_RESPONSE_REJECT,
                                        _("_OK"), GTK_RESPONSE_OK, NULL);
   setup_dialog(dialog, toplevel);
-  g_object_set_data(G_OBJECT(dialog), "button", button);
-  g_signal_connect(dialog, "response", G_CALLBACK(color_selected), data);
+  g_object_set_data(G_OBJECT(button), "entry", data);
+  g_signal_connect(dialog, "response", G_CALLBACK(color_selected), button);
 
   chooser = gtk_color_chooser_widget_new();
   gtk_box_insert_child_after(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(dialog))),
                              chooser, NULL);
   g_object_set_data(G_OBJECT(dialog), "chooser", chooser);
-  if (current_color) {
+
+  if (current_color != NULL) {
     gtk_color_chooser_set_rgba(GTK_COLOR_CHOOSER(chooser), current_color);
   }
 
   gtk_widget_show(dialog);
   g_free(buf);
 }
-#endif /* TOOLBUTTON_GTK3 */
 
 /**********************************************************************//**
   Moves the tool kit to the toolkit view.
@@ -1318,9 +1318,7 @@ void chatline_init(void)
   GtkWidget *button;
   GtkWidget *toolbar;
   GtkWidget *item;
-#ifdef TOOLBUTTON_GTK3
   GdkRGBA color;
-#endif /* TOOLBUTTON_GTK3 */
   int grid_col = 0;
   GtkEventController *chat_controller;
 
@@ -1397,21 +1395,22 @@ void chatline_init(void)
   g_signal_connect(item, "clicked", G_CALLBACK(make_tag_callback), entry);
   gtk_widget_set_tooltip_text(GTK_WIDGET(item), _("Underline (Ctrl-U)"));
 
-#ifdef TOOLBUTTON_GTK3
+  gtk_box_append(GTK_BOX(toolbar), gtk_separator_new(GTK_ORIENTATION_HORIZONTAL));
+
   /* Color button. */
-  item = gtk_tool_button_new(NULL, _("Color"));
-  gtk_toolbar_insert(GTK_TOOLBAR(toolbar), item, -1);
+  item = gtk_button_new_with_label(_("Color"));
+
+  gtk_box_append(GTK_BOX(toolbar), item);
   g_object_set_data(G_OBJECT(item), "text_tag_type",
                     GINT_TO_POINTER(TTT_COLOR));
   g_signal_connect(item, "clicked", G_CALLBACK(make_tag_callback), entry);
   gtk_widget_set_tooltip_text(GTK_WIDGET(item), _("Color (Ctrl-C)"));
 
-  gtk_toolbar_insert(GTK_TOOLBAR(toolbar),
-                     gtk_separator_tool_item_new(), -1);
+  gtk_box_append(GTK_BOX(toolbar), gtk_separator_new(GTK_ORIENTATION_HORIZONTAL));
 
   /* Foreground selector. */
-  item = gtk_tool_button_new(NULL, "");
-  gtk_toolbar_insert(GTK_TOOLBAR(toolbar), item, -1);
+  item = gtk_button_new();
+  gtk_box_append(GTK_BOX(toolbar), item);
   g_object_set_data(G_OBJECT(item), "color_target", fc_strdup("fg_color"));
   g_object_set_data(G_OBJECT(item), "color_info",
                     fc_strdup(_("foreground")));
@@ -1420,14 +1419,14 @@ void chatline_init(void)
   gtk_widget_set_tooltip_text(GTK_WIDGET(item), _("Select the text color"));
   if (gdk_rgba_parse(&color, "#000000")) {
     /* Set default foreground color. */
-    color_set(G_OBJECT(entry), "fg_color", &color, GTK_TOOL_BUTTON(item));
+    color_set(G_OBJECT(entry), "fg_color", &color, GTK_BUTTON(item));
   } else {
     log_error("Failed to set the default foreground color.");
   }
 
   /* Background selector. */
-  item = gtk_tool_button_new(NULL, "");
-  gtk_toolbar_insert(GTK_TOOLBAR(toolbar), item, -1);
+  item = gtk_button_new();
+  gtk_box_append(GTK_BOX(toolbar), item);
   g_object_set_data(G_OBJECT(item), "color_target", fc_strdup("bg_color"));
   g_object_set_data(G_OBJECT(item), "color_info",
                     fc_strdup(_("background")));
@@ -1437,14 +1436,12 @@ void chatline_init(void)
                               _("Select the background color"));
   if (gdk_rgba_parse(&color, "#ffffff")) {
     /* Set default background color. */
-    color_set(G_OBJECT(entry), "bg_color", &color, GTK_TOOL_BUTTON(item));
+    color_set(G_OBJECT(entry), "bg_color", &color, GTK_BUTTON(item));
   } else {
     log_error("Failed to set the default background color.");
   }
 
-  gtk_toolbar_insert(GTK_TOOLBAR(toolbar),
-                     gtk_separator_tool_item_new(), -1);
-#endif /* TOOLBUTTON_GTK3 */
+  gtk_box_append(GTK_BOX(toolbar), gtk_separator_new(GTK_ORIENTATION_HORIZONTAL));
 
   /* Return button. */
   item = gtk_button_new_with_label(_("OK"));
