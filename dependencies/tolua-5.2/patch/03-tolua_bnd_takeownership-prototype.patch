@@ -1,0 +1,11 @@
+diff -Nurd tolua-5.2/src/lib/tolua_map.c tolua-5.2/src/lib/tolua_map.c
+--- tolua-5.2/src/lib/tolua_map.c	2022-09-26 18:19:26.145867532 +0300
++++ tolua-5.2/src/lib/tolua_map.c	2020-02-22 14:33:47.779735894 +0200
+@@ -21,6 +21,7 @@
+ #include <stdlib.h>
+ #include <math.h>
+ 
++int tolua_bnd_takeownership(lua_State *L);
+ 
+ static char toluaname[128] = "tolua.";
+ static const char* TOLUANAME (const char* n)  
