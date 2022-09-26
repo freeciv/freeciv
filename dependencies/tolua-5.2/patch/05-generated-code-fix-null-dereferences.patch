@@ -1,0 +1,27 @@
+diff -Nurd tolua-5.2/src/bin/lua/variable.lua tolua-5.2/src/bin/lua/variable.lua
+--- tolua-5.2/src/bin/lua/variable.lua	2022-09-26 18:23:47.772402128 +0300
++++ tolua-5.2/src/bin/lua/variable.lua	2022-08-29 15:10:32.145383356 +0300
+@@ -116,7 +116,10 @@
+  -- check self value
+  if class and static==nil then
+ 	 output('#ifndef TOLUA_RELEASE\n')
+-  output('  if (!self) tolua_error(tolua_S,"invalid \'self\' in accessing variable \''..self.name..'\'",NULL);');
++	 output('  if (!self) {\n')
++	 output('    tolua_error(tolua_S,"invalid \'self\' in accessing variable \''..self.name..'\'",NULL);\n')
++	 output('    return 0;\n')
++	 output('  }\n')
+ 		output('#endif\n')
+  end
+ 
+@@ -163,7 +166,10 @@
+ 		output('#ifndef TOLUA_RELEASE\n')
+ 		output('  tolua_Error tolua_err;')
+   if class and static==nil then
+-   output('  if (!self) tolua_error(tolua_S,"invalid \'self\' in accessing variable \''..self.name..'\'",NULL);');
++   output('  if (!self) {\n')
++   output('    tolua_error(tolua_S,"invalid \'self\' in accessing variable \''..self.name..'\'",NULL);\n')
++   output('    return 0;\n')
++   output('  }\n')
+   elseif static then
+    _,_,self.mod = strfind(self.mod,'^%s*static%s%s*(.*)')
+   end

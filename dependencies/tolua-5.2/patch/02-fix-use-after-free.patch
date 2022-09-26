@@ -1,0 +1,13 @@
+diff -Nurd tolua-5.2/src/lib/tolua_event.c tolua-5.2/src/lib/tolua_event.c
+--- tolua-5.2/src/lib/tolua_event.c	2022-09-26 18:17:40.544835582 +0300
++++ tolua-5.2/src/lib/tolua_event.c	2022-08-29 15:10:32.145383356 +0300
+@@ -393,8 +393,8 @@
+       }
+       else if (lua_isuserdata(L,-1) && *((void**)lua_touserdata(L,-1))==NULL) {
+         /* free object */
+-        free(u);
+         tolua_release(L,u);                /* unmap from tolua tables */
++        free(u);
+       }
+     }
+     lua_settop(L,top);
