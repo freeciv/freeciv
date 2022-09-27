@@ -3554,6 +3554,13 @@ static void update_city_activity(struct city *pcity)
       const char *revomsg;
 
       pcity->anarchy++;
+
+      city_counters_iterate(pcount) {
+        if (pcount->type == CB_CITY_DISORDER_TURNS) {
+          pcity->counter_values[pcount->index]++;
+        }
+      } city_counters_iterate_end;
+
       if (pcity->anarchy == revolution_turns) {
         /* Revolution next turn if not dealt with */
         /* TRANS: preserve leading space; this string will be appended to
@@ -3580,6 +3587,12 @@ static void update_city_activity(struct city *pcity)
                       city_link(pcity));
       }
       pcity->anarchy = 0;
+
+      city_counters_iterate(pcount) {
+        if (pcount->type == CB_CITY_DISORDER_TURNS) {
+          pcity->counter_values[pcount->index] = 0;
+        }
+      } city_counters_iterate_end;
     }
     check_pollution(pcity);
 
