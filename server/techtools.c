@@ -657,6 +657,9 @@ void update_bulbs(struct player *pplayer, int bulbs, bool check_tech)
       research->inventions[j].bulbs_researched_saved = research->bulbs_researched;
     }
   } advance_index_iterate_end;
+  if (A_UNKNOWN != research->researching_saved) {
+    research->bulbs_researching_saved += bulbs;
+  }
 
 
   do {
