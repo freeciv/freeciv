@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 2002 - The Freeciv Project
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -95,7 +95,7 @@ SPECPQ_PQ_ {
 
 /****************************************************************************
   Build a new queue.
-  'initial_size' is the numer of queue items for which memory should be
+  'initial_size' is the number of queue items for which memory should be
   preallocated, that is, the initial size of the item array the queue
   uses. If you insert more than n items to the queue, another n items
   will be allocated automatically.
