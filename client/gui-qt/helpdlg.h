@@ -14,20 +14,20 @@
 #ifndef FC__HELPDLG_H
 #define FC__HELPDLG_H
 
-// common
-#include "extras.h"
-
 // Qt
 #include <QDialog>
 #include <QHash>
 #include <QList>
 
+// common
+#include "extras.h"
+
+// client
+#include "helpdlg_g.h"
+
 // gui-qt
 #include "dialogs.h"
 
-extern "C" {
-#include "helpdlg_g.h"
-}
 
 // Forward declarations
 struct canvas;
