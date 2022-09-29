@@ -97,14 +97,20 @@ static void diplomacy_dialog_tech_callback(GSimpleAction *action,
 static void diplomacy_dialog_city_callback(GSimpleAction *action,
                                            GVariant *parameter,
                                            gpointer data);
+static void diplomacy_dialog_vision_callback(GSimpleAction *action,
+                                             GVariant *parameter,
+                                             gpointer data);
+static void diplomacy_dialog_embassy_callback(GSimpleAction *action,
+                                              GVariant *parameter,
+                                              gpointer data);
+static void diplomacy_dialog_shared_tiles_callback(GSimpleAction *action,
+                                                   GVariant *parameter,
+                                                   gpointer data);
 
 #ifdef MENUS_GTK3
 static void diplomacy_dialog_ceasefire_callback(GtkWidget *w, gpointer data);
 static void diplomacy_dialog_peace_callback(GtkWidget *w, gpointer data);
 static void diplomacy_dialog_alliance_callback(GtkWidget *w, gpointer data);
-static void diplomacy_dialog_vision_callback(GtkWidget *w, gpointer data);
-static void diplomacy_dialog_embassy_callback(GtkWidget *w, gpointer data);
-static void diplomacy_dialog_shared_tiles_callback(GtkWidget *w, gpointer data);
 #endif /* MENUS_GTK3 */
 
 static void close_diplomacy_dialog(struct Diplomacy_dialog *pdialog);
@@ -445,47 +451,55 @@ static GMenu *create_clause_menu(GActionGroup *group,
     g_menu_append_submenu(topmenu, _("_Cities"), G_MENU_MODEL(submenu));
   }
 
-#if 0
   /* Give shared vision. */
   if (clause_enabled(CLAUSE_VISION)) {
-    item = gtk_menu_item_new_with_mnemonic(_("_Give shared vision"));
-    g_object_set_data(G_OBJECT(item), "plr", pgiver);
-    g_signal_connect(item, "activate",
-                     G_CALLBACK(diplomacy_dialog_vision_callback), pdialog);
+    fc_snprintf(act_name, sizeof(act_name), "vision%s", act_plr_part);
+    act = g_simple_action_new(act_name, NULL);
+    g_object_set_data(G_OBJECT(act), "plr", pgiver);
+    g_action_map_add_action(G_ACTION_MAP(group), G_ACTION(act));
+    g_signal_connect(act, "activate", G_CALLBACK(diplomacy_dialog_vision_callback),
+                     pdialog);
 
-    if (gives_shared_vision(pgiver, pother)) {
-      gtk_widget_set_sensitive(item, FALSE);
-    }
-    gtk_menu_shell_append(GTK_MENU_SHELL(parent), item);
-    gtk_widget_show(item);
+    fc_snprintf(act_name, sizeof(act_name), "win.vision%s", act_plr_part);
+    item = g_menu_item_new(_("_Give shared vision"), act_name);
+    g_menu_append_item(topmenu, item);
+
+    g_simple_action_set_enabled(G_SIMPLE_ACTION(act), !gives_shared_vision(pgiver, pother));
   }
 
   /* Give embassy. */
   if (clause_enabled(CLAUSE_EMBASSY)) {
-    item = gtk_menu_item_new_with_mnemonic(_("Give _embassy"));
-    g_object_set_data(G_OBJECT(item), "plr", pgiver);
-    g_signal_connect(item, "activate",
-                     G_CALLBACK(diplomacy_dialog_embassy_callback), pdialog);
+    fc_snprintf(act_name, sizeof(act_name), "embassy%s", act_plr_part);
+    act = g_simple_action_new(act_name, NULL);
+    g_object_set_data(G_OBJECT(act), "plr", pgiver);
+    g_action_map_add_action(G_ACTION_MAP(group), G_ACTION(act));
+    g_signal_connect(act, "activate", G_CALLBACK(diplomacy_dialog_embassy_callback),
+                     pdialog);
+
+    fc_snprintf(act_name, sizeof(act_name), "win.embassy%s", act_plr_part);
+    item = g_menu_item_new(_("Give _embassy"), act_name);
+    g_menu_append_item(topmenu, item);
 
     /* Don't take in account the embassy effects. */
-    if (player_has_real_embassy(pother, pgiver)) {
-      gtk_widget_set_sensitive(item, FALSE);
-    }
-    gtk_menu_shell_append(GTK_MENU_SHELL(parent), item);
-    gtk_widget_show(item);
+    g_simple_action_set_enabled(G_SIMPLE_ACTION(act),
+                                !player_has_real_embassy(pother, pgiver));
   }
 
   /* Shared tiles */
   if (clause_enabled(CLAUSE_SHARED_TILES)) {
-    item = gtk_menu_item_new_with_mnemonic(_("_Share tiles"));
-    g_object_set_data(G_OBJECT(item), "plr", pgiver);
-    g_signal_connect(item, "activate",
-                     G_CALLBACK(diplomacy_dialog_shared_tiles_callback), pdialog);
-    gtk_widget_set_sensitive(item, TRUE);
-    gtk_menu_shell_append(GTK_MENU_SHELL(parent), item);
-    gtk_widget_show(item);
+    fc_snprintf(act_name, sizeof(act_name), "tiles%s", act_plr_part);
+    act = g_simple_action_new(act_name, NULL);
+    g_object_set_data(G_OBJECT(act), "plr", pgiver);
+    g_action_map_add_action(G_ACTION_MAP(group), G_ACTION(act));
+    g_signal_connect(act, "activate", G_CALLBACK(diplomacy_dialog_shared_tiles_callback),
+                     pdialog);
+
+    fc_snprintf(act_name, sizeof(act_name), "win.tiles%s", act_plr_part);
+    item = g_menu_item_new(_("_Share tiles"), act_name);
+    g_menu_append_item(topmenu, item);
   }
 
+#if 0
   /* Pacts. */
   if (pgiver == pdialog->treaty->plr0) {
     enum diplstate_type ds;
@@ -1184,15 +1198,19 @@ static void diplomacy_dialog_alliance_callback(GtkWidget *w, gpointer data)
 {
   diplomacy_dialog_add_pact_clause(w, data, CLAUSE_ALLIANCE);
 }
+#endif /* MENUS_GTK3 */
 
 /************************************************************************//**
   Shared vision menu item activated
 ****************************************************************************/
-static void diplomacy_dialog_vision_callback(GtkWidget *w, gpointer data)
+static void diplomacy_dialog_vision_callback(GSimpleAction *action,
+                                             GVariant *parameter,
+                                             gpointer data)
 {
   struct Diplomacy_dialog *pdialog = (struct Diplomacy_dialog *) data;
-  struct player *pgiver =
-      (struct player *) g_object_get_data(G_OBJECT(w), "plr");
+  struct player *pgiver;
+
+  pgiver = (struct player *)g_object_get_data(G_OBJECT(action), "plr");
 
   dsend_packet_diplomacy_create_clause_req(&client.conn,
                                            player_number(pdialog->treaty->plr1),
@@ -1203,11 +1221,14 @@ static void diplomacy_dialog_vision_callback(GtkWidget *w, gpointer data)
 /************************************************************************//**
   Embassy menu item activated
 ****************************************************************************/
-static void diplomacy_dialog_embassy_callback(GtkWidget *w, gpointer data)
+static void diplomacy_dialog_embassy_callback(GSimpleAction *action,
+                                              GVariant *parameter,
+                                              gpointer data)
 {
   struct Diplomacy_dialog *pdialog = (struct Diplomacy_dialog *) data;
-  struct player *pgiver =
-      (struct player *) g_object_get_data(G_OBJECT(w), "plr");
+  struct player *pgiver;
+
+  pgiver = (struct player *)g_object_get_data(G_OBJECT(action), "plr");
 
   dsend_packet_diplomacy_create_clause_req(&client.conn,
                                            player_number(pdialog->treaty->plr1),
@@ -1218,11 +1239,14 @@ static void diplomacy_dialog_embassy_callback(GtkWidget *w, gpointer data)
 /************************************************************************//**
   Shared tiles menu item activated
 ****************************************************************************/
-static void diplomacy_dialog_shared_tiles_callback(GtkWidget *w, gpointer data)
+static void diplomacy_dialog_shared_tiles_callback(GSimpleAction *action,
+                                                   GVariant *parameter,
+                                                   gpointer data)
 {
   struct Diplomacy_dialog *pdialog = (struct Diplomacy_dialog *) data;
-  struct player *pgiver =
-      (struct player *) g_object_get_data(G_OBJECT(w), "plr");
+  struct player *pgiver;
+
+  pgiver = (struct player *)g_object_get_data(G_OBJECT(action), "plr");
 
   dsend_packet_diplomacy_create_clause_req(&client.conn,
                                            player_number(pdialog->treaty->plr1),
@@ -1230,7 +1254,6 @@ static void diplomacy_dialog_shared_tiles_callback(GtkWidget *w, gpointer data)
                                            CLAUSE_SHARED_TILES,
                                            0);
 }
-#endif /* MENUS_GTK3 */
 
 /************************************************************************//**
   Close diplomacy dialog
