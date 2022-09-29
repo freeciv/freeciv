@@ -66,15 +66,14 @@ static int (*baseclass_redraw)(struct widget *pwidget);
 /* =================================================== */
 
 /**************************************************************************
-  Create background image for vscrollbars
-  then return pointer to this image.
+  Create background image for vscrollbars,
+  then return pointer to that image.
 
   Graphic is taken from pVert_theme surface and blit to new created image.
-
-  height depend of 'High' parameter.
 **************************************************************************/
 static SDL_Surface *create_vertical_surface(SDL_Surface *pVert_theme,
-                                            enum widget_state state, Uint16 High)
+                                            enum widget_state state,
+                                            Uint16 height)
 {
   SDL_Surface *pVerSurf = NULL;
   SDL_Rect src, des;
@@ -90,17 +89,17 @@ static SDL_Surface *create_vertical_surface(SDL_Surface *pVert_theme,
 
   tile_len_midd = pVert_theme->h / 4 - tile_len_end * 2;
 
-  tile_count_midd = (High - tile_len_end * 2) / tile_len_midd;
+  tile_count_midd = (height - tile_len_end * 2) / tile_len_midd;
 
-  /* correction */
-  if (tile_len_midd * tile_count_midd + tile_len_end * 2 < High) {
+  /* Correction */
+  if (tile_len_midd * tile_count_midd + tile_len_end * 2 < height) {
     tile_count_midd++;
   }
 
   if (!tile_count_midd) {
     pVerSurf = create_surf(pVert_theme->w, tile_len_end * 2, SDL_SWSURFACE);
   } else {
-    pVerSurf = create_surf(pVert_theme->w, High, SDL_SWSURFACE);
+    pVerSurf = create_surf(pVert_theme->w, height, SDL_SWSURFACE);
   }
 
   src.x = 0;
@@ -140,7 +139,7 @@ static int redraw_vert(struct widget *pVert)
   if (ret != 0) {
     return ret;
   }
-  
+
   pVert_Surf = create_vertical_surface(pVert->theme,
                                        get_wstate(pVert),
                                        pVert->size.h);
@@ -205,8 +204,6 @@ int draw_vert(struct widget *pVert, Sint16 x, Sint16 y)
 
   Graphic is taken from pHoriz_theme surface and blit to new created image.
 
-  height depend of 'Width' parameter.
-
   Type of image depend of "state" parameter.
     state = 0 - normal
     state = 1 - selected
@@ -232,7 +229,7 @@ static SDL_Surface *create_horizontal_surface(SDL_Surface *pHoriz_theme,
 
   tile_count_midd = (Width - tile_len_end * 2) / tile_len_midd;
 
-  /* correction */
+  /* Correction */
   if (tile_len_midd * tile_count_midd + tile_len_end * 2 < Width) {
     tile_count_midd++;
   }
@@ -280,7 +277,7 @@ static int redraw_horiz(struct widget *pHoriz)
   if (ret != 0) {
     return ret;
   }
-  
+
   pHoriz_Surf = create_horizontal_surface(pHoriz->theme,
                                           get_wstate(pHoriz),
                                           pHoriz->size.w);
