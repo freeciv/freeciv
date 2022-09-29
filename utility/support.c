@@ -901,6 +901,12 @@ int fc_vsnprintf(char *str, size_t n, const char *format, va_list ap)
     static char *buf;
     size_t len;
 
+    if (n > VSNP_BUF_SIZE) {
+      fprintf(stderr, "fc_vsnprintf() call with length %u."
+              "Maximum supported is %d", (unsigned)n, VSNP_BUF_SIZE);
+      exit(EXIT_FAILURE);
+    }
+
     if (!buf) {
       buf = malloc(VSNP_BUF_SIZE);
 
@@ -910,12 +916,15 @@ int fc_vsnprintf(char *str, size_t n, const char *format, va_list ap)
 	exit(EXIT_FAILURE);
       }
     }
+
+    buf[VSNP_BUF_SIZE - 1] = '\0';
+
 #ifdef HAVE_VSNPRINTF
     vsnprintf(buf, n, format, ap);
 #else
     vsprintf(buf, format, ap);
 #endif /* HAVE_VSNPRINTF */
-    buf[VSNP_BUF_SIZE - 1] = '\0';
+
     len = strlen(buf);
 
     if (len >= VSNP_BUF_SIZE - 1) {
