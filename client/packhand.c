@@ -4936,7 +4936,7 @@ static void action_decision_maybe_auto(struct unit *actor_unit,
 {
   action_id auto_action;
 
-  fc_assert_ret(actor_unit);
+  fc_assert_ret(actor_unit != NULL);
 
   auto_action = auto_attack_act(act_probs);
 
@@ -4952,19 +4952,25 @@ static void action_decision_maybe_auto(struct unit *actor_unit,
     case ATK_TILE:
     case ATK_UNITS:
     case ATK_EXTRAS:
-      request_do_action(auto_action,
-                        actor_unit->id, tile_index(target_tile),
-                        0, "");
+      if (target_tile != NULL) {
+        request_do_action(auto_action,
+                          actor_unit->id, tile_index(target_tile),
+                          0, "");
+      }
       break;
     case ATK_CITY:
-      request_do_action(auto_action,
-                        actor_unit->id, target_city->id,
-                        0, "");
+      if (target_city != NULL) {
+        request_do_action(auto_action,
+                          actor_unit->id, target_city->id,
+                          0, "");
+      }
       break;
     case ATK_UNIT:
-      request_do_action(auto_action,
-                        actor_unit->id, target_unit->id,
-                        0, "");
+      if (target_unit != NULL) {
+        request_do_action(auto_action,
+                          actor_unit->id, target_unit->id,
+                          0, "");
+      }
       break;
     case ATK_SELF:
       request_do_action(auto_action,
@@ -5046,8 +5052,10 @@ void handle_unit_actions(const struct packet_unit_actions *packet)
     }
     break;
   case REQEST_BACKGROUND_FAST_AUTO_ATTACK:
-    action_decision_maybe_auto(actor_unit, act_probs,
-                               target_unit, target_city, target_tile);
+    if (actor_unit != NULL) {
+      action_decision_maybe_auto(actor_unit, act_probs,
+                                 target_unit, target_city, target_tile);
+    }
     break;
   default:
     log_warn("Unknown request_kind %d in reply", request_kind);
