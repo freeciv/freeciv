@@ -267,7 +267,7 @@ void remove_obsolete_buildings(struct player *pplayer)
   } city_list_iterate_end;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Rearrange workers according to a cm_result struct.  The caller must make
   sure that the result is valid.
 **************************************************************************/
