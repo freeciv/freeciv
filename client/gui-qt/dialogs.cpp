@@ -1299,7 +1299,8 @@ void races_toggles_set_sensitive(void)
 void popup_revolution_dialog(struct government *gov)
 {
   hud_message_box *ask;
-  const Government_type_id government_id = government_number(gov);
+  const Government_type_id government_id
+    = (gov != nullptr ? government_number(gov) : G_LAST);
 
   if (0 > client.conn.playing->revolution_finishes) {
     ask = new hud_message_box(gui()->central_wdg);
@@ -1309,10 +1310,14 @@ void popup_revolution_dialog(struct government *gov)
                         _("Revolution!"));
     ask->setAttribute(Qt::WA_DeleteOnClose);
     QObject::connect(ask, &hud_message_box::accepted, [=]() {
-      struct government *government = government_by_number(government_id);
+      if (government_id == G_LAST) {
+        revolution_response(nullptr);
+      } else {
+        struct government *government = government_by_number(government_id);
 
-      if (government) {
-        revolution_response(government);
+        if (government) {
+          revolution_response(government);
+        }
       }
     });
     ask->show();
