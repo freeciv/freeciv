@@ -164,6 +164,7 @@ packets_gen.h packets_gen.c: packets_generate
 .INTERMEDIATE: packets_generate
 packets_generate: networking/packets.def generate_packets.py
 	cd $(srcdir) && ./generate_packets.py \
+		networking/packets.def \
 		--common-h packets_gen.h \
 		--common-c packets_gen.c \
 		--client-h ../client/packhand_gen.h \

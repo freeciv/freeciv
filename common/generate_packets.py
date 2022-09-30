@@ -18,6 +18,7 @@
 
 import re
 import argparse
+import sys
 from pathlib import Path
 from contextlib import contextmanager, ExitStack
 from functools import partial
@@ -67,9 +68,9 @@ class ScriptConfig:
         # We want the path arguments to show up *first* in the help text
 
         paths = parser.add_argument_group(
-            "Output paths",
-            "The following parameters decide which output files are generated,"
-            " and where the generated code is written.",
+            "Input and output paths",
+            "The following parameters decide which files to read and write."
+            " Omitting an output path will not generate that file.",
         )
 
         script = parser.add_argument_group(
@@ -122,7 +123,7 @@ class ScriptConfig:
                             " packet body, rather than folding them into the"
                             " packet header")
 
-        path_args = (
+        output_path_args = (
             # (dest, option, canonical path)
             ("common_header_path", "--common-h", "common/packets_gen.h"),
             ("common_impl_path",   "--common-c", "common/packets_gen.c"),
@@ -132,9 +133,13 @@ class ScriptConfig:
             ("server_impl_path",   "--server-c", "server/hand_gen.c"),
         )
 
-        for dest, option, canonical in path_args:
+        for dest, option, canonical in output_path_args:
             paths.add_argument(option, dest = dest, type = file_path,
                                help = "output path for %s" % canonical)
+
+        paths.add_argument("def_paths", metavar = "def_path",
+                           nargs = "+", type = file_path,
+                           help = "paths to your packets.def file")
 
         return parser
 
@@ -143,6 +148,7 @@ class ScriptConfig:
         # FIXME: Once we can use Python 3.6 features, turn these into
         # (class-level) variable annotations
         if typing.TYPE_CHECKING:
+            self.def_paths = [file_path("")]
             optional_path = (file_path(""), None)[int()]
             self.common_header_path = optional_path
             self.common_impl_path = optional_path
@@ -165,14 +171,43 @@ class ScriptConfig:
         if self.verbose:
             print(*args)
 
+    @property
+    def _root_path(self) -> "Path | None":
+        path = Path(__file__).absolute()
+        root = path.parent.parent
+        if path != root / "common" / "generate_packets.py":
+            self.log_verbose("Warning: couldn't find Freeciv root path")
+            return None
+        return root
+
+    def _relative_path(self, path: Path) -> Path:
+        root = self._root_path
+        if root is not None:
+            try:
+                return path.absolute().relative_to(root)
+            except ValueError:
+                self.log_verbose("Warning: path %s outside of Freeciv root" % path)
+        return path
+
+    @property
+    def _script_path(self) -> Path:
+        return self._relative_path(Path(sys.argv[0]))
+
     def _write_disclaimer(self, f: typing.TextIO):
         f.write("""\
- /****************************************************************************
- *                       THIS FILE WAS GENERATED                             *
- * Script: common/generate_packets.py                                        *
- * Input:  common/networking/packets.def                                     *
- *                       DO NOT CHANGE THIS FILE                             *
- ****************************************************************************/
+ /**************************************************************************
+ *                         THIS FILE WAS GENERATED                         *
+ * Script: %-63s *
+""" % self._script_path)
+
+        for path in self.def_paths:
+            f.write("""\
+ * Input:  %-63s *
+""" % self._relative_path(path))
+
+        f.write("""\
+ *                         DO NOT CHANGE THIS FILE                         *
+ **************************************************************************/
 
 """)
 
@@ -3345,12 +3380,10 @@ def main(raw_args: "typing.Sequence[str] | None" = None):
     script_args = ScriptConfig(raw_args)
 
     ### parsing input
-    src_dir = Path(__file__).parent
-    input_path = src_dir / "networking" / "packets.def"
-
     packets = PacketsDefinition(script_args)
-    with input_path.open() as input_file:
-        packets.parse_lines(input_file)
+    for path in script_args.def_paths:
+        with path.open() as input_file:
+            packets.parse_lines(input_file)
     ### parsing finished
 
     write_common_header(script_args.common_header_path, packets)
