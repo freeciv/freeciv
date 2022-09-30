@@ -696,9 +696,9 @@ char *fc_strrep_resize(char *str, size_t *len, const char *search,
 
   /* Should never happen */
   fc_assert_ret_val_msg(success, NULL,
-                        "Can't replace '%s' by '%s' in '%s'. To small "
-                        "size after reallocation: %lu.", search, replace,
-                        str, (long unsigned int)*len);
+                        "Can't replace '%s' by '%s' in '%s'. Too small "
+                        "size after reallocation: " SIZE_T_PRINTF ".",
+                        search, replace, str, *len);
 
   return str;
 }
