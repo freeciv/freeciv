@@ -292,7 +292,7 @@ private slots:
   void next_unit();
 };
 
-void popup_revolution_dialog(struct government *gov = NULL);
+void popup_revolution_dialog(struct government *gov = nullptr);
 void revolution_response(struct government *gov);
 void popup_upgrade_dialog(struct unit_list *punits);
 void popup_disband_dialog(struct unit_list *punits);
