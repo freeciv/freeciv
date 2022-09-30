@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -28,7 +28,7 @@ typedef uint32_t RANDOM_TYPE;
 typedef struct {
   RANDOM_TYPE v[56];
   int j, k, x;
-  bool is_init;			/* initially 0 for static storage */
+  bool is_init;                 /* initially FALSE for static storage */
 } RANDOM_STATE;
 
 #define fc_rand(_size) \
@@ -59,4 +59,4 @@ RANDOM_TYPE fc_randomly_debug(RANDOM_TYPE seed, RANDOM_TYPE size,
 }
 #endif /* __cplusplus */
 
-#endif  /* FC__RAND_H */
+#endif /* FC__RAND_H */
