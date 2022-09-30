@@ -379,14 +379,6 @@ static void delete_worklist(int global_worklist_id)
 }
 
 /************************************************************************//**
-  User responded to worklist report
-****************************************************************************/
-static void worklist_response(GtkWidget *shell, gint response)
-{
-  gtk_widget_destroy(shell);
-}
-
-/************************************************************************//**
   Worklist editor window used by the global worklist report.
 ****************************************************************************/
 static void popup_worklist(struct global_worklist *pgwl)
@@ -404,14 +396,15 @@ static void popup_worklist(struct global_worklist *pgwl)
                                         NULL);
     gtk_window_set_role(GTK_WINDOW(shell), "worklist");
     gtk_window_set_position(GTK_WINDOW(shell), GTK_WIN_POS_MOUSE);
-    g_signal_connect(shell, "response", G_CALLBACK(worklist_response), NULL);
+    g_signal_connect(shell, "response", G_CALLBACK(gtk_widget_destroy), NULL);
     gtk_window_set_default_size(GTK_WINDOW(shell), 500, 400);
 
     editor = create_worklist();
     reset_global_worklist(editor, pgwl);
     insert_worklist(global_worklist_id(pgwl), editor);
 
-    gtk_container_add(GTK_CONTAINER(gtk_dialog_get_content_area(GTK_DIALOG(shell))), editor);
+    gtk_container_add(GTK_CONTAINER(gtk_dialog_get_content_area(GTK_DIALOG(shell))),
+                      editor);
     gtk_widget_show(editor);
 
     refresh_worklist(editor);
