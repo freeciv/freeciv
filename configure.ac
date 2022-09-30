@@ -650,8 +650,6 @@ or try using --with-libiconv-prefix.])
 fi
 
 dnl I18n support
-ALL_LINGUAS="ar bg cs ca da de el en_GB eo es et fa fi fr ga gd he hu id it ja 
-ko lt nl nb pl pt pt_BR ro ru sr sv tr uk zh_CN zh_TW"
 PODOMAINS="freeciv nations ruledit"
 
 AM_GNU_GETTEXT([external], [need-ngettext])
