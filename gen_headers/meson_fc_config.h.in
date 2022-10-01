@@ -227,6 +227,15 @@
 #define HAVE_WORKING_VFORK 1
 #endif
 
+/* Define if there's vsnprintf function at all */
+#mesondefine HAVE_VSNPRINTF
+
+#ifdef HAVE_VSNPRINTF
+/* Define if the version of the 'vsnprintf' function honours the
+   size argument and has a proper return value. */
+#mesondefine HAVE_WORKING_VSNPRINTF
+#endif
+
 /* iconv() available */
 #mesondefine HAVE_ICONV
 
