@@ -153,13 +153,19 @@ if host_system == 'windows'
   priv_conf_data.set('ALWAYS_ROOT', 1)
   add_global_arguments('-D_WIN32_WINNT=0x0603', language : ['c', 'cpp'])
   net_dep = c_compiler.find_library('ws2_32')
-elif host_system == 'haiku'
-  net_dep = c_compiler.find_library('network')
-  pub_conf_data.set('FREECIV_HAVE_PTHREAD', 1)
-  priv_conf_data.set('ALWAYS_ROOT', 1)
 else
-  pub_conf_data.set('FREECIV_HAVE_PTHREAD', 1)
-  net_dep = []
+  # Assume that vsnprintf() is a working one, if it's found
+  # (that's checked separately)
+  priv_conf_data.set('HAVE_WORKING_VSNPRINTF', 1)
+
+  if host_system == 'haiku'
+    net_dep = c_compiler.find_library('network')
+    pub_conf_data.set('FREECIV_HAVE_PTHREAD', 1)
+    priv_conf_data.set('ALWAYS_ROOT', 1)
+  else
+    pub_conf_data.set('FREECIV_HAVE_PTHREAD', 1)
+    net_dep = []
+  endif
 endif
 
 pub_headers = [
@@ -292,7 +298,8 @@ priv_functions = [
   '_strcoll',
   '_stricoll',
   'fcntl',
-  'ioctl'
+  'ioctl',
+  'vsnprintf'
   ]
 
 foreach func : priv_functions
