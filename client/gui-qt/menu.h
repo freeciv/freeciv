@@ -39,8 +39,8 @@ struct fc_shortcut;
 enum munit {
   STANDARD,
   EXPLORE,
-  LOAD,
-  UNLOAD,
+  BOARD,
+  DEBOARD,
   TRANSPORTER,
   DISBAND,
   CONVERT,
@@ -333,8 +333,8 @@ private slots:
   void slot_return_to_city();
   void slot_patrol();
   void slot_unsentry();
-  void slot_load();
-  void slot_unload();
+  void slot_board();
+  void slot_deboard();
   void slot_unload_all();
   void slot_set_home();
   void slot_upgrade();

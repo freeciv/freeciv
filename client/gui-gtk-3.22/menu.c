@@ -221,8 +221,8 @@ static void unit_explore_callback(GtkMenuItem *item, gpointer data);
 static void unit_patrol_callback(GtkMenuItem *item, gpointer data);
 static void unit_sentry_callback(GtkMenuItem *item, gpointer data);
 static void unit_unsentry_callback(GtkMenuItem *item, gpointer data);
-static void unit_load_callback(GtkMenuItem *item, gpointer data);
-static void unit_unload_callback(GtkMenuItem *item, gpointer data);
+static void unit_board_callback(GtkMenuItem *item, gpointer data);
+static void unit_deboard_callback(GtkMenuItem *item, gpointer data);
 static void unit_unload_transporter_callback(GtkMenuItem *item,
                                              gpointer data);
 static void unit_homecity_callback(GtkMenuItem *item, gpointer data);
@@ -484,10 +484,10 @@ static struct menu_entry_info menu_entries[] =
     G_CALLBACK(unit_sentry_callback), MGROUP_UNIT },
   { "UNIT_UNSENTRY", N_("Uns_entry All On Tile"), GDK_KEY_s, GDK_SHIFT_MASK,
     G_CALLBACK(unit_unsentry_callback), MGROUP_UNIT },
-  { "UNIT_LOAD", N_("_Load"), GDK_KEY_l, 0,
-    G_CALLBACK(unit_load_callback), MGROUP_UNIT },
-  { "UNIT_UNLOAD", N_("_Unload"), GDK_KEY_u, 0,
-    G_CALLBACK(unit_unload_callback), MGROUP_UNIT },
+  { "UNIT_BOARD", N_("_Load"), GDK_KEY_l, 0,
+    G_CALLBACK(unit_board_callback), MGROUP_UNIT },
+  { "UNIT_DEBOARD", N_("_Unload"), GDK_KEY_u, 0,
+    G_CALLBACK(unit_deboard_callback), MGROUP_UNIT },
   { "UNIT_UNLOAD_TRANSPORTER", N_("U_nload All From Transporter"),
     GDK_KEY_t, GDK_SHIFT_MASK,
     G_CALLBACK(unit_unload_transporter_callback), MGROUP_UNIT },
@@ -1511,9 +1511,9 @@ static void unit_unsentry_callback(GtkMenuItem *item, gpointer data)
 }
 
 /************************************************************************//**
-  Item "UNIT_LOAD" callback.
+  Item "UNIT_BOARD" callback.
 ****************************************************************************/
-static void unit_load_callback(GtkMenuItem *item, gpointer data)
+static void unit_board_callback(GtkMenuItem *item, gpointer data)
 {
   unit_list_iterate(get_units_in_focus(), punit) {
     request_transport(punit, unit_tile(punit));
@@ -1521,9 +1521,9 @@ static void unit_load_callback(GtkMenuItem *item, gpointer data)
 }
 
 /************************************************************************//**
-  Item "UNIT_UNLOAD" callback.
+  Item "UNIT_DEBOARD" callback.
 ****************************************************************************/
-static void unit_unload_callback(GtkMenuItem *item, gpointer data)
+static void unit_deboard_callback(GtkMenuItem *item, gpointer data)
 {
   unit_list_iterate(get_units_in_focus(), punit) {
     request_unit_unload(punit);
@@ -2363,9 +2363,9 @@ void real_menus_update(void)
                            can_units_do(punits, can_unit_change_homecity));
   menu_entry_set_sensitive("UNIT_UNLOAD_TRANSPORTER",
                            units_are_occupied(punits));
-  menu_entry_set_sensitive("UNIT_LOAD",
+  menu_entry_set_sensitive("UNIT_BOARD",
                            units_can_load(punits));
-  menu_entry_set_sensitive("UNIT_UNLOAD",
+  menu_entry_set_sensitive("UNIT_DEBOARD",
                            units_can_unload(punits));
   menu_entry_set_sensitive("UNIT_UNSENTRY", 
                            units_have_activity_on_tile(punits,

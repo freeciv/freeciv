@@ -162,12 +162,12 @@ static int unit_order_callback(struct widget *order_widget)
     case ID_UNIT_ORDER_UNLOAD_TRANSPORTER:
       key_unit_unload_all();
       break;
-    case ID_UNIT_ORDER_LOAD:
+    case ID_UNIT_ORDER_BOARD:
       unit_list_iterate(get_units_in_focus(), punit) {
         request_unit_load(punit, NULL, unit_tile(punit));
       } unit_list_iterate_end;
       break;
-    case ID_UNIT_ORDER_UNLOAD:
+    case ID_UNIT_ORDER_DEBOARD:
       unit_list_iterate(get_units_in_focus(), punit) {
         request_unit_unload(punit);
       } unit_list_iterate_end;
@@ -668,7 +668,7 @@ void create_units_order_widgets(void)
   add_to_gui_list(ID_UNIT_ORDER_UNLOAD_TRANSPORTER, buf);
   /* --------- */
 
-  /* Load */
+  /* Board */
   fc_snprintf(cbuf, sizeof(cbuf), "%s (%s)", _("Load Unit"), "L");
   buf = create_themeicon(current_theme->o_load_icon, main_data.gui,
                          WF_HIDDEN | WF_RESTORE_BACKGROUND
@@ -677,10 +677,10 @@ void create_units_order_widgets(void)
   buf->action = unit_order_callback;
   buf->info_label = create_utf8_from_char(cbuf, adj_font(10));
   buf->key = SDLK_l;
-  add_to_gui_list(ID_UNIT_ORDER_LOAD, buf);
+  add_to_gui_list(ID_UNIT_ORDER_BOARD, buf);
   /* --------- */
 
-  /* Unload */
+  /* Deboard */
   fc_snprintf(cbuf, sizeof(cbuf), "%s (%s)", _("Unload Unit"), "U");
   buf = create_themeicon(current_theme->o_unload_icon, main_data.gui,
                          WF_HIDDEN | WF_RESTORE_BACKGROUND
@@ -689,7 +689,7 @@ void create_units_order_widgets(void)
   buf->action = unit_order_callback;
   buf->info_label = create_utf8_from_char(cbuf, adj_font(10));
   buf->key = SDLK_u;
-  add_to_gui_list(ID_UNIT_ORDER_UNLOAD, buf);
+  add_to_gui_list(ID_UNIT_ORDER_DEBOARD, buf);
   /* --------- */
 
   /* Find Homecity */
@@ -1351,15 +1351,15 @@ void real_menus_update(void)
       }
 
       if (units_can_load(punits)) {
-        local_show(ID_UNIT_ORDER_LOAD);
+        local_show(ID_UNIT_ORDER_BOARD);
       } else {
-        local_hide(ID_UNIT_ORDER_LOAD);
+        local_hide(ID_UNIT_ORDER_BOARD);
       }
 
       if (units_can_unload(punits)) {
-        local_show(ID_UNIT_ORDER_UNLOAD);
+        local_show(ID_UNIT_ORDER_DEBOARD);
       } else {
-        local_hide(ID_UNIT_ORDER_UNLOAD);
+        local_hide(ID_UNIT_ORDER_DEBOARD);
       }
 
       if (is_unit_activity_on_tile(ACTIVITY_SENTRY, unit_tile(punit))) {

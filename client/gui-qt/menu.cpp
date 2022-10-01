@@ -1224,14 +1224,14 @@ void mr_menu::setup_menus()
   main_menu->addSeparator();
   act = main_menu->addAction(_("Load"));
   act->setShortcut(QKeySequence(shortcut_to_string(
-                   fc_shortcuts::sc()->get_shortcut(SC_LOAD))));
-  menu_list.insert(LOAD, act);
-  connect(act, &QAction::triggered, this, &mr_menu::slot_load);
+                   fc_shortcuts::sc()->get_shortcut(SC_BOARD))));
+  menu_list.insert(BOARD, act);
+  connect(act, &QAction::triggered, this, &mr_menu::slot_board);
   act = main_menu->addAction(_("Unload"));
   act->setShortcut(QKeySequence(shortcut_to_string(
-                   fc_shortcuts::sc()->get_shortcut(SC_UNLOAD))));
-  menu_list.insert(UNLOAD, act);
-  connect(act, &QAction::triggered, this, &mr_menu::slot_unload);
+                   fc_shortcuts::sc()->get_shortcut(SC_DEBOARD))));
+  menu_list.insert(DEBOARD, act);
+  connect(act, &QAction::triggered, this, &mr_menu::slot_deboard);
   act = main_menu->addAction(_("Unload All From Transporter"));
   act->setShortcut(QKeySequence(tr("shift+u")));
   menu_list.insert(TRANSPORTER, act);
@@ -2099,13 +2099,13 @@ void mr_menu::menus_sensitive()
         }
         break;
 
-      case LOAD:
+      case BOARD:
         if (units_can_load(punits)) {
           i.value()->setEnabled(true);
         }
         break;
 
-      case UNLOAD:
+      case DEBOARD:
         if (units_can_unload(punits)) {
           i.value()->setEnabled(true);
         }
@@ -2979,9 +2979,9 @@ void mr_menu::slot_execute_orders()
 }
 
 /**********************************************************************//**
-  Action "LOAD INTO TRANSPORTER"
+  Action "BOARD INTO TRANSPORTER"
 **************************************************************************/
-void mr_menu::slot_load()
+void mr_menu::slot_board()
 {
   unit_list_iterate(get_units_in_focus(), punit) {
     qtg_request_transport(punit, unit_tile(punit));
@@ -3023,9 +3023,9 @@ void mr_menu::slot_set_home()
 }
 
 /**********************************************************************//**
-  Action "UNLOAD FROM TRANSPORTED"
+  Action "DEBOARD FROM TRANSPORTED"
 **************************************************************************/
-void mr_menu::slot_unload()
+void mr_menu::slot_deboard()
 {
   unit_list_iterate(get_units_in_focus(), punit) {
     request_unit_unload(punit);
