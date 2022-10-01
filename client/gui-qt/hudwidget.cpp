@@ -1071,10 +1071,10 @@ int unit_actions::update_actions()
     actions.append(a);
   }
 
-  /* Load */
+  // Board
   if (unit_can_load(current_unit)) {
     a = new hud_action(this);
-    a->action_shortcut = SC_LOAD;
+    a->action_shortcut = SC_BOARD;
     a->set_pixmap(fc_icons::instance()->get_pixmap("load"));
     actions.append(a);
   }
@@ -1122,13 +1122,13 @@ int unit_actions::update_actions()
     actions.append(a);
   }
 
-  /* Unload */
+  // Deboard
   if (unit_transported(current_unit)
       && can_unit_unload(current_unit, unit_transport_get(current_unit))
       && can_unit_exist_at_tile(&(wld.map), current_unit,
                                 unit_tile(current_unit))) {
     a = new hud_action(this);
-    a->action_shortcut = SC_UNLOAD;
+    a->action_shortcut = SC_DEBOARD;
     a->set_pixmap(fc_icons::instance()->get_pixmap("unload"));
     actions.append(a);
   }

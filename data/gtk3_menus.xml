@@ -294,10 +294,10 @@
               <object class="GtkSeparatorMenuItem" id="<MENU>/UNIT/SEP3" />
             </child>
             <child>
-              <object class="GtkMenuItem" id="UNIT_LOAD" />
+              <object class="GtkMenuItem" id="UNIT_BOARD" />
             </child>
             <child>
-              <object class="GtkMenuItem" id="UNIT_UNLOAD" />
+              <object class="GtkMenuItem" id="UNIT_DEBOARD" />
             </child>
             <child>
               <object class="GtkMenuItem" id="UNIT_UNLOAD_TRANSPORTER" />

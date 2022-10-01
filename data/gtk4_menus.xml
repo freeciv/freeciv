@@ -300,10 +300,10 @@
               <object class="GtkSeparatorMenuItem" />
             </child>
             <child>
-              <object class="GtkMenuItem" id="UNIT_LOAD" />
+              <object class="GtkMenuItem" id="UNIT_BOARD" />
             </child>
             <child>
-              <object class="GtkMenuItem" id="UNIT_UNLOAD" />
+              <object class="GtkMenuItem" id="UNIT_DEBOARD" />
             </child>
             <child>
               <object class="GtkMenuItem" id="UNIT_UNLOAD_TRANSPORTER" />
