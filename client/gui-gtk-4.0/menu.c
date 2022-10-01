@@ -295,10 +295,21 @@ static void unit_explore_callback(GSimpleAction *action,
 static void unit_sentry_callback(GSimpleAction *action,
                                  GVariant *parameter,
                                  gpointer data);
-
 static void fortify_callback(GSimpleAction *action,
                              GVariant *parameter,
                              gpointer data);
+static void unit_homecity_callback(GSimpleAction *action,
+                                   GVariant *parameter,
+                                   gpointer data);
+static void unit_upgrade_callback(GSimpleAction *action,
+                                  GVariant *parameter,
+                                  gpointer data);
+static void unit_convert_callback(GSimpleAction *action,
+                                  GVariant *parameter,
+                                  gpointer data);
+static void unit_disband_callback(GSimpleAction *action,
+                                  GVariant *parameter,
+                                  gpointer data);
 
 #ifdef MENUS_GTK3
 static void unit_patrol_callback(GtkMenuItem *item, gpointer data);
@@ -307,10 +318,6 @@ static void unit_board_callback(GtkMenuItem *item, gpointer data);
 static void unit_deboard_callback(GtkMenuItem *item, gpointer data);
 static void unit_unload_transporter_callback(GtkMenuItem *item,
                                              gpointer data);
-static void unit_homecity_callback(GtkMenuItem *item, gpointer data);
-static void unit_upgrade_callback(GtkMenuItem *item, gpointer data);
-static void unit_convert_callback(GtkMenuItem *item, gpointer data);
-static void unit_disband_callback(GtkMenuItem *item, gpointer data);
 #endif /* MENUS_GTK3 */
 
 static void build_city_callback(GSimpleAction *action,
@@ -326,6 +333,10 @@ static void plant_callback(GSimpleAction *action,
                            GVariant *parameter,
                            gpointer data);
 
+static void pillage_callback(GSimpleAction *action,
+                             GVariant *parameter,
+                             gpointer data);
+
 #ifdef MENUS_GTK3
 static void build_road_callback(GtkMenuItem *item, gpointer data);
 static void build_irrigation_callback(GtkMenuItem *item, gpointer data);
@@ -338,7 +349,6 @@ static void clean_pollution_callback(GtkMenuItem *item, gpointer data);
 static void clean_fallout_callback(GtkMenuItem *item, gpointer data);
 static void build_fortress_callback(GtkMenuItem *item, gpointer data);
 static void build_airbase_callback(GtkMenuItem *item, gpointer data);
-static void do_pillage_callback(GtkMenuItem *item, gpointer data);
 static void diplomat_action_callback(GtkMenuItem *item, gpointer data);
 #endif /* MENUS_GTK3 */
 
@@ -368,6 +378,14 @@ static struct menu_entry_info menu_entries[] =
     "explore", "x", MGROUP_UNIT },
   { "UNIT_SENTRY", N_("_Sentry"),
     "sentry", "s", MGROUP_UNIT },
+  { "UNIT_HOMECITY", N_("Set _Home City"),
+    "homecity", "h", MGROUP_UNIT },
+  { "UNIT_UPGRADE", N_("Upgr_ade"),
+    "upgrade", "<shift>u", MGROUP_UNIT },
+  { "UNIT_CONVERT", N_("C_onvert"),
+    "convert", "<shift>o", MGROUP_UNIT },
+  { "UNIT_DISBAND", N_("_Disband"),
+    "disband", "<shift>d", MGROUP_UNIT },
   { "UNIT_WAIT", N_("_Wait"),
     "wait", "w", MGROUP_UNIT },
   { "UNIT_DONE", N_("_Done"),
@@ -384,8 +402,10 @@ static struct menu_entry_info menu_entries[] =
     "plant", "<shift>m", MGROUP_UNIT },
 
   /* Combat menu */
-  { "FORTIFY", N_("Fortify"),
+  { "FORTIFY", N_("_Fortify"),
     "fortify", "f", MGROUP_UNIT },
+  { "PILLAGE", N_("_Pillage"),
+    "pillage", "<shift>p", MGROUP_UNIT },
 
   /* Civilization */
   { "MAP_VIEW", N_("?noun:_View"),
@@ -615,14 +635,6 @@ static struct menu_entry_info menu_entries[] =
   { "UNIT_UNLOAD_TRANSPORTER", N_("U_nload All From Transporter"),
     GDK_KEY_t, GDK_SHIFT_MASK,
     G_CALLBACK(unit_unload_transporter_callback), MGROUP_UNIT },
-  { "UNIT_HOMECITY", N_("Set _Home City"), GDK_KEY_h, 0,
-    G_CALLBACK(unit_homecity_callback), MGROUP_UNIT },
-  { "UNIT_UPGRADE", N_("Upgr_ade"), GDK_KEY_u, GDK_SHIFT_MASK,
-    G_CALLBACK(unit_upgrade_callback), MGROUP_UNIT },
-  { "UNIT_CONVERT", N_("C_onvert"), GDK_KEY_o, GDK_SHIFT_MASK,
-    G_CALLBACK(unit_convert_callback), MGROUP_UNIT },
-  { "UNIT_DISBAND", N_("_Disband"), GDK_KEY_d, GDK_SHIFT_MASK,
-    G_CALLBACK(unit_disband_callback), MGROUP_UNIT },
 
   { "BUILD_ROAD", N_("Build _Road"), GDK_KEY_r, 0,
     G_CALLBACK(build_road_callback), MGROUP_UNIT },
@@ -647,8 +659,6 @@ static struct menu_entry_info menu_entries[] =
     G_CALLBACK(build_fortress_callback), MGROUP_UNIT },
   { "BUILD_AIRBASE", N_("Build Airbase"), GDK_KEY_e, GDK_SHIFT_MASK,
     G_CALLBACK(build_airbase_callback), MGROUP_UNIT },
-  { "DO_PILLAGE", N_("_Pillage"), GDK_KEY_p, GDK_SHIFT_MASK,
-    G_CALLBACK(do_pillage_callback), MGROUP_UNIT },
   { "DIPLOMAT_ACTION", N_("_Do..."), GDK_KEY_d, 0,
     G_CALLBACK(diplomat_action_callback), MGROUP_UNIT },
 
@@ -675,6 +685,10 @@ const GActionEntry acts[] = {
 
   { "explore", unit_explore_callback },
   { "sentry", unit_sentry_callback },
+  { "homecity", unit_homecity_callback },
+  { "upgrade", unit_upgrade_callback },
+  { "convert", unit_convert_callback },
+  { "disband", unit_disband_callback },
   { "wait", unit_wait_callback },
   { "done", unit_done_callback },
 
@@ -684,6 +698,7 @@ const GActionEntry acts[] = {
   { "plant", plant_callback },
 
   { "fortify", fortify_callback },
+  { "pillage", pillage_callback },
 
   { "revolution", revolution_callback },
 
@@ -1748,11 +1763,14 @@ static void unit_unload_transporter_callback(GtkMenuItem *item,
 {
   key_unit_unload_all();
 }
+#endif /* MENUS_GTK3 */
 
 /************************************************************************//**
   Item "UNIT_HOMECITY" callback.
 ****************************************************************************/
-static void unit_homecity_callback(GtkMenuItem *item, gpointer data)
+static void unit_homecity_callback(GSimpleAction *action,
+                                   GVariant *parameter,
+                                   gpointer data)
 {
   key_unit_homecity();
 }
@@ -1760,7 +1778,9 @@ static void unit_homecity_callback(GtkMenuItem *item, gpointer data)
 /************************************************************************//**
   Item "UNIT_UPGRADE" callback.
 ****************************************************************************/
-static void unit_upgrade_callback(GtkMenuItem *item, gpointer data)
+static void unit_upgrade_callback(GSimpleAction *action,
+                                  GVariant *parameter,
+                                  gpointer data)
 {
   popup_upgrade_dialog(get_units_in_focus());
 }
@@ -1768,7 +1788,9 @@ static void unit_upgrade_callback(GtkMenuItem *item, gpointer data)
 /************************************************************************//**
   Item "UNIT_CONVERT" callback.
 ****************************************************************************/
-static void unit_convert_callback(GtkMenuItem *item, gpointer data)
+static void unit_convert_callback(GSimpleAction *action,
+                                  GVariant *parameter,
+                                  gpointer data)
 {
   key_unit_convert();
 }
@@ -1776,11 +1798,12 @@ static void unit_convert_callback(GtkMenuItem *item, gpointer data)
 /************************************************************************//**
   Item "UNIT_DISBAND" callback.
 ****************************************************************************/
-static void unit_disband_callback(GtkMenuItem *item, gpointer data)
+static void unit_disband_callback(GSimpleAction *action,
+                                  GVariant *parameter,
+                                  gpointer data)
 {
   popup_disband_dialog(get_units_in_focus());
 }
-#endif /* MENUS_GTK3 */
 
 /************************************************************************//**
   Item "BUILD_CITY" callback.
@@ -1980,15 +2003,19 @@ static void build_airbase_callback(GtkMenuItem *action, gpointer data)
 {
   key_unit_airbase();
 }
+#endif /* MENUS_GTK3 */
 
 /************************************************************************//**
-  Action "DO_PILLAGE" callback.
+  Action "PILLAGE" callback.
 ****************************************************************************/
-static void do_pillage_callback(GtkMenuItem *action, gpointer data)
+static void pillage_callback(GSimpleAction *action,
+                             GVariant *parameter,
+                             gpointer data)
 {
   key_unit_pillage();
 }
 
+#ifdef MENUS_GTK3
 /************************************************************************//**
   Action "DIPLOMAT_ACTION" callback.
 ****************************************************************************/
@@ -2225,6 +2252,10 @@ static GMenu *setup_menus(GtkApplication *app)
 
   menu_entry_init(unit_menu, "UNIT_EXPLORE");
   menu_entry_init(unit_menu, "UNIT_SENTRY");
+  menu_entry_init(unit_menu, "UNIT_HOMECITY");
+  menu_entry_init(unit_menu, "UNIT_UPGRADE");
+  menu_entry_init(unit_menu, "UNIT_CONVERT");
+  menu_entry_init(unit_menu, "UNIT_DISBAND");
   menu_entry_init(unit_menu, "UNIT_WAIT");
   menu_entry_init(unit_menu, "UNIT_DONE");
 
@@ -2255,6 +2286,8 @@ static GMenu *setup_menus(GtkApplication *app)
   g_menu_append_submenu(combat_menu, _("Build _Base"), G_MENU_MODEL(submenu));
 
   g_menu_append_submenu(menubar, _("_Combat"), G_MENU_MODEL(combat_menu));
+
+  menu_entry_init(combat_menu, "PILLAGE");
 
   gov_menu = g_menu_new();
 
@@ -2800,6 +2833,12 @@ void real_menus_update(void)
 
   /* Remaining part of this function: Update Unit, Work, and Combat menus */
 
+  /* Enable the button for adding to a city in all cases, so we
+   * get an eventual error message from the server if we try. */
+  menu_entry_set_sensitive(map, "BUILD_CITY",
+                           (can_units_do(punits, unit_can_add_or_build_city)
+                            || can_units_do(punits, unit_can_help_build_wonder_here)));
+
 #ifdef MENUS_GTK3
   /* Set base sensitivity. */
   if ((menu = find_menu("<MENU>/BUILD_BASE"))) {
@@ -2868,11 +2907,6 @@ void real_menus_update(void)
     menu_entry_set_sensitive("MENU_GOTO_AND", can_do_something);
   }
 
-  /* Enable the button for adding to a city in all cases, so we
-   * get an eventual error message from the server if we try. */
-  menu_entry_set_sensitive("BUILD_CITY",
-            (can_units_do(punits, unit_can_add_or_build_city)
-             || can_units_do(punits, unit_can_help_build_wonder_here)));
   menu_entry_set_sensitive("BUILD_ROAD",
                            (can_units_do_any_road(punits)
                             || can_units_do(punits,
@@ -2896,6 +2930,8 @@ void real_menus_update(void)
   menu_entry_set_sensitive(map, "FORTIFY",
                            can_units_do_activity(punits,
                                                  ACTIVITY_FORTIFYING));
+  menu_entry_set_sensitive(map, "PILLAGE",
+                           can_units_do_activity(punits, ACTIVITY_PILLAGE));
 
 #ifdef MENUS_GTK3
   menu_entry_set_sensitive("BUILD_FORTRESS",
@@ -2911,20 +2947,21 @@ void real_menus_update(void)
 
   menu_entry_set_sensitive(map, "UNIT_SENTRY",
                            can_units_do_activity(punits, ACTIVITY_SENTRY));
-
-#ifdef MENUS_GTK3
-  /* FIXME: should conditionally rename "Pillage" to "Pillage..." in cases where
-   * selecting the command results in a dialog box listing options of what to pillage */
-  menu_entry_set_sensitive("DO_PILLAGE",
-                           can_units_do_activity(punits, ACTIVITY_PILLAGE));
-  menu_entry_set_sensitive("UNIT_DISBAND",
+  menu_entry_set_sensitive(map, "UNIT_HOMECITY",
+                           can_units_do(punits, can_unit_change_homecity));
+  menu_entry_set_sensitive(map, "UNIT_UPGRADE", units_can_upgrade(punits));
+  menu_entry_set_sensitive(map, "UNIT_CONVERT", units_can_convert(punits));
+  menu_entry_set_sensitive(map, "UNIT_DISBAND",
                            units_can_do_action(punits, ACTION_DISBAND_UNIT,
                                                TRUE));
-  menu_entry_set_sensitive("UNIT_UPGRADE",
-                           units_can_upgrade(punits));
+
+  menu_entry_set_sensitive(map, "AUTO_SETTLER",
+                           can_units_do(punits, can_unit_do_autosettlers));
+  menu_entry_set_sensitive(map, "UNIT_EXPLORE",
+                           can_units_do_activity(punits, ACTIVITY_EXPLORE));
+
+#ifdef MENUS_GTK3
   /* "UNIT_CONVERT" dealt with below */
-  menu_entry_set_sensitive("UNIT_HOMECITY",
-                           can_units_do(punits, can_unit_change_homecity));
   menu_entry_set_sensitive("UNIT_UNLOAD_TRANSPORTER",
                            units_are_occupied(punits));
   menu_entry_set_sensitive("UNIT_BOARD",
@@ -2934,10 +2971,6 @@ void real_menus_update(void)
   menu_entry_set_sensitive("UNIT_UNSENTRY",
                            units_have_activity_on_tile(punits,
                                                        ACTIVITY_SENTRY));
-  menu_entry_set_sensitive("AUTO_SETTLER",
-                           can_units_do(punits, can_unit_do_autosettlers));
-  menu_entry_set_sensitive("UNIT_EXPLORE",
-                           can_units_do_activity(punits, ACTIVITY_EXPLORE));
 
   proad = road_by_gui_type(ROAD_GUI_ROAD);
   if (proad != NULL) {
@@ -3054,7 +3087,6 @@ void real_menus_update(void)
   }
 
   if (units_can_convert(punits)) {
-    menu_entry_set_sensitive("UNIT_CONVERT", TRUE);
     if (units_all_same_type) {
       struct unit *punit = unit_list_get(punits, 0);
       /* TRANS: %s is a unit type. */
