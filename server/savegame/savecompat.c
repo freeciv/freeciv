@@ -1758,8 +1758,10 @@ static void upgrade_unit_order_targets(struct unit *act_unit)
     if (order->order == ORDER_PERFORM_ACTION
         && order->target != NO_TARGET) {
       /* The target is already specified in the new format. */
-      tgt_tile = index_to_tile(&(wld.map), order->target);
-      fc_assert(tgt_tile != NULL);
+
+      /* The index_to_tile() call has no side-effects that we
+       * would want also in NDEBUG builds. */
+      fc_assert(index_to_tile(&(wld.map), order->target) != NULL);
       return;
     }
 
