@@ -20,6 +20,7 @@ Updating from 3.1 to 3.2
 * Gtk3-client has been dropped
 * Minimum SDL2 requirement for sound support is 2.0.6.
 * Minimum Python requirement for code generation scripts is 3.5.
+* Threaded AI has been dropped completely
 
 ----------------------------------------------------------------------
 Compatibility of modified versions

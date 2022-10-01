@@ -1068,7 +1068,6 @@ else
 fi])
 
 ai_mod_static_classic=no
-ai_mod_static_threaded=no
 ai_mod_static_tex=no
 ai_mod_static_stub=no
 
@@ -1078,16 +1077,11 @@ for module in $(echo $static_modules | $SED 's/,/ /g') ; do
     ai_mod_default_needed=yes
     AC_DEFINE([AI_MOD_STATIC_CLASSIC], [1],
               [classic ai module statically linked])
-  elif test "x$module" = "xthreaded" ; then
-    ai_mod_static_threaded=yes
-    ai_mod_default_needed=yes
-    AC_DEFINE([AI_MOD_STATIC_THREADED], [1],
-              [threaded ai module statically linked])
   elif test "x$module" = "xtex" ; then
     ai_mod_static_tex=yes
     ai_mod_default_needed=yes
     AC_DEFINE([AI_MOD_STATIC_TEX], [1],
-              [experimental threads ai module statically linked])
+               [tex ai module statically linked])
   elif test "x$module" = "xstub" ; then
     ai_mod_static_stub=yes
     AC_DEFINE([AI_MOD_STATIC_STUB], [1],
@@ -1102,8 +1096,6 @@ for module in $(echo $static_modules | $SED 's/,/ /g') ; do
 done
 AM_CONDITIONAL([AI_MOD_STATIC_CLASSIC],
 [test "x$ai_mod_static_classic" = "xyes" || test "x$enable_aimodules" != "xyes"])
-AM_CONDITIONAL([AI_MOD_STATIC_THREADED],
-[test "x$ai_mod_static_threaded" = "xyes"])
 AM_CONDITIONAL([AI_MOD_STATIC_TEX],
 [test "x$ai_mod_static_tex" = "xyes"])
 AM_CONDITIONAL([AI_MOD_STATIC_STUB],
@@ -1127,9 +1119,6 @@ fi
 
 fc_ai_last=0
 if test "x$ai_mod_static_classic" = "xyes" ; then
-  fc_ai_last=$fc_ai_last+1
-fi
-if test "x$ai_mod_static_threaded" = "xyes" ; then
   fc_ai_last=$fc_ai_last+1
 fi
 if test "x$ai_mod_static_tex" = "xyes" ; then
@@ -1852,7 +1841,6 @@ AC_CONFIG_FILES([Makefile
           ai/default/Makefile
           ai/classic/Makefile
           ai/stub/Makefile
-          ai/threaded/Makefile
           ai/tex/Makefile
 	  tests/Makefile
   	  windows/Makefile

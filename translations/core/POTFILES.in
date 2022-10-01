@@ -4,7 +4,6 @@ ai/default/daicity.c
 ai/default/daidiplomacy.c
 ai/difficulty.c
 ai/handicaps.c
-ai/threaded/threadedai.c
 ai/tex/texai.c
 client/agents/cma_core.c
 client/agents/cma_fec.c

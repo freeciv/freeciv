@@ -136,9 +136,6 @@ endif
 if AI_MOD_STATIC_CLASSIC
 da_libs += $(top_builddir)/ai/classic/libclassicai.la
 endif
-if AI_MOD_STATIC_THREADED
-da_libs += $(top_builddir)/ai/threaded/libthreadedai.la
-endif
 if AI_MOD_STATIC_TEX
 da_libs += $(top_builddir)/ai/tex/libtexai.la
 endif

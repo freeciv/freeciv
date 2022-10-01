@@ -10,10 +10,6 @@ if AI_MOD_STATIC_CLASSIC
 module_dirs += classic
 endif
 
-if AI_MOD_STATIC_THREADED
-module_dirs += threaded
-endif
-
 if AI_MOD_STATIC_TEX
 module_dirs += tex
 endif
@@ -32,9 +28,6 @@ if !AI_MOD_STATIC_CLASSIC
 module_dirs += classic
 endif
 if EXP_AI_MODULES
-if !AI_MOD_STATIC_THREADED
-module_dirs += threaded
-endif
 if !AI_MOD_STATIC_TEX
 module_dirs += tex
 endif
