@@ -36,6 +36,7 @@
 #include "improvement.h"
 #include "modpack.h"
 #include "movement.h"
+#include "nation.h"
 #include "packets.h"
 
 /* server */

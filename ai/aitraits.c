@@ -21,6 +21,7 @@
 
 /* common */
 #include "game.h"
+#include "nation.h"
 #include "player.h"
 #include "traits.h"
 

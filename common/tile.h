@@ -25,12 +25,13 @@ extern "C" {
 #include "base.h"
 #include "extras.h"
 #include "fc_types.h"
-#include "player.h"
 #include "road.h"
 #include "terrain.h"
 #include "unitlist.h"
 
-/* network, order dependent */
+struct player;
+
+/* Network, order dependent */
 enum known_type {
  TILE_UNKNOWN = 0,
  TILE_KNOWN_UNSEEN = 1,
@@ -154,7 +155,7 @@ bool tile_has_extra_flag(const struct tile *ptile, enum extra_flag_id flag);;
 
 /* Vision related */
 enum known_type tile_get_known(const struct tile *ptile,
-			      const struct player *pplayer);
+                               const struct player *pplayer);
 
 bool tile_is_seen(const struct tile *target_tile,
                   const struct player *pow_player);

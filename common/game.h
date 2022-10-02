@@ -24,17 +24,17 @@ extern "C" {
 #endif
 
 /* utility */
-#include "fcthread.h"
 #include "randseed.h"
 #include "shared.h"
 #include "timing.h"
 
 /* common */
-#include "connection.h"		/* struct conn_list */
+#include "connection.h"	        /* struct conn_list */
 #include "fc_types.h"
-#include "player.h"
 #include "packets.h"
-#include "world_object.h"
+#include "traits.h"
+
+struct world;
 
 enum debug_globals {
   DEBUG_FERRIES,
@@ -302,7 +302,6 @@ struct civ_game {
 extern bool am_i_server;
 
 extern struct civ_game game;
-extern struct world wld;
 
 /**********************************************************************//**
   Is the program type server?

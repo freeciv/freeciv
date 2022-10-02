@@ -33,8 +33,9 @@
 
 /* common */
 #include "game.h"
-#include "government.h"		/* government_graphic() */
+#include "government.h"	        /* government_graphic() */
 #include "map.h"
+#include "nation.h"
 #include "player.h"
 
 /* client */

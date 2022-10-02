@@ -28,6 +28,7 @@
 
 /* common */
 #include "government.h"
+#include "nation.h"
 #include "research.h"
 
 /* client */

@@ -23,7 +23,7 @@ extern "C" {
 /* common */
 #include "fc_types.h"
 
-/****************************************************************
+/*****************************************************************
   Miscellaneous terrain information
 *****************************************************************/
 #define terrain_misc packet_ruleset_terrain_control
@@ -117,4 +117,4 @@ struct civ_map {
 }
 #endif /* __cplusplus */
 
-#endif  /* FC__MAP_H */
+#endif /* FC__MAP_H */

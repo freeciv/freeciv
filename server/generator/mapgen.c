@@ -26,6 +26,7 @@
 #include "log.h"
 #include "maphand.h" /* assign_continent_numbers(), MAP_NCONT */
 #include "mem.h"
+#include "nation.h"
 #include "rand.h"
 #include "shared.h"
 

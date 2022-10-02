@@ -26,6 +26,9 @@
 #include "astring.h"
 #include "fcintl.h"
 
+/* common */
+#include "nation.h"
+
 /* client */
 #include "client_main.h"
 #include "climisc.h"

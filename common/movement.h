@@ -17,9 +17,11 @@
 extern "C" {
 #endif /* __cplusplus */
 
+/* common */
 #include "fc_types.h"
 #include "map.h"
-#include "tile.h"
+
+struct tile;
 
 #define SINGLE_MOVE     (terrain_control.move_fragments)
 #define MOVE_COST_IGTER (terrain_control.igter_cost)

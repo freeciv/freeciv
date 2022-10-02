@@ -26,6 +26,7 @@
 #include "connection.h"
 #include "game.h"
 #include "government.h"
+#include "nation.h"
 #include "research.h"
 
 /* client */

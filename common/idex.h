@@ -24,7 +24,8 @@ extern "C" {
 
 /* common */
 #include "fc_types.h"
-#include "world_object.h"
+
+struct world;
 
 void idex_init(struct world *iworld);
 void idex_free(struct world *iworld);
@@ -42,4 +43,4 @@ struct unit *idex_lookup_unit(struct world *iworld, int id);
 }
 #endif /* __cplusplus */
 
-#endif  /* FC__IDEX_H */
+#endif /* FC__IDEX_H */

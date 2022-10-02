@@ -23,6 +23,7 @@
 
 /* server */
 #include "aiiface.h"
+#include "nation.h"
 #include "notify.h"
 #include "plrhand.h"
 #include "unithand.h"

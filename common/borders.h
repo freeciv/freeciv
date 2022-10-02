@@ -17,6 +17,8 @@
 extern "C" {
 #endif /* __cplusplus */
 
+struct tile;
+
 bool is_border_source(struct tile *ptile);
 int tile_border_source_radius_sq(struct tile *ptile);
 int tile_border_source_strength(struct tile *ptile);
@@ -26,4 +28,4 @@ int tile_border_strength(struct tile *ptile, struct tile *source);
 }
 #endif /* __cplusplus */
 
-#endif  /* FC__BORDERS_H */
+#endif /* FC__BORDERS_H */

@@ -25,6 +25,7 @@
 #include "game.h"
 #include "map.h"
 #include "movement.h"
+#include "nation.h"
 #include "player.h"
 #include "unit.h"
 #include "unitlist.h"

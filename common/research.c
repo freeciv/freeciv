@@ -24,6 +24,7 @@
 /* common */
 #include "fc_types.h"
 #include "game.h"
+#include "nation.h"
 #include "player.h"
 #include "name_translation.h"
 #include "team.h"

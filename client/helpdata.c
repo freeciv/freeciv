@@ -41,6 +41,7 @@
 #include "map.h"
 #include "movement.h"
 #include "multipliers.h"
+#include "nation.h"
 #include "reqtext.h"
 #include "research.h"
 #include "server_settings.h"

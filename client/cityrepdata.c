@@ -31,6 +31,7 @@
 #include "culture.h"
 #include "game.h"
 #include "map.h"
+#include "nation.h"
 #include "specialist.h"
 #include "unitlist.h"
 

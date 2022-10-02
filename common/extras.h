@@ -18,10 +18,11 @@ extern "C" {
 #endif /* __cplusplus */
 
 /* common */
-#include "base.h"
 #include "fc_types.h"
-#include "road.h"
-#include "terrain.h"
+#include "unittype.h"
+
+struct base_type;
+struct road_type;
 
 /* Used in the network protocol. */
 #define SPECENUM_NAME extra_flag_id

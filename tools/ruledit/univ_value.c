@@ -20,6 +20,7 @@
 #include "counters.h"
 #include "game.h"
 #include "government.h"
+#include "nation.h"
 #include "requirements.h"
 #include "server_settings.h"
 #include "specialist.h"

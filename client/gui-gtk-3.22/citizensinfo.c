@@ -26,6 +26,7 @@
 /* common */
 #include "citizens.h"
 #include "city.h"
+#include "nation.h"
 #include "player.h"
 
 /* client/gui-gtk-3.22 */

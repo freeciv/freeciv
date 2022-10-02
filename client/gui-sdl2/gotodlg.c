@@ -32,6 +32,7 @@
 /* common */
 #include "game.h"
 #include "fc_types.h" /* bv_player */
+#include "nation.h"
 #include "unitlist.h"
 
 /* client */

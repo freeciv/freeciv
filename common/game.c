@@ -45,6 +45,7 @@
 #include "packets.h"
 #include "player.h"
 #include "research.h"
+#include "rgbcolor.h"
 #include "spaceship.h"
 #include "specialist.h"
 #include "style.h"

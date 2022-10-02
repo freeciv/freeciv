@@ -24,6 +24,9 @@
 #include "mem.h"
 #include "timing.h"
 
+/* common */
+#include "nation.h"
+
 /* client */
 #include "client_main.h"
 

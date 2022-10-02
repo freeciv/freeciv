@@ -28,6 +28,7 @@
 
 // common
 #include "effects.h"
+#include "multipliers.h"
 
 // ruledit
 #include "ruledit.h"

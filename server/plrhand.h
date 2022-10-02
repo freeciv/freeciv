@@ -15,6 +15,7 @@
 
 struct connection;
 struct conn_list;
+struct nation_list;
 struct nation_type;
 struct player;
 struct rgbcolor;

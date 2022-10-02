@@ -24,14 +24,15 @@ extern "C" {
 /* common */
 #include "fc_types.h"
 #include "name_translation.h"
-#include "improvement.h"
 #include "tile.h"
 #include "traderoutes.h"
-#include "unit.h"
-#include "unitlist.h"
-#include "vision.h"
 #include "workertask.h"
 #include "worklist.h"
+
+struct impr_type;
+struct unit;
+struct unit_list;
+struct vision;
 
 enum production_class_type {
   PCT_UNIT,

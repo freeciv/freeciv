@@ -24,6 +24,7 @@
 #include "extras.h"
 #include "game.h"
 #include "movement.h"
+#include "nation.h"
 #include "unit.h"
 
 /* client */

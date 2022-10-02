@@ -33,6 +33,7 @@
 
 // common
 #include "game.h"
+#include "rgbcolor.h"
 #include "version.h"
 
 // client

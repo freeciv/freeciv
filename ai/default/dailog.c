@@ -19,6 +19,7 @@
 
 /* common */
 #include "map.h"
+#include "nation.h"
 #include "player.h"
 #include "research.h"
 

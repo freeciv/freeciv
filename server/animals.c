@@ -29,6 +29,7 @@
 /* server */
 #include "aiiface.h"
 #include "barbarian.h"
+#include "nation.h"
 #include "plrhand.h"
 #include "srv_main.h"
 #include "stdinhand.h"

@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -23,8 +23,9 @@ extern "C" {
 /* common */
 #include "fc_types.h"
 #include "name_translation.h"
-#include "rgbcolor.h"
 #include "terrain.h"            /* MAX_NUM_TERRAINS */
+
+struct rgbcolor;
 
 #define NO_NATION_SELECTED (NULL)
 

@@ -16,6 +16,7 @@
 #endif
 
 /* utility */
+#include "astring.h"
 #include "deprecations.h"
 
 /* common */
@@ -26,8 +27,8 @@
 #include "government.h"
 #include "map.h"
 #include "movement.h"
+#include "nation.h"
 #include "player.h"
-#include "road.h"
 #include "specialist.h"
 #include "tech.h"
 

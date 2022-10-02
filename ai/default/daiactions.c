@@ -17,6 +17,7 @@
 
 /* common */
 #include "city.h"
+#include "metaknowledge.h"
 #include "movement.h"
 #include "player.h"
 #include "research.h"

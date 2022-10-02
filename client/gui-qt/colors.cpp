@@ -18,6 +18,9 @@
 // utility
 #include "mem.h"
 
+// common
+#include "rgbcolor.h"
+
 // gui-qt
 #include "qtg_cxxside.h"
 

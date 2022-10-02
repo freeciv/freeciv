@@ -16,7 +16,6 @@
 
 /* common */
 #include "fc_types.h"
-#include "metaknowledge.h"
 #include "requirements.h"
 
 #ifdef __cplusplus

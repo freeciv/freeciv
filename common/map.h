@@ -22,14 +22,16 @@ extern "C" {
 /* utility */
 #include "bitvector.h"
 #include "iterator.h"
-#include "log.h"                /* fc_assert */
+#include "log.h"                /* fc_assert() */
 
 /* common */
 #include "fc_types.h"
 #include "game.h"
 #include "map_types.h"
-#include "tile.h"
 #include "packets.h"
+#include "world_object.h"
+
+struct tile;
 
 /* Parameters for terrain counting functions. */
 static const bool C_ADJACENT = FALSE;

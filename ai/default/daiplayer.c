@@ -20,6 +20,7 @@
 #include "city.h"
 #include "game.h"
 #include "unit.h"
+#include "world_object.h"
 
 /* server */
 #include "citytools.h"

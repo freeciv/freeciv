@@ -33,6 +33,7 @@
 #include "gamehand.h"
 #include "maphand.h"
 #include "meta.h"
+#include "nation.h"
 #include "notify.h"
 #include "plrhand.h"
 #include "report.h"

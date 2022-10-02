@@ -21,6 +21,7 @@
 
 /* common */
 #include "game.h"
+#include "nation.h"
 #include "packets.h"
 #include "victory.h"
 

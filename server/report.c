@@ -34,6 +34,7 @@
 #include "events.h"
 #include "game.h"
 #include "government.h"
+#include "nation.h"
 #include "packets.h"
 #include "player.h"
 #include "research.h"

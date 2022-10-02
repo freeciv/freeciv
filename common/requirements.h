@@ -18,11 +18,10 @@
 extern "C" {
 #endif /* __cplusplus */
 
-/* utility */
-#include "astring.h"
-
 /* common */
 #include "fc_types.h"
+
+struct astring;
 
 /* Range of requirements.
  * Used in the network protocol.

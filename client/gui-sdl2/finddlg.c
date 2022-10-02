@@ -30,6 +30,7 @@
 
 /* common */
 #include "game.h"
+#include "nation.h"
 
 /* gui-sdl2 */
 #include "colors.h"

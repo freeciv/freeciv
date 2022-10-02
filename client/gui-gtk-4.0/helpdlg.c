@@ -33,6 +33,7 @@
 #include "game.h"
 #include "government.h"
 #include "movement.h"
+#include "nation.h"
 #include "specialist.h"
 #include "tech.h"
 #include "unit.h"

@@ -21,11 +21,12 @@ extern "C" {
 #include "support.h"            /* bool type */
 
 /* common */
-#include "connection.h"
 #include "fc_types.h"
-#include "multipliers.h"
 
 #include "requirements.h"
+
+struct conn_list;
+struct multiplier;
 
 /* Type of effects. Add new values via SPECENUM_VALUE%d and
  * SPECENUM_VALUE%dNAME at the end of the list.
@@ -353,8 +354,8 @@ extern "C" {
 struct effect {
   enum effect_type type;
 
-  /* pointer to multipliers (NULL means that this effect has no multiplier  */
-  struct  multiplier *multiplier;
+  /* Pointer to multipliers (NULL means that this effect has no multiplier */
+  struct multiplier *multiplier;
 
   /* The "value" of the effect.  The meaning of this varies between
    * effects.  When get_xxx_bonus() is called the value of all applicable

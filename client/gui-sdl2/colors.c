@@ -30,6 +30,9 @@
 #include <SDL2/SDL.h>
 #endif /* SDL2_PLAIN_INCLUDE */
 
+/* common */
+#include "rgbcolor.h"
+
 /* client */
 #include "tilespec.h"
 

@@ -23,10 +23,10 @@ extern "C" {
 /* common */
 #include "base.h"
 #include "fc_types.h"
-#include "terrain.h"		/* enum tile_special_type */
+#include "map_types.h"
+#include "terrain.h"            /* enum tile_special_type */
 #include "unittype.h"
 #include "vision.h"
-#include "world_object.h"
 
 struct road_type;
 struct unit_move_data; /* Actually defined in "server/unittools.c". */

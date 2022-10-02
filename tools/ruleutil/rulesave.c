@@ -16,6 +16,7 @@
 #endif
 
 /* utility */
+#include "astring.h"
 #include "registry.h"
 #include "string_vector.h"
 
@@ -27,6 +28,8 @@
 #include "map.h"
 #include "movement.h"
 #include "multipliers.h"
+#include "nation.h"
+#include "rgbcolor.h"
 #include "sex.h"
 #include "specialist.h"
 #include "style.h"
@@ -44,7 +47,7 @@
 
 /* Ruleset format version */
 /*
- * 1  - Freeciv-2.6 
+ * 1  - Freeciv-2.6
  * 10 - Freeciv-3.0
  * 20 - Freeciv-3.1
  * 30 - Freeciv-3.2

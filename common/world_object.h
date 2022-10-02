@@ -40,8 +40,10 @@ struct world
   struct unit_hash *units;
 };
 
+extern struct world wld; /* In game.c */
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */
 
-#endif  /* FC__WORLD_OBJECT_H */
+#endif /* FC__WORLD_OBJECT_H */

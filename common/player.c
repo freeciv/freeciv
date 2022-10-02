@@ -32,6 +32,7 @@
 #include "idex.h"
 #include "improvement.h"
 #include "map.h"
+#include "nation.h"
 #include "research.h"
 #include "rgbcolor.h"
 #include "tech.h"

@@ -35,6 +35,7 @@
 /* common */
 #include "city.h"
 #include "unit.h"
+#include "world_object.h"
 
 #include "idex.h"
 

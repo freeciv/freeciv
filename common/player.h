@@ -25,16 +25,16 @@ extern "C" {
 #include "effects.h"
 #include "fc_types.h"
 #include "multipliers.h"
-#include "nation.h"
 #include "shared.h"
 #include "spaceship.h"
 #include "style.h"
 #include "tech.h"
-#include "traits.h"
 #include "unitlist.h"
 #include "vision.h"
 
+struct ai_trait;
 struct city;
+struct nation_type;
 
 #define PLAYER_DEFAULT_TAX_RATE 0
 #define PLAYER_DEFAULT_SCIENCE_RATE 100

@@ -24,7 +24,7 @@ extern "C" {
 #define MAX_LEN_WORKLIST 64
 #define MAX_NUM_WORKLISTS 16
 
-/* a worklist */
+/* A worklist */
 struct worklist {
   int length;
   struct universal entries[MAX_LEN_WORKLIST];

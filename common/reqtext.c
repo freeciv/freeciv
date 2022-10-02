@@ -28,6 +28,7 @@
 #include "government.h"
 #include "map.h"
 #include "movement.h"
+#include "nation.h"
 #include "player.h"
 #include "requirements.h"
 #include "server_settings.h"

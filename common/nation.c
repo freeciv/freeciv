@@ -30,6 +30,7 @@
 #include "game.h"
 #include "government.h"
 #include "player.h"
+#include "rgbcolor.h"
 #include "tech.h"
 #include "traits.h"
 
