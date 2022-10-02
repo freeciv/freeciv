@@ -512,20 +512,17 @@ void gui_dialog_new(struct gui_dialog **pdlg, GtkNotebook *notebook,
 
   dlg->grid = gtk_grid_new();
   dlg->content_counter = 0;
-  action_area = gtk_grid_new();
-  gtk_grid_set_row_spacing(GTK_GRID(action_area), 4);
-  gtk_grid_set_column_spacing(GTK_GRID(action_area), 4);
   if (GUI_GTK_OPTION(enable_tabs)
       && (check_top && notebook != GTK_NOTEBOOK(top_notebook))
       && !GUI_GTK_OPTION(small_display_layout)) {
     /* We expect this to be short (as opposed to tall); maximise usable
      * height by putting buttons down the right hand side */
-    gtk_orientable_set_orientation(GTK_ORIENTABLE(action_area),
-                                   GTK_ORIENTATION_VERTICAL);
+    action_area = gtk_box_new(GTK_ORIENTATION_VERTICAL, 4);
     dlg->vertical_content = FALSE;
   } else {
     /* We expect this to be reasonably tall; maximise usable width by
      * putting buttons along the bottom */
+    action_area = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 4);
     gtk_orientable_set_orientation(GTK_ORIENTABLE(dlg->grid),
                                    GTK_ORIENTATION_VERTICAL);
     dlg->vertical_content = TRUE;
@@ -614,7 +611,6 @@ void gui_dialog_new(struct gui_dialog **pdlg, GtkNotebook *notebook,
   }
 
   dlg->actions = action_area;
-  dlg->actions_counter = 0;
 
   dlg->response_callback = gui_dialog_destroyed;
 
@@ -689,15 +685,7 @@ GtkWidget *gui_dialog_add_button(struct gui_dialog *dlg,
 GtkWidget *gui_dialog_add_action_widget(struct gui_dialog *dlg,
                                         GtkWidget *widget)
 {
-  /* When content area is vertical, action area is horizontal,
-   * and vice versa. */
-  if (dlg->vertical_content) {
-    gtk_grid_attach(GTK_GRID(dlg->actions), widget,
-                    dlg->actions_counter++, 0, 1, 1);
-  } else {
-    gtk_grid_attach(GTK_GRID(dlg->grid), widget,
-                    0, dlg->actions_counter++, 1, 1);
-  }
+  gtk_box_append(GTK_BOX(dlg->actions), widget);
 
   gtk_size_group_add_widget(gui_action, widget);
 
@@ -1103,7 +1091,7 @@ void dlg_tab_provider_prepare(void)
 }
 
 /**********************************************************************//**
-  Add widget to the gui_dialog vgrid
+  Add widget to the gui_dialog grid
 **************************************************************************/
 void gui_dialog_add_content_widget(struct gui_dialog *dlg, GtkWidget *wdg)
 {

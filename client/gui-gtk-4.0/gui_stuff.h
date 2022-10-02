@@ -82,7 +82,6 @@ struct gui_dialog
 
   bool vertical_content;
   int content_counter;
-  int actions_counter;
 
   union {
     GtkWidget *window;
