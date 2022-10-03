@@ -97,7 +97,7 @@ For "--LoadAI <modulename>" to find the AI module, it must reside in ${libdir}/f
 --------------------------------------------
 
 Default AI here refers to specific code module that any AI module can use, not to any
-one AI module. Classic AI module is just a thin wrapper around it, and also Threaded AI
+one AI module. Classic AI module is just a thin wrapper around it, and also Tex AI
 uses it.
 
 Almost all functions in default AI API take pointer to current AI type as parameter.
@@ -106,10 +106,10 @@ having such AI type specific data.
 
 If a AI type wants to add its own data associated with some code structure, it needs
 to make sure data needed by default AI is in the beginning of the allocated data blocks.
-For example, see threaded AI: tai_player_alloc(), tai_player_free(), and struct tai_plr.
+For example, see tex AI: taxai_player_alloc(), texai_player_free(), and struct tai_plr.
 
 Default AI code is usually built in freeciv only if some AI type using it has been built;
-either 'classic' or 'threaded'. If no such ai type has been built, you can still force
+either 'classic' or 'tex'. If no such ai type has been built, you can still force
 it in for custom ai types to use by passing configure option --with-ai-lib
 
 
