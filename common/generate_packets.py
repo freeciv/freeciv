@@ -344,7 +344,7 @@ class Location:
     def index(self) -> str:
         """The index name for the current depth"""
         if self.depth > len(self._INDICES):
-            raise ValueError("nested too deeply")
+            return self._INDICES[0] + str(self.depth)   # i3, i4, i5...
         return self._INDICES[self.depth]
 
     @property
