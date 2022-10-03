@@ -856,7 +856,7 @@ struct unit *find_visible_unit(struct tile *ptile)
 }
 
 /**************************************************************************
-  Blink the active unit (if necessary).  Return the time until the next
+  Blink the active unit (if necessary). Return the time until the next
   blink (in seconds).
 **************************************************************************/
 double blink_active_unit(void)
@@ -874,10 +874,10 @@ double blink_active_unit(void)
       timer_start(blink_timer);
 
       unit_list_iterate(get_units_in_focus(), punit) {
-	/* We flush to screen directly here.  This is most likely faster
-	 * since these drawing operations are all small but may be spread
-	 * out widely. */
-	refresh_unit_mapcanvas(punit, unit_tile(punit), FALSE, TRUE);
+        /* We used to unqueue here, but that's inherently risky
+         * for a function run from a timer - the UI can be in any
+         * inconsistent state. */
+	refresh_unit_mapcanvas(punit, unit_tile(punit), FALSE, FALSE);
       } unit_list_iterate_end;
     }
 
