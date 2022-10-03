@@ -2627,6 +2627,9 @@ void package_city(struct city *pcity, struct packet_city_info *packet,
 
 #ifdef FREECIV_WEB
   if (web_packet != NULL) {
+    BV_CLR_ALL(web_packet->can_build_unit);
+    BV_CLR_ALL(web_packet->can_build_improvement);
+
     web_packet->id = pcity->id;
 
     if (pcity->cm_parameter != NULL) {
@@ -2639,6 +2642,18 @@ void package_city(struct city *pcity, struct packet_city_info *packet,
 
     web_packet->granary_size = city_granary_size(city_size_get(pcity));
     web_packet->granary_turns = city_turns_to_grow(pcity);
+
+    improvement_iterate(pimprove) {
+      if (can_city_build_improvement_now(pcity, pimprove)) {
+        BV_SET(web_packet->can_build_improvement, improvement_index(pimprove));
+      }
+    } improvement_iterate_end;
+
+    unit_type_iterate(punittype) {
+      if (can_city_build_unit_now(pcity, punittype)) {
+        BV_SET(web_packet->can_build_unit, utype_index(punittype));
+      }
+    } unit_type_iterate_end;
   }
 #endif /* FREECIV_WEB */
 }

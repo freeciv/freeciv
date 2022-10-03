@@ -38,6 +38,8 @@ struct ai_type;
  * Used in the network protocol. */
 #define U_LAST MAX_NUM_UNITS
 
+BV_DEFINE(bv_utypes, U_LAST);
+
 /* The largest distance a ruleset can allow a unit to paradrop.
  *
  * Remember to make sure that the field type of PACKET_RULESET_UNIT's

@@ -292,6 +292,7 @@ type BV_TERRAIN_FLAGS   = bitvector(bv_terrain_flags)
 type BV_UCLASS_FLAGS    = bitvector(bv_unit_class_flags)
 type BV_PLR_FLAGS       = bitvector(bv_plr_flags)
 type BV_UNIT_CLASSES    = bitvector(bv_unit_classes)
+type BV_UTYPES          = bitvector(bv_utypes)
 type BV_UTYPE_FLAGS     = bitvector(bv_unit_type_flags)
 type BV_UTYPE_ROLES     = bitvector(bv_unit_type_roles)
 type BV_DISASTER_EFFECTS = bitvector(bv_disaster_effects)
@@ -2378,6 +2379,9 @@ PACKET_WEB_CITY_INFO_ADDITION = 256; sc, lsend, is-game-info, force, cancel(PACK
 
   UINT16 granary_size;
   TURN granary_turns;
+
+  BV_UTYPES can_build_unit;
+  BV_IMPRS can_build_improvement;
 end
 
 PACKET_WEB_CMA_SET = 257; cs, handle-via-fields
