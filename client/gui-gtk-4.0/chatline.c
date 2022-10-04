@@ -1208,7 +1208,6 @@ static gboolean move_toolkit(GtkWidget *toolkit_view, gpointer data)
     }
 
     /* Hide all other buttons boxes. */
-    iter = gtk_widget_get_first_child(GTK_WIDGET(ptoolkit->button_box));
     for (iter = gtk_widget_get_first_child(GTK_WIDGET(ptoolkit->button_box));
          iter != NULL;
          iter = gtk_widget_get_next_sibling(iter)) {
