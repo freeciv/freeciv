@@ -594,8 +594,7 @@ sound		= "b_library"
 sound_alt	= "b_generic"
 ; /* xgettext:no-c-format */
 helptext	= _("\
-Increases the science output in a city by 50%, or by 100% once the \
-Great Library has been built by any player.\
+Increases the science output in a city by 50%.\
 ")
 
 [building_marketplace]
@@ -988,9 +987,9 @@ by 100% once the Internet wonder has been built by any player.\
 ; /* xgettext:no-c-format */
 _("\
 The total bonus is 150% if a Library, a University and a \
-Research Lab are all present in the same city, increasing to 300% \
-once the Great Library, Isaac Newton's College, and the Internet have \
-all been built.\
+Research Lab are all present in the same city, increasing to 250% \
+once Isaac Newton's College, and the Internet have \
+both been built.\
 ")
 
 [building_sam_battery]
@@ -1370,8 +1369,8 @@ by 100% once Isaac Newton's College has been built by any player.\
 ; /* xgettext:no-c-format */
 _("\
 The total bonus is 100% if a Library and a University are present \
-together in the same city, increasing to 200% once the Great Library and \
-Isaac Newton's College have both been built.\
+together in the same city, increasing to 150% once \
+Isaac Newton's College has been built.\
 ")
 
 ; The consensus among the wise men you have licensed and granted a generous
@@ -1654,9 +1653,11 @@ sound_alt	= "w_generic"
 helptext	= _("\
 Gives an immediate technology advance to the player that builds it, \
 and thereafter 4 extra research points every turn to its city.\
-"), _("\
-Completion of this wonder permanently doubles the effect of Libraries \
-for every player.\
+"),
+; /* xgettext:no-c-format */
+_("\
+Completion of this wonder starts permanent tech sharing so that once \
+a tech is known by 30% of players, also all the others get it.\
 ")
 
 [building_great_wall]

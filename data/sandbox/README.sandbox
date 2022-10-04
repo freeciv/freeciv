@@ -253,3 +253,8 @@ A size 1 city is destroyed with its last defender.
 
 Wonder visibility
 Opponents are aware of player's Small Wonders only if they have an embassy.
+
+Great Library
+Great Library does not give science boost to all players, but a tech
+sharing a bit similar to classic ruleset. Techs known by 30% of
+players are automatically shared to everyone.

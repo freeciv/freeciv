@@ -3317,13 +3317,11 @@ reqs	=
     }
 
 [effect_great_library]
-type    = "Output_Bonus"
-value   = 50
+type    = "Tech_Parasite_Pct_Max"
+value   = 30
 reqs    =
     { "type", "name", "range", "survives"
       "Building", "Great Library", "World", TRUE
-      "Building", "Library", "City"
-      "OutputType", "Science", "Local"
     }
 
 [effect_great_library_1]
