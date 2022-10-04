@@ -70,7 +70,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.15\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2022-10-02 07:49+0300\n"
+"POT-Creation-Date: 2022-10-04 20:40+0300\n"
 "PO-Revision-Date: 2022-04-13 22:29+0200\n"
 "Last-Translator: Marvin Gülker <m-guelker@phoenixmail.de>\n"
 "Language-Team: German Freeciv Translators <freeciv-de@googlegroups.com>\n"
@@ -1196,7 +1196,7 @@ msgstr "Name der Stadt"
 #: client/gui-gtk-3.22/editprop.c:3659 client/gui-gtk-3.22/editprop.c:4514
 #: client/gui-gtk-3.22/gotodlg.c:219 client/gui-gtk-3.22/pages.c:1396
 #: client/gui-gtk-3.22/pages.c:2741 client/gui-gtk-4.0/citizensinfo.c:64
-#: client/gui-gtk-4.0/editprop.c:3670 client/gui-gtk-4.0/editprop.c:4525
+#: client/gui-gtk-4.0/editprop.c:3671 client/gui-gtk-4.0/editprop.c:4526
 #: client/gui-gtk-4.0/gotodlg.c:218 client/gui-gtk-4.0/pages.c:1431
 #: client/gui-gtk-4.0/pages.c:2814 client/gui-qt/citydlg.cpp:2948
 #: client/gui-qt/gotodlg.cpp:49 client/gui-qt/pages.cpp:323
@@ -1212,8 +1212,8 @@ msgstr "Gr"
 
 #: client/cityrepdata.c:702 client/gui-gtk-3.0/editgui.c:1273
 #: client/gui-gtk-3.0/editprop.c:4494 client/gui-gtk-3.22/editgui.c:1272
-#: client/gui-gtk-3.22/editprop.c:4493 client/gui-gtk-4.0/editgui.c:1283
-#: client/gui-gtk-4.0/editprop.c:4504 client/gui-qt/gotodlg.cpp:57
+#: client/gui-gtk-3.22/editprop.c:4493 client/gui-gtk-4.0/editgui.c:1284
+#: client/gui-gtk-4.0/editprop.c:4505 client/gui-qt/gotodlg.cpp:57
 msgid "Size"
 msgstr "Größe"
 
@@ -2064,7 +2064,7 @@ msgstr ""
 
 #: client/editor.c:199 client/gui-gtk-3.0/editprop.c:4393
 #: client/gui-gtk-3.0/menu.c:313 client/gui-gtk-3.22/editprop.c:4392
-#: client/gui-gtk-3.22/menu.c:320 client/gui-gtk-4.0/editprop.c:4403
+#: client/gui-gtk-3.22/menu.c:320 client/gui-gtk-4.0/editprop.c:4404
 #: client/gui-gtk-4.0/menu.c:458 client/include/helpdlg_g.h:50
 #: data/helpdata.txt:291 tools/civmanual.c:458
 msgid "Terrain"
@@ -2177,7 +2177,7 @@ msgstr ""
 "Kürzel: c"
 
 #: client/editor.c:225 client/gui-gtk-3.0/editprop.c:4431
-#: client/gui-gtk-3.22/editprop.c:4430 client/gui-gtk-4.0/editprop.c:4441
+#: client/gui-gtk-3.22/editprop.c:4430 client/gui-gtk-4.0/editprop.c:4442
 #: client/plrdlg_common.c:577
 msgid "Vision"
 msgstr "Karteneinsicht"
@@ -2661,22 +2661,22 @@ msgid "Select the %s color"
 msgstr "%s-Farbe wählen"
 
 #: client/gui-gtk-3.0/chatline.c:1342 client/gui-gtk-3.22/chatline.c:1348
-#: client/gui-gtk-4.0/chatline.c:1367
+#: client/gui-gtk-4.0/chatline.c:1365
 msgid "Bold (Ctrl-B)"
 msgstr "Fett ([STRG]+[B])"
 
 #: client/gui-gtk-3.0/chatline.c:1350 client/gui-gtk-3.22/chatline.c:1357
-#: client/gui-gtk-4.0/chatline.c:1378
+#: client/gui-gtk-4.0/chatline.c:1376
 msgid "Italic (Ctrl-I)"
 msgstr "Kursiv ([STRG]+[I])"
 
 #: client/gui-gtk-3.0/chatline.c:1358 client/gui-gtk-3.22/chatline.c:1366
-#: client/gui-gtk-4.0/chatline.c:1388
+#: client/gui-gtk-4.0/chatline.c:1386
 msgid "Strikethrough (Ctrl-S)"
 msgstr "Durchgestrichen ([STRG]+[S])"
 
 #: client/gui-gtk-3.0/chatline.c:1366 client/gui-gtk-3.22/chatline.c:1375
-#: client/gui-gtk-4.0/chatline.c:1398
+#: client/gui-gtk-4.0/chatline.c:1396
 msgid "Underline (Ctrl-U)"
 msgstr "Unterstrichen ([STRG]+[U])"
 
@@ -2686,37 +2686,37 @@ msgid "Color (Ctrl-C)"
 msgstr "Farbe ([STRG]+[C])"
 
 #: client/gui-gtk-3.0/chatline.c:1384 client/gui-gtk-3.22/chatline.c:1393
-#: client/gui-gtk-4.0/chatline.c:1417
+#: client/gui-gtk-4.0/chatline.c:1416
 msgid "foreground"
 msgstr "Vordergrund"
 
 #: client/gui-gtk-3.0/chatline.c:1387 client/gui-gtk-3.0/optiondlg.c:628
 #: client/gui-gtk-3.22/chatline.c:1396 client/gui-gtk-3.22/optiondlg.c:621
-#: client/gui-gtk-4.0/chatline.c:1420 client/gui-gtk-4.0/optiondlg.c:633
+#: client/gui-gtk-4.0/chatline.c:1419 client/gui-gtk-4.0/optiondlg.c:633
 #: client/gui-qt/optiondlg.cpp:718
 msgid "Select the text color"
 msgstr "Nächste Farbe auswählen"
 
 #: client/gui-gtk-3.0/chatline.c:1400 client/gui-gtk-3.22/chatline.c:1409
-#: client/gui-gtk-4.0/chatline.c:1433
+#: client/gui-gtk-4.0/chatline.c:1432
 msgid "background"
 msgstr "Hintergrund"
 
 #: client/gui-gtk-3.0/chatline.c:1404 client/gui-gtk-3.0/optiondlg.c:637
 #: client/gui-gtk-3.22/chatline.c:1413 client/gui-gtk-3.22/optiondlg.c:630
-#: client/gui-gtk-4.0/chatline.c:1437 client/gui-gtk-4.0/optiondlg.c:642
+#: client/gui-gtk-4.0/chatline.c:1436 client/gui-gtk-4.0/optiondlg.c:642
 #: client/gui-qt/optiondlg.cpp:730
 msgid "Select the background color"
 msgstr "Hintergrundfarbe auswählen"
 
 #. TRANS: "Return" means the return key.
 #: client/gui-gtk-3.0/chatline.c:1422 client/gui-gtk-3.22/chatline.c:1431
-#: client/gui-gtk-4.0/chatline.c:1456
+#: client/gui-gtk-4.0/chatline.c:1453
 msgid "Send the chat (Return)"
 msgstr "Chat senden ([Enter])"
 
 #: client/gui-gtk-3.0/chatline.c:1437 client/gui-gtk-3.22/chatline.c:1445
-#: client/gui-gtk-4.0/chatline.c:1470
+#: client/gui-gtk-4.0/chatline.c:1467
 msgid "Chat tools"
 msgstr "Chatwerkzeuge"
 
@@ -2729,8 +2729,8 @@ msgstr "#"
 #: client/gui-gtk-3.0/editprop.c:3705 client/gui-gtk-3.0/pages.c:2736
 #: client/gui-gtk-3.22/citizensinfo.c:64 client/gui-gtk-3.22/editprop.c:3690
 #: client/gui-gtk-3.22/editprop.c:3704 client/gui-gtk-3.22/pages.c:2737
-#: client/gui-gtk-4.0/citizensinfo.c:63 client/gui-gtk-4.0/editprop.c:3701
-#: client/gui-gtk-4.0/editprop.c:3715 client/gui-gtk-4.0/pages.c:2810
+#: client/gui-gtk-4.0/citizensinfo.c:63 client/gui-gtk-4.0/editprop.c:3702
+#: client/gui-gtk-4.0/editprop.c:3716 client/gui-gtk-4.0/pages.c:2810
 #: client/gui-qt/citydlg.cpp:2948 client/gui-qt/pages.cpp:652
 #: client/plrdlg_common.c:567
 msgid "Flag"
@@ -2903,7 +2903,7 @@ msgstr "Stadtplan"
 
 #: client/gui-gtk-3.0/citydlg.c:1200 client/gui-gtk-3.0/editprop.c:4498
 #: client/gui-gtk-3.22/citydlg.c:1237 client/gui-gtk-3.22/editprop.c:4497
-#: client/gui-gtk-4.0/citydlg.c:1237 client/gui-gtk-4.0/editprop.c:4508
+#: client/gui-gtk-4.0/citydlg.c:1237 client/gui-gtk-4.0/editprop.c:4509
 #: client/gui-qt/cityrep.cpp:737
 msgid "Buildings"
 msgstr "Gebäude"
@@ -2939,7 +2939,7 @@ msgstr "Luxus"
 #: client/gui-gtk-3.0/citydlg.c:1374 client/gui-gtk-3.0/editprop.c:4527
 #: client/gui-gtk-3.0/gamedlgs.c:475 client/gui-gtk-3.22/citydlg.c:1411
 #: client/gui-gtk-3.22/editprop.c:4527 client/gui-gtk-3.22/gamedlgs.c:475
-#: client/gui-gtk-4.0/citydlg.c:1425 client/gui-gtk-4.0/editprop.c:4538
+#: client/gui-gtk-4.0/citydlg.c:1425 client/gui-gtk-4.0/editprop.c:4539
 #: client/gui-gtk-4.0/gamedlgs.c:477 client/gui-qt/citydlg.cpp:1937
 #: client/plrdlg_common.c:586 common/city.c:88 server/plrhand.c:313
 msgid "Science"
@@ -2948,7 +2948,7 @@ msgstr "Forschung"
 #: client/gui-gtk-3.0/citydlg.c:1375 client/gui-gtk-3.0/editprop.c:4529
 #: client/gui-gtk-3.0/repodlgs.c:1300 client/gui-gtk-3.22/citydlg.c:1412
 #: client/gui-gtk-3.22/editprop.c:4529 client/gui-gtk-3.22/repodlgs.c:1299
-#: client/gui-gtk-4.0/citydlg.c:1426 client/gui-gtk-4.0/editprop.c:4540
+#: client/gui-gtk-4.0/citydlg.c:1426 client/gui-gtk-4.0/editprop.c:4541
 #: client/gui-gtk-4.0/repodlgs.c:1332 client/gui-qt/citydlg.cpp:1936
 #: client/gui-qt/pages.cpp:1300 client/plrdlg_common.c:584 common/city.c:86
 #: data/civ1/terrain.ruleset:1182 data/civ2/terrain.ruleset:1323
@@ -3912,7 +3912,7 @@ msgid "Global Observer"
 msgstr "Beobachter"
 
 #: client/gui-gtk-3.0/editgui.c:585 client/gui-gtk-3.22/editgui.c:585
-#: client/gui-gtk-4.0/editgui.c:590
+#: client/gui-gtk-4.0/editgui.c:591
 msgid ""
 "Switch player point-of-view. Use this to edit from the perspective of "
 "different players, or even as a global observer."
@@ -3921,37 +3921,37 @@ msgstr ""
 "verschiedener Spieler heraus oder sogar aus Beobachtersicht zu arbeiten."
 
 #: client/gui-gtk-3.0/editgui.c:597 client/gui-gtk-3.22/editgui.c:597
-#: client/gui-gtk-4.0/editgui.c:602
+#: client/gui-gtk-4.0/editgui.c:603
 msgid "Show the property editor."
 msgstr "Eigenschaftseditor anzeigen."
 
 #: client/gui-gtk-3.0/editgui.c:1007 client/gui-gtk-3.22/editgui.c:1007
-#: client/gui-gtk-4.0/editgui.c:997
+#: client/gui-gtk-4.0/editgui.c:998
 msgid "Select Tool Value"
 msgstr "Werkzeug auswählen."
 
 #: client/gui-gtk-3.0/editgui.c:1178 client/gui-gtk-3.22/editgui.c:1177
-#: client/gui-gtk-4.0/editgui.c:1175
+#: client/gui-gtk-4.0/editgui.c:1176
 msgid "Editor Tool"
 msgstr "Edit-Werkzeuge"
 
 #: client/gui-gtk-3.0/editgui.c:1195 client/gui-gtk-3.22/editgui.c:1194
-#: client/gui-gtk-4.0/editgui.c:1198
+#: client/gui-gtk-4.0/editgui.c:1199
 msgid "Click to change value if applicable."
 msgstr "Anklicken, um Wert falls möglich zu ändern."
 
 #: client/gui-gtk-3.0/editgui.c:1228 client/gui-gtk-3.22/editgui.c:1227
-#: client/gui-gtk-4.0/editgui.c:1234
+#: client/gui-gtk-4.0/editgui.c:1235
 msgid "Click to change tool mode."
 msgstr "Anklicken, um den Werkzeugmodus zu ändern."
 
 #: client/gui-gtk-3.0/editgui.c:1245 client/gui-gtk-3.22/editgui.c:1244
-#: client/gui-gtk-4.0/editgui.c:1254
+#: client/gui-gtk-4.0/editgui.c:1255
 msgid "Mode"
 msgstr "Modus"
 
 #: client/gui-gtk-3.0/editgui.c:1264 client/gui-gtk-3.22/editgui.c:1263
-#: client/gui-gtk-4.0/editgui.c:1274
+#: client/gui-gtk-4.0/editgui.c:1275
 msgid ""
 "Use this to change the \"size\" parameter for the tool. This parameter "
 "controls for example the half-width of the square of tiles that will be "
@@ -3962,7 +3962,7 @@ msgstr ""
 "Werkzeug bearbeitet wird oder auch die Größe einer erstellten Stadt."
 
 #: client/gui-gtk-3.0/editgui.c:1282 client/gui-gtk-3.22/editgui.c:1281
-#: client/gui-gtk-4.0/editgui.c:1293
+#: client/gui-gtk-4.0/editgui.c:1294
 msgid ""
 "Use this to change the tool's \"count\" parameter. This controls for example "
 "how many units are placed at once with the unit tool."
@@ -3974,13 +3974,13 @@ msgstr ""
 #: client/gui-gtk-3.0/editgui.c:1290 client/gui-gtk-3.0/repodlgs.c:804
 #: client/gui-gtk-3.0/unitselect.c:97 client/gui-gtk-3.22/editgui.c:1289
 #: client/gui-gtk-3.22/repodlgs.c:803 client/gui-gtk-3.22/unitselect.c:97
-#: client/gui-gtk-4.0/editgui.c:1301 client/gui-gtk-4.0/repodlgs.c:839
+#: client/gui-gtk-4.0/editgui.c:1302 client/gui-gtk-4.0/repodlgs.c:839
 #: client/gui-gtk-4.0/unitselect.c:97 client/gui-qt/repodlgs.cpp:1213
 msgid "Count"
 msgstr "Anzahl"
 
 #: client/gui-gtk-3.0/editgui.c:1316 client/gui-gtk-3.22/editgui.c:1315
-#: client/gui-gtk-4.0/editgui.c:1327
+#: client/gui-gtk-4.0/editgui.c:1328
 msgid ""
 "Use this to change the \"applied player\" tool parameter. This controls for "
 "example under which player units and cities are created."
@@ -4041,7 +4041,7 @@ msgstr "%d vorhanden"
 
 #: client/gui-gtk-3.0/editprop.c:948 client/gui-gtk-3.0/editprop.c:3893
 #: client/gui-gtk-3.22/editprop.c:948 client/gui-gtk-3.22/editprop.c:3892
-#: client/gui-gtk-4.0/editprop.c:948 client/gui-gtk-4.0/editprop.c:3903
+#: client/gui-gtk-4.0/editprop.c:948 client/gui-gtk-4.0/editprop.c:3904
 #: client/gui-qt/dialogs.cpp:606 data/civ1/nations.ruleset:88
 #: data/civ2/nations.ruleset:90 data/alien/nations.ruleset:89
 msgid "All nations"
@@ -4076,12 +4076,12 @@ msgid "(destroyed)"
 msgstr "(zerstört)"
 
 #: client/gui-gtk-3.0/editprop.c:3545 client/gui-gtk-3.22/editprop.c:3545
-#: client/gui-gtk-4.0/editprop.c:3551 client/gui-qt/menu.cpp:1039
+#: client/gui-gtk-4.0/editprop.c:3552 client/gui-qt/menu.cpp:1039
 msgid "?verb:View"
 msgstr "Übersicht"
 
 #: client/gui-gtk-3.0/editprop.c:3547 client/gui-gtk-3.22/editprop.c:3547
-#: client/gui-gtk-4.0/editprop.c:3553
+#: client/gui-gtk-4.0/editprop.c:3554
 msgid "Edit"
 msgstr "Bearbeiten"
 
@@ -4093,7 +4093,7 @@ msgstr "Bearbeiten"
 #. TRANS: As in "this building is present".
 #: client/gui-gtk-3.0/editprop.c:3649 client/gui-gtk-3.0/editprop.c:3674
 #: client/gui-gtk-3.22/editprop.c:3648 client/gui-gtk-3.22/editprop.c:3673
-#: client/gui-gtk-4.0/editprop.c:3659 client/gui-gtk-4.0/editprop.c:3684
+#: client/gui-gtk-4.0/editprop.c:3660 client/gui-gtk-4.0/editprop.c:3685
 msgid "Present"
 msgstr "Vorhanden"
 
@@ -4105,10 +4105,10 @@ msgstr "Vorhanden"
 #: client/gui-gtk-3.22/editprop.c:3675 client/gui-gtk-3.22/editprop.c:3688
 #: client/gui-gtk-3.22/editprop.c:3701 client/gui-gtk-3.22/editprop.c:3715
 #: client/gui-gtk-3.22/editprop.c:4459 client/gui-gtk-3.22/editprop.c:4489
-#: client/gui-gtk-4.0/editprop.c:3661 client/gui-gtk-4.0/editprop.c:3668
-#: client/gui-gtk-4.0/editprop.c:3686 client/gui-gtk-4.0/editprop.c:3699
-#: client/gui-gtk-4.0/editprop.c:3712 client/gui-gtk-4.0/editprop.c:3726
-#: client/gui-gtk-4.0/editprop.c:4470 client/gui-gtk-4.0/editprop.c:4500
+#: client/gui-gtk-4.0/editprop.c:3662 client/gui-gtk-4.0/editprop.c:3669
+#: client/gui-gtk-4.0/editprop.c:3687 client/gui-gtk-4.0/editprop.c:3700
+#: client/gui-gtk-4.0/editprop.c:3713 client/gui-gtk-4.0/editprop.c:3727
+#: client/gui-gtk-4.0/editprop.c:4471 client/gui-gtk-4.0/editprop.c:4501
 msgid "ID"
 msgstr "ID"
 
@@ -4123,10 +4123,10 @@ msgstr "ID"
 #: client/gui-gtk-3.22/editprop.c:3717 client/gui-gtk-3.22/editprop.c:4483
 #: client/gui-gtk-3.22/editprop.c:4507 client/gui-gtk-3.22/pages.c:1393
 #: client/gui-gtk-3.22/pages.c:2731 client/gui-gtk-3.22/wldlg.c:1001
-#: client/gui-gtk-4.0/editprop.c:3663 client/gui-gtk-4.0/editprop.c:3672
-#: client/gui-gtk-4.0/editprop.c:3688 client/gui-gtk-4.0/editprop.c:3703
-#: client/gui-gtk-4.0/editprop.c:3718 client/gui-gtk-4.0/editprop.c:3728
-#: client/gui-gtk-4.0/editprop.c:4494 client/gui-gtk-4.0/editprop.c:4518
+#: client/gui-gtk-4.0/editprop.c:3664 client/gui-gtk-4.0/editprop.c:3673
+#: client/gui-gtk-4.0/editprop.c:3689 client/gui-gtk-4.0/editprop.c:3704
+#: client/gui-gtk-4.0/editprop.c:3719 client/gui-gtk-4.0/editprop.c:3729
+#: client/gui-gtk-4.0/editprop.c:4495 client/gui-gtk-4.0/editprop.c:4519
 #: client/gui-gtk-4.0/pages.c:1428 client/gui-gtk-4.0/pages.c:2804
 #: client/gui-gtk-4.0/wldlg.c:1051 client/gui-qt/pages.cpp:323
 #: client/gui-qt/pages.cpp:651 tools/civmanual.c:596
@@ -4138,25 +4138,25 @@ msgstr "Name"
 #. TRANS: As in "this invention is known".
 #: client/gui-gtk-3.0/editprop.c:3664 client/gui-gtk-3.0/editprop.c:3714
 #: client/gui-gtk-3.22/editprop.c:3663 client/gui-gtk-3.22/editprop.c:3713
-#: client/gui-gtk-4.0/editprop.c:3674 client/gui-gtk-4.0/editprop.c:3724
+#: client/gui-gtk-4.0/editprop.c:3675 client/gui-gtk-4.0/editprop.c:3725
 msgid "Known"
 msgstr "Bekannt"
 
 #. TRANS: As in "the turn when this building was built".
 #: client/gui-gtk-3.0/editprop.c:3681 client/gui-gtk-3.22/editprop.c:3680
-#: client/gui-gtk-4.0/editprop.c:3691
+#: client/gui-gtk-4.0/editprop.c:3692
 msgid "Turn Built"
 msgstr "Abgeschlossen in Runde"
 
 #. TRANS: As in "the player has set this nation".
 #: client/gui-gtk-3.0/editprop.c:3687 client/gui-gtk-3.0/editprop.c:3700
 #: client/gui-gtk-3.22/editprop.c:3686 client/gui-gtk-3.22/editprop.c:3699
-#: client/gui-gtk-4.0/editprop.c:3697 client/gui-gtk-4.0/editprop.c:3710
+#: client/gui-gtk-4.0/editprop.c:3698 client/gui-gtk-4.0/editprop.c:3711
 msgid "Set"
 msgstr "Festgelegt"
 
 #: client/gui-gtk-3.0/editprop.c:3705 client/gui-gtk-3.22/editprop.c:3704
-#: client/gui-gtk-4.0/editprop.c:3715
+#: client/gui-gtk-4.0/editprop.c:3716
 msgid "Icon"
 msgstr "Icon"
 
@@ -4164,47 +4164,47 @@ msgstr "Icon"
 #: client/gui-gtk-3.0/editprop.c:4452 client/gui-gtk-3.0/editprop.c:4482
 #: client/gui-gtk-3.22/editprop.c:4390 client/gui-gtk-3.22/editprop.c:4439
 #: client/gui-gtk-3.22/editprop.c:4451 client/gui-gtk-3.22/editprop.c:4481
-#: client/gui-gtk-4.0/editprop.c:4401 client/gui-gtk-4.0/editprop.c:4450
-#: client/gui-gtk-4.0/editprop.c:4462 client/gui-gtk-4.0/editprop.c:4492
+#: client/gui-gtk-4.0/editprop.c:4402 client/gui-gtk-4.0/editprop.c:4451
+#: client/gui-gtk-4.0/editprop.c:4463 client/gui-gtk-4.0/editprop.c:4493
 msgid "Image"
 msgstr "Bild"
 
 #: client/gui-gtk-3.0/editprop.c:4395 client/gui-gtk-3.22/editprop.c:4394
-#: client/gui-gtk-4.0/editprop.c:4405
+#: client/gui-gtk-4.0/editprop.c:4406
 msgid "Resource"
 msgstr "Ressource"
 
 #: client/gui-gtk-3.0/editprop.c:4397 client/gui-gtk-3.22/editprop.c:4396
-#: client/gui-gtk-4.0/editprop.c:4407
+#: client/gui-gtk-4.0/editprop.c:4408
 msgid "Index"
 msgstr "Index"
 
 #: client/gui-gtk-3.0/editprop.c:4399 client/gui-gtk-3.22/editprop.c:4398
-#: client/gui-gtk-4.0/editprop.c:4409
+#: client/gui-gtk-4.0/editprop.c:4410
 msgid "?coordinate:X"
 msgstr "X"
 
 #: client/gui-gtk-3.0/editprop.c:4401 client/gui-gtk-3.22/editprop.c:4400
-#: client/gui-gtk-4.0/editprop.c:4411
+#: client/gui-gtk-4.0/editprop.c:4412
 msgid "?coordinate:Y"
 msgstr "Y"
 
 #. TRANS: The coordinate X in native coordinates.
 #. * The freeciv coordinate system is described in doc/HACKING.
 #: client/gui-gtk-3.0/editprop.c:4405 client/gui-gtk-3.22/editprop.c:4404
-#: client/gui-gtk-4.0/editprop.c:4415
+#: client/gui-gtk-4.0/editprop.c:4416
 msgid "NAT X"
 msgstr "NAT X"
 
 #. TRANS: The coordinate Y in native coordinates.
 #. * The freeciv coordinate system is described in doc/HACKING.
 #: client/gui-gtk-3.0/editprop.c:4409 client/gui-gtk-3.22/editprop.c:4408
-#: client/gui-gtk-4.0/editprop.c:4419
+#: client/gui-gtk-4.0/editprop.c:4420
 msgid "NAT Y"
 msgstr "NAT Y"
 
 #: client/gui-gtk-3.0/editprop.c:4411 client/gui-gtk-3.22/editprop.c:4410
-#: client/gui-gtk-4.0/editprop.c:4421 client/gui-qt/gotodlg.cpp:51
+#: client/gui-gtk-4.0/editprop.c:4422 client/gui-qt/gotodlg.cpp:51
 msgid "Continent"
 msgstr "Kontinent"
 
@@ -4212,23 +4212,23 @@ msgstr "Kontinent"
 #: client/gui-gtk-3.0/editprop.c:4462 client/gui-gtk-3.0/editprop.c:4492
 #: client/gui-gtk-3.22/editprop.c:4412 client/gui-gtk-3.22/editprop.c:4441
 #: client/gui-gtk-3.22/editprop.c:4461 client/gui-gtk-3.22/editprop.c:4491
-#: client/gui-gtk-4.0/editprop.c:4423 client/gui-gtk-4.0/editprop.c:4452
-#: client/gui-gtk-4.0/editprop.c:4472 client/gui-gtk-4.0/editprop.c:4502
+#: client/gui-gtk-4.0/editprop.c:4424 client/gui-gtk-4.0/editprop.c:4453
+#: client/gui-gtk-4.0/editprop.c:4473 client/gui-gtk-4.0/editprop.c:4503
 msgid "?coordinates:X,Y"
 msgstr "X,Y"
 
 #: client/gui-gtk-3.0/editprop.c:4415 client/gui-gtk-3.22/editprop.c:4414
-#: client/gui-gtk-4.0/editprop.c:4425
+#: client/gui-gtk-4.0/editprop.c:4426
 msgid "Specials"
 msgstr "Extras"
 
 #: client/gui-gtk-3.0/editprop.c:4418 client/gui-gtk-3.22/editprop.c:4417
-#: client/gui-gtk-4.0/editprop.c:4428
+#: client/gui-gtk-4.0/editprop.c:4429
 msgid "Roads"
 msgstr "Straßen"
 
 #: client/gui-gtk-3.0/editprop.c:4421 client/gui-gtk-3.22/editprop.c:4420
-#: client/gui-gtk-4.0/editprop.c:4431
+#: client/gui-gtk-4.0/editprop.c:4432
 msgid "Bases"
 msgstr "Basen"
 
@@ -4237,19 +4237,19 @@ msgstr "Basen"
 #: client/gui-gtk-3.0/editprop.c:4487 client/gui-gtk-3.0/editprop.c:4512
 #: client/gui-gtk-3.22/editprop.c:4424 client/gui-gtk-3.22/editprop.c:4454
 #: client/gui-gtk-3.22/editprop.c:4486 client/gui-gtk-3.22/editprop.c:4511
-#: client/gui-gtk-4.0/editprop.c:4435 client/gui-gtk-4.0/editprop.c:4465
-#: client/gui-gtk-4.0/editprop.c:4497 client/gui-gtk-4.0/editprop.c:4522
+#: client/gui-gtk-4.0/editprop.c:4436 client/gui-gtk-4.0/editprop.c:4466
+#: client/gui-gtk-4.0/editprop.c:4498 client/gui-gtk-4.0/editprop.c:4523
 msgid "Address"
 msgstr "Address"
 
 #. TRANS: Tile property "Label" label in editor
 #: client/gui-gtk-3.0/editprop.c:4435 client/gui-gtk-3.22/editprop.c:4434
-#: client/gui-gtk-4.0/editprop.c:4445
+#: client/gui-gtk-4.0/editprop.c:4446
 msgid "?property:Label"
 msgstr "Beschriftung"
 
 #: client/gui-gtk-3.0/editprop.c:4444 client/gui-gtk-3.22/editprop.c:4443
-#: client/gui-gtk-4.0/editprop.c:4454
+#: client/gui-gtk-4.0/editprop.c:4455
 msgid "Exclude Nations"
 msgstr "Nationen ausschließen"
 
@@ -4258,7 +4258,7 @@ msgstr "Nationen ausschließen"
 #. TRANS: Nations report title
 #: client/gui-gtk-3.0/editprop.c:4446 client/gui-gtk-3.0/plrdlg.c:434
 #: client/gui-gtk-3.22/editprop.c:4445 client/gui-gtk-3.22/plrdlg.c:432
-#: client/gui-gtk-4.0/editprop.c:4456 client/gui-gtk-4.0/plrdlg.c:500
+#: client/gui-gtk-4.0/editprop.c:4457 client/gui-gtk-4.0/plrdlg.c:500
 #: client/gui-qt/menu.cpp:1558 client/gui-qt/pages.cpp:739
 #: client/gui-sdl2/mapctrl.c:1703 client/gui-sdl2/plrdlg.c:680
 msgid "Nations"
@@ -4269,144 +4269,144 @@ msgstr "Nationen"
 #: client/gui-gtk-3.0/repodlgs.c:798 client/gui-gtk-3.0/wldlg.c:1003
 #: client/gui-gtk-3.22/editprop.c:4457 client/gui-gtk-3.22/pages.c:1394
 #: client/gui-gtk-3.22/repodlgs.c:797 client/gui-gtk-3.22/wldlg.c:1001
-#: client/gui-gtk-4.0/editprop.c:4468 client/gui-gtk-4.0/pages.c:1429
+#: client/gui-gtk-4.0/editprop.c:4469 client/gui-gtk-4.0/pages.c:1429
 #: client/gui-gtk-4.0/repodlgs.c:833 client/gui-gtk-4.0/wldlg.c:1051
 #: client/gui-qt/pages.cpp:323 client/gui-qt/repodlgs.cpp:1212
 msgid "Type"
 msgstr "Bild"
 
 #: client/gui-gtk-3.0/editprop.c:4464 client/gui-gtk-3.22/editprop.c:4463
-#: client/gui-gtk-4.0/editprop.c:4474
+#: client/gui-gtk-4.0/editprop.c:4475
 msgid "Moves Left"
 msgstr "Bewegt sich nach links"
 
 #: client/gui-gtk-3.0/editprop.c:4466 client/gui-gtk-3.22/editprop.c:4465
-#: client/gui-gtk-4.0/editprop.c:4476
+#: client/gui-gtk-4.0/editprop.c:4477
 msgid "Fuel"
 msgstr "Treibstoff"
 
 #: client/gui-gtk-3.0/editprop.c:4468 client/gui-gtk-3.22/editprop.c:4467
-#: client/gui-gtk-4.0/editprop.c:4478
+#: client/gui-gtk-4.0/editprop.c:4479
 msgid "Moved"
 msgstr "Bewegt"
 
 #: client/gui-gtk-3.0/editprop.c:4470 client/gui-gtk-3.22/editprop.c:4469
-#: client/gui-gtk-4.0/editprop.c:4480 client/gui-qt/shortcuts.cpp:103
+#: client/gui-gtk-4.0/editprop.c:4481 client/gui-qt/shortcuts.cpp:103
 msgid "Done Moving"
 msgstr "Bewegung abgeschlossen"
 
 # LP = Lebenspunkte
 #. TRANS: HP = Hit Points of a unit.
 #: client/gui-gtk-3.0/editprop.c:4473 client/gui-gtk-3.22/editprop.c:4472
-#: client/gui-gtk-4.0/editprop.c:4483
+#: client/gui-gtk-4.0/editprop.c:4484
 msgid "HP"
 msgstr "LP"
 
 #: client/gui-gtk-3.0/editprop.c:4475 client/gui-gtk-3.22/editprop.c:4474
-#: client/gui-gtk-4.0/editprop.c:4485
+#: client/gui-gtk-4.0/editprop.c:4486
 msgid "Veteran"
 msgstr "Veteran"
 
 #: client/gui-gtk-3.0/editprop.c:4477 client/gui-gtk-3.22/editprop.c:4476
-#: client/gui-gtk-4.0/editprop.c:4487
+#: client/gui-gtk-4.0/editprop.c:4488
 msgid "Stay put"
 msgstr "Hier bleiben"
 
 #: client/gui-gtk-3.0/editprop.c:4496 client/gui-gtk-3.22/editprop.c:4495
-#: client/gui-gtk-4.0/editprop.c:4506
+#: client/gui-gtk-4.0/editprop.c:4507
 msgid "History"
 msgstr "Geschichte"
 
 #: client/gui-gtk-3.0/editprop.c:4501 client/gui-gtk-3.22/editprop.c:4500
-#: client/gui-gtk-4.0/editprop.c:4511
+#: client/gui-gtk-4.0/editprop.c:4512
 msgid "Food Stock"
 msgstr "Nahrungsvorrat"
 
 #: client/gui-gtk-3.0/editprop.c:4503 client/gui-gtk-3.22/editprop.c:4502
-#: client/gui-gtk-4.0/editprop.c:4513
+#: client/gui-gtk-4.0/editprop.c:4514
 msgid "Shield Stock"
 msgstr "Produktionsvorrat"
 
 #: client/gui-gtk-3.0/editprop.c:4518 client/gui-gtk-3.0/menu.c:329
 #: client/gui-gtk-3.22/editprop.c:4517 client/gui-gtk-3.22/menu.c:336
-#: client/gui-gtk-4.0/editprop.c:4528 client/gui-gtk-4.0/menu.c:474
+#: client/gui-gtk-4.0/editprop.c:4529 client/gui-gtk-4.0/menu.c:474
 #: client/gui-qt/menu.cpp:567 client/include/helpdlg_g.h:52
 #: client/plrdlg_common.c:582 data/helpdata.txt:1393
 msgid "Government"
 msgstr "Regierungsformen"
 
 #: client/gui-gtk-3.0/editprop.c:4520 client/gui-gtk-3.22/editprop.c:4520
-#: client/gui-gtk-4.0/editprop.c:4531
+#: client/gui-gtk-4.0/editprop.c:4532
 msgid "Age"
 msgstr "Alter"
 
 #: client/gui-gtk-3.0/editprop.c:4522 client/gui-gtk-3.22/editprop.c:4522
-#: client/gui-gtk-4.0/editprop.c:4533
+#: client/gui-gtk-4.0/editprop.c:4534
 msgid "Inventions"
 msgstr "Erfindungen"
 
 #: client/gui-gtk-3.0/editprop.c:4525 client/gui-gtk-3.22/editprop.c:4525
-#: client/gui-gtk-4.0/editprop.c:4536
+#: client/gui-gtk-4.0/editprop.c:4537
 msgid "Reserved"
 msgstr "Reserviert"
 
 #: client/gui-gtk-3.0/editprop.c:4535 client/gui-gtk-3.22/editprop.c:4535
-#: client/gui-gtk-4.0/editprop.c:4546 tools/fcmp/modinst.h:45
+#: client/gui-gtk-4.0/editprop.c:4547 tools/fcmp/modinst.h:45
 msgid "Scenario"
 msgstr "Szenario"
 
 #: client/gui-gtk-3.0/editprop.c:4538 client/gui-gtk-3.22/editprop.c:4539
-#: client/gui-gtk-4.0/editprop.c:4550
+#: client/gui-gtk-4.0/editprop.c:4551
 msgid "Scenario Name"
 msgstr "Szenarienname"
 
 #: client/gui-gtk-3.0/editprop.c:4542 client/gui-gtk-3.22/editprop.c:4543
-#: client/gui-gtk-4.0/editprop.c:4554
+#: client/gui-gtk-4.0/editprop.c:4555
 msgid "Scenario Authors"
 msgstr "Szenario-Autoren"
 
 #: client/gui-gtk-3.0/editprop.c:4546 client/gui-gtk-3.22/editprop.c:4547
-#: client/gui-gtk-4.0/editprop.c:4558
+#: client/gui-gtk-4.0/editprop.c:4559
 msgid "Scenario Description"
 msgstr "Szenarienbeschreibung"
 
 #: client/gui-gtk-3.0/editprop.c:4550 client/gui-gtk-3.22/editprop.c:4551
-#: client/gui-gtk-4.0/editprop.c:4562
+#: client/gui-gtk-4.0/editprop.c:4563
 msgid "Save Random Number State"
 msgstr "Zufallszahlen-Status speichern"
 
 #: client/gui-gtk-3.0/editprop.c:4553 client/gui-gtk-3.22/editprop.c:4554
-#: client/gui-gtk-4.0/editprop.c:4565
+#: client/gui-gtk-4.0/editprop.c:4566
 msgid "Save Players"
 msgstr "Spieler speichern"
 
 #: client/gui-gtk-3.0/editprop.c:4556 client/gui-gtk-3.22/editprop.c:4557
-#: client/gui-gtk-4.0/editprop.c:4568
+#: client/gui-gtk-4.0/editprop.c:4569
 msgid "Nation Start Positions"
 msgstr "Startpositionen für Nationen"
 
 #: client/gui-gtk-3.0/editprop.c:4559 client/gui-gtk-3.22/editprop.c:4560
-#: client/gui-gtk-4.0/editprop.c:4571
+#: client/gui-gtk-4.0/editprop.c:4572
 msgid "Prevent New Cities"
 msgstr "Neue Städte verhindern"
 
 #: client/gui-gtk-3.0/editprop.c:4562 client/gui-gtk-3.22/editprop.c:4563
-#: client/gui-gtk-4.0/editprop.c:4574
+#: client/gui-gtk-4.0/editprop.c:4575
 msgid "Saltwater Flooding Lakes"
 msgstr "Salzwasser Überschwemmung Seen"
 
 #: client/gui-gtk-3.0/editprop.c:4565 client/gui-gtk-3.22/editprop.c:4566
-#: client/gui-gtk-4.0/editprop.c:4577
+#: client/gui-gtk-4.0/editprop.c:4578
 msgid "Lock to current Ruleset"
 msgstr "Sperren für den aktuellen Regelsatz"
 
 #: client/gui-gtk-3.0/editprop.c:4845 client/gui-gtk-3.22/editprop.c:4845
-#: client/gui-gtk-4.0/editprop.c:4862
+#: client/gui-gtk-4.0/editprop.c:4863
 msgid "Create"
 msgstr "Erstellen"
 
 #: client/gui-gtk-3.0/editprop.c:4848 client/gui-gtk-3.22/editprop.c:4848
-#: client/gui-gtk-4.0/editprop.c:4865
+#: client/gui-gtk-4.0/editprop.c:4866
 msgid ""
 "Pressing this button will create a new object of the same type as the "
 "current property page and add it to the page. The specific type and count of "
@@ -4421,12 +4421,12 @@ msgstr ""
 "Einheitenerschaffung."
 
 #: client/gui-gtk-3.0/editprop.c:4862 client/gui-gtk-3.22/editprop.c:4862
-#: client/gui-gtk-4.0/editprop.c:4877
+#: client/gui-gtk-4.0/editprop.c:4878
 msgid "Destroy"
 msgstr "Zerstören"
 
 #: client/gui-gtk-3.0/editprop.c:4865 client/gui-gtk-3.22/editprop.c:4865
-#: client/gui-gtk-4.0/editprop.c:4880
+#: client/gui-gtk-4.0/editprop.c:4881
 msgid ""
 "Pressing this button will send a request to the server to destroy (i.e. "
 "erase) the objects selected in the object list."
@@ -4437,18 +4437,18 @@ msgstr ""
 #. TRANS: %s is a type of object that can be edited, such as "Tile",
 #. * "Unit", "Start Position", etc.
 #: client/gui-gtk-3.0/editprop.c:4923 client/gui-gtk-3.22/editprop.c:4923
-#: client/gui-gtk-4.0/editprop.c:4945
+#: client/gui-gtk-4.0/editprop.c:4946
 #, c-format
 msgid "%s Properties"
 msgstr "%s-Eigenschaften"
 
 #: client/gui-gtk-3.0/editprop.c:4967 client/gui-gtk-3.22/editprop.c:4967
-#: client/gui-gtk-4.0/editprop.c:4994
+#: client/gui-gtk-4.0/editprop.c:4995
 msgid "Filter:"
 msgstr "Filter:"
 
 #: client/gui-gtk-3.0/editprop.c:4972 client/gui-gtk-3.22/editprop.c:4972
-#: client/gui-gtk-4.0/editprop.c:4999
+#: client/gui-gtk-4.0/editprop.c:5000
 msgid ""
 "Enter a filter string to limit which properties are shown. The filter is one "
 "or more text patterns separated by | (\"or\") or & (\"and\"). The symbol & "
@@ -4462,7 +4462,7 @@ msgstr ""
 "negiert werden."
 
 #: client/gui-gtk-3.0/editprop.c:4987 client/gui-gtk-3.22/editprop.c:4987
-#: client/gui-gtk-4.0/editprop.c:5015
+#: client/gui-gtk-4.0/editprop.c:5016
 msgid ""
 "Pressing this button will reset all modified properties of the selected "
 "objects to their current values (the values they have on the server)."
@@ -4472,7 +4472,7 @@ msgstr ""
 "auf dem Server beitzen) zurückgesetzt."
 
 #: client/gui-gtk-3.0/editprop.c:4997 client/gui-gtk-3.22/editprop.c:4997
-#: client/gui-gtk-4.0/editprop.c:5025
+#: client/gui-gtk-4.0/editprop.c:5026
 msgid ""
 "Pressing this button will send all modified properties of the objects "
 "selected in the object list to the server. Modified properties' names are "
@@ -4483,31 +4483,31 @@ msgstr ""
 "Namen geänderter Eigenschaften werden im Eigenschaftsfenster rot angezeigt."
 
 #: client/gui-gtk-3.0/editprop.c:6142 client/gui-gtk-3.22/editprop.c:6142
-#: client/gui-gtk-4.0/editprop.c:6171
+#: client/gui-gtk-4.0/editprop.c:6172
 msgid "Property Editor"
 msgstr "Eigenschaftseditor"
 
 #. TRANS: Vision layer name. Feel free to leave untranslated.
 #: client/gui-gtk-3.0/editprop.c:6520 client/gui-gtk-3.22/editprop.c:6520
-#: client/gui-gtk-4.0/editprop.c:6549
+#: client/gui-gtk-4.0/editprop.c:6550
 msgid "Seen (Main)"
 msgstr "Gesehen (Haupt)"
 
 #. TRANS: Vision layer name. Feel free to leave untranslated.
 #: client/gui-gtk-3.0/editprop.c:6523 client/gui-gtk-3.22/editprop.c:6523
-#: client/gui-gtk-4.0/editprop.c:6552
+#: client/gui-gtk-4.0/editprop.c:6553
 msgid "Seen (Invis)"
 msgstr "Gesehen (Unsicht.)"
 
 #. TRANS: Vision layer name. Feel free to leave untranslated.
 #: client/gui-gtk-3.0/editprop.c:6526 client/gui-gtk-3.22/editprop.c:6526
-#: client/gui-gtk-4.0/editprop.c:6555
+#: client/gui-gtk-4.0/editprop.c:6556
 msgid "Seen (Subsurface)"
 msgstr ""
 
 #: client/gui-gtk-3.0/editprop.c:6532 client/gui-gtk-3.0/pages.c:727
 #: client/gui-gtk-3.22/editprop.c:6532 client/gui-gtk-3.22/pages.c:728
-#: client/gui-gtk-4.0/editprop.c:6561 client/gui-gtk-4.0/pages.c:744
+#: client/gui-gtk-4.0/editprop.c:6562 client/gui-gtk-4.0/pages.c:744
 #: client/gui-qt/pages.cpp:914 client/gui-sdl2/citydlg.c:2028 client/text.c:171
 #: common/unit.c:671
 msgid "Unknown"
@@ -5145,7 +5145,7 @@ msgstr "_Fortschritte"
 #: client/gui-gtk-4.0/citydlg.c:1706 client/gui-gtk-4.0/dialogs.c:112
 #: client/gui-gtk-4.0/dialogs.c:203 client/gui-gtk-4.0/dialogs.c:212
 #: client/gui-gtk-4.0/dialogs.c:217 client/gui-gtk-4.0/dialogs.c:252
-#: client/gui-gtk-4.0/editprop.c:4935 client/gui-gtk-4.0/gamedlgs.c:328
+#: client/gui-gtk-4.0/editprop.c:4936 client/gui-gtk-4.0/gamedlgs.c:328
 #: client/gui-gtk-4.0/helpdlg.c:484 client/gui-gtk-4.0/inteldlg.c:258
 #: client/gui-gtk-4.0/inteldlg.c:403 client/gui-gtk-4.0/luaconsole.c:242
 #: client/gui-gtk-4.0/messagewin.c:382 client/gui-gtk-4.0/plrdlg.c:502
@@ -5276,7 +5276,7 @@ msgstr "_Spiel"
 #: client/gui-gtk-3.0/menu.c:251 client/gui-gtk-3.22/menu.c:254
 #: client/gui-gtk-4.0/menu.c:418 client/gui-gtk-4.0/menu.c:2207
 msgid "_Options"
-msgstr "Optionenß"
+msgstr "_Optionen"
 
 #: client/gui-gtk-3.0/menu.c:252 client/gui-gtk-3.22/menu.c:255
 #: client/gui-gtk-4.0/menu.c:419
@@ -7296,7 +7296,7 @@ msgstr "Prod_uktion ändern"
 #: client/gui-gtk-4.0/action_dialog.c:772
 #: client/gui-gtk-4.0/action_dialog.c:1546 client/gui-gtk-4.0/chatline.c:1151
 #: client/gui-gtk-4.0/citydlg.c:3107 client/gui-gtk-4.0/dialogs.c:873
-#: client/gui-gtk-4.0/editgui.c:1000 client/gui-gtk-4.0/finddlg.c:77
+#: client/gui-gtk-4.0/editgui.c:1001 client/gui-gtk-4.0/finddlg.c:77
 #: client/gui-gtk-4.0/gamedlgs.c:319 client/gui-gtk-4.0/gamedlgs.c:414
 #: client/gui-gtk-4.0/gotodlg.c:144 client/gui-gtk-4.0/inputdlg.c:81
 #: client/gui-gtk-4.0/luaconsole.c:319 client/gui-gtk-4.0/messagedlg.c:75
@@ -7318,7 +7318,7 @@ msgstr "_Leeren"
 #: client/gui-gtk-3.22/messagedlg.c:72 client/gui-gtk-3.22/optiondlg.c:330
 #: client/gui-gtk-3.22/optiondlg.c:365 client/gui-gtk-3.22/pages.c:2957
 #: client/gui-gtk-3.22/pages.c:3315 client/gui-gtk-4.0/chatline.c:1153
-#: client/gui-gtk-4.0/dialogs.c:877 client/gui-gtk-4.0/editgui.c:999
+#: client/gui-gtk-4.0/dialogs.c:877 client/gui-gtk-4.0/editgui.c:1000
 #: client/gui-gtk-4.0/gamedlgs.c:321 client/gui-gtk-4.0/gamedlgs.c:416
 #: client/gui-gtk-4.0/inputdlg.c:82 client/gui-gtk-4.0/messagedlg.c:74
 #: client/gui-gtk-4.0/optiondlg.c:340 client/gui-gtk-4.0/optiondlg.c:374
@@ -7342,11 +7342,11 @@ msgstr "Durchgestrichen ([STRG]+[S])"
 msgid "Underline"
 msgstr "Unterstrichen ([STRG]+[U])"
 
-#: client/gui-gtk-3.22/chatline.c:1378 client/gui-gtk-4.0/chatline.c:1402
+#: client/gui-gtk-3.22/chatline.c:1378 client/gui-gtk-4.0/chatline.c:1401
 msgid "Color"
 msgstr "Farbe"
 
-#: client/gui-gtk-3.22/chatline.c:1425 client/gui-gtk-4.0/chatline.c:1450
+#: client/gui-gtk-3.22/chatline.c:1425 client/gui-gtk-4.0/chatline.c:1447
 #: client/gui-sdl2/dialogs.c:2883 client/gui-sdl2/dialogs.c:3318
 #: client/gui-sdl2/mapctrl.c:2791 common/mapimg.c:304
 msgid "OK"
@@ -7359,12 +7359,12 @@ msgid "_Delete"
 msgstr "Löschen"
 
 #: client/gui-gtk-3.22/editprop.c:4984 client/gui-gtk-3.22/optiondlg.c:362
-#: client/gui-gtk-4.0/editprop.c:5012 client/gui-gtk-4.0/optiondlg.c:371
+#: client/gui-gtk-4.0/editprop.c:5013 client/gui-gtk-4.0/optiondlg.c:371
 msgid "_Refresh"
 msgstr "Erneut laden"
 
 #: client/gui-gtk-3.22/editprop.c:4994 client/gui-gtk-3.22/optiondlg.c:364
-#: client/gui-gtk-4.0/editprop.c:5022 client/gui-gtk-4.0/optiondlg.c:373
+#: client/gui-gtk-4.0/editprop.c:5023 client/gui-gtk-4.0/optiondlg.c:373
 msgid "_Apply"
 msgstr "Anwenden"
 
@@ -7466,9 +7466,9 @@ msgstr "Wählen Sie die automatische Siedler-Aktivität:"
 #: client/gui-gtk-3.22/rallypointdlg.c:164
 #: client/gui-gtk-4.0/rallypointdlg.c:165
 #, fuzzy, c-format
-#| msgid "Set/Unset rally point"
+#| msgid "Tile %s set as rally point from city %s."
 msgid "Now select rally point for %s"
-msgstr "Rallye-Punkt setzen/entfernen"
+msgstr "Feld %s ist als Sammelpunkt für Stadt %s gesetzt."
 
 #: client/gui-gtk-3.22/rallypointdlg.c:176
 #: client/gui-gtk-4.0/rallypointdlg.c:177
@@ -8362,7 +8362,7 @@ msgstr "Lua-Skript laden"
 #: client/gui-qt/mapctrl.cpp:256
 #, c-format
 msgid "Selected city %s. Now choose rally point."
-msgstr ""
+msgstr "Gewählte Stadt ist %s. Jetzt wählen Sie den Sammelpunkt."
 
 #: client/gui-qt/mapctrl.cpp:260
 msgid "No city selected. Aborted"
@@ -8371,12 +8371,13 @@ msgstr "Keine Stadt ausgewählt. Abgebrochen"
 #: client/gui-qt/mapctrl.cpp:275
 #, c-format
 msgid "Tile %s set as rally point from city %s."
-msgstr ""
+msgstr "Feld %s ist als Sammelpunkt für Stadt %s gesetzt."
 
 #: client/gui-qt/mapctrl.cpp:280
 #, fuzzy, c-format
+#| msgid "Tile %s set as rally point from city %s."
 msgid "Could not set rally point for city %s."
-msgstr "Unzulässige Größe %d für Stadt %s."
+msgstr "Feld %s ist als Sammelpunkt für Stadt %s gesetzt."
 
 #. TRANS: T is shortcut from Turn
 #: client/gui-qt/mapview.cpp:1017
@@ -11679,12 +11680,12 @@ msgstr "* Kann die Aktion '%s' ausführen.\n"
 #. TRANS: describes the target of an action.
 #: client/helpdata.c:2382
 msgid "domestic "
-msgstr "inländisch "
+msgstr "inländische "
 
 #. TRANS: describes the target of an action.
 #: client/helpdata.c:2386
 msgid "foreign "
-msgstr "ausländische"
+msgstr "ausländische "
 
 #. TRANS: action sub target extras with tile
 #. * extras target.
@@ -11699,14 +11700,17 @@ msgstr ""
 msgid "%s "
 msgstr "%s"
 
+# CM: Beispiel:  "is done to domestic individual cities" oder "is done to
+# foreign tiles"
 #. TRANS: The first %s is the sub target kind. The next
 #. * may be an adjective (that includes a space). The
 #. * next is the name of the target kind.
 #. * Example: is done to extras on foreign tiles
 #: client/helpdata.c:2414
 #, fuzzy, c-format
+#| msgid "  * is done to %s%s.\n"
 msgid "  * is done to %s%s%s.\n"
-msgstr "* wird mit %s%s gemacht.\n"
+msgstr "  * wird angewendet auf %s%s.\n"
 
 #. TRANS: said about an action. %s is a unit type
 #. * name.
@@ -11981,13 +11985,16 @@ msgstr "* Kann sich eingraben, ergibt 50%% Verteidigungsbonus.\n"
 msgid "  * granting a %d%% defensive bonus.\n"
 msgstr "* Kann sich eingraben, ergibt 50%% Verteidigungsbonus.\n"
 
+# CM: Beispiel:  "is done to domestic individual cities" oder "is done to
+# foreign tiles"
 #. TRANS: indented unit action property, preserve
 #. * leading spaces.
 #. * %s is a list of extra types separated by "and".
 #: client/helpdata.c:2892
 #, fuzzy, c-format
+#| msgid "  * is done to %s%s.\n"
 msgid "  * done to %s.\n"
-msgstr "* wird mit %s%s gemacht.\n"
+msgstr "  * wird angewendet auf %s%s.\n"
 
 #. TRANS: indented unit action property, preserve
 #. * leading spaces.
@@ -13760,7 +13767,6 @@ msgid "Pop up caravan and spy actions"
 msgstr "Fenster für Karawanen- und Spionage-Aktionen zeigen"
 
 #: client/options.c:2246
-#, fuzzy
 msgid ""
 "If this option is enabled, when a unit arrives at a city where it can "
 "perform an action like establishing a trade route, helping build a wonder, "
@@ -13769,30 +13775,31 @@ msgid ""
 "manually by pressing either 'r' (for a trade route), 'b' (for building a "
 "wonder) or 'd' (for a spy action) when the unit is in the city."
 msgstr ""
-"Mit dieser Option erscheint jedes Mal ein Popup-Fenster, wenn eine Karawane "
-"eine Stadt erreicht und eine Handelsroute einrichten oder zum Bau eines "
-"Weltwunders beitragen kann. Ohne diese Option muss der Befehl von Hand "
-"gegeben werden, durch drücken von „r“ (für eine Handelsroute) oder „b“ (zum "
-"Bau eines Wunders), wenn die Karawane in der Stadt ist."
+"Mit dieser Option erscheint jedes Mal ein Popup-Auswahl-Fenster, wenn eine "
+"Einheit eine Stadt erreicht, in der sie eine Aktion durchführen kann, wie "
+"zum Beispiel eine Handelsroute oder eine Botschaft zu eröffnen oder beim Bau "
+"eines Wunders zu helfen. Ohne diese Option muss der Befehl von Hand gegeben "
+"werden, durch Drücken von „r“ (für eine Handelsroute), „b“ (zum Bau eines "
+"Wunders) oder „d“ (für eine Spionage-Aktion) wenn die Einheit in der Stadt "
+"ist."
 
 #: client/options.c:2256
-#, fuzzy
 msgid "Pop up attack questions"
-msgstr "Fenster für Karawanenaktionen zeigen"
+msgstr "Fenster für Angriffsaktionen zeigen"
 
 #: client/options.c:2257
-#, fuzzy
 msgid ""
 "If this option is enabled, when a unit arrives at a target it can attack, a "
 "window will pop up asking which action should be performed even if an attack "
 "action is legal and no other interesting action are. This allows you to "
 "change your mind or to select an uninteresting action."
 msgstr ""
-"Mit dieser Option erscheint jedes Mal ein Popup-Fenster, wenn eine Karawane "
-"eine Stadt erreicht und eine Handelsroute einrichten oder zum Bau eines "
-"Weltwunders beitragen kann. Ohne diese Option muss der Befehl von Hand "
-"gegeben werden, durch drücken von „r“ (für eine Handelsroute) oder „b“ (zum "
-"Bau eines Wunders), wenn die Karawane in der Stadt ist."
+"Mit dieser Option erscheint jedes Mal ein Popup-Fenster mit einer Frage, "
+"welche Aktion ausgeführt werden soll, wenn eine Einheit an einem Ziel "
+"eintrifft, das sie angreifen kann. Das Fenster erscheint selbst dann, wenn "
+"ein Angriff aber keine andere interessante Aktion möglich ist. Das "
+"ermöglicht es Ihnen, Ihre Meinung zu ändern oder eine uninteressante Aktion "
+"auszuwählen."
 
 #: client/options.c:2269
 msgid "Pop up actions when final move to allied tile"
@@ -14913,15 +14920,12 @@ msgstr ""
 "%s"
 
 #: client/servers.c:498
-#, fuzzy, c-format
-#| msgid ""
-#| "Opening socket to listen LAN announcements failed:\n"
-#| "%s"
+#, c-format
 msgid ""
 "Opening socket for sending LAN announcement request failed:\n"
 "%s"
 msgstr ""
-"Öffnen des Sockets für LAN-Ankündigungen fehlgeschlagen:\n"
+"Öffnen des Sockets für das Senden von LAN-Ankündigungen fehlgeschlagen:\n"
 "%s"
 
 #: client/servers.c:536
@@ -15616,14 +15620,13 @@ msgid "Year of arrival: %8s"
 msgstr "Ankunftsjahr:    %8s"
 
 #: client/text.c:1554
-#, fuzzy
 msgid "?timeout:wait"
-msgstr "?timeout:aus"
+msgstr "?timeout:warten"
 
+# CM: Die Abkürzung dürfte auch im Deutschen ausreichend verbreitet sein
 #: client/text.c:1556
-#, fuzzy
 msgid "?timeout:eta"
-msgstr "?timeout:aus"
+msgstr "?timeout:ETA"
 
 #: client/text.c:1560
 msgid "?timeout:off"
@@ -15995,27 +15998,31 @@ msgid "No cardinal-style graphics \"%s*\" for extra \"%s\""
 msgstr "Keine Grafik im Kardinalstil \"%s*\" für extra \"%s\""
 
 #: client/tilespec.c:3710
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Missing %s building activity sprite for tags \"%s\" and alternatives \"%s\" "
 "and \"%s\"."
-msgstr "Grafik für Bauaktivität %s für Tags „%s“ und Alternative „%s“ fehlt."
+msgstr ""
+"Grafik für Bauaktivität %s für Tags \"%s\" und Alternative \"%s\" und \"%s\" "
+"fehlt."
 
 #: client/tilespec.c:3725
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Missing %s removal activity sprite for tags \"%s\" and alternative \"%s\"."
-msgstr "Grafik für Bauaktivität %s für Tags „%s“ und Alternative „%s“ fehlt."
+msgstr ""
+"Grafik für Entfernungsaktivität %s für Tags \"%s\" und Alternative \"%s\" "
+"fehlt."
 
 #: client/tilespec.c:3814
-#, fuzzy, c-format
+#, c-format
 msgid "No river-style graphics \"%s*\" for extra \"%s\""
-msgstr "Überhaupt keine Grafiken für Basis „%s“!"
+msgstr "Keine Grafiken im Fluss-Stil \"%s*\" für extra \"%s\""
 
 #: client/tilespec.c:3873
-#, fuzzy, c-format
+#, c-format
 msgid "No graphics with tag \"%s_bg/mg/fg\" for extra \"%s\""
-msgstr "Überhaupt keine Grafiken für Basis „%s“!"
+msgstr "Keine Grafiken mit Tag \"%s_bg/mg/fg\" für extra \"%s\""
 
 #: client/tilespec.c:3892
 #, c-format
@@ -16074,24 +16081,21 @@ msgstr ""
 
 #. TRANS: error message for ruledit
 #: common/actions.c:382 common/actions.c:398
-#, fuzzy, c-format
-#| msgid "You cannot paradrop a unit that is transporting other units."
+#, c-format
 msgid "All action enablers for %s must require a non domestic target."
-msgstr "Ein Transporter kann nicht fallschirmspringen."
+msgstr ""
 
 #: common/actions.c:412
-#, fuzzy, c-format
-#| msgid "You cannot paradrop a unit that is transporting other units."
+#, c-format
 msgid "All action enablers for %s must require the absence of a real embassy."
-msgstr "Ein Transporter kann nicht fallschirmspringen."
+msgstr ""
 
 #: common/actions.c:423
-#, fuzzy, c-format
-#| msgid "You cannot paradrop a unit that is transporting other units."
+#, c-format
 msgid ""
 "All action enablers for %s must require that the actor unit isn't already "
 "fortified."
-msgstr "Ein Transporter kann nicht fallschirmspringen."
+msgstr ""
 
 #: common/actions.c:435 common/actions.c:670
 #, c-format
@@ -16101,12 +16105,11 @@ msgid ""
 msgstr ""
 
 #: common/actions.c:452
-#, fuzzy, c-format
-#| msgid "You cannot paradrop a unit that is transporting other units."
+#, c-format
 msgid ""
 "All action enablers for %s must require that the actor is at war with the "
 "owner of the target tile or that the target tile doesn't have a city."
-msgstr "Ein Transporter kann nicht fallschirmspringen."
+msgstr ""
 
 #: common/actions.c:464
 #, c-format
@@ -16115,48 +16118,42 @@ msgstr ""
 
 #: common/actions.c:473 common/actions.c:481 common/actions.c:489
 #: common/actions.c:497 common/actions.c:505
-#, fuzzy, c-format
-#| msgid "You cannot paradrop a unit that is transporting other units."
+#, c-format
 msgid "All action enablers for %s must require a domestic or allied target."
-msgstr "Ein Transporter kann nicht fallschirmspringen."
+msgstr ""
 
 #: common/actions.c:517
-#, fuzzy, c-format
-#| msgid "You cannot paradrop a unit that is transporting other units."
+#, c-format
 msgid ""
 "All action enablers for %s must require that the actor has the Settlers "
 "utype flag."
-msgstr "Ein Transporter kann nicht fallschirmspringen."
+msgstr ""
 
 #: common/actions.c:537
-#, fuzzy, c-format
-#| msgid "You cannot paradrop a unit that is transporting other units."
+#, c-format
 msgid ""
 "All action enablers for %s must require that the target tile's terrain's "
 "irrigation_time is above 0. (See \"TerrainAlter\"'s \"CanIrrigate\")"
-msgstr "Ein Transporter kann nicht fallschirmspringen."
+msgstr ""
 
 #: common/actions.c:548
-#, fuzzy, c-format
-#| msgid "You cannot paradrop a unit that is transporting other units."
+#, c-format
 msgid ""
 "All action enablers for %s must require that the target tile's terrain's "
 "mining_time is above 0. (See \"TerrainAlter\"'s \"CanMine\")"
-msgstr "Ein Transporter kann nicht fallschirmspringen."
+msgstr ""
 
 #: common/actions.c:562
-#, fuzzy, c-format
-#| msgid "You cannot paradrop a unit that is transporting other units."
+#, c-format
 msgid ""
 "All action enablers for %s must require that the target doesn't has the "
 "NoCities terrain flag."
-msgstr "Ein Transporter kann nicht fallschirmspringen."
+msgstr ""
 
 #: common/actions.c:575 common/actions.c:753
 #, fuzzy, c-format
-#| msgid "You cannot paradrop a unit that is transporting other units."
 msgid "All action enablers for %s must require that the actor has a home city."
-msgstr "Ein Transporter kann nicht fallschirmspringen."
+msgstr "Es darf kein %ser Bürger in der Stadt sein.\n"
 
 #. TRANS: error message for ruledit
 #: common/actions.c:597
@@ -16176,12 +16173,11 @@ msgstr ""
 
 #. TRANS: error message for ruledit
 #: common/actions.c:628
-#, fuzzy, c-format
-#| msgid "You cannot paradrop a unit that is transporting other units."
+#, c-format
 msgid ""
 "All action enablers for %s must require no city at the target tile or that "
 "the actor doesn't have the NonMil utype flag."
-msgstr "Ein Transporter kann nicht fallschirmspringen."
+msgstr ""
 
 #: common/actions.c:641
 #, c-format
@@ -16192,21 +16188,19 @@ msgstr ""
 
 #. TRANS: error message for ruledit
 #: common/actions.c:657
-#, fuzzy, c-format
-#| msgid "You cannot paradrop a unit that is transporting other units."
+#, c-format
 msgid ""
 "All action enablers for %s must require no city at the target tile or that "
 "the actor has the CanOccupyCity uclass flag."
-msgstr "Ein Transporter kann nicht fallschirmspringen."
+msgstr ""
 
 #. TRANS: error message for ruledit
 #: common/actions.c:684
-#, fuzzy, c-format
-#| msgid "You cannot paradrop a unit that is transporting other units."
+#, c-format
 msgid ""
 "All action enablers for %s must require no city at the target tile or that "
 "the actor is at war with the target."
-msgstr "Ein Transporter kann nicht fallschirmspringen."
+msgstr ""
 
 #: common/actions.c:697
 #, c-format
@@ -16221,92 +16215,80 @@ msgid "All action enablers for %s must require that the target city is empty."
 msgstr ""
 
 #: common/actions.c:740
-#, fuzzy, c-format
-#| msgid "You cannot paradrop a unit that is transporting other units."
+#, c-format
 msgid ""
 "All action enablers for %s must require that the actor isn't transporting "
 "another unit."
-msgstr "Ein Transporter kann nicht fallschirmspringen."
+msgstr ""
 
 #: common/actions.c:763
-#, fuzzy, c-format
-#| msgid "You cannot paradrop a unit that is transporting other units."
+#, c-format
 msgid ""
 "All action enablers for %s must require that the target isn't transporting "
 "another unit."
-msgstr "Ein Transporter kann nicht fallschirmspringen."
+msgstr ""
 
 #: common/actions.c:773
-#, fuzzy, c-format
-#| msgid "You cannot paradrop a unit that is transporting other units."
+#, c-format
 msgid ""
 "All action enablers for %s must require that the target is transporting a "
 "unit."
-msgstr "Ein Transporter kann nicht fallschirmspringen."
+msgstr ""
 
 #: common/actions.c:780
 #, fuzzy, c-format
-#| msgid "You cannot paradrop a unit that is transporting other units."
 msgid "All action enablers for %s must require that the actor is transported."
-msgstr "Ein Transporter kann nicht fallschirmspringen."
+msgstr "Die %s dürfen nicht im Spiel sein.\n"
 
 #: common/actions.c:789
 #, fuzzy, c-format
-#| msgid "You cannot paradrop a unit that is transporting other units."
 msgid ""
 "All action enablers for %s must require that the actor is on a livable tile."
-msgstr "Ein Transporter kann nicht fallschirmspringen."
+msgstr "Die %s dürfen nicht im Spiel sein.\n"
 
 #: common/actions.c:798
-#, fuzzy, c-format
-#| msgid "You cannot paradrop a unit that is transporting other units."
+#, c-format
 msgid ""
 "All action enablers for %s must require that the actor is transporting a "
 "unit."
-msgstr "Ein Transporter kann nicht fallschirmspringen."
+msgstr ""
 
 #: common/actions.c:805
 #, fuzzy, c-format
-#| msgid "You cannot paradrop a unit that is transporting other units."
 msgid "All action enablers for %s must require that the target is transported."
-msgstr "Ein Transporter kann nicht fallschirmspringen."
+msgstr "Die %s dürfen nicht im Spiel sein.\n"
 
 #: common/actions.c:812
 #, fuzzy, c-format
-#| msgid "You cannot paradrop a unit that is transporting other units."
 msgid ""
 "All action enablers for %s must require that the target is on a livable tile."
-msgstr "Ein Transporter kann nicht fallschirmspringen."
+msgstr "Die %s dürfen nicht im Spiel sein.\n"
 
 #: common/actions.c:822
 #, fuzzy, c-format
-#| msgid "You cannot paradrop a unit that is transporting other units."
 msgid ""
 "All action enablers for %s must require that the actor isn't transported."
-msgstr "Ein Transporter kann nicht fallschirmspringen."
+msgstr "Die %s dürfen nicht im Spiel sein.\n"
 
 #: common/actions.c:832
-#, fuzzy, c-format
-#| msgid "You cannot paradrop a unit that is transporting other units."
+#, c-format
 msgid ""
 "All action enablers for %s must require that the actor unit is in a city."
-msgstr "Ein Transporter kann nicht fallschirmspringen."
+msgstr ""
 
 #: common/actions.c:847
-#, fuzzy, c-format
-#| msgid "You cannot paradrop a unit that is transporting other units."
+#, c-format
 msgid ""
 "All action enablers for %s must require that the actor unit doesn't have the "
 "HutFrighten unit class flag."
-msgstr "Ein Transporter kann nicht fallschirmspringen."
+msgstr ""
 
 #: common/actions.c:858
-#, fuzzy, c-format
-#| msgid "You cannot paradrop a unit that is transporting other units."
+#, c-format
 msgid ""
 "All action enablers for %s must require that the actor unit has the "
 "HutFrighten unit class flag."
-msgstr "Ein Transporter kann nicht fallschirmspringen."
+msgstr ""
 
 #: common/actions.c:879
 #, c-format
@@ -16315,12 +16297,11 @@ msgstr ""
 
 #. TRANS: error message for ruledit
 #: common/actions.c:894
-#, fuzzy, c-format
-#| msgid "You cannot paradrop a unit that is transporting other units."
+#, c-format
 msgid ""
 "All action enablers for %s must require no city at the target tile or a non "
 "animal player actor."
-msgstr "Ein Transporter kann nicht fallschirmspringen."
+msgstr ""
 
 #. TRANS: the probability that an action will succeed. Given in
 #. * percentage. Resolution is 0.5%.
@@ -16435,10 +16416,8 @@ msgstr ""
 
 #. TRANS: requirement vector in an action enabler (ruledit)
 #: common/actions.c:2989
-#, fuzzy
-#| msgid "Factor"
 msgid "actor_reqs"
-msgstr "Faktor"
+msgstr ""
 
 #. TRANS: requirement vector in an action enabler (ruledit)
 #: common/actions.c:2992
@@ -16449,95 +16428,97 @@ msgstr ""
 #: common/actions.c:7586 data/civ2/game.ruleset:456
 #: data/classic/game.ruleset:482 data/sandbox/game.ruleset:498
 #: data/civ2civ3/game.ruleset:498 data/multiplayer/game.ruleset:482
-#, fuzzy, c-format
+#, c-format
 msgid "%sPoison City%s"
-msgstr "Wasser vergiften"
+msgstr "Stadt ve%srgiften%s"
 
 #. TRANS: _Poison City and Escape (3% chance of success).
 #: common/actions.c:7589
-#, fuzzy, c-format
+#, c-format
 msgid "%sPoison City and Escape%s"
-msgstr "Wasser vergiften"
+msgstr "Stadt ve%srgiften und fliehen%s"
 
 #. TRANS: S_abotage Enemy Unit (3% chance of success).
 #: common/actions.c:7592
-#, fuzzy, c-format
+#, c-format
 msgid "S%sabotage Enemy Unit%s"
-msgstr "Feindliche Einheit sabotieren"
+msgstr "Feindliche Einheit s%sabotieren%s"
 
 #. TRANS: S_abotage Enemy Unit and Escape (3% chance of success).
 #: common/actions.c:7595
-#, fuzzy, c-format
+#, c-format
 msgid "S%sabotage Enemy Unit and Escape%s"
-msgstr "Feindliche Einheit sabotieren"
+msgstr "Feindliche Einheit s%sabotieren und fliehen%s"
 
 #. TRANS: Bribe Enemy _Unit (3% chance of success).
 #: common/actions.c:7598
-#, fuzzy, c-format
+#, c-format
 msgid "Bribe Enemy %sUnit%s"
-msgstr "Feindliche Einheit bestechen"
+msgstr "Feindliche Einheit %sbestechen%s"
 
 #. TRANS: _Sabotage City (3% chance of success).
 #: common/actions.c:7601 data/civ1/game.ruleset:453 data/civ2/game.ruleset:468
 #: data/classic/game.ruleset:491 data/sandbox/game.ruleset:510
 #: data/civ2civ3/game.ruleset:507 data/alien/game.ruleset:474
 #: data/multiplayer/game.ruleset:491
-#, fuzzy, c-format
+#, c-format
 msgid "%sSabotage City%s"
-msgstr "Stadt _sabotieren"
+msgstr "Stadt %ssabotieren%s"
 
 #. TRANS: _Sabotage City and Escape (3% chance of success).
 #: common/actions.c:7604
-#, fuzzy, c-format
+#, c-format
 msgid "%sSabotage City and Escape%s"
-msgstr "Stadt _sabotieren"
+msgstr "Stadt %ssabotieren und fliehen%s"
 
 #. TRANS: Industria_l Sabotage (3% chance of success).
 #: common/actions.c:7607
-#, fuzzy, c-format
+#, c-format
 msgid "Industria%sl Sabotage%s"
-msgstr "Industrie sabotieren"
+msgstr "Ind%sustrie sabotieren%s"
 
 #. TRANS: Industria_l Sabotage Production (3% chance of success).
 #: common/actions.c:7610
 #, fuzzy, c-format
+#| msgid "Industria%sl Sabotage%s"
 msgid "Industria%sl Sabotage Production%s"
-msgstr "Industrie sabotieren"
+msgstr "Ind%sustrie sabotieren%s"
 
 #. TRANS: Industria_l Sabotage and Escape (3% chance of success).
 #: common/actions.c:7613
-#, fuzzy, c-format
+#, c-format
 msgid "Industria%sl Sabotage and Escape%s"
-msgstr "Industrie sabotieren"
+msgstr "Ind%sustrie sabotieren und fliehen%s"
 
 #. TRANS: Industria_l Sabotage Production and Escape (3% chance of success).
 #: common/actions.c:7616
 #, fuzzy, c-format
+#| msgid "Industria%sl Sabotage and Escape%s"
 msgid "Industria%sl Sabotage Production and Escape%s"
-msgstr "Industrie sabotieren"
+msgstr "Ind%sustrie sabotieren und fliehen%s"
 
 #. TRANS: Incite a Re_volt (3% chance of success).
 #: common/actions.c:7619
-#, fuzzy, c-format
+#, c-format
 msgid "Incite a Re%svolt%s"
-msgstr "Zur Revolte anstiften"
+msgstr "Zur Re%svolte anstiften%s"
 
 #. TRANS: Incite a Re_volt and Escape (3% chance of success).
 #. TRANS: Incite a _Revolt and Escape (3% chance of success).
 #: common/actions.c:7622 data/civ2/game.ruleset:483
 #: data/classic/game.ruleset:506 data/sandbox/game.ruleset:525
 #: data/civ2civ3/game.ruleset:522 data/multiplayer/game.ruleset:506
-#, fuzzy, c-format
+#, c-format
 msgid "Incite a Re%svolt and Escape%s"
-msgstr "Zur Revolte anstiften"
+msgstr "Zur Re%svolte anstiften und fliehen%s"
 
 #. TRANS: Establish _Embassy (100% chance of success).
 #: common/actions.c:7625 data/civ2/game.ruleset:486
 #: data/classic/game.ruleset:509 data/sandbox/game.ruleset:528
 #: data/civ2civ3/game.ruleset:525 data/multiplayer/game.ruleset:509
-#, fuzzy, c-format
+#, c-format
 msgid "Establish %sEmbassy%s"
-msgstr "Botschaft eröffnen"
+msgstr "Botschaft %seröffnen%s"
 
 #. TRANS: Becom_e Ambassador (100% chance of success).
 #: common/actions.c:7628 data/civ1/game.ruleset:459 data/civ2/game.ruleset:489
@@ -16545,35 +16526,35 @@ msgstr "Botschaft eröffnen"
 #: data/civ2civ3/game.ruleset:528 data/multiplayer/game.ruleset:512
 #, c-format
 msgid "Becom%se Ambassador%s"
-msgstr ""
+msgstr "Botschaft%ser werden%s"
 
 #. TRANS: Steal _Technology (3% chance of success).
 #: common/actions.c:7631 data/civ1/game.ruleset:462 data/civ2/game.ruleset:492
 #: data/classic/game.ruleset:515 data/sandbox/game.ruleset:534
 #: data/civ2civ3/game.ruleset:531 data/multiplayer/game.ruleset:515
-#, fuzzy, c-format
+#, c-format
 msgid "Steal %sTechnology%s"
-msgstr "Forschungsergebnis stehlen"
+msgstr "Forschungsergebnis s%stehlen%s"
 
 #. TRANS: Steal _Technology and Escape (3% chance of success).
 #: common/actions.c:7634 data/civ2/game.ruleset:495
 #: data/classic/game.ruleset:518 data/sandbox/game.ruleset:537
 #: data/civ2civ3/game.ruleset:534 data/multiplayer/game.ruleset:518
-#, fuzzy, c-format
+#, c-format
 msgid "Steal %sTechnology and Escape%s"
-msgstr "Forschungsergebnis stehlen"
+msgstr "Forschungsergebnis s%stehlen und fliehen%s"
 
 #. TRANS: In_dustrial Espionage (3% chance of success).
 #: common/actions.c:7637
-#, fuzzy, c-format
+#, c-format
 msgid "In%sdustrial Espionage%s"
-msgstr "Industrie sabotieren"
+msgstr "In%sdustriespionage%s"
 
 #. TRANS: In_dustrial Espionage and Escape (3% chance of success).
 #: common/actions.c:7640
-#, fuzzy, c-format
+#, c-format
 msgid "In%sdustrial Espionage and Escape%s"
-msgstr "Industrie sabotieren"
+msgstr "In%sdustriespionage und fliehen%s"
 
 #. TRANS: _Investigate City (100% chance of success).
 #: common/actions.c:7643 data/civ2/game.ruleset:501
@@ -16581,7 +16562,7 @@ msgstr "Industrie sabotieren"
 #: data/civ2civ3/game.ruleset:540 data/multiplayer/game.ruleset:524
 #, c-format
 msgid "%sInvestigate City%s"
-msgstr "%sStadt auskundschaften%s"
+msgstr "Stadt aus%skundschaften%s"
 
 #. TRANS: _Investigate City (spends the unit) (100% chance of
 #. * success).
@@ -16592,19 +16573,19 @@ msgstr "%sStadt auskundschaften%s"
 #: data/multiplayer/game.ruleset:527
 #, c-format
 msgid "%sInvestigate City (spends the unit)%s"
-msgstr "%sStadt auskundschaften (löst die Einheit auf)%s"
+msgstr "Stadt aus%skundschaften (löst die Einheit auf)%s"
 
 #. TRANS: Steal _Gold (100% chance of success).
 #: common/actions.c:7650
 #, c-format
 msgid "Steal %sGold%s"
-msgstr ""
+msgstr "%sGold stehlen%s"
 
 #. TRANS: Steal _Gold and Escape (100% chance of success).
 #: common/actions.c:7653
 #, c-format
 msgid "Steal %sGold and Escape%s"
-msgstr ""
+msgstr "%sGold stehlen%s und fliehen"
 
 #. TRANS: Spread _Plague (100% chance of success).
 #: common/actions.c:7656
@@ -16616,28 +16597,28 @@ msgstr ""
 #: common/actions.c:7659
 #, c-format
 msgid "Steal %sMaps%s"
-msgstr ""
+msgstr "Karten%smaterial stehlen%s"
 
 #. TRANS: Steal _Maps and Escape (100% chance of success).
 #: common/actions.c:7662
 #, c-format
 msgid "Steal %sMaps and Escape%s"
-msgstr ""
+msgstr "Karten%smaterial stehlen und fliehen%s"
 
 #. TRANS: Establish Trade _Route (100% chance of success).
 #: common/actions.c:7665 data/civ1/game.ruleset:468 data/civ2/game.ruleset:507
 #: data/classic/game.ruleset:530 data/sandbox/game.ruleset:552
 #: data/civ2civ3/game.ruleset:546 data/alien/game.ruleset:486
-#, fuzzy, c-format
+#, c-format
 msgid "Establish Trade %sRoute%s"
-msgstr "Handelsweg gründen"
+msgstr "Handelsweg g%sründen%s"
 
 #. TRANS: Enter _Marketplace (100% chance of success).
 #: common/actions.c:7668 data/civ1/game.ruleset:471 data/civ2/game.ruleset:510
 #: data/sandbox/game.ruleset:555 data/civ2civ3/game.ruleset:549
-#, fuzzy, c-format
+#, c-format
 msgid "Enter %sMarketplace%s"
-msgstr "Marktplatz betreten"
+msgstr "%sMarktplatz betreten%s"
 
 #. TRANS: Help _build Wonder (100% chance of success).
 #: common/actions.c:7671 data/civ1/game.ruleset:474 data/civ2/game.ruleset:513
@@ -16651,114 +16632,116 @@ msgstr "Hilf %sbeim Bauen des Weltwunders%s"
 #. TRANS: _Capture Units (100% chance of success).
 #: common/actions.c:7674 data/sandbox/game.ruleset:567
 #: data/civ2civ3/game.ruleset:561 data/alien/game.ruleset:501
-#, fuzzy, c-format
+#, c-format
 msgid "%sCapture Units%s"
-msgstr "Stationierte Einheiten: %d"
+msgstr "Einheiten %sgefangen nehmen%s"
 
 #. TRANS: _Expel Unit (100% chance of success).
 #: common/actions.c:7677
-#, fuzzy, c-format
+#, c-format
 msgid "%sExpel Unit%s"
-msgstr "Hilfe : Einheiten"
+msgstr "%sEinheit ausweisen%s"
 
 #. TRANS: _Found City (100% chance of success).
 #: common/actions.c:7680
-#, fuzzy, c-format
+#, c-format
 msgid "%sFound City%s"
-msgstr "Finde Stadt"
+msgstr "%sGründe Stadt%s"
 
 #. TRANS: _Join City (100% chance of success).
 #: common/actions.c:7683
-#, fuzzy, c-format
+#, c-format
 msgid "%sJoin City%s"
-msgstr "Wasser vergiften"
+msgstr "An Stadt anschl%sießen%s"
 
 #. TRANS: B_ombard (100% chance of success).
 #: common/actions.c:7686
-#, fuzzy, c-format
+#, c-format
 msgid "B%sombard%s"
-msgstr "Grenze"
+msgstr "B%sombardieren%s"
 
 #. TRANS: B_ombard 2 (100% chance of success).
 #: common/actions.c:7689
 #, fuzzy, c-format
+#| msgid "B%sombard%s"
 msgid "B%sombard 2%s"
-msgstr "Grenze"
+msgstr "B%sombardieren%s"
 
 #. TRANS: B_ombard 3 (100% chance of success).
 #: common/actions.c:7692
 #, fuzzy, c-format
+#| msgid "B%sombard%s"
 msgid "B%sombard 3%s"
-msgstr "Grenze"
+msgstr "B%sombardieren%s"
 
 #. TRANS: Suitcase _Nuke (100% chance of success).
 #: common/actions.c:7695
 #, c-format
 msgid "Suitcase %sNuke%s"
-msgstr ""
+msgstr "K%soffer-Atombombe%s"
 
 #. TRANS: Suitcase _Nuke and Escape (100% chance of success).
 #: common/actions.c:7698
 #, c-format
 msgid "Suitcase %sNuke and Escape%s"
-msgstr ""
+msgstr "K%soffer-Atombombe und fliehen%s"
 
 #. TRANS: Explode _Nuclear (100% chance of success).
 #: common/actions.c:7701
-#, fuzzy, c-format
+#, c-format
 msgid "Explode %sNuclear%s"
-msgstr "Atombombe zünden"
+msgstr "At%sombombe zünden%s"
 
 #. TRANS: _Nuke City (100% chance of success).
 #: common/actions.c:7704 data/civ1/game.ruleset:492 data/civ2/game.ruleset:531
 #: data/classic/game.ruleset:554 data/civ2civ3/game.ruleset:576
 #: data/multiplayer/game.ruleset:548
 #, fuzzy, c-format
+#| msgid "%sConquer City%s"
 msgid "%sNuke City%s"
-msgstr "%s hat %s erobert."
+msgstr "Stadt %serobern%s"
 
 #. TRANS: _Nuke Units (100% chance of success).
 #: common/actions.c:7707 data/civ1/game.ruleset:495 data/civ2/game.ruleset:534
 #: data/classic/game.ruleset:557 data/civ2civ3/game.ruleset:579
 #: data/multiplayer/game.ruleset:551
 #, fuzzy, c-format
+#| msgid "%sCapture Units%s"
 msgid "%sNuke Units%s"
-msgstr "Stationierte Einheiten: %d"
+msgstr "Einheiten %sgefangen nehmen%s"
 
 #. TRANS: Destroy _City (100% chance of success).
 #: common/actions.c:7710 data/sandbox/game.ruleset:579
-#, fuzzy, c-format
+#, c-format
 msgid "Destroy %sCity%s"
-msgstr "%2$s in %3$s liegt wegen %1$s in Trümmern."
+msgstr "Stadt %szerstören%s"
 
 #. TRANS: Dis_band recovering production (100% chance of success).
 #: common/actions.c:7713 data/civ1/game.ruleset:477 data/civ2/game.ruleset:516
 #: data/classic/game.ruleset:539 data/sandbox/game.ruleset:561
 #: data/civ2civ3/game.ruleset:555 data/alien/game.ruleset:495
 #: data/multiplayer/game.ruleset:533
-#, fuzzy, c-format
-#| msgid "Draw the city productions"
+#, c-format
 msgid "Dis%sband recovering production%s"
-msgstr "Stadtproduktion anzeigen"
+msgstr "Aufl%sösen und Produktion zurückgewinnen%s"
 
 #. TRANS: Dis_band without recovering production (100% chance of success).
 #: common/actions.c:7716 data/civ1/game.ruleset:480 data/civ2/game.ruleset:519
 #: data/classic/game.ruleset:542 data/sandbox/game.ruleset:564
 #: data/civ2civ3/game.ruleset:558 data/alien/game.ruleset:498
 #: data/multiplayer/game.ruleset:536
-#, fuzzy, c-format
-#| msgid "Draw the city productions"
+#, c-format
 msgid "Dis%sband without recovering production%s"
-msgstr "Stadtproduktion anzeigen"
+msgstr "Aufl%sösen ohne Produktion zurückzugewinnen%s"
 
 #. TRANS: Set _Home City (100% chance of success).
 #: common/actions.c:7719 data/civ1/game.ruleset:498 data/civ2/game.ruleset:537
 #: data/classic/game.ruleset:560 data/sandbox/game.ruleset:591
 #: data/civ2civ3/game.ruleset:582 data/alien/game.ruleset:513
 #: data/multiplayer/game.ruleset:554
-#, fuzzy, c-format
+#, c-format
 msgid "Set %sHome City%s"
-msgstr "Heimatstadt setzen"
+msgstr "%sHeimatstadt setzen%s"
 
 #. TRANS: Make _Homeless (100% chance of success).
 #: common/actions.c:7722
@@ -16770,9 +16753,9 @@ msgstr ""
 #: common/actions.c:7725 data/classic/game.ruleset:563
 #: data/sandbox/game.ruleset:597 data/civ2civ3/game.ruleset:585
 #: data/alien/game.ruleset:516 data/multiplayer/game.ruleset:557
-#, fuzzy, c-format
+#, c-format
 msgid "%sUpgrade Unit%s"
-msgstr "Einheit modernisieren"
+msgstr "Einheit a%sufwerten%s"
 
 #. TRANS: Drop _Paratrooper (100% chance of success).
 #: common/actions.c:7728 common/actions.c:7731 common/actions.c:7734
@@ -16780,33 +16763,34 @@ msgstr "Einheit modernisieren"
 #: data/civ2/game.ruleset:540 data/classic/game.ruleset:566
 #: data/sandbox/game.ruleset:600 data/civ2civ3/game.ruleset:588
 #: data/alien/game.ruleset:519 data/multiplayer/game.ruleset:560
-#, fuzzy, c-format
+#, c-format
 msgid "Drop %sParatrooper%s"
-msgstr "Fallschirmspringer abwerfen"
+msgstr "Fallschi%srmspringer abwerfen%s"
 
 #. TRANS: _Airlift to City (100% chance of success).
 #: common/actions.c:7746 data/civ2/game.ruleset:546
 #: data/classic/game.ruleset:572 data/sandbox/game.ruleset:606
 #: data/civ2civ3/game.ruleset:594 data/alien/game.ruleset:525
 #: data/multiplayer/game.ruleset:566
-#, fuzzy, c-format
+#, c-format
 msgid "%sAirlift to City%s"
-msgstr "Gehe (fliege) nach Stadt"
+msgstr "Lufttr%sansport zu Stadt%s"
 
 #. TRANS: _Attack (100% chance of success).
 #: common/actions.c:7749 data/civ1/game.ruleset:501 data/civ2/game.ruleset:549
 #: data/classic/game.ruleset:575 data/sandbox/game.ruleset:609
 #: data/civ2civ3/game.ruleset:597 data/alien/game.ruleset:528
 #: data/multiplayer/game.ruleset:569
-#, fuzzy, c-format
+#, c-format
 msgid "%sAttack%s"
-msgstr "Angriff:"
+msgstr "%sAngreifen%s"
 
 #. TRANS: _Suicide Attack (100% chance of success).
 #: common/actions.c:7752
 #, fuzzy, c-format
+#| msgid "%sAttack%s"
 msgid "%sSuicide Attack%s"
-msgstr "Angriff:"
+msgstr "%sAngreifen%s"
 
 #. TRANS: Surgical Str_ike Building (100% chance of success).
 #: common/actions.c:7755
@@ -16826,33 +16810,36 @@ msgstr "Überschuss: Produktion"
 #: data/classic/game.ruleset:581 data/sandbox/game.ruleset:615
 #: data/civ2civ3/game.ruleset:603 data/alien/game.ruleset:534
 #: data/multiplayer/game.ruleset:575
-#, fuzzy, c-format
+#, c-format
 msgid "%sConquer City%s"
-msgstr "%s hat %s erobert."
+msgstr "Stadt %serobern%s"
 
 #. TRANS: _Conquer City 2 (100% chance of success).
 #: common/actions.c:7766
 #, fuzzy, c-format
+#| msgid "%sConquer City%s"
 msgid "%sConquer City 2%s"
-msgstr "%s hat %s erobert."
+msgstr "Stadt %serobern%s"
 
 #. TRANS: _Conquer Extras (100% chance of success).
 #: common/actions.c:7771
 #, fuzzy, c-format
+#| msgid "%sConquer City%s"
 msgid "%sConquer Extras%s"
-msgstr "%s hat %s erobert."
+msgstr "Stadt %serobern%s"
 
 #. TRANS: _Conquer Extras 2 (100% chance of success).
 #: common/actions.c:7774
 #, fuzzy, c-format
+#| msgid "%sConquer City%s"
 msgid "%sConquer Extras 2%s"
-msgstr "%s hat %s erobert."
+msgstr "Stadt %serobern%s"
 
 #. TRANS: Heal _Unit (3% chance of success).
 #: common/actions.c:7778
-#, fuzzy, c-format
+#, c-format
 msgid "Heal %sUnit%s"
-msgstr "Hilfe : Einheiten"
+msgstr "Heile Ei%snheit%s"
 
 #. TRANS: _Transform Terrain (3% chance of success).
 #: common/actions.c:7781 data/civ1/game.ruleset:510 data/civ2/game.ruleset:558
@@ -16976,8 +16963,9 @@ msgstr "Bewässerungssystem anlegen"
 #: data/civ2civ3/game.ruleset:642 data/alien/game.ruleset:570
 #: data/multiplayer/game.ruleset:620
 #, fuzzy, c-format
+#| msgid "B%sombard%s"
 msgid "%sDeboard%s"
-msgstr "Grenze"
+msgstr "B%sombardieren%s"
 
 #. TRANS: _Board (100% chance of success).
 #: common/actions.c:7820 data/civ1/game.ruleset:543 data/civ2/game.ruleset:591
@@ -16994,8 +16982,9 @@ msgstr "Grenze"
 #: data/civ2civ3/game.ruleset:657 data/alien/game.ruleset:585
 #: data/multiplayer/game.ruleset:635
 #, fuzzy, c-format
+#| msgid "B%sombard%s"
 msgid "%sEmbark%s"
-msgstr "Grenze"
+msgstr "B%sombardieren%s"
 
 #. TRANS: _Unload (100% chance of success).
 #: common/actions.c:7828 data/civ1/game.ruleset:546 data/civ2/game.ruleset:594
@@ -17013,14 +17002,16 @@ msgstr "Ausschiffen"
 #: data/civ2civ3/game.ruleset:651 data/alien/game.ruleset:579
 #: data/multiplayer/game.ruleset:629
 #, fuzzy, c-format
+#| msgid "B%sombard%s"
 msgid "%sDisembark%s"
-msgstr "Grenze"
+msgstr "B%sombardieren%s"
 
 #. TRANS: _Disembark 2 (100% chance of success).
 #: common/actions.c:7836
 #, fuzzy, c-format
+#| msgid "B%sombard%s"
 msgid "%sDisembark 2%s"
-msgstr "Grenze"
+msgstr "B%sombardieren%s"
 
 #. TRANS: _Eliminate Diplomat (100% chance of success).
 #: common/actions.c:7839
@@ -17035,8 +17026,9 @@ msgstr "Feindlicher Diplomat: %s"
 #: data/civ2civ3/game.ruleset:660 data/alien/game.ruleset:588
 #: data/multiplayer/game.ruleset:638 data/multiplayer/game.ruleset:641
 #, fuzzy, c-format
+#| msgid "Enter %sMarketplace%s"
 msgid "Enter %sHut%s"
-msgstr "Marktplatz betreten"
+msgstr "%sMarktplatz betreten%s"
 
 #. TRANS: Frighten _Hut (100% chance of success).
 #: common/actions.c:7851 data/civ2/game.ruleset:606
@@ -17083,36 +17075,33 @@ msgstr ""
 
 #: common/actions.c:9244
 msgid "individual cities"
-msgstr ""
+msgstr "einzelne Städte"
 
 #: common/actions.c:9245
-#, fuzzy
 msgid "individual units"
-msgstr "Einheiten auflösen"
+msgstr "einzelne Einheiten"
 
 #: common/actions.c:9246
-#, fuzzy
 msgid "unit stacks"
-msgstr "Automatisch angreifen"
+msgstr "Einheiten-Stapel"
 
 #: common/actions.c:9247
-#, fuzzy
 msgid "tiles"
-msgstr "tiles DATEI"
+msgstr "Felder"
 
 #: common/actions.c:9248
 #, fuzzy
+#| msgid "tiles"
 msgid "tile extras"
-msgstr "tiles DATEI"
+msgstr "Felder"
 
 #: common/actions.c:9249
 msgid "itself"
-msgstr ""
+msgstr "sich selbst"
 
 #: common/actions.h:28
-#, fuzzy
 msgid "a unit"
-msgstr "%1 Einheit"
+msgstr "eine Einheit"
 
 #. TRANS: in place of player name or "global observer"
 #: common/actions.h:53 common/fc_types.h:1043 server/stdinhand.c:5568
@@ -17142,19 +17131,15 @@ msgstr ""
 
 #: common/actions.h:303
 msgid "no battle"
-msgstr ""
+msgstr "kein Kampf"
 
 #: common/actions.h:305
-#, fuzzy
-#| msgid "Battleship"
 msgid "battle"
-msgstr "Schlachtschiffe"
+msgstr "Kampf"
 
 #: common/actions.h:307
-#, fuzzy
-#| msgid "Diplomatic Message"
 msgid "diplomatic battle"
-msgstr "Diplomatie: Mitteilungen"
+msgstr "diplomatischer Kampf"
 
 #: common/actions.h:314
 msgid "stays"
@@ -17192,19 +17177,17 @@ msgid "unrepresentable"
 msgstr "neue Vorgabe"
 
 #: common/actions.h:331
-#, fuzzy
 msgid "the player"
-msgstr "Anzeige der Städte"
+msgstr "der Spieler"
 
 #: common/actions.h:334
-#, fuzzy
 msgid "the game rules"
-msgstr "Letzte Spielrunde"
+msgstr "die Spielregeln"
 
+# CM: Was wäre ein besseres Wort für "Agent"?
 #: common/actions.h:337
-#, fuzzy
 msgid "a server agent"
-msgstr "Server"
+msgstr "ein Agent des Servers"
 
 #: common/actions.h:360
 #, fuzzy
@@ -17249,14 +17232,14 @@ msgid "?redundant:*"
 msgstr "?redundant:*"
 
 #: common/clientutils.c:271
-#, fuzzy, c-format
+#, c-format
 msgid "Pillage %s(%d)"
-msgstr "Brandschatzen"
+msgstr "Plündere %s(%d)"
 
 #: common/clientutils.c:272
-#, fuzzy, c-format
+#, c-format
 msgid "Clean %s(%d)"
-msgstr "%s (%d)"
+msgstr "Reinige %s(%d)"
 
 #: common/effects.c:1178
 msgid "?req-list-separator:+"
@@ -17330,25 +17313,24 @@ msgstr "Weltwunder: %s"
 #. * handles the different types of messages. Some of them will be displayed
 #. * with prefixes, such as "Technology: Learned From Great Library".
 #: common/events.c:87
-#, fuzzy
 msgid "Acquired New Tech"
-msgstr "Neuer Fortschritt"
+msgstr "Neuen Fortschritt erworben"
 
 #: common/events.c:88
 msgid "Learned New Tech"
-msgstr "Neuer Fortschritt"
+msgstr "Neuen Fortschritt erlernt"
 
 #: common/events.c:89
 msgid "Selected New Goal"
-msgstr "Neues Forschungsziel"
+msgstr "Neues Forschungsziel ausgewählt"
 
 #: common/events.c:90
 msgid "Lost a Tech"
-msgstr ""
+msgstr "Fortschritt verloren"
 
 #: common/events.c:91
 msgid "Other Player Gained/Lost a Tech"
-msgstr ""
+msgstr "Ein anderer Spieler gewann/verlor einen Fortschritt"
 
 #: common/events.c:92 common/events.c:169
 msgid "Bought"
@@ -17475,18 +17457,16 @@ msgid "Theft"
 msgstr "Diebstahl"
 
 #: common/events.c:127 common/events.c:137
-#, fuzzy
 msgid "Gold Theft"
-msgstr "Diebstahl"
+msgstr "Gold-Diebstahl"
 
 #: common/events.c:128 common/events.c:138
-#, fuzzy
 msgid "Map Theft"
-msgstr "Diebstahl"
+msgstr "Karten-Diebstahl"
 
 #: common/events.c:129 common/events.c:139
 msgid "Suitcase Nuke"
-msgstr ""
+msgstr "Koffer-Atombombe"
 
 #: common/events.c:140
 msgid "Eco-Disaster"
@@ -17633,9 +17613,8 @@ msgid "Did Expel"
 msgstr ""
 
 #: common/events.c:181
-#, fuzzy
 msgid "Action failed"
-msgstr "Spielererzeugung fehlgeschlagen."
+msgstr "Aktion fehlgeschlagen"
 
 #. TRANS: "vote" as a process
 #: common/events.c:183 server/stdinhand.c:4470
@@ -17762,35 +17741,29 @@ msgid "Extra Appears or Disappears"
 msgstr ""
 
 #: common/events.c:216
-#, fuzzy
 msgid "Unit Illegal Action"
-msgstr "Einheit auswählen"
+msgstr "Illegale Aktion für Einheit"
 
 #: common/events.c:217
-#, fuzzy
 msgid "Unit escaped"
-msgstr "Einheit: verschoben"
+msgstr "Einheit entkommen"
 
 #: common/events.c:218
 msgid "Help for beginners"
-msgstr ""
+msgstr "Hilfe für Anfänger"
 
 #: common/events.c:219
-#, fuzzy
-#| msgid "Unit shields"
 msgid "Unit did heal"
-msgstr "Schild"
+msgstr "Einheit ist geheilt"
 
 #: common/events.c:220
-#, fuzzy
-#| msgid "Unit shields"
 msgid "Unit was healed"
-msgstr "Schild"
+msgstr "Einheit wurde geheilt"
 
+# CM: "hat sich geändert"?
 #: common/events.c:221
-#, fuzzy
 msgid "Multiplier changed"
-msgstr "Mehrspieler-Regelsatz"
+msgstr "Multiplikator geändert"
 
 #: common/events.c:222
 #, fuzzy
@@ -17806,15 +17779,15 @@ msgstr "Händler ist angekommen"
 
 #: common/events.c:224
 #, fuzzy
-#| msgid "Unit shields"
+#| msgid "Unit did heal"
 msgid "Unit did to you"
-msgstr "Schild"
+msgstr "Einheit ist geheilt"
 
 #: common/events.c:225
 #, fuzzy
-#| msgid "Unit shields"
+#| msgid "Unit did heal"
 msgid "Unit did"
-msgstr "Schild"
+msgstr "Einheit ist geheilt"
 
 #: common/events.c:226
 msgid "Infrapoints"
@@ -17827,9 +17800,8 @@ msgid "Map found from a hut"
 msgstr "Stadt vorgefunden"
 
 #: common/extras.h:30
-#, fuzzy
 msgid "?extraflag:NativeTile"
-msgstr "Unpassierbare Felder"
+msgstr ""
 
 #: common/extras.h:33
 msgid "?extraflag:Refuel"
@@ -17852,33 +17824,28 @@ msgid "?extraflag:ConnectLand"
 msgstr ""
 
 #: common/extras.h:47
-#, fuzzy
 msgid "?extraflag:GlobalWarming"
-msgstr "Globale Erderwärmung"
+msgstr ""
 
 #: common/extras.h:50
-#, fuzzy
 msgid "?extraflag:NuclearWinter"
-msgstr "Nuklear"
+msgstr ""
 
 #: common/extras.h:53
 msgid "?extraflag:ShowFlag"
 msgstr ""
 
 #: common/extras.h:57
-#, fuzzy
 msgid "?extraflag:NaturalDefense"
-msgstr "Fangbar"
+msgstr ""
 
 #: common/extras.h:60
 msgid "NoStackDeath"
-msgstr ""
+msgstr "KeinStapelTod"
 
 #: common/extras.h:63
-#, fuzzy
-#| msgid "No progress"
 msgid "NoAggressive"
-msgstr "Kein Fortschritt"
+msgstr "NichtAggresiv"
 
 #: common/fc_cmdhelp.c:107
 #, c-format
@@ -17963,22 +17930,20 @@ msgid "WrapY"
 msgstr ""
 
 #: common/fc_types.h:1046
-#, fuzzy
 msgid "passive"
-msgstr "[erfolgreich]"
+msgstr "passiv"
 
 #. TRANS: " and achieved the rank of <veteran level>";
 #. * preserve leading space
 #: common/featured_text.c:1149
-#, fuzzy, c-format
-#| msgid "Your %s became more experienced and achieved the rank of %s."
+#, c-format
 msgid " and achieved the rank of %s"
-msgstr "%s sammelten Erfahrung und wurden in den Rang eines %ss erhoben."
+msgstr " und wurden in den Rang eines %ss erhoben."
 
 #. TRANS: tired; note trailing space
 #: common/featured_text.c:1166
 msgid "tired "
-msgstr ""
+msgstr "ermüdet "
 
 #. TRANS: FP = Firepower of a unit; note trailing space
 #: common/featured_text.c:1189
@@ -18473,818 +18438,839 @@ msgid "?diplomatic_state:Team"
 msgstr "Team"
 
 #: common/player.h:170
-#, fuzzy
 msgid "Gives shared vision"
-msgstr "Karteneinsicht erlauben"
+msgstr "erlaubt Karteneinsicht"
 
 #: common/player.h:172
-#, fuzzy
 msgid "Receives shared vision"
-msgstr "Karteneinsicht erlauben"
+msgstr "erhält Karteneinsicht"
 
 #: common/player.h:174
-#, fuzzy
 msgid "Hosts embassy"
-msgstr "Botschaft eröffnen"
+msgstr "Beherbergt Botschaft"
 
 #: common/player.h:176
-#, fuzzy
 msgid "Has embassy"
-msgstr "Botschaft erlauben"
+msgstr "Hat eine Botschaft"
 
 #: common/player.h:178
-#, fuzzy
 msgid "Hosts real embassy"
-msgstr "Botschaft eröffnen"
+msgstr "Beherbergt eine echte Botschaft"
 
 #: common/player.h:180
-#, fuzzy
 msgid "Has real embassy"
-msgstr "Abkommen: Botschaft"
+msgstr "Hat eine echte Botschaft"
 
 #: common/player.h:182
 msgid "Has Casus Belli"
-msgstr ""
+msgstr "Hat Kriegsgrund"
 
 #: common/player.h:184
 msgid "Provided Casus Belli"
-msgstr ""
+msgstr "Liefert Kriegsgrund"
 
 #: common/player.h:186
 #, fuzzy
 #| msgid "foreign "
 msgid "Foreign"
-msgstr "ausländische"
+msgstr "ausländische "
 
 #: common/reqtext.c:63
-#, fuzzy, c-format
+#, c-format
 msgid "Requires knowledge of the technology %s."
-msgstr "Erfordert den Fortschritt %s.\n"
+msgstr "Erfordert den Fortschritt %s."
 
 #: common/reqtext.c:67
-#, fuzzy, c-format
+#, c-format
 msgid "Prevented by knowledge of the technology %s."
-msgstr "Blockiert durch die Entdeckung von %s.\n"
+msgstr "Blockiert durch die Entdeckung von %s."
 
 #: common/reqtext.c:75
-#, fuzzy, c-format
+#, c-format
 msgid "Requires that a player on your team knows the technology %s."
-msgstr "Erfordert die Entdeckung von %s durch irgendjemanden.\n"
+msgstr "Erfordert, dass ein Spieler ihres Teams den Fortschritt %s kennt."
 
 #: common/reqtext.c:80
-#, fuzzy, c-format
+#, c-format
 msgid "Prevented if any player on your team knows the technology %s."
-msgstr "Blockiert durch die Entdeckung von %s.\n"
+msgstr "Blockiert, wenn ein Spieler ihres Teams den Fortschritt %s kennt."
 
 #: common/reqtext.c:89
-#, fuzzy, c-format
+#, c-format
 msgid "Requires that a player allied to you knows the technology %s."
-msgstr "Erfordert, dass bisher niemand %s erforscht hat.\n"
+msgstr "Erfordert, dass ein alliierter Spieler den Fortschritt %s kennt."
 
 #: common/reqtext.c:94
-#, fuzzy, c-format
+#, c-format
 msgid "Prevented if any player allied to you knows the technology %s."
-msgstr "Blockiert durch die Entdeckung von %s.\n"
+msgstr "Blockiert, wenn ein alliierter Spieler den Fortschritt %s kennt."
 
 #: common/reqtext.c:104
-#, fuzzy, c-format
+#, c-format
 msgid "Requires that someone has discovered the technology %s."
-msgstr "Erfordert die Entdeckung von %s durch irgendjemanden.\n"
+msgstr "Erfordert die Entdeckung von %s durch irgendjemanden."
 
 #: common/reqtext.c:109
-#, fuzzy, c-format
+#, c-format
 msgid "Requires that no-one has yet discovered the technology %s."
-msgstr "Erfordert, dass bisher niemand %s erforscht hat.\n"
+msgstr "Erfordert, dass bisher niemand %s erforscht hat."
 
 #: common/reqtext.c:116
-#, fuzzy, c-format
+#, c-format
 msgid "Requires that some player knows the technology %s."
-msgstr ""
-"Erfordert die Entdeckung einer Technologie mit der „%s“-Flagge durch "
-"irgendjemanden.\n"
+msgstr "Erfordert dass ein Spieler den Fortschritt %s kennt."
 
 #: common/reqtext.c:121
-#, fuzzy, c-format
+#, c-format
 msgid "Requires that no player knows the technology %s."
-msgstr ""
-"Erfordert, dass bisher niemand eine Technologie mit der „%s“-Flagge "
-"erforscht hat.\n"
+msgstr "Erfordert, dass bisher kein Spieler %s erforscht hat."
 
 #. TRANS: %s is a (translatable) tech flag.
 #: common/reqtext.c:146
-#, fuzzy, c-format
+#, c-format
 msgid "Requires knowledge of a technology with the \"%s\" flag."
-msgstr "Erfordert Kenntnis eines Fortschritts mit der „%s“-Flagge.\n"
+msgstr "Erfordert Kenntnis eines Fortschritts mit der Markierung „%s“."
 
 #. TRANS: %s is a (translatable) tech flag.
 #: common/reqtext.c:152
-#, fuzzy, c-format
+#, c-format
 msgid "Prevented by knowledge of any technology with the \"%s\" flag."
-msgstr "Blockiert durch einen Fortschritt mit der „%s“-Flagge.\n"
+msgstr "Blockiert durch einen Fortschritt mit der Markierung „%s“."
 
 #. TRANS: %s is a (translatable) tech flag.
 #: common/reqtext.c:162
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Requires that a player on your team knows a technology with the \"%s\" flag."
 msgstr ""
-"Erfordert die Entdeckung einer Technologie mit der „%s“-Flagge durch "
-"irgendjemanden.\n"
+"Erfordert die Entdeckung einer Technologie mit der Markierung „%s“ durch "
+"einen Spieler in Ihrem Team."
 
 #. TRANS: %s is a (translatable) tech flag.
 #: common/reqtext.c:168
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Prevented if any player on your team knows any technology with the \"%s\" "
 "flag."
-msgstr "Blockiert durch einen Fortschritt mit der „%s“-Flagge.\n"
+msgstr ""
+"Blockiert, wenn ein Spieler in Ihrem Team eine Technologie mit der "
+"Markierung „%s“ kennt."
 
 #. TRANS: %s is a (translatable) tech flag.
 #: common/reqtext.c:178
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Requires that a player allied to you knows a technology with the \"%s\" flag."
 msgstr ""
-"Erfordert die Entdeckung einer Technologie mit der „%s“-Flagge durch "
-"irgendjemanden.\n"
+"Erfordert die Entdeckung einer Technologie mit der Markierung „%s“ durch "
+"einen alliierter Spieler."
 
 #. TRANS: %s is a (translatable) tech flag.
 #: common/reqtext.c:184
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Prevented if any player allied to you knows any technology with the \"%s\" "
 "flag."
-msgstr "Blockiert durch einen Fortschritt mit der „%s“-Flagge.\n"
+msgstr ""
+"Blockiert, wenn ein alliierter Spieler eine Technologie mit der Markierung "
+"„%s“ kennt."
 
 #. TRANS: %s is a (translatable) tech flag.
 #: common/reqtext.c:194
-#, fuzzy, c-format
+#, c-format
 msgid "Requires that some player knows a technology with the \"%s\" flag."
 msgstr ""
-"Erfordert die Entdeckung einer Technologie mit der „%s“-Flagge durch "
-"irgendjemanden.\n"
+"Erfordert die Entdeckung einer Technologie mit der Markierung „%s“ durch "
+"irgendjemanden."
 
 #. TRANS: %s is a (translatable) tech flag.
 #: common/reqtext.c:200
-#, fuzzy, c-format
+#, c-format
 msgid "Requires that no player knows any technology with the \"%s\" flag."
 msgstr ""
-"Erfordert, dass bisher niemand eine Technologie mit der „%s“-Flagge "
-"erforscht hat.\n"
+"Erfordert, dass bisher niemand eine Technologie mit der Markierung „%s“ "
+"erforscht hat."
 
 #: common/reqtext.c:223
-#, fuzzy, c-format
+#, c-format
 msgid "Requires the %s government."
-msgstr "Erfordert %s als Regierungsform.\n"
+msgstr "Erfordert %s als Regierungsform."
 
 #: common/reqtext.c:226
-#, fuzzy, c-format
+#, c-format
 msgid "Not available under the %s government."
-msgstr "Ist in der Regierungsform %s nicht verfügbar.\n"
+msgstr "Ist in der Regierungsform %s nicht verfügbar."
 
 #: common/reqtext.c:236
-#, fuzzy, c-format
+#, c-format
 msgid "Requires you to have achieved \"%s\"."
-msgstr "Erfordert den Fortschritt %s.\n"
+msgstr "Erfordert, dass Sie „%s“ haben."
 
 #: common/reqtext.c:239
 #, c-format
 msgid "Not available once you have achieved \"%s\"."
-msgstr ""
+msgstr "Nicht verfügbar, sobald Sie „%s“ haben."
 
 #: common/reqtext.c:247
-#, fuzzy, c-format
+#, c-format
 msgid "Requires that at least one of your team-mates has achieved \"%s\"."
-msgstr "Das Jahr %s darf noch nicht erreicht worden sein.\n"
+msgstr "Erfordert, dass mindestens eines Ihrer Team-Mitglieder „%s“ hat."
 
 #: common/reqtext.c:251
 #, c-format
 msgid "Not available if any of your team-mates has achieved \"%s\"."
-msgstr ""
+msgstr "Nicht verfügbar, wenn eines Ihrer Team-Mitglieder „%s“ hat."
 
 #: common/reqtext.c:259
-#, fuzzy, c-format
+#, c-format
 msgid "Requires that at least one of your allies has achieved \"%s\"."
-msgstr "Sie müssen die %s spielen.\n"
+msgstr "Erfordert, dass mindestens einer Ihrer Alliierten „%s“ hat."
 
 #: common/reqtext.c:263
 #, c-format
 msgid "Not available if any of your allies has achieved \"%s\"."
-msgstr ""
+msgstr "Nicht verfügbar, wenn einer Ihrer Alliierten „%s“ hat."
 
 #: common/reqtext.c:271
-#, fuzzy, c-format
+#, c-format
 msgid "Requires that at least one player has achieved \"%s\"."
-msgstr "Sie müssen die %s spielen.\n"
+msgstr "Erfordert, dass mindestens ein Spieler „%s“ hat."
 
 #: common/reqtext.c:275
 #, c-format
 msgid "Not available if any player has achieved \"%s\"."
-msgstr ""
+msgstr "Nicht verfügbar, wenn irgendein Spieler „%s“ hat."
 
 #: common/reqtext.c:297
-#, fuzzy, c-format
+#, c-format
 msgid "Applies to the \"%s\" action."
-msgstr ""
-"Erfordert die %s Nation.\n"
-"\n"
+msgstr "Betrifft die Aktion „%s“."
 
 #: common/reqtext.c:300
-#, fuzzy, c-format
+#, c-format
 msgid "Doesn't apply to the \"%s\" action."
-msgstr "Betrifft keine „%s“-Stadtverbesserungen.\n"
+msgstr "Betrifft keine Aktion „%s“."
 
 #: common/reqtext.c:316
-#, fuzzy, c-format
+#, c-format
 msgid "Applies to \"%s\" buildings."
-msgstr "Betrifft nur „%s“-Stadtverbesserungen.\n"
+msgstr "Betrifft „%s“-Stadtverbesserungen."
 
 #: common/reqtext.c:320
-#, fuzzy, c-format
+#, c-format
 msgid "Doesn't apply to \"%s\" buildings."
-msgstr "Betrifft keine „%s“-Stadtverbesserungen.\n"
+msgstr "Betrifft keine „%s“-Stadtverbesserungen."
 
 # MG: "den Leuchtturm" muss hier hineinpassen
 #. TRANS: %s is a wonder
 #: common/reqtext.c:341
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Requires that %s was built at some point, and that it has not yet been "
 "rendered obsolete."
-msgstr "Erfordert %s (darf noch nicht veraltet sein).\n"
+msgstr "Erfordert %s (darf noch nicht veraltet sein)."
 
 #. TRANS: %s is a wonder
 #: common/reqtext.c:349
-#, fuzzy, c-format
+#, c-format
 msgid "Requires that %s was built at some point."
-msgstr "Erfordert %s.\n"
+msgstr "Erfordert %s."
 
 #. TRANS: %s is a wonder
 #: common/reqtext.c:357
-#, fuzzy, c-format
+#, c-format
 msgid "Prevented if %s has ever been built, unless it would be obsolete."
-msgstr "Blockiert durch %s, außer wenn bereits veraltet.\n"
+msgstr "Blockiert durch %s, außer wenn bereits veraltet."
 
 #. TRANS: %s is a wonder
 #: common/reqtext.c:364
-#, fuzzy, c-format
+#, c-format
 msgid "Prevented if %s has ever been built."
-msgstr "Blockiert durch %s.\n"
+msgstr "Blockiert durch %s."
 
 #. TRANS: %s is a wonder
 #: common/reqtext.c:375
-#, fuzzy, c-format
+#, c-format
 msgid "Requires %s to be owned by any player and not yet obsolete."
 msgstr ""
-"Erfordert, dass irgendjemand %s besitzt (darf noch nicht veraltet sein).\n"
+"Erfordert, dass irgendjemand %s besitzt (darf noch nicht veraltet sein)."
 
 #. TRANS: %s is a wonder
 #: common/reqtext.c:382
-#, fuzzy, c-format
+#, c-format
 msgid "Requires %s to be owned by any player."
-msgstr "Erfordert, dass irgendjemand %s besitzt.\n"
+msgstr "Erfordert, dass irgendjemand %s besitzt."
 
 #. TRANS: %s is a wonder
 #: common/reqtext.c:390
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Prevented if %s is currently owned by any player, unless it is obsolete."
-msgstr ""
-"Blockiert, wenn irgendjemand %s besitzt, außer wenn bereits veraltet.\n"
+msgstr "Blockiert, wenn irgendjemand %s besitzt, außer wenn bereits veraltet."
 
 #. TRANS: %s is a wonder
 #: common/reqtext.c:397
-#, fuzzy, c-format
+#, c-format
 msgid "Prevented if %s is currently owned by any player."
-msgstr "Blockiert, wenn irgendjemand %s besitzt.\n"
+msgstr "Blockiert, wenn irgendjemand %s besitzt."
 
 #. TRANS: %s is a wonder
 #: common/reqtext.c:416
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Requires someone who is currently allied to you to have built %s at some "
 "point, and for it not to have been rendered obsolete."
 msgstr ""
-"Erfordert, dass Sie %s errichtet haben (darf noch nicht veraltet sein).\n"
+"Erfordert, dass irgendjemand, der aktuell mit Ihnen alliiert ist, %s "
+"errichtet hat (darf noch nicht veraltet sein)."
 
 #. TRANS: %s is a wonder
 #: common/reqtext.c:424
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Requires someone who is currently allied to you to have built %s at some "
 "point."
-msgstr "Erfordert, dass Sie %s errichtet haben.\n"
+msgstr ""
+"Erfordert, dass irgendjemand, der aktuell mit Ihnen alliiert ist, %s "
+"errichtet hat."
 
 #. TRANS: %s is a wonder
 #: common/reqtext.c:433
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Prevented if someone currently allied to you has ever built %s, unless it "
 "would be obsolete."
 msgstr ""
-"Blockiert, wenn Sie jemals %s errichtet haben, außer wenn bereits veraltet.\n"
+"Blockiert, wenn irgendjemand, der aktuell mit Ihnen alliiert ist, jemals %s "
+"errichtet hat, außer wenn bereits veraltet."
 
 #. TRANS: %s is a wonder
 #: common/reqtext.c:441
-#, fuzzy, c-format
+#, c-format
 msgid "Prevented if someone currently allied to you has ever built %s."
-msgstr "Blockiert, wenn Sie jemals %s errichtet haben.\n"
+msgstr ""
+"Blockiert, wenn irgendjemand, der aktuell mit Ihnen alliiert ist, jemals %s "
+"errichtet hat."
 
 #. TRANS: %s is a wonder
 #: common/reqtext.c:453
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Requires someone allied to you to own %s, and for it not to have been "
 "rendered obsolete."
 msgstr ""
-"Erfordert, dass Sie %s errichtet haben (darf noch nicht veraltet sein).\n"
+"Erfordert, dass irgendjemand, der mit Ihnen alliiert ist, %s besitzt (darf "
+"noch nicht veraltet sein)."
 
 #. TRANS: %s is a wonder
 #: common/reqtext.c:461
-#, fuzzy, c-format
+#, c-format
 msgid "Requires someone allied to you to own %s."
-msgstr "Erfordert, dass Sie %s besitzen.\n"
+msgstr "Erfordert, dass irgendjemand, der mit Ihnen alliiert ist, %s besitzt."
 
 #. TRANS: %s is a wonder
 #: common/reqtext.c:469
-#, fuzzy, c-format
+#, c-format
 msgid "Prevented if someone allied to you owns %s, unless it is obsolete."
-msgstr "Blockiert, wenn Sie %s besitzen, außer wenn bereits veraltet.\n"
+msgstr ""
+"Blockiert, wenn irgendjemand, der mit Ihnen alliiert ist, %s besitzt, außer "
+"wenn bereits veraltet."
 
 #. TRANS: %s is a wonder
 #: common/reqtext.c:476
-#, fuzzy, c-format
+#, c-format
 msgid "Prevented if someone allied to you owns %s."
-msgstr "Blockiert, wenn Sie %s besitzen.\n"
+msgstr "Blockiert, wenn irgendjemand, der mit Ihnen alliiert ist, %s besitzt."
 
 #. TRANS: %s is a wonder
 #: common/reqtext.c:494
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Requires someone on your team to have built %s at some point, and for it not "
 "to have been rendered obsolete."
 msgstr ""
-"Erfordert, dass Sie %s errichtet haben (darf noch nicht veraltet sein).\n"
+"Erfordert, dass jemand aus Ihrem Team %s errichtet hat (darf noch nicht "
+"veraltet sein)."
 
 #. TRANS: %s is a wonder
 #: common/reqtext.c:502
-#, fuzzy, c-format
+#, c-format
 msgid "Requires someone on your team to have built %s at some point."
-msgstr "Erfordert, dass Sie %s errichtet haben.\n"
+msgstr "Erfordert, dass jemand aus Ihrem Team %s errichtet hat."
 
 #. TRANS: %s is a wonder
 #: common/reqtext.c:511
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Prevented if someone on your team has ever built %s, unless it would be "
 "obsolete."
 msgstr ""
-"Blockiert, wenn Sie jemals %s errichtet haben, außer wenn bereits veraltet.\n"
+"Blockiert, wenn jemand aus Ihrem Team jemals %s errichtet hat, außer wenn "
+"bereits veraltet."
 
 #. TRANS: %s is a wonder
 #: common/reqtext.c:518
-#, fuzzy, c-format
+#, c-format
 msgid "Prevented if someone on your team has ever built %s."
-msgstr "Blockiert, wenn Sie jemals %s errichtet haben.\n"
+msgstr "Blockiert, wenn jemand aus Ihrem Team jemals %s errichtet hat."
 
 #. TRANS: %s is a wonder
 #: common/reqtext.c:530
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Requires someone on your team to own %s, and for it not to have been "
 "rendered obsolete."
 msgstr ""
-"Erfordert, dass Sie %s errichtet haben (darf noch nicht veraltet sein).\n"
+"Erfordert, dass jemand aus Ihrem Team %s besitzt (darf noch nicht veraltet "
+"sein)."
 
 #. TRANS: %s is a wonder
 #: common/reqtext.c:538
-#, fuzzy, c-format
+#, c-format
 msgid "Requires someone on your team to own %s."
-msgstr "Erfordert, dass Sie %s besitzen.\n"
+msgstr "Erfordert, dass jemand aus Ihrem Team %s besitzt."
 
 #. TRANS: %s is a wonder
 #: common/reqtext.c:546
-#, fuzzy, c-format
+#, c-format
 msgid "Prevented if someone on your team owns %s, unless it is obsolete."
-msgstr "Blockiert, wenn Sie %s besitzen, außer wenn bereits veraltet.\n"
+msgstr ""
+"Blockiert, wenn jemand aus Ihrem Team %s besitzt, außer wenn bereits "
+"veraltet."
 
 #. TRANS: %s is a wonder
 #: common/reqtext.c:553
-#, fuzzy, c-format
+#, c-format
 msgid "Prevented if someone on your team owns %s."
-msgstr "Blockiert, wenn Sie %s besitzen.\n"
+msgstr "Blockiert, wenn jemand aus Ihrem Team %s besitzt."
 
 #. TRANS: %s is a wonder
 #: common/reqtext.c:571
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Requires you to have built %s at some point, and for it not to have been "
 "rendered obsolete."
 msgstr ""
-"Erfordert, dass Sie %s errichtet haben (darf noch nicht veraltet sein).\n"
+"Erfordert, dass Sie %s errichtet haben (darf noch nicht veraltet sein)."
 
 #. TRANS: %s is a wonder
 #: common/reqtext.c:579
-#, fuzzy, c-format
+#, c-format
 msgid "Requires you to have built %s at some point."
-msgstr "Erfordert, dass Sie %s errichtet haben.\n"
+msgstr "Erfordert, dass Sie %s errichtet haben."
 
 #. TRANS: %s is a wonder
 #: common/reqtext.c:587
-#, fuzzy, c-format
+#, c-format
 msgid "Prevented if you have ever built %s, unless it would be obsolete."
 msgstr ""
-"Blockiert, wenn Sie jemals %s errichtet haben, außer wenn bereits veraltet.\n"
+"Blockiert, wenn Sie jemals %s errichtet haben, außer wenn bereits veraltet."
 
 #. TRANS: %s is a wonder
 #: common/reqtext.c:594
-#, fuzzy, c-format
+#, c-format
 msgid "Prevented if you have ever built %s."
-msgstr "Blockiert, wenn Sie jemals %s errichtet haben.\n"
+msgstr "Blockiert, wenn Sie jemals %s errichtet haben."
 
 #. TRANS: %s is a wonder
 #: common/reqtext.c:605
-#, fuzzy, c-format
+#, c-format
 msgid "Requires you to own %s, which must not be obsolete."
-msgstr "Erfordert, dass Sie %s besitzen (darf noch nicht veraltet sein).\n"
+msgstr "Erfordert, dass Sie %s besitzen (darf noch nicht veraltet sein)."
 
 #. TRANS: %s is a wonder
 #: common/reqtext.c:612
-#, fuzzy, c-format
+#, c-format
 msgid "Requires you to own %s."
-msgstr "Erfordert, dass Sie %s besitzen.\n"
+msgstr "Erfordert, dass Sie %s besitzen."
 
 #. TRANS: %s is a wonder
 #: common/reqtext.c:620
-#, fuzzy, c-format
+#, c-format
 msgid "Prevented if you own %s, unless it is obsolete."
-msgstr "Blockiert, wenn Sie %s besitzen, außer wenn bereits veraltet.\n"
+msgstr "Blockiert, wenn Sie %s besitzen, außer wenn bereits veraltet."
 
 #. TRANS: %s is a wonder
 #: common/reqtext.c:627
-#, fuzzy, c-format
+#, c-format
 msgid "Prevented if you own %s."
-msgstr "Blockiert, wenn Sie %s besitzen.\n"
+msgstr "Blockiert, wenn Sie %s besitzen."
 
 #. TRANS: %s is a wonder
 #: common/reqtext.c:644
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Requires %s in one of your cities on the same continent, and not yet "
 "obsolete."
 msgstr ""
 "Erfordert %s in einer Ihrer Städte auf demselben Kontinent. Darf noch nicht "
-"veraltet sein.\n"
+"veraltet sein."
 
 #. TRANS: %s is a wonder
 #: common/reqtext.c:651
-#, fuzzy, c-format
+#, c-format
 msgid "Requires %s in one of your cities on the same continent."
-msgstr "Erfordert %s in einer Ihrer Städte auf demselben Kontinent.\n"
+msgstr "Erfordert %s in einer Ihrer Städte auf demselben Kontinent."
 
 #. TRANS: %s is a wonder
 #: common/reqtext.c:660
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Prevented if %s is in one of your cities on the same continent, unless it is "
 "obsolete."
 msgstr ""
 "Blockiert, wenn eine Ihrer Städte auf demselben Kontinent %s besitzt, außer "
-"wenn bereits veraltet.\n"
+"wenn bereits veraltet."
 
 #. TRANS: %s is a wonder
 #: common/reqtext.c:667
-#, fuzzy, c-format
+#, c-format
 msgid "Prevented if %s is in one of your cities on the same continent."
-msgstr ""
-"Blockiert, wenn eine Ihrer Städte auf demselben Kontinent %s besitzt.\n"
+msgstr "Blockiert, wenn eine Ihrer Städte auf demselben Kontinent %s besitzt."
 
 #. TRANS: %s is a building or wonder
 #: common/reqtext.c:684
-#, fuzzy, c-format
+#, c-format
 msgid "Requires %s in the city or a trade partner (and not yet obsolete)."
-msgstr "Erfordert %s in der Stadt (darf noch nicht veraltet sein).\n"
+msgstr ""
+"Erfordert %s in der Stadt oder der eines Handelspartners (darf noch nicht "
+"veraltet sein)."
 
 #. TRANS: %s is a building or wonder
 #: common/reqtext.c:691
-#, fuzzy, c-format
+#, c-format
 msgid "Requires %s in the city or a trade partner."
-msgstr "Erfordert %s in der Stadt.\n"
+msgstr "Erfordert %s in der Stadt oder der eines Handelspartners."
 
 #. TRANS: %s is a building or wonder
 #: common/reqtext.c:700
-#, fuzzy, c-format
+#, c-format
 msgid "Prevented by %s in the city or a trade partner (unless it is obsolete)."
-msgstr "Blockiert durch %s in der Stadt (außer wenn veraltet).\n"
+msgstr ""
+"Blockiert durch %s in der Stadt oder der eines Handelspartners (außer wenn "
+"veraltet)."
 
 #. TRANS: %s is a building or wonder
 #: common/reqtext.c:707
-#, fuzzy, c-format
+#, c-format
 msgid "Prevented by %s in the city or a trade partner."
-msgstr "Blockiert durch %s in der Stadt.\n"
+msgstr "Blockiert durch %s in der Stadt oder der eines Handelspartners."
 
 #. TRANS: %s is a building or wonder
 #: common/reqtext.c:720
-#, fuzzy, c-format
+#, c-format
 msgid "Requires %s in the city (and not yet obsolete)."
-msgstr "Erfordert %s in der Stadt (darf noch nicht veraltet sein).\n"
+msgstr "Erfordert %s in der Stadt (darf noch nicht veraltet sein)."
 
 #. TRANS: %s is a building or wonder
 #: common/reqtext.c:726
-#, fuzzy, c-format
+#, c-format
 msgid "Requires %s in the city."
-msgstr "Erfordert %s in der Stadt.\n"
+msgstr "Erfordert %s in der Stadt."
 
 #. TRANS: %s is a building or wonder
 #: common/reqtext.c:735
-#, fuzzy, c-format
+#, c-format
 msgid "Prevented by %s in the city (unless it is obsolete)."
-msgstr "Blockiert durch %s in der Stadt (außer wenn veraltet).\n"
+msgstr "Blockiert durch %s in der Stadt (außer wenn veraltet)."
 
 #. TRANS: %s is a building or wonder
 #: common/reqtext.c:742
-#, fuzzy, c-format
+#, c-format
 msgid "Prevented by %s in the city."
-msgstr "Blockiert durch %s in der Stadt.\n"
+msgstr "Blockiert durch %s in der Stadt."
 
 #: common/reqtext.c:752
-#, fuzzy, c-format
+#, c-format
 msgid "Only applies to \"%s\" buildings."
-msgstr "Betrifft nur „%s“-Stadtverbesserungen.\n"
+msgstr "Betrifft nur „%s“-Stadtverbesserungen."
 
 #: common/reqtext.c:757
-#, fuzzy, c-format
+#, c-format
 msgid "Does not apply to \"%s\" buildings."
-msgstr "Betrifft keine „%s“-Stadtverbesserungen.\n"
+msgstr "Betrifft keine „%s“-Stadtverbesserungen."
 
 #: common/reqtext.c:776
-#, fuzzy, c-format
+#, c-format
 msgid "?extra:Requires %s on the tile."
-msgstr "Erfordert %s auf diesem Feld.\n"
+msgstr "?extra:Erfordert %s auf diesem Feld."
 
 #: common/reqtext.c:780
-#, fuzzy, c-format
+#, c-format
 msgid "?extra:Prevented by %s on the tile."
-msgstr "Blockiert durch %s auf diesem Feld.\n"
+msgstr "?extra:Blockiert durch %s auf diesem Feld."
 
 #: common/reqtext.c:788
-#, fuzzy, c-format
+#, c-format
 msgid "?extra:Requires %s on the tile or a cardinally adjacent tile."
-msgstr "Erfordert %s auf diesem oder einem unmittelbar angrenzenden Feld.\n"
+msgstr ""
+"?extra:Erfordert %s auf diesem oder einem unmittelbar angrenzenden Feld."
 
 #: common/reqtext.c:793
-#, fuzzy, c-format
+#, c-format
 msgid "?extra:Prevented by %s on the tile or any cardinally adjacent tile."
 msgstr ""
-"Blockiert durch %s auf diesem oder einem unmittelbar angrenzenden Feld.\n"
+"?extra:Blockiert durch %s auf diesem oder einem unmittelbar angrenzenden "
+"Feld."
 
 #: common/reqtext.c:802
-#, fuzzy, c-format
+#, c-format
 msgid "?extra:Requires %s on the tile or an adjacent tile."
-msgstr "Erfordert %s auf diesem oder einem angrenzenden Feld.\n"
+msgstr "?extra:Erfordert %s auf diesem oder einem angrenzenden Feld."
 
 #: common/reqtext.c:807
-#, fuzzy, c-format
+#, c-format
 msgid "?extra:Prevented by %s on the tile or any adjacent tile."
-msgstr "Blockiert durch %s auf diesem oder einem angrenzenden Feld.\n"
+msgstr "?extra:Blockiert durch %s auf diesem oder einem angrenzenden Feld."
 
 #: common/reqtext.c:816
-#, fuzzy, c-format
+#, c-format
 msgid "?extra:Requires %s on a tile within the city radius."
-msgstr "Erfordert %s auf einem Feld im Stadtgebiet.\n"
+msgstr "?extra:Erfordert %s auf einem Feld im Stadtgebiet."
 
 #: common/reqtext.c:821
-#, fuzzy, c-format
+#, c-format
 msgid "?extra:Prevented by %s on any tile within the city radius."
-msgstr "Blockiert durch %s auf einem Feld im Stadtgebiet.\n"
+msgstr "?extra:Blockiert durch %s auf einem Feld im Stadtgebiet."
 
 #: common/reqtext.c:830
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "?extra:Requires %s on a tile within the city radius, or the city radius of a "
 "trade partner."
-msgstr "Erfordert %s auf einem Feld im Stadtgebiet.\n"
+msgstr ""
+"?extra:Erfordert %s auf einem Feld im Stadtgebiet oder im Stadtgebiet eines "
+"Handelspartners."
 
 #: common/reqtext.c:835
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "?extra:Prevented by %s on any tile within the city radius or the city radius "
 "of a trade partner."
-msgstr "Blockiert durch %s auf einem Feld im Stadtgebiet.\n"
+msgstr ""
+"?extra:Blockiert durch %s auf einem Feld im Stadtgebiet oder im Stadtgebiet "
+"eines Handelspartners."
 
 #: common/reqtext.c:856
-#, fuzzy, c-format
+#, c-format
 msgid "?good:Requires import of %s ."
-msgstr "Erfordert, dass Sie %s besitzen.\n"
+msgstr "?good:Erfordert, dass Sie %s importieren."
 
 #: common/reqtext.c:859
-#, fuzzy, c-format
+#, c-format
 msgid "?goods:Prevented by import of %s."
-msgstr "Blockiert, wenn Sie %s besitzen.\n"
+msgstr "?goods:Blockiert durch den import von %s."
 
 #: common/reqtext.c:883
-#, fuzzy, c-format
+#, c-format
 msgid "?terrain:Requires %s on the tile."
-msgstr "Erfordert %s auf diesem Feld.\n"
+msgstr "?terrain:Erfordert %s auf diesem Feld."
 
 #: common/reqtext.c:886
-#, fuzzy, c-format
+#, c-format
 msgid "?terrain:Prevented by %s on the tile."
-msgstr "Blockiert durch %s auf diesem Feld.\n"
+msgstr "?terrain:Blockiert durch %s auf diesem Feld."
 
 #: common/reqtext.c:894
-#, fuzzy, c-format
+#, c-format
 msgid "?terrain:Requires %s on the tile or a cardinally adjacent tile."
-msgstr "Erfordert %s auf diesem oder einem unmittelbar angrenzenden Feld.\n"
+msgstr ""
+"?terrain:Erfordert %s auf diesem oder einem unmittelbar angrenzenden Feld."
 
 #: common/reqtext.c:899
-#, fuzzy, c-format
+#, c-format
 msgid "?terrain:Prevented by %s on the tile or any cardinally adjacent tile."
 msgstr ""
-"Blockiert durch %s auf diesem oder einem unmittelbar angrenzenden Feld.\n"
+"?terrain:Blockiert durch %s auf diesem oder einem unmittelbar angrenzenden "
+"Feld."
 
 #: common/reqtext.c:908
-#, fuzzy, c-format
+#, c-format
 msgid "?terrain:Requires %s on the tile or an adjacent tile."
-msgstr "Erfordert %s auf diesem oder einem angrenzenden Feld.\n"
+msgstr "?terrain:Erfordert %s auf diesem oder einem angrenzenden Feld."
 
 #: common/reqtext.c:913
-#, fuzzy, c-format
+#, c-format
 msgid "?terrain:Prevented by %s on the tile or any adjacent tile."
-msgstr "Blockiert durch %s auf diesem oder einem angrenzenden Feld.\n"
+msgstr "?terrain:Blockiert durch %s auf diesem oder einem angrenzenden Feld."
 
 #: common/reqtext.c:922
-#, fuzzy, c-format
+#, c-format
 msgid "?terrain:Requires %s on a tile within the city radius."
-msgstr "Erfordert %s auf einem Feld im Stadtgebiet.\n"
+msgstr "?terrain:Erfordert %s auf einem Feld im Stadtgebiet."
 
 #: common/reqtext.c:927
-#, fuzzy, c-format
+#, c-format
 msgid "?terrain:Prevented by %s on any tile within the city radius."
-msgstr "Blockiert durch %s auf einem Feld im Stadtgebiet.\n"
+msgstr "?terrain:Blockiert durch %s auf einem Feld im Stadtgebiet."
 
 #: common/reqtext.c:936
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "?terrain:Requires %s on a tile within the city radius, or the city radius of "
 "a trade partner."
-msgstr "Erfordert %s auf einem Feld im Stadtgebiet.\n"
+msgstr ""
+"?terrain:Erfordert %s auf einem Feld im Stadtgebiet oder im Stadtgebiet "
+"eines Handelspartners."
 
 #: common/reqtext.c:941
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "?terrain:Prevented by %s on any tile within the city radius or the city "
 "radius of a trade partner."
-msgstr "Blockiert durch %s auf einem Feld im Stadtgebiet.\n"
+msgstr ""
+"?terrain:Blockiert durch %s auf einem Feld im Stadtgebiet oder im "
+"Stadtgebiet eines Handelspartners."
 
 #. TRANS: "... playing as the Swedes."
 #: common/reqtext.c:964
-#, fuzzy, c-format
+#, c-format
 msgid "Requires that you are playing as the %s."
-msgstr "Sie müssen die %s spielen.\n"
+msgstr "Sie müssen die %s spielen."
 
 #. TRANS: "... playing as the Turks."
 #: common/reqtext.c:969
-#, fuzzy, c-format
+#, c-format
 msgid "Requires that you are not playing as the %s."
-msgstr "Sie dürfen nicht die %s spielen.\n"
+msgstr "Sie dürfen nicht die %s spielen."
 
 #. TRANS: "... same team as the Indonesians."
 #: common/reqtext.c:978
-#, fuzzy, c-format
+#, c-format
 msgid "Requires that you are on the same team as the %s."
-msgstr "Sie dürfen nicht die %s spielen.\n"
+msgstr "Sie müssen im gleichen Team wie die %s spielen."
 
 #. TRANS: "... same team as the Greeks."
 #: common/reqtext.c:984
-#, fuzzy, c-format
+#, c-format
 msgid "Requires that you are not on the same team as the %s."
-msgstr "Sie dürfen nicht die %s spielen.\n"
+msgstr "Sie dürfen nicht im gleichen Team wie die %s spielen."
 
 #. TRANS: "... allied with the Koreans."
 #: common/reqtext.c:994
-#, fuzzy, c-format
+#, c-format
 msgid "Requires that you are allied with the %s."
-msgstr "Sie müssen die %s spielen.\n"
+msgstr "Sie müssen mit den %s alliiert sein."
 
 #. TRANS: "... allied with the Danes."
 #: common/reqtext.c:999
-#, fuzzy, c-format
+#, c-format
 msgid "Requires that you are not allied with the %s."
-msgstr "Sie dürfen nicht die %s spielen.\n"
+msgstr "Sie dürfen nicht mit den %s alliiert sein."
 
 #. TRANS: "Requires the Apaches to have ..."
 #: common/reqtext.c:1009
-#, fuzzy, c-format
+#, c-format
 msgid "Requires the %s to have been in the game."
-msgstr "Die %s müssen im Spiel gewesen sein.\n"
+msgstr "Die %s müssen im Spiel gewesen sein."
 
 #. TRANS: "Requires the Celts never to have ..."
 #: common/reqtext.c:1014
-#, fuzzy, c-format
+#, c-format
 msgid "Requires the %s never to have been in the game."
-msgstr "Die %s dürfen niemals im Spiel gewesen sein.\n"
+msgstr "Die %s dürfen niemals im Spiel gewesen sein."
 
 #. TRANS: "Requires the Belgians in the game."
 #: common/reqtext.c:1022
-#, fuzzy, c-format
+#, c-format
 msgid "Requires the %s in the game."
-msgstr "Die %s müssen im Spiel sein.\n"
+msgstr "Die %s müssen im Spiel sein."
 
 #. TRANS: "Requires that the Russians are not ...
 #: common/reqtext.c:1027
-#, fuzzy, c-format
+#, c-format
 msgid "Requires that the %s are not in the game."
-msgstr "Die %s dürfen nicht im Spiel sein.\n"
+msgstr "Die %s dürfen nicht im Spiel sein."
 
 #. TRANS: nation group: "... playing African nation."
 #: common/reqtext.c:1051
-#, fuzzy, c-format
+#, c-format
 msgid "Requires that you are playing %s nation."
-msgstr "Sie müssen die %s spielen.\n"
+msgstr "Sie müssen eine %s Nation spielen."
 
 #. TRANS: nation group: "... playing Imaginary nation."
 #: common/reqtext.c:1056
-#, fuzzy, c-format
+#, c-format
 msgid "Prevented if you are playing %s nation."
-msgstr "Blockiert, wenn Sie %s besitzen.\n"
+msgstr "Blockiert, wenn Sie eine %s Nation spielen."
 
 #. TRANS: nation group: "Requires Medieval nation ..."
 #: common/reqtext.c:1065
-#, fuzzy, c-format
+#, c-format
 msgid "Requires %s nation on your team."
-msgstr ""
-"Erfordert die %s Nation.\n"
-"\n"
+msgstr "Erfordert eine %s Nation in Ihrem Team."
 
 #. TRANS: nation group: "Prevented by Medieval nation ..."
 #: common/reqtext.c:1070
-#, fuzzy, c-format
+#, c-format
 msgid "Prevented by %s nation on your team."
-msgstr "Blockiert durch %s in der Stadt.\n"
+msgstr "Blockiert durch eine %s Nation in Ihrem Team."
 
 #. TRANS: nation group: "Requires Modern nation ..."
 #: common/reqtext.c:1079
-#, fuzzy, c-format
+#, c-format
 msgid "Requires %s nation in alliance with you."
-msgstr "Sie haben einer Allianz mit %s zugestimmt."
+msgstr "Sie müssen eine Allianz mit einer %s Nation haben."
 
 #. TRANS: nation group: "Prevented by Modern nation ..."
 #: common/reqtext.c:1084
-#, fuzzy, c-format
+#, c-format
 msgid "Prevented if %s nation is in alliance with you."
-msgstr "Blockiert durch %s in der Stadt.\n"
+msgstr "Blockiert durch eine Allianz mit einer %s Nation."
 
 #. TRANS: nation group: "Requires Asian nation ..."
 #: common/reqtext.c:1093
-#, fuzzy, c-format
+#, c-format
 msgid "Requires %s nation in the game."
-msgstr "Die %s müssen im Spiel sein.\n"
+msgstr "Erfordert eine %s Nation im Spiel."
 
 #. TRANS: nation group: "Prevented by Asian nation ..."
 #: common/reqtext.c:1098
-#, fuzzy, c-format
+#, c-format
 msgid "Prevented by %s nation in the game."
-msgstr "Blockiert durch %s in der Stadt.\n"
+msgstr "Blockiert durch eine %s Nation im Spiel."
 
 #. TRANS: "Requires that you are playing Asian style
 #. * nation."
 #: common/reqtext.c:1123
-#, fuzzy, c-format
+#, c-format
 msgid "Requires that you are playing %s style nation."
-msgstr "Sie müssen die %s spielen.\n"
+msgstr "Sie müssen eine Nation mit dem Stil einer %s Nation spielen."
 
 #. TRANS: "Requires that you are not playing Classical
 #. * style nation."
 #: common/reqtext.c:1129
-#, fuzzy, c-format
+#, c-format
 msgid "Requires that you are not playing %s style nation."
-msgstr "Sie dürfen nicht die %s spielen.\n"
+msgstr "Sie dürfen keine Nation mit dem Stil einer %s Nation spielen."
 
 #. TRANS: "Requires at least one Barbarian citizen ..."
 #: common/reqtext.c:1141
-#, fuzzy, c-format
+#, c-format
 msgid "Requires at least one %s citizen in the city or a trade partner."
-msgstr "Erfordert wenigstens einen %sen Bürger in der Stadt.\n"
+msgstr ""
+"Erfordert wenigstens einen %sen Bürger in der Stadt oder der eines "
+"Handelspartners."
 
 #. TRANS: "... no Pirate citizens ..."
 #: common/reqtext.c:1147
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Requires that there are no %s citizens in the city or any trade partners."
-msgstr "Es darf kein %ser Bürger in der Stadt sein.\n"
+msgstr ""
+"Es darf kein %ser Bürger in der Stadt oder der eines Handelspartners sein."
 
 #. TRANS: "Requires at least one Barbarian citizen ..."
 #: common/reqtext.c:1157
-#, fuzzy, c-format
+#, c-format
 msgid "Requires at least one %s citizen in the city."
-msgstr "Erfordert wenigstens einen %sen Bürger in der Stadt.\n"
+msgstr "Erfordert wenigstens einen %sen Bürger in der Stadt."
 
 #. TRANS: "... no Pirate citizens ..."
 #: common/reqtext.c:1162
-#, fuzzy, c-format
+#, c-format
 msgid "Requires that there are no %s citizens in the city."
-msgstr "Es darf kein %ser Bürger in der Stadt sein.\n"
+msgstr "Es darf kein %ser Bürger in der Stadt sein."
 
 #. TRANS: in this and following strings, '%s' can be one
 #. * of a wide range of relationships; e.g., 'Peace',
@@ -19829,17 +19815,23 @@ msgstr ""
 
 #: common/reqtext.c:2080
 #, fuzzy, c-format
+#| msgid "Requires at least one %s citizen in the city or a trade partner."
 msgid ""
 "At least %d%% of the citizens of the city or some trade partner must be "
 "foreign."
-msgstr "Erfordert wenigstens einen %sen Bürger in der Stadt.\n"
+msgstr ""
+"Erfordert wenigstens einen %sen Bürger in der Stadt oder der eines "
+"Handelspartners."
 
 #: common/reqtext.c:2085
 #, fuzzy, c-format
+#| msgid ""
+#| "Requires that there are no %s citizens in the city or any trade partners."
 msgid ""
 "Less than %d%% of the citizens of the city and each trade partner must be "
 "foreign."
-msgstr "Es darf kein %ser Bürger in der Stadt sein.\n"
+msgstr ""
+"Es darf kein %ser Bürger in der Stadt oder der eines Handelspartners sein."
 
 #: common/reqtext.c:2109
 #, c-format
@@ -20437,8 +20429,9 @@ msgstr ""
 
 #: common/requirements.c:4080
 #, fuzzy, c-format
+#| msgid "Requires %s nation in the game."
 msgid "Requirements {%s} and {%s} are the same."
-msgstr "Die %s müssen im Spiel sein.\n"
+msgstr "Erfordert eine %s Nation im Spiel."
 
 #: common/requirements.c:4407
 #, c-format
@@ -20657,9 +20650,9 @@ msgstr "Zukunftstechnologie"
 #. TRANS: e.g. "members of team 1", or even "members of team Red".
 #. * Used in many places where a nation plural might be used.
 #: common/research.c:181
-#, fuzzy, c-format
+#, c-format
 msgid "members of %s"
-msgstr "Felderanzahl"
+msgstr "Mitglieder von %s"
 
 #: common/research.c:283
 #, c-format
@@ -22396,8 +22389,9 @@ msgstr "%sZur Stadt hinzufügen%s"
 #: data/classic/game.ruleset:551 data/civ2civ3/game.ruleset:573
 #: data/multiplayer/game.ruleset:545
 #, fuzzy, c-format
+#| msgid "Explode %sNuclear%s"
 msgid "Explode %sNuclear In Place%s"
-msgstr "Atombombe zünden"
+msgstr "At%sombombe zünden%s"
 
 #. TRANS: _Explode Missile (100% chance of success).
 #: data/civ1/game.ruleset:504 data/civ2/game.ruleset:552
@@ -22405,8 +22399,9 @@ msgstr "Atombombe zünden"
 #: data/civ2civ3/game.ruleset:600 data/alien/game.ruleset:531
 #: data/multiplayer/game.ruleset:572
 #, fuzzy, c-format
+#| msgid "Explode %sNuclear%s"
 msgid "%sExplode Missile%s"
-msgstr "Atombombe zünden"
+msgstr "At%sombombe zünden%s"
 
 #. TRANS: Enter _Hut from transport (100% chance of success).
 #: data/civ1/game.ruleset:558
@@ -28111,14 +28106,16 @@ msgstr ""
 #: data/civ2civ3/game.ruleset:606 data/multiplayer/game.ruleset:578
 #: server/rscompat.c:1994
 #, fuzzy, c-format
+#| msgid "%sConquer City%s"
 msgid "%sConquer City from non native%s"
-msgstr "%s hat %s erobert."
+msgstr "Stadt %serobern%s"
 
 #. TRANS: _Conquer Fortress (100% chance of success).
 #: data/classic/game.ruleset:587 data/multiplayer/game.ruleset:581
 #, fuzzy, c-format
+#| msgid "%sConquer City%s"
 msgid "%sConquer Fortress%s"
-msgstr "%s hat %s erobert."
+msgstr "Stadt %serobern%s"
 
 #. TRANS: _Conquer Fortress from non native (100% chance of success).
 #: data/classic/game.ruleset:590 data/multiplayer/game.ruleset:584
@@ -30061,15 +30058,16 @@ msgstr ""
 #. TRANS: _Nuke (100% chance of success).
 #: data/sandbox/game.ruleset:585
 #, fuzzy, c-format
-#| msgid "Nuked"
+#| msgid "Suitcase %sNuke%s"
 msgid "%sNuke%s"
-msgstr "Atombombenabwurf"
+msgstr "K%soffer-Atombombe%s"
 
 #. TRANS: Tactical _Nuke (100% chance of success).
 #: data/sandbox/game.ruleset:588
-#, c-format
+#, fuzzy, c-format
+#| msgid "Suitcase %sNuke%s"
 msgid "Tactical %sNuke%s"
-msgstr ""
+msgstr "K%soffer-Atombombe%s"
 
 #. TRANS: Make _Sacrifice of Work (100% chance of success).
 #: data/sandbox/game.ruleset:594
@@ -31083,14 +31081,12 @@ msgid "Only veterans can paradrop here."
 msgstr "Das können nur Nuklear-Einheiten."
 
 #: data/sandbox/terrain.ruleset:41 data/civ2civ3/terrain.ruleset:40
-#, fuzzy
 msgid "ParadropFrom"
-msgstr "Fallschirmspringen"
+msgstr "FallschirmsprungVon"
 
 #: data/sandbox/terrain.ruleset:42 data/civ2civ3/terrain.ruleset:41
-#, fuzzy
 msgid "DiplomatDefense"
-msgstr "Diplomat"
+msgstr "DiplomatVerteidigung"
 
 #: data/sandbox/terrain.ruleset:45 data/civ2civ3/terrain.ruleset:44
 #, fuzzy
@@ -34024,10 +34020,10 @@ msgstr ""
 "- Städte haben integrierte Gewächshäuser, außer, wenn eine Mine auf dem Feld "
 "existiert. Sie müssen nicht extra gebaut werden.\n"
 "- Mit dem Wissen über Produktion können Gewächshäuser außerhalb von Städten "
-"direkt auf Fluss-Feldern oder grundsätzlich neben Ocean-Feldern gebaut "
+"direkt auf Fluss-Feldern oder unmittelbar neben Ocean-Feldern gebaut "
 "werden.\n"
 "- Mit dem Wissen über Wasserströmung wird es möglich, Gewächshäuser auch auf "
-"Teilen zu bauen, die neben Flüssen oder Stadtzentren liegen.\n"
+"Teilen zu bauen, die unmittelbar neben Flüssen oder Stadtzentren liegen.\n"
 "- Tiefes Pumpen ermöglicht es, Wasser aus den Tiefen der Planetenkruste zu "
 "hohlen und damit Gewächshäuser überall zu bauen."
 
@@ -34193,8 +34189,8 @@ msgid ""
 msgstr ""
 "Grabungsröhren sind der einzige Weg für grabende Einheiten, um den Ozean zu "
 "überqueren. Sie können nur auf Ozean-Feldern gebaut werden. Der erste Teil "
-"der Röhre muss grundsätzlich direkt neben Land gebaut werden. Alle "
-"nachfolgenden Teile müssen der Reihe nach gebaut werden."
+"der Röhre muss unmittelbar neben Land gebaut werden. Alle nachfolgenden "
+"Teilemüssen der Reihe nach gebaut werden."
 
 #: data/alien/terrain.ruleset:1157
 msgid "Green River"
@@ -54906,6 +54902,10 @@ msgstr "error %d (compiled without strerror)"
 #~ msgid "Mine Rslt/Time:"
 #~ msgstr "Bergwerk Erg/Zeit:"
 
+#, c-format
+#~ msgid "Rally point cleared for city %s"
+#~ msgstr "Sammelpunkt für Stadt %s gelöscht"
+
 #~ msgid "This city doesn't exist!"
 #~ msgstr "Diese Stadt gibt es nicht!"
 
@@ -54988,9 +54988,8 @@ msgstr "error %d (compiled without strerror)"
 #~ "Diese Schriftart wird für die Anzeige des Titels des Hilfefensters "
 #~ "benutzt."
 
-#, fuzzy
 #~ msgid "Is foreign"
-#~ msgstr "Davor einfügen"
+#~ msgstr "Ist ausländisch"
 
 #, fuzzy
 #~ msgid "Requires that the unit is on a domestic tile."
