@@ -248,31 +248,30 @@ adv_want dai_effect_value(struct player *pplayer,
     {
       int bulbs;
       int value;
-	  
+
       if (nplayers <= amount) {
-	break;
+        break;
       }
 
       bulbs = 0;
-      players_iterate(aplayer) {
-        int potential = (aplayer->server.bulbs_last_turn
-                         + city_list_size(aplayer->cities) + 1);
+      players_iterate_alive(aplayer) {
+        if (aplayer != pplayer
+            && (!game.info.team_pooled_research
+                || !players_on_same_team(aplayer, pplayer))) {
+          bulbs += (aplayer->server.bulbs_last_turn
+                    + city_list_size(aplayer->cities) + 1);
+        }
+      } players_iterate_alive_end;
 
-	if (players_on_same_team(aplayer, pplayer)) {
-	  continue;
-	}
-	bulbs += potential;
-      } players_iterate_end;
-  
       /* For some number of turns we will be receiving bulbs for free
        * Bulbs should be amortized properly for each turn.
        * We use formula for the sum of geometric series:
        */
       value = bulbs * (1.0 - pow(1.0 - (1.0 / MORT), turns)) * MORT;
-	  
-      value = value  * (100 - game.server.freecost)	  
-	* (nplayers - amount) / (nplayers * amount * 100);
-	  
+
+      value = value  * (100 - game.server.freecost)
+        * (nplayers - amount) / (nplayers * amount * 100);
+
       /* WAG */
       value /= 3;
 
