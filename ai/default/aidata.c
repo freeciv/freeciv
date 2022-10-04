@@ -203,8 +203,17 @@ void dai_data_phase_begin(struct ai_type *ait, struct player *pplayer,
   ai->stats.workers = fc_calloc(adv->num_continents + 1, sizeof(int));
   unit_list_iterate(pplayer->units, punit) {
     struct tile *ptile = unit_tile(punit);
+    Continent_id cont = tile_continent(ptile);
 
-    if (!is_ocean_tile(ptile) && unit_has_type_flag(punit, UTYF_SETTLERS)) {
+    /* We have to check that continent id is in a legal range,
+     * as this currently gets sometimes called with inconsistent
+     * data regarding continent numbers.
+     * Even if the id is in legal range, it's possible that it
+     * doesn't really refer to the correct continent, but as that's
+     * so rare situation, for now we just ignore the possibility
+     * in constructing these statistics. */
+    if (!is_ocean_tile(ptile) && unit_has_type_flag(punit, UTYF_SETTLERS)
+        && cont >= 0 && cont <= adv->num_continents) {
       ai->stats.workers[(int)tile_continent(unit_tile(punit))]++;
     }
   } unit_list_iterate_end;
