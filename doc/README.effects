@@ -501,7 +501,8 @@ Output_Inc_Tile_Celebrate
     Tiles get amount extra output when city working them is celebrating.
 
 Output_Penalty_Tile
-    When a tile yields more output than amount, it gets a penalty of -1.
+    When a tile yields more output than amount, it gets a penalty of -1,
+    unless the city working it is celebrating.
 
 Output_Per_Tile
     Increase tile output by amount percent.
