@@ -101,12 +101,15 @@ static void diplomacy_dialog_vision_callback(GSimpleAction *action,
 static void diplomacy_dialog_embassy_callback(GSimpleAction *action,
                                               GVariant *parameter,
                                               gpointer data);
-
-#ifdef MENUS_GTK3
-static void diplomacy_dialog_ceasefire_callback(GtkWidget *w, gpointer data);
-static void diplomacy_dialog_peace_callback(GtkWidget *w, gpointer data);
-static void diplomacy_dialog_alliance_callback(GtkWidget *w, gpointer data);
-#endif /* MENUS_GTK3 */
+static void diplomacy_dialog_ceasefire_callback(GSimpleAction *action,
+                                                GVariant *parameter,
+                                                gpointer data);
+static void diplomacy_dialog_peace_callback(GSimpleAction *action,
+                                            GVariant *parameter,
+                                            gpointer data);
+static void diplomacy_dialog_alliance_callback(GSimpleAction *action,
+                                               GVariant *parameter,
+                                               gpointer data);
 
 static void close_diplomacy_dialog(struct Diplomacy_dialog *pdialog);
 static void update_diplomacy_dialog(struct Diplomacy_dialog *pdialog);
@@ -390,7 +393,7 @@ static GMenu *create_clause_menu(GActionGroup *group,
   any cities not visible to plr1. This means that you can only trade
   cities visible to requesting player.
 
-			      - Kris Bubendorfer
+                              - Kris Bubendorfer
   *****************************************************************/
   if (clause_enabled(CLAUSE_CITY)) {
     int i = 0;
@@ -472,7 +475,6 @@ static GMenu *create_clause_menu(GActionGroup *group,
                                 !player_has_real_embassy(pother, pgiver));
   }
 
-#if 0
   /* Pacts. */
   if (pgiver == pdialog->treaty.plr0) {
     enum diplstate_type ds;
@@ -480,45 +482,62 @@ static GMenu *create_clause_menu(GActionGroup *group,
 
     ds = player_diplstate_get(pgiver, pother)->type;
 
-    menu = gtk_menu_button_new();
+    submenu = g_menu_new();
 
     if (clause_enabled(CLAUSE_CEASEFIRE)) {
-      item = gtk_menu_item_new_with_mnemonic(Q_("?diplomatic_state:Cease-fire"));
-      gtk_menu_shell_append(GTK_MENU_SHELL(menu),item);
-      g_signal_connect(item, "activate",
+      fc_snprintf(act_name, sizeof(act_name), "ceasefire%s", act_plr_part);
+      act = g_simple_action_new(act_name, NULL);
+      g_action_map_add_action(G_ACTION_MAP(group), G_ACTION(act));
+      g_signal_connect(act, "activate",
                        G_CALLBACK(diplomacy_dialog_ceasefire_callback), pdialog);
-      gtk_widget_set_sensitive(item, ds != DS_CEASEFIRE && ds != DS_TEAM);
+
+      fc_snprintf(act_name, sizeof(act_name), "win.ceasefire%s", act_plr_part);
+      item = g_menu_item_new(Q_("?diplomatic_state:Cease-fire"), act_name);
+      g_menu_append_item(submenu, item);
+
+      g_simple_action_set_enabled(G_SIMPLE_ACTION(act),
+                                  ds != DS_CEASEFIRE && ds != DS_TEAM);
       pact_clauses++;
     }
 
     if (clause_enabled(CLAUSE_PEACE)) {
-      item = gtk_menu_item_new_with_mnemonic(Q_("?diplomatic_state:Peace"));
-      gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-      g_signal_connect(item, "activate",
+      fc_snprintf(act_name, sizeof(act_name), "peace%s", act_plr_part);
+      act = g_simple_action_new(act_name, NULL);
+      g_action_map_add_action(G_ACTION_MAP(group), G_ACTION(act));
+      g_signal_connect(act, "activate",
                        G_CALLBACK(diplomacy_dialog_peace_callback), pdialog);
-      gtk_widget_set_sensitive(item, ds != DS_PEACE && ds != DS_TEAM);
+
+      fc_snprintf(act_name, sizeof(act_name), "win.peace%s", act_plr_part);
+      item = g_menu_item_new(Q_("?diplomatic_state:Peace"), act_name);
+      g_menu_append_item(submenu, item);
+
+      g_simple_action_set_enabled(G_SIMPLE_ACTION(act),
+                                  ds != DS_PEACE && ds != DS_TEAM);
       pact_clauses++;
     }
 
     if (clause_enabled(CLAUSE_ALLIANCE)) {
-      item = gtk_menu_item_new_with_mnemonic(Q_("?diplomatic_state:Alliance"));
-      gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-      g_signal_connect(item, "activate",
+      fc_snprintf(act_name, sizeof(act_name), "alliance%s", act_plr_part);
+      act = g_simple_action_new(act_name, NULL);
+      g_action_map_add_action(G_ACTION_MAP(group), G_ACTION(act));
+      g_signal_connect(act, "activate",
                        G_CALLBACK(diplomacy_dialog_alliance_callback), pdialog);
-      gtk_widget_set_sensitive(item, ds != DS_ALLIANCE && ds != DS_TEAM);
+
+      fc_snprintf(act_name, sizeof(act_name), "win.alliance%s", act_plr_part);
+      item = g_menu_item_new(Q_("?diplomatic_state:Alliance"), act_name);
+      g_menu_append_item(submenu, item);
+
+      g_simple_action_set_enabled(G_SIMPLE_ACTION(act),
+                                  ds != DS_ALLIANCE && ds != DS_TEAM);
       pact_clauses++;
     }
 
     if (pact_clauses > 0) {
-      item = gtk_menu_item_new_with_mnemonic(_("_Pacts"));
-      gtk_menu_item_set_submenu(GTK_MENU_ITEM(item), menu);
-      gtk_menu_shell_append(GTK_MENU_SHELL(parent), item);
-      gtk_widget_show(item);
+      g_menu_append_submenu(topmenu, _("_Pacts"), G_MENU_MODEL(submenu));
     } else {
-      g_object_unref(menu);
+      g_object_unref(submenu);
     }
   }
-#endif
 
   return topmenu;
 }
@@ -813,14 +832,6 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   menu = create_clause_menu(group, pdialog, plr1, FALSE);
   gtk_menu_button_set_menu_model(GTK_MENU_BUTTON(aux_menu), G_MENU_MODEL(menu));
 
-#ifdef MENUS_GTK3
-  menuitem = gtk_menu_item_new_with_label(_("Add Clause..."));
-  gtk_menu_item_set_submenu(GTK_MENU_ITEM(menuitem), menu);
-  gtk_menu_shell_append(GTK_MENU_SHELL(aux_menu), menuitem);
-  g_object_set_data(G_OBJECT(menu), "plr", plr0);
-  g_signal_connect(menu, "show", G_CALLBACK(popup_add_menu), pdialog);
-#endif /* MENUS_GTK3 */
-
   /* Main table for clauses and (if activated) gold trading: we. */
   table = gtk_grid_new();
   gtk_widget_set_halign(table, GTK_ALIGN_CENTER);
@@ -899,14 +910,6 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
 
   menu = create_clause_menu(group, pdialog, plr1, TRUE);
   gtk_menu_button_set_menu_model(GTK_MENU_BUTTON(aux_menu), G_MENU_MODEL(menu));
-
-#ifdef MENUS_GTK3
-  menuitem = gtk_menu_item_new_with_label(_("Add Clause..."));
-  gtk_menu_item_set_submenu(GTK_MENU_ITEM(menuitem), menu);
-  gtk_menu_shell_append(GTK_MENU_SHELL(aux_menu), menuitem);
-  g_object_set_data(G_OBJECT(menu), "plr", plr1);
-  g_signal_connect(menu, "show", G_CALLBACK(popup_add_menu), pdialog);
-#endif /* MENUS_GTK3 */
 
   /* Main table for clauses and (if activated) gold trading: they. */
   table = gtk_grid_new();
@@ -1079,7 +1082,7 @@ static void diplomacy_dialog_tech_callback(GSimpleAction *action,
 
 /************************************************************************//**
   Callback for trading cities
-			      - Kris Bubendorfer
+                              - Kris Bubendorfer
 ****************************************************************************/
 static void diplomacy_dialog_city_callback(GSimpleAction *action,
                                            GVariant *parameter,
@@ -1132,12 +1135,10 @@ static void diplomacy_dialog_seamap_callback(GSimpleAction *action, GVariant *pa
                                            0);
 }
 
-#ifdef MENUS_GTK3
 /************************************************************************//**
   Adding pact clause
 ****************************************************************************/
-static void diplomacy_dialog_add_pact_clause(GtkWidget *w, gpointer data,
-                                             int type)
+static void diplomacy_dialog_add_pact_clause(gpointer data, int type)
 {
   struct Diplomacy_dialog *pdialog = (struct Diplomacy_dialog *)data;
 
@@ -1150,27 +1151,32 @@ static void diplomacy_dialog_add_pact_clause(GtkWidget *w, gpointer data,
 /************************************************************************//**
   Ceasefire pact menu item activated
 ****************************************************************************/
-static void diplomacy_dialog_ceasefire_callback(GtkWidget *w, gpointer data)
+static void diplomacy_dialog_ceasefire_callback(GSimpleAction *action,
+                                                GVariant *parameter,
+                                                gpointer data)
 {
-  diplomacy_dialog_add_pact_clause(w, data, CLAUSE_CEASEFIRE);
+  diplomacy_dialog_add_pact_clause(data, CLAUSE_CEASEFIRE);
 }
 
 /************************************************************************//**
   Peace pact menu item activated
 ****************************************************************************/
-static void diplomacy_dialog_peace_callback(GtkWidget *w, gpointer data)
+static void diplomacy_dialog_peace_callback(GSimpleAction *action,
+                                            GVariant *parameter,
+                                            gpointer data)
 {
-  diplomacy_dialog_add_pact_clause(w, data, CLAUSE_PEACE);
+  diplomacy_dialog_add_pact_clause(data, CLAUSE_PEACE);
 }
 
 /************************************************************************//**
   Alliance pact menu item activated
 ****************************************************************************/
-static void diplomacy_dialog_alliance_callback(GtkWidget *w, gpointer data)
+static void diplomacy_dialog_alliance_callback(GSimpleAction *action,
+                                               GVariant *parameter,
+                                               gpointer data)
 {
-  diplomacy_dialog_add_pact_clause(w, data, CLAUSE_ALLIANCE);
+  diplomacy_dialog_add_pact_clause(data, CLAUSE_ALLIANCE);
 }
-#endif /* MENUS_GTK3 */
 
 /************************************************************************//**
   Shared vision menu item activated
