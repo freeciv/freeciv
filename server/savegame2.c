@@ -2755,12 +2755,16 @@ static void sg_load_players(struct loaddata *loading)
   players_iterate(pplayer) {
     unit_list_iterate(pplayer->units, punit) {
       if (!can_unit_continue_current_activity(punit)) {
-        log_sg("Unit doing illegal activity in savegame!");
-        log_sg("Activity: %s, Target: %s",
+        struct tile *ptile = unit_tile(punit);
+
+        log_sg("%s doing illegal activity in savegame!",
+               unit_rule_name(punit));
+        log_sg("Activity: %s, Target: %s, Tile: (%d, %d), Terrain: %s",
                unit_activity_name(punit->activity),
                punit->activity_target ? extra_rule_name(
                                           punit->activity_target)
-                                      : "missing");
+                                      : "missing",
+               TILE_XY(ptile), terrain_rule_name(tile_terrain(ptile)));
         punit->activity = ACTIVITY_IDLE;
       }
     } unit_list_iterate_end;
