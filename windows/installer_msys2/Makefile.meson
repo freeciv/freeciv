@@ -63,26 +63,26 @@ sdl2-installer:
 installer-common: clean-install-common install-freeciv-$(GUI) install-env-$(GUI)
 	# extract Freeciv version
 	$(eval FREECIV_VERSION := $(shell ../../fc_version))
-	./create-freeciv-$(CLIENT)-nsi.sh meson-install-$(GUI) $(FREECIV_VERSION) $(WINARCH) > Freeciv-meson-$(WINARCH)-$(FREECIV_VERSION)-$(GUI).nsi
+	./create-freeciv-$(CLIENT)-nsi.sh meson-install-$(WINARCH)-$(GUI) $(FREECIV_VERSION) $(WINARCH) > Freeciv-meson-$(WINARCH)-$(FREECIV_VERSION)-$(GUI).nsi
 	# create installer executable
 	mkdir -p Output
 	makensis Freeciv-meson-$(WINARCH)-$(FREECIV_VERSION)-$(GUI).nsi
 
 install-freeciv-common:
 	# create build directory
-	mkdir -p meson-build-$(GUI)
-	cd meson-build-$(GUI); meson ../../.. -Dprefix=`pwd`/../meson-install-$(GUI) -Dclients=$(CLIENT) -Dfcmp=$(FCMP) -Druledit=false -Dreadline=false -Dcacert-path='./ssl/certs/ca-bundle.crt' $(EXTRA_CONFIG)
-	cd meson-build-$(GUI); ninja
-	cd meson-build-$(GUI); ninja install
-	cd meson-build-$(GUI); ninja langstat_core.txt
+	mkdir -p meson-build-$(WINARCH)-$(GUI)
+	cd meson-build-$(WINARCH)-$(GUI); meson ../../.. -Dprefix=`pwd`/../meson-install-$(WINARCH)-$(GUI) -Dclients=$(CLIENT) -Dfcmp=$(FCMP) -Druledit=false -Dreadline=false -Dcacert-path='./ssl/certs/ca-bundle.crt' $(EXTRA_CONFIG)
+	cd meson-build-$(WINARCH)-$(GUI); ninja
+	cd meson-build-$(WINARCH)-$(GUI); ninja install
+	cd meson-build-$(WINARCH)-$(GUI); ninja langstat_core.txt
 	# reorder directory layout
-	mv meson-install-$(GUI)/bin/* meson-install-$(GUI)/
-	rm -Rf meson-install-$(GUI)/bin
-	mv meson-install-$(GUI)/share/freeciv meson-install-$(GUI)/data
-	mv meson-install-$(GUI)/share/doc meson-install-$(GUI)/
-	mkdir -p meson-install-$(GUI)/doc/freeciv/installer
-	cat licenses/header.txt ../../COPYING > meson-install-$(GUI)/doc/freeciv/installer/COPYING.installer
-	cp freeciv-server.cmd freeciv-mp-$(FCMP).cmd freeciv-$(CLIENT).cmd Freeciv.url meson-install-$(GUI)/
+	mv meson-install-$(WINARCH)-$(GUI)/bin/* meson-install-$(WINARCH)-$(GUI)/
+	rm -Rf meson-install-$(WINARCH)-$(GUI)/bin
+	mv meson-install-$(WINARCH)-$(GUI)/share/freeciv meson-install-$(WINARCH)-$(GUI)/data
+	mv meson-install-$(WINARCH)-$(GUI)/share/doc meson-install-$(WINARCH)-$(GUI)/
+	mkdir -p meson-install-$(WINARCH)-$(GUI)/doc/freeciv/installer
+	cat licenses/header.txt ../../COPYING > meson-install-$(WINARCH)-$(GUI)/doc/freeciv/installer/COPYING.installer
+	cp freeciv-server.cmd freeciv-mp-$(FCMP).cmd freeciv-$(CLIENT).cmd Freeciv.url meson-install-$(WINARCH)-$(GUI)/
 
 SOUND_DLLS := \
 	SDL2.dll \
@@ -154,9 +154,9 @@ COMMON_DLLS := \
 
 install-env-common:
 	# add DLLs
-	cp -R $(addprefix $(DLLPATH_PREFIX), $(COMMON_DLLS)) meson-install-$(GUI)/
-	mkdir -p meson-install-$(GUI)/ssl/certs
-	cp -R /$(ARCHDIR)/ssl/certs/ca-bundle.crt meson-install-$(GUI)/ssl/certs/
+	cp -R $(addprefix $(DLLPATH_PREFIX), $(COMMON_DLLS)) meson-install-$(WINARCH)-$(GUI)/
+	mkdir -p meson-install-$(WINARCH)-$(GUI)/ssl/certs
+	cp -R /$(ARCHDIR)/ssl/certs/ca-bundle.crt meson-install-$(WINARCH)-$(GUI)/ssl/certs/
 
 FCMP_GTK3_DLLS := \
 	libgdk-3-0.dll \
@@ -168,20 +168,20 @@ FCMP_GTK3_DLLS := \
 	libunistring-2.dll
 
 install-env-gtk3-fcmp: install-env-common
-	cp -R $(addprefix $(DLLPATH_PREFIX), $(FCMP_GTK3_DLLS)) meson-install-$(GUI)/
+	cp -R $(addprefix $(DLLPATH_PREFIX), $(FCMP_GTK3_DLLS)) meson-install-$(WINARCH)-$(GUI)/
 	# add additional GTK+3 files
-	mkdir -p meson-install-$(GUI)/etc
-	cp -R /$(ARCHDIR)/etc/gtk-3.0 meson-install-$(GUI)/etc/
-	mkdir -p meson-install-$(GUI)/share/icons
-	cp -R /$(ARCHDIR)/share/icons/Adwaita meson-install-$(GUI)/share/icons/
-	mkdir -p meson-install-$(GUI)/share/glib-2.0/schemas
-	cp /$(ARCHDIR)/share/glib-2.0/schemas/gschemas.compiled meson-install-$(GUI)/share/glib-2.0/schemas/
-	mkdir -p meson-install-$(GUI)/lib/gtk-3.0/
-	cp -R /$(ARCHDIR)/lib/gtk-3.0/* meson-install-$(GUI)/lib/gtk-3.0/
-	mkdir -p meson-install-$(GUI)/lib/gdk-pixbuf-2.0/
-	cp -R /$(ARCHDIR)/lib/gdk-pixbuf-2.0/* meson-install-$(GUI)/lib/gdk-pixbuf-2.0/
-	cp -R /$(ARCHDIR)/share/locale meson-install-$(GUI)/share/
-	find meson-install-$(GUI)/share/locale -type f -not -name "freeciv-*.mo" -and -not -name gtk30.mo -delete
+	mkdir -p meson-install-$(WINARCH)-$(GUI)/etc
+	cp -R /$(ARCHDIR)/etc/gtk-3.0 meson-install-$(WINARCH)-$(GUI)/etc/
+	mkdir -p meson-install-$(WINARCH)-$(GUI)/share/icons
+	cp -R /$(ARCHDIR)/share/icons/Adwaita meson-install-$(WINARCH)-$(GUI)/share/icons/
+	mkdir -p meson-install-$(WINARCH)-$(GUI)/share/glib-2.0/schemas
+	cp /$(ARCHDIR)/share/glib-2.0/schemas/gschemas.compiled meson-install-$(WINARCH)-$(GUI)/share/glib-2.0/schemas/
+	mkdir -p meson-install-$(WINARCH)-$(GUI)/lib/gtk-3.0/
+	cp -R /$(ARCHDIR)/lib/gtk-3.0/* meson-install-$(WINARCH)-$(GUI)/lib/gtk-3.0/
+	mkdir -p meson-install-$(WINARCH)-$(GUI)/lib/gdk-pixbuf-2.0/
+	cp -R /$(ARCHDIR)/lib/gdk-pixbuf-2.0/* meson-install-$(WINARCH)-$(GUI)/lib/gdk-pixbuf-2.0/
+	cp -R /$(ARCHDIR)/share/locale meson-install-$(WINARCH)-$(GUI)/share/
+	find meson-install-$(WINARCH)-$(GUI)/share/locale -type f -not -name "freeciv-*.mo" -and -not -name gtk30.mo -delete
 
 FCMP_GTK4_DLLS := \
 	libgtk-4-1.dll \
@@ -201,13 +201,13 @@ FCMP_GTK4_DLLS := \
 	libLerc.dll
 
 install-env-gtk4-fcmp: install-env-common
-	cp -R $(addprefix $(DLLPATH_PREFIX), $(FCMP_GTK4_DLLS)) meson-install-$(GUI)/
+	cp -R $(addprefix $(DLLPATH_PREFIX), $(FCMP_GTK4_DLLS)) meson-install-$(WINARCH)-$(GUI)/
 	# add additional GTK4 files
-	cp /$(ARCHDIR)/bin/gdbus.exe meson-install-$(GUI)/
-	mkdir -p meson-install-$(GUI)/lib/gdk-pixbuf-2.0/
-	cp -R /$(ARCHDIR)/lib/gdk-pixbuf-2.0/* meson-install-$(GUI)/lib/gdk-pixbuf-2.0/
-	cp -R /$(ARCHDIR)/share/locale meson-install-$(GUI)/share/
-	find meson-install-$(GUI)/share/locale -type f -not -name "freeciv-*.mo" -and -not -name gtk40.mo -delete
+	cp /$(ARCHDIR)/bin/gdbus.exe meson-install-$(WINARCH)-$(GUI)/
+	mkdir -p meson-install-$(WINARCH)-$(GUI)/lib/gdk-pixbuf-2.0/
+	cp -R /$(ARCHDIR)/lib/gdk-pixbuf-2.0/* meson-install-$(WINARCH)-$(GUI)/lib/gdk-pixbuf-2.0/
+	cp -R /$(ARCHDIR)/share/locale meson-install-$(WINARCH)-$(GUI)/share/
+	find meson-install-$(WINARCH)-$(GUI)/share/locale -type f -not -name "freeciv-*.mo" -and -not -name gtk40.mo -delete
 
 install-freeciv-gtk3.22: install-freeciv-common
 
@@ -228,15 +228,15 @@ SDL2_DLLS := \
 
 install-env-sdl2: install-env-gtk4-fcmp
 	# add DLLs
-	cp -R $(addprefix $(DLLPATH_PREFIX), $(SDL2_DLLS)) meson-install-$(GUI)/
+	cp -R $(addprefix $(DLLPATH_PREFIX), $(SDL2_DLLS)) meson-install-$(WINARCH)-$(GUI)/
 
 # cleanup
 
 clean-build-common:
-	rm -rf meson-build-$(GUI)
+	rm -rf meson-build-*-$(GUI)
 
 clean-install-common:
-	rm -rf meson-install-$(GUI)
+	rm -rf meson-install-*-$(GUI)
 
 clean-installer-common:
 	rm -f Output/Freeciv-*-$(GUI)-setup.exe
