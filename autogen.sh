@@ -253,8 +253,8 @@ real_package_name "python3" "https://www.python.org/" 3 4 || DIE=1
 
 if [ "$FC_USE_NLS" = "yes" ]; then
   DIE2=0
-  version_check 1 "xgettext" "xgettext" "ftp://ftp.gnu.org/pub/gnu/gettext/" 0 15 || DIE2=1
-  version_check 1 "msgfmt" "msgfmt" "ftp://ftp.gnu.org/pub/gnu/gettext/" 0 15 || DIE2=1
+  version_check 1 "xgettext" "xgettext" "ftp://ftp.gnu.org/pub/gnu/gettext/" 0 16 || DIE2=1
+  version_check 1 "msgfmt" "msgfmt" "ftp://ftp.gnu.org/pub/gnu/gettext/" 0 16 || DIE2=1
   if [ "$DIE2" -eq 1 ]; then
     echo 
     echo "You may want to use --disable-nls to disable NLS."
