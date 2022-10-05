@@ -685,7 +685,7 @@ Starting game.
    contributed binaries. If you have a working client, and you don't know
    its version, start it, load a game or scenario, or just start a new
    game, click on Help for the help menu, and on About Freeciv to see the
-   version and the client type (GTK2, GTK3.22, QT, SDL2, …).
+   version and the client type (GTK3.22, GTK4, QT, SDL2, …).
 
    It's possible that not all precompiled binaries and ports have been
    updated to 3.0.3 yet. If you can contribute, please do! Prepare a
@@ -803,7 +803,7 @@ types, and technologies?
 
    The recommended client is the Gtk client. There are a range of
    different Gtk clients for different versions of the Gtk
-   library—Gtk2/3/etc—but they all support more or less the same feature
+   library—Gtk3/3.22/4/etc—but they all support more or less the same feature
    set. If in doubt, pick the Gtk3.22 client.
 
    The Qt client is a newer client using the Qt toolkit. It has a more
