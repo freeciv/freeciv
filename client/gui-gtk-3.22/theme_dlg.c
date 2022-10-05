@@ -53,7 +53,7 @@ bool popup_theme_suggestion_dialog(const char *theme_name)
     /* gui option default_theme_name is not yet set.
      * This can happen when we load tileset requested at command line and
      * user has not saved theme information to .freeciv-client-rc.A.B. */
-    current_name = FC_GTK3_DEFAULT_THEME_NAME;
+    current_name = FC_GTK3_22_DEFAULT_THEME_NAME;
   }
 
   dialog = gtk_dialog_new_with_buttons(_("Theme suggested"),
