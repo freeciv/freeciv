@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.6\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2022-09-21 07:39+0200\n"
+"POT-Creation-Date: 2022-10-04 11:56+0200\n"
 "PO-Revision-Date: 2022-08-18 04:07+0200\n"
 "Last-Translator: Igx <igx31 hotmail.com>\n"
 "Language-Team: French <freeciv-l10n-fr@yahoogroupes.fr>\n"
@@ -528,7 +528,7 @@ msgstr "Le gouverneur s'est embrouillé en gérant %s. Vous devriez intervenir."
 
 #. TRANS: No full stop after the URL, could cause confusion.
 #: client/agents/cma_core.c:428 client/gui-sdl/mapview.c:153
-#: client/gui-sdl2/mapview.c:164 server/console.c:72 server/srv_main.c:3147
+#: client/gui-sdl2/mapview.c:164 server/console.c:72 server/srv_main.c:3145
 #: utility/log.c:520 utility/netintf.c:94 utility/registry_ini.c:742
 #, c-format
 msgid "Please report this message at %s"
@@ -3400,7 +3400,7 @@ msgstr "Quelle nation voulez-vous être ?"
 #: client/gui-gtk-2.0/dialogs.c:852 client/gui-gtk-3.0/dialogs.c:863
 #: client/gui-gtk-3.22/dialogs.c:857 client/gui-qt/dialogs.cpp:415
 #: client/gui-qt/pages.cpp:666 client/gui-sdl/chatline.c:811
-#: client/gui-sdl2/chatline.c:816 data/Freeciv.in:3388
+#: client/gui-sdl2/chatline.c:805 data/Freeciv.in:3388
 msgid "Pick Nation"
 msgstr "Prendre une nation"
 
@@ -4771,7 +4771,7 @@ msgstr "?techhelp:"
 #: client/gui-gtk-3.22/inteldlg.c:436 client/gui-qt/plrdlg.cpp:456
 #: client/gui-sdl/inteldlg.c:319 client/gui-sdl2/inteldlg.c:339
 #: client/gui-xaw/helpdlg.c:1025 client/gui-xaw/helpdlg.c:1110
-#: common/requirements.c:3224
+#: common/requirements.c:3228
 #, c-format
 msgid "(none)"
 msgstr "(aucun)"
@@ -8749,7 +8749,7 @@ msgstr "Se déconnecter"
 
 #: client/gui-qt/pages.cpp:679 client/gui-qt/pages.cpp:1874
 #: client/gui-qt/pages.cpp:1878 client/gui-sdl/chatline.c:801
-#: client/gui-sdl2/chatline.c:806 data/Freeciv.in:3404
+#: client/gui-sdl2/chatline.c:795 data/Freeciv.in:3404
 msgid "Start"
 msgstr "Démarrer"
 
@@ -9157,21 +9157,21 @@ msgstr "%d bonus ponctuel"
 msgid "Subvert Enemy Unit"
 msgstr "Corrompre une unité ennemie"
 
-#: client/gui-sdl/chatline.c:742 client/gui-sdl2/chatline.c:747
+#: client/gui-sdl/chatline.c:742 client/gui-sdl2/chatline.c:736
 #, c-format
 msgid "Total users logged in : %d"
 msgstr "Total des utilisateurs connectés : %d"
 
-#: client/gui-sdl/chatline.c:790 client/gui-sdl2/chatline.c:795
+#: client/gui-sdl/chatline.c:790 client/gui-sdl2/chatline.c:784
 msgid "Back"
 msgstr "Retour"
 
 #: client/gui-sdl/chatline.c:822 client/gui-sdl/pages.c:198
-#: client/gui-sdl2/chatline.c:827 client/gui-sdl2/pages.c:204
+#: client/gui-sdl2/chatline.c:816 client/gui-sdl2/pages.c:204
 msgid "Load Game"
 msgstr "Charger une partie"
 
-#: client/gui-sdl/chatline.c:834 client/gui-sdl2/chatline.c:839
+#: client/gui-sdl/chatline.c:834 client/gui-sdl2/chatline.c:828
 msgid "Server Settings"
 msgstr "Paramètres du serveur"
 
@@ -19035,86 +19035,86 @@ msgstr "Les membres de l'équipe %s"
 msgid "Future Tech. %d"
 msgstr "Techno. Future %d"
 
-#: common/requirements.c:3230
+#: common/requirements.c:3234
 #, c-format
 msgid "\"%s\" tech"
 msgstr "techno \"%s\""
 
-#: common/requirements.c:3267
+#: common/requirements.c:3271
 #, c-format
 msgid "%s citizens"
 msgstr "%s citoyens"
 
 #. TRANS: Unit type flag
-#: common/requirements.c:3280
+#: common/requirements.c:3284
 #, c-format
 msgid "?utflag:\"%s\" units"
 msgstr "unités \"%s\""
 
 #. TRANS: Unit class
-#: common/requirements.c:3287
+#: common/requirements.c:3291
 #, c-format
 msgid "%s units"
 msgstr "unités \"%s\""
 
 #. TRANS: Unit class flag
-#: common/requirements.c:3293
+#: common/requirements.c:3297
 #, c-format
 msgid "?ucflag:\"%s\" units"
 msgstr "unités \"%s\""
 
-#: common/requirements.c:3299
+#: common/requirements.c:3303
 #, c-format
 msgid "Veteran level >=%d"
 msgstr "Niveau de vétéran ≥ %d"
 
 #. TRANS: unit state. (appears in strings like "Missile+Transported")
-#: common/requirements.c:3306
+#: common/requirements.c:3310
 msgid "Transported"
 msgstr "Transporté"
 
 #. TRANS: unit state. (appears in strings like
 #. * "Missile+On livable tile")
-#: common/requirements.c:3312
+#: common/requirements.c:3316
 msgid "On livable tile"
 msgstr "Sur une case viable"
 
 #. TRANS: Minimum unit movement points left for requirement to be met
 #. * (%s is a string like "1" or "2 1/3")
-#: common/requirements.c:3323
+#: common/requirements.c:3327
 #, c-format
 msgid "%s MP"
 msgstr "%s PM"
 
 #. TRANS: HP = hit points
-#: common/requirements.c:3328
+#: common/requirements.c:3332
 #, c-format
 msgid "%d HP"
 msgstr "%d PV"
 
-#: common/requirements.c:3332
+#: common/requirements.c:3336
 #, c-format
 msgid "Age %d"
 msgstr "Âge %d"
 
-#: common/requirements.c:3344
+#: common/requirements.c:3348
 #, c-format
 msgid "Size %d"
 msgstr "Taille %d"
 
-#: common/requirements.c:3348
+#: common/requirements.c:3352
 #, c-format
 msgid "Culture %d"
 msgstr "Culture %d"
 
 #. TRANS: "Hard AI"
-#: common/requirements.c:3353
+#: common/requirements.c:3357
 #, c-format
 msgid "%s AI"
 msgstr "IA %s"
 
 #. TRANS: here <= means 'less than or equal'
-#: common/requirements.c:3358
+#: common/requirements.c:3362
 #, c-format
 msgid "<=%d unit"
 msgid_plural "<=%d units"
@@ -19122,57 +19122,57 @@ msgstr[0] " ⩽ %d unité"
 msgstr[1] " ⩽ %d unités"
 
 #. TRANS: Terrain class: "Land terrain"
-#: common/requirements.c:3364
+#: common/requirements.c:3368
 #, c-format
 msgid "%s terrain"
 msgstr "terrain \"%s\""
 
 #. TRANS: Terrain flag
-#: common/requirements.c:3370
+#: common/requirements.c:3374
 #, c-format
 msgid "?terrflag:\"%s\" terrain"
 msgstr "terrain \"%s\""
 
 #. TRANS: Base flag
-#: common/requirements.c:3377
+#: common/requirements.c:3381
 #, c-format
 msgid "?baseflag:\"%s\" base"
 msgstr "base \"%s\""
 
 #. TRANS: Road flag
-#: common/requirements.c:3383
+#: common/requirements.c:3387
 #, c-format
 msgid "?roadflag:\"%s\" road"
 msgstr "route \"%s\""
 
 #. TRANS: Extra flag
-#: common/requirements.c:3389
+#: common/requirements.c:3393
 #, c-format
 msgid "?extraflag:\"%s\" extra"
 msgstr "extra \"%s\""
 
-#: common/requirements.c:3393
+#: common/requirements.c:3397
 #, c-format
 msgid "After %s"
 msgstr "Après %s"
 
 #. TRANS: topology flag name ("WrapX", "ISO", etc)
-#: common/requirements.c:3398
+#: common/requirements.c:3402
 #, c-format
 msgid "%s map"
 msgstr "carte %s"
 
 #. TRANS: "Irrigation possible"
-#: common/requirements.c:3403
+#: common/requirements.c:3407
 #, c-format
 msgid "%s possible"
 msgstr "%s possible"
 
-#: common/requirements.c:3409
+#: common/requirements.c:3413
 msgid "City center"
 msgstr "Centre ville"
 
-#: common/requirements.c:3412
+#: common/requirements.c:3416
 msgid "Tile claimed"
 msgstr "Case revendiquée"
 
@@ -42598,7 +42598,7 @@ msgstr "Unités tuées\n"
 msgid "Unit Losses\n"
 msgstr "Unités perdues\n"
 
-#: server/rssanity.c:987
+#: server/rssanity.c:998
 msgid "Disabling 'barbarians' setting for lack of suitable unit types."
 msgstr ""
 "Désactivation de l'option 'barbarians' par manque de types d'unités "
@@ -42718,8 +42718,8 @@ msgid "Failed to load ruleset '%s' needed for savegame."
 msgstr ""
 "Impossible de charger les règles du jeu '%s', nécessaires pour la sauvegarde."
 
-#: server/savegame2.c:3930 server/savegame.c:4049 server/srv_main.c:2392
-#: server/srv_main.c:2397
+#: server/savegame2.c:3930 server/savegame.c:4049 server/srv_main.c:2390
+#: server/srv_main.c:2395
 #, c-format
 msgid "%s has been added as %s level AI-controlled player (%s)."
 msgstr ""
@@ -45829,53 +45829,53 @@ msgstr ""
 "Sans les instructions de la capitale, le vaisseau spatial des %s est perdu !"
 
 #. TRANS: Another entry in winners list (", the Tibetans")
-#: server/srv_main.c:351 server/srv_main.c:476
+#: server/srv_main.c:349 server/srv_main.c:474
 #, c-format
 msgid "?winners:, the %s"
 msgstr ", les %s"
 
 #. TRANS: Beginning of the winners list ("the French")
-#: server/srv_main.c:355 server/srv_main.c:471
+#: server/srv_main.c:353 server/srv_main.c:469
 #, c-format
 msgid "?winners:the %s"
 msgstr "les %s"
 
 #. TRANS: There can be several winners listed
-#: server/srv_main.c:365
+#: server/srv_main.c:363
 #, c-format
 msgid "Scenario victory to %s."
 msgstr "Victoire du scenario à %s."
 
-#: server/srv_main.c:393 server/stdinhand.c:4464
+#: server/srv_main.c:391 server/stdinhand.c:4464
 msgid "Game is over."
 msgstr "Partie terminée"
 
-#: server/srv_main.c:426 server/srv_main.c:608
+#: server/srv_main.c:424 server/srv_main.c:606
 #, c-format
 msgid "Team victory to %s."
 msgstr "Victoire d'équipe à %s"
 
 #. TRANS: There can be several winners listed
-#: server/srv_main.c:483
+#: server/srv_main.c:481
 #, c-format
 msgid "Allied victory to %s."
 msgstr "Victoire d'alliés à %s"
 
-#: server/srv_main.c:509
+#: server/srv_main.c:507
 #, c-format
 msgid "Game ended in conquest victory for %s."
 msgstr "Partie s'est terminée par une victoire de conquête de %s"
 
-#: server/srv_main.c:539
+#: server/srv_main.c:537
 #, c-format
 msgid "Game ended in cultural domination victory for %s."
 msgstr "Partie s'est terminée par une domination culturelle de %s"
 
-#: server/srv_main.c:550
+#: server/srv_main.c:548
 msgid "Game ended as the turn limit was exceeded."
 msgstr "Partie terminée après le tour fixé de fin de partie"
 
-#: server/srv_main.c:555
+#: server/srv_main.c:553
 msgid ""
 "Notice: game will end at the end of this turn due to 'endturn' server "
 "setting."
@@ -45883,12 +45883,12 @@ msgstr ""
 "Avertissement : La partie se terminera à la fin de ce tour, suite à l'option "
 "'endturn' du serveur."
 
-#: server/srv_main.c:616
+#: server/srv_main.c:614
 #, c-format
 msgid "Game ended in victory for %s."
 msgstr "Partie s'est terminée par une victoire de %s"
 
-#: server/srv_main.c:642
+#: server/srv_main.c:640
 #, c-format
 msgid ""
 "Notice: the %s spaceship will likely arrive at Alpha Centauri next turn."
@@ -45897,7 +45897,7 @@ msgstr ""
 "du Centaure au prochain tour."
 
 #. TRANS: "... 2 military units in Norwegian territory."
-#: server/srv_main.c:779
+#: server/srv_main.c:777
 #, c-format
 msgid "Warning: you still have %d military unit in %s territory."
 msgid_plural "Warning: you still have %d military units in %s territory."
@@ -45908,7 +45908,7 @@ msgstr[1] ""
 
 #. TRANS: %s is another, separately translated sentence,
 #. * ending in a full stop.
-#: server/srv_main.c:788
+#: server/srv_main.c:786
 #, c-format
 msgid ""
 "%s Any such units will be disbanded in %d turn, in accordance with peace "
@@ -45923,12 +45923,12 @@ msgstr[1] ""
 "%s Toutes les unités semblables seront congédiées dans %d tours, "
 "conformément au traité de Paix."
 
-#: server/srv_main.c:808 server/srv_main.c:819
+#: server/srv_main.c:806 server/srv_main.c:817
 #, c-format
 msgid "Your %s was disbanded in accordance with your peace treaty with the %s."
 msgstr "Votre %s a été congédié conformément au traité de Paix avec les %s."
 
-#: server/srv_main.c:869
+#: server/srv_main.c:867
 #, c-format
 msgid ""
 "Concerned citizens point out that the cease-fire with %s will run out soon."
@@ -45937,14 +45937,14 @@ msgstr ""
 "fin."
 
 # AR
-#: server/srv_main.c:878 server/srv_main.c:883
+#: server/srv_main.c:876 server/srv_main.c:881
 #, c-format
 msgid "The cease-fire with %s has run out. You are now at war with the %s."
 msgstr ""
 "Le Cessez-le-feu avec %s a pris fin. Vos relations avec les %s sont "
 "désormais à la Guerre."
 
-#: server/srv_main.c:923 server/srv_main.c:933
+#: server/srv_main.c:921 server/srv_main.c:931
 #, c-format
 msgid ""
 "The cease-fire between %s and %s has run out. They are at war. You cancel "
@@ -45953,7 +45953,7 @@ msgstr ""
 "Le Cessez-le-feu entre %s et %s est terminé. Ils sont en Guerre. Vous "
 "annulez votre Alliance avec %s."
 
-#: server/srv_main.c:943
+#: server/srv_main.c:941
 #, c-format
 msgid ""
 "The cease-fire between %s and %s has run out. They are at war. You cancel "
@@ -45963,64 +45963,64 @@ msgstr ""
 "annulez votre Alliance avec les deux."
 
 #. TRANS: %s is a unit type
-#: server/srv_main.c:1090
+#: server/srv_main.c:1088
 #, c-format
 msgid "%s retired!"
 msgstr "%s a quitté la partie !"
 
-#: server/srv_main.c:1318
+#: server/srv_main.c:1316
 msgid "Automatically placed spaceship parts that were still not placed."
 msgstr ""
 "Placement automatique des parties de vaisseau spatial qui n'étaient toujours "
 "pas placées."
 
-#: server/srv_main.c:1604 server/srv_main.c:1607
+#: server/srv_main.c:1602 server/srv_main.c:1605
 #, c-format
 msgid "Unsupported compression type %d."
 msgstr "Type de compression non supporté %d."
 
 # AR
-#: server/srv_main.c:1637
+#: server/srv_main.c:1635
 #, c-format
 msgid "Failed saving game as %s"
 msgstr "Échec dans la sauvegarde de la partie sous %s"
 
 # AR
-#: server/srv_main.c:1639
+#: server/srv_main.c:1637
 msgid "Failed saving game."
 msgstr "Échec de sauvegarde de la partie."
 
-#: server/srv_main.c:1641
+#: server/srv_main.c:1639
 #, c-format
 msgid "Game saved as %s"
 msgstr "Partie sauvegardée sous %s"
 
-#: server/srv_main.c:1702
+#: server/srv_main.c:1700
 msgid "The game is already running."
 msgstr "La partie est déjà en cours."
 
-#: server/srv_main.c:1710
+#: server/srv_main.c:1708
 #, c-format
 msgid "%s lost control cmdlevel on game start.  Use voting from now on."
 msgstr ""
 "%s a perdu le niveau de contrôle cmdlevel suite au début de la partie. "
 "Utilisation du vote dorénavant."
 
-#: server/srv_main.c:1718
+#: server/srv_main.c:1716
 msgid "Starting game."
 msgstr "Démarrage du jeu."
 
-#: server/srv_main.c:1834
+#: server/srv_main.c:1832
 #, c-format
 msgid "request for unknown report (type %d)"
 msgstr "requête d'un rapport inconnu (type %d)"
 
-#: server/srv_main.c:1924
+#: server/srv_main.c:1922
 #, c-format
 msgid "Warning: rejecting old client %s"
 msgstr "Attention : rejet d'un ancien client %s"
 
-#: server/srv_main.c:1935
+#: server/srv_main.c:1933
 msgid ""
 "Your client is too old. To use this server, please upgrade your client to a "
 "Freeciv 2.2 or later."
@@ -46028,51 +46028,51 @@ msgstr ""
 "Votre client est trop vieux. Pour utiliser ce serveur veuillez mettre votre "
 "client à jour avec une version Freeciv 2.2 ou ultérieure."
 
-#: server/srv_main.c:1994
+#: server/srv_main.c:1992
 msgid "You are not allowed to edit."
 msgstr "Vous n'êtes pas autorisé à éditer."
 
-#: server/srv_main.c:2205
+#: server/srv_main.c:2203
 #, c-format
 msgid "%s nation is not available for user selection."
 msgstr "La nation %s n'est pas disponible comme choix utilisateur."
 
-#: server/srv_main.c:2211
+#: server/srv_main.c:2209
 #, c-format
 msgid "%s nation is already in use."
 msgstr "La nation %s est déjà prise."
 
-#: server/srv_main.c:2227
+#: server/srv_main.c:2225
 #, c-format
 msgid "%s is the %s ruler %s."
 msgstr "%s est le chef %s %s."
 
-#: server/srv_main.c:2302
+#: server/srv_main.c:2300
 #, c-format
 msgid "Waiting to start game: %d out of %d players are ready to start."
 msgstr "En attente du démarrage de la partie : %d joueurs sur %d sont prêts."
 
-#: server/srv_main.c:2328
+#: server/srv_main.c:2326
 msgid "requested more than 'maxplayers' setting"
 msgstr "demande supérieure à l'option 'maxplayers'"
 
-#: server/srv_main.c:2335
+#: server/srv_main.c:2333
 msgid ""
 "not enough playable nations in this nation set (see 'nationset' setting)"
 msgstr ""
 "pas assez de nations jouables dans ce jeu de nations (voir l'option "
 "'nationset')"
 
-#: server/srv_main.c:2338
+#: server/srv_main.c:2336
 msgid "not enough playable nations"
 msgstr "pas assez de nations jouables."
 
-#: server/srv_main.c:2684 server/srv_main.c:2688
+#: server/srv_main.c:2682 server/srv_main.c:2686
 #, c-format
 msgid "%s rules the %s."
 msgstr "%s dirige les %s."
 
-#: server/srv_main.c:2888
+#: server/srv_main.c:2886
 msgid ""
 "This freeciv-server program has player authentication support, but it's "
 "currently not in use."
@@ -46080,41 +46080,41 @@ msgstr ""
 "Ce serveur Freeciv a un support d'authentification des joueurs, mais il est "
 "actuellement désactivé."
 
-#: server/srv_main.c:2955
+#: server/srv_main.c:2953
 #, c-format
 msgid "Sending info to metaserver <%s>."
 msgstr "Envoi d'informations au méta-serveur <%s>."
 
-#: server/srv_main.c:2959
+#: server/srv_main.c:2957
 msgid "Not starting without explicitly requested metaserver connection."
 msgstr ""
 "Impossible de démarrer sans connexion au méta-serveur explicitement demandée."
 
-#: server/srv_main.c:2982
+#: server/srv_main.c:2980
 msgid "The game is over..."
 msgstr "La partie est terminée..."
 
-#: server/srv_main.c:3111
+#: server/srv_main.c:3109
 msgid "Failed to create suitable map, retrying with another mapseed."
 msgstr ""
 "Impossible de créer une carte convenable, nouvel essai avec une autre clé de "
 "génération."
 
-#: server/srv_main.c:3117
+#: server/srv_main.c:3115
 #, c-format
 msgid "Attempt %d/%d"
 msgstr "Tentative %d/%d"
 
-#: server/srv_main.c:3145
+#: server/srv_main.c:3143
 msgid "Cannot create suitable map with given settings."
 msgstr "Impossible de créer une carte convenable avec les paramètres donnés."
 
-#: server/srv_main.c:3169 server/srv_main.c:3173
+#: server/srv_main.c:3167 server/srv_main.c:3171
 #, c-format
 msgid "Setting '%s' has been adjusted from %s to %s."
 msgstr "L'option '%s' a été modifiée de %s à %s."
 
-#: server/srv_main.c:3372
+#: server/srv_main.c:3370
 #, c-format
 msgid "Now accepting new client connections on port %d."
 msgstr "Accepte dorénavant la connexion de nouveaux clients sur le port %d."
