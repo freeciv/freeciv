@@ -4,7 +4,7 @@ Installing Freeciv:
 
 This file describes how to compile and install Freeciv. Last time we
 made sure this file is up to date was 16-Jul-06.
-Last minor update was 01-Oct-22.
+Last minor update was 05-Oct-22.
 
 There may be a localized version of this file in the ./doc directory,
 named INSTALL.<locale> (e.g., INSTALL.de).
@@ -90,7 +90,7 @@ out whether your system is suitable.  If in doubt, just try it.
 The git version has additional requirements. A release version
 contains the generated files.
 
- - The programs from GNU gettext version 0.15 or better
+ - The programs from GNU gettext version 0.16 or better
 
    Especial the xgettext program is required to create the *.gmo
    files which aren't included in the git tree.
@@ -434,7 +434,7 @@ Freeciv, there are a few work-arounds you can try:
 2. You can try to install the latest version of GNU gettext.
    It may be obtained from here:
 
-      ftp://ftp.gnu.org/pub/gnu/gettext/gettext-0.19.2.tar.xz
+      https://ftp.gnu.org/gnu/gettext/gettext-0.21.tar.xz
 
 
 6. Readline Support:
