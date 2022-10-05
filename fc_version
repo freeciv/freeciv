@@ -50,6 +50,7 @@ NEXT_STABLE_VERSION="3.1.0"
 # 0 to disable display of release month until we can make better estimate
 RELEASE_MONTH=0
 
+MAIN_VERSION=3.1
 DATASUBDIR=3.1
 DEFAULT_FOLLOW_TAG=S3_1
 
@@ -60,7 +61,7 @@ DEFAULT_FOLLOW_TAG=S3_1
 #   - No new mandatory capabilities can be added to the release branch; doing
 #     so would break network capability of supposedly "compatible" releases.
 #
-NETWORK_CAPSTRING="+Freeciv.Devel-3.1-2022.Sep.10"
+NETWORK_CAPSTRING="+Freeciv.Devel-${MAIN_VERSION}-2022.Sep.10"
 
 FREECIV_DISTRIBUTOR=""
 

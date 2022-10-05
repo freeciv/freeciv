@@ -63,6 +63,9 @@ AC_DEFINE_UNQUOTED([FREECIV_RELEASE_MONTH], [$RELEASE_MONTH], [Month next versio
 AC_SUBST([MAJOR_VERSION])
 AC_SUBST([MINOR_VERSION])
 
+dnl In practice, this matches the branch
+AC_SUBST([MAIN_VERSION])
+
 AC_DEFINE_UNQUOTED([DATASUBDIR],
                    ["$DATASUBDIR"],
                    [Version specific subdir for default data path])
