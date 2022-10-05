@@ -2057,8 +2057,6 @@ bool can_player_build_unit_direct(const struct player *p,
     return FALSE;
   }
 
-  barbarian = is_barbarian(p);
-
   requirement_vector_iterate(&punittype->build_reqs, preq) {
     if (preq->source.kind == VUT_IMPROVEMENT
         && preq->range == REQ_RANGE_CITY && preq->present) {
