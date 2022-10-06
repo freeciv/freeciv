@@ -16,6 +16,7 @@
 
 /* utility */
 #include "astring.h"
+#include "capability.h"
 #include "fcintl.h"
 #include "log.h"
 #include "mem.h"
@@ -274,6 +275,7 @@ void send_research_info(const struct research *presearch,
                         const struct conn_list *dest)
 {
   struct packet_research_info full_info, restricted_info;
+  struct packet_unknown_research unknown_info;
   const struct player *pplayer;
 
   fc_assert_ret(NULL != presearch);
@@ -286,6 +288,7 @@ void send_research_info(const struct research *presearch,
   restricted_info = full_info;
   restricted_info.tech_goal = A_UNSET;
   restricted_info.total_bulbs_prod = 0;
+  unknown_info.id = research_number(presearch);
 
   conn_list_iterate(dest, pconn) {
     pplayer = conn_get_player(pconn);
@@ -295,12 +298,22 @@ void send_research_info(const struct research *presearch,
         send_packet_research_info(pconn, &full_info);
       } else {
         /* 'pplayer' may have an embassy for looking to 'presearch'. */
+        bool embassy = FALSE;
+
         research_players_iterate(presearch, powner) {
           if (team_has_embassy(pplayer->team, powner)) {
-            send_packet_research_info(pconn, &restricted_info);
+            embassy = TRUE;
             break;
           }
         } research_players_iterate_end;
+
+        if (embassy) {
+          send_packet_research_info(pconn, &restricted_info);
+        } else {
+          if (has_capability("researchclr", pconn->capability)) {
+            send_packet_unknown_research(pconn, &unknown_info);
+          }
+        }
       }
     } else if (pconn->observer) {
       /* Case global observer. */

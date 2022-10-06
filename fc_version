@@ -60,7 +60,7 @@ DEFAULT_FOLLOW_TAG=stable
 #     as long as possible.  We want to maintain network compatibility with
 #     the stable branch for as long as possible.
 NETWORK_CAPSTRING_MANDATORY="+Freeciv-3.0-network"
-NETWORK_CAPSTRING_OPTIONAL="year32 plrculture32 pingfix"
+NETWORK_CAPSTRING_OPTIONAL="year32 plrculture32 pingfix researchclr"
 
 FREECIV_DISTRIBUTOR=""
 

@@ -952,6 +952,10 @@ PACKET_RESEARCH_INFO = 60; sc, lsend, is-game-info
   STRING inventions[A_LAST + 1];
 end
 
+PACKET_UNKNOWN_RESEARCH = 66; sc, is-game-info, cancel(PACKET_RESEARCH_INFO)
+  RESEARCH id;
+end
+
 PACKET_PLAYER_RESEARCH = 55; cs, dsend
   TECH tech;
 end
