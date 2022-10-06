@@ -2714,6 +2714,36 @@ void handle_research_info(const struct packet_research_info *packet)
 }
 
 /************************************************************************//**
+  Received a packet indicating we don't know the research details any more.
+****************************************************************************/
+void handle_unknown_research(int id)
+{
+  struct research *presearch = research_by_number(id);
+
+  if (presearch == NULL) {
+    log_error("Received unknown research for clearing: %d.", id);
+    return;
+  }
+
+  /* Do we need to set other fields? */
+  presearch->researching = A_UNKNOWN;
+  presearch->future_tech = 0;
+  presearch->tech_goal   = A_UNKNOWN;
+
+  advance_index_iterate(A_NONE, advi) {
+    research_invention_set(presearch, advi, TECH_UNKNOWN);
+  } advance_index_iterate_end;
+
+  if (editor_is_active()) {
+    editgui_refresh();
+    research_players_iterate(presearch, pplayer) {
+      editgui_notify_object_changed(OBJTYPE_PLAYER, player_number(pplayer),
+                                    FALSE);
+    } research_players_iterate_end;
+  }
+}
+
+/************************************************************************//**
   Packet player_diplstate handler.
 ****************************************************************************/
 void handle_player_diplstate(const struct packet_player_diplstate *packet)
