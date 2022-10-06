@@ -21,6 +21,7 @@ Updating from 3.1 to 3.2
 * Minimum SDL2 requirement for sound support is 2.0.6.
 * Minimum Python requirement for code generation scripts is 3.5.
 * Threaded AI has been dropped completely
+* Meson based build is no longer considered experimental, but a supported one
 
 ----------------------------------------------------------------------
 Compatibility of modified versions

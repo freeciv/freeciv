@@ -2,10 +2,9 @@
 Installing Freeciv with Meson:
 ==============================
 
-This file describes how to compile and install Freeciv with the experimental
-Meson build system support. Meson support is still work-in-progress. Fully
-supported official way to compile and install Freeciv is still using
-autotools as described in INSTALL.
+This file describes how to compile and install Freeciv with the
+Meson build system support. The other supported way to compile and
+install Freeciv is using autotools as described in INSTALL.
 
 
 Prerequisites:
