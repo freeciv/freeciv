@@ -194,8 +194,16 @@ static void help_cma_callback(GtkMenuItem *item, gpointer data);
 static void help_chatline_callback(GtkMenuItem *item, gpointer data);
 static void help_worklist_editor_callback(GtkMenuItem *item, gpointer data);
 static void help_language_callback(GtkMenuItem *item, gpointer data);
-static void help_copying_callback(GtkMenuItem *item, gpointer data);
-static void help_about_callback(GtkMenuItem *item, gpointer data);
+#endif /* MENUS_GTK3 */
+
+static void help_copying_callback(GSimpleAction *action,
+                                  GVariant *parameter,
+                                  gpointer data);
+static void help_about_callback(GSimpleAction *action,
+                                GVariant *parameter,
+                                gpointer data);
+
+#ifdef MENUS_GTK3
 static void save_options_on_exit_callback(GtkCheckMenuItem *item,
                                           gpointer data);
 static void edit_mode_callback(GtkCheckMenuItem *item, gpointer data);
@@ -433,6 +441,12 @@ static struct menu_entry_info menu_entries[] =
   { "REPORT_DEMOGRAPHIC", N_("_Demographics"),
     "report_demographics", "F11", MGROUP_SAFE },
 
+  /* Help menu */
+  { "HELP_COPYING", N_("Copying"),
+    "help_copying", NULL, MGROUP_SAFE },
+  { "HELP_ABOUT", N_("About Freeciv"),
+    "help_about", NULL, MGROUP_SAFE },
+
 #ifdef MENUS_GTK3
   { "MENU_GAME", N_("_Game"), 0, 0, NULL, MGROUP_SAFE },
   { "MENU_OPTIONS", N_("_Options"), 0, 0, NULL, MGROUP_SAFE },
@@ -517,10 +531,7 @@ static struct menu_entry_info menu_entries[] =
     G_CALLBACK(help_worklist_editor_callback), MGROUP_SAFE },
   { "HELP_LANGUAGES", N_("Languages"), 0, 0,
     G_CALLBACK(help_language_callback), MGROUP_SAFE },
-  { "HELP_COPYING", N_("Copying"), 0, 0,
-    G_CALLBACK(help_copying_callback), MGROUP_SAFE },
-  { "HELP_ABOUT", N_("About Freeciv"), 0, 0,
-    G_CALLBACK(help_about_callback), MGROUP_SAFE },
+
   { "SAVE_OPTIONS_ON_EXIT", N_("Save Options on _Exit"), 0, 0,
     G_CALLBACK(save_options_on_exit_callback), MGROUP_SAFE },
   { "EDIT_MODE", N_("_Editing Mode"), GDK_KEY_e, GDK_CONTROL_MASK,
@@ -711,7 +722,10 @@ const GActionEntry acts[] = {
   { "report_wow", report_wow_callback },
   { "report_top_cities", report_top_cities_callback },
   { "report_messages", report_messages_callback },
-  { "report_demographics", report_demographic_callback }
+  { "report_demographics", report_demographic_callback },
+
+  { "help_copying", help_copying_callback },
+  { "help_about", help_about_callback }
 };
 
 static struct menu_entry_info *menu_entry_info_find(const char *key);
@@ -1149,11 +1163,14 @@ static void help_nations_callback(GtkMenuItem *item, gpointer data)
 {
   popup_help_dialog_string(HELP_NATIONS_ITEM);
 }
+#endif /* MENUS_GTK3 */
 
 /************************************************************************//**
   Item "HELP_COPYING" callback.
 ****************************************************************************/
-static void help_copying_callback(GtkMenuItem *item, gpointer data)
+static void help_copying_callback(GSimpleAction *action,
+                                  GVariant *parameter,
+                                  gpointer data)
 {
   popup_help_dialog_string(HELP_COPYING_ITEM);
 }
@@ -1161,11 +1178,14 @@ static void help_copying_callback(GtkMenuItem *item, gpointer data)
 /************************************************************************//**
   Item "HELP_ABOUT" callback.
 ****************************************************************************/
-static void help_about_callback(GtkMenuItem *item, gpointer data)
+static void help_about_callback(GSimpleAction *action,
+                                GVariant *parameter,
+                                gpointer data)
 {
   popup_help_dialog_string(HELP_ABOUT_ITEM);
 }
 
+#ifdef MENUS_GTK3
 /************************************************************************//**
   Item "SAVE_OPTIONS_ON_EXIT" callback.
 ****************************************************************************/
@@ -2308,6 +2328,13 @@ static GMenu *setup_menus(GtkApplication *app)
   menu_entry_init(gov_menu, "REPORT_DEMOGRAPHIC");
 
   g_menu_append_submenu(menubar, _("C_ivilization"), G_MENU_MODEL(gov_menu));
+
+  topmenu = g_menu_new();
+
+  menu_entry_init(topmenu, "HELP_COPYING");
+  menu_entry_init(topmenu, "HELP_ABOUT");
+
+  g_menu_append_submenu(menubar, N_("_Help"), G_MENU_MODEL(topmenu));
 
 #ifndef FREECIV_DEBUG
   menu_entry_set_visible("RELOAD_TILESET", FALSE, FALSE);
