@@ -68,6 +68,9 @@ static GtkListStore *players_dialog_store;
 #define PLR_DLG_COL_STYLE       (0 + num_player_dlg_columns)
 #define PLR_DLG_COL_WEIGHT      (1 + num_player_dlg_columns)
 #define PLR_DLG_COL_ID          (2 + num_player_dlg_columns)
+#define PLR_DLG_COL_TOOLTIP     (3 + num_player_dlg_columns)
+
+#define PLR_DLG_COL_TOTAL       (PLR_DLG_COL_TOOLTIP + 1)
 
 static void create_players_dialog(void);
 static void players_meet_callback(GtkMenuItem *item, gpointer data);
@@ -263,7 +266,7 @@ static gint plrdlg_sort_func(GtkTreeModel *model,
 static GtkListStore *players_dialog_store_new(void)
 {
   GtkListStore *store;
-  GType model_types[num_player_dlg_columns + 3];
+  GType model_types[num_player_dlg_columns + PLR_DLG_COL_TOTAL];
   int i;
 
   for (i = 0; i < num_player_dlg_columns; i++) {
@@ -283,10 +286,12 @@ static GtkListStore *players_dialog_store_new(void)
       break;
     }
   }
-  /* special (invisible rows) - Text style, weight and player id */
+
+  /* Special (invisible rows) - Text style, weight and player id */
   model_types[i++] = G_TYPE_INT;        /* PLR_DLG_COL_STYLE. */
   model_types[i++] = G_TYPE_INT;        /* PLR_DLG_COL_WEIGHT. */
   model_types[i++] = G_TYPE_INT;        /* PLR_DLG_COL_ID. */
+  model_types[i++] = G_TYPE_STRING;     /* PLR_DLG_COL_TOOLTIP */
 
   store = gtk_list_store_newv(i, model_types);
 
@@ -391,28 +396,28 @@ static GtkWidget* create_show_menu(void)
 {
   int i;
   GtkWidget *menu = gtk_menu_new();
-  GtkWidget *item;    
-  
-  /* index starting at one (1) here to force playername to always be shown */
+  GtkWidget *item;
+
+  /* Index starting at one (1) here to force playername to always be shown */
   for (i = 1; i < num_player_dlg_columns; i++) {
     struct player_dlg_column *pcol;
-    
+
     pcol = &player_dlg_columns[i];
     item = gtk_check_menu_item_new_with_label(pcol->title);
     gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item), pcol->show);
     gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
     g_signal_connect(item, "toggled", G_CALLBACK(toggle_view), pcol);
   }
-  
+
   item = gtk_separator_menu_item_new();
   gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-  
+
   item = gtk_check_menu_item_new_with_label(Q_("?show:Dead Players"));
   gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item),
                                  gui_options.player_dlg_show_dead_players);
   gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
   g_signal_connect(item, "toggled", G_CALLBACK(toggle_dead_players), NULL);
-  
+
   return menu;
 }
 
@@ -440,6 +445,8 @@ void create_players_dialog(void)
 
   players_list = gtk_tree_view_new_with_model(GTK_TREE_MODEL
                                               (players_dialog_store));
+  gtk_tree_view_set_tooltip_column(GTK_TREE_VIEW(players_list),
+                                   PLR_DLG_COL_TOOLTIP);
   gtk_widget_set_hexpand(players_list, TRUE);
   gtk_widget_set_vexpand(players_list, TRUE);
   g_object_unref(players_dialog_store);
@@ -503,7 +510,7 @@ void create_players_dialog(void)
       gtk_tree_view_column_set_alignment(col, 1.0);
       break;
     }
-    
+
     if (col) {
       gtk_tree_view_append_column(GTK_TREE_VIEW(players_list), col);
     }
@@ -514,9 +521,9 @@ void create_players_dialog(void)
 
   sw = gtk_scrolled_window_new(NULL, NULL);
   gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(sw),
-				      GTK_SHADOW_ETCHED_IN);
+                                      GTK_SHADOW_ETCHED_IN);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
-		                 GTK_POLICY_AUTOMATIC, GTK_POLICY_ALWAYS);
+                                 GTK_POLICY_AUTOMATIC, GTK_POLICY_ALWAYS);
   gtk_container_add(GTK_CONTAINER(sw), players_list);
 
   gtk_container_add(GTK_CONTAINER(players_dialog_shell->vbox), sw);
@@ -524,7 +531,7 @@ void create_players_dialog(void)
   vbox = gtk_grid_new();
   gtk_orientable_set_orientation(GTK_ORIENTABLE(vbox),
                                  GTK_ORIENTATION_VERTICAL);
-  
+
   sep = gtk_separator_new(GTK_ORIENTATION_HORIZONTAL);
   gtk_container_add(GTK_CONTAINER(vbox), sep);
 
@@ -673,7 +680,10 @@ static void fill_row(GtkListStore *store, GtkTreeIter *it,
     }
   }
 
-   /* now add some eye candy ... */
+  gtk_list_store_set(store, it, PLR_DLG_COL_TOOLTIP,
+                     score_tooltip(pplayer, pplayer->score.game), -1);
+
+   /* Now add some eye candy ... */
   if (client_has_player()) {
     switch (player_diplstate_get(client_player(), pplayer)->type) {
     case DS_WAR:
