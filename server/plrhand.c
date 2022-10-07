@@ -2615,11 +2615,10 @@ static struct player *split_player(struct player *pplayer)
       = player_diplstate_get(other_player, cplayer);
 
     if (get_player_bonus(other_player, EFT_NO_DIPLOMACY) > 0) {
-      ds_co->type = DS_WAR;
-      ds_oc->type = DS_WAR;
+      /* FIXME: What about No-contact war? */
+      set_diplstate_type(ds_co, ds_oc, DS_WAR);
     } else {
-      ds_co->type = DS_NO_CONTACT;
-      ds_oc->type = DS_NO_CONTACT;
+      set_diplstate_type(ds_co, ds_oc, DS_NO_CONTACT);
     }
 
     ds_co->has_reason_to_cancel = 0;
