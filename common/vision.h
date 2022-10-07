@@ -110,7 +110,7 @@ bool vision_reveal_tiles(struct vision *vision, bool reveal_tiles);
  * so be careful with pointers!
  */
 struct vision_site {
-  char name[MAX_LEN_NAME];
+  char name[MAX_LEN_CITYNAME];
   struct tile *location; /* Cannot be NULL */
   struct player *owner;  /* May be NULL, always check! */
 
