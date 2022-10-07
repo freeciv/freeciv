@@ -24,7 +24,6 @@
 #include "research.h"
 #include "tech.h"
 #include "tile.h"
-#include "unittype.h"
 
 /* server */
 #include "aiiface.h"
@@ -60,7 +59,7 @@ static void place_animal(struct player *plr, int sqrdist)
   extra_type_by_rmcause_iterate(ERM_ENTER, pextra) {
     if (tile_has_extra(ptile, pextra)) {
       /* Animals should not displace huts */
-      /* FIXME: might HUT_NOTHING animals appear here? */
+      /* FIXME: could animals not entering nor frightening huts appear here? */
       return;
     }
   } extra_type_by_rmcause_iterate_end;

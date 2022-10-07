@@ -545,6 +545,7 @@ static bool can_extra_be_removed(const struct extra_type *pextra,
 
 /************************************************************************//**
   Tells if player can remove extra from tile with suitable unit.
+  Entering or Frightening huts are not considered.
 ****************************************************************************/
 bool player_can_remove_extra(const struct extra_type *pextra,
                              const struct player *pplayer,
@@ -554,7 +555,6 @@ bool player_can_remove_extra(const struct extra_type *pextra,
     return FALSE;
   }
 
-  /* For huts, it's not checked if player has any non-HUT_NOTHING units */
   return are_reqs_active(&(const struct req_context) {
                            .player = pplayer,
                            .tile = ptile,
@@ -572,7 +572,6 @@ bool can_remove_extra(const struct extra_type *pextra,
                       const struct unit *punit,
                       const struct tile *ptile)
 {
-
   if (!can_extra_be_removed(pextra, ptile)) {
     return FALSE;
   }

@@ -188,10 +188,10 @@ static struct tile *place_starting_unit(struct tile *starttile,
   fc_assert_ret_val(!is_non_allied_unit_tile(ptile, pplayer), NULL);
 
   /* For scenarios or dispersion, huts may coincide with player starts (in 
-   * other cases, huts are avoided as start positions).  Remove any such hut,
+   * other cases, huts are avoided as start positions). Remove any such hut,
    * and make sure to tell the client, since we may have already sent this
    * tile (with the hut) earlier: */
-  /* FIXME: don't remove under a HUT_NOTHING unit */
+  /* FIXME: don't remove under a unit that can't enter or frighten hut */
   extra_type_by_rmcause_iterate(ERM_ENTER, pextra) {
     if (tile_has_extra(ptile, pextra)) {
       tile_extra_rm_apply(ptile, pextra);

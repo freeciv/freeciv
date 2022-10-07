@@ -130,8 +130,6 @@ BV_DEFINE(bv_utypes, U_LAST);
 /* Used in the network protocol. */
 BV_DEFINE(bv_unit_classes, UCL_LAST);
 
-enum hut_behavior { HUT_NORMAL, HUT_NOTHING, HUT_FRIGHTEN };
-
 enum move_level { MOVE_NONE, MOVE_PARTIAL, MOVE_FULL };
 
 struct extra_type_list;

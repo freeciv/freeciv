@@ -191,10 +191,10 @@ static bool is_valid_start_pos(const struct tile *ptile, const void *dataptr)
   struct islands_data_type *island;
   int cont_size, cont = tile_continent(ptile);
 
-  /* Only start on certain terrain types. */  
+  /* Only start on certain terrain types. */
   if (pdata->value[tile_index(ptile)] < pdata->min_value) {
-      return FALSE;
-  } 
+    return FALSE;
+  }
 
   fc_assert_ret_val(cont > 0, FALSE);
   if (islands[islands_index[cont]].starters == 0) {
@@ -202,7 +202,7 @@ static bool is_valid_start_pos(const struct tile *ptile, const void *dataptr)
   }
 
   /* Don't start on a hut. */
-  /* FIXME: for HUT_NOTHING might be valid */
+  /* FIXME: Could be ok for unit not entering or frightening hut */
   if (hut_on_tile(ptile)) {
     return FALSE;
   }
@@ -243,6 +243,7 @@ static bool is_valid_start_pos(const struct tile *ptile, const void *dataptr)
       return FALSE;
     }
   } map_startpos_iterate_end;
+
   return TRUE;
 }
 

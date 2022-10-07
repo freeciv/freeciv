@@ -209,7 +209,7 @@ static int explorer_desirable(struct tile *ptile, struct player *pplayer,
 
   /* First do some checks that would make a tile completely non-desirable.
    * If we're a barbarian and the tile has a hut, don't go there. */
-  /* FIXME: HUT_NOTHING ok */
+  /* FIXME: Would be ok for a unit that does not enter or frighten hut */
   if (is_barbarian(pplayer) && hut_on_tile(ptile)) {
     return 0;
   }
