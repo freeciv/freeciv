@@ -2140,6 +2140,35 @@ static void compat_load_030200(struct loaddata *loading,
                                   "savefile.diplstate_type_vector,%d", i);
     }
   }
+
+  /* Add wl_max_length entries for players */
+  {
+    player_slots_iterate(pslot) {
+      int plrno = player_slot_index(pslot);
+      int ncities;
+      int cnro;
+      int wlist_max_length = 0;
+
+      if (secfile_section_lookup(loading->file, "player%d", plrno) == NULL) {
+        continue;
+      }
+
+      ncities = secfile_lookup_int_default(loading->file, 0,
+                                               "player%d.ncities", plrno);
+
+      for (cnro = 0; cnro < ncities; cnro++) {
+        int wl_length = secfile_lookup_int_default(loading->file, 0,
+                                                   "player%d.c%d.wl_length",
+                                                   plrno, cnro);
+
+        wlist_max_length = MAX(wlist_max_length, wl_length);
+      }
+
+      secfile_insert_int(loading->file, wlist_max_length,
+                         "player%d.wl_max_length", plrno);
+
+    } player_slots_iterate_end;
+  }
 }
 
 /************************************************************************//**
@@ -2755,6 +2784,35 @@ static void compat_load_dev(struct loaddata *loading)
     }
 
     (void) secfile_entry_lookup(loading->file, "game.hardcoded_counters");
+
+    /* Add wl_max_length entries for players */
+    {
+      player_slots_iterate(pslot) {
+        int plrno = player_slot_index(pslot);
+        int ncities;
+        int cnro;
+        int wlist_max_length = 0;
+
+        if (secfile_section_lookup(loading->file, "player%d", plrno) == NULL) {
+          continue;
+        }
+
+        ncities = secfile_lookup_int_default(loading->file, 0,
+                                             "player%d.ncities", plrno);
+
+        for (cnro = 0; cnro < ncities; cnro++) {
+          int wl_length = secfile_lookup_int_default(loading->file, 0,
+                                                     "player%d.c%d.wl_length",
+                                                     plrno, cnro);
+
+          wlist_max_length = MAX(wlist_max_length, wl_length);
+        }
+
+        secfile_insert_int(loading->file, wlist_max_length,
+                           "player%d.wl_max_length", plrno);
+
+      } player_slots_iterate_end;
+    }
   } /* Version < 3.1.93 */
 
 #endif /* FREECIV_DEV_SAVE_COMPAT_3_2 */

@@ -292,7 +292,8 @@ static char activity2char(enum unit_activity activity);
 static enum unit_activity char2activity(char activity);
 static int unquote_block(const char *const quoted_, void *dest,
                          int dest_length);
-static void worklist_load(struct section_file *file, struct worklist *pwl,
+static void worklist_load(struct section_file *file, int wlist_max_length,
+                          struct worklist *pwl,
                           const char *path, ...);
 static void unit_ordering_apply(void);
 static void sg_extras_set(bv_extras *extras, char ch, struct extra_type **idx);
@@ -342,7 +343,8 @@ static void sg_load_player_main(struct loaddata *loading,
 static void sg_load_player_cities(struct loaddata *loading,
                                   struct player *plr);
 static bool sg_load_player_city(struct loaddata *loading, struct player *plr,
-                                struct city *pcity, const char *citystr);
+                                struct city *pcity, const char *citystr,
+                                int wlist_max_length);
 static void sg_load_player_city_citizens(struct loaddata *loading,
                                          struct player *plr,
                                          struct city *pcity,
@@ -751,8 +753,8 @@ static int unquote_block(const char *const quoted_, void *dest,
   Load the worklist elements specified by path to the worklist pointed to
   by 'pwl'. 'pwl' should be a pointer to an existing worklist.
 ****************************************************************************/
-static void worklist_load(struct section_file *file, struct worklist *pwl,
-                          const char *path, ...)
+static void worklist_load(struct section_file *file, int wlist_max_length,
+                          struct worklist *pwl, const char *path, ...)
 {
   int i;
   const char *kind;
@@ -784,6 +786,12 @@ static void worklist_load(struct section_file *file, struct worklist *pwl,
       pwl->length = i;
       break;
     }
+  }
+
+  /* Padding entries */
+  for (; i < wlist_max_length; i++) {
+    (void) secfile_entry_lookup(file, "%s.wl_kind%d", path_str, i);
+    (void) secfile_entry_lookup(file, "%s.wl_value%d", path_str, i);
   }
 }
 
@@ -3317,6 +3325,7 @@ static void sg_load_player_cities(struct loaddata *loading,
 {
   int ncities, i, plrno = player_number(plr);
   bool tasks_handled;
+  int wlist_max_length;
 
   /* Check status and return if not OK (sg_success FALSE). */
   sg_check_ret();
@@ -3335,6 +3344,9 @@ static void sg_load_player_cities(struct loaddata *loading,
     plr->server.got_first_city = TRUE;
   }
 
+  wlist_max_length = secfile_lookup_int_default(loading->file, 0,
+                                                "player%d.wl_max_length", plrno);
+
   /* Load all cities of the player. */
   for (i = 0; i < ncities; i++) {
     char buf[32];
@@ -3345,7 +3357,7 @@ static void sg_load_player_cities(struct loaddata *loading,
     /* Create a dummy city. */
     pcity = create_city_virtual(plr, NULL, buf);
     adv_city_alloc(pcity);
-    if (!sg_load_player_city(loading, plr, pcity, buf)) {
+    if (!sg_load_player_city(loading, plr, pcity, buf, wlist_max_length)) {
       adv_city_free(pcity);
       destroy_city_virtual(pcity);
       sg_failure_ret(FALSE, "Error loading city %d of player %d.", i, plrno);
@@ -3423,7 +3435,8 @@ static void sg_load_player_cities(struct loaddata *loading,
   Load data for one city.
 ****************************************************************************/
 static bool sg_load_player_city(struct loaddata *loading, struct player *plr,
-                                struct city *pcity, const char *citystr)
+                                struct city *pcity, const char *citystr,
+                                int wlist_max_length)
 {
   struct player *past;
   const char *kind, *name, *str;
@@ -3667,7 +3680,7 @@ static bool sg_load_player_city(struct loaddata *loading, struct player *plr,
   }
 
   /* worklist_init() done in create_city_virtual() */
-  worklist_load(loading->file, &pcity->worklist, "%s", citystr);
+  worklist_load(loading->file, wlist_max_length, &pcity->worklist, "%s", citystr);
 
   /* Load city options. */
   BV_CLR_ALL(pcity->city_options);
