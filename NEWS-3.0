@@ -7,6 +7,184 @@ For changes prior to 3.0, see NEWS. For more detailed changes,
 see the ChangeLog file.
 
 
+CHANGES FROM 3.0.3 to 3.0.4
+---------------------------
+
+   (from <https://www.freeciv.org/wiki/NEWS-3.0.4>, 2022-10-07)
+
+3.0.4 is a generic bugfix release.
+
+
+Server / General
+
+    * Prevent player from starting research a new Future Tech,
+      when they have lost ability to research them while researching
+      the previous one osdn#44592
+    * Silenced some unused entry warnings when loading saved games
+      osdn#45526 osdn#45527
+    * Units lost due to missing shield upkeep are now included to
+      player's lost units count osdn#44887
+    * Fixed memory corruption issue when number of continents change
+      due to land to ocean transformation osdn#45768
+
+Changes affecting players (supplied rulesets)
+
+    * Fixed illegal range definitions in supplied rulesets osdn#45262
+    * Legality of the activities of the units in the surrounding tiles
+      are checked also when city in the tile gets destroyed osdn#45408
+
+    * sandbox
+         + Attackers have 50% chance of moving to killed unit's tile
+         after the combat osdn#45154
+
+Changes affecting other rulesets / modders
+
+    * Killing gameloss unit by any means now gives loot on rulesets
+      where gameloss_style set so osdn#44672
+    * Server now detects invalid requirement range definitions and
+      warns about them. They will be hard errors on a future version
+      osdn#44710
+    * Fixed potential crash after an error loading nations ruleset
+      osdn#45537
+
+Changes affecting server operators
+
+    * Fixed loading savegames from freeciv versions older than 3.0
+      with Defending Unit Win events in event cache osdn#44809
+    * Loading older savegame versions with known research count
+      problems produce less warnings osdn#45344
+    * Fixed loading base building orders from savegames older
+     than freeciv-2.3 osdn#45692
+
+Low-level changes
+
+    * Fixed potential crash on specfile error handling osdn#45008
+    * Fixed crash when handling an error from deeply included data file
+      osdn#45418
+    * Fixed problems in transferring users' ping times to the clients
+      osdn#45499
+    * Fixed network protocol problems when there's more than
+      255 connections to the server. This fix works only if
+      both the server and client have been updated. osdn#45501
+    * Fixed buffer overflow on creating savegames, e.g., on Windows
+      osdn#45682
+    * Improved boundary checks in constructing text strings osdn#45719
+
+General
+
+    * Fixed memory leaks and improved cleanup on shutdown
+      osdn#45033 osdn#45138 osdn#45317 osdn#45308 osdn#45422 osdn#45545
+      osdn#45544
+    * Optimizations osdn#45123 osdn#45614
+    * Various internal changes which should only affect developers.
+      osdn#45273 osdn#45047 osdn#45113 osdn#45316 osdn#45416 osdn#45481
+      osdn#45480 osdn#45060 osdn#45630 osdn#45579 osdn#45597 osdn#45342
+      osdn#45510 osdn#45662 osdn#45722 osdn#45694 osdn#45711 osdn#45674
+
+AI
+
+    * Improved accuracy of AI calculations osdn#45278
+    * Fixed restricting AI to max tax rates when they change osdn#44188
+    * More correct max tax rates restroctions applied to the new player
+      from Civil War osdn#44187
+    * Fixed AI to select techs when in a team in a game without
+      pooled research osdn#45397
+    * When AI is currently researching Future Tech and regular tech
+      becomes available (e.g. when formerly known one is lost),
+      AI switch to researching that regular one osdn#44419
+    * Fixed AI diplomats targeting cities that have a id higher than 64k
+      osdn#45116
+
+Clients
+
+    * Fixed crash when changing ai_manual_turn_done client option
+      osdn#45310
+    * Make sure that the transport selection dialog does not show
+      transports unsuitable for the cargo osdn#45331
+    * Fixed editor crash with terrains with no resources defined for them
+      osdn#45390
+    * Make sure editor gui opens immediately when server enables edit mode
+      osdn#45456
+    * Fixed editor handling of scenario reserved player property osdn#45491
+    * Make sure no negative ping time is ever shown osdn#45500
+
+    * gtk
+         + Added tooltips to worklist build targets osdn#45257
+         + Added tooltip telling the nation the endgame score
+           display row is about osdn#45461
+
+    * qt
+         + Improved client initialization sequence to match
+           Qt recommendations osdn#43873
+         + Fixed installation of cities icon on NightStalker theme
+           osdn#45451
+         + Fixed client behavior when the target city gets destroyed
+           before spy finishes stealing a tech osdn#45411
+
+    * sdl2
+         + Display intelligence information about Wonders osdn#44992
+         + Fixed adding Gold clauses to a treaty osdn#45032
+         + Fixed installation of CJK fonts osdn#45433
+         + Fixed selection of buildings for which icon is shown
+           in the happiness dialog osdn#45577
+         + Place luxury icon correctly on happiness dialog osdn#45578
+         + Fixed chatline functionality osdn#45702
+
+Tools
+Ruledit
+
+    * Added Sanity Check button osdn#43103 osdn#44372 osdn#45395
+
+Manual Generator
+
+    * Made to work correctly on NDEBUG builds again osdn#45508
+
+Tilesets, Art, etc
+
+    * Corrected/updated flag file formats osdn#45382 osdn#45405
+    * Fixed unused entry error in alio's hills.spec osdn#45574
+
+Help / Documentation
+
+    * Miscellaneous improvements to in-game text and user documentation.
+      osdn#43081 osdn#45535 osdn#45469 osdn#45635 osdn#45589 osdn#45334
+      osdn#45599
+    * Miscellaneous changes to developer/install/ruleset docs.
+      osdn#45566 osdn#45462 osdn#45505 osdn#45529 osdn#45758 osdn#45084
+    * Corrected format of ruledit man page osdn#45533
+
+Translations
+
+    * Updated translations:
+         + Complete translations: Catalan, French, Polish
+         + Incomplete translations:
+           Esperanto (32% core, 17% nations, 33% ruledit)
+           Finnish (100% core, 93% nations, 100% ruledit)
+           German (83% core, 99% nations, 5% ruledit)
+           Russian (99% core, 100% nations, 97% ruledit)
+    * Marked more strings for translations osdn#45525
+
+Build/portability
+
+    * Fixed some clang analyzer warnings
+      osdn#44868 osdn#45231 osdn#45275 osdn#45233 osdn#45315 osdn#45445
+      osdn#45307 osdn#45538 osdn#45539 osdn#45569 osdn#45633 osdn#45663
+      osdn#45668 osdn#45673 osdn#45679 osdn#45536 osdn#45688
+    * Improvements to crosser based builds
+         + Updated Crosser environment to use to version 2.4 osdn#44724
+         + Use gettimeofday() on crosser based Windows builds instead
+           of fallbacks osdn#45260
+         + Crosser based build process scales number of jobs to
+           number of processor cores by default osdn#43949
+    * Support for building also modpack installer flatpak osdn#45104
+    * Updated freedekstop runtime used by flatpak to 22.08 osdn#45615
+    * Added more URL fields to appdata files osdn#45617
+    * QT_NO_DEBUG not set on highest debug build level osdn#41774
+    * Fix clang compiler warnings from luasql osdn#44815
+    * Mariadb configurator is now searched by name mariadb-config too
+      osdn#45703
+
+
 CHANGES FROM 3.0.2 to 3.0.3
 ---------------------------
 
