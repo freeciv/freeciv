@@ -1180,7 +1180,7 @@ bool goto_tile_state(const struct tile *ptile, enum goto_tile_state *state,
         }
 
         path = goto_map->parts[i].path;
-        if (path == NULL) {
+        if (path == NULL || path->length == 0) {
           continue;
         }
 
@@ -1206,17 +1206,18 @@ bool goto_tile_state(const struct tile *ptile, enum goto_tile_state *state,
       }
 
       if (ptile == goto_destination) {
-        fc_assert_ret_val(pos != NULL, FALSE);
+        int ml = (pos != NULL ? pos->moves_left : 0);
+
         if (moved && activity_time > 0) {
           map_turns++;
         }
         if (map_turns > *turns) {
-          *state = (activity_time > 0 || pos->moves_left == 0
+          *state = (activity_time > 0 || ml == 0
                     ? GTS_EXHAUSTED_MP : GTS_MP_LEFT);
           *turns = map_turns;
         } else if (map_turns == *turns
                    && *state == GTS_MP_LEFT
-                   && (activity_time > 0 || pos->moves_left == 0)) {
+                   && (activity_time > 0 || ml == 0)) {
           *state = GTS_EXHAUSTED_MP;
         }
       } else {
@@ -1235,6 +1236,7 @@ bool goto_tile_state(const struct tile *ptile, enum goto_tile_state *state,
     } goto_map_list_iterate_end;
   } else {
     bool mark_on_map = FALSE;
+
     /* In other modes, we want to know the turn number to reach the tile. */
     goto_map_list_iterate(goto_maps, goto_map) {
       const struct tile *destination;
@@ -1251,7 +1253,7 @@ bool goto_tile_state(const struct tile *ptile, enum goto_tile_state *state,
         }
 
         path = goto_map->parts[i].path;
-        if (path == NULL) {
+        if (path == NULL || path->length == 0) {
           continue;
         }
         last_pos = path->positions;
@@ -1280,8 +1282,10 @@ bool goto_tile_state(const struct tile *ptile, enum goto_tile_state *state,
       }
 
       if (hover_state == HOVER_PATROL
-          && goto_map->patrol.return_path != NULL) {
+          && goto_map->patrol.return_path != NULL
+          && goto_map->patrol.return_path->length > 0) {
         path = goto_map->patrol.return_path;
+
         for (j = 0; j < path->length; j++) {
           pos = path->positions + j;
           if (pos->tile == ptile
@@ -1300,14 +1304,15 @@ bool goto_tile_state(const struct tile *ptile, enum goto_tile_state *state,
       }
 
       if (ptile == destination) {
-        fc_assert_ret_val(pos != NULL, FALSE);
+        int ml = (pos != NULL ? pos->moves_left : 0);
+
         if (map_turns > *turns) {
           mark_on_map = TRUE;
-          *state = (pos->moves_left == 0 ? GTS_EXHAUSTED_MP : GTS_MP_LEFT);
+          *state = (ml == 0 ? GTS_EXHAUSTED_MP : GTS_MP_LEFT);
           *turns = map_turns;
         } else if (map_turns == *turns
                    && *state == GTS_MP_LEFT
-                   && pos->moves_left == 0) {
+                   && ml == 0) {
           *state = GTS_EXHAUSTED_MP;
         }
       } else {
@@ -1317,6 +1322,7 @@ bool goto_tile_state(const struct tile *ptile, enum goto_tile_state *state,
         }
       }
     } goto_map_list_iterate_end;
+
     return mark_on_map;
   }
 
