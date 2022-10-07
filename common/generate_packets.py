@@ -58,6 +58,7 @@ class ScriptConfig:
 
     @staticmethod
     def get_argparser() -> argparse.ArgumentParser:
+        """Construct an argument parser for a packet generation script"""
         parser = argparse.ArgumentParser(
             description = "Generate packet-related code from packets.def",
             add_help = False,   # we'll add a help option explicitly
@@ -144,35 +145,56 @@ class ScriptConfig:
         return parser
 
     def __init__(self, args: "typing.Sequence[str] | None" = None):
-        # type hints for fields
+        # type hints and docstrings for fields
         # FIXME: Once we can use Python 3.6 features, turn these into
         # (class-level) variable annotations
         if typing.TYPE_CHECKING:
             self.def_paths = [file_path("")]
+            """Paths to definition files, in load order"""
             optional_path = (file_path(""), None)[int()]
             self.common_header_path = optional_path
+            """Output path for the common header, or None if that should not
+            be generated"""
             self.common_impl_path = optional_path
+            """Output path for the common implementation, or None if that
+            should not be generated"""
             self.server_header_path = optional_path
+            """Output path for the server header, or None if that should not
+            be generated"""
             self.server_impl_path = optional_path
+            """Output path for the server implementation, or None if that
+            should not be generated"""
             self.client_header_path = optional_path
+            """Output path for the client header, or None if that should not
+            be generated"""
             self.client_impl_path = optional_path
+            """Output path for the client implementation, or None if that
+            should not be generated"""
 
             self.verbose = False
+            """Whether to enable verbose logging"""
             self.lazy_overwrite = False
+            """Whether to lazily overwrite output files"""
 
             self.gen_stats = False
+            """Whether to generate delta stats code"""
             self.log_macro = str() or None
+            """The macro used for log calls, or None if no log calls should
+            be generated"""
 
             self.fold_bool = True
+            """Whether to fold boolean fields into the packet header"""
 
         __class__.get_argparser().parse_args(args, namespace = self)
 
     def log_verbose(self, *args):
+        """Print the given arguments iff verbose logging is enabled"""
         if self.verbose:
             print(*args)
 
     @property
     def _root_path(self) -> "Path | None":
+        """Root Freeciv path, if we can find it."""
         path = Path(__file__).absolute()
         root = path.parent.parent
         if path != root / "common" / "generate_packets.py":
@@ -181,6 +203,9 @@ class ScriptConfig:
         return root
 
     def _relative_path(self, path: Path) -> Path:
+        """Find the relative path from the Freeciv root to the given path.
+        Return the path unmodified if it's outside the Freeciv root, or if
+        the Freeciv root could not be found."""
         root = self._root_path
         if root is not None:
             try:
@@ -191,6 +216,9 @@ class ScriptConfig:
 
     @property
     def _script_path(self) -> Path:
+        """Relative path of the executed script. Under normal circumstances,
+        this will be common/generate_packets.py, but it may differ when this
+        module is imported from another script."""
         return self._relative_path(Path(sys.argv[0]))
 
     def _write_disclaimer(self, f: typing.TextIO):
@@ -310,9 +338,9 @@ def powerset(iterable: typing.Iterable[T_co]) -> "typing.Iterator[tuple[T_co, ..
     s = list(iterable)
     return chain.from_iterable(combinations(s, r) for r in range(len(s)+1))
 
-# matches the beginning of a line followed by neither a # nor the line end,
-# i.e. the beginning of any nonempty line that doesn't start with #
 INSERT_PREFIX_PATTERN = re.compile(r"^(?!#|$)", re.MULTILINE)
+"""Matches the beginning of nonempty lines that are not preprocessor
+directives, i.e. don't start with a #"""
 
 def prefix(prefix: str, text: str) -> str:
     """Prepend prefix to every line of text, except blank lines and those
@@ -329,11 +357,15 @@ class Location:
 
     def __init__(self, name: str, location: "str | None" = None, depth: int = 0):
         self.name = name
+        """The name associated with this location; used in log messages."""
         if location is None:
             self.location = name
+            """The actual location as used in code"""
         else:
             self.location = location
         self.depth = depth
+        """The array nesting depth of this location; used to determine index
+        variable names."""
 
     def deeper(self, new_location: str) -> "Location":
         """Return the given string as a new Location with the same name as
@@ -377,6 +409,7 @@ class FieldFlags:
     @classmethod
     @cache
     def parse(cls, flags_text: str) -> "FieldFlags":
+        """Parse a FieldFlags object from a comma-separated flag line"""
         return cls(
             stripped
             for flag in flags_text.split(",")
@@ -472,6 +505,8 @@ class SizeInfo:
         return self.actual_for("old")
 
     def receive_size_check(self, field_name: str) -> str:
+        """Generate a code snippet checking whether the received size is in
+        range when receiving a packet."""
         if self.constant:
             return ""
         return """\
@@ -502,6 +537,9 @@ class RawFieldType(ABC):
 
     @abstractmethod
     def array(self, size: SizeInfo) -> "FieldType":
+        """Add an array size to this field type, either to make a type which
+        needs a size fully useable, or to make an array type with self as
+        the element type."""
         raise NotImplementedError
 
     @abstractmethod
@@ -526,11 +564,31 @@ class TypeRegistry:
     - public type (aka struct type)"""
 
     def __init__(self, fallback: FieldTypeConstructor):
+        # FIXME: Once we can use Python 3.6 features, turn these into
+        # (class-level) variable annotations
         self.dataio_types = {} # type: dict[str, FieldTypeConstructor]
+        """Dictionary mapping dataio types to the constructor used for
+        field types with that dataio type.
+
+        This is the primary factor deciding what constructor to use for a
+        given field type."""
         self.dataio_patterns = {} # type: dict[typing.Pattern[str], FieldTypeConstructor]
+        """Dictionary mapping RegEx patterns to the constructor used for
+        field types whose dataio type matches that pattern.
+
+        Matches are cached in self.dataio_types."""
         self.public_types = {} # type: dict[str, FieldTypeConstructor]
+        """Like self.dataio_types, but for public types.
+
+        This is only checked if there are no matches in self.dataio_types
+        and self.dataio_patterns."""
         self.public_patterns = {} # type: dict[typing.Pattern[str], FieldTypeConstructor]
+        """Like self.dataio_patterns, but for public types.
+
+        Matches are cached in self.public_types."""
         self.fallback = fallback
+        """Fallback constructor used when there are no matches for either
+        dataio type or public type."""
 
     def parse(self, type_text: str) -> RawFieldType:
         """Parse a single field type"""
@@ -579,10 +637,14 @@ class NeedSizeType(RawFieldType):
 
     def __init__(self, dataio_type: str, public_type: str, cls: typing.Callable[[str, str, SizeInfo], "FieldType"]):
         self.dataio_type = dataio_type
+        """The dataio type passed to self.cls"""
         self.public_type = public_type
+        """The public type passed to self.cls"""
         self.cls = cls
+        """The field type constructed when adding a size to this type"""
 
     def array(self, size: SizeInfo) -> "FieldType":
+        """Add an array size to make a useable type."""
         return self.cls(self.dataio_type, self.public_type, size)
 
     def __str__(self) -> str:
@@ -604,34 +666,53 @@ class FieldType(RawFieldType):
 
     @abstractmethod
     def get_code_declaration(self, location: Location) -> str:
-        """Generate a code snippet declaring this field in a packet struct."""
+        """Generate a code snippet declaring a field with this type in a
+        packet struct."""
         raise NotImplementedError
 
     @abstractmethod
     def get_code_handle_param(self, location: Location) -> str:
+        """Generate a code fragment declaring a parameter with this type for
+        a handle function.
+
+        See also self.get_code_handle_arg()"""
         raise NotImplementedError
 
     def get_code_handle_arg(self, location: Location) -> str:
+        """Generate a code fragment passing an argument with this type to a
+        handle function.
+
+        See also self.get_code_handle_param()"""
         return str(location)
 
     @abstractmethod
     def get_code_fill(self, location: Location) -> str:
+        """Generate a code snippet moving a value of this type from dsend
+        arguments into a packet struct."""
         raise NotImplementedError
 
     @abstractmethod
     def get_code_hash(self, location: Location) -> str:
+        """Generate a code snippet factoring a field of this type into a
+        hash computation's `result`."""
         raise NotImplementedError
 
     @abstractmethod
     def get_code_cmp(self, location: Location) -> str:
+        """Generate a code snippet comparing a field of this type between
+        the `old` and `real_packet` and setting `differ` accordingly."""
         raise NotImplementedError
 
     @abstractmethod
     def get_code_put(self, location: Location, deep_diff: bool = False) -> str:
+        """Generate a code snippet writing a field of this type to the
+        dataio stream."""
         raise NotImplementedError
 
     @abstractmethod
     def get_code_get(self, location: Location, deep_diff: bool = False) -> str:
+        """Generate a code snippet reading a field of this type from the
+        dataio stream."""
         raise NotImplementedError
 
 
@@ -640,7 +721,9 @@ class BasicType(FieldType):
 
     def __init__(self, dataio_type: str, public_type: str):
         self.dataio_type = dataio_type
+        """How fields of this type are transmitted over network"""
         self.public_type = public_type
+        """How fields of this type are represented in C code"""
 
     def get_code_declaration(self, location: Location) -> str:
         return """\
@@ -679,6 +762,8 @@ if (!DIO_GET({self.dataio_type}, &din, &field_addr, &real_packet->{location})) {
         return "{self.dataio_type}({self.public_type})".format(self = self)
 
 DEFAULT_REGISTRY = TypeRegistry(BasicType)
+"""The default type registry used by a PacketsDefinition when no other
+registry is given."""
 
 
 class IntType(BasicType):
@@ -786,6 +871,8 @@ class FloatType(BasicType):
 
         super().__init__(dataio_type, public_type)
         self.float_factor = int(float_factor)
+        """Granularity (fixed-point factor) used to transmit this type in an
+        integer"""
 
     def get_code_put(self, location: Location, deep_diff: bool = False) -> str:
         return """\
@@ -925,6 +1012,7 @@ class SizedType(BasicType):
     def __init__(self, dataio_type: str, public_type: str, size: SizeInfo):
         super().__init__(dataio_type, public_type)
         self.size = size
+        """Size info (maximum and actual) of this type"""
 
     def get_code_declaration(self, location: Location) -> str:
         return super().get_code_declaration(
@@ -1023,7 +1111,9 @@ class ArrayType(FieldType):
 
     def __init__(self, elem: FieldType, size: SizeInfo):
         self.elem = elem
+        """The type of the array elements"""
         self.size = size
+        """The length (maximum and actual) of the array"""
 
     def get_code_declaration(self, location: Location) -> str:
         return self.elem.get_code_declaration(
@@ -1075,6 +1165,7 @@ differ = FALSE;
 """.format(self = self, location = location, inner_cmp = inner_cmp)
 
     def _get_code_put_full(self, location: Location, inner_put: str) -> str:
+        """Helper method. Generate put code without array-diff."""
         inner_put = prefix("    ", inner_put)
         return """\
 {{
@@ -1104,6 +1195,7 @@ differ = FALSE;
 """.format(self = self, location = location, inner_put = inner_put)
 
     def _get_code_put_diff(self, location: Location, inner_put: str) -> str:
+        """Helper method. Generate array-diff put code."""
         inner_put = prefix("      ", inner_put)
         inner_cmp = prefix("    ", self.elem.get_code_cmp(location.sub))
         return """\
@@ -1182,6 +1274,7 @@ differ = FALSE;
             return self._get_code_put_full(location, inner_put)
 
     def _get_code_get_full(self, location: Location, inner_get: str) -> str:
+        """Helper method. Generate get code without array-diff."""
         size_check = prefix("  ", self.size.receive_size_check(location.name))
         inner_get = prefix("    ", inner_get)
         return """\
@@ -1209,6 +1302,7 @@ differ = FALSE;
 """.format(self = self, location = location, inner_get = inner_get, size_check = size_check)
 
     def _get_code_get_diff(self, location: Location, inner_get: str) -> str:
+        """Helper method. Generate array-diff get code."""
         inner_get = prefix("      ", inner_get)
         return """\
 {{
@@ -1329,18 +1423,24 @@ class Field:
 
     def __init__(self, cfg: ScriptConfig, name: str, type_info: FieldType, flags: FieldFlags):
         self.cfg = cfg
+        """Configuration used when generating code for this field"""
         self.name = name
-        """Field name"""
+        """This field's name (identifier)"""
 
         self.type_info = type_info
+        """This field's type information; see FieldType"""
         self.flags = flags
+        """This field's flags; see FieldFlags"""
 
     @property
     def is_key(self) -> bool:
+        """Whether this is a key field"""
         return self.flags.is_key
 
     @property
     def diff(self) -> bool:
+        """Whether this field uses deep diff / array-diff when transmitted
+        as part of a delta packet"""
         return self.flags.diff
 
     @property
@@ -1357,46 +1457,65 @@ class Field:
             all(cap not in caps for cap in self.flags.remove_caps)
         )
 
-    # Returns code which is used in the declaration of the field in
-    # the packet struct.
     def get_declar(self) -> str:
+        """Generate the way this field is declared in the packet struct"""
         return self.type_info.get_code_declaration(Location(self.name))
 
     def get_handle_param(self) -> str:
+        """Generate the way this field is declared as a parameter of a
+        handle function.
+
+        See also self.get_handle_arg()"""
         return self.type_info.get_code_handle_param(Location(self.name))
 
     def get_handle_arg(self, packet_arrow: str) -> str:
+        """Generate the way this field is passed as an argument to a handle
+        function.
+
+        See also self.get_handle_param()"""
         return self.type_info.get_code_handle_arg(Location(
             self.name,
             packet_arrow + self.name,
         ))
 
-    # Returns code which copies the arguments of the direct send
-    # functions in the packet struct.
     def get_fill(self) -> str:
+        """Generate code moving this field from the dsend arguments into
+        the packet struct."""
         return self.type_info.get_code_fill(Location(self.name))
 
     def get_hash(self) -> str:
+        """Generate code factoring this field into a hash computation."""
         assert self.is_key
         return self.type_info.get_code_hash(Location(self.name))
 
-    # Returns code which sets "differ" by comparing the field
-    # instances of "old" and "readl_packet".
     def get_cmp(self) -> str:
+        """Generate code checking whether this field changed.
+
+        This code is primarily used by self.get_cmp_wrapper()"""
         return self.type_info.get_code_cmp(Location(self.name))
 
     @property
     def folded_into_head(self) -> bool:
+        """Whether this field is folded into the packet header.
+
+        If enabled, lone booleans (which only carry one bit of information)
+        get directly written into the `fields` bitvector, since they don't
+        take any more space than the usual "content-differs" bit would.
+
+        See also get_cmp_wrapper()"""
         return (
             self.cfg.fold_bool
             and self.type_info.foldable
         )
 
-    # Returns a code fragment which updates the bit of the this field
-    # in the "fields" bitvector. The bit is either a "content-differs"
-    # bit or (for bools which gets folded in the header) the actual
-    # value of the bool.
     def get_cmp_wrapper(self, i: int, pack: "Variant") -> str:
+        """Generate code setting this field's bit in the `fields` bitvector.
+
+        This bit marks whether the field changed and is being transmitted,
+        except for (non-array) boolean fields folded into the header;
+        see self.folded_into_head for more details.
+
+        See also self.get_cmp()"""
         if self.folded_into_head:
             if pack.is_info != "no":
                 cmp = self.get_cmp()
@@ -1435,9 +1554,13 @@ if (differ) {
 
 """ % (cmp, i)
 
-    # Returns a code fragment which will put this field if the
-    # content has changed. Does nothing for bools-in-header.
     def get_put_wrapper(self, packet: "Variant", i: int, deltafragment: bool) -> str:
+        """Generate code conditionally putting this field iff its bit in the
+        `fields` bitvector is set.
+
+        Does nothing for boolean fields folded into the packet header.
+
+        See also self.get_put()"""
         if self.folded_into_head:
             return """\
 /* field {i:d} is folded into the header */
@@ -1463,8 +1586,12 @@ if (BV_ISSET(fields, {i:d})) {{
 }}
 """.format(i = i, f = f, s = s, put = put)
 
-    # Returns code which put this field.
     def get_put(self, deltafragment: bool) -> str:
+        """Generate the code putting this field, i.e. writing it to the
+        dataio stream.
+
+        This does not include delta-related code checking whether to
+        transmit the field in the first place; see self.get_put_wrapper()"""
         real = self.get_put_real(deltafragment)
         return """\
 #ifdef FREECIV_JSON_CONNECTION
@@ -1477,13 +1604,21 @@ if (e) {{
 }}
 """.format(self = self, real = real)
 
-    # The code which put this field before it is wrapped in address adding.
     def get_put_real(self, deltafragment: bool) -> str:
+        """Generate the bare core of this field's put code. This code is not
+        yet wrapped for full delta and JSON protocol support.
+
+        See self.get_put() for more info"""
         return self.type_info.get_code_put(Location(self.name), deltafragment and self.diff)
 
-    # Returns a code fragment which will get the field if the
-    # "fields" bitvector says so.
     def get_get_wrapper(self, packet: "Variant", i: int, deltafragment: bool) -> str:
+        """Generate code conditionally getting this field iff its bit in the
+        `fields` bitvector is set.
+
+        For boolean fields folded into the packet header, instead reads the
+        field from the bitvector.
+
+        See also self.get_get()"""
         if self.folded_into_head:
             return  """\
 real_packet->{self.name} = BV_ISSET(fields, {i:d});
@@ -1502,38 +1637,67 @@ if (BV_ISSET(fields, {i:d})) {{
 }}
 """.format(i = i, f = f, get = get)
 
-    # Returns code which get this field.
     def get_get(self, deltafragment: bool) -> str:
+        """Generate the code getting this field, i.e. reading it from the
+        dataio stream.
+
+        This does not include delta-related code checking if the field
+        was transmitted in the first place; see self.get_get_wrapper()"""
         return """\
 #ifdef FREECIV_JSON_CONNECTION
 field_addr.name = \"{self.name}\";
 #endif /* FREECIV_JSON_CONNECTION */
 """.format(self = self) + self.get_get_real(deltafragment)
 
-    # The code which get this field before it is wrapped in address adding.
     def get_get_real(self, deltafragment: bool) -> str:
+        """Generate the bare core of this field's get code. This code is not
+        yet wrapped for full delta and JSON protocol support.
+
+        See self.get_get() for more info"""
         return self.type_info.get_code_get(Location(self.name), deltafragment and self.diff)
 
 
-# Class which represents a capability variant.
 class Variant:
+    """Represents one variant of a packet. Packets with add-cap or
+    remove-cap fields have different variants for different combinations of
+    the relevant optional capabilities."""
+
     def __init__(self, poscaps: typing.Iterable[str], negcaps: typing.Iterable[str],
                        packet: "Packet", no: int):
         self.packet = packet
+        """The packet this is a variant of"""
         self.no=no
+        """The numeric variant ID (not packet ID) of this variant"""
         self.name = "%s_%d" % (packet.name, no)
+        """The full name of this variant"""
 
         self.poscaps = set(poscaps)
+        """The set of optional capabilities that must be present to use this
+        variant"""
         self.negcaps = set(negcaps)
+        """The set of optional capabilities that must *not* be present to
+        use this variant"""
         self.fields = [
             field
             for field in packet.fields
             if field.present_with_caps(self.poscaps)
         ]
+        """All fields that are transmitted when using this variant"""
         self.key_fields = [field for field in self.fields if field.is_key]
+        """The key fields that are used for this variant"""
         self.other_fields = [field for field in self.fields if not field.is_key]
+        """The non-key fields that are transmitted when using this variant"""
+        # FIXME: Doesn't work with non-int key fields
         self.keys_format=", ".join(["%d"]*len(self.key_fields))
+        """The printf format string for this variant's key fields in
+        generated log calls
+
+        See also self.keys_arg"""
         self.keys_arg = ", ".join("real_packet->" + field.name for field in self.key_fields)
+        """The arguments passed when formatting this variant's key fields in
+        generated log calls
+
+        See also self.keys_format"""
         if self.keys_arg:
             self.keys_arg=",\n    "+self.keys_arg
 
@@ -1542,18 +1706,32 @@ class Variant:
 
     @property
     def cfg(self) -> ScriptConfig:
+        """Configuration used when generating code for this packet
+        variant
+
+        See self.packet and Packet.cfg"""
         return self.packet.cfg
 
     @property
     def gen_stats(self) -> bool:
+        """Whether to generate delta stats code for this packet variant
+
+        See self.cfg and ScriptConfig.gen_stats"""
         return self.cfg.gen_stats
 
     @property
     def log_macro(self) -> "str | None":
+        """The log macro used to generate log calls for this packet variant,
+        or None if no log calls should be generated
+
+        See self.cfg and ScriptConfig.log_macro"""
         return self.cfg.log_macro
 
     @property
     def gen_log(self) -> bool:
+        """Whether to generate log calls for this packet variant
+
+        See self.log_macro"""
         return self.log_macro is not None
 
     @property
@@ -1679,9 +1857,9 @@ phandlers->send[{self.type}].packet = (int(*)(struct connection *, const void *)
 phandlers->receive[{self.type}] = (void *(*)(struct connection *)) receive_{self.name};
 """.format(self = self)
 
-    # Returns a code fragment which contains the declarations of the
-    # statistical counters of this packet.
     def get_stats(self) -> str:
+        """Generate the declaration of the delta stats counters associated
+        with this packet variant"""
         names = ", ".join(
             "\"%s\"" % field.name
             for field in self.other_fields
@@ -1695,17 +1873,16 @@ static char *stats_{self.name}_names[] = {{{names}}};
 
 """.format(self = self, names = names)
 
-    # Returns a code fragment which declares the packet specific
-    # bitvector. Each bit in this bitvector represents one non-key
-    # field.
     def get_bitvector(self) -> str:
+        """Generate the declaration of the fields bitvector type for this
+        packet variant"""
         return """\
 BV_DEFINE({self.name}_fields, {self.bits});
 """.format(self = self)
 
-    # Returns a code fragment which is the packet specific part of
-    # the delta_stats_report() function.
     def get_report_part(self) -> str:
+        """Generate the part of the delta_stats_report8) function specific
+        to this packet variant"""
         return """\
 
 if (stats_{self.name}_sent > 0
@@ -1723,9 +1900,9 @@ if (stats_{self.name}_sent > 0
 }}
 """.format(self = self)
 
-    # Returns a code fragment which is the packet specific part of
-    # the delta_stats_reset() function.
     def get_reset_part(self) -> str:
+        """Generate the part of the delta_stats_reset() function specific
+        to this packet variant"""
         return """\
 stats_{self.name}_sent = 0;
 stats_{self.name}_discarded = 0;
@@ -1733,9 +1910,8 @@ memset(stats_{self.name}_counters, 0,
        sizeof(stats_{self.name}_counters));
 """.format(self = self)
 
-    # Returns a code fragment which is the implementation of the hash
-    # function. The hash function is using all key fields.
     def get_hash(self) -> str:
+        """Generate the key hash function for this variant"""
         if not self.key_fields:
             return """\
 #define hash_{self.name} hash_const
@@ -1766,10 +1942,8 @@ static genhash_val_t hash_{self.name}(const void *vkey)
 
         return intro + body + extro
 
-    # Returns a code fragment which is the implementation of the cmp
-    # function. The cmp function is using all key fields. The cmp
-    # function is used for the hash table.
     def get_cmp(self) -> str:
+        """Generate the key comparison function for this variant"""
         if not self.key_fields:
             return """\
 #define cmp_{self.name} cmp_const
@@ -1803,10 +1977,8 @@ static bool cmp_{self.name}(const void *vkey1, const void *vkey2)
 
         return intro + body + extro
 
-    # Returns a code fragment which is the implementation of the send
-    # function. This is one of the two real functions. So it is rather
-    # complex to create.
     def get_send(self) -> str:
+        """Generate the send function for this packet variant"""
         if self.gen_stats:
             report = """\
 
@@ -1947,8 +2119,10 @@ static bool cmp_{self.name}(const void *vkey1, const void *vkey2)
 """.format(self = self),
         ))
 
-    # Helper for get_send()
     def get_delta_send_body(self, before_return: str = "") -> str:
+        """Helper for get_send(). Generate the part of the send function
+        that computes and transmits the delta between the real packet and
+        the last cached packet."""
         intro = """\
 
 #ifdef FREECIV_DELTA_PROTOCOL
@@ -2040,10 +2214,8 @@ if (NULL != *hash) {
 
         return intro+body
 
-    # Returns a code fragment which is the implementation of the receive
-    # function. This is one of the two real functions. So it is rather
-    # complex to create.
     def get_receive(self) -> str:
+        """Generate the receive function for this packet variant"""
         if self.delta:
             delta_header = """\
 #ifdef FREECIV_DELTA_PROTOCOL
@@ -2136,8 +2308,10 @@ if (NULL != *hash) {
 """,
         ))
 
-    # Helper for get_receive()
     def get_delta_receive_body(self) -> str:
+        """Helper for get_receive(). Generate the part of the receive
+        function responsible for recreating the full packet from the
+        received delta and the last cached packet."""
         if self.key_fields:
             # bit-copy the values, since we're moving (not cloning)
             # the key fields
@@ -2243,10 +2417,14 @@ class Directions(Enum):
         return "cs" in self.value
 
 
-# Class which represents a packet. A packet contains a list of fields.
 class Packet:
-    # matches a packet cancel flag (cancelled packet type)
+    """Represents a single packet type (possibly with multiple variants)"""
+
     CANCEL_PATTERN = re.compile(r"^cancel\((.*)\)$")
+    """Matches a cancel flag
+
+    Groups:
+    - the packet type to cancel"""
 
     is_info = "no"
     """Whether this is an is-info or is-game-info packet.
@@ -2291,10 +2469,20 @@ class Packet:
     def __init__(self, cfg: ScriptConfig, packet_type: str, packet_number: int, flags_text: str,
                        lines: typing.Iterable[str], resolve_type: typing.Callable[[str], RawFieldType]):
         self.cfg = cfg
+        """Configuration used when generating code for this packet"""
         self.type = packet_type
-        self.type_number = packet_number
+        """The packet type in allcaps (PACKET_FOO), as defined in the
+        packet_type enum
 
-        self.cancel = []
+        See also self.name"""
+        self.type_number = packet_number
+        """The numeric ID of this packet type"""
+
+        # FIXME: Once we can use Python 3.6 features, use variable
+        # annotations instead of empty comprehensions to set element type
+        self.cancel = [str(_) for _ in ()]
+        """List of packet types to drop from the cache when sending or
+        receiving this packet type"""
         dirs = set()
 
         for flag in flags_text.split(","):
@@ -2352,14 +2540,18 @@ class Packet:
         if not dirs:
             raise ValueError("no directions defined for %s" % self.name)
         self.dirs = Directions(dirs)
+        """Which directions this packet can be sent in"""
 
         self.fields = [
             field
             for line in lines
             for field in Field.parse(self.cfg, line, resolve_type)
         ]
+        """List of all fields of this packet"""
         self.key_fields = [field for field in self.fields if field.is_key]
+        """List of only the key fields of this packet"""
         self.other_fields = [field for field in self.fields if not field.is_key]
+        """List of only the non-key fields of this packet"""
 
         # valid, since self.fields is already set
         if self.no_packet:
@@ -2375,6 +2567,7 @@ class Packet:
             Variant(caps, all_caps.difference(caps), self, i + 100)
             for i, caps in enumerate(powerset(sorted(all_caps)))
         ]
+        """List of all variants of this packet"""
 
     @property
     def name(self) -> str:
@@ -2447,8 +2640,8 @@ class Packet:
         return {cap for field in self.fields for cap in field.all_caps}
 
 
-    # Returns a code fragment which contains the struct for this packet.
     def get_struct(self) -> str:
+        """Generate the struct definition for this packet"""
         intro = """\
 struct {self.name} {{
 """.format(self = self)
@@ -2465,9 +2658,9 @@ struct {self.name} {{
 """
         return intro+body+extro
 
-    # Returns a code fragment which represents the prototypes of the
-    # send and receive functions for the header file.
     def get_prototypes(self) -> str:
+        """Generate the header prototype declarations for the public
+        functions associated with this packet."""
         result = """\
 {self.send_prototype};
 """.format(self = self)
@@ -2485,19 +2678,29 @@ struct {self.name} {{
 """.format(self = self)
         return result + "\n"
 
-    # See Variant.get_stats
     def get_stats(self) -> str:
+        """Generate the code declaring counters for this packet's variants.
+
+        See Variant.get_stats()"""
         return "".join(v.get_stats() for v in self.variants)
 
-    # See Variant.get_report_part
     def get_report_part(self) -> str:
+        """Generate this packet's part of the delta_stats_report() function.
+
+        See Variant.get_report_part() and
+        PacketsDefinition.code_delta_stats_report"""
         return "".join(v.get_report_part() for v in self.variants)
 
-    # See Variant.get_reset_part
     def get_reset_part(self) -> str:
+        """Generate this packet's part of the delta_stats_reset() function.
+
+        See Variant.get_reset_part() and
+        PacketsDefinition.code_delta_stats_reset"""
         return "\n".join(v.get_reset_part() for v in self.variants)
 
     def get_send(self) -> str:
+        """Generate the implementation of the send function, which sends a
+        given packet to a given connection."""
         if self.no_packet:
             func="no_packet"
             args=""
@@ -2524,6 +2727,8 @@ struct {self.name} {{
 """.format(self = self, func = func, args = args)
 
     def get_variants(self) -> str:
+        """Generate all code associated with individual variants of this
+        packet; see the Variant class (and its methods) for details."""
         result=""
         for v in self.variants:
             if v.delta:
@@ -2541,9 +2746,9 @@ struct {self.name} {{
             result += v.get_send()
         return result
 
-    # Returns a code fragment which is the implementation of the
-    # lsend function.
     def get_lsend(self) -> str:
+        """Generate the implementation of the lsend function, which takes
+        a list of connections to send a packet to."""
         if not self.want_lsend: return ""
         return """\
 {self.lsend_prototype}
@@ -2555,9 +2760,9 @@ struct {self.name} {{
 
 """.format(self = self)
 
-    # Returns a code fragment which is the implementation of the
-    # dsend function.
     def get_dsend(self) -> str:
+        """Generate the implementation of the dsend function, which directly
+        takes packet fields instead of a packet struct."""
         if not self.want_dsend: return ""
         fill = "".join(
             prefix("  ", field.get_fill())
@@ -2575,9 +2780,11 @@ struct {self.name} {{
 
 """.format(self = self, fill = fill)
 
-    # Returns a code fragment which is the implementation of the
-    # dlsend function.
     def get_dlsend(self) -> str:
+        """Generate the implementation of the dlsend function, combining
+        dsend and lsend functionality.
+
+        See self.get_dsend() and self.get_lsend()"""
         if not (self.want_lsend and self.want_dsend): return ""
         fill = "".join(
             prefix("  ", field.get_fill())
@@ -2768,15 +2975,40 @@ class PacketsDefinition(typing.Iterable[Packet]):
 
     def __init__(self, cfg: ScriptConfig, type_registry: "TypeRegistry | None" = None):
         self.cfg = cfg
+        """Configuration used for code generated from this definition"""
         self.type_registry = type_registry or DEFAULT_REGISTRY
-        self.types = {}
-        self.packets = []
-        self.packets_by_type = {}
-        self.packets_by_number = {}
+        """Type registry used to resolve type classes for field types"""
+        # FIXME: Once we can use Python 3.6 features, use variable
+        # annotations instead of empty comprehensions to set element type
+        self.types = {
+            str(_): self.type_registry(_, _)
+            for _ in ()
+        }
+        """Maps type aliases and definitions to the parsed type"""
+        self.packets = [
+            Packet(*[_])
+            for _ in ()
+        ]
+        """List of all packets, in order of definition"""
+        self.packets_by_type = {
+            str(_): self.packets[_]
+            for _ in ()
+        }
+        """Maps packet types (PACKET_FOO) to the packet with that type"""
+        self.packets_by_number = {
+            int(_): self.packets[_]
+            for _ in ()
+        }
+        """Maps packet IDs to the packet with that ID"""
         self.packets_by_dirs = {
-            dirs: []
+            dirs: [
+                self.packets[_]
+                for _ in ()
+            ]
             for dirs in Directions
         }
+        """Maps packet directions to lists of packets with those
+        directions, in order of definition"""
 
     def __iter__(self) -> typing.Iterator[Packet]:
         return iter(self.packets)
@@ -3373,18 +3605,16 @@ bool client_handle_packet(enum packet_type type, const void *packet)
 """)
 
 
-# Main function. It reads and parses the input and generates the
-# various files.
 def main(raw_args: "typing.Sequence[str] | None" = None):
-    ### parsing arguments
+    """Main function. Read the given arguments, or the command line
+    arguments if raw_args is not given, and run the packet code generation
+    script accordingly."""
     script_args = ScriptConfig(raw_args)
 
-    ### parsing input
     packets = PacketsDefinition(script_args)
     for path in script_args.def_paths:
         with path.open() as input_file:
             packets.parse_lines(input_file)
-    ### parsing finished
 
     write_common_header(script_args.common_header_path, packets)
     write_common_impl(script_args.common_impl_path, packets)
