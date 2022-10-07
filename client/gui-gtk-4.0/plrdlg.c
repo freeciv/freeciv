@@ -82,11 +82,10 @@ static void players_intel_wonder_callback(GSimpleAction *action,
                                           GVariant *parameter, gpointer data);
 static void players_sship_callback(GSimpleAction *action, GVariant *parameter,
                                    gpointer data);
-
-#ifdef MENUS_GTK3
-static void players_ai_toggle_callback(GtkMenuItem *item, gpointer data);
-static void players_ai_skill_callback(GtkMenuItem *item, gpointer data);
-#endif /* MENUS_GTK3 */
+static void players_ai_toggle_callback(GSimpleAction *action, GVariant *parameter,
+                                       gpointer data);
+static void players_ai_skill_callback(GSimpleAction *action, GVariant *parameter,
+                                      gpointer data);
 
 static void update_views(void);
 
@@ -280,7 +279,7 @@ static gboolean right_button_press_callback(GtkGestureClick *gesture, int n_pres
   Sorting function for plr dlg.
 **************************************************************************/
 static gint plrdlg_sort_func(GtkTreeModel *model,
-			      GtkTreeIter *a, GtkTreeIter *b, gpointer data)
+                             GtkTreeIter *a, GtkTreeIter *b, gpointer data)
 {
   GValue value = { 0, };
   struct player *player1;
@@ -476,6 +475,48 @@ static GMenu *create_show_menu(GActionGroup *group)
 }
 
 /**********************************************************************//**
+  Create and return the "AI" menu, to adjust difficulty levels
+  of players.
+**************************************************************************/
+static GMenu *create_ai_menu(GActionGroup *group)
+{
+  GMenu *menu;
+  GMenuItem *item;
+  GSimpleAction *act;
+  enum ai_level level;
+
+  menu = g_menu_new();
+
+  act = g_simple_action_new("ai_toggle", NULL);
+  g_action_map_add_action(G_ACTION_MAP(group), G_ACTION(act));
+  g_signal_connect(act, "activate",
+                   G_CALLBACK(players_ai_toggle_callback), NULL);
+
+  item = g_menu_item_new(_("_Toggle AI Mode"), "win.ai_toggle");
+  g_menu_append_item(menu, item);
+
+  for (level = 0; level < AI_LEVEL_COUNT; level++) {
+    if (is_settable_ai_level(level)) {
+      const char *level_name = ai_level_translated_name(level);
+      char act_name[50];
+
+      fc_snprintf(act_name, sizeof(act_name), "ai_level%d", level);
+      act = g_simple_action_new(act_name, NULL);
+      g_action_map_add_action(G_ACTION_MAP(group), G_ACTION(act));
+      g_signal_connect(act, "activate",
+                       G_CALLBACK(players_ai_skill_callback),
+                       GUINT_TO_POINTER(level));
+
+      fc_snprintf(act_name, sizeof(act_name), "win.ai_level%d", level);
+      item = g_menu_item_new(level_name, act_name);
+      g_menu_append_item(menu, item);
+    }
+  }
+
+  return menu;
+}
+
+/**********************************************************************//**
   Create all of player dialog
 **************************************************************************/
 void create_players_dialog(void)
@@ -485,9 +526,6 @@ void create_players_dialog(void)
   GtkWidget *aux_menu;
   GMenu *topmenu, *submenu;
   GActionGroup *group;
-#ifdef MENUS_GTK3
-  enum ai_level level;
-#endif /* MENUS_GTK3 */
   GtkWidget *vgrid;
   GtkEventController *left_controller;
   GtkEventController *right_controller;
@@ -621,40 +659,11 @@ void create_players_dialog(void)
   submenu = create_show_menu(group);
   g_menu_append_submenu(topmenu, _("_Display"), G_MENU_MODEL(submenu));
 
-  submenu = g_menu_new();
+  submenu = create_ai_menu(group);
   g_menu_append_submenu(topmenu, _("_AI"), G_MENU_MODEL(submenu));
 
   gtk_widget_insert_action_group(aux_menu, "win", group);
   gtk_menu_button_set_menu_model(GTK_MENU_BUTTON(aux_menu), G_MENU_MODEL(topmenu));
-
-#ifdef MENUS_GTK3
-  item = gtk_menu_item_new_with_mnemonic(_("_AI"));
-  gtk_menu_shell_append(GTK_MENU_SHELL(aux_menu), item);
-
-  menu = gtk_menu_button_new();
-  gtk_menu_item_set_submenu(GTK_MENU_ITEM(item), menu);
-
-  item = gtk_menu_item_new_with_mnemonic(_("_Toggle AI Mode"));
-  g_signal_connect(item, "activate",
-      G_CALLBACK(players_ai_toggle_callback), NULL);
-  gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-
-  sep = gtk_separator_menu_item_new();
-  gtk_menu_shell_append(GTK_MENU_SHELL(menu), sep);
-
-  for (level = 0; level < AI_LEVEL_COUNT; level++) {
-    if (is_settable_ai_level(level)) {
-      const char *level_name = ai_level_translated_name(level);
-
-      item = gtk_menu_item_new_with_label(level_name);
-      g_signal_connect(item, "activate",
-                       G_CALLBACK(players_ai_skill_callback),
-                       GUINT_TO_POINTER(level));
-      gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-    }
-  }
-  gtk_widget_show(menu);
-#endif /* MENUS_GTK3 */
 
   gui_dialog_show_all(players_dialog_shell);
 
@@ -994,11 +1003,12 @@ void players_sship_callback(GSimpleAction *action, GVariant *parameter,
   }
 }
 
-#ifdef MENUS_GTK3
 /**********************************************************************//**
   AI toggle callback.
 **************************************************************************/
-static void players_ai_toggle_callback(GtkMenuItem *item, gpointer data)
+static void players_ai_toggle_callback(GSimpleAction *action,
+                                       GVariant *parameter,
+                                       gpointer data)
 {
   GtkTreeModel *model;
   GtkTreeIter it;
@@ -1015,7 +1025,9 @@ static void players_ai_toggle_callback(GtkMenuItem *item, gpointer data)
 /**********************************************************************//**
   AI skill level setting callback.
 **************************************************************************/
-static void players_ai_skill_callback(GtkMenuItem *item, gpointer data)
+static void players_ai_skill_callback(GSimpleAction *action,
+                                      GVariant *parameter,
+                                      gpointer data)
 {
   GtkTreeModel *model;
   GtkTreeIter it;
@@ -1030,7 +1042,6 @@ static void players_ai_skill_callback(GtkMenuItem *item, gpointer data)
                      player_name(player_by_number(plrno)));
   }
 }
-#endif /* MENUS_GTK3 */
 
 /**********************************************************************//**
   Refresh players dialog views.
