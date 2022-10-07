@@ -130,7 +130,7 @@ static SDL_Event *map_scroll_user_event = NULL;
 
 static void print_usage(void);
 static void parse_options(int argc, char **argv);
-static int check_scroll_area(int x, int y);
+static bool check_scroll_area(int x, int y);
 
 int user_event_type;
 
@@ -484,7 +484,7 @@ static void update_button_hold_state(void)
 /**********************************************************************//**
   Check if coordinate is in scroll area.
 **************************************************************************/
-static int check_scroll_area(int x, int y)
+static bool check_scroll_area(int x, int y)
 {
   SDL_Rect rect_north = {.x = 0, .y = 0,
     .w = main_data.map->w, .h = SCROLL_MAP_AREA};
