@@ -1124,16 +1124,6 @@ const char *city_name_get(const struct city *pcity)
 #endif /* city_name_get */
 
 /**********************************************************************//**
-  Return the owner of the city.
-**************************************************************************/
-struct player *city_owner(const struct city *pcity)
-{
-  fc_assert_ret_val(NULL != pcity, NULL);
-  fc_assert(NULL != pcity->owner);
-  return pcity->owner;
-}
-
-/**********************************************************************//**
   Add a (positive or negative) value to the city size. As citizens is an
   unsigned value use int for the parameter 'add'.
 **************************************************************************/

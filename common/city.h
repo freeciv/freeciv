@@ -545,7 +545,7 @@ void set_city_production(struct city *pcity);
 /* properties */
 
 const char *city_name_get(const struct city *pcity);
-struct player *city_owner(const struct city *pcity);
+#define city_owner(_pcity_) (_pcity_)->owner
 #define city_tile(_pcity_) (_pcity_)->tile
 
 /**********************************************************************//**
