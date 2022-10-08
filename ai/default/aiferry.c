@@ -52,6 +52,7 @@
 #include "aiplayer.h"
 #include "aitools.h"
 #include "aiunit.h"
+#include "daicity.h"
 
 #include "aiferry.h"
 

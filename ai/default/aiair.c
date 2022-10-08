@@ -161,8 +161,8 @@ static bool dai_should_we_air_attack_tile(struct ai_type *ait,
   Returns an estimate for the profit gained through attack.
   Assumes that the victim is within one day's flight
 **********************************************************************/
-static int dai_evaluate_tile_for_air_attack(struct unit *punit,
-                                            struct tile *dst_tile)
+static adv_want dai_evaluate_tile_for_air_attack(struct unit *punit,
+                                                 struct tile *dst_tile)
 {
   struct unit *pdefender;
   /* unit costs in shields */
@@ -170,7 +170,7 @@ static int dai_evaluate_tile_for_air_attack(struct unit *punit,
   /* unit stats */
   int unit_attack, victim_defence;
   /* final answer */
-  int profit;
+  adv_want profit;
   /* time spent in the air */
   int sortie_time;
 #define PROB_MULTIPLIER 100 /* should unify with those in combat.c */
@@ -221,10 +221,10 @@ static int dai_evaluate_tile_for_air_attack(struct unit *punit,
     profit = military_amortize(unit_owner(punit), 
                                game_city_by_number(punit->homecity),
                                profit, sortie_time, balanced_cost);
-    log_debug("%s at (%d, %d) is a worthy target with profit %d", 
+    log_debug("%s at (%d, %d) is a worthy target with profit " ADV_WANT_PRINTF,
               unit_rule_name(pdefender), TILE_XY(dst_tile), profit);
   } else {
-    log_debug("%s(%d, %d): %s at (%d, %d) is unworthy with profit %d",
+    log_debug("%s(%d, %d): %s at (%d, %d) is unworthy with profit " ADV_WANT_PRINTF,
               unit_rule_name(punit), TILE_XY(unit_tile(punit)),
               unit_rule_name(pdefender), TILE_XY(dst_tile), profit);
     profit = 0;
@@ -232,7 +232,6 @@ static int dai_evaluate_tile_for_air_attack(struct unit *punit,
 
   return profit;
 }
-  
 
 /******************************************************************//**
   Find something to bomb
@@ -243,14 +242,14 @@ static int dai_evaluate_tile_for_air_attack(struct unit *punit,
   TODO: make separate handicaps for air units seeing targets
         IMO should be more restrictive than general H_MAP, H_FOG
 **********************************************************************/
-static int find_something_to_bomb(struct ai_type *ait, struct unit *punit,
-                                  struct pf_path **path, struct tile **pptile)
+static adv_want find_something_to_bomb(struct ai_type *ait, struct unit *punit,
+                                       struct pf_path **path, struct tile **pptile)
 {
   struct player *pplayer = unit_owner(punit);
   struct pf_parameter parameter;
   struct pf_map *pfm;
   struct tile *best_tile = NULL;
-  int best = 0;
+  adv_want best = 0;
 
   pft_fill_unit_parameter(&parameter, punit);
   parameter.omniscience = !has_handicap(pplayer, H_MAP);
@@ -277,12 +276,12 @@ static int find_something_to_bomb(struct ai_type *ait, struct unit *punit,
     if (is_enemy_unit_tile(ptile, pplayer)
         && dai_should_we_air_attack_tile(ait, punit, ptile)
         && can_unit_attack_tile(punit, NULL, ptile)) {
-      int new_best = dai_evaluate_tile_for_air_attack(punit, ptile);
+      adv_want new_best = dai_evaluate_tile_for_air_attack(punit, ptile);
 
       if (new_best > best) {
         best_tile = ptile;
         best = new_best;
-        log_debug("%s wants to attack tile (%d, %d)", 
+        log_debug("%s wants to attack tile (%d, %d)",
                   unit_rule_name(punit), TILE_XY(ptile));
       }
     }
@@ -297,8 +296,9 @@ static int find_something_to_bomb(struct ai_type *ait, struct unit *punit,
   }
 
   pf_map_destroy(pfm);
+
   return best;
-} 
+}
 
 /******************************************************************//**
   Iterates through reachable refuel points and appraises them
@@ -321,7 +321,7 @@ static struct tile *dai_find_strategic_airbase(struct ai_type *ait,
   struct tile *best_tile = NULL;
   struct city *pcity;
   struct unit *pvirtual = NULL;
-  int best_worth = 0, target_worth;
+  adv_want best_worth = 0, target_worth;
   int lost_hp = unit_type_get(punit)->hp - punit->hp;
   int regen_turns_min = FC_INFINITY;
   bool defend = FALSE; /* Used only for lost_hp > 0 */
@@ -434,7 +434,8 @@ static struct tile *dai_find_strategic_airbase(struct ai_type *ait,
                             unit_type_get(punit), punit->veteran);
       if (refuel_start) {
         /* What worth really worth moving out? */
-        int start_worth;
+        adv_want start_worth;
+
         unit_tile_set(pvirtual, unit_tile(punit));
         start_worth = find_something_to_bomb(ait, pvirtual, NULL, NULL);
         best_worth = MAX(start_worth, 0);
@@ -579,12 +580,12 @@ bool dai_choose_attacker_air(struct ai_type *ait, struct player *pplayer,
 {
   bool want_something = FALSE;
 
-  /* This AI doesn't know to build planes */
+  /* This AI doesn't know how to build planes */
   if (has_handicap(pplayer, H_NOPLANES)) {
     return FALSE;
   }
 
-  /* military_advisor_choose_build does something idiotic, 
+  /* military_advisor_choose_build() does something idiotic,
    * this function should not be called if there is danger... */
   if (choice->want >= 100 && choice->type != CT_ATTACKER) {
     return FALSE;
@@ -614,7 +615,7 @@ bool dai_choose_attacker_air(struct ai_type *ait, struct player *pplayer,
        unit_virtual_create(
           pplayer, pcity, punittype,
           city_production_unit_veteran_level(pcity, punittype));
-      int profit = find_something_to_bomb(ait, virtual_unit, NULL, NULL);
+      adv_want profit = find_something_to_bomb(ait, virtual_unit, NULL, NULL);
 
       if (profit > choice->want) {
         /* Update choice */
@@ -624,10 +625,10 @@ bool dai_choose_attacker_air(struct ai_type *ait, struct player *pplayer,
         choice->need_boat = FALSE;
         adv_choice_set_use(choice, "offensive air");
         want_something = TRUE;
-        log_debug("%s wants to build %s (want=%d)",
+        log_debug("%s wants to build %s (want = " ADV_WANT_PRINTF ")",
                   city_name_get(pcity), utype_rule_name(punittype), profit);
       } else {
-        log_debug("%s doesn't want to build %s (want=%d)",
+        log_debug("%s doesn't want to build %s (want = " ADV_WANT_PRINTF ")",
                   city_name_get(pcity), utype_rule_name(punittype), profit);
       }
       unit_virtual_destroy(virtual_unit);

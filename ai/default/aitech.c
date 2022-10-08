@@ -40,6 +40,7 @@
 #include "ailog.h"
 #include "aiplayer.h"
 #include "aitools.h"
+#include "daicity.h"
 #include "daieffects.h"
 
 #include "aitech.h"
