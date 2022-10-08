@@ -7,7 +7,7 @@
 # If KEEP_RESULT_IN_DIR is set to a folder the saved result will be kept
 # there for later inspection even if nothing fails.
 
-if test x$1 = x ; then
+if test "$1" = "" ; then
   # Try to save all rulesets that are developed with Freeciv
   rulesets=`cat @abs_top_srcdir@/tests/rs_test_res/ruleset_list.txt`
 else
@@ -15,7 +15,7 @@ else
   rulesets=$@
 fi
 
-if test x$KEEP_RESULT_IN_DIR = x ; then
+if test "$KEEP_RESULT_IN_DIR" = "" ; then
   # Put upgrade results in a temporary folder.
   tmpdir=`mktemp -d`
 else
@@ -65,10 +65,11 @@ for ruleset in $rulesets; do
   fi
 done
 
-if test x$KEEP_RESULT_IN_DIR = x ; then
+if test "$KEEP_RESULT_IN_DIR" = "" ; then
   # Should not be kept
   rm -rf "${tmpdir}"
 fi
 
 echo "No resaving problems detected."
+
 exit 0

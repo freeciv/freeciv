@@ -5,7 +5,7 @@
 # each ruleset that is developed with Freeciv, are able to load. Exits with
 # 1 if any ruleset fails to load.
 
-if test x$1 = x ; then
+if test "$1" = "" ; then
   # Try to load all rulesets that are developed with Freeciv
   rulesets=`cat @abs_top_srcdir@/tests/rs_test_res/ruleset_list.txt`
 else
@@ -19,4 +19,5 @@ for ruleset in $rulesets; do
 done
 
 echo "No broken rulesets detected."
+
 exit 0
