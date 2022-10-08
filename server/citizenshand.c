@@ -126,10 +126,7 @@ void citizens_update(struct city *pcity, struct player *plr)
         delta++;
         citizens_nation_set(pcity, pslot, 0);
         /* Remove this nation from the list of nationalities. */
-        if (selected != count) {
-          city_nations[selected] = city_nations[count - 1];
-        }
-        count--;
+        city_nations[selected] = city_nations[--count];
 
         log_citizens_add(pcity, -1, pplayer);
       } else {
