@@ -121,7 +121,7 @@ cd build
  --enable-fcmp=cli,gtk3,qt,gtk4 \
  --enable-fcdb=sqlite3,mysql,postgres,odbc \
  --enable-freeciv-manual \
- --enable-ai-static=classic,threaded,tex,stub \
+ --enable-ai-static=classic,tex,stub \
  --prefix=${HOME}/freeciv/clang \
  || (let config_exit_status=$? \
      && echo "Config exit status: $config_exit_status" \
@@ -147,7 +147,7 @@ cd build
  --enable-fcdb=sqlite3,mysql,postgres,odbc \
  --enable-freeciv-manual \
  --enable-ruledit=experimental \
- --enable-ai-static=classic,threaded,tex,stub \
+ --enable-ai-static=classic,tex,stub \
  --prefix=${HOME}/freeciv/default \
  || (let config_exit_status=$? \
      && echo "Config exit status: $config_exit_status" \
