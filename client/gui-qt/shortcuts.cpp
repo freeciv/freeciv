@@ -110,7 +110,7 @@ fc_shortcut default_shortcuts[] = {
   {SC_UNSENTRY_TILE, Qt::Key_D, Qt::AllButtons,
     Qt::ShiftModifier | Qt::ControlModifier, _("Unsentry All On Tile") },
   {SC_DO, Qt::Key_D, Qt::AllButtons, Qt::NoModifier, _("Do...") },
-  {SC_UPGRADE_UNIT, Qt::Key_U, Qt::AllButtons, Qt::ControlModifier,
+  {SC_UPGRADE_UNIT, Qt::Key_U, Qt::AllButtons, Qt::ShiftModifier,
     _("Upgrade") },
   {SC_SETHOME, Qt::Key_H, Qt::AllButtons, Qt::NoModifier,
     _("Set Home City") },
