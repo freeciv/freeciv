@@ -719,12 +719,14 @@ static inline void option_dialog_option_int_set(struct option *poption,
 static inline void option_dialog_option_str_set(struct option *poption,
                                                 const char *string)
 {
+  GtkWidget *wdg = option_get_gui_data(poption);
+
   if (NULL != option_str_values(poption)) {
-    gtk_entry_buffer_set_text(gtk_entry_get_buffer(GTK_ENTRY(widget_get_child(
-                                          option_get_gui_data(poption)))), string, -1);
+    GtkWidget *child = gtk_combo_box_get_child(GTK_COMBO_BOX(wdg));
+
+    gtk_entry_buffer_set_text(gtk_entry_get_buffer(GTK_ENTRY(child)), string, -1);
   } else {
-    gtk_entry_buffer_set_text(gtk_entry_get_buffer(GTK_ENTRY(option_get_gui_data(poption))),
-                              string, -1);
+    gtk_entry_buffer_set_text(gtk_entry_get_buffer(GTK_ENTRY(wdg)), string, -1);
   }
 }
 
