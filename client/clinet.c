@@ -495,7 +495,7 @@ double try_to_autoconnect(void)
   char errbuf[512];
   static int count = 0;
 #ifndef FREECIV_MSWINDOWS
-  static int warning_shown = 0;
+  static bool warning_shown = FALSE;
 #endif
 
   if (!autoconnecting) {
@@ -523,7 +523,7 @@ double try_to_autoconnect(void)
       log_error("Connection to server refused. Please start the server.");
       output_window_append(ftc_client, _("Connection to server refused. "
                                          "Please start the server."));
-      warning_shown = 1;
+      warning_shown = TRUE;
     }
     /* Try again in 0.5 seconds */
     return 0.001 * AUTOCONNECT_INTERVAL;
