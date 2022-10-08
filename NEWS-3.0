@@ -10,7 +10,7 @@ see the ChangeLog file.
 CHANGES FROM 3.0.3 to 3.0.4
 ---------------------------
 
-   (from <https://www.freeciv.org/wiki/NEWS-3.0.4>, 2022-10-07)
+   (from <https://www.freeciv.org/wiki/NEWS-3.0.4>, 2022-10-09)
 
 3.0.4 is a generic bugfix release.
 
@@ -158,7 +158,7 @@ Translations
     * Updated translations:
          + Complete translations: Catalan, French, Polish
          + Incomplete translations:
-           Esperanto (32% core, 17% nations, 33% ruledit)
+           Esperanto (32% core, 18% nations, 33% ruledit)
            Finnish (100% core, 93% nations, 100% ruledit)
            German (83% core, 99% nations, 5% ruledit)
            Russian (99% core, 100% nations, 97% ruledit)
