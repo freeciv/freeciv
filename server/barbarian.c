@@ -88,8 +88,8 @@ bool is_sea_barbarian(struct player *pplayer)
 }
 
 /**********************************************************************//**
-  Creates the land/sea barbarian player and inits some stuff. If 
-  barbarian player already exists, return player pointer. If barbarians 
+  Creates the land/sea barbarian player and inits some stuff. If
+  barbarian player already exists, return player pointer. If barbarians
   are dead, revive them with a new leader :-)
 
   Dead barbarians forget the map and lose the money.
@@ -117,9 +117,9 @@ struct player *create_barbarian_player(enum barbarian_type type)
         sz_strlcpy(old_barbs->username, _(ANON_USER_NAME));
         old_barbs->unassigned_user = TRUE;
         /* I need to make them to forget the map, I think */
-	whole_map_iterate(&(wld.map), ptile) {
-	  map_clear_known(ptile, old_barbs);
-	} whole_map_iterate_end;
+        whole_map_iterate(&(wld.map), ptile) {
+          map_clear_known(ptile, old_barbs);
+        } whole_map_iterate_end;
       }
       old_barbs->economic.gold += 100;  /* New leader, new money */
 
@@ -127,11 +127,13 @@ struct player *create_barbarian_player(enum barbarian_type type)
     }
   } players_iterate_end;
 
-  /* make a new player, or not */
+  /* Make a new player, or not */
   barbarians = server_create_player(-1, default_ai_type_name(), NULL, FALSE);
-  if (!barbarians) {
+  if (barbarians == NULL) {
     return NULL;
   }
+  /* Freeciv-web depends on AI-status being set already before server_player_init() */
+  set_as_ai(barbarians);
   server_player_init(barbarians, TRUE, TRUE);
 
   if (type == LAND_BARBARIAN || type == SEA_BARBARIAN) {
@@ -170,8 +172,7 @@ struct player *create_barbarian_player(enum barbarian_type type)
 
   barbarians->phase_done = TRUE;
 
-  /* Do the ai */
-  set_as_ai(barbarians);
+  /* Do the AI */
   barbarians->ai_common.barbarian_type = type;
   set_ai_level_directer(barbarians, game.info.skill_level);
 

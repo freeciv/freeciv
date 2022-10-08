@@ -113,6 +113,8 @@ void create_animals(void)
   if (plr == NULL) {
     return;
   }
+  /* Freeciv-web depends on AI-status being set already before server_player_init() */
+  set_as_ai(plr);
   server_player_init(plr, TRUE, TRUE);
 
   player_set_nation(plr, anination);
@@ -130,7 +132,6 @@ void create_animals(void)
 
   plr->phase_done = TRUE;
 
-  set_as_ai(plr);
   plr->ai_common.barbarian_type = ANIMAL_BARBARIAN;
   set_ai_level_directer(plr, game.info.skill_level);
 
