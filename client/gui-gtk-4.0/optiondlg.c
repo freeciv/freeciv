@@ -181,25 +181,17 @@ static void option_apply_callback(GtkMenuItem *menuitem, gpointer data)
 /************************************************************************//**
   Called when a button is pressed on an option.
 ****************************************************************************/
-static gboolean option_button_press_callback(GtkWidget *widget,
-                                             GdkEvent *ev,
+static gboolean option_button_press_callback(GtkGestureClick *gesture,
+                                             int n_press,
+                                             double x, double y,
                                              gpointer data)
 {
   struct option *poption = (struct option *) data;
 #ifdef MENUS_GTK3
   GtkWidget *menu, *item;
 #endif /* MENUS_GTK3 */
-  GdkEventType type;
-  guint button;
 
-  type = gdk_event_get_event_type(ev);
-  if (type != GDK_BUTTON_PRESS) {
-    return FALSE;
-  }
-
-  button = gdk_button_event_get_button(ev);
-  if (3 != button || !option_is_changeable(poption)) {
-    /* Only right button please! */
+  if (!option_is_changeable(poption)) {
     return FALSE;
   }
 
@@ -491,6 +483,8 @@ static void option_dialog_option_add(struct option_dialog *pdialog,
   const int category = option_category(poption);
   GtkWidget *main_hbox, *label, *w = NULL;
   int main_col = 0;
+  GtkGesture *gesture;
+  GtkEventController *controller;
 
   fc_assert(NULL == option_get_gui_data(poption));
 
@@ -532,8 +526,12 @@ static void option_dialog_option_add(struct option_dialog *pdialog,
   gtk_widget_set_margin_top(label, 2);
   gtk_grid_attach(GTK_GRID(main_hbox), label, main_col++, 0, 1, 1);
   gtk_widget_set_tooltip_text(main_hbox, option_help_text(poption));
-  g_signal_connect(main_hbox, "button_press_event",
+  gesture = gtk_gesture_click_new();
+  gtk_gesture_single_set_button(GTK_GESTURE_SINGLE(gesture), 3);
+  controller = GTK_EVENT_CONTROLLER(gesture);
+  g_signal_connect(controller, "pressed",
                    G_CALLBACK(option_button_press_callback), poption);
+  gtk_widget_add_controller(main_hbox, controller);
   gtk_box_append(GTK_BOX(pdialog->vboxes[category]), main_hbox);
 
   switch (option_type(poption)) {

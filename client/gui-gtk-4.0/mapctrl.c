@@ -159,7 +159,7 @@ void set_turn_done_button_state(bool state)
   the release of both left and right mousebutton can launch the goto.
 **************************************************************************/
 gboolean left_butt_up_mapcanvas(GtkGestureClick *gesture, int n_press,
-                                double x, double y)
+                                double x, double y, gpointer data)
 {
   if (editor_is_active()) {
     return handle_edit_mouse_button_release(gesture, MOUSE_BUTTON_LEFT,
@@ -176,7 +176,7 @@ gboolean left_butt_up_mapcanvas(GtkGestureClick *gesture, int n_press,
   the release of both left and right mousebutton can launch the goto.
 **************************************************************************/
 gboolean right_butt_up_mapcanvas(GtkGestureClick *gesture, int n_press,
-                                 double x, double y)
+                                 double x, double y, gpointer data)
 {
   if (editor_is_active()) {
     return handle_edit_mouse_button_release(gesture, MOUSE_BUTTON_RIGHT,
@@ -201,7 +201,7 @@ gboolean right_butt_up_mapcanvas(GtkGestureClick *gesture, int n_press,
   Future feature: User-configurable mouse clicks.
 **************************************************************************/
 gboolean left_butt_down_mapcanvas(GtkGestureClick *gesture, int n_press,
-                                  double x, double y)
+                                  double x, double y, gpointer data)
 {
   struct tile *ptile = NULL;
   GdkModifierType state;
@@ -256,7 +256,7 @@ gboolean left_butt_down_mapcanvas(GtkGestureClick *gesture, int n_press,
   Future feature: User-configurable mouse clicks.
 **************************************************************************/
 gboolean right_butt_down_mapcanvas(GtkGestureClick *gesture, int n_press,
-                                   double x, double y)
+                                   double x, double y, gpointer data)
 {
   struct city *pcity = NULL;
   struct tile *ptile = NULL;
@@ -325,7 +325,7 @@ gboolean right_butt_down_mapcanvas(GtkGestureClick *gesture, int n_press,
   Future feature: User-configurable mouse clicks.
 **************************************************************************/
 gboolean middle_butt_down_mapcanvas(GtkGestureClick *gesture, int n_press,
-                                    double x, double y)
+                                    double x, double y, gpointer data)
 {
   struct tile *ptile = NULL;
   GdkModifierType state;
@@ -469,7 +469,7 @@ gboolean move_overviewcanvas(GtkEventControllerMotion *controller,
   Left button pressed at overview
 **************************************************************************/
 gboolean left_butt_down_overviewcanvas(GtkGestureClick *gesture, int n_press,
-                                       double x, double y)
+                                       double x, double y, gpointer data)
 {
   int xtile, ytile;
 
@@ -494,7 +494,7 @@ gboolean left_butt_down_overviewcanvas(GtkGestureClick *gesture, int n_press,
   Right button pressed at overview
 **************************************************************************/
 gboolean right_butt_down_overviewcanvas(GtkGestureClick *gesture, int n_press,
-                                        double x, double y)
+                                        double x, double y, gpointer data)
 {
   int xtile, ytile;
 

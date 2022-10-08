@@ -22,19 +22,19 @@
 #include "mapctrl_g.h"
 
 gboolean left_butt_up_mapcanvas(GtkGestureClick *gesture, int n_press,
-                                double x, double y);
+                                double x, double y, gpointer data);
 gboolean right_butt_up_mapcanvas(GtkGestureClick *gesture, int n_press,
-                                 double x, double y);
+                                 double x, double y, gpointer data);
 gboolean left_butt_down_mapcanvas(GtkGestureClick *gesture, int n_press,
-                                  double x, double y);
+                                  double x, double y, gpointer data);
 gboolean right_butt_down_mapcanvas(GtkGestureClick *gesture, int n_press,
-                                   double x, double y);
+                                   double x, double y, gpointer data);
 gboolean middle_butt_down_mapcanvas(GtkGestureClick *gesture, int n_press,
-                                    double x, double y);
+                                    double x, double y, gpointer data);
 gboolean left_butt_down_overviewcanvas(GtkGestureClick *gesture, int n_press,
-                                       double x, double y);
+                                       double x, double y, gpointer data);
 gboolean right_butt_down_overviewcanvas(GtkGestureClick *gesture, int n_press,
-                                        double x, double y);
+                                        double x, double y, gpointer data);
 gboolean move_mapcanvas(GtkEventControllerMotion *controller,
                         gdouble x, gdouble y, gpointer data);
 gboolean leave_mapcanvas(GtkEventControllerMotion *controller,
