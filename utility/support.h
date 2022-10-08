@@ -126,6 +126,8 @@ int fc_strncasequotecmp(const char *str0, const char *str1, size_t n);
 void fc_strAPI_init(void);
 void fc_strAPI_free(void);
 
+void fc_support_free(void);
+
 size_t effectivestrlenquote(const char *str);
 
 char *fc_strcasestr(const char *haystack, const char *needle);
