@@ -191,7 +191,8 @@ void dai_choose_diplomat_offensive(struct ai_type *ait,
     struct pf_map *pfm;
     struct pf_parameter parameter;
     struct city *acity;
-    int want, loss, p_success, p_failure, time_to_dest;
+    adv_want want;
+    int loss, p_success, p_failure, time_to_dest;
     int gain_incite = 0, gain_theft = 0, gain = 1;
     int incite_cost;
     struct unit *punit = unit_virtual_create(
@@ -291,8 +292,9 @@ void dai_choose_diplomat_offensive(struct ai_type *ait,
     }
     if (want > choice->want) {
       log_base(LOG_DIPLOMAT_BUILD,
-               "%s, %s: %s is desired with want %d to spy in %s (incite "
-               "want %d cost %d gold %d, tech theft want %d, ttd %d)",
+               "%s, %s: %s is desired with want " ADV_WANT_PRINTF
+               " to spy in %s (incite want %d cost %d gold %d, "
+               "tech theft want %d, ttd %d)",
                player_name(pplayer),
                city_name_get(pcity),
                utype_rule_name(ut),

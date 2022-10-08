@@ -1121,12 +1121,12 @@ bool find_beachhead(const struct player *pplayer, struct pf_map *ferry_map,
 
   punit->id == 0 means that the unit is virtual (considered to be built).
 **************************************************************************/
-int find_something_to_kill(struct ai_type *ait, struct player *pplayer,
-                           struct unit *punit,
-                           struct tile **pdest_tile, struct pf_path **ppath,
-                           struct pf_map **pferrymap,
-                           struct unit **pferryboat,
-                           const struct unit_type **pboattype, int *pmove_time)
+adv_want find_something_to_kill(struct ai_type *ait, struct player *pplayer,
+                                struct unit *punit,
+                                struct tile **pdest_tile, struct pf_path **ppath,
+                                struct pf_map **pferrymap,
+                                struct unit **pferryboat,
+                                const struct unit_type **pboattype, int *pmove_time)
 {
   const int attack_value = adv_unit_att_rating(punit);    /* basic attack. */
   struct pf_parameter parameter;
@@ -1157,9 +1157,9 @@ int find_something_to_kill(struct ai_type *ait, struct player *pplayer,
    * p_a_w isn't called, and we end up not wanting ironclads and therefore
    * never learning steam engine, even though ironclads would be very
    * useful. -- Syela */
-  int bk = 0; 
-  int want;             /* Want (amortized) of the operaton. */
-  int best = 0;         /* Best of all wants. */
+  adv_want bk = 0;
+  adv_want want;        /* Want (amortized) of the operaton. */
+  adv_want best = 0;    /* Best of all wants. */
   struct tile *goto_dest_tile = NULL;
   bool can_occupy;
 
@@ -1455,12 +1455,12 @@ int find_something_to_kill(struct ai_type *ait, struct player *pplayer,
                                bcost_bal + needferry);
 
       /* BEGIN STEAM-ENGINES-ARE-OUR-FRIENDS KLUGE. */
-      if (0 >= want && 0 == punit->id && 0 == best) {
-        int bk_e = military_amortize(pplayer,
-                                     game_city_by_number(punit->homecity),
-                                     benefit * SHIELD_WEIGHTING,
-                                     MAX(1, move_time),
-                                     bcost_bal + needferry);
+      if (0 >= want && 0 == punit->id && 0 >= best) {
+        adv_want bk_e = military_amortize(pplayer,
+                                          game_city_by_number(punit->homecity),
+                                          benefit * SHIELD_WEIGHTING,
+                                          MAX(1, move_time),
+                                          bcost_bal + needferry);
 
         if (bk_e > bk) {
           *pdest_tile = atile;
@@ -1488,7 +1488,8 @@ int find_something_to_kill(struct ai_type *ait, struct player *pplayer,
           && punit_class->adv.sea_move == MOVE_NONE) {
         UNIT_LOG(LOG_DEBUG, punit,
                  "%s(): with boat %s@(%d, %d) -> %s@(%d, %d)"
-                 " (go_by_boat=%d, move_time=%d, want=%d, best=%d)",
+                 " (go_by_boat = %d, move_time = %d, want = " ADV_WANT_PRINTF
+                 ", best = " ADV_WANT_PRINTF ")",
                  __FUNCTION__, unit_rule_name(ferryboat),
                  TILE_XY(unit_tile(ferryboat)), city_name_get(acity),
                  TILE_XY(atile), go_by_boat, move_time, want, best);

@@ -20,9 +20,11 @@
 /* server/advisors */
 #include "advchoice.h"
 
+struct civ_map;
+
 #ifdef FREECIV_WEB
 #define ASSESS_DANGER_MAX_DISTANCE         40
-#define AI_HANDICAP_DISTANCE_LIMIT         6  //TODO: 20 for non-web
+#define AI_HANDICAP_DISTANCE_LIMIT         6  /* TODO: 20 for non-web */
 #endif /* FREECIV_WEB */
 
 /* When an enemy has this or lower number of cities left, try harder

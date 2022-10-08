@@ -131,14 +131,14 @@ const char *dai_choice_rule_name(const struct adv_choice *choice)
 
 /**********************************************************************//**
   Amortize a want modified by the shields (build_cost) we risk losing.
-  We add the build time of the unit(s) we risk to amortize delay.  The
+  We add the build time of the unit(s) we risk to amortize delay. The
   build time is calculated as the build cost divided by the production
   output of the unit's homecity or the city where we want to produce
   the unit. If the city has less than average shield output, we
   instead use the average, to encourage long-term thinking.
 **************************************************************************/
-int military_amortize(struct player *pplayer, struct city *pcity,
-                      int value, int delay, int build_cost)
+adv_want military_amortize(struct player *pplayer, struct city *pcity,
+                           adv_want value, int delay, int build_cost)
 {
   struct adv_data *ai = adv_data_get(pplayer, NULL);
   int city_output = (pcity ? pcity->surplus[O_SHIELD] : 1);
@@ -1345,11 +1345,11 @@ int dai_gold_reserve(struct player *pplayer)
 }
 
 /**********************************************************************//**
-  Adjust want for choice to 'value' percent
+  Adjust want for choice to given percentage.
 **************************************************************************/
-void adjust_choice(int value, struct adv_choice *choice)
+void adjust_choice(int pct, struct adv_choice *choice)
 {
-  choice->want = (choice->want *value)/100;
+  choice->want = (choice->want * pct) / 100;
 }
 
 /**********************************************************************//**

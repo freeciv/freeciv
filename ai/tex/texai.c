@@ -17,6 +17,7 @@
 
 /* common */
 #include "ai.h"
+#include "world_object.h"
 
 /* ai/default */
 #include "aiferry.h"

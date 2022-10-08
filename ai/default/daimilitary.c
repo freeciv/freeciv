@@ -43,6 +43,7 @@
 #include "advbuilding.h"
 #include "advchoice.h"
 #include "advdata.h"
+#include "advgoto.h"
 #include "advtools.h"
 #include "autosettlers.h"
 #include "infracache.h" /* adv_city */
@@ -1253,7 +1254,8 @@ static void process_attacker_want(struct ai_type *ait,
   If the target is overseas, the function might suggest building a ferry
   to carry a land attack unit, instead of the land attack unit itself.
 **************************************************************************/
-static struct adv_choice *kill_something_with(struct ai_type *ait, struct player *pplayer,
+static struct adv_choice *kill_something_with(struct ai_type *ait,
+                                              struct player *pplayer,
                                               struct city *pcity, struct unit *myunit,
                                               struct adv_choice *choice)
 {

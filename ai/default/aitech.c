@@ -37,6 +37,7 @@
 
 /* ai/default */
 #include "aitools.h"
+#include "daicity.h"
 #include "daidata.h"
 #include "daieffects.h"
 #include "dailog.h"
