@@ -1251,11 +1251,11 @@ void mr_menu::setup_menus()
   connect(act, &QAction::triggered, this, &mr_menu::slot_board);
   act = menu->addAction(_("Unload"));
   act->setShortcut(QKeySequence(shortcut_to_string(
-                  fc_shortcuts::sc()->get_shortcut(SC_DEBOARD))));
+                   fc_shortcuts::sc()->get_shortcut(SC_DEBOARD))));
   menu_list.insert(DEBOARD, act);
   connect(act, &QAction::triggered, this, &mr_menu::slot_deboard);
   act = menu->addAction(_("Unload All From Transporter"));
-  act->setShortcut(QKeySequence(tr("shift+u")));
+  act->setShortcut(QKeySequence(tr("shift+t")));
   menu_list.insert(TRANSPORTER, act);
   connect(act, &QAction::triggered, this, &mr_menu::slot_unload_all);
   menu->addSeparator();
@@ -1272,7 +1272,7 @@ void mr_menu::setup_menus()
   menu_list.insert(UPGRADE, act);
   connect(act, &QAction::triggered, this, &mr_menu::slot_upgrade);
   act = menu->addAction(_("Convert"));
-  act->setShortcut(QKeySequence(tr("ctrl+o")));
+  act->setShortcut(QKeySequence(tr("shift+o")));
   menu_list.insert(CONVERT, act);
   connect(act, &QAction::triggered, this, &mr_menu::slot_convert);
   act = menu->addAction(_("Disband"));
