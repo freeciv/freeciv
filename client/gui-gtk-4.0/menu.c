@@ -410,7 +410,7 @@ static struct menu_entry_info menu_entries[] =
     "plant", "<shift>m", MGROUP_UNIT },
 
   /* Combat menu */
-  { "FORTIFY", N_("_Fortify"),
+  { "FORTIFY", N_("Fortify"),
     "fortify", "f", MGROUP_UNIT },
   { "PILLAGE", N_("_Pillage"),
     "pillage", "<shift>p", MGROUP_UNIT },
