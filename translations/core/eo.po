@@ -362,7 +362,7 @@ msgid ""
 "our glorious alliance and your name will never be forgotten!"
 msgstr ""
 "*%s (AI)* Ni estis sovaĝe atakitaj de %s, kaj ni bezonas vian helpon! "
-"Plenumu nian gloran aliancon kaj via nomo neniam estos forgesito!"
+"Plenumu nian gloran aliancon kaj via nomo neniam estos forgesita!"
 
 #: ai/difficulty.c:243
 #, fuzzy
@@ -2418,9 +2418,9 @@ msgstr ""
 #: client/gui-gtk-2.0/action_dialog.c:1764
 #: client/gui-gtk-3.0/action_dialog.c:1852
 #: client/gui-gtk-3.22/action_dialog.c:1846 client/gui-qt/dialogs.cpp:1915
-#, fuzzy, c-format
+#, c-format
 msgid "Your %s is ready to act against %s %s."
-msgstr "Via %s sukcesis saboti la %sjn %sn."
+msgstr "Via %s pretas agi kontraŭ %s unuo %s."
 
 #. TRANS: %s is a unit name, e.g., Diplomat, Spy
 #: client/gui-gtk-2.0/action_dialog.c:1773
@@ -15628,9 +15628,9 @@ msgstr "%sVeneni la urbon kaj eskapi%s"
 
 #. TRANS: S_abotage Enemy Unit (3% chance of success).
 #: common/actions.c:5242
-#, fuzzy, c-format
+#, c-format
 msgid "S%sabotage Enemy Unit%s"
-msgstr "Saboti malamikan unuon"
+msgstr "S%saboti malamikan unuon%s"
 
 #. TRANS: S_abotage Enemy Unit and Escape (3% chance of success).
 #: common/actions.c:5245
@@ -15693,9 +15693,9 @@ msgstr "Instigi al %sribelo kaj eskapi%s"
 #: data/classic/game.ruleset:289 data/sandbox/game.ruleset:292
 #: data/experimental/game.ruleset:292 data/civ2civ3/game.ruleset:294
 #: data/multiplayer/game.ruleset:292
-#, fuzzy, c-format
+#, c-format
 msgid "Establish %sEmbassy%s"
-msgstr "Starigu _komercan kurson"
+msgstr "Starigi %sambasadejon%s"
 
 #. TRANS: Becom_e Ambassador (100% chance of success).
 #: common/actions.c:5272 data/civ1/game.ruleset:253 data/civ2/game.ruleset:291
@@ -24639,9 +24639,9 @@ msgstr ""
 #: data/civ2/game.ruleset:267 data/classic/game.ruleset:268
 #: data/sandbox/game.ruleset:271 data/experimental/game.ruleset:271
 #: data/civ2civ3/game.ruleset:273 data/multiplayer/game.ruleset:271
-#, fuzzy, c-format
+#, c-format
 msgid "%sSabotage Enemy Unit%s"
-msgstr "Saboti malamikan unuon"
+msgstr "%sSaboti malamikan unuon%s"
 
 #. TRANS: _Sabotage City Escape (3% chance of success).
 #: data/civ2/game.ruleset:276 data/classic/game.ruleset:277
@@ -25254,7 +25254,7 @@ msgstr ""
 #: data/sandbox/terrain.ruleset:1394 data/experimental/terrain.ruleset:1280
 #: data/civ2civ3/terrain.ruleset:1363 data/multiplayer/terrain.ruleset:1279
 msgid "Farmland"
-msgstr "Farmo"
+msgstr "Agraro"
 
 #: data/civ2/terrain.ruleset:1111 data/classic/terrain.ruleset:1324
 #: data/sandbox/terrain.ruleset:1416 data/experimental/terrain.ruleset:1300
@@ -38056,9 +38056,9 @@ msgstr[1] "%s plirapidigas la studadon; vi gajnas %d tujajn avanaĵojn."
 
 #. TRANS: Tech from building (Darwin's Voyage)
 #: server/cityturn.c:2324
-#, fuzzy, c-format
+#, c-format
 msgid "?frombldg:Acquired %s from %s."
-msgstr "La %s aĉetis %sn el %s."
+msgstr "?frombldg:Teĥnologio %s estas akirita de %s."
 
 #. TRANS: Tech from building (Darwin's
 #. * Voyage)
@@ -39683,9 +39683,9 @@ msgstr ""
 
 #. TRANS: Tech from another player
 #: server/diplhand.c:494
-#, fuzzy, c-format
+#, c-format
 msgid "?fromplr:The %s have acquired %s from the %s."
-msgstr "La %s akiris %sn de la %s."
+msgstr "?fromplr:La %s akiris la teĥnologion %s de la %s."
 
 #: server/diplhand.c:514
 #, fuzzy, c-format
