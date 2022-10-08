@@ -203,15 +203,10 @@ int draw_vert(struct widget *vert, Sint16 x, Sint16 y)
   then return pointer to this image.
 
   Graphic is taken from horiz_theme surface and blit to new created image.
-
-  Type of image depend of "state" parameter.
-    state = 0 - normal
-    state = 1 - selected
-    state = 2 - pressed
-    state = 3 - disabled
 **************************************************************************/
 static SDL_Surface *create_horizontal_surface(SDL_Surface *horiz_theme,
-                                              Uint8 state, Uint16 width)
+                                              enum widget_state state,
+                                              Uint16 width)
 {
   SDL_Surface *horsurf = NULL;
   SDL_Rect src, des;
