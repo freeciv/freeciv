@@ -3592,25 +3592,26 @@ colorlist =
 ; freeciv game settings for sandbox ruleset
 ;
 set =
-    { "name", "value"
-      "aifill", 12
-      "generator", "FRACTAL"
-      "topology", "ISO"
-      "wrap", "WRAPX|WRAPY"
-      "mapsize", "PLAYER"
-      "tilesperplayer", 100
-      "tinyisles", "ENABLED"
-      "startunits", "cwx"
-      "citymindist", 3
-      "techlevel", 1
-      "borders", "ENABLED"
-      "foggedborders", "ENABLED"
-      "restrictinfra", "ENABLED"
-      "unreachableprotects", "DISABLED"
-      "onsetbarbs", 120
-      "occupychance", 50
-      "techlossforgiveness", 0
-      "techlossrestore", 50
-      "multiresearch", "ENABLED"
-      "tradeworldrelpct", 100
+    { "name", "value", "lock"
+      "aifill", 12, FALSE
+      "generator", "FRACTAL", FALSE
+      "topology", "ISO", FALSE
+      "wrap", "WRAPX|WRAPY", FALSE
+      "mapsize", "PLAYER", FALSE
+      "tilesperplayer", 100, FALSE
+      "tinyisles", "ENABLED", FALSE
+      "startunits", "cwx", FALSE
+      "citymindist", 3, FALSE
+      "techlevel", 1, FALSE
+      "borders", "ENABLED", FALSE
+      "foggedborders", "ENABLED", FALSE
+      "restrictinfra", "ENABLED", FALSE
+      "unreachableprotects", "DISABLED", FALSE
+      "onsetbarbs", 120, FALSE
+      "occupychance", 50, FALSE
+      "techlossforgiveness", 0, FALSE
+      "techlossrestore", 50, FALSE
+      "multiresearch", "ENABLED", FALSE
+      "tradeworldrelpct", 100, FALSE
+      "alltemperate", "DISABLED", TRUE
     }

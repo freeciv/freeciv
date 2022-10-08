@@ -2115,8 +2115,8 @@ reqs        =
       "Building",     "Apollo Program", "World",  TRUE
       "Building",     "Space Elevator", "Player", FALSE
       "TerrainClass", "Oceanic",        "City",   TRUE
-      ; Uncomment if someone implements gna patch #4390
-      ;"MaxLatitude", "5",              "Local",  TRUE
+      "MaxLatitude",  "150",            "Tile",   TRUE
+      "MinLatitude",  "-150",           "Tile",   TRUE
     }
 graphic	    = "b.space_elevator"
 graphic_alt = "b.space_structural"

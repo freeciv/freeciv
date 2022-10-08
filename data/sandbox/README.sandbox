@@ -239,6 +239,8 @@ radius, expanded vision radius, more trade and additional trade route slots.
 The down side is that it works only until you end up at war with someone.
 A city on the same continent as a player's Space Elevator can build a Space
 Elevator Tether.
+A Space Elevator can only be constructed near the equator. To make sure this
+is always possible, alltemperate maps have been disabled.
 
 Wiping Defenders
 When military unit attacks unit stack that has only defenseless
