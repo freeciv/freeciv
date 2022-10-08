@@ -1682,12 +1682,14 @@ gboolean handle_edit_key_press(guint keyval, GdkModifierType state)
 {
   enum editor_tool_type ett, new_ett = NUM_EDITOR_TOOL_TYPES;
 
-  if (state & GDK_SHIFT_MASK) {
-    return handle_edit_key_press_with_shift(keyval);
-  }
-
+  /* Check ctrl before shift - this is correct also for the case where
+   * they are both active. */
   if (state & GDK_CONTROL_MASK) {
     return handle_edit_key_press_with_ctrl(keyval);
+  }
+
+  if (state & GDK_SHIFT_MASK) {
+    return handle_edit_key_press_with_shift(keyval);
   }
 
   ett = editor_get_tool();
