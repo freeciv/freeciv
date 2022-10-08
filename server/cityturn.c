@@ -353,6 +353,7 @@ static void set_default_city_manager(struct cm_parameter *cmp,
 void auto_arrange_workers(struct city *pcity)
 {
   struct cm_parameter cmp;
+  struct cm_parameter *pcmp;
   struct cm_result *cmr;
   bool broadcast_needed;
 
@@ -369,7 +370,7 @@ void auto_arrange_workers(struct city *pcity)
   broadcast_needed = (pcity->server.needs_arrange == CNA_BROADCAST_PENDING);
 
   /* Freeze the workers and make sure all the tiles around the city
-   * are up to date.  Then thaw, but hackishly make sure that thaw
+   * are up to date. Then thaw, but hackishly make sure that thaw
    * doesn't call us recursively, which would waste time. */
   city_freeze_workers(pcity);
   pcity->server.needs_arrange = CNA_NOT;
@@ -385,18 +386,18 @@ void auto_arrange_workers(struct city *pcity)
   sanity_check_city(pcity);
   cm_clear_cache(pcity);
 
-  cm_init_parameter(&cmp);
-
   if (pcity->cm_parameter) {
-    cm_copy_parameter(&cmp, pcity->cm_parameter);
+    pcmp = pcity->cm_parameter;
   } else {
-    set_default_city_manager(&cmp, pcity);
+    pcmp = &cmp;
+    cm_init_parameter(pcmp);
+    set_default_city_manager(pcmp, pcity);
   }
 
   /* This must be after city_refresh() so that the result gets created for the right
    * city radius */
   cmr = cm_result_new(pcity);
-  cm_query_result(pcity, &cmp, cmr, FALSE);
+  cm_query_result(pcity, pcmp, cmr, FALSE);
 
   if (!cmr->found_a_valid) {
     if (pcity->cm_parameter) {
@@ -411,8 +412,10 @@ void auto_arrange_workers(struct city *pcity)
                     city_link(pcity));
 
       /* Switch to default parameters, and try with them */
-      set_default_city_manager(&cmp, pcity);
-      cm_query_result(pcity, &cmp, cmr, FALSE);
+      pcmp = &cmp;
+      cm_init_parameter(pcmp);
+      set_default_city_manager(pcmp, pcity);
+      cm_query_result(pcity, pcmp, cmr, FALSE);
     }
 
     if (!cmr->found_a_valid) {
@@ -420,7 +423,7 @@ void auto_arrange_workers(struct city *pcity)
       cmp.minimal_surplus[O_FOOD] = 0;
       cmp.minimal_surplus[O_SHIELD] = 0;
       cmp.minimal_surplus[O_GOLD] = -FC_INFINITY;
-      cm_query_result(pcity, &cmp, cmr, FALSE);
+      cm_query_result(pcity, pcmp, cmr, FALSE);
     }
   }
   if (!cmr->found_a_valid) {
@@ -433,12 +436,13 @@ void auto_arrange_workers(struct city *pcity)
     } output_type_iterate_end;
     cmp.require_happy = FALSE;
     cmp.allow_disorder = is_ai(city_owner(pcity)) ? FALSE : TRUE;
-    cm_query_result(pcity, &cmp, cmr, FALSE);
+    cm_query_result(pcity, pcmp, cmr, FALSE);
   }
   if (!cmr->found_a_valid) {
     CITY_LOG(LOG_DEBUG, pcity, "emergency management");
-    cm_init_emergency_parameter(&cmp);
-    cm_query_result(pcity, &cmp, cmr, TRUE);
+    pcmp = &cmp;
+    cm_init_emergency_parameter(pcmp);
+    cm_query_result(pcity, pcmp, cmr, TRUE);
   }
   fc_assert_ret(cmr->found_a_valid);
 
