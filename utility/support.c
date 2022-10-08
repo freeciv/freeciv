@@ -115,6 +115,10 @@ static UChar *icu_buffer1 = NULL;
 static UChar *icu_buffer2 = NULL;
 fc_mutex icu_buffer_mutex;
 
+#ifndef HAVE_WORKING_VSNPRINTF
+static char *vsnprintf_buf = NULL;
+#endif /* HAVE_WORKING_VSNPRINTF */
+
 /************************************************************************//**
   Initial allocation of string comparison buffers.
 ****************************************************************************/
@@ -897,8 +901,6 @@ int fc_vsnprintf(char *str, size_t n, const char *format, va_list ap)
   {
     /* Don't use fc_malloc() or log_*() here, since they may call
        fc_vsnprintf() if it fails.  */
- 
-    static char *buf;
     size_t len;
 
     if (n > VSNP_BUF_SIZE) {
@@ -907,25 +909,25 @@ int fc_vsnprintf(char *str, size_t n, const char *format, va_list ap)
       exit(EXIT_FAILURE);
     }
 
-    if (!buf) {
-      buf = malloc(VSNP_BUF_SIZE);
+    if (vsnprintf_buf == NULL) {
+      vsnprintf_buf = malloc(VSNP_BUF_SIZE);
 
-      if (!buf) {
-	fprintf(stderr, "Could not allocate %i bytes for vsnprintf() "
-		"replacement.", VSNP_BUF_SIZE);
-	exit(EXIT_FAILURE);
+      if (vsnprintf_buf == NULL) {
+        fprintf(stderr, "Could not allocate %i bytes for vsnprintf() "
+                "replacement.", VSNP_BUF_SIZE);
+        exit(EXIT_FAILURE);
       }
     }
 
-    buf[VSNP_BUF_SIZE - 1] = '\0';
+    vsnprintf_buf[VSNP_BUF_SIZE - 1] = '\0';
 
 #ifdef HAVE_VSNPRINTF
-    vsnprintf(buf, n, format, ap);
+    vsnprintf(vsnprintf_buf, n, format, ap);
 #else
-    vsprintf(buf, format, ap);
+    vsprintf(vsnprintf_buf, format, ap);
 #endif /* HAVE_VSNPRINTF */
 
-    len = strlen(buf);
+    len = strlen(vsnprintf_buf);
 
     if (len >= VSNP_BUF_SIZE - 1) {
       fprintf(stderr, "Overflow in vsnprintf replacement!"
@@ -933,10 +935,10 @@ int fc_vsnprintf(char *str, size_t n, const char *format, va_list ap)
       abort();
     }
     if (n >= len + 1) {
-      memcpy(str, buf, len+1);
+      memcpy(str, vsnprintf_buf, len + 1);
       return len;
     } else {
-      memcpy(str, buf, n-1);
+      memcpy(str, vsnprintf_buf, n - 1);
       str[n - 1] = '\0';
       return -1;
     }
@@ -1293,4 +1295,17 @@ int fc_at_quick_exit(void (*func)(void))
 #else  /* HAVE_AT_QUICK_EXIT */
   return -1;
 #endif /* HAVE_AT_QUICK_EXIT */
+}
+
+/************************************************************************//**
+  Free misc resources allocated by the support module.
+****************************************************************************/
+void fc_support_free(void)
+{
+#ifndef HAVE_WORKING_VSNPRINTF
+  if (vsnprintf_buf != NULL) {
+    free(vsnprintf_buf);
+    vsnprintf_buf = NULL;
+  }
+#endif /* HAVE_WORKING_VSNPRINTF */
 }

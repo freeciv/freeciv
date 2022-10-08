@@ -88,4 +88,5 @@ void free_libfreeciv(void)
   free_fileinfo_data();
   netfile_free();
   fc_strAPI_free();
+  fc_support_free();
 }
