@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ca\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2022-10-04 10:47+0200\n"
+"POT-Creation-Date: 2022-10-04 20:32+0300\n"
 "PO-Revision-Date: 2022-10-04 10:50+0200\n"
 "Last-Translator: Joan Creus <joan.creusandreu at gmail dot com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -1524,7 +1524,6 @@ msgstr ""
 
 #: client/client_main.c:421 tools/civmanual.c:783 tools/mpcmdline.c:84
 #: server/civserver.c:377
-#| msgid "Set debug log level (%d to %d)"
 msgid "Set debug log level (one of f,e,n,v)"
 msgstr "Fixar el nivell de registre de depuració (f, e, n, o v)"
 
@@ -8638,7 +8637,6 @@ msgid "<b>Techs known by %1:</b>"
 msgstr "<b>Tecnologies conegudes per %1:</b>"
 
 #: client/gui-qt/plrdlg.cpp:627
-#| msgid "Wonders of %s Empire"
 msgid "Wonders of %1 Empire"
 msgstr "Meravelles de l'Imperi %1"
 

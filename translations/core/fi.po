@@ -29,7 +29,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 3.0\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2022-09-30 18:15+0300\n"
+"POT-Creation-Date: 2022-10-04 20:32+0300\n"
 "PO-Revision-Date: 2022-09-30 18:16+0300\n"
 "Last-Translator: Sini Ruohomaa <sini.ruohomaa@iki.fi>\n"
 "Language-Team: None <freeciv-i18n@freelists.org>\n"
@@ -1153,9 +1153,9 @@ msgstr "Kansakunta"
 msgid "?size [short]:Sz"
 msgstr "Koko"
 
-#: client/cityrepdata.c:702 client/gui-gtk-2.0/editgui.c:1256
-#: client/gui-gtk-2.0/editprop.c:4433 client/gui-gtk-3.0/editgui.c:1274
-#: client/gui-gtk-3.0/editprop.c:4494 client/gui-gtk-3.22/editgui.c:1273
+#: client/cityrepdata.c:702 client/gui-gtk-2.0/editgui.c:1255
+#: client/gui-gtk-2.0/editprop.c:4433 client/gui-gtk-3.0/editgui.c:1273
+#: client/gui-gtk-3.0/editprop.c:4494 client/gui-gtk-3.22/editgui.c:1272
 #: client/gui-gtk-3.22/editprop.c:4493
 msgid "Size"
 msgstr "Koko"
@@ -3409,7 +3409,7 @@ msgstr "Mitä kansakuntaa haluat johtaa?"
 
 #: client/gui-gtk-2.0/dialogs.c:852 client/gui-gtk-3.0/dialogs.c:863
 #: client/gui-gtk-3.22/dialogs.c:857 client/gui-qt/dialogs.cpp:490
-#: client/gui-qt/pages.cpp:666 client/gui-sdl2/chatline.c:815
+#: client/gui-qt/pages.cpp:666 client/gui-sdl2/chatline.c:804
 msgid "Pick Nation"
 msgstr "Kansakunnan valinta"
 
@@ -3661,33 +3661,33 @@ msgstr ""
 msgid "Show the property editor."
 msgstr "Näytä ominaisuusmuokkain."
 
-#: client/gui-gtk-2.0/editgui.c:1008 client/gui-gtk-3.0/editgui.c:1008
-#: client/gui-gtk-3.22/editgui.c:1008
+#: client/gui-gtk-2.0/editgui.c:1007 client/gui-gtk-3.0/editgui.c:1007
+#: client/gui-gtk-3.22/editgui.c:1007
 msgid "Select Tool Value"
 msgstr "Valitse työkalun arvo"
 
-#: client/gui-gtk-2.0/editgui.c:1177 client/gui-gtk-3.0/editgui.c:1179
-#: client/gui-gtk-3.22/editgui.c:1178
+#: client/gui-gtk-2.0/editgui.c:1176 client/gui-gtk-3.0/editgui.c:1178
+#: client/gui-gtk-3.22/editgui.c:1177
 msgid "Editor Tool"
 msgstr "Muokkaustyökalu"
 
-#: client/gui-gtk-2.0/editgui.c:1190 client/gui-gtk-3.0/editgui.c:1196
-#: client/gui-gtk-3.22/editgui.c:1195
+#: client/gui-gtk-2.0/editgui.c:1189 client/gui-gtk-3.0/editgui.c:1195
+#: client/gui-gtk-3.22/editgui.c:1194
 msgid "Click to change value if applicable."
 msgstr "Napsauta muuttaaksesi arvoa, jos se on muutettavissa."
 
-#: client/gui-gtk-2.0/editgui.c:1217 client/gui-gtk-3.0/editgui.c:1229
-#: client/gui-gtk-3.22/editgui.c:1228
+#: client/gui-gtk-2.0/editgui.c:1216 client/gui-gtk-3.0/editgui.c:1228
+#: client/gui-gtk-3.22/editgui.c:1227
 msgid "Click to change tool mode."
 msgstr "Napsauta muuttaaksesi työkalun tilaa."
 
-#: client/gui-gtk-2.0/editgui.c:1231 client/gui-gtk-3.0/editgui.c:1246
-#: client/gui-gtk-3.22/editgui.c:1245
+#: client/gui-gtk-2.0/editgui.c:1230 client/gui-gtk-3.0/editgui.c:1245
+#: client/gui-gtk-3.22/editgui.c:1244
 msgid "Mode"
 msgstr "Tila"
 
-#: client/gui-gtk-2.0/editgui.c:1247 client/gui-gtk-3.0/editgui.c:1265
-#: client/gui-gtk-3.22/editgui.c:1264
+#: client/gui-gtk-2.0/editgui.c:1246 client/gui-gtk-3.0/editgui.c:1264
+#: client/gui-gtk-3.22/editgui.c:1263
 msgid ""
 "Use this to change the \"size\" parameter for the tool. This parameter "
 "controls for example the half-width of the square of tiles that will be "
@@ -3697,8 +3697,8 @@ msgstr ""
 "esimerkiksi työkalun vaikutuksen säteen (neliön sivun puolikkaan) tai "
 "luotavan kaupungin koon."
 
-#: client/gui-gtk-2.0/editgui.c:1264 client/gui-gtk-3.0/editgui.c:1283
-#: client/gui-gtk-3.22/editgui.c:1282
+#: client/gui-gtk-2.0/editgui.c:1263 client/gui-gtk-3.0/editgui.c:1282
+#: client/gui-gtk-3.22/editgui.c:1281
 msgid ""
 "Use this to change the tool's \"count\" parameter. This controls for example "
 "how many units are placed at once with the unit tool."
@@ -3706,16 +3706,16 @@ msgstr ""
 "Käytä tätä muuttaaksesi työkalun \"lukumäärä\"-parametriä. Tämä vaikuttaa "
 "esimerkiksi siihen, montako yksikköä sijoitetaan kerralla yksikkötyökalulla."
 
-#: client/gui-gtk-2.0/editgui.c:1272 client/gui-gtk-2.0/repodlgs.c:773
-#: client/gui-gtk-2.0/unitselect.c:97 client/gui-gtk-3.0/editgui.c:1291
+#: client/gui-gtk-2.0/editgui.c:1271 client/gui-gtk-2.0/repodlgs.c:773
+#: client/gui-gtk-2.0/unitselect.c:97 client/gui-gtk-3.0/editgui.c:1290
 #: client/gui-gtk-3.0/repodlgs.c:804 client/gui-gtk-3.0/unitselect.c:97
-#: client/gui-gtk-3.22/editgui.c:1290 client/gui-gtk-3.22/repodlgs.c:803
+#: client/gui-gtk-3.22/editgui.c:1289 client/gui-gtk-3.22/repodlgs.c:803
 #: client/gui-gtk-3.22/unitselect.c:97 client/gui-qt/repodlgs.cpp:1214
 msgid "Count"
 msgstr "Lukumäärä"
 
-#: client/gui-gtk-2.0/editgui.c:1299 client/gui-gtk-3.0/editgui.c:1317
-#: client/gui-gtk-3.22/editgui.c:1316
+#: client/gui-gtk-2.0/editgui.c:1298 client/gui-gtk-3.0/editgui.c:1316
+#: client/gui-gtk-3.22/editgui.c:1315
 msgid ""
 "Use this to change the \"applied player\" tool parameter. This controls for "
 "example under which player units and cities are created."
@@ -7083,7 +7083,7 @@ msgstr "Sulje"
 #: client/gui-gtk-3.22/action_dialog.c:1169
 #: client/gui-gtk-3.22/action_dialog.c:1963 client/gui-gtk-3.22/chatline.c:1134
 #: client/gui-gtk-3.22/citydlg.c:3013 client/gui-gtk-3.22/dialogs.c:863
-#: client/gui-gtk-3.22/editgui.c:1011 client/gui-gtk-3.22/finddlg.c:77
+#: client/gui-gtk-3.22/editgui.c:1010 client/gui-gtk-3.22/finddlg.c:77
 #: client/gui-gtk-3.22/gamedlgs.c:317 client/gui-gtk-3.22/gamedlgs.c:411
 #: client/gui-gtk-3.22/gotodlg.c:144 client/gui-gtk-3.22/inputdlg.c:80
 #: client/gui-gtk-3.22/luaconsole.c:317 client/gui-gtk-3.22/messagedlg.c:73
@@ -7099,7 +7099,7 @@ msgid "C_lear"
 msgstr "Tyhjennä (_L)"
 
 #: client/gui-gtk-3.22/chatline.c:1136 client/gui-gtk-3.22/dialogs.c:867
-#: client/gui-gtk-3.22/editgui.c:1010 client/gui-gtk-3.22/gamedlgs.c:319
+#: client/gui-gtk-3.22/editgui.c:1009 client/gui-gtk-3.22/gamedlgs.c:319
 #: client/gui-gtk-3.22/gamedlgs.c:413 client/gui-gtk-3.22/inputdlg.c:81
 #: client/gui-gtk-3.22/messagedlg.c:72 client/gui-gtk-3.22/optiondlg.c:330
 #: client/gui-gtk-3.22/optiondlg.c:365 client/gui-gtk-3.22/pages.c:2956
@@ -8601,7 +8601,7 @@ msgid "Disconnect"
 msgstr "Katkaise yhteys"
 
 #: client/gui-qt/pages.cpp:679 client/gui-qt/pages.cpp:1897
-#: client/gui-qt/pages.cpp:1901 client/gui-sdl2/chatline.c:805
+#: client/gui-qt/pages.cpp:1901 client/gui-sdl2/chatline.c:794
 msgid "Start"
 msgstr "Aloita"
 
@@ -9011,20 +9011,20 @@ msgstr "Sulje valintaikkuna (Esc)"
 msgid "Subvert Enemy Unit"
 msgstr "Käännytä vihollisyksikkö"
 
-#: client/gui-sdl2/chatline.c:746
+#: client/gui-sdl2/chatline.c:735
 #, c-format
 msgid "Total users logged in : %d"
 msgstr "Käyttäjiä kirjautuneena sisään yhteensä : %d"
 
-#: client/gui-sdl2/chatline.c:794
+#: client/gui-sdl2/chatline.c:783
 msgid "Back"
 msgstr "Palaa"
 
-#: client/gui-sdl2/chatline.c:826 client/gui-sdl2/pages.c:204
+#: client/gui-sdl2/chatline.c:815 client/gui-sdl2/pages.c:204
 msgid "Load Game"
 msgstr "Lataa peli"
 
-#: client/gui-sdl2/chatline.c:838
+#: client/gui-sdl2/chatline.c:827
 msgid "Server Settings"
 msgstr "Palvelimen asetukset"
 

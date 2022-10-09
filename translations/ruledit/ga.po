@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 2.3\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2022-07-04 21:56+0300\n"
+"POT-Creation-Date: 2022-08-22 19:22+0300\n"
 "PO-Revision-Date: 2011-01-29 07:42-0500\n"
 "Last-Translator: Kevin Scannell <kscanne@gmail.com>\n"
 "Language-Team: Irish <gaeilge-gnulinux@lists.sourceforge.net>\n"
@@ -20,10 +20,6 @@ msgstr ""
 #: tools/ruledit/requirers_dlg.cpp:43 tools/ruledit/req_edit.cpp:137
 msgid "Close"
 msgstr "Dún"
-
-#: tools/ruledit/conversion_log.cpp:46
-msgid "Old ruleset to a new format"
-msgstr ""
 
 #: tools/ruledit/edit_impr.cpp:50 tools/ruledit/edit_utype.cpp:64
 #, fuzzy
@@ -237,6 +233,10 @@ msgstr "Náisiúin"
 msgid "Welcome to freeciv-ruledit"
 msgstr ""
 
+#: tools/ruledit/ruledit_qt.cpp:214
+msgid "Old ruleset to a new format"
+msgstr ""
+
 #: tools/ruledit/ruledit_qt.cpp:220
 #, fuzzy
 msgid "Ruleset loaded"
@@ -408,22 +408,22 @@ msgstr "An bhfuil fonn ort an réamhshocrú a bhaint?"
 msgid "A government with that rule name already exists!"
 msgstr "Tá cathair darb ainm %s ann cheana."
 
-#: tools/ruledit/tab_misc.cpp:73
+#: tools/ruledit/tab_misc.cpp:74
 #, fuzzy
 msgid "Ruleset name"
 msgstr "Rialacha"
 
-#: tools/ruledit/tab_misc.cpp:78
+#: tools/ruledit/tab_misc.cpp:79
 #, fuzzy
 msgid "Ruleset version"
 msgstr "_Leagan na Rialacha:"
 
-#: tools/ruledit/tab_misc.cpp:83
+#: tools/ruledit/tab_misc.cpp:84
 #, fuzzy
 msgid "Save to directory"
 msgstr "Sábháil cluichí i gcomhadlann CL"
 
-#: tools/ruledit/tab_misc.cpp:105
+#: tools/ruledit/tab_misc.cpp:106
 #, c-format
 msgid ""
 "If you want to be able to load the ruleset directly to freeciv, place it as "
@@ -431,130 +431,146 @@ msgid ""
 "Use server command \"/rulesetdir <subdirectory>\" to load it to freeciv."
 msgstr ""
 
-#: tools/ruledit/tab_misc.cpp:114
+#: tools/ruledit/tab_misc.cpp:115
 msgid "Version suffix to directory name"
 msgstr ""
 
-#: tools/ruledit/tab_misc.cpp:119
+#: tools/ruledit/tab_misc.cpp:120
 #, fuzzy
 msgid "Save now"
 msgstr "Sábháil an Cnámhscéal"
 
-#: tools/ruledit/tab_misc.cpp:123
+#: tools/ruledit/tab_misc.cpp:124
 msgid "Description from file"
 msgstr ""
 
-#: tools/ruledit/tab_misc.cpp:130
+#: tools/ruledit/tab_misc.cpp:131
 msgid "Description file"
 msgstr ""
 
-#: tools/ruledit/tab_misc.cpp:139
+#: tools/ruledit/tab_misc.cpp:137
+msgid "Sanity check rules"
+msgstr ""
+
+#: tools/ruledit/tab_misc.cpp:144
 #, fuzzy
 msgid "?stat:Terrains"
 msgstr "Tír-raon"
 
-#: tools/ruledit/tab_misc.cpp:143
+#: tools/ruledit/tab_misc.cpp:148
 #, fuzzy
 #| msgid "Resources"
 msgid "?stat:Resources"
 msgstr "Acmhainní"
 
-#: tools/ruledit/tab_misc.cpp:147
+#: tools/ruledit/tab_misc.cpp:152
 #, fuzzy
 msgid "?stat:Tech Classes"
 msgstr "Aonaid Chaillte\n"
 
-#: tools/ruledit/tab_misc.cpp:151
+#: tools/ruledit/tab_misc.cpp:156
 #, fuzzy
 msgid "?stat:Techs"
 msgstr "_Teic"
 
-#: tools/ruledit/tab_misc.cpp:155
+#: tools/ruledit/tab_misc.cpp:160
 #, fuzzy
 msgid "?stat:Unit Classes"
 msgstr "Aonaid Chaillte\n"
 
-#: tools/ruledit/tab_misc.cpp:159
+#: tools/ruledit/tab_misc.cpp:164
 #, fuzzy
 msgid "?stat:Unit Types"
 msgstr "Cineál Aonaid"
 
-#: tools/ruledit/tab_misc.cpp:163
+#: tools/ruledit/tab_misc.cpp:168
 #, fuzzy
 #| msgid "Bases"
 msgid "?stat:Enablers"
 msgstr "Bunáiteanna"
 
-#: tools/ruledit/tab_misc.cpp:167
+#: tools/ruledit/tab_misc.cpp:172
 #, fuzzy
 #| msgid "Buildings"
 msgid "?stat:Buildings"
 msgstr "Foirgnimh"
 
-#: tools/ruledit/tab_misc.cpp:171
+#: tools/ruledit/tab_misc.cpp:176
 #, fuzzy
 #| msgid "Nations"
 msgid "?stat:Nations"
 msgstr "Náisiúin"
 
-#: tools/ruledit/tab_misc.cpp:175
+#: tools/ruledit/tab_misc.cpp:180
 msgid "?stat:Styles"
 msgstr ""
 
-#: tools/ruledit/tab_misc.cpp:179
+#: tools/ruledit/tab_misc.cpp:184
 #, fuzzy
 msgid "?stat:Specialists"
 msgstr " Saineolaithe"
 
-#: tools/ruledit/tab_misc.cpp:183
+#: tools/ruledit/tab_misc.cpp:188
 #, fuzzy
 msgid "?stat:Governments"
 msgstr "Rialtas"
 
-#: tools/ruledit/tab_misc.cpp:187
+#: tools/ruledit/tab_misc.cpp:192
 #, fuzzy
 msgid "?stat:Disasters"
 msgstr "Éiceathubaiste"
 
-#: tools/ruledit/tab_misc.cpp:191
+#: tools/ruledit/tab_misc.cpp:196
 msgid "?stat:Achievements"
 msgstr ""
 
-#: tools/ruledit/tab_misc.cpp:195
+#: tools/ruledit/tab_misc.cpp:200
 msgid "?stat:Extras"
 msgstr ""
 
-#: tools/ruledit/tab_misc.cpp:199
+#: tools/ruledit/tab_misc.cpp:204
 #, fuzzy
 #| msgid "Bases"
 msgid "?stat:Bases"
 msgstr "Bunáiteanna"
 
-#: tools/ruledit/tab_misc.cpp:203
+#: tools/ruledit/tab_misc.cpp:208
 #, fuzzy
 msgid "?stat:Roads"
 msgstr "Bóthar"
 
-#: tools/ruledit/tab_misc.cpp:207
+#: tools/ruledit/tab_misc.cpp:212
 #, fuzzy
 msgid "?stat:Goods"
 msgstr "Bóthar"
 
-#: tools/ruledit/tab_misc.cpp:211
+#: tools/ruledit/tab_misc.cpp:216
 #, fuzzy
 #| msgid "Buildings"
 msgid "?stat:Multipliers"
 msgstr "Foirgnimh"
 
-#: tools/ruledit/tab_misc.cpp:219
+#: tools/ruledit/tab_misc.cpp:224
 #, fuzzy
 msgid "Refresh Stats"
 msgstr "Athnuaigh"
 
-#: tools/ruledit/tab_misc.cpp:301
+#: tools/ruledit/tab_misc.cpp:306
 #, fuzzy
 msgid "Ruleset saved"
 msgstr "Rialacha"
+
+#: tools/ruledit/tab_misc.cpp:472
+msgid "Sanity Check"
+msgstr ""
+
+#: tools/ruledit/tab_misc.cpp:479
+msgid "Sanity check failed!"
+msgstr ""
+
+#: tools/ruledit/tab_misc.cpp:481
+msgid "Sanity check success"
+msgstr ""
 
 #: tools/ruledit/tab_nation.cpp:50
 #, fuzzy

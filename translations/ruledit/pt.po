@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2022-07-04 21:56+0300\n"
+"POT-Creation-Date: 2022-08-22 19:22+0300\n"
 "PO-Revision-Date: 2013-09-09 09:59+0300\n"
 "Last-Translator: Duarte Loreto <happyguy_pt@hotmail.com>\n"
 "Language-Team: \n"
@@ -25,10 +25,6 @@ msgstr ""
 #: tools/ruledit/conversion_log.cpp:41 tools/ruledit/req_vec_fix.cpp:190
 #: tools/ruledit/requirers_dlg.cpp:43 tools/ruledit/req_edit.cpp:137
 msgid "Close"
-msgstr ""
-
-#: tools/ruledit/conversion_log.cpp:46
-msgid "Old ruleset to a new format"
 msgstr ""
 
 #: tools/ruledit/edit_impr.cpp:50 tools/ruledit/edit_utype.cpp:64
@@ -242,6 +238,10 @@ msgstr ""
 msgid "Welcome to freeciv-ruledit"
 msgstr "Cliente para o Freeciv"
 
+#: tools/ruledit/ruledit_qt.cpp:214
+msgid "Old ruleset to a new format"
+msgstr ""
+
 #: tools/ruledit/ruledit_qt.cpp:220
 #, fuzzy
 msgid "Ruleset loaded"
@@ -407,22 +407,22 @@ msgstr "Remover esta pré-definição?"
 msgid "A government with that rule name already exists!"
 msgstr ""
 
-#: tools/ruledit/tab_misc.cpp:73
+#: tools/ruledit/tab_misc.cpp:74
 #, fuzzy
 msgid "Ruleset name"
 msgstr "Deserto"
 
-#: tools/ruledit/tab_misc.cpp:78
+#: tools/ruledit/tab_misc.cpp:79
 #, fuzzy
 msgid "Ruleset version"
 msgstr "_Pré-definições:"
 
-#: tools/ruledit/tab_misc.cpp:83
+#: tools/ruledit/tab_misc.cpp:84
 #, fuzzy
 msgid "Save to directory"
 msgstr "Grava jogo para ficheiro."
 
-#: tools/ruledit/tab_misc.cpp:105
+#: tools/ruledit/tab_misc.cpp:106
 #, c-format
 msgid ""
 "If you want to be able to load the ruleset directly to freeciv, place it as "
@@ -430,111 +430,127 @@ msgid ""
 "Use server command \"/rulesetdir <subdirectory>\" to load it to freeciv."
 msgstr ""
 
-#: tools/ruledit/tab_misc.cpp:114
+#: tools/ruledit/tab_misc.cpp:115
 msgid "Version suffix to directory name"
 msgstr ""
 
-#: tools/ruledit/tab_misc.cpp:119
+#: tools/ruledit/tab_misc.cpp:120
 #, fuzzy
 msgid "Save now"
 msgstr "Iniciar Novo Jogo"
 
-#: tools/ruledit/tab_misc.cpp:123
+#: tools/ruledit/tab_misc.cpp:124
 msgid "Description from file"
 msgstr ""
 
-#: tools/ruledit/tab_misc.cpp:130
+#: tools/ruledit/tab_misc.cpp:131
 msgid "Description file"
 msgstr ""
 
-#: tools/ruledit/tab_misc.cpp:139
+#: tools/ruledit/tab_misc.cpp:137
+msgid "Sanity check rules"
+msgstr ""
+
+#: tools/ruledit/tab_misc.cpp:144
 msgid "?stat:Terrains"
 msgstr ""
 
-#: tools/ruledit/tab_misc.cpp:143
+#: tools/ruledit/tab_misc.cpp:148
 msgid "?stat:Resources"
 msgstr ""
 
-#: tools/ruledit/tab_misc.cpp:147
+#: tools/ruledit/tab_misc.cpp:152
 #, fuzzy
 msgid "?stat:Tech Classes"
 msgstr "_Sim"
 
-#: tools/ruledit/tab_misc.cpp:151
+#: tools/ruledit/tab_misc.cpp:156
 #, fuzzy
 msgid "?stat:Techs"
 msgstr "_Sim"
 
-#: tools/ruledit/tab_misc.cpp:155
+#: tools/ruledit/tab_misc.cpp:160
 msgid "?stat:Unit Classes"
 msgstr ""
 
-#: tools/ruledit/tab_misc.cpp:159
+#: tools/ruledit/tab_misc.cpp:164
 msgid "?stat:Unit Types"
 msgstr ""
 
-#: tools/ruledit/tab_misc.cpp:163
+#: tools/ruledit/tab_misc.cpp:168
 #, fuzzy
 msgid "?stat:Enablers"
 msgstr "_Sim"
 
-#: tools/ruledit/tab_misc.cpp:167
+#: tools/ruledit/tab_misc.cpp:172
 msgid "?stat:Buildings"
 msgstr ""
 
-#: tools/ruledit/tab_misc.cpp:171
+#: tools/ruledit/tab_misc.cpp:176
 msgid "?stat:Nations"
 msgstr ""
 
-#: tools/ruledit/tab_misc.cpp:175
+#: tools/ruledit/tab_misc.cpp:180
 msgid "?stat:Styles"
 msgstr ""
 
-#: tools/ruledit/tab_misc.cpp:179
+#: tools/ruledit/tab_misc.cpp:184
 msgid "?stat:Specialists"
 msgstr ""
 
-#: tools/ruledit/tab_misc.cpp:183
+#: tools/ruledit/tab_misc.cpp:188
 msgid "?stat:Governments"
 msgstr ""
 
-#: tools/ruledit/tab_misc.cpp:187
+#: tools/ruledit/tab_misc.cpp:192
 msgid "?stat:Disasters"
 msgstr ""
 
-#: tools/ruledit/tab_misc.cpp:191
+#: tools/ruledit/tab_misc.cpp:196
 msgid "?stat:Achievements"
 msgstr ""
 
-#: tools/ruledit/tab_misc.cpp:195
+#: tools/ruledit/tab_misc.cpp:200
 msgid "?stat:Extras"
 msgstr ""
 
-#: tools/ruledit/tab_misc.cpp:199
+#: tools/ruledit/tab_misc.cpp:204
 msgid "?stat:Bases"
 msgstr ""
 
-#: tools/ruledit/tab_misc.cpp:203
+#: tools/ruledit/tab_misc.cpp:208
 msgid "?stat:Roads"
 msgstr ""
 
-#: tools/ruledit/tab_misc.cpp:207
+#: tools/ruledit/tab_misc.cpp:212
 #, fuzzy
 msgid "?stat:Goods"
 msgstr "_Sim"
 
-#: tools/ruledit/tab_misc.cpp:211
+#: tools/ruledit/tab_misc.cpp:216
 msgid "?stat:Multipliers"
 msgstr ""
 
-#: tools/ruledit/tab_misc.cpp:219
+#: tools/ruledit/tab_misc.cpp:224
 msgid "Refresh Stats"
 msgstr ""
 
-#: tools/ruledit/tab_misc.cpp:301
+#: tools/ruledit/tab_misc.cpp:306
 #, fuzzy
 msgid "Ruleset saved"
 msgstr "Deserto"
+
+#: tools/ruledit/tab_misc.cpp:472
+msgid "Sanity Check"
+msgstr ""
+
+#: tools/ruledit/tab_misc.cpp:479
+msgid "Sanity check failed!"
+msgstr ""
+
+#: tools/ruledit/tab_misc.cpp:481
+msgid "Sanity check success"
+msgstr ""
 
 #: tools/ruledit/tab_nation.cpp:50
 msgid "Use nationlist"

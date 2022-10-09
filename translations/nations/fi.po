@@ -711,7 +711,14 @@ msgid ""
 "autonomous province in Finland, a status that was reached in 1921 after a "
 "long period in which the islands were contested between Sweden and Finland. "
 "Åland's special and demilitarized status is protected by international law."
-msgstr "Ahvenanmaa on Itämeren saaristo, joka sijaitsee Ruotsin ja Suomen välissä. Saaren asukkaat puhuvat ruotsia, mutta Ahvenanmaan maakunta on osa Suomea. Ahvenanmaan itsehallinto myönnettiin 1921, mitä edelsi pitkä keskustelu siitä, kuuluisiko Ahvenanmaa liittää osaksi Ruotsia. Kansainliitto ratkaisi tämän Ahvenanmaan kysymyksen lopulta Suomen eduksi. Ahvenanmaan erikoisasemaa neutraalina ja linnoittamattomana suojaa Genevessä 1921 tehty kansainvälinen sopimus."
+msgstr ""
+"Ahvenanmaa on Itämeren saaristo, joka sijaitsee Ruotsin ja Suomen välissä. "
+"Saaren asukkaat puhuvat ruotsia, mutta Ahvenanmaan maakunta on osa Suomea. "
+"Ahvenanmaan itsehallinto myönnettiin 1921, mitä edelsi pitkä keskustelu "
+"siitä, kuuluisiko Ahvenanmaa liittää osaksi Ruotsia. Kansainliitto ratkaisi "
+"tämän Ahvenanmaan kysymyksen lopulta Suomen eduksi. Ahvenanmaan "
+"erikoisasemaa neutraalina ja linnoittamattomana suojaa Genevessä 1921 tehty "
+"kansainvälinen sopimus."
 
 #: data/nation/alander.ruleset:28 data/nation/faroese.ruleset:31
 #: data/nation/icelandic.ruleset:22 data/nation/norwegian.ruleset:29
