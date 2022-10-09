@@ -99,6 +99,6 @@ src-check:
 	cd tests && $(MAKE) $(AM_MAKEFLAGS) src-check
 
 doc:
-	doxy_srcdir="$(top_srcdir)/" doxygen $(top_srcdir)/doc/freeciv.doxygen
+	doxy_srcdir="$(top_srcdir)/" doxy_version="-$(MAIN_VERSION)" doxygen $(top_srcdir)/doc/freeciv.doxygen
 
 .PHONY: src-check doc
