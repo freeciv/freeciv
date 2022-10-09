@@ -171,6 +171,8 @@ static int city_dialog_shell_is_modal;
 
 bool select_menu_cached;
 
+static GMenu *display_menu;
+
 /************************************************************************//**
   Return text line for the column headers for the city report
 ****************************************************************************/
@@ -988,6 +990,7 @@ static void production_menu_shown(GtkWidget *widget, gpointer data)
 
   gtk_widget_show(menu);
 }
+#endif /* MENUS_GTK3 */
 
 /************************************************************************//**
   Update city report views
@@ -1014,35 +1017,65 @@ static void city_report_update_views(void)
 }
 
 /************************************************************************//**
-  User has toggled some column viewing option
+  Create up-to-date menu item for the display menu
 ****************************************************************************/
-static void toggle_view(GtkCheckMenuItem *item, gpointer data)
+static GMenuItem *create_display_menu_item(int pos)
 {
-  struct city_report_spec *spec = data;
+  GMenuItem *item;
+  char act_name[50];
+  struct city_report_spec *spec = city_report_specs + pos;
+  GVariant *var;
 
-  spec->show ^= 1;
-  city_report_update_views();
+  fc_snprintf(act_name, sizeof(act_name), "win.display%d", pos);
+  item = g_menu_item_new(spec->explanation, NULL);
+  var = g_variant_new("b", (gboolean)(spec->show));
+  g_menu_item_set_action_and_target_value(item, act_name, var);
+
+  return item;
 }
 
 /************************************************************************//**
-  Create view menu for city report menu.
+  User has toggled some column viewing option
 ****************************************************************************/
-static void update_view_menu(GtkWidget *show_item)
+static void toggle_view(GSimpleAction *act, GVariant *value, gpointer data)
 {
-  GtkWidget *menu, *item;
+  struct city_report_spec *spec = data;
+  int idx = spec - city_report_specs;
+
+  spec->show ^= 1;
+  city_report_update_views();
+
+  g_menu_remove(display_menu, idx);
+  g_menu_insert_item(display_menu, idx, create_display_menu_item(idx));
+}
+
+/************************************************************************//**
+  Create columns selection menu for the city report.
+****************************************************************************/
+static GMenu *create_display_menu(GActionGroup *group)
+{
   struct city_report_spec *spec;
   int i;
+  GVariantType *bvart = g_variant_type_new("b");
 
-  menu = gtk_menu_button_new();
-  for (i = 0, spec = city_report_specs + i; i < NUM_CREPORT_COLS; i++, spec++) {
-    item = gtk_check_menu_item_new_with_label(spec->explanation);
-    gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-    gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item), spec->show);
-    g_signal_connect(item, "toggled", G_CALLBACK(toggle_view), (gpointer)spec);
+  display_menu = g_menu_new();
+  for (i = 0, spec = city_report_specs; i < NUM_CREPORT_COLS; i++, spec++) {
+    GSimpleAction *act;
+    char act_name[50];
+    GVariant *var = g_variant_new("b", TRUE);
+
+    fc_snprintf(act_name, sizeof(act_name), "display%d", i);
+    act = g_simple_action_new_stateful(act_name, bvart, var);
+    g_action_map_add_action(G_ACTION_MAP(group), G_ACTION(act));
+    g_signal_connect(act, "change-state", G_CALLBACK(toggle_view), (gpointer)spec);
+
+    g_menu_insert_item(display_menu, i, create_display_menu_item(i));
   }
-  gtk_menu_item_set_submenu(GTK_MENU_ITEM(show_item), menu);
+
+  g_variant_type_free(bvart);
+
+  return display_menu;
 }
-#endif /* MENUS_GTK3 */
 
 /************************************************************************//**
   Create menu for city report
@@ -1129,11 +1162,10 @@ static GtkWidget *create_city_report_menu(void)
   item = gtk_menu_item_new_with_mnemonic(_("_Select"));
   gtk_menu_shell_append(GTK_MENU_SHELL(aux_menu), item);
   create_select_menu(item);
-
-  item = gtk_menu_item_new_with_mnemonic(_("_Display"));
-  gtk_menu_shell_append(GTK_MENU_SHELL(aux_menu), item);
-  update_view_menu(item);
 #endif /* MENUS_GTK3 */
+
+  submenu = create_display_menu(group);
+  g_menu_append_submenu(menu, _("_Display"), G_MENU_MODEL(submenu));
 
   gtk_widget_insert_action_group(aux_menu, "win", group);
   gtk_menu_button_set_menu_model(GTK_MENU_BUTTON(aux_menu), G_MENU_MODEL(menu));
