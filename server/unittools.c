@@ -4136,9 +4136,6 @@ bool execute_orders(struct unit *punit, const bool fresh)
 
   while (TRUE) {
     struct unit_order order;
-
-    struct action *oaction;
-
     struct tile *dst_tile;
     struct city *tgt_city;
     struct unit *tgt_unit;
@@ -4367,12 +4364,16 @@ bool execute_orders(struct unit *punit, const bool fresh)
       }
       break;
     case ORDER_PERFORM_ACTION:
-      oaction = action_by_number(order.action);
+      {
+#if !defined(FREECIV_NDEBUG) || defined(FREECIV_DEBUG)
+        struct action *oaction = action_by_number(order.action);
+#endif /* !FREECIV_NDEBUG || FREECIV_DEBUG */
 
-      /* Checked in unit_order_list_is_sane() */
-      fc_assert_action(oaction != NULL, continue);
+        /* Checked in unit_order_list_is_sane() */
+        fc_assert_action(oaction != NULL, continue);
 
-      log_debug("  orders: doing action %s", action_rule_name(oaction));
+        log_debug("  orders: doing action %s", action_rule_name(oaction));
+      }
 
       if (!direction8_is_valid(order.dir)) {
         /* The target of the action is on the actor's tile. */
