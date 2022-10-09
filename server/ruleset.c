@@ -4723,8 +4723,7 @@ static bool load_nation_names(struct section_file *file,
                  && !strcmp("freeciv", domain)) {
         pl->translation_domain = NULL;
       } else if (!strcmp("freeciv-nations", domain)) {
-        pl->translation_domain = fc_malloc(strlen(domain) + 1);
-        strcpy(pl->translation_domain, domain);
+        pl->translation_domain = fc_strdup(domain);
       } else {
         ruleset_error(NULL, LOG_ERROR,
                       "Unsupported translation domain \"%s\" for %s",
@@ -4733,11 +4732,11 @@ static bool load_nation_names(struct section_file *file,
         break;
       }
 
-      if (!ruleset_load_names(&pl->adjective, domain, file, sec_name)) {
+      if (!ruleset_load_names(&pl->adjective, pl->translation_domain, file, sec_name)) {
         ok = FALSE;
         break;
       }
-      name_set(&pl->noun_plural, domain, noun_plural);
+      name_set(&pl->noun_plural, pl->translation_domain, noun_plural);
 
       /* Check if nation name is already defined. */
       for (j = 0; j < i && ok; j++) {
