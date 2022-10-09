@@ -7,7 +7,7 @@
 -- This code is free software; you can redistribute it and/or modify it.
 -- The software provided hereunder is on an "as is" basis, and
 -- the author has no obligation to provide maintenance, support, updates,
--- enhancements, or modifications. 
+-- enhancements, or modifications.
 
 
 -- Variable class
@@ -53,7 +53,7 @@ function classVariable:cfuncname (prefix)
  elseif self.ptr == "&" then ptr = "_ref"
  end
 
- local name =  prefix .. parent .. unsigned .. "_" .. gsub(self.name,".*::","")  .. ptr 
+ local name =  prefix .. parent .. unsigned .. "_" .. gsub(self.name,".*::","")  .. ptr
 
  return name
 
@@ -98,8 +98,8 @@ function classVariable:supcode ()
   output("/* get function:",self.name," */")
   self.cgetname = self:cfuncname("tolua_get")
  end
- 
- output("static int",self.cgetname,"(lua_State* tolua_S)") 
+
+ output("static int",self.cgetname,"(lua_State* tolua_S)")
  output("{")
 
  -- declare self, if the case
@@ -178,7 +178,7 @@ function classVariable:supcode ()
   output('  if (!'..self:outchecktype(2,true)..')')
   output('   tolua_error(tolua_S,"#vinvalid type in variable assignment.",&tolua_err);')
 		output('#endif\n')
- 
+
   -- assign value
 		local def = 0
 		if self.def ~= '' then def = self.def end
@@ -215,7 +215,7 @@ function classVariable:supcode ()
 			 if isenum(self.type) then
 				 output('(int) ')
 				end
-				if t=='function' then t='value' end 
+				if t=='function' then t='value' end
 				output('tolua_to'..t,'(tolua_S,2,',def,'));')
 			else
 				output('tolua_tousertype(tolua_S,2,',def,'));')
@@ -224,7 +224,7 @@ function classVariable:supcode ()
   output(' return 0;')
   output('}')
   output('\n')
- end 
+ end
 
 end
 
@@ -233,7 +233,7 @@ function classVariable:register ()
  if not parent then
   if classVariable._warning==nil then
    warning("Mapping variable to global may degrade performance")
-   classVariable._warning = 1 
+   classVariable._warning = 1
   end
  end
  if self.csetname then

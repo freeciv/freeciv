@@ -7,7 +7,7 @@
 -- This code is free software; you can redistribute it and/or modify it.
 -- The software provided hereunder is on an "as is" basis, and
 -- the author has no obligation to provide maintenance, support, updates,
--- enhancements, or modifications. 
+-- enhancements, or modifications.
 
 
 -- Array class
@@ -59,7 +59,7 @@ function classArray:supcode ()
   output("/* get function:",self.name," */")
  end
  self.cgetname = self:cfuncname("tolua_get")
- output("static int",self.cgetname,"(lua_State* tolua_S)") 
+ output("static int",self.cgetname,"(lua_State* tolua_S)")
  output("{")
  output(" int tolua_index;")
 
@@ -132,7 +132,7 @@ function classArray:supcode ()
   elseif static then
    _,_,self.mod = strfind(self.mod,'^%s*static%s%s*(.*)')
   end
- 
+
   -- check index
 	 output('#ifndef TOLUA_RELEASE\n')
 	 output(' {')
@@ -180,7 +180,7 @@ function classArray:supcode ()
   output(' return 0;')
   output('}')
   output('\n')
- end 
+ end
 
 end
 

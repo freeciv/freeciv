@@ -3,7 +3,9 @@ Not entire tolua distribution directory hierarchy is included here, and
 some files needed for Freeciv usage have been added.
 
 Changes applied to included tolua source files are included in
-patches in patch -directory.
+patches in patch -directory. Trailing spaces and tabs have
+been stripped from the .lua files to form the baseline for
+these patches.
 
 Changes to toluabind.c are not included in the patches - one needs
 to regenerate that file after applying them.

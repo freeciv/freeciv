@@ -7,7 +7,7 @@
 -- This code is free software; you can redistribute it and/or modify it.
 -- The software provided hereunder is on an "as is" basis, and
 -- the author has no obligation to provide maintenance, support, updates,
--- enhancements, or modifications. 
+-- enhancements, or modifications.
 
 
 -- Declaration class
@@ -156,7 +156,7 @@ function classDeclaration:outchecktype (narg,var)
  else
   def = 0
  end
- if self.dim ~= '' then 
+ if self.dim ~= '' then
 	 if var and self.type=='char' then
    return 'tolua_isstring(tolua_S,'..narg..','..def..',&tolua_err)'
 		else
@@ -186,7 +186,7 @@ function classDeclaration:builddeclaration (narg, cplusplus)
  line = concatparam(line," ",self.mod,ctype,ptr)
  if array then
   line = concatparam(line,'*')
- end 
+ end
  line = concatparam(line,self.name)
  if self.dim ~= '' then
   if tonumber(self.dim)~=nil then
@@ -283,7 +283,7 @@ function classDeclaration:getarray (narg)
   if t then
 		 if t=='function' then t='value' end
    output('tolua_tofield'..t..'(tolua_S,',narg,',i+1,',def,'));')
-  else 
+  else
    output('tolua_tofieldusertype(tolua_S,',narg,',i+1,',def,'));')
   end
   output('   }')
@@ -419,7 +419,7 @@ function Declaration (s,kind)
    kind = kind
   }
  end
- 
+
  -- check the form: mod type& name
  t = split(s,'&')
  if t.n == 2 then
@@ -432,7 +432,7 @@ function Declaration (s,kind)
    kind = kind
   }
  end
-  
+
  -- check the form: mod type* name
  local s1 = gsub(s,"(%b%[%])",function (n) return gsub(n,'%*','\1') end)
  t = split(s1,'%*')
@@ -461,7 +461,7 @@ function Declaration (s,kind)
   }
 
  else -- kind == "func"
- 
+
   -- check the form: mod type name
   t = split(s,'%s%s*')
   local v = t[t.n]  -- last word is the function name

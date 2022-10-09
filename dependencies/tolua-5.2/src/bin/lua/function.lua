@@ -7,7 +7,7 @@
 -- This code is free software; you can redistribute it and/or modify it.
 -- The software provided hereunder is on an "as is" basis, and
 -- the author has no obligation to provide maintenance, support, updates,
--- enhancements, or modifications. 
+-- enhancements, or modifications.
 
 
 
@@ -85,14 +85,14 @@ function classFunction:supcode ()
 		 func = 'tolua_isusertable'
 			type = self.parent.type
 		end
-		output('     !'..func..'(tolua_S,1,"'..type..'",0,&tolua_err) || \n') 
+		output('     !'..func..'(tolua_S,1,"'..type..'",0,&tolua_err) || \n')
  end
  -- check args
  local vararg = false
  if self.args[1].type ~= 'void' then
   local i=1
   while self.args[i] and self.args[i].type ~= "..." do
-		 local btype = isbasic(self.args[i].type) 
+		 local btype = isbasic(self.args[i].type)
 			if btype ~= 'state' then
     output('     !'..self.args[i]:outchecktype(narg,false)..' || \n')
    end
@@ -105,7 +105,7 @@ function classFunction:supcode ()
    vararg = true
   end
  end
- -- check end of list 
+ -- check end of list
  if not vararg then
    output('     !tolua_isnoobj(tolua_S,'..narg..',&tolua_err)\n')
  else
@@ -119,7 +119,7 @@ function classFunction:supcode ()
 	 output('#endif\n')
 	end
 	output(' {')
- 
+
  -- declare self, if the case
  local narg
  if class then narg=2 else narg=1 end
@@ -143,7 +143,7 @@ function classFunction:supcode ()
  end
 
  -- check self
- if class and self.name~='new' and static==nil then 
+ if class and self.name~='new' and static==nil then
 	 output('#ifndef TOLUA_RELEASE\n')
   output('  if (!self) tolua_error(tolua_S,"invalid \'self\' in function \''..self.name..'\'",NULL);');
 	 output('#endif\n')
@@ -205,7 +205,7 @@ function classFunction:supcode ()
     output(',')
    end
   end
-     
+
   if class and self.name == 'operator[]' then
    output('-1);')
 		else
@@ -229,7 +229,7 @@ function classFunction:supcode ()
     if self.ptr == '' then
      output('   {')
      output('#ifdef __cplusplus\n')
-     output('    void* tolua_obj = new',t,'(tolua_ret);') 
+     output('    void* tolua_obj = new',t,'(tolua_ret);')
 	    output('    tolua_pushusertype(tolua_S,tolua_clone(tolua_S,tolua_obj,'.. (_collect[t] or 'NULL') ..'),"',t,'");')
      output('#else\n')
      output('    void* tolua_obj = tolua_copy(tolua_S,(void*)&tolua_ret,sizeof(',t,'));')
@@ -267,7 +267,7 @@ function classFunction:supcode ()
      i = i+1
    end
   end
- 
+
   -- free dynamically allocated array
   if self.args[1].type ~= 'void' then
    local i=1

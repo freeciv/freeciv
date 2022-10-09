@@ -7,7 +7,7 @@
 -- This code is free software; you can redistribute it and/or modify it.
 -- The software provided hereunder is on an "as is" basis, and
 -- the author has no obligation to provide maintenance, support, updates,
--- enhancements, or modifications. 
+-- enhancements, or modifications.
 
 
 -- Feature class
@@ -90,7 +90,7 @@ function classFeature:cfuncname (n)
   n = self.parent:cfuncname(n)
  end
 
- if self.lname and 
+ if self.lname and
 	   strsub(self.lname,1,1)~="."  -- operator are named as ".add"
 	then
   return n..'_'..self.lname

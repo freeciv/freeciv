@@ -60,7 +60,7 @@ function classClass:requirecollection (t)
   i = i+1
  end
  pop()
-	-- only class that exports destructor can be appropriately collected  
+	-- only class that exports destructor can be appropriately collected
 	if self._delete then
   t[self.type] = "tolua_collect_" .. gsub(self.type,"::","_")
 		r = true

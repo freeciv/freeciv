@@ -7,7 +7,7 @@
 -- This code is free software; you can redistribute it and/or modify it.
 -- The software provided hereunder is on an "as is" basis, and
 -- the author has no obligation to provide maintenance, support, updates,
--- enhancements, or modifications. 
+-- enhancements, or modifications.
 
 
 
@@ -38,7 +38,7 @@ function classPackage:preprocess ()
  self.code = gsub(self.code,"\n%s*%$%]","\2")
  self.code = gsub(self.code,"(%b\1\2)",       function (c)
                                                tinsert(L,c)
-                                               return "\n#["..getn(L).."]#" 
+                                               return "\n#["..getn(L).."]#"
                                               end)
  -- avoid preprocessing embedded C code
  local C = {}
@@ -46,14 +46,14 @@ function classPackage:preprocess ()
  self.code = gsub(self.code,"\n%s*%$%>","\4")
  self.code = gsub(self.code,"(%b\3\4)",       function (c)
                                                tinsert(C,c)
-                                               return "\n#<"..getn(C)..">#" 
+                                               return "\n#<"..getn(C)..">#"
                                               end)
 
  -- avoid preprocessing verbatim lines
  local V = {}
  self.code = gsub(self.code,"\n(%s*%$[^%[%]][^\n]*)",function (v)
                                                tinsert(V,v)
-                                               return "\n#"..getn(V).."#" 
+                                               return "\n#"..getn(V).."#"
                                               end)
  -- perform global substitution
 

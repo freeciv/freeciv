@@ -13,7 +13,7 @@
 
 -- Basic C types and their corresponding Lua types
 -- All occurrences of "char*" will be replaced by "_cstring",
--- and all occurrences of "void*" will be replaced by "_userdata" 
+-- and all occurrences of "void*" will be replaced by "_userdata"
 _basic = {
  ['void'] = '',
  ['char'] = 'number',
@@ -175,9 +175,9 @@ function concatparam (line, ...)
  local arg = {...}
  local i=1
  while i<=#arg do
-  if _cont and not strfind(_cont,'[%(,"]') and 
-     strfind(arg[i],"^[%a_~]") then 
-	    line = line .. ' ' 
+  if _cont and not strfind(_cont,'[%(,"]') and
+     strfind(arg[i],"^[%a_~]") then
+	    line = line .. ' '
   end
   line = line .. arg[i]
   if arg[i] ~= '' then
@@ -185,7 +185,7 @@ function concatparam (line, ...)
   end
   i = i+1
  end
- if strfind(arg[#arg],"[%/%)%;%{%}]$") then 
+ if strfind(arg[#arg],"[%/%)%;%{%}]$") then
   _cont=nil line = line .. '\n'
  end
 	return line
@@ -196,9 +196,9 @@ function output (...)
  local arg = {...}
  local i=1
  while i<=#arg do
-  if _cont and not strfind(_cont,'[%(,"]') and 
-     strfind(arg[i],"^[%a_~]") then 
-	    write(' ') 
+  if _cont and not strfind(_cont,'[%(,"]') and
+     strfind(arg[i],"^[%a_~]") then
+	    write(' ')
   end
   write(arg[i])
   if arg[i] ~= '' then
@@ -206,7 +206,7 @@ function output (...)
   end
   i = i+1
  end
- if strfind(arg[#arg],"[%/%)%;%{%}]$") then 
+ if strfind(arg[#arg],"[%/%)%;%{%}]$") then
   _cont=nil write('\n')
  end
 end

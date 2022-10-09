@@ -7,7 +7,7 @@
 -- This code is free software; you can redistribute it and/or modify it.
 -- The software provided hereunder is on an "as is" basis, and
 -- the author has no obligation to provide maintenance, support, updates,
--- enhancements, or modifications. 
+-- enhancements, or modifications.
 
 -- table to store namespaced typedefs/enums in global scope
 global_typedefs = {}
@@ -16,7 +16,7 @@ global_enums = {}
 -- Container class
 -- Represents a container of features to be bound
 -- to lua.
-classContainer = 
+classContainer =
 {
  curr = nil,
 }
@@ -84,14 +84,14 @@ end
 
 -- get current namespace
 function getcurrnamespace ()
-	return getnamespace(classContainer.curr) 
+	return getnamespace(classContainer.curr)
 end
 
 -- append to current container
 function append (t)
  return classContainer.curr:append(t)
 end
- 
+
 -- append typedef to current container
 function appendtypedef (t)
  return classContainer.curr:appendtypedef(t)
@@ -106,7 +106,7 @@ end
 function appendenum (t)
  return classContainer.curr:appendenum(t)
 end
- 
+
 -- substitute typedef
 function applytypedef (type)
  return classContainer.curr:applytypedef(type)
@@ -157,10 +157,10 @@ end
 function getnamespace (curr)
 	local namespace = ''
 	while curr do
-	 if curr and 
+	 if curr and
 		   ( curr.classtype == 'class' or curr.classtype == 'namespace')
 		then
-		 namespace = curr.name .. '::' .. namespace 
+		 namespace = curr.name .. '::' .. namespace
 		end
 	 curr = curr.prox
 	end
@@ -173,9 +173,9 @@ function getonlynamespace ()
 	local namespace = ''
 	while curr do
 		if curr.classtype == 'class' then
-		 return namespace 
+		 return namespace
 		elseif curr.classtype == 'namespace' then
-		 namespace = curr.name .. '::' .. namespace 
+		 namespace = curr.name .. '::' .. namespace
 		end
 	 curr = curr.prox
 	end
@@ -194,7 +194,7 @@ function classContainer:append (t)
  t.parent = self
 end
 
--- append typedef 
+-- append typedef
 function classContainer:appendtypedef (t)
  local namespace = getnamespace(classContainer.curr)
  self.typedefs.tolua_n = self.typedefs.tolua_n + 1
@@ -217,7 +217,7 @@ function classContainer:appendusertype (t)
 	return ft
 end
 
--- append enum 
+-- append enum
 function classContainer:appendenum (t)
  local namespace = getnamespace(classContainer.curr)
  self.enums.tolua_n = self.enums.tolua_n + 1
@@ -227,7 +227,7 @@ end
 
 -- determine lua function name overload
 function classContainer:overload (lname)
- if not self.lnames[lname] then 
+ if not self.lnames[lname] then
   self.lnames[lname] = 0
  else
   self.lnames[lname] = self.lnames[lname] + 1
@@ -238,7 +238,7 @@ end
 -- applies typedef: returns the 'the facto' modifier and type
 function classContainer:applytypedef (type)
  if global_typedefs[type] then
-	local mod1, type1 = global_typedefs[type].mod, global_typedefs[type].type 
+	local mod1, type1 = global_typedefs[type].mod, global_typedefs[type].type
 	local mod2, type2 = applytypedef(type1)
 	return mod2 .. ' ' .. mod1, type2
  end
@@ -259,7 +259,7 @@ function classContainer:applytypedef (type)
   env = env.parent
  end
  return '',type
-end 
+end
 
 -- check if it is a typedef
 function classContainer:istypedef (type)
@@ -276,7 +276,7 @@ function classContainer:istypedef (type)
   end
   env = env.parent
  end
- return nil 
+ return nil
 end
 
 -- check if is a registered type: return full type or nil
@@ -315,7 +315,7 @@ function classContainer:isenum (type)
   end
   env = env.parent
  end
- return false 
+ return false
 end
 
 -- parse chunk
@@ -327,8 +327,8 @@ function classContainer:doparse (s)
   if b then
    Code(strsub(code,2,-2))
    return strsub(s,e+1)
-  end 
- end 
+  end
+ end
 
  -- try C code
  do
@@ -337,8 +337,8 @@ function classContainer:doparse (s)
 		 code = '{'..strsub(code,2,-2)..'\n}\n'
    Verbatim(code,'r')        -- verbatim code for 'r'egister fragment
    return strsub(s,e+1)
-  end 
- end 
+  end
+ end
 
  -- try verbatim
  do
@@ -346,8 +346,8 @@ function classContainer:doparse (s)
   if b then
    Verbatim(line)
    return strsub(s,e+1)
-  end 
- end 
+  end
+ end
 
 
  -- try module
@@ -399,13 +399,13 @@ function classContainer:doparse (s)
   end
  end
 
- -- try operator 
+ -- try operator
  do
   local b,e,decl,kind,arg,const = strfind(s,"^%s*([_%w][_%w%s%*&:]*operator)%s*([^%s][^%s]*)%s*(%b())%s*(c?o?n?s?t?)%s*;%s*")
   if not b then
 		 -- try inline
    b,e,decl,kind,arg,const = strfind(s,"^%s*([_%w][_%w%s%*&:]*operator)%s*([^%s][^%s]*)%s*(%b())%s*(c?o?n?s?t?)%s*%b{}%s*;?%s*")
-  end 
+  end
 		if b then
    _curr_code = strsub(s,b,e)
    Operator(decl,kind,arg,const)
@@ -467,9 +467,9 @@ function classContainer:doparse (s)
 			end
 		end
 		if b then
-			if base ~= '' then 
+			if base ~= '' then
 				local b,e
-				b,e,base = strfind(base,".-([_%w][_%w]*)$") 
+				b,e,base = strfind(base,".-([_%w][_%w]*)$")
 			end
 			_curr_code = strsub(s,b,e)
 			Class(name,base,body)
