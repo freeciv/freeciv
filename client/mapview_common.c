@@ -2193,26 +2193,25 @@ static void show_small_citybar(struct canvas *pcanvas,
     drawposx = canvas_x;
     drawposx -= total_width / 2;
     canvas_put_text(pcanvas, drawposx / map_zoom, canvas_y / map_zoom,
-		    FONT_CITY_NAME,
-		    get_color(tileset, COLOR_MAPVIEW_CITYTEXT), name);
+                    FONT_CITY_NAME,
+                    get_color(tileset, COLOR_MAPVIEW_CITYTEXT), name);
     drawposx += name_rect.w;
 
     if (gui_options.draw_city_growth && can_see_inside) {
       drawposx += spacer_width;
       canvas_put_text(pcanvas, drawposx / map_zoom,
-		      (canvas_y + total_height - growth_rect.h) / map_zoom,
-		      FONT_CITY_PROD,
-		      get_color(tileset, growth_color), growth);
+                      (canvas_y + total_height - growth_rect.h) / map_zoom,
+                      FONT_CITY_PROD,
+                      get_color(tileset, growth_color), growth);
       drawposx += growth_rect.w;
     }
 
     if (gui_options.draw_city_trade_routes && can_see_inside) {
       drawposx += spacer_width;
       canvas_put_text(pcanvas, drawposx / map_zoom,
-		      (canvas_y + total_height - trade_routes_rect.h) / map_zoom,
-		      FONT_CITY_PROD,
-		      get_color(tileset, trade_routes_color), trade_routes);
-      drawposx += trade_routes_rect.w;
+                      (canvas_y + total_height - trade_routes_rect.h) / map_zoom,
+                      FONT_CITY_PROD,
+                      get_color(tileset, trade_routes_color), trade_routes);
     }
 
     canvas_y += total_height + 3;
@@ -2220,6 +2219,7 @@ static void show_small_citybar(struct canvas *pcanvas,
     *width = MAX(*width, total_width);
     *height += total_height + 3;
   }
+
   if (gui_options.draw_city_productions && can_see_inside) {
     get_city_mapview_production(pcity, prod, sizeof(prod));
     get_text_size(&prod_rect.w, &prod_rect.h, FONT_CITY_PROD, prod);
