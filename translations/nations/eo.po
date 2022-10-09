@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: it\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2021-09-27 20:11+0300\n"
+"POT-Creation-Date: 2022-09-22 06:39+0300\n"
 "PO-Revision-Date: 2021-09-27 11:47+0200\n"
 "Last-Translator: Kristjan SCHMIDT <kristjan.schmidt@googlemail.com>\n"
 "Language-Team: Esperanto <eo@li.org>\n"
@@ -65,7 +65,7 @@ msgstr "Imamo %s"
 
 #: data/nation/aborigines.ruleset:3
 msgid "Australian Aboriginal"
-msgstr "aborigena"
+msgstr "Aborigena"
 
 #: data/nation/aborigines.ruleset:4
 msgid "?plural:Aborigines"
@@ -305,11 +305,11 @@ msgstr "Supera patrino %s"
 
 #: data/nation/acehnese.ruleset:3
 msgid "Acehnese"
-msgstr "aĉea"
+msgstr "Aĉea"
 
 #: data/nation/acehnese.ruleset:4
 msgid "?plural:Acehnese"
-msgstr "?plural:Aĉeo"
+msgstr "?plural:Aĉeanoj"
 
 #: data/nation/acehnese.ruleset:6
 msgid ""
@@ -368,14 +368,12 @@ msgid "?female:Governor %s"
 msgstr "?female:Guberniestrino %s"
 
 #: data/nation/acrean.ruleset:3
-#, fuzzy
 msgid "Acrean"
-msgstr "Korea"
+msgstr "Akra"
 
 #: data/nation/acrean.ruleset:4
-#, fuzzy
 msgid "?plural:Acreans"
-msgstr "?plural:Arameoj"
+msgstr "?plural:Akranoj"
 
 #: data/nation/acrean.ruleset:6
 msgid ""
@@ -416,7 +414,7 @@ msgstr "Patrino %s"
 
 #: data/nation/afghani.ruleset:3
 msgid "Afghani"
-msgstr "afgana"
+msgstr "Afgana"
 
 #: data/nation/afghani.ruleset:4
 msgid "?plural:Afghanis"
@@ -497,7 +495,7 @@ msgstr "?female:Mulaino %s"
 
 #: data/nation/african.ruleset:3
 msgid "African"
-msgstr "afrikana"
+msgstr "Afrika"
 
 #: data/nation/african.ruleset:4
 msgid "?plural:Africans"
@@ -511,11 +509,11 @@ msgstr ""
 
 #: data/nation/ainu.ruleset:3
 msgid "Ainu"
-msgstr "Aina"
+msgstr "Ajnua"
 
 #: data/nation/ainu.ruleset:4
 msgid "?plural:Ainu"
-msgstr "?plural:Ainoj"
+msgstr "?plural:Ajnuoj"
 
 #: data/nation/ainu.ruleset:7
 msgid ""
@@ -1239,7 +1237,7 @@ msgstr ""
 
 #: data/nation/aramean.ruleset:3
 msgid "Aramean"
-msgstr "aramea"
+msgstr "Aramea"
 
 #: data/nation/aramean.ruleset:4
 msgid "?plural:Arameans"
@@ -1325,7 +1323,7 @@ msgstr "Versio"
 
 #: data/nation/armenian.ruleset:3
 msgid "Armenian"
-msgstr "armena"
+msgstr "Armena"
 
 #: data/nation/armenian.ruleset:4
 msgid "?plural:Armenians"
@@ -1345,7 +1343,7 @@ msgstr ""
 #: data/nation/etruscan.ruleset:31 data/nation/frankish.ruleset:39
 #: data/nation/gepid.ruleset:41 data/nation/israelite.ruleset:31
 #: data/nation/italiangreek.ruleset:45 data/nation/latin.ruleset:39
-#: data/nation/median.ruleset:29 data/nation/mitanni.ruleset:30
+#: data/nation/median.ruleset:31 data/nation/mitanni.ruleset:30
 #: data/nation/nubian.ruleset:32 data/nation/ostrogothic.ruleset:30
 #: data/nation/palatinate.ruleset:28 data/nation/palmyrene.ruleset:19
 #: data/nation/parthian.ruleset:33 data/nation/pelasgian.ruleset:24
@@ -1365,7 +1363,7 @@ msgstr "Uzurpatoro"
 #: data/nation/etruscan.ruleset:31 data/nation/frankish.ruleset:39
 #: data/nation/gepid.ruleset:41 data/nation/israelite.ruleset:31
 #: data/nation/italiangreek.ruleset:45 data/nation/latin.ruleset:39
-#: data/nation/median.ruleset:29 data/nation/mitanni.ruleset:30
+#: data/nation/median.ruleset:31 data/nation/mitanni.ruleset:30
 #: data/nation/nubian.ruleset:32 data/nation/ostrogothic.ruleset:30
 #: data/nation/palatinate.ruleset:28 data/nation/palmyrene.ruleset:19
 #: data/nation/parthian.ruleset:33 data/nation/pelasgian.ruleset:24
@@ -1439,11 +1437,11 @@ msgstr ""
 
 #: data/nation/assyrian.ruleset:3
 msgid "Assyrian"
-msgstr "asira"
+msgstr "Asira"
 
 #: data/nation/assyrian.ruleset:4
 msgid "?plural:Assyrians"
-msgstr "?plural:Asiroj"
+msgstr "?plural:Asirianoj"
 
 #: data/nation/assyrian.ruleset:6
 msgid ""
@@ -1451,14 +1449,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/asturian.ruleset:3
-#, fuzzy
 msgid "Asturian"
-msgstr "Aŭstria"
+msgstr "Astura"
 
 #: data/nation/asturian.ruleset:4
-#, fuzzy
 msgid "?plural:Asturians"
-msgstr "?plural:Aŭstrianoj"
+msgstr "?plural:Asturoj"
 
 #: data/nation/asturian.ruleset:6
 msgid ""
@@ -1504,7 +1500,7 @@ msgstr "Moŝta Reĝino"
 
 #: data/nation/australian.ruleset:3
 msgid "Australian"
-msgstr "aŭstralia"
+msgstr "Aŭstralia"
 
 #: data/nation/australian.ruleset:4
 msgid "?plural:Australians"
@@ -1628,7 +1624,7 @@ msgid "%s Shah"
 msgstr "Ŝaho"
 
 #: data/nation/azeri.ruleset:36 data/nation/iranian.ruleset:41
-#: data/nation/khwarezmian.ruleset:28 data/nation/median.ruleset:31
+#: data/nation/khwarezmian.ruleset:28 data/nation/median.ruleset:33
 #, c-format
 msgid "%s Shahbanu"
 msgstr ""
@@ -1929,19 +1925,19 @@ msgstr ""
 
 #: data/nation/belarusian.ruleset:33 data/nation/bulgarian.ruleset:30
 #: data/nation/muscovite.ruleset:24 data/nation/ossetian.ruleset:24
-#, fuzzy, c-format
+#, c-format
 msgid "Tsar %s"
-msgstr "Caro"
+msgstr "Caro %s"
 
 #: data/nation/belarusian.ruleset:33 data/nation/bulgarian.ruleset:30
 #: data/nation/muscovite.ruleset:24 data/nation/ossetian.ruleset:24
-#, fuzzy, c-format
+#, c-format
 msgid "Tsaritsa %s"
-msgstr "Carino"
+msgstr "Carino %s"
 
 #: data/nation/belgian.ruleset:3
 msgid "Belgian"
-msgstr "belga"
+msgstr "Belga"
 
 #: data/nation/belgian.ruleset:4
 msgid "?plural:Belgians"
@@ -1982,14 +1978,12 @@ msgid "Stadtholdress %s"
 msgstr "Diktatorino"
 
 #: data/nation/belgic.ruleset:3
-#, fuzzy
 msgid "Belgic"
-msgstr "Belga"
+msgstr "Kelta Belga"
 
 #: data/nation/belgic.ruleset:4
-#, fuzzy
 msgid "?plural:Belgae"
-msgstr "?plural:Belgoj"
+msgstr "?plural:Keltaj Belgoj"
 
 #: data/nation/belgic.ruleset:6
 msgid ""
@@ -2338,12 +2332,11 @@ msgstr "?female:Prezidantino"
 
 #: data/nation/boian.ruleset:3
 msgid "Boian"
-msgstr ""
+msgstr "Bojana"
 
 #: data/nation/boian.ruleset:4
-#, fuzzy
 msgid "?plural:Boii"
-msgstr "?plural:Belgoj"
+msgstr "?plural:Bojanoj"
 
 #: data/nation/boian.ruleset:6
 msgid ""
@@ -2421,12 +2414,11 @@ msgstr "?female:Ĥano"
 
 #: data/nation/bosporan.ruleset:3
 msgid "Bosporan"
-msgstr ""
+msgstr "Bospora"
 
 #: data/nation/bosporan.ruleset:4
-#, fuzzy
 msgid "?plural:Bosporans"
-msgstr "?plural:Bosnianoj"
+msgstr "?plural:Bosporanoj"
 
 #: data/nation/bosporan.ruleset:6
 msgid ""
@@ -2540,7 +2532,7 @@ msgstr ""
 
 #: data/nation/british.ruleset:3
 msgid "British"
-msgstr "brita"
+msgstr "Brita"
 
 #: data/nation/british.ruleset:4
 #, fuzzy
@@ -2599,11 +2591,11 @@ msgstr "Lordino-Protektanto"
 
 #: data/nation/briton.ruleset:3
 msgid "Briton"
-msgstr "brita"
+msgstr "Kelta Brita"
 
 #: data/nation/briton.ruleset:4
 msgid "?plural:Britons"
-msgstr "?plural:Britoj"
+msgstr "?plural:Keltaj Britoj"
 
 #: data/nation/briton.ruleset:6
 msgid ""
@@ -2689,7 +2681,7 @@ msgstr "?female:Druidino"
 
 #: data/nation/bulgarian.ruleset:3
 msgid "Bulgarian"
-msgstr "bulgara"
+msgstr "Bulgara"
 
 #: data/nation/bulgarian.ruleset:4
 msgid "?plural:Bulgarians"
@@ -2743,12 +2735,10 @@ msgid "?female:Chancellor %s"
 msgstr "?female:Kanceliero"
 
 #: data/nation/burgundic.ruleset:3
-#, fuzzy
 msgid "Burgundic"
-msgstr "Burunda"
+msgstr "Burgunda"
 
 #: data/nation/burgundic.ruleset:4
-#, fuzzy
 msgid "?plural:Burgunds"
 msgstr "?plural:Burgundoj"
 
@@ -2942,14 +2932,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/cantonese.ruleset:3
-#, fuzzy
 msgid "Cantonese"
-msgstr "Sudana"
+msgstr "Gŭangdonga"
 
 #: data/nation/cantonese.ruleset:4
-#, fuzzy
 msgid "?plural:Cantonese"
-msgstr "?plural:Sudananoj"
+msgstr "?plural:Gŭangdonganoj"
 
 #: data/nation/cantonese.ruleset:6
 msgid ""
@@ -3055,14 +3043,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/celtiberian.ruleset:3
-#, fuzzy
 msgid "Celtiberian"
-msgstr "Niĝeria"
+msgstr "Iberia Kelta"
 
 #: data/nation/celtiberian.ruleset:4
-#, fuzzy
 msgid "?plural:Celtiberians"
-msgstr "?plural:Serboj"
+msgstr "?plural:Iberiaj Keltoj"
 
 #: data/nation/celtiberian.ruleset:6
 msgid ""
@@ -3505,14 +3491,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/circassian.ruleset:3
-#, fuzzy
 msgid "Circassian"
-msgstr "Prusa"
+msgstr "Adiga"
 
 #: data/nation/circassian.ruleset:4
-#, fuzzy
 msgid "?plural:Circassians"
-msgstr "?plural:Prusoj"
+msgstr "?plural:Adigoj"
 
 #: data/nation/circassian.ruleset:7
 #, no-c-format
@@ -4119,9 +4103,9 @@ msgstr "?plural:Dominikianoj"
 msgid ""
 "The island of Dominica was first sighted by Europeans, including Christopher "
 "Columbus, in 1493. Legend has it that the island was named so since the day "
-"of its first sighting was a Sunday. Officially the \"Commonwealth of Dominica"
-"\", the country should not be confused with the Dominican Republic, another "
-"Caribbean nation."
+"of its first sighting was a Sunday. Officially the \"Commonwealth of "
+"Dominica\", the country should not be confused with the Dominican Republic, "
+"another Caribbean nation."
 msgstr ""
 
 #: data/nation/dryad.ruleset:3
@@ -6300,13 +6284,13 @@ msgid ""
 "Chinggis Khan conquered it in 1231."
 msgstr ""
 
-#: data/nation/khwarezmian.ruleset:27 data/nation/median.ruleset:30
+#: data/nation/khwarezmian.ruleset:27 data/nation/median.ruleset:32
 #: data/nation/parthian.ruleset:34 data/nation/seleucid.ruleset:29
 #, fuzzy, c-format
 msgid "Satrap %s"
 msgstr "Stato: %s"
 
-#: data/nation/khwarezmian.ruleset:27 data/nation/median.ruleset:30
+#: data/nation/khwarezmian.ruleset:27 data/nation/median.ruleset:32
 #: data/nation/parthian.ruleset:34 data/nation/seleucid.ruleset:29
 #, fuzzy, c-format
 msgid "?female:Satrap %s"
@@ -7391,7 +7375,7 @@ msgid ""
 "what is now Afghanistan."
 msgstr ""
 
-#: data/nation/median.ruleset:31
+#: data/nation/median.ruleset:33
 #, fuzzy, c-format
 msgid "%s Shahanshah"
 msgstr "Ĥano"
@@ -11003,11 +10987,11 @@ msgstr "?female:Grandĥano"
 
 #: data/nation/ukrainian.ruleset:3
 msgid "Ukrainian"
-msgstr "ukrajna"
+msgstr "Ukraina"
 
 #: data/nation/ukrainian.ruleset:4
 msgid "?plural:Ukrainians"
-msgstr "?plural:Ukrajnanoj"
+msgstr "?plural:Ukrainoj"
 
 #: data/nation/ukrainian.ruleset:6
 msgid ""
