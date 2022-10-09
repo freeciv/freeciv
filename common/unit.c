@@ -771,9 +771,23 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
    *        change that destroys the target of the other activity */
   if (target != NULL && is_build_activity(activity, ptile)) {
     unit_list_iterate(ptile->units, tunit) {
-      if (is_build_activity(tunit->activity, ptile)
-          && !can_extras_coexist(target, tunit->activity_target)) {
-        return FALSE;
+      if (is_build_activity(tunit->activity, ptile)) {
+        /* With bad luck on idle callback timing it's
+         * possible that the client has already received a tile terrain change
+         * packet, but not yet the packet removing activity from tunit.
+         * So, it's possible that tunit was making a transforming Irrigate or Mine
+         * for the previous terrain, but with the new terrain Irrigate or Mine
+         * would be considered build activity, and that's what
+         * above is_build_activity() said. The can_extra_coexist() would
+         * crash because there is no target defined for the transforming activities. */
+        if (tunit->activity_target != NULL) {
+          if (!can_extras_coexist(target, tunit->activity_target)) {
+            return FALSE;
+          }
+        } else {
+          fc_assert((tunit->activity == ACTIVITY_IRRIGATE)
+                    || (tunit->activity == ACTIVITY_MINE));
+        }
       }
     } unit_list_iterate_end;
   }
