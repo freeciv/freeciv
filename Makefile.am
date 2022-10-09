@@ -75,6 +75,7 @@ EXTRA_DIST =	autogen.sh 			\
 		flatpak/build_flatpak.sh	\
 		flatpak/org.freeciv.gtk322.yml	\
 		flatpak/org.freeciv.mp.gtk3.yml	\
+		flatpak/org.freeciv.qt.yml	\
 		scripts/mapimg2anim		\
 		scripts/setup_auth_server.sh	\
 		scripts/diff_ignore		\

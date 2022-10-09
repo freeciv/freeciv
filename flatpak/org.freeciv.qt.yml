@@ -1,0 +1,23 @@
+app-id: org.freeciv.qt
+runtime: org.kde.Platform
+runtime-version: '5.15-22.08'
+sdk: org.kde.Sdk
+command: freeciv-qt
+rename-icon: freeciv-client
+modules:
+  - name: freeciv-qt
+    buildsystem: simple
+    build-commands:
+      # On git clone, regenerate configure with autogen.sh
+      - if test -f ./.git && test -x ./autogen.sh ; then ./autogen.sh --no-configure-run ; fi
+      - mkdir build
+      - cd build && ../configure --prefix=/app --enable-client=qt --disable-fcmp --disable-freeciv-manual && make -j$(nproc) && make install
+    sources:
+      - type: dir
+        path: ..
+finish-args:
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --share=network
+  - --socket=pulseaudio
+  - --filesystem=~/.freeciv:create
