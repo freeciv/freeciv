@@ -1026,7 +1026,10 @@ static char console_buf[CONSOLE_BUF_SIZE + 1];
 #ifdef FREECIV_MSWINDOWS
 static HANDLE console_thread = INVALID_HANDLE_VALUE;
 
-static DWORD WINAPI thread_proc(LPVOID arg)
+/************************************************************************//**
+  Windows console reading thread entrypoint.
+****************************************************************************/
+static DWORD WINAPI windows_console_thread(LPVOID arg)
 {
   if (fgets(console_buf, CONSOLE_BUF_SIZE, stdin)) {
     char *s;
@@ -1051,7 +1054,8 @@ void fc_init_console(void)
   }
 
   console_buf[0] = '\0';
-  console_thread = (HANDLE) CreateThread(NULL, 0, thread_proc, NULL, 0, NULL);
+  console_thread = (HANDLE) CreateThread(NULL, 0, windows_console_thread,
+                                         NULL, 0, NULL);
 #else  /* FREECIV_MSWINDOWS */
   static bool initialized = FALSE;
 
