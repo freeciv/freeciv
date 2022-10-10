@@ -2770,6 +2770,7 @@ mocced_client = qt_mod.preprocess(
   )
 
 executable('freeciv-qt',
+  'client/gui_interface.c',
   'client/gui-qt/canvas.cpp',
   'client/gui-qt/chatline.cpp',
   'client/gui-qt/citydlg.cpp',
@@ -2807,7 +2808,6 @@ executable('freeciv-qt',
   'client/gui-qt/themes.cpp',
   'client/gui-qt/voteinfo_bar.cpp',
   'client/gui-qt/wldlg.cpp',
-  'client/gui_interface.c',
   mocced_client, clienticon,
   include_directories: [client_inc, include_directories('client/gui-qt')],
   dependencies: [qt_dep, net_dep, gettext_dep],
@@ -3066,6 +3066,51 @@ install_data('data/themes/gui-sdl2/human/backgrounds.themespec',
              'data/themes/gui-sdl2/human/world.png',
              install_dir : join_paths(get_option('datadir'),
                            'freeciv/themes/gui-sdl2/human'))
+
+endif
+
+if get_option('clients').contains('stub')
+
+executable('freeciv-stub',
+  'client/gui_cbsetter.c',
+  'client/gui_interface.c',
+  'client/gui-stub/canvas.c',
+  'client/gui-stub/chatline.c',
+  'client/gui-stub/citydlg.c',
+  'client/gui-stub/cityrep.c',
+  'client/gui-stub/colors.c',
+  'client/gui-stub/connectdlg.c',
+  'client/gui-stub/dialogs.c',
+  'client/gui-stub/diplodlg.c',
+  'client/gui-stub/finddlg.c',
+  'client/gui-stub/gotodlg.c',
+  'client/gui-stub/graphics.c',
+  'client/gui-stub/gui_main.c',
+  'client/gui-stub/helpdlg.c',
+  'client/gui-stub/infradlg.c',
+  'client/gui-stub/inteldlg.c',
+  'client/gui-stub/luaconsole.c',
+  'client/gui-stub/mapctrl.c',
+  'client/gui-stub/mapview.c',
+  'client/gui-stub/menu.c',
+  'client/gui-stub/messagedlg.c',
+  'client/gui-stub/messagewin.c',
+  'client/gui-stub/optiondlg.c',
+  'client/gui-stub/pages.c',
+  'client/gui-stub/plrdlg.c',
+  'client/gui-stub/ratesdlg.c',
+  'client/gui-stub/repodlgs.c',
+  'client/gui-stub/spaceshipdlg.c',
+  'client/gui-stub/sprite.c',
+  'client/gui-stub/themes.c',
+  'client/gui-stub/voteinfo_bar.c',
+  'client/gui-stub/wldlg.c',
+  clienticon,
+  include_directories: client_inc,
+  dependencies: [audio_dep, net_dep, gettext_dep],
+  link_with: client_common,
+  install: true
+  )
 
 endif
 

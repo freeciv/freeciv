@@ -100,7 +100,7 @@ Freeciv specific configure options:
 clients (array):
   List of clients to build. To disable client build completely, give an
   empty array ('-Dclients=[]'). Currently gtk3.22-, sdl2-, qt-,
-  and gtk4-client builds are supported.
+  gtk4-, and stub-client builds are supported.
   By default builds just gtk3.22-client.
 
 fcmp (array):
