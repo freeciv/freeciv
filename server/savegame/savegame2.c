@@ -216,8 +216,8 @@ extern bool sg_success;
     } else if (strlen(_line) != wld.map.xsize) {                            \
       char buf[64];                                                         \
       fc_snprintf(buf, sizeof(buf), secpath, ## __VA_ARGS__, _nat_y);       \
-      log_verbose("Line too short (expected %d got %lu)='%s'",              \
-                  wld.map.xsize, (unsigned long) strlen(_line), buf);       \
+      log_verbose("Line too short (expected %d got " SIZE_T_PRINTF          \
+                  ")='%s'", wld.map.xsize, strlen(_line), buf);             \
       _printed_warning = TRUE;                                              \
       continue;                                                             \
     }                                                                       \
@@ -1664,9 +1664,9 @@ static void sg_load_game(struct loaddata *loading)
                                    "game.global_advances");
   if (str != NULL) {
     sg_failure_ret(strlen(str) == loading->technology.size,
-                   "Invalid length of 'game.global_advances' (%lu ~= %lu).",
-                   (unsigned long) strlen(str),
-                   (unsigned long) loading->technology.size);
+                   "Invalid length of 'game.global_advances' ("
+                   SIZE_T_PRINTF " ~= " SIZE_T_PRINTF ").",
+                   strlen(str), loading->technology.size);
     for (i = 0; i < loading->technology.size; i++) {
       sg_failure_ret(str[i] == '1' || str[i] == '0',
                      "Undefined value '%c' within 'game.global_advances'.",
@@ -2410,9 +2410,9 @@ static void sg_load_players_basic(struct loaddata *loading)
                            "players.destroyed_wonders");
   sg_failure_ret(str != NULL, "%s", secfile_error());
   sg_failure_ret(strlen(str) == loading->improvement.size,
-                 "Invalid length for 'players.destroyed_wonders' "
-                 "(%lu ~= %lu)", (unsigned long) strlen(str),
-                 (unsigned long) loading->improvement.size);
+                 "Invalid length for 'players.destroyed_wonders' ("
+                 SIZE_T_PRINTF" ~= " SIZE_T_PRINTF ")",
+                 strlen(str), loading->improvement.size);
   for (k = 0; k < loading->improvement.size; k++) {
     sg_failure_ret(str[k] == '1' || str[k] == '0',
                    "Undefined value '%c' within "
@@ -2421,6 +2421,7 @@ static void sg_load_players_basic(struct loaddata *loading)
     if (str[k] == '1') {
       struct impr_type *pimprove =
           improvement_by_rule_name(loading->improvement.order[k]);
+
       if (pimprove) {
         game.info.great_wonder_owners[improvement_index(pimprove)]
           = WONDER_DESTROYED;
@@ -3268,10 +3269,11 @@ static void sg_load_player_main(struct loaddata *loading,
   /* If not present, probably an old savegame; nothing to be done */
   if (str != NULL) {
     int k;
+
     sg_failure_ret(strlen(str) == loading->improvement.size,
-                   "Invalid length for 'player%d.lost_wonders' "
-                   "(%lu ~= %lu)", plrno, (unsigned long) strlen(str),
-                   (unsigned long) loading->improvement.size);
+                   "Invalid length for 'player%d.lost_wonders' ("
+                   SIZE_T_PRINTF " ~= " SIZE_T_PRINTF ")",
+                   plrno, strlen(str), loading->improvement.size);
     for (k = 0; k < loading->improvement.size; k++) {
       sg_failure_ret(str[k] == '1' || str[k] == '0',
                      "Undefined value '%c' within "
@@ -3583,9 +3585,9 @@ static bool sg_load_player_city(struct loaddata *loading, struct player *plr,
   str = secfile_lookup_str(loading->file, "%s.improvements", citystr);
   sg_warn_ret_val(str != NULL, FALSE, "%s", secfile_error());
   sg_warn_ret_val(strlen(str) == loading->improvement.size, FALSE,
-                  "Invalid length of '%s.improvements' (%lu ~= %lu).",
-                  citystr, (unsigned long) strlen(str),
-                  (unsigned long) loading->improvement.size);
+                  "Invalid length of '%s.improvements' ("
+                  SIZE_T_PRINTF " ~= " SIZE_T_PRINTF ").",
+                  citystr, strlen(str), loading->improvement.size);
   for (i = 0; i < loading->improvement.size; i++) {
     sg_warn_ret_val(str[i] == '1' || str[i] == '0', FALSE,
                    "Undefined value '%c' within '%s.improvements'.",
@@ -4564,17 +4566,16 @@ static void sg_load_player_attributes(struct loaddata *loading,
         log_sg("attribute_v2_block_parts=%d actual=%d", parts, part_nr);
         break;
       }
-      log_debug("attribute_v2_block_length_quoted=%lu have=%lu part=%lu",
-                (unsigned long) quoted_length,
-                (unsigned long) strlen(quoted),
-                (unsigned long) strlen(current));
+      log_debug("attribute_v2_block_length_quoted=%d"
+                " have=" SIZE_T_PRINTF " part=" SIZE_T_PRINTF,
+                quoted_length, strlen(quoted), strlen(current));
       fc_assert(strlen(quoted) + strlen(current) <= quoted_length);
       strcat(quoted, current);
     }
     fc_assert_msg(quoted_length == strlen(quoted),
-                  "attribute_v2_block_length_quoted=%lu actual=%lu",
-                  (unsigned long) quoted_length,
-                  (unsigned long) strlen(quoted));
+                  "attribute_v2_block_length_quoted=%d"
+                  " actual=" SIZE_T_PRINTF,
+                  quoted_length, strlen(quoted));
 
 #ifndef FREECIV_NDEBUG
     actual_length =
@@ -4857,9 +4858,9 @@ static bool sg_load_player_vision_city(struct loaddata *loading,
   str = secfile_lookup_str(loading->file, "%s.improvements", citystr);
   sg_warn_ret_val(str != NULL, FALSE, "%s", secfile_error());
   sg_warn_ret_val(strlen(str) == loading->improvement.size, FALSE,
-                  "Invalid length of '%s.improvements' (%lu ~= %lu).",
-                  citystr, (unsigned long) strlen(str),
-                  (unsigned long) loading->improvement.size);
+                  "Invalid length of '%s.improvements' ("
+                  SIZE_T_PRINTF " ~= " SIZE_T_PRINTF ").",
+                  citystr, strlen(str), loading->improvement.size);
   for (i = 0; i < loading->improvement.size; i++) {
     sg_warn_ret_val(str[i] == '1' || str[i] == '0', FALSE,
                     "Undefined value '%c' within '%s.improvements'.",
@@ -4970,9 +4971,9 @@ static void sg_load_researches(struct loaddata *loading)
     str = secfile_lookup_str(loading->file, "research.r%d.done", i);
     sg_failure_ret(str != NULL, "%s", secfile_error());
     sg_failure_ret(strlen(str) == loading->technology.size,
-                   "Invalid length of 'research.r%d.done' (%lu ~= %lu).",
-                   i, (unsigned long) strlen(str),
-                   (unsigned long) loading->technology.size);
+                   "Invalid length of 'research.r%d.done' ("
+                   SIZE_T_PRINTF " ~= " SIZE_T_PRINTF ").",
+                   i, strlen(str), loading->technology.size);
     for (j = 0; j < loading->technology.size; j++) {
       sg_failure_ret(str[j] == '1' || str[j] == '0',
                      "Undefined value '%c' within 'research.r%d.done'.",
