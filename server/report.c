@@ -358,7 +358,7 @@ void report_top_five_cities(struct conn_list *dest)
 
     if (!size[i].city) {
 	/* 
-	 * pcity may be NULL if there are less then NUM_BEST_CITIES in
+	 * pcity may be NULL if there are less than NUM_BEST_CITIES in
 	 * the whole game.
 	 */
       break;
