@@ -4986,7 +4986,7 @@ static bool do_unit_strike_city_building(const struct player *act_player,
   }
 
   if (!city_has_building(tgt_city, tgt_bld)) {
-    /* Noting to destroy here. */
+    /* Nothing to destroy here. */
 
     /* Notify the player. */
     notify_player(act_player, city_tile(tgt_city),
