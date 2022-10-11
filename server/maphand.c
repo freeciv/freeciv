@@ -51,6 +51,9 @@
 #include "unithand.h"
 #include "unittools.h"
 
+/* server/advisors */
+#include "advdata.h"
+
 /* server/generator */
 #include "mapgen_utils.h"
 
@@ -1896,13 +1899,14 @@ void fix_tile_on_terrain_change(struct tile *ptile,
 /**********************************************************************//**
   Handles local and global side effects for a terrain change for a single
   tile.
-  Call this in the server immediately after calling tile_change_terrain.
+  Call this in the server immediately after calling tile_change_terrain().
   Assumes an in-game terrain change (e.g., by workers/engineers).
 **************************************************************************/
 void check_terrain_change(struct tile *ptile, struct terrain *oldter)
 {
   struct terrain *newter = tile_terrain(ptile);
   struct tile *claimer;
+  bool cont_reassigned = FALSE;
 
   /* Check if new terrain is a freshwater terrain next to non-freshwater.
    * In that case, the new terrain is *changed*. */
@@ -1927,6 +1931,23 @@ void check_terrain_change(struct tile *ptile, struct terrain *oldter)
     }
   }
 
+  if (need_to_reassign_continents(oldter, newter)) {
+    assign_continent_numbers();
+    cont_reassigned = TRUE;
+
+    phase_players_iterate(pplayer) {
+      if (is_adv_data_phase_open(pplayer)) {
+        /* Player is using continent numbers that they would assume to remain accurate.
+         * Force refresh:
+         * 1) Close the phase, so that it can be opened
+         * 2) Open the phase, recalculating
+         */
+        adv_data_phase_done(pplayer);
+        adv_data_phase_init(pplayer, FALSE);
+      }
+    } phase_players_iterate_end;
+  }
+
   fix_tile_on_terrain_change(ptile, oldter, TRUE);
 
   /* Check for saltwater filling freshwater lake */
@@ -1948,8 +1969,7 @@ void check_terrain_change(struct tile *ptile, struct terrain *oldter)
     } adjc_iterate_end;
   }
 
-  if (need_to_reassign_continents(oldter, newter)) {
-    assign_continent_numbers();
+  if (cont_reassigned) {
     send_all_known_tiles(NULL);
   }
 
