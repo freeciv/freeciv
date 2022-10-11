@@ -29,8 +29,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 3.0\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2022-10-04 20:32+0300\n"
-"PO-Revision-Date: 2022-09-30 18:16+0300\n"
+"POT-Creation-Date: 2022-10-11 21:07+0300\n"
+"PO-Revision-Date: 2022-10-11 21:10+0300\n"
 "Last-Translator: Sini Ruohomaa <sini.ruohomaa@iki.fi>\n"
 "Language-Team: None <freeciv-i18n@freelists.org>\n"
 "Language: fi\n"
@@ -2230,7 +2230,7 @@ msgstr "(nimetön)"
 #: client/gui-qt/dialogs.cpp:2841 client/gui-qt/dialogs.cpp:2904
 #: client/gui-qt/repodlgs.cpp:214 client/gui-sdl2/action_dialog.c:2229
 #: client/gui-sdl2/action_dialog.c:2492 client/gui-sdl2/citydlg.c:1150
-#: client/gui-sdl2/repodlgs.c:211 client/text.c:1290 common/unit.c:1992
+#: client/gui-sdl2/repodlgs.c:211 client/text.c:1290 common/unit.c:2006
 #: server/unithand.c:1777 server/unithand.c:2450
 #, c-format
 msgid "Treasury contains %d gold."
@@ -19543,16 +19543,16 @@ msgid "Base"
 msgstr "Tukikohta"
 
 # *** '(s/he/it) moves' ***
-#: common/unit.c:1207 common/unit.c:1212
+#: common/unit.c:1221 common/unit.c:1226
 msgid "Moves"
 msgstr "Liikkuu"
 
-#: common/unit.c:1278
+#: common/unit.c:1292
 msgid "Food/Shield/Gold:"
 msgstr "Ruoka/Tuotanto/Kulta:"
 
 #. TRANS: Last %s is pre-pluralised "Treasury contains %d gold."
-#: common/unit.c:2002
+#: common/unit.c:2016
 #, c-format
 msgid ""
 "Upgrade %s to %s for %d gold?\n"
@@ -19567,13 +19567,13 @@ msgstr[1] ""
 "Ajanmukaista %s yksiköksi %s, kustannus on %d kultaa?\n"
 "%s"
 
-#: common/unit.c:2011
+#: common/unit.c:2025
 #, c-format
 msgid "Sorry, cannot upgrade %s (yet)."
 msgstr "Valitan: yksikköä %s ei voi (vielä) ajanmukaistaa."
 
 #. TRANS: Last %s is pre-pluralised "Treasury contains %d gold."
-#: common/unit.c:2017
+#: common/unit.c:2031
 #, c-format
 msgid ""
 "Upgrading %s to %s costs %d gold.\n"
@@ -19588,24 +19588,24 @@ msgstr[1] ""
 "Yksikön %s ajanmukaistaminen yksiköksi %s maksaa %d kultaa.\n"
 "%s"
 
-#: common/unit.c:2027
+#: common/unit.c:2041
 msgid "You can only upgrade units in your cities."
 msgstr "Voit ajanmukaistaa yksiköitä vain omissa kaupungeissasi."
 
-#: common/unit.c:2031
+#: common/unit.c:2045
 #, c-format
 msgid "Upgrading this %s would strand units it transports."
 msgstr ""
 "Jos ajanmukaistaisit yksikön %s, sen kuljettamat yksiköt jäisivät rannalle."
 
-#: common/unit.c:2036
+#: common/unit.c:2050
 #, c-format
 msgid ""
 "Upgrading this %s would result in a %s which can not survive at this place."
 msgstr ""
 "Ajanmukaistettu yksikkö %1$.0s%2$s ei tulisi toimeen tällaisessa maastossa."
 
-#: common/unit.c:2043
+#: common/unit.c:2057
 #, c-format
 msgid ""
 "Upgrading this %s would result in a %s which its current transport, %s, "
@@ -19614,7 +19614,7 @@ msgstr ""
 "Ajanmukaistettu yksikkö %1$.0s%2$s ei olisi sitä kuljettavan yksikön, %3$s, "
 "kuljetettavissa."
 
-#: common/unit.c:2051
+#: common/unit.c:2065
 #, c-format
 msgid "Cannot upgrade %s while doing '%s'."
 msgstr "%s ei ole ajanmukaistettavissa kun sillä on toiminto '%s' kesken."
@@ -36397,8 +36397,7 @@ msgstr ""
 "  b: perusta kaupunki (uudisraivaajat)\n"
 "  b: auta rakentamaan ihmettä (karavaanit/rekat)\n"
 "  B: mene ja perusta kaupunki kohderuudulle (uudisraivaajat)\n"
-"  d: tee toimia ruudulle (paina kahdesti kohdistaaksesi toimen omaan "
-"ruutuun)\n"
+"  d: tee toimia valitulle ruudulle (paina kahdesti kohdistaaksesi toimen omaan ruutuun)\n"
 "  D: lakkauta yksikkö\n"
 "  E: rakenna l(e)ntotukikohta (lentotukikohtayksiköt)\n"
 "  f: linnoittaudu (sotilasyksiköt)\n"
@@ -36409,7 +36408,7 @@ msgstr ""
 "  h: vai(h)da kotikaupunki (kaupungiksi jossa olet nyt)\n"
 "  i: kastele tai muunna maastoa (uudisraivaajat/työläiset/teknikot)\n"
 "  I: yhdistä nykyinen ja kohderuutu kasteluverkostolla\n"
-"  I: lisää kasteluverkkopiste (kasteluverkolla yhdistettäessä)\n"
+"  I: lisää etappi kasteluverkkoon (kasteluverkolla yhdistettäessä)\n"
 "  l: (l)astaa yksikkö alukseen\n"
 "  L: yhdistä nykyinen ja kohderuutu rautatiellä\n"
 "  L: lisää etappi rautatiehen (rautatiellä yhdistettäessä)\n"
@@ -36424,9 +36423,9 @@ msgstr ""
 "  q: partioi (valitse sitten kohde vasemmalla hiiren napilla)\n"
 "  q: lisää etappi partioreittiin (partioireittiä määriteltäessä)\n"
 "  r: rakenna tie/(r)autatie (uudisraivaajat/työläiset/teknikot)\n"
+"  r: perusta kauppa(r)eitti (karavaanit/rekat)\n"
 "  R: yhdistä tiellä (uudisraivaajat/työläiset/teknikot)\n"
 "  R: lisää etappi tiehen (uudisraivaajat/työläiset/teknikot)\n"
-"  r: perusta kauppa(r)eitti (karavaanit/rekat)\n"
 "  s: jätä vartioimaan\n"
 "  S: herätä kaikki vartioivat yksiköt ruudulla\n"
 "  t: mene/lennätä yksikkö kaupunkiin\n"
@@ -44387,17 +44386,17 @@ msgstr "%s on lisätty vaikeustason %s AI-pelaajaksi (%s)."
 msgid "%s has been added as human player."
 msgstr "%s on lisätty tavalliseksi pelaajaksi."
 
-#: server/legacysave.c:4157 server/savegame2.c:5209 server/savegame3.c:7144
+#: server/legacysave.c:4157 server/savegame2.c:5213 server/savegame3.c:7148
 #, c-format
 msgid "%s had invalid researching technology."
 msgstr "Pelaajan %s tutkimuskohde oli virheellinen."
 
-#: server/legacysave.c:4168 server/savegame2.c:5219 server/savegame3.c:7154
+#: server/legacysave.c:4168 server/savegame2.c:5223 server/savegame3.c:7158
 #, c-format
 msgid "%s had invalid technology goal."
 msgstr "Pelaajan %s tutkimustavoite oli virheellinen."
 
-#: server/legacysave.c:4176 server/savegame2.c:5228 server/savegame3.c:7163
+#: server/legacysave.c:4176 server/savegame2.c:5232 server/savegame3.c:7167
 #, c-format
 msgid "%s had finished researches count wrong."
 msgstr "Pelaajan %s valmistuneiden tutkimusten laskuri oli virheellinen."
@@ -45265,7 +45264,7 @@ msgstr "Käsittämättömästi muotoilta attribuuttilohko."
 msgid "Failed to load ruleset '%s' needed for savegame."
 msgstr "Virhe tallennetun pelin tarvitseman sääntökokoelman '%s' lataamisessa."
 
-#: server/savegame2.c:5253 server/savegame3.c:7181
+#: server/savegame2.c:5257 server/savegame3.c:7185
 #, c-format
 msgid ""
 "%s has multiple units of type %s though it should be possible to have only "
@@ -50598,21 +50597,21 @@ msgid "Bad list argument: '%s'.  Try '%shelp list'."
 msgstr "Kelvoton parametri komennolle 'list': '%s'. Ks. '%shelp list'."
 
 # TODO: needs capitalization tag
-#: server/techtools.c:118
+#: server/techtools.c:119
 #, c-format
 msgid "The %s have researched %s."
 msgstr "Diplomaatit raportoivat, että %s ovat saavuttaneet edistysaskeleen %s."
 
 #. TRANS: Tech from source of an effect
 #. * (Great Library)
-#: server/techtools.c:203
+#: server/techtools.c:204
 #, c-format
 msgid "?fromeffect:%s acquired from %s!"
 msgstr "%s saatu, välittäjänä %s!"
 
 #. TRANS: Tech from source of an effect
 #. * (Great Library)
-#: server/techtools.c:209
+#: server/techtools.c:210
 #, c-format
 msgid "?fromeffect:%s acquired from %s's %s!"
 msgstr ""
@@ -50620,17 +50619,17 @@ msgstr ""
 
 #. TRANS: Tech from source of an effect
 #. * (Great Library)
-#: server/techtools.c:216
+#: server/techtools.c:217
 #, c-format
 msgid "?fromeffect:The %s have acquired %s from %s."
 msgstr "Tiedonjanoiset %s saivat edistysaskeleen %s, opettajina %s."
 
-#: server/techtools.c:354
+#: server/techtools.c:367
 #, c-format
 msgid "Discovery of %s OBSOLETES %s in %s!"
 msgstr "%s on opittu, joten %s VANHENTUU kaupungissa %s!"
 
-#: server/techtools.c:449
+#: server/techtools.c:462
 #, c-format
 msgid ""
 "Discovery of %s makes the government form %s available. You may want to "
@@ -50639,22 +50638,22 @@ msgstr ""
 "Edistysaskel %s mahdollistaa valtiomuodon %s. Voit halutessasi polkaista "
 "vallankumouksen käyntiin."
 
-#: server/techtools.c:495
+#: server/techtools.c:508
 #, c-format
 msgid "Learned %s. Our scientists focus on %s; goal is %s."
 msgstr "%s opittu. Tutkimuksen seuraavana kohteena %s, tavoitteena %s."
 
-#: server/techtools.c:539
+#: server/techtools.c:552
 #, c-format
 msgid "Learned %s. Scientists do not know what to research next."
 msgstr "%s opittu. Tiedemiehet eivät tiedä, mitä tutkisivat seuraavaksi."
 
-#: server/techtools.c:544
+#: server/techtools.c:557
 #, c-format
 msgid "Learned %s. Scientists choose to research %s."
 msgstr "%s opittu. Tutkimuksen seuraavana kohteena %s."
 
-#: server/techtools.c:583
+#: server/techtools.c:596
 #, c-format
 msgid ""
 "Great scientists from all the world join your civilization: you learn %s "
@@ -50663,24 +50662,24 @@ msgstr ""
 "Suuret tiedemiehet ympäri maailmaa liittyvät riveihisi; saavutat "
 "välittömästi edistysaskeleen %s."
 
-#: server/techtools.c:589
+#: server/techtools.c:602
 #, c-format
 msgid "%s acquire %s as a result of learning %s."
 msgstr "%s oppivat tekniikan %s kaupanpäällisiksi saatuaan tekniikan %s."
 
-#: server/techtools.c:680
+#: server/techtools.c:693
 #, c-format
 msgid "Insufficient science output. We lost %s."
 msgstr "Olematon tutkimuspanostus saa meidät menettämään teknologian %s."
 
 # TODO: needs capitalization tag
 #. TRANS: technology loss
-#: server/techtools.c:801 server/techtools.c:813
+#: server/techtools.c:814 server/techtools.c:826
 #, c-format
 msgid "The %s have lost %s."
 msgstr "Diplomaatit raportoivat, että %s ovat menettäneet edistysaskeleen %s."
 
-#: server/techtools.c:835
+#: server/techtools.c:848
 #, c-format
 msgid ""
 "The required technology for our government '%s' was lost. The citizens have "
@@ -50689,7 +50688,7 @@ msgstr ""
 "Valtiomuotomme %s vaatima teknologia menetettiin. Kansa on noussut ja "
 "vallankumous tähtää valtiomuotoon %s."
 
-#: server/techtools.c:851
+#: server/techtools.c:864
 #, c-format
 msgid ""
 "The required technology for our new government '%s' was lost. The citizens "
@@ -50698,60 +50697,60 @@ msgstr ""
 "Tulevan valtiomuotomme %s vaatima teknologia menetettiin. Kansa tähtää nyt "
 "valtiomuotoon %s."
 
-#: server/techtools.c:871 server/techtools.c:884
+#: server/techtools.c:884 server/techtools.c:897
 #, c-format
 msgid "%s can't build %s. The required technology was lost."
 msgstr "%s ei voi rakentaa hanketta %s. Vaadittu teknologia on menetetty."
 
-#: server/techtools.c:1049
+#: server/techtools.c:1062
 #, c-format
 msgid "Technology goal is %s."
 msgstr "Teknologiatavoitteena on %s."
 
-#: server/techtools.c:1259
+#: server/techtools.c:1272
 #, c-format
 msgid "You steal %s from the %s."
 msgstr "Varastat edistysaskeleen %s kohteelta %s."
 
 # TODO: Needs capitalization tag.
-#: server/techtools.c:1263
+#: server/techtools.c:1276
 #, c-format
 msgid "The %s stole %s from the %s and shared it with you."
 msgstr "Saamme teknologian %2$s, koska %1$s varastivat sen kansalta %3$s."
 
-#: server/techtools.c:1269
+#: server/techtools.c:1282
 #, c-format
 msgid "The %s stole %s from you!"
 msgstr ""
 "%2$s on vuotanut vieraalle vallalle - %1$s varastivat teknologian sinulta!"
 
 # TODO: Needs capitalization tag.
-#: server/techtools.c:1274
+#: server/techtools.c:1287
 #, c-format
 msgid "The %s have stolen %s from the %s."
 msgstr ""
 "Diplomaattien mukaan %1$s ovat varastaneet teknologian %2$s kansalta %3$s."
 
-#: server/techtools.c:1382
+#: server/techtools.c:1395
 #, c-format
 msgid "Too bad! You made a mistake transferring the tech %s and lost it."
 msgstr ""
 "Ikävä juttu! Teit virheen kun yritit siirtää teknologiaa %s - menetit sen."
 
-#: server/techtools.c:1386
+#: server/techtools.c:1399
 #, c-format
 msgid "Too bad! The %s made a mistake transferring the tech %s and lost it."
 msgstr ""
 "Ikävä juttu! %s tekivät virheen yrittäessään siirtää teknologiaa %s ja "
 "menettivät sen."
 
-#: server/techtools.c:1428
+#: server/techtools.c:1441
 #, c-format
 msgid "Too bad! You made a mistake transferring the tech %s and didn't get it."
 msgstr ""
 "Ikävä juttu! Teit virheen kun yritit siirtää teknologiaa %s - et saanut sitä."
 
-#: server/techtools.c:1432
+#: server/techtools.c:1445
 #, c-format
 msgid ""
 "Too bad! The %s made a mistake transferring the tech %s and didn't get it."
@@ -51817,50 +51816,50 @@ msgstr "Maahanlaskupaikalla olleet vihollisyksiköt tuhosivat yksikkösi %s."
 msgid "Orders for %s aborted after enemy movement was spotted."
 msgstr "%s keskeytti toimintansa havaittuaan vihollisen liikehdintää."
 
-#: server/unittools.c:4156
+#: server/unittools.c:4153
 #, c-format
 msgid "Orders for %s aborted as there are units nearby."
 msgstr "%s keskeytti toimintansa, koska lähistöllä on yksiköitä."
 
-#: server/unittools.c:4296
+#: server/unittools.c:4293
 #, c-format
 msgid "Orders for %s aborted since they give an invalid activity."
 msgstr ""
 "%s kieltäytyy jatkamasta sopimattomiksi käyneiden komentojen seuraamista."
 
-#: server/unittools.c:4306
+#: server/unittools.c:4303
 #, c-format
 msgid "Orders for %s aborted since they give an invalid location."
 msgstr "%s keskeytti liikkumisensa, koska kohdepaikka on sopimaton."
 
-#: server/unittools.c:4317
+#: server/unittools.c:4314
 #, c-format
 msgid "Orders for %s aborted as there are units in the way."
 msgstr "%s keskeytti toimintansa, koska muut yksiköt ovat sen tiellä."
 
-#: server/unittools.c:4362
+#: server/unittools.c:4359
 #, c-format
 msgid "Orders for %s aborted because of failed move."
 msgstr "%s keskeytti toimintansa, koska sen liikkuminen epäonnistui."
 
-#: server/unittools.c:4473
+#: server/unittools.c:4474
 #, c-format
 msgid "%s could not do %s to %s."
 msgstr "Yksikkösi %s ei voi suorittaa toimintoa %s kohteelle %s."
 
-#: server/unittools.c:4511
+#: server/unittools.c:4512
 #, c-format
 msgid "Orders for %s aborted because doing %s to %s failed."
 msgstr ""
 "%s keskeytti toimintansa, koska toiminnon %s tekeminen kohteelle %s "
 "epäonnistui."
 
-#: server/unittools.c:4524
+#: server/unittools.c:4525
 #, c-format
 msgid "Your %s has invalid orders."
 msgstr "Yksikölle %s annetut ohjeet eivät enää kelpaa."
 
-#: server/unittools.c:4623
+#: server/unittools.c:4624
 #, c-format
 msgid "Your unit may not act for another %s this turn. See /help unitwaittime."
 msgstr ""
