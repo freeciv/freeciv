@@ -3016,7 +3016,7 @@ bool do_paradrop(struct unit *punit, struct tile *ptile,
         && !pplayers_allied(pplayer, plrtile->owner)
         && !action_has_result(paction, ACTRES_PARADROP_CONQUER)) {
       notify_player(pplayer, ptile, E_BAD_COMMAND, ftc_server,
-                    /* Trans: Paratroopers ... Paradrop Unit */
+                    /* TRANS: Paratroopers ... Paradrop Unit */
                     _("%s cannot conquer a city with \"%s\"."),
                     unit_name_translation(punit),
                     action_name_translation(paction));

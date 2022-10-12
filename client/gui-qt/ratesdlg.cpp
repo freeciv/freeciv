@@ -62,7 +62,7 @@ tax_rates_dialog::tax_rates_dialog(QWidget *parent)
     max = 100;
   }
 
-  /* Trans: Government - max rate (of taxes) x% */
+  // TRANS: Government - max rate (of taxes) x%
   str = QString(_("%1 - max rate: %2%")).
         arg(government_name_for_player(client.conn.playing),
             QString::number(max));
