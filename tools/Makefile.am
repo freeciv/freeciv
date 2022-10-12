@@ -60,35 +60,20 @@ else
 desktopfiledir = @DESKTOPDIR@
 desktopfile_DATA =
 
-appdatafiledir = @APPDATADIR@
-appdatafile_DATA =
-
 if MODINST_GTK2
-desktopfile_DATA += \
-	org.freeciv.mp.gtk2.desktop
-appdatafile_DATA += \
-	org.freeciv.mp.gtk2.appdata.xml
+desktopfile_DATA += org.freeciv.mp.gtk2.desktop
 endif
 
 if MODINST_GTK3
-desktopfile_DATA += \
-	org.freeciv.mp.gtk3.desktop
-appdatafile_DATA += \
-	org.freeciv.mp.gtk3.appdata.xml
+desktopfile_DATA += org.freeciv.mp.gtk3.desktop
 endif
 
 if MODINST_GTK4
-desktopfile_DATA += \
-	org.freeciv.mp.gtk4.desktop
-appdatafile_DATA += \
-	org.freeciv.mp.gtk4.appdata.xml
+desktopfile_DATA += org.freeciv.mp.gtk4.desktop
 endif
 
 if MODINST_QT
-desktopfile_DATA += \
-	org.freeciv.mp.qt.desktop
-appdatafile_DATA += \
-	org.freeciv.mp.qt.appdata.xml
+desktopfile_DATA += org.freeciv.mp.qt.desktop
 endif
 
 endif

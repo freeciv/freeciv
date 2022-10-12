@@ -7,11 +7,9 @@ include $(top_srcdir)/bootstrap/Makerules.mk
 if MINGW
 REICON = $(top_builddir)/windows/rulediticon.o
 endif
+
 desktopfiledir = @DESKTOPDIR@
 desktopfile_DATA = org.freeciv.ruledit.desktop
-
-appdatafiledir = @APPDATADIR@
-appdatafile_DATA = org.freeciv.ruledit.appdata.xml
 
 bin_PROGRAMS = freeciv-ruledit
 

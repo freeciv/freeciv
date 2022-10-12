@@ -190,7 +190,3 @@ endif
 desktopfiledir = @DESKTOPDIR@
 desktopfile_DATA = \
 	org.freeciv.server.desktop
-
-appdatafiledir = @APPDATADIR@
-appdatafile_DATA = \
-	org.freeciv.server.appdata.xml

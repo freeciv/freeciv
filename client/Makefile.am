@@ -4,58 +4,46 @@
 GUI_SUBDIRS =
 
 desktopfiledir = @DESKTOPDIR@
-appdatafiledir = @APPDATADIR@
 
 desktopfile_DATA =
-appdatafile_DATA =
 
 if CLIENT_GUI_SDL2
 GUI_SUBDIRS += gui-sdl2
-desktopfile_DATA += \
-	org.freeciv.sdl2.desktop
-appdatafile_DATA += \
-	org.freeciv.sdl2.appdata.xml
+desktopfile_DATA += org.freeciv.sdl2.desktop
 endif
+
 if CLIENT_GUI_GTK_2_0
 GUI_SUBDIRS += gui-gtk-2.0
-desktopfile_DATA += \
-	org.freeciv.gtk2.desktop
-appdatafile_DATA += \
-	org.freeciv.gtk2.appdata.xml
+desktopfile_DATA += org.freeciv.gtk2.desktop
 endif
+
 if CLIENT_GUI_GTK_3_0
 GUI_SUBDIRS += gui-gtk-3.0
-desktopfile_DATA += \
-	org.freeciv.gtk3.desktop
-appdatafile_DATA += \
-	org.freeciv.gtk3.appdata.xml
+desktopfile_DATA += org.freeciv.gtk3.desktop
 endif
+
 if CLIENT_GUI_GTK_3_22
 GUI_SUBDIRS += gui-gtk-3.22
-desktopfile_DATA += \
-	org.freeciv.gtk322.desktop
-appdatafile_DATA += \
-	org.freeciv.gtk322.appdata.xml
+desktopfile_DATA += org.freeciv.gtk322.desktop
 endif
+
 if CLIENT_GUI_QT
 GUI_SUBDIRS += gui-qt
-desktopfile_DATA += \
-	org.freeciv.qt.desktop
-appdatafile_DATA += \
-	org.freeciv.qt.appdata.xml
+desktopfile_DATA += org.freeciv.qt.desktop
 endif
+
 if CLIENT_GUI_STUB
 GUI_SUBDIRS += gui-stub
 endif
 
-ALL_AUDIO_SDL_FILES=audio_sdl.c audio_sdl.h
+ALL_AUDIO_SDL_FILES = audio_sdl.c audio_sdl.h
 
 if AUDIO_SDL
-AUDIO_SDL_FILES=$(ALL_AUDIO_SDL_FILES)
+AUDIO_SDL_FILES = $(ALL_AUDIO_SDL_FILES)
 endif
 
 if MINGW
-CLIENTICON=../windows/clienticon.o
+CLIENTICON = ../windows/clienticon.o
 endif
 
 EXTRA_DIST= $(ALL_AUDIO_SDL_FILES)
