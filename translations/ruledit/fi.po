@@ -19,8 +19,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 3.0\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2022-08-22 19:22+0300\n"
-"PO-Revision-Date: 2022-08-22 19:25+0300\n"
+"POT-Creation-Date: 2022-10-12 21:49+0300\n"
+"PO-Revision-Date: 2022-10-12 21:51+0300\n"
 "Last-Translator: Marko Lindqvist <cazfi74@gmail.com>\n"
 "Language-Team: Finnish <laatu@lokalisointi.org>\n"
 "Language: fi\n"
@@ -234,7 +234,7 @@ msgstr "Mahdollistimet"
 
 #: tools/ruledit/ruledit_qt.cpp:173
 msgid "Extras"
-msgstr "Ekstrat"
+msgstr "Ruutulisät"
 
 #: tools/ruledit/ruledit_qt.cpp:175
 msgid "Terrains"
@@ -375,15 +375,15 @@ msgstr "mahdollistin toiminnalle %s"
 
 #: tools/ruledit/tab_extras.cpp:87
 msgid "Add Extra"
-msgstr "Lisää ekstra"
+msgstr "Lisää ruutulisä"
 
 #: tools/ruledit/tab_extras.cpp:92
 msgid "Remove this Extra"
-msgstr "Poista tämä ekstra"
+msgstr "Poista tämä ruutulisä"
 
 #: tools/ruledit/tab_extras.cpp:178
 msgid "An extra with that rule name already exists!"
-msgstr "Ekstra samalla sääntönimellä on jo olemassa!"
+msgstr "Ruutulisä samalla sääntönimellä on jo olemassa!"
 
 #: tools/ruledit/tab_good.cpp:88
 msgid "Add Good"
@@ -511,7 +511,7 @@ msgstr "Saavutuksia"
 
 #: tools/ruledit/tab_misc.cpp:200
 msgid "?stat:Extras"
-msgstr "Ekstroja"
+msgstr "Ruutulisiä"
 
 #: tools/ruledit/tab_misc.cpp:204
 msgid "?stat:Bases"
