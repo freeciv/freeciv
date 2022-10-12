@@ -181,9 +181,4 @@ freeciv_server_LDADD = $(exe_ldadd)
 endif
 
 desktopfiledir = @DESKTOPDIR@
-desktopfile_DATA = \
-	org.freeciv.server.desktop
-
-metainfofiledir = @METAINFODIR@
-metainfofile_DATA = \
-	org.freeciv.server.metainfo.xml
+desktopfile_DATA = org.freeciv.server.desktop

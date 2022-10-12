@@ -1,5 +1,7 @@
 ## Process this file with automake to produce Makefile.in
 
+metainfofiledir = @METAINFODIR@
+
 ## Automake should distribute config.rpath automatically - and new
 ## versions probably do. We still support versions that do not, so
 ## it's in the list below.
@@ -40,6 +42,48 @@ EXTRA_DIST =	freeciv.project		\
 		config.rpath		\
 		Makerules.mk		\
 		langnames.txt
+
+metainfofile_DATA =
+
+if SERVER
+metainfofile_DATA += org.freeciv.server.metainfo.xml
+endif
+
+if CLIENT_GUI_SDL2
+metainfofile_DATA += org.freeciv.sdl2.metainfo.xml
+endif
+
+if CLIENT_GUI_GTK_3_0
+metainfofile_DATA += org.freeciv.gtk3.metainfo.xml
+endif
+
+if CLIENT_GUI_GTK_3_22
+metainfofile_DATA += org.freeciv.gtk322.metainfo.xml
+endif
+
+if CLIENT_GUI_GTK_4
+metainfofile_DATA += org.freeciv.gtk4.metainfo.xml
+endif
+
+if CLIENT_GUI_QT
+metainfofile_DATA += org.freeciv.qt.metainfo.xml
+endif
+
+if MODINST_GTK3
+metainfofile_DATA += org.freeciv.mp.gtk3.metainfo.xml
+endif
+
+if MODINST_GTK4
+metainfofile_DATA += org.freeciv.mp.gtk4.metainfo.xml
+endif
+
+if MODINST_QT
+metainfofile_DATA += org.freeciv.mp.qt.metainfo.xml
+endif
+
+if RULEDIT
+metainfofile_DATA += org.freeciv.ruledit.metainfo.xml
+endif
 
 langstat_core.txt:
 	"$(top_srcdir)/bootstrap/generate_langstat.sh" core "$(top_srcdir)" "$(top_builddir)/bootstrap"

@@ -43,28 +43,16 @@ else
 desktopfiledir = @DESKTOPDIR@
 desktopfile_DATA =
 
-metainfofiledir = @METAINFODIR@
-metainfofile_DATA =
-
 if MODINST_GTK3
-desktopfile_DATA += \
-	org.freeciv.mp.gtk3.desktop
-metainfofile_DATA += \
-	org.freeciv.mp.gtk3.metainfo.xml
+desktopfile_DATA += org.freeciv.mp.gtk3.desktop
 endif
 
 if MODINST_GTK4
-desktopfile_DATA += \
-	org.freeciv.mp.gtk4.desktop
-metainfofile_DATA += \
-	org.freeciv.mp.gtk4.metainfo.xml
+desktopfile_DATA += org.freeciv.mp.gtk4.desktop
 endif
 
 if MODINST_QT
-desktopfile_DATA += \
-	org.freeciv.mp.qt.desktop
-metainfofile_DATA += \
-	org.freeciv.mp.qt.metainfo.xml
+desktopfile_DATA += org.freeciv.mp.qt.desktop
 endif
 
 endif
