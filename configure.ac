@@ -1898,15 +1898,15 @@ AC_CONFIG_FILES([Makefile
 	  tools/fcmp/org.freeciv.mp.gtk4.desktop:bootstrap/org.freeciv.mp.gtk4.desktop.in
 	  tools/fcmp/org.freeciv.mp.qt.desktop:bootstrap/org.freeciv.mp.qt.desktop.in
 	  tools/ruledit/org.freeciv.ruledit.desktop:bootstrap/org.freeciv.ruledit.desktop.in
-          client/org.freeciv.gtk322.metainfo.xml:bootstrap/org.freeciv.gtk322.metainfo.xml.in
-          client/org.freeciv.gtk4.metainfo.xml:bootstrap/org.freeciv.gtk4.metainfo.xml.in
-          client/org.freeciv.sdl2.metainfo.xml:bootstrap/org.freeciv.sdl2.metainfo.xml.in
-          client/org.freeciv.qt.metainfo.xml:bootstrap/org.freeciv.qt.metainfo.xml.in
-          server/org.freeciv.server.metainfo.xml:bootstrap/org.freeciv.server.metainfo.xml.in
-          tools/fcmp/org.freeciv.mp.gtk3.metainfo.xml:bootstrap/org.freeciv.mp.gtk3.metainfo.xml.in
-          tools/fcmp/org.freeciv.mp.gtk4.metainfo.xml:bootstrap/org.freeciv.mp.gtk4.metainfo.xml.in
-          tools/fcmp/org.freeciv.mp.qt.metainfo.xml:bootstrap/org.freeciv.mp.qt.metainfo.xml.in
-          tools/ruledit/org.freeciv.ruledit.metainfo.xml:bootstrap/org.freeciv.ruledit.metainfo.xml.in])
+          bootstrap/org.freeciv.gtk322.metainfo.xml:bootstrap/org.freeciv.gtk322.metainfo.xml.in
+          bootstrap/org.freeciv.gtk4.metainfo.xml:bootstrap/org.freeciv.gtk4.metainfo.xml.in
+          bootstrap/org.freeciv.sdl2.metainfo.xml:bootstrap/org.freeciv.sdl2.metainfo.xml.in
+          bootstrap/org.freeciv.qt.metainfo.xml:bootstrap/org.freeciv.qt.metainfo.xml.in
+          bootstrap/org.freeciv.server.metainfo.xml:bootstrap/org.freeciv.server.metainfo.xml.in
+          bootstrap/org.freeciv.mp.gtk3.metainfo.xml:bootstrap/org.freeciv.mp.gtk3.metainfo.xml.in
+          bootstrap/org.freeciv.mp.gtk4.metainfo.xml:bootstrap/org.freeciv.mp.gtk4.metainfo.xml.in
+          bootstrap/org.freeciv.mp.qt.metainfo.xml:bootstrap/org.freeciv.mp.qt.metainfo.xml.in
+          bootstrap/org.freeciv.ruledit.metainfo.xml:bootstrap/org.freeciv.ruledit.metainfo.xml.in])
 AC_CONFIG_FILES([fcgui:bootstrap/fcgui.in], [chmod +x fcgui])
 AC_CONFIG_FILES([fcser:bootstrap/fcser.in], [chmod +x fcser])
 AC_CONFIG_FILES([fcruleup:bootstrap/fcruleup.in], [chmod +x fcruleup])
