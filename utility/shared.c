@@ -1827,6 +1827,12 @@ bool make_dir(const char *pathname)
 
   path = interpret_tilde_alloc(pathname);
   dir = path;
+
+  if (*dir == '/') {
+    /* Don't consider root as directory separator, but skip it. */
+    dir++;
+  }
+
   do {
     dir = strchr(dir, DIR_SEPARATOR_CHAR);
     /* We set the current / with 0, and restore it afterwards */
