@@ -729,8 +729,7 @@ static struct action *action_new(action_id id,
 **************************************************************************/
 bool action_id_exists(const action_id act_id)
 {
-  /* Actions are still hard coded. */
-  return gen_action_is_valid(act_id) && actions[act_id];
+  return (action_by_number(act_id) != NULL);
 }
 
 /**************************************************************************
