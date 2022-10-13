@@ -1032,7 +1032,7 @@ bool move_window_group_dialog(struct widget *begin_group_widget_list,
   Standart Window Group Widget Callback (window)
   When Pressed check mouse move;
   if move then move window and redraw else
-  if not on fron then move window up to list and redraw.
+  if not on front then move window up to list and redraw.
 **************************************************************************/
 void move_window_group(struct widget *begin_widget_list, struct widget *pwindow)
 {
