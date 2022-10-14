@@ -743,8 +743,8 @@ Lua has some integration with effects. The effects module allows you to
 get an effect type's current value given that it is evaluated against the
 entities you specify. Only a subset of the entities a hard coded effect can
 be evaluated against is supported. An effect type's value is the sum of the
-effects of that type from effects.ruleset whos requirement vectors are
-fulfilled given the entities you specified.
+effects of that type, having requirement vectors fulfilled given the entities
+you specified, from effects.ruleset.
 
 Example
 -------
