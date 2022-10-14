@@ -222,8 +222,6 @@ struct client_options
 
 /* gui-gtk-2.0 client specific options.
  * These are still kept just so users can migrate them to later gtk-clients */
-#define FC_GTK2_DEFAULT_THEME_NAME "Freeciv"
-  char gui_gtk2_default_theme_name[512];
   bool gui_gtk2_map_scrollbars;
   bool gui_gtk2_dialogs_on_top;
   bool gui_gtk2_show_task_icons;
@@ -255,8 +253,6 @@ struct client_options
 
 /* gui-gtk-3.0 client specific options.
  * These are still kept just so users can migrate them to later gtk-clients */
-#define FC_GTK3_DEFAULT_THEME_NAME "Freeciv"
-  char gui_gtk3_default_theme_name[512];
   bool gui_gtk3_fullscreen;
   bool gui_gtk3_map_scrollbars;
   bool gui_gtk3_dialogs_on_top;

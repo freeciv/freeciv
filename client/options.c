@@ -204,7 +204,6 @@ struct client_options gui_options = {
 
 /* gui-gtk-2.0 client specific options.
  * These are still kept just so users can migrate them to gtk3-client */
-  .gui_gtk2_default_theme_name = FC_GTK2_DEFAULT_THEME_NAME,
   .gui_gtk2_map_scrollbars = FALSE,
   .gui_gtk2_dialogs_on_top = TRUE,
   .gui_gtk2_show_task_icons = TRUE,
@@ -235,7 +234,6 @@ struct client_options gui_options = {
   .gui_gtk2_font_reqtree_text = "Serif 10",
 
 /* gui-gtk-3.0 client specific options. */
-  .gui_gtk3_default_theme_name = FC_GTK3_DEFAULT_THEME_NAME,
   .gui_gtk3_fullscreen = FALSE,
   .gui_gtk3_map_scrollbars = FALSE,
   .gui_gtk3_dialogs_on_top = TRUE,
@@ -1924,14 +1922,9 @@ static struct client_option client_options[] = {
                  N_("The chat log file"),
                  N_("The name of the chat log file."),
                  COC_INTERFACE, GUI_STUB, GUI_DEFAULT_CHAT_LOGFILE, NULL, 0),
-  /* gui_gtk3/4_default_theme_name and gui_sdl2_default_theme_name are
+  /* gui_gtk3_22/4_default_theme_name and gui_sdl2_default_theme_name are
    * different settings to avoid client crash after loading the
    * style for the other gui.  Keeps 5 different options! */
-  GEN_STR_LIST_OPTION(gui_gtk3_default_theme_name, N_("Theme"),
-                      N_("By changing this option you change the "
-                         "active theme."),
-                      COC_GRAPHICS, GUI_GTK3, FC_GTK3_DEFAULT_THEME_NAME,
-                      get_themes_list, theme_reread_callback, 0),
   GEN_STR_LIST_OPTION(gui_gtk3_22_default_theme_name, N_("Theme"),
                       N_("By changing this option you change the "
                          "active theme."),
