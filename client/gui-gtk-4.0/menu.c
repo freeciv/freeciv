@@ -281,9 +281,11 @@ static void select_same_type_cont_callback(GtkMenuItem *item, gpointer data);
 static void select_same_type_callback(GtkMenuItem *item, gpointer data);
 static void select_dialog_callback(GtkMenuItem *item, gpointer data);
 static void rally_dialog_callback(GtkMenuItem *item, gpointer data);
-static void infra_dialog_callback(GtkMenuItem *item, gpointer data);
 #endif /* MENUS_GTK3 */
 
+static void infra_dialog_callback(GSimpleAction *action,
+                                  GVariant *parameter,
+                                  gpointer data);
 static void unit_wait_callback(GSimpleAction *action,
                                GVariant *parameter,
                                gpointer data);
@@ -376,6 +378,10 @@ static struct menu_entry_info menu_entries[] =
     "leave", NULL, MGROUP_SAFE },
   { "QUIT", N_("_Quit"),
     "quit", "<ctrl>q", MGROUP_SAFE },
+
+  /* Edit menu */
+  { "INFRA_DLG", N_("Infra dialog"),
+    "infra_dlg", "<ctrl>i", MGROUP_SAFE },
 
   /* View menu */
   { "CENTER_VIEW", N_("_Center View"),
@@ -479,8 +485,7 @@ static struct menu_entry_info menu_entries[] =
     G_CALLBACK(worklists_callback), MGROUP_SAFE },
   { "RALLY_DLG", N_("Rally point dialog"), GDK_KEY_r, GDK_CONTROL_MASK,
     G_CALLBACK(rally_dialog_callback), MGROUP_SAFE },
-  { "INFRA_DLG", N_("Infra dialog"), GDK_KEY_i, GDK_CONTROL_MASK,
-    G_CALLBACK(infra_dialog_callback), MGROUP_SAFE },
+
   { "CLIENT_LUA_SCRIPT", N_("Client _Lua Script"), 0, 0,
     G_CALLBACK(client_lua_script_callback), MGROUP_SAFE },
   { "HELP_OVERVIEW", N_("?help:Overview"), 0, 0,
@@ -691,6 +696,8 @@ const GActionEntry acts[] = {
 
   { "leave", leave_callback },
   { "quit", quit_callback },
+
+  { "infra_dlg", infra_dialog_callback },
 
   { "center_view", center_view_callback },
 
@@ -1594,15 +1601,17 @@ static void rally_dialog_callback(GtkMenuItem *item, gpointer data)
 {
   rally_dialog_popup();
 }
+#endif /* MENUS_GTK3 */
 
 /************************************************************************//**
   Open infra placement dialog.
 ****************************************************************************/
-static void infra_dialog_callback(GtkMenuItem *item, gpointer data)
+static void infra_dialog_callback(GSimpleAction *action,
+                                  GVariant *parameter,
+                                  gpointer data)
 {
   infra_dialog_popup();
 }
-#endif /* MENUS_GTK3 */
 
 /************************************************************************//**
   Item "UNIT_WAIT" callback.
@@ -2260,6 +2269,12 @@ static GMenu *setup_menus(GtkApplication *app)
 
   topmenu = g_menu_new();
 
+  menu_entry_init(topmenu, "INFRA_DLG");
+
+  g_menu_append_submenu(menubar, _("_Edit"), G_MENU_MODEL(topmenu));
+
+  topmenu = g_menu_new();
+
   menu_entry_init(topmenu, "CENTER_VIEW");
 
   g_menu_append_submenu(menubar, Q_("?verb:_View"), G_MENU_MODEL(topmenu));
@@ -2820,6 +2835,8 @@ void real_menus_update(void)
                                  && can_client_issue_orders()
                                  && !editor_is_active());
 
+  menu_entry_set_sensitive(map, "INFRA_DLG", terrain_control.infrapoints);
+
 #ifdef MENUS_GTK3
 
   menu_entry_set_active("EDIT_MODE", game.info.is_edit_mode);
@@ -2827,7 +2844,6 @@ void real_menus_update(void)
                            can_conn_enable_editing(&client.conn));
   editgui_refresh();
   menu_entry_set_sensitive("RALLY_DLG", can_client_issue_orders());
-  menu_entry_set_sensitive("INFRA_DLG", terrain_control.infrapoints);
 
   {
     char road_buf[500];

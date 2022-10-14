@@ -35,7 +35,7 @@
 
 #include "infradlg.h"
 
-static GtkWidget *infra_list_grid = NULL;
+static GtkWidget *infra_list_box = NULL;
 static GtkWidget *instruction_label = NULL;
 static GtkWidget *points_label = NULL;
 static int infra_rows = 0;
@@ -50,7 +50,7 @@ struct infra_cb_data {
 ****************************************************************************/
 static bool infra_dialog_open(void)
 {
-  return infra_list_grid != NULL;
+  return infra_list_box != NULL;
 }
 
 /************************************************************************//**
@@ -58,7 +58,7 @@ static bool infra_dialog_open(void)
 ****************************************************************************/
 static void infra_response_callback(GtkWidget *dlg, gint arg)
 {
-  infra_list_grid = NULL;
+  infra_list_box = NULL;
   instruction_label = NULL;
   points_label = NULL;
   infra_rows = 0;
@@ -118,8 +118,8 @@ void infra_dialog_popup(void)
   sep = gtk_separator_new(GTK_ORIENTATION_HORIZONTAL);
   gtk_grid_attach(GTK_GRID(main_box), sep, 0, grid_row++, 1, 1);
 
-  infra_list_grid = gtk_grid_new();
-  gtk_grid_attach(GTK_GRID(main_box), infra_list_grid, 0, grid_row++, 1, 1);
+  infra_list_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
+  gtk_grid_attach(GTK_GRID(main_box), infra_list_box, 0, grid_row++, 1, 1);
 
   gtk_box_append(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(dlg))),
                  main_box);
@@ -155,7 +155,7 @@ void update_infra_dialog(void)
 ****************************************************************************/
 bool infra_placement_mode(void)
 {
-  return infra_list_grid != NULL;
+  return infra_list_box != NULL;
 }
 
 /************************************************************************//**
@@ -163,9 +163,15 @@ bool infra_placement_mode(void)
 ****************************************************************************/
 void infra_placement_set_tile(struct tile *ptile)
 {
-  while (infra_rows > 0) {
-    gtk_grid_remove_row(GTK_GRID(infra_list_grid), --infra_rows);
+  if (infra_list_box != NULL) {
+    GtkWidget *child = gtk_widget_get_first_child(infra_list_box);
+
+    while (child != NULL) {
+      gtk_box_remove(GTK_BOX(infra_list_box), child);
+      child = gtk_widget_get_first_child(infra_list_box);
+    }
   }
+  infra_rows = 0;
 
   if (!client_map_is_known_and_seen(ptile, client.conn.playing, V_MAIN)) {
     return;
@@ -183,7 +189,8 @@ void infra_placement_set_tile(struct tile *ptile)
 
       g_signal_connect(but, "clicked",
                        G_CALLBACK(infra_selected_callback), cbdata);
-      gtk_grid_attach(GTK_GRID(infra_list_grid), but, 1, infra_rows++, 1, 1);
+      gtk_box_append(GTK_BOX(infra_list_box), but);
+      infra_rows++;
     }
   } extra_type_iterate_end;
 
@@ -195,5 +202,5 @@ void infra_placement_set_tile(struct tile *ptile)
                        _("Select infra for the tile, or another tile."));
   }
 
-  gtk_widget_show(infra_list_grid);
+  gtk_widget_show(infra_list_box);
 }
