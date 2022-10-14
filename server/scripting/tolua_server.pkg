@@ -226,7 +226,8 @@ module edit {
     @ add_player_history(lua_State *L, Player *self, int amount);
 
   void api_edit_player_give_bulbs
-    @ give_bulbs(lua_State *L, Player *self, int amount);
+    @ give_bulbs(lua_State *L, Player *self, int amount,
+                 Tech_Type *tech = NULL);
 }
 
 /* Luadata module. */
@@ -364,8 +365,8 @@ function Player:add_history(amount)
   edit.add_player_history(self, amount)
 end
 
-function Player:give_bulbs(amount)
-  edit.give_bulbs(self, amount)
+function Player:give_bulbs(amount, tech)
+  edit.give_bulbs(self, amount, tech)
 end
 
 -- Server functions for City module

@@ -1087,14 +1087,62 @@ void api_edit_player_add_history(lua_State *L, Player *pplayer, int amount)
 }
 
 /**********************************************************************//**
-  Give bulbs to a player
+  Give bulbs to a player, optionally towards a specific tech.
+  If a tech that is not currently in research is specified,
+  tech known state will not immediately change.
+  Out of multiresearch mode, when tech is not NULL,
+  this function sets the "previous" tech (or clears it if the current
+  one is specified); in the case if a new "previous" tech is set,
+  all non-free bulbs of the old "previous" tech are cleared,
+  and if necessary the bulbs on stock are adjusted (for clear switching)
+  as like amount was the previously researched value.
 **************************************************************************/
-void api_edit_player_give_bulbs(lua_State *L, Player *pplayer, int amount)
+void api_edit_player_give_bulbs(lua_State *L, Player *pplayer, int amount,
+                                Tech_Type *tech)
 {
+  struct research *presearch;
+
   LUASCRIPT_CHECK_STATE(L);
   LUASCRIPT_CHECK_SELF(L, pplayer);
+  presearch = research_get(pplayer);
+  fc_assert_ret(presearch);
 
-  update_bulbs(pplayer, amount, TRUE, TRUE);
+  if (!tech) {
+    update_bulbs(pplayer, amount, TRUE, TRUE);
 
-  send_research_info(research_get(pplayer), NULL);
+    send_research_info(presearch, NULL);
+  } else if (advance_number(tech) == presearch->researching) {
+    update_bulbs(pplayer, amount, TRUE, FALSE);
+    /* Clean the saved tech to get no surprizes switching */
+    presearch->researching_saved = A_UNKNOWN;
+
+    send_research_info(presearch, NULL);
+  } else {
+    /* Sometimes we may set negative bulbs, it's normal though lurking */
+    if (game.server.multiresearch) {
+      presearch->inventions[advance_number(tech)].bulbs_researched_saved
+        += amount;
+      /* Currently, multiresearch data are not sent to clients */
+    } else {
+      int oldb = presearch->bulbs_researched;
+
+      /* NOTE: We can set a tech we already know / can't research here.
+       * Probably it's safe as we can't switch into it any way. */
+      if (presearch->researching_saved != advance_number(tech)) {
+        presearch->researching_saved = advance_number(tech);
+        presearch->bulbs_researching_saved
+          = amount + presearch->free_bulbs;
+      } else {
+        presearch->bulbs_researching_saved
+          += amount + presearch->free_bulbs;
+      }
+      /* For consistency, modify current bulbs alongside
+       * (sometimes getting into "overresearch" situation, but ok) */
+      presearch->bulbs_researched = amount
+        - amount * game.server.techpenalty / 100 + presearch->free_bulbs;
+      if (oldb != presearch->bulbs_researched) {
+        send_research_info(presearch, NULL);
+      }
+    }
+  }
 }
