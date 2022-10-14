@@ -163,6 +163,8 @@ const char *unstable_message(void)
   return alpha_message();
 #elif IS_BETA_VERSION
   return beta_message();
+#else
+  return NULL;
 #endif
 }
 
