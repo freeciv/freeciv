@@ -706,7 +706,7 @@ void gov_menu::update()
 
   gov_count = government_count();
   revol_gov = game.government_during_revolution;
-  for (i = 0, j = 0; i < gov_count; ++i) {
+  for (i = 0, j = 0; i < gov_count; i++) {
     gov = government_by_number(i);
     if (gov != revol_gov) { // Skip revolution goverment
       sprite = get_government_sprite(tileset, gov);
@@ -715,9 +715,10 @@ void gov_menu::update()
       }
       actions[j + 1]->setEnabled(
         can_change_to_government(client.conn.playing, gov));
-      ++j;
+      j++;
     } else {
-      actions[0]->setEnabled(!client_is_observer());
+      actions[0]->setEnabled(!client_is_observer()
+                             && untargeted_revolution_allowed());
     }
   }
 }
