@@ -8,6 +8,8 @@
 # Variable setup
 #
 
+MAKEFILE_NAME=Makefile
+
 ifeq ($(MSYSTEM),MINGW64)
 WINARCH=win64
 ARCHDIR=mingw64
@@ -68,41 +70,41 @@ all-win32: gtk3.22-installer sdl2-installer ruledit-installer-qt5 qt5-installer 
 all-win64-10: gtk3.22-installer sdl2-installer ruledit-installer qt6-installer gtk4-installer
 
 gtk3.22-installer:
-	make GUI=gtk3.22 CLIENT=gtk3.22 FCMP=gtk3 EXTRA_CONFIG="--disable-ruledit $(EXTRA_CONFIG)" wrap-gtk3.22
+	make -f $(MAKEFILE_NAME) GUI=gtk3.22 CLIENT=gtk3.22 FCMP=gtk3 EXTRA_CONFIG="--disable-ruledit $(EXTRA_CONFIG)" wrap-gtk3.22
 
 gtk4-installer:
-	make GUI=gtk4 CLIENT=gtk4 FCMP=gtk4 EXTRA_CONFIG="--disable-ruledit $(EXTRA_CONFIG)" wrap-gtk4
+	make -f $(MAKEFILE_NAME) GUI=gtk4 CLIENT=gtk4 FCMP=gtk4 EXTRA_CONFIG="--disable-ruledit $(EXTRA_CONFIG)" wrap-gtk4
 
 sdl2-installer:
-	make GUI=sdl2 CLIENT=sdl2 FCMP=gtk4 EXTRA_CONFIG="--disable-ruledit $(EXTRA_CONFIG)" wrap-sdl2
+	make -f $(MAKEFILE_NAME) GUI=sdl2 CLIENT=sdl2 FCMP=gtk4 EXTRA_CONFIG="--disable-ruledit $(EXTRA_CONFIG)" wrap-sdl2
 
 qt-installer: qt5-installer
 
 qt5-installer:
-	make GUI=qt5 CLIENT=qt FCMP=qt EXTRA_CONFIG="--with-qtver=qt5 --with-qt5-includes=/$(ARCHDIR)/include --with-qt5-libs=/$(ARCHDIR)/lib $(EXTRA_CONFIG)" wrap-qt5
+	make -f $(MAKEFILE_NAME) GUI=qt5 CLIENT=qt FCMP=qt EXTRA_CONFIG="--with-qtver=qt5 --with-qt5-includes=/$(ARCHDIR)/include --with-qt5-libs=/$(ARCHDIR)/lib $(EXTRA_CONFIG)" wrap-qt5
 
 qt6-installer:
-	make GUI=qt6 CLIENT=qt FCMP=qt EXTRA_CONFIG="--with-qtver=qt6 --with-qt6-includes=/$(ARCHDIR)/include/qt6 --with-qt6-libs=/$(ARCHDIR)/lib $(EXTRA_CONFIG)" MOCCMD="$(QT6_MOCCMD)" wrap-qt6
+	make -f $(MAKEFILE_NAME) GUI=qt6 CLIENT=qt FCMP=qt EXTRA_CONFIG="--with-qtver=qt6 --with-qt6-includes=/$(ARCHDIR)/include/qt6 --with-qt6-libs=/$(ARCHDIR)/lib $(EXTRA_CONFIG)" MOCCMD="$(QT6_MOCCMD)" wrap-qt6
 
 ruledit-installer: ruledit-installer-qt6
 
 ruledit-installer-qt5:
 	# EXTRA_CONFIG="$(EXTRA_CONFIG)" *does* make a difference - it unwraps one layer
 	# of escapes, needed for snapshot builds.
-	make EXTRA_CONFIG="$(EXTRA_CONFIG)" wrap-ruledit-qt5
+	make -f $(MAKEFILE_NAME) EXTRA_CONFIG="$(EXTRA_CONFIG)" wrap-ruledit-qt5
 
 ruledit-installer-qt6:
 	# EXTRA_CONFIG="$(EXTRA_CONFIG)" *does* make a difference - it unwraps one layer
 	# of escapes, needed for snapshot builds.
-	make EXTRA_CONFIG="$(EXTRA_CONFIG)" MOCCMD="$(QT6_MOCCMD)" wrap-ruledit-qt6
+	make -f $(MAKEFILE_NAME) EXTRA_CONFIG="$(EXTRA_CONFIG)" MOCCMD="$(QT6_MOCCMD)" wrap-ruledit-qt6
 
 snapshot:
 	cd ../.. ; ./autogen.sh --no-configure-run
-	make VERSION_REVTYPE="git" EXTRA_CONFIG="--enable-gitrev --with-project-definition=../../../bootstrap/snapshot.project CFLAGS=\\\"-Werror $$CFLAGS\\\" CXXFLAGS=\\\"$$CXXFLAGS\\\"" all
+	make -f $(MAKEFILE_NAME) VERSION_REVTYPE="git" EXTRA_CONFIG="--enable-gitrev --with-project-definition=../../../bootstrap/snapshot.project CFLAGS=\\\"-Werror $$CFLAGS\\\" CXXFLAGS=\\\"$$CXXFLAGS\\\"" all
 
 ci:
 	cd ../.. ; ./autogen.sh --no-configure-run
-	make VERSION_REVTYPE="git" CI=yes EXTRA_CONFIG="--enable-gitrev --with-project-definition=../../../bootstrap/snapshot.project CFLAGS=\\\"-Werror $$CFLAGS\\\" CXXFLAGS=\\\"$$CXXFLAGS\\\"" ruledit-installer-qt6 qt6-installer
+	make -f $(MAKEFILE_NAME) VERSION_REVTYPE="git" CI=yes EXTRA_CONFIG="--enable-gitrev --with-project-definition=../../../bootstrap/snapshot.project CFLAGS=\\\"-Werror $$CFLAGS\\\" CXXFLAGS=\\\"$$CXXFLAGS\\\"" ruledit-installer-qt6 qt6-installer
 
 # configure Freeciv
 
@@ -634,10 +636,10 @@ clean-installer-ruledit-qt6:
 	rm -f Freeciv-*-ruledit-qt6.nsi
 
 clean:
-	make GUI=gtk3.22 CLIENT=gtk3.22 clean-build-common clean-install-common clean-installer-common
-	make GUI=gtk4 CLIENT=gtk4 clean-build-common clean-install-common clean-installer-common
-	make GUI=sdl2 CLIENT=sdl2 clean-build-common clean-install-common clean-installer-common
-	make GUI=qt5 CLIENT=qt clean-build-common clean-install-common clean-installer-common
-	make GUI=qt6 CLIENT=qt clean-build-common clean-install-common clean-installer-common
-	make clean-build-ruledit-qt5 clean-install-ruledit-qt5 clean-installer-ruledit-qt5
-	make clean-build-ruledit-qt6 clean-install-ruledit-qt6 clean-installer-ruledit-qt6
+	make -f $(MAKEFILE_NAME) GUI=gtk3.22 CLIENT=gtk3.22 clean-build-common clean-install-common clean-installer-common
+	make -f $(MAKEFILE_NAME) GUI=gtk4 CLIENT=gtk4 clean-build-common clean-install-common clean-installer-common
+	make -f $(MAKEFILE_NAME) GUI=sdl2 CLIENT=sdl2 clean-build-common clean-install-common clean-installer-common
+	make -f $(MAKEFILE_NAME) GUI=qt5 CLIENT=qt clean-build-common clean-install-common clean-installer-common
+	make -f $(MAKEFILE_NAME) GUI=qt6 CLIENT=qt clean-build-common clean-install-common clean-installer-common
+	make -f $(MAKEFILE_NAME) clean-build-ruledit-qt5 clean-install-ruledit-qt5 clean-installer-ruledit-qt5
+	make -f $(MAKEFILE_NAME) clean-build-ruledit-qt6 clean-install-ruledit-qt6 clean-installer-ruledit-qt6

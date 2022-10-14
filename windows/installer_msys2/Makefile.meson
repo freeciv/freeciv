@@ -9,6 +9,8 @@
 # Variable setup
 #
 
+MAKEFILE_NAME=Makefile.meson
+
 ifeq ($(MSYSTEM),MINGW64)
 WINARCH=win64
 ARCHDIR=mingw64
@@ -46,19 +48,19 @@ endif
 all: gtk3.22-installer sdl2-installer gtk4-installer
 
 snapshot:
-	make -f Makefile.meson VERSION_REVTYPE="git" EXTRA_CONFIG="-Dgitrev=true $(EXTRA_CONFIG)" all
+	make -f $(MAKEFILE_NAME) VERSION_REVTYPE="git" EXTRA_CONFIG="-Dgitrev=true $(EXTRA_CONFIG)" all
 
 ci:
-	make -f Makefile.meson VERSION_REVTYPE="git" CI=yes EXTRA_CONFIG="-Dgitrev=true -Dsys-tolua-cmd=true $(EXTRA_CONFIG)" gtk3.22-installer sdl2-installer gtk4-installer
+	make -f $(MAKEFILE_NAME) VERSION_REVTYPE="git" CI=yes EXTRA_CONFIG="-Dgitrev=true -Dsys-tolua-cmd=true $(EXTRA_CONFIG)" gtk3.22-installer sdl2-installer gtk4-installer
 
 gtk3.22-installer:
-	make -f Makefile.meson GUI=gtk3.22 CLIENT=gtk3.22 FCMP=gtk3 installer-common
+	make -f $(MAKEFILE_NAME) GUI=gtk3.22 CLIENT=gtk3.22 FCMP=gtk3 installer-common
 
 gtk4-installer:
-	make -f Makefile.meson GUI=gtk4 CLIENT=gtk4 FCMP=gtk4 installer-common
+	make -f $(MAKEFILE_NAME) GUI=gtk4 CLIENT=gtk4 FCMP=gtk4 installer-common
 
 sdl2-installer:
-	make -f Makefile.meson GUI=sdl2 CLIENT=sdl2 FCMP=gtk4 installer-common
+	make -f $(MAKEFILE_NAME) GUI=sdl2 CLIENT=sdl2 FCMP=gtk4 installer-common
 
 installer-common: clean-install-common install-freeciv-$(GUI) install-env-$(GUI)
 	# extract Freeciv version
@@ -243,6 +245,6 @@ clean-installer-common:
 	rm -f Freeciv-meson-*-$(GUI).nsi
 
 clean:
-	make -f Makefile.meson GUI=gtk3.22 clean-build-common clean-install-common clean-installer-common
-	make -f Makefile.meson GUI=gtk4 clean-build-common clean-install-common clean-installer-common
-	make -f Makefile.meson GUI=sdl2 clean-build-common clean-install-common clean-installer-common
+	make -f $(MAKEFILE_NAME) GUI=gtk3.22 clean-build-common clean-install-common clean-installer-common
+	make -f $(MAKEFILE_NAME) GUI=gtk4 clean-build-common clean-install-common clean-installer-common
+	make -f $(MAKEFILE_NAME) GUI=sdl2 clean-build-common clean-install-common clean-installer-common
