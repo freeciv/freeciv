@@ -142,10 +142,14 @@ SETUP=$(grep "CrosserSetup=" $DLLSPATH/crosser.txt | sed -e 's/CrosserSetup="//'
 
 VERREV="$(../../fc_version)"
 
+if ! ( cd "meson-build-${SETUP}-${GUI}" && ninja langstat_core.txt ) ; then
+  echo "langstat_core.txt creation failed!" >&2
+  exit 1
+fi
+
 if test "$INST_CROSS_MODE" != "release" ; then
   if test -d ../../.git || test -f ../../.git ; then
     VERREV="$VERREV-$(cd ../.. && git rev-parse --short HEAD)"
-    GITREVERT=true
   fi
 fi
 
