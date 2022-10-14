@@ -9,9 +9,10 @@
 # * also look for SDL2.framework under Mac OS X
 # * removed HP/UX 9 support.
 # * updated for newer autoconf.
-# * Taken to Freeciv from SDL release 2.0.10 - modified to work together with sdl1.2
+# * Taken to Freeciv from SDL2 release 2.24.1 - modified to work together with sdl1.2
 
-# serial 2.0.1
+## Upstream serial 2
+# serial 2.0.2
 
 dnl AM_PATH_SDL2([MINIMUM-VERSION, [ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]]])
 dnl Test for SDL2, and define SDL2_CFLAGS and SDL2_LIBS
@@ -78,8 +79,8 @@ AC_ARG_VAR(SDL2_FRAMEWORK, [Path to SDL2.framework])
         sdl2_framework=$SDL2_FRAMEWORK
       else
         for d in / ~/ /System/; do
-          if test -d "$dLibrary/Frameworks/SDL2.framework"; then
-            sdl2_framework="$dLibrary/Frameworks/SDL2.framework"
+          if test -d "${d}Library/Frameworks/SDL2.framework"; then
+            sdl2_framework="${d}Library/Frameworks/SDL2.framework"
           fi
         done
       fi
