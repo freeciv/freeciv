@@ -2367,7 +2367,8 @@ tp_defense    = "Alight"
 flags         = "TradeRoute", "HelpWonder", "IgZOC", "NonMil"
 roles         = ""
 helptext      = _("\
-The Freight unit replaces the Caravan, and moves at twice the speed.\
+The Freight unit replaces the Caravan, moves at twice the speed\
+and brings you twice bigger benefit at arrival.\
 ")
 
 [unit_explorer]

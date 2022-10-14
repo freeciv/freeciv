@@ -2200,6 +2200,15 @@ reqs	=
 type	= "Trade_Revenue_Bonus"
 value	= 1585
 
+;Freights have doubled bonuses
+[effect_bonus_freight]
+type	= "Trade_Revenue_Bonus"
+value	= 1000
+reqs	=
+    { "type", "name", "range"
+      "UnitType", "Freight", "Local"
+    }
+
 [effect_tithes_fundamentalism]
 type    = "Happiness_To_Gold"
 value   = 1
