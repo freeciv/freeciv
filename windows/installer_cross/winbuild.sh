@@ -102,8 +102,15 @@ if test "x$MAKE_PARAMS" = "x" ; then
   MAKE_PARAMS="-j$(nproc)"
 fi
 
-if ! mkdir -p build-${SETUP}${NAMEP} ; then
-  echo "Can't create build directory \"build-${SETUP}${NAMEP}\"!" >&2
+BUILD_DIR="build-${SETUP}${NAMEP}"
+
+if ! rm -Rf "${BUILD_DIR}" ; then
+  echo "Failed to clear out old build directory!" >&2
+  exit 1
+fi
+
+if ! mkdir -p "${BUILD_DIR}" ; then
+  echo "Can't create build directory \"${BUILD_DIR}\"!" >&2
   exit 1
 fi
 
@@ -168,7 +175,7 @@ fi
 INSTALL_DIR="$(pwd)/freeciv-${VERREV}${NAMEP}"
 
 if ! (
-cd build-${SETUP}${NAMEP}
+cd "${BUILD_DIR}"
 
 if test "x$INST_CROSS_MODE" = "xsnapshot" ; then
   GITREVP="--enable-gitrev"
