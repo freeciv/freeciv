@@ -63,7 +63,7 @@ fc_shortcut default_shortcuts[] = {
     _("Fullscreen") },
   {SC_MINIMAP, Qt::Key_M, Qt::AllButtons, Qt::ControlModifier,
     _("Show minimap") },
-  {SC_CITY_OUTPUT, Qt::Key_W, Qt::AllButtons, Qt::ControlModifier,
+  {SC_CITY_OUTPUT, Qt::Key_V, Qt::AllButtons, Qt::ControlModifier,
     _("City Output") },
   {SC_MAP_GRID, Qt::Key_G, Qt::AllButtons, Qt::ControlModifier,
     _("Map Grid") },

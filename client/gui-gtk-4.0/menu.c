@@ -543,7 +543,7 @@ static struct menu_entry_info menu_entries[] =
     G_CALLBACK(edit_mode_callback), MGROUP_SAFE },
   { "SHOW_CITY_OUTLINES", N_("Cit_y Outlines"), GDK_KEY_y, GDK_CONTROL_MASK,
     G_CALLBACK(show_city_outlines_callback), MGROUP_SAFE },
-  { "SHOW_CITY_OUTPUT", N_("City Output"), GDK_KEY_w, GDK_CONTROL_MASK,
+  { "SHOW_CITY_OUTPUT", N_("City Output"), GDK_KEY_v, GDK_CONTROL_MASK,
     G_CALLBACK(show_city_output_callback), MGROUP_SAFE },
   { "SHOW_MAP_GRID", N_("Map _Grid"), GDK_KEY_g, GDK_CONTROL_MASK,
     G_CALLBACK(show_map_grid_callback), MGROUP_SAFE },
@@ -598,7 +598,8 @@ static struct menu_entry_info menu_entries[] =
 
   { "RECALC_BORDERS", N_("Recalculate _Borders"), 0, 0,
     G_CALLBACK(recalc_borders_callback), MGROUP_EDIT },
-  { "TOGGLE_FOG", N_("Toggle Fog of _War"), GDK_KEY_m, GDK_CONTROL_MASK,
+  { "TOGGLE_FOG", N_("Toggle Fog of _War"), GDK_KEY_w,
+    GDK_CONTROL_MASK | GDK_SHIFT_MASK,
     G_CALLBACK(toggle_fog_callback), MGROUP_EDIT },
   { "SCENARIO_PROPERTIES", N_("Game/Scenario Properties"), 0, 0,
     G_CALLBACK(scenario_properties_callback), MGROUP_EDIT },
