@@ -508,6 +508,11 @@ static void ensure_big_sprite(struct specfile *sf)
               sf->file_name);
     exit(EXIT_FAILURE);
   }
+
+  /* We don't check unused fields here as most fields are only read
+   * at the specs scanning time. */
+  /*  secfile_check_unused(file); */
+
   secfile_destroy(file);
 }
 
@@ -532,8 +537,11 @@ static void scan_specfile(struct theme *t, struct specfile *sf,
     exit(EXIT_FAILURE);
   }
 
-  /* currently unused */
+  /* Currently unused */
   (void) secfile_entry_by_path(file, "info.artists");
+
+  /* This isn't used during the scan, only when the gfx is really loaded */
+  (void) secfile_entry_by_path(file, "file.gfx");
 
   sections = secfile_sections_by_name_prefix(file, "grid_");
 
