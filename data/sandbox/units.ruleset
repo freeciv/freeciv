@@ -790,7 +790,7 @@ uk_food       = 1
 uk_gold       = 1
 tp_defense    = "Alight"
 flags         = "Capturer", "Fortress", "FleshBased"
-roles         = "DefendOk", "DefendOkStartUnit", "Hut"
+roles         = "DefendOk", "Hut"
 helptext      = _("\
 Archers fight with bows and arrows and have a good offensive\
  value.\
@@ -823,7 +823,7 @@ uk_food       = 1
 uk_gold       = 1
 tp_defense    = "Alight"
 flags         = "Marines", "Capturer", "Fortress", "FleshBased"
-roles         = "DefendOk", "DefendOkStartUnit", "BarbarianBuild", "BarbarianSea"
+roles         = "DefendOk", "BarbarianBuild", "BarbarianSea"
 helptext      = _("\
 Legions are heavily armed and well disciplined infantry\
  units with an excellent offensive value.\
@@ -1256,7 +1256,7 @@ uk_food       = 1
 uk_gold       = 1
 tp_defense    = "Alight"
 flags         = "Capturer", "FleshBased"
-roles         = "DefendOk", "DefendOkStartUnit", "AttackFastStartUnit", "Hunter"
+roles         = "DefendOk", "AttackFastStartUnit", "Hunter"
 helptext      = _("\
 Elephants are towering animals trained for war that are often used as\
  powerful shock troops.\
@@ -1322,7 +1322,7 @@ uk_food       = 1
 uk_gold       = 1
 tp_defense    = "Alight"
 flags         = "Capturer", "FleshBased"
-roles         = "DefendOk", "DefendOkStartUnit", "AttackFastStartUnit",
+roles         = "DefendOk", "AttackFastStartUnit",
                 "HutTech","BarbarianTech", "BarbarianBuildTech", "Hunter"
 helptext      = _("\
 Knights are mounted and heavily armored warriors.\
@@ -1419,7 +1419,7 @@ uk_food       = 1
 uk_gold       = 1
 tp_defense    = "Alight"
 flags         = "IronBased"
-roles         = "DefendOk", "DefendOkStartUnit", "AttackFastStartUnit", "Hunter"
+roles         = "DefendOk", "AttackFastStartUnit", "Hunter"
 helptext      = _("\
 Armors are motorized war wagons that are faster, stronger, and can take \
 more damage than any mounted unit. However, they are less adaptable to \
@@ -2196,7 +2196,7 @@ tp_defense    = "Alight"
 ; The Guardian, Sep. 6, 2002.
 flags         = "BadCityDefender", "HasNoZOC", "Consensus", "Provoking",
                 "IronBased"
-roles         = "DefendGood", "DefendGoodStartUnit"
+roles         = "DefendGood"
 helptext      = _("\
 The Carrier is a mobile airport.\
 "), _("\
