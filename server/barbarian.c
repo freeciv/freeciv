@@ -313,7 +313,8 @@ bool unleash_barbarians(struct tile *ptile)
     /* If unit cannot live on this tile, we just don't create one.
      * Maybe find_a_unit_type() should take tile parameter, so
      * we could get suitable unit if one exist. */
-    if (is_native_tile(punittype, ptile)) {
+    if (is_native_tile(punittype, ptile)
+        && !utype_player_already_has_this_unique(barbarians, punittype)) {
       struct unit *barb_unit;
 
       barb_unit = create_unit(barbarians, ptile, punittype, 0, 0, -1);
@@ -388,7 +389,8 @@ bool unleash_barbarians(struct tile *ptile)
         int rdir = random_unchecked_direction(ocean_tiles - checked_count, checked);
 
         candidate = find_a_unit_type(L_BARBARIAN_BOAT, L_BARBARIAN_BOAT_TECH);
-        if (is_native_tile(candidate, dir_tiles[rdir])) {
+        if (is_native_tile(candidate, dir_tiles[rdir])
+            && !utype_player_already_has_this_unique(barbarians, candidate)) {
           boat = create_unit(barbarians, dir_tiles[rdir], candidate,
                              0, 0, -1);
         }
@@ -617,24 +619,26 @@ static void try_summon_barbarians(void)
     }
     for (i = 0; i < barb_count; i++) {
       struct unit_type *punittype
-	= find_a_unit_type(L_BARBARIAN, L_BARBARIAN_TECH);
+        = find_a_unit_type(L_BARBARIAN, L_BARBARIAN_TECH);
 
       /* If unit cannot live on this tile, we just don't create one.
        * Maybe find_a_unit_type() should take tile parameter, so
        * we could get suitable unit if one exist. */
-      if (is_native_tile(punittype, utile)) {
+      if (is_native_tile(punittype, utile)
+          && !utype_player_already_has_this_unique(barbarians, punittype)) {
         (void) create_unit(barbarians, utile, punittype, 0, 0, -1);
         really_created++;
-        log_debug("Created barbarian unit %s",utype_rule_name(punittype));
+        log_debug("Created barbarian unit %s", utype_rule_name(punittype));
       }
     }
 
-    if (is_native_tile(leader_type, utile)) {
+    if (is_native_tile(leader_type, utile)
+        && !utype_player_already_has_this_unique(barbarians, leader_type)) {
       (void) create_unit(barbarians, utile,
                          leader_type, 0, 0, -1);
       really_created++;
     }
-  } else {                   /* sea raiders - their units will be veteran */
+  } else {                   /* Sea raiders - their units will be veteran */
     struct unit *ptrans;
     struct unit_type *boat;
     bool miniphase;
@@ -660,6 +664,7 @@ static void try_summon_barbarians(void)
     boat = find_a_unit_type(L_BARBARIAN_BOAT, L_BARBARIAN_BOAT_TECH);
 
     if (is_native_tile(boat, utile)
+        && !utype_player_already_has_this_unique(barbarians, boat)
         && (is_safe_ocean(&(wld.map), utile)
             || (!utype_has_flag(boat, UTYF_COAST_STRICT)
                 && !utype_has_flag(boat, UTYF_COAST)))) {
@@ -674,7 +679,8 @@ static void try_summon_barbarians(void)
         struct unit_type *barb
           = find_a_unit_type(L_BARBARIAN_SEA, L_BARBARIAN_SEA_TECH);
 
-        if (can_unit_type_transport(boat, utype_class(barb))) {
+        if (can_unit_type_transport(boat, utype_class(barb))
+            && !utype_player_already_has_this_unique(barbarians, barb)) {
           (void) create_unit_full(barbarians, utile, barb, 0, 0, -1, -1,
                                   ptrans);
           really_created++;
@@ -682,7 +688,8 @@ static void try_summon_barbarians(void)
         }
       }
 
-      if (can_unit_type_transport(boat, utype_class(leader_type))) {
+      if (can_unit_type_transport(boat, utype_class(leader_type))
+          && !utype_player_already_has_this_unique(barbarians, leader_type)) {
         (void) create_unit_full(barbarians, utile, leader_type, 0, 0,
                                 -1, -1, ptrans);
         really_created++;
@@ -700,7 +707,7 @@ static void try_summon_barbarians(void)
     return;
   }
 
-  /* Is this necessary?  create_unit_full already sends unit info. */
+  /* Is this necessary?  create_unit_full() already sends unit info. */
   unit_list_iterate(utile->units, punit2) {
     send_unit_info(NULL, punit2);
   } unit_list_iterate_end;

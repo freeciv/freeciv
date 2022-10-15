@@ -78,7 +78,7 @@ static void place_animal(struct player *plr, int sqrdist)
 
   ptype = animal_for_terrain(tile_terrain(ptile));
 
-  if (ptype != NULL) {
+  if (ptype != NULL && !utype_player_already_has_this_unique(plr, ptype)) {
     struct unit *punit;
 
     fc_assert_ret(can_exist_at_tile(&(wld.map), ptype, ptile));
