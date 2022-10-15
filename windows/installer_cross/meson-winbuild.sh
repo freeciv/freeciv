@@ -87,13 +87,15 @@ if test "$CLIENT" = "" ; then
   CLIENT="$GUI"
 fi
 
-if ! rm -Rf meson-build-${SETUP}-${GUI} ; then
+BUILD_DIR="meson-build-${SETUP}-${GUI}"
+
+if ! rm -Rf "${BUILD_DIR}" ; then
   echo "Failed to clear out old build directory!" >&2
   exit 1
 fi
 
-if ! mkdir -p meson-build-${SETUP}-${GUI} ; then
-  echo "Can't create build directory \"meson-build-${SETUP}-${GUI}\"!" >&2
+if ! mkdir -p "${BUILD_DIR}" ; then
+  echo "Can't create build directory \"${BUILD_DIR}\"!" >&2
   exit 1
 fi
 
@@ -103,10 +105,10 @@ then
   exit 1
 fi
 
-PACKAGENAME=freeciv-${VERREV}-${SETUP}-${GUI}
-MESON_INSTALL_DIR=$(pwd)/meson-install/${PACKAGENAME}
+PACKAGENAME="freeciv-${VERREV}-${SETUP}-${GUI}"
+MESON_INSTALL_DIR="$(pwd)/meson-install/${PACKAGENAME}"
 
-if ! rm -Rf $MESON_INSTALL_DIR ; then
+if ! rm -Rf "${MESON_INSTALL_DIR}" ; then
   echo "Failed to clear out old install directory!" >&2
   exit 1
 fi
@@ -117,7 +119,7 @@ echo "Freeciv version $VERREV"
 echo "----------------------------------"
 
 if ! (
-cd meson-build-${SETUP}-${GUI}
+cd "${BUILD_DIR}"
 
 export PKG_CONFIG_PATH=${DLLSPATH}/lib/pkgconfig
 
