@@ -759,7 +759,7 @@ void handle_edit_city(struct connection *pc,
       notify_conn(pc->self, ptile, E_BAD_COMMAND, ftc_editor,
                   _("Cannot edit city name: %s"), buf);
     } else {
-      sz_strlcpy(pcity->name, packet->name);
+      city_name_set(pcity, packet->name);
       changed = TRUE;
     }
   }

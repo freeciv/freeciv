@@ -730,7 +730,7 @@ void handle_city_info(const struct packet_city_info *packet)
     return;
   } else {
     name_changed = (0 != strncmp(packet->name, pcity->name,
-                                 sizeof(pcity->name)));
+                                 MAX_LEN_CITYNAME));
 
     while (trade_route_list_size(pcity->routes) > packet->traderoute_count) {
       struct trade_route *proute = trade_route_list_get(pcity->routes, -1);
@@ -1212,14 +1212,14 @@ void handle_city_short_info(const struct packet_city_short_info *packet)
     return;
   } else {
     name_changed = (0 != strncmp(packet->name, pcity->name,
-                                 sizeof(pcity->name)));
+                                 MAX_LEN_CITYNAME));
 
     /* Check if city descriptions should be updated */
     if (gui_options.draw_city_names && name_changed) {
       update_descriptions = TRUE;
     }
 
-    sz_strlcpy(pcity->name, packet->name);
+    city_name_set(pcity, packet->name);
     
     memset(pcity->feel, 0, sizeof(pcity->feel));
     memset(pcity->specialists, 0, sizeof(pcity->specialists));

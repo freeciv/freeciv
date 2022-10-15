@@ -1113,15 +1113,31 @@ void city_choose_build_default(struct city *pcity)
   }
 }
 
-#ifndef city_name_get
 /**********************************************************************//**
   Return the name of the city.
 **************************************************************************/
 const char *city_name_get(const struct city *pcity)
 {
-  return pcity->name;
+  return (pcity->name != NULL) ? pcity->name : "City missing a name";
 }
-#endif /* city_name_get */
+
+/**********************************************************************//**
+  Set a new name for the city.
+**************************************************************************/
+void city_name_set(struct city *pcity, const char *new_name)
+{
+  if (pcity->name != NULL) {
+    free(pcity->name);
+  }
+
+  if (strlen(new_name) < MAX_LEN_CITYNAME) {
+    pcity->name = fc_strdup(new_name);
+  } else {
+    log_warn(_("City name \"%s\" too long"), new_name);
+    pcity->name = fc_malloc(MAX_LEN_CITYNAME);
+    sz_strlcpy(pcity->name, new_name);
+  }
+}
 
 /**********************************************************************//**
   Add a (positive or negative) value to the city size. As citizens is an
@@ -3317,7 +3333,9 @@ struct city *create_city_virtual(struct player *pplayer,
   struct city *pcity = fc_calloc(1, sizeof(*pcity));
 
   fc_assert_ret_val(NULL != name, NULL);        /* No unnamed cities! */
-  sz_strlcpy(pcity->name, name);
+
+  /* Do this early, so any logging later will have the city name */
+  city_name_set(pcity, name);
 
   pcity->tile = ptile;
   fc_assert_ret_val(NULL != pplayer, NULL);     /* No unowned cities! */
@@ -3431,6 +3449,8 @@ void destroy_city_virtual(struct city *pcity)
       unit_list_destroy(pcity->client.collecting_info_units_present);
     }
   }
+
+  free(pcity->name);
 
   memset(pcity, 0, sizeof(*pcity)); /* ensure no pointers remain */
   free(pcity);
