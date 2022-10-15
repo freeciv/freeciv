@@ -304,7 +304,7 @@ struct adv_city; /* defined in ./server/advisors/infracache.h */
 struct cm_parameter; /* defined in ./common/aicore/cm.h */
 
 struct city {
-  char name[MAX_LEN_CITYNAME];
+  char *name;
   struct tile *tile; /* May be NULL, should check! */
   struct player *owner; /* Cannot be NULL. */
   struct player *original; /* Cannot be NULL. */
@@ -534,6 +534,7 @@ void set_city_production(struct city *pcity);
 /* properties */
 
 const char *city_name_get(const struct city *pcity);
+void city_name_set(struct city *pcity, const char *new_name);
 #define city_owner(_pcity_) (_pcity_)->owner
 #define city_tile(_pcity_) (_pcity_)->tile
 

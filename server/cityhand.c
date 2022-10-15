@@ -469,7 +469,7 @@ void handle_city_change(struct player *pplayer, int city_id,
 }
 
 /**********************************************************************//**
-  'struct packet_city_rename' handler.
+  Handle city rename request packet.
 **************************************************************************/
 void handle_city_rename(struct player *pplayer, int city_id,
                         const char *name)
@@ -477,7 +477,7 @@ void handle_city_rename(struct player *pplayer, int city_id,
   struct city *pcity = player_city_by_number(pplayer, city_id);
   char message[1024];
 
-  if (!pcity) {
+  if (pcity == NULL) {
     return;
   }
 
@@ -487,7 +487,7 @@ void handle_city_rename(struct player *pplayer, int city_id,
     return;
   }
 
-  sz_strlcpy(pcity->name, name);
+  city_name_set(pcity, name);
   city_refresh(pcity);
   send_city_info(NULL, pcity);
 }
