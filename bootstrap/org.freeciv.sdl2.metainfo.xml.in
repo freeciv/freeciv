@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<component>
+<component type="desktop-application">
     <name>Freeciv SDL2 client</name>
     <id>org.freeciv.sdl2</id>
     <project_license>GPL-2.0-or-later</project_license>
