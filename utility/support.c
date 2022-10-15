@@ -837,7 +837,7 @@ size_t fc_strlcat(char *dest, const char *src, size_t n)
   does occur, returns the number of characters which would have been
   produced without truncation.
   (Linux man page says returns -1 on truncation, but glibc seems to
-  do as above nevertheless; check_native_vsnprintf() above tests this.)
+  do as above nevertheless; configure tests this.)
 
   [glibc is correct.  Viz.
 
@@ -891,11 +891,6 @@ int fc_vsnprintf(char *str, size_t n, const char *format, va_list ap)
   r = vsnprintf(str, n, format, ap);
   str[n - 1] = 0;
 
-  /* Convert C99 return value to C89.  */
-  if (r >= n) {
-    return -1;
-  }
-
   return r;
 #else  /* HAVE_WORKING_VSNPRINTF */
   {
@@ -936,12 +931,12 @@ int fc_vsnprintf(char *str, size_t n, const char *format, va_list ap)
     }
     if (n >= len + 1) {
       memcpy(str, vsnprintf_buf, len + 1);
-      return len;
     } else {
       memcpy(str, vsnprintf_buf, n - 1);
       str[n - 1] = '\0';
-      return -1;
     }
+
+    return len;
   }
 #endif /* HAVE_WORKING_VSNPRINTF */
 }
