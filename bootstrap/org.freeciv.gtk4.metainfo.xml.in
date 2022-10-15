@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<component>
+<component type="desktop-application">
     <name>Freeciv gtk4 client</name>
     <id>org.freeciv.gtk4</id>
     <project_license>GPL-2.0-or-later</project_license>
