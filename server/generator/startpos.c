@@ -175,7 +175,7 @@ static bool check_native_area(const struct unit_type *utype,
 }
 
 /************************************************************************//**
-  Return TRUE if (x,y) is a good starting position.
+  Return TRUE if tile is a good starting position.
 
   Bad places:
   - Islands with no room.
@@ -183,7 +183,6 @@ static bool check_native_area(const struct unit_type *utype,
   - On a hut;
   - Too close to another starter on the same continent:
     'dist' is too close (real_map_distance)
-    'nr' is the number of other start positions to check for too closeness.
 ****************************************************************************/
 static bool is_valid_start_pos(const struct tile *ptile, const void *dataptr)
 {
