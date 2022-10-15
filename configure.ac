@@ -1318,7 +1318,7 @@ if test "x$modinst" != "xfound" &&
    test "x$fcmp_gtk4" != "xyes" &&
    test "x$fcmp_qt" != "xyes" ;then
   AC_MSG_ERROR([Cannot build modpack installer with any gui])
-fi 
+fi
 
 if test "x$modinst" != "xno" && test "x$MINGW" != "xyes" ; then
   dnl Hack to get a run-time icon -- not needed on Windows
@@ -1577,7 +1577,7 @@ dnl (if fcntl or ioctl exists)
 AC_CHECK_FUNC([fcntl],
               [AC_DEFINE([HAVE_FCNTL], [1], [fcntl support])
                AC_DEFINE([NONBLOCKING_SOCKETS], [1], [nonblocking sockets support])],
-               [AC_CHECK_FUNC([ioctl], 
+               [AC_CHECK_FUNC([ioctl],
                              [AC_DEFINE([HAVE_IOCTL], [1], [ioctl support])
                               AC_DEFINE([NONBLOCKING_SOCKETS], [1], [nonblocking sockets support])])])
 
@@ -1613,7 +1613,7 @@ CPPFLAGS="$CPPFLAGS -DDEFAULT_SCENARIO_PATH=\"\\\"$DEFAULT_SCENARIO_PATH\\\"\""
 
 dnl This has to be last library
 if test -n "$WITH_EFENCE"; then
-  AC_CHECK_LIB(efence, malloc, [ 
+  AC_CHECK_LIB([efence], [malloc], [
   if test "x$LIBS" = "x"; then
     LIBS = -lefence
   else
