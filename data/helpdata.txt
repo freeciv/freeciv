@@ -1713,7 +1713,7 @@ Main Map (Keys):\n\
   Ctrl-N: show/hide city names\n\
   Ctrl-P: show/hide city production\n\
   Ctrl-O: show/hide city growth\n\
-  Ctrl-W: show/hide city output\n\
+  Ctrl-V: show/hide city output values\n\
   Ctrl-Y: show/hide city outlines\n\
 "), _("\
 Main Map (Mouse):\n\
@@ -1799,8 +1799,8 @@ Shift-Return: Turn done\
 "), _("\
 Editing Mode (GTK):\n\
 ===================\n\
-    Ctrl-E: toggle editing mode\n\
-    Ctrl-M: toggle fog of war in editing mode\n\
+    Ctrl-E:       toggle editing mode\n\
+    Ctrl-Shift-W: toggle fog of war in editing mode\n\
 "), _("\
 Battle Groups (GTK):\n\
 ====================\n\
