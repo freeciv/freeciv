@@ -92,6 +92,8 @@ static void players_ai_skill_callback(GSimpleAction *action, GVariant *parameter
 
 static void update_views(void);
 
+static GMenu *display_menu;
+
 /**********************************************************************//**
   Popup the dialog 10% inside the main-window, and optionally raise it.
 **************************************************************************/
@@ -349,22 +351,49 @@ static GtkListStore *players_dialog_store_new(void)
   return store;
 }
 
-#ifdef MENUS_GTK3
-/**********************************************************************//**
-  Toggled column visibility
-**************************************************************************/
-static void toggle_view(GtkCheckMenuItem* item, gpointer data)
+/************************************************************************//**
+  Create up-to-date menu item for the plrdlg display menu
+****************************************************************************/
+static GMenuItem *create_plrdlg_display_menu_item(int pos)
 {
-  struct player_dlg_column* pcol = data;
+  GMenuItem *item;
+  char act_name[50];
+  struct player_dlg_column *pcol;
+  GVariant *var;
 
-  pcol->show = gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(item));
-  update_views();
+  pcol = &player_dlg_columns[pos];
+
+  fc_snprintf(act_name, sizeof(act_name), "win.display%d", pos);
+  item = g_menu_item_new(pcol->title, NULL);
+  var = g_variant_new("b", (gboolean)(pcol->show));
+  g_menu_item_set_action_and_target_value(item, act_name, var);
+
+  return item;
 }
 
 /**********************************************************************//**
+  Toggled column visibility
+**************************************************************************/
+static void toggle_view(GSimpleAction *act, GVariant *value, gpointer data)
+{
+  int idx = GPOINTER_TO_INT(data);
+  struct player_dlg_column *pcol = &player_dlg_columns[idx];
+
+  pcol->show ^= 1;
+  update_views();
+
+  /* The menu has no 'playername' in the beginning, so menu index is one smaller
+   * then column index. */
+  g_menu_remove(display_menu, idx - 1);
+  g_menu_insert_item(display_menu, idx - 1, create_plrdlg_display_menu_item(idx));
+}
+
+#ifdef MENUS_GTK3
+/**********************************************************************//**
   Called whenever player toggles the 'Show/Dead Players' menu item
 **************************************************************************/
-static void toggle_dead_players(GtkCheckMenuItem* item, gpointer data)
+static void toggle_dead_players(GSimpleAction *act, GVariant *value,
+                                gpointer data)
 {
   gui_options.player_dlg_show_dead_players =
     gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(item));
@@ -448,24 +477,26 @@ static GMenu *create_intelligence_menu(GActionGroup *group)
 **************************************************************************/
 static GMenu *create_show_menu(GActionGroup *group)
 {
-  GMenu *menu;
-
-  menu = g_menu_new();
-
-#ifdef MENUS_GTK3
+  GVariantType *bvart = g_variant_type_new("b");
   int i;
 
-  /* Index starting at one (1) here to force playername to always be shown */
-  for (i = 1; i < num_player_dlg_columns; i++) {
-    struct player_dlg_column *pcol;
+  display_menu = g_menu_new();
 
-    pcol = &player_dlg_columns[i];
-    item = gtk_check_menu_item_new_with_label(pcol->title);
-    gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item), pcol->show);
-    gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-    g_signal_connect(item, "toggled", G_CALLBACK(toggle_view), pcol);
+  /* Index starting at one (1) here to force playername to always be shown */
+  for (i = 1; i < num_player_dlg_columns - 1; i++) {
+    GSimpleAction *act;
+    char act_name[50];
+    GVariant *var = g_variant_new("b", TRUE);
+
+    fc_snprintf(act_name, sizeof(act_name), "display%d", i);
+    act = g_simple_action_new_stateful(act_name, bvart, var);
+    g_action_map_add_action(G_ACTION_MAP(group), G_ACTION(act));
+    g_signal_connect(act, "change-state", G_CALLBACK(toggle_view), GINT_TO_POINTER(i));
+
+    g_menu_insert_item(display_menu, i, create_plrdlg_display_menu_item(i));
   }
 
+#ifdef MENUS_GTK3
   item = gtk_separator_menu_item_new();
   gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
 
@@ -476,7 +507,9 @@ static GMenu *create_show_menu(GActionGroup *group)
   g_signal_connect(item, "toggled", G_CALLBACK(toggle_dead_players), NULL);
 #endif /* MENUS_GTK3 */
 
-  return menu;
+  g_variant_type_free(bvart);
+
+  return display_menu;
 }
 
 /**********************************************************************//**
@@ -733,7 +766,7 @@ GdkPixbuf *get_flag(const struct nation_type *nation)
 static void fill_row(GtkListStore *store, GtkTreeIter *it,
                      const struct player *pplayer)
 {
-  struct player_dlg_column* pcol;
+  struct player_dlg_column *pcol;
   GdkPixbuf *pixbuf;
   int style = PANGO_STYLE_NORMAL, weight = PANGO_WEIGHT_NORMAL;
   int k;
