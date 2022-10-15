@@ -3532,6 +3532,9 @@ type = "Vision"
 [clause_embassy]
 type = "Embassy"
 
+[clause_sharedtiles]
+type = "SharedTiles"
+
 
 [playercolors]
 background.r = 86
