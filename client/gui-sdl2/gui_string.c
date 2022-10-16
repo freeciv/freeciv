@@ -49,11 +49,10 @@
 static struct TTF_Font_Chain {
   struct TTF_Font_Chain *next;
   TTF_Font *font;
-  Uint16 ptsize;		/* size of font */
-  Uint16 count;			/* number of strings alliased with this font */
+  Uint16 ptsize;                /* size of font */
+  Uint16 count;                 /* number of strings alliased with this font */
 } *Font_TAB = NULL;
 
-static unsigned int Sizeof_Font_TAB;
 static char *pFont_with_FullPath = NULL;
 
 static TTF_Font *load_font(Uint16 ptsize);
@@ -521,17 +520,19 @@ void change_ptsize_utf8(utf8_str *pstr, Uint16 new_ptsize)
 **************************************************************************/
 static TTF_Font *load_font(Uint16 ptsize)
 {
-  struct TTF_Font_Chain *Font_TAB_TMP = Font_TAB;
+  struct TTF_Font_Chain *font_tab_tmp = Font_TAB;
   TTF_Font *font_tmp = NULL;
 
-  /* find existing font and return pointer to it */
-  if (Sizeof_Font_TAB) {
-    while (Font_TAB_TMP) {
-      if (Font_TAB_TMP->ptsize == ptsize) {
-        Font_TAB_TMP->count++;
-        return Font_TAB_TMP->font;
+  /* Find existing font and return pointer to it */
+  if (Font_TAB != NULL) {
+    while (font_tab_tmp != NULL) {
+      if (font_tab_tmp->ptsize == ptsize) {
+        font_tab_tmp->count++;
+
+        return font_tab_tmp->font;
       }
-      Font_TAB_TMP = Font_TAB_TMP->next;
+
+      font_tab_tmp = font_tab_tmp->next;
     }
   }
 
@@ -546,30 +547,28 @@ static TTF_Font *load_font(Uint16 ptsize)
   if ((font_tmp = TTF_OpenFont(pFont_with_FullPath, ptsize)) == NULL) {
     log_error("load_font: Couldn't load %d pt font from %s: %s",
               ptsize, pFont_with_FullPath, SDL_GetError());
-    return font_tmp;
+    return NULL;
   }
 
-  /* add new font to list */
-  if (Sizeof_Font_TAB == 0) {
-    Sizeof_Font_TAB++;
-    Font_TAB_TMP = fc_calloc(1, sizeof(struct TTF_Font_Chain));
-    Font_TAB = Font_TAB_TMP;
+  /* Add new font to list */
+  if (Font_TAB == NULL) {
+    font_tab_tmp = fc_calloc(1, sizeof(struct TTF_Font_Chain));
+    Font_TAB = font_tab_tmp;
   } else {
     /* Go to end of chain */
-    Font_TAB_TMP = Font_TAB;
-    while (Font_TAB_TMP->next) {
-      Font_TAB_TMP = Font_TAB_TMP->next;
+    font_tab_tmp = Font_TAB;
+    while (font_tab_tmp->next) {
+      font_tab_tmp = font_tab_tmp->next;
     }
 
-    Sizeof_Font_TAB++;
-    Font_TAB_TMP->next = fc_calloc(1, sizeof(struct TTF_Font_Chain));
-    Font_TAB_TMP = Font_TAB_TMP->next;
+    font_tab_tmp->next = fc_calloc(1, sizeof(struct TTF_Font_Chain));
+    font_tab_tmp = font_tab_tmp->next;
   }
 
-  Font_TAB_TMP->ptsize = ptsize;
-  Font_TAB_TMP->count = 1;
-  Font_TAB_TMP->font = font_tmp;
-  Font_TAB_TMP->next = NULL;
+  font_tab_tmp->ptsize = ptsize;
+  font_tab_tmp->count = 1;
+  font_tab_tmp->font = font_tmp;
+  font_tab_tmp->next = NULL;
 
   return font_tmp;
 }
@@ -579,45 +578,42 @@ static TTF_Font *load_font(Uint16 ptsize)
 **************************************************************************/
 void unload_font(Uint16 ptsize)
 {
-  int index;
-  struct TTF_Font_Chain *Font_TAB_PREV = NULL;
-  struct TTF_Font_Chain *Font_TAB_TMP = Font_TAB;
+  struct TTF_Font_Chain *font_tab_prev = NULL;
+  struct TTF_Font_Chain *font_tab_tmp = Font_TAB;
 
-  if (Sizeof_Font_TAB == 0) {
+  if (Font_TAB == NULL) {
     log_error("unload_font: Trying unload from empty Font ARRAY");
     return;
   }
 
-  for (index = 0; index < Sizeof_Font_TAB; index++) {
-    if (Font_TAB_TMP->ptsize == ptsize) {
+  while (font_tab_tmp != NULL) {
+    if (font_tab_tmp->ptsize == ptsize) {
       break;
     }
-    Font_TAB_PREV = Font_TAB_TMP;
-    Font_TAB_TMP = Font_TAB_TMP->next;
+    font_tab_prev = font_tab_tmp;
+    font_tab_tmp = font_tab_tmp->next;
   }
 
-  if (index == Sizeof_Font_TAB) {
+  if (font_tab_tmp == NULL) {
     log_error("unload_font: Trying unload Font which is "
               "not included in Font ARRAY");
     return;
   }
 
-  Font_TAB_TMP->count--;
-
-  if (Font_TAB_TMP->count) {
+  if (--font_tab_tmp->count) {
     return;
   }
 
-  TTF_CloseFont(Font_TAB_TMP->font);
-  Font_TAB_TMP->font = NULL;
-  if (Font_TAB_TMP == Font_TAB) {
-    Font_TAB = Font_TAB_TMP->next;
+  TTF_CloseFont(font_tab_tmp->font);
+  font_tab_tmp->font = NULL;
+  if (font_tab_prev == NULL) {
+    Font_TAB = font_tab_tmp->next;
   } else {
-    Font_TAB_PREV->next = Font_TAB_TMP->next;
+    font_tab_prev->next = font_tab_tmp->next;
   }
-  Font_TAB_TMP->next = NULL;
-  Sizeof_Font_TAB--;
-  FC_FREE(Font_TAB_TMP);
+  font_tab_tmp->next = NULL;
+
+  FC_FREE(font_tab_tmp);
 }
 
 /**************************************************************************
