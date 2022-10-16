@@ -26,6 +26,11 @@ WINARCH=win64-10
 ARCHDIR=ucrt64
 LIBGCCDLL=libgcc_s_seh-1.dll
 CRYPTOLIB_SUFFIX=-x64
+else ifeq ($(MSYSTEM),CLANG64)
+WINARCH=win64+
+ARCHDIR=clang64
+LIBGCCDLL=
+CRYPTOLIB_SUFFIX=-x64
 else
 error "Unsupported MSYSTEM environment"
 endif
@@ -45,7 +50,15 @@ endif
 # Make rules
 #
 
-all: gtk3.22-installer sdl2-installer gtk4-installer
+all: all-$(WINARCH)
+
+all-win64: gtk3.22-installer sdl2-installer gtk4-installer
+
+all-win32: gtk3.22-installer sdl2-installer gtk4-installer
+
+all-ucrt64: gtk3.22-installer sdl2-installer gtk4-installer
+
+all-win64+: gtk3.22-install sdl2-install gtk4-install
 
 snapshot:
 	make -f $(MAKEFILE_NAME) VERSION_REVTYPE="git" EXTRA_CONFIG="-Dgitrev=true $(EXTRA_CONFIG)" all
@@ -62,7 +75,16 @@ gtk4-installer:
 sdl2-installer:
 	make -f $(MAKEFILE_NAME) GUI=sdl2 CLIENT=sdl2 FCMP=gtk4 installer-common
 
-installer-common: clean-install-common install-freeciv-$(GUI) install-env-$(GUI)
+gtk3.22-install:
+	make -f $(MAKEFILE_NAME) GUI=gtk3.22 CLIENT=gtk3.22 FCMP=gtk3 install-freeciv-gtk3.22
+
+gtk4-install:
+	make -f $(MAKEFILE_NAME) GUI=gtk4 CLIENT=gtk4 FCMP=gtk4 install-freeciv-gtk4
+
+sdl2-install:
+	make -f $(MAKEFILE_NAME) GUI=sdl2 CLIENT=sdl2 FCMP=gtk4 install-freeciv-sdl2
+
+installer-common: install-freeciv-$(GUI) install-env-$(GUI)
 	# extract Freeciv version
 	$(eval FREECIV_VERSION := $(shell ../../fc_version))
 	./create-freeciv-$(CLIENT)-nsi.sh meson-install-$(WINARCH)-$(GUI) $(FREECIV_VERSION) $(WINARCH) > Freeciv-meson-$(WINARCH)-$(FREECIV_VERSION)-$(GUI).nsi
@@ -70,7 +92,7 @@ installer-common: clean-install-common install-freeciv-$(GUI) install-env-$(GUI)
 	mkdir -p Output
 	makensis Freeciv-meson-$(WINARCH)-$(FREECIV_VERSION)-$(GUI).nsi
 
-install-freeciv-common:
+install-freeciv-common: clean-install-common
 	# create build directory
 	mkdir -p meson-build-$(WINARCH)-$(GUI)
 	cd meson-build-$(WINARCH)-$(GUI); meson ../../.. -Dprefix=`pwd`/../meson-install-$(WINARCH)-$(GUI) -Dclients=$(CLIENT) -Dfcmp=$(FCMP) -Druledit=false -Dreadline=false -Dcacert-path='./ssl/certs/ca-bundle.crt' $(EXTRA_CONFIG)
