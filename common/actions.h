@@ -308,7 +308,7 @@ const char *gen_action_name_update_cb(const char *old_name);
 #define SPECENUM_COUNT ABK_COUNT
 #include "specenum_gen.h"
 
-/* Describes how a unit sucessfully performing an action will move it. */
+/* Describes how a unit successfully performing an action will move it. */
 #define SPECENUM_NAME moves_actor_kind
 #define SPECENUM_VALUE0 MAK_STAYS
 #define SPECENUM_VALUE0NAME N_("stays")
