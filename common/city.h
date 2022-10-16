@@ -63,12 +63,6 @@ enum production_class_type {
 #define SPECENUM_BITVECTOR bv_city_options
 #include "specenum_gen.h"
 
-/* Changing the max radius requires updating network capabilities and results
- * in incompatible savefiles. */
-#define CITY_MAP_MIN_RADIUS       0
-#define CITY_MAP_DEFAULT_RADIUS   2
-#define CITY_MAP_MAX_RADIUS       5
-
 /* The city includes all tiles dx^2 + dy^2 <= CITY_MAP_*_RADIUS_SQ */
 #define CITY_MAP_DEFAULT_RADIUS_SQ \
   (CITY_MAP_DEFAULT_RADIUS * CITY_MAP_DEFAULT_RADIUS + 1)
@@ -76,9 +70,9 @@ enum production_class_type {
   (CITY_MAP_MIN_RADIUS * CITY_MAP_MIN_RADIUS + 1)
 #define CITY_MAP_MAX_RADIUS_SQ \
   (CITY_MAP_MAX_RADIUS * CITY_MAP_MAX_RADIUS + 1)
-/* the id for the city center */
+/* The id for the city center */
 #define CITY_MAP_CENTER_RADIUS_SQ      -1
-/* the tile index of the city center */
+/* The tile index of the city center */
 #define CITY_MAP_CENTER_TILE_INDEX      0
 
 /* Maximum diameter of the workable city area. */
@@ -94,7 +88,7 @@ enum production_class_type {
  * The city size is saved as unsigned char. Therefore, MAX_CITY_SIZE should
  * be below 255!
  */
-#define MAX_CITY_SIZE		0xFF
+#define MAX_CITY_SIZE           0xFF
 
 /* Iterate a city map, from the center (the city) outwards */
 struct iter_index {

@@ -80,6 +80,16 @@ extern "C" {
 /* Line breaks after this number of characters; be carefull and use only 70 */
 #define LINE_BREAK 70
 
+/* Changing the max radius requires updating network capabilities and results
+ * in incompatible savefiles. */
+#define CITY_MAP_MIN_RADIUS       0
+#define CITY_MAP_DEFAULT_RADIUS   2
+#define CITY_MAP_MAX_RADIUS       5
+
+/* Below size of city tiles array is big enough for radius 5 city */
+FC_STATIC_ASSERT(CITY_MAP_MAX_RADIUS <= 5, too_many_city_tiles);
+#define MAX_CITY_TILES (91)
+
 /* symbol to flag missing numbers for better debugging */
 #define IDENTITY_NUMBER_ZERO (0)
 
