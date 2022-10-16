@@ -4939,6 +4939,7 @@ static void sg_load_researches(struct loaddata *loading)
   int number;
   const char *str;
   int i, j;
+  bool got_tech;
 
   /* Check status and return if not OK (sg_success FALSE). */
   sg_check_ret();
@@ -4982,9 +4983,12 @@ static void sg_load_researches(struct loaddata *loading)
     presearch->researching = technology_load(loading->file,
                                              "research.r%d.now", i);
     sg_failure_ret(secfile_lookup_bool(loading->file,
-                                       &presearch->got_tech,
+                                       &got_tech,
                                        "research.r%d.got_tech", i),
                    "%s", secfile_error());
+    if (got_tech) {
+      presearch->free_bulbs = presearch->bulbs_researched;
+    }
 
     str = secfile_lookup_str(loading->file, "research.r%d.done", i);
     sg_failure_ret(str != NULL, "%s", secfile_error());

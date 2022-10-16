@@ -191,9 +191,17 @@ int api_methods_player_tech_bulbs(lua_State *L, Player *pplayer,
     if (presearch->researching_saved == tn) {
       return
         presearch->bulbs_researching_saved - presearch->bulbs_researched;
-    } else if (!presearch->got_tech && tn != presearch->researching
+    } else if (tn != presearch->researching
                && presearch->bulbs_researched > 0) {
-      return -presearch->bulbs_researched * game.server.techpenalty / 100;
+      int bound_bulbs = presearch->bulbs_researched - presearch->free_bulbs;
+      int penalty;
+
+      if (bound_bulbs <= 0) {
+        return 0;
+      }
+      penalty = bound_bulbs * game.server.techpenalty / 100;
+
+      return -MIN(penalty, presearch->bulbs_researched);
     } else {
       return 0;
     }
@@ -201,10 +209,9 @@ int api_methods_player_tech_bulbs(lua_State *L, Player *pplayer,
 }
 
 /**********************************************************************//**
-  Returns whether pplayer is in "got tech" state and can invest their
-  remaining rsearched bulbs freely.
+  Returns bulbs that can be freely transferred to a new research target.
 **************************************************************************/
-bool api_methods_player_got_tech(lua_State *L, Player *pplayer)
+int api_methods_player_free_bulbs(lua_State *L, Player *pplayer)
 {
   const struct research *presearch;
 
@@ -213,9 +220,5 @@ bool api_methods_player_got_tech(lua_State *L, Player *pplayer)
   presearch = research_get(pplayer);
   LUASCRIPT_CHECK(L, presearch, "player's research not set", 0);
 
-  if (game.server.multiresearch) {
-    return presearch->got_tech_multi;
-  } else {
-    return presearch->got_tech;
-  }
+  return presearch->free_bulbs;
 }

@@ -5970,7 +5970,7 @@ static bool do_unit_establish_trade(struct player *pplayer,
 
   if (bonus_type == TBONUS_SCIENCE || bonus_type == TBONUS_BOTH) {
     /* add bulbs and check for finished research */
-    update_bulbs(pplayer, revenue, TRUE);
+    update_bulbs(pplayer, revenue, TRUE, TRUE);
 
     /* Inform everyone about tech changes */
     send_research_info(research_get(pplayer), NULL);

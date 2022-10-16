@@ -3457,5 +3457,5 @@ void update_national_activities(struct player *pplayer, int old_gold)
   research_get(pplayer)->researching_saved = A_UNKNOWN;
   /* Reduce the number of bulbs by the amount needed for tech upkeep and
    * check for finished research */
-  update_bulbs(pplayer, -player_tech_upkeep(pplayer), TRUE);
+  update_bulbs(pplayer, -player_tech_upkeep(pplayer), TRUE, FALSE);
 }

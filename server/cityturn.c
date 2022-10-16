@@ -3358,7 +3358,7 @@ static void update_city_activity(struct city *pcity)
     pcity->did_sell = FALSE;
     pcity->did_buy = FALSE;
     pcity->airlift = city_airlift_max(pcity);
-    update_bulbs(pplayer, pcity->prod[O_SCIENCE], FALSE);
+    update_bulbs(pplayer, pcity->prod[O_SCIENCE], FALSE, FALSE);
 
     pplayer->economic.infra_points += get_city_bonus(pcity, EFT_INFRA_POINTS);
 

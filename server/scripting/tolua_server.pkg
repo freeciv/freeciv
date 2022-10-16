@@ -498,8 +498,8 @@ $]
 /* Additions to common Player module. */
 module Player {
   module properties {
-    bool api_methods_player_got_tech
-      @ got_tech (lua_State *L, Player *pplayer);
+    int api_methods_player_free_bulbs
+      @ free_bulbs (lua_State *L, Player *pplayer);
   }
   int api_methods_player_trait
     @ trait (lua_State *L, Player *pplayer, const char *tname);

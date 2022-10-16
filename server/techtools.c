@@ -408,11 +408,10 @@ void found_new_tech(struct research *presearch, Tech_type_id tech_found,
 
   could_switch = create_current_governments_data(presearch);
 
-  /* got_tech allows us to change research without applying techpenalty
+  /* getting tech allows us to change research without applying techpenalty
    * (without losing bulbs) */
   if (tech_found == presearch->researching) {
-    presearch->got_tech = TRUE;
-    presearch->got_tech_multi = TRUE;
+    presearch->free_bulbs = presearch->bulbs_researched;
   }
   presearch->researching_saved = A_UNKNOWN;
   presearch->techs_researched++;
@@ -640,14 +639,17 @@ static bool lose_tech(struct research *research)
 /************************************************************************//**
   Adds the given number of bulbs into the player's tech and (if necessary and
   'check_tech' is TRUE) completes the research. If the total number of bulbs
-  is negative due to tech upkeep, one (randomly chosen) tech is lost.
+  is negative due to tech upkeep, one (randomly chosen) tech may be lost.
+  free_bulbs allows to set the bulbs free for player to invest into any
+  tech (in multiresearch mode it happens iff the tech is not selected).
 
   The caller is responsible for sending updated player information.
 
   This is called from each city every turn, from caravan revenue, at the
-  end of the phase, and from lua API.
+  end of the phase, and from Lua API.
 ****************************************************************************/
-void update_bulbs(struct player *pplayer, int bulbs, bool check_tech)
+void update_bulbs(struct player *pplayer, int bulbs, bool check_tech,
+                  bool free_bulbs)
 {
   struct research *research = research_get(pplayer);
 
@@ -655,10 +657,19 @@ void update_bulbs(struct player *pplayer, int bulbs, bool check_tech)
     /* Dead players do not produce research */
     return;
   }
+  fc_assert_ret(research);
 
   /* count our research contribution this turn */
   pplayer->server.bulbs_last_turn += bulbs;
   research->bulbs_researched += bulbs;
+  if (A_UNKNOWN != research->researching_saved) {
+    fc_assert(research->researching_saved != research->researching);
+    research->bulbs_researching_saved += bulbs;
+  }
+  if ((free_bulbs && !game.server.multiresearch)
+      || A_UNSET == research->researching) {
+    research->free_bulbs += bulbs;
+  }
   advance_index_iterate(A_FIRST, j) {
     if (j == research->researching) {
       research->inventions[j].bulbs_researched_saved = research->bulbs_researched;
@@ -670,7 +681,7 @@ void update_bulbs(struct player *pplayer, int bulbs, bool check_tech)
     /* If we have a negative number of bulbs we do try to:
      * - reduce the number of future techs;
      * - or lose one random tech.
-     * After that the number of bulbs available is incresed based on the
+     * After that the number of bulbs available is increased based on the
      * value of the lost tech. */
     if (lose_tech(research)) {
       Tech_type_id tech = (research->future_tech > 0
@@ -1019,11 +1030,8 @@ void choose_tech(struct research *research, Tech_type_id tech)
       }
     } advance_index_iterate_end;
     research->researching = tech;
-    if (!research->got_tech_multi) {
-      research->bulbs_researched = 0;
-    }
-    research->bulbs_researched = research->bulbs_researched + bulbs_res;
-    research->got_tech_multi = FALSE;
+    research->bulbs_researched = research->free_bulbs + bulbs_res;
+    research->free_bulbs = 0;
     if (research->bulbs_researched
         >= research_total_bulbs_required(research, tech, FALSE)) {
       tech_researched(research);
@@ -1031,14 +1039,19 @@ void choose_tech(struct research *research, Tech_type_id tech)
     return;
   }
 
-  if (!research->got_tech && research->researching_saved == A_UNKNOWN) {
+  /* The first check implies we have NOT recently got a technology
+   * and are changing from one we were researching at tc. */
+  if (research->bulbs_researched - research->free_bulbs > 0
+      && research->researching_saved == A_UNKNOWN) {
     research->bulbs_researching_saved = research->bulbs_researched;
     research->researching_saved = research->researching;
     /* Subtract a penalty because we changed subject. */
     if (research->bulbs_researched > 0) {
       research->bulbs_researched
-        -= ((research->bulbs_researched * game.server.techpenalty) / 100);
-      fc_assert(research->bulbs_researched >= 0);
+        -= ((research->bulbs_researched - research->free_bulbs)
+            * game.server.techpenalty) / 100;
+      /* If free_bulbs were for some reason negative... */
+      research->bulbs_researched = MAX(research->bulbs_researched, 0);
     }
   } else if (tech == research->researching_saved) {
     research->bulbs_researched = research->bulbs_researching_saved;

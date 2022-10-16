@@ -335,7 +335,9 @@ void dai_manage_tech(struct ai_type *ait, struct player *pplayer)
   struct ai_tech_choice choice, goal;
   struct research *research = research_get(pplayer);
   /* Penalty for switching research */
-  int penalty = (research->got_tech ? 0 : research->bulbs_researched);
+  /* FIXME: get real penalty with game.server.techpenalty and multiresearch */
+  int penalty = research->bulbs_researched - research->free_bulbs;
+  penalty = MAX(penalty, 0);
 
   /* Even when we let human to do the final decision, we keep our
    * wants correctly calculated. Add effect values in */

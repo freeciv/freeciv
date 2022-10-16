@@ -62,11 +62,9 @@ struct research {
   Tech_type_id researching_saved;
   int bulbs_researching_saved;
 
-  /* If the player completed a research this turn, this value is turned on
-   * and changing targets may be done without penalty. */
-  bool got_tech;
-  /* The same as got_tech but flipped back in choose_tech() */
-  bool got_tech_multi;
+  /* For this amount of bulbs, changing targets this turn
+   * may be done without penalty. */
+  int free_bulbs;
 
   struct research_invention {
     /* One of TECH_UNKNOWN, TECH_KNOWN or TECH_PREREQS_KNOWN. */

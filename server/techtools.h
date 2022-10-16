@@ -38,7 +38,8 @@ void script_tech_learned(struct research *presearch,
                          const char *reason);
 void found_new_tech(struct research *presearch, Tech_type_id tech_found,
                     bool was_discovery, bool saving_bulbs);
-void update_bulbs(struct player *pplayer, int bulbs, bool check_tech);
+void update_bulbs(struct player *pplayer, int bulbs, bool check_tech,
+                  bool free_bulbs);
 void init_tech(struct research *presearch, bool update);
 void choose_tech(struct research *presearch, Tech_type_id tech);
 void choose_random_tech(struct research *presearch);

@@ -1094,7 +1094,7 @@ void api_edit_player_give_bulbs(lua_State *L, Player *pplayer, int amount)
   LUASCRIPT_CHECK_STATE(L);
   LUASCRIPT_CHECK_SELF(L, pplayer);
 
-  update_bulbs(pplayer, amount, TRUE);
+  update_bulbs(pplayer, amount, TRUE, TRUE);
 
   send_research_info(research_get(pplayer), NULL);
 }

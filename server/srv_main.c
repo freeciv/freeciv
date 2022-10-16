@@ -1416,7 +1416,7 @@ static void end_phase(void)
       }
       /* Add the researched bulbs to the pool; do *NOT* check for finished
        * research */
-      update_bulbs(pplayer, 0, FALSE);
+      update_bulbs(pplayer, 0, FALSE, FALSE);
     }
   } phase_players_iterate_end;
 
@@ -1438,8 +1438,7 @@ static void end_phase(void)
 
   /* Refresh cities */
   phase_players_iterate(pplayer) {
-    research_get(pplayer)->got_tech = FALSE;
-    research_get(pplayer)->got_tech_multi = FALSE;
+    research_get(pplayer)->free_bulbs = 0;
   } phase_players_iterate_end;
 
   alive_phase_players_iterate(pplayer) {
@@ -3382,7 +3381,7 @@ static void srv_ready(void)
 
     players_iterate(pplayer) {
       /* Check for finished research. */
-      update_bulbs(pplayer, 0, TRUE);
+      update_bulbs(pplayer, 0, TRUE, FALSE);
     } players_iterate_end;
   }
 

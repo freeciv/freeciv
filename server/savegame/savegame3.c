@@ -7265,12 +7265,9 @@ static void sg_load_researches(struct loaddata *loading)
                                                    "research.r%d.saved", i);
     presearch->researching = technology_load(loading->file,
                                              "research.r%d.now", i);
-    sg_failure_ret(secfile_lookup_bool(loading->file,
-                                       &presearch->got_tech,
-                                       "research.r%d.got_tech", i),
-                   "%s", secfile_error());
-    sg_failure_ret(secfile_lookup_bool(loading->file, &presearch->got_tech_multi,
-                                       "research.r%d.got_tech_multi", i),
+    sg_failure_ret(!secfile_lookup_int(loading->file,
+                                       &presearch->free_bulbs,
+                                       "research.r%d.free_bulbs", i),
                    "%s", secfile_error());
 
     str = secfile_lookup_str(loading->file, "research.r%d.done", i);
@@ -7363,10 +7360,8 @@ static void sg_save_researches(struct savedata *saving)
                          "research.r%d.bulbs", i);
       technology_save(saving->file, "research.r%d.now",
                       i, presearch->researching);
-      secfile_insert_bool(saving->file, presearch->got_tech,
-                          "research.r%d.got_tech", i);
-      secfile_insert_bool(saving->file, presearch->got_tech_multi,
-                          "research.r%d.got_tech_multi", i);
+      secfile_insert_int(saving->file, presearch->free_bulbs,
+                         "research.r%d.free_bulbs", i);
       /* Save technology lists as bytevector. Note that technology order is
        * saved in savefile.technology.order */
       advance_index_iterate(A_NONE, tech_id) {

@@ -2113,18 +2113,24 @@ static void compat_load_030200(struct loaddata *loading,
     secfile_replace_int(loading->file, set_count, "settings.set_count");
   }
 
-  if (format_class == SAVEGAME_3) {
-    /* Older savegames had a bug that got_tech_multi was not saved.
-     * Insert the entry to such savegames */
-
-    /* May be unsaved (e.g. scenario case). */
+  {
+    /* Replace got_tech[_multi] bools on free_bulbs integers. */
+    /* Older savegames had a bug that got_tech_multi was not saved. */
     count = secfile_lookup_int_default(loading->file, 0, "research.count");
     for (i = 0; i < count; i++) {
-      if (secfile_entry_lookup(loading->file,
-                               "research.r%d.got_tech_multi", i) == NULL) {
-        /* Default to FALSE */
-        secfile_insert_bool(loading->file, FALSE,
-                            "research.r%d.got_tech_multi", i);
+      bool got_tech = FALSE;
+      int bulbs = 0;
+      bool got_tech_multi
+       = secfile_lookup_bool_default(loading->file, FALSE,
+                                     "research.r%d.got_tech_multi", i);
+
+      if (secfile_lookup_bool(loading->file, &got_tech,
+                              "research.r%d.got_tech", i)
+          && secfile_lookup_int(loading->file, &bulbs,
+                                "research.r%d.bulbs", i)) {
+        secfile_insert_int(loading->file,
+                           got_tech || got_tech_multi ? bulbs : 0,
+                           "research.r%d.free_bulbs", i);
       }
     }
   }
@@ -2812,6 +2818,28 @@ static void compat_load_dev(struct loaddata *loading)
                            "player%d.wl_max_length", plrno);
 
       } player_slots_iterate_end;
+    }
+
+    /* Replace got_tech[_multi] bools on free_bulbs integers. */
+    {
+      int count = secfile_lookup_int_default(loading->file, 0, "research.count");
+
+      for (int i = 0; i < count; i++) {
+        bool got_tech = FALSE;
+        int bulbs = 0;
+        bool got_tech_multi
+         = secfile_lookup_bool_default(loading->file, FALSE,
+                                       "research.r%d.got_tech_multi", i);
+
+        if (secfile_lookup_bool(loading->file, &got_tech,
+                                "research.r%d.got_tech", i)
+            && secfile_lookup_int(loading->file, &bulbs,
+                                  "research.r%d.bulbs", i)) {
+          secfile_insert_int(loading->file,
+                             got_tech || got_tech_multi ? bulbs : 0,
+                             "research.r%d.free_bulbs", i);
+        }
+      }
     }
   } /* Version < 3.1.93 */
 
