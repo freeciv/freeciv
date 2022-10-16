@@ -459,6 +459,7 @@ void plr_widget::nation_selected(const QItemSelection &sl,
   Tech_type_id tech_id;
   bool global_observer = client_is_global_observer();
   QString rule;
+  bool intel;
 
   other_player = NULL;
   intel_str.clear();
@@ -516,8 +517,10 @@ void plr_widget::nation_selected(const QItemSelection &sl,
     elux = _("(Unknown)");
     cult = _("(Unknown)");
   }
-  if (global_observer || pplayer == me
-      || could_intel_with_player(me, pplayer)) {
+
+  intel = global_observer || could_intel_with_player(me, pplayer);
+
+  if (intel || pplayer == me) {
     egold = QString::number(pplayer->economic.gold);
     egov = QString(government_name_for_player(pplayer));
   } else {
@@ -566,8 +569,7 @@ void plr_widget::nation_selected(const QItemSelection &sl,
         continue;
       }
       state = player_diplstate_get(pplayer, other);
-      if (static_cast<int>(state->type) == i
-          && (global_observer || could_intel_with_player(me, pplayer))) {
+      if (static_cast<int>(state->type) == i && intel) {
         if (!added) {
           ally_str = ally_str  + QString("<b>")
                      + QString(diplstate_type_translated_name(
@@ -735,6 +737,8 @@ plr_widget::~plr_widget()
 **************************************************************************/
 plr_report::plr_report():QWidget()
 {
+  QFrame *line;
+
   v_splitter = new QSplitter(Qt::Vertical);
   h_splitter = new QSplitter(Qt::Horizontal);
   layout = new QVBoxLayout;
@@ -768,8 +772,12 @@ plr_report::plr_report():QWidget()
   withdraw_but->setText(_("Withdraw Vision"));
   toggle_ai_but = new QPushButton;
   toggle_ai_but->setText(_("Toggle AI Mode"));
+  show_relations = new QPushButton;
+  show_relations->setText(_("Hide Relations"));
+  show_techs = new QPushButton;
+  show_techs->setText(_("Hide Techs"));
   show_wonders = new QPushButton;
-  show_wonders->setText(_("Show Wonders"));
+  show_wonders->setText(_("Hide Wonders"));
   meet_but->setDisabled(true);
   cancel_but->setDisabled(true);
   withdraw_but->setDisabled(true);
@@ -785,6 +793,11 @@ plr_report::plr_report():QWidget()
   hlayout->addWidget(cancel_but);
   hlayout->addWidget(withdraw_but);
   hlayout->addWidget(toggle_ai_but);
+  line = new QFrame();
+  line->setFrameShape(QFrame::VLine);
+  hlayout->addWidget(line);
+  hlayout->addWidget(show_relations);
+  hlayout->addWidget(show_techs);
   hlayout->addWidget(show_wonders);
   hlayout->addStretch();
   layout->addLayout(hlayout);
@@ -792,6 +805,8 @@ plr_report::plr_report():QWidget()
   connect(cancel_but, &QAbstractButton::pressed, this, &plr_report::req_caancel_threaty);
   connect(withdraw_but, &QAbstractButton::pressed, this, &plr_report::req_wiithdrw_vision);
   connect(toggle_ai_but, &QAbstractButton::pressed, this, &plr_report::toggle_ai_mode);
+  connect(show_relations, &QAbstractButton::pressed, this, &plr_report::show_relations_toggle);
+  connect(show_techs, &QAbstractButton::pressed, this, &plr_report::show_techs_toggle);
   connect(show_wonders, &QAbstractButton::pressed, this, &plr_report::show_wonders_toggle);
   setLayout(layout);
 
@@ -905,14 +920,44 @@ void plr_report::toggle_ai_mode()
 }
 
 /**********************************************************************//**
+  Slot to enable/disable relations display
+**************************************************************************/
+void plr_report::show_relations_toggle()
+{
+  if (ally_label->isVisible()) {
+    ally_label->hide();
+    show_relations->setText(_("Show Relations"));
+  } else {
+    ally_label->show();
+    show_relations->setText(_("Hide Relations"));
+  }
+}
+
+/**********************************************************************//**
+  Slot to enable/disable techs display
+**************************************************************************/
+void plr_report::show_techs_toggle()
+{
+  if (tech_label->isVisible()) {
+    tech_label->hide();
+    show_techs->setText(_("Show Techs"));
+  } else {
+    tech_label->show();
+    show_techs->setText(_("Hide Techs"));
+  }
+}
+
+/**********************************************************************//**
   Slot to enable/disable wonders display
 **************************************************************************/
 void plr_report::show_wonders_toggle()
 {
   if (wonder_label->isVisible()) {
     wonder_label->hide();
+    show_wonders->setText(_("Show Wonders"));
   } else {
     wonder_label->show();
+    show_wonders->setText(_("Hide Wonders"));
   }
 }
 
