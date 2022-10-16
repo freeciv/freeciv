@@ -155,6 +155,8 @@ class plr_report: public QWidget
   QPushButton *cancel_but;
   QPushButton *withdraw_but;
   QPushButton *toggle_ai_but;
+  QPushButton *show_relations;
+  QPushButton *show_techs;
   QPushButton *show_wonders;
   QVBoxLayout *layout;
   QHBoxLayout *hlayout;
@@ -174,6 +176,8 @@ private slots:
                                *  autoconnect */
   void req_wiithdrw_vision();
   void toggle_ai_mode();
+  void show_relations_toggle();
+  void show_techs_toggle();
   void show_wonders_toggle();
 };
 
