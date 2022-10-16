@@ -82,7 +82,7 @@ format_version=10
 ;                 tech requirements because it is a requirement vector.
 ;                 See doc/README.effects to learn more about requirement
 ;                 vectors.
-;                 Requireing a tech here in stead of in req1, req2 or
+;                 Requiring a tech here in stead of in req1, req2 or
 ;                 root_req is not supported yet.
 ;                 Requirements that may become fulfilled during the game
 ;                 when they weren't at the start of the game is not
