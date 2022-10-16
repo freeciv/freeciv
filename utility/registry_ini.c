@@ -410,13 +410,6 @@ static struct section_file *secfile_from_input_file(struct inputfile *inf,
         int num_columns = astring_vector_size(&columns);
 
         i++;
-        inf_discard_tokens(inf, INF_TOK_EOL);   /* allow newlines */
-        if (!(tok = inf_token(inf, INF_TOK_VALUE))) {
-          SECFILE_LOG(secfile, psection, "%s",
-                      inf_log_str(inf, "Expected value"));
-          error = TRUE;
-          goto END;
-        }
 
         if (i < num_columns) {
           astr_set(&field_name, "%s%d.%s", astr_str(&base_name),
@@ -426,12 +419,22 @@ static struct section_file *secfile_from_input_file(struct inputfile *inf,
                    table_lineno, astr_str(&columns.p[num_columns - 1]),
                    (int) (i - num_columns + 1));
         }
+
+        inf_discard_tokens(inf, INF_TOK_EOL);   /* Allow newlines */
+        if (!(tok = inf_token(inf, INF_TOK_VALUE))) {
+          SECFILE_LOG(secfile, psection, "%s",
+                      inf_log_str(inf, "Expected value for %s",
+                                  astr_str(&field_name)));
+          error = TRUE;
+          goto END;
+        }
+
         entry_from_inf_token(psection, astr_str(&field_name), tok, inf);
       } while (inf_token(inf, INF_TOK_COMMA));
 
       if (!inf_token(inf, INF_TOK_EOL)) {
         SECFILE_LOG(secfile, psection, "%s",
-                    inf_log_str(inf, "Expected end of line"));
+                    inf_log_str(inf, "Expected end of line or comma"));
         error = TRUE;
         goto END;
       }
@@ -455,10 +458,11 @@ static struct section_file *secfile_from_input_file(struct inputfile *inf,
       i = -1;
       do {
         i++;
-        inf_discard_tokens(inf, INF_TOK_EOL);  	/* allow newlines */
+        inf_discard_tokens(inf, INF_TOK_EOL);   /* Allow newlines */
         if (!(tok = inf_token(inf, INF_TOK_VALUE))) {
           SECFILE_LOG(secfile, psection, "%s",
-                      inf_log_str(inf, "Expected value"));
+                      inf_log_str(inf, "Expected column header %s,%d",
+                                  astr_str(&base_name), i));
           error = TRUE;
           goto END;
         }
@@ -468,8 +472,9 @@ static struct section_file *secfile_from_input_file(struct inputfile *inf,
           error = TRUE;
           goto END;
         }
-        {       /* expand columns: */
+        { /* Expand columns: */
           int j, n_prev;
+
           n_prev = astring_vector_size(&columns);
           for (j = i + 1; j < n_prev; j++) {
             astr_free(&columns.p[j]);
@@ -485,7 +490,7 @@ static struct section_file *secfile_from_input_file(struct inputfile *inf,
 
       if (!inf_token(inf, INF_TOK_EOL)) {
         SECFILE_LOG(secfile, psection, "%s",
-                    inf_log_str(inf, "Expected end of line"));
+                    inf_log_str(inf, "Expected end of line or comma"));
         error = TRUE;
         goto END;
       }
@@ -497,10 +502,17 @@ static struct section_file *secfile_from_input_file(struct inputfile *inf,
     i = -1;
     do {
       i++;
-      inf_discard_tokens(inf, INF_TOK_EOL);     /* allow newlines */
+      inf_discard_tokens(inf, INF_TOK_EOL);     /* Allow newlines */
       if (!(tok = inf_token(inf, INF_TOK_VALUE))) {
-        SECFILE_LOG(secfile, psection, "%s",
-                    inf_log_str(inf, "Expected value"));
+        if (i == 0) {
+          SECFILE_LOG(secfile, psection, "%s",
+                      inf_log_str(inf, "Expected value for %s",
+                                  astr_str(&base_name)));
+        } else {
+          SECFILE_LOG(secfile, psection, "%s",
+                      inf_log_str(inf, "Expected value for %s,%d",
+                                  astr_str(&base_name), i));
+        }
         error = TRUE;
         goto END;
       }
@@ -513,7 +525,7 @@ static struct section_file *secfile_from_input_file(struct inputfile *inf,
     } while (inf_token(inf, INF_TOK_COMMA));
     if (!inf_token(inf, INF_TOK_EOL)) {
       SECFILE_LOG(secfile, psection, "%s",
-                  inf_log_str(inf, "Expected end of line"));
+                  inf_log_str(inf, "Expected end of line or comma"));
       error = TRUE;
       goto END;
     }
