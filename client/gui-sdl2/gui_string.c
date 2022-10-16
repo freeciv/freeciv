@@ -49,11 +49,10 @@
 static struct ttf_font_chain {
   struct ttf_font_chain *next;
   TTF_Font *font;
-  Uint16 ptsize;		/* size of font */
-  Uint16 count;			/* number of strings alliased with this font */
+  Uint16 ptsize;                /* size of font */
+  Uint16 count;                 /* number of strings alliased with this font */
 } *font_tab = NULL;
 
-static unsigned int sizeof_font_tab;
 static char *font_with_full_path = NULL;
 
 static TTF_Font *load_font(Uint16 ptsize);
@@ -526,13 +525,16 @@ static TTF_Font *load_font(Uint16 ptsize)
   struct ttf_font_chain *font_tab_tmp = font_tab;
   TTF_Font *font_tmp = NULL;
 
-  /* find existing font and return pointer to it */
-  if (sizeof_font_tab) {
-    while (font_tab_tmp) {
+  /* Find existing font and return pointer to it */
+  if (font_tab != NULL) {
+
+    while (font_tab_tmp != NULL) {
       if (font_tab_tmp->ptsize == ptsize) {
         font_tab_tmp->count++;
+
         return font_tab_tmp->font;
       }
+
       font_tab_tmp = font_tab_tmp->next;
     }
   }
@@ -548,12 +550,11 @@ static TTF_Font *load_font(Uint16 ptsize)
   if ((font_tmp = TTF_OpenFont(font_with_full_path, ptsize)) == NULL) {
     log_error("load_font: Couldn't load %d pt font from %s: %s",
               ptsize, font_with_full_path, SDL_GetError());
-    return font_tmp;
+    return NULL;
   }
 
-  /* add new font to list */
-  if (sizeof_font_tab == 0) {
-    sizeof_font_tab++;
+  /* Add new font to list */
+  if (font_tab == NULL) {
     font_tab_tmp = fc_calloc(1, sizeof(struct ttf_font_chain));
     font_tab = font_tab_tmp;
   } else {
@@ -563,7 +564,6 @@ static TTF_Font *load_font(Uint16 ptsize)
       font_tab_tmp = font_tab_tmp->next;
     }
 
-    sizeof_font_tab++;
     font_tab_tmp->next = fc_calloc(1, sizeof(struct ttf_font_chain));
     font_tab_tmp = font_tab_tmp->next;
   }
@@ -581,44 +581,43 @@ static TTF_Font *load_font(Uint16 ptsize)
 **************************************************************************/
 void unload_font(Uint16 ptsize)
 {
-  int index;
-  struct ttf_font_chain *font_tab_PREV = NULL;
+  struct ttf_font_chain *font_tab_prev = NULL;
   struct ttf_font_chain *font_tab_tmp = font_tab;
 
-  if (sizeof_font_tab == 0) {
+  if (font_tab == NULL) {
     log_error("unload_font: Trying unload from empty Font ARRAY");
     return;
   }
 
-  for (index = 0; index < sizeof_font_tab; index++) {
+  while (font_tab_tmp != NULL) {
     if (font_tab_tmp->ptsize == ptsize) {
       break;
     }
-    font_tab_PREV = font_tab_tmp;
+    font_tab_prev = font_tab_tmp;
     font_tab_tmp = font_tab_tmp->next;
   }
 
-  if (index == sizeof_font_tab) {
+  if (font_tab_tmp == NULL) {
     log_error("unload_font: Trying unload Font which is "
               "not included in Font ARRAY");
     return;
   }
 
-  font_tab_tmp->count--;
-
-  if (font_tab_tmp->count) {
+  if (--font_tab_tmp->count > 0) {
     return;
   }
 
   TTF_CloseFont(font_tab_tmp->font);
   font_tab_tmp->font = NULL;
-  if (font_tab_tmp == font_tab) {
+
+  if (font_tab_prev == NULL) {
     font_tab = font_tab_tmp->next;
   } else {
-    font_tab_PREV->next = font_tab_tmp->next;
+    font_tab_prev->next = font_tab_tmp->next;
   }
+
   font_tab_tmp->next = NULL;
-  sizeof_font_tab--;
+
   FC_FREE(font_tab_tmp);
 }
 
