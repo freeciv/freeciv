@@ -47,7 +47,7 @@ cd build
 meson .. \
   -Dprefix=${HOME}/freeciv/meson \
   -Ddebug=true \
-  -Dclients='gtk3.22','qt','sdl2','gtk4' \
+  -Dclients='gtk3.22','qt','sdl2','gtk4','stub' \
   -Dfcmp='gtk3','qt','cli','gtk4' \
   -Dqtver=qt6
 ninja
@@ -95,7 +95,7 @@ meson .. \
   -Ddebug=true \
   -Druledit=false \
   -Dsyslua=true \
-  -Dclients=gtk3.22 \
+  -Dclients='gtk3.22','stub' \
   -Dfcmp=gtk3 \
   || (let meson_exit_status=$? \
       && echo "meson.log:" \
