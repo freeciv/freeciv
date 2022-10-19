@@ -4259,3 +4259,19 @@ void city_style_refresh(struct city *pcity)
 {
   pcity->style = city_style(pcity);
 }
+
+/**********************************************************************//**
+  Send updated (by server) counter information of
+  a given city.
+**************************************************************************/
+void city_counter_refresh(struct city *pcity, int number)
+{
+  struct packet_city_update_counter packet;
+
+  packet.city = pcity->id;
+  packet.counter = number;
+  packet.value = pcity->counter_values[number];
+
+  lsend_packet_city_update_counter(pcity->owner->connections, &packet);
+  lsend_packet_city_update_counter(game.glob_observers, &packet);
+}

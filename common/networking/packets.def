@@ -3,7 +3,7 @@
 Max used id:
 ============
 
-Max id: 513
+Max id: 514
 
 Packets are not ordered by their id, but by their category. New packet
 with higher id may get added to existing category, and not to the end of file.
@@ -304,6 +304,7 @@ type ACTION_ID          = uint8(action_id)
 type ACTION_TGT         = SINT32
 type ACTION_SUB_TGT     = SINT16
 type BASE               = sint8(Base_type_id)
+type COUNTER            = UINT32
 type ROAD               = sint8(Road_type_id)
 type CITY               = UINT16
 # city id, with space for special values
@@ -771,6 +772,12 @@ PACKET_CITY_INFO = 31; sc, lsend, is-game-info, force, cancel(PACKET_CITY_SHORT_
   BOOL rally_point_persistent;
   BOOL rally_point_vigilant;
   UNIT_ORDER rally_point_orders[MAX_LEN_ROUTE:rally_point_length];
+end
+
+PACKET_CITY_UPDATE_COUNTER = 514; sc, lsend
+  CITY city;
+  COUNTER counter;
+  UINT32 value;
 end
 
 PACKET_CITY_SHORT_INFO = 32; sc, lsend, is-game-info, cancel(PACKET_CITY_INFO), cancel(PACKET_WEB_CITY_INFO_ADDITION)
@@ -1965,6 +1972,7 @@ end
 PACKET_RULESET_DESCRIPTION_PART = 247; sc, lsend
   STRING text[MAX_LEN_CONTENT];
 end
+
 
 /*********************************************************
  Below are the packets that control single-player mode.  
