@@ -396,6 +396,7 @@ sprites =
 		"f.shield.paeonia", "flags/paeonia-shield-large"
 		"f.shield.pakistan", "flags/pakistan-shield-large"
 		"f.shield.palatinate", "flags/palatinate-shield-large"
+		"f.shield.palau", "flags/palau-shield-large"
 		"f.shield.palestine", "flags/palestine-shield-large"
 		"f.shield.palmyra", "flags/palmyra-shield-large"
 		"f.shield.panama", "flags/panama-shield-large"

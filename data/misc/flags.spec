@@ -393,6 +393,7 @@ artists = "
    Oz			Daniel Markstedt
    Pakistan		Lauris Kaplinski
    Palatinate		Madden (Wikimedia Commons)
+   Palau		Gabbe (Wikimedia Commons)
    Palestine		J.M. Maalderink
    Palmyra		JB Grout
    Panama		J.M. Maalderink
@@ -966,6 +967,7 @@ sprites =
 		"f.paeonia", "flags/paeonia"
 		"f.pakistan", "flags/pakistan"
 		"f.palatinate", "flags/palatinate"
+		"f.palau", "flags/palau"
 		"f.palestine", "flags/palestine"
 		"f.palmyra", "flags/palmyra"
 		"f.panama", "flags/panama"

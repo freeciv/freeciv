@@ -1,0 +1,80 @@
+[nation_palauan]
+
+name   = _("Palauan")
+plural = _("?plural:Palauans")
+groups = "Modern", "Oceanian"
+legend = _("Palaos is a very little country,\
+ with only 20000 inhabitants aproximately.\
+ It is composed of more than 300 islands of volcanic origin.")
+
+leaders = {
+ "name",                   "sex"
+ "Lazarus Eitaro Salii",   "Male"
+ "Haruo Ignacio Remeliik", "Male"
+ "Roman Tmetuchl",         "Male"
+ "Kuniwo Nakamura",        "Male"
+}
+
+ruler_titles = {
+ "government", "male_title",      "female_title"
+ "Republic",   _("President %s"), _("?female:President %s")
+}
+
+flag     = "palau"
+flag_alt = "-"
+style    = "Tropical"
+
+init_techs     = ""
+init_buildings = ""
+init_units     = ""
+
+civilwar_nations = "newzealand", "maori", "japanese", "american"
+
+cities =
+ "Koror",
+ "Melekeok",
+ "Ngerulmud",
+ "Ulimang",
+ "Ngebuked",
+ "Ngkeklau",
+ "Ngesang",
+ "Elab",
+ "Airai",
+ "Ngaramasch",
+ "Rois",
+ "Hatohobei",
+ "Kayangel",
+ "Madalai",
+ "Ngerchemai",
+ "Ngerchebed",
+ "Ngermid",
+ "Meyuns",
+ "Iebukel",
+ "Ngerkesoaol",
+ "Idid",
+ "Meketii",
+ "Ikelau",
+ "Ngerkebesang",
+ "Eang",
+ "Dngerongel",
+ "Ertong",
+ "Ngeburch",
+ "Ngeremecheluch",
+ "Ngermelech",
+ "Ngerubesang",
+ "Ngeruling",
+ "Chol",
+ "Elab",
+ "Ngebuked",
+ "Ngkeklau",
+ "Ulimang",
+ "Imeong",
+ "Ngetbong",
+ "Ngerutoi",
+ "Urdmau",
+ "Ollei",
+ "Oikuul",
+ "Ngerkeai",
+ "Kloulklubed",
+ "Peleliu",
+ "Sonsorol"

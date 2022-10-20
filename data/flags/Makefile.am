@@ -387,6 +387,7 @@ flag_files =				\
 		paeonia.png		\
 		pakistan.png		\
 		palatinate.png		\
+		palau.png		\
 		palestine.png		\
 		palmyra.png		\
 		panama.png		\
@@ -955,6 +956,7 @@ flag_files =				\
 		paeonia-large.png		\
 		pakistan-large.png		\
 		palatinate-large.png		\
+		palau-large.png		\
 		palestine-large.png		\
 		palmyra-large.png		\
 		panama-large.png		\
@@ -1525,6 +1527,7 @@ shield_files =					\
 		paeonia-shield.png		\
 		pakistan-shield.png		\
 		palatinate-shield.png		\
+		palau-shield.png		\
 		palestine-shield.png		\
 		palmyra-shield.png		\
 		panama-shield.png		\
@@ -2093,6 +2096,7 @@ shield_files =					\
 		paeonia-shield-large.png		\
 		pakistan-shield-large.png		\
 		palatinate-shield-large.png		\
+		palau-shield-large.png		\
 		palestine-shield-large.png		\
 		palmyra-shield-large.png		\
 		panama-shield-large.png		\
@@ -2663,6 +2667,7 @@ svg_files = 				\
 		paeonia.svg		\
 		pakistan.svg		\
 		palatinate.svg		\
+		palau.svg		\
 		palestine.svg		\
 		palmyra.svg		\
 		panama.svg		\
