@@ -381,6 +381,7 @@ pkgdata_DATA = \
 		paeonian.ruleset \
 		pakistani.ruleset \
 		palatinate.ruleset \
+		palauan.ruleset \
 		palestinian.ruleset \
 		palmyrene.ruleset \
 		panamanian.ruleset \
