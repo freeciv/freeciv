@@ -2942,7 +2942,7 @@ static bool place_pollution(struct city *pcity, enum extra_cause cause)
 
     city_tile_index_to_xy(&cx, &cy, tile_id, city_radius_sq);
 
-    /* check for a a real map position */
+    /* Check for a real map position */
     if (!(ptile = city_map_to_tile(pcenter, city_radius_sq, cx, cy))) {
       continue;
     }
