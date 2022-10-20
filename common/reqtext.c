@@ -782,6 +782,19 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
       }
       return TRUE;
     case REQ_RANGE_TILE:
+      fc_strlcat(buf, prefix, bufsz);
+      if (preq->present) {
+        cat_snprintf(buf, bufsz,
+                     _("Requires \"%s\" building in a city on the tile."),
+                     improvement_name_translation
+                     (preq->source.value.building));
+      } else {
+        cat_snprintf(buf, bufsz,
+                     _("Prevented by \"%s\" building in a city on the tile."),
+                     improvement_name_translation
+                     (preq->source.value.building));
+      }
+      return TRUE;
     case REQ_RANGE_CADJACENT:
     case REQ_RANGE_ADJACENT:
     case REQ_RANGE_COUNT:

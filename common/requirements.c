@@ -1635,6 +1635,7 @@ static enum fc_tristate
 is_building_in_range(const struct player *target_player,
                      const struct city *target_city,
                      const struct impr_type *target_building,
+                     const struct tile *target_tile,
                      enum req_range range,
                      bool survives,
                      const struct impr_type *source)
@@ -1749,9 +1750,19 @@ is_building_in_range(const struct player *target_player,
         return TRI_MAYBE;
       }
     case REQ_RANGE_TILE:
+      if (target_tile) {
+        const struct city *pcity = tile_city(target_tile);
+
+        if (pcity) {
+          return BOOL_TO_TRISTATE(num_city_buildings(pcity, source) > 0);
+        } else {
+          return TRI_NO;
+        }
+      } else {
+        return TRI_MAYBE;
+      }
     case REQ_RANGE_CADJACENT:
     case REQ_RANGE_ADJACENT:
-      return TRI_NO;
     case REQ_RANGE_COUNT:
       break;
     }
@@ -3552,7 +3563,7 @@ bool is_req_active(const struct req_context *context,
     break;
   case VUT_IMPROVEMENT:
     eval = is_building_in_range(context->player, context->city,
-                                context->building,
+                                context->building, context->tile,
                                 req->range, req->survives,
                                 req->source.value.building);
     break;

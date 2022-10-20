@@ -470,6 +470,50 @@ static bool is_req_knowable(const struct player *pov_player,
       /* No way to know if a city has an improvement */
       return FALSE;
     case REQ_RANGE_TILE:
+      if (context->tile == NULL) {
+        /* RPT_CERTAIN: Can't be. No tile to contain it.
+         * RPT_POSSIBLE: A tile city like that may exist but not be passed. */
+        return prob_type == RPT_CERTAIN;
+      }
+
+      {
+        const struct city *tcity = tile_city(context->tile);
+
+        if (!tcity) {
+          /* No building can be in no city if it's known
+           * there is no city */
+          if (is_great_wonder(req->source.value.building)) {
+            const struct city *wcity
+              = city_from_great_wonder(req->source.value.building);
+
+            if (!wcity
+                || player_can_see_city_externals(pov_player, wcity)) {
+              /* Player can be sure the wonder is not here */
+              return TRUE;
+              /* FIXME: deducing from known borders aside, the player
+               * may have seen wcity before and cities don't move */
+            }
+          }
+
+          return tile_is_seen(context->tile, pov_player);
+        }
+
+        if (can_player_see_city_internals(pov_player, tcity)) {
+          /* Anyone that can see city internals (like the owner) known all
+           * its improvements. */
+          return TRUE;
+        }
+
+        if (is_improvement_visible(req->source.value.building)
+            && player_can_see_city_externals(pov_player, tcity)) {
+          /* Can see visible improvements when the outside of the city is
+           * seen. */
+          return TRUE;
+        }
+      }
+
+      /* No way to know if a city has an improvement */
+      return FALSE;
     case REQ_RANGE_CADJACENT:
     case REQ_RANGE_ADJACENT:
     case REQ_RANGE_COUNT:

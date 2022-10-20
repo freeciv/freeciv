@@ -56,7 +56,8 @@ MinTechs:        World, Player
 Achievement:     World, Alliance, Team, Player
 Counter:         City
 Gov:             Player
-Building:        World, Alliance, Team, Player, Continent, Traderoute, City, Local
+Building:        World, Alliance, Team, Player, Continent, Traderoute, City,
+                 Tile, Local
 BuildingGenus:   Local
 Extra:           Local, Tile, Adjacent, CAdjacent, Traderoute, City
 RoadFlag:        Local, Tile, Adjacent, CAdjacent, Traderoute, City
