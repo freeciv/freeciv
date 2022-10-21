@@ -258,7 +258,6 @@ fz_FILE *fz_from_file(const char *filename, const char *in_mode,
 #ifdef FREECIV_HAVE_LIBBZ2
     /* Try to open as bzip2 file
        This is simplest test, so do it first. */
-    method = FZ_BZIP2;
     fp->u.bz2.plain = fc_fopen(filename, test_mode);
     if (fp->u.bz2.plain) {
       fp->u.bz2.file = BZ2_bzReadOpen(&fp->u.bz2.error, fp->u.bz2.plain, 1, 0,
