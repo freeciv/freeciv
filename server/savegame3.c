@@ -4955,7 +4955,7 @@ static void sg_load_player_city_citizens(struct loaddata *loading,
 static void sg_save_player_cities(struct savedata *saving,
                                   struct player *plr)
 {
-  int wlist_max_length = 0;
+  int wlist_max_length = 0, routes_max = 0;
   int i = 0;
   int plrno = player_number(plr);
   bool nations[MAX_NUM_PLAYER_SLOTS];
@@ -4975,12 +4975,19 @@ static void sg_save_player_cities(struct savedata *saving,
 
   /* First determine lenght of longest worklist and the nations we have. */
   city_list_iterate(plr->cities, pcity) {
+    int routes;
+
     /* Check the sanity of the city. */
     city_refresh(pcity);
     sanity_check_city(pcity);
 
     if (pcity->worklist.length > wlist_max_length) {
       wlist_max_length = pcity->worklist.length;
+    }
+
+    routes = city_num_trade_routes(pcity);
+    if (routes > routes_max) {
+      routes_max = routes;
     }
 
     if (game.info.citizen_nationality) {
@@ -5031,7 +5038,7 @@ static void sg_save_player_cities(struct savedata *saving,
     } trade_routes_iterate_end;
 
     /* Save dummy values to keep tabular format happy */
-    for (; j < MAX_TRADE_ROUTES; j++) {
+    for (; j < routes_max; j++) {
       secfile_insert_int(saving->file, 0, "%s.traderoute%d", buf, j);
       secfile_insert_str(saving->file, route_direction_name(RDIR_BIDIRECTIONAL),
                          "%s.route_direction%d", buf, j);
