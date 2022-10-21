@@ -95,8 +95,8 @@ meson .. \
   -Ddebug=true \
   -Druledit=false \
   -Dsyslua=true \
-  -Dclients='gtk3.22','stub' \
-  -Dfcmp=gtk3 \
+  -Dclients=gtk3.22,sdl2,gtk4,stub \
+  -Dfcmp=gtk3,gtk4,cli \
   || (let meson_exit_status=$? \
       && echo "meson.log:" \
       && cat meson-logs/meson-log.txt \
