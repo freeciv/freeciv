@@ -93,7 +93,11 @@ jobs:
             lua@5.4 \
             jpeg \
             gtk+3 \
-            sdl2_mixer
+            gtk4 \
+            sdl2_mixer \
+            sdl2_gfx \
+            sdl2_image \
+            sdl2_ttf
       - name: build
         shell: bash
         run: ./scripts/ci-build.sh mac-meson
