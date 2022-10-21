@@ -394,8 +394,8 @@ static void dai_hunter_try_launch(struct ai_type *ait,
   Calculate desire to crush this target.
 **************************************************************************/
 static void dai_hunter_juiciness(struct player *pplayer, struct unit *punit,
-                                 struct unit *target, int *stackthreat,
-                                 int *stackcost)
+                                 struct unit *target, unsigned *stackthreat,
+                                 unsigned *stackcost)
 {
   *stackthreat = 0;
   *stackcost = 0;
@@ -409,7 +409,7 @@ static void dai_hunter_juiciness(struct player *pplayer, struct unit *punit,
       *stackthreat += 5000;
     }
     if (utype_acts_hostile(unit_type_get(sucker))) {
-      *stackthreat += 500; /* extra threatening */
+      *stackthreat += 500; /* Extra threatening */
     }
     *stackcost += unit_build_shield_cost_base(sucker);
   } unit_list_iterate_end;
@@ -439,7 +439,7 @@ int dai_hunter_manage(struct ai_type *ait, struct player *pplayer,
   int limit = unit_move_rate(punit) * 6;
   struct unit_ai *unit_data = def_ai_unit_data(punit, ait);
   struct unit *original_target = game_unit_by_number(unit_data->target);
-  int original_threat = 0, original_cost = 0;
+  unsigned original_threat = 0, original_cost = 0;
 
   fc_assert_ret_val(!is_barbarian(pplayer), 0);
   fc_assert_ret_val(pplayer->is_alive, 0);
@@ -449,7 +449,7 @@ int dai_hunter_manage(struct ai_type *ait, struct player *pplayer,
   pfm = pf_map_new(&parameter);
 
   if (original_target) {
-    dai_hunter_juiciness(pplayer, punit, original_target, 
+    dai_hunter_juiciness(pplayer, punit, original_target,
                          &original_threat, &original_cost);
   }
 
@@ -468,7 +468,8 @@ int dai_hunter_manage(struct ai_type *ait, struct player *pplayer,
 
     unit_list_iterate_safe(ptile->units, target) {
       struct player *aplayer = unit_owner(target);
-      int dist1, dist2, stackthreat = 0, stackcost = 0;
+      int dist1, dist2;
+      unsigned stackthreat = 0, stackcost = 0;
       int sanity_target = target->id;
       struct pf_path *path;
       struct unit_ai *target_data;
@@ -480,7 +481,7 @@ int dai_hunter_manage(struct ai_type *ait, struct player *pplayer,
 
       target_data = def_ai_unit_data(target, ait);
       if (BV_ISSET(target_data->hunted, player_index(pplayer))) {
-        /* Can't hunt this one.  The bit is cleared in the beginning
+        /* Can't hunt this one. The bit is cleared in the beginning
          * of each turn. */
         continue;
       }
@@ -529,14 +530,14 @@ int dai_hunter_manage(struct ai_type *ait, struct player *pplayer,
       if (stackcost < unit_build_shield_cost_base(punit)) {
         UNIT_LOG(LOGLEVEL_HUNT, punit, "%d is too expensive (it %d vs us %d)",
                  target->id, stackcost,
-		 unit_build_shield_cost_base(punit));
+                 unit_build_shield_cost_base(punit));
         continue; /* Too expensive */
       }
       stackthreat /= move_cost + 1;
-      if (!is_virtual 
+      if (!is_virtual
           && original_target != target
           && original_threat > stackthreat) {
-        UNIT_LOG(LOGLEVEL_HUNT, punit, "Unit %d is not worse than %d", 
+        UNIT_LOG(LOGLEVEL_HUNT, punit, "Unit %d is not worse than %d",
                  target->id, original_target->id);
         continue; /* The threat we found originally was worse than this! */
       }
