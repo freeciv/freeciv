@@ -451,54 +451,6 @@ static gboolean key_press_map_canvas(guint keyval, GdkModifierType state)
     return FALSE;
   }
 
-  fc_assert(MAX_NUM_BATTLEGROUPS == 4);
-
-  if ((state & GDK_CONTROL_MASK)) {
-    switch (keyval) {
-
-    case GDK_KEY_F1:
-      key_unit_assign_battlegroup(0, (state & GDK_SHIFT_MASK));
-      return TRUE;
-
-    case GDK_KEY_F2:
-      key_unit_assign_battlegroup(1, (state & GDK_SHIFT_MASK));
-      return TRUE;
-
-    case GDK_KEY_F3:
-      key_unit_assign_battlegroup(2, (state & GDK_SHIFT_MASK));
-      return TRUE;
-
-    case GDK_KEY_F4:
-      key_unit_assign_battlegroup(3, (state & GDK_SHIFT_MASK));
-      return TRUE;
-
-    default:
-      break;
-    };
-  } else if ((state & GDK_SHIFT_MASK)) {
-    switch (keyval) {
-
-    case GDK_KEY_F1:
-      key_unit_select_battlegroup(0, FALSE);
-      return TRUE;
-
-    case GDK_KEY_F2:
-      key_unit_select_battlegroup(1, FALSE);
-      return TRUE;
-
-    case GDK_KEY_F3:
-      key_unit_select_battlegroup(2, FALSE);
-      return TRUE;
-
-    case GDK_KEY_F4:
-      key_unit_select_battlegroup(3, FALSE);
-      return TRUE;
-
-    default:
-      break;
-    };
-  }
-
   switch (keyval) {
 
   case GDK_KEY_KP_Up:

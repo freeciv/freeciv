@@ -362,6 +362,16 @@ static void build_airbase_callback(GtkMenuItem *item, gpointer data);
 static void diplomat_action_callback(GtkMenuItem *item, gpointer data);
 #endif /* MENUS_GTK3 */
 
+static void bg_select_callback(GSimpleAction *action,
+                               GVariant *parameter,
+                               gpointer data);
+static void bg_assign_callback(GSimpleAction *action,
+                               GVariant *parameter,
+                               gpointer data);
+static void bg_append_callback(GSimpleAction *action,
+                               GVariant *parameter,
+                               gpointer data);
+
 static struct menu_entry_info menu_entries[] =
 {
   /* Game menu */
@@ -446,6 +456,33 @@ static struct menu_entry_info menu_entries[] =
     "report_messages", "F9", MGROUP_SAFE },
   { "REPORT_DEMOGRAPHIC", N_("_Demographics"),
     "report_demographics", "F11", MGROUP_SAFE },
+
+  /* Battle Groups menu */
+  /* Note that user view: 1 - 4, internal: 0 - 3 */
+  { "BG_SELECT_1", N_("Select Battle Group 1"),
+    "bg_select_0", "<shift>F1", MGROUP_PLAYING },
+  { "BG_ASSIGN_1", N_("Assign Battle Group 1"),
+    "bg_assign_0", "<ctrl>F1", MGROUP_PLAYING },
+  { "BG_APPEND_1", N_("Append to Battle Group 1"),
+    "bg_append_0", "<shift><ctrl>F1", MGROUP_PLAYING },
+  { "BG_SELECT_2", N_("Select Battle Group 2"),
+    "bg_select_1", "<shift>F2", MGROUP_PLAYING },
+  { "BG_ASSIGN_2", N_("Assign Battle Group 2"),
+    "bg_assign_1", "<ctrl>F2", MGROUP_PLAYING },
+  { "BG_APPEND_2", N_("Append to Battle Group 2"),
+    "bg_append_1", "<shift><ctrl>F2", MGROUP_PLAYING },
+  { "BG_SELECT_3", N_("Select Battle Group 3"),
+    "bg_select_2", "<shift>F3", MGROUP_PLAYING },
+  { "BG_ASSIGN_3", N_("Assign Battle Group 3"),
+    "bg_assign_2", "<ctrl>F3", MGROUP_PLAYING },
+  { "BG_APPEND_3", N_("Append to Battle Group 3"),
+    "bg_append_2", "<shift><ctrl>F3", MGROUP_PLAYING },
+  { "BG_SELECT_4", N_("Select Battle Group 4"),
+    "bg_select_3", "<shift>F4", MGROUP_PLAYING },
+  { "BG_ASSIGN_4", N_("Assign Battle Group 4"),
+    "bg_assign_3", "<ctrl>F4", MGROUP_PLAYING },
+  { "BG_APPEND_4", N_("Append to Battle Group 4"),
+    "bg_append_3", "<shift><ctrl>F4", MGROUP_PLAYING },
 
   /* Help menu */
   { "HELP_COPYING", N_("Copying"),
@@ -2214,6 +2251,36 @@ static void report_spaceship_callback(GtkMenuItem *action, gpointer data)
 #endif /* MENUS_GTK3 */
 
 /************************************************************************//**
+  Select battle group
+****************************************************************************/
+static void bg_select_callback(GSimpleAction *action,
+                               GVariant *parameter,
+                               gpointer data)
+{
+  key_unit_select_battlegroup(GPOINTER_TO_INT(data), FALSE);
+}
+
+/************************************************************************//**
+  Assign units to battle group
+****************************************************************************/
+static void bg_assign_callback(GSimpleAction *action,
+                               GVariant *parameter,
+                               gpointer data)
+{
+  key_unit_assign_battlegroup(GPOINTER_TO_INT(data), FALSE);
+}
+
+/************************************************************************//**
+  Append units to battle group
+****************************************************************************/
+static void bg_append_callback(GSimpleAction *action,
+                               GVariant *parameter,
+                               gpointer data)
+{
+  key_unit_assign_battlegroup(GPOINTER_TO_INT(data), TRUE);
+}
+
+/************************************************************************//**
   Set name of the menu item.
 ****************************************************************************/
 static void menu_entry_init(GMenu *sub, const char *key)
@@ -2237,6 +2304,33 @@ void setup_app_actions(GApplication *fc_app)
 {
   g_action_map_add_action_entries(G_ACTION_MAP(fc_app), acts,
                                   G_N_ELEMENTS(acts), fc_app);
+}
+
+/************************************************************************//**
+  Registers menu actions for Battle Groups actions
+****************************************************************************/
+static void register_bg_actions(GActionMap *map, int bg)
+{
+  GSimpleAction *act;
+  char actname[256];
+
+  fc_snprintf(actname, sizeof(actname), "bg_select_%d", bg);
+  act = g_simple_action_new(actname, NULL);
+  g_action_map_add_action(map, G_ACTION(act));
+  g_signal_connect(act, "activate",
+                   G_CALLBACK(bg_select_callback), GINT_TO_POINTER(bg));
+
+  fc_snprintf(actname, sizeof(actname), "bg_assign_%d", bg);
+  act = g_simple_action_new(actname, NULL);
+  g_action_map_add_action(map, G_ACTION(act));
+  g_signal_connect(act, "activate",
+                   G_CALLBACK(bg_assign_callback), GINT_TO_POINTER(bg));
+
+  fc_snprintf(actname, sizeof(actname), "bg_append_%d", bg);
+  act = g_simple_action_new(actname, NULL);
+  g_action_map_add_action(map, G_ACTION(act));
+  g_signal_connect(act, "activate",
+                   G_CALLBACK(bg_append_callback), GINT_TO_POINTER(bg));
 }
 
 /************************************************************************//**
@@ -2344,6 +2438,27 @@ static GMenu *setup_menus(GtkApplication *app)
   menu_entry_init(gov_menu, "REPORT_DEMOGRAPHIC");
 
   g_menu_append_submenu(menubar, _("C_ivilization"), G_MENU_MODEL(gov_menu));
+
+  topmenu = g_menu_new();
+
+  /* Keys exist for 4 battle groups */
+  FC_STATIC_ASSERT(MAX_NUM_BATTLEGROUPS == 4, incompatible_bg_count);
+
+  for (i = 0; i < MAX_NUM_BATTLEGROUPS; i++) {
+    char key[128];
+
+    /* User side battle group numbers start from 1 */
+    fc_snprintf(key, sizeof(key), "BG_SELECT_%d", i + 1);
+    menu_entry_init(topmenu, key);
+    fc_snprintf(key, sizeof(key), "BG_ASSIGN_%d", i + 1);
+    menu_entry_init(topmenu, key);
+    fc_snprintf(key, sizeof(key), "BG_APPEND_%d", i + 1);
+    menu_entry_init(topmenu, key);
+
+    register_bg_actions(G_ACTION_MAP(app), i);
+  }
+
+  g_menu_append_submenu(menubar, _("Battle Groups"), G_MENU_MODEL(topmenu));
 
   topmenu = g_menu_new();
 
