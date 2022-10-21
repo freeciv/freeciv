@@ -107,7 +107,16 @@ if host_system == 'windows'
   pub_conf_data.set('FREECIV_HAVE_WINSOCK', 1)
   pub_conf_data.set('FREECIV_SOCKET_ZERO_NOT_STDIN', 1)
   priv_conf_data.set('ALWAYS_ROOT', 1)
-  add_global_arguments('-D_WIN32_WINNT=0x0603', language : ['c', 'cpp'])
+
+  if get_option('qtver') == 'qt6' and \
+     ( get_option('ruledit') or \
+       get_option('clients').contains('qt') or \
+       get_option('fcmp').contains('qt'))
+    add_global_arguments('-D_WIN32_WINNT=0x0A00', language : ['c', 'cpp'])
+  else
+    add_global_arguments('-D_WIN32_WINNT=0x0603', language : ['c', 'cpp'])
+  endif
+
   net_dep = c_compiler.find_library('ws2_32')
 else
   # Assume that vsnprintf() is a working one, if it's found
