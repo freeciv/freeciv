@@ -1562,28 +1562,29 @@ static int goto_here_callback(struct widget *pWidget)
 /**************************************************************************
   Initiate patrol to selected tile.
 **************************************************************************/
-static int patrol_here_callback(struct widget *pWidget)
+static int patrol_here_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(Main.event)) {
+    int x = pwidget->data.cont->id0;
+    int y = pwidget->data.cont->id1;
+    struct tile *ptile;
 
-/* FIXME */
-#if 0
-    int x = pWidget->data.cont->id0;
-    int y = pWidget->data.cont->id1;
-    struct unit *pUnit = head_of_units_in_focus();
-#endif
+    ptile = map_pos_to_tile(x, y);
 
-    popdown_advanced_terrain_dialog();
+    if (ptile != NULL) {
+      struct unit_list *punits = get_units_in_focus();
 
-#if 0
-    if (pUnit) {
-      enter_goto_state(pUnit);
-      /* may not work */
-      do_unit_patrol_to(pUnit, map_pos_to_tile(x, y));
+      set_hover_state(punits, HOVER_PATROL, ACTIVITY_LAST, NULL,
+                      ORDER_LAST);
+      update_unit_info_label(punits);
+      enter_goto_state(punits);
+      do_unit_patrol_to(ptile);
       exit_goto_state();
     }
-#endif /* 0 */
+
+    popdown_advanced_terrain_dialog();
   }
+
   return -1;
 }
 
