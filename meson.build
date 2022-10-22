@@ -264,7 +264,8 @@ priv_functions = [
   '_stricoll',
   'fcntl',
   'ioctl',
-  'vsnprintf'
+  'vsnprintf',
+  'va_copy'
   ]
 
 foreach func : priv_functions
