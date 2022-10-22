@@ -1741,6 +1741,10 @@ bool make_dir(const char *pathname)
   char *dir;
   char *path = NULL;
 
+  if (pathname[0] == '\0') {
+    return FALSE;
+  }
+
   path = interpret_tilde_alloc(pathname);
   dir = path;
 

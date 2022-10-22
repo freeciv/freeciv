@@ -154,7 +154,7 @@ void remove_leading_trailing_spaces(char *s);
 
 bool check_strlen(const char *str, size_t len, const char *errmsg);
 size_t loud_strlcpy(char *buffer, const char *str, size_t len,
-		   const char *errmsg);
+                    const char *errmsg);
 /* Convenience macro. */
 #define sz_loud_strlcpy(buffer, str, errmsg) \
     loud_strlcpy(buffer, str, sizeof(buffer), errmsg)
@@ -253,7 +253,9 @@ void interpret_tilde(char* buf, size_t buf_size, const char* filename);
 char *interpret_tilde_alloc(const char* filename);
 char *skip_to_basename(char *filepath);
 
-bool make_dir(const char *pathname);
+bool make_dir(const char *pathname)
+       fc__attribute((nonnull (1)));
+
 bool path_is_absolute(const char *filename);
 
 char scanin(const char **buf, char *delimiters, char *dest, int size);
