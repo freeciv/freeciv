@@ -7265,9 +7265,9 @@ static void sg_load_researches(struct loaddata *loading)
                                                    "research.r%d.saved", i);
     presearch->researching = technology_load(loading->file,
                                              "research.r%d.now", i);
-    sg_failure_ret(!secfile_lookup_int(loading->file,
-                                       &presearch->free_bulbs,
-                                       "research.r%d.free_bulbs", i),
+    sg_failure_ret(secfile_lookup_int(loading->file,
+                                      &presearch->free_bulbs,
+                                      "research.r%d.free_bulbs", i),
                    "%s", secfile_error());
 
     str = secfile_lookup_str(loading->file, "research.r%d.done", i);
