@@ -108,6 +108,15 @@ struct save_thread_data
 };
 
 /************************************************************************//**
+  Free resources of save_thread_data, including itself
+****************************************************************************/
+static void save_thread_data_free(struct save_thread_data *stdata)
+{
+  secfile_destroy(stdata->sfile);
+  free(stdata);
+}
+
+/************************************************************************//**
   Run game saving thread.
 ****************************************************************************/
 static void save_thread_run(void *arg)
@@ -123,8 +132,7 @@ static void save_thread_run(void *arg)
     con_write(C_OK, _("Game saved as %s"), stdata->filepath);
   }
 
-  secfile_destroy(stdata->sfile);
-  free(arg);
+  save_thread_data_free(stdata);
 }
 
 /************************************************************************//**
@@ -250,12 +258,38 @@ void save_game(const char *orig_filename, const char *save_reason,
 
     if (!scenario) {
       /* Ensure the saves directory exists. */
-      make_dir(srvarg.saves_pathname);
+      if (srvarg.saves_pathname[0] != '\0'
+          && !make_dir(srvarg.saves_pathname)) {
+        log_error(_("Can't create saves directory %s!"),
+                  srvarg.saves_pathname);
+        /* Don't tell server paths to clients */
+        notify_conn(NULL, NULL, E_SETTING, ftc_warning,
+                    _("Can't create saves directory!"));
+
+        save_thread_data_free(stdata);
+        timer_destroy(timer_cpu);
+        timer_destroy(timer_user);
+
+        return;
+      }
 
       sz_strlcpy(tmpname, srvarg.saves_pathname);
     } else {
       /* Make sure scenario directory exist */
-      make_dir(srvarg.scenarios_pathname);
+      if (srvarg.scenarios_pathname[0] != '\0'
+          && !make_dir(srvarg.scenarios_pathname)) {
+        log_error(_("Can't create scenario saves directory %s!"),
+                  srvarg.scenarios_pathname);
+        /* Don't tell server paths to clients */
+        notify_conn(NULL, NULL, E_SETTING, ftc_warning,
+                    _("Can't create scenario saves directory!"));
+
+        save_thread_data_free(stdata);
+        timer_destroy(timer_cpu);
+        timer_destroy(timer_user);
+
+        return;
+      }
 
       sz_strlcpy(tmpname, srvarg.scenarios_pathname);
     }
