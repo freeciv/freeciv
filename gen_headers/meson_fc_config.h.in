@@ -358,6 +358,9 @@
 /* usleep() available */
 #mesondefine HAVE_USLEEP
 
+/* Have C99 va_copy() */
+#mesondefine HAVE_VA_COPY
+
 /* vprintf() available */
 #mesondefine HAVE_VPRINTF
 
