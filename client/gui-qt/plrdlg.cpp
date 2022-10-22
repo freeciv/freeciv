@@ -771,7 +771,7 @@ plr_report::plr_report():QWidget()
   withdraw_but = new QPushButton;
   withdraw_but->setText(_("Withdraw Vision"));
   toggle_ai_but = new QPushButton;
-  toggle_ai_but->setText(_("Toggle AI Mode"));
+  toggle_ai_but->setText(_("AI Mode"));
   show_relations = new QPushButton;
   show_relations->setText(_("Hide Relations"));
   show_techs = new QPushButton;
@@ -781,7 +781,6 @@ plr_report::plr_report():QWidget()
   meet_but->setDisabled(true);
   cancel_but->setDisabled(true);
   withdraw_but->setDisabled(true);
-  toggle_ai_but->setDisabled(true);
   v_splitter->addWidget(plr_wdg);
   h_splitter->addWidget(plr_label);
   h_splitter->addWidget(ally_label);
@@ -879,44 +878,53 @@ void plr_report::req_wiithdrw_vision()
 **************************************************************************/
 void plr_report::toggle_ai_mode()
 {
-  QAction *toggle_ai_act;
-  QAction *ai_level_act;
-  QMenu *ai_menu = new QMenu(this);
-  int level;
+  if (plr_wdg->other_player == client_player()) {
+    send_chat_printf("/away \"%s\"",
+                     player_name(plr_wdg->other_player));
+    return;
+  } else {
+    QMenu *ai_menu = new QMenu(this);
+    QAction *toggle_ai_act;
+    int level;
 
-  toggle_ai_act = new QAction(_("Toggle AI Mode"), nullptr);
-  ai_menu->addAction(toggle_ai_act);
-  ai_menu->addSeparator();
-  for (level = 0; level < AI_LEVEL_COUNT; level++) {
-    if (is_settable_ai_level(static_cast<ai_level>(level))) {
-      QString ln = ai_level_translated_name(static_cast<ai_level>(level));
+    toggle_ai_act = new QAction(_("Toggle AI Mode"), nullptr);
+    ai_menu->addAction(toggle_ai_act);
 
-      ai_level_act = new QAction(ln, nullptr);
-      ai_level_act->setData(QVariant::fromValue(level));
-      ai_menu->addAction(ai_level_act);
+    ai_menu->addSeparator();
+    for (level = 0; level < AI_LEVEL_COUNT; level++) {
+      if (is_settable_ai_level(static_cast<ai_level>(level))) {
+        QAction *ai_level_act;
+        QString ln = ai_level_translated_name(static_cast<ai_level>(level));
+
+        ai_level_act = new QAction(ln, nullptr);
+        ai_level_act->setData(QVariant::fromValue(level));
+        ai_menu->addAction(ai_level_act);
+      }
     }
-  }
-  ai_menu->setAttribute(Qt::WA_DeleteOnClose);
-  connect(ai_menu, &QMenu::triggered, [=](QAction *act) {
-    int lvl;
 
-    if (act == toggle_ai_act) {
-      send_chat_printf("/aitoggle \"%s\"",
-                       player_name(plr_wdg->other_player));
-      return;
-    }
-    if (act && act->isVisible()) {
-      lvl = act->data().toInt();
-      if (is_human(plr_wdg->other_player)) {
+    ai_menu->setAttribute(Qt::WA_DeleteOnClose);
+    connect(ai_menu, &QMenu::triggered, [=](QAction *act) {
+      int lvl;
+
+      if (act == toggle_ai_act) {
         send_chat_printf("/aitoggle \"%s\"",
                          player_name(plr_wdg->other_player));
+        return;
       }
-      send_chat_printf("/%s %s", ai_level_cmd(static_cast<ai_level>(lvl)),
-                       player_name(plr_wdg->other_player));
-    }
-  });
 
-  ai_menu->popup(QCursor::pos());
+      if (act && act->isVisible()) {
+        lvl = act->data().toInt();
+        if (is_human(plr_wdg->other_player)) {
+          send_chat_printf("/aitoggle \"%s\"",
+                           player_name(plr_wdg->other_player));
+        }
+        send_chat_printf("/%s %s", ai_level_cmd(static_cast<ai_level>(lvl)),
+                         player_name(plr_wdg->other_player));
+      }
+    });
+
+    ai_menu->popup(QCursor::pos());
+  }
 }
 
 /**********************************************************************//**
@@ -1012,7 +1020,6 @@ void plr_report::update_report(bool update_selection)
   meet_but->setDisabled(true);
   cancel_but->setDisabled(true);
   withdraw_but->setDisabled(true);
-  toggle_ai_but->setDisabled(true);
   plr_label->setText(plr_wdg->intel_str);
   ally_label->setText(plr_wdg->ally_str);
   tech_label->setText(plr_wdg->tech_str);
@@ -1021,15 +1028,20 @@ void plr_report::update_report(bool update_selection)
   if (other_player == NULL || !can_client_issue_orders()) {
     return;
   }
-  if (NULL != client.conn.playing
-      && other_player != client.conn.playing) {
+  if (NULL != client.conn.playing) {
+    if (other_player != client.conn.playing) {
 
-    // We keep button sensitive in case of DIPL_SENATE_BLOCKING, so that player
-    // can request server side to check requirements of those effects with omniscience
-    if (pplayer_can_cancel_treaty(client_player(), other_player) != DIPL_ERROR) {
-      cancel_but->setEnabled(true);
+      // We keep button sensitive in case of DIPL_SENATE_BLOCKING, so that player
+      // can request server side to check requirements of those effects with omniscience
+      if (pplayer_can_cancel_treaty(client_player(), other_player) != DIPL_ERROR) {
+        cancel_but->setEnabled(true);
+      }
+      toggle_ai_but->setText(_("AI Mode"));
+    } else {
+      toggle_ai_but->setText(_("Away Mode"));
     }
-    toggle_ai_but->setEnabled(true);
+  } else {
+    toggle_ai_but->setText(_("AI Mode"));
   }
   if (gives_shared_vision(client_player(), other_player)
       && !players_on_same_team(client_player(), other_player)) {
