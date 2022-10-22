@@ -58,7 +58,7 @@
 #include "helpdata.h"
 
 /* TRANS: Character appearing in the beginning of each helptext point */
-#define BULLET _("*")
+#define BULLET Q_("?bullet:*")
 /* TRANS: bullet point with trailing space */
 #define BULLET_SPACE Q_("?bullet:* ")
 

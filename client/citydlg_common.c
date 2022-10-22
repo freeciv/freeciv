@@ -1154,11 +1154,11 @@ void get_city_dialog_airlift_value(const struct city *pcity,
                 game.info.airlifting_style & AIRLIFTING_UNLIMITED_DEST
                 /* TRANS: airlift unlimited take offs may be spent symbol
                  * used above. */
-                ? "" : _("*"));
+                ? "" : Q_("?landings:*"));
   } else {
     /* TRANS: airlift. Possible take offs text. Number is
      * airlift capacity. */
-    fc_snprintf(src, sizeof(src), _("%4d"), pcity->airlift);
+    fc_snprintf(src, sizeof(src), Q_("?takeoffs:%4d"), pcity->airlift);
   }
 
   if ((game.info.airlifting_style & AIRLIFTING_UNLIMITED_DEST)
@@ -1170,7 +1170,7 @@ void get_city_dialog_airlift_value(const struct city *pcity,
     fc_snprintf(dest, sizeof(dest), _("   ∞"));
   } else {
     /* TRANS: airlift. Possible landings text. */
-    fc_snprintf(dest, sizeof(dest), _("%4d"), pcity->airlift);
+    fc_snprintf(dest, sizeof(dest), Q_("?landings:%4d"), pcity->airlift);
   }
 
   switch (unlimited) {
@@ -1186,7 +1186,7 @@ void get_city_dialog_airlift_value(const struct city *pcity,
     break;
   default:
     /* TRANS: airlift take offs or landings, no unlimited */
-    fc_snprintf(buf, bufsz, _("%s"), src);
+    fc_snprintf(buf, bufsz, Q_("?airlifts:%s"), src);
     break;
   }
 }
