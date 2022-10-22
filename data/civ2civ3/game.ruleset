@@ -935,6 +935,7 @@ action = "Bribe Unit"
 actor_reqs    =
     { "type",   "name", "range", "present"
       "UnitFlag", "Diplomat", "Local", TRUE
+      "UnitState", "HasHomeCity", "Local", TRUE
       "DiplRel", "Alliance", "Local", FALSE
       "DiplRel", "Team", "Local", FALSE
       "UnitState", "OnLivableTile", "Local", TRUE
@@ -1200,6 +1201,14 @@ actor_reqs    =
     { "type",      "name",        "range", "present"
       "UnitFlag",  "NoHome",      "Local", FALSE
       "UnitState", "HasHomeCity", "Local", TRUE
+      "DiplRel",   "Foreign",  "Local", FALSE
+    }
+
+[actionenabler_change_home_city_diplo]
+action = "Home City"
+actor_reqs    =
+    { "type",      "name",     "range", "present"
+      "UnitFlag",  "Diplomat", "Local", TRUE
       "DiplRel",   "Foreign",  "Local", FALSE
     }
 
