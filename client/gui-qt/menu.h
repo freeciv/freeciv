@@ -166,8 +166,8 @@ struct qtiles
   }
 };
 
-/**************************************************************************
-  Class trade generator, used for calulating possible trade routes
+/***************************************************************************
+  Class trade generator, used for calculating possible trade routes
 ***************************************************************************/
 class trade_generator
 {
