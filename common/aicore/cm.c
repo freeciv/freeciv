@@ -736,7 +736,7 @@ static void apply_solution(struct cm_state *state,
 
 /****************************************************************************
   Convert the city's surplus numbers into an array.  Get the happy/disorder
-  values, too.  This fills in the surplus array and disorder and happy 
+  values, too.  This fills in the surplus array and disorder and happy
   values based on the city's data.
 ****************************************************************************/
 static void get_city_surplus(const struct city *pcity,
@@ -781,9 +781,9 @@ static struct cm_fitness evaluate_solution(struct cm_state *state,
     int specialists_amount = city_specialists(pcity);
     int max_content = player_content_citizens(city_owner(pcity));
 
-    state->min_luxury = surplus[O_LUXURY] 
+    state->min_luxury = surplus[O_LUXURY]
       + game.info.happy_cost * MAX(specialists_amount - max_content, 0)
-       + 1;
+      + 1;
   }
 
   return compute_fitness(surplus, disorder, happy, &state->parameter);
@@ -899,18 +899,18 @@ static int compare_tile_type_by_stat(const void *va, const void *vb)
     return 0;
   }
 
-  /* consider the influence of trade on science, luxury, gold
+  /* Consider the influence of trade on science, luxury, gold
      for compute_max_stats_heuristics, which uses these sorted arrays,
-     it is essential, that the sorting is correct, else promising 
+     it is essential, that the sorting is correct, else promising
      branches get pruned */
-  double valuea = (*a)->production[compare_key] + 
+  double valuea = (*a)->production[compare_key] +
                     compare_key_trade_bonus * (*a)->production[O_TRADE];
   double valueb = (*b)->production[compare_key] +
                     compare_key_trade_bonus * (*b)->production[O_TRADE];
 
-  /* most production of what we care about goes first */
-  /* double compare is ok, both values are calculated in the same way
-     and should only be considered equal, if equal in compare_key 
+  /* Most production of what we care about goes first */
+  /* Double compare is ok, both values are calculated in the same way
+     and should only be considered equal, if equal in compare_key
      and O_TRADE */
   if (valuea != valueb) {
     /* b-a so we sort big numbers first */
@@ -993,7 +993,7 @@ static void tile_type_lattice_add(struct tile_type_vector *lattice,
  */
 
 /****************************************************************************
-  Create lattice nodes for each type of specialist.  This adds a new
+  Create lattice nodes for each type of specialist. This adds a new
   tile_type for each specialist type.
 ****************************************************************************/
 static void init_specialist_lattice_nodes(struct tile_type_vector *lattice,
@@ -1113,9 +1113,9 @@ static void top_sort_lattice(struct tile_type_vector *lattice)
   we can never use.
 
   A node is unreachable if there are fewer available workers
-  than are needed to fill up all predecessors.  A node at depth
+  than are needed to fill up all predecessors. A node at depth
   two needs three workers to be reachable, for example (two to fill
-  the predecessors, and one for the tile).  We remove a node if
+  the predecessors, and one for the tile). We remove a node if
   its depth is equal to the city size, or larger.
 
   We could clean up the tile arrays in each type (if we have two workers,
@@ -1129,7 +1129,7 @@ static void clean_lattice(struct tile_type_vector *lattice,
   struct tile_type_vector tofree;
   bool forced_loop = FALSE;
 
-  /* We collect the types we want to remove and free them in one fell 
+  /* We collect the types we want to remove and free them in one fell
      swoop at the end, in order to avoid memory errors.  */
   tile_type_vector_init(&tofree);
 
@@ -1141,10 +1141,11 @@ static void clean_lattice(struct tile_type_vector *lattice,
   }
   for (i = 0, j = 0; i < lattice->size || forced_loop; i++) {
     struct cm_tile_type *ptype = lattice->p[i];
+    citizens csize = city_size_get(pcity);
 
     forced_loop = FALSE;
 
-    if (ptype->lattice_depth >= city_size_get(pcity)) {
+    if (ptype->lattice_depth >= csize) {
       tile_type_vector_append(&tofree, ptype);
     } else {
       /* Remove links to children that are being removed. */
@@ -1158,7 +1159,7 @@ static void clean_lattice(struct tile_type_vector *lattice,
       for (ci = 0, cj = 0; ci < ptype->worse_types.size; ci++) {
         const struct cm_tile_type *ptype2 = ptype->worse_types.p[ci];
 
-        if (ptype2->lattice_depth < city_size_get(pcity)) {
+        if (ptype2->lattice_depth < csize) {
           ptype->worse_types.p[cj] = ptype->worse_types.p[ci];
           cj++;
         }
@@ -1571,7 +1572,7 @@ static void compute_max_stats_heuristic(const struct cm_state *state,
 
   } else {
 
-    /* initialize solnplus here, after the shortcut check */
+    /* Initialize solnplus here, after the shortcut check */
     init_partial_solution(&solnplus, num_types(state),
                           city_size_get(state->pcity),
                           negative_ok);
@@ -1590,10 +1591,10 @@ static void compute_max_stats_heuristic(const struct cm_state *state,
 
   }
 
-  /* we found the basic production, however, bonus, taxes, 
+  /* we found the basic production, however, bonus, taxes,
      free production, tithes, traderoutes are missing
      we add free production, and have the city.c code do the rest */
-  
+
   struct city *pcity = state->pcity;
   struct tile *pcenter = city_tile(pcity);
   bool is_celebrating = base_city_celebrating(pcity);
@@ -1645,8 +1646,8 @@ static bool choice_is_promising(struct cm_state *state, int newchoice,
        * don't short-circuit */
     }
   } output_type_iterate_end;
- 
-  /* If we don't get the city content, we assume using every idle worker 
+
+  /* If we don't get the city content, we assume using every idle worker
      as specialist and the maximum producible luxury already computed.
      If this is less than the amount of luxury we calculated in
      evaluate_solution() (where min_luxury is set), when we observed the
@@ -1666,7 +1667,7 @@ static bool choice_is_promising(struct cm_state *state, int newchoice,
  
     if (max_luxury < state->min_luxury ) {
       log_base(LOG_PRUNE_BRANCH, "--- pruning: disorder (%d + %d*%d < %d)",
-               production[O_LUXURY], 
+               production[O_LUXURY],
                game.info.happy_cost,
                specialists_suppress_unhappy,
                state->min_luxury);
@@ -1827,9 +1828,10 @@ static struct cm_state *cm_state_init(struct city *pcity, bool negative_ok)
   int numtypes;
   struct cm_state *state = fc_malloc(sizeof(*state));
   int rates[3];
+  citizens csize = city_size_get(pcity);
 
   log_base(LOG_CM_STATE, "creating cm_state for %s (size %d)",
-           city_name_get(pcity), city_size_get(pcity));
+           city_name_get(pcity), csize);
 
   /* copy the arguments */
   state->pcity = pcity;
@@ -1873,15 +1875,12 @@ static struct cm_state *cm_state_init(struct city *pcity, bool negative_ok)
   state->min_luxury = - FC_INFINITY;
 
   /* We have no best solution yet, so its value is the worst possible. */
-  init_partial_solution(&state->best, numtypes, city_size_get(pcity),
-                        negative_ok);
+  init_partial_solution(&state->best, numtypes, csize, negative_ok);
   state->best_value = worst_fitness();
 
   /* Initialize the current solution and choice stack to empty */
-  init_partial_solution(&state->current, numtypes, city_size_get(pcity),
-                        negative_ok);
-  state->choice.stack = fc_malloc(city_size_get(pcity)
-				  * sizeof(*state->choice.stack));
+  init_partial_solution(&state->current, numtypes, csize, negative_ok);
+  state->choice.stack = fc_malloc(csize * sizeof(*state->choice.stack));
   state->choice.size = 0;
 
   /* Initialize workers map */
@@ -1909,7 +1908,7 @@ static void begin_search(struct cm_state *state,
   sort_lattice_by_fitness(state, &state->lattice);
   init_min_production(state);
 
-  /* clear out the old solution */
+  /* Clear out the old solution */
   state->best_value = worst_fitness();
   destroy_partial_solution(&state->current);
   init_partial_solution(&state->current, num_types(state),
@@ -1970,8 +1969,8 @@ static void cm_find_best_solution(struct cm_state *state,
 #endif
 
   begin_search(state, parameter, negative_ok);
-  
-  /* make a backup of the city to restore at the very end */
+
+  /* Make a backup of the city to restore at the very end */
   memcpy(&backup, state->pcity, sizeof(backup));
 
   if (player_is_cpuhog(city_owner(state->pcity))) {
