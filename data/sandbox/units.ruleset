@@ -2301,6 +2301,7 @@ If a foreign unit is alone on a tile, you may attempt to bribe it\
  that of the civilization owning it. However, units belonging to\
  Republican or Democratic governments cannot be bribed. Bribery when\
  not at war will cause a diplomatic incident.\
+ Homeless Diplomats cannot bribe units.\
 "), _("\
 Diplomats can also perform a number of actions in another player's\
  city, although each Diplomat may attempt only one action. Most of\

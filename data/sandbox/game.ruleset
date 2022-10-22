@@ -637,6 +637,7 @@ action = "Bribe Unit"
 actor_reqs    =
     { "type",   "name", "range", "present"
       "UnitFlag", "Diplomat", "Local", TRUE
+      "UnitState", "HasHomeCity", "Local", TRUE
       "DiplRel", "Alliance", "Local", FALSE
       "DiplRel", "Team", "Local", FALSE
       "UnitState", "OnLivableTile", "Local", TRUE
