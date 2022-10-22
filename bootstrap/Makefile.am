@@ -16,6 +16,7 @@ EXTRA_DIST =	freeciv.project		\
 		generate_gitrev.sh	\
 		generate_langstat.sh	\
 		generate_meson_run.sh	\
+		generate_metainfo.sh	\
 		langstat_core.txt	\
 		langstat_nations.txt	\
 		langstat_ruledit.txt	\
@@ -94,6 +95,15 @@ langstat_nations.txt:
 langstat_ruledit.txt:
 	"$(top_srcdir)/bootstrap/generate_langstat.sh" ruledit "$(top_srcdir)" "$(top_builddir)/bootstrap"
 
-.PHONY: langstat_core.txt langstat_nations.txt langstat_ruledit.txt
+$(metainfofile_DATA) : %.metainfo.xml: %.metainfo.xml.in generate_metainfo.sh
+	"$(top_srcdir)/bootstrap/generate_metainfo.sh" "$@" "$(top_builddir)/bootstrap"
 
-MAINTAINERCLEANFILES = langstat_core.txt langstat_nations.txt langstat_ruledit.txt
+metainfo_stamp: $(metainfofile_DATA)
+
+.PHONY: langstat_core.txt langstat_nations.txt langstat_ruledit.txt metainfo_stamp
+
+all-local: metainfo_stamp
+
+MAINTAINERCLEANFILES = langstat_core.txt langstat_nations.txt langstat_ruledit.txt metainfo_stamp
+
+CLEANFILES = $(metainfofile_DATA)
