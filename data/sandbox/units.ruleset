@@ -2623,7 +2623,7 @@ If a foreign unit is alone on a tile, you may attempt to bribe it\
  with your Diplomat. By paying a sum of gold the unit will immediately\
  become yours; the exact sum depends on the status of the unit and\
  that of the civilization owning it. Bribery when not at war will cause\
- a diplomatic incident.\
+ a diplomatic incident. Homeless Diplomats cannot bribe units.\
 "), _("\
 Diplomats can also perform a number of actions in another player's\
  city, although each Diplomat may attempt only one action. Most of\
