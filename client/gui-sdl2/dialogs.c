@@ -1600,24 +1600,24 @@ static int goto_here_callback(struct widget *pwidget)
 static int patrol_here_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
-
-/* FIXME */
-#if 0
     int x = pwidget->data.cont->id0;
     int y = pwidget->data.cont->id1;
-    struct unit *punit = head_of_units_in_focus();
-#endif /* 0 */
+    struct tile *ptile;
 
-    popdown_advanced_terrain_dialog();
+    ptile = map_pos_to_tile(&(wld.map), x, y);
 
-#if 0
-    if (punit) {
-      enter_goto_state(punit);
-      /* may not work */
-      do_unit_patrol_to(punit, map_pos_to_tile(x, y));
+    if (ptile != NULL) {
+      struct unit_list *punits = get_units_in_focus();
+
+      set_hover_state(punits, HOVER_PATROL, ACTIVITY_LAST, NULL,
+                      NO_TARGET, NO_TARGET, ACTION_NONE, ORDER_LAST);
+      update_unit_info_label(punits);
+      enter_goto_state(punits);
+      do_unit_patrol_to(ptile);
       exit_goto_state();
     }
-#endif /* 0 */
+
+    popdown_advanced_terrain_dialog();
   }
 
   return -1;
