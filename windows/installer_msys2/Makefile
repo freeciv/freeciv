@@ -98,11 +98,11 @@ ruledit-installer-qt6:
 
 snapshot:
 	cd ../.. ; ./autogen.sh --no-configure-run
-	make VERSION_REVTYPE="git" EXTRA_CONFIG="--enable-gitrev --with-project-definition=../../../bootstrap/snapshot.project CFLAGS=\\\"-Werror $$CFLAGS\\\" CXXFLAGS=\\\"$$CXXFLAGS\\\"" all
+	make VERSION_REVTYPE="git" EXTRA_CONFIG="--enable-gitrev CFLAGS=\\\"-Werror $$CFLAGS\\\" CXXFLAGS=\\\"$$CXXFLAGS\\\"" all
 
 ci:
 	cd ../.. ; ./autogen.sh --no-configure-run
-	make VERSION_REVTYPE="git" CI=yes EXTRA_CONFIG="--enable-gitrev --with-project-definition=../../../bootstrap/snapshot.project CFLAGS=\\\"-Werror $$CFLAGS\\\" CXXFLAGS=\\\"$$CXXFLAGS\\\"" gtk3.22-installer sdl2-installer ruledit-installer-qt6 qt6-installer
+	make VERSION_REVTYPE="git" CI=yes EXTRA_CONFIG="--enable-gitrev CFLAGS=\\\"-Werror $$CFLAGS\\\" CXXFLAGS=\\\"$$CXXFLAGS\\\"" gtk3.22-installer sdl2-installer ruledit-installer-qt6 qt6-installer
 
 # configure Freeciv
 
