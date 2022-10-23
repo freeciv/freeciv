@@ -1,4 +1,4 @@
-# Check for the presence of C99 features.  Generally the check will fail
+# Check for the presence of C99 features. Generally the check will fail
 # if the feature isn't present (a C99 compiler isn't that much to ask,
 # right?).
 
@@ -97,5 +97,22 @@ AC_CACHE_CHECK([whether preprocessor token concenation works],
   [ac_cv_c99_token_concenation=yes],[ac_cv_c99_token_concenation=no])])
   if test "x${ac_cv_c99_token_concenation}" != "xyes" ; then
     AC_MSG_ERROR([A preprocessor supporting token concenation is required])
+  fi
+])
+
+AC_DEFUN([FC_C99_VA_COPY],
+[
+dnl Check for C99 va_copy()
+AC_CACHE_CHECK([for C99 va_copy],
+  [ac_cv_c99_va_copy],
+  [AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[#include <stdarg.h>]],
+     [[va_list orig;
+       va_list copy;
+       va_copy(copy, orig);]])],
+  [ac_cv_c99_va_copy=yes], [ac_cv_c99_va_copy=no])])
+  if test "x${ac_cv_c99_va_copy}" = "xyes" ; then
+    AC_DEFINE([HAVE_VA_COPY], [1], [va_copy() available])
+  else
+    AC_MSG_WARN([lack of va_copy() support is going to be mandatory soon])
   fi
 ])
