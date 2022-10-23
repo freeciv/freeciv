@@ -634,8 +634,8 @@ PACKET_MAP_INFO = 17; sc, lsend
   XYSIZE ysize;
   UINT8 topology_id;
   UINT8 wrap_id;
-  BOOL alltemperate;
-  BOOL single_pole;
+  SINT16 north_latitude;
+  SINT16 south_latitude;
 end
 
 PACKET_NUKE_TILE_INFO = 18; sc, dsend, lsend, handle-via-fields

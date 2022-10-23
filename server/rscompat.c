@@ -37,6 +37,7 @@
 /* server */
 #include "rssanity.h"
 #include "ruleset.h"
+#include "settings.h"
 
 #include "rscompat.h"
 
@@ -514,5 +515,96 @@ void rscompat_extra_adjust_3_2(struct extra_type *pextra)
                               req_from_str("MinLatitude", "Tile",
                                            FALSE, TRUE, FALSE,
                                            "-980"));
+  }
+}
+
+/**********************************************************************//**
+  Determine whether the given setting should be skipped and
+  rscompat_settings_do_special_handling should be called.
+**************************************************************************/
+bool rscompat_setting_needs_special_handling(const char *name)
+{
+  /* Replaced by 'northlatitude' and 'southlatitude' */
+  if (!fc_strcasecmp("alltemperate", name)
+      || !fc_strcasecmp("singlepole", name)) {
+    return TRUE;
+  }
+
+  return FALSE;
+}
+
+/**********************************************************************//**
+  Special handling for complex server setting changes.
+**************************************************************************/
+void rscompat_settings_do_special_handling(struct section_file *file,
+                  const char *section, void (*setdef)(struct setting *pset))
+{
+  /* Replace 'alltemperate' and 'singlepole' with appropriate
+   * 'northlatitude' and 'southlatitude' settings */
+  {
+    bool has_either = FALSE, locks_either = FALSE;
+    bool alltemperate = FALSE, singlepole = FALSE;
+    const char *name;
+    int j;
+
+    for (j = 0; (name = secfile_lookup_str_default(file, NULL,
+                                                   "%s.set%d.name",
+                                                   section, j)); j++) {
+      bool *pval;
+
+      if (!fc_strcasecmp("alltemperate", name)) {
+        pval = &alltemperate;
+      } else if (!fc_strcasecmp("singlepole", name)) {
+        pval = &singlepole;
+      } else {
+        /* neither of the settings we care for */
+        continue;
+      }
+
+      has_either = TRUE;
+
+      if (!secfile_lookup_bool(file, pval, "%s.set%d.value", section, j)) {
+        log_error("Can't read value for setting '%s': %s", name,
+                  secfile_error());
+      }
+
+      if (secfile_lookup_bool_default(file, FALSE,
+                                      "%s.set%d.lock", section, j)) {
+        locks_either = TRUE;
+      }
+    }
+
+    if (has_either) {
+      int north_latitude = alltemperate ? 500 : 1000;
+      int south_latitude = alltemperate ? 500 : (singlepole ? 0 : -1000);
+      struct setting *pset;
+      char reject_msg[256], buf[256];
+
+#define SET_INT_SETTING(name, value, lock)                                 \
+      pset = setting_by_name(name);                                        \
+      fc_assert(pset != NULL && setting_type(pset) == SST_INT);            \
+                                                                           \
+      if (setting_int_set(pset, value, NULL, reject_msg,                   \
+                          sizeof(reject_msg))) {                           \
+        log_normal(_("Ruleset: '%s' has been set to %s."),                 \
+                   setting_name(pset),                                     \
+                   setting_value_name(pset, TRUE, buf, sizeof(buf)));      \
+      } else {                                                             \
+        log_error("%s", reject_msg);                                       \
+      }                                                                    \
+                                                                           \
+      setdef(pset);                                                        \
+                                                                           \
+      if (lock) {                                                          \
+        setting_ruleset_lock_set(pset);                                    \
+        log_normal(_("Ruleset: '%s' has been locked by the ruleset."),     \
+                   setting_name(pset));                                    \
+      }
+
+      SET_INT_SETTING("northlatitude", north_latitude, locks_either);
+      SET_INT_SETTING("southlatitude", south_latitude, locks_either);
+
+#undef SET_INT_SETTING
+    }
   }
 }

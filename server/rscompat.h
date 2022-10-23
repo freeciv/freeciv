@@ -22,6 +22,7 @@ extern "C" {
 
 /* server */
 #include "ruleset.h"
+#include "settings.h"
 
 #define RULESET_COMPAT_CAP "+Freeciv-3.1-ruleset"
 
@@ -66,6 +67,9 @@ void rscompat_req_adjust_3_2(const struct rscompat_info *compat,
                              const char **ptype, const char **pname,
                              bool *ppresent, const char *sec_name);
 void rscompat_extra_adjust_3_2(struct extra_type *pextra);
+bool rscompat_setting_needs_special_handling(const char *name);
+void rscompat_settings_do_special_handling(struct section_file *file,
+                const char *section, void (*setdef)(struct setting *pset));
 
 #ifdef __cplusplus
 }

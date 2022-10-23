@@ -571,13 +571,14 @@ extern const int DIR_DY[8];
 /* Latitude granularity, irrespective of map/generator settings */
 #define MAP_MAX_LATITUDE           1000
 
+#define MAP_MAX_LATITUDE_BOUND     (MAP_MAX_LATITUDE)
+#define MAP_MIN_LATITUDE_BOUND     (-MAP_MAX_LATITUDE)
+#define MAP_DEFAULT_NORTH_LATITUDE MAP_MAX_LATITUDE_BOUND
+#define MAP_DEFAULT_SOUTH_LATITUDE MAP_MIN_LATITUDE_BOUND
+
 /* Northernmost and southernmost latitude for the given map */
-#define MAP_NORTH_LATITUDE(_nmap) \
-  ((_nmap).alltemperate ? (MAP_MAX_LATITUDE / 2) : MAP_MAX_LATITUDE)
-#define MAP_SOUTH_LATITUDE(_nmap)                                         \
-  ((_nmap).alltemperate                                                   \
-   ? (MAP_MAX_LATITUDE / 2)                                               \
-   : ((_nmap).single_pole ? 0 : (-MAP_MAX_LATITUDE)))
+#define MAP_NORTH_LATITUDE(_nmap) ((_nmap).north_latitude)
+#define MAP_SOUTH_LATITUDE(_nmap) ((_nmap).south_latitude)
 
 /* Maximum and minimum latitude present in the given map */
 #define MAP_MAX_REAL_LATITUDE(_nmap) \
@@ -687,14 +688,6 @@ moves. Includes MAP_MAX_LINEAR_SIZE because a map can be non wrapping. */
 #define MAP_DEFAULT_FLATPOLES     100
 #define MAP_MIN_FLATPOLES         0
 #define MAP_MAX_FLATPOLES         100
-
-#define MAP_DEFAULT_SINGLE_POLE    FALSE
-#define MAP_MIN_SINGLE_POLE        FALSE
-#define MAP_MAX_SINGLE_POLE        TRUE
-
-#define MAP_DEFAULT_ALLTEMPERATE   FALSE
-#define MAP_MIN_ALLTEMPERATE       FALSE
-#define MAP_MAX_ALLTEMPERATE       TRUE
 
 #define MAP_DEFAULT_TEMPERATURE   50
 #define MAP_MIN_TEMPERATURE       0

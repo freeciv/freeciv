@@ -1927,6 +1927,7 @@ static void compat_load_030200(struct loaddata *loading,
   /* Server setting migration. */
   {
     if (secfile_lookup_int(loading->file, &set_count, "settings.set_count")) {
+      int alltemperate_idx = -1, singlepole_idx = -1;
       bool count_changed = FALSE;
 
       gamestart_valid
@@ -2071,6 +2072,84 @@ static void compat_load_030200(struct loaddata *loading,
             set_count++;
             count_changed = TRUE;
           }
+        } else if (!fc_strcasecmp("alltemperate", name)) {
+          alltemperate_idx = i;
+        } else if (!fc_strcasecmp("singlepole", name)) {
+          singlepole_idx = i;
+        }
+      }
+
+      if (alltemperate_idx >= 0 || singlepole_idx >= 0) {
+        int north_latitude, south_latitude;
+        int north_idx, south_idx;
+        bool alltemperate, singlepole;
+
+        if (alltemperate_idx < 0
+            || !secfile_lookup_bool(loading->file, &alltemperate,
+                                    "settings.set%d.value",
+                                    alltemperate_idx)) {
+          /* infer what would've been the ruleset default */
+          alltemperate = (wld.map.north_latitude == wld.map.south_latitude);
+        }
+
+        if (singlepole_idx < 0
+            || !secfile_lookup_bool(loading->file, &singlepole,
+                                    "settings.set%d.value",
+                                    singlepole_idx)) {
+          /* infer what would've been the ruleset default */
+          singlepole = (wld.map.south_latitude >= 0);
+        }
+
+        /* Note: hard-coding 1000-based latitudes here; if MAX_LATITUDE ever
+         * changes, that'll have to be handled in later migrations anyway */
+        north_latitude = alltemperate ? 500 : 1000;
+        south_latitude = alltemperate ? 500 : (singlepole ? 0 : -1000);
+
+        /* Replace alltemperate with northlatitude, and singlepole with
+         * southlatitude. If only one of the two was given, add the other
+         * at the end. */
+        north_idx = (alltemperate_idx < 0) ? set_count : alltemperate_idx;
+        south_idx = (singlepole_idx < 0) ? set_count : singlepole_idx;
+
+        secfile_replace_str(loading->file, "northlatitude",
+                            "settings.set%d.name", north_idx);
+        secfile_replace_int(loading->file, north_latitude,
+                            "settings.set%d.value", north_idx);
+
+        secfile_replace_str(loading->file, "southlatitude",
+                            "settings.set%d.name", south_idx);
+        secfile_replace_int(loading->file, south_latitude,
+                            "settings.set%d.value", south_idx);
+
+        if (gamestart_valid) {
+          if (alltemperate_idx < 0
+              || !secfile_lookup_bool(loading->file, &alltemperate,
+                                      "settings.set%d.gamestart",
+                                      alltemperate_idx)) {
+            alltemperate =
+                (wld.map.north_latitude == wld.map.south_latitude);
+          }
+
+          if (singlepole_idx < 0
+              || !secfile_lookup_bool(loading->file, &singlepole,
+                                      "settings.set%d.gamestart",
+                                      singlepole_idx)) {
+            singlepole = (wld.map.south_latitude >= 0);
+          }
+
+          north_latitude = alltemperate ? 500 : 1000;
+          south_latitude = alltemperate ? 500 : (singlepole ? 0 : -1000);
+
+          secfile_replace_int(loading->file, north_latitude,
+                              "settings.set%d.gamestart", north_idx);
+          secfile_replace_int(loading->file, south_latitude,
+                              "settings.set%d.gamestart", south_idx);
+        }
+
+        if (alltemperate_idx < 0 || singlepole_idx < 0) {
+          /* only one was given and replaced ~> we added one new entry */
+          set_count++;
+          count_changed = TRUE;
         }
       }
 
@@ -2838,6 +2917,114 @@ static void compat_load_dev(struct loaddata *loading)
           secfile_insert_int(loading->file,
                              got_tech || got_tech_multi ? bulbs : 0,
                              "research.r%d.free_bulbs", i);
+        }
+      }
+    }
+
+    /* Convert 'alltemperate' and 'singlepole' into 'northlatitude' and
+     * 'southlatitude' server settings */
+    {
+      int i;
+      int set_count = secfile_lookup_int_default(loading->file, 0,
+                                                 "settings.set_count");
+      int alltemperate_idx = -1, singlepole_idx = -1;
+
+      for (i = 0; i < set_count; i++) {
+        const char *name
+          = secfile_lookup_str(loading->file, "settings.set%d.name", i);
+
+        if (!name) {
+          continue;
+        }
+
+        if (!fc_strcasecmp("northlatitude", name)
+            || !fc_strcasecmp("southlatitude", name)) {
+          /* this savegame is recent enough to already have latitude
+           * settings ~> no change necessary */
+          alltemperate_idx = singlepole_idx = -1;
+          break;
+        }
+
+        if (!fc_strcasecmp("alltemperate", name)) {
+          alltemperate_idx = i;
+        } else if (!fc_strcasecmp("singlepole", name)) {
+          singlepole_idx = i;
+        }
+      }
+
+      if (alltemperate_idx >= 0 || singlepole_idx >= 0) {
+        int north_latitude, south_latitude;
+        int north_idx, south_idx;
+        bool alltemperate, singlepole;
+
+        if (alltemperate_idx < 0
+            || !secfile_lookup_bool(loading->file, &alltemperate,
+                                    "settings.set%d.value",
+                                    alltemperate_idx)) {
+          /* infer what would've been the ruleset default */
+          alltemperate = (wld.map.north_latitude == wld.map.south_latitude);
+        }
+
+        if (singlepole_idx < 0
+            || !secfile_lookup_bool(loading->file, &singlepole,
+                                    "settings.set%d.value",
+                                    singlepole_idx)) {
+          /* infer what would've been the ruleset default */
+          singlepole = (wld.map.south_latitude >= 0);
+        }
+
+        /* Note: hard-coding 1000-based latitudes here; if MAX_LATITUDE ever
+         * changes, that'll have to be handled in later migrations anyway */
+        north_latitude = alltemperate ? 500 : 1000;
+        south_latitude = alltemperate ? 500 : (singlepole ? 0 : -1000);
+
+        /* Replace alltemperate with northlatitude, and singlepole with
+         * southlatitude. If only one of the two was given, add the other
+         * at the end. */
+        north_idx = (alltemperate_idx < 0) ? set_count : alltemperate_idx;
+        south_idx = (singlepole_idx < 0) ? set_count : singlepole_idx;
+
+        secfile_replace_str(loading->file, "northlatitude",
+                            "settings.set%d.name", north_idx);
+        secfile_replace_int(loading->file, north_latitude,
+                            "settings.set%d.value", north_idx);
+
+        secfile_replace_str(loading->file, "southlatitude",
+                            "settings.set%d.name", south_idx);
+        secfile_replace_int(loading->file, south_latitude,
+                            "settings.set%d.value", south_idx);
+
+        if (secfile_lookup_bool_default(loading->file, FALSE,
+                                        "settings.gamestart_valid")) {
+          if (alltemperate_idx < 0
+              || !secfile_lookup_bool(loading->file, &alltemperate,
+                                      "settings.set%d.gamestart",
+                                      alltemperate_idx)) {
+            alltemperate =
+                (wld.map.north_latitude == wld.map.south_latitude);
+          }
+
+          if (singlepole_idx < 0
+              || !secfile_lookup_bool(loading->file, &singlepole,
+                                      "settings.set%d.gamestart",
+                                      singlepole_idx)) {
+            singlepole = (wld.map.south_latitude >= 0);
+          }
+
+          north_latitude = alltemperate ? 500 : 1000;
+          south_latitude = alltemperate ? 500 : (singlepole ? 0 : -1000);
+
+          secfile_replace_int(loading->file, north_latitude,
+                              "settings.set%d.gamestart", north_idx);
+          secfile_replace_int(loading->file, south_latitude,
+                              "settings.set%d.gamestart", south_idx);
+        }
+
+        if (alltemperate_idx < 0 || singlepole_idx < 0) {
+          /* only one was given and replaced ~> we added one new entry */
+          set_count++;
+          secfile_replace_int(loading->file, set_count,
+                              "settings.set_count");
         }
       }
     }

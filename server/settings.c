@@ -37,6 +37,7 @@
 #include "notify.h"
 #include "plrhand.h"
 #include "report.h"
+#include "rscompat.h"
 #include "rssanity.h"
 #include "setcompat.h"
 #include "srv_main.h"
@@ -189,6 +190,7 @@ static struct {
   struct setting_list *level[OLEVELS_NUM];
 } setting_sorted = { .init = FALSE };
 
+static void setting_ruleset_setdef(struct setting *pset);
 static bool setting_ruleset_one(struct section_file *file,
                                 const char *name, const char *path,
                                 bool compat);
@@ -1721,20 +1723,48 @@ static struct setting settings[] = {
           NULL, NULL,
           MAP_MIN_FLATPOLES, MAP_MAX_FLATPOLES, MAP_DEFAULT_FLATPOLES)
 
-  GEN_BOOL("singlepole", wld.map.single_pole,
-           SSET_MAP_GEN, SSET_GEOLOGY, SSET_SITUATIONAL,
-           ALLOW_NONE, ALLOW_BASIC,
-           N_("Whether there's just one pole generated"),
-           N_("If this setting is enabled, only one side of the map will have "
-              "a pole."), NULL, NULL, MAP_DEFAULT_SINGLE_POLE)
-
-  GEN_BOOL("alltemperate", wld.map.alltemperate,
-           SSET_MAP_GEN, SSET_GEOLOGY, SSET_RARE, ALLOW_NONE, ALLOW_BASIC,
-           N_("All the map is temperate"),
-           N_("If this setting is enabled, the temperature will be "
-              "equivalent everywhere on the map. As a result, the "
-              "poles won't be generated."),
-           NULL, NULL, MAP_DEFAULT_ALLTEMPERATE)
+  GEN_INT("northlatitude", wld.map.north_latitude,
+          SSET_MAP_GEN, SSET_GEOLOGY, SSET_SITUATIONAL,
+          ALLOW_NONE, ALLOW_BASIC,
+          N_("Northernmost latitude"),
+          /* TRANS: The string between single quotes is a setting name
+           * and should not be translated. */
+          N_("Combined with 'southlatitude', controls what climatic "
+             "zones exist on the map. Higher values are further north, "
+             "lower values are further south.\n"
+             "\n"
+             "1000 and -1000 gives a full planetary map.\n"
+             "1000 and     0 gives only a northern hemisphere.\n"
+             " 500 and   500 gives a map with the same middle-latitude "
+             "climate everywhere.\n"
+             " 300 and  -300 gives an equatorial map.\n"
+             "\n"
+             "In rulesets that support it, latitude may also have certain "
+             "effects during gameplay."), NULL,
+          NULL, NULL,
+          MAP_MIN_LATITUDE_BOUND, MAP_MAX_LATITUDE_BOUND,
+          MAP_DEFAULT_NORTH_LATITUDE)
+  GEN_INT("southlatitude", wld.map.south_latitude,
+          SSET_MAP_GEN, SSET_GEOLOGY, SSET_SITUATIONAL,
+          ALLOW_NONE, ALLOW_BASIC,
+          N_("Southernmost latitude"),
+          /* TRANS: The string between single quotes is a setting name
+           * and should not be translated. */
+          N_("Combined with 'northlatitude', controls what climatic "
+             "zones exist on the map. Higher values are further north, "
+             "lower values are further south.\n"
+             "\n"
+             "1000 and -1000 gives a full planetary map.\n"
+             "1000 and     0 gives only a northern hemisphere.\n"
+             " 500 and   500 gives a map with the same middle-latitude "
+             "climate everywhere.\n"
+             " 300 and  -300 gives an equatorial map.\n"
+             "\n"
+             "In rulesets that support it, latitude may also have certain "
+             "effects during gameplay."), NULL,
+          NULL, NULL,
+          MAP_MIN_LATITUDE_BOUND, MAP_MAX_LATITUDE_BOUND,
+          MAP_DEFAULT_SOUTH_LATITUDE)
 
   GEN_INT("temperature", wld.map.server.temperature,
           SSET_MAP_GEN, SSET_GEOLOGY, SSET_SITUATIONAL,
@@ -4346,9 +4376,17 @@ bool settings_ruleset(struct section_file *file, const char *section,
     log_verbose("no [%s] section for game settings in %s", section,
                 secfile_name(file));
   } else {
+    bool rscompat_special_handling = FALSE;
+
     for (j = 0; (name = secfile_lookup_str_default(file, NULL, "%s.set%d.name",
                                                    section, j)); j++) {
       char path[256];
+
+      if (compat && rscompat_setting_needs_special_handling(name)) {
+        /* Skip this setting for now; handle it later */
+        rscompat_special_handling = TRUE;
+        continue;
+      }
 
       fc_snprintf(path, sizeof(path), "%s.set%d", section, j);
 
@@ -4360,6 +4398,11 @@ bool settings_ruleset(struct section_file *file, const char *section,
         log_error("unknown unsettable setting in '%s': %s",
                   secfile_name(file), name);
       }
+    }
+
+    if (compat && rscompat_special_handling) {
+      rscompat_settings_do_special_handling(file, section,
+          setting_ruleset_setdef);
     }
   }
 
@@ -4379,6 +4422,14 @@ bool settings_ruleset(struct section_file *file, const char *section,
   send_server_settings(NULL);
 
   return TRUE;
+}
+
+/***********************************************************************//**
+  Mark a setting as having been set by the ruleset.
+***************************************************************************/
+static inline void setting_ruleset_setdef(struct setting *pset)
+{
+  pset->setdef = SETDEF_RULESET;
 }
 
 /************************************************************************//**
@@ -4557,7 +4608,7 @@ static bool setting_ruleset_one(struct section_file *file,
       break;
     }
 
-    pset->setdef = SETDEF_RULESET;
+    setting_ruleset_setdef(pset);
   }
 
   /* set lock */

@@ -2016,7 +2016,8 @@ set =
       "wrap", "WRAPX|WRAPY", FALSE
       "startpos", "SINGLE", FALSE
       "tinyisles", FALSE, FALSE
-      "alltemperate", TRUE, FALSE
+      "northlatitude", 500, FALSE
+      "southlatitude", 500, FALSE
       "separatepoles", FALSE, FALSE
       "huts", 0, FALSE
       "aifill", 0, FALSE

@@ -170,8 +170,8 @@ void map_init(struct civ_map *imap, bool server_side)
   imap->xsize = MAP_DEFAULT_LINEAR_SIZE;
   imap->ysize = MAP_DEFAULT_LINEAR_SIZE;
 
-  imap->single_pole = MAP_DEFAULT_SINGLE_POLE;
-  imap->alltemperate = MAP_DEFAULT_ALLTEMPERATE;
+  imap->north_latitude = MAP_DEFAULT_NORTH_LATITUDE;
+  imap->south_latitude = MAP_DEFAULT_SOUTH_LATITUDE;
 
   if (server_side) {
     imap->server.mapsize = MAP_DEFAULT_MAPSIZE;

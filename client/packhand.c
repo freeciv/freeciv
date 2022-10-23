@@ -2193,8 +2193,8 @@ void handle_map_info(const struct packet_map_info *packet)
   wld.map.xsize = packet->xsize;
   wld.map.ysize = packet->ysize;
 
-  wld.map.alltemperate = packet->alltemperate;
-  wld.map.single_pole = packet->single_pole;
+  wld.map.north_latitude = packet->north_latitude;
+  wld.map.south_latitude = packet->south_latitude;
 
   if (tileset_map_topo_compatible(packet->topology_id, tileset, &ts_topo) == TOPO_INCOMP_HARD) {
     tileset_error(LOG_NORMAL, _("Map topology (%s) and tileset (%s) incompatible."),

@@ -3616,5 +3616,6 @@ set =
       "techlossrestore", 50, FALSE
       "multiresearch", "ENABLED", FALSE
       "tradeworldrelpct", 100, FALSE
-      "alltemperate", "DISABLED", TRUE
+      "northlatitude", 1000, TRUE
+      "southlatitude", -1000, TRUE
     }

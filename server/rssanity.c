@@ -116,12 +116,6 @@ static bool sanity_check_setting_is_game_rule(struct setting *pset)
     return FALSE;
   }
 
-  if (pset == setting_by_name("alltemperate")
-      || pset == setting_by_name("singlepole")) {
-    /* Should be done via world-ranged MinLatitude and MaxLatitude reqs. */
-    return FALSE;
-  }
-
   return TRUE;
 }
 

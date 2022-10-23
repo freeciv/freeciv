@@ -76,8 +76,8 @@ struct civ_map {
   struct iter_index *iterate_outwards_indices;
   int num_iterate_outwards_indices;
   int xsize, ysize; /* native dimensions */
-  bool single_pole;
-  bool alltemperate;
+  int north_latitude;
+  int south_latitude;
   int num_continents;
   int num_oceans;               /* not updated at the client */
   struct tile *tiles;
