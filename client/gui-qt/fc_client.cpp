@@ -107,7 +107,7 @@ fc_client::fc_client() : QMainWindow()
   game_tab_widget = NULL;
   start_players_tree = NULL;
   unit_sel = NULL;
-  info_tile_wdg = NULL;
+  info_tile_wdg = nullptr;
   opened_dialog = NULL;
   current_file = "";
   status_bar_queue.clear();

@@ -559,7 +559,10 @@ void fc_client::popup_tile_info(struct tile *ptile)
 {
   struct unit *punit = NULL;
 
-  Q_ASSERT(info_tile_wdg == NULL);
+  if (info_tile_wdg != nullptr) {
+    popdown_tile_info();
+  }
+
   if (TILE_UNKNOWN != client_tile_get_known(ptile)) {
     mapdeco_set_crosshair(ptile, true);
     punit = find_visible_unit(ptile);
@@ -581,10 +584,10 @@ void fc_client::popdown_tile_info()
 {
   mapdeco_clear_crosshairs();
   mapdeco_clear_gotoroutes();
-  if (info_tile_wdg != NULL) {
+  if (info_tile_wdg != nullptr) {
     info_tile_wdg->close();
     delete info_tile_wdg;
-    info_tile_wdg = NULL;
+    info_tile_wdg = nullptr;
   }
 }
 
