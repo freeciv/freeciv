@@ -64,6 +64,7 @@ bool vision_reveal_tiles(struct vision *vision, bool reveal_tiles)
   bool was = vision->can_reveal_tiles;
 
   vision->can_reveal_tiles = reveal_tiles;
+
   return was;
 }
 
@@ -72,6 +73,10 @@ bool vision_reveal_tiles(struct vision *vision, bool reveal_tiles)
 ****************************************************************************/
 void vision_site_destroy(struct vision_site *psite)
 {
+  if (psite->name != NULL) {
+    free(psite->name);
+  }
+
   free(psite);
 }
 
@@ -99,7 +104,7 @@ struct vision_site *vision_site_new_from_city(const struct city *pcity)
     vision_site_new(pcity->id, city_tile(pcity), city_owner(pcity));
 
   vision_site_size_set(psite, city_size_get(pcity));
-  sz_strlcpy(psite->name, city_name_get(pcity));
+  psite->name = fc_strdup(city_name_get(pcity));
 
   return psite;
 }
@@ -110,14 +115,38 @@ struct vision_site *vision_site_new_from_city(const struct city *pcity)
 void vision_site_update_from_city(struct vision_site *psite,
                                   const struct city *pcity)
 {
-  /* should be same identity and location */
+  /* Should be same identity and location */
   fc_assert_ret(psite->identity == pcity->id);
   fc_assert_ret(psite->location == pcity->tile);
 
   psite->owner = city_owner(pcity);
 
   vision_site_size_set(psite, city_size_get(pcity));
-  sz_strlcpy(psite->name, city_name_get(pcity));
+
+  if (psite->name != NULL) {
+    free(psite->name);
+  }
+  psite->name = fc_strdup(city_name_get(pcity));
+}
+
+/************************************************************************//**
+  Creates a copy of the vision site.
+****************************************************************************/
+struct vision_site *vision_site_copy(const struct vision_site *psite)
+{
+  /* Unlike in _new(), we don't need to use zeroing calloc() here
+   * as we overwrite everything. */
+  struct vision_site *copy = fc_malloc(sizeof(*psite));
+
+  /* Copy everything. */
+  *copy = *psite;
+
+  /* Then allocate things that aren't shared */
+  if (psite->name != NULL) {
+    copy->name = fc_strdup(psite->name);
+  }
+
+  return copy;
 }
 
 /************************************************************************//**

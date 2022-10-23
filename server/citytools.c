@@ -2145,7 +2145,11 @@ static void package_dumb_city(struct player *pplayer, struct tile *ptile,
   packet->owner = player_number(vision_site_owner(pdcity));
 
   packet->tile = tile_index(ptile);
-  sz_strlcpy(packet->name, pdcity->name);
+  if (pdcity->name == NULL) {
+    packet->name[0] = '\0';
+  } else {
+    sz_strlcpy(packet->name, pdcity->name);
+  }
 
   packet->size = vision_site_size_get(pdcity);
 
@@ -2719,7 +2723,7 @@ bool update_dumb_city(struct player *pplayer, struct city *pcity)
              && BV_ARE_EQUAL(pdcity->improvements, improvements)
              && vision_site_size_get(pdcity) == city_size_get(pcity)
              && vision_site_owner(pdcity) == city_owner(pcity)
-             && 0 == strcmp(pdcity->name, city_name_get(pcity))) {
+             && (pdcity->name && !strcmp(pdcity->name, city_name_get(pcity)))) {
     return FALSE;
   }
 
