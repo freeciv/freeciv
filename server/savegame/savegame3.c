@@ -6839,6 +6839,7 @@ static bool sg_load_player_vision_city(struct loaddata *loading,
   int nat_x, nat_y;
   const char *stylename;
   enum capital_type cap;
+  const char *vname;
 
   sg_warn_ret_val(secfile_lookup_int(loading->file, &nat_x, "%s.x",
                                      citystr),
@@ -6893,9 +6894,12 @@ static bool sg_load_player_vision_city(struct loaddata *loading,
     }
   }
 
-  /* Use the section as backup name. */
-  sz_strlcpy(pdcity->name, secfile_lookup_str_default(loading->file, citystr,
-                                                      "%s.name", citystr));
+  vname = secfile_lookup_str_default(loading->file, NULL,
+                                     "%s.name", citystr);
+
+  if (vname != NULL) {
+    pdcity->name = fc_strdup(vname);
+  }
 
   pdcity->occupied = secfile_lookup_bool_default(loading->file, FALSE,
                                                  "%s.occupied", citystr);
@@ -7081,7 +7085,9 @@ static void sg_save_player_vision(struct savedata *saving,
                      SIZE_T_PRINTF " < " SIZE_T_PRINTF" ).",
                      buf, strlen(impr_buf), sizeof(impr_buf));
       secfile_insert_str(saving->file, impr_buf, "%s.improvements", buf);
-      secfile_insert_str(saving->file, pdcity->name, "%s.name", buf);
+      if (pdcity->name != NULL) {
+        secfile_insert_str(saving->file, pdcity->name, "%s.name", buf);
+      }
 
       i++;
     }

@@ -106,11 +106,8 @@ void vision_free(struct vision *vision);
 
 bool vision_reveal_tiles(struct vision *vision, bool reveal_tiles);
 
-/* This is copied in maphand.c really_give_tile_info_from_player_to_player(),
- * so be careful with pointers!
- */
 struct vision_site {
-  char name[MAX_LEN_CITYNAME];
+  char *name;
   struct tile *location; /* Cannot be NULL */
   struct player *owner;  /* May be NULL, always check! */
 
@@ -135,6 +132,7 @@ struct vision_site *vision_site_new(int identity, struct tile *location,
 struct vision_site *vision_site_new_from_city(const struct city *pcity);
 void vision_site_update_from_city(struct vision_site *psite,
                                   const struct city *pcity);
+struct vision_site *vision_site_copy(const struct vision_site *psite);
 
 citizens vision_site_size_get(const struct vision_site *psite);
 void vision_site_size_set(struct vision_site *psite, citizens size);
