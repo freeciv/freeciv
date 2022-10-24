@@ -12,10 +12,5 @@
 /org.freeciv.gtk322.desktop
 /org.freeciv.sdl2.desktop
 /org.freeciv.qt.desktop
-/org.freeciv.gtk2.appdata.xml
-/org.freeciv.gtk3.appdata.xml
-/org.freeciv.gtk322.appdata.xml
-/org.freeciv.sdl2.appdata.xml
-/org.freeciv.qt.appdata.xml
 /packhand_gen.c
 /packhand_gen.h

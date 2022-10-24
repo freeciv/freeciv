@@ -7,14 +7,10 @@
 /freeciv-mp-cli
 /freeciv-mp-gtk2
 /org.freeciv.mp.gtk2.desktop
-/org.freeciv.mp.gtk2.appdata.xml
 /freeciv-mp-gtk3
 /org.freeciv.mp.gtk3.desktop
-/org.freeciv.mp.gtk3.appdata.xml
 /freeciv-mp-gtk4
 /org.freeciv.mp.gtk4.desktop
-/org.freeciv.mp.gtk4.appdata.xml
 /freeciv-mp-qt
 /org.freeciv.mp.qt.desktop
-/org.freeciv.mp.qt.appdata.xml
 /freeciv-ruleup
