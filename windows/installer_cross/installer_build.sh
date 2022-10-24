@@ -4,7 +4,7 @@ add_glib_env() {
   mkdir -p $2/share/glib-2.0/schemas &&
   cp -R $1/share/glib-2.0/schemas/*.gschema.xml $2/share/glib-2.0/schemas/ &&
   cp $1/bin/libglib-2.0-0.dll $2/ &&
-  cp $1/bin/libpcre-1.dll $2/ &&
+  cp $1/bin/libpcre2-8-0.dll $2/ &&
   mkdir -p $2/bin &&
   cp $1/bin/glib-compile-schemas.exe $2/bin/
 }
@@ -74,7 +74,7 @@ add_common_env() {
   cp $1/bin/libintl-8.dll $2/ &&
   cp $1/bin/libsqlite3-0.dll $2/ &&
   cp $1/bin/libiconv-2.dll $2/ &&
-  cp $1/bin/libz.dll.1.2.12 $2/ &&
+  cp $1/bin/libz.dll.1.2.13 $2/ &&
   cp $1/lib/icuuc64.dll     $2/ &&
   cp $1/lib/icudt64.dll     $2/ &&
   cp $1/bin/libpng16-16.dll $2/ &&
