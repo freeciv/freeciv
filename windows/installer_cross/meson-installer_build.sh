@@ -2,7 +2,7 @@
 
 add_common_env() {
   cp $1/bin/libcurl-4.dll $2/ &&
-  cp $1/bin/libz.dll.1.2.12 $2/ &&
+  cp $1/bin/libz.dll.1.2.13 $2/ &&
   cp $1/bin/liblzma-5.dll $2/ &&
   cp $1/bin/libzstd-1.dll $2/ &&
   cp $1/bin/libintl-8.dll $2/ &&
@@ -17,7 +17,7 @@ add_common_env() {
 
 add_glib_env() {
   cp $1/bin/libglib-2.0-0.dll $2/ &&
-  cp $1/bin/libpcre-1.dll $2/
+  cp $1/bin/libpcre2-8-0.dll $2/
 }
 
 add_sdl2_mixer_env() {
