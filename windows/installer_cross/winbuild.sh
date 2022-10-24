@@ -11,7 +11,7 @@
 
 WINBUILD_VERSION="2.4.0"
 MIN_WINVER=0x0601 # Windows 7
-CROSSER_FEATURE_LEVEL=2.4
+CROSSER_FEATURE_LEVEL=2.5
 
 if test "x$1" = x || test "x$1" = "x-h" || test "x$1" = "x--help" ; then
   echo "Usage: $0 <crosser dir> [gui]"
