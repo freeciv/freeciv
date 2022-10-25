@@ -2188,6 +2188,26 @@ static void mine_callback(GSimpleAction *action,
 }
 
 /************************************************************************//**
+  The player has chosen an extra to clean from the menu.
+****************************************************************************/
+static void clean_callback(GSimpleAction *action,
+                           GVariant *parameter,
+                           gpointer data)
+{
+  struct extra_type *pextra = data;
+
+  unit_list_iterate(get_units_in_focus(), punit) {
+    if (can_unit_do_activity_targeted(punit, ACTIVITY_POLLUTION, pextra)) {
+      request_new_unit_activity_targeted(punit, ACTIVITY_POLLUTION,
+                                         pextra);
+    } else {
+      request_new_unit_activity_targeted(punit, ACTIVITY_FALLOUT,
+                                         pextra);
+    }
+  } unit_list_iterate_end;
+}
+
+/************************************************************************//**
   Action "CENTER_VIEW" callback.
 ****************************************************************************/
 static void center_view_callback(GSimpleAction *action,
@@ -2402,6 +2422,8 @@ static GMenu *setup_menus(GtkApplication *app)
   g_menu_append_submenu(work_menu, _("Build _Irrigation"), G_MENU_MODEL(submenu));
   submenu = g_menu_new();
   g_menu_append_submenu(work_menu, _("Build _Mine"), G_MENU_MODEL(submenu));
+  submenu = g_menu_new();
+  g_menu_append_submenu(work_menu, _("_Clean"), G_MENU_MODEL(submenu));
 
   menu_entry_init(work_menu, "CULTIVATE");
   menu_entry_init(work_menu, "PLANT");
@@ -2878,6 +2900,49 @@ void real_menus_update(void)
 
   g_menu_remove(work_menu, 4);
   g_menu_insert_submenu(work_menu, 4, _("Build _Mine"), G_MENU_MODEL(submenu));
+
+  submenu = g_menu_new();
+
+  extra_type_by_rmcause_iterate(ERM_CLEANPOLLUTION, pextra) {
+    GMenuItem *item;
+    char actname[256];
+    GSimpleAction *act;
+
+    fc_snprintf(actname, sizeof(actname), "clean_%d", i);
+    act = g_simple_action_new(actname, NULL);
+    g_simple_action_set_enabled(act,
+                                can_units_do_activity_targeted(punits,
+                                                               ACTIVITY_POLLUTION,
+                                                               pextra));
+    g_action_map_add_action(map, G_ACTION(act));
+    g_signal_connect(act, "activate", G_CALLBACK(clean_callback), pextra);
+
+    fc_snprintf(actname, sizeof(actname), "app.clean_%d", i++);
+    item = g_menu_item_new(extra_name_translation(pextra), actname);
+    g_menu_append_item(submenu, item);
+  } extra_type_by_rmcause_iterate_end;
+
+  extra_type_by_rmcause_iterate(ERM_CLEANFALLOUT, pextra) {
+    GMenuItem *item;
+    char actname[256];
+    GSimpleAction *act;
+
+    fc_snprintf(actname, sizeof(actname), "clean_%d", i);
+    act = g_simple_action_new(actname, NULL);
+    g_simple_action_set_enabled(act,
+                                can_units_do_activity_targeted(punits,
+                                                               ACTIVITY_FALLOUT,
+                                                               pextra));
+    g_action_map_add_action(map, G_ACTION(act));
+    g_signal_connect(act, "activate", G_CALLBACK(clean_callback), pextra);
+
+    fc_snprintf(actname, sizeof(actname), "app.clean_%d", i++);
+    item = g_menu_item_new(extra_name_translation(pextra), actname);
+    g_menu_append_item(submenu, item);
+  } extra_type_by_rmcause_iterate_end;
+
+  g_menu_remove(work_menu, 5);
+  g_menu_insert_submenu(work_menu, 5, _("_Clean"), G_MENU_MODEL(submenu));
 
   submenu = g_menu_new();
 
