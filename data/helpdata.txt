@@ -1676,14 +1676,14 @@ Unit Orders:\n\
 "), _("\
 Unit Selection:\n\
 ==============\n\
-  z: select only first unit of selected group\n\
-  v: select all units on tile\n\
-  V: (on tile) select all units of the same type as the active unit\n\
-  C: (on continent) select all units of the same type as the active unit\n\
-  X: (everywhere) select all units of the same type as the active unit\n\
+  z:   select only first unit of selected group\n\
+  v:   select all units on tile\n\
+  V:   (on tile) select all units of the same type as the active unit\n\
+  C:   (on continent) select all units of the same type as the active unit\n\
+  X:   (everywhere) select all units of the same type as the active unit\n\
 \n\
-  w: (w)ait: focus on next unit\n\
-  5: focus on previous unit\n\
+  w:   (w)ait: focus on next unit\n\
+  5:   focus on previous unit\n\
 space: done giving orders  (unit stays put)\n\
 "), _("\
 Unit Movement:\n\
@@ -1700,8 +1700,8 @@ Unit Movement:\n\
 Main Map (Keys):\n\
 ================\n\
   Some clients support zooming/scaling the map graphics with the + and - keys.\n\
-  c: (c)enter view on active unit\n\
-    Shift-home: center view on capital\n\
+  c:            (c)enter view on active unit\n\
+  Shift-home:   center view on capital\n\
   Shift-arrows: scroll map\n\
 \n\
   Ctrl-B: show/hide national borders\n\
@@ -1787,12 +1787,12 @@ Dialogs and Reports:\n\
     F11: open Demographics\n\
     F12: open Spaceship\n\
 \n\
-        Ctrl-F: open Find City dialog\n\
-        Ctrl-L: open Worklists dialog\n\
-        Ctrl-T: open Tax/Lux/Sci Rates dialog\n\
-  Shift-Ctrl-R: open Revolution dialog\n\
+    Ctrl-F:       open Find City dialog\n\
+    Ctrl-L:       open Worklists dialog\n\
+    Ctrl-T:       open Tax/Lux/Sci Rates dialog\n\
+    Shift-Ctrl-R: open Revolution dialog\n\
 \n\
-Shift-Return: Turn done\
+Shift-Return: Turn done\n\
 "), _("\
 Editing Mode (GTK):\n\
 ===================\n\
