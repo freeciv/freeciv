@@ -2,6 +2,9 @@ Sources here are fron luasql git tag v2.4.0
 (https://github.com/keplerproject/luasql/tree/v2.4.0)
 Some modifications have been done to them, but as of 08-Oct-22
 all our modifications have been accepted to the upstream.
+25-Oct-22: Local patch for fixing clang analyzer warnings has
+           been applied. It's present also as a patch file
+           clang_analyzer.patch
 
 Only the files needed by freeciv are included here, not entire luasql
 source directory hierarchy.

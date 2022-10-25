@@ -87,7 +87,8 @@ LUASQL_API int luaopen_luasql_mysql (lua_State *L);
 static env_data *getenvironment (lua_State *L) {
 	env_data *env = (env_data *)luaL_checkudata (L, 1, LUASQL_ENVIRONMENT_MYSQL);
 	luaL_argcheck (L, env != NULL, 1, "environment expected");
-	luaL_argcheck (L, !env->closed, 1, "environment is closed");
+	if (env != NULL)
+		luaL_argcheck (L, !env->closed, 1, "environment is closed");
 	return env;
 }
 
@@ -98,7 +99,8 @@ static env_data *getenvironment (lua_State *L) {
 static conn_data *getconnection (lua_State *L) {
 	conn_data *conn = (conn_data *)luaL_checkudata (L, 1, LUASQL_CONNECTION_MYSQL);
 	luaL_argcheck (L, conn != NULL, 1, "connection expected");
-	luaL_argcheck (L, !conn->closed, 1, "connection is closed");
+	if (conn != NULL)
+		luaL_argcheck (L, !conn->closed, 1, "connection is closed");
 	return conn;
 }
 
@@ -109,7 +111,8 @@ static conn_data *getconnection (lua_State *L) {
 static cur_data *getcursor (lua_State *L) {
 	cur_data *cur = (cur_data *)luaL_checkudata (L, 1, LUASQL_CURSOR_MYSQL);
 	luaL_argcheck (L, cur != NULL, 1, "cursor expected");
-	luaL_argcheck (L, !cur->closed, 1, "cursor is closed");
+	if (cur != NULL)
+		luaL_argcheck (L, !cur->closed, 1, "cursor is closed");
 	return cur;
 }
 

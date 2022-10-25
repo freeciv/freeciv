@@ -4,4 +4,5 @@ SUBDIRS = src
 
 EXTRA_DIST = \
 		README \
-		Version.txt
+		Version.txt \
+		clang_analyzer.patch
