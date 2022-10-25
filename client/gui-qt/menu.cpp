@@ -1555,9 +1555,10 @@ void mr_menu::setup_menus()
   act->setShortcut(QKeySequence(tr("F7")));
   connect(act, &QAction::triggered, this, &mr_menu::slot_traveler);
 
-  act = main_menu->addAction(_("Top Five Cities"));
+  act = main_menu->addAction(_("Top Cities"));
   act->setShortcut(QKeySequence(tr("F8")));
-  connect(act, &QAction::triggered, this, &mr_menu::slot_top_five);
+  menu_list.insert(TOP_CITIES, act);
+  connect(act, &QAction::triggered, this, &mr_menu::slot_top_cities);
 
   act = main_menu->addAction(_("Demographics"));
   act->setShortcut(QKeySequence(tr("F11")));
@@ -2050,6 +2051,16 @@ void mr_menu::menus_sensitive()
           i.value()->setVisible(true);
         } else {
           i.value()->setVisible(false);
+        }
+        break;
+      case TOP_CITIES:
+        i.value()->setEnabled(game.info.top_cities_count > 0);
+        if (game.info.top_cities_count > 0) {
+          i.value()->setText(QString(PL_("Top %1 City", "Top %1 Cities",
+                                         game.info.top_cities_count))
+                             .arg(game.info.top_cities_count));
+        } else {
+          i.value()->setText(QString(_("Top Cities")));
         }
         break;
       default:
@@ -3405,11 +3416,11 @@ void mr_menu::slot_endgame()
 }
 
 /**********************************************************************//**
-  Action "SHOW TOP FIVE CITIES"
+  Action "SHOW TOP CITIES"
 **************************************************************************/
-void mr_menu::slot_top_five()
+void mr_menu::slot_top_cities()
 {
-  send_report_request(REPORT_TOP_5_CITIES);
+  send_report_request(REPORT_TOP_CITIES);
 }
 
 /**********************************************************************//**

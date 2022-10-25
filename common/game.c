@@ -316,6 +316,7 @@ static void game_defaults(bool keep_ruleset_value)
   game.info.warminglevel     = 0; /* set later */
   game.info.year_0_hack      = FALSE;
   game.info.year             = GAME_DEFAULT_START_YEAR;
+  game.info.top_cities_count = GAME_DEFAULT_TOP_CITIES_COUNT;
   BV_CLR_ALL(game.info.diplchance_initial_odds);
 
   /* The scenario packets. */

@@ -81,7 +81,7 @@ do {                                                    \
 /* Used in network protocol. */
 enum report_type {
   REPORT_WONDERS_OF_THE_WORLD,
-  REPORT_TOP_5_CITIES,
+  REPORT_TOP_CITIES,
   REPORT_DEMOGRAPHIC,
   REPORT_ACHIEVEMENTS
 };

@@ -246,7 +246,7 @@ static Uint16 main_key_down_handler(SDL_Keysym key, void *data)
           return ID_ERROR;
 
         case SDLK_F8:
-          send_report_request(REPORT_TOP_5_CITIES);
+          send_report_request(REPORT_TOP_CITIES);
           return ID_ERROR;
 
         case SDLK_F9:

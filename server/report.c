@@ -77,6 +77,9 @@ static void plrdata_slot_free(struct plrdata_slot *plrdata);
 static void page_conn_etype(struct conn_list *dest, const char *caption,
                             const char *headline, const char *lines,
                             enum event_type event);
+static void page_conn(struct conn_list *dest, const char *caption,
+                      const char *headline, const char *lines);
+
 enum historian_type {
         HISTORIAN_RICHEST  = 0,
         HISTORIAN_ADVANCED = 1,
@@ -323,76 +326,85 @@ static int nr_wonders(struct city *pcity)
 }
 
 /**********************************************************************//**
-  Send report listing the "best" 5 cities in the world.
+  Send report listing the "best" cities in the world.
 **************************************************************************/
-void report_top_five_cities(struct conn_list *dest)
+void report_top_cities(struct conn_list *dest)
 {
-  const int NUM_BEST_CITIES = 5;
-  /* a wonder equals WONDER_FACTOR citizen */
-  const int WONDER_FACTOR = 5;
-  struct city_score_entry size[NUM_BEST_CITIES];
-  int i;
-  char buffer[4096];
+  if (game.info.top_cities_count > 0) {
+    /* A wonder equals WONDER_FACTOR citizen */
+    const int WONDER_FACTOR = 5;
+    struct city_score_entry size[game.info.top_cities_count];
+    int i;
+    char header[256];
+    char buffer[4096];
 
-  for (i = 0; i < NUM_BEST_CITIES; i++) {
-    size[i].value = 0;
-    size[i].city = NULL;
-  }
+    for (i = 0; i < game.info.top_cities_count; i++) {
+      size[i].value = 0;
+      size[i].city = NULL;
+    }
 
-  shuffled_players_iterate(pplayer) {
-    city_list_iterate(pplayer->cities, pcity) {
-      int value_of_pcity = city_size_get(pcity)
-                           + nr_wonders(pcity) * WONDER_FACTOR;
+    shuffled_players_iterate(pplayer) {
+      city_list_iterate(pplayer->cities, pcity) {
+        int value_of_pcity = city_size_get(pcity)
+          + nr_wonders(pcity) * WONDER_FACTOR;
 
-      if (value_of_pcity > size[NUM_BEST_CITIES - 1].value) {
-        size[NUM_BEST_CITIES - 1].value = value_of_pcity;
-        size[NUM_BEST_CITIES - 1].city = pcity;
-        qsort(size, NUM_BEST_CITIES, sizeof(size[0]), secompare);
+        if (value_of_pcity > size[game.info.top_cities_count - 1].value) {
+          size[game.info.top_cities_count - 1].value = value_of_pcity;
+          size[game.info.top_cities_count - 1].city = pcity;
+          qsort(size, game.info.top_cities_count, sizeof(size[0]), secompare);
+        }
+      } city_list_iterate_end;
+    } shuffled_players_iterate_end;
+
+    buffer[0] = '\0';
+    for (i = 0; i < game.info.top_cities_count; i++) {
+      int wonders;
+
+      if (size[i].city == NULL) {
+        /*
+         * There are less than game.info.top_cities_count cities in
+         * the whole game.
+         */
+        break;
       }
-    } city_list_iterate_end;
-  } shuffled_players_iterate_end;
 
-  buffer[0] = '\0';
-  for (i = 0; i < NUM_BEST_CITIES; i++) {
-    int wonders;
+      if (player_count() > team_count()) {
+        /* There exists a team with more than one member. */
+        char team_name[2 * MAX_LEN_NAME];
 
-    if (!size[i].city) {
-	/* 
-	 * pcity may be NULL if there are less than NUM_BEST_CITIES in
-	 * the whole game.
-	 */
-      break;
+        team_pretty_name(city_owner(size[i].city)->team, team_name,
+                         sizeof(team_name));
+        cat_snprintf(buffer, sizeof(buffer),
+                     /* TRANS:"The French City of Lyon (team 3) of size 18". */
+                     _("%2d: The %s City of %s (%s) of size %d, "), i + 1,
+                     nation_adjective_for_player(city_owner(size[i].city)),
+                     city_name_get(size[i].city), team_name,
+                     city_size_get(size[i].city));
+      } else {
+        cat_snprintf(buffer, sizeof(buffer),
+                     _("%2d: The %s City of %s of size %d, "), i + 1,
+                     nation_adjective_for_player(city_owner(size[i].city)),
+                     city_name_get(size[i].city), city_size_get(size[i].city));
+      }
+
+      wonders = nr_wonders(size[i].city);
+      if (wonders == 0) {
+        cat_snprintf(buffer, sizeof(buffer), _("with no Great Wonders\n"));
+      } else {
+        cat_snprintf(buffer, sizeof(buffer),
+                     PL_("with %d Great Wonder\n", "with %d Great Wonders\n",
+                         wonders),
+                     wonders);
+      }
     }
 
-    if (player_count() > team_count()) {
-      /* There exists a team with more than one member. */
-      char team_name[2 * MAX_LEN_NAME];
-
-      team_pretty_name(city_owner(size[i].city)->team, team_name,
-                       sizeof(team_name));
-      cat_snprintf(buffer, sizeof(buffer),
-                   /* TRANS:"The French City of Lyon (team 3) of size 18". */
-                   _("%2d: The %s City of %s (%s) of size %d, "), i + 1,
-                   nation_adjective_for_player(city_owner(size[i].city)),
-                   city_name_get(size[i].city), team_name,
-                   city_size_get(size[i].city));
-    } else {
-      cat_snprintf(buffer, sizeof(buffer),
-                   _("%2d: The %s City of %s of size %d, "), i + 1,
-                   nation_adjective_for_player(city_owner(size[i].city)),
-                   city_name_get(size[i].city), city_size_get(size[i].city));
-    }
-
-    wonders = nr_wonders(size[i].city);
-    if (wonders == 0) {
-      cat_snprintf(buffer, sizeof(buffer), _("with no Great Wonders\n"));
-    } else {
-      cat_snprintf(buffer, sizeof(buffer),
-		   PL_("with %d Great Wonder\n", "with %d Great Wonders\n", wonders),
-		   wonders);}
+    fc_snprintf(header, sizeof(header),
+                PL_("The %d Greatest City in the World!",
+                    "The %d Greatest Cities in the World!",
+                    game.info.top_cities_count),
+                game.info.top_cities_count);
+    page_conn(dest, _("Traveler's Report:"), header, buffer);
   }
-  page_conn(dest, _("Traveler's Report:"),
-	    _("The Five Greatest Cities in the World!"), buffer);
 }
 
 /**********************************************************************//**
@@ -1632,11 +1644,11 @@ void report_final_scores(struct conn_list *dest)
 /**********************************************************************//**
   This function pops up a non-modal message dialog on the player's desktop
 **************************************************************************/
-void page_conn(struct conn_list *dest, const char *caption, 
-	       const char *headline, const char *lines) {
+static void page_conn(struct conn_list *dest, const char *caption,
+                      const char *headline, const char *lines)
+{
   page_conn_etype(dest, caption, headline, lines, E_REPORT);
 }
-
 
 /**********************************************************************//**
   This function pops up a non-modal message dialog on the player's desktop

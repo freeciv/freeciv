@@ -305,7 +305,7 @@ static struct menu_entry_info menu_entries[] =
     G_CALLBACK(report_cities_callback), MGROUP_SAFE },
   { "REPORT_WOW", N_("_Wonders of the World"), GDK_KEY_F7, 0,
     G_CALLBACK(report_wow_callback), MGROUP_SAFE },
-  { "REPORT_TOP_CITIES", N_("Top _Five Cities"), GDK_KEY_F8, 0,
+  { "REPORT_TOP_CITIES", N_("Top Cities"), GDK_KEY_F8, 0,
     G_CALLBACK(report_top_cities_callback), MGROUP_SAFE },
   { "REPORT_MESSAGES", N_("_Messages"), GDK_KEY_F9, 0,
     G_CALLBACK(report_messages_callback), MGROUP_SAFE },
@@ -727,7 +727,7 @@ static void report_wow_callback(GtkMenuItem *item, gpointer data)
 ****************************************************************************/
 static void report_top_cities_callback(GtkMenuItem *item, gpointer data)
 {
-  send_report_request(REPORT_TOP_5_CITIES);
+  send_report_request(REPORT_TOP_CITIES);
 }
 
 /************************************************************************//**
@@ -2216,6 +2216,22 @@ void real_menus_update(void)
                extra_name_translation(road_extra_get(proad)));
       menus_rename("CONNECT_RAIL", road_buf);
     }
+  }
+
+  {
+    char top_cities_buf[128];
+
+    if (game.info.top_cities_count > 0) {
+      fc_snprintf(top_cities_buf, sizeof(top_cities_buf),
+                  PL_("Top %d City", "Top %d Cities",
+                      game.info.top_cities_count),
+                  game.info.top_cities_count);
+      menus_rename("REPORT_TOP_CITIES", top_cities_buf);
+    } else {
+      menus_rename("REPORT_TOP_CITIES", _("Top Cities"));
+    }
+
+    menu_entry_set_sensitive("REPORT_TOP_CITIES", game.info.top_cities_count > 0);
   }
 
   if (!can_client_issue_orders()) {

@@ -713,6 +713,10 @@ static inline bool is_ruleset_compat_mode(void)
 #define GAME_HARDCODED_DEFAULT_SKILL_LEVEL 3 /* that was 'easy' in old saves */
 #define GAME_OLD_DEFAULT_SKILL_LEVEL 5  /* normal; for oldest save games */
 
+#define GAME_DEFAULT_TOP_CITIES_COUNT 5
+#define GAME_MIN_TOP_CITIES_COUNT     0
+#define GAME_MAX_TOP_CITIES_COUNT     40
+
 #define GAME_DEFAULT_DEMOGRAPHY      "NASRLPEMOCqrb"
 #define GAME_DEFAULT_ALLOW_TAKE      "HAhadOo"
 

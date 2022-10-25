@@ -450,7 +450,7 @@ static struct menu_entry_info menu_entries[] =
 
   { "REPORT_WOW", N_("_Wonders of the World"),
     "report_wow", "F7", MGROUP_SAFE },
-  { "REPORT_TOP_CITIES", N_("Top _Five Cities"),
+  { "REPORT_TOP_CITIES", N_("Top Cities"),
     "report_top_cities", "F8", MGROUP_SAFE },
   { "REPORT_MESSAGES", N_("_Messages"),
     "report_messages", "F9", MGROUP_SAFE },
@@ -975,7 +975,7 @@ static void report_top_cities_callback(GSimpleAction *action,
                                        GVariant *parameter,
                                        gpointer data)
 {
-  send_report_request(REPORT_TOP_5_CITIES);
+  send_report_request(REPORT_TOP_CITIES);
 }
 
 /************************************************************************//**
@@ -2953,6 +2953,8 @@ void real_menus_update(void)
                                  && !editor_is_active());
 
   menu_entry_set_sensitive(map, "INFRA_DLG", terrain_control.infrapoints);
+
+  menu_entry_set_sensitive(map, "REPORT_TOP_CITIES", game.info.top_cities_count > 0);
 
 #ifdef MENUS_GTK3
 

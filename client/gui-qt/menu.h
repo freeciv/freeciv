@@ -34,7 +34,7 @@ class QPushButton;
 class QScrollArea;
 struct fc_shortcut;
 
-/** used for indicating menu about current option - for renaming
+/** Used for indicating menu about current option - for renaming
  * and enabling, disabling */
 enum munit {
   STANDARD,
@@ -74,7 +74,8 @@ enum munit {
   NOT_4_OBS,
   MULTIPLIERS,
   ENDGAME,
-  SAVE
+  SAVE,
+  TOP_CITIES
 };
 
 enum delay_order{
@@ -411,7 +412,7 @@ private slots:
   void slot_demographics();
   void slot_achievements();
   void slot_endgame();
-  void slot_top_five();
+  void slot_top_cities();
   void slot_traveler();
 
 private:

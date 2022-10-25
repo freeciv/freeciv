@@ -1917,8 +1917,8 @@ void handle_report_req(struct connection *pconn, enum report_type type)
   case REPORT_WONDERS_OF_THE_WORLD:
     report_wonders_of_the_world(dest);
     return;
-  case REPORT_TOP_5_CITIES:
-    report_top_five_cities(dest);
+  case REPORT_TOP_CITIES:
+    report_top_cities(dest);
     return;
   case REPORT_DEMOGRAPHIC:
     report_demographics(pconn);

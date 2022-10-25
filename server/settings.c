@@ -3060,6 +3060,16 @@ static struct setting settings[] = {
               "have clicked on \"Turn Done\"."),
            NULL, NULL, FALSE)
 
+  GEN_INT("top_cities", game.info.top_cities_count,
+          SSET_META, SSET_INTERNAL, SSET_SITUATIONAL,
+          ALLOW_NONE, ALLOW_BASIC,
+          N_("Number of cities in Top Cities report"),
+          N_("How many cities should the Top Cities report contain? "
+             "If this is zero, Top Cities report is not available "
+             "at all."), NULL, NULL, NULL,
+          GAME_MIN_TOP_CITIES_COUNT, GAME_MAX_TOP_CITIES_COUNT,
+          GAME_DEFAULT_TOP_CITIES_COUNT)
+
   GEN_STRING("demography", game.server.demography,
              SSET_META, SSET_INTERNAL, SSET_SITUATIONAL,
              ALLOW_NONE, ALLOW_BASIC,
