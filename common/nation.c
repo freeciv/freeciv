@@ -1193,7 +1193,7 @@ int nations_match(const struct nation_type *pnation1,
     nation_list_iterate(pnation1->server.conflicts_with, pnation0) {
       if (pnation0 == pnation2) {
         in_conflict = TRUE;
-        sum = 1; /* Be sure to returns something negative. */
+        sum = 1; /* Be sure to return something negative. */
         break;
       }
     } nation_list_iterate_end;
@@ -1202,7 +1202,7 @@ int nations_match(const struct nation_type *pnation1,
       nation_list_iterate(pnation2->server.conflicts_with, pnation0) {
         if (pnation0 == pnation1) {
           in_conflict = TRUE;
-          sum = 1; /* Be sure to returns something negative. */
+          sum = 1; /* Be sure to return something negative. */
           break;
         }
       } nation_list_iterate_end;
