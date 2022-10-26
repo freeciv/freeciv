@@ -1152,6 +1152,9 @@ static bool worklist_item_postpone_req_vec(struct universal *target,
   const struct req_context city_ctxt = {
     .player = pplayer,
     .city = pcity,
+    .tile = city_tile(pcity)
+    /* FIXME: Setting .unittype is currently redundant
+     * but can_city_build_unit_direct() does it */
   };
   bool purge = FALSE;
   bool known = FALSE;
