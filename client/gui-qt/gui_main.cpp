@@ -31,6 +31,7 @@
 
 // Qt
 #include <QApplication>
+#include <QLibraryInfo>
 #include <QMessageBox>
 #include <QScrollBar>
 #include <QStyleFactory>
@@ -576,8 +577,10 @@ void qtg_insert_client_build_info(char *outbuf, size_t outlen)
 {
   // There's also an separate entry about Qt in help menu.
 
+  QByteArray ver = QLibraryInfo::version().toString().toLocal8Bit();
+
   cat_snprintf(outbuf, outlen, _("\nBuilt against Qt %s, using %s"),
-               QT_VERSION_STR, qVersion());
+               QT_VERSION_STR, ver.data());
 
 #ifndef FC_QT5_MODE
   cat_snprintf(outbuf, outlen, _("\nBuilt in Qt6 mode."));
