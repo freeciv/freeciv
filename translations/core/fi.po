@@ -29,8 +29,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 3.0\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2022-10-21 01:18+0300\n"
-"PO-Revision-Date: 2022-10-21 01:24+0300\n"
+"POT-Creation-Date: 2022-10-26 21:02+0300\n"
+"PO-Revision-Date: 2022-10-26 21:08+0300\n"
 "Last-Translator: Sini Ruohomaa <sini.ruohomaa@iki.fi>\n"
 "Language-Team: None <freeciv-i18n@freelists.org>\n"
 "Language: fi\n"
@@ -562,7 +562,7 @@ msgstr ""
 #. TRANS: No full stop after the URL, could cause confusion.
 #: client/agents/cma_core.c:430 client/gui-sdl2/mapview.c:164
 #: server/console.c:72 server/srv_main.c:3167 utility/log.c:564
-#: utility/netintf.c:96 utility/registry_ini.c:785
+#: utility/netintf.c:96 utility/registry_ini.c:797
 #, c-format
 msgid "Please report this message at %s"
 msgstr "Ole hyvä ja ilmoita tästä viestistä osoitteessa %s"
@@ -1133,18 +1133,18 @@ msgstr "Kaupungin nimi"
 
 #. TRANS: this and similar literal strings interpreted as (Qt) HTML
 #: client/cityrepdata.c:700 client/gui-gtk-2.0/citizensinfo.c:65
-#: client/gui-gtk-2.0/editprop.c:3610 client/gui-gtk-2.0/editprop.c:4452
+#: client/gui-gtk-2.0/editprop.c:3615 client/gui-gtk-2.0/editprop.c:4457
 #: client/gui-gtk-2.0/gotodlg.c:213 client/gui-gtk-2.0/pages.c:1311
 #: client/gui-gtk-2.0/pages.c:2673 client/gui-gtk-3.0/citizensinfo.c:65
-#: client/gui-gtk-3.0/editprop.c:3660 client/gui-gtk-3.0/editprop.c:4515
+#: client/gui-gtk-3.0/editprop.c:3665 client/gui-gtk-3.0/editprop.c:4520
 #: client/gui-gtk-3.0/gotodlg.c:219 client/gui-gtk-3.0/pages.c:1395
 #: client/gui-gtk-3.0/pages.c:2740 client/gui-gtk-3.22/citizensinfo.c:65
-#: client/gui-gtk-3.22/editprop.c:3659 client/gui-gtk-3.22/editprop.c:4514
+#: client/gui-gtk-3.22/editprop.c:3664 client/gui-gtk-3.22/editprop.c:4519
 #: client/gui-gtk-3.22/gotodlg.c:219 client/gui-gtk-3.22/pages.c:1396
 #: client/gui-gtk-3.22/pages.c:2740 client/gui-qt/citydlg.cpp:2908
 #: client/gui-qt/gotodlg.cpp:53 client/gui-qt/pages.cpp:314
 #: client/gui-qt/pages.cpp:644 client/gui-qt/pages.cpp:1272
-#: client/gui-qt/plrdlg.cpp:496 client/gui-qt/repodlgs.cpp:1569
+#: client/gui-qt/plrdlg.cpp:499 client/gui-qt/repodlgs.cpp:1569
 #: client/gui-sdl2/repodlgs.c:2134 client/plrdlg_common.c:311
 msgid "Nation"
 msgstr "Kansakunta"
@@ -1154,9 +1154,9 @@ msgid "?size [short]:Sz"
 msgstr "Koko"
 
 #: client/cityrepdata.c:702 client/gui-gtk-2.0/editgui.c:1255
-#: client/gui-gtk-2.0/editprop.c:4433 client/gui-gtk-3.0/editgui.c:1273
-#: client/gui-gtk-3.0/editprop.c:4494 client/gui-gtk-3.22/editgui.c:1272
-#: client/gui-gtk-3.22/editprop.c:4493
+#: client/gui-gtk-2.0/editprop.c:4438 client/gui-gtk-3.0/editgui.c:1273
+#: client/gui-gtk-3.0/editprop.c:4499 client/gui-gtk-3.22/editgui.c:1272
+#: client/gui-gtk-3.22/editprop.c:4498
 msgid "Size"
 msgstr "Koko"
 
@@ -2000,9 +2000,9 @@ msgstr ""
 "Klikkaa ruutua kohdistaaksesi toimesi siihen. Uusi 'd' -painallus valitsee "
 "kohteeksi toimijan oman ruudun."
 
-#: client/editor.c:199 client/gui-gtk-2.0/editprop.c:4334
-#: client/gui-gtk-2.0/menu.c:1470 client/gui-gtk-3.0/editprop.c:4393
-#: client/gui-gtk-3.0/menu.c:311 client/gui-gtk-3.22/editprop.c:4392
+#: client/editor.c:199 client/gui-gtk-2.0/editprop.c:4339
+#: client/gui-gtk-2.0/menu.c:1470 client/gui-gtk-3.0/editprop.c:4398
+#: client/gui-gtk-3.0/menu.c:311 client/gui-gtk-3.22/editprop.c:4397
 #: client/gui-gtk-3.22/menu.c:310 client/include/helpdlg_g.h:50
 #: data/helpdata.txt:291 tools/civmanual.c:391
 msgid "Terrain"
@@ -2114,8 +2114,8 @@ msgstr ""
 "Luo kaupunki.\n"
 "Pikanäppäin: c"
 
-#: client/editor.c:225 client/gui-gtk-2.0/editprop.c:4370
-#: client/gui-gtk-3.0/editprop.c:4431 client/gui-gtk-3.22/editprop.c:4430
+#: client/editor.c:225 client/gui-gtk-2.0/editprop.c:4375
+#: client/gui-gtk-3.0/editprop.c:4436 client/gui-gtk-3.22/editprop.c:4435
 #: client/plrdlg_common.c:320
 msgid "Vision"
 msgstr "Näkymä"
@@ -2592,12 +2592,12 @@ msgstr "Keskustelutyökalut"
 msgid "#"
 msgstr "#"
 
-#: client/gui-gtk-2.0/citizensinfo.c:64 client/gui-gtk-2.0/editprop.c:3641
-#: client/gui-gtk-2.0/editprop.c:3655 client/gui-gtk-2.0/pages.c:2669
-#: client/gui-gtk-3.0/citizensinfo.c:64 client/gui-gtk-3.0/editprop.c:3691
-#: client/gui-gtk-3.0/editprop.c:3705 client/gui-gtk-3.0/pages.c:2736
-#: client/gui-gtk-3.22/citizensinfo.c:64 client/gui-gtk-3.22/editprop.c:3690
-#: client/gui-gtk-3.22/editprop.c:3704 client/gui-gtk-3.22/pages.c:2736
+#: client/gui-gtk-2.0/citizensinfo.c:64 client/gui-gtk-2.0/editprop.c:3646
+#: client/gui-gtk-2.0/editprop.c:3660 client/gui-gtk-2.0/pages.c:2669
+#: client/gui-gtk-3.0/citizensinfo.c:64 client/gui-gtk-3.0/editprop.c:3696
+#: client/gui-gtk-3.0/editprop.c:3710 client/gui-gtk-3.0/pages.c:2736
+#: client/gui-gtk-3.22/citizensinfo.c:64 client/gui-gtk-3.22/editprop.c:3695
+#: client/gui-gtk-3.22/editprop.c:3709 client/gui-gtk-3.22/pages.c:2736
 #: client/gui-qt/citydlg.cpp:2908 client/gui-qt/pages.cpp:644
 #: client/plrdlg_common.c:310
 msgid "Flag"
@@ -2632,21 +2632,21 @@ msgstr "Kauppaa:"
 #: client/gui-gtk-3.22/citydlg.c:749 client/gui-gtk-3.22/diplodlg.c:766
 #: client/gui-gtk-3.22/diplodlg.c:848 client/gui-gtk-3.22/inteldlg.c:51
 #: client/gui-qt/citydlg.h:61 client/gui-qt/diplodlg.cpp:172
-#: client/gui-qt/diplodlg.cpp:174 client/gui-qt/plrdlg.cpp:507
+#: client/gui-qt/diplodlg.cpp:174 client/gui-qt/plrdlg.cpp:510
 msgid "Gold:"
 msgstr "Kultaa:"
 
 #: client/gui-gtk-2.0/citydlg.c:692 client/gui-gtk-2.0/inteldlg.c:55
 #: client/gui-gtk-3.0/citydlg.c:749 client/gui-gtk-3.0/inteldlg.c:55
 #: client/gui-gtk-3.22/citydlg.c:750 client/gui-gtk-3.22/inteldlg.c:55
-#: client/gui-qt/citydlg.h:63 client/gui-qt/plrdlg.cpp:513
+#: client/gui-qt/citydlg.h:63 client/gui-qt/plrdlg.cpp:516
 msgid "Luxury:"
 msgstr "Luksus:"
 
 #: client/gui-gtk-2.0/citydlg.c:693 client/gui-gtk-2.0/inteldlg.c:54
 #: client/gui-gtk-3.0/citydlg.c:750 client/gui-gtk-3.0/inteldlg.c:54
 #: client/gui-gtk-3.22/citydlg.c:751 client/gui-gtk-3.22/inteldlg.c:54
-#: client/gui-qt/citydlg.h:65 client/gui-qt/plrdlg.cpp:511
+#: client/gui-qt/citydlg.h:65 client/gui-qt/plrdlg.cpp:514
 msgid "Science:"
 msgstr "Tiede:"
 
@@ -2673,7 +2673,7 @@ msgstr "Hävikki:"
 #: client/gui-gtk-2.0/citydlg.c:698 client/gui-gtk-2.0/inteldlg.c:58
 #: client/gui-gtk-3.0/citydlg.c:755 client/gui-gtk-3.0/inteldlg.c:58
 #: client/gui-gtk-3.22/citydlg.c:756 client/gui-gtk-3.22/inteldlg.c:58
-#: client/gui-qt/citydlg.h:75 client/gui-qt/plrdlg.cpp:517
+#: client/gui-qt/citydlg.h:75 client/gui-qt/plrdlg.cpp:520
 msgid "Culture:"
 msgstr "Kulttuuri:"
 
@@ -2774,19 +2774,19 @@ msgstr "_Asetukset"
 msgid "Luxury"
 msgstr "luksus"
 
-#: client/gui-gtk-2.0/citydlg.c:1155 client/gui-gtk-2.0/editprop.c:4462
+#: client/gui-gtk-2.0/citydlg.c:1155 client/gui-gtk-2.0/editprop.c:4467
 #: client/gui-gtk-2.0/gamedlgs.c:464 client/gui-gtk-3.0/citydlg.c:1372
-#: client/gui-gtk-3.0/editprop.c:4527 client/gui-gtk-3.0/gamedlgs.c:474
-#: client/gui-gtk-3.22/citydlg.c:1410 client/gui-gtk-3.22/editprop.c:4527
+#: client/gui-gtk-3.0/editprop.c:4532 client/gui-gtk-3.0/gamedlgs.c:474
+#: client/gui-gtk-3.22/citydlg.c:1410 client/gui-gtk-3.22/editprop.c:4532
 #: client/gui-gtk-3.22/gamedlgs.c:474 client/gui-qt/citydlg.cpp:1887
 #: common/city.c:88 server/plrhand.c:308
 msgid "Science"
 msgstr "tiede"
 
-#: client/gui-gtk-2.0/citydlg.c:1156 client/gui-gtk-2.0/editprop.c:4464
+#: client/gui-gtk-2.0/citydlg.c:1156 client/gui-gtk-2.0/editprop.c:4469
 #: client/gui-gtk-2.0/repodlgs.c:1255 client/gui-gtk-3.0/citydlg.c:1373
-#: client/gui-gtk-3.0/editprop.c:4529 client/gui-gtk-3.0/repodlgs.c:1299
-#: client/gui-gtk-3.22/citydlg.c:1411 client/gui-gtk-3.22/editprop.c:4529
+#: client/gui-gtk-3.0/editprop.c:4534 client/gui-gtk-3.0/repodlgs.c:1299
+#: client/gui-gtk-3.22/citydlg.c:1411 client/gui-gtk-3.22/editprop.c:4534
 #: client/gui-gtk-3.22/repodlgs.c:1299 client/gui-qt/citydlg.cpp:1886
 #: client/gui-qt/pages.cpp:1290 common/city.c:86 data/civ1/terrain.ruleset:1140
 #: data/civ2/terrain.ruleset:1281 data/classic/terrain.ruleset:1575
@@ -3775,9 +3775,9 @@ msgstr "%d tunnettu"
 msgid "%d present"
 msgstr "%d ruudulla"
 
-#: client/gui-gtk-2.0/editprop.c:944 client/gui-gtk-2.0/editprop.c:3843
-#: client/gui-gtk-3.0/editprop.c:948 client/gui-gtk-3.0/editprop.c:3893
-#: client/gui-gtk-3.22/editprop.c:948 client/gui-gtk-3.22/editprop.c:3892
+#: client/gui-gtk-2.0/editprop.c:944 client/gui-gtk-2.0/editprop.c:3848
+#: client/gui-gtk-3.0/editprop.c:948 client/gui-gtk-3.0/editprop.c:3898
+#: client/gui-gtk-3.22/editprop.c:948 client/gui-gtk-3.22/editprop.c:3897
 #: client/gui-qt/dialogs.cpp:520 data/civ1/nations.ruleset:83
 #: data/civ2/nations.ruleset:85 data/alien/nations.ruleset:84
 msgid "All nations"
@@ -3811,14 +3811,14 @@ msgstr "(ei koskaan)"
 msgid "(destroyed)"
 msgstr "(tuhoutunut)"
 
-#: client/gui-gtk-2.0/editprop.c:3501 client/gui-gtk-3.0/editprop.c:3545
-#: client/gui-gtk-3.22/editprop.c:3545 client/gui-qt/cityrep.cpp:482
+#: client/gui-gtk-2.0/editprop.c:3506 client/gui-gtk-3.0/editprop.c:3550
+#: client/gui-gtk-3.22/editprop.c:3550 client/gui-qt/cityrep.cpp:482
 #: client/gui-qt/menu.cpp:1073
 msgid "?verb:View"
 msgstr "Näytä"
 
-#: client/gui-gtk-2.0/editprop.c:3503 client/gui-gtk-3.0/editprop.c:3547
-#: client/gui-gtk-3.22/editprop.c:3547
+#: client/gui-gtk-2.0/editprop.c:3508 client/gui-gtk-3.0/editprop.c:3552
+#: client/gui-gtk-3.22/editprop.c:3552
 msgid "Edit"
 msgstr "Muuta"
 
@@ -3828,42 +3828,42 @@ msgstr "Muuta"
 #. TRANS: As in "this building is present".
 #. TRANS: As in "this tile special is present".
 #. TRANS: As in "this building is present".
-#: client/gui-gtk-2.0/editprop.c:3599 client/gui-gtk-2.0/editprop.c:3624
-#: client/gui-gtk-3.0/editprop.c:3649 client/gui-gtk-3.0/editprop.c:3674
-#: client/gui-gtk-3.22/editprop.c:3648 client/gui-gtk-3.22/editprop.c:3673
+#: client/gui-gtk-2.0/editprop.c:3604 client/gui-gtk-2.0/editprop.c:3629
+#: client/gui-gtk-3.0/editprop.c:3654 client/gui-gtk-3.0/editprop.c:3679
+#: client/gui-gtk-3.22/editprop.c:3653 client/gui-gtk-3.22/editprop.c:3678
 msgid "Present"
 msgstr "On"
 
-#: client/gui-gtk-2.0/editprop.c:3601 client/gui-gtk-2.0/editprop.c:3608
-#: client/gui-gtk-2.0/editprop.c:3626 client/gui-gtk-2.0/editprop.c:3639
-#: client/gui-gtk-2.0/editprop.c:3652 client/gui-gtk-2.0/editprop.c:3666
-#: client/gui-gtk-2.0/editprop.c:4399 client/gui-gtk-2.0/editprop.c:4429
-#: client/gui-gtk-3.0/editprop.c:3651 client/gui-gtk-3.0/editprop.c:3658
-#: client/gui-gtk-3.0/editprop.c:3676 client/gui-gtk-3.0/editprop.c:3689
-#: client/gui-gtk-3.0/editprop.c:3702 client/gui-gtk-3.0/editprop.c:3716
-#: client/gui-gtk-3.0/editprop.c:4460 client/gui-gtk-3.0/editprop.c:4490
-#: client/gui-gtk-3.22/editprop.c:3650 client/gui-gtk-3.22/editprop.c:3657
-#: client/gui-gtk-3.22/editprop.c:3675 client/gui-gtk-3.22/editprop.c:3688
-#: client/gui-gtk-3.22/editprop.c:3701 client/gui-gtk-3.22/editprop.c:3715
-#: client/gui-gtk-3.22/editprop.c:4459 client/gui-gtk-3.22/editprop.c:4489
+#: client/gui-gtk-2.0/editprop.c:3606 client/gui-gtk-2.0/editprop.c:3613
+#: client/gui-gtk-2.0/editprop.c:3631 client/gui-gtk-2.0/editprop.c:3644
+#: client/gui-gtk-2.0/editprop.c:3657 client/gui-gtk-2.0/editprop.c:3671
+#: client/gui-gtk-2.0/editprop.c:4404 client/gui-gtk-2.0/editprop.c:4434
+#: client/gui-gtk-3.0/editprop.c:3656 client/gui-gtk-3.0/editprop.c:3663
+#: client/gui-gtk-3.0/editprop.c:3681 client/gui-gtk-3.0/editprop.c:3694
+#: client/gui-gtk-3.0/editprop.c:3707 client/gui-gtk-3.0/editprop.c:3721
+#: client/gui-gtk-3.0/editprop.c:4465 client/gui-gtk-3.0/editprop.c:4495
+#: client/gui-gtk-3.22/editprop.c:3655 client/gui-gtk-3.22/editprop.c:3662
+#: client/gui-gtk-3.22/editprop.c:3680 client/gui-gtk-3.22/editprop.c:3693
+#: client/gui-gtk-3.22/editprop.c:3706 client/gui-gtk-3.22/editprop.c:3720
+#: client/gui-gtk-3.22/editprop.c:4464 client/gui-gtk-3.22/editprop.c:4494
 msgid "ID"
 msgstr "ID"
 
-#: client/gui-gtk-2.0/editprop.c:3603 client/gui-gtk-2.0/editprop.c:3612
-#: client/gui-gtk-2.0/editprop.c:3628 client/gui-gtk-2.0/editprop.c:3643
-#: client/gui-gtk-2.0/editprop.c:3658 client/gui-gtk-2.0/editprop.c:3668
-#: client/gui-gtk-2.0/editprop.c:4423 client/gui-gtk-2.0/editprop.c:4446
+#: client/gui-gtk-2.0/editprop.c:3608 client/gui-gtk-2.0/editprop.c:3617
+#: client/gui-gtk-2.0/editprop.c:3633 client/gui-gtk-2.0/editprop.c:3648
+#: client/gui-gtk-2.0/editprop.c:3663 client/gui-gtk-2.0/editprop.c:3673
+#: client/gui-gtk-2.0/editprop.c:4428 client/gui-gtk-2.0/editprop.c:4451
 #: client/gui-gtk-2.0/pages.c:1308 client/gui-gtk-2.0/pages.c:2663
-#: client/gui-gtk-2.0/wldlg.c:999 client/gui-gtk-3.0/editprop.c:3653
-#: client/gui-gtk-3.0/editprop.c:3662 client/gui-gtk-3.0/editprop.c:3678
-#: client/gui-gtk-3.0/editprop.c:3693 client/gui-gtk-3.0/editprop.c:3708
-#: client/gui-gtk-3.0/editprop.c:3718 client/gui-gtk-3.0/editprop.c:4484
-#: client/gui-gtk-3.0/editprop.c:4508 client/gui-gtk-3.0/pages.c:1392
+#: client/gui-gtk-2.0/wldlg.c:999 client/gui-gtk-3.0/editprop.c:3658
+#: client/gui-gtk-3.0/editprop.c:3667 client/gui-gtk-3.0/editprop.c:3683
+#: client/gui-gtk-3.0/editprop.c:3698 client/gui-gtk-3.0/editprop.c:3713
+#: client/gui-gtk-3.0/editprop.c:3723 client/gui-gtk-3.0/editprop.c:4489
+#: client/gui-gtk-3.0/editprop.c:4513 client/gui-gtk-3.0/pages.c:1392
 #: client/gui-gtk-3.0/pages.c:2730 client/gui-gtk-3.0/wldlg.c:1007
-#: client/gui-gtk-3.22/editprop.c:3652 client/gui-gtk-3.22/editprop.c:3661
-#: client/gui-gtk-3.22/editprop.c:3677 client/gui-gtk-3.22/editprop.c:3692
-#: client/gui-gtk-3.22/editprop.c:3707 client/gui-gtk-3.22/editprop.c:3717
-#: client/gui-gtk-3.22/editprop.c:4483 client/gui-gtk-3.22/editprop.c:4507
+#: client/gui-gtk-3.22/editprop.c:3657 client/gui-gtk-3.22/editprop.c:3666
+#: client/gui-gtk-3.22/editprop.c:3682 client/gui-gtk-3.22/editprop.c:3697
+#: client/gui-gtk-3.22/editprop.c:3712 client/gui-gtk-3.22/editprop.c:3722
+#: client/gui-gtk-3.22/editprop.c:4488 client/gui-gtk-3.22/editprop.c:4512
 #: client/gui-gtk-3.22/pages.c:1393 client/gui-gtk-3.22/pages.c:2730
 #: client/gui-gtk-3.22/wldlg.c:1004 client/gui-qt/pages.cpp:314
 #: client/gui-qt/pages.cpp:643 tools/civmanual.c:513 tools/mpgui_gtk2.c:457
@@ -3872,283 +3872,283 @@ msgid "Name"
 msgstr "Nimi"
 
 #. TRANS: As in "this invention is known".
-#: client/gui-gtk-2.0/editprop.c:3614 client/gui-gtk-2.0/editprop.c:3664
-#: client/gui-gtk-3.0/editprop.c:3664 client/gui-gtk-3.0/editprop.c:3714
-#: client/gui-gtk-3.22/editprop.c:3663 client/gui-gtk-3.22/editprop.c:3713
+#: client/gui-gtk-2.0/editprop.c:3619 client/gui-gtk-2.0/editprop.c:3669
+#: client/gui-gtk-3.0/editprop.c:3669 client/gui-gtk-3.0/editprop.c:3719
+#: client/gui-gtk-3.22/editprop.c:3668 client/gui-gtk-3.22/editprop.c:3718
 msgid "Known"
 msgstr "Tunnetaan"
 
 #. TRANS: As in "the turn when this building was built".
-#: client/gui-gtk-2.0/editprop.c:3631 client/gui-gtk-3.0/editprop.c:3681
-#: client/gui-gtk-3.22/editprop.c:3680
+#: client/gui-gtk-2.0/editprop.c:3636 client/gui-gtk-3.0/editprop.c:3686
+#: client/gui-gtk-3.22/editprop.c:3685
 msgid "Turn Built"
 msgstr "Vuoro, jona rakennettu"
 
 # *** The three first ones are states, this and a few next are imperative. ***
 #. TRANS: As in "the player has set this nation".
-#: client/gui-gtk-2.0/editprop.c:3637 client/gui-gtk-2.0/editprop.c:3650
-#: client/gui-gtk-3.0/editprop.c:3687 client/gui-gtk-3.0/editprop.c:3700
-#: client/gui-gtk-3.22/editprop.c:3686 client/gui-gtk-3.22/editprop.c:3699
+#: client/gui-gtk-2.0/editprop.c:3642 client/gui-gtk-2.0/editprop.c:3655
+#: client/gui-gtk-3.0/editprop.c:3692 client/gui-gtk-3.0/editprop.c:3705
+#: client/gui-gtk-3.22/editprop.c:3691 client/gui-gtk-3.22/editprop.c:3704
 msgid "Set"
 msgstr "Asetettu"
 
-#: client/gui-gtk-2.0/editprop.c:3655 client/gui-gtk-3.0/editprop.c:3705
-#: client/gui-gtk-3.22/editprop.c:3704
+#: client/gui-gtk-2.0/editprop.c:3660 client/gui-gtk-3.0/editprop.c:3710
+#: client/gui-gtk-3.22/editprop.c:3709
 msgid "Icon"
 msgstr "Ikoni"
 
-#: client/gui-gtk-2.0/editprop.c:4332 client/gui-gtk-2.0/editprop.c:4379
-#: client/gui-gtk-2.0/editprop.c:4391 client/gui-gtk-2.0/editprop.c:4421
-#: client/gui-gtk-3.0/editprop.c:4391 client/gui-gtk-3.0/editprop.c:4440
-#: client/gui-gtk-3.0/editprop.c:4452 client/gui-gtk-3.0/editprop.c:4482
-#: client/gui-gtk-3.22/editprop.c:4390 client/gui-gtk-3.22/editprop.c:4439
-#: client/gui-gtk-3.22/editprop.c:4451 client/gui-gtk-3.22/editprop.c:4481
+#: client/gui-gtk-2.0/editprop.c:4337 client/gui-gtk-2.0/editprop.c:4384
+#: client/gui-gtk-2.0/editprop.c:4396 client/gui-gtk-2.0/editprop.c:4426
+#: client/gui-gtk-3.0/editprop.c:4396 client/gui-gtk-3.0/editprop.c:4445
+#: client/gui-gtk-3.0/editprop.c:4457 client/gui-gtk-3.0/editprop.c:4487
+#: client/gui-gtk-3.22/editprop.c:4395 client/gui-gtk-3.22/editprop.c:4444
+#: client/gui-gtk-3.22/editprop.c:4456 client/gui-gtk-3.22/editprop.c:4486
 msgid "Image"
 msgstr "Kuva"
 
-#: client/gui-gtk-2.0/editprop.c:4336 client/gui-gtk-3.0/editprop.c:4395
-#: client/gui-gtk-3.22/editprop.c:4394
+#: client/gui-gtk-2.0/editprop.c:4341 client/gui-gtk-3.0/editprop.c:4400
+#: client/gui-gtk-3.22/editprop.c:4399
 msgid "Resource"
 msgstr "Luonnonvara"
 
-#: client/gui-gtk-2.0/editprop.c:4338 client/gui-gtk-3.0/editprop.c:4397
-#: client/gui-gtk-3.22/editprop.c:4396
+#: client/gui-gtk-2.0/editprop.c:4343 client/gui-gtk-3.0/editprop.c:4402
+#: client/gui-gtk-3.22/editprop.c:4401
 msgid "Index"
 msgstr "Indeksi"
 
-#: client/gui-gtk-2.0/editprop.c:4340 client/gui-gtk-3.0/editprop.c:4399
-#: client/gui-gtk-3.22/editprop.c:4398
+#: client/gui-gtk-2.0/editprop.c:4345 client/gui-gtk-3.0/editprop.c:4404
+#: client/gui-gtk-3.22/editprop.c:4403
 msgid "?coordinate:X"
 msgstr "X"
 
-#: client/gui-gtk-2.0/editprop.c:4342 client/gui-gtk-3.0/editprop.c:4401
-#: client/gui-gtk-3.22/editprop.c:4400
+#: client/gui-gtk-2.0/editprop.c:4347 client/gui-gtk-3.0/editprop.c:4406
+#: client/gui-gtk-3.22/editprop.c:4405
 msgid "?coordinate:Y"
 msgstr "Y"
 
 #. TRANS: The coordinate X in native coordinates.
 #. * The freeciv coordinate system is described in doc/HACKING.
-#: client/gui-gtk-2.0/editprop.c:4346 client/gui-gtk-3.0/editprop.c:4405
-#: client/gui-gtk-3.22/editprop.c:4404
+#: client/gui-gtk-2.0/editprop.c:4351 client/gui-gtk-3.0/editprop.c:4410
+#: client/gui-gtk-3.22/editprop.c:4409
 msgid "NAT X"
 msgstr "LAS X"
 
 #. TRANS: The coordinate Y in native coordinates.
 #. * The freeciv coordinate system is described in doc/HACKING.
-#: client/gui-gtk-2.0/editprop.c:4350 client/gui-gtk-3.0/editprop.c:4409
-#: client/gui-gtk-3.22/editprop.c:4408
+#: client/gui-gtk-2.0/editprop.c:4355 client/gui-gtk-3.0/editprop.c:4414
+#: client/gui-gtk-3.22/editprop.c:4413
 msgid "NAT Y"
 msgstr "LAS Y"
 
-#: client/gui-gtk-2.0/editprop.c:4352 client/gui-gtk-3.0/editprop.c:4411
-#: client/gui-gtk-3.22/editprop.c:4410
+#: client/gui-gtk-2.0/editprop.c:4357 client/gui-gtk-3.0/editprop.c:4416
+#: client/gui-gtk-3.22/editprop.c:4415
 msgid "Continent"
 msgstr "Manner"
 
-#: client/gui-gtk-2.0/editprop.c:4354 client/gui-gtk-2.0/editprop.c:4381
-#: client/gui-gtk-2.0/editprop.c:4401 client/gui-gtk-2.0/editprop.c:4431
-#: client/gui-gtk-3.0/editprop.c:4413 client/gui-gtk-3.0/editprop.c:4442
-#: client/gui-gtk-3.0/editprop.c:4462 client/gui-gtk-3.0/editprop.c:4492
-#: client/gui-gtk-3.22/editprop.c:4412 client/gui-gtk-3.22/editprop.c:4441
-#: client/gui-gtk-3.22/editprop.c:4461 client/gui-gtk-3.22/editprop.c:4491
+#: client/gui-gtk-2.0/editprop.c:4359 client/gui-gtk-2.0/editprop.c:4386
+#: client/gui-gtk-2.0/editprop.c:4406 client/gui-gtk-2.0/editprop.c:4436
+#: client/gui-gtk-3.0/editprop.c:4418 client/gui-gtk-3.0/editprop.c:4447
+#: client/gui-gtk-3.0/editprop.c:4467 client/gui-gtk-3.0/editprop.c:4497
+#: client/gui-gtk-3.22/editprop.c:4417 client/gui-gtk-3.22/editprop.c:4446
+#: client/gui-gtk-3.22/editprop.c:4466 client/gui-gtk-3.22/editprop.c:4496
 msgid "?coordinates:X,Y"
 msgstr "X,Y"
 
-#: client/gui-gtk-2.0/editprop.c:4356 client/gui-gtk-3.0/editprop.c:4415
-#: client/gui-gtk-3.22/editprop.c:4414
+#: client/gui-gtk-2.0/editprop.c:4361 client/gui-gtk-3.0/editprop.c:4420
+#: client/gui-gtk-3.22/editprop.c:4419
 msgid "Specials"
 msgstr "Erityispiirteet"
 
-#: client/gui-gtk-2.0/editprop.c:4358 client/gui-gtk-3.0/editprop.c:4418
-#: client/gui-gtk-3.22/editprop.c:4417
+#: client/gui-gtk-2.0/editprop.c:4363 client/gui-gtk-3.0/editprop.c:4423
+#: client/gui-gtk-3.22/editprop.c:4422
 msgid "Roads"
 msgstr "tiet"
 
-#: client/gui-gtk-2.0/editprop.c:4360 client/gui-gtk-3.0/editprop.c:4421
-#: client/gui-gtk-3.22/editprop.c:4420
+#: client/gui-gtk-2.0/editprop.c:4365 client/gui-gtk-3.0/editprop.c:4426
+#: client/gui-gtk-3.22/editprop.c:4425
 msgid "Bases"
 msgstr "Tukikohdat"
 
-#: client/gui-gtk-2.0/editprop.c:4363 client/gui-gtk-2.0/editprop.c:4394
-#: client/gui-gtk-2.0/editprop.c:4426 client/gui-gtk-2.0/editprop.c:4449
-#: client/gui-gtk-3.0/editprop.c:4425 client/gui-gtk-3.0/editprop.c:4455
-#: client/gui-gtk-3.0/editprop.c:4487 client/gui-gtk-3.0/editprop.c:4512
-#: client/gui-gtk-3.22/editprop.c:4424 client/gui-gtk-3.22/editprop.c:4454
-#: client/gui-gtk-3.22/editprop.c:4486 client/gui-gtk-3.22/editprop.c:4511
+#: client/gui-gtk-2.0/editprop.c:4368 client/gui-gtk-2.0/editprop.c:4399
+#: client/gui-gtk-2.0/editprop.c:4431 client/gui-gtk-2.0/editprop.c:4454
+#: client/gui-gtk-3.0/editprop.c:4430 client/gui-gtk-3.0/editprop.c:4460
+#: client/gui-gtk-3.0/editprop.c:4492 client/gui-gtk-3.0/editprop.c:4517
+#: client/gui-gtk-3.22/editprop.c:4429 client/gui-gtk-3.22/editprop.c:4459
+#: client/gui-gtk-3.22/editprop.c:4491 client/gui-gtk-3.22/editprop.c:4516
 msgid "Address"
 msgstr "Osoite"
 
 #. TRANS: Tile property "Label" label in editor
-#: client/gui-gtk-2.0/editprop.c:4374 client/gui-gtk-3.0/editprop.c:4435
-#: client/gui-gtk-3.22/editprop.c:4434
+#: client/gui-gtk-2.0/editprop.c:4379 client/gui-gtk-3.0/editprop.c:4440
+#: client/gui-gtk-3.22/editprop.c:4439
 msgid "?property:Label"
 msgstr "Merkki"
 
-#: client/gui-gtk-2.0/editprop.c:4383 client/gui-gtk-3.0/editprop.c:4444
-#: client/gui-gtk-3.22/editprop.c:4443
+#: client/gui-gtk-2.0/editprop.c:4388 client/gui-gtk-3.0/editprop.c:4449
+#: client/gui-gtk-3.22/editprop.c:4448
 msgid "Exclude Nations"
 msgstr "Vältä kansakuntia"
 
 #. TRANS: Nations report title
 #. TRANS: Nations report action
 #. TRANS: Nations report title
-#: client/gui-gtk-2.0/editprop.c:4385 client/gui-gtk-2.0/plrdlg.c:422
-#: client/gui-gtk-3.0/editprop.c:4446 client/gui-gtk-3.0/plrdlg.c:439
-#: client/gui-gtk-3.22/editprop.c:4445 client/gui-gtk-3.22/plrdlg.c:437
+#: client/gui-gtk-2.0/editprop.c:4390 client/gui-gtk-2.0/plrdlg.c:422
+#: client/gui-gtk-3.0/editprop.c:4451 client/gui-gtk-3.0/plrdlg.c:439
+#: client/gui-gtk-3.22/editprop.c:4450 client/gui-gtk-3.22/plrdlg.c:437
 #: client/gui-qt/menu.cpp:1579 client/gui-qt/pages.cpp:731
 #: client/gui-sdl2/mapctrl.c:1682 client/gui-sdl2/plrdlg.c:680
 msgid "Nations"
 msgstr "Kansakunnat"
 
 #. TRANS: Image header
-#: client/gui-gtk-2.0/editprop.c:4397 client/gui-gtk-2.0/pages.c:1309
+#: client/gui-gtk-2.0/editprop.c:4402 client/gui-gtk-2.0/pages.c:1309
 #: client/gui-gtk-2.0/repodlgs.c:767 client/gui-gtk-2.0/wldlg.c:999
-#: client/gui-gtk-3.0/editprop.c:4458 client/gui-gtk-3.0/pages.c:1393
+#: client/gui-gtk-3.0/editprop.c:4463 client/gui-gtk-3.0/pages.c:1393
 #: client/gui-gtk-3.0/repodlgs.c:798 client/gui-gtk-3.0/wldlg.c:1007
-#: client/gui-gtk-3.22/editprop.c:4457 client/gui-gtk-3.22/pages.c:1394
+#: client/gui-gtk-3.22/editprop.c:4462 client/gui-gtk-3.22/pages.c:1394
 #: client/gui-gtk-3.22/repodlgs.c:797 client/gui-gtk-3.22/wldlg.c:1004
 #: client/gui-qt/pages.cpp:314 client/gui-qt/repodlgs.cpp:1213
 msgid "Type"
 msgstr "Tyyppi"
 
-#: client/gui-gtk-2.0/editprop.c:4403 client/gui-gtk-3.0/editprop.c:4464
-#: client/gui-gtk-3.22/editprop.c:4463
+#: client/gui-gtk-2.0/editprop.c:4408 client/gui-gtk-3.0/editprop.c:4469
+#: client/gui-gtk-3.22/editprop.c:4468
 msgid "Moves Left"
 msgstr "Siirtoja jäljellä"
 
-#: client/gui-gtk-2.0/editprop.c:4405 client/gui-gtk-3.0/editprop.c:4466
-#: client/gui-gtk-3.22/editprop.c:4465
+#: client/gui-gtk-2.0/editprop.c:4410 client/gui-gtk-3.0/editprop.c:4471
+#: client/gui-gtk-3.22/editprop.c:4470
 msgid "Fuel"
 msgstr "Polttoainetta"
 
 # *** '(s/he/it) moves' ***
-#: client/gui-gtk-2.0/editprop.c:4407 client/gui-gtk-3.0/editprop.c:4468
-#: client/gui-gtk-3.22/editprop.c:4467
+#: client/gui-gtk-2.0/editprop.c:4412 client/gui-gtk-3.0/editprop.c:4473
+#: client/gui-gtk-3.22/editprop.c:4472
 msgid "Moved"
 msgstr "Liikkunut"
 
-#: client/gui-gtk-2.0/editprop.c:4409 client/gui-gtk-3.0/editprop.c:4470
-#: client/gui-gtk-3.22/editprop.c:4469 client/gui-qt/shortcuts.cpp:103
+#: client/gui-gtk-2.0/editprop.c:4414 client/gui-gtk-3.0/editprop.c:4475
+#: client/gui-gtk-3.22/editprop.c:4474 client/gui-qt/shortcuts.cpp:103
 msgid "Done Moving"
 msgstr "Liikkuminen valmis"
 
 #. TRANS: HP = Hit Points of a unit.
-#: client/gui-gtk-2.0/editprop.c:4412 client/gui-gtk-3.0/editprop.c:4473
-#: client/gui-gtk-3.22/editprop.c:4472
+#: client/gui-gtk-2.0/editprop.c:4417 client/gui-gtk-3.0/editprop.c:4478
+#: client/gui-gtk-3.22/editprop.c:4477
 msgid "HP"
 msgstr "VP"
 
-#: client/gui-gtk-2.0/editprop.c:4414 client/gui-gtk-3.0/editprop.c:4475
-#: client/gui-gtk-3.22/editprop.c:4474
+#: client/gui-gtk-2.0/editprop.c:4419 client/gui-gtk-3.0/editprop.c:4480
+#: client/gui-gtk-3.22/editprop.c:4479
 msgid "Veteran"
 msgstr "Konkari"
 
-#: client/gui-gtk-2.0/editprop.c:4416 client/gui-gtk-3.0/editprop.c:4477
-#: client/gui-gtk-3.22/editprop.c:4476
+#: client/gui-gtk-2.0/editprop.c:4421 client/gui-gtk-3.0/editprop.c:4482
+#: client/gui-gtk-3.22/editprop.c:4481
 msgid "Stay put"
 msgstr "Pysy paikallaan"
 
-#: client/gui-gtk-2.0/editprop.c:4435 client/gui-gtk-3.0/editprop.c:4496
-#: client/gui-gtk-3.22/editprop.c:4495
+#: client/gui-gtk-2.0/editprop.c:4440 client/gui-gtk-3.0/editprop.c:4501
+#: client/gui-gtk-3.22/editprop.c:4500
 msgid "History"
 msgstr "Historia"
 
-#: client/gui-gtk-2.0/editprop.c:4437 client/gui-gtk-3.0/citydlg.c:1198
-#: client/gui-gtk-3.0/editprop.c:4498 client/gui-gtk-3.22/citydlg.c:1236
-#: client/gui-gtk-3.22/editprop.c:4497 client/gui-qt/cityrep.cpp:711
+#: client/gui-gtk-2.0/editprop.c:4442 client/gui-gtk-3.0/citydlg.c:1198
+#: client/gui-gtk-3.0/editprop.c:4503 client/gui-gtk-3.22/citydlg.c:1236
+#: client/gui-gtk-3.22/editprop.c:4502 client/gui-qt/cityrep.cpp:711
 msgid "Buildings"
 msgstr "Rakennukset"
 
-#: client/gui-gtk-2.0/editprop.c:4439 client/gui-gtk-3.0/editprop.c:4501
-#: client/gui-gtk-3.22/editprop.c:4500
+#: client/gui-gtk-2.0/editprop.c:4444 client/gui-gtk-3.0/editprop.c:4506
+#: client/gui-gtk-3.22/editprop.c:4505
 msgid "Food Stock"
 msgstr "Ruokavarasto"
 
-#: client/gui-gtk-2.0/editprop.c:4441 client/gui-gtk-3.0/editprop.c:4503
-#: client/gui-gtk-3.22/editprop.c:4502
+#: client/gui-gtk-2.0/editprop.c:4446 client/gui-gtk-3.0/editprop.c:4508
+#: client/gui-gtk-3.22/editprop.c:4507
 msgid "Shield Stock"
 msgstr "Tuotantovaranto"
 
-#: client/gui-gtk-2.0/editprop.c:4454 client/gui-gtk-2.0/menu.c:1488
-#: client/gui-gtk-3.0/editprop.c:4518 client/gui-gtk-3.0/menu.c:327
-#: client/gui-gtk-3.22/editprop.c:4517 client/gui-gtk-3.22/menu.c:326
+#: client/gui-gtk-2.0/editprop.c:4459 client/gui-gtk-2.0/menu.c:1488
+#: client/gui-gtk-3.0/editprop.c:4523 client/gui-gtk-3.0/menu.c:327
+#: client/gui-gtk-3.22/editprop.c:4522 client/gui-gtk-3.22/menu.c:326
 #: client/gui-qt/menu.cpp:637 client/include/helpdlg_g.h:52
 #: data/helpdata.txt:1393
 msgid "Government"
 msgstr "Valtiomuoto"
 
-#: client/gui-gtk-2.0/editprop.c:4456 client/gui-gtk-3.0/editprop.c:4520
-#: client/gui-gtk-3.22/editprop.c:4520
+#: client/gui-gtk-2.0/editprop.c:4461 client/gui-gtk-3.0/editprop.c:4525
+#: client/gui-gtk-3.22/editprop.c:4525
 msgid "Age"
 msgstr "Ikä"
 
-#: client/gui-gtk-2.0/editprop.c:4458 client/gui-gtk-3.0/editprop.c:4522
-#: client/gui-gtk-3.22/editprop.c:4522
+#: client/gui-gtk-2.0/editprop.c:4463 client/gui-gtk-3.0/editprop.c:4527
+#: client/gui-gtk-3.22/editprop.c:4527
 msgid "Inventions"
 msgstr "Keksinnöt"
 
-#: client/gui-gtk-2.0/editprop.c:4460 client/gui-gtk-3.0/editprop.c:4525
-#: client/gui-gtk-3.22/editprop.c:4525
+#: client/gui-gtk-2.0/editprop.c:4465 client/gui-gtk-3.0/editprop.c:4530
+#: client/gui-gtk-3.22/editprop.c:4530
 msgid "Reserved"
 msgstr "Varattu"
 
-#: client/gui-gtk-2.0/editprop.c:4469 client/gui-gtk-3.0/editprop.c:4535
-#: client/gui-gtk-3.22/editprop.c:4535 tools/modinst.h:45
+#: client/gui-gtk-2.0/editprop.c:4474 client/gui-gtk-3.0/editprop.c:4540
+#: client/gui-gtk-3.22/editprop.c:4540 tools/modinst.h:45
 msgid "Scenario"
 msgstr "Skenaario"
 
-#: client/gui-gtk-2.0/editprop.c:4471 client/gui-gtk-3.0/editprop.c:4538
-#: client/gui-gtk-3.22/editprop.c:4539
+#: client/gui-gtk-2.0/editprop.c:4476 client/gui-gtk-3.0/editprop.c:4543
+#: client/gui-gtk-3.22/editprop.c:4544
 msgid "Scenario Name"
 msgstr "Skenaarion nimi"
 
-#: client/gui-gtk-2.0/editprop.c:4473 client/gui-gtk-3.0/editprop.c:4542
-#: client/gui-gtk-3.22/editprop.c:4543
+#: client/gui-gtk-2.0/editprop.c:4478 client/gui-gtk-3.0/editprop.c:4547
+#: client/gui-gtk-3.22/editprop.c:4548
 msgid "Scenario Authors"
 msgstr "Skenaarion tekijät"
 
-#: client/gui-gtk-2.0/editprop.c:4476 client/gui-gtk-3.0/editprop.c:4546
-#: client/gui-gtk-3.22/editprop.c:4547
+#: client/gui-gtk-2.0/editprop.c:4481 client/gui-gtk-3.0/editprop.c:4551
+#: client/gui-gtk-3.22/editprop.c:4552
 msgid "Scenario Description"
 msgstr "Skenaarion kuvaus"
 
-#: client/gui-gtk-2.0/editprop.c:4479 client/gui-gtk-3.0/editprop.c:4550
-#: client/gui-gtk-3.22/editprop.c:4551
+#: client/gui-gtk-2.0/editprop.c:4484 client/gui-gtk-3.0/editprop.c:4555
+#: client/gui-gtk-3.22/editprop.c:4556
 msgid "Save Random Number State"
 msgstr "Talleta satunnaislukujen tila"
 
-#: client/gui-gtk-2.0/editprop.c:4481 client/gui-gtk-3.0/editprop.c:4553
-#: client/gui-gtk-3.22/editprop.c:4554
+#: client/gui-gtk-2.0/editprop.c:4486 client/gui-gtk-3.0/editprop.c:4558
+#: client/gui-gtk-3.22/editprop.c:4559
 msgid "Save Players"
 msgstr "Tallenna pelaajat"
 
-#: client/gui-gtk-2.0/editprop.c:4483 client/gui-gtk-3.0/editprop.c:4556
-#: client/gui-gtk-3.22/editprop.c:4557
+#: client/gui-gtk-2.0/editprop.c:4488 client/gui-gtk-3.0/editprop.c:4561
+#: client/gui-gtk-3.22/editprop.c:4562
 msgid "Nation Start Positions"
 msgstr "Aloituspaikat"
 
-#: client/gui-gtk-2.0/editprop.c:4485 client/gui-gtk-3.0/editprop.c:4559
-#: client/gui-gtk-3.22/editprop.c:4560
+#: client/gui-gtk-2.0/editprop.c:4490 client/gui-gtk-3.0/editprop.c:4564
+#: client/gui-gtk-3.22/editprop.c:4565
 msgid "Prevent New Cities"
 msgstr "Ei kaupunkien perustamista"
 
-#: client/gui-gtk-2.0/editprop.c:4487 client/gui-gtk-3.0/editprop.c:4562
-#: client/gui-gtk-3.22/editprop.c:4563
+#: client/gui-gtk-2.0/editprop.c:4492 client/gui-gtk-3.0/editprop.c:4567
+#: client/gui-gtk-3.22/editprop.c:4568
 msgid "Saltwater Flooding Lakes"
 msgstr "Merivesi levittäytyy järviin reitin auetessa"
 
-#: client/gui-gtk-2.0/editprop.c:4489 client/gui-gtk-3.0/editprop.c:4565
-#: client/gui-gtk-3.22/editprop.c:4566
+#: client/gui-gtk-2.0/editprop.c:4494 client/gui-gtk-3.0/editprop.c:4570
+#: client/gui-gtk-3.22/editprop.c:4571
 msgid "Lock to current Ruleset"
 msgstr "Lukitse nykyiseen sääntökokoelmaan"
 
-#: client/gui-gtk-2.0/editprop.c:4766 client/gui-gtk-3.0/editprop.c:4862
-#: client/gui-gtk-3.22/editprop.c:4862
+#: client/gui-gtk-2.0/editprop.c:4771 client/gui-gtk-3.0/editprop.c:4867
+#: client/gui-gtk-3.22/editprop.c:4867
 msgid "Destroy"
 msgstr "Tuhoa"
 
-#: client/gui-gtk-2.0/editprop.c:4771 client/gui-gtk-3.0/editprop.c:4865
-#: client/gui-gtk-3.22/editprop.c:4865
+#: client/gui-gtk-2.0/editprop.c:4776 client/gui-gtk-3.0/editprop.c:4870
+#: client/gui-gtk-3.22/editprop.c:4870
 msgid ""
 "Pressing this button will send a request to the server to destroy (i.e. "
 "erase) the objects selected in the object list."
@@ -4156,13 +4156,13 @@ msgstr ""
 "Tämän napin painaminen lähettää palvelimelle pyynnön tuhota (l. poistaa) "
 "objektiliastalta valitut objektit."
 
-#: client/gui-gtk-2.0/editprop.c:4782 client/gui-gtk-3.0/editprop.c:4845
-#: client/gui-gtk-3.22/editprop.c:4845
+#: client/gui-gtk-2.0/editprop.c:4787 client/gui-gtk-3.0/editprop.c:4850
+#: client/gui-gtk-3.22/editprop.c:4850
 msgid "Create"
 msgstr "Luo"
 
-#: client/gui-gtk-2.0/editprop.c:4787 client/gui-gtk-3.0/editprop.c:4848
-#: client/gui-gtk-3.22/editprop.c:4848
+#: client/gui-gtk-2.0/editprop.c:4792 client/gui-gtk-3.0/editprop.c:4853
+#: client/gui-gtk-3.22/editprop.c:4853
 msgid ""
 "Pressing this button will create a new object of the same type as the "
 "current property page and add it to the page. The specific type and count of "
@@ -4177,19 +4177,19 @@ msgstr ""
 
 #. TRANS: %s is a type of object that can be edited, such as "Tile",
 #. * "Unit", "Start Position", etc.
-#: client/gui-gtk-2.0/editprop.c:4838 client/gui-gtk-3.0/editprop.c:4923
-#: client/gui-gtk-3.22/editprop.c:4923
+#: client/gui-gtk-2.0/editprop.c:4843 client/gui-gtk-3.0/editprop.c:4928
+#: client/gui-gtk-3.22/editprop.c:4928
 #, c-format
 msgid "%s Properties"
 msgstr "%s ominaisuudet"
 
-#: client/gui-gtk-2.0/editprop.c:4877 client/gui-gtk-3.0/editprop.c:4967
-#: client/gui-gtk-3.22/editprop.c:4967
+#: client/gui-gtk-2.0/editprop.c:4882 client/gui-gtk-3.0/editprop.c:4972
+#: client/gui-gtk-3.22/editprop.c:4972
 msgid "Filter:"
 msgstr "Suodata:"
 
-#: client/gui-gtk-2.0/editprop.c:4882 client/gui-gtk-3.0/editprop.c:4972
-#: client/gui-gtk-3.22/editprop.c:4972
+#: client/gui-gtk-2.0/editprop.c:4887 client/gui-gtk-3.0/editprop.c:4977
+#: client/gui-gtk-3.22/editprop.c:4977
 msgid ""
 "Enter a filter string to limit which properties are shown. The filter is one "
 "or more text patterns separated by | (\"or\") or & (\"and\"). The symbol & "
@@ -4201,8 +4201,8 @@ msgstr ""
 "Symbolilla & on korkeampi sitovuus kuin |:lla. Hakulausekkeen voi myös "
 "muuttaa käänteiseksi lisäämällä sen alkuun !."
 
-#: client/gui-gtk-2.0/editprop.c:4896 client/gui-gtk-3.0/editprop.c:4997
-#: client/gui-gtk-3.22/editprop.c:4997
+#: client/gui-gtk-2.0/editprop.c:4901 client/gui-gtk-3.0/editprop.c:5002
+#: client/gui-gtk-3.22/editprop.c:5002
 msgid ""
 "Pressing this button will send all modified properties of the objects "
 "selected in the object list to the server. Modified properties' names are "
@@ -4212,8 +4212,8 @@ msgstr ""
 "muokatut ominaisuudet palvelimelle. Muokattujen ominaisuuksien nimet näkyvät "
 "punaisina ominaisuusnäkymässä."
 
-#: client/gui-gtk-2.0/editprop.c:4907 client/gui-gtk-3.0/editprop.c:4987
-#: client/gui-gtk-3.22/editprop.c:4987
+#: client/gui-gtk-2.0/editprop.c:4912 client/gui-gtk-3.0/editprop.c:4992
+#: client/gui-gtk-3.22/editprop.c:4992
 msgid ""
 "Pressing this button will reset all modified properties of the selected "
 "objects to their current values (the values they have on the server)."
@@ -4221,26 +4221,26 @@ msgstr ""
 "Tämän napin painaminen palauttaa kaikki valittujen objektien muokatut "
 "ominaisuudet nykyisiin, palvelimelle tallennettuihin arvoihinsa."
 
-#: client/gui-gtk-2.0/editprop.c:6043 client/gui-gtk-3.0/editprop.c:6142
-#: client/gui-gtk-3.22/editprop.c:6142
+#: client/gui-gtk-2.0/editprop.c:6051 client/gui-gtk-3.0/editprop.c:6150
+#: client/gui-gtk-3.22/editprop.c:6150
 msgid "Property Editor"
 msgstr "Ominaisuuksien muokkaus"
 
 #. TRANS: Vision layer name. Feel free to leave untranslated.
-#: client/gui-gtk-2.0/editprop.c:6421 client/gui-gtk-3.0/editprop.c:6520
-#: client/gui-gtk-3.22/editprop.c:6520
+#: client/gui-gtk-2.0/editprop.c:6429 client/gui-gtk-3.0/editprop.c:6528
+#: client/gui-gtk-3.22/editprop.c:6528
 msgid "Seen (Main)"
 msgstr "Nähty (Pää)"
 
 #. TRANS: Vision layer name. Feel free to leave untranslated.
-#: client/gui-gtk-2.0/editprop.c:6424 client/gui-gtk-3.0/editprop.c:6523
-#: client/gui-gtk-3.22/editprop.c:6523
+#: client/gui-gtk-2.0/editprop.c:6432 client/gui-gtk-3.0/editprop.c:6531
+#: client/gui-gtk-3.22/editprop.c:6531
 msgid "Seen (Invis)"
 msgstr "Nähty (Näkymätön)"
 
-#: client/gui-gtk-2.0/editprop.c:6430 client/gui-gtk-2.0/pages.c:652
-#: client/gui-gtk-3.0/editprop.c:6529 client/gui-gtk-3.0/pages.c:727
-#: client/gui-gtk-3.22/editprop.c:6529 client/gui-gtk-3.22/pages.c:728
+#: client/gui-gtk-2.0/editprop.c:6438 client/gui-gtk-2.0/pages.c:652
+#: client/gui-gtk-3.0/editprop.c:6537 client/gui-gtk-3.0/pages.c:727
+#: client/gui-gtk-3.22/editprop.c:6537 client/gui-gtk-3.22/pages.c:728
 #: client/gui-qt/pages.cpp:904 client/gui-sdl2/citydlg.c:1997 client/text.c:171
 #: common/unit.c:566
 msgid "Unknown"
@@ -4635,8 +4635,8 @@ msgstr "Bonus (R/T/K):"
 #. TRANS: "None" tech
 #: client/gui-gtk-2.0/helpdlg.c:129 client/gui-gtk-3.0/helpdlg.c:130
 #: client/gui-gtk-3.22/helpdlg.c:130 client/gui-qt/citydlg.cpp:3805
-#: client/gui-qt/helpdlg.cpp:54 client/gui-qt/plrdlg.cpp:598
-#: client/gui-qt/plrdlg.cpp:604 client/gui-qt/repodlgs.cpp:1084
+#: client/gui-qt/helpdlg.cpp:54 client/gui-qt/plrdlg.cpp:600
+#: client/gui-qt/plrdlg.cpp:606 client/gui-qt/repodlgs.cpp:1084
 #: client/gui-sdl2/gui_tilespec.c:381 client/gui-sdl2/helpdlg.c:855
 #: client/gui-sdl2/mapview.c:346 common/research.c:86 common/tech.c:470
 #: tools/civmanual.c:557
@@ -4713,7 +4713,7 @@ msgstr " kanssa)"
 #: client/gui-gtk-2.0/inteldlg.c:445 client/gui-gtk-3.0/helpdlg.c:1226
 #: client/gui-gtk-3.0/helpdlg.c:1338 client/gui-gtk-3.0/inteldlg.c:588
 #: client/gui-gtk-3.22/helpdlg.c:1225 client/gui-gtk-3.22/helpdlg.c:1337
-#: client/gui-gtk-3.22/inteldlg.c:587 client/gui-qt/plrdlg.cpp:462
+#: client/gui-gtk-3.22/inteldlg.c:587 client/gui-qt/plrdlg.cpp:463
 #: client/gui-sdl2/inteldlg.c:341 common/requirements.c:3492
 #, c-format
 msgid "(none)"
@@ -4790,27 +4790,27 @@ msgstr "ei mitään"
 
 # Jostain pääministeristä vähän vahvasti sanottu.
 #: client/gui-gtk-2.0/inteldlg.c:48 client/gui-gtk-3.0/inteldlg.c:48
-#: client/gui-gtk-3.22/inteldlg.c:48 client/gui-qt/plrdlg.cpp:498
+#: client/gui-gtk-3.22/inteldlg.c:48 client/gui-qt/plrdlg.cpp:501
 msgid "Ruler:"
 msgstr "Hallitsija:"
 
 #: client/gui-gtk-2.0/inteldlg.c:49 client/gui-gtk-3.0/inteldlg.c:49
-#: client/gui-gtk-3.22/inteldlg.c:49 client/gui-qt/plrdlg.cpp:501
+#: client/gui-gtk-3.22/inteldlg.c:49 client/gui-qt/plrdlg.cpp:504
 msgid "Government:"
 msgstr "Valtiomuoto:"
 
 #: client/gui-gtk-2.0/inteldlg.c:50 client/gui-gtk-3.0/inteldlg.c:50
-#: client/gui-gtk-3.22/inteldlg.c:50 client/gui-qt/plrdlg.cpp:503
+#: client/gui-gtk-3.22/inteldlg.c:50 client/gui-qt/plrdlg.cpp:506
 msgid "Capital:"
 msgstr "Pääkaupunki:"
 
 #: client/gui-gtk-2.0/inteldlg.c:53 client/gui-gtk-3.0/inteldlg.c:53
-#: client/gui-gtk-3.22/inteldlg.c:53 client/gui-qt/plrdlg.cpp:509
+#: client/gui-gtk-3.22/inteldlg.c:53 client/gui-qt/plrdlg.cpp:512
 msgid "Tax:"
 msgstr "Vero:"
 
 #: client/gui-gtk-2.0/inteldlg.c:57 client/gui-gtk-3.0/inteldlg.c:57
-#: client/gui-gtk-3.22/inteldlg.c:57 client/gui-qt/plrdlg.cpp:515
+#: client/gui-gtk-3.22/inteldlg.c:57 client/gui-qt/plrdlg.cpp:518
 msgid "Researching:"
 msgstr "Tutkimuskohde:"
 
@@ -4852,11 +4852,11 @@ msgstr "Ulkomaantiedustelu: %s valtakunta"
 #: client/gui-gtk-3.22/inteldlg.c:551 client/gui-gtk-3.22/inteldlg.c:558
 #: client/gui-gtk-3.22/inteldlg.c:565 client/gui-gtk-3.22/inteldlg.c:572
 #: client/gui-gtk-3.22/inteldlg.c:582 client/gui-gtk-3.22/inteldlg.c:589
-#: client/gui-gtk-3.22/inteldlg.c:606 client/gui-qt/plrdlg.cpp:458
-#: client/gui-qt/plrdlg.cpp:464 client/gui-qt/plrdlg.cpp:480
-#: client/gui-qt/plrdlg.cpp:481 client/gui-qt/plrdlg.cpp:482
-#: client/gui-qt/plrdlg.cpp:483 client/gui-qt/plrdlg.cpp:490
-#: client/gui-qt/plrdlg.cpp:491 client/gui-qt/plrdlg.cpp:505
+#: client/gui-gtk-3.22/inteldlg.c:606 client/gui-qt/plrdlg.cpp:459
+#: client/gui-qt/plrdlg.cpp:465 client/gui-qt/plrdlg.cpp:481
+#: client/gui-qt/plrdlg.cpp:482 client/gui-qt/plrdlg.cpp:483
+#: client/gui-qt/plrdlg.cpp:484 client/gui-qt/plrdlg.cpp:493
+#: client/gui-qt/plrdlg.cpp:494 client/gui-qt/plrdlg.cpp:508
 #: client/gui-sdl2/inteldlg.c:338 client/gui-sdl2/inteldlg.c:341
 #: client/gui-sdl2/inteldlg.c:354 client/gui-sdl2/inteldlg.c:373
 #: common/research.c:89
@@ -6985,7 +6985,7 @@ msgstr "Lisätietoa saa napauttamalla asukkaita%shiiren vasemmalla napilla."
 #: client/gui-gtk-3.0/inteldlg.c:388 client/gui-gtk-3.22/citydlg.c:1689
 #: client/gui-gtk-3.22/dialogs.c:111 client/gui-gtk-3.22/dialogs.c:203
 #: client/gui-gtk-3.22/dialogs.c:212 client/gui-gtk-3.22/dialogs.c:217
-#: client/gui-gtk-3.22/dialogs.c:254 client/gui-gtk-3.22/editprop.c:4913
+#: client/gui-gtk-3.22/dialogs.c:254 client/gui-gtk-3.22/editprop.c:4918
 #: client/gui-gtk-3.22/gamedlgs.c:326 client/gui-gtk-3.22/helpdlg.c:460
 #: client/gui-gtk-3.22/inteldlg.c:256 client/gui-gtk-3.22/inteldlg.c:387
 #: client/gui-gtk-3.22/luaconsole.c:242 client/gui-gtk-3.22/messagewin.c:379
@@ -7002,12 +7002,12 @@ msgid "Wonders of %s Empire"
 msgstr "%s valtakunnan ihmeet"
 
 #: client/gui-gtk-3.0/inteldlg.c:652 client/gui-gtk-3.22/inteldlg.c:650
-#: client/gui-qt/plrdlg.cpp:642 client/gui-sdl2/inteldlg.c:452
+#: client/gui-qt/plrdlg.cpp:644 client/gui-sdl2/inteldlg.c:452
 msgid "(unknown city)"
 msgstr "(tuntematon kaupunki)"
 
 #: client/gui-gtk-3.0/inteldlg.c:658 client/gui-gtk-3.22/inteldlg.c:656
-#: client/gui-qt/plrdlg.cpp:648 client/gui-sdl2/inteldlg.c:458
+#: client/gui-qt/plrdlg.cpp:650 client/gui-sdl2/inteldlg.c:458
 msgid "(lost)"
 msgstr "(menetetty)"
 
@@ -7138,11 +7138,11 @@ msgstr "Hyväksy"
 msgid "_Delete"
 msgstr "Poista (_D)"
 
-#: client/gui-gtk-3.22/editprop.c:4984 client/gui-gtk-3.22/optiondlg.c:362
+#: client/gui-gtk-3.22/editprop.c:4989 client/gui-gtk-3.22/optiondlg.c:362
 msgid "_Refresh"
 msgstr "Vi_rkistä"
 
-#: client/gui-gtk-3.22/editprop.c:4994 client/gui-gtk-3.22/optiondlg.c:364
+#: client/gui-gtk-3.22/editprop.c:4999 client/gui-gtk-3.22/optiondlg.c:364
 msgid "_Apply"
 msgstr "Käytä kerr_an"
 
@@ -8659,43 +8659,63 @@ msgstr "Raha: %1% Tiede: %2% Luksus: %3%\n"
 msgid "%1 - max rate: %2%"
 msgstr "%1 - maksimiosuus: %2%"
 
-#: client/gui-qt/plrdlg.cpp:563
+#: client/gui-qt/plrdlg.cpp:565
 msgid "<b>Techs unknown by %1:</b>"
 msgstr "<b>Teknologiat, joita %1 eivät tunne:</b>"
 
-#: client/gui-qt/plrdlg.cpp:566
+#: client/gui-qt/plrdlg.cpp:568
 msgid "<b>Techs unknown by you :</b>"
 msgstr "<b>Teknologiat, joita et tunne:</b>"
 
-#: client/gui-qt/plrdlg.cpp:611
+#: client/gui-qt/plrdlg.cpp:613
 msgid "<b>Techs known by %1:</b>"
 msgstr "<b>Teknologiat, jotka %1 tuntevat:</b>"
 
-#: client/gui-qt/plrdlg.cpp:627
+#: client/gui-qt/plrdlg.cpp:629
 msgid "Wonders of %1 Empire"
 msgstr "%1 valtakunnan ihmeet"
 
-#: client/gui-qt/plrdlg.cpp:645 client/gui-sdl2/inteldlg.c:455
+#: client/gui-qt/plrdlg.cpp:647 client/gui-sdl2/inteldlg.c:455
 msgid " (obsolete)"
 msgstr " (vanhentunut)"
 
-#: client/gui-qt/plrdlg.cpp:717
+#: client/gui-qt/plrdlg.cpp:721
 msgid "Meet"
 msgstr "Tapaa"
 
-#: client/gui-qt/plrdlg.cpp:719 client/gui-sdl2/diplodlg.c:1554
+#: client/gui-qt/plrdlg.cpp:723 client/gui-sdl2/diplodlg.c:1554
 msgid "Cancel Treaty"
 msgstr "Pura sopimus"
 
-#: client/gui-qt/plrdlg.cpp:721
+#: client/gui-qt/plrdlg.cpp:725
 msgid "Withdraw Vision"
 msgstr "Lopeta näkymän jakaminen"
 
-#: client/gui-qt/plrdlg.cpp:723 client/gui-qt/plrdlg.cpp:826
+#: client/gui-qt/plrdlg.cpp:727 client/gui-qt/plrdlg.cpp:841
 msgid "Toggle AI Mode"
 msgstr "Aseta AI-tila"
 
-#: client/gui-qt/plrdlg.cpp:725
+#: client/gui-qt/plrdlg.cpp:729 client/gui-qt/plrdlg.cpp:879
+msgid "Hide Relations"
+msgstr "Kätke diplomaattisuhteet"
+
+#: client/gui-qt/plrdlg.cpp:731 client/gui-qt/plrdlg.cpp:893
+msgid "Hide Techs"
+msgstr "Kätke teknologiat"
+
+#: client/gui-qt/plrdlg.cpp:733 client/gui-qt/plrdlg.cpp:907
+msgid "Hide Wonders"
+msgstr "Kätke ihmeet"
+
+#: client/gui-qt/plrdlg.cpp:876
+msgid "Show Relations"
+msgstr "Näytä diplomaattisuhteet"
+
+#: client/gui-qt/plrdlg.cpp:890
+msgid "Show Techs"
+msgstr "Näytä teknologiat"
+
+#: client/gui-qt/plrdlg.cpp:904
 msgid "Show Wonders"
 msgstr "Näytä ihmeet"
 
@@ -10319,7 +10339,7 @@ msgstr "Käyttökelpoista oletusulkoasua ei löydy, lopetan!"
 msgid "Loading theme \"%s\"."
 msgstr "Lataan teemaa \"%s\"."
 
-#: client/gui-sdl2/themespec.c:493 client/gui-sdl2/themespec.c:527
+#: client/gui-sdl2/themespec.c:493 client/gui-sdl2/themespec.c:532
 #: client/tilespec.c:1531 client/tilespec.c:1563
 #, c-format
 msgid ""
@@ -40759,12 +40779,12 @@ msgid "%s gain a leader by the name %s. Dangerous times may lie ahead."
 msgstr ""
 "Vaaralliset ajat uhkaavat, %s ovat saaneet uuden hallitsijan nimeltään %s."
 
-#: server/barbarian.c:676
+#: server/barbarian.c:683
 #, c-format
 msgid "Native unrest near %s led by %s."
 msgstr "%s raportoi levottomuuksia lähistöllä, %s johtaa rähinöijiä."
 
-#: server/barbarian.c:681
+#: server/barbarian.c:688
 #, c-format
 msgid "Sea raiders seen near %s!"
 msgstr "%s on havainnut merirosvoja!"
@@ -44296,7 +44316,7 @@ msgid ""
 msgstr ""
 "Asetetaan kartan kooksi %d (noin %d maaruutua kutakin %d pelaajaa kohden)."
 
-#: server/generator/startpos.c:493
+#: server/generator/startpos.c:492
 msgid ""
 "The server appears to have gotten into an infinite loop in the allocation of "
 "starting positions.\n"
@@ -52125,7 +52145,7 @@ msgstr[1] " (yhteensä %d toistoa)"
 msgid "Failed to fetch %s: %s"
 msgstr "Virhe noudettaessa tiedostoa osoitteesta %s: %s"
 
-#: utility/netfile.c:171 utility/registry_ini.c:650
+#: utility/netfile.c:171 utility/registry_ini.c:662
 #, c-format
 msgid "Could not open %s for writing"
 msgstr "Tiedostoa %s ei voitu avata kirjoitusta varten."
