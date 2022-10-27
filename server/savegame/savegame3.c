@@ -2691,6 +2691,8 @@ static void sg_save_counters(struct savedata *saving)
       ++j;
     } city_list_iterate_end;
   } players_iterate_end;
+
+  free(countvalues);
 }
 
 /* =======================================================================
