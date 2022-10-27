@@ -3817,7 +3817,7 @@ is_action_possible(const action_id wanted_action,
 
   case ACTRES_SPY_STEAL_GOLD:
     /* If actor->unit can do the action the actor->player can see how much
-     * gold target->player have. Not requireing it is therefore pointless.
+     * gold target->player have. Not requiring it is therefore pointless.
      */
     if (target->player->economic.gold <= 0) {
       return TRI_NO;
