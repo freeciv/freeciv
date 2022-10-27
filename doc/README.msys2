@@ -6,6 +6,17 @@ This document is about building Freeciv Windows Installer packages
 using MSYS2 from https://www.msys2.org/
 
 
+ MSYS2 Version
+==============
+
+Current official premade MSYS2 environment version info:
+[premade]:  msys2-freeciv-win64-220903.7z
+[upstream]: https://repo.msys2.org/distrib/x86_64/msys2-x86_64-20220603.exe
+
+See chapter "Premade environment" for what these mean. The info
+is located here for quick reference for the specific freeciv revision.
+
+
  Status
 ====================================
 
@@ -26,8 +37,8 @@ using MSYS2 from https://www.msys2.org/
 1) Install MSYS2 following the documentation on their homepage
 
 1.1) Download
- https://repo.msys2.org/distrib/x86_64/msys2-x86_64-20220603.exe
- for win64 host
+ package indicated by [upstream] URL in the "MSYS2 Version"
+ chapter near top of this document.
 
 1.2) Run it to install MSYS2 on build system
 
@@ -112,14 +123,14 @@ using MSYS2 from https://www.msys2.org/
 
 Premade msys2 environment is available for download from
 https://files.freeciv.org/packages/windows/msys2/
+We have environment available for win64 host only,
+but for building freeciv for multiple targets.
 
-Current version is
-
-win64 host:
------------
-msys2-freeciv-win64-220903.7z, based on
-https://repo.msys2.org/distrib/x86_64/msys2-x86_64-20220603.exe
-with packages updated to 03-Sep-2022 level.
+For version info, see chapter "MSYS2 Version" near top of
+this document. Upstream snapshot was used as the base,
+and then packages were updated to the level indicated
+by the date (YYMMDD) in the freeciv msys2 environment
+.7z package name.
 
 Most packages are included for all of win32, win64 and
 ucrt64 (win64, with minimum requirement of Windows 10) targets.
