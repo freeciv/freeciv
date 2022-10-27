@@ -754,11 +754,11 @@ void handle_city_info(const struct packet_city_info *packet)
           && (pcity->food_stock != packet->food_stock
               || pcity->surplus[O_FOOD] != packet->surplus[O_FOOD]))
       || (gui_options.draw_city_trade_routes && trade_routes_changed);
+
+    city_name_set(pcity, packet->name);
   }
-  
-  sz_strlcpy(pcity->name, packet->name);
-  
-  /* check data */
+
+  /* Check data */
   city_size_set(pcity, 0);
   for (i = 0; i < FEELING_LAST; i++) {
     pcity->feel[CITIZEN_HAPPY][i] = packet->ppl_happy[i];
