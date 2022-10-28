@@ -417,7 +417,7 @@ bool is_building_replaced(const struct city *pcity,
                           const struct impr_type *pimprove,
                           const enum req_problem_type prob_type);
 
-/* functions to know the bonuses a certain effect is granting */
+/* Functions to know the bonuses a certain effect is granting */
 int get_world_bonus(enum effect_type effect_type);
 int get_player_bonus(const struct player *plr, enum effect_type effect_type);
 int get_city_bonus(const struct city *pcity, enum effect_type effect_type);
@@ -453,7 +453,7 @@ int get_unit_vs_tile_bonus(const struct tile *ptile,
                            const struct unit *punit,
                            enum effect_type etype);
 
-/* miscellaneous auxiliary effects functions */
+/* Miscellaneous auxiliary effects functions */
 struct effect_list *get_req_source_effects(struct universal *psource);
 
 int get_player_bonus_effects(struct effect_list *plist,
