@@ -126,6 +126,18 @@ static void report_wow_callback(GtkMenuItem *item, gpointer data);
 static void report_top_cities_callback(GtkMenuItem *item, gpointer data);
 static void report_messages_callback(GtkMenuItem *item, gpointer data);
 static void report_demographic_callback(GtkMenuItem *item, gpointer data);
+static void bg_select0_callback(GtkMenuItem *item, gpointer data);
+static void bg_assign0_callback(GtkMenuItem *item, gpointer data);
+static void bg_append0_callback(GtkMenuItem *item, gpointer data);
+static void bg_select1_callback(GtkMenuItem *item, gpointer data);
+static void bg_assign1_callback(GtkMenuItem *item, gpointer data);
+static void bg_append1_callback(GtkMenuItem *item, gpointer data);
+static void bg_select2_callback(GtkMenuItem *item, gpointer data);
+static void bg_assign2_callback(GtkMenuItem *item, gpointer data);
+static void bg_append2_callback(GtkMenuItem *item, gpointer data);
+static void bg_select3_callback(GtkMenuItem *item, gpointer data);
+static void bg_assign3_callback(GtkMenuItem *item, gpointer data);
+static void bg_append3_callback(GtkMenuItem *item, gpointer data);
 static void help_overview_callback(GtkMenuItem *item, gpointer data);
 static void help_playing_callback(GtkMenuItem *item, gpointer data);
 static void help_policies_callback(GtkMenuItem *item, gpointer data);
@@ -256,6 +268,8 @@ static struct menu_entry_info menu_entries[] =
     NULL, MGROUP_SAFE },
   { "MENU_CIVILIZATION", N_("C_ivilization"), 0, 0,
     NULL, MGROUP_SAFE },
+  { "MENU_BATTLE_GROUPS", N_("_Battle Groups"), 0, 0,
+    NULL, MGROUP_SAFE },
   { "MENU_HELP", N_("_Help"), 0, 0, NULL, MGROUP_SAFE },
   { "CLEAR_CHAT_LOGS", N_("_Clear Chat Log"), 0, 0,
     G_CALLBACK(clear_chat_logs_callback), MGROUP_SAFE },
@@ -305,6 +319,46 @@ static struct menu_entry_info menu_entries[] =
     G_CALLBACK(report_messages_callback), MGROUP_SAFE },
   { "REPORT_DEMOGRAPHIC", N_("_Demographics"), GDK_KEY_F11, 0,
     G_CALLBACK(report_demographic_callback), MGROUP_SAFE },
+
+  /* Battle Groups menu */
+  /* Note that user view: 1 - 4, internal: 0 - 3 */
+  { "BATTLE_GROUP_SELECT_0", N_("Select Battle Group 1"),
+    GDK_KEY_F1, GDK_SHIFT_MASK,
+    G_CALLBACK(bg_select0_callback), MGROUP_SAFE },
+  { "BATTLE_GROUP_ASSIGN_0", N_("Assign Battle Group 1"),
+    GDK_KEY_F1, GDK_CONTROL_MASK,
+    G_CALLBACK(bg_assign0_callback), MGROUP_SAFE },
+  { "BATTLE_GROUP_APPEND_0", N_("Append to Battle Group 1"),
+    GDK_KEY_F1, GDK_SHIFT_MASK | GDK_CONTROL_MASK,
+    G_CALLBACK(bg_append0_callback), MGROUP_SAFE },
+  { "BATTLE_GROUP_SELECT_1", N_("Select Battle Group 2"),
+    GDK_KEY_F1, GDK_SHIFT_MASK,
+    G_CALLBACK(bg_select1_callback), MGROUP_SAFE },
+  { "BATTLE_GROUP_ASSIGN_1", N_("Assign Battle Group 2"),
+    GDK_KEY_F1, GDK_CONTROL_MASK,
+    G_CALLBACK(bg_assign1_callback), MGROUP_SAFE },
+  { "BATTLE_GROUP_APPEND_1", N_("Append to Battle Group 2"),
+    GDK_KEY_F1, GDK_SHIFT_MASK | GDK_CONTROL_MASK,
+    G_CALLBACK(bg_append1_callback), MGROUP_SAFE },
+  { "BATTLE_GROUP_SELECT_2", N_("Select Battle Group 3"),
+    GDK_KEY_F1, GDK_SHIFT_MASK,
+    G_CALLBACK(bg_select2_callback), MGROUP_SAFE },
+  { "BATTLE_GROUP_ASSIGN_2", N_("Assign Battle Group 3"),
+    GDK_KEY_F1, GDK_CONTROL_MASK,
+    G_CALLBACK(bg_assign2_callback), MGROUP_SAFE },
+  { "BATTLE_GROUP_APPEND_2", N_("Append to Battle Group 3"),
+    GDK_KEY_F1, GDK_SHIFT_MASK | GDK_CONTROL_MASK,
+    G_CALLBACK(bg_append2_callback), MGROUP_SAFE },
+  { "BATTLE_GROUP_SELECT_3", N_("Select Battle Group 4"),
+    GDK_KEY_F1, GDK_SHIFT_MASK,
+    G_CALLBACK(bg_select3_callback), MGROUP_SAFE },
+  { "BATTLE_GROUP_ASSIGN_3", N_("Assign Battle Group 4"),
+    GDK_KEY_F1, GDK_CONTROL_MASK,
+    G_CALLBACK(bg_assign3_callback), MGROUP_SAFE },
+  { "BATTLE_GROUP_APPEND_3", N_("Append to Battle Group 4"),
+    GDK_KEY_F1, GDK_SHIFT_MASK | GDK_CONTROL_MASK,
+    G_CALLBACK(bg_append3_callback), MGROUP_SAFE },
+
   { "HELP_OVERVIEW", N_("?help:Overview"), 0, 0,
     G_CALLBACK(help_overview_callback), MGROUP_SAFE },
   { "HELP_PLAYING", N_("Strategy and Tactics"), 0, 0,
@@ -812,6 +866,102 @@ static void help_worklist_editor_callback(GtkMenuItem *item, gpointer data)
 static void help_cma_callback(GtkMenuItem *item, gpointer data)
 {
   popup_help_dialog_string(HELP_CMA_ITEM);
+}
+
+/************************************************************************//**
+  Item "BATTLE_GROUP_SELECT_0" callback.
+****************************************************************************/
+static void bg_select0_callback(GtkMenuItem *item, gpointer data)
+{
+  key_unit_select_battlegroup(0, FALSE);
+}
+
+/************************************************************************//**
+  Item "BATTLE_GROUP_ASSIGN_0" callback.
+****************************************************************************/
+static void bg_assign0_callback(GtkMenuItem *item, gpointer data)
+{
+  key_unit_assign_battlegroup(0, FALSE);
+}
+
+/************************************************************************//**
+  Item "BATTLE_GROUP_APPEND_0" callback.
+****************************************************************************/
+static void bg_append0_callback(GtkMenuItem *item, gpointer data)
+{
+  key_unit_assign_battlegroup(0, TRUE);
+}
+
+/************************************************************************//**
+  Item "BATTLE_GROUP_SELECT_1" callback.
+****************************************************************************/
+static void bg_select1_callback(GtkMenuItem *item, gpointer data)
+{
+  key_unit_select_battlegroup(1, FALSE);
+}
+
+/************************************************************************//**
+  Item "BATTLE_GROUP_ASSIGN_1" callback.
+****************************************************************************/
+static void bg_assign1_callback(GtkMenuItem *item, gpointer data)
+{
+  key_unit_assign_battlegroup(1, FALSE);
+}
+
+/************************************************************************//**
+  Item "BATTLE_GROUP_APPEND_1" callback.
+****************************************************************************/
+static void bg_append1_callback(GtkMenuItem *item, gpointer data)
+{
+  key_unit_assign_battlegroup(1, TRUE);
+}
+
+/************************************************************************//**
+  Item "BATTLE_GROUP_SELECT_2" callback.
+****************************************************************************/
+static void bg_select2_callback(GtkMenuItem *item, gpointer data)
+{
+  key_unit_select_battlegroup(2, FALSE);
+}
+
+/************************************************************************//**
+  Item "BATTLE_GROUP_ASSIGN_2" callback.
+****************************************************************************/
+static void bg_assign2_callback(GtkMenuItem *item, gpointer data)
+{
+  key_unit_assign_battlegroup(2, FALSE);
+}
+
+/************************************************************************//**
+  Item "BATTLE_GROUP_APPEND_2" callback.
+****************************************************************************/
+static void bg_append2_callback(GtkMenuItem *item, gpointer data)
+{
+  key_unit_assign_battlegroup(2, TRUE);
+}
+
+/************************************************************************//**
+  Item "BATTLE_GROUP_SELECT_3" callback.
+****************************************************************************/
+static void bg_select3_callback(GtkMenuItem *item, gpointer data)
+{
+  key_unit_select_battlegroup(3, FALSE);
+}
+
+/************************************************************************//**
+  Item "BATTLE_GROUP_ASSIGN_3" callback.
+****************************************************************************/
+static void bg_assign3_callback(GtkMenuItem *item, gpointer data)
+{
+  key_unit_assign_battlegroup(3, FALSE);
+}
+
+/************************************************************************//**
+  Item "BATTLE_GROUP_APPEND_3" callback.
+****************************************************************************/
+static void bg_append3_callback(GtkMenuItem *item, gpointer data)
+{
+  key_unit_assign_battlegroup(3, TRUE);
 }
 
 /************************************************************************//**

@@ -469,54 +469,6 @@ static gboolean key_press_map_canvas(GtkWidget *w, GdkEventKey *ev,
     return FALSE;
   }
 
-  fc_assert(MAX_NUM_BATTLEGROUPS == 4);
-
-  if ((ev->state & GDK_CONTROL_MASK)) {
-    switch (ev->keyval) {
-
-    case GDK_KEY_F1:
-      key_unit_assign_battlegroup(0, (ev->state & GDK_SHIFT_MASK));
-      return TRUE;
-
-    case GDK_KEY_F2:
-      key_unit_assign_battlegroup(1, (ev->state & GDK_SHIFT_MASK));
-      return TRUE;
-
-    case GDK_KEY_F3:
-      key_unit_assign_battlegroup(2, (ev->state & GDK_SHIFT_MASK));
-      return TRUE;
-
-    case GDK_KEY_F4:
-      key_unit_assign_battlegroup(3, (ev->state & GDK_SHIFT_MASK));
-      return TRUE;
-
-    default:
-      break;
-    };
-  } else if ((ev->state & GDK_SHIFT_MASK)) {
-    switch (ev->keyval) {
-
-    case GDK_KEY_F1:
-      key_unit_select_battlegroup(0, FALSE);
-      return TRUE;
-
-    case GDK_KEY_F2:
-      key_unit_select_battlegroup(1, FALSE);
-      return TRUE;
-
-    case GDK_KEY_F3:
-      key_unit_select_battlegroup(2, FALSE);
-      return TRUE;
-
-    case GDK_KEY_F4:
-      key_unit_select_battlegroup(3, FALSE);
-      return TRUE;
-
-    default:
-      break;
-    };
-  }
-
   switch (ev->keyval) {
 
   case GDK_KEY_KP_Up:
