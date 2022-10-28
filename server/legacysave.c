@@ -4371,6 +4371,11 @@ static void game_load_internal(struct section_file *file)
     assign_player_colors();
   }
 
+  /* Check max rates (rules may have changed since saving) */
+  players_iterate(pplayer) {
+    pplayer->economic = player_limit_to_max_rates(pplayer);
+  } players_iterate_end;
+
   /* Restore game random state, just in case various initialization code
    * inexplicably altered the previously existing state. */
   if (!game.info.is_new_game) {
