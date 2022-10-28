@@ -104,6 +104,7 @@
 /* utility */
 #include "fciconv.h"
 #include "fcintl.h"
+#include "fcthread.h"
 #include "log.h"
 #include "mem.h"
 #include "netintf.h"
@@ -117,6 +118,7 @@ fc_mutex icu_buffer_mutex;
 
 #ifndef HAVE_WORKING_VSNPRINTF
 static char *vsnprintf_buf = NULL;
+fc_mutex vsnprintf_mutex;
 #endif /* HAVE_WORKING_VSNPRINTF */
 
 /************************************************************************//**
@@ -905,6 +907,7 @@ int fc_vsnprintf(char *str, size_t n, const char *format, va_list ap)
     }
 
     if (vsnprintf_buf == NULL) {
+      fc_init_mutex(&vsnprintf_mutex);
       vsnprintf_buf = malloc(VSNP_BUF_SIZE);
 
       if (vsnprintf_buf == NULL) {
@@ -913,6 +916,8 @@ int fc_vsnprintf(char *str, size_t n, const char *format, va_list ap)
         exit(EXIT_FAILURE);
       }
     }
+
+    fc_allocate_mutex(&vsnprintf_mutex);
 
     vsnprintf_buf[VSNP_BUF_SIZE - 1] = '\0';
 
@@ -935,6 +940,8 @@ int fc_vsnprintf(char *str, size_t n, const char *format, va_list ap)
       memcpy(str, vsnprintf_buf, n - 1);
       str[n - 1] = '\0';
     }
+
+    fc_release_mutex(&vsnprintf_mutex);
 
     return len;
   }
@@ -1305,6 +1312,7 @@ void fc_support_free(void)
   if (vsnprintf_buf != NULL) {
     free(vsnprintf_buf);
     vsnprintf_buf = NULL;
+    fc_destroy_mutex(&vsnprintf_mutex);
   }
 #endif /* HAVE_WORKING_VSNPRINTF */
 }
