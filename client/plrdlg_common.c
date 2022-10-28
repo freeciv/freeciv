@@ -307,8 +307,8 @@ static const char *col_idle(const struct player *plr)
 /************************************************************************//**
   Compare score of two players in players dialog
 ****************************************************************************/
-static int cmp_score(const struct player* player1,
-                     const struct player* player2)
+static int cmp_score(const struct player *player1,
+                     const struct player *player2)
 {
   return player1->score.game - player2->score.game;
 }
