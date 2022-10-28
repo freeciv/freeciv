@@ -3,28 +3,20 @@
 ## Must be set before adding anything
 GUI_SUBDIRS =
 
-desktopfiledir = @DESKTOPDIR@
-
-desktopfile_DATA =
-
 if CLIENT_GUI_SDL2
 GUI_SUBDIRS += gui-sdl2
-desktopfile_DATA += org.freeciv.sdl2.desktop
 endif
 
 if CLIENT_GUI_GTK_3_22
 GUI_SUBDIRS += gui-gtk-3.22
-desktopfile_DATA += org.freeciv.gtk322.desktop
 endif
 
 if CLIENT_GUI_GTK_4
 GUI_SUBDIRS += gui-gtk-4.0
-desktopfile_DATA += org.freeciv.gtk4.desktop
 endif
 
 if CLIENT_GUI_QT
 GUI_SUBDIRS += gui-qt
-desktopfile_DATA += org.freeciv.qt.desktop
 endif
 
 if CLIENT_GUI_STUB

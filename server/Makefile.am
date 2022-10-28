@@ -180,6 +180,3 @@ freeciv_server_SOURCES = $(exe_sources)
 freeciv_server_LDFLAGS = $(exe_ldflags)
 freeciv_server_LDADD = $(exe_ldadd)
 endif
-
-desktopfiledir = @DESKTOPDIR@
-desktopfile_DATA = org.freeciv.server.desktop
