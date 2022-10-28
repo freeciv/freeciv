@@ -411,6 +411,9 @@
               </object>
             </child>
             <child>
+              <object class="GtkMenuItem" id="DO_PARADROP" />
+            </child>
+            <child>
               <object class="GtkMenuItem" id="DO_PILLAGE" />
             </child>
             <child>

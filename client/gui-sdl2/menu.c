@@ -746,14 +746,14 @@ void create_units_order_widgets(void)
 
   /* Paradrop */
   fc_snprintf(cbuf, sizeof(cbuf), "%s (%s)",
-              action_id_name_translation(ACTION_PARADROP), "P");
+              action_id_name_translation(ACTION_PARADROP), "J");
   buf = create_themeicon(current_theme->o_paradrop_icon, main_data.gui,
                          WF_HIDDEN | WF_RESTORE_BACKGROUND
                          | WF_WIDGET_HAS_INFO_LABEL);
   set_wstate(buf, FC_WS_NORMAL);
   buf->action = unit_order_callback;
   buf->info_label =  create_utf8_from_char(cbuf, adj_font(10));
-  buf->key = SDLK_p;
+  buf->key = SDLK_j;
   add_to_gui_list(ID_UNIT_ORDER_PARADROP, buf);
   /* --------- */
 
