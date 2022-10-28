@@ -476,6 +476,50 @@
       </object>
     </child>
     <child>
+      <object class="GtkMenuItem" id="MENU_BATTLE_GROUPS">
+        <child type="submenu">
+          <object class="GtkMenu" id="<MENU>/BATTLE_GROUPS" >
+            <child>
+              <object class="GtkMenuItem" id="BATTLE_GROUP_SELECT_0" />
+            </child>
+            <child>
+              <object class="GtkMenuItem" id="BATTLE_GROUP_ASSIGN_0" />
+            </child>
+            <child>
+              <object class="GtkMenuItem" id="BATTLE_GROUP_APPEND_0" />
+            </child>
+            <child>
+              <object class="GtkMenuItem" id="BATTLE_GROUP_SELECT_1" />
+            </child>
+            <child>
+              <object class="GtkMenuItem" id="BATTLE_GROUP_ASSIGN_1" />
+            </child>
+            <child>
+              <object class="GtkMenuItem" id="BATTLE_GROUP_APPEND_1" />
+            </child>
+            <child>
+              <object class="GtkMenuItem" id="BATTLE_GROUP_SELECT_2" />
+            </child>
+            <child>
+              <object class="GtkMenuItem" id="BATTLE_GROUP_ASSIGN_2" />
+            </child>
+            <child>
+              <object class="GtkMenuItem" id="BATTLE_GROUP_APPEND_2" />
+            </child>
+            <child>
+              <object class="GtkMenuItem" id="BATTLE_GROUP_SELECT_3" />
+            </child>
+            <child>
+              <object class="GtkMenuItem" id="BATTLE_GROUP_ASSIGN_3" />
+            </child>
+            <child>
+              <object class="GtkMenuItem" id="BATTLE_GROUP_APPEND_3" />
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+    <child>
       <object class="GtkMenuItem" id="MENU_HELP">
         <child type="submenu">
           <object class="GtkMenu" id="<MENU>/HELP" >
