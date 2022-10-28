@@ -1,6 +1,7 @@
 ## Process this file with automake to produce Makefile.in
 
 metainfofiledir = @METAINFODIR@
+desktopfiledir  = @DESKTOPDIR@
 
 ## Automake should distribute config.rpath automatically - and new
 ## versions probably do. We still support versions that do not, so
@@ -45,45 +46,56 @@ EXTRA_DIST =	freeciv.project		\
 		langnames.txt
 
 metainfofile_DATA =
+desktopfile_DATA  =
 
 if SERVER
 metainfofile_DATA += org.freeciv.server.metainfo.xml
+desktopfile_DATA  += org.freeciv.server.desktop
 endif
 
 if CLIENT_GUI_SDL2
 metainfofile_DATA += org.freeciv.sdl2.metainfo.xml
+desktopfile_DATA  += org.freeciv.sdl2.desktop
 endif
 
 if CLIENT_GUI_GTK_3_0
 metainfofile_DATA += org.freeciv.gtk3.metainfo.xml
+desktopfile_DATA  += org.freeciv.gtk3.desktop
 endif
 
 if CLIENT_GUI_GTK_3_22
 metainfofile_DATA += org.freeciv.gtk322.metainfo.xml
+desktopfile_DATA  += org.freeciv.gtk322.desktop
 endif
 
 if CLIENT_GUI_GTK_4
 metainfofile_DATA += org.freeciv.gtk4.metainfo.xml
+desktopfile_DATA  += org.freeciv.gtk4.desktop
 endif
 
 if CLIENT_GUI_QT
 metainfofile_DATA += org.freeciv.qt.metainfo.xml
+desktopfile_DATA  += org.freeciv.qt.desktop
 endif
 
 if MODINST_GTK3
 metainfofile_DATA += org.freeciv.mp.gtk3.metainfo.xml
+desktopfile_DATA  += org.freeciv.mp.gtk3.desktop
 endif
 
 if MODINST_GTK4
 metainfofile_DATA += org.freeciv.mp.gtk4.metainfo.xml
+desktopfile_DATA  += org.freeciv.mp.gtk4.desktop
 endif
 
 if MODINST_QT
 metainfofile_DATA += org.freeciv.mp.qt.metainfo.xml
+desktopfile_DATA  += org.freeciv.mp.qt.desktop
 endif
 
 if RULEDIT
 metainfofile_DATA += org.freeciv.ruledit.metainfo.xml
+desktopfile_DATA  += org.freeciv.ruledit.desktop
 endif
 
 langstat_core.txt:

@@ -39,22 +39,6 @@ AM_CPPFLAGS = $(common_cppflags)
 
 if MINGW
 MPICON = $(top_builddir)/windows/mpicon.o
-else
-desktopfiledir = @DESKTOPDIR@
-desktopfile_DATA =
-
-if MODINST_GTK3
-desktopfile_DATA += org.freeciv.mp.gtk3.desktop
-endif
-
-if MODINST_GTK4
-desktopfile_DATA += org.freeciv.mp.gtk4.desktop
-endif
-
-if MODINST_QT
-desktopfile_DATA += org.freeciv.mp.qt.desktop
-endif
-
 endif
 
 libfcmp_la_SOURCES = \
