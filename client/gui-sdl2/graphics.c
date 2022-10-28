@@ -551,17 +551,22 @@ void quit_sdl(void)
 }
 
 /**********************************************************************//**
-  Switch to passed video mode.
+  Switch to given video mode.
 **************************************************************************/
-int set_video_mode(int width, int height, int flags_in)
+bool set_video_mode(unsigned width, unsigned height, unsigned flags_in)
 {
-  unsigned int flags;
+  unsigned flags;
 
   main_data.screen = SDL_CreateWindow(_("SDL2 Client for Freeciv"),
                                       SDL_WINDOWPOS_UNDEFINED,
                                       SDL_WINDOWPOS_UNDEFINED,
                                       width, height,
                                       0);
+
+  if (main_data.screen == NULL) {
+    log_fatal(_("Failed to create main window: %s"), SDL_GetError());
+    return FALSE;
+  }
 
   if (flags_in & SDL_WINDOW_FULLSCREEN) {
     SDL_DisplayMode mode;
@@ -577,20 +582,21 @@ int set_video_mode(int width, int height, int flags_in)
     main_surface = SDL_CreateRGBSurface(0, width, height, 32,
                                         0x0000FF00, 0x00FF0000,
                                         0xFF000000, 0x000000FF);
-  } else {
-    main_surface = SDL_CreateRGBSurface(0, width, height, 32,
-                                        0x00FF0000, 0x0000FF00,
-                                        0x000000FF, 0xFF000000);
-  }
-
-  if (is_bigendian()) {
     main_data.map = SDL_CreateRGBSurface(0, width, height, 32,
                                          0x0000FF00, 0x00FF0000,
                                          0xFF000000, 0x000000FF);
   } else {
+    main_surface = SDL_CreateRGBSurface(0, width, height, 32,
+                                        0x00FF0000, 0x0000FF00,
+                                        0x000000FF, 0xFF000000);
     main_data.map = SDL_CreateRGBSurface(0, width, height, 32,
                                          0x00FF0000, 0x0000FF00,
                                          0x000000FF, 0xFF000000);
+  }
+
+  if (main_surface == NULL || main_data.map == NULL) {
+    log_fatal(_("Failed to create RGB surface: %s"), SDL_GetError());
+    return FALSE;
   }
 
   if (gui_options.gui_sdl2_swrenderer) {
@@ -601,10 +607,20 @@ int set_video_mode(int width, int height, int flags_in)
 
   main_data.renderer = SDL_CreateRenderer(main_data.screen, -1, flags);
 
+  if (main_data.renderer == NULL) {
+    log_fatal(_("Failed to create renderer: %s"), SDL_GetError());
+    return FALSE;
+  }
+
   main_data.maintext = SDL_CreateTexture(main_data.renderer,
                                          SDL_PIXELFORMAT_ARGB8888,
                                          SDL_TEXTUREACCESS_STREAMING,
                                          width, height);
+
+  if (main_data.maintext == NULL) {
+    log_fatal(_("Failed to create texture: %s"), SDL_GetError());
+    return FALSE;
+  }
 
   if (main_data.gui) {
     FREESURFACE(main_data.gui->surface);
@@ -615,7 +631,7 @@ int set_video_mode(int width, int height, int flags_in)
 
   clear_surface(main_data.gui->surface, NULL);
 
-  return 0;
+  return TRUE;
 }
 
 /**********************************************************************//**
