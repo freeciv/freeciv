@@ -7805,6 +7805,11 @@ static void sg_load_sanitycheck(struct loaddata *loading)
     } unit_list_iterate_safe_end;
   } players_iterate_end;
 
+  /* Check max rates (rules may have changed since saving) */
+  players_iterate(pplayer) {
+    pplayer->economic = player_limit_to_max_rates(pplayer);
+  } players_iterate_end;
+
   if (0 == strlen(server.game_identifier)
       || !is_base64url(server.game_identifier)) {
     /* This uses fc_rand(), so random state has to be initialized before. */
