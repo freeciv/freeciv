@@ -1375,6 +1375,36 @@ static inline bool players_in_same_range(const struct player *pplayer1,
   return FALSE;
 }
 
+/* Function pointer for requirement-type-specific is_req_active handlers */
+typedef enum fc_tristate
+(*is_req_active_cb)(const struct req_context *context,
+                    const struct player *other_player,
+                    const struct requirement *req);
+
+#define IS_REQ_ACTIVE_VARIANT_ASSERT(_kind)                \
+{                                                          \
+  fc_assert_ret_val(req != NULL, TRI_MAYBE);               \
+  fc_assert_ret_val(req->source.kind == _kind, TRI_MAYBE); \
+  fc_assert(context != NULL);                              \
+}
+
+/**********************************************************************//**
+  Included for completeness. Determine whether a trivial (none) requirement
+  is satisfied in a given context (it always is), ignoring parts of the
+  requirement that can be handled uniformly for all requirement types.
+
+  context and req must not be null, and req must be a none requirement
+**************************************************************************/
+static enum fc_tristate
+is_none_req_active(const struct req_context *context,
+                   const struct player *other_player,
+                   const struct requirement *req)
+{
+  IS_REQ_ACTIVE_VARIANT_ASSERT(VUT_NONE);
+
+  return TRI_YES;
+}
+
 /**********************************************************************//**
   Returns the number of total world buildings (this includes buildings
   that have been destroyed).
@@ -1470,57 +1500,53 @@ static int num_city_buildings(const struct city *pcity,
 }
 
 /**********************************************************************//**
-  Are there any source buildings within range of the target that are not
-  obsolete?
+  Determine whether a building requirement is satisfied in a given context,
+  ignoring parts of the requirement that can be handled uniformly for all
+  requirement types.
 
-  The target gives the type of the target.  The exact target is a player,
-  city, or building specified by the target_xxx arguments.
-
-  The range gives the range of the requirement.
-
-  "Survives" specifies whether the requirement allows destroyed sources.
-  If set then all source buildings ever built are counted; if not then only
-  living buildings are counted.
-
-  source gives the building type of the source in question.
+  context and req must not be null, and req must be a building requirement
 **************************************************************************/
 static enum fc_tristate
-is_building_in_range(const struct player *target_player,
-                     const struct city *target_city,
-                     const struct impr_type *target_building,
-                     enum req_range range,
-                     bool survives,
-                     const struct impr_type *source)
+is_building_req_active(const struct req_context *context,
+                       const struct player *other_player,
+                       const struct requirement *req)
 {
+  const struct impr_type *building;
+
+  IS_REQ_ACTIVE_VARIANT_ASSERT(VUT_IMPROVEMENT);
+
+  building = req->source.value.building;
+
   /* Check if it's certain that the building is obsolete given the
    * specification we have */
-  if (improvement_obsolete(target_player, source, target_city)) {
+  if (improvement_obsolete(context->player, building, context->city)) {
     return TRI_NO;
   }
 
-  if (survives) {
+  if (req->survives) {
 
     /* Check whether condition has ever held, using cached information. */
-    switch (range) {
+    switch (req->range) {
     case REQ_RANGE_WORLD:
-      return BOOL_TO_TRISTATE(num_world_buildings_total(source) > 0);
+      return BOOL_TO_TRISTATE(num_world_buildings_total(building) > 0);
     case REQ_RANGE_ALLIANCE:
     case REQ_RANGE_TEAM:
-      if (target_player == NULL) {
+      if (context->player == NULL) {
         return TRI_MAYBE;
       }
       players_iterate_alive(plr2) {
-        if (players_in_same_range(target_player, plr2, range)
-            && player_has_ever_built(plr2, source)) {
+        if (players_in_same_range(context->player, plr2, req->range)
+            && player_has_ever_built(plr2, building)) {
           return TRI_YES;
         }
       } players_iterate_alive_end;
       return TRI_NO;
     case REQ_RANGE_PLAYER:
-      if (target_player == NULL) {
+      if (context->player == NULL) {
         return TRI_MAYBE;
       }
-      return BOOL_TO_TRISTATE(player_has_ever_built(target_player, source));
+      return BOOL_TO_TRISTATE(player_has_ever_built(context->player,
+                              building));
     case REQ_RANGE_CONTINENT:
     case REQ_RANGE_TRADEROUTE:
     case REQ_RANGE_CITY:
@@ -1538,43 +1564,46 @@ is_building_in_range(const struct player *target_player,
   } else {
 
     /* Non-surviving requirement. */
-    switch (range) {
+    switch (req->range) {
     case REQ_RANGE_WORLD:
-      return BOOL_TO_TRISTATE(num_world_buildings(source) > 0);
+      return BOOL_TO_TRISTATE(num_world_buildings(building) > 0);
     case REQ_RANGE_ALLIANCE:
     case REQ_RANGE_TEAM:
-      if (target_player == NULL) {
+      if (context->player == NULL) {
         return TRI_MAYBE;
       }
       players_iterate_alive(plr2) {
-        if (players_in_same_range(target_player, plr2, range)
-            && num_player_buildings(plr2, source) > 0) {
+        if (players_in_same_range(context->player, plr2, req->range)
+            && num_player_buildings(plr2, building) > 0) {
           return TRI_YES;
         }
       } players_iterate_alive_end;
       return TRI_NO;
     case REQ_RANGE_PLAYER:
-      if (target_player == NULL) {
+      if (context->player == NULL) {
         return TRI_MAYBE;
       }
-      return BOOL_TO_TRISTATE(num_player_buildings(target_player, source) > 0);
+      return BOOL_TO_TRISTATE(num_player_buildings(context->player,
+                                                   building)
+                              > 0);
     case REQ_RANGE_CONTINENT:
       /* At present, "Continent" effects can affect only
        * cities and units in cities. */
-      if (target_player && target_city) {
-        int continent = tile_continent(target_city->tile);
-        return BOOL_TO_TRISTATE(num_continent_buildings(target_player,
-                                                        continent, source) > 0);
+      if (context->player && context->city) {
+        int continent = tile_continent(context->city->tile);
+        return BOOL_TO_TRISTATE(num_continent_buildings(context->player,
+                                                        continent, building)
+                                > 0);
       } else {
         return TRI_MAYBE;
       }
     case REQ_RANGE_TRADEROUTE:
-      if (target_city) {
-        if (num_city_buildings(target_city, source) > 0) {
+      if (context->city) {
+        if (num_city_buildings(context->city, building) > 0) {
           return TRI_YES;
         } else {
-          trade_partners_iterate(target_city, trade_partner) {
-            if (num_city_buildings(trade_partner, source) > 0) {
+          trade_partners_iterate(context->city, trade_partner) {
+            if (num_city_buildings(trade_partner, building) > 0) {
               return TRI_YES;
             }
           } trade_partners_iterate_end;
@@ -1584,14 +1613,15 @@ is_building_in_range(const struct player *target_player,
         return TRI_MAYBE;
       }
     case REQ_RANGE_CITY:
-      if (target_city) {
-        return BOOL_TO_TRISTATE(num_city_buildings(target_city, source) > 0);
+      if (context->city) {
+        return BOOL_TO_TRISTATE(num_city_buildings(context->city, building)
+                                > 0);
       } else {
         return TRI_MAYBE;
       }
     case REQ_RANGE_LOCAL:
-      if (target_building) {
-        if (target_building == source) {
+      if (context->building) {
+        if (context->building == building) {
           return TRI_YES;
         } else {
           return TRI_NO;
@@ -1609,47 +1639,79 @@ is_building_in_range(const struct player *target_player,
 
   }
 
-  fc_assert_msg(FALSE, "Invalid range %d.", range);
+  fc_assert_msg(FALSE, "Invalid range %d.", req->range);
   return TRI_NO;
 }
 
 /**********************************************************************//**
-  Is there a source tech within range of the target?
+  Determine whether a building genus requirement is satisfied in a given
+  context, ignoring parts of the requirement that can be handled uniformly
+  for all requirement types.
+
+  context and req must not be null, and req must be a building genus
+  requirement
 **************************************************************************/
-static enum fc_tristate is_tech_in_range(const struct player *target_player,
-                                         enum req_range range, bool survives,
-                                         Tech_type_id tech)
+static enum fc_tristate
+is_buildinggenus_req_active(const struct req_context *context,
+                            const struct player *other_player,
+                            const struct requirement *req)
 {
-  if (survives) {
-    fc_assert(range == REQ_RANGE_WORLD);
+  IS_REQ_ACTIVE_VARIANT_ASSERT(VUT_IMPR_GENUS);
+
+  return (context->building ? BOOL_TO_TRISTATE(
+                                context->building->genus
+                                == req->source.value.impr_genus)
+                            : TRI_MAYBE);
+}
+
+/**********************************************************************//**
+  Determine whether a tech requirement is satisfied in a given context,
+  ignoring parts of the requirement that can be handled uniformly for all
+  requirement types.
+
+  context and req must not be null, and req must be a tech requirement
+**************************************************************************/
+static enum fc_tristate
+is_tech_req_active(const struct req_context *context,
+                   const struct player *other_player,
+                   const struct requirement *req)
+{
+  Tech_type_id tech;
+
+  IS_REQ_ACTIVE_VARIANT_ASSERT(VUT_ADVANCE);
+
+  tech = advance_number(req->source.value.advance);
+
+  if (req->survives) {
+    fc_assert(req->range == REQ_RANGE_WORLD);
     return BOOL_TO_TRISTATE(game.info.global_advances[tech]);
   }
 
   /* Not a 'surviving' requirement. */
-  switch (range) {
+  switch (req->range) {
   case REQ_RANGE_PLAYER:
-    if (NULL != target_player) {
+    if (NULL != context->player) {
       return BOOL_TO_TRISTATE(TECH_KNOWN == research_invention_state
-                                (research_get(target_player), tech));
+                                (research_get(context->player), tech));
     } else {
       return TRI_MAYBE;
     }
   case REQ_RANGE_TEAM:
   case REQ_RANGE_ALLIANCE:
   case REQ_RANGE_WORLD:
-   if (NULL == target_player) {
-     return TRI_MAYBE;
-   }
-   players_iterate_alive(plr2) {
-     if (players_in_same_range(target_player, plr2, range)) {
-       if (research_invention_state(research_get(plr2), tech)
-           == TECH_KNOWN) {
-         return TRI_YES;
-       }
-     }
-   } players_iterate_alive_end;
+    if (NULL == context->player) {
+      return TRI_MAYBE;
+    }
+    players_iterate_alive(plr2) {
+      if (players_in_same_range(context->player, plr2, req->range)) {
+        if (research_invention_state(research_get(plr2), tech)
+            == TECH_KNOWN) {
+          return TRI_YES;
+        }
+      }
+    } players_iterate_alive_end;
 
-   return TRI_NO;
+    return TRI_NO;
   case REQ_RANGE_LOCAL:
   case REQ_RANGE_CADJACENT:
   case REQ_RANGE_ADJACENT:
@@ -1660,33 +1722,45 @@ static enum fc_tristate is_tech_in_range(const struct player *target_player,
     break;
   }
 
-  fc_assert_msg(FALSE, "Invalid range %d.", range);
+  fc_assert_msg(FALSE, "Invalid range %d.", req->range);
 
   return TRI_MAYBE;
 }
 
 /**********************************************************************//**
-  Is there a tech with the given flag within range of the target?
+  Determine whether a tech flag requirement is satisfied in a given
+  context, ignoring parts of the requirement that can be handled uniformly
+  for all requirement types.
+
+  context and req must not be null, and req must be a techflag requirement
 **************************************************************************/
-static enum fc_tristate is_techflag_in_range(const struct player *target_player,
-                                             enum req_range range,
-                                             enum tech_flag_id techflag)
+static enum fc_tristate
+is_techflag_req_active(const struct req_context *context,
+                       const struct player *other_player,
+                       const struct requirement *req)
 {
-  switch (range) {
+  enum tech_flag_id techflag;
+
+  IS_REQ_ACTIVE_VARIANT_ASSERT(VUT_TECHFLAG);
+
+  techflag = req->source.value.techflag;
+
+  switch (req->range) {
   case REQ_RANGE_PLAYER:
-    if (NULL != target_player) {
-      return BOOL_TO_TRISTATE(player_knows_techs_with_flag(target_player, techflag));
+    if (NULL != context->player) {
+      return BOOL_TO_TRISTATE(player_knows_techs_with_flag(context->player,
+                                                           techflag));
     } else {
       return TRI_MAYBE;
     }
     break;
   case REQ_RANGE_TEAM:
   case REQ_RANGE_ALLIANCE:
-    if (NULL == target_player) {
+    if (NULL == context->player) {
       return TRI_MAYBE;
     }
     players_iterate_alive(plr2) {
-      if (players_in_same_range(target_player, plr2, range)
+      if (players_in_same_range(context->player, plr2, req->range)
           && player_knows_techs_with_flag(plr2, techflag)) {
         return TRI_YES;
       }
@@ -1710,33 +1784,43 @@ static enum fc_tristate is_techflag_in_range(const struct player *target_player,
     break;
   }
 
-  fc_assert_msg(FALSE, "Invalid range %d.", range);
+  fc_assert_msg(FALSE, "Invalid range %d.", req->range);
 
   return TRI_MAYBE;
 }
 
 /**********************************************************************//**
-  Is city or player with at least minculture culture in range?
+  Determine whether a minimum culture requirement is satisfied in a given
+  context, ignoring parts of the requirement that can be handled uniformly
+  for all requirement types.
+
+  context and req must not be null, and req must be a minculture requirement
 **************************************************************************/
-static enum fc_tristate is_minculture_in_range(const struct city *target_city,
-                                               const struct player *target_player,
-                                               enum req_range range,
-                                               int minculture)
+static enum fc_tristate
+is_minculture_req_active(const struct req_context *context,
+                         const struct player *other_player,
+                         const struct requirement *req)
 {
-  switch (range) {
+  int minculture;
+
+  IS_REQ_ACTIVE_VARIANT_ASSERT(VUT_MINCULTURE);
+
+  minculture = req->source.value.minculture;
+
+  switch (req->range) {
   case REQ_RANGE_CITY:
-    if (!target_city) {
+    if (!context->city) {
       return TRI_MAYBE;
     }
-    return BOOL_TO_TRISTATE(city_culture(target_city) >= minculture);
+    return BOOL_TO_TRISTATE(city_culture(context->city) >= minculture);
   case REQ_RANGE_TRADEROUTE:
-    if (!target_city) {
+    if (!context->city) {
       return TRI_MAYBE;
     }
-    if (city_culture(target_city) >= minculture) {
+    if (city_culture(context->city) >= minculture) {
       return TRI_YES;
     } else {
-      trade_partners_iterate(target_city, trade_partner) {
+      trade_partners_iterate(context->city, trade_partner) {
         if (city_culture(trade_partner) >= minculture) {
           return TRI_YES;
         }
@@ -1747,11 +1831,11 @@ static enum fc_tristate is_minculture_in_range(const struct city *target_city,
   case REQ_RANGE_TEAM:
   case REQ_RANGE_ALLIANCE:
   case REQ_RANGE_WORLD:
-    if (NULL == target_player) {
+    if (NULL == context->player) {
       return TRI_MAYBE;
     }
     players_iterate_alive(plr2) {
-      if (players_in_same_range(target_player, plr2, range)) {
+      if (players_in_same_range(context->player, plr2, req->range)) {
         if (player_culture(plr2) >= minculture) {
           return TRI_YES;
         }
@@ -1766,38 +1850,48 @@ static enum fc_tristate is_minculture_in_range(const struct city *target_city,
     break;
   }
 
-  fc_assert_msg(FALSE, "Invalid range %d.", range);
+  fc_assert_msg(FALSE, "Invalid range %d.", req->range);
 
   return TRI_MAYBE;
 }
 
 /**********************************************************************//**
-  Is city with at least min_foreign_pct foreigners in range?
+  Determine whether a minimum foreign population requirement is satisfied in
+  a given context, ignoring parts of the requirement that can be handled
+  uniformly for all requirement types.
+
+  context and req must not be null, and req must be a minforeignpct
+  requirement
 **************************************************************************/
 static enum fc_tristate
-is_minforeignpct_in_range(const struct city *target_city, enum req_range range,
-                          int min_foreign_pct)
+is_minforeignpct_req_active(const struct req_context *context,
+                            const struct player *other_player,
+                            const struct requirement *req)
 {
-  int foreign_pct;
+  int min_foreign_pct, foreign_pct;
 
-  switch (range) {
+  IS_REQ_ACTIVE_VARIANT_ASSERT(VUT_MINFOREIGNPCT);
+
+  min_foreign_pct = req->source.value.minforeignpct;
+
+  switch (req->range) {
   case REQ_RANGE_CITY:
-    if (!target_city) {
+    if (!context->city) {
       return TRI_MAYBE;
     }
-    foreign_pct = citizens_nation_foreign(target_city) * 100
-      / city_size_get(target_city);
+    foreign_pct = citizens_nation_foreign(context->city) * 100
+      / city_size_get(context->city);
     return BOOL_TO_TRISTATE(foreign_pct >= min_foreign_pct);
   case REQ_RANGE_TRADEROUTE:
-    if (!target_city) {
+    if (!context->city) {
       return TRI_MAYBE;
     }
-    foreign_pct = citizens_nation_foreign(target_city) * 100
-      / city_size_get(target_city);
+    foreign_pct = citizens_nation_foreign(context->city) * 100
+      / city_size_get(context->city);
     if (foreign_pct >= min_foreign_pct) {
       return TRI_YES;
     } else {
-      trade_partners_iterate(target_city, trade_partner) {
+      trade_partners_iterate(context->city, trade_partner) {
         foreign_pct = citizens_nation_foreign(trade_partner) * 100
           / city_size_get(trade_partner); 
         if (foreign_pct >= min_foreign_pct) {
@@ -1818,46 +1912,58 @@ is_minforeignpct_in_range(const struct city *target_city, enum req_range range,
     break;
   }
 
-  fc_assert_msg(FALSE, "Invalid range %d.", range);
+  fc_assert_msg(FALSE, "Invalid range %d.", req->range);
 
   return TRI_MAYBE;
 }
 
 /**********************************************************************//**
-  Is there a tile with max X units within range of the target?
+  Determine whether a maximum units on tile requirement is satisfied in a
+  given context, ignoring parts of the requirement that can be handled
+  uniformly for all requirement types.
+
+  context and req must not be null, and req must be a maxunitsontile
+  requirement
 **************************************************************************/
 static enum fc_tristate
-is_tile_units_in_range(const struct tile *target_tile, enum req_range range,
-                       int max_units)
+is_maxunitsontile_req_active(const struct req_context *context,
+                             const struct player *other_player,
+                             const struct requirement *req)
 {
+  int max_units;
+
+  IS_REQ_ACTIVE_VARIANT_ASSERT(VUT_MAXTILEUNITS);
+
+  max_units = req->source.value.max_tile_units;
+
   /* TODO: if can't see V_INVIS -> TRI_MAYBE */
-  switch (range) {
+  switch (req->range) {
   case REQ_RANGE_LOCAL:
-    if (!target_tile) {
+    if (!context->tile) {
       return TRI_MAYBE;
     }
-    return BOOL_TO_TRISTATE(unit_list_size(target_tile->units) <= max_units);
+    return BOOL_TO_TRISTATE(unit_list_size(context->tile->units) <= max_units);
   case REQ_RANGE_CADJACENT:
-    if (!target_tile) {
+    if (!context->tile) {
       return TRI_MAYBE;
     }
-    if (unit_list_size(target_tile->units) <= max_units) {
+    if (unit_list_size(context->tile->units) <= max_units) {
       return TRI_YES;
     }
-    cardinal_adjc_iterate(&(wld.map), target_tile, adjc_tile) {
+    cardinal_adjc_iterate(&(wld.map), context->tile, adjc_tile) {
       if (unit_list_size(adjc_tile->units) <= max_units) {
         return TRI_YES;
       }
     } cardinal_adjc_iterate_end;
     return TRI_NO;
   case REQ_RANGE_ADJACENT:
-    if (!target_tile) {
+    if (!context->tile) {
       return TRI_MAYBE;
     }
-    if (unit_list_size(target_tile->units) <= max_units) {
+    if (unit_list_size(context->tile->units) <= max_units) {
       return TRI_YES;
     }
-    adjc_iterate(&(wld.map), target_tile, adjc_tile) {
+    adjc_iterate(&(wld.map), context->tile, adjc_tile) {
       if (unit_list_size(adjc_tile->units) <= max_units) {
         return TRI_YES;
       }
@@ -1874,44 +1980,54 @@ is_tile_units_in_range(const struct tile *target_tile, enum req_range range,
     break;
   }
 
-  fc_assert_msg(FALSE, "Invalid range %d.", range);
+  fc_assert_msg(FALSE, "Invalid range %d.", req->range);
 
   return TRI_MAYBE;
 }
 
 /**********************************************************************//**
-  Is there a source extra type within range of the target?
+  Determine whether an extra requirement is satisfied in a given context,
+  ignoring parts of the requirement that can be handled uniformly for all
+  requirement types.
+
+  context and req must not be null, and req must be an extra requirement
 **************************************************************************/
-static enum fc_tristate is_extra_type_in_range(const struct tile *target_tile,
-                                               const struct city *target_city,
-                                               enum req_range range, bool survives,
-                                               struct extra_type *pextra)
+static enum fc_tristate
+is_extra_req_active(const struct req_context *context,
+                    const struct player *other_player,
+                    const struct requirement *req)
 {
-  switch (range) {
+  const struct extra_type *pextra;
+
+  IS_REQ_ACTIVE_VARIANT_ASSERT(VUT_EXTRA);
+
+  pextra = req->source.value.extra;
+
+  switch (req->range) {
   case REQ_RANGE_LOCAL:
     /* The requirement is filled if the tile has extra of requested type. */
-    if (!target_tile) {
+    if (!context->tile) {
       return TRI_MAYBE;
     }
-    return BOOL_TO_TRISTATE(tile_has_extra(target_tile, pextra));
+    return BOOL_TO_TRISTATE(tile_has_extra(context->tile, pextra));
   case REQ_RANGE_CADJACENT:
-    if (!target_tile) {
+    if (!context->tile) {
       return TRI_MAYBE;
     }
-    return BOOL_TO_TRISTATE(tile_has_extra(target_tile, pextra)
-                            || is_extra_card_near(target_tile, pextra));
+    return BOOL_TO_TRISTATE(tile_has_extra(context->tile, pextra)
+                            || is_extra_card_near(context->tile, pextra));
   case REQ_RANGE_ADJACENT:
-    if (!target_tile) {
+    if (!context->tile) {
       return TRI_MAYBE;
     }
-    return BOOL_TO_TRISTATE(tile_has_extra(target_tile, pextra)
-                            || is_extra_near_tile(target_tile, pextra));
+    return BOOL_TO_TRISTATE(tile_has_extra(context->tile, pextra)
+                            || is_extra_near_tile(context->tile, pextra));
   case REQ_RANGE_CITY:
-    if (!target_city) {
+    if (!context->city) {
       return TRI_MAYBE;
     }
-    city_tile_iterate(city_map_radius_sq_get(target_city),
-                      city_tile(target_city), ptile) {
+    city_tile_iterate(city_map_radius_sq_get(context->city),
+                      city_tile(context->city), ptile) {
       if (tile_has_extra(ptile, pextra)) {
         return TRI_YES;
       }
@@ -1920,16 +2036,16 @@ static enum fc_tristate is_extra_type_in_range(const struct tile *target_tile,
     return TRI_NO;
 
   case REQ_RANGE_TRADEROUTE:
-    if (!target_city) {
+    if (!context->city) {
       return TRI_MAYBE;
     }
-    city_tile_iterate(city_map_radius_sq_get(target_city),
-                      city_tile(target_city), ptile) {
+    city_tile_iterate(city_map_radius_sq_get(context->city),
+                      city_tile(context->city), ptile) {
       if (tile_has_extra(ptile, pextra)) {
         return TRI_YES;
       }
     } city_tile_iterate_end;
-    trade_partners_iterate(target_city, trade_partner) {
+    trade_partners_iterate(context->city, trade_partner) {
       city_tile_iterate(city_map_radius_sq_get(trade_partner),
                         city_tile(trade_partner), ptile) {
         if (tile_has_extra(ptile, pextra)) {
@@ -1949,27 +2065,34 @@ static enum fc_tristate is_extra_type_in_range(const struct tile *target_tile,
     break;
   }
 
-  fc_assert_msg(FALSE, "Invalid range %d.", range);
+  fc_assert_msg(FALSE, "Invalid range %d.", req->range);
 
   return TRI_MAYBE;
 }
 
 /**********************************************************************//**
-  Is there a source goods type within range of the target?
+  Determine whether a goods requirement is satisfied in a given context,
+  ignoring parts of the requirement that can be handled uniformly for all
+  requirement types.
+
+  context and req must not be null, and req must be a goods requirement
 **************************************************************************/
-static enum fc_tristate is_goods_type_in_range(const struct tile *target_tile,
-                                               const struct city *target_city,
-                                               enum req_range range, bool survives,
-                                               struct goods_type *pgood)
+static enum fc_tristate
+is_good_req_active(const struct req_context *context,
+                    const struct player *other_player,
+                    const struct requirement *req)
 {
-  switch (range) {
+  IS_REQ_ACTIVE_VARIANT_ASSERT(VUT_GOOD);
+
+  switch (req->range) {
   case REQ_RANGE_LOCAL:
   case REQ_RANGE_CITY:
     /* The requirement is filled if the city imports good of requested type. */
-    if (!target_city) {
+    if (!context->city) {
       return TRI_MAYBE;
     }
-    return BOOL_TO_TRISTATE(city_receives_goods(target_city, pgood));
+    return BOOL_TO_TRISTATE(city_receives_goods(context->city,
+                                                req->source.value.good));
   case REQ_RANGE_CADJACENT:
   case REQ_RANGE_ADJACENT:
   case REQ_RANGE_TRADEROUTE:
@@ -1982,43 +2105,111 @@ static enum fc_tristate is_goods_type_in_range(const struct tile *target_tile,
     break;
   }
 
-  fc_assert_msg(FALSE, "Invalid range %d.", range);
+  fc_assert_msg(FALSE, "Invalid range %d.", req->range);
 
   return TRI_MAYBE;
 }
 
 /**********************************************************************//**
-  Is there a source tile within range of the target?
+  Determine whether an action requirement is satisfied in a given context,
+  ignoring parts of the requirement that can be handled uniformly for all
+  requirement types.
+
+  context and req must not be null, and req must be an action requirement
 **************************************************************************/
-static enum fc_tristate is_terrain_in_range(const struct tile *target_tile,
-                                            const struct city *target_city,
-                                            enum req_range range, bool survives,
-                                            const struct terrain *pterrain)
+static enum fc_tristate
+is_action_req_active(const struct req_context *context,
+                     const struct player *other_player,
+                     const struct requirement *req)
 {
-  switch (range) {
+  IS_REQ_ACTIVE_VARIANT_ASSERT(VUT_ACTION);
+
+  return BOOL_TO_TRISTATE(context->action
+                          && action_number(context->action)
+                             == action_number(req->source.value.action));
+}
+
+/**********************************************************************//**
+  Determine whether an output type requirement is satisfied in a given
+  context, ignoring parts of the requirement that can be handled uniformly
+  for all requirement types.
+
+  context and req must not be null, and req must be an output type
+  requirement
+**************************************************************************/
+static enum fc_tristate
+is_outputtype_req_active(const struct req_context *context,
+                         const struct player *other_player,
+                         const struct requirement *req)
+{
+  IS_REQ_ACTIVE_VARIANT_ASSERT(VUT_OTYPE);
+
+  return BOOL_TO_TRISTATE(context->output
+                          && context->output->index
+                             == req->source.value.outputtype);
+}
+
+/**********************************************************************//**
+  Determine whether a specialist requirement is satisfied in a given
+  context, ignoring parts of the requirement that can be handled uniformly
+  for all requirement types.
+
+  context and req must not be null, and req must be a specialist requirement
+**************************************************************************/
+static enum fc_tristate
+is_specialist_req_active(const struct req_context *context,
+                         const struct player *other_player,
+                         const struct requirement *req)
+{
+  IS_REQ_ACTIVE_VARIANT_ASSERT(VUT_SPECIALIST);
+
+  return BOOL_TO_TRISTATE(context->specialist
+                          && context->specialist
+                             == req->source.value.specialist);
+}
+
+/**********************************************************************//**
+  Determine whether a terrain type requirement is satisfied in a given
+  context, ignoring parts of the requirement that can be handled uniformly
+  for all requirement types.
+
+  context and req must not be null, and req must be a terrain requirement
+**************************************************************************/
+static enum fc_tristate
+is_terrain_req_active(const struct req_context *context,
+                      const struct player *other_player,
+                      const struct requirement *req)
+{
+  const struct terrain *pterrain;
+
+  IS_REQ_ACTIVE_VARIANT_ASSERT(VUT_TERRAIN);
+
+  pterrain = req->source.value.terrain;
+
+  switch (req->range) {
   case REQ_RANGE_LOCAL:
     /* The requirement is filled if the tile has the terrain. */
-    if (!target_tile) {
+    if (!context->tile) {
       return TRI_MAYBE;
     }
-    return pterrain && tile_terrain(target_tile) == pterrain;
+    return pterrain && tile_terrain(context->tile) == pterrain;
   case REQ_RANGE_CADJACENT:
-    if (!target_tile) {
+    if (!context->tile) {
       return TRI_MAYBE;
     }
-    return BOOL_TO_TRISTATE(pterrain && is_terrain_card_near(target_tile, pterrain, TRUE));
+    return BOOL_TO_TRISTATE(pterrain && is_terrain_card_near(context->tile, pterrain, TRUE));
   case REQ_RANGE_ADJACENT:
-    if (!target_tile) {
+    if (!context->tile) {
       return TRI_MAYBE;
     }
-    return BOOL_TO_TRISTATE(pterrain && is_terrain_near_tile(target_tile, pterrain, TRUE));
+    return BOOL_TO_TRISTATE(pterrain && is_terrain_near_tile(context->tile, pterrain, TRUE));
   case REQ_RANGE_CITY:
-    if (!target_city) {
+    if (!context->city) {
       return TRI_MAYBE;
     }
     if (pterrain != NULL) {
-      city_tile_iterate(city_map_radius_sq_get(target_city),
-                        city_tile(target_city), ptile) {
+      city_tile_iterate(city_map_radius_sq_get(context->city),
+                        city_tile(context->city), ptile) {
         if (tile_terrain(ptile) == pterrain) {
           return TRI_YES;
         }
@@ -2026,17 +2217,17 @@ static enum fc_tristate is_terrain_in_range(const struct tile *target_tile,
     }
     return TRI_NO;
   case REQ_RANGE_TRADEROUTE:
-    if (!target_city) {
+    if (!context->city) {
       return TRI_MAYBE;
     }
     if (pterrain != NULL) {
-      city_tile_iterate(city_map_radius_sq_get(target_city),
-                        city_tile(target_city), ptile) {
+      city_tile_iterate(city_map_radius_sq_get(context->city),
+                        city_tile(context->city), ptile) {
         if (tile_terrain(ptile) == pterrain) {
           return TRI_YES;
         }
       } city_tile_iterate_end;
-      trade_partners_iterate(target_city, trade_partner) {
+      trade_partners_iterate(context->city, trade_partner) {
         city_tile_iterate(city_map_radius_sq_get(trade_partner),
                           city_tile(trade_partner), ptile) {
           if (tile_terrain(ptile) == pterrain) {
@@ -2055,44 +2246,55 @@ static enum fc_tristate is_terrain_in_range(const struct tile *target_tile,
     break;
   }
 
-  fc_assert_msg(FALSE, "Invalid range %d.", range);
+  fc_assert_msg(FALSE, "Invalid range %d.", req->range);
 
   return TRI_MAYBE;
 }
 
 /**********************************************************************//**
-  Is there a source terrain class within range of the target?
+  Determine whether a terrain class requirement is satisfied in a given
+  context, ignoring parts of the requirement that can be handled uniformly
+  for all requirement types.
+
+  context and req must not be null, and req must be a terrain class
+  requirement
 **************************************************************************/
-static enum fc_tristate is_terrain_class_in_range(const struct tile *target_tile,
-                                                  const struct city *target_city,
-                                                  enum req_range range, bool survives,
-                                                  enum terrain_class pclass)
+static enum fc_tristate
+is_terrainclass_req_active(const struct req_context *context,
+                           const struct player *other_player,
+                           const struct requirement *req)
 {
-  switch (range) {
+  enum terrain_class pclass;
+
+  IS_REQ_ACTIVE_VARIANT_ASSERT(VUT_TERRAINCLASS);
+
+  pclass = req->source.value.terrainclass;
+
+  switch (req->range) {
   case REQ_RANGE_LOCAL:
     /* The requirement is filled if the tile has the terrain of correct class. */
-    if (!target_tile) {
+    if (!context->tile) {
       return TRI_MAYBE;
     }
-    return BOOL_TO_TRISTATE(terrain_type_terrain_class(tile_terrain(target_tile)) == pclass);
+    return BOOL_TO_TRISTATE(terrain_type_terrain_class(tile_terrain(context->tile)) == pclass);
   case REQ_RANGE_CADJACENT:
-    if (!target_tile) {
+    if (!context->tile) {
       return TRI_MAYBE;
     }
-    return BOOL_TO_TRISTATE(terrain_type_terrain_class(tile_terrain(target_tile)) == pclass
-                            || is_terrain_class_card_near(target_tile, pclass));
+    return BOOL_TO_TRISTATE(terrain_type_terrain_class(tile_terrain(context->tile)) == pclass
+                            || is_terrain_class_card_near(context->tile, pclass));
   case REQ_RANGE_ADJACENT:
-    if (!target_tile) {
+    if (!context->tile) {
       return TRI_MAYBE;
     }
-    return BOOL_TO_TRISTATE(terrain_type_terrain_class(tile_terrain(target_tile)) == pclass
-                            || is_terrain_class_near_tile(target_tile, pclass));
+    return BOOL_TO_TRISTATE(terrain_type_terrain_class(tile_terrain(context->tile)) == pclass
+                            || is_terrain_class_near_tile(context->tile, pclass));
   case REQ_RANGE_CITY:
-    if (!target_city) {
+    if (!context->city) {
       return TRI_MAYBE;
     }
-    city_tile_iterate(city_map_radius_sq_get(target_city),
-                      city_tile(target_city), ptile) {
+    city_tile_iterate(city_map_radius_sq_get(context->city),
+                      city_tile(context->city), ptile) {
       const struct terrain *pterrain = tile_terrain(ptile);
       if (pterrain != T_UNKNOWN
           && terrain_type_terrain_class(pterrain) == pclass) {
@@ -2102,11 +2304,11 @@ static enum fc_tristate is_terrain_class_in_range(const struct tile *target_tile
 
     return TRI_NO;
   case REQ_RANGE_TRADEROUTE:
-    if (!target_city) {
+    if (!context->city) {
       return TRI_MAYBE;
     }
-    city_tile_iterate(city_map_radius_sq_get(target_city),
-                      city_tile(target_city), ptile) {
+    city_tile_iterate(city_map_radius_sq_get(context->city),
+                      city_tile(context->city), ptile) {
       const struct terrain *pterrain = tile_terrain(ptile);
       if (pterrain != T_UNKNOWN
           && terrain_type_terrain_class(pterrain) == pclass) {
@@ -2114,7 +2316,7 @@ static enum fc_tristate is_terrain_class_in_range(const struct tile *target_tile
       }
     } city_tile_iterate_end;
 
-    trade_partners_iterate(target_city, trade_partner) {
+    trade_partners_iterate(context->city, trade_partner) {
       city_tile_iterate(city_map_radius_sq_get(trade_partner),
                         city_tile(trade_partner), ptile) {
         const struct terrain *pterrain = tile_terrain(ptile);
@@ -2135,50 +2337,61 @@ static enum fc_tristate is_terrain_class_in_range(const struct tile *target_tile
     break;
   }
 
-  fc_assert_msg(FALSE, "Invalid range %d.", range);
+  fc_assert_msg(FALSE, "Invalid range %d.", req->range);
 
   return TRI_MAYBE;
 }
 
 /**********************************************************************//**
-  Is there a terrain with the given flag within range of the target?
+  Determine whether a terrain flag requirement is satisfied in a given
+  context, ignoring parts of the requirement that can be handled uniformly
+  for all requirement types.
+
+  context and req must not be null, and req must be a terrain flag
+  requirement
 **************************************************************************/
-static enum fc_tristate is_terrainflag_in_range(const struct tile *target_tile,
-                                                const struct city *target_city,
-                                                enum req_range range, bool survives,
-                                                enum terrain_flag_id terrflag)
+static enum fc_tristate
+is_terrainflag_req_active(const struct req_context *context,
+                          const struct player *other_player,
+                          const struct requirement *req)
 {
-  switch (range) {
+  enum terrain_flag_id terrflag;
+
+  IS_REQ_ACTIVE_VARIANT_ASSERT(VUT_TERRFLAG);
+
+  terrflag = req->source.value.terrainflag;
+
+  switch (req->range) {
   case REQ_RANGE_LOCAL:
     /* The requirement is fulfilled if the tile has a terrain with
      * correct flag. */
-    if (!target_tile) {
+    if (!context->tile) {
       return TRI_MAYBE;
     }
-    return BOOL_TO_TRISTATE(terrain_has_flag(tile_terrain(target_tile),
+    return BOOL_TO_TRISTATE(terrain_has_flag(tile_terrain(context->tile),
                                              terrflag));
   case REQ_RANGE_CADJACENT:
-    if (!target_tile) {
+    if (!context->tile) {
       return TRI_MAYBE;
     }
-    return BOOL_TO_TRISTATE(terrain_has_flag(tile_terrain(target_tile),
+    return BOOL_TO_TRISTATE(terrain_has_flag(tile_terrain(context->tile),
                                              terrflag)
-                            || is_terrain_flag_card_near(target_tile,
+                            || is_terrain_flag_card_near(context->tile,
                                                          terrflag));
   case REQ_RANGE_ADJACENT:
-    if (!target_tile) {
+    if (!context->tile) {
       return TRI_MAYBE;
     }
-    return BOOL_TO_TRISTATE(terrain_has_flag(tile_terrain(target_tile),
+    return BOOL_TO_TRISTATE(terrain_has_flag(tile_terrain(context->tile),
                                              terrflag)
-                            || is_terrain_flag_near_tile(target_tile,
+                            || is_terrain_flag_near_tile(context->tile,
                                                          terrflag));
   case REQ_RANGE_CITY:
-    if (!target_city) {
+    if (!context->city) {
       return TRI_MAYBE;
     }
-    city_tile_iterate(city_map_radius_sq_get(target_city),
-                      city_tile(target_city), ptile) {
+    city_tile_iterate(city_map_radius_sq_get(context->city),
+                      city_tile(context->city), ptile) {
       const struct terrain *pterrain = tile_terrain(ptile);
       if (pterrain != T_UNKNOWN
           && terrain_has_flag(pterrain, terrflag)) {
@@ -2188,11 +2401,11 @@ static enum fc_tristate is_terrainflag_in_range(const struct tile *target_tile,
 
     return TRI_NO;
   case REQ_RANGE_TRADEROUTE:
-    if (!target_city) {
+    if (!context->city) {
       return TRI_MAYBE;
     }
-    city_tile_iterate(city_map_radius_sq_get(target_city),
-                      city_tile(target_city), ptile) {
+    city_tile_iterate(city_map_radius_sq_get(context->city),
+                      city_tile(context->city), ptile) {
       const struct terrain *pterrain = tile_terrain(ptile);
       if (pterrain != T_UNKNOWN
           && terrain_has_flag(pterrain, terrflag)) {
@@ -2200,7 +2413,7 @@ static enum fc_tristate is_terrainflag_in_range(const struct tile *target_tile,
       }
     } city_tile_iterate_end;
 
-    trade_partners_iterate(target_city, trade_partner) {
+    trade_partners_iterate(context->city, trade_partner) {
       city_tile_iterate(city_map_radius_sq_get(trade_partner),
                         city_tile(trade_partner), ptile) {
         const struct terrain *pterrain = tile_terrain(ptile);
@@ -2221,44 +2434,54 @@ static enum fc_tristate is_terrainflag_in_range(const struct tile *target_tile,
     break;
   }
 
-  fc_assert_msg(FALSE, "Invalid range %d.", range);
+  fc_assert_msg(FALSE, "Invalid range %d.", req->range);
 
   return TRI_MAYBE;
 }
 
 /**********************************************************************//**
-  Is there a road with the given flag within range of the target?
+  Determine whether a road flag requirement is satisfied in a given context,
+  ignoring parts of the requirement that can be handled uniformly for all
+  requirement types.
+
+  context and req must not be null, and req must be a roadflag requirement
 **************************************************************************/
-static enum fc_tristate is_roadflag_in_range(const struct tile *target_tile,
-                                             const struct city *target_city,
-                                             enum req_range range, bool survives,
-                                             enum road_flag_id roadflag)
+static enum fc_tristate
+is_roadflag_req_active(const struct req_context *context,
+                       const struct player *other_player,
+                       const struct requirement *req)
 {
-  switch (range) {
+  enum road_flag_id roadflag;
+
+  IS_REQ_ACTIVE_VARIANT_ASSERT(VUT_ROADFLAG);
+
+  roadflag = req->source.value.roadflag;
+
+  switch (req->range) {
   case REQ_RANGE_LOCAL:
     /* The requirement is filled if the tile has a road with correct flag. */
-    if (!target_tile) {
+    if (!context->tile) {
       return TRI_MAYBE;
     }
-    return BOOL_TO_TRISTATE(tile_has_road_flag(target_tile, roadflag));
+    return BOOL_TO_TRISTATE(tile_has_road_flag(context->tile, roadflag));
   case REQ_RANGE_CADJACENT:
-    if (!target_tile) {
+    if (!context->tile) {
       return TRI_MAYBE;
     }
-    return BOOL_TO_TRISTATE(tile_has_road_flag(target_tile, roadflag)
-                            || is_road_flag_card_near(target_tile, roadflag));
+    return BOOL_TO_TRISTATE(tile_has_road_flag(context->tile, roadflag)
+                            || is_road_flag_card_near(context->tile, roadflag));
   case REQ_RANGE_ADJACENT:
-    if (!target_tile) {
+    if (!context->tile) {
       return TRI_MAYBE;
     }
-    return BOOL_TO_TRISTATE(tile_has_road_flag(target_tile, roadflag)
-                            || is_road_flag_near_tile(target_tile, roadflag));
+    return BOOL_TO_TRISTATE(tile_has_road_flag(context->tile, roadflag)
+                            || is_road_flag_near_tile(context->tile, roadflag));
   case REQ_RANGE_CITY:
-    if (!target_city) {
+    if (!context->city) {
       return TRI_MAYBE;
     }
-    city_tile_iterate(city_map_radius_sq_get(target_city),
-                      city_tile(target_city), ptile) {
+    city_tile_iterate(city_map_radius_sq_get(context->city),
+                      city_tile(context->city), ptile) {
       if (tile_has_road_flag(ptile, roadflag)) {
         return TRI_YES;
       }
@@ -2266,17 +2489,17 @@ static enum fc_tristate is_roadflag_in_range(const struct tile *target_tile,
 
     return TRI_NO;
   case REQ_RANGE_TRADEROUTE:
-    if (!target_city) {
+    if (!context->city) {
       return TRI_MAYBE;
     }
-    city_tile_iterate(city_map_radius_sq_get(target_city),
-                      city_tile(target_city), ptile) {
+    city_tile_iterate(city_map_radius_sq_get(context->city),
+                      city_tile(context->city), ptile) {
       if (tile_has_road_flag(ptile, roadflag)) {
         return TRI_YES;
       }
     } city_tile_iterate_end;
 
-    trade_partners_iterate(target_city, trade_partner) {
+    trade_partners_iterate(context->city, trade_partner) {
       city_tile_iterate(city_map_radius_sq_get(trade_partner),
                         city_tile(trade_partner), ptile) {
         if (tile_has_road_flag(ptile, roadflag)) {
@@ -2295,44 +2518,54 @@ static enum fc_tristate is_roadflag_in_range(const struct tile *target_tile,
     break;
   }
 
-  fc_assert_msg(FALSE, "Invalid range %d.", range);
+  fc_assert_msg(FALSE, "Invalid range %d.", req->range);
 
   return TRI_MAYBE;
 }
 
 /**********************************************************************//**
-  Is there an extra with the given flag within range of the target?
+  Determine whether an extra flag requirement is satisfied in a given
+  context, ignoring parts of the requirement that can be handled uniformly
+  for all requirement types.
+
+  context and req must not be null, and req must be an extraflag requirement
 **************************************************************************/
-static enum fc_tristate is_extraflag_in_range(const struct tile *target_tile,
-                                              const struct city *target_city,
-                                              enum req_range range, bool survives,
-                                              enum extra_flag_id extraflag)
+static enum fc_tristate
+is_extraflag_req_active(const struct req_context *context,
+                        const struct player *other_player,
+                        const struct requirement *req)
 {
-  switch (range) {
+  enum extra_flag_id extraflag;
+
+  IS_REQ_ACTIVE_VARIANT_ASSERT(VUT_EXTRAFLAG);
+
+  extraflag = req->source.value.extraflag;
+
+  switch (req->range) {
   case REQ_RANGE_LOCAL:
     /* The requirement is filled if the tile has an extra with correct flag. */
-    if (!target_tile) {
+    if (!context->tile) {
       return TRI_MAYBE;
     }
-    return BOOL_TO_TRISTATE(tile_has_extra_flag(target_tile, extraflag));
+    return BOOL_TO_TRISTATE(tile_has_extra_flag(context->tile, extraflag));
   case REQ_RANGE_CADJACENT:
-    if (!target_tile) {
+    if (!context->tile) {
       return TRI_MAYBE;
     }
-    return BOOL_TO_TRISTATE(tile_has_extra_flag(target_tile, extraflag)
-                            || is_extra_flag_card_near(target_tile, extraflag));
+    return BOOL_TO_TRISTATE(tile_has_extra_flag(context->tile, extraflag)
+                            || is_extra_flag_card_near(context->tile, extraflag));
   case REQ_RANGE_ADJACENT:
-    if (!target_tile) {
+    if (!context->tile) {
       return TRI_MAYBE;
     }
-    return BOOL_TO_TRISTATE(tile_has_extra_flag(target_tile, extraflag)
-                            || is_extra_flag_near_tile(target_tile, extraflag));
+    return BOOL_TO_TRISTATE(tile_has_extra_flag(context->tile, extraflag)
+                            || is_extra_flag_near_tile(context->tile, extraflag));
   case REQ_RANGE_CITY:
-    if (!target_city) {
+    if (!context->city) {
       return TRI_MAYBE;
     }
-    city_tile_iterate(city_map_radius_sq_get(target_city),
-                      city_tile(target_city), ptile) {
+    city_tile_iterate(city_map_radius_sq_get(context->city),
+                      city_tile(context->city), ptile) {
       if (tile_has_extra_flag(ptile, extraflag)) {
         return TRI_YES;
       }
@@ -2340,17 +2573,17 @@ static enum fc_tristate is_extraflag_in_range(const struct tile *target_tile,
 
     return TRI_NO;
   case REQ_RANGE_TRADEROUTE:
-    if (!target_city) {
+    if (!context->city) {
       return TRI_MAYBE;
     }
-    city_tile_iterate(city_map_radius_sq_get(target_city),
-                      city_tile(target_city), ptile) {
+    city_tile_iterate(city_map_radius_sq_get(context->city),
+                      city_tile(context->city), ptile) {
       if (tile_has_extra_flag(ptile, extraflag)) {
         return TRI_YES;
       }
     } city_tile_iterate_end;
 
-    trade_partners_iterate(target_city, trade_partner) {
+    trade_partners_iterate(context->city, trade_partner) {
       city_tile_iterate(city_map_radius_sq_get(trade_partner),
                         city_tile(trade_partner), ptile) {
         if (tile_has_extra_flag(ptile, extraflag)) {
@@ -2369,28 +2602,38 @@ static enum fc_tristate is_extraflag_in_range(const struct tile *target_tile,
     break;
   }
 
-  fc_assert_msg(FALSE, "Invalid range %d.", range);
+  fc_assert_msg(FALSE, "Invalid range %d.", req->range);
 
   return TRI_MAYBE;
 }
 
 /**********************************************************************//**
-  Is there a terrain which can support the specified infrastructure
-  within range of the target?
+  Determine whether a terrain-alteration-possible (terrainalter) requirement
+  is satisfied in a given context, ignoring parts of the requirement that
+  can be handled uniformly for all requirement types.
+
+  context and req must not be null, and req must be a terrainalter
+  requirement
 **************************************************************************/
-static enum fc_tristate is_terrain_alter_possible_in_range(const struct tile *target_tile,
-                                                           enum req_range range,
-                                                           bool survives,
-                                                           enum terrain_alteration alteration)
+static enum fc_tristate
+is_terrainalter_req_active(const struct req_context *context,
+                           const struct player *other_player,
+                           const struct requirement *req)
 {
-  if (!target_tile) {
+  enum terrain_alteration alteration;
+
+  IS_REQ_ACTIVE_VARIANT_ASSERT(VUT_TERRAINALTER);
+
+  alteration = req->source.value.terrainalter;
+
+  if (!context->tile) {
     return TRI_MAYBE;
   }
 
-  switch (range) {
+  switch (req->range) {
   case REQ_RANGE_LOCAL:
-    return BOOL_TO_TRISTATE(terrain_can_support_alteration(tile_terrain(target_tile),
-                                                           alteration));
+    return BOOL_TO_TRISTATE(terrain_can_support_alteration(
+                                tile_terrain(context->tile), alteration));
   case REQ_RANGE_CADJACENT:
   case REQ_RANGE_ADJACENT: /* XXX Could in principle support ADJACENT. */
   case REQ_RANGE_CITY:
@@ -2404,31 +2647,143 @@ static enum fc_tristate is_terrain_alter_possible_in_range(const struct tile *ta
     break;
   }
 
-  fc_assert_msg(FALSE, "Invalid range %d.", range);
+  fc_assert_msg(FALSE, "Invalid range %d.", req->range);
 
   return TRI_MAYBE;
 }
 
 /**********************************************************************//**
-  Is there a nation within range of the target?
+  Determine whether a government (gov) requirement is satisfied in a given
+  context, ignoring parts of the requirement that can be handled uniformly
+  for all requirement types.
+
+  context and req must not be null, and req must be a gov requirement
 **************************************************************************/
-static enum fc_tristate is_nation_in_range(const struct player *target_player,
-                                           enum req_range range, bool survives,
-                                           const struct nation_type *nation)
+static enum fc_tristate
+is_gov_req_active(const struct req_context *context,
+                  const struct player *other_player,
+                  const struct requirement *req)
 {
-  switch (range) {
+  IS_REQ_ACTIVE_VARIANT_ASSERT(VUT_GOVERNMENT);
+
+  if (context->player == NULL) {
+    return TRI_MAYBE;
+  } else {
+    return BOOL_TO_TRISTATE(government_of_player(context->player)
+                            == req->source.value.govern);
+  }
+}
+
+/**********************************************************************//**
+  Determine whether a style requirement is satisfied in a given context,
+  ignoring parts of the requirement that can be handled uniformly for all
+  requirement types.
+
+  context and req must not be null, and req must be a style requirement
+**************************************************************************/
+static enum fc_tristate
+is_style_req_active(const struct req_context *context,
+                    const struct player *other_player,
+                    const struct requirement *req)
+{
+  IS_REQ_ACTIVE_VARIANT_ASSERT(VUT_STYLE);
+
+  if (context->player == NULL) {
+    return TRI_MAYBE;
+  } else {
+    return BOOL_TO_TRISTATE(context->player->style
+                            == req->source.value.style);
+  }
+}
+
+/**********************************************************************//**
+  Determine whether a minimum technologies requirement is satisfied in a
+  given context, ignoring parts of the requirement that can be handled
+  uniformly for all requirement types.
+
+  context and req must not be null, and req must be a mintechs requirement
+**************************************************************************/
+static enum fc_tristate
+is_mintechs_req_active(const struct req_context *context,
+                       const struct player *other_player,
+                       const struct requirement *req)
+{
+  IS_REQ_ACTIVE_VARIANT_ASSERT(VUT_MINTECHS);
+
+  switch (req->range) {
+  case REQ_RANGE_WORLD:
+    /* "None" does not count */
+    return ((game.info.global_advance_count - 1)
+            >= req->source.value.min_techs);
   case REQ_RANGE_PLAYER:
-    if (target_player == NULL) {
+    if (context->player == NULL) {
+      return TRI_MAYBE;
+    } else {
+      /* "None" does not count */
+      return BOOL_TO_TRISTATE(
+                  (research_get(context->player)->techs_researched - 1)
+                  >= req->source.value.min_techs
+              );
+    }
+  default:
+    return TRI_MAYBE;
+  }
+}
+
+/**********************************************************************//**
+  Determine whether an AI level requirement is satisfied in a given
+  context, ignoring parts of the requirement that can be handled uniformly
+  for all requirement types.
+
+  context and req must not be null, and req must be an AI level requirement
+**************************************************************************/
+static enum fc_tristate
+is_ai_req_active(const struct req_context *context,
+                 const struct player *other_player,
+                 const struct requirement *req)
+{
+  IS_REQ_ACTIVE_VARIANT_ASSERT(VUT_AI_LEVEL);
+
+  if (context->player == NULL) {
+    return TRI_MAYBE;
+  } else {
+    return BOOL_TO_TRISTATE(is_ai(context->player)
+                            && context->player->ai_common.skill_level
+                               == req->source.value.ai_level);
+  }
+}
+
+/**********************************************************************//**
+  Determine whether a nation requirement is satisfied in a given context,
+  ignoring parts of the requirement that can be handled uniformly for all
+  requirement types.
+
+  context and req must not be null, and req must be a nation requirement
+**************************************************************************/
+static enum fc_tristate
+is_nation_req_active(const struct req_context *context,
+                     const struct player *other_player,
+                     const struct requirement *req)
+{
+  const struct nation_type *nation;
+
+  IS_REQ_ACTIVE_VARIANT_ASSERT(VUT_NATION);
+
+  nation = req->source.value.nation;
+
+  switch (req->range) {
+  case REQ_RANGE_PLAYER:
+    if (context->player == NULL) {
       return TRI_MAYBE;
     }
-    return BOOL_TO_TRISTATE(nation_of_player(target_player) == nation);
+    return BOOL_TO_TRISTATE(nation_of_player(context->player) == nation);
   case REQ_RANGE_TEAM:
   case REQ_RANGE_ALLIANCE:
-    if (target_player == NULL) {
+    if (context->player == NULL) {
       return TRI_MAYBE;
     }
     players_iterate_alive(plr2) {
-      if (players_in_same_range(target_player, plr2, range)) {
+      if (players_in_same_range(context->player, plr2, req->range)) {
         if (nation_of_player(plr2) == nation) {
           return TRI_YES;
         }
@@ -2441,7 +2796,7 @@ static enum fc_tristate is_nation_in_range(const struct player *target_player,
      * requirement will stop being true for their nation.
      * create_command_newcomer() can also cause this to happen. */
     return BOOL_TO_TRISTATE(NULL != nation->player
-                            && (survives || nation->player->is_alive));
+                            && (req->survives || nation->player->is_alive));
   case REQ_RANGE_LOCAL:
   case REQ_RANGE_CADJACENT:
   case REQ_RANGE_ADJACENT:
@@ -2452,34 +2807,45 @@ static enum fc_tristate is_nation_in_range(const struct player *target_player,
     break;
   }
 
-  fc_assert_msg(FALSE, "Invalid range %d.", range);
+  fc_assert_msg(FALSE, "Invalid range %d.", req->range);
 
   return TRI_MAYBE;
 }
 
 /**********************************************************************//**
-  Is there a nation group within range of the target?
+  Determine whether a nation group requirement is satisfied in a given
+  context, ignoring parts of the requirement that can be handled uniformly
+  for all requirement types.
+
+  context and req must not be null, and req must be a nation group
+  requirement
 **************************************************************************/
 static enum fc_tristate
-is_nation_group_in_range(const struct player *target_player,
-                         enum req_range range, bool survives,
-                         const struct nation_group *ngroup)
+is_nationgroup_req_active(const struct req_context *context,
+                          const struct player *other_player,
+                          const struct requirement *req)
 {
-  switch (range) {
+  const struct nation_group *ngroup;
+
+  IS_REQ_ACTIVE_VARIANT_ASSERT(VUT_NATIONGROUP);
+
+  ngroup = req->source.value.nationgroup;
+
+  switch (req->range) {
   case REQ_RANGE_PLAYER:
-    if (target_player == NULL) {
+    if (context->player == NULL) {
       return TRI_MAYBE;
     }
-    return BOOL_TO_TRISTATE(nation_is_in_group(nation_of_player(target_player),
-                                               ngroup));
+    return BOOL_TO_TRISTATE(nation_is_in_group(
+        nation_of_player(context->player), ngroup));
   case REQ_RANGE_TEAM:
   case REQ_RANGE_ALLIANCE:
   case REQ_RANGE_WORLD:
-    if (target_player == NULL) {
+    if (context->player == NULL) {
       return TRI_MAYBE;
     }
     players_iterate_alive(plr2) {
-      if (players_in_same_range(target_player, plr2, range)) {
+      if (players_in_same_range(context->player, plr2, req->range)) {
         if (nation_is_in_group(nation_of_player(plr2), ngroup)) {
           return TRI_YES;
         }
@@ -2496,24 +2862,36 @@ is_nation_group_in_range(const struct player *target_player,
     break;
   }
 
-  fc_assert_msg(FALSE, "Invalid range %d.", range);
+  fc_assert_msg(FALSE, "Invalid range %d.", req->range);
 
   return TRI_MAYBE;
 }
 
 /**********************************************************************//**
-  Is there a nationality within range of the target?
+  Determine whether a nationality requirement is satisfied in a given
+  context, ignoring parts of the requirement that can be handled uniformly
+  for all requirement types.
+
+  context and req must not be null, and req must be a nationality
+  requirement
 **************************************************************************/
-static enum fc_tristate is_nationality_in_range(const struct city *target_city,
-                                                enum req_range range,
-                                                const struct nation_type *nationality)
+static enum fc_tristate
+is_nationality_req_active(const struct req_context *context,
+                          const struct player *other_player,
+                          const struct requirement *req)
 {
-  switch (range) {
+  const struct nation_type *nationality;
+
+  IS_REQ_ACTIVE_VARIANT_ASSERT(VUT_NATIONALITY);
+
+  nationality = req->source.value.nationality;
+
+  switch (req->range) {
   case REQ_RANGE_CITY:
-    if (target_city == NULL) {
+    if (context->city == NULL) {
      return TRI_MAYBE;
     }
-    citizens_iterate(target_city, slot, count) {
+    citizens_iterate(context->city, slot, count) {
       if (player_slot_get_player(slot)->nation == nationality) {
         return TRI_YES;
       }
@@ -2521,16 +2899,16 @@ static enum fc_tristate is_nationality_in_range(const struct city *target_city,
 
     return TRI_NO;
   case REQ_RANGE_TRADEROUTE:
-    if (target_city == NULL) {
+    if (context->city == NULL) {
       return TRI_MAYBE;
     }
-    citizens_iterate(target_city, slot, count) {
+    citizens_iterate(context->city, slot, count) {
       if (player_slot_get_player(slot)->nation == nationality) {
         return TRI_YES;
       }
     } citizens_iterate_end;
 
-    trade_partners_iterate(target_city, trade_partner) {
+    trade_partners_iterate(context->city, trade_partner) {
       citizens_iterate(trade_partner, slot, count) {
         if (player_slot_get_player(slot)->nation == nationality) {
           return TRI_YES;
@@ -2551,7 +2929,7 @@ static enum fc_tristate is_nationality_in_range(const struct city *target_city,
     break;
   }
 
-  fc_assert_msg(FALSE, "Invalid range %d.", range);
+  fc_assert_msg(FALSE, "Invalid range %d.", req->range);
 
   return TRI_MAYBE;
 }
@@ -2604,6 +2982,69 @@ static enum fc_tristate is_diplrel_in_range(const struct player *target_player,
 }
 
 /**********************************************************************//**
+  Determine whether a diplomatic relationship (diplrel) requirement is
+  satisfied in a given context, ignoring parts of the requirement that can
+  be handled uniformly for all requirement types.
+
+  context and req must not be null, and req must be a diplrel requirement
+**************************************************************************/
+static enum fc_tristate
+is_diplrel_req_active(const struct req_context *context,
+                      const struct player *other_player,
+                      const struct requirement *req)
+{
+  IS_REQ_ACTIVE_VARIANT_ASSERT(VUT_DIPLREL);
+
+  return is_diplrel_in_range(context->player, other_player, req->range,
+                             req->source.value.diplrel);
+}
+
+/**********************************************************************//**
+  Determine whether a tile owner diplomatic relationship (diplrel_tile)
+  requirement is satisfied in a given context, ignoring parts of the
+  requirement that can be handled uniformly for all requirement types.
+
+  context and req must not be null, and req must be a diplrel_tile
+  requirement
+**************************************************************************/
+static enum fc_tristate
+is_diplrel_tile_req_active(const struct req_context *context,
+                           const struct player *other_player,
+                           const struct requirement *req)
+{
+  IS_REQ_ACTIVE_VARIANT_ASSERT(VUT_DIPLREL_TILE);
+
+  return is_diplrel_in_range(context->tile ? tile_owner(context->tile)
+                                           : NULL,
+                             context->player,
+                             req->range,
+                             req->source.value.diplrel);
+}
+
+/**********************************************************************//**
+  Determine whether a tile owner / other player diplomatic relationship
+  (diplrel_tile_o) requirement is satisfied in a given context, ignoring
+  parts of the requirement that can be handled uniformly for all requirement
+  types.
+
+  context and req must not be null, and req must be a diplrel_tile_o
+  requirement
+**************************************************************************/
+static enum fc_tristate
+is_diplrel_tile_o_req_active(const struct req_context *context,
+                             const struct player *other_player,
+                             const struct requirement *req)
+{
+  IS_REQ_ACTIVE_VARIANT_ASSERT(VUT_DIPLREL_TILE_O);
+
+  return is_diplrel_in_range(context->tile ? tile_owner(context->tile)
+                                           : NULL,
+                             other_player,
+                             req->range,
+                             req->source.value.diplrel);
+}
+
+/**********************************************************************//**
   Is the diplomatic state within range of any unit at the target tile?
 **************************************************************************/
 static enum fc_tristate
@@ -2629,114 +3070,212 @@ is_diplrel_unitany_in_range(const struct tile *target_tile,
 }
 
 /**********************************************************************//**
-  Is there a unit of the given type within range of the target?
-**************************************************************************/
-static enum fc_tristate is_unittype_in_range(const struct unit_type *target_unittype,
-                                             enum req_range range, bool survives,
-                                             const struct unit_type *punittype)
-{
-  if (range != REQ_RANGE_LOCAL) {
-    return TRI_NO;
-  }
-  if (!target_unittype) {
-    return TRI_MAYBE;
-  }
+  Determine whether an any-unit-owner diplomatic relationship
+  (diplrel_unitany) requirement is satisfied in a given context, ignoring
+  parts of the requirement that can be handled uniformly for all requirement
+  types.
 
-  return BOOL_TO_TRISTATE(target_unittype == punittype);
+  context and req must not be null, and req must be a diplrel_unitany
+  requirement
+**************************************************************************/
+static enum fc_tristate
+is_diplrel_unitany_req_active(const struct req_context *context,
+                              const struct player *other_player,
+                              const struct requirement *req)
+{
+  IS_REQ_ACTIVE_VARIANT_ASSERT(VUT_DIPLREL_UNITANY);
+
+  return is_diplrel_unitany_in_range(context->tile, context->player,
+                                     req->range,
+                                     req->source.value.diplrel);
 }
 
 /**********************************************************************//**
-  Is there a unit with the given flag within range of the target?
-**************************************************************************/
-static enum fc_tristate is_unitflag_in_range(const struct unit_type *target_unittype,
-                                             enum req_range range, bool survives,
-                                             enum unit_type_flag_id unitflag)
-{
-  if (range != REQ_RANGE_LOCAL) {
-    return TRI_NO;
-  }
-  if (!target_unittype) {
-    return TRI_MAYBE;
-  }
+  Determine whether an any-unit-owner / other player diplomatic relationship
+  (diplrel_unitany_o) requirement is satisfied in a given context, ignoring
+  parts of the requirement that can be handled uniformly for all requirement
+  types.
 
-  return BOOL_TO_TRISTATE(utype_has_flag(target_unittype, unitflag));
+  context and req must not be null, and req must be a diplrel_unitany_o
+  requirement
+**************************************************************************/
+static enum fc_tristate
+is_diplrel_unitany_o_req_active(const struct req_context *context,
+                                const struct player *other_player,
+                                const struct requirement *req)
+{
+  IS_REQ_ACTIVE_VARIANT_ASSERT(VUT_DIPLREL_UNITANY_O);
+
+  return is_diplrel_unitany_in_range(context->tile, other_player,
+                                     req->range,
+                                     req->source.value.diplrel);
 }
 
 /**********************************************************************//**
-  Is there a unit with the given flag within range of the target?
+  Determine whether a unittype requirement is satisfied in a given context,
+  ignoring parts of the requirement that can be handled uniformly for all
+  requirement types.
+
+  context and req must not be null, and req must be a unittype requirement
 **************************************************************************/
-static enum fc_tristate is_unitclass_in_range(const struct unit_type *target_unittype,
-                                              enum req_range range, bool survives,
-                                              struct unit_class *pclass)
+static enum fc_tristate
+is_unittype_req_active(const struct req_context *context,
+                       const struct player *other_player,
+                       const struct requirement *req)
 {
-  if (range != REQ_RANGE_LOCAL) {
+  const struct unit_type *punittype;
+
+  IS_REQ_ACTIVE_VARIANT_ASSERT(VUT_UTYPE);
+
+  punittype = req->source.value.utype;
+
+  if (req->range != REQ_RANGE_LOCAL) {
     return TRI_NO;
   }
-  if (!target_unittype) {
+  if (!context->unittype) {
     return TRI_MAYBE;
   }
 
-  return BOOL_TO_TRISTATE(utype_class(target_unittype) == pclass);
+  return BOOL_TO_TRISTATE(context->unittype == punittype);
 }
 
 /**********************************************************************//**
-  Is there a unit with the given flag within range of the target?
+  Determine whether a unitflag requirement is satisfied in a given context,
+  ignoring parts of the requirement that can be handled uniformly for all
+  requirement types.
+
+  context and req must not be null, and req must be a unitflag requirement
 **************************************************************************/
-static enum fc_tristate is_unitclassflag_in_range(const struct unit_type *target_unittype,
-                                                  enum req_range range, bool survives,
-                                                  enum unit_class_flag_id ucflag)
+static enum fc_tristate
+is_unitflag_req_active(const struct req_context *context,
+                       const struct player *other_player,
+                       const struct requirement *req)
 {
-  if (range != REQ_RANGE_LOCAL) {
+  enum unit_type_flag_id unitflag;
+
+  IS_REQ_ACTIVE_VARIANT_ASSERT(VUT_UTFLAG);
+
+  unitflag = req->source.value.unitflag;
+
+  if (req->range != REQ_RANGE_LOCAL) {
     return TRI_NO;
   }
-  if (!target_unittype) {
+  if (!context->unittype) {
     return TRI_MAYBE;
   }
 
-  return BOOL_TO_TRISTATE(uclass_has_flag(utype_class(target_unittype), ucflag));
+  return BOOL_TO_TRISTATE(utype_has_flag(context->unittype, unitflag));
 }
 
 /**********************************************************************//**
-  Is the given property of the unit state true?
+  Determine whether a unitclass requirement is satisfied in a given context,
+  ignoring parts of the requirement that can be handled uniformly for all
+  requirement types.
+
+  context and req must not be null, and req must be a unitclass requirement
 **************************************************************************/
-static enum fc_tristate is_unit_state(const struct unit *target_unit,
-                                      enum req_range range,
-                                      bool survives,
-                                      enum ustate_prop uprop)
+static enum fc_tristate
+is_unitclass_req_active(const struct req_context *context,
+                        const struct player *other_player,
+                        const struct requirement *req)
 {
-  fc_assert_ret_val_msg(range == REQ_RANGE_LOCAL, TRI_NO,
+  const struct unit_class *pclass;
+
+  IS_REQ_ACTIVE_VARIANT_ASSERT(VUT_UCLASS);
+
+  pclass = req->source.value.uclass;
+
+  if (req->range != REQ_RANGE_LOCAL) {
+    return TRI_NO;
+  }
+  if (!context->unittype) {
+    return TRI_MAYBE;
+  }
+
+  return BOOL_TO_TRISTATE(utype_class(context->unittype) == pclass);
+}
+
+/**********************************************************************//**
+  Determine whether a unitclassflag requirement is satisfied in a given
+  context, ignoring parts of the requirement that can be handled uniformly
+  for all requirement types.
+
+  context and req must not be null, and req must be a unitclassflag
+  requirement
+**************************************************************************/
+static enum fc_tristate
+is_unitclassflag_req_active(const struct req_context *context,
+                            const struct player *other_player,
+                            const struct requirement *req)
+{
+  enum unit_class_flag_id ucflag;
+
+  IS_REQ_ACTIVE_VARIANT_ASSERT(VUT_UCFLAG);
+
+  ucflag = req->source.value.unitclassflag;
+
+  if (req->range != REQ_RANGE_LOCAL) {
+    return TRI_NO;
+  }
+  if (!context->unittype) {
+    return TRI_MAYBE;
+  }
+
+  return BOOL_TO_TRISTATE(uclass_has_flag(utype_class(context->unittype), ucflag));
+}
+
+/**********************************************************************//**
+  Determine whether a unitstate requirement is satisfied in a given context,
+  ignoring parts of the requirement that can be handled uniformly for all
+  requirement types.
+
+  context and req must not be null, and req must be a unitstate requirement
+**************************************************************************/
+static enum fc_tristate
+is_unitstate_req_active(const struct req_context *context,
+                        const struct player *other_player,
+                        const struct requirement *req)
+{
+  enum ustate_prop uprop;
+
+  IS_REQ_ACTIVE_VARIANT_ASSERT(VUT_UNITSTATE);
+
+  uprop = req->source.value.unit_state;
+
+  fc_assert_ret_val_msg(req->range == REQ_RANGE_LOCAL, TRI_NO,
                         "Unsupported range \"%s\"",
-                        req_range_name(range));
+                        req_range_name(req->range));
 
   /* Could be asked with incomplete data.
    * is_req_active() will handle it based on prob_type. */
-  if (target_unit == NULL) {
+  if (context->unit == NULL) {
     return TRI_MAYBE;
   }
 
   switch (uprop) {
   case USP_TRANSPORTED:
-    return BOOL_TO_TRISTATE(target_unit->transporter != NULL);
+    return BOOL_TO_TRISTATE(context->unit->transporter != NULL);
   case USP_LIVABLE_TILE:
     return BOOL_TO_TRISTATE(
-          can_unit_exist_at_tile(&(wld.map), target_unit,
-                                 unit_tile(target_unit)));
+          can_unit_exist_at_tile(&(wld.map), context->unit,
+                                 unit_tile(context->unit)));
     break;
   case USP_TRANSPORTING:
-    return BOOL_TO_TRISTATE(0 < get_transporter_occupancy(target_unit));
+    return BOOL_TO_TRISTATE(0 < get_transporter_occupancy(context->unit));
   case USP_HAS_HOME_CITY:
-    return BOOL_TO_TRISTATE(target_unit->homecity > 0);
+    return BOOL_TO_TRISTATE(context->unit->homecity > 0);
   case USP_NATIVE_TILE:
     return BOOL_TO_TRISTATE(
-        is_native_tile(unit_type_get(target_unit), unit_tile(target_unit)));
+        is_native_tile(unit_type_get(context->unit),
+                       unit_tile(context->unit)));
     break;
   case USP_NATIVE_EXTRA:
     return BOOL_TO_TRISTATE(
-        tile_has_native_base(unit_tile(target_unit),
-                             unit_type_get(target_unit)));
+        tile_has_native_base(unit_tile(context->unit),
+                             unit_type_get(context->unit)));
     break;
   case USP_MOVED_THIS_TURN:
-    return BOOL_TO_TRISTATE(target_unit->moved);
+    return BOOL_TO_TRISTATE(context->unit->moved);
   case USP_COUNT:
     fc_assert_msg(uprop != USP_COUNT, "Invalid unit state property.");
     /* Invalid property is unknowable. */
@@ -2750,23 +3289,34 @@ static enum fc_tristate is_unit_state(const struct unit *target_unit,
 }
 
 /**********************************************************************//**
-  Is the unit performing the specified activity?
+  Determine whether an activity requirement is satisfied in a given context,
+  ignoring parts of the requirement that can be handled uniformly for all
+  requirement types.
+
+  context and req must not be null, and req must be an activity requirement
 **************************************************************************/
-static enum fc_tristate unit_activity_in_range(const struct unit *punit,
-                                               enum req_range range,
-                                               enum unit_activity activity)
+static enum fc_tristate
+is_activity_req_active(const struct req_context *context,
+                       const struct player *other_player,
+                       const struct requirement *req)
 {
-  fc_assert_ret_val_msg(range == REQ_RANGE_LOCAL, TRI_NO,
+  enum unit_activity activity;
+
+  IS_REQ_ACTIVE_VARIANT_ASSERT(VUT_ACTIVITY);
+
+  activity = req->source.value.activity;
+
+  fc_assert_ret_val_msg(req->range == REQ_RANGE_LOCAL, TRI_NO,
                         "Unsupported range \"%s\"",
-                        req_range_name(range));
+                        req_range_name(req->range));
 
   /* Could be asked with incomplete data.
    * is_req_active() will handle it based on prob_type. */
-  if (punit == NULL) {
+  if (context->unit == NULL) {
     return TRI_MAYBE;
   }
 
-  switch (punit->activity) {
+  switch (context->unit->activity) {
   case ACTIVITY_IDLE:
   case ACTIVITY_SENTRY:
   case ACTIVITY_GOTO:
@@ -2778,7 +3328,122 @@ static enum fc_tristate unit_activity_in_range(const struct unit *punit,
     break;
   }
 
-  return BOOL_TO_TRISTATE(punit->activity == activity);
+  return BOOL_TO_TRISTATE(context->unit->activity == activity);
+}
+
+/**********************************************************************//**
+  Determine whether a minimum veteran level (minveteran) requirement is
+  satisfied in a given context, ignoring parts of the requirement that can
+  be handled uniformly for all requirement types.
+
+  context and req must not be null, and req must be a minveteran requirement
+**************************************************************************/
+static enum fc_tristate
+is_minveteran_req_active(const struct req_context *context,
+                         const struct player *other_player,
+                         const struct requirement *req)
+{
+  IS_REQ_ACTIVE_VARIANT_ASSERT(VUT_MINVETERAN);
+
+  if (context->unit == NULL) {
+    return TRI_MAYBE;
+  } else {
+    return BOOL_TO_TRISTATE(context->unit->veteran
+                            >= req->source.value.minveteran);
+  }
+}
+
+/**********************************************************************//**
+  Determine whether a minimum movement fragments (minmovefrags) requirement
+  is satisfied in a given context, ignoring parts of the requirement that
+  can be handled uniformly for all requirement types.
+
+  context and req must not be null, and req must be a minmovefrags
+  requirement
+**************************************************************************/
+static enum fc_tristate
+is_minmovefrags_req_active(const struct req_context *context,
+                           const struct player *other_player,
+                           const struct requirement *req)
+{
+  IS_REQ_ACTIVE_VARIANT_ASSERT(VUT_MINMOVES);
+
+  if (context->unit == NULL) {
+    return TRI_MAYBE;
+  } else {
+    return BOOL_TO_TRISTATE(req->source.value.minmoves
+                            <= context->unit->moves_left);
+  }
+}
+
+/**********************************************************************//**
+  Determine whether a minimum hitpoints requirement is satisfied in a given
+  context, ignoring parts of the requirement that can be handled uniformly
+  for all requirement types.
+
+  context and req must not be null, and req must be a minhitpoints
+  requirement
+**************************************************************************/
+static enum fc_tristate
+is_minhitpoints_req_active(const struct req_context *context,
+                           const struct player *other_player,
+                           const struct requirement *req)
+{
+  IS_REQ_ACTIVE_VARIANT_ASSERT(VUT_MINHP);
+
+  if (context->unit == NULL) {
+    return TRI_MAYBE;
+  } else {
+    return BOOL_TO_TRISTATE(req->source.value.min_hit_points
+                            <= context->unit->hp);
+  }
+}
+
+/**********************************************************************//**
+  Determine whether an age requirement is satisfied in a given context,
+  ignoring parts of the requirement that can be handled uniformly for all
+  requirement types.
+
+  context and req must not be null, and req must be an age requirement
+**************************************************************************/
+static enum fc_tristate
+is_age_req_active(const struct req_context *context,
+                  const struct player *other_player,
+                  const struct requirement *req)
+{
+  IS_REQ_ACTIVE_VARIANT_ASSERT(VUT_AGE);
+
+  switch (req->range) {
+  case REQ_RANGE_LOCAL:
+    if (context->unit == NULL || !is_server()) {
+      return TRI_MAYBE;
+    } else {
+      return BOOL_TO_TRISTATE(
+                req->source.value.age <=
+                game.info.turn - context->unit->server.birth_turn);
+    }
+    break;
+  case REQ_RANGE_CITY:
+    if (context->city == NULL) {
+      return TRI_MAYBE;
+    } else {
+      return BOOL_TO_TRISTATE(
+                req->source.value.age <=
+                game.info.turn - context->city->turn_founded);
+    }
+    break;
+  case REQ_RANGE_PLAYER:
+    if (context->player == NULL) {
+      return TRI_MAYBE;
+    } else {
+      return BOOL_TO_TRISTATE(req->source.value.age
+                              <= player_age(context->player));
+    }
+    break;
+  default:
+    return TRI_MAYBE;
+    break;
+  }
 }
 
 /**********************************************************************//**
@@ -2795,40 +3460,51 @@ static bool is_city_in_tile(const struct tile *ptile,
 }
 
 /**********************************************************************//**
-  Is center of given city in range. If city is NULL, any city will do.
+  Determine whether a citytile requirement is satisfied in a given context,
+  ignoring parts of the requirement that can be handled uniformly for all
+  requirement types.
+
+  context and req must not be null, and req must be a citytile requirement
 **************************************************************************/
-static enum fc_tristate is_citytile_in_range(const struct tile *target_tile,
-                                             const struct city *target_city,
-                                             enum req_range range,
-                                             enum citytile_type citytile)
+static enum fc_tristate
+is_citytile_req_active(const struct req_context *context,
+                       const struct player *other_player,
+                       const struct requirement *req)
 {
-  fc_assert_ret_val(req_range_is_valid(range), TRI_MAYBE);
-  if (target_tile == NULL) {
+  enum citytile_type citytile;
+
+  IS_REQ_ACTIVE_VARIANT_ASSERT(VUT_CITYTILE);
+
+  citytile = req->source.value.citytile;
+
+  fc_assert_ret_val(req_range_is_valid(req->range), TRI_MAYBE);
+  if (context->tile == NULL) {
     return TRI_MAYBE;
   }
 
   switch (citytile) {
   case CITYT_CENTER:
-    switch (range) {
+    switch (req->range) {
     case REQ_RANGE_LOCAL:
-      return BOOL_TO_TRISTATE(is_city_in_tile(target_tile, target_city));
+      return BOOL_TO_TRISTATE(is_city_in_tile(context->tile,
+                                              context->city));
     case REQ_RANGE_CADJACENT:
-      if (is_city_in_tile(target_tile, target_city)) {
+      if (is_city_in_tile(context->tile, context->city)) {
         return TRI_YES;
       }
-      cardinal_adjc_iterate(&(wld.map), target_tile, adjc_tile) {
-        if (is_city_in_tile(adjc_tile, target_city)) {
+      cardinal_adjc_iterate(&(wld.map), context->tile, adjc_tile) {
+        if (is_city_in_tile(adjc_tile, context->city)) {
           return TRI_YES;
         }
       } cardinal_adjc_iterate_end;
 
       return TRI_NO;
     case REQ_RANGE_ADJACENT:
-      if (is_city_in_tile(target_tile, target_city)) {
+      if (is_city_in_tile(context->tile, context->city)) {
         return TRI_YES;
       }
-      adjc_iterate(&(wld.map), target_tile, adjc_tile) {
-        if (is_city_in_tile(adjc_tile, target_city)) {
+      adjc_iterate(&(wld.map), context->tile, adjc_tile) {
+        if (is_city_in_tile(adjc_tile, context->city)) {
           return TRI_YES;
         }
       } adjc_iterate_end;
@@ -2842,20 +3518,20 @@ static enum fc_tristate is_citytile_in_range(const struct tile *target_tile,
     case REQ_RANGE_ALLIANCE:
     case REQ_RANGE_WORLD:
     case REQ_RANGE_COUNT:
-      fc_assert_msg(FALSE, "Invalid range %d for citytile.", range);
+      fc_assert_msg(FALSE, "Invalid range %d for citytile.", req->range);
       break;
     }
 
     return TRI_MAYBE;
   case CITYT_CLAIMED:
-    switch (range) {
+    switch (req->range) {
     case REQ_RANGE_LOCAL:
-      return BOOL_TO_TRISTATE(target_tile->owner != NULL);
+      return BOOL_TO_TRISTATE(context->tile->owner != NULL);
     case REQ_RANGE_CADJACENT:
-      if (target_tile->owner != NULL) {
+      if (context->tile->owner != NULL) {
         return TRI_YES;
       }
-      cardinal_adjc_iterate(&(wld.map), target_tile, adjc_tile) {
+      cardinal_adjc_iterate(&(wld.map), context->tile, adjc_tile) {
         if (adjc_tile->owner != NULL) {
           return TRI_YES;
         }
@@ -2863,10 +3539,10 @@ static enum fc_tristate is_citytile_in_range(const struct tile *target_tile,
 
       return TRI_NO;
     case REQ_RANGE_ADJACENT:
-      if (target_tile->owner != NULL) {
+      if (context->tile->owner != NULL) {
         return TRI_YES;
       }
-      adjc_iterate(&(wld.map), target_tile, adjc_tile) {
+      adjc_iterate(&(wld.map), context->tile, adjc_tile) {
         if (adjc_tile->owner != NULL) {
           return TRI_YES;
         }
@@ -2881,20 +3557,20 @@ static enum fc_tristate is_citytile_in_range(const struct tile *target_tile,
     case REQ_RANGE_ALLIANCE:
     case REQ_RANGE_WORLD:
     case REQ_RANGE_COUNT:
-      fc_assert_msg(FALSE, "Invalid range %d for citytile.", range);
+      fc_assert_msg(FALSE, "Invalid range %d for citytile.", req->range);
       break;
     }
 
     return TRI_MAYBE;
   case CITYT_EXTRAS_OWNED:
-    switch (range) {
+    switch (req->range) {
     case REQ_RANGE_LOCAL:
-      return BOOL_TO_TRISTATE(target_tile->extras_owner != NULL);
+      return BOOL_TO_TRISTATE(context->tile->extras_owner != NULL);
     case REQ_RANGE_CADJACENT:
-      if (target_tile->extras_owner != NULL) {
+      if (context->tile->extras_owner != NULL) {
         return TRI_YES;
       }
-      cardinal_adjc_iterate(&(wld.map), target_tile, adjc_tile) {
+      cardinal_adjc_iterate(&(wld.map), context->tile, adjc_tile) {
         if (adjc_tile->extras_owner != NULL) {
           return TRI_YES;
         }
@@ -2902,10 +3578,10 @@ static enum fc_tristate is_citytile_in_range(const struct tile *target_tile,
 
       return TRI_NO;
     case REQ_RANGE_ADJACENT:
-      if (target_tile->extras_owner != NULL) {
+      if (context->tile->extras_owner != NULL) {
         return TRI_YES;
       }
-      adjc_iterate(&(wld.map), target_tile, adjc_tile) {
+      adjc_iterate(&(wld.map), context->tile, adjc_tile) {
         if (adjc_tile->extras_owner != NULL) {
           return TRI_YES;
         }
@@ -2920,7 +3596,7 @@ static enum fc_tristate is_citytile_in_range(const struct tile *target_tile,
     case REQ_RANGE_ALLIANCE:
     case REQ_RANGE_WORLD:
     case REQ_RANGE_COUNT:
-      fc_assert_msg(FALSE, "Invalid range %d for citytile.", range);
+      fc_assert_msg(FALSE, "Invalid range %d for citytile.", req->range);
       break;
     }
 
@@ -2937,21 +3613,37 @@ static enum fc_tristate is_citytile_in_range(const struct tile *target_tile,
 }
 
 /**********************************************************************//**
-  Is city with specific status in range. If city is NULL, any city will do.
+  Determine whether a city status requirement is satisfied in a given
+  context, ignoring parts of the requirement that can be handled uniformly
+  for all requirement types.
+
+  context and req must not be null, and req must be a city status
+  requirement
 **************************************************************************/
-static enum fc_tristate is_citystatus_in_range(const struct city *target_city,
-                                               enum req_range range,
-                                               enum citystatus_type citystatus)
+static enum fc_tristate
+is_citystatus_req_active(const struct req_context *context,
+                         const struct player *other_player,
+                         const struct requirement *req)
 {
+  enum citystatus_type citystatus;
+
+  IS_REQ_ACTIVE_VARIANT_ASSERT(VUT_CITYSTATUS);
+
+  citystatus = req->source.value.citystatus;
+
+  if (context->city == NULL) {
+    return TRI_MAYBE;
+  }
+
   if (citystatus == CITYS_OWNED_BY_ORIGINAL) {
-    switch (range) {
+    switch (req->range) {
     case REQ_RANGE_CITY:
-      return BOOL_TO_TRISTATE(city_owner(target_city) == target_city->original);
+      return BOOL_TO_TRISTATE(city_owner(context->city) == context->city->original);
     case REQ_RANGE_TRADEROUTE:
       {
-        bool found = (city_owner(target_city) == target_city->original);
+        bool found = (city_owner(context->city) == context->city->original);
 
-        trade_partners_iterate(target_city, trade_partner) {
+        trade_partners_iterate(context->city, trade_partner) {
           if (city_owner(trade_partner) == trade_partner->original) {
             found = TRUE;
             break;
@@ -2972,7 +3664,7 @@ static enum fc_tristate is_citystatus_in_range(const struct city *target_city,
       break;
     }
 
-    fc_assert_msg(FALSE, "Invalid range %d for citystatus.", range);
+    fc_assert_msg(FALSE, "Invalid range %d for citystatus.", req->range);
 
     return TRI_MAYBE;
   } else {
@@ -2984,37 +3676,157 @@ static enum fc_tristate is_citystatus_in_range(const struct city *target_city,
 }
 
 /**********************************************************************//**
-  Has achievement been claimed by someone in range.
+  Determine whether a minimum size requirement is satisfied in a given
+  context, ignoring parts of the requirement that can be handled uniformly
+  for all requirement types.
+
+  context and req must not be null, and req must be a minsize requirement
 **************************************************************************/
 static enum fc_tristate
-is_achievement_in_range(const struct player *target_player,
-                        enum req_range range,
-                        const struct achievement *achievement)
+is_minsize_req_active(const struct req_context *context,
+                      const struct player *other_player,
+                      const struct requirement *req)
 {
-  if (range == REQ_RANGE_WORLD) {
-    return BOOL_TO_TRISTATE(achievement_claimed(achievement));
-  } else if (target_player == NULL) {
+  IS_REQ_ACTIVE_VARIANT_ASSERT(VUT_MINSIZE);
+
+  if (context->city == NULL) {
     return TRI_MAYBE;
-  } else if (range == REQ_RANGE_ALLIANCE || range == REQ_RANGE_TEAM) {
+  } else {
+    if (req->range == REQ_RANGE_TRADEROUTE) {
+      bool found = FALSE;
+
+      if (city_size_get(context->city) >= req->source.value.minsize) {
+        return TRI_YES;
+      }
+      trade_partners_iterate(context->city, trade_partner) {
+        if (city_size_get(trade_partner) >= req->source.value.minsize) {
+          found = TRUE;
+          break;
+        }
+      } trade_partners_iterate_end;
+      return BOOL_TO_TRISTATE(found);
+    } else {
+      return BOOL_TO_TRISTATE(city_size_get(context->city)
+                              >= req->source.value.minsize);
+    }
+  }
+}
+
+/**********************************************************************//**
+  Determine whether an achievement requirement is satisfied in a given
+  context, ignoring parts of the requirement that can be handled uniformly
+  for all requirement types.
+
+  context and req must not be null, and req must be an achievement
+  requirement
+**************************************************************************/
+static enum fc_tristate
+is_achievement_req_active(const struct req_context *context,
+                          const struct player *other_player,
+                          const struct requirement *req)
+{
+  const struct achievement *achievement;
+
+  IS_REQ_ACTIVE_VARIANT_ASSERT(VUT_ACHIEVEMENT);
+
+  achievement = req->source.value.achievement;
+
+  if (req->range == REQ_RANGE_WORLD) {
+    return BOOL_TO_TRISTATE(achievement_claimed(achievement));
+  } else if (context->player == NULL) {
+    return TRI_MAYBE;
+  } else if (req->range == REQ_RANGE_ALLIANCE
+             || req->range == REQ_RANGE_TEAM) {
     players_iterate_alive(plr2) {
-      if (players_in_same_range(target_player, plr2, range)
+      if (players_in_same_range(context->player, plr2, req->range)
           && achievement_player_has(achievement, plr2)) {
         return TRI_YES;
       }
     } players_iterate_alive_end;
     return TRI_NO;
-  } else if (range == REQ_RANGE_PLAYER) {
-    if (achievement_player_has(achievement, target_player)) {
+  } else if (req->range == REQ_RANGE_PLAYER) {
+    if (achievement_player_has(achievement, context->player)) {
       return TRI_YES;
     } else {
       return TRI_NO;
     }
   }
 
-  fc_assert_msg(FALSE,
-                "Illegal range %d for achievement requirement.", range);
+  fc_assert_msg(FALSE, "Invalid range %d.", req->range);
 
   return TRI_MAYBE;
+}
+
+/**********************************************************************//**
+  Determine whether a minimum year requirement is satisfied in a given
+  context, ignoring parts of the requirement that can be handled uniformly
+  for all requirement types.
+
+  context and req must not be null, and req must be a minyear requirement
+**************************************************************************/
+static enum fc_tristate
+is_minyear_req_active(const struct req_context *context,
+                      const struct player *other_player,
+                      const struct requirement *req)
+{
+  IS_REQ_ACTIVE_VARIANT_ASSERT(VUT_MINYEAR);
+
+  return BOOL_TO_TRISTATE(game.info.year >= req->source.value.minyear);
+}
+
+/**********************************************************************//**
+  Determine whether a minimum calendar fragment requirement is satisfied in
+  a given context, ignoring parts of the requirement that can be handled
+  uniformly for all requirement types.
+
+  context and req must not be null, and req must be a mincalfrag requirement
+**************************************************************************/
+static enum fc_tristate
+is_mincalfrag_req_active(const struct req_context *context,
+                         const struct player *other_player,
+                         const struct requirement *req)
+{
+  IS_REQ_ACTIVE_VARIANT_ASSERT(VUT_MINCALFRAG);
+
+  return BOOL_TO_TRISTATE(game.info.fragment_count
+                          >= req->source.value.mincalfrag);
+}
+
+/**********************************************************************//**
+  Determine whether a topology requirement is satisfied in a given context,
+  ignoring parts of the requirement that can be handled uniformly for all
+  requirement types.
+
+  context and req must not be null, and req must be a topology requirement
+**************************************************************************/
+static enum fc_tristate
+is_topology_req_active(const struct req_context *context,
+                       const struct player *other_player,
+                       const struct requirement *req)
+{
+  IS_REQ_ACTIVE_VARIANT_ASSERT(VUT_TOPO);
+
+  return BOOL_TO_TRISTATE(
+      current_topo_has_flag(req->source.value.topo_property));
+}
+
+/**********************************************************************//**
+  Determine whether a server setting requirement is satisfied in a given
+  context, ignoring parts of the requirement that can be handled uniformly
+  for all requirement types.
+
+  context and req must not be null, and req must be a server setting
+  requirement
+**************************************************************************/
+static enum fc_tristate
+is_serversetting_req_active(const struct req_context *context,
+                            const struct player *other_player,
+                            const struct requirement *req)
+{
+  IS_REQ_ACTIVE_VARIANT_ASSERT(VUT_SERVERSETTING);
+
+  return BOOL_TO_TRISTATE(ssetv_setting_has_value(
+                              req->source.value.ssetval));
 }
 
 /**********************************************************************//**
@@ -3034,368 +3846,73 @@ bool is_req_active(const struct req_context *context,
                    const struct requirement *req,
                    const enum   req_problem_type prob_type)
 {
-  enum fc_tristate eval = TRI_NO;
+  static const is_req_active_cb req_active_callbacks[VUT_COUNT] = {
+    [VUT_NONE] = is_none_req_active,
+
+    /* alphabetical order of enum constant */
+    [VUT_ACHIEVEMENT] = is_achievement_req_active,
+    [VUT_ACTION] = is_action_req_active,
+    [VUT_ACTIVITY] = is_activity_req_active,
+    [VUT_ADVANCE] = is_tech_req_active,
+    [VUT_AGE] = is_age_req_active,
+    [VUT_AI_LEVEL] = is_ai_req_active,
+    [VUT_CITYSTATUS] = is_citystatus_req_active,
+    [VUT_CITYTILE] = is_citytile_req_active,
+    [VUT_DIPLREL] = is_diplrel_req_active,
+    [VUT_DIPLREL_TILE] = is_diplrel_tile_req_active,
+    [VUT_DIPLREL_TILE_O] = is_diplrel_tile_o_req_active,
+    [VUT_DIPLREL_UNITANY] = is_diplrel_unitany_req_active,
+    [VUT_DIPLREL_UNITANY_O] = is_diplrel_unitany_o_req_active,
+    [VUT_EXTRA] = is_extra_req_active,
+    [VUT_EXTRAFLAG] = is_extraflag_req_active,
+    [VUT_GOOD] = is_good_req_active,
+    [VUT_GOVERNMENT] = is_gov_req_active,
+    [VUT_IMPROVEMENT] = is_building_req_active,
+    [VUT_IMPR_GENUS] = is_buildinggenus_req_active,
+    [VUT_MAXTILEUNITS] = is_maxunitsontile_req_active,
+    [VUT_MINCALFRAG] = is_mincalfrag_req_active,
+    [VUT_MINCULTURE] = is_minculture_req_active,
+    [VUT_MINFOREIGNPCT] = is_minforeignpct_req_active,
+    [VUT_MINHP] = is_minhitpoints_req_active,
+    [VUT_MINMOVES] = is_minmovefrags_req_active,
+    [VUT_MINSIZE] = is_minsize_req_active,
+    [VUT_MINTECHS] = is_mintechs_req_active,
+    [VUT_MINVETERAN] = is_minveteran_req_active,
+    [VUT_MINYEAR] = is_minyear_req_active,
+    [VUT_NATION] = is_nation_req_active,
+    [VUT_NATIONALITY] = is_nationality_req_active,
+    [VUT_NATIONGROUP] = is_nationgroup_req_active,
+    [VUT_OTYPE] = is_outputtype_req_active,
+    [VUT_ROADFLAG] = is_roadflag_req_active,
+    [VUT_SERVERSETTING] = is_serversetting_req_active,
+    [VUT_SPECIALIST] = is_specialist_req_active,
+    [VUT_STYLE] = is_style_req_active,
+    [VUT_TECHFLAG] = is_techflag_req_active,
+    [VUT_TERRAIN] = is_terrain_req_active,
+    [VUT_TERRAINALTER] = is_terrainalter_req_active,
+    [VUT_TERRAINCLASS] = is_terrainclass_req_active,
+    [VUT_TERRFLAG] = is_terrainflag_req_active,
+    [VUT_TOPO] = is_topology_req_active,
+    [VUT_UCFLAG] = is_unitclassflag_req_active,
+    [VUT_UCLASS] = is_unitclass_req_active,
+    [VUT_UNITSTATE] = is_unitstate_req_active,
+    [VUT_UTFLAG] = is_unitflag_req_active,
+    [VUT_UTYPE] = is_unittype_req_active,
+  };
+  enum fc_tristate eval;
 
   if (context == NULL) {
     context = req_context_empty();
   }
 
-  /* Note the target may actually not exist.  In particular, effects that
-   * have a VUT_TERRAIN may often be passed
-   * to this function with a city as their target.  In this case the
-   * requirement is simply not met. */
-  switch (req->source.kind) {
-  case VUT_NONE:
-    eval = TRI_YES;
-    break;
-  case VUT_ADVANCE:
-    /* The requirement is filled if the player owns the tech. */
-    eval = is_tech_in_range(context->player, req->range, req->survives,
-                            advance_number(req->source.value.advance));
-    break;
- case VUT_TECHFLAG:
-    eval = is_techflag_in_range(context->player, req->range,
-                                req->source.value.techflag);
-    break;
-  case VUT_GOVERNMENT:
-    /* The requirement is filled if the player is using the government. */
-    if (context->player == NULL) {
-      eval = TRI_MAYBE;
-    } else {
-      eval = BOOL_TO_TRISTATE(government_of_player(context->player)
-                              == req->source.value.govern);
-    }
-    break;
-  case VUT_ACHIEVEMENT:
-    eval = is_achievement_in_range(context->player, req->range,
-                                   req->source.value.achievement);
-    break;
-  case VUT_STYLE:
-    if (context->player == NULL) {
-      eval = TRI_MAYBE;
-    } else {
-      eval = BOOL_TO_TRISTATE(context->player->style
-                              == req->source.value.style);
-    }
-    break;
-  case VUT_IMPROVEMENT:
-    eval = is_building_in_range(context->player, context->city,
-                                context->building,
-                                req->range, req->survives,
-                                req->source.value.building);
-    break;
-  case VUT_IMPR_GENUS:
-    eval = (context->building ? BOOL_TO_TRISTATE(
-                                  context->building->genus
-                                  == req->source.value.impr_genus)
-                              : TRI_MAYBE);
-    break;
-  case VUT_EXTRA:
-    eval = is_extra_type_in_range(context->tile, context->city,
-                                  req->range, req->survives,
-                                  req->source.value.extra);
-    break;
-  case VUT_GOOD:
-    eval = is_goods_type_in_range(context->tile, context->city,
-                                  req->range, req->survives,
-                                  req->source.value.good);
-    break;
-  case VUT_TERRAIN:
-    eval = is_terrain_in_range(context->tile, context->city,
-                               req->range, req->survives,
-                               req->source.value.terrain);
-    break;
-  case VUT_TERRFLAG:
-    eval = is_terrainflag_in_range(context->tile, context->city,
-                                   req->range, req->survives,
-                                   req->source.value.terrainflag);
-    break;
-  case VUT_NATION:
-    eval = is_nation_in_range(context->player, req->range, req->survives,
-                              req->source.value.nation);
-    break;
-  case VUT_NATIONGROUP:
-    eval = is_nation_group_in_range(context->player, req->range,
-                                    req->survives,
-                                    req->source.value.nationgroup);
-    break;
-  case VUT_NATIONALITY:
-    eval = is_nationality_in_range(context->city, req->range,
-                                   req->source.value.nationality);
-    break;
-  case VUT_DIPLREL:
-    eval = is_diplrel_in_range(context->player, other_player, req->range,
-                               req->source.value.diplrel);
-    break;
-  case VUT_DIPLREL_TILE:
-    eval = is_diplrel_in_range(context->tile ? tile_owner(context->tile)
-                                             : NULL,
-                               context->player,
-                               req->range,
-                               req->source.value.diplrel);
-    break;
-  case VUT_DIPLREL_TILE_O:
-    eval = is_diplrel_in_range(context->tile ? tile_owner(context->tile)
-                                             : NULL,
-                               other_player,
-                               req->range,
-                               req->source.value.diplrel);
-    break;
-  case VUT_DIPLREL_UNITANY:
-    eval = is_diplrel_unitany_in_range(context->tile, context->player,
-                                       req->range,
-                                       req->source.value.diplrel);
-    break;
-  case VUT_DIPLREL_UNITANY_O:
-    eval = is_diplrel_unitany_in_range(context->tile, other_player,
-                                       req->range,
-                                       req->source.value.diplrel);
-    break;
-  case VUT_UTYPE:
-    if (context->unittype == NULL) {
-      eval = TRI_MAYBE;
-    } else {
-      eval = is_unittype_in_range(context->unittype,
-                                  req->range, req->survives,
-                                  req->source.value.utype);
-    }
-    break;
-  case VUT_UTFLAG:
-    eval = is_unitflag_in_range(context->unittype,
-				req->range, req->survives,
-				req->source.value.unitflag);
-    break;
-  case VUT_UCLASS:
-    if (context->unittype == NULL) {
-      eval = TRI_MAYBE;
-    } else {
-      eval = is_unitclass_in_range(context->unittype,
-                                   req->range, req->survives,
-                                   req->source.value.uclass);
-    }
-    break;
-  case VUT_UCFLAG:
-    if (context->unittype == NULL) {
-      eval = TRI_MAYBE;
-    } else {
-      eval = is_unitclassflag_in_range(context->unittype,
-                                       req->range, req->survives,
-                                       req->source.value.unitclassflag);
-    }
-    break;
-  case VUT_MINVETERAN:
-    if (context->unit == NULL) {
-      eval = TRI_MAYBE;
-    } else {
-      eval =
-        BOOL_TO_TRISTATE(context->unit->veteran
-                         >= req->source.value.minveteran);
-    }
-    break;
-  case VUT_UNITSTATE:
-    if (context->unit == NULL) {
-      eval = TRI_MAYBE;
-    } else {
-      eval = is_unit_state(context->unit,
-                           req->range, req->survives,
-                           req->source.value.unit_state);
-    }
-    break;
-  case VUT_ACTIVITY:
-    eval = unit_activity_in_range(context->unit,
-                                  req->range, req->source.value.activity);
-    break;
-  case VUT_MINMOVES:
-    if (context->unit == NULL) {
-      eval = TRI_MAYBE;
-    } else {
-      eval = BOOL_TO_TRISTATE(
-            req->source.value.minmoves <= context->unit->moves_left);
-    }
-    break;
-  case VUT_MINHP:
-    if (context->unit == NULL) {
-      eval = TRI_MAYBE;
-    } else {
-      eval = BOOL_TO_TRISTATE(
-            req->source.value.min_hit_points <= context->unit->hp);
-    }
-    break;
-  case VUT_AGE:
-    switch (req->range) {
-    case REQ_RANGE_LOCAL:
-      if (context->unit == NULL || !is_server()) {
-        eval = TRI_MAYBE;
-      } else {
-        eval = BOOL_TO_TRISTATE(
-                 req->source.value.age <=
-                 game.info.turn - context->unit->server.birth_turn);
-      }
-      break;
-    case REQ_RANGE_CITY:
-      if (context->city == NULL) {
-        eval = TRI_MAYBE;
-      } else {
-        eval = BOOL_TO_TRISTATE(
-                 req->source.value.age <=
-                 game.info.turn - context->city->turn_founded);
-      }
-      break;
-    case REQ_RANGE_PLAYER:
-      if (context->player == NULL) {
-        eval = TRI_MAYBE;
-      } else {
-        eval =
-          BOOL_TO_TRISTATE(req->source.value.age
-                           <= player_age(context->player));
-      }
-      break;
-    default:
-      eval = TRI_MAYBE;
-      break;
-    }
-    break;
-  case VUT_MINTECHS:
-    switch (req->range) {
-    case REQ_RANGE_WORLD:
-      /* "None" does not count */
-      eval = ((game.info.global_advance_count - 1) >= req->source.value.min_techs);
-      break;
-    case REQ_RANGE_PLAYER:
-      if (context->player == NULL) {
-        eval = TRI_MAYBE;
-      } else {
-        /* "None" does not count */
-        eval = BOOL_TO_TRISTATE(
-                   (research_get(context->player)->techs_researched - 1)
-                   >= req->source.value.min_techs
-               );
-      }
-      break;
-    default:
-      eval = TRI_MAYBE;
-    }
-    break;
-  case VUT_ACTION:
-    eval = BOOL_TO_TRISTATE(context->action
-                            && action_number(context->action)
-                               == action_number(req->source.value.action));
-    break;
-  case VUT_OTYPE:
-    eval = BOOL_TO_TRISTATE(context->output
-                            && context->output->index
-                               == req->source.value.outputtype);
-    break;
-  case VUT_SPECIALIST:
-    eval = BOOL_TO_TRISTATE(context->specialist
-                            && context->specialist
-                               == req->source.value.specialist);
-    break;
-  case VUT_MINSIZE:
-    if (context->city == NULL) {
-      eval = TRI_MAYBE;
-    } else {
-      if (req->range == REQ_RANGE_TRADEROUTE) {
-        bool found = FALSE;
-
-        if (city_size_get(context->city) >= req->source.value.minsize) {
-          eval = TRI_YES;
-          break;
-        }
-        trade_partners_iterate(context->city, trade_partner) {
-          if (city_size_get(trade_partner) >= req->source.value.minsize) {
-            found = TRUE;
-            break;
-          }
-        } trade_partners_iterate_end;
-        eval = BOOL_TO_TRISTATE(found);
-      } else {
-        eval = BOOL_TO_TRISTATE(city_size_get(context->city)
-                                >= req->source.value.minsize);
-      }
-    }
-    break;
-  case VUT_MINCULTURE:
-    eval = is_minculture_in_range(context->city, context->player,
-                                  req->range,
-                                  req->source.value.minculture);
-    break;
-  case VUT_MINFOREIGNPCT:
-    eval = is_minforeignpct_in_range(context->city, req->range,
-                                     req->source.value.minforeignpct);
-    break;
-  case VUT_AI_LEVEL:
-    if (context->player == NULL) {
-      eval = TRI_MAYBE;
-    } else {
-      eval = BOOL_TO_TRISTATE(is_ai(context->player)
-                              && context->player->ai_common.skill_level
-                                 == req->source.value.ai_level);
-    }
-    break;
-  case VUT_MAXTILEUNITS:
-    eval = is_tile_units_in_range(context->tile, req->range,
-                                  req->source.value.max_tile_units);
-    break;
-  case VUT_TERRAINCLASS:
-    eval = is_terrain_class_in_range(context->tile, context->city,
-                                     req->range, req->survives,
-                                     req->source.value.terrainclass);
-    break;
-  case VUT_ROADFLAG:
-    eval = is_roadflag_in_range(context->tile, context->city,
-                                 req->range, req->survives,
-                                 req->source.value.roadflag);
-    break;
-  case VUT_EXTRAFLAG:
-    eval = is_extraflag_in_range(context->tile, context->city,
-                                 req->range, req->survives,
-                                 req->source.value.extraflag);
-    break;
-  case VUT_MINYEAR:
-    eval = BOOL_TO_TRISTATE(game.info.year >= req->source.value.minyear);
-    break;
-  case VUT_MINCALFRAG:
-    eval = BOOL_TO_TRISTATE(game.info.fragment_count >= req->source.value.mincalfrag);
-    break;
-  case VUT_TOPO:
-    eval = BOOL_TO_TRISTATE(current_topo_has_flag(req->source.value.topo_property));
-    break;
-  case VUT_SERVERSETTING:
-    eval = BOOL_TO_TRISTATE(ssetv_setting_has_value(
-                                req->source.value.ssetval));
-    break;
-  case VUT_TERRAINALTER:
-    if (context->tile == NULL) {
-      eval = TRI_MAYBE;
-    } else {
-      eval = is_terrain_alter_possible_in_range(context->tile,
-                                                req->range, req->survives,
-                                                req->source.value.terrainalter);
-    }
-    break;
-  case VUT_CITYTILE:
-    if (context->tile == NULL) {
-      eval = TRI_MAYBE;
-    } else {
-      eval = is_citytile_in_range(context->tile, context->city,
-                                  req->range,
-                                  req->source.value.citytile);
-    }
-    break;
-  case VUT_CITYSTATUS:
-    if (context->city == NULL) {
-      eval = TRI_MAYBE;
-    } else {
-      eval = is_citystatus_in_range(context->city,
-                                    req->range,
-                                    req->source.value.citystatus);
-    }
-    break;
-  case VUT_COUNT:
+  if (req->source.kind >= VUT_COUNT) {
     log_error("is_req_active(): invalid source kind %d.", req->source.kind);
     return FALSE;
   }
+
+  fc_assert_ret_val(req_active_callbacks[req->source.kind] != NULL, FALSE);
+
+  eval = req_active_callbacks[req->source.kind](context, other_player, req);
 
   if (eval == TRI_MAYBE) {
     if (prob_type == RPT_POSSIBLE) {
