@@ -68,7 +68,7 @@ endif
 # by default build all installers.
 all: all-$(WINARCH)
 
-all-win64: gtk3.22-installer sdl2-installer ruledit-installer qt5-installer qt6-installer gtk4-installer
+all-win64: gtk3.22-installer sdl2-installer ruledit-installer-qt5 qt5-installer gtk4-installer
 
 all-win32: gtk3.22-installer sdl2-installer ruledit-installer-qt5 qt5-installer gtk4-installer
 
