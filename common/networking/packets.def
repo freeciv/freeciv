@@ -335,6 +335,8 @@ type TURN               = SINT16
 type XYSIZE             = UINT16
 type YEAR               = SINT32
 type CITIZENS           = UINT8
+# Negative values used as flags
+type SCORE              = SINT32
 
 /****************************************************
 The remaining lines are the definition of the packets. These are
@@ -441,8 +443,8 @@ end
 PACKET_ENDGAME_PLAYER = 223; sc, lsend, no-delta, handle-via-packet
   UINT8 category_num;
   PLAYER player_id;
-  UINT16 score;
-  UINT32 category_score[32:category_num];
+  SCORE  score;
+  SCORE  category_score[32:category_num];
   BOOL winner;
 end
 
@@ -896,7 +898,7 @@ PACKET_PLAYER_INFO = 51; sc, is-info
   STRING username[MAX_LEN_NAME];
   BOOL unassigned_user;
 
-  UINT32 score;
+  SCORE score;
   BOOL is_male;
   BOOL was_created;
   GOVERNMENT government;

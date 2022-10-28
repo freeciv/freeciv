@@ -1634,9 +1634,7 @@ const char *get_score_text(const struct player *pplayer)
 
   astr_clear(&str);
 
-  if (pplayer->score.game > 0
-      || NULL == client.conn.playing
-      || pplayer == client.conn.playing) {
+  if (pplayer->score.game >= 0) {
     astr_add(&str, "%d", pplayer->score.game);
   } else {
     astr_add(&str, "?");
@@ -1646,8 +1644,8 @@ const char *get_score_text(const struct player *pplayer)
 }
 
 /************************************************************************//**
-  Get the title for a "report".  This may include the city, economy,
-  military, trade, player, etc., reports.  Some clients may generate the
+  Get the title for a "report". This may include the city, economy,
+  military, trade, player, etc., reports. Some clients may generate the
   text themselves to get a better GUI layout.
 ****************************************************************************/
 const char *get_report_title(const char *report_name)

@@ -1233,7 +1233,7 @@ static void package_player_info(struct player *plr,
   if (info_level >= INFO_MEETING) {
     packet->score = plr->score.game;
   } else {
-    packet->score = 0;
+    packet->score = -1;
   }
 
   if (info_level >= INFO_MEETING) {
