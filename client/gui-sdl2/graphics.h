@@ -278,7 +278,7 @@ void create_line(SDL_Surface *dest, Sint16 x0, Sint16 y0, Sint16 x1, Sint16 y1,
 /* SDL */
 void init_sdl(int f);
 void quit_sdl(void);
-int set_video_mode(int width, int height, int flags);
+bool set_video_mode(unsigned width, unsigned height, unsigned flags);
 
 void update_main_screen(void);
 
