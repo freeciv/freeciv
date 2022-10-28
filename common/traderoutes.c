@@ -670,7 +670,8 @@ bool goods_has_flag(const struct goods_type *pgood, enum goods_flag_id flag)
 /*********************************************************************//**
   Can the city provide goods.
 *************************************************************************/
-bool goods_can_be_provided(const struct city *pcity, struct goods_type *pgood,
+bool goods_can_be_provided(const struct city *pcity,
+                           const struct goods_type *pgood,
                            struct unit *punit)
 {
   return are_reqs_active(&(const struct req_context) {

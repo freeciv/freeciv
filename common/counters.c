@@ -159,7 +159,7 @@ const char *counter_rule_name(struct counter *pcount)
 /************************************************************************//**
    Return index in global counter's array
 ***************************************************************************/
-int counter_index(struct counter *pcount)
+int counter_index(const struct counter *pcount)
 {
   fc_assert_ret_val(NULL != pcount, -1);
   return pcount->index;

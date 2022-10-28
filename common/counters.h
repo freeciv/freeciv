@@ -46,7 +46,7 @@ const char *counter_rule_name(struct counter *pcount);
 const char *counter_name_translation(const struct counter *counter);
 struct counter *counter_by_translated_name(const char *name);
 
-int counter_index(struct counter *pcount);
+int counter_index(const struct counter *pcount);
 struct counter *counter_by_index(int index, enum counter_target target);
 int counters_get_city_counters_count(void);
 void attach_city_counter(struct counter *counter);

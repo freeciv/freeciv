@@ -206,7 +206,8 @@ struct goods_type *goods_by_translated_name(const char *name);
 
 bool goods_has_flag(const struct goods_type *pgood, enum goods_flag_id flag);
 
-bool goods_can_be_provided(const struct city *pcity, struct goods_type *pgood,
+bool goods_can_be_provided(const struct city *pcity,
+                           const struct goods_type *pgood,
                            struct unit *punit);
 struct goods_type *goods_from_city_to_unit(struct city *src, struct unit *punit);
 bool city_receives_goods(const struct city *pcity,
