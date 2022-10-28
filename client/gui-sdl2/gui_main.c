@@ -983,9 +983,11 @@ int ui_main(int argc, char *argv[])
     flags &= ~SDL_WINDOW_FULLSCREEN;
   }
   log_normal(_("Using Video Output: %s"), SDL_GetCurrentVideoDriver());
-  set_video_mode(gui_options.gui_sdl2_screen.width,
-                 gui_options.gui_sdl2_screen.height,
-                 flags);
+  if (!set_video_mode(gui_options.gui_sdl2_screen.width,
+                      gui_options.gui_sdl2_screen.height,
+                      flags)) {
+    return EXIT_FAILURE;
+  }
 
   user_event_type = SDL_RegisterEvents(1);
 

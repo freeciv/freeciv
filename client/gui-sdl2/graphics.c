@@ -549,46 +549,52 @@ void quit_sdl(void)
 }
 
 /**************************************************************************
-  Switch to passed video mode.
+  Switch to given video mode.
 **************************************************************************/
-int set_video_mode(int iWidth, int iHeight, int iFlags)
+bool set_video_mode(int width, int height, int flags_in)
 {
-  unsigned int flags;
+  unsigned flags;
 
   Main.screen = SDL_CreateWindow(_("SDL2 Client for Freeciv"),
                                  SDL_WINDOWPOS_UNDEFINED,
                                  SDL_WINDOWPOS_UNDEFINED,
-                                 iWidth, iHeight,
+                                 width, height,
                                  0);
 
-  if (iFlags & SDL_WINDOW_FULLSCREEN) {
+  if (Main.screen == NULL) {
+    log_fatal(_("Failed to create main window: %s"), SDL_GetError());
+    return FALSE;
+  }
+
+  if (flags_in & SDL_WINDOW_FULLSCREEN) {
     SDL_DisplayMode mode;
 
     /* Use SDL_WINDOW_FULLSCREEN_DESKTOP instead of real SDL_WINDOW_FULLSCREEN */
     SDL_SetWindowFullscreen(Main.screen, SDL_WINDOW_FULLSCREEN_DESKTOP);
     SDL_GetWindowDisplayMode(Main.screen, &mode);
-    iWidth = mode.w;
-    iHeight = mode.h;
+    width = mode.w;
+    height = mode.h;
   }
 
   if (is_bigendian()) {
-    main_surface = SDL_CreateRGBSurface(0, iWidth, iHeight, 32,
+    main_surface = SDL_CreateRGBSurface(0, width, height, 32,
                                         0x0000FF00, 0x00FF0000,
                                         0xFF000000, 0x000000FF);
-  } else {
-    main_surface = SDL_CreateRGBSurface(0, iWidth, iHeight, 32,
-                                        0x00FF0000, 0x0000FF00,
-                                        0x000000FF, 0xFF000000);
-  }
-
-  if (is_bigendian()) {
-    Main.map = SDL_CreateRGBSurface(0, iWidth, iHeight, 32,
+    Main.map = SDL_CreateRGBSurface(0, width, height, 32,
                                     0x0000FF00, 0x00FF0000,
                                     0xFF000000, 0x000000FF);
   } else {
-    Main.map = SDL_CreateRGBSurface(0, iWidth, iHeight, 32,
+    main_surface = SDL_CreateRGBSurface(0, width, height, 32,
+                                        0x00FF0000, 0x0000FF00,
+                                        0x000000FF, 0xFF000000);
+    Main.map = SDL_CreateRGBSurface(0, width, height, 32,
                                     0x00FF0000, 0x0000FF00,
                                     0x000000FF, 0xFF000000);
+  }
+
+  if (main_surface == NULL || Main.map == NULL) {
+    log_fatal(_("Failed to create RGB surface: %s"), SDL_GetError());
+    return FALSE;
   }
 
   if (gui_options.gui_sdl2_swrenderer) {
@@ -599,21 +605,31 @@ int set_video_mode(int iWidth, int iHeight, int iFlags)
 
   Main.renderer = SDL_CreateRenderer(Main.screen, -1, flags);
 
+  if (Main.renderer == NULL) {
+    log_fatal(_("Failed to create renderer: %s"), SDL_GetError());
+    return FALSE;
+  }
+
   Main.maintext = SDL_CreateTexture(Main.renderer,
                                     SDL_PIXELFORMAT_ARGB8888,
                                     SDL_TEXTUREACCESS_STREAMING,
-                                    iWidth, iHeight);
+                                    width, height);
+
+  if (Main.maintext == NULL) {
+    log_fatal(_("Failed to create texture: %s"), SDL_GetError());
+    return FALSE;
+  }
 
   if (Main.gui) {
     FREESURFACE(Main.gui->surface);
-    Main.gui->surface = create_surf(iWidth, iHeight, SDL_SWSURFACE);
+    Main.gui->surface = create_surf(width, height, SDL_SWSURFACE);
   } else {
-    Main.gui = add_gui_layer(iWidth, iHeight);
+    Main.gui = add_gui_layer(width, height);
   }
 
   clear_surface(Main.gui->surface, NULL);
 
-  return 0;
+  return TRUE;
 }
 
 /**************************************************************************
