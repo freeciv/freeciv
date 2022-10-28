@@ -242,6 +242,7 @@ static void clean_fallout_callback(GtkMenuItem *item, gpointer data);
 static void fortify_callback(GtkMenuItem *item, gpointer data);
 static void build_fortress_callback(GtkMenuItem *item, gpointer data);
 static void build_airbase_callback(GtkMenuItem *item, gpointer data);
+static void do_paradrop_callback(GtkMenuItem *item, gpointer data);
 static void do_pillage_callback(GtkMenuItem *item, gpointer data);
 static void diplomat_action_callback(GtkMenuItem *item, gpointer data);
 
@@ -526,6 +527,8 @@ static struct menu_entry_info menu_entries[] =
     G_CALLBACK(build_fortress_callback), MGROUP_UNIT },
   { "BUILD_AIRBASE", N_("Build Airbase"), GDK_KEY_e, GDK_SHIFT_MASK,
     G_CALLBACK(build_airbase_callback), MGROUP_UNIT },
+  { "DO_PARADROP", N_("P_aradrop"), GDK_KEY_j, 0,
+    G_CALLBACK(do_paradrop_callback), MGROUP_UNIT },
   { "DO_PILLAGE", N_("_Pillage"), GDK_KEY_p, GDK_SHIFT_MASK,
     G_CALLBACK(do_pillage_callback), MGROUP_UNIT },
   { "DIPLOMAT_ACTION", N_("_Do..."), GDK_KEY_d, 0,
@@ -1696,8 +1699,6 @@ static void transform_terrain_callback(GtkMenuItem *action, gpointer data)
 static void clean_pollution_callback(GtkMenuItem *action, gpointer data)
 {
   unit_list_iterate(get_units_in_focus(), punit) {
-    /* FIXME: this can provide different actions for different units...
-     * not good! */
     struct extra_type *pextra;
 
     pextra = prev_extra_in_tile(unit_tile(punit), ERM_CLEANPOLLUTION,
@@ -1705,10 +1706,6 @@ static void clean_pollution_callback(GtkMenuItem *action, gpointer data)
 
     if (pextra != NULL) {
       request_new_unit_activity_targeted(punit, ACTIVITY_POLLUTION, pextra);
-    } else if (can_unit_paradrop(punit)) {
-      /* FIXME: This is getting worse, we use a key_unit_*() function
-       * which assign the order for all units!  Very bad! */
-      key_unit_paradrop();
     }
   } unit_list_iterate_end;
 }
@@ -1745,6 +1742,14 @@ static void fortify_callback(GtkMenuItem *action, gpointer data)
 static void build_airbase_callback(GtkMenuItem *action, gpointer data)
 {
   key_unit_airbase();
+}
+
+/************************************************************************//**
+  Action "DO_PARADROP" callback.
+****************************************************************************/
+static void do_paradrop_callback(GtkMenuItem *action, gpointer data)
+{
+  key_unit_paradrop();
 }
 
 /************************************************************************//**
@@ -2317,12 +2322,13 @@ void real_menus_update(void)
   menu_entry_set_sensitive("BUILD_AIRBASE",
                            can_units_do_base_gui(punits, BASE_GUI_AIRBASE));
   menu_entry_set_sensitive("CLEAN_POLLUTION",
-                           (can_units_do_activity(punits, ACTIVITY_POLLUTION)
-                            || can_units_do(punits, can_unit_paradrop)));
+                           can_units_do_activity(punits, ACTIVITY_POLLUTION));
   menu_entry_set_sensitive("CLEAN_FALLOUT",
                            can_units_do_activity(punits, ACTIVITY_FALLOUT));
   menu_entry_set_sensitive("UNIT_SENTRY",
                            can_units_do_activity(punits, ACTIVITY_SENTRY));
+  menu_entry_set_sensitive("DO_PARADROP",
+                           can_units_do(punits, can_unit_paradrop));
   /* FIXME: should conditionally rename "Pillage" to "Pillage..." in cases where
    * selecting the command results in a dialog box listing options of what to pillage */
   menu_entry_set_sensitive("DO_PILLAGE",
@@ -2572,16 +2578,6 @@ void real_menus_update(void)
   menus_rename("BUILD_MINE", mintext);
   menus_rename("PLANT", plantext);
   menus_rename("TRANSFORM_TERRAIN", transtext);
-
-  if (units_can_do_action_with_result(punits, ACTRES_PARADROP, TRUE)
-      || units_can_do_action_with_result(punits, ACTRES_PARADROP_CONQUER,
-                                         TRUE)) {
-    menus_rename("CLEAN_POLLUTION",
-                 action_get_ui_name_mnemonic(ACTION_PARADROP, "_"));
-  } else {
-    menus_rename("CLEAN_POLLUTION", _("Clean _Pollution"));
-  }
-
   menus_rename("UNIT_HOMECITY",
                action_get_ui_name_mnemonic(ACTION_HOME_CITY, "_"));
 }

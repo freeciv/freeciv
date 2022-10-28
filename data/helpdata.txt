@@ -1651,6 +1651,7 @@ Unit Orders:\n\
   I:      change terrain by cultivating\n\
   Ctrl+I: connect current and target tile with (I)rrigation\n\
   Ctrl+I: set an (I)rrigation waypoint  (when connecting with irrigation)\n\
+  j:      drop paratrooper  (paratroop units)\n\
   l:      (l)oad unit on transporter\n\
   Ctrl+L: connect current and target tile with rai(L)\n\
   Ctrl+L: set a rai(L) waypoint  (when connecting with rail)\n\
@@ -1661,7 +1662,6 @@ Unit Orders:\n\
   o:      transf(o)rm terrain  (engineer unit)\n\
   O:      c(O)nvert to another kind of unit\n\
   p:      clean (p)ollution  (settler/worker units)\n\
-  p:      drop (p)aratrooper  (paratroop units)\n\
   P:      (P)illage  (destroy terrain alteration)\n\
   q:      patrol with unit  (then left-click mouse to select other endpoint)\n\
   q:      add a patrol waypoint  (when in patrol mode)\n\

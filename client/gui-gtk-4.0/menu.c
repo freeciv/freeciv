@@ -343,6 +343,9 @@ static void plant_callback(GSimpleAction *action,
                            GVariant *parameter,
                            gpointer data);
 
+static void paradrop_callback(GSimpleAction *action,
+                              GVariant *parameter,
+                              gpointer data);
 static void pillage_callback(GSimpleAction *action,
                              GVariant *parameter,
                              gpointer data);
@@ -428,6 +431,8 @@ static struct menu_entry_info menu_entries[] =
   /* Combat menu */
   { "FORTIFY", N_("Fortify"),
     "fortify", "f", MGROUP_UNIT },
+  { "PARADROP", N_("P_aradrop"),
+    "paradrop", "j", MGROUP_UNIT },
   { "PILLAGE", N_("_Pillage"),
     "pillage", "<shift>p", MGROUP_UNIT },
 
@@ -754,6 +759,7 @@ const GActionEntry acts[] = {
   { "plant", plant_callback },
 
   { "fortify", fortify_callback },
+  { "paradrop", paradrop_callback },
   { "pillage", pillage_callback },
 
   { "revolution", revolution_callback },
@@ -2030,8 +2036,6 @@ static void transform_terrain_callback(GtkMenuItem *action, gpointer data)
 static void clean_pollution_callback(GtkMenuItem *action, gpointer data)
 {
   unit_list_iterate(get_units_in_focus(), punit) {
-    /* FIXME: this can provide different actions for different units...
-     * not good! */
     struct extra_type *pextra;
 
     pextra = prev_extra_in_tile(unit_tile(punit), ERM_CLEANPOLLUTION,
@@ -2039,10 +2043,6 @@ static void clean_pollution_callback(GtkMenuItem *action, gpointer data)
 
     if (pextra != NULL) {
       request_new_unit_activity_targeted(punit, ACTIVITY_POLLUTION, pextra);
-    } else if (can_unit_paradrop(punit)) {
-      /* FIXME: This is getting worse, we use a key_unit_*() function
-       * which assign the order for all units!  Very bad! */
-      key_unit_paradrop();
     }
   } unit_list_iterate_end;
 }
@@ -2071,6 +2071,16 @@ static void build_airbase_callback(GtkMenuItem *action, gpointer data)
   key_unit_airbase();
 }
 #endif /* MENUS_GTK3 */
+
+/************************************************************************//**
+  Action "PARADROP" callback.
+****************************************************************************/
+static void paradrop_callback(GSimpleAction *action,
+                              GVariant *parameter,
+                              gpointer data)
+{
+  key_unit_paradrop();
+}
 
 /************************************************************************//**
   Action "PILLAGE" callback.
@@ -2439,6 +2449,7 @@ static GMenu *setup_menus(GtkApplication *app)
 
   g_menu_append_submenu(menubar, _("_Combat"), G_MENU_MODEL(combat_menu));
 
+  menu_entry_init(combat_menu, "PARADROP");
   menu_entry_init(combat_menu, "PILLAGE");
 
   gov_menu = g_menu_new();
@@ -3153,6 +3164,8 @@ void real_menus_update(void)
   menu_entry_set_sensitive(map, "FORTIFY",
                            can_units_do_activity(punits,
                                                  ACTIVITY_FORTIFYING));
+  menu_entry_set_sensitive(map, "PARADROP",
+                           can_units_do(punits, can_unit_paradrop));
   menu_entry_set_sensitive(map, "PILLAGE",
                            can_units_do_activity(punits, ACTIVITY_PILLAGE));
 
@@ -3417,15 +3430,6 @@ void real_menus_update(void)
   menus_rename("BUILD_MINE", mintext);
   menus_rename("PLANT", plantext);
   menus_rename("TRANSFORM_TERRAIN", transtext);
-
-  if (units_can_do_action_with_result(punits, ACTRES_PARADROP, TRUE)
-      || units_can_do_action_with_result(punits, ACTRES_PARADROP_CONQUER,
-                                         TRUE)) {
-    menus_rename("CLEAN_POLLUTION",
-                 action_get_ui_name_mnemonic(ACTION_PARADROP, "_"));
-  } else {
-    menus_rename("CLEAN_POLLUTION", _("Clean _Pollution"));
-  }
 
   menus_rename("UNIT_HOMECITY",
                action_get_ui_name_mnemonic(ACTION_HOME_CITY, "_"));
