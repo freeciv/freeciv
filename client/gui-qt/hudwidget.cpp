@@ -1224,7 +1224,7 @@ hud_unit_loader::~hud_unit_loader()
 }
 
 /************************************************************************//**
-  Shows unit loader, adds possible tranportsand units to table
+  Shows unit loader, adds possible transports and units to table
   Calculates table size
 ****************************************************************************/
 void hud_unit_loader::show_me()
@@ -1284,7 +1284,7 @@ void hud_unit_loader::show_me()
 }
 
 /************************************************************************//**
-  Selects given tranport and closes widget
+  Selects given transport and closes widget
 ****************************************************************************/
 void hud_unit_loader::selection_changed(const QItemSelection& s1,
                                         const QItemSelection& s2)
