@@ -875,7 +875,7 @@ void unit_item::disband()
 }
 
 /****************************************************************************
-  Loads unit into some tranport
+  Loads unit into some transport
 ****************************************************************************/
 void unit_item::load_unit()
 {

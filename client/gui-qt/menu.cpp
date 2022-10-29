@@ -985,7 +985,7 @@ struct tile *mr_menu::find_last_unit_pos(unit *punit, int pos)
       } else {
         ptile = fui->ptile;
       }
-      /* unit found in tranporter */
+      // Unit found in transport
     } else if (unit_contained_in(punit, zunit)) {
       ptile = fui->ptile;
     }
