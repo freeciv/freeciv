@@ -15,6 +15,7 @@ docs =				\
 	README.AI		\
 	README.AI_modules	\
 	README.attributes 	\
+	README.crosser		\
 	README.delta		\
 	README.effects		\
 	README.fcdb		\
