@@ -1,0 +1,55 @@
+
+ Notes about Crosser-based Windows Installers
+=============================================
+
+Crosser is an environment used to cross-compile freeciv
+Installers for Windows targets on a linux build host.
+Crosser home page is at https://www.cazfi.net/crosser/
+Crosser development happens on Debian and Ubuntu LTS
+versions - be prepared to adjusting things yourself
+if you try to use some distribution not a Debian derivative.
+
+
+ Crosser version
+================
+
+Scripts to create installers require specific crosser version
+(MAJOR.MINOR, or "CROSSER_FEATURE_LEVEL") to know what exact files
+they need to package with freeciv.
+See CROSSER_FEATURE_LEVEL on top of winbuild.sh under
+windows/installer_cross/ to see what is the crosser version
+currently supported and required.
+
+
+ Setting up crosser build environment
+=====================================
+
+Download win64stack-full-<version>.7z from
+https://sourceforge.net/projects/crosser/
+
+Unpack downloaded package under /usr/crosser/
+(likely you need to create that directory - or to create
+it as a symbolic link to another location)
+so that after unpacking you will have, e.g.
+/usr/crosser/win64stack-full-2.5/
+
+Install MinGW cross-compiler, also for C++.
+On Debian derivatives those packages are
+- mingw-w64
+- g++-mingw-w64
+
+TODO: Find out what other native side requirements
+      crosser build has and list them.
+
+
+ Building Windows Installers with crosser
+=========================================
+
+If everything is set up correctly, easiest way
+to do the build is to run
+> ./build_all_installer.sh
+on windows/installer_cross/.
+Currently these scripts need to be run their own
+directory, and they produce their output there
+(wihin freeciv tree). If everything success, final
+installers are generated to Output/

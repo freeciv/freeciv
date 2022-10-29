@@ -3346,6 +3346,7 @@ install_data(
   'doc/README.AI',
   'doc/README.AI_modules',
   'doc/README.attributes',
+  'doc/README.crosser',
   'doc/README.delta',
   'doc/README.effects',
   'doc/README.fcdb',
