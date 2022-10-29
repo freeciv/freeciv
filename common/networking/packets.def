@@ -329,7 +329,7 @@ type GOLD               = UINT32
 type HP                 = UINT8
 type PERCENT            = UINT8
 # units of TERRAIN_CONTROL.move_fragments
-type MOVEFRAGS          = UINT16
+type MOVEFRAGS          = UINT32
 type PHASE              = SINT16
 type TURN               = SINT16
 type XYSIZE             = UINT16
