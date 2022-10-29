@@ -404,7 +404,7 @@ static void dai_upgrade_units(struct city *pcity, int limit, bool military)
         /* Only upgrade military units this round */
         continue;
       } else if (!military && IS_ATTACKER(old_type)) {
-        /* Only civilians or tranports this round */
+        /* Only civilians or transports this round */
         continue;
       }
 
