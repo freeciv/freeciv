@@ -465,11 +465,13 @@ static struct ADVANCED_DLG *popup_diplomatic_objects(struct player *pPlayer0,
 {
   struct ADVANCED_DLG *pDlg = fc_calloc(1, sizeof(struct ADVANCED_DLG));
   struct CONTAINER *pCont = fc_calloc(1, sizeof(struct CONTAINER));
-  int width, height, count = 0, scroll_w = 0;
+  unsigned width, height;
+  unsigned count = 0;
+  unsigned scroll_w = 0;
   char cBuf[128];
   struct widget *pBuf = NULL, *pWindow;
   utf8_str *pstr;
-  int window_x = 0, window_y = 0;
+  unsigned window_x = 0, window_y = 0;
   SDL_Rect area;
   enum diplstate_type type
     = player_diplstate_get(pPlayer0, pPlayer1)->type;
