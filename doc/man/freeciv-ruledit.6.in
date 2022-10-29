@@ -1,17 +1,37 @@
-.TH FREECIV 6 "September 21st 2014"
+.TH FREECIV 6 "October 29th 2022"
 .SH NAME
 freeciv-ruledit - Freeciv Ruleset Editor
 .SH SYNOPSIS
-.B freeciv-ruledit
-[\fIoption \fR...]
-.TP
-\fB\-h\fR, \fB\-\-help\fR
-Print a summary of the options
-.TP
-\fB\-v\fR, \fB\-\-version\fR
-Print the version number
+.B freeciv-ruledit \
+[ \-F|\-\-Fatal [ \fIsignal_number\fP ] ] \
+[ \-h|\-\-help ] \
+[ \-r|\-\-ruleset \fIruleset\fP ] \
+[ \-v|\-\-version ]
+
 .SH DESCRIPTION
 This tool can be used to edit freeciv rulesets.
+
+.SH OPTIONS
+All options have a short form (single hyphen and single letter)
+and a long form (double hyphen and a complete word);
+their effects are identical.
+
+.TP
+.BI "\-F [ \fIsignal_number\fP ], \-\-Fatal [ \fIsignal_number\fP ]"
+Raise a custom signal on failed assertion.  If \fIsignal_number\fP is not
+specified, then the ABRT signal will be used.
+
+.TP
+.BI "\-h, \-\-help"
+Prints a short summary of the standard command line options.
+
+.TP
+.BI "\-r \fIruleset\fP, \-\-ruleset \fIruleset\fP"
+Load specified ruleset as the starting point to edit.
+
+.TP
+.BI "\-v, \-\-version"
+Prints the version number and exits.
 
 .SH "REPORTING BUGS"
 Report bugs at @BUG_URL@
