@@ -1805,7 +1805,7 @@ static void adjust_improvement_wants_by_effects(struct ai_type *ait,
       continue;
     }
 
-    /* How undersireable is it that the city may be a target? */
+    /* How undesirable is it that the city may be a target? */
     act_neg_util = action_target_neg_util(act_id, pcity);
 
     /* Multiply the desire by number of cities in range.
