@@ -2128,8 +2128,7 @@ static bool conn_list_selection(struct player **ppplayer,
 }
 
 /**********************************************************************//**
-  Returns TRUE if a row is selected in the connection/player list. Fills
-  the not null data.
+  Selects connection's row in the connection/player list.
 **************************************************************************/
 static void conn_list_select_conn(struct connection *pconn)
 {
