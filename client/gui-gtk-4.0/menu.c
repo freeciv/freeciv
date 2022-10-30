@@ -2498,7 +2498,7 @@ static GMenu *setup_menus(GtkApplication *app)
   menu_entry_init(topmenu, "HELP_COPYING");
   menu_entry_init(topmenu, "HELP_ABOUT");
 
-  g_menu_append_submenu(menubar, N_("_Help"), G_MENU_MODEL(topmenu));
+  g_menu_append_submenu(menubar, _("_Help"), G_MENU_MODEL(topmenu));
 
 #ifndef FREECIV_DEBUG
   menu_entry_set_visible("RELOAD_TILESET", FALSE, FALSE);
