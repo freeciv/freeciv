@@ -25,8 +25,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 3.1\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2022-09-22 06:39+0300\n"
-"PO-Revision-Date: 2022-09-24 23:53+0300\n"
+"POT-Creation-Date: 2022-10-30 14:10+0200\n"
+"PO-Revision-Date: 2022-10-30 14:14+0200\n"
 "Last-Translator: Markus Linnakangas <markus.linnakangas@luukku.com>\n"
 "Language-Team: None <freeciv-i18n@freelists.org>\n"
 "Language: fi\n"
@@ -711,7 +711,14 @@ msgid ""
 "autonomous province in Finland, a status that was reached in 1921 after a "
 "long period in which the islands were contested between Sweden and Finland. "
 "Åland's special and demilitarized status is protected by international law."
-msgstr "Ahvenanmaa on Itämeren saaristo, joka sijaitsee Ruotsin ja Suomen välissä. Saaren asukkaat puhuvat ruotsia, mutta Ahvenanmaan maakunta on osa Suomea. Ahvenanmaan itsehallinto myönnettiin 1921, mitä edelsi pitkä keskustelu siitä, kuuluisiko Ahvenanmaa liittää osaksi Ruotsia. Kansainliitto ratkaisi tämän Ahvenanmaan kysymyksen lopulta Suomen eduksi. Ahvenanmaan erikoisasemaa neutraalina ja linnoittamattomana suojaa Genevessä 1921 tehty kansainvälinen sopimus."
+msgstr ""
+"Ahvenanmaa on Itämeren saaristo, joka sijaitsee Ruotsin ja Suomen välissä. "
+"Saaren asukkaat puhuvat ruotsia, mutta Ahvenanmaan maakunta on osa Suomea. "
+"Ahvenanmaan itsehallinto myönnettiin 1921, mitä edelsi pitkä keskustelu "
+"siitä, kuuluisiko Ahvenanmaa liittää osaksi Ruotsia. Kansainliitto ratkaisi "
+"tämän Ahvenanmaan kysymyksen lopulta Suomen eduksi. Ahvenanmaan "
+"erikoisasemaa neutraalina ja linnoittamattomana suojaa Genevessä 1921 tehty "
+"kansainvälinen sopimus."
 
 #: data/nation/alander.ruleset:28 data/nation/faroese.ruleset:31
 #: data/nation/icelandic.ruleset:22 data/nation/norwegian.ruleset:29
@@ -9520,6 +9527,32 @@ msgstr "Pfalzkreivi %s"
 #, c-format
 msgid "Countess Palatine %s"
 msgstr "Pfalzkreivitär %s"
+
+#: data/nation/palauan.ruleset:3
+msgid "Palauan"
+msgstr "palaulaisten"
+
+#: data/nation/palauan.ruleset:4
+msgid "?plural:Palauans"
+msgstr "palaulaiset"
+
+#: data/nation/palauan.ruleset:6
+msgid ""
+"Palaos is a very little country, with only 20000 inhabitants aproximately. "
+"It is composed of more than 300 islands of volcanic origin."
+msgstr "Palau on pieni vain noin 20000 asukkaan maa. Se muodostuu yli kolmestasadasta tuliperäisestä saaresta."
+
+#: data/nation/palauan.ruleset:20
+#, fuzzy, c-format
+#| msgid "State President %s"
+msgid "President %s"
+msgstr "Valtionpresidentti %s"
+
+#: data/nation/palauan.ruleset:20
+#, fuzzy, c-format
+#| msgid "?female:State President %s"
+msgid "?female:President %s"
+msgstr "Valtionpresidentti %s"
 
 #: data/nation/palestinian.ruleset:3
 msgid "Palestinian"
