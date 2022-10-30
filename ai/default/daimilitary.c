@@ -733,7 +733,7 @@ int dai_unit_attack_desirability(struct ai_type *ait,
 **************************************************************************/
 bool dai_process_defender_want(struct ai_type *ait, struct player *pplayer,
                                struct city *pcity, unsigned int danger,
-                               struct adv_choice *choice)
+                               struct adv_choice *choice, adv_want extra_want)
 {
   const struct research *presearch = research_get(pplayer);
   /* FIXME: We check if the city has *some* defensive structure,
@@ -749,6 +749,7 @@ bool dai_process_defender_want(struct ai_type *ait, struct player *pplayer,
   int best_unit_cost = 1;
   struct ai_city *city_data = def_ai_city_data(pcity, ait);
   struct ai_plr *plr_data = def_ai_player_data(pplayer, ait);
+  adv_want total_want = danger + extra_want;
 
   memset(tech_desire, 0, sizeof(tech_desire));
 
@@ -765,62 +766,70 @@ bool dai_process_defender_want(struct ai_type *ait, struct player *pplayer,
     desire = dai_unit_defence_desirability(ait, punittype);
 
     if (!utype_has_role(punittype, L_DEFEND_GOOD)) {
-      desire /= 2; /* not good, just ok */
+      desire /= 2; /* Not good, just ok */
     }
 
     if (utype_has_flag(punittype, UTYF_FIELDUNIT)) {
       /* Causes unhappiness even when in defense, so not a good
-       * idea for a defender, unless it is _really_ good */
-      desire /= 2;
-    }      
-
-    desire /= POWER_DIVIDER/2; /* Good enough, no rounding errors. */
-    desire *= desire;
-
-    if (can_city_build_unit_now(pcity, punittype)) {
-      /* We can build the unit now... */
-
-      int build_cost = utype_build_shield_cost(punittype);
-      int limit_cost = pcity->shield_stock + 40;
-
-      if (walls && !utype_has_flag(punittype, UTYF_BADCITYDEFENDER)) {
-	desire *= city_data->wallvalue;
-	/* TODO: More use of POWER_FACTOR ! */
-	desire /= POWER_FACTOR;
+       * idea for a defender, unless it is _really_ good.
+       * Downright counter productive, if we want unit just for
+       * maintaining peace. */
+      if (danger == 0) {
+        desire = -50;
+      } else {
+        desire /= 2;
       }
+    }
 
-      if ((best_unit_cost > limit_cost
-           && build_cost < best_unit_cost)
-          || ((desire > best ||
-               (desire == best && build_cost <= best_unit_cost))
-              && (best_unit_type == NULL
-                  /* In case all units are more expensive than limit_cost */
-                  || limit_cost <= pcity->shield_stock + 40))) {
-	best = desire;
-	best_unit_type = punittype;
-	best_unit_cost = build_cost;
+    if (desire > 0) {
+      desire /= POWER_DIVIDER / 2; /* Good enough, no rounding errors. */
+      desire *= desire;
+
+      if (can_city_build_unit_now(pcity, punittype)) {
+        /* We can build the unit now... */
+
+        int build_cost = utype_build_shield_cost(punittype);
+        int limit_cost = pcity->shield_stock + 40;
+
+        if (walls && !utype_has_flag(punittype, UTYF_BADCITYDEFENDER)) {
+          desire *= city_data->wallvalue;
+          /* TODO: More use of POWER_FACTOR ! */
+          desire /= POWER_FACTOR;
+        }
+
+        if ((best_unit_cost > limit_cost
+             && build_cost < best_unit_cost)
+            || ((desire > best ||
+                 (desire == best && build_cost <= best_unit_cost))
+                && (best_unit_type == NULL
+                    /* In case all units are more expensive than limit_cost */
+                    || limit_cost <= pcity->shield_stock + 40))) {
+          best = desire;
+          best_unit_type = punittype;
+          best_unit_cost = build_cost;
+        }
+      } else if (can_city_build_unit_later(pcity, punittype)) {
+        /* We first need to develop the tech required by the unit... */
+
+        /* Cost (shield equivalent) of gaining these techs. */
+        /* FIXME? Katvrr advises that this should be weighted more heavily in
+         * big danger. */
+        int tech_cost = research_goal_bulbs_required(presearch,
+                            advance_number(punittype->require_advance)) / 4
+                            / city_list_size(pplayer->cities);
+
+        /* Contrary to the above, we don't care if walls are actually built
+         * - we're looking into the future now. */
+        if (!utype_has_flag(punittype, UTYF_BADCITYDEFENDER)) {
+          desire *= city_data->wallvalue;
+          desire /= POWER_FACTOR;
+        }
+
+        /* Yes, there's some similarity with kill_desire(). */
+        /* TODO: Explain what shield cost has to do with tech want. */
+        tech_desire[utype_index(punittype)] =
+          (desire * total_want / (utype_build_shield_cost(punittype) + tech_cost));
       }
-    } else if (can_city_build_unit_later(pcity, punittype)) {
-      /* We first need to develop the tech required by the unit... */
-
-      /* Cost (shield equivalent) of gaining these techs. */
-      /* FIXME? Katvrr advises that this should be weighted more heavily in
-       * big danger. */
-      int tech_cost = research_goal_bulbs_required(presearch,
-                          advance_number(punittype->require_advance)) / 4
-                          / city_list_size(pplayer->cities);
-
-      /* Contrary to the above, we don't care if walls are actually built 
-       * - we're looking into the future now. */
-      if (!utype_has_flag(punittype, UTYF_BADCITYDEFENDER)) {
-	desire *= city_data->wallvalue;
-	desire /= POWER_FACTOR;
-      }
-
-      /* Yes, there's some similarity with kill_desire(). */
-      /* TODO: Explain what shield cost has to do with tech want. */
-      tech_desire[utype_index(punittype)] =
-        (desire * danger / (utype_build_shield_cost(punittype) + tech_cost));
     }
   } simple_ai_unit_type_iterate_end;
 
@@ -828,7 +837,7 @@ bool dai_process_defender_want(struct ai_type *ait, struct player *pplayer,
     CITY_LOG(LOG_DEBUG, pcity, "Ooops - we cannot build any defender!");
   }
 
-  if (best_unit_type) {
+  if (best_unit_type != NULL) {
     if (!walls && !utype_has_flag(best_unit_type, UTYF_BADCITYDEFENDER)) {
       best *= city_data->wallvalue;
       best /= POWER_FACTOR;
@@ -839,7 +848,9 @@ bool dai_process_defender_want(struct ai_type *ait, struct player *pplayer,
                            * first defender type. */
   }
 
-  if (best <= 0) best = 1; /* Avoid division by zero below. */
+  if (best <= 0) {
+    best = 1; /* Avoid division by zero below. */
+  }
 
   /* Update tech_want for appropriate techs for units we want to build. */
   simple_ai_unit_type_iterate(punittype) {
@@ -863,8 +874,13 @@ bool dai_process_defender_want(struct ai_type *ait, struct player *pplayer,
   }
 
   choice->value.utype = best_unit_type;
-  choice->want = danger;
+  choice->want = danger; /* FIXME: Not 'total_want' because of the way callers
+                          * are constructed. They may overwrite this value,
+                          * and then the value will NOT contain 'extra_want'.
+                          * Later we may add 'extra_want', and don't want it
+                          * already included in case this was NOT overwritten. */
   choice->type = CT_DEFENDER;
+
   return TRUE;
 }
 
@@ -1455,32 +1471,40 @@ struct adv_choice *military_advisor_choose_build(struct ai_type *ait,
     bool def_unit_selected = FALSE;
     int qdanger = city_data->danger * city_data->danger;
 
-    /* First determine the danger.  It is measured in percents of our 
-     * defensive strength, capped at 200 + urgency */
-    if (qdanger >= our_def) {
-      if (urgency == 0) {
-        /* don't waste money */
-        danger = 100;
-      } else if (our_def == 0) {
-        danger = 200 + urgency;
-      } else {
-        danger = MIN(200, 100 * qdanger / our_def) + urgency;
-      }
-    } else { 
-      danger = 100 * qdanger / our_def;
-    }
-    if (pcity->surplus[O_SHIELD] <= 0 && our_def != 0) {
-      /* Won't be able to support anything */
+    if (qdanger <= 0) {
+      /* We only need these defenders because of Martial Law value */
       danger = 0;
+      build_walls = FALSE; /* Walls don't provide Martial Law */
+    } else {
+      /* First determine the danger. It is measured in percents of our
+       * defensive strength, capped at 200 + urgency */
+      if (qdanger >= our_def) {
+        if (urgency == 0) {
+          /* Don't waste money */
+          danger = 100;
+        } else if (our_def == 0) {
+          danger = 200 + urgency;
+        } else {
+          danger = MIN(200, 100 * qdanger / our_def) + urgency;
+        }
+      } else {
+        danger = 100 * qdanger / our_def;
+      }
+
+      if (pcity->surplus[O_SHIELD] <= 0 && our_def != 0) {
+        /* Won't be able to support anything */
+        danger = 0;
+      }
     }
 
     CITY_LOG(LOG_DEBUG, pcity, "m_a_c_d urgency=%d danger=%d num_def=%d "
              "our_def=%d", urgency, danger, num_defenders, our_def);
 
-    if (our_def == 0) {
+    if (our_def == 0 && danger > 0) {
       /* Build defensive unit first! Walls will help nothing if there's
        * nobody behind them. */
-      if (dai_process_defender_want(ait, pplayer, pcity, danger, choice)) {
+      if (dai_process_defender_want(ait, pplayer, pcity, danger, choice,
+                                    martial_value)) {
         choice->want = 100 + danger;
         adv_choice_set_use(choice, "first defender");
         build_walls = FALSE;
@@ -1538,7 +1562,8 @@ struct adv_choice *military_advisor_choose_build(struct ai_type *ait,
         adv_init_choice(&uchoice);
 
         /* Consider building defensive units */
-        if (dai_process_defender_want(ait, pplayer, pcity, danger, &uchoice)) {
+        if (dai_process_defender_want(ait, pplayer, pcity, danger, &uchoice,
+                                      martial_value)) {
           /* Potential defender found */
           if (urgency == 0
               && uchoice.value.utype->defense_strength == 1) {
@@ -1554,7 +1579,11 @@ struct adv_choice *military_advisor_choose_build(struct ai_type *ait,
           }
 
           uchoice.want += martial_value;
-          adv_choice_set_use(&uchoice, "defender");
+          if (danger > 0) {
+            adv_choice_set_use(&uchoice, "defender");
+          } else {
+            adv_choice_set_use(&uchoice, "police");
+          }
 
           if (!build_walls || uchoice.want > choice->want) {
             adv_choice_copy(choice, &uchoice);

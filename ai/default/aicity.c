@@ -291,7 +291,8 @@ static void dai_city_choose_build(struct ai_type *ait, struct player *pplayer,
       unsigned int our_def = assess_defense_quadratic(ait, pcity);
 
       if (our_def == 0
-          && dai_process_defender_want(ait, pplayer, pcity, 1, &(city_data->choice))) {
+          && dai_process_defender_want(ait, pplayer, pcity, 1,
+                                       &(city_data->choice), 0)) {
         adv_choice_set_use(&(city_data->choice), "fallback defender");
         CITY_LOG(LOG_DEBUG, pcity, "Building fallback defender");
       } else if (best_role_unit(pcity, UTYF_SETTLERS)) {
