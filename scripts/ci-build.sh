@@ -75,12 +75,19 @@ cd build
  --enable-fcmp=gtk3,gtk4,qt,cli \
  --enable-fcdb=sqlite3,mysql,postgres,odbc \
  --enable-freeciv-manual \
+ --prefix=${HOME}/freeciv/mac-at \
  || (let config_exit_status=$? \
      && echo "Config exit status: $config_exit_status" \
      && cat config.log \
      && exit $config_exit_status)
 make -j$(sysctl -n hw.logicalcpu)
 make install
+
+echo "Running Freeciv server autogame"
+cd ${HOME}/freeciv/mac-at/bin/
+./freeciv-server --Announce none -e -F --read ${basedir}/scripts/test-autogame.serv
+
+echo "Freeciv server autogame successful!"
 ;;
 
 "mac-meson")
@@ -97,12 +104,19 @@ meson .. \
   -Dsyslua=true \
   -Dclients=gtk3.22,sdl2,gtk4,stub \
   -Dfcmp=gtk3,gtk4,cli \
+  -Dprefix=${HOME}/freeciv/mac-meson \
   || (let meson_exit_status=$? \
       && echo "meson.log:" \
       && cat meson-logs/meson-log.txt \
       && exit $meson_exit_status)
 ninja
 ninja install
+
+echo "Running Freeciv server autogame"
+cd ${HOME}/freeciv/mac-meson/bin/
+./freeciv-server --Announce none -e -F --read ${basedir}/scripts/test-autogame.serv
+
+echo "Freeciv server autogame successful!"
 ;;
 
 "clang_debug")
