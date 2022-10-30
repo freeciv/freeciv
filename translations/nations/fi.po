@@ -23,10 +23,10 @@
 # https://www.kotus.fi/julkaisut/nimijulkaisut/maat_paakaupungit_ja_kansalaisuudet
 msgid ""
 msgstr ""
-"Project-Id-Version: freeciv 3.1\n"
+"Project-Id-Version: freeciv 3.2\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2022-08-30 00:08+0300\n"
-"PO-Revision-Date: 2022-09-24 23:53+0300\n"
+"POT-Creation-Date: 2022-10-30 14:20+0200\n"
+"PO-Revision-Date: 2022-10-30 14:23+0200\n"
 "Last-Translator: Markus Linnakangas <markus.linnakangas@luukku.com>\n"
 "Language-Team: None <freeciv-i18n@freelists.org>\n"
 "Language: fi\n"
@@ -9527,6 +9527,32 @@ msgstr "Pfalzkreivi %s"
 #, c-format
 msgid "Countess Palatine %s"
 msgstr "Pfalzkreivitär %s"
+
+#: data/nation/palauan.ruleset:3
+msgid "Palauan"
+msgstr "palaulaisten"
+
+#: data/nation/palauan.ruleset:4
+msgid "?plural:Palauans"
+msgstr "palaulaiset"
+
+#: data/nation/palauan.ruleset:6
+msgid ""
+"Palaos is a very little country, with only 20000 inhabitants aproximately. "
+"It is composed of more than 300 islands of volcanic origin."
+msgstr "Palau on pieni vain noin 20000 asukkaan maa. Se muodostuu yli kolmestasadasta tuliperäisestä saaresta."
+
+#: data/nation/palauan.ruleset:20
+#, fuzzy, c-format
+#| msgid "State President %s"
+msgid "President %s"
+msgstr "Valtionpresidentti %s"
+
+#: data/nation/palauan.ruleset:20
+#, fuzzy, c-format
+#| msgid "?female:State President %s"
+msgid "?female:President %s"
+msgstr "Valtionpresidentti %s"
 
 #: data/nation/palestinian.ruleset:3
 msgid "Palestinian"
