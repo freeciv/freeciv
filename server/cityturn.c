@@ -2942,13 +2942,13 @@ bool player_balance_treasury_units_and_buildings(struct player *pplayer)
         cityimpr_list_append(pimprlist, ci);
       }
     } city_built_iterate_end;
-
-    unit_list_iterate(pcity->units_supported, punit) {
-      if (punit->server.upkeep_paid[O_GOLD] > 0) {
-        uk_rem_gold_append(punit);
-      }
-    } unit_list_iterate_end;
   } city_list_iterate_end;
+
+  unit_list_iterate(pplayer->units, punit) {
+    if (punit->server.upkeep_paid[O_GOLD] > 0) {
+      uk_rem_gold_append(punit);
+    }
+  } unit_list_iterate_end;
 
   while (pplayer->economic.gold < 0
          && (cityimpr_list_size(pimprlist) > 0
@@ -2991,17 +2991,15 @@ bool player_balance_treasury_units(struct player *pplayer)
 
   uk_rem_gold = unit_list_new();
 
-  city_list_iterate(pplayer->cities, pcity) {
-    unit_list_iterate(pcity->units_supported, punit) {
-      if (punit->server.upkeep_paid[O_GOLD] > 0) {
-        uk_rem_gold_append(punit);
-      }
-    } unit_list_iterate_end;
-  } city_list_iterate_end;
+  unit_list_iterate(pplayer->units, punit) {
+    if (punit->server.upkeep_paid[O_GOLD] > 0) {
+      uk_rem_gold_append(punit);
+    }
+  } unit_list_iterate_end;
 
   while (pplayer->economic.gold < 0
          && sell_random_unit(pplayer, uk_rem_gold)) {
-    /* all done in sell_random_unit() */
+    /* All done in sell_random_unit() */
   }
 
   if (pplayer->economic.gold < 0) {
@@ -3087,7 +3085,7 @@ static bool city_balance_treasury_units(struct city *pcity)
   /* Still not enough gold, so try "selling" some units. */
   while (pplayer->economic.gold < 0
          && sell_random_unit(pplayer, uk_rem_gold)) {
-    /* all done in sell_random_unit() */
+    /* All done in sell_random_unit() */
   }
 
   /* If we get here the player has negative gold, but hopefully

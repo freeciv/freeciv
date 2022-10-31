@@ -6869,6 +6869,16 @@ static bool load_ruleset_game(struct section_file *file, bool act,
       ok = FALSE;
     }
 
+    game.info.homeless_gold_upkeep
+      = secfile_lookup_bool_default(file, FALSE, "civstyle.homeless_gold_upkeep");
+
+    if (game.info.homeless_gold_upkeep
+        && game.info.gold_upkeep_style == GOLD_UPKEEP_CITY) {
+      ruleset_error(NULL, LOG_ERROR,
+                    "Cannot have homeless_gold_upkeep while gold_upkeep_style \"City\".");
+      ok = FALSE;
+    }
+
     game.info.granularity = secfile_lookup_int_default(file, 1,
                                                        "civstyle.output_granularity");
 

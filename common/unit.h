@@ -326,7 +326,7 @@ bool can_unit_alight_or_be_unloaded(const struct unit *pcargo,
                                     const struct unit *ptrans);
 bool can_unit_paradrop(const struct unit *punit);
 bool can_unit_change_homecity_to(const struct unit *punit,
-				 const struct city *pcity);
+                                 const struct city *pcity);
 bool can_unit_change_homecity(const struct unit *punit);
 const char *get_activity_text(enum unit_activity activity);
 bool can_unit_continue_current_activity(struct unit *punit);
@@ -369,6 +369,7 @@ bool is_hiding_unit(const struct unit *punit);
 bool unit_can_add_or_build_city(const struct unit *punit);
 
 struct astring; /* Forward declaration. */
+
 void unit_activity_astr(const struct unit *punit, struct astring *astr);
 void unit_upkeep_astr(const struct unit *punit, struct astring *astr);
 const char *unit_activity_text(const struct unit *punit);
@@ -376,6 +377,7 @@ const char *unit_activity_text(const struct unit *punit);
 int get_transporter_capacity(const struct unit *punit);
 
 #define unit_home(_pu_) (game_city_by_number((_pu_)->homecity))
+#define is_unit_homeless(_pu_) (punit->homecity == IDENTITY_NUMBER_ZERO)
 #define unit_owner(_pu) ((_pu)->owner)
 #define unit_tile(_pu) ((_pu)->tile)
 struct player *unit_nationality(const struct unit *punit);
