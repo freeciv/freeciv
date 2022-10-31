@@ -2074,7 +2074,7 @@ const char *score_tooltip(const struct player *pplayer, int score)
 {
   static char buf[1024];
 
-  if (score >= 0) {
+  if (score > 0) {
     /* TRANS: %s is a Nation */
     fc_snprintf(buf, sizeof(buf), _("%s: score %d"), nation_adjective_for_player(pplayer),
                 score);
