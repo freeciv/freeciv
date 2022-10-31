@@ -1863,7 +1863,7 @@ int ui_main(int argc, char **argv)
 {
   parse_options(argc, argv);
 
-  /* the locale has already been set in init_nls() and the windows-specific
+  /* The locale has already been set in init_nls() and the windows-specific
    * locale logic in gtk_init() causes problems with zh_CN (see PR#39475) */
   gtk_disable_setlocale();
 
@@ -1871,6 +1871,8 @@ int ui_main(int argc, char **argv)
     log_fatal(_("Failed to open graphical mode."));
     exit(EXIT_FAILURE);
   }
+
+  menus_set_initial_toggle_values();
 
   gui_up = TRUE;
   fc_app = gtk_application_new(NULL, 0);

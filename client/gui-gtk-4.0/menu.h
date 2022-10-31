@@ -20,6 +20,6 @@
 
 void enable_menus(bool enable);
 
-void setup_app_actions(GApplication *fc_app);
+void menus_set_initial_toggle_values(void);
 
-#endif  /* FC__MENU_H */
+#endif /* FC__MENU_H */

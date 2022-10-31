@@ -70,10 +70,6 @@
 
 #include "menu.h"
 
-#ifndef GTK_STOCK_EDIT
-#define GTK_STOCK_EDIT NULL
-#endif
-
 static GMenu *main_menubar = NULL;
 static bool menus_built = FALSE;
 
@@ -91,9 +87,13 @@ static void menu_entry_set_active(const char *key,
 static void view_menu_update_sensitivity(void);
 #endif /* MENUS_GTK3 */
 
+static void setup_app_actions(GApplication *fc_app);
+static GMenuItem *create_toggle_menu_item_for_key(const char *key);
+
 enum menu_entry_grouping { MGROUP_SAFE, MGROUP_EDIT, MGROUP_PLAYING,
                            MGROUP_UNIT, MGROUP_PLAYER, MGROUP_ALL };
 
+static GMenu *options_menu = NULL;
 static GMenu *gov_menu = NULL;
 static GMenu *unit_menu = NULL;
 static GMenu *work_menu = NULL;
@@ -110,6 +110,8 @@ struct menu_entry_info {
   GCallback cb;
 #endif /* MENUS_GTK3 */
   enum menu_entry_grouping grouping;
+  void (*toggle)(GSimpleAction *act, GVariant *value, gpointer data);
+  bool state; /* Only for toggle actions */
 };
 
 static void clear_chat_logs_callback(GSimpleAction *action,
@@ -124,10 +126,17 @@ static void local_options_callback(GSimpleAction *action,
 static void message_options_callback(GSimpleAction *action,
                                      GVariant *parameter,
                                      gpointer data);
+static void server_options_callback(GSimpleAction *action,
+                                    GVariant *parameter,
+                                    gpointer data);
+static void save_options_callback(GSimpleAction *action,
+                                  GVariant *parameter,
+                                  gpointer data);
+static void save_options_on_exit_callback(GSimpleAction *action,
+                                          GVariant *parameter,
+                                          gpointer data);
 
 #ifdef MENUS_GTK3
-static void server_options_callback(GtkMenuItem *item, gpointer data);
-static void save_options_callback(GtkMenuItem *item, gpointer data);
 static void reload_tileset_callback(GtkMenuItem *item, gpointer data);
 static void save_game_callback(GtkMenuItem *item, gpointer data);
 static void save_game_as_callback(GtkMenuItem *item, gpointer data);
@@ -204,8 +213,6 @@ static void help_about_callback(GSimpleAction *action,
                                 gpointer data);
 
 #ifdef MENUS_GTK3
-static void save_options_on_exit_callback(GtkCheckMenuItem *item,
-                                          gpointer data);
 static void edit_mode_callback(GtkCheckMenuItem *item, gpointer data);
 static void show_city_outlines_callback(GtkCheckMenuItem *item,
                                         gpointer data);
@@ -379,121 +386,179 @@ static struct menu_entry_info menu_entries[] =
 {
   /* Game menu */
   { "CLEAR_CHAT_LOGS", N_("_Clear Chat Log"),
-    "clear_chat", NULL, MGROUP_SAFE },
+    "clear_chat", NULL, MGROUP_SAFE,
+    NULL, FALSE },
   { "SAVE_CHAT_LOGS", N_("Save Chat _Log"),
-    "save_chat", NULL, MGROUP_SAFE, },
+    "save_chat", NULL, MGROUP_SAFE,
+    NULL, FALSE },
+
   { "LOCAL_OPTIONS", N_("_Local Client"),
-    "local_options", NULL, MGROUP_SAFE },
+    "local_options", NULL, MGROUP_SAFE,
+    NULL, FALSE },
   { "MESSAGE_OPTIONS", N_("_Message"),
-    "message_options", NULL, MGROUP_SAFE },
+    "message_options", NULL, MGROUP_SAFE,
+    NULL, FALSE },
+  { "SERVER_OPTIONS", N_("_Remote Server"),
+    "server_options", NULL, MGROUP_SAFE,
+    NULL, FALSE },
+  { "SAVE_OPTIONS", N_("Save Options _Now"),
+    "save_options", NULL, MGROUP_SAFE,
+    NULL, FALSE },
+  { "SAVE_OPTIONS_ON_EXIT", N_("Save Options on _Exit"),
+    "save_options_on_exit", NULL, MGROUP_SAFE,
+    save_options_on_exit_callback, FALSE },
 
   { "LEAVE", N_("_Leave"),
-    "leave", NULL, MGROUP_SAFE },
+    "leave", NULL, MGROUP_SAFE,
+    NULL, FALSE },
   { "QUIT", N_("_Quit"),
-    "quit", "<ctrl>q", MGROUP_SAFE },
+    "quit", "<ctrl>q", MGROUP_SAFE,
+    NULL, FALSE },
 
   /* Edit menu */
   { "INFRA_DLG", N_("Infra dialog"),
-    "infra_dlg", "<ctrl>i", MGROUP_SAFE },
+    "infra_dlg", "<ctrl>i", MGROUP_SAFE,
+    NULL, FALSE },
 
   /* View menu */
   { "CENTER_VIEW", N_("_Center View"),
-    "center_view", "c", MGROUP_PLAYER },
+    "center_view", "c", MGROUP_PLAYER,
+    NULL, FALSE },
 
   /* Unit menu */
   { "UNIT_EXPLORE", N_("Auto E_xplore"),
-    "explore", "x", MGROUP_UNIT },
+    "explore", "x", MGROUP_UNIT,
+    NULL, FALSE },
   { "UNIT_SENTRY", N_("_Sentry"),
-    "sentry", "s", MGROUP_UNIT },
+    "sentry", "s", MGROUP_UNIT,
+    NULL, FALSE },
   { "UNIT_HOMECITY", N_("Set _Home City"),
-    "homecity", "h", MGROUP_UNIT },
+    "homecity", "h", MGROUP_UNIT,
+    NULL, FALSE },
   { "UNIT_UPGRADE", N_("Upgr_ade"),
-    "upgrade", "<shift>u", MGROUP_UNIT },
+    "upgrade", "<shift>u", MGROUP_UNIT,
+    NULL, FALSE },
   { "UNIT_CONVERT", N_("C_onvert"),
-    "convert", "<shift>o", MGROUP_UNIT },
+    "convert", "<shift>o", MGROUP_UNIT,
+    NULL, FALSE },
   { "UNIT_DISBAND", N_("_Disband"),
-    "disband", "<shift>d", MGROUP_UNIT },
+    "disband", "<shift>d", MGROUP_UNIT,
+    NULL, FALSE },
   { "UNIT_WAIT", N_("_Wait"),
-    "wait", "w", MGROUP_UNIT },
+    "wait", "w", MGROUP_UNIT,
+    NULL, FALSE },
   { "UNIT_DONE", N_("_Done"),
-    "done", "space", MGROUP_UNIT },
+    "done", "space", MGROUP_UNIT,
+    NULL, FALSE },
 
   /* Work menu */
   { "BUILD_CITY", N_("_Build City"),
-    "build_city", "b", MGROUP_UNIT },
+    "build_city", "b", MGROUP_UNIT,
+    NULL, FALSE },
   { "AUTO_SETTLER", N_("_Auto Settler"),
-    "auto_settle", "a", MGROUP_UNIT },
+    "auto_settle", "a", MGROUP_UNIT,
+    NULL, FALSE },
   { "CULTIVATE", N_("Cultivate"),
-    "cultivate", "<shift>i", MGROUP_UNIT },
+    "cultivate", "<shift>i", MGROUP_UNIT,
+    NULL, FALSE },
   { "PLANT", N_("Plant"),
-    "plant", "<shift>m", MGROUP_UNIT },
+    "plant", "<shift>m", MGROUP_UNIT,
+    NULL, FALSE },
 
   /* Combat menu */
   { "FORTIFY", N_("Fortify"),
-    "fortify", "f", MGROUP_UNIT },
+    "fortify", "f", MGROUP_UNIT,
+    NULL, FALSE },
   { "PARADROP", N_("P_aradrop"),
-    "paradrop", "j", MGROUP_UNIT },
+    "paradrop", "j", MGROUP_UNIT,
+    NULL, FALSE },
   { "PILLAGE", N_("_Pillage"),
-    "pillage", "<shift>p", MGROUP_UNIT },
+    "pillage", "<shift>p", MGROUP_UNIT,
+    NULL, FALSE },
 
   /* Civilization */
   { "MAP_VIEW", N_("?noun:_View"),
-    "map_view", "F1", MGROUP_SAFE },
+    "map_view", "F1", MGROUP_SAFE,
+    NULL, FALSE },
   { "REPORT_UNITS", N_("_Units"),
-    "report_units", "F2", MGROUP_SAFE },
+    "report_units", "F2", MGROUP_SAFE,
+    NULL, FALSE },
   { "REPORT_NATIONS", N_("_Nations"),
-    "report_nations", "F3", MGROUP_SAFE },
+    "report_nations", "F3", MGROUP_SAFE,
+    NULL, FALSE },
   { "REPORT_CITIES", N_("_Cities"),
-    "report_cities", "F4", MGROUP_SAFE },
+    "report_cities", "F4", MGROUP_SAFE,
+    NULL, FALSE },
   { "REPORT_ECONOMY", N_("_Economy"),
-    "report_economy", "F5", MGROUP_PLAYER },
+    "report_economy", "F5", MGROUP_PLAYER,
+    NULL, FALSE },
   { "REPORT_RESEARCH", N_("_Research"),
-    "report_research", "F6", MGROUP_PLAYER },
+    "report_research", "F6", MGROUP_PLAYER,
+    NULL, FALSE },
 
   { "START_REVOLUTION", N_("_Revolution..."),
-    "revolution", "<shift><ctrl>r", MGROUP_PLAYING },
+    "revolution", "<shift><ctrl>r", MGROUP_PLAYING,
+    NULL, FALSE },
 
   { "REPORT_WOW", N_("_Wonders of the World"),
-    "report_wow", "F7", MGROUP_SAFE },
+    "report_wow", "F7", MGROUP_SAFE,
+    NULL, FALSE },
   { "REPORT_TOP_CITIES", N_("Top Cities"),
-    "report_top_cities", "F8", MGROUP_SAFE },
+    "report_top_cities", "F8", MGROUP_SAFE,
+    NULL, FALSE },
   { "REPORT_MESSAGES", N_("_Messages"),
-    "report_messages", "F9", MGROUP_SAFE },
+    "report_messages", "F9", MGROUP_SAFE,
+    NULL, FALSE },
   { "REPORT_DEMOGRAPHIC", N_("_Demographics"),
-    "report_demographics", "F11", MGROUP_SAFE },
+    "report_demographics", "F11", MGROUP_SAFE,
+    NULL, FALSE },
 
   /* Battle Groups menu */
   /* Note that user view: 1 - 4, internal: 0 - 3 */
   { "BG_SELECT_1", N_("Select Battle Group 1"),
-    "bg_select_0", "<shift>F1", MGROUP_PLAYING },
+    "bg_select_0", "<shift>F1", MGROUP_PLAYING,
+    NULL, FALSE },
   { "BG_ASSIGN_1", N_("Assign Battle Group 1"),
-    "bg_assign_0", "<ctrl>F1", MGROUP_PLAYING },
+    "bg_assign_0", "<ctrl>F1", MGROUP_PLAYING,
+    NULL, FALSE },
   { "BG_APPEND_1", N_("Append to Battle Group 1"),
-    "bg_append_0", "<shift><ctrl>F1", MGROUP_PLAYING },
+    "bg_append_0", "<shift><ctrl>F1", MGROUP_PLAYING,
+    NULL, FALSE },
   { "BG_SELECT_2", N_("Select Battle Group 2"),
-    "bg_select_1", "<shift>F2", MGROUP_PLAYING },
+    "bg_select_1", "<shift>F2", MGROUP_PLAYING,
+    NULL, FALSE },
   { "BG_ASSIGN_2", N_("Assign Battle Group 2"),
-    "bg_assign_1", "<ctrl>F2", MGROUP_PLAYING },
+    "bg_assign_1", "<ctrl>F2", MGROUP_PLAYING,
+    NULL, FALSE },
   { "BG_APPEND_2", N_("Append to Battle Group 2"),
-    "bg_append_1", "<shift><ctrl>F2", MGROUP_PLAYING },
+    "bg_append_1", "<shift><ctrl>F2", MGROUP_PLAYING,
+    NULL, FALSE },
   { "BG_SELECT_3", N_("Select Battle Group 3"),
-    "bg_select_2", "<shift>F3", MGROUP_PLAYING },
+    "bg_select_2", "<shift>F3", MGROUP_PLAYING,
+    NULL, FALSE },
   { "BG_ASSIGN_3", N_("Assign Battle Group 3"),
-    "bg_assign_2", "<ctrl>F3", MGROUP_PLAYING },
+    "bg_assign_2", "<ctrl>F3", MGROUP_PLAYING,
+    NULL, FALSE },
   { "BG_APPEND_3", N_("Append to Battle Group 3"),
-    "bg_append_2", "<shift><ctrl>F3", MGROUP_PLAYING },
+    "bg_append_2", "<shift><ctrl>F3", MGROUP_PLAYING,
+    NULL, FALSE },
   { "BG_SELECT_4", N_("Select Battle Group 4"),
-    "bg_select_3", "<shift>F4", MGROUP_PLAYING },
+    "bg_select_3", "<shift>F4", MGROUP_PLAYING,
+    NULL, FALSE },
   { "BG_ASSIGN_4", N_("Assign Battle Group 4"),
-    "bg_assign_3", "<ctrl>F4", MGROUP_PLAYING },
+    "bg_assign_3", "<ctrl>F4", MGROUP_PLAYING,
+    NULL, FALSE },
   { "BG_APPEND_4", N_("Append to Battle Group 4"),
-    "bg_append_3", "<shift><ctrl>F4", MGROUP_PLAYING },
+    "bg_append_3", "<shift><ctrl>F4", MGROUP_PLAYING,
+    NULL, FALSE },
 
   /* Help menu */
   { "HELP_COPYING", N_("Copying"),
-    "help_copying", NULL, MGROUP_SAFE },
+    "help_copying", NULL, MGROUP_SAFE,
+    NULL, FALSE },
   { "HELP_ABOUT", N_("About Freeciv"),
-    "help_about", NULL, MGROUP_SAFE },
+    "help_about", NULL, MGROUP_SAFE,
+    NULL, FALSE },
 
 #ifdef MENUS_GTK3
   { "MENU_GAME", N_("_Game"), 0, 0, NULL, MGROUP_SAFE },
@@ -505,10 +570,6 @@ static struct menu_entry_info menu_entries[] =
   { "MENU_CIVILIZATION", N_("C_ivilization"), 0, 0,
     NULL, MGROUP_SAFE },
   { "MENU_HELP", N_("_Help"), 0, 0, NULL, MGROUP_SAFE },
-  { "SERVER_OPTIONS", N_("_Remote Server"), 0, 0,
-    G_CALLBACK(server_options_callback), MGROUP_SAFE },
-  { "SAVE_OPTIONS", N_("Save Options _Now"), 0, 0,
-    G_CALLBACK(save_options_callback), MGROUP_SAFE },
   { "RELOAD_TILESET", N_("_Reload Tileset"),
     GDK_KEY_r, GDK_ALT_MASK | GDK_CONTROL_MASK,
     G_CALLBACK(reload_tileset_callback), MGROUP_SAFE },
@@ -579,8 +640,6 @@ static struct menu_entry_info menu_entries[] =
   { "HELP_LANGUAGES", N_("Languages"), 0, 0,
     G_CALLBACK(help_language_callback), MGROUP_SAFE },
 
-  { "SAVE_OPTIONS_ON_EXIT", N_("Save Options on _Exit"), 0, 0,
-    G_CALLBACK(save_options_on_exit_callback), MGROUP_SAFE },
   { "EDIT_MODE", N_("_Editing Mode"), GDK_KEY_e, GDK_CONTROL_MASK,
     G_CALLBACK(edit_mode_callback), MGROUP_SAFE },
   { "SHOW_CITY_OUTLINES", N_("Cit_y Outlines"), GDK_KEY_y, GDK_CONTROL_MASK,
@@ -736,6 +795,8 @@ const GActionEntry acts[] = {
   { "save_chat", save_chat_logs_callback },
   { "local_options", local_options_callback },
   { "message_options", message_options_callback },
+  { "server_options", server_options_callback },
+  { "save_options", save_options_callback },
 
   { "leave", leave_callback },
   { "quit", quit_callback },
@@ -822,11 +883,12 @@ static void message_options_callback(GSimpleAction *action,
   popup_messageopt_dialog();
 }
 
-#ifdef MENUS_GTK3
 /************************************************************************//**
   Item "SERVER_OPTIONS" callback.
 ****************************************************************************/
-static void server_options_callback(GtkMenuItem *item, gpointer data)
+static void server_options_callback(GSimpleAction *action,
+                                    GVariant *parameter,
+                                    gpointer data)
 {
   option_dialog_popup(_("Game Settings"), server_optset);
 }
@@ -834,11 +896,31 @@ static void server_options_callback(GtkMenuItem *item, gpointer data)
 /************************************************************************//**
   Item "SAVE_OPTIONS" callback.
 ****************************************************************************/
-static void save_options_callback(GtkMenuItem *item, gpointer data)
+static void save_options_callback(GSimpleAction *action,
+                                  GVariant *parameter,
+                                  gpointer data)
 {
   options_save(NULL);
 }
 
+/************************************************************************//**
+  Item "SAVE_OPTIONS_ON_EXIT" callback.
+****************************************************************************/
+static void save_options_on_exit_callback(GSimpleAction *action,
+                                          GVariant *parameter,
+                                          gpointer data)
+{
+  struct menu_entry_info *info = (struct menu_entry_info *)data;
+
+  info->state ^= 1;
+  gui_options.save_options_on_exit = info->state;
+
+  g_menu_remove(options_menu, 4);
+  g_menu_insert_item(options_menu, 4,
+                     create_toggle_menu_item_for_key("SAVE_OPTIONS_ON_EXIT"));
+}
+
+#ifdef MENUS_GTK3
 /************************************************************************//**
   Item "RELOAD_TILESET" callback.
 ****************************************************************************/
@@ -1237,15 +1319,6 @@ static void help_about_callback(GSimpleAction *action,
 }
 
 #ifdef MENUS_GTK3
-/************************************************************************//**
-  Item "SAVE_OPTIONS_ON_EXIT" callback.
-****************************************************************************/
-static void save_options_on_exit_callback(GtkCheckMenuItem *item,
-                                          gpointer data)
-{
-  gui_options.save_options_on_exit = gtk_check_menu_item_get_active(item);
-}
-
 /************************************************************************//**
   Item "EDIT_MODE" callback.
 ****************************************************************************/
@@ -2311,6 +2384,31 @@ static void bg_append_callback(GSimpleAction *action,
 }
 
 /************************************************************************//**
+  Create toggle menu entry by info
+****************************************************************************/
+static GMenuItem *create_toggle_menu_item(struct menu_entry_info *info)
+{
+  GVariant *var;
+  char actname[150];
+  GMenuItem *item;
+
+  fc_snprintf(actname, sizeof(actname), "app.%s", info->action);
+  item = g_menu_item_new(Q_(info->name), NULL);
+  var = g_variant_new("b", (gboolean)(info->state));
+  g_menu_item_set_action_and_target_value(item, actname, var);
+
+  return item;
+}
+
+/************************************************************************//**
+  Create toggle menu entry by key
+****************************************************************************/
+static GMenuItem *create_toggle_menu_item_for_key(const char *key)
+{
+  return create_toggle_menu_item(menu_entry_info_find(key));
+}
+
+/************************************************************************//**
   Set name of the menu item.
 ****************************************************************************/
 static void menu_entry_init(GMenu *sub, const char *key)
@@ -2319,10 +2417,16 @@ static void menu_entry_init(GMenu *sub, const char *key)
 
   if (info != NULL) {
     GMenuItem *item;
-    char actname[150];
 
-    fc_snprintf(actname, sizeof(actname), "app.%s", info->action);
-    item = g_menu_item_new(Q_(info->name), actname);
+    if (info->toggle != NULL) {
+      item = create_toggle_menu_item(info);
+    } else {
+      char actname[150];
+
+      fc_snprintf(actname, sizeof(actname), "app.%s", info->action);
+      item = g_menu_item_new(Q_(info->name), actname);
+    }
+
     g_menu_append_item(sub, item);
   }
 }
@@ -2330,10 +2434,40 @@ static void menu_entry_init(GMenu *sub, const char *key)
 /************************************************************************//**
   Registers menu actions for the application.
 ****************************************************************************/
-void setup_app_actions(GApplication *fc_app)
+void menus_set_initial_toggle_values(void)
 {
+  struct menu_entry_info *info = menu_entry_info_find("SAVE_OPTIONS_ON_EXIT");
+
+  info->state = gui_options.save_options_on_exit;
+}
+
+/************************************************************************//**
+  Registers menu actions for the application.
+****************************************************************************/
+static void setup_app_actions(GApplication *fc_app)
+{
+  int i;
+  GVariantType *bvart = g_variant_type_new("b");
+
+  /* Simple entries */
   g_action_map_add_action_entries(G_ACTION_MAP(fc_app), acts,
                                   G_N_ELEMENTS(acts), fc_app);
+
+  /* Toggles */
+  for (i = 0; menu_entries[i].key != NULL; i++) {
+    if (menu_entries[i].toggle != NULL) {
+      GSimpleAction *act;
+      GVariant *var = g_variant_new("b", TRUE);
+
+      act = g_simple_action_new_stateful(menu_entries[i].action, bvart, var);
+      g_action_map_add_action(G_ACTION_MAP(fc_app), G_ACTION(act));
+      g_signal_connect(act, "change-state",
+                       G_CALLBACK(menu_entries[i].toggle),
+                       (gpointer)&(menu_entries[i]));
+    }
+  }
+
+  g_variant_type_free(bvart);
 }
 
 /************************************************************************//**
@@ -2381,11 +2515,14 @@ static GMenu *setup_menus(GtkApplication *app)
   menu_entry_init(topmenu, "CLEAR_CHAT_LOGS");
   menu_entry_init(topmenu, "SAVE_CHAT_LOGS");
 
-  submenu = g_menu_new();
-  menu_entry_init(submenu, "LOCAL_OPTIONS");
-  menu_entry_init(submenu, "MESSAGE_OPTIONS");
+  options_menu = g_menu_new();
+  menu_entry_init(options_menu, "LOCAL_OPTIONS");
+  menu_entry_init(options_menu, "MESSAGE_OPTIONS");
+  menu_entry_init(options_menu, "SERVER_OPTIONS");
+  menu_entry_init(options_menu, "SAVE_OPTIONS");
+  menu_entry_init(options_menu, "SAVE_OPTIONS_ON_EXIT");
 
-  g_menu_append_submenu(topmenu, _("_Options"), G_MENU_MODEL(submenu));
+  g_menu_append_submenu(topmenu, _("_Options"), G_MENU_MODEL(options_menu));
 
   menu_entry_init(topmenu, "LEAVE");
   menu_entry_init(topmenu, "QUIT");
