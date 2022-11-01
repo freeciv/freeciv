@@ -778,7 +778,7 @@ PACKET_CITY_INFO = 31; sc, lsend, is-game-info, force, cancel(PACKET_CITY_SHORT_
   UNIT_ORDER rally_point_orders[MAX_LEN_ROUTE:rally_point_length];
 end
 
-PACKET_CITY_UPDATE_COUNTER = 514; sc, lsend
+PACKET_CITY_UPDATE_COUNTER = 514; sc, lsend, is-game-info
   CITY city;
   COUNTER counter;
   UINT32 value;
