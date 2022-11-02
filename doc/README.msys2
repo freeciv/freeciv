@@ -185,7 +185,7 @@ Get the freeciv sources there somehow. Some options are:
    is within msys2
 
 > cd windows/installer_msys2
-> make <targets>
+> make -f Makefile.autotools <targets>
 
   Target can be:
   - "all" (default), build all installers
