@@ -1687,23 +1687,21 @@ static int next_prev_city_dlg_callback(struct widget *pButton)
 }
 
 /**************************************************************************
-  Rename city name:
+  New city name given for renaming it.
 **************************************************************************/
 static int new_name_city_dlg_callback(struct widget *pEdit)
 {
-  if (PRESSED_EVENT(Main.event)) {
-    if (pEdit->string_utf8->text != NULL) {
-      if (strcmp(pEdit->string_utf8->text, city_name_get(pCityDlg->pCity))) {
-        SDL_Client_Flags |= CF_CHANGED_CITY_NAME;
-        city_rename(pCityDlg->pCity, pEdit->string_utf8->text);
-      }
-    } else {
-      /* empty input -> restore previous content */
-      copy_chars_to_utf8_str(pEdit->string_utf8, city_name_get(pCityDlg->pCity));
-      widget_redraw(pEdit);
-      widget_mark_dirty(pEdit);
-      flush_dirty();
+  if (pEdit->string_utf8->text != NULL) {
+    if (strcmp(pEdit->string_utf8->text, city_name_get(pCityDlg->pCity))) {
+      SDL_Client_Flags |= CF_CHANGED_CITY_NAME;
+      city_rename(pCityDlg->pCity, pEdit->string_utf8->text);
     }
+  } else {
+    /* Empty input -> restore previous content */
+    copy_chars_to_utf8_str(pEdit->string_utf8, city_name_get(pCityDlg->pCity));
+    widget_redraw(pEdit);
+    widget_mark_dirty(pEdit);
+    flush_dirty();
   }
 
   return -1;
