@@ -46,6 +46,7 @@ static inline bool pf_attack_possible(const struct tile *ptile,
                                       enum known_type known,
                                       const struct pf_parameter *param)
 {
+  bool non_allied_city;
   bool attack_any;
 
   if (!can_attack_non_native(param->utype)
@@ -58,19 +59,28 @@ static inline bool pf_attack_possible(const struct tile *ptile,
     return TRUE;
   }
 
+  non_allied_city = is_non_allied_city_tile(ptile, param->owner);
   attack_any = FALSE;
+
   unit_list_iterate(ptile->units, punit) {
+    /* Any non-hostile unit will fail the whole stack*/
     if (!pplayers_at_war(unit_owner(punit), param->owner)) {
       return FALSE;
     }
 
-    /* Unit reachability test. */
+    /* Hostile unit reachability test. */
     if (BV_ISSET(param->utype->targets, uclass_index(unit_class_get(punit)))
-        || tile_has_native_base(ptile, unit_type_get(punit))) {
+        || tile_has_native_base(ptile, unit_type_get(punit))
+        || non_allied_city) {
       attack_any = TRUE;
     } else if (game.info.unreachable_protects) {
-      /* We would need to be able to attack all, this is not the case. */
-      return FALSE;
+      /* We get here if punit is unreachable to utype */
+      if (!utype_has_flag(unit_type_get(punit), UTYF_NEVER_PROTECTS)) {
+        return FALSE;
+      }
+      /* NB: if there are UTYF_NEVER_PROTECTS units on the tile, 'attack_any'
+         has to get set TRUE at least once to enable an attack to the tile,
+         which is exactly correct behaviour. */
     }
   } unit_list_iterate_end;
 
