@@ -11,7 +11,7 @@
    GNU General Public License for more details.
 ***********************************************************************/
 
-/**********************************************************************
+/***********************************************************************
    Functions for handling the nations.
 ***********************************************************************/
 
@@ -508,7 +508,6 @@ Nation_type_id nation_count(void)
   return game.control.nation_count;
 }
 
-
 /****************************************************************************
   Nation iterator.
 ****************************************************************************/
@@ -715,6 +714,12 @@ struct nation_set *nation_set_new(const char *set_name,
 {
   struct nation_set *pset;
 
+  if (game.control.num_nation_sets <= num_nation_sets) {
+    log_error("More nation sets than reported (%d).",
+              game.control.num_nation_sets);
+    return NULL;
+  }
+
   if (MAX_NUM_NATION_SETS <= num_nation_sets) {
     log_error("Too many nation sets (%d is the maximum).",
               MAX_NUM_NATION_SETS);
@@ -751,9 +756,14 @@ struct nation_set *nation_set_new(const char *set_name,
 ****************************************************************************/
 struct nation_set *nation_set_by_number(int id)
 {
-  if (id < 0 || id >= num_nation_sets) {
+  /* Return valid pointer on client side even when the data of the
+   * group is not yet received. So compare against expected number
+   * of sets (game.control.num_nation_sets) and not
+   * what we have already set up (num_nation_sets) */
+  if (id < 0 || id >= game.control.num_nation_sets) {
     return NULL;
   }
+
   return nation_sets + id;
 }
 
@@ -946,7 +956,13 @@ struct nation_group *nation_group_new(const char *name)
 {
   struct nation_group *pgroup;
 
-  if (MAX_NUM_NATION_GROUPS <= num_nation_groups) {
+  if (game.control.num_nation_groups <= num_nation_groups) {
+    log_error("More nation groups than reported (%d).",
+              game.control.num_nation_groups);
+    return NULL;
+  }
+
+   if (MAX_NUM_NATION_GROUPS <= num_nation_groups) {
     log_error("Too many nation groups (%d is the maximum).",
               MAX_NUM_NATION_GROUPS);
     return NULL;
@@ -982,9 +998,14 @@ struct nation_group *nation_group_new(const char *name)
 ****************************************************************************/
 struct nation_group *nation_group_by_number(int id)
 {
-  if (id < 0 || id >= num_nation_groups) {
+  /* Return valid pointer on client side even when the data of the
+   * group is not yet received. So compare against expected number
+   * of groups (game.control.num_nation_groups) and not
+   * what we have already set up (num_nation_groups) */
+  if (id < 0 || id >= game.control.num_nation_groups) {
     return NULL;
   }
+
   return nation_groups + id;
 }
 
