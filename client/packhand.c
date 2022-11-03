@@ -4484,13 +4484,15 @@ void handle_ruleset_nation_sets
   int i;
 
   for (i = 0; i < packet->nsets; i++) {
-#ifndef FREECIV_NDEBUG
     struct nation_set *pset =
-#endif
       nation_set_new(packet->names[i], packet->rule_names[i],
                      packet->descriptions[i]);
-    fc_assert(NULL != pset);
-    fc_assert(i == nation_set_index(pset));
+
+    if (pset == NULL) {
+      break;
+    } else {
+      fc_assert(i == nation_set_index(pset));
+    }
   }
 }
 
@@ -4506,9 +4508,13 @@ void handle_ruleset_nation_groups
     struct nation_group *pgroup;
 
     pgroup = nation_group_new(packet->groups[i]);
-    fc_assert_action(NULL != pgroup, continue);
-    fc_assert(i == nation_group_index(pgroup));
-    pgroup->hidden = packet->hidden[i];
+
+    if (pgroup != NULL) {
+      fc_assert(i == nation_group_index(pgroup));
+      pgroup->hidden = packet->hidden[i];
+    } else {
+      break;
+    }
   }
 }
 

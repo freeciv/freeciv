@@ -4697,7 +4697,9 @@ static bool load_nation_names(struct section_file *file,
 
   if (ok) {
     sec = secfile_sections_by_name_prefix(file, NATION_GROUP_SECTION_PREFIX);
-    if (sec) {
+    if (sec != NULL) {
+      game.control.num_nation_groups = section_list_size(sec);
+
       section_list_iterate(sec, psection) {
         struct nation_group *pgroup;
         const char *name;
@@ -5041,7 +5043,9 @@ static bool load_ruleset_nations(struct section_file *file,
 
   if (ok) {
     sec = secfile_sections_by_name_prefix(file, NATION_SET_SECTION_PREFIX);
-    if (sec) {
+    if (sec != NULL) {
+      game.control.num_nation_sets = section_list_size(sec);
+
       section_list_iterate(sec, psection) {
         const char *set_name, *set_rule_name, *set_description;
 

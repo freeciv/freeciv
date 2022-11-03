@@ -245,6 +245,8 @@ static void game_defaults(bool keep_ruleset_value)
   game.control.num_achievement_types   = 0;
   game.control.num_styles              = 0;
   game.control.num_music_styles        = 0;
+  game.control.num_nation_groups       = 0;
+  game.control.num_nation_sets         = 0;
   game.control.preferred_tileset[0]    = '\0';
   game.control.preferred_soundset[0]   = '\0';
   game.control.preferred_musicset[0]   = '\0';
