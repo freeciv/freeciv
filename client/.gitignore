@@ -7,10 +7,5 @@
 /freeciv-qt
 /freeciv-stub
 /.deps
-/org.freeciv.gtk3.desktop
-/org.freeciv.gtk322.desktop
-/org.freeciv.gtk4.desktop
-/org.freeciv.sdl2.desktop
-/org.freeciv.qt.desktop
 /packhand_gen.c
 /packhand_gen.h
