@@ -1,4 +1,4 @@
-Sources here are fron luasql git tag v2.4.0
+Sources here are from luasql git tag v2.4.0
 (https://github.com/keplerproject/luasql/tree/v2.4.0)
 Some modifications have been done to them, but as of 08-Oct-22
 all our modifications have been accepted to the upstream.
