@@ -5978,11 +5978,11 @@ void options_save(option_save_log_callback log_cb)
   message_options_save(sf, "client");
   options_dialogs_save(sf);
 
-  /* server settings */
+  /* Server settings */
   save_cma_presets(sf);
   settable_options_save(sf);
 
-  /* insert global worklists */
+  /* Insert global worklists */
   global_worklists_save(sf);
 
   /* Directory name */
@@ -5990,16 +5990,22 @@ void options_save(option_save_log_callback log_cb)
   for (i = strlen(dir_name) - 1 ; dir_name[i] != DIR_SEPARATOR_CHAR && i >= 0; i--) {
     /* Nothing */
   }
+
   if (i > 0) {
     dir_name[i] = '\0';
-    make_dir(dir_name);
+    if (!make_dir(dir_name)) {
+      log_cb(LOG_ERROR, _("Saving options failed, cannot create directory %s"),
+             dir_name);
+      secfile_destroy(sf);
+      return;
+    }
   }
 
-  /* save to disk */
+  /* Save to disk */
   if (!secfile_save(sf, name, 0, FZ_PLAIN)) {
-    log_cb(LOG_ERROR, _("Save failed, cannot write to file %s"), name);
+    log_cb(LOG_ERROR, _("Saving options failed, cannot write to file %s"), name);
   } else {
-    log_cb(LOG_VERBOSE, _("Saved settings to file %s"), name);
+    log_cb(LOG_VERBOSE, _("Saved options to file %s"), name);
   }
   secfile_destroy(sf);
 }

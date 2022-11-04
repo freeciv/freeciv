@@ -1735,6 +1735,10 @@ char *skip_to_basename(char *filepath)
 /**************************************************************************
   If the directory "pathname" does not exist, recursively create all
   directories until it does.
+
+  TODO: Make errno available after a failure, preferably via fc_get_errno().
+        Currently there's things potentially messing errno between
+        failed mkdir() and the function return.
 **************************************************************************/
 bool make_dir(const char *pathname)
 {
@@ -1768,15 +1772,33 @@ bool make_dir(const char *pathname)
      *       takes two parameters, and prefer such proper mkdir() here. */
     {
       char *path_in_local_encoding = internal_to_local_string_malloc(path);
+      bool failure = FALSE;
 
-      _mkdir(path_in_local_encoding);
+      if (_mkdir(path_in_local_encoding) == -1
+          && fc_get_errno() != ERROR_ALREADY_EXISTS) {
+        failure = TRUE;
+      }
+
       free(path_in_local_encoding);
+
+      if (failure) {
+        free(path);
+        return FALSE;
+      }
     }
 #else  /* HAVE__MKDIR */
-    mkdir(path, 0755);
+    if (mkdir(path, 0755) == -1
+        && fc_get_errno() != EEXIST) {
+      free(path);
+      return FALSE;
+    }
 #endif /* HAVE__MKDIR */
 #else  /* FREECIV_MSWINDOWS */
-    mkdir(path, 0755);
+    if (mkdir(path, 0755) == -1
+        && fc_get_errno() != EEXIST) {
+      free(path);
+      return FALSE;
+    }
 #endif /* FREECIV_MSWINDOWS */
 
     if (dir) {
@@ -1786,6 +1808,7 @@ bool make_dir(const char *pathname)
   } while (dir);
 
   free(path);
+
   return TRUE;
 }
 
