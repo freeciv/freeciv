@@ -672,12 +672,15 @@ void send_client_wants_hack(const char *filename)
       return;
     }
 
-    make_dir(sdir);
+    if (!make_dir(sdir)) {
+      log_error("Couldn't create storage directory for token.");
+      return;
+    }
 
     fc_snprintf(challenge_fullname, sizeof(challenge_fullname),
                 "%s" DIR_SEPARATOR "%s", sdir, filename);
 
-    /* generate an authentication token */ 
+    /* Generate an authentication token */
     randomize_string(req.token, sizeof(req.token));
 
     file = secfile_new(FALSE);
@@ -685,10 +688,12 @@ void send_client_wants_hack(const char *filename)
     if (!secfile_save(file, challenge_fullname, 0, FZ_PLAIN)) {
       log_error("Couldn't write token to temporary file: %s",
                 challenge_fullname);
+      /* FIXME: We need to destroy the secfile, but do we really
+       *        want also to send the network packet after this? */
     }
     secfile_destroy(file);
 
-    /* tell the server what we put into the file */ 
+    /* Tell the server what we put into the file */
     send_packet_single_want_hack_req(&client.conn, &req);
   }
 }

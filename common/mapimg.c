@@ -2051,7 +2051,10 @@ static bool img_save(const struct img *pimg, const char *mapimgfile,
   }
 
   if (!path_is_absolute(mapimgfile) && path != NULL) {
-    make_dir(path);
+    if (!make_dir(path)) {
+      MAPIMG_LOG(_("can't create directory"));
+      return FALSE;
+    }
 
     sz_strlcpy(tmpname, path);
     if (tmpname[0] != '\0') {
