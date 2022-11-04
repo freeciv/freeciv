@@ -79,7 +79,7 @@ enum shortcut_id {
   SC_BUY_MAP = 45,
   SC_IFACE_LOCK = 46,
   SC_AUTOMATE = 47,
-  SC_PARADROP = 48,
+  SC_CLEAN = 48,
   SC_POPUP_COMB_INF = 49,
   SC_RELOAD_THEME = 50,
   SC_RELOAD_TILESET = 51,
@@ -91,10 +91,11 @@ enum shortcut_id {
   SC_ZOOM_RESET = 57,
   SC_GOBUILDCITY = 58,
   SC_GOJOINCITY = 59,
-  SC_STACK_SIZE = 60
+  SC_STACK_SIZE = 60,
+  SC_PARADROP = 61
 };
 
-#define SC_NUM_SHORTCUTS 60
+#define SC_NUM_SHORTCUTS 61
 
 
 /**************************************************************************

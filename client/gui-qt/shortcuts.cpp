@@ -148,8 +148,8 @@ fc_shortcut default_shortcuts[] = {
     | Qt::ShiftModifier, _("Lock/unlock interface") },
   {SC_AUTOMATE, Qt::Key_A, Qt::AllButtons, Qt::NoModifier,
     _("Auto worker") },
-  {SC_PARADROP, Qt::Key_P, Qt::AllButtons, Qt::NoModifier,
-    _("Paradrop/clean pollution") },
+  {SC_CLEAN, Qt::Key_P, Qt::AllButtons, Qt::NoModifier,
+    _("Clean pollution") },
   {SC_POPUP_COMB_INF, Qt::Key_F1, Qt::AllButtons, Qt::ControlModifier,
     _("Popup combat information") },
   {SC_RELOAD_THEME, Qt::Key_F5, Qt::AllButtons, Qt::ControlModifier
@@ -173,9 +173,10 @@ fc_shortcut default_shortcuts[] = {
   {SC_GOJOINCITY, Qt::Key_J, Qt::AllButtons, Qt::ShiftModifier,
    _("Go And Join City") },
   {SC_STACK_SIZE, Qt::Key_Plus, Qt::AllButtons, Qt::ControlModifier,
-   _("Unit Stack Size") }
+   _("Unit Stack Size") },
+  {SC_PARADROP, Qt::Key_J, Qt::AllButtons, Qt::NoModifier,
+   _("Paradrop") }
 };
-
 
 /**********************************************************************//**
   Returns shortcut as string (eg. for menu)

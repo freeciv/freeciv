@@ -1279,6 +1279,11 @@ void mr_menu::setup_menus()
   connect(act, &QAction::triggered, this, &mr_menu::slot_unit_airbase);
   bases_menu = main_menu->addMenu(_("Build Base"));
   main_menu->addSeparator();
+  act = main_menu->addAction(_("Paradrop"));
+  menu_list.insert(PARADROP, act);
+  act->setShortcut(QKeySequence(shortcut_to_string(
+                  fc_shortcuts::sc()->get_shortcut(SC_PARADROP))));
+  connect(act, &QAction::triggered, this, &mr_menu::slot_paradrop);
   act = main_menu->addAction(_("Pillage"));
   menu_list.insert(PILLAGE, act);
   act->setShortcut(QKeySequence(tr("shift+p")));
@@ -1350,9 +1355,9 @@ void mr_menu::setup_menus()
                    fc_shortcuts::sc()->get_shortcut(SC_TRANSFORM))));
   connect(act, &QAction::triggered, this, &mr_menu::slot_transform);
   act = main_menu->addAction(_("Clean Pollution"));
-  menu_list.insert(POLLUTION, act);
+  menu_list.insert(CLEAN, act);
   act->setShortcut(QKeySequence(shortcut_to_string(
-                   fc_shortcuts::sc()->get_shortcut(SC_PARADROP))));
+                   fc_shortcuts::sc()->get_shortcut(SC_CLEAN))));
   connect(act, &QAction::triggered, this, &mr_menu::slot_clean_pollution);
   act = main_menu->addAction(_("Clean Nuclear Fallout"));
   menu_list.insert(FALLOUT, act);
@@ -2330,21 +2335,9 @@ void mr_menu::menus_sensitive()
         }
         break;
 
-      case POLLUTION:
-        if (can_units_do_activity(punits, ACTIVITY_POLLUTION)
-            || can_units_do(punits, can_unit_paradrop)) {
+      case CLEAN:
+        if (can_units_do_activity(punits, ACTIVITY_POLLUTION)) {
           i.value()->setEnabled(true);
-        }
-        if (units_can_do_action_with_result(punits, ACTRES_PARADROP,
-                                            true)
-            || units_can_do_action_with_result(punits,
-                                               ACTRES_PARADROP_CONQUER,
-                                               true)) {
-          i.value()->setText(
-            QString(action_id_name_translation(ACTION_PARADROP))
-            .replace("&", "&&"));
-        } else {
-          i.value()->setText(_("Clean Pollution"));
         }
         break;
 
@@ -2357,6 +2350,14 @@ void mr_menu::menus_sensitive()
       case SENTRY:
         if (can_units_do_activity(punits, ACTIVITY_SENTRY)) {
           i.value()->setEnabled(true);
+        }
+        break;
+
+      case PARADROP:
+        if (can_units_do(punits, can_unit_paradrop)) {
+          i.value()->setEnabled(true);
+          i.value()->setText(QString(action_id_name_translation(ACTION_PARADROP))
+                             .replace("&", "&&"));
         }
         break;
 
@@ -2574,23 +2575,17 @@ void mr_menu::slot_clean_fallout()
 }
 
 /**********************************************************************//**
-  Action "CLEAN POLLUTION and PARADROP"
+  Action "CLEAN POLLUTION"
 **************************************************************************/
 void mr_menu::slot_clean_pollution()
 {
   unit_list_iterate(get_units_in_focus(), punit) {
-    /* FIXME: this can provide different actions for different units...
-     * not good! */
     struct extra_type *pextra;
 
     pextra = prev_extra_in_tile(unit_tile(punit), ERM_CLEANPOLLUTION,
                                 unit_owner(punit), punit);
     if (pextra != NULL) {
       request_new_unit_activity_targeted(punit, ACTIVITY_POLLUTION, pextra);
-    } else if (can_unit_paradrop(punit)) {
-      /* FIXME: This is getting worse, we use a key_unit_*() function
-       * which assign the order for all units!  Very bad! */
-      key_unit_paradrop();
     }
   } unit_list_iterate_end;
 }
@@ -2663,6 +2658,18 @@ void mr_menu::slot_conn_road()
 void mr_menu::slot_transform()
 {
   key_unit_transform();
+}
+
+/**********************************************************************//**
+  Action "PARADROP"
+**************************************************************************/
+void mr_menu::slot_paradrop()
+{
+  unit_list_iterate(get_units_in_focus(), punit) {
+    if (can_unit_paradrop(punit)) {
+      key_unit_paradrop();
+    }
+  } unit_list_iterate_end;
 }
 
 /**********************************************************************//**
