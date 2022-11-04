@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.6\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2022-10-21 10:36+0200\n"
+"POT-Creation-Date: 2022-11-04 15:16+0100\n"
 "PO-Revision-Date: 2022-08-18 04:07+0200\n"
 "Last-Translator: Igx <igx31 hotmail.com>\n"
 "Language-Team: French <freeciv-l10n-fr@yahoogroupes.fr>\n"
@@ -3369,7 +3369,7 @@ msgstr "Révolution !"
 #. TRANS: Pillage dialog title.
 #: client/gui-gtk-2.0/dialogs.c:352 client/gui-gtk-3.0/dialogs.c:368
 #: client/gui-gtk-3.22/dialogs.c:362 client/gui-qt/dialogs.cpp:2421
-#: client/gui-sdl/dialogs.c:2227 client/gui-sdl2/dialogs.c:2216
+#: client/gui-sdl/dialogs.c:2228 client/gui-sdl2/dialogs.c:2217
 #: data/Freeciv.in:2504
 msgid "What To Pillage"
 msgstr "Quoi piller"
@@ -3477,7 +3477,7 @@ msgstr "Vous devez choisir votre style."
 
 #: client/gui-gtk-2.0/dialogs.c:1384 client/gui-gtk-3.0/dialogs.c:1395
 #: client/gui-gtk-3.22/dialogs.c:1389 client/gui-qt/dialogs.cpp:673
-#: client/gui-sdl/dialogs.c:2532 client/gui-sdl2/dialogs.c:2519
+#: client/gui-sdl/dialogs.c:2533 client/gui-sdl2/dialogs.c:2520
 #: client/gui-xaw/dialogs.c:1497
 msgid "You must type a legal name."
 msgstr "Vous devez taper un nom valide."
@@ -7173,9 +7173,9 @@ msgstr "Souligné"
 msgid "Color"
 msgstr "Couleur"
 
-#: client/gui-gtk-3.22/chatline.c:1426 client/gui-sdl/dialogs.c:2846
-#: client/gui-sdl/dialogs.c:3282 client/gui-sdl/mapctrl.c:2560
-#: client/gui-sdl2/dialogs.c:2833 client/gui-sdl2/dialogs.c:3266
+#: client/gui-gtk-3.22/chatline.c:1426 client/gui-sdl/dialogs.c:2847
+#: client/gui-sdl/dialogs.c:3283 client/gui-sdl/mapctrl.c:2560
+#: client/gui-sdl2/dialogs.c:2834 client/gui-sdl2/dialogs.c:3267
 #: client/gui-sdl2/mapctrl.c:2768 common/mapimg.c:304
 msgid "OK"
 msgstr "OK"
@@ -7554,12 +7554,12 @@ msgstr "Rendu obsolète par %1."
 #: client/gui-sdl/connectdlg.c:320 client/gui-sdl/connectdlg.c:637
 #: client/gui-sdl/connectdlg.c:832 client/gui-sdl/connectdlg.c:1005
 #: client/gui-sdl/dialogs.c:706 client/gui-sdl/dialogs.c:900
-#: client/gui-sdl/dialogs.c:3272 client/gui-sdl/mapctrl.c:2570
+#: client/gui-sdl/dialogs.c:3273 client/gui-sdl/mapctrl.c:2570
 #: client/gui-sdl2/action_dialog.c:1014 client/gui-sdl2/citydlg.c:528
 #: client/gui-sdl2/citydlg.c:1421 client/gui-sdl2/connectdlg.c:324
 #: client/gui-sdl2/connectdlg.c:634 client/gui-sdl2/connectdlg.c:828
 #: client/gui-sdl2/connectdlg.c:998 client/gui-sdl2/dialogs.c:709
-#: client/gui-sdl2/dialogs.c:905 client/gui-sdl2/dialogs.c:3256
+#: client/gui-sdl2/dialogs.c:905 client/gui-sdl2/dialogs.c:3257
 #: client/gui-sdl2/mapctrl.c:2778 client/gui-xaw/inputdlg.c:110
 #: data/Freeciv.in:1110 data/Freeciv.in:1166 data/Freeciv.in:1208
 #: data/Freeciv.in:1228 data/Freeciv.in:1265 data/Freeciv.in:1298
@@ -7621,16 +7621,16 @@ msgstr "Choisir une nation"
 msgid "Nation Set:"
 msgstr "Jeu de Nations :"
 
-#: client/gui-qt/dialogs.cpp:317 client/gui-sdl/dialogs.c:2561
-#: client/gui-sdl/dialogs.c:2980 client/gui-sdl2/dialogs.c:2549
-#: client/gui-sdl2/dialogs.c:2964 data/Freeciv.in:3167
+#: client/gui-qt/dialogs.cpp:317 client/gui-sdl/dialogs.c:2562
+#: client/gui-sdl/dialogs.c:2981 client/gui-sdl2/dialogs.c:2550
+#: client/gui-sdl2/dialogs.c:2965 data/Freeciv.in:3167
 msgid "Female"
 msgstr "Une femme"
 
-#: client/gui-qt/dialogs.cpp:318 client/gui-sdl/dialogs.c:2563
-#: client/gui-sdl/dialogs.c:2978 client/gui-sdl/dialogs.c:3232
-#: client/gui-sdl2/dialogs.c:2551 client/gui-sdl2/dialogs.c:2962
-#: client/gui-sdl2/dialogs.c:3216
+#: client/gui-qt/dialogs.cpp:318 client/gui-sdl/dialogs.c:2564
+#: client/gui-sdl/dialogs.c:2979 client/gui-sdl/dialogs.c:3233
+#: client/gui-sdl2/dialogs.c:2552 client/gui-sdl2/dialogs.c:2963
+#: client/gui-sdl2/dialogs.c:3217
 msgid "Male"
 msgstr "Un homme"
 
@@ -9112,8 +9112,8 @@ msgstr "<b>%1 a demandé un vote pour :</b>"
 #: client/gui-sdl/citydlg.c:3677 client/gui-sdl/cma_fe.c:502
 #: client/gui-sdl/cma_fe.c:918 client/gui-sdl/dialogs.c:334
 #: client/gui-sdl/dialogs.c:534 client/gui-sdl/dialogs.c:1094
-#: client/gui-sdl/dialogs.c:1344 client/gui-sdl/dialogs.c:1674
-#: client/gui-sdl/dialogs.c:2246 client/gui-sdl/finddlg.c:159
+#: client/gui-sdl/dialogs.c:1344 client/gui-sdl/dialogs.c:1675
+#: client/gui-sdl/dialogs.c:2247 client/gui-sdl/finddlg.c:159
 #: client/gui-sdl/gotodlg.c:268 client/gui-sdl/helpdlg.c:263
 #: client/gui-sdl/helpdlg.c:677 client/gui-sdl/helpdlg.c:1938
 #: client/gui-sdl/inteldlg.c:252 client/gui-sdl/optiondlg.c:778
@@ -9127,8 +9127,8 @@ msgstr "<b>%1 a demandé un vote pour :</b>"
 #: client/gui-sdl2/citydlg.c:3547 client/gui-sdl2/cma_fe.c:514
 #: client/gui-sdl2/cma_fe.c:930 client/gui-sdl2/dialogs.c:334
 #: client/gui-sdl2/dialogs.c:536 client/gui-sdl2/dialogs.c:1099
-#: client/gui-sdl2/dialogs.c:1348 client/gui-sdl2/dialogs.c:1682
-#: client/gui-sdl2/dialogs.c:2235 client/gui-sdl2/finddlg.c:167
+#: client/gui-sdl2/dialogs.c:1348 client/gui-sdl2/dialogs.c:1683
+#: client/gui-sdl2/dialogs.c:2236 client/gui-sdl2/finddlg.c:167
 #: client/gui-sdl2/gotodlg.c:277 client/gui-sdl2/helpdlg.c:265
 #: client/gui-sdl2/helpdlg.c:679 client/gui-sdl2/helpdlg.c:1943
 #: client/gui-sdl2/inteldlg.c:269 client/gui-sdl2/optiondlg.c:789
@@ -9423,8 +9423,8 @@ msgstr "Unités supportées"
 msgid "Change production"
 msgstr "Changer la production"
 
-#: client/gui-sdl/citydlg.c:3784 client/gui-sdl/dialogs.c:1738
-#: client/gui-sdl2/citydlg.c:3654 client/gui-sdl2/dialogs.c:1745
+#: client/gui-sdl/citydlg.c:3784 client/gui-sdl/dialogs.c:1739
+#: client/gui-sdl2/citydlg.c:3654 client/gui-sdl2/dialogs.c:1746
 msgid "Hurry production"
 msgstr "Production urgente"
 
@@ -9578,9 +9578,9 @@ msgstr "%s %s %s(A:%d D:%d M:%s PF:%d) PV:%d%%"
 #. TRANS: preserve leading space
 #. TRANS: "CtW" = "Chance to Win"; preserve leading space
 #. TRANS: preserve leading space
-#: client/gui-sdl/dialogs.c:1137 client/gui-sdl/dialogs.c:1897
-#: client/gui-sdl/dialogs.c:2025 client/gui-sdl2/dialogs.c:1142
-#: client/gui-sdl2/dialogs.c:1900 client/gui-sdl2/dialogs.c:2021
+#: client/gui-sdl/dialogs.c:1137 client/gui-sdl/dialogs.c:1898
+#: client/gui-sdl/dialogs.c:2026 client/gui-sdl2/dialogs.c:1142
+#: client/gui-sdl2/dialogs.c:1901 client/gui-sdl2/dialogs.c:2022
 #, c-format
 msgid " CtW: Att:%d%% Def:%d%%"
 msgstr " Chances de gagner : Att:%d%% Def:%d%%"
@@ -9590,80 +9590,80 @@ msgstr " Chances de gagner : Att:%d%% Def:%d%%"
 msgid "Terrain Defense Bonus: +%d%% "
 msgstr "Bonus de défense du terrain: +%d%% "
 
-#: client/gui-sdl/dialogs.c:1301 client/gui-sdl/dialogs.c:1684
-#: client/gui-sdl2/dialogs.c:1305 client/gui-sdl2/dialogs.c:1692
+#: client/gui-sdl/dialogs.c:1301 client/gui-sdl/dialogs.c:1685
+#: client/gui-sdl2/dialogs.c:1305 client/gui-sdl2/dialogs.c:1693
 msgid "Terrain Info"
 msgstr "Info. terrain"
 
-#: client/gui-sdl/dialogs.c:1657 client/gui-sdl2/dialogs.c:1665
+#: client/gui-sdl/dialogs.c:1658 client/gui-sdl2/dialogs.c:1666
 msgid "Advanced Menu"
 msgstr "Menu avancé"
 
-#: client/gui-sdl/dialogs.c:1712 client/gui-sdl2/dialogs.c:1719
+#: client/gui-sdl/dialogs.c:1713 client/gui-sdl2/dialogs.c:1720
 #, c-format
 msgid "Zoom to : %s"
 msgstr "Zoom à : %s"
 
-#: client/gui-sdl/dialogs.c:1726 client/gui-sdl2/dialogs.c:1733
+#: client/gui-sdl/dialogs.c:1727 client/gui-sdl2/dialogs.c:1734
 #: data/Freeciv.in:2098
 msgid "Change Production"
 msgstr "Changer la production"
 
-#: client/gui-sdl/dialogs.c:1750 client/gui-sdl2/dialogs.c:1757
+#: client/gui-sdl/dialogs.c:1751 client/gui-sdl2/dialogs.c:1758
 msgid "Change City Governor settings"
 msgstr "Modifier le paramétrage du Gouverneur"
 
-#: client/gui-sdl/dialogs.c:1772 client/gui-sdl2/dialogs.c:1778
+#: client/gui-sdl/dialogs.c:1773 client/gui-sdl2/dialogs.c:1779
 msgid "Goto here"
 msgstr "Aller ici"
 
-#: client/gui-sdl/dialogs.c:1783 client/gui-sdl2/dialogs.c:1789
+#: client/gui-sdl/dialogs.c:1784 client/gui-sdl2/dialogs.c:1790
 msgid "Patrol here"
 msgstr "Patrouiller ici"
 
-#: client/gui-sdl/dialogs.c:1796 client/gui-sdl2/dialogs.c:1802
+#: client/gui-sdl/dialogs.c:1797 client/gui-sdl2/dialogs.c:1803
 msgid "Connect here"
 msgstr "Se connecter ici"
 
-#: client/gui-sdl/dialogs.c:1816 client/gui-sdl2/dialogs.c:1821
+#: client/gui-sdl/dialogs.c:1817 client/gui-sdl2/dialogs.c:1822
 msgid "Paradrop here"
 msgstr "Parachuter ici"
 
-#: client/gui-sdl/dialogs.c:1866 client/gui-sdl/dialogs.c:1985
-#: client/gui-sdl2/dialogs.c:1869 client/gui-sdl2/dialogs.c:1981
+#: client/gui-sdl/dialogs.c:1867 client/gui-sdl/dialogs.c:1986
+#: client/gui-sdl2/dialogs.c:1870 client/gui-sdl2/dialogs.c:1982
 #, c-format
 msgid "Activate %s (%d / %d) %s (%d,%d,%s) %s"
 msgstr "Activer %s (%d / %d) %s (%d,%d,%s) %s"
 
-#: client/gui-sdl/dialogs.c:1884 client/gui-sdl/dialogs.c:2012
-#: client/gui-sdl2/dialogs.c:1887 client/gui-sdl2/dialogs.c:2008
+#: client/gui-sdl/dialogs.c:1885 client/gui-sdl/dialogs.c:2013
+#: client/gui-sdl2/dialogs.c:1888 client/gui-sdl2/dialogs.c:2009
 #, c-format
 msgid "%s %s %s (A:%d D:%d M:%s FP:%d) HP:%d%%"
 msgstr "%s %s %s (A:%d D:%d M:%s PF:%d) PV:%d%%"
 
-#: client/gui-sdl/dialogs.c:1946 client/gui-sdl2/dialogs.c:1945
+#: client/gui-sdl/dialogs.c:1947 client/gui-sdl2/dialogs.c:1946
 #: data/Freeciv.in:579
 msgid "Ready all"
 msgstr "Préparer tous"
 
-#: client/gui-sdl/dialogs.c:1955 client/gui-sdl2/dialogs.c:1954
+#: client/gui-sdl/dialogs.c:1956 client/gui-sdl2/dialogs.c:1955
 msgid "Sentry idle"
 msgstr "Inactives en sentinelles"
 
-#: client/gui-sdl/dialogs.c:2044 client/gui-sdl2/dialogs.c:2039
+#: client/gui-sdl/dialogs.c:2045 client/gui-sdl2/dialogs.c:2040
 #, c-format
 msgid "Look up \"%s\" in the Help Browser"
 msgstr "Rechercher \"%s\" dans le Navigateur d'Aide"
 
-#: client/gui-sdl/dialogs.c:2396 client/gui-sdl2/dialogs.c:2385
+#: client/gui-sdl/dialogs.c:2397 client/gui-sdl2/dialogs.c:2386
 msgid "Choose Your New Government"
 msgstr "Choisissez votre nouveau gouvernement"
 
-#: client/gui-sdl/dialogs.c:3051 client/gui-sdl2/dialogs.c:3034
+#: client/gui-sdl/dialogs.c:3052 client/gui-sdl2/dialogs.c:3035
 msgid "What nation will you be?"
 msgstr "Quelle nation voulez-vous être ?"
 
-#: client/gui-sdl/dialogs.c:3142 client/gui-sdl2/dialogs.c:3126
+#: client/gui-sdl/dialogs.c:3143 client/gui-sdl2/dialogs.c:3127
 msgid "Nation set"
 msgstr "Ensemble de nations"
 
@@ -48977,67 +48977,67 @@ msgid "%s (needs %0.0f%% in favor)."
 msgstr "%s (besoin : %0.0f%% en faveur)."
 
 #. TRANS: "or"-separated string list with one single item.
-#: utility/astring.c:296
+#: utility/astring.c:330
 #, c-format
 msgid "?or-list-single:%s"
 msgstr "%s"
 
 #. TRANS: "or"-separated string list with 2 items.
-#: utility/astring.c:299
+#: utility/astring.c:333
 #, c-format
 msgid "?or-list:%s or %s"
 msgstr "%s ou %s"
 
 #. TRANS: start of an "or"-separated string list with more than two
 #. * items.
-#: utility/astring.c:305
+#: utility/astring.c:339
 #, c-format
 msgid "?or-list:%s"
 msgstr "%s"
 
 #. TRANS: next elements of an "or"-separated string list with more
 #. * than two items.
-#: utility/astring.c:309
+#: utility/astring.c:343
 #, c-format
 msgid "?or-list:, %s"
 msgstr ", %s"
 
 #. TRANS: end of an "or"-separated string list with more than two
 #. * items.
-#: utility/astring.c:313
+#: utility/astring.c:347
 #, c-format
 msgid "?or-list:, or %s"
 msgstr " ou %s"
 
 #. TRANS: "and"-separated string list with one single item.
-#: utility/astring.c:334
+#: utility/astring.c:368
 #, c-format
 msgid "?and-list-single:%s"
 msgstr "%s"
 
 #. TRANS: "and"-separated string list with 2 items.
-#: utility/astring.c:337
+#: utility/astring.c:371
 #, c-format
 msgid "?and-list:%s and %s"
 msgstr "%s et %s"
 
 #. TRANS: start of an "and"-separated string list with more than two
 #. * items.
-#: utility/astring.c:343
+#: utility/astring.c:377
 #, c-format
 msgid "?and-list:%s"
 msgstr "%s"
 
 #. TRANS: next elements of an "and"-separated string list with more
 #. * than two items.
-#: utility/astring.c:347
+#: utility/astring.c:381
 #, c-format
 msgid "?and-list:, %s"
 msgstr ", %s"
 
 #. TRANS: end of an "and"-separated string list with more than two
 #. * items.
-#: utility/astring.c:351
+#: utility/astring.c:385
 #, c-format
 msgid "?and-list:, and %s"
 msgstr " et %s"
@@ -49325,12 +49325,12 @@ msgid_plural "seconds"
 msgstr[0] "seconde"
 msgstr[1] "secondes"
 
-#: utility/support.c:502
+#: utility/support.c:504
 #, c-format
 msgid "error %ld (failed FormatMessage)"
 msgstr "erreur %ld (échec FormatMessage)"
 
-#: utility/support.c:515
+#: utility/support.c:517
 #, c-format
 msgid "error %d (compiled without strerror)"
 msgstr "erreur %d (compilation sans strerror)"
