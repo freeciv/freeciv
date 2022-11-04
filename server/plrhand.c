@@ -1792,11 +1792,11 @@ void server_remove_player(struct player *pplayer)
 }
 
 /**************************************************************************
-  The following limits a player's rates to those that are acceptable for the
-  present form of government.  If a rate exceeds maxrate for this government,
-  it adjusts rates automatically adding the extra to the 2nd highest rate,
+  The following limits a player's rates to those that are presently
+  acceptable. If a rate exceeds current maxrate, it adjusts rates
+  automatically adding the extra to the 2nd highest rate,
   preferring science to taxes and taxes to luxuries.
-  (It assumes that for any government maxrate>=50)
+  (It assumes that for maxrate * 3 >= 100 in any situation)
 
   Returns actual max rate used. This function should be called after team
   information are defined.
