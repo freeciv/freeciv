@@ -3196,7 +3196,7 @@ bool save_ruleset(const char *path, const char *name, struct rule_data *data)
 
     return success;
   } else {
-    log_error("Failed to create directory %s", path);
+    log_error(_("Failed to create directory %s"), path);
     return FALSE;
   }
 
