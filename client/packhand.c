@@ -985,20 +985,6 @@ void handle_city_info(const struct packet_city_info *packet)
 }
 
 /************************************************************************//**
-  This is a packet that only the web-client needs. The regular client has no
-  use for it.
-  TODO: Do not generate code calling this in the C-client.
-****************************************************************************/
-void handle_web_city_info_addition(int id, bool cma_enabled,
-                                   const struct cm_parameter *cm_parameter,
-                                   int granary_size,
-                                   int granary_turns,
-                                   bv_utypes can_build_unit,
-                                   bv_imprs can_build_improvement)
-{
-}
-
-/************************************************************************//**
   A helper function for handling city-info and city-short-info packets.
   Naturally, both require many of the same operations to be done on the
   data.
@@ -2621,15 +2607,6 @@ void handle_player_info(const struct packet_player_info *pinfo)
 }
 
 /************************************************************************//**
-  This is a packet that only the web-client needs. The regular client has no
-  use for it.
-  TODO: Do not generate code calling this in the C-client.
-****************************************************************************/
-void handle_web_player_info_addition(int playerno, int expected_income)
-{
-}
-
-/************************************************************************//**
   Receive a research info packet.
 ****************************************************************************/
 void handle_research_info(const struct packet_research_info *packet)
@@ -3626,15 +3603,6 @@ void handle_ruleset_unit(const struct packet_ruleset_unit *p)
   u->adv.worker = p->worker;
 
   tileset_setup_unit_type(tileset, u);
-}
-
-/************************************************************************//**
-  This is a packet that only the web-client needs. The regular client has no
-  use for it.
-  TODO: Do not generate code calling this in the C-client.
-****************************************************************************/
-void handle_web_ruleset_unit_addition(int id, bv_actions utype_actions)
-{
 }
 
 /************************************************************************//**
