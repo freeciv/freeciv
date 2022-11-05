@@ -11,6 +11,15 @@ PATCH_VERSION="92"
 EMERGENCY_VERSION="2"
 VERSION_LABEL="-dev"
 
+# Type is either "development" or "stable"
+# Date is relevant only for "stable" releases
+if test "$VERSION_LABEL" = "" ; then
+  RELEASE_TYPE="stable"
+  #RELEASE_DATE="2022-11-05"
+else
+  RELEASE_TYPE="development"
+fi
+
 #
 # At the time being these same updates need to be made to the meson.build,
 # it does not get them automatically from here.

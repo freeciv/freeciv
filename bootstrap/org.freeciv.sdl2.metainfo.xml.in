@@ -28,6 +28,8 @@
     <url type="contribute">https://www.freeciv.org/wiki/How_to_Contribute</url>
     -->
 
+    [release]
+
     <screenshots>
       <screenshot type="default">
         <image>https://images1.wikia.nocookie.net/__cb20120308234702/freeciv/images/thumb/4/43/Hex2.3.png/1000px-Hex2.3.png</image>
