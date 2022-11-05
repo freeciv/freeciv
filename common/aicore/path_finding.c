@@ -204,7 +204,9 @@ static void pf_position_fill_start_tile(struct pf_position *pos,
 
 /* Node definition. Note we try to have the smallest data as possible. */
 struct pf_normal_node {
-  signed short cost;    /* total_MC. 'cost' may be negative, see comment in
+  /* Note that 'short' here would be followed with padding anyway,
+   * for alignment reasons, */
+  signed int cost;      /* total_MC. 'cost' may be negative, see comment in
                          * pf_turns(). */
   unsigned extra_cost;  /* total_EC. Can be huge, (higher than 'cost'). */
   unsigned dir_to_here : 4; /* Direction from which we came. It's
@@ -940,7 +942,9 @@ static struct pf_map *pf_normal_map_new(const struct pf_parameter *parameter)
 
 /* Node definition. Note we try to have the smallest data as possible. */
 struct pf_danger_node {
-  signed short cost;    /* total_MC. 'cost' may be negative, see comment in
+  /* Note that 'short' here would be followed with padding anyway,
+   * for alignment reasons, */
+  signed int cost;      /* total_MC. 'cost' may be negative, see comment in
                          * pf_turns(). */
   unsigned extra_cost;  /* total_EC. Can be huge, (higher than 'cost'). */
   unsigned dir_to_here : 4; /* Direction from which we came. It's
@@ -1942,7 +1946,9 @@ struct pf_fuel_pos;
 
 /* Node definition. Note we try to have the smallest data as possible. */
 struct pf_fuel_node {
-  signed short cost;    /* total_MC. 'cost' may be negative, see comment in
+  /* Note that 'short' here would be followed with padding anyway,
+   * for alignment reasons, */
+  signed int cost;      /* total_MC. 'cost' may be negative, see comment in
                          * pf_turns(). */
   unsigned extra_cost;  /* total_EC. Can be huge, (higher than 'cost'). */
   unsigned moves_left : 12; /* Moves left at this position. */
