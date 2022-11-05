@@ -42,6 +42,7 @@ static struct {
   char *effects;
   char *disasters;
   char *achievements;
+  char *trade_settings;
   char *goods;
   char *enablers;
   char *specialists;
@@ -110,6 +111,8 @@ bool comments_load(void)
                comment_file, "typedoc.disasters");
   comment_load(comments_storage.achievements,
                comment_file, "typedoc.achievements");
+  comment_load(comments_storage.trade_settings,
+               comment_file, "typedoc.trade_settings");
   comment_load(comments_storage.goods, comment_file, "typedoc.goods");
   comment_load(comments_storage.enablers, comment_file, "typedoc.enablers");
   comment_load(comments_storage.specialists,
@@ -301,6 +304,14 @@ void comment_disasters(struct section_file *sfile)
 void comment_achievements(struct section_file *sfile)
 {
   comment_write(sfile, comments_storage.achievements, "Achievements");
+}
+
+/**************************************************************************
+  Write trade settings header.
+**************************************************************************/
+void comment_trade_settings(struct section_file *sfile)
+{
+  comment_write(sfile, comments_storage.trade_settings, "Trade settings");
 }
 
 /**************************************************************************
