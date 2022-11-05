@@ -99,7 +99,7 @@ QLineEdit {
   background-color: #e7ddba;
   border: 1px solid #c3b48e;
   border-radius: 2px;
-  color: black;5;
+  color: black;
 }
 
 QTabWidget {
@@ -568,10 +568,6 @@ QTreeWidget::item:selected {
 QFontListView {
   color: black;
   background-color: #e7ddba;
-}
-
-fc_game_tab_widget {
-   background-image:url(LittleFingerpattern-game.jpg);
 }
 
 info_tab {
