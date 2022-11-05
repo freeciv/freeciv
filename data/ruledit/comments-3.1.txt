@@ -1049,6 +1049,30 @@ achievements = "\
 ; */ <-- avoid gettext warnings\n\
 "
 
+trade_settings = "\
+\n\
+;\n\
+; Trade settings\n\
+;\n\
+; IN = international, IC = intercontinental.\n\
+; For each of the trade route types:\n\
+; \"pct\"        - Trade income %. If this is 0, trade route cannot be\n\
+;                established at all\n\
+; \"cancelling\" - What to do to previously established traderoutes when they\n\
+;                turn illegal\n\
+;                \"Active\"   - Keep them active (although they will only\n\
+;                             provide nonzero income if illegal due to\n\
+;                             trademindist rather than pct==0)\n\
+;                \"Inactive\" - Keep them inactive\n\
+;                \"Cancel\"   - Cancel them altogether\n\
+; \"bonus\"      - One-time bonuses granted when traderoute established\n\
+;                \"None\"     - No one-time bonus\n\
+;                \"Gold\"     - Bonus to gold\n\
+;                \"Science\"  - Bonus to research\n\
+;                \"Both\"     - Bonus to gold and research\n\
+;\
+"
+
 goods = "\
 \n\
 ; /* <-- avoid gettext warnings\n\

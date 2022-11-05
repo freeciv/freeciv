@@ -1528,6 +1528,8 @@ static bool save_game_ruleset(const char *filename, const char *name)
 
   } achievements_iterate_end;
 
+  comment_trade_settings(sfile);
+
   set_count = 0;
   for (trt = 0; trt < TRT_LAST; trt++) {
     struct trade_route_settings *set = trade_route_settings_by_type(trt);

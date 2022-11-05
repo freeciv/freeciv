@@ -53,6 +53,7 @@ void comment_nations(struct section_file *sfile);
 void comment_clauses(struct section_file *sfile);
 
 /* Other section comments */
+void comment_trade_settings(struct section_file *sfile);
 void comment_nations_ruledit(struct section_file *sfile);
 
 #ifdef __cplusplus
