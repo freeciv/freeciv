@@ -2810,7 +2810,7 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
         if (game.info.nuke_defender_survival_chance_pct > 0) {
           cat_snprintf(buf, bufsz,
                        _("  %s all units caught in the open by the nuclear"
-                         " blast dies.\n"), BULLET);
+                         " blast die.\n"), BULLET);
           cat_snprintf(buf, bufsz,
                        /* TRANS: percentage */
                        _("  %s a unit caught in the nuclear blast while"
@@ -2820,7 +2820,7 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
         } else {
           cat_snprintf(buf, bufsz,
                        _("  %s all units caught in the nuclear blast"
-                         " dies.\n"), BULLET);
+                         " die.\n"), BULLET);
         }
         {
           struct universal req_pattern[] = {
