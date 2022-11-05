@@ -570,10 +570,6 @@ QFontListView {
   background-color: #e7ddba;
 }
 
-fc_game_tab_widget {
-   background-image:url(LittleFingerpattern-game.jpg);
-}
-
 info_tab {
   background-color: rgba(30,20,10,175);
   border: 1px solid #685f47;
