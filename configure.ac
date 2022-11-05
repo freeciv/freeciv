@@ -1380,6 +1380,13 @@ AM_CONDITIONAL([RULEDIT], [test "x$ruledit" = "xyes"])
 AM_CONDITIONAL([SRV_LIB],
   [test "x$server" = "xyes" || test "x$fcmanual" = "xyes" || test "x$ruledit" = "xyes" || test "x$fcruleup" = "xyes"])
 
+AC_SUBST([RELEASE_TYPE])
+
+if test "$RELEASE_TYPE" = "stable" ; then
+  AC_SUBST([RELEASE_DATE])
+  :
+fi
+
 AC_SUBST([gui_gtk3_cflags])
 AC_SUBST([gui_gtk3_libs])
 AC_SUBST([gui_gtk3_ldflags])
