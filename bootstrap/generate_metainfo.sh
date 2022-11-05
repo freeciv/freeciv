@@ -13,8 +13,9 @@
 #
 #***********************************************************************/
 
-if test "$1" = "-h" || test "$1" = "--help" || test "$1" = "" || test "$2" = "" ; then
-  echo "Usage: $(basename $0) <target file> <build root directory>"
+if test "$1" = "-h" || test "$1" = "--help" || test "$1" = "" || test "$2" = "" ||
+   test "$3" = "" ; then
+  echo "Usage: $(basename $0) <target file> <build root directory> <stable/development> [date]"
   exit
 fi
 
@@ -22,4 +23,18 @@ export BDIR="$(cd ${2} | exit 1 ; pwd)"
 
 cd "$(dirname $0)"
 
-cp "${1}.in" "${BDIR}/${1}"
+FCVER="$(../fc_version)"
+
+if test "$3" != "stable" && test "$3" != "development" ; then
+  echo "Unknown release type \"$3\"" >&2
+  exit 1
+fi
+RELTYPE="$3"
+
+if test "$4" != "" ; then
+  RELEASETAG="<release version=\"${FCVER}\" type=\"${RELTYPE}\" date=\"$4\" />"
+else
+  RELEASETAG="<release version=\"${FCVER}\" type=\"${RELTYPE}\" />"
+fi
+
+sed -e "s,\[release\],${RELEASETAG}," "${1}.in" > "${BDIR}/${1}"

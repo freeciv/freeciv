@@ -101,8 +101,8 @@ langstat_nations.txt:
 langstat_ruledit.txt:
 	"$(top_srcdir)/bootstrap/generate_langstat.sh" ruledit "$(top_srcdir)" "$(top_builddir)"
 
-$(metainfofile_DATA) : %.appdata.xml: %.appdata.xml.in generate_metainfo.sh
-	"$(top_srcdir)/bootstrap/generate_metainfo.sh" "$@" "$(top_builddir)/bootstrap"
+$(metainfofile_DATA) : %.appdata.xml: %.appdata.xml.in generate_metainfo.sh $(top_srcdir)/fc_version
+	"$(top_srcdir)/bootstrap/generate_metainfo.sh" "$@" "$(top_builddir)/bootstrap" "@RELEASE_TYPE@" @RELEASE_DATE@
 
 metainfo_stamp: $(metainfofile_DATA)
 
