@@ -56,7 +56,7 @@ all-win64: gtk3.22-installer sdl2-installer gtk4-installer
 
 all-win32: gtk3.22-installer sdl2-installer gtk4-installer
 
-all-ucrt64: gtk3.22-installer sdl2-installer gtk4-installer
+all-win64-10: gtk3.22-installer sdl2-installer gtk4-installer
 
 all-win64+: gtk3.22-install sdl2-install gtk4-install
 
