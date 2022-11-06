@@ -27,6 +27,7 @@ bool is_government_needed(struct government *pgov, requirers_cb cb, void *data);
 bool is_extra_needed(struct extra_type *pextra, requirers_cb cb, void *data);
 bool is_multiplier_needed(struct multiplier *pmul, requirers_cb cb, void *data);
 bool is_terrain_needed(struct terrain *pterr, requirers_cb cb, void *data);
+bool is_counter_needed(struct counter *pcount, requirers_cb cb, void *data);
 
 #ifdef __cplusplus
 }

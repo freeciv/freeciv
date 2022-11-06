@@ -174,6 +174,16 @@ static bool is_universal_needed(struct universal *uni, requirers_cb cb,
 }
 
 /**********************************************************************//**
+  Check if anything in ruleset needs counter
+**************************************************************************/
+bool is_counter_needed(struct counter *pcount, requirers_cb cb, void *data)
+{
+  struct universal uni = { .value.counter = pcount, .kind = VUT_COUNTER };
+
+  return is_universal_needed(&uni, cb, data);
+}
+
+/**********************************************************************//**
   Check if anything in ruleset needs tech
 **************************************************************************/
 bool is_tech_needed(struct advance *padv, requirers_cb cb, void *data)
