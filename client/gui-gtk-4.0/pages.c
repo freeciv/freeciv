@@ -93,6 +93,8 @@ static guint statusbar_timer = 0;
 
 static GtkWidget *ruleset_combo;
 
+static GtkWidget *conn_popover = NULL;
+
 static bool holding_srv_list_mutex = FALSE;
 
 static void connection_state_reset(void);
@@ -1542,7 +1544,6 @@ static void client_take_player(struct player *pplayer)
                                            client_aitoggle_player, data);
 }
 
-#ifdef MENUS_GTK3
 /**********************************************************************//**
   Connect the object to the player and the connection.
 **************************************************************************/
@@ -1588,7 +1589,6 @@ static bool object_extract(GObject *object, struct player **ppplayer,
 
   return ret;
 }
-#endif /* MENUS_GTK3 */
 
 /**********************************************************************//**
   Request the game options dialog.
@@ -1775,6 +1775,7 @@ static void conn_menu_connection_command(GObject *object, gpointer data)
                      pconn->username);
   }
 }
+#endif /* MENUS_GTK3 */
 
 /**********************************************************************//**
   Show details about a user in the Connected Users dialog in a popup.
@@ -1810,14 +1811,19 @@ static void show_conn_popup(struct player *pplayer, struct connection *pconn)
 /**********************************************************************//**
   Callback for when the "info" entry is chosen from the conn menu.
 **************************************************************************/
-static void conn_menu_info_chosen(GObject *object, gpointer data)
+static void conn_menu_info_chosen(GSimpleAction *action, GVariant *parameter,
+                                  gpointer data)
 {
   struct player *pplayer;
   struct connection *pconn;
+  GMenu *menu = data;
 
-  if (object_extract(object, &pplayer, &pconn)) {
+  if (object_extract(G_OBJECT(menu), &pplayer, &pconn)) {
     show_conn_popup(pplayer, pconn);
   }
+
+  gtk_widget_unparent(conn_popover);
+  g_object_unref(conn_popover);
 }
 
 /**********************************************************************//**
@@ -1827,15 +1833,28 @@ static void conn_menu_info_chosen(GObject *object, gpointer data)
 static GtkWidget *create_conn_menu(struct player *pplayer,
                                    struct connection *pconn)
 {
-  GtkWidget *menu;
-  GtkWidget *item;
+  GMenu *menu;
   gchar *buf;
+  GSimpleAction *act;
+  GMenuItem *item;
+  GActionGroup *group;
 
-  menu = gtk_menu_button_new();
+  group = G_ACTION_GROUP(g_simple_action_group_new());
+
+  menu = g_menu_new();
+
   object_put(G_OBJECT(menu), pplayer, pconn);
 
   buf = g_strdup_printf(_("%s info"),
                         pconn ? pconn->username : player_name(pplayer));
+
+  act = g_simple_action_new("info", NULL);
+  g_action_map_add_action(G_ACTION_MAP(group), G_ACTION(act));
+  g_signal_connect(act, "activate", G_CALLBACK(conn_menu_info_chosen), menu);
+  item = g_menu_item_new(buf, "win.info");
+  g_menu_append_item(menu, item);
+
+#ifdef MENUS_GTK3
   item = gtk_menu_item_new_with_label(buf);
   g_free(buf);
   gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
@@ -1978,10 +1997,14 @@ static GtkWidget *create_conn_menu(struct player *pplayer,
   }
 
   gtk_widget_show(menu);
-
-  return menu;
-}
 #endif /* MENUS_GTK3 */
+
+  conn_popover = gtk_popover_menu_new_from_model(G_MENU_MODEL(menu));
+  g_object_ref(conn_popover);
+  gtk_widget_insert_action_group(conn_popover, "win", group);
+
+  return conn_popover;
+}
 
 /**********************************************************************//**
   Unselect a tree path.
@@ -2036,25 +2059,28 @@ static gboolean connect_list_right_button(GtkGestureClick *gesture,
                                           double x, double y, gpointer data)
 {
   GtkEventController *controller = GTK_EVENT_CONTROLLER(gesture);
-  GtkTreeView *tree = GTK_TREE_VIEW(gtk_event_controller_get_widget(controller));
+  GtkWidget *tree = gtk_event_controller_get_widget(controller);
+  GtkWidget *parent = data;
   GtkTreePath *path = NULL;
-#ifdef MENUS_GTK3
-  GtkTreeSelection *selection = gtk_tree_view_get_selection(tree);
-#endif
+  GtkWidget *menu;
+  GtkTreeSelection *selection;
+  GtkTreeModel *model;
+  GtkTreeIter iter;
+  int player_no, conn_id;
+  struct player *pplayer;
+  struct connection *pconn;
+  int bx, by;
+  GdkRectangle rect = { .x = x, .y = y, .width = 1, .height = 1};
 
-  if (!gtk_tree_view_get_path_at_pos(tree,
-                                     x, y,
+  gtk_tree_view_convert_widget_to_bin_window_coords(GTK_TREE_VIEW(tree), x, y, &bx, &by);
+
+  if (!gtk_tree_view_get_path_at_pos(GTK_TREE_VIEW(tree), bx, by,
                                      &path, NULL, NULL, NULL)) {
     return FALSE;
   }
 
-#ifdef MENUS_GTK3
-  GtkTreeModel *model = gtk_tree_view_get_model(tree);
-  GtkTreeIter iter;
-  GtkWidget *menu;
-  int player_no, conn_id;
-  struct player *pplayer;
-  struct connection *pconn;
+  selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(tree));
+  model = gtk_tree_view_get_model(GTK_TREE_VIEW(tree));
 
   if (!gtk_tree_selection_path_is_selected(selection, path)) {
     gtk_tree_selection_select_path(selection, path);
@@ -2068,8 +2094,10 @@ static gboolean connect_list_right_button(GtkGestureClick *gesture,
   pconn = conn_by_number(conn_id);
 
   menu = create_conn_menu(pplayer, pconn);
-  gtk_menu_popup_at_pointer(GTK_MENU(menu), NULL);
-#endif /* MENUS_GTK3 */
+  gtk_widget_set_parent(menu, parent); /* Gtk bug prevents tree view parenting */
+  gtk_popover_set_pointing_to(GTK_POPOVER(menu), &rect);
+
+  gtk_popover_popup(GTK_POPOVER(menu));
 
   gtk_tree_path_free(path);
 
@@ -2819,12 +2847,6 @@ GtkWidget *create_start_page(void)
   g_signal_connect(controller, "pressed",
                    G_CALLBACK(connect_list_left_button), NULL);
   gtk_widget_add_controller(view, controller);
-  gesture = gtk_gesture_click_new();
-  gtk_gesture_single_set_button(GTK_GESTURE_SINGLE(gesture), 3);
-  controller = GTK_EVENT_CONTROLLER(gesture);
-  g_signal_connect(controller, "pressed",
-                   G_CALLBACK(connect_list_right_button), NULL);
-  gtk_widget_add_controller(view, controller);
 
   g_signal_connect(view, "row-collapsed",
                    G_CALLBACK(connection_list_row_callback),
@@ -2840,6 +2862,16 @@ GtkWidget *create_start_page(void)
                                  GTK_POLICY_ALWAYS);
   gtk_scrolled_window_set_min_content_height(GTK_SCROLLED_WINDOW(sw), 200);
   gtk_scrolled_window_set_child(GTK_SCROLLED_WINDOW(sw), view);
+
+  /* This is for a workaround against gtk bug that we can't parent
+   * popup to the tree view - we have to parent it all the way to sw */
+  gesture = gtk_gesture_click_new();
+  gtk_gesture_single_set_button(GTK_GESTURE_SINGLE(gesture), 3);
+  controller = GTK_EVENT_CONTROLLER(gesture);
+  g_signal_connect(controller, "pressed",
+                   G_CALLBACK(connect_list_right_button), sw);
+  gtk_widget_add_controller(view, controller);
+
   gtk_grid_attach(GTK_GRID(sbox), sw, sbox_col++, 0, 1, 1);
 
   sw = gtk_scrolled_window_new();
