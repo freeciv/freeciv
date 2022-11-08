@@ -364,6 +364,7 @@ static void dai_choose_trade_route(struct ai_type *ait, struct city *pcity,
                                      .player = pplayer,
                                      .city = pcity,
                                      .tile = city_tile(pcity),
+                                     .unittype = unit_type,
                                      .action =
                                        action_by_number(trade_action),
                                    },

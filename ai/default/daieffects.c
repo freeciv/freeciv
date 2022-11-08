@@ -632,17 +632,41 @@ adv_want dai_effect_value(struct player *pplayer,
     } iterate_outward_end;
     break;
   case EFT_MAX_TRADE_ROUTES:
-    trait = ai_trait_get_value(TRAIT_TRADER, pplayer);
-    v += amount
-      * (pow(2.0,
-             (double) get_city_bonus(pcity, EFT_TRADE_REVENUE_BONUS) / 1000.0)
-         + c)
-      * trait
-      / TRAIT_DEFAULT_VALUE;
-    if (city_num_trade_routes(pcity) >= max_trade_routes(pcity)
-        && amount > 0) {
-      /* Has no free trade routes before this */
-      v += trait;
+    {
+      /* We may know no caravans yet, then consider primary one
+       * (Supposed that if this effect is defined then some unit
+       * can establish trade routes) */
+      int trr = action_id_get_role(ACTION_TRADE_ROUTE);
+      const struct unit_type *van = best_role_unit(pcity, trr);
+      int bonus;
+
+      if (NULL == van){
+        if (0 < num_role_units(trr)) {
+          van = get_role_unit(trr, 0);
+        }
+      }
+      /* NOTE: if you have "DiplRel" in reqs, becomes 0 */
+      bonus =
+        get_target_bonus_effects(NULL,
+                                 &(const struct req_context) {
+                                   .player = city_owner(pcity),
+                                   .city = pcity,
+                                   .tile = city_tile(pcity),
+                                   .unittype = van
+                                 }, NULL, EFT_TRADE_REVENUE_BONUS);
+
+      trait = ai_trait_get_value(TRAIT_TRADER, pplayer);
+      v += amount
+        * (pow(2.0,
+               (double) bonus / 1000.0)
+           + c)
+        * trait
+        / TRAIT_DEFAULT_VALUE;
+      if (city_num_trade_routes(pcity) >= max_trade_routes(pcity)
+          && amount > 0) {
+        /* Has no free trade routes before this */
+        v += trait;
+      }
     }
     break;
   case EFT_TRADEROUTE_PCT:

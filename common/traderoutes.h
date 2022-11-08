@@ -120,6 +120,7 @@ int trade_from_route(const struct city *pc1, const struct trade_route *route,
 int city_num_trade_routes(const struct city *pcity);
 int get_caravan_enter_city_trade_bonus(const struct city *pc1,
                                        const struct city *pc2,
+                                       const struct unit_type *ut,
                                        struct goods_type *pgood,
                                        const bool establish_trade);
 int city_trade_removable(const struct city *pcity,

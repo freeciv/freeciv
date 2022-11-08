@@ -1708,6 +1708,7 @@ const char *get_act_sel_action_custom_text(struct action *paction,
   if (action_has_result(paction, ACTRES_TRADE_ROUTE)) {
     int revenue = get_caravan_enter_city_trade_bonus(actor_homecity,
                                                      target_city,
+                                                     unit_type_get(actor_unit),
                                                      actor_unit->carrying,
                                                      TRUE);
 
@@ -1728,6 +1729,7 @@ const char *get_act_sel_action_custom_text(struct action *paction,
   } else if (action_has_result(paction, ACTRES_MARKETPLACE)) {
     int revenue = get_caravan_enter_city_trade_bonus(actor_homecity,
                                                      target_city,
+                                                     unit_type_get(actor_unit),
                                                      actor_unit->carrying,
                                                      FALSE);
 

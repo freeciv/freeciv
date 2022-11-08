@@ -465,6 +465,7 @@ static int max_trade_prod(const struct city *pcity)
 *************************************************************************/
 int get_caravan_enter_city_trade_bonus(const struct city *pc1, 
                                        const struct city *pc2,
+                                       const struct unit_type *ut,
                                        struct goods_type *pgood,
                                        const bool establish_trade)
 {
@@ -501,13 +502,14 @@ int get_caravan_enter_city_trade_bonus(const struct city *pc1,
 
   /* Trade_revenue_bonus increases revenue by power of 2 in milimes */
   bonus = get_target_bonus_effects(NULL,
-                                   /* TODO: Should unit requirements be
-                                    * allowed so stuff like moves left and
-                                    * unit type can modify the bonus? */
                                    &(const struct req_context) {
                                      .player = city_owner(pc1),
                                      .city = pc1,
                                      .tile = city_tile(pc1),
+                                   /* Putting .unit things like unit veterancy
+                                    * in the scope give little gameplay
+                                    * and overcomplicate the AI logic */
+                                     .unittype = ut,
                                    /* Could be used to reduce the one time
                                     * bonus if no trade route is
                                     * established. */

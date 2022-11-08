@@ -1153,6 +1153,7 @@ void real_menus_update(void)
           && (homecity = game_city_by_number(punit->homecity))
           && can_cities_trade(homecity, pcity)) {
         int revenue = get_caravan_enter_city_trade_bonus(homecity, pcity,
+                                                         unit_type_get(punit),
                                                          punit->carrying,
                                                          TRUE);
 
