@@ -428,7 +428,7 @@ static int max_tile_trade(const struct city *pcity)
 /*********************************************************************//**
   Returns the maximum trade production of a city.
 **************************************************************************/
-static int max_trade_prod(const struct city *pcity)
+int max_trade_prod(const struct city *pcity)
 {
   /* Trade tile base */
   int trade_prod = max_tile_trade(pcity);

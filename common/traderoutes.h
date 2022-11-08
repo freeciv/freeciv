@@ -116,6 +116,7 @@ int trade_base_between_cities(const struct city *pc1, const struct city *pc2);
 int trade_from_route(const struct city *pc1, const struct trade_route *route,
 		     int base);
 int city_num_trade_routes(const struct city *pcity);
+int max_trade_prod(const struct city *pcity);
 int get_caravan_enter_city_trade_bonus(const struct city *pc1,
                                        const struct city *pc2,
                                        struct goods_type *pgood,

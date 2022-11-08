@@ -353,7 +353,16 @@ static void dai_choose_trade_route(struct ai_type *ait, struct city *pcity,
 
   /* We assume that we are creating trade route to city with 75% of
    * pcitys trade 10 squares away. */
-  income = (10 + 10) * (1.75 * pcity->surplus[O_TRADE]) / 24;
+  if (CBS_LOGARITHMIC == game.info.caravan_bonus_style) {
+    int wd = ((100 - game.info.trade_world_rel_pct) * 10
+               + game.info.trade_world_rel_pct
+                 * (10 * 40 / MAX(wld.map.xsize, wld.map.ysize))) / 100;
+
+    /* not bothering calculating maximal trade output, just 1.75 -> 2 */
+    income = pow(log(wd + 20 + 2 * pcity->surplus[O_TRADE]) * 2, 2);
+  } else {
+    income = (10 + 10) * (1.75 * pcity->surplus[O_TRADE]) / 24;
+  }
 
   /* A ruleset may use the Trade_Revenue_Bonus effect to reduce the one
    * time bonus if no trade route is established. Make sure it gets the
