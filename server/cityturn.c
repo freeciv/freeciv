@@ -1113,8 +1113,8 @@ static bool worklist_item_postpone_req_vec(struct universal *target,
   signal_name = "building_cant_be_built";
 
   requirement_vector_iterate(build_reqs, preq) {
-    if (!is_req_active(pplayer, NULL, pcity, NULL, NULL, NULL, NULL,
-                       NULL, NULL, NULL, preq, RPT_POSSIBLE)) {
+    if (!is_req_active(pplayer, NULL, pcity, NULL, city_tile(pcity), NULL,
+                       NULL, NULL, NULL, NULL, preq, RPT_POSSIBLE)) {
       known = TRUE;
       switch (preq->source.kind) {
       case VUT_ADVANCE:
