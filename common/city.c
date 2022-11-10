@@ -856,8 +856,7 @@ bool can_city_build_improvement_later(const struct city *pcity,
   /* Check for requirements that aren't met and that are unchanging (so
    * they can never be met). */
   requirement_vector_iterate(&pimprove->reqs, preq) {
-    if (is_req_unchanging(preq)
-        && !is_req_active(city_owner(pcity), NULL, pcity, NULL,
+    if (is_req_preventing(city_owner(pcity), NULL, pcity, NULL,
                           pcity->tile, NULL, NULL, NULL, NULL, NULL,
                           preq, RPT_POSSIBLE)) {
       return FALSE;

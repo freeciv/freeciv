@@ -312,8 +312,7 @@ static bool reqs_may_activate(const struct player *target_player,
                               const enum   req_problem_type prob_type)
 {
   requirement_vector_iterate(reqs, preq) {
-    if (is_req_unchanging(preq)
-        && !is_req_active(target_player, other_player, target_city,
+    if (is_req_preventing(target_player, other_player, target_city,
                           target_building, target_tile,
                           target_unit, target_unittype,
                           target_output, target_specialist, target_action,

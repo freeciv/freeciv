@@ -3166,47 +3166,97 @@ bool are_reqs_active(const struct player *target_player,
   requirement probably can't be met.  In some cases (particularly terrains)
   it may be wrong.
 *****************************************************************************/
-bool is_req_unchanging(const struct requirement *req)
+enum req_unchanging_status is_req_unchanging(const struct requirement *req)
 {
+  if (req->survives) {
+    /* Buildings may obsolete even here */
+    if (VUT_IMPROVEMENT == req->source.kind) {
+      const struct impr_type *b = req->source.value.building;
+
+      /* All we can do without looking at the context or recursing
+       * in-depth is testing if the improvement is already
+       * globally obsolete. If so, we suggest that it won't
+       * unobsolete. If not, we suggest it can be built or obsolete. */
+      if (can_improvement_go_obsolete(b)) {
+        if (improvement_obsolete(NULL, b, NULL)) {
+          return REQUCH_ALWAYS;
+        } else {
+          return REQUCH_NO;
+        }
+      }
+    }
+
+    /* Teammate may be killed but we think about *our* actions */
+    /* Player's own surviving effects won't change with alliances
+     * but let's not overcomplicate things */
+    return (req->range == REQ_RANGE_ALLIANCE ? REQUCH_NO : REQUCH_PRESENT);
+  }
   switch (req->source.kind) {
+  /* Ruleset persistent object, game constant, server setting... */
   case VUT_NONE:
+  case VUT_UTYPE:
+  case VUT_UTFLAG:
+  case VUT_UCLASS:
+  case VUT_UCFLAG:
   case VUT_ACTION:
   case VUT_OTYPE:
-  case VUT_SPECIALIST:	/* Only so long as it's at local range only */
+  case VUT_SPECIALIST:
   case VUT_AI_LEVEL:
-  case VUT_CITYTILE:
   case VUT_STYLE:
   case VUT_TOPO:
   case VUT_SERVERSETTING:
-    return TRUE;
+  case VUT_IMPR_GENUS:
+  case VUT_CITYTILE: /* As long as we query for city center */
+    return REQUCH_ALWAYS;
+  /* Special cases */
   case VUT_NATION:
   case VUT_NATIONGROUP:
-    return (req->range != REQ_RANGE_ALLIANCE);
+    /* Teammate may be killed but we think about *our* actions */
+    return (req->range == REQ_RANGE_ALLIANCE ? REQUCH_NO : REQUCH_ALWAYS);
+  case VUT_IMPROVEMENT:
+    {
+      const struct impr_type *b = req->source.value.building;
+
+      if (REQ_RANGE_LOCAL == req->range) {
+        /* Persistent */
+        return REQUCH_ALWAYS;
+      }
+      /* We suggest we'll never see a globally obsolete building again */
+      if (improvement_obsolete(NULL, b, NULL)) {
+        return REQUCH_ALWAYS;
+      }
+      if (is_great_wonder(b)){
+        if (great_wonder_is_destroyed(b)
+            || (!great_wonder_is_available(b)
+                && req->range <= REQ_RANGE_CITY)) {
+          /* The wonder either is not here and never will be
+           * or is here and won't go away from the city */
+          return REQUCH_ALWAYS;
+        }
+      }
+      return REQUCH_NO;
+    }
+  case VUT_MINTECHS:
+    if (REQ_RANGE_WORLD == req->range) {
+      return REQUCH_PRESENT;
+    }
+    fc__fallthrough;
   case VUT_ADVANCE:
   case VUT_TECHFLAG:
+    /* Hardly we are going to unlearn a tech but left changing */
+  /* Easily changing ones */
   case VUT_GOVERNMENT:
-  case VUT_ACHIEVEMENT:
-  case VUT_IMPROVEMENT:
-  case VUT_IMPR_GENUS:
   case VUT_MINSIZE:
   case VUT_MINCULTURE:
-  case VUT_MINTECHS:
   case VUT_NATIONALITY:
   case VUT_DIPLREL:
   case VUT_MAXTILEUNITS:
-  case VUT_UTYPE:	/* Not sure about this one */
-  case VUT_UTFLAG:	/* Not sure about this one */
-  case VUT_UCLASS:	/* Not sure about this one */
-  case VUT_UCFLAG:	/* Not sure about this one */
-  case VUT_MINVETERAN:
   case VUT_UNITSTATE:
   case VUT_MINMOVES:
   case VUT_MINHP:
-  case VUT_AGE:
   case VUT_ROADFLAG:
   case VUT_EXTRAFLAG:
   case VUT_MINCALFRAG:  /* cyclically available */
-    return FALSE;
   case VUT_TERRAIN:
   case VUT_EXTRA:
   case VUT_GOOD:
@@ -3214,19 +3264,46 @@ bool is_req_unchanging(const struct requirement *req)
   case VUT_TERRFLAG:
   case VUT_TERRAINALTER:
   case VUT_BASEFLAG:
-    /* Terrains, specials and bases aren't really unchanging; in fact they're
-     * practically guaranteed to change.  We return TRUE here for historical
-     * reasons and so that the AI doesn't get confused (since the AI
-     * doesn't know how to meet special and terrain requirements). */
-    return TRUE;
+    return REQUCH_NO;
+  case VUT_MINVETERAN:
+  case VUT_AGE:
+  case VUT_ACHIEVEMENT:
   case VUT_MINYEAR:
-    /* Once year is reached, it does not change again */
-    return req->source.value.minyear > game.info.year32;
+    return REQUCH_PRESENT;
   case VUT_COUNT:
     break;
   }
   fc_assert_msg(FALSE, "Invalid source kind %d.", req->source.kind);
-  return TRUE;
+  return REQUCH_ALWAYS;
+}
+
+/****************************************************************************
+  Returns whether this requirement is unfulfilled and probably won't be ever
+****************************************************************************/
+bool is_req_preventing(const struct player *target_player,
+                       const struct player *other_player,
+                       const struct city *target_city,
+                       const struct impr_type *target_building,
+                       const struct tile *target_tile,
+                       const struct unit *target_unit,
+                       const struct unit_type *target_unittype,
+                       const struct output_type *target_output,
+                       const struct specialist *target_specialist,
+                       const struct action *target_action,
+                       const struct requirement *req,
+                       enum req_problem_type prob_type)
+{
+  enum req_unchanging_status uc = is_req_unchanging(req);
+
+  if ((uc == REQUCH_PRESENT ? !req->present : uc != REQUCH_NO)
+      && !is_req_active(target_player, other_player, target_city,
+                        target_building, target_tile,
+                        target_unit, target_unittype,
+                        target_output, target_specialist,
+                        target_action, req, prob_type)) {
+    return TRUE;
+  }
+  return FALSE;
 }
 
 /*************************************************************************

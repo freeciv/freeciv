@@ -1828,6 +1828,91 @@ static bool should_force_recalc(struct city *pcity)
        && !can_city_build_improvement_later(pcity, pcity->production.value.building));
 }
 
+/**********************************************************************//**
+  Default AI does not know ways of ever fulfilling this requirement
+  and should not think about it
+**************************************************************************/
+static bool dai_cant_help_req(const struct player *target_player,
+                              const struct city *target_city,
+                              const struct tile *target_tile,
+                              const struct requirement *req)
+{
+  switch (req->source.kind) {
+  /* Unskilled in channel digging and merchantry */
+  case VUT_TERRAIN:
+  case VUT_EXTRA:
+  case VUT_GOOD:
+  case VUT_TERRAINCLASS:
+  case VUT_TERRFLAG:
+  case VUT_TERRAINALTER:
+    return !is_req_active(target_player, NULL, target_city,
+                          NULL, target_tile, NULL, NULL,
+                          NULL, NULL, NULL, req, RPT_POSSIBLE);
+  default:
+    return is_req_preventing(target_player, NULL, target_city,
+                             NULL, target_tile, NULL, NULL,
+                             NULL, NULL, NULL, req, RPT_POSSIBLE);
+  }
+}
+
+/**********************************************************************//**
+  Whether AI expects to be ever able to build given building in the city
+**************************************************************************/
+bool dai_can_city_build_improvement_later(const struct city *pcity,
+                                          const struct impr_type *pimprove)
+{
+  const struct player *pplayer = city_owner(pcity);
+  const struct tile *ptile = city_tile(pcity);
+
+  /* FIXME: AI may be too stupid to sell obsoleting improvements
+   * from the city that are _not_ checked here. */
+  if (!dai_can_player_build_improvement_later(pplayer, pimprove)) {
+    return FALSE;
+  }
+
+  /* Check for requirements that aren't met and that are unchanging (so
+  * they can never be met). */
+  requirement_vector_iterate(&pimprove->reqs, preq) {
+    if (dai_cant_help_req(pplayer, pcity, ptile, preq)) {
+      return FALSE;
+    }
+  } requirement_vector_iterate_end;
+
+  return TRUE;
+}
+
+/**********************************************************************//**
+  Whether AI expects to be ever able to build given building
+**************************************************************************/
+bool
+dai_can_player_build_improvement_later(const struct player *p,
+                                       const struct impr_type *pimprove)
+{
+  if (!valid_improvement(pimprove)) {
+    return FALSE;
+  }
+  if (improvement_obsolete(p, pimprove, NULL)) {
+    return FALSE;
+  }
+  if (is_great_wonder(pimprove) && !great_wonder_is_available(pimprove)) {
+    /* Can't build wonder if already built */
+    return FALSE;
+  }
+
+  /* Check for requirements that aren't met and that are unchanging (so
+   * they can never be met). */
+  requirement_vector_iterate(&pimprove->reqs, preq) {
+    if (preq->range >= REQ_RANGE_PLAYER
+        && dai_cant_help_req(p, NULL, NULL, preq)) {
+      return FALSE;
+    }
+  } requirement_vector_iterate_end;
+  /* FIXME: should check some "unchanging" reqs here - like if there's
+   * a nation requirement, we can go ahead and check it now. */
+
+  return TRUE;
+}
+
 /************************************************************************** 
   Initialize building advisor. Calculates data of all players, not
   only of those controlled by current ai type.

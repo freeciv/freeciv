@@ -206,7 +206,7 @@ struct impr_type *improvement_by_number(const Impr_type_id id)
      tech_req to A_LAST; [was not in current 2007-07-27]
    - it is a space part, and the spacerace is not enabled.
 **************************************************************************/
-struct impr_type *valid_improvement(struct impr_type *pimprove)
+const struct impr_type *valid_improvement(const struct impr_type *pimprove)
 {
   if (NULL == pimprove) {
     return NULL;
@@ -229,7 +229,7 @@ struct impr_type *valid_improvement(struct impr_type *pimprove)
 
   In addition to valid_improvement(), tests for id is out of range.
 **************************************************************************/
-struct impr_type *valid_improvement_by_number(const Impr_type_id id)
+const struct impr_type *valid_improvement_by_number(const Impr_type_id id)
 {
   return valid_improvement(improvement_by_number(id));
 }
@@ -711,9 +711,8 @@ bool can_player_build_improvement_later(const struct player *p,
    * they can never be met). */
   requirement_vector_iterate(&pimprove->reqs, preq) {
     if (preq->range >= REQ_RANGE_PLAYER
-	&& is_req_unchanging(preq)
-	&& !is_req_active(p, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
-                          NULL, NULL, preq, RPT_POSSIBLE)) {
+        && is_req_preventing(p, NULL, NULL, NULL, NULL, NULL, NULL,
+                             NULL,NULL, NULL, preq, RPT_POSSIBLE)) {
       return FALSE;
     }
   } requirement_vector_iterate_end;
