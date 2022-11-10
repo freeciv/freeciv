@@ -33,6 +33,7 @@
 #include "requirements.h"
 #include "server_settings.h"
 #include "specialist.h"
+#include "terrain.h"
 
 #include "reqtext.h"
 
@@ -2882,6 +2883,31 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
         break;
       case CITYT_WORKED:
         tile_property = _("worked tiles");
+        break;
+      case CITYT_SAME_CONTINENT:
+        /* TRANS: a specific city for each use case */
+        tile_property = _("tiles on the same continent as the city");
+        break;
+      case CITYT_BORDERING_TCLASS_REGION:
+        {
+          bool oceanic_cities = FALSE; /* FIXME: maybe cache globally? */
+
+          terrain_type_iterate(tt) {
+            if (terrain_type_terrain_class(tt) == TC_OCEAN
+                && !terrain_has_flag(tt, TER_NO_CITIES)) {
+              oceanic_cities = TRUE;
+              /* TRANS: a specific city for each use case */
+              tile_property = _("tiles of a mass of a different "
+                                "terrain class next to the city");
+              break;
+            }
+          } terrain_type_iterate_end;
+          if (oceanic_cities) {
+            break;
+          }
+          /* TRANS: a specific city for each use case */
+          tile_property = _("tiles of a body of water next to the city");
+        }
         break;
       case CITYT_LAST:
         fc_assert(preq->source.value.citytile != CITYT_LAST);

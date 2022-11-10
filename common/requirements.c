@@ -133,8 +133,7 @@ static enum req_unchanging_status
 #define REQUC_NALLY unchanging_noally
 
 /**********************************************************************//**
-  Special CityTile case handler. Currently, only city center requirement
-  depends on the city, but other ones are fulfilled on (C)Adjacent tiles
+  Special CityTile case handler
 **************************************************************************/
 static enum req_unchanging_status
   unchanging_citytile(enum req_unchanging_status def,
@@ -143,11 +142,12 @@ static enum req_unchanging_status
 {
   fc_assert_ret_val(VUT_CITYTILE == req->source.kind, REQUCH_NO);
   if (CITYT_CENTER == req->source.value.citytile
-      || (NULL != context->city && NULL != context->tile
+      || (CITYT_BORDERING_TCLASS_REGION != req->source.value.citytile
+          && NULL != context->city && NULL != context->tile
           && NULL != city_tile(context->city)
           && are_tiles_in_range(city_tile(context->city), context->tile,
                                 req->range))){
-    /* Cities don't move */
+    /* Cities don't move, and most reqs are present on city center */
     return REQUCH_YES;
   }
   return def;
@@ -1438,6 +1438,48 @@ static bool nation_contra_group(const struct requirement *nation_req,
 }
 
 /**********************************************************************//**
+  Returns TRUE if the specified city center or continent requirement
+  contradicts the other city tile requirement.
+**************************************************************************/
+static bool city_center_contra(const struct requirement *cc_req,
+                               const struct requirement *ct_req)
+{
+  /* The input is sane. */
+  fc_assert_ret_val(cc_req->source.kind == VUT_CITYTILE
+                    && ct_req->source.kind == VUT_CITYTILE, FALSE);
+
+  if (cc_req->source.value.citytile == CITYT_CENTER
+      && cc_req->present && cc_req->range <= ct_req->range) {
+    switch (ct_req->source.value.citytile) {
+    case CITYT_CENTER:
+    case CITYT_CLAIMED:
+    case CITYT_EXTRAS_OWNED:
+    case CITYT_WORKED:
+    case CITYT_SAME_CONTINENT:
+      /* Should be always on city center */
+      return !ct_req->present;
+    case CITYT_BORDERING_TCLASS_REGION:
+      /* Handled later */
+      break;
+    case CITYT_LAST:
+      /* Error */
+      fc_assert_ret_val(ct_req->source.value.citytile != CITYT_LAST, FALSE);
+    }
+  }
+  if ((cc_req->source.value.citytile == CITYT_SAME_CONTINENT
+       || cc_req->source.value.citytile == CITYT_CENTER)
+      && ct_req->source.value.citytile
+         == CITYT_BORDERING_TCLASS_REGION
+      && REQ_RANGE_TILE == cc_req->range
+      && REQ_RANGE_TILE == ct_req->range) {
+    /* Can't coexist */
+    return cc_req->present ? ct_req->present : !ct_req->present;
+  }
+
+  return FALSE;
+}
+
+/**********************************************************************//**
   Returns TRUE if req1 and req2 contradicts each other because a present
   requirement implies the presence of a !present requirement according to
   the knowledge about implications in universal_found_function.
@@ -1503,6 +1545,13 @@ bool are_requirements_contradictions(const struct requirement *req1,
   case VUT_IMPROVEMENT:
     if (req2->source.kind == VUT_IMPR_GENUS) {
       return impr_contra_genus(req1, req2);
+    } else if (req2->source.kind == VUT_CITYTILE
+               && req2->source.value.citytile == CITYT_CENTER
+               && REQ_RANGE_TILE == req2->range
+               && REQ_RANGE_TILE == req1->range
+               && req1->present) {
+      /* A building must be in a city */
+      return !req2->present;
     }
 
     /* No special knowledge. */
@@ -1627,6 +1676,20 @@ bool are_requirements_contradictions(const struct requirement *req1,
     /* No special knowledge. */
     return FALSE;
     break;
+  case VUT_CITYTILE:
+    if (req2->source.kind == VUT_CITYTILE) {
+      return city_center_contra(req1, req2)
+          || city_center_contra(req2, req1);
+    } else if (req1->source.value.citytile == CITYT_CENTER
+               && req2->source.kind == VUT_IMPROVEMENT
+               && REQ_RANGE_TILE == req2->range
+               && REQ_RANGE_TILE == req1->range
+               && req2->present) {
+      /* A building must be in a city */
+      return !req1->present;
+    }
+
+    return FALSE;
   default:
     /* No special knowledge exists. The requirements aren't the exact
      * opposite of each other per the initial check. */
@@ -4080,6 +4143,196 @@ is_citytile_req_active(const struct req_context *context,
     }
 
     return TRI_MAYBE;
+  case CITYT_SAME_CONTINENT:
+    {
+      Continent_id cc;
+      const struct tile *target_tile = context->tile, *cc_tile;
+
+      if (!context->city) {
+        return TRI_MAYBE;
+      }
+      cc_tile = city_tile(context->city);
+      if (!cc_tile) {
+        /* Unplaced virtual city */
+        return TRI_MAYBE;
+      }
+      cc = tile_continent(cc_tile);
+      /* Note: No special treatment of 0 == cc here*/
+      switch (req->range) {
+      case REQ_RANGE_TILE:
+        return BOOL_TO_TRISTATE(tile_continent(target_tile) == cc);
+      case REQ_RANGE_CADJACENT:
+        if (tile_continent(target_tile) == cc) {
+          return TRI_YES;
+        }
+        cardinal_adjc_iterate(&(wld.map), target_tile, adjc_tile) {
+          if (tile_continent(adjc_tile) == cc) {
+            return TRI_YES;
+          }
+        } cardinal_adjc_iterate_end;
+
+        return TRI_NO;
+      case REQ_RANGE_ADJACENT:
+        if (tile_continent(target_tile) == cc) {
+          return TRI_YES;
+        }
+        adjc_iterate(&(wld.map), target_tile, adjc_tile) {
+          if (tile_continent(adjc_tile) == cc) {
+            return TRI_YES;
+          }
+        } adjc_iterate_end;
+
+        return TRI_NO;
+      case REQ_RANGE_CITY:
+      case REQ_RANGE_TRADEROUTE:
+      case REQ_RANGE_CONTINENT:
+      case REQ_RANGE_PLAYER:
+      case REQ_RANGE_TEAM:
+      case REQ_RANGE_ALLIANCE:
+      case REQ_RANGE_WORLD:
+      case REQ_RANGE_LOCAL:
+      case REQ_RANGE_COUNT:
+        fc_assert_msg(FALSE, "Invalid range %d for citytile.", req->range);
+        break;
+      }
+    }
+
+    return TRI_MAYBE;
+  case CITYT_BORDERING_TCLASS_REGION:
+    {
+      int n = 0;
+      Continent_id adjc_cont[8], cc;
+      bool ukt = FALSE;
+      const struct tile *target_tile = context->tile, *cc_tile;
+
+      if (!context->city) {
+        return TRI_MAYBE;
+      }
+      cc_tile = city_tile(context->city);
+      if (!cc_tile) {
+        /* Unplaced virtual city */
+        return TRI_MAYBE;
+      }
+      cc = tile_continent(cc_tile);
+      if (!cc) {
+        /* Don't know the city center terrain class.
+         * Maybe, the city floats? Even if the rules prohibit it... */
+        return TRI_MAYBE;
+      }
+      adjc_iterate(&(wld.map), cc_tile, adjc_tile) {
+        Continent_id tc = tile_continent(adjc_tile);
+
+        if (0 != tc) {
+          bool seen = FALSE;
+          int i = n;
+
+          if (tc == cc) {
+            continue;
+          }
+          while (--i >= 0) {
+            if (adjc_cont[i] == tc) {
+              seen = TRUE;
+              break;
+            }
+          }
+          if (seen) {
+            continue;
+          }
+          adjc_cont[n++] = tile_continent(adjc_tile);
+        } else {
+          /* Likely, it's a black tile in client and we don't know
+           * We possibly can calculate, but keep it simple. */
+          ukt = TRUE;
+        }
+      } adjc_iterate_end;
+      if (0 == n) {
+        return ukt ? TRI_MAYBE : TRI_NO;
+      }
+
+      switch (req->range) {
+      case REQ_RANGE_TILE:
+        {
+          Continent_id tc = tile_continent(target_tile);
+
+          if (cc == tc) {
+            return TRI_NO;
+          }
+          if (0 == tc || ukt) {
+            return TRI_MAYBE;
+          }
+          for (int i = 0; i < n; i++) {
+            if (tc == adjc_cont[i]) {
+              return TRI_YES;
+            }
+          }
+        }
+
+        return TRI_NO;
+      case REQ_RANGE_ADJACENT:
+        if (ukt) {
+          /* If ALL the tiles in range are on cc, we can say it's false */
+          square_iterate(&(wld.map), target_tile, 1, adjc_tile) {
+            if (tile_continent(adjc_tile) != cc) {
+             return TRI_MAYBE;
+            }
+          } square_iterate_end;
+
+          return TRI_NO;
+        } else {
+          square_iterate(&(wld.map), target_tile, 1, adjc_tile) {
+            Continent_id tc = tile_continent(adjc_tile);
+
+            if (0 == tc) {
+              return TRI_MAYBE;
+            }
+            for (int i = 0; i < n; i++) {
+              if (tc == adjc_cont[i]) {
+                return TRI_YES;
+              }
+            }
+          } square_iterate_end;
+        }
+
+        return TRI_NO;
+      case REQ_RANGE_CADJACENT:
+        if (ukt) {
+          /* If ALL the tiles in range are on cc, we can say it's false */
+          circle_iterate(&(wld.map), target_tile, 1, cadjc_tile) {
+            if (tile_continent(cadjc_tile) != cc) {
+              return TRI_MAYBE;
+            }
+          } circle_iterate_end;
+        } else {
+          circle_iterate(&(wld.map), target_tile, 1, cadjc_tile) {
+            Continent_id tc = tile_continent(cadjc_tile);
+
+            if (0 == tc) {
+              return TRI_MAYBE;
+            }
+            for (int i = 0; i < n; i++) {
+              if (tc == adjc_cont[i]) {
+                return TRI_YES;
+              }
+            }
+          } circle_iterate_end;
+        }
+
+        return TRI_NO;
+      case REQ_RANGE_CITY:
+      case REQ_RANGE_TRADEROUTE:
+      case REQ_RANGE_CONTINENT:
+      case REQ_RANGE_PLAYER:
+      case REQ_RANGE_TEAM:
+      case REQ_RANGE_ALLIANCE:
+      case REQ_RANGE_WORLD:
+      case REQ_RANGE_LOCAL:
+      case REQ_RANGE_COUNT:
+        fc_assert_msg(FALSE, "Invalid range %d for citytile.", req->range);
+        break;
+      }
+    }
+
+    return TRI_MAYBE;
   case CITYT_LAST:
     /* Handled below */
     break;
@@ -5953,6 +6206,13 @@ const char *universal_name_translation(const struct universal *psource,
       break;
     case CITYT_WORKED:
       fc_strlcat(buf, _("Worked tile"), bufsz);
+      break;
+    case CITYT_SAME_CONTINENT:
+      fc_strlcat(buf, _("Same continent tile"), bufsz);
+      break;
+    case CITYT_BORDERING_TCLASS_REGION:
+      /* TRANS: Short for "a tile of other terrain class mass near city" */
+      fc_strlcat(buf, _("Port reachable tile"), bufsz);
       break;
     case CITYT_LAST:
       fc_assert(psource->value.citytile != CITYT_LAST);

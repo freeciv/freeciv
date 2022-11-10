@@ -2062,6 +2062,7 @@ static bool dai_cant_help_req(const struct req_context *context,
   case VUT_TERRAINCLASS:
   case VUT_TERRFLAG:
   case VUT_TERRAINALTER:
+  case VUT_CITYTILE:
     return !is_req_active(context, NULL, req, RPT_POSSIBLE);
   default:
     return is_req_preventing(context, NULL, req, RPT_POSSIBLE) > REQUCH_NO;

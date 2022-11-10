@@ -548,6 +548,10 @@ const char *ai_level_name_update_cb(const char *old);
 #define SPECENUM_VALUE2NAME "Extras Owned"
 #define SPECENUM_VALUE3 CITYT_WORKED
 #define SPECENUM_VALUE3NAME "Worked"
+#define SPECENUM_VALUE4 CITYT_SAME_CONTINENT
+#define SPECENUM_VALUE4NAME "Same Continent"
+#define SPECENUM_VALUE5 CITYT_BORDERING_TCLASS_REGION
+#define SPECENUM_VALUE5NAME "Bordering TClass Region"
 #define SPECENUM_COUNT CITYT_LAST
 #include "specenum_gen.h"
 

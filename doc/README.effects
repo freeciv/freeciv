@@ -111,26 +111,28 @@ MinSize is the minimum size of a city required.
 AI is ai player difficulty level.
 TerrainClass is either "Land" or "Oceanic".
 TerrainAlter is "CanIrrigate", "CanMine", "CanRoad", "CanBase", or "CanPlace"
-CityTile is "Center" (city center), "Claimed" (tile owned),
-"Extras Owned" (extra on tile owned), or "Worked" (worked by any city)
+CityTile is "Center" (city center), "Claimed" (tile owned by any player),
+ "Extras Owned" (extra on tile owned), "Worked" (worked by any city),
+ "Same Continent" (as the city center) or "Bordering TClass Region" (if the city
+ is a port, it's a tile of the nearby ocean but not of its continent).
 MinLatitude and MaxLatitude are numbers from -1000 (south pole) to 1000
-(north pole).
+ (north pole).
 CityStatus is "OwnedByOriginal", "Starved", "Disorder", or "Celebration"
 DiplRel is a diplomatic relationship.
 MaxUnitsOnTile is about the number of units present on a tile.
 UnitState is "Transported", "Transporting", "OnNativeTile", "OnLivableTile",
-"InNativeExtra", "MovedThisTurn" or "HasHomeCity".
+ "InNativeExtra", "MovedThisTurn" or "HasHomeCity".
 Activity is "Idle", "Pollution", "Mine", "Irrigate", "Fortified",
-"Pillage", "Transform", "Fortifying", "Fallout",
-"Base", "Road", "Convert", "Cultivate", or "Plant".
+ "Pillage", "Transform", "Fortifying", "Fallout",
+ "Base", "Road", "Convert", "Cultivate", or "Plant".
 MinMoveFrags is the minimum move fragments the unit must have left.
 MinCalFrag is the minimum sub-year division the calendar must have reached,
-if enabled (see [calendar].fragments in game.ruleset).
+ if enabled (see [calendar].fragments in game.ruleset).
 Nationality is fulfilled by any citizens of the given nationality
-present in the city.
+ present in the city.
 OriginalOwner is the city founding nation
 ServerSetting is if a Boolean server setting is enabled. The setting must be
-visible to all players and affect the game rules.
+ visible to all players and affect the game rules.
 
 Effect types
 ============

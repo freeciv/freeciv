@@ -799,6 +799,7 @@ bool dai_can_requirement_be_met_in_city(const struct requirement *preq,
     return FALSE;
 
   case VUT_CITYSTATUS:
+    /* FIXME: update */
     if (pcity == NULL) {
       return preq->present;
     }
@@ -837,6 +838,7 @@ bool dai_can_requirement_be_met_in_city(const struct requirement *preq,
     /* No way to add once lost. */
     return !preq->present;
 
+
   case VUT_NATION:
   case VUT_NATIONGROUP:
   case VUT_AI_LEVEL:
@@ -847,7 +849,6 @@ bool dai_can_requirement_be_met_in_city(const struct requirement *preq,
     return FALSE;
 
   case VUT_OTYPE:
-  case VUT_CITYTILE:
   case VUT_IMPR_GENUS:
     /* Can always be achieved. */
     return TRUE;
@@ -867,6 +868,7 @@ bool dai_can_requirement_be_met_in_city(const struct requirement *preq,
   case VUT_STYLE:
   case VUT_UNITSTATE:
   case VUT_ACTIVITY:
+  case VUT_CITYTILE:
   case VUT_MINMOVES:
   case VUT_MINVETERAN:
   case VUT_MINHP:

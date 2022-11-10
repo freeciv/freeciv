@@ -353,6 +353,26 @@ static bool is_req_knowable(const struct player *pov_player,
   if (req->source.kind == VUT_CITYTILE) {
     struct city *pcity;
 
+    if (context->city == NULL) {
+      switch (req->source.value.citytile) {
+      case CITYT_CENTER:
+      case CITYT_SAME_CONTINENT:
+      case CITYT_BORDERING_TCLASS_REGION:
+        /* Require the city, not passed */
+        return prob_type == RPT_CERTAIN;
+      case CITYT_CLAIMED:
+      case CITYT_WORKED:
+      case CITYT_EXTRAS_OWNED:
+        /* Do not require a city passed */
+        break;
+      case CITYT_LAST:
+        /* Invalid */
+        fc_assert_msg(req->source.value.citytile != CITYT_LAST,
+                      "Invalid city tile property.");
+        return FALSE;
+      }
+    }
+
     if (context->tile == NULL) {
       /* The tile may exist but not be passed when the problem type is
        * RPT_POSSIBLE. */

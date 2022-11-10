@@ -1783,6 +1783,35 @@ static bool worklist_item_postpone_req_vec(struct universal *target,
         /* Can't change where the city is located. */
         purge = TRUE;
         break;
+      case VUT_CITYTILE:
+        if (CITYT_BORDERING_TCLASS_REGION == preq->source.value.citytile
+            && (preq->range == REQ_RANGE_CADJACENT
+                || preq->range == REQ_RANGE_ADJACENT)) {
+          if (preq->present) {
+            notify_player(pplayer, city_tile(pcity),
+                          E_CITY_CANTBUILD, ftc_server,
+                          _("%s can't build %s from the worklist; "
+                            "different terrain class nearby is required. "
+                            "Postponing..."),
+                          city_link(pcity),
+                          tgt_name);
+            script_server_signal_emit(signal_name, ptarget,
+                                      pcity, "need_different_terrainclass");
+          } else {
+            notify_player(pplayer, city_tile(pcity),
+                          E_CITY_CANTBUILD, ftc_server,
+                          _("%s can't build %s from the worklist; "
+                            "different terrain class nearby is prohibited. "
+                            "Postponing..."),
+                          city_link(pcity),
+                          tgt_name);
+            script_server_signal_emit(signal_name, ptarget,
+                                      pcity, "have_different_terrainclass");
+          }
+          break;
+        }
+        /* Other values should not present in build reqs */
+        fc__fallthrough;
 
       case VUT_UTYPE:
       case VUT_UTFLAG:
@@ -1797,7 +1826,6 @@ static bool worklist_item_postpone_req_vec(struct universal *target,
       case VUT_OTYPE:
       case VUT_SPECIALIST:
       case VUT_TERRAINALTER: /* XXX could do this in principle */
-      case VUT_CITYTILE:
       case VUT_CITYSTATUS:
         /* Will only happen with a bogus ruleset. */
         log_error("worklist_change_build_target() has bogus preq");
