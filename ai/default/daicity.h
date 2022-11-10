@@ -100,6 +100,12 @@ void dai_build_adv_adjust(struct ai_type *ait, struct player *pplayer,
 
 void dai_consider_wonder_city(struct ai_type *ait, struct city *pcity, bool *result);
 
+bool dai_can_city_build_improvement_later(const struct city *pcity,
+                                          const struct impr_type *pimprove);
+bool
+dai_can_player_build_improvement_later(const struct player *p,
+                                       const struct impr_type *pimprove);
+
 Impr_type_id dai_find_source_building(struct city *pcity,
                                       enum effect_type effect_type,
                                       const struct unit_type *utype);

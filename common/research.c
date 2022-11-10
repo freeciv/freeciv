@@ -305,8 +305,7 @@ static bool reqs_may_activate(const struct req_context *context,
                               const enum   req_problem_type prob_type)
 {
   requirement_vector_iterate(reqs, preq) {
-    if (is_req_unchanging(preq)
-        && !is_req_active(context, other_player, preq, prob_type)) {
+    if (is_req_preventing(context, other_player, preq, prob_type)) {
       return FALSE;
     }
   } requirement_vector_iterate_end;

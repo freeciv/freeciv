@@ -50,6 +50,170 @@ typedef enum req_item_found (*universal_found)(const struct requirement *,
                                                const struct universal *);
 static universal_found universal_found_function[VUT_COUNT] = {NULL};
 
+static
+enum fc_tristate tri_req_present(const struct req_context *context,
+                                 const struct player *other_player,
+                                 const struct requirement *req);
+
+/* Function pointer for requirement-type-specific is_req_active handlers */
+typedef enum fc_tristate
+(*is_req_active_cb)(const struct req_context *context,
+                    const struct player *other_player,
+                    const struct requirement *req);
+
+static inline bool are_tiles_in_range(const struct tile *tile1,
+                                      const struct tile *tile2,
+                                      enum req_range range);
+
+/**********************************************************************//**
+  Never changes in local range
+  Mostly it's about requirements evaluated from constants and persistent
+  ruleset objects passed in the context.
+**************************************************************************/
+static enum req_unchanging_status
+  unchanging_local(enum req_unchanging_status def,
+                   const struct req_context *context,
+                   const struct requirement *req)
+{
+  return req->range == REQ_RANGE_LOCAL ? REQUCH_YES : def;
+}
+#define REQUC_LOCAL unchanging_local
+
+
+/**********************************************************************//**
+  If not present, may appear; but once becomes present, never goes absent
+**************************************************************************/
+static enum req_unchanging_status
+  unchanging_present(enum req_unchanging_status def,
+                     const struct req_context *context,
+                     const struct requirement *req)
+{
+  if (TRI_YES != tri_req_present(context, NULL, req)) {
+    return REQUCH_NO;
+  }
+  return def;
+}
+#define REQUC_PRESENT unchanging_present
+
+/**********************************************************************//**
+  Equals ..._present(), but never changes in World range
+**************************************************************************/
+static enum req_unchanging_status
+  unchanging_world(enum req_unchanging_status def,
+                   const struct req_context *context,
+                   const struct requirement *req)
+{
+  return
+    unchanging_present(req->range == REQ_RANGE_WORLD ? REQUCH_YES : def,
+                       context, req);
+}
+#define REQUC_WORLD unchanging_world
+
+/**********************************************************************//**
+  Unchanging except if provided by an ally and not the player themself
+  Alliances may break, team members may be destroyed or reassigned
+**************************************************************************/
+static enum req_unchanging_status
+  unchanging_noally(enum req_unchanging_status def,
+                    const struct req_context *context,
+                    const struct requirement *req)
+{
+  if (REQ_RANGE_ALLIANCE == req->range
+      || REQ_RANGE_TEAM == req->range) {
+    struct requirement preq;
+
+    req_copy(&preq, req);
+    preq.range = REQ_RANGE_PLAYER;
+    if (TRI_YES != tri_req_present(context, NULL, &preq)) {
+      return REQ_RANGE_TEAM == req->range ? REQUCH_ACT : REQUCH_NO;
+    }
+  }
+  return def;
+}
+#define REQUC_NALLY unchanging_noally
+
+/**********************************************************************//**
+  Special CityTile case handler. Currently, only city center requirement
+  depends on the city, but other ones are fulfilled on (C)Adjacent tiles
+**************************************************************************/
+static enum req_unchanging_status
+  unchanging_citytile(enum req_unchanging_status def,
+                      const struct req_context *context,
+                      const struct requirement *req)
+{
+  fc_assert_ret_val(VUT_CITYTILE == req->source.kind, REQUCH_NO);
+  if (CITYT_CENTER == req->source.value.citytile
+      || (NULL != context->city && NULL != context->tile
+          && NULL != city_tile(context->city)
+          && are_tiles_in_range(city_tile(context->city), context->tile,
+                                req->range))){
+    /* Cities don't move */
+    return REQUCH_YES;
+  }
+  return def;
+}
+#define REQUC_CITYTILE unchanging_citytile
+
+/**********************************************************************//**
+  Special CityStatus case handler. Changes easily save for OwnedByOriginal
+**************************************************************************/
+static enum req_unchanging_status
+  unchanging_citystatus(enum req_unchanging_status def,
+                        const struct req_context *context,
+                        const struct requirement *req)
+{
+  fc_assert_ret_val(VUT_CITYSTATUS == req->source.kind, REQUCH_NO);
+  if (CITYS_OWNED_BY_ORIGINAL == req->source.value.citystatus
+      && REQ_RANGE_CITY == req->range) {
+    return REQUCH_CTRL;
+  }
+  return def;
+}
+#define REQUC_CITYSTATUS unchanging_citystatus
+
+/**********************************************************************//**
+  Special Building case handler.
+  Sometimes building is just a constant parameter, and sometimes
+  it subjects to wonder building rules. Also, there is obsoletion...
+**************************************************************************/
+static enum req_unchanging_status
+  unchanging_building(enum req_unchanging_status def,
+                      const struct req_context *context,
+                      const struct requirement *req)
+{
+  const struct impr_type *b = req->source.value.building;
+
+  fc_assert_ret_val(VUT_IMPROVEMENT == req->source.kind, REQUCH_NO);
+  if (REQ_RANGE_LOCAL == req->range) {
+    /* Likely, won't be questioned for an obsolete building */
+    return REQUCH_YES;
+  }
+
+  if (improvement_obsolete(context->player, b, context->city)) {
+    /* FIXME: sometimes can unobsolete, but considering it
+     * may sometimes put the function on endless recursion */
+    return REQUCH_ACT; /* Mostly about techs */
+  }
+  if (is_great_wonder(b)) {
+    if (great_wonder_is_destroyed(b)
+        || (!great_wonder_is_available(b)
+            && (req->range <= REQ_RANGE_CITY && TRI_YES
+                  == tri_req_present(context, NULL, req)))) {
+      /* If the wonder stays somewhere, it may either remain there
+       * or be destroyed. If it is destroyed, it is nowhere. */
+      return REQUCH_SCRIPTS;
+    }
+  }
+  return def;
+}
+#define REQUC_IMPR unchanging_building
+
+struct req_def {
+  const is_req_active_cb cb;
+  enum req_unchanging_status unchanging;
+  req_unchanging_cond_cb unchanging_cond;
+};
+
 /**********************************************************************//**
   Parse requirement type (kind) and value strings into a universal
   structure.  Passing in a NULL type is considered VUT_NONE (not an error).
@@ -1492,6 +1656,38 @@ bool does_req_contradicts_reqs(const struct requirement *req,
 }
 
 /**********************************************************************//**
+  Returns TRUE if tiles are in given requirements range with each other
+**************************************************************************/
+static inline bool are_tiles_in_range(const struct tile *tile1,
+                                      const struct tile *tile2,
+                                      enum req_range range)
+{
+  switch (range) {
+  case REQ_RANGE_ADJACENT:
+    if (is_tiles_adjacent(tile1, tile2)) {
+      return TRUE;
+    }
+    fc__fallthrough;
+  case REQ_RANGE_TILE:
+    return same_pos(tile1, tile2);
+  case REQ_RANGE_CADJACENT:
+    return map_distance(tile1, tile2) <= 1;
+  case REQ_RANGE_CITY:
+  case REQ_RANGE_TRADEROUTE:
+  case REQ_RANGE_LOCAL:
+  case REQ_RANGE_CONTINENT:
+  case REQ_RANGE_PLAYER:
+  case REQ_RANGE_TEAM:
+  case REQ_RANGE_ALLIANCE:
+  case REQ_RANGE_WORLD:
+  case REQ_RANGE_COUNT:
+    /* Invalid */
+    fc_assert(FALSE);
+  }
+  return FALSE;
+}
+
+/**********************************************************************//**
   Returns TRUE if players are in the same requirements range.
 **************************************************************************/
 static inline bool players_in_same_range(const struct player *pplayer1,
@@ -1521,12 +1717,6 @@ static inline bool players_in_same_range(const struct player *pplayer1,
   fc_assert_msg(FALSE, "Invalid range %d.", range);
   return FALSE;
 }
-
-/* Function pointer for requirement-type-specific is_req_active handlers */
-typedef enum fc_tristate
-(*is_req_active_cb)(const struct req_context *context,
-                    const struct player *other_player,
-                    const struct requirement *req);
 
 #define IS_REQ_ACTIVE_VARIANT_ASSERT(_kind)                \
 {                                                          \
@@ -4346,6 +4536,65 @@ is_serversetting_req_active(const struct req_context *context,
                               req->source.value.ssetval));
 }
 
+/* Not const for potential ruleset-related adjustment */
+static struct req_def req_definitions[VUT_COUNT] = {
+  [VUT_NONE] = {is_none_req_active, REQUCH_YES},
+
+  /* alphabetical order of enum constant */
+  [VUT_ACHIEVEMENT] = {is_achievement_req_active, REQUCH_YES, REQUC_PRESENT},
+  [VUT_ACTION] = {is_action_req_active, REQUCH_YES},
+  [VUT_ACTIVITY] = {is_activity_req_active, REQUCH_NO},
+  [VUT_ADVANCE] = {is_tech_req_active, REQUCH_NO},
+  [VUT_AGE] = {is_age_req_active, REQUCH_YES, REQUC_PRESENT},
+  [VUT_AI_LEVEL] = {is_ai_req_active, REQUCH_HACK},
+  [VUT_CITYSTATUS] = {is_citystatus_req_active, REQUCH_NO, REQUC_CITYSTATUS},
+  [VUT_CITYTILE] = {is_citytile_req_active, REQUCH_NO, REQUC_CITYTILE},
+  [VUT_COUNTER] = {is_counter_req_active, REQUCH_NO},
+  [VUT_DIPLREL] = {is_diplrel_req_active, REQUCH_NO},
+  [VUT_DIPLREL_TILE] = {is_diplrel_tile_req_active, REQUCH_NO},
+  [VUT_DIPLREL_TILE_O] = {is_diplrel_tile_o_req_active, REQUCH_NO},
+  [VUT_DIPLREL_UNITANY] = {is_diplrel_unitany_req_active, REQUCH_NO},
+  [VUT_DIPLREL_UNITANY_O] = {is_diplrel_unitany_o_req_active, REQUCH_NO},
+  [VUT_EXTRA] = {is_extra_req_active, REQUCH_NO, REQUC_LOCAL},
+  [VUT_EXTRAFLAG] = {is_extraflag_req_active, REQUCH_NO, REQUC_LOCAL},
+  [VUT_GOOD] = {is_good_req_active, REQUCH_NO},
+  [VUT_GOVERNMENT] = {is_gov_req_active, REQUCH_NO},
+  [VUT_IMPROVEMENT] = {is_building_req_active, REQUCH_NO, REQUC_IMPR},
+  [VUT_IMPR_GENUS] = {is_buildinggenus_req_active, REQUCH_YES},
+  [VUT_MAXLATITUDE] = {is_latitude_req_active, REQUCH_YES},
+  [VUT_MAXTILEUNITS] = {is_maxunitsontile_req_active, REQUCH_NO},
+  [VUT_MINCALFRAG] = {is_mincalfrag_req_active, REQUCH_NO},
+  [VUT_MINCULTURE] = {is_minculture_req_active, REQUCH_NO},
+  [VUT_MINFOREIGNPCT] = {is_minforeignpct_req_active, REQUCH_NO},
+  [VUT_MINHP] = {is_minhitpoints_req_active, REQUCH_NO},
+  [VUT_MINLATITUDE] = {is_latitude_req_active, REQUCH_NO},
+  [VUT_MINMOVES] = {is_minmovefrags_req_active, REQUCH_NO},
+  [VUT_MINSIZE] = {is_minsize_req_active, REQUCH_NO},
+  [VUT_MINTECHS] = {is_mintechs_req_active, REQUCH_ACT, REQUC_WORLD},
+  [VUT_MINVETERAN] = {is_minveteran_req_active, REQUCH_SCRIPTS, REQUC_PRESENT},
+  [VUT_MINYEAR] = {is_minyear_req_active, REQUCH_HACK, REQUC_PRESENT},
+  [VUT_NATION] = {is_nation_req_active, REQUCH_HACK, REQUC_NALLY},
+  [VUT_NATIONALITY] = {is_nationality_req_active, REQUCH_NO},
+  [VUT_NATIONGROUP] = {is_nationgroup_req_active, REQUCH_HACK, REQUC_NALLY},
+  [VUT_ORIGINAL_OWNER] = {is_originalowner_req_active, REQUCH_HACK},
+  [VUT_OTYPE] = {is_outputtype_req_active, REQUCH_YES},
+  [VUT_ROADFLAG] = {is_roadflag_req_active, REQUCH_NO, REQUC_LOCAL},
+  [VUT_SERVERSETTING] = {is_serversetting_req_active, REQUCH_HACK},
+  [VUT_SPECIALIST] = {is_specialist_req_active, REQUCH_YES},
+  [VUT_STYLE] = {is_style_req_active, REQUCH_HACK},
+  [VUT_TECHFLAG] = {is_techflag_req_active, REQUCH_NO},
+  [VUT_TERRAIN] = {is_terrain_req_active, REQUCH_NO},
+  [VUT_TERRAINALTER] = {is_terrainalter_req_active, REQUCH_NO},
+  [VUT_TERRAINCLASS] = {is_terrainclass_req_active, REQUCH_NO},
+  [VUT_TERRFLAG] = {is_terrainflag_req_active, REQUCH_NO},
+  [VUT_TOPO] = {is_topology_req_active, REQUCH_YES},
+  [VUT_UCFLAG] = {is_unitclassflag_req_active, REQUCH_YES},
+  [VUT_UCLASS] = {is_unitclass_req_active, REQUCH_YES},
+  [VUT_UNITSTATE] = {is_unitstate_req_active, REQUCH_NO},
+  [VUT_UTFLAG] = {is_unitflag_req_active, REQUCH_YES},
+  [VUT_UTYPE] = {is_unittype_req_active, REQUCH_YES}
+};
+
 /**********************************************************************//**
   Checks the requirement to see if it is active on the given target.
 
@@ -4363,78 +4612,7 @@ bool is_req_active(const struct req_context *context,
                    const struct requirement *req,
                    const enum   req_problem_type prob_type)
 {
-  static const is_req_active_cb req_active_callbacks[VUT_COUNT] = {
-    [VUT_NONE] = is_none_req_active,
-
-    /* alphabetical order of enum constant */
-    [VUT_ACHIEVEMENT] = is_achievement_req_active,
-    [VUT_ACTION] = is_action_req_active,
-    [VUT_ACTIVITY] = is_activity_req_active,
-    [VUT_ADVANCE] = is_tech_req_active,
-    [VUT_AGE] = is_age_req_active,
-    [VUT_AI_LEVEL] = is_ai_req_active,
-    [VUT_CITYSTATUS] = is_citystatus_req_active,
-    [VUT_CITYTILE] = is_citytile_req_active,
-    [VUT_COUNTER] = is_counter_req_active,
-    [VUT_DIPLREL] = is_diplrel_req_active,
-    [VUT_DIPLREL_TILE] = is_diplrel_tile_req_active,
-    [VUT_DIPLREL_TILE_O] = is_diplrel_tile_o_req_active,
-    [VUT_DIPLREL_UNITANY] = is_diplrel_unitany_req_active,
-    [VUT_DIPLREL_UNITANY_O] = is_diplrel_unitany_o_req_active,
-    [VUT_EXTRA] = is_extra_req_active,
-    [VUT_EXTRAFLAG] = is_extraflag_req_active,
-    [VUT_GOOD] = is_good_req_active,
-    [VUT_GOVERNMENT] = is_gov_req_active,
-    [VUT_IMPROVEMENT] = is_building_req_active,
-    [VUT_IMPR_GENUS] = is_buildinggenus_req_active,
-    [VUT_MAXLATITUDE] = is_latitude_req_active,
-    [VUT_MAXTILEUNITS] = is_maxunitsontile_req_active,
-    [VUT_MINCALFRAG] = is_mincalfrag_req_active,
-    [VUT_MINCULTURE] = is_minculture_req_active,
-    [VUT_MINFOREIGNPCT] = is_minforeignpct_req_active,
-    [VUT_MINHP] = is_minhitpoints_req_active,
-    [VUT_MINLATITUDE] = is_latitude_req_active,
-    [VUT_MINMOVES] = is_minmovefrags_req_active,
-    [VUT_MINSIZE] = is_minsize_req_active,
-    [VUT_MINTECHS] = is_mintechs_req_active,
-    [VUT_MINVETERAN] = is_minveteran_req_active,
-    [VUT_MINYEAR] = is_minyear_req_active,
-    [VUT_NATION] = is_nation_req_active,
-    [VUT_NATIONALITY] = is_nationality_req_active,
-    [VUT_NATIONGROUP] = is_nationgroup_req_active,
-    [VUT_ORIGINAL_OWNER] = is_originalowner_req_active,
-    [VUT_OTYPE] = is_outputtype_req_active,
-    [VUT_ROADFLAG] = is_roadflag_req_active,
-    [VUT_SERVERSETTING] = is_serversetting_req_active,
-    [VUT_SPECIALIST] = is_specialist_req_active,
-    [VUT_STYLE] = is_style_req_active,
-    [VUT_TECHFLAG] = is_techflag_req_active,
-    [VUT_TERRAIN] = is_terrain_req_active,
-    [VUT_TERRAINALTER] = is_terrainalter_req_active,
-    [VUT_TERRAINCLASS] = is_terrainclass_req_active,
-    [VUT_TERRFLAG] = is_terrainflag_req_active,
-    [VUT_TOPO] = is_topology_req_active,
-    [VUT_UCFLAG] = is_unitclassflag_req_active,
-    [VUT_UCLASS] = is_unitclass_req_active,
-    [VUT_UNITSTATE] = is_unitstate_req_active,
-    [VUT_UTFLAG] = is_unitflag_req_active,
-    [VUT_UTYPE] = is_unittype_req_active,
-  };
-
-  enum fc_tristate eval;
-
-  if (context == NULL) {
-    context = req_context_empty();
-  }
-
-  if (req->source.kind >= VUT_COUNT) {
-    log_error("is_req_active(): invalid source kind %d.", req->source.kind);
-    return FALSE;
-  }
-
-  fc_assert_ret_val(req_active_callbacks[req->source.kind] != NULL, FALSE);
-
-  eval = req_active_callbacks[req->source.kind](context, other_player, req);
+  enum fc_tristate eval = tri_req_present(context, other_player, req);
 
   if (eval == TRI_MAYBE) {
     if (prob_type == RPT_POSSIBLE) {
@@ -4443,11 +4621,35 @@ bool is_req_active(const struct req_context *context,
       return FALSE;
     }
   }
-  if (req->present) {
-    return (eval == TRI_YES);
-  } else {
-    return (eval == TRI_NO);
+  return req->present ? (eval != TRI_NO) : (eval != TRI_YES);
+}
+
+/**********************************************************************//**
+  Applies the standard evaluation of req in context, ignoring req->present.
+
+  context may be NULL. This is equivalent to passing an empty context.
+
+  Fields of context that are NULL are considered unspecified
+  and will produce TRI_MAYBE if req needs them to evaluate.
+**************************************************************************/
+static
+enum fc_tristate tri_req_present(const struct req_context *context,
+                                 const struct player *other_player,
+                                 const struct requirement *req)
+{
+  if (context == NULL) {
+    context = req_context_empty();
   }
+
+  if (req->source.kind >= VUT_COUNT) {
+    log_error("tri_req_present(): invalid source kind %d.",
+              req->source.kind);
+    return TRI_NO;
+  }
+
+  fc_assert_ret_val(req_definitions[req->source.kind].cb != NULL, TRI_NO);
+
+  return req_definitions[req->source.kind].cb(context, other_player, req);
 }
 
 /**********************************************************************//**
@@ -4501,89 +4703,84 @@ bool are_reqs_active_ranges(const enum req_range min_range,
 }
 
 /**********************************************************************//**
-  Return TRUE if this is an "unchanging" requirement.  This means that
-  if a target can't meet the requirement now, it probably won't ever be able
-  to do so later.  This can be used to do requirement filtering when checking
-  if a target may "eventually" become available.
+  Gives a suggestion may req ever evaluate to another value with given
+  context. (The other player is not supplied since it has no value
+  for changeability of any requirement for now.)
 
-  Note this isn't absolute.  Returning TRUE here just means that the
-  requirement probably can't be met.  In some cases (particularly terrains)
-  it may be wrong.
+  Note this isn't absolute. Result other than REQUCH_NO here just means
+  that the requirement _probably_ can't change its value afterwards.
 ***************************************************************************/
-bool is_req_unchanging(const struct requirement *req)
+enum req_unchanging_status
+  is_req_unchanging(const struct req_context *context,
+                    const struct requirement *req)
 {
-  switch (req->source.kind) {
-  case VUT_NONE:
-  case VUT_ACTION:
-  case VUT_OTYPE:
-  case VUT_SPECIALIST:	/* Only so long as it's at local range only */
-  case VUT_AI_LEVEL:
-  case VUT_CITYTILE:
-  case VUT_CITYSTATUS:  /* We don't *want* owner of our city to change */
-  case VUT_STYLE:
-  case VUT_TOPO:
-  case VUT_SERVERSETTING:
-  case VUT_MINLATITUDE: /* Might change if more ranges are supported */
-  case VUT_MAXLATITUDE: /* Might change if more ranges are supported */
-    return TRUE;
-  case VUT_ORIGINAL_OWNER:
-    return (req->range <= REQ_RANGE_CITY);
-  case VUT_NATION:
-  case VUT_NATIONGROUP:
-    return (req->range != REQ_RANGE_ALLIANCE);
-  case VUT_ADVANCE:
-  case VUT_COUNTER:
-  case VUT_TECHFLAG:
-  case VUT_GOVERNMENT:
-  case VUT_ACHIEVEMENT:
-  case VUT_IMPROVEMENT:
-  case VUT_IMPR_GENUS:
-  case VUT_MINSIZE:
-  case VUT_MINCULTURE:
-  case VUT_MINFOREIGNPCT:
-  case VUT_MINTECHS:
-  case VUT_NATIONALITY:
-  case VUT_DIPLREL:
-  case VUT_DIPLREL_TILE:
-  case VUT_DIPLREL_TILE_O:
-  case VUT_DIPLREL_UNITANY:
-  case VUT_DIPLREL_UNITANY_O:
-  case VUT_MAXTILEUNITS:
-  case VUT_UTYPE:	/* Not sure about this one */
-  case VUT_UTFLAG:	/* Not sure about this one */
-  case VUT_UCLASS:	/* Not sure about this one */
-  case VUT_UCFLAG:	/* Not sure about this one */
-  case VUT_MINVETERAN:
-  case VUT_UNITSTATE:
-  case VUT_ACTIVITY:
-  case VUT_MINMOVES:
-  case VUT_MINHP:
-  case VUT_AGE:
-  case VUT_MINCALFRAG:  /* cyclically available */
-    return FALSE;
-  case VUT_ROADFLAG:
-  case VUT_EXTRAFLAG:
-    /* FIXME: These should probably be treated the same as VUT_EXTRA */
-    return req->range == REQ_RANGE_LOCAL;
-  case VUT_TERRAIN:
-  case VUT_EXTRA:
-  case VUT_GOOD:
-  case VUT_TERRAINCLASS:
-  case VUT_TERRFLAG:
-  case VUT_TERRAINALTER:
-    /* Terrains, specials and bases aren't really unchanging; in fact they're
-     * practically guaranteed to change.  We return TRUE here for historical
-     * reasons and so that the AI doesn't get confused (since the AI
-     * doesn't know how to meet special and terrain requirements). */
-    return TRUE;
-  case VUT_MINYEAR:
-    /* Once year is reached, it does not change again */
-    return req->source.value.minyear > game.info.year;
-  case VUT_COUNT:
-    break;
+  enum req_unchanging_status s;
+
+  fc_assert_ret_val(req, REQUCH_NO);
+  fc_assert_ret_val_msg(universals_n_is_valid(req->source.kind), REQUCH_NO,
+                        "Invalid source kind %d.", req->source.kind);
+  s = req_definitions[req->source.kind].unchanging;
+
+  if (req->survives) {
+    /* Special case for surviving requirements */
+    /* Buildings may obsolete even here */
+    if (VUT_IMPROVEMENT == req->source.kind) {
+      const struct impr_type *b = req->source.value.building;
+
+      if (can_improvement_go_obsolete(b)) {
+        if (improvement_obsolete(context->player, b, context->city)) {
+          /* FIXME: sometimes can unobsolete, but considering it
+           * may sometimes put the function on endless recursion */
+          return REQUCH_ACT; /* Mostly about techs */
+        } else {
+          /* NOTE: may obsoletion reqs be unchanging? Hardly but why not. */
+          return REQUCH_NO;
+        }
+      }
+    }
+    s = unchanging_present(s, context, req);
+    if (s != REQUCH_NO) {
+      return unchanging_noally(s, context, req);
+    }
+  } else {
+    req_unchanging_cond_cb cond
+      = req_definitions[req->source.kind].unchanging_cond;
+
+    if (cond) {
+      return cond(s, context, req);
+    }
   }
-  fc_assert_msg(FALSE, "Invalid source kind %d.", req->source.kind);
-  return TRUE;
+
+  return s;
+}
+
+/**********************************************************************//**
+  Returns whether this requirement is unfulfilled and probably won't be ever
+***************************************************************************/
+enum req_unchanging_status
+  is_req_preventing(const struct req_context *context,
+                    const struct player *other_player,
+                    const struct requirement *req,
+                    enum req_problem_type prob_type)
+{
+  enum req_unchanging_status u = is_req_unchanging(context, req);
+
+  if (REQUCH_NO != u) {
+    /* presence is precalculated */
+    bool auto_present = (req->survives
+         && !(VUT_IMPROVEMENT == req->source.kind
+              && can_improvement_go_obsolete(req->source.value.building)))
+      || REQUC_PRESENT == req_definitions[req->source.kind].unchanging_cond
+      || REQUC_WORLD == req_definitions[req->source.kind].unchanging_cond;
+
+    if (auto_present ? req->present
+        : is_req_active(context, other_player, req, RPT_POSSIBLE)) {
+      /* Unchanging but does not block */
+      return REQUCH_NO;
+    }
+  }
+
+  return u;
 }
 
 /**********************************************************************//**

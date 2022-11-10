@@ -750,8 +750,7 @@ bool can_player_build_improvement_later(const struct player *p,
    * they can never be met). */
   requirement_vector_iterate(&pimprove->reqs, preq) {
     if (preq->range >= REQ_RANGE_PLAYER
-        && is_req_unchanging(preq)
-        && !is_req_active(&context, NULL, preq, RPT_POSSIBLE)) {
+        && is_req_preventing(&context, NULL, preq, RPT_POSSIBLE)) {
       return FALSE;
     }
   } requirement_vector_iterate_end;
