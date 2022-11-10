@@ -107,6 +107,25 @@ struct req_context {
   const struct action *action;
 };
 
+enum req_unchanging_status {
+  REQUCH_NO = 0, /* Changes regulary */
+  REQUCH_CTRL, /* Can't be changed by game means as long as target player
+                * is in control of target city or unit */
+  REQUCH_ACT, /* Can't be easily changed by expected player's activity
+               * (without destroying teammates, inducing global warming...) */
+  REQUCH_SCRIPTS, /* May be changed by script callbacks */
+  REQUCH_HACK, /* May be changed by server commands/editor */
+  REQUCH_YES /* Really never changes unless savegame is edited */
+};
+
+/* A callback that may transform kind-specific default unchanging status
+ * to another one (usually higher but not always)
+ * Passing other_player is just not needed for it in any known cases */
+typedef enum req_unchanging_status
+  (*req_unchanging_cond_cb)(enum req_unchanging_status def,
+                            const struct req_context *context,
+                            const struct requirement *req);
+
 /* req_context-related functions */
 const struct req_context *req_context_empty(void);
 
@@ -142,7 +161,14 @@ bool are_reqs_active(const struct req_context *context,
                      const struct requirement_vector *reqs,
                      const enum   req_problem_type prob_type);
 
-bool is_req_unchanging(const struct requirement *req);
+enum req_unchanging_status
+  is_req_unchanging(const struct req_context *context,
+                    const struct requirement *req);
+enum req_unchanging_status
+  is_req_preventing(const struct req_context *context,
+                    const struct player *other_player,
+                    const struct requirement *req,
+                    enum req_problem_type prob_type);
 
 bool is_req_in_vec(const struct requirement *req,
                    const struct requirement_vector *vec);

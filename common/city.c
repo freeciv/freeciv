@@ -859,6 +859,9 @@ bool can_city_build_improvement_later(const struct city *pcity,
   };
 
   /* Can the _player_ ever build this improvement? */
+  /* NOTE: It checks for obsoletion player-level. What aboult checking
+   * for it city-level? That may unlist from a worklist some things
+   * we'll be able to switch to after e.g. selling something else */
   if (!can_player_build_improvement_later(city_owner(pcity), pimprove)) {
     return FALSE;
   }
@@ -866,8 +869,7 @@ bool can_city_build_improvement_later(const struct city *pcity,
   /* Check for requirements that aren't met and that are unchanging (so
    * they can never be met). */
   requirement_vector_iterate(&pimprove->reqs, preq) {
-    if (is_req_unchanging(preq)
-        && !is_req_active(&city_ctxt, NULL, preq, RPT_POSSIBLE)) {
+    if (is_req_preventing(&city_ctxt, NULL, preq, RPT_POSSIBLE)) {
       return FALSE;
     }
   } requirement_vector_iterate_end;

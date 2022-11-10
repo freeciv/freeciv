@@ -897,7 +897,10 @@ bool sanity_check_ruleset_data(struct rscompat_info *compat)
                       " and req2 like before.",
                       advance_rule_name(padvance));
         ok = FALSE;
-      } else if (!is_req_unchanging(preq)) {
+      } else if (is_req_unchanging(NULL, preq) < REQUCH_HACK
+                 /* If we get an obsolete improvement before the game,
+                  * almost surely it is going to become not obsolete later.
+                  * This check must catch it. */) {
         struct astring astr;
 
         /* Only support unchanging requirements until the reachability code

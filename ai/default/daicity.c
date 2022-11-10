@@ -1897,7 +1897,8 @@ static bool should_force_recalc(struct city *pcity)
   return city_built_last_turn(pcity)
       || (VUT_IMPROVEMENT == pcity->production.kind
        && !improvement_has_flag(pcity->production.value.building, IF_GOLD)
-       && !can_city_build_improvement_later(pcity, pcity->production.value.building));
+       && !dai_can_city_build_improvement_later
+           (pcity, pcity->production.value.building));
 }
 
 /**********************************************************************//**
@@ -2042,6 +2043,91 @@ void dai_consider_wonder_city(struct ai_type *ait, struct city *pcity, bool *res
   } else {
     *result = TRUE;
   }
+}
+
+/**********************************************************************//**
+  Default AI does not know ways of ever fulfilling this requirement
+  and should not think about it
+**************************************************************************/
+static bool dai_cant_help_req(const struct req_context *context,
+                              const struct requirement *req)
+{
+  switch (req->source.kind) {
+  /* Unskilled in channel digging and merchantry */
+  case VUT_TERRAIN:
+  case VUT_EXTRA:
+  case VUT_GOOD:
+  case VUT_TERRAINCLASS:
+  case VUT_TERRFLAG:
+  case VUT_TERRAINALTER:
+    return !is_req_active(context, NULL, req, RPT_POSSIBLE);
+  default:
+    return is_req_preventing(context, NULL, req, RPT_POSSIBLE) > REQUCH_NO;
+  }
+}
+
+/**********************************************************************//**
+  Whether AI expects to be ever able to build given building in the city
+**************************************************************************/
+bool dai_can_city_build_improvement_later(const struct city *pcity,
+                                          const struct impr_type *pimprove)
+{
+  const struct req_context city_ctxt = {
+    .player = city_owner(pcity),
+    .city = pcity,
+    .tile = city_tile(pcity),
+  };
+
+  /* FIXME: AI may be too stupid to sell obsoleting improvements
+   * from the city that are _not_ checked here. */
+  if (!dai_can_player_build_improvement_later(city_owner(pcity),
+                                              pimprove)) {
+    return FALSE;
+  }
+
+  /* Check for requirements that aren't met and that are unchanging (so
+   * they can never be met). */
+  requirement_vector_iterate(&pimprove->reqs, preq) {
+    if (dai_cant_help_req(&city_ctxt, preq)) {
+      return FALSE;
+    }
+  } requirement_vector_iterate_end;
+
+  return TRUE;
+}
+
+/**********************************************************************//**
+  Whether AI expects to be ever able to build given building
+**************************************************************************/
+bool
+dai_can_player_build_improvement_later(const struct player *p,
+                                       const struct impr_type *pimprove)
+{
+  const struct req_context context = { .player = p };
+
+  if (!valid_improvement(pimprove)) {
+    return FALSE;
+  }
+  if (improvement_obsolete(p, pimprove, NULL)) {
+    return FALSE;
+  }
+  if (is_great_wonder(pimprove) && !great_wonder_is_available(pimprove)) {
+    /* Can't build wonder if already built */
+    return FALSE;
+  }
+
+  /* Check for requirements that aren't met and that are unchanging (so
+   * they can never be met). */
+  requirement_vector_iterate(&pimprove->reqs, preq) {
+    if (preq->range >= REQ_RANGE_PLAYER
+        && dai_cant_help_req(&context, preq)) {
+      return FALSE;
+    }
+  } requirement_vector_iterate_end;
+  /* FIXME: should check some "unchanging" reqs here - like if there's
+   * a nation requirement, we can go ahead and check it now. */
+
+  return TRUE;
 }
 
 /**********************************************************************//**
