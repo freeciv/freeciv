@@ -1930,17 +1930,7 @@ AC_CONFIG_FILES([Makefile
 	  doc/nl/Makefile
 	  doc/sv/Makefile
           bootstrap/Makefile
-          lua/Makefile
-          bootstrap/org.freeciv.gtk3.desktop:bootstrap/org.freeciv.gtk3.desktop.in
-          bootstrap/org.freeciv.gtk322.desktop:bootstrap/org.freeciv.gtk322.desktop.in
-          bootstrap/org.freeciv.gtk4.desktop:bootstrap/org.freeciv.gtk4.desktop.in
-          bootstrap/org.freeciv.sdl2.desktop:bootstrap/org.freeciv.sdl2.desktop.in
-          bootstrap/org.freeciv.qt.desktop:bootstrap/org.freeciv.qt.desktop.in
-	  bootstrap/org.freeciv.server.desktop:bootstrap/org.freeciv.server.desktop.in
-	  bootstrap/org.freeciv.mp.gtk3.desktop:bootstrap/org.freeciv.mp.gtk3.desktop.in
-	  bootstrap/org.freeciv.mp.gtk4.desktop:bootstrap/org.freeciv.mp.gtk4.desktop.in
-	  bootstrap/org.freeciv.mp.qt.desktop:bootstrap/org.freeciv.mp.qt.desktop.in
-	  bootstrap/org.freeciv.ruledit.desktop:bootstrap/org.freeciv.ruledit.desktop.in])
+          lua/Makefile])
 AC_CONFIG_FILES([fcgui:bootstrap/fcgui.in], [chmod +x fcgui])
 AC_CONFIG_FILES([fcser:bootstrap/fcser.in], [chmod +x fcser])
 AC_CONFIG_FILES([fcruleup:bootstrap/fcruleup.in], [chmod +x fcruleup])
