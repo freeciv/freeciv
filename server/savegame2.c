@@ -3602,10 +3602,18 @@ static bool sg_load_player_city(struct loaddata *loading, struct player *plr,
                                  citystr);
   city_map_radius_sq_set(pcity, radius_sq);
 
-  city_tile_iterate(radius_sq, city_tile(pcity), ptile) {
+  city_tile_iterate(CITY_MAP_MAX_RADIUS_SQ, city_tile(pcity), ptile) {
     if (loading->worked_tiles[ptile->index] == pcity->id) {
-      tile_set_worked(ptile, pcity);
-      workers++;
+      if (sq_map_distance(ptile, pcity->tile) > radius_sq) {
+        log_sg("[%s] '%s' (%d, %d) has worker outside current radius "
+               "at (%d, %d); repairing", citystr, city_name_get(pcity),
+               TILE_XY(pcity->tile), TILE_XY(ptile));
+        pcity->specialists[DEFAULT_SPECIALIST]++;
+        sp_count++;
+      } else {
+        tile_set_worked(ptile, pcity);
+        workers++;
+      }
 
 #ifdef FREECIV_DEBUG
       /* set this tile to unused; a check for not resetted tiles is
@@ -3620,7 +3628,7 @@ static bool sg_load_player_city(struct loaddata *loading, struct player *plr,
 
     if (NULL != pwork) {
       log_sg("[%s] city center of '%s' (%d,%d) [%d] is worked by '%s' "
-             "(%d,%d) [%d]; repairing ", citystr, city_name_get(pcity),
+             "(%d,%d) [%d]; repairing", citystr, city_name_get(pcity),
              TILE_XY(city_tile(pcity)), city_size_get(pcity), city_name_get(pwork),
              TILE_XY(city_tile(pwork)), city_size_get(pwork));
 
@@ -3628,7 +3636,7 @@ static bool sg_load_player_city(struct loaddata *loading, struct player *plr,
       pwork->specialists[DEFAULT_SPECIALIST]++;
       auto_arrange_workers(pwork);
     } else {
-      log_sg("[%s] city center of '%s' (%d,%d) [%d] is empty; repairing ",
+      log_sg("[%s] city center of '%s' (%d,%d) [%d] is empty; repairing",
              citystr, city_name_get(pcity), TILE_XY(city_tile(pcity)),
              city_size_get(pcity));
     }
