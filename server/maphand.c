@@ -2304,30 +2304,33 @@ void map_claim_base(struct tile *ptile, struct extra_type *pextra,
                     struct player *powner, struct player *ploser)
 {
   struct base_type *pbase;
-  int units_num;
+  int units_num = 0;
   bv_player *could_see_unit;
-  int i;
 
   if (!tile_has_extra(ptile, pextra)) {
     return;
   }
 
-  units_num = unit_list_size(ptile->units);
-  could_see_unit = (units_num > 0
-                    ? fc_malloc(sizeof(*could_see_unit) * units_num)
-                    : NULL);
-
-  i = 0;
   if (pextra->eus != EUS_NORMAL) {
-    unit_list_iterate(ptile->units, aunit) {
-      BV_CLR_ALL(could_see_unit[i]);
-      players_iterate(aplayer) {
-        if (can_player_see_unit(aplayer, aunit)) {
-          BV_SET(could_see_unit[i], player_index(aplayer));
-        }
-      } players_iterate_end;
-      i++;
-    } unit_list_iterate_end;
+    int i = 0;
+
+    units_num = unit_list_size(ptile->units);
+
+    if (units_num > 0) {
+      could_see_unit = fc_malloc(sizeof(*could_see_unit) * units_num);
+
+      unit_list_iterate(ptile->units, aunit) {
+        BV_CLR_ALL(could_see_unit[i]);
+        players_iterate(aplayer) {
+          if (can_player_see_unit(aplayer, aunit)) {
+            BV_SET(could_see_unit[i], player_index(aplayer));
+          }
+        } players_iterate_end;
+        i++;
+      } unit_list_iterate_end;
+    } else {
+      could_see_unit = NULL; /* To keep compiler happy */
+    }
   }
 
   pbase = extra_base_get(pextra);
@@ -2379,8 +2382,14 @@ void map_claim_base(struct tile *ptile, struct extra_type *pextra,
     city_refresh_queue_processing();
   }
 
-  i = 0;
-  if (pextra->eus != EUS_NORMAL) {
+  if (units_num > 0) {
+    int i = 0;
+
+    fc_assert(pextra->eus != EUS_NORMAL);
+
+    /* TODO: Is it really safe, after all the potential effects above
+     * function calls can have, to assume that the tile has the same units
+     * in the same order as when could_see_unit[] was first created? */
     unit_list_iterate(ptile->units, aunit) {
       players_iterate(aplayer) {
         if (can_player_see_unit(aplayer, aunit)) {
@@ -2395,9 +2404,7 @@ void map_claim_base(struct tile *ptile, struct extra_type *pextra,
       } players_iterate_end;
       i++;
     } unit_list_iterate_end;
-  }
 
-  if (could_see_unit != NULL) {
     free(could_see_unit);
   }
 }
