@@ -142,11 +142,17 @@ static void save_game_callback(GtkMenuItem *item, gpointer data);
 static void save_game_as_callback(GtkMenuItem *item, gpointer data);
 static void save_mapimg_callback(GtkMenuItem *item, gpointer data);
 static void save_mapimg_as_callback(GtkMenuItem *item, gpointer data);
-static void find_city_callback(GtkMenuItem *item, gpointer data);
-static void worklists_callback(GtkMenuItem *item, gpointer data);
-static void client_lua_script_callback(GtkMenuItem *item, gpointer data);
 #endif /* MENUS_GTK3 */
 
+static void find_city_callback(GSimpleAction *action,
+                               GVariant *parameter,
+                               gpointer data);
+static void worklists_callback(GSimpleAction *action,
+                               GVariant *parameter,
+                               gpointer data);
+static void client_lua_script_callback(GSimpleAction *action,
+                                       GVariant *parameter,
+                                       gpointer data);
 static void leave_callback(GSimpleAction *action,
                            GVariant *parameter,
                            gpointer data);
@@ -287,9 +293,11 @@ static void select_same_type_tile_callback(GtkMenuItem *item, gpointer data);
 static void select_same_type_cont_callback(GtkMenuItem *item, gpointer data);
 static void select_same_type_callback(GtkMenuItem *item, gpointer data);
 static void select_dialog_callback(GtkMenuItem *item, gpointer data);
-static void rally_dialog_callback(GtkMenuItem *item, gpointer data);
 #endif /* MENUS_GTK3 */
 
+static void rally_dialog_callback(GSimpleAction *action,
+                                  GVariant *parameter,
+                                  gpointer data);
 static void infra_dialog_callback(GSimpleAction *action,
                                   GVariant *parameter,
                                   gpointer data);
@@ -416,8 +424,20 @@ static struct menu_entry_info menu_entries[] =
     NULL, FALSE },
 
   /* Edit menu */
+  { "FIND_CITY", N_("_Find City"),
+    "find_city", "<ctrl>f", MGROUP_SAFE,
+    NULL, FALSE },
+  { "WORKLISTS", N_("Work_lists"),
+    "worklists", "<ctrl>l", MGROUP_SAFE,
+    NULL, FALSE },
+  { "RALLY_DLG", N_("Rally point dialog"),
+    "rally_dlg", "<ctrl>r", MGROUP_SAFE,
+    NULL, FALSE },
   { "INFRA_DLG", N_("Infra dialog"),
     "infra_dlg", "<ctrl>i", MGROUP_SAFE,
+    NULL, FALSE },
+  { "CLIENT_LUA_SCRIPT", N_("Client _Lua Script"),
+    "lua_script", NULL, MGROUP_SAFE,
     NULL, FALSE },
 
   /* View menu */
@@ -582,15 +602,6 @@ static struct menu_entry_info menu_entries[] =
   { "MAPIMG_SAVE_AS", N_("Save _Map Image As..."), 0, 0,
     G_CALLBACK(save_mapimg_as_callback), MGROUP_SAFE },
 
-  { "FIND_CITY", N_("_Find City"), GDK_KEY_f, GDK_CONTROL_MASK,
-    G_CALLBACK(find_city_callback), MGROUP_SAFE },
-  { "WORKLISTS", N_("Work_lists"), GDK_KEY_l, GDK_CONTROL_MASK,
-    G_CALLBACK(worklists_callback), MGROUP_SAFE },
-  { "RALLY_DLG", N_("Rally point dialog"), GDK_KEY_r, GDK_CONTROL_MASK,
-    G_CALLBACK(rally_dialog_callback), MGROUP_SAFE },
-
-  { "CLIENT_LUA_SCRIPT", N_("Client _Lua Script"), 0, 0,
-    G_CALLBACK(client_lua_script_callback), MGROUP_SAFE },
   { "HELP_OVERVIEW", N_("?help:Overview"), 0, 0,
     G_CALLBACK(help_overview_callback), MGROUP_SAFE },
   { "HELP_PLAYING", N_("Strategy and Tactics"), 0, 0,
@@ -801,7 +812,11 @@ const GActionEntry acts[] = {
   { "leave", leave_callback },
   { "quit", quit_callback },
 
+  { "find_city", find_city_callback },
+  { "worklists", worklists_callback },
+  { "rally_dlg", rally_dialog_callback },
   { "infra_dlg", infra_dialog_callback },
+  { "lua_script", client_lua_script_callback },
 
   { "center_view", center_view_callback },
 
@@ -1009,11 +1024,12 @@ static void quit_callback(GSimpleAction *action,
   popup_quit_dialog();
 }
 
-#ifdef MENUS_GTK3
 /************************************************************************//**
   Item "FIND_CITY" callback.
 ****************************************************************************/
-static void find_city_callback(GtkMenuItem *item, gpointer data)
+static void find_city_callback(GSimpleAction *action,
+                               GVariant *parameter,
+                               gpointer data)
 {
   popup_find_dialog();
 }
@@ -1021,11 +1037,12 @@ static void find_city_callback(GtkMenuItem *item, gpointer data)
 /************************************************************************//**
   Item "WORKLISTS" callback.
 ****************************************************************************/
-static void worklists_callback(GtkMenuItem *item, gpointer data)
+static void worklists_callback(GSimpleAction *action,
+                               GVariant *parameter,
+                               gpointer data)
 {
   popup_worklists_report();
 }
-#endif /* MENUS_GTK3 */
 
 /************************************************************************//**
   Item "MAP_VIEW" callback.
@@ -1076,15 +1093,15 @@ static void report_messages_callback(GSimpleAction *action,
   meswin_dialog_popup(TRUE);
 }
 
-#ifdef MENUS_GTK3
 /************************************************************************//**
   Item "CLIENT_LUA_SCRIPT" callback.
 ****************************************************************************/
-static void client_lua_script_callback(GtkMenuItem *item, gpointer data)
+static void client_lua_script_callback(GSimpleAction *action,
+                                       GVariant *parameter,
+                                       gpointer data)
 {
   luaconsole_dialog_popup(TRUE);
 }
-#endif /* MENUS_GTK3 */
 
 /************************************************************************//**
   Item "REPORT_DEMOGRAPHIC" callback.
@@ -1710,15 +1727,17 @@ static void select_dialog_callback(GtkMenuItem *item, gpointer data)
 {
   unit_select_dialog_popup(NULL);
 }
+#endif /* MENUS_GTK3 */
 
 /************************************************************************//**
   Open rally point dialog.
 ****************************************************************************/
-static void rally_dialog_callback(GtkMenuItem *item, gpointer data)
+static void rally_dialog_callback(GSimpleAction *action,
+                                  GVariant *parameter,
+                                  gpointer data)
 {
   rally_dialog_popup();
 }
-#endif /* MENUS_GTK3 */
 
 /************************************************************************//**
   Open infra placement dialog.
@@ -2531,7 +2550,11 @@ static GMenu *setup_menus(GtkApplication *app)
 
   topmenu = g_menu_new();
 
+  menu_entry_init(topmenu, "FIND_CITY");
+  menu_entry_init(topmenu, "WORKLISTS");
+  menu_entry_init(topmenu, "RALLY_DLG");
   menu_entry_init(topmenu, "INFRA_DLG");
+  menu_entry_init(topmenu, "CLIENT_LUA_SCRIPT");
 
   g_menu_append_submenu(menubar, _("_Edit"), G_MENU_MODEL(topmenu));
 
@@ -3165,6 +3188,7 @@ void real_menus_update(void)
                                  && can_client_issue_orders()
                                  && !editor_is_active());
 
+  menu_entry_set_sensitive(map, "RALLY_DLG", can_client_issue_orders());
   menu_entry_set_sensitive(map, "INFRA_DLG", terrain_control.infrapoints);
 
   menu_entry_set_sensitive(map, "REPORT_TOP_CITIES", game.info.top_cities_count > 0);
@@ -3175,7 +3199,6 @@ void real_menus_update(void)
   menu_entry_set_sensitive("EDIT_MODE",
                            can_conn_enable_editing(&client.conn));
   editgui_refresh();
-  menu_entry_set_sensitive("RALLY_DLG", can_client_issue_orders());
 
   {
     char road_buf[500];
