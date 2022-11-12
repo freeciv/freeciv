@@ -4495,6 +4495,7 @@ req_vec_get_first_missing_univ(const struct requirement_vector *vec,
 {
   int i;
   req_vec_num_in_item vec_num;
+  struct req_vec_problem *problem = NULL;
 
   if (vec == NULL || requirement_vector_size(vec) == 0) {
     /* No vector. */
@@ -4512,7 +4513,6 @@ req_vec_get_first_missing_univ(const struct requirement_vector *vec,
     struct requirement *preq = requirement_vector_get(vec, i);
 
     if (universal_never_there(&preq->source)) {
-      struct req_vec_problem *problem;
       struct astring astr;
 
       if (preq->present) {
@@ -4523,12 +4523,22 @@ req_vec_get_first_missing_univ(const struct requirement_vector *vec,
         /* TRANS: ruledit warns a user about an unused requirement vector
          * that never can be fulfilled because it asks for something that
          * never will be there. */
-        req_vec_problem_new(0,
-                  N_("Requirement {%s} requires %s but it will never be"
-                     " there."),
-                  req_to_fstring(preq, &astr), universal_rule_name(&preq->source));
-        astr_free(&astr);
+        if (problem == NULL) {
+          problem = req_vec_problem_new(0,
+                       N_("Requirement {%s} requires %s but it will never be"
+                          " there."),
+                       req_to_fstring(preq, &astr), universal_rule_name(&preq->source));
+          astr_free(&astr);
+        }
+
+        /* Continue to check if other problems have a solution proposal,
+         * and prefer to return those. */
         continue;
+      }
+
+      if (problem != NULL) {
+        /* Free previous one (one with no solution proposals) */
+        req_vec_problem_free(problem);
       }
 
       problem = req_vec_problem_new(1,
@@ -4548,7 +4558,7 @@ req_vec_get_first_missing_univ(const struct requirement_vector *vec,
     }
   }
 
-  return NULL;
+  return problem;
 }
 
 /**********************************************************************//**
