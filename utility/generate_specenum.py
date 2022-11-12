@@ -55,12 +55,12 @@ def make_documentation(file):
  *
  * The following macros *CAN* be defined:
  * - SPECENUM_INVALID: specifies a value that your 'foo_invalid()' function
- * will return.  Note it cannot be a declared value with SPECENUM_VALUE%d.
+ * will return. Note it cannot be a declared value with SPECENUM_VALUE%d.
  * - SPECENUM_BITWISE: defines if the enumeration should be like
  * [1, 2, 4, 8, etc...] instead of the default of [0, 1, 2, 3, etc...].
  * - SPECENUM_ZERO: can be defined only if SPECENUM_BITWISE was also defined.
  * It defines a 0 value. Note that if you don't declare this value, 0 passed
- * to the 'foo_is_valid()' function will return 0.
+ * to the 'foo_is_valid()' function will return FALSE.
  * - SPECENUM_COUNT: a name for the maximum enumeration number plus 1. For
  * enums where every element from 0 to the maximum is defined, this is the
  * number of elements in the enum. This value is suitable to size an array
@@ -152,7 +152,7 @@ def make_macros(file):
 extern "C" {
 #endif /* __cplusplus */
 
-/* Utility */
+/* utility */
 #include "fcintl.h"     /* translation */
 #include "log.h"        /* fc_assert. */
 #include "support.h"    /* bool type. */
