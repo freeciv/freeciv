@@ -66,6 +66,8 @@ enum {
   RESPONSE_SAVE
 };
 
+static GtkWidget *opt_popover = NULL;
+
 
 /* Option dialog main functions. */
 static struct option_dialog *
@@ -137,24 +139,28 @@ static void option_dialog_destroy_callback(GtkWidget *object, gpointer data)
   }
 }
 
-#ifdef MENUS_GTK3
 /************************************************************************//**
   Option refresh requested from menu.
 ****************************************************************************/
-static void option_refresh_callback(GtkMenuItem *menuitem, gpointer data)
+static void option_refresh_callback(GSimpleAction *action, GVariant *parameter,
+                                    gpointer data)
 {
-  struct option *poption = (struct option *) data;
+  struct option *poption = (struct option *)data;
   struct option_dialog *pdialog = option_dialog_get(option_optset(poption));
 
   if (NULL != pdialog) {
     option_dialog_option_refresh(poption);
   }
+
+  gtk_widget_unparent(opt_popover);
+  g_object_unref(opt_popover);
 }
 
 /************************************************************************//**
   Option reset requested from menu.
 ****************************************************************************/
-static void option_reset_callback(GtkMenuItem *menuitem, gpointer data)
+static void option_reset_callback(GSimpleAction *action, GVariant *parameter,
+                                  gpointer data)
 {
   struct option *poption = (struct option *) data;
   struct option_dialog *pdialog = option_dialog_get(option_optset(poption));
@@ -162,12 +168,16 @@ static void option_reset_callback(GtkMenuItem *menuitem, gpointer data)
   if (NULL != pdialog) {
     option_dialog_option_reset(poption);
   }
+
+  gtk_widget_unparent(opt_popover);
+  g_object_unref(opt_popover);
 }
 
 /************************************************************************//**
   Option apply requested from menu.
 ****************************************************************************/
-static void option_apply_callback(GtkMenuItem *menuitem, gpointer data)
+static void option_apply_callback(GSimpleAction *action, GVariant *parameter,
+                                  gpointer data)
 {
   struct option *poption = (struct option *) data;
   struct option_dialog *pdialog = option_dialog_get(option_optset(poption));
@@ -175,8 +185,10 @@ static void option_apply_callback(GtkMenuItem *menuitem, gpointer data)
   if (NULL != pdialog) {
     option_dialog_option_apply(poption);
   }
+
+  gtk_widget_unparent(opt_popover);
+  g_object_unref(opt_popover);
 }
-#endif /* MENUS_GTK3 */
 
 /************************************************************************//**
   Called when a button is pressed on an option.
@@ -187,35 +199,49 @@ static gboolean option_button_press_callback(GtkGestureClick *gesture,
                                              gpointer data)
 {
   struct option *poption = (struct option *) data;
-#ifdef MENUS_GTK3
-  GtkWidget *menu, *item;
-#endif /* MENUS_GTK3 */
+  GtkEventController *controller = GTK_EVENT_CONTROLLER(gesture);
+  GtkWidget *parent = gtk_event_controller_get_widget(controller);
+  GMenu *menu;
+  GActionGroup *group;
+  GSimpleAction *act;
+  GMenuItem *item;
+  GdkRectangle rect = { .x = x, .y = y, .width = 1, .height = 1};
 
   if (!option_is_changeable(poption)) {
     return FALSE;
   }
 
-#ifdef MENUS_GTK3
-  menu = gtk_menu_button_new();
+  group = G_ACTION_GROUP(g_simple_action_group_new());
 
-  item = gtk_menu_item_new_with_label(_("Refresh this option"));
-  gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-  g_signal_connect(item, "activate",
-                   G_CALLBACK(option_refresh_callback), poption);
+  menu = g_menu_new();
 
-  item = gtk_menu_item_new_with_label(_("Reset this option"));
-  gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-  g_signal_connect(item, "activate",
-                   G_CALLBACK(option_reset_callback), poption);
+  act = g_simple_action_new("refresh", NULL);
+  g_action_map_add_action(G_ACTION_MAP(group), G_ACTION(act));
+  g_signal_connect(act, "activate", G_CALLBACK(option_refresh_callback), poption);
+  item = g_menu_item_new(_("Refresh this option"), "win.refresh");
+  g_menu_append_item(menu, item);
 
-  item = gtk_menu_item_new_with_label(_("Apply the changes for this option"));
-  gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-  g_signal_connect(item, "activate",
-                   G_CALLBACK(option_apply_callback), poption);
+  act = g_simple_action_new("unit_reset", NULL);
+  g_action_map_add_action(G_ACTION_MAP(group), G_ACTION(act));
+  g_signal_connect(act, "activate", G_CALLBACK(option_reset_callback), poption);
+  item = g_menu_item_new(_("Reset this option"), "win.unit_reset");
+  g_menu_append_item(menu, item);
 
-  gtk_widget_show(menu);
-  gtk_menu_popup_at_pointer(GTK_MENU(menu), NULL);
-#endif /* MENUS_GTK3 */
+  act = g_simple_action_new("units_apply", NULL);
+  g_action_map_add_action(G_ACTION_MAP(group), G_ACTION(act));
+  g_signal_connect(act, "activate", G_CALLBACK(option_apply_callback), poption);
+  item = g_menu_item_new(_("Apply the changes for this option"), "win.units_apply");
+  g_menu_append_item(menu, item);
+
+
+  opt_popover = gtk_popover_menu_new_from_model(G_MENU_MODEL(menu));
+  g_object_ref(opt_popover);
+  gtk_widget_insert_action_group(opt_popover, "win", group);
+
+  gtk_widget_set_parent(opt_popover, parent);
+  gtk_popover_set_pointing_to(GTK_POPOVER(opt_popover), &rect);
+
+  gtk_popover_popup(GTK_POPOVER(opt_popover));
 
   return TRUE;
 }
