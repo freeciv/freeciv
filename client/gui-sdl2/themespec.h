@@ -11,7 +11,7 @@
    GNU General Public License for more details.
 ***********************************************************************/
 
-/********************************************************************** 
+/***********************************************************************
   Reading and using the themespec files, which describe
   the files and contents of themes.
 ***********************************************************************/
@@ -58,9 +58,9 @@ struct theme_background_system *theme_get_background_system(const struct theme *
 
 char *themespec_gfx_filename(const char *gfx_filename);
 
-/* theme accessor functions. */
+/* Theme accessor functions. */
 const char *theme_get_name(const struct theme *t);
 const char *theme_font_filename(const struct theme *t);
 int theme_default_font_size(const struct theme *t);
 
-#endif  /* FC__THEMESPEC_H */
+#endif /* FC__THEMESPEC_H */

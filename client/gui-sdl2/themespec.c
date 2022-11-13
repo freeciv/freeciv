@@ -477,7 +477,7 @@ static struct sprite *load_gfx_file(const char *gfx_filename)
 /************************************************************************//**
   Ensure that the big sprite of the given spec file is loaded.
 ****************************************************************************/
-static void ensure_big_sprite(struct specfile *sf)
+static void theme_ensure_big_sprite(struct specfile *sf)
 {
   struct section_file *file;
   const char *gfx_filename;
@@ -487,7 +487,7 @@ static void ensure_big_sprite(struct specfile *sf)
     return;
   }
 
-  /* Otherwise load it.  The big sprite will sometimes be freed and will have
+  /* Otherwise load it. The big sprite will sometimes be freed and will have
    * to be reloaded, but most of the time it's just loaded once, the small
    * sprites are extracted, and then it's freed. */
   if (!(file = secfile_load(sf->file_name, TRUE))) {
@@ -865,7 +865,7 @@ static struct sprite *theme_load_sprite(struct theme *t, const char *tag_name)
     } else {
       int sf_w, sf_h;
 
-      ensure_big_sprite(ss->sf);
+      theme_ensure_big_sprite(ss->sf);
       get_sprite_dimensions(ss->sf->big_sprite, &sf_w, &sf_h);
       if (ss->x < 0 || ss->x + ss->width > sf_w
           || ss->y < 0 || ss->y + ss->height > sf_h) {
