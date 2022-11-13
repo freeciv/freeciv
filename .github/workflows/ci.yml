@@ -98,7 +98,8 @@ jobs:
             sdl2_mixer \
             sdl2_gfx \
             sdl2_image \
-            sdl2_ttf
+            sdl2_ttf \
+            qt@6
       - name: build
         shell: bash
         run: ./scripts/ci-build.sh mac-meson

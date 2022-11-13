@@ -100,10 +100,10 @@ mkdir build
 cd build
 meson .. \
   -Ddebug=true \
-  -Druledit=false \
+  -Druledit=true \
   -Dsyslua=true \
-  -Dclients=gtk3.22,sdl2,gtk4,stub \
-  -Dfcmp=gtk3,gtk4,cli \
+  -Dclients=gtk3.22,sdl2,gtk4,qt,stub \
+  -Dfcmp=gtk3,gtk4,qt,cli \
   -Dprefix=${HOME}/freeciv/mac-meson \
   || (let meson_exit_status=$? \
       && echo "meson.log:" \
