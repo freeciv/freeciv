@@ -284,7 +284,7 @@ static void recalculate_lake_surrounders(void)
   Due to the number of recursion for large maps a non-recursive algorithm is
   utilised.
 
-  is_land tells us whether we are assigning continent numbers or ocean 
+  is_land tells us whether we are assigning continent numbers or ocean
   numbers.
 **************************************************************************/
 static void assign_continent_flood(struct tile *ptile, bool is_land, int nr)
@@ -305,35 +305,35 @@ static void assign_continent_flood(struct tile *ptile, bool is_land, int nr)
   tile_list_append(tlist, ptile);
 
   while (tile_list_size(tlist) > 0) {
-    /* Iterate over all unchecked tiles. */
-    tile_list_iterate(tlist, ptile2) {
-      /* Iterate over the adjacent tiles. */
-      adjc_iterate(&(wld.map), ptile2, ptile3) {
-        pterrain = tile_terrain(ptile3);
+    struct tile *ptile2 = tile_list_get(tlist, 0);
 
-        /* Check if it is a valid tile for continent / ocean. */
-        if (tile_continent(ptile3) != 0
-            || T_UNKNOWN == pterrain
-            || !XOR(is_land, terrain_type_terrain_class(pterrain) == TC_OCEAN)) {
-          continue;
-        }
+    /* Iterate over the adjacent tiles. */
+    adjc_iterate(&(wld.map), ptile2, ptile3) {
+      pterrain = tile_terrain(ptile3);
 
-        /* Add the tile to the list of tiles to check. */
-        if (!tile_list_search(tlist, ptile3)) {
-          tile_list_append(tlist, ptile3);
-        }
-      } adjc_iterate_end;
-
-      /* Set the continent data and remove the tile from the list. */
-      tile_set_continent(ptile2, nr);
-      tile_list_remove(tlist, ptile2);
-      /* count the tile */
-      if (nr < 0) {
-        ocean_sizes[-nr]++;
-      } else {
-        continent_sizes[nr]++;
+      /* Check if it is a valid tile for continent / ocean. */
+      if (tile_continent(ptile3) != 0
+          || T_UNKNOWN == pterrain
+          || !XOR(is_land, terrain_type_terrain_class(pterrain) == TC_OCEAN)) {
+        continue;
       }
-    } tile_list_iterate_end;
+
+      /* Add the tile to the list of tiles to check. */
+      if (!tile_list_search(tlist, ptile3)) {
+        tile_list_append(tlist, ptile3);
+      }
+    } adjc_iterate_end;
+
+    /* Set the continent data and remove the tile from the list. */
+    tile_set_continent(ptile2, nr);
+    tile_list_remove(tlist, ptile2);
+
+    /* Count the tile */
+    if (nr < 0) {
+      ocean_sizes[-nr]++;
+    } else {
+      continent_sizes[nr]++;
+    }
   }
 
   tile_list_destroy(tlist);
@@ -441,7 +441,7 @@ int get_ocean_size(Continent_id id)
 
 /**********************************************************************//**
   Assigns continent and ocean numbers to all tiles, and set
-  map.num_continents and map.num_oceans.  Recalculates continent and
+  map.num_continents and map.num_oceans. Recalculates continent and
   ocean sizes, and lake_surrounders[] arrays.
 
   Continents have numbers 1 to map.num_continents _inclusive_.
@@ -487,7 +487,7 @@ void assign_continent_numbers(void)
 
   recalculate_lake_surrounders();
 
-  log_verbose("Map has %d continents and %d oceans", 
+  log_verbose("Map has %d continents and %d oceans",
               wld.map.num_continents, wld.map.num_oceans);
 }
 
