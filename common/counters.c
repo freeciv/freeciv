@@ -84,6 +84,7 @@ void attach_city_counter(struct counter *counter)
 {
   counters_city[number_city_counters] = counter;
   counters_city[number_city_counters]->index = number_city_counters;
+  counters_city[number_city_counters]->ruledit_disabled = FALSE;
   number_city_counters++;
 }
 

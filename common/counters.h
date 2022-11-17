@@ -17,6 +17,9 @@
 extern "C" {
 #endif /* __cplusplus */
 
+/* utility */
+#include "support.h"
+
 /* common */
 #include "name_translation.h"
 
@@ -25,6 +28,7 @@ extern "C" {
 struct counter
 {
   struct name_translation name;
+  bool ruledit_disabled;
   enum counter_behaviour type;
   enum counter_target target;
   int checkpoint;
@@ -61,6 +65,18 @@ void attach_city_counter(struct counter *counter);
 #define city_counters_iterate_end } \
    }
 
+#define counters_re_iterate(pcount) { \
+   int _i_##pcount; \
+   struct counter *pcount; \
+   int _ccounter_count_##pcount = game.control.num_counters; { \
+   for (_i_##pcount = 0; _i_##pcount < _ccounter_count_##pcount; _i_##pcount++) { \
+      pcount = counter_by_id(_i_##pcount); \
+      if ( ! pcount -> ruledit_disabled ) {
+
+#define counters_re_iterate_end } \
+          } \
+      } \
+   }
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

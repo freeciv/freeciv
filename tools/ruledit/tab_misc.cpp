@@ -35,6 +35,7 @@
 
 // common
 #include "achievements.h"
+#include "counters.h"
 #include "game.h"
 #include "government.h"
 #include "specialist.h"
@@ -199,6 +200,10 @@ tab_misc::tab_misc(ruledit_gui *ui_in) : QWidget()
   stats->setItem(5, 3, item);
   item = new QTableWidgetItem("-");
   stats->setItem(5, 4, item);
+  item = new QTableWidgetItem(QString::fromUtf8(RQ_("?stat:Counters")));
+  stats->setItem(6, 3, item);
+  item = new QTableWidgetItem("-");
+  stats->setItem(6, 4, item);
   item = new QTableWidgetItem(QString::fromUtf8(RQ_("?stat:Achievements")));
   stats->setItem(0, 6, item);
   item = new QTableWidgetItem("-");
@@ -391,6 +396,11 @@ void tab_misc::refresh_stats()
   stats->item(row++, 4)->setText(QString::number(count));
 
   stats->item(row++, 4)->setText(QString::number(game.control.num_disaster_types));
+  count = 0;
+  counters_re_iterate(pcount) {
+    count++;
+  } counters_re_iterate_end;
+  stats->item(row++, 4)->setText(QString::number(count));
 
   // Third column
   row = 0;
