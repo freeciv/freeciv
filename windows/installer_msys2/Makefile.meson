@@ -35,7 +35,6 @@ else
 error "Unsupported MSYSTEM environment"
 endif
 
-ICUVER=71
 MAGICKVER=7.Q16HDRI-10
 FFIVER=8
 
@@ -43,7 +42,9 @@ FFIVER=8
 DLLPATH_PREFIX=/$(ARCHDIR)/bin/
 
 ifeq ($(CI),yes)
+ICUVER=71
 else
+ICUVER=72
 endif
 
 #
@@ -137,7 +138,7 @@ COMMON_DLLS := \
 	zlib1.dll \
 	libgmodule-2.0-0.dll \
 	libwinpthread-1.dll \
-	libpcre-1.dll \
+	libpcre2-8-0.dll \
 	libcairo-gobject-2.dll \
 	libfribidi-0.dll \
 	libpangowin32-1.0-0.dll \
@@ -248,7 +249,8 @@ SDL2_DLLS := \
 	libSDL2_gfx-1-0-0.dll \
 	SDL2_image.dll \
 	libjxl.dll \
-	libbrotlienc.dll
+	libbrotlienc.dll \
+	libhwy.dll
 
 install-env-sdl2: install-env-gtk4-fcmp
 	# add DLLs

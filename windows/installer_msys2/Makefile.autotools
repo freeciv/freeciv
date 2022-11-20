@@ -48,7 +48,6 @@ else
 QT6_MOCCMD="$(MOCCMD)"
 endif
 
-ICUVER=71
 MAGICKVER=7.Q16HDRI-10
 FFIVER=8
 
@@ -58,7 +57,9 @@ INSTSUB=${ARCHDIR}
 DLLPATH_PREFIX=/$(ARCHDIR)/bin/
 
 ifeq ($(CI),yes)
+ICUVER=71
 else
+ICUVER=72
 endif
 
 #
@@ -280,6 +281,7 @@ COMMON_DLLS := \
 	libgdk_pixbuf-2.0-0.dll \
 	libgio-2.0-0.dll \
 	libglib-2.0-0.dll \
+	libpcre2-8-0.dll \
 	libgmodule-2.0-0.dll \
 	libgobject-2.0-0.dll \
 	libgthread-2.0-0.dll \
@@ -332,7 +334,6 @@ DEFAULT_FCMP_DLLS := \
 	libpangoft2-1.0-0.dll \
 	libthai-0.dll \
 	libdatrie-1.dll \
-	libpcre-1.dll \
 	libunistring-2.dll \
 	librsvg-2-2.dll
 
@@ -356,7 +357,6 @@ install-env-gtk3.22: install-env-default-fcmp
 
 GTK4_FCMP_DLLS := \
 	libgtk-4-1.dll \
-	libpcre-1.dll \
 	libcairo-script-interpreter-2.dll \
 	libepoxy-0.dll \
 	libgraphene-1.0-0.dll \
@@ -391,7 +391,8 @@ SDL2_DLLS := \
 	SDL2_ttf.dll \
 	libzstd.dll \
 	libjxl.dll \
-	libbrotlienc.dll
+	libbrotlienc.dll \
+	libhwy.dll
 
 install-env-sdl2: install-env-gtk4-fcmp
 	# add DLLs
@@ -401,14 +402,13 @@ QT5_DLLS := \
 	libicuin${ICUVER}.dll \
 	libicuuc${ICUVER}.dll \
 	libicudt${ICUVER}.dll \
-	libpcre16-0.dll \
 	libharfbuzz-0.dll \
 	libsqlite3-0.dll \
 	Qt5Core.dll \
 	Qt5Gui.dll \
 	Qt5Widgets.dll \
 	libgraphite2.dll \
-	libpcre-1.dll \
+	libpcre2-8-0.dll \
 	libpcre2-16-0.dll \
 	libunistring-2.dll \
 	libbrotlidec.dll \
@@ -434,7 +434,6 @@ QT6_DLLS := \
 	Qt6Widgets.dll \
 	libunistring-2.dll \
 	libpcre2-16-0.dll \
-	libpcre-1.dll \
 	libharfbuzz-0.dll \
 	libgraphite2.dll \
 	libdouble-conversion.dll \
@@ -484,7 +483,6 @@ RULEDIT_QT5_DLLS := \
 	zlib1.dll \
 	libwinpthread-1.dll \
 	libgraphite2.dll \
-	libpcre-1.dll \
 	libdouble-conversion.dll \
 	libzstd.dll \
 	libMagickWand-${MAGICKVER}.dll \
@@ -543,7 +541,7 @@ RULEDIT_QT6_DLLS := \
 	zlib1.dll \
 	libwinpthread-1.dll \
 	libgraphite2.dll \
-	libpcre-1.dll \
+	libpcre2-8-0.dll \
 	libdouble-conversion.dll \
 	libzstd.dll \
 	libMagickWand-${MAGICKVER}.dll \
