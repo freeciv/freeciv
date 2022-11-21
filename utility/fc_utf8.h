@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -33,9 +33,10 @@ extern const char fc_utf8_skip[256];
 /* UTF-8 character functions. */
 bool fc_utf8_char_validate(const char *utf8_char)
     fc__attribute((nonnull (1)));
-char *fc_utf8_find_next_char(const char *utf8_char)
+const char *fc_utf8_find_next_char(const char *utf8_char)
     fc__attribute((nonnull (1)));
-char *fc_utf8_find_prev_char(const char *utf8_char, const char *utf8_string)
+const char *fc_utf8_find_prev_char(const char *utf8_char,
+                                   const char *utf8_string)
     fc__attribute((nonnull (1, 2)));
 /* Jump to next UTF-8 character, assuming it is a valid UTF-8 string. */
 #define fc_ut8_next_char(utf8_char) \
