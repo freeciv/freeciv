@@ -13,9 +13,9 @@
 #ifndef FC__UNITTOOLS_H
 #define FC__UNITTOOLS_H
 
+/* common */
 #include "fc_types.h"
-
-#include "packets.h"		/* enum unit_info_use */
+#include "packets.h"            /* enum unit_info_use */
 #include "unitlist.h"
 
 #define SPECENUM_NAME unit_loss_reason
@@ -86,13 +86,13 @@ void unit_bombs_unit(struct unit *attacker, struct unit *defender,
 void combat_veterans(struct unit *attacker, struct unit *defender,
                      bool powerless, int att_vet, int def_vet);
 
-/* move check related */
+/* Move check related */
 bool is_unit_being_refueled(const struct unit *punit);
-bool is_airunit_refuel_point(const struct tile *ptile,
-                             const struct player *pplayer,
-                             const struct unit *punit);
+bool is_refuel_point(const struct tile *ptile,
+                     const struct player *pplayer,
+                     const struct unit *punit);
 
-/* turn update related */
+/* Turn update related */
 void player_restore_units(struct player *pplayer);
 void update_unit_activities(struct player *pplayer);
 void execute_unit_orders(struct player *pplayer);

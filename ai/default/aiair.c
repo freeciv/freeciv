@@ -105,7 +105,7 @@ static struct tile *find_nearest_airbase(struct unit *punit,
       break;
     }
 
-    if (is_airunit_refuel_point(ptile, pplayer, punit)) {
+    if (is_refuel_point(ptile, pplayer, punit)) {
       if (lost_hp > 0) {
         int regt = regen_turns(punit, ptile, lost_hp);
 
@@ -380,7 +380,7 @@ static struct tile *dai_find_strategic_airbase(struct ai_type *ait,
       break; /* Too far! */
     }
 
-    if (!is_airunit_refuel_point(ptile, pplayer, punit)) {
+    if (!is_refuel_point(ptile, pplayer, punit)) {
       continue; /* Cannot refuel here. */
     }
 
@@ -497,7 +497,7 @@ void dai_manage_airunit(struct ai_type *ait, struct player *pplayer,
         /* We are on a GOTO.  Check if it will get us anywhere */
         && NULL != punit->goto_tile
         && !same_pos(unit_tile(punit), punit->goto_tile)
-        && is_airunit_refuel_point(punit->goto_tile, pplayer, punit)) {
+        && is_refuel_point(punit->goto_tile, pplayer, punit)) {
       pfm = pf_map_new(&parameter);
       path = pf_map_path(pfm, punit->goto_tile);
       if (path) {
@@ -521,7 +521,7 @@ void dai_manage_airunit(struct ai_type *ait, struct player *pplayer,
       pf_path_destroy(path);
     } else {
       if (punit->fuel == 1) {
-	UNIT_LOG(LOG_DEBUG, punit, "Oops, fallin outta the sky");
+        UNIT_LOG(LOG_DEBUG, punit, "Oops, fallin outta the sky");
       }
       def_ai_unit_data(punit, ait)->done = TRUE; /* Won't help trying again */
       return;
