@@ -569,8 +569,7 @@ static bool save_action_auto_actions(struct section_file *sfile,
   const struct action_auto_perf *auto_perf =
       action_auto_perf_by_number(aap);
 
-  i = j = 0;
-  for (i = 0;
+  for (i = 0, j = 0;
        i < NUM_ACTIONS && auto_perf->alternatives[i] != ACTION_NONE;
        i++) {
     struct action *paction = action_by_number(auto_perf->alternatives[i]);
