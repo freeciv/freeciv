@@ -19,6 +19,7 @@
 
 /* utility */
 #include "bitvector.h"
+#include "capability.h"
 #include "fcintl.h"
 #include "log.h"
 #include "shared.h"
@@ -738,6 +739,7 @@ void handle_edit_city(struct connection *pc,
   bool changed = FALSE;
   bool need_game_info = FALSE;
   bv_player need_player_info;
+  int history;
 
   pcity = game_city_by_number(packet->id);
   if (!pcity) {
@@ -775,8 +777,13 @@ void handle_edit_city(struct connection *pc,
     }
   }
 
-  if (packet->history != pcity->history) {
-    pcity->history = packet->history;
+  if (has_capability("cityculture32", pc->capability)) {
+    history = packet->history32;
+  } else {
+    history = packet->history16;
+  }
+  if (history != pcity->history) {
+    pcity->history = history;
     changed = TRUE;
   }
 

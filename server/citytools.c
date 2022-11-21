@@ -2442,8 +2442,10 @@ void package_city(struct city *pcity, struct packet_city_info *packet,
     fc_assert(cit == packet->size);
   }
 
-  packet->history = pcity->history;
-  packet->culture = city_culture(pcity);
+  packet->history32 = pcity->history;
+  packet->history16 = pcity->history;
+  packet->culture32 = city_culture(pcity);
+  packet->culture16 = packet->culture32;
   packet->buy_cost = city_production_buy_gold_cost(pcity);
 
   if (packet->size != ppl) {

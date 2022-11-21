@@ -682,8 +682,10 @@ PACKET_CITY_INFO = 31; sc, lsend, is-game-info, force, cancel(PACKET_CITY_SHORT_
   PLAYER nation_id[MAX_NUM_PLAYER_SLOTS:nationalities_count];
   CITIZENS nation_citizens[MAX_NUM_PLAYER_SLOTS:nationalities_count];
 
-  UINT16 history;
-  UINT16 culture;
+  UINT16 history16; remove-cap(cityculture32)
+  UINT16 culture16; remove-cap(cityculture32)
+  UINT32 history32; add-cap(cityculture32)
+  UINT32 culture32; add-cap(cityculture32)
   UINT16 buy_cost;
 
   SINT16 surplus[O_LAST];
@@ -2184,7 +2186,8 @@ PACKET_EDIT_CITY = 213; cs, handle-per-conn, handle-via-packet
   PLAYER owner;
   PLAYER original;
   UINT8 size;
-  UINT16 history;
+  UINT16 history16; remove-cap(cityculture32)
+  UINT32 history32; add-cap(cityculture32)
   UINT8 ppl_happy[5], ppl_content[5], ppl_unhappy[5], ppl_angry[5];
   UINT8 specialists_size;
   UINT8 specialists[SP_MAX:specialists_size];

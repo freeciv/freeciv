@@ -716,8 +716,13 @@ void handle_city_info(const struct packet_city_info *packet)
     fc_assert(citizens_count(pcity) == city_size_get(pcity));
   }
 
-  pcity->history = packet->history;
-  pcity->client.culture = packet->culture;
+  if (has_capability("cityculture32", client.conn.capability)) {
+    pcity->history = packet->history32;
+    pcity->client.culture = packet->culture32;
+  } else {
+    pcity->history = packet->history16;
+    pcity->client.culture = packet->culture16;
+  }
   pcity->client.buy_cost = packet->buy_cost;
 
   pcity->city_radius_sq = packet->city_radius_sq;

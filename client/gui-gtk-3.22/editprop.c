@@ -2282,7 +2282,8 @@ static void objbind_pack_current_values(struct objbind *ob,
       packet->id = pcity->id;
       sz_strlcpy(packet->name, pcity->name);
       packet->size = city_size_get(pcity);
-      packet->history = pcity->history;
+      packet->history32 = pcity->history;
+      packet->history16 = pcity->history;
       for (i = 0; i < B_LAST; i++) {
         packet->built[i] = pcity->built[i].turn;
       }
@@ -2498,7 +2499,8 @@ static void objbind_pack_modified_value(struct objbind *ob,
         packet->size = pv->data.v_int;
         return;
       case OPID_CITY_HISTORY:
-        packet->history = pv->data.v_int;
+        packet->history32 = pv->data.v_int;
+        packet->history16 = pv->data.v_int;
         return;
       case OPID_CITY_FOOD_STOCK:
         packet->food_stock = pv->data.v_int;
