@@ -1021,6 +1021,11 @@ install_data(
   install_dir : join_paths(get_option('datadir'), 'freeciv/ruledit')
   )
 
+install_data(
+  'bootstrap/org.freeciv.server.desktop',
+  install_dir : join_paths(get_option('prefix'), 'share/applications')
+  )
+
 nations = [
   'abkhaz',
   'aborigines',
@@ -2705,6 +2710,11 @@ install_data('data/themes/gtk3.22/Freeciv/gtk-3.0/gtk.css',
              install_dir : join_paths(get_option('datadir'),
                            'freeciv/themes/gtk3.22/Freeciv/gtk-3.0'))
 
+install_data(
+  'bootstrap/org.freeciv.gtk322.desktop',
+  install_dir : join_paths(get_option('prefix'), 'share/applications')
+  )
+
 endif
 
 if get_option('clients').contains('gtk4')
@@ -2778,6 +2788,11 @@ install_data('data/themes/gtk4/Freeciv/gtk-4.0/gtk.css',
              'data/themes/gtk4/Freeciv/gtk-4.0/bg.png',
              install_dir : join_paths(get_option('datadir'),
                            'freeciv/themes/gtk4/Freeciv/gtk-4.0'))
+
+install_data(
+  'bootstrap/org.freeciv.gtk4.desktop',
+  install_dir : join_paths(get_option('prefix'), 'share/applications')
+  )
 
 endif
 
@@ -3020,6 +3035,11 @@ install_data(
   install_dir : join_paths(get_option('datadir'),
                            'freeciv/themes/gui-qt/System'))
 
+install_data(
+  'bootstrap/org.freeciv.qt.desktop',
+  install_dir : join_paths(get_option('prefix'), 'share/applications')
+  )
+
 endif
 
 if get_option('clients').contains('sdl2')
@@ -3124,6 +3144,11 @@ install_data('data/themes/gui-sdl2/human/backgrounds.themespec',
              install_dir : join_paths(get_option('datadir'),
                            'freeciv/themes/gui-sdl2/human'))
 
+install_data(
+  'bootstrap/org.freeciv.sdl2.desktop',
+  install_dir : join_paths(get_option('prefix'), 'share/applications')
+  )
+
 endif
 
 if get_option('clients').contains('stub')
@@ -3209,6 +3234,11 @@ executable('freeciv-mp-gtk3',
   install: true
   )
 
+install_data(
+  'bootstrap/org.freeciv.mp.gtk3.desktop',
+  install_dir : join_paths(get_option('prefix'), 'share/applications')
+  )
+
 endif
 
 
@@ -3229,6 +3259,11 @@ executable('freeciv-mp-gtk4',
   dependencies: [gtk4_dep, sqlite3_dep, gettext_dep],
   link_with: [common_lib, fcmp_common],
   install: true
+  )
+
+install_data(
+  'bootstrap/org.freeciv.mp.gtk4.desktop',
+  install_dir : join_paths(get_option('prefix'), 'share/applications')
   )
 
 endif
@@ -3258,6 +3293,11 @@ executable('freeciv-mp-qt',
   link_with: [common_lib, fcmp_common],
   override_options: qt_opts,
   install: true
+  )
+
+install_data(
+  'bootstrap/org.freeciv.mp.qt.desktop',
+  install_dir : join_paths(get_option('prefix'), 'share/applications')
   )
 
 endif
@@ -3358,6 +3398,11 @@ executable('freeciv-ruledit',
 install_data(
   'data/freeciv-ruledit.png',
   install_dir : join_paths(get_option('datadir'), 'freeciv')
+  )
+
+install_data(
+  'bootstrap/org.freeciv.ruledit.desktop',
+  install_dir : join_paths(get_option('prefix'), 'share/applications')
   )
 
 endif
