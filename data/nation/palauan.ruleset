@@ -15,11 +15,6 @@ leaders = {
  "Kuniwo Nakamura",        "Male"
 }
 
-ruler_titles = {
- "government", "male_title",      "female_title"
- "Republic",   _("President %s"), _("?female:President %s")
-}
-
 flag     = "palau"
 flag_alt = "-"
 style    = "Tropical"
