@@ -364,6 +364,9 @@ static void paradrop_callback(GSimpleAction *action,
 static void pillage_callback(GSimpleAction *action,
                              GVariant *parameter,
                              gpointer data);
+static void transform_terrain_callback(GSimpleAction *action,
+                                       GVariant *parameter,
+                                       gpointer data);
 
 #ifdef MENUS_GTK3
 static void build_road_callback(GtkMenuItem *item, gpointer data);
@@ -372,7 +375,6 @@ static void build_mine_callback(GtkMenuItem *item, gpointer data);
 static void connect_road_callback(GtkMenuItem *item, gpointer data);
 static void connect_rail_callback(GtkMenuItem *item, gpointer data);
 static void connect_irrigation_callback(GtkMenuItem *item, gpointer data);
-static void transform_terrain_callback(GtkMenuItem *item, gpointer data);
 static void clean_pollution_callback(GtkMenuItem *item, gpointer data);
 static void clean_fallout_callback(GtkMenuItem *item, gpointer data);
 static void build_fortress_callback(GtkMenuItem *item, gpointer data);
@@ -483,6 +485,9 @@ static struct menu_entry_info menu_entries[] =
     NULL, FALSE },
   { "PLANT", N_("Plant"),
     "plant", "<shift>m", MGROUP_UNIT,
+    NULL, FALSE },
+  { "TRANSFORM_TERRAIN", N_("Transf_orm Terrain"),
+    "transform_terrain", "o", MGROUP_UNIT,
     NULL, FALSE },
 
   /* Combat menu */
@@ -778,8 +783,6 @@ static struct menu_entry_info menu_entries[] =
   { "CONNECT_IRRIGATION", N_("Connect With Irri_gation"),
     GDK_KEY_i, GDK_CONTROL_MASK,
     G_CALLBACK(connect_irrigation_callback), MGROUP_UNIT },
-  { "TRANSFORM_TERRAIN", N_("Transf_orm Terrain"), GDK_KEY_o, 0,
-    G_CALLBACK(transform_terrain_callback), MGROUP_UNIT },
   { "CLEAN_POLLUTION", N_("Clean _Pollution"), GDK_KEY_p, 0,
     G_CALLBACK(clean_pollution_callback), MGROUP_UNIT },
   { "CLEAN_FALLOUT", N_("Clean _Nuclear Fallout"), GDK_KEY_n, 0,
@@ -833,6 +836,7 @@ const GActionEntry acts[] = {
   { "auto_settle", auto_settle_callback },
   { "cultivate", cultivate_callback },
   { "plant", plant_callback },
+  { "transform_terrain", transform_terrain_callback },
 
   { "fortify", fortify_callback },
   { "paradrop", paradrop_callback },
@@ -2113,15 +2117,19 @@ static void connect_irrigation_callback(GtkMenuItem *action, gpointer data)
     key_unit_connect(ACTIVITY_IRRIGATE, pextra);
   }
 }
+#endif /* MENUS_GTK3 */
 
 /************************************************************************//**
   Action "TRANSFORM_TERRAIN" callback.
 ****************************************************************************/
-static void transform_terrain_callback(GtkMenuItem *action, gpointer data)
+static void transform_terrain_callback(GSimpleAction *action,
+                                       GVariant *parameter,
+                                       gpointer data)
 {
   key_unit_transform();
 }
 
+#ifdef MENUS_GTK3
 /************************************************************************//**
   Action "CLEAN_POLLUTION" callback.
 ****************************************************************************/
@@ -2597,6 +2605,7 @@ static GMenu *setup_menus(GtkApplication *app)
 
   menu_entry_init(work_menu, "CULTIVATE");
   menu_entry_init(work_menu, "PLANT");
+  menu_entry_init(work_menu, "TRANSFORM_TERRAIN");
 
   g_menu_append_submenu(menubar, _("_Work"), G_MENU_MODEL(work_menu));
 
@@ -3316,12 +3325,12 @@ void real_menus_update(void)
                            can_units_do_activity(punits, ACTIVITY_CULTIVATE));
   menu_entry_set_sensitive(map, "PLANT",
                            can_units_do_activity(punits, ACTIVITY_PLANT));
+  menu_entry_set_sensitive(map, "TRANSFORM_TERRAIN",
+                           can_units_do_activity(punits, ACTIVITY_TRANSFORM));
 
 #ifdef MENUS_GTK3
   menu_entry_set_sensitive("BUILD_MINE",
                            can_units_do_activity(punits, ACTIVITY_MINE));
-  menu_entry_set_sensitive("TRANSFORM_TERRAIN",
-                           can_units_do_activity(punits, ACTIVITY_TRANSFORM));
 #endif /* MENUS_GTK3 */
 
   menu_entry_set_sensitive(map, "FORTIFY",
