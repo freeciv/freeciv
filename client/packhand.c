@@ -777,16 +777,6 @@ void handle_city_info(const struct packet_city_info *packet)
     city_size_set(pcity, packet->size);
   }
 
-  /* The nationality of the citizens. */
-  if (game.info.citizen_nationality) {
-    citizens_init(pcity);
-    for (i = 0; i < packet->nationalities_count; i++) {
-      citizens_nation_set(pcity, player_slot_by_number(packet->nation_id[i]),
-                          packet->nation_citizens[i]);
-    }
-    fc_assert(citizens_count(pcity) == city_size_get(pcity));
-  }
-
   pcity->history = packet->history;
   pcity->client.culture = packet->culture;
   pcity->client.buy_cost = packet->buy_cost;
@@ -987,6 +977,26 @@ void handle_city_info(const struct packet_city_info *packet)
 void handle_web_city_info_addition(int id, int granary_size,
                                    int granary_turns)
 {
+}
+
+/************************************************************************//**
+  Handle city nationalities packet.
+****************************************************************************/
+void handle_city_nationalities(const struct packet_city_nationalities *packet)
+{
+  struct city *pcity = game_city_by_number(packet->id);
+
+  /* The nationality of the citizens. */
+  if (pcity != NULL && game.info.citizen_nationality) {
+    int i;
+
+    citizens_init(pcity);
+    for (i = 0; i < packet->nationalities_count; i++) {
+      citizens_nation_set(pcity, player_slot_by_number(packet->nation_id[i]),
+                          packet->nation_citizens[i]);
+    }
+    fc_assert(citizens_count(pcity) == city_size_get(pcity));
+  }
 }
 
 /************************************************************************//**

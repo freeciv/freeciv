@@ -80,6 +80,8 @@ extern "C" {
 /* Line breaks after this number of characters; be careful and use only 70 */
 #define LINE_BREAK 70
 
+#define MAX_CITY_NATIONALITIES (MIN(MAX_NUM_PLAYER_SLOTS, MAX_CITY_SIZE))
+
 /* symbol to flag missing numbers for better debugging */
 #define IDENTITY_NUMBER_ZERO (0)
 
