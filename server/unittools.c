@@ -528,7 +528,7 @@ void player_restore_units(struct player *pplayer)
               break;
             }
 
-            if (is_airunit_refuel_point(ptile, pplayer, punit)) {
+            if (is_refuel_point(ptile, pplayer, punit)) {
               struct pf_path *path;
               int id = punit->id;
 
@@ -1495,37 +1495,19 @@ void give_allied_visibility(struct player *pplayer,
 }
 
 /**********************************************************************//**
-  Is unit being refueled in its current position
+  Will unit refuel at this tile? Does not consider carriers.
 **************************************************************************/
-bool is_unit_being_refueled(const struct unit *punit)
-{
-  if (unit_transported(punit)           /* Carrier */
-      || tile_city(unit_tile(punit))              /* City    */
-      || tile_has_refuel_extra(unit_tile(punit),
-                               unit_type_get(punit))) { /* Airbase */
-    return TRUE;
-  }
-  if (unit_has_type_flag(punit, UTYF_COAST)) {
-    return is_safe_ocean(&(wld.map), unit_tile(punit));
-  }
-
-  return FALSE;
-}
-
-/**********************************************************************//**
-  Can unit refuel on tile. Considers also carrier capacity on tile.
-**************************************************************************/
-bool is_airunit_refuel_point(const struct tile *ptile,
-                             const struct player *pplayer,
-                             const struct unit *punit)
+static bool is_refuel_tile(const struct tile *ptile,
+                           const struct player *pplayer,
+                           const struct unit *punit)
 {
   const struct unit_class *pclass;
 
-  if (NULL != is_non_allied_unit_tile(ptile, pplayer)) {
-    return FALSE;
+  if (NULL != is_allied_city_tile(ptile, pplayer)) {
+    return TRUE;
   }
 
-  if (NULL != is_allied_city_tile(ptile, pplayer)) {
+  if (unit_has_type_flag(punit, UTYF_COAST) && is_safe_ocean(&(wld.map), ptile)) {
     return TRUE;
   }
 
@@ -1540,7 +1522,30 @@ bool is_airunit_refuel_point(const struct tile *ptile,
     } extra_type_list_iterate_end;
   }
 
-  return unit_could_load_at(punit, ptile);
+  return FALSE;
+}
+
+/**********************************************************************//**
+  Is unit being refueled in its current position
+**************************************************************************/
+bool is_unit_being_refueled(const struct unit *punit)
+{
+  return unit_transported(punit) /* Carrier */
+    || is_refuel_tile(unit_tile(punit), unit_owner(punit), punit);
+}
+
+/**********************************************************************//**
+  Can unit refuel on tile. Considers also carrier capacity on tile.
+**************************************************************************/
+bool is_refuel_point(const struct tile *ptile,
+                     const struct player *pplayer,
+                     const struct unit *punit)
+{
+  if (NULL != is_non_allied_unit_tile(ptile, pplayer)) {
+    return FALSE;
+  }
+
+  return is_refuel_tile(ptile, pplayer, punit) || unit_could_load_at(punit, ptile);
 }
 
 /**********************************************************************//**
