@@ -61,7 +61,7 @@ fc_shortcut default_shortcuts[] = {
     _("Center View") },
   {SC_FULLSCREEN, Qt::Key_Return, Qt::AllButtons, Qt::AltModifier,
     _("Fullscreen") },
-  {SC_MINIMAP, Qt::Key_M, Qt::AllButtons, Qt::ControlModifier,
+  {SC_MINIMAP, Qt::Key_H, Qt::AllButtons, Qt::ShiftModifier,
     _("Show minimap") },
   {SC_CITY_OUTPUT, Qt::Key_V, Qt::AllButtons, Qt::ControlModifier,
     _("City Output") },
