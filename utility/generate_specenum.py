@@ -14,7 +14,7 @@
 #
 
 # The maximum number of enumerators.
-max_enum_values=150
+max_enum_values=200
 
 # Here are push all defined macros.
 macros=[]
