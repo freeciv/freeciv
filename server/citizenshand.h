@@ -15,8 +15,6 @@
 
 struct city;
 
-#define MAX_CITY_NATIONALITIES MIN(MAX_NUM_PLAYER_SLOTS, MAX_CITY_SIZE)
-
 struct citizens_reduction {
   struct player_slot *pslot;
   citizens change;
@@ -34,4 +32,4 @@ void citizens_reduction_apply(struct city *pcity,
 
 void citizens_print(const struct city *pcity);
 
-#endif  /* FC__CITIZENSHAND_H */
+#endif /* FC__CITIZENSHAND_H */

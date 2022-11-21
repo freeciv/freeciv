@@ -697,7 +697,7 @@ end
 
 /************** City packets **********************/
 
-PACKET_CITY_REMOVE = 30; sc, dsend, lsend, cancel(PACKET_CITY_INFO), cancel(PACKET_WEB_CITY_INFO_ADDITION), cancel(PACKET_CITY_SHORT_INFO), handle-via-fields
+PACKET_CITY_REMOVE = 30; sc, dsend, lsend, cancel(PACKET_CITY_INFO), cancel(PACKET_WEB_CITY_INFO_ADDITION), cancel(PACKET_CITY_NATIONALITIES), cancel(PACKET_CITY_SHORT_INFO), handle-via-fields
   CITY city_id;
 end
 
@@ -718,10 +718,6 @@ PACKET_CITY_INFO = 31; sc, lsend, is-game-info, force, cancel(PACKET_CITY_SHORT_
 
   UINT8 specialists_size;
   CITIZENS specialists[SP_MAX:specialists_size];
-
-  UINT8 nationalities_count;
-  PLAYER nation_id[MAX_NUM_PLAYER_SLOTS:nationalities_count];
-  CITIZENS nation_citizens[MAX_NUM_PLAYER_SLOTS:nationalities_count];
 
   UINT32 history;
   UINT32 culture;
@@ -778,13 +774,20 @@ PACKET_CITY_INFO = 31; sc, lsend, is-game-info, force, cancel(PACKET_CITY_SHORT_
   UNIT_ORDER rally_point_orders[MAX_LEN_ROUTE:rally_point_length];
 end
 
+PACKET_CITY_NATIONALITIES = 46; sc, lsend, is-game-info, force
+  CITY id; key
+  UINT8 nationalities_count;
+  PLAYER nation_id[MAX_CITY_NATIONALITIES:nationalities_count];
+  CITIZENS nation_citizens[MAX_CITY_NATIONALITIES:nationalities_count];
+end
+
 PACKET_CITY_UPDATE_COUNTER = 514; sc, lsend, is-game-info
   CITY city;
   COUNTER counter;
   UINT32 value;
 end
 
-PACKET_CITY_SHORT_INFO = 32; sc, lsend, is-game-info, cancel(PACKET_CITY_INFO), cancel(PACKET_WEB_CITY_INFO_ADDITION)
+PACKET_CITY_SHORT_INFO = 32; sc, lsend, is-game-info, cancel(PACKET_CITY_INFO), cancel(PACKET_WEB_CITY_INFO_ADDITION), cancel(PACKET_CITY_NATIONALITIES)
   CITY id; key
   TILE tile;
 

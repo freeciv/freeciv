@@ -90,6 +90,8 @@ extern "C" {
 FC_STATIC_ASSERT(CITY_MAP_MAX_RADIUS <= 5, too_many_city_tiles);
 #define MAX_CITY_TILES (91)
 
+#define MAX_CITY_NATIONALITIES (MIN(MAX_NUM_PLAYER_SLOTS, MAX_CITY_SIZE))
+
 /* symbol to flag missing numbers for better debugging */
 #define IDENTITY_NUMBER_ZERO (0)
 

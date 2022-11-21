@@ -2201,6 +2201,7 @@ void refresh_dumb_city(struct city *pcity)
 void broadcast_city_info(struct city *pcity)
 {
   struct packet_city_info packet;
+  struct packet_city_nationalities nat_packet;
   struct packet_web_city_info_addition web_packet;
   struct packet_city_short_info sc_pack;
   struct player *powner = city_owner(pcity);
@@ -2225,13 +2226,14 @@ void broadcast_city_info(struct city *pcity)
   }
 
   routes = traderoute_packet_list_new();
-  package_city(pcity, &packet, webp_ptr, routes, FALSE);
+  package_city(pcity, &packet, &nat_packet, webp_ptr, routes, FALSE);
 
   players_iterate(pplayer) {
     if (!send_city_suppressed || pplayer != powner) {
       if (can_player_see_city_internals(pplayer, pcity)) {
         update_dumb_city(pplayer, pcity);
         lsend_packet_city_info(pplayer->connections, &packet, FALSE);
+        lsend_packet_city_nationalities(pplayer->connections, &nat_packet, FALSE);
         web_lsend_packet(city_info_addition, pplayer->connections,
                          webp_ptr, FALSE);
         traderoute_packet_list_iterate(routes, route_packet) {
@@ -2250,6 +2252,7 @@ void broadcast_city_info(struct city *pcity)
   conn_list_iterate(game.est_connections, pconn) {
     if (conn_is_global_observer(pconn)) {
       send_packet_city_info(pconn, &packet, FALSE);
+      send_packet_city_nationalities(pconn, &nat_packet, FALSE);
       web_send_packet(city_info_addition, pconn, webp_ptr, FALSE);
     }
   } conn_list_iterate_end;
@@ -2360,6 +2363,7 @@ void send_city_info_at_tile(struct player *pviewer, struct conn_list *dest,
                             struct city *pcity, struct tile *ptile)
 {
   struct packet_city_info packet;
+  struct packet_city_nationalities nat_packet;
   struct packet_web_city_info_addition web_packet;
   struct packet_city_short_info sc_pack;
   struct player *powner = NULL;
@@ -2395,8 +2399,9 @@ void send_city_info_at_tile(struct player *pviewer, struct conn_list *dest,
 
       /* Send all info to the owner */
       update_dumb_city(powner, pcity);
-      package_city(pcity, &packet, webp_ptr, routes, FALSE);
+      package_city(pcity, &packet, &nat_packet, webp_ptr, routes, FALSE);
       lsend_packet_city_info(dest, &packet, FALSE);
+      lsend_packet_city_nationalities(dest, &nat_packet, FALSE);
       web_lsend_packet(city_info_addition, dest, webp_ptr, FALSE);
       traderoute_packet_list_iterate(routes, route_packet) {
         lsend_packet_traderoute_info(dest, route_packet);
@@ -2420,8 +2425,9 @@ void send_city_info_at_tile(struct player *pviewer, struct conn_list *dest,
         routes = traderoute_packet_list_new();
 
         /* Should be dumb_city info? */
-        package_city(pcity, &packet, webp_ptr, routes, FALSE);
+        package_city(pcity, &packet, &nat_packet, webp_ptr, routes, FALSE);
         lsend_packet_city_info(dest, &packet, FALSE);
+        lsend_packet_city_nationalities(dest, &nat_packet, FALSE);
         web_lsend_packet(city_info_addition, dest, webp_ptr, FALSE);
         traderoute_packet_list_iterate(routes, route_packet) {
           lsend_packet_traderoute_info(dest, route_packet);
@@ -2456,6 +2462,7 @@ void send_city_info_at_tile(struct player *pviewer, struct conn_list *dest,
   Fill city info packet with information about given city.
 ****************************************************************************/
 void package_city(struct city *pcity, struct packet_city_info *packet,
+                  struct packet_city_nationalities *nat_packet,
                   struct packet_web_city_info_addition *web_packet,
                   struct traderoute_packet_list *routes,
                   bool dipl_invest)
@@ -2491,7 +2498,8 @@ void package_city(struct city *pcity, struct packet_city_info *packet,
   } specialist_type_iterate_end;
 
   /* The nationality of the citizens. */
-  packet->nationalities_count = 0;
+  nat_packet->id = pcity->id;
+  nat_packet->nationalities_count = 0;
   if (game.info.citizen_nationality) {
     int cit = 0;
 
@@ -2501,11 +2509,11 @@ void package_city(struct city *pcity, struct packet_city_info *packet,
         /* This player should exist! */
         fc_assert(player_slot_get_player(pslot) != NULL);
 
-        packet->nation_id[packet->nationalities_count]
+        nat_packet->nation_id[nat_packet->nationalities_count]
           = player_slot_index(pslot);
-        packet->nation_citizens[packet->nationalities_count]
+        nat_packet->nation_citizens[nat_packet->nationalities_count]
           = nationality;
-        packet->nationalities_count++;
+        nat_packet->nationalities_count++;
 
         cit += nationality;
       }
@@ -2543,7 +2551,7 @@ void package_city(struct city *pcity, struct packet_city_info *packet,
 
       /* And repackage */
       recursion = TRUE;
-      package_city(pcity, packet, web_packet, routes, dipl_invest);
+      package_city(pcity, packet, nat_packet, web_packet, routes, dipl_invest);
       recursion = FALSE;
 
       return;
