@@ -1708,59 +1708,81 @@ static void conn_menu_team_chosen(GObject *object, gpointer data)
                      team_slot_rule_name(tslot));
   }
 }
+#endif /* MENUS_GTK3 */
 
 /**********************************************************************//**
   Callback for when the "ready" entry is chosen from the conn menu.
 **************************************************************************/
-static void conn_menu_ready_chosen(GObject *object, gpointer data)
+static void conn_menu_ready_chosen(GSimpleAction *action, GVariant *parameter,
+                                   gpointer data)
 {
   struct player *pplayer;
+  GMenu *menu = data;
 
-  if (object_extract(object, &pplayer, NULL)) {
+  if (object_extract(G_OBJECT(menu), &pplayer, NULL)) {
     dsend_packet_player_ready(&client.conn,
                               player_number(pplayer), !pplayer->is_ready);
   }
+
+  gtk_widget_unparent(conn_popover);
+  g_object_unref(conn_popover);
 }
 
 /**********************************************************************//**
   Callback for when the pick-nation entry is chosen from the conn menu.
 **************************************************************************/
-static void conn_menu_nation_chosen(GObject *object, gpointer data)
+static void conn_menu_nation_chosen(GSimpleAction *action, GVariant *parameter,
+                                    gpointer data)
 {
   struct player *pplayer;
+  GMenu *menu = data;
 
-  if (object_extract(object, &pplayer, NULL)) {
+  if (object_extract(G_OBJECT(menu), &pplayer, NULL)) {
     popup_races_dialog(pplayer);
   }
+
+  gtk_widget_unparent(conn_popover);
+  g_object_unref(conn_popover);
 }
 
 /**********************************************************************//**
   Miscellaneous callback for the conn menu that allows an arbitrary command
   (/observe, /remove, /hard, etc.) to be run on the player.
 **************************************************************************/
-static void conn_menu_player_command(GObject *object, gpointer data)
+static void conn_menu_player_command(GSimpleAction *action, GVariant *parameter,
+                                     gpointer data)
 {
   struct player *pplayer;
+  GMenu *menu = data;
 
-  if (object_extract(object, &pplayer, NULL)) {
+  if (object_extract(G_OBJECT(menu), &pplayer, NULL)) {
     send_chat_printf("/%s \"%s\"",
-                     (char *) g_object_get_data(G_OBJECT(data), "command"),
+                     (char *) g_object_get_data(G_OBJECT(action), "command"),
                      player_name(pplayer));
   }
+
+  gtk_widget_unparent(conn_popover);
+  g_object_unref(conn_popover);
 }
 
 /**********************************************************************//**
   Take command in the conn menu.
 **************************************************************************/
-static void conn_menu_player_take(GObject *object, gpointer data)
+static void conn_menu_player_take(GSimpleAction *action, GVariant *parameter,
+                                  gpointer data)
 {
   struct player *pplayer;
+  GMenu *menu = data;
 
-  if (object_extract(object, &pplayer, NULL)) {
+  if (object_extract(G_OBJECT(menu), &pplayer, NULL)) {
     client_take_player(pplayer);
   }
+
+  gtk_widget_unparent(conn_popover);
+  g_object_unref(conn_popover);
 }
 
+#ifdef MENUS_GTK3
 /**********************************************************************//**
   Miscellaneous callback for the conn menu that allows an arbitrary command
   (/cmdlevel, /cut, etc.) to be run on the connection.
@@ -1854,41 +1876,39 @@ static GtkWidget *create_conn_menu(struct player *pplayer,
   item = g_menu_item_new(buf, "win.info");
   g_menu_append_item(menu, item);
 
-#ifdef MENUS_GTK3
-  item = gtk_menu_item_new_with_label(buf);
-  g_free(buf);
-  gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-  g_signal_connect_swapped(item, "activate",
-                           G_CALLBACK(conn_menu_info_chosen), menu);
-
   if (NULL != pplayer) {
-    item = gtk_menu_item_new_with_label(_("Toggle player ready"));
-    gtk_widget_set_sensitive(item, is_human(pplayer));
-    gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-    g_signal_connect_swapped(item, "activate",
-                             G_CALLBACK(conn_menu_ready_chosen), menu);
+    act = g_simple_action_new("toggle_ready", NULL);
+    g_action_map_add_action(G_ACTION_MAP(group), G_ACTION(act));
+    g_signal_connect(act, "activate", G_CALLBACK(conn_menu_ready_chosen), menu);
+    g_simple_action_set_enabled(G_SIMPLE_ACTION(act), is_human(pplayer));
+    item = g_menu_item_new(_("Toggle player ready"), "win.toggle_ready");
+    g_menu_append_item(menu, item);
 
-    item = gtk_menu_item_new_with_label(_("Pick nation"));
-    gtk_widget_set_sensitive(item,
-                             can_conn_edit_players_nation(&client.conn,
-                                                          pplayer));
-    gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-    g_signal_connect_swapped(item, "activate",
-                             G_CALLBACK(conn_menu_nation_chosen), menu);
+    act = g_simple_action_new("pick_nation", NULL);
+    g_action_map_add_action(G_ACTION_MAP(group), G_ACTION(act));
+    g_signal_connect(act, "activate", G_CALLBACK(conn_menu_nation_chosen), menu);
+    g_simple_action_set_enabled(G_SIMPLE_ACTION(act),
+                                can_conn_edit_players_nation(&client.conn,
+                                                             pplayer));
+    item = g_menu_item_new(_("Pick nation"), "win.pick_nation");
+    g_menu_append_item(menu, item);
 
-    item = gtk_menu_item_new_with_label(_("Observe this player"));
-    gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-    g_object_set_data_full(G_OBJECT(item), "command", g_strdup("observe"),
+    act = g_simple_action_new("observe", NULL);
+    g_object_set_data_full(G_OBJECT(act), "command", g_strdup("observe"),
                            (GDestroyNotify) g_free);
-    g_signal_connect_swapped(item, "activate",
-                             G_CALLBACK(conn_menu_player_command), menu);
+    g_action_map_add_action(G_ACTION_MAP(group), G_ACTION(act));
+    g_signal_connect(act, "activate", G_CALLBACK(conn_menu_player_command), menu);
+    item = g_menu_item_new(_("Observe this player"), "win.observe");
+    g_menu_append_item(menu, item);
 
-    item = gtk_menu_item_new_with_label(_("Take this player"));
-    gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-    g_signal_connect_swapped(item, "activate",
-                             G_CALLBACK(conn_menu_player_take), menu);
+    act = g_simple_action_new("take_plr", NULL);
+    g_action_map_add_action(G_ACTION_MAP(group), G_ACTION(act));
+    g_signal_connect(act, "activate", G_CALLBACK(conn_menu_player_take), menu);
+    item = g_menu_item_new(_("Take this player"), "win.take_plr");
+    g_menu_append_item(menu, item);
   }
 
+#ifdef MENUS_GTK3
   if (ALLOW_CTRL <= client.conn.access_level && NULL != pconn
       && (pconn->id != client.conn.id || NULL != pplayer)) {
     item = gtk_separator_menu_item_new();
