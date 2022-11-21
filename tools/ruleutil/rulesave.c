@@ -562,8 +562,8 @@ static bool save_action_auto_uflag_block(struct section_file *sfile,
   order they should be tried.
 **************************************************************************/
 static bool save_action_auto_actions(struct section_file *sfile,
-                                         const int aap,
-                                         const char *actions_path)
+                                     const int aap,
+                                     const char *actions_path)
 {
   enum gen_action unit_acts[MAX_NUM_ACTIONS];
   size_t i;
@@ -572,7 +572,6 @@ static bool save_action_auto_actions(struct section_file *sfile,
   const struct action_auto_perf *auto_perf =
       action_auto_perf_by_number(aap);
 
-  i = 0;
   for (i = 0;
        i < NUM_ACTIONS && auto_perf->alternatives[i] != ACTION_NONE;
        i++) {
