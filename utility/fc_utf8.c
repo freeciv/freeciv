@@ -92,7 +92,7 @@ static inline bool base_fc_utf8_char_validate(const char *utf8_char,
   if (1 < size) {
     do {
       utf8_char++;
-      if (0x80 != (0xC0 & *(unsigned char *) utf8_char)) {
+      if (0x80 != (0xC0 & *(const unsigned char *)utf8_char)) {
         /* Not a valid byte of the sequence. */
         return FALSE;
       }
@@ -203,14 +203,15 @@ bool fc_utf8_char_validate(const char *utf8_char)
   NB: This function can return a invalid UTF-8 character. Check with
   fc_utf8_char_validate() to ensure.
 ****************************************************************************/
-char *fc_utf8_find_next_char(const char *utf8_char)
+const char *fc_utf8_find_next_char(const char *utf8_char)
 {
   fc_assert_ret_val(NULL != utf8_char, NULL);
 
   do {
     utf8_char++;
   } while (0 == FC_UTF8_CHAR_SIZE(utf8_char));
-  return (char *) utf8_char;
+
+  return utf8_char;
 }
 
 /****************************************************************************
@@ -220,18 +221,19 @@ char *fc_utf8_find_next_char(const char *utf8_char)
   NB: This function can return a invalid UTF-8 character. Check with
   fc_utf8_char_validate() to ensure.
 ****************************************************************************/
-char *fc_utf8_find_prev_char(const char *utf8_char, const char *utf8_string)
+const char *fc_utf8_find_prev_char(const char *utf8_char,
+                                   const char *utf8_string)
 {
   fc_assert_ret_val(NULL != utf8_char, NULL);
 
   for (utf8_char--; utf8_char > utf8_string; utf8_char--) {
     if (0 != FC_UTF8_CHAR_SIZE(utf8_char)) {
-      return (char *) utf8_char;
+      return utf8_char;
     }
   }
-  return (char *) utf8_string;
-}
 
+  return utf8_string;
+}
 
 /****************************************************************************
   Returns TRUE if the string 'utf8_string' contains only valid UTF-8
