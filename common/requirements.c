@@ -5986,7 +5986,7 @@ const char *universal_name_translation(const struct universal *psource,
                  psource->value.latitude);
     return buf;
   case VUT_MAXLATITUDE:
-    /* TRANS: here <= means 'greater than or equal'. */
+    /* TRANS: here <= means 'less than or equal'. */
     cat_snprintf(buf, bufsz, _("Latitude <= %d"),
                  psource->value.latitude);
     return buf;
