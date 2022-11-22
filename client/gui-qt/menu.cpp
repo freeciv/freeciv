@@ -1360,6 +1360,10 @@ void mr_menu::setup_menus()
   menu_list.insert(CONNECT_RAIL, act);
   act->setShortcut(QKeySequence(tr("ctrl+l")));
   connect(act, &QAction::triggered, this, &mr_menu::slot_conn_rail);
+  act = menu->addAction(_("Connect With Maglev"));
+  menu_list.insert(CONNECT_MAGLEV, act);
+  act->setShortcut(QKeySequence(tr("ctrl+m")));
+  connect(act, &QAction::triggered, this, &mr_menu::slot_conn_maglev);
   act = menu->addAction(_("Connect With Irrigation"));
   menu_list.insert(CONNECT_IRRIGATION, act);
   act->setShortcut(QKeySequence(tr("ctrl+i")));
@@ -2427,6 +2431,18 @@ void mr_menu::menus_sensitive()
         }
         break;
 
+      case CONNECT_MAGLEV:
+        proad = road_by_gui_type(ROAD_GUI_MAGLEV);
+        if (proad != NULL) {
+          tgt = road_extra_get(proad);
+        } else {
+          break;
+        }
+        if (can_units_do_connect(punits, ACTIVITY_GEN_ROAD, tgt)) {
+          i.value()->setEnabled(true);
+        }
+        break;
+
       case CONNECT_IRRIGATION:
         {
           struct extra_type_list *extras = extra_type_list_by_cause(EC_IRRIGATION);
@@ -2631,6 +2647,21 @@ void mr_menu::slot_conn_rail()
     struct extra_type *tgt;
 
     tgt = road_extra_get(prail);
+    key_unit_connect(ACTIVITY_GEN_ROAD, tgt);
+  }
+}
+
+/**********************************************************************//**
+  Action "CONNECT WITH MAGLEV"
+**************************************************************************/
+void mr_menu::slot_conn_maglev()
+{
+  struct road_type *pmaglev = road_by_gui_type(ROAD_GUI_MAGLEV);
+
+  if (pmaglev != NULL) {
+    struct extra_type *tgt;
+
+    tgt = road_extra_get(pmaglev);
     key_unit_connect(ACTIVITY_GEN_ROAD, tgt);
   }
 }

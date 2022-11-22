@@ -250,6 +250,7 @@ static void build_mine_callback(GtkMenuItem *item, gpointer data);
 static void plant_callback(GtkMenuItem *item, gpointer data);
 static void connect_road_callback(GtkMenuItem *item, gpointer data);
 static void connect_rail_callback(GtkMenuItem *item, gpointer data);
+static void connect_maglev_callback(GtkMenuItem *item, gpointer data);
 static void connect_irrigation_callback(GtkMenuItem *item, gpointer data);
 static void transform_terrain_callback(GtkMenuItem *item, gpointer data);
 static void clean_pollution_callback(GtkMenuItem *item, gpointer data);
@@ -573,6 +574,8 @@ static struct menu_entry_info menu_entries[] =
     G_CALLBACK(connect_road_callback), MGROUP_UNIT },
   { "CONNECT_RAIL", N_("Connect With Rai_l"), GDK_KEY_l, GDK_CONTROL_MASK,
     G_CALLBACK(connect_rail_callback), MGROUP_UNIT },
+  { "CONNECT_MAGLEV", N_("Connect With _Maglev"), GDK_KEY_m, GDK_CONTROL_MASK,
+    G_CALLBACK(connect_maglev_callback), MGROUP_UNIT },
   { "CONNECT_IRRIGATION", N_("Connect With Irri_gation"),
     GDK_KEY_i, GDK_CONTROL_MASK,
     G_CALLBACK(connect_irrigation_callback), MGROUP_UNIT },
@@ -1843,6 +1846,22 @@ static void connect_rail_callback(GtkMenuItem *action, gpointer data)
 }
 
 /************************************************************************//**
+  Action "CONNECT_MAGLEV" callback.
+****************************************************************************/
+static void connect_maglev_callback(GtkMenuItem *action, gpointer data)
+{
+  struct road_type *pmaglev = road_by_gui_type(ROAD_GUI_MAGLEV);
+
+  if (pmaglev != NULL) {
+    struct extra_type *tgt;
+
+    tgt = road_extra_get(pmaglev);
+
+    key_unit_connect(ACTIVITY_GEN_ROAD, tgt);
+  }
+}
+
+/************************************************************************//**
   Action "CONNECT_IRRIGATION" callback.
 ****************************************************************************/
 static void connect_irrigation_callback(GtkMenuItem *action, gpointer data)
@@ -2369,6 +2388,13 @@ void real_menus_update(void)
                extra_name_translation(road_extra_get(proad)));
       menus_rename("CONNECT_RAIL", road_buf);
     }
+
+    proad = road_by_gui_type(ROAD_GUI_MAGLEV);
+    if (proad != NULL) {
+      snprintf(road_buf, sizeof(road_buf), _("Connect With %s"),
+               extra_name_translation(road_extra_get(proad)));
+      menus_rename("CONNECT_MAGLEV", road_buf);
+    }
   }
 
   if (!can_client_issue_orders()) {
@@ -2554,6 +2580,18 @@ void real_menus_update(void)
   }
   menu_entry_set_sensitive("CONNECT_RAIL", conn_possible);
 
+  proad = road_by_gui_type(ROAD_GUI_MAGLEV);
+  if (proad != NULL) {
+    struct extra_type *tgt;
+
+    tgt = road_extra_get(proad);
+
+    conn_possible = can_units_do_connect(punits, ACTIVITY_GEN_ROAD, tgt);
+  } else {
+    conn_possible = FALSE;
+  }
+  menu_entry_set_sensitive("CONNECT_MAGLEV", conn_possible);
+
   extras = extra_type_list_by_cause(EC_IRRIGATION);
 
   if (extra_type_list_size(extras) > 0) { 
@@ -2613,7 +2651,7 @@ void real_menus_update(void)
     } unit_list_iterate_end;
 
     if (pextra != NULL) {
-      /* TRANS: Build road of specific type (Road/Railroad) */
+      /* TRANS: Build road of specific type (Road/Railroad/Maglev) */
       snprintf(road_item, sizeof(road_item), _("Build %s"),
                extra_name_translation(pextra));
       menus_rename("BUILD_ROAD", road_item);
