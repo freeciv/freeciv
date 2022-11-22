@@ -10,7 +10,7 @@
 # Version 2.4.1 (09-Jun-22)
 
 WINBUILD_VERSION="2.4.0"
-MIN_WINVER=0x0601 # Windows 7
+MIN_WINVER=0x0601 # Windows 7, Qt6-client build overrides this
 CROSSER_FEATURE_LEVEL=2.5
 
 if test "x$1" = x || test "x$1" = "x-h" || test "x$1" = "x--help" ; then
@@ -85,7 +85,8 @@ elif test "x$2" != "x" ; then
     qt5) FCMP="qt"
          QTVER="Qt5" ;;
     qt6) FCMP="qt"
-         QTVER="Qt6" ;;
+         QTVER="Qt6"
+         MIN_WINVER="0x0A00" ;; # Qt6 requires Win10 anyway
     *) echo "Unknown gui \"$2\"!" >&2
        exit 1 ;;
   esac
