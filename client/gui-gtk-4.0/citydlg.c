@@ -143,9 +143,7 @@ struct city_dialog {
   cairo_surface_t *map_canvas_store_unscaled;
   GtkWidget *notebook;
 
-#ifdef MENUS_GTK3
-  GtkWidget *popup_menu;
-#endif
+  GtkWidget *popover;
   GtkWidget *citizen_pics;
   cairo_surface_t *citizen_surface;
 
@@ -276,8 +274,12 @@ static gboolean middle_present_unit_release(GtkGestureClick *gesture, int n_pres
 static gboolean right_present_unit_release(GtkGestureClick *gesture, int n_press,
                                            double x, double y, gpointer data);
 
+static void close_citydlg_unit_popover(struct city_dialog *pdialog);
+
+static void unit_center_callback(GSimpleAction *action, GVariant *parameter,
+                                 gpointer data);
+
 #ifdef MENUS_GTK3
-static void unit_center_callback(GtkWidget *w, gpointer data);
 static void unit_activate_callback(GtkWidget *w, gpointer data);
 static void supported_unit_activate_close_callback(GtkWidget *w,
                                                    gpointer data);
@@ -1610,9 +1612,8 @@ static struct city_dialog *create_city_dialog(struct city *pcity)
   gtk_window_set_default_size(GTK_WINDOW(pdialog->shell),
                               GUI_GTK_OPTION(citydlg_xsize),
                               GUI_GTK_OPTION(citydlg_ysize));
-#ifdef MENUS_GTK3
-  pdialog->popup_menu = gtk_menu_button_new();
-#endif
+
+  pdialog->popover = NULL;
 
   vbox = gtk_dialog_get_content_area(GTK_DIALOG(pdialog->shell));
   hbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 2);
@@ -2482,6 +2483,55 @@ static void destroy_func(GtkWidget *w, gpointer data)
 #endif /* MENUS_GTK3 */
 
 /***********************************************************************//**
+  Create menu for the unit in citydlg
+
+  @param pdialog   Dialog to create menu to
+  @param punit     Unit to create menu for
+  @param wdg       Widget to attach menu to
+  @param supported Is this supported units menu (not present units)
+
+  @return whether menu was really created
+***************************************************************************/
+static bool create_unit_menu(struct city_dialog *pdialog, struct unit *punit,
+                             GtkWidget *wdg, bool supported)
+{
+  GMenu *menu;
+  GMenuItem *item;
+  GActionGroup *group;
+  GSimpleAction *act;
+
+  if (!can_client_issue_orders()) {
+    return FALSE;
+  }
+
+  if (pdialog->popover != NULL) {
+    close_citydlg_unit_popover(pdialog);
+  }
+
+  group = G_ACTION_GROUP(g_simple_action_group_new());
+  menu = g_menu_new();
+
+  if (supported) {
+    act = g_simple_action_new("center", NULL);
+    g_object_set_data(G_OBJECT(act), "dlg", pdialog);
+    g_action_map_add_action(G_ACTION_MAP(group), G_ACTION(act));
+    g_signal_connect(act, "activate", G_CALLBACK(unit_center_callback),
+                     GINT_TO_POINTER(punit->id));
+    item = g_menu_item_new(_("Cen_ter"), "win.center");
+    g_menu_append_item(menu, item);
+  }
+
+  pdialog->popover = gtk_popover_menu_new_from_model(G_MENU_MODEL(menu));
+  g_object_ref(pdialog->popover);
+  gtk_widget_insert_action_group(pdialog->popover, "win", group);
+  gtk_widget_set_parent(pdialog->popover, wdg);
+
+  gtk_popover_popup(GTK_POPOVER(pdialog->popover));
+
+  return TRUE;
+}
+
+/***********************************************************************//**
   Pop-up menu to change attributes of supported units
 ***************************************************************************/
 static gboolean supported_unit_callback(GtkGestureClick *gesture, int n_press,
@@ -2496,24 +2546,11 @@ static gboolean supported_unit_callback(GtkGestureClick *gesture, int n_press,
       && NULL != (pcity = game_city_by_number(punit->homecity))
       && NULL != (pdialog = get_city_dialog(pcity))) {
 
-    if (!can_client_issue_orders()) {
-      return FALSE;
-    }
+    return create_unit_menu(pdialog, punit,
+                            gtk_event_controller_get_widget(GTK_EVENT_CONTROLLER(gesture)),
+                            TRUE);
 
 #ifdef MENUS_GTK3
-    GtkWidget *menu, *item;
-
-    menu = pdialog->popup_menu;
-
-    gtk_menu_popdown(GTK_MENU(menu));
-    gtk_container_foreach(GTK_CONTAINER(menu), destroy_func, NULL);
-
-    item = gtk_menu_item_new_with_mnemonic(_("Cen_ter"));
-    g_signal_connect(item, "activate",
-      G_CALLBACK(unit_center_callback),
-      GINT_TO_POINTER(punit->id));
-    gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-
     item = gtk_menu_item_new_with_mnemonic(_("_Activate unit"));
     g_signal_connect(item, "activate",
       G_CALLBACK(unit_activate_callback),
@@ -2560,18 +2597,11 @@ static gboolean present_unit_callback(GtkGestureClick *gesture, int n_press,
       && NULL != (pcity = tile_city(unit_tile(punit)))
       && NULL != (pdialog = get_city_dialog(pcity))) {
 
-    if (!can_client_issue_orders()) {
-      return FALSE;
-    }
+    return create_unit_menu(pdialog, punit,
+                            gtk_event_controller_get_widget(GTK_EVENT_CONTROLLER(gesture)),
+                            FALSE);
 
 #ifdef MENUS_GTK3
-    GtkWidget *menu, *item;
-
-    menu = pdialog->popup_menu;
-
-    gtk_menu_popdown(GTK_MENU(menu));
-    gtk_container_foreach(GTK_CONTAINER(menu), destroy_func, NULL);
-
     item = gtk_menu_item_new_with_mnemonic(_("_Activate unit"));
     g_signal_connect(item, "activate",
       G_CALLBACK(unit_activate_callback),
@@ -2753,11 +2783,25 @@ static gboolean right_supported_unit_release(GtkGestureClick *gesture, int n_pre
   return TRUE;
 }
 
-#ifdef MENUS_GTK3
+/***********************************************************************//**
+  Close unit menu
+
+  @param pdialog Dialog where the menu should be closed from
+***************************************************************************/
+static void close_citydlg_unit_popover(struct city_dialog *pdialog)
+{
+  if (pdialog->popover != NULL) {
+    gtk_widget_unparent(pdialog->popover);
+    g_object_unref(pdialog->popover);
+    pdialog->popover = NULL;
+  }
+}
+
 /***********************************************************************//**
   User has requested centering to unit
 ***************************************************************************/
-static void unit_center_callback(GtkWidget *w, gpointer data)
+static void unit_center_callback(GSimpleAction *action, GVariant *parameter,
+                                 gpointer data)
 {
   struct unit *punit =
     player_unit_by_number(client_player(), (size_t)data);
@@ -2765,8 +2809,11 @@ static void unit_center_callback(GtkWidget *w, gpointer data)
   if (NULL != punit) {
     center_tile_mapcanvas(unit_tile(punit));
   }
+
+  close_citydlg_unit_popover(g_object_get_data(G_OBJECT(action), "dlg"));
 }
 
+#ifdef MENUS_GTK3
 /***********************************************************************//**
   User has requested unit activation
 ***************************************************************************/
@@ -3495,12 +3542,7 @@ static void city_destroy_callback(GtkWidget *w, gpointer data)
   last_page
     = gtk_notebook_get_current_page(GTK_NOTEBOOK(pdialog->notebook));
 
-#ifdef MENUS_GTK3
-  if (pdialog->popup_menu) {
-    gtk_widget_destroy(pdialog->popup_menu);
-  }
-#endif /* MENUS_GTK3 */
-
+  close_citydlg_unit_popover(pdialog);
   dialog_list_remove(dialog_list, pdialog);
 
   unit_node_vector_free(&pdialog->overview.supported_units);
