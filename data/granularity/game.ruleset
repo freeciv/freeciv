@@ -299,7 +299,7 @@ nuke_defender_survival_chance_pct = 0
 ;if_attacker =
 ;    { "type",         "name",    "range", "present"
 ;      "DiplRel",      "War",     "Local", TRUE
-;      "MinMoveFrags", "1",       "Local", TRUE
+;      "MinMoveFrags", "10"       "Local", TRUE
 ;    }
 
 [actions]
@@ -501,7 +501,7 @@ actor_reqs    =
     { "type",   "name", "range"
       "UnitFlag", "Cities", "Local"
       "UnitState", "OnLivableTile", "Local"
-      "MinMoveFrags", "1", "Local"
+      "MinMoveFrags", "5", "Local"
     }
 target_reqs    =
     { "type",   "name", "range", "present"
@@ -562,7 +562,7 @@ action        = "Transport Disembark"
 actor_reqs    =
     { "type",         "name",         "range"
       "UnitState",    "Transported",  "Local"
-      "MinMoveFrags", "1",            "Local"
+      "MinMoveFrags", "5",            "Local"
       "UnitState",    "OnNativeTile", "Local"
     }
 
@@ -571,7 +571,7 @@ action        = "Transport Disembark"
 actor_reqs    =
     { "type",         "name",        "range"
       "UnitState",    "Transported", "Local"
-      "MinMoveFrags", "1",           "Local"
+      "MinMoveFrags", "5",           "Local"
       "CityTile",     "Center",      "Tile"
     }
 
@@ -580,7 +580,7 @@ action        = "Transport Disembark 2"
 actor_reqs    =
     { "type",           "name",         "range", "present"
       "UnitState",      "Transported",  "Local", TRUE
-      "MinMoveFrags",   "1",            "Local", TRUE
+      "MinMoveFrags",   "5",            "Local", TRUE
       "UnitState",      "OnNativeTile", "Local", FALSE
       "CityTile",       "Center",       "Tile",  FALSE
     }
@@ -589,7 +589,7 @@ actor_reqs    =
 action        = "Transport Embark"
 actor_reqs    =
     { "type",         "name",       "range", "present"
-      "MinMoveFrags", "1",          "Local", TRUE
+      "MinMoveFrags", "5",          "Local", TRUE
       "DiplRel",      "Armistice",  "Local", FALSE
       "DiplRel",      "War",        "Local", FALSE
       "DiplRel",      "Cease-fire", "Local", FALSE
@@ -601,7 +601,7 @@ actor_reqs    =
 action     = "Unit Move"
 actor_reqs =
     { "type",         "name",        "range", "present"
-      "MinMoveFrags", "1",           "Local", TRUE
+      "MinMoveFrags", "5",           "Local", TRUE
       "UnitState",    "Transported", "Local", FALSE
     }
 
