@@ -547,9 +547,14 @@ bool activity_requires_target(enum unit_activity activity)
   case ACTIVITY_FORTRESS:
   case ACTIVITY_AIRBASE:
   case ACTIVITY_PATROL_UNUSED:
-  default:
-    fc_assert_ret_val(FALSE, FALSE);
+  case ACTIVITY_OLD_ROAD:
+  case ACTIVITY_OLD_RAILROAD:
+  case ACTIVITY_UNKNOWN:
+  case ACTIVITY_LAST:
+    break;
   }
+
+  fc_assert(FALSE);
 
   return FALSE;
 }
