@@ -48,6 +48,7 @@ endif
 
 MAGICKVER=7.Q16HDRI-10
 FFIVER=8
+ICUVER=72
 
 INSTSUB=${ARCHDIR}
 
@@ -55,9 +56,7 @@ INSTSUB=${ARCHDIR}
 DLLPATH_PREFIX=/$(ARCHDIR)/bin/
 
 ifeq ($(CI),yes)
-ICUVER=71
 else
-ICUVER=72
 endif
 
 #
