@@ -148,7 +148,7 @@
             <child>
               <object class="GtkSeparatorMenuItem" />
             </child>
-            <child>  
+            <child>
               <object class="GtkCheckMenuItem" id="SHOW_TERRAIN" />
             </child>
             <child>

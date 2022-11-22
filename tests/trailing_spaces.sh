@@ -7,7 +7,8 @@ files=$(find $1 -name "*.ruleset" \
              -o -name "*.modpack" \
              -o -name "*.serv" \
              -o -name "*.txt" \
-             -o -name "README*" | sort)
+             -o -name "README*" \
+             -o -name "*.xml" | sort)
 
 echo "# Check for trailing spaces:"
 for file in $files; do
