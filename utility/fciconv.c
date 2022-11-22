@@ -130,7 +130,7 @@ void init_character_encodings(const char *my_internal_encoding,
           _("You are running Freeciv without using iconv. Unless\n"
             "you are using the UTF-8 character set, some characters\n"
             "may not be displayed properly. You can download iconv\n"
-            "at http://gnu.org/.\n"));
+            "at https://gnu.org/.\n"));
 #endif /* HAVE_ICONV */
 
   is_init = TRUE;
