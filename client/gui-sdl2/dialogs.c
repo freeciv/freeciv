@@ -1092,7 +1092,7 @@ void unit_select_dialog_popup(struct tile *ptile)
 
   n = unit_list_size(ptile->units);
 
-  if (!n || unit_select_dlg) {
+  if (n == 0 || unit_select_dlg) {
     return;
   }
 
@@ -1202,7 +1202,7 @@ void unit_select_dialog_popup(struct tile *ptile)
   area = pwindow->area;
 
   put_window_near_map_tile(pwindow, pwindow->size.w, pwindow->size.h,
-                           unit_tile(punit));
+                           ptile);
 
   w = area.w;
 
