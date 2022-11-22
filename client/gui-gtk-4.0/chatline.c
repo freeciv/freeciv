@@ -195,12 +195,11 @@ static const char *get_player_or_user_name(int id)
 /**********************************************************************//**
   Find a player or a user by prefix.
 
-  prefix - The prefix.
-  matches - A string array to set the matches result.
-  max_matches - The maximum of matches.
-  match_len - The length of the string used to returns matches.
+  @param prefix       The prefix.
+  @param matches      A string array to set the matches result.
+  @param max_matches  The maximum of matches.
 
-  Returns the number of the matches names.
+  @return the number of the matches names.
 **************************************************************************/
 static int check_player_or_user_name(const char *prefix,
                                      const char **matches,
