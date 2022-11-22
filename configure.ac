@@ -566,7 +566,7 @@ if test "x$iconv_disabled" != "xtrue" ; then
   FC_LIBCHARSET
   AM_LANGINFO_CODESET
   if test "$am_cv_func_iconv" != yes; then
-    AC_MSG_ERROR([Iconv is missing. You can get libiconv from http://gnu.org/, \
+    AC_MSG_ERROR([Iconv is missing. You can get libiconv from https://gnu.org/, \
 or try using --with-libiconv-prefix.])
   fi
   LIBS="$LIBS $LIBICONV"
