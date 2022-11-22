@@ -64,6 +64,7 @@ enum munit {
   AUTOSETTLER,
   CONNECT_ROAD,
   CONNECT_RAIL,
+  CONNECT_MAGLEV,
   CONNECT_IRRIGATION,
   GOTO_CITY,
   AIRLIFT,
@@ -322,6 +323,7 @@ private slots:
   void slot_plant();
   void slot_conn_road();
   void slot_conn_rail();
+  void slot_conn_maglev();
   void slot_conn_irrigation();
   void slot_transform();
   void slot_clean_pollution();

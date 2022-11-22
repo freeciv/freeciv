@@ -1657,6 +1657,7 @@ Unit Orders:\n\
   Ctrl+L: set a rai(L) waypoint  (when connecting with rail)\n\
   m:      build (m)ine or convert terrain  (settler/worker units)\n\
   M:      change terrain by planting\n\
+  Ctrl+M: connect current and target tile with M)aglev\n\
   n:      clean (n)uclear fallout\n\
   N:      explode (N)uclear\n\
   o:      transf(o)rm terrain  (engineer unit)\n\

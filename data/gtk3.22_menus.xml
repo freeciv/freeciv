@@ -372,6 +372,9 @@
               <object class="GtkMenuItem" id="CONNECT_RAIL" />
             </child>
             <child>
+              <object class="GtkMenuItem" id="CONNECT_MAGLEV" />
+            </child>
+            <child>
               <object class="GtkMenuItem" id="CONNECT_IRRIGATION" />
             </child>
             <child>
