@@ -1001,7 +1001,7 @@ static void populate_view(GtkTreeView *view, struct city **ppcity,
   intl_slist(ARRAY_SIZE(titles), titles, &titles_done);
 
   /* Case i == 0 taken out of the loop to workaround gcc-4.2.1 bug
-   * http://gcc.gnu.org/PR33381
+   * https://gcc.gnu.org/PR33381
    * Some values would 'stick' from i == 0 round. */
   i = 0;
 

@@ -335,7 +335,7 @@ dans l'ordre suivant : pkg-config, Glib, Atk, Pango, Gdk-Pixbuf, Gtk+.
   utilisant une police TrueType fournie de façon externe. Vous pouvez
   l'obtenir à :
 
-    http://download.savannah.gnu.org/releases/freetype/freetype-2.7.1.tar.bz2
+    https://download.savannah.gnu.org/releases/freetype/freetype-2.7.1.tar.bz2
 
 1d. Prérequis pour le client Qt :
 =================================
