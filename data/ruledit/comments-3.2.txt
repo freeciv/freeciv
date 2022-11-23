@@ -126,7 +126,7 @@ techs = "\
 ;                 tech requirements because it is a requirement vector.\n\
 ;                 See doc/README.effects to learn more about requirement\n\
 ;                 vectors.\n\
-;                 Requiring a tech here in stead of in req1, req2 or\n\
+;                 Requiring a tech here instead of in req1, req2 or\n\
 ;                 root_req is not supported yet.\n\
 ;                 Requirements that may become fulfilled during the game\n\
 ;                 when they weren't at the start of the game is not\n\

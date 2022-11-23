@@ -229,7 +229,7 @@ static void dai_choose_trade_route(struct ai_type *ait, struct city *pcity,
 
   if (!unit_type) {
     /* We'll never be able to establish a trade route. Consider a unit that
-     * can enter the marketplace in stead to stimulate science. */
+     * can enter the marketplace instead, to stimulate science. */
     unit_type = get_role_unit(action_id_get_role(ACTION_MARKETPLACE), 0);
   }
 
