@@ -231,8 +231,8 @@ static void dai_barbarian_choose_build(struct player *pplayer,
   /* If found anything, put it into the choice */
   if (bestunit) {
     choice->value.utype = bestunit;
-    /* FIXME: 101 is the "overriding military emergency" indicator */
-    choice->want   = 101;
+    /* "Overriding military emergency" indicator */
+    choice->want   = DAI_WANT_MILITARY_EMERGENCY;
     choice->type   = CT_ATTACKER;
     adv_choice_set_use(choice, "barbarian");
   } else {
@@ -265,8 +265,7 @@ static void dai_city_choose_build(struct ai_type *ait, struct player *pplayer,
   if (is_barbarian(pplayer)) {
     dai_barbarian_choose_build(pplayer, pcity, &(city_data->choice));
   } else {
-    /* FIXME: 101 is the "overriding military emergency" indicator */
-    if ((city_data->choice.want <= 100
+    if ((city_data->choice.want < DAI_WANT_MILITARY_EMERGENCY
          || city_data->urgency == 0)
         && !(dai_on_war_footing(ait, pplayer) && city_data->choice.want > 0
              && pcity->id != adv->wonder_city)) {

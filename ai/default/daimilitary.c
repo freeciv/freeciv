@@ -412,14 +412,14 @@ void dai_assess_danger_player(struct ai_type *ait, struct player *pplayer)
 
 /********************************************************************** 
   Set (overwrite) our want for a building. Syela tries to explain:
-   
-    My first attempt to allow ng_wa >= 200 led to stupidity in cities 
-    with no defenders and danger = 0 but danger > 0.  Capping ng_wa at 
-    100 + urgency led to a failure to buy walls as required.  Allowing 
-    want > 100 with !urgency led to the AI spending too much gold and 
-    falling behind on science.  I'm trying again, but this will require 
+
+    My first attempt to allow ng_wa >= 200 led to stupidity in cities
+    with no defenders and danger = 0 but danger > 0. Capping ng_wa at
+    100 + urgency led to a failure to buy walls as required.  Allowing
+    want > 100 with !urgency led to the AI spending too much gold and
+    falling behind on science.  I'm trying again, but this will require
     yet more tedious observation -- Syela
-   
+
   The idea in this horrible function is that there is an enemy nearby
   that can whack us, so let's build something that can defend against
   him. If danger is urgent and overwhelming, danger is 200+, if it is
@@ -1351,9 +1351,10 @@ cleanup:
 }
 
 /**********************************************************************
-... this function should assign a value to choice and want and type, 
-    where want is a value between 1 and 100.
-    if want is 0 this advisor doesn't want anything
+  This function should assign a value to choice and want and type,
+  where want is a value between 0.0 and
+  DAI_WANT_MILITARY_EMERGENCY (not inclusive)
+  if want is 0 this advisor doesn't want anything
 ***********************************************************************/
 static void dai_unit_consider_bodyguard(struct ai_type *ait,
                                         struct city *pcity,
@@ -1368,7 +1369,7 @@ static void dai_unit_consider_bodyguard(struct ai_type *ait,
   virtualunit = unit_virtual_create(pplayer, pcity, punittype,
                                     city_production_unit_veteran_level(pcity, punittype));
 
-  if (choice->want < 100) {
+  if (choice->want < DAI_WANT_MILITARY_EMERGENCY) {
     const adv_want want = look_for_charge(ait, pplayer, virtualunit, &aunit, &acity);
 
     if (want > choice->want) {
@@ -1505,7 +1506,7 @@ struct adv_choice *military_advisor_choose_build(struct ai_type *ait,
        * nobody behind them. */
       if (dai_process_defender_want(ait, pplayer, pcity, danger, choice,
                                     martial_value)) {
-        choice->want = 100 + danger;
+        choice->want = DAI_WANT_BELOW_MIL_EMERGENCY + danger;
         adv_choice_set_use(choice, "first defender");
         build_walls = FALSE;
         def_unit_selected = TRUE;
@@ -1526,10 +1527,10 @@ struct adv_choice *military_advisor_choose_build(struct ai_type *ait,
       pimprove = improvement_by_number(wall_id);
 
       if (wall_id != B_LAST
-          && pcity->server.adv->building_want[wall_id] != 0 && our_def != 0 
+          && pcity->server.adv->building_want[wall_id] != 0 && our_def != 0
           && can_city_build_improvement_now(pcity, pimprove)
           && (danger < 101 || num_defenders > 1
-              || (city_data->grave_danger == 0 
+              || (city_data->grave_danger == 0
                   && pplayer->economic.gold
                      > impr_buy_gold_cost(pcity, pimprove, pcity->shield_stock)))
           && ai_fuzzy(pplayer, TRUE)) {
@@ -1538,8 +1539,8 @@ struct adv_choice *military_advisor_choose_build(struct ai_type *ait,
           choice->value.building = pimprove;
           /* building_want is hacked by assess_danger */
           choice->want = pcity->server.adv->building_want[wall_id];
-          if (urgency == 0 && choice->want > 100) {
-            choice->want = 100;
+          if (urgency == 0 && choice->want > DAI_WANT_BELOW_MIL_EMERGENCY) {
+            choice->want = DAI_WANT_BELOW_MIL_EMERGENCY;
           }
           choice->type = CT_BUILDING;
           adv_choice_set_use(choice, "defense building");
@@ -1628,7 +1629,8 @@ struct adv_choice *military_advisor_choose_build(struct ai_type *ait,
   /* If we are in severe danger, don't consider attackers. This is probably
      too general. In many cases we will want to buy attackers to counterattack.
      -- Per */
-  if (choice->want - martial_value > 100 && city_data->grave_danger > 0) {
+  if (choice->want - martial_value >= DAI_WANT_MILITARY_EMERGENCY
+      && city_data->grave_danger > 0) {
     CITY_LOG(LOGLEVEL_BUILD, pcity,
              "severe danger (want " ADV_WANT_PRINTF "), force defender",
              choice->want);

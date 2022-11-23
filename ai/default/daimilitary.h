@@ -24,6 +24,9 @@
    to finish him off. */
 #define FINISH_HIM_CITY_COUNT              5
 
+#define DAI_WANT_BELOW_MIL_EMERGENCY 100
+#define DAI_WANT_MILITARY_EMERGENCY  (DAI_WANT_BELOW_MIL_EMERGENCY + 1)
+
 struct unit_type *dai_choose_defender_versus(struct city *pcity,
                                              struct unit *attacker);
 struct adv_choice *military_advisor_choose_build(struct ai_type *ait,
