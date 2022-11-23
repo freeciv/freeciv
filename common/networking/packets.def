@@ -890,7 +890,7 @@ PACKET_CITY_SABOTAGE_LIST = 45; sc, lsend, handle-via-fields
   UINT8 request_kind;
 end
 
-PACKET_CITY_RALLY_POINT = 138; cs, handle-via-fields
+PACKET_CITY_RALLY_POINT = 138; cs
   CITY city_id;
   UINT16 length;
   BOOL persistent;

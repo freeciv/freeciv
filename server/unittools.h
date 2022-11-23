@@ -190,8 +190,4 @@ void unit_activities_cancel_all_illegal_area(const struct tile *ptile);
 
 void unit_get_goods(struct unit *punit);
 
-bool unit_order_list_is_sane(int length, const struct unit_order *orders);
-struct unit_order *create_unit_orders(int length,
-                                      const struct unit_order *orders);
-
-#endif  /* FC__UNITTOOLS_H */
+#endif /* FC__UNITTOOLS_H */

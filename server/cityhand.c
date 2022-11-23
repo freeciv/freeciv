@@ -514,51 +514,14 @@ void handle_city_options_req(struct player *pplayer, int city_id,
   Handles a request to set city rally point for new units.
 **************************************************************************/
 void handle_city_rally_point(struct player *pplayer,
-                             int city_id, int length,
-                             bool persistent, bool vigilant,
-                             const struct unit_order *orders)
+                             const struct packet_city_rally_point *packet)
 {
-  struct city *pcity = player_city_by_number(pplayer, city_id);
-  struct unit_order *checked_orders;
+  struct city *pcity = player_city_by_number(pplayer, packet->city_id);
 
-  if (NULL == pcity) {
-    /* Probably lost. */
-    log_verbose("handle_city_rally_point() bad city number %d.",
-                city_id);
-    return;
+  if (NULL != pcity) {
+    city_rally_point_receive(packet, pcity);
+    send_city_info(pplayer, pcity);
   }
-
-  if (0 > length || MAX_LEN_ROUTE < length) {
-    /* Shouldn't happen */
-    log_error("handle_city_rally_point() invalid packet length %d (max %d)",
-              length, MAX_LEN_ROUTE);
-    return;
-  }
-
-  pcity->rally_point.length = length;
-
-  if (length == 0) {
-    pcity->rally_point.vigilant = FALSE;
-    pcity->rally_point.persistent = FALSE;
-    if (pcity->rally_point.orders) {
-      free(pcity->rally_point.orders);
-      pcity->rally_point.orders = NULL;
-    }
-  } else {
-    checked_orders = create_unit_orders(length, orders);
-    if (!checked_orders) {
-      pcity->rally_point.length = 0;
-      log_error("invalid rally point orders for city number %d.",
-                city_id);
-      return;
-    }
-
-    pcity->rally_point.persistent = persistent;
-    pcity->rally_point.vigilant = vigilant;
-    pcity->rally_point.orders = checked_orders;
-  }
-
-  send_city_info(pplayer, pcity);
 }
 
 /**********************************************************************//**

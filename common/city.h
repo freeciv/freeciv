@@ -33,6 +33,7 @@ struct impr_type;
 struct unit;
 struct unit_list;
 struct vision;
+struct packet_city_rally_point;
 
 enum production_class_type {
   PCT_UNIT,
@@ -811,9 +812,11 @@ void city_set_ai_data(struct city *pcity, const struct ai_type *ai,
                       void *data);
 
 void city_rally_point_clear(struct city *pcity);
+void city_rally_point_receive(const struct packet_city_rally_point *packet,
+                              struct city *pcity);
 
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */
 
-#endif  /* FC__CITY_H */
+#endif /* FC__CITY_H */

@@ -3527,3 +3527,49 @@ void city_rally_point_clear(struct city *pcity)
     pcity->rally_point.orders = NULL;
   }
 }
+
+/**********************************************************************//**
+  Fill city rally point from the packet.
+**************************************************************************/
+void city_rally_point_receive(const struct packet_city_rally_point *packet,
+                              struct city *pcity)
+{
+  struct unit_order *checked_orders;
+
+  if (NULL != pcity) {
+    /* Probably lost. */
+    log_verbose("handle_city_rally_point() bad city number %d.",
+                packet->city_id);
+    return;
+  }
+
+  if (0 > packet->length || MAX_LEN_ROUTE < packet->length) {
+    /* Shouldn't happen */
+    log_error("city_rally_point_receive() invalid packet length %d (max %d)",
+              packet->length, MAX_LEN_ROUTE);
+    return;
+  }
+
+  pcity->rally_point.length = packet->length;
+
+  if (packet->length == 0) {
+    pcity->rally_point.vigilant = FALSE;
+    pcity->rally_point.persistent = FALSE;
+    if (pcity->rally_point.orders) {
+      free(pcity->rally_point.orders);
+      pcity->rally_point.orders = NULL;
+    }
+  } else {
+    checked_orders = create_unit_orders(packet->length, packet->orders);
+    if (!checked_orders) {
+      pcity->rally_point.length = 0;
+      log_error("invalid rally point orders for city number %d.",
+                packet->city_id);
+      return;
+    }
+
+    pcity->rally_point.persistent = packet->persistent;
+    pcity->rally_point.vigilant = packet->vigilant;
+    pcity->rally_point.orders = checked_orders;
+  }
+}

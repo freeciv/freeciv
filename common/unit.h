@@ -474,8 +474,12 @@ struct iterator *cargo_iter_init(struct cargo_iter *iter,
                   cargo_iter_sizeof, cargo_iter_init, _ptrans)
 #define unit_cargo_iterate_end generic_iterate_end
 
+bool unit_order_list_is_sane(int length, const struct unit_order *orders);
+struct unit_order *create_unit_orders(int length,
+                                      const struct unit_order *orders);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */
 
-#endif  /* FC__UNIT_H */
+#endif /* FC__UNIT_H */
