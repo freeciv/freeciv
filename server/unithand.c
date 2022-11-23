@@ -953,7 +953,7 @@ need_war_enabler(const struct unit_type *actor_utype,
   Returns the first player that may enable the specified action if war is
   declared.
 
-  Helper for need_war_player(). Use it in stead.
+  Helper for need_war_player(). Use it instead.
 **************************************************************************/
 static struct player *need_war_player_hlp(const struct unit *actor,
                                           const action_id act,

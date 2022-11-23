@@ -5308,7 +5308,7 @@ static struct act_prob ap_diplomat_battle(const struct unit *pattacker,
   pdefender = get_diplomatic_defender(pattacker, pvictim, tgt_tile);
 
   if (pdefender) {
-    /* There will be a diplomatic battle in stead of an action. */
+    /* There will be a diplomatic battle instead of an action. */
     return ap_dipl_battle_win(pattacker, pdefender);
   };
 
@@ -6998,7 +6998,7 @@ int action_dice_roll_odds(const struct player *act_player,
                        paction->id);
 
   /* Let the Action_Odds_Pct effect modify the odds. The advantage of doing
-   * it this way in stead of rolling twice is that Action_Odds_Pct can
+   * it this way instead of rolling twice is that Action_Odds_Pct can
    * increase the odds. */
   odds += ((odds * get_target_bonus_effects(
                      NULL,

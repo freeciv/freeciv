@@ -858,7 +858,7 @@ text generation and agents and for third party tools.
 
 Please don't make non actions actions because they are similar to actions
 or because some of the things Freeciv automatically does for actions would
-be nice to have. Abstract out the stuff you want in stead. Make it apply to
+be nice to have. Abstract out the stuff you want instead. Make it apply to
 both actions and to the thing you wanted.
 
 An action is something a player can order a game entity, the actor, to do.
