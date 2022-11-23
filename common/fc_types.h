@@ -77,7 +77,7 @@ extern "C" {
 #define MAX_LEN_STARTUNIT (20+1)
 #define MAX_LEN_ENUM     64
 
-/* Line breaks after this number of characters; be carefull and use only 70 */
+/* Line breaks after this number of characters; be careful and use only 70 */
 #define LINE_BREAK 70
 
 /* Changing the max radius requires updating network capabilities and results
