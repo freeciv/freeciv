@@ -56,7 +56,7 @@ all-win64: gtk3.22-installer sdl2-installer gtk4-installer
 
 all-win32: gtk3.22-installer sdl2-installer gtk4-installer
 
-all-win64-10: gtk3.22-installer sdl2-installer gtk4-installer
+all-win64-10: gtk3.22-installer sdl2-installer gtk4-installer qt6-installer
 
 all-win64+: gtk3.22-install sdl2-install gtk4-install
 
@@ -75,6 +75,9 @@ gtk4-installer:
 sdl2-installer:
 	make -f $(MAKEFILE_NAME) GUI=sdl2 CLIENT=sdl2 FCMP=gtk4 installer-common
 
+qt6-installer:
+	make -f $(MAKEFILE_NAME) EXTRA_CONFIG="-Ddebug=false $(EXTRA_CONFIG)" GUI=qt6 CLIENT=qt FCMP=qt installer-common
+
 gtk3.22-install:
 	make -f $(MAKEFILE_NAME) GUI=gtk3.22 CLIENT=gtk3.22 FCMP=gtk3 install-freeciv-gtk3.22
 
@@ -87,7 +90,7 @@ sdl2-install:
 installer-common: install-freeciv-$(GUI) install-env-$(GUI)
 	# extract Freeciv version
 	$(eval FREECIV_VERSION := $(shell ../../fc_version))
-	./create-freeciv-$(CLIENT)-nsi.sh meson-install-$(WINARCH)-$(GUI) $(FREECIV_VERSION) $(WINARCH) > Freeciv-meson-$(WINARCH)-$(FREECIV_VERSION)-$(GUI).nsi
+	./create-freeciv-$(GUI)-nsi.sh meson-install-$(WINARCH)-$(GUI) $(FREECIV_VERSION) $(WINARCH) > Freeciv-meson-$(WINARCH)-$(FREECIV_VERSION)-$(GUI).nsi
 	# create installer executable
 	mkdir -p Output
 	makensis Freeciv-meson-$(WINARCH)-$(FREECIV_VERSION)-$(GUI).nsi
@@ -174,6 +177,7 @@ COMMON_DLLS := \
 	libltdl-7.dll \
 	libxml2-2.dll \
 	libraqm-0.dll \
+	libunistring-2.dll \
 	$(SOUND_DLLS)
 
 install-env-common:
@@ -188,8 +192,7 @@ FCMP_GTK3_DLLS := \
 	libepoxy-0.dll \
 	libpangoft2-1.0-0.dll \
 	libthai-0.dll \
-	libdatrie-1.dll \
-	libunistring-2.dll
+	libdatrie-1.dll
 
 install-env-gtk3-fcmp: install-env-common
 	cp -R $(addprefix $(DLLPATH_PREFIX), $(FCMP_GTK3_DLLS)) meson-install-$(WINARCH)-$(GUI)/
@@ -218,7 +221,6 @@ FCMP_GTK4_DLLS := \
 	libdatrie-1.dll \
 	libtiff-5.dll \
 	libjpeg-8.dll \
-	libunistring-2.dll \
 	libjbig-0.dll \
 	libwebp-7.dll \
 	libdeflate.dll \
@@ -239,6 +241,8 @@ install-freeciv-gtk4: install-freeciv-common
 
 install-freeciv-sdl2: install-freeciv-common
 
+install-freeciv-qt6: install-freeciv-common
+
 install-env-gtk3.22: install-env-gtk3-fcmp
 
 install-env-gtk4: install-env-gtk4-fcmp
@@ -255,7 +259,27 @@ install-env-sdl2: install-env-gtk4-fcmp
 	# add DLLs
 	cp -R $(addprefix $(DLLPATH_PREFIX), $(SDL2_DLLS)) meson-install-$(WINARCH)-$(GUI)/
 
-# cleanup
+FCMP_QT6_DLLS := \
+	Qt6Core.dll \
+	Qt6Gui.dll \
+	Qt6Widgets.dll \
+	libmd4c.dll \
+	libb2-1.dll \
+	libdouble-conversion.dll \
+	libicuin${ICUVER}.dll \
+	libpcre2-16-0.dll
+
+install-env-qt6-fcmp: install-env-common
+	# Add DLLs
+	cp -R $(addprefix $(DLLPATH_PREFIX), $(FCMP_QT6_DLLS)) meson-install-$(WINARCH)-$(GUI)/
+	# Add additional Qt6 files
+	cp -R /$(ARCHDIR)/share/qt6/plugins meson-install-$(WINARCH)-$(GUI)/
+	cp -R /$(ARCHDIR)/share/locale meson-install-$(WINARCH)-$(GUI)/share/
+	find meson-install-$(WINARCH)-$(GUI)/share/locale -type f -not -name "freeciv-*.mo" -delete
+
+install-env-qt6: install-env-qt6-fcmp
+
+# Cleanup
 
 clean-build-common:
 	rm -rf meson-build-*-$(GUI)
@@ -271,3 +295,4 @@ clean:
 	make -f $(MAKEFILE_NAME) GUI=gtk3.22 clean-build-common clean-install-common clean-installer-common
 	make -f $(MAKEFILE_NAME) GUI=gtk4 clean-build-common clean-install-common clean-installer-common
 	make -f $(MAKEFILE_NAME) GUI=sdl2 clean-build-common clean-install-common clean-installer-common
+	make -f $(MAKEFILE_NAME) GUI=qt6 clean-build-common clean-install-common clean-installer-common
