@@ -198,7 +198,7 @@ struct action
   enum action_actor_kind actor_kind;
   enum action_target_kind target_kind;
 
-  bool hostile; /* TODO: Should this be a scale in stead? */
+  bool hostile; /* TODO: Should this be a scale instead? */
 
   /* Is the player required to specify details about this action? Only true
    * IFF the action needs details AND the server won't fill them in when

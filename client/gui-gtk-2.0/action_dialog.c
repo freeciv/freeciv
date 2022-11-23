@@ -71,7 +71,7 @@ static GtkWidget  *spy_tech_shell;
 
 static GtkWidget  *spy_sabotage_shell;
 
-/* A structure to hold parameters for actions inside the GUI in stead of
+/* A structure to hold parameters for actions inside the GUI instead of
  * storing the needed data in a global variable. */
 struct action_data {
   action_id act_id;

@@ -343,7 +343,7 @@ static int spy_investigate_callback(struct widget *pWidget)
                         0, "");
     }
 
-    /* FIXME: Wait for the city display in stead? */
+    /* FIXME: Wait for the city display instead? */
     popdown_diplomat_dialog();
   }
 
@@ -365,7 +365,7 @@ static int diplomat_investigate_callback(struct widget *pWidget)
                         0, "");
     }
 
-    /* FIXME: Wait for the city display in stead? */
+    /* FIXME: Wait for the city display instead? */
     popdown_diplomat_dialog();
   }
 

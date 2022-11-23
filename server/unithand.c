@@ -743,7 +743,7 @@ static bool rel_may_become_war(const struct player *pplayer,
   Returns the first player that may enable the specified action if war is
   declared.
 
-  Helper for need_war_player(). Use it in stead.
+  Helper for need_war_player(). Use it instead.
 **************************************************************************/
 static struct player *need_war_player_hlp(const struct unit *actor,
                                           const action_id act,

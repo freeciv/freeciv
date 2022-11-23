@@ -213,22 +213,22 @@ only_killing_makes_veteran = FALSE
 [actions]
 ; If force_trade_route is set to TRUE it is illegal for an actor unit to
 ; enter the marketplace of a city if it can establish a trade route to it
-; in stead.
+; instead.
 force_trade_route = FALSE
 
 ; If force_capture_units is set to TRUE it is illegal for an actor unit to
 ; bombard, explode nuclear or perform a regular attack against a tile if
-; it can capture units on it in stead.
+; it can capture units on it instead.
 force_capture_units = FALSE
 
 ; If force_bombard is set to TRUE it is illegal for an actor unit to
 ; explode nuclear or perform a regular attack against a tile if it can
-; bombard it in stead.
+; bombard it instead.
 force_bombard = FALSE
 
 ; If force_explode_nuclear is set to TRUE it is illegal for an actor unit
 ; to perform a regular attack against a tile if it can do explode nuclear
-; in stead.
+; instead.
 force_explode_nuclear = FALSE
 
 ; If poison_empties_food_stock is set to TRUE a successful "Poison City"

@@ -1270,7 +1270,7 @@ static bool is_valid_dir_calculate(enum direction8 dir)
   Returns TRUE iff the given direction is a valid one.
 
   If the direction could be out of range you should use
-  map_untrusted_dir_is_valid() in stead.
+  map_untrusted_dir_is_valid() instead.
 **************************************************************************/
 bool is_valid_dir(enum direction8 dir)
 {

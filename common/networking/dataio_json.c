@@ -79,7 +79,7 @@ static void plocation_write_data(json_t *item,
                                  json_t *data);
 
 /**************************************************************************
-  Helper for plocation_write_data(). Use it in stead of this.
+  Helper for plocation_write_data(). Use it instead of this.
 **************************************************************************/
 static void plocation_write_field(json_t *item,
                                   const struct plocation *location,
@@ -94,7 +94,7 @@ static void plocation_write_field(json_t *item,
 }
 
 /**************************************************************************
-  Helper for plocation_write_data(). Use it in stead of this.
+  Helper for plocation_write_data(). Use it instead of this.
 **************************************************************************/
 static void plocation_write_elem(json_t *item,
                                  const struct plocation *location,
@@ -133,7 +133,7 @@ static json_t *plocation_read_data(json_t *item,
                                    const struct plocation *location);
 
 /**************************************************************************
-  Helper for plocation_read_data(). Use it in stead of this.
+  Helper for plocation_read_data(). Use it instead of this.
 **************************************************************************/
 static json_t *plocation_read_field(json_t *item,
                                     const struct plocation *location)
@@ -147,7 +147,7 @@ static json_t *plocation_read_field(json_t *item,
 }
 
 /**************************************************************************
-  Helper for plocation_read_data(). Use it in stead of this.
+  Helper for plocation_read_data(). Use it instead of this.
 **************************************************************************/
 static json_t *plocation_read_elem(json_t *item,
                                    const struct plocation *location)
