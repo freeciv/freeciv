@@ -1132,7 +1132,7 @@ void handle_traderoute_info(const struct packet_traderoute_info *packet)
 
 /************************************************************************//**
   A city-short-info packet is sent to tell us about any cities we can't see
-  the internals of.  Most of the time this includes any cities owned by
+  the internals of. Most of the time this includes any cities owned by
   someone else.
 ****************************************************************************/
 void handle_city_short_info(const struct packet_city_short_info *packet)
@@ -1155,12 +1155,11 @@ void handle_city_short_info(const struct packet_city_short_info *packet)
     ptile = city_tile(pcity);
 
     if (NULL == ptile) {
-      /* invisible worked city */
+      /* Invisible worked city */
       city_list_remove(invisible.cities, pcity);
       city_is_new = TRUE;
 
       pcity->tile = pcenter;
-      ptile = pcenter;
       pcity->owner = powner;
       pcity->original = powner;
 
@@ -1174,7 +1173,7 @@ void handle_city_short_info(const struct packet_city_short_info *packet)
         }
       } whole_map_iterate_end;
     } else if (city_owner(pcity) != powner) {
-      /* Remember what were the worked tiles.  The server won't
+      /* Remember what were the worked tiles. The server won't
        * send to us again. */
       city_tile_iterate_skip_free_worked(city_map_radius_sq_get(pcity), ptile,
                                          pworked, _index, _x, _y) {
