@@ -26,6 +26,7 @@ extern "C" {
 /* The character to mark chatlines as server commands */
 /* FIXME this is still hard-coded in a lot of places */
 #define SERVER_COMMAND_PREFIX '/'
+#define SERVER_COMMAND_PREFIX_STR "/"
 #define CHAT_ALLIES_PREFIX '.'
 #define CHAT_DIRECT_PREFIX ':'
 
@@ -33,4 +34,4 @@ extern "C" {
 }
 #endif /* __cplusplus */
 
-#endif  /* FC__CHAT_H */
+#endif /* FC__CHAT_H */
