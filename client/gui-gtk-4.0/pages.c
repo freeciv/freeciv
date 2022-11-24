@@ -30,6 +30,7 @@
 #include "support.h"
 
 /* common */
+#include "chat.h"
 #include "dataio.h"
 #include "game.h"
 #include "mapimg.h"
@@ -1691,6 +1692,19 @@ void update_start_page(void)
   conn_list_dialog_update();
 }
 
+/**********************************************************************//**
+  Close connection menu.
+**************************************************************************/
+static void close_conn_menu_popover(void)
+{
+  if (conn_popover != NULL){
+    gtk_widget_unparent(conn_popover);
+    g_object_unref(conn_popover);
+
+    conn_popover = NULL;
+  }
+}
+
 #ifdef MENUS_GTK3
 /**********************************************************************//**
   Callback for when a team is chosen from the conn menu.
@@ -1724,8 +1738,7 @@ static void conn_menu_ready_chosen(GSimpleAction *action, GVariant *parameter,
                               player_number(pplayer), !pplayer->is_ready);
   }
 
-  gtk_widget_unparent(conn_popover);
-  g_object_unref(conn_popover);
+  close_conn_menu_popover();
 }
 
 /**********************************************************************//**
@@ -1741,8 +1754,7 @@ static void conn_menu_nation_chosen(GSimpleAction *action, GVariant *parameter,
     popup_races_dialog(pplayer);
   }
 
-  gtk_widget_unparent(conn_popover);
-  g_object_unref(conn_popover);
+  close_conn_menu_popover();
 }
 
 /**********************************************************************//**
@@ -1761,8 +1773,7 @@ static void conn_menu_player_command(GSimpleAction *action, GVariant *parameter,
                      player_name(pplayer));
   }
 
-  gtk_widget_unparent(conn_popover);
-  g_object_unref(conn_popover);
+  close_conn_menu_popover();
 }
 
 /**********************************************************************//**
@@ -1778,26 +1789,27 @@ static void conn_menu_player_take(GSimpleAction *action, GVariant *parameter,
     client_take_player(pplayer);
   }
 
-  gtk_widget_unparent(conn_popover);
-  g_object_unref(conn_popover);
+  close_conn_menu_popover();
 }
 
-#ifdef MENUS_GTK3
 /**********************************************************************//**
   Miscellaneous callback for the conn menu that allows an arbitrary command
   (/cmdlevel, /cut, etc.) to be run on the connection.
 **************************************************************************/
-static void conn_menu_connection_command(GObject *object, gpointer data)
+static void conn_menu_connection_command(GSimpleAction *action,
+                                         GVariant *parameter, gpointer data)
 {
   struct connection *pconn;
+  GMenu *menu = data;
 
-  if (object_extract(object, NULL, &pconn)) {
-    send_chat_printf("/%s \"%s\"",
-                     (char *) g_object_get_data(G_OBJECT(data), "command"),
+  if (object_extract(G_OBJECT(menu), NULL, &pconn)) {
+    send_chat_printf(SERVER_COMMAND_PREFIX_STR "%s \"%s\"",
+                     (char *) g_object_get_data(G_OBJECT(action), "command"),
                      pconn->username);
   }
+
+  close_conn_menu_popover();
 }
-#endif /* MENUS_GTK3 */
 
 /**********************************************************************//**
   Show details about a user in the Connected Users dialog in a popup.
@@ -1844,8 +1856,7 @@ static void conn_menu_info_chosen(GSimpleAction *action, GVariant *parameter,
     show_conn_popup(pplayer, pconn);
   }
 
-  gtk_widget_unparent(conn_popover);
-  g_object_unref(conn_popover);
+  close_conn_menu_popover();
 }
 
 /**********************************************************************//**
@@ -1908,41 +1919,38 @@ static GtkWidget *create_conn_menu(struct player *pplayer,
     g_menu_append_item(menu, item);
   }
 
-#ifdef MENUS_GTK3
   if (ALLOW_CTRL <= client.conn.access_level && NULL != pconn
-      && (pconn->id != client.conn.id || NULL != pplayer)) {
-    item = gtk_separator_menu_item_new();
-    gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-
-    if (pconn->id != client.conn.id) {
-      item = gtk_menu_item_new_with_label(_("Cut connection"));
-      gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-      g_object_set_data_full(G_OBJECT(item), "command", g_strdup("cut"),
-                             (GDestroyNotify) g_free);
-      g_signal_connect_swapped(item, "activate",
-                               G_CALLBACK(conn_menu_connection_command),
-                               menu);
-    }
+      && pconn->id != client.conn.id) {
+    act = g_simple_action_new("cut_conn", NULL);
+    g_object_set_data_full(G_OBJECT(act), "command", g_strdup("cut"),
+                           (GDestroyNotify) g_free);
+    g_action_map_add_action(G_ACTION_MAP(group), G_ACTION(act));
+    g_signal_connect(act, "activate", G_CALLBACK(conn_menu_connection_command), menu);
+    item = g_menu_item_new(_("Cut connection"), "win.cut_conn");
+    g_menu_append_item(menu, item);
   }
 
   if (ALLOW_CTRL <= client.conn.access_level && NULL != pplayer) {
-    item = gtk_menu_item_new_with_label(_("Aitoggle player"));
-    gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-    g_object_set_data_full(G_OBJECT(item), "command", g_strdup("aitoggle"),
+    act = g_simple_action_new("aitoggle", NULL);
+    g_object_set_data_full(G_OBJECT(act), "command", g_strdup("aitoggle"),
                            (GDestroyNotify) g_free);
-    g_signal_connect_swapped(item, "activate",
-                             G_CALLBACK(conn_menu_player_command), menu);
+    g_action_map_add_action(G_ACTION_MAP(group), G_ACTION(act));
+    g_signal_connect(act, "activate", G_CALLBACK(conn_menu_connection_command), menu);
+    item = g_menu_item_new(_("Aitoggle player"), "win.aitoggle");
+    g_menu_append_item(menu, item);
 
     if (pplayer != client.conn.playing && game.info.is_new_game) {
-      item = gtk_menu_item_new_with_label(_("Remove player"));
-      gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-      g_object_set_data_full(G_OBJECT(item), "command", g_strdup("remove"),
+      act = g_simple_action_new("remove", NULL);
+      g_object_set_data_full(G_OBJECT(act), "command", g_strdup("remove"),
                              (GDestroyNotify) g_free);
-      g_signal_connect_swapped(item, "activate",
-                               G_CALLBACK(conn_menu_player_command), menu);
+      g_action_map_add_action(G_ACTION_MAP(group), G_ACTION(act));
+      g_signal_connect(act, "activate", G_CALLBACK(conn_menu_connection_command), menu);
+      item = g_menu_item_new(_("Remove player"), "win.remove");
+      g_menu_append_item(menu, item);
     }
   }
 
+#ifdef MENUS_GTK3
   if (ALLOW_ADMIN <= client.conn.access_level && NULL != pconn
       && pconn->id != client.conn.id) {
     enum cmdlevel level;
@@ -2019,6 +2027,7 @@ static GtkWidget *create_conn_menu(struct player *pplayer,
   gtk_widget_show(menu);
 #endif /* MENUS_GTK3 */
 
+  close_conn_menu_popover();
   conn_popover = gtk_popover_menu_new_from_model(G_MENU_MODEL(menu));
   g_object_ref(conn_popover);
   gtk_widget_insert_action_group(conn_popover, "win", group);
