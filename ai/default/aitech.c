@@ -248,7 +248,7 @@ static adv_want dai_tech_base_want(struct ai_type *ait, struct player *pplayer,
 **************************************************************************/
 static void dai_tech_effect_values(struct ai_type *ait, struct player *pplayer)
 {
-  /* TODO: Currently this duplicates code from aicity.c improvement effect
+  /* TODO: Currently this duplicates code from daicity.c improvement effect
    *       evaluating almost verbose - refactor so that they can share code. */
   struct adv_data *adv = adv_data_get(pplayer, NULL);
   struct ai_plr *aip = def_ai_player_data(pplayer, ait);

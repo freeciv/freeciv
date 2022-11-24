@@ -487,7 +487,8 @@ static void dai_choose_trade_route(struct ai_type *ait, struct city *pcity,
 
   If want is 0, this advisor doesn't want anything.
 ***************************************************************************/
-struct adv_choice *domestic_advisor_choose_build(struct ai_type *ait, struct player *pplayer,
+struct adv_choice *domestic_advisor_choose_build(struct ai_type *ait,
+                                                 struct player *pplayer,
                                                  struct city *pcity)
 {
   struct adv_data *adv = adv_data_get(pplayer, NULL);
@@ -501,8 +502,8 @@ struct adv_choice *domestic_advisor_choose_build(struct ai_type *ait, struct pla
   /* Find out desire for workers (terrain improvers) */
   worker_type = city_data->worker_type;
 
-  /* The worker want is calculated in aicity.c called from
-   * dai_manage_cities.  The expand value is the % that the AI should
+  /* The worker want is calculated in daicity.c called from
+   * dai_manage_cities(). The expand value is the % that the AI should
    * value expansion (basically to handicap easier difficulty levels)
    * and is set when the difficulty level is changed (difficulty.c). */
   worker_want = city_data->worker_want * pplayer->ai_common.expand / 100;
