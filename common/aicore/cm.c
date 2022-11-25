@@ -1027,83 +1027,85 @@ static void init_specialist_lattice_nodes(struct tile_type_vector *lattice,
 ****************************************************************************/
 static void top_sort_lattice(struct tile_type_vector *lattice)
 {
-  int i;
-  bool marked[lattice->size];
-  bool will_mark[lattice->size];
-  struct tile_type_vector vectors[2];
-  struct tile_type_vector *current, *next;
+  if (lattice->size > 0) {
+    int i;
+    bool marked[lattice->size];
+    bool will_mark[lattice->size];
+    struct tile_type_vector vectors[2];
+    struct tile_type_vector *current, *next;
 
-  memset(marked, 0, sizeof(marked));
-  memset(will_mark, 0, sizeof(will_mark));
+    memset(marked, 0, sizeof(marked));
+    memset(will_mark, 0, sizeof(will_mark));
 
-  tile_type_vector_init(&vectors[0]);
-  tile_type_vector_init(&vectors[1]);
-  current = &vectors[0];
-  next = &vectors[1];
+    tile_type_vector_init(&vectors[0]);
+    tile_type_vector_init(&vectors[1]);
+    current = &vectors[0];
+    next = &vectors[1];
 
-  /* fill up 'next' */
-  tile_type_vector_iterate(lattice, ptype) {
-    if (tile_type_num_prereqs(ptype) == 0) {
-      tile_type_vector_append(next, ptype);
-    }
-  } tile_type_vector_iterate_end;
-
-  /* while we have nodes to process: mark the nodes whose prereqs have
-   * all been visited.  Then, store all the new nodes on the frontier. */
-  while (next->size != 0) {
-    /* what was the next frontier is now the current frontier */
-    struct tile_type_vector *vtmp = current;
-
-    current = next;
-    next = vtmp;
-    next->size = 0; /* clear out the contents */
-
-    /* look over the current frontier and process everyone */
-    tile_type_vector_iterate(current, ptype) {
-      /* see if all prereqs were marked.  If so, decide to mark this guy,
-         and put all the descendents on 'next'.  */
-      bool can_mark = TRUE;
-      int sumdepth = 0;
-
-      if (will_mark[ptype->lattice_index]) {
-        continue; /* we've already been processed */
-      }
-      tile_type_vector_iterate(&ptype->better_types, better) {
-        if (!marked[better->lattice_index]) {
-          can_mark = FALSE;
-          break;
-        } else {
-          sumdepth += tile_type_num_tiles(better);
-          if (sumdepth >= FC_INFINITY) {
-            /* if this is the case, then something better could
-               always be used, and the same holds for our children */
-            sumdepth = FC_INFINITY;
-            can_mark = TRUE;
-            break;
-          }
-        }
-      } tile_type_vector_iterate_end;
-      if (can_mark) {
-        /* mark and put successors on the next frontier */
-        will_mark[ptype->lattice_index] = TRUE;
-        tile_type_vector_iterate(&ptype->worse_types, worse) {
-          tile_type_vector_append(next, worse);
-        } tile_type_vector_iterate_end;
-
-        /* this is what we spent all this time computing. */
-        ptype->lattice_depth = sumdepth;
+    /* Fill up 'next' */
+    tile_type_vector_iterate(lattice, ptype) {
+      if (tile_type_num_prereqs(ptype) == 0) {
+        tile_type_vector_append(next, ptype);
       }
     } tile_type_vector_iterate_end;
 
-    /* now, actually mark everyone and get set for next loop */
-    for (i = 0; i < lattice->size; i++) {
-      marked[i] = marked[i] || will_mark[i];
-      will_mark[i] = FALSE;
-    }
-  }
+    /* While we have nodes to process: mark the nodes whose prereqs have
+     * all been visited. Then, store all the new nodes on the frontier. */
+    while (next->size != 0) {
+      /* What was the next frontier is now the current frontier */
+      struct tile_type_vector *vtmp = current;
 
-  tile_type_vector_free(&vectors[0]);
-  tile_type_vector_free(&vectors[1]);
+      current = next;
+      next = vtmp;
+      next->size = 0; /* Clear out the contents */
+
+      /* Look over the current frontier and process everyone */
+      tile_type_vector_iterate(current, ptype) {
+        /* See if all prereqs were marked. If so, decide to mark this guy,
+           and put all the descendents on 'next'.  */
+        bool can_mark = TRUE;
+        int sumdepth = 0;
+
+        if (will_mark[ptype->lattice_index]) {
+          continue; /* We've already been processed */
+        }
+        tile_type_vector_iterate(&ptype->better_types, better) {
+          if (!marked[better->lattice_index]) {
+            can_mark = FALSE;
+            break;
+          } else {
+            sumdepth += tile_type_num_tiles(better);
+            if (sumdepth >= FC_INFINITY) {
+              /* If this is the case, then something better could
+                 always be used, and the same holds for our children */
+              sumdepth = FC_INFINITY;
+              can_mark = TRUE;
+              break;
+            }
+          }
+        } tile_type_vector_iterate_end;
+        if (can_mark) {
+          /* Mark and put successors on the next frontier */
+          will_mark[ptype->lattice_index] = TRUE;
+          tile_type_vector_iterate(&ptype->worse_types, worse) {
+            tile_type_vector_append(next, worse);
+          } tile_type_vector_iterate_end;
+
+          /* This is what we spent all this time computing. */
+          ptype->lattice_depth = sumdepth;
+        }
+      } tile_type_vector_iterate_end;
+
+      /* Now, actually mark everyone and get set for next loop */
+      for (i = 0; i < lattice->size; i++) {
+        marked[i] = marked[i] || will_mark[i];
+        will_mark[i] = FALSE;
+      }
+    }
+
+    tile_type_vector_free(&vectors[0]);
+    tile_type_vector_free(&vectors[1]);
+  }
 }
 
 /****************************************************************************
