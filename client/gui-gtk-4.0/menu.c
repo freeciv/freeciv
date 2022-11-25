@@ -274,9 +274,14 @@ static void report_research_callback(GSimpleAction *action,
 
 #ifdef MENUS_GTK3
 static void multiplier_callback(GtkMenuItem *item, gpointer data);
-static void report_spaceship_callback(GtkMenuItem *item, gpointer data);
-static void report_achievements_callback(GtkMenuItem *item, gpointer data);
 #endif /* MENUS_GTK3 */
+
+static void report_spaceship_callback(GSimpleAction *action,
+                                      GVariant *parameter,
+                                      gpointer data);
+static void report_achievements_callback(GSimpleAction *action,
+                                         GVariant *parameter,
+                                         gpointer data);
 
 static void government_callback(GSimpleAction *action,
                                 GVariant *parameter,
@@ -537,6 +542,12 @@ static struct menu_entry_info menu_entries[] =
   { "REPORT_DEMOGRAPHIC", N_("_Demographics"),
     "report_demographics", "F11", MGROUP_SAFE,
     NULL, FALSE },
+  { "REPORT_SPACESHIP", N_("_Spaceship"),
+    "report_spaceship", "F12", MGROUP_SAFE,
+    NULL, FALSE },
+  { "REPORT_ACHIEVEMENTS", N_("_Achievements"),
+    "report_achievements", "asterisk", MGROUP_SAFE,
+    NULL, FALSE },
 
   /* Battle Groups menu */
   /* Note that user view: 1 - 4, internal: 0 - 3 */
@@ -726,10 +737,6 @@ static struct menu_entry_info menu_entries[] =
   { "POLICIES", N_("_Policies..."),
     GDK_KEY_p, GDK_SHIFT_MASK | GDK_CONTROL_MASK,
     G_CALLBACK(multiplier_callback), MGROUP_PLAYER },
-  { "REPORT_SPACESHIP", N_("_Spaceship"), GDK_KEY_F12, 0,
-    G_CALLBACK(report_spaceship_callback), MGROUP_PLAYER },
-  { "REPORT_ACHIEVEMENTS", N_("_Achievements"), GDK_KEY_asterisk, 0,
-    G_CALLBACK(report_achievements_callback), MGROUP_PLAYER },
 
   { "MENU_SELECT", N_("_Select"), 0, 0, NULL, MGROUP_UNIT },
   { "MENU_UNIT", N_("_Unit"), 0, 0, NULL, MGROUP_UNIT },
@@ -854,6 +861,8 @@ const GActionEntry acts[] = {
   { "report_top_cities", report_top_cities_callback },
   { "report_messages", report_messages_callback },
   { "report_demographics", report_demographic_callback },
+  { "report_spaceship", report_spaceship_callback },
+  { "report_achievements", report_achievements_callback },
 
   { "help_copying", help_copying_callback },
   { "help_about", help_about_callback }
@@ -1117,15 +1126,17 @@ static void report_demographic_callback(GSimpleAction *action,
   send_report_request(REPORT_DEMOGRAPHIC);
 }
 
-#ifdef MENUS_GTK3
 /************************************************************************//**
   Item "REPORT_ACHIEVEMENTS" callback.
 ****************************************************************************/
-static void report_achievements_callback(GtkMenuItem *item, gpointer data)
+static void report_achievements_callback(GSimpleAction *action,
+                                         GVariant *parameter,
+                                         gpointer data)
 {
   send_report_request(REPORT_ACHIEVEMENTS);
 }
 
+#ifdef MENUS_GTK3
 /************************************************************************//**
   Item "HELP_LANGUAGE" callback.
 ****************************************************************************/
@@ -2368,17 +2379,17 @@ static void report_research_callback(GSimpleAction *action,
   science_report_dialog_popup(TRUE);
 }
 
-#ifdef MENUS_GTK3
 /************************************************************************//**
   Action "REPORT_SPACESHIP" callback.
 ****************************************************************************/
-static void report_spaceship_callback(GtkMenuItem *action, gpointer data)
+static void report_spaceship_callback(GSimpleAction *action,
+                                      GVariant *parameter,
+                                      gpointer data)
 {
   if (NULL != client.conn.playing) {
     popup_spaceship_dialog(client.conn.playing);
   }
 }
-#endif /* MENUS_GTK3 */
 
 /************************************************************************//**
   Select battle group
@@ -2638,6 +2649,8 @@ static GMenu *setup_menus(GtkApplication *app)
   menu_entry_init(gov_menu, "REPORT_TOP_CITIES");
   menu_entry_init(gov_menu, "REPORT_MESSAGES");
   menu_entry_init(gov_menu, "REPORT_DEMOGRAPHIC");
+  menu_entry_init(gov_menu, "REPORT_SPACESHIP");
+  menu_entry_init(gov_menu, "REPORT_ACHIEVEMENTS");
 
   g_menu_append_submenu(menubar, _("C_ivilization"), G_MENU_MODEL(gov_menu));
 
