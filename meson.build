@@ -1026,6 +1026,15 @@ install_data(
   install_dir : join_paths(get_option('prefix'), 'share/applications')
   )
 
+custom_target('mi_server',
+              input: 'bootstrap/org.freeciv.server.metainfo.xml.in',
+              output: '@BASENAME@',
+              command: [sh_exe, files('bootstrap/generate_metainfo.sh'),
+                        '@OUTPUT@',
+                        meson.project_build_root(), 'development'],
+              install: true,
+              install_dir: join_paths(get_option('datadir'), 'metainfo'))
+
 nations = [
   'abkhaz',
   'aborigines',
@@ -2715,6 +2724,15 @@ install_data(
   install_dir : join_paths(get_option('prefix'), 'share/applications')
   )
 
+custom_target('mi_gtk322',
+              input: 'bootstrap/org.freeciv.gtk322.metainfo.xml.in',
+              output: '@BASENAME@',
+              command: [sh_exe, files('bootstrap/generate_metainfo.sh'),
+                        '@OUTPUT@',
+                        meson.project_build_root(), 'development'],
+              install: true,
+              install_dir: join_paths(get_option('datadir'), 'metainfo'))
+
 endif
 
 if get_option('clients').contains('gtk4')
@@ -2793,6 +2811,15 @@ install_data(
   'bootstrap/org.freeciv.gtk4.desktop',
   install_dir : join_paths(get_option('prefix'), 'share/applications')
   )
+
+custom_target('mi_gtk4',
+              input: 'bootstrap/org.freeciv.gtk4.metainfo.xml.in',
+              output: '@BASENAME@',
+              command: [sh_exe, files('bootstrap/generate_metainfo.sh'),
+                        '@OUTPUT@',
+                        meson.project_build_root(), 'development'],
+              install: true,
+              install_dir: join_paths(get_option('datadir'), 'metainfo'))
 
 endif
 
@@ -3040,6 +3067,15 @@ install_data(
   install_dir : join_paths(get_option('prefix'), 'share/applications')
   )
 
+custom_target('mi_qt',
+              input: 'bootstrap/org.freeciv.qt.metainfo.xml.in',
+              output: '@BASENAME@',
+              command: [sh_exe, files('bootstrap/generate_metainfo.sh'),
+                        '@OUTPUT@',
+                        meson.project_build_root(), 'development'],
+              install: true,
+              install_dir: join_paths(get_option('datadir'), 'metainfo'))
+
 endif
 
 if get_option('clients').contains('sdl2')
@@ -3149,6 +3185,15 @@ install_data(
   install_dir : join_paths(get_option('prefix'), 'share/applications')
   )
 
+custom_target('mi_sdl2',
+              input: 'bootstrap/org.freeciv.sdl2.metainfo.xml.in',
+              output: '@BASENAME@',
+              command: [sh_exe, files('bootstrap/generate_metainfo.sh'),
+                        '@OUTPUT@',
+                        meson.project_build_root(), 'development'],
+              install: true,
+              install_dir: join_paths(get_option('datadir'), 'metainfo'))
+
 endif
 
 if get_option('clients').contains('stub')
@@ -3239,6 +3284,15 @@ install_data(
   install_dir : join_paths(get_option('prefix'), 'share/applications')
   )
 
+custom_target('mi_mp_gtk3',
+              input: 'bootstrap/org.freeciv.mp.gtk3.metainfo.xml.in',
+              output: '@BASENAME@',
+              command: [sh_exe, files('bootstrap/generate_metainfo.sh'),
+                        '@OUTPUT@',
+                        meson.project_build_root(), 'development'],
+              install: true,
+              install_dir: join_paths(get_option('datadir'), 'metainfo'))
+
 endif
 
 
@@ -3265,6 +3319,15 @@ install_data(
   'bootstrap/org.freeciv.mp.gtk4.desktop',
   install_dir : join_paths(get_option('prefix'), 'share/applications')
   )
+
+custom_target('mi_mp_gtk4',
+              input: 'bootstrap/org.freeciv.mp.gtk4.metainfo.xml.in',
+              output: '@BASENAME@',
+              command: [sh_exe, files('bootstrap/generate_metainfo.sh'),
+                        '@OUTPUT@',
+                        meson.project_build_root(), 'development'],
+              install: true,
+              install_dir: join_paths(get_option('datadir'), 'metainfo'))
 
 endif
 
@@ -3299,6 +3362,15 @@ install_data(
   'bootstrap/org.freeciv.mp.qt.desktop',
   install_dir : join_paths(get_option('prefix'), 'share/applications')
   )
+
+custom_target('mi_mp_qt',
+              input: 'bootstrap/org.freeciv.mp.qt.metainfo.xml.in',
+              output: '@BASENAME@',
+              command: [sh_exe, files('bootstrap/generate_metainfo.sh'),
+                        '@OUTPUT@',
+                        meson.project_build_root(), 'development'],
+              install: true,
+              install_dir: join_paths(get_option('datadir'), 'metainfo'))
 
 endif
 
@@ -3404,6 +3476,15 @@ install_data(
   'bootstrap/org.freeciv.ruledit.desktop',
   install_dir : join_paths(get_option('prefix'), 'share/applications')
   )
+
+custom_target('mi_ruledit',
+              input: 'bootstrap/org.freeciv.ruledit.metainfo.xml.in',
+              output: '@BASENAME@',
+              command: [sh_exe, files('bootstrap/generate_metainfo.sh'),
+                        '@OUTPUT@',
+                        meson.project_build_root(), 'development'],
+              install: true,
+              install_dir: join_paths(get_option('datadir'), 'metainfo'))
 
 endif
 
