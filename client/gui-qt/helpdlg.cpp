@@ -19,6 +19,7 @@
 #include <QApplication>
 #include <QGraphicsDropShadowEffect>
 #include <QGroupBox>
+#include <QHBoxLayout>
 #include <QProgressBar>
 #include <QPushButton>
 #include <QScreen>
@@ -53,9 +54,9 @@
 #define REQ_LABEL_NEVER _("(Never)")
 #define REQ_LABEL_NONE _("?tech:None")
 static help_dialog *help_dlg = NULL;
-canvas *terrain_canvas(struct terrain *terrain,
-                       const struct extra_type *resource = NULL,
-                       enum extra_cause cause = EC_COUNT);
+static canvas *terrain_canvas(struct terrain *terrain,
+                              const struct extra_type *resource = NULL,
+                              enum extra_cause cause = EC_COUNT);
 
 /**********************************************************************//**
   Popup the help dialog to get help on the given string topic.  Note
@@ -294,7 +295,7 @@ void help_dialog::make_tree()
         nation = nation_by_translated_plural(s);
         spite = get_nation_flag_sprite(tileset, nation);
         if (spite) {
-            icon = QIcon(*spite->pm);
+          icon = QIcon(*spite->pm);
         }
         break;
       case HELP_TECH:
@@ -490,8 +491,9 @@ void help_widget::setup_ui()
 }
 
 /**********************************************************************//**
-  Lays things out. The widget is organized as follows, with the additional
-  complexity that info_ and/or bottom_panel may be absent.
+  Lays things out.
+  In case of horizontal being true, the widget is organized as follows,
+  with the additional complexity that info_ and/or bottom_panel may be absent.
 
     +---------------------------------+
     | title_label                     |
@@ -511,15 +513,25 @@ void help_widget::setup_ui()
     |+-------------------------------+|
     +---------------------------------+
 **************************************************************************/
-void help_widget::do_layout()
+void help_widget::do_layout(bool horizontal)
 {
   QWidget *right;
+  enum Qt::Orientation main_layout;
+  enum Qt::Orientation bottom_layout;
+
+  if (horizontal) {
+    main_layout = Qt::Horizontal;
+    bottom_layout = Qt::Vertical;
+  } else {
+    main_layout = Qt::Vertical;
+    bottom_layout = Qt::Horizontal;
+  }
 
   layout()->removeWidget(main_widget);
   main_widget->setParent(NULL);
 
   if (bottom_panel) {
-    splitter = new QSplitter(Qt::Vertical);
+    splitter = new QSplitter(bottom_layout);
     splitter->addWidget(text_browser);
     splitter->setStretchFactor(0, 100);
     splitter->addWidget(bottom_panel);
@@ -530,7 +542,7 @@ void help_widget::do_layout()
   }
 
   if (info_panel) {
-    splitter = new QSplitter();
+    splitter = new QSplitter(main_layout);
     splitter->addWidget(info_panel);
     splitter->setStretchFactor(0, 25);
     splitter->addWidget(right);
@@ -782,6 +794,8 @@ void help_widget::anchor_clicked(const QString &link)
 void help_widget::set_topic(const help_item *topic)
 {
   char *title = topic->topic;
+  bool orient = true;
+
   for ( ; *title == ' '; ++title) {
     // Do nothing
   }
@@ -799,7 +813,7 @@ void help_widget::set_topic(const help_item *topic)
       set_topic_other(topic, title);
       break;
     case HELP_EXTRA:
-      set_topic_extra(topic, title);
+      orient = set_topic_extra(topic, title);
       break;
     case HELP_GOODS:
       set_topic_goods(topic, title);
@@ -830,7 +844,7 @@ void help_widget::set_topic(const help_item *topic)
       break;
   }
 
-  do_layout();
+  do_layout(orient);
 }
 
 /**********************************************************************//**
@@ -1186,9 +1200,9 @@ void help_widget::set_topic_tech(const help_item *topic,
 /**********************************************************************//**
   Creates a terrain image on the given canvas.
 **************************************************************************/
-canvas *terrain_canvas(struct terrain *terrain,
-                       const struct extra_type *resource,
-                       enum extra_cause cause)
+static canvas *terrain_canvas(struct terrain *terrain,
+                              const struct extra_type *resource,
+                              enum extra_cause cause)
 {
   struct canvas *canvas;
   struct drawn_sprite sprs[80];
@@ -1276,7 +1290,6 @@ void help_widget::set_topic_terrain(const help_item *topic,
 {
   char buffer[MAX_HELP_TEXT_SIZE];
   struct terrain *pterrain, *max;
-  canvas *canvas;
   QVBoxLayout *vbox;
   bool show_panel = false;
   QScrollArea *area;
@@ -1286,6 +1299,7 @@ void help_widget::set_topic_terrain(const help_item *topic,
   pterrain = terrain_by_translated_name(title);
   if (pterrain) {
     struct universal for_terr;
+    canvas *canvas;
 
     for_terr.kind = VUT_TERRAIN;
     for_terr.value.terrain = pterrain;
@@ -1451,19 +1465,43 @@ void help_widget::set_topic_terrain(const help_item *topic,
 
 /**********************************************************************//**
   Creates extra help pages.
+
+  @return use horizontal layout
 **************************************************************************/
-void help_widget::set_topic_extra(const help_item *topic,
-                                    const char *title)
+bool help_widget::set_topic_extra(const help_item *topic,
+                                  const char *title)
 {
   char buffer[MAX_HELP_TEXT_SIZE];
   struct extra_type *pextra = extra_type_by_translated_name(title);
 
   if (pextra) {
+    canvas *canvas;
+    int canvas_y, count, width, height;
+    struct drawn_sprite sprs[80];
+
     helptext_extra(buffer, sizeof(buffer), client.conn.playing,
                   topic->text, pextra);
     text_browser->setPlainText(buffer);
+
+    // Create information panel
+    show_info_panel();
+
+    // Create extra icon.
+    width = tileset_full_tile_width(tileset);
+    height = tileset_full_tile_height(tileset);
+    canvas_y = height - tileset_tile_height(tileset);
+    canvas = qtg_canvas_create(width, height);
+    canvas->map_pixmap.fill(Qt::transparent);
+    count = fill_basic_extra_sprite_array(tileset, sprs, pextra);
+    put_drawn_sprites(canvas, 1.0f, 0, canvas_y, count, sprs, false);
+    add_info_pixmap(&canvas->map_pixmap, true);
+    qtg_canvas_free(canvas);
+
+    return false;
   } else {
     set_topic_other(topic, title);
+
+    return true;
   }
 }
 

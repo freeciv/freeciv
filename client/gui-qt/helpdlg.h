@@ -93,7 +93,7 @@ class help_widget : public QWidget
   void setup_ui();
   void set_main_widget(QWidget *main_widget);
 
-  void do_layout();
+  void do_layout(bool horizontal);
   void undo_layout();
 
   void show_info_panel();
@@ -124,7 +124,7 @@ class help_widget : public QWidget
   void set_topic_building(const help_item *item, const char *title);
   void set_topic_tech(const help_item *item, const char *title);
   void set_topic_terrain(const help_item *item, const char *title);
-  void set_topic_extra(const help_item *item, const char *title);
+  bool set_topic_extra(const help_item *item, const char *title);
   void set_topic_specialist(const help_item *item, const char *title);
   void set_topic_government(const help_item *item, const char *title);
   void set_topic_nation(const help_item *item, const char *title);
