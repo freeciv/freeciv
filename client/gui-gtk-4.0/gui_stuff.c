@@ -55,17 +55,24 @@ void gtk_expose_now(GtkWidget *w)
 }
 
 /**********************************************************************//**
-  Create new icon button with label
+  Create new icon button with label.
+
+  Current implementation sets either icon or label, preferring label,
+  never both. Caller should not rely on that, though.
 **************************************************************************/
 GtkWidget *icon_label_button_new(const gchar *icon_name,
                                  const gchar *label_text)
 {
   GtkWidget *button;
 
-  button = gtk_button_new_with_mnemonic(label_text);
+  fc_assert(icon_name != NULL || label_text != NULL);
 
-  if (icon_name != NULL) {
-    gtk_button_set_icon_name(GTK_BUTTON(button), icon_name);
+  if (label_text != NULL) {
+    button = gtk_button_new_with_mnemonic(label_text);
+  } else if (icon_name != NULL) {
+    button = gtk_button_new_from_icon_name(icon_name);
+  } else {
+    button = NULL;
   }
 
   return button;
