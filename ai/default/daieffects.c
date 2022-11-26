@@ -488,12 +488,12 @@ adv_want dai_effect_value(struct player *pplayer,
 
     if (affects_sea_capable_units) {
       if (is_ocean_tile(pcity->tile)) {
-        v += adv->threats.ocean[-tile_continent(pcity->tile)]
+        v += adv->oceans[-tile_continent(pcity->tile)].threat
           ? amount / 6 : amount / 25;
       } else {
         adjc_iterate(&(wld.map), pcity->tile, tile2) {
           if (is_ocean_tile(tile2)) {
-            if (adv->threats.ocean[-tile_continent(tile2)]) {
+            if (adv->oceans[-tile_continent(tile2)].threat) {
               v += amount / 6;
               break;
             }
@@ -501,18 +501,18 @@ adv_want dai_effect_value(struct player *pplayer,
         } adjc_iterate_end;
       }
     }
-    v += (amount / 25 + adv->threats.invasions - 1) * c; /* for wonder */
+    v += (amount / 25 + adv->threats.invasions - 1) * c; /* For wonder */
     if (capital || affects_land_capable_units) {
       Continent_id place = tile_continent(pcity->tile);
 
-      if ((place > 0 && adv->threats.continent[place])
+      if ((place > 0 && adv->continents[place].threat)
           || capital
           || (adv->threats.invasions
               /* FIXME: This ignores riverboats on some rulesets.
                         We should analyze rulesets when game starts
                         and have relevant checks here. */
               && is_terrain_class_near_tile(pcity->tile, TC_OCEAN))) {
-        if (place > 0 && adv->threats.continent[place]) {
+        if (place > 0 && adv->continents[place].threat) {
           v += amount * 4 / 5;
         } else {
           v += amount / (!adv->threats.igwall ? (18 - capital * 6) : 18);

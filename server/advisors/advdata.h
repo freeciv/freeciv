@@ -42,6 +42,11 @@ struct adv_dipl {
   bool allied_with_enemy;
 };
 
+struct adv_area_info {
+  int size;
+  bool threat;
+};
+
 struct adv_data {
   /* Whether adv_data_phase_init() has been called or not. */
   bool phase_is_initialized;
@@ -53,13 +58,14 @@ struct adv_data {
   enum adv_improvement_status impr_calc[B_LAST];
   enum req_range impr_range[B_LAST];
 
+  struct adv_area_info *continents;
+  struct adv_area_info *oceans;
+
   /* Long-term threats, not to be confused with short-term danger */
   struct {
     bool invasions;      /* check if we need to consider invasions */
-    bool *continent;     /* non-allied cities on continent? */
-    bool *ocean;         /* non-allied offensive ships in ocean? */
     bool suicide_attack; /* check for non-allied missiles */
-    int nuclear;         /* nuke check: 0=no, 1=capability, 2=built */
+    int nuclear;         /* nuke check: 0 = no, 1 = capability, 2 = built */
     bool igwall;         /* enemies have igwall units */
   } threats;
 

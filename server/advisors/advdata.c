@@ -290,11 +290,21 @@ bool adv_data_phase_init(struct player *pplayer, bool is_new_phase)
 
   adv->num_continents    = wld.map.num_continents;
   adv->num_oceans        = wld.map.num_oceans;
-  adv->threats.continent = fc_calloc(adv->num_continents + 1, sizeof(bool));
+  adv->continents        = fc_calloc(adv->num_continents + 1, sizeof(struct adv_area_info));
+  adv->oceans            = fc_calloc(adv->num_oceans + 1, sizeof(struct adv_area_info));
   adv->threats.invasions = FALSE;
-  adv->threats.nuclear   = 0; /* none */
-  adv->threats.ocean     = fc_calloc(adv->num_oceans + 1, sizeof(bool));
+  adv->threats.nuclear   = 0; /* None */
   adv->threats.igwall    = FALSE;
+
+  whole_map_iterate(&(wld.map), ptile) {
+    Continent_id cont = tile_continent(ptile);
+
+    if (cont >= 0) {
+      adv->continents[cont].size++;
+    } else {
+      adv->oceans[-cont].size++;
+    }
+  } whole_map_iterate_end;
 
   players_iterate(aplayer) {
     if (!adv_is_player_dangerous(pplayer, aplayer)) {
@@ -307,8 +317,9 @@ bool adv_data_phase_init(struct player *pplayer, bool is_new_phase)
      * coastal fortresses and hunting down enemy transports. */
     city_list_iterate(aplayer->cities, acity) {
       Continent_id continent = tile_continent(acity->tile);
+
       if (continent >= 0) {
-        adv->threats.continent[continent] = TRUE;
+        adv->continents[continent].threat = TRUE;
       }
     } city_list_iterate_end;
 
@@ -343,13 +354,13 @@ bool adv_data_phase_init(struct player *pplayer, bool is_new_phase)
           if (is_ocean_tile(unit_tile(punit))) {
             Continent_id continent = tile_continent(unit_tile(punit));
 
-            adv->threats.ocean[-continent] = TRUE;
+            adv->oceans[-continent].threat = TRUE;
           } else {
             adjc_iterate(&(wld.map), unit_tile(punit), tile2) {
               if (is_ocean_tile(tile2)) {
                 Continent_id continent = tile_continent(tile2);
 
-                adv->threats.ocean[-continent] = TRUE;
+                adv->oceans[-continent].threat = TRUE;
               }
             } adjc_iterate_end;
           }
@@ -405,7 +416,7 @@ bool adv_data_phase_init(struct player *pplayer, bool is_new_phase)
     if (is_ocean_tile(ptile)) {
       if (adv->explore.sea_done && has_handicap(pplayer, H_TARGETS) 
           && !map_is_known(ptile, pplayer)) {
-	/* We're not done there. */
+        /* We're not done there. */
         adv->explore.sea_done = FALSE;
         adv->explore.ocean[-continent] = TRUE;
       }
@@ -566,11 +577,11 @@ void adv_data_phase_done(struct player *pplayer)
   free(adv->explore.continent);
   adv->explore.continent = NULL;
 
-  free(adv->threats.continent);
-  adv->threats.continent = NULL;
+  free(adv->continents);
+  adv->continents = NULL;
 
-  free(adv->threats.ocean);
-  adv->threats.ocean = NULL;
+  free(adv->oceans);
+  adv->oceans = NULL;
 
   free(adv->stats.cities);
   adv->stats.cities = NULL;

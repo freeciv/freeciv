@@ -234,7 +234,7 @@ void building_advisor(struct player *pplayer)
           value += adv->stats.cities[place] / 8;
         }
       }
-      if (place >= 0 && adv->threats.continent[place] > 0) {
+      if (place >= 0 && adv->continents[place].threat > 0) {
         /* We have threatening neighbours: -25% */
         value -= value / 4;
       }
