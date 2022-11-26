@@ -275,7 +275,7 @@ void popup_impr_info(Impr_type_id impr)
     pstr = create_utf8_str(NULL, 0, adj_font(10));
     pstr->style |= (TTF_STYLE_BOLD | SF_CENTER);
 
-    /* background template for entries in scroll list */
+    /* Background template for entries in scroll list */
     background_tmpl = create_surf(adj_size(135), adj_size(40), SDL_SWSURFACE);
     SDL_FillRect(background_tmpl, NULL, map_rgba(background_tmpl->format, bg_color));
 
@@ -329,11 +329,11 @@ void popup_impr_info(Impr_type_id impr)
       scrollbar_width = create_vertical_scrollbar(help_dlg, 1, 10, TRUE, TRUE);
     }
 
-    /* toggle techs list button */
+    /* Toggle techs list button */
     list_toggle_button = create_themeicon_button_from_chars(current_theme->up_icon,
-                                                           pwindow->dst,
-                                                           _("Improvements"),
-                                                           adj_font(10), 0);
+                                                            pwindow->dst,
+                                                            _("Improvements"),
+                                                            adj_font(10), 0);
 #if 0
    list_toggle_button->action = toggle_full_tree_mode_in_help_dlg_callback;
    if (store->show_tree) {
@@ -357,7 +357,7 @@ void popup_impr_info(Impr_type_id impr)
 
     area = pwindow->area;
 
-    /* delete any previous list entries */
+    /* Delete any previous list entries */
     if (dock != help_dlg->begin_widget_list) {
       del_group_of_widgets_from_gui_list(help_dlg->begin_widget_list,
                                          dock->prev);
@@ -396,7 +396,7 @@ void popup_impr_info(Impr_type_id impr)
     }
   }
 
-  /* requirement */
+  /* Requirement */
   requirement_label = create_iconlabel_from_chars(NULL, pwindow->dst,
                                                   _("Requirement:"),
                                                   adj_font(12), 0);
@@ -435,14 +435,13 @@ void popup_impr_info(Impr_type_id impr)
   dock = requirement_label2;
   store->requirement_button = requirement_label2;
 
-  /* obsolete by */
+  /* Obsolete by */
   obsolete_by_label = create_iconlabel_from_chars(NULL, pwindow->dst,
-                                                 _("Obsolete by:"),
-                                                 adj_font(12), 0);
+                                                  _("Obsolete by:"),
+                                                  adj_font(12), 0);
   obsolete_by_label->id = ID_LABEL;
   widget_add_as_prev(obsolete_by_label, dock);
   dock = obsolete_by_label;
-
 
   requirement_vector_iterate(&pimpr_type->obsolete_by, pobs) {
     if (pobs->source.kind == VUT_ADVANCE) {
@@ -467,7 +466,7 @@ void popup_impr_info(Impr_type_id impr)
   dock = obsolete_by_label2;
   store->obsolete_by_button = obsolete_by_label2;
 
-  /* helptext */
+  /* Helptext */
   start_x = (area.x + 1 + scrollbar_width + help_dlg->end_active_widget_list->size.w + adj_size(20));
 
   buffer[0] = '\0';
@@ -480,7 +479,6 @@ void popup_impr_info(Impr_type_id impr)
     help_text_label = create_iconlabel(NULL, pwindow->dst, bstr, 0);
     help_text_label->id = ID_LABEL;
     widget_add_as_prev(help_text_label, dock);
-    dock = help_text_label;
     text = TRUE;
   }
 
@@ -488,7 +486,6 @@ void popup_impr_info(Impr_type_id impr)
 
   /* --------------------------------------------------------- */
   if (created) {
-
     surf = theme_get_background(active_theme, BACKGROUND_HELPDLG);
     if (resize_window(pwindow, surf, NULL, adj_size(640), adj_size(480))) {
       FREESURFACE(surf);
@@ -500,23 +497,23 @@ void popup_impr_info(Impr_type_id impr)
                         (main_window_width() - pwindow->size.w) / 2,
                         (main_window_height() - pwindow->size.h) / 2);
 
-    /* exit button */
+    /* Exit button */
     close_button = pwindow->prev;
     widget_set_position(close_button,
                         area.x + area.w - close_button->size.w - 1,
                         pwindow->size.y + adj_size(2));
 
-    /* list toggle button */
+    /* List toggle button */
     list_toggle_button = store->dock;
     widget_set_position(list_toggle_button, area.x, area.y);
 
-    /* list entries */
+    /* List entries */
     h = setup_vertical_widgets_position(1, area.x + scrollbar_width,
                                         area.y + list_toggle_button->size.h, 0, 0,
                                         help_dlg->begin_active_widget_list,
                                         help_dlg->end_active_widget_list);
 
-    /* scrollbar */
+    /* Scrollbar */
     if (help_dlg->scroll) {
       setup_vertical_scrollbar_area(help_dlg->scroll,
                                     area.x, area.y + list_toggle_button->size.h,
@@ -689,12 +686,12 @@ void popup_unit_info(Unit_type_id type_id)
     /* ------------------ */
     dock = close_button;
 
-    /* --- create scrollable unit list on the left side ---*/
+    /* --- Create scrollable unit list on the left side ---*/
 
     pstr = create_utf8_str(NULL, 0, adj_font(10));
     pstr->style |= (TTF_STYLE_BOLD | SF_CENTER);
 
-    /* background template for entries in scroll list */
+    /* Background template for entries in scroll list */
     background_tmpl = create_surf(adj_size(135), adj_size(40), SDL_SWSURFACE);
     SDL_FillRect(background_tmpl, NULL, map_rgba(background_tmpl->format, bg_color));
 
@@ -705,10 +702,10 @@ void popup_unit_info(Unit_type_id type_id)
     utype_count = 0;
     unit_type_iterate(ut) {
 
-      /* copy background surface */
+      /* Copy background surface */
       background = copy_surface(background_tmpl);
 
-      /* blit unit name */
+      /* Blit unit name */
       copy_chars_to_utf8_str(pstr, utype_name_translation(ut));
       unit_name = create_text_surf_smaller_than_w(pstr, adj_size(100 - 4));
       dst.x = adj_size(35) + (background->w - unit_name->w - adj_size(35)) / 2;
@@ -716,7 +713,7 @@ void popup_unit_info(Unit_type_id type_id)
       alphablit(unit_name, NULL, background, &dst, 255);
       FREESURFACE(unit_name);
 
-      /* blit unit icon */
+      /* Blit unit icon */
       icon = resize_surface_box(get_unittype_surface(ut, direction8_invalid()),
                                 adj_size(36), adj_size(36), 1, TRUE, TRUE);
       dst.x = (adj_size(35) - icon->w) / 2;
@@ -748,9 +745,10 @@ void popup_unit_info(Unit_type_id type_id)
       scrollbar_width = create_vertical_scrollbar(help_dlg, 1, 10, TRUE, TRUE);
     }
 
-    /* toggle techs list button */
+    /* Toggle techs list button */
     list_toggle_button = create_themeicon_button_from_chars(current_theme->up_icon,
-                          pwindow->dst,  _("Units"), adj_font(10), 0);
+                                                            pwindow->dst,
+                                                            _("Units"), adj_font(10), 0);
 #if 0
     list_toggle_button->action = toggle_full_tree_mode_in_help_dlg_callback;
     if (store->show_tree) {
@@ -774,7 +772,7 @@ void popup_unit_info(Unit_type_id type_id)
 
     area = pwindow->area;
 
-    /* delete any previous list entries */
+    /* Delete any previous list entries */
     if (dock != help_dlg->begin_widget_list) {
       del_group_of_widgets_from_gui_list(help_dlg->begin_widget_list,
                                          dock->prev);
@@ -791,7 +789,6 @@ void popup_unit_info(Unit_type_id type_id)
   unit_name_label->id = ID_LABEL;
   widget_add_as_prev(unit_name_label, dock);
   dock = unit_name_label;
-
 
   {
     char buf[2048];
@@ -875,7 +872,7 @@ void popup_unit_info(Unit_type_id type_id)
   dock = requirement_label2;
   store->requirement_button = requirement_label2;
 
-  /* obsolete by */
+  /* Obsolete by */
   obsolete_by_label = create_iconlabel_from_chars(NULL, pwindow->dst,
                                                  _("Obsolete by:"),
                                                  adj_font(12), 0);
@@ -905,7 +902,7 @@ void popup_unit_info(Unit_type_id type_id)
   dock = obsolete_by_label2;
   store->obsolete_by_button = obsolete_by_label2;
 
-  /* helptext */
+  /* Helptext */
   start_x = (area.x + 1 + scrollbar_width + help_dlg->active_widget_list->size.w + adj_size(20));
 
   buffer[0] = '\0';
@@ -917,7 +914,6 @@ void popup_unit_info(Unit_type_id type_id)
     help_text_label = create_iconlabel(NULL, pwindow->dst, ustr, 0);
     help_text_label->id = ID_LABEL;
     widget_add_as_prev(help_text_label, dock);
-    dock = help_text_label;
     text = TRUE;
   }
 
@@ -937,23 +933,23 @@ void popup_unit_info(Unit_type_id type_id)
                         (main_window_width() - pwindow->size.w) / 2,
                         (main_window_height() - pwindow->size.h) / 2);
 
-    /* exit button */
+    /* Exit button */
     close_button = pwindow->prev;
     widget_set_position(close_button,
                         area.x + area.w - close_button->size.w - 1,
                         pwindow->size.y + adj_size(2));
 
-    /* list toggle button */
+    /* List toggle button */
     list_toggle_button = store->dock;
     widget_set_position(list_toggle_button, area.x, area.y);
 
-    /* list entries */
+    /* List entries */
     h = setup_vertical_widgets_position(1, area.x + scrollbar_width,
                                            area.y + list_toggle_button->size.h, 0, 0,
                                            help_dlg->begin_active_widget_list,
                                            help_dlg->end_active_widget_list);
 
-    /* scrollbar */
+    /* Scrollbar */
     if (help_dlg->scroll) {
       setup_vertical_scrollbar_area(help_dlg->scroll,
                                     area.x, area.y + list_toggle_button->size.h,
@@ -1124,7 +1120,7 @@ static struct widget *create_tech_info(Tech_type_id tech, int width,
 
   start_x = (pwindow->area.x + adj_size(1) + width + help_dlg->active_widget_list->size.w + adj_size(20));
 
-  /* tech tree icon */
+  /* Tech tree icon */
   pwidget = create_icon2(current_theme->tech_tree_icon, pwindow->dst,
                          WF_RESTORE_BACKGROUND);
 
@@ -1134,7 +1130,7 @@ static struct widget *create_tech_info(Tech_type_id tech, int width,
   widget_add_as_prev(pwidget, dock);
   dock = pwidget;
 
-  /* tech name (heading) */
+  /* Tech name (heading) */
   pwidget = create_iconlabel_from_chars(get_tech_icon(tech),
                     pwindow->dst,
                     advance_name_translation(advance_by_number(tech)),
@@ -1145,7 +1141,7 @@ static struct widget *create_tech_info(Tech_type_id tech, int width,
   widget_add_as_prev(pwidget, dock);
   dock = pwidget;
 
-  /* target techs */
+  /* Target techs */
   targets_count = 0;
   advance_index_iterate(A_FIRST, aidx) {
     if ((targets_count < 6)
@@ -1201,10 +1197,10 @@ static struct widget *create_tech_info(Tech_type_id tech, int width,
     store->sub_targets[sub_targets_count] = NULL;
   }
 
-  /* fill array with iprvm. icons */
+  /* Fill array with iprvm. icons */
   budynki = pwidget;
 
-  /* target governments */
+  /* Target governments */
   gov_count = 0;
   governments_iterate(gov) {
     requirement_vector_iterate(&(gov->reqs), preq) {
@@ -1226,7 +1222,7 @@ static struct widget *create_tech_info(Tech_type_id tech, int width,
     } requirement_vector_iterate_end;
   } governments_iterate_end;
 
-  /* target improvements */
+  /* Target improvements */
   imp_count = 0;
   improvement_iterate(pimprove) {
     if (valid_improvement(pimprove)) {
@@ -1288,7 +1284,6 @@ static struct widget *create_tech_info(Tech_type_id tech, int width,
     pwidget = create_iconlabel(NULL, pwindow->dst, pstr, 0);
     pwidget->id = ID_LABEL;
     widget_add_as_prev(pwidget, dock);
-    dock = pwidget;
     flags_count = 1;
   } else {
     flags_count = 0;
@@ -1297,7 +1292,7 @@ static struct widget *create_tech_info(Tech_type_id tech, int width,
   last = pwidget;
   /* --------------------------------------------- */
 
-  /* tree button */
+  /* Tree button */
   pwidget = store->dock->prev;
   pwidget->size.x = pwindow->area.x + pwindow->area.w - pwidget->size.w - adj_size(17);
   pwidget->size.y = pwindow->area.y + adj_size(16);
@@ -1416,7 +1411,7 @@ static void redraw_tech_tree_dlg(void)
                dst.x, dst.y, dst.w, dst.h,
                get_theme_color(COLOR_THEME_HELPDLG_FRAME));
 
-  /* Draw Req arrows */
+  /* Draw req arrows */
   i = 0;
   while (i < 4 && store->sub_req[i]) {
     i++;
@@ -1427,7 +1422,7 @@ static void redraw_tech_tree_dlg(void)
   while (i < 2 && store->requirement_button[i]) {
     tech = MAX_ID - store->requirement_button[i]->id;
 
-    /*find Sub_Req's */
+    /* Find sub req's */
     if (i) {
       sub0 = NULL;
       for (j = count - 1; j >= 0; j--) {
@@ -1462,7 +1457,7 @@ static void redraw_tech_tree_dlg(void)
       }
     }
 
-    /* draw main Arrow */
+    /* Draw main Arrow */
     create_line(store->requirement_button[i]->dst->surface,
            store->requirement_button[i]->size.x + store->requirement_button[i]->size.w,
            store->requirement_button[i]->size.y + store->requirement_button[i]->size.h / 2,
@@ -1470,7 +1465,7 @@ static void redraw_tech_tree_dlg(void)
            store->requirement_button[i]->size.y + store->requirement_button[i]->size.h / 2,
            line_color);
 
-    /* Draw Sub_Req arrows */
+    /* Draw sub req arrows */
     if (sub0 || sub1) {
       create_line(store->requirement_button[i]->dst->surface,
              store->requirement_button[i]->size.x - adj_size(10),
@@ -1540,7 +1535,7 @@ static void redraw_tech_tree_dlg(void)
       break;
     }
 
-    /* find Sub_Req's */
+    /* Find sub reqs */
     if (advance_required(tech, AR_ONE) == MAX_ID - ptech->id) {
       sub0 = ptech;
     } else {
@@ -1565,7 +1560,7 @@ static void redraw_tech_tree_dlg(void)
       }
     }
 
-    /* Draw Sub_Targets arrows */
+    /* Draw sub targets arrows */
     if (sub0 || sub1) {
       create_line(store->targets[i]->dst->surface,
                   store->targets[i]->size.x - ((i % mod) + 1) * 6,
@@ -1913,19 +1908,19 @@ void popup_tech_info(Tech_type_id tech)
     popdown_help_dialog();
   }
 
-  /* create new dialog if it doesn't exist yet */
+  /* Create new dialog if it doesn't exist yet */
   if (!help_dlg) {
     current_help_dlg = HELP_TECH;
     created = TRUE;
 
-    /* create dialog */
+    /* Create dialog */
     help_dlg = fc_calloc(1, sizeof(struct advanced_dialog));
     store = fc_calloc(1, sizeof(struct techs_buttons));
 
     store->show_tree = FALSE;
     store->show_full_tree = FALSE;
 
-    /* create window */
+    /* Create window */
     title = create_utf8_from_char(_("Help : Advances Tree"), adj_font(12));
     title->style |= TTF_STYLE_BOLD;
 
@@ -1942,7 +1937,7 @@ void popup_tech_info(Tech_type_id tech)
 
     /* ------------------ */
 
-    /* close button */
+    /* Close button */
     close_button = create_themeicon(current_theme->small_cancel_icon, pwindow->dst,
                                     WF_WIDGET_HAS_INFO_LABEL
                                     | WF_RESTORE_BACKGROUND);
@@ -1957,7 +1952,7 @@ void popup_tech_info(Tech_type_id tech)
     /* ------------------ */
     dock = close_button;
 
-    /* --- create scrollable advance list on the left side ---*/
+    /* --- Create scrollable advance list on the left side ---*/
     pstr = create_utf8_str(NULL, 0, adj_font(10));
     pstr->style |= (TTF_STYLE_BOLD | SF_CENTER);
 
@@ -1992,7 +1987,7 @@ void popup_tech_info(Tech_type_id tech)
       scrollbar_width = create_vertical_scrollbar(help_dlg, 1, 10, TRUE, TRUE);
     }
 
-    /* toggle techs list button */
+    /* Toggle techs list button */
     list_toggle_button = create_themeicon_button_from_chars(current_theme->up_icon,
                                                             pwindow->dst,
                                                             _("Advances"),
@@ -2017,13 +2012,13 @@ void popup_tech_info(Tech_type_id tech)
 
     area = pwindow->area;
 
-    /* delete any previous list entries */
+    /* Selete any previous list entries */
     if (dock != help_dlg->begin_widget_list) {
       del_group_of_widgets_from_gui_list(help_dlg->begin_widget_list, dock->prev);
       help_dlg->begin_widget_list = dock;
     }
 
-    /* show/hide techs list */
+    /* Show/hide techs list */
     list_toggle_button = dock;
 
     if (store->show_tree) {
@@ -2033,7 +2028,7 @@ void popup_tech_info(Tech_type_id tech)
     }
 
     if (store->show_full_tree) {
-      /* all entries are visible without scrolling */
+      /* All entries are visible without scrolling */
       hide_group(help_dlg->begin_active_widget_list,
                  help_dlg->end_active_widget_list);
       hide_scrollbar(help_dlg->scroll);
@@ -2064,22 +2059,22 @@ void popup_tech_info(Tech_type_id tech)
                         (main_window_width() - pwindow->size.w) / 2,
                         (main_window_height() - pwindow->size.h) / 2);
 
-    /* exit button */
+    /* Exit button */
     close_button = pwindow->prev;
     widget_set_position(close_button,
                         area.x + area.w - close_button->size.w - 1,
                         pwindow->size.y + adj_size(2));
 
-    /* list toggle button */
+    /* List toggle button */
     list_toggle_button = store->dock;
     widget_set_position(list_toggle_button, area.x, area.y);
 
-    /* list entries */
+    /* List entries */
     h = setup_vertical_widgets_position(1, area.x + scrollbar_width,
                                         area.y + list_toggle_button->size.h, 0, 0,
                                         help_dlg->begin_active_widget_list,
                                         help_dlg->end_active_widget_list);
-    /* scrollbar */
+    /* Scrollbar */
     if (help_dlg->scroll) {
       setup_vertical_scrollbar_area(help_dlg->scroll,
                                     area.x, area.y + list_toggle_button->size.h,
