@@ -87,7 +87,7 @@ static bool initialized = FALSE;
   The sources caches could easily be extended by generalizing it to a set
   of arrays
     game.buildings[], pplayer->buildings[],
-    pisland->builidngs[], pcity->buildings[]
+    pisland->buildings[], pcity->buildings[]
   which would store the number of buildings of that type present by game,
   player, island (continent) or city.  This would allow non-surviving effects
   to come from any building at any range.  However to allow surviving effects
