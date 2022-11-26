@@ -888,6 +888,7 @@ static void update_unit_activity(struct unit *punit)
     punit->activity_count += get_activity_rate_this_turn(punit);
     break;
 
+  case ACTIVITY_CLEAN:
   case ACTIVITY_POLLUTION:
   case ACTIVITY_MINE:
   case ACTIVITY_IRRIGATE:
@@ -900,7 +901,7 @@ static void update_unit_activity(struct unit *punit)
   case ACTIVITY_GEN_ROAD:
     punit->activity_count += get_activity_rate_this_turn(punit);
 
-    /* settler may become veteran when doing something useful */
+    /* Settler may become veteran when doing something useful */
     if (maybe_become_veteran_real(punit, 100, TRUE)) {
       notify_unit_experience(punit);
     }
@@ -925,7 +926,7 @@ static void update_unit_activity(struct unit *punit)
   case ACTIVITY_CONVERT:
   case ACTIVITY_PATROL_UNUSED:
   case ACTIVITY_LAST:
-    /* no default, ensure all handled */
+    /* No default, ensure all handled */
     break;
 
   case ACTIVITY_EXPLORE:
@@ -942,6 +943,54 @@ static void update_unit_activity(struct unit *punit)
 
       /* Change vision if effects have changed. */
       unit_list_refresh_vision(ptile->units);
+    }
+    break;
+
+  case ACTIVITY_CLEAN:
+    /* TODO: Remove this fallback target setting when target always correctly
+     *       set */
+    {
+      struct extra_type *pextra;
+      struct extra_type *fextra;
+
+      if (punit->activity_target == NULL) {
+        pextra = prev_extra_in_tile(ptile, ERM_CLEANPOLLUTION,
+                                    NULL, punit);
+
+        if (pextra != NULL) {
+          punit->activity_target = pextra;
+          fextra = NULL; /* fextra not needed, keep compiler happy */
+        } else {
+          fextra = prev_extra_in_tile(ptile, ERM_CLEANFALLOUT,
+                                      NULL, punit);
+          punit->activity_target = fextra;
+        }
+      } else {
+        if (is_extra_removed_by(punit->activity_target, ERM_CLEANPOLLUTION)) {
+          pextra = punit->activity_target;
+          fextra = NULL; /* fextra not needed, keep compiler happy */
+        } else {
+          pextra = NULL;
+
+          if (is_extra_removed_by(punit->activity_target, ERM_CLEANFALLOUT)) {
+            fextra = punit->activity_target;
+          } else {
+            fextra = NULL;
+          }
+        }
+      }
+
+      if (pextra != NULL) {
+        if (total_activity_done(ptile, ACTIVITY_CLEAN, pextra)) {
+          destroy_extra(ptile, pextra);
+          unit_activity_done = TRUE;
+        }
+      } else if (fextra != NULL) {
+        if (total_activity_done(ptile, ACTIVITY_CLEAN, fextra)) {
+          destroy_extra(ptile, fextra);
+          unit_activity_done = TRUE;
+        }
+      }
     }
     break;
 
@@ -3595,7 +3644,7 @@ static bool unit_move_consequences(struct unit *punit,
 }
 
 /**********************************************************************//**
-  Check if the units activity is legal for a move , and reset it if
+  Check if the units activity is legal for a move, and reset it if
   it isn't.
 **************************************************************************/
 static void check_unit_activity(struct unit *punit)
@@ -3606,7 +3655,9 @@ static void check_unit_activity(struct unit *punit)
   case ACTIVITY_EXPLORE:
   case ACTIVITY_GOTO:
     break;
+  case ACTIVITY_CLEAN:
   case ACTIVITY_POLLUTION:
+  case ACTIVITY_FALLOUT:
   case ACTIVITY_MINE:
   case ACTIVITY_IRRIGATE:
   case ACTIVITY_CULTIVATE:
@@ -3618,7 +3669,6 @@ static void check_unit_activity(struct unit *punit)
   case ACTIVITY_UNKNOWN:
   case ACTIVITY_AIRBASE:
   case ACTIVITY_FORTIFYING:
-  case ACTIVITY_FALLOUT:
   case ACTIVITY_PATROL_UNUSED:
   case ACTIVITY_BASE:
   case ACTIVITY_GEN_ROAD:

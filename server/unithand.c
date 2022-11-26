@@ -1158,6 +1158,7 @@ static struct player *need_war_player_hlp(const struct unit *actor,
   case ACTRES_CULTIVATE:
   case ACTRES_PLANT:
   case ACTRES_PILLAGE:
+  case ACTRES_CLEAN:
   case ACTRES_CLEAN_POLLUTION:
   case ACTRES_CLEAN_FALLOUT:
   case ACTRES_FORTIFY:
@@ -3912,12 +3913,8 @@ bool unit_perform_action(struct player *pplayer,
                                                         paction,
                                                         &target_extra));
     break;
+  case ACTRES_CLEAN:
   case ACTRES_CLEAN_POLLUTION:
-    ACTION_PERFORM_UNIT_TILE(action_type, actor_unit, target_tile,
-                             do_action_activity_targeted(actor_unit,
-                                                         paction,
-                                                         &target_extra));
-    break;
   case ACTRES_CLEAN_FALLOUT:
     ACTION_PERFORM_UNIT_TILE(action_type, actor_unit, target_tile,
                              do_action_activity_targeted(actor_unit,
@@ -4300,6 +4297,13 @@ void handle_unit_change_activity(struct player *pplayer, int unit_id,
         activity_target = base_extra_get(pbase);
       }
 
+    } else if (activity == ACTIVITY_CLEAN) {
+      activity_target = prev_extra_in_tile(unit_tile(punit), ERM_CLEANPOLLUTION,
+                                           pplayer, punit);
+      if (activity_target == NULL) {
+        activity_target = prev_extra_in_tile(unit_tile(punit), ERM_CLEANFALLOUT,
+                                             pplayer, punit);
+      }
     } else if (activity == ACTIVITY_POLLUTION) {
       activity_target = prev_extra_in_tile(unit_tile(punit), ERM_CLEANPOLLUTION,
                                            pplayer, punit);
@@ -6485,7 +6489,7 @@ static bool unit_activity_targeted_internal(struct unit *punit,
       unit_activity_handling(punit, new_activity);
     } else {
       set_unit_activity_targeted(punit, new_activity, *new_target);
-      send_unit_info(NULL, punit);    
+      send_unit_info(NULL, punit);
       unit_activity_dependencies(punit, old_activity, old_target);
 
       if (new_activity == ACTIVITY_PILLAGE) {

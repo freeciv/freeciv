@@ -529,6 +529,7 @@ bool activity_requires_target(enum unit_activity activity)
   case ACTIVITY_GEN_ROAD:
   case ACTIVITY_IRRIGATE:
   case ACTIVITY_MINE:
+  case ACTIVITY_CLEAN:
   case ACTIVITY_POLLUTION:
   case ACTIVITY_FALLOUT:
     return TRUE;
@@ -618,6 +619,8 @@ const char *get_activity_text(enum unit_activity activity)
   switch (activity) {
   case ACTIVITY_IDLE:
     return _("Idle");
+  case ACTIVITY_CLEAN:
+    return _("Clean");
   case ACTIVITY_POLLUTION:
     return _("Pollution");
   case ACTIVITY_MINE:
@@ -954,6 +957,13 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
   case ACTIVITY_GOTO:
     return TRUE;
 
+  case ACTIVITY_CLEAN:
+    /* The call below doesn't support actor tile speculation. */
+    fc_assert_msg(unit_tile(punit) == ptile,
+                  "Please use action_speculate_unit_on_tile()");
+    return is_action_enabled_unit_on_tile(ACTION_CLEAN,
+                                          punit, ptile, target);
+
   case ACTIVITY_POLLUTION:
     /* The call below doesn't support actor tile speculation. */
     fc_assert_msg(unit_tile(punit) == ptile,
@@ -1194,6 +1204,7 @@ void unit_activity_astr(const struct unit *punit, struct astring *astr)
                     move_points_text(punit->moves_left, FALSE));
     }
     return;
+  case ACTIVITY_CLEAN:
   case ACTIVITY_POLLUTION:
   case ACTIVITY_FALLOUT:
   case ACTIVITY_OLD_ROAD:
@@ -1523,6 +1534,7 @@ bool is_clean_activity(enum unit_activity activity)
 {
   switch (activity) {
   case ACTIVITY_PILLAGE:
+  case ACTIVITY_CLEAN:
   case ACTIVITY_POLLUTION:
   case ACTIVITY_FALLOUT:
     return TRUE;
@@ -2567,8 +2579,9 @@ bool unit_order_list_is_sane(int length, const struct unit_order *orders)
       /* Replaced by action orders */
       case ACTIVITY_BASE:
       case ACTIVITY_GEN_ROAD:
-      case ACTIVITY_FALLOUT:
+      case ACTIVITY_CLEAN:
       case ACTIVITY_POLLUTION:
+      case ACTIVITY_FALLOUT:
       case ACTIVITY_PILLAGE:
       case ACTIVITY_MINE:
       case ACTIVITY_IRRIGATE:

@@ -424,6 +424,7 @@ int tile_activity_time(enum unit_activity activity, const struct tile *ptile,
                     && activity != ACTIVITY_AIRBASE, FC_INFINITY);
 
   switch (activity) {
+  case ACTIVITY_CLEAN:
   case ACTIVITY_POLLUTION:
   case ACTIVITY_FALLOUT:
   case ACTIVITY_PILLAGE:
@@ -696,6 +697,7 @@ bool tile_apply_activity(struct tile *ptile, Activity_type_id act,
   case ACTIVITY_PILLAGE:
   case ACTIVITY_BASE:
   case ACTIVITY_GEN_ROAD:
+  case ACTIVITY_CLEAN:
   case ACTIVITY_POLLUTION:
   case ACTIVITY_FALLOUT:
     /* do nothing  - not implemented */

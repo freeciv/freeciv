@@ -531,6 +531,7 @@ static void hard_code_oblig_hard_reqs(void)
                           ACTRES_BASE,
                           ACTRES_MINE,
                           ACTRES_IRRIGATE,
+                          ACTRES_CLEAN,
                           ACTRES_CLEAN_POLLUTION,
                           ACTRES_CLEAN_FALLOUT,
                           ACTRES_NONE);
@@ -1322,6 +1323,10 @@ static void hard_code_actions(void)
                       MAK_STAYS, 0, 0, FALSE);
   actions[ACTION_PILLAGE] =
       unit_action_new(ACTION_PILLAGE, ACTRES_PILLAGE,
+                      TRUE, FALSE,
+                      MAK_STAYS, 0, 0, FALSE);
+  actions[ACTION_CLEAN] =
+      unit_action_new(ACTION_CLEAN, ACTRES_CLEAN,
                       TRUE, FALSE,
                       MAK_STAYS, 0, 0, FALSE);
   actions[ACTION_CLEAN_POLLUTION] =
@@ -2162,6 +2167,8 @@ enum unit_activity action_get_activity(const struct action *paction)
     return ACTIVITY_GEN_ROAD;
   } else if (action_has_result(paction, ACTRES_PILLAGE)) {
     return ACTIVITY_PILLAGE;
+  } else if (action_has_result(paction, ACTRES_CLEAN)) {
+    return ACTIVITY_CLEAN;
   } else if (action_has_result(paction, ACTRES_CLEAN_POLLUTION)) {
     return ACTIVITY_POLLUTION;
   } else if (action_has_result(paction, ACTRES_CLEAN_FALLOUT)) {
@@ -2203,6 +2210,7 @@ int action_get_act_time(const struct action *paction,
 
   switch (pactivity) {
   case ACTIVITY_PILLAGE:
+  case ACTIVITY_CLEAN:
   case ACTIVITY_POLLUTION:
   case ACTIVITY_FALLOUT:
   case ACTIVITY_BASE:
@@ -2306,6 +2314,7 @@ bool action_creates_extra(const struct action *paction,
   case ACTRES_CULTIVATE:
   case ACTRES_PLANT:
   case ACTRES_PILLAGE:
+  case ACTRES_CLEAN:
   case ACTRES_CLEAN_POLLUTION:
   case ACTRES_CLEAN_FALLOUT:
   case ACTRES_FORTIFY:
@@ -2342,6 +2351,9 @@ bool action_removes_extra(const struct action *paction,
   switch (paction->result) {
   case ACTRES_PILLAGE:
     return is_extra_removed_by(pextra, ERM_PILLAGE);
+  case ACTRES_CLEAN:
+    return is_extra_removed_by(pextra, ERM_CLEANPOLLUTION)
+      || is_extra_removed_by(pextra, ERM_CLEANFALLOUT);
   case ACTRES_CLEAN_POLLUTION:
     return is_extra_removed_by(pextra, ERM_CLEANPOLLUTION);
   case ACTRES_CLEAN_FALLOUT:
@@ -3499,6 +3511,7 @@ action_actor_utype_hard_reqs_ok_full(const struct action *paction,
   case ACTRES_CONQUER_CITY:
   case ACTRES_HEAL_UNIT:
   case ACTRES_PILLAGE:
+  case ACTRES_CLEAN:
   case ACTRES_CLEAN_POLLUTION:
   case ACTRES_CLEAN_FALLOUT:
   case ACTRES_FORTIFY:
@@ -3691,6 +3704,7 @@ action_hard_reqs_actor(const struct action *paction,
   case ACTRES_CULTIVATE:
   case ACTRES_PLANT:
   case ACTRES_PILLAGE:
+  case ACTRES_CLEAN:
   case ACTRES_CLEAN_POLLUTION:
   case ACTRES_CLEAN_FALLOUT:
   case ACTRES_FORTIFY:
@@ -4348,6 +4362,49 @@ is_action_possible(const action_id wanted_action,
       }
     }
     break;
+
+  case ACTRES_CLEAN:
+    {
+      const struct extra_type *pextra = NULL;
+      const struct extra_type *fextra = NULL;
+
+      pterrain = tile_terrain(target->tile);
+
+      if (target_extra != NULL) {
+        if (is_extra_removed_by(target_extra, ERM_CLEANPOLLUTION)
+            && tile_has_extra(target->tile, target_extra)) {
+          pextra = target_extra;
+        }
+        if (is_extra_removed_by(target_extra, ERM_CLEANFALLOUT)
+            && tile_has_extra(target->tile, target_extra)) {
+          fextra = target_extra;
+        }
+      } else {
+        /* TODO: Make sure that all callers set target so that
+         * we don't need this fallback. */
+
+        pextra = prev_extra_in_tile(target->tile,
+                                    ERM_CLEANPOLLUTION,
+                                    actor->player,
+                                    actor->unit);
+        fextra = prev_extra_in_tile(target->tile,
+                                    ERM_CLEANFALLOUT,
+                                    actor->player,
+                                    actor->unit);
+      }
+
+      if (pextra != NULL && pterrain->clean_pollution_time > 0
+          && can_remove_extra(pextra, actor->unit, target->tile)) {
+        return TRI_YES;
+      }
+
+      if (fextra != NULL && pterrain->clean_fallout_time > 0
+          && can_remove_extra(fextra, actor->unit, target->tile)) {
+        return TRI_YES;
+      }
+
+      return TRI_NO;
+    }
 
   case ACTRES_CLEAN_POLLUTION:
     {
@@ -5777,6 +5834,7 @@ action_prob(const action_id wanted_action,
   case ACTRES_CULTIVATE:
   case ACTRES_PLANT:
   case ACTRES_PILLAGE:
+  case ACTRES_CLEAN:
   case ACTRES_CLEAN_POLLUTION:
   case ACTRES_CLEAN_FALLOUT:
   case ACTRES_FORTIFY:
@@ -7088,6 +7146,7 @@ int action_dice_roll_initial_odds(const struct action *paction)
   case ACTRES_CULTIVATE:
   case ACTRES_PLANT:
   case ACTRES_PILLAGE:
+  case ACTRES_CLEAN:
   case ACTRES_CLEAN_POLLUTION:
   case ACTRES_CLEAN_FALLOUT:
   case ACTRES_FORTIFY:
@@ -7655,6 +7714,8 @@ const char *action_ui_name_ruleset_var_name(int act)
     return "ui_name_plant";
   case ACTION_PILLAGE:
     return "ui_name_pillage";
+  case ACTION_CLEAN:
+    return "ui_name_clean";
   case ACTION_CLEAN_POLLUTION:
     return "ui_name_clean_pollution";
   case ACTION_CLEAN_FALLOUT:
@@ -7964,6 +8025,9 @@ const char *action_ui_name_default(int act)
   case ACTION_PILLAGE:
     /* TRANS: Pilla_ge (100% chance of success). */
     return N_("Pilla%sge%s");
+  case ACTION_CLEAN:
+    /* TRANS: Clean (100% chance of success). */
+    return N_("%sClean%s");
   case ACTION_CLEAN_POLLUTION:
     /* TRANS: Clean _Pollution (100% chance of success). */
     return N_("Clean %sPollution%s");
@@ -8130,6 +8194,7 @@ const char *action_min_range_ruleset_var_name(int act)
   case ACTION_CULTIVATE:
   case ACTION_PLANT:
   case ACTION_PILLAGE:
+  case ACTION_CLEAN:
   case ACTION_CLEAN_POLLUTION:
   case ACTION_CLEAN_FALLOUT:
   case ACTION_FORTIFY:
@@ -8246,6 +8311,7 @@ int action_min_range_default(enum action_result result)
   case ACTRES_CULTIVATE:
   case ACTRES_PLANT:
   case ACTRES_PILLAGE:
+  case ACTRES_CLEAN:
   case ACTRES_CLEAN_POLLUTION:
   case ACTRES_CLEAN_FALLOUT:
   case ACTRES_FORTIFY:
@@ -8350,6 +8416,7 @@ const char *action_max_range_ruleset_var_name(int act)
   case ACTION_CULTIVATE:
   case ACTION_PLANT:
   case ACTION_PILLAGE:
+  case ACTION_CLEAN:
   case ACTION_CLEAN_POLLUTION:
   case ACTION_CLEAN_FALLOUT:
   case ACTION_FORTIFY:
@@ -8472,6 +8539,7 @@ int action_max_range_default(enum action_result result)
   case ACTRES_CULTIVATE:
   case ACTRES_PLANT:
   case ACTRES_PILLAGE:
+  case ACTRES_CLEAN:
   case ACTRES_CLEAN_POLLUTION:
   case ACTRES_CLEAN_FALLOUT:
   case ACTRES_FORTIFY:
@@ -8587,6 +8655,7 @@ const char *action_target_kind_ruleset_var_name(int act)
   case ACTION_TRANSFORM_TERRAIN:
   case ACTION_CULTIVATE:
   case ACTION_PLANT:
+  case ACTION_CLEAN:
   case ACTION_CLEAN_POLLUTION:
   case ACTION_CLEAN_FALLOUT:
   case ACTION_FORTIFY:
@@ -8718,6 +8787,7 @@ action_target_kind_default(enum action_result result)
   case ACTRES_CULTIVATE:
   case ACTRES_PLANT:
   case ACTRES_PILLAGE:
+  case ACTRES_CLEAN:
   case ACTRES_CLEAN_POLLUTION:
   case ACTRES_CLEAN_FALLOUT:
   case ACTRES_ROAD:
@@ -8807,6 +8877,7 @@ bool action_result_legal_target_kind(enum action_result result,
   case ACTRES_TRANSFORM_TERRAIN:
   case ACTRES_CULTIVATE:
   case ACTRES_PLANT:
+  case ACTRES_CLEAN:
   case ACTRES_CLEAN_POLLUTION:
   case ACTRES_CLEAN_FALLOUT:
   case ACTRES_ROAD:
@@ -8920,6 +8991,7 @@ action_sub_target_kind_default(enum action_result result)
   case ACTRES_SPY_ESCAPE:
     return ASTK_NONE;
   case ACTRES_PILLAGE:
+  case ACTRES_CLEAN:
   case ACTRES_CLEAN_POLLUTION:
   case ACTRES_CLEAN_FALLOUT:
     return ASTK_EXTRA;
@@ -9014,6 +9086,7 @@ action_target_compl_calc(enum action_result result,
   case ACTRES_SPY_ESCAPE:
     return ACT_TGT_COMPL_SIMPLE;
   case ACTRES_PILLAGE:
+  case ACTRES_CLEAN:
   case ACTRES_CLEAN_POLLUTION:
   case ACTRES_CLEAN_FALLOUT:
     return ACT_TGT_COMPL_FLEXIBLE;
@@ -9107,6 +9180,7 @@ const char *action_actor_consuming_always_ruleset_var_name(action_id act)
   case ACTION_CULTIVATE:
   case ACTION_PLANT:
   case ACTION_PILLAGE:
+  case ACTION_CLEAN:
   case ACTION_CLEAN_POLLUTION:
   case ACTION_CLEAN_FALLOUT:
   case ACTION_FORTIFY:
@@ -9152,7 +9226,7 @@ const char *action_actor_consuming_always_ruleset_var_name(action_id act)
   case ACTION_UNIT_MOVE2:
   case ACTION_UNIT_MOVE3:
   case ACTION_SPY_ESCAPE:
-    /* actor consuming always is not ruleset changeable */
+    /* Actor consuming always is not ruleset changeable */
     return NULL;
   case ACTION_FOUND_CITY:
     return "found_city_consuming_always";
@@ -9283,6 +9357,7 @@ const char *action_blocked_by_ruleset_var_name(const struct action *act)
   case ACTION_CULTIVATE:
   case ACTION_PLANT:
   case ACTION_PILLAGE:
+  case ACTION_CLEAN:
   case ACTION_CLEAN_POLLUTION:
   case ACTION_CLEAN_FALLOUT:
   case ACTION_FORTIFY:
@@ -9424,6 +9499,7 @@ action_post_success_forced_ruleset_var_name(const struct action *act)
   case ACTION_CULTIVATE:
   case ACTION_PLANT:
   case ACTION_PILLAGE:
+  case ACTION_CLEAN:
   case ACTION_CLEAN_POLLUTION:
   case ACTION_CLEAN_FALLOUT:
   case ACTION_FORTIFY:

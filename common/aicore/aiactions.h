@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 2020 - The Freeciv Project contributors.
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -10,16 +10,15 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-
 #ifndef FC_AI_ACTIONS_H
 #define FC_AI_ACTIONS_H
-
-/* common */
-#include "fc_types.h"
 
 #ifdef __cplusplus
 extern "C" {
 #endif /* __cplusplus */
+
+/* common */
+#include "fc_types.h"
 
 bool aia_utype_is_considered_spy_vs_city(const struct unit_type *putype);
 bool aia_utype_is_considered_spy(const struct unit_type *putype);

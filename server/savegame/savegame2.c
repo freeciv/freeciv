@@ -625,13 +625,15 @@ static enum direction8 char2dir(char dir)
 }
 
 /************************************************************************//**
-  Returns a character identifier for an activity.  See also char2activity.
+  Returns a character identifier for an activity. See also char2activity.
 ****************************************************************************/
 static char activity2char(enum unit_activity activity)
 {
   switch (activity) {
   case ACTIVITY_IDLE:
     return 'w';
+  case ACTIVITY_CLEAN:
+    return 'C';
   case ACTIVITY_POLLUTION:
     return 'p';
   case ACTIVITY_OLD_ROAD:
@@ -682,7 +684,7 @@ static char activity2char(enum unit_activity activity)
 }
 
 /************************************************************************//**
-  Returns an activity for a character identifier.  See also activity2char.
+  Returns an activity for a character identifier. See also activity2char.
 ****************************************************************************/
 static enum unit_activity char2activity(char activity)
 {

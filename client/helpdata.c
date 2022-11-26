@@ -311,13 +311,13 @@ static bool insert_generated_text(char *outbuf, size_t outlen, const char *name)
           if (factor < 0) {
             factor = pextra->removal_time_factor;
           } else if (factor != pextra->removal_time_factor) {
-            factor = 0; /* give up */
+            factor = 0; /* Give up */
           }
         } else {
           if (time < 0) {
             time = pextra->removal_time;
           } else if (time != pextra->removal_time) {
-            time = 0; /* give up */
+            time = 0; /* Give up */
           }
         }
       } extra_type_by_rmcause_iterate_end;
@@ -351,13 +351,13 @@ static bool insert_generated_text(char *outbuf, size_t outlen, const char *name)
           if (factor < 0) {
             factor = pextra->removal_time_factor;
           } else if (factor != pextra->removal_time_factor) {
-            factor = 0; /* give up */
+            factor = 0; /* Give up */
           }
         } else {
           if (time < 0) {
             time = pextra->removal_time;
           } else if (time != pextra->removal_time) {
-            time = 0; /* give up */
+            time = 0; /* Give up */
           }
         }
       } extra_type_by_rmcause_iterate_end;
@@ -391,13 +391,13 @@ static bool insert_generated_text(char *outbuf, size_t outlen, const char *name)
           if (factor < 0) {
             factor = pextra->removal_time_factor;
           } else if (factor != pextra->removal_time_factor) {
-            factor = 0; /* give up */
+            factor = 0; /* Give up */
           }
         } else {
           if (time < 0) {
             time = pextra->removal_time;
           } else if (time != pextra->removal_time) {
-            time = 0; /* give up */
+            time = 0; /* Give up */
           }
         }
       } extra_type_by_rmcause_iterate_end;
@@ -2871,6 +2871,7 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
           strvec_destroy(extras_vec);
         }
         break;
+      case ACTRES_CLEAN:
       case ACTRES_CLEAN_POLLUTION:
       case ACTRES_CLEAN_FALLOUT:
         {
@@ -3857,6 +3858,7 @@ void helptext_extra(char *buf, size_t bufsz, struct player *pplayer,
             && pterrain->clean_fallout_time != 0) {
           int terr_clean_fall_time = pterrain->clean_fallout_time
                                      * pextra->removal_time_factor;
+
           if (terr_clean_time > 0
               && terr_clean_time != terr_clean_fall_time) {
             /* Pollution/fallout cleaning activities taking different time

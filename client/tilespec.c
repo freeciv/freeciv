@@ -4414,6 +4414,7 @@ static int fill_unit_sprite_array(const struct tileset *t,
     case ACTIVITY_CULTIVATE:
       s = t->sprites.unit.cultivate;
       break;
+    case ACTIVITY_CLEAN:
     case ACTIVITY_POLLUTION:
     case ACTIVITY_FALLOUT:
       s = t->sprites.extras[extra_index(punit->activity_target)].rmact;

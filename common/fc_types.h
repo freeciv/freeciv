@@ -191,6 +191,9 @@ enum counter_target { CTGT_CITY };
 /* Action with the result ACTRES_PLANT */
 #define SPECENUM_VALUE22 ACTIVITY_PLANT
 #define SPECENUM_VALUE22NAME N_("Plant")
+/* Action with the result ACTRES_CLEAN */
+#define SPECENUM_VALUE23 ACTIVITY_CLEAN
+#define SPECENUM_VALUE23NAME N_("Clean")
 /* Number of activities */
 #define SPECENUM_COUNT ACTIVITY_LAST
 #include "specenum_gen.h"
@@ -325,6 +328,8 @@ enum counter_target { CTGT_CITY };
 #define SPECENUM_VALUE62NAME "Unit Spy Escape"
 #define SPECENUM_VALUE63 ACTRES_TRANSPORT_LOAD
 #define SPECENUM_VALUE63NAME "Unit Transport Load"
+#define SPECENUM_VALUE64 ACTRES_CLEAN
+#define SPECENUM_VALUE64NAME "Clean"
 /* All consequences are handled as (ruleset) action data. */
 #define SPECENUM_COUNT ACTRES_NONE
 #include "specenum_gen.h"

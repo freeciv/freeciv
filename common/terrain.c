@@ -756,6 +756,41 @@ int terrain_extra_removal_time(const struct terrain *pterrain,
 
   /* Terrain and activity specific removal time */
   switch (activity) {
+  case ACTIVITY_CLEAN:
+    {
+      if (tgt == NULL) {
+        if (pterrain->clean_pollution_time > 0
+            && pterrain->clean_fallout_time > 0) {
+          return MIN(pterrain->clean_pollution_time, pterrain->clean_fallout_time)
+            * factor;
+        }
+
+        if (pterrain->clean_pollution_time > 0) {
+          return pterrain->clean_pollution_time * factor;
+        }
+
+        return pterrain->clean_fallout_time * factor;
+      }
+
+      if (is_extra_removed_by(tgt, ERM_CLEANPOLLUTION)) {
+        if (!is_extra_removed_by(tgt, ERM_CLEANFALLOUT)) {
+          return pterrain->clean_pollution_time * factor;
+        }
+
+        /* Has both removal causes */
+        if (pterrain->clean_pollution_time > 0
+            && pterrain->clean_fallout_time > 0) {
+          return MIN(pterrain->clean_pollution_time, pterrain->clean_fallout_time)
+            * factor;
+        }
+
+        if (pterrain->clean_pollution_time > 0) {
+          return pterrain->clean_pollution_time * factor;
+        }
+      }
+
+      return pterrain->clean_fallout_time * factor;
+    }
   case ACTIVITY_POLLUTION:
     return pterrain->clean_pollution_time * factor;
   case ACTIVITY_FALLOUT:

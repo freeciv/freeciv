@@ -1143,6 +1143,22 @@ Actions done by a unit against a tile
  * the target extra must be the rule chosen extra if the civstyle section's
    pillage_select is FALSE
 
+"Clean"             - clean extra from the target tile.
+ * UI name can be set using ui_name_clean
+ * actor must be on the same tile as the target.
+ * the actor unit has the "Settlers" unit type flag (!)
+ * the target extra must be present at the target tile
+ * the terrain of the target tile must have a non 0 clean_pollution_time
+   or non 0 clean_fallout_time, depending on the removal cause
+   of the extra
+ * the target extra must have the CleanPollution or
+   CleanFallout removal cause
+ * the target extra's rmreqs must be fulfilled
+ * the target extra can't have the AlwaysOnCityCenter extra flag if the
+   target tile has a city
+ * the target extra can't have the AutoOnCityCenter extra flag if the
+   target tile has a city and the city's owner can rebuild it
+
 "Clean Pollution"   - clean extra from the target tile.
  * UI name can be set using ui_name_clean_pollution
  * actor must be on the same tile as the target.

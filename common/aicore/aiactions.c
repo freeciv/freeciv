@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 2020 - The Freeciv Project contributors.
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -18,9 +18,7 @@
 /* common */
 #include "unittype.h"
 
-
 #include "aiactions.h"
-
 
 /**********************************************************************//**
   Returns TRUE if the specified unit type is able to perform diplomatic
@@ -68,9 +66,9 @@ bool aia_utype_is_considered_spy(const struct unit_type *putype)
 bool aia_utype_is_considered_caravan_trade(const struct unit_type *putype)
 {
   return (utype_can_do_action_result(putype,
-                                       ACTRES_TRADE_ROUTE)
+                                     ACTRES_TRADE_ROUTE)
           || utype_can_do_action_result(putype,
-                                       ACTRES_MARKETPLACE));
+                                        ACTRES_MARKETPLACE));
 }
 
 /**********************************************************************//**
@@ -81,7 +79,7 @@ bool aia_utype_is_considered_caravan(const struct unit_type *putype)
 {
   return (aia_utype_is_considered_caravan_trade(putype)
           || utype_can_do_action_result(putype,
-                                       ACTRES_HELP_WONDER));
+                                        ACTRES_HELP_WONDER));
 }
 
 /**********************************************************************//**
@@ -97,6 +95,7 @@ bool aia_utype_is_considered_worker(const struct unit_type *putype)
           || utype_can_do_action_result(putype, ACTRES_BASE)
           || utype_can_do_action_result(putype, ACTRES_MINE)
           || utype_can_do_action_result(putype, ACTRES_IRRIGATE)
+          || utype_can_do_action_result(putype, ACTRES_CLEAN)
           || utype_can_do_action_result(putype, ACTRES_CLEAN_POLLUTION)
           || utype_can_do_action_result(putype, ACTRES_CLEAN_FALLOUT));
 }
