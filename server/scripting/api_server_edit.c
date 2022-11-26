@@ -169,6 +169,13 @@ bool api_edit_unit_teleport(lua_State *L, Unit *punit, Tile *dest)
   LUASCRIPT_CHECK_ARG_NIL(L, punit, 2, Unit, FALSE);
   LUASCRIPT_CHECK_ARG_NIL(L, dest, 3, Tile, FALSE);
 
+  if (unit_teleport_to_tile_test(punit, ACTIVITY_IDLE,
+                                 unit_tile(punit), dest, TRUE,
+                                 FALSE, NULL, TRUE) != MR_OK) {
+    /* Can't teleport to target. Return that unit is still alive. */
+    return TRUE;
+  }
+
   /* Teleport first so destination is revealed even if unit dies */
   alive = unit_move(punit, dest, 0, NULL,
                     /* The old call would result in occupation before the
@@ -573,6 +580,13 @@ bool api_edit_unit_move(lua_State *L, Unit *punit, Tile *ptile,
   LUASCRIPT_CHECK_SELF(L, punit, FALSE);
   LUASCRIPT_CHECK_ARG_NIL(L, ptile, 3, Tile, FALSE);
   LUASCRIPT_CHECK_ARG(L, movecost >= 0, 4, "Negative move cost!", FALSE);
+
+  if (unit_move_to_tile_test(punit, ACTIVITY_IDLE,
+                             unit_tile(punit), ptile, TRUE,
+                             NULL, TRUE) != MR_OK) {
+    /* Can't move to target. Return that unit is still alive. */
+    return TRUE;
+  }
 
   return unit_move(punit, ptile, movecost, NULL,
                    /* Backwards compatibility for old scripts in rulesets

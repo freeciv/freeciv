@@ -541,7 +541,7 @@ bool unit_can_move_to_tile(const struct unit *punit,
 
 /**************************************************************************
   Returns whether the unit can move from its current tile to the
-  destination tile.  An enumerated value is returned indication the error
+  destination tile. An enumerated value is returned indication the error
   or success status.
 
   The unit can move if:
@@ -675,6 +675,101 @@ unit_move_to_tile_test(const struct unit *punit,
         || pcity
         || unit_could_load_at(punit, dst_tile))) {
     return MR_NON_NATIVE_MOVE;
+  }
+
+  return MR_OK;
+}
+
+/****************************************************************************
+  Returns whether the unit can move from its current tile to the
+  destination tile. An enumerated value is returned indication the error
+  or success status.
+
+  The unit can teleport if:
+    1) There are no non-allied units on the target tile.
+    2) Animals cannot move out from home terrains
+    3) Unit can move to a tile where it can't survive on its own if there
+       is free transport capacity.
+    4) There are no peaceful but non-allied units on the target tile.
+    5) There is not a non-allied city on the target tile when
+       enter_enemy_city is false. When enter_enemy_city is true a non
+       peaceful city is also accepted.
+    6) Triremes cannot move out of sight from land.
+    7) It is not the territory of a player we are at peace with.
+****************************************************************************/
+enum unit_move_result
+unit_teleport_to_tile_test(const struct unit *punit,
+                           enum unit_activity activity,
+                           const struct tile *src_tile,
+                           const struct tile *dst_tile, bool igzoc,
+                           bool enter_transport, struct unit *embark_to,
+                           bool enter_enemy_city)
+{
+  struct city *pcity;
+  const struct unit_type *punittype = unit_type_get(punit);
+  const struct player *puowner = unit_owner(punit);
+
+  /* 1) */
+  if (is_non_allied_unit_tile(dst_tile, puowner)) {
+    /* You can't move onto a tile with non-allied units on it (try
+     * attacking instead). */
+    return MR_DESTINATION_OCCUPIED_BY_NON_ALLIED_UNIT;
+  }
+
+  /* 2) */
+  if (puowner->ai_common.barbarian_type == ANIMAL_BARBARIAN
+      && dst_tile->terrain->animal != punittype) {
+    return MR_ANIMAL_DISALLOWED;
+  }
+
+  /* 3) */
+  if (embark_to != NULL) {
+    if (!could_unit_load(punit, embark_to)) {
+      return MR_NO_TRANSPORTER_CAPACITY;
+    }
+  } else if (!(can_exist_at_tile(punittype, dst_tile)
+               || (enter_transport
+                   && unit_could_load_at(punit, dst_tile)))) {
+    return MR_NO_TRANSPORTER_CAPACITY;
+  }
+
+  /* 4) */
+  if (is_non_attack_unit_tile(dst_tile, puowner)) {
+    /* You can't move into a non-allied tile.
+     *
+     * FIXME: this should never happen since it should be caught by check
+     * #1. */
+    return MR_NO_WAR;
+  }
+
+  /* 5) */
+  if ((pcity = tile_city(dst_tile))) {
+    if (enter_enemy_city) {
+      if (pplayers_non_attack(city_owner(pcity), puowner)) {
+        /* You can't move into an empty city of a civilization you're at
+         * peace with - you must first either declare war or make an
+         * alliance. */
+        return MR_NO_WAR;
+      }
+    } else {
+      if (!pplayers_allied(city_owner(pcity), puowner)) {
+        /* You can't move into an empty city of a civilization you're not
+         * allied to. Assume that the player tried to attack. */
+        return MR_NO_WAR;
+      }
+    }
+  }
+
+  /* 6) */
+  if (utype_has_flag(punittype, UTYF_COAST_STRICT)
+      && !pcity && !is_safe_ocean(dst_tile)) {
+    return MR_TRIREME;
+  }
+
+  /* 7) */
+  if (!utype_has_flag(punittype, UTYF_CIVILIAN)
+      && !player_can_invade_tile(puowner, dst_tile)) {
+    return MR_PEACE;
   }
 
   return MR_OK;
