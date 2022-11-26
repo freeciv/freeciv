@@ -121,6 +121,15 @@ unit_move_to_tile_test(const struct civ_map *nmap,
                        bool igzoc,
                        bool enter_transport, struct unit *embark_to,
                        bool enter_enemy_city);
+enum unit_move_result
+unit_teleport_to_tile_test(const struct civ_map *nmap,
+                           const struct unit *punit,
+                           enum unit_activity activity,
+                           const struct tile *src_tile,
+                           const struct tile *dst_tile,
+                           bool igzoc,
+                           bool enter_transport, struct unit *embark_to,
+                           bool enter_enemy_city);
 bool can_unit_transport(const struct unit *transporter, const struct unit *transported);
 bool can_unit_type_transport(const struct unit_type *transporter,
                              const struct unit_class *transported);
