@@ -251,7 +251,9 @@ one of the defenders. For example city that has number of diplomats in
 it can be conquered with just one move.
 
 Post attack city destruction
-A size 1 city is destroyed with its last defender.
+A size 1 city can get destroyed with its last defender, if the attacker
+is one that reduces city size ("Big Land" units) and the city has no
+other protection against such size reduction.
 
 Wonder visibility
 Opponents are aware of player's Small Wonders only if they have an embassy.
