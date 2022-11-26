@@ -1471,7 +1471,7 @@ void eco_report::disband_units()
 }
 
 /************************************************************************//**
-  Sell all pointed builings
+  Sell all pointed buildings.
 ****************************************************************************/
 void eco_report::sell_buildings()
 {
