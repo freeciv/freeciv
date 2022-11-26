@@ -329,6 +329,7 @@ bool diplomat_investigate(struct player *pplayer, struct unit *pdiplomat,
   struct packet_unit_short_info unit_packet;
   struct packet_city_info city_packet;
   struct packet_city_nationalities nat_packet;
+  struct packet_city_rally_point rally_packet;
   struct packet_web_city_info_addition web_packet;
   struct traderoute_packet_list *routes;
   const struct unit_type *act_utype;
@@ -384,11 +385,13 @@ bool diplomat_investigate(struct player *pplayer, struct unit *pdiplomat,
   }
 
   routes = traderoute_packet_list_new();
-  package_city(pcity, &city_packet, &nat_packet, webp_ptr, routes, TRUE);
+  package_city(pcity, &city_packet, &nat_packet, &rally_packet,
+               webp_ptr, routes, TRUE);
   /* We need to force to send the packet to ensure the client will receive
    * something and popup the city dialog. */
   lsend_packet_city_info(pplayer->connections, &city_packet, TRUE);
   lsend_packet_city_nationalities(pplayer->connections, &nat_packet, TRUE);
+  lsend_packet_city_rally_point(pplayer->connections, &rally_packet, TRUE);
   web_lsend_packet(city_info_addition, pplayer->connections, webp_ptr, TRUE);
   traderoute_packet_list_iterate(routes, route_packet) {
     lsend_packet_traderoute_info(pplayer->connections, route_packet);

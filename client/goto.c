@@ -1518,7 +1518,7 @@ static void send_rally_path_orders(struct city *pcity, struct unit *punit,
   make_path_orders(punit, path, orders, final_order,
                    p.orders, &p.length, NULL);
 
-  send_packet_city_rally_point(&client.conn, &p);
+  send_packet_city_rally_point(&client.conn, &p, FALSE);
 }
 
 /************************************************************************//**
