@@ -4643,7 +4643,7 @@ static bool sg_load_player_city(struct loaddata *loading, struct player *plr,
   int nat_x, nat_y;
   citizens size;
   const char *stylename;
-  int partner = 1;
+  int partner;
 
   sg_warn_ret_val(secfile_lookup_int(loading->file, &nat_x, "%s.x", citystr),
                   FALSE, "%s", secfile_error());
@@ -4686,33 +4686,39 @@ static bool sg_load_player_city(struct loaddata *loading, struct player *plr,
     sp_count += value;
   }
 
+  partner = secfile_lookup_int_default(loading->file, 0, "%s.traderoute0", citystr);
   for (i = 0; partner != 0; i++) {
+    struct trade_route *proute = fc_malloc(sizeof(struct trade_route));
+    const char *dir;
+    const char *good_str;
+
+    /* Append to routes list immediately, so the pointer can be found for freeing
+     * even if we abort */
+    trade_route_list_append(pcity->routes, proute);
+
+    proute->partner = partner;
+    dir = secfile_lookup_str(loading->file, "%s.route_direction%d", citystr, i);
+    sg_warn_ret_val(dir != NULL, FALSE,
+                    "No traderoute direction found for %s", citystr);
+    proute->dir = route_direction_by_name(dir, fc_strcasecmp);
+    sg_warn_ret_val(route_direction_is_valid(proute->dir), FALSE,
+                    "Illegal route direction %s", dir);
+    good_str = secfile_lookup_str(loading->file, "%s.route_good%d", citystr, i);
+    sg_warn_ret_val(dir != NULL, FALSE,
+                    "No good found for %s", citystr);
+    proute->goods = goods_by_rule_name(good_str);
+    sg_warn_ret_val(proute->goods != NULL, FALSE,
+                    "Illegal good %s", good_str);
+
+    /* Next one */
     partner = secfile_lookup_int_default(loading->file, 0,
-                                         "%s.traderoute%d", citystr, i);
+                                         "%s.traderoute%d", citystr, i + 1);
+  }
 
-    if (partner != 0) {
-      struct trade_route *proute = fc_malloc(sizeof(struct trade_route));
-      const char *dir;
-      const char *good_str;
-
-      /* Append to routes list immediately, so the pointer can be found for freeing
-       * even if we abort */
-      trade_route_list_append(pcity->routes, proute);
-
-      proute->partner = partner;
-      dir = secfile_lookup_str(loading->file, "%s.route_direction%d", citystr, i);
-      sg_warn_ret_val(dir != NULL, FALSE,
-                      "No traderoute direction found for %s", citystr);
-      proute->dir = route_direction_by_name(dir, fc_strcasecmp);
-      sg_warn_ret_val(route_direction_is_valid(proute->dir), FALSE,
-                      "Illegal route direction %s", dir);
-      good_str = secfile_lookup_str(loading->file, "%s.route_good%d", citystr, i);
-      sg_warn_ret_val(dir != NULL, FALSE,
-                      "No good found for %s", citystr);
-      proute->goods = goods_by_rule_name(good_str);
-      sg_warn_ret_val(proute->goods != NULL, FALSE,
-                      "Illegal good %s", good_str);
-    }
+  for (; i < MAX_TRADE_ROUTES; i++) {
+    (void) secfile_entry_lookup(loading->file, "%s.traderoute%d", citystr, i);
+    (void) secfile_entry_lookup(loading->file, "%s.route_direction%d", citystr, i);
+    (void) secfile_entry_lookup(loading->file, "%s.route_good%d", citystr, i);
   }
 
   sg_warn_ret_val(secfile_lookup_int(loading->file, &pcity->food_stock,
