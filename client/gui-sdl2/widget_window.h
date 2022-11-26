@@ -10,7 +10,6 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-
 #ifndef FC__WIDGET_WINDOW_H
 #define FC__WIDGET_WINDOW_H
 
@@ -20,8 +19,8 @@ struct widget *create_window(struct gui_layer *pdest, utf8_str *title,
 struct widget *create_window_skeleton(struct gui_layer *pdest,
                                       utf8_str *title, Uint32 flags);
 
-int resize_window(struct widget *pwindow, SDL_Surface *bcgd,
-                  SDL_Color *pcolor, Uint16 new_w, Uint16 new_h);
+bool resize_window(struct widget *pwindow, SDL_Surface *bcgd,
+                   SDL_Color *pcolor, Uint16 new_w, Uint16 new_h);
 
 bool move_window(struct widget *pwindow);
 

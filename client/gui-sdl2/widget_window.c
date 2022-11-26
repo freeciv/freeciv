@@ -245,19 +245,19 @@ struct widget *create_window(struct gui_layer *pdest, utf8_str *title,
   If bcgd == NULL then theme is set to
   white transparent ( ALPHA = 128 ).
 
-  Return 1 if allocate new surface and 0 if used 'bcgd' surface.
-
   Exp.
   if (resize_window(pwindow, bcgd, new_w, new_h)) {
     FREESURFACE(bcgd);
   }
+
+  @return Was a new surface allocated, which caller should free
 **************************************************************************/
-int resize_window(struct widget *pwindow, SDL_Surface *bcgd,
-                  SDL_Color *pcolor, Uint16 new_w, Uint16 new_h)
+bool resize_window(struct widget *pwindow, SDL_Surface *bcgd,
+                   SDL_Color *pcolor, Uint16 new_w, Uint16 new_h)
 {
   SDL_Color color;
 
-  /* window */
+  /* Window */
   if ((new_w != pwindow->size.w) || (new_h != pwindow->size.h)) {
     pwindow->size.w = new_w;
     pwindow->size.h = new_h;
@@ -284,7 +284,7 @@ int resize_window(struct widget *pwindow, SDL_Surface *bcgd,
       return 1;
     } else {
       pwindow->theme = bcgd;
-      return 0;
+      return FALSE;
     }
   } else {
     pwindow->theme = create_surf(new_w, new_h, SDL_SWSURFACE);
@@ -297,7 +297,7 @@ int resize_window(struct widget *pwindow, SDL_Surface *bcgd,
 
     SDL_FillRect(pwindow->theme, NULL, map_rgba(pwindow->theme->format, *pcolor));
 
-    return 1;
+    return TRUE;
   }
 }
 
