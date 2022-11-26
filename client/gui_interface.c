@@ -692,3 +692,12 @@ void gui_recv_accept_treaty(struct Treaty *ptreaty, struct player *they)
 {
   funcs.gui_recv_accept_treaty(ptreaty, they);
 }
+
+/**********************************************************************//**
+  Call request_action_confirmation callback
+**************************************************************************/
+void request_action_confirmation(const char *expl,
+                                 struct act_confirmation_data *data)
+{
+  funcs.request_action_confirmation(expl, data);
+}

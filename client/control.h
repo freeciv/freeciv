@@ -131,6 +131,15 @@ void request_unit_wakeup(struct unit *punit);
 #define SPECENUM_COUNT    SELLOC_COUNT
 #include "specenum_gen.h"
 
+struct act_confirmation_data
+{
+  action_id act;
+  int actor;
+  int target;
+  int tgt_sub;
+  char *name;
+};
+
 void request_unit_select(struct unit_list *punits,
                          enum unit_select_type_mode seltype,
                          enum unit_select_location_mode selloc);
@@ -138,6 +147,7 @@ void request_unit_select(struct unit_list *punits,
 void request_do_action(action_id action, int actor_id,
                        int target_id, int sub_tgt, const char *name);
 void request_action_details(action_id action, int actor_id, int target_id);
+void action_confirmation(struct act_confirmation_data *data, bool confirm);
 void request_toggle_city_outlines(void);
 void request_toggle_city_output(void);
 void request_toggle_map_grid(void);

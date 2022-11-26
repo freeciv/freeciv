@@ -120,4 +120,6 @@ void setup_gui_funcs()
   funcs->gui_recv_create_clause = qtg_recv_create_clause;
   funcs->gui_recv_remove_clause = qtg_recv_remove_clause;
   funcs->gui_recv_accept_treaty = qtg_recv_accept_treaty;
+
+  funcs->request_action_confirmation = qtg_request_action_confirmation;
 }

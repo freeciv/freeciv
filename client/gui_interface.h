@@ -31,6 +31,8 @@ extern "C" {
 /* client */
 #include "tilespec.h"
 
+struct act_confirmation_data;
+
 struct gui_funcs {
   void (*ui_init)(void);
   int (*ui_main)(int argc, char *argv[]);
@@ -157,6 +159,9 @@ struct gui_funcs {
   void (*gui_recv_create_clause)(struct Treaty *ptreaty, struct player *they);
   void (*gui_recv_remove_clause)(struct Treaty *ptreaty, struct player *they);
   void (*gui_recv_accept_treaty)(struct Treaty *ptreaty, struct player *they);
+
+  void (*request_action_confirmation)(const char *expl,
+                                      struct act_confirmation_data *data);
 };
 
 struct gui_funcs *get_gui_funcs(void);

@@ -19,6 +19,9 @@
 #include "game.h"
 #include "government.h"
 
+/* client */
+#include "control.h"
+
 /* gui main header */
 #include "gui_stub.h"
 
@@ -359,4 +362,14 @@ void gui_popup_combat_info(int attacker_unit_id, int defender_unit_id,
                            int attacker_hp, int defender_hp,
                            bool make_att_veteran, bool make_def_veteran)
 {
+}
+
+/**********************************************************************//**
+  Common code wants confirmation for an action.
+**************************************************************************/
+void gui_request_action_confirmation(const char *expl,
+                                     struct act_confirmation_data *data)
+{
+  /* Just confirm */
+  action_confirmation(data, TRUE);
 }

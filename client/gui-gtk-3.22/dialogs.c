@@ -1572,3 +1572,14 @@ void popup_combat_info(int attacker_unit_id, int defender_unit_id,
                        bool make_att_veteran, bool make_def_veteran)
 {
 }
+
+/**********************************************************************//**
+  Common code wants confirmation for an action.
+**************************************************************************/
+void request_action_confirmation(const char *expl,
+                                 struct act_confirmation_data *data)
+{
+  log_normal("Got to confirm, because %s", expl);
+
+  action_confirmation(data, TRUE);
+}

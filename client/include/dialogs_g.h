@@ -28,6 +28,7 @@
 #include "gui_proto_constructor.h"
 
 struct packet_nations_selected_info;
+struct act_confirmation_data;
 
 GUI_FUNC_PROTO(void, popup_notify_goto_dialog, const char *headline,
                const char *lines,
@@ -86,7 +87,9 @@ GUI_FUNC_PROTO(bool, handmade_scenario_warning, void)
 GUI_FUNC_PROTO(void, popdown_all_game_dialogs, void)
 
 GUI_FUNC_PROTO(bool, request_transport, struct unit *pcargo, struct tile *ptile)
+GUI_FUNC_PROTO(void, request_action_confirmation, const char *expl,
+               struct act_confirmation_data *data)
 
 GUI_FUNC_PROTO(void, update_infra_dialog, void)
 
-#endif  /* FC__DIALOGS_G_H */
+#endif /* FC__DIALOGS_G_H */

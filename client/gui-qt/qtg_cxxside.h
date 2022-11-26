@@ -153,4 +153,7 @@ void qtg_recv_create_clause(struct Treaty *ptreaty, struct player *they);
 void qtg_recv_remove_clause(struct Treaty *ptreaty, struct player *they);
 void qtg_recv_accept_treaty(struct Treaty *ptreaty, struct player *they);
 
+void qtg_request_action_confirmation(const char *expl,
+                                     struct act_confirmation_data *data);
+
 #endif // FC__QTG_CXXSIDE_H

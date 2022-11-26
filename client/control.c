@@ -1658,6 +1658,30 @@ void request_unit_select(struct unit_list *punits,
 }
 
 /**********************************************************************//**
+  Return whether user should confirm the action. Buffer gets filled
+  with explanation of the situation.
+**************************************************************************/
+static bool action_requires_confirmation(action_id act,
+                                         char *buf, size_t bufsize)
+{
+  fc_assert(buf != NULL || bufsize == 0);
+
+  if (bufsize > 0) {
+    buf[0] = '\0';
+  }
+
+  if (act == ACTION_JOIN_CITY) {
+    if (bufsize > 0) {
+      fc_snprintf(buf, bufsize, _("Joining a city uses the unit"));
+    }
+
+    return TRUE;
+  }
+
+  return FALSE;
+}
+
+/**********************************************************************//**
   Request an actor unit to do a specific action.
   - action    : The action to be requested.
   - actor_id  : The unit ID of the actor unit.
@@ -1671,14 +1695,62 @@ void request_unit_select(struct unit_list *punits,
 void request_do_action(action_id action, int actor_id,
                        int target_id, int sub_tgt, const char *name)
 {
-  struct unit *actor_unit = game_unit_by_number(actor_id);
+  char buf[400];
 
-  /* Giving an order takes back control. */
-  request_unit_ssa_set(actor_unit, SSA_NONE);
+  if (action_requires_confirmation(action, buf, sizeof(buf))) {
+    struct act_confirmation_data *data = fc_malloc(sizeof(struct act_confirmation_data));
 
-  dsend_packet_unit_do_action(&client.conn,
-                              actor_id, target_id, sub_tgt, name,
-                              action);
+    data->act = action;
+    data->actor = actor_id;
+    data->target = target_id;
+    data->tgt_sub = sub_tgt;
+
+    if (name != NULL) {
+      data->name = fc_strdup(name);
+    } else {
+      data->name = NULL;
+    }
+
+    request_action_confirmation(buf, data);
+  } else {
+    struct unit *actor_unit = game_unit_by_number(actor_id);
+
+    /* Giving an order takes back control. */
+    request_unit_ssa_set(actor_unit, SSA_NONE);
+
+    dsend_packet_unit_do_action(&client.conn,
+                                actor_id, target_id, sub_tgt, name,
+                                action);
+  }
+}
+
+/**********************************************************************//**
+  GUI (likely user) either confirmed the action, or not.
+  Even if not, we have to free the data.
+**************************************************************************/
+void action_confirmation(struct act_confirmation_data *data, bool confirm)
+{
+  if (confirm) {
+    struct unit *actor_unit = game_unit_by_number(data->actor);
+
+    if (actor_unit != NULL) {
+      /* Giving an order takes back control. */
+      request_unit_ssa_set(actor_unit, SSA_NONE);
+
+      dsend_packet_unit_do_action(&client.conn,
+                                  data->actor,
+                                  data->target,
+                                  data->tgt_sub,
+                                  data->name,
+                                  data->act);
+    }
+  }
+
+  if (data->name != NULL) {
+    free(data->name);
+  }
+
+  free(data);
 }
 
 /**********************************************************************//**
