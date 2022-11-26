@@ -278,13 +278,16 @@ static void close_citydlg_unit_popover(struct city_dialog *pdialog);
 
 static void unit_center_callback(GSimpleAction *action, GVariant *parameter,
                                  gpointer data);
+static void unit_activate_callback(GSimpleAction *action, GVariant *parameter,
+                                   gpointer data);
+static void supported_unit_activate_close_callback(GSimpleAction *action,
+                                                   GVariant *parameter,
+                                                   gpointer data);
+static void present_unit_activate_close_callback(GSimpleAction *action,
+                                                 GVariant *parameter,
+                                                 gpointer data);
 
 #ifdef MENUS_GTK3
-static void unit_activate_callback(GtkWidget *w, gpointer data);
-static void supported_unit_activate_close_callback(GtkWidget *w,
-                                                   gpointer data);
-static void present_unit_activate_close_callback(GtkWidget *w,
-                                                 gpointer data);
 static void unit_load_callback(GtkWidget * w, gpointer data);
 static void unit_unload_callback(GtkWidget * w, gpointer data);
 static void unit_sentry_callback(GtkWidget * w, gpointer data);
@@ -2521,6 +2524,29 @@ static bool create_unit_menu(struct city_dialog *pdialog, struct unit *punit,
     g_menu_append_item(menu, item);
   }
 
+  act = g_simple_action_new("activate", NULL);
+  g_object_set_data(G_OBJECT(act), "dlg", pdialog);
+  g_action_map_add_action(G_ACTION_MAP(group), G_ACTION(act));
+  g_signal_connect(act, "activate", G_CALLBACK(unit_activate_callback),
+                   GINT_TO_POINTER(punit->id));
+  item = g_menu_item_new(_("_Activate unit"), "win.activate");
+  g_menu_append_item(menu, item);
+
+  act = g_simple_action_new("activate_close", NULL);
+  g_object_set_data(G_OBJECT(act), "dlg", pdialog);
+  g_action_map_add_action(G_ACTION_MAP(group), G_ACTION(act));
+
+  if (supported) {
+    g_signal_connect(act, "activate", G_CALLBACK(supported_unit_activate_close_callback),
+                     GINT_TO_POINTER(punit->id));
+  } else {
+    g_signal_connect(act, "activate", G_CALLBACK(present_unit_activate_close_callback),
+                     GINT_TO_POINTER(punit->id));
+  }
+
+  item = g_menu_item_new(_("_Activate unit, _close dialog"), "win.activate_close");
+  g_menu_append_item(menu, item);
+
   pdialog->popover = gtk_popover_menu_new_from_model(G_MENU_MODEL(menu));
   g_object_ref(pdialog->popover);
   gtk_widget_insert_action_group(pdialog->popover, "win", group);
@@ -2551,18 +2577,6 @@ static gboolean supported_unit_callback(GtkGestureClick *gesture, int n_press,
                             TRUE);
 
 #ifdef MENUS_GTK3
-    item = gtk_menu_item_new_with_mnemonic(_("_Activate unit"));
-    g_signal_connect(item, "activate",
-      G_CALLBACK(unit_activate_callback),
-      GINT_TO_POINTER(punit->id));
-    gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-
-    item = gtk_menu_item_new_with_mnemonic(_("Activate unit, _close dialog"));
-    g_signal_connect(item, "activate",
-      G_CALLBACK(supported_unit_activate_close_callback),
-      GINT_TO_POINTER(punit->id));
-    gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-
     item = gtk_menu_item_new_with_mnemonic(_("_Disband unit"));
     g_signal_connect(item, "activate",
       G_CALLBACK(unit_disband_callback),
@@ -2602,18 +2616,6 @@ static gboolean present_unit_callback(GtkGestureClick *gesture, int n_press,
                             FALSE);
 
 #ifdef MENUS_GTK3
-    item = gtk_menu_item_new_with_mnemonic(_("_Activate unit"));
-    g_signal_connect(item, "activate",
-      G_CALLBACK(unit_activate_callback),
-      GINT_TO_POINTER(punit->id));
-    gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-
-    item = gtk_menu_item_new_with_mnemonic(_("Activate unit, _close dialog"));
-    g_signal_connect(item, "activate",
-      G_CALLBACK(present_unit_activate_close_callback),
-      GINT_TO_POINTER(punit->id));
-    gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-
     item = gtk_menu_item_new_with_mnemonic(_("_Load unit"));
     g_signal_connect(item, "activate",
       G_CALLBACK(unit_load_callback),
@@ -2804,7 +2806,7 @@ static void unit_center_callback(GSimpleAction *action, GVariant *parameter,
                                  gpointer data)
 {
   struct unit *punit =
-    player_unit_by_number(client_player(), (size_t)data);
+    player_unit_by_number(client_player(), GPOINTER_TO_INT(data));
 
   if (NULL != punit) {
     center_tile_mapcanvas(unit_tile(punit));
@@ -2813,29 +2815,32 @@ static void unit_center_callback(GSimpleAction *action, GVariant *parameter,
   close_citydlg_unit_popover(g_object_get_data(G_OBJECT(action), "dlg"));
 }
 
-#ifdef MENUS_GTK3
 /***********************************************************************//**
   User has requested unit activation
 ***************************************************************************/
-static void unit_activate_callback(GtkWidget *w, gpointer data)
+static void unit_activate_callback(GSimpleAction *action, GVariant *parameter,
+                                   gpointer data)
 {
   struct unit *punit =
-    player_unit_by_number(client_player(), (size_t)data);
+    player_unit_by_number(client_player(), GPOINTER_TO_INT(data));
 
   if (NULL != punit) {
     unit_focus_set(punit);
   }
+
+  close_citydlg_unit_popover(g_object_get_data(G_OBJECT(action), "dlg"));
 }
 
 /***********************************************************************//**
   User has requested some supported unit to be activated and
   city dialog to be closed
 ***************************************************************************/
-static void supported_unit_activate_close_callback(GtkWidget *w,
+static void supported_unit_activate_close_callback(GSimpleAction *action,
+                                                   GVariant *parameter,
                                                    gpointer data)
 {
   struct unit *punit =
-    player_unit_by_number(client_player(), (size_t)data);
+    player_unit_by_number(client_player(), GPOINTER_TO_INT(data));
 
   if (NULL != punit) {
     struct city *pcity =
@@ -2850,17 +2855,20 @@ static void supported_unit_activate_close_callback(GtkWidget *w,
       }
     }
   }
+
+  close_citydlg_unit_popover(g_object_get_data(G_OBJECT(action), "dlg"));
 }
 
 /***********************************************************************//**
   User has requested some present unit to be activated and
   city dialog to be closed
 ***************************************************************************/
-static void present_unit_activate_close_callback(GtkWidget *w,
+static void present_unit_activate_close_callback(GSimpleAction *action,
+                                                 GVariant *parameter,
                                                  gpointer data)
 {
   struct unit *punit =
-    player_unit_by_number(client_player(), (size_t)data);
+    player_unit_by_number(client_player(), GPOINTER_TO_INT(data));
 
   if (NULL != punit) {
     struct city *pcity = tile_city(unit_tile(punit));
@@ -2874,15 +2882,18 @@ static void present_unit_activate_close_callback(GtkWidget *w,
       }
     }
   }
+
+  close_citydlg_unit_popover(g_object_get_data(G_OBJECT(action), "dlg"));
 }
 
+#ifdef MENUS_GTK3
 /***********************************************************************//**
   User has requested unit to be loaded to transport
 ***************************************************************************/
 static void unit_load_callback(GtkWidget *w, gpointer data)
 {
   struct unit *punit =
-    player_unit_by_number(client_player(), (size_t)data);
+    player_unit_by_number(client_player(), GPOINTER_TO_INT(data));
 
   if (NULL != punit) {
     request_transport(punit, unit_tile(punit));
@@ -2895,7 +2906,7 @@ static void unit_load_callback(GtkWidget *w, gpointer data)
 static void unit_unload_callback(GtkWidget *w, gpointer data)
 {
   struct unit *punit =
-    player_unit_by_number(client_player(), (size_t)data);
+    player_unit_by_number(client_player(), GPOINTER_TO_INT(data));
 
   if (NULL != punit) {
     request_unit_unload(punit);
@@ -2908,7 +2919,7 @@ static void unit_unload_callback(GtkWidget *w, gpointer data)
 static void unit_sentry_callback(GtkWidget *w, gpointer data)
 {
   struct unit *punit =
-    player_unit_by_number(client_player(), (size_t)data);
+    player_unit_by_number(client_player(), GPOINTER_TO_INT(data));
 
   if (NULL != punit) {
     request_unit_sentry(punit);
@@ -2921,7 +2932,7 @@ static void unit_sentry_callback(GtkWidget *w, gpointer data)
 static void unit_fortify_callback(GtkWidget *w, gpointer data)
 {
   struct unit *punit =
-    player_unit_by_number(client_player(), (size_t)data);
+    player_unit_by_number(client_player(), GPOINTER_TO_INT(data));
 
   if (NULL != punit) {
     request_unit_fortify(punit);
@@ -2935,7 +2946,7 @@ static void unit_disband_callback(GtkWidget *w, gpointer data)
 {
   struct unit_list *punits;
   struct unit *punit =
-    player_unit_by_number(client_player(), (size_t)data);
+    player_unit_by_number(client_player(), GPOINTER_TO_INT(data));
 
   if (NULL == punit) {
     return;
@@ -2954,7 +2965,7 @@ static void unit_disband_callback(GtkWidget *w, gpointer data)
 static void unit_homecity_callback(GtkWidget *w, gpointer data)
 {
   struct unit *punit =
-    player_unit_by_number(client_player(), (size_t)data);
+    player_unit_by_number(client_player(), GPOINTER_TO_INT(data));
 
   if (NULL != punit) {
     request_unit_change_homecity(punit);
@@ -2968,7 +2979,7 @@ static void unit_upgrade_callback(GtkWidget *w, gpointer data)
 {
   struct unit_list *punits;
   struct unit *punit =
-    player_unit_by_number(client_player(), (size_t)data);
+    player_unit_by_number(client_player(), GPOINTER_TO_INT(data));
 
   if (NULL == punit) {
     return;
