@@ -225,7 +225,6 @@ bool api_edit_unit_teleport(lua_State *L, Unit *punit, Tile *dest,
                             bool enter_hut, bool frighten_hut)
 {
   bool alive;
-  struct city *pcity;
 
   LUASCRIPT_CHECK_STATE(L, FALSE);
   LUASCRIPT_CHECK_ARG_NIL(L, punit, 2, Unit, FALSE);
@@ -240,7 +239,12 @@ bool api_edit_unit_teleport(lua_State *L, Unit *punit, Tile *dest,
     return TRUE;
   }
 
-  pcity = tile_city(dest);
+  if (unit_teleport_to_tile_test(&(wld.map), punit, ACTIVITY_IDLE,
+                                 unit_tile(punit), dest, TRUE,
+                                 FALSE, embark_to, TRUE) != MR_OK) {
+    /* Can't teleport to target. Return that unit is still alive. */
+    return TRUE;
+  }
 
   /* Teleport first so destination is revealed even if unit dies */
   alive = unit_move(punit, dest, 0,
@@ -249,6 +253,7 @@ bool api_edit_unit_teleport(lua_State *L, Unit *punit, Tile *dest,
                     enter_hut, frighten_hut);
   if (alive) {
     struct player *owner = unit_owner(punit);
+    struct city *pcity = tile_city(dest);
 
     if (!can_unit_exist_at_tile(&(wld.map), punit, dest)
         && !unit_transported(punit)) {
@@ -1107,6 +1112,13 @@ bool api_edit_unit_move(lua_State *L, Unit *punit, Tile *ptile,
 
   if (!disembark && unit_transported(punit)) {
     /* Can't leave the transport. */
+    return TRUE;
+  }
+
+  if (unit_move_to_tile_test(&(wld.map), punit, ACTIVITY_IDLE,
+                             unit_tile(punit), ptile, TRUE,
+                             FALSE, embark_to, TRUE) != MR_OK) {
+    /* Can't move to target. Return that unit is still alive. */
     return TRUE;
   }
 
