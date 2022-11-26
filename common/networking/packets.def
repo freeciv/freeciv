@@ -687,7 +687,7 @@ end
 
 /************** City packets **********************/
 
-PACKET_CITY_REMOVE = 30; sc, dsend, lsend, cancel(PACKET_CITY_INFO), cancel(PACKET_WEB_CITY_INFO_ADDITION), cancel(PACKET_CITY_NATIONALITIES), cancel(PACKET_CITY_SHORT_INFO)
+PACKET_CITY_REMOVE = 30; sc, dsend, lsend, cancel(PACKET_CITY_INFO), cancel(PACKET_WEB_CITY_INFO_ADDITION), cancel(PACKET_CITY_NATIONALITIES), cancel(PACKET_CITY_RALLY_POINT), cancel(PACKET_CITY_SHORT_INFO)
   CITY city_id;
 end
 
@@ -756,11 +756,6 @@ PACKET_CITY_INFO = 31; sc, lsend, is-game-info, force, cancel(PACKET_CITY_SHORT_
   BV_IMPRS improvements;
   BV_CITY_OPTIONS city_options;
   ESTRING name[MAX_LEN_CITYNAME];
-
-  UINT16 rally_point_length;
-  BOOL rally_point_persistent;
-  BOOL rally_point_vigilant;
-  UNIT_ORDER rally_point_orders[MAX_LEN_ROUTE:rally_point_length];
 end
 
 PACKET_CITY_NATIONALITIES = 46; sc, lsend, is-game-info, force, handle-via-packet
@@ -770,7 +765,7 @@ PACKET_CITY_NATIONALITIES = 46; sc, lsend, is-game-info, force, handle-via-packe
   CITIZENS nation_citizens[MAX_CITY_NATIONALITIES:nationalities_count];
 end
 
-PACKET_CITY_SHORT_INFO = 32; sc, lsend, is-game-info, cancel(PACKET_CITY_INFO), cancel(PACKET_WEB_CITY_INFO_ADDITION), cancel(PACKET_CITY_NATIONALITIES)
+PACKET_CITY_SHORT_INFO = 32; sc, lsend, is-game-info, cancel(PACKET_CITY_INFO), cancel(PACKET_WEB_CITY_INFO_ADDITION), cancel(PACKET_CITY_NATIONALITIES), cancel(PACKET_CITY_RALLY_POINT)
   CITY id; key
   TILE tile;
 
@@ -873,7 +868,7 @@ PACKET_CITY_SABOTAGE_LIST = 45; sc, lsend
   UINT8 request_kind;
 end
 
-PACKET_CITY_RALLY_POINT = 138; cs, handle-via-packet
+PACKET_CITY_RALLY_POINT = 138; cs, sc, lsend, is-game-info, force, handle-via-packet
   CITY city_id;
   UINT16 length;
   BOOL persistent;

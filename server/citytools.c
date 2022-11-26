@@ -2184,6 +2184,7 @@ void broadcast_city_info(struct city *pcity)
 {
   struct packet_city_info packet;
   struct packet_city_nationalities nat_packet;
+  struct packet_city_rally_point rally_packet;
   struct packet_web_city_info_addition web_packet;
   struct packet_city_short_info sc_pack;
   struct player *powner = city_owner(pcity);
@@ -2201,7 +2202,8 @@ void broadcast_city_info(struct city *pcity)
   }
 
   routes = traderoute_packet_list_new();
-  package_city(pcity, &packet, &nat_packet, &web_packet, routes, FALSE);
+  package_city(pcity, &packet, &nat_packet, &rally_packet,
+               &web_packet, routes, FALSE);
 
   players_iterate(pplayer) {
     if (!send_city_suppressed || pplayer != powner) {
@@ -2209,6 +2211,7 @@ void broadcast_city_info(struct city *pcity)
         update_dumb_city(pplayer, pcity);
         lsend_packet_city_info(pplayer->connections, &packet, FALSE);
         lsend_packet_city_nationalities(pplayer->connections, &nat_packet, FALSE);
+        lsend_packet_city_rally_point(pplayer->connections, &rally_packet, FALSE);
         web_lsend_packet(city_info_addition, pplayer->connections, &web_packet, FALSE);
         traderoute_packet_list_iterate(routes, route_packet) {
           lsend_packet_traderoute_info(pplayer->connections, route_packet);
@@ -2227,6 +2230,7 @@ void broadcast_city_info(struct city *pcity)
     if (conn_is_global_observer(pconn)) {
       send_packet_city_info(pconn, &packet, FALSE);
       send_packet_city_nationalities(pconn, &nat_packet, FALSE);
+      send_packet_city_rally_point(pconn, &rally_packet, FALSE);
       web_send_packet(city_info_addition, pconn, &web_packet, FALSE);
     }
   } conn_list_iterate_end;
@@ -2338,6 +2342,7 @@ void send_city_info_at_tile(struct player *pviewer, struct conn_list *dest,
 {
   struct packet_city_info packet;
   struct packet_city_nationalities nat_packet;
+  struct packet_city_rally_point rally_packet;
   struct packet_web_city_info_addition web_packet;
   struct packet_city_short_info sc_pack;
   struct player *powner = NULL;
@@ -2365,9 +2370,11 @@ void send_city_info_at_tile(struct player *pviewer, struct conn_list *dest,
 
       /* Send all info to the owner */
       update_dumb_city(powner, pcity);
-      package_city(pcity, &packet, &nat_packet, &web_packet, routes, FALSE);
+      package_city(pcity, &packet, &nat_packet, &rally_packet,
+                   &web_packet, routes, FALSE);
       lsend_packet_city_info(dest, &packet, FALSE);
       lsend_packet_city_nationalities(dest, &nat_packet, FALSE);
+      lsend_packet_city_rally_point(dest, &rally_packet, FALSE);
       web_lsend_packet(city_info_addition, dest, &web_packet, FALSE);
       traderoute_packet_list_iterate(routes, route_packet) {
         lsend_packet_traderoute_info(dest, route_packet);
@@ -2391,9 +2398,11 @@ void send_city_info_at_tile(struct player *pviewer, struct conn_list *dest,
         routes = traderoute_packet_list_new();
 
         /* Should be dumb_city info? */
-        package_city(pcity, &packet, &nat_packet, &web_packet, routes, FALSE);
+        package_city(pcity, &packet, &nat_packet, &rally_packet,
+                     &web_packet, routes, FALSE);
         lsend_packet_city_info(dest, &packet, FALSE);
         lsend_packet_city_nationalities(dest, &nat_packet, FALSE);
+        lsend_packet_city_rally_point(dest, &rally_packet, FALSE);
         web_lsend_packet(city_info_addition, dest, &web_packet, FALSE);
         traderoute_packet_list_iterate(routes, route_packet) {
           lsend_packet_traderoute_info(dest, route_packet);
@@ -2429,6 +2438,7 @@ void send_city_info_at_tile(struct player *pviewer, struct conn_list *dest,
 ****************************************************************************/
 void package_city(struct city *pcity, struct packet_city_info *packet,
                   struct packet_city_nationalities *nat_packet,
+                  struct packet_city_rally_point *rally_packet,
                   struct packet_web_city_info_addition *web_packet,
                   struct traderoute_packet_list *routes,
                   bool dipl_invest)
@@ -2517,7 +2527,8 @@ void package_city(struct city *pcity, struct packet_city_info *packet,
 
       /* And repackage */
       recursion = TRUE;
-      package_city(pcity, packet, nat_packet, web_packet, routes, dipl_invest);
+      package_city(pcity, packet, nat_packet, rally_packet,
+                   web_packet, routes, dipl_invest);
       recursion = FALSE;
 
       return;
@@ -2587,11 +2598,12 @@ void package_city(struct city *pcity, struct packet_city_info *packet,
   packet->capital = pcity->capital;
   packet->steal = pcity->steal;
 
-  packet->rally_point_length = pcity->rally_point.length;
-  packet->rally_point_persistent = pcity->rally_point.persistent;
-  packet->rally_point_vigilant = pcity->rally_point.vigilant;
+  rally_packet->city_id = pcity->id;
+  rally_packet->length = pcity->rally_point.length;
+  rally_packet->persistent = pcity->rally_point.persistent;
+  rally_packet->vigilant = pcity->rally_point.vigilant;
   if (pcity->rally_point.length) {
-    memcpy(packet->rally_point_orders, pcity->rally_point.orders,
+    memcpy(rally_packet->orders, pcity->rally_point.orders,
            pcity->rally_point.length * sizeof(struct unit_order));
   }
 

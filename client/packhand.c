@@ -637,7 +637,7 @@ static bool update_improvement_from_packet(struct city *pcity,
 }
 
 /************************************************************************//**
-  A city-info packet contains all information about a city.  If we receive
+  A city-info packet contains all information about a city. If we receive
   this packet then we know everything about the city internals.
 ****************************************************************************/
 void handle_city_info(const struct packet_city_info *packet)
@@ -996,6 +996,18 @@ void handle_city_nationalities(const struct packet_city_nationalities *packet)
                           packet->nation_citizens[i]);
     }
     fc_assert(citizens_count(pcity) == city_size_get(pcity));
+  }
+}
+
+/************************************************************************//**
+  Handle city rally point packet.
+****************************************************************************/
+void handle_city_rally_point(const struct packet_city_rally_point *packet)
+{
+  struct city *pcity = game_city_by_number(packet->city_id);
+
+  if (pcity != NULL) {
+    city_rally_point_receive(packet, pcity);
   }
 }
 

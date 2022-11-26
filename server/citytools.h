@@ -53,6 +53,7 @@ void send_player_cities(struct player *pplayer);
 void broadcast_city_info(struct city *pcity);
 void package_city(struct city *pcity, struct packet_city_info *packet,
                   struct packet_city_nationalities *nat_packet,
+                  struct packet_city_rally_point *rally_packet,
                   struct packet_web_city_info_addition *web_packet,
                   struct traderoute_packet_list *routes,
                   bool dipl_invest);
