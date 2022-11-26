@@ -1,0 +1,28 @@
+app-id: org.freeciv.sdl2
+runtime: org.freedesktop.Platform
+runtime-version: '22.08'
+sdk: org.freedesktop.Sdk
+command: freeciv-sdl2
+rename-icon: freeciv-client
+modules:
+  - name: sdl2-gfx
+    sources:
+      - type: archive
+        url: https://www.ferzkopp.net/Software/SDL2_gfx/SDL2_gfx-1.0.4.tar.gz
+        sha256: 63e0e01addedc9df2f85b93a248f06e8a04affa014a835c2ea34bfe34e576262
+  - name: freeciv-sdl2
+    buildsystem: simple
+    build-commands:
+      # On git clone, regenerate configure with autogen.sh
+      - if test -f ./.git && test -x ./autogen.sh ; then ./autogen.sh --no-configure-run ; fi
+      - mkdir build
+      - cd build && ../configure --prefix=/app --enable-client=sdl2 --disable-fcmp --disable-freeciv-manual && make -j$(nproc) && make install
+    sources:
+      - type: dir
+        path: ..
+finish-args:
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --share=network
+  - --socket=pulseaudio
+  - --filesystem=~/.freeciv:create
