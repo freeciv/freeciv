@@ -364,7 +364,7 @@ static void sg_load_player_cities(struct loaddata *loading,
                                   struct player *plr);
 static bool sg_load_player_city(struct loaddata *loading, struct player *plr,
                                 struct city *pcity, const char *citystr,
-                                int wlist_max_length);
+                                int wlist_max_length, int routes_max);
 static void sg_load_player_city_citizens(struct loaddata *loading,
                                          struct player *plr,
                                          struct city *pcity,
@@ -4805,7 +4805,7 @@ static void sg_load_player_cities(struct loaddata *loading,
 {
   int ncities, i, plrno = player_number(plr);
   bool tasks_handled;
-  int wlist_max_length;
+  int wlist_max_length, routes_max;
 
   /* Check status and return if not OK (sg_success FALSE). */
   sg_check_ret();
@@ -4826,6 +4826,8 @@ static void sg_load_player_cities(struct loaddata *loading,
 
   wlist_max_length = secfile_lookup_int_default(loading->file, 0,
                                                 "player%d.wl_max_length", plrno);
+  routes_max = secfile_lookup_int_default(loading->file, 0,
+                                          "player%d.routes_max_length", plrno);
 
   /* Load all cities of the player. */
   for (i = 0; i < ncities; i++) {
@@ -4837,7 +4839,8 @@ static void sg_load_player_cities(struct loaddata *loading,
     /* Create a dummy city. */
     pcity = create_city_virtual(plr, NULL, buf);
     adv_city_alloc(pcity);
-    if (!sg_load_player_city(loading, plr, pcity, buf, wlist_max_length)) {
+    if (!sg_load_player_city(loading, plr, pcity, buf,
+                             wlist_max_length, routes_max)) {
       adv_city_free(pcity);
       destroy_city_virtual(pcity);
       sg_failure_ret(FALSE, "Error loading city %d of player %d.", i, plrno);
@@ -4922,7 +4925,7 @@ static void sg_load_player_cities(struct loaddata *loading,
 ****************************************************************************/
 static bool sg_load_player_city(struct loaddata *loading, struct player *plr,
                                 struct city *pcity, const char *citystr,
-                                int wlist_max_length)
+                                int wlist_max_length, int routes_max)
 {
   struct player *past;
   const char *kind, *name, *str;
@@ -4930,7 +4933,7 @@ static bool sg_load_player_city(struct loaddata *loading, struct player *plr,
   int nat_x, nat_y;
   citizens size;
   const char *stylename;
-  int partner = 1;
+  int partner;
   int want;
 
   sg_warn_ret_val(secfile_lookup_int(loading->file, &nat_x, "%s.x", citystr),
@@ -4974,33 +4977,39 @@ static bool sg_load_player_city(struct loaddata *loading, struct player *plr,
     sp_count += value;
   }
 
+  partner = secfile_lookup_int_default(loading->file, 0, "%s.traderoute0", citystr);
   for (i = 0; partner != 0; i++) {
+    struct trade_route *proute = fc_malloc(sizeof(struct trade_route));
+    const char *dir;
+    const char *good_str;
+
+    /* Append to routes list immediately, so the pointer can be found for freeing
+     * even if we abort */
+    trade_route_list_append(pcity->routes, proute);
+
+    proute->partner = partner;
+    dir = secfile_lookup_str(loading->file, "%s.route_direction%d", citystr, i);
+    sg_warn_ret_val(dir != NULL, FALSE,
+                    "No traderoute direction found for %s", citystr);
+    proute->dir = route_direction_by_name(dir, fc_strcasecmp);
+    sg_warn_ret_val(route_direction_is_valid(proute->dir), FALSE,
+                    "Illegal route direction %s", dir);
+    good_str = secfile_lookup_str(loading->file, "%s.route_good%d", citystr, i);
+    sg_warn_ret_val(dir != NULL, FALSE,
+                    "No good found for %s", citystr);
+    proute->goods = goods_by_rule_name(good_str);
+    sg_warn_ret_val(proute->goods != NULL, FALSE,
+                    "Illegal good %s", good_str);
+
+    /* Next one */
     partner = secfile_lookup_int_default(loading->file, 0,
-                                         "%s.traderoute%d", citystr, i);
+                                         "%s.traderoute%d", citystr, i + 1);
+  }
 
-    if (partner != 0) {
-      struct trade_route *proute = fc_malloc(sizeof(struct trade_route));
-      const char *dir;
-      const char *good_str;
-
-      /* Append to routes list immediately, so the pointer can be found for freeing
-       * even if we abort */
-      trade_route_list_append(pcity->routes, proute);
-
-      proute->partner = partner;
-      dir = secfile_lookup_str(loading->file, "%s.route_direction%d", citystr, i);
-      sg_warn_ret_val(dir != NULL, FALSE,
-                      "No traderoute direction found for %s", citystr);
-      proute->dir = route_direction_by_name(dir, fc_strcasecmp);
-      sg_warn_ret_val(route_direction_is_valid(proute->dir), FALSE,
-                      "Illegal route direction %s", dir);
-      good_str = secfile_lookup_str(loading->file, "%s.route_good%d", citystr, i);
-      sg_warn_ret_val(dir != NULL, FALSE,
-                      "No good found for %s", citystr);
-      proute->goods = goods_by_rule_name(good_str);
-      sg_warn_ret_val(proute->goods != NULL, FALSE,
-                      "Illegal good %s", good_str);
-    }
+  for (; i < routes_max; i++) {
+    (void) secfile_entry_lookup(loading->file, "%s.traderoute%d", citystr, i);
+    (void) secfile_entry_lookup(loading->file, "%s.route_direction%d", citystr, i);
+    (void) secfile_entry_lookup(loading->file, "%s.route_good%d", citystr, i);
   }
 
   sg_warn_ret_val(secfile_lookup_int(loading->file, &pcity->food_stock,
@@ -5453,6 +5462,8 @@ static void sg_save_player_cities(struct savedata *saving,
 
   secfile_insert_int(saving->file, wlist_max_length,
                      "player%d.wl_max_length", plrno);
+  secfile_insert_int(saving->file, routes_max,
+                     "player%d.routes_max_length", plrno);
 
   city_list_iterate(plr->cities, pcity) {
     struct tile *pcenter = city_tile(pcity);

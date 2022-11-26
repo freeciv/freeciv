@@ -39,6 +39,9 @@ static char *special_names[] =
     "Fallout", NULL
   };
 
+/* Old savegames might have padding up to this amount of trade routes */
+#define MAX_TRADE_ROUTES_OLD 5
+
 /*
   For each savefile format after 2.3.0, compatibility functions are defined
   which translate secfile structures from previous version to that version;
@@ -2251,6 +2254,8 @@ static void compat_load_030200(struct loaddata *loading,
 
       secfile_insert_int(loading->file, wlist_max_length,
                          "player%d.wl_max_length", plrno);
+      secfile_insert_int(loading->file, MAX_TRADE_ROUTES_OLD,
+                         "player%d.routes_max_length", plrno);
 
     } player_slots_iterate_end;
   }
@@ -2895,6 +2900,8 @@ static void compat_load_dev(struct loaddata *loading)
 
         secfile_insert_int(loading->file, wlist_max_length,
                            "player%d.wl_max_length", plrno);
+        secfile_insert_int(loading->file, MAX_TRADE_ROUTES_OLD,
+                           "player%d.routes_max_length", plrno);
 
       } player_slots_iterate_end;
     }
