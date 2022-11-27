@@ -126,11 +126,18 @@ void luascript_func_add_valist(struct fc_lua *fcl, const char *func_name,
     luascript_log(fcl, LOG_ERROR, "Function '%s' was already created.",
                   func_name);
   } else {
-    enum api_types *parg_types = fc_calloc(nargs, sizeof(*parg_types));
-    int i;
+    enum api_types *parg_types;
 
-    for (i = 0; i < nargs; i++) {
-      *(parg_types + i) = va_arg(args, int);
+    if (nargs > 0) {
+      int i;
+
+      parg_types = fc_calloc(nargs, sizeof(*parg_types));
+
+      for (i = 0; i < nargs; i++) {
+        *(parg_types + i) = va_arg(args, int);
+      }
+    } else {
+      parg_types = NULL;
     }
 
     pfunc = func_new(required, nargs, parg_types);
