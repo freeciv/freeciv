@@ -116,7 +116,7 @@ snapshot:
 
 ci:
 	cd ../.. ; ./autogen.sh --no-configure-run
-	make -f $(MAKEFILE_NAME) VERSION_REVTYPE="git" CI=yes EXTRA_CONFIG="--enable-gitrev --with-project-definition=../../../bootstrap/snapshot.project CFLAGS=\\\"-Werror $$CFLAGS\\\" CXXFLAGS=\\\"$$CXXFLAGS\\\"" ruledit-installer-qt6 qt6-installer
+	make -f $(MAKEFILE_NAME) VERSION_REVTYPE="git" CI=yes EXTRA_CONFIG="--enable-gitrev --with-project-definition=../../../bootstrap/snapshot.project CFLAGS=\\\"-Werror $$CFLAGS\\\" CXXFLAGS=\\\"$$CXXFLAGS\\\"" ruledit-installer-qt6
 
 # configure Freeciv
 
