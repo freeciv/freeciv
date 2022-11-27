@@ -132,9 +132,8 @@ void luascript_func_add_valist(struct fc_lua *fcl, const char *func_name,
                                va_list args)
 {
   struct luascript_func *pfunc;
-  enum api_types *parg_types = fc_calloc(nargs, sizeof(*parg_types));
-  enum api_types *pret_types = fc_calloc(nreturns, sizeof(*pret_types));
-  int i;
+  enum api_types *parg_types;
+  enum api_types *pret_types;
 
   fc_assert_ret(fcl);
   fc_assert_ret(fcl->funcs);
@@ -145,12 +144,28 @@ void luascript_func_add_valist(struct fc_lua *fcl, const char *func_name,
     return;
   }
 
-  for (i = 0; i < nargs; i++) {
-    *(parg_types + i) = va_arg(args, int);
+  if (nargs > 0) {
+    int i;
+
+    parg_types = fc_calloc(nargs, sizeof(*parg_types));
+
+    for (i = 0; i < nargs; i++) {
+      *(parg_types + i) = va_arg(args, int);
+    }
+  } else {
+    parg_types = NULL;
   }
 
-  for (i = 0; i < nreturns; i++) {
-    *(pret_types + i) = va_arg(args, int);
+  if (nreturns > 0) {
+    int i;
+
+    pret_types = fc_calloc(nreturns, sizeof(*pret_types));
+
+    for (i = 0; i < nreturns; i++) {
+      *(pret_types + i) = va_arg(args, int);
+    }
+  } else {
+    pret_types = NULL;
   }
 
   pfunc = func_new(required, nargs, parg_types, nreturns, pret_types);

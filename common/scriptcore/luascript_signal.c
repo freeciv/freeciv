@@ -217,14 +217,22 @@ static struct signal *luascript_signal_create_valist(struct fc_lua *fcl,
                   signal_name);
     return NULL;
   } else {
-    enum api_types *parg_types = fc_calloc(nargs, sizeof(*parg_types));
-    int i;
+    enum api_types *parg_types;
     char *sn = fc_malloc(strlen(signal_name) + 1);
     struct signal *created;
 
-    for (i = 0; i < nargs; i++) {
-      *(parg_types + i) = va_arg(args, int);
+    if (nargs > 0) {
+      int i;
+
+      parg_types = fc_calloc(nargs, sizeof(*parg_types));
+
+      for (i = 0; i < nargs; i++) {
+        *(parg_types + i) = va_arg(args, int);
+      }
+    } else {
+      parg_types = NULL;
     }
+
     created = signal_new(nargs, parg_types);
     luascript_signal_hash_insert(fcl->signals, signal_name,
                                  created);
