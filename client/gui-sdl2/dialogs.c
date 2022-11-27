@@ -1629,18 +1629,28 @@ static int patrol_here_callback(struct widget *pwidget)
 static int paradrop_here_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
-/* FIXME */
-#if 0
     int x = pwidget->data.cont->id0;
     int y = pwidget->data.cont->id1;
-#endif /* 0 */
+    struct tile *ptile;
+
+    ptile = map_pos_to_tile(&(wld.map), x, y);
+
+    if (ptile != NULL) {
+      struct unit_list *punits = get_units_in_focus();
+
+      set_hover_state(punits, HOVER_PARADROP, ACTIVITY_LAST, NULL,
+                      NO_TARGET, NO_TARGET, ACTION_NONE, ORDER_LAST);
+      update_unit_info_label(punits);
+
+      unit_list_iterate(punits, punit) {
+        do_unit_paradrop_to(punit, ptile);
+      } unit_list_iterate_end;
+
+      clear_hover_state();
+      exit_goto_state();
+    }
 
     popdown_advanced_terrain_dialog();
-
-#if 0
-    /* may not work */
-    do_unit_paradrop_to(get_unit_in_focus(), map_pos_to_tile(x, y));
-#endif /* 0 */
   }
 
   return -1;
