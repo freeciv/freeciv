@@ -98,7 +98,7 @@ installer-common: install-freeciv-$(GUI) install-env-$(GUI)
 install-freeciv-common: clean-install-common
 	# create build directory
 	mkdir -p meson-build-$(WINARCH)-$(GUI)
-	cd meson-build-$(WINARCH)-$(GUI); meson ../../.. -Dprefix=`pwd`/../meson-install-$(WINARCH)-$(GUI) -Dclients=$(CLIENT) -Dfcmp=$(FCMP) -Druledit=false -Dreadline=false -Dcacert-path='./ssl/certs/ca-bundle.crt' $(EXTRA_CONFIG)
+	cd meson-build-$(WINARCH)-$(GUI); meson setup ../../.. -Dprefix=`pwd`/../meson-install-$(WINARCH)-$(GUI) -Dclients=$(CLIENT) -Dfcmp=$(FCMP) -Druledit=false -Dreadline=false -Dcacert-path='./ssl/certs/ca-bundle.crt' $(EXTRA_CONFIG)
 	cd meson-build-$(WINARCH)-$(GUI); ninja
 	cd meson-build-$(WINARCH)-$(GUI); ninja install
 	cd meson-build-$(WINARCH)-$(GUI); ninja langstat_core.txt

@@ -44,7 +44,7 @@ fi
 
 mkdir build
 cd build
-meson .. \
+meson setup .. \
   -Dprefix=${HOME}/freeciv/meson \
   -Ddebug=true \
   -Dclients='gtk3.22','qt','sdl2','gtk4','stub' \
@@ -98,7 +98,7 @@ export PKG_CONFIG_PATH="$(brew --prefix icu4c)/lib/pkgconfig"
 
 mkdir build
 cd build
-meson .. \
+meson setup .. \
   -Ddebug=true \
   -Druledit=true \
   -Dsyslua=true \
