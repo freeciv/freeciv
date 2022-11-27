@@ -34,7 +34,7 @@ source directory as parameter. You can also give configure options in this
 phase.
 
 > mkdir build ; cd build
-> meson ../freeciv-3.1.0
+> meson setup ../freeciv-3.1.0
 
 You need to configure the build directory just once. As source files get
 updated, you can just execute incremental builds in the build directory.
@@ -56,7 +56,7 @@ Configure options are given as '-D<option>=<value>'.
 For example to set freeciv installation prefix as
 '/home/cazfi/freeciv-install':
 
-> meson ../src -Dprefix=/home/cazfi/freeciv-install
+> meson setup ../src -Dprefix=/home/cazfi/freeciv-install
 
 You can give configure options when you first set up the build directory
 (like in example above), or you can change configure options for the

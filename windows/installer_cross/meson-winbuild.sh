@@ -130,7 +130,7 @@ export PKG_CONFIG_PATH=${DLLSPATH}/lib/pkgconfig
 
 export PATH="$DLLSPATH/linux/libexec:$PATH"
 
-if ! meson \
+if ! meson setup \
      --cross-file=cross.txt \
      -Dprefix="$MESON_INSTALL_DIR" \
      -Dclients="$CLIENT" -Dfcmp="$FCMP" \
