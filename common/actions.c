@@ -205,6 +205,7 @@ static void voblig_hard_req_reg(struct ae_contra_or *contras,
 {
   struct obligatory_req oreq;
   enum action_result res;
+  int users = 0;
 
   /* A non null action message is used to indicate that an obligatory hard
    * requirement is missing. */
@@ -226,8 +227,12 @@ static void voblig_hard_req_reg(struct ae_contra_or *contras,
     obligatory_req_vector_append(&oblig_hard_reqs_r[res], oreq);
 
     /* Register the new user. */
-    oreq.contras->users++;
+    users++;
   }
+
+  fc_assert(users > 0);
+
+  oreq.contras->users += users;
 }
 
 /**********************************************************************//**
@@ -440,23 +445,6 @@ static void hard_code_oblig_hard_reqs(void)
                           ACTRES_ATTACK,
                           ACTRES_WIPE_UNITS,
                           ACTRES_NONE);
-
-  /* Why this is a hard requirement: assumed by the Freeciv code. */
-  oblig_hard_req_reg(req_contradiction_or(
-                       2,
-                       req_from_values(VUT_DIPLREL_TILE_O,
-                                       REQ_RANGE_LOCAL,
-                                       FALSE, FALSE, TRUE, DS_WAR),
-                       TRUE,
-                       req_from_values(VUT_CITYTILE, REQ_RANGE_TILE,
-                                       FALSE, TRUE, TRUE,
-                                       CITYT_CENTER),
-                       TRUE),
-                     N_("All action enablers for %s must require"
-                        " that the actor is at war with the owner of the"
-                        " target tile or that the target tile doesn't have"
-                        " a city."),
-                     ACTRES_NONE);
 
   /* Why this is a hard requirement: Keep the old rules. Need to work
    * out corner cases. */
