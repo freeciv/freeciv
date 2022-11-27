@@ -1591,22 +1591,34 @@ static int patrol_here_callback(struct widget *pwidget)
 /**************************************************************************
   Initiate paradrop to selected tile.
 **************************************************************************/
-static int paradrop_here_callback(struct widget *pWidget)
+static int paradrop_here_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(Main.event)) {
-/* FIXME */
-#if 0
-    int x = pWidget->data.cont->id0;
-    int y = pWidget->data.cont->id1;
-#endif
+    int x = pwidget->data.cont->id0;
+    int y = pwidget->data.cont->id1;
+    struct tile *ptile;
+
+    ptile = map_pos_to_tile(x, y);
+
+    if (ptile != NULL) {
+      struct unit_list *punits = get_units_in_focus();
+
+      set_hover_state(punits, HOVER_PARADROP, ACTIVITY_LAST, NULL,
+                      ORDER_LAST);
+      update_unit_info_label(punits);
+
+      unit_list_iterate(punits, punit) {
+        do_unit_paradrop_to(punit, ptile);
+      } unit_list_iterate_end;
+
+      set_hover_state(NULL, HOVER_NONE, ACTIVITY_LAST, NULL,
+                      ORDER_LAST);
+      exit_goto_state();
+    }
 
     popdown_advanced_terrain_dialog();
-
-#if 0
-    /* may not work */
-    do_unit_paradrop_to(get_unit_in_focus(), map_pos_to_tile(x, y));
-#endif
   }
+
   return -1;
 }
 
