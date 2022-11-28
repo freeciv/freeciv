@@ -1950,29 +1950,32 @@ static GtkWidget *create_conn_menu(struct player *pplayer,
     }
   }
 
-#ifdef MENUS_GTK3
   if (ALLOW_ADMIN <= client.conn.access_level && NULL != pconn
       && pconn->id != client.conn.id) {
     enum cmdlevel level;
 
     /* No item for hack access; that would be a serious security hole. */
     for (level = cmdlevel_min(); level < client.conn.access_level; level++) {
-      /* TRANS: Give access level to a connection. */
-      buf = g_strdup_printf(_("Give %s access"),
-                            cmdlevel_name(level));
-      item = gtk_menu_item_new_with_label(buf);
-      g_free(buf);
-      gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-      g_object_set_data_full(G_OBJECT(item), "command",
+      char actbuf[128];
+
+      buf = g_strdup_printf(_("Give %s access"), cmdlevel_name(level));
+      fc_snprintf(actbuf, sizeof(actbuf), "cmdlevel_%d", level);
+
+      act = g_simple_action_new(actbuf, NULL);
+      g_object_set_data_full(G_OBJECT(act), "command",
                              g_strdup_printf("cmdlevel %s",
                                              cmdlevel_name(level)),
                              (GDestroyNotify) g_free);
-      g_signal_connect_swapped(item, "activate",
-                               G_CALLBACK(conn_menu_connection_command),
-                               menu);
+      g_action_map_add_action(G_ACTION_MAP(group), G_ACTION(act));
+      g_signal_connect(act, "activate", G_CALLBACK(conn_menu_connection_command), menu);
+            fc_snprintf(actbuf, sizeof(actbuf), "win.cmdlevel_%d", level);
+      item = g_menu_item_new(buf, actbuf);
+      g_free(buf);
+      g_menu_append_item(menu, item);
     }
   }
 
+#ifdef MENUS_GTK3
   if (ALLOW_CTRL <= client.conn.access_level
       && NULL != pplayer && is_ai(pplayer)) {
     enum ai_level level;
