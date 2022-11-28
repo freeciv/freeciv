@@ -366,9 +366,15 @@ struct effect {
    * active if all of these requirement are met. */
   struct requirement_vector reqs;
 
-  /* Only relevant for ruledit and other rulesave users. Indicates that
-   * this effect is deleted and shouldn't be saved. */
-  bool ruledit_do_not_save;
+  /* Only relevant for ruledit and other rulesave users. */
+  struct {
+    /* Indicates that this effect is deleted and shouldn't be saved. */
+    bool do_not_save;
+
+    /* Comment field to save. While an entry in the ini-file, not
+     * used by freeciv. */
+    char *comment;
+  } rulesave;
 };
 
 /* An effect_list is a list of effects. */
@@ -382,6 +388,7 @@ struct effect {
 struct effect *effect_new(enum effect_type type, int value,
                           struct multiplier *pmul);
 struct effect *effect_copy(struct effect *old);
+void effect_free(struct effect *peffect);
 void effect_remove(struct effect *peffect);
 void effect_req_append(struct effect *peffect, struct requirement req);
 

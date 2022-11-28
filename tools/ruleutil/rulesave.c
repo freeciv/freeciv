@@ -767,7 +767,7 @@ static bool effect_save(struct effect *peffect, void *data)
   effect_cb_data *cbdata = (effect_cb_data *)data;
   char path[512];
 
-  if (peffect->ruledit_do_not_save) {
+  if (peffect->rulesave.do_not_save) {
     /* Is supposed to be skipped. */
     return TRUE;
   }
@@ -780,6 +780,11 @@ static bool effect_save(struct effect *peffect, void *data)
   secfile_insert_int(cbdata->sfile, peffect->value, "%s.value", path);
 
   save_reqs_vector(cbdata->sfile, &peffect->reqs, path, "reqs");
+
+  if (peffect->rulesave.comment != NULL) {
+    secfile_insert_str(cbdata->sfile, peffect->rulesave.comment,
+                       "%s.comment", path);
+  }
 
   return TRUE;
 }

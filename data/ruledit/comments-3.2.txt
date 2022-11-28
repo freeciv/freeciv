@@ -1000,9 +1000,11 @@ effects = "\
 ;                           See README.effects for list of possible types\n\
 ; value                   = Value added for the effect type when this effect is active,\n\
 ;                           i.e., all requirements are fulfilled\n\
-; multiplier              = Name of the policy that gives a multiplier for effect's value\n\
+; multiplier              = Name of the policy that gives a multiplier for effect\'s value\n\
 ; reqs                    = Requirements for the effect to be active.\n\
 ;                           See README.effects for help on requirements\n\
+; comment                 = Comment for the benefit to someone examining the ruleset\n\
+;                           Not used by freeciv any other way.\n\
 ;\n\
 ; */ <-- avoid gettext warnings\n\
 "

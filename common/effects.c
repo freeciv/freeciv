@@ -193,13 +193,31 @@ struct effect *effect_new(enum effect_type type, int value,
   effect_list_append(get_effects(type), peffect);
 
   /* Only relevant for ruledit and other rulesave users. */
-  peffect->ruledit_do_not_save = FALSE;
+  peffect->rulesave.do_not_save = FALSE;
+  peffect->rulesave.comment = NULL;
 
   return peffect;
 }
 
 /**********************************************************************//**
+  Free resources reserved for the effect.
+
+  This does not remove effect from the cache lists.
+  See effect_remove() for that.
+**************************************************************************/
+void effect_free(struct effect *peffect)
+{
+  requirement_vector_free(&peffect->reqs);
+  if (peffect->rulesave.comment != NULL) {
+    free(peffect->rulesave.comment);
+  }
+  free(peffect);
+}
+
+/**********************************************************************//**
   Remove effect from the caches.
+
+  This does not free effect itself. See effect_free() for that.
 **************************************************************************/
 void effect_remove(struct effect *peffect)
 {
@@ -270,8 +288,8 @@ void ruleset_cache_init(void)
 }
 
 /**********************************************************************//**
-  Free the ruleset cache.  This should be called at the end of the game or
-  when the client disconnects from the server.  See ruleset_cache_init.
+  Free the ruleset cache. This should be called at the end of the game or
+  when the client disconnects from the server. See ruleset_cache_init().
 **************************************************************************/
 void ruleset_cache_free(void)
 {
@@ -280,8 +298,7 @@ void ruleset_cache_free(void)
 
   if (tracker_list) {
     effect_list_iterate(tracker_list, peffect) {
-      requirement_vector_free(&peffect->reqs);
-      free(peffect);
+      effect_free(peffect);
     } effect_list_iterate_end;
     effect_list_destroy(tracker_list);
     ruleset_cache.tracker = NULL;

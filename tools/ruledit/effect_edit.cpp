@@ -99,7 +99,6 @@ effect_edit::effect_edit(ruledit_gui *ui_in, QString target,
   main_layout->addLayout(active_layout);
   row = 0;
 
-
   mp_button = new QToolButton();
   mp_button->setParent(this);
   mp_button->setToolButtonStyle(Qt::ToolButtonTextOnly);
@@ -111,23 +110,29 @@ effect_edit::effect_edit(ruledit_gui *ui_in, QString target,
   multipliers_re_active_iterate(pmul) {
     menu->addAction(multiplier_rule_name(pmul));
   } multipliers_re_active_iterate_end;
-  effect_edit_layout->addWidget(mp_button, row++, 0);
+  effect_edit_layout->addWidget(mp_button, row++, 0, 1, 2);
+
+  lbl = new QLabel(QString::fromUtf8(R__("Comment")));
+  effect_edit_layout->addWidget(lbl, row, 0);
+  comment = new QLineEdit(this);
+  connect(comment, SIGNAL(returnPressed()), this, SLOT(comment_given()));
+  effect_edit_layout->addWidget(comment, row++, 1);
 
   button = new QPushButton(QString::fromUtf8(R__("Requirements")), this);
   connect(button, SIGNAL(pressed()), this, SLOT(edit_reqs()));
-  effect_edit_layout->addWidget(button, row++, 0);
+  effect_edit_layout->addWidget(button, row++, 0, 1, 2);
 
   button = new QPushButton(QString::fromUtf8(R__("Add Effect")), this);
   connect(button, SIGNAL(pressed()), this, SLOT(add_now()));
-  effect_edit_layout->addWidget(button, row++, 0);
+  effect_edit_layout->addWidget(button, row++, 0, 1, 2);
 
   button = new QPushButton(QString::fromUtf8(R__("Delete Effect")), this);
   connect(button, SIGNAL(pressed()), this, SLOT(delete_now()));
-  effect_edit_layout->addWidget(button, row++, 0);
+  effect_edit_layout->addWidget(button, row++, 0, 1, 2);
 
   close_button = new QPushButton(QString::fromUtf8(R__("Close")), this);
   connect(close_button, SIGNAL(pressed()), this, SLOT(close_now()));
-  effect_edit_layout->addWidget(close_button, row++, 0);
+  effect_edit_layout->addWidget(close_button, row++, 0, 1, 2);
 
   refresh();
 
@@ -258,6 +263,7 @@ void effect_edit::fill_active()
     } else {
       mp_button->setText(NO_MULTIPLIER_NAME);
     }
+    comment->setText(selected->rulesave.comment);
   } else {
     mp_button->setText(NO_MULTIPLIER_NAME);
   }
@@ -367,4 +373,22 @@ void effect_edit::multiplier_menu(QAction *action)
   }
 
   refresh();
+}
+
+/**********************************************************************//**
+  User entered comment for the building
+**************************************************************************/
+void effect_edit::comment_given()
+{
+  if (selected != nullptr) {
+    if (selected->rulesave.comment != NULL) {
+      free(selected->rulesave.comment);
+    }
+
+    if (!comment->text().isEmpty()) {
+      selected->rulesave.comment = fc_strdup(comment->text().toUtf8());
+    }
+
+    fill_active();
+  }
 }

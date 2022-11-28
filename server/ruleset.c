@@ -293,7 +293,7 @@ static int ruleset_purge_unused_effects(void)
        type = effect_type_next(type)) {
     effect_list_iterate(get_effects(type), eft) {
       if (req_vec_is_impossible_to_fulfill(&eft->reqs)) {
-        eft->ruledit_do_not_save = TRUE;
+        eft->rulesave.do_not_save = TRUE;
         purged++;
         log_normal("Purged unused effect for %s",
                    effect_type_name(eft->type));
@@ -6173,6 +6173,7 @@ static bool load_ruleset_effects(struct section_file *file,
     const char *sec_name = section_name(psection);
     struct requirement_vector *reqs;
     const char *type;
+    const char *comment;
 
     type = secfile_lookup_str(file, "%s.type", sec_name);
 
@@ -6224,6 +6225,12 @@ static bool load_ruleset_effects(struct section_file *file,
     requirement_vector_iterate(reqs, preq) {
       effect_req_append(peffect, *preq);
     } requirement_vector_iterate_end;
+
+    comment = secfile_lookup_str_default(file, NULL, "%s.comment", sec_name);
+
+    if (comment != NULL) {
+      peffect->rulesave.comment = fc_strdup(comment);
+    }
 
   } section_list_iterate_end;
   section_list_destroy(sec);
