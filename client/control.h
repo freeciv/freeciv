@@ -249,6 +249,7 @@ void key_unit_connect(enum unit_activity activity,
                       struct extra_type *tgt);
 void key_unit_action_select(void);
 void key_unit_action_select_tgt(void);
+void key_unit_clean(void);
 void key_unit_convert(void);
 void key_unit_done(void);
 void key_unit_fallout(void);
