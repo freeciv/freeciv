@@ -51,7 +51,22 @@ else
 endif
 
 if host_system == 'windows'
-  pub_conf_data.set('FREECIV_STORAGE_DIR', '~\\\\.freeciv')
+  storage_dir = '"~\\\\.freeciv"'
+  storage_dir = '~\\\\.freeciv'
+else
+  if host_system == 'haiku'
+    storage_dir = '"~/config/settings/freeciv"'
+    storage_dir = '~/config/settings/freeciv'
+  else
+    storage_dir = '"~/.freeciv"'
+    storage_dir = '~/.freeciv'
+  endif
+endif
+
+pub_conf_data.set('FREECIV_STORAGE_DIR', storage_dir)
+priv_conf_data.set('FREECIV_STORAGE_DIR', storage_dir)
+
+if host_system == 'windows'
   priv_conf_data.set('LOCALEDIR',
                      join_paths('.', get_option('datadir'), 'locale'))
 
@@ -62,11 +77,6 @@ if host_system == 'windows'
   priv_conf_data.set('DEFAULT_SCENARIO_PATH',
     '".;data/scenarios;@FREECIV_STORAGE_DIR@/@DATASUBDIR@/scenarios;@FREECIV_STORAGE_DIR@/scenarios;@DATADIR@/freeciv/scenarios"')
 else
-  if host_system == 'haiku'
-    pub_conf_data.set('FREECIV_STORAGE_DIR', '~/config/settings/freeciv')
-  else
-    pub_conf_data.set('FREECIV_STORAGE_DIR', '~/.freeciv')
-  endif
   priv_conf_data.set('LOCALEDIR',
                      join_paths(get_option('prefix'),
                                 get_option('datadir'), 'locale'))
