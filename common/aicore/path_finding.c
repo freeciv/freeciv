@@ -2212,8 +2212,7 @@ static inline bool pf_fuel_node_dangerous(const struct pf_fuel_node *node)
 }
 
 /****************************************************************************
-  Forget how we went to position. Maybe destroy the position, and previous
-  ones.
+  Increase ref count of the information how we can get to that position.
 ****************************************************************************/
 static inline struct pf_fuel_pos *pf_fuel_pos_ref(struct pf_fuel_pos *pos)
 {
@@ -2501,7 +2500,7 @@ static inline void pf_fuel_map_create_segment(struct pf_fuel_map *pffm,
   pos = pf_fuel_pos_replace(node->pos, node);
   node->pos = pos;
 
-   /* Iterate until we reach any built segment. */
+  /* Iterate until we reach any built segment. */
   do {
     next = pos;
     ptile = mapstep(ptile, DIR_REVERSE(node->dir_to_here));
@@ -3151,7 +3150,6 @@ static struct pf_map *pf_fuel_map_new(const struct pf_parameter *parameter)
 
   return PF_MAP(pffm);
 }
-
 
 
 /* ====================== pf_map public functions ======================= */
