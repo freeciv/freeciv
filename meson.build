@@ -85,20 +85,24 @@ else
 endif
 
 if host_system == 'windows'
-  def_storage_dir = '"~\\\\.freeciv"'
+  def_storage_dir = '~\\\\.freeciv'
 else
   if host_system == 'haiku'
-    def_storage_dir = '"~/config/settings/freeciv"'
+    def_storage_dir = '~/config/settings/freeciv'
   else
-    def_storage_dir = '"~/.freeciv"'
+    def_storage_dir = '~/.freeciv'
   endif
 endif
 
-if storage_dir != ''
-  pub_conf_data.set('FREECIV_STORAGE_DIR', '"' + storage_dir + '"')
-else
-  pub_conf_data.set('FREECIV_STORAGE_DIR', def_storage_dir)
+if storage_dir == ''
+  storage_dir = def_storage_dir
 endif
+
+# pub conf defines a macro for FREECIV_STORAGE_DIR
+# priv conf does substitution in data path macros
+# They need this in different formats.
+pub_conf_data.set('FREECIV_STORAGE_DIR', '"' + storage_dir + '"')
+priv_conf_data.set('FREECIV_STORAGE_DIR', storage_dir)
 
 if host_system == 'windows'
   priv_conf_data.set('LOCALEDIR',
