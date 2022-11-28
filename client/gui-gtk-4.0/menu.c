@@ -372,6 +372,9 @@ static void pillage_callback(GSimpleAction *action,
 static void transform_terrain_callback(GSimpleAction *action,
                                        GVariant *parameter,
                                        gpointer data);
+static void clean_callback(GSimpleAction *action,
+                           GVariant *parameter,
+                           gpointer data);
 
 #ifdef MENUS_GTK3
 static void build_road_callback(GtkMenuItem *item, gpointer data);
@@ -380,8 +383,6 @@ static void build_mine_callback(GtkMenuItem *item, gpointer data);
 static void connect_road_callback(GtkMenuItem *item, gpointer data);
 static void connect_rail_callback(GtkMenuItem *item, gpointer data);
 static void connect_irrigation_callback(GtkMenuItem *item, gpointer data);
-static void clean_pollution_callback(GtkMenuItem *item, gpointer data);
-static void clean_fallout_callback(GtkMenuItem *item, gpointer data);
 static void build_fortress_callback(GtkMenuItem *item, gpointer data);
 static void build_airbase_callback(GtkMenuItem *item, gpointer data);
 static void diplomat_action_callback(GtkMenuItem *item, gpointer data);
@@ -493,6 +494,9 @@ static struct menu_entry_info menu_entries[] =
     NULL, FALSE },
   { "TRANSFORM_TERRAIN", N_("Transf_orm Terrain"),
     "transform_terrain", "o", MGROUP_UNIT,
+    NULL, FALSE },
+  { "CLEAN", N_("_Clean"),
+    "clean", "p", MGROUP_UNIT,
     NULL, FALSE },
 
   /* Combat menu */
@@ -790,10 +794,6 @@ static struct menu_entry_info menu_entries[] =
   { "CONNECT_IRRIGATION", N_("Connect With Irri_gation"),
     GDK_KEY_i, GDK_CONTROL_MASK,
     G_CALLBACK(connect_irrigation_callback), MGROUP_UNIT },
-  { "CLEAN_POLLUTION", N_("Clean _Pollution"), GDK_KEY_p, 0,
-    G_CALLBACK(clean_pollution_callback), MGROUP_UNIT },
-  { "CLEAN_FALLOUT", N_("Clean _Nuclear Fallout"), GDK_KEY_n, 0,
-    G_CALLBACK(clean_fallout_callback), MGROUP_UNIT },
   { "BUILD_FORTRESS", N_("Build Fortress"), GDK_KEY_f, GDK_SHIFT_MASK,
     G_CALLBACK(build_fortress_callback), MGROUP_UNIT },
   { "BUILD_AIRBASE", N_("Build Airbase"), GDK_KEY_e, GDK_SHIFT_MASK,
@@ -844,6 +844,7 @@ const GActionEntry acts[] = {
   { "cultivate", cultivate_callback },
   { "plant", plant_callback },
   { "transform_terrain", transform_terrain_callback },
+  { "clean", clean_callback },
 
   { "fortify", fortify_callback },
   { "paradrop", paradrop_callback },
@@ -2140,32 +2141,17 @@ static void transform_terrain_callback(GSimpleAction *action,
   key_unit_transform();
 }
 
+/************************************************************************//**
+  Action "CLEAN" callback.
+****************************************************************************/
+static void clean_callback(GSimpleAction *action,
+                           GVariant *parameter,
+                           gpointer data)
+{
+  key_unit_clean();
+}
+
 #ifdef MENUS_GTK3
-/************************************************************************//**
-  Action "CLEAN_POLLUTION" callback.
-****************************************************************************/
-static void clean_pollution_callback(GtkMenuItem *action, gpointer data)
-{
-  unit_list_iterate(get_units_in_focus(), punit) {
-    struct extra_type *pextra;
-
-    pextra = prev_extra_in_tile(unit_tile(punit), ERM_CLEANPOLLUTION,
-                                unit_owner(punit), punit);
-
-    if (pextra != NULL) {
-      request_new_unit_activity_targeted(punit, ACTIVITY_POLLUTION, pextra);
-    }
-  } unit_list_iterate_end;
-}
-
-/************************************************************************//**
-  Action "CLEAN_FALLOUT" callback.
-****************************************************************************/
-static void clean_fallout_callback(GtkMenuItem *action, gpointer data)
-{
-  key_unit_fallout();
-}
-
 /************************************************************************//**
   Action "BUILD_FORTRESS" callback.
 ****************************************************************************/
@@ -2311,9 +2297,9 @@ static void mine_callback(GSimpleAction *action,
 /************************************************************************//**
   The player has chosen an extra to clean from the menu.
 ****************************************************************************/
-static void clean_callback(GSimpleAction *action,
-                           GVariant *parameter,
-                           gpointer data)
+static void clean_menu_callback(GSimpleAction *action,
+                                GVariant *parameter,
+                                gpointer data)
 {
   struct extra_type *pextra = data;
 
@@ -2612,11 +2598,12 @@ static GMenu *setup_menus(GtkApplication *app)
   submenu = g_menu_new();
   g_menu_append_submenu(work_menu, _("Build _Mine"), G_MENU_MODEL(submenu));
   submenu = g_menu_new();
-  g_menu_append_submenu(work_menu, _("_Clean"), G_MENU_MODEL(submenu));
+  g_menu_append_submenu(work_menu, _("_Clean Nuisance"), G_MENU_MODEL(submenu));
 
   menu_entry_init(work_menu, "CULTIVATE");
   menu_entry_init(work_menu, "PLANT");
   menu_entry_init(work_menu, "TRANSFORM_TERRAIN");
+  menu_entry_init(work_menu, "CLEAN");
 
   g_menu_append_submenu(menubar, _("_Work"), G_MENU_MODEL(work_menu));
 
@@ -3108,7 +3095,7 @@ void real_menus_update(void)
                                                                ACTIVITY_POLLUTION,
                                                                pextra));
     g_action_map_add_action(map, G_ACTION(act));
-    g_signal_connect(act, "activate", G_CALLBACK(clean_callback), pextra);
+    g_signal_connect(act, "activate", G_CALLBACK(clean_menu_callback), pextra);
 
     fc_snprintf(actname, sizeof(actname), "app.clean_%d", i++);
     item = g_menu_item_new(extra_name_translation(pextra), actname);
@@ -3127,7 +3114,7 @@ void real_menus_update(void)
                                                                ACTIVITY_FALLOUT,
                                                                pextra));
     g_action_map_add_action(map, G_ACTION(act));
-    g_signal_connect(act, "activate", G_CALLBACK(clean_callback), pextra);
+    g_signal_connect(act, "activate", G_CALLBACK(clean_menu_callback), pextra);
 
     fc_snprintf(actname, sizeof(actname), "app.clean_%d", i++);
     item = g_menu_item_new(extra_name_translation(pextra), actname);
@@ -3135,7 +3122,7 @@ void real_menus_update(void)
   } extra_type_by_rmcause_iterate_end;
 
   g_menu_remove(work_menu, 5);
-  g_menu_insert_submenu(work_menu, 5, _("_Clean"), G_MENU_MODEL(submenu));
+  g_menu_insert_submenu(work_menu, 5, _("_Clean Nuicanse"), G_MENU_MODEL(submenu));
 
   submenu = g_menu_new();
 
@@ -3350,17 +3337,15 @@ void real_menus_update(void)
                            can_units_do(punits, can_unit_paradrop));
   menu_entry_set_sensitive(map, "PILLAGE",
                            can_units_do_activity(punits, ACTIVITY_PILLAGE));
+  menu_entry_set_sensitive(map, "CLEAN",
+                           can_units_do_activity(punits, ACTIVITY_POLLUTION)
+                           || can_units_do_activity(punits, ACTIVITY_FALLOUT));
 
 #ifdef MENUS_GTK3
   menu_entry_set_sensitive("BUILD_FORTRESS",
                            can_units_do_base_gui(punits, BASE_GUI_FORTRESS));
   menu_entry_set_sensitive("BUILD_AIRBASE",
                            can_units_do_base_gui(punits, BASE_GUI_AIRBASE));
-  menu_entry_set_sensitive("CLEAN_POLLUTION",
-                           (can_units_do_activity(punits, ACTIVITY_POLLUTION)
-                            || can_units_do(punits, can_unit_paradrop)));
-  menu_entry_set_sensitive("CLEAN_FALLOUT",
-                           can_units_do_activity(punits, ACTIVITY_FALLOUT));
 #endif /* MENUS_GTK3 */
 
   menu_entry_set_sensitive(map, "UNIT_SENTRY",

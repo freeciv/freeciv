@@ -124,7 +124,7 @@ static int action_selection_in_progress_for = IDENTITY_NUMBER_ZERO;
  */
 bool non_ai_unit_focus;
 
-static void key_unit_clean(enum unit_activity act, enum extra_rmcause rmcause);
+static void key_unit_gen_clean(enum unit_activity act, enum extra_rmcause rmcause);
 
 /*************************************************************************/
 
@@ -3406,7 +3406,7 @@ void key_unit_convert(void)
 **************************************************************************/
 void key_unit_fallout(void)
 {
-  key_unit_clean(ACTIVITY_FALLOUT, ERM_CLEANFALLOUT);
+  key_unit_gen_clean(ACTIVITY_FALLOUT, ERM_CLEANFALLOUT);
 }
 
 /**********************************************************************//**
@@ -3466,9 +3466,10 @@ static void key_unit_extra(enum unit_activity act, enum extra_cause cause)
 }
 
 /**********************************************************************//**
-  Handle user extra cleaning input of given type
+  Handle user extra cleaning input of given class
 **************************************************************************/
-static void key_unit_clean(enum unit_activity act, enum extra_rmcause rmcause)
+static void key_unit_gen_clean(enum unit_activity act,
+                               enum extra_rmcause rmcause)
 {
   unit_list_iterate(get_units_in_focus(), punit) {
     struct extra_type *tgt = prev_extra_in_tile(unit_tile(punit),
@@ -3536,11 +3537,39 @@ void key_unit_pillage(void)
 }
 
 /**********************************************************************//**
+  Handle user 'clean' input
+**************************************************************************/
+void key_unit_clean(void)
+{
+  unit_list_iterate(get_units_in_focus(), punit) {
+    struct extra_type *tgt = prev_extra_in_tile(unit_tile(punit),
+                                                ERM_CLEANPOLLUTION,
+                                                unit_owner(punit),
+                                                punit);
+
+    if (tgt != NULL
+        && can_unit_do_activity_targeted(punit, ACTIVITY_POLLUTION, tgt)) {
+      request_new_unit_activity_targeted(punit, ACTIVITY_POLLUTION, tgt);
+    } else {
+      tgt = prev_extra_in_tile(unit_tile(punit),
+                               ERM_CLEANFALLOUT,
+                               unit_owner(punit),
+                               punit);
+
+      if (tgt != NULL
+          && can_unit_do_activity_targeted(punit, ACTIVITY_FALLOUT, tgt)) {
+        request_new_unit_activity_targeted(punit, ACTIVITY_FALLOUT, tgt);
+      }
+    }
+  } unit_list_iterate_end;
+}
+
+/**********************************************************************//**
   Handle user 'clean pollution' input
 **************************************************************************/
 void key_unit_pollution(void)
 {
-  key_unit_clean(ACTIVITY_POLLUTION, ERM_CLEANPOLLUTION);
+  key_unit_gen_clean(ACTIVITY_POLLUTION, ERM_CLEANPOLLUTION);
 }
 
 /**********************************************************************//**
