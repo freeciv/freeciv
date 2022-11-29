@@ -525,9 +525,15 @@ Retire_Pct
     Retirement only happens if there are no enemy units or cities within
     a few tiles. (This exists mainly to implement barbarian behavior.)
 
-Visible_Wall
+Visible_Walls
     Instruct client to show specific buildings version of the city graphics.
     Zero or below are considered normal city graphics.
+
+    On the client side:
+    Tileset format supports up to 7 different wall graphics.
+    Values above 7 are considered 7.
+    Values up to 7, but above amount of tileset provided graphics,
+    cause the default walls graphics to show.
 
 Tech_Cost_Factor
     Factor for research costs.
