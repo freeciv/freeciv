@@ -1202,6 +1202,19 @@ static void sg_load_savefile(struct loaddata *loading)
                    secfile_error());
   }
 
+  /* Since freeciv-2.6 savegame format contains activities order, for the
+   * benefit of future versions. This version does not need them.
+   * Just lookup the entries to avoid warnings about unused entries. */
+  {
+    int j;
+
+    i = secfile_lookup_int_default(loading->file, 0, "savefile.activities_size");
+    for (j = 0; j < i; j++) {
+      (void) secfile_entry_lookup(loading->file,
+                                  "savefile.activities_vector,%d", j);
+    }
+  }
+
   /* Load traits. */
   loading->trait.size
     = secfile_lookup_int_default(loading->file, 0,
