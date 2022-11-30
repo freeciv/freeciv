@@ -67,15 +67,15 @@ extern "C" {
 #define MAX_NUM_TECH_CLASSES   16     /* Used in the network protocol. */
 
 /* Changing these will probably break network compatibility. */
-#define MAX_LEN_NAME       48
-#define MAX_LEN_CITYNAME   80
-#define MAX_LEN_MAP_LABEL  64
-#define MAX_LEN_DEMOGRAPHY 16
-#define MAX_LEN_ALLOW_TAKE 16
+#define MAX_LEN_NAME        48
+#define MAX_LEN_CITYNAME   120
+#define MAX_LEN_MAP_LABEL   64
+#define MAX_LEN_DEMOGRAPHY  16
+#define MAX_LEN_ALLOW_TAKE  16
 #define MAX_LEN_GAME_IDENTIFIER 33
-#define MAX_GRANARY_INIS 24
+#define MAX_GRANARY_INIS    24
 #define MAX_LEN_STARTUNIT (20+1)
-#define MAX_LEN_ENUM     64
+#define MAX_LEN_ENUM        64
 
 /* Line breaks after this number of characters; be careful and use only 70 */
 #define LINE_BREAK 70
