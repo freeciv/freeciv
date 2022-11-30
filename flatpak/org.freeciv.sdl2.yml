@@ -23,6 +23,7 @@ modules:
 finish-args:
   - --socket=wayland
   - --socket=fallback-x11
+  - --device=dri
   - --share=network
   - --socket=pulseaudio
   - --filesystem=~/.freeciv:create
