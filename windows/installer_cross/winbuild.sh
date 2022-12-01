@@ -110,20 +110,23 @@ if ! mkdir -p "${BUILD_DIR}" ; then
   exit 1
 fi
 
-if test x$SETUP = xwin64 ; then
+if test "$SETUP" = "win64" ; then
   TARGET=x86_64-w64-mingw32
   if test "x$SINGLE_GUI" != "xtrue" ; then
     CLIENTS="gtk3,sdl2,gtk3.22"
     FCMP="gtk3,cli"
   fi
   VERREV="win64-$VERREV"
-else
+elif test "$SETUP" = "win32" ; then
   TARGET=i686-w64-mingw32
   if test "x$SINGLE_GUI" != "xtrue" ; then
     CLIENTS="gtk2,gtk3,sdl2,gtk3.22"
     FCMP="gtk2,gtk3,cli"
   fi
   VERREV="win32-$VERREV"
+else
+  echo "Unsupported crosser setup \"${SETUP}\"!" >&2
+  exit 1
 fi
 
 if test "x$SINGLE_GUI" != "xtrue" ; then
