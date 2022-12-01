@@ -65,6 +65,11 @@ fi
 
 SETUP=$(grep "CrosserSetup=" $DLLSPATH/crosser.txt | sed -e 's/CrosserSetup="//' -e 's/"//')
 
+if ! test -f "meson/cross-${SETUP}.tmpl" ; then
+  echo "Unsupported crosser setup \"${SETUP}\"!" >&2
+  exit 1
+fi
+
 QTPARAMS=""
 
 case $GUI in
