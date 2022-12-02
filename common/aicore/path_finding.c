@@ -1977,7 +1977,7 @@ struct pf_fuel_node {
  * point, or start position), because we could re-process the nodes after
  * having waiting somewhere. */
 struct pf_fuel_pos {
-  signed short cost;
+  signed int cost;
   unsigned extra_cost;
   unsigned moves_left : 12;
   unsigned dir_to_here : 4;
