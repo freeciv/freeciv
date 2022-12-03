@@ -286,10 +286,12 @@ static void supported_unit_activate_close_callback(GSimpleAction *action,
 static void present_unit_activate_close_callback(GSimpleAction *action,
                                                  GVariant *parameter,
                                                  gpointer data);
+static void unit_load_callback(GSimpleAction *action, GVariant *parameter,
+                               gpointer data);
+static void unit_unload_callback(GSimpleAction *action, GVariant *parameter,
+                                 gpointer data);
 
 #ifdef MENUS_GTK3
-static void unit_load_callback(GtkWidget * w, gpointer data);
-static void unit_unload_callback(GtkWidget * w, gpointer data);
 static void unit_sentry_callback(GtkWidget * w, gpointer data);
 static void unit_fortify_callback(GtkWidget * w, gpointer data);
 static void unit_disband_callback(GtkWidget * w, gpointer data);
@@ -2475,16 +2477,6 @@ static void show_units_response(void *data)
   }
 }
 
-#ifdef MENUS_GTK3
-/***********************************************************************//**
-  Destroy widget -callback
-***************************************************************************/
-static void destroy_func(GtkWidget *w, gpointer data)
-{
-  gtk_widget_destroy(w);
-}
-#endif /* MENUS_GTK3 */
-
 /***********************************************************************//**
   Create menu for the unit in citydlg
 
@@ -2546,6 +2538,29 @@ static bool create_unit_menu(struct city_dialog *pdialog, struct unit *punit,
 
   item = g_menu_item_new(_("_Activate unit, _close dialog"), "win.activate_close");
   g_menu_append_item(menu, item);
+
+  if (!supported) {
+    act = g_simple_action_new("load", NULL);
+    g_object_set_data(G_OBJECT(act), "dlg", pdialog);
+    g_action_map_add_action(G_ACTION_MAP(group), G_ACTION(act));
+    g_signal_connect(act, "activate", G_CALLBACK(unit_load_callback),
+                     GINT_TO_POINTER(punit->id));
+    item = g_menu_item_new(_("_Load unit"), "win.load");
+    g_simple_action_set_enabled(G_SIMPLE_ACTION(act), unit_can_load(punit));
+    g_menu_append_item(menu, item);
+
+    act = g_simple_action_new("unload", NULL);
+    g_object_set_data(G_OBJECT(act), "dlg", pdialog);
+    g_action_map_add_action(G_ACTION_MAP(group), G_ACTION(act));
+    g_signal_connect(act, "activate", G_CALLBACK(unit_unload_callback),
+                     GINT_TO_POINTER(punit->id));
+    item = g_menu_item_new(_("_Unload unit"), "win.unload");
+    g_simple_action_set_enabled(G_SIMPLE_ACTION(act),
+                                can_unit_unload(punit, unit_transport_get(punit))
+                                && can_unit_exist_at_tile(&(wld.map), punit,
+                                                          unit_tile(punit)));
+    g_menu_append_item(menu, item);
+  }
 
   pdialog->popover = gtk_popover_menu_new_from_model(G_MENU_MODEL(menu));
   g_object_ref(pdialog->popover);
@@ -2616,27 +2631,6 @@ static gboolean present_unit_callback(GtkGestureClick *gesture, int n_press,
                             FALSE);
 
 #ifdef MENUS_GTK3
-    item = gtk_menu_item_new_with_mnemonic(_("_Load unit"));
-    g_signal_connect(item, "activate",
-      G_CALLBACK(unit_load_callback),
-      GINT_TO_POINTER(punit->id));
-    gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-
-    if (!unit_can_load(punit)) {
-      gtk_widget_set_sensitive(item, FALSE);
-    }
-
-    item = gtk_menu_item_new_with_mnemonic(_("_Unload unit"));
-    g_signal_connect(item, "activate",
-      G_CALLBACK(unit_unload_callback),
-      GINT_TO_POINTER(punit->id));
-    gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-
-    if (!can_unit_unload(punit, unit_transport_get(punit))
-        || !can_unit_exist_at_tile(&(wld.map), punit, unit_tile(punit))) {
-      gtk_widget_set_sensitive(item, FALSE);
-    }
-
     item = gtk_menu_item_new_with_mnemonic(_("_Sentry unit"));
     g_signal_connect(item, "activate",
       G_CALLBACK(unit_sentry_callback),
@@ -2886,11 +2880,11 @@ static void present_unit_activate_close_callback(GSimpleAction *action,
   close_citydlg_unit_popover(g_object_get_data(G_OBJECT(action), "dlg"));
 }
 
-#ifdef MENUS_GTK3
 /***********************************************************************//**
   User has requested unit to be loaded to transport
 ***************************************************************************/
-static void unit_load_callback(GtkWidget *w, gpointer data)
+static void unit_load_callback(GSimpleAction *action, GVariant *parameter,
+                               gpointer data)
 {
   struct unit *punit =
     player_unit_by_number(client_player(), GPOINTER_TO_INT(data));
@@ -2898,12 +2892,15 @@ static void unit_load_callback(GtkWidget *w, gpointer data)
   if (NULL != punit) {
     request_transport(punit, unit_tile(punit));
   }
+
+  close_citydlg_unit_popover(g_object_get_data(G_OBJECT(action), "dlg"));
 }
 
 /***********************************************************************//**
   User has requested unit to be unloaded from transport
 ***************************************************************************/
-static void unit_unload_callback(GtkWidget *w, gpointer data)
+static void unit_unload_callback(GSimpleAction *action, GVariant *parameter,
+                                 gpointer data)
 {
   struct unit *punit =
     player_unit_by_number(client_player(), GPOINTER_TO_INT(data));
@@ -2911,8 +2908,11 @@ static void unit_unload_callback(GtkWidget *w, gpointer data)
   if (NULL != punit) {
     request_unit_unload(punit);
   }
+
+  close_citydlg_unit_popover(g_object_get_data(G_OBJECT(action), "dlg"));
 }
 
+#ifdef MENUS_GTK3
 /***********************************************************************//**
   User has requested unit to be sentried
 ***************************************************************************/
