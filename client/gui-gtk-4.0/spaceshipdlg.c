@@ -76,7 +76,7 @@ static struct dialog_list *dialog_list;
 
 static struct spaceship_dialog *get_spaceship_dialog(struct player *pplayer);
 static struct spaceship_dialog *create_spaceship_dialog(struct player
-							*pplayer);
+                                                        *pplayer);
 
 static void spaceship_dialog_update_image(struct spaceship_dialog *pdialog);
 static void spaceship_dialog_update_info(struct spaceship_dialog *pdialog);
@@ -167,11 +167,11 @@ void popdown_spaceship_dialog(struct player *pplayer)
 }
 
 /************************************************************************//**
-  Spaceship dialog canvas got exposed
+  Draw spaceship dialog canvas.
 ****************************************************************************/
-static gboolean spaceship_image_canvas_expose(GtkWidget *widget,
-                                              cairo_t *cr,
-                                              gpointer data)
+static void spaceship_image_canvas_draw(GtkDrawingArea *w, cairo_t *cr,
+                                        int width, int height,
+                                        gpointer data)
 {
   struct spaceship_dialog *pdialog = (struct spaceship_dialog *)data;
   struct canvas store = FC_STATIC_CANVAS_INIT;
@@ -179,8 +179,6 @@ static gboolean spaceship_image_canvas_expose(GtkWidget *widget,
   store.drawable = cr;
 
   put_spaceship(&store, 0, 0, pdialog->pplayer);
-
-  return TRUE;
 }
 
 /************************************************************************//**
@@ -252,8 +250,8 @@ struct spaceship_dialog *create_spaceship_dialog(struct player *pplayer)
   gtk_frame_set_child(GTK_FRAME(frame), pdialog->image_canvas);
   gtk_widget_realize(pdialog->image_canvas);
 
-  g_signal_connect(pdialog->image_canvas, "draw",
-                   G_CALLBACK(spaceship_image_canvas_expose), pdialog);
+  gtk_drawing_area_set_draw_func(GTK_DRAWING_AREA(pdialog->image_canvas),
+                                 spaceship_image_canvas_draw, pdialog, NULL);
 
   pdialog->info_label = gtk_label_new(get_spaceship_descr(NULL));
 
