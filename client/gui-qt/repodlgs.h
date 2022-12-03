@@ -141,7 +141,7 @@ class research_diagram: public QWidget
   Q_OBJECT
 
 public:
-  research_diagram(QWidget *parent = 0);
+  research_diagram(QWidget *parent = nullptr);
   ~research_diagram();
   void update_reqtree();
   void reset();
@@ -162,7 +162,6 @@ private:
   QPoint tooltip_pos;
   QString tooltip_text;
   QRect tooltip_rect;
-  
 };
 
 /****************************************************************************
@@ -253,7 +252,6 @@ public:
 private:
   int index;
   int players;
-
 };
 
 
