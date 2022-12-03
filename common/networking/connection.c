@@ -877,7 +877,7 @@ struct conn_pattern *conn_pattern_from_string(const char *pattern,
                                               char *error_buf,
                                               size_t error_buf_len)
 {
-  enum conn_pattern_type type = conn_pattern_type_invalid();
+  enum conn_pattern_type type;
   const char *p;
 
   /* Determine pattern type. */
@@ -921,7 +921,7 @@ struct conn_pattern *conn_pattern_from_string(const char *pattern,
     return NULL;
   }
 
-  return  conn_pattern_new(type, p);
+  return conn_pattern_new(type, p);
 }
 
 /**********************************************************************//**
