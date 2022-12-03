@@ -466,6 +466,8 @@ int dai_hunter_manage(struct ai_type *ait, struct player *pplayer,
       int sanity_target = target->id;
       struct pf_path *path;
       struct unit_ai *target_data;
+      struct tile *target_tile;
+      struct unit *defender;
 
       /* Note that we need not (yet) be at war with aplayer */
       if (!adv_is_player_dangerous(pplayer, aplayer)) {
@@ -485,6 +487,12 @@ int dai_hunter_manage(struct ai_type *ait, struct player *pplayer,
         continue;
       }
 
+      target_tile = unit_tile(target);
+      if (!unit_attack_unit_at_tile_result(punit, NULL, target, target_tile)) {
+        /* We can't attack the target */
+        continue;
+      }
+
       /* Figure out whether unit is coming closer */
       if (target_data->cur_pos && target_data->prev_pos) {
         dist1 = real_map_distance(unit_tile(punit), *target_data->cur_pos);
@@ -494,7 +502,7 @@ int dai_hunter_manage(struct ai_type *ait, struct player *pplayer,
       }
       UNIT_LOG(LOGLEVEL_HUNT, punit, "considering chasing %s[%d](%d, %d) "
                                      "dist1 %d dist2 %d",
-               unit_rule_name(target), target->id, TILE_XY(unit_tile(target)),
+               unit_rule_name(target), target->id, TILE_XY(target_tile),
                dist1, dist2);
 
       /* We can't chase if we aren't faster or on intercept vector */
@@ -509,15 +517,17 @@ int dai_hunter_manage(struct ai_type *ait, struct player *pplayer,
                  target_data->prev_pos
                    ? index_to_map_pos_y(tile_index(*target_data->prev_pos))
                    : -1,
-                 TILE_XY(unit_tile(target)));
+                 TILE_XY(target_tile));
         continue;
       }
 
       /* Calculate juiciness of target, compare with existing target,
        * if any. */
       dai_hunter_juiciness(pplayer, punit, target, &stackthreat, &stackcost);
-      stackcost *= unit_win_chance(punit, get_defender(punit,
-                                                       unit_tile(target)));
+      defender = get_defender(punit, target_tile);
+      if (defender != NULL) {
+        stackcost *= unit_win_chance(punit, defender);
+      }
       if (stackcost < unit_build_shield_cost(punit)) {
         UNIT_LOG(LOGLEVEL_HUNT, punit, "%d is too expensive (it %d vs us %d)",
                  target->id, stackcost,
@@ -542,7 +552,7 @@ int dai_hunter_manage(struct ai_type *ait, struct player *pplayer,
                nation_rule_name(nation_of_unit(target)),
                unit_rule_name(target), 
                target->id,
-               TILE_XY(unit_tile(target)),
+               TILE_XY(target_tile),
                stackthreat,
                dist1,
                dist2);
@@ -554,7 +564,7 @@ int dai_hunter_manage(struct ai_type *ait, struct player *pplayer,
       }
 
       /* This assigns missiles to us */
-      dai_unit_new_task(ait, punit, AIUNIT_HUNTER, unit_tile(target));
+      dai_unit_new_task(ait, punit, AIUNIT_HUNTER, target_tile);
 
       /* Check if we can nuke it */
       dai_hunter_try_launch(ait, pplayer, punit, target);
@@ -568,7 +578,7 @@ int dai_hunter_manage(struct ai_type *ait, struct player *pplayer,
       }
 
       /* Go towards it. */
-      path = pf_map_path(pfm, unit_tile(target));
+      path = pf_map_path(pfm, target_tile);
       if (!adv_unit_execute_path(punit, path)) {
         pf_path_destroy(path);
         pf_map_destroy(pfm);
