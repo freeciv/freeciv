@@ -376,6 +376,31 @@ void rscompat_postprocess(struct rscompat_info *info)
                                               action_rule_name(paction)));
     } action_iterate_end;
 
+    action_enablers_iterate(ae) {
+      if (ae->action == ACTION_CLEAN_POLLUTION) {
+        /* TODO: Stop making the copy to preserve enabler for
+         * the original action. */
+        action_enabler_add(action_enabler_copy(ae));
+
+        ae->action = ACTION_CLEAN;
+        requirement_vector_append(&ae->target_reqs,
+                                  req_from_str("ExtraFlag", "Local",
+                                               FALSE, TRUE, TRUE,
+                                               "CleanAsPollution"));
+      }
+      if (ae->action == ACTION_CLEAN_FALLOUT) {
+        /* TODO: Stop making the copy to preserve enabler for
+         * the original action. */
+        action_enabler_add(action_enabler_copy(ae));
+
+        ae->action = ACTION_CLEAN;
+        requirement_vector_append(&ae->target_reqs,
+                                  req_from_str("ExtraFlag", "Local",
+                                               FALSE, TRUE, TRUE,
+                                               "CleanAsFallout"));
+      }
+    } action_enablers_iterate_end;
+
     /* That Attack and Bombard can't destroy a city
      * has moved to the ruleset. */
     peffect = effect_new(EFT_UNIT_NO_LOSE_POP,
@@ -500,6 +525,23 @@ void rscompat_req_adjust_3_2(const struct rscompat_info *compat,
 }
 
 /**********************************************************************//**
+  Add user extra flags needed in ruleset update from 3.1 to 3.2
+
+  @return Number of flags added
+**************************************************************************/
+int add_user_extra_flags_3_2(int start)
+{
+  int i = 0;
+
+  set_user_extra_flag_name(EF_USER_FLAG_1 + start + i++,
+                           "CleanAsPollution", NULL);
+  set_user_extra_flag_name(EF_USER_FLAG_1 + start + i++,
+                           "CleanAsFallout", NULL);
+
+  return i;
+}
+
+/**********************************************************************//**
   Adjust values of an extra loaded from a 3.1 ruleset.
 **************************************************************************/
 void rscompat_extra_adjust_3_2(struct extra_type *pextra)
@@ -515,6 +557,16 @@ void rscompat_extra_adjust_3_2(struct extra_type *pextra)
                               req_from_str("MinLatitude", "Tile",
                                            FALSE, TRUE, FALSE,
                                            "-980"));
+  }
+
+  if (is_extra_removed_by(pextra, ERM_CLEANPOLLUTION)) {
+    BV_SET(pextra->flags,
+           extra_flag_id_by_name("CleanAsPollution", fc_strcasecmp));
+  }
+
+  if (is_extra_removed_by(pextra, ERM_CLEANFALLOUT)) {
+    BV_SET(pextra->flags,
+           extra_flag_id_by_name("CleanAsFallout", fc_strcasecmp));
   }
 }
 

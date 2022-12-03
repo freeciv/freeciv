@@ -2888,6 +2888,10 @@ static bool load_terrain_names(struct section_file *file,
     set_user_extra_flag_name(EF_USER_FLAG_1 + i, flag, helptxt);
   }
 
+  if (compat->compat_mode && compat->version < RSFORMAT_3_2) {
+    i += add_user_extra_flags_3_2(i);
+  }
+
   if (ok) {
     /* Blank the remaining extra user flag slots. */
     for (; i < MAX_NUM_USER_EXTRA_FLAGS; i++) {

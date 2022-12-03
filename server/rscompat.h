@@ -66,6 +66,7 @@ const char *rscompat_req_range_3_2(struct rscompat_info *compat,
 void rscompat_req_adjust_3_2(const struct rscompat_info *compat,
                              const char **ptype, const char **pname,
                              bool *ppresent, const char *sec_name);
+int add_user_extra_flags_3_2(int start);
 void rscompat_extra_adjust_3_2(struct extra_type *pextra);
 bool rscompat_setting_needs_special_handling(const char *name);
 void rscompat_settings_do_special_handling(struct section_file *file,
@@ -75,4 +76,4 @@ void rscompat_settings_do_special_handling(struct section_file *file,
 }
 #endif /* __cplusplus */
 
-#endif  /* FC__RSCOMPAT_H */
+#endif /* FC__RSCOMPAT_H */

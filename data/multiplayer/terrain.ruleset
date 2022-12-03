@@ -28,7 +28,7 @@ flags =
     _("NoFortify"), _("No units can fortify on this terrain.")
   }
 
-; Names for custom extra flags. There can be up to 8 of these.
+; Names for custom extra flags. There can be up to 10 of these.
 ; name          = rule name; In some circumstances user may see this
 ;                 as part of some sentences, so try to make it descriptive
 ;                 and sensible.
