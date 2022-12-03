@@ -2105,10 +2105,12 @@ static void wipe_unit_full(struct unit *punit, bool transported,
   case ULR_RETIRED:
   case ULR_DISBANDED:
   case ULR_USED:
-  case ULR_EDITOR:
-  case ULR_PLAYER_DIED:
   case ULR_DETONATED:
   case ULR_MISSILE:
+    pplayer->score.units_used++;
+    break;
+  case ULR_EDITOR:
+  case ULR_PLAYER_DIED:
     break;
   }
 

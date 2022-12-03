@@ -112,6 +112,7 @@ struct player_score {
   int units_killed;     /* Number of enemy units killed. */
   int units_lost;       /* Number of own units that died,
                          * by combat or otherwise. */
+  int units_used;       /* Number of own units that disappeared upon use */
   int culture;
   int game;             /* Total score you get in player dialog. */
 };

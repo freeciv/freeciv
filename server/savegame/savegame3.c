@@ -4374,6 +4374,9 @@ static void sg_load_player_main(struct loaddata *loading,
   plr->score.units_lost =
       secfile_lookup_int_default(loading->file, 0,
                                  "score%d.units_lost", plrno);
+  plr->score.units_used =
+      secfile_lookup_int_default(loading->file, 0,
+                                 "score%d.units_used", plrno);
   plr->score.culture =
     secfile_lookup_int_default(loading->file, 0,
                                "score%d.culture", plrno);
@@ -4717,6 +4720,8 @@ static void sg_save_player_main(struct savedata *saving,
                      "score%d.units_killed", plrno);
   secfile_insert_int(saving->file, plr->score.units_lost,
                      "score%d.units_lost", plrno);
+  secfile_insert_int(saving->file, plr->score.units_used,
+                     "score%d.units_used", plrno);
   secfile_insert_int(saving->file, plr->score.culture,
                      "score%d.culture", plrno);
   secfile_insert_int(saving->file, plr->score.game,

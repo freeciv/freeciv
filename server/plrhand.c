@@ -1604,6 +1604,7 @@ void server_player_init(struct player *pplayer, bool initmap,
   pplayer->score.units_built = 0;
   pplayer->score.units_killed = 0;
   pplayer->score.units_lost = 0;
+  pplayer->score.units_used = 0;
 
   /* No delegation. */
   pplayer->server.delegate_to[0] = '\0';

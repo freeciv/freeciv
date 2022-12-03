@@ -3221,6 +3221,7 @@ static void sg_load_player_main(struct loaddata *loading,
   plr->score.units_lost =
       secfile_lookup_int_default(loading->file, 0,
                                  "score%d.units_lost", plrno);
+  plr->score.units_used = 0; /* Was never saved to savegame2.c saves */
   plr->score.culture =
     secfile_lookup_int_default(loading->file, 0,
                                "score%d.culture", plrno);

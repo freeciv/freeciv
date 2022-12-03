@@ -675,6 +675,14 @@ static int get_units_lost(const struct player *pplayer)
 }
 
 /**********************************************************************//**
+  Number of units used
+**************************************************************************/
+static int get_units_used(const struct player *pplayer)
+{
+  return pplayer->score.units_used;
+}
+
+/**********************************************************************//**
   Amount of gold.
 **************************************************************************/
 static int get_gold(const struct player *pplayer)
@@ -1388,7 +1396,9 @@ void log_civ_score_now(void)
     {"unitskilled",     get_units_killed},
     {"unitslost",       get_units_lost},
 
-    {"culture",         get_culture}      /* New tag in 2.6.0. */
+    {"culture",         get_culture},     /* New tag in 2.6.0. */
+
+    {"unitsused",       get_units_used}   /* New tag in 3.2.0. */
   };
 
   if (!game.server.scorelog) {
@@ -1591,6 +1601,7 @@ void report_final_scores(struct conn_list *dest)
     { N_("Built Units\n"),              get_units_built },
     { N_("Killed Units\n"),             get_units_killed },
     { N_("Unit Losses\n"),              get_units_lost },
+    { N_("Units Used\n"),               get_units_used },
   };
   const size_t score_categories_num = ARRAY_SIZE(score_categories);
 
