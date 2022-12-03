@@ -595,6 +595,10 @@ ls_core = custom_target('langstat_core', output: 'langstat_core.txt',
               command: [sh_exe, files('bootstrap/generate_langstat.sh'), 'core',
                         meson.project_source_root(), meson.project_build_root()])
 
+ls_ruledit = custom_target('langstat_ruledit', output: 'langstat_ruledit.txt',
+                command: [sh_exe, files('bootstrap/generate_langstat.sh'), 'ruledit',
+                          meson.project_source_root(), meson.project_build_root()])
+
 specenum = custom_target('specenum_gen.h', output: 'specenum_gen.h',
                          command: [python_exe, files('utility/generate_specenum.py'),
                                    '@OUTPUT@'])
