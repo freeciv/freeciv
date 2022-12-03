@@ -2463,10 +2463,10 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
         }
 
         cat_snprintf(buf, bufsz,
-                     /* TRANS: The first %s is the sub target kind. The next
-                      * may be an adjective (that includes a space). The
-                      * next is the name of the target kind.
-                      * Example: is done to extras on foreign tiles */
+                     /* TRANS: First %s in %s%s%s is the sub target kind.
+                      * The next may be an adjective (that includes a space).
+                      * The next is the name of the target kind.
+                      * Example: "* is done to extras on foreign tiles." */
                      _("  %s is done to %s%s%s.\n"), BULLET,
                      sub_target_text,
                      target_adjective,
