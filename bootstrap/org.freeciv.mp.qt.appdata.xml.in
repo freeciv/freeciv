@@ -28,7 +28,9 @@
     <url type="contribute">https://www.freeciv.org/wiki/How_to_Contribute</url>
     -->
 
-    [release]
+    <releases>
+      [release]
+    </releases>
 
     <screenshots>
       <screenshot type="default">
