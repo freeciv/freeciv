@@ -34,6 +34,9 @@ RELTYPE="$3"
 if test "$4" != "" ; then
   RELEASETAG="<release version=\"${FCVER}\" type=\"${RELTYPE}\" date=\"$4\" />"
 else
+  # Tag with no date causes format checker warning, but
+  # flatpak builder outright errors if there's no <release> tag
+  # at all within <releases> ... </releases> list
   RELEASETAG="<release version=\"${FCVER}\" type=\"${RELTYPE}\" />"
 fi
 
