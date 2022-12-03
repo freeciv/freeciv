@@ -557,6 +557,9 @@ ui_name_plant = _("Transform by %sPlanting%s")
 ; /* TRANS: Pilla_ge (100% chance of success). */
 ui_name_pillage = _("Pilla%sge%s")
 
+; /* TRANS: Clean (100% chance of success). */
+ui_name_clean = _("%sClean%s")
+
 ; /* TRANS: Clean _Pollution (100% chance of success). */
 ui_name_clean_pollution = _("Clean %sPollution%s")
 
@@ -1018,6 +1021,13 @@ action        = "Pillage"
 actor_reqs    =
     { "type",          "name",         "range"
       "UnitClassFlag", "CanPillage",   "Local"
+    }
+
+[actionenabler_clean]
+action        = "Clean"
+actor_reqs    =
+    { "type",          "name",         "range", "present"
+      "UnitFlag",      "Settlers",     "Local", TRUE
     }
 
 [actionenabler_clean_pollution]
