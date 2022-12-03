@@ -284,7 +284,14 @@ incident with the intended victim player if the value is 1 or higher. The
 incident gives the intended victim a casus belli against the actor player.
 A value of 1000 or higher is international outrage. International outrage
 gives every other player a casus belli against the actor.
-This effect is supported only for a limited set of actions.
+This effect is supported only for following actions:
+ Poison City, Poison City Escape, Sabotage Unit, Sabotage Unit Escape,
+ Bribe Unit, Steal Tech, Steal Tech Escape Expected, Targeted Steal Tech,
+ Targeted Steal Tech Escape Expected, Incite City, Incite City Escape,
+ Sabotage City, Sabotage City Escape, Targeted Sabotage City,
+ Targeted Sabotage City Escape, Steal Gold, Steal Gold Escape,
+ Steal Maps, Steal Maps Escape, Suitcase Nuke, Suitcase Nuke Escape,
+ Explode Nuclear
 
 Casus_Belli_Success
     Checked when a player does an action to another player. Will cause an
@@ -292,7 +299,12 @@ incident with the intended victim player if the value is 1 or higher. The
 incident gives the intended victim a casus belli against the actor player.
 A value of 1000 or higher is international outrage. International outrage
 gives every other player a casus belli against the actor.
-This effect is supported only for a limited set of actions.
+This effect is supported only for the same actions as Casus_Belli_Caught, and
+following actions that always success:
+ Investigate City, Investigate City Spend Unit,
+ Establish Embassy, Establish Embassy Stay, Capture Units, Expel Unit,
+ Heal Unit, Found City, Join City, Bombard, Destroy City, Attack,
+ Conquer City, Help Wonder, Establish Trade Route, Enter Marketplace
 
 Action_Odds_Pct
     Modifies the odds of an action being successful. Some actions have a
