@@ -409,9 +409,7 @@ AS_IF([test $dev_save_compat != 0],
       [AC_DEFINE([FREECIV_DEV_SAVE_COMPAT], [1],
                  [Development version save game compatibility])
        AC_DEFINE([FREECIV_DEV_SAVE_COMPAT_3_2], [1],
-                 [Development version save game compatibility - 3.2 development])
-       AC_DEFINE([FREECIV_DEV_SAVE_COMPAT_3_1], [1],
-                 [Development version save game compatibility - 3.1 development])])
+                 [Development version save game compatibility - 3.2 development])])
 
 AC_ARG_ENABLE([patient-connect],
   AS_HELP_STRING([--enable-patient-connect=yes/no],
