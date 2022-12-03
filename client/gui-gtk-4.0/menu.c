@@ -375,18 +375,29 @@ static void transform_terrain_callback(GSimpleAction *action,
 static void clean_callback(GSimpleAction *action,
                            GVariant *parameter,
                            gpointer data);
+static void build_road_callback(GSimpleAction *action,
+                                GVariant *parameter,
+                                gpointer data);
+static void build_irrigation_callback(GSimpleAction *action,
+                                      GVariant *parameter,
+                                      gpointer data);
+static void build_mine_callback(GSimpleAction *action,
+                                GVariant *parameter,
+                                gpointer data);
 
 #ifdef MENUS_GTK3
-static void build_road_callback(GtkMenuItem *item, gpointer data);
-static void build_irrigation_callback(GtkMenuItem *item, gpointer data);
-static void build_mine_callback(GtkMenuItem *item, gpointer data);
 static void connect_road_callback(GtkMenuItem *item, gpointer data);
 static void connect_rail_callback(GtkMenuItem *item, gpointer data);
 static void connect_irrigation_callback(GtkMenuItem *item, gpointer data);
-static void build_fortress_callback(GtkMenuItem *item, gpointer data);
-static void build_airbase_callback(GtkMenuItem *item, gpointer data);
 static void diplomat_action_callback(GtkMenuItem *item, gpointer data);
 #endif /* MENUS_GTK3 */
+
+static void build_fortress_callback(GSimpleAction *action,
+                                    GVariant *parameter,
+                                    gpointer data);
+static void build_airbase_callback(GSimpleAction *action,
+                                   GVariant *parameter,
+                                   gpointer data);
 
 static void bg_select_callback(GSimpleAction *action,
                                GVariant *parameter,
@@ -486,6 +497,15 @@ static struct menu_entry_info menu_entries[] =
   { "AUTO_SETTLER", N_("_Auto Settler"),
     "auto_settle", "a", MGROUP_UNIT,
     NULL, FALSE },
+  { "BUILD_ROAD", N_("Build _Road"),
+    "build_road", "r", MGROUP_UNIT,
+    NULL, FALSE },
+  { "BUILD_IRRIGATION", N_("Build _Irrigation"),
+    "build_irrigation", "i", MGROUP_UNIT,
+    NULL, FALSE },
+  { "BUILD_MINE", N_("Build _Mine"),
+    "build_mine", "m", MGROUP_UNIT,
+    NULL, FALSE },
   { "CULTIVATE", N_("Cultivate"),
     "cultivate", "<shift>i", MGROUP_UNIT,
     NULL, FALSE },
@@ -502,6 +522,12 @@ static struct menu_entry_info menu_entries[] =
   /* Combat menu */
   { "FORTIFY", N_("Fortify"),
     "fortify", "f", MGROUP_UNIT,
+    NULL, FALSE },
+  { "BUILD_FORTRESS", N_("Build Fortress"),
+    "build_base_fortress", "<shift>f", MGROUP_UNIT,
+    NULL, FALSE },
+  { "BUILD_AIRBASE", N_("Build Airbase"),
+    "build_base_airbase", "<shift>e", MGROUP_UNIT,
     NULL, FALSE },
   { "PARADROP", N_("P_aradrop"),
     "paradrop", "j", MGROUP_UNIT,
@@ -781,11 +807,6 @@ static struct menu_entry_info menu_entries[] =
     GDK_KEY_t, GDK_SHIFT_MASK,
     G_CALLBACK(unit_unload_transporter_callback), MGROUP_UNIT },
 
-  { "BUILD_ROAD", N_("Build _Road"), GDK_KEY_r, 0,
-    G_CALLBACK(build_road_callback), MGROUP_UNIT },
-  { "BUILD_IRRIGATION", N_("Build _Irrigation"), GDK_KEY_i, 0,
-    G_CALLBACK(build_irrigation_callback), MGROUP_UNIT },
-  { "BUILD_MINE", N_("Build _Mine"), GDK_KEY_m, 0,
     G_CALLBACK(build_mine_callback), MGROUP_UNIT },
   { "CONNECT_ROAD", N_("Connect With Roa_d"), GDK_KEY_r, GDK_CONTROL_MASK,
     G_CALLBACK(connect_road_callback), MGROUP_UNIT },
@@ -794,10 +815,6 @@ static struct menu_entry_info menu_entries[] =
   { "CONNECT_IRRIGATION", N_("Connect With Irri_gation"),
     GDK_KEY_i, GDK_CONTROL_MASK,
     G_CALLBACK(connect_irrigation_callback), MGROUP_UNIT },
-  { "BUILD_FORTRESS", N_("Build Fortress"), GDK_KEY_f, GDK_SHIFT_MASK,
-    G_CALLBACK(build_fortress_callback), MGROUP_UNIT },
-  { "BUILD_AIRBASE", N_("Build Airbase"), GDK_KEY_e, GDK_SHIFT_MASK,
-    G_CALLBACK(build_airbase_callback), MGROUP_UNIT },
   { "DIPLOMAT_ACTION", N_("_Do..."), GDK_KEY_d, 0,
     G_CALLBACK(diplomat_action_callback), MGROUP_UNIT },
 
@@ -841,12 +858,17 @@ const GActionEntry acts[] = {
 
   { "build_city", build_city_callback },
   { "auto_settle", auto_settle_callback },
+  { "build_road", build_road_callback },
+  { "build_irrigation", build_irrigation_callback },
+  { "build_mine", build_mine_callback },
   { "cultivate", cultivate_callback },
   { "plant", plant_callback },
   { "transform_terrain", transform_terrain_callback },
   { "clean", clean_callback },
 
   { "fortify", fortify_callback },
+  { "build_base_fortress", build_fortress_callback },
+  { "build_base_airbase", build_airbase_callback },
   { "paradrop", paradrop_callback },
   { "pillage", pillage_callback },
 
@@ -2017,11 +2039,12 @@ static void auto_settle_callback(GSimpleAction *action,
   key_unit_auto_settle();
 }
 
-#ifdef MENUS_GTK3
 /************************************************************************//**
   Action "BUILD_ROAD" callback.
 ****************************************************************************/
-static void build_road_callback(GtkMenuItem *action, gpointer data)
+static void build_road_callback(GSimpleAction *action,
+                                GVariant *parameter,
+                                gpointer data)
 {
   unit_list_iterate(get_units_in_focus(), punit) {
     /* FIXME: this can provide different actions for different units...
@@ -2047,11 +2070,12 @@ static void build_road_callback(GtkMenuItem *action, gpointer data)
 /************************************************************************//**
   Action "BUILD_IRRIGATION" callback.
 ****************************************************************************/
-static void build_irrigation_callback(GtkMenuItem *action, gpointer data)
+static void build_irrigation_callback(GSimpleAction *action,
+                                      GVariant *parameter,
+                                      gpointer data)
 {
   key_unit_irrigate();
 }
-#endif /* MENUS_GTK3 */
 
 /************************************************************************//**
   Action "CULTIVATE" callback.
@@ -2073,15 +2097,17 @@ static void plant_callback(GSimpleAction *action,
   key_unit_plant();
 }
 
-#ifdef MENUS_GTK3
 /************************************************************************//**
   Action "BUILD_MINE" callback.
 ****************************************************************************/
-static void build_mine_callback(GtkMenuItem *action, gpointer data)
+static void build_mine_callback(GSimpleAction *action,
+                                GVariant *parameter,
+                                gpointer data)
 {
   key_unit_mine();
 }
 
+#ifdef MENUS_GTK3
 /************************************************************************//**
   Action "CONNECT_ROAD" callback.
 ****************************************************************************/
@@ -2144,18 +2170,17 @@ static void transform_terrain_callback(GSimpleAction *action,
 /************************************************************************//**
   Action "CLEAN" callback.
 ****************************************************************************/
-static void clean_callback(GSimpleAction *action,
-                           GVariant *parameter,
+static void clean_callback(GSimpleAction *action, GVariant *parameter,
                            gpointer data)
 {
   key_unit_clean();
 }
 
-#ifdef MENUS_GTK3
 /************************************************************************//**
   Action "BUILD_FORTRESS" callback.
 ****************************************************************************/
-static void build_fortress_callback(GtkMenuItem *action, gpointer data)
+static void build_fortress_callback(GSimpleAction *action, GVariant *parameter,
+                                    gpointer data)
 {
   key_unit_fortress();
 }
@@ -2163,11 +2188,11 @@ static void build_fortress_callback(GtkMenuItem *action, gpointer data)
 /************************************************************************//**
   Action "BUILD_AIRBASE" callback.
 ****************************************************************************/
-static void build_airbase_callback(GtkMenuItem *action, gpointer data)
+static void build_airbase_callback(GSimpleAction *action, GVariant *parameter,
+                                   gpointer data)
 {
   key_unit_airbase();
 }
-#endif /* MENUS_GTK3 */
 
 /************************************************************************//**
   Action "PARADROP" callback.
@@ -2600,6 +2625,9 @@ static GMenu *setup_menus(GtkApplication *app)
   submenu = g_menu_new();
   g_menu_append_submenu(work_menu, _("_Clean Nuisance"), G_MENU_MODEL(submenu));
 
+  menu_entry_init(work_menu, "BUILD_ROAD");
+  menu_entry_init(work_menu, "BUILD_IRRIGATION");
+  menu_entry_init(work_menu, "BUILD_MINE");
   menu_entry_init(work_menu, "CULTIVATE");
   menu_entry_init(work_menu, "PLANT");
   menu_entry_init(work_menu, "TRANSFORM_TERRAIN");
@@ -2609,6 +2637,8 @@ static GMenu *setup_menus(GtkApplication *app)
 
   combat_menu = g_menu_new();
   menu_entry_init(combat_menu, "FORTIFY");
+  menu_entry_init(combat_menu, "BUILD_FORTRESS");
+  menu_entry_init(combat_menu, "BUILD_AIRBASE");
 
   /* Placeholder submenu (so that menu update has something to replace) */
   submenu = g_menu_new();
@@ -3147,8 +3177,8 @@ void real_menus_update(void)
     }
   } extra_type_by_cause_iterate_end;
 
-  g_menu_remove(combat_menu, 1);
-  g_menu_insert_submenu(combat_menu, 1, _("Build _Base"), G_MENU_MODEL(submenu));
+  g_menu_remove(combat_menu, 3);
+  g_menu_insert_submenu(combat_menu, 3, _("Build _Base"), G_MENU_MODEL(submenu));
 
 #ifdef MENUS_GTK3
   bool units_all_same_tile = TRUE, units_all_same_type = TRUE;
@@ -3312,27 +3342,22 @@ void real_menus_update(void)
     /* Only sensitive if an action may be possible. */
     menu_entry_set_sensitive("MENU_GOTO_AND", can_do_something);
   }
+#endif /* MENUS_GTK3 */
 
-  menu_entry_set_sensitive("BUILD_ROAD",
+  menu_entry_set_sensitive(map, "BUILD_ROAD",
                            (can_units_do_any_road(punits)
                             || can_units_do(punits,
                                             unit_can_est_trade_route_here)));
-  menu_entry_set_sensitive("BUILD_IRRIGATION",
+  menu_entry_set_sensitive(map, "BUILD_IRRIGATION",
                            can_units_do_activity(punits, ACTIVITY_IRRIGATE));
-#endif /* MENUS_GTK3 */
-
+  menu_entry_set_sensitive(map, "BUILD_MINE",
+                           can_units_do_activity(punits, ACTIVITY_MINE));
   menu_entry_set_sensitive(map, "CULTIVATE",
                            can_units_do_activity(punits, ACTIVITY_CULTIVATE));
   menu_entry_set_sensitive(map, "PLANT",
                            can_units_do_activity(punits, ACTIVITY_PLANT));
   menu_entry_set_sensitive(map, "TRANSFORM_TERRAIN",
                            can_units_do_activity(punits, ACTIVITY_TRANSFORM));
-
-#ifdef MENUS_GTK3
-  menu_entry_set_sensitive("BUILD_MINE",
-                           can_units_do_activity(punits, ACTIVITY_MINE));
-#endif /* MENUS_GTK3 */
-
   menu_entry_set_sensitive(map, "FORTIFY",
                            can_units_do_activity(punits,
                                                  ACTIVITY_FORTIFYING));
@@ -3342,14 +3367,10 @@ void real_menus_update(void)
                            can_units_do_activity(punits, ACTIVITY_PILLAGE));
   menu_entry_set_sensitive(map, "CLEAN",
                            can_units_do_activity(punits, ACTIVITY_CLEAN));
-
-#ifdef MENUS_GTK3
-  menu_entry_set_sensitive("BUILD_FORTRESS",
+  menu_entry_set_sensitive(map, "BUILD_FORTRESS",
                            can_units_do_base_gui(punits, BASE_GUI_FORTRESS));
-  menu_entry_set_sensitive("BUILD_AIRBASE",
+  menu_entry_set_sensitive(map, "BUILD_AIRBASE",
                            can_units_do_base_gui(punits, BASE_GUI_AIRBASE));
-#endif /* MENUS_GTK3 */
-
   menu_entry_set_sensitive(map, "UNIT_SENTRY",
                            can_units_do_activity(punits, ACTIVITY_SENTRY));
   menu_entry_set_sensitive(map, "UNIT_HOMECITY",
