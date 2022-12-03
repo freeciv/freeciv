@@ -1599,11 +1599,46 @@ void popup_combat_info(int attacker_unit_id, int defender_unit_id,
 }
 
 /**********************************************************************//**
+  This is the response callback for the action confirmation dialog.
+**************************************************************************/
+static void act_conf_response(GtkWidget *dialog, gint response,
+                              gpointer data)
+{
+  gtk_window_destroy(GTK_WINDOW(dialog));
+
+  if (response == GTK_RESPONSE_YES) {
+    action_confirmation(data, TRUE);
+  } else {
+    action_confirmation(data, FALSE);
+  }
+}
+
+/**********************************************************************//**
   Common code wants confirmation for an action.
 **************************************************************************/
 void request_action_confirmation(const char *expl,
                                  struct act_confirmation_data *data)
 {
-  /* TODO: Implement. Currently just pass everything as confirmed */
-  action_confirmation(data, TRUE);
+  GtkWidget *dialog;
+  char buf[1024];
+
+  if (expl != NULL) {
+    fc_snprintf(buf, sizeof(buf), _("Are you sure you want to do %s?\n%s"),
+                action_id_name_translation(data->act), expl);
+  } else {
+    fc_snprintf(buf, sizeof(buf), _("Are you sure you want to do %s?"),
+                action_id_name_translation(data->act));
+  }
+
+  dialog = gtk_message_dialog_new(NULL,
+                                  0,
+                                  GTK_MESSAGE_WARNING,
+                                  GTK_BUTTONS_YES_NO,
+                                  "%s", buf);
+  setup_dialog(dialog, toplevel);
+
+  g_signal_connect(dialog, "response",
+                   G_CALLBACK(act_conf_response), data);
+
+  gtk_window_present(GTK_WINDOW(dialog));
 }
