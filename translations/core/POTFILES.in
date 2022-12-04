@@ -414,6 +414,7 @@ tools/mpgui_gtk4.c
 tools/mpgui_qt.cpp
 tools/mpgui_qt_worker.cpp
 tools/ruleup.c
+tools/ruleutil/rulesave.c
 server/actiontools.c
 server/aiiface.c
 server/auth.c
