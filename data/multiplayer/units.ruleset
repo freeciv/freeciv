@@ -725,7 +725,7 @@ uk_food       = 0
 uk_gold       = 0
 tp_defense    = "Alight"
 flags         = ""
-roles         = "DefendOk", "DefendOkStartUnit", "Hut", "BarbarianBuild", "BarbarianSea"
+roles         = "DefendOk", "Hut", "BarbarianBuild", "BarbarianSea"
 helptext      = _("\
 Legions are heavily armed and well disciplined infantry\
  units with an excellent offensive value.\
@@ -878,7 +878,7 @@ uk_food       = 0
 uk_gold       = 0
 tp_defense    = "Alight"
 flags         = "IgTer", "IgZOC"
-roles         = "DefendGood", "DefendGoodStartUnit", "Partisan", "BarbarianTech"
+roles         = "DefendGood", "Partisan", "BarbarianTech"
 helptext      = _("\
 Partisans are guerilla fighters who are experts\
  at using the terrain to their advantage.\
@@ -1029,7 +1029,7 @@ uk_food       = 0
 uk_gold       = 0
 tp_defense    = "Alight"
 flags         = "Paratroopers"
-roles         = "DefendOk", "DefendOkStartUnit"
+roles         = "DefendOk"
 helptext      = _("\
 Paratroopers are experts at airborne attacks. \
 From a friendly city or airbase, Paratroopers who have not expended any \

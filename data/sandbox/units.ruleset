@@ -1118,7 +1118,7 @@ tp_defense    = "Alight"
 embarks       = "Helicopter"
 disembarks    = "Helicopter"
 flags         = "Marines", "Capturer", "Fortress", "SupplyLines", "FleshBased"
-roles         = "DefendGood", "DefendGoodStartUnit", "FirstBuild", "BarbarianSeaTech"
+roles         = "DefendGood", "FirstBuild", "BarbarianSeaTech"
 helptext      = _("\
 Marines are infantry who are experts at marine warfare.\
 ")
@@ -1155,7 +1155,7 @@ tp_defense    = "Alight"
 embarks       = "Helicopter"
 disembarks    = "Helicopter"
 flags         = "Paratroopers", "Capturer", "Fortress", "SupplyLines", "FleshBased"
-roles         = "DefendOk", "DefendOkStartUnit"
+roles         = "DefendOk"
 helptext      = _("\
 Paratroopers are experts at airborne attacks. From a friendly city, \
 airbase, or airstrip, Paratroopers who have not expended any \
