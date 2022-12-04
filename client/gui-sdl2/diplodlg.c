@@ -50,8 +50,6 @@
 
 #include "diplodlg.h"
 
-#define MAX_NUM_CLAUSES 64
-
 struct diplomacy_dialog {
   struct Treaty *treaty;
   struct advanced_dialog *pdialog;

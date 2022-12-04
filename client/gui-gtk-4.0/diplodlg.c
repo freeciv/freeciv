@@ -50,8 +50,6 @@
 #include "mapview.h"
 #include "plrdlg.h"
 
-#define MAX_NUM_CLAUSES 64
-
 struct Diplomacy_dialog {
   struct Treaty *treaty;
   struct gui_dialog *dialog;
