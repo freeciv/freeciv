@@ -1,4 +1,4 @@
-# Finnish translation for Freeciv
+# Finnish translation for Freeciv nations domain
 # Copyright (C) 2002-2003 2005-2009 2011-2012, 2014, 2016
 # Sini Ruohomaa <sini.ruohomaa@iki.fi>,
 # Markus Linnakangas <markus.linnakangas@luukku.com>,
@@ -9,13 +9,13 @@
 # Timo Jyrinki <timo.jyrinki@iki.fi> & helpers.
 # This translation is covered by the GNU General Public License Version 2.
 #
-# Merging translations upwards to e.g. master is fine, do not merge downwards
-# by default.
+# Merging translations upwards to e.g. master/main is fine, do not merge
+# downwards by default.
 #
-# Prioritizing stable branch S3_0 for translations (August 2022), merge
+# Prioritizing stable branch S3_1 for translations (December 2022), merge
 # to master when feeling like it with:
-#   msgmerge --compendium=fi.po.master fi.po.s3_0 freeciv.pot -o fi.po.newmaster
-# where fi.po.master is current master version, fi.po.s3_0 the improved branch
+#   msgmerge --compendium=fi.po.master fi.po.s3_1 freeciv.pot -o fi.po.newmaster
+# where fi.po.master is current master version, fi.po.s3_1 the improved branch
 # version, freeciv.pot an up-to-date POT for the master.
 # Then upload the resulting fi.po.newmaster to master.
 #
@@ -25,8 +25,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 3.1\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2022-10-30 14:10+0200\n"
-"PO-Revision-Date: 2022-10-30 14:14+0200\n"
+"POT-Creation-Date: 2022-12-04 07:20+0200\n"
+"PO-Revision-Date: 2022-12-04 07:30+0200\n"
 "Last-Translator: Markus Linnakangas <markus.linnakangas@luukku.com>\n"
 "Language-Team: None <freeciv-i18n@freelists.org>\n"
 "Language: fi\n"
@@ -2572,7 +2572,7 @@ msgstr "Kenraali %s"
 #: data/nation/guatemalan.ruleset:33 data/nation/guyanese.ruleset:26
 #: data/nation/liberian.ruleset:31 data/nation/miskito.ruleset:34
 #: data/nation/moluccan.ruleset:31 data/nation/surinamese.ruleset:29
-#: data/nation/texan.ruleset:29 data/nation/vermont.ruleset:27
+#: data/nation/texan.ruleset:32 data/nation/vermont.ruleset:27
 #, c-format
 msgid "Reverend %s"
 msgstr "Pastori %s"
@@ -2581,7 +2581,7 @@ msgstr "Pastori %s"
 #: data/nation/guatemalan.ruleset:33 data/nation/guyanese.ruleset:26
 #: data/nation/liberian.ruleset:31 data/nation/miskito.ruleset:34
 #: data/nation/moluccan.ruleset:31 data/nation/surinamese.ruleset:29
-#: data/nation/texan.ruleset:29 data/nation/vermont.ruleset:27
+#: data/nation/texan.ruleset:32 data/nation/vermont.ruleset:27
 #, c-format
 msgid "?female:Reverend %s"
 msgstr "Pastori %s"
@@ -3192,13 +3192,13 @@ msgstr ""
 "Vuoden 1848 suuri kultakuume toi Kaliforniaan läjäpäin maahanmuuttajia. 1900-"
 "luvulla osavaltiosta tuli maailman viihde- ja teknologiateollisuuden keskus."
 
-#: data/nation/californian.ruleset:34 data/nation/texan.ruleset:28
+#: data/nation/californian.ruleset:34 data/nation/texan.ruleset:31
 #: data/nation/vermont.ruleset:25
 #, c-format
 msgid "Sheriff %s"
 msgstr "Šeriffi %s"
 
-#: data/nation/californian.ruleset:34 data/nation/texan.ruleset:28
+#: data/nation/californian.ruleset:34 data/nation/texan.ruleset:31
 #: data/nation/vermont.ruleset:25
 #, c-format
 msgid "?female:Sheriff %s"
@@ -9540,19 +9540,9 @@ msgstr "palaulaiset"
 msgid ""
 "Palaos is a very little country, with only 20000 inhabitants aproximately. "
 "It is composed of more than 300 islands of volcanic origin."
-msgstr "Palau on pieni vain noin 20000 asukkaan maa. Se muodostuu yli kolmestasadasta tuliperäisestä saaresta."
-
-#: data/nation/palauan.ruleset:20
-#, fuzzy, c-format
-#| msgid "State President %s"
-msgid "President %s"
-msgstr "Valtionpresidentti %s"
-
-#: data/nation/palauan.ruleset:20
-#, fuzzy, c-format
-#| msgid "?female:State President %s"
-msgid "?female:President %s"
-msgstr "Valtionpresidentti %s"
+msgstr ""
+"Palau on pieni vain noin 20000 asukkaan maa. Se muodostuu yli "
+"kolmestasadasta tuliperäisestä saaresta."
 
 #: data/nation/palestinian.ruleset:3
 msgid "Palestinian"
@@ -11759,15 +11749,9 @@ msgstr "texasilaiset"
 msgid ""
 "Texas, \"the Lone Star State\" is the second largest and second most "
 "populous state of the USA, famous for its \"larger than life\" cowboy "
-"mentality. During its history, Texas has been ruled in full or in part by "
-"six countries: France, Spain, Mexico, the Texas Republic, the Confederacy "
-"and the USA - as expressed in the slogan \"six flags over Texas\"."
-msgstr ""
-"Texas on Yhdysvaltojen toiseksi suurin ja toiseksi väkirikkain osavaltio. Se "
-"on kuuluisa \"elämää suuremmasta\" lehmipoika-asenteestaan. Historiansa "
-"aikana Texasia on hallinnut osin tai kokonaan kuusi eri maata: Ranska, "
-"Espanja, Meksiko, Texasin tasavalta, Etelävaltiot ja Yhdysvallat, mistä on "
-"muistona iskulause \"kuusi lippua Texasin yllä\"."
+"culture and Mexican heritage. After the famous Battle of the Alamo, The "
+"Texians defeated the Mexicans at San Jacinto and declared independance."
+msgstr "Texas on Yhdysvaltojen toiseksi suurin ja toiseksi väkirikkain osavaltio. Se on kuuluisa \"elämää suuremmasta\" lehmipoika-asenteestaan ja meksikolaisista perinteistään. Kuuluisan Alamon taistelun jälkeen texasilaiset päihittivät meksikolaiset San Jacintossa ja julistautuivat itsenäisiksi."
 
 #: data/nation/thracian.ruleset:3
 msgid "Thracian"
@@ -13097,6 +13081,16 @@ msgstr ""
 "päättämään valkoisen vähemmistövallan 1979. Vuodesta 1980 maata on hallinnut "
 "Robert Mugabe, jonka maine kansainvälisesti on ollut yhtä huono kuin "
 "aiemmallakin hallinnolla."
+
+#, fuzzy, c-format
+#~| msgid "State President %s"
+#~ msgid "President %s"
+#~ msgstr "Valtionpresidentti %s"
+
+#, fuzzy, c-format
+#~| msgid "?female:State President %s"
+#~ msgid "?female:President %s"
+#~ msgstr "Valtionpresidentti %s"
 
 #~ msgid "American"
 #~ msgstr "amerikkalaisten"
