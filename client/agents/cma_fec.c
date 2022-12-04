@@ -116,7 +116,7 @@ void cmafec_get_fe_parameter(struct city *pcity, struct cm_parameter *dest)
 {
   struct cm_parameter parameter;
 
-  /* our fe_parameter could be stale. our agents parameter is uptodate */
+  /* our fe_parameter could be stale. our agents parameter is up to date */
   if (cma_is_city_under_agent(pcity, &parameter)) {
     cm_copy_parameter(dest, &parameter);
     cmafec_set_fe_parameter(pcity, dest);
