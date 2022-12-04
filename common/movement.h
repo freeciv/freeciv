@@ -64,7 +64,8 @@ bool can_attack_non_native_hard_reqs(const struct unit_type *utype);
 bool can_attack_non_native(const struct unit_type *utype);
 bool can_attack_from_non_native(const struct unit_type *utype);
 
-bool is_city_channel_tile(const struct unit_class *punitclass,
+bool is_city_channel_tile(const struct civ_map *nmap,
+                          const struct unit_class *punitclass,
                           const struct tile *ptile,
                           const struct tile *pexclude);
 
@@ -87,7 +88,8 @@ static inline bool is_native_tile_to_class(const struct unit_class *punitclass,
                             tile_extras(ptile));
 }
 
-bool is_native_move(const struct unit_class *punitclass,
+bool is_native_move(const struct civ_map *nmap,
+                    const struct unit_class *punitclass,
                     const struct tile *src_tile,
                     const struct tile *dst_tile);
 bool is_native_near_tile(const struct civ_map *nmap,
@@ -145,4 +147,4 @@ const char *move_points_text(int mp, bool reduce);
 }
 #endif /* __cplusplus */
 
-#endif  /* FC__MOVEMENT_H */
+#endif /* FC__MOVEMENT_H */

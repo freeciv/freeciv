@@ -1715,7 +1715,7 @@ void remove_city(struct city *pcity)
     }
   } unit_list_iterate_safe_end;
 
-  /* make sure ships are not left on land when city is removed. */
+  /* Make sure ships are not left on land when city is removed. */
   unit_list_iterate_safe(pcenter->units, punit) {
     bool moved;
     const struct unit_type *punittype = unit_type_get(punit);
@@ -1789,7 +1789,7 @@ void remove_city(struct city *pcity)
 
           if (!uclass_has_flag(pclass, UCF_BUILD_ANYWHERE)
               && !is_native_tile(punit->utype, piter)
-              && !is_city_channel_tile(pclass, piter, pcenter)) {
+              && !is_city_channel_tile(&(wld.map), pclass, piter, pcenter)) {
             notify_player(unit_owner(punit), unit_tile(punit),
                           E_UNIT_LOST_MISC, ftc_server,
                           _("When %s was disbanded your %s in %s was trapped, "
