@@ -458,11 +458,10 @@ void spy_send_sabotage_list(struct connection *pc, struct unit *pdiplomat,
 /************************************************************************//**
   Establish an embassy.
 
-  - Barbarians always execute ambassadors.
-  - Otherwise, the embassy is created.
+  - Always success; the embassy is created.
   - It costs some minimal movement to establish an embassy.
 
-  - The actor unit always survives the investigation unless the action
+  - The actor unit always survives establishing the embassy unless the action
     being performed is configured to always consume the actor unit.
 
   Returns TRUE iff action could be done, FALSE if it couldn't. Even if
