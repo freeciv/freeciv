@@ -2536,7 +2536,7 @@ static bool create_unit_menu(struct city_dialog *pdialog, struct unit *punit,
                      GINT_TO_POINTER(punit->id));
   }
 
-  item = g_menu_item_new(_("_Activate unit, _close dialog"), "win.activate_close");
+  item = g_menu_item_new(_("Activate unit, _close dialog"), "win.activate_close");
   g_menu_append_item(menu, item);
 
   if (!supported) {
