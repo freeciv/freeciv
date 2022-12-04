@@ -79,7 +79,7 @@
 #define SHOW_APPLY_RESULT_ON_SERVER_ERRORS              FALSE
 #define ALWAYS_APPLY_AT_SERVER                          FALSE
 
-#define SAVED_PARAMETER_SIZE                            29
+#define SAVED_PARAMETER_SIZE                            30
 
 #define CMA_ATTR_VERSION                                3
 #define CMA_ATTR_VERSION_MIN_SUPPORTED                  2
@@ -557,7 +557,7 @@ bool cma_is_city_under_agent(const struct city *pcity,
     return FALSE;
   }
 
-  if (parameter) {
+  if (parameter != NULL) {
     memcpy(parameter, &my_parameter, sizeof(struct cm_parameter));
   }
 
@@ -567,7 +567,7 @@ bool cma_is_city_under_agent(const struct city *pcity,
 /************************************************************************//**
   Get the parameter.
 
-  Don't bother to cm_init_parameter, since we set all the fields anyway.
+  Don't bother to cm_init_parameter(), since we set all the fields anyway.
   But leave the comment here so we can find this place when searching
   for all the creators of a parameter.
 ****************************************************************************/
