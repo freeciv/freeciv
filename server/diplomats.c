@@ -2331,7 +2331,7 @@ static void diplomat_escape_full(struct player *pplayer,
 /************************************************************************//**
   Attempt to escape without doing anything else first.
 
-  May be captured and executed, or escape to the nearest domeestic city.
+  May be captured and executed, or escape to the nearest domestic city.
 
   Returns TRUE iff action could be done, FALSE if it couldn't. Even if
   this returns TRUE, unit may have died during the action.
