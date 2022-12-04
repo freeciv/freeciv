@@ -225,7 +225,8 @@ bool can_attack_from_non_native(const struct unit_type *utype)
 /************************************************************************//**
   Check for a city channel.
 ****************************************************************************/
-bool is_city_channel_tile(const struct unit_class *punitclass,
+bool is_city_channel_tile(const struct civ_map *nmap,
+                          const struct unit_class *punitclass,
                           const struct tile *ptile,
                           const struct tile *pexclude)
 {
@@ -236,7 +237,7 @@ bool is_city_channel_tile(const struct unit_class *punitclass,
   dbv_init(&tile_processed, map_num_tiles());
   for (;;) {
     dbv_set(&tile_processed, tile_index(ptile));
-    adjc_iterate(&(wld.map), ptile, piter) {
+    adjc_iterate(nmap, ptile, piter) {
       if (dbv_isset(&tile_processed, tile_index(piter))) {
         continue;
       } else if (piter != pexclude
@@ -262,6 +263,7 @@ bool is_city_channel_tile(const struct unit_class *punitclass,
 
   dbv_free(&tile_processed);
   tile_list_destroy(process_queue);
+
   return found;
 }
 
@@ -281,7 +283,7 @@ bool can_exist_at_tile(const struct civ_map *nmap,
       && (uclass_has_flag(utype_class(utype), UCF_BUILD_ANYWHERE)
           || is_native_near_tile(nmap, utype_class(utype), ptile)
           || (1 == game.info.citymindist
-              && is_city_channel_tile(utype_class(utype), ptile, NULL)))) {
+              && is_city_channel_tile(nmap, utype_class(utype), ptile, NULL)))) {
     return TRUE;
   }
 
@@ -353,7 +355,8 @@ bool is_native_to_class(const struct unit_class *punitclass,
   moves, so that callers are responsible for checking for other sources of
   legal moves (e.g. cities, transports, etc.).
 ****************************************************************************/
-bool is_native_move(const struct unit_class *punitclass,
+bool is_native_move(const struct civ_map *nmap,
+                    const struct unit_class *punitclass,
                     const struct tile *src_tile,
                     const struct tile *dst_tile)
 {
@@ -415,16 +418,16 @@ bool is_native_move(const struct unit_class *punitclass,
         return TRUE;
       case RMM_CARDINAL:
         /* Road connects source and destination if cardinal move. */
-        if (is_move_cardinal(&(wld.map), src_tile, dst_tile)) {
+        if (is_move_cardinal(nmap, src_tile, dst_tile)) {
           return TRUE;
         }
         break;
       case RMM_RELAXED:
-        if (is_move_cardinal(&(wld.map), src_tile, dst_tile)) {
+        if (is_move_cardinal(nmap, src_tile, dst_tile)) {
           /* Cardinal moves have no between tiles, so connected. */
           return TRUE;
         }
-        cardinal_between_iterate(&(wld.map), src_tile, dst_tile, between) {
+        cardinal_between_iterate(nmap, src_tile, dst_tile, between) {
           if (tile_has_extra(between, iextra)
               || (pextra != iextra && tile_has_extra(between, pextra))) {
             /* We have a link for the connection.
@@ -539,7 +542,7 @@ bool can_step_taken_wrt_to_zoc(const struct unit_type *punittype,
   }
 
   return (is_my_zoc(unit_owner, src_tile, zmap)
-	  || is_my_zoc(unit_owner, dst_tile, zmap));
+          || is_my_zoc(unit_owner, dst_tile, zmap));
 }
 
 /************************************************************************//**
@@ -678,7 +681,7 @@ unit_move_to_tile_test(const struct civ_map *nmap,
 
   /* 10) */
   if (utype_has_flag(punittype, UTYF_COAST_STRICT)
-      && !pcity && !is_safe_ocean(&(wld.map), dst_tile)) {
+      && !pcity && !is_safe_ocean(nmap, dst_tile)) {
     return MR_TRIREME;
   }
 
@@ -695,7 +698,7 @@ unit_move_to_tile_test(const struct civ_map *nmap,
   }
 
   /* 13) */
-  if (!(is_native_move(utype_class(punittype), src_tile, dst_tile)
+  if (!(is_native_move(nmap, utype_class(punittype), src_tile, dst_tile)
         /* Allow non-native moves into cities or boarding transport. */
         || pcity
         || unit_could_load_at(punit, dst_tile))) {
@@ -788,7 +791,7 @@ unit_teleport_to_tile_test(const struct civ_map *nmap,
 
   /* 6) */
   if (utype_has_flag(punittype, UTYF_COAST_STRICT)
-      && !pcity && !is_safe_ocean(&(wld.map), dst_tile)) {
+      && !pcity && !is_safe_ocean(nmap, dst_tile)) {
     return MR_TRIREME;
   }
 

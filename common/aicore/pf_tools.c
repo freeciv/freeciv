@@ -248,7 +248,7 @@ pf_get_move_scope(const struct tile *ptile,
           || uclass_has_flag(uclass, UCF_BUILD_ANYWHERE)
           || is_native_near_tile(param->map, uclass, ptile)
           || (1 == game.info.citymindist
-              && is_city_channel_tile(uclass, ptile, NULL)))) {
+              && is_city_channel_tile(param->map, uclass, ptile, NULL)))) {
     scope |= PF_MS_CITY;
   }
 
@@ -347,7 +347,7 @@ static inline bool pf_move_possible(const struct tile *src,
 
   if (PF_MS_NATIVE == dst_scope
       && (PF_MS_NATIVE & src_scope)
-      && !is_native_move(utype_class(param->utype), src, dst)) {
+      && !is_native_move(param->map, utype_class(param->utype), src, dst)) {
     return FALSE;
   }
 
@@ -829,7 +829,7 @@ void pft_fill_utype_parameter(struct pf_parameter *parameter,
   Fill classic parameters for an unit.
 ****************************************************************************/
 void pft_fill_unit_parameter(struct pf_parameter *parameter,
-			     const struct unit *punit)
+                             const struct unit *punit)
 {
   pft_fill_unit_default_parameter(parameter, punit);
   pft_fill_parameter(parameter, unit_type_get(punit));
@@ -878,7 +878,7 @@ void pft_fill_utype_overlap_param(struct pf_parameter *parameter,
   For sea/land bombardment and for ferries.
 ****************************************************************************/
 void pft_fill_unit_overlap_param(struct pf_parameter *parameter,
-				 const struct unit *punit)
+                                 const struct unit *punit)
 {
   pft_fill_unit_default_parameter(parameter, punit);
   pft_fill_overlap_param(parameter, unit_type_get(punit));
