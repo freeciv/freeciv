@@ -819,12 +819,11 @@ static void dst_row_callback(GtkTreeView *view, GtkTreePath *path,
 /************************************************************************//**
   Key press for source
 ****************************************************************************/
-static gboolean src_key_press_callback(GtkWidget *w, GdkEvent *ev,
-                                       gpointer data)
+static gboolean src_key_press_callback(GtkEventControllerKey *controller,
+                                       guint keyval, guint keycode,
+                                       GdkModifierType state, gpointer data)
 {
   struct worklist_data *ptr;
-  GdkModifierType state;
-  guint keyval;
 
   ptr = data;
 
@@ -832,8 +831,6 @@ static gboolean src_key_press_callback(GtkWidget *w, GdkEvent *ev,
     return FALSE;
   }
 
-  state = gdk_event_get_modifier_state(ev);
-  keyval = gdk_key_event_get_keyval(ev);
   if ((state & GDK_SHIFT_MASK) && keyval == GDK_KEY_Insert) {
     queue_prepend(ptr);
     return TRUE;
@@ -848,19 +845,16 @@ static gboolean src_key_press_callback(GtkWidget *w, GdkEvent *ev,
 /************************************************************************//**
   Key press for destination
 ****************************************************************************/
-static gboolean dst_key_press_callback(GtkWidget *w, GdkEvent *ev,
-                                       gpointer data)
+static gboolean dst_key_press_callback(GtkEventControllerKey *controller,
+                                       guint keyval, guint keycode,
+                                       GdkModifierType state, gpointer data)
 {
   GtkTreeModel *model;
   struct worklist_data *ptr;
-  guint keyval;
-  GdkModifierType state;
 
   ptr = data;
   model = GTK_TREE_MODEL(ptr->dst);
 
-  state = gdk_event_get_modifier_state(ev);
-  keyval = gdk_key_event_get_keyval(ev);
   if (keyval == GDK_KEY_Delete) {
     GtkTreeIter it, it_next;
     bool deleted = FALSE;
@@ -884,16 +878,16 @@ static gboolean dst_key_press_callback(GtkWidget *w, GdkEvent *ev,
     if (deleted) {
       commit_worklist(ptr);
     }
-    return TRUE;
 
+    return TRUE;
   } else if ((state & GDK_ALT_MASK) && keyval == GDK_KEY_Up) {
     queue_bubble_up(ptr);
-    return TRUE;
 
+    return TRUE;
   } else if ((state & GDK_ALT_MASK) && keyval == GDK_KEY_Down) {
     queue_bubble_down(ptr);
-    return TRUE;
 
+    return TRUE;
   } else {
     return FALSE;
   }
@@ -1338,15 +1332,21 @@ GtkWidget *create_worklist(void)
                    G_CALLBACK(dst_dnd_callback), ptr);
 #endif /* GTK3_DRAG_DROP */
 
+  controller = gtk_event_controller_key_new();
+  g_signal_connect(controller, "key-pressed",
+                   G_CALLBACK(src_key_press_callback), ptr);
+  gtk_widget_add_controller(src_view, controller);
+
+  controller = gtk_event_controller_key_new();
+  g_signal_connect(controller, "key-pressed",
+                   G_CALLBACK(dst_key_press_callback), ptr);
+  gtk_widget_add_controller(dst_view, controller);
+
   g_signal_connect(src_view, "row_activated",
                    G_CALLBACK(src_row_callback), ptr);
-  g_signal_connect(src_view, "key_press_event",
-                   G_CALLBACK(src_key_press_callback), ptr);
 
   g_signal_connect(dst_view, "row_activated",
                    G_CALLBACK(dst_row_callback), ptr);
-  g_signal_connect(dst_view, "key_press_event",
-                   G_CALLBACK(dst_key_press_callback), ptr);
 
   g_signal_connect(ptr->src_selection, "changed",
                    G_CALLBACK(src_selection_callback), ptr);
