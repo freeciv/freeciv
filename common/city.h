@@ -813,7 +813,8 @@ void city_set_ai_data(struct city *pcity, const struct ai_type *ai,
 
 void city_rally_point_clear(struct city *pcity);
 void city_rally_point_receive(const struct packet_city_rally_point *packet,
-                              struct city *pcity);
+                              struct city *pcity)
+  fc__attribute((nonnull (1, 2)));
 
 #ifdef __cplusplus
 }
