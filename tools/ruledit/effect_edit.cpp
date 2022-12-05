@@ -263,7 +263,12 @@ void effect_edit::fill_active()
     } else {
       mp_button->setText(NO_MULTIPLIER_NAME);
     }
-    comment->setText(selected->rulesave.comment);
+
+    if (selected->rulesave.comment == NULL) {
+      comment->setText("");
+    } else {
+      comment->setText(selected->rulesave.comment);
+    }
   } else {
     mp_button->setText(NO_MULTIPLIER_NAME);
   }
@@ -387,6 +392,8 @@ void effect_edit::comment_given()
 
     if (!comment->text().isEmpty()) {
       selected->rulesave.comment = fc_strdup(comment->text().toUtf8());
+    } else {
+      selected->rulesave.comment = NULL;
     }
 
     fill_active();
