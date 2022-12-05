@@ -89,14 +89,15 @@ freeciv-gtk3.22:  This uses the GTK+ 3 libraries. Version 3.22 or 3.24
   as such it is considered to be the default interface throughout the rest of
   this document.
 
-freeciv-qt:  This uses the QT library. Development of this client has recently
-  reached the state where it's considered generally usable, but it still lacks
+freeciv-qt:  This uses the QT library, either Qt5 or Qt6.
+  This client is considered generally usable, but it still lacks
   number of features gtk-clients have.
 
-freeciv-sdl2: This uses Simple DirectMedia Layer libraries version 2.
+freeciv-sdl2:  This uses Simple DirectMedia Layer libraries version 2.
 
-freeciv-gtk4: This uses GTK+ 4 libraries. This is development version of
-  a client to get turned to use gtk4 once it's released.
+freeciv-gtk4:  This uses GTK 4 libraries. This client is expected later to
+  replace freeciv-gtk3.22, but it's still lacking some of the functionality
+  of the freeciv-gtk3.22.
 
 
 Starting a game:
