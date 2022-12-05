@@ -1481,8 +1481,12 @@ bool is_diplrel_between(const struct player *player1,
     return gives_shared_vision(player2, player1);
   case DRO_HOSTS_EMBASSY:
     return player_has_embassy(player2, player1);
+  case DRO_HOSTS_TEAM_EMBASSY:
+    return team_has_embassy(player2->team, player1);
   case DRO_HAS_EMBASSY:
     return player_has_embassy(player1, player2);
+  case DRO_HAS_TEAM_EMBASSY:
+    return team_has_embassy(player1->team, player2);
   case DRO_HOSTS_REAL_EMBASSY:
     return player_has_real_embassy(player2, player1);
   case DRO_HAS_REAL_EMBASSY:

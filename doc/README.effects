@@ -790,6 +790,7 @@ Look for the diplomatic relationship "Never met", "War", "Cease-fire",
 "Armistice", "Peace", "Alliance", "Team", "Gives shared vision",
 "Receives shared vision", "Hosts embassy", "Has embassy",
 "Hosts real embassy" (not from an effect), "Has real embassy",
+"Has team embassy", "Hosts team embassy",
 "Has Casus Belli" (reason for war), "Provided Casus Belli" or "Foreign".
 
 A DiplRel is considered fulfilled for the range

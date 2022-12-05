@@ -185,6 +185,10 @@ struct player_ai {
 #define SPECENUM_VALUE14NAME N_("Provided Casus Belli")
 #define SPECENUM_VALUE15 DRO_FOREIGN
 #define SPECENUM_VALUE15NAME N_("Foreign")
+#define SPECENUM_VALUE16 DRO_HAS_TEAM_EMBASSY
+#define SPECENUM_VALUE16NAME N_("Has team embassy")
+#define SPECENUM_VALUE17 DRO_HOSTS_TEAM_EMBASSY
+#define SPECENUM_VALUE17NAME N_("Hosts team embassy")
 #define SPECENUM_COUNT DRO_LAST
 #include "specenum_gen.h"
 
