@@ -3,8 +3,8 @@
 # Marko Lindqvist <cazfi74@gmail.com>,
 # This translation is covered by the GNU General Public License Version 2.
 #
-# Merging translations upwards to e.g. master is fine, do not merge downwards
-# by default.
+# Merging translations upwards to e.g. master/main is fine, do not merge
+# downwards by default.
 #
 # Prioritizing stable branch S3_1 for translations (August 2022), merge
 # to master when feeling like it with:
@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 3.2\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2022-10-12 21:49+0300\n"
-"PO-Revision-Date: 2022-10-12 21:53+0300\n"
+"POT-Creation-Date: 2022-12-05 16:20+0200\n"
+"PO-Revision-Date: 2022-12-05 16:21+0200\n"
 "Last-Translator: Marko Lindqvist <cazfi74@gmail.com>\n"
 "Language-Team: Finnish <laatu@lokalisointi.org>\n"
 "Language: fi\n"
@@ -26,7 +26,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
-#: tools/ruledit/conversion_log.cpp:41 tools/ruledit/effect_edit.cpp:128
+#: tools/ruledit/conversion_log.cpp:41 tools/ruledit/effect_edit.cpp:133
 #: tools/ruledit/req_vec_fix.cpp:191 tools/ruledit/requirers_dlg.cpp:43
 #: tools/ruledit/req_edit.cpp:135
 msgid "Close"
@@ -64,27 +64,31 @@ msgstr "Tyyppi:"
 msgid "Value:"
 msgstr "Arvo:"
 
-#: tools/ruledit/effect_edit.cpp:116 tools/ruledit/tab_building.cpp:90
+#: tools/ruledit/effect_edit.cpp:115
+msgid "Comment"
+msgstr "Kommentti"
+
+#: tools/ruledit/effect_edit.cpp:121 tools/ruledit/tab_building.cpp:90
 #: tools/ruledit/tab_extras.cpp:84 tools/ruledit/tab_good.cpp:85
 #: tools/ruledit/tab_gov.cpp:84 tools/ruledit/tab_multiplier.cpp:84
 #: tools/ruledit/tab_unit.cpp:87
 msgid "Requirements"
 msgstr "Vaadittavat"
 
-#: tools/ruledit/effect_edit.cpp:120
+#: tools/ruledit/effect_edit.cpp:125
 msgid "Add Effect"
 msgstr "Lisää vaikutus"
 
-#: tools/ruledit/effect_edit.cpp:124
+#: tools/ruledit/effect_edit.cpp:129
 msgid "Delete Effect"
 msgstr "Poista vaikutus"
 
-#: tools/ruledit/effect_edit.cpp:201
+#: tools/ruledit/effect_edit.cpp:206
 #, c-format
 msgid "Effect #%d: %s"
 msgstr "Vaikutus #%d: %s"
 
-#: tools/ruledit/effect_edit.cpp:304
+#: tools/ruledit/effect_edit.cpp:310
 #, c-format
 msgid "%s effect #%d"
 msgstr "%s: Vaikutus #%d"
@@ -729,7 +733,7 @@ msgstr "Poista vaatimus"
 msgid "%s prevents"
 msgstr "%s estää"
 
-#: tools/ruledit/validity.c:50 tools/ruledit/validity.c:351
+#: tools/ruledit/validity.c:50 tools/ruledit/validity.c:361
 msgid "Effect"
 msgstr "Vaikutus"
 
@@ -748,11 +752,11 @@ msgstr "Musiikkityyli"
 msgid "%s clause"
 msgstr "%s sopimuskohta"
 
-#: tools/ruledit/validity.c:282
+#: tools/ruledit/validity.c:292
 msgid "Conflicting extra"
 msgstr "Konfliktaava ruutulisä"
 
-#: tools/ruledit/validity.c:285
+#: tools/ruledit/validity.c:295
 msgid "Hidden extra"
 msgstr "Kätketty ruutulisä"
 
