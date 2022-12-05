@@ -1747,7 +1747,7 @@ if test x$enable_fcdb = xyes ; then
 fi
 
 AC_ARG_ENABLE([sys-tolua-cmd],
-  AS_HELP_STRING([--enable-sys-tolua-cmd], [use tolua command from build system instead of one from freeciv tree [true when cross-compiling]]),
+  AS_HELP_STRING([--enable-sys-tolua-cmd], [use tolua command from build system instead of one from freeciv tree [false for native build, true for cross-compile]]),
 [case "${enableval}" in
   yes)
     sys_tolua_cmd=true ;;
@@ -1762,7 +1762,8 @@ esac], [
 if test "x$cross_compiling" = "xyes" ; then
   sys_tolua_cmd=true
 else
-  sys_tolua_cmd=test
+  dnl Our own tolua is better than upstream one, so prefer it.
+  sys_tolua_cmd=false
 fi])
 
 if test "x$sys_tolua_cmd" = "xtrue" || test "x$sys_tolua_cmd" = "xtest" ; then
