@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -33,8 +33,14 @@ extern "C" {
 #endif /* FREECIV_HAVE_WINSOCK2 */
 #endif /* FREECIV_HAVE_WINSOCK */
 
+/* Make sure zlib.h is included before readline, as we don't want
+   readline to define macros that should come from the system. */
+#if defined(FREECIV_HAVE_LIBREADLINE) && defined(FREECIV_HAVE_LIBZ)
+#include <zlib.h>
+#endif
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */
 
-#endif  /* FC__PREHDRS_H */
+#endif /* FC__PREHDRS_H */
