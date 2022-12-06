@@ -2336,6 +2336,11 @@ void send_city_info(struct player *dest, struct city *pcity)
     send_city_info_at_tile(dest, dest->connections, pcity, pcity->tile);
   }
 
+  /* Sending counters */
+  city_counters_iterate(pcount) {
+    city_counter_refresh(pcity, pcount->index);
+  } city_counters_iterate_end;
+
   if (game.info.team_pooled_research
       && player_list_size(team_members(powner->team)) > 1) {
     /* We want to send the new total bulbs production of the team. */

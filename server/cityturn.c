@@ -3345,6 +3345,14 @@ static void update_city_activity(struct city *pcity)
 
     if (city_celebrating(pcity) || is_celebrating) {
       pcity->rapture++;
+
+      /* Update city's celebrating counters */
+      city_counters_iterate(pcount) {
+        if (pcount->type == CB_CITY_CELEBRATION_TURNS) {
+          pcity->counter_values[pcount->index]++;
+        }
+      } city_counters_iterate_end;
+
       if (pcity->rapture == 1) {
         notify_player(pplayer, city_tile(pcity), E_CITY_LOVE, ftc_server,
                       _("Celebrations in your honor in %s."),
@@ -3356,6 +3364,13 @@ static void update_city_activity(struct city *pcity)
                       _("Celebrations canceled in %s."),
                       city_link(pcity));
       }
+
+      /* Update city's celebrating counters */
+      city_counters_iterate(pcount) {
+        if (pcount->type == CB_CITY_CELEBRATION_TURNS) {
+          pcity->counter_values[pcount->index] = 0;
+        }
+      } city_counters_iterate_end;
       pcity->rapture = 0;
     }
     pcity->was_happy = is_happy;
