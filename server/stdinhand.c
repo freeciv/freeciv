@@ -2031,7 +2031,7 @@ static bool set_ai_level(struct connection *caller, const char *name,
   enum m_pre_result match_result;
   struct player *pplayer;
 
-  fc_assert_ret_val(level > 0 && level < 11, FALSE);
+  fc_assert_ret_val(level >= 0 && level < AI_LEVEL_AWAY, FALSE);
 
   pplayer = player_by_name_prefix(name, &match_result);
 
