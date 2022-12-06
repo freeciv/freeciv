@@ -56,7 +56,7 @@ all-win64: gtk3.22-installer sdl2-installer gtk4-installer
 
 all-win32: gtk3.22-installer sdl2-installer gtk4-installer
 
-all-win64-10: gtk3.22-installer sdl2-installer gtk4-installer qt6-installer
+all-win64-10: gtk3.22-installer sdl2-installer gtk4-installer qt6-installer ruledit-installer-qt6
 
 all-win64+: gtk3.22-install sdl2-install gtk4-install
 
@@ -78,6 +78,9 @@ sdl2-installer:
 qt6-installer:
 	make -f $(MAKEFILE_NAME) EXTRA_CONFIG="-Ddebug=false $(EXTRA_CONFIG)" GUI=qt6 CLIENT=qt FCMP=qt installer-common
 
+ruledit-installer-qt6:
+	make -f $(MAKEFILE_NAME) EXTRA_CONFIG="-Ddebug=false $(EXTRA_CONFIG)" GUI=qt6 installer-ruledit-common
+
 gtk3.22-install:
 	make -f $(MAKEFILE_NAME) GUI=gtk3.22 CLIENT=gtk3.22 FCMP=gtk3 install-freeciv-gtk3.22
 
@@ -95,14 +98,23 @@ installer-common: install-freeciv-$(GUI) install-env-$(GUI)
 	mkdir -p Output
 	makensis Freeciv-meson-$(WINARCH)-$(FREECIV_VERSION)-$(GUI).nsi
 
+installer-ruledit-common: install-ruledit-$(GUI)
+	# Extract Freeciv version
+	$(eval FREECIV_VERSION := $(shell ../../fc_version))
+	# create NSIS script
+	./create-freeciv-ruledit-nsi.sh meson-install-$(WINARCH)-ruledit-$(GUI) $(FREECIV_VERSION) $(WINARCH) > Freeciv-meson-$(WINARCH)-$(FREECIV_VERSION)-ruledit-$(GUI).nsi
+	# Create installer executable
+	mkdir -p Output
+	makensis Freeciv-meson-$(WINARCH)-$(FREECIV_VERSION)-ruledit-$(GUI).nsi
+
 install-freeciv-common: clean-install-common
-	# create build directory
+	# Create build directory
 	mkdir -p meson-build-$(WINARCH)-$(GUI)
 	cd meson-build-$(WINARCH)-$(GUI); meson setup ../../.. -Dprefix=`pwd`/../meson-install-$(WINARCH)-$(GUI) -Dclients=$(CLIENT) -Dfcmp=$(FCMP) -Druledit=false -Dreadline=false -Dcacert-path='./ssl/certs/ca-bundle.crt' $(EXTRA_CONFIG)
 	cd meson-build-$(WINARCH)-$(GUI); ninja
 	cd meson-build-$(WINARCH)-$(GUI); ninja install
 	cd meson-build-$(WINARCH)-$(GUI); ninja langstat_core.txt
-	# reorder directory layout
+	# Reorder directory layout
 	mv meson-install-$(WINARCH)-$(GUI)/bin/* meson-install-$(WINARCH)-$(GUI)/
 	rm -Rf meson-install-$(WINARCH)-$(GUI)/bin
 	mv meson-install-$(WINARCH)-$(GUI)/share/freeciv meson-install-$(WINARCH)-$(GUI)/data
@@ -110,6 +122,22 @@ install-freeciv-common: clean-install-common
 	mkdir -p meson-install-$(WINARCH)-$(GUI)/doc/freeciv/installer
 	cat licenses/header.txt ../../COPYING > meson-install-$(WINARCH)-$(GUI)/doc/freeciv/installer/COPYING.installer
 	cp freeciv-server.cmd freeciv-mp-$(FCMP).cmd freeciv-$(CLIENT).cmd Freeciv.url meson-install-$(WINARCH)-$(GUI)/
+
+install-ruledit-common: clean-install-common
+	# Create build directory
+	mkdir -p meson-build-$(WINARCH)-ruledit-$(GUI)
+	cd meson-build-$(WINARCH)-ruledit-$(GUI); meson setup ../../.. -Dprefix=`pwd`/../meson-install-$(WINARCH)-ruledit-$(GUI) -Dclients=[] -Dfcmp=[] -Druledit=true -Dreadline=false -Dcacert-path='./ssl/certs/ca-bundle.crt' $(EXTRA_CONFIG)
+	cd meson-build-$(WINARCH)-ruledit-$(GUI); ninja
+	cd meson-build-$(WINARCH)-ruledit-$(GUI); ninja install
+	cd meson-build-$(WINARCH)-ruledit-$(GUI); ninja langstat_core.txt langstat_ruledit.txt
+	# Reorder directory layout
+	mv meson-install-$(WINARCH)-ruledit-$(GUI)/bin/* meson-install-$(WINARCH)-ruledit-$(GUI)/
+	rm -Rf meson-install-$(WINARCH)-ruledit-$(GUI)/bin
+	mv meson-install-$(WINARCH)-ruledit-$(GUI)/share/freeciv meson-install-$(WINARCH)-ruledit-$(GUI)/data
+	mv meson-install-$(WINARCH)-ruledit-$(GUI)/share/doc meson-install-$(WINARCH)-ruledit-$(GUI)/
+	mkdir -p meson-install-$(WINARCH)-ruledit-$(GUI)/doc/freeciv/installer
+	cat licenses/header.txt ../../COPYING > meson-install-$(WINARCH)-ruledit-$(GUI)/doc/freeciv/installer/COPYING.installer
+	cp freeciv-ruledit.cmd Freeciv.url meson-install-$(WINARCH)-ruledit-$(GUI)/
 
 SOUND_DLLS := \
 	SDL2.dll \
@@ -279,6 +307,64 @@ install-env-qt6-fcmp: install-env-common
 
 install-env-qt6: install-env-qt6-fcmp
 
+RULEDIT_QT6_DLLS := \
+	libstdc++-6.dll \
+	libintl-8.dll \
+	$(LIBGCCDLL) \
+	libiconv-2.dll \
+	libwinpthread-1.dll \
+	libharfbuzz-0.dll \
+	libfreetype-6.dll \
+	libmd4c.dll \
+	libpng16-16.dll \
+	libdouble-conversion.dll \
+	libb2-1.dll \
+	libicuin${ICUVER}.dll \
+	libicuuc${ICUVER}.dll \
+	libicudt${ICUVER}.dll \
+	zlib1.dll \
+	libpcre2-8-0.dll \
+	libpcre2-16-0.dll \
+	liblzma-5.dll \
+	libcurl-4.dll \
+	libzstd.dll \
+	libsqlite3-0.dll \
+	libMagickWand-${MAGICKVER}.dll \
+	libMagickCore-${MAGICKVER}.dll \
+	libbz2-1.dll \
+	libbrotlicommon.dll \
+	libbrotlidec.dll \
+	libgraphite2.dll \
+	libglib-2.0-0.dll \
+	libcrypto-1_1${CRYPTOLIB_SUFFIX}.dll \
+	libssl-1_1${CRYPTOLIB_SUFFIX}.dll \
+	libidn2-0.dll \
+	libssh2-1.dll \
+	libpsl-5.dll \
+	libnghttp2-14.dll \
+	libgomp-1.dll \
+	libunistring-2.dll \
+	libfontconfig-1.dll \
+	liblcms2-2.dll \
+	liblqr-1-0.dll \
+	libfftw3-3.dll \
+	libltdl-7.dll \
+	libraqm-0.dll \
+	libxml2-2.dll \
+	libexpat-1.dll \
+	libfribidi-0.dll \
+	Qt6Core.dll \
+	Qt6Gui.dll \
+	Qt6Widgets.dll
+
+install-ruledit-qt6: install-ruledit-common
+	# Add DLLs
+	cp -R $(addprefix $(DLLPATH_PREFIX), $(RULEDIT_QT6_DLLS)) meson-install-$(WINARCH)-ruledit-$(GUI)/
+	# Add additional Qt6 files
+	cp -R /$(ARCHDIR)/share/qt6/plugins meson-install-$(WINARCH)-ruledit-$(GUI)/
+	cp -R /usr/share/locale meson-install-$(WINARCH)-ruledit-$(GUI)/share/
+	find meson-install-$(WINARCH)-ruledit-$(GUI)/share/locale -type f -not -name "freeciv-*.mo" -delete
+
 # Cleanup
 
 clean-build-common:
@@ -291,8 +377,13 @@ clean-installer-common:
 	rm -f Output/Freeciv-*-$(GUI)-setup.exe
 	rm -f Freeciv-meson-*-$(GUI).nsi
 
+clean-ruledit-common:
+	rm -f Output/Freeciv-ruledit-*-setup.exe
+	rm -f Freeciv-meson-*-ruledit-$(GUI).nsi
+
 clean:
 	make -f $(MAKEFILE_NAME) GUI=gtk3.22 clean-build-common clean-install-common clean-installer-common
 	make -f $(MAKEFILE_NAME) GUI=gtk4 clean-build-common clean-install-common clean-installer-common
 	make -f $(MAKEFILE_NAME) GUI=sdl2 clean-build-common clean-install-common clean-installer-common
 	make -f $(MAKEFILE_NAME) GUI=qt6 clean-build-common clean-install-common clean-installer-common
+	make -f $(MAKEFILE_NAME) GUI=qt6 clean-build-common clean-install-common clean-ruledit-common
