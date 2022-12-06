@@ -1975,29 +1975,32 @@ static GtkWidget *create_conn_menu(struct player *pplayer,
     }
   }
 
-#ifdef MENUS_GTK3
   if (ALLOW_CTRL <= client.conn.access_level
       && NULL != pplayer && is_ai(pplayer)) {
     enum ai_level level;
 
-    item = gtk_separator_menu_item_new();
-    gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-
     for (level = 0; level < AI_LEVEL_COUNT; level++) {
       if (is_settable_ai_level(level)) {
-        const char *level_name = ai_level_translated_name(level);
-        const char *level_cmd = ai_level_cmd(level);
+        char actbuf[128];
 
-        item = gtk_menu_item_new_with_label(level_name);
-        gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-        g_object_set_data_full(G_OBJECT(item), "command",
-                               g_strdup(level_cmd), (GDestroyNotify) g_free);
-        g_signal_connect_swapped(item, "activate",
-                                 G_CALLBACK(conn_menu_player_command), menu);
+        buf = g_strdup_printf(_("Difficulty: %s"), ai_level_translated_name(level));
+        fc_snprintf(actbuf, sizeof(actbuf), "ailevel_%d", level);
+
+        act = g_simple_action_new(actbuf, NULL);
+        g_object_set_data_full(G_OBJECT(act), "command",
+                               g_strdup(ai_level_cmd(level)),
+                               (GDestroyNotify) g_free);
+        g_action_map_add_action(G_ACTION_MAP(group), G_ACTION(act));
+        g_signal_connect(act, "activate", G_CALLBACK(conn_menu_player_command), menu);
+        fc_snprintf(actbuf, sizeof(actbuf), "win.ailevel_%d", level);
+        item = g_menu_item_new(buf, actbuf);
+        g_free(buf);
+        g_menu_append_item(menu, item);
       }
     }
   }
 
+#ifdef MENUS_GTK3
   if (pplayer && game.info.is_new_game) {
     const int count = pplayer->team
                       ? player_list_size(team_members(pplayer->team)) : 0;
