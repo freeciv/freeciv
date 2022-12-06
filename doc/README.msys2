@@ -20,9 +20,12 @@ is located here for quick reference for the specific freeciv revision.
  Status
 ====================================
 
-- Buildable clients are gtk3.22, gtk4, sdl2, and Qt5 for
-  both win64 and win32 targets. For win64 target, one
-  can build also Qt6-client.
+- With premade environment, buildable clients are:
+  For "win64":    gtk3.22, gtk4, sdl2, Qt5
+  For "win64-10": gtk3.22, gtk4, sdl2, Qt6
+
+- With custom environment (see "Setup" chapter below)
+  one can also build all the clients for "win32" targets
 
 
  Setup
@@ -33,6 +36,11 @@ is located here for quick reference for the specific freeciv revision.
  If you want to reproduce more official freeciv builds, the environment
  used to make those builds is documented in the next chapter ("Premade environment"),
  with listing of versions current at the time of this freeciv version.
+
+ "<arch>" in the package names depends on the build target:
+ - win32    -> "i686"
+ - win64    -> "x86_64"
+ - win64-10 -> "ucrt-x86_64"
 
 1) Install MSYS2 following the documentation on their homepage
 
@@ -79,34 +87,34 @@ is located here for quick reference for the specific freeciv revision.
 2.1.2) Arch-specific packages needed for building freeciv
 
 2.1.2.1) Arch-specific packages for building common parts
- - mingw-w64-i686-gcc / mingw-w64-x86_64-gcc
- - mingw-w64-i686-pkgconf / mingw-w64-x86_64-pkgconf
- - mingw-w64-i686-icu / mingw-w64-x86_64-icu
- - mingw-w64-i686-curl / mingw-w64-x86_64-curl
- - mingw-w64-i686-imagemagick / mingw-w64-x86_64-imagemagick
- - mingw-w64-i686-SDL2_mixer / mingw-w64-x86_64-SDL2_mixer
+ - mingw-w64-<arch>-gcc
+ - mingw-w64-<arch>-pkgconf
+ - mingw-w64-<arch>-icu
+ - mingw-w64-<arch>-curl
+ - mingw-w64-<arch>-imagemagick
+ - mingw-w64-<arch>-SDL2_mixer
 
 2.1.2.1.2) Arch-specific optional packages for building common parts
- - mingw-w64-i686-drmingw / mingw-w64-x86_64-drmingw
- - mingw-w64-i686-meson / mingw-w64-x86_64-meson
- - mingw-w64-i686-tolua / mingw-w64-x86_64-tolua
+ - mingw-w64-<arch>-drmingw
+ - mingw-w64-<arch>-meson
+ - mingw-w64-<arch>-tolua
 
 2.1.2.2) Arch-specific packages for building gtk3.22-client
- - mingw-w64-i686-gtk3 / mingw-w64-x86_64-gtk3
+ - mingw-w64-<arch>-gtk3
 
 2.1.2.3) Arch-specific packages for building gtk4-client
- - mingw-w64-i686-gtk4 / mingw-w64-x86_64-gtk4
+ - mingw-w64-<arch>-gtk4
 
 2.1.2.4) Arch-specific packages for buildind Qt5-client and/or Qt5 Ruledit
- - mingw-w64-i686-qt5-base / mingw-w64-x86_64-qt5-base
+ - mingw-w64-<arch>-qt5-base
 
 2.1.2.5) Arch-specific packages for building Qt6-client and/or Qt6 Ruledit
- - mingw-w64-x86_64-qt6-base
+ - mingw-w64-<arch>-qt6-base
 
 2.1.2.6) Arch-specific packages for building sdl2-client
- - mingw-w64-i686-SDL2_image / mingw-w64-x86_64-SDL2_image
- - mingw-w64-i686-SDL2_ttf / mingw-w64-x86_64-SDL2_ttf
- - mingw-w64-i686-SDL2_gfx / mingw-w64-x86_64-SDL2_gfx
+ - mingw-w64-<arch>-SDL2_image
+ - mingw-w64-<arch>-SDL2_ttf
+ - mingw-w64-<arch>-SDL2_gfx
 
 2.2) Packages needed for building installer package
  These are needed in addition to above ones used in the
@@ -115,7 +123,7 @@ is located here for quick reference for the specific freeciv revision.
 2.2.1) Arch-specific packages needed for building installer
  package
 
- - mingw-w64-i686-nsis / mingw-w64-x86_64-nsis
+ - mingw-w64-<arch>-nsis
 
 
  Premade environment
@@ -177,7 +185,8 @@ empty the package cache for having smaller environment package.
  Build
 ====================================
 
-Launch build target specific msys2 shell, either mingw64.exe or mingw32.exe.
+Launch build target specific msys2 shell;
+ucrt64.exe, mingw64.exe or mingw32.exe.
 Get the freeciv sources there somehow. Some options are:
 1) Download freeciv tarball within msys2 shell with wget
 2) Use git within msys2 shell to get them from version control
@@ -188,7 +197,8 @@ Get the freeciv sources there somehow. Some options are:
 > make -f Makefile.autotools <targets>
 
   Target can be:
-  - "all" (default), build all installers
+  - "all" (default), build all installers, except that Qt5/Qt6
+    selection depends on arch
   - "<gui>-installer", where <gui> is
      - gtk3.22
      - gtk4
