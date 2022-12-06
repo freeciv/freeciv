@@ -143,6 +143,9 @@ void handle_city_make_specialist(struct player *pplayer,
     return;
   }
 
+  /* Disable server side governor being overridden */
+  handle_web_cma_clear(pplayer, pcity->id);
+
   if (is_free_worked(pcity, ptile)) {
     auto_arrange_workers(pcity);
   } else if (tile_worked(ptile) == pcity) {
@@ -187,6 +190,9 @@ void handle_city_make_worker(struct player *pplayer,
   }
 
   if (is_free_worked(pcity, ptile)) {
+    /* Disable server side governor being overridden */
+    handle_web_cma_clear(pplayer, pcity->id);
+
     auto_arrange_workers(pcity);
     sync_cities();
     return;
@@ -209,6 +215,9 @@ void handle_city_make_worker(struct player *pplayer,
                 TILE_XY(ptile), city_name_get(pcity));
     return;
   }
+
+  /* Disable server side governor being overridden */
+  handle_web_cma_clear(pplayer, pcity->id);
 
   city_map_update_worker(pcity, ptile);
 
@@ -558,7 +567,7 @@ void handle_web_cma_clear(struct player *pplayer, int id)
 {
   struct city *pcity = player_city_by_number(pplayer, id);
 
-  if (pcity != NULL) {
+  if (pcity != NULL && pcity->cm_parameter != NULL) {
     free(pcity->cm_parameter);
     pcity->cm_parameter = NULL;
     send_city_info(pplayer, pcity);
