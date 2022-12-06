@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv trunk\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2022-10-12 11:10+0200\n"
-"PO-Revision-Date: 2022-09-22 11:17+0200\n"
+"POT-Creation-Date: 2022-12-06 09:59+0100\n"
+"PO-Revision-Date: 2022-12-06 10:37+0100\n"
 "Last-Translator: Igx <igx31 hotmail.com>\n"
 "Language-Team: French <freeciv-l10n-fr@yahoogroupes.fr>\n"
 "Language: fr\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: tools/ruledit/conversion_log.cpp:41 tools/ruledit/effect_edit.cpp:128
+#: tools/ruledit/conversion_log.cpp:41 tools/ruledit/effect_edit.cpp:133
 #: tools/ruledit/req_vec_fix.cpp:191 tools/ruledit/requirers_dlg.cpp:43
 #: tools/ruledit/req_edit.cpp:135
 msgid "Close"
@@ -55,27 +55,31 @@ msgstr "Type :"
 msgid "Value:"
 msgstr "Valeur :"
 
-#: tools/ruledit/effect_edit.cpp:116 tools/ruledit/tab_building.cpp:90
+#: tools/ruledit/effect_edit.cpp:115
+msgid "Comment"
+msgstr "Commentaire"
+
+#: tools/ruledit/effect_edit.cpp:121 tools/ruledit/tab_building.cpp:90
 #: tools/ruledit/tab_extras.cpp:84 tools/ruledit/tab_good.cpp:85
 #: tools/ruledit/tab_gov.cpp:84 tools/ruledit/tab_multiplier.cpp:84
 #: tools/ruledit/tab_unit.cpp:87
 msgid "Requirements"
 msgstr "Prérequis"
 
-#: tools/ruledit/effect_edit.cpp:120
+#: tools/ruledit/effect_edit.cpp:125
 msgid "Add Effect"
 msgstr "Ajouter un effet"
 
-#: tools/ruledit/effect_edit.cpp:124
+#: tools/ruledit/effect_edit.cpp:129
 msgid "Delete Effect"
 msgstr "Supprimer un effet"
 
-#: tools/ruledit/effect_edit.cpp:201
+#: tools/ruledit/effect_edit.cpp:206
 #, c-format
 msgid "Effect #%d: %s"
 msgstr "Effet #%d : %s"
 
-#: tools/ruledit/effect_edit.cpp:304
+#: tools/ruledit/effect_edit.cpp:310
 #, c-format
 msgid "%s effect #%d"
 msgstr "%s effet #%d"
@@ -723,7 +727,7 @@ msgstr "Supprimer prérequis"
 msgid "%s prevents"
 msgstr "%s empêche"
 
-#: tools/ruledit/validity.c:50 tools/ruledit/validity.c:351
+#: tools/ruledit/validity.c:50 tools/ruledit/validity.c:361
 msgid "Effect"
 msgstr "Effet"
 
@@ -742,11 +746,11 @@ msgstr "Style de musique"
 msgid "%s clause"
 msgstr "Clause %s"
 
-#: tools/ruledit/validity.c:282
+#: tools/ruledit/validity.c:292
 msgid "Conflicting extra"
 msgstr "Extra en conflit"
 
-#: tools/ruledit/validity.c:285
+#: tools/ruledit/validity.c:295
 msgid "Hidden extra"
 msgstr "Extra caché"
 

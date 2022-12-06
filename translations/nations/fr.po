@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv trunk\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2022-11-04 15:28+0100\n"
-"PO-Revision-Date: 2022-11-04 15:52+0100\n"
+"POT-Creation-Date: 2022-12-02 12:01+0100\n"
+"PO-Revision-Date: 2022-12-06 10:36+0100\n"
 "Last-Translator: Igx <igx31 hotmail.com>\n"
 "Language-Team: French <freeciv-l10n-fr@yahoogroupes.fr>\n"
 "Language: fr\n"
@@ -2547,7 +2547,7 @@ msgstr "Générale %s"
 #: data/nation/guatemalan.ruleset:33 data/nation/guyanese.ruleset:26
 #: data/nation/liberian.ruleset:31 data/nation/miskito.ruleset:34
 #: data/nation/moluccan.ruleset:31 data/nation/surinamese.ruleset:29
-#: data/nation/texan.ruleset:29 data/nation/vermont.ruleset:27
+#: data/nation/texan.ruleset:32 data/nation/vermont.ruleset:27
 #, c-format
 msgid "Reverend %s"
 msgstr "Révérend %s"
@@ -2556,7 +2556,7 @@ msgstr "Révérend %s"
 #: data/nation/guatemalan.ruleset:33 data/nation/guyanese.ruleset:26
 #: data/nation/liberian.ruleset:31 data/nation/miskito.ruleset:34
 #: data/nation/moluccan.ruleset:31 data/nation/surinamese.ruleset:29
-#: data/nation/texan.ruleset:29 data/nation/vermont.ruleset:27
+#: data/nation/texan.ruleset:32 data/nation/vermont.ruleset:27
 #, c-format
 msgid "?female:Reverend %s"
 msgstr "Révérende %s"
@@ -3169,13 +3169,13 @@ msgstr ""
 "siècle, cet état devint un centre mondial des industries du divertissement "
 "et de la technologie."
 
-#: data/nation/californian.ruleset:34 data/nation/texan.ruleset:28
+#: data/nation/californian.ruleset:34 data/nation/texan.ruleset:31
 #: data/nation/vermont.ruleset:25
 #, c-format
 msgid "Sheriff %s"
 msgstr "Shérif %s"
 
-#: data/nation/californian.ruleset:34 data/nation/texan.ruleset:28
+#: data/nation/californian.ruleset:34 data/nation/texan.ruleset:31
 #: data/nation/vermont.ruleset:25
 #, c-format
 msgid "?female:Sheriff %s"
@@ -10037,17 +10037,9 @@ msgstr "Paluans"
 msgid ""
 "Palaos is a very little country, with only 20000 inhabitants aproximately. "
 "It is composed of more than 300 islands of volcanic origin."
-msgstr "Palaos est un très petit pays, avec seulement 20.000 habitants environ. Il est composé de plus de 300 îles d'origine volcanique."
-
-#: data/nation/palauan.ruleset:20
-#, c-format
-msgid "President %s"
-msgstr "Président %s"
-
-#: data/nation/palauan.ruleset:20
-#, c-format
-msgid "?female:President %s"
-msgstr "Présidente %s"
+msgstr ""
+"Palaos est un très petit pays, avec seulement 20.000 habitants environ. Il "
+"est composé de plus de 300 îles d'origine volcanique."
 
 #: data/nation/palestinian.ruleset:3
 msgid "Palestinian"
@@ -12505,16 +12497,9 @@ msgstr "Texans"
 msgid ""
 "Texas, \"the Lone Star State\" is the second largest and second most "
 "populous state of the USA, famous for its \"larger than life\" cowboy "
-"mentality. During its history, Texas has been ruled in full or in part by "
-"six countries: France, Spain, Mexico, the Texas Republic, the Confederacy "
-"and the USA - as expressed in the slogan \"six flags over Texas\"."
-msgstr ""
-"Le Texas, \"l'État de l'Étoile Solitaire \" est le deuxième état en taille "
-"et en population des États-Unis, connu pour sa mentalité cow-boy \"larger "
-"than life\". Au cours de son histoire, le Texas a été administré par six "
-"pays : la France, l'Espagne, le Mexique, la République du Texas, la "
-"Confédération et les USA - comme est exprimé dans le slogan \"six drapeaux "
-"sur le Texas\"."
+"culture and Mexican heritage. After the famous Battle of the Alamo, The "
+"Texians defeated the Mexicans at San Jacinto and declared independance."
+msgstr "Le Texas, \"l'État de l'Étoile Solitaire \" est le deuxième état en taille et en population des États-Unis, connu pour sa culture cow-boy \"larger than life\" et son héritage mexicain. Après la fameuse bataille d'Alamo, les texans ont battu les mexicains à San Jacinto et ont déclaré leur indépendance."
 
 #: data/nation/thracian.ruleset:3
 msgid "Thracian"
@@ -14028,6 +14013,14 @@ msgstr ""
 "mettre fin à la loi de minorité blanche en 1979. Depuis 1980, le pays a été "
 "gouverné par Robert Mugabe, qui a reçu une réputation internationale aussi "
 "pauvre que le régime précédent."
+
+#, c-format
+#~ msgid "President %s"
+#~ msgstr "Président %s"
+
+#, c-format
+#~ msgid "?female:President %s"
+#~ msgstr "Présidente %s"
 
 #~ msgid "American"
 #~ msgstr "Américain"
