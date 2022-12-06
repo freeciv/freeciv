@@ -976,168 +976,87 @@ AC_ARG_WITH([tinycthread],
 AM_CONDITIONAL([TINYCTHREAD], [test "x$fctinycthr" = "xyes"])
 
 dnl Check thread implementation
-AC_MSG_CHECKING([for threads implementation])
-thread_impl=none
+AC_MSG_CHECKING([for threads availability])
+thread_impl_c=none
+thread_impl_cpp=none
+thr_libs_c11=""
+thr_libs_pthread=""
 
 CFLAGS_SAVE="${CFLAGS}"
 LIBS_SAVE="${LIBS}"
 
 if test "x$fctinycthr" = "xyes" ; then
-  AC_DEFINE([FREECIV_HAVE_TINYCTHR], [1], [Use tinycthread as thread implementation])
-  thread_impl=tinycthread
-  AC_DEFINE([FREECIV_HAVE_THREAD_COND], [1], [Has thread condition variable implementation])
-  thread_cond=true
-
-  TINYCTHR_LIBS="\$(top_builddir)/dependencies/tinycthread/libfctinycthread.la"
-  AC_SUBST([TINYCTHR_LIBS])
-
-  AC_MSG_RESULT([tinycthread])
+  thread_impl_c=tinycthread
+  thread_impl_cpp=tinycthread
 fi
 
-if test "x$thread_impl" = "xnone" ; then
+if test "x$thread_impl_c" = "xnone" ; then
   AC_LINK_IFELSE([AC_LANG_PROGRAM([[#include <threads.h>]],
     [[return thrd_create(NULL, NULL, NULL);]])],
-    [thread_impl=c11],
-    [LIBS="$LIBS -lpthread"
+    [thread_impl_c=c11])
+  if test "x$thread_impl_c" = "x11" ; then
+    dnl Check if it works with C++ too
+    AC_LANG_PUSH([C++])
     AC_LINK_IFELSE([AC_LANG_PROGRAM([[#include <threads.h>]],
       [[return thrd_create(NULL, NULL, NULL);]])],
-      [thread_impl=c11], [LIBS="$LIBS_SAVE"])])
-
-  if test "$thread_impl" = "c11" ; then
-    AC_DEFINE([FREECIV_HAVE_C11_THREADS], [1], [Use C11 threads as thread implementation])
-    AC_MSG_RESULT([C11])
-    AC_DEFINE([FREECIV_HAVE_THREAD_COND], [1], [Has thread condition variable implementation])
-    thread_cond=true
-  fi
-fi
-
-if test x$crosser != xyes && test "x$thread_impl" = "xnone" ; then
-  FC_C_FLAGS([-pthread], [], [CFLAGS])
-  FC_LD_FLAGS([-pthread], [], [LIBS])
-  AC_LINK_IFELSE([AC_LANG_PROGRAM([[#include <pthread.h>]],
-    [[return pthread_create(NULL, NULL, NULL, NULL);]])],
-    [thread_impl=pthreads],
-    [LIBS="$LIBS -lpthread"
-     AC_LINK_IFELSE([AC_LANG_PROGRAM([[#include <pthread.h>]],
-       [[return pthread_create(NULL, NULL, NULL, NULL);]])],
-       [thread_impl=pthreads])])
-
-  if test $thread_impl = pthreads ; then
-    AC_DEFINE([FREECIV_HAVE_PTHREAD], [1], [Use pthreads as thread implementation])
-    AC_MSG_RESULT([pthreads])
-    AC_DEFINE([FREECIV_HAVE_THREAD_COND], [1], [Has thread condition variable implementation])
-    thread_cond=true
+      [thread_impl_cpp=c11])
+    AC_LANG_POP([C++])
   else
+    LIBS="$LIBS -lpthread"
+    AC_LINK_IFELSE([AC_LANG_PROGRAM([[#include <threads.h>]],
+      [[return thrd_create(NULL, NULL, NULL);]])],
+      [thread_impl_c=c11])
+
+    if test "x$thread_impl_c" = "xc11" ; then
+      dnl Check if it works with C++ too
+      AC_LANG_PUSH([C++])
+      AC_LINK_IFELSE([AC_LANG_PROGRAM([[#include <threads.h>]],
+        [[return thrd_create(NULL, NULL, NULL);]])],
+        [thread_impl_cpp=c11])
+      AC_LANG_POP([C++])
+    fi
+    thr_libs_c11=" -lpthread"
     LIBS="$LIBS_SAVE"
   fi
 fi
 
-if test "x$thread_impl" = "xnone" ; then
-  CFLAGS="$CFLAGS_SAVE"
-  LIBS="$LIBS_SAVE"
+if test "x$crosser" != "xyes" && test "x$thread_impl_cpp" = "xnone" ; then
+  FC_C_FLAGS([-pthread], [], [CFLAGS])
+  FC_LD_FLAGS([-pthread], [], [LIBS])
+  AC_LINK_IFELSE([AC_LANG_PROGRAM([[#include <pthread.h>]],
+    [[return pthread_create(NULL, NULL, NULL, NULL);]])],
+    [thread_impl_cpp=pthreads],
+    [LIBS="$LIBS -lpthread"
+     AC_LINK_IFELSE([AC_LANG_PROGRAM([[#include <pthread.h>]],
+       [[return pthread_create(NULL, NULL, NULL, NULL);]])],
+       [thread_impl_cpp=pthreads
+        thr_libs_pthreads=" -lpthread"])
+     LIBS="$LIBS_SAVE"
+  ])
+fi
 
+if test "x$thread_impl_cpp" = "xnone" ; then
   AC_LINK_IFELSE([AC_LANG_PROGRAM([[#include <windows.h>]],
     [[CreateThread(NULL, 0, NULL, NULL, 0, NULL);]])],
-    [AC_DEFINE([FREECIV_HAVE_WINTHREADS], [1], [Use Windows threads as thread implementation])
-    thread_impl=windows
-    AC_MSG_RESULT([windows])])
+    [thread_impl_cpp=windows])
 fi
 
-if test "x$thread_impl" = "xnone" ; then
-  AC_MSG_ERROR([No usable thread implementation available])
-fi
-
-if test "x$thread_cond" != "xtrue" ; then
-  feature_thr_cond=missing
-fi
-
-AC_ARG_ENABLE([ai-static],
-  AS_HELP_STRING([--enable-ai-static], [statically link listed modules to server]),
-[static_modules="${enableval}"],
-[if test "x$thread_cond" = "xtrue" ; then
-  static_modules="classic,tex"
-else
-  static_modules="classic"
-fi])
-
-ai_mod_static_classic=no
-ai_mod_static_threaded=no
-ai_mod_static_tex=no
-ai_mod_static_stub=no
-
-for module in $(echo $static_modules | $SED 's/,/ /g') ; do
-  if test "x$module" = "xclassic" ; then
-    ai_mod_static_classic=yes
-    ai_mod_default_needed=yes
-    AC_DEFINE([AI_MOD_STATIC_CLASSIC], [1],
-              [classic ai module statically linked])
-  elif test "x$module" = "xthreaded" ; then
-    ai_mod_static_threaded=yes
-    ai_mod_default_needed=yes
-    AC_DEFINE([AI_MOD_STATIC_THREADED], [1],
-              [threaded ai module statically linked])
-  elif test "x$module" = "xtex" ; then
-    ai_mod_static_tex=yes
-    ai_mod_default_needed=yes
-    AC_DEFINE([AI_MOD_STATIC_TEX], [1],
-              [experimental threads ai module statically linked])
-  elif test "x$module" = "xstub" ; then
-    ai_mod_static_stub=yes
-    AC_DEFINE([AI_MOD_STATIC_STUB], [1],
-              [stub ai module statically linked])
+if test "x$thread_impl_c" = "xnone" ; then
+  if test "x$thread_impl_cpp" != "xnone" ; then
+    thread_impl_c=$thread_impl_cpp
+    AC_MSG_RESULT([$thread_impl_c for C and C++])
   else
-    AC_MSG_ERROR([bad value ${module} for --enable-ai-static])
+    AC_MSG_RESULT([none])
   fi
-  if test "x$default_ai_set" = "x" ; then
-    dnl Make first static module default ai type
-    default_ai_set="${module}"
+else
+  if test "x$thread_impl_cpp" = "xnone" ; then
+    AC_MSG_RESULT([$thread_impl_c for C])
+  elif test "x$thread_impl_cpp" = "x$thread_impl_c" ; then
+    AC_MSG_RESULT([$thread_impl_c for C and C++])
+  else
+    AC_MSG_RESULT([$thread_impl_c for C, $thread_impl_cpp for C++])
   fi
-done
-AM_CONDITIONAL([AI_MOD_STATIC_CLASSIC],
-[test "x$ai_mod_static_classic" = "xyes" || test "x$enable_aimodules" != "xyes"])
-AM_CONDITIONAL([AI_MOD_STATIC_THREADED],
-[test "x$ai_mod_static_threaded" = "xyes"])
-AM_CONDITIONAL([AI_MOD_STATIC_TEX],
-[test "x$ai_mod_static_tex" = "xyes"])
-AM_CONDITIONAL([AI_MOD_STATIC_STUB],
-[test "x$ai_mod_static_stub" = "xyes"])
-
-AC_ARG_WITH([default-ai],
-  AS_HELP_STRING([--with-default-ai], [default ai type [first static]]),
-  [default_ai_set="${withval}"],
-  [])
-
-AC_ARG_WITH([ai-lib],
-  AS_HELP_STRING([--with-ai-lib], [build in default AI code [if needed]]),
-  [ai_mod_default_needed=yes], [])
-
-AM_CONDITIONAL([AI_MOD_DEFAULT_NEEDED],
-[test  "x${ai_mod_default_needed}" = "xyes" || test "x${default_ai_set}" = "x"])
-
-if test "x${default_ai_set}" = "x" ; then
-  default_ai_set="classic"
 fi
-
-fc_ai_last=0
-if test "x$ai_mod_static_classic" = "xyes" ; then
-  fc_ai_last=$fc_ai_last+1
-fi
-if test "x$ai_mod_static_threaded" = "xyes" ; then
-  fc_ai_last=$fc_ai_last+1
-fi
-if test "x$ai_mod_static_tex" = "xyes" ; then
-  fc_ai_last=$fc_ai_last+1
-fi
-if test "x$ai_mod_static_stub" = "xyes" ; then
-  fc_ai_last=$fc_ai_last+1
-fi
-if test "x$enable_aimodules" = "xyes" ; then
-  dnl Dynamic modules allowed, give slots for them
-  fc_ai_last=$fc_ai_last+3
-fi
-AC_DEFINE_UNQUOTED([FREECIV_AI_MOD_LAST], [(${fc_ai_last})], [Max number of AI modules])
-
-AC_DEFINE_UNQUOTED([AI_MOD_DEFAULT], ["${default_ai_set}"], [Default ai type name])
 
 if test "x$MINGW" = "xyes" ; then
   MWINDOWS_FLAG="-mwindows"
@@ -1376,6 +1295,141 @@ if test "x$ruledit" = "xtest" ; then
   feature_ruledit=missing
 fi
 AM_CONDITIONAL([RULEDIT], [test "x$ruledit" = "xyes"])
+
+dnl Check thread implementation
+AC_MSG_CHECKING([for threads decision])
+
+if test "x$ruledit" = "xyes" || test "x$gui_qt" = "xyes" || test "x$fcmp_qt" = "xyes" ; then
+  dnl We build some C++ code
+  if test "x$thread_impl_cpp" = "xnone" ; then
+    AC_MSG_ERROR([No usable thread implementation available (for C and C++)])
+  fi
+  thread_impl_real=$thread_impl_cpp
+else
+  if test "x$thread_impl_c" = "xnone" ; then
+    AC_MSG_ERROR([No usable thread implementation available (for C)])
+  fi
+  thread_impl_real=$thread_impl_c
+fi
+
+if test "x$thread_impl_real" = "xtinycthread" ; then
+  AC_DEFINE([FREECIV_HAVE_TINYCTHR], [1], [Use tinycthread as thread implementation])
+  AC_DEFINE([FREECIV_HAVE_THREAD_COND], [1], [Has thread condition variable implementation])
+
+  TINYCTHR_LIBS="\$(top_builddir)/dependencies/tinycthread/libfctinycthread.la"
+  AC_SUBST([TINYCTHR_LIBS])
+
+  AC_MSG_RESULT([tinycthread])
+  thread_cond=true
+elif test "x$thread_impl_real" = "xc11" ; then
+  AC_DEFINE([FREECIV_HAVE_C11_THREADS], [1], [Use C11 threads as thread implementation])
+  AC_MSG_RESULT([C11])
+  AC_DEFINE([FREECIV_HAVE_THREAD_COND], [1], [Has thread condition variable implementation])
+  thread_cond=true
+  LIBS="${LIBS}${thr_libs_c11}"
+  AC_MSG_RESULT([C11])
+elif test "x$thread_impl_real" = "xpthreads" ; then
+  AC_DEFINE([FREECIV_HAVE_PTHREAD], [1], [Use pthreads as thread implementation])
+  AC_DEFINE([FREECIV_HAVE_THREAD_COND], [1], [Has thread condition variable implementation])
+  thread_cond=true
+  LIBS="${LIBS}${thr_libs_pthread}"
+  AC_MSG_RESULT([pthreads])
+elif test "x$thread_impl_real" = "xwindows" ; then
+  AC_DEFINE([FREECIV_HAVE_WINTHREADS], [1], [Use Windows threads as thread implementation])
+  AC_MSG_RESULT([windows])
+fi
+
+if test "x$thread_cond" != "xtrue" ; then
+  feature_thr_cond=missing
+fi
+
+AC_ARG_ENABLE([ai-static],
+  AS_HELP_STRING([--enable-ai-static], [statically link listed modules to server]),
+[static_modules="${enableval}"],
+[if test "x$thread_cond" = "xtrue" ; then
+  static_modules="classic,tex"
+else
+  static_modules="classic"
+fi])
+
+ai_mod_static_classic=no
+ai_mod_static_threaded=no
+ai_mod_static_tex=no
+ai_mod_static_stub=no
+
+for module in $(echo $static_modules | $SED 's/,/ /g') ; do
+  if test "x$module" = "xclassic" ; then
+    ai_mod_static_classic=yes
+    ai_mod_default_needed=yes
+    AC_DEFINE([AI_MOD_STATIC_CLASSIC], [1],
+              [classic ai module statically linked])
+  elif test "x$module" = "xthreaded" ; then
+    ai_mod_static_threaded=yes
+    ai_mod_default_needed=yes
+    AC_DEFINE([AI_MOD_STATIC_THREADED], [1],
+              [threaded ai module statically linked])
+  elif test "x$module" = "xtex" ; then
+    ai_mod_static_tex=yes
+    ai_mod_default_needed=yes
+    AC_DEFINE([AI_MOD_STATIC_TEX], [1],
+              [experimental threads ai module statically linked])
+  elif test "x$module" = "xstub" ; then
+    ai_mod_static_stub=yes
+    AC_DEFINE([AI_MOD_STATIC_STUB], [1],
+              [stub ai module statically linked])
+  else
+    AC_MSG_ERROR([bad value ${module} for --enable-ai-static])
+  fi
+  if test "x$default_ai_set" = "x" ; then
+    dnl Make first static module default ai type
+    default_ai_set="${module}"
+  fi
+done
+AM_CONDITIONAL([AI_MOD_STATIC_CLASSIC],
+[test "x$ai_mod_static_classic" = "xyes" || test "x$enable_aimodules" != "xyes"])
+AM_CONDITIONAL([AI_MOD_STATIC_THREADED],
+[test "x$ai_mod_static_threaded" = "xyes"])
+AM_CONDITIONAL([AI_MOD_STATIC_TEX],
+[test "x$ai_mod_static_tex" = "xyes"])
+AM_CONDITIONAL([AI_MOD_STATIC_STUB],
+[test "x$ai_mod_static_stub" = "xyes"])
+
+AC_ARG_WITH([default-ai],
+  AS_HELP_STRING([--with-default-ai], [default ai type [first static]]),
+  [default_ai_set="${withval}"],
+  [])
+
+AC_ARG_WITH([ai-lib],
+  AS_HELP_STRING([--with-ai-lib], [build in default AI code [if needed]]),
+  [ai_mod_default_needed=yes], [])
+
+AM_CONDITIONAL([AI_MOD_DEFAULT_NEEDED],
+[test  "x${ai_mod_default_needed}" = "xyes" || test "x${default_ai_set}" = "x"])
+
+if test "x${default_ai_set}" = "x" ; then
+  default_ai_set="classic"
+fi
+
+fc_ai_last=0
+if test "x$ai_mod_static_classic" = "xyes" ; then
+  fc_ai_last=$fc_ai_last+1
+fi
+if test "x$ai_mod_static_threaded" = "xyes" ; then
+  fc_ai_last=$fc_ai_last+1
+fi
+if test "x$ai_mod_static_tex" = "xyes" ; then
+  fc_ai_last=$fc_ai_last+1
+fi
+if test "x$ai_mod_static_stub" = "xyes" ; then
+  fc_ai_last=$fc_ai_last+1
+fi
+if test "x$enable_aimodules" = "xyes" ; then
+  dnl Dynamic modules allowed, give slots for them
+  fc_ai_last=$fc_ai_last+3
+fi
+AC_DEFINE_UNQUOTED([FREECIV_AI_MOD_LAST], [(${fc_ai_last})], [Max number of AI modules])
+
+AC_DEFINE_UNQUOTED([AI_MOD_DEFAULT], ["${default_ai_set}"], [Default ai type name])
 
 AM_CONDITIONAL([SRV_LIB],
   [test "x$server" = "xyes" || test "x$fcmanual" = "xyes" || test "x$ruledit" = "xyes" || test "x$fcruleup" = "xyes"])
