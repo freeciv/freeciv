@@ -5,4 +5,3 @@
 /tolua_server_gen.c
 /tolua_server_gen.h
 /.deps
-/libscripting.a
