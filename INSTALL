@@ -4,7 +4,7 @@ Installing Freeciv:
 
 This file describes how to compile and install Freeciv. Last time we
 made sure this file is up to date was 16-Jul-06.
-Last minor update was 05-Oct-22.
+Last minor update was 08-Dec-22.
 
 There may be a localized version of this file in the ./doc directory,
 named INSTALL.<locale> (e.g., INSTALL.de).
@@ -14,8 +14,9 @@ This document contains sections and subsections as follows:
      1. Prerequisites for the clients:
           1a. Prerequisites for the Gtk3 client:
           1b. Prerequisites for the Gtk3.22 client:
-          1c. Prerequisites for the SDL2 client:
-          1d. Prerequisites for the Qt client:
+          1c. Prerequisites for the Gtk4 client:
+          1d. Prerequisites for the SDL2 client:
+          1e. Prerequisites for the Qt client:
      2. Generating Makefiles
           2a. Generating the Makefile for git versions:
           2b. Generating the Makefile for release versions:
@@ -116,6 +117,7 @@ contains the generated files.
 The Freeciv client comes in the following forms:
 * Gtk+ 3.0 widget library ("Gtk+ 3.0").
 * Gtk+ 3.0 widget library, version 3.22 ("Gtk+ 3.22")
+* Gtk 4.0 widget library, version 4.0
 * SDL2
 * Qt
 
@@ -271,7 +273,77 @@ following order: pkg-config, Glib, Atk, Pango, Gdk-Pixbuf, Gtk+.
 If you are going to make these yourself, build and install them in the
 following order: pkg-config, Glib, Atk, Pango, Gdk-Pixbuf, Gtk+.
 
-1c. Prerequisites for the SDL2 client:
+1b. Prerequisites for the Gtk 4.0 client:
+==========================================
+
+ - "pkg-config" or "pkgconf"
+
+   "pkg-config" is a system for managing library compile/link flags that
+   works with automake and autoconf. You may obtain it at:
+
+      https://pkg-config.freedesktop.org/releases/pkg-config-0.29.2.tar.gz
+
+   "pkgconf" is a newer replacement for "pkg-config"
+   You may obtain it at:
+
+      https://gitea.treehouse.systems/ariadne/pkgconf/archive/pkgconf-1.8.0.tar.gz
+
+ - The "Glib" utility library.
+
+   The "Glib" utility library provides non-graphical functions used by the
+   "Gdk" and "Gtk" libraries, like hash tables, single linked lists, etc.
+
+   Freeciv requires a version of "Glib" greater or equal to 2.66
+   If the Freeciv configure process tells you that you don't have the
+   Glib library installed, then it may be obtained from here:
+
+     https://download.gnome.org/sources/glib/2.74/glib-2.74.3.tar.xz
+
+ - The "Atk" accessibility library.
+
+   The "Atk" library provides a set of interfaces for accessibility.
+   It allows people with disabilities to utilize all the functionality
+   provided by Gtk apps. You may obtain it at:
+
+     https://download.gnome.org/sources/atk/2.38/atk-2.38.0.tar.xz
+
+ - The "Pango" text layout and rendering library.
+
+   "Pango" is library for layout and rendering of text, with an emphasis
+   on internationalization. You may obtain it at:
+
+     https://download.gnome.org/sources/pango/1.50/pango-1.50.12.tar.xz
+
+ - The "Gdk-Pixbuf" image loading/saving library
+
+   You may be obtain it at:
+
+     https://download-fallback.gnome.org/sources/gdk-pixbuf/2.42/gdk-pixbuf-2.42.10.tar.xz
+
+ - The "Gtk" widget library.
+
+   The "Gtk" widget library was designed for the GIMP graphics program.
+   Since then it has gained popularity as an easy to program, free toolkit.
+
+   The "Gtk" library comes with one companion libraries:
+
+     "Gdk":
+       Provides an abstraction layer over X-Windows/LinuxFB/Windows to implement
+       basic drawing functions, windows, clipping, etc.
+
+   Freeciv requires a version of "Gtk" greater or equal to 4.0.0.
+
+   If the Freeciv configure process tells you that you don't have the
+   Gtk library installed, then it may be obtained from here:
+
+     https://download.gnome.org/sources/gtk/4.8/gtk-4.8.2.tar.xz
+
+   "Gtk" depends on the "Glib", "Atk", "Gdk-Pixbuf", and "Pango" libraries.
+
+If you are going to make these yourself, build and install them in the
+following order: pkg-config, Glib, Atk, Pango, Gdk-Pixbuf, Gtk.
+
+1d. Prerequisites for the SDL2 client:
 =====================================
 
  - The "SDL2" library.
@@ -312,7 +384,7 @@ following order: pkg-config, Glib, Atk, Pango, Gdk-Pixbuf, Gtk+.
 
    https://download.savannah.gnu.org/releases/freetype/freetype-2.11.1.tar.xz
 
-1d. Prerequisites for the Qt client:
+1e. Prerequisites for the Qt client:
 ====================================
 
  - C++ compiler.
