@@ -1289,11 +1289,11 @@ static bool write_init_script(char *script_filename)
     fputs("# These are server options saved from a running freeciv-server.\n",
 	script_file);
 
-    /* first rulesetdir. Setting rulesetdir resets the settings to their
-     * default value, so they would be lost if placed before this.  */
+    /* First rulesetdir. Setting rulesetdir resets the settings to their
+     * default value, so they would be lost if placed before this. */
     fprintf(script_file, "rulesetdir %s\n", game.server.rulesetdir);
 
-    /* some state info from commands (we can't save everything) */
+    /* Some state info from commands (we can't save everything) */
 
     fprintf(script_file, "cmdlevel %s new\n",
             cmdlevel_name(default_access_level));
@@ -2413,7 +2413,7 @@ static bool team_command(struct connection *caller, char *str, bool check)
   }
   if (ntokens != 2) {
     cmd_reply(CMD_TEAM, caller, C_SYNTAX,
-              _("Undefined argument.  Usage:\n%s"),
+              _("Undefined argument. Usage:\n%s"),
               command_synopsis(command_by_number(CMD_TEAM)));
     goto cleanup;
   }
@@ -2434,7 +2434,7 @@ static bool team_command(struct connection *caller, char *str, bool check)
   }
   if (NULL == tslot) {
     cmd_reply(CMD_TEAM, caller, C_SYNTAX,
-              _("No such team %s.  Please give a "
+              _("No such team %s. Please give a "
               "valid team name or number."), arg[1]);
     goto cleanup;
   }
@@ -2550,7 +2550,7 @@ static bool vote_command(struct connection *caller, char *str,
   } else if (match_result > M_PRE_AMBIGUOUS) {
     /* Failed */
     cmd_reply(CMD_VOTE, caller, C_SYNTAX,
-              _("Undefined argument.  Usage:\n%s"),
+              _("Undefined argument. Usage:\n%s"),
               command_synopsis(command_by_number(CMD_VOTE)));
     goto CLEANUP;
   }
@@ -2741,7 +2741,7 @@ static bool debug_command(struct connection *caller, char *str,
 
     if (ntokens != 2) {
       cmd_reply(CMD_DEBUG, caller, C_SYNTAX,
-                _("Undefined argument.  Usage:\n%s"),
+                _("Undefined argument. Usage:\n%s"),
                 command_synopsis(command_by_number(CMD_DEBUG)));
       goto cleanup;
     }
@@ -2766,7 +2766,7 @@ static bool debug_command(struct connection *caller, char *str,
 
     if (ntokens != 2) {
       cmd_reply(CMD_DEBUG, caller, C_SYNTAX,
-                _("Undefined argument.  Usage:\n%s"),
+                _("Undefined argument. Usage:\n%s"),
                 command_synopsis(command_by_number(CMD_DEBUG)));
       goto cleanup;
     }
@@ -2808,7 +2808,7 @@ static bool debug_command(struct connection *caller, char *str,
 
     if (ntokens != 3) {
       cmd_reply(CMD_DEBUG, caller, C_SYNTAX,
-                _("Undefined argument.  Usage:\n%s"),
+                _("Undefined argument. Usage:\n%s"),
                 command_synopsis(command_by_number(CMD_DEBUG)));
       goto cleanup;
     }
@@ -2839,7 +2839,7 @@ static bool debug_command(struct connection *caller, char *str,
 
     if (ntokens != 3) {
       cmd_reply(CMD_DEBUG, caller, C_SYNTAX,
-                _("Undefined argument.  Usage:\n%s"),
+                _("Undefined argument. Usage:\n%s"),
                 command_synopsis(command_by_number(CMD_DEBUG)));
       goto cleanup;
     }
@@ -2881,7 +2881,7 @@ static bool debug_command(struct connection *caller, char *str,
 
     if (ntokens != 2) {
       cmd_reply(CMD_DEBUG, caller, C_SYNTAX,
-              _("Undefined argument.  Usage:\n%s"),
+              _("Undefined argument. Usage:\n%s"),
               command_synopsis(command_by_number(CMD_DEBUG)));
       goto cleanup;
     }
@@ -2906,7 +2906,7 @@ static bool debug_command(struct connection *caller, char *str,
     }
   } else {
     cmd_reply(CMD_DEBUG, caller, C_SYNTAX,
-              _("Undefined argument.  Usage:\n%s"),
+              _("Undefined argument. Usage:\n%s"),
               command_synopsis(command_by_number(CMD_DEBUG)));
   }
   cleanup:
@@ -2968,7 +2968,7 @@ static bool set_command(struct connection *caller, char *str, bool check)
 
   if (nargs < 2) {
     cmd_reply(CMD_SET, caller, C_SYNTAX,
-              _("Undefined argument.  Usage:\n%s"),
+              _("Undefined argument. Usage:\n%s"),
               command_synopsis(command_by_number(CMD_SET)));
     goto cleanup;
   }
@@ -3707,10 +3707,10 @@ static bool detach_command(struct connection *caller, char *str, bool check)
   to the caller on failure.
 
   * caller is the connection requesting the load, or NULL for a
-    command-line load.  Error messages are sent back to the caller and
+    command-line load. Error messages are sent back to the caller and
     an access check is done to make sure they are allowed to load.
 
-  * filename is simply the name of the file to be loaded.  This may be
+  * filename is simply the name of the file to be loaded. This may be
     approximate; the function will look for appropriate suffixes and will
     check in the various directories to see if the file is found.
 
@@ -3718,7 +3718,7 @@ static bool detach_command(struct connection *caller, char *str, bool check)
     is attempted.
 
   * The return value is true if the load succeeds, or would succeed;
-    false if there's an error in the file or file name.  Some errors
+    false if there's an error in the file or file name. Some errors
     in loading however could be unrecoverable (if the save game is
     legitimate but has inconsistencies) and would lead to a broken server
     afterwards.
@@ -4688,7 +4688,7 @@ static bool end_command(struct connection *caller, char *str, bool check)
 }
 
 /**********************************************************************//**
-  Concede the game.  You still continue playing until all but one player
+  Concede the game. You still continue playing until all but one player
   or team remains un-conceded.
 **************************************************************************/
 static bool surrender_command(struct connection *caller, char *str, bool check)
@@ -6846,7 +6846,7 @@ static void show_nationsets(struct connection *caller)
 static void show_teams(struct connection *caller)
 {
   /* Currently this just lists all teams (typically 32 of them) with their
-   * names and # of players on the team.  This could probably be improved. */
+   * names and # of players on the team. This could probably be improved. */
   cmd_reply(CMD_LIST, caller, C_COMMENT, _("List of teams:"));
   cmd_reply(CMD_LIST, caller, C_COMMENT, horiz_line);
 
@@ -6963,8 +6963,8 @@ static bool show_list(struct connection *caller, char *arg)
 
   if (match_result > M_PRE_EMPTY) {
     cmd_reply(CMD_LIST, caller, C_SYNTAX,
-	      _("Bad list argument: '%s'.  Try '%shelp list'."),
-	      arg, (caller?"/":""));
+              _("Bad list argument: '%s'. Try '%shelp list'."),
+              arg, (caller ? "/" : ""));
     return FALSE;
   }
 
@@ -7036,13 +7036,13 @@ static char *generic_generator(const char *text, int state, int num,
   char *mytext = local_to_internal_string_malloc(text);
 
   /* This function takes a string (text) in the local format and must return
-   * a string in the local format.  However comparisons are done against
-   * names that are in the internal format (UTF-8).  Thus we have to convert
+   * a string in the local format. However comparisons are done against
+   * names that are in the internal format (UTF-8). Thus we have to convert
    * the text function from the local to the internal format before doing
    * the comparison, and convert the string we return *back* to the
    * local format when returning it. */
 
-  /* If this is a new word to complete, initialize now.  This includes
+  /* If this is a new word to complete, initialize now. This includes
      saving the length of TEXT for efficiency, and initializing the index
      variable to 0. */
   if (state == 0) {
@@ -7668,10 +7668,10 @@ static bool is_list(int start)
 }
 
 /**********************************************************************//**
-  Attempt to complete on the contents of TEXT.  START and END bound the
-  region of rl_line_buffer that contains the word to complete.  TEXT is
-  the word to complete.  We can use the entire contents of rl_line_buffer
-  in case we want to do some simple parsing.  Return the array of matches,
+  Attempt to complete on the contents of TEXT. START and END bound the
+  region of rl_line_buffer that contains the word to complete. TEXT is
+  the word to complete. We can use the entire contents of rl_line_buffer
+  in case we want to do some simple parsing. Return the array of matches,
   or NULL if there aren't any.
 **************************************************************************/
 char **freeciv_completion(const char *text, int start, int end)
