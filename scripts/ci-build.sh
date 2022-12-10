@@ -145,6 +145,29 @@ make -s -j$(nproc)
 make install
 ;;
 
+tcc)
+
+mkdir build
+cd build
+../autogen.sh \
+ CC="tcc" \
+ LD="tcc" \
+ --enable-debug \
+ --enable-client=gtk3.22,stub,gtk4 \
+ --enable-fcmp=cli,gtk3,gtk4 \
+ --enable-fcdb=sqlite3,mysql,odbc \
+ --disable-ruledit \
+ --disable-sdl-mixer \
+ --prefix=${HOME}/freeciv/tcc \
+ || (let config_exit_status=$? \
+     && echo "Config exit status: $config_exit_status" \
+     && cat config.log \
+     && exit $config_exit_status)
+make -s -j$(nproc)
+make install
+echo "Freeciv build successful!"
+;;
+
 *)
 # Fetch S3_1 in the background for the ruleset upgrade test
 git fetch --no-tags --quiet https://github.com/freeciv/freeciv.git S3_1:S3_1 &
