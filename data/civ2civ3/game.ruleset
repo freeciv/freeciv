@@ -671,6 +671,9 @@ ui_name_transport_disembark_2 = _("%sDisembark from non native%s")
 ; /* TRANS: _Embark (100% chance of success). */
 ui_name_transport_embark = _("%sEmbark%s")
 
+; /* TRANS: Eliminate _Spy (100% chance of success). */
+ui_name_spy_attack = _("Eliminate %sSpy%s")
+
 ; /* TRANS: Enter _Hut (100% chance of success). */
 ui_name_enter_hut = _("Enter %sHut%s")
 
@@ -978,6 +981,22 @@ target_reqs    =
       "CityTile", "Center", "Tile", FALSE
       "MinHitPoints", "2", "Local", TRUE
       "MaxUnitsOnTile", "1", "Tile", TRUE
+    }
+
+[actionenabler_eliminate_spy]
+action        = "Spy Attack"
+actor_reqs    =
+    { "type",   "name", "range", "present"
+      "UnitFlag", "Spy", "Local", TRUE
+      "UnitState", "OnLivableTile", "Local", TRUE
+      "MinMoveFrags", "1", "Local", TRUE
+      "DiplRel", "Alliance", "Local", FALSE
+      "DiplRel", "Team", "Local", FALSE
+      "DiplRel", "Foreign", "Local", TRUE
+    }
+target_reqs   =
+    { "type",   "name", "range", "present"
+      "CityTile", "Center", "Tile", FALSE
     }
 
 [actionenabler_traderoute]
