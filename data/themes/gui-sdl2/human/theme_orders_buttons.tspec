@@ -26,7 +26,7 @@ dx = 120
 dy = 30
 pixel_border = 1
 
-tiles = { "row", "column","tag"
+tiles = { "row", "column", "tag"
 
 ; terrain
   1,    0,  "theme.order_auto_connect"
@@ -54,7 +54,7 @@ tiles = { "row", "column","tag"
   23,   0,  "theme.order_wait"
   24,   0,  "theme.order_build_fortress"
   25,   0,  "theme.order_clean_fallout"
-  26,   0,  "theme.order_clean_pollution"
+  26,   0,  "theme.order_clean", "theme.order_clean_pollution"
   27,   0,  "theme.order_build_airbase"
   28,   0,  "theme.order_transform"
   29,   0,  "theme.order_add_to_city"
@@ -68,5 +68,4 @@ tiles = { "row", "column","tag"
 ; 37,   0,  "theme.order_"
 ; 38,   0,  "theme.order_"
   39,   0,  "theme.order_empty"
-
 }

@@ -347,6 +347,7 @@ void tilespec_setup_theme(void)
   load_order_theme_surface(buf, o_unload_icon, "theme.order_unload");
   load_order_theme_surface(buf, o_wait_icon, "theme.order_wait");
   load_order_theme_surface(buf, o_fortress_icon, "theme.order_build_fortress");
+  load_order_theme_surface(buf, o_clean_icon, "theme.order_clean");
   load_order_theme_surface(buf, o_fallout_icon, "theme.order_clean_fallout");
   load_order_theme_surface(buf, o_pollution_icon, "theme.order_clean_pollution");
   load_order_theme_surface(buf, o_airbase_icon, "theme.order_build_airbase");

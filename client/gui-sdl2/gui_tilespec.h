@@ -132,6 +132,7 @@ struct theme_icons {
   SDL_Surface *o_paradrop_icon;
   SDL_Surface *o_nuke_icon;
   SDL_Surface *o_fortress_icon;
+  SDL_Surface *o_clean_icon;
   SDL_Surface *o_fallout_icon;
   SDL_Surface *o_pollution_icon;
   SDL_Surface *o_airbase_icon;
@@ -271,4 +272,4 @@ static inline SDL_Surface *get_tax_surface(Output_type_id otype)
   return adj_surf(GET_SURF(get_tax_sprite(tileset, otype)));
 }
 
-#endif  /* FC__GUI_TILESPEC_H */
+#endif /* FC__GUI_TILESPEC_H */
