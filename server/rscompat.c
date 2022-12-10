@@ -380,24 +380,28 @@ void rscompat_postprocess(struct rscompat_info *info)
       if (ae->action == ACTION_CLEAN_POLLUTION) {
         /* TODO: Stop making the copy to preserve enabler for
          * the original action. */
-        action_enabler_add(action_enabler_copy(ae));
+        struct action_enabler *copy = action_enabler_copy(ae);
 
-        ae->action = ACTION_CLEAN;
-        requirement_vector_append(&ae->target_reqs,
+        copy->action = ACTION_CLEAN;
+        requirement_vector_append(&copy->target_reqs,
                                   req_from_str("ExtraFlag", "Local",
                                                FALSE, TRUE, TRUE,
                                                "CleanAsPollution"));
+
+        action_enabler_add(copy);
       }
       if (ae->action == ACTION_CLEAN_FALLOUT) {
         /* TODO: Stop making the copy to preserve enabler for
          * the original action. */
-        action_enabler_add(action_enabler_copy(ae));
+        struct action_enabler *copy = action_enabler_copy(ae);
 
-        ae->action = ACTION_CLEAN;
-        requirement_vector_append(&ae->target_reqs,
+        copy->action = ACTION_CLEAN;
+        requirement_vector_append(&copy->target_reqs,
                                   req_from_str("ExtraFlag", "Local",
                                                FALSE, TRUE, TRUE,
                                                "CleanAsFallout"));
+
+        action_enabler_add(copy);
       }
     } action_enablers_iterate_end;
 
