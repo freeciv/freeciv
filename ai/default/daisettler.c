@@ -1069,7 +1069,7 @@ BUILD_CITY:
         }
       } else {
         UNIT_LOG(LOG_DEBUG, punit, "could not go to target");
-        /* ai_unit_new_role(punit, AIUNIT_NONE, NULL); */
+        /* dai_unit_new_task(ait, punit, AIUNIT_NONE, NULL); */
         return;
       }
     }

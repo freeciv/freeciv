@@ -300,7 +300,7 @@ bool dai_hunter_qualify(struct player *pplayer, struct unit *punit)
 /**********************************************************************//**
   Try to shoot our target with a missile. Also shoot down anything that
   might attempt to intercept _us_. We assign missiles to a hunter in
-  ai_unit_new_role().
+  dai_unit_new_task().
 **************************************************************************/
 static void dai_hunter_try_launch(struct ai_type *ait,
                                   struct player *pplayer,
