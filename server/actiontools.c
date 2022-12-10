@@ -171,7 +171,7 @@ static void action_consequence_common(const struct action *paction,
 
     /* Notify the involved players by sending them a message. */
     notify_actor(offender, paction, offender, victim_player,
-                victim_tile, victim_link);
+                 victim_tile, victim_link);
     notify_victim(victim_player, paction, offender, victim_player,
                   victim_tile, victim_link);
 
@@ -376,7 +376,6 @@ void action_consequence_caught(const struct action *paction,
                                const struct tile *victim_tile,
                                const char *victim_link)
 {
-
   action_consequence_common(paction, offender, offender_utype,
                             victim_player, victim_tile, victim_link,
                             notify_actor_caught,
