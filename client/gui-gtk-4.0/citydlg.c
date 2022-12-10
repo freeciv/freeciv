@@ -2721,14 +2721,10 @@ static gboolean middle_present_unit_release(GtkGestureClick *gesture, int n_pres
 static gboolean right_present_unit_release(GtkGestureClick *gesture, int n_press,
                                            double x, double y, gpointer data)
 {
-  struct city_dialog *pdialog;
-  struct city *pcity;
   struct unit *punit =
     player_unit_by_number(client_player(), (size_t) data);
 
   if (NULL != punit
-      && NULL != (pcity = tile_city(unit_tile(punit)))
-      && NULL != (pdialog = get_city_dialog(pcity))
       && can_client_issue_orders()) {
     unit_focus_set(punit);
   }
@@ -2764,14 +2760,10 @@ static gboolean middle_supported_unit_release(GtkGestureClick *gesture, int n_pr
 static gboolean right_supported_unit_release(GtkGestureClick *gesture, int n_press,
                                              double x, double y, gpointer data)
 {
-  struct city_dialog *pdialog;
-  struct city *pcity;
   struct unit *punit =
     player_unit_by_number(client_player(), (size_t) data);
 
   if (NULL != punit
-      && NULL != (pcity = game_city_by_number(punit->homecity))
-      && NULL != (pdialog = get_city_dialog(pcity))
       && can_client_issue_orders()) {
     unit_focus_set(punit);
   }
