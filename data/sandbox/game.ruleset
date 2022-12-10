@@ -1284,17 +1284,17 @@ target_reqs    =
     }
 
 [actionenabler_eliminate_spy]
-action = "Spy Attack"
+action        = "Spy Attack"
 actor_reqs    =
     { "type",   "name", "range", "present"
-    "UnitFlag", "Spy", "Local", TRUE
-    "UnitState", "OnLivableTile", "Local", TRUE
-    "MinMoveFrags", "1", "Local", TRUE
-    "DiplRel", "Alliance", "Local", FALSE
-    "DiplRel", "Team", "Local", FALSE
-    "DiplRel", "Foreign", "Local", TRUE
+      "UnitFlag", "Spy", "Local", TRUE
+      "UnitState", "OnLivableTile", "Local", TRUE
+      "MinMoveFrags", "1", "Local", TRUE
+      "DiplRel", "Alliance", "Local", FALSE
+      "DiplRel", "Team", "Local", FALSE
+      "DiplRel", "Foreign", "Local", TRUE
     }
-target_reqs    =
+target_reqs   =
     { "type",   "name", "range", "present"
       "CityTile", "Center", "Local", FALSE
     }
