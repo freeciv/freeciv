@@ -2987,6 +2987,7 @@ bool do_paradrop(struct unit *punit, struct tile *ptile,
   struct player *pplayer = unit_owner(punit);
   struct player *tgt_player = tile_owner(ptile);
   const struct unit_type *act_utype = unit_type_get(punit);
+  const struct city *pcity;
 
   /* Hard requirements */
   /* FIXME: hard requirements belong in common/actions's
@@ -3040,7 +3041,7 @@ bool do_paradrop(struct unit *punit, struct tile *ptile,
   if (!can_unit_exist_at_tile(&(wld.map), punit, ptile)
       && (!BV_ISSET(paction->sub_results, ACT_SUB_RES_MAY_EMBARK)
           || !unit_could_load_at(punit, ptile))) {
-    map_show_circle(pplayer, ptile, unit_type_get(punit)->vision_radius_sq);
+    map_show_circle(pplayer, ptile, act_utype->vision_radius_sq);
     notify_player(pplayer, ptile, E_UNIT_LOST_MISC, ftc_server,
                   _("Your %s paradropped into the %s and was lost."),
                   unit_tile_link(punit),
@@ -3050,10 +3051,16 @@ bool do_paradrop(struct unit *punit, struct tile *ptile,
     return TRUE;
   }
 
-  if ((is_non_allied_city_tile(ptile, pplayer)
+  pcity = tile_city(ptile);
+
+  if ((pcity != NULL && !pplayers_allied(pplayer, city_owner(pcity))
        && !action_has_result(paction, ACTRES_PARADROP_CONQUER))
       || is_non_allied_unit_tile(ptile, pplayer)) {
-    map_show_circle(pplayer, ptile, unit_type_get(punit)->vision_radius_sq);
+    struct player *main_victim = NULL;
+    struct player *secondary_victim = NULL;
+    char victim_link[MAX_LEN_LINK];
+
+    map_show_circle(pplayer, ptile, act_utype->vision_radius_sq);
     maybe_make_contact(ptile, pplayer);
     notify_player(pplayer, ptile, E_UNIT_LOST_MISC, ftc_server,
                   _("Your %s was killed by enemy units at the "
@@ -3063,10 +3070,47 @@ bool do_paradrop(struct unit *punit, struct tile *ptile,
      * What if there's units of several allied players? Should the
      * city owner or owner of the first/random unit get the kill? */
     pplayer->score.units_lost++;
+
+    if (pcity != NULL) {
+      struct player *owner = city_owner(pcity);
+
+      if (!pplayers_at_war(pplayer, owner)) {
+        main_victim = owner;
+      } else {
+        secondary_victim = owner;
+      }
+
+      sz_strlcpy(victim_link, city_link(pcity));
+    } else {
+      sz_strlcpy(victim_link, tile_link(ptile));
+    }
+
+    if (main_victim == NULL) {
+      unit_list_iterate(ptile->units, tgt) {
+        struct player *owner = unit_owner(tgt);
+
+        if (!pplayers_at_war(pplayer, owner)) {
+          main_victim = owner;
+          break;
+        } else if (secondary_victim == NULL) {
+          secondary_victim = owner;
+        }
+      } unit_list_iterate_end;
+
+      if (main_victim == NULL) {
+        /* There's no victim with whom the attacker isn't in war,
+         * fallback to one with whom there's already a war. */
+        main_victim = secondary_victim;
+      }
+    }
+
+    action_consequence_caught(paction, pplayer, act_utype,
+                              main_victim, ptile,
+                              victim_link);
+
     server_remove_unit(punit, ULR_KILLED);
     return TRUE;
   }
-
 
   /* All ok */
   punit->paradropped = TRUE;

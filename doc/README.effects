@@ -234,7 +234,10 @@ Casus_Belli_Caught
       Targeted Sabotage City Escape, Sabotage City Production,
       Sabotage City Production Escape, Steal Gold, Steal Gold Escape,
       Steal Maps, Steal Maps Escape,  Suitcase Nuke, Suitcase Nuke Escape,
-      Explode Nuclear, Nuke City, Nuke Units
+      Explode Nuclear, Nuke City, Nuke Units,
+      Paradrop Unit, Paradrop Unit Conquer, Paradrop Unit Frighten,
+      Paradrop Unit Frighten Conquer, Paradrop Unit Enter,
+      Paradrop Unit Enter Conquer,
 
 Casus_Belli_Complete
     Checked when a player completes an action that takes several turns
@@ -259,9 +262,7 @@ Casus_Belli_Success
       Found City, Join City, Bombard, Bombard Lethal, Destroy City,
       Attack, Suicide Attack, Conquer City, Unit Move, Help Wonder,
       Disband Unit Recover, Establish Trade Route, Enter Marketplace,
-      Pillage, Paradrop Unit, Paradrop Unit Conquer, Paradrop Unit Frighten,
-      Paradrop Unit Frighten Conquer, Paradrop Unit Enter,
-      Paradrop Unit Enter Conquer, Spy Escape
+      Pillage, Spy Escape
 
 City_Build_Slots
     Increase the number of units with no population cost a city can build in
