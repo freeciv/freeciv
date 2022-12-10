@@ -4909,12 +4909,42 @@ void qtg_popup_combat_info(int attacker_unit_id, int defender_unit_id,
   }
 }
 
+/**********************************************************************//**
+  Open dialog confirming that user wants to do the action.
+**************************************************************************/
+static void popup_act_confirmation_dialog(QString hdr, QString body,
+                                          struct act_confirmation_data *data)
+{
+  hud_message_box *ask = new hud_message_box(gui()->central_wdg);
+
+  ask->setStandardButtons(QMessageBox::Cancel | QMessageBox::Ok);
+  ask->setDefaultButton(QMessageBox::Cancel);
+  ask->set_text_title(body, hdr);
+  ask->setAttribute(Qt::WA_DeleteOnClose);
+  QObject::connect(ask, &hud_message_box::accepted, [=]() {
+    action_confirmation(data, TRUE);
+  });
+  QObject::connect(ask, &hud_message_box::rejected, [=]() {
+    action_confirmation(data, FALSE);
+  });
+
+  ask->show();
+}
+
 /***********************************************************************//**
   Common code wants confirmation for an action.
 ***************************************************************************/
 void qtg_request_action_confirmation(const char *expl,
                                      struct act_confirmation_data *data)
 {
-  // TODO: Implement. Currently just pass everything as confirmed.
-  action_confirmation(data, TRUE);
+  QString hdr, body_text;
+
+  hdr = QString(_("Are you sure you want to do %1?")).
+                arg(QString(action_id_name_translation(data->act)));
+
+  if (expl != NULL) {
+    body_text += QString(expl);
+  }
+
+  popup_act_confirmation_dialog(hdr, body_text, data);
 }
