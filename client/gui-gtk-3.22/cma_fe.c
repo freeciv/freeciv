@@ -68,7 +68,7 @@ static gboolean cma_preset_key_pressed_callback(GtkWidget *w, GdkEventKey *ev,
 static void cma_del_preset_callback(GtkWidget *w, gpointer data);
 static void cma_preset_remove(struct cma_dialog *pdialog, int preset_index);
 static void cma_preset_remove_response(GtkWidget *w, gint response,
-				       gpointer data);
+                                       gpointer data);
 
 static void cma_add_preset_callback(GtkWidget *w, gpointer data);
 static void cma_preset_add_popup_callback(gpointer data, gint response,
@@ -76,11 +76,11 @@ static void cma_preset_add_popup_callback(gpointer data, gint response,
 
 static void cma_active_callback(GtkWidget *w, gpointer data);
 static void cma_activate_preset_callback(GtkTreeView *view, GtkTreePath *path,
-				         GtkTreeViewColumn *col, gpointer data);
+                                         GtkTreeViewColumn *col, gpointer data);
 
 static void hscale_changed(GtkWidget *get, gpointer data);
 static void set_hscales(const struct cm_parameter *const parameter,
-			struct cma_dialog *pdialog);
+                        struct cma_dialog *pdialog);
 
 /**********************************************************************//**
   Initialize cma front end system
@@ -388,7 +388,6 @@ struct cma_dialog *create_cma_dialog(struct city *pcity, bool tiny)
   } output_type_iterate_end;
 
   /* Happy Surplus and Factor */
-
   label = gtk_label_new(_("Celebrate"));
   gtk_grid_attach(GTK_GRID(table), label, 0, O_LAST + 1, 1, 1);
   gtk_widget_set_halign(label, GTK_ALIGN_START);
@@ -419,8 +418,22 @@ struct cma_dialog *create_cma_dialog(struct city *pcity, bool tiny)
                    "value-changed",
                    G_CALLBACK(hscale_changed), pdialog);
 
-  /* buttons */
+  /* Maximize Growth */
+  label = gtk_label_new(_("Maximize growth"));
+  gtk_grid_attach(GTK_GRID(table), label, 0, O_LAST + 2, 1, 1);
+  gtk_widget_set_halign(label, GTK_ALIGN_START);
+  gtk_widget_set_valign(label, GTK_ALIGN_CENTER);
 
+  pdialog->growth_button = gtk_check_button_new();
+  gtk_widget_set_halign(pdialog->growth_button, GTK_ALIGN_END);
+  gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(pdialog->growth_button),
+                               FALSE);
+  gtk_grid_attach(GTK_GRID(table), pdialog->growth_button, 1, O_LAST + 2, 1, 1);
+
+  g_signal_connect(pdialog->growth_button, "toggled",
+                   G_CALLBACK(hscale_changed), pdialog);
+
+  /* Buttons */
   hbox = gtk_button_box_new(GTK_ORIENTATION_HORIZONTAL);
   gtk_button_box_set_layout(GTK_BUTTON_BOX(hbox), GTK_BUTTONBOX_EDGE);
   gtk_container_add(GTK_CONTAINER(vbox), hbox);
@@ -539,7 +552,7 @@ static void cma_activate_preset_callback(GtkTreeView *view, GtkTreePath *path,
 
   pparam = cmafec_preset_get_parameter(preset_index);
 
-  /* save the change */
+  /* Save the change */
   cmafec_set_fe_parameter(pdialog->pcity, pparam);
 
   if (cma_is_city_under_agent(pdialog->pcity, NULL)) {
@@ -588,7 +601,7 @@ static void cma_preset_add_popup_callback(gpointer data, gint response,
       cmafec_preset_add(input, &param);
       update_cma_preset_list(pdialog);
       refresh_cma_dialog(pdialog->pcity, DONT_REFRESH_HSCALES);
-      /* if this or other cities have this set as "custom" */
+      /* If this or other cities have this set as "custom" */
       city_report_dialog_update();
     } /* else CANCEL or DELETE_EVENT */
 
@@ -649,10 +662,10 @@ static void cma_preset_remove(struct cma_dialog *pdialog, int preset_index)
 
   pdialog->id = preset_index;
   shl = gtk_message_dialog_new(NULL,
-			       GTK_DIALOG_DESTROY_WITH_PARENT,
-			       GTK_MESSAGE_QUESTION,
-			       GTK_BUTTONS_YES_NO,
-			       _("Remove this preset?"));
+                               GTK_DIALOG_DESTROY_WITH_PARENT,
+                               GTK_MESSAGE_QUESTION,
+                               GTK_BUTTONS_YES_NO,
+                               _("Remove this preset?"));
   setup_dialog(shl, parent);
   pdialog->preset_remove_shell = shl;
 
@@ -660,7 +673,7 @@ static void cma_preset_remove(struct cma_dialog *pdialog, int preset_index)
   gtk_window_set_position(GTK_WINDOW(shl), GTK_WIN_POS_CENTER_ON_PARENT);
 
   g_signal_connect(shl, "response",
-		   G_CALLBACK(cma_preset_remove_response), pdialog);
+                   G_CALLBACK(cma_preset_remove_response), pdialog);
 
   gtk_window_present(GTK_WINDOW(shl));
 }
@@ -718,7 +731,9 @@ static void set_hscales(const struct cm_parameter *const parameter,
     gtk_range_set_value(GTK_RANGE(pdialog->factor[i]), parameter->factor[i]);
   } output_type_iterate_end;
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(pdialog->happy_button),
-			       parameter->require_happy);
+                               parameter->require_happy);
+  gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(pdialog->growth_button),
+                               parameter->max_growth);
   gtk_range_set_value(GTK_RANGE(pdialog->factor[O_LAST]),
                       parameter->happy_factor);
   allow_refreshes = 1;
@@ -744,14 +759,18 @@ static void hscale_changed(GtkWidget *get, gpointer data)
         (int) (gtk_range_get_value(GTK_RANGE(pdialog->factor[i])));
   } output_type_iterate_end;
   param.require_happy =
-      (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(pdialog->happy_button)) ? 1 : 0);
+      (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(pdialog->happy_button))
+       ? TRUE : FALSE);
+  param.max_growth =
+      (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(pdialog->growth_button))
+       ? TRUE : FALSE);
   param.happy_factor =
       (int) (gtk_range_get_value(GTK_RANGE(pdialog->factor[O_LAST])));
 
-  /* save the change */
+  /* Save the change */
   cmafec_set_fe_parameter(pdialog->pcity, &param);
 
-  /* refreshes the cma */
+  /* Refreshes the cma */
   if (cma_is_city_under_agent(pdialog->pcity, NULL)) {
     cma_release_city(pdialog->pcity);
     cma_put_city_under_agent(pdialog->pcity, &param);
