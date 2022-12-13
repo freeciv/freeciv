@@ -40,6 +40,7 @@
 #include "server_settings.h"
 #include "specialist.h"
 #include "style.h"
+#include "victory.h" /* victory_enabled() */
 
 #include "requirements.h"
 
@@ -4992,6 +4993,122 @@ bool are_reqs_active_ranges(const enum req_range min_range,
   } requirement_vector_iterate_end;
 
   return TRUE;
+}
+
+/**********************************************************************//**
+  For requirements changing with time, will they be active for the target
+  after pass in period turns if nothing else changes?
+  Since year and calfrag changing is effect dependent, the result
+  may appear not precise. (Does not consider research progress etc.)
+**************************************************************************/
+enum fc_tristate
+tri_req_active_turns(int pass, int period,
+                     const struct req_context *context,
+                     const struct player *other_player,
+                     const struct requirement *req)
+{
+  /* FIXME: doubles code from calendar.c */
+  int ypt = get_world_bonus(EFT_TURN_YEARS);
+  int fpt = get_world_bonus(EFT_TURN_FRAGMENTS);
+  int fragment = game.info.fragment_count;
+  int fragment1 = fragment; /* if fragments don't advance */
+  int year_inc, year_inc1;
+  const int slowdown = (victory_enabled(VC_SPACERACE)
+        ? get_world_bonus(EFT_SLOW_DOWN_TIMELINE) : 0);
+  bool present, present1;
+
+  fc_assert(pass >= 0 && period >= 0);
+  if (slowdown >= 3) {
+    if (ypt > 1) {
+      ypt = 1;
+    }
+  } else if (slowdown >= 2) {
+    if (ypt > 2) {
+      ypt = 2;
+    }
+  } else if (slowdown >= 1) {
+    if (ypt > 5) {
+      ypt = 5;
+    }
+  }
+  year_inc = ypt * pass;
+  year_inc1 = year_inc + ypt * period;
+  if (game.calendar.calendar_fragments) {
+    int fragment_years;
+
+    fragment += fpt * pass;
+    fragment_years = fragment / game.calendar.calendar_fragments;
+    year_inc += fragment_years;
+    fragment -= fragment_years * game.calendar.calendar_fragments;
+    fragment1 = fragment + fpt * period;
+    fragment_years += fragment1 / game.calendar.calendar_fragments;
+    year_inc1 += fragment_years;
+    fragment1 -= fragment_years * game.calendar.calendar_fragments;
+  }
+  if (game.calendar.calendar_skip_0 && game.info.year < 0) {
+    if (year_inc + game.info.year >= 0) {
+      year_inc++;
+      year_inc1++;
+    } else if (year_inc1 + game.info.year >= 0) {
+      year_inc1++;
+    }
+  }
+
+  switch (req->source.kind) {
+  case VUT_AGE:
+    switch (req->range) {
+    case REQ_RANGE_LOCAL:
+      if (context->unit == NULL || !is_server()) {
+        return TRI_MAYBE;
+      } else {
+        int ua = game.info.turn + pass - context->unit->server.birth_turn;
+
+        present = req->source.value.age <= ua;
+        present1 = req->source.value.age <= ua + period;
+      }
+      break;
+    case REQ_RANGE_CITY:
+      if (context->city == NULL) {
+        return TRI_MAYBE;
+      } else {
+        int ca = game.info.turn + pass - context->city->turn_founded;
+
+        present = req->source.value.age <= ca;
+        present1 = req->source.value.age <= ca + period;
+      }
+      break;
+    case REQ_RANGE_PLAYER:
+      if (context->player == NULL) {
+        return TRI_MAYBE;
+      } else {
+        present = req->source.value.age
+            <= player_age(context->player) + pass;
+        present1 = req->source.value.age
+            <= player_age(context->player) + pass + period;
+      }
+      break;
+    default:
+      return TRI_MAYBE;
+    }
+    break;
+  case VUT_MINYEAR:
+    present = game.info.year + year_inc >= req->source.value.minyear;
+    present1 = game.info.year + year_inc1 >= req->source.value.minyear;
+    break;
+  case VUT_MINCALFRAG:
+    if (game.calendar.calendar_fragments <= period) {
+      /* Hope that the requirement is valid and fragments advance fine */
+      return TRI_YES;
+    }
+    present = fragment >= req->source.value.mincalfrag;
+    present1 = fragment1 >= req->source.value.mincalfrag;
+    break;
+  default:
+    /* No special handling invented */
+    return tri_req_active(context, other_player, req);
+  }
+  return BOOL_TO_TRISTATE(req->present
+                          ? present || present1 : !(present && present1));
 }
 
 /**********************************************************************//**

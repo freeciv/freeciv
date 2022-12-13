@@ -176,6 +176,11 @@ bool are_reqs_active_ranges(const enum req_range min_range,
                             const struct player *other_player,
                             const struct requirement_vector *reqs,
                             const enum   req_problem_type prob_type);
+enum fc_tristate
+tri_req_active_turns(int pass, int period,
+                     const struct req_context *context,
+                     const struct player *other_player,
+                     const struct requirement *req);
 
 /* Type of a callback that tests requirements due to a context
  * and something else in some manner different from tri_req_active() */
