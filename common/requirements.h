@@ -151,9 +151,15 @@ bool are_requirements_equal(const struct requirement *req1,
 bool are_requirements_contradictions(const struct requirement *req1,
                                      const struct requirement *req2);
 
+bool req_implies_req(const struct requirement *req1,
+                     const struct requirement *req2);
+
 bool does_req_contradicts_reqs(const struct requirement *req,
                                const struct requirement_vector *vec);
 
+enum fc_tristate tri_req_active(const struct req_context *context,
+                                const struct player *other_player,
+                                const struct requirement *req);
 bool is_req_active(const struct req_context *context,
                    const struct player *other_player,
                    const struct requirement *req,
@@ -162,6 +168,27 @@ bool are_reqs_active(const struct req_context *context,
                      const struct player *other_player,
                      const struct requirement_vector *reqs,
                      const enum   req_problem_type prob_type);
+
+/* Type of a callback that tests requirements due to a context
+ * and something else in some manner different from tri_req_active() */
+typedef enum fc_tristate
+   (*req_tester_cb)(const struct req_context *context,
+                    const struct player *other_player,
+                    const struct requirement *req,
+                    void *data, int n_data);
+
+enum fc_tristate
+default_tester_cb(const struct req_context *context,
+                  const struct player *other_player,
+                  const struct requirement *req,
+                  void *data, int n_data);
+enum fc_tristate
+  tri_reqs_cb_active(const struct req_context *context,
+                     const struct player *other_player,
+                     const struct requirement_vector *reqs,
+                     struct requirement_vector *maybe_reqs,
+                     req_tester_cb tester,
+                     void *data, int n_data);
 
 enum req_unchanging_status
   is_req_unchanging(const struct req_context *context,

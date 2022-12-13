@@ -1407,6 +1407,19 @@ static bool present_implies_not_present(const struct requirement *req1,
 }
 
 /**********************************************************************//**
+  Returns TRUE if req2 is always fulfilled when req1 is (i.e. req1 => req2)
+**************************************************************************/
+bool req_implies_req(const struct requirement *req1,
+                     const struct requirement *req2)
+{
+  struct requirement nreq2;
+
+  req_copy(&nreq2, req2);
+  nreq2.present = !nreq2.present;
+  return are_requirements_contradictions(req1, &nreq2);
+}
+
+/**********************************************************************//**
   Returns TRUE if req1 and req2 contradicts each other.
 
   TODO: If information about what entity each requirement type will be
@@ -4158,6 +4171,32 @@ enum fc_tristate tri_req_present(const struct req_context *context,
 }
 
 /**********************************************************************//**
+  Evaluates req in context with other_player to fc_tristate.
+
+  context may be NULL. This is equivalent to passing an empty context.
+
+  Fields of context that are NULL are considered unspecified
+  and will produce TRI_MAYBE if req needs them to evaluate.
+**************************************************************************/
+enum fc_tristate tri_req_active(const struct req_context *context,
+                                const struct player *other_player,
+                                const struct requirement *req)
+{
+  enum fc_tristate eval = tri_req_present(context, other_player, req);
+
+  if (!req->present) {
+    if (TRI_NO == eval) {
+      return TRI_YES;
+    }
+    if (TRI_YES == eval) {
+      return TRI_NO;
+    }
+  }
+
+  return eval;
+}
+
+/**********************************************************************//**
   Checks the requirement(s) to see if they are active on the given target.
 
   context gives the target (or targets) to evaluate against
@@ -4183,6 +4222,79 @@ bool are_reqs_active(const struct req_context *context,
   } requirement_vector_iterate_end;
   return TRUE;
 }
+
+/**********************************************************************//**
+  A tester callback for tri_reqs_cb_active() that uses the default
+  requirement calculation except for requirements in data[n_data] array
+  and ones implied by them or contradicting them
+**************************************************************************/
+enum fc_tristate default_tester_cb
+   (const struct req_context *context,
+    const struct player *other_player,
+    const struct requirement *req,
+    void *data, int n_data)
+{
+  fc_assert_ret_val(data || n_data == 0, TRI_NO);
+
+  for (int i = 0; i < n_data; i++) {
+    if (are_requirements_contradictions(&((struct requirement *) data)[i],
+                                        req)) {
+      return TRI_NO;
+    } else if (req_implies_req(&((struct requirement *) data)[i], req)) {
+      return TRI_YES;
+    }
+  }
+  return tri_req_active(context, other_player, req);
+}
+
+/**********************************************************************//**
+  Test requirements in reqs with tester according to (data, n_data)
+  and give the resulting tristate.
+  If maybe_reqs is not NULL, copies requirements that are evaluated
+  to TRI_MAYBE into it (stops as soon as one evaluates to TRI_NO).
+**************************************************************************/
+enum fc_tristate
+  tri_reqs_cb_active(const struct req_context *context,
+                     const struct player *other_player,
+                     const struct requirement_vector *reqs,
+                     struct requirement_vector *maybe_reqs,
+                     req_tester_cb tester,
+                     void *data, int n_data)
+{
+  bool active = TRUE;
+  bool certain = TRUE;
+  int sz = requirement_vector_size(reqs);
+
+  fc_assert_ret_val(NULL != tester, TRI_NO);
+  requirement_vector_iterate(reqs, preq) {
+    switch(tester(context, other_player, preq,
+                  data, n_data)) {
+    case TRI_NO:
+      active = FALSE;
+      certain = TRUE;
+      break;
+    case TRI_YES:
+      break;
+    case TRI_MAYBE:
+      certain = FALSE;
+      if (maybe_reqs) {
+        requirement_vector_append(maybe_reqs, *preq);
+      }
+      break;
+    default:
+      fc_assert(FALSE);
+      active = FALSE;
+    }
+    if (!active) {
+      break;
+    }
+    sz--;
+  } requirement_vector_iterate_end;
+
+  return certain ? (active ? TRI_YES : TRI_NO) : TRI_MAYBE;
+}
+
+
 
 /**********************************************************************//**
   Gives a suggestion may req ever evaluate to another value with given
