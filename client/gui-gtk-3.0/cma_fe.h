@@ -40,10 +40,11 @@ struct cma_dialog {
   GtkWidget *active_command;
   GtkWidget *minimal_surplus[O_LAST];
   GtkWidget *happy_button;
+  GtkWidget *growth_button;
   GtkWidget *factor[O_LAST + 1];
   GtkTreeSelection *selection;
   GtkListStore *store;
-  int id;			/* needed to pass a preset_index */
+  int id;                       /* Needed to pass a preset_index */
 };
 
 void cma_fe_init(void);
