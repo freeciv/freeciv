@@ -1085,8 +1085,9 @@ static void city_populate(struct city *pcity, struct player *nationality)
 		    city_link(pcity));
     }
     city_reset_foodbox(pcity, city_size_get(pcity) - 1);
-    city_reduce_size(pcity, 1, NULL, "famine");
-    pcity->had_famine = TRUE;
+    if (city_reduce_size(pcity, 1, NULL, "famine")) {
+      pcity->had_famine = TRUE;
+    }
   }
 }
 
