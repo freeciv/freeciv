@@ -6332,11 +6332,13 @@ static bool load_action_range_max(struct section_file *file, action_id act)
       ruleset_error(NULL, LOG_ERROR, "Bad actions.%s",
                     action_max_range_ruleset_var_name(act));
       action_by_number(act)->max_distance = action_max_range_default(paction->result);
+
       return FALSE;
     }
   }
 
   action_by_number(act)->max_distance = max_range;
+
   return TRUE;
 }
 
@@ -7004,165 +7006,170 @@ static bool load_ruleset_game(struct section_file *file, bool act,
                              "auto_attack");
       if (reqs == NULL) {
         ok = FALSE;
-      }
+      } else {
+        requirement_vector_copy(&auto_perf->reqs, reqs);
 
-      requirement_vector_copy(&auto_perf->reqs, reqs);
-
-      if (!load_action_auto_actions(file, auto_perf,
-                                    "auto_attack.attack_actions",
-                                    filename)) {
-        /* Failed to load auto attack actions */
-        ruleset_error(NULL, LOG_ERROR,
-                      "\"%s\": %s: failed load %s.",
-                      filename, "auto_attack", "attack_actions");
-        ok = FALSE;
+        if (!load_action_auto_actions(file, auto_perf,
+                                      "auto_attack.attack_actions",
+                                      filename)) {
+          /* Failed to load auto attack actions */
+          ruleset_error(NULL, LOG_ERROR,
+                        "\"%s\": %s: failed load %s.",
+                        filename, "auto_attack", "attack_actions");
+          ok = FALSE;
+        }
       }
     }
 
-    /* section: actions */
+    /* Section: actions */
     if (ok) {
       action_iterate(act_id) {
         struct action *paction = action_by_number(act_id);
 
         if (!load_action_blocked_by_list(file, filename, paction)) {
           ok = FALSE;
+          break;
         }
       } action_iterate_end;
 
-      if (!lookup_bv_actions(file, filename,
-                             &game.info.diplchance_initial_odds,
-                             "actions.diplchance_initial_odds")) {
-        ok = FALSE;
+      if (ok) {
+        if (!lookup_bv_actions(file, filename,
+                               &game.info.diplchance_initial_odds,
+                               "actions.diplchance_initial_odds")) {
+          ok = FALSE;
+        }
       }
 
-      /* If the "Poison City" action or the "Poison City Escape" action
-       * should empty the granary. */
-      /* TODO: empty granary and reduce population should become separate
-       * action effect flags when actions are generalized. */
-      game.info.poison_empties_food_stock
-        = secfile_lookup_bool_default(file,
-                                      RS_DEFAULT_POISON_EMPTIES_FOOD_STOCK,
-                                      "actions.poison_empties_food_stock");
+      if (ok) {
+        /* If the "Poison City" action or the "Poison City Escape" action
+         * should empty the granary. */
+        /* TODO: empty granary and reduce population should become separate
+         * action effect flags when actions are generalized. */
+        game.info.poison_empties_food_stock
+          = secfile_lookup_bool_default(file,
+                                        RS_DEFAULT_POISON_EMPTIES_FOOD_STOCK,
+                                        "actions.poison_empties_food_stock");
 
-      /* If the "Steal Maps" action or the "Steal Maps Escape" action always
-       * will reveal all cities when successful. */
-      game.info.steal_maps_reveals_all_cities
-        = secfile_lookup_bool_default(file,
-                                      RS_DEFAULT_STEAL_MAP_REVEALS_CITIES,
-                                      "actions.steal_maps_reveals_all_cities");
+        /* If the "Steal Maps" action or the "Steal Maps Escape" action always
+         * will reveal all cities when successful. */
+        game.info.steal_maps_reveals_all_cities
+          = secfile_lookup_bool_default(file,
+                                        RS_DEFAULT_STEAL_MAP_REVEALS_CITIES,
+                                        "actions.steal_maps_reveals_all_cities");
 
-      /* Allow setting certain properties for some actions before
-       * generalized actions. */
-      action_iterate(act_id) {
-        if (!load_action_range(file, act_id)) {
-          ok = FALSE;
-        }
-        if (!load_action_kind(file, act_id)) {
-          ok = FALSE;
-        }
-        if (!load_action_actor_consuming_always(file, act_id)) {
-          ok = FALSE;
-        }
-        load_action_ui_name(file, act_id,
-                            action_ui_name_ruleset_var_name(act_id));
-      } action_iterate_end;
+        /* Allow setting certain properties for some actions before
+         * generalized actions. */
+        action_iterate(act_id) {
+          if (!load_action_range(file, act_id)) {
+            ok = FALSE;
+          } else if (!load_action_kind(file, act_id)) {
+            ok = FALSE;
+          } else if (!load_action_actor_consuming_always(file, act_id)) {
+            ok = FALSE;
+          } else {
+            load_action_ui_name(file, act_id,
+                                action_ui_name_ruleset_var_name(act_id));
+          }
 
-      /* The quiet (don't auto generate help for) property of all actions
-       * live in a single enum vector. This avoids generic action
-       * expectations. */
-      if (secfile_entry_by_path(file, "actions.quiet_actions")) {
-        enum gen_action *quiet_actions;
-        size_t asize;
-        int j;
+          if (!ok) {
+            break;
+          }
+        } action_iterate_end;
+      }
 
-        quiet_actions =
+      if (ok) {
+        /* The quiet (don't auto generate help for) property of all actions
+         * live in a single enum vector. This avoids generic action
+         * expectations. */
+        if (secfile_entry_by_path(file, "actions.quiet_actions")) {
+          enum gen_action *quiet_actions;
+          size_t asize;
+          int j;
+
+          quiet_actions =
             secfile_lookup_enum_vec(file, &asize, gen_action,
                                     "actions.quiet_actions");
 
-        if (!quiet_actions) {
-          /* Entity exists but couldn't read it. */
-          ruleset_error(NULL, LOG_ERROR,
-                        "\"%s\": actions.quiet_actions: bad action list",
-                        filename);
+          if (!quiet_actions) {
+            /* Entity exists but couldn't read it. */
+            ruleset_error(NULL, LOG_ERROR,
+                          "\"%s\": actions.quiet_actions: bad action list",
+                          filename);
 
-          ok = FALSE;
+            ok = FALSE;
+          } else {
+            for (j = 0; j < asize; j++) {
+              /* Don't auto generate help text for this action. */
+              action_by_number(quiet_actions[j])->quiet = TRUE;
+            }
+
+            free(quiet_actions);
+          }
         }
-
-        for (j = 0; j < asize; j++) {
-          /* Don't auto generate help text for this action. */
-          action_by_number(quiet_actions[j])->quiet = TRUE;
-        }
-
-        free(quiet_actions);
       }
 
-      /* Hard code action sub results for now. */
+      if (ok) {
+        /* Hard code action sub results for now. */
 
-      /* Unit Enter Hut */
-      action_by_result_iterate(paction, act_id, ACTRES_HUT_ENTER) {
-        BV_SET(paction->sub_results, ACT_SUB_RES_HUT_ENTER);
-      } action_by_result_iterate_end;
-      BV_SET(action_by_number(ACTION_PARADROP_ENTER)->sub_results,
-             ACT_SUB_RES_HUT_ENTER);
-      BV_SET(action_by_number(ACTION_PARADROP_ENTER_CONQUER)->sub_results,
-             ACT_SUB_RES_HUT_ENTER);
+        /* Unit Enter Hut */
+        action_by_result_iterate(paction, act_id, ACTRES_HUT_ENTER) {
+          BV_SET(paction->sub_results, ACT_SUB_RES_HUT_ENTER);
+        } action_by_result_iterate_end;
+        BV_SET(action_by_number(ACTION_PARADROP_ENTER)->sub_results,
+               ACT_SUB_RES_HUT_ENTER);
+        BV_SET(action_by_number(ACTION_PARADROP_ENTER_CONQUER)->sub_results,
+               ACT_SUB_RES_HUT_ENTER);
 
-      /* Unit Frighten Hut */
-      action_by_result_iterate(paction, act_id, ACTRES_HUT_FRIGHTEN) {
-        BV_SET(paction->sub_results, ACT_SUB_RES_HUT_FRIGHTEN);
-      } action_by_result_iterate_end;
-      BV_SET(action_by_number(ACTION_PARADROP_FRIGHTEN)->sub_results,
-             ACT_SUB_RES_HUT_FRIGHTEN);
-      BV_SET(action_by_number(ACTION_PARADROP_FRIGHTEN_CONQUER)->sub_results,
-             ACT_SUB_RES_HUT_FRIGHTEN);
+        /* Unit Frighten Hut */
+        action_by_result_iterate(paction, act_id, ACTRES_HUT_FRIGHTEN) {
+          BV_SET(paction->sub_results, ACT_SUB_RES_HUT_FRIGHTEN);
+        } action_by_result_iterate_end;
+        BV_SET(action_by_number(ACTION_PARADROP_FRIGHTEN)->sub_results,
+               ACT_SUB_RES_HUT_FRIGHTEN);
+        BV_SET(action_by_number(ACTION_PARADROP_FRIGHTEN_CONQUER)->sub_results,
+               ACT_SUB_RES_HUT_FRIGHTEN);
 
-      /* Unit May Embark */
-      action_iterate(act_id) {
-        struct action *paction = action_by_number(act_id);
+        /* Unit May Embark */
+        action_iterate(act_id) {
+          struct action *paction = action_by_number(act_id);
 
-        if (secfile_lookup_bool_default(file, FALSE,
-                                        "civstyle.paradrop_to_transport")
-            && (action_has_result(paction, ACTRES_PARADROP)
-                || action_has_result(paction, ACTRES_PARADROP_CONQUER))) {
-          BV_SET(paction->sub_results, ACT_SUB_RES_MAY_EMBARK);
-        }
+          if (secfile_lookup_bool_default(file, FALSE,
+                                          "civstyle.paradrop_to_transport")
+              && (action_has_result(paction, ACTRES_PARADROP)
+                  || action_has_result(paction, ACTRES_PARADROP_CONQUER))) {
+            BV_SET(paction->sub_results, ACT_SUB_RES_MAY_EMBARK);
+          }
 
-        /* Embark actions will always embark, not maybe embark. */
-      } action_iterate_end;
+          /* Embark actions will always embark, not maybe embark. */
+        } action_iterate_end;
 
-      /* Non Lethal bombard */
-      BV_SET(action_by_number(ACTION_BOMBARD)->sub_results,
-             ACT_SUB_RES_NON_LETHAL);
-      BV_SET(action_by_number(ACTION_BOMBARD2)->sub_results,
-             ACT_SUB_RES_NON_LETHAL);
-      BV_SET(action_by_number(ACTION_BOMBARD3)->sub_results,
-             ACT_SUB_RES_NON_LETHAL);
+        /* Non Lethal bombard */
+        BV_SET(action_by_number(ACTION_BOMBARD)->sub_results,
+               ACT_SUB_RES_NON_LETHAL);
+        BV_SET(action_by_number(ACTION_BOMBARD2)->sub_results,
+               ACT_SUB_RES_NON_LETHAL);
+        BV_SET(action_by_number(ACTION_BOMBARD3)->sub_results,
+               ACT_SUB_RES_NON_LETHAL);
+      }
     }
 
     if (ok) {
       /* Forced actions after another action was successfully performed. */
 
-      /* "Bribe Unit" */
       if (!load_action_post_success_force(file, filename,
                                           ACTION_AUTO_POST_BRIBE,
                                           action_by_number(
                                             ACTION_SPY_BRIBE_UNIT))) {
         ok = FALSE;
-      }
-
-      /* "Attack" */
-      if (!load_action_post_success_force(file, filename,
-                                          ACTION_AUTO_POST_ATTACK,
-                                          action_by_number(
-                                            ACTION_ATTACK))) {
+      } else if (!load_action_post_success_force(file, filename,
+                                                 ACTION_AUTO_POST_ATTACK,
+                                                 action_by_number(
+                                                   ACTION_ATTACK))) {
         ok = FALSE;
-      }
-
-      /* "Wipe Units" */
-      if (!load_action_post_success_force(file, filename,
-                                          ACTION_AUTO_POST_WIPE_UNITS,
-                                          action_by_number(
-                                            ACTION_WIPE_UNITS))) {
+      } else if (!load_action_post_success_force(file, filename,
+                                                 ACTION_AUTO_POST_WIPE_UNITS,
+                                                 action_by_number(
+                                                   ACTION_WIPE_UNITS))) {
         ok = FALSE;
       }
 
@@ -7258,6 +7265,7 @@ static bool load_ruleset_game(struct section_file *file, bool act,
 
           action_enabler_add(enabler);
         } section_list_iterate_end;
+
         section_list_destroy(sec);
       }
     }
