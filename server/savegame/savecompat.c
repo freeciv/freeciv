@@ -2256,8 +2256,11 @@ static void compat_load_030200(struct loaddata *loading,
 
       secfile_insert_int(loading->file, wlist_max_length,
                          "player%d.wl_max_length", plrno);
-      secfile_insert_int(loading->file, MAX_TRADE_ROUTES_OLD,
-                         "player%d.routes_max_length", plrno);
+
+      if (format_class == SAVEGAME_3) {
+        secfile_insert_int(loading->file, MAX_TRADE_ROUTES_OLD,
+                           "player%d.routes_max_length", plrno);
+      }
 
     } player_slots_iterate_end;
   }
