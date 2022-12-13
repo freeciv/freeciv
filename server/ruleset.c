@@ -5402,6 +5402,7 @@ static bool load_ruleset_cities(struct section_file *file,
                   "specialist type.", filename);
     ok = FALSE;
   }
+
   section_list_destroy(sec);
   sec = NULL;
 
@@ -5473,49 +5474,51 @@ static bool load_ruleset_cities(struct section_file *file,
     /* Internally represented as an action auto performer rule. */
     if (!load_muuk_as_action_auto(file, auto_perf, "food", filename)) {
       ok = FALSE;
-    }
-
-    game.info.muuk_food_wipe =
+    } else {
+      game.info.muuk_food_wipe =
         secfile_lookup_bool_default(file, RS_DEFAULT_MUUK_FOOD_WIPE,
                                     "missing_unit_upkeep.food_wipe");
 
-    /* Can't pay gold upkeep! */
-    auto_perf = action_auto_perf_slot_number(ACTION_AUTO_UPKEEP_GOLD);
-    auto_perf->cause = AAPC_UNIT_UPKEEP;
+      /* Can't pay gold upkeep! */
+      auto_perf = action_auto_perf_slot_number(ACTION_AUTO_UPKEEP_GOLD);
+      auto_perf->cause = AAPC_UNIT_UPKEEP;
 
-    /* This is about gold upkeep. */
-    requirement_vector_append(&auto_perf->reqs,
-                              req_from_str("OutputType", "Local",
-                                           FALSE, TRUE, TRUE,
-                                           "Gold"));
+      /* This is about gold upkeep. */
+      requirement_vector_append(&auto_perf->reqs,
+                                req_from_str("OutputType", "Local",
+                                             FALSE, TRUE, TRUE,
+                                             "Gold"));
 
-    /* Internally represented as an action auto performer rule. */
-    if (!load_muuk_as_action_auto(file, auto_perf, "gold", filename)) {
-      ok = FALSE;
+      /* Internally represented as an action auto performer rule. */
+      if (!load_muuk_as_action_auto(file, auto_perf, "gold", filename)) {
+        ok = FALSE;
+      }
     }
 
-    game.info.muuk_gold_wipe =
+    if (ok) {
+      game.info.muuk_gold_wipe =
         secfile_lookup_bool_default(file, RS_DEFAULT_MUUK_GOLD_WIPE,
                                     "missing_unit_upkeep.gold_wipe");
 
-    /* Can't pay shield upkeep! */
-    auto_perf = action_auto_perf_slot_number(ACTION_AUTO_UPKEEP_SHIELD);
-    auto_perf->cause = AAPC_UNIT_UPKEEP;
+      /* Can't pay shield upkeep! */
+      auto_perf = action_auto_perf_slot_number(ACTION_AUTO_UPKEEP_SHIELD);
+      auto_perf->cause = AAPC_UNIT_UPKEEP;
 
-    /* This is about shield upkeep. */
-    requirement_vector_append(&auto_perf->reqs,
-                              req_from_str("OutputType", "Local",
-                                           FALSE, TRUE, TRUE,
-                                           "Shield"));
+      /* This is about shield upkeep. */
+      requirement_vector_append(&auto_perf->reqs,
+                                req_from_str("OutputType", "Local",
+                                             FALSE, TRUE, TRUE,
+                                             "Shield"));
 
-    /* Internally represented as an action auto performer rule. */
-    if (!load_muuk_as_action_auto(file, auto_perf, "shield", filename)) {
-      ok = FALSE;
+      /* Internally represented as an action auto performer rule. */
+      if (!load_muuk_as_action_auto(file, auto_perf, "shield", filename)) {
+        ok = FALSE;
+      } else {
+        game.info.muuk_shield_wipe =
+          secfile_lookup_bool_default(file, RS_DEFAULT_MUUK_SHIELD_WIPE,
+                                      "missing_unit_upkeep.shield_wipe");
+      }
     }
-
-    game.info.muuk_shield_wipe =
-        secfile_lookup_bool_default(file, RS_DEFAULT_MUUK_SHIELD_WIPE,
-                                    "missing_unit_upkeep.shield_wipe");
   }
 
   if (ok) {
@@ -5526,7 +5529,7 @@ static bool load_ruleset_cities(struct section_file *file,
 }
 
 /**************************************************************************
-Load effects.ruleset file
+  Load effects.ruleset file
 **************************************************************************/
 static bool load_ruleset_effects(struct section_file *file,
                                  struct rscompat_info *compat)
@@ -6143,8 +6146,8 @@ static bool load_ruleset_game(struct section_file *file, bool act,
 
       /* Internally represented as an action auto performer rule. */
       if (!load_action_auto_uflag_block(file, auto_perf,
-                                         "auto_attack.will_never",
-                                         filename)) {
+                                        "auto_attack.will_never",
+                                        filename)) {
         ok = FALSE;
       }
 
@@ -6155,7 +6158,7 @@ static bool load_ruleset_game(struct section_file *file, bool act,
       auto_perf->alternatives[2] = ACTION_ATTACK;
     }
 
-    /* section: actions */
+    /* Section: actions */
     if (ok) {
       int force_capture_units, force_bombard, force_explode_nuclear;
 
@@ -6227,40 +6230,40 @@ static bool load_ruleset_game(struct section_file *file, bool act,
                                  RS_DEFAULT_BOMBARD_MAX_RANGE,
                                  "actions.bombard_max_range")) {
         ok = FALSE;
-      }
+      } else {
+        action_iterate(act_id) {
+          load_action_ui_name(file, act_id,
+                              action_ui_name_ruleset_var_name(act_id));
+        } action_iterate_end;
 
-      action_iterate(act_id) {
-        load_action_ui_name(file, act_id,
-                            action_ui_name_ruleset_var_name(act_id));
-      } action_iterate_end;
+        /* The quiet (don't auto generate help for) property of all actions
+         * live in a single enum vector. This avoids generic action
+         * expectations. */
+        if (secfile_entry_by_path(file, "actions.quiet_actions")) {
+          enum gen_action *quiet_actions;
+          size_t asize;
+          int j;
 
-      /* The quiet (don't auto generate help for) property of all actions
-       * live in a single enum vector. This avoids generic action
-       * expectations. */
-      if (secfile_entry_by_path(file, "actions.quiet_actions")) {
-        enum gen_action *quiet_actions;
-        size_t asize;
-        int j;
-
-        quiet_actions =
+          quiet_actions =
             secfile_lookup_enum_vec(file, &asize, gen_action,
                                     "actions.quiet_actions");
 
-        if (!quiet_actions) {
-          /* Entity exists but couldn't read it. */
-          ruleset_error(NULL, LOG_ERROR,
-                        "\"%s\": actions.quiet_actions: bad action list",
-                        filename);
+          if (!quiet_actions) {
+            /* Entity exists but couldn't read it. */
+            ruleset_error(NULL, LOG_ERROR,
+                          "\"%s\": actions.quiet_actions: bad action list",
+                          filename);
 
-          ok = FALSE;
+            ok = FALSE;
+          } else {
+            for (j = 0; j < asize; j++) {
+              /* Don't auto generate help text for this action. */
+              action_by_number(quiet_actions[j])->quiet = TRUE;
+            }
+
+            free(quiet_actions);
+          }
         }
-
-        for (j = 0; j < asize; j++) {
-          /* Don't auto generate help text for this action. */
-          action_by_number(quiet_actions[j])->quiet = TRUE;
-        }
-
-        free(quiet_actions);
       }
     }
 
@@ -6318,6 +6321,7 @@ static bool load_ruleset_game(struct section_file *file, bool act,
 
           action_enabler_add(enabler);
         } section_list_iterate_end;
+
         section_list_destroy(sec);
       }
     }
