@@ -636,7 +636,8 @@ void research_update(struct research *presearch)
 enum tech_state research_invention_state(const struct research *presearch,
                                          Tech_type_id tech)
 {
-  fc_assert_ret_val(NULL != valid_advance_by_number(tech), -1);
+  fc_assert_ret_val(NULL != valid_advance_by_number(tech),
+                    tech_state_invalid());
 
   if (NULL != presearch) {
     return presearch->inventions[tech].state;
