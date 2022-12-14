@@ -252,7 +252,7 @@ enum SPECENUM_NAME {
 
 def make_is_bitwise(file):
     file.write('''
-/**************************************************************************
+/**********************************************************************//**
   Returns TRUE if this enumeration is in bitwise mode.
 **************************************************************************/
 fc__attribute((const))
@@ -268,7 +268,7 @@ static inline bool SPECENUM_FOO(_is_bitwise)(void)
 
 def make_min(file):
     file.write('''
-/**************************************************************************
+/**********************************************************************//**
   Returns the value of the minimal enumerator.
 **************************************************************************/
 fc__attribute((const))
@@ -280,7 +280,7 @@ static inline enum SPECENUM_NAME SPECENUM_FOO(_min)(void)
 
 def make_max(file):
     file.write('''
-/**************************************************************************
+/**********************************************************************//**
   Returns the value of the maximal enumerator.
 **************************************************************************/
 fc__attribute((const))
@@ -292,7 +292,7 @@ static inline enum SPECENUM_NAME SPECENUM_FOO(_max)(void)
 
 def make_is_valid(file):
     file.write('''
-/**************************************************************************
+/**********************************************************************//**
   Returns TRUE if this enumerator was defined.
 **************************************************************************/
 fc__attribute((const))
@@ -347,7 +347,7 @@ static inline bool SPECENUM_FOO(_is_valid)(enum SPECENUM_NAME enumerator)
 
 def make_invalid(file):
     file.write('''
-/**************************************************************************
+/**********************************************************************//**
   Returns an invalid enumerator value.
 **************************************************************************/
 fc__attribute((const))
@@ -360,7 +360,7 @@ static inline enum SPECENUM_NAME SPECENUM_FOO(_invalid)(void)
 
 def make_begin(file):
     file.write('''
-/**************************************************************************
+/**********************************************************************//**
   Beginning of the iteration of the enumerators.
 **************************************************************************/
 fc__attribute((const))
@@ -372,7 +372,7 @@ static inline enum SPECENUM_NAME SPECENUM_FOO(_begin)(void)
 
 def make_end(file):
     file.write('''
-/**************************************************************************
+/**********************************************************************//**
   End of the iteration of the enumerators.
 **************************************************************************/
 fc__attribute((const))
@@ -384,7 +384,7 @@ static inline enum SPECENUM_NAME SPECENUM_FOO(_end)(void)
 
 def make_next(file):
     file.write('''
-/**************************************************************************
+/**********************************************************************//**
   Find the next valid enumerator value.
 **************************************************************************/
 fc__attribute((const))
@@ -413,7 +413,7 @@ def make_name(file):
 const char *SPECENUM_FOO(_name_cb)(enum SPECENUM_NAME value);
 #endif /* SPECENUM_NAMEOVERRIDE */
 
-/**************************************************************************
+/**********************************************************************//**
   Returns the name of the enumerator.
 **************************************************************************/
 #ifndef SPECENUM_NAMEOVERRIDE
@@ -496,7 +496,7 @@ static inline const char *SPECENUM_FOO(_name)(enum SPECENUM_NAME enumerator)
 
 def make_by_name(file):
     file.write('''
-/**************************************************************************
+/**********************************************************************//**
   Returns the enumerator for the name or *_invalid() if not found.
 **************************************************************************/
 static inline enum SPECENUM_NAME SPECENUM_FOO(_by_name)
@@ -524,7 +524,7 @@ static inline enum SPECENUM_NAME SPECENUM_FOO(_by_name)
 
 def make_translated_name(file):
     file.write('''
-/**************************************************************************
+/**********************************************************************//**
   Returns the translated name of the enumerator.
 **************************************************************************/
 #ifndef SPECENUM_NAMEOVERRIDE
