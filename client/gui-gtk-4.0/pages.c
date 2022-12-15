@@ -1705,24 +1705,26 @@ static void close_conn_menu_popover(void)
   }
 }
 
-#ifdef MENUS_GTK3
 /**********************************************************************//**
   Callback for when a team is chosen from the conn menu.
 **************************************************************************/
-static void conn_menu_team_chosen(GObject *object, gpointer data)
+static void conn_menu_team_chosen(GSimpleAction *action, GVariant *parameter,
+                                  gpointer data)
 {
   struct player *pplayer;
-  struct team_slot *tslot = data;
+  struct team_slot *tslot = g_object_get_data(G_OBJECT(action), "slot");
+  GMenu *menu = data;
 
-  if (object_extract(object, &pplayer, NULL)
+  if (object_extract(G_OBJECT(menu), &pplayer, NULL)
       && NULL != tslot
       && team_slot_index(tslot) != team_number(pplayer->team)) {
     send_chat_printf("/team \"%s\" \"%s\"",
                      player_name(pplayer),
                      team_slot_rule_name(tslot));
   }
+
+  close_conn_menu_popover();
 }
-#endif /* MENUS_GTK3 */
 
 /**********************************************************************//**
   Callback for when the "ready" entry is chosen from the conn menu.
@@ -2000,17 +2002,16 @@ static GtkWidget *create_conn_menu(struct player *pplayer,
     }
   }
 
-#ifdef MENUS_GTK3
-  if (pplayer && game.info.is_new_game) {
+  if (pplayer != NULL /* && game.info.is_new_game */) {
     const int count = pplayer->team
-                      ? player_list_size(team_members(pplayer->team)) : 0;
+      ? player_list_size(team_members(pplayer->team)) : 0;
     bool need_empty_team = (count != 1);
-
-    item = gtk_separator_menu_item_new();
-    gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
 
     /* Can't use team_iterate here since it skips empty teams. */
     team_slots_iterate(tslot) {
+      char actbuf[128];
+      int id;
+
       if (!team_slot_is_used(tslot)) {
         if (!need_empty_team) {
           continue;
@@ -2018,20 +2019,23 @@ static GtkWidget *create_conn_menu(struct player *pplayer,
         need_empty_team = FALSE;
       }
 
+      id = team_number(team_slot_get_team(tslot));
+
       /* TRANS: e.g., "Put on Team 5" */
       buf = g_strdup_printf(_("Put on %s"),
                             team_slot_name_translation(tslot));
-      item = gtk_menu_item_new_with_label(buf);
+      fc_snprintf(actbuf, sizeof(actbuf), "team_%d", id);
+
+      act = g_simple_action_new(actbuf, NULL);
+      g_object_set_data(G_OBJECT(act), "slot", tslot);
+      g_action_map_add_action(G_ACTION_MAP(group), G_ACTION(act));
+      g_signal_connect(act, "activate", G_CALLBACK(conn_menu_team_chosen), menu);
+      fc_snprintf(actbuf, sizeof(actbuf), "win.team_%d", id);
+      item = g_menu_item_new(buf, actbuf);
       g_free(buf);
-      gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-      object_put(G_OBJECT(item), pplayer, NULL);
-      g_signal_connect(item, "activate", G_CALLBACK(conn_menu_team_chosen),
-                       tslot);
+      g_menu_append_item(menu, item);
     } team_slots_iterate_end;
   }
-
-  gtk_widget_show(menu);
-#endif /* MENUS_GTK3 */
 
   close_conn_menu_popover();
   conn_popover = gtk_popover_menu_new_from_model(G_MENU_MODEL(menu));
@@ -2686,7 +2690,7 @@ void real_conn_list_dialog_update(void *unused)
 /**********************************************************************//**
   Helper function for adding columns to a tree view. If 'key' is not NULL
   then the added column is added to the object data of the treeview using
-  g_object_set_data under 'key'.
+  g_object_set_data() under 'key'.
 **************************************************************************/
 static void add_tree_col(GtkWidget *treeview, GType gtype,
                          const char *title, int colnum, const char *key)
