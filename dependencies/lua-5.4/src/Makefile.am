@@ -68,3 +68,17 @@ liblua_la_SOURCES = 	\
 	lvm.h		\
 	lzio.c		\
 	lzio.h
+
+
+if !SYS_TOLUA_CMD
+
+EXTRA_DIST = \
+	dist-stamp
+
+# To trick 'make dist' to build tolua, needed later to generate source files
+dist-stamp : liblua.la
+	touch dist-stamp
+
+DISTCLEANFILES = dist-stamp
+
+endif
