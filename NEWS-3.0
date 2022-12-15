@@ -9,7 +9,7 @@ see the ChangeLog file.
 
 WHAT'S CHANGED SINCE 3.0.4
 
-   (from <https://www.freeciv.org/wiki/NEWS-3.0.5>, 2022-12-15)
+   (from <https://www.freeciv.org/wiki/NEWS-3.0.5>, 2022-12-16)
 
 3.0.5 is a generic bugfix release.
 
@@ -145,7 +145,7 @@ Help / Documentation
 Translations
 
     * Updated translations:
-         + Complete translations: French, Polish
+         + Complete translations: Catalan, French, Polish
          + Incomplete translations:
            Finnish (100% core, 93% nations, 100% ruledit)
     * Fixed fetching translations of the names of the nations from
