@@ -1,10 +1,191 @@
 ========================
-Welcome to Freeciv 3.0.4
+Welcome to Freeciv 3.0.5
 ========================
 
 The changes in the 3.0.x series are summarised below.
 For changes prior to 3.0, see NEWS. For more detailed changes,
 see the ChangeLog file.
+
+
+WHAT'S CHANGED SINCE 3.0.4
+
+   (from <https://www.freeciv.org/wiki/NEWS-3.0.5>, 2022-12-15)
+
+3.0.5 is a generic bugfix release.
+
+
+Server / General
+
+    * Improvements to savegame error diagnostics osdn#45341 osdn#45343
+    * Silenced some unused entry warnings when loading saved games
+      osdn#45671 osdn#45856 osdn#46143
+    * Limit players to current max tax rates after loading a savegame
+      from a time they were higher osdn#44186
+    * Reduced the cases where player loses bulbs when they have
+      leftover bulbs from tech finished previous turn change,
+      and caravan provided bulbs on top of that, and they switch
+      between various techs to research next osdn#45685
+    * Disallowed barbarians from creating more than one unit of a type
+      expected to be unique osdn#44863
+    * Improvements to when worklist item get postponed and when
+      completely purged osdn#46029 osdn#45982
+    * Sea units that regularly need supplies, or die, now automatically
+      save themselves to the coast when possible osdn#45948
+
+Changes affecting players (supplied rulesets)
+
+    * civ2civ3/sandbox
+         + Homeless units (e.g. starting diplomat) can no longer bribe
+           other units. It made it possible to get armies of homeless,
+           and thus free of maintenance, units. osdn#45070
+
+Changes affecting other rulesets / modders
+
+    * Improved error diagnostics in inifile (e.g. rulesets) loading osdn#45573
+    * Lua functions unit_move() and unit_teleport() now check legality
+      of the move osdn#44769
+
+Changes affecting server operators
+
+    * Removed unnecessary padding from the savegame files osdn#45855
+
+Low-level changes
+
+    * Fixes to the directory creation
+         + Do not try to create what really isn't a directory
+           osdn#45830 osdn#45841 osdn#46036
+         + Give sensible errors about directory creation failures osdn#44940
+    * Robustness improvements to low-level fallback functionalities used,
+      e.g., in Windows builds osdn#45905
+    * Fixed city culture value overflow on server/client communication
+      osdn#46014
+
+General
+
+    * Fixed memory leaks, bad memory access, and improved cleanup
+      on shutdown osdn#45787 osdn#45771 osdn#45903 osdn#45825 osdn#45547
+    * Optimizations osdn#45634 osdn#45676 osdn#45961
+    * Various internal changes which should only affect developers.
+      osdn#45756 osdn#45733 osdn#45780 osdn#44852 osdn#45598 osdn#45509
+      osdn#45629 osdn#45791 osdn#45915 osdn#45964 osdn#45530 osdn#45921
+      osdn#45990 osdn#45034 osdn#45259 osdn#45973 osdn#46135 osdn#44872
+      osdn#46193
+
+AI
+
+    * Fixed AI evaluation of value of tech parasite buildings
+      (e.g. Great Library on most rulesets) in case of pooled research
+      being turned off between team members, and dead opponents osdn#45588
+    * Properly update AI's information when continents get renumbered
+      (merged or split) osdn#45767
+    * Fixed erroneously high want for a Martial Law unit as a defender
+      when there actually isn't need for defensive capacity osdn#45595
+    * Make AI to count logarithmic trade revenue bonus correctly when
+      evaluating if trade route is worth the effort osdn#46049
+    * Fixed a bug in bodyguard selection when the want for military units
+      is high, but not an actual emergency osdn#46091
+    * Fixed a crash when hunter cannot attack its target.
+      Now it doesn't waste time hunting such targets at all osdn#46176
+
+Clients
+
+    * Client is now aware if someone's research details are not updated
+      any more, and doesn't show such outdated informatio any more osdn#45076
+    * Fixed client crash on unfortunate timing of menus updating exact
+      moment worker finish tile changing activity osdn#45781
+    * Display (opponent) score of 0 as Unknown as that's what the
+      server indicates with it (this logic will improve in freeciv-3.1)
+      osdn#45970
+    * Fixed which version of the wall graphics are shown about
+      opponents' cities osdn#46092
+
+    * gtk
+         + Fixed "Gtk-WARNING gadget with negative dimensions" warning
+           in most cases it occurred osdn#42263
+         + Added tootip for the nationdlg rows osdn#45512
+         + Fixed <ctrl> + <shift> + key combinations to work on edit mode
+           osdn#45802
+         + Fixed an infinite loop in editor mode osdn#45874
+         + gtk3 and gtk3.22: Added Battle Groups menu osdn#45924
+
+    * qt
+         + Menu entry for targetless revolution is now insensitive if
+           current rules do now allow it osdn#45782
+         + Nations dialog Relations and Techs panes can now be toggled
+           on or off osdn#45048
+         + Made it possible to toggle one's own Away state from the
+           nations display AI menu osdn#44858
+         + Pop down possibly remaining older tile info before opening
+           a new one. This avoids popups that were left on screen until
+           client was closed osdn#44177
+         + Fixed Classic theme syntax osdn#44857
+         + Graphics for extras shown in the help browser osdn#44859
+
+    * sdl2
+         + Fixed unused entry: file.gx warning from theme loading osdn#45031
+         + Fixed the Patrol Here functionality from the tile menu osdn#45925
+         + Improved client launch time initialization checks osdn#46000
+         + Fixed renaming cities to take effect osdn#45986
+         + Fixed the Paradrop Here functionality from the tile menu osdn#45981
+
+Tools
+Ruledit / Ruleup
+
+    * Save trade settings section comment to game.ruleset osdn#45386
+
+
+Help / Documentation
+
+    * Miscellaneous improvements to in-game text and user documentation.
+      osdn#45796 osdn#45969 osdn#45534
+    * Miscellaneous changes to developer/install/ruleset docs.
+      osdn#44955 osdn#45833 osdn#44918 osdn#45880 osdn#45829 HRM#734372
+      osdn#45849 osdn#46003 osdn#46089 osdn#44787 osdn#46146 osdn#44197
+
+Translations
+
+    * Updated translations:
+         + Complete translations: French, Polish
+         + Incomplete translations:
+           Finnish (100% core, 93% nations, 100% ruledit)
+    * Fixed fetching translations of the names of the nations from
+      the core nationset, for the game to actually show translated names
+      osdn#45761
+    * Marked more strings for translations osdn#45989
+    * Fixes to translator comments osdn#45835
+
+Build/portability
+
+    * Fixed some clang analyzer warnings
+      osdn#45812 osdn#45417 osdn#45770 osdn#45813 osdn#45850 osdn#45920
+      osdn#45848 osdn#45872 osdn#45985 osdn#46087 osdn#46104 osdn#46099
+      osdn#46107 osdn#46124 osdn#46162
+    * Fixed warnings with -Warray-bounds enabled osdn#45541 osdn#45853
+    * -Warray-bounds warnings enabled on debug builds again osdn#45543
+    * Readline runtime detection now has a autoconf cache variable for
+      users to override test results osdn#45460
+    * Support for building couple of more flatpak types
+         + Qt-client osdn#45814
+         + Sdl2-client osdn#46111 osdn#46145
+    * Improved metainfo
+      osdn#45840 osdn#45868 osdn#45616 osdn#45837 osdn#46168
+         + Updated screenshots osdn#46106 osdn#46130 osdn#46184
+    * fc-sdl2.m4 refreshed from libsdl upstream, to match SDL2-2.24.1
+      osdn#45847
+    * Fixed case where crosser-based build would include extraneous files
+      from the previous builds osdn#45865
+    * Crosser improvements
+         + Updated Crosser environment to use to version 2.5 osdn#45701
+         + Additional error checking of the suitability of the environment
+           osdn#46126
+    * Fixed compiler warnings with macos clang++ osdn#45941 osdn#45998
+    * Mariadb configurator is now searched by name mariadb_config too
+      osdn#46015
+    * Fixed build failures when readline headers define system macros
+      because they have not been defined yet osdn#46225
+    * Configure no longer selects C11 threads as the thread implementation
+      when they do not work with the C++ compiler, and there are
+      C++ components to be built osdn#46216
 
 
 CHANGES FROM 3.0.3 to 3.0.4
@@ -35,7 +216,7 @@ Changes affecting players (supplied rulesets)
 
     * sandbox
          + Attackers have 50% chance of moving to killed unit's tile
-         after the combat osdn#45154
+           after the combat osdn#45154
 
 Changes affecting other rulesets / modders
 
@@ -54,7 +235,7 @@ Changes affecting server operators
     * Loading older savegame versions with known research count
       problems produce less warnings osdn#45344
     * Fixed loading base building orders from savegames older
-     than freeciv-2.3 osdn#45692
+      than freeciv-2.3 osdn#45692
 
 Low-level changes
 
