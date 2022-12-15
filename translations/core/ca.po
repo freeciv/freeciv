@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ca\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2022-12-15 11:29+0100\n"
+"POT-Creation-Date: 2022-12-15 06:32+0200\n"
 "PO-Revision-Date: 2022-12-15 11:53+0100\n"
 "Last-Translator: Joan Creus <joan.creusandreu at gmail dot com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -6225,7 +6225,6 @@ msgstr "Error"
 
 #: client/gui-gtk-2.0/pages.c:3424 client/gui-gtk-3.0/pages.c:3558
 #: client/gui-gtk-3.22/pages.c:3556
-#| msgid "error generating the file name"
 msgid "Error Creating the Map Image!"
 msgstr "Error Creant la Imatge del Mapa!"
 
@@ -6990,7 +6989,6 @@ msgid "(lost)"
 msgstr "(perduda)"
 
 #: client/gui-gtk-3.0/menu.c:268 client/gui-gtk-3.22/menu.c:267
-#| msgid "Nation _Groups:"
 msgid "_Battle Groups"
 msgstr "Grups de _Batalla"
 
@@ -8719,17 +8717,14 @@ msgstr "Retirar Visió"
 
 #: client/gui-qt/plrdlg.cpp:727 client/gui-qt/plrdlg.cpp:982
 #: client/gui-qt/plrdlg.cpp:987
-#| msgid "Mode"
 msgid "AI Mode"
 msgstr "Mode IA"
 
 #: client/gui-qt/plrdlg.cpp:729 client/gui-qt/plrdlg.cpp:885
-#| msgid "United Nations"
 msgid "Hide Relations"
 msgstr "Amagar Relacions"
 
 #: client/gui-qt/plrdlg.cpp:731 client/gui-qt/plrdlg.cpp:899
-#| msgid "%d Techs"
 msgid "Hide Techs"
 msgstr "Amagar Tecnologies"
 
@@ -8742,12 +8737,10 @@ msgid "Toggle AI Mode"
 msgstr "Commuta el mode d'IA"
 
 #: client/gui-qt/plrdlg.cpp:882
-#| msgid "Show Location"
 msgid "Show Relations"
 msgstr "Mostrar Relacions"
 
 #: client/gui-qt/plrdlg.cpp:896
-#| msgid "%d Techs"
 msgid "Show Techs"
 msgstr "Mostrar Tecnologies"
 
@@ -8756,7 +8749,6 @@ msgid "Show Wonders"
 msgstr "Mostrar Meravelles"
 
 #: client/gui-qt/plrdlg.cpp:984
-#| msgid "Mode"
 msgid "Away Mode"
 msgstr "Mode Away (no hi sóc)"
 
@@ -9639,25 +9631,21 @@ msgstr "Client SDL2 per Freeciv"
 
 #: client/gui-sdl2/graphics.c:565
 #, c-format
-#| msgid "Failed to create new player %s."
 msgid "Failed to create main window: %s"
 msgstr "No s'ha pogut crear la finestra principal: %s"
 
 #: client/gui-sdl2/graphics.c:596
 #, c-format
-#| msgid "Failed to create new player %s."
 msgid "Failed to create RGB surface: %s"
 msgstr "No s'ha pogut crear superfície RGB: %s"
 
 #: client/gui-sdl2/graphics.c:609
 #, c-format
-#| msgid "Failed to create new player %s."
 msgid "Failed to create renderer: %s"
 msgstr "No s'ha pogut crear el renderitzador: %s"
 
 #: client/gui-sdl2/graphics.c:619
 #, c-format
-#| msgid "Failed to create new player %s."
 msgid "Failed to create texture: %s"
 msgstr "No s'ha pogut crear textura: %s"
 
@@ -14292,19 +14280,16 @@ msgstr "Desar ha fallat, no es pot trobar un nom de fitxer."
 
 #: client/options.c:5997
 #, c-format
-#| msgid "Save failed, cannot write to file %s"
 msgid "Saving options failed, cannot create directory %s"
 msgstr "Desar les opcions ha fallat, no es pot crear el directori %s"
 
 #: client/options.c:6006
 #, c-format
-#| msgid "Save failed, cannot write to file %s"
 msgid "Saving options failed, cannot write to file %s"
 msgstr "Desar les opcions ha fallat, no s'ha pogut escriure al fitxer %s"
 
 #: client/options.c:6008
 #, c-format
-#| msgid "Saved settings to file %s"
 msgid "Saved options to file %s"
 msgstr "S'han desat les opcions al fitxer %s"
 
@@ -17344,7 +17329,6 @@ msgid "toolkit not defined"
 msgstr "toolkit no definit"
 
 #: common/mapimg.c:2050
-#| msgid "Cannot create required directories"
 msgid "can't create directory"
 msgstr "no es pot crear el directori"
 
@@ -30633,13 +30617,6 @@ msgstr ""
 "les Nacions Unides."
 
 #: data/sandbox/units.ruleset:2297 data/civ2civ3/units.ruleset:2235
-#| msgid ""
-#| "If a foreign unit is alone on a tile, you may attempt to bribe it with "
-#| "your Diplomat. By paying a sum of gold the unit will immediately become "
-#| "yours; the exact sum depends on the status of the unit and that of the "
-#| "civilization owning it. However, units belonging to Republican or "
-#| "Democratic governments cannot be bribed. Bribery when not at war will "
-#| "cause a diplomatic incident."
 msgid ""
 "If a foreign unit is alone on a tile, you may attempt to bribe it with your "
 "Diplomat. By paying a sum of gold the unit will immediately become yours; "
@@ -30650,12 +30627,11 @@ msgid ""
 msgstr ""
 "Si una unitat estrangera està sola en una casella, pots intentar de subornar-"
 "la amb el teu Diplomàtic. Pagant-li una quantitat d'or, la unitat passarà a "
-"ser teva immediatament; la quantitat exacta depèn de l'estatus de la unitat i"
-" de "
-"la civilització a què pertany. No obstant, les unitats que pertanyin a "
+"ser teva immediatament; la quantitat exacta depèn de l'estatus de la unitat "
+"i de la civilització a què pertany. No obstant, les unitats que pertanyin a "
 "governs Republicans o Democràtics no es poden subornar. El suborn quan no "
-"s'estigui en guerra provocarà un incident diplomàtic. Els Diplomàtics sense"
-" origen no poden subornar unitats."
+"s'estigui en guerra provocarà un incident diplomàtic. Els Diplomàtics sense "
+"origen no poden subornar unitats."
 
 #: data/sandbox/units.ruleset:2315 data/sandbox/units.ruleset:2542
 #: data/civ2civ3/units.ruleset:2253 data/civ2civ3/units.ruleset:2478
@@ -36706,18 +36682,6 @@ msgstr ""
 "  x: auto-e(x)plorar\n"
 
 #: data/helpdata.txt:1676
-#| msgid ""
-#| "Unit Selection:\n"
-#| "==============\n"
-#| "  z: select only first unit of selected group\n"
-#| "  v: select all units on tile\n"
-#| "  V: (on tile) select all units of the same type as the active unit\n"
-#| "  C: (on continent) select all units of the same type as the active unit\n"
-#| "  X: (everywhere) select all units of the same type as the active unit\n"
-#| "\n"
-#| "  w: (w)ait: focus on next unit\n"
-#| "  5: focus on previous unit\n"
-#| "space: done giving orders  (unit stays put)\n"
 msgid ""
 "Unit Selection:\n"
 "==============\n"
@@ -36771,23 +36735,6 @@ msgstr ""
 "  9: moure cap al nordest\n"
 
 #: data/helpdata.txt:1699
-#| msgid ""
-#| "Main Map (Keys):\n"
-#| "================\n"
-#| "  Some clients support zooming/scaling the map graphics with the + and - "
-#| "keys.\n"
-#| "  c: (c)enter view on active unit\n"
-#| "    Shift-home: center view on capital\n"
-#| "  Shift-arrows: scroll map\n"
-#| "\n"
-#| "  Ctrl-B: show/hide national borders\n"
-#| "  Ctrl-D: show/hide city trade routes\n"
-#| "  Ctrl-G: show/hide map grid lines\n"
-#| "  Ctrl-N: show/hide city names\n"
-#| "  Ctrl-P: show/hide city production\n"
-#| "  Ctrl-R: show/hide city growth\n"
-#| "  Ctrl-W: show/hide city output\n"
-#| "  Ctrl-Y: show/hide city outlines\n"
 msgid ""
 "Main Map (Keys):\n"
 "================\n"
@@ -36966,27 +36913,6 @@ msgstr ""
 "que al mapa principal.\n"
 
 #: data/helpdata.txt:1775
-#| msgid ""
-#| "Dialogs and Reports:\n"
-#| "====================\n"
-#| "     F1: show Map View\n"
-#| "     F2: open Units Report\n"
-#| "     F3: open Nations Report\n"
-#| "     F4: open Cities Report\n"
-#| "     F5: open Economy Report\n"
-#| "     F6: open Research Report\n"
-#| "     F7: open World Wonders\n"
-#| "     F8: open Top Five Cities\n"
-#| "     F9: open Messages dialog\n"
-#| "    F11: open Demographics\n"
-#| "    F12: open Spaceship\n"
-#| "\n"
-#| "        Ctrl-F: open Find City dialog\n"
-#| "        Ctrl-L: open Worklists dialog\n"
-#| "        Ctrl-T: open Tax/Lux/Sci Rates dialog\n"
-#| "  Shift-Ctrl-R: open Revolution dialog\n"
-#| "\n"
-#| "Shift-Return: Turn done"
 msgid ""
 "Dialogs and Reports:\n"
 "====================\n"
@@ -37053,8 +36979,8 @@ msgid ""
 msgstr ""
 "Grups de Batalla (GTK):\n"
 "=======================\n"
-"    Es poden fer servir quatre Grups de Batalla, controlats per F1, F2, F3, i"
-" F4.\n"
+"    Es poden fer servir quatre Grups de Batalla, controlats per F1, F2, F3, "
+"i F4.\n"
 "    Ctrl-F?:       Assignar les unitats seleccionades com a Grup de Batalla\n"
 "    Ctrl-Shift-F?: Afegir les unitats seleccionades a un Grup de Batalla\n"
 "    Shift-F?:      Seleccionar un Grup de Batalla\n"
@@ -40814,7 +40740,6 @@ msgstr "No es pot carregar el joc de regles %s."
 
 #: tools/ruleutil/rulesave.c:2844
 #, c-format
-#| msgid "Failed to create control directory \"%s\""
 msgid "Failed to create directory %s"
 msgstr "No s'ha pogut crear el directori %s"
 
@@ -45647,23 +45572,19 @@ msgstr "Tipus de compressió no suportat %d."
 
 #: server/savegame.c:256
 #, c-format
-#| msgid "Cannot create required directories"
 msgid "Can't create saves directory %s!"
 msgstr "No es pot crear el directori de partides desades %s!"
 
 #: server/savegame.c:260
-#| msgid "Cannot create required directories"
 msgid "Can't create saves directory!"
 msgstr "No es pot crear el directori de partides desades!"
 
 #: server/savegame.c:274
 #, c-format
-#| msgid "Failed to create control directory \"%s\""
 msgid "Can't create scenario saves directory %s!"
 msgstr "No es pot crear el directori d'escenaris desats %s!"
 
 #: server/savegame.c:278
-#| msgid "Cannot create required directories"
 msgid "Can't create scenario saves directory!"
 msgstr "No es pot crear el directori d'escenaris desats!"
 
@@ -52403,11 +52324,6 @@ msgstr "Falten arguments per a \"%s\".\n"
 
 #: utility/fciconv.c:130
 #, c-format
-#| msgid ""
-#| "You are running Freeciv without using iconv. Unless\n"
-#| "you are using the UTF-8 character set, some characters\n"
-#| "may not be displayed properly. You can download iconv\n"
-#| "at http://gnu.org/.\n"
 msgid ""
 "You are running Freeciv without using iconv. Unless\n"
 "you are using the UTF-8 character set, some characters\n"
