@@ -552,6 +552,7 @@ void handle_web_cma_set(struct player *pplayer, int id,
     }
 
     cm_copy_parameter(pcity->cm_parameter, param);
+    pcity->server.synced = FALSE;
 
     auto_arrange_workers(pcity);
 
