@@ -346,6 +346,154 @@ static int assess_defense_igwall(struct ai_type *ait, struct city *pcity)
 }
 
 /**********************************************************************//**
+  While assuming an attack on a target in few turns, tries to guess
+  if a requirement req will be fulfilled for this target
+  n_data for a number of turns after which the strike is awaited
+  (0 means current turn, assumes a strike during 5 turns)
+**************************************************************************/
+static enum fc_tristate
+tactical_req_cb(const struct req_context *context,
+                const struct player *other_player,
+                const struct requirement *req,
+                void *data, int n_data)
+{
+  switch (req->source.kind) {
+  case VUT_IMPROVEMENT:
+    {
+      const struct impr_type *b = req->source.value.building;
+
+      /* FIXME: in actor_reqs, may allow attack _from_ a city with... */
+      if (req->survives || NULL == context->city || is_great_wonder(b)
+          || !city_has_building(context->city, b) || b->sabotage <= 0) {
+        return tri_req_active(context, other_player, req);
+      }
+      /* Else may be sabotaged */
+    }
+    fc__fallthrough;
+  case VUT_UNITSTATE:
+  case VUT_ACTIVITY:
+  case VUT_MINSIZE:
+  case VUT_MAXTILEUNITS:
+  case VUT_MINHP:
+  case VUT_MINMOVES:
+    /* Can be changed back or forth quickly */
+    return TRI_MAYBE;
+  case VUT_MINVETERAN:
+    /* Can be changed forth but not back */
+    return is_req_preventing(context, other_player, req, RPT_POSSIBLE)
+           > REQUCH_CTRL ? TRI_NO : TRI_MAYBE;
+  case VUT_MINFOREIGNPCT:
+  case VUT_NATIONALITY:
+    /* Can be changed back but hardly forth (foreign citizens reduced first) */
+    switch (tri_req_active(context, other_player, req)) {
+    case TRI_NO:
+      return req->present ? TRI_NO : TRI_MAYBE;
+    case TRI_YES:
+      return req->present ? TRI_MAYBE : TRI_YES;
+    default:
+      return TRI_MAYBE;
+    }
+  case VUT_DIPLREL:
+  case VUT_DIPLREL_TILE:
+  case VUT_DIPLREL_TILE_O:
+  case VUT_DIPLREL_UNITANY:
+  case VUT_DIPLREL_UNITANY_O:
+    /* If the attack happens, there is a diplrel that allows it */
+    return TRI_YES;
+  case VUT_AGE:
+  case VUT_MINCALFRAG:
+  case VUT_MINYEAR:
+    /* If it is not near, won't change */
+    return tri_req_active_turns(n_data, 5 /* WAG */,
+                                context, other_player, req);
+  case VUT_UTYPE:
+  case VUT_UTFLAG:
+  case VUT_UCLASS:
+  case VUT_UCFLAG:
+    /* FIXME: support converting siege machines (needs hard reqs checked) */
+  case VUT_CITYSTATUS:
+  case VUT_ACTION:
+  case VUT_OTYPE:
+  case VUT_SPECIALIST:
+  case VUT_EXTRAFLAG:
+  case VUT_AI_LEVEL:
+  case VUT_CITYTILE:
+  case VUT_STYLE:
+  case VUT_TOPO:
+  case VUT_SERVERSETTING:
+  case VUT_NATION:
+  case VUT_NATIONGROUP:
+  case VUT_ADVANCE:
+  case VUT_TECHFLAG:
+  case VUT_GOVERNMENT:
+  case VUT_ACHIEVEMENT:
+  case VUT_IMPR_GENUS:
+  case VUT_MINCULTURE:
+  case VUT_MINTECHS:
+  case VUT_ROADFLAG:
+  case VUT_TERRAIN:
+  case VUT_EXTRA:
+  case VUT_GOOD:
+  case VUT_TERRAINCLASS:
+  case VUT_TERRFLAG:
+  case VUT_TERRAINALTER:
+  case VUT_NONE:
+    return tri_req_active(context, other_player, req);
+  case VUT_COUNT:
+    /* Not implemented. */
+    break;
+  }
+  fc_assert_ret_val(FALSE, TRI_NO);
+}
+
+/**********************************************************************//**
+  See if there is an enabler for particular action to be targeted at
+  pcity's tile after turns (for 5 turns more).
+  Note that hard reqs are not tested except for utype
+  and that the actor player is ignored; also, it's not tested can utype
+  attack the city's particular terrain.
+**************************************************************************/
+static bool
+action_may_happen_unit_on_city(const action_id wanted_action,
+                               const struct unit *actor,
+                               const struct city *pcity,
+                               int turns)
+{
+  const struct player *target_player = city_owner(pcity),
+      *actor_player = unit_owner(actor);
+  const struct unit_type *utype = unit_type_get(actor);
+  const struct req_context target_ctx = {
+      .player = target_player,
+      .city = pcity,
+      .tile = city_tile(pcity)
+  }, actor_ctx = {
+      .player = actor_player,
+      .unit = actor,
+      .unittype = utype
+  };
+
+  if (!utype_can_do_action(utype, wanted_action)) {
+    return FALSE;
+  }
+  action_enabler_list_iterate(action_enablers_for_action(wanted_action),
+                              enabler) {
+    /* We assume that we could build or move units into the city
+     * that are not present there yet */
+    if (TRI_NO != tri_reqs_cb_active(&actor_ctx, target_player,
+                                     &enabler->actor_reqs, NULL,
+                                     tactical_req_cb, NULL, turns)
+        &&
+        TRI_NO != tri_reqs_cb_active(&target_ctx, actor_player,
+                                     &enabler->target_reqs, NULL,
+                                     tactical_req_cb, NULL, turns)) {
+      return TRUE;
+    }
+  } action_enabler_list_iterate_end;
+
+  return FALSE;
+}
+
+/**********************************************************************//**
   How dangerous and far a unit is for a city?
 **************************************************************************/
 static unsigned int assess_danger_unit(const struct city *pcity,
@@ -356,9 +504,11 @@ static unsigned int assess_danger_unit(const struct city *pcity,
   struct pf_position pos;
   const struct unit_type *punittype = unit_type_get(punit);
   const struct tile *ptile = city_tile(pcity);
+  const struct player *uowner = unit_owner(punit);
   const struct unit *ferry;
   unsigned int danger;
-  int mod;
+  int amod = -99, dmod;
+  bool attack_danger = FALSE;
 
   *move_time = PF_IMPOSSIBLE_MC;
 
@@ -398,10 +548,50 @@ static unsigned int assess_danger_unit(const struct city *pcity,
     return 0;
   }
 
+  /* Find the worst attack action to expect */
+  action_by_result_iterate(paction, id, ACTRES_ATTACK) {
+    /* Is it possible that punit will do action id to the city? */
+    int b;
+
+    if (action_may_happen_unit_on_city(id, punit, pcity, *move_time)) {
+      attack_danger = TRUE;
+    } else {
+      continue;
+    }
+    b = get_unittype_bonus(uowner, ptile, punittype, paction, EFT_ATTACK_BONUS);
+    if (b > amod) {
+      amod = b;
+    }
+  } action_by_result_iterate_end;
+
+  /* FIXME: it's a dummy support for anti-bombard defense just to do something against
+   * approaching bombarders. Some better logic is needed, see OSDN#41778 */
+  if (!attack_danger) {
+    action_by_result_iterate(paction, id, ACTRES_BOMBARD) {
+      int b;
+
+      if (action_may_happen_unit_on_city(id, punit, pcity, *move_time)) {
+        attack_danger = TRUE;
+      } else {
+        continue;
+      }
+      b = get_unittype_bonus(uowner, ptile, punittype, paction, EFT_ATTACK_BONUS);
+      if (b > amod) {
+        amod = b;
+      }
+    } action_by_result_iterate_end;
+    /* Here something should be done cuz the modifier affects
+     * more than one unit but not their full hp, but is not done yet...*/
+  }
+  if (!attack_danger) {
+    /* If the unit is dangerous, it's not about its combat strength */
+    return 0;
+  }
+
   danger = adv_unit_att_rating(punit);
-  mod = 100 + get_unittype_bonus(city_owner(pcity), ptile,
-                                 punittype, NULL, EFT_DEFEND_BONUS);
-  return danger * 100 / MAX(mod, 1);
+  dmod = 100 + get_unittype_bonus(city_owner(pcity), ptile,
+                                  punittype, NULL, EFT_DEFEND_BONUS);
+  return danger * (amod + 100) / MAX(dmod, 1);
 }
 
 /**********************************************************************//**
@@ -639,8 +829,10 @@ static unsigned int assess_danger(struct ai_type *ait, struct city *pcity,
         continue;
       }
 
-      if ((0 < vulnerability && unit_can_take_over(punit))
-          || utai->carries_occupiers) {
+      if (unit_can_take_over(punit) || utai->carries_occupiers) {
+        /* Even if there is no attack strength,
+         * we need ANY protector for the city */
+        vulnerability = MAX(vulnerability, 1);
         if (3 >= move_time) {
           urgency++;
           if (1 >= move_time) {
