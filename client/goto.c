@@ -1509,7 +1509,7 @@ static void send_rally_path_orders(struct city *pcity, struct unit *punit,
   struct packet_city_rally_point p;
 
   memset(&p, 0, sizeof(p));
-  p.city_id = pcity->id;
+  p.id = pcity->id;
   p.vigilant = vigilant;
 
   log_goto_packet("Rally orders for city %d:", pcity->id);

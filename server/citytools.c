@@ -2638,7 +2638,7 @@ void package_city(struct city *pcity, struct packet_city_info *packet,
   packet->capital = pcity->capital;
   packet->steal = pcity->steal;
 
-  rally_packet->city_id = pcity->id;
+  rally_packet->id = pcity->id;
   rally_packet->length = pcity->rally_point.length;
   rally_packet->persistent = pcity->rally_point.persistent;
   rally_packet->vigilant = pcity->rally_point.vigilant;

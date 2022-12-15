@@ -1000,7 +1000,7 @@ void handle_city_nationalities(const struct packet_city_nationalities *packet)
 ****************************************************************************/
 void handle_city_rally_point(const struct packet_city_rally_point *packet)
 {
-  struct city *pcity = game_city_by_number(packet->city_id);
+  struct city *pcity = game_city_by_number(packet->id);
 
   if (pcity != NULL) {
     city_rally_point_receive(packet, pcity);

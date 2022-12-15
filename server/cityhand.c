@@ -525,7 +525,7 @@ void handle_city_options_req(struct player *pplayer, int city_id,
 void handle_city_rally_point(struct player *pplayer,
                              const struct packet_city_rally_point *packet)
 {
-  struct city *pcity = player_city_by_number(pplayer, packet->city_id);
+  struct city *pcity = player_city_by_number(pplayer, packet->id);
 
   if (NULL != pcity) {
     city_rally_point_receive(packet, pcity);

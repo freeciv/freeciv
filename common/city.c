@@ -3539,7 +3539,7 @@ void city_rally_point_receive(const struct packet_city_rally_point *packet,
   if (NULL != pcity) {
     /* Probably lost. */
     log_verbose("handle_city_rally_point() bad city number %d.",
-                packet->city_id);
+                packet->id);
     return;
   }
 
@@ -3563,8 +3563,8 @@ void city_rally_point_receive(const struct packet_city_rally_point *packet,
     checked_orders = create_unit_orders(packet->length, packet->orders);
     if (!checked_orders) {
       pcity->rally_point.length = 0;
-      log_error("invalid rally point orders for city number %d.",
-                packet->city_id);
+      log_error("invalid rally point orders for %s.",
+                city_name_get(pcity));
       return;
     }
 

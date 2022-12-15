@@ -886,7 +886,7 @@ PACKET_CITY_SABOTAGE_LIST = 45; sc, lsend, handle-via-fields
 end
 
 PACKET_CITY_RALLY_POINT = 138; cs, sc, lsend, is-game-info, force
-  CITY city_id;
+  CITY id;
   UINT16 length;
   BOOL persistent;
   BOOL vigilant;
