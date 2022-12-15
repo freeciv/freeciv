@@ -5535,55 +5535,56 @@ void desired_settable_options_update(void)
   fc_assert_ret(NULL != settable_options_hash);
 
   options_iterate(server_optset, poption) {
-    value = NULL;
-    def_val = NULL;
-    switch (option_type(poption)) {
-    case OT_BOOLEAN:
-      fc_strlcpy(val_buf, option_bool_get(poption) ? "enabled" : "disabled",
-                 sizeof(val_buf));
-      value = val_buf;
-      fc_strlcpy(def_buf, option_bool_def(poption) ? "enabled" : "disabled",
-                 sizeof(def_buf));
-      def_val = def_buf;
-      break;
-    case OT_INTEGER:
-      fc_snprintf(val_buf, sizeof(val_buf), "%d", option_int_get(poption));
-      value = val_buf;
-      fc_snprintf(def_buf, sizeof(def_buf), "%d", option_int_def(poption));
-      def_val = def_buf;
-      break;
-    case OT_STRING:
-      value = option_str_get(poption);
-      def_val = option_str_def(poption);
-      break;
-    case OT_ENUM:
-      server_option_enum_support_name(poption, &value, &def_val);
-      break;
-    case OT_BITWISE:
-      server_option_bitwise_support_name(poption, val_buf, sizeof(val_buf),
-                                         def_buf, sizeof(def_buf));
-      value = val_buf;
-      def_val = def_buf;
-      break;
-    case OT_FONT:
-    case OT_COLOR:
-    case OT_VIDEO_MODE:
-      break;
-    }
+    struct server_option *srv = SERVER_OPTION(poption);
 
-    if (NULL == value || NULL == def_val) {
-      log_error("Option type %s (%d) not supported for '%s'.",
-                option_type_name(option_type(poption)), option_type(poption),
-                option_name(poption));
-      continue;
-    }
-
-    if (0 == strcmp(value, def_val)) {
-      /* Not set, using default... */
+    if (srv->setdef != SETDEF_CHANGED) {
+      /* Some level default - do not store */
       settable_options_hash_remove(settable_options_hash,
                                    option_name(poption));
     } else {
-      /* Really desired. */
+      value = NULL;
+      def_val = NULL;
+      switch (option_type(poption)) {
+      case OT_BOOLEAN:
+        fc_strlcpy(val_buf, option_bool_get(poption) ? "enabled" : "disabled",
+                   sizeof(val_buf));
+        value = val_buf;
+        fc_strlcpy(def_buf, option_bool_def(poption) ? "enabled" : "disabled",
+                   sizeof(def_buf));
+        def_val = def_buf;
+        break;
+      case OT_INTEGER:
+        fc_snprintf(val_buf, sizeof(val_buf), "%d", option_int_get(poption));
+        value = val_buf;
+        fc_snprintf(def_buf, sizeof(def_buf), "%d", option_int_def(poption));
+        def_val = def_buf;
+        break;
+      case OT_STRING:
+        value = option_str_get(poption);
+        def_val = option_str_def(poption);
+        break;
+      case OT_ENUM:
+        server_option_enum_support_name(poption, &value, &def_val);
+        break;
+      case OT_BITWISE:
+        server_option_bitwise_support_name(poption, val_buf, sizeof(val_buf),
+                                           def_buf, sizeof(def_buf));
+        value = val_buf;
+        def_val = def_buf;
+        break;
+      case OT_FONT:
+      case OT_COLOR:
+      case OT_VIDEO_MODE:
+        break;
+      }
+
+      if (NULL == value || NULL == def_val) {
+        log_error("Option type %s (%d) not supported for '%s'.",
+                  option_type_name(option_type(poption)), option_type(poption),
+                  option_name(poption));
+        continue;
+      }
+
       settable_options_hash_replace(settable_options_hash,
                                     option_name(poption), value);
     }
