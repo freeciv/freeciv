@@ -40,3 +40,6 @@ tolua_LDADD = \
 
 EXTRA_DIST = \
 	tolua.pkg
+
+# To trick 'make dist' to build tolua, needed later to generate source files
+tolua.pkg : tolua$(EXEEXT)

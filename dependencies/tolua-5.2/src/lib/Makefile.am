@@ -11,3 +11,17 @@ libtolua_la_SOURCES = \
 	tolua_map.c \
 	tolua_push.c \
 	tolua_to.c
+
+
+if !SYS_TOLUA_CMD
+
+EXTRA_DIST = \
+	dist-stamp
+
+# To trick 'make dist' to build tolua, needed later to generate source files
+dist-stamp : libtolua.la
+	touch dist-stamp
+
+DISTCLEANFILES = dist-stamp
+
+endif
