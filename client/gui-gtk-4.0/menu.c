@@ -94,6 +94,7 @@ enum menu_entry_grouping { MGROUP_SAFE, MGROUP_EDIT, MGROUP_PLAYING,
                            MGROUP_UNIT, MGROUP_PLAYER, MGROUP_ALL };
 
 static GMenu *options_menu = NULL;
+static GMenu *view_menu = NULL;
 static GMenu *gov_menu = NULL;
 static GMenu *unit_menu = NULL;
 static GMenu *work_menu = NULL;
@@ -255,13 +256,15 @@ static void show_unit_shields_callback(GtkCheckMenuItem *item,
                                        gpointer data);
 static void show_focus_unit_callback(GtkCheckMenuItem *item, gpointer data);
 static void show_fog_of_war_callback(GtkCheckMenuItem *item, gpointer data);
-static void full_screen_callback(GtkCheckMenuItem *item, gpointer data);
 static void recalc_borders_callback(GtkMenuItem *item, gpointer data);
 static void toggle_fog_callback(GtkMenuItem *item, gpointer data);
 static void scenario_properties_callback(GtkMenuItem *item, gpointer data);
 static void save_scenario_callback(GtkMenuItem *item, gpointer data);
 #endif /* MENUS_GTK3 */
 
+static void full_screen_callback(GSimpleAction *action,
+                                 GVariant *parameter,
+                                 gpointer data);
 static void center_view_callback(GSimpleAction *action,
                                  GVariant *parameter,
                                  gpointer data);
@@ -460,6 +463,9 @@ static struct menu_entry_info menu_entries[] =
     NULL, FALSE },
 
   /* View menu */
+  { "FULL_SCREEN", N_("_Fullscreen"),
+    "full_screen", "<ctrl>F11", MGROUP_SAFE,
+    full_screen_callback, FALSE },
   { "CENTER_VIEW", N_("_Center View"),
     "center_view", "c", MGROUP_PLAYER,
     NULL, FALSE },
@@ -751,8 +757,6 @@ static struct menu_entry_info menu_entries[] =
     G_CALLBACK(show_focus_unit_callback), MGROUP_SAFE },
   { "SHOW_FOG_OF_WAR", N_("Fog of _War"), 0, 0,
     G_CALLBACK(show_fog_of_war_callback), MGROUP_SAFE },
-  { "FULL_SCREEN", N_("_Fullscreen"), GDK_KEY_Return, GDK_ALT_MASK,
-    G_CALLBACK(full_screen_callback), MGROUP_SAFE },
 
   { "RECALC_BORDERS", N_("Recalculate _Borders"), 0, 0,
     G_CALLBACK(recalc_borders_callback), MGROUP_EDIT },
@@ -1665,23 +1669,31 @@ static void show_fog_of_war_callback(GtkCheckMenuItem *item, gpointer data)
     view_menu_update_sensitivity();
   }
 }
+#endif /* MENUS_GTK3 */
 
 /************************************************************************//**
   Item "FULL_SCREEN" callback.
 ****************************************************************************/
-static void full_screen_callback(GtkCheckMenuItem *item, gpointer data)
+static void full_screen_callback(GSimpleAction *action, GVariant *parameter,
+                                 gpointer data)
 {
-  if (GUI_GTK_OPTION(fullscreen) ^ gtk_check_menu_item_get_active(item)) {
-    GUI_GTK_OPTION(fullscreen) ^= 1;
+  struct menu_entry_info *info = (struct menu_entry_info *)data;
 
-    if (GUI_GTK_OPTION(fullscreen)) {
-      gtk_window_fullscreen(GTK_WINDOW(toplevel));
-    } else {
-      gtk_window_unfullscreen(GTK_WINDOW(toplevel));
-    }
+  info->state ^= 1;
+  GUI_GTK_OPTION(fullscreen) = info->state;
+
+  if (GUI_GTK_OPTION(fullscreen)) {
+    gtk_window_fullscreen(GTK_WINDOW(toplevel));
+  } else {
+    gtk_window_unfullscreen(GTK_WINDOW(toplevel));
   }
+
+  g_menu_remove(view_menu, 0);
+  g_menu_insert_item(view_menu, 0,
+                     create_toggle_menu_item_for_key("FULL_SCREEN"));
 }
 
+#ifdef MENUS_GTK3
 /************************************************************************//**
   Item "RECALC_BORDERS" callback.
 ****************************************************************************/
@@ -2437,14 +2449,19 @@ static void bg_append_callback(GSimpleAction *action,
 ****************************************************************************/
 static GMenuItem *create_toggle_menu_item(struct menu_entry_info *info)
 {
-  GVariant *var;
   char actname[150];
   GMenuItem *item;
 
-  fc_snprintf(actname, sizeof(actname), "app.%s", info->action);
+  fc_snprintf(actname, sizeof(actname), "app.%s(%s)",
+              info->action, info->state ? "true" : "false");
   item = g_menu_item_new(Q_(info->name), NULL);
-  var = g_variant_new("b", (gboolean)(info->state));
-  g_menu_item_set_action_and_target_value(item, actname, var);
+  g_menu_item_set_detailed_action(item, actname);
+
+  if (info->accl != NULL) {
+    const char *accls[2] = { info->accl, NULL };
+
+    gtk_application_set_accels_for_action(gui_app(), actname, accls);
+  }
 
   return item;
 }
@@ -2485,9 +2502,13 @@ static void menu_entry_init(GMenu *sub, const char *key)
 ****************************************************************************/
 void menus_set_initial_toggle_values(void)
 {
-  struct menu_entry_info *info = menu_entry_info_find("SAVE_OPTIONS_ON_EXIT");
+  struct menu_entry_info *info;
 
+  info = menu_entry_info_find("SAVE_OPTIONS_ON_EXIT");
   info->state = gui_options.save_options_on_exit;
+
+  info = menu_entry_info_find("FULL_SCREEN");
+  info->state = GUI_GTK_OPTION(fullscreen);
 }
 
 /************************************************************************//**
@@ -2517,6 +2538,17 @@ static void setup_app_actions(GApplication *fc_app)
   }
 
   g_variant_type_free(bvart);
+
+  for (i = 0; menu_entries[i].key != NULL; i++) {
+    if (menu_entries[i].accl != NULL && menu_entries[i].toggle == NULL) {
+      const char *accls[2] = { menu_entries[i].accl, NULL };
+      char actname[150];
+
+      fc_snprintf(actname, sizeof(actname), "app.%s", menu_entries[i].action);
+
+      gtk_application_set_accels_for_action(GTK_APPLICATION(fc_app), actname, accls);
+    }
+  }
 }
 
 /************************************************************************//**
@@ -2588,11 +2620,12 @@ static GMenu *setup_menus(GtkApplication *app)
 
   g_menu_append_submenu(menubar, _("_Edit"), G_MENU_MODEL(topmenu));
 
-  topmenu = g_menu_new();
+  view_menu = g_menu_new();
 
-  menu_entry_init(topmenu, "CENTER_VIEW");
+  menu_entry_init(view_menu, "FULL_SCREEN");
+  menu_entry_init(view_menu, "CENTER_VIEW");
 
-  g_menu_append_submenu(menubar, Q_("?verb:_View"), G_MENU_MODEL(topmenu));
+  g_menu_append_submenu(menubar, Q_("?verb:_View"), G_MENU_MODEL(view_menu));
 
   unit_menu = g_menu_new();
 
@@ -2702,16 +2735,6 @@ static GMenu *setup_menus(GtkApplication *app)
 #ifndef FREECIV_DEBUG
   menu_entry_set_visible("RELOAD_TILESET", FALSE, FALSE);
 #endif /* FREECIV_DEBUG */
-
-  for (i = 0; menu_entries[i].key != NULL; i++) {
-    if (menu_entries[i].accl != NULL) {
-      const char *accls[2] = { menu_entries[i].accl, NULL };
-      char actname[150];
-
-      fc_snprintf(actname, sizeof(actname), "app.%s", menu_entries[i].action);
-      gtk_application_set_accels_for_action(app, actname, accls);
-    }
-  }
 
   menus_built = TRUE;
 
@@ -3696,8 +3719,6 @@ void real_menus_init(void)
                            can_client_access_hack()
                            && C_S_RUNNING <= client_state());
 
-  menu_entry_set_active("SAVE_OPTIONS_ON_EXIT",
-                        gui_options.save_options_on_exit);
   menu_entry_set_sensitive("SERVER_OPTIONS", client.conn.established);
 
   menu_entry_set_sensitive("LEAVE",
@@ -3814,8 +3835,6 @@ void real_menus_init(void)
                         gui_options.draw_fog_of_war);
 
   view_menu_update_sensitivity();
-
-  menu_entry_set_active("FULL_SCREEN", GUI_GTK_OPTION(fullscreen));
 
 #endif /* MENUS_GTK3 */
 }
