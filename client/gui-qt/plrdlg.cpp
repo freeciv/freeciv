@@ -22,7 +22,6 @@
 #include <QMouseEvent>
 #include <QPainter>
 #include <QPushButton>
-#include <QSortFilterProxyModel>
 #include <QSplitter>
 #include <QVBoxLayout>
 
@@ -291,6 +290,8 @@ void plr_model::populate()
   plr_list.clear();
   beginResetModel();
 
+  // This is duplicated at plr_sorter::lessThan() for
+  // index <-> player mapping to match
   players_iterate(pplayer) {
     if ((is_barbarian(pplayer))) {
       continue;
@@ -300,6 +301,56 @@ void plr_model::populate()
   } players_iterate_end;
 
   endResetModel();
+}
+
+/**********************************************************************//**
+  Constructor for the player/nation dialog sorter
+**************************************************************************/
+plr_sorter::plr_sorter(QObject *parent) : QSortFilterProxyModel(parent)
+{
+}
+
+/**********************************************************************//**
+  Destructor for the player/nation dialog sorter
+**************************************************************************/
+plr_sorter::~plr_sorter()
+{
+}
+
+/**********************************************************************//**
+  Sort the player/nation dialog
+**************************************************************************/
+bool plr_sorter::lessThan(const QModelIndex &left,
+                          const QModelIndex &right) const
+{
+  struct player_dlg_column *column = &(player_dlg_columns[left.column()]);
+
+  if (column->sort_func != NULL) {
+    int li = left.row();
+    int ri = right.row();
+    int i = 0;
+    struct player *lplr = NULL;
+    struct player *rplr = NULL;
+
+    // Duplicates populate() logic to find player matching index
+    players_iterate(pplayer) {
+      if ((is_barbarian(pplayer))) {
+        continue;
+      }
+
+      if (i == li) {
+        lplr = pplayer;
+      }
+      if (i++ == ri) {
+        rplr = pplayer;
+      }
+    } players_iterate_end;
+
+    return column->sort_func(lplr, rplr);
+  }
+
+  // Use default sort when no sort function defined
+  return QSortFilterProxyModel::lessThan(left, right);
 }
 
 /**********************************************************************//**
@@ -313,7 +364,7 @@ plr_widget::plr_widget(plr_report *pr): QTreeView()
   pid = new plr_item_delegate(this);
   setItemDelegate(pid);
   list_model = new plr_model(this);
-  filter_model = new QSortFilterProxyModel();
+  filter_model = new plr_sorter(this);
   filter_model->setDynamicSortFilter(true);
   filter_model->setSourceModel(list_model);
   filter_model->setFilterRole(Qt::DisplayRole);
