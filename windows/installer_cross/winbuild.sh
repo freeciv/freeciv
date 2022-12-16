@@ -7,9 +7,9 @@
 # This script is licensed under Gnu General Public License version 2 or later.
 # See COPYING available from the same location you got this script.
 
-# Version 2.4.1 (09-Jun-22)
+# Version 2.4.2 (16-Dec-22)
 
-WINBUILD_VERSION="2.4.0"
+WINBUILD_VERSION="2.4.2"
 MIN_WINVER=0x0601 # Windows 7, Qt6-client build overrides this
 CROSSER_FEATURE_LEVEL=2.5
 
@@ -44,15 +44,15 @@ fi
 
 FLVL=$(grep "CrosserFeatureLevel=" $DLLSPATH/crosser.txt | sed -e 's/CrosserFeatureLevel="//' -e 's/"//')
 
-if test "x$FLVL" != "x$CROSSER_FEATURE_LEVEL" ; then
-  echo "Crosser feature level \"$FLVL\", required \"$CROSSER_FEATURE_LEVEL\"!"
+if test "$FLVL" != "$CROSSER_FEATURE_LEVEL" ; then
+  echo "Crosser feature level \"$FLVL\", required \"$CROSSER_FEATURE_LEVEL\"!" >&2
   exit 1
 fi
 
 CSET=$(grep "CrosserSet=" $DLLSPATH/crosser.txt | sed -e 's/CrosserSet="//' -e 's/"//')
 
-if test "x$CSET" != "xcurrent" ; then
-  echo "Crosser set is \"$CSET\", only \"current\" is supported!"
+if test "$CSET" != "current" ; then
+  echo "Crosser set is \"$CSET\", only \"current\" is supported!" >&2
   exit 1
 fi
 
