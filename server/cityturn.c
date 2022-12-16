@@ -1192,53 +1192,63 @@ static bool worklist_item_postpone_req_vec(struct universal *target,
         }
         break;
       case VUT_IMPROVEMENT:
-        if (preq->present) {
-          notify_player(pplayer, city_tile(pcity),
-                        E_CITY_CANTBUILD, ftc_server,
-                        _("%s can't build %s from the worklist; "
-                          "need to have %s first. Postponing..."),
-                        city_link(pcity),
-                        tgt_name,
-                        city_improvement_name_translation(pcity,
-                            preq->source.value.building));
-          script_server_signal_emit(signal_name, ptarget,
-                                    pcity, "need_building");
+        if (preq->range == REQ_RANGE_LOCAL) {
+          /* Building itself is never going to change */
+          purge = FALSE;
         } else {
-          notify_player(pplayer, city_tile(pcity),
-                        E_CITY_CANTBUILD, ftc_server,
-                        _("%s can't build %s from the worklist; "
-                          "need to not have %s. Postponing..."),
-                        city_link(pcity),
-                        tgt_name,
-                        city_improvement_name_translation(pcity,
+          if (preq->present) {
+            notify_player(pplayer, city_tile(pcity),
+                          E_CITY_CANTBUILD, ftc_server,
+                          _("%s can't build %s from the worklist; "
+                            "need to have %s first. Postponing..."),
+                          city_link(pcity),
+                          tgt_name,
+                          city_improvement_name_translation(pcity,
                             preq->source.value.building));
-          script_server_signal_emit(signal_name, ptarget,
-                                    pcity, "have_building");
+            script_server_signal_emit(signal_name, ptarget,
+                                      pcity, "need_building");
+          } else {
+            notify_player(pplayer, city_tile(pcity),
+                          E_CITY_CANTBUILD, ftc_server,
+                          _("%s can't build %s from the worklist; "
+                            "need to not have %s. Postponing..."),
+                          city_link(pcity),
+                          tgt_name,
+                          city_improvement_name_translation(pcity,
+                            preq->source.value.building));
+            script_server_signal_emit(signal_name, ptarget,
+                                      pcity, "have_building");
+          }
         }
         break;
       case VUT_IMPR_GENUS:
-        if (preq->present) {
-          notify_player(pplayer, city_tile(pcity),
-                        E_CITY_CANTBUILD, ftc_server,
-                        _("%s can't build %s from the worklist; "
-                          "need to have %s first. Postponing..."),
-                        city_link(pcity),
-                        tgt_name,
-                        impr_genus_id_translated_name(
-                          preq->source.value.impr_genus));
-          script_server_signal_emit(signal_name, ptarget,
-                                    pcity, "need_building_genus");
+        if (preq->range == REQ_RANGE_LOCAL) {
+          /* Building's own genus is never going to change */
+          purge = FALSE;
         } else {
-          notify_player(pplayer, city_tile(pcity),
-                        E_CITY_CANTBUILD, ftc_server,
-                        _("%s can't build %s from the worklist; "
-                          "need to not have %s. Postponing..."),
-                        city_link(pcity),
-                        tgt_name,
-                        impr_genus_id_translated_name(
-                          preq->source.value.impr_genus));
-          script_server_signal_emit(signal_name, ptarget,
-                                    pcity, "have_building_genus");
+          if (preq->present) {
+            notify_player(pplayer, city_tile(pcity),
+                          E_CITY_CANTBUILD, ftc_server,
+                          _("%s can't build %s from the worklist; "
+                            "need to have %s first. Postponing..."),
+                          city_link(pcity),
+                          tgt_name,
+                          impr_genus_id_translated_name(
+                            preq->source.value.impr_genus));
+            script_server_signal_emit(signal_name, ptarget,
+                                      pcity, "need_building_genus");
+          } else {
+            notify_player(pplayer, city_tile(pcity),
+                          E_CITY_CANTBUILD, ftc_server,
+                          _("%s can't build %s from the worklist; "
+                            "need to not have %s. Postponing..."),
+                          city_link(pcity),
+                          tgt_name,
+                          impr_genus_id_translated_name(
+                            preq->source.value.impr_genus));
+            script_server_signal_emit(signal_name, ptarget,
+                                      pcity, "have_building_genus");
+          }
         }
         break;
       case VUT_GOVERNMENT:
@@ -1350,59 +1360,68 @@ static bool worklist_item_postpone_req_vec(struct universal *target,
         }
         break;
       case VUT_NATION:
-        /* Nation can be required at Alliance range, which may change. */
-        if (preq->present) {
-          notify_player(pplayer, city_tile(pcity),
-                        E_CITY_CANTBUILD, ftc_server,
-                        /* TRANS: "%s nation" is adjective */
-                        Q_("?nation:%s can't build %s from the worklist; "
-                           "%s nation is required. Postponing..."),
-                        city_link(pcity),
-                        tgt_name,
-                        nation_adjective_translation(preq->source.value.nation));
-          script_server_signal_emit(signal_name, ptarget,
-                                    pcity, "need_nation");
+        if (preq->range < REQ_RANGE_TRADEROUTE
+            || preq->range == REQ_RANGE_PLAYER) {
+          /* At higher ranges, new players with their nations may arrive */
+          purge = TRUE;
         } else {
-          notify_player(pplayer, city_tile(pcity),
-                        E_CITY_CANTBUILD, ftc_server,
-                        Q_("?nation:%s can't build %s from the worklist; "
-                           "%s nation is prohibited. Postponing..."),
-                        city_link(pcity),
-                        tgt_name,
-                        nation_adjective_translation(preq->source.value.nation));
-          script_server_signal_emit(signal_name, ptarget,
-                                    pcity, "have_nation");
+          if (preq->present) {
+            notify_player(pplayer, city_tile(pcity),
+                          E_CITY_CANTBUILD, ftc_server,
+                          /* TRANS: "%s nation" is adjective */
+                          Q_("?nation:%s can't build %s from the worklist; "
+                             "%s nation is required. Postponing..."),
+                          city_link(pcity),
+                          tgt_name,
+                          nation_adjective_translation(preq->source.value.nation));
+            script_server_signal_emit(signal_name, ptarget,
+                                      pcity, "need_nation");
+          } else {
+            notify_player(pplayer, city_tile(pcity),
+                          E_CITY_CANTBUILD, ftc_server,
+                          Q_("?nation:%s can't build %s from the worklist; "
+                             "%s nation is prohibited. Postponing..."),
+                          city_link(pcity),
+                          tgt_name,
+                          nation_adjective_translation(preq->source.value.nation));
+            script_server_signal_emit(signal_name, ptarget,
+                                      pcity, "have_nation");
+          }
         }
         break;
       case VUT_NATIONGROUP:
-        /* Nation group can be required at Alliance range, which may
-         * change. */
-        if (preq->present) {
-          notify_player(pplayer, city_tile(pcity),
-                        E_CITY_CANTBUILD, ftc_server,
-                        /* TRANS: "%s nation" is adjective */
-                        Q_("?ngroup:%s can't build %s from the worklist; "
-                           "%s nation is required. Postponing..."),
-                        city_link(pcity),
-                        tgt_name,
-                        nation_group_name_translation(preq->source.value.nationgroup));
-          script_server_signal_emit(signal_name, ptarget,
-                                    pcity, "need_nationgroup");
+        if (preq->range < REQ_RANGE_TRADEROUTE
+            || preq->range == REQ_RANGE_PLAYER) {
+          /* At higher ranges, new players with their nations may arrive */
+          purge = TRUE;
         } else {
-          notify_player(pplayer, city_tile(pcity),
-                        E_CITY_CANTBUILD, ftc_server,
-                        Q_("?ngroup:%s can't build %s from the worklist; "
-                           "%s nation is prohibited. Postponing..."),
-                        city_link(pcity),
-                        tgt_name,
-                        nation_group_name_translation(preq->source.value.nationgroup));
-          script_server_signal_emit(signal_name, ptarget,
-                                    pcity, "have_nationgroup");
+          if (preq->present) {
+            notify_player(pplayer, city_tile(pcity),
+                          E_CITY_CANTBUILD, ftc_server,
+                          /* TRANS: "%s nation" is adjective */
+                          Q_("?ngroup:%s can't build %s from the worklist; "
+                             "%s nation is required. Postponing..."),
+                          city_link(pcity),
+                          tgt_name,
+                          nation_group_name_translation(preq->source.value.nationgroup));
+            script_server_signal_emit(signal_name, ptarget,
+                                      pcity, "need_nationgroup");
+          } else {
+            notify_player(pplayer, city_tile(pcity),
+                          E_CITY_CANTBUILD, ftc_server,
+                          Q_("?ngroup:%s can't build %s from the worklist; "
+                             "%s nation is prohibited. Postponing..."),
+                          city_link(pcity),
+                          tgt_name,
+                          nation_group_name_translation(preq->source.value.nationgroup));
+            script_server_signal_emit(signal_name, ptarget,
+                                      pcity, "have_nationgroup");
+          }
         }
         break;
       case VUT_STYLE:
         /* FIXME: City styles sometimes change over time, but it isn't
-         * entirely under player control.  Probably better to purge
+         * entirely under player control. Probably better to purge
          * with useful explanation. */
         if (preq->present) {
           notify_player(pplayer, city_tile(pcity),
