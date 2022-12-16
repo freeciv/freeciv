@@ -136,6 +136,8 @@ static struct section_file *openload_ruleset_file(const char *whichset,
 
 static bool load_game_names(struct section_file *file,
                             struct rscompat_info *compat);
+static bool load_action_names(struct section_file *file,
+                              struct rscompat_info *compat);
 static bool load_tech_names(struct section_file *file,
                             struct rscompat_info *compat);
 static bool load_unit_names(struct section_file *file,
@@ -176,6 +178,7 @@ static bool load_ruleset_effects(struct section_file *file,
 static bool load_ruleset_game(struct section_file *file, bool act,
                               struct rscompat_info *compat);
 static bool load_ruleset_actions(struct section_file *file,
+                                 struct section_file *gamefile,
                                  struct rscompat_info *compat);
 
 static void send_ruleset_tech_classes(struct conn_list *dest);
@@ -1472,6 +1475,27 @@ static bool load_game_names(struct section_file *file,
   return ok;
 }
 
+/**********************************************************************//**
+  Load names from actions.ruleset so other rulesets can refer to objects
+  with their name.
+**************************************************************************/
+static bool load_action_names(struct section_file *file,
+                              struct rscompat_info *compat)
+{
+  const char *filename = secfile_name(file);
+  bool ok = TRUE;
+
+  /* Section: datafile */
+  compat->version = rscompat_check_capabilities(file, filename, compat);
+  if (compat->version <= 0) {
+    return FALSE;
+  }
+
+  (void) secfile_entry_by_path(file, "datafile.description");   /* Unused */
+  (void) secfile_entry_by_path(file, "datafile.ruledit");       /* Unused */
+
+  return ok;
+}
 
 /**********************************************************************//**
   Load names of technologies so other rulesets can refer to techs with
@@ -6550,7 +6574,7 @@ static bool load_ruleset_game(struct section_file *file, bool act,
     game.server.ruledit.description_file = fc_strdup(name);
   }
 
-  /* section: tileset */
+  /* Section: tileset */
   pref_text = secfile_lookup_str_default(file, "", "tileset.prefered");
   if (pref_text[0] != '\0') {
     log_deprecation("Entry tileset.prefered in game.ruleset."
@@ -6565,7 +6589,7 @@ static bool load_ruleset_game(struct section_file *file, bool act,
     game.control.preferred_tileset[0] = '\0';
   }
 
-  /* section: soundset */
+  /* Section: soundset */
   pref_text = secfile_lookup_str_default(file, "", "soundset.prefered");
   if (pref_text[0] != '\0') {
     log_deprecation("Entry soundset.prefered in game.ruleset."
@@ -6580,7 +6604,7 @@ static bool load_ruleset_game(struct section_file *file, bool act,
     game.control.preferred_soundset[0] = '\0';
   }
 
-  /* section: musicset */
+  /* Section: musicset */
   pref_text = secfile_lookup_str_default(file, "", "musicset.prefered");
   if (pref_text[0] != '\0') {
     log_deprecation("Entry musicset.prefered in game.ruleset."
@@ -6595,7 +6619,7 @@ static bool load_ruleset_game(struct section_file *file, bool act,
     game.control.preferred_musicset[0] = '\0';
   }
 
-  /* section: about */
+  /* Section: about */
   pref_text = secfile_lookup_str(file, "about.name");
   /* Ruleset/modpack name found */
   sz_strlcpy(game.control.name, pref_text);
@@ -6663,7 +6687,7 @@ static bool load_ruleset_game(struct section_file *file, bool act,
     game.ruleset_capabilities[0] = '\0';
   }
 
-  /* section: options */
+  /* Section: options */
   if (!lookup_tech_list(file, "options", "global_init_techs",
                         game.rgame.global_init_techs, filename)) {
     ok = FALSE;
@@ -6977,298 +7001,6 @@ static bool load_ruleset_game(struct section_file *file, bool act,
                                            RS_MIN_INCITE_TOTAL_FCT,
                                            RS_MAX_INCITE_TOTAL_FCT,
                                            "incite_cost.total_factor");
-
-    if (ok) {
-      /* Auto attack. */
-      struct action_auto_perf *auto_perf;
-
-      /* Action auto performers aren't ready to be exposed in the ruleset
-       * yet. The behavior when two action auto performers for the same
-       * cause can fire isn't set in stone yet. How is one of them chosen?
-       * What if all the actions of the chosen action auto performer turned
-       * out to be illegal but one of the other action auto performers that
-       * fired has legal actions? These issues can decide what other action
-       * rules action auto performers can represent in the future. Deciding
-       * should therefore wait until a rule needs action auto performers to
-       * work a certain way. */
-      /* Only one action auto performer, ACTION_AUTO_MOVED_ADJ, is caused
-       * by AAPC_UNIT_MOVED_ADJ. It is therefore safe to expose the full
-       * requirement vector to the ruleset. */
-      struct requirement_vector *reqs;
-
-      /* A unit moved next to this unit and the autoattack server setting
-       * is enabled. */
-      auto_perf = action_auto_perf_slot_number(ACTION_AUTO_MOVED_ADJ);
-      auto_perf->cause = AAPC_UNIT_MOVED_ADJ;
-
-      reqs = lookup_req_list(file, compat,
-                             "auto_attack", "if_attacker",
-                             "auto_attack");
-      if (reqs == NULL) {
-        ok = FALSE;
-      } else {
-        requirement_vector_copy(&auto_perf->reqs, reqs);
-
-        if (!load_action_auto_actions(file, auto_perf,
-                                      "auto_attack.attack_actions",
-                                      filename)) {
-          /* Failed to load auto attack actions */
-          ruleset_error(NULL, LOG_ERROR,
-                        "\"%s\": %s: failed load %s.",
-                        filename, "auto_attack", "attack_actions");
-          ok = FALSE;
-        }
-      }
-    }
-
-    /* Section: actions */
-    if (ok) {
-      action_iterate(act_id) {
-        struct action *paction = action_by_number(act_id);
-
-        if (!load_action_blocked_by_list(file, filename, paction)) {
-          ok = FALSE;
-          break;
-        }
-      } action_iterate_end;
-
-      if (ok) {
-        if (!lookup_bv_actions(file, filename,
-                               &game.info.diplchance_initial_odds,
-                               "actions.diplchance_initial_odds")) {
-          ok = FALSE;
-        }
-      }
-
-      if (ok) {
-        /* If the "Poison City" action or the "Poison City Escape" action
-         * should empty the granary. */
-        /* TODO: empty granary and reduce population should become separate
-         * action effect flags when actions are generalized. */
-        game.info.poison_empties_food_stock
-          = secfile_lookup_bool_default(file,
-                                        RS_DEFAULT_POISON_EMPTIES_FOOD_STOCK,
-                                        "actions.poison_empties_food_stock");
-
-        /* If the "Steal Maps" action or the "Steal Maps Escape" action always
-         * will reveal all cities when successful. */
-        game.info.steal_maps_reveals_all_cities
-          = secfile_lookup_bool_default(file,
-                                        RS_DEFAULT_STEAL_MAP_REVEALS_CITIES,
-                                        "actions.steal_maps_reveals_all_cities");
-
-        /* Allow setting certain properties for some actions before
-         * generalized actions. */
-        action_iterate(act_id) {
-          if (!load_action_range(file, act_id)) {
-            ok = FALSE;
-          } else if (!load_action_kind(file, act_id)) {
-            ok = FALSE;
-          } else if (!load_action_actor_consuming_always(file, act_id)) {
-            ok = FALSE;
-          } else {
-            load_action_ui_name(file, act_id,
-                                action_ui_name_ruleset_var_name(act_id));
-          }
-
-          if (!ok) {
-            break;
-          }
-        } action_iterate_end;
-      }
-
-      if (ok) {
-        /* The quiet (don't auto generate help for) property of all actions
-         * live in a single enum vector. This avoids generic action
-         * expectations. */
-        if (secfile_entry_by_path(file, "actions.quiet_actions")) {
-          enum gen_action *quiet_actions;
-          size_t asize;
-          int j;
-
-          quiet_actions =
-            secfile_lookup_enum_vec(file, &asize, gen_action,
-                                    "actions.quiet_actions");
-
-          if (!quiet_actions) {
-            /* Entity exists but couldn't read it. */
-            ruleset_error(NULL, LOG_ERROR,
-                          "\"%s\": actions.quiet_actions: bad action list",
-                          filename);
-
-            ok = FALSE;
-          } else {
-            for (j = 0; j < asize; j++) {
-              /* Don't auto generate help text for this action. */
-              action_by_number(quiet_actions[j])->quiet = TRUE;
-            }
-
-            free(quiet_actions);
-          }
-        }
-      }
-
-      if (ok) {
-        /* Hard code action sub results for now. */
-
-        /* Unit Enter Hut */
-        action_by_result_iterate(paction, act_id, ACTRES_HUT_ENTER) {
-          BV_SET(paction->sub_results, ACT_SUB_RES_HUT_ENTER);
-        } action_by_result_iterate_end;
-        BV_SET(action_by_number(ACTION_PARADROP_ENTER)->sub_results,
-               ACT_SUB_RES_HUT_ENTER);
-        BV_SET(action_by_number(ACTION_PARADROP_ENTER_CONQUER)->sub_results,
-               ACT_SUB_RES_HUT_ENTER);
-
-        /* Unit Frighten Hut */
-        action_by_result_iterate(paction, act_id, ACTRES_HUT_FRIGHTEN) {
-          BV_SET(paction->sub_results, ACT_SUB_RES_HUT_FRIGHTEN);
-        } action_by_result_iterate_end;
-        BV_SET(action_by_number(ACTION_PARADROP_FRIGHTEN)->sub_results,
-               ACT_SUB_RES_HUT_FRIGHTEN);
-        BV_SET(action_by_number(ACTION_PARADROP_FRIGHTEN_CONQUER)->sub_results,
-               ACT_SUB_RES_HUT_FRIGHTEN);
-
-        /* Unit May Embark */
-        action_iterate(act_id) {
-          struct action *paction = action_by_number(act_id);
-
-          if (secfile_lookup_bool_default(file, FALSE,
-                                          "civstyle.paradrop_to_transport")
-              && (action_has_result(paction, ACTRES_PARADROP)
-                  || action_has_result(paction, ACTRES_PARADROP_CONQUER))) {
-            BV_SET(paction->sub_results, ACT_SUB_RES_MAY_EMBARK);
-          }
-
-          /* Embark actions will always embark, not maybe embark. */
-        } action_iterate_end;
-
-        /* Non Lethal bombard */
-        BV_SET(action_by_number(ACTION_BOMBARD)->sub_results,
-               ACT_SUB_RES_NON_LETHAL);
-        BV_SET(action_by_number(ACTION_BOMBARD2)->sub_results,
-               ACT_SUB_RES_NON_LETHAL);
-        BV_SET(action_by_number(ACTION_BOMBARD3)->sub_results,
-               ACT_SUB_RES_NON_LETHAL);
-      }
-    }
-
-    if (ok) {
-      /* Forced actions after another action was successfully performed. */
-
-      if (!load_action_post_success_force(file, filename,
-                                          ACTION_AUTO_POST_BRIBE,
-                                          action_by_number(
-                                            ACTION_SPY_BRIBE_UNIT))) {
-        ok = FALSE;
-      } else if (!load_action_post_success_force(file, filename,
-                                                 ACTION_AUTO_POST_ATTACK,
-                                                 action_by_number(
-                                                   ACTION_ATTACK))) {
-        ok = FALSE;
-      } else if (!load_action_post_success_force(file, filename,
-                                                 ACTION_AUTO_POST_WIPE_UNITS,
-                                                 action_by_number(
-                                                   ACTION_WIPE_UNITS))) {
-        ok = FALSE;
-      }
-
-      /* No "Suicide Attack". Can't act when dead. */
-    }
-
-    if (ok) {
-      struct action_auto_perf *auto_perf;
-
-      /* The city that made the unit's current tile native is gone.
-       * Evaluated against an adjacent tile. */
-      auto_perf = action_auto_perf_slot_number(ACTION_AUTO_ESCAPE_CITY);
-      auto_perf->cause = AAPC_CITY_GONE;
-
-      /* I have no objections to moving this out of game's actions to
-       * cities.ruleset, units.ruleset or an other location in game.ruleset
-       * you find more suitable. -- Sveinung */
-      if (!load_action_auto_actions(file, auto_perf,
-                                    "actions.escape_city", filename)) {
-        ok = FALSE;
-      }
-    }
-
-    if (ok) {
-      struct action_auto_perf *auto_perf;
-
-      /* The unit's stack has been defeated and is scheduled for execution
-       * but the unit has the CanEscape unit type flag.
-       * Evaluated against an adjacent tile. */
-      auto_perf = action_auto_perf_slot_number(ACTION_AUTO_ESCAPE_STACK);
-      auto_perf->cause = AAPC_UNIT_STACK_DEATH;
-
-      /* I have no objections to moving this out of game's actions to
-       * cities.ruleset, units.ruleset or an other location in game.ruleset
-       * you find more suitable. -- Sveinung */
-      if (!load_action_auto_actions(file, auto_perf,
-                                    "actions.unit_stack_death", filename)) {
-        ok = FALSE;
-      }
-    }
-
-    if (ok) {
-      sec = secfile_sections_by_name_prefix(file,
-                                            ACTION_ENABLER_SECTION_PREFIX);
-
-      if (sec) {
-        section_list_iterate(sec, psection) {
-          struct action_enabler *enabler;
-          const char *sec_name = section_name(psection);
-          struct action *paction;
-          struct requirement_vector *actor_reqs;
-          struct requirement_vector *target_reqs;
-          const char *action_text;
-
-          enabler = action_enabler_new();
-
-          action_text = secfile_lookup_str(file, "%s.action", sec_name);
-
-          if (action_text == NULL) {
-            ruleset_error(NULL, LOG_ERROR,
-                          "\"%s\" [%s] missing action to enable.",
-                          filename, sec_name);
-            ok = FALSE;
-            break;
-          }
-
-          paction = action_by_rule_name(action_text);
-          if (!paction) {
-            ruleset_error(NULL, LOG_ERROR,
-                          "\"%s\" [%s] lists unknown action type \"%s\".",
-                          filename, sec_name, action_text);
-            ok = FALSE;
-            break;
-          }
-
-          enabler->action = paction->id;
-
-          actor_reqs = lookup_req_list(file, compat, sec_name, "actor_reqs", action_text);
-          if (actor_reqs == NULL) {
-            ok = FALSE;
-            break;
-          }
-
-          requirement_vector_copy(&enabler->actor_reqs, actor_reqs);
-
-          target_reqs = lookup_req_list(file, compat, sec_name, "target_reqs", action_text);
-          if (target_reqs == NULL) {
-            ok = FALSE;
-            break;
-          }
-
-          requirement_vector_copy(&enabler->target_reqs, target_reqs);
-
-          action_enabler_add(enabler);
-        } section_list_iterate_end;
-
-        section_list_destroy(sec);
-      }
-    }
   }
 
   if (ok) {
@@ -7882,13 +7614,303 @@ static bool load_ruleset_game(struct section_file *file, bool act,
 }
 
 /**********************************************************************//**
- loads action information from a file
+  Loads action information from a file
 **************************************************************************/
 static bool load_ruleset_actions(struct section_file *file,
+                                 struct section_file *gamefile,
                                  struct rscompat_info *compat)
 {
-  /* For now no code is here */
-  return TRUE;
+  bool ok = TRUE;
+  const char *filename = secfile_name(file);
+  struct section_list *sec;
+  struct action_auto_perf *auto_perf;
+  struct requirement_vector *reqs;
+
+  /* Auto attack. */
+
+  /* Action auto performers aren't ready to be exposed in the ruleset
+   * yet. The behavior when two action auto performers for the same
+   * cause can fire isn't set in stone yet. How is one of them chosen?
+   * What if all the actions of the chosen action auto performer turned
+   * out to be illegal but one of the other action auto performers that
+   * fired has legal actions? These issues can decide what other action
+   * rules action auto performers can represent in the future. Deciding
+   * should therefore wait until a rule needs action auto performers to
+   * work a certain way. */
+  /* Only one action auto performer, ACTION_AUTO_MOVED_ADJ, is caused
+   * by AAPC_UNIT_MOVED_ADJ. It is therefore safe to expose the full
+   * requirement vector to the ruleset. */
+
+  /* A unit moved next to this unit and the autoattack server setting
+   * is enabled. */
+  auto_perf = action_auto_perf_slot_number(ACTION_AUTO_MOVED_ADJ);
+  auto_perf->cause = AAPC_UNIT_MOVED_ADJ;
+
+  reqs = lookup_req_list(file, compat,
+                         "auto_attack", "if_attacker",
+                         "auto_attack");
+  if (reqs == NULL) {
+    ok = FALSE;
+  } else {
+    requirement_vector_copy(&auto_perf->reqs, reqs);
+
+    if (!load_action_auto_actions(file, auto_perf,
+                                  "auto_attack.attack_actions",
+                                  filename)) {
+      /* Failed to load auto attack actions */
+      ruleset_error(NULL, LOG_ERROR,
+                    "\"%s\": %s: failed load %s.",
+                    filename, "auto_attack", "attack_actions");
+      ok = FALSE;
+    }
+  }
+
+  /* Section: actions */
+  if (ok) {
+    action_iterate(act_id) {
+      struct action *paction = action_by_number(act_id);
+
+      if (!load_action_blocked_by_list(file, filename, paction)) {
+        ok = FALSE;
+        break;
+      }
+    } action_iterate_end;
+
+    if (ok) {
+      if (!lookup_bv_actions(file, filename,
+                             &game.info.diplchance_initial_odds,
+                             "actions.diplchance_initial_odds")) {
+        ok = FALSE;
+      }
+    }
+
+    if (ok) {
+      /* If the "Poison City" action or the "Poison City Escape" action
+       * should empty the granary. */
+      /* TODO: empty granary and reduce population should become separate
+       * action effect flags when actions are generalized. */
+      game.info.poison_empties_food_stock
+        = secfile_lookup_bool_default(file,
+                                      RS_DEFAULT_POISON_EMPTIES_FOOD_STOCK,
+                                      "actions.poison_empties_food_stock");
+
+      /* If the "Steal Maps" action or the "Steal Maps Escape" action always
+       * will reveal all cities when successful. */
+      game.info.steal_maps_reveals_all_cities
+        = secfile_lookup_bool_default(file,
+                                      RS_DEFAULT_STEAL_MAP_REVEALS_CITIES,
+                                      "actions.steal_maps_reveals_all_cities");
+
+      /* Allow setting certain properties for some actions before
+       * generalized actions. */
+      action_iterate(act_id) {
+        if (!load_action_range(file, act_id)) {
+          ok = FALSE;
+        } else if (!load_action_kind(file, act_id)) {
+          ok = FALSE;
+        } else if (!load_action_actor_consuming_always(file, act_id)) {
+          ok = FALSE;
+        } else {
+          load_action_ui_name(file, act_id,
+                              action_ui_name_ruleset_var_name(act_id));
+        }
+
+        if (!ok) {
+          break;
+        }
+      } action_iterate_end;
+    }
+
+    if (ok) {
+      /* The quiet (don't auto generate help for) property of all actions
+       * live in a single enum vector. This avoids generic action
+       * expectations. */
+      if (secfile_entry_by_path(file, "actions.quiet_actions")) {
+        enum gen_action *quiet_actions;
+        size_t asize;
+        int j;
+
+        quiet_actions =
+          secfile_lookup_enum_vec(file, &asize, gen_action,
+                                  "actions.quiet_actions");
+
+        if (!quiet_actions) {
+          /* Entity exists but couldn't read it. */
+          ruleset_error(NULL, LOG_ERROR,
+                        "\"%s\": actions.quiet_actions: bad action list",
+                        filename);
+
+          ok = FALSE;
+        } else {
+          for (j = 0; j < asize; j++) {
+            /* Don't auto generate help text for this action. */
+            action_by_number(quiet_actions[j])->quiet = TRUE;
+          }
+
+          free(quiet_actions);
+        }
+      }
+    }
+
+    if (ok) {
+      /* Hard code action sub results for now. */
+
+      /* Unit Enter Hut */
+      action_by_result_iterate(paction, act_id, ACTRES_HUT_ENTER) {
+        BV_SET(paction->sub_results, ACT_SUB_RES_HUT_ENTER);
+      } action_by_result_iterate_end;
+      BV_SET(action_by_number(ACTION_PARADROP_ENTER)->sub_results,
+             ACT_SUB_RES_HUT_ENTER);
+      BV_SET(action_by_number(ACTION_PARADROP_ENTER_CONQUER)->sub_results,
+             ACT_SUB_RES_HUT_ENTER);
+
+      /* Unit Frighten Hut */
+      action_by_result_iterate(paction, act_id, ACTRES_HUT_FRIGHTEN) {
+        BV_SET(paction->sub_results, ACT_SUB_RES_HUT_FRIGHTEN);
+      } action_by_result_iterate_end;
+      BV_SET(action_by_number(ACTION_PARADROP_FRIGHTEN)->sub_results,
+             ACT_SUB_RES_HUT_FRIGHTEN);
+      BV_SET(action_by_number(ACTION_PARADROP_FRIGHTEN_CONQUER)->sub_results,
+             ACT_SUB_RES_HUT_FRIGHTEN);
+
+      /* Unit May Embark */
+      action_iterate(act_id) {
+        struct action *paction = action_by_number(act_id);
+
+        if (secfile_lookup_bool_default(gamefile, FALSE,
+                                        "civstyle.paradrop_to_transport")
+            && (action_has_result(paction, ACTRES_PARADROP)
+                || action_has_result(paction, ACTRES_PARADROP_CONQUER))) {
+          BV_SET(paction->sub_results, ACT_SUB_RES_MAY_EMBARK);
+        }
+
+        /* Embark actions will always embark, not maybe embark. */
+      } action_iterate_end;
+
+      /* Non Lethal bombard */
+      BV_SET(action_by_number(ACTION_BOMBARD)->sub_results,
+             ACT_SUB_RES_NON_LETHAL);
+      BV_SET(action_by_number(ACTION_BOMBARD2)->sub_results,
+             ACT_SUB_RES_NON_LETHAL);
+      BV_SET(action_by_number(ACTION_BOMBARD3)->sub_results,
+             ACT_SUB_RES_NON_LETHAL);
+    }
+  }
+
+  if (ok) {
+    /* Forced actions after another action was successfully performed. */
+
+    if (!load_action_post_success_force(file, filename,
+                                        ACTION_AUTO_POST_BRIBE,
+                                        action_by_number(
+                                          ACTION_SPY_BRIBE_UNIT))) {
+      ok = FALSE;
+    } else if (!load_action_post_success_force(file, filename,
+                                               ACTION_AUTO_POST_ATTACK,
+                                               action_by_number(
+                                                 ACTION_ATTACK))) {
+      ok = FALSE;
+    } else if (!load_action_post_success_force(file, filename,
+                                               ACTION_AUTO_POST_WIPE_UNITS,
+                                               action_by_number(
+                                                 ACTION_WIPE_UNITS))) {
+      ok = FALSE;
+    }
+
+    /* No "Suicide Attack". Can't act when dead. */
+  }
+
+  if (ok) {
+    /* The city that made the unit's current tile native is gone.
+     * Evaluated against an adjacent tile. */
+    auto_perf = action_auto_perf_slot_number(ACTION_AUTO_ESCAPE_CITY);
+    auto_perf->cause = AAPC_CITY_GONE;
+
+    /* I have no objections to moving this out of game's actions to
+     * cities.ruleset, units.ruleset or an other location in game.ruleset
+     * you find more suitable. -- Sveinung */
+    if (!load_action_auto_actions(file, auto_perf,
+                                  "actions.escape_city", filename)) {
+      ok = FALSE;
+    }
+  }
+
+  if (ok) {
+    /* The unit's stack has been defeated and is scheduled for execution
+     * but the unit has the CanEscape unit type flag.
+     * Evaluated against an adjacent tile. */
+    auto_perf = action_auto_perf_slot_number(ACTION_AUTO_ESCAPE_STACK);
+    auto_perf->cause = AAPC_UNIT_STACK_DEATH;
+
+    /* I have no objections to moving this out of game's actions to
+     * cities.ruleset, units.ruleset or an other location in game.ruleset
+     * you find more suitable. -- Sveinung */
+    if (!load_action_auto_actions(file, auto_perf,
+                                  "actions.unit_stack_death", filename)) {
+      ok = FALSE;
+    }
+  }
+
+  if (ok) {
+    sec = secfile_sections_by_name_prefix(file,
+                                          ACTION_ENABLER_SECTION_PREFIX);
+
+    if (sec) {
+      section_list_iterate(sec, psection) {
+        struct action_enabler *enabler;
+        const char *sec_name = section_name(psection);
+        struct action *paction;
+        struct requirement_vector *actor_reqs;
+        struct requirement_vector *target_reqs;
+        const char *action_text;
+
+        enabler = action_enabler_new();
+
+        action_text = secfile_lookup_str(file, "%s.action", sec_name);
+
+        if (action_text == NULL) {
+          ruleset_error(NULL, LOG_ERROR,
+                        "\"%s\" [%s] missing action to enable.",
+                        filename, sec_name);
+          ok = FALSE;
+          break;
+        }
+
+        paction = action_by_rule_name(action_text);
+        if (!paction) {
+          ruleset_error(NULL, LOG_ERROR,
+                        "\"%s\" [%s] lists unknown action type \"%s\".",
+                        filename, sec_name, action_text);
+          ok = FALSE;
+          break;
+        }
+
+        enabler->action = paction->id;
+
+        actor_reqs = lookup_req_list(file, compat, sec_name, "actor_reqs", action_text);
+        if (actor_reqs == NULL) {
+          ok = FALSE;
+          break;
+        }
+
+        requirement_vector_copy(&enabler->actor_reqs, actor_reqs);
+
+        target_reqs = lookup_req_list(file, compat, sec_name, "target_reqs", action_text);
+        if (target_reqs == NULL) {
+          ok = FALSE;
+          break;
+        }
+
+        requirement_vector_copy(&enabler->target_reqs, target_reqs);
+
+        action_enabler_add(enabler);
+      } section_list_iterate_end;
+
+      section_list_destroy(sec);
+    }
+  }
+
+  return ok;
 }
 
 /**********************************************************************//**
@@ -9249,7 +9271,7 @@ static bool load_rulesetdir(const char *rsdir, bool compat_mode,
 {
   struct section_file *techfile, *unitfile, *buildfile, *govfile, *terrfile;
   struct section_file *stylefile, *cityfile, *nationfile, *effectfile, *gamefile;
-  struct section_file *actionfile = NULL;
+  struct section_file *actionfile;
   bool ok = TRUE;
   struct rscompat_info compat_info;
 
@@ -9277,6 +9299,7 @@ static bool load_rulesetdir(const char *rsdir, bool compat_mode,
   server.playable_nations = 0;
 
   techfile = openload_ruleset_file("techs", rsdir);
+  actionfile = openload_ruleset_file("actions", rsdir);
   buildfile = openload_ruleset_file("buildings", rsdir);
   govfile = openload_ruleset_file("governments", rsdir);
   unitfile = openload_ruleset_file("units", rsdir);
@@ -9286,6 +9309,7 @@ static bool load_rulesetdir(const char *rsdir, bool compat_mode,
   nationfile = openload_ruleset_file("nations", rsdir);
   effectfile = openload_ruleset_file("effects", rsdir);
   gamefile = openload_ruleset_file("game", rsdir);
+
   if (load_luadata) {
     game.server.luadata = openload_luadata_file(rsdir);
   } else {
@@ -9301,6 +9325,7 @@ static bool load_rulesetdir(const char *rsdir, bool compat_mode,
       || cityfile   == NULL
       || nationfile == NULL
       || effectfile == NULL
+      || (actionfile == NULL && (!compat_info.compat_mode || compat_info.version >= RSFORMAT_3_2))
       || gamefile == NULL) {
     ok = FALSE;
   }
@@ -9309,6 +9334,7 @@ static bool load_rulesetdir(const char *rsdir, bool compat_mode,
     /* Note: Keep load_game_names first so that compat_info.version is
      * correctly initialized. */
     ok = load_game_names(gamefile, &compat_info)
+      && (actionfile == NULL || load_action_names(actionfile, &compat_info))
       && load_tech_names(techfile, &compat_info)
       && load_building_names(buildfile, &compat_info)
       && load_government_names(govfile, &compat_info)
@@ -9322,21 +9348,13 @@ static bool load_rulesetdir(const char *rsdir, bool compat_mode,
     /* Can only happen here because 3.1 rulesets may not have a
      * actions.ruleset. Remember to move it with the others in 3.3. */
     if (compat_info.version < RSFORMAT_3_2) {
-      if (!compat_info.compat_mode) {
-        ok = FALSE;
-        ruleset_error(NULL, LOG_ERROR,
-                      "Tried to load ruleset of earlier version without compatibility mode.");
-      } else {
-        load_ruleset_actions(gamefile, &compat_info);
-      }
+      ok = load_ruleset_actions(gamefile, gamefile, &compat_info);
     } else {
-      actionfile = openload_ruleset_file("actions", rsdir);
-      if (actionfile == NULL) {
-        ok = FALSE;
-      }
-      if (ok) {
-        /* It may be necessary to further divide load_ruleset_actions in a load_action_names. */
-        ok = load_ruleset_actions(actionfile, &compat_info);
+      if (secfile_section_prefix_present(actionfile, ACTION_ENABLER_SECTION_PREFIX)) {
+        ok = load_ruleset_actions(actionfile, gamefile, &compat_info);
+      } else {
+        /* Actions not moved to actions.ruleset, or there's none */
+        ok = load_ruleset_actions(gamefile, gamefile, &compat_info);
       }
     }
   }
@@ -9358,7 +9376,7 @@ static bool load_rulesetdir(const char *rsdir, bool compat_mode,
     ok = load_ruleset_governments(govfile, &compat_info);
   }
   if (ok) {
-    /* terrain must precede nations and units */
+    /* Terrain must precede nations and units */
     ok = load_ruleset_terrain(terrfile, &compat_info);
   }
   if (ok) {
@@ -9413,12 +9431,8 @@ static bool load_rulesetdir(const char *rsdir, bool compat_mode,
   nullcheck_secfile_destroy(buildfile);
   nullcheck_secfile_destroy(nationfile);
   nullcheck_secfile_destroy(effectfile);
+  nullcheck_secfile_destroy(actionfile);
   nullcheck_secfile_destroy(gamefile);
-
-  /* Format < RSFORMAT_3_2 allows actionfile to be NULL */
-  if (actionfile != NULL) {
-    nullcheck_secfile_destroy(actionfile);
-  }
 
   if (extra_sections) {
     free(extra_sections);

@@ -587,6 +587,8 @@ secfile_sections(const struct section_file *secfile);
 struct section_list *
 secfile_sections_by_name_prefix(const struct section_file *secfile,
                                 const char *prefix);
+bool secfile_section_prefix_present(const struct section_file *secfile,
+                                    const char *prefix);
 struct section *secfile_section_new(struct section_file *secfile,
                                     const char *section_name);
 
@@ -659,4 +661,4 @@ bool entry_str_set_gt_marking(struct entry *pentry, bool gt_marking);
 }
 #endif /* __cplusplus */
 
-#endif  /* FC__REGISTRY_INI_H */
+#endif /* FC__REGISTRY_INI_H */

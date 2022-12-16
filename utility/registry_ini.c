@@ -2860,8 +2860,8 @@ secfile_sections(const struct section_file *secfile)
 }
 
 /**********************************************************************//**
-  Returns the list of sections which match the name prefix.  Returns NULL
-  if no section was found.  This list is not owned by the registry module
+  Returns the list of sections which match the name prefix. Returns NULL
+  if no section was found. This list is not owned by the registry module
   and the user must destroy it when they finished working with it.
 **************************************************************************/
 struct section_list *
@@ -2889,6 +2889,31 @@ secfile_sections_by_name_prefix(const struct section_file *secfile,
   } section_list_iterate_end;
 
   return matches;
+}
+
+/**********************************************************************//**
+  Checks if there's any sections with the given prefix in the secfile.
+**************************************************************************/
+bool secfile_section_prefix_present(const struct section_file *secfile,
+                                    const char *prefix)
+{
+  size_t len;
+
+  SECFILE_RETURN_VAL_IF_FAIL(secfile, NULL, NULL != secfile, FALSE);
+  SECFILE_RETURN_VAL_IF_FAIL(secfile, NULL, NULL != prefix, FALSE);
+
+  len = strlen(prefix);
+  if (0 == len) {
+    return FALSE;
+  }
+
+  section_list_iterate(secfile->sections, psection) {
+    if (!strncmp(section_name(psection), prefix, len)) {
+      return TRUE;
+    }
+  } section_list_iterate_end;
+
+  return FALSE;
 }
 
 /**********************************************************************//**
