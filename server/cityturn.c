@@ -4034,10 +4034,10 @@ static bool check_city_migrations_player(const struct player *pplayer)
       }
     } iterate_outward_end;
 
-    if (best_city_player_score > 0) {
-      /* first, do the migration within one nation */
+    if (best_city_player != NULL) {
+      /* First, do the migration within one nation */
       if (fc_rand(100) >= game.server.mgr_nationchance) {
-        /* no migration */
+        /* No migration */
         /* N.B.: city_link always returns the same pointer. */
         sz_strlcpy(city_link_text, city_link(pcity));
         notify_player(pplayer, city_tile(pcity), E_CITY_TRANSFER, ftc_server,
@@ -4048,17 +4048,17 @@ static bool check_city_migrations_player(const struct player *pplayer)
         do_city_migration(pcity, best_city_player);
       }
 
-      /* stop here */
+      /* Stop here */
       continue;
     }
 
-    if (best_city_world_score > 0) {
-      /* second, do the migration between all nations */
+    if (best_city_world != NULL) {
+      /* Second, do the migration between all nations */
       if (fc_rand(100) >= game.server.mgr_worldchance) {
         const char *nname;
 
         nname = nation_adjective_for_player(city_owner(best_city_world));
-        /* no migration */
+        /* No migration */
         /* N.B.: city_link always returns the same pointer. */
         sz_strlcpy(city_link_text, city_link(pcity));
         notify_player(pplayer, city_tile(pcity), E_CITY_TRANSFER, ftc_server,
@@ -4071,7 +4071,7 @@ static bool check_city_migrations_player(const struct player *pplayer)
         internat = TRUE;
       }
 
-      /* stop here */
+      /* Stop here */
       continue;
     }
   } city_list_iterate_safe_end;
