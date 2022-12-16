@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -22,7 +22,14 @@ extern "C" {
 #include "plrdlg_g.h"
 }
 
-//common
+// Qt
+#include <QAbstractListModel>
+#include <QItemDelegate>
+#include <QSortFilterProxyModel>
+#include <QTreeView>
+#include <QWidget>
+
+// common
 #include "colors.h"
 #include "player.h"
 #include "research.h"
@@ -30,16 +37,10 @@ extern "C" {
 // gui-qt
 #include "sprite.h"
 
-// Qt
-#include <QAbstractListModel>
-#include <QItemDelegate>
-#include <QTreeView>
-#include <QWidget>
 
 class QHBoxLayout;
 class QLabel;
 class QPushButton;
-class QSortFilterProxyModel;
 class QSplitter;
 class QTableWidget;
 class QVBoxLayout;
@@ -106,6 +107,22 @@ private:
 };
 
 /***************************************************************************
+  Sorter for player/nation dialog
+***************************************************************************/
+class plr_sorter: public QSortFilterProxyModel
+{
+  Q_OBJECT
+
+public:
+  plr_sorter(QObject *parent);
+  ~plr_sorter();
+
+private:
+  bool lessThan(const QModelIndex &left,
+                const QModelIndex &right) const;
+};
+
+/***************************************************************************
   Player widget to show player/nation model
 ***************************************************************************/
 class plr_widget: public QTreeView
@@ -113,7 +130,7 @@ class plr_widget: public QTreeView
   Q_OBJECT
 
   plr_model *list_model;
-  QSortFilterProxyModel *filter_model;
+  plr_sorter *filter_model;
   plr_item_delegate *pid;
   plr_report *plr;
   QString techs_known;
