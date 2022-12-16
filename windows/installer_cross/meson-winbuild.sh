@@ -51,15 +51,15 @@ fi
 
 FLVL=$(grep "CrosserFeatureLevel=" $DLLSPATH/crosser.txt | sed -e 's/CrosserFeatureLevel="//' -e 's/"//')
 
-if test "x$FLVL" != "x$CROSSER_FEATURE_LEVEL" ; then
-  echo "Crosser feature level \"$FLVL\", required \"$CROSSER_FEATURE_LEVEL\"!"
+if test "$FLVL" != "$CROSSER_FEATURE_LEVEL" ; then
+  echo "Crosser feature level \"$FLVL\", required \"$CROSSER_FEATURE_LEVEL\"!" >&2
   exit 1
 fi
 
 CSET=$(grep "CrosserSet=" $DLLSPATH/crosser.txt | sed -e 's/CrosserSet="//' -e 's/"//')
 
-if test "x$CSET" != "xcurrent" ; then
-  echo "Crosser set is \"$CSET\", only \"current\" is supported!"
+if test "$CSET" != "current" ; then
+  echo "Crosser set is \"$CSET\", only \"current\" is supported!" >&2
   exit 1
 fi
 

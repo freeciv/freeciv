@@ -153,7 +153,7 @@ if ! test -d "$DLLSPATH" ; then
   exit 1
 fi
 
-if ! ./winbuild.sh "$DLLSPATH" $GUI ; then
+if ! ./winbuild.sh "$DLLSPATH" "$GUI" ; then
   exit 1
 fi
 
@@ -170,7 +170,7 @@ fi
 
 INSTDIR="freeciv-$SETUP-${VERREV}-${GUI}"
 
-if test "x$GUI" = "xruledit" ; then
+if test "$GUI" = "ruledit" ; then
   if ! make -C build-${SETUP}-${GUI}/translations/ruledit update-po ||
      ! make -C build-${SETUP}-${GUI}/bootstrap langstat_ruledit.txt
   then
