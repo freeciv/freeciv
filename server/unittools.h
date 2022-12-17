@@ -99,9 +99,10 @@ void player_restore_units(struct player *pplayer);
 void update_unit_activities(struct player *pplayer);
 void random_movements(struct player *pplayer);
 void execute_unit_orders(struct player *pplayer);
+void unit_tc_effect_refresh(struct player *pplayer);
 void finalize_unit_phase_beginning(struct player *pplayer);
 
-/* various */
+/* Various */
 void place_partisans(struct tile *pcenter, struct player *powner,
                      int count, int sq_radius);
 bool teleport_unit_to_city(struct unit *punit, struct city *pcity, int move_cost,

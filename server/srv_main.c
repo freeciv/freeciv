@@ -1191,7 +1191,7 @@ static void begin_turn(bool is_new_turn)
 }
 
 /**********************************************************************//**
-  Begin a phase of movement.  This handles all beginning-of-phase actions
+  Begin a phase of movement. This handles all beginning-of-phase actions
   for one or more players.
 **************************************************************************/
 static void begin_phase(bool is_new_phase)
@@ -1264,10 +1264,12 @@ static void begin_phase(bool is_new_phase)
         }
       }
     } whole_map_iterate_end;
+
     phase_players_iterate(pplayer) {
       update_unit_activities(pplayer);
       flush_packets();
     } phase_players_iterate_end;
+
     /* Execute orders after activities have been completed (roads built,
      * pillage done, etc.). */
     phase_players_iterate(pplayer) {
@@ -1275,16 +1277,22 @@ static void begin_phase(bool is_new_phase)
 
       script_server_signal_emit("player_phase_begin", pplayer, is_new_phase);
       if (player_by_number(plrid) != pplayer) {
-        /* removed */
+        /* Removed */
         continue;
       }
       random_movements(pplayer);
       execute_unit_orders(pplayer);
       flush_packets();
     } phase_players_iterate_end;
+
+    phase_players_iterate(pplayer) {
+      unit_tc_effect_refresh(pplayer);
+    } phase_players_iterate_end;
+
     phase_players_iterate(pplayer) {
       finalize_unit_phase_beginning(pplayer);
     } phase_players_iterate_end;
+
     flush_packets();
   }
 
