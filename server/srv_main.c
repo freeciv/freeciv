@@ -1202,7 +1202,7 @@ static void begin_turn(bool is_new_turn)
 }
 
 /**************************************************************************
-  Begin a phase of movement.  This handles all beginning-of-phase actions
+  Begin a phase of movement. This handles all beginning-of-phase actions
   for one or more players.
 **************************************************************************/
 static void begin_phase(bool is_new_phase)
@@ -1231,7 +1231,7 @@ static void begin_phase(bool is_new_phase)
 
   /* Must be the first thing as it is needed for lots of functions below! */
   phase_players_iterate(pplayer) {
-    /* human players also need this for building advice */
+    /* Human players also need this for building advice */
     adv_data_phase_init(pplayer, is_new_phase);
     CALL_PLR_AI_FUNC(phase_begin, pplayer, pplayer, is_new_phase);
   } phase_players_iterate_end;
@@ -1243,15 +1243,22 @@ static void begin_phase(bool is_new_phase)
       update_unit_activities(pplayer);
       flush_packets();
     } phase_players_iterate_end;
+
     /* Execute orders after activities have been completed (roads built,
      * pillage done, etc.). */
     phase_players_iterate(pplayer) {
       execute_unit_orders(pplayer);
       flush_packets();
     } phase_players_iterate_end;
+
+    phase_players_iterate(pplayer) {
+      unit_tc_effect_refresh(pplayer);
+    } phase_players_iterate_end;
+
     phase_players_iterate(pplayer) {
       finalize_unit_phase_beginning(pplayer);
     } phase_players_iterate_end;
+
     flush_packets();
   }
 
@@ -1267,7 +1274,7 @@ static void begin_phase(bool is_new_phase)
     send_player_cities(pplayer);
   } phase_players_iterate_end;
 
-  flush_packets();  /* to curb major city spam */
+  flush_packets(); /* To curb major city spam */
   conn_list_do_unbuffer(game.est_connections);
 
   alive_phase_players_iterate(pplayer) {

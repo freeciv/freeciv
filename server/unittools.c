@@ -1482,6 +1482,16 @@ static bool is_refuel_tile(const struct tile *ptile,
 }
 
 /**********************************************************************//**
+  Recalculate some unit related effects on turn change
+**************************************************************************/
+void unit_tc_effect_refresh(struct player *pplayer)
+{
+  unit_list_iterate(pplayer->units, punit) {
+    unit_refresh_vision(punit);
+  } unit_list_iterate_end;
+}
+
+/**********************************************************************//**
   Is unit being refueled in its current position
 **************************************************************************/
 bool is_unit_being_refueled(const struct unit *punit)
@@ -4592,7 +4602,7 @@ void unit_refresh_vision(struct unit *punit)
 }
 
 /****************************************************************************
-  Refresh the vision of all units in the list - see unit_refresh_vision.
+  Refresh the vision of all units in the list - see unit_refresh_vision().
 ****************************************************************************/
 void unit_list_refresh_vision(struct unit_list *punitlist)
 {
