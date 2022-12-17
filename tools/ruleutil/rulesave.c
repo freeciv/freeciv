@@ -2569,9 +2569,9 @@ static bool save_terrain_ruleset(const char *filename, const char *name)
                        "%s.placing_time", path);
     secfile_insert_int(sfile, pterr->pillage_time,
                        "%s.pillage_time", path);
-    secfile_insert_int(sfile, pterr->clean_pollution_time,
+    secfile_insert_int(sfile, pterr->_retire.clean_pollution_time,
                        "%s.clean_pollution_time", path);
-    secfile_insert_int(sfile, pterr->clean_fallout_time,
+    secfile_insert_int(sfile, pterr->_retire.clean_fallout_time,
                        "%s.clean_fallout_time", path);
 
     save_terrain_ref(sfile, pterr->warmer_wetter_result, pterr, path,

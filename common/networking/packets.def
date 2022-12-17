@@ -1710,6 +1710,11 @@ PACKET_RULESET_TERRAIN = 151; sc, lsend
   UINT8 clean_fallout_time;
   UINT8 pillage_time;
 
+  # extra_count = game.control.num_extra_types, but generated packets code does not
+  # support getting array length from outside packet.
+  UINT8 extra_count;
+  UINT8 extra_removal_times[MAX_EXTRA_TYPES:extra_count];
+
   UINT8 color_red;
   UINT8 color_green;
   UINT8 color_blue;
@@ -1929,8 +1934,8 @@ end
 
 /**************************************************************************
   Ruleset control values: single values, all of which are needed before
-  sending other ruleset data.  After sending this packet, resend every
-  other part of the rulesets.  (Terrain ruleset has enough info for its
+  sending other ruleset data. After sending this packet, resend every
+  other part of the rulesets. (Terrain ruleset has enough info for its
   own "control" packet, done separately.)
 **************************************************************************/
 PACKET_RULESET_CONTROL = 155; sc, lsend

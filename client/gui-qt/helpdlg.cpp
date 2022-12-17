@@ -1587,9 +1587,10 @@ struct terrain *help_widget::terrain_max_values()
   Terrain_type_id i, count;
   struct terrain *terrain;
   struct terrain *max = new struct terrain;
+
   max->base_time = 0;
-  max->clean_fallout_time = 0;
-  max->clean_pollution_time = 0;
+  max->_retire.clean_fallout_time = 0;
+  max->_retire.clean_pollution_time = 0;
   max->defense_bonus = 0;
   max->irrigation_food_incr = 0;
   max->irrigation_time = 0;
@@ -1617,8 +1618,8 @@ struct terrain *help_widget::terrain_max_values()
 #define SET_MAX(v) \
     max->v = max->v > terrain->v ? max->v : terrain->v
     SET_MAX(base_time);
-    SET_MAX(clean_fallout_time);
-    SET_MAX(clean_pollution_time);
+    SET_MAX(_retire.clean_fallout_time);
+    SET_MAX(_retire.clean_pollution_time);
     SET_MAX(defense_bonus);
     SET_MAX(irrigation_food_incr);
     SET_MAX(irrigation_time);

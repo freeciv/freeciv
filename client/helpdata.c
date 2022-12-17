@@ -269,21 +269,21 @@ static bool insert_generated_text(char *outbuf, size_t outlen, const char *name)
             (pterrain->transform_result == T_NONE) ? "-" : transform_time,
             transform_result);
 
-        if (clean_pollution_time != 0 && pterrain->clean_pollution_time != 0) {
+        if (clean_pollution_time != 0 && pterrain->_retire.clean_pollution_time != 0) {
           if (clean_pollution_time < 0) {
-            clean_pollution_time = pterrain->clean_pollution_time;
+            clean_pollution_time = pterrain->_retire.clean_pollution_time;
           } else {
-            if (clean_pollution_time != pterrain->clean_pollution_time) {
-              clean_pollution_time = 0; /* give up */
+            if (clean_pollution_time != pterrain->_retire.clean_pollution_time) {
+              clean_pollution_time = 0; /* Give up */
             }
           }
         }
-        if (clean_fallout_time != 0 && pterrain->clean_fallout_time != 0) {
+        if (clean_fallout_time != 0 && pterrain->_retire.clean_fallout_time != 0) {
           if (clean_fallout_time < 0) {
-            clean_fallout_time = pterrain->clean_fallout_time;
+            clean_fallout_time = pterrain->_retire.clean_fallout_time;
           } else {
-            if (clean_fallout_time != pterrain->clean_fallout_time) {
-              clean_fallout_time = 0; /* give up */
+            if (clean_fallout_time != pterrain->_retire.clean_fallout_time) {
+              clean_fallout_time = 0; /* Give up */
             }
           }
         }
@@ -292,7 +292,7 @@ static bool insert_generated_text(char *outbuf, size_t outlen, const char *name)
             pillage_time = pterrain->pillage_time;
           } else {
             if (pillage_time != pterrain->pillage_time) {
-              pillage_time = 0; /* give up */
+              pillage_time = 0; /* Give up */
             }
           }
         }
@@ -3850,13 +3850,13 @@ void helptext_extra(char *buf, size_t bufsz, struct player *pplayer,
         int terr_clean_time = -1;
 
         if (is_extra_removed_by(pextra, ERM_CLEANPOLLUTION)
-            && pterrain->clean_pollution_time != 0) {
-          terr_clean_time = pterrain->clean_pollution_time
+            && pterrain->_retire.clean_pollution_time != 0) {
+          terr_clean_time = pterrain->_retire.clean_pollution_time
                             * pextra->removal_time_factor;
         }
         if (is_extra_removed_by(pextra, ERM_CLEANFALLOUT)
-            && pterrain->clean_fallout_time != 0) {
-          int terr_clean_fall_time = pterrain->clean_fallout_time
+            && pterrain->_retire.clean_fallout_time != 0) {
+          int terr_clean_fall_time = pterrain->_retire.clean_fallout_time
                                      * pextra->removal_time_factor;
 
           if (terr_clean_time > 0

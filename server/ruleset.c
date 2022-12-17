@@ -3486,18 +3486,18 @@ static bool load_ruleset_terrain(struct section_file *file,
         break;
       }
 
-      pterrain->placing_time = 1; /* default */
+      pterrain->placing_time = 1; /* Default */
       lookup_time(file, &pterrain->placing_time,
                   tsection, "placing_time", filename, NULL, &ok);
 
-      pterrain->pillage_time = 1; /* default */
+      pterrain->pillage_time = 1; /* Default */
       lookup_time(file, &pterrain->pillage_time,
                   tsection, "pillage_time", filename, NULL, &ok);
-      pterrain->clean_pollution_time = 3; /* default */
-      lookup_time(file, &pterrain->clean_pollution_time,
+      pterrain->_retire.clean_pollution_time = 3; /* Default */
+      lookup_time(file, &pterrain->_retire.clean_pollution_time,
                   tsection, "clean_pollution_time", filename, NULL, &ok);
-      pterrain->clean_fallout_time = 3; /* default */
-      lookup_time(file, &pterrain->clean_fallout_time,
+      pterrain->_retire.clean_fallout_time = 3; /* Default */
+      lookup_time(file, &pterrain->_retire.clean_fallout_time,
                   tsection, "clean_fallout_time", filename, NULL, &ok);
 
       if (!lookup_terrain(file, "warmer_wetter_result", filename, pterrain,
@@ -3537,6 +3537,7 @@ static bool load_ruleset_terrain(struct section_file *file,
 
       {
         enum mapgen_terrain_property mtp;
+
         for (mtp = mapgen_terrain_property_begin();
              mtp != mapgen_terrain_property_end();
              mtp = mapgen_terrain_property_next(mtp)) {
@@ -3567,9 +3568,10 @@ static bool load_ruleset_terrain(struct section_file *file,
         break;
       }
 
-      /* get terrain color */
+      /* Get terrain color */
       {
         fc_assert_ret_val(pterrain->rgb == NULL, FALSE);
+
         if (!rgbcolor_load(file, &pterrain->rgb, "%s.color", tsection)) {
           ruleset_error(NULL, LOG_ERROR,
                         "Missing terrain color definition: %s",
@@ -3584,13 +3586,14 @@ static bool load_ruleset_terrain(struct section_file *file,
   }
 
   if (ok) {
-    /* extra details */
+    /* Extra details */
     extra_type_iterate(pextra) {
       BV_CLR_ALL(pextra->conflicts);
     } extra_type_iterate_end;
 
     extra_type_iterate(pextra) {
-      const char *section = &extra_sections[extra_index(pextra) * MAX_SECTION_LABEL];
+      int eidx = extra_index(pextra);
+      const char *section = &extra_sections[eidx * MAX_SECTION_LABEL];
       const char **slist;
       struct requirement_vector *reqs;
       const char *catname;
@@ -3667,6 +3670,22 @@ static bool load_ruleset_terrain(struct section_file *file,
         } else {
           pextra->rmcauses |= (1 << rmcause);
           extra_to_removed_by_list(pextra, rmcause);
+
+          terrain_type_iterate(pterr) {
+            int cleantime = 0;
+
+            if (rmcause == ERM_CLEANPOLLUTION) {
+              cleantime = pterr->_retire.clean_pollution_time;
+            } else if (rmcause == ERM_CLEANFALLOUT) {
+              cleantime = pterr->_retire.clean_fallout_time;
+            }
+
+            if (cleantime > 0
+                && (pterr->extra_removal_times[eidx] == 0
+                    || cleantime < pterr->extra_removal_times[eidx])) {
+              pterr->extra_removal_times[eidx] = cleantime;
+            }
+          } terrain_type_iterate_end;
         }
       }
 
@@ -8383,8 +8402,13 @@ static void send_ruleset_terrain(struct conn_list *dest)
     packet.placing_time = pterrain->placing_time;
     packet.pillage_time = pterrain->pillage_time;
     packet.transform_time = pterrain->transform_time;
-    packet.clean_pollution_time = pterrain->clean_pollution_time;
-    packet.clean_fallout_time = pterrain->clean_fallout_time;
+    packet.clean_pollution_time = pterrain->_retire.clean_pollution_time;
+    packet.clean_fallout_time = pterrain->_retire.clean_fallout_time;
+
+    packet.extra_count = game.control.num_extra_types;
+    for (i = 0; i < game.control.num_extra_types; i++) {
+      packet.extra_removal_times[i] = pterrain->extra_removal_times[i];
+    }
 
     packet.flags = pterrain->flags;
 

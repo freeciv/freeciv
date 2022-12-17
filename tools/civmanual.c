@@ -558,7 +558,8 @@ static bool manual_command(struct tag_types *tag_info)
                 pterrain->road_output_incr_pct[O_TRADE]);
 
         fprintf(doc, "<td align=\"center\">%d / %d</td>",
-                pterrain->clean_pollution_time, pterrain->clean_fallout_time);
+                pterrain->_retire.clean_pollution_time,
+                pterrain->_retire.clean_fallout_time);
 
         ri = 0;
         if (game.control.num_road_types > 0) {

@@ -225,10 +225,18 @@ struct terrain {
   int placing_time;
 
   struct terrain *transform_result;
+
   int transform_time;
-  int clean_pollution_time;
-  int clean_fallout_time;
+
+  struct {
+    int clean_pollution_time;
+    int clean_fallout_time;
+  } _retire;
+
   int pillage_time;
+
+  /* Currently only clean times, but named for future */
+  int extra_removal_times[MAX_EXTRA_TYPES];
 
   const struct unit_type *animal;
 
@@ -393,4 +401,4 @@ const struct terrain *terrain_array_last(void);
 }
 #endif /* __cplusplus */
 
-#endif  /* FC__TERRAIN_H */
+#endif /* FC__TERRAIN_H */

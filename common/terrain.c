@@ -44,11 +44,17 @@ void terrains_init(void)
   int i;
 
   for (i = 0; i < ARRAY_SIZE(civ_terrains); i++) {
+    int j;
+
     /* Can't use terrain_by_number here because it does a bounds check. */
     civ_terrains[i].item_number = i;
     civ_terrains[i].ruledit_disabled = FALSE;
     civ_terrains[i].rgb = NULL;
     civ_terrains[i].animal = NULL;
+
+    for (j = 0; j < MAX_EXTRA_TYPES; j++) {
+      civ_terrains[i].extra_removal_times[j] = 0;
+    }
   }
 }
 
@@ -759,42 +765,26 @@ int terrain_extra_removal_time(const struct terrain *pterrain,
   case ACTIVITY_CLEAN:
     {
       if (tgt == NULL) {
-        if (pterrain->clean_pollution_time > 0
-            && pterrain->clean_fallout_time > 0) {
-          return MIN(pterrain->clean_pollution_time, pterrain->clean_fallout_time)
+        if (pterrain->_retire.clean_pollution_time > 0
+            && pterrain->_retire.clean_fallout_time > 0) {
+          return MIN(pterrain->_retire.clean_pollution_time,
+                     pterrain->_retire.clean_fallout_time)
             * factor;
         }
 
-        if (pterrain->clean_pollution_time > 0) {
-          return pterrain->clean_pollution_time * factor;
+        if (pterrain->_retire.clean_pollution_time > 0) {
+          return pterrain->_retire.clean_pollution_time * factor;
         }
 
-        return pterrain->clean_fallout_time * factor;
+        return pterrain->_retire.clean_fallout_time * factor;
       }
 
-      if (is_extra_removed_by(tgt, ERM_CLEANPOLLUTION)) {
-        if (!is_extra_removed_by(tgt, ERM_CLEANFALLOUT)) {
-          return pterrain->clean_pollution_time * factor;
-        }
-
-        /* Has both removal causes */
-        if (pterrain->clean_pollution_time > 0
-            && pterrain->clean_fallout_time > 0) {
-          return MIN(pterrain->clean_pollution_time, pterrain->clean_fallout_time)
-            * factor;
-        }
-
-        if (pterrain->clean_pollution_time > 0) {
-          return pterrain->clean_pollution_time * factor;
-        }
-      }
-
-      return pterrain->clean_fallout_time * factor;
+      return pterrain->extra_removal_times[extra_index(tgt)] * factor;
     }
   case ACTIVITY_POLLUTION:
-    return pterrain->clean_pollution_time * factor;
+    return pterrain->_retire.clean_pollution_time * factor;
   case ACTIVITY_FALLOUT:
-    return pterrain->clean_fallout_time * factor;
+    return pterrain->_retire.clean_fallout_time * factor;
   case ACTIVITY_PILLAGE:
     return pterrain->pillage_time * factor;
   default:
