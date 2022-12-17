@@ -807,6 +807,14 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
 
       if (target != NULL) {
         pextra = target;
+
+        if (!is_extra_removed_by(pextra, ERM_CLEANPOLLUTION)) {
+          return FALSE;
+        }
+
+        if (!tile_has_extra(ptile, pextra)) {
+          return FALSE;
+        }
       } else {
         /* TODO: Make sure that all callers set target so that
          * we don't need this fallback. */
@@ -820,16 +828,8 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
         }
       }
 
-      if (!is_extra_removed_by(pextra, ERM_CLEANPOLLUTION)) {
-        return FALSE;
-      }
-
-      if (!unit_has_type_flag(punit, UTYF_SETTLERS)
-          || !can_remove_extra(pextra, punit, ptile)) {
-        return FALSE;
-      }
-
-      if (tile_has_extra(ptile, pextra)) {
+      if (unit_has_type_flag(punit, UTYF_SETTLERS)
+          && can_remove_extra(pextra, punit, ptile)) {
         return TRUE;
       }
 
@@ -846,6 +846,14 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
 
       if (target != NULL) {
         pextra = target;
+
+        if (!is_extra_removed_by(pextra, ERM_CLEANFALLOUT)) {
+          return FALSE;
+        }
+
+        if (!tile_has_extra(ptile, pextra)) {
+          return FALSE;
+        }
       } else {
         /* TODO: Make sure that all callers set target so that
          * we don't need this fallback. */
@@ -854,21 +862,13 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
                                     unit_owner(punit),
                                     punit);
         if (pextra == NULL) {
-          /* No available pollution extras */
+          /* No available fallout extras */
           return FALSE;
         }
       }
 
-      if (!is_extra_removed_by(pextra, ERM_CLEANFALLOUT)) {
-        return FALSE;
-      }
-
-      if (!unit_has_type_flag(punit, UTYF_SETTLERS)
-          || !can_remove_extra(pextra, punit, ptile)) {
-        return FALSE;
-      }
-
-      if (tile_has_extra(ptile, pextra)) {
+      if (unit_has_type_flag(punit, UTYF_SETTLERS)
+          && can_remove_extra(pextra, punit, ptile)) {
         return TRUE;
       }
 
