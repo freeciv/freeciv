@@ -3152,7 +3152,8 @@ void real_menus_update(void)
   } extra_type_by_rmcause_iterate_end;
 
   g_menu_remove(work_menu, 5);
-  g_menu_insert_submenu(work_menu, 5, _("_Clean Nuicanse"), G_MENU_MODEL(submenu));
+  g_menu_insert_submenu(work_menu, 5, _("_Clean Nuisance"),
+                        G_MENU_MODEL(submenu));
 
   submenu = g_menu_new();
 
