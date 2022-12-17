@@ -2302,7 +2302,7 @@ void map_claim_base(struct tile *ptile, struct extra_type *pextra,
 {
   struct base_type *pbase;
   int units_num = 0;
-  bv_player *could_see_unit;
+  bv_player *could_see_unit BAD_HEURISTIC_INIT(NULL);
 
   if (!tile_has_extra(ptile, pextra)) {
     return;
