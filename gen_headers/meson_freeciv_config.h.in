@@ -27,6 +27,12 @@
 /* Is this freeciv-web instead of regular build */
 #mesondefine FREECIV_WEB
 
+/* nullptr available at C */
+#mesondefine FREECIV_HAVE_C23_NULLPTR
+
+/* nullptr available at C++ */
+#mesondefine FREECIV_HAVE_CXX_NULLPTR
+
 /* Use pthreads as thread implementation */
 #mesondefine FREECIV_HAVE_PTHREAD
 

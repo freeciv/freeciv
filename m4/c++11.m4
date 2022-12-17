@@ -17,7 +17,7 @@ AC_DEFUN([FC_CXX11_STATIC_ASSERT],
   fi
 ])
 
-# Check for C++11 nullptr, and define nullptr as '0' if it's missing
+# Check for C++11 nullptr, and define FREECIV_HAVE_CXX_NULLPTR if it's available
 #
 AC_DEFUN([FC_CXX11_NULLPTR],
 [
@@ -31,8 +31,8 @@ AC_DEFUN([FC_CXX11_NULLPTR],
 #endif]],
  [[ int *var = nullptr; ]])],
 [ac_cv_cxx11_nullptr=yes], [ac_cv_cxx11_nullptr=no])])
-    if test "x${ac_cv_cxx11_nullptr}" != "xyes" ; then
-      AC_DEFINE([nullptr], [0], [Fallback since C++11 nullptr not available])
+    if test "x${ac_cv_cxx11_nullptr}" = "xyes" ; then
+      AC_DEFINE([FREECIV_HAVE_CXX_NULLPTR], [1], [C++11 nullptr available])
     fi
     AC_LANG_POP([C++])
   fi

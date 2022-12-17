@@ -2,6 +2,7 @@
 project('freeciv', ['c', 'cpp'], meson_version: '>= 0.57.0')
 
 c_compiler = meson.get_compiler('c')
+cxx_compiler = meson.get_compiler('cpp')
 
 if c_compiler.has_argument('-Wno-nonnull-compare')
   add_global_arguments('-Wno-nonnull-compare', language : 'c')
@@ -427,6 +428,18 @@ if mw_req != 'false'
   endif
 else
   mw_dep = []
+endif
+
+if c_compiler.compiles('''
+#include <stddef>
+int main(void) { int *var = nullptr; return 0; }''')
+  pub_conf_data.set('FREECIV_HAVE_C23_NULLPTR', 1)
+endif
+
+if cxx_compiler.compiles('''
+#include <cstddef>
+int main(void) { int *var = nullptr; return 0; }''')
+  pub_conf_data.set('FREECIV_HAVE_CXX_NULLPTR', 1)
 endif
 
 icu_dep = dependency('icu-uc')

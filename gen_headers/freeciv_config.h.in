@@ -36,6 +36,12 @@
 /* Month next version will be released */
 #undef FREECIV_RELEASE_MONTH
 
+/* nullptr available at C */
+#undef FREECIV_HAVE_C23_NULLPTR
+
+/* nullptr available at C++ */
+#undef FREECIV_HAVE_CXX_NULLPTR
+
 /* Use C11 threads as thread implementation */
 #undef FREECIV_HAVE_C11_THREADS
 

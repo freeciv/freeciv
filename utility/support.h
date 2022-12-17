@@ -46,6 +46,16 @@ extern "C" {
 #define TRUE true
 #define FALSE false
 
+#ifdef __cplusplus
+#ifndef FREECIV_HAVE_CXX_NULLPTR
+#define nullptr 0
+#endif
+#else
+#ifndef FREECIV_HAVE_C23_NULLPTR
+#define nullptr NULL
+#endif
+#endif
+
 #ifndef __cplusplus
 #if __BEOS__
 #include <posix/be_prim.h>
