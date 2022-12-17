@@ -4405,6 +4405,14 @@ is_action_possible(const action_id wanted_action,
 
       if (target_extra != NULL) {
         pextra = target_extra;
+
+        if (!is_extra_removed_by(pextra, ERM_CLEANPOLLUTION)) {
+          return TRI_NO;
+        }
+
+        if (!tile_has_extra(target->tile, pextra)) {
+          return TRI_NO;
+        }
       } else {
         /* TODO: Make sure that all callers set target so that
          * we don't need this fallback. */
@@ -4418,15 +4426,7 @@ is_action_possible(const action_id wanted_action,
         }
       }
 
-      if (!is_extra_removed_by(pextra, ERM_CLEANPOLLUTION)) {
-        return TRI_NO;
-      }
-
-      if (!can_remove_extra(pextra, actor->unit, target->tile)) {
-        return TRI_NO;
-      }
-
-      if (tile_has_extra(target->tile, pextra)) {
+      if (can_remove_extra(pextra, actor->unit, target->tile)) {
         return TRI_YES;
       }
 
@@ -4445,6 +4445,14 @@ is_action_possible(const action_id wanted_action,
 
       if (target_extra != NULL) {
         pextra = target_extra;
+
+        if (!is_extra_removed_by(pextra, ERM_CLEANFALLOUT)) {
+          return TRI_NO;
+        }
+
+        if (!tile_has_extra(target->tile, pextra)) {
+          return TRI_NO;
+        }
       } else {
         /* TODO: Make sure that all callers set target so that
          * we don't need this fallback. */
@@ -4453,20 +4461,12 @@ is_action_possible(const action_id wanted_action,
                                     actor->player,
                                     actor->unit);
         if (pextra == NULL) {
-          /* No available pollution extras */
+          /* No available fallout extras */
           return TRI_NO;
         }
       }
 
-      if (!is_extra_removed_by(pextra, ERM_CLEANFALLOUT)) {
-        return TRI_NO;
-      }
-
-      if (!can_remove_extra(pextra, actor->unit, target->tile)) {
-        return TRI_NO;
-      }
-
-      if (tile_has_extra(target->tile, pextra)) {
+      if (can_remove_extra(pextra, actor->unit, target->tile)) {
         return TRI_YES;
       }
 
