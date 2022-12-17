@@ -168,7 +168,7 @@ static adv_want dai_evaluate_tile_for_air_attack(struct unit *punit,
   /* unit costs in shields */
   int balanced_cost, unit_cost, victim_cost = 0;
   /* unit stats */
-  int unit_attack, victim_defence;
+  int unit_attack, victim_defense;
   /* final answer */
   adv_want profit;
   /* time spent in the air */
@@ -203,7 +203,7 @@ static adv_want dai_evaluate_tile_for_air_attack(struct unit *punit,
   unit_attack = (int) (PROB_MULTIPLIER
                        * unit_win_chance(punit, pdefender));
 
-  victim_defence = PROB_MULTIPLIER - unit_attack;
+  victim_defense = PROB_MULTIPLIER - unit_attack;
 
   balanced_cost = build_cost_balanced(unit_type_get(punit));
 
@@ -215,7 +215,7 @@ static adv_want dai_evaluate_tile_for_air_attack(struct unit *punit,
                  dst_tile,
                  dst_tile) >= MAX_MOVE_FRAGS ? 1 : 0);
 
-  profit = kill_desire(victim_cost, unit_attack, unit_cost, victim_defence, 1) 
+  profit = kill_desire(victim_cost, unit_attack, unit_cost, victim_defense, 1)
     - SHIELD_WEIGHTING + 2 * TRADE_WEIGHTING;
   if (profit > 0) {
     profit = military_amortize(unit_owner(punit), 
