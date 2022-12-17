@@ -255,7 +255,7 @@ bool is_adv_data_phase_open(struct player *pplayer)
   because we are omniscient and don't care about such trivialities as who
   can see what.
 
-  FIXME: We should try to find the lowest common defence strength of our
+  FIXME: We should try to find the lowest common defense strength of our
   defending units, and ignore enemy units that are incapable of harming 
   us, instead of just checking attack strength > 1.
 **************************************************************************/
@@ -368,7 +368,7 @@ bool adv_data_phase_init(struct player *pplayer, bool is_new_phase)
         continue;
       }
 
-      /* If our enemy builds missiles, worry about missile defence. */
+      /* If our enemy builds missiles, worry about missile defense. */
       if (utype_can_do_action(unit_type_get(punit), ACTION_SUICIDE_ATTACK)
           && unit_type_get(punit)->attack_strength > 1) {
         adv->threats.suicide_attack = TRUE;

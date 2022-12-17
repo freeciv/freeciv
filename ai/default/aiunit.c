@@ -272,20 +272,20 @@ static int unit_att_rating_squared(const struct unit *punit)
 }
 
 /**********************************************************************//**
-  Defence rating of this particular unit against this attacker.
+  Defense rating of this particular unit against this attacker.
 **************************************************************************/
 static int unit_def_rating(const struct unit *attacker,
                            const struct unit *defender)
 {
   const struct unit_type *def_type = unit_type_get(defender);
-  
+
   return (get_total_defense_power(attacker, defender)
           * (attacker->id != 0 ? defender->hp : def_type->hp)
           * def_type->firepower / POWER_DIVIDER);
 }
 
 /**********************************************************************//**
-  Square of the previous function - used in actual computations.
+  Square of the unit_def_rating() - used in actual computations.
 **************************************************************************/
 static int unit_def_rating_squared(const struct unit *attacker,
                                    const struct unit *defender)
@@ -296,7 +296,7 @@ static int unit_def_rating_squared(const struct unit *attacker,
 }
 
 /**********************************************************************//**
-  Defence rating of def_type unit against att_type unit, squared.
+  Defense rating of def_type unit against att_type unit, squared.
   See get_virtual_defense_power for the arguments att_type, def_type,
   x, y, fortified and veteran.
 **************************************************************************/
@@ -701,7 +701,7 @@ static bool unit_role_defender(const struct unit_type *punittype)
 
   We do not consider units with higher movement than us, or units that are
   native to terrains or extras not native to us, as potential charges. Nor
-  do we attempt to bodyguard units with higher defence than us, or military
+  do we attempt to bodyguard units with higher defense than us, or military
   units with lower attack than us that are not transports.
 **************************************************************************/
 adv_want look_for_charge(struct ai_type *ait, struct player *pplayer,
@@ -1145,7 +1145,7 @@ adv_want find_something_to_kill(struct ai_type *ait, struct player *pplayer,
   bool unhap = FALSE;   /* Do we make unhappy citizen. */
   bool harbor = FALSE;  /* Do we have access to sea? */
   bool go_by_boat;      /* Whether we need a boat or not. */
-  int vulnerability;    /* Enemy defence rating. */
+  int vulnerability;    /* Enemy defense rating. */
   int benefit;          /* Benefit from killing the target. */
   struct unit *pdefender;       /* Enemy city defender. */
   int move_time;        /* Turns needed to target. */
