@@ -285,6 +285,8 @@ adv_want dai_effect_value(struct player *pplayer,
       * amount / 100;
     break;
   case EFT_GROWTH_FOOD:
+    /* FIXME: As total value is clipped 0 ... 100, single
+     *        effect should have no value at all in some cases. */
     v += c * 4 + (amount / 7) * pcity->surplus[O_FOOD];
     break;
   case EFT_POPCOST_FREE:
