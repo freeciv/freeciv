@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -35,6 +35,8 @@ bool city_change_size(struct city *pcity, citizens new_size,
 bool city_reduce_size(struct city *pcity, citizens pop_loss,
                       struct player *destroyer, const char *reason);
 void city_repair_size(struct city *pcity, int change);
+
+int city_granary_savings(const struct city *pcity);
 
 void send_city_turn_notifications(struct connection *pconn);
 void update_city_activities(struct player *pplayer);
