@@ -290,10 +290,12 @@ static void unit_load_callback(GSimpleAction *action, GVariant *parameter,
                                gpointer data);
 static void unit_unload_callback(GSimpleAction *action, GVariant *parameter,
                                  gpointer data);
+static void unit_sentry_callback(GSimpleAction *action, GVariant *parameter,
+                                 gpointer data);
+static void unit_fortify_callback(GSimpleAction *action, GVariant *parameter,
+                                  gpointer data);
 
 #ifdef MENUS_GTK3
-static void unit_sentry_callback(GtkWidget * w, gpointer data);
-static void unit_fortify_callback(GtkWidget * w, gpointer data);
 static void unit_disband_callback(GtkWidget * w, gpointer data);
 static void unit_homecity_callback(GtkWidget * w, gpointer data);
 static void unit_upgrade_callback(GtkWidget * w, gpointer data);
@@ -2560,6 +2562,28 @@ static bool create_unit_menu(struct city_dialog *pdialog, struct unit *punit,
                                 && can_unit_exist_at_tile(&(wld.map), punit,
                                                           unit_tile(punit)));
     g_menu_append_item(menu, item);
+
+    act = g_simple_action_new("sentry", NULL);
+    g_object_set_data(G_OBJECT(act), "dlg", pdialog);
+    g_action_map_add_action(G_ACTION_MAP(group), G_ACTION(act));
+    g_signal_connect(act, "activate", G_CALLBACK(unit_sentry_callback),
+                     GINT_TO_POINTER(punit->id));
+    item = g_menu_item_new(_("_Sentry unit"), "win.sentry");
+    g_simple_action_set_enabled(G_SIMPLE_ACTION(act),
+                                punit->activity != ACTIVITY_SENTRY
+                                && can_unit_do_activity(punit, ACTIVITY_SENTRY));
+    g_menu_append_item(menu, item);
+
+    act = g_simple_action_new("fortify", NULL);
+    g_object_set_data(G_OBJECT(act), "dlg", pdialog);
+    g_action_map_add_action(G_ACTION_MAP(group), G_ACTION(act));
+    g_signal_connect(act, "activate", G_CALLBACK(unit_fortify_callback),
+                     GINT_TO_POINTER(punit->id));
+    item = g_menu_item_new(_("_Fortify unit"), "win.fortify");
+    g_simple_action_set_enabled(G_SIMPLE_ACTION(act),
+                                punit->activity != ACTIVITY_FORTIFYING
+                                && can_unit_do_activity(punit, ACTIVITY_FORTIFYING));
+    g_menu_append_item(menu, item);
   }
 
   pdialog->popover = gtk_popover_menu_new_from_model(G_MENU_MODEL(menu));
@@ -2631,28 +2655,6 @@ static gboolean present_unit_callback(GtkGestureClick *gesture, int n_press,
                             FALSE);
 
 #ifdef MENUS_GTK3
-    item = gtk_menu_item_new_with_mnemonic(_("_Sentry unit"));
-    g_signal_connect(item, "activate",
-      G_CALLBACK(unit_sentry_callback),
-      GINT_TO_POINTER(punit->id));
-    gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-
-    if (punit->activity == ACTIVITY_SENTRY
-	|| !can_unit_do_activity(punit, ACTIVITY_SENTRY)) {
-      gtk_widget_set_sensitive(item, FALSE);
-    }
-
-    item = gtk_menu_item_new_with_mnemonic(_("_Fortify unit"));
-    g_signal_connect(item, "activate",
-      G_CALLBACK(unit_fortify_callback),
-      GINT_TO_POINTER(punit->id));
-    gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-
-    if (punit->activity == ACTIVITY_FORTIFYING
-	|| !can_unit_do_activity(punit, ACTIVITY_FORTIFYING)) {
-      gtk_widget_set_sensitive(item, FALSE);
-    }
-
     item = gtk_menu_item_new_with_mnemonic(_("_Disband unit"));
     g_signal_connect(item, "activate",
       G_CALLBACK(unit_disband_callback),
@@ -2904,11 +2906,11 @@ static void unit_unload_callback(GSimpleAction *action, GVariant *parameter,
   close_citydlg_unit_popover(g_object_get_data(G_OBJECT(action), "dlg"));
 }
 
-#ifdef MENUS_GTK3
 /***********************************************************************//**
   User has requested unit to be sentried
 ***************************************************************************/
-static void unit_sentry_callback(GtkWidget *w, gpointer data)
+static void unit_sentry_callback(GSimpleAction *action, GVariant *parameter,
+                                 gpointer data)
 {
   struct unit *punit =
     player_unit_by_number(client_player(), GPOINTER_TO_INT(data));
@@ -2916,12 +2918,15 @@ static void unit_sentry_callback(GtkWidget *w, gpointer data)
   if (NULL != punit) {
     request_unit_sentry(punit);
   }
+
+  close_citydlg_unit_popover(g_object_get_data(G_OBJECT(action), "dlg"));
 }
 
 /***********************************************************************//**
   User has requested unit to be fortified
 ***************************************************************************/
-static void unit_fortify_callback(GtkWidget *w, gpointer data)
+static void unit_fortify_callback(GSimpleAction *action, GVariant *parameter,
+                                  gpointer data)
 {
   struct unit *punit =
     player_unit_by_number(client_player(), GPOINTER_TO_INT(data));
@@ -2929,8 +2934,11 @@ static void unit_fortify_callback(GtkWidget *w, gpointer data)
   if (NULL != punit) {
     request_unit_fortify(punit);
   }
+
+  close_citydlg_unit_popover(g_object_get_data(G_OBJECT(action), "dlg"));
 }
 
+#ifdef MENUS_GTK3
 /***********************************************************************//**
   User has requested unit to be disbanded
 ***************************************************************************/
