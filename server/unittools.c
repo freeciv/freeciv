@@ -692,6 +692,16 @@ void execute_unit_orders(struct player *pplayer)
 }
 
 /**********************************************************************//**
+  Recalculate some unit related effects on turn change
+**************************************************************************/
+void unit_tc_effect_refresh(struct player *pplayer)
+{
+  unit_list_iterate(pplayer->units, punit) {
+    unit_refresh_vision(punit);
+  } unit_list_iterate_end;
+}
+
+/**********************************************************************//**
   Iterate through all units and remember their current activities.
 **************************************************************************/
 void finalize_unit_phase_beginning(struct player *pplayer)
@@ -4777,7 +4787,7 @@ void unit_refresh_vision(struct unit *punit)
 }
 
 /**********************************************************************//**
-  Refresh the vision of all units in the list - see unit_refresh_vision.
+  Refresh the vision of all units in the list - see unit_refresh_vision().
 **************************************************************************/
 void unit_list_refresh_vision(struct unit_list *punitlist)
 {
