@@ -977,7 +977,7 @@ static Uint16 scroll_mouse_motion_handler(SDL_MouseMotionEvent *motion_event,
   net_slider_area = (motion->vscroll->max - motion->vscroll->min - motion->vscroll->pscroll_bar->size.h);
   net_count = round((float)motion->vscroll->count / motion->vscroll->step) - motion->vscroll->active + 1;
   scroll_step = (float)net_slider_area / net_count;
-  
+
   if ((yrel != 0)
       && ((normalized_y >= motion->vscroll->min)
           || ((normalized_y < motion->vscroll->min)
@@ -1154,30 +1154,29 @@ bool add_widget_to_vertical_scroll_widget_list(struct advanced_dialog *dlg,
   struct widget *end = NULL, *old_end = NULL;
   bool last = FALSE, seen = TRUE;
 
-  fc_assert_ret_val(new_widget != NULL, FALSE);
   fc_assert_ret_val(dlg != NULL, FALSE);
   fc_assert_ret_val(dlg->scroll != NULL, FALSE);
 
   if (!add_dock) {
-    add_dock = dlg->begin_widget_list; /* last item */
+    add_dock = dlg->begin_widget_list; /* Last item */
   }
 
   dlg->scroll->count++;
 
   if (dlg->scroll->count > (dlg->scroll->active * dlg->scroll->step)) {
-    /* -> scrollbar needed */
+    /* -> Scrollbar needed */
 
     if (dlg->active_widget_list) {
-      /* -> scrollbar is already visible */
+      /* -> Scrollbar is already visible */
       int i = 0;
 
-      /* find last active widget */
+      /* Find last active widget */
       old_end = add_dock;
       while (old_end != dlg->active_widget_list) {
         old_end = old_end->next;
         i++;
         if (old_end == dlg->end_active_widget_list) {
-          /* implies (old_end == dlg->active_widget_list)? */
+          /* Implies (old_end == dlg->active_widget_list)? */
           seen = FALSE;
           break;
         }
@@ -1233,11 +1232,12 @@ bool add_widget_to_vertical_scroll_widget_list(struct advanced_dialog *dlg,
     }
   }
 
-  /* setup draw positions */
+  /* Setup draw positions */
   if (seen) {
     if (!dlg->begin_active_widget_list) {
-      /* first element ( active list empty ) */
+      /* First element ( active list empty ) */
       fc_assert_msg(!dir, "Forbidden List Operation");
+
       new_widget->size.x = start_x;
       new_widget->size.y = start_y;
       dlg->begin_active_widget_list = new_widget;
@@ -1246,18 +1246,19 @@ bool add_widget_to_vertical_scroll_widget_list(struct advanced_dialog *dlg,
         dlg->begin_widget_list = new_widget;
         dlg->end_widget_list = new_widget;
       }
-    } else { /* there are some elements on local active list */
+    } else {
+      /* There are some elements on local active list */
       if (last) {
         /* We add to last seen position */
         if (dir) {
-          /* only swap add_dock with new_widget on last seen positions */
+          /* Only swap add_dock with new_widget on last seen positions */
           new_widget->size.x = add_dock->size.x;
           new_widget->size.y = add_dock->size.y;
           new_widget->gfx = add_dock->gfx;
           add_dock->gfx = NULL;
           set_wflag(add_dock, WF_HIDDEN);
         } else {
-          /* reposition all widgets */
+          /* Reposition all widgets */
           buf = new_widget;
           do {
             buf->size.x = buf->next->size.x;
@@ -1311,7 +1312,8 @@ bool add_widget_to_vertical_scroll_widget_list(struct advanced_dialog *dlg,
         }
       } /* !last */
     } /* dlg->begin_active_widget_list */
-  } else { /* !seen */
+  } else {
+    /* Not seen */
     set_wflag(new_widget, WF_HIDDEN);
   }
 
@@ -1345,10 +1347,9 @@ bool del_widget_from_vertical_scroll_widget_list(struct advanced_dialog *dlg,
 {
   struct widget *buf = pwidget;
 
-  fc_assert_ret_val(pwidget != NULL, FALSE);
   fc_assert_ret_val(dlg != NULL, FALSE);
 
-  /* if begin == end -> size = 1 */
+  /* If begin == end -> size = 1 */
   if (dlg->begin_active_widget_list == dlg->end_active_widget_list) {
 
     if (dlg->scroll) {
@@ -1370,20 +1371,21 @@ bool del_widget_from_vertical_scroll_widget_list(struct advanced_dialog *dlg,
     widget_undraw(pwidget);
     widget_mark_dirty(pwidget);
     del_widget_from_gui_list(pwidget);
+
     return FALSE;
   }
 
   if (dlg->scroll && dlg->active_widget_list) {
-    /* scrollbar exist and active, start mod. from last seen label */
+    /* Scrollbar exist and active, start mod. from last seen label */
     struct widget *last;
     bool widget_found = FALSE;
     int count;
 
-    /* this is always true because no-scrolbar case (active*step < count)
+    /* This is always true because no-scrolbar case (active * step < count)
        will be supported in other part of code (see "else" part) */
     count = dlg->scroll->active * dlg->scroll->step;
 
-    /* find last */
+    /* Find last */
     buf = dlg->active_widget_list;
     while (count > 0) {
       buf = buf->prev;
@@ -1400,7 +1402,7 @@ bool del_widget_from_vertical_scroll_widget_list(struct advanced_dialog *dlg,
         dlg->active_widget_list = dlg->active_widget_list->next;
         clear_wflag(dlg->active_widget_list, WF_HIDDEN);
 
-        /* look for the widget in the non-visible part */
+        /* Look for the widget in the non-visible part */
         buf = dlg->end_active_widget_list;
         while (buf != dlg->active_widget_list) {
           if (buf == pwidget) {
@@ -1411,7 +1413,7 @@ bool del_widget_from_vertical_scroll_widget_list(struct advanced_dialog *dlg,
           buf = buf->prev;
         }
 
-        /* if we haven't found it yet, look in the visible part and update the
+        /* If we haven't found it yet, look in the visible part and update the
          * positions of the other widgets */
         if (!widget_found) {
           while (buf != pwidget) {
@@ -1424,7 +1426,7 @@ bool del_widget_from_vertical_scroll_widget_list(struct advanced_dialog *dlg,
         }
       } else {
         buf = last;
-        /* undraw last widget */
+        /* Undraw last widget */
         widget_undraw(buf);
         widget_mark_dirty(buf);
         FREESURFACE(buf->gfx);
@@ -1443,7 +1445,7 @@ std:  while (buf != pwidget) {
     }
 
     if ((dlg->scroll->count - 1) <= (dlg->scroll->active * dlg->scroll->step)) {
-      /* scrollbar not needed anymore */
+      /* Scrollbar not needed anymore */
       hide_scrollbar(dlg->scroll);
       dlg->active_widget_list = NULL;
     }
@@ -1457,10 +1459,11 @@ std:  while (buf != pwidget) {
       }
     }
 
-  } else { /* no scrollbar */
+  } else {
+    /* No scrollbar */
     buf = dlg->begin_active_widget_list;
 
-    /* undraw last widget */
+    /* Undraw last widget */
     widget_undraw(buf);
     widget_mark_dirty(buf);
     FREESURFACE(buf->gfx);
