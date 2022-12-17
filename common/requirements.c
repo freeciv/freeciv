@@ -4263,7 +4263,6 @@ enum fc_tristate
 {
   bool active = TRUE;
   bool certain = TRUE;
-  int sz = requirement_vector_size(reqs);
 
   fc_assert_ret_val(NULL != tester, TRI_NO);
   requirement_vector_iterate(reqs, preq) {
@@ -4288,13 +4287,10 @@ enum fc_tristate
     if (!active) {
       break;
     }
-    sz--;
   } requirement_vector_iterate_end;
 
   return certain ? (active ? TRI_YES : TRI_NO) : TRI_MAYBE;
 }
-
-
 
 /**********************************************************************//**
   Gives a suggestion may req ever evaluate to another value with given
