@@ -982,7 +982,7 @@ static Uint16 scroll_mouse_motion_handler(SDL_MouseMotionEvent *pMotionEvent,
   net_slider_area = (pMotion->pVscroll->max - pMotion->pVscroll->min - pMotion->pVscroll->pScrollBar->size.h);
   net_count = round((float)pMotion->pVscroll->count / pMotion->pVscroll->step) - pMotion->pVscroll->active + 1;
   scroll_step = (float)net_slider_area / net_count;
-  
+
   if ((yrel != 0)
       && ((normalized_y >= pMotion->pVscroll->min)
           || ((normalized_y < pMotion->pVscroll->min)
@@ -1159,7 +1159,6 @@ bool add_widget_to_vertical_scroll_widget_list(struct ADVANCED_DLG *pDlg,
   struct widget *pEnd = NULL, *pOld_End = NULL;
   bool last = FALSE, seen = TRUE;
 
-  fc_assert_ret_val(pNew_Widget != NULL, FALSE);
   fc_assert_ret_val(pDlg != NULL, FALSE);
   fc_assert_ret_val(pDlg->pScroll != NULL, FALSE);
 
@@ -1350,7 +1349,6 @@ bool del_widget_from_vertical_scroll_widget_list(struct ADVANCED_DLG *pDlg,
 {
   struct widget *pBuf = pWidget;
 
-  fc_assert_ret_val(pWidget != NULL, FALSE);
   fc_assert_ret_val(pDlg != NULL, FALSE);
 
   /* if begin == end -> size = 1 */

@@ -404,12 +404,14 @@ do {									\
 bool add_widget_to_vertical_scroll_widget_list(struct ADVANCED_DLG *pDlg,
                                                struct widget *pNew_Widget,
                                                struct widget *pAdd_Dock, bool dir,
-                                               Sint16 start_x, Sint16 start_y);
+                                               Sint16 start_x, Sint16 start_y)
+  fc__attribute((nonnull (2)));
 
 bool del_widget_from_vertical_scroll_widget_list(struct ADVANCED_DLG *pDlg, 
-                                                 struct widget *pWidget);
+                                                 struct widget *pWidget)
+  fc__attribute((nonnull (2)));
 
-/* misc */
+/* Misc */
 SDL_Surface *create_bcgnd_surf(SDL_Surface *ptheme, enum widget_state state,
                                Uint16 width, Uint16 height);
 void draw_frame(SDL_Surface *pDest, Sint16 start_x, Sint16 start_y,
@@ -424,4 +426,4 @@ void draw_frame(SDL_Surface *pDest, Sint16 start_x, Sint16 start_y,
 #include "widget_scrollbar.h"
 #include "widget_window.h"
 
-#endif	/* FC__WIDGET_H */
+#endif /* FC__WIDGET_H */
