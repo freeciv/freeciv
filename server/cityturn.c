@@ -506,7 +506,7 @@ static void city_turn_notify(const struct city *pcity,
     turns_growth = (city_granary_size(city_size_get(pcity))
                     - pcity->food_stock - 1) / pcity->surplus[O_FOOD];
 
-    if (0 == get_city_bonus(pcity, EFT_GROWTH_FOOD)
+    if (get_city_bonus(pcity, EFT_GROWTH_FOOD) <= 0
         && 0 < get_current_construction_bonus(pcity, EFT_GROWTH_FOOD,
                                               RPT_CERTAIN)
         && 0 < pcity->surplus[O_SHIELD]) {
@@ -854,7 +854,7 @@ void city_repair_size(struct city *pcity, int change)
   Normally this value is 0% but this can be increased by EFT_GROWTH_FOOD
   effects.
 **************************************************************************/
-static int granary_savings(const struct city *pcity)
+int city_granary_savings(const struct city *pcity)
 {
   int savings = get_city_bonus(pcity, EFT_GROWTH_FOOD);
 
@@ -870,8 +870,9 @@ static int granary_savings(const struct city *pcity)
 static void city_reset_foodbox(struct city *pcity, int new_size)
 {
   fc_assert_ret(pcity != NULL);
+
   pcity->food_stock = (city_granary_size(new_size)
-                       * granary_savings(pcity)) / 100;
+                       * city_granary_savings(pcity)) / 100;
 }
 
 /**********************************************************************//**
@@ -882,16 +883,16 @@ static void city_reset_foodbox(struct city *pcity, int new_size)
 static bool city_increase_size(struct city *pcity, struct player *nationality)
 {
   int new_food;
-  int savings_pct = granary_savings(pcity);
+  int savings_pct = city_granary_savings(pcity);
   bool have_square = FALSE;
-  bool rapture_grow = city_rapture_grow(pcity); /* check before size increase! */
+  bool rapture_grow = city_rapture_grow(pcity); /* Check before size increase! */
   struct tile *pcenter = city_tile(pcity);
   struct player *powner = city_owner(pcity);
   const struct impr_type *pimprove = pcity->production.value.building;
   int saved_id = pcity->id;
 
   if (!city_can_grow_to(pcity, city_size_get(pcity) + 1)) {
-    /* need improvement */
+    /* Need improvement */
     if (get_current_construction_bonus(pcity, EFT_SIZE_ADJ, RPT_CERTAIN) > 0
         || get_current_construction_bonus(pcity, EFT_SIZE_UNLIMIT, RPT_CERTAIN) > 0) {
       notify_player(powner, city_tile(pcity), E_CITY_AQ_BUILDING, ftc_server,
@@ -938,7 +939,7 @@ static bool city_increase_size(struct city *pcity, struct player *nationality)
       && is_city_option_set(pcity, CITYO_SCIENCE_SPECIALISTS)) {
     pcity->specialists[best_specialist(O_SCIENCE, pcity)]++;
   } else if ((pcity->surplus[O_FOOD] >= 2 || !have_square)
-	     && is_city_option_set(pcity, CITYO_GOLD_SPECIALISTS)) {
+             && is_city_option_set(pcity, CITYO_GOLD_SPECIALISTS)) {
     pcity->specialists[best_specialist(O_GOLD, pcity)]++;
   } else {
     pcity->specialists[DEFAULT_SPECIALIST]++; /* or else city is !sane */
@@ -1070,7 +1071,8 @@ static void city_populate(struct city *pcity, struct player *nationality)
         if (city_exist(saved_id)) {
           city_reset_foodbox(pcity, city_size_get(pcity));
         }
-	return;
+
+        return;
       }
     } unit_list_iterate_safe_end;
     if (city_size_get(pcity) > 1) {
@@ -1081,8 +1083,8 @@ static void city_populate(struct city *pcity, struct player *nationality)
     } else {
       notify_player(city_owner(pcity), city_tile(pcity),
                     E_CITY_FAMINE, ftc_server,
-		    _("Famine destroys %s entirely."),
-		    city_link(pcity));
+                    _("Famine destroys %s entirely."),
+                    city_link(pcity));
     }
     city_reset_foodbox(pcity, city_size_get(pcity) - 1);
     if (city_reduce_size(pcity, 1, NULL, "famine")) {

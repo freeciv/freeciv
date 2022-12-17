@@ -604,7 +604,7 @@ static void dai_spend_gold(struct ai_type *ait, struct player *pplayer)
 
     if (is_unit_choice_type(bestchoice.type)
         && utype_is_cityfounder(bestchoice.value.utype)) {
-      if (get_city_bonus(pcity, EFT_GROWTH_FOOD) == 0
+      if (get_city_bonus(pcity, EFT_GROWTH_FOOD) <= 0
           && bestchoice.value.utype->pop_cost > 0
           && city_size_get(pcity) <= bestchoice.value.utype->pop_cost) {
         /* Don't buy settlers in cities that cannot afford the population cost. */
@@ -720,8 +720,8 @@ static int unit_foodbox_cost(struct unit *punit)
     int cost = 0;
     int i;
 
-    /* The default is to lose 100%.  The growth bonus reduces this. */
-    int foodloss_pct = 100 - get_city_bonus(pcity, EFT_GROWTH_FOOD);
+    /* The default is to lose 100%. The growth bonus reduces this. */
+    int foodloss_pct = 100 - city_granary_savings(pcity);
 
     foodloss_pct = CLIP(0, foodloss_pct, 100);
     fc_assert_ret_val(pcity != NULL, -1);
