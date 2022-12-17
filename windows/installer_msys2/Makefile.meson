@@ -98,15 +98,6 @@ installer-common: install-freeciv-$(GUI) install-env-$(GUI)
 	mkdir -p Output
 	makensis Freeciv-meson-$(WINARCH)-$(FREECIV_VERSION)-$(GUI).nsi
 
-installer-ruledit-common: install-ruledit-$(GUI)
-	# Extract Freeciv version
-	$(eval FREECIV_VERSION := $(shell ../../fc_version))
-	# create NSIS script
-	./create-freeciv-ruledit-nsi.sh meson-install-$(WINARCH)-ruledit-$(GUI) $(FREECIV_VERSION) $(WINARCH) > Freeciv-meson-$(WINARCH)-$(FREECIV_VERSION)-ruledit-$(GUI).nsi
-	# Create installer executable
-	mkdir -p Output
-	makensis Freeciv-meson-$(WINARCH)-$(FREECIV_VERSION)-ruledit-$(GUI).nsi
-
 install-freeciv-common: clean-install-common
 	# Create build directory
 	mkdir -p meson-build-$(WINARCH)-$(GUI)
@@ -187,11 +178,11 @@ COMMON_DLLS := \
 	libexpat-1.dll \
 	libstdc++-6.dll \
 	libcrypto-1_1${CRYPTOLIB_SUFFIX}.dll \
+	libssl-1_1${CRYPTOLIB_SUFFIX}.dll \
 	libidn2-0.dll \
 	libnghttp2-14.dll \
 	libpsl-5.dll \
 	libssh2-1.dll \
-	libssl-1_1${CRYPTOLIB_SUFFIX}.dll \
 	libreadline8.dll \
 	libtermcap-0.dll \
 	libharfbuzz-0.dll \
@@ -206,10 +197,12 @@ COMMON_DLLS := \
 	libxml2-2.dll \
 	libraqm-0.dll \
 	libunistring-2.dll \
+	exchndl.dll \
+	mgwhelp.dll \
 	$(SOUND_DLLS)
 
 install-env-common:
-	# add DLLs
+	# Add DLLs
 	cp -R $(addprefix $(DLLPATH_PREFIX), $(COMMON_DLLS)) meson-install-$(WINARCH)-$(GUI)/
 	mkdir -p meson-install-$(WINARCH)-$(GUI)/ssl/certs
 	cp -R /$(ARCHDIR)/ssl/certs/ca-bundle.crt meson-install-$(WINARCH)-$(GUI)/ssl/certs/
@@ -307,52 +300,23 @@ install-env-qt6-fcmp: install-env-common
 
 install-env-qt6: install-env-qt6-fcmp
 
+installer-ruledit-common: install-ruledit-$(GUI)
+	# Add DLLs
+	cp -R $(addprefix $(DLLPATH_PREFIX), $(COMMON_DLLS)) meson-install-$(WINARCH)-ruledit-$(GUI)/
+	# Extract Freeciv version
+	$(eval FREECIV_VERSION := $(shell ../../fc_version))
+	# create NSIS script
+	./create-freeciv-ruledit-nsi.sh meson-install-$(WINARCH)-ruledit-$(GUI) $(FREECIV_VERSION) $(WINARCH) > Freeciv-meson-$(WINARCH)-$(FREECIV_VERSION)-ruledit-$(GUI).nsi
+	# Create installer executable
+	mkdir -p Output
+	makensis Freeciv-meson-$(WINARCH)-$(FREECIV_VERSION)-ruledit-$(GUI).nsi
+
 RULEDIT_QT6_DLLS := \
-	libstdc++-6.dll \
-	libintl-8.dll \
-	$(LIBGCCDLL) \
-	libiconv-2.dll \
-	libwinpthread-1.dll \
-	libharfbuzz-0.dll \
-	libfreetype-6.dll \
 	libmd4c.dll \
-	libpng16-16.dll \
 	libdouble-conversion.dll \
 	libb2-1.dll \
 	libicuin${ICUVER}.dll \
-	libicuuc${ICUVER}.dll \
-	libicudt${ICUVER}.dll \
-	zlib1.dll \
-	libpcre2-8-0.dll \
 	libpcre2-16-0.dll \
-	liblzma-5.dll \
-	libcurl-4.dll \
-	libzstd.dll \
-	libsqlite3-0.dll \
-	libMagickWand-${MAGICKVER}.dll \
-	libMagickCore-${MAGICKVER}.dll \
-	libbz2-1.dll \
-	libbrotlicommon.dll \
-	libbrotlidec.dll \
-	libgraphite2.dll \
-	libglib-2.0-0.dll \
-	libcrypto-1_1${CRYPTOLIB_SUFFIX}.dll \
-	libssl-1_1${CRYPTOLIB_SUFFIX}.dll \
-	libidn2-0.dll \
-	libssh2-1.dll \
-	libpsl-5.dll \
-	libnghttp2-14.dll \
-	libgomp-1.dll \
-	libunistring-2.dll \
-	libfontconfig-1.dll \
-	liblcms2-2.dll \
-	liblqr-1-0.dll \
-	libfftw3-3.dll \
-	libltdl-7.dll \
-	libraqm-0.dll \
-	libxml2-2.dll \
-	libexpat-1.dll \
-	libfribidi-0.dll \
 	Qt6Core.dll \
 	Qt6Gui.dll \
 	Qt6Widgets.dll
