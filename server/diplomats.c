@@ -1300,7 +1300,7 @@ bool spy_steal_gold(struct player *act_player, struct unit *act_unit,
 
   log_debug("steal gold: unit: %d", act_unit->id);
 
-  /* Battle all units capable of diplomatic defence. */
+  /* Battle all units capable of diplomatic defense. */
   if (!diplomat_infiltrate_tile(act_player, tgt_player,
                                 paction,
                                 act_unit, NULL, tgt_tile)) {
@@ -1431,7 +1431,7 @@ bool spy_steal_some_maps(struct player *act_player, struct unit *act_unit,
 
   log_debug("steal some maps: unit: %d", act_unit->id);
 
-  /* Battle all units capable of diplomatic defence. */
+  /* Battle all units capable of diplomatic defense. */
   if (!diplomat_infiltrate_tile(act_player, tgt_player,
                                 paction,
                                 act_unit, NULL, tgt_tile)) {

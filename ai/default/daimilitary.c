@@ -200,7 +200,7 @@ static struct unit_type *dai_choose_bodyguard(struct ai_type *ait,
 
     /* Now find best */
     if (can_city_build_unit_now(pcity, putype)) {
-      const int desire = dai_unit_defence_desirability(ait, putype);
+      const int desire = dai_unit_defense_desirability(ait, putype);
 
       if (desire > best
 	  || (desire == best && utype_build_shield_cost(putype) <=
@@ -451,7 +451,7 @@ static void dai_reevaluate_building(struct city *pcity, adv_want *value,
   cities.
 
   Danger is a weight on how much power enemy units nearby have, which is
-  compared to our defence.
+  compared to our defense.
 
   Urgency is the number of hostile units that can attack us in three turns.
 
@@ -662,7 +662,7 @@ static unsigned int assess_danger(struct ai_type *ait, struct city *pcity)
   How much we would want that unit to defend a city? (Do not use this 
   function to find bodyguards for ships or air units.)
 **************************************************************************/
-int dai_unit_defence_desirability(struct ai_type *ait,
+int dai_unit_defense_desirability(struct ai_type *ait,
                                   const struct unit_type *punittype)
 {
   int desire = punittype->hp;
@@ -763,7 +763,7 @@ bool dai_process_defender_want(struct ai_type *ait, struct player *pplayer,
       continue;
     }
 
-    desire = dai_unit_defence_desirability(ait, punittype);
+    desire = dai_unit_defense_desirability(ait, punittype);
 
     if (!utype_has_role(punittype, L_DEFEND_GOOD)) {
       desire /= 2; /* Not good, just ok */
@@ -1194,7 +1194,7 @@ static struct adv_choice *kill_something_with(struct ai_type *ait, struct player
   fc_assert_ret_val(is_military_unit(myunit) && !utype_fuel(unit_type_get(myunit)), choice);
 
   if (city_data->danger != 0 && assess_defense(ait, pcity) == 0) {
-    /* Defence comes first! */
+    /* Defense comes first! */
     goto cleanup;
   }
 
