@@ -2109,6 +2109,10 @@ static void sg_load_game(struct loaddata *loading)
   game.info.coolinglevel
     = secfile_lookup_int_default(loading->file, 0, "game.coolinglevel");
 
+  /* Savegame may store random_seed for documentation purposes only,
+   * we don't need it. Just silence "unused entry" warning. */
+  (void) secfile_entry_lookup(loading->file, "game.random_seed");
+
   /* Global advances. */
   str = secfile_lookup_str_default(loading->file, NULL,
                                    "game.global_advances");
@@ -2719,6 +2723,10 @@ static void sg_load_map(struct loaddata *loading)
     = secfile_lookup_bool_default(loading->file, TRUE, "map.have_resources");
 
   wld.map.server.have_resources = game.scenario.have_resources;
+
+  /* Savegame may store random_seed for documentation purposes only,
+   * we don't need it. Just silence "unused entry" warning. */
+  (void) secfile_entry_lookup(loading->file, "map.random_seed");
 
   if (S_S_INITIAL == loading->server_state
       && MAPGEN_SCENARIO == wld.map.server.generator) {
