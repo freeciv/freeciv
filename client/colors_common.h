@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 2005 - The Freeciv Project
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -121,8 +121,7 @@ struct rgbcolor;
 #include "specenum_gen.h"
 
 struct color *get_color(const struct tileset *t, enum color_std stdcolor);
-bool player_has_color(const struct tileset *t,
-                      const struct player *pplayer);
+bool player_has_color(const struct player *pplayer);
 struct color *get_player_color(const struct tileset *t,
                                const struct player *pplayer);
 struct color *get_terrain_color(const struct tileset *t,

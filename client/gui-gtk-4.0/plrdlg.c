@@ -132,7 +132,7 @@ GdkPixbuf *create_player_icon(const struct player *plr)
   struct color *color;
   cairo_t *cr;
 
-  if (!player_has_color(tileset, plr)) {
+  if (!player_has_color(plr)) {
     return NULL;
   }
 
