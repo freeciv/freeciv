@@ -1531,9 +1531,10 @@ city_dialog::city_dialog(QWidget *parent): qfc_dialog(parent)
   QVBoxLayout *lefttop_layout, *units_layout, *worklist_layout,
               *right_layout, *vbox, *vbox_layout, *zoom_vbox, *v_layout;
   QWidget *split_widget1, *split_widget2, *info_wdg, *curr_unit_wdg,
-          *supp_unit_wdg,  *curr_impr_wdg;;
-
+          *supp_unit_wdg, *curr_impr_wdg;
+  int list_size;
   int h = 2 * fm.height() + 2;
+
   small_font = fc_font::instance()->get_font(fonts::notify_label);
   zoom = 1.0;
 
@@ -1934,7 +1935,8 @@ city_dialog::city_dialog(QWidget *parent): qfc_dialog(parent)
   hbox->addWidget(cma_info_text);
   result_box->setLayout(hbox);
   str_list << _("Food") << _("Shield") << _("Trade") << _("Gold")
-           << _("Luxury") << _("Science") << _("Celebrate");
+           << _("Luxury") << _("Science") << _("Celebrate")
+           << _("Maximize growth");
   some_label = new QLabel(_("Minimal Surplus"));
   some_label->setFont(*fc_font::instance()->get_font(fonts::notify_label));
   some_label->setAlignment(Qt::AlignRight);
@@ -1944,13 +1946,14 @@ city_dialog::city_dialog(QWidget *parent): qfc_dialog(parent)
   some_label->setAlignment(Qt::AlignCenter);
   slider_grid->addWidget(some_label, 0, 3, 1, 2);
 
-  for (int i = 0; i < str_list.count(); i++) {
+  list_size = str_list.count();
+  for (int i = 0; i < list_size; i++) {
     some_label = new QLabel(str_list.at(i));
     slider_grid->addWidget(some_label, i + 1, 0, 1, 1);
     some_label = new QLabel("0");
     some_label->setMinimumWidth(25);
 
-    if (i != str_list.count() - 1) {
+    if (i < list_size - 2) {
       slider = new QSlider(Qt::Horizontal);
       slider->setPageStep(1);
       slider->setFocusPolicy(Qt::TabFocus);
@@ -1962,23 +1965,32 @@ city_dialog::city_dialog(QWidget *parent): qfc_dialog(parent)
       slider->setProperty("FC", QVariant::fromValue((void *)some_label));
 
       connect(slider, &QAbstractSlider::valueChanged, this, &city_dialog::cma_slider);
-    } else {
+    } else if (i == list_size - 2) {
       cma_celeb_checkbox = new QCheckBox;
       slider_grid->addWidget(cma_celeb_checkbox, i + 1, 2 , 1 , 1);
       connect(cma_celeb_checkbox,
-              &QCheckBox::stateChanged, this, &city_dialog::cma_celebrate_changed);
+              &QCheckBox::stateChanged, this, &city_dialog::cma_toggle_changed);
+    } else {
+      fc_assert(i == list_size - 1);
+
+      cma_max_growth = new QCheckBox;
+      slider_grid->addWidget(cma_max_growth, i + 1, 2 , 1 , 1);
+      connect(cma_max_growth,
+              &QCheckBox::stateChanged, this, &city_dialog::cma_toggle_changed);
     }
 
-    some_label = new QLabel("0");
-    some_label->setMinimumWidth(25);
-    slider = new QSlider(Qt::Horizontal);
-    slider->setFocusPolicy(Qt::TabFocus);
-    slider->setRange(0, 25);
-    slider_tab[2 * i + 1] = slider;
-    slider->setProperty("FC", QVariant::fromValue((void *)some_label));
-    slider_grid->addWidget(some_label, i + 1, 3, 1, 1);
-    slider_grid->addWidget(slider, i + 1, 4, 1, 1);
-    connect(slider, &QAbstractSlider::valueChanged, this, &city_dialog::cma_slider);
+    if (i <= list_size - 2) {
+      some_label = new QLabel("0");
+      some_label->setMinimumWidth(25);
+      slider = new QSlider(Qt::Horizontal);
+      slider->setFocusPolicy(Qt::TabFocus);
+      slider->setRange(0, 25);
+      slider_tab[2 * i + 1] = slider;
+      slider->setProperty("FC", QVariant::fromValue((void *)some_label));
+      slider_grid->addWidget(some_label, i + 1, 3, 1, 1);
+      slider_grid->addWidget(slider, i + 1, 4, 1, 1);
+      connect(slider, &QAbstractSlider::valueChanged, this, &city_dialog::cma_slider);
+    }
   }
 
   cma_enable_but = new QPushButton();
@@ -2377,6 +2389,7 @@ void city_dialog::save_cma()
       param.allow_disorder = false;
       param.allow_specialists = true;
       param.require_happy = cma_celeb_checkbox->isChecked();
+      param.max_growth = cma_max_growth->isChecked();
       param.happy_factor = slider_tab[2 * O_LAST + 1]->value();
 
       for (int i = O_FOOD; i < O_LAST; i++) {
@@ -2417,6 +2430,7 @@ void city_dialog::cma_changed()
   param.allow_disorder = false;
   param.allow_specialists = true;
   param.require_happy = cma_celeb_checkbox->isChecked();
+  param.max_growth = cma_max_growth->isChecked();
   param.happy_factor = slider_tab[2 * O_LAST + 1]->value();
 
   for (int i = O_FOOD; i < O_LAST; i++) {
@@ -2519,6 +2533,9 @@ void city_dialog::update_sliders()
   cma_celeb_checkbox->blockSignals(true);
   cma_celeb_checkbox->setChecked(param.require_happy);
   cma_celeb_checkbox->blockSignals(false);
+  cma_max_growth->blockSignals(true);
+  cma_max_growth->setChecked(param.max_growth);
+  cma_max_growth->blockSignals(false);
 
   for (output = O_FOOD; output < 2 * O_LAST; output++) {
     slider_tab[output]->blockSignals(false);
@@ -2619,9 +2636,9 @@ void city_dialog::cma_remove()
 }
 
 /************************************************************************//**
-  CMA option 'celebrate' qcheckbox state has been changed
+  CMA option 'celebrate' or 'max_growth' QCheckBox state has been changed
 ****************************************************************************/
-void city_dialog::cma_celebrate_changed(int val)
+void city_dialog::cma_toggle_changed(int val)
 {
   if (cma_is_city_under_agent(dlgcity, NULL)) {
     cma_changed();
@@ -2655,7 +2672,7 @@ void city_dialog::cma_slider(int value)
 }
 
 /************************************************************************//**
-  Received signal about changed qcheckbox - allow disbanding city
+  Received signal about changed checkbox - allow disbanding city
 ****************************************************************************/
 void city_dialog::disband_state_changed(bool allow_disband)
 {
