@@ -140,6 +140,10 @@
 
 extern bool sg_success;
 
+#define ACTIVITY_OLD_ROAD (ACTIVITY_LAST + 1)
+#define ACTIVITY_OLD_RAILROAD (ACTIVITY_LAST + 2)
+#define ACTIVITY_LAST_SAVEGAME2 (ACTIVITY_LAST + 3)
+
 /*
  * This loops over the entire map to save data. It collects all the data of
  * a line using GET_XY_CHAR and then executes the macro SECFILE_INSERT_LINE.
@@ -288,8 +292,8 @@ static void loaddata_destroy(struct loaddata *loading);
 
 static enum unit_orders char2order(char order);
 static enum direction8 char2dir(char dir);
-static char activity2char(enum unit_activity activity);
-static enum unit_activity char2activity(char activity);
+static char activity2char(int activity);
+static int char2activity(char activity);
 static int unquote_block(const char *const quoted_, void *dest,
                          int dest_length);
 static void worklist_load(struct section_file *file, int wlist_max_length,
@@ -625,9 +629,9 @@ static enum direction8 char2dir(char dir)
 }
 
 /************************************************************************//**
-  Returns a character identifier for an activity. See also char2activity.
+  Returns a character identifier for an activity. See also char2activity().
 ****************************************************************************/
-static char activity2char(enum unit_activity activity)
+static char activity2char(int activity)
 {
   switch (activity) {
   case ACTIVITY_IDLE:
@@ -644,8 +648,6 @@ static char activity2char(enum unit_activity activity)
     return 'i';
   case ACTIVITY_FORTIFIED:
     return 'f';
-  case ACTIVITY_FORTRESS:
-    return 't';
   case ACTIVITY_SENTRY:
     return 's';
   case ACTIVITY_OLD_RAILROAD:
@@ -658,8 +660,6 @@ static char activity2char(enum unit_activity activity)
     return 'x';
   case ACTIVITY_TRANSFORM:
     return 'o';
-  case ACTIVITY_AIRBASE:
-    return 'a';
   case ACTIVITY_FORTIFYING:
     return 'y';
   case ACTIVITY_FALLOUT:
@@ -670,8 +670,6 @@ static char activity2char(enum unit_activity activity)
     return 'R';
   case ACTIVITY_CONVERT:
     return 'c';
-  case ACTIVITY_UNKNOWN:
-  case ACTIVITY_PATROL_UNUSED:
   case ACTIVITY_CULTIVATE:
   case ACTIVITY_PLANT:
     return '?';
@@ -680,17 +678,18 @@ static char activity2char(enum unit_activity activity)
   }
 
   fc_assert(FALSE);
+
   return '?';
 }
 
 /************************************************************************//**
-  Returns an activity for a character identifier. See also activity2char.
+  Returns an activity for a character identifier. See also activity2char().
 ****************************************************************************/
-static enum unit_activity char2activity(char activity)
+static int char2activity(char activity)
 {
-  enum unit_activity a;
+  int a;
 
-  for (a = 0; a < ACTIVITY_LAST; a++) {
+  for (a = 0; a < ACTIVITY_LAST_SAVEGAME2; a++) {
     char achar = activity2char(a);
 
     if (activity == achar) {
@@ -3884,7 +3883,7 @@ static bool sg_load_player_unit(struct loaddata *loading,
                                 const char *unitstr)
 {
   int j;
-  enum unit_activity activity;
+  int activity;
   int nat_x, nat_y;
   enum tile_special_type target;
   struct extra_type *pextra = NULL;

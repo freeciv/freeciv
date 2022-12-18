@@ -419,10 +419,6 @@ int tile_activity_time(enum unit_activity activity, const struct tile *ptile,
 {
   struct terrain *pterrain = tile_terrain(ptile);
 
-  /* Make sure nobody uses old activities */
-  fc_assert_ret_val(activity != ACTIVITY_FORTRESS
-                    && activity != ACTIVITY_AIRBASE, FC_INFINITY);
-
   switch (activity) {
   case ACTIVITY_CLEAN:
   case ACTIVITY_POLLUTION:
@@ -440,9 +436,18 @@ int tile_activity_time(enum unit_activity activity, const struct tile *ptile,
   case ACTIVITY_BASE:
   case ACTIVITY_GEN_ROAD:
     return terrain_extra_build_time(pterrain, activity, tgt) * ACTIVITY_FACTOR;
-  default:
-    return 0;
+  case ACTIVITY_IDLE:
+  case ACTIVITY_FORTIFIED:
+  case ACTIVITY_SENTRY:
+  case ACTIVITY_GOTO:
+  case ACTIVITY_EXPLORE:
+  case ACTIVITY_FORTIFYING:
+  case ACTIVITY_CONVERT:
+  case ACTIVITY_LAST:
+    return 0; /* FIXME: Should some of these be asserted against */
   }
+
+  return 0;
 }
 
 /************************************************************************//**
@@ -687,20 +692,13 @@ bool tile_apply_activity(struct tile *ptile, Activity_type_id act,
     tile_plant(ptile);
     return TRUE;
 
-  case ACTIVITY_OLD_ROAD:
-  case ACTIVITY_OLD_RAILROAD:
-  case ACTIVITY_FORTRESS:
-  case ACTIVITY_AIRBASE:
-    fc_assert(FALSE);
-    return FALSE;
-
   case ACTIVITY_PILLAGE:
   case ACTIVITY_BASE:
   case ACTIVITY_GEN_ROAD:
   case ACTIVITY_CLEAN:
   case ACTIVITY_POLLUTION:
   case ACTIVITY_FALLOUT:
-    /* do nothing  - not implemented */
+    /* Do nothing  - not implemented */
     return FALSE;
 
   case ACTIVITY_IDLE:
@@ -709,15 +707,15 @@ bool tile_apply_activity(struct tile *ptile, Activity_type_id act,
   case ACTIVITY_GOTO:
   case ACTIVITY_EXPLORE:
   case ACTIVITY_CONVERT:
-  case ACTIVITY_UNKNOWN:
   case ACTIVITY_FORTIFYING:
-  case ACTIVITY_PATROL_UNUSED:
   case ACTIVITY_LAST:
-    /* do nothing - these activities have no effect
+    /* Do nothing - these activities have no effect
        on terrain type or tile extras */
     return FALSE;
   }
+
   fc_assert(FALSE);
+
   return FALSE;
 }
 

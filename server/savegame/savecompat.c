@@ -1686,13 +1686,7 @@ static void unit_order_activity_to_action(struct unit *act_unit)
     case ACTIVITY_IDLE:
     case ACTIVITY_GOTO:
     case ACTIVITY_FORTIFIED:
-    case ACTIVITY_OLD_ROAD:
-    case ACTIVITY_OLD_RAILROAD:
-    case ACTIVITY_FORTRESS:
-    case ACTIVITY_AIRBASE:
-    case ACTIVITY_PATROL_UNUSED:
     case ACTIVITY_LAST:
-    case ACTIVITY_UNKNOWN:
       log_error("Activity %d is not supposed to appear in unit orders",
                 order->activity);
       break;

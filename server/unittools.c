@@ -887,8 +887,6 @@ static void update_unit_activity(struct unit *punit)
   case ACTIVITY_FORTIFIED:
   case ACTIVITY_SENTRY:
   case ACTIVITY_GOTO:
-  case ACTIVITY_PATROL_UNUSED:
-  case ACTIVITY_UNKNOWN:
   case ACTIVITY_LAST:
     /*  We don't need the activity_count for the above */
     break;
@@ -916,12 +914,6 @@ static void update_unit_activity(struct unit *punit)
       notify_unit_experience(punit);
     }
     break;
-  case ACTIVITY_OLD_ROAD:
-  case ACTIVITY_OLD_RAILROAD:
-  case ACTIVITY_FORTRESS:
-  case ACTIVITY_AIRBASE:
-    fc_assert(FALSE);
-    break;
   };
 
   unit_restore_movepoints(pplayer, punit);
@@ -931,10 +923,8 @@ static void update_unit_activity(struct unit *punit)
   case ACTIVITY_FORTIFIED:
   case ACTIVITY_SENTRY:
   case ACTIVITY_GOTO:
-  case ACTIVITY_UNKNOWN:
   case ACTIVITY_FORTIFYING:
   case ACTIVITY_CONVERT:
-  case ACTIVITY_PATROL_UNUSED:
   case ACTIVITY_LAST:
     /* No default, ensure all handled */
     break;
@@ -1064,13 +1054,6 @@ static void update_unit_activity(struct unit *punit)
       check_terrain_change(ptile, old);
       unit_activity_done = TRUE;
     }
-    break;
-
-  case ACTIVITY_OLD_ROAD:
-  case ACTIVITY_OLD_RAILROAD:
-  case ACTIVITY_FORTRESS:
-  case ACTIVITY_AIRBASE:
-    fc_assert(FALSE);
     break;
   }
 
@@ -3719,18 +3702,12 @@ static void check_unit_activity(struct unit *punit)
   case ACTIVITY_CULTIVATE:
   case ACTIVITY_PLANT:
   case ACTIVITY_FORTIFIED:
-  case ACTIVITY_FORTRESS:
   case ACTIVITY_PILLAGE:
   case ACTIVITY_TRANSFORM:
-  case ACTIVITY_UNKNOWN:
-  case ACTIVITY_AIRBASE:
   case ACTIVITY_FORTIFYING:
-  case ACTIVITY_PATROL_UNUSED:
   case ACTIVITY_BASE:
   case ACTIVITY_GEN_ROAD:
   case ACTIVITY_CONVERT:
-  case ACTIVITY_OLD_ROAD:
-  case ACTIVITY_OLD_RAILROAD:
   case ACTIVITY_LAST:
     set_unit_activity(punit, ACTIVITY_IDLE);
     break;

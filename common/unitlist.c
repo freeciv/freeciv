@@ -84,15 +84,15 @@ void unit_list_sort_ord_map(struct unit_list *punitlist)
 void unit_list_sort_ord_city(struct unit_list *punitlist)
 {
   fc_assert_ret(is_server());
+
   unit_list_sort(punitlist, compar_unit_ord_city);
 }
-
 
 /************************************************************************//**
   Return TRUE if the function returns true for any of the units.
 ****************************************************************************/
 bool can_units_do(const struct unit_list *punits,
-		  bool (can_fn)(const struct unit *punit))
+                  bool (can_fn)(const struct unit *punit))
 {
   unit_list_iterate(punits, punit) {
     if (can_fn(punit)) {
@@ -107,12 +107,8 @@ bool can_units_do(const struct unit_list *punits,
   Returns TRUE if any of the units can do the activity.
 ****************************************************************************/
 bool can_units_do_activity(const struct unit_list *punits,
-			   enum unit_activity activity)
+                           enum unit_activity activity)
 {
-  /* Make sure nobody uses these old activities any more */
-  fc_assert_ret_val(activity != ACTIVITY_FORTRESS
-                    && activity != ACTIVITY_AIRBASE, FALSE);
-
   unit_list_iterate(punits, punit) {
     if (can_unit_do_activity(punit, activity)) {
       return TRUE;

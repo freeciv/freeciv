@@ -2218,13 +2218,7 @@ int action_get_act_time(const struct action *paction,
   case ACTIVITY_FORTIFIED:
   case ACTIVITY_SENTRY:
   case ACTIVITY_GOTO:
-  case ACTIVITY_UNKNOWN:
-  case ACTIVITY_PATROL_UNUSED:
   case ACTIVITY_LAST:
-  case ACTIVITY_OLD_ROAD:
-  case ACTIVITY_OLD_RAILROAD:
-  case ACTIVITY_FORTRESS:
-  case ACTIVITY_AIRBASE:
     /* Should not happen. Caught by the assertion below. */
     break;
   }

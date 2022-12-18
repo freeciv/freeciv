@@ -545,12 +545,6 @@ bool activity_requires_target(enum unit_activity activity)
   case ACTIVITY_CONVERT:
     return FALSE;
   /* These shouldn't be kicking around internally. */
-  case ACTIVITY_FORTRESS:
-  case ACTIVITY_AIRBASE:
-  case ACTIVITY_PATROL_UNUSED:
-  case ACTIVITY_OLD_ROAD:
-  case ACTIVITY_OLD_RAILROAD:
-  case ACTIVITY_UNKNOWN:
   case ACTIVITY_LAST:
     break;
   }
@@ -592,20 +586,11 @@ void setup_real_activities_array(void)
 }
 
 /**********************************************************************//**
-  Return if given activity really is in game. For savegame compatibility
-  activity enum cannot be reordered and there is holes in it.
+  Return if given activity really is in game.
 **************************************************************************/
 bool is_real_activity(enum unit_activity activity)
 {
-  /* ACTIVITY_FORTRESS, ACTIVITY_AIRBASE, ACTIVITY_OLD_ROAD, and
-   * ACTIVITY_OLD_RAILROAD are deprecated */
-  return (activity < ACTIVITY_LAST)
-          && activity != ACTIVITY_FORTRESS
-          && activity != ACTIVITY_AIRBASE
-          && activity != ACTIVITY_OLD_ROAD
-          && activity != ACTIVITY_OLD_RAILROAD
-          && activity != ACTIVITY_UNKNOWN
-          && activity != ACTIVITY_PATROL_UNUSED;
+  return (activity < ACTIVITY_LAST);
 }
 
 /**********************************************************************//**
@@ -655,12 +640,6 @@ const char *get_activity_text(enum unit_activity activity)
     return _("Road");
   case ACTIVITY_CONVERT:
     return _("Convert");
-  case ACTIVITY_OLD_ROAD:
-  case ACTIVITY_OLD_RAILROAD:
-  case ACTIVITY_FORTRESS:
-  case ACTIVITY_AIRBASE:
-  case ACTIVITY_UNKNOWN:
-  case ACTIVITY_PATROL_UNUSED:
   case ACTIVITY_LAST:
     break;
   }
@@ -1060,15 +1039,10 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
                   "Please use action_speculate_unit_on_self()");
     return is_action_enabled_unit_on_self(ACTION_CONVERT, punit);
 
-  case ACTIVITY_OLD_ROAD:
-  case ACTIVITY_OLD_RAILROAD:
-  case ACTIVITY_FORTRESS:
-  case ACTIVITY_AIRBASE:
-  case ACTIVITY_PATROL_UNUSED:
   case ACTIVITY_LAST:
-  case ACTIVITY_UNKNOWN:
     break;
   }
+
   log_error("can_unit_do_activity_targeted_at() unknown activity %d",
             activity);
   return FALSE;
@@ -1081,9 +1055,6 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
 static void set_unit_activity_internal(struct unit *punit,
                                        enum unit_activity new_activity)
 {
-  fc_assert_ret(new_activity != ACTIVITY_FORTRESS
-                && new_activity != ACTIVITY_AIRBASE);
-
   punit->activity = new_activity;
   punit->activity_count = 0;
   punit->activity_target = NULL;
@@ -1207,13 +1178,9 @@ void unit_activity_astr(const struct unit *punit, struct astring *astr)
   case ACTIVITY_CLEAN:
   case ACTIVITY_POLLUTION:
   case ACTIVITY_FALLOUT:
-  case ACTIVITY_OLD_ROAD:
-  case ACTIVITY_OLD_RAILROAD:
   case ACTIVITY_TRANSFORM:
   case ACTIVITY_FORTIFYING:
   case ACTIVITY_FORTIFIED:
-  case ACTIVITY_AIRBASE:
-  case ACTIVITY_FORTRESS:
   case ACTIVITY_SENTRY:
   case ACTIVITY_GOTO:
   case ACTIVITY_EXPLORE:
@@ -1247,8 +1214,6 @@ void unit_activity_astr(const struct unit *punit, struct astring *astr)
     astr_add_line(astr, "%s: %s", get_activity_text(punit->activity),
                   extra_name_translation(punit->activity_target));
     return;
-  case ACTIVITY_UNKNOWN:
-  case ACTIVITY_PATROL_UNUSED:
   case ACTIVITY_LAST:
     break;
   }
@@ -2599,15 +2564,8 @@ bool unit_order_list_is_sane(int length, const struct unit_order *orders)
       /* Not set from the client. */
       case ACTIVITY_GOTO:
       case ACTIVITY_FORTIFIED:
-      /* Compatiblity, used in savegames. */
-      case ACTIVITY_OLD_ROAD:
-      case ACTIVITY_OLD_RAILROAD:
-      case ACTIVITY_FORTRESS:
-      case ACTIVITY_AIRBASE:
       /* Unused. */
-      case ACTIVITY_PATROL_UNUSED:
       case ACTIVITY_LAST:
-      case ACTIVITY_UNKNOWN:
         log_error("at index %d, unsupported activity %d.", i, orders[i].activity);
         return FALSE;
       }

@@ -800,11 +800,12 @@ static char dir2char(enum direction8 dir)
   }
 
   fc_assert(FALSE);
+
   return '?';
 }
 
 /************************************************************************//**
-  Returns a character identifier for an activity. See also char2activity.
+  Returns a character identifier for an activity. See also char2activity().
 ****************************************************************************/
 static char activity2char(enum unit_activity activity)
 {
@@ -845,23 +846,17 @@ static char activity2char(enum unit_activity activity)
     return 'R';
   case ACTIVITY_CONVERT:
     return 'c';
-  case ACTIVITY_OLD_ROAD:
-  case ACTIVITY_FORTRESS:
-  case ACTIVITY_OLD_RAILROAD:
-  case ACTIVITY_AIRBASE:
-  case ACTIVITY_UNKNOWN:
-  case ACTIVITY_PATROL_UNUSED:
-    return '?';
   case ACTIVITY_LAST:
     break;
   }
 
   fc_assert(FALSE);
+
   return '?';
 }
 
 /************************************************************************//**
-  Returns an activity for a character identifier. See also activity2char.
+  Returns an activity for a character identifier. See also activity2char().
 ****************************************************************************/
 static enum unit_activity char2activity(char activity)
 {
