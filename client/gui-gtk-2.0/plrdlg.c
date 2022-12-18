@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -106,7 +106,7 @@ void popdown_players_dialog(void)
 
 /***************************************************************************
   Create a small colored square representing the player color, for use
-  in player lists. 
+  in player lists.
   May return NULL if the player has no color yet.
 ***************************************************************************/
 GdkPixbuf *create_player_icon(const struct player *plr)
@@ -115,7 +115,7 @@ GdkPixbuf *create_player_icon(const struct player *plr)
   GdkPixbuf *tmp;
   GdkPixmap *pixmap;
 
-  if (!player_has_color(tileset, plr)) {
+  if (!player_has_color(plr)) {
     return NULL;
   }
 
