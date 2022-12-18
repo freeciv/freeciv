@@ -11,7 +11,7 @@
 #  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 #  GNU General Public License for more details.
 
-FCVER=$(../fc_version)
+FCVER=$(../../fc_version)
 
 if ! flatpak-builder --user --repo=repo --force-clean build org.freeciv.gtk322.yml ||
    ! flatpak-builder --user --repo=repo --force-clean build org.freeciv.mp.gtk3.yml ||

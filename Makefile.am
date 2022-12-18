@@ -82,11 +82,11 @@ EXTRA_DIST =	autogen.sh 			\
 		m4/testmatic.m4			\
 		meson.build			\
 		meson_options.txt		\
-		flatpak/build_flatpak.sh	\
-		flatpak/org.freeciv.gtk322.yml	\
-		flatpak/org.freeciv.mp.gtk3.yml	\
-		flatpak/org.freeciv.qt.yml	\
-		flatpak/org.freeciv.sdl2.yml	\
+		platforms/flatpak/build_flatpak.sh	\
+		platforms/flatpak/org.freeciv.gtk322.yml	\
+		platforms/flatpak/org.freeciv.mp.gtk3.yml	\
+		platforms/flatpak/org.freeciv.qt.yml	\
+		platforms/flatpak/org.freeciv.sdl2.yml	\
 		platforms/macos/homebrew-appbundle.sh \
 		scripts/mapimg2anim		\
 		scripts/setup_auth_server.sh	\

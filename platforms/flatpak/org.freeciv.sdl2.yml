@@ -19,7 +19,7 @@ modules:
       - cd build && ../configure --prefix=/app --enable-client=sdl2 --disable-fcmp --disable-freeciv-manual && make -j$(nproc) && make install
     sources:
       - type: dir
-        path: ..
+        path: ../..
 finish-args:
   - --socket=wayland
   - --socket=fallback-x11

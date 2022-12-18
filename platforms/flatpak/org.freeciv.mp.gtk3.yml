@@ -1,23 +1,22 @@
-app-id: org.freeciv.gtk322
+app-id: org.freeciv.mp.gtk3
 runtime: org.freedesktop.Platform
 runtime-version: '22.08'
 sdk: org.freedesktop.Sdk
-command: freeciv-gtk3.22
-rename-icon: freeciv-client
+command: freeciv-mp-gtk3
+rename-icon: freeciv-modpack
 modules:
-  - name: freeciv-gtk3.22
+  - name: freeciv-mp-gtk3
     buildsystem: simple
     build-commands:
       # On git clone, regenerate configure with autogen.sh
       - if test -f ./.git && test -x ./autogen.sh ; then ./autogen.sh --no-configure-run ; fi
       - mkdir build
-      - cd build && ../configure --prefix=/app --disable-fcmp --disable-freeciv-manual && make -j$(nproc) && make install
+      - cd build && ../configure --prefix=/app --enable-fcmp=gtk3 --disable-client --disable-server --disable-freeciv-manual && make -j$(nproc) && make install
     sources:
       - type: dir
-        path: ..
+        path: ../..
 finish-args:
   - --socket=wayland
   - --socket=fallback-x11
   - --share=network
-  - --socket=pulseaudio
   - --filesystem=~/.freeciv:create
