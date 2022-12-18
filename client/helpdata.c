@@ -3968,8 +3968,11 @@ void helptext_extra(char *buf, size_t bufsz, struct player *pplayer,
       if (pextra->no_aggr_near_city >= 0) {
 	CATLSTR(buf, bufsz,
 		/* TRANS: indented; preserve leading spaces */
-		_("  %s Such units situated here are not considered aggressive "
-		  "if this tile is within %d tiles of a friendly city.\n"),
+		PL_("  %s Such units situated here are not considered aggressive "
+                    "if this tile is within %d tile of a friendly city.\n",
+                    "  %s Such units situated here are not considered aggressive "
+                    "if this tile is within %d tiles of a friendly city.\n",
+                    pextra->no_aggr_near_city),
                 BULLET, pextra->no_aggr_near_city);
       }
 
