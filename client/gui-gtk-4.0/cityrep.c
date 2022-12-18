@@ -1024,12 +1024,11 @@ static GMenuItem *create_display_menu_item(int pos)
   GMenuItem *item;
   char act_name[50];
   struct city_report_spec *spec = city_report_specs + pos;
-  GVariant *var;
 
-  fc_snprintf(act_name, sizeof(act_name), "win.display%d", pos);
+  fc_snprintf(act_name, sizeof(act_name), "win.display%d(%s)",
+              pos, spec->show ? "true" : "false");
   item = g_menu_item_new(spec->explanation, NULL);
-  var = g_variant_new("b", (gboolean)(spec->show));
-  g_menu_item_set_action_and_target_value(item, act_name, var);
+  g_menu_item_set_detailed_action(item, act_name);
 
   return item;
 }

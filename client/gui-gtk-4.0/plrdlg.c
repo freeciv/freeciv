@@ -359,14 +359,31 @@ static GMenuItem *create_plrdlg_display_menu_item(int pos)
   GMenuItem *item;
   char act_name[50];
   struct player_dlg_column *pcol;
-  GVariant *var;
 
   pcol = &player_dlg_columns[pos];
 
-  fc_snprintf(act_name, sizeof(act_name), "win.display%d", pos);
+  fc_snprintf(act_name, sizeof(act_name), "win.display%d(%s)",
+              pos, pcol->show ? "true" : "false");
   item = g_menu_item_new(pcol->title, NULL);
-  var = g_variant_new("b", (gboolean)(pcol->show));
-  g_menu_item_set_action_and_target_value(item, act_name, var);
+  g_menu_item_set_detailed_action(item, act_name);
+
+  return item;
+}
+
+/************************************************************************//**
+  Create up-to-date menu item for "Dead Players" menu entry
+****************************************************************************/
+static GMenuItem *create_dead_players_menu_item(void)
+{
+  GMenuItem *item;
+  char act_name[50];
+
+  /* TODO: Should this be gui-specific option as there's no universal
+   *       player dlg setup? */
+  fc_snprintf(act_name, sizeof(act_name), "win.show_dead(%s)",
+              gui_options.player_dlg_show_dead_players ? "true" : "false");
+  item = g_menu_item_new(Q_("?show:Dead Players"), NULL);
+  g_menu_item_set_detailed_action(item, act_name);
 
   return item;
 }
@@ -388,18 +405,27 @@ static void toggle_view(GSimpleAction *act, GVariant *value, gpointer data)
   g_menu_insert_item(display_menu, idx - 1, create_plrdlg_display_menu_item(idx));
 }
 
-#ifdef MENUS_GTK3
 /**********************************************************************//**
   Called whenever player toggles the 'Show/Dead Players' menu item
 **************************************************************************/
 static void toggle_dead_players(GSimpleAction *act, GVariant *value,
                                 gpointer data)
 {
-  gui_options.player_dlg_show_dead_players =
-    gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(item));
+  int idx = GPOINTER_TO_INT(data);
+  GMenuItem *item;
+
+  gui_options.player_dlg_show_dead_players ^= 1;
   real_players_dialog_update(NULL);
+
+  /* The menu has no 'playername' in the beginning, so menu index is one smaller
+   * then column index - applies also to this even though this is not
+   * a column. */
+  g_menu_remove(display_menu, idx - 1);
+
+  item = create_dead_players_menu_item();
+  g_menu_insert_item(display_menu, idx - 1, item);
+  g_object_unref(item);
 }
-#endif /* MENUS_GTK3 */
 
 /**********************************************************************//**
   Create and return the "diplomacy" menu for the player report. This menu
@@ -479,15 +505,17 @@ static GMenu *create_show_menu(GActionGroup *group)
 {
   GVariantType *bvart = g_variant_type_new("b");
   int i;
+  GSimpleAction *act;
+  GVariant *var;
+  GMenuItem *item;
 
   display_menu = g_menu_new();
 
   /* Index starting at one (1) here to force playername to always be shown */
   for (i = 1; i < num_player_dlg_columns - 1; i++) {
-    GSimpleAction *act;
     char act_name[50];
-    GVariant *var = g_variant_new("b", TRUE);
 
+    var = g_variant_new("b", TRUE);
     fc_snprintf(act_name, sizeof(act_name), "display%d", i);
     act = g_simple_action_new_stateful(act_name, bvart, var);
     g_action_map_add_action(G_ACTION_MAP(group), G_ACTION(act));
@@ -496,16 +524,15 @@ static GMenu *create_show_menu(GActionGroup *group)
     g_menu_insert_item(display_menu, i, create_plrdlg_display_menu_item(i));
   }
 
-#ifdef MENUS_GTK3
-  item = gtk_separator_menu_item_new();
-  gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+  var = g_variant_new("b", TRUE);
+  act = g_simple_action_new_stateful("show_dead", bvart, var);
+  g_action_map_add_action(G_ACTION_MAP(group), G_ACTION(act));
 
-  item = gtk_check_menu_item_new_with_label(Q_("?show:Dead Players"));
-  gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item),
-                                 gui_options.player_dlg_show_dead_players);
-  gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-  g_signal_connect(item, "toggled", G_CALLBACK(toggle_dead_players), NULL);
-#endif /* MENUS_GTK3 */
+  item = create_dead_players_menu_item();
+  g_menu_insert_item(display_menu, i, item);
+  g_signal_connect(act, "change-state", G_CALLBACK(toggle_dead_players),
+                   GINT_TO_POINTER(i));
+  g_object_unref(item);
 
   g_variant_type_free(bvart);
 
