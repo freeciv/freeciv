@@ -809,6 +809,10 @@ static bool save_action_ui_name(struct section_file *sfile,
 {
   const char *ui_name = action_by_number(act)->ui_name;
 
+  if (ui_name == NULL) {
+    return FALSE;
+  }
+
   if (strcmp(ui_name, action_ui_name_default(act))) {
     secfile_insert_str(sfile, ui_name,
                        "actions.%s", entry_name);
