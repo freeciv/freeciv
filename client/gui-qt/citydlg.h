@@ -467,6 +467,7 @@ class city_dialog: public qfc_dialog
   QTableWidget *nationality_table;
   QTableWidget *cma_table;
   QCheckBox *cma_celeb_checkbox;
+  QCheckBox *cma_max_growth;
   QCheckBox *future_targets;
   QCheckBox *show_units;
   QCheckBox *show_buildings;
@@ -536,7 +537,7 @@ private slots:
   void display_worklist_menu(const QPoint &p);
   void disband_state_changed(bool allow_disband);
   void cma_slider(int val);
-  void cma_celebrate_changed(int val);
+  void cma_toggle_changed(int val);
   void cma_remove();
   void cma_enable();
   void cma_changed();
