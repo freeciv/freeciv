@@ -107,7 +107,7 @@ void popdown_players_dialog(void)
 
 /***************************************************************************
   Create a small colored square representing the player color, for use
-  in player lists. 
+  in player lists.
   May return NULL if the player has no color yet.
 ***************************************************************************/
 GdkPixbuf *create_player_icon(const struct player *plr)
@@ -118,7 +118,7 @@ GdkPixbuf *create_player_icon(const struct player *plr)
   struct color *color;
   cairo_t *cr;
 
-  if (!player_has_color(tileset, plr)) {
+  if (!player_has_color(plr)) {
     return NULL;
   }
 

@@ -1727,7 +1727,7 @@ void fc_client::update_start_page()
         item->setData(col, Qt::DecorationRole, *pixmap);
         break;
       case 4:
-        if (!player_has_color(tileset, pplayer)) {
+        if (!player_has_color(pplayer)) {
           break;
         }
         pixmap = new QPixmap(
