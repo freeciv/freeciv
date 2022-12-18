@@ -7156,7 +7156,7 @@ void tileset_player_init(struct tileset *t, struct player *pplayer)
   /* Free all data before recreating it. */
   tileset_player_free(t, plrid);
 
-  if (player_has_color(t, pplayer)) {
+  if (player_has_color(pplayer)) {
     t->sprites.player[plrid].color = color
       = create_plr_sprite(get_player_color(t, pplayer));
   } else {
