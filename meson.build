@@ -3452,6 +3452,7 @@ ruleset_files = [
 install_data(
   'data/civ2civ3.serv',
   'data/classic.serv',
+  'data/default.serv',
   'data/multiplayer.serv',
   'data/alien.serv',
   'data/sandbox.serv',
