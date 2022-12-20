@@ -2254,8 +2254,10 @@ static inline void pf_fuel_pos_unref(struct pf_fuel_pos *pos)
 }
 
 /************************************************************************//**
-  Replace the position (unreferences it). Instead of destroying, re-use the
-  memory, else return a newly allocated position.
+  Replace the position. Reference count of the old pos is reduced by one,
+  but it likely lives on via other references.
+  If reference count goes to zero, re-use the memory instead of
+  freeing and allocating again.
 ****************************************************************************/
 static inline struct pf_fuel_pos *
 pf_fuel_pos_replace(struct pf_fuel_pos *pos, const struct pf_fuel_node *node)
