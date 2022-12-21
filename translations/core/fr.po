@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 3.0\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2022-12-15 06:32+0200\n"
+"POT-Creation-Date: 2022-12-19 07:28+0100\n"
 "PO-Revision-Date: 2022-12-06 11:02+0100\n"
 "Last-Translator: Igx <igx31 hotmail.com>\n"
 "Language-Team: French <freeciv-l10n-fr@yahoogroupes.fr>\n"
@@ -14321,36 +14321,36 @@ msgstr ""
 msgid "Cannot find your home directory"
 msgstr "Votre répertoire personnel est introuvable"
 
-#: client/options.c:5757
+#: client/options.c:5758
 msgid "Didn't find the option file. Creating a new one."
 msgstr ""
 "Impossible de trouver le fichier d'options. Création d'un nouveau fichier."
 
-#: client/options.c:5775
+#: client/options.c:5776
 #, c-format
 msgid "Save failed, cannot write to file %s"
 msgstr "Impossible d'écrire dans le fichier %s"
 
-#: client/options.c:5777
+#: client/options.c:5778
 #, c-format
 msgid "Saved settings to file %s"
 msgstr "Les options sont sauvegardées dans %s"
 
-#: client/options.c:5933
+#: client/options.c:5934
 msgid "Save failed, cannot find a filename."
 msgstr "Échec de la sauvegarde, impossible de trouver un nom de fichier."
 
-#: client/options.c:5997
+#: client/options.c:5998
 #, c-format
 msgid "Saving options failed, cannot create directory %s"
 msgstr "Échec de sauvegarde des options, impossible de créer le répertoire %s"
 
-#: client/options.c:6006
+#: client/options.c:6007
 #, c-format
 msgid "Saving options failed, cannot write to file %s"
 msgstr "Échec de sauvegarde des options, imposse d'écrire dans le fichier %s"
 
-#: client/options.c:6008
+#: client/options.c:6009
 #, c-format
 msgid "Saved options to file %s"
 msgstr "Options sauvegardées dans le fichier %s"
@@ -45955,25 +45955,25 @@ msgstr "Construire une base de type A"
 msgid "?gui_type:Build Type B Base"
 msgstr "Construire une base de type B"
 
-#: server/ruleset.c:5564
+#: server/ruleset.c:5567
 msgid ""
 "Effects should have \"type\", not the same field with old name \"name\"."
 msgstr ""
 "Les effets devraient avoir un \"type\", et non le même champ avec l'ancien "
 "nom \"nom\"."
 
-#: server/ruleset.c:7952
+#: server/ruleset.c:7956
 msgid "Ruleset couldn't be loaded. Keeping previous one."
 msgstr ""
 "Les règles du jeu n'ont pas pu être chargées. On garde les précédentes."
 
-#: server/ruleset.c:7970
+#: server/ruleset.c:7974
 msgid "Ruleset couldn't be loaded. Switching to default one."
 msgstr ""
 "Les règles du jeu n'ont pas pu être chargées. On bascule sur celles par "
 "défaut."
 
-#: server/ruleset.c:7977
+#: server/ruleset.c:7981
 msgid ""
 "Cannot load any ruleset. Freeciv-web ruleset is available from https://"
 "github.com/freeciv/freeciv-web"
@@ -45981,7 +45981,7 @@ msgstr ""
 "Aucune règle du jeu n'a pu être chargée. Les règles du jeu Freeciv-web sont "
 "disponibles sur https://github.com/freeciv/freeciv-web"
 
-#: server/ruleset.c:8020
+#: server/ruleset.c:8024
 msgid "Loading rulesets."
 msgstr "Chargement des différentes règles du jeu."
 
