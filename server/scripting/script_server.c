@@ -419,7 +419,7 @@ void script_server_signal_emit(const char *signal_name, ...)
 ***************************************************************************/
 static void script_server_signals_create(void)
 {
-  signal_deprecator *depr;
+  struct signal_deprecator *depr;
 
   luascript_signal_create(fcl_main, "turn_begin", 2,
                           API_TYPE_INT, API_TYPE_INT);
@@ -428,7 +428,7 @@ static void script_server_signals_create(void)
    * starting from 0. */
   depr = luascript_signal_create(fcl_main, "turn_started", 2,
                                  API_TYPE_INT, API_TYPE_INT);
-  deprecate_signal(depr, "turn_started", "turn_begin", "3.0");
+  deprecate_signal(depr, "turn_started", "turn_begin", "3.0", NULL);
 
   luascript_signal_create(fcl_main, "player_phase_begin", 2,
                           API_TYPE_PLAYER, API_TYPE_BOOL);
@@ -450,7 +450,7 @@ static void script_server_signals_create(void)
   /* Deprecated form of the 'city_size_change' signal for the case of growth. */
   depr = luascript_signal_create(fcl_main, "city_growth", 2,
                                  API_TYPE_CITY, API_TYPE_INT);
-  deprecate_signal(depr, "city_growth", "city_size_change", "2.6");
+  deprecate_signal(depr, "city_growth", "city_size_change", "2.6", NULL);
 
   /* Only includes units built in cities, for now. */
   luascript_signal_create(fcl_main, "unit_built", 2,
@@ -497,7 +497,7 @@ static void script_server_signals_create(void)
    * conquest. */
   depr = luascript_signal_create(fcl_main, "city_lost", 3,
                                  API_TYPE_CITY, API_TYPE_PLAYER, API_TYPE_PLAYER);
-  deprecate_signal(depr, "city_lost", "city_transferred", "2.6");
+  deprecate_signal(depr, "city_lost", "city_transferred", "2.6", NULL);
 
   luascript_signal_create(fcl_main, "hut_enter", 2,
                           API_TYPE_UNIT, API_TYPE_STRING);
@@ -517,7 +517,7 @@ static void script_server_signals_create(void)
    * support. */
   depr = luascript_signal_create(fcl_main, "disaster", 2,
                           API_TYPE_DISASTER, API_TYPE_CITY);
-  deprecate_signal(depr, "disaster", "disaster_occurred", "2.6");
+  deprecate_signal(depr, "disaster", "disaster_occurred", "2.6", NULL);
 
   luascript_signal_create(fcl_main, "achievement_gained", 3,
                           API_TYPE_ACHIEVEMENT, API_TYPE_PLAYER,

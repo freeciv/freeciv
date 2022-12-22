@@ -22,7 +22,10 @@ extern "C" {
 
 struct fc_lua;
 
-typedef char * signal_deprecator;
+struct signal_deprecator {
+  char *depr_msg;                       /* Deprecation message to show if handler added */
+  char *retired;                        /* Signal no longer available in current freeciv */
+};
 
 void luascript_signal_init(struct fc_lua *fcl);
 void luascript_signal_free(struct fc_lua *fcl);
@@ -30,11 +33,12 @@ void luascript_signal_free(struct fc_lua *fcl);
 void luascript_signal_emit_valist(struct fc_lua *fcl,
                                   const char *signal_name, va_list args);
 void luascript_signal_emit(struct fc_lua *fcl, const char *signal_name, ...);
-signal_deprecator *luascript_signal_create(struct fc_lua *fcl,
-                                           const char *signal_name,
-                                           int nargs, ...);
-void deprecate_signal(signal_deprecator *deprecator, char *signal_name,
-                      char *replacement, char *deprecated_since);
+struct signal_deprecator *luascript_signal_create(struct fc_lua *fcl,
+                                                  const char *signal_name,
+                                                  int nargs, ...);
+void deprecate_signal(struct signal_deprecator *deprecator, char *signal_name,
+                      char *replacement, char *deprecated_since,
+                      char *retired_since);
 void luascript_signal_callback(struct fc_lua *fcl, const char *signal_name,
                                const char *callback_name, bool create);
 bool luascript_signal_callback_defined(struct fc_lua *fcl,
