@@ -3580,6 +3580,7 @@ ruleset_files = [
   ]
 
 install_data(
+  'data/default.modpack',
   'data/civ2civ3.modpack',
   'data/classic.modpack',
   'data/multiplayer.modpack',

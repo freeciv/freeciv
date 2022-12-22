@@ -27,6 +27,7 @@ SRV_RE_FILES = \
 	civ1.modpack \
 	civ2.modpack \
 	classic.modpack \
+	default.modpack \
 	default.serv \
 	multiplayer.modpack \
 	alien.modpack \
