@@ -1754,12 +1754,14 @@ AC_ARG_ENABLE([sys-tolua-cmd],
   no)
     if test "x$cross_compiling" = "xyes" ; then
       AC_MSG_ERROR([Must use external build system tolua command when cross-compiling])
+    elif test "x$emscripten" = "xyes" ; then
+      AC_MSG_ERROR([Must use external build system tolua command in emscripten build])
     fi
     sys_tolua_cmd=false ;;
   *)
     sys_tolua_cmd=${enableval} ;;
 esac], [
-if test "x$cross_compiling" = "xyes" ; then
+if test "x$cross_compiling" = "xyes" || test "x$emscripten" = "xyes" ; then
   sys_tolua_cmd=true
 else
   dnl Our own tolua is better than upstream one, so prefer it.
