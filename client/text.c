@@ -2073,13 +2073,32 @@ const char *production_help(const struct universal *uni, char *buf,
 const char *score_tooltip(const struct player *pplayer, int score)
 {
   static char buf[1024];
+  char *relation;
+
+  if (client.conn.playing != NULL) {
+    if (pplayer == client.conn.playing) {
+      relation = _(" (us)");
+    } else if (pplayers_allied(pplayer, client.conn.playing)) {
+      relation = _(" (an ally)");
+    } else if (player_diplstate_get(pplayer, client.conn.playing)->type == DS_WAR) {
+      /* Actual enemy; don't want to use pplayers_at_war() that considers also
+       * never met players enemies. */
+      relation = _(" (an enemy)");
+    } else {
+      relation = "";
+    }
+  } else {
+    relation = "";
+  }
 
   if (score > 0) {
     /* TRANS: %s is a Nation */
-    fc_snprintf(buf, sizeof(buf), _("%s: score %d"), nation_adjective_for_player(pplayer),
+    fc_snprintf(buf, sizeof(buf), _("%s%s: score %d"),
+                nation_adjective_for_player(pplayer), relation,
                 score);
   } else {
-    fc_snprintf(buf, sizeof(buf), "%s", nation_adjective_for_player(pplayer));
+    fc_snprintf(buf, sizeof(buf), "%s%s",
+                nation_adjective_for_player(pplayer), relation);
   }
 
   return buf;
