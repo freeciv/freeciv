@@ -62,7 +62,7 @@ const char *api_auth_get_ipaddr(lua_State *L, Connection *pconn)
 bool api_auth_set_password(lua_State *L, Connection *pconn,
                            const char *password)
 {
-  LUASCRIPT_CHECK_STATE(L, NULL);
+  LUASCRIPT_CHECK_STATE(L, FALSE);
   LUASCRIPT_CHECK_SELF(L, pconn, FALSE);
   fc_assert_ret_val(conn_is_valid(pconn), FALSE);
 
