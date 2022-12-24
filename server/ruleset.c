@@ -1485,9 +1485,7 @@ static bool load_action_names(struct section_file *file,
   const char *filename = secfile_name(file);
   bool ok = TRUE;
 
-  /* Section: datafile */
-  compat->version = rscompat_check_capabilities(file, filename, compat);
-  if (compat->version <= 0) {
+  if (!rscompat_check_cap_and_version(file, filename, compat)) {
     return FALSE;
   }
 
@@ -9322,8 +9320,23 @@ static bool load_rulesetdir(const char *rsdir, bool compat_mode,
 
   server.playable_nations = 0;
 
+  gamefile = openload_ruleset_file("game", rsdir);
+
+  if (gamefile != NULL) {
+    /* Needed here to fill compat_info. RSFORMAT_3_2 specific arrangement. */
+    ok = load_game_names(gamefile, &compat_info);
+  } else {
+    ok = FALSE;
+  }
+
   techfile = openload_ruleset_file("techs", rsdir);
-  actionfile = openload_ruleset_file("actions", rsdir);
+
+  if (compat_info.version >= RSFORMAT_3_2) {
+    actionfile = openload_ruleset_file("actions", rsdir);
+  } else {
+    actionfile = NULL;
+  }
+
   buildfile = openload_ruleset_file("buildings", rsdir);
   govfile = openload_ruleset_file("governments", rsdir);
   unitfile = openload_ruleset_file("units", rsdir);
@@ -9332,7 +9345,6 @@ static bool load_rulesetdir(const char *rsdir, bool compat_mode,
   cityfile = openload_ruleset_file("cities", rsdir);
   nationfile = openload_ruleset_file("nations", rsdir);
   effectfile = openload_ruleset_file("effects", rsdir);
-  gamefile = openload_ruleset_file("game", rsdir);
 
   if (load_luadata) {
     game.server.luadata = openload_luadata_file(rsdir);
@@ -9355,10 +9367,9 @@ static bool load_rulesetdir(const char *rsdir, bool compat_mode,
   }
 
   if (ok) {
-    /* Note: Keep load_game_names first so that compat_info.version is
-     * correctly initialized. */
-    ok = load_game_names(gamefile, &compat_info)
-      && (actionfile == NULL || load_action_names(actionfile, &compat_info))
+    /* Note: Keep load_game_names() first so that compat_info.version is
+     * correctly initialized. (Currently handled above already) */
+    ok = (actionfile == NULL || load_action_names(actionfile, &compat_info))
       && load_tech_names(techfile, &compat_info)
       && load_building_names(buildfile, &compat_info)
       && load_government_names(govfile, &compat_info)
