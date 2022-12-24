@@ -3400,8 +3400,8 @@ void handle_ruleset_control(const struct packet_ruleset_control *packet)
   VALIDATE(num_counters, MAX_COUNTERS, "counters");
 
   /* game.control.government_count, game.control.nation_count and
-   * game.control.num_city_styles are allocated dynamically, and does
-   * not need a size check.  See the allocation bellow. */
+   * game.control.num_city_styles are allocated dynamically, and do
+   * not need a size check. See the allocation below. */
 
   VALIDATE(terrain_count,	MAX_NUM_TERRAINS,	"terrains");
 
