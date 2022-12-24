@@ -290,11 +290,13 @@ static void recalculate_lake_surrounders(void)
 static void assign_continent_flood(struct tile *ptile, bool is_land, int nr)
 {
   struct tile_list *tlist = NULL;
-  const struct terrain *pterrain = NULL;
+  const struct terrain *pterrain;
 
   fc_assert_ret(ptile != NULL);
 
+#ifndef FREECIV_NDEBUG
   pterrain = tile_terrain(ptile);
+#endif
   /* Check if the initial tile is a valid tile for continent / ocean. */
   fc_assert_ret(tile_continent(ptile) == 0
                 && T_UNKNOWN != pterrain
