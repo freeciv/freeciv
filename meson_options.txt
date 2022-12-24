@@ -80,3 +80,8 @@ option('project-definition',
        type: 'string',
        value: '',
        description: 'File with project defition')
+
+option('min-win-ver',
+       type: 'string',
+       value: '',
+       description: 'Minimum Windows version to support')

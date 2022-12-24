@@ -162,6 +162,10 @@ project-definition (string):
   Filename of the project definition to use. See below for contents of
   such a file
 
+min-win-ver (string):
+  Minimum Windows version the build should support. Versions listed on
+  https://learn.microsoft.com/en-us/cpp/porting/modifying-winver-and-win32-winnt?view=msvc-170
+
 
 Project definition file
 -----------------------
