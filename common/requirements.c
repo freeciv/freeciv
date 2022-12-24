@@ -4351,9 +4351,11 @@ enum fc_tristate default_tester_cb
     const struct requirement *req,
     void *data, int n_data)
 {
+  int i;
+
   fc_assert_ret_val(data || n_data == 0, TRI_NO);
 
-  for (int i = 0; i < n_data; i++) {
+  for (i = 0; i < n_data; i++) {
     if (are_requirements_contradictions(&((struct requirement *) data)[i],
                                         req)) {
       return TRI_NO;
@@ -4361,6 +4363,7 @@ enum fc_tristate default_tester_cb
       return TRI_YES;
     }
   }
+
   return tri_req_active(context, other_player, req);
 }
 
@@ -4415,7 +4418,7 @@ enum fc_tristate
   for changeability of any requirement for now.)
 
   Note this isn't absolute. Result other than REQUCH_NO here just means
-+  that the requirement _probably_ can't change its value afterwards.
+  that the requirement _probably_ can't change its value afterwards.
 ***************************************************************************/
 enum req_unchanging_status
   is_req_unchanging(const struct req_context *context,
