@@ -2286,7 +2286,7 @@ void handle_player_ready(struct player *requestor,
   if (is_ready) {
     int num_ready = 0, num_unready = 0;
 
-    players_iterate(other_player) {
+    players_iterate_alive(other_player) {
       if (other_player->is_connected) {
 	if (other_player->is_ready) {
 	  num_ready++;
@@ -2294,7 +2294,8 @@ void handle_player_ready(struct player *requestor,
 	  num_unready++;
 	}
       }
-    } players_iterate_end;
+    } players_iterate_alive_end;
+
     if (num_unready > 0) {
       notify_conn(NULL, NULL, E_SETTING, ftc_server,
                   _("Waiting to start game: %d out of %d players "
