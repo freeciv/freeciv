@@ -392,5 +392,8 @@
 #define NONBLOCKING_SOCKETS 1
 #endif
 
+/* Libcurl has the mime API */
+#mesondefine HAVE_CURL_MIME_API
+
 /* Custom path to CA cert bundle */
 #mesondefine CUSTOM_CACERT_PATH

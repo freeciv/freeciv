@@ -537,6 +537,19 @@ endif
 sqlite3_dep = c_compiler.find_library('sqlite3', dirs: cross_lib_path)
 m_dep = c_compiler.find_library('m', dirs: cross_lib_path)
 
+curl_dep = c_compiler.find_library('curl', dirs: cross_lib_path)
+
+if c_compiler.compiles(net_incl + '''
+#include <stddef.h>
+#include <curl/curl.h>
+int main(void) { curl_mime *mime = curl_mime_init(NULL); }''',
+  include_directories: include_directories(cross_inc_path)
+  )
+  priv_conf_data.set('HAVE_CURL_MIME_API', 1)
+else
+  error('Too old libcurl version - does not support mime API')
+endif
+
 if get_option('gitrev')
   priv_conf_data.set('GITREV', 1)
 endif
@@ -835,8 +848,7 @@ common_lib = library('freeciv',
             tolua_com_a, tolua_com_z, tolua_game, tolua_signal],
   link_whole: fc_deps,
   dependencies: [c_compiler.find_library('z', dirs: cross_lib_path),
-                 c_compiler.find_library('curl', dirs: cross_lib_path),
-                 m_dep, sqlite3_dep, icu_dep,
+                 curl_dep, m_dep, sqlite3_dep, icu_dep,
                  net_dep, jansson_dep, lua_dep, lzma_dep, zstd_dep,
                  bcrypt_lib_dep, iconv_lib_dep,
                  gettext_dep, charset_dep, mw_dep,

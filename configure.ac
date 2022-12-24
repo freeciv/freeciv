@@ -674,10 +674,14 @@ if test "x$PKG_CONFIG" = "x" ; then
 fi
 
 if test "x$emscripten" != "xyes" ; then
-  PKG_CHECK_MODULES([CURL], [libcurl >= 7.15.4],,
-      [AC_MSG_ERROR([libcurl development files required])])
-  UTILITY_CFLAGS="${UTILITY_CFLAGS} ${CURL_CFLAGS}"
-  UTILITY_LIBS="${UTILITY_LIBS} ${CURL_LIBS}"
+  PKG_CHECK_MODULES([CURL_MIME_API], [libcurl > 7.56.0],
+    [UTILITY_CFLAGS="${UTILITY_CFLAGS} ${CURL_MIME_API_CFLAGS}"
+     UTILITY_LIBS="${UTILITY_LIBS} ${CURL_MIME_API_LIBS}"
+     AC_DEFINE([HAVE_CURL_MIME_API], [1], [libcurl has the mime api])],
+    [PKG_CHECK_MODULES([CURL], [libcurl >= 7.15.4],
+      [UTILITY_CFLAGS="${UTILITY_CFLAGS} ${CURL_CFLAGS}"
+       UTILITY_LIBS="${UTILITY_LIBS} ${CURL_LIBS}"],
+      [AC_MSG_ERROR([libcurl development files required])])])
 fi
 
 AC_ARG_ENABLE([xml-registry],
