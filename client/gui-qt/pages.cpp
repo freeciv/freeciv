@@ -1892,17 +1892,17 @@ void fc_client::update_buttons()
 
   // Ready button
   if (can_client_control()) {
-    sensitive = true;
+    sensitive = client_player()->is_alive;
     if (client_player()->is_ready) {
       text = _("Not ready");
     } else {
       int num_unready = 0;
 
-      players_iterate(pplayer) {
+      players_iterate_alive(pplayer) {
         if (is_human(pplayer) && !pplayer->is_ready) {
           num_unready++;
         }
-      } players_iterate_end;
+      } players_iterate_alive_end;
 
       if (num_unready > 1) {
         text = _("Ready");
@@ -1916,14 +1916,14 @@ void fc_client::update_buttons()
     text = _("Start");
     if (can_client_access_hack() && client.conn.observer) {
       sensitive = true;
-      players_iterate(plr) {
+      players_iterate_alive(plr) {
         if (is_human(plr)) {
           /* There's human controlled player(s) in game, so it's their
            * job to start the game. */
           sensitive = false;
           break;
         }
-      } players_iterate_end;
+      } players_iterate_alive_end;
     } else {
       sensitive = false;
     }
