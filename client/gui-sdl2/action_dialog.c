@@ -688,9 +688,8 @@ static int upgrade_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
     struct unit *punit;
-    struct city *pcity;
 
-    if ((pcity = game_city_by_number(diplomat_dlg->target_ids[ATK_CITY]))
+    if (game_city_by_number(diplomat_dlg->target_ids[ATK_CITY]) != NULL
         && (punit = game_unit_by_number(diplomat_dlg->actor_unit_id))) {
       popup_unit_upgrade_dlg(punit, FALSE);
     }
