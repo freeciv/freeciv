@@ -988,6 +988,11 @@ LIBS_SAVE="${LIBS}"
 if test "x$fctinycthr" = "xyes" ; then
   thread_impl_c=tinycthread
   thread_impl_cpp=tinycthread
+elif test "x$emscripten" = "xyes" ; then
+  thread_impl_c=pthreads
+  thread_impl_cpp=pthreads
+  CFLAGS="$CFLAGS -s USE_PTHREADS=1"
+  CXXFLAGS="$CXXFLAGS -s USE_PTHREADS=1"
 fi
 
 if test "x$thread_impl_c" = "xnone" ; then
