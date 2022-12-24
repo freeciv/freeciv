@@ -136,11 +136,15 @@ static void save_options_callback(GSimpleAction *action,
 static void save_options_on_exit_callback(GSimpleAction *action,
                                           GVariant *parameter,
                                           gpointer data);
+static void save_game_callback(GSimpleAction *action,
+                               GVariant *parameter,
+                               gpointer data);
+static void save_game_as_callback(GSimpleAction *action,
+                                  GVariant *parameter,
+                                  gpointer data);
 
 #ifdef MENUS_GTK3
 static void reload_tileset_callback(GtkMenuItem *item, gpointer data);
-static void save_game_callback(GtkMenuItem *item, gpointer data);
-static void save_game_as_callback(GtkMenuItem *item, gpointer data);
 static void save_mapimg_callback(GtkMenuItem *item, gpointer data);
 static void save_mapimg_as_callback(GtkMenuItem *item, gpointer data);
 #endif /* MENUS_GTK3 */
@@ -259,9 +263,11 @@ static void show_fog_of_war_callback(GtkCheckMenuItem *item, gpointer data);
 static void recalc_borders_callback(GtkMenuItem *item, gpointer data);
 static void toggle_fog_callback(GtkMenuItem *item, gpointer data);
 static void scenario_properties_callback(GtkMenuItem *item, gpointer data);
-static void save_scenario_callback(GtkMenuItem *item, gpointer data);
 #endif /* MENUS_GTK3 */
 
+static void save_scenario_callback(GSimpleAction *action,
+                                   GVariant *parameter,
+                                   gpointer data);
 static void full_screen_callback(GSimpleAction *action,
                                  GVariant *parameter,
                                  gpointer data);
@@ -438,6 +444,12 @@ static struct menu_entry_info menu_entries[] =
     "save_options_on_exit", NULL, MGROUP_SAFE,
     save_options_on_exit_callback, FALSE },
 
+  { "GAME_SAVE", N_("_Save Game"),
+    "game_save", "<ctrl>s", MGROUP_SAFE,
+    NULL, FALSE },
+  { "GAME_SAVE_AS", N_("Save Game _As..."),
+    "game_save_as", NULL, MGROUP_SAFE,
+    NULL, FALSE },
   { "LEAVE", N_("_Leave"),
     "leave", NULL, MGROUP_SAFE,
     NULL, FALSE },
@@ -457,6 +469,9 @@ static struct menu_entry_info menu_entries[] =
     NULL, FALSE },
   { "INFRA_DLG", N_("Infra dialog"),
     "infra_dlg", "<ctrl>i", MGROUP_SAFE,
+    NULL, FALSE },
+  { "SCENARIO_SAVE", N_("Save Scenario"),
+    "scenario_save", NULL, MGROUP_EDIT,
     NULL, FALSE },
   { "CLIENT_LUA_SCRIPT", N_("Client _Lua Script"),
     "lua_script", NULL, MGROUP_SAFE,
@@ -645,10 +660,6 @@ static struct menu_entry_info menu_entries[] =
   { "RELOAD_TILESET", N_("_Reload Tileset"),
     GDK_KEY_r, GDK_ALT_MASK | GDK_CONTROL_MASK,
     G_CALLBACK(reload_tileset_callback), MGROUP_SAFE },
-  { "GAME_SAVE", N_("_Save Game"), GDK_KEY_s, GDK_CONTROL_MASK,
-    G_CALLBACK(save_game_callback), MGROUP_SAFE },
-  { "GAME_SAVE_AS", N_("Save Game _As..."), 0, 0,
-    G_CALLBACK(save_game_as_callback), MGROUP_SAFE },
   { "MAPIMG_SAVE", N_("Save Map _Image"), 0, 0,
     G_CALLBACK(save_mapimg_callback), MGROUP_SAFE },
   { "MAPIMG_SAVE_AS", N_("Save _Map Image As..."), 0, 0,
@@ -765,8 +776,6 @@ static struct menu_entry_info menu_entries[] =
     G_CALLBACK(toggle_fog_callback), MGROUP_EDIT },
   { "SCENARIO_PROPERTIES", N_("Game/Scenario Properties"), 0, 0,
     G_CALLBACK(scenario_properties_callback), MGROUP_EDIT },
-  { "SAVE_SCENARIO", N_("Save Scenario"), 0, 0,
-    G_CALLBACK(save_scenario_callback), MGROUP_EDIT },
 
   { "POLICIES", N_("_Policies..."),
     GDK_KEY_p, GDK_SHIFT_MASK | GDK_CONTROL_MASK,
@@ -840,6 +849,8 @@ const GActionEntry acts[] = {
   { "server_options", server_options_callback },
   { "save_options", save_options_callback },
 
+  { "game_save", save_game_callback },
+  { "game_save_as", save_game_as_callback },
   { "leave", leave_callback },
   { "quit", quit_callback },
 
@@ -847,6 +858,7 @@ const GActionEntry acts[] = {
   { "worklists", worklists_callback },
   { "rally_dlg", rally_dialog_callback },
   { "infra_dlg", infra_dialog_callback },
+  { "scenario_save", save_scenario_callback },
   { "lua_script", client_lua_script_callback },
 
   { "center_view", center_view_callback },
@@ -983,11 +995,13 @@ static void reload_tileset_callback(GtkMenuItem *item, gpointer data)
 {
   tilespec_reread(NULL, TRUE, 1.0);
 }
+#endif /* MENUS_GTK3 */
 
 /************************************************************************//**
   Item "SAVE_GAME" callback.
 ****************************************************************************/
-static void save_game_callback(GtkMenuItem *item, gpointer data)
+static void save_game_callback(GSimpleAction *action, GVariant *parameter,
+                               gpointer data)
 {
   send_save_game(NULL);
 }
@@ -995,11 +1009,13 @@ static void save_game_callback(GtkMenuItem *item, gpointer data)
 /************************************************************************//**
   Item "SAVE_GAME_AS" callback.
 ****************************************************************************/
-static void save_game_as_callback(GtkMenuItem *item, gpointer data)
+static void save_game_as_callback(GSimpleAction *action, GVariant *parameter,
+                                  gpointer data)
 {
   save_game_dialog_popup();
 }
 
+#ifdef MENUS_GTK3
 /************************************************************************//**
   Item "SAVE_MAPIMG" callback.
 ****************************************************************************/
@@ -1721,15 +1737,18 @@ static void scenario_properties_callback(GtkMenuItem *item, gpointer data)
   property_editor_reload(pe, OBJTYPE_GAME);
   property_editor_popup(pe, OBJTYPE_GAME);
 }
+#endif /* MENUS_GTK3 */
 
 /************************************************************************//**
   Item "SAVE_SCENARIO" callback.
 ****************************************************************************/
-static void save_scenario_callback(GtkMenuItem *item, gpointer data)
+static void save_scenario_callback(GSimpleAction *action, GVariant *parameter,
+                                   gpointer data)
 {
   save_scenario_dialog_popup();
 }
 
+#ifdef MENUS_GTK3
 /************************************************************************//**
   Item "SELECT_SINGLE" callback.
 ****************************************************************************/
@@ -2605,6 +2624,8 @@ static GMenu *setup_menus(GtkApplication *app)
 
   g_menu_append_submenu(topmenu, _("_Options"), G_MENU_MODEL(options_menu));
 
+  menu_entry_init(topmenu, "GAME_SAVE");
+  menu_entry_init(topmenu, "GAME_SAVE_AS");
   menu_entry_init(topmenu, "LEAVE");
   menu_entry_init(topmenu, "QUIT");
 
@@ -2616,6 +2637,10 @@ static GMenu *setup_menus(GtkApplication *app)
   menu_entry_init(topmenu, "WORKLISTS");
   menu_entry_init(topmenu, "RALLY_DLG");
   menu_entry_init(topmenu, "INFRA_DLG");
+
+  /* TODO: This entry not made visible for now, as it would never be sensitive
+   *       as long as client can't enter editor mode. */
+  /* menu_entry_init(topmenu, "SCENARIO_SAVE"); */
   menu_entry_init(topmenu, "CLIENT_LUA_SCRIPT");
 
   g_menu_append_submenu(menubar, _("_Edit"), G_MENU_MODEL(topmenu));
@@ -3251,6 +3276,16 @@ void real_menus_update(void)
                                  && can_client_issue_orders()
                                  && !editor_is_active());
 
+  menu_entry_set_sensitive(map, "GAME_SAVE_AS",
+                           can_client_access_hack() && C_S_RUNNING <= client_state());
+  menu_entry_set_sensitive(map, "GAME_SAVE",
+                           can_client_access_hack() && C_S_RUNNING <= client_state());
+
+  menu_entry_set_sensitive(map, "SERVER_OPTIONS", client.conn.established);
+
+  menu_entry_set_sensitive(map, "LEAVE",
+                           client.conn.established);
+
   menu_entry_set_sensitive(map, "RALLY_DLG", can_client_issue_orders());
   menu_entry_set_sensitive(map, "INFRA_DLG", terrain_control.infrapoints);
 
@@ -3701,7 +3736,7 @@ static void menu_remove_previous_entries(GtkMenu *menu)
 
 /************************************************************************//**
   Initialize menus (sensitivity, name, etc.) based on the
-  current state and current ruleset, etc.  Call menus_update().
+  current state and current ruleset, etc. Call menus_update().
 ****************************************************************************/
 void real_menus_init(void)
 {
@@ -3711,18 +3746,6 @@ void real_menus_init(void)
 
 #ifdef MENUS_GTK3
   GtkMenu *menu;
-
-  menu_entry_set_sensitive("GAME_SAVE_AS",
-                           can_client_access_hack()
-                           && C_S_RUNNING <= client_state());
-  menu_entry_set_sensitive("GAME_SAVE",
-                           can_client_access_hack()
-                           && C_S_RUNNING <= client_state());
-
-  menu_entry_set_sensitive("SERVER_OPTIONS", client.conn.established);
-
-  menu_entry_set_sensitive("LEAVE",
-                           client.conn.established);
 
   if (!can_client_change_view()) {
     menu_entry_group_set_sensitive(MGROUP_ALL, FALSE);
