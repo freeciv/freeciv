@@ -75,3 +75,8 @@ option('qtver',
        choices: ['qt5', 'qt6'],
        value: 'qt6',
        description: 'Whether to build Qt5 or Qt6 versions of the binaries')
+
+option('min-win-ver',
+       type: 'string',
+       value: '',
+       description: 'Minimum Windows version to support')

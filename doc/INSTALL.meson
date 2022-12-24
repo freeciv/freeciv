@@ -162,6 +162,10 @@ freeciv-web (boolean):
 qtver ('qt5'/'qt6'):
   Whether to build Qt5 or Qt6 versions of the binaries.
 
+min-win-ver (string):
+  Minimum Windows version the build should support. Versions listed on
+  https://learn.microsoft.com/en-us/cpp/porting/modifying-winver-and-win32-winnt?view=msvc-170
+
 
 run.sh
 ------

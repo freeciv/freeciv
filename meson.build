@@ -118,7 +118,11 @@ if host_system == 'windows'
   pub_conf_data.set('FREECIV_SOCKET_ZERO_NOT_STDIN', 1)
   priv_conf_data.set('ALWAYS_ROOT', 1)
 
-  if get_option('qtver') == 'qt6' and \
+  min_win_ver = get_option('min-win-ver')
+
+  if min_win_ver != ''
+    add_global_arguments('-D_WIN32_WINNT=' + min_win_ver, language: ['c', 'cpp'])
+  elif get_option('qtver') == 'qt6' and \
      ( get_option('ruledit') or \
        get_option('clients').contains('qt') or \
        get_option('fcmp').contains('qt'))
@@ -129,6 +133,10 @@ if host_system == 'windows'
 
   net_dep = c_compiler.find_library('ws2_32')
 else
+  if get_option('min-win-ver') != ''
+    error('Option min-win-ver supported on Windows only!')
+  endif
+
   # Assume that vsnprintf() is a working one, if it's found
   # (that's checked separately)
   priv_conf_data.set('HAVE_WORKING_VSNPRINTF', 1)
