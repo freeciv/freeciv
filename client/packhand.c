@@ -3405,8 +3405,8 @@ void handle_ruleset_control(const struct packet_ruleset_control *packet)
   VALIDATE(num_achievement_types, MAX_ACHIEVEMENT_TYPES, "achievements");
 
   /* game.control.government_count, game.control.nation_count and
-   * game.control.styles_count are allocated dynamically, and does
-   * not need a size check.  See the allocation bellow. */
+   * game.control.styles_count are allocated dynamically, and do
+   * not need a size check. See the allocation below. */
 
   VALIDATE(terrain_count,	MAX_NUM_TERRAINS,	"terrains");
 

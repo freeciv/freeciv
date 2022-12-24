@@ -33,7 +33,7 @@ extern "C" {
  * the same tools.  Whereas colors where determinated in client side only,
  * here the server also has the possibility to choose what color to display
  * to the clients.  Such embellishments are performed using escape sequences
- * (which are described bellow) in the strings.
+ * (which are described below) in the strings.
  *
  * Plain text vs featured text.
  *
