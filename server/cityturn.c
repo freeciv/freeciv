@@ -849,12 +849,12 @@ void city_repair_size(struct city *pcity, int change)
 
 /**********************************************************************//**
   Return the percentage of food that is kept in this city after city
-  size changes.
+  grows.
 
   Normally this value is 0% but this can be increased by EFT_GROWTH_FOOD
   effects.
 **************************************************************************/
-int city_granary_savings(const struct city *pcity)
+int city_growth_granary_savings(const struct city *pcity)
 {
   int savings = get_city_bonus(pcity, EFT_GROWTH_FOOD);
 
@@ -862,17 +862,33 @@ int city_granary_savings(const struct city *pcity)
 }
 
 /**********************************************************************//**
+  Return the percentage of food that is kept in this city after city
+  shrinks.
+
+  Normally this value is 0% but this can be increased by EFT_SHRINK_FOOD
+  effects.
+**************************************************************************/
+int city_shrink_granary_savings(const struct city *pcity)
+{
+  int savings = get_city_bonus(pcity, EFT_SHRINK_FOOD);
+
+  return CLIP(0, savings, 100);
+}
+
+/**********************************************************************//**
   Reset the foodbox, usually when a city grows or shrinks.
   By default it is reset to zero, but this can be increased by Growth_Food
-  effects.
+  of Shrink_Food effects.
   Usually this should be called before the city changes size.
 **************************************************************************/
-static void city_reset_foodbox(struct city *pcity, int new_size)
+static void city_reset_foodbox(struct city *pcity, int new_size,
+                               bool shrink)
 {
-  fc_assert_ret(pcity != NULL);
+  int savings_pct = ( shrink
+                      ? city_shrink_granary_savings(pcity)
+                      : city_growth_granary_savings(pcity));
 
-  pcity->food_stock = (city_granary_size(new_size)
-                       * city_granary_savings(pcity)) / 100;
+  pcity->food_stock = (city_granary_size(new_size) * savings_pct) / 100;
 }
 
 /**********************************************************************//**
@@ -883,7 +899,7 @@ static void city_reset_foodbox(struct city *pcity, int new_size)
 static bool city_increase_size(struct city *pcity, struct player *nationality)
 {
   int new_food;
-  int savings_pct = city_granary_savings(pcity);
+  int savings_pct = city_growth_granary_savings(pcity);
   bool have_square = FALSE;
   bool rapture_grow = city_rapture_grow(pcity); /* Check before size increase! */
   struct tile *pcenter = city_tile(pcity);
@@ -979,7 +995,7 @@ static bool city_increase_size(struct city *pcity, struct player *nationality)
 }
 
 /**********************************************************************//**
-  Change the city size.  Return TRUE iff the city is still alive afterwards.
+  Change the city size. Return TRUE iff the city is still alive afterwards.
 **************************************************************************/
 bool city_change_size(struct city *pcity, citizens size,
                       struct player *nationality, const char *reason)
@@ -1069,7 +1085,7 @@ static void city_populate(struct city *pcity, struct player *nationality)
         }
 
         if (city_exist(saved_id)) {
-          city_reset_foodbox(pcity, city_size_get(pcity));
+          city_reset_foodbox(pcity, city_size_get(pcity), TRUE);
         }
 
         return;
@@ -1086,7 +1102,7 @@ static void city_populate(struct city *pcity, struct player *nationality)
                     _("Famine destroys %s entirely."),
                     city_link(pcity));
     }
-    city_reset_foodbox(pcity, city_size_get(pcity) - 1);
+    city_reset_foodbox(pcity, city_size_get(pcity) - 1, TRUE);
     if (city_reduce_size(pcity, 1, NULL, "famine")) {
       pcity->had_famine = TRUE;
     }

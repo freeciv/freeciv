@@ -2933,11 +2933,10 @@ static void redraw_city_dialog(struct city *pcity)
     i = count * step;
   }
 
-  /* food stock */
-
+  /* Food stock */
   if (get_city_bonus(pcity, EFT_GROWTH_FOOD) > 0) {
-    /* with granary */
-    /* stocks label */
+    /* With granary */
+    /* Stocks label */
     copy_chars_to_utf8_str(pstr, _("Stock"));
     buf = create_text_surf_from_utf8(pstr);
 
@@ -2948,7 +2947,7 @@ static void redraw_city_dialog(struct city *pcity)
 
     FREESURFACE(buf);
 
-    /* granary label */
+    /* Granary label */
     copy_chars_to_utf8_str(pstr, _("Granary"));
     buf = create_text_surf_from_utf8(pstr);
 
@@ -2959,7 +2958,7 @@ static void redraw_city_dialog(struct city *pcity)
 
     FREESURFACE(buf);
 
-    /* draw bcgd granary */
+    /* Draw bcgd granary */
     dest.x = pwindow->size.x + adj_size(462);
     dest.y = pwindow->size.y + adj_size(260);
     dest.w = 70 + 4;
@@ -2972,7 +2971,7 @@ static void redraw_city_dialog(struct city *pcity)
                  dest.x - 1, dest.y - 1, dest.w, dest.h,
                  get_theme_color(COLOR_THEME_CITYDLG_FRAME));
 
-    /* draw bcgd stocks*/
+    /* Draw bcgd stocks*/
     dest.x = pwindow->size.x + adj_size(550);
     dest.y = pwindow->size.y + adj_size(260);
 
@@ -2983,7 +2982,7 @@ static void redraw_city_dialog(struct city *pcity)
                  dest.x - 1, dest.y - 1, dest.w, dest.h,
                  get_theme_color(COLOR_THEME_CITYDLG_FRAME));
 
-    /* draw stocks icons */
+    /* Draw stocks icons */
     cost = city_granary_size(city_size_get(pcity));
     if (pcity->food_stock + pcity->surplus[O_FOOD] > cost) {
       count = cost;
@@ -3027,7 +3026,7 @@ static void redraw_city_dialog(struct city *pcity)
         }
       }
     }
-    /* draw granary icons */
+    /* Draw granary icons */
     dest.x = pwindow->size.x + adj_size(462) + adj_size(2);
     dest.y = pwindow->size.y + adj_size(260) + adj_size(2);
 
@@ -3036,22 +3035,22 @@ static void redraw_city_dialog(struct city *pcity)
       dest.x += buf->w;
       count--;
       i++;
+
       if (dest.x > pwindow->size.x + adj_size(532)) {
         dest.x = pwindow->size.x + adj_size(464);
         dest.y += step;
       }
+
       if (i > limit - 1) {
         buf = icons->big_food_corr;
-      } else {
-        if (i > pcity->food_stock - 1) {
-          buf = icons->big_food_surplus;
-        }
+      } else if (i > pcity->food_stock - 1) {
+        buf = icons->big_food_surplus;
       }
     }
 
   } else {
-    /* without granary */
-    /* stocks label */
+    /* Without granary */
+    /* Stocks label */
     copy_chars_to_utf8_str(pstr, _("Stock"));
     buf = create_text_surf_from_utf8(pstr);
 
@@ -3061,9 +3060,9 @@ static void redraw_city_dialog(struct city *pcity)
     alphablit(buf, NULL, pwindow->dst->surface, &dest, 255);
     FREESURFACE(buf);
 
-    /* food stock */
+    /* Food stock */
 
-    /* draw bcgd */
+    /* Draw bcgd */
     dest.x = pwindow->size.x + adj_size(462);
     dest.y = pwindow->size.y + adj_size(260);
     dest.w = adj_size(144);
@@ -3076,7 +3075,7 @@ static void redraw_city_dialog(struct city *pcity)
                  dest.x - 1, dest.y - 1, dest.w, dest.h,
                  get_theme_color(COLOR_THEME_CITYDLG_FRAME));
 
-    /* draw icons */
+    /* Draw icons */
     cost = city_granary_size(city_size_get(pcity));
     if (pcity->food_stock + pcity->surplus[O_FOOD] > cost) {
       count = cost;
@@ -3106,6 +3105,7 @@ static void redraw_city_dialog(struct city *pcity)
       dest.x += buf->w;
       count--;
       i++;
+
       if (dest.x > pwindow->size.x + adj_size(602)) {
         dest.x = pwindow->size.x + adj_size(464);
         dest.y += step;

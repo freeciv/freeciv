@@ -14,8 +14,10 @@
 #ifndef FC__CITYTURN_H
 #define FC__CITYTURN_H
 
+/* utility */
 #include "support.h"            /* bool type */
 
+/* common */
 #include "fc_types.h"
 
 struct conn_list;
@@ -37,7 +39,8 @@ bool city_reduce_size(struct city *pcity, citizens pop_loss,
 void city_repair_size(struct city *pcity, int change);
 
 bool city_empty_food_stock(struct city *pcity);
-int city_granary_savings(const struct city *pcity);
+int city_growth_granary_savings(const struct city *pcity);
+int city_shrink_granary_savings(const struct city *pcity);
 
 void send_city_turn_notifications(struct connection *pconn);
 void update_city_activities(struct player *pplayer);

@@ -1270,8 +1270,17 @@ reqs	=
       "OutputType", "shield", "local"
     }
 
-[effect_granary]
+[effect_granary_grow]
 type    = "Growth_Food"
+value	= 50
+reqs	=
+    { "type", "name", "range", "present"
+      "Building", "Granary", "City", TRUE
+      "Building", "Pyramids", "Player", FALSE
+    }
+
+[effect_granary_shrink]
+type    = "Shrink_Food"
 value	= 50
 reqs	=
     { "type", "name", "range", "present"
@@ -2080,8 +2089,16 @@ reqs	=
       "Tech", "Mysticism", "Player"
     }
 
-[effect_pyramids]
+[effect_pyramids_grow]
 type    = "Growth_Food"
+value	= 50
+reqs	=
+    { "type", "name", "range"
+      "Building", "Pyramids", "Player"
+    }
+
+[effect_pyramids_shrink]
+type    = "Shrink_Food"
 value	= 50
 reqs	=
     { "type", "name", "range"

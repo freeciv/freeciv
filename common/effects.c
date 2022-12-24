@@ -226,12 +226,24 @@ void effect_remove(struct effect *peffect)
 }
 
 /**********************************************************************//**
-  Return new copy of the effect
+  Create copy of the effect. It gets fully registered to
+  the ruleset caches.
+
+  @old           Original effect to copy
+  @override_type Type of the effect to create, or effect_type_invalid()
+                 to copy type from the original effect
+
+  @return        Newly created effect
 **************************************************************************/
-struct effect *effect_copy(struct effect *old)
+struct effect *effect_copy(struct effect *old,
+                           enum effect_type override_type)
 {
-  struct effect *new_eff = effect_new(old->type, old->value,
-                                      old->multiplier);
+  struct effect *new_eff;
+  enum effect_type type = (effect_type_is_valid(override_type)
+                           ? override_type
+                           : old->type);
+
+  new_eff = effect_new(type, old->value, old->multiplier);
 
   requirement_vector_iterate(&old->reqs, preq) {
     effect_req_append(new_eff, *preq);

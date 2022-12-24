@@ -347,7 +347,7 @@ Gov_Center
     waste depends on distance to nearest such city.
 
 Growth_Food
-    Food left after cities grow or shrink is amount percent of the capacity of
+    Food left after cities grow is amount percent of the capacity of
     the city's foodbox. This also affects the 'aqueductloss' penalty.
 
 Happiness_To_Gold
@@ -593,6 +593,10 @@ Shield2Gold_Factor
     A value of 200 would transfer 1 shield upkeep to 2 gold upkeep. The range
     of this effect must be player or world. Note that only units with the
     "Shield2Gold" flag will be affected by this.
+
+Shrink_Food
+    Food left after cities shrink is amount percent of the capacity of
+    the city's foodbox.
 
 Size_Adj
     Increase maximum size of a city by amount.

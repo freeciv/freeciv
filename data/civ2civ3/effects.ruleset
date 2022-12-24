@@ -2181,8 +2181,8 @@ reqs    =
       "OutputType", "Food", "local"
     }
 
-; Free Granary effect in small cities
-[effect_granary_base]
+; Free Granary effects in small cities
+[effect_granary_base_grow]
 type    = "Growth_Food"
 value   = 50
 reqs   =
@@ -2190,8 +2190,16 @@ reqs   =
       "MinSize", "4", "City", FALSE
     }
 
+[effect_granary_base_shrink]
+type    = "Shrink_Food"
+value   = 50
+reqs   =
+    { "type", "name", "range", "present"
+      "MinSize", "4", "City", FALSE
+    }
+
 ; Granary size fixed to 10
-[effect_granary_0]
+[effect_granary_0_grow]
 type    = "Growth_Food"
 value   = 50
 reqs    =
@@ -2201,8 +2209,18 @@ reqs    =
       "MinSize", "5", "City", FALSE
     }
 
+[effect_granary_0_shrink]
+type    = "Shrink_Food"
+value   = 50
+reqs    =
+    { "type", "name", "range", "present"
+      "Building", "Granary", "City", TRUE
+      "MinSize", "4", "City", TRUE
+      "MinSize", "5", "City", FALSE
+    }
+
 ; Size adjusted when Foodbox increases
-[effect_granary_1]
+[effect_granary_1_grow]
 type    = "Growth_Food"
 value   = 34
 reqs    =
@@ -2212,9 +2230,28 @@ reqs    =
       "MinSize", "7", "City", FALSE
     }
 
+[effect_granary_1_shrink]
+type    = "Shrink_Food"
+value   = 34
+reqs    =
+    { "type", "name", "range", "present"
+      "Building", "Granary", "City", TRUE
+      "MinSize", "5", "City", TRUE
+      "MinSize", "7", "City", FALSE
+    }
+
 ; Size adjusted when Foodbox increases
-[effect_granary_2]
+[effect_granary_2_grow]
 type    = "Growth_Food"
+value   = 25
+reqs    =
+    { "type", "name", "range"
+      "Building", "Granary", "City"
+      "MinSize", "7", "City"
+    }
+
+[effect_granary_2_shrink]
+type    = "Shrink_Food"
 value   = 25
 reqs    =
     { "type", "name", "range"

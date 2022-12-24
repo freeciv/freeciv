@@ -70,9 +70,8 @@ struct multiplier;
 #define SPECENUM_VALUE14NAME "Give_Imm_Tech"
 #define SPECENUM_VALUE15 EFT_GROWTH_FOOD
 #define SPECENUM_VALUE15NAME "Growth_Food"
-/* reduced illness due to buildings ... */
-#define SPECENUM_VALUE16 EFT_HEALTH_PCT
-#define SPECENUM_VALUE16NAME "Health_Pct"
+#define SPECENUM_VALUE16 EFT_SHRINK_FOOD
+#define SPECENUM_VALUE16NAME "Shrink_Food"
 #define SPECENUM_VALUE17 EFT_HAVE_EMBASSIES
 #define SPECENUM_VALUE17NAME "Have_Embassies"
 #define SPECENUM_VALUE18 EFT_MAKE_CONTENT
@@ -331,15 +330,18 @@ struct multiplier;
 #define SPECENUM_VALUE133NAME "HP_Regen_2"
 #define SPECENUM_VALUE134 EFT_TECH_PARASITE_PCT_MAX
 #define SPECENUM_VALUE134NAME "Tech_Parasite_Pct_Max"
+/* Reduced illness due to buildings ... */
+#define SPECENUM_VALUE135 EFT_HEALTH_PCT
+#define SPECENUM_VALUE135NAME "Health_Pct"
 /* Ruleset specific effects for use from Lua scripts */
-#define SPECENUM_VALUE135 EFT_USER_EFFECT_1
-#define SPECENUM_VALUE135NAME "User_Effect_1"
-#define SPECENUM_VALUE136 EFT_USER_EFFECT_2
-#define SPECENUM_VALUE136NAME "User_Effect_2"
-#define SPECENUM_VALUE137 EFT_USER_EFFECT_3
-#define SPECENUM_VALUE137NAME "User_Effect_3"
-#define SPECENUM_VALUE138 EFT_USER_EFFECT_4
-#define SPECENUM_VALUE138NAME "User_Effect_4"
+#define SPECENUM_VALUE136 EFT_USER_EFFECT_1
+#define SPECENUM_VALUE136NAME "User_Effect_1"
+#define SPECENUM_VALUE137 EFT_USER_EFFECT_2
+#define SPECENUM_VALUE137NAME "User_Effect_2"
+#define SPECENUM_VALUE138 EFT_USER_EFFECT_3
+#define SPECENUM_VALUE138NAME "User_Effect_3"
+#define SPECENUM_VALUE139 EFT_USER_EFFECT_4
+#define SPECENUM_VALUE139NAME "User_Effect_4"
 /* Keep this last */
 #define SPECENUM_COUNT EFT_COUNT
 #include "specenum_gen.h"
@@ -387,7 +389,8 @@ struct effect {
 
 struct effect *effect_new(enum effect_type type, int value,
                           struct multiplier *pmul);
-struct effect *effect_copy(struct effect *old);
+struct effect *effect_copy(struct effect *old,
+                           enum effect_type override_type);
 void effect_free(struct effect *peffect);
 void effect_remove(struct effect *peffect);
 void effect_req_append(struct effect *peffect, struct requirement req);

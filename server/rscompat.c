@@ -337,6 +337,15 @@ bool rscompat_names(struct rscompat_info *info)
 **************************************************************************/
 static bool effect_list_compat_cb(struct effect *peffect, void *data)
 {
+  struct rscompat_info *info = (struct rscompat_info *)data;
+
+  if (info->version < RSFORMAT_3_2) {
+    if (peffect->type == EFT_GROWTH_FOOD) {
+      /* Equivalent Shrink_Food effect for each old Growth_Food */
+      effect_copy(peffect, EFT_SHRINK_FOOD);
+    }
+  }
+
   /* Go to the next effect. */
   return TRUE;
 }

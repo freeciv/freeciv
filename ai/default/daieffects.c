@@ -294,7 +294,10 @@ adv_want dai_effect_value(struct player *pplayer,
   case EFT_GROWTH_FOOD:
     /* FIXME: As total value is clipped 0 ... 100, single
      *        effect should have no value at all in some cases. */
-    v += c * 4 + (amount / 7) * pcity->surplus[O_FOOD];
+    v += c * 4 + (amount / 10) * MAX(pcity->surplus[O_FOOD], 0);
+    break;
+  case EFT_SHRINK_FOOD:
+    v += c * 4 + (amount / 15) * MAX(-pcity->surplus[O_FOOD], 1);
     break;
   case EFT_POPCOST_FREE:
     v += amount * city_granary_size(pcity->size) / 10;

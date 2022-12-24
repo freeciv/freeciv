@@ -122,8 +122,16 @@ reqs	=
       "Tech", "Government", "Player"
     }
 
-[effect_granary_pottery]
+[effect_granary_pottery_grow]
 type    = "Growth_Food"
+value   = 15
+reqs	=
+    { "type", "name", "range"
+      "Tech", "Pottery", "Player"
+    }
+
+[effect_granary_pottery_shrink]
+type    = "Shrink_Food"
 value   = 15
 reqs	=
     { "type", "name", "range"
