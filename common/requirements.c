@@ -5122,9 +5122,11 @@ enum fc_tristate default_tester_cb
     const struct requirement *req,
     void *data, int n_data)
 {
+  int i;
+
   fc_assert_ret_val(data || n_data == 0, TRI_NO);
 
-  for (int i = 0; i < n_data; i++) {
+  for (i = 0; i < n_data; i++) {
     if (are_requirements_contradictions(&((struct requirement *) data)[i],
                                         req)) {
       return TRI_NO;
@@ -5132,6 +5134,7 @@ enum fc_tristate default_tester_cb
       return TRI_YES;
     }
   }
+
   return tri_req_active(context, other_player, req);
 }
 
