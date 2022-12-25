@@ -367,6 +367,9 @@
 /* vsnprintf() available */
 #mesondefine HAVE_VSNPRINTF
 
+/* localtime_r() available */
+#mesondefine HAVE_LOCALTIME_R
+
 /* _longjmp() available */
 #mesondefine HAVE__LONGJMP
 

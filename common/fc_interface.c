@@ -55,6 +55,8 @@ struct functions *fc_interface_funcs(void)
 ****************************************************************************/
 void fc_interface_init(void)
 {
+  fc_support_init();
+
   fc_funcs = &fc_functions;
 
   /* Test the existence of each required function here! */
@@ -69,8 +71,6 @@ void fc_interface_init(void)
   fc_assert_exit(fc_funcs->gui_color_free);
 
   fc_funcs_defined = TRUE;
-
-  fc_strAPI_init();
 
   setup_real_activities_array();
 }
@@ -87,6 +87,5 @@ void free_libfreeciv(void)
   free_user_home_dir();
   free_fileinfo_data();
   netfile_free();
-  fc_strAPI_free();
   fc_support_free();
 }

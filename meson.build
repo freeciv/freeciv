@@ -283,7 +283,8 @@ priv_functions = [
   'fcntl',
   'ioctl',
   'vsnprintf',
-  'va_copy'
+  'va_copy',
+  'localtime_r'
   ]
 
 foreach func : priv_functions
