@@ -1,0 +1,19 @@
+diff -Nurd SDL2_gfx-origoloili/SDL2_rotozoom.h SDL2_gfx/SDL2_rotozoom.h
+--- SDL2_gfx-origoloili/SDL2_rotozoom.h	2022-12-19 17:07:09.824987663 +0200
++++ SDL2_gfx/SDL2_rotozoom.h	2022-12-19 17:04:56.560685414 +0200
+@@ -41,7 +41,14 @@
+ #define M_PI	3.1415926535897932384626433832795
+ #endif
+ 
+-#include "SDL.h"
++#include "fc_prehdrs.h"
++
++/* SDL2 */
++#ifdef SDL2_PLAIN_INCLUDE
++#include <SDL.h>
++#else  /* SDL2_PLAIN_INCLUDE */
++#include <SDL2/SDL.h>
++#endif /* SDL2_PLAIN_INCLUDE */
+ 
+ 	/* ---- Defines */
+ 

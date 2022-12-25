@@ -1,0 +1,6 @@
+Sources here are taken from SDL2_gfx-1.0.4
+(http://www.ferzkopp.net/Software/SDL2_gfx/SDL2_gfx-1.0.4.tar.gz)
+
+Only files required by freeciv are included.
+Changes applied to included SDL2_gfx source files are included in
+freeciv_sdl2_gfx.patch
