@@ -110,8 +110,12 @@
 
 #ifndef HAVE_WORKING_VSNPRINTF
 static char *vsnprintf_buf = NULL;
-fc_mutex vsnprintf_mutex;
+static fc_mutex vsnprintf_mutex;
 #endif /* HAVE_WORKING_VSNPRINTF */
+
+#ifndef HAVE_LOCALTIME_R
+static fc_mutex localtime_mutex;
+#endif /* HAVE_LOCALTIME_R */
 
 /***************************************************************
   Compare strings like strcmp(), but ignoring case.
@@ -810,18 +814,18 @@ int fc_vsnprintf(char *str, size_t n, const char *format, va_list ap)
       exit(EXIT_FAILURE);
     }
 
+    fc_allocate_mutex(&vsnprintf_mutex);
+
     if (vsnprintf_buf == NULL) {
-      fc_init_mutex(&vsnprintf_mutex);
       vsnprintf_buf = malloc(VSNP_BUF_SIZE);
 
       if (vsnprintf_buf == NULL) {
         fprintf(stderr, "Could not allocate %i bytes for vsnprintf() "
                 "replacement.", VSNP_BUF_SIZE);
+        fc_release_mutex(&vsnprintf_mutex);
         exit(EXIT_FAILURE);
       }
     }
-
-    fc_allocate_mutex(&vsnprintf_mutex);
 
     vsnprintf_buf[VSNP_BUF_SIZE - 1] = '\0';
 
@@ -1194,6 +1198,22 @@ const char *fc_basename(const char *path)
 }
 
 /*****************************************************************
+  Thread safe localtime() replacement
+*****************************************************************/
+struct tm *fc_localtime(const time_t *timep, struct tm *result)
+{
+#ifdef HAVE_LOCALTIME_R
+  return localtime_r(timep, result);
+#else  /* HAVE_LOCALTIME_R */
+  fc_allocate_mutex(&localtime_mutex);
+  memcpy(result, localtime(timep), sizeof(struct tm));
+  fc_release_mutex(&localtime_mutex);
+
+  return result;
+#endif /* HAVE_LOCALTIME_R */
+}
+
+/*****************************************************************
   Set quick_exit() callback if possible.
 *****************************************************************/
 int fc_at_quick_exit(void (*func)(void))
@@ -1206,6 +1226,20 @@ int fc_at_quick_exit(void (*func)(void))
 }
 
 /*****************************************************************
+  Initialize support module.
+*****************************************************************/
+void fc_support_init(void)
+{
+#ifndef HAVE_WORKING_VSNPRINTF
+  fc_init_mutex(&vsnprintf_mutex);
+#endif /* HAVE_WORKING_VSNPRINTF */
+
+#ifndef HAVE_LOCALTIME_R
+  fc_init_mutex(&localtime_mutex);
+#endif /* HAVE_LOCALTIME_R */
+}
+
+/*****************************************************************
   Free misc resources allocated by the support module.
 *****************************************************************/
 void fc_support_free(void)
@@ -1214,7 +1248,11 @@ void fc_support_free(void)
   if (vsnprintf_buf != NULL) {
     free(vsnprintf_buf);
     vsnprintf_buf = NULL;
-    fc_destroy_mutex(&vsnprintf_mutex);
   }
+  fc_destroy_mutex(&vsnprintf_mutex);
 #endif /* HAVE_WORKING_VSNPRINTF */
+
+#ifndef HAVE_LOCALTIME_R
+  fc_destroy_mutex(&localtime_mutex);
+#endif /* HAVE_LOCALTIME_R */
 }

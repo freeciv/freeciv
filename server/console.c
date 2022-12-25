@@ -120,10 +120,11 @@ static const char *log_prefix(void)
 #ifdef LOG_TIMERS
   char timestr[32];
   time_t timestamp;
+  struct tm tr;
 
   time(&timestamp);
   strftime(timestr, sizeof(timestr), "%Y/%m/%d %H:%M:%S",
-           localtime(&timestamp));
+           fc_localtime(&timestamp, &tr));
 
   fc_snprintf(buf, sizeof(buf), "T%03d - %s", game.info.turn, timestr);
 

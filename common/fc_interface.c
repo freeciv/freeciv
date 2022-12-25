@@ -53,6 +53,8 @@ struct functions *fc_interface_funcs(void)
 **************************************************************************/
 void fc_interface_init(void)
 {
+  fc_support_init();
+
   fc_funcs = &fc_functions;
 
   /* Test the existence of each required function here! */

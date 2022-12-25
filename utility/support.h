@@ -124,6 +124,7 @@ int fc_strcasecmp(const char *str0, const char *str1);
 int fc_strncasecmp(const char *str0, const char *str1, size_t n);
 int fc_strncasequotecmp(const char *str0, const char *str1, size_t n);
 
+void fc_support_init(void);
 void fc_support_free(void);
 
 size_t effectivestrlenquote(const char *str);
@@ -190,6 +191,8 @@ char fc_toupper(char c);
 char fc_tolower(char c);
 
 const char *fc_basename(const char *path);
+
+struct tm *fc_localtime(const time_t *timep, struct tm *result);
 
 void make_escapes(const char *str, char *buf, size_t buf_len);
 void remove_escapes(const char *str, bool full_escapes,
