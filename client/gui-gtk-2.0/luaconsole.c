@@ -465,11 +465,11 @@ void real_luaconsole_append(const char *astring,
   if (gui_options.gui_gtk2_show_chat_message_time) {
     char timebuf[64];
     time_t now;
-    struct tm *now_tm;
+    struct tm now_tm;
 
     now = time(NULL);
-    now_tm = localtime(&now);
-    strftime(timebuf, sizeof(timebuf), "[%H:%M:%S] ", now_tm);
+    fc_localtime(&now, &now_tm);
+    strftime(timebuf, sizeof(timebuf), "[%H:%M:%S] ", &now_tm);
     gtk_text_buffer_insert(buf, &iter, timebuf, -1);
   }
 
