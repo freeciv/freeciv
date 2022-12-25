@@ -868,9 +868,7 @@ void unit_activities_cancel_all_illegal_area(const struct tile *ptile)
 }
 
 /**********************************************************************//**
-  Progress settlers in their current tasks,
-  and units that is pillaging.
-  also move units that is on a goto.
+  Progress settlers in their current tasks, and units that is pillaging.
   Restore unit move points (information needed for settler tasks)
 **************************************************************************/
 static void update_unit_activity(struct unit *punit)
@@ -880,7 +878,7 @@ static void update_unit_activity(struct unit *punit)
   enum unit_activity activity = punit->activity;
   struct tile *ptile = unit_tile(punit);
   const struct unit_type *act_utype = unit_type_get(punit);
-  
+
   switch (activity) {
   case ACTIVITY_IDLE:
   case ACTIVITY_EXPLORE:
@@ -888,7 +886,7 @@ static void update_unit_activity(struct unit *punit)
   case ACTIVITY_SENTRY:
   case ACTIVITY_GOTO:
   case ACTIVITY_LAST:
-    /*  We don't need the activity_count for the above */
+    /* We don't need the activity_count for the above */
     break;
 
   case ACTIVITY_FORTIFYING:
@@ -919,6 +917,10 @@ static void update_unit_activity(struct unit *punit)
   unit_restore_movepoints(pplayer, punit);
 
   switch (activity) {
+  case ACTIVITY_EXPLORE:
+    /* Not accumulating activity - will be handled more like movement
+     * after the TC */
+    fc__fallthrough;
   case ACTIVITY_IDLE:
   case ACTIVITY_FORTIFIED:
   case ACTIVITY_SENTRY:
@@ -929,12 +931,8 @@ static void update_unit_activity(struct unit *punit)
     /* No default, ensure all handled */
     break;
 
-  case ACTIVITY_EXPLORE:
-    do_explore(punit);
-    return;
-
   case ACTIVITY_PILLAGE:
-    if (total_activity_done(ptile, ACTIVITY_PILLAGE, 
+    if (total_activity_done(ptile, ACTIVITY_PILLAGE,
                             punit->activity_target)) {
       destroy_extra(ptile, punit->activity_target);
       unit_activity_done = TRUE;
@@ -2578,7 +2576,7 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
 }
 
 /**********************************************************************//**
-  Package a unit_info packet.  This packet contains basically all
+  Package a unit_info packet. This packet contains basically all
   information about a unit.
 **************************************************************************/
 void package_unit(struct unit *punit, struct packet_unit_info *packet)

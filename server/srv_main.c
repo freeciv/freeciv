@@ -1220,7 +1220,7 @@ static void begin_phase(bool is_new_phase)
 
   /* Must be the first thing as it is needed for lots of functions below! */
   phase_players_iterate(pplayer) {
-    /* human players also need this for building advice */
+    /* Human players also need this for building advice */
     adv_data_phase_init(pplayer, is_new_phase);
     CALL_PLR_AI_FUNC(phase_begin, pplayer, pplayer, is_new_phase);
   } phase_players_iterate_end;
@@ -1280,8 +1280,6 @@ static void begin_phase(bool is_new_phase)
         /* Removed */
         continue;
       }
-      random_movements(pplayer);
-      execute_unit_orders(pplayer);
       flush_packets();
     } phase_players_iterate_end;
 
@@ -1308,7 +1306,7 @@ static void begin_phase(bool is_new_phase)
     send_player_cities(pplayer);
   } phase_players_iterate_end;
 
-  flush_packets();  /* to curb major city spam */
+  flush_packets(); /* To curb major city spam */
   conn_list_do_unbuffer(game.est_connections);
 
   alive_phase_players_iterate(pplayer) {
@@ -1324,8 +1322,24 @@ static void begin_phase(bool is_new_phase)
       }
     } phase_players_iterate_end;
 
+    /* Spend random movement move points before any controlled actions */
+    phase_players_iterate(pplayer) {
+      random_movements(pplayer);
+    } phase_players_iterate_end;
+
     log_debug("Aistartturn");
     ai_start_phase();
+
+    flush_packets();
+    phase_players_iterate(pplayer) {
+      unit_list_iterate_safe(pplayer->units, punit) {
+        if (punit->activity == ACTIVITY_EXPLORE) {
+          do_explore(punit);
+        }
+      } unit_list_iterate_safe_end;
+      execute_unit_orders(pplayer);
+      flush_packets();
+    } phase_players_iterate_end;
   } else {
     phase_players_iterate(pplayer) {
       if (is_ai(pplayer)) {
@@ -1354,14 +1368,14 @@ static void begin_phase(bool is_new_phase)
 }
 
 /**********************************************************************//**
-  End a phase of movement.  This handles all end-of-phase actions
+  End a phase of movement. This handles all end-of-phase actions
   for one or more players.
 **************************************************************************/
 static void end_phase(void)
 {
   log_debug("Endphase");
 
-  /* 
+  /*
    * This empties the client Messages window; put this before
    * everything else below, since otherwise any messages from the
    * following parts get wiped out before the user gets a chance to
