@@ -16,20 +16,24 @@
                              -------------------
     begin                : Mon Jul 1 2002
     copyright            : (C) 2000 by Michael Speck
-			 : (C) 2002 by Rafał Bursig
+                         : (C) 2002 by Rafał Bursig
     email                : Michael Speck <kulkanie@gmx.net>
-			 : Rafał Bursig <bursig@poczta.fm>
+                         : Rafał Bursig <bursig@poczta.fm>
 ***********************************************************************/
 
 #ifndef FC__GRAPHICS_H
 #define FC__GRAPHICS_H
 
 /* SDL */
+#ifdef SDL2_GFX_FROM_TREE
+#include "SDL2_gfx/SDL2_rotozoom.h"
+#else
 #ifdef SDL2_PLAIN_INCLUDE
 #include <SDL2_rotozoom.h>
 #else  /* SDL2_PLAIN_INCLUDE */
 #include <SDL2/SDL2_rotozoom.h>
 #endif /* SDL2_PLAIN_INCLUDE */
+#endif /* SDL2_GFX_FROM_TREE */
 
 /* client */
 #include "graphics_g.h"

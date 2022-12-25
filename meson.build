@@ -3125,6 +3125,19 @@ endif
 
 if get_option('clients').contains('sdl2')
 
+sdl2_gfx_dep = c_compiler.find_library('SDL2_gfx', dirs: cross_lib_path,
+                                       required: false)
+
+if not sdl2_gfx_dep.found()
+  sdl2_gfx_src = 'dependencies/SDL2_gfx/SDL2_rotozoom.c'
+  sdl2_gfx_inc = include_directories('dependencies')
+  sdl2_gfx_cargs = '-DSDL2_GFX_FROM_TREE'
+else
+  sdl2_gfx_src = []
+  sdl2_gfx_inc = []
+  sdl2_gfx_cargs = []
+endif
+
 executable('freeciv-sdl2',
   'client/gui-sdl2/action_dialog.c',
   'client/gui-sdl2/canvas.c',
@@ -3175,11 +3188,13 @@ executable('freeciv-sdl2',
   'client/gui-sdl2/widget_scrollbar.c',
   'client/gui-sdl2/widget_window.c',
   'client/gui-sdl2/wldlg.c',
+  sdl2_gfx_src,
   clienticon,
-  include_directories: client_inc,
+  c_args: sdl2_gfx_cargs,
+  include_directories: [client_inc, sdl2_gfx_inc ],
   dependencies: [sdl2main_dep, audio_dep,
                  c_compiler.find_library('SDL2_image', dirs: cross_lib_path),
-                 c_compiler.find_library('SDL2_gfx', dirs: cross_lib_path),
+                 sdl2_gfx_dep,
                  c_compiler.find_library('SDL2_ttf', dirs: cross_lib_path),
                  net_dep, gettext_dep],
   link_with: client_common,
