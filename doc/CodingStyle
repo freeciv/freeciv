@@ -529,9 +529,10 @@ modular, so there are some observations to do:
 utility/support.[ch] module contains low level functions that should be used
 instead of ones from c-library or other sources. Most of those functions
 have the 'fc_' prefix in their name. They are more portable (i.e always
-available with the freeciv source code) and often more secure that the
+available with the freeciv source code) and often more secure than the
 functions available natively.
 
+- Instead of localtime(), use fc_localtime()
 
 ============================================================================
   Miscellaneous
