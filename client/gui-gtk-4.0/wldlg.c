@@ -709,7 +709,6 @@ static void queue_insert(struct worklist_data *ptr, bool prepend)
   GtkTreeModel *model;
   GtkTreeIter it;
   GtkTreePath *path;
-
   GtkTreeModel *src_model, *dst_model;
   GtkTreeIter src_it, dst_it;
   gint i, ncols;
@@ -902,11 +901,11 @@ static void src_selection_callback(GtkTreeSelection *selection, gpointer data)
 
   ptr = data;
 
-  /* update widget sensitivity. */
+  /* Update widget sensitivity. */
   if (gtk_tree_selection_get_selected(selection, NULL, NULL)) {
     if (can_client_issue_orders()
         && (!ptr->pcity || city_owner(ptr->pcity) == client.conn.playing)) {
-      /* if ptr->pcity is NULL, this is a global worklist */
+      /* If ptr->pcity is NULL, this is a global worklist */
       gtk_widget_set_sensitive(ptr->change_cmd, TRUE);
       gtk_widget_set_sensitive(ptr->prepend_cmd, TRUE);
       gtk_widget_set_sensitive(ptr->append_cmd, TRUE);
@@ -933,7 +932,7 @@ static void dst_selection_callback(GtkTreeSelection *selection, gpointer data)
 
   ptr = data;
 
-  /* update widget sensitivity. */
+  /* Update widget sensitivity. */
   if (gtk_tree_selection_count_selected_rows(selection) > 0) {
     int num_rows = 0;
     GtkTreeIter it;
@@ -956,19 +955,6 @@ static void dst_selection_callback(GtkTreeSelection *selection, gpointer data)
     gtk_widget_set_sensitive(ptr->remove_cmd, FALSE);
   }
 }
-
-/************************************************************************//**
-  Drag&drop to destination
-****************************************************************************/
-#ifdef GTK3_DRAG_DROP
-static gboolean dst_dnd_callback(GtkWidget *w, GdkDragContext *context,
-                                 struct worklist_data *ptr)
-{
-  commit_worklist(ptr);
-
-  return FALSE;
-}
-#endif /* GTK3_DRAG_DROP */
 
 /************************************************************************//**
   Render worklist cell
@@ -1050,8 +1036,8 @@ static void populate_view(GtkTreeView *view, struct city **ppcity,
 
   rend = gtk_cell_renderer_pixbuf_new();
 
-  gtk_tree_view_insert_column_with_data_func(view,
-                   i, titles[i], rend, cell_render_func, ppcity, NULL);
+  gtk_tree_view_insert_column_with_data_func(view, i, titles[i], rend,
+                                             cell_render_func, ppcity, NULL);
   col = gtk_tree_view_get_column(view, i);
 
   if (GUI_GTK_OPTION(show_task_icons)) {
@@ -1117,6 +1103,28 @@ static gboolean wl_right_button_up(GtkGestureClick *gesture,
 }
 
 /************************************************************************//**
+  Receive drag&drop
+****************************************************************************/
+static gboolean drag_drop(GtkDropTarget *target, const GValue *value,
+                          double x, double y, gpointer data)
+{
+  struct worklist_data *ptr = (struct worklist_data *)data;
+  GtkTreeIter it;
+  char buf[8192];
+  cid id = g_value_get_int(value);
+  struct universal univ;
+
+  univ = cid_production(id);
+  gtk_list_store_append(ptr->dst, &it);
+  gtk_list_store_set(ptr->dst, &it, 0, id, 1,
+                     production_help(&univ, buf, sizeof(buf)), -1);
+
+  commit_worklist(ptr);
+
+  return TRUE;
+}
+
+/************************************************************************//**
   Worklist editor shell.
 ****************************************************************************/
 GtkWidget *create_worklist(void)
@@ -1132,6 +1140,7 @@ GtkWidget *create_worklist(void)
   int editor_row = 0;
   GtkEventController *controller;
   GtkGesture *gesture;
+  GtkDropTarget *dnd_tgt;
 
   ptr = fc_malloc(sizeof(*ptr));
 
@@ -1327,10 +1336,10 @@ GtkWidget *create_worklist(void)
   /* DND and other state changing callbacks. */
   gtk_tree_view_set_reorderable(GTK_TREE_VIEW(dst_view), TRUE);
 
-#ifdef GTK3_DRAG_DROP
-  g_signal_connect(dst_view, "drag_end",
-                   G_CALLBACK(dst_dnd_callback), ptr);
-#endif /* GTK3_DRAG_DROP */
+  dnd_tgt = gtk_drop_target_new(G_TYPE_INT, GDK_ACTION_COPY);
+
+  g_signal_connect(dnd_tgt, "drop", G_CALLBACK(drag_drop), ptr);
+  gtk_widget_add_controller(GTK_WIDGET(dst_view), GTK_EVENT_CONTROLLER(dnd_tgt));
 
   controller = gtk_event_controller_key_new();
   g_signal_connect(controller, "key-pressed",
@@ -1361,11 +1370,75 @@ GtkWidget *create_worklist(void)
 }
 
 /************************************************************************//**
+  Prepare data for drag&drop
+****************************************************************************/
+static GdkContentProvider *drag_prepare(GtkDragSource *source,
+                                        double x, double y,
+                                        gpointer data)
+{
+  GtkTreeIter it;
+  struct worklist_data *ptr = (struct worklist_data *)data;
+
+  if (gtk_tree_selection_get_selected(ptr->src_selection, NULL, &it)) {
+    gint id;
+    GdkContentProvider *provider;
+
+    gtk_tree_model_get(GTK_TREE_MODEL(ptr->src), &it, 0, &id, -1);
+
+    provider = gdk_content_provider_new_typed(G_TYPE_INT, id);
+
+    gtk_drag_source_set_content(source, provider);
+
+    return provider;
+  }
+
+  return NULL;
+}
+
+/************************************************************************//**
+  Set drag icon
+****************************************************************************/
+static void drag_begin(GtkDragSource *source, GdkDrag *drag,
+                       gpointer *data)
+{
+  GdkContentProvider *content = gtk_drag_source_get_content(source);
+  GValue val = { 0, };
+  GdkPaintable *paintable;
+  cid id;
+  struct universal target;
+  struct sprite *sprite;
+  GdkPixbuf *pix;
+  GtkWidget *img;
+
+  g_value_init(&val, G_TYPE_INT);
+  if (gdk_content_provider_get_value(content, &val, NULL)) {
+    id = g_value_get_int(&val);
+    target = cid_production(id);
+
+    if (VUT_UTYPE == target.kind) {
+      sprite = sprite_scale(get_unittype_sprite(tileset, target.value.utype,
+                                                direction8_invalid()),
+                            max_unit_width, max_unit_height);
+    } else {
+      sprite = get_building_sprite(tileset, target.value.building);
+    }
+    pix = sprite_get_pixbuf(sprite);
+    img = gtk_image_new_from_pixbuf(pix);
+
+    paintable = gtk_image_get_paintable(GTK_IMAGE(img));
+
+    gtk_drag_source_set_icon(source, paintable, 0, 0);
+    g_object_unref(paintable);
+  }
+}
+
+/************************************************************************//**
   Reset worklist for city
 ****************************************************************************/
 void reset_city_worklist(GtkWidget *editor, struct city *pcity)
 {
   struct worklist_data *ptr;
+  GtkDragSource *dnd_src;
 
   ptr = g_object_get_data(G_OBJECT(editor), "data");
 
@@ -1378,13 +1451,13 @@ void reset_city_worklist(GtkWidget *editor, struct city *pcity)
   g_object_set(ptr->src_col, "visible", TRUE, NULL);
   g_object_set(ptr->dst_col, "visible", TRUE, NULL);
 
-#ifdef GTK3_DRAG_DROP
-  gtk_tree_view_enable_model_drag_source(GTK_TREE_VIEW(ptr->src_view),
-                                         GDK_BUTTON1_MASK,
-                                         wl_dnd_targets,
-                                         G_N_ELEMENTS(wl_dnd_targets),
-                                         GDK_ACTION_COPY);
-#endif /* GTK3_DRAG_DROP */
+  dnd_src = gtk_drag_source_new();
+
+  g_signal_connect(dnd_src, "prepare", G_CALLBACK(drag_prepare), ptr);
+  g_signal_connect(dnd_src, "drag-begin", G_CALLBACK(drag_begin), ptr);
+
+  gtk_widget_add_controller(GTK_WIDGET(ptr->src_view),
+                            GTK_EVENT_CONTROLLER(dnd_src));
 }
 
 /************************************************************************//**
