@@ -1477,7 +1477,7 @@ native_to      = "Air", "Helicopter", "Missile"
 flags          = "Refuel", "NoStackDeath"
 helptext       = _("\
 Airbases allow your air units to land and refuel outside cities. \
-Air units in an airbase may be attacked by land units.\
+Air units in an airbase may be attacked also by land units.\
 "), _("\
 Units can paradrop from this tile.
 ")

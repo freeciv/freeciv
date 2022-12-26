@@ -1629,9 +1629,9 @@ flags         = "FieldUnit", "OneAttack", "Helicopter", "AirAttacker"
 roles         = ""
 helptext      = _("\
 The Helicopter is a very powerful unit, as it can both fly and\
- conquer cities.  Care must be exercised, because Helicopters lose a\
+ conquer cities. Care must be exercised, because Helicopters lose a\
  small amount of health for every turn not spent in a city or airbase\
- or on a Carrier, and they may be attacked by ground units.\
+ or on a Carrier, and they may be attacked also by ground units.\
 ")
 
 [unit_stealth_fighter]
