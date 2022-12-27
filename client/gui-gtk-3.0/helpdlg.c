@@ -202,9 +202,10 @@ static void create_tech_tree(int tech, int levels, GtkTreeIter *parent)
   bool          original;
   GtkTreeIter   l;
   GValue        value = { 0, };
+  enum tech_state state;
 
   if (advance_required(tech, AR_ONE) == A_LAST
-   && advance_required(tech, AR_TWO) == A_LAST) {
+      && advance_required(tech, AR_TWO) == A_LAST) {
     bg = COLOR_REQTREE_UNKNOWN;
 
     gtk_tree_store_append(tstore, &l, parent);
@@ -225,17 +226,21 @@ static void create_tech_tree(int tech, int levels, GtkTreeIter *parent)
 
   presearch = research_get(client_player());
 
-  bg = COLOR_REQTREE_BACKGROUND;
-  switch (research_invention_state(presearch, tech)) {
-  case TECH_UNKNOWN:
-    bg = COLOR_REQTREE_UNKNOWN;
-    break;
-  case TECH_KNOWN:
-    bg = COLOR_REQTREE_KNOWN;
-    break;
-  case TECH_PREREQS_KNOWN:
-    bg = COLOR_REQTREE_PREREQS_KNOWN;
-    break;
+  state = research_invention_state(presearch, tech);
+  if (tech_state_is_valid(state)) {
+    switch (state) {
+    case TECH_UNKNOWN:
+      bg = COLOR_REQTREE_UNKNOWN;
+      break;
+    case TECH_KNOWN:
+      bg = COLOR_REQTREE_KNOWN;
+      break;
+    case TECH_PREREQS_KNOWN:
+      bg = COLOR_REQTREE_PREREQS_KNOWN;
+      break;
+    }
+  } else {
+    bg = COLOR_REQTREE_BACKGROUND;
   }
   turns_to_tech = research_goal_unknown_techs(presearch, tech);
 
