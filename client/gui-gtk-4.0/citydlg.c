@@ -294,9 +294,10 @@ static void unit_sentry_callback(GSimpleAction *action, GVariant *parameter,
                                  gpointer data);
 static void unit_fortify_callback(GSimpleAction *action, GVariant *parameter,
                                   gpointer data);
+static void unit_disband_callback(GSimpleAction *action, GVariant *parameter,
+                                  gpointer data);
 
 #ifdef MENUS_GTK3
-static void unit_disband_callback(GtkWidget * w, gpointer data);
 static void unit_homecity_callback(GtkWidget * w, gpointer data);
 static void unit_upgrade_callback(GtkWidget * w, gpointer data);
 #endif /* MENUS_GTK3 */
@@ -2586,6 +2587,16 @@ static bool create_unit_menu(struct city_dialog *pdialog, struct unit *punit,
     g_menu_append_item(menu, item);
   }
 
+  act = g_simple_action_new("disband", NULL);
+  g_object_set_data(G_OBJECT(act), "dlg", pdialog);
+  g_action_map_add_action(G_ACTION_MAP(group), G_ACTION(act));
+  g_signal_connect(act, "activate", G_CALLBACK(unit_disband_callback),
+                   GINT_TO_POINTER(punit->id));
+  item = g_menu_item_new(_("_Disband unit"), "win.disband");
+  g_simple_action_set_enabled(G_SIMPLE_ACTION(act),
+                              unit_can_do_action(punit, ACTION_DISBAND_UNIT));
+  g_menu_append_item(menu, item);
+
   pdialog->popover = gtk_popover_menu_new_from_model(G_MENU_MODEL(menu));
   g_object_ref(pdialog->popover);
   gtk_widget_insert_action_group(pdialog->popover, "win", group);
@@ -2614,22 +2625,6 @@ static gboolean supported_unit_callback(GtkGestureClick *gesture, int n_press,
     return create_unit_menu(pdialog, punit,
                             gtk_event_controller_get_widget(GTK_EVENT_CONTROLLER(gesture)),
                             TRUE);
-
-#ifdef MENUS_GTK3
-    item = gtk_menu_item_new_with_mnemonic(_("_Disband unit"));
-    g_signal_connect(item, "activate",
-      G_CALLBACK(unit_disband_callback),
-      GINT_TO_POINTER(punit->id));
-    gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-
-    if (!unit_can_do_action(punit, ACTION_DISBAND_UNIT)) {
-      gtk_widget_set_sensitive(item, FALSE);
-    }
-
-    gtk_widget_show(menu);
-
-    gtk_menu_popup_at_pointer(GTK_MENU(menu), NULL);
-#endif /* MENUS_GTK3 */
   }
 
   return TRUE;
@@ -2655,16 +2650,6 @@ static gboolean present_unit_callback(GtkGestureClick *gesture, int n_press,
                             FALSE);
 
 #ifdef MENUS_GTK3
-    item = gtk_menu_item_new_with_mnemonic(_("_Disband unit"));
-    g_signal_connect(item, "activate",
-      G_CALLBACK(unit_disband_callback),
-      GINT_TO_POINTER(punit->id));
-    gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-
-    if (!unit_can_do_action(punit, ACTION_DISBAND_UNIT)) {
-      gtk_widget_set_sensitive(item, FALSE);
-    }
-
     item = gtk_menu_item_new_with_mnemonic(
           action_id_name_translation(ACTION_HOME_CITY));
     g_signal_connect(item, "activate",
@@ -2685,10 +2670,6 @@ static gboolean present_unit_callback(GtkGestureClick *gesture, int n_press,
                                         unit_type_get(punit))) {
       gtk_widget_set_sensitive(item, FALSE);
     }
-
-    gtk_widget_show(menu);
-
-    gtk_menu_popup_at_pointer(GTK_MENU(menu), NULL);
 #endif /* MENUS_GTK3 */
   }
 
@@ -2938,11 +2919,11 @@ static void unit_fortify_callback(GSimpleAction *action, GVariant *parameter,
   close_citydlg_unit_popover(g_object_get_data(G_OBJECT(action), "dlg"));
 }
 
-#ifdef MENUS_GTK3
 /***********************************************************************//**
   User has requested unit to be disbanded
 ***************************************************************************/
-static void unit_disband_callback(GtkWidget *w, gpointer data)
+static void unit_disband_callback(GSimpleAction *action, GVariant *parameter,
+                                  gpointer data)
 {
   struct unit_list *punits;
   struct unit *punit =
@@ -2956,8 +2937,11 @@ static void unit_disband_callback(GtkWidget *w, gpointer data)
   unit_list_append(punits, punit);
   popup_disband_dialog(punits);
   unit_list_destroy(punits);
+
+  close_citydlg_unit_popover(g_object_get_data(G_OBJECT(action), "dlg"));
 }
 
+#ifdef MENUS_GTK3
 /***********************************************************************//**
   User has requested unit to change homecity to city where it
   currently is
