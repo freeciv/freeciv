@@ -64,7 +64,9 @@ INSTSUB=${ARCHDIR}
 DLLPATH_PREFIX=/$(ARCHDIR)/bin/
 
 ifeq ($(CI),yes)
+TIFF=libtiff-5.dll
 else
+TIFF=libtiff-6.dll
 endif
 
 #
@@ -372,7 +374,7 @@ GTK4_FCMP_DLLS := \
 	liblzo2-2.dll \
 	libgraphite2.dll \
 	libdatrie-1.dll \
-	libtiff-5.dll \
+	$(TIFF) \
 	libjpeg-8.dll \
 	libLerc.dll \
 	libwebp-7.dll \
