@@ -374,7 +374,7 @@ GTK4_FCMP_DLLS := \
 	liblzo2-2.dll \
 	libgraphite2.dll \
 	libdatrie-1.dll \
-	libtiff-5.dll \
+	libtiff-6.dll \
 	libjpeg-8.dll \
 	libLerc.dll \
 	libwebp-7.dll \
