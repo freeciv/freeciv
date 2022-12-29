@@ -8,6 +8,7 @@
 #
 
 MESON_WINBUILD_VERSION="3.1.0-alpha"
+MIN_WINVER=0x0603 # Windows 8.1. Qt6-client and Qt6-ruledit builds override this
 CROSSER_FEATURE_LEVEL=2.5
 
 if test "x$1" = x || test "x$1" = "x-h" || test "x$1" = "x--help" ; then
@@ -86,10 +87,12 @@ case $GUI in
   qt6) CLIENT="qt"
        FCMP="qt"
        RULEDIT=true
+       MIN_WINVER=0x0A00
        QTPARAMS="-Dqtver=qt6" ;;
   ruledit) CLIENT="[]"
            FCMP="[]"
            RULEDIT=true
+           MIN_WINVER=0x0A00
            QTPARAMS="-Dqtver=qt6" ;;
 esac
 
@@ -138,6 +141,7 @@ export PATH="$DLLSPATH/linux/libexec:$PATH"
 if ! meson setup \
      --cross-file=cross.txt \
      -Dprefix="$MESON_INSTALL_DIR" \
+     -Dmin-win-ver="$MIN_WINVER" \
      -Dclients="$CLIENT" -Dfcmp="$FCMP" \
      -Dsyslua=false \
      -Dmwand=false \
