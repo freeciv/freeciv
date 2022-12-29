@@ -2525,7 +2525,7 @@ static struct unit *city_create_unit(struct city *pcity,
   if (pop_cost > 0 && pcity->nationality) {
     /* We don't reduce city size in-place to keep it correct and
      * existing at all while we call the following callback */
-    punit->nationality = citizens_unit_nationality(pcity, pop_cost, red);
+    citizens_unit_nationality(pcity, pop_cost, red);
   } else if (red) {
     red->change = 0;
   }
