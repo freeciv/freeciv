@@ -9,7 +9,7 @@ MAJOR_VERSION="3"
 MINOR_VERSION="1"
 PATCH_VERSION="0"
 EMERGENCY_VERSION=""
-VERSION_LABEL="-alpha5"
+VERSION_LABEL="-alpha5+"
 
 # Type is either "development" or "stable"
 # Date is relevant only for "stable" releases
