@@ -1400,7 +1400,7 @@ bool is_my_zoc(const struct player *pplayer, const struct tile *ptile0,
       continue;
     }
 
-    pcity = is_non_allied_city_tile(ptile, pplayer);
+    pcity = tile_non_allied_city(ptile, pplayer);
     if (pcity != NULL) {
       if ((srv && unit_list_size(ptile->units) > 0)
           || (!srv && (pcity->client.occupied

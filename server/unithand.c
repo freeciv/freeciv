@@ -1112,7 +1112,7 @@ static struct player *need_war_player_hlp(const struct unit *actor,
 
       struct city *tcity;
 
-      if ((tcity = is_non_attack_city_tile(target_tile, actor_player))) {
+      if ((tcity = tile_non_attack_city(target_tile, actor_player))) {
         return city_owner(tcity);
       }
     }
