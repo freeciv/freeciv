@@ -1326,7 +1326,7 @@ void rscompat_postprocess(struct rscompat_info *info)
 
     /* The fudge factor to more closely approximate Civ2 behavior has
      * moved to the ruleset. */
-     peffect = effect_new(EFT_TRADE_REVENUE_BONUS, 1585, NULL);
+     effect_new(EFT_TRADE_REVENUE_BONUS, 1585, NULL);
 
      /* Diplomatic incident from getting caught stealing tech has moved to
       * the ruleset. */
@@ -1526,7 +1526,7 @@ void rscompat_postprocess(struct rscompat_info *info)
 
      /* Conquering a city now steals tech only when there's an effect
       * enabling it. */
-     peffect = effect_new(EFT_CONQUEST_TECH_PCT, 100, NULL);
+     effect_new(EFT_CONQUEST_TECH_PCT, 100, NULL);
 
      /* Building Buy Cost modifications are unhardcoded. */
      peffect = effect_new(EFT_IMPR_BUY_COST_PCT, 100, NULL);
