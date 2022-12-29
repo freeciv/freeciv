@@ -681,21 +681,60 @@ struct city *city_list_find_name(struct city_list *This, const char *name);
 
 int city_name_compare(const void *p1, const void *p2);
 
-/* city style functions */
+/* City style functions */
 const char *city_style_rule_name(const int style);
 const char *city_style_name_translation(const int style);
 
 int city_style_by_rule_name(const char *s);
 int city_style_by_translated_name(const char *s);
 
-struct city *is_enemy_city_tile(const struct tile *ptile,
-				const struct player *pplayer);
-struct city *is_allied_city_tile(const struct tile *ptile,
-				 const struct player *pplayer);
-struct city *is_non_attack_city_tile(const struct tile *ptile,
-				     const struct player *pplayer);
-struct city *is_non_allied_city_tile(const struct tile *ptile,
-				     const struct player *pplayer);
+struct city *tile_enemy_city(const struct tile *ptile,
+                             const struct player *pplayer);
+
+/**********************************************************************//**
+  Is there an enemy city on the tile?
+**************************************************************************/
+static inline bool is_enemy_city_tile(const struct tile *ptile,
+                                      const struct player *pplayer)
+{
+  return NULL != tile_enemy_city(ptile, pplayer);
+}
+
+struct city *tile_allied_city(const struct tile *ptile,
+                              const struct player *pplayer);
+
+/**********************************************************************//**
+  Is there an allied city on the tile?
+**************************************************************************/
+static inline bool is_allied_city_tile(const struct tile *ptile,
+                                       const struct player *pplayer)
+{
+  return NULL != tile_allied_city(ptile, pplayer);
+}
+
+struct city *tile_non_attack_city(const struct tile *ptile,
+                                  const struct player *pplayer);
+
+/**********************************************************************//**
+  Is there a non-attack city on the tile?
+**************************************************************************/
+static inline bool is_non_attack_city_tile(const struct tile *ptile,
+                                           const struct player *pplayer)
+{
+  return NULL != tile_non_attack_city(ptile, pplayer);
+}
+
+struct city *tile_non_allied_city(const struct tile *ptile,
+                                  const struct player *pplayer);
+
+/**********************************************************************//**
+  Is there a non-allied city on the tile?
+**************************************************************************/
+static inline bool is_non_allied_city_tile(const struct tile *ptile,
+                                           const struct player *pplayer)
+{
+  return NULL != tile_non_allied_city(ptile, pplayer);
+}
 
 bool is_unit_near_a_friendly_city(const struct unit *punit);
 bool is_friendly_city_near(const struct player *owner,
@@ -703,7 +742,7 @@ bool is_friendly_city_near(const struct player *owner,
 bool city_exists_within_max_city_map(const struct tile *ptile,
                                      bool may_be_on_center);
 
-/* granary size as a function of city size */
+/* Granary size as a function of city size */
 int city_granary_size(int city_size);
 
 void city_add_improvement(struct city *pcity,

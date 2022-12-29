@@ -1517,7 +1517,7 @@ static bool is_refuel_tile(const struct tile *ptile,
 {
   const struct unit_class *pclass;
 
-  if (NULL != is_allied_city_tile(ptile, pplayer)) {
+  if (is_allied_city_tile(ptile, pplayer)) {
     return TRUE;
   }
 
