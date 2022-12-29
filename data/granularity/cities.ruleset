@@ -70,6 +70,8 @@ pop_report_zeroes    = 1        ; Population in reports in tens
 
 [citizen]
 nationality          = FALSE    ; account for the nationality of the citizens
+ubuilder_nationality = FALSE    ; does pop_cost unit get builder`s nationality,
+                                ; or that of the majority of the citizens in the city
 convert_speed        = 50       ; base probability 50/1000 -> once every 20 turns
 partisans_pct        = 0        ; percentage of own nationality to inspire partisans
                                 ; if 0, original city owner information is used instead

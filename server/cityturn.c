@@ -2560,13 +2560,21 @@ static struct unit *city_create_unit(struct city *pcity,
                                city_production_unit_veteran_level(pcity, utype),
                                pcity->id, -1, -1);
   pplayer->score.units_built++;
-  if (pop_cost > 0 && pcity->nationality) {
+
+  if (pop_cost > 0 && pcity->nationality != NULL) {
     /* We don't reduce city size in-place to keep it correct and
-     * existing at all while we call the following callback */
-    punit->nationality = citizens_unit_nationality(pcity, pop_cost, red);
+     * existing at all while we call the following callback.
+     * We want citizens_unit_nationality() to adjust 'red' even when
+     * we are not setting unit nationality based on the return */
+    struct player *nat = citizens_unit_nationality(pcity, pop_cost, red);
+
+    if (!game.info.unit_builders_nationality) {
+      punit->nationality = nat;
+    }
   } else if (red) {
     red->change = 0;
   }
+
   (void) place_unit(punit, pplayer, pcity, NULL, FALSE);
   saved_unit_id = punit->id;
 

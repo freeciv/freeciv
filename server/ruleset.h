@@ -71,8 +71,6 @@ int ruleset_purge_redundant_reqs(void);
 #define GAME_DEFAULT_ADDTOSIZE           9
 #define GAME_DEFAULT_CHANGABLE_TAX       TRUE
 #define GAME_DEFAULT_VISION_REVEAL_TILES FALSE
-#define GAME_DEFAULT_NATIONALITY         FALSE
-#define GAME_DEFAULT_CONVERT_SPEED       50
 #define GAME_DEFAULT_DISASTER_FREQ       10
 #define GAME_DEFAULT_ACH_UNIQUE          TRUE
 #define GAME_DEFAULT_ACH_VALUE           1
@@ -115,6 +113,10 @@ int ruleset_purge_redundant_reqs(void);
 #define RS_DEFAULT_MIN_TECH_COST                 20
 #define RS_MIN_MIN_TECH_COST                     0
 #define RS_MAX_MIN_TECH_COST                     20000
+
+#define RS_DEFAULT_NATIONALITY                   FALSE
+#define RS_DEFAULT_UBUILD_NAT                    FALSE
+#define RS_DEFAULT_CONVERT_SPEED                 50
 
 #ifdef __cplusplus
 }

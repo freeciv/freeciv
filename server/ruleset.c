@@ -6027,6 +6027,8 @@ static bool load_ruleset_cities(struct section_file *file,
   }
 
   if (ok) {
+    bool def_ubuild_nat = RS_DEFAULT_UBUILD_NAT;
+
     /* civ1 & 2 didn't reveal tiles */
     game.server.vision_reveal_tiles =
       secfile_lookup_bool_default(file, GAME_DEFAULT_VISION_REVEAL_TILES,
@@ -6037,10 +6039,18 @@ static bool load_ruleset_cities(struct section_file *file,
 
     /* Citizens configuration. */
     game.info.citizen_nationality =
-      secfile_lookup_bool_default(file, GAME_DEFAULT_NATIONALITY,
+      secfile_lookup_bool_default(file, RS_DEFAULT_NATIONALITY,
                                   "citizen.nationality");
+
+    if (compat->compat_mode && compat->version < RSFORMAT_3_2) {
+      /* Same as old hardcoded behavior */
+      def_ubuild_nat = TRUE;
+    }
+    game.info.unit_builders_nationality =
+      secfile_lookup_bool_default(file, def_ubuild_nat,
+                                  "citizen.ubuilder_nationality");
     game.info.citizen_convert_speed =
-      secfile_lookup_int_default(file, GAME_DEFAULT_CONVERT_SPEED,
+      secfile_lookup_int_default(file, RS_DEFAULT_CONVERT_SPEED,
                                  "citizen.convert_speed");
     game.info.citizen_partisans_pct =
       secfile_lookup_int_default(file, 0, "citizen.partisans_pct");

@@ -83,7 +83,8 @@ static struct section_file *create_ruleset_file(const char *rsname,
   Save int value that has default applied upon loading.
 **************************************************************************/
 static bool save_default_int(struct section_file *sfile, int value,
-                             int default_value, const char *path, const char *entry)
+                             int default_value, const char *path,
+                             const char *entry)
 {
   if (value != default_value) {
     if (entry != NULL) {
@@ -710,18 +711,21 @@ static bool save_cities_ruleset(const char *filename, const char *name)
     secfile_insert_int(sfile, game.info.pop_report_zeroes,
                        "parameters.pop_report_zeroes");
   }
-  if (game.info.citizen_nationality != GAME_DEFAULT_NATIONALITY) {
-    secfile_insert_bool(sfile, game.info.citizen_nationality,
-                       "citizen.nationality");
-  }
-  if (game.info.citizen_convert_speed != GAME_DEFAULT_CONVERT_SPEED) {
-    secfile_insert_int(sfile, game.info.citizen_convert_speed,
-                       "citizen.convert_speed");
-  }
+
+  save_default_bool(sfile, game.info.citizen_nationality,
+                    RS_DEFAULT_NATIONALITY,
+                    "citizen.nationality", NULL);
+  save_default_bool(sfile, game.info.unit_builders_nationality,
+                    RS_DEFAULT_UBUILD_NAT,
+                    "citizen.ubuilder_nationality", NULL);
+  save_default_int(sfile, game.info.citizen_convert_speed,
+                   RS_DEFAULT_CONVERT_SPEED,
+                   "citizen.convert_speed", NULL);
   if (game.info.conquest_convert_pct != 0) {
     secfile_insert_int(sfile, game.info.conquest_convert_pct,
                        "citizen.conquest_convert_pct");
   }
+
   if (game.info.citizen_partisans_pct != 0) {
     secfile_insert_int(sfile, game.info.citizen_partisans_pct,
                        "citizen.partisans_pct");
