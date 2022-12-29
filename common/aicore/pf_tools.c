@@ -87,8 +87,7 @@ static enum pf_action pf_get_action(const struct tile *ptile,
                                     enum known_type known,
                                     const struct pf_parameter *param)
 {
-  bool non_allied_city = (NULL != is_non_allied_city_tile(ptile,
-                                                          param->owner));
+  bool non_allied_city = is_non_allied_city_tile(ptile, param->owner);
 
   if (non_allied_city) {
     if (PF_AA_TRADE_ROUTE & param->actions) {

@@ -571,7 +571,7 @@ static enum tile_behavior get_TB_aggr(const struct tile *ptile,
       return TB_IGNORE;
     }
   } else if (is_non_allied_unit_tile(ptile, param->owner)
-	     || is_non_allied_city_tile(ptile, param->owner)) {
+             || is_non_allied_city_tile(ptile, param->owner)) {
     /* Can attack but can't count on going through */
     return TB_DONT_LEAVE;
   }
@@ -1434,7 +1434,7 @@ static void send_path_orders(struct unit *punit, struct pf_path *path,
 
   if (i > 0
       && p.orders[i - 1] == ORDER_MOVE
-      && (is_non_allied_city_tile(old_tile, client_player()) != NULL
+      && (is_non_allied_city_tile(old_tile, client_player())
           || is_non_allied_unit_tile(old_tile, client_player()) != NULL)) {
     /* Won't be able to perform a regular move to the target tile... */
     if (!final_order) {
@@ -1699,7 +1699,7 @@ static bool order_wants_direction(enum unit_orders order, action_id act_id,
       return FALSE;
     }
 
-    if (is_non_allied_city_tile(tgt_tile, client_player()) != NULL
+    if (is_non_allied_city_tile(tgt_tile, client_player())
         || is_non_allied_unit_tile(tgt_tile, client_player()) != NULL) {
       /* Won't be able to move to the target tile to perform the action on
        * top of it. */

@@ -1940,59 +1940,63 @@ bool city_can_grow_to(const struct city *pcity, int pop_size)
 }
 
 /**************************************************************************
- is there an enemy city on this tile?
+  Return enemy city on the tile, if one exist
 **************************************************************************/
-struct city *is_enemy_city_tile(const struct tile *ptile,
-				const struct player *pplayer)
+struct city *tile_enemy_city(const struct tile *ptile,
+                             const struct player *pplayer)
 {
   struct city *pcity = tile_city(ptile);
 
-  if (pcity && pplayers_at_war(pplayer, city_owner(pcity)))
+  if (pcity != NULL && pplayers_at_war(pplayer, city_owner(pcity))) {
     return pcity;
-  else
+  } else {
     return NULL;
+  }
 }
 
 /**************************************************************************
- is there an friendly city on this tile?
+  Return friendly city on the tile, if one exist
 **************************************************************************/
-struct city *is_allied_city_tile(const struct tile *ptile,
-				 const struct player *pplayer)
+struct city *tile_allied_city(const struct tile *ptile,
+                              const struct player *pplayer)
 {
   struct city *pcity = tile_city(ptile);
 
-  if (pcity && pplayers_allied(pplayer, city_owner(pcity)))
+  if (pcity != NULL && pplayers_allied(pplayer, city_owner(pcity))) {
     return pcity;
-  else
+  } else {
     return NULL;
+  }
 }
 
 /**************************************************************************
- is there an enemy city on this tile?
+  Return non-attack city on the tile, if one exist
 **************************************************************************/
-struct city *is_non_attack_city_tile(const struct tile *ptile,
-				     const struct player *pplayer)
+struct city *tile_non_attack_city(const struct tile *ptile,
+                                  const struct player *pplayer)
 {
   struct city *pcity = tile_city(ptile);
 
-  if (pcity && pplayers_non_attack(pplayer, city_owner(pcity)))
+  if (pcity != NULL && pplayers_non_attack(pplayer, city_owner(pcity))) {
     return pcity;
-  else
+  } else{
     return NULL;
+  }
 }
 
 /**************************************************************************
- is there an non_allied city on this tile?
+  Return non-allied city on the tile, if one exist
 **************************************************************************/
-struct city *is_non_allied_city_tile(const struct tile *ptile,
-				     const struct player *pplayer)
+struct city *tile_non_allied_city(const struct tile *ptile,
+                                  const struct player *pplayer)
 {
   struct city *pcity = tile_city(ptile);
 
-  if (pcity && !pplayers_allied(pplayer, city_owner(pcity)))
+  if (pcity != NULL && !pplayers_allied(pplayer, city_owner(pcity))) {
     return pcity;
-  else
+  } else {
     return NULL;
+  }
 }
 
 /**************************************************************************
