@@ -255,9 +255,9 @@ static bool manual_command(void)
 
     switch (manuals) {
     case MANUAL_SETTINGS:
-      /* TRANS: markup ... Freeciv version ... ruleset name ... markup */
-      fprintf(doc, _("%sFreeciv %s server options (%s)%s\n\n"), TITLE_BEGIN,
-              VERSION_STRING, game.control.name, TITLE_END);
+      /* TRANS: markup ... Freeciv version ... markup */
+      fprintf(doc, _("%sFreeciv %s server options%s\n\n"), TITLE_BEGIN,
+              VERSION_STRING, TITLE_END);
       settings_iterate(SSET_ALL, pset) {
         char buf[256];
         const char *sethelp;
