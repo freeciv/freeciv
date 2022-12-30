@@ -857,7 +857,7 @@ bool conn_pattern_list_match(const struct conn_pattern_list *plist,
 }
 
 /**********************************************************************//**
-  Put a string reprentation of the pattern in 'buf'.
+  Put a string representation of the pattern in 'buf'.
 **************************************************************************/
 size_t conn_pattern_to_string(const struct conn_pattern *ppattern,
                               char *buf, size_t buf_len)
