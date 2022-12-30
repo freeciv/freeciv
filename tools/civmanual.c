@@ -322,9 +322,9 @@ static bool manual_command(struct tag_types *tag_info)
 
     switch (manuals) {
     case MANUAL_SETTINGS:
-      /* TRANS: markup ... Freeciv version ... ruleset name ... markup */
-      fprintf(doc, _("%sFreeciv %s server options (%s)%s\n\n"), tag_info->title_begin,
-              VERSION_STRING, game.control.name, tag_info->title_end);
+      /* TRANS: markup ... Freeciv version ... markup */
+      fprintf(doc, _("%sFreeciv %s server options%s\n\n"), tag_info->title_begin,
+              VERSION_STRING, tag_info->title_end);
       settings_iterate(SSET_ALL, pset) {
         char buf[256];
         const char *sethelp;
