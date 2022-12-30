@@ -27,28 +27,28 @@ extern "C" {
  * Some words about the featured text module.
  *
  * Bored to have black only chat, players used to hack their clients, to
- * obtain colored chat based patterns.  Also for strategic communication,
+ * obtain colored chat based patterns. Also for strategic communication,
  * they added some clickable links on particular city or location.
  * The present code is not based on old warclient code, but it also contains
- * the same tools.  Whereas colors where determinated in client side only,
+ * the same tools. Whereas colors where determinated in client side only,
  * here the server also has the possibility to choose what color to display
- * to the clients.  Such embellishments are performed using escape sequences
+ * to the clients. Such embellishments are performed using escape sequences
  * (which are described below) in the strings.
  *
  * Plain text vs featured text.
  *
  * What is called plain text in those files is actually a string without any
- * escape sequence.  It is the text which should basically displayed in the
- * client, without taking account of the features.  On the other side, what
+ * escape sequence. It is the text which should basically displayed in the
+ * client, without taking account of the features. On the other side, what
  * is called featured text is also a string, but which could include one of
  * many escape sequences.
  *
  * Text tag.
  *
  * The text_tag type is a structure which tag a particular modification for
- * a string.  It contains many informations, which the type of modification,
+ * a string. It contains many informations, which the type of modification,
  * the start of the modification in bytes from the start of the string, and
- * the stop of it.  It also can contains many others fields, according to
+ * the stop of it. It also can contains many others fields, according to
  * sequence type.
  * Note that all offset datas are calculated in bytes and not in character
  * number, so the client must translate those offsets before using them.
@@ -143,7 +143,7 @@ struct ft_color {
   const char *background;
 };
 #define FT_COLOR(fg, bg) { fg, bg }
-/**************************************************************************
+/**********************************************************************//**
   Constructor.
 **************************************************************************/
 static inline struct ft_color ft_color_construct(const char *foreground,
@@ -154,7 +154,7 @@ static inline struct ft_color ft_color_construct(const char *foreground,
   return color;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Returns whether a color is requested.
 **************************************************************************/
 static inline bool ft_color_requested(const struct ft_color color)
