@@ -506,7 +506,7 @@ size_t loud_strlcpy(char *buffer, const char *str, size_t len,
 }
 
 /****************************************************************************
-  Convert 'str' to its int reprentation if possible. 'pint' can be NULL,
+  Convert 'str' to its int representation if possible. 'pint' can be NULL,
   then it will only test 'str' only contains an integer number.
 ****************************************************************************/
 bool str_to_int(const char *str, int *pint)
@@ -539,8 +539,9 @@ bool str_to_int(const char *str, int *pint)
 }
 
 /****************************************************************************
-  Convert 'str' to it's unsigned int reprentation if possible. 'pint' can be NULL,
-  then it will only test 'str' only contains an unsigned integer number.
+  Convert 'str' to it's unsigned int representation if possible.
+  'pint' can be NULL, then it will only test 'str' only contains
+  an unsigned integer number.
 ****************************************************************************/
 bool str_to_uint(const char *str, unsigned int *pint)
 {
@@ -572,7 +573,7 @@ bool str_to_uint(const char *str, unsigned int *pint)
 }
 
 /****************************************************************************
-  Convert 'str' to it's float reprentation if possible. 'pfloat' can be NULL,
+  Convert 'str' to it's float representation if possible. 'pfloat' can be NULL,
   then it will only test 'str' only contains a floating point number.
 ****************************************************************************/
 bool str_to_float(const char *str, float *pfloat)
