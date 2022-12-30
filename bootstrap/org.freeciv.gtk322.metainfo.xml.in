@@ -32,6 +32,10 @@
       [release]
     </releases>
 
+    <content_rating type="oars-1.0">
+      <content_attribute id="social-chat">intense</content_attribute>
+    </content_rating>
+
     <screenshots>
       <screenshot type="default">
         <image>https://files.freeciv.org/screenshots/3.0/client.gtk322-3.0.4.png</image>
