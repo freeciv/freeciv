@@ -32,6 +32,8 @@
       [release]
     </releases>
 
+    <content_rating type="oars-1.0" />
+
     <screenshots>
       <screenshot type="default">
         <image>https://files.freeciv.org/screenshots/3.0/modinst.gtk3-3.0.4.png</image>
