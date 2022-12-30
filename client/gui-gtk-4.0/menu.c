@@ -1970,7 +1970,7 @@ static void unit_unsentry_callback(GtkMenuItem *item, gpointer data)
 }
 
 /************************************************************************//**
-  Item "UNIT_BORAD" callback.
+  Item "UNIT_BOARD" callback.
 ****************************************************************************/
 static void unit_board_callback(GtkMenuItem *item, gpointer data)
 {
