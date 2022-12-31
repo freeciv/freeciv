@@ -326,28 +326,22 @@ static GHashTable *hash;
 
 static void commit_worklist(struct worklist_data *ptr);
 
-
-enum {
-  TARGET_GTK_TREE_MODEL_ROW
-};
-
-#ifdef GTK3_DRAG_DROP
-static GtkTargetEntry wl_dnd_targets[] = {
-  { "GTK_TREE_MODEL_ROW", GTK_TARGET_SAME_APP, TARGET_GTK_TREE_MODEL_ROW },
-};
-#endif /* GTK3_DRAG_DROP */
-
-
 /************************************************************************//**
   Add drag&drop target
 ****************************************************************************/
-void add_worklist_dnd_target(GtkWidget *w)
+void add_worklist_dnd_target(GtkWidget *w,
+                             gboolean (drag_drop_cb)
+                               (GtkDropTarget *target, const GValue *value,
+                                double x, double y, gpointer data),
+                             gpointer data)
 {
-#ifdef GTK3_DRAG_DROP
-  gtk_drag_dest_set(w, GTK_DEST_DEFAULT_ALL,
-                    wl_dnd_targets, G_N_ELEMENTS(wl_dnd_targets),
-                    GDK_ACTION_COPY);
-#endif /* GTK3_DRAG_DROP */
+  GtkDropTarget *dnd_tgt;
+
+  dnd_tgt = gtk_drop_target_new(G_TYPE_INT, GDK_ACTION_COPY);
+
+  g_signal_connect(dnd_tgt, "drop", G_CALLBACK(drag_drop_cb), data);
+
+  gtk_widget_add_controller(w, GTK_EVENT_CONTROLLER(dnd_tgt));
 }
 
 /************************************************************************//**
