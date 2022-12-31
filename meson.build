@@ -329,7 +329,8 @@ if c_compiler.has_function('getaddrinfo', dependencies: net_dep)
 else
   # Maybe it exist as a macro instead?
   if c_compiler.compiles(net_incl + '''
-int main(void) { getaddrinfo(NULL, NULL, NULL, NULL); }''')
+int main(void) { getaddrinfo(NULL, NULL, NULL, NULL); }''',
+  include_directories: include_directories(cross_inc_path))
     priv_conf_data.set('HAVE_GETADDRINFO', 1)
     pub_conf_data.set('FREECIV_IPV6_SUPPORT', 1)
   else
@@ -451,7 +452,8 @@ else
 endif
 
 if c_compiler.compiles('''#include <netinet/in.h>
-int main(void) { struct ip_mreqn req; req.imr_ifindex = 0; return 0; }''')
+int main(void) { struct ip_mreqn req; req.imr_ifindex = 0; return 0; }''',
+  include_directories: include_directories(cross_inc_path))
   priv_conf_data.set('HAVE_IP_MREQN', 1)
 endif
 
@@ -467,7 +469,8 @@ endif
 
 if c_compiler.compiles('''#include <stddef.h>
 #include <iconv.h>
-int main(void) { iconv_t cd; const char **c; iconv(cd, c, NULL, NULL); return 0; }''')
+int main(void) { iconv_t cd; const char **c; iconv(cd, c, NULL, NULL); return 0; }''',
+  include_directories: include_directories(cross_inc_path))
   priv_conf_data.set('ICONV_CONST', 'const')
 else
   priv_conf_data.set('ICONV_CONST', '')
@@ -489,6 +492,7 @@ void fr(const char *form, ...)
 #define fr(_a_,_b_) printf(_a_,_b_)
 #endif
 int main(void) { size_t var = 0; fr("''' + format + '''", var); return 0; }''',
+  include_directories: include_directories(cross_inc_path),
   args: ['-Werror', '-Wall'])
     priv_conf_data.set('SIZE_T_PRINTF', '"' + format + '"')
     break
