@@ -3185,7 +3185,7 @@ void city_dialog::item_selected(const QItemSelection &sl,
 ****************************************************************************/
 void city_dialog::next_city()
 {
-  int size, i, j;
+  int size, i;
   struct city *other_pcity = NULL;
 
   if (NULL == client.conn.playing) {
@@ -3194,7 +3194,7 @@ void city_dialog::next_city()
 
   size = city_list_size(client.conn.playing->cities);
 
-  if (size == 1) {
+  if (size <= 1) {
     return;
   }
 
@@ -3204,10 +3204,13 @@ void city_dialog::next_city()
     }
   }
 
-  for (j = 1; j < size; j++) {
-    other_pcity = city_list_get(client.conn.playing->cities,
-                                (i + j + size) % size);
+  if (i >= size - 1) {
+    // Current city last in the list (size - 1) or disappeared (size)
+    other_pcity = city_list_get(client.conn.playing->cities, 0);
+  } else {
+    other_pcity = city_list_get(client.conn.playing->cities, i + 1);
   }
+
   center_tile_mapcanvas(other_pcity->tile);
   qtg_real_city_dialog_popup(other_pcity);
 }
@@ -3217,7 +3220,7 @@ void city_dialog::next_city()
 ****************************************************************************/
 void city_dialog::prev_city()
 {
-  int size, i, j;
+  int size, i;
   struct city *other_pcity = NULL;
 
   if (NULL == client.conn.playing) {
@@ -3226,7 +3229,7 @@ void city_dialog::prev_city()
 
   size = city_list_size(client.conn.playing->cities);
 
-  if (size == 1) {
+  if (size <= 1) {
     return;
   }
 
@@ -3236,9 +3239,11 @@ void city_dialog::prev_city()
     }
   }
 
-  for (j = 1; j < size; j++) {
-    other_pcity = city_list_get(client.conn.playing->cities,
-                                (i - j + size) % size);
+  if (i == 0 || i == size) {
+    // Current city in the beginning of the list or disappeared
+    other_pcity = city_list_get(client.conn.playing->cities, size - 1);
+  } else {
+    other_pcity = city_list_get(client.conn.playing->cities, i - 1);
   }
 
   center_tile_mapcanvas(other_pcity->tile);
@@ -4500,4 +4505,3 @@ production_widget::~production_widget()
   viewport()->removeEventFilter(fc_tt);
   removeEventFilter(this);
 }
-
