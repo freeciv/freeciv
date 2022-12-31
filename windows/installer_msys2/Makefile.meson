@@ -10,6 +10,7 @@
 #
 
 MAKEFILE_NAME=Makefile.meson
+OUT_DIR=meson/Output
 
 ifeq ($(MSYSTEM),MINGW64)
 WINARCH=win64
@@ -98,9 +99,9 @@ sdl2-install:
 installer-common: install-freeciv-$(GUI) install-env-$(GUI)
 	# extract Freeciv version
 	$(eval FREECIV_VERSION := $(shell ../../fc_version))
-	./create-freeciv-$(GUI)-nsi.sh meson-install-$(WINARCH)-$(GUI) $(FREECIV_VERSION) $(WINARCH) > Freeciv-meson-$(WINARCH)-$(FREECIV_VERSION)-$(GUI).nsi
+	./create-freeciv-$(GUI)-nsi.sh meson-install-$(WINARCH)-$(GUI) $(OUT_DIR) $(FREECIV_VERSION) $(WINARCH) > Freeciv-meson-$(WINARCH)-$(FREECIV_VERSION)-$(GUI).nsi
 	# create installer executable
-	mkdir -p Output
+	mkdir -p $(OUT_DIR)
 	makensis Freeciv-meson-$(WINARCH)-$(FREECIV_VERSION)-$(GUI).nsi
 
 install-freeciv-common: clean-install-common
@@ -332,9 +333,9 @@ installer-ruledit-common: install-ruledit-$(GUI)
 	# Extract Freeciv version
 	$(eval FREECIV_VERSION := $(shell ../../fc_version))
 	# create NSIS script
-	./create-freeciv-ruledit-nsi.sh meson-install-$(WINARCH)-ruledit-$(GUI) $(FREECIV_VERSION) $(WINARCH) > Freeciv-meson-$(WINARCH)-$(FREECIV_VERSION)-ruledit-$(GUI).nsi
+	./create-freeciv-ruledit-nsi.sh meson-install-$(WINARCH)-ruledit-$(GUI) $(OUT_DIR) $(FREECIV_VERSION) $(WINARCH) > Freeciv-meson-$(WINARCH)-$(FREECIV_VERSION)-ruledit-$(GUI).nsi
 	# Create installer executable
-	mkdir -p Output
+	mkdir -p $(OUT_DIR)
 	makensis Freeciv-meson-$(WINARCH)-$(FREECIV_VERSION)-ruledit-$(GUI).nsi
 
 RULEDIT_QT6_DLLS := \
@@ -364,11 +365,11 @@ clean-install-common:
 	rm -rf meson-install-*-$(GUI)
 
 clean-installer-common:
-	rm -f Output/Freeciv-*-$(GUI)-setup.exe
+	rm -f $(OUT_DIR)/Freeciv-*-$(GUI)-setup.exe
 	rm -f Freeciv-meson-*-$(GUI).nsi
 
 clean-ruledit-common:
-	rm -f Output/Freeciv-ruledit-*-setup.exe
+	rm -f $(OUT_DIR)/Freeciv-ruledit-*-setup.exe
 	rm -f Freeciv-meson-*-ruledit-$(GUI).nsi
 
 clean:

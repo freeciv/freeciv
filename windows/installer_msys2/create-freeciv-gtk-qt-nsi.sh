@@ -1,15 +1,15 @@
 #!/bin/sh
 
-# ./create-freeciv-gtk-qt-nsi.sh <Freeciv files directory> <version> <gtk3.22|qt5|qt6> <GTK+3|Qt5|Qt6> <win32|win64|win> [mp gui] [exe id]
+# ./create-freeciv-gtk-qt-nsi.sh <Freeciv files dir> <Output dir> <version> <gtk3.22|qt5|qt6> <GTK+3|Qt5|Qt6> <win32|win64|win> [mp gui] [exe id]
 
-if test "x$7" != "x" ; then
-  EXE_ID="$7"
+if test "x$8" != "x" ; then
+  EXE_ID="$8"
 else
-  EXE_ID="$3"
+  EXE_ID="$4"
 fi
 
-if test "x$6" != "x" ; then
-  MPEXE_ID="$6"
+if test "x$7" != "x" ; then
+  MPEXE_ID="$7"
 else
   MPEXE_ID="$EXE_ID"
 fi
@@ -22,12 +22,12 @@ Unicode true
 SetCompressor /SOLID lzma
 
 !define APPNAME "Freeciv"
-!define VERSION $2
-!define GUI_ID $3
+!define VERSION $3
+!define GUI_ID $4
 !define EXE_ID $EXE_ID
 !define MPEXE_ID $MPEXE_ID
-!define GUI_NAME $4
-!define WIN_ARCH $5
+!define GUI_NAME $5
+!define WIN_ARCH $6
 !define APPID "\${APPNAME}-\${VERSION}-\${GUI_ID}"
 
 !define MULTIUSER_EXECUTIONLEVEL Highest
@@ -46,7 +46,7 @@ SetCompressor /SOLID lzma
 ;General
 
 Name "\${APPNAME} \${VERSION} (\${GUI_NAME} client)"
-OutFile "Output/\${APPNAME}-\${VERSION}-msys2-\${WIN_ARCH}-\${GUI_ID}-setup.exe"
+OutFile "$2/\${APPNAME}-\${VERSION}-msys2-\${WIN_ARCH}-\${GUI_ID}-setup.exe"
 
 ;Variables
 
@@ -125,7 +125,7 @@ cat <<EOF
   CreateShortCut "\$SMPROGRAMS\\\$STARTMENU_FOLDER\Freeciv Modpack Installer.lnk" "\$INSTDIR\freeciv-mp-\${MPEXE_ID}.cmd" "\$DefaultLanguageCode" "\$INSTDIR\freeciv-mp-\${MPEXE_ID}.exe" 0 SW_SHOWMINIMIZED
 EOF
 
-if test "x$3" = "xqt5" || test "x$3" = "xqt6" ; then
+if test "$4" = "qt5" || test "$4" = "xqt6" ; then
     echo "CreateShortCut \"\$SMPROGRAMS\\\$STARTMENU_FOLDER\Freeciv Ruleset Editor.lnk\" \"\$INSTDIR\freeciv-ruledit.cmd\" \"\$DefaultLanguageCode\" \"\$INSTDIR\freeciv-ruledit.exe\" 0 SW_SHOWMINIMIZED"
 fi
 

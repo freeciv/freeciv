@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# ./create-freeciv-ruledit.sh <Freeciv files directory> <version> <win32|win64|win>
+# ./create-freeciv-ruledit.sh <Freeciv files dir> <Output dir> <version> <win32|win64|win>
 
 cat <<EOF
 ; Freeciv Windows installer script
@@ -10,8 +10,8 @@ Unicode true
 SetCompressor /SOLID lzma
 
 !define APPNAME "Freeciv-ruledit"
-!define VERSION $2
-!define WIN_ARCH $3
+!define VERSION $3
+!define WIN_ARCH $4
 !define APPID "\${APPNAME}-\${VERSION}"
 
 !define MULTIUSER_EXECUTIONLEVEL Highest
@@ -30,7 +30,7 @@ SetCompressor /SOLID lzma
 ;General
 
 Name "Freeciv Ruleset Editor \${VERSION}"
-OutFile "Output/\${APPNAME}-\${VERSION}-msys2-\${WIN_ARCH}-setup.exe"
+OutFile "$2/\${APPNAME}-\${VERSION}-msys2-\${WIN_ARCH}-setup.exe"
 
 ;Variables
 
