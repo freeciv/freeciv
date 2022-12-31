@@ -429,6 +429,10 @@ adv_want dai_effect_value(struct player *pplayer,
     num = num_affected_units(peffect, adv);
     v += (8 * v * amount + num);
     break;
+  case EFT_ACTIVITY_TIME:
+    /* TODO: As an override, this can be either good or bad,
+     *       depending on the value being overridden. */
+    break;
   case EFT_UNIT_NO_LOSE_POP:
     v += unit_list_size(pcity->tile->units) * 2;
     break;

@@ -418,6 +418,17 @@ int tile_activity_time(enum unit_activity activity, const struct tile *ptile,
                        const struct extra_type *tgt)
 {
   struct terrain *pterrain = tile_terrain(ptile);
+  int eff = get_target_bonus_effects(NULL,
+                                     &(const struct req_context) {
+                                       .tile = ptile,
+                                       .activity = activity,
+                                       .extra = tgt
+                                     }, NULL, EFT_ACTIVITY_TIME);
+
+  if (eff > 0) {
+    /* Use effect provided value */
+    return eff * ACTIVITY_FACTOR;
+  }
 
   switch (activity) {
   case ACTIVITY_CLEAN:

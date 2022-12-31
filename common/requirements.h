@@ -99,7 +99,7 @@ struct req_context {
   const struct city *city;
   const struct tile *tile;
 
-  /* for local-ranged requirements only */
+  /* For local-ranged requirements only */
   const struct unit *unit;
   const struct unit_type *unittype;
   const struct impr_type *building;
@@ -107,6 +107,7 @@ struct req_context {
   const struct output_type *output;
   const struct specialist *specialist;
   const struct action *action;
+  const enum unit_activity activity;
 };
 
 enum req_unchanging_status {

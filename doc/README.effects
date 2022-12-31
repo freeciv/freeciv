@@ -173,6 +173,11 @@ Action_Success_Target_Move_Cost
     action itself subtracts. Only supported for actions that targets an
     individual unit. (See doc/README.actions)
 
+Activity_Time
+    Value > 0 overrides the usual rules of how long it takes to finish an activity.
+    With current implementation this can even finish an already started activity
+    that has been running as long as the current effect value indicates.
+
 Airlift
     Allow airlift to/from a city. The value tells how many units per
     turn can be airlifted, unless server setting 'airlifttingstyle' sets

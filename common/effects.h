@@ -333,15 +333,17 @@ struct multiplier;
 /* Reduced illness due to buildings ... */
 #define SPECENUM_VALUE135 EFT_HEALTH_PCT
 #define SPECENUM_VALUE135NAME "Health_Pct"
+#define SPECENUM_VALUE136 EFT_ACTIVITY_TIME
+#define SPECENUM_VALUE136NAME "Activity_Time"
 /* Ruleset specific effects for use from Lua scripts */
-#define SPECENUM_VALUE136 EFT_USER_EFFECT_1
-#define SPECENUM_VALUE136NAME "User_Effect_1"
-#define SPECENUM_VALUE137 EFT_USER_EFFECT_2
-#define SPECENUM_VALUE137NAME "User_Effect_2"
-#define SPECENUM_VALUE138 EFT_USER_EFFECT_3
-#define SPECENUM_VALUE138NAME "User_Effect_3"
-#define SPECENUM_VALUE139 EFT_USER_EFFECT_4
-#define SPECENUM_VALUE139NAME "User_Effect_4"
+#define SPECENUM_VALUE137 EFT_USER_EFFECT_1
+#define SPECENUM_VALUE137NAME "User_Effect_1"
+#define SPECENUM_VALUE138 EFT_USER_EFFECT_2
+#define SPECENUM_VALUE138NAME "User_Effect_2"
+#define SPECENUM_VALUE139 EFT_USER_EFFECT_3
+#define SPECENUM_VALUE139NAME "User_Effect_3"
+#define SPECENUM_VALUE140 EFT_USER_EFFECT_4
+#define SPECENUM_VALUE140NAME "User_Effect_4"
 /* Keep this last */
 #define SPECENUM_COUNT EFT_COUNT
 #include "specenum_gen.h"

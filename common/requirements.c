@@ -3823,9 +3823,17 @@ is_activity_req_active(const struct req_context *context,
                         "Unsupported range \"%s\"",
                         req_range_name(req->range));
 
-  /* Could be asked with incomplete data.
-   * is_req_active() will handle it based on prob_type. */
   if (context->unit == NULL) {
+    /* FIXME: Excluding ACTIVITY_IDLE here is a bit ugly, but done because
+     *        it's the zero value that context has by default - so many callers
+     *        who meant not to set specific activity actually have ACTIVITY_IDLE
+     *        instead of ACTIVITY_LAST */
+    if (context->activity != ACTIVITY_LAST && context->activity != ACTIVITY_IDLE) {
+      return BOOL_TO_TRISTATE(activity == context->activity);
+    }
+
+    /* Could be asked with incomplete data.
+     * is_req_active() will handle it based on prob_type. */
     return TRI_MAYBE;
   }
 
