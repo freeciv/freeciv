@@ -37,9 +37,8 @@
 static int (*baseclass_redraw)(struct widget *pwidget);
 
 /**************************************************************************
-  Create Icon Button image with text and Icon then blit to Dest(ination)
+  Create Icon Button image with text and Icon then blit to dest(ination)
   on position pIButton->size.x, pIButton->size.y.
-  WARNING: pDest must exist.
 
   Text with attributes is taken from pIButton->string_utf8 parameter.
 
@@ -49,8 +48,8 @@ static int (*baseclass_redraw)(struct widget *pwidget);
   Graphic for Icon is taken from pIButton->theme2 surface and blit to new
   created image.
 
-  function return (-1) if there are no Icon nor Text.
-  Else return 0.
+  @return 0 on success, 1 when there is no icon nor text,
+          or negative SDL error
 **************************************************************************/
 static int redraw_ibutton(struct widget *pIButton)
 {
@@ -67,7 +66,7 @@ static int redraw_ibutton(struct widget *pIButton)
   }
 
   if (pIButton->string_utf8 != NULL) {
-    /* make copy of string_utf8 */
+    /* Make copy of string_utf8 */
     TMPString = *pIButton->string_utf8;
 
     if (get_wstate(pIButton) == FC_WS_NORMAL) {
@@ -85,7 +84,7 @@ static int redraw_ibutton(struct widget *pIButton)
   }
 
   if (!pText && !pIcon) {
-    return -1;
+    return 1;
   }
 
   /* create Button graphic */
@@ -137,7 +136,7 @@ static int redraw_ibutton(struct widget *pIButton)
     ret = alphablit(pIcon, NULL, pIButton->dst->surface, &dest, 255);
     if (ret) {
       FREESURFACE(pText);
-      return ret - 10;
+      return ret;
     }
   }
 
@@ -211,9 +210,8 @@ static int redraw_ibutton(struct widget *pIButton)
 }
 
 /**************************************************************************
-  Create Icon Button image with text and Icon then blit to Dest(ination)
-  on position pTIButton->size.x, pTIButton->size.y. WARNING: pDest must
-  exist.
+  Create Icon Button image with text and Icon then blit to dest(ination)
+  on position pTIButton->size.x, pTIButton->size.y.
 
   Text with attributes is taken from pTIButton->string_utf8 parameter.
 
@@ -223,7 +221,8 @@ static int redraw_ibutton(struct widget *pIButton)
   Graphic for Icon Theme is taken from pTIButton->theme2 surface
   and blit to new created image.
 
-  function return (-1) if there are no Icon and Text.  Else return 0.
+  @return 0 on success, 1 when there is no icon nor text,
+          or negative SDL error
 **************************************************************************/
 static int redraw_tibutton(struct widget *pTIButton)
 {
@@ -344,7 +343,7 @@ struct widget *create_themeicon_button(SDL_Surface *pIcon_theme,
                                        utf8_str *pstr,
                                        Uint32 flags)
 {
-  /* extract a single icon */
+  /* Extract a single icon */
   SDL_Surface *pIcon = create_icon_from_theme(pIcon_theme, 1);
   struct widget *pButton = create_icon_button(pIcon, pDest, pstr, flags);
 
@@ -369,8 +368,8 @@ struct widget *create_themeicon_button(SDL_Surface *pIcon_theme,
   Graphic for Icon theme is taken from pButton->theme2 surface and blit to
   new created image.
 
-  function return (-1) if there are no Icon and Text.
-  Else return 0.
+  @return 0 on success, 1 when there is no icon nor text,
+          or negative SDL error
 **************************************************************************/
 int draw_tibutton(struct widget *pButton, Sint16 start_x, Sint16 start_y)
 {
@@ -392,8 +391,8 @@ int draw_tibutton(struct widget *pButton, Sint16 start_x, Sint16 start_y)
   Graphic for Icon is taken from pButton->theme2 surface
   and blit to new created image.
 
-  function return (-1) if there are no Icon and Text.
-  Else return 0.
+  @return 0 on success, 1 when there is no icon nor text,
+          or negative SDL error
 **************************************************************************/
 int draw_ibutton(struct widget *pButton, Sint16 start_x, Sint16 start_y)
 {
