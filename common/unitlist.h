@@ -37,30 +37,31 @@ extern "C" {
 #define unit_list_both_iterate_end LIST_BOTH_ITERATE_END
 
 #define unit_list_iterate_safe(unitlist, _unit)				\
-{									\
+{                                                                       \
   struct unit_list *_unit##_ul = unitlist;                              \
-  int _unit##_size = unit_list_size(_unit##_ul);			\
-									\
-  if (_unit##_size > 0) {						\
-    int _unit##_numbers[_unit##_size];					\
-    int _unit##_index = 0;						\
-									\
-    unit_list_iterate(_unit##_ul, _unit) {				\
-      _unit##_numbers[_unit##_index++] = _unit->id;			\
-    } unit_list_iterate_end;						\
-									\
-    for (_unit##_index = 0;						\
-	 _unit##_index < _unit##_size;					\
-	 _unit##_index++) {						\
-      struct unit *_unit =						\
-	game_unit_by_number(_unit##_numbers[_unit##_index]);		\
-									\
+  int _unit##_size = unit_list_size(_unit##_ul);                        \
+                                                                        \
+  if (_unit##_size > 0) {                                               \
+    int _unit##_numbers[_unit##_size];                                  \
+    int _unit##_index;                                                  \
+                                                                        \
+    _unit##_size = 0;                                                   \
+    unit_list_iterate(_unit##_ul, _unit) {                              \
+      _unit##_numbers[_unit##_size++] = _unit->id;                      \
+    } unit_list_iterate_end;                                            \
+                                                                        \
+    for (_unit##_index = 0;                                             \
+         _unit##_index < _unit##_size;                                  \
+         _unit##_index++) {                                             \
+      struct unit *_unit =                                              \
+        game_unit_by_number(_unit##_numbers[_unit##_index]);            \
+                                                                        \
       if (NULL != _unit) {
 
-#define unit_list_iterate_safe_end					\
-      }									\
-    }									\
-  }									\
+#define unit_list_iterate_safe_end                                      \
+      }                                                                 \
+    }                                                                   \
+  }                                                                     \
 }
 
 struct unit *unit_list_find(const struct unit_list *punitlist, int unit_id);
