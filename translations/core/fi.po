@@ -29,8 +29,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 3.0\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2022-12-25 01:24+0200\n"
-"PO-Revision-Date: 2022-12-25 01:31+0200\n"
+"POT-Creation-Date: 2022-12-31 07:48+0200\n"
+"PO-Revision-Date: 2022-12-31 08:00+0200\n"
 "Last-Translator: Sini Ruohomaa <sini.ruohomaa@iki.fi>\n"
 "Language-Team: None <freeciv-i18n@freelists.org>\n"
 "Language: fi\n"
@@ -561,7 +561,7 @@ msgstr ""
 
 #. TRANS: No full stop after the URL, could cause confusion.
 #: client/agents/cma_core.c:430 client/gui-sdl2/mapview.c:164
-#: server/console.c:74 server/srv_main.c:3174 utility/log.c:564
+#: server/console.c:74 server/srv_main.c:3175 utility/log.c:564
 #: utility/netintf.c:96 utility/registry_ini.c:797
 #, c-format
 msgid "Please report this message at %s"
@@ -2228,8 +2228,8 @@ msgstr "(nimetön)"
 #: client/gui-gtk-3.22/action_dialog.c:1451 client/gui-gtk-3.22/citydlg.c:3098
 #: client/gui-gtk-3.22/repodlgs.c:1584 client/gui-qt/citydlg.cpp:3292
 #: client/gui-qt/dialogs.cpp:2841 client/gui-qt/dialogs.cpp:2904
-#: client/gui-qt/repodlgs.cpp:214 client/gui-sdl2/action_dialog.c:2229
-#: client/gui-sdl2/action_dialog.c:2492 client/gui-sdl2/citydlg.c:1150
+#: client/gui-qt/repodlgs.cpp:214 client/gui-sdl2/action_dialog.c:2228
+#: client/gui-sdl2/action_dialog.c:2491 client/gui-sdl2/citydlg.c:1150
 #: client/gui-sdl2/repodlgs.c:211 client/text.c:1290 common/unit.c:2006
 #: server/unithand.c:1777 server/unithand.c:2450
 #, c-format
@@ -2242,7 +2242,7 @@ msgstr[1] "Kassassa on %d kultaa."
 #: client/gui-gtk-2.0/action_dialog.c:497
 #: client/gui-gtk-3.0/action_dialog.c:507
 #: client/gui-gtk-3.22/action_dialog.c:507 client/gui-qt/dialogs.cpp:2910
-#: client/gui-sdl2/action_dialog.c:2517
+#: client/gui-sdl2/action_dialog.c:2516
 #, c-format
 msgid ""
 "Bribe unit for %d gold?\n"
@@ -2260,7 +2260,7 @@ msgstr[1] ""
 #: client/gui-gtk-2.0/action_dialog.c:499
 #: client/gui-gtk-3.0/action_dialog.c:509
 #: client/gui-gtk-3.22/action_dialog.c:509 client/gui-qt/dialogs.cpp:2913
-#: client/gui-sdl2/action_dialog.c:2498
+#: client/gui-sdl2/action_dialog.c:2497
 msgid "Bribe Enemy Unit"
 msgstr "Lahjo vihollisen yksikkö"
 
@@ -2268,7 +2268,7 @@ msgstr "Lahjo vihollisen yksikkö"
 #: client/gui-gtk-2.0/action_dialog.c:505
 #: client/gui-gtk-3.0/action_dialog.c:515
 #: client/gui-gtk-3.22/action_dialog.c:515 client/gui-qt/dialogs.cpp:2929
-#: client/gui-sdl2/action_dialog.c:2567
+#: client/gui-sdl2/action_dialog.c:2566
 #, c-format
 msgid ""
 "Bribing the unit costs %d gold.\n"
@@ -2289,7 +2289,7 @@ msgstr[1] ""
 #: client/gui-gtk-3.0/action_dialog.c:1484
 #: client/gui-gtk-3.22/action_dialog.c:517
 #: client/gui-gtk-3.22/action_dialog.c:1478 client/gui-qt/dialogs.cpp:2931
-#: client/gui-sdl2/action_dialog.c:2351 client/gui-sdl2/action_dialog.c:2579
+#: client/gui-sdl2/action_dialog.c:2350 client/gui-sdl2/action_dialog.c:2578
 msgid "Traitors Demand Too Much!"
 msgstr "Kapinalliset ovat liian ahneita!"
 
@@ -2325,7 +2325,7 @@ msgstr "_Edistysaskeleet:"
 #: client/gui-gtk-3.22/action_dialog.c:1069
 #: client/gui-gtk-3.22/action_dialog.c:1241 client/gui-qt/dialogs.cpp:2428
 #: client/gui-qt/dialogs.cpp:3027 client/gui-sdl2/action_dialog.c:875
-#: client/gui-sdl2/action_dialog.c:2019
+#: client/gui-sdl2/action_dialog.c:2018
 #, c-format
 msgid "At %s's Discretion"
 msgstr "%s päättäköön itse"
@@ -2345,7 +2345,7 @@ msgstr "_Sabotoi"
 #: client/gui-gtk-2.0/action_dialog.c:1169
 #: client/gui-gtk-3.0/action_dialog.c:1184
 #: client/gui-gtk-3.22/action_dialog.c:1178 client/gui-qt/dialogs.cpp:2995
-#: client/gui-sdl2/action_dialog.c:1931
+#: client/gui-sdl2/action_dialog.c:1930
 msgid "Select Improvement to Sabotage"
 msgstr "Valitse sabotoitava rakennushanke"
 
@@ -2358,14 +2358,14 @@ msgstr "Valmistuneet _rakennushankkeet:"
 #: client/gui-gtk-2.0/action_dialog.c:1208
 #: client/gui-gtk-3.0/action_dialog.c:1228
 #: client/gui-gtk-3.22/action_dialog.c:1222 client/gui-qt/dialogs.cpp:3012
-#: client/gui-sdl2/action_dialog.c:1960
+#: client/gui-sdl2/action_dialog.c:1959
 msgid "City Production"
 msgstr "Kaupungin tuotanto"
 
 #: client/gui-gtk-2.0/action_dialog.c:1445
 #: client/gui-gtk-3.0/action_dialog.c:1465
 #: client/gui-gtk-3.22/action_dialog.c:1459 client/gui-qt/dialogs.cpp:2850
-#: client/gui-sdl2/action_dialog.c:2267
+#: client/gui-sdl2/action_dialog.c:2266
 #, c-format
 msgid "You can't incite a revolt in %s."
 msgstr "Et voi lietsoa kapinaa kaupungissa %s."
@@ -2373,7 +2373,7 @@ msgstr "Et voi lietsoa kapinaa kaupungissa %s."
 #: client/gui-gtk-2.0/action_dialog.c:1447
 #: client/gui-gtk-3.0/action_dialog.c:1467
 #: client/gui-gtk-3.22/action_dialog.c:1461
-#: client/gui-sdl2/action_dialog.c:2278
+#: client/gui-sdl2/action_dialog.c:2277
 msgid "City can't be incited!"
 msgstr "Kaupungissa ei voi lietsoa kapinaa!"
 
@@ -2381,7 +2381,7 @@ msgstr "Kaupungissa ei voi lietsoa kapinaa!"
 #: client/gui-gtk-2.0/action_dialog.c:1453
 #: client/gui-gtk-3.0/action_dialog.c:1473
 #: client/gui-gtk-3.22/action_dialog.c:1467 client/gui-qt/dialogs.cpp:2858
-#: client/gui-sdl2/action_dialog.c:2288
+#: client/gui-sdl2/action_dialog.c:2287
 #, c-format
 msgid ""
 "Incite a revolt for %d gold?\n"
@@ -2399,7 +2399,7 @@ msgstr[1] ""
 #: client/gui-gtk-2.0/action_dialog.c:1455
 #: client/gui-gtk-3.0/action_dialog.c:1475
 #: client/gui-gtk-3.22/action_dialog.c:1469 client/gui-qt/dialogs.cpp:2862
-#: client/gui-sdl2/action_dialog.c:2235
+#: client/gui-sdl2/action_dialog.c:2234
 msgid "Incite a Revolt!"
 msgstr "Lietso kapinaa!"
 
@@ -2407,7 +2407,7 @@ msgstr "Lietso kapinaa!"
 #: client/gui-gtk-2.0/action_dialog.c:1462
 #: client/gui-gtk-3.0/action_dialog.c:1482
 #: client/gui-gtk-3.22/action_dialog.c:1476 client/gui-qt/dialogs.cpp:2876
-#: client/gui-sdl2/action_dialog.c:2339
+#: client/gui-sdl2/action_dialog.c:2338
 #, c-format
 msgid ""
 "Inciting a revolt costs %d gold.\n"
@@ -2426,7 +2426,7 @@ msgstr[1] ""
 #: client/gui-gtk-2.0/action_dialog.c:1747
 #: client/gui-gtk-3.0/action_dialog.c:1835
 #: client/gui-gtk-3.22/action_dialog.c:1829 client/gui-qt/dialogs.cpp:1897
-#: client/gui-sdl2/action_dialog.c:1599
+#: client/gui-sdl2/action_dialog.c:1598
 #, c-format
 msgid "Choose Your %s's Strategy"
 msgstr "Anna toimintaohjeet yksiköllesi %s"
@@ -3740,12 +3740,12 @@ msgid "?play:Game"
 msgstr "Peli"
 
 #: client/gui-gtk-2.0/editprop.c:869 client/gui-gtk-3.0/editprop.c:873
-#: client/gui-gtk-3.22/editprop.c:873 utility/shared.c:2205
+#: client/gui-gtk-3.22/editprop.c:873 utility/shared.c:2206
 msgid "TRUE"
 msgstr "TOSI"
 
 #: client/gui-gtk-2.0/editprop.c:869 client/gui-gtk-3.0/editprop.c:873
-#: client/gui-gtk-3.22/editprop.c:873 utility/shared.c:2205
+#: client/gui-gtk-3.22/editprop.c:873 utility/shared.c:2206
 msgid "FALSE"
 msgstr "EPÄTOSI"
 
@@ -7534,7 +7534,7 @@ msgstr "Vanhentuu %1 keksimisen myötä"
 #: client/gui-qt/optiondlg.cpp:141 client/gui-qt/pages.cpp:393
 #: client/gui-qt/pages.cpp:529 client/gui-qt/pages.cpp:597
 #: client/gui-qt/ratesdlg.cpp:78 client/gui-qt/ratesdlg.cpp:167
-#: client/gui-qt/shortcuts.cpp:614 client/gui-sdl2/action_dialog.c:1724
+#: client/gui-qt/shortcuts.cpp:614 client/gui-sdl2/action_dialog.c:1723
 #: client/gui-sdl2/citydlg.c:527 client/gui-sdl2/citydlg.c:1420
 #: client/gui-sdl2/connectdlg.c:323 client/gui-sdl2/connectdlg.c:633
 #: client/gui-sdl2/connectdlg.c:827 client/gui-sdl2/connectdlg.c:997
@@ -7629,7 +7629,7 @@ msgstr "Mene kohteeseen"
 msgid "Inspect City"
 msgstr "Tutki kaupunkia"
 
-#: client/gui-qt/dialogs.cpp:2055 client/gui-sdl2/action_dialog.c:1696
+#: client/gui-qt/dialogs.cpp:2055 client/gui-sdl2/action_dialog.c:1695
 msgid "Keep moving"
 msgstr "Jatka matkaa"
 
@@ -7657,8 +7657,8 @@ msgstr[0] "Haluatko todella poistaa käytöstä %1 yksikön?"
 msgstr[1] "Haluatko todella poistaa käytöstä %1 yksikköä?"
 
 #: client/gui-qt/dialogs.cpp:3092 client/gui-qt/pages.cpp:1735
-#: client/gui-qt/voteinfo_bar.cpp:39 client/gui-sdl2/action_dialog.c:2300
-#: client/gui-sdl2/action_dialog.c:2529 client/gui-sdl2/citydlg.c:1218
+#: client/gui-qt/voteinfo_bar.cpp:39 client/gui-sdl2/action_dialog.c:2299
+#: client/gui-sdl2/action_dialog.c:2528 client/gui-sdl2/citydlg.c:1218
 #: client/gui-sdl2/cma_fe.c:353 client/gui-sdl2/diplodlg.c:1417
 #: client/gui-sdl2/plrdlg.c:248 client/gui-sdl2/repodlgs.c:266
 #: client/text.c:654
@@ -7666,8 +7666,8 @@ msgid "Yes"
 msgstr "Kyllä"
 
 #: client/gui-qt/dialogs.cpp:3093 client/gui-qt/pages.cpp:1737
-#: client/gui-qt/voteinfo_bar.cpp:40 client/gui-sdl2/action_dialog.c:2311
-#: client/gui-sdl2/action_dialog.c:2539 client/gui-sdl2/citydlg.c:1207
+#: client/gui-qt/voteinfo_bar.cpp:40 client/gui-sdl2/action_dialog.c:2310
+#: client/gui-sdl2/action_dialog.c:2538 client/gui-sdl2/citydlg.c:1207
 #: client/gui-sdl2/cma_fe.c:362 client/gui-sdl2/diplodlg.c:1406
 #: client/gui-sdl2/plrdlg.c:248 client/gui-sdl2/repodlgs.c:254
 #: client/gui-sdl2/repodlgs.c:1645
@@ -8249,7 +8249,7 @@ msgid "Same Type Everywhere"
 msgstr "Saman tyyppiset kaikkialta"
 
 #: client/gui-qt/menu.cpp:1215 client/gui-qt/shortcuts.cpp:132
-#: client/gui-sdl2/action_dialog.c:1711 client/gui-sdl2/menu.c:418
+#: client/gui-sdl2/action_dialog.c:1710 client/gui-sdl2/menu.c:418
 msgid "Wait"
 msgstr "Odota"
 
@@ -9077,9 +9077,9 @@ msgstr "Tyhjä"
 msgid "<b>%1 called a vote for:</b>"
 msgstr "<b>%s pyysi äänestyksen:</b>"
 
-#: client/gui-sdl2/action_dialog.c:798 client/gui-sdl2/action_dialog.c:1949
-#: client/gui-sdl2/action_dialog.c:2256 client/gui-sdl2/action_dialog.c:2326
-#: client/gui-sdl2/action_dialog.c:2554 client/gui-sdl2/chatline.c:221
+#: client/gui-sdl2/action_dialog.c:798 client/gui-sdl2/action_dialog.c:1948
+#: client/gui-sdl2/action_dialog.c:2255 client/gui-sdl2/action_dialog.c:2325
+#: client/gui-sdl2/action_dialog.c:2553 client/gui-sdl2/chatline.c:221
 #: client/gui-sdl2/citydlg.c:3542 client/gui-sdl2/cma_fe.c:513
 #: client/gui-sdl2/cma_fe.c:929 client/gui-sdl2/dialogs.c:333
 #: client/gui-sdl2/dialogs.c:548 client/gui-sdl2/dialogs.c:1111
@@ -9095,7 +9095,7 @@ msgstr "<b>%s pyysi äänestyksen:</b>"
 msgid "Close Dialog (Esc)"
 msgstr "Sulje valintaikkuna (Esc)"
 
-#: client/gui-sdl2/action_dialog.c:1604
+#: client/gui-sdl2/action_dialog.c:1603
 msgid "Subvert Enemy Unit"
 msgstr "Käännytä vihollisyksikkö"
 
@@ -12373,8 +12373,12 @@ msgid ""
 msgid_plural ""
 "* Each worked tile with at least 1 %s will yield %d more of it while the "
 "city working it is celebrating."
-msgstr[0] "· Jokainen ruutu, jonka %s -tuotto on vähintään yhden pisteen, tuotaa %d pisteenn enemmän kaupungin juhliessa."
-msgstr[1] "· Jokainen ruutu, jonka %s -tuotto on vähintään yhden pisteen, tuottaa %d pistettä enemmän kaupungin juhliessa."
+msgstr[0] ""
+"· Jokainen ruutu, jonka %s -tuotto on vähintään yhden pisteen, tuotaa %d "
+"pisteenn enemmän kaupungin juhliessa."
+msgstr[1] ""
+"· Jokainen ruutu, jonka %s -tuotto on vähintään yhden pisteen, tuottaa %d "
+"pistettä enemmän kaupungin juhliessa."
 
 #. TRANS: %s is list of output types, with 'or'
 #: client/helpdata.c:4429
@@ -12382,8 +12386,12 @@ msgstr[1] "· Jokainen ruutu, jonka %s -tuotto on vähintään yhden pisteen, tu
 msgid "* Each worked tile with at least 1 %s will yield %d more of it.\n"
 msgid_plural ""
 "* Each worked tile with at least 1 %s will yield %d more of it.\n"
-msgstr[0] "· Jokainen ruutu, jonka %s -tuotto on vähintään yhden pisteen, tuottaa %d pisteen enemmän.\n"
-msgstr[1] "· Jokainen ruutu, jonka %s -tuotto on vähintään yhden pisteen, tuottaa %d pistettä enemmän.\n"
+msgstr[0] ""
+"· Jokainen ruutu, jonka %s -tuotto on vähintään yhden pisteen, tuottaa %d "
+"pisteen enemmän.\n"
+msgstr[1] ""
+"· Jokainen ruutu, jonka %s -tuotto on vähintään yhden pisteen, tuottaa %d "
+"pistettä enemmän.\n"
 
 #. TRANS: %s is list of output types, with 'and'
 #: client/helpdata.c:4440
@@ -12422,19 +12430,25 @@ msgstr "· Vähentää ruton vaaraa kaupungeissasi.\n"
 #: client/helpdata.c:4486
 #, c-format
 msgid "* %s losses will increase quickly with distance from capital.\n"
-msgstr "· Etäisyyden pääkaupungista kasvaessa vaikutuksenalaisen tuoton (%s) hukka kasvaa nopeasti.\n"
+msgstr ""
+"· Etäisyyden pääkaupungista kasvaessa vaikutuksenalaisen tuoton (%s) hukka "
+"kasvaa nopeasti.\n"
 
 #. TRANS: %s is list of output types, with 'and'
 #: client/helpdata.c:4492
 #, c-format
 msgid "* %s losses will increase with distance from capital.\n"
-msgstr "· Etäisyyden pääkaupungista kasvaessa vaikutuksenalaisen tuoton (%s) hukka kasvaa.\n"
+msgstr ""
+"· Etäisyyden pääkaupungista kasvaessa vaikutuksenalaisen tuoton (%s) hukka "
+"kasvaa.\n"
 
 #. TRANS: %s is list of output types, with 'and'
 #: client/helpdata.c:4498
 #, c-format
 msgid "* %s losses will increase slowly with distance from capital.\n"
-msgstr "· Etäisyyden pääkaupungista kasvaessa vaikutuksenalaisen tuoton (%s) hukka kasvaa hitaasti.\n"
+msgstr ""
+"· Etäisyyden pääkaupungista kasvaessa vaikutuksenalaisen tuoton (%s) hukka "
+"kasvaa hitaasti.\n"
 
 #: client/helpdata.c:4507
 msgid "* Increases the chance of migration into your cities.\n"
@@ -15422,11 +15436,23 @@ msgstr "Sotilasyksiköillä ei ole vaikutusta onnellisuuteen. "
 msgid "Luxury: %d total."
 msgstr "Luksus: %d kaikkiaan."
 
+#: client/text.c:2080
+msgid " (us)"
+msgstr " (me itse)"
+
+#: client/text.c:2082
+msgid " (an ally)"
+msgstr " (liittolainen)"
+
+#: client/text.c:2086
+msgid " (an enemy)"
+msgstr " (vihollinen)"
+
 #. TRANS: %s is a Nation
-#: client/text.c:2079
+#: client/text.c:2096
 #, c-format
-msgid "%s: score %d"
-msgstr "%s: pisteitä %d"
+msgid "%s%s: score %d"
+msgstr "%s%s: pisteitä %d"
 
 #: client/tilespec.c:1264
 msgid "No usable default tileset found, aborting!"
@@ -25705,11 +25731,8 @@ msgstr "lentotukikohta"
 #: data/experimental/terrain.ruleset:1397 data/multiplayer/terrain.ruleset:1394
 msgid ""
 "Airbases allow your air units to land and refuel outside cities. Air units "
-"in an airbase may be attacked by land units."
-msgstr ""
-"Lentotukikohtia käytetään ilmavoimien yksiköiden tankkaus- ja "
-"laskeutumispaikkoina kaupunkien ulkopuolella. Maavoimien yksiköt voivat "
-"hyökätä lentotukikohtaan laskeutuneiden ilmavoimien yksiköiden kimppuun."
+"in an airbase may be attacked also by land units."
+msgstr "Lentotukikohtia käytetään ilmavoimien yksiköiden tankkaus- ja laskeutumispaikkoina kaupunkien ulkopuolella. Myös maavoimien yksiköt voivat hyökätä lentotukikohtaan laskeutuneiden ilmavoimien yksiköiden kimppuun."
 
 #: data/civ2/terrain.ruleset:1182 data/classic/terrain.ruleset:1425
 #: data/sandbox/terrain.ruleset:40 data/experimental/terrain.ruleset:1400
@@ -26223,16 +26246,11 @@ msgstr ""
 #: data/experimental/units.ruleset:1417
 msgid ""
 "The Helicopter is a very powerful unit, as it can both fly and conquer "
-"cities.  Care must be exercised, because Helicopters lose a small amount of "
+"cities. Care must be exercised, because Helicopters lose a small amount of "
 "health for every turn not spent in a city or airbase or on a Carrier, unless "
-"you have the United Nations wonder, and Helicopters may be attacked by "
+"you have the United Nations wonder, and Helicopters may be attacked also by "
 "ground units."
-msgstr ""
-"Helikopteri on erittäin voimakas yksikkö, joka voi sekä lentää että "
-"valloittaa kaupunkeja. Ole tarkkana, sillä helikopterien kunto heikkenee "
-"hieman joka pelivuorolla, jota ne eivät vietä kaupungissa, lentotukikohdassa "
-"tai lentotukialuksessa (paitsi jos sinulla on ihme Yhdistyneet Kansakunnat). "
-"Vihollisen maavoimien yksiköt voivat lisäksi hyökätä Helikopterisi kimppuun."
+msgstr "Helikopteri on erittäin voimakas yksikkö, joka voi sekä lentää että valloittaa kaupunkeja. Ole tarkkana, sillä helikopterien kunto heikkenee hieman joka pelivuorolla, jota ne eivät vietä kaupungissa, lentotukikohdassa tai lentotukialuksessa (paitsi jos sinulla on ihme Yhdistyneet Kansakunnat). Lisäksi jopa maavoimien yksiköt voivat hyökätä Helikopterien kimppuun."
 
 #: data/civ2/units.ruleset:1362 data/classic/units.ruleset:1402
 #: data/sandbox/units.ruleset:1647 data/experimental/units.ruleset:1426
@@ -37890,14 +37908,10 @@ msgstr ""
 #: data/multiplayer/units.ruleset:1492
 msgid ""
 "The Helicopter is a very powerful unit, as it can both fly and conquer "
-"cities.  Care must be exercised, because Helicopters lose a small amount of "
+"cities. Care must be exercised, because Helicopters lose a small amount of "
 "health for every turn not spent in a city or airbase or on a Carrier, and "
-"they may be attacked by ground units."
-msgstr ""
-"Helikopteri on erittäin tehokas yksikkö, koska se voi sekä lentää että "
-"valloittaa kaupunkeja. Ole tarkkana, sillä helikopterien kunto heikkenee "
-"hieman joka pelivuorolla, jota ne eivät vietä kaupungissa, lentotukikohdassa "
-"tai tukialuksella, ja lisäksi maayksiköt voivat hyökätä niiden kimppuun."
+"they may be attacked also by ground units."
+msgstr "Helikopteri on erittäin tehokas yksikkö, koska se voi sekä lentää että valloittaa kaupunkeja. Ole tarkkana, sillä helikopterien kunto heikkenee hieman joka pelivuorolla, jota ne eivät vietä kaupungissa, lentotukikohdassa tai tukialuksella, ja lisäksi maayksikötkin voivat hyökätä niiden kimppuun."
 
 #: data/multiplayer/units.ruleset:2273
 msgid ""
@@ -39582,10 +39596,10 @@ msgid ""
 "Again, cities are best built on open ground near water.  Grassland\n"
 "and plains provide food for the city.  Forests and hills provide\n"
 "the resources (shields) needed for building things.  Rivers and ocean\n"
-"give trade bonuses that provide civilization-wide benefits.  Desert,\n"
-"tundra, and mountains generally provide little output and are not\n"
-"of much use to small cities.  See the help on Terrain for more\n"
-"information about terrain specs."
+"give trade bonuses that provide civilization-wide benefits.  Desert\n"
+"and tundra generally provide little output and are not of much\n"
+"use to small cities.  See the help on Terrain for more information\n"
+"about terrain specs."
 msgstr ""
 "Olet rakentanut uudisraivaajaryhmän. Uudisraivaajat ovat parhaimmillaan\n"
 "uusien kaupunkien rakentamisessa ja siten laajentavat kansakuntaasi.\n"
@@ -39596,8 +39610,8 @@ msgstr ""
 "Kertauksena: kaupungit on hyvä rakentaa avomaalle lähelle vettä.\n"
 "Ruohomailta ja tasangoilta saadaan ruokaa, metsiltä ja kukkuloilta\n"
 "saadaan taas tuotantoon tarvittavia resursseja. Joet ja meret ovat\n"
-"eduksi koko kansakuntaa hyödyttävälle kaupalle. Aavikko, tundra ja\n"
-"vuoret ovat yleensä tuotoltaan heikkoja eikä niistä ole juuri käyttöä\n"
+"eduksi koko kansakuntaa hyödyttävälle kaupalle. Aavikko ja tundra\n"
+"ovat yleensä tuotoltaan heikkoja eikä niistä ole juuri käyttöä\n"
 "pienille kaupungeille. Lisätietoa löydät maastotyyppejä ja niiden\n"
 "erityispiirteitä käsittelevistä kohdista."
 
@@ -40566,7 +40580,7 @@ msgstr "Tulostushakemisto annettu monta kertaa.\n"
 msgid "Can't load ruleset %s"
 msgstr "Sääntökokoelman %s lataaminen epäonnistui"
 
-#: tools/ruleutil/rulesave.c:2844
+#: tools/ruleutil/rulesave.c:2848
 #, c-format
 msgid "Failed to create directory %s"
 msgstr "Virhe luotaessa hakemistoa %s"
@@ -44515,34 +44529,34 @@ msgstr "Tallennettu peli on liian vanha, tarvitaan vähintään versio 2.0.0."
 msgid "Inconsistent player count in savegame"
 msgstr "Talletuksessa on ristiriitainen pelaajien määrä"
 
-#: server/legacysave.c:4097 server/savegame2.c:2666 server/savegame3.c:3541
-#: server/srv_main.c:2404 server/srv_main.c:2409
+#: server/legacysave.c:4097 server/savegame2.c:2666 server/savegame3.c:3549
+#: server/srv_main.c:2405 server/srv_main.c:2410
 #, c-format
 msgid "%s has been added as %s level AI-controlled player (%s)."
 msgstr "%s on lisätty vaikeustason %s AI-pelaajaksi (%s)."
 
-#: server/legacysave.c:4102 server/savegame2.c:2671 server/savegame3.c:3546
+#: server/legacysave.c:4102 server/savegame2.c:2671 server/savegame3.c:3554
 #, c-format
 msgid "%s has been added as human player."
 msgstr "%s on lisätty tavalliseksi pelaajaksi."
 
-#: server/legacysave.c:4157 server/savegame2.c:5252 server/savegame3.c:7186
+#: server/legacysave.c:4157 server/savegame2.c:5252 server/savegame3.c:7194
 #, c-format
 msgid "%s had invalid researching technology."
 msgstr "Pelaajan %s tutkimuskohde oli virheellinen."
 
-#: server/legacysave.c:4168 server/savegame2.c:5262 server/savegame3.c:7196
+#: server/legacysave.c:4168 server/savegame2.c:5262 server/savegame3.c:7204
 #, c-format
 msgid "%s had invalid technology goal."
 msgstr "Pelaajan %s tutkimustavoite oli virheellinen."
 
-#: server/legacysave.c:4176 server/savegame2.c:5271 server/savegame3.c:7205
+#: server/legacysave.c:4176 server/savegame2.c:5271 server/savegame3.c:7213
 #, c-format
 msgid "%s had finished researches count wrong."
 msgstr "Pelaajan %s valmistuneiden tutkimusten laskuri oli virheellinen."
 
 #. TRANS: Minor error message: <Leader> ... <Poles>.
-#: server/legacysave.c:4194 server/savegame2.c:2695 server/savegame3.c:3570
+#: server/legacysave.c:4194 server/savegame2.c:2695 server/savegame3.c:3578
 #, c-format
 msgid "%s had invalid nation; changing to %s."
 msgstr "%s johtama kansakunta ei kelpaa; vaihdetaan tilalle %s."
@@ -45422,7 +45436,7 @@ msgstr "Käsittämättömästi muotoilta attribuuttilohko."
 msgid "Failed to load ruleset '%s' needed for savegame."
 msgstr "Virhe tallennetun pelin tarvitseman sääntökokoelman '%s' lataamisessa."
 
-#: server/savegame2.c:5301 server/savegame3.c:7223
+#: server/savegame2.c:5301 server/savegame3.c:7231
 #, c-format
 msgid ""
 "%s has multiple units of type %s though it should be possible to have only "
@@ -48832,32 +48846,32 @@ msgstr "Kansakunta (%s) on jo käytössä."
 msgid "%s is the %s ruler %s."
 msgstr "%s on %s hallitsija %s."
 
-#: server/srv_main.c:2314
+#: server/srv_main.c:2315
 #, c-format
-msgid "Waiting to start game: %d out of %d players are ready to start."
-msgstr "Odotetaan pelin alkamista: %d / %d pelaajaa valmiina aloittamaan."
+msgid "Waiting to start game: %d out of %d alive players are ready to start."
+msgstr "Odotetaan pelin alkamista: %d / %d elävistä pelaajista valmiina aloittamaan."
 
-#: server/srv_main.c:2340
+#: server/srv_main.c:2341
 msgid "requested more than 'maxplayers' setting"
 msgstr "pyydetty määrä ole enemmän kuin 'maxplayers' asetus sallii"
 
-#: server/srv_main.c:2347
+#: server/srv_main.c:2348
 msgid ""
 "not enough playable nations in this nation set (see 'nationset' setting)"
 msgstr ""
 "käytössä olevassa kansavalikoimassa ei ole riittävästi kansakuntia (kokeile "
 "muuttaa 'nationset' asetusta)"
 
-#: server/srv_main.c:2350
+#: server/srv_main.c:2351
 msgid "not enough playable nations"
 msgstr "Kansakuntia ei ole riittävästi."
 
-#: server/srv_main.c:2696 server/srv_main.c:2700
+#: server/srv_main.c:2697 server/srv_main.c:2701
 #, c-format
 msgid "%s rules the %s."
 msgstr "%s sai johtaakseen %s."
 
-#: server/srv_main.c:2902
+#: server/srv_main.c:2903
 msgid ""
 "This freeciv-server program has player authentication support, but it's "
 "currently not in use."
@@ -48865,44 +48879,44 @@ msgstr ""
 "Tämä freeciv-palvelinohjelma tukee käyttäjien kirjautumista "
 "(autentikaatiota), mutta se ei ole tällä hetkellä käytössä."
 
-#: server/srv_main.c:2963 server/stdinhand.c:3947
+#: server/srv_main.c:2964 server/stdinhand.c:3947
 #, c-format
 msgid "Ruleset directory \"%s\" not found"
 msgstr "Sääntökokoelmahakemistoa \"%s\" ei löydy"
 
-#: server/srv_main.c:2980
+#: server/srv_main.c:2981
 #, c-format
 msgid "Sending info to metaserver <%s>."
 msgstr "Lähetän tietoa metapalvelimelle <%s>"
 
-#: server/srv_main.c:2984
+#: server/srv_main.c:2985
 msgid "Not starting without explicitly requested metaserver connection."
 msgstr "En käynnisty ilman erikseen pyydettyä metapalvelinyhteyttä."
 
-#: server/srv_main.c:3007
+#: server/srv_main.c:3008
 msgid "The game is over..."
 msgstr "Peli päättyy..."
 
-#: server/srv_main.c:3138
+#: server/srv_main.c:3139
 msgid "Failed to create suitable map, retrying with another mapseed."
 msgstr ""
 "Epäonnistuin luomaan sopivaa karttaa, yritän uudelleen uudella siemenluvulla."
 
-#: server/srv_main.c:3144
+#: server/srv_main.c:3145
 #, c-format
 msgid "Attempt %d/%d"
 msgstr "Yritys %d/%d"
 
-#: server/srv_main.c:3172
+#: server/srv_main.c:3173
 msgid "Cannot create suitable map with given settings."
 msgstr "En onnistunut luomaan sopivaa karttaa annetuilla asetuksilla."
 
-#: server/srv_main.c:3196 server/srv_main.c:3200
+#: server/srv_main.c:3197 server/srv_main.c:3201
 #, c-format
 msgid "Setting '%s' has been adjusted from %s to %s."
 msgstr "Asetus '%s' on muutettu arvosta %s arvoon %s."
 
-#: server/srv_main.c:3399
+#: server/srv_main.c:3400
 #, c-format
 msgid "Now accepting new client connections on port %d."
 msgstr "Vastaanotan nyt uusia asiakasohjelmien yhteydenottoja porttiin %d."
@@ -52259,12 +52273,12 @@ msgstr[1] " (yhteensä %d toistoa)"
 
 #. TRANS: first %s is URL, second is Curl error message
 #. * (not in Freeciv translation domain)
-#: utility/netfile.c:122
+#: utility/netfile.c:126
 #, c-format
 msgid "Failed to fetch %s: %s"
 msgstr "Virhe noudettaessa tiedostoa osoitteesta %s: %s"
 
-#: utility/netfile.c:171 utility/registry_ini.c:662
+#: utility/netfile.c:175 utility/registry_ini.c:662
 #, c-format
 msgid "Could not open %s for writing"
 msgstr "Tiedostoa %s ei voitu avata kirjoitusta varten."
@@ -52331,92 +52345,92 @@ msgstr "Freeciv toimintomuuttuja: %s"
 msgid "File capabilities: %s"
 msgstr "Tiedoston toimintomuuttuja: %s"
 
-#: utility/shared.c:681
+#: utility/shared.c:682
 #, c-format
 msgid "Storage dir is \"%s\"."
 msgstr "Talletushakemisto on \"%s\"."
 
 #. TRANS: <FREECIV_DATA_PATH> configuration error
-#: utility/shared.c:896
+#: utility/shared.c:897
 #, c-format
 msgid "\"%s\" is set but empty; using default \"%s\" data directories instead."
 msgstr "\"%s\" on asetettu tyhjäksi, käytän oletuspolkua \"%s\"."
 
 #. TRANS: <FREECIV_SAVE_PATH> configuration error
-#: utility/shared.c:932
+#: utility/shared.c:933
 #, c-format
 msgid "\"%s\" is set but empty; using default \"%s\" save directories instead."
 msgstr "\"%s\" on asetettu tyhjäksi, käytän oletuspolkua \"%s\"."
 
 #. TRANS: <FREECIV_SCENARIO_PATH> configuration error
-#: utility/shared.c:969
+#: utility/shared.c:970
 #, c-format
 msgid ""
 "\"%s\" is set but empty; using default \"%s\" scenario directories instead."
 msgstr "\"%s\" on asetettu tyhjäksi, käytän oletuspolkua \"%s\"."
 
 #. TRANS: "...: <externally translated error string>."
-#: utility/shared.c:1018
+#: utility/shared.c:1019
 #, c-format
 msgid "Could not read data directory %s: %s."
 msgstr "Datahakemiston %s lukeminen epäonnistui: %s."
 
-#: utility/shared.c:1520
+#: utility/shared.c:1521
 #, c-format
 msgid "%s: Fatal error: you're trying to run me as superuser!\n"
 msgstr "%s: Vakava virhe: root-käyttäjän ei sovi ajaa minua!\n"
 
-#: utility/shared.c:1522
+#: utility/shared.c:1523
 msgid "Use a non-privileged account instead.\n"
 msgstr "Käytä mieluummin tavallista käyttäjätiliä.\n"
 
 # Used in the server/stdinhand.c to describe errors if given player name or
 # command is not known or matches multiple players/commands --PP
-#: utility/shared.c:1538
+#: utility/shared.c:1539
 msgid "exact match"
 msgstr "täysosuma"
 
-#: utility/shared.c:1539
+#: utility/shared.c:1540
 msgid "only match"
 msgstr "ainoa osuma"
 
 # *** 'non-clear' ***
-#: utility/shared.c:1540
+#: utility/shared.c:1541
 msgid "ambiguous"
 msgstr "vastaa useaa"
 
-#: utility/shared.c:1541
+#: utility/shared.c:1542
 msgid "empty"
 msgstr "tyhjä"
 
-#: utility/shared.c:1542
+#: utility/shared.c:1543
 msgid "too long"
 msgstr "liian pitkä"
 
 # *** Urmh. ***
-#: utility/shared.c:1543
+#: utility/shared.c:1544
 msgid "non-match"
 msgstr "huti"
 
-#: utility/shared.c:1922
+#: utility/shared.c:1923
 msgid "day"
 msgid_plural "days"
 msgstr[0] "päivä"
 msgstr[1] "päivää"
 
-#: utility/shared.c:1927
+#: utility/shared.c:1928
 msgid "hour"
 msgid_plural "hours"
 msgstr[0] "tunti"
 msgstr[1] "tuntia"
 
-#: utility/shared.c:1933
+#: utility/shared.c:1934
 msgid "minute"
 msgid_plural "minutes"
 msgstr[0] "minuutti"
 msgstr[1] "minuuttia"
 
-#: utility/shared.c:1939
+#: utility/shared.c:1940
 msgid "second"
 msgid_plural "seconds"
 msgstr[0] "sekunti"
