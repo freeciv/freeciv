@@ -1151,44 +1151,29 @@ static void create_and_append_map_page(struct city_dialog *pdialog)
   }
 }
 
-#ifdef GTK3_DRAG_DROP
 /***********************************************************************//**
   Something dragged to worklist dialog.
 ***************************************************************************/
-static void target_drag_data_received(GtkWidget *w,
-                                      GdkDragContext *context,
-                                      gint x, gint y,
-                                      GtkSelectionData *data,
-                                      guint info, guint time,
-                                      gpointer user_data)
+static gboolean target_drag_data_received(GtkDropTarget *target,
+                                          const GValue *value,
+                                          double x, double y, gpointer data)
 {
-  struct city_dialog *pdialog = (struct city_dialog *) user_data;
-  GtkTreeModel *model;
-  GtkTreePath *path;
+  struct city_dialog *pdialog = (struct city_dialog *) data;
+  cid id;
+  struct universal univ;
 
   if (NULL != client.conn.playing
       && city_owner(pdialog->pcity) != client.conn.playing) {
-    gtk_drag_finish(context, FALSE, FALSE, time);
+    return FALSE;
   }
 
-  if (gtk_tree_get_row_drag_data(data, &model, &path)) {
-    GtkTreeIter it;
+  id = g_value_get_int(value);
+  univ = cid_production(id);
 
-    if (gtk_tree_model_get_iter(model, &it, path)) {
-      cid id;
-      struct universal univ;
+  city_change_production(pdialog->pcity, &univ);
 
-      gtk_tree_model_get(model, &it, 0, &id, -1);
-      univ = cid_production(id);
-      city_change_production(pdialog->pcity, &univ);
-      gtk_drag_finish(context, TRUE, FALSE, time);
-    }
-    gtk_tree_path_free(path);
-  }
-
-  gtk_drag_finish(context, FALSE, FALSE, time);
+  return TRUE;
 }
-#endif /* GTK3_DRAG_DROP */
 
 /***********************************************************************//**
   Create production page header - what tab this actually is,
@@ -1216,12 +1201,7 @@ static int create_production_header(struct city_dialog *pdialog,
   gtk_grid_attach(GTK_GRID(hgrid), bar, grid_col++, 0, 1, 1);
   gtk_progress_bar_set_text(GTK_PROGRESS_BAR(bar), _("%d/%d %d turns"));
 
-  add_worklist_dnd_target(bar);
-
-#ifdef GTK3_DRAG_DROP
-  g_signal_connect(bar, "drag_data_received",
-                   G_CALLBACK(target_drag_data_received), pdialog);
-#endif /* GTK3_DRAG_DROP */
+  add_worklist_dnd_target(bar, target_drag_data_received, pdialog);
 
   pdialog->production.buy_command
     = icon_label_button_new("system-run", _("_Buy"));

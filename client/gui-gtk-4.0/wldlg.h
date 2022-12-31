@@ -33,8 +33,12 @@ GtkWidget *create_worklist(void);
 void reset_city_worklist(GtkWidget *editor, struct city *pcity);
 void refresh_worklist(GtkWidget *editor);
 
-void add_worklist_dnd_target(GtkWidget *w);
+void add_worklist_dnd_target(GtkWidget *w,
+                             gboolean (drag_drop_cb)
+                               (GtkDropTarget *target, const GValue *value,
+                                double x, double y, gpointer data),
+                             gpointer data);
 
 void blank_max_unit_size(void);
 
-#endif  /* FC__WLDLG_H */
+#endif /* FC__WLDLG_H */
