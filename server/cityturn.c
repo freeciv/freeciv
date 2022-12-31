@@ -93,10 +93,10 @@ static void check_pollution(struct city *pcity);
 static void city_populate(struct city *pcity, struct player *nationality);
 
 static bool worklist_change_build_target(struct player *pplayer,
-					 struct city *pcity);
+                                         struct city *pcity);
 
 static bool city_distribute_surplus_shields(struct player *pplayer,
-					    struct city *pcity);
+                                            struct city *pcity);
 static bool city_build_building(struct player *pplayer, struct city *pcity);
 static bool city_build_unit(struct player *pplayer, struct city *pcity);
 static bool city_build_stuff(struct player *pplayer, struct city *pcity);
@@ -1837,9 +1837,45 @@ static bool worklist_item_postpone_req_vec(struct universal *target,
       case VUT_SPECIALIST:
       case VUT_TERRAINALTER: /* XXX could do this in principle */
       case VUT_CITYTILE:
-      case VUT_CITYSTATUS:
         /* Will only happen with a bogus ruleset. */
         log_error("worklist_change_build_target() has bogus preq");
+        break;
+      case VUT_CITYSTATUS:
+        if (preq->source.value.citystatus == CITYS_OWNED_BY_ORIGINAL) {
+          if (preq->range == REQ_RANGE_CITY) {
+            /* Can't change at this range */
+            purge = TRUE;
+          } else {
+            if (preq->present) {
+              notify_player(pplayer, city_tile(pcity),
+                            E_CITY_CANTBUILD, ftc_server,
+                            /* TRANS: last %s is a CityStatus ("OwnedByOriginal") */
+                            _("%s can't build %s from the worklist; "
+                              "only available when city in range %s \"%s\". "
+                              "Postponing..."),
+                            city_link(pcity),
+                            tgt_name, req_range_name(preq->range),
+                            citystatus_type_name(preq->source.value.citystatus));
+              script_server_signal_emit(signal_name, ptarget,
+                                        pcity, "need_citystatus");
+            } else {
+              notify_player(pplayer, city_tile(pcity),
+                            E_CITY_CANTBUILD, ftc_server,
+                            /* TRANS: last %s is a CityStatus ("OwnedByOriginal") */
+                             _("%s can't build %s from the worklist; "
+                               "not available when city in range %s is \"%s\". "
+                               "Postponing..."),
+                             city_link(pcity),
+                             tgt_name, req_range_name(preq->range),
+                             citystatus_type_name(preq->source.value.citystatus));
+              script_server_signal_emit(signal_name, ptarget,
+                                        pcity, "have_citystatus");
+            }
+          }
+        } else {
+          /* Other status types will only happen with a bogus ruleset. */
+          log_error("worklist_change_build_target() has bogus citystatus preq");
+        }
         break;
       case VUT_MINYEAR:
         if (preq->present) {
@@ -1883,7 +1919,7 @@ static bool worklist_item_postpone_req_vec(struct universal *target,
                           "not available after %s. Postponing..."),
                         city_link(pcity),
                         tgt_name,
-                        textcalfrag(preq->source.value.mincalfrag-1));
+                        textcalfrag(preq->source.value.mincalfrag - 1));
           script_server_signal_emit(signal_name, ptarget,
                                     pcity, "have_mincalfrag");
         }
@@ -1972,13 +2008,13 @@ static bool worklist_item_postpone_req_vec(struct universal *target,
 }
 
 /**********************************************************************//**
-  Examine the worklist and change the build target.  Return 0 if no
-  targets are available to change to.  Otherwise return non-zero.  Has
+  Examine the worklist and change the build target. Return 0 if no
+  targets are available to change to. Otherwise return non-zero. Has
   the side-effect of removing from the worklist any no-longer-available
   targets as well as the target actually selected, if any.
 **************************************************************************/
 static bool worklist_change_build_target(struct player *pplayer,
-					 struct city *pcity)
+                                         struct city *pcity)
 {
   struct universal target;
   bool success = FALSE;
