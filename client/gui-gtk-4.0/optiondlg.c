@@ -934,9 +934,8 @@ static void option_dialog_option_apply(struct option *poption)
 
   case OT_STRING:
     if (NULL != option_str_values(poption)) {
-      (void) option_str_set(poption, gtk_entry_buffer_get_text(
-                                        gtk_entry_get_buffer(
-                                           GTK_ENTRY(widget_get_child(w)))));
+      (void) option_str_set(poption,
+                            gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(w)));
     } else {
       (void) option_str_set(poption, gtk_entry_buffer_get_text(
                                                  gtk_entry_get_buffer(GTK_ENTRY(w))));
