@@ -72,6 +72,8 @@ static int redraw_checkbox(struct widget *icon)
 
 /**********************************************************************//**
   Blit checkbox-with-text gfx to surface its on.
+
+  @return 0 on success
 **************************************************************************/
 static int redraw_textcheckbox(struct widget *cbox)
 {
@@ -91,7 +93,9 @@ static int redraw_textcheckbox(struct widget *cbox)
   icon = create_icon_from_theme(theme_surface, get_wstate(cbox));
 
   if (!icon) {
-    return -3;
+    return -3; /* FIXME: What SDL_Error this maps to, and should it map to none?
+                *        Maybe it should be a positive value (SDL_Errors have
+                *        negative values space) */
   }
 
   cbox->theme = icon;
@@ -177,7 +181,7 @@ struct widget *create_textcheckbox(struct gui_layer *pdest, bool state,
   cbox->private_data.cbox = ptmp;
 
   tmp_widget = widget_new();
-  /* we can't use cbox->redraw here, because it is of type iconlabel */
+  /* We can't use cbox->redraw here, because it is of type iconlabel */
   textcheckbox_baseclass_redraw = tmp_widget->redraw;
   FREEWIDGET(tmp_widget);
   cbox->redraw = redraw_textcheckbox;
