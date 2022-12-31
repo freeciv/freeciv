@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -331,7 +331,7 @@ SPECHASH_FOO(_hash_new_nentries_full) (SPECHASH_FOO(_hash_key_val_fn_t)
                                        data_free_func, size_t nentries)
 fc__warn_unused_result;
 
-/****************************************************************************
+/************************************************************************//**
   Create a new spechash.
 ****************************************************************************/
 static inline SPECHASH_HASH *SPECHASH_FOO(_hash_new) (void)
@@ -344,7 +344,7 @@ static inline SPECHASH_HASH *SPECHASH_FOO(_hash_new) (void)
                                        SPECHASH_IDATA_FREE);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Create a new spechash with a set of control functions.
 ****************************************************************************/
 static inline SPECHASH_HASH *
@@ -369,7 +369,7 @@ SPECHASH_FOO(_hash_new_full) (SPECHASH_FOO(_hash_key_val_fn_t) key_val_func,
                            (genhash_free_fn_t) data_free_func));
 }
 
-/****************************************************************************
+/************************************************************************//**
   Create a new spechash with n entries.
 ****************************************************************************/
 static inline SPECHASH_HASH *
@@ -384,7 +384,7 @@ SPECHASH_FOO(_hash_new_nentries) (size_t nentries)
                                                 nentries);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Create a new spechash with n entries and a set of control functions.
 ****************************************************************************/
 static inline SPECHASH_HASH *
@@ -411,7 +411,7 @@ SPECHASH_FOO(_hash_new_nentries_full) (SPECHASH_FOO(_hash_key_val_fn_t)
                                     nentries));
 }
 
-/****************************************************************************
+/************************************************************************//**
   Free a spechash.
 ****************************************************************************/
 static inline void SPECHASH_FOO(_hash_destroy) (SPECHASH_HASH *tthis)
@@ -419,7 +419,7 @@ static inline void SPECHASH_FOO(_hash_destroy) (SPECHASH_HASH *tthis)
   genhash_destroy((struct genhash *) tthis);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Enable/Disable shrinking.
 ****************************************************************************/
 static inline bool SPECHASH_FOO(_hash_set_no_shrink) (SPECHASH_HASH *tthis,
@@ -428,7 +428,7 @@ static inline bool SPECHASH_FOO(_hash_set_no_shrink) (SPECHASH_HASH *tthis,
   return genhash_set_no_shrink((struct genhash *) tthis, no_shrink);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return the number of elements.
 ****************************************************************************/
 static inline size_t SPECHASH_FOO(_hash_size) (const SPECHASH_HASH *tthis)
@@ -436,7 +436,7 @@ static inline size_t SPECHASH_FOO(_hash_size) (const SPECHASH_HASH *tthis)
   return genhash_size((const struct genhash *) tthis);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return the real number of buckets.
 ****************************************************************************/
 static inline size_t
@@ -445,7 +445,7 @@ SPECHASH_FOO(_hash_capacity) (const SPECHASH_HASH *tthis)
   return genhash_capacity((const struct genhash *) tthis);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Duplicate the spechash.
 ****************************************************************************/
 static inline SPECHASH_HASH *
@@ -458,7 +458,7 @@ SPECHASH_FOO(_hash_copy) (const SPECHASH_HASH *tthis)
   return (SPECHASH_HASH *) genhash_copy((const struct genhash *) tthis);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Remove all elements of the spechash.
 ****************************************************************************/
 static inline void SPECHASH_FOO(_hash_clear) (SPECHASH_HASH *tthis)
@@ -466,7 +466,7 @@ static inline void SPECHASH_FOO(_hash_clear) (SPECHASH_HASH *tthis)
   genhash_clear((struct genhash *) tthis);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Insert an element into the spechash. Returns TRUE on success (if no
   collision).
 ****************************************************************************/
@@ -480,7 +480,7 @@ SPECHASH_FOO(_hash_insert) (SPECHASH_HASH *tthis,
                         SPECHASH_UDATA_TO_IDATA(udata));
 }
 
-/****************************************************************************
+/************************************************************************//**
   Replace an element into the spechash. Returns TRUE if it replaced an old
   element.
 ****************************************************************************/
@@ -494,7 +494,7 @@ SPECHASH_FOO(_hash_replace) (SPECHASH_HASH *tthis,
                          SPECHASH_UDATA_TO_IDATA(udata));
 }
 
-/****************************************************************************
+/************************************************************************//**
   Replace an element into the spechash. Returns TRUE if it replaced an old
   element.
 ****************************************************************************/
@@ -520,7 +520,7 @@ SPECHASH_FOO(_hash_replace_full) (SPECHASH_HASH *tthis,
   return ret;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Lookup an element. Returns TRUE if found.
 ****************************************************************************/
 static inline bool
@@ -538,7 +538,7 @@ SPECHASH_FOO(_hash_lookup) (const SPECHASH_HASH *tthis,
   return ret;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Remove an element. Returns TRUE on success.
 ****************************************************************************/
 static inline bool
@@ -549,7 +549,7 @@ SPECHASH_FOO(_hash_remove) (SPECHASH_HASH *tthis,
                         SPECHASH_UKEY_TO_IKEY(ukey));
 }
 
-/****************************************************************************
+/************************************************************************//**
   Remove an element. Returns TRUE on success.
 ****************************************************************************/
 static inline bool
@@ -574,7 +574,7 @@ SPECHASH_FOO(_hash_remove_full) (SPECHASH_HASH *tthis,
 }
 
 
-/****************************************************************************
+/************************************************************************//**
   Compare the specific hash tables.
 ****************************************************************************/
 static inline bool
@@ -588,7 +588,7 @@ SPECHASH_FOO(_hashs_are_equal_full) (const SPECHASH_HASH *phash1,
                                  (genhash_comp_fn_t) data_comp_func);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Compare the specific hash tables.
 ****************************************************************************/
 static inline bool
@@ -600,7 +600,7 @@ SPECHASH_FOO(_hashs_are_equal) (const SPECHASH_HASH *phash1,
 }
 
 
-/****************************************************************************
+/************************************************************************//**
   Remove the size of the iterator type.
 ****************************************************************************/
 static inline size_t SPECHASH_FOO(_hash_iter_sizeof) (void)
@@ -608,7 +608,7 @@ static inline size_t SPECHASH_FOO(_hash_iter_sizeof) (void)
   return genhash_iter_sizeof();
 }
 
-/****************************************************************************
+/************************************************************************//**
   Initialize an iterator.
 ****************************************************************************/
 static inline struct iterator *
@@ -619,7 +619,7 @@ SPECHASH_FOO(_hash_iter_init) (SPECHASH_ITER *iter,
                            (const struct genhash *) tthis);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Initialize a key iterator.
 ****************************************************************************/
 static inline struct iterator *
@@ -630,7 +630,7 @@ SPECHASH_FOO(_hash_key_iter_init) (SPECHASH_ITER *iter,
                                (const struct genhash *) tthis);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Initialize a value iterator.
 ****************************************************************************/
 static inline struct iterator *
@@ -684,7 +684,7 @@ SPECHASH_FOO(_hash_value_iter_init) (SPECHASH_ITER *iter,
                   genhash_iter_sizeof, genhash_value_iter_init,             \
                   (const struct genhash *) (ARG_ht))
 
-/* Balance for above: */ 
+/* Balance for above: */
 #define HASH_DATA_ITERATE_END generic_iterate_end
 
 /* Spechash key iterator.
@@ -697,7 +697,7 @@ SPECHASH_FOO(_hash_value_iter_init) (SPECHASH_ITER *iter,
                   genhash_iter_sizeof, genhash_key_iter_init,               \
                   (const struct genhash *) (ARG_ht))
 
-/* Balance for above: */ 
+/* Balance for above: */
 #define HASH_KEYS_ITERATE_END                                               \
   }                                                                         \
 } while (FALSE);
@@ -714,7 +714,7 @@ SPECHASH_FOO(_hash_value_iter_init) (SPECHASH_ITER *iter,
     TYPE_key NAME_key = (TYPE_key) genhash_iter_key(MY_iter);               \
     TYPE_data NAME_data = (TYPE_data) genhash_iter_value(MY_iter);
 
-/* Balance for above: */ 
+/* Balance for above: */
 #define HASH_ITERATE_END                                                    \
   } genhash_iterate_end;
 
