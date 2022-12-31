@@ -263,7 +263,7 @@ low_firepower_nonnat_bombard = 1
 
 ; Percentage of population lost by a city after nuclear attak. If set to
 ; 100 city is destroyed along with all the units. If set to 0 city does not
-; loose population. Any value below 50 means the city can never be
+; lose population. Any value below 50 means the city can never be
 ; destroyed completely using nuclear.
 nuke_pop_loss_pct = 49
 
