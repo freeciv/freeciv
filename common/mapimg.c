@@ -2316,7 +2316,7 @@ static bool img_save_ppm(const struct img *pimg, const char *mapimgfile)
     return FALSE;
   }
 
-  fp = fopen(ppmname, "w");
+  fp = fc_fopen(ppmname, "w");
   if (!fp) {
     MAPIMG_LOG(_("could not open file: %s"), ppmname);
     return FALSE;
