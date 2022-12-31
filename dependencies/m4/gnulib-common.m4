@@ -1,4 +1,4 @@
-# gnulib-common.m4 serial 74
+# gnulib-common.m4 serial 75
 dnl Copyright (C) 2007-2022 Free Software Foundation, Inc.
 dnl This file is free software; the Free Software Foundation
 dnl gives unlimited permission to copy and/or distribute it,
@@ -187,7 +187,14 @@ AC_DEFUN([gl_COMMON_BODY], [
    to use this earlier definition, since <stdlib.h> may not have been included
    yet.  */
 #ifndef _GL_ATTRIBUTE_DEALLOC_FREE
-# define _GL_ATTRIBUTE_DEALLOC_FREE _GL_ATTRIBUTE_DEALLOC (free, 1)
+# if defined __cplusplus && defined __GNUC__ && !defined __clang__
+/* Work around GCC bug <https://gcc.gnu.org/bugzilla/show_bug.cgi?id=108231> */
+#  define _GL_ATTRIBUTE_DEALLOC_FREE \
+     _GL_ATTRIBUTE_DEALLOC ((void (*) (void *)) free, 1)
+# else
+#  define _GL_ATTRIBUTE_DEALLOC_FREE \
+     _GL_ATTRIBUTE_DEALLOC (free, 1)
+# endif
 #endif
 
 /* _GL_ATTRIBUTE_DEPRECATED: Declares that an entity is deprecated.
