@@ -351,6 +351,26 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
     }
     break;
 
+  case VUT_IMPR_FLAG:
+    switch (preq->range) {
+    case REQ_RANGE_LOCAL:
+      fc_strlcat(buf, prefix, bufsz);
+      if (preq->present) {
+        cat_snprintf(buf, bufsz, _("Applies to \"%s\" buildings."),
+                     impr_flag_id_translated_name(
+                       preq->source.value.impr_flag));
+      } else {
+        cat_snprintf(buf, bufsz, _("Doesn't apply to \"%s\" buildings."),
+                     impr_flag_id_translated_name(
+                       preq->source.value.impr_flag));
+      }
+      return TRUE;
+    default:
+      /* Not supported. */
+      break;
+    }
+    break;
+
   case VUT_IMPROVEMENT:
     switch (preq->range) {
     case REQ_RANGE_WORLD:

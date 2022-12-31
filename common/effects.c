@@ -142,7 +142,7 @@ struct effect_list *get_effects(enum effect_type effect_type)
 
   Note: currently only buildings and governments are supported.
 **************************************************************************/
-struct effect_list *get_req_source_effects(struct universal *psource)
+struct effect_list *get_req_source_effects(const struct universal *psource)
 {
   int type, value;
 
@@ -261,8 +261,23 @@ void effect_req_append(struct effect *peffect, struct requirement req)
 
   requirement_vector_append(&peffect->reqs, req);
 
-  if (eff_list) {
+  if (eff_list != NULL) {
     effect_list_append(eff_list, peffect);
+  }
+
+  if (req.source.kind == VUT_IMPR_FLAG) {
+    improvement_iterate(impr) {
+      if (improvement_has_flag(impr, req.source.value.impr_flag)) {
+        eff_list = get_req_source_effects(&(const struct universal) {
+                                            .kind = VUT_IMPROVEMENT,
+                                            .value.building = impr
+                                          });
+
+        if (eff_list != NULL) {
+          effect_list_append(eff_list, peffect);
+        }
+      }
+    } improvement_iterate_end;
   }
 }
 

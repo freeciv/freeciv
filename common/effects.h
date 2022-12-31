@@ -466,7 +466,7 @@ int get_unit_vs_tile_bonus(const struct tile *ptile,
                            enum effect_type etype);
 
 /* Miscellaneous auxiliary effects functions */
-struct effect_list *get_req_source_effects(struct universal *psource);
+struct effect_list *get_req_source_effects(const struct universal *psource);
 
 int get_player_bonus_effects(struct effect_list *plist,
                              const struct player *pplayer,

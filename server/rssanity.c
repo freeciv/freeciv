@@ -419,6 +419,7 @@ static bool sanity_check_req_set(rs_conversion_logger logger,
      case VUT_TERRFLAG:
      case VUT_ROADFLAG:
      case VUT_EXTRAFLAG:
+     case VUT_IMPR_FLAG:
      case VUT_NATIONALITY:
      case VUT_MINCULTURE:
      case VUT_ACHIEVEMENT:

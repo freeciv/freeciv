@@ -221,6 +221,9 @@ bool universal_value_initial(struct universal *src)
   case VUT_IMPR_GENUS:
     src->value.impr_genus = IG_IMPROVEMENT;
     return TRUE;
+  case VUT_IMPR_FLAG:
+    src->value.impr_flag = IF_VISIBLE_BY_OTHERS;
+    return TRUE;
   case VUT_ACTION:
     src->value.action = action_by_number(0);
     return TRUE;
@@ -243,7 +246,7 @@ bool universal_value_initial(struct universal *src)
 }
 
 /********************************************************************//**
-  Call cb for each value possible for the universal kind.
+  Call cb() for each value possible for the universal kind.
 ************************************************************************/
 void universal_kind_values(struct universal *univ,
                            univ_kind_values_cb cb, void *data)
@@ -443,6 +446,11 @@ void universal_kind_values(struct universal *univ,
     genus_iterate(genus) {
       cb(impr_genus_id_name(genus), univ->value.impr_genus == genus, data);
     } genus_iterate_end;
+    break;
+  case VUT_IMPR_FLAG:
+    for (i = 0; i < IF_COUNT; i++) {
+      cb(impr_flag_id_name(i), univ->value.impr_flag == i, data);
+    }
     break;
   case VUT_ACTION:
     action_iterate(act) {

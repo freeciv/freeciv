@@ -622,6 +622,24 @@ const char *ai_level_name_update_cb(const char *old);
 #define SPECENUM_COUNT  IG_COUNT
 #include "specenum_gen.h"
 
+/* Used in the network protocol. */
+#define SPECENUM_NAME impr_flag_id
+/* Improvement should be visible to others without spying */
+#define SPECENUM_VALUE0 IF_VISIBLE_BY_OTHERS
+#define SPECENUM_VALUE0NAME "VisibleByOthers"
+/* This small wonder is moved to another city if game.savepalace is on. */
+#define SPECENUM_VALUE1 IF_SAVE_SMALL_WONDER
+#define SPECENUM_VALUE1NAME "SaveSmallWonder"
+/* When built, gives gold */
+#define SPECENUM_VALUE2 IF_GOLD
+#define SPECENUM_VALUE2NAME "Gold"
+/* Never destroyed by disasters */
+#define SPECENUM_VALUE3 IF_DISASTER_PROOF
+#define SPECENUM_VALUE3NAME "DisasterProof"
+#define SPECENUM_COUNT IF_COUNT
+#define SPECENUM_BITVECTOR bv_impr_flags
+#include "specenum_gen.h"
+
 /* A server setting + its value. */
 typedef int ssetv;
 
@@ -681,6 +699,7 @@ typedef union {
   enum ustate_prop unit_state;
   enum unit_activity activity;
   enum impr_genus_id impr_genus;
+  enum impr_flag_id impr_flag;
   int minmoves;
   int max_tile_units;
   int minveteran;
@@ -807,6 +826,8 @@ typedef union {
 #define SPECENUM_VALUE51NAME "Counter"
 #define SPECENUM_VALUE52 VUT_ORIGINAL_OWNER
 #define SPECENUM_VALUE52NAME "OriginalOwner"
+#define SPECENUM_VALUE53 VUT_IMPR_FLAG
+#define SPECENUM_VALUE53NAME "BuildingFlag"
 
 /* Keep this last. */
 #define SPECENUM_COUNT VUT_COUNT

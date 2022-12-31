@@ -17,7 +17,7 @@
 extern "C" {
 #endif /* __cplusplus */
 
-/* City Improvements, including Wonders.  (Alternatively "Buildings".) */
+/* City Improvements, including Wonders. (Alternatively "Buildings".) */
 
 /* utility */
 #include "bitvector.h"
@@ -42,24 +42,6 @@ struct strvec;          /* Actually defined in "utility/string_vector.h". */
 #define B_LAST MAX_NUM_BUILDINGS
 
 #define B_NEVER (NULL)
-
-/* Changing these breaks network compatibility. */
-#define SPECENUM_NAME impr_flag_id
-/* improvement should be visible to others without spying */
-#define SPECENUM_VALUE0 IF_VISIBLE_BY_OTHERS
-#define SPECENUM_VALUE0NAME "VisibleByOthers"
-/* this small wonder is moved to another city if game.savepalace is on. */
-#define SPECENUM_VALUE1 IF_SAVE_SMALL_WONDER
-#define SPECENUM_VALUE1NAME "SaveSmallWonder"
-/* when built, gives gold */
-#define SPECENUM_VALUE2 IF_GOLD
-#define SPECENUM_VALUE2NAME "Gold"
-/* Never destroyed by disasters */
-#define SPECENUM_VALUE3 IF_DISASTER_PROOF
-#define SPECENUM_VALUE3NAME "DisasterProof"
-#define SPECENUM_COUNT IF_COUNT
-#define SPECENUM_BITVECTOR bv_impr_flags
-#include "specenum_gen.h"
 
 /* Used in the network protocol. */
 BV_DEFINE(bv_imprs, B_LAST);
@@ -238,4 +220,4 @@ const struct impr_type *improvement_array_last(void);
 }
 #endif /* __cplusplus */
 
-#endif  /* FC__IMPROVEMENT_H */
+#endif /* FC__IMPROVEMENT_H */

@@ -244,6 +244,10 @@ bool tab_building::initialize_new_bldg(struct impr_type *pimpr)
 
 /**********************************************************************//**
   User requested new building
+
+  FIXME: get_req_source_effects() calls afterwards for the newly
+         added building will lack effects that existed beforehand,
+         and are provided via, e.g., BuildingFlag requirement.
 **************************************************************************/
 void tab_building::add_now2()
 {
