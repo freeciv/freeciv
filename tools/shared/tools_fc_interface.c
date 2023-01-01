@@ -76,5 +76,5 @@ void fc_interface_init_tool(void)
 
   /* Keep this function call at the end. It checks if all required functions
      are defined. */
-  fc_interface_init();
+  libfreeciv_init(TRUE);
 }

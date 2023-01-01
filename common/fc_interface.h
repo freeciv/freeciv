@@ -56,11 +56,11 @@ struct functions {
 extern const struct functions *fc_funcs;
 
 struct functions *fc_interface_funcs(void);
-void fc_interface_init(void);
-void free_libfreeciv(void);
+void libfreeciv_init(bool check_fc_interface);
+void libfreeciv_free(void);
 
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */
 
-#endif  /* FC__FC_INTERFACE_H */
+#endif /* FC__FC_INTERFACE_H */

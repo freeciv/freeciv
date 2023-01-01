@@ -77,7 +77,11 @@ int main(int argc, char **argv)
 # endif /* FREECIV_NDEBUG */
 #endif /* FREECIV_MSWINDOWS */
 
-  init_nls();
+  /* Initialize the fc_interface functions needed to understand rules.
+   * fc_interface_init_tool() includes low level support like
+   * guaranteeing that fc_vsnprintf() will work after it,
+   * so this need to be early. */
+  fc_interface_init_tool();
 
 #ifdef ENABLE_NLS
   (void) bindtextdomain("freeciv-ruledit", get_locale_dir());
@@ -106,10 +110,8 @@ int main(int argc, char **argv)
     game.info.aifill = 0;
 
     game_init(FALSE);
-    i_am_tool();
 
-    /* Initialize the fc_interface functions needed to understand rules. */
-    fc_interface_init_tool();
+    i_am_tool();
 
     if (comments_load()) {
       ruledit_qt_run(ui_options, argv);
@@ -126,8 +128,7 @@ int main(int argc, char **argv)
 
   registry_module_close();
   log_close();
-  free_libfreeciv();
-  free_nls();
+  libfreeciv_free();
 
   /* Clean up command line arguments. */
   cmdline_option_values_free();

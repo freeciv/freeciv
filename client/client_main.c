@@ -363,9 +363,12 @@ int client_main(int argc, char *argv[], bool postpone_tileset)
 # endif /* FREECIV_NDEBUG */
 #endif /* FREECIV_MSWINDOWS */
 
-  i_am_client(); /* Tell to libfreeciv that we are client */
-
+  /* fc_interface_init_client() includes low level support like
+   * guaranteeing that fc_vsnprintf() will work after it,
+   * so this need to be early. */
   fc_interface_init_client();
+
+  i_am_client(); /* Tell to libfreeciv that we are client */
 
   game.client.ruleset_init = FALSE;
 
@@ -378,7 +381,6 @@ int client_main(int argc, char *argv[], bool postpone_tileset)
     init_ai(ai);
   }
 
-  init_nls();
 #ifdef ENABLE_NLS
   (void) bindtextdomain("freeciv-nations", get_locale_dir());
 #endif
@@ -755,8 +757,7 @@ void client_exit(int return_value)
   conn_list_destroy(game.est_connections);
 
   registry_module_close();
-  free_libfreeciv();
-  free_nls();
+  libfreeciv_free();
 
   backtrace_deinit();
   log_close();
@@ -1525,7 +1526,7 @@ static void fc_interface_init_client(void)
 
   /* Keep this function call at the end. It checks if all required functions
      are defined. */
-  fc_interface_init();
+  libfreeciv_init(TRUE);
 }
 
 /**********************************************************************//**
