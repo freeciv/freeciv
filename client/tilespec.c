@@ -1786,6 +1786,40 @@ static char *tilespec_gfx_filename(const char *gfx_filename)
 }
 
 /************************************************************************//**
+  Scan single list of specfiles
+****************************************************************************/
+static bool tileset_scan_single_list(struct tileset *t,
+                                     const char *spec_filenames[],
+                                     int num_spec_files, bool verbose,
+                                     bool duplicates_ok)
+{
+  int i;
+
+  for (i = 0; i < num_spec_files; i++) {
+    struct specfile *sf = fc_malloc(sizeof(*sf));
+    const char *dname;
+
+    log_debug("spec file %s", spec_filenames[i]);
+
+    sf->big_sprite = NULL;
+    dname = fileinfoname(get_data_dirs(), spec_filenames[i]);
+    if (!dname) {
+      if (verbose) {
+        log_error("Can't find spec file \"%s\".", spec_filenames[i]);
+      }
+
+      return FALSE;
+    }
+    sf->file_name = fc_strdup(dname);
+    scan_specfile(t, sf, duplicates_ok);
+
+    specfile_list_prepend(t->specfiles, sf);
+  }
+
+  return TRUE;
+}
+
+/************************************************************************//**
   Determine the sprite_type string.
 ****************************************************************************/
 static int check_sprite_type(const char *sprite_type, const char *tile_section)
@@ -2481,25 +2515,12 @@ static struct tileset *tileset_read_toplevel(const char *tileset_name,
 
   fc_assert(t->sprite_hash == NULL);
   t->sprite_hash = sprite_hash_new();
-  for (i = 0; i < num_spec_files; i++) {
-    struct specfile *sf = fc_malloc(sizeof(*sf));
-    const char *dname;
 
-    log_debug("spec file %s", spec_filenames[i]);
-    
-    sf->big_sprite = NULL;
-    dname = fileinfoname(get_data_dirs(), spec_filenames[i]);
-    if (!dname) {
-      if (verbose) {
-        log_error("Can't find spec file \"%s\".", spec_filenames[i]);
-      }
-      goto ON_ERROR;
-    }
-    sf->file_name = fc_strdup(dname);
-    scan_specfile(t, sf, duplicates_ok);
-
-    specfile_list_prepend(t->specfiles, sf);
+  if (!tileset_scan_single_list(t, spec_filenames, num_spec_files,
+                                verbose, duplicates_ok)) {
+    goto ON_ERROR;
   }
+
   free(spec_filenames);
 
   t->color_system = color_system_read(file);
@@ -2533,9 +2554,11 @@ ON_ERROR:
   secfile_destroy(file);
   free(fname);
   tileset_free(t);
+
   if (NULL != sections) {
     section_list_destroy(sections);
   }
+
   return NULL;
 }
 
