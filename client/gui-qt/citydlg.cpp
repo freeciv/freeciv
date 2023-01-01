@@ -120,7 +120,7 @@ void progress_bar::set_pixmap(struct universal *target)
 
   if (VUT_UTYPE == target->kind) {
     sprite = get_unittype_sprite(get_tileset(), target->value.utype,
-                                 direction8_invalid());
+                                 ACTIVITY_LAST, direction8_invalid());
   } else {
     sprite = get_building_sprite(tileset, target->value.building);
   }
@@ -3443,6 +3443,7 @@ void city_dialog::update_improvements()
       cost = utype_build_shield_cost(dlgcity, NULL, target.value.utype);
       tooltip = get_tooltip_unit(target.value.utype, true).trimmed();
       sprite = get_unittype_sprite(get_tileset(), target.value.utype,
+                                   ACTIVITY_LAST,
                                    direction8_invalid());
     } else {
       str = city_improvement_name_translation(dlgcity, target.value.building);
@@ -4123,6 +4124,7 @@ void city_production_delegate::paint(QPainter *painter,
     }
 
     sprite = get_unittype_sprite(get_tileset(), target->value.utype,
+                                 ACTIVITY_LAST,
                                  direction8_invalid());
   } else {
     is_unit = false;

@@ -192,7 +192,8 @@ void unittype_item::init_img()
 {
   struct sprite *sp;
 
-  sp = get_unittype_sprite(get_tileset(), utype, direction8_invalid());
+  sp = get_unittype_sprite(get_tileset(), utype,
+                           ACTIVITY_LAST, direction8_invalid());
   label_pix.setPixmap(*sp->pm);
 }
 
@@ -622,19 +623,20 @@ void research_diagram::create_tooltip_help()
         icon_startx = startx + 5;
 
         if (gui_options.reqtree_show_icons) {
-          unit_type_iterate(unit) {
+          unit_type_iterate(utype) {
 
-            if (!is_tech_req_for_utype(unit, advance_by_number(node->tech))) {
+            if (!is_tech_req_for_utype(utype, advance_by_number(node->tech))) {
               continue;
             }
 
-            sprite = get_unittype_sprite(tileset, unit, direction8_invalid());
+            sprite = get_unittype_sprite(tileset, utype,
+                                         ACTIVITY_LAST, direction8_invalid());
             get_sprite_dimensions(sprite, &swidth, &sheight);
             rttp = new req_tooltip_help();
             rttp->rect = QRect(icon_startx, starty + text_h + 4
                                + (nheight - text_h - 4 - sheight) / 2,
                                swidth, sheight);
-            rttp->tunit = unit;
+            rttp->tunit = utype;
             tt_help.append(rttp);
             icon_startx += swidth + 2;
           } unit_type_iterate_end;
@@ -1344,7 +1346,8 @@ void eco_report::update_report()
     cid id;
 
     pix = NULL;
-    sprite = get_unittype_sprite(tileset, putype, direction8_invalid());
+    sprite = get_unittype_sprite(tileset, putype,
+                                 ACTIVITY_LAST, direction8_invalid());
     if (sprite != NULL) {
       pix = sprite->pm;
     }

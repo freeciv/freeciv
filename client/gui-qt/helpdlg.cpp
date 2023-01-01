@@ -320,7 +320,8 @@ void help_dialog::make_tree()
       case HELP_UNIT:
         f_type = unit_type_by_translated_name(s);
         if (f_type) {
-          spite = get_unittype_sprite(tileset, f_type, direction8_invalid());
+          spite = get_unittype_sprite(tileset, f_type,
+                                      ACTIVITY_LAST, direction8_invalid());
         }
         if (spite) {
           icon = QIcon(*spite->pm);

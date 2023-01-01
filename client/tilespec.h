@@ -376,6 +376,7 @@ struct sprite *get_government_sprite(const struct tileset *t,
                                      const struct government *gov);
 struct sprite *get_unittype_sprite(const struct tileset *t,
                                    const struct unit_type *punittype,
+                                   enum unit_activity activity,
                                    enum direction8 facing);
 struct sprite *get_sample_city_sprite(const struct tileset *t,
                                       int style_idx);

@@ -512,12 +512,20 @@ sprites.
   Unit Sprites
   ------------
 
+    Unit sprites depend on the unit's activity. If there's no sprite
+    defined for the activity in question, "Idle" activity sprite is
+    used instead. "Idle" sprite is a mandatory one.
+    If there's no "Idle" sprite, for backward compatibility reasons,
+    current Freeciv version still looks for a tag with no activity at all
+    to use instead.
+
     Units sprites can be either unoriented or oriented, in which case the
     sprite that is displayed depends on the direction the unit is facing (it
     turns when it moves or fights).
 
-    Unoriented sprites are specified as 'u.phalanx'. Oriented sprites have
-    a direction suffix: 'u.phalanx_s', 'u.phalanx_nw' and so on.
+    Unoriented sprites are specified as 'u.phalanx_Idle',
+    Oriented sprites have a direction suffix:
+    'u.phalanx_Idle_s', 'u.phalanx_Idle_nw' and so on.
     For each unit type, either an unoriented sprite or a full set of
     the oriented sprites needed for the tileset topology must be provided
     (you can also provide both, see below).

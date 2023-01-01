@@ -2084,7 +2084,7 @@ static void city_dialog_update_building(struct city_dialog *pdialog)
         if (VUT_UTYPE == target.kind) {
           name = utype_name_translation(target.value.utype);
           sprite = get_unittype_sprite(tileset, target.value.utype,
-                                       direction8_invalid());
+                                       ACTIVITY_LAST, direction8_invalid());
           useless = FALSE;
         } else {
           name = improvement_name_translation(target.value.building);

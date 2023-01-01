@@ -26,27 +26,27 @@ pixel_border = 1
 
 tiles = { "row", "column", "tag"
 
-  0,  3, "u.samurai"
+  0,  3, "u.samurai_Idle"
 
-  5, 13, "u.balloon"
-  5, 14, "u.zeppelin"
+  5, 13, "u.balloon_Idle"
+  5, 14, "u.zeppelin_Idle"
 
-  6,  4, "u.drone"
+  6,  4, "u.drone_Idle"
 
-  5,  2, "u.longboat"
+  5,  2, "u.longboat_Idle"
 
-  8,  0, "u.dredger"
+  8,  0, "u.dredger_Idle"
 
-  8,  5, "u.rowboat"
+  8,  5, "u.rowboat_Idle"
 
-  8,  8, "u.nuclear_sub"
+  8,  8, "u.nuclear_sub_Idle"
 
-  9,  1, "u.emissary"
+  9,  1, "u.emissary_Idle"
 
-  9,  5, "u.train"
+  9,  5, "u.train_Idle"
 
- 10,  3, "u.lion"
+ 10,  3, "u.lion_Idle"
 
- 10, 13, "u.storm"
+ 10, 13, "u.storm_Idle"
 
 }

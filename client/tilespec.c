@@ -253,8 +253,8 @@ struct named_sprites {
   struct sprite *government[G_LAST];
 
   struct {
-    struct sprite *icon[U_LAST];
-    struct sprite *facing[U_LAST][DIR8_MAGIC_MAX]; 
+    struct sprite *icon[U_LAST][ACTIVITY_LAST];
+    struct sprite *facing[U_LAST][DIR8_MAGIC_MAX][ACTIVITY_LAST];
   } units;
 
   struct sprite_vector nation_flag;
@@ -570,6 +570,7 @@ static struct tileset *tileset_read_toplevel(const char *tileset_name,
 static int fill_unit_type_sprite_array(const struct tileset *t,
                                        struct drawn_sprite *sprs,
                                        const struct unit_type *putype,
+                                       enum unit_activity activity,
                                        enum direction8 facing);
 static int fill_unit_sprite_array(const struct tileset *t,
                                   struct drawn_sprite *sprs,
@@ -3549,10 +3550,11 @@ static bool tileset_setup_unit_direction(struct tileset *t,
                                          int uidx,
                                          const char *base_str,
                                          enum direction8 dir,
+                                         enum unit_activity activity,
                                          bool has_icon)
 {
-  char buf[2048];
   enum direction8 loaddir = dir;
+  char buf[2048];
 
   /*
    * There may be more orientations available in this tileset than are
@@ -3573,16 +3575,27 @@ static bool tileset_setup_unit_direction(struct tileset *t,
     } while (!is_valid_tileset_dir(t, loaddir));
   }
 
-  fc_snprintf(buf, sizeof(buf), "%s_%s", base_str,
+  fc_snprintf(buf, sizeof(buf), "%s_%s_%s", base_str,
+              unit_activity_name(activity),
               dir_get_tileset_name(loaddir));
 
   /* We don't use _alt graphics here, as that could lead to loading
    * real icon gfx, but alternative orientation gfx. Tileset author
    * probably meant icon gfx to be used as fallback for all orientations */
-  t->sprites.units.facing[uidx][dir] = load_sprite(t, buf,
-                                                   TRUE, TRUE, FALSE);
+  t->sprites.units.facing[uidx][dir][activity] = load_sprite(t, buf,
+                                                             TRUE, TRUE, FALSE);
 
-  if (t->sprites.units.facing[uidx][dir] != NULL) {
+  if (activity == ACTIVITY_IDLE
+      && t->sprites.units.facing[uidx][dir][activity] == NULL) {
+    /* Backward compatibility: Set Idle sprite from tag with no activity defined. */
+    fc_snprintf(buf, sizeof(buf), "%s_%s", base_str,
+                dir_get_tileset_name(loaddir));
+
+    t->sprites.units.facing[uidx][dir][activity] = load_sprite(t, buf,
+                                                               TRUE, TRUE, FALSE);
+  }
+
+  if (t->sprites.units.facing[uidx][dir][activity] != NULL) {
     return TRUE;
   }
 
@@ -3593,28 +3606,49 @@ static bool tileset_setup_unit_direction(struct tileset *t,
   Try to setup all unit type sprites from single tag
 ****************************************************************************/
 static bool tileset_setup_unit_type_from_tag(struct tileset *t,
-                                             int uidx, const char *tag)
+                                             int uidx,
+                                             const char *tag)
 {
-  bool has_icon, facing_sprites = TRUE;
+  bool has_icon, facing_sprites[ACTIVITY_LAST];
 
-  t->sprites.units.icon[uidx] = load_sprite(t, tag, TRUE, TRUE, FALSE);
-  has_icon = t->sprites.units.icon[uidx] != NULL;
+  activity_type_iterate(activity) {
+    char buffer[2048];
 
-#define LOAD_FACING_SPRITE(dir)                                      \
-  if (!tileset_setup_unit_direction(t, uidx, tag, dir, has_icon)) {  \
-    facing_sprites = FALSE;                                          \
+    fc_snprintf(buffer, sizeof(buffer), "%s_%s",
+                tag, unit_activity_name(activity));
+    t->sprites.units.icon[uidx][activity] = load_sprite(t, buffer,
+                                                        TRUE, TRUE, FALSE);
+
+    if (activity == ACTIVITY_IDLE
+        && t->sprites.units.icon[uidx][activity] == NULL) {
+      /* Backward compatibility: Set Idle sprite from tag with no activity defined. */
+      t->sprites.units.icon[uidx][activity] = load_sprite(t, tag,
+                                                          TRUE, TRUE, FALSE);
+    }
+  } activity_type_iterate_end;
+
+  has_icon = t->sprites.units.icon[uidx][ACTIVITY_IDLE] != NULL;
+
+#define LOAD_FACING_SPRITE(dir)                                                 \
+  if (!tileset_setup_unit_direction(t, uidx, tag, dir, activity, has_icon)) {   \
+    facing_sprites[activity] = FALSE;                                           \
   }
 
-  LOAD_FACING_SPRITE(DIR8_NORTHWEST);
-  LOAD_FACING_SPRITE(DIR8_NORTH);
-  LOAD_FACING_SPRITE(DIR8_NORTHEAST);
-  LOAD_FACING_SPRITE(DIR8_WEST);
-  LOAD_FACING_SPRITE(DIR8_EAST);
-  LOAD_FACING_SPRITE(DIR8_SOUTHWEST);
-  LOAD_FACING_SPRITE(DIR8_SOUTH);
-  LOAD_FACING_SPRITE(DIR8_SOUTHEAST);
+  activity_type_iterate(activity) {
+    facing_sprites[activity] = TRUE;
 
-  if (!has_icon && !facing_sprites) {
+    LOAD_FACING_SPRITE(DIR8_NORTHWEST);
+    LOAD_FACING_SPRITE(DIR8_NORTH);
+    LOAD_FACING_SPRITE(DIR8_NORTHEAST);
+    LOAD_FACING_SPRITE(DIR8_WEST);
+    LOAD_FACING_SPRITE(DIR8_EAST);
+    LOAD_FACING_SPRITE(DIR8_SOUTHWEST);
+    LOAD_FACING_SPRITE(DIR8_SOUTH);
+    LOAD_FACING_SPRITE(DIR8_SOUTHEAST);
+
+  } activity_type_iterate_end;
+
+  if (!has_icon && !facing_sprites[ACTIVITY_IDLE]) {
     /* Neither icon gfx or orientation sprites */
     return FALSE;
   }
@@ -3638,7 +3672,7 @@ void tileset_setup_unit_type(struct tileset *t, struct unit_type *ut)
                   utype_rule_name(ut), ut->graphic_str, ut->graphic_alt);
   }
 
-  if (!t->sprites.units.icon[uidx]) {
+  if (!t->sprites.units.icon[uidx][ACTIVITY_IDLE]) {
     if (!direction8_is_valid(t->unit_default_orientation)) {
       tileset_error(LOG_FATAL, "Unit type %s has no unoriented sprite and "
                                "tileset has no unit_default_orientation.",
@@ -4348,10 +4382,11 @@ static void build_tile_data(const struct tile *ptile,
 static int fill_unit_type_sprite_array(const struct tileset *t,
                                        struct drawn_sprite *sprs,
                                        const struct unit_type *putype,
+                                       enum unit_activity activity,
                                        enum direction8 facing)
 {
   struct drawn_sprite *save_sprs = sprs;
-  struct sprite *uspr = get_unittype_sprite(t, putype, facing);
+  struct sprite *uspr = get_unittype_sprite(t, putype, activity, facing);
 
   ADD_SPRITE(uspr, TRUE,
              FULL_TILE_X_OFFSET + t->unit_offset_x,
@@ -4384,7 +4419,7 @@ static int fill_unit_sprite_array(const struct tileset *t,
 
   /* Add the sprite for the unit type. */
   sprs += fill_unit_type_sprite_array(t, sprs, ptype,
-                                      punit->facing);
+                                      punit->activity, punit->facing);
 
   if (t->sprites.unit.loaded && unit_transported(punit)) {
     ADD_SPRITE_FULL(t->sprites.unit.loaded);
@@ -6003,7 +6038,9 @@ int fill_sprite_array(struct tileset *t,
       sprs += fill_unit_sprite_array(t, sprs, punit, stack_count, backdrop);
     } else if (putype != NULL && layer == LAYER_UNIT) {
       /* Only the sprite for the unit type. */
-      sprs += fill_unit_type_sprite_array(t, sprs, putype,
+      /* FIXME: Shouldn't this still get activity and orientation of
+       *        the actual unit? */
+      sprs += fill_unit_type_sprite_array(t, sprs, putype, ACTIVITY_LAST,
                                           direction8_invalid());
     }
     break;
@@ -6598,10 +6635,15 @@ struct sprite *get_government_sprite(const struct tileset *t,
 ****************************************************************************/
 struct sprite *get_unittype_sprite(const struct tileset *t,
                                    const struct unit_type *punittype,
+                                   enum unit_activity activity,
                                    enum direction8 facing)
 {
   int uidx = utype_index(punittype);
   bool icon = !direction8_is_valid(facing);
+
+  if (activity >= ACTIVITY_LAST) {
+    activity = ACTIVITY_IDLE;
+  }
 
   fc_assert_ret_val(NULL != punittype, NULL);
 
@@ -6611,16 +6653,26 @@ struct sprite *get_unittype_sprite(const struct tileset *t,
      * turn out to have an icon sprite */
   }
 
-  if (t->sprites.units.icon[uidx]
-      && (icon || t->sprites.units.facing[uidx][facing] == NULL)) {
+  if (t->sprites.units.icon[uidx][activity] != NULL
+      && (icon || t->sprites.units.facing[uidx][facing][activity] == NULL)) {
     /* Has icon sprite, and we prefer to (or must) use it */
-    return t->sprites.units.icon[uidx];
+    return t->sprites.units.icon[uidx][activity];
+  } else if (t->sprites.units.icon[uidx][ACTIVITY_IDLE] != NULL
+             && (icon
+                 || t->sprites.units.facing[uidx][facing][ACTIVITY_IDLE] == NULL)) {
+    /* Has icon sprite, and we prefer to (or must) use it */
+    return t->sprites.units.icon[uidx][ACTIVITY_IDLE];
   } else {
     /* We should have a valid orientation by now. Failure to have either
      * an icon sprite or default orientation should have been caught at
      * tileset load. */
     fc_assert_ret_val(direction8_is_valid(facing), NULL);
-    return t->sprites.units.facing[uidx][facing];
+
+    if (t->sprites.units.facing[uidx][facing][activity] == NULL) {
+      return t->sprites.units.facing[uidx][facing][ACTIVITY_IDLE];
+    }
+
+    return t->sprites.units.facing[uidx][facing][activity];
   }
 }
 

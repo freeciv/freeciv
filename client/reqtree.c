@@ -179,19 +179,20 @@ static void node_rectangle_minimum_size(struct tree_node *node,
 
     if (gui_options.reqtree_show_icons) {
       /* Units */
-      unit_type_iterate(unit) {
+      unit_type_iterate(utype) {
 
-        if (!is_tech_req_for_utype(unit, advance_by_number(node->tech))) {
+        if (!is_tech_req_for_utype(utype, advance_by_number(node->tech))) {
           continue;
         }
 
-        sprite = get_unittype_sprite(tileset, unit, direction8_invalid());
+        sprite = get_unittype_sprite(tileset, utype,
+                                     ACTIVITY_LAST, direction8_invalid());
         get_sprite_dimensions(sprite, &swidth, &sheight);
         max_icon_height = MAX(max_icon_height, sheight);
         icons_width_sum += swidth + 2;
       } unit_type_iterate_end;
-    
-      /* buildings */
+
+      /* Buildings */
       improvement_iterate(pimprove) {
         if (valid_improvement(pimprove)) {
           requirement_vector_iterate(&(pimprove->reqs), preq) {
@@ -208,8 +209,8 @@ static void node_rectangle_minimum_size(struct tree_node *node,
           } requirement_vector_iterate_end;
         }
       } improvement_iterate_end;
-    
-      /* governments */
+
+      /* Governments */
       governments_iterate(gov) {
         requirement_vector_iterate(&(gov->reqs), preq) {
           if (VUT_ADVANCE == preq->source.kind
@@ -1085,22 +1086,23 @@ void draw_reqtree(struct reqtree *tree, struct canvas *pcanvas,
  	icon_startx = startx + 5;
 	
         if (gui_options.reqtree_show_icons) {
-          unit_type_iterate(unit) {
+          unit_type_iterate(utype) {
 
-            if (!is_tech_req_for_utype(unit, advance_by_number(node->tech))) {
+            if (!is_tech_req_for_utype(utype, advance_by_number(node->tech))) {
               continue;
             }
 
-            sprite = get_unittype_sprite(tileset, unit, direction8_invalid());
- 	    get_sprite_dimensions(sprite, &swidth, &sheight);
- 	    canvas_put_sprite_full(pcanvas,
- 	                           icon_startx,
- 				   starty + text_h + 4
- 				   + (height - text_h - 4 - sheight) / 2,
- 				   sprite);
- 	    icon_startx += swidth + 2;
+            sprite = get_unittype_sprite(tileset, utype,
+                                         ACTIVITY_LAST, direction8_invalid());
+            get_sprite_dimensions(sprite, &swidth, &sheight);
+            canvas_put_sprite_full(pcanvas,
+                                   icon_startx,
+                                   starty + text_h + 4
+                                   + (height - text_h - 4 - sheight) / 2,
+                                   sprite);
+            icon_startx += swidth + 2;
  	  } unit_type_iterate_end;
-       
+
           improvement_iterate(pimprove) {
             if (valid_improvement(pimprove)) {
               requirement_vector_iterate(&(pimprove->reqs), preq) {

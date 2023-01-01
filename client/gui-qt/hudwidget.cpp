@@ -1248,8 +1248,9 @@ void hud_unit_loader::show_me()
   setColumnCount(max_size + 1);
   for (i = 0 ; i < transports.count(); i++) {
     QString str;
+    struct unit *tp = transports.at(i);
 
-    spite = get_unittype_sprite(tileset, transports.at(i)->utype,
+    spite = get_unittype_sprite(tileset, tp->utype, tp->activity,
                                 direction8_invalid());
     str = utype_rule_name(transports.at(i)->utype);
     // TRANS: MP - just movement points
@@ -1260,7 +1261,7 @@ void hud_unit_loader::show_me()
     setItem(i, 0, new_item);
     j = 1;
     unit_list_iterate(transports.at(i)->transporting, tunit) {
-      spite = get_unittype_sprite(tileset, tunit->utype,
+      spite = get_unittype_sprite(tileset, tunit->utype, tunit->activity,
                                   direction8_invalid());
       new_item = new QTableWidgetItem(QIcon(*spite->pm), "");
       setItem(i, j, new_item);

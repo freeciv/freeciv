@@ -109,7 +109,8 @@ bool select_tgt_unit(struct unit *actor, struct tile *ptile,
   lbl = gtk_label_new(actor_label);
   gtk_grid_attach(GTK_GRID(box), lbl, 0, 0, 1, 1);
 
-  spr = get_unittype_sprite(tileset, actor_type, direction8_invalid());
+  spr = get_unittype_sprite(tileset, actor_type,
+                            actor->activity, direction8_invalid());
   if (spr != NULL) {
     icon = gtk_image_new_from_pixbuf(sprite_get_pixbuf(spr));
   } else {
