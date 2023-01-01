@@ -68,7 +68,7 @@ int main(int argc, char **argv)
 # endif /* FREECIV_NDEBUG */
 #endif /* WIN32_NATIVE */
 
-  init_nls();
+  libfreeciv_init(FALSE);
 
 #ifdef ENABLE_NLS
   (void) bindtextdomain("freeciv-ruledit", get_locale_dir());
@@ -104,8 +104,7 @@ int main(int argc, char **argv)
 
   registry_module_close();
   log_close();
-  free_libfreeciv();
-  free_nls();
+  libfreeciv_free();
 
   /* Clean up command line arguments. */
   cmdline_option_values_free();

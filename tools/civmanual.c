@@ -596,7 +596,8 @@ int main(int argc, char **argv)
   char *option = NULL;
   int retval = EXIT_SUCCESS;
 
-  init_nls();
+  libfreeciv_init(FALSE);
+
   registry_module_init();
   init_character_encodings(FC_DEFAULT_DATA_ENCODING, FALSE);
 
@@ -720,8 +721,7 @@ int main(int argc, char **argv)
 
   con_log_close();
   registry_module_close();
-  free_libfreeciv();
-  free_nls();
+  libfreeciv_free();
   cmdline_option_values_free();
 
   return retval;

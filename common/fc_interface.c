@@ -48,28 +48,31 @@ struct functions *fc_interface_funcs(void)
 }
 
 /**************************************************************************
-  Test and initialize the functions. The existence of all functions should
-  be checked!
+  Initialize libfreeciv.
+  With check_fc_interface, also tests and initialize the functions.
 **************************************************************************/
-void fc_interface_init(void)
+void libfreeciv_init(bool check_fc_interface)
 {
   fc_support_init();
+  init_nls();
 
-  fc_funcs = &fc_functions;
+  if (check_fc_interface) {
+    fc_funcs = &fc_functions;
 
-  /* Test the existence of each required function here! */
-  fc_assert_exit(fc_funcs->player_tile_vision_get);
-  fc_assert_exit(fc_funcs->gui_color_free);
+    /* Test the existence of each required function here! */
+    fc_assert_exit(fc_funcs->player_tile_vision_get);
+    fc_assert_exit(fc_funcs->gui_color_free);
 
-  fc_funcs_defined = TRUE;
+    fc_funcs_defined = TRUE;
 
-  setup_real_activities_array();
+    setup_real_activities_array();
+  }
 }
 
 /**************************************************************************
   Free misc resources allocated for libfreeciv.
 **************************************************************************/
-void free_libfreeciv(void)
+void libfreeciv_free(void)
 {
   diplrel_mess_close();
   free_data_dir_names();

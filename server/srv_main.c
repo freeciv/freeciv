@@ -217,10 +217,13 @@ void init_game_seed(void)
 **************************************************************************/
 void srv_init(void)
 {
+  /* fc_interface_init_server() includes low level support like
+   * guaranteeing that fc_vsnprintf() will work after it,
+   * so this need to be early. */
+  fc_interface_init_server();
+
   i_am_server(); /* Tell to libfreeciv that we are server */
 
-  /* NLS init */
-  init_nls();
 #ifdef ENABLE_NLS
   (void) bindtextdomain("freeciv-nations", get_locale_dir());
 #endif
@@ -1789,10 +1792,10 @@ void server_quit(void)
   timing_log_free();
   registry_module_close();
   fc_destroy_mutex(&game.server.mutexes.city_list);
-  free_libfreeciv();
-  free_nls();
+  libfreeciv_free();
   con_log_close();
   cmdline_option_values_free();
+
   exit(EXIT_SUCCESS);
 }
 
@@ -3348,7 +3351,6 @@ void server_game_free(void)
 **************************************************************************/
 void srv_main(void)
 {
-  fc_interface_init_server();
   advisors_init();
 
   srv_prepare();
@@ -3431,7 +3433,7 @@ static void fc_interface_init_server(void)
 
   /* Keep this function call at the end. It checks if all required functions
      are defined. */
-  fc_interface_init();
+  libfreeciv_init(TRUE);
 }
 
 /***************************************************************************
