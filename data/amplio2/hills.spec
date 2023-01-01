@@ -1,6 +1,6 @@
 [spec]
 
-options = "+Freeciv-3.1-spec"
+options = "+Freeciv-spec-3.2-Devel-2023.Jan.01"
 
 [info]
 artists = "
