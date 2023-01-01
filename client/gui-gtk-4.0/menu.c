@@ -918,7 +918,6 @@ const GActionEntry acts[] = {
 
 static struct menu_entry_info *menu_entry_info_find(const char *key);
 
-
 /************************************************************************//**
   Item "CLEAR_CHAT_LOGS" callback.
 ****************************************************************************/
@@ -992,8 +991,9 @@ static void save_options_on_exit_callback(GSimpleAction *action,
   gui_options.save_options_on_exit = info->state;
 
   g_menu_remove(options_menu, 4);
-  g_menu_insert_item(options_menu, 4,
-                     create_toggle_menu_item_for_key("SAVE_OPTIONS_ON_EXIT"));
+
+  menu_item_insert_unref(options_menu, 4,
+                         create_toggle_menu_item_for_key("SAVE_OPTIONS_ON_EXIT"));
 }
 
 #ifdef MENUS_GTK3
@@ -1714,8 +1714,9 @@ static void full_screen_callback(GSimpleAction *action, GVariant *parameter,
   }
 
   g_menu_remove(view_menu, 0);
-  g_menu_insert_item(view_menu, 0,
-                     create_toggle_menu_item_for_key("FULL_SCREEN"));
+
+  menu_item_insert_unref(view_menu, 0,
+                         create_toggle_menu_item_for_key("FULL_SCREEN"));
 }
 
 #ifdef MENUS_GTK3
@@ -2477,7 +2478,8 @@ static void bg_append_callback(GSimpleAction *action,
 }
 
 /************************************************************************//**
-  Create toggle menu entry by info
+  Create toggle menu entry by info.
+  Caller need to g_object_unref() returned item.
 ****************************************************************************/
 static GMenuItem *create_toggle_menu_item(struct menu_entry_info *info)
 {
@@ -2500,6 +2502,7 @@ static GMenuItem *create_toggle_menu_item(struct menu_entry_info *info)
 
 /************************************************************************//**
   Create toggle menu entry by key
+  Caller need to g_object_unref() returned item.
 ****************************************************************************/
 static GMenuItem *create_toggle_menu_item_for_key(const char *key)
 {
@@ -2526,6 +2529,7 @@ static void menu_entry_init(GMenu *sub, const char *key)
     }
 
     g_menu_append_item(sub, item);
+    g_object_unref(item);
   }
 }
 
@@ -2974,7 +2978,6 @@ void real_menus_update(void)
       struct action *paction = action_by_number(act_id);
       GSimpleAction *act;
       char actname[256];
-      GMenuItem *item;
       char name[256];
 
       if (action_id_get_actor_kind(act_id) != AAK_UNIT) {
@@ -3006,7 +3009,6 @@ void real_menus_update(void)
 
 #define CREATE_SUB_ITEM(_sub_target_, _sub_target_key_, _sub_target_name_) \
 {                                                                          \
-  GMenuItem *sub_item;                                                     \
   fc_snprintf(actname, sizeof(actname), "subtgt_%d", j);                   \
   act = g_simple_action_new(actname, NULL);                                \
   g_action_map_add_action(map, G_ACTION(act));                             \
@@ -3015,8 +3017,8 @@ void real_menus_update(void)
                    paction);                                               \
   fc_snprintf(subname, sizeof(subname), "%s", _sub_target_name_);          \
   fc_snprintf(actname, sizeof(actname), "app.subtgt_%d", j++);             \
-  sub_item = g_menu_item_new(subname, actname);                            \
-  g_menu_append_item(sub_target_menu, sub_item);                           \
+  menu_item_append_unref(sub_target_menu,                                  \
+                         g_menu_item_new(subname, actname));               \
 }
 
         switch (action_get_sub_target_kind(paction)) {
@@ -3058,10 +3060,9 @@ void real_menus_update(void)
 
         g_menu_append_submenu(submenu, name, G_MENU_MODEL(sub_target_menu));
       } else {
-        item = g_menu_item_new(name, actname);
         g_signal_connect(act, "activate",
                          G_CALLBACK(unit_goto_and_callback), paction);
-        g_menu_append_item(submenu, item);
+        menu_item_append_unref(submenu, g_menu_item_new(name, actname));
       }
     } action_iterate_end;
   }
@@ -3074,7 +3075,6 @@ void real_menus_update(void)
   i = 0;
   governments_iterate(g) {
     if (g != game.government_during_revolution) {
-      GMenuItem *item;
       char name[256];
       char actname[256];
       GSimpleAction *act;
@@ -3089,8 +3089,7 @@ void real_menus_update(void)
       fc_snprintf(name, sizeof(name), _("%s..."),
                   government_name_translation(g));
       fc_snprintf(actname, sizeof(actname), "app.government_%d", i++);
-      item = g_menu_item_new(name, actname);
-      g_menu_append_item(submenu, item);
+      menu_item_append_unref(submenu, g_menu_item_new(name, actname));
     }
   } governments_iterate_end;
   g_menu_remove(gov_menu, 6);
@@ -3100,7 +3099,6 @@ void real_menus_update(void)
 
   extra_type_by_cause_iterate(EC_ROAD, pextra) {
     if (pextra->buildable) {
-      GMenuItem *item;
       char actname[256];
       GSimpleAction *act;
 
@@ -3114,8 +3112,8 @@ void real_menus_update(void)
       g_signal_connect(act, "activate", G_CALLBACK(road_callback), pextra);
 
       fc_snprintf(actname, sizeof(actname), "app.path_%d", i++);
-      item = g_menu_item_new(extra_name_translation(pextra), actname);
-      g_menu_append_item(submenu, item);
+      menu_item_append_unref(submenu,
+                             g_menu_item_new(extra_name_translation(pextra), actname));
     }
   } extra_type_by_cause_iterate_end;
 
@@ -3126,7 +3124,6 @@ void real_menus_update(void)
 
   extra_type_by_cause_iterate(EC_IRRIGATION, pextra) {
     if (pextra->buildable) {
-      GMenuItem *item;
       char actname[256];
       GSimpleAction *act;
 
@@ -3140,8 +3137,8 @@ void real_menus_update(void)
       g_signal_connect(act, "activate", G_CALLBACK(irrigation_callback), pextra);
 
       fc_snprintf(actname, sizeof(actname), "app.irrig_%d", i++);
-      item = g_menu_item_new(extra_name_translation(pextra), actname);
-      g_menu_append_item(submenu, item);
+      menu_item_append_unref(submenu,
+                             g_menu_item_new(extra_name_translation(pextra), actname));
     }
   } extra_type_by_cause_iterate_end;
 
@@ -3152,7 +3149,6 @@ void real_menus_update(void)
 
   extra_type_by_cause_iterate(EC_MINE, pextra) {
     if (pextra->buildable) {
-      GMenuItem *item;
       char actname[256];
       GSimpleAction *act;
 
@@ -3166,8 +3162,8 @@ void real_menus_update(void)
       g_signal_connect(act, "activate", G_CALLBACK(mine_callback), pextra);
 
       fc_snprintf(actname, sizeof(actname), "app.mine_%d", i++);
-      item = g_menu_item_new(extra_name_translation(pextra), actname);
-      g_menu_append_item(submenu, item);
+      menu_item_append_unref(submenu,
+                             g_menu_item_new(extra_name_translation(pextra), actname));
     }
   } extra_type_by_cause_iterate_end;
 
@@ -3177,7 +3173,6 @@ void real_menus_update(void)
   submenu = g_menu_new();
 
   extra_type_by_rmcause_iterate(ERM_CLEANPOLLUTION, pextra) {
-    GMenuItem *item;
     char actname[256];
     GSimpleAction *act;
 
@@ -3191,12 +3186,11 @@ void real_menus_update(void)
     g_signal_connect(act, "activate", G_CALLBACK(clean_menu_callback), pextra);
 
     fc_snprintf(actname, sizeof(actname), "app.clean_%d", i++);
-    item = g_menu_item_new(extra_name_translation(pextra), actname);
-    g_menu_append_item(submenu, item);
+    menu_item_append_unref(submenu,
+                           g_menu_item_new(extra_name_translation(pextra), actname));
   } extra_type_by_rmcause_iterate_end;
 
   extra_type_by_rmcause_iterate(ERM_CLEANFALLOUT, pextra) {
-    GMenuItem *item;
     char actname[256];
     GSimpleAction *act;
 
@@ -3210,8 +3204,8 @@ void real_menus_update(void)
     g_signal_connect(act, "activate", G_CALLBACK(clean_menu_callback), pextra);
 
     fc_snprintf(actname, sizeof(actname), "app.clean_%d", i++);
-    item = g_menu_item_new(extra_name_translation(pextra), actname);
-    g_menu_append_item(submenu, item);
+    menu_item_append_unref(submenu,
+                           g_menu_item_new(extra_name_translation(pextra), actname));
   } extra_type_by_rmcause_iterate_end;
 
   g_menu_remove(work_menu, 5);
@@ -3222,7 +3216,6 @@ void real_menus_update(void)
 
   extra_type_by_cause_iterate(EC_BASE, pextra) {
     if (pextra->buildable) {
-      GMenuItem *item;
       char actname[256];
       GSimpleAction *act;
 
@@ -3236,8 +3229,8 @@ void real_menus_update(void)
       g_signal_connect(act, "activate", G_CALLBACK(base_callback), pextra);
 
       fc_snprintf(actname, sizeof(actname), "app.base_%d", i++);
-      item = g_menu_item_new(extra_name_translation(pextra), actname);
-      g_menu_append_item(submenu, item);
+      menu_item_append_unref(submenu,
+                             g_menu_item_new(extra_name_translation(pextra), actname));
     }
   } extra_type_by_cause_iterate_end;
 

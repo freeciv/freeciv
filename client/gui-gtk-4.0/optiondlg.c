@@ -204,7 +204,6 @@ static gboolean option_button_press_callback(GtkGestureClick *gesture,
   GMenu *menu;
   GActionGroup *group;
   GSimpleAction *act;
-  GMenuItem *item;
   GdkRectangle rect = { .x = x, .y = y, .width = 1, .height = 1};
 
   if (!option_is_changeable(poption)) {
@@ -218,21 +217,21 @@ static gboolean option_button_press_callback(GtkGestureClick *gesture,
   act = g_simple_action_new("refresh", NULL);
   g_action_map_add_action(G_ACTION_MAP(group), G_ACTION(act));
   g_signal_connect(act, "activate", G_CALLBACK(option_refresh_callback), poption);
-  item = g_menu_item_new(_("Refresh this option"), "win.refresh");
-  g_menu_append_item(menu, item);
+  menu_item_append_unref(menu, g_menu_item_new(_("Refresh this option"),
+                                               "win.refresh"));
 
   act = g_simple_action_new("unit_reset", NULL);
   g_action_map_add_action(G_ACTION_MAP(group), G_ACTION(act));
   g_signal_connect(act, "activate", G_CALLBACK(option_reset_callback), poption);
-  item = g_menu_item_new(_("Reset this option"), "win.unit_reset");
-  g_menu_append_item(menu, item);
+  menu_item_append_unref(menu, g_menu_item_new(_("Reset this option"),
+                                               "win.unit_reset"));
 
   act = g_simple_action_new("units_apply", NULL);
   g_action_map_add_action(G_ACTION_MAP(group), G_ACTION(act));
   g_signal_connect(act, "activate", G_CALLBACK(option_apply_callback), poption);
-  item = g_menu_item_new(_("Apply the changes for this option"), "win.units_apply");
-  g_menu_append_item(menu, item);
-
+  menu_item_append_unref(menu,
+                         g_menu_item_new(_("Apply the changes for this option"),
+                                         "win.units_apply"));
 
   opt_popover = gtk_popover_menu_new_from_model(G_MENU_MODEL(menu));
   g_object_ref(opt_popover);

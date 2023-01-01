@@ -486,7 +486,6 @@ static void menu_item_callback(GSimpleAction *action, GVariant *parameter,
 ****************************************************************************/
 static GMenu *create_wl_menu(struct worklist_data *ptr)
 {
-  GMenuItem *item;
   GSimpleAction *act;
   int current_size = 0;
 
@@ -508,12 +507,12 @@ static GMenu *create_wl_menu(struct worklist_data *ptr)
     g_signal_connect(act, "activate", G_CALLBACK(menu_item_callback), ptr);
 
     fc_snprintf(act_name, sizeof(act_name), "win.wl%d", id);
-    item = g_menu_item_new(global_worklist_name(pgwl), act_name);
 
     if (ptr->menu_size > current_size) {
       g_menu_remove(ptr->menu, current_size);
     }
-    g_menu_insert_item(ptr->menu, current_size++, item);
+    menu_item_insert_unref(ptr->menu, current_size++,
+                           g_menu_item_new(global_worklist_name(pgwl), act_name));
   } global_worklists_iterate_end;
 
   act = g_simple_action_new("wledit", NULL);
@@ -521,11 +520,12 @@ static GMenu *create_wl_menu(struct worklist_data *ptr)
   g_signal_connect(act, "activate",
                    G_CALLBACK(popup_worklists_report), NULL);
 
-  item = g_menu_item_new(_("Edit Global _Worklists"), "win.wledit");
   if (ptr->menu_size > current_size) {
     g_menu_remove(ptr->menu, current_size);
   }
-  g_menu_insert_item(ptr->menu, current_size++, item);
+
+  menu_item_insert_unref(ptr->menu, current_size++,
+                         g_menu_item_new(_("Edit Global _Worklists"), "win.wledit"));
 
   if (ptr->menu_size < current_size) {
     ptr->menu_size = current_size;

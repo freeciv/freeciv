@@ -1871,7 +1871,6 @@ static GtkWidget *create_conn_menu(struct player *pplayer,
   GMenu *menu;
   gchar *buf;
   GSimpleAction *act;
-  GMenuItem *item;
   GActionGroup *group;
 
   group = G_ACTION_GROUP(g_simple_action_group_new());
@@ -1886,16 +1885,15 @@ static GtkWidget *create_conn_menu(struct player *pplayer,
   act = g_simple_action_new("info", NULL);
   g_action_map_add_action(G_ACTION_MAP(group), G_ACTION(act));
   g_signal_connect(act, "activate", G_CALLBACK(conn_menu_info_chosen), menu);
-  item = g_menu_item_new(buf, "win.info");
-  g_menu_append_item(menu, item);
+  menu_item_append_unref(menu, g_menu_item_new(buf, "win.info"));
 
   if (NULL != pplayer) {
     act = g_simple_action_new("toggle_ready", NULL);
     g_action_map_add_action(G_ACTION_MAP(group), G_ACTION(act));
     g_signal_connect(act, "activate", G_CALLBACK(conn_menu_ready_chosen), menu);
     g_simple_action_set_enabled(G_SIMPLE_ACTION(act), is_human(pplayer));
-    item = g_menu_item_new(_("Toggle player ready"), "win.toggle_ready");
-    g_menu_append_item(menu, item);
+    menu_item_append_unref(menu, g_menu_item_new(_("Toggle player ready"),
+                                                 "win.toggle_ready"));
 
     act = g_simple_action_new("pick_nation", NULL);
     g_action_map_add_action(G_ACTION_MAP(group), G_ACTION(act));
@@ -1903,22 +1901,21 @@ static GtkWidget *create_conn_menu(struct player *pplayer,
     g_simple_action_set_enabled(G_SIMPLE_ACTION(act),
                                 can_conn_edit_players_nation(&client.conn,
                                                              pplayer));
-    item = g_menu_item_new(_("Pick nation"), "win.pick_nation");
-    g_menu_append_item(menu, item);
+    menu_item_append_unref(menu, g_menu_item_new(_("Pick nation"), "win.pick_nation"));
 
     act = g_simple_action_new("observe", NULL);
     g_object_set_data_full(G_OBJECT(act), "command", g_strdup("observe"),
                            (GDestroyNotify) g_free);
     g_action_map_add_action(G_ACTION_MAP(group), G_ACTION(act));
     g_signal_connect(act, "activate", G_CALLBACK(conn_menu_player_command), menu);
-    item = g_menu_item_new(_("Observe this player"), "win.observe");
-    g_menu_append_item(menu, item);
+    menu_item_append_unref(menu, g_menu_item_new(_("Observe this player"),
+                                                 "win.observe"));
 
     act = g_simple_action_new("take_plr", NULL);
     g_action_map_add_action(G_ACTION_MAP(group), G_ACTION(act));
     g_signal_connect(act, "activate", G_CALLBACK(conn_menu_player_take), menu);
-    item = g_menu_item_new(_("Take this player"), "win.take_plr");
-    g_menu_append_item(menu, item);
+    menu_item_append_unref(menu, g_menu_item_new(_("Take this player"),
+                                                 "win.take_plr"));
   }
 
   if (ALLOW_CTRL <= client.conn.access_level && NULL != pconn
@@ -1928,8 +1925,7 @@ static GtkWidget *create_conn_menu(struct player *pplayer,
                            (GDestroyNotify) g_free);
     g_action_map_add_action(G_ACTION_MAP(group), G_ACTION(act));
     g_signal_connect(act, "activate", G_CALLBACK(conn_menu_connection_command), menu);
-    item = g_menu_item_new(_("Cut connection"), "win.cut_conn");
-    g_menu_append_item(menu, item);
+    menu_item_append_unref(menu, g_menu_item_new(_("Cut connection"), "win.cut_conn"));
   }
 
   if (ALLOW_CTRL <= client.conn.access_level && NULL != pplayer) {
@@ -1938,8 +1934,7 @@ static GtkWidget *create_conn_menu(struct player *pplayer,
                            (GDestroyNotify) g_free);
     g_action_map_add_action(G_ACTION_MAP(group), G_ACTION(act));
     g_signal_connect(act, "activate", G_CALLBACK(conn_menu_connection_command), menu);
-    item = g_menu_item_new(_("Aitoggle player"), "win.aitoggle");
-    g_menu_append_item(menu, item);
+    menu_item_append_unref(menu, g_menu_item_new(_("Aitoggle player"), "win.aitoggle"));
 
     if (pplayer != client.conn.playing && game.info.is_new_game) {
       act = g_simple_action_new("remove", NULL);
@@ -1947,8 +1942,7 @@ static GtkWidget *create_conn_menu(struct player *pplayer,
                              (GDestroyNotify) g_free);
       g_action_map_add_action(G_ACTION_MAP(group), G_ACTION(act));
       g_signal_connect(act, "activate", G_CALLBACK(conn_menu_connection_command), menu);
-      item = g_menu_item_new(_("Remove player"), "win.remove");
-      g_menu_append_item(menu, item);
+      menu_item_append_unref(menu, g_menu_item_new(_("Remove player"), "win.remove"));
     }
   }
 
@@ -1970,10 +1964,9 @@ static GtkWidget *create_conn_menu(struct player *pplayer,
                              (GDestroyNotify) g_free);
       g_action_map_add_action(G_ACTION_MAP(group), G_ACTION(act));
       g_signal_connect(act, "activate", G_CALLBACK(conn_menu_connection_command), menu);
-            fc_snprintf(actbuf, sizeof(actbuf), "win.cmdlevel_%d", level);
-      item = g_menu_item_new(buf, actbuf);
+      fc_snprintf(actbuf, sizeof(actbuf), "win.cmdlevel_%d", level);
+      menu_item_append_unref(menu, g_menu_item_new(buf, actbuf));
       g_free(buf);
-      g_menu_append_item(menu, item);
     }
   }
 
@@ -1995,9 +1988,8 @@ static GtkWidget *create_conn_menu(struct player *pplayer,
         g_action_map_add_action(G_ACTION_MAP(group), G_ACTION(act));
         g_signal_connect(act, "activate", G_CALLBACK(conn_menu_player_command), menu);
         fc_snprintf(actbuf, sizeof(actbuf), "win.ailevel_%d", level);
-        item = g_menu_item_new(buf, actbuf);
+        menu_item_append_unref(menu, g_menu_item_new(buf, actbuf));
         g_free(buf);
-        g_menu_append_item(menu, item);
       }
     }
   }
@@ -2031,9 +2023,8 @@ static GtkWidget *create_conn_menu(struct player *pplayer,
       g_action_map_add_action(G_ACTION_MAP(group), G_ACTION(act));
       g_signal_connect(act, "activate", G_CALLBACK(conn_menu_team_chosen), menu);
       fc_snprintf(actbuf, sizeof(actbuf), "win.team_%d", id);
-      item = g_menu_item_new(buf, actbuf);
+      menu_item_append_unref(menu, g_menu_item_new(buf, actbuf));
       g_free(buf);
-      g_menu_append_item(menu, item);
     } team_slots_iterate_end;
   }
 

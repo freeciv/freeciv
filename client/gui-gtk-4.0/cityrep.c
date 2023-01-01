@@ -1017,7 +1017,8 @@ static void city_report_update_views(void)
 }
 
 /************************************************************************//**
-  Create up-to-date menu item for the display menu
+  Create up-to-date menu item for the display menu.
+  Caller need to g_object_unref() returned item.
 ****************************************************************************/
 static GMenuItem *create_display_menu_item(int pos)
 {
@@ -1045,7 +1046,7 @@ static void toggle_view(GSimpleAction *act, GVariant *value, gpointer data)
   city_report_update_views();
 
   g_menu_remove(display_menu, idx);
-  g_menu_insert_item(display_menu, idx, create_display_menu_item(idx));
+  menu_item_insert_unref(display_menu, idx, create_display_menu_item(idx));
 }
 
 /************************************************************************//**
@@ -1068,7 +1069,7 @@ static GMenu *create_display_menu(GActionGroup *group)
     g_action_map_add_action(G_ACTION_MAP(group), G_ACTION(act));
     g_signal_connect(act, "change-state", G_CALLBACK(toggle_view), (gpointer)spec);
 
-    g_menu_insert_item(display_menu, i, create_display_menu_item(i));
+    menu_item_insert_unref(display_menu, i, create_display_menu_item(i));
   }
 
   g_variant_type_free(bvart);
@@ -1087,7 +1088,6 @@ static GtkWidget *create_city_report_menu(void)
   GActionGroup *group;
   GMenu *submenu;
   GSimpleAction *act;
-  GMenuItem *item;
 
   vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
   sep = gtk_separator_new(GTK_ORIENTATION_HORIZONTAL);
@@ -1104,8 +1104,8 @@ static GtkWidget *create_city_report_menu(void)
   g_action_map_add_action(G_ACTION_MAP(group), G_ACTION(act));
   g_signal_connect(act, "activate", G_CALLBACK(city_clear_worklist_callback),
                    NULL);
-  item = g_menu_item_new(_("Clear _Worklist"), "win.clear_worklist");
-  g_menu_append_item(submenu, item);
+  menu_item_append_unref(submenu, g_menu_item_new(_("Clear _Worklist"),
+                                                  "win.clear_worklist"));
 
   g_menu_append_submenu(menu, _("_Production"), G_MENU_MODEL(submenu));
 
