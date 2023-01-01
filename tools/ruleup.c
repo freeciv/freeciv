@@ -148,13 +148,17 @@ int main(int argc, char **argv)
 # endif /* FREECIV_NDEBUG */
 #endif /* FREECIV_MSWINDOWS */
 
-  init_nls();
+  /* Initialize the fc_interface functions needed to understand rules.
+   * fc_interface_init_tool() includes low level support like
+   * guaranteeing that fc_vsnprintf() will work after it,
+   * so this need to be early. */
+  fc_interface_init_tool();
 
   registry_module_init();
   init_character_encodings(FC_DEFAULT_DATA_ENCODING, FALSE);
 
   rup_parse_cmdline(argc, argv);
-  
+
   log_init(NULL, loglevel, NULL, NULL, fatal_assertions);
 
   init_connections();
@@ -163,9 +167,6 @@ int main(int argc, char **argv)
 
   game_init(FALSE);
   i_am_tool();
-
-  /* Initialize the fc_interface functions needed to understand rules. */
-  fc_interface_init_tool();
 
   /* Set ruleset user requested to use */
   if (rs_selected == NULL) {
@@ -201,8 +202,7 @@ int main(int argc, char **argv)
 
   registry_module_close();
   log_close();
-  free_libfreeciv();
-  free_nls();
+  libfreeciv_free();
   cmdline_option_values_free();
 
   return EXIT_SUCCESS;

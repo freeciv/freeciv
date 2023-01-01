@@ -689,7 +689,13 @@ int main(int argc, char **argv)
   char *option = NULL;
   int retval = EXIT_SUCCESS;
 
-  init_nls();
+  /* Initialize the fc_interface functions needed to generate the help
+   * text.
+   * fc_interface_init_tool() includes low level support like
+   * guaranteeing that fc_vsnprintf() will work after it,
+   * so this need to be early. */
+  fc_interface_init_tool();
+
   registry_module_init();
   init_character_encodings(FC_DEFAULT_DATA_ENCODING, FALSE);
 
@@ -749,10 +755,6 @@ int main(int argc, char **argv)
 
   /* Get common code to treat us as a tool. */
   i_am_tool();
-
-  /* Initialize the fc_interface functions needed to generate the help
-   * text. */
-  fc_interface_init_tool();
 
   /* Initialize game with default values */
   game_init(FALSE);
@@ -815,8 +817,7 @@ int main(int argc, char **argv)
 
   con_log_close();
   registry_module_close();
-  free_libfreeciv();
-  free_nls();
+  libfreeciv_free();
   cmdline_option_values_free();
 
   return retval;
