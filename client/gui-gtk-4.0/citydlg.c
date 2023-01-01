@@ -2474,7 +2474,6 @@ static bool create_unit_menu(struct city_dialog *pdialog, struct unit *punit,
                              GtkWidget *wdg, bool supported)
 {
   GMenu *menu;
-  GMenuItem *item;
   GActionGroup *group;
   GSimpleAction *act;
 
@@ -2495,8 +2494,7 @@ static bool create_unit_menu(struct city_dialog *pdialog, struct unit *punit,
     g_action_map_add_action(G_ACTION_MAP(group), G_ACTION(act));
     g_signal_connect(act, "activate", G_CALLBACK(unit_center_callback),
                      GINT_TO_POINTER(punit->id));
-    item = g_menu_item_new(_("Cen_ter"), "win.center");
-    g_menu_append_item(menu, item);
+    menu_item_append_unref(menu, g_menu_item_new(_("Cen_ter"), "win.center"));
   }
 
   act = g_simple_action_new("activate", NULL);
@@ -2504,8 +2502,7 @@ static bool create_unit_menu(struct city_dialog *pdialog, struct unit *punit,
   g_action_map_add_action(G_ACTION_MAP(group), G_ACTION(act));
   g_signal_connect(act, "activate", G_CALLBACK(unit_activate_callback),
                    GINT_TO_POINTER(punit->id));
-  item = g_menu_item_new(_("_Activate unit"), "win.activate");
-  g_menu_append_item(menu, item);
+  menu_item_append_unref(menu, g_menu_item_new(_("_Activate unit"), "win.activate"));
 
   act = g_simple_action_new("activate_close", NULL);
   g_object_set_data(G_OBJECT(act), "dlg", pdialog);
@@ -2519,8 +2516,8 @@ static bool create_unit_menu(struct city_dialog *pdialog, struct unit *punit,
                      GINT_TO_POINTER(punit->id));
   }
 
-  item = g_menu_item_new(_("Activate unit, _close dialog"), "win.activate_close");
-  g_menu_append_item(menu, item);
+  menu_item_append_unref(menu, g_menu_item_new(_("Activate unit, _close dialog"),
+                                               "win.activate_close"));
 
   if (!supported) {
     act = g_simple_action_new("load", NULL);
@@ -2528,43 +2525,39 @@ static bool create_unit_menu(struct city_dialog *pdialog, struct unit *punit,
     g_action_map_add_action(G_ACTION_MAP(group), G_ACTION(act));
     g_signal_connect(act, "activate", G_CALLBACK(unit_load_callback),
                      GINT_TO_POINTER(punit->id));
-    item = g_menu_item_new(_("_Load unit"), "win.load");
     g_simple_action_set_enabled(G_SIMPLE_ACTION(act), unit_can_load(punit));
-    g_menu_append_item(menu, item);
+    menu_item_append_unref(menu, g_menu_item_new(_("_Load unit"), "win.load"));
 
     act = g_simple_action_new("unload", NULL);
     g_object_set_data(G_OBJECT(act), "dlg", pdialog);
     g_action_map_add_action(G_ACTION_MAP(group), G_ACTION(act));
     g_signal_connect(act, "activate", G_CALLBACK(unit_unload_callback),
                      GINT_TO_POINTER(punit->id));
-    item = g_menu_item_new(_("_Unload unit"), "win.unload");
     g_simple_action_set_enabled(G_SIMPLE_ACTION(act),
                                 can_unit_unload(punit, unit_transport_get(punit))
                                 && can_unit_exist_at_tile(&(wld.map), punit,
                                                           unit_tile(punit)));
-    g_menu_append_item(menu, item);
+    menu_item_append_unref(menu, g_menu_item_new(_("_Unload unit"), "win.unload"));
 
     act = g_simple_action_new("sentry", NULL);
     g_object_set_data(G_OBJECT(act), "dlg", pdialog);
     g_action_map_add_action(G_ACTION_MAP(group), G_ACTION(act));
     g_signal_connect(act, "activate", G_CALLBACK(unit_sentry_callback),
                      GINT_TO_POINTER(punit->id));
-    item = g_menu_item_new(_("_Sentry unit"), "win.sentry");
     g_simple_action_set_enabled(G_SIMPLE_ACTION(act),
                                 punit->activity != ACTIVITY_SENTRY
                                 && can_unit_do_activity(punit, ACTIVITY_SENTRY));
-    g_menu_append_item(menu, item);
+    menu_item_append_unref(menu, g_menu_item_new(_("_Sentry unit"), "win.sentry"));
 
     act = g_simple_action_new("fortify", NULL);
     g_object_set_data(G_OBJECT(act), "dlg", pdialog);
     g_action_map_add_action(G_ACTION_MAP(group), G_ACTION(act));
     g_signal_connect(act, "activate", G_CALLBACK(unit_fortify_callback),
                      GINT_TO_POINTER(punit->id));
-    item = g_menu_item_new(_("_Fortify unit"), "win.fortify");
     g_simple_action_set_enabled(G_SIMPLE_ACTION(act),
                                 punit->activity != ACTIVITY_FORTIFYING
                                 && can_unit_do_activity(punit, ACTIVITY_FORTIFYING));
-    g_menu_append_item(menu, item);
+    menu_item_append_unref(menu, g_menu_item_new(_("_Fortify unit"), "win.fortify"));
   }
 
   act = g_simple_action_new("disband", NULL);
@@ -2572,10 +2565,9 @@ static bool create_unit_menu(struct city_dialog *pdialog, struct unit *punit,
   g_action_map_add_action(G_ACTION_MAP(group), G_ACTION(act));
   g_signal_connect(act, "activate", G_CALLBACK(unit_disband_callback),
                    GINT_TO_POINTER(punit->id));
-  item = g_menu_item_new(_("_Disband unit"), "win.disband");
   g_simple_action_set_enabled(G_SIMPLE_ACTION(act),
                               unit_can_do_action(punit, ACTION_DISBAND_UNIT));
-  g_menu_append_item(menu, item);
+  menu_item_append_unref(menu, g_menu_item_new(_("_Disband unit"), "win.disband"));
 
   pdialog->popover = gtk_popover_menu_new_from_model(G_MENU_MODEL(menu));
   g_object_ref(pdialog->popover);

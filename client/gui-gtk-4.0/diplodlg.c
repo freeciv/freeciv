@@ -263,7 +263,6 @@ static GMenu *create_clause_menu(GActionGroup *group,
                                  struct player *partner, bool them)
 {
   GMenu *topmenu, *submenu;
-  GMenuItem *item;
   GSimpleAction *act;
   bool any_map = FALSE;
   char act_plr_part[20];
@@ -294,8 +293,7 @@ static GMenu *create_clause_menu(GActionGroup *group,
                      pdialog);
 
     fc_snprintf(act_name, sizeof(act_name), "win.worldmap%s", act_plr_part);
-    item = g_menu_item_new(_("World-map"), act_name);
-    g_menu_append_item(submenu, item);
+    menu_item_append_unref(submenu, g_menu_item_new(_("World-map"), act_name));
 
     any_map = TRUE;
   }
@@ -313,8 +311,7 @@ static GMenu *create_clause_menu(GActionGroup *group,
                      pdialog);
 
     fc_snprintf(act_name, sizeof(act_name), "win.seamap%s", act_plr_part);
-    item = g_menu_item_new(_("Sea-map"), act_name);
-    g_menu_append_item(submenu, item);
+    menu_item_append_unref(submenu, g_menu_item_new(_("Sea-map"), act_name));
 
     any_map = TRUE;
   }
@@ -365,8 +362,7 @@ static GMenu *create_clause_menu(GActionGroup *group,
                        GINT_TO_POINTER(A_LAST));
 
       fc_snprintf(act_name, sizeof(act_name), "win.advance%sall", act_plr_part);
-      item = g_menu_item_new(_("All advances"), act_name);
-      g_menu_append_item(submenu, item);
+      menu_item_append_unref(submenu, g_menu_item_new(_("All advances"), act_name));
 
       for (list_item = sorting_list, i = 0; NULL != list_item;
            list_item = g_list_next(list_item), i++) {
@@ -387,8 +383,9 @@ static GMenu *create_clause_menu(GActionGroup *group,
 
         fc_snprintf(act_name, sizeof(act_name), "win.advance%s%d",
                     act_plr_part, i);
-        item = g_menu_item_new(advance_name_translation(padvance), act_name);
-        g_menu_append_item(submenu, item);
+        menu_item_append_unref(submenu,
+                               g_menu_item_new(advance_name_translation(padvance),
+                                               act_name));
       }
 
       g_list_free(sorting_list);
@@ -442,8 +439,9 @@ static GMenu *create_clause_menu(GActionGroup *group,
 
           fc_snprintf(act_name, sizeof(act_name), "win.city%s%d",
                       act_plr_part, i);
-          item = g_menu_item_new(city_name_get(city_list_ptrs[j]), act_name);
-          g_menu_append_item(submenu, item);
+          menu_item_append_unref(submenu,
+                                 g_menu_item_new(city_name_get(city_list_ptrs[j]),
+                                                 act_name));
         }
       }
 
@@ -463,10 +461,10 @@ static GMenu *create_clause_menu(GActionGroup *group,
                      pdialog);
 
     fc_snprintf(act_name, sizeof(act_name), "win.vision%s", act_plr_part);
-    item = g_menu_item_new(_("_Give shared vision"), act_name);
-    g_menu_append_item(topmenu, item);
+    menu_item_append_unref(topmenu, g_menu_item_new(_("_Give shared vision"), act_name));
 
-    g_simple_action_set_enabled(G_SIMPLE_ACTION(act), !gives_shared_vision(pgiver, pother));
+    g_simple_action_set_enabled(G_SIMPLE_ACTION(act),
+                                !gives_shared_vision(pgiver, pother));
   }
 
   /* Give embassy. */
@@ -479,8 +477,7 @@ static GMenu *create_clause_menu(GActionGroup *group,
                      pdialog);
 
     fc_snprintf(act_name, sizeof(act_name), "win.embassy%s", act_plr_part);
-    item = g_menu_item_new(_("Give _embassy"), act_name);
-    g_menu_append_item(topmenu, item);
+    menu_item_append_unref(topmenu, g_menu_item_new(_("Give _embassy"), act_name));
 
     /* Don't take in account the embassy effects. */
     g_simple_action_set_enabled(G_SIMPLE_ACTION(act),
@@ -497,8 +494,7 @@ static GMenu *create_clause_menu(GActionGroup *group,
                      pdialog);
 
     fc_snprintf(act_name, sizeof(act_name), "win.tiles%s", act_plr_part);
-    item = g_menu_item_new(_("_Share tiles"), act_name);
-    g_menu_append_item(topmenu, item);
+    menu_item_append_unref(topmenu, g_menu_item_new(_("_Share tiles"), act_name));
   }
 
   /* Pacts. */
@@ -518,8 +514,9 @@ static GMenu *create_clause_menu(GActionGroup *group,
                        G_CALLBACK(diplomacy_dialog_ceasefire_callback), pdialog);
 
       fc_snprintf(act_name, sizeof(act_name), "win.ceasefire%s", act_plr_part);
-      item = g_menu_item_new(Q_("?diplomatic_state:Cease-fire"), act_name);
-      g_menu_append_item(submenu, item);
+      menu_item_append_unref(submenu,
+                             g_menu_item_new(Q_("?diplomatic_state:Cease-fire"),
+                                             act_name));
 
       g_simple_action_set_enabled(G_SIMPLE_ACTION(act),
                                   ds != DS_CEASEFIRE && ds != DS_TEAM);
@@ -534,8 +531,8 @@ static GMenu *create_clause_menu(GActionGroup *group,
                        G_CALLBACK(diplomacy_dialog_peace_callback), pdialog);
 
       fc_snprintf(act_name, sizeof(act_name), "win.peace%s", act_plr_part);
-      item = g_menu_item_new(Q_("?diplomatic_state:Peace"), act_name);
-      g_menu_append_item(submenu, item);
+      menu_item_append_unref(submenu, g_menu_item_new(Q_("?diplomatic_state:Peace"),
+                                                      act_name));
 
       g_simple_action_set_enabled(G_SIMPLE_ACTION(act),
                                   ds != DS_PEACE && ds != DS_TEAM);
@@ -550,8 +547,9 @@ static GMenu *create_clause_menu(GActionGroup *group,
                        G_CALLBACK(diplomacy_dialog_alliance_callback), pdialog);
 
       fc_snprintf(act_name, sizeof(act_name), "win.alliance%s", act_plr_part);
-      item = g_menu_item_new(Q_("?diplomatic_state:Alliance"), act_name);
-      g_menu_append_item(submenu, item);
+      menu_item_append_unref(submenu,
+                             g_menu_item_new(Q_("?diplomatic_state:Alliance"),
+                                             act_name));
 
       g_simple_action_set_enabled(G_SIMPLE_ACTION(act),
                                   ds != DS_ALLIANCE && ds != DS_TEAM);

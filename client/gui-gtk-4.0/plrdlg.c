@@ -352,7 +352,8 @@ static GtkListStore *players_dialog_store_new(void)
 }
 
 /************************************************************************//**
-  Create up-to-date menu item for the plrdlg display menu
+  Create up-to-date menu item for the plrdlg display menu.
+  Caller need to g_object_unref() returned item.
 ****************************************************************************/
 static GMenuItem *create_plrdlg_display_menu_item(int pos)
 {
@@ -371,7 +372,8 @@ static GMenuItem *create_plrdlg_display_menu_item(int pos)
 }
 
 /************************************************************************//**
-  Create up-to-date menu item for "Dead Players" menu entry
+  Create up-to-date menu item for "Dead Players" menu entry.
+  Caller need to g_object_unref() returned item.
 ****************************************************************************/
 static GMenuItem *create_dead_players_menu_item(void)
 {
@@ -402,7 +404,8 @@ static void toggle_view(GSimpleAction *act, GVariant *value, gpointer data)
   /* The menu has no 'playername' in the beginning, so menu index is one smaller
    * then column index. */
   g_menu_remove(display_menu, idx - 1);
-  g_menu_insert_item(display_menu, idx - 1, create_plrdlg_display_menu_item(idx));
+
+  menu_item_insert_unref(display_menu, idx - 1, create_plrdlg_display_menu_item(idx));
 }
 
 /**********************************************************************//**
@@ -412,7 +415,6 @@ static void toggle_dead_players(GSimpleAction *act, GVariant *value,
                                 gpointer data)
 {
   int idx = GPOINTER_TO_INT(data);
-  GMenuItem *item;
 
   gui_options.player_dlg_show_dead_players ^= 1;
   real_players_dialog_update(NULL);
@@ -422,9 +424,8 @@ static void toggle_dead_players(GSimpleAction *act, GVariant *value,
    * a column. */
   g_menu_remove(display_menu, idx - 1);
 
-  item = create_dead_players_menu_item();
-  g_menu_insert_item(display_menu, idx - 1, item);
-  g_object_unref(item);
+  menu_item_insert_unref(display_menu, idx - 1,
+                         create_dead_players_menu_item());
 }
 
 /**********************************************************************//**
@@ -434,7 +435,6 @@ static void toggle_dead_players(GSimpleAction *act, GVariant *value,
 static GMenu *create_diplomacy_menu(GActionGroup *group)
 {
   GMenu *menu;
-  GMenuItem *item;
   GSimpleAction *act;
 
   menu = g_menu_new();
@@ -442,22 +442,21 @@ static GMenu *create_diplomacy_menu(GActionGroup *group)
   act = g_simple_action_new("meet", NULL);
   g_action_map_add_action(G_ACTION_MAP(group), G_ACTION(act));
   g_signal_connect(act, "activate", G_CALLBACK(players_meet_callback), NULL);
-  item = g_menu_item_new(_("_Meet"), "win.meet");
-  g_menu_append_item(menu, item);
+  menu_item_append_unref(menu, g_menu_item_new(_("_Meet"), "win.meet"));
   players_meet_command = act;
 
   act = g_simple_action_new("cancel_treaty", NULL);
   g_action_map_add_action(G_ACTION_MAP(group), G_ACTION(act));
   g_signal_connect(act, "activate", G_CALLBACK(players_war_callback), NULL);
-  item = g_menu_item_new(_("Cancel _Treaty"), "win.cancel_treaty");
-  g_menu_append_item(menu, item);
+  menu_item_append_unref(menu, g_menu_item_new(_("Cancel _Treaty"),
+                                               "win.cancel_treaty"));
   players_war_command = act;
 
   act = g_simple_action_new("withdraw_vision", NULL);
   g_action_map_add_action(G_ACTION_MAP(group), G_ACTION(act));
   g_signal_connect(act, "activate", G_CALLBACK(players_vision_callback), NULL);
-  item = g_menu_item_new(_("_Withdraw Vision"), "win.withdraw_vision");
-  g_menu_append_item(menu, item);
+  menu_item_append_unref(menu, g_menu_item_new(_("_Withdraw Vision"),
+                                               "win.withdraw_vision"));
   players_vision_command = act;
 
   return menu;
@@ -470,7 +469,6 @@ static GMenu *create_diplomacy_menu(GActionGroup *group)
 static GMenu *create_intelligence_menu(GActionGroup *group)
 {
   GMenu *menu;
-  GMenuItem *item;
   GSimpleAction *act;
 
   menu = g_menu_new();
@@ -478,21 +476,18 @@ static GMenu *create_intelligence_menu(GActionGroup *group)
   act = g_simple_action_new("report", NULL);
   g_action_map_add_action(G_ACTION_MAP(group), G_ACTION(act));
   g_signal_connect(act, "activate", G_CALLBACK(players_intel_callback), NULL);
-  item = g_menu_item_new(_("_Report"), "win.report");
-  g_menu_append_item(menu, item);
+  menu_item_append_unref(menu, g_menu_item_new(_("_Report"), "win.report"));
   players_int_command = act;
 
   act = g_simple_action_new("wonders", NULL);
   g_action_map_add_action(G_ACTION_MAP(group), G_ACTION(act));
   g_signal_connect(act, "activate", G_CALLBACK(players_intel_wonder_callback), NULL);
-  item = g_menu_item_new(_("_Wonders"), "win.wonders");
-  g_menu_append_item(menu, item);
+  menu_item_append_unref(menu, g_menu_item_new(_("_Wonders"), "win.wonders"));
 
   act = g_simple_action_new("spaceship", NULL);
   g_action_map_add_action(G_ACTION_MAP(group), G_ACTION(act));
   g_signal_connect(act, "activate", G_CALLBACK(players_sship_callback), NULL);
-  item = g_menu_item_new(_("_Spaceship"), "win.spaceship");
-  g_menu_append_item(menu, item);
+  menu_item_append_unref(menu, g_menu_item_new(_("_Spaceship"), "win.spaceship"));
   players_sship_command = act;
 
   return menu;
@@ -507,7 +502,6 @@ static GMenu *create_show_menu(GActionGroup *group)
   int i;
   GSimpleAction *act;
   GVariant *var;
-  GMenuItem *item;
 
   display_menu = g_menu_new();
 
@@ -521,18 +515,16 @@ static GMenu *create_show_menu(GActionGroup *group)
     g_action_map_add_action(G_ACTION_MAP(group), G_ACTION(act));
     g_signal_connect(act, "change-state", G_CALLBACK(toggle_view), GINT_TO_POINTER(i));
 
-    g_menu_insert_item(display_menu, i, create_plrdlg_display_menu_item(i));
+    menu_item_insert_unref(display_menu, i, create_plrdlg_display_menu_item(i));
   }
 
   var = g_variant_new("b", TRUE);
   act = g_simple_action_new_stateful("show_dead", bvart, var);
   g_action_map_add_action(G_ACTION_MAP(group), G_ACTION(act));
 
-  item = create_dead_players_menu_item();
-  g_menu_insert_item(display_menu, i, item);
+  menu_item_insert_unref(display_menu, i, create_dead_players_menu_item());
   g_signal_connect(act, "change-state", G_CALLBACK(toggle_dead_players),
                    GINT_TO_POINTER(i));
-  g_object_unref(item);
 
   g_variant_type_free(bvart);
 
@@ -546,7 +538,6 @@ static GMenu *create_show_menu(GActionGroup *group)
 static GMenu *create_ai_menu(GActionGroup *group)
 {
   GMenu *menu;
-  GMenuItem *item;
   GSimpleAction *act;
   enum ai_level level;
 
@@ -557,8 +548,8 @@ static GMenu *create_ai_menu(GActionGroup *group)
   g_signal_connect(act, "activate",
                    G_CALLBACK(players_ai_toggle_callback), NULL);
 
-  item = g_menu_item_new(_("_Toggle AI Mode"), "win.ai_toggle");
-  g_menu_append_item(menu, item);
+  menu_item_append_unref(menu, g_menu_item_new(_("_Toggle AI Mode"),
+                                               "win.ai_toggle"));
 
   for (level = 0; level < AI_LEVEL_COUNT; level++) {
     if (is_settable_ai_level(level)) {
@@ -573,8 +564,7 @@ static GMenu *create_ai_menu(GActionGroup *group)
                        GUINT_TO_POINTER(level));
 
       fc_snprintf(act_name, sizeof(act_name), "win.ai_level%d", level);
-      item = g_menu_item_new(level_name, act_name);
-      g_menu_append_item(menu, item);
+      menu_item_append_unref(menu, g_menu_item_new(level_name, act_name));
     }
   }
 

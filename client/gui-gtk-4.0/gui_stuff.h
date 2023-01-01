@@ -139,4 +139,18 @@ gint blocking_dialog(GtkWidget *dlg);
 void widget_destroyed(GtkWidget *wdg, void *data);
 GtkWidget *widget_get_child(GtkWidget *wdg);
 
-#endif  /* FC__GUI_STUFF_H */
+#define menu_item_insert_unref(menu, index, item) \
+{                                                 \
+  GMenuItem *_item_var = item;                    \
+  g_menu_insert_item(menu, index, _item_var);     \
+  g_object_unref(_item_var);                      \
+}
+
+#define menu_item_append_unref(menu, item)        \
+{                                                 \
+  GMenuItem *_item_var = item;                    \
+  g_menu_append_item(menu, _item_var);            \
+  g_object_unref(_item_var);                      \
+}
+
+#endif /* FC__GUI_STUFF_H */
