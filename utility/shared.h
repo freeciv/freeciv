@@ -19,21 +19,21 @@ extern "C" {
 
 #include <freeciv_config.h>
 
-#include <stdlib.h>		/* size_t */
-#include <string.h>		/* memset */
-#include <time.h>		/* time_t */
+#include <stdlib.h>             /* size_t */
+#include <string.h>             /* memset */
+#include <time.h>               /* time_t */
 
 /* utility */
 #include "log.h"
 #include "support.h" /* bool, fc__attribute */
 
 /* Changing these will break network compatibility! */
-#define MAX_LEN_ADDR     256	/* see also MAXHOSTNAMELEN and RFC 1123 2.1 */
+#define MAX_LEN_ADDR     256    /* See also MAXHOSTNAMELEN and RFC 1123 2.1 */
 #define MAX_LEN_PATH    4095
 
 /* Use FC_INFINITY to denote that a certain event will never occur or
    another unreachable condition. */
-#define FC_INFINITY    	(1000 * 1000 * 1000)
+#define FC_INFINITY     (1000 * 1000 * 1000)
 
 #ifndef FREECIV_TESTMATIC
 /* Initialize something for the sole purpose of silencing false compiler warning
@@ -102,13 +102,13 @@ enum fc_tristate fc_tristate_or(enum fc_tristate one, enum fc_tristate two);
   Used to initialize an array 'a' of size 'size' with value 'val' in each
   element. Note that the value is evaluated for each element.
 ****************************************************************************/
-#define INITIALIZE_ARRAY(array, size, value)				    \
-  {									    \
-    int _ini_index;							    \
-    									    \
-    for (_ini_index = 0; _ini_index < (size); _ini_index++) {		    \
-      (array)[_ini_index] = (value);					    \
-    }									    \
+#define INITIALIZE_ARRAY(array, size, value)                                \
+  {                                                                         \
+    int _ini_index;                                                         \
+                                                                            \
+    for (_ini_index = 0; _ini_index < (size); _ini_index++) {               \
+      (array)[_ini_index] = (value);                                        \
+    }                                                                       \
   }
 
 #ifndef PATH_SEPARATOR
@@ -169,9 +169,9 @@ bool str_to_float(const char *str, float *pfloat);
 ...
 **************************************************************************/
 struct fileinfo {
-  char *name;           /* descriptive file name string */
-  char *fullname;       /* full absolute filename */
-  time_t mtime;         /* last modification time  */
+  char *name;           /* Descriptive file name string */
+  char *fullname;       /* Full absolute filename */
+  time_t mtime;         /* Last modification time  */
 };
 
 #define SPECLIST_TAG fileinfo
@@ -209,33 +209,33 @@ void dont_run_as_root(const char *argv0, const char *fallback);
 /*** matching prefixes: ***/
 
 enum m_pre_result {
-  M_PRE_EXACT,		/* matches with exact length */
-  M_PRE_ONLY,		/* only matching prefix */
-  M_PRE_AMBIGUOUS,	/* first of multiple matching prefixes */
-  M_PRE_EMPTY,		/* prefix is empty string (no match) */
-  M_PRE_LONG,		/* prefix is too long (no match) */
-  M_PRE_FAIL,		/* no match at all */
-  M_PRE_LAST		/* flag value */
+  M_PRE_EXACT,          /* Matches with exact length */
+  M_PRE_ONLY,           /* Only matching prefix */
+  M_PRE_AMBIGUOUS,      /* First of multiple matching prefixes */
+  M_PRE_EMPTY,          /* Prefix is empty string (no match) */
+  M_PRE_LONG,           /* Prefix is too long (no match) */
+  M_PRE_FAIL,           /* No match at all */
+  M_PRE_LAST            /* Flag value */
 };
 
 const char *m_pre_description(enum m_pre_result result);
 
-/* function type to access a name from an index: */
+/* Function type to access a name from an index: */
 typedef const char *(*m_pre_accessor_fn_t)(int);
 
-/* function type to compare prefix: */
+/* Function type to compare prefix: */
 typedef int (*m_pre_strncmp_fn_t)(const char *, const char *, size_t n);
 
-/* function type to calculate effective string length: */
+/* Function type to calculate effective string length: */
 typedef size_t (m_strlen_fn_t)(const char *str);
 
 enum m_pre_result match_prefix(m_pre_accessor_fn_t accessor_fn,
-			       size_t n_names,
-			       size_t max_len_name,
-			       m_pre_strncmp_fn_t cmp_fn,
+                               size_t n_names,
+                               size_t max_len_name,
+                               m_pre_strncmp_fn_t cmp_fn,
                                m_strlen_fn_t len_fn,
-			       const char *prefix,
-			       int *ind_result);
+                               const char *prefix,
+                               int *ind_result);
 enum m_pre_result match_prefix_full(m_pre_accessor_fn_t accessor_fn,
                                     size_t n_names,
                                     size_t max_len_name,
@@ -439,4 +439,4 @@ bool formats_match(const char *format1, const char *format2);
 }
 #endif /* __cplusplus */
 
-#endif  /* FC__SHARED_H */
+#endif /* FC__SHARED_H */
