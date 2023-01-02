@@ -208,6 +208,7 @@ common/version.c
 common/networking/connection.c
 common/networking/packets.c
 common/networking/packets_json.c
+data/civ1/actions.ruleset
 data/civ1/buildings.ruleset
 data/civ1/cities.ruleset
 data/civ1/game.ruleset
@@ -218,6 +219,7 @@ data/civ1/styles.ruleset
 data/civ1/techs.ruleset
 data/civ1/terrain.ruleset
 data/civ1/units.ruleset
+data/civ2/actions.ruleset
 data/civ2/buildings.ruleset
 data/civ2/cities.ruleset
 data/civ2/game.ruleset
@@ -230,6 +232,7 @@ data/civ2/terrain.ruleset
 data/civ2/units.ruleset
 data/default/default.lua
 data/default/nationlist.ruleset
+data/classic/actions.ruleset
 data/classic/buildings.ruleset
 data/classic/cities.ruleset
 data/classic/game.ruleset
@@ -239,6 +242,7 @@ data/classic/styles.ruleset
 data/classic/techs.ruleset
 data/classic/terrain.ruleset
 data/classic/units.ruleset
+data/sandbox/actions.ruleset
 data/sandbox/buildings.ruleset
 data/sandbox/cities.ruleset
 data/sandbox/game.ruleset
@@ -248,6 +252,7 @@ data/sandbox/styles.ruleset
 data/sandbox/techs.ruleset
 data/sandbox/terrain.ruleset
 data/sandbox/units.ruleset
+data/civ2civ3/actions.ruleset
 data/civ2civ3/buildings.ruleset
 data/civ2civ3/cities.ruleset
 data/civ2civ3/game.ruleset
@@ -257,6 +262,7 @@ data/civ2civ3/styles.ruleset
 data/civ2civ3/techs.ruleset
 data/civ2civ3/terrain.ruleset
 data/civ2civ3/units.ruleset
+data/alien/actions.ruleset
 data/alien/buildings.ruleset
 data/alien/cities.ruleset
 data/alien/game.ruleset
@@ -277,6 +283,7 @@ data/alien/nation/mathclub.ruleset
 data/alien/nation/secretsociety.ruleset
 data/alien/nation/teamgladiators.ruleset
 data/helpdata.txt
+data/multiplayer/actions.ruleset
 data/multiplayer/buildings.ruleset
 data/multiplayer/cities.ruleset
 data/multiplayer/game.ruleset
