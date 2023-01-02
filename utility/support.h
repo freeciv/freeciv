@@ -125,6 +125,7 @@ int fc_strncasequotecmp(const char *str0, const char *str1, size_t n);
 
 void fc_support_init(void);
 void fc_support_free(void);
+bool are_support_services_available(void);
 
 size_t effectivestrlenquote(const char *str);
 
@@ -214,4 +215,4 @@ int fc_at_quick_exit(void (*func)(void));
 }
 #endif /* __cplusplus */
 
-#endif  /* FC__SUPPORT_H */
+#endif /* FC__SUPPORT_H */

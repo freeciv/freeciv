@@ -111,6 +111,8 @@
 
 #include "support.h"
 
+static bool support_initialized = FALSE;
+
 static int icu_buffer_uchars = 0;
 static UChar *icu_buffer1 = NULL;
 static UChar *icu_buffer2 = NULL;
@@ -1337,6 +1339,8 @@ void fc_support_init(void)
 #ifndef HAVE_LOCALTIME_R
   fc_init_mutex(&localtime_mutex);
 #endif /* HAVE_LOCALTIME_R */
+
+  support_initialized = TRUE;
 }
 
 /************************************************************************//**
@@ -1344,6 +1348,8 @@ void fc_support_init(void)
 ****************************************************************************/
 void fc_support_free(void)
 {
+  support_initialized = FALSE;
+
 #ifndef HAVE_WORKING_VSNPRINTF
   if (vsnprintf_buf != NULL) {
     free(vsnprintf_buf);
@@ -1357,4 +1363,12 @@ void fc_support_free(void)
 #endif /* HAVE_LOCALTIME_R */
 
   fc_strAPI_free();
+}
+
+/************************************************************************//**
+  Is the support module currently in usable state?
+****************************************************************************/
+bool are_support_services_available(void)
+{
+  return support_initialized;
 }
