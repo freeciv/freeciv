@@ -744,6 +744,9 @@ void client_exit(int return_value)
 
   ui_exit();
 
+  /* Play the exit sound while audio system dependencies still up. */
+  audio_shutdown(TRUE);
+
   script_client_free();
 
   editor_free();
