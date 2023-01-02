@@ -89,6 +89,7 @@
 #include "graphics.h"
 #include "gui_stuff.h"
 #include "happiness.h"
+#include "helpdlg.h"
 #include "inteldlg.h"
 #include "mapctrl.h"
 #include "mapview.h"
@@ -1677,6 +1678,8 @@ int ui_main(int argc, char **argv)
     log_fatal(_("Failed to open graphical mode."));
     exit(EXIT_FAILURE);
   }
+
+  help_system_init();
 
   toplevel = gtk_window_new(GTK_WINDOW_TOPLEVEL);
   gtk_window_set_position(GTK_WINDOW(toplevel), GTK_WIN_POS_CENTER);

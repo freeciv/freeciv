@@ -15,6 +15,6 @@
 
 #include "helpdlg_g.h"
 
-/* nothing else */
+void help_system_init(void);
 
-#endif  /* FC__HELPDLG_H */
+#endif /* FC__HELPDLG_H */
