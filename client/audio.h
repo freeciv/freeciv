@@ -30,8 +30,9 @@ typedef void (*audio_finished_callback)(void);
 struct audio_plugin {
   char name[MAX_AUDIO_NAME_LEN];
   char descr[MAX_AUDIO_DESCR_LEN];
-  bool (*init) (void);
-  void (*shutdown) (void);
+  bool initialized;
+  bool (*init) (struct audio_plugin *self);
+  void (*shutdown) (struct audio_plugin *self);
   void (*stop) (void);
   void (*wait) (void);
   double (*get_volume) (void);
@@ -55,7 +56,7 @@ void audio_real_init(const char *const soundspec_name,
                      const char *const musicset_name,
                      const char *const preferred_plugin_name);
 void audio_add_plugin(struct audio_plugin *p);
-void audio_shutdown(void);
+void audio_shutdown(bool play_quit_tag);
 void audio_stop(void);
 void audio_stop_usage(void);
 void audio_restart(const char *soundset_name, const char *musicset_name);

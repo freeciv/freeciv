@@ -165,14 +165,14 @@ static void sdl_audio_resume(void)
 **************************************************************************/
 static void sdl_audio_stop(void)
 {
-  /* fade out over 2 sec */
+  /* Fade out over 2 sec */
   Mix_FadeOutMusic(2000);
 }
 
 /**********************************************************************//**
   Wait for audio to die on all channels.
   WARNING: If a channel is looping, it will NEVER exit! Always call
-  music_stop() first!
+  stop_style_music() first!
 **************************************************************************/
 static void sdl_audio_wait(void)
 {
@@ -216,14 +216,16 @@ static int init_sdl_audio(void)
 /**********************************************************************//**
   Clean up.
 **************************************************************************/
-static void sdl_audio_shutdown(void)
+static void sdl_audio_shutdown(struct audio_plugin *self)
 {
   int i;
+
+  self->initialized = FALSE;
 
   sdl_audio_stop();
   sdl_audio_wait();
 
-  /* remove all buffers */
+  /* Remove all buffers */
   for (i = 0; i < MIX_CHANNELS; i++) {
     if (samples[i].wave) {
       Mix_FreeChunk(samples[i].wave);
@@ -239,7 +241,7 @@ static void sdl_audio_shutdown(void)
 /**********************************************************************//**
   Initialize.
 **************************************************************************/
-static bool sdl_audio_init(void)
+static bool sdl_audio_init(struct audio_plugin *self)
 {
   /* Initialize variables */
   const int audio_rate = MIX_DEFAULT_FREQUENCY;
@@ -253,7 +255,8 @@ static bool sdl_audio_init(void)
 
   if (Mix_OpenAudio(audio_rate, audio_format, audio_channels, buf_size) < 0) {
     log_error("Error calling Mix_OpenAudio");
-    /* try something else */
+
+    /* Try something else */
     quit_sdl_audio();
     return FALSE;
   }
@@ -262,8 +265,12 @@ static bool sdl_audio_init(void)
   for (i = 0; i < MIX_CHANNELS; i++) {
     samples[i].wave = NULL;
   }
-  /* sanity check, for now; add volume controls later */
+
+  /* Sanity check, for now; add volume controls later */
   sdl_audio_set_volume(sdl_audio_volume);
+
+  self->initialized = TRUE;
+
   return TRUE;
 }
 
@@ -277,6 +284,7 @@ void audio_sdl_init(void)
 
   sz_strlcpy(self.name, "sdl");
   sz_strlcpy(self.descr, "Simple DirectMedia Library (SDL) mixer plugin");
+  self.initialized = FALSE;
   self.init = sdl_audio_init;
   self.shutdown = sdl_audio_shutdown;
   self.stop = sdl_audio_stop;

@@ -29,8 +29,9 @@
 /**********************************************************************//**
   Clean up
 **************************************************************************/
-static void none_audio_shutdown(void)
+static void none_audio_shutdown(struct audio_plugin *self)
 {
+  self->initialized = FALSE;
 }
 
 /**********************************************************************//**
@@ -77,8 +78,10 @@ static void none_audio_resume(void)
 /**********************************************************************//**
   Initialize.
 **************************************************************************/
-static bool none_audio_init(void)
+static bool none_audio_init(struct audio_plugin *self)
 {
+  self->initialized = TRUE;
+
   return TRUE;
 }
 
@@ -91,6 +94,7 @@ void audio_none_init(void)
 
   sz_strlcpy(self.name, "none");
   sz_strlcpy(self.descr, "/dev/null plugin");
+  self.initialized = FALSE;
   self.init = none_audio_init;
   self.shutdown = none_audio_shutdown;
   self.stop = none_audio_stop;

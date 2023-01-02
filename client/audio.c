@@ -47,7 +47,7 @@
 #define SOUNDSPEC_CAPSTR "+Freeciv-soundset-Devel-2022-07-03"
 #define MUSICSPEC_CAPSTR "+Freeciv-2.6-musicset"
 
-/* keep it open throughout */
+/* Keep them open throughout */
 static struct section_file *ss_tagfile = NULL;
 static struct section_file *ms_tagfile = NULL;
 
@@ -68,6 +68,8 @@ static struct mfcb_data
 static int audio_play_tag(struct section_file *sfile,
                           const char *tag, bool repeat,
                           int exclude, bool keep_old_style);
+
+static void audio_shutdown_atexit(void);
 
 /**********************************************************************//**
   Returns a static string vector of all sound plugins
@@ -156,7 +158,7 @@ bool audio_select_plugin(const char *const name)
     log_debug("Shutting down %s", plugins[selected_plugin].name);
     plugins[selected_plugin].stop();
     plugins[selected_plugin].wait();
-    plugins[selected_plugin].shutdown();
+    plugins[selected_plugin].shutdown(&(plugins[selected_plugin]));
   }
 
   if (!found) {
@@ -165,7 +167,7 @@ bool audio_select_plugin(const char *const name)
     exit(EXIT_FAILURE);
   }
 
-  if (!plugins[i].init()) {
+  if (!plugins[i].init(&(plugins[i]))) {
     log_error("Plugin %s found, but can't be initialized.", name);
     return FALSE;
   }
@@ -342,7 +344,7 @@ void audio_real_init(const char *const soundset_name,
     static bool atexit_set = FALSE;
 
     if (!atexit_set) {
-      atexit(audio_shutdown);
+      atexit(audio_shutdown_atexit);
       atexit_set = TRUE;
     }
   }
@@ -637,15 +639,22 @@ void audio_set_volume(double volume)
 
 /**********************************************************************//**
   Call this at end of program only.
+
+  @param play_quit_tag Play exit sound
 **************************************************************************/
-void audio_shutdown(void)
+void audio_shutdown(bool play_quit_tag)
 {
-  /* avoid infinite loop at end of game */
+  /* Avoid infinite loop at end of game */
   audio_stop();
 
-  audio_play_sound("e_game_quit", NULL);
-  plugins[selected_plugin].wait();
-  plugins[selected_plugin].shutdown();
+  if (play_quit_tag) {
+    audio_play_sound("e_game_quit", NULL);
+  }
+
+  if (plugins[selected_plugin].initialized) {
+    plugins[selected_plugin].wait();
+    plugins[selected_plugin].shutdown(&(plugins[selected_plugin]));
+  }
 
   if (NULL != ss_tagfile) {
     secfile_destroy(ss_tagfile);
@@ -655,6 +664,15 @@ void audio_shutdown(void)
     secfile_destroy(ms_tagfile);
     ms_tagfile = NULL;
   }
+}
+
+/**********************************************************************//**
+  Called as atexit handler.
+**************************************************************************/
+static void audio_shutdown_atexit(void)
+{
+  /* If support has already been shut down, can't handle audio tags. */
+  audio_shutdown(are_support_services_available());
 }
 
 /**********************************************************************//**
