@@ -86,6 +86,7 @@
 #include "graphics.h"
 #include "gui_stuff.h"
 #include "happiness.h"
+#include "helpdlg.h"
 #include "inteldlg.h"
 #include "mapctrl.h"
 #include "mapview.h"
@@ -1881,6 +1882,8 @@ int ui_main(int argc, char **argv)
     log_fatal(_("Failed to open graphical mode."));
     exit(EXIT_FAILURE);
   }
+
+  help_system_init();
 
   dlg_tab_provider_prepare();
 
