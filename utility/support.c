@@ -108,6 +108,8 @@
 
 #include "support.h"
 
+static bool support_initialized = FALSE;
+
 #ifndef HAVE_WORKING_VSNPRINTF
 static char *vsnprintf_buf = NULL;
 static fc_mutex vsnprintf_mutex;
@@ -1237,6 +1239,8 @@ void fc_support_init(void)
 #ifndef HAVE_LOCALTIME_R
   fc_init_mutex(&localtime_mutex);
 #endif /* HAVE_LOCALTIME_R */
+
+  support_initialized = TRUE;
 }
 
 /*****************************************************************
@@ -1244,6 +1248,8 @@ void fc_support_init(void)
 *****************************************************************/
 void fc_support_free(void)
 {
+  support_initialized = FALSE;
+
 #ifndef HAVE_WORKING_VSNPRINTF
   if (vsnprintf_buf != NULL) {
     free(vsnprintf_buf);
@@ -1255,4 +1261,12 @@ void fc_support_free(void)
 #ifndef HAVE_LOCALTIME_R
   fc_destroy_mutex(&localtime_mutex);
 #endif /* HAVE_LOCALTIME_R */
+}
+
+/*****************************************************************
+  Is the support module currently in usable state?
+*****************************************************************/
+bool are_support_services_available(void)
+{
+  return support_initialized;
 }
