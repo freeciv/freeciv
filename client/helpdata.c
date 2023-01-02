@@ -4994,3 +4994,47 @@ void helptext_nation(char *buf, size_t bufsz, struct nation_type *pnation,
   }
 #undef PRINT_BREAK
 }
+
+/************************************************************************//**
+  Return help page that matches the requirement, or HELP_LAST if none does.
+****************************************************************************/
+enum help_page_type help_type_by_requirement(const struct requirement *req)
+{
+  if (req == NULL) {
+    return HELP_LAST;
+  }
+
+  if (req->source.kind == VUT_UTYPE) {
+    return HELP_UNIT;
+  }
+  if (req->source.kind == VUT_IMPROVEMENT) {
+    if (is_great_wonder(req->source.value.building)) {
+      return HELP_WONDER;
+    }
+    return HELP_IMPROVEMENT;
+  }
+  if (req->source.kind == VUT_ADVANCE) {
+    return HELP_TECH;
+  }
+  if (req->source.kind == VUT_TERRAIN) {
+    return HELP_TERRAIN;
+  }
+  if (req->source.kind == VUT_EXTRA) {
+    return HELP_EXTRA;
+  }
+  if (req->source.kind == VUT_GOOD) {
+    return HELP_GOODS;
+  }
+  if (req->source.kind == VUT_SPECIALIST) {
+    return HELP_SPECIALIST;
+  }
+  if (req->source.kind == VUT_GOVERNMENT) {
+    return HELP_GOVERNMENT;
+  }
+
+  if (req->source.kind == VUT_NATION) {
+    return HELP_NATIONS;
+  }
+
+  return HELP_LAST;
+}

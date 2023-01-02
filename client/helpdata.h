@@ -17,12 +17,10 @@
 extern "C" {
 #endif /* __cplusplus */
 
-#include <stddef.h>		/* size_t */
+#include <stddef.h>             /* size_t */
 
-/* common */
-#include "improvement.h" 	/* Impr_type_id */
-
-#include "helpdlg_g.h"		/* enum help_page_type */
+/* client */
+#include "helpdlg_g.h"          /* enum help_page_type */
 
 struct help_item {
   char *topic, *text;
@@ -75,8 +73,10 @@ const char *helptext_extra_for_terrain_str(struct extra_type *pextra,
         while ((pitem = help_iter_next())) {   
 #define help_items_iterate_end }}
 
+enum help_page_type help_type_by_requirement(const struct requirement *req);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */
 
-#endif  /* FC__HELPDATA_H */
+#endif /* FC__HELPDATA_H */
