@@ -888,21 +888,21 @@ bool can_unit_do_activity_targeted(const struct unit *punit,
   location.
 **************************************************************************/
 bool can_unit_do_activity_targeted_at(const struct unit *punit,
-				      enum unit_activity activity,
+                                      enum unit_activity activity,
                                       struct extra_type *target,
-				      const struct tile *ptile)
+                                      const struct tile *ptile)
 {
   /* Check that no build activity conflicting with one already in progress
    * gets executed. */
   /* FIXME: Should check also the cases where one of the activities is terrain
    *        change that destroys the target of the other activity */
-  if (target != NULL && is_build_activity(activity, ptile)) {
+  if (target != NULL && is_build_activity(activity)) {
     if (tile_is_placing(ptile)) {
       return FALSE;
     }
 
     unit_list_iterate(ptile->units, tunit) {
-      if (is_build_activity(tunit->activity, ptile)
+      if (is_build_activity(tunit->activity)
           && !can_extras_coexist(target, tunit->activity_target)) {
         return FALSE;
       }
@@ -1477,9 +1477,9 @@ bool unit_being_aggressive(const struct unit *punit)
 }
 
 /**********************************************************************//**
-  Returns true if given activity is some kind of building.
+  Returns true if given activity builds an extra.
 **************************************************************************/
-bool is_build_activity(enum unit_activity activity, const struct tile *ptile)
+bool is_build_activity(enum unit_activity activity)
 {
   switch (activity) {
   case ACTIVITY_MINE:
@@ -1528,7 +1528,7 @@ bool is_terrain_change_activity(enum unit_activity activity)
 **************************************************************************/
 bool is_tile_activity(enum unit_activity activity)
 {
-  return is_build_activity(activity, NULL)
+  return is_build_activity(activity)
     || is_clean_activity(activity)
     || is_terrain_change_activity(activity);
 }
