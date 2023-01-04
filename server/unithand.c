@@ -785,7 +785,7 @@ static struct player *need_war_player_hlp(const struct unit *actor,
         return city_owner(tcity);
       }
 
-      if ((tunit = is_non_attack_unit_tile(target_tile, unit_owner(actor)))
+      if ((tunit = tile_non_attack_unit(target_tile, unit_owner(actor)))
           && rel_may_become_war(unit_owner(actor), unit_owner(tunit))) {
         return unit_owner(tunit);
       }

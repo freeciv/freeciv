@@ -345,18 +345,69 @@ int get_transporter_capacity(const struct unit *punit);
 struct player *unit_nationality(const struct unit *punit);
 void unit_tile_set(struct unit *punit, struct tile *ptile);
 
-struct unit *is_allied_unit_tile(const struct tile *ptile,
-				 const struct player *pplayer);
-struct unit *is_enemy_unit_tile(const struct tile *ptile,
-				const struct player *pplayer);
-struct unit *is_non_allied_unit_tile(const struct tile *ptile,
-				     const struct player *pplayer);
-struct unit *is_other_players_unit_tile(const struct tile *ptile,
-					const struct player *pplayer);
-struct unit *is_non_attack_unit_tile(const struct tile *ptile,
-				     const struct player *pplayer);
+struct unit *tile_allied_unit(const struct tile *ptile,
+                              const struct player *pplayer);
+
+/**********************************************************************//**
+  Are there allied units, and only allied units, on the tile?
+**************************************************************************/
+static inline bool is_allied_unit_tile(const struct tile *ptile,
+                                       const struct player *pplayer)
+{
+  return NULL != tile_allied_unit(ptile, pplayer);
+}
+
+struct unit *tile_enemy_unit(const struct tile *ptile,
+                             const struct player *pplayer);
+
+/**********************************************************************//**
+  Are there any enemy unit(s) on tile?
+**************************************************************************/
+static inline bool is_enemy_unit_tile(const struct tile *ptile,
+                                      const struct player *pplayer)
+{
+  return NULL != tile_enemy_unit(ptile, pplayer);
+}
+
+struct unit *tile_non_allied_unit(const struct tile *ptile,
+                                  const struct player *pplayer);
+
+/**********************************************************************//**
+  Are there any non-allied unit(s) on tile?
+**************************************************************************/
+static inline bool is_non_allied_unit_tile(const struct tile *ptile,
+                                           const struct player *pplayer)
+{
+  return NULL != tile_non_allied_unit(ptile, pplayer);
+}
+
+struct unit *tile_other_players_unit(const struct tile *ptile,
+                                     const struct player *pplayer);
+
+/**********************************************************************//**
+  Are there any unit(s) on tile owned by someone else than pplayer?
+**************************************************************************/
+static inline bool is_other_players_unit_tile(const struct tile *ptile,
+                                              const struct player *pplayer)
+{
+  return NULL != tile_other_players_unit(ptile, pplayer);
+}
+
+struct unit *tile_non_attack_unit(const struct tile *ptile,
+                                  const struct player *pplayer);
+
+/**********************************************************************//**
+  Are there any unit(s) on tile preventing player's units from
+  moving towards, either to attack enemy or to enter the tile with allies.
+**************************************************************************/
+static inline bool is_non_attack_unit_tile(const struct tile *ptile,
+                                           const struct player *pplayer)
+{
+  return NULL != tile_non_attack_unit(ptile, pplayer);
+}
+
 struct unit *unit_occupies_tile(const struct tile *ptile,
-				const struct player *pplayer);
+                                const struct player *pplayer);
 
 bool is_my_zoc(const struct player *unit_owner, const struct tile *ptile);
 bool unit_being_aggressive(const struct unit *punit);

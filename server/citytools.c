@@ -175,7 +175,7 @@ void city_freeze_workers_queue(struct city *pcity)
 bool create_city_for_player(struct player *pplayer, struct tile *ptile,
                             const char *name)
 {
-  if (is_enemy_unit_tile(ptile, pplayer) != NULL
+  if (is_enemy_unit_tile(ptile, pplayer)
       || !city_can_be_built_here(ptile, NULL)) {
     return FALSE;
   }

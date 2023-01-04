@@ -1435,7 +1435,7 @@ static void send_path_orders(struct unit *punit, struct pf_path *path,
   if (i > 0
       && p.orders[i - 1] == ORDER_MOVE
       && (is_non_allied_city_tile(old_tile, client_player())
-          || is_non_allied_unit_tile(old_tile, client_player()) != NULL)) {
+          || is_non_allied_unit_tile(old_tile, client_player()))) {
     /* Won't be able to perform a regular move to the target tile... */
     if (!final_order) {
       /* ...and no final order exists. Choose what to do when the unit gets
@@ -1700,10 +1700,10 @@ static bool order_wants_direction(enum unit_orders order, action_id act_id,
     }
 
     if (is_non_allied_city_tile(tgt_tile, client_player())
-        || is_non_allied_unit_tile(tgt_tile, client_player()) != NULL) {
+        || is_non_allied_unit_tile(tgt_tile, client_player())) {
       /* Won't be able to move to the target tile to perform the action on
        * top of it. */
-      /* TODO: detect situations where it also would be illegal to perform
+      /* TODO: Detect situations where it also would be illegal to perform
        * the action from the neighbor tile. */
       return TRUE;
     }
