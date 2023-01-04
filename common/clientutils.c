@@ -74,7 +74,7 @@ static void calc_activity(struct actcalc *calc, const struct tile *ptile,
       continue;
     }
 
-    if (is_build_activity(act, ptile)) {
+    if (is_build_activity(act)) {
       int eidx = extra_index(punit->activity_target);
 
       t->extra_total[eidx][act] += punit->activity_count;
@@ -96,7 +96,7 @@ static void calc_activity(struct actcalc *calc, const struct tile *ptile,
   /* Hypothetical contribution from pmodunit, if it changed to specified
    * activity/target */
   if (pmodunit) {
-    if (is_build_activity(new_act, ptile)) {
+    if (is_build_activity(new_act)) {
       int eidx = extra_index(new_tgt);
 
       if (new_act == pmodunit->changed_from
@@ -198,7 +198,7 @@ int turns_to_activity_done(const struct tile *ptile,
   calc_activity(calc, ptile, pmodunit, act, tgt);
 
   /* ...and extract just the one we want. */
-  if (is_build_activity(act, ptile)) {
+  if (is_build_activity(act)) {
     int tgti = extra_index(tgt);
 
     turns = calc->extra_turns[tgti][act];
@@ -228,7 +228,7 @@ const char *concat_tile_activity_text(struct tile *ptile)
   calc_activity(calc, ptile, NULL, ACTIVITY_LAST, NULL);
 
   activity_type_iterate(i) {
-    if (is_build_activity(i, ptile)) {
+    if (is_build_activity(i)) {
       extra_type_iterate(ep) {
         int ei = extra_index(ep);
 
