@@ -1265,8 +1265,8 @@ void unit_tile_set(struct unit *punit, struct tile *ptile)
   (ie, if your nation A is allied with B, and B is allied with C, a tile
   containing units from B and C will return NULL)
 **************************************************************************/
-struct unit *is_allied_unit_tile(const struct tile *ptile,
-                                 const struct player *pplayer)
+struct unit *tile_allied_unit(const struct tile *ptile,
+                              const struct player *pplayer)
 {
   struct unit *punit = NULL;
 
@@ -1283,13 +1283,13 @@ struct unit *is_allied_unit_tile(const struct tile *ptile,
 }
 
 /**********************************************************************//**
-  Is there an enemy unit on this tile?  Returns the unit or NULL if none.
+  Is there an enemy unit on this tile? Returns the unit or NULL if none.
 
   This function is likely to fail if used at the client because the client
-  doesn't see all units.  (Maybe it should be moved into the server code.)
+  doesn't see all units. (Maybe it should be moved into the server code.)
 **************************************************************************/
-struct unit *is_enemy_unit_tile(const struct tile *ptile,
-                                const struct player *pplayer)
+struct unit *tile_enemy_unit(const struct tile *ptile,
+                             const struct player *pplayer)
 {
   unit_list_iterate(ptile->units, punit) {
     if (pplayers_at_war(unit_owner(punit), pplayer)) {
@@ -1301,10 +1301,10 @@ struct unit *is_enemy_unit_tile(const struct tile *ptile,
 }
 
 /**********************************************************************//**
-  Is there an non-allied unit on this tile?
+  Return one of the non-allied units on the tile, if there is any
 **************************************************************************/
-struct unit *is_non_allied_unit_tile(const struct tile *ptile,
-                                     const struct player *pplayer)
+struct unit *tile_non_allied_unit(const struct tile *ptile,
+                                  const struct player *pplayer)
 {
   unit_list_iterate(ptile->units, punit) {
     if (!pplayers_allied(unit_owner(punit), pplayer)) {
@@ -1317,10 +1317,11 @@ struct unit *is_non_allied_unit_tile(const struct tile *ptile,
 }
 
 /**********************************************************************//**
-  Is there an unit belonging to another player on this tile?
+  Return an unit belonging to any other player, if there are any
+  on the tile.
 **************************************************************************/
-struct unit *is_other_players_unit_tile(const struct tile *ptile,
-                                        const struct player *pplayer)
+struct unit *tile_other_players_unit(const struct tile *ptile,
+                                     const struct player *pplayer)
 {
   unit_list_iterate(ptile->units, punit) {
     if (unit_owner(punit) != pplayer) {
@@ -1332,10 +1333,11 @@ struct unit *is_other_players_unit_tile(const struct tile *ptile,
 }
 
 /**********************************************************************//**
-  Is there an unit we have peace or ceasefire with on this tile?
+  Return an unit we have peace or ceasefire with on this tile,
+  if any exist.
 **************************************************************************/
-struct unit *is_non_attack_unit_tile(const struct tile *ptile,
-                                     const struct player *pplayer)
+struct unit *tile_non_attack_unit(const struct tile *ptile,
+                                  const struct player *pplayer)
 {
   unit_list_iterate(ptile->units, punit) {
     if (pplayers_non_attack(unit_owner(punit), pplayer)) {
@@ -1351,9 +1353,9 @@ struct unit *is_non_attack_unit_tile(const struct tile *ptile,
   Is there an occupying unit on this tile?
 
   Intended for both client and server; assumes that hiding units are not
-  sent to client.  First check tile for known and seen.
+  sent to client. First check tile for known and seen.
 
-  called by city_can_work_tile().
+  Called by city_can_work_tile().
 **************************************************************************/
 struct unit *unit_occupies_tile(const struct tile *ptile,
                                 const struct player *pplayer)
