@@ -1556,7 +1556,7 @@ bool is_refuel_point(const struct tile *ptile,
                      const struct player *pplayer,
                      const struct unit *punit)
 {
-  if (NULL != is_non_allied_unit_tile(ptile, pplayer)) {
+  if (is_non_allied_unit_tile(ptile, pplayer)) {
     return FALSE;
   }
 
@@ -4270,13 +4270,12 @@ static bool maybe_cancel_patrol_due_to_enemy(struct unit *punit)
   struct player *pplayer = unit_owner(punit);
 
   circle_iterate(&(wld.map), unit_tile(punit), radius_sq, ptile) {
-    struct unit *penemy = is_non_allied_unit_tile(ptile, pplayer);
-
+    struct unit *penemy = tile_non_allied_unit(ptile, pplayer);
     struct vision_site *pdcity = map_get_player_site(ptile, pplayer);
 
     if ((penemy && can_player_see_unit(pplayer, penemy))
-	|| (pdcity && !pplayers_allied(pplayer, vision_site_owner(pdcity))
-	    && pdcity->occupied)) {
+        || (pdcity && !pplayers_allied(pplayer, vision_site_owner(pdcity))
+            && pdcity->occupied)) {
       cancel = TRUE;
       break;
     }
