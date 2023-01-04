@@ -223,8 +223,7 @@ void climate_change(bool warming, int effect)
       check_terrain_change(ptile, old);
       update_tile_knowledge(ptile);
 
-      /* Check the unit activities. */
-      unit_activities_cancel_all_illegal_area(ptile);
+      tile_change_side_effects(ptile);
 
     } else if (old == new) {
       /* This counts toward a climate change although nothing is changed. */
@@ -2588,4 +2587,25 @@ void give_distorted_map(struct player *pfrom, struct player *pto,
   } whole_map_iterate_end;
 
   unbuffer_shared_vision(pto);
+}
+
+/**********************************************************************//**
+  Handle various side effects of the change on tile.
+  If a city was working the tile, that city might need refresh
+  after this call.
+
+  @param ptile         tile that has changed
+**************************************************************************/
+void tile_change_side_effects(struct tile *ptile)
+{
+  struct city *pcity = ptile->worked;
+
+  /* Check the unit activities. */
+  unit_activities_cancel_all_illegal_area(ptile);
+
+  if (pcity != NULL && !is_free_worked(pcity, ptile)
+      && get_city_tile_output_bonus(pcity, ptile, NULL, EFT_TILE_WORKABLE) <= 0) {
+    city_map_update_empty(pcity, ptile);
+    pcity->specialists[DEFAULT_SPECIALIST]++;
+  }
 }

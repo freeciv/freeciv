@@ -1065,12 +1065,13 @@ static void update_unit_activity(struct unit *punit)
           && punit2->activity_target == act_tgt) {
         /* This unit was helping with the work just finished.
          * Mark it idle (already finished) so its "current"
-         * activity is not considered illegal below. */
+         * activity is not considered illegal
+         * in tile_change_side_effects() . */
         set_unit_activity(punit2, ACTIVITY_IDLE);
       }
     } unit_list_iterate_end;
 
-    unit_activities_cancel_all_illegal_area(ptile);
+    tile_change_side_effects(ptile);
   }
 
   if (activity == ACTIVITY_FORTIFYING) {
