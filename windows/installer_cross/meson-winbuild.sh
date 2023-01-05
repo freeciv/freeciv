@@ -66,7 +66,7 @@ fi
 
 SETUP=$(grep "CrosserSetup=" $DLLSPATH/crosser.txt | sed -e 's/CrosserSetup="//' -e 's/"//')
 
-if ! test -f "meson/cross-${SETUP}.tmpl" ; then
+if ! test -f "setups/cross-${SETUP}.tmpl" ; then
   echo "Unsupported crosser setup \"${SETUP}\"!" >&2
   exit 1
 fi
@@ -112,7 +112,7 @@ if ! mkdir -p "${BUILD_DIR}" ; then
   exit 1
 fi
 
-if ! sed "s,<PREFIX>,$DLLSPATH,g" meson/cross-${SETUP}.tmpl > meson-build-${SETUP}-${GUI}/cross.txt
+if ! sed "s,<PREFIX>,$DLLSPATH,g" setups/cross-${SETUP}.tmpl > meson-build-${SETUP}-${GUI}/cross.txt
 then
   echo "Failed to create cross-file for $SETUP build!" >&2
   exit 1

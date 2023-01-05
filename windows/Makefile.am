@@ -54,8 +54,8 @@ dist_noinst_DATA = \
 		installer_cross/meson-build_all_installers.sh	\
 		installer_cross/meson-installer_build.sh	\
 		installer_cross/meson-winbuild.sh		\
-		installer_cross/meson/cross-win32.tmpl		\
-		installer_cross/meson/cross-win64.tmpl
+		installer_cross/setups/cross-win32.tmpl		\
+		installer_cross/setups/cross-win64.tmpl
 
 if MINGW
 nodist_noinst_DATA = 		\
