@@ -13,8 +13,10 @@
 #ifndef FC__DIPLHAND_H
 #define FC__DIPLHAND_H
 
+/* common */
 #include "fc_types.h"
 
+/* server */
 #include "hand_gen.h"
 
 struct Treaty;
@@ -30,5 +32,7 @@ void reject_all_treaties(struct player *pplayer);
 void set_diplstate_type(struct player_diplstate *state1,
                         struct player_diplstate *state2,
                         enum diplstate_type type);
+
+enum diplstate_type valid_dst_closest(struct player_diplstate *dst);
 
 #endif  /* FC__DIPLHAND_H */

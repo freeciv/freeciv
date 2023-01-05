@@ -36,6 +36,7 @@
 /* server */
 #include "citytools.h"
 #include "cityturn.h"           /* city_repair_size() */
+#include "diplhand.h"           /* valid_dst_closest() */
 #include "maphand.h"
 #include "plrhand.h"
 #include "srv_main.h"
@@ -543,6 +544,7 @@ static void check_players(const char *file, const char *function, int line)
       state2 = player_diplstate_get(pplayer2, pplayer);
       SANITY_CHECK(state1->type == state2->type);
       SANITY_CHECK(state1->max_state == state2->max_state);
+      SANITY_CHECK(valid_dst_closest(state1) == state1->max_state);
       if (state1->type == DS_CEASEFIRE
           || state1->type == DS_ARMISTICE) {
         SANITY_CHECK(state1->turns_left == state2->turns_left);

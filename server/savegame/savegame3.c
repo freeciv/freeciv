@@ -4090,7 +4090,7 @@ static void sg_load_player_main(struct loaddata *loading,
     struct player_diplstate *ds = player_diplstate_get(plr, pplayer);
     i = player_index(pplayer);
 
-    /* load diplomatic status */
+    /* Load diplomatic status */
     fc_snprintf(buf, sizeof(buf), "player%d.diplstate%d", plrno, i);
 
     ds->type =
@@ -4109,6 +4109,13 @@ static void sg_load_player_main(struct loaddata *loading,
       ds->type = DS_NO_CONTACT;
     }
 #endif
+
+    if (valid_dst_closest(ds) != ds->max_state) {
+      sg_regr(03020000,
+              "Player%d: closest diplstate to player %d less than current. "
+              "Updated.", plrno, i);
+      ds->max_state = ds->type;
+    }
 
     ds->first_contact_turn =
       secfile_lookup_int_default(loading->file, 0,

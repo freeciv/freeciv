@@ -105,6 +105,21 @@ static enum diplstate_type dst_closest(enum diplstate_type a,
 }
 
 /**********************************************************************//**
+  Return closest diplstate dst has had, with extra sanity checking
+  (i.e. may return state other than the recorder max_state)
+**************************************************************************/
+enum diplstate_type valid_dst_closest(struct player_diplstate *dst)
+{
+  if (dst_closest(dst->type, dst->max_state) == dst->max_state) {
+    /* Sane max_state */
+    return dst->max_state;
+  }
+
+  /* max_state illegally lower than current. Return current as max_state */
+  return dst->type;
+}
+
+/**********************************************************************//**
   Set diplstate between two players.
 **************************************************************************/
 void set_diplstate_type(struct player_diplstate *state1,

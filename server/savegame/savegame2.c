@@ -2953,6 +2953,13 @@ static void sg_load_player_main(struct loaddata *loading,
     }
 #endif
 
+    if (valid_dst_closest(ds) != ds->max_state) {
+      sg_regr(03020000,
+              "Player%d: closest diplstate to player %d less than current. "
+              "Updated.", plrno, i);
+      ds->max_state = ds->type;
+    }
+
     ds->first_contact_turn =
       secfile_lookup_int_default(loading->file, 0,
                                  "%s.first_contact_turn", buf);
