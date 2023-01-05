@@ -2567,7 +2567,7 @@ ON_ERROR:
 ****************************************************************************/
 static const char *citizen_rule_name(enum citizen_category citizen)
 {
-  /* These strings are used in reading the tileset.  Do not
+  /* These strings are used in reading the tileset. Do not
    * translate. */
   switch (citizen) {
   case CITIZEN_HAPPY:
@@ -2881,6 +2881,8 @@ static void tileset_setup_specialist_type(struct tileset *t,
 
   /* Still nothing? Give up. */
   if (j == 0 && required) {
+    /* TRANS: First %s is a graphics tag of the specialist, second one
+     *        is a citizen set name; 'citizen_graphic' from styles.ruleset */
     tileset_error(LOG_FATAL, _("No graphics for specialist \"%s\" in %s."),
                   tag, set_name);
   }
@@ -2919,11 +2921,13 @@ static void tileset_setup_citizen_types(struct tileset *t,
       }
       set->citizen[i].sprite[j] = load_sprite(t, buffer, FALSE, FALSE, FALSE);
       if (!set->citizen[i].sprite[j]) {
-	break;
+        break;
       }
     }
     set->citizen[i].count = j;
     if (j == 0 && required) {
+      /* TRANS: First %s is type of the citizen ("happy" ... "angry"), second one
+       *        is a citizen set name; 'citizen_graphic' from styles.ruleset */
       tileset_error(LOG_FATAL, _("No graphics for citizen \"%s\" in %s."),
                     name, set_name);
     }
