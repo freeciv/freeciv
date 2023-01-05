@@ -2235,7 +2235,7 @@ void handle_game_info(const struct packet_game_info *pinfo)
 {
   bool boot_help;
   bool update_aifill_button = FALSE, update_ai_skill_level = FALSE;
-  bool enable_edit_ui = FALSE;
+  bool toggle_edit_ui = FALSE;
 
   if (game.info.aifill != pinfo->aifill) {
     update_aifill_button = TRUE;
@@ -2245,13 +2245,13 @@ void handle_game_info(const struct packet_game_info *pinfo)
   }
 
   if (game.info.is_edit_mode != pinfo->is_edit_mode) {
+    toggle_edit_ui = TRUE;
+
     popdown_all_city_dialogs();
     /* Clears the current goto command. */
     clear_hover_state();
 
     if (pinfo->is_edit_mode) {
-      enable_edit_ui = TRUE;
-
       if (game.scenario.handmade && !handmade_scenario_warning()) {
         /* Gui didn't handle this */
         output_window_append(ftc_client,
@@ -2297,7 +2297,7 @@ void handle_game_info(const struct packet_game_info *pinfo)
     update_info_label();
   }
 
-  if (enable_edit_ui) {
+  if (toggle_edit_ui) {
     editgui_refresh();
   }
 
