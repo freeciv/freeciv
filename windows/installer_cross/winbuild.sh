@@ -58,6 +58,10 @@ fi
 
 SETUP=$(grep "CrosserSetup=" $DLLSPATH/crosser.txt | sed -e 's/CrosserSetup="//' -e 's/"//')
 
+# Make this Qt5/Qt6 or Qt-client/Ruledit specific as upstream updates
+# to Qt headers allow. Currently needed in all cases.
+CXXFLAGS="-Wno-error=attributes"
+
 if test "x$2" = "xruledit" ; then
   SINGLE_GUI=true
   GUIP="-ruledit"
@@ -198,6 +202,7 @@ if ! ../../../configure \
      FREECIV_LABEL_FORCE="<base>-crs" \
      CPPFLAGS="-I${DLLSPATH}/include -D_WIN32_WINNT=${MIN_WINVER}" \
      CFLAGS="-Wno-error" \
+     CXXFLAGS="${CXXFLAGS}" \
      PKG_CONFIG_LIBDIR="${DLLSPATH}/lib/pkgconfig" \
      --enable-sys-tolua-cmd \
      --with-magickwand="${DLLSPATH}/bin" \
