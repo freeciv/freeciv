@@ -1394,7 +1394,8 @@ size_t secfile_insert_str_vec_full(struct section_file *secfile,
   Insert a read-from-a-file string entry
 **************************************************************************/
 struct entry *secfile_insert_filereference(struct section_file *secfile,
-                                           char *filename, char *path, ...)
+                                           const char *filename,
+                                           const char *path, ...)
 {
   char fullpath[MAX_LEN_SECPATH];
   const char *ent_name;
