@@ -296,12 +296,10 @@ static void unit_fortify_callback(GSimpleAction *action, GVariant *parameter,
                                   gpointer data);
 static void unit_disband_callback(GSimpleAction *action, GVariant *parameter,
                                   gpointer data);
-
-#ifdef MENUS_GTK3
-static void unit_homecity_callback(GtkWidget * w, gpointer data);
-static void unit_upgrade_callback(GtkWidget * w, gpointer data);
-#endif /* MENUS_GTK3 */
-
+static void unit_homecity_callback(GSimpleAction *action, GVariant *parameter,
+                                   gpointer data);
+static void unit_upgrade_callback(GSimpleAction *action, GVariant *parameter,
+                                  gpointer data);
 static gboolean citizens_callback(GtkGestureClick *gesture, int n_press,
                                   double x, double y, gpointer data);
 static gboolean left_button_down_citymap(GtkGestureClick *gesture, int n_press,
@@ -2502,22 +2500,26 @@ static bool create_unit_menu(struct city_dialog *pdialog, struct unit *punit,
   g_action_map_add_action(G_ACTION_MAP(group), G_ACTION(act));
   g_signal_connect(act, "activate", G_CALLBACK(unit_activate_callback),
                    GINT_TO_POINTER(punit->id));
-  menu_item_append_unref(menu, g_menu_item_new(_("_Activate unit"), "win.activate"));
+  menu_item_append_unref(menu, g_menu_item_new(_("_Activate unit"),
+                                               "win.activate"));
 
   act = g_simple_action_new("activate_close", NULL);
   g_object_set_data(G_OBJECT(act), "dlg", pdialog);
   g_action_map_add_action(G_ACTION_MAP(group), G_ACTION(act));
 
   if (supported) {
-    g_signal_connect(act, "activate", G_CALLBACK(supported_unit_activate_close_callback),
+    g_signal_connect(act, "activate",
+                     G_CALLBACK(supported_unit_activate_close_callback),
                      GINT_TO_POINTER(punit->id));
   } else {
-    g_signal_connect(act, "activate", G_CALLBACK(present_unit_activate_close_callback),
+    g_signal_connect(act, "activate",
+                     G_CALLBACK(present_unit_activate_close_callback),
                      GINT_TO_POINTER(punit->id));
   }
 
-  menu_item_append_unref(menu, g_menu_item_new(_("Activate unit, _close dialog"),
-                                               "win.activate_close"));
+  menu_item_append_unref(menu,
+                         g_menu_item_new(_("Activate unit, _close dialog"),
+                                         "win.activate_close"));
 
   if (!supported) {
     act = g_simple_action_new("load", NULL);
@@ -2534,10 +2536,12 @@ static bool create_unit_menu(struct city_dialog *pdialog, struct unit *punit,
     g_signal_connect(act, "activate", G_CALLBACK(unit_unload_callback),
                      GINT_TO_POINTER(punit->id));
     g_simple_action_set_enabled(G_SIMPLE_ACTION(act),
-                                can_unit_unload(punit, unit_transport_get(punit))
+                                can_unit_unload(punit,
+                                                unit_transport_get(punit))
                                 && can_unit_exist_at_tile(&(wld.map), punit,
                                                           unit_tile(punit)));
-    menu_item_append_unref(menu, g_menu_item_new(_("_Unload unit"), "win.unload"));
+    menu_item_append_unref(menu, g_menu_item_new(_("_Unload unit"),
+                                                 "win.unload"));
 
     act = g_simple_action_new("sentry", NULL);
     g_object_set_data(G_OBJECT(act), "dlg", pdialog);
@@ -2546,8 +2550,10 @@ static bool create_unit_menu(struct city_dialog *pdialog, struct unit *punit,
                      GINT_TO_POINTER(punit->id));
     g_simple_action_set_enabled(G_SIMPLE_ACTION(act),
                                 punit->activity != ACTIVITY_SENTRY
-                                && can_unit_do_activity(punit, ACTIVITY_SENTRY));
-    menu_item_append_unref(menu, g_menu_item_new(_("_Sentry unit"), "win.sentry"));
+                                && can_unit_do_activity(punit,
+                                                        ACTIVITY_SENTRY));
+    menu_item_append_unref(menu, g_menu_item_new(_("_Sentry unit"),
+                                                 "win.sentry"));
 
     act = g_simple_action_new("fortify", NULL);
     g_object_set_data(G_OBJECT(act), "dlg", pdialog);
@@ -2556,8 +2562,10 @@ static bool create_unit_menu(struct city_dialog *pdialog, struct unit *punit,
                      GINT_TO_POINTER(punit->id));
     g_simple_action_set_enabled(G_SIMPLE_ACTION(act),
                                 punit->activity != ACTIVITY_FORTIFYING
-                                && can_unit_do_activity(punit, ACTIVITY_FORTIFYING));
-    menu_item_append_unref(menu, g_menu_item_new(_("_Fortify unit"), "win.fortify"));
+                                && can_unit_do_activity(punit,
+                                                        ACTIVITY_FORTIFYING));
+    menu_item_append_unref(menu, g_menu_item_new(_("_Fortify unit"),
+                                                 "win.fortify"));
   }
 
   act = g_simple_action_new("disband", NULL);
@@ -2567,12 +2575,42 @@ static bool create_unit_menu(struct city_dialog *pdialog, struct unit *punit,
                    GINT_TO_POINTER(punit->id));
   g_simple_action_set_enabled(G_SIMPLE_ACTION(act),
                               unit_can_do_action(punit, ACTION_DISBAND_UNIT));
-  menu_item_append_unref(menu, g_menu_item_new(_("_Disband unit"), "win.disband"));
+  menu_item_append_unref(menu, g_menu_item_new(_("_Disband unit"),
+                                               "win.disband"));
+
+  if (!supported) {
+    act = g_simple_action_new("rehome", NULL);
+    g_object_set_data(G_OBJECT(act), "dlg", pdialog);
+    g_action_map_add_action(G_ACTION_MAP(group), G_ACTION(act));
+    g_signal_connect(act, "activate", G_CALLBACK(unit_homecity_callback),
+                     GINT_TO_POINTER(punit->id));
+    g_simple_action_set_enabled(G_SIMPLE_ACTION(act),
+                                can_unit_change_homecity_to(punit,
+                                                            pdialog->pcity));
+    menu_item_append_unref(menu,
+                           g_menu_item_new(action_id_name_translation(ACTION_HOME_CITY),
+                                           "win.rehome"));
+
+    act = g_simple_action_new("upgrade", NULL);
+    g_object_set_data(G_OBJECT(act), "dlg", pdialog);
+    g_action_map_add_action(G_ACTION_MAP(group), G_ACTION(act));
+    g_signal_connect(act, "activate", G_CALLBACK(unit_upgrade_callback),
+                     GINT_TO_POINTER(punit->id));
+    g_simple_action_set_enabled(G_SIMPLE_ACTION(act),
+                                action_ever_possible(ACTION_UPGRADE_UNIT)
+                                && can_client_issue_orders()
+                                && can_upgrade_unittype(client_player(),
+                                                        unit_type_get(punit))
+                                   != NULL);
+    menu_item_append_unref(menu, g_menu_item_new(_("U_pgrade unit"),
+                                                 "win.upgrade"));
+  }
 
   pdialog->popover = gtk_popover_menu_new_from_model(G_MENU_MODEL(menu));
   g_object_ref(pdialog->popover);
   gtk_widget_insert_action_group(pdialog->popover, "win", group);
   gtk_widget_set_parent(pdialog->popover, wdg);
+
 
   gtk_popover_popup(GTK_POPOVER(pdialog->popover));
 
@@ -2620,29 +2658,6 @@ static gboolean present_unit_callback(GtkGestureClick *gesture, int n_press,
     return create_unit_menu(pdialog, punit,
                             gtk_event_controller_get_widget(GTK_EVENT_CONTROLLER(gesture)),
                             FALSE);
-
-#ifdef MENUS_GTK3
-    item = gtk_menu_item_new_with_mnemonic(
-          action_id_name_translation(ACTION_HOME_CITY));
-    g_signal_connect(item, "activate",
-      G_CALLBACK(unit_homecity_callback),
-      GINT_TO_POINTER(punit->id));
-    gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-    gtk_widget_set_sensitive(item, can_unit_change_homecity_to(punit, pcity));
-
-    item = gtk_menu_item_new_with_mnemonic(_("U_pgrade unit"));
-    gtk_widget_set_sensitive(item, action_ever_possible(ACTION_UPGRADE_UNIT));
-    g_signal_connect(item, "activate",
-      G_CALLBACK(unit_upgrade_callback),
-      GINT_TO_POINTER(punit->id));
-    gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-
-    if (!can_client_issue_orders()
-	|| NULL == can_upgrade_unittype(client.conn.playing,
-                                        unit_type_get(punit))) {
-      gtk_widget_set_sensitive(item, FALSE);
-    }
-#endif /* MENUS_GTK3 */
   }
 
   return TRUE;
@@ -2651,8 +2666,9 @@ static gboolean present_unit_callback(GtkGestureClick *gesture, int n_press,
 /***********************************************************************//**
   If user middle-clicked on a unit, activate it and close dialog
 ***************************************************************************/
-static gboolean middle_present_unit_release(GtkGestureClick *gesture, int n_press,
-                                            double x, double y, gpointer data)
+static gboolean middle_present_unit_release(GtkGestureClick *gesture,
+                                            int n_press, double x, double y,
+                                            gpointer data)
 {
   struct city_dialog *pdialog;
   struct city *pcity;
@@ -2913,12 +2929,12 @@ static void unit_disband_callback(GSimpleAction *action, GVariant *parameter,
   close_citydlg_unit_popover(g_object_get_data(G_OBJECT(action), "dlg"));
 }
 
-#ifdef MENUS_GTK3
 /***********************************************************************//**
   User has requested unit to change homecity to city where it
   currently is
 ***************************************************************************/
-static void unit_homecity_callback(GtkWidget *w, gpointer data)
+static void unit_homecity_callback(GSimpleAction *action, GVariant *parameter,
+                                   gpointer data)
 {
   struct unit *punit =
     player_unit_by_number(client_player(), GPOINTER_TO_INT(data));
@@ -2926,12 +2942,15 @@ static void unit_homecity_callback(GtkWidget *w, gpointer data)
   if (NULL != punit) {
     request_unit_change_homecity(punit);
   }
+
+  close_citydlg_unit_popover(g_object_get_data(G_OBJECT(action), "dlg"));
 }
 
 /***********************************************************************//**
   User has requested unit to be upgraded
 ***************************************************************************/
-static void unit_upgrade_callback(GtkWidget *w, gpointer data)
+static void unit_upgrade_callback(GSimpleAction *action, GVariant *parameter,
+                                  gpointer data)
 {
   struct unit_list *punits;
   struct unit *punit =
@@ -2945,8 +2964,9 @@ static void unit_upgrade_callback(GtkWidget *w, gpointer data)
   unit_list_append(punits, punit);
   popup_upgrade_dialog(punits);
   unit_list_destroy(punits);
+
+  close_citydlg_unit_popover(g_object_get_data(G_OBJECT(action), "dlg"));
 }
-#endif /* MENUS_GTK3 */
 
 /******** Callbacks for citizen bar, map funcs that are not update ********/
 
