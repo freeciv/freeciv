@@ -49,7 +49,7 @@
 
 #include "chatline.h"
 
-#define	MAX_CHATLINE_HISTORY 20
+#define MAX_CHATLINE_HISTORY 20
 
 static struct genlist *history_list = NULL;
 static int history_pos = -1;
@@ -1460,7 +1460,7 @@ void chatline_init(void)
   gtk_widget_set_margin_start(button, 2);
   gtk_widget_set_margin_top(button, 2);
   gtk_grid_attach(GTK_GRID(hgrid), button, grid_col++, 0, 1, 1);
-  gtk_button_set_icon_name(GTK_BUTTON(button), "gtk-edit");
+  gtk_button_set_icon_name(GTK_BUTTON(button), "insert-link");
   g_signal_connect(button, "toggled", G_CALLBACK(button_toggled), &toolkit);
   gtk_widget_set_tooltip_text(GTK_WIDGET(button), _("Chat tools"));
   toolkit.toggle_button = button;
