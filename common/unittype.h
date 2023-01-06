@@ -151,7 +151,7 @@ struct unit_class {
   } adv;
 
   struct {
-    struct extra_type_list *refuel_bases;
+    struct extra_type_list *refuel_extras;
     struct extra_type_list *native_tile_extras;
     struct extra_type_list *bonus_roads;
     struct unit_class_list *subset_movers;

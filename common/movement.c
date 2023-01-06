@@ -465,11 +465,11 @@ bool is_native_near_tile(const struct civ_map *nmap,
 }
 
 /************************************************************************//**
-  Return TRUE iff the unit can "survive" at this location.  This means it can
+  Return TRUE iff the unit can "survive" at this location. This means it can
   not only be physically present at the tile but will be able to survive
   indefinitely on its own (without a transporter). Units that require fuel
-  or have a danger of drowning are examples of non-survivable units.  See
-  also can_unit_exist_at_tile().
+  or have a danger of drowning are examples of non-survivable units.
+  See also can_unit_exist_at_tile().
 
   (This function could be renamed as unit_wants_transporter().)
 ****************************************************************************/
@@ -477,6 +477,8 @@ bool can_unit_survive_at_tile(const struct civ_map *nmap,
                               const struct unit *punit,
                               const struct tile *ptile)
 {
+  const struct unit_type *utype;
+
   if (!can_unit_exist_at_tile(nmap, punit, ptile)) {
     return FALSE;
   }
@@ -485,17 +487,18 @@ bool can_unit_survive_at_tile(const struct civ_map *nmap,
     return TRUE;
   }
 
-  if (tile_has_refuel_extra(ptile, unit_type_get(punit))) {
+  utype = unit_type_get(punit);
+  if (tile_has_refuel_extra(ptile, utype_class(utype))) {
     /* Unit can always survive at refueling base */
     return TRUE;
   }
 
-  if (unit_has_type_flag(punit, UTYF_COAST) && is_safe_ocean(nmap, ptile)) {
+  if (utype_has_flag(utype, UTYF_COAST) && is_safe_ocean(nmap, ptile)) {
     /* Refueling coast */
     return TRUE;
   }
 
-  if (utype_fuel(unit_type_get(punit))) {
+  if (utype_fuel(utype)) {
     /* Unit requires fuel and this is not refueling tile */
     return FALSE;
   }

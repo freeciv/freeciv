@@ -1516,21 +1516,23 @@ static bool is_refuel_tile(const struct tile *ptile,
                            const struct player *pplayer,
                            const struct unit *punit)
 {
+  const struct unit_type *utype;
   const struct unit_class *pclass;
 
   if (is_allied_city_tile(ptile, pplayer)) {
     return TRUE;
   }
 
-  if (unit_has_type_flag(punit, UTYF_COAST) && is_safe_ocean(&(wld.map), ptile)) {
+  utype = unit_type_get(punit);
+  if (utype_has_flag(utype, UTYF_COAST) && is_safe_ocean(&(wld.map), ptile)) {
     return TRUE;
   }
 
-  pclass = unit_class_get(punit);
-  if (NULL != pclass->cache.refuel_bases) {
+  pclass = utype_class(utype);
+  if (NULL != pclass->cache.refuel_extras) {
     const struct player_tile *plrtile = map_get_player_tile(ptile, pplayer);
 
-    extra_type_list_iterate(pclass->cache.refuel_bases, pextra) {
+    extra_type_list_iterate(pclass->cache.refuel_extras, pextra) {
       if (BV_ISSET(plrtile->extras, extra_index(pextra))) {
         return TRUE;
       }
@@ -1541,7 +1543,7 @@ static bool is_refuel_tile(const struct tile *ptile,
 }
 
 /**********************************************************************//**
-  Is unit being refueled in its current position
+  Is unit being refueled in its current position?
 **************************************************************************/
 bool is_unit_being_refueled(const struct unit *punit)
 {
