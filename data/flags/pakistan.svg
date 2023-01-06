@@ -1,43 +1,59 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN"
-"http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd"
-[
- <!ATTLIST svg
-  xmlns:xlink CDATA #FIXED "http://www.w3.org/1999/xlink">
-]>
 <!-- Created with Sodipodi ("http://www.sodipodi.com/") -->
+
 <svg
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:xlink="http://www.w3.org/1999/xlink"
    version="1"
    x="0"
    y="0"
    width="1062.99"
-   height="708.661"
-   id="svg378">
+   height="708.66101"
+   id="svg378"
+   sodipodi:docname="pakistan.svg"
+   inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview8"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     showgrid="false"
+     inkscape:zoom="1.0145895"
+     inkscape:cx="530.75654"
+     inkscape:cy="354.33051"
+     inkscape:window-width="1236"
+     inkscape:window-height="928"
+     inkscape:window-x="457"
+     inkscape:window-y="59"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg378" />
   <defs
      id="defs380" />
   <rect
      width="1062.99"
-     height="708.661"
+     height="708.66101"
      x="0"
-     y="0"
-     style="font-size:12;fill:#0c590b;fill-rule:evenodd;stroke-width:1pt;"
+     y="2.4000001e-05"
+     style="font-size:12px;fill:#0c590b;fill-rule:evenodd;stroke-width:1pt"
      id="rect171" />
   <rect
-     width="266.468"
-     height="708.661"
+     width="266.46799"
+     height="708.66101"
      x="0"
-     y="-2.4e-05"
-     style="font-size:12;fill:#ffffff;fill-rule:evenodd;stroke-width:1pt;"
+     y="0"
+     style="font-size:12px;fill:#ffffff;fill-rule:evenodd;stroke-width:1pt"
      id="rect403" />
   <path
-     d="M 837.202 299.227 L 784.658 288.173 L 757.026 334.212 L 751.301 280.824 L 698.976 268.77 L 747.983 246.828 L 743.277 193.34 L 779.289 233.167 L 828.705 212.163 L 801.956 258.72 L 837.202 299.227 z "
-     transform="matrix(1.04421,0,0,1.04421,-33.9565,-12.6798)"
-     style="font-size:12;fill:#ffffff;fill-rule:evenodd;stroke-width:1pt;"
+     d="m 840.2582,299.77605 -54.86697,-11.5427 -28.85361,48.07439 -5.9781,-55.74829 -54.63829,-12.5869 51.1736,-22.91206 -4.91405,-55.8527 37.60409,41.58775 51.60068,-21.93259 -27.93158,48.61529 z"
+     style="font-size:12px;fill:#ffffff;fill-rule:evenodd;stroke-width:1.04421pt"
      id="path273" />
   <path
-     d="M 860.955 441.817 C 812.241 549.141 684.414 596.029 576.777 546.163 C 469.141 496.298 422.254 368.47 472.12 260.834 C 497.554 205.934 539.177 168.206 597.932 147.615 C 591.174 153.33 584.487 159.258 577.159 166.82 C 501.26 245.148 503.232 370.318 581.559 446.217 C 659.887 522.116 785.057 520.145 860.955 441.817 z "
-     style="font-size:12;fill:#ffffff;fill-rule:evenodd;stroke-width:1pt;"
+     d="m 860.955,441.81702 c -48.714,107.324 -176.541,154.212 -284.178,104.346 -107.636,-49.865 -154.523,-177.693 -104.657,-285.329 25.434,-54.9 67.057,-92.628 125.812,-113.219 -6.758,5.715 -13.445,11.643 -20.773,19.205 -75.899,78.328 -73.927,203.498 4.4,279.397 78.328,75.899 203.498,73.928 279.396,-4.4 z"
+     style="font-size:12px;fill:#ffffff;fill-rule:evenodd;stroke-width:1pt"
      id="path278" />
 </svg>
