@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 3.2\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2022-12-05 16:20+0200\n"
-"PO-Revision-Date: 2022-12-05 16:21+0200\n"
+"POT-Creation-Date: 2023-01-06 11:53+0200\n"
+"PO-Revision-Date: 2023-01-06 11:54+0200\n"
 "Last-Translator: Marko Lindqvist <cazfi74@gmail.com>\n"
 "Language-Team: Finnish <laatu@lokalisointi.org>\n"
 "Language: fi\n"
@@ -88,7 +88,7 @@ msgstr "Poista vaikutus"
 msgid "Effect #%d: %s"
 msgstr "Vaikutus #%d: %s"
 
-#: tools/ruledit/effect_edit.cpp:310
+#: tools/ruledit/effect_edit.cpp:315
 #, c-format
 msgid "%s effect #%d"
 msgstr "%s: Vaikutus #%d"
@@ -172,69 +172,69 @@ msgstr "%s tarvitsee"
 
 #. TRANS: 'Failed to load comments-x.y.txt' where x.y is
 #. * freeciv version
-#: tools/ruledit/ruledit.cpp:118
+#: tools/ruledit/ruledit.cpp:120
 #, c-format
 msgid "Failed to load %s."
 msgstr "Kommenttitiedoston %s lataaminen epäonnistui."
 
-#: tools/ruledit/ruledit.cpp:155
+#: tools/ruledit/ruledit.cpp:156
 msgid "Print a summary of the options"
 msgstr "Näytä yhteenveto valitsimista"
 
 #. TRANS: "debug" is exactly what user must type, do not translate.
-#: tools/ruledit/ruledit.cpp:159 tools/ruledit/ruledit.cpp:165
+#: tools/ruledit/ruledit.cpp:160 tools/ruledit/ruledit.cpp:166
 msgid "debug LEVEL"
 msgstr "debug TASO"
 
-#: tools/ruledit/ruledit.cpp:160
+#: tools/ruledit/ruledit.cpp:161
 msgid "Set debug log level (one of f,e,w,n,v,d, or d:file1,min,max:...)"
 msgstr "Aseta debug-lokitaso (f,e,w,n,v,d tai d:tiedosto1,min,max:...)"
 
-#: tools/ruledit/ruledit.cpp:166
+#: tools/ruledit/ruledit.cpp:167
 msgid "Set debug log level (one of f,e,w,n,v)"
 msgstr "Aseta debug-lokitaso (f,e,w,n,v,d)"
 
-#: tools/ruledit/ruledit.cpp:169
+#: tools/ruledit/ruledit.cpp:170
 msgid "Print the version number"
 msgstr "Näytä versionumero"
 
 #. TRANS: argument (don't translate) VALUE (translate)
-#: tools/ruledit/ruledit.cpp:172
+#: tools/ruledit/ruledit.cpp:173
 msgid "ruleset RULESET"
 msgstr "ruleset SÄÄNTÖKOKOELMA"
 
-#: tools/ruledit/ruledit.cpp:173
+#: tools/ruledit/ruledit.cpp:174
 msgid "Ruleset to use as the starting point."
 msgstr "Lähtökohtana käytettävä sääntökokoelma."
 
 #. TRANS: "Fatal" is exactly what user must type, do not translate.
-#: tools/ruledit/ruledit.cpp:177
+#: tools/ruledit/ruledit.cpp:178
 msgid "Fatal [SIGNAL]"
 msgstr "Fatal [SIGNAALI]"
 
-#: tools/ruledit/ruledit.cpp:178
+#: tools/ruledit/ruledit.cpp:179
 msgid "Raise a signal on failed assertion"
 msgstr "Lähetä signaali hylätystä oikeellisuustarkistuksesta"
 
-#: tools/ruledit/ruledit.cpp:192
+#: tools/ruledit/ruledit.cpp:193
 msgid "Can only edit one ruleset at a time.\n"
 msgstr "Voi yhtä sääntökokoelmaa voidaan muokata samanaikaisesti.\n"
 
-#: tools/ruledit/ruledit.cpp:199
+#: tools/ruledit/ruledit.cpp:200
 #, c-format
 msgid "Invalid debug level \"%s\" specified with --debug option.\n"
 msgstr "Epäkelpo debug-taso \"%s\" --debug-parametrille.\n"
 
-#: tools/ruledit/ruledit.cpp:201 tools/ruledit/ruledit.cpp:214
+#: tools/ruledit/ruledit.cpp:202 tools/ruledit/ruledit.cpp:215
 msgid "Try using --help.\n"
 msgstr "Kokeile parametriä --help.\n"
 
-#: tools/ruledit/ruledit.cpp:212
+#: tools/ruledit/ruledit.cpp:213
 #, c-format
 msgid "Invalid signal number \"%s\".\n"
 msgstr "Signaalin numero \"%s\" ei kelpaa.\n"
 
-#: tools/ruledit/ruledit.cpp:221
+#: tools/ruledit/ruledit.cpp:222
 #, c-format
 msgid "Unrecognized option: \"%s\"\n"
 msgstr "Tunnistamaton asetus: \"%s\"\n"
@@ -479,19 +479,19 @@ msgstr "Poista tämä hallitusmuoto"
 msgid "A government with that rule name already exists!"
 msgstr "Hallitusmuoto samalla sääntönimellä on jo olemassa!"
 
-#: tools/ruledit/tab_misc.cpp:73
+#: tools/ruledit/tab_misc.cpp:74
 msgid "Ruleset name"
 msgstr "Sääntökokoelman nimi"
 
-#: tools/ruledit/tab_misc.cpp:78
+#: tools/ruledit/tab_misc.cpp:79
 msgid "Ruleset version"
 msgstr "Sääntökokoelman versio"
 
-#: tools/ruledit/tab_misc.cpp:83
+#: tools/ruledit/tab_misc.cpp:84
 msgid "Save to directory"
 msgstr "Tallenna hakemistoon"
 
-#: tools/ruledit/tab_misc.cpp:105
+#: tools/ruledit/tab_misc.cpp:106
 #, c-format
 msgid ""
 "If you want to be able to load the ruleset directly to freeciv, place it as "
@@ -503,135 +503,139 @@ msgstr ""
 "Käytä freeciv-palvelimen käskyä \"/rulesetdir <alihakemisto>\" ladataksesi "
 "sääntökokoelmasi."
 
-#: tools/ruledit/tab_misc.cpp:114
+#: tools/ruledit/tab_misc.cpp:115
 msgid "Version suffix to directory name"
 msgstr "Versionumero hakemistonimen loppuun"
 
-#: tools/ruledit/tab_misc.cpp:119
+#: tools/ruledit/tab_misc.cpp:120
 msgid "Save now"
 msgstr "Tallenna nyt"
 
-#: tools/ruledit/tab_misc.cpp:123
+#: tools/ruledit/tab_misc.cpp:124
 msgid "Description from file"
 msgstr "Kuvaus tiedostosta"
 
-#: tools/ruledit/tab_misc.cpp:130
+#: tools/ruledit/tab_misc.cpp:131
 msgid "Description file"
 msgstr "Kuvaustiedosto"
 
-#: tools/ruledit/tab_misc.cpp:136
+#: tools/ruledit/tab_misc.cpp:137
 msgid "Sanity check rules"
 msgstr "Sääntöjen oikeellisuustarkistus"
 
-#: tools/ruledit/tab_misc.cpp:140
+#: tools/ruledit/tab_misc.cpp:141
 msgid "Always active Effects"
 msgstr "Aina aktiiviset vaikutukset"
 
-#: tools/ruledit/tab_misc.cpp:143
+#: tools/ruledit/tab_misc.cpp:144
 msgid "All Effects"
 msgstr "Kaikki vaikutukset"
 
-#: tools/ruledit/tab_misc.cpp:150
+#: tools/ruledit/tab_misc.cpp:151
 msgid "?stat:Terrains"
 msgstr "Maastotyyppejä"
 
-#: tools/ruledit/tab_misc.cpp:154
+#: tools/ruledit/tab_misc.cpp:155
 msgid "?stat:Resources"
 msgstr "Luonnonvaroja"
 
-#: tools/ruledit/tab_misc.cpp:158
+#: tools/ruledit/tab_misc.cpp:159
 msgid "?stat:Tech Classes"
 msgstr "Yksikköluokat"
 
-#: tools/ruledit/tab_misc.cpp:162
+#: tools/ruledit/tab_misc.cpp:163
 msgid "?stat:Techs"
 msgstr "Teknologioita"
 
-#: tools/ruledit/tab_misc.cpp:166
+#: tools/ruledit/tab_misc.cpp:167
 msgid "?stat:Unit Classes"
 msgstr "Yksikköluokkia"
 
-#: tools/ruledit/tab_misc.cpp:170
+#: tools/ruledit/tab_misc.cpp:171
 msgid "?stat:Unit Types"
 msgstr "Yksikkötyyppejä"
 
-#: tools/ruledit/tab_misc.cpp:174
+#: tools/ruledit/tab_misc.cpp:175
 msgid "?stat:Enablers"
 msgstr "Mahdollistimia"
 
-#: tools/ruledit/tab_misc.cpp:178
+#: tools/ruledit/tab_misc.cpp:179
 msgid "?stat:Buildings"
 msgstr "Rakennuksia"
 
-#: tools/ruledit/tab_misc.cpp:182
+#: tools/ruledit/tab_misc.cpp:183
 msgid "?stat:Nations"
 msgstr "Kansoja"
 
-#: tools/ruledit/tab_misc.cpp:186
+#: tools/ruledit/tab_misc.cpp:187
 msgid "?stat:Styles"
 msgstr "Tyylejä"
 
-#: tools/ruledit/tab_misc.cpp:190
+#: tools/ruledit/tab_misc.cpp:191
 msgid "?stat:Specialists"
 msgstr "Erikoisosaajia"
 
-#: tools/ruledit/tab_misc.cpp:194
+#: tools/ruledit/tab_misc.cpp:195
 msgid "?stat:Governments"
 msgstr "Hallitusmuotoja"
 
-#: tools/ruledit/tab_misc.cpp:198
+#: tools/ruledit/tab_misc.cpp:199
 msgid "?stat:Disasters"
 msgstr "Onnettomuuksia"
 
-#: tools/ruledit/tab_misc.cpp:202
+#: tools/ruledit/tab_misc.cpp:203
+msgid "?stat:Counters"
+msgstr "Laskureita"
+
+#: tools/ruledit/tab_misc.cpp:207
 msgid "?stat:Achievements"
 msgstr "Saavutuksia"
 
-#: tools/ruledit/tab_misc.cpp:206
+#: tools/ruledit/tab_misc.cpp:211
 msgid "?stat:Extras"
 msgstr "Ruutulisiä"
 
-#: tools/ruledit/tab_misc.cpp:210
+#: tools/ruledit/tab_misc.cpp:215
 msgid "?stat:Bases"
 msgstr "Tukikohtia"
 
-#: tools/ruledit/tab_misc.cpp:214
+#: tools/ruledit/tab_misc.cpp:219
 msgid "?stat:Roads"
 msgstr "Kulkuväyliä"
 
-#: tools/ruledit/tab_misc.cpp:218
+#: tools/ruledit/tab_misc.cpp:223
 msgid "?stat:Goods"
 msgstr "Artikkeleita"
 
-#: tools/ruledit/tab_misc.cpp:222
+#: tools/ruledit/tab_misc.cpp:227
 msgid "?stat:Multipliers"
 msgstr "Kertoimia"
 
-#: tools/ruledit/tab_misc.cpp:230
+#: tools/ruledit/tab_misc.cpp:235
 msgid "Refresh Stats"
 msgstr "Päivitä tilastot"
 
-#: tools/ruledit/tab_misc.cpp:312
+#: tools/ruledit/tab_misc.cpp:317
 msgid "Ruleset saved"
 msgstr "Sääntökokoelma tallennettu"
 
-#: tools/ruledit/tab_misc.cpp:440
+#: tools/ruledit/tab_misc.cpp:450
 msgid "Always active"
 msgstr "Aina aktiiviset"
 
-#: tools/ruledit/tab_misc.cpp:461
+#: tools/ruledit/tab_misc.cpp:471
 msgid "Sanity Check"
 msgstr "Oikeellisuustarkistus"
 
-#: tools/ruledit/tab_misc.cpp:468
+#: tools/ruledit/tab_misc.cpp:478
 msgid "Sanity check failed!"
 msgstr "Oikeellisuustarkistus epäonnistui!"
 
-#: tools/ruledit/tab_misc.cpp:470
+#: tools/ruledit/tab_misc.cpp:480
 msgid "Sanity check success"
 msgstr "Oikeellisuustarkistus onnistui"
 
-#: tools/ruledit/tab_misc.cpp:479
+#: tools/ruledit/tab_misc.cpp:489
 msgid "All effects"
 msgstr "Kaikki vaikutukset"
 
