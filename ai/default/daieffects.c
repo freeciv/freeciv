@@ -809,7 +809,7 @@ bool dai_can_requirement_be_met_in_city(const struct requirement *preq,
 
   case VUT_CITYSTATUS:
     /* FIXME: update */
-    if (pcity == NULL) {
+    if (pcity == NULL || pcity->original == NULL) {
       return preq->present;
     }
     if (preq->present) {

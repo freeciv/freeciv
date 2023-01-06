@@ -306,7 +306,8 @@ struct city {
   char *name;
   struct tile *tile; /* May be NULL, should check! */
   struct player *owner; /* Cannot be NULL. */
-  struct player *original; /* Cannot be NULL. */
+  struct player *original; /* Often NULL in client,
+                            * can be NULL on server after player removal */
   int id;
   int style;
   enum capital_type capital;

@@ -986,7 +986,7 @@ static void reestablish_city_trade_routes(struct city *pcity)
       announce_trade_route_removal(pcity, partner, FALSE);
     }
 
-    /* refresh regardless; either it lost a trade route or the trade
+    /* Refresh regardless; either it lost a trade route or the trade
      * route revenue changed. */
     city_refresh(partner);
     send_city_info(city_owner(partner), partner);
@@ -2235,6 +2235,7 @@ void broadcast_city_info(struct city *pcity)
     if (!send_city_suppressed || pplayer != powner) {
       if (can_player_see_city_internals(pplayer, pcity)) {
         update_dumb_city(pplayer, pcity);
+        packet.original = city_original_owner(pcity, pplayer);
         lsend_packet_city_info(pplayer->connections, &packet, FALSE);
         lsend_packet_city_nationalities(pplayer->connections, &nat_packet, FALSE);
         lsend_packet_city_rally_point(pplayer->connections, &rally_packet, FALSE);
@@ -2253,6 +2254,7 @@ void broadcast_city_info(struct city *pcity)
   } players_iterate_end;
 
   /* Send to global observers. */
+  packet.original = city_original_owner(pcity, NULL);
   conn_list_iterate(game.est_connections, pconn) {
     if (conn_is_global_observer(pconn)) {
       send_packet_city_info(pconn, &packet, FALSE);
@@ -2399,8 +2401,8 @@ void send_city_info_at_tile(struct player *pviewer, struct conn_list *dest,
     webp_ptr = NULL;
   }
 
-  if (powner && powner == pviewer) {
-    /* send info to owner */
+  if (powner != NULL && powner == pviewer) {
+    /* Send info to owner */
     /* This case implies powner non-NULL which means pcity non-NULL */
     if (!send_city_suppressed) {
       /* Wait that city has been rearranged, if it's currently
@@ -2412,6 +2414,7 @@ void send_city_info_at_tile(struct player *pviewer, struct conn_list *dest,
       update_dumb_city(powner, pcity);
       package_city(pcity, &packet, &nat_packet, &rally_packet,
                    webp_ptr, routes, FALSE);
+      packet.original = city_original_owner(pcity, pviewer);
       lsend_packet_city_info(dest, &packet, FALSE);
       lsend_packet_city_nationalities(dest, &nat_packet, FALSE);
       lsend_packet_city_rally_point(dest, &rally_packet, FALSE);
@@ -2421,6 +2424,7 @@ void send_city_info_at_tile(struct player *pviewer, struct conn_list *dest,
       } traderoute_packet_list_iterate_end;
       if (dest == powner->connections) {
         /* HACK: send also a copy to global observers. */
+        packet.original = city_original_owner(pcity, NULL);
         conn_list_iterate(game.est_connections, pconn) {
           if (conn_is_global_observer(pconn)) {
             send_packet_city_info(pconn, &packet, FALSE);
@@ -2475,6 +2479,8 @@ void send_city_info_at_tile(struct player *pviewer, struct conn_list *dest,
 
 /************************************************************************//**
   Fill city info packet with information about given city.
+  This can't set 'original', as it depends on who is about to receive
+  the package whether they know true value of that.
 ****************************************************************************/
 void package_city(struct city *pcity, struct packet_city_info *packet,
                   struct packet_city_nationalities *nat_packet,
@@ -2490,6 +2496,7 @@ void package_city(struct city *pcity, struct packet_city_info *packet,
 
   packet->id = pcity->id;
   packet->owner = player_number(city_owner(pcity));
+
   packet->tile = tile_index(city_tile(pcity));
   sz_strlcpy(packet->name, city_name_get(pcity));
 
@@ -3601,4 +3608,26 @@ void city_add_improvement_with_gov_notice(struct city *pcity,
   } else {
     city_add_improvement(pcity, pimprove);
   }
+}
+
+/************************************************************************//**
+  Return city's original owner id, as known by specified player.
+  NULL known_for is expected to mean global observer.
+****************************************************************************/
+int city_original_owner(const struct city *pcity,
+                        const struct player *known_for)
+{
+  if (pcity->original == NULL) {
+    /* Nobody knows */
+    return MAX_NUM_PLAYER_SLOTS;
+  }
+
+  if (pcity->original != known_for
+      || known_for == NULL) {
+    /* Players know what they have built themselves,
+     * global observer knows everything. */
+    return player_number(pcity->original);
+  }
+
+  return MAX_NUM_PLAYER_SLOTS;
 }

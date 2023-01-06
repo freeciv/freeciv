@@ -132,4 +132,7 @@ void city_add_improvement_with_gov_notice(struct city *pcity,
                                           const struct impr_type *pimprove,
                                           const char *format);
 
-#endif  /* FC__CITYTOOLS_H */
+int city_original_owner(const struct city *pcity,
+                        const struct player *known_for);
+
+#endif /* FC__CITYTOOLS_H */

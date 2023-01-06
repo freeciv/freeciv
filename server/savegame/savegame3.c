@@ -5497,8 +5497,12 @@ static void sg_save_player_cities(struct savedata *saving,
 
     secfile_insert_int(saving->file, pcity->id, "%s.id", buf);
 
-    secfile_insert_int(saving->file, player_number(pcity->original),
-                       "%s.original", buf);
+    if (pcity->original != NULL) {
+      secfile_insert_int(saving->file, player_number(pcity->original),
+                         "%s.original", buf);
+    } else {
+      secfile_insert_int(saving->file, -1, "%s.original", buf);
+    }
     secfile_insert_int(saving->file, city_size_get(pcity), "%s.size", buf);
 
     j = 0;

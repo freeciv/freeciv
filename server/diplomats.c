@@ -389,6 +389,7 @@ bool diplomat_investigate(struct player *pplayer, struct unit *pdiplomat,
                webp_ptr, routes, TRUE);
   /* We need to force to send the packet to ensure the client will receive
    * something and popup the city dialog. */
+  city_packet.original = city_original_owner(pcity, pplayer);
   lsend_packet_city_info(pplayer->connections, &city_packet, TRUE);
   lsend_packet_city_nationalities(pplayer->connections, &nat_packet, TRUE);
   lsend_packet_city_rally_point(pplayer->connections, &rally_packet, TRUE);

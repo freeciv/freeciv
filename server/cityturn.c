@@ -3328,9 +3328,9 @@ int city_incite_cost(struct player *pplayer, struct city *pcity)
   if (!game.info.citizen_nationality) {
     if (city_owner(pcity) != pcity->original) {
       if (pplayer == pcity->original) {
-        cost /= 2;            /* buy back: 50% price reduction */
+        cost /= 2;            /* Buy back: 50% price reduction */
       } else {
-        cost = cost * 2 / 3;  /* buy conquered: 33% price reduction */
+        cost = cost * 2 / 3;  /* Buy conquered: 33% price reduction */
       }
     }
   }
