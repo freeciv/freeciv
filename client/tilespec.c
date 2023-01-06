@@ -3582,6 +3582,12 @@ static bool tileset_setup_unit_direction(struct tileset *t,
 {
   enum direction8 loaddir = dir;
   char buf[2048];
+  const char *act_name = unit_activity_name(activity);
+
+  if (act_name == NULL) {
+    /* gcc-9 thinks this is possible. */
+    return NULL;
+  }
 
   /*
    * There may be more orientations available in this tileset than are
@@ -3603,8 +3609,7 @@ static bool tileset_setup_unit_direction(struct tileset *t,
   }
 
   fc_snprintf(buf, sizeof(buf), "%s_%s_%s", base_str,
-              unit_activity_name(activity),
-              dir_get_tileset_name(loaddir));
+              act_name, dir_get_tileset_name(loaddir));
 
   /* We don't use _alt graphics here, as that could lead to loading
    * real icon gfx, but alternative orientation gfx. Tileset author
