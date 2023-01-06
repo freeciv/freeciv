@@ -5506,21 +5506,21 @@ action_prob_pre_action_dice_roll(const struct player *act_player,
                                .unit = act_unit,
                              },
                              act_player)) {
-      int unconverted = action_dice_roll_odds(act_player, act_unit, tgt_city,
-                                              tgt_player, paction);
-      struct act_prob result = { .min = unconverted * ACTPROB_VAL_1_PCT,
-                                 .max = unconverted * ACTPROB_VAL_1_PCT };
+    int unconverted = action_dice_roll_odds(act_player, act_unit, tgt_city,
+                                            tgt_player, paction);
+    struct act_prob result = { .min = unconverted * ACTPROB_VAL_1_PCT,
+                               .max = unconverted * ACTPROB_VAL_1_PCT };
 
-      return result;
-    } else {
-      /* Could be improved to return a more exact probability in some cases.
-       * Example: The player has enough information to know that the
-       * probability always will be above 25% and always under 75% because
-       * the only effect with unknown requirements that may apply adds (or
-       * subtracts) 50% while all the requirements of the other effects that
-       * may apply are known. */
-      return ACTPROB_NOT_KNOWN;
-    }
+    return result;
+  } else {
+    /* Could be improved to return a more exact probability in some cases.
+     * Example: The player has enough information to know that the
+     * probability always will be above 25% and always under 75% because
+     * the only effect with unknown requirements that may apply adds (or
+     * subtracts) 50% while all the requirements of the other effects that
+     * may apply are known. */
+    return ACTPROB_NOT_KNOWN;
+  }
 }
 
 /**********************************************************************//**
@@ -5530,12 +5530,12 @@ action_prob_pre_action_dice_roll(const struct player *act_player,
 **************************************************************************/
 static struct act_prob
 action_prob_battle_then_dice_roll(const struct player *act_player,
-                                 const struct unit *act_unit,
-                                 const struct city *tgt_city,
-                                 const struct unit *tgt_unit,
-                                 const struct tile *tgt_tile,
-                                 const struct player *tgt_player,
-                                 const struct action *paction)
+                                  const struct unit *act_unit,
+                                  const struct city *tgt_city,
+                                  const struct unit *tgt_unit,
+                                  const struct tile *tgt_tile,
+                                  const struct player *tgt_player,
+                                  const struct action *paction)
 {
   struct act_prob battle;
   struct act_prob dice_roll;
