@@ -2384,40 +2384,36 @@ static int move_government_dlg_callback(struct widget *pWindow)
 }
 
 /**************************************************************************
-  Public -
-
-  Popup a dialog asking the player what government to switch to (this
-  happens after a revolution completes).
+  Popup a dialog asking the player what government to switch to.
 **************************************************************************/
 void popup_government_dialog(void)
 {
-  SDL_Surface *pLogo = NULL;
-  struct SDL_String16 *pStr = NULL;
+  struct SDL_String16 *pStr;
   struct widget *pGov_Button = NULL;
-  struct widget *pWindow = NULL;
+  struct widget *pWindow;
   int j;
   Uint16 max_w = 0, max_h = 0;
   SDL_Rect area;
 
-  if (pGov_Dlg) {
+  if (pGov_Dlg != NULL) {
     return;
   }
 
   pGov_Dlg = fc_calloc(1, sizeof(struct SMALL_DLG));
-  
-  /* create window */
+
+  /* Create window */
   pStr = create_str16_from_char(_("Choose Your New Government"), adj_font(12));
   pStr->style |= TTF_STYLE_BOLD;
-  /* this win. size is temp. */
+  /* This win. size is temp. */
   pWindow = create_window_skeleton(NULL, pStr, 0);
   pWindow->action = move_government_dlg_callback;
   add_to_gui_list(ID_GOVERNMENT_DLG_WINDOW, pWindow);
 
   pGov_Dlg->pEndWidgetList = pWindow;
-  
+
   area = pWindow->area;
-  
-  /* create gov. buttons */
+
+  /* Create gov. buttons */
   j = 0;
   governments_iterate(pGov) {
 
@@ -2434,52 +2430,60 @@ void popup_government_dialog(void)
 
       max_w = MAX(max_w, pGov_Button->size.w);
       max_h = MAX(max_h, pGov_Button->size.h);
-      
-      /* ugly hack */
+
+      /* Ugly hack */
       add_to_gui_list((MAX_ID - government_number(pGov)), pGov_Button);
       j++;
 
     }
   } governments_iterate_end;
 
-  pGov_Dlg->pBeginWidgetList = pGov_Button;
+  if (pGov_Button == NULL) {
+    /* No governments to switch.
+     * TODO: Provide close button for the dialog. */
+    pGov_Dlg->pBeginWidgetList = pGov_Dlg->pEndWidgetList;
+  } else {
+    SDL_Surface *logo;
 
-  max_w += adj_size(10);
-  max_h += adj_size(4);
+    pGov_Dlg->pBeginWidgetList = pGov_Button;
 
-  area.w = MAX(area.w, max_w + adj_size(20));
-  area.h = MAX(area.h, j * (max_h + adj_size(10)) + adj_size(5));
-  
-  /* create window background */
-  pLogo = theme_get_background(theme, BACKGROUND_CHOOSEGOVERNMENTDLG);
-  if (resize_window(pWindow, pLogo, NULL,
-                    (pWindow->size.w - pWindow->area.w) + area.w,
-                    (pWindow->size.h - pWindow->area.h) + area.h)) {
-    FREESURFACE(pLogo);
-  }
+    max_w += adj_size(10);
+    max_h += adj_size(4);
 
-  area = pWindow->area;
-  
-  /* set window start positions */
-  widget_set_position(pWindow,
-                      (Main.screen->w - pWindow->size.w) / 2,
-                      (Main.screen->h - pWindow->size.h) / 2);
-  
-  /* set buttons start positions and size */
-  j = 1;
-  while (pGov_Button != pGov_Dlg->pEndWidgetList) {
-    pGov_Button->size.w = max_w;
-    pGov_Button->size.h = max_h;
-    pGov_Button->size.x = area.x + adj_size(10);
-    pGov_Button->size.y = area.y + area.h - (j++) * (max_h + adj_size(10));
-    set_wstate(pGov_Button, FC_WS_NORMAL);
+    area.w = MAX(area.w, max_w + adj_size(20));
+    area.h = MAX(area.h, j * (max_h + adj_size(10)) + adj_size(5));
 
-    pGov_Button = pGov_Button->next;
+    /* Create window background */
+    logo = theme_get_background(theme, BACKGROUND_CHOOSEGOVERNMENTDLG);
+    if (resize_window(pWindow, logo, NULL,
+                      (pWindow->size.w - pWindow->area.w) + area.w,
+                      (pWindow->size.h - pWindow->area.h) + area.h)) {
+      FREESURFACE(logo);
+    }
+
+    area = pWindow->area;
+
+    /* Set window start positions */
+    widget_set_position(pWindow,
+                        (Main.screen->w - pWindow->size.w) / 2,
+                        (Main.screen->h - pWindow->size.h) / 2);
+
+    /* Set buttons start positions and size */
+    j = 1;
+    while (pGov_Button != pGov_Dlg->pEndWidgetList) {
+      pGov_Button->size.w = max_w;
+      pGov_Button->size.h = max_h;
+      pGov_Button->size.x = area.x + adj_size(10);
+      pGov_Button->size.y = area.y + area.h - (j++) * (max_h + adj_size(10));
+      set_wstate(pGov_Button, FC_WS_NORMAL);
+
+      pGov_Button = pGov_Button->next;
+    }
   }
 
   set_wstate(pWindow, FC_WS_NORMAL);
 
-  /* redraw */
+  /* Redraw */
   redraw_group(pGov_Dlg->pBeginWidgetList, pWindow, 0);
 
   widget_flush(pWindow);
