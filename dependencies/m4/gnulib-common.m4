@@ -1,5 +1,5 @@
-# gnulib-common.m4 serial 75
-dnl Copyright (C) 2007-2022 Free Software Foundation, Inc.
+# gnulib-common.m4 serial 76
+dnl Copyright (C) 2007-2023 Free Software Foundation, Inc.
 dnl This file is free software; the Free Software Foundation
 dnl gives unlimited permission to copy and/or distribute it,
 dnl with or without modifications, as long as this notice is preserved.
@@ -1021,6 +1021,30 @@ AC_DEFUN([gl_CONDITIONAL_HEADER],
   m4_popdef([gl_generate_cond])
   m4_popdef([gl_generate_var])
   m4_popdef([gl_header_name])
+])
+
+dnl gl_CHECK_FUNCS_ANDROID([func], [[#include <foo.h>]])
+dnl is like AC_CHECK_FUNCS([func]), taking into account a portability problem
+dnl on Android.
+dnl Namely, if func was added to Android API level, say, 28, then the libc.so
+dnl has the symbol func always, whereas the header file <foo.h> declares func
+dnl conditionally:
+dnl   #if __ANDROID_API__ >= 28
+dnl   ... func (...) __INTRODUCED_IN(28);
+dnl   #endif
+dnl Thus, when compiling with "clang -target armv7a-unknown-linux-android28",
+dnl the function func is declared and exists in libc.
+dnl Whereas when compiling with "clang -target armv7a-unknown-linux-android27",
+dnl the function func is not declared but exists in libc. We need to treat this
+dnl case like the case where func does not exist.
+AC_DEFUN([gl_CHECK_FUNCS_ANDROID],
+[
+  AC_CHECK_DECL([$1], , , [$2])
+  if test $ac_cv_have_decl_[$1] = yes; then
+    AC_CHECK_FUNCS([$1])
+  else
+    ac_cv_func_[$1]=no
+  fi
 ])
 
 dnl Expands to some code for use in .c programs that, on native Windows, defines
