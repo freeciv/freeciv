@@ -753,8 +753,9 @@ void player_destroy(struct player *pplayer)
        * by the removed player. */
       city_list_iterate(aplayer->cities, pcity) {
         if (pcity->original == pplayer) {
-          /* Current owner is a sane value, at least */
-          pcity->original = aplayer;
+          /* Unknown origin is better than giving baseless
+           * benefits to current owner */
+          pcity->original = NULL;
         }
       } city_list_iterate_end;
     }
@@ -812,7 +813,7 @@ int player_number(const struct player *pplayer)
   Return struct player pointer for the given player index.
 
   You can retrieve players that are not in the game (with IDs larger than
-  player_count).  An out-of-range player request will return NULL.
+  player_count). An out-of-range player request will return NULL.
 ***********************************************************************/
 struct player *player_by_number(const int player_id)
 {

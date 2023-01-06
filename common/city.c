@@ -3305,7 +3305,10 @@ struct city *create_city_virtual(struct player *pplayer,
   pcity->tile = ptile;
   fc_assert_ret_val(NULL != pplayer, NULL);     /* No unowned cities! */
   pcity->owner = pplayer;
-  pcity->original = pplayer;
+
+  if (is_server()) {
+    pcity->original = pplayer;
+  }
 
   /* City structure was allocated with fc_calloc(), so contents are initially
    * zero. There is no need to initialize it a second time. */

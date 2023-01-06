@@ -761,7 +761,7 @@ bool dai_can_requirement_be_met_in_city(const struct requirement *preq,
     return nation_is_in_current_set(preq->source.value.nation);
 
   case VUT_CITYSTATUS:
-    if (pcity == NULL) {
+    if (pcity == NULL || pcity->original == NULL) {
       return preq->present;
     }
     if (preq->present) {

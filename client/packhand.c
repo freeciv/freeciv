@@ -684,17 +684,21 @@ void handle_city_info(const struct packet_city_info *packet)
     ptile = city_tile(pcity);
 
     if (NULL == ptile) {
-      /* invisible worked city */
+      /* Invisible worked city */
       city_list_remove(invisible.cities, pcity);
       city_is_new = TRUE;
 
       pcity->tile = pcenter;
       ptile = pcenter;
       pcity->owner = powner;
-      pcity->original = powner;
+      if (has_capability("city-original", client.conn.capability)) {
+        pcity->original = player_by_number(packet->original);
+      } else {
+        pcity->original = NULL;
+      }
     } else if (city_owner(pcity) != powner) {
-      /* Remember what were the worked tiles.  The server won't
-       * send to us again. */
+      /* Remember what were the worked tiles. The server won't
+       * send them to us again. */
       city_tile_iterate_skip_free_worked(city_map_radius_sq_get(pcity),
                                          ptile, pworked, _index, _x, _y) {
         if (pcity == tile_worked(pworked)) {
@@ -1178,7 +1182,7 @@ void handle_city_short_info(const struct packet_city_short_info *packet)
 
       pcity->tile = pcenter;
       pcity->owner = powner;
-      pcity->original = powner;
+      pcity->original = NULL;
 
       whole_map_iterate(&(wld.map), wtile) {
         if (wtile->worked == pcity) {
@@ -3167,7 +3171,7 @@ void handle_tile_info(const struct packet_tile_info *packet)
       if (NULL == pwork) {
         char named[MAX_LEN_CITYNAME];
 
-        /* new unseen ("invisible") city, or before city_info */
+        /* New unseen ("invisible") city, or before city_info */
         fc_snprintf(named, sizeof(named), "%06u", packet->worked);
 
         pwork = create_city_virtual(invisible.placeholder, NULL, named);
@@ -3179,11 +3183,11 @@ void handle_tile_info(const struct packet_tile_info *packet)
         log_debug("(%d,%d) invisible city %d, %s",
                   TILE_XY(ptile), pwork->id, city_name_get(pwork));
       } else if (NULL == city_tile(pwork)) {
-        /* old unseen ("invisible") city, or before city_info */
+        /* Old unseen ("invisible") city, or before city_info */
         if (NULL != powner && city_owner(pwork) != powner) {
-          /* update placeholder with current owner */
+          /* Update placeholder with current owner */
           pwork->owner = powner;
-          pwork->original = powner;
+          pwork->original = NULL;
         }
       } else {
         /* We have a real (not invisible) city record for this ID, but

@@ -3650,7 +3650,7 @@ is_age_req_active(const struct req_context *context,
     }
     break;
   case REQ_RANGE_CITY:
-    if (context->city == NULL) {
+    if (context->city == NULL || context->city->original == NULL) {
       return TRI_MAYBE;
     } else {
       return BOOL_TO_TRISTATE(
@@ -3864,17 +3864,27 @@ is_citystatus_req_active(const struct req_context *context,
   if (citystatus == CITYS_OWNED_BY_ORIGINAL) {
     switch (req->range) {
     case REQ_RANGE_CITY:
+      if (context->city->original == NULL) {
+        return TRI_MAYBE;
+      }
       return BOOL_TO_TRISTATE(city_owner(context->city) == context->city->original);
     case REQ_RANGE_TRADEROUTE:
       {
         bool found = (city_owner(context->city) == context->city->original);
+        bool maybe = FALSE;
 
         trade_partners_iterate(context->city, trade_partner) {
-          if (city_owner(trade_partner) == trade_partner->original) {
+          if (trade_partner->original == NULL) {
+            maybe = TRUE;
+          } else if (city_owner(trade_partner) == trade_partner->original) {
             found = TRUE;
             break;
           }
         } trade_partners_iterate_end;
+
+        if (!found && maybe) {
+          return TRI_MAYBE;
+        }
 
         return BOOL_TO_TRISTATE(found);
       }
