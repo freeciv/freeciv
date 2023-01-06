@@ -127,7 +127,7 @@ bool tile_has_base(const struct tile *ptile, const struct base_type *pbase);
 int tile_has_not_aggressive_extra_for_unit(const struct tile *ptile,
                                            const struct unit_type *punittype);
 bool tile_has_refuel_extra(const struct tile *ptile,
-                           const struct unit_type *punittype);
+                           const struct unit_class *uclass);
 bool tile_has_native_base(const struct tile *ptile,
                           const struct unit_type *punittype);
 bool tile_has_claimable_base(const struct tile *ptile,

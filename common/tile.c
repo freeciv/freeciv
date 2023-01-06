@@ -300,18 +300,16 @@ int tile_roads_output_bonus(const struct tile *ptile, enum output_type_id o)
 }
 
 /************************************************************************//**
-  Check if tile contains refuel extra native for unit
+  Check if tile contains refuel extra native for unit class
 ****************************************************************************/
 bool tile_has_refuel_extra(const struct tile *ptile,
-                           const struct unit_type *punittype)
+                           const struct unit_class *uclass)
 {
-  extra_type_iterate(pextra) {
-    if (tile_has_extra(ptile, pextra)
-        && extra_has_flag(pextra, EF_REFUEL)
-        && is_native_extra_to_utype(pextra, punittype)) {
+  extra_type_list_iterate(uclass->cache.refuel_extras, pextra) {
+    if (tile_has_extra(ptile, pextra)) {
       return TRUE;
     }
-  } extra_type_iterate_end;
+  } extra_type_list_iterate_end;
 
   return FALSE;
 }
