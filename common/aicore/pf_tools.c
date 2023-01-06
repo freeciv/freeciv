@@ -557,7 +557,7 @@ static bool is_possible_base_fuel(const struct tile *ptile,
   }
 
   uclass = utype_class(param->utype);
-  extra_type_list_iterate(uclass->cache.refuel_bases, pextra) {
+  extra_type_list_iterate(uclass->cache.refuel_extras, pextra) {
     /* All airbases are considered possible, simply attack enemies. */
     if (tile_has_extra(ptile, pextra)) {
       return TRUE;
