@@ -1070,7 +1070,6 @@ bool transfer_city(struct player *ptaker, struct city *pcity,
                    int kill_outside, bool transfer_unit_verbose,
                    bool resolve_stack, bool raze, bool build_free)
 {
-  char old_city_name[MAX_LEN_CITYNAME];
   bv_imprs had_small_wonders;
   struct vision *old_vision, *new_vision;
   struct unit_list *old_city_units = unit_list_new();
@@ -1161,16 +1160,18 @@ bool transfer_city(struct player *ptaker, struct city *pcity,
 
   ASSERT_VISION(new_vision);
 
-  sz_strlcpy(old_city_name, city_name_get(pcity));
   if (CNM_PLAYER_UNIQUE == game.server.allowed_city_names
       && city_list_find_name(ptaker->cities, city_name_get(pcity))) {
-    sz_strlcpy(pcity->name,
-	       city_name_suggestion(ptaker, pcenter));
+    char *old_city_name = fc_strdup(city_name_get(pcity));
+
+    city_name_set(pcity, city_name_suggestion(ptaker, pcenter));
     notify_player(ptaker, pcenter, E_BAD_COMMAND, ftc_server,
-		  _("You already had a city called %s."
-		    " The city was renamed to %s."),
-		  old_city_name,
-		  city_link(pcity));
+                  _("You already had a city called %s."
+                    " The city was renamed to %s."),
+                  old_city_name,
+                  city_link(pcity));
+
+    free(old_city_name);
   }
 
   /* Has to follow the unfog call above. */
