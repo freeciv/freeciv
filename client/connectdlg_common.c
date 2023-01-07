@@ -397,8 +397,8 @@ bool client_start_server(void)
         fchmod(1, 0644);
       }
 
-      /* If it's still attatched to our terminal, things get messed up, 
-        but freeciv-server needs *something* */ 
+      /* If it's still attached to our terminal, things get messed up,
+         but freeciv-server needs *something* */
       fclose(stdin);
       fd = open("/dev/null", O_RDONLY);
       if (fd != 0) {
