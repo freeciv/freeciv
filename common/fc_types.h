@@ -636,9 +636,21 @@ const char *ai_level_name_update_cb(const char *old);
 /* Never destroyed by disasters */
 #define SPECENUM_VALUE3 IF_DISASTER_PROOF
 #define SPECENUM_VALUE3NAME "DisasterProof"
+#define SPECENUM_VALUE4 IF_USER_FLAG_1
+#define SPECENUM_VALUE5 IF_USER_FLAG_2
+#define SPECENUM_VALUE6 IF_USER_FLAG_3
+#define SPECENUM_VALUE7 IF_USER_FLAG_4
+#define SPECENUM_VALUE8 IF_USER_FLAG_5
+#define SPECENUM_VALUE9 IF_USER_FLAG_6
+#define SPECENUM_VALUE10 IF_USER_FLAG_7
+#define SPECENUM_VALUE11 IF_USER_FLAG_8
 #define SPECENUM_COUNT IF_COUNT
+#define SPECENUM_NAMEOVERRIDE
 #define SPECENUM_BITVECTOR bv_impr_flags
 #include "specenum_gen.h"
+
+#define IF_LAST_USER_FLAG IF_USER_FLAG_8
+#define MAX_NUM_USER_BUILDING_FLAGS (IF_LAST_USER_FLAG - IF_USER_FLAG_1 + 1)
 
 /* A server setting + its value. */
 typedef int ssetv;

@@ -542,6 +542,7 @@ void game_ruleset_init(void)
   user_unit_type_flags_init();
   user_terrain_flags_init();
   user_extra_flags_init();
+  user_impr_flags_init();
   tech_classes_init();
   user_tech_flags_init();
   multipliers_init();
@@ -602,6 +603,7 @@ void game_ruleset_free(void)
   terrains_free();
   user_tech_flags_free();
   extra_flags_free();
+  impr_flags_free();
   user_terrain_flags_free();
   ruleset_cache_free();
   nation_sets_groups_free();

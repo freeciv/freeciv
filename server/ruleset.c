@@ -2666,6 +2666,7 @@ static bool load_building_names(struct section_file *file,
   int i, nval = 0;
   const char *filename = secfile_name(file);
   bool ok = TRUE;
+  const char *flag;
 
   if (!rscompat_check_cap_and_version(file, filename, compat)) {
     return FALSE;
@@ -2701,6 +2702,34 @@ static bool load_building_names(struct section_file *file,
         break;
       }
     }
+  }
+
+  /* User building flag names */
+  for (i = 0;
+       (flag = secfile_lookup_str_default(file, NULL,
+                                          "control.building_flags%d.name",
+                                          i));
+       i++) {
+    const char *helptxt = secfile_lookup_str_default(file, NULL,
+        "control.building_flags%d.helptxt", i);
+
+    if (impr_flag_id_by_name(flag, fc_strcasecmp)
+        != impr_flag_id_invalid()) {
+      ruleset_error(NULL, LOG_ERROR,
+                    "\"%s\": Duplicate building flag name '%s'",
+                    filename, flag);
+      ok = FALSE;
+      break;
+    }
+    if (i > MAX_NUM_USER_BUILDING_FLAGS) {
+      ruleset_error(NULL, LOG_ERROR,
+                    "\"%s\": Too many user building flags!",
+                    filename);
+      ok = FALSE;
+      break;
+    }
+
+    set_user_impr_flag_name(IF_USER_FLAG_1 + i, flag, helptxt);
   }
 
   section_list_destroy(sec);
@@ -8289,6 +8318,32 @@ static void send_ruleset_counters(struct conn_list *dest)
 **************************************************************************/
 static void send_ruleset_buildings(struct conn_list *dest)
 {
+  int i;
+
+  for (i = 0; i < MAX_NUM_USER_BUILDING_FLAGS; i++) {
+    struct packet_ruleset_impr_flag fpacket;
+    const char *flagname;
+    const char *helptxt;
+
+    fpacket.id = i + IF_USER_FLAG_1;
+
+    flagname = impr_flag_id_name(i + IF_USER_FLAG_1);
+    if (flagname == NULL) {
+      fpacket.name[0] = '\0';
+    } else {
+      sz_strlcpy(fpacket.name, flagname);
+    }
+
+    helptxt = impr_flag_helptxt(i + IF_USER_FLAG_1);
+    if (helptxt == NULL) {
+      fpacket.helptxt[0] = '\0';
+    } else {
+      sz_strlcpy(fpacket.helptxt, helptxt);
+    }
+
+    lsend_packet_ruleset_impr_flag(dest, &fpacket);
+  }
+
   improvement_iterate(b) {
     struct packet_ruleset_building packet;
     int j;
@@ -8454,11 +8509,10 @@ static void send_ruleset_resources(struct conn_list *dest)
 **************************************************************************/
 static void send_ruleset_extras(struct conn_list *dest)
 {
-  struct packet_ruleset_extra packet;
-  struct packet_ruleset_extra_flag fpacket;
   int i;
 
   for (i = 0; i < MAX_NUM_USER_EXTRA_FLAGS; i++) {
+    struct packet_ruleset_extra_flag fpacket;
     const char *flagname;
     const char *helptxt;
 
@@ -8482,6 +8536,7 @@ static void send_ruleset_extras(struct conn_list *dest)
   }
 
   extra_type_iterate(e) {
+    struct packet_ruleset_extra packet;
     int j;
 
     packet.id = extra_number(e);

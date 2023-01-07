@@ -387,9 +387,25 @@ static bool save_buildings_ruleset(const char *filename, const char *name)
 {
   struct section_file *sfile = create_ruleset_file(name, "building");
   int sect_idx;
+  int i;
 
   if (sfile == NULL) {
     return FALSE;
+  }
+
+  for (i = 0; i < MAX_NUM_USER_BUILDING_FLAGS; i++) {
+    const char *flagname = impr_flag_id_name_cb(i + IF_USER_FLAG_1);
+    const char *helptxt = impr_flag_helptxt(i + IF_USER_FLAG_1);
+
+    if (flagname != NULL) {
+      secfile_insert_str(sfile, flagname, "control.building_flags%d.name", i);
+
+      /* Save the user flag help text even when it is undefined. That makes
+       * the formatting code happy. The resulting "" is ignored when the
+       * ruleset is loaded. */
+      secfile_insert_str(sfile, helptxt,
+                         "control.building_flags%d.helptxt", i);
+    }
   }
 
   comment_buildings(sfile);

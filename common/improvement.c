@@ -40,6 +40,8 @@ The improvement_types array is now setup in:
 **************************************************************************/
 static struct impr_type improvement_types[B_LAST];
 
+static struct user_flag user_impr_flags[MAX_NUM_USER_BUILDING_FLAGS];
+
 /**********************************************************************//**
   Initialize building structures.
 **************************************************************************/
@@ -1139,4 +1141,79 @@ const struct impr_type *improvement_replacement(const struct impr_type *pimprove
   } requirement_vector_iterate_end;
 
   return NULL;
+}
+
+/************************************************************************//**
+  Initialize user building flags.
+****************************************************************************/
+void user_impr_flags_init(void)
+{
+  int i;
+
+  for (i = 0; i < MAX_NUM_USER_BUILDING_FLAGS; i++) {
+    user_flag_init(&user_impr_flags[i]);
+  }
+}
+
+/************************************************************************//**
+  Frees the memory associated with all building flags
+****************************************************************************/
+void impr_flags_free(void)
+{
+  int i;
+
+  for (i = 0; i < MAX_NUM_USER_BUILDING_FLAGS; i++) {
+    user_flag_free(&user_impr_flags[i]);
+  }
+}
+
+/************************************************************************//**
+  Sets user defined name for building flag.
+****************************************************************************/
+void set_user_impr_flag_name(enum impr_flag_id id, const char *name,
+                              const char *helptxt)
+{
+  int bfid = id - IF_USER_FLAG_1;
+
+  fc_assert_ret(id >= IF_USER_FLAG_1 && id <= IF_LAST_USER_FLAG);
+
+  if (user_impr_flags[bfid].name != NULL) {
+    FC_FREE(user_impr_flags[bfid].name);
+    user_impr_flags[bfid].name = NULL;
+  }
+
+  if (name && name[0] != '\0') {
+    user_impr_flags[bfid].name = fc_strdup(name);
+  }
+
+  if (user_impr_flags[bfid].helptxt != NULL) {
+    free(user_impr_flags[bfid].helptxt);
+    user_impr_flags[bfid].helptxt = NULL;
+  }
+
+  if (helptxt && helptxt[0] != '\0') {
+    user_impr_flags[bfid].helptxt = fc_strdup(helptxt);
+  }
+}
+
+/************************************************************************//**
+  Building flag name callback, called from specenum code.
+****************************************************************************/
+const char *impr_flag_id_name_cb(enum impr_flag_id flag)
+{
+  if (flag < IF_USER_FLAG_1 || flag > IF_LAST_USER_FLAG) {
+    return NULL;
+  }
+
+  return user_impr_flags[flag - IF_USER_FLAG_1].name;
+}
+
+/************************************************************************//**
+  Return the (untranslated) help text of the user building flag.
+****************************************************************************/
+const char *impr_flag_helptxt(enum impr_flag_id id)
+{
+  fc_assert(id >= IF_USER_FLAG_1 && id <= IF_LAST_USER_FLAG);
+
+  return user_impr_flags[id - IF_USER_FLAG_1].helptxt;
 }

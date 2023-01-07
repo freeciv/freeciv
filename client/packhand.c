@@ -3892,6 +3892,32 @@ void handle_ruleset_building(const struct packet_ruleset_building *p)
 }
 
 /************************************************************************//**
+  Packet ruleset_impr_flag handler.
+****************************************************************************/
+void handle_ruleset_impr_flag(const struct packet_ruleset_impr_flag *p)
+{
+  const char *flagname;
+  const char *helptxt;
+
+  fc_assert_ret_msg(p->id >= IF_USER_FLAG_1 && p->id <= IF_LAST_USER_FLAG,
+                    "Bad user flag %d.", p->id);
+
+  if (p->name[0] == '\0') {
+    flagname = NULL;
+  } else {
+    flagname = p->name;
+  }
+
+  if (p->helptxt[0] == '\0') {
+    helptxt = NULL;
+  } else {
+    helptxt = p->helptxt;
+  }
+
+  set_user_impr_flag_name(p->id, flagname, helptxt);
+}
+
+/************************************************************************//**
   Packet ruleset_multiplier handler.
 ****************************************************************************/
 void handle_ruleset_multiplier(const struct packet_ruleset_multiplier *p)

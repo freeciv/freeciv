@@ -94,6 +94,13 @@ const char *improvement_name_translation(const struct impr_type *pimprove);
 bool improvement_has_flag(const struct impr_type *pimprove,
                           enum impr_flag_id flag);
 
+void user_impr_flags_init(void);
+void impr_flags_free(void);
+void set_user_impr_flag_name(enum impr_flag_id id,
+                             const char *name,
+                             const char *helptxt);
+const char *impr_flag_helptxt(enum impr_flag_id id);
+
 /* Ancillary routines */
 int impr_build_shield_cost(const struct city *pcity,
                            const struct impr_type *pimprove);
