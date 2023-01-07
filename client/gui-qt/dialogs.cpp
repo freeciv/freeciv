@@ -54,6 +54,7 @@
 #include "control.h"
 #include "helpdata.h"
 #include "packhand.h"
+#include "svgflag.h"
 #include "text.h"
 #include "tilespec.h"
 
@@ -424,7 +425,7 @@ void qfc_dialog::mouseReleaseEvent(QMouseEvent *event)
 }
 
 /***********************************************************************//**
- Constructor for selecting nations
+  Constructor for selecting nations
 ***************************************************************************/
 races_dialog::races_dialog(struct player *pplayer,
                            QWidget *parent) : qfc_dialog(parent)
@@ -702,6 +703,8 @@ void races_dialog::set_index(int index)
   int i;
   struct sprite *s;
   QHeaderView *header;
+  bool svg = is_svg_flag_enabled();
+
   selected_nation_tabs->clearContents();
   selected_nation_tabs->setRowCount(0);
 
@@ -731,7 +734,11 @@ void races_dialog::set_index(int index)
       item->setFont(f);
     }
     pix = s->pm;
-    item->setData(Qt::DecorationRole, *pix);
+    if (svg) {
+      item->setData(Qt::DecorationRole, (*pix).scaledToHeight(50));
+    } else {
+      item->setData(Qt::DecorationRole, *pix);
+    }
     item->setData(Qt::UserRole, nation_number(pnation));
     item->setText(nation_adjective_translation(pnation));
     selected_nation_tabs->setItem(i, 0, item);
