@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -50,6 +50,10 @@
  *   SPECHASH_IDATA_TO_UDATA - A function or macro to convert a data to
  *     pointer.
  *   SPECHASH_UDATA_TO_IDATA - A function or macro to convert a pointer
+ *     to data.
+ *   SPECHASH_VPTR_TO_IKEY - A function or macro to convert void pointer
+ *     to key.
+ *   SPECHASH_VPTR_TO_IDATA - A function or macro to convert void pointer
  *     to data.
  * At the end of this file, these (and other defines) are undef-ed.
  *
@@ -216,6 +220,14 @@ extern "C" {
 #define SPECHASH_IDATA_COPY NULL
 #define SPECHASH_IDATA_FREE NULL
 #endif /* SPECHASH_CSTR_DATA_TYPE */
+
+#ifndef SPECHASH_VPTR_TO_IKEY
+#define SPECHASH_VPTR_TO_IKEY(p) ((SPECHASH_IKEY_TYPE)(p))
+#endif
+
+#ifndef SPECHASH_VPTR_TO_IDATA
+#define SPECHASH_VPTR_TO_IDATA(p) ((SPECHASH_IDATA_TYPE)(p))
+#endif
 
 #ifndef SPECHASH_TAG
 #error Must define a SPECHASH_TAG to use this header
@@ -512,11 +524,12 @@ SPECHASH_FOO(_hash_replace_full) (SPECHASH_HASH *tthis,
                                   &key_ptr, &data_ptr);
 
   if (NULL != old_pukey) {
-    *old_pukey = SPECHASH_IKEY_TO_UKEY((SPECHASH_IKEY_TYPE) key_ptr);
+    *old_pukey = SPECHASH_IKEY_TO_UKEY(SPECHASH_VPTR_TO_IKEY(key_ptr));
   }
   if (NULL != old_pudata) {
-    *old_pudata = SPECHASH_IDATA_TO_UDATA((SPECHASH_IDATA_TYPE) data_ptr);
+    *old_pudata = SPECHASH_IDATA_TO_UDATA(SPECHASH_VPTR_TO_IDATA(data_ptr));
   }
+
   return ret;
 }
 
@@ -533,8 +546,9 @@ SPECHASH_FOO(_hash_lookup) (const SPECHASH_HASH *tthis,
                             SPECHASH_UKEY_TO_IKEY(ukey), &data_ptr);
 
   if (NULL != pudata) {
-    *pudata = SPECHASH_IDATA_TO_UDATA((SPECHASH_IDATA_TYPE) data_ptr);
+    *pudata = SPECHASH_IDATA_TO_UDATA(SPECHASH_VPTR_TO_IDATA(data_ptr));
   }
+
   return ret;
 }
 
@@ -564,15 +578,14 @@ SPECHASH_FOO(_hash_remove_full) (SPECHASH_HASH *tthis,
                                  &key_ptr, &data_ptr);
 
   if (NULL != deleted_pukey) {
-    *deleted_pukey = SPECHASH_IKEY_TO_UKEY((SPECHASH_IKEY_TYPE) key_ptr);
+    *deleted_pukey = SPECHASH_IKEY_TO_UKEY(SPECHASH_VPTR_TO_IKEY(key_ptr));
   }
   if (NULL != deleted_pudata) {
-    *deleted_pudata = SPECHASH_IDATA_TO_UDATA((SPECHASH_IDATA_TYPE)
-                                                 data_ptr);
+    *deleted_pudata = SPECHASH_IDATA_TO_UDATA(SPECHASH_VPTR_TO_IDATA(data_ptr));
   }
+
   return ret;
 }
-
 
 /****************************************************************************
   Compare the specific hash tables.
@@ -598,7 +611,6 @@ SPECHASH_FOO(_hashs_are_equal) (const SPECHASH_HASH *phash1,
   return SPECHASH_FOO(_hashs_are_equal_full) (phash1, phash2,
                                               SPECHASH_IDATA_COMP);
 }
-
 
 /****************************************************************************
   Remove the size of the iterator type.
@@ -657,6 +669,8 @@ SPECHASH_FOO(_hash_value_iter_init) (SPECHASH_ITER *iter,
 #undef SPECHASH_IKEY_TO_UKEY
 #undef SPECHASH_UDATA_TO_IDATA
 #undef SPECHASH_IDATA_TO_UDATA
+#undef SPECHASH_VPTR_TO_IKEY
+#undef SPECHASH_VPTR_TO_IDATA
 #undef SPECHASH_PASTE_
 #undef SPECHASH_PASTE
 #undef SPECHASH_HASH

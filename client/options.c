@@ -5610,6 +5610,7 @@ static void desired_settable_option_send(struct option *poption)
 #define SPECHASH_IDATA_TYPE bool
 #define SPECHASH_UDATA_TO_IDATA FC_INT_TO_PTR
 #define SPECHASH_IDATA_TO_UDATA FC_PTR_TO_INT
+#define SPECHASH_VPTR_TO_IDATA  FC_PTR_TO_INT
 #include "spechash.h"
 #define dialog_options_hash_iterate(hash, column, visible)                  \
   TYPED_HASH_ITERATE(const char *, intptr_t, hash, column, visible)
