@@ -31,8 +31,8 @@ struct civ_map;
    to finish them off. */
 #define FINISH_HIM_CITY_COUNT              5
 
-#define DAI_WANT_BELOW_MIL_EMERGENCY 100
-#define DAI_WANT_MILITARY_EMERGENCY  (DAI_WANT_BELOW_MIL_EMERGENCY + 1)
+#define DAI_WANT_BELOW_MIL_EMERGENCY (1000.0)
+#define DAI_WANT_MILITARY_EMERGENCY  (DAI_WANT_BELOW_MIL_EMERGENCY + 0.1)
 
 typedef struct unit_list *(player_unit_list_getter)(struct player *pplayer);
 
