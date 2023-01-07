@@ -7,7 +7,13 @@
 
 if test x$1 = x ; then
   # Try to load all rulesets that are developed with Freeciv
-  rulesets=`cat @abs_top_srcdir@/tests/rs_test_res/ruleset_list.txt`
+  rulesets="$(cat @abs_top_srcdir@/tests/rs_test_res/ruleset_list_dist.txt)"
+  optional="$(cat @abs_top_srcdir@/tests/rs_test_res/ruleset_list_opt.txt)"
+  for opt in $optional ; do
+    if test -d "@abs_top_srcdir@/data/$opt" ; then
+      rulesets="$rulesets $opt"
+    fi
+  done
 else
   # Try to load the specified ruleset(s)
   rulesets=$@

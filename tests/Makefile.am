@@ -25,7 +25,8 @@ EXTRA_DIST =	check_macros.sh			\
 		rulesets_save.sh.in		\
 		rulesets_upgrade.sh.in		\
 		rs_test_res/ruleset_is.lua	\
-		rs_test_res/ruleset_list.txt	\
+		rs_test_res/ruleset_list_dist.txt \
+		rs_test_res/ruleset_list_opt.txt \
 		rs_test_res/ruleset_loads.sh.in	\
 		rulesets_autohelp.sh.in		\
 		va_list.sh

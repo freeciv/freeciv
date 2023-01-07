@@ -3,9 +3,6 @@ civ1
 civ2
 civ2civ3
 classic
-experimental
 multiplayer
 sandbox
 stub
-webperimental
-granularity
