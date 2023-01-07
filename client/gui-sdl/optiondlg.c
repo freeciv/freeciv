@@ -394,6 +394,7 @@ static int exit_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
     popdown_optiondlg(TRUE);
+    disconnect_from_server();
     force_exit_from_event_loop();
   }
   return 0;
