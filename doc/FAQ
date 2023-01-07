@@ -967,8 +967,12 @@ freeciv-gtk3.22 -d verbose -P <plugin> -S stdsounds
    Precompiled binaries can be downloaded from www.freeciv.org. The native
    Windows packages come as self-extracting installers.
 
-   Simply download and install one of the .EXE installers (GTK, SDL, or
-   QT). All versions require Windows 8.1 or later.
+   Simply download and install one of the .EXE installers (GTK+-3.22, GTK-4,
+   SDL2, Qt, or Ruledit). As of freeciv-3.1, there are "win64-10" packages
+   that require Windows 10 or later, and "win64" packages that require
+   just Windows 8.1 or later. As Qt6 itself requires Windows 10,
+   "win64" versions of Qt-client and Ruledit are based on Qt5 and
+   only "win64-10" versions are based on Qt6.
 
 -------
 
