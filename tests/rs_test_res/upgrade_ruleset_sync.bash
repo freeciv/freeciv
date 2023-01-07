@@ -10,8 +10,8 @@ set -e
 
 cd $(dirname $0)
 
-# list of rulesets to copy
-rulesets=`cat ruleset_list.txt`
+# List of rulesets to copy
+rulesets="$(cat ruleset_list_dist.txt) $(cat ruleset_list_opt.txt)"
 
 if test "x$1" = "x" ; then
   REVISION=$DEFAULT_REVISION
