@@ -403,6 +403,7 @@ static int exit_callback(struct widget *pWidget)
 {
   if (PRESSED_EVENT(Main.event)) {
     popdown_optiondlg(TRUE);
+    disconnect_from_server();
     force_exit_from_event_loop();
   }
 
