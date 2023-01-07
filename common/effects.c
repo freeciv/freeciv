@@ -229,11 +229,11 @@ void effect_remove(struct effect *peffect)
   Create copy of the effect. It gets fully registered to
   the ruleset caches.
 
-  @old           Original effect to copy
-  @override_type Type of the effect to create, or effect_type_invalid()
-                 to copy type from the original effect
+  @param old           Original effect to copy
+  @param override_type Type of the effect to create, or effect_type_invalid()
+                       to copy type from the original effect
 
-  @return        Newly created effect
+  @return              Newly created effect
 **************************************************************************/
 struct effect *effect_copy(struct effect *old,
                            enum effect_type override_type)
