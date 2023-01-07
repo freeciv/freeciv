@@ -268,7 +268,7 @@ Casus_Belli_Success
       Found City, Join City, Bombard, Bombard Lethal, Destroy City,
       Attack, Suicide Attack, Conquer City, Unit Move, Help Wonder,
       Disband Unit Recover, Establish Trade Route, Enter Marketplace,
-      Pillage, Spy Escape
+      Pillage, Spy Escape, Surgical Strike Building, Surgical Strike Production
 
 City_Build_Slots
     Increase the number of units with no population cost a city can build in

@@ -154,11 +154,11 @@ static bool do_unit_change_homecity(struct unit *punit,
                                     const struct action *paction);
 static bool do_attack(struct unit *actor_unit, struct tile *target_tile,
                       const struct action *paction);
-static bool do_unit_strike_city_production(const struct player *act_player,
+static bool do_unit_strike_city_production(struct player *act_player,
                                            struct unit *act_unit,
                                            struct city *tgt_city,
                                            const struct action *paction);
-static bool do_unit_strike_city_building(const struct player *act_player,
+static bool do_unit_strike_city_building(struct player *act_player,
                                          struct unit *act_unit,
                                          struct city *tgt_city,
                                          Impr_type_id tgt_bld_id,
@@ -674,15 +674,12 @@ static bool do_conquer_extras(struct player *act_player,
                               const struct action *paction)
 {
   bool success;
-  const struct unit_type *act_utype;
   int move_cost = map_move_cost_unit(&(wld.map), act_unit, tgt_tile);
   struct player *tgt_player = extra_owner(tgt_tile);
 
   /* Sanity check */
   fc_assert_ret_val(act_unit, FALSE);
   fc_assert_ret_val(tgt_tile, FALSE);
-
-  act_utype = unit_type_get(act_unit);
 
   unit_move(act_unit, tgt_tile, move_cost,
             NULL, BV_ISSET(paction->sub_results, ACT_SUB_RES_MAY_EMBARK),
@@ -693,6 +690,8 @@ static bool do_conquer_extras(struct player *act_player,
   success = extra_owner(tgt_tile) == act_player;
 
   if (success) {
+    const struct unit_type *act_utype = unit_type_get(act_unit);
+
     /* May cause an incident */
     action_consequence_success(paction, act_player, act_utype,
                                tgt_player, tgt_tile,
@@ -1419,7 +1418,6 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
   const struct action *paction;
   struct action *blocker;
   const struct player *act_player = unit_owner(punit);
-  const struct unit_type *act_utype = unit_type_get(punit);
   struct player *tgt_player = NULL;
   struct ane_expl *explnat = fc_malloc(sizeof(struct ane_expl));
   bool can_exist = can_unit_exist_at_tile(&(wld.map), punit, unit_tile(punit));
@@ -1860,6 +1858,8 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
     explnat->kind = ANEK_SCENARIO_DISABLED;
   } else if (action_has_result_safe(paction, ACTRES_UPGRADE_UNIT)
              && action_custom == UU_NO_MONEY) {
+    const struct unit_type *act_utype = unit_type_get(punit);
+
     explnat->kind = ANEK_ACT_NOT_ENOUGH_MONEY;
     explnat->gold_needed = unit_upgrade_price(act_player, act_utype,
                                               can_upgrade_unittype(
@@ -4173,7 +4173,6 @@ static bool city_build(struct player *pplayer, struct unit *punit,
   fc_assert_ret_val(pplayer, FALSE);
   fc_assert_ret_val(punit, FALSE);
 
-  act_utype = unit_type_get(punit);
   towner = tile_owner(ptile);
 
   if (!is_allowed_city_name(pplayer, name, message, sizeof(message))) {
@@ -4181,6 +4180,8 @@ static bool city_build(struct player *pplayer, struct unit *punit,
                   "%s", message);
     return FALSE;
   }
+
+  act_utype = unit_type_get(punit);
 
   nationality = unit_nationality(punit);
 
@@ -5141,13 +5142,15 @@ static bool do_attack(struct unit *punit, struct tile *def_tile,
   Returns TRUE iff action could be done, FALSE if it couldn't. Even if
   this returns TRUE, unit may have died during the action.
 **************************************************************************/
-static bool do_unit_strike_city_production(const struct player *act_player,
+static bool do_unit_strike_city_production(struct player *act_player,
                                            struct unit *act_unit,
                                            struct city *tgt_city,
                                            const struct action *paction)
 {
   struct player *tgt_player;
   char prod[256];
+  const struct unit_type *act_utype;
+  const struct tile *tgt_tile;
 
   /* Sanity checks */
   fc_assert_ret_val(act_player, FALSE);
@@ -5158,6 +5161,8 @@ static bool do_unit_strike_city_production(const struct player *act_player,
   tgt_player = city_owner(tgt_city);
   fc_assert_ret_val(tgt_player, FALSE);
 
+  tgt_tile = city_tile(tgt_city);
+
   /* The surgical strike may miss. */
   {
     /* Roll the dice. */
@@ -5165,7 +5170,7 @@ static bool do_unit_strike_city_production(const struct player *act_player,
                                 tgt_city, tgt_player,
                                 paction)) {
       /* Notify the player. */
-      notify_player(act_player, city_tile(tgt_city),
+      notify_player(act_player, tgt_tile,
                     E_UNIT_ACTION_ACTOR_FAILURE, ftc_server,
                     /* TRANS: unit, action, city */
                     _("Your %s failed to do %s in %s."),
@@ -5188,20 +5193,27 @@ static bool do_unit_strike_city_production(const struct player *act_player,
   nullify_prechange_production(tgt_city);
 
   /* Let the players know. */
-  notify_player(act_player, city_tile(tgt_city),
+  notify_player(act_player, tgt_tile,
                 E_UNIT_ACTION_ACTOR_SUCCESS, ftc_server,
                 _("Your %s succeeded in destroying"
                   " the production of %s in %s."),
                 unit_link(act_unit),
                 prod,
                 city_name_get(tgt_city));
-  notify_player(tgt_player, city_tile(tgt_city),
+  notify_player(tgt_player, tgt_tile,
                 E_UNIT_ACTION_TARGET_HOSTILE, ftc_server,
                 _("The production of %s was destroyed in %s,"
                   " %s are suspected."),
                 prod,
                 city_link(tgt_city),
                 nation_plural_for_player(tgt_player));
+
+  act_utype = unit_type_get(act_unit);
+
+  /* May cause an incident */
+  action_consequence_success(paction, act_player, act_utype,
+                             tgt_player, tgt_tile,
+                             city_link(tgt_city));
 
   return TRUE;
 }
@@ -5216,7 +5228,7 @@ static bool do_unit_strike_city_production(const struct player *act_player,
   Returns TRUE iff action could be done, FALSE if it couldn't. Even if
   this returns TRUE, unit may have died during the action.
 **************************************************************************/
-static bool do_unit_strike_city_building(const struct player *act_player,
+static bool do_unit_strike_city_building(struct player *act_player,
                                          struct unit *act_unit,
                                          struct city *tgt_city,
                                          Impr_type_id tgt_bld_id,
@@ -5224,12 +5236,16 @@ static bool do_unit_strike_city_building(const struct player *act_player,
 {
   struct player *tgt_player;
   struct impr_type *tgt_bld = improvement_by_number(tgt_bld_id);
+  const struct tile *tgt_tile;
+  const struct unit_type *act_utype;
 
   /* Sanity checks */
   fc_assert_ret_val(act_player, FALSE);
   fc_assert_ret_val(act_unit, FALSE);
   fc_assert_ret_val(tgt_city, FALSE);
   fc_assert_ret_val(paction, FALSE);
+
+  tgt_tile = city_tile(tgt_city);
 
   tgt_player = city_owner(tgt_city);
   fc_assert_ret_val(tgt_player, FALSE);
@@ -5241,7 +5257,7 @@ static bool do_unit_strike_city_building(const struct player *act_player,
                                 tgt_city, tgt_player,
                                 paction)) {
       /* Notify the player. */
-      notify_player(act_player, city_tile(tgt_city),
+      notify_player(act_player, tgt_tile,
                     E_UNIT_ACTION_ACTOR_FAILURE, ftc_server,
                     /* TRANS: unit, action, city */
                     _("Your %s failed to do %s in %s."),
@@ -5260,7 +5276,7 @@ static bool do_unit_strike_city_building(const struct player *act_player,
     /* Nothing to destroy here. */
 
     /* Notify the player. */
-    notify_player(act_player, city_tile(tgt_city),
+    notify_player(act_player, tgt_tile,
                   E_UNIT_ACTION_ACTOR_FAILURE, ftc_server,
                   _("Your %s didn't find a %s to %s in %s."),
                   unit_link(act_unit),
@@ -5274,6 +5290,8 @@ static bool do_unit_strike_city_building(const struct player *act_player,
     return FALSE;
   }
 
+  act_utype = unit_type_get(act_unit);
+
   /* Destroy the building. */
   building_lost(tgt_city, tgt_bld, "attacked", act_unit);
 
@@ -5281,18 +5299,23 @@ static bool do_unit_strike_city_building(const struct player *act_player,
   send_city_info(NULL, tgt_city);
 
   /* Let the players know. */
-  notify_player(act_player, city_tile(tgt_city),
+  notify_player(act_player, tgt_tile,
                 E_UNIT_ACTION_ACTOR_SUCCESS, ftc_server,
                 _("Your %s destroyed the %s in %s."),
                 unit_link(act_unit),
                 improvement_name_translation(tgt_bld),
                 city_link(tgt_city));
-  notify_player(tgt_player, city_tile(tgt_city),
+  notify_player(tgt_player, tgt_tile,
                 E_UNIT_ACTION_TARGET_HOSTILE, ftc_server,
                 _("The %s destroyed the %s in %s."),
                 nation_plural_for_player(tgt_player),
                 improvement_name_translation(tgt_bld),
                 city_link(tgt_city));
+
+  /* May cause an incident */
+  action_consequence_success(paction, act_player, act_utype,
+                             tgt_player, tgt_tile,
+                             city_link(tgt_city));
 
   return TRUE;
 }
@@ -5317,7 +5340,6 @@ static bool do_unit_conquer_city(struct player *act_player,
   int tgt_city_id = tgt_city->id;
   struct player *tgt_player = city_owner(tgt_city);
   const char *victim_link = city_link(tgt_city);
-  const struct unit_type *act_utype = unit_type_get(act_unit);
 
   /* Sanity check */
   fc_assert_ret_val(tgt_tile, FALSE);
@@ -5331,6 +5353,8 @@ static bool do_unit_conquer_city(struct player *act_player,
              || city_owner(tgt_city) == act_player);
 
   if (success) {
+    const struct unit_type *act_utype = unit_type_get(act_unit);
+
     /* May cause an incident */
     action_consequence_success(paction, act_player, act_utype,
                                tgt_player, tgt_tile,
@@ -5787,7 +5811,6 @@ static bool do_unit_establish_trade(struct player *pplayer,
   /* Sanity check: The target city still exists. */
   fc_assert_ret_val(pcity_dest, FALSE);
 
-  act_utype = unit_type_get(punit);
   pcity_homecity = player_city_by_number(pplayer, punit->homecity);
 
   if (!pcity_homecity) {
@@ -5823,6 +5846,8 @@ static bool do_unit_establish_trade(struct player *pplayer,
                   destcity_link);
     return FALSE;
   }
+
+  act_utype = unit_type_get(punit);
 
   sz_strlcpy(punit_link, unit_tile_link(punit));
   routes_out_of_home = trade_route_list_new();
@@ -5898,8 +5923,8 @@ static bool do_unit_establish_trade(struct player *pplayer,
 
   /* Calculate and announce initial revenue. */
   revenue
-  = get_caravan_enter_city_trade_bonus(pcity_homecity, pcity_dest, act_utype,
-                                       goods, can_establish);
+    = get_caravan_enter_city_trade_bonus(pcity_homecity, pcity_dest, act_utype,
+                                         goods, can_establish);
 
   bonus_type = trade_route_settings_by_type
       (cities_trade_route_type(pcity_homecity, pcity_dest))->bonus_type;
