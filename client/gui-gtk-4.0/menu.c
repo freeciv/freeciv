@@ -280,11 +280,9 @@ static void report_economy_callback(GSimpleAction *action,
 static void report_research_callback(GSimpleAction *action,
                                      GVariant *parameter,
                                      gpointer data);
-
-#ifdef MENUS_GTK3
-static void multiplier_callback(GtkMenuItem *item, gpointer data);
-#endif /* MENUS_GTK3 */
-
+static void multiplier_callback(GSimpleAction *action,
+                                GVariant *parameter,
+                                gpointer data);
 static void report_spaceship_callback(GSimpleAction *action,
                                       GVariant *parameter,
                                       gpointer data);
@@ -588,6 +586,9 @@ static struct menu_entry_info menu_entries[] =
     "report_research", "F6", MGROUP_PLAYER,
     NULL, FALSE },
 
+  { "POLICIES", N_("_Policies..."),
+    "policies", "<shift><ctrl>p", MGROUP_PLAYER,
+    NULL, FALSE },
   { "START_REVOLUTION", N_("_Revolution..."),
     "revolution", "<shift><ctrl>r", MGROUP_PLAYING,
     NULL, FALSE },
@@ -788,10 +789,6 @@ static struct menu_entry_info menu_entries[] =
   { "SCENARIO_PROPERTIES", N_("Game/Scenario Properties"), 0, 0,
     G_CALLBACK(scenario_properties_callback), MGROUP_EDIT },
 
-  { "POLICIES", N_("_Policies..."),
-    GDK_KEY_p, GDK_SHIFT_MASK | GDK_CONTROL_MASK,
-    G_CALLBACK(multiplier_callback), MGROUP_PLAYER },
-
   { "MENU_SELECT", N_("_Select"), 0, 0, NULL, MGROUP_UNIT },
   { "MENU_UNIT", N_("_Unit"), 0, 0, NULL, MGROUP_UNIT },
   { "MENU_WORK", N_("_Work"), 0, 0, NULL, MGROUP_UNIT },
@@ -905,6 +902,7 @@ const GActionEntry acts[] = {
   { "report_cities", report_cities_callback },
   { "report_economy", report_economy_callback },
   { "report_research", report_research_callback },
+  { "policies", multiplier_callback },
   { "report_wow", report_wow_callback },
   { "report_top_cities", report_top_cities_callback },
   { "report_messages", report_messages_callback },
@@ -2275,15 +2273,16 @@ static void tax_rate_callback(GtkMenuItem *action, gpointer data)
 {
   popup_rates_dialog();
 }
+#endif /* MENUS_GTK3 */
 
 /************************************************************************//**
   Action "MULTIPLIERS" callback.
 ****************************************************************************/
-static void multiplier_callback(GtkMenuItem *action, gpointer data)
+static void multiplier_callback(GSimpleAction *action, GVariant *parameter,
+                                gpointer data)
 {
   popup_multiplier_dialog();
 }
-#endif /* MENUS_GTK3 */
 
 /************************************************************************//**
   The player has chosen a government from the menu.
@@ -2734,6 +2733,7 @@ static GMenu *setup_menus(GtkApplication *app)
   menu_entry_init(gov_menu, "REPORT_CITIES");
   menu_entry_init(gov_menu, "REPORT_ECONOMY");
   menu_entry_init(gov_menu, "REPORT_RESEARCH");
+  menu_entry_init(gov_menu, "POLICIES");
 
   /* Placeholder submenu (so that menu update has something to replace) */
   submenu = g_menu_new();
@@ -3092,8 +3092,8 @@ void real_menus_update(void)
       menu_item_append_unref(submenu, g_menu_item_new(name, actname));
     }
   } governments_iterate_end;
-  g_menu_remove(gov_menu, 6);
-  g_menu_insert_submenu(gov_menu, 6, _("_Government"), G_MENU_MODEL(submenu));
+  g_menu_remove(gov_menu, 7);
+  g_menu_insert_submenu(gov_menu, 7, _("_Government"), G_MENU_MODEL(submenu));
 
   submenu = g_menu_new();
 
@@ -3295,6 +3295,8 @@ void real_menus_update(void)
 
   menu_entry_set_sensitive(map, "RALLY_DLG", can_client_issue_orders());
   menu_entry_set_sensitive(map, "INFRA_DLG", terrain_control.infrapoints);
+
+  menu_entry_set_sensitive(map, "POLICIES", multiplier_count() > 0);
 
 #ifdef MENUS_GTK3
 
@@ -3805,8 +3807,6 @@ void real_menus_init(void)
   menu_entry_set_sensitive("TAX_RATE",
                            game.info.changable_tax
                            && can_client_issue_orders());
-  menu_entry_set_sensitive("POLICIES",
-                           multiplier_count() > 0);
 
   menu_entry_set_active("SHOW_CITY_OUTLINES",
                         gui_options.draw_city_outlines);
