@@ -1927,7 +1927,7 @@ void fc__noreturn server_quit(void)
 void handle_report_req(struct connection *pconn, enum report_type type)
 {
   struct conn_list *dest = pconn->self;
-  
+
   if (S_S_RUNNING != server_state() && S_S_OVER != server_state()) {
     log_error("Got a report request %d before game start", type);
     return;
@@ -1941,6 +1941,9 @@ void handle_report_req(struct connection *pconn, enum report_type type)
   switch (type) {
   case REPORT_WONDERS_OF_THE_WORLD:
     report_wonders_of_the_world(dest);
+    return;
+  case REPORT_WONDERS_OF_THE_WORLD_LONG:
+    report_wonders_of_the_world_long(dest);
     return;
   case REPORT_TOP_CITIES:
     report_top_cities(dest);

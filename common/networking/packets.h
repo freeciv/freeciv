@@ -81,6 +81,7 @@ do {                                                    \
 /* Used in network protocol. */
 enum report_type {
   REPORT_WONDERS_OF_THE_WORLD,
+  REPORT_WONDERS_OF_THE_WORLD_LONG,
   REPORT_TOP_CITIES,
   REPORT_DEMOGRAPHIC,
   REPORT_ACHIEVEMENTS
@@ -229,4 +230,4 @@ bool packet_check(struct data_in *din, struct connection *pc);
 }
 #endif /* __cplusplus */
 
-#endif  /* FC__PACKETS_H */
+#endif /* FC__PACKETS_H */

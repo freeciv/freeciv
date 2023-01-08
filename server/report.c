@@ -411,6 +411,120 @@ void report_top_cities(struct conn_list *dest)
   Send report listing all built and destroyed wonders, and wonders
   currently being built.
 **************************************************************************/
+void report_wonders_of_the_world_long(struct conn_list *dest)
+{
+  char buffer[4096];
+  const char *separator = "\n";
+  struct strvec *wonderlist = strvec_new();
+
+  buffer[0] = '\0';
+
+  /* Sort by players and cities */
+  players_iterate(pplayer) {
+    int n = 0;
+
+    city_list_iterate(pplayer->cities, pcity) {
+      int w = 0;
+
+      city_built_iterate(pcity, i) {
+        if (is_great_wonder(i)) {
+          w++;
+          n++;
+
+          if (player_count() > team_count()) {
+            /* There exists a team with more than one member. */
+            char team_name[2 * MAX_LEN_NAME];
+
+            team_pretty_name(city_owner(pcity)->team, team_name,
+                             sizeof(team_name));
+            cat_snprintf(buffer, sizeof(buffer),
+                         /* TRANS: "Colossus in Rhodes (Greek, team 2)". */
+                         _("%s in %s (%s, %s)\n"),
+                         city_improvement_name_translation(pcity, i),
+                         city_name_get(pcity),
+                         _(nation_adjective_for_player(pplayer)),
+                         team_name);
+          } else {
+            cat_snprintf(buffer, sizeof(buffer), _("%s in %s (%s)\n"),
+                         city_improvement_name_translation(pcity, i),
+                         city_name_get(pcity),
+                         _(nation_adjective_for_player(pplayer)));
+          }
+        } /* endif is_great_wonder */
+      } city_built_iterate_end;
+
+      if (w != 0) {
+        cat_snprintf(buffer, sizeof(buffer), "\n");
+      }
+    } city_list_iterate_end;
+  } players_iterate_end;
+
+  cat_snprintf(buffer, sizeof(buffer), "----------------------------\n");
+
+  /* Find destroyed wonders */
+  improvement_iterate(imp) {
+    if (is_great_wonder(imp)) {
+      if (great_wonder_is_destroyed(imp)) {
+        cat_snprintf(buffer, sizeof(buffer), _("%s has been DESTROYED\n"),
+                     improvement_name_translation(imp));
+      }
+    }
+  } improvement_iterate_end;
+
+  /* Blank line */
+  cat_snprintf(buffer, sizeof(buffer), "----------------------------\n");
+
+  /* Copy buffer into list before "building %s in ...."
+     because all "building %s" would be sorted at the same letter b */
+
+  strvec_from_str(wonderlist, *separator, buffer);
+
+  improvement_iterate(i) {
+    if (is_great_wonder(i)) {
+      players_iterate(pplayer) {
+        city_list_iterate(pplayer->cities, pcity) {
+          if (VUT_IMPROVEMENT == pcity->production.kind
+           && pcity->production.value.building == i) {
+            if (player_count() > team_count()) {
+              /* There exists a team with more than one member. */
+              char team_name[2 * MAX_LEN_NAME];
+
+              team_pretty_name(city_owner(pcity)->team, team_name,
+                               sizeof(team_name));
+              cat_snprintf(buffer, sizeof(buffer),
+                           /* TRANS: "([...] (Roman, team 4))". */
+                           _("(building %s in %s (%s, %s))\n"),
+                           improvement_name_translation(i), city_name_get(pcity),
+                           _(nation_adjective_for_player(pplayer)), team_name);
+            } else {
+              cat_snprintf(buffer, sizeof(buffer),
+                           _("(building %s in %s (%s))\n"),
+                           improvement_name_translation(i), city_name_get(pcity),
+                           _(nation_adjective_for_player(pplayer)));
+            }
+          }
+        } city_list_iterate_end;
+      } players_iterate_end;
+    }
+  } improvement_iterate_end;
+
+  /* Show again all wonders, sorted alphabetically */
+  /* The separator line will be the first one, no need to add another one */
+  strvec_remove_duplicate(wonderlist, strcmp);
+  strvec_sort(wonderlist, compare_strings_strvec);
+
+  strvec_iterate(wonderlist,wonder) {
+    cat_snprintf(buffer, sizeof(buffer), "%s\n", wonder);
+  } strvec_iterate_end;
+
+  page_conn(dest, _("Traveler's Report:"),
+            _("Wonders of the World"), buffer);
+}
+
+/**********************************************************************//**
+  Send report listing all built and destroyed wonders, and wonders
+  currently being built.
+**************************************************************************/
 void report_wonders_of_the_world(struct conn_list *dest)
 {
   char buffer[4096];
@@ -482,7 +596,7 @@ void report_wonders_of_the_world(struct conn_list *dest)
 }
 
 /**************************************************************************
- Helper functions which return the value for the given player.
+  Helper functions which return the value for the given player.
 **************************************************************************/
 
 /**********************************************************************//**
