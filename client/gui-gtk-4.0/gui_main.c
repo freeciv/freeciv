@@ -85,6 +85,7 @@
 #include "graphics.h"
 #include "gui_stuff.h"
 #include "happiness.h"
+#include "helpdlg.h"
 #include "inteldlg.h"
 #include "mapctrl.h"
 #include "mapview.h"
@@ -1868,6 +1869,8 @@ static void activate_gui(GtkApplication *app, gpointer data)
 
   gtk_widget_realize(toplevel);
   gtk_widget_set_name(toplevel, "Freeciv");
+
+  help_system_init();
 
   dlg_tab_provider_prepare();
 
