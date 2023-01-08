@@ -506,13 +506,13 @@ static void city_sum_add_real(struct city_sum *sum, double value,
 {
   size_t i;
 
-  /* likely to lead to quadratic behaviour, but who cares: */
+  /* Likely to lead to quadratic behaviour, but who cares: */
   for (i = 0; i < sum->n; i++) {
     fc_assert(sum->sums != NULL);
     if ((strcmp(sum->sums[i].posdesc, posdesc) == 0)
         && (strcmp(sum->sums[i].negdesc, negdesc) == 0)
         && ((sum->sums[i].auxfmt == auxfmt)
-            || (strcmp(sum->sums[i].auxfmt, auxfmt) == 0))
+            || (auxfmt != NULL && !strcmp(sum->sums[i].auxfmt, auxfmt)))
         && sum->sums[i].suppress_if_zero == suppress_if_zero) {
       /* Looks like we already have an entry like this. Accumulate values. */
       sum->sums[i].value += value;
