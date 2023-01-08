@@ -66,9 +66,9 @@ endif
 
 all: all-$(WINARCH)
 
-all-win64: gtk3.22-installer sdl2-installer gtk4-installer qt5-installer
+all-win64: gtk3.22-installer sdl2-installer gtk4-installer qt5-installer ruledit-installer-qt5
 
-all-win32: gtk3.22-installer sdl2-installer gtk4-installer qt5-installer
+all-win32: gtk3.22-installer sdl2-installer gtk4-installer qt5-installer ruledit-installer-qt5
 
 all-win64-10: gtk3.22-installer sdl2-installer gtk4-installer qt6-installer ruledit-installer-qt6
 
@@ -93,10 +93,13 @@ qt5-installer:
 	make -f $(MAKEFILE_NAME) EXTRA_CONFIG="-Dqtver=qt5 $(EXTRA_CONFIG)" GUI=qt5 CLIENT=qt FCMP=qt installer-common
 
 qt6-installer:
-	make -f $(MAKEFILE_NAME) EXTRA_CONFIG="-Ddebug=false $(EXTRA_CONFIG)" GUI=qt6 CLIENT=qt FCMP=qt installer-common
+	make -f $(MAKEFILE_NAME) EXTRA_CONFIG="-Ddebug=false -Dqtver=qt6 $(EXTRA_CONFIG)" GUI=qt6 CLIENT=qt FCMP=qt installer-common
+
+ruledit-installer-qt5:
+	make -f $(MAKEFILE_NAME) EXTRA_CONFIG="-Ddebug=false -Dqtver=qt5 $(EXTRA_CONFIG)" GUI=qt5 installer-ruledit-common
 
 ruledit-installer-qt6:
-	make -f $(MAKEFILE_NAME) EXTRA_CONFIG="-Ddebug=false $(EXTRA_CONFIG)" GUI=qt6 installer-ruledit-common
+	make -f $(MAKEFILE_NAME) EXTRA_CONFIG="-Ddebug=false -Dqtver=qt6 $(EXTRA_CONFIG)" GUI=qt6 installer-ruledit-common
 
 gtk3.22-install:
 	make -f $(MAKEFILE_NAME) GUI=gtk3.22 CLIENT=gtk3.22 FCMP=gtk3 install-freeciv-gtk3.22
@@ -349,6 +352,23 @@ installer-ruledit-common: install-ruledit-$(GUI)
 	mkdir -p $(OUT_DIR)
 	makensis Freeciv-meson-$(WINARCH)-$(FREECIV_VERSION)-ruledit-$(GUI).nsi
 
+RULEDIT_QT5_DLLS := \
+	libmd4c.dll \
+	libdouble-conversion.dll \
+	libicuin${ICUVER}.dll \
+	libpcre2-16-0.dll \
+	Qt5Core.dll \
+	Qt5Gui.dll \
+	Qt5Widgets.dll
+
+install-ruledit-qt5: install-ruledit-common
+	# Add DLLs
+	cp -R $(addprefix $(DLLPATH_PREFIX), $(RULEDIT_QT5_DLLS)) meson-install-$(WINARCH)-ruledit-$(GUI)/
+	# Add additional Qt5 files
+	cp -R /$(ARCHDIR)/share/qt5/plugins meson-install-$(WINARCH)-ruledit-$(GUI)/
+	cp -R /usr/share/locale meson-install-$(WINARCH)-ruledit-$(GUI)/share/
+	find meson-install-$(WINARCH)-ruledit-$(GUI)/share/locale -type f -not -name "freeciv-*.mo" -delete
+
 RULEDIT_QT6_DLLS := \
 	libmd4c.dll \
 	libdouble-conversion.dll \
@@ -389,4 +409,5 @@ clean:
 	make -f $(MAKEFILE_NAME) GUI=sdl2 clean-build-common clean-install-common clean-installer-common
 	make -f $(MAKEFILE_NAME) GUI=qt5 clean-build-common clean-install-common clean-installer-common
 	make -f $(MAKEFILE_NAME) GUI=qt6 clean-build-common clean-install-common clean-installer-common
+	make -f $(MAKEFILE_NAME) GUI=qt5 clean-build-common clean-install-common clean-ruledit-common
 	make -f $(MAKEFILE_NAME) GUI=qt6 clean-build-common clean-install-common clean-ruledit-common
