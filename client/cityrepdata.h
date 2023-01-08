@@ -25,33 +25,20 @@ extern "C" {
 #define NUM_CREPORT_COLS (num_city_report_spec())
 
 struct city_report_spec {
-  bool show;			/* modify this to customize */
-  int width;			/* 0 means variable; rightmost only */
-  int space;			/* number of leading spaces (see below) */
-  const char *title1;		/* already translated or NULL */
-  const char *title2;		/* already translated or NULL */
-  const char *explanation;	/* already translated */ 
+  bool show;            	/* Modify this to customize */
+  int width;                    /* 0 means variable; rightmost only */
+  const char *title1;           /* Already translated or NULL */
+  const char *title2;           /* Already translated or NULL */
+  const char *explanation;      /* Already translated */
   void *data;
   const char *(*func)(const struct city * pcity, const void *data);
-  const char *tagname;		/* for save_options */
+  const char *tagname;          /* For save_options */
 };
 
 extern struct city_report_spec *city_report_specs;
 
 /* Use tagname rather than index for load/save, because later
    additions won't necessarily be at the end.
-*/
-
-/* Note on space: you can do spacing and alignment in various ways;
-   you can avoid explicit space between columns if they are bracketted,
-   but the problem is that with a configurable report you don't know
-   what's going to be next to what.
-   
-   Here specify width, and leading space, although different clients
-   may interpret these differently (gui-gtk ignore space
-   field, handling columns without additional spacing).
-   For some clients negative width means left justified (gui-gtk
-   always treats width as negative).
 */
 
 /* Following are wanted to save/load options; use wrappers rather
@@ -74,4 +61,4 @@ bool can_city_sell_universal(const struct city *pcity,
 }
 #endif /* __cplusplus */
 
-#endif  /* FC__CITYREPDATA_H */
+#endif /* FC__CITYREPDATA_H */
