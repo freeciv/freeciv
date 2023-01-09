@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
  This program is free software; you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
@@ -128,21 +128,21 @@ public:
   static void invoke(_member_fct_ function, _arg1_t_ arg1, _arg2_t_ arg2);
 };
 
-/***************************************************************************
+/***********************************************************************//**
   Macro to declare the static data needed by listener<> classes
 ***************************************************************************/
 #define FC_CPP_DECLARE_LISTENER(_type_) \
   template<> \
   std::set<_type_ *> listener<_type_>::instances = std::set<_type_ *>();
 
-/***************************************************************************
+/***********************************************************************//**
   Constructor
 ***************************************************************************/
 template<class _type_>
 listener<_type_>::listener()
 {}
 
-/***************************************************************************
+/***********************************************************************//**
   Starts listening to events
 ***************************************************************************/
 template<class _type_>
@@ -153,7 +153,7 @@ void listener<_type_>::listen()
   instances.insert(static_cast<type_t *>(this));
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Destructor
 ***************************************************************************/
 template<class _type_>
@@ -162,7 +162,7 @@ listener<_type_>::~listener()
   instances.erase(reinterpret_cast<type_t *>(this));
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Invokes a member function on all instances of an listener type. Template
   parameters are meant to be automatically deduced.
 
@@ -181,7 +181,7 @@ void listener<_type_>::invoke(_member_fct_ function)
   }
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Invokes a member function on all instances of an listener type. Template
   parameters are meant to be automatically deduced.
 
@@ -201,7 +201,7 @@ void listener<_type_>::invoke(_member_fct_ function, _arg1_t_ arg)
   }
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Invokes a member function on all instances of an listener type. Template
   parameters are meant to be automatically deduced.
 
