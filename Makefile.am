@@ -84,6 +84,7 @@ EXTRA_DIST =	autogen.sh 			\
 		meson_options.txt		\
 		platforms/flatpak/build_flatpak.sh	\
 		platforms/flatpak/org.freeciv.gtk322.yml	\
+		platforms/flatpak/org.freeciv.gtk4.yml	\
 		platforms/flatpak/org.freeciv.mp.gtk3.yml	\
 		platforms/flatpak/org.freeciv.qt.yml	\
 		platforms/flatpak/org.freeciv.sdl2.yml	\
