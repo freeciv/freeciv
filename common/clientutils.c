@@ -63,8 +63,6 @@ static void calc_activity(struct actcalc *calc, const struct tile *ptile,
 
   t = fc_calloc(1, sizeof(*t));
 
-  memset(calc, 0, sizeof(*calc));
-
   /* Contributions from real units */
   unit_list_iterate(ptile->units, punit) {
     Activity_type_id act = punit->activity;
@@ -127,51 +125,61 @@ static void calc_activity(struct actcalc *calc, const struct tile *ptile,
   activity_type_iterate(act) {
     int remains, turns;
 
-    extra_type_iterate(ep) {
-      int ei = extra_index(ep);
-
-      {
+    if (is_build_activity(act)) {
+      extra_type_iterate(ep) {
+        int ei = extra_index(ep);
         int units_total = t->extra_units[ei][act];
 
         if (units_total > 0) {
           remains
-              = tile_activity_time(act, ptile, ep)- t->extra_total[ei][act];
+            = tile_activity_time(act, ptile, ep)- t->extra_total[ei][act];
           if (remains > 0) {
             turns = 1 + (remains + units_total - 1) / units_total;
           } else {
-            /* extra will be finished this turn */
+            /* Extra will be finished this turn */
             turns = 1;
           }
-          calc->extra_turns[ei][act] = turns;
+        } else {
+          turns = 0;
         }
-      }
-      {
+
+        calc->extra_turns[ei][act] = turns;
+      } extra_type_iterate_end;
+    } else if (is_clean_activity(act)) {
+      extra_type_iterate(ep) {
+        int ei = extra_index(ep);
         int units_total = t->rmextra_units[ei][act];
 
         if (units_total > 0) {
           remains
-              = tile_activity_time(act, ptile, ep) - t->rmextra_total[ei][act];
+            = tile_activity_time(act, ptile, ep) - t->rmextra_total[ei][act];
           if (remains > 0) {
             turns = 1 + (remains + units_total - 1) / units_total;
           } else {
-            /* extra will be removed this turn */
+            /* Extra will be removed this turn */
             turns = 1;
           }
-          calc->rmextra_turns[ei][act] = turns;
+        } else {
+          turns = 0;
         }
-      }
-    } extra_type_iterate_end;
 
-    int units_total = t->activity_units[act];
+        calc->rmextra_turns[ei][act] = turns;
+      } extra_type_iterate_end;
+    } else {
+      int units_total = t->activity_units[act];
 
-    if (units_total > 0) {
-      remains = tile_activity_time(act, ptile, NULL) - t->activity_total[act];
-      if (remains > 0) {
-        turns = 1 + (remains + units_total - 1) / units_total;
+      if (units_total > 0) {
+        remains = tile_activity_time(act, ptile, NULL) - t->activity_total[act];
+        if (remains > 0) {
+          turns = 1 + (remains + units_total - 1) / units_total;
+        } else {
+          /* Activity will be finished this turn */
+          turns = 1;
+        }
       } else {
-        /* activity will be finished this turn */
-        turns = 1;
+        turns = 0;
       }
+
       calc->activity_turns[act] = turns;
     }
   } activity_type_iterate_end;
@@ -210,7 +218,8 @@ int turns_to_activity_done(const struct tile *ptile,
     turns = calc->activity_turns[act];
   }
 
-  FC_FREE(calc);
+  free(calc);
+
   return turns;
 }
 
@@ -305,7 +314,7 @@ const char *concat_tile_activity_text(struct tile *ptile)
     }
   } activity_type_iterate_end;
 
-  FC_FREE(calc);
+  free(calc);
 
   return astr_str(&str);
 }
