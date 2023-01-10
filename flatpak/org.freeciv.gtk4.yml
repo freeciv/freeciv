@@ -1,0 +1,23 @@
+app-id: org.freeciv.gtk4
+runtime: org.gnome.Platform
+runtime-version: '42'
+sdk: org.gnome.Sdk
+command: freeciv-gtk4
+rename-icon: freeciv-client
+modules:
+  - name: freeciv-gtk4
+    buildsystem: simple
+    build-commands:
+      # On git clone, regenerate configure with autogen.sh
+      - if test -f ./.git && test -x ./autogen.sh ; then ./autogen.sh --no-configure-run ; fi
+      - mkdir build
+      - cd build && ../configure --prefix=/app --enable-client=gtk4 --disable-fcmp --disable-freeciv-manual && make -j$(nproc) && make install
+    sources:
+      - type: dir
+        path: ..
+finish-args:
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --share=network
+  - --socket=pulseaudio
+  - --filesystem=~/.freeciv:create
