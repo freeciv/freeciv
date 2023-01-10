@@ -751,11 +751,20 @@ void player_destroy(struct player *pplayer)
   conn_list_destroy(pplayer->connections);
 
   players_iterate(aplayer) {
-    /* destroy the diplomatics states of this player with others ... */
+    /* Destroy the diplomatic states of this player with others ... */
     player_diplstate_destroy(pplayer, aplayer);
-    /* and of others with this player. */
+    /* ...and of others with this player. */
     if (aplayer != pplayer) {
       player_diplstate_destroy(aplayer, pplayer);
+
+      /* Check if any cities of the other player have been founded
+       * by the removed player. */
+      city_list_iterate(aplayer->cities, pcity) {
+        if (pcity->original == pplayer) {
+          /* Current owner is a sane value, at least */
+          pcity->original = aplayer;
+        }
+      } city_list_iterate_end;
     }
   } players_iterate_end;
   free(pplayer->diplstates);
