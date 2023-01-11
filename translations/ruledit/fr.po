@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 3.0\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2022-12-10 04:12+0200\n"
+"POT-Creation-Date: 2023-01-03 08:08+0100\n"
 "PO-Revision-Date: 2022-09-22 11:21+0200\n"
 "Last-Translator: Igx <igx31 hotmail.com>\n"
 "Language-Team: French <freeciv-l10n-fr@yahoogroupes.fr>\n"
@@ -127,50 +127,50 @@ msgstr "Suppression de %s"
 msgid "Needed by %s"
 msgstr "Nécessaire pour %s"
 
-#: tools/ruledit/ruledit.cpp:118
+#: tools/ruledit/ruledit.cpp:120
 msgid "Failed to load comments.txt"
 msgstr "Impossible de charger comments.txt"
 
-#: tools/ruledit/ruledit.cpp:152
+#: tools/ruledit/ruledit.cpp:153
 msgid "Print a summary of the options"
 msgstr "Imprimer un résumé des options"
 
-#: tools/ruledit/ruledit.cpp:154
+#: tools/ruledit/ruledit.cpp:155
 msgid "Print the version number"
 msgstr "Imprimer le numéro de version"
 
 #. TRANS: argument (don't translate) VALUE (translate)
-#: tools/ruledit/ruledit.cpp:157
+#: tools/ruledit/ruledit.cpp:158
 msgid "ruleset RULESET"
 msgstr "ruleset REGLES-DU-JEU"
 
-#: tools/ruledit/ruledit.cpp:158
+#: tools/ruledit/ruledit.cpp:159
 msgid "Ruleset to use as the starting point."
 msgstr "Les règles du jeu à utiliser comme point de départ."
 
 #. TRANS: "Fatal" is exactly what user must type, do not translate.
-#: tools/ruledit/ruledit.cpp:162
+#: tools/ruledit/ruledit.cpp:163
 msgid "Fatal [SIGNAL]"
 msgstr "Fatal [SIGNAL]"
 
-#: tools/ruledit/ruledit.cpp:163
+#: tools/ruledit/ruledit.cpp:164
 msgid "Raise a signal on failed assertion"
 msgstr "Lever un signal sur une assertion échouée"
 
-#: tools/ruledit/ruledit.cpp:177
+#: tools/ruledit/ruledit.cpp:178
 msgid "Can only edit one ruleset at a time.\n"
 msgstr "Ne peut éditer qu'une règle du jeu à la fois.\n"
 
-#: tools/ruledit/ruledit.cpp:188
+#: tools/ruledit/ruledit.cpp:189
 #, c-format
 msgid "Invalid signal number \"%s\".\n"
 msgstr "Numéro de signal invalide \"%s\".\n"
 
-#: tools/ruledit/ruledit.cpp:190
+#: tools/ruledit/ruledit.cpp:191
 msgid "Try using --help.\n"
 msgstr "Essayez d'utiliser --help.\n"
 
-#: tools/ruledit/ruledit.cpp:197
+#: tools/ruledit/ruledit.cpp:198
 #, c-format
 msgid "Unrecognized option: \"%s\"\n"
 msgstr "Option non reconnue \"%s\"\n"
