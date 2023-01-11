@@ -2092,19 +2092,19 @@ is_action_possible(const action_id wanted_action,
   enum fc_tristate out;
   struct action *paction;
 
-  fc_assert_msg((action_id_get_target_kind(wanted_action) == ATK_CITY
-                 && target_city != NULL)
-                || (action_id_get_target_kind(wanted_action) == ATK_TILE
-                    && target_tile != NULL)
-                || (action_id_get_target_kind(wanted_action) == ATK_UNIT
-                    && target_unit != NULL)
-                || (action_id_get_target_kind(wanted_action) == ATK_UNITS
-                    /* At this level each individual unit is tested. */
-                    && target_unit != NULL)
-                || (action_id_get_target_kind(wanted_action) == ATK_SELF),
-                "Missing target!");
-
   paction = action_by_number(wanted_action);
+
+#ifndef FREECIV_NDEBUG
+  enum action_target_kind tkind = action_get_target_kind(paction);
+#endif
+
+  fc_assert_msg((tkind == ATK_CITY && target_city != NULL)
+                || (tkind == ATK_TILE && target_tile != NULL)
+                || (tkind == ATK_UNIT && target_unit != NULL)
+                /* At this level each individual unit is tested. */
+                || (tkind == ATK_UNITS && target_unit != NULL)
+                || (tkind == ATK_SELF),
+                "Missing target!");
 
   /* Only check requirement against the target unit if the actor can see it
    * or if the evaluator is omniscient. The game checking the rules is
