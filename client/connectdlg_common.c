@@ -5,7 +5,7 @@
    the Free Software Foundation; either version 2, or (at your option)
    any later version.
 
-   This program is distributed in the hope that it will be useful, 
+   This program is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
@@ -28,11 +28,11 @@
 #endif
 
 #ifdef FREECIV_HAVE_SYS_TYPES_H
-#include <sys/types.h>		/* fchmod */
+#include <sys/types.h>          /* fchmod */
 #endif
 
 #ifdef HAVE_SYS_STAT_H
-#include <sys/stat.h>		/* fchmod */
+#include <sys/stat.h>           /* fchmod */
 #endif
 
 #ifdef HAVE_SYS_WAIT_H
@@ -58,7 +58,7 @@
 #include "attribute.h"
 #include "client_main.h"
 #include "climisc.h"
-#include "clinet.h"		/* connect_to_server() */
+#include "clinet.h"             /* connect_to_server() */
 #include "packhand_gen.h"
 
 #include "chatline_common.h"
@@ -93,20 +93,20 @@ static bool client_has_hack = FALSE;
 
 int internal_server_port;
 
-/************************************************************************** 
-The general chain of events:
+/**************************************************************************
+  The general chain of events:
 
-Two distinct paths are taken depending on the choice of mode: 
+  Two distinct paths are taken depending on the choice of mode:
 
-if the user selects the multi- player mode, then a packet_req_join_game
-packet is sent to the server. It is either successful or not. The end.
+  If the user selects the multi-player mode, then a packet_req_join_game
+  packet is sent to the server. It is either successful or not. The end.
 
-If the user selects a single- player mode (either a new game or a save game)
-then:
+  If the user selects a single-player mode (either a new game or a save game)
+  then:
    1. the packet_req_join_game is sent.
    2. on receipt, if we can join, then a challenge packet is sent to the
       server, so we can get hack level control.
-   3. if we can't get hack, then we get dumped to multi- player mode. If
+   3. if we can't get hack, then we get dumped to multi-player mode. If
       we can, then:
       a. for a new game, we send a series of packet_generic_message packets
          with commands to start the game.
@@ -146,7 +146,7 @@ bool can_client_access_hack(void)
 /**********************************************************************//**
   Kills the server if the client has started it.
 
-  If the 'force' parameter is unset, we just do a /quit.  If it's set, then
+  If the 'force' parameter is unset, we just do a /quit. If it's set, then
   we'll send a signal to the server to kill it (use this when the socket
   is disconnected already).
 **************************************************************************/
@@ -183,9 +183,9 @@ void client_kill_server(bool force)
       /* This does a "soft" shutdown of the server by sending a /quit.
        *
        * This is useful when closing the client or disconnecting because it
-       * doesn't kill the server prematurely.  In particular, killing the
+       * doesn't kill the server prematurely. In particular, killing the
        * server in the middle of a save can have disastrous results.  This
-       * method tells the server to quit on its own.  This is safer from a
+       * method tells the server to quit on its own. This is safer from a
        * game perspective, but more dangerous because if the kill fails the
        * server will be left running.
        *
@@ -206,7 +206,7 @@ void client_kill_server(bool force)
       TerminateProcess(server_process, 0);
       CloseHandle(server_process);
       if (loghandle != INVALID_HANDLE_VALUE) {
-	CloseHandle(loghandle);
+        CloseHandle(loghandle);
       }
       server_process = INVALID_HANDLE_VALUE;
       loghandle = INVALID_HANDLE_VALUE;
@@ -215,7 +215,7 @@ void client_kill_server(bool force)
     }
   }
   client_has_hack = FALSE;
-}   
+}
 
 /**********************************************************************//**
   Forks a server if it can. Returns FALSE if we find we
@@ -264,13 +264,13 @@ bool client_start_server(void)
   enum fc_addr_family family = FC_ADDR_IPV4;
 #endif /* FREECIV_IPV6_SUPPORT */
 
-  /* only one server (forked from this client) shall be running at a time */
+  /* Only one server (forked from this client) shall be running at a time */
   /* This also resets client_has_hack. */
   client_kill_server(TRUE);
 
   output_window_append(ftc_client, _("Starting local server..."));
 
-  /* find a free port */
+  /* Find a free port */
   /* Mitigate the risk of ending up with the port already
    * used by standalone server on Windows where this is known to be buggy
    * by not starting from DEFAULT_SOCK_PORT but from one higher. */
@@ -373,9 +373,9 @@ bool client_start_server(void)
     if (server_pid == 0) {
       int fd;
 
-      /* inside the child */
+      /* Inside the child */
 
-      /* avoid terminal spam, but still make server output available */ 
+      /* Avoid terminal spam, but still make server output available */
       fclose(stdout);
       fclose(stderr);
 
@@ -405,7 +405,7 @@ bool client_start_server(void)
         dup2(fd, 0);
       }
 
-      /* these won't return on success */
+      /* These won't return on success */
 #ifdef FREECIV_DEBUG
       /* Search under current directory (what ever that happens to be)
        * only in debug builds. This allows running freeciv directly from build
@@ -429,11 +429,11 @@ bool client_start_server(void)
       execvp("freeciv-server", argv);
 #endif /* FREECIV_WEB */
 
-      /* This line is only reached if freeciv-server cannot be started, 
+      /* This line is only reached if freeciv-server cannot be started,
        * so we kill the forked process.
-       * Calling exit here is dangerous due to X11 problems (async replies) */ 
+       * Calling exit here is dangerous due to X11 problems (async replies) */
       _exit(1);
-    } 
+    }
   }
 #else /* HAVE_USABLE_FORK */
 #ifdef FREECIV_MSWINDOWS
@@ -441,7 +441,7 @@ bool client_start_server(void)
     loghandle = CreateFile(logfile, GENERIC_WRITE,
                            FILE_SHARE_READ | FILE_SHARE_WRITE,
                            NULL,
-			   OPEN_ALWAYS, 0, NULL);
+                           OPEN_ALWAYS, 0, NULL);
   }
 
   ZeroMemory(&si, sizeof(si));
@@ -456,7 +456,7 @@ bool client_start_server(void)
   scriptcmdline[0] = 0;
   savefilecmdline[0] = 0;
 
-  /* the server expects command line arguments to be in local encoding */ 
+  /* The server expects command line arguments to be in local encoding */
   if (logfile) {
     char *logfile_in_local_encoding =
         internal_to_local_string_malloc(logfile);
@@ -565,8 +565,8 @@ bool client_start_server(void)
 #endif /* FREECIV_MSWINDOWS */
 #endif /* HAVE_USABLE_FORK */
 
-  /* a reasonable number of tries */ 
-  while (connect_to_server(user_name, "localhost", internal_server_port, 
+  /* A reasonable number of tries */
+  while (connect_to_server(user_name, "localhost", internal_server_port,
                            buf, sizeof(buf)) == -1) {
     fc_usleep(WAIT_BETWEEN_TRIES);
 #ifdef HAVE_USABLE_FORK
@@ -582,10 +582,10 @@ bool client_start_server(void)
     }
   }
 
-  /* weird, but could happen, if server doesn't support new startup stuff
-   * capabilities won't help us here... */ 
+  /* Weird, but could happen, if server doesn't support new startup stuff
+   * capabilities won't help us here... */
   if (!client.conn.used) {
-    /* possible that server is still running. kill it */ 
+    /* Possible that server is still running. kill it */
     client_kill_server(TRUE);
 
     log_error("Failed to connect to spawned server!");
@@ -601,18 +601,18 @@ bool client_start_server(void)
   /* We set the topology to match the view.
    *
    * When a typical player launches a game, they want the map orientation
-   * to match the tileset orientation.  So if you use an isometric tileset,
+   * to match the tileset orientation. So if you use an isometric tileset,
    * you get an iso-map and for a classic tileset you get a classic map.
    * In both cases the map wraps in the X direction by default.
    *
-   * This works with hex maps too now.  A hex map always has
-   * tileset_is_isometric(tileset) return TRUE.  An iso-hex map has
+   * This works with hex maps too now. A hex map always has
+   * tileset_is_isometric(tileset) return TRUE. An iso-hex map has
    * tileset_hex_height(tileset) != 0, while a non-iso hex map
    * has tileset_hex_width(tileset) != 0.
    *
    * Setting the option here is a bit of a hack, but so long as the client
    * has sufficient permissions to do so (it doesn't have HACK access yet) it
-   * is safe enough.  Note that if you load a savegame the topology will be
+   * is safe enough. Note that if you load a savegame the topology will be
    * set but then overwritten during the load.
    *
    * Don't send it now, it will be sent to the server when receiving the
@@ -703,7 +703,7 @@ void send_client_wants_hack(const char *filename)
 **************************************************************************/
 void handle_single_want_hack_reply(bool you_have_hack)
 {
-  /* remove challenge file */
+  /* Remove challenge file */
   if (challenge_fullname[0] != '\0') {
     if (fc_remove(challenge_fullname) == -1) {
       log_error("Couldn't remove temporary file: %s", challenge_fullname);
@@ -717,7 +717,7 @@ void handle_single_want_hack_reply(bool you_have_hack)
                            "You have command access level 'hack'."));
     client_has_hack = TRUE;
   } else if (is_server_running()) {
-    /* only output this if we started the server and we NEED hack */
+    /* Only output this if we started the server and we NEED hack */
     output_window_append(ftc_client,
                          _("Failed to obtain the required access "
                            "level to take control of the server. "
@@ -755,7 +755,7 @@ void handle_ruleset_choices(const struct packet_ruleset_choices *packet)
     rulesets[i] = fc_strdup(packet->rulesets[i]);
 
     if (len > suf_len
-	&& strcmp(rulesets[i] + len - suf_len, RULESET_SUFFIX) == 0) {
+        && strcmp(rulesets[i] + len - suf_len, RULESET_SUFFIX) == 0) {
       rulesets[i][len - suf_len] = '\0';
     }
   }
