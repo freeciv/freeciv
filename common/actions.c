@@ -3679,7 +3679,11 @@ is_action_possible(const action_id wanted_action,
   bool can_see_tgt_tile;
   enum fc_tristate out;
   struct terrain *pterrain;
-  struct action *paction;
+  struct action *paction = action_by_number(wanted_action);
+
+#ifndef FREECIV_NDEBUG
+  enum action_target_kind tkind = action_get_target_kind(paction);
+#endif
 
   if (actor == NULL) {
     actor = req_context_empty();
@@ -3688,21 +3692,14 @@ is_action_possible(const action_id wanted_action,
     target = req_context_empty();
   }
 
-  fc_assert_msg((action_id_get_target_kind(wanted_action) == ATK_CITY
-                 && target->city != NULL)
-                || (action_id_get_target_kind(wanted_action) == ATK_TILE
-                    && target->tile != NULL)
-                || (action_id_get_target_kind(wanted_action) == ATK_EXTRAS
-                    && target->tile != NULL)
-                || (action_id_get_target_kind(wanted_action) == ATK_UNIT
-                    && target->unit != NULL)
-                || (action_id_get_target_kind(wanted_action) == ATK_UNITS
-                    /* At this level each individual unit is tested. */
-                    && target->unit != NULL)
-                || (action_id_get_target_kind(wanted_action) == ATK_SELF),
+  fc_assert_msg((tkind == ATK_CITY && target->city != NULL)
+                || (tkind == ATK_TILE && target->tile != NULL)
+                || (tkind == ATK_EXTRAS && target->tile != NULL)
+                || (tkind == ATK_UNIT && target->unit != NULL)
+                /* At this level each individual unit is tested. */
+                || (tkind == ATK_UNITS && target->unit != NULL)
+                || (tkind == ATK_SELF),
                 "Missing target!");
-
-  paction = action_by_number(wanted_action);
 
   /* Only check requirement against the target unit if the actor can see it
    * or if the evaluator is omniscient. The game checking the rules is
@@ -3718,7 +3715,7 @@ is_action_possible(const action_id wanted_action,
                       || plr_sees_tile(actor->player, target->tile));
 
   /* Info leak: The player knows where their unit is. */
-  if (action_get_target_kind(paction) != ATK_SELF
+  if (tkind != ATK_SELF
       && !action_distance_accepted(paction,
                                    real_map_distance(actor->tile,
                                                      target->tile))) {
@@ -3727,7 +3724,7 @@ is_action_possible(const action_id wanted_action,
     return TRI_NO;
   }
 
-  switch (action_get_target_kind(paction)) {
+  switch (tkind) {
   case ATK_UNIT:
     /* The Freeciv code for all actions that is controlled by action
      * enablers and targets a unit assumes that the acting
@@ -3758,7 +3755,7 @@ is_action_possible(const action_id wanted_action,
     /* No special player knowledge checks. */
     break;
   case ATK_COUNT:
-    fc_assert(action_get_target_kind(paction) != ATK_COUNT);
+    fc_assert(tkind != ATK_COUNT);
     break;
   }
 
