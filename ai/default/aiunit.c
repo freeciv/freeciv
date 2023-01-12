@@ -339,9 +339,9 @@ int kill_desire(int benefit, int attack, int loss, int vuln, int victim_count)
 {
   int desire;
 
-  /*         attractiveness     danger */ 
-  desire = ((benefit * attack - loss * vuln) * victim_count * SHIELD_WEIGHTING
-            / (attack + vuln * victim_count));
+  /*                       attractiveness     danger */
+  desire = (unsigned int) (benefit * attack - loss * vuln) * victim_count *
+           SHIELD_WEIGHTING / (attack + vuln * victim_count);
 
   return desire;
 }
