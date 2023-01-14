@@ -3466,7 +3466,7 @@ void mr_menu::slot_top_cities()
 **************************************************************************/
 void mr_menu::slot_traveler()
 {
-  send_report_request(REPORT_WONDERS_OF_THE_WORLD);
+  send_report_request(REPORT_WONDERS_OF_THE_WORLD_LONG);
 }
 
 /**********************************************************************//**
