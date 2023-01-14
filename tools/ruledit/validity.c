@@ -98,9 +98,19 @@ static bool is_universal_needed(struct universal *uni, requirers_cb cb,
 
   extra_type_re_active_iterate(pextra) {
     if (universal_is_mentioned_by_requirements(&pextra->reqs, uni)
-        || universal_is_mentioned_by_requirements(&pextra->rmreqs, uni)) {
+        || universal_is_mentioned_by_requirements(&pextra->rmreqs, uni)
+        || universal_is_mentioned_by_requirements(&pextra->appearance_reqs, uni)
+        || universal_is_mentioned_by_requirements(&pextra->disappearance_reqs, uni)) {
       cb(extra_rule_name(pextra), data);
       needed = TRUE;
+    } else {
+      struct road_type *proad = extra_road_get(pextra);
+
+      if (proad != NULL
+          && universal_is_mentioned_by_requirements(&proad->first_reqs, uni)) {
+        cb(extra_rule_name(pextra), data);
+        needed = TRUE;
+      }
     }
   } extra_type_re_active_iterate_end;
 
