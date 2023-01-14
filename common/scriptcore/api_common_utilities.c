@@ -150,7 +150,7 @@ const Direction *api_utilities_opposite_dir(lua_State *L, Direction dir)
 ************************************************************************/
 bool api_utilities_direction_is_cardinal(lua_State *L, Direction dir)
 {
-  LUASCRIPT_CHECK_STATE(L, NULL);
+  LUASCRIPT_CHECK_STATE(L, FALSE);
 
   return is_cardinal_dir(dir);
 }
