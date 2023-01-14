@@ -2527,6 +2527,7 @@ static void menu_entry_init(GMenu *sub, const char *key)
       item = g_menu_item_new(Q_(info->name), actname);
     }
 
+    /* Should be menu_item_append_unref()? */
     g_menu_append_item(sub, item);
     g_object_unref(item);
   }
@@ -2638,14 +2639,14 @@ static GMenu *setup_menus(GtkApplication *app)
   menu_entry_init(options_menu, "SAVE_OPTIONS");
   menu_entry_init(options_menu, "SAVE_OPTIONS_ON_EXIT");
 
-  g_menu_append_submenu(topmenu, _("_Options"), G_MENU_MODEL(options_menu));
+  submenu_append_unref(topmenu, _("_Options"), G_MENU_MODEL(options_menu));
 
   menu_entry_init(topmenu, "GAME_SAVE");
   menu_entry_init(topmenu, "GAME_SAVE_AS");
   menu_entry_init(topmenu, "LEAVE");
   menu_entry_init(topmenu, "QUIT");
 
-  g_menu_append_submenu(menubar, _("_Game"), G_MENU_MODEL(topmenu));
+  submenu_append_unref(menubar, _("_Game"), G_MENU_MODEL(topmenu));
 
   topmenu = g_menu_new();
 
@@ -2659,20 +2660,20 @@ static GMenu *setup_menus(GtkApplication *app)
   /* menu_entry_init(topmenu, "SCENARIO_SAVE"); */
   menu_entry_init(topmenu, "CLIENT_LUA_SCRIPT");
 
-  g_menu_append_submenu(menubar, _("_Edit"), G_MENU_MODEL(topmenu));
+  submenu_append_unref(menubar, _("_Edit"), G_MENU_MODEL(topmenu));
 
   view_menu = g_menu_new();
 
   menu_entry_init(view_menu, "FULL_SCREEN");
   menu_entry_init(view_menu, "CENTER_VIEW");
 
-  g_menu_append_submenu(menubar, Q_("?verb:_View"), G_MENU_MODEL(view_menu));
+  submenu_append_unref(menubar, Q_("?verb:_View"), G_MENU_MODEL(view_menu));
 
   unit_menu = g_menu_new();
 
   /* Placeholder submenu (so that menu update has something to replace) */
   submenu = g_menu_new();
-  g_menu_append_submenu(unit_menu, N_("Go to a_nd..."), G_MENU_MODEL(submenu));
+  submenu_append_unref(unit_menu, N_("Go to a_nd..."), G_MENU_MODEL(submenu));
 
   menu_entry_init(unit_menu, "UNIT_EXPLORE");
   menu_entry_init(unit_menu, "UNIT_SENTRY");
@@ -2685,7 +2686,7 @@ static GMenu *setup_menus(GtkApplication *app)
   menu_entry_init(unit_menu, "UNIT_WAIT");
   menu_entry_init(unit_menu, "UNIT_DONE");
 
-  g_menu_append_submenu(menubar, _("_Unit"), G_MENU_MODEL(unit_menu));
+  submenu_append_unref(menubar, _("_Unit"), G_MENU_MODEL(unit_menu));
 
   work_menu = g_menu_new();
   menu_entry_init(work_menu, "BUILD_CITY");
@@ -2693,13 +2694,13 @@ static GMenu *setup_menus(GtkApplication *app)
 
   /* Placeholder submenus (so that menu update has something to replace) */
   submenu = g_menu_new();
-  g_menu_append_submenu(work_menu, _("Build _Path"), G_MENU_MODEL(submenu));
+  submenu_append_unref(work_menu, _("Build _Path"), G_MENU_MODEL(submenu));
   submenu = g_menu_new();
-  g_menu_append_submenu(work_menu, _("Build _Irrigation"), G_MENU_MODEL(submenu));
+  submenu_append_unref(work_menu, _("Build _Irrigation"), G_MENU_MODEL(submenu));
   submenu = g_menu_new();
-  g_menu_append_submenu(work_menu, _("Build _Mine"), G_MENU_MODEL(submenu));
+  submenu_append_unref(work_menu, _("Build _Mine"), G_MENU_MODEL(submenu));
   submenu = g_menu_new();
-  g_menu_append_submenu(work_menu, _("_Clean Nuisance"), G_MENU_MODEL(submenu));
+  submenu_append_unref(work_menu, _("_Clean Nuisance"), G_MENU_MODEL(submenu));
 
   menu_entry_init(work_menu, "BUILD_ROAD");
   menu_entry_init(work_menu, "BUILD_IRRIGATION");
@@ -2709,7 +2710,7 @@ static GMenu *setup_menus(GtkApplication *app)
   menu_entry_init(work_menu, "TRANSFORM_TERRAIN");
   menu_entry_init(work_menu, "CLEAN");
 
-  g_menu_append_submenu(menubar, _("_Work"), G_MENU_MODEL(work_menu));
+  submenu_append_unref(menubar, _("_Work"), G_MENU_MODEL(work_menu));
 
   combat_menu = g_menu_new();
   menu_entry_init(combat_menu, "FORTIFY");
@@ -2718,9 +2719,9 @@ static GMenu *setup_menus(GtkApplication *app)
 
   /* Placeholder submenu (so that menu update has something to replace) */
   submenu = g_menu_new();
-  g_menu_append_submenu(combat_menu, _("Build _Base"), G_MENU_MODEL(submenu));
+  submenu_append_unref(combat_menu, _("Build _Base"), G_MENU_MODEL(submenu));
 
-  g_menu_append_submenu(menubar, _("_Combat"), G_MENU_MODEL(combat_menu));
+  submenu_append_unref(menubar, _("_Combat"), G_MENU_MODEL(combat_menu));
 
   menu_entry_init(combat_menu, "PARADROP");
   menu_entry_init(combat_menu, "PILLAGE");
@@ -2737,7 +2738,7 @@ static GMenu *setup_menus(GtkApplication *app)
 
   /* Placeholder submenu (so that menu update has something to replace) */
   submenu = g_menu_new();
-  g_menu_append_submenu(gov_menu, _("_Government"), G_MENU_MODEL(submenu));
+  submenu_append_unref(gov_menu, _("_Government"), G_MENU_MODEL(submenu));
 
   menu_entry_init(gov_menu, "REPORT_WOW");
   menu_entry_init(gov_menu, "REPORT_TOP_CITIES");
@@ -2746,7 +2747,7 @@ static GMenu *setup_menus(GtkApplication *app)
   menu_entry_init(gov_menu, "REPORT_SPACESHIP");
   menu_entry_init(gov_menu, "REPORT_ACHIEVEMENTS");
 
-  g_menu_append_submenu(menubar, _("C_ivilization"), G_MENU_MODEL(gov_menu));
+  submenu_append_unref(menubar, _("C_ivilization"), G_MENU_MODEL(gov_menu));
 
   topmenu = g_menu_new();
 
@@ -2767,14 +2768,14 @@ static GMenu *setup_menus(GtkApplication *app)
     register_bg_actions(G_ACTION_MAP(app), i);
   }
 
-  g_menu_append_submenu(menubar, _("Battle Groups"), G_MENU_MODEL(topmenu));
+  submenu_append_unref(menubar, _("Battle Groups"), G_MENU_MODEL(topmenu));
 
   topmenu = g_menu_new();
 
   menu_entry_init(topmenu, "HELP_COPYING");
   menu_entry_init(topmenu, "HELP_ABOUT");
 
-  g_menu_append_submenu(menubar, _("_Help"), G_MENU_MODEL(topmenu));
+  submenu_append_unref(menubar, _("_Help"), G_MENU_MODEL(topmenu));
 
 #ifndef FREECIV_DEBUG
   menu_entry_set_visible("RELOAD_TILESET", FALSE, FALSE);
@@ -3058,7 +3059,7 @@ void real_menus_update(void)
 
 #undef CREATE_SUB_ITEM
 
-        g_menu_append_submenu(submenu, name, G_MENU_MODEL(sub_target_menu));
+        submenu_append_unref(submenu, name, G_MENU_MODEL(sub_target_menu));
       } else {
         g_signal_connect(act, "activate",
                          G_CALLBACK(unit_goto_and_callback), paction);

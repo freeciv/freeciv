@@ -708,16 +708,16 @@ void create_players_dialog(void)
   topmenu = g_menu_new();
 
   submenu = create_diplomacy_menu(group);
-  g_menu_append_submenu(topmenu, _("Di_plomacy"), G_MENU_MODEL(submenu));
+  submenu_append_unref(topmenu, _("Di_plomacy"), G_MENU_MODEL(submenu));
 
   submenu = create_intelligence_menu(group);
-  g_menu_append_submenu(topmenu, _("_Intelligence"), G_MENU_MODEL(submenu));
+  submenu_append_unref(topmenu, _("_Intelligence"), G_MENU_MODEL(submenu));
 
   submenu = create_show_menu(group);
-  g_menu_append_submenu(topmenu, _("_Display"), G_MENU_MODEL(submenu));
+  submenu_append_unref(topmenu, _("_Display"), G_MENU_MODEL(submenu));
 
   submenu = create_ai_menu(group);
-  g_menu_append_submenu(topmenu, _("_AI"), G_MENU_MODEL(submenu));
+  submenu_append_unref(topmenu, _("_AI"), G_MENU_MODEL(submenu));
 
   gtk_widget_insert_action_group(aux_menu, "win", group);
   gtk_menu_button_set_menu_model(GTK_MENU_BUTTON(aux_menu), G_MENU_MODEL(topmenu));

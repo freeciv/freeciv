@@ -1107,7 +1107,7 @@ static GtkWidget *create_city_report_menu(void)
   menu_item_append_unref(submenu, g_menu_item_new(_("Clear _Worklist"),
                                                   "win.clear_worklist"));
 
-  g_menu_append_submenu(menu, _("_Production"), G_MENU_MODEL(submenu));
+  submenu_append_unref(menu, _("_Production"), G_MENU_MODEL(submenu));
 
 #ifdef MENUS_GTK3
   menu = gtk_menu_button_new();
@@ -1164,7 +1164,7 @@ static GtkWidget *create_city_report_menu(void)
 #endif /* MENUS_GTK3 */
 
   submenu = create_display_menu(group);
-  g_menu_append_submenu(menu, _("_Display"), G_MENU_MODEL(submenu));
+  submenu_append_unref(menu, _("_Display"), G_MENU_MODEL(submenu));
 
   gtk_widget_insert_action_group(aux_menu, "win", group);
   gtk_menu_button_set_menu_model(GTK_MENU_BUTTON(aux_menu), G_MENU_MODEL(menu));

@@ -305,7 +305,7 @@ static GMenu *create_clause_menu(GActionGroup *group,
   }
 
   if (any_map) {
-    g_menu_append_submenu(topmenu, _("_Maps"), G_MENU_MODEL(submenu));
+    submenu_append_unref(topmenu, _("_Maps"), G_MENU_MODEL(submenu));
   }
 
   /* Trading: advances */
@@ -378,7 +378,7 @@ static GMenu *create_clause_menu(GActionGroup *group,
       g_list_free(sorting_list);
     }
 
-    g_menu_append_submenu(topmenu, _("_Advances"), G_MENU_MODEL(submenu));
+    submenu_append_unref(topmenu, _("_Advances"), G_MENU_MODEL(submenu));
   }
 
   /* Trading: cities. */
@@ -435,7 +435,7 @@ static GMenu *create_clause_menu(GActionGroup *group,
       free(city_list_ptrs);
     }
 
-    g_menu_append_submenu(topmenu, _("_Cities"), G_MENU_MODEL(submenu));
+    submenu_append_unref(topmenu, _("_Cities"), G_MENU_MODEL(submenu));
   }
 
   /* Give shared vision. */
@@ -530,7 +530,7 @@ static GMenu *create_clause_menu(GActionGroup *group,
     }
 
     if (pact_clauses > 0) {
-      g_menu_append_submenu(topmenu, _("_Pacts"), G_MENU_MODEL(submenu));
+      submenu_append_unref(topmenu, _("_Pacts"), G_MENU_MODEL(submenu));
     } else {
       g_object_unref(submenu);
     }
