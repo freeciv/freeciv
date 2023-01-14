@@ -312,7 +312,7 @@ struct cf_sequence {
   };
 };
 
-/****************************************************************************
+/************************************************************************//**
   Build an argument for fc_snprintcf() of boolean type.
 ****************************************************************************/
 static inline struct cf_sequence cf_bool_seq(char letter, bool value)
@@ -326,7 +326,7 @@ static inline struct cf_sequence cf_bool_seq(char letter, bool value)
   return sequence;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Build an argument for fc_snprintcf() of boolean type (result will be
   translated).
 ****************************************************************************/
@@ -341,7 +341,7 @@ static inline struct cf_sequence cf_trans_bool_seq(char letter, bool value)
   return sequence;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Build an argument for fc_snprintcf() of character type (%c).
 ****************************************************************************/
 static inline struct cf_sequence cf_char_seq(char letter, char value)
@@ -355,7 +355,7 @@ static inline struct cf_sequence cf_char_seq(char letter, char value)
   return sequence;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Build an argument for fc_snprintcf() of integer type (%d).
 ****************************************************************************/
 static inline void cf_int_seq(char letter, int value, struct cf_sequence *out)
@@ -365,7 +365,7 @@ static inline void cf_int_seq(char letter, int value, struct cf_sequence *out)
   out->int_value = value;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Build an argument for fc_snprintcf() of hexadecimal type (%x).
 ****************************************************************************/
 static inline struct cf_sequence cf_hexa_seq(char letter, int value)
@@ -379,7 +379,7 @@ static inline struct cf_sequence cf_hexa_seq(char letter, int value)
   return sequence;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Build an argument for fc_snprintcf() of float type (%f).
 ****************************************************************************/
 static inline struct cf_sequence cf_float_seq(char letter, float value)
@@ -393,7 +393,7 @@ static inline struct cf_sequence cf_float_seq(char letter, float value)
   return sequence;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Build an argument for fc_snprintcf() of pointer type (%p).
 ****************************************************************************/
 static inline struct cf_sequence cf_ptr_seq(char letter, const void *value)
@@ -407,7 +407,7 @@ static inline struct cf_sequence cf_ptr_seq(char letter, const void *value)
   return sequence;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Build an argument for fc_snprintcf() of string type (%s).
 ****************************************************************************/
 static inline struct cf_sequence cf_str_seq(char letter, const char *value)
@@ -421,7 +421,7 @@ static inline struct cf_sequence cf_str_seq(char letter, const char *value)
   return sequence;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Must finish the list of the arguments of fc_snprintcf().
 ****************************************************************************/
 static inline struct cf_sequence cf_end(void)
