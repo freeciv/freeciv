@@ -153,4 +153,11 @@ GtkWidget *widget_get_child(GtkWidget *wdg);
   g_object_unref(_item_var);                      \
 }
 
+#define submenu_append_unref(menu, name, submenu)  \
+{                                                  \
+  GMenuModel *_submenu_var = submenu;              \
+  g_menu_append_submenu(menu, name, _submenu_var); \
+  g_object_unref(_submenu_var);                    \
+}
+
 #endif /* FC__GUI_STUFF_H */
