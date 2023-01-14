@@ -10,7 +10,7 @@
 # Version 2.4.2 (16-Dec-22)
 
 WINBUILD_VERSION="2.4.2"
-MIN_WINVER=0x0601 # Windows 7, Qt6-client build overrides this
+MIN_WINVER=0x0601 # Windows 7, Qt6-client and Qt6-ruledit builds override this
 CROSSER_FEATURE_LEVEL=2.5
 
 if test "x$1" = x || test "x$1" = "x-h" || test "x$1" = "x--help" ; then
@@ -143,6 +143,10 @@ if test "$SINGLE_GUI" != "true" || test "$2" = "ruledit" ; then
   then
     QT6="yes"
     QTVER="Qt6"
+    if test "$SINGLE_GUI" = "true" ; then
+      # Build is ONLY about Qt6 programs
+      MIN_WINVER="0x0A00" # Qt6 requires Win10 anyway
+    fi
   elif grep "CROSSER_QT5" $DLLSPATH/crosser.txt | grep yes > /dev/null
   then
     QT5="yes"
