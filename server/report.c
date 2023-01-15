@@ -421,15 +421,12 @@ void report_wonders_of_the_world_long(struct conn_list *dest)
 
   /* Sort by players and cities */
   players_iterate(pplayer) {
-    int n = 0;
-
     city_list_iterate(pplayer->cities, pcity) {
       int w = 0;
 
       city_built_iterate(pcity, i) {
         if (is_great_wonder(i)) {
           w++;
-          n++;
 
           if (player_count() > team_count()) {
             /* There exists a team with more than one member. */
