@@ -778,10 +778,10 @@ PACKET_CITY_NATIONALITIES = 46; sc, lsend, is-game-info, force
   CITIZENS nation_citizens[MAX_CITY_NATIONALITIES:nationalities_count];
 end
 
-PACKET_CITY_UPDATE_COUNTER = 514; sc, lsend, is-game-info
-  CITY city;
-  COUNTER counter;
-  UINT32 value;
+PACKET_CITY_UPDATE_COUNTERS = 514; sc, lsend, is-game-info
+  CITY city; key
+  UINT8 count; # MAX_COUNTERS is set to 20 currently
+  COUNTER counters[MAX_COUNTERS:count];
 end
 
 PACKET_CITY_SHORT_INFO = 32; sc, lsend, is-game-info, cancel(PACKET_CITY_INFO), cancel(PACKET_WEB_CITY_INFO_ADDITION), cancel(PACKET_CITY_NATIONALITIES), cancel(PACKET_CITY_RALLY_POINT)

@@ -23,8 +23,6 @@ extern "C" {
 /* common */
 #include "name_translation.h"
 
-#define MAX_COUNTERS 20
-
 struct counter
 {
   struct name_translation name;

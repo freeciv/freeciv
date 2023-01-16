@@ -2340,9 +2340,7 @@ void send_city_info(struct player *dest, struct city *pcity)
   }
 
   /* Sending counters */
-  city_counters_iterate(pcount) {
-    city_counter_refresh(pcity, pcount->index);
-  } city_counters_iterate_end;
+  city_counters_refresh(pcity);
 
   if (game.info.team_pooled_research
       && player_list_size(team_members(powner->team)) > 1) {

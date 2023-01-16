@@ -4420,14 +4420,20 @@ void city_style_refresh(struct city *pcity)
   Send updated (by server) counter information of
   a given city.
 **************************************************************************/
-void city_counter_refresh(struct city *pcity, int number)
+void city_counters_refresh(struct city *pcity)
 {
-  struct packet_city_update_counter packet;
+  uint8_t i, counter_count;
+  struct packet_city_update_counters packet;
 
   packet.city = pcity->id;
-  packet.counter = number;
-  packet.value = pcity->counter_values[number];
 
-  lsend_packet_city_update_counter(pcity->owner->connections, &packet);
-  lsend_packet_city_update_counter(game.glob_observers, &packet);
+  counter_count = counters_get_city_counters_count();
+
+  packet.count = counter_count;
+  for (i = 0; i < counter_count; i++) {
+    packet.counters[i] = pcity->counter_values[i];
+  }
+
+  lsend_packet_city_update_counters(pcity->owner->connections, &packet);
+  lsend_packet_city_update_counters(game.glob_observers, &packet);
 }

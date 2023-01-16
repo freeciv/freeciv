@@ -5560,10 +5560,11 @@ void handle_ruleset_counter(const struct packet_ruleset_counter *packet)
 /**********************************************************************//**
 Handle updating city's counter, when server request
 **************************************************************************/
-void handle_city_update_counter(const struct packet_city_update_counter *packet)
+void handle_city_update_counters(const struct packet_city_update_counters *packet)
 {
-  int counter = packet->counter;
-  int counter_count = counters_get_city_counters_count();
+  uint8_t i;
+  uint8_t counters_count = counters_get_city_counters_count();
+
   struct city *pcity = game_city_by_number(packet->city);
 
   if (NULL == pcity) {
@@ -5571,12 +5572,15 @@ void handle_city_update_counter(const struct packet_city_update_counter *packet)
     return;
   }
 
-  if (counter_count <= counter || 0 > counter) {
+  if (counters_count != packet->count) {
 
     return;
   }
 
-  pcity->counter_values[counter] = packet->value;
+  counters_count = counters_get_city_counters_count();
+  for (i = 0; i < counters_count; i++) {
+    pcity->counter_values[i] = packet->counters[i];
+  }
 
   update_city_description(pcity);
   city_report_dialog_update_city(pcity);

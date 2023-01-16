@@ -105,6 +105,10 @@ enum output_type_id {
   O_FOOD, O_SHIELD, O_TRADE, O_GOLD, O_LUXURY, O_SCIENCE, O_LAST
 };
 
+/* Counters related definitions. See common/counters.h */
+/* Used in the network protocol. */
+#define MAX_COUNTERS 20
+
 /* Counters related types. See common/counters.h */
 /* Used in the network protocol. */
 #define SPECENUM_NAME counter_behaviour

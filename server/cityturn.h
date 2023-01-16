@@ -61,6 +61,6 @@ void city_style_refresh(struct city *pcity);
 bool player_balance_treasury_units_and_buildings(struct player *pplayer);
 bool player_balance_treasury_units(struct player *pplayer);
 
-void city_counter_refresh(struct city *pcity, int number);
+void city_counters_refresh(struct city *pcity);
 
 #endif /* FC__CITYTURN_H */
