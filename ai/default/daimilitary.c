@@ -994,7 +994,7 @@ static void process_attacker_want(struct ai_type *ait,
       parameter.omniscience = !has_handicap(pplayer, H_MAP);
       pfm = pf_map_new(&parameter);
 
-      /* Set the move_time appropriatelly. */
+      /* Set the move_time appropriately. */
       move_time = -1;
       if (NULL != ferry_map) {
         struct tile *dest_tile;
