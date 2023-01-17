@@ -7291,8 +7291,9 @@ static void sg_save_researches(struct savedata *saving)
       /* Save technology lists as bytevector. Note that technology order is
        * saved in savefile.technology.order */
       advance_index_iterate(A_NONE, tech_id) {
-        invs[tech_id] = (research_invention_state(presearch, tech_id)
-                         == TECH_KNOWN ? '1' : '0');
+        invs[tech_id] = (valid_advance_by_number(tech_id) != NULL
+                         && research_invention_state(presearch, tech_id)
+                            == TECH_KNOWN ? '1' : '0');
       } advance_index_iterate_end;
       invs[game.control.num_tech_types] = '\0';
       secfile_insert_str(saving->file, invs, "research.r%d.done", i);

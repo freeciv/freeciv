@@ -816,7 +816,7 @@ bool research_goal_tech_req(const struct research *presearch,
 }
 
 /************************************************************************//**
-  Function to determine cost for technology.  The equation is determined
+  Function to determine cost for technology. The equation is determined
   from game.info.tech_cost_style and game.info.tech_leakage.
 
   tech_cost_style:
@@ -849,7 +849,7 @@ bool research_goal_tech_req(const struct research *presearch,
                          of normal players (human and AI) which already know
                          the tech.
 
-  At the end we multiply by the sciencebox value, as a percentage.  The
+  At the end we multiply by the sciencebox value, as a percentage. The
   cost can never be less than 1.
 
   'presearch' may be NULL in which case a simplified result is returned
@@ -862,6 +862,10 @@ int research_total_bulbs_required(const struct research *presearch,
   int members;
   double base_cost, total_cost;
   double leak = 0.0;
+
+  if (valid_advance_by_number(tech) == NULL) {
+    return 0;
+  }
 
   if (!loss_value
       && NULL != presearch
@@ -1316,7 +1320,8 @@ int recalculate_techs_researched(const struct research *presearch)
   int techs = 1; /* A_NONE known, and not part of below iteration */
 
   advance_iterate(A_FIRST, t) {
-    if (research_invention_state(presearch, advance_number(t)) == TECH_KNOWN) {
+    if (valid_advance(t) != NULL
+        && research_invention_state(presearch, advance_number(t)) == TECH_KNOWN) {
       techs++;
     }
   } advance_iterate_end;

@@ -1104,7 +1104,8 @@ void init_tech(struct research *research, bool update)
     while (tech != A_NONE) {
       tech = A_NONE;
       advance_index_iterate(A_FIRST, i) {
-        if (research_invention_state(research, i) == TECH_PREREQS_KNOWN) {
+        if (valid_advance_by_number(i) != NULL
+            && research_invention_state(research, i) == TECH_PREREQS_KNOWN) {
           /* Found a tech which can be researched. */
           tech = i;
           break;
@@ -1153,7 +1154,7 @@ void init_tech(struct research *research, bool update)
 }
 
 /************************************************************************//**
-  Gives global (read from the game ruleset file) and nation (read from the
+  Gives global (read from the game.ruleset file) and nation (read from the
   nation ruleset files) initial techs as specified in the ruleset, and
   random free technologies thanks to the techlevel setting.
 ****************************************************************************/
