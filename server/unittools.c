@@ -2476,11 +2476,12 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
           } adjc_iterate_end;
 
           if (dsttile != NULL) {
-            escaped = action_auto_perf_unit_do(AAPC_UNIT_STACK_DEATH,
-                                               vunit, tile_owner(dsttile),
-                                               NULL, NULL, dsttile,
-                                               tile_city(dsttile),
-                                               NULL, NULL);
+            escaped = (action_auto_perf_unit_do(AAPC_UNIT_STACK_DEATH,
+                                                vunit, tile_owner(dsttile),
+                                                NULL, NULL, dsttile,
+                                                tile_city(dsttile),
+                                                NULL, NULL)
+                       != NULL);
 
             if (escaped) {
               num_escaped[player_index(vplayer)]++;
