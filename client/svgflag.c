@@ -16,6 +16,7 @@
 #endif
 
 /* utility */
+#include "fcintl.h"
 #include "mem.h"
 #include "support.h"
 
@@ -68,7 +69,12 @@ const char **ordered_gfx_fextensions(void)
       /* No svg, disable svg flag features */
       _prefer_svg = FALSE;
 
+      log_warn(_("Client has no required support for svg. "
+                 "Disabled use of svg flags."));
+
       ordered_extensions = incoming;
+    } else {
+      log_verbose(_("Client is capable of using svg flags."));
     }
 
     ordered_extensions = fc_malloc((count + 1) * sizeof(char *));
