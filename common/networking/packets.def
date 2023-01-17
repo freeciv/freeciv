@@ -2410,6 +2410,10 @@ PACKET_WEB_CITY_INFO_ADDITION = 256; sc, lsend, is-game-info, force, cancel(PACK
 
   BV_UTYPES can_build_unit;
   BV_IMPRS can_build_improvement;
+
+  UINT8 output_food[MAX_CITY_TILES + 1];
+  UINT8 output_shield[MAX_CITY_TILES + 1];
+  UINT8 output_trade[MAX_CITY_TILES + 1];
 end
 
 PACKET_WEB_CMA_SET = 257; cs, handle-via-fields
