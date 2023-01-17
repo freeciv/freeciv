@@ -45,7 +45,10 @@ endif
 if get_option('debug')
   priv_conf_data.set('FREECIV_DEBUG', 1)
   pub_conf_data.set('FREECIV_DEBUG', 1)
-  add_global_arguments('-Werror', language: ['c', 'cpp'])
+  add_global_arguments(
+     '-Werror',
+     '-Wshadow',
+     language: ['c', 'cpp'])
   if host_system == 'windows'
     # Qt headers have problems with dllimport attributes
     add_global_arguments('-Wno-error=attributes', language : 'cpp')
