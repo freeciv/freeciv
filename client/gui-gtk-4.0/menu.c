@@ -319,9 +319,11 @@ static void unit_wait_callback(GSimpleAction *action,
 static void unit_done_callback(GSimpleAction *action,
                                GVariant *parameter,
                                gpointer data);
+static void unit_goto_callback(GSimpleAction *action,
+                               GVariant *parameter,
+                               gpointer data);
 
 #ifdef MENUS_GTK3
-static void unit_goto_callback(GtkMenuItem *item, gpointer data);
 static void unit_goto_city_callback(GtkMenuItem *item, gpointer data);
 static void unit_return_callback(GtkMenuItem *item, gpointer data);
 #endif /* MENUS_GTK3 */
@@ -329,6 +331,9 @@ static void unit_return_callback(GtkMenuItem *item, gpointer data);
 static void unit_explore_callback(GSimpleAction *action,
                                   GVariant *parameter,
                                   gpointer data);
+static void unit_patrol_callback(GSimpleAction *action,
+                                 GVariant *parameter,
+                                 gpointer data);
 static void unit_sentry_callback(GSimpleAction *action,
                                  GVariant *parameter,
                                  gpointer data);
@@ -349,7 +354,6 @@ static void unit_disband_callback(GSimpleAction *action,
                                   gpointer data);
 
 #ifdef MENUS_GTK3
-static void unit_patrol_callback(GtkMenuItem *item, gpointer data);
 static void unit_unsentry_callback(GtkMenuItem *item, gpointer data);
 static void unit_unload_transporter_callback(GtkMenuItem *item,
                                              gpointer data);
@@ -489,8 +493,14 @@ static struct menu_entry_info menu_entries[] =
     NULL, FALSE },
 
   /* Unit menu */
+  { "UNIT_GOTO", N_("_Go to"),
+    "goto", "g", MGROUP_UNIT,
+    NULL, FALSE },
   { "UNIT_EXPLORE", N_("Auto E_xplore"),
     "explore", "x", MGROUP_UNIT,
+    NULL, FALSE },
+  { "UNIT_PATROL", N_("_Patrol"),
+    "patrol", "q", MGROUP_UNIT,
     NULL, FALSE },
   { "UNIT_SENTRY", N_("_Sentry"),
     "sentry", "s", MGROUP_UNIT,
@@ -809,15 +819,11 @@ static struct menu_entry_info menu_entries[] =
     G_CALLBACK(select_same_type_callback), MGROUP_UNIT },
   { "SELECT_DLG", N_("Unit Selection Dialog"), 0, 0,
     G_CALLBACK(select_dialog_callback), MGROUP_UNIT },
-  { "UNIT_GOTO", N_("_Go to"), GDK_KEY_g, 0,
-    G_CALLBACK(unit_goto_callback), MGROUP_UNIT },
   { "MENU_GOTO_AND", N_("Go to a_nd..."), 0, 0, NULL, MGROUP_UNIT },
   { "UNIT_GOTO_CITY", N_("Go _to/Airlift to City..."), GDK_KEY_t, 0,
     G_CALLBACK(unit_goto_city_callback), MGROUP_UNIT },
   { "UNIT_RETURN", N_("_Return to Nearest City"), GDK_KEY_g, GDK_SHIFT_MASK,
     G_CALLBACK(unit_return_callback), MGROUP_UNIT },
-  { "UNIT_PATROL", N_("_Patrol"), GDK_KEY_q, 0,
-    G_CALLBACK(unit_patrol_callback), MGROUP_UNIT },
   { "UNIT_UNSENTRY", N_("Uns_entry All On Tile"), GDK_KEY_s, GDK_SHIFT_MASK,
     G_CALLBACK(unit_unsentry_callback), MGROUP_UNIT },
   { "UNIT_UNLOAD_TRANSPORTER", N_("U_nload All From Transporter"),
@@ -867,7 +873,9 @@ const GActionEntry acts[] = {
 
   { "center_view", center_view_callback },
 
+  { "goto", unit_goto_callback },
   { "explore", unit_explore_callback },
+  { "patrol", unit_patrol_callback },
   { "sentry", unit_sentry_callback },
   { "board", unit_board_callback },
   { "deboard", unit_deboard_callback },
@@ -1846,15 +1854,14 @@ static void unit_done_callback(GSimpleAction *action,
   key_unit_done();
 }
 
-#ifdef MENUS_GTK3
 /************************************************************************//**
   Item "UNIT_GOTO" callback.
 ****************************************************************************/
-static void unit_goto_callback(GtkMenuItem *item, gpointer data)
+static void unit_goto_callback(GSimpleAction *action, GVariant *parameter,
+                               gpointer data)
 {
   key_unit_goto();
 }
-#endif /* MENUS_GTK3 */
 
 /************************************************************************//**
   Activate the goto system with an action to perform once there.
@@ -1939,6 +1946,15 @@ static void unit_explore_callback(GSimpleAction *action,
 }
 
 /************************************************************************//**
+  Item "UNIT_PATROL" callback.
+****************************************************************************/
+static void unit_patrol_callback(GSimpleAction *action, GVariant *parameter,
+                                 gpointer data)
+{
+  key_unit_patrol();
+}
+
+/************************************************************************//**
   Item "UNIT_SENTRY" callback.
 ****************************************************************************/
 static void unit_sentry_callback(GSimpleAction *action,
@@ -1961,14 +1977,6 @@ static void fortify_callback(GSimpleAction *action,
 }
 
 #ifdef MENUS_GTK3
-/************************************************************************//**
-  Item "UNIT_PATROL" callback.
-****************************************************************************/
-static void unit_patrol_callback(GtkMenuItem *item, gpointer data)
-{
-  key_unit_patrol();
-}
-
 /************************************************************************//**
   Item "UNIT_UNSENTRY" callback.
 ****************************************************************************/
@@ -2671,11 +2679,14 @@ static GMenu *setup_menus(GtkApplication *app)
 
   unit_menu = g_menu_new();
 
+  menu_entry_init(unit_menu, "UNIT_GOTO");
+
   /* Placeholder submenu (so that menu update has something to replace) */
   submenu = g_menu_new();
   submenu_append_unref(unit_menu, N_("Go to a_nd..."), G_MENU_MODEL(submenu));
 
   menu_entry_init(unit_menu, "UNIT_EXPLORE");
+  menu_entry_init(unit_menu, "UNIT_PATROL");
   menu_entry_init(unit_menu, "UNIT_SENTRY");
   menu_entry_init(unit_menu, "UNIT_BOARD");
   menu_entry_init(unit_menu, "UNIT_DEBOARD");
@@ -3067,8 +3078,8 @@ void real_menus_update(void)
       }
     } action_iterate_end;
   }
-  g_menu_remove(unit_menu, 0);
-  g_menu_insert_submenu(unit_menu, 0, _("Go to a_nd..."), G_MENU_MODEL(submenu));
+  g_menu_remove(unit_menu, 1);
+  g_menu_insert_submenu(unit_menu, 1, _("Go to a_nd..."), G_MENU_MODEL(submenu));
 
   submenu = g_menu_new();
   menu_entry_init(submenu, "START_REVOLUTION");
