@@ -593,24 +593,15 @@ void scroll_if_necessary(GtkTextView *textview, GtkTextMark *scroll_target)
 /**********************************************************************//**
   Click a link.
 **************************************************************************/
-static gboolean event_after(GtkWidget *text_view, GdkEvent *event)
+static gboolean event_after(GtkGestureClick *gesture, int n_press,
+                            double x, double y, gpointer data)
 {
+  GtkWidget *text_view = gtk_event_controller_get_widget(GTK_EVENT_CONTROLLER(gesture));
   GtkTextIter start, end, iter;
   GtkTextBuffer *buffer;
   GSList *tags, *tagp;
-  gint x, y;
+  gint bx, by;
   struct tile *ptile = NULL;
-  guint button;
-  gdouble e_x, e_y;
-
-  if (gdk_event_get_event_type(event) != GDK_BUTTON_RELEASE) {
-    return FALSE;
-  }
-
-  button = gdk_button_event_get_button(event);
-  if (button != 1) {
-    return FALSE;
-  }
 
   buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(text_view));
 
@@ -620,12 +611,11 @@ static gboolean event_after(GtkWidget *text_view, GdkEvent *event)
     return FALSE;
   }
 
-  gdk_event_get_position(event, &e_x, &e_y);
   gtk_text_view_window_to_buffer_coords(GTK_TEXT_VIEW (text_view),
                                         GTK_TEXT_WINDOW_WIDGET,
-                                        e_x, e_y, &x, &y);
+                                        x, y, &bx, &by);
 
-  gtk_text_view_get_iter_at_location(GTK_TEXT_VIEW(text_view), &iter, x, y);
+  gtk_text_view_get_iter_at_location(GTK_TEXT_VIEW(text_view), &iter, bx, by);
 
   if ((tags = gtk_text_iter_get_tags(&iter))) {
     for (tagp = tags; tagp; tagp = tagp->next) {
@@ -759,8 +749,15 @@ static gboolean motion_notify_event(GtkWidget *text_view,
 **************************************************************************/
 void set_message_buffer_view_link_handlers(GtkWidget *view)
 {
-  g_signal_connect(view, "event-after",
-		   G_CALLBACK(event_after), NULL);
+  GtkGesture *gesture;
+  GtkEventController *controller;
+
+  gesture = gtk_gesture_click_new();
+  controller = GTK_EVENT_CONTROLLER(gesture);
+  g_signal_connect(controller, "released",
+                   G_CALLBACK(event_after), NULL);
+  gtk_widget_add_controller(view, controller);
+
   g_signal_connect(view, "motion-notify-event",
 		   G_CALLBACK(motion_notify_event), NULL);
 }
