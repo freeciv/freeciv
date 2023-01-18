@@ -1110,7 +1110,7 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
   struct player *must_war_player;
   const struct action *paction;
   struct action *blocker;
-  const struct player *act_player = unit_owner(punit);
+  struct player *act_player = unit_owner(punit);
   struct unit_type *act_utype = unit_type_get(punit);
   struct player *tgt_player = NULL;
   struct ane_expl *explnat = fc_malloc(sizeof(struct ane_expl));
@@ -1190,7 +1190,7 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
       break;
     case ATK_SELF:
       /* A unit acting against itself. */
-      tgt_player = unit_owner(punit);
+      tgt_player = act_player;
       break;
     case ATK_COUNT:
       fc_assert(action_id_get_target_kind(act_id) != ATK_COUNT);
@@ -1278,7 +1278,7 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
     explnat->no_act_terrain = tile_terrain(target_tile);
   } else if (action_id_has_result_safe(act_id, ACTION_PARADROP)
              && target_tile
-             && map_is_known_and_seen(target_tile, unit_owner(punit),
+             && map_is_known_and_seen(target_tile, act_player,
                                       V_MAIN)
              && (!can_unit_exist_at_tile(punit, target_tile)
                  && (!game.info.paradrop_to_transport
@@ -1342,8 +1342,8 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
     explnat->no_war_with = must_war_player;
   } else if (action_mp_full_makes_legal(punit, act_id)) {
     explnat->kind = ANEK_LOW_MP;
-  } else if (tgt_player
-             && unit_owner(punit) != tgt_player
+  } else if (tgt_player != NULL
+             && act_player != tgt_player
              && !can_utype_do_act_if_tgt_diplrel(unit_type_get(punit),
                                                  act_id,
                                                  DRO_FOREIGN,
@@ -1351,19 +1351,19 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
     explnat->kind = ANEK_FOREIGN;
   } else if (foreign_tgt_tile_makes_illegal(paction, punit, target_tile)) {
     explnat->kind = ANEK_FOREIGN;
-  } else if (tgt_player
-             && unit_owner(punit) == tgt_player
+  } else if (tgt_player != NULL
+             && act_player == tgt_player
              && !can_utype_do_act_if_tgt_diplrel(unit_type_get(punit),
                                                  act_id,
                                                  DRO_FOREIGN,
                                                  FALSE)) {
     explnat->kind = ANEK_DOMESTIC;
-  } else if (punit
+  } else if (punit != NULL
              && does_nation_block_action(act_id, FALSE,
-                                         punit, unit_owner(punit)->nation)) {
+                                         punit, act_player->nation)) {
     explnat->kind = ANEK_NATION_ACT;
-    explnat->no_act_nation = unit_owner(punit)->nation;
-  } else if (tgt_player
+    explnat->no_act_nation = act_player->nation;
+  } else if (tgt_player != NULL
              && does_nation_block_action(act_id, TRUE,
                                          punit, tgt_player->nation)) {
     explnat->kind = ANEK_NATION_TGT;
@@ -1478,8 +1478,8 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
              && action_custom == CB_NO_MIN_DIST) {
     explnat->kind = ANEK_CITY_TOO_CLOSE_TGT;
   } else if (action_id_has_result_safe(act_id, ACTION_PARADROP)
-             && target_tile
-             && !map_is_known(target_tile, unit_owner(punit))) {
+             && target_tile != NULL
+             && !map_is_known(target_tile, act_player)) {
     explnat->kind = ANEK_TGT_TILE_UNKNOWN;
   } else if (action_id_has_result_safe(act_id, ACTION_CONQUER_CITY)
              && action_custom != MR_OK) {
@@ -1499,7 +1499,7 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
       break;
     }
   } else if (action_id_has_result_safe(act_id, ACTION_SPY_BRIBE_UNIT)
-             && utype_player_already_has_this_unique(unit_owner(punit),
+             && utype_player_already_has_this_unique(act_player,
                  unit_type_get(target_unit))) {
     explnat->kind = ANEK_TGT_IS_UNIQUE_ACT_HAS;
     explnat->no_tgt_utype = unit_type_get(target_unit);
