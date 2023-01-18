@@ -1134,10 +1134,10 @@ static void remove_clause_widget_from_list(int counterpart, int giver,
 {
   struct widget *pBuf;
   SDL_Rect src = {0, 0, 0, 0};
-  bool scroll = TRUE;
+  bool scroll;
   struct diplomacy_dialog *pdialog = get_diplomacy_dialog(counterpart);
 
-  /* find widget with clause */
+  /* Find widget with clause */
   pBuf = pdialog->pdialog->pEndActiveWidgetList->next;
 
   do {
@@ -1165,14 +1165,12 @@ static void remove_clause_widget_from_list(int counterpart, int giver,
       pBuf = pBuf->prev;
       widget_undraw(pBuf);
       pBuf->size.w += len;
-      /* we need to save a new background because the width has changed */
+      /* We need to save a new background because the width has changed */
       FREESURFACE(pBuf->gfx);
     } while (pBuf != pdialog->pdialog->pBeginActiveWidgetList);
-
-    scroll = FALSE;
   }
 
-  /* update state icons */
+  /* Update state icons */
   pBuf = pdialog->pdialog->pEndWidgetList->prev;
 
   if (pBuf->private_data.cbox->state) {
