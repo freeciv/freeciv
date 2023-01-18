@@ -70,7 +70,8 @@ static struct dialog_list *dialog_list;
 static void update_diplomacy_dialog(struct diplomacy_dialog *pdialog);
 static void update_acceptance_icons(struct diplomacy_dialog *pdialog);
 static void update_clauses_list(struct diplomacy_dialog *pdialog);
-static void remove_clause_widget_from_list(struct player *they, struct player *giver,
+static void remove_clause_widget_from_list(struct player *they,
+                                           struct player *giver,
                                            enum clause_type type, int value);
 static void popdown_diplomacy_dialog(struct diplomacy_dialog *pdialog);
 static void popdown_diplomacy_dialogs(void);
@@ -1141,10 +1142,10 @@ static void remove_clause_widget_from_list(struct player *they,
 {
   struct widget *buf;
   SDL_Rect src = {0, 0, 0, 0};
-  bool scroll = TRUE;
+  bool scroll;
   struct diplomacy_dialog *pdialog = get_diplomacy_dialog(they);
 
-  /* find widget with clause */
+  /* Find widget with clause */
   buf = pdialog->pdialog->end_active_widget_list->next;
 
   do {
@@ -1172,14 +1173,12 @@ static void remove_clause_widget_from_list(struct player *they,
       buf = buf->prev;
       widget_undraw(buf);
       buf->size.w += len;
-      /* we need to save a new background because the width has changed */
+      /* We need to save a new background because the width has changed */
       FREESURFACE(buf->gfx);
     } while (buf != pdialog->pdialog->begin_active_widget_list);
-
-    scroll = FALSE;
   }
 
-  /* update state icons */
+  /* Update state icons */
   buf = pdialog->pdialog->end_widget_list->prev;
 
   if (buf->private_data.cbox->state) {
