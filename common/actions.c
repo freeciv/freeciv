@@ -3680,10 +3680,7 @@ is_action_possible(const action_id wanted_action,
   enum fc_tristate out;
   struct terrain *pterrain;
   struct action *paction = action_by_number(wanted_action);
-
-#ifndef FREECIV_NDEBUG
   enum action_target_kind tkind = action_get_target_kind(paction);
-#endif
 
   if (actor == NULL) {
     actor = req_context_empty();
