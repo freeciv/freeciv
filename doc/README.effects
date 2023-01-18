@@ -16,7 +16,7 @@ reqs  =
 
 The text in the brackets is the entry name, which just has to be unique, but
 is otherwise not used. The type field tells Freeciv which effect you are
-defining.  The value is the effect's value, which depends on which effect it
+defining. The value is the effect's value, which depends on which effect it
 is. The reqs table contain a list of requirements for this effect being in
 effect. You need to satisfy all requirements listed here for this effect to
 take effect in the game. Requirements with present = TRUE must be present,
@@ -45,6 +45,8 @@ system does not try to autogenerate text about that requirement. This
 can be used if the help system's text is unclear or misleading, or if
 you want to describe the requirement in your own words. The 'quiet'
 field has no effect on the game rules.
+
+Single requirement vector can have up to 40 requirements.
 
 
 Requirement types and supported ranges

@@ -396,7 +396,8 @@ struct achievement;
 struct action;
 
 
-/* Changing these will break network compatibility. */
+/* Changing these will break network compatibility.
+ * If changing MAX_NUM_REQS, also update user documentation in README.effects. */
 #define SP_MAX 20
 #define MAX_NUM_REQS 40
 
