@@ -16,6 +16,7 @@
 #endif
 
 /* utility */
+#include "fciconv.h"
 #include "netfile.h"
 #include "shared.h"
 
@@ -91,5 +92,6 @@ void libfreeciv_free(void)
   free_fileinfo_data();
   netfile_free();
   free_nls();
+  fc_iconv_close();
   fc_support_free();
 }

@@ -52,6 +52,9 @@ static const char *local_encoding, *data_encoding, *internal_encoding;
 #  define internal_encoding get_local_encoding()
 #endif /* HAVE_ICONV */
 
+static char *saved_from = NULL;
+static char *saved_to = NULL;
+
 /***********************************************************************//**
   Must be called during the initialization phase of server and client to
   initialize the character encodings to be used.
@@ -59,7 +62,7 @@ static const char *local_encoding, *data_encoding, *internal_encoding;
   Pass an internal encoding of NULL to use the local encoding internally.
 ***************************************************************************/
 void init_character_encodings(const char *my_internal_encoding,
-			      bool my_use_transliteration)
+                              bool my_use_transliteration)
 {
   transliteration_string = "";
 #ifdef HAVE_ICONV
@@ -177,17 +180,17 @@ const char *get_internal_encoding(void)
 }
 
 /***********************************************************************//**
-  Convert the text.  Both 'from' and 'to' must be 8-bit charsets.  The
-  result will be put into the buf buffer unless it is NULL, in which case it
-  will be allocated on demand.
+  Convert the text. Both 'from' and 'to' must be 8-bit charsets. The result
+  will be put into the buf buffer unless it is NULL, in which case it will
+  be allocated on demand.
 
-  Don't use this function if you can avoid it.  Use one of the
+  Don't use this function if you can avoid it. Use one of the
   xxx_to_yyy_string functions.
 ***************************************************************************/
-char *convert_string(const char *text,
-		     const char *from,
-		     const char *to,
-		     char *buf, size_t bufsz)
+static char *convert_string(const char *text,
+                            const char *from,
+                            const char *to,
+                            char *buf, size_t bufsz)
 {
 #ifdef HAVE_ICONV
   iconv_t cd = iconv_open(to, from);
@@ -202,12 +205,26 @@ char *convert_string(const char *text,
      * but use fprintf(stderr) */
     /* Use the real OS-provided strerror and errno rather than Freeciv's
      * abstraction, as that wouldn't do the correct thing with third-party
-     * iconv on Windows */
+     * iconv on Windows. */
 
-    /* TRANS: "Could not convert text from <encoding a> to <encoding b>:" 
-     *        <externally translated error string>."*/
-    fprintf(stderr, _("Could not convert text from %s to %s: %s.\n"),
-            from, to, strerror(errno));
+    if (saved_from == NULL
+        || strcmp(saved_from, from)
+        || strcmp(saved_to, to)) {
+
+      /* TRANS: "Could not convert text from <encoding a> to <encoding b>:"
+       *        <externally translated error string>." */
+      fprintf(stderr, _("Could not convert text from %s to %s: %s.\n"),
+              from, to, strerror(errno));
+
+      if (saved_from != NULL) {
+        free(saved_from);
+        free(saved_to);
+      }
+
+      saved_from = fc_strdup(from);
+      saved_to   = fc_strdup(to);
+    }
+
     /* The best we can do? */
     if (alloc) {
       return fc_strdup(text);
@@ -363,12 +380,12 @@ void fc_fprintf(FILE *stream, const char *format, ...)
 }
 
 /***********************************************************************//**
-  Return the length, in *characters*, of the string.  This can be used in
-  place of strlen in some places because it returns the number of characters
+  Return the length, in *characters*, of the string. This can be used in
+  place of strlen() in some places because it returns the number of characters
   not the number of bytes (with multi-byte characters in UTF-8, the two
   may not be the same).
 
-  Use of this function outside of GUI layout code is probably a hack.  For
+  Use of this function outside of GUI layout code is probably a hack. For
   instance the demographics code uses it, but this should instead pass the
   data directly to the GUI library for formatting.
 ***************************************************************************/
@@ -388,5 +405,21 @@ size_t get_internal_string_length(const char *text)
       /* Not BOM */
       len++;
     }
+  }
+}
+
+/***********************************************************************//**
+  Free resources allocated by the iconv system
+***************************************************************************/
+void fc_iconv_close(void)
+{
+  if (saved_from != NULL) {
+    free(saved_from);
+    saved_from = NULL;
+  }
+
+  if (saved_to != NULL) {
+    free(saved_to);
+    saved_to = NULL;
   }
 }
