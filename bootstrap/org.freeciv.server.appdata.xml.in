@@ -16,6 +16,10 @@
     </description>
     <launchable type="desktop-id">org.freeciv.server.desktop</launchable>
 
+    <provides>
+      <binary>freeciv-server</binary>
+    </provides>
+
     <url type="homepage">https://www.freeciv.org/</url>
     <url type="bugtracker">https://osdn.net/projects/freeciv/ticket/</url>
     <url type="faq">https://www.freeciv.org/wiki/FAQ</url>
