@@ -811,12 +811,14 @@ reqs	=
       "UnitClass", "Native", "Local"
     }
 
-[effect_workable_grassland]
+[effect_workable_normal_tile]
 type    = "Tile_Workable"
 value   = 1
 reqs    =
-    { "type", "name", "range"
-      "Terrain", "Grassland", "Local"
+    { "type",        "name",          "range", "present"
+      "TerrainFlag", "Radiating",     "Local",  FALSE
+      "Terrain",     "Inaccessible",  "Local",  FALSE
+      "Terrain",     "Boiling Ocean", "Local",  FALSE
     }
 
 [effect_workable_radiating]
@@ -826,30 +828,6 @@ reqs    =
     { "type", "name", "range"
       "TerrainFlag", "Radiating", "Local"
       "Tech", "Organic Structures", "Player"
-    }
-
-[effect_workable_hills]
-type    = "Tile_Workable"
-value   = 1
-reqs    =
-    { "type", "name", "range"
-      "Terrain", "Hills", "Local"
-    }
-
-[effect_workable_thick_mountains]
-type    = "Tile_Workable"
-value   = 1
-reqs    =
-    { "type", "name", "range"
-      "Terrain", "Thick Mountains", "Local"
-    }
-
-[effect_workable_ocean]
-type    = "Tile_Workable"
-value   = 1
-reqs    =
-    { "type", "name", "range"
-      "Terrain", "Ocean", "Local"
     }
 
 [effect_workable_boiling_ocean]
