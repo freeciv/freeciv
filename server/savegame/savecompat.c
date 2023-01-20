@@ -39,9 +39,6 @@ static char *special_names[] =
     "Fallout", NULL
   };
 
-/* Old savegames might have padding up to this amount of trade routes */
-#define MAX_TRADE_ROUTES_OLD 5
-
 /*
   For each savefile format after 2.3.0, compatibility functions are defined
   which translate secfile structures from previous version to that version;

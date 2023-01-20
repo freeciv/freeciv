@@ -3497,7 +3497,8 @@ static bool sg_load_player_city(struct loaddata *loading, struct player *plr,
     sp_count += value;
   }
 
-  for (i = 0; i < MAX_TRADE_ROUTES; i++) {
+  /* savegame2.c saves were ever saved with MAX_TRADE_ROUTES_OLD routes max */
+  for (i = 0; i < MAX_TRADE_ROUTES_OLD; i++) {
     int partner = secfile_lookup_int_default(loading->file, 0,
                                              "%s.traderoute%d", citystr, i);
 

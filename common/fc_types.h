@@ -1206,7 +1206,7 @@ enum road_compat { ROCO_ROAD, ROCO_RAILROAD, ROCO_RIVER, ROCO_NONE };
  * Maximum number of trade routes a city can have in any situation.
  * Changing this changes network protocol.
  */
-#define MAX_TRADE_ROUTES        5
+#define MAX_TRADE_ROUTES        20
 
 /* Used in the network protocol. */
 #define SPECENUM_NAME goods_selection_method
