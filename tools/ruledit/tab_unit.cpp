@@ -94,7 +94,7 @@ tab_unit::tab_unit(ruledit_gui *ui_in) : QWidget()
 
   button = new QPushButton(QString::fromUtf8(R__("Add Unit")), this);
   connect(button, SIGNAL(pressed()), this, SLOT(add_now()));
-  unit_layout->addWidget(button, but_row++, 0);
+  unit_layout->addWidget(button, but_row, 0);
   show_experimental(button);
 
   button = new QPushButton(QString::fromUtf8(R__("Remove this Unit")), this);
