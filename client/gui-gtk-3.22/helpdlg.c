@@ -345,8 +345,7 @@ static void help_hyperlink_callback(GtkWidget *w)
 {
   const char *s;
   struct help_page_selection *select;
-  /* TODO: Make sure there's always valid select->type */
-  enum help_page_type type BAD_HEURISTIC_INIT(HELP_LAST);
+  enum help_page_type type = HELP_LAST;
 
   s = gtk_label_get_text(GTK_LABEL(w));
   select = (struct help_page_selection *)(g_object_get_data(G_OBJECT(w), "page_type"));
