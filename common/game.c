@@ -30,6 +30,7 @@
 #include "ai.h"
 #include "achievements.h"
 #include "actions.h"
+#include "actres.h"
 #include "city.h"
 #include "connection.h"
 #include "counters.h"
@@ -528,6 +529,7 @@ void game_ruleset_init(void)
   ruleset_cache_init();
   disaster_types_init();
   achievements_init();
+  actres_init();
   actions_init();
   trade_route_types_init();
   terrains_init();
@@ -598,6 +600,7 @@ void game_ruleset_free(void)
   city_styles_free();
   styles_free();
   actions_free();
+  actres_free();
   achievements_free();
   disaster_types_free();
   terrains_free();

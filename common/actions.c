@@ -120,10 +120,6 @@ unit_action_new(action_id id,
 
 static enum action_sub_target_kind
 action_sub_target_kind_default(enum action_result result);
-static enum act_tgt_compl
-action_target_compl_calc(enum action_result result,
-                         enum action_target_kind tgt_kind,
-                         enum action_sub_target_kind sub_tgt_kind);
 
 static bool is_enabler_active(const struct action_enabler *enabler,
                               const struct req_context *actor,
@@ -1644,9 +1640,7 @@ static struct action *action_new(action_id id,
   action->actor_kind = AAK_UNIT;
   action->target_kind = action_target_kind_default(result);
   action->sub_target_kind = action_sub_target_kind_default(result);
-  action->target_complexity
-      = action_target_compl_calc(result, action->target_kind,
-                                 action->sub_target_kind);
+  action->target_complexity = actres_target_compl_calc(result);
 
   /* ASTK_NONE implies ACT_TGT_COMPL_SIMPLE and
    * !ASTK_NONE implies !ACT_TGT_COMPL_SIMPLE */
@@ -8988,101 +8982,6 @@ action_sub_target_kind_default(enum action_result result)
 
   /* Should never be reached. */
   return ASTK_NONE;
-}
-
-/**********************************************************************//**
-  Returns the sub target complexity for the action with the specified
-  result when it has the specified target kind and sub target kind.
-**************************************************************************/
-static enum act_tgt_compl
-action_target_compl_calc(enum action_result result,
-                         enum action_target_kind tgt_kind,
-                         enum action_sub_target_kind sub_tgt_kind)
-{
-  fc_assert_ret_val(action_result_is_valid(result) || result == ACTRES_NONE,
-                    ACT_TGT_COMPL_SIMPLE);
-
-  switch (result) {
-  case ACTRES_ESTABLISH_EMBASSY:
-  case ACTRES_SPY_INVESTIGATE_CITY:
-  case ACTRES_SPY_POISON:
-  case ACTRES_SPY_STEAL_GOLD:
-  case ACTRES_SPY_SABOTAGE_CITY:
-  case ACTRES_SPY_SABOTAGE_CITY_PRODUCTION:
-  case ACTRES_SPY_STEAL_TECH:
-  case ACTRES_SPY_INCITE_CITY:
-  case ACTRES_TRADE_ROUTE:
-  case ACTRES_MARKETPLACE:
-  case ACTRES_HELP_WONDER:
-  case ACTRES_JOIN_CITY:
-  case ACTRES_STEAL_MAPS:
-  case ACTRES_SPY_NUKE:
-  case ACTRES_DESTROY_CITY:
-  case ACTRES_DISBAND_UNIT_RECOVER:
-  case ACTRES_HOME_CITY:
-  case ACTRES_HOMELESS:
-  case ACTRES_UPGRADE_UNIT:
-  case ACTRES_AIRLIFT:
-  case ACTRES_STRIKE_PRODUCTION:
-  case ACTRES_CONQUER_CITY:
-  case ACTRES_SPY_SPREAD_PLAGUE:
-    return ACT_TGT_COMPL_SIMPLE;
-  case ACTRES_SPY_TARGETED_SABOTAGE_CITY:
-  case ACTRES_STRIKE_BUILDING:
-  case ACTRES_SPY_TARGETED_STEAL_TECH:
-    return ACT_TGT_COMPL_MANDATORY;
-  case ACTRES_SPY_BRIBE_UNIT:
-  case ACTRES_SPY_SABOTAGE_UNIT:
-  case ACTRES_EXPEL_UNIT:
-  case ACTRES_HEAL_UNIT:
-  case ACTRES_TRANSPORT_ALIGHT:
-  case ACTRES_TRANSPORT_UNLOAD:
-  case ACTRES_TRANSPORT_LOAD:
-  case ACTRES_TRANSPORT_BOARD:
-  case ACTRES_TRANSPORT_EMBARK:
-    return ACT_TGT_COMPL_SIMPLE;
-  case ACTRES_CAPTURE_UNITS:
-  case ACTRES_BOMBARD:
-  case ACTRES_NUKE_UNITS:
-  case ACTRES_ATTACK:
-  case ACTRES_WIPE_UNITS:
-  case ACTRES_SPY_ATTACK:
-    return ACT_TGT_COMPL_SIMPLE;
-  case ACTRES_FOUND_CITY:
-  case ACTRES_NUKE:
-  case ACTRES_PARADROP:
-  case ACTRES_PARADROP_CONQUER:
-  case ACTRES_TRANSFORM_TERRAIN:
-  case ACTRES_CULTIVATE:
-  case ACTRES_PLANT:
-  case ACTRES_TRANSPORT_DISEMBARK:
-  case ACTRES_HUT_ENTER:
-  case ACTRES_HUT_FRIGHTEN:
-  case ACTRES_UNIT_MOVE:
-  case ACTRES_SPY_ESCAPE:
-    return ACT_TGT_COMPL_SIMPLE;
-  case ACTRES_PILLAGE:
-  case ACTRES_CLEAN:
-  case ACTRES_CLEAN_POLLUTION:
-  case ACTRES_CLEAN_FALLOUT:
-    return ACT_TGT_COMPL_FLEXIBLE;
-  case ACTRES_ROAD:
-  case ACTRES_BASE:
-  case ACTRES_MINE:
-  case ACTRES_IRRIGATE:
-    return ACT_TGT_COMPL_MANDATORY;
-  case ACTRES_CONQUER_EXTRAS:
-    return ACT_TGT_COMPL_SIMPLE;
-  case ACTRES_DISBAND_UNIT:
-  case ACTRES_CONVERT:
-  case ACTRES_FORTIFY:
-    return ACT_TGT_COMPL_SIMPLE;
-  case ACTRES_NONE:
-    return ACT_TGT_COMPL_SIMPLE;
-  }
-
-  /* Should never be reached. */
-  return ACT_TGT_COMPL_SIMPLE;
 }
 
 /**********************************************************************//**

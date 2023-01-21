@@ -17,6 +17,8 @@ libfreeciv_la_SOURCES = \
 		achievements.h	\
 		actions.c	\
 		actions.h	\
+		actres.c	\
+		actres.h	\
 		ai.c		\
 		ai.h		\
 		base.c		\

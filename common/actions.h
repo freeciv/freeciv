@@ -15,6 +15,7 @@
 #define FC_ACTIONS_H
 
 /* common */
+#include "actres.h"
 #include "fc_types.h"
 #include "requirements.h"
 
@@ -26,39 +27,6 @@ extern "C" {
 #define SPECENUM_VALUE0 AAK_UNIT
 #define SPECENUM_VALUE0NAME N_("a unit")
 #define SPECENUM_COUNT AAK_COUNT
-#include "specenum_gen.h"
-
-/* When making changes to this, update also atk_helpnames at actions.c */
-#define SPECENUM_NAME action_target_kind
-#define SPECENUM_VALUE0 ATK_CITY
-#define SPECENUM_VALUE0NAME "City"
-#define SPECENUM_VALUE1 ATK_UNIT
-#define SPECENUM_VALUE1NAME "Unit"
-#define SPECENUM_VALUE2 ATK_UNITS
-#define SPECENUM_VALUE2NAME "Stack"
-#define SPECENUM_VALUE3 ATK_TILE
-#define SPECENUM_VALUE3NAME "Tile"
-#define SPECENUM_VALUE4 ATK_EXTRAS
-#define SPECENUM_VALUE4NAME "Extras"
-/* No target except the actor itself. */
-#define SPECENUM_VALUE5 ATK_SELF
-#define SPECENUM_VALUE5NAME "Self"
-#define SPECENUM_COUNT ATK_COUNT
-#include "specenum_gen.h"
-
-/* Values used in the network protocol. */
-#define SPECENUM_NAME action_sub_target_kind
-#define SPECENUM_VALUE0 ASTK_NONE
-#define SPECENUM_VALUE0NAME N_("nothing")
-#define SPECENUM_VALUE1 ASTK_BUILDING
-#define SPECENUM_VALUE1NAME N_("buildings in")
-#define SPECENUM_VALUE2 ASTK_TECH
-#define SPECENUM_VALUE2NAME N_("techs from")
-#define SPECENUM_VALUE3 ASTK_EXTRA
-#define SPECENUM_VALUE3NAME N_("extras on")
-#define SPECENUM_VALUE4 ASTK_EXTRA_NOT_THERE
-#define SPECENUM_VALUE4NAME N_("create extras on")
-#define SPECENUM_COUNT ASTK_COUNT
 #include "specenum_gen.h"
 
 /* Values used in the network protocol. */
@@ -367,28 +335,6 @@ extern "C" {
 #define ACTION_DISTANCE_UNLIMITED (ACTION_DISTANCE_LAST_NON_SIGNAL + 1)
 /* No action max distance can be bigger than this. */
 #define ACTION_DISTANCE_MAX ACTION_DISTANCE_UNLIMITED
-
-/* Action target complexity */
-#define SPECENUM_NAME act_tgt_compl
-/* The action's target is just the primary target. (Just the tile, unit,
- * city, etc). */
-#define SPECENUM_VALUE0 ACT_TGT_COMPL_SIMPLE
-#define SPECENUM_VALUE0NAME N_("simple")
-/* The action's target is complex because its target is the primary target
- * and a sub target. (Examples: Tile + Extra and City + Building.) The
- * player is able to specify details about this action but the server will
- * fill in missing details so a client can choose to not specify the sub
- * target. */
-#define SPECENUM_VALUE1 ACT_TGT_COMPL_FLEXIBLE
-#define SPECENUM_VALUE1NAME N_("flexible")
-/* The action's target is complex because its target is the primary target
- * and a sub target. (Examples: Tile + Extra and City + Building.) The
- * player is required to specify details about this action because the
- * server won't fill inn the missing details when unspecified. A client must
- * therefore specify the sub target of this action. */
-#define SPECENUM_VALUE2 ACT_TGT_COMPL_MANDATORY
-#define SPECENUM_VALUE2NAME N_("mandatory")
-#include "specenum_gen.h"
 
 struct action
 {

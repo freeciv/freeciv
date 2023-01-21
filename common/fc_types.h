@@ -183,6 +183,7 @@ enum counter_target { CTGT_CITY };
 #include "specenum_gen.h"
 
 /* Values used in the network protocol. */
+/* Update also properties table on actres.c when touching this. */
 #define SPECENUM_NAME action_result
 #define SPECENUM_VALUE0 ACTRES_ESTABLISH_EMBASSY
 #define SPECENUM_VALUE0NAME "Unit Establish Embassy"
@@ -315,8 +316,10 @@ enum counter_target { CTGT_CITY };
 #define SPECENUM_VALUE64 ACTRES_CLEAN
 #define SPECENUM_VALUE64NAME "Clean"
 /* All consequences are handled as (ruleset) action data. */
-#define SPECENUM_COUNT ACTRES_NONE
+#define SPECENUM_COUNT ACTRES_LAST
 #include "specenum_gen.h"
+
+#define ACTRES_NONE ACTRES_LAST
 
 /* Used in the network protocol. */
 #define SPECENUM_NAME action_sub_result
