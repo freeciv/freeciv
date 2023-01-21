@@ -3082,7 +3082,10 @@ void real_menus_update(void)
   g_menu_insert_submenu(unit_menu, 1, _("Go to a_nd..."), G_MENU_MODEL(submenu));
 
   submenu = g_menu_new();
-  menu_entry_init(submenu, "START_REVOLUTION");
+
+  if (untargeted_revolution_allowed()) {
+    menu_entry_init(submenu, "START_REVOLUTION");
+  }
 
   i = 0;
   governments_iterate(g) {
