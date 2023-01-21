@@ -54,7 +54,6 @@ const char *get_timeout_label_text();
 static int mapview_frozen_level = 0;
 extern void destroy_city_dialog();
 extern struct canvas *canvas;
-extern QApplication *qapp;
 
 #define MAX_DIRTY_RECTS 20
 static int num_dirty_rects = 0;

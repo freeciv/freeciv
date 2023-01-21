@@ -64,9 +64,9 @@
 #include "citydlg.h"
 #include "colors.h"
 #include "fc_client.h"
+#include "gui_main.h"
 #include "hudwidget.h"
 
-extern QApplication *qapp;
 static bool city_dlg_created = false; /** defines if dialog for city has been
                                        * already created. It's created only
                                        * once per client
@@ -4078,7 +4078,7 @@ void city_production_delegate::paint(QPainter *painter,
   QPixmap pix_dec(option.rect.width(), option.rect.height());
   QStyleOptionViewItem opt;
   color col;
-  QIcon icon = qapp->style()->standardIcon(QStyle::SP_DialogCancelButton);
+  QIcon icon = current_app()->style()->standardIcon(QStyle::SP_DialogCancelButton);
   bool free_sprite = false;
   struct unit_class *pclass;
 
