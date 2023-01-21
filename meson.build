@@ -129,12 +129,23 @@ if host_system == 'windows'
 
   if min_win_ver != ''
     add_global_arguments('-D_WIN32_WINNT=' + min_win_ver, language: ['c', 'cpp'])
-  elif get_option('qtver') == 'qt6' and \
-     ( get_option('ruledit') or \
-       get_option('clients').contains('qt') or \
-       get_option('fcmp').contains('qt'))
-    add_global_arguments('-D_WIN32_WINNT=0x0A00', language : ['c', 'cpp'])
-  else
+  endif
+
+  if get_option('ruledit') or \
+     get_option('clients').contains('qt') or \
+     get_option('fcmp').contains('qt')
+    if get_option('debug')
+      # Qt headers have malformed macro definition triggering this error
+      add_global_arguments('-Wno-c99-extensions', language : ['c', 'cpp'])
+    endif
+    if min_win_ver == ''
+      if get_option('qtver') == 'qt6'
+        add_global_arguments('-D_WIN32_WINNT=0x0A00', language : ['c', 'cpp'])
+      else
+        add_global_arguments('-D_WIN32_WINNT=0x0603', language : ['c', 'cpp'])
+      endif
+    endif
+  elif min_win_ver == ''
     add_global_arguments('-D_WIN32_WINNT=0x0603', language : ['c', 'cpp'])
   endif
 
