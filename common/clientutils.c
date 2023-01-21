@@ -19,6 +19,7 @@
 #include "astring.h"
 
 /* common */
+#include "combat.h"
 #include "extras.h"
 #include "fc_types.h"
 #include "game.h"  /* FIXME it's extra_type_iterate that needs this really */
@@ -317,4 +318,54 @@ const char *concat_tile_activity_text(struct tile *ptile)
   free(calc);
 
   return astr_str(&str);
+}
+
+/************************************************************************//**
+  Add lines about the combat odds to the str.
+****************************************************************************/
+void combat_odds_to_astr(struct astring *str, struct unit_list *punits,
+                         const struct tile *ptile, const struct unit *punit,
+                         const char *pct_str)
+{
+  const struct unit_type *ptype = unit_type_get(punit);
+
+  unit_list_iterate(punits, pfocus) {
+    int att_chance = FC_INFINITY, def_chance = FC_INFINITY;
+    bool found = FALSE;
+
+    unit_list_iterate(ptile->units, tile_unit) {
+      if (unit_owner(tile_unit) != unit_owner(pfocus)) {
+        int att = unit_win_chance(pfocus, tile_unit, NULL) * 100;
+        int def = (1.0 - unit_win_chance(tile_unit, pfocus,
+                                         NULL)) * 100;
+
+        found = TRUE;
+
+        /* Presumably the best attacker and defender will be used. */
+        att_chance = MIN(att, att_chance);
+        def_chance = MIN(def, def_chance);
+      }
+    } unit_list_iterate_end;
+
+    if (found) {
+      /* TRANS: "Chance to win: A:95% D:46%" - "%s" are just the percent signs. */
+      astr_add_line(str, _("Chance to win: A:%d%s D:%d%s"),
+                    att_chance, pct_str, def_chance, pct_str);
+    }
+  } unit_list_iterate_end;
+
+  /* TRANS: A is attack power, D is defense power, FP is firepower,
+   * HP is hitpoints (current and max). */
+  astr_add_line(str, _("A:%d D:%d FP:%d HP:%d/%d"),
+                ptype->attack_strength, ptype->defense_strength,
+                ptype->firepower, punit->hp, ptype->hp);
+
+  {
+    const char *veteran_name =
+      utype_veteran_name_translation(ptype, punit->veteran);
+
+    if (veteran_name != NULL) {
+      astr_add(str, " (%s)", veteran_name);
+    }
+  }
 }

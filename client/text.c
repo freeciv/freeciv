@@ -403,43 +403,7 @@ const char *popup_info_text(struct tile *ptile)
       }
     }
 
-    unit_list_iterate(get_units_in_focus(), pfocus_unit) {
-      int att_chance = FC_INFINITY, def_chance = FC_INFINITY;
-      bool found = FALSE;
-
-      unit_list_iterate(ptile->units, tile_unit) {
-	if (unit_owner(tile_unit) != unit_owner(pfocus_unit)) {
-          int att = unit_win_chance(pfocus_unit, tile_unit, NULL) * 100;
-          int def = (1.0 - unit_win_chance(tile_unit, pfocus_unit,
-                                           NULL)) * 100;
-
-	  found = TRUE;
-
-	  /* Presumably the best attacker and defender will be used. */
-	  att_chance = MIN(att, att_chance);
-	  def_chance = MIN(def, def_chance);
-	}
-      } unit_list_iterate_end;
-
-      if (found) {
-	/* TRANS: "Chance to win: A:95% D:46%" */
-	astr_add_line(&str, _("Chance to win: A:%d%% D:%d%%"),
-		      att_chance, def_chance);	
-      }
-    } unit_list_iterate_end;
-
-    /* TRANS: A is attack power, D is defense power, FP is firepower,
-     * HP is hitpoints (current and max). */
-    astr_add_line(&str, _("A:%d D:%d FP:%d HP:%d/%d"),
-                  ptype->attack_strength, ptype->defense_strength,
-                  ptype->firepower, punit->hp, ptype->hp);
-    {
-      const char *veteran_name =
-        utype_veteran_name_translation(ptype, punit->veteran);
-      if (veteran_name) {
-        astr_add(&str, " (%s)", veteran_name);
-      }
-    }
+    combat_odds_to_astr(&str, get_units_in_focus(), ptile, punit, "%%");
 
     if (unit_owner(punit) == client_player()
         || client_is_global_observer()) {
