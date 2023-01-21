@@ -807,6 +807,7 @@ void redraw_unit_info_label(struct unit_list *punitlist)
 
         unit_list_iterate(ptile->units, aunit) {
           SDL_Surface *tmp_surf;
+          struct astring addition = ASTRING_INIT;
 
           if (aunit == punit) {
             continue;
@@ -815,6 +816,7 @@ void redraw_unit_info_label(struct unit_list *punitlist)
           putype = unit_type_get(aunit);
           vetname = utype_veteran_name_translation(putype, aunit->veteran);
           home_city = game_city_by_number(aunit->homecity);
+          unit_activity_astr(aunit, &addition);
           fc_snprintf(buffer, sizeof(buffer),
                       "%s (%d,%d,%s)%s%s\n%s\n(%d/%d)\n%s",
                       utype_name_translation(putype),
@@ -823,9 +825,10 @@ void redraw_unit_info_label(struct unit_list *punitlist)
                       move_points_text(putype->move_rate, FALSE),
                       (vetname != NULL ? "\n" : ""),
                       (vetname != NULL ? vetname : ""),
-                      unit_activity_text(aunit),
+                      astr_str(&addition),
                       aunit->hp, putype->hp,
                       home_city ? city_name_get(home_city) : Q_("?homecity:None"));
+          astr_free(&addition);
 
           buf_surf = create_surf(tileset_full_tile_width(tileset),
                                  tileset_full_tile_height(tileset),

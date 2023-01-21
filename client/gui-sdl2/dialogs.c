@@ -31,6 +31,7 @@
 #endif /* SDL2_PLAIN_INCLUDE */
 
 /* utility */
+#include "astring.h"
 #include "bitvector.h"
 #include "fcintl.h"
 #include "log.h"
@@ -1136,6 +1137,9 @@ void unit_select_dialog_popup(struct tile *ptile)
     vetname = utype_veteran_name_translation(punittype, punit->veteran);
 
     if (unit_owner(punit) == client.conn.playing) {
+      struct astring addition = ASTRING_INIT;
+
+      unit_activity_astr(punit, &addition);
       fc_snprintf(cbuf , sizeof(cbuf), _("Contact %s (%d / %d) %s(%d,%d,%s) %s"),
                   (vetname != NULL ? vetname : ""),
                   punit->hp, punittype->hp,
@@ -1143,7 +1147,8 @@ void unit_select_dialog_popup(struct tile *ptile)
                   punittype->attack_strength,
                   punittype->defense_strength,
                   move_points_text(punittype->move_rate, FALSE),
-                  unit_activity_text(punit));
+                  astr_str(&addition));
+      astr_free(&addition);
     } else {
       int att_chance, def_chance;
 
@@ -1914,6 +1919,9 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
         vetname = utype_veteran_name_translation(punittype, punit->veteran);
 
         if (unit_owner(punit) == client.conn.playing) {
+          struct astring addition = ASTRING_INIT;
+
+          unit_activity_astr(punit, &addition);
           fc_snprintf(cbuf, sizeof(cbuf),
                       _("Activate %s (%d / %d) %s (%d,%d,%s) %s"),
                       (vetname != NULL ? vetname : ""),
@@ -1922,8 +1930,9 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
                       punittype->attack_strength,
                       punittype->defense_strength,
                       move_points_text(punittype->move_rate, FALSE),
-                      unit_activity_text(punit));
-    
+                      astr_str(&addition));
+          astr_free(&addition);
+
           create_active_iconlabel(buf, pwindow->dst, pstr,
                                   cbuf, adv_unit_select_callback);
           buf->data.unit = punit;
@@ -2026,6 +2035,9 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
         vetname = utype_veteran_name_translation(punittype, punit->veteran);
         if ((pcity && city_owner(pcity) == client.conn.playing)
             || (unit_owner(punit) == client.conn.playing)) {
+          struct astring addition = ASTRING_INIT;
+
+          unit_activity_astr(punit, &addition);
           fc_snprintf(cbuf, sizeof(cbuf),
                       _("Activate %s (%d / %d) %s (%d,%d,%s) %s"),
                       (vetname != NULL ? vetname : ""),
@@ -2034,7 +2046,8 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
                       punittype->attack_strength,
                       punittype->defense_strength,
                       move_points_text(punittype->move_rate, FALSE),
-                      unit_activity_text(punit));
+                      astr_str(&addition));
+          astr_free(&addition);
 
           create_active_iconlabel(buf, pwindow->dst, pstr,
                                   cbuf, adv_unit_select_callback);

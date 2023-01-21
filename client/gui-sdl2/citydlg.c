@@ -31,6 +31,7 @@
 #endif /* SDL2_PLAIN_INCLUDE */
 
 /* utility */
+#include "astring.h"
 #include "bitvector.h"
 #include "fcintl.h"
 #include "log.h"
@@ -723,10 +724,12 @@ static void create_present_supported_units_widget_list(struct unit_list *units)
 
   unit_list_iterate(units, punit) {
     const char *vetname;
+    struct astring addition = ASTRING_INIT;
 
     putype = unit_type_get(punit);
     vetname = utype_veteran_name_translation(putype, punit->veteran);
     home_city = game_city_by_number(punit->homecity);
+    unit_activity_astr(punit, &addition);
     fc_snprintf(cbuf, sizeof(cbuf), "%s (%d,%d,%s)%s%s\n%s\n(%d/%d)\n%s",
                 utype_name_translation(putype),
                 putype->attack_strength,
@@ -734,9 +737,10 @@ static void create_present_supported_units_widget_list(struct unit_list *units)
                 move_points_text(putype->move_rate, FALSE),
                 (vetname != NULL ? "\n" : ""),
                 (vetname != NULL ? vetname : ""),
-                unit_activity_text(punit),
+                astr_str(&addition),
                 punit->hp, putype->hp,
                 home_city ? home_city->name : Q_("?homecity:None"));
+    astr_free(&addition);
 
     if (pcity_dlg->page == SUPPORTED_UNITS_PAGE) {
       int city_near_dist;
