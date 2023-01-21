@@ -18,6 +18,7 @@ modules:
 finish-args:
   - --socket=wayland
   - --socket=fallback-x11
+  - --share=ipc
   - --share=network
   - --socket=pulseaudio
   - --filesystem=~/.freeciv:create
