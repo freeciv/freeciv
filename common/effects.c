@@ -88,7 +88,7 @@ struct user_effect ueffects[EFT_USER_EFFECT_LAST + 1 - EFT_USER_EFFECT_1];
     - There is a sources cache of all wonders ever built; thus any wonder
       effect that survives can have world range.
   However there is no sources cache for many of the possible sources.  For
-  instance non-unique buildings do not have a world-range sources cahce, so
+  instance non-unique buildings do not have a world-range sources cache, so
   you can't have a non-wonder building have a world-ranged effect.
 
   The sources caches could easily be extended by generalizing it to a set
