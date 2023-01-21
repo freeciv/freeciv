@@ -381,7 +381,7 @@ void effect_edit::multiplier_menu(QAction *action)
 }
 
 /**********************************************************************//**
-  User entered comment for the building
+  User entered comment for the effect
 **************************************************************************/
 void effect_edit::comment_given()
 {
