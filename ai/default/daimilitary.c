@@ -1033,13 +1033,13 @@ bool dai_process_defender_want(struct ai_type *ait, struct player *pplayer,
   const struct research *presearch = research_get(pplayer);
   /* FIXME: We check if the city has *some* defensive structure,
    * but not whether the city has a defensive structure against
-   * any specific attacker.  The actual danger may not be mitigated
+   * any specific attacker. The actual danger may not be mitigated
    * by the defense selected... */
   bool walls = city_got_defense_effect(pcity, NULL);
   /* Technologies we would like to have. */
-  int tech_desire[U_LAST];
+  adv_want tech_desire[U_LAST];
   /* Our favourite unit. */
-  int best = -1;
+  adv_want best = -1;
   struct unit_type *best_unit_type = NULL;
   int best_unit_cost = 1;
   struct ai_city *city_data = def_ai_city_data(pcity, ait);
@@ -1049,12 +1049,12 @@ bool dai_process_defender_want(struct ai_type *ait, struct player *pplayer,
   memset(tech_desire, 0, sizeof(tech_desire));
 
   simple_ai_unit_type_iterate(punittype) {
-    int desire; /* How much we want the unit? */
+    adv_want desire; /* How much we want the unit? */
 
     /* Only consider proper defenders - otherwise waste CPU and
      * bump tech want needlessly. */
     if (!utype_has_role(punittype, L_DEFEND_GOOD)
-	&& !utype_has_role(punittype, L_DEFEND_OK)) {
+        && !utype_has_role(punittype, L_DEFEND_OK)) {
       continue;
     }
 
@@ -1157,13 +1157,13 @@ bool dai_process_defender_want(struct ai_type *ait, struct player *pplayer,
     if (tech_desire[utype_index(punittype)] > 0) {
       /* TODO: Document or fix the algorithm below. I have no idea why
        * it is written this way, and the results seem strange to me. - Per */
-      int desire = tech_desire[utype_index(punittype)] * best_unit_cost / best;
+      adv_want desire = tech_desire[utype_index(punittype)] * best_unit_cost / best;
 
       unit_tech_reqs_iterate(punittype, padv) {
         plr_data->tech_want[advance_index(padv)]
           += desire;
         TECH_LOG(ait, LOG_DEBUG, pplayer, padv,
-                 "+ %d for %s to defend %s",
+                 "+ " ADV_WANT_PRINTF " for %s to defend %s",
                  desire,
                  utype_rule_name(punittype),
                  city_name_get(pcity));
@@ -1236,10 +1236,10 @@ static void process_attacker_want(struct ai_type *ait,
 
   if (utype_class(orig_utype)->adv.sea_move == MOVE_NONE
       && !boat && boattype) {
-    /* cost of ferry */
+    /* Cost of ferry */
     needferry = utype_build_shield_cost(pcity, NULL, boattype);
   }
-  
+
   if (!is_stack_vulnerable(ptile)) {
     /* If it is a city, a fortress or an air base,
      * we may have to whack it many times */
@@ -1253,7 +1253,7 @@ static void process_attacker_want(struct ai_type *ait,
             || !can_city_build_unit_direct(pcity, punittype->obsoleted_by))
         && punittype->attack_strength > 0 /* or we'll get SIGFPE */) {
       /* Values to be computed */
-      int desire;
+      adv_want desire;
       adv_want want;
       int move_time;
       int vuln;
@@ -1356,7 +1356,7 @@ static void process_attacker_want(struct ai_type *ait,
       /* Not bothering to s/!vuln/!pdef/ here for the time being. -- Syela
        * (this is noted elsewhere as terrible bug making warships yoyoing) 
        * as the warships will go to enemy cities hoping that the enemy builds 
-       * something for them to kill*/
+       * something for them to kill. */
       if (vuln == 0
           && (utype_class(punittype)->adv.land_move == MOVE_NONE
               || 0 < utype_fuel(punittype))) {
@@ -1381,7 +1381,7 @@ static void process_attacker_want(struct ai_type *ait,
         if (!acity) {
           desire = kill_desire(value, attack, bcost, vuln, victim_count);
         } else {
-          int kd;
+          adv_want kd;
           int city_attack = acity_data->attack * acity_data->attack;
 
           /* See aiunit.c:find_something_to_kill() for comments. */
@@ -1398,7 +1398,7 @@ static void process_attacker_want(struct ai_type *ait,
           desire = MAX(desire, kd);
         }
       }
-      
+
       desire -= tech_cost * SHIELD_WEIGHTING;
       /* We can be possibly making some people of our homecity unhappy - then
        * we don't want to travel too far away to our victims. */
@@ -1408,7 +1408,7 @@ static void process_attacker_want(struct ai_type *ait,
 
       want = military_amortize(pplayer, pcity, desire, MAX(1, move_time),
                                bcost_balanced + needferry);
-      
+
       if (want > 0) {
         if (tech_dist > 0) {
           /* This is a future unit, tell the scientist how much we need it */
@@ -1432,7 +1432,7 @@ static void process_attacker_want(struct ai_type *ait,
                      ") with %s(" ADV_WANT_PRINTF ")"
                      " [attack=%d,value=%d,move_time=%d,vuln=%d,bcost=%d]",
                      utype_rule_name(best_choice->value.utype),
-		     best_choice->want,
+                     best_choice->want,
                      utype_rule_name(punittype),
                      want,
                      attack, value, move_time, vuln, bcost);
@@ -1445,9 +1445,9 @@ static void process_attacker_want(struct ai_type *ait,
             CITY_LOG(LOG_DEBUG, pcity, "cannot build unit %s",
                      utype_rule_name(punittype));
           } else if (can_city_build_improvement_now(pcity, impr_req)) {
-	    /* Building this unit requires a specific type of improvement.
-	     * So we build this improvement instead.  This may not be the
-	     * best behavior. */
+            /* Building this unit requires a specific type of improvement.
+             * So we build this improvement instead.  This may not be the
+             * best behavior. */
             CITY_LOG(LOG_DEBUG, pcity, "building %s to build unit %s",
                      improvement_rule_name(impr_req),
                      utype_rule_name(punittype));
@@ -1455,11 +1455,11 @@ static void process_attacker_want(struct ai_type *ait,
             best_choice->want = want;
             best_choice->type = CT_BUILDING;
           } else {
-	    /* This should never happen? */
+            /* This should never happen? */
             CITY_LOG(LOG_DEBUG, pcity, "cannot build %s or unit %s",
                      improvement_rule_name(impr_req),
                      utype_rule_name(punittype));
-	  }
+          }
         }
       }
     }
