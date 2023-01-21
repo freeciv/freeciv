@@ -61,8 +61,6 @@
 
 #include "menu.h"
 
-extern QApplication *qapp;
-
 static void enable_interface(bool enable);
 
 /**************************************************************************

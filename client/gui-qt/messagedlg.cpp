@@ -29,10 +29,10 @@
 
 // gui-qt
 #include "fc_client.h"
+#include "gui_main.h"
 
 #include "messagedlg.h"
 
-extern QApplication *qapp;
 /**************************************************************************
   Message widget constructor
 **************************************************************************/
@@ -84,8 +84,8 @@ message_dlg::message_dlg()
   fill_data();
   margins = msgtab->contentsMargins();
   len = msgtab->horizontalHeader()->length() + margins.left()
-        + margins.right()
-        + qapp->style()->pixelMetric(QStyle::PM_ScrollBarExtent);
+    + margins.right()
+    + current_app()->style()->pixelMetric(QStyle::PM_ScrollBarExtent);
   msgtab->setFixedWidth(len);
   msgtab->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
   but1->setFixedWidth(len / 3);

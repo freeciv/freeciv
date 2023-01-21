@@ -32,9 +32,8 @@
 
 // gui-qt
 #include "fc_client.h"
+#include "gui_main.h"
 
-extern QApplication *current_app();
-extern QApplication *qapp;
 extern QString current_theme;
 static QString def_app_style;
 static QString stylestring;
