@@ -1185,21 +1185,6 @@ bv_extras get_unit_tile_pillage_set(const struct tile *ptile)
 }
 
 /**************************************************************************
-  Return text describing the unit's current activity as a static string.
-
-  FIXME: Convert all callers of this function to unit_activity_astr()
-  because this function is not re-entrant.
-**************************************************************************/
-const char *unit_activity_text(const struct unit *punit) {
-  static struct astring str = ASTRING_INIT;
-
-  astr_clear(&str);
-  unit_activity_astr(punit, &str);
-
-  return astr_str(&str);
-}
-
-/**************************************************************************
   Append text describing the unit's current activity to the given astring.
 **************************************************************************/
 void unit_activity_astr(const struct unit *punit, struct astring *astr)
