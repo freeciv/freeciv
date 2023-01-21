@@ -33,6 +33,7 @@
 #include <X11/Xaw/Viewport.h>	/* for racesdlg */
 
 /* utility */
+#include "astring.h"
 #include "bitvector.h"
 #include "fcintl.h"
 #include "log.h"
@@ -699,6 +700,7 @@ void unit_select_dialog_popup(struct tile *ptile)
     struct unit_type *punittemp = unit_type_get(punit);
     struct city *pcity;
     struct canvas store;
+    struct astring addition = ASTRING_INIT;
 
     if (!(i % r))  {
       nargs = 0;
@@ -718,10 +720,12 @@ void unit_select_dialog_popup(struct tile *ptile)
 
     pcity = player_city_by_number(client_player(), punit->homecity);
 
+    unit_activity_astr(punit, &addition);
     fc_snprintf(buffer, sizeof(buffer), "%s(%s)\n%s",
                 utype_name_translation(punittemp),
                 pcity ? city_name_get(pcity) : "",
-                unit_activity_text(punit));
+                astr_str(&addition));
+    astr_free(&addition);
 
     unit_select_pixmaps[i]=XCreatePixmap(display, XtWindow(map_canvas), 
 					 tileset_full_tile_width(tileset), tileset_full_tile_height(tileset),

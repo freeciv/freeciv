@@ -325,7 +325,6 @@ bool kills_citizen_after_attack(const struct unit *punit);
 struct astring; /* Forward declaration. */
 void unit_activity_astr(const struct unit *punit, struct astring *astr);
 void unit_upkeep_astr(const struct unit *punit, struct astring *astr);
-const char *unit_activity_text(const struct unit *punit);
 
 int get_transporter_capacity(const struct unit *punit);
 
