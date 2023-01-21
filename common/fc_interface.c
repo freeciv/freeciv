@@ -16,6 +16,7 @@
 #endif
 
 /* utility */
+#include "fciconv.h"
 #include "shared.h"
 
 /* common */
@@ -79,5 +80,6 @@ void libfreeciv_free(void)
   free_multicast_group();
   free_user_home_dir();
   free_fileinfo_data();
+  fc_iconv_close();
   fc_support_free();
 }
