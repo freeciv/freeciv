@@ -50,6 +50,7 @@ EXTRA_DIST =	autogen.sh 			\
 		m4/gtk4-client.m4		\
 		m4/host-cpu-c-abi.m4		\
 		m4/iconv.m4			\
+		m4/intl.m4			\
 		m4/intlmacosx.m4		\
 		m4/lib-ld.m4			\
 		m4/lib-link.m4			\
