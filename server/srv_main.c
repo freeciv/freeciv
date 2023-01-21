@@ -826,11 +826,13 @@ static void notify_illegal_armistice_units(struct player *phost,
   struct unit *a_unit = NULL;
 
   unit_list_iterate(pguest->units, punit) {
-    if (tile_owner(unit_tile(punit)) == phost && is_military_unit(punit)) {
+    if (tile_owner(unit_tile(punit)) == phost
+        && !is_enter_borders_unit(punit)) {
       nunits++;
       a_unit = punit;
     }
   } unit_list_iterate_end;
+
   if (nunits > 0) {
     struct astring unitstr = ASTRING_INIT;
 
@@ -863,7 +865,7 @@ static void remove_illegal_armistice_units(struct player *plr1,
   /* Remove illegal units */
   unit_list_iterate_safe(plr1->units, punit) {
     if (tile_owner(unit_tile(punit)) == plr2
-        && is_military_unit(punit)) {
+        && !is_enter_borders_unit(punit)) {
       notify_player(plr1, unit_tile(punit), E_DIPLOMACY, ftc_server,
                     _("Your %s was disbanded in accordance with "
                       "your peace treaty with the %s."),
@@ -874,7 +876,7 @@ static void remove_illegal_armistice_units(struct player *plr1,
   } unit_list_iterate_safe_end;
   unit_list_iterate_safe(plr2->units, punit) {
     if (tile_owner(unit_tile(punit)) == plr1
-        && is_military_unit(punit)) {
+        && !is_enter_borders_unit(punit)) {
       notify_player(plr2, unit_tile(punit), E_DIPLOMACY, ftc_server,
                     _("Your %s was disbanded in accordance with "
                       "your peace treaty with the %s."),

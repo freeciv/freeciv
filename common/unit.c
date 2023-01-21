@@ -312,13 +312,45 @@ bool is_attack_unit(const struct unit *punit)
 }
 
 /**********************************************************************//**
-  Military units are capable of enforcing martial law. Military ground
-  and heli units can occupy empty cities -- see unit_can_take_over(punit).
-  Some military units, like the Galleon, have no attack strength.
+  Is unit capable of enforcing martial law?
 **************************************************************************/
-bool is_military_unit(const struct unit *punit)
+bool is_martial_law_unit(const struct unit *punit)
 {
   return !unit_has_type_flag(punit, UTYF_CIVILIAN);
+}
+
+/**********************************************************************//**
+  Does unit occupy the tile?
+**************************************************************************/
+bool is_occupying_unit(const struct unit *punit)
+{
+  return !unit_has_type_flag(punit, UTYF_CIVILIAN);
+}
+
+/**********************************************************************//**
+  Can this unit enter peaceful borders?
+**************************************************************************/
+bool is_enter_borders_unit(const struct unit *punit)
+{
+  return unit_has_type_flag(punit, UTYF_CIVILIAN);
+}
+
+/**********************************************************************//**
+  Does it make sense for this unit to protect others?
+**************************************************************************/
+bool is_guard_unit(const struct unit *punit)
+{
+  return !unit_has_type_flag(punit, UTYF_CIVILIAN);
+}
+
+/**********************************************************************//**
+  Does it make sense to use this unit for some special role?
+
+  If yes, don't waste it as cannon fodder.
+**************************************************************************/
+bool is_special_unit(const struct unit *punit)
+{
+  return unit_has_type_flag(punit, UTYF_CIVILIAN);
 }
 
 /**********************************************************************//**
@@ -1345,7 +1377,7 @@ struct unit *unit_occupies_tile(const struct tile *ptile,
                                 const struct player *pplayer)
 {
   unit_list_iterate(ptile->units, punit) {
-    if (!is_military_unit(punit)) {
+    if (!is_occupying_unit(punit)) {
       continue;
     }
 

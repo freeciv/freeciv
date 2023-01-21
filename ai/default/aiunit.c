@@ -215,7 +215,7 @@ static void dai_airlift(struct ai_type *ait, struct player *pplayer)
 /**********************************************************************//**
   This is a much simplified form of assess_defense (see daimilitary.c),
   but which doesn't use pcity->server.ai.wallvalue and just returns a boolean
-  value.  This is for use with "foreign" cities, especially non-ai
+  value. This is for use with "foreign" cities, especially non-ai
   cities, where ai.wallvalue may be out of date or uninitialized --dwp
 **************************************************************************/
 static bool has_defense(struct city *pcity)
@@ -223,7 +223,7 @@ static bool has_defense(struct city *pcity)
   struct tile *ptile = city_tile(pcity);
 
   unit_list_iterate(ptile->units, punit) {
-    if (is_military_unit(punit) && base_get_defense_power(punit) != 0
+    if (is_guard_unit(punit) && base_get_defense_power(punit) != 0
         && punit->hp != 0) {
       struct unit_class *pclass = unit_class_get(punit);
 
@@ -2697,7 +2697,7 @@ void dai_manage_unit(struct ai_type *ait, struct player *pplayer,
     unit_data->done = TRUE; /* we did our best, which was ... 
                                              nothing */
     return;
-  } else if (is_military_unit(punit)) {
+  } else if (!is_special_unit(punit)) {
     TIMING_LOG(AIT_MILITARY, TIMER_START);
     UNIT_LOG(LOG_DEBUG, punit, "recruit unit for the military");
     dai_manage_military(ait, pplayer, punit); 

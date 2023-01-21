@@ -317,10 +317,10 @@ void calc_civ_score(struct player *pplayer)
   pplayer->score.techs += research_get(pplayer)->future_tech * 5 / 2;
   
   unit_list_iterate(pplayer->units, punit) {
-    if (is_military_unit(punit)) {
+    if (!is_special_unit(punit)) { /* TODO: Which units really should count? */
       pplayer->score.units++;
     }
-  } unit_list_iterate_end
+  } unit_list_iterate_end;
 
   improvement_iterate(i) {
     if (is_great_wonder(i)

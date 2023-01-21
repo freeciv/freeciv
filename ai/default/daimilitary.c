@@ -229,7 +229,7 @@ static int base_assess_defense_unit(struct city *pcity, struct unit *punit,
   int defense;
   int fp;
 
-  if (!is_military_unit(punit)) {
+  if (!is_special_unit(punit)) {
     return 0;
   }
 
@@ -1507,7 +1507,8 @@ static struct adv_choice *kill_something_with(struct ai_type *ait,
   best_choice->type = CT_ATTACKER;
   adv_choice_set_use(best_choice, "attacker");
 
-  fc_assert_ret_val(is_military_unit(myunit) && !utype_fuel(unit_type_get(myunit)), choice);
+  fc_assert_ret_val(!is_special_unit(myunit)
+                    && !utype_fuel(unit_type_get(myunit)), choice);
 
   if (city_data->danger != 0 && assess_defense(ait, pcity) == 0) {
     /* Defense comes first! */

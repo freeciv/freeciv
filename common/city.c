@@ -3011,7 +3011,7 @@ static inline void city_support(struct city *pcity)
   /* Food consumption by citizens. */
   pcity->usage[O_FOOD] += game.info.food_cost * city_size_get(pcity);
 
-  /* military units in this city (need _not_ be home city) can make
+  /* Military units in this city (need _not_ be home city) can make
    * unhappy citizens content */
   martial_law_each = get_city_bonus(pcity, EFT_MARTIAL_LAW_EACH);
   if (martial_law_each > 0) {
@@ -3020,7 +3020,7 @@ static inline void city_support(struct city *pcity)
 
     unit_list_iterate(pcity->tile->units, punit) {
       if ((count < martial_law_max || martial_law_max == 0)
-          && is_military_unit(punit)
+          && is_martial_law_unit(punit)
           && unit_owner(punit) == city_owner(pcity)) {
         count++;
       }

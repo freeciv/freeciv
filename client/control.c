@@ -2978,10 +2978,10 @@ static struct unit *quickselect(struct tile *ptile,
   } else if (qtype == SELECT_LAND) {
     if (utype_move_type(unit_type_get(punit)) == UMT_LAND) {
       if (punit->moves_left > 0) {
-        if (is_military_unit(punit)) {
+        if (!is_special_unit(punit)) {
           return punit;
         } else if (!panymoveland) {
-            panymoveland = punit;
+          panymoveland = punit;
         }
       } else if (!panyland) {
         panyland = punit;

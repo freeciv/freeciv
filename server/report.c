@@ -699,9 +699,9 @@ static int get_munits(const struct player *pplayer)
 {
   int result = 0;
 
-  /* count up military units */
+  /* Count up military units */
   unit_list_iterate(pplayer->units, punit) {
-    if (is_military_unit(punit)) {
+    if (!is_special_unit(punit)) {
       result++;
     }
   } unit_list_iterate_end;

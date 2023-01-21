@@ -1129,7 +1129,7 @@ bool adv_settler_safe_tile(const struct player *pplayer, struct unit *punit,
                            struct tile *ptile)
 {
   unit_list_iterate(ptile->units, defender) {
-    if (is_military_unit(defender)) {
+    if (is_guard_unit(defender)) {
       return TRUE;
     }
   } unit_list_iterate_end;
