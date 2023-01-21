@@ -1116,8 +1116,11 @@ const char *get_unit_info_label_text2(struct unit_list *punits, int linebreaks)
       astr_add_line(&str, _("Turns to target: %d to %d"), min, max);
     }
   } else if (count == 1) {
-    astr_add_line(&str, "%s",
-		  unit_activity_text(unit_list_get(punits, 0)));
+    struct astring addition = ASTRING_INIT;
+
+    unit_activity_astr(unit_list_get(punits, 0), &addition);
+    astr_add_line(&str, "%s", astr_str(&addition));
+    astr_free(&addition);
   } else if (count > 1) {
     astr_add_line(&str, PL_("%d unit selected",
 			    "%d units selected",

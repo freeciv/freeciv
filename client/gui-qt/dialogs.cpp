@@ -4544,11 +4544,16 @@ void units_select::paint(QPainter *painter, QPaintEvent *event)
     f_size = &point_size;
   }
   if (highligh_num != -1 && highligh_num < unit_list.count()) {
+    struct astring addition = ASTRING_INIT;
+
     punit = unit_list.at(highligh_num);
-    /* TRANS: HP - hit points */
-    str2 = QString(_("%1 HP:%2/%3")).arg(QString(unit_activity_text(punit)),
-                                      QString::number(punit->hp),
-                                      QString::number(unit_type_get(punit)->hp));
+    unit_activity_astr(punit, &addition);
+
+    // TRANS: HP - hit points
+    str2 = QString(_("%1 HP:%2/%3")).arg(QString(astr_str(&addition)),
+                                         QString::number(punit->hp),
+                                         QString::number(unit_type_get(punit)->hp));
+    astr_free(&addition);
   }
   str = QString(PL_("%1 unit", "%1 units",
                     unit_list_size(utile->units)))
