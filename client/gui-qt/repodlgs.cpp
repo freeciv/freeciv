@@ -60,7 +60,6 @@ extern QString cut_helptext(QString text);
 extern QString get_tooltip_improvement(impr_type *building,
                                        struct city *pcity, bool ext);
 extern QString get_tooltip_unit(struct unit_type *unit, bool ext);
-extern QApplication *qapp;
 
 units_reports* units_reports::m_instance = 0;
 
