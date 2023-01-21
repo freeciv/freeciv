@@ -10,6 +10,13 @@ subdirectories of doc/.
 
 See also the generic installation notes in INSTALL.
 
+On Cygwin, meson based build system can be used instead of
+the autotools system. That is not yet covered in this document.
+See doc/INSTALL.meson for generic meson build instructions.
+Notable benefit of meson based build compared to autotools
+build described here is that building also sdl2-client is
+possible with meson.
+
 Cygwin is a free Unix variant for MS Windows operating systems.
 It comes with an X server, Xorg.
 
