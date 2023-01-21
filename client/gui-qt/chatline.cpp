@@ -46,7 +46,6 @@
 #include "gui_main.h"
 #include "qtg_cxxside.h"
 
-extern QApplication *qapp;
 static bool is_plain_public_message(QString s);
 
 FC_CPP_DECLARE_LISTENER(chat_listener)
@@ -741,6 +740,7 @@ void qtg_real_output_window_append(const char *astring,
 {
   QString str;
   QString wakeup;
+  QApplication *qapp;
 
   str = QString::fromUtf8(astring);
   gui()->set_status_bar(str);
@@ -751,6 +751,8 @@ void qtg_real_output_window_append(const char *astring,
   if (wakeup.contains("%1")) {
     wakeup = wakeup.arg(client.conn.username);
   }
+
+  qapp = current_app();
 
   if (str.contains(client.conn.username)) {
     qapp->alert(gui()->central_wdg);

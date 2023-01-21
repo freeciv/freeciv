@@ -37,6 +37,7 @@
 #include "colors.h"
 #include "diplodlg.h"
 #include "fc_client.h"
+#include "gui_main.h"
 #include "sidebar.h"
 
 extern "C" {
@@ -46,7 +47,7 @@ extern "C" {
 
 typedef advance *p_advance;
 typedef city *p_city;
-extern QApplication *qapp;
+
 /****************************************************************************
   Constructor for diplomacy widget
 ****************************************************************************/
@@ -1049,7 +1050,7 @@ void close_all_diplomacy_dialogs(void)
   diplo_dlg *dd;
   QWidget *w;
 
-  qapp->alert(gui()->central_wdg);
+  current_app()->alert(gui()->central_wdg);
   if (!gui()->is_repo_dlg_open("DDI")) {
     return;
   }
