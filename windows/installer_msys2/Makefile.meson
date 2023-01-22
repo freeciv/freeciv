@@ -11,6 +11,7 @@
 
 MAKEFILE_NAME=Makefile.meson
 OUT_DIR=meson/Output
+INST_DIR=meson/install
 
 ifeq ($(MSYSTEM),MINGW64)
 WINARCH=win64
@@ -111,44 +112,44 @@ sdl2-install:
 	make -f $(MAKEFILE_NAME) GUI=sdl2 CLIENT=sdl2 FCMP=gtk4 install-freeciv-sdl2
 
 installer-common: install-freeciv-$(GUI) install-env-$(GUI)
-	# extract Freeciv version
+	# Extract Freeciv version
 	$(eval FREECIV_VERSION := $(shell ../../fc_version))
-	./create-freeciv-$(GUI)-nsi.sh meson-install-$(WINARCH)-$(GUI) $(OUT_DIR) $(FREECIV_VERSION) $(WINARCH) > Freeciv-meson-$(WINARCH)-$(FREECIV_VERSION)-$(GUI).nsi
-	# create installer executable
+	./create-freeciv-$(GUI)-nsi.sh $(INST_DIR)/$(WINARCH)-$(GUI) $(OUT_DIR) $(FREECIV_VERSION) $(WINARCH) > Freeciv-meson-$(WINARCH)-$(FREECIV_VERSION)-$(GUI).nsi
+	# Create installer executable
 	mkdir -p $(OUT_DIR)
 	makensis Freeciv-meson-$(WINARCH)-$(FREECIV_VERSION)-$(GUI).nsi
 
 install-freeciv-common: clean-install-common
 	# Create build directory
 	mkdir -p meson-build-$(WINARCH)-$(GUI)
-	cd meson-build-$(WINARCH)-$(GUI); meson setup ../../.. -Dprefix=`pwd`/../meson-install-$(WINARCH)-$(GUI) -Dclients=$(CLIENT) -Dfcmp=$(FCMP) -Druledit=false -Dreadline=false -Dcacert-path='./ssl/certs/ca-bundle.crt' -Dmin-win-ver=$(MIN_WIN_VER) $(EXTRA_CONFIG)
+	cd meson-build-$(WINARCH)-$(GUI); meson setup ../../.. -Dprefix=`pwd`/../$(INST_DIR)/$(WINARCH)-$(GUI) -Dclients=$(CLIENT) -Dfcmp=$(FCMP) -Druledit=false -Dreadline=false -Dcacert-path='./ssl/certs/ca-bundle.crt' -Dmin-win-ver=$(MIN_WIN_VER) $(EXTRA_CONFIG)
 	cd meson-build-$(WINARCH)-$(GUI); ninja
 	cd meson-build-$(WINARCH)-$(GUI); ninja install
 	cd meson-build-$(WINARCH)-$(GUI); ninja langstat_core.txt
 	# Reorder directory layout
-	mv meson-install-$(WINARCH)-$(GUI)/bin/* meson-install-$(WINARCH)-$(GUI)/
-	rm -Rf meson-install-$(WINARCH)-$(GUI)/bin
-	mv meson-install-$(WINARCH)-$(GUI)/share/freeciv meson-install-$(WINARCH)-$(GUI)/data
-	mv meson-install-$(WINARCH)-$(GUI)/share/doc meson-install-$(WINARCH)-$(GUI)/
-	mkdir -p meson-install-$(WINARCH)-$(GUI)/doc/freeciv/installer
-	cat licenses/header.txt ../../COPYING > meson-install-$(WINARCH)-$(GUI)/doc/freeciv/installer/COPYING.installer
-	cp freeciv-server.cmd freeciv-mp-$(FCMP).cmd freeciv-$(CLIENT).cmd Freeciv.url meson-install-$(WINARCH)-$(GUI)/
+	mv $(INST_DIR)/$(WINARCH)-$(GUI)/bin/* $(INST_DIR)/$(WINARCH)-$(GUI)/
+	rm -Rf $(INST_DIR)/$(WINARCH)-$(GUI)/bin
+	mv $(INST_DIR)/$(WINARCH)-$(GUI)/share/freeciv $(INST_DIR)/$(WINARCH)-$(GUI)/data
+	mv $(INST_DIR)/$(WINARCH)-$(GUI)/share/doc $(INST_DIR)/$(WINARCH)-$(GUI)/
+	mkdir -p $(INST_DIR)/$(WINARCH)-$(GUI)/doc/freeciv/installer
+	cat licenses/header.txt ../../COPYING > $(INST_DIR)/$(WINARCH)-$(GUI)/doc/freeciv/installer/COPYING.installer
+	cp freeciv-server.cmd freeciv-mp-$(FCMP).cmd freeciv-$(CLIENT).cmd Freeciv.url $(INST_DIR)/$(WINARCH)-$(GUI)/
 
 install-ruledit-common: clean-install-common
 	# Create build directory
 	mkdir -p meson-build-$(WINARCH)-ruledit-$(GUI)
-	cd meson-build-$(WINARCH)-ruledit-$(GUI); meson setup ../../.. -Dprefix=`pwd`/../meson-install-$(WINARCH)-ruledit-$(GUI) -Dclients=[] -Dfcmp=[] -Druledit=true -Dreadline=false -Dcacert-path='./ssl/certs/ca-bundle.crt' -Dmin-win-ver=$(MIN_WIN_VER) $(EXTRA_CONFIG)
+	cd meson-build-$(WINARCH)-ruledit-$(GUI); meson setup ../../.. -Dprefix=`pwd`/../$(INST_DIR)/$(WINARCH)-ruledit-$(GUI) -Dclients=[] -Dfcmp=[] -Druledit=true -Dreadline=false -Dcacert-path='./ssl/certs/ca-bundle.crt' -Dmin-win-ver=$(MIN_WIN_VER) $(EXTRA_CONFIG)
 	cd meson-build-$(WINARCH)-ruledit-$(GUI); ninja
 	cd meson-build-$(WINARCH)-ruledit-$(GUI); ninja install
 	cd meson-build-$(WINARCH)-ruledit-$(GUI); ninja langstat_core.txt langstat_ruledit.txt
 	# Reorder directory layout
-	mv meson-install-$(WINARCH)-ruledit-$(GUI)/bin/* meson-install-$(WINARCH)-ruledit-$(GUI)/
-	rm -Rf meson-install-$(WINARCH)-ruledit-$(GUI)/bin
-	mv meson-install-$(WINARCH)-ruledit-$(GUI)/share/freeciv meson-install-$(WINARCH)-ruledit-$(GUI)/data
-	mv meson-install-$(WINARCH)-ruledit-$(GUI)/share/doc meson-install-$(WINARCH)-ruledit-$(GUI)/
-	mkdir -p meson-install-$(WINARCH)-ruledit-$(GUI)/doc/freeciv/installer
-	cat licenses/header.txt ../../COPYING > meson-install-$(WINARCH)-ruledit-$(GUI)/doc/freeciv/installer/COPYING.installer
-	cp freeciv-ruledit.cmd Freeciv.url meson-install-$(WINARCH)-ruledit-$(GUI)/
+	mv $(INST_DIR)/$(WINARCH)-ruledit-$(GUI)/bin/* $(INST_DIR)/$(WINARCH)-ruledit-$(GUI)/
+	rm -Rf $(INST_DIR)/$(WINARCH)-ruledit-$(GUI)/bin
+	mv $(INST_DIR)/$(WINARCH)-ruledit-$(GUI)/share/freeciv $(INST_DIR)/$(WINARCH)-ruledit-$(GUI)/data
+	mv $(INST_DIR)/$(WINARCH)-ruledit-$(GUI)/share/doc $(INST_DIR)/$(WINARCH)-ruledit-$(GUI)/
+	mkdir -p $(INST_DIR)/$(WINARCH)-ruledit-$(GUI)/doc/freeciv/installer
+	cat licenses/header.txt ../../COPYING > $(INST_DIR)/$(WINARCH)-ruledit-$(GUI)/doc/freeciv/installer/COPYING.installer
+	cp freeciv-ruledit.cmd Freeciv.url $(INST_DIR)/$(WINARCH)-ruledit-$(GUI)/
 
 SOUND_DLLS := \
 	SDL2.dll \
@@ -223,9 +224,9 @@ COMMON_DLLS := \
 
 install-env-common:
 	# Add DLLs
-	cp -R $(addprefix $(DLLPATH_PREFIX), $(COMMON_DLLS)) meson-install-$(WINARCH)-$(GUI)/
-	mkdir -p meson-install-$(WINARCH)-$(GUI)/ssl/certs
-	cp -R /$(ARCHDIR)/ssl/certs/ca-bundle.crt meson-install-$(WINARCH)-$(GUI)/ssl/certs/
+	cp -R $(addprefix $(DLLPATH_PREFIX), $(COMMON_DLLS)) $(INST_DIR)/$(WINARCH)-$(GUI)/
+	mkdir -p $(INST_DIR)/$(WINARCH)-$(GUI)/ssl/certs
+	cp -R /$(ARCHDIR)/ssl/certs/ca-bundle.crt $(INST_DIR)/$(WINARCH)-$(GUI)/ssl/certs/
 
 FCMP_GTK3_DLLS := \
 	libgdk-3-0.dll \
@@ -236,20 +237,20 @@ FCMP_GTK3_DLLS := \
 	libdatrie-1.dll
 
 install-env-gtk3-fcmp: install-env-common
-	cp -R $(addprefix $(DLLPATH_PREFIX), $(FCMP_GTK3_DLLS)) meson-install-$(WINARCH)-$(GUI)/
-	# add additional GTK+3 files
-	mkdir -p meson-install-$(WINARCH)-$(GUI)/etc
-	cp -R /$(ARCHDIR)/etc/gtk-3.0 meson-install-$(WINARCH)-$(GUI)/etc/
-	mkdir -p meson-install-$(WINARCH)-$(GUI)/share/icons
-	cp -R /$(ARCHDIR)/share/icons/Adwaita meson-install-$(WINARCH)-$(GUI)/share/icons/
-	mkdir -p meson-install-$(WINARCH)-$(GUI)/share/glib-2.0/schemas
-	cp /$(ARCHDIR)/share/glib-2.0/schemas/gschemas.compiled meson-install-$(WINARCH)-$(GUI)/share/glib-2.0/schemas/
-	mkdir -p meson-install-$(WINARCH)-$(GUI)/lib/gtk-3.0/
-	cp -R /$(ARCHDIR)/lib/gtk-3.0/* meson-install-$(WINARCH)-$(GUI)/lib/gtk-3.0/
-	mkdir -p meson-install-$(WINARCH)-$(GUI)/lib/gdk-pixbuf-2.0/
-	cp -R /$(ARCHDIR)/lib/gdk-pixbuf-2.0/* meson-install-$(WINARCH)-$(GUI)/lib/gdk-pixbuf-2.0/
-	cp -R /$(ARCHDIR)/share/locale meson-install-$(WINARCH)-$(GUI)/share/
-	find meson-install-$(WINARCH)-$(GUI)/share/locale -type f -not -name "freeciv-*.mo" -and -not -name gtk30.mo -delete
+	cp -R $(addprefix $(DLLPATH_PREFIX), $(FCMP_GTK3_DLLS)) $(INST_DIR)/$(WINARCH)-$(GUI)/
+	# Add additional GTK+3 files
+	mkdir -p $(INST_DIR)/$(WINARCH)-$(GUI)/etc
+	cp -R /$(ARCHDIR)/etc/gtk-3.0 $(INST_DIR)/$(WINARCH)-$(GUI)/etc/
+	mkdir -p $(INST_DIR)/$(WINARCH)-$(GUI)/share/icons
+	cp -R /$(ARCHDIR)/share/icons/Adwaita $(INST_DIR)/$(WINARCH)-$(GUI)/share/icons/
+	mkdir -p $(INST_DIR)/$(WINARCH)-$(GUI)/share/glib-2.0/schemas
+	cp /$(ARCHDIR)/share/glib-2.0/schemas/gschemas.compiled $(INST_DIR)/$(WINARCH)-$(GUI)/share/glib-2.0/schemas/
+	mkdir -p $(INST_DIR)/$(WINARCH)-$(GUI)/lib/gtk-3.0/
+	cp -R /$(ARCHDIR)/lib/gtk-3.0/* $(INST_DIR)/$(WINARCH)-$(GUI)/lib/gtk-3.0/
+	mkdir -p $(INST_DIR)/$(WINARCH)-$(GUI)/lib/gdk-pixbuf-2.0/
+	cp -R /$(ARCHDIR)/lib/gdk-pixbuf-2.0/* $(INST_DIR)/$(WINARCH)-$(GUI)/lib/gdk-pixbuf-2.0/
+	cp -R /$(ARCHDIR)/share/locale $(INST_DIR)/$(WINARCH)-$(GUI)/share/
+	find $(INST_DIR)/$(WINARCH)-$(GUI)/share/locale -type f -not -name "freeciv-*.mo" -and -not -name gtk30.mo -delete
 
 FCMP_GTK4_DLLS := \
 	libgtk-4-1.dll \
@@ -268,13 +269,13 @@ FCMP_GTK4_DLLS := \
 	libLerc.dll
 
 install-env-gtk4-fcmp: install-env-common
-	cp -R $(addprefix $(DLLPATH_PREFIX), $(FCMP_GTK4_DLLS)) meson-install-$(WINARCH)-$(GUI)/
-	# add additional GTK4 files
-	cp /$(ARCHDIR)/bin/gdbus.exe meson-install-$(WINARCH)-$(GUI)/
-	mkdir -p meson-install-$(WINARCH)-$(GUI)/lib/gdk-pixbuf-2.0/
-	cp -R /$(ARCHDIR)/lib/gdk-pixbuf-2.0/* meson-install-$(WINARCH)-$(GUI)/lib/gdk-pixbuf-2.0/
-	cp -R /$(ARCHDIR)/share/locale meson-install-$(WINARCH)-$(GUI)/share/
-	find meson-install-$(WINARCH)-$(GUI)/share/locale -type f -not -name "freeciv-*.mo" -and -not -name gtk40.mo -delete
+	cp -R $(addprefix $(DLLPATH_PREFIX), $(FCMP_GTK4_DLLS)) $(INST_DIR)/$(WINARCH)-$(GUI)/
+	# Add additional GTK4 files
+	cp /$(ARCHDIR)/bin/gdbus.exe $(INST_DIR)/$(WINARCH)-$(GUI)/
+	mkdir -p $(INST_DIR)/$(WINARCH)-$(GUI)/lib/gdk-pixbuf-2.0/
+	cp -R /$(ARCHDIR)/lib/gdk-pixbuf-2.0/* $(INST_DIR)/$(WINARCH)-$(GUI)/lib/gdk-pixbuf-2.0/
+	cp -R /$(ARCHDIR)/share/locale $(INST_DIR)/$(WINARCH)-$(GUI)/share/
+	find $(INST_DIR)/$(WINARCH)-$(GUI)/share/locale -type f -not -name "freeciv-*.mo" -and -not -name gtk40.mo -delete
 
 install-freeciv-gtk3.22: install-freeciv-common
 
@@ -299,8 +300,8 @@ SDL2_DLLS := \
 	libhwy.dll
 
 install-env-sdl2: install-env-gtk4-fcmp
-	# add DLLs
-	cp -R $(addprefix $(DLLPATH_PREFIX), $(SDL2_DLLS)) meson-install-$(WINARCH)-$(GUI)/
+	# Add DLLs
+	cp -R $(addprefix $(DLLPATH_PREFIX), $(SDL2_DLLS)) $(INST_DIR)/$(WINARCH)-$(GUI)/
 
 FCMP_QT5_DLLS := \
 	Qt5Core.dll \
@@ -313,11 +314,11 @@ FCMP_QT5_DLLS := \
 
 install-env-qt5-fcmp: install-env-common
 	# Add DLLs
-	cp -R $(addprefix $(DLLPATH_PREFIX), $(FCMP_QT5_DLLS)) meson-install-$(WINARCH)-$(GUI)/
+	cp -R $(addprefix $(DLLPATH_PREFIX), $(FCMP_QT5_DLLS)) $(INST_DIR)/$(WINARCH)-$(GUI)/
 	# Add additional Qt5 files
-	cp -R /$(ARCHDIR)/share/qt5/plugins meson-install-$(WINARCH)-$(GUI)/
-	cp -R /$(ARCHDIR)/share/locale meson-install-$(WINARCH)-$(GUI)/share/
-	find meson-install-$(WINARCH)-$(GUI)/share/locale -type f -not -name "freeciv-*.mo" -delete
+	cp -R /$(ARCHDIR)/share/qt5/plugins $(INST_DIR)/$(WINARCH)-$(GUI)/
+	cp -R /$(ARCHDIR)/share/locale $(INST_DIR)/$(WINARCH)-$(GUI)/share/
+	find $(INST_DIR)/$(WINARCH)-$(GUI)/share/locale -type f -not -name "freeciv-*.mo" -delete
 
 install-env-qt5: install-env-qt5-fcmp
 
@@ -333,21 +334,21 @@ FCMP_QT6_DLLS := \
 
 install-env-qt6-fcmp: install-env-common
 	# Add DLLs
-	cp -R $(addprefix $(DLLPATH_PREFIX), $(FCMP_QT6_DLLS)) meson-install-$(WINARCH)-$(GUI)/
+	cp -R $(addprefix $(DLLPATH_PREFIX), $(FCMP_QT6_DLLS)) $(INST_DIR)/$(WINARCH)-$(GUI)/
 	# Add additional Qt6 files
-	cp -R /$(ARCHDIR)/share/qt6/plugins meson-install-$(WINARCH)-$(GUI)/
-	cp -R /$(ARCHDIR)/share/locale meson-install-$(WINARCH)-$(GUI)/share/
-	find meson-install-$(WINARCH)-$(GUI)/share/locale -type f -not -name "freeciv-*.mo" -delete
+	cp -R /$(ARCHDIR)/share/qt6/plugins $(INST_DIR)/$(WINARCH)-$(GUI)/
+	cp -R /$(ARCHDIR)/share/locale $(INST_DIR)/$(WINARCH)-$(GUI)/share/
+	find $(INST_DIR)/$(WINARCH)-$(GUI)/share/locale -type f -not -name "freeciv-*.mo" -delete
 
 install-env-qt6: install-env-qt6-fcmp
 
 installer-ruledit-common: install-ruledit-$(GUI)
 	# Add DLLs
-	cp -R $(addprefix $(DLLPATH_PREFIX), $(COMMON_DLLS)) meson-install-$(WINARCH)-ruledit-$(GUI)/
+	cp -R $(addprefix $(DLLPATH_PREFIX), $(COMMON_DLLS)) $(INST_DIR)/$(WINARCH)-ruledit-$(GUI)/
 	# Extract Freeciv version
 	$(eval FREECIV_VERSION := $(shell ../../fc_version))
-	# create NSIS script
-	./create-freeciv-ruledit-nsi.sh meson-install-$(WINARCH)-ruledit-$(GUI) $(OUT_DIR) $(FREECIV_VERSION) $(WINARCH) > Freeciv-meson-$(WINARCH)-$(FREECIV_VERSION)-ruledit-$(GUI).nsi
+	# Create NSIS script
+	./create-freeciv-ruledit-nsi.sh $(INST_DIR)/$(WINARCH)-ruledit-$(GUI) $(OUT_DIR) $(FREECIV_VERSION) $(WINARCH) > Freeciv-meson-$(WINARCH)-$(FREECIV_VERSION)-ruledit-$(GUI).nsi
 	# Create installer executable
 	mkdir -p $(OUT_DIR)
 	makensis Freeciv-meson-$(WINARCH)-$(FREECIV_VERSION)-ruledit-$(GUI).nsi
@@ -363,11 +364,11 @@ RULEDIT_QT5_DLLS := \
 
 install-ruledit-qt5: install-ruledit-common
 	# Add DLLs
-	cp -R $(addprefix $(DLLPATH_PREFIX), $(RULEDIT_QT5_DLLS)) meson-install-$(WINARCH)-ruledit-$(GUI)/
+	cp -R $(addprefix $(DLLPATH_PREFIX), $(RULEDIT_QT5_DLLS)) $(INST_DIR)/$(WINARCH)-ruledit-$(GUI)/
 	# Add additional Qt5 files
-	cp -R /$(ARCHDIR)/share/qt5/plugins meson-install-$(WINARCH)-ruledit-$(GUI)/
-	cp -R /usr/share/locale meson-install-$(WINARCH)-ruledit-$(GUI)/share/
-	find meson-install-$(WINARCH)-ruledit-$(GUI)/share/locale -type f -not -name "freeciv-*.mo" -delete
+	cp -R /$(ARCHDIR)/share/qt5/plugins $(INST_DIR)/$(WINARCH)-ruledit-$(GUI)/
+	cp -R /usr/share/locale $(INST_DIR)/$(WINARCH)-ruledit-$(GUI)/share/
+	find $(INST_DIR)/$(WINARCH)-ruledit-$(GUI)/share/locale -type f -not -name "freeciv-*.mo" -delete
 
 RULEDIT_QT6_DLLS := \
 	libmd4c.dll \
@@ -381,11 +382,11 @@ RULEDIT_QT6_DLLS := \
 
 install-ruledit-qt6: install-ruledit-common
 	# Add DLLs
-	cp -R $(addprefix $(DLLPATH_PREFIX), $(RULEDIT_QT6_DLLS)) meson-install-$(WINARCH)-ruledit-$(GUI)/
+	cp -R $(addprefix $(DLLPATH_PREFIX), $(RULEDIT_QT6_DLLS)) $(INST_DIR)/$(WINARCH)-ruledit-$(GUI)/
 	# Add additional Qt6 files
-	cp -R /$(ARCHDIR)/share/qt6/plugins meson-install-$(WINARCH)-ruledit-$(GUI)/
-	cp -R /usr/share/locale meson-install-$(WINARCH)-ruledit-$(GUI)/share/
-	find meson-install-$(WINARCH)-ruledit-$(GUI)/share/locale -type f -not -name "freeciv-*.mo" -delete
+	cp -R /$(ARCHDIR)/share/qt6/plugins $(INST_DIR)/$(WINARCH)-ruledit-$(GUI)/
+	cp -R /usr/share/locale $(INST_DIR)/$(WINARCH)-ruledit-$(GUI)/share/
+	find $(INST_DIR)/$(WINARCH)-ruledit-$(GUI)/share/locale -type f -not -name "freeciv-*.mo" -delete
 
 # Cleanup
 
@@ -393,7 +394,7 @@ clean-build-common:
 	rm -rf meson-build-*-$(GUI)
 
 clean-install-common:
-	rm -rf meson-install-*-$(GUI)
+	rm -rf $(INST_DIR)/*-$(GUI)
 
 clean-installer-common:
 	rm -f $(OUT_DIR)/Freeciv-*-$(GUI)-setup.exe
