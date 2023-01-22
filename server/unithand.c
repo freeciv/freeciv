@@ -5151,6 +5151,7 @@ static bool do_unit_strike_city_production(struct player *act_player,
   char prod[256];
   const struct unit_type *act_utype;
   const struct tile *tgt_tile;
+  const char *clink;
 
   /* Sanity checks */
   fc_assert_ret_val(act_player, FALSE);
@@ -5193,27 +5194,27 @@ static bool do_unit_strike_city_production(struct player *act_player,
   nullify_prechange_production(tgt_city);
 
   /* Let the players know. */
+  clink = city_link(tgt_city); /* Be careful not to call city_link()
+                                * again as long as we need clink */
   notify_player(act_player, tgt_tile,
                 E_UNIT_ACTION_ACTOR_SUCCESS, ftc_server,
                 _("Your %s succeeded in destroying"
                   " the production of %s in %s."),
                 unit_link(act_unit),
-                prod,
-                city_name_get(tgt_city));
+                prod, clink);
   notify_player(tgt_player, tgt_tile,
                 E_UNIT_ACTION_TARGET_HOSTILE, ftc_server,
                 _("The production of %s was destroyed in %s,"
                   " %s are suspected."),
-                prod,
-                city_link(tgt_city),
-                nation_plural_for_player(tgt_player));
+                prod, clink,
+                nation_plural_for_player(act_player));
 
   act_utype = unit_type_get(act_unit);
 
   /* May cause an incident */
   action_consequence_success(paction, act_player, act_utype,
                              tgt_player, tgt_tile,
-                             city_link(tgt_city));
+                             clink);
 
   return TRUE;
 }
@@ -5238,6 +5239,7 @@ static bool do_unit_strike_city_building(struct player *act_player,
   struct impr_type *tgt_bld = improvement_by_number(tgt_bld_id);
   const struct tile *tgt_tile;
   const struct unit_type *act_utype;
+  const char *clink;
 
   /* Sanity checks */
   fc_assert_ret_val(act_player, FALSE);
@@ -5299,23 +5301,24 @@ static bool do_unit_strike_city_building(struct player *act_player,
   send_city_info(NULL, tgt_city);
 
   /* Let the players know. */
+  clink = city_link(tgt_city); /* Be careful not to call city_link()
+                                * again as long as we need clink */
   notify_player(act_player, tgt_tile,
                 E_UNIT_ACTION_ACTOR_SUCCESS, ftc_server,
                 _("Your %s destroyed the %s in %s."),
                 unit_link(act_unit),
                 improvement_name_translation(tgt_bld),
-                city_link(tgt_city));
+                clink);
   notify_player(tgt_player, tgt_tile,
                 E_UNIT_ACTION_TARGET_HOSTILE, ftc_server,
                 _("The %s destroyed the %s in %s."),
-                nation_plural_for_player(tgt_player),
+                nation_plural_for_player(act_player),
                 improvement_name_translation(tgt_bld),
-                city_link(tgt_city));
+                clink);
 
   /* May cause an incident */
   action_consequence_success(paction, act_player, act_utype,
-                             tgt_player, tgt_tile,
-                             city_link(tgt_city));
+                             tgt_player, tgt_tile, clink);
 
   return TRUE;
 }
