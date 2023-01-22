@@ -33,6 +33,7 @@
 #include "terrain.h"
 
 // ruledit
+#include "edit_terrain.h"
 #include "req_edit.h"
 #include "ruledit.h"
 #include "ruledit_qt.h"
@@ -51,6 +52,8 @@ tab_terrains::tab_terrains(ruledit_gui *ui_in) : QWidget()
   QPushButton *effects_button;
   QPushButton *add_button;
   QPushButton *delete_button;
+  QPushButton *edit_button;
+  int row = 0;
 
   ui = ui_in;
   selected = 0;
@@ -67,8 +70,8 @@ tab_terrains::tab_terrains(ruledit_gui *ui_in) : QWidget()
   rname = new QLineEdit(this);
   rname->setText(R__("None"));
   connect(rname, SIGNAL(returnPressed()), this, SLOT(name_given()));
-  terrains_layout->addWidget(label, 0, 0);
-  terrains_layout->addWidget(rname, 0, 2);
+  terrains_layout->addWidget(label, row, 0);
+  terrains_layout->addWidget(rname, row++, 2);
 
   label = new QLabel(QString::fromUtf8(R__("Name")));
   label->setParent(this);
@@ -77,22 +80,26 @@ tab_terrains::tab_terrains(ruledit_gui *ui_in) : QWidget()
   name = new QLineEdit(this);
   name->setText(R__("None"));
   connect(name, SIGNAL(returnPressed()), this, SLOT(name_given()));
-  terrains_layout->addWidget(label, 1, 0);
-  terrains_layout->addWidget(same_name, 1, 1);
-  terrains_layout->addWidget(name, 1, 2);
+  terrains_layout->addWidget(label, row, 0);
+  terrains_layout->addWidget(same_name, row, 1);
+  terrains_layout->addWidget(name, row++, 2);
+
+  edit_button = new QPushButton(QString::fromUtf8(R__("Edit Values")), this);
+  connect(edit_button, SIGNAL(pressed()), this, SLOT(edit_now()));
+  terrains_layout->addWidget(edit_button, row++, 2);
 
   effects_button = new QPushButton(QString::fromUtf8(R__("Effects")), this);
   connect(effects_button, SIGNAL(pressed()), this, SLOT(edit_effects()));
-  terrains_layout->addWidget(effects_button, 2, 2);
+  terrains_layout->addWidget(effects_button, row++, 2);
 
   add_button = new QPushButton(QString::fromUtf8(R__("Add Terrain")), this);
   connect(add_button, SIGNAL(pressed()), this, SLOT(add_now()));
-  terrains_layout->addWidget(add_button, 3, 0);
+  terrains_layout->addWidget(add_button, row, 0);
   show_experimental(add_button);
 
   delete_button = new QPushButton(QString::fromUtf8(R__("Remove this Terrain")), this);
   connect(delete_button, SIGNAL(pressed()), this, SLOT(delete_now()));
-  terrains_layout->addWidget(delete_button, 3, 2);
+  terrains_layout->addWidget(delete_button, row++, 2);
   show_experimental(delete_button);
 
   refresh();
@@ -210,6 +217,10 @@ void tab_terrains::delete_now()
 
     selected->ruledit_disabled = true;
 
+    if (selected->ruledit_dlg != nullptr) {
+      ((edit_terrain *)selected->ruledit_dlg)->done(0);
+    }
+
     refresh();
     update_terrain_info(nullptr);
   }
@@ -290,5 +301,22 @@ void tab_terrains::edit_effects()
 
     ui->open_effect_edit(QString::fromUtf8(terrain_rule_name(selected)),
                          &uni, EFMC_NORMAL);
+  }
+}
+
+/**********************************************************************//**
+  User requested terrain edit dialog
+**************************************************************************/
+void tab_terrains::edit_now()
+{
+  if (selected != nullptr) {
+    if (selected->ruledit_dlg == nullptr) {
+      edit_terrain *edit = new edit_terrain(ui, selected);
+
+      edit->show();
+      selected->ruledit_dlg = edit;
+    } else {
+      ((edit_terrain *)selected->ruledit_dlg)->raise();
+    }
   }
 }
