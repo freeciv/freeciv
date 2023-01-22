@@ -989,70 +989,24 @@ reqs	=
       "OutputType", "luxury", "local"
     }
 
-[effect_barracks]
+[effect_barracks_veteran]
 type    = "Veteran_Build"
 value	= 1
 reqs	=
-    { "type", "name", "range", "present"
-      "Building", "Barracks", "City", TRUE
-      "UnitClass", "Land", "Local", TRUE
-      "UnitFlag", "NonMil", "Local", FALSE
-      "UnitFlag", "NoVeteran", "Local", FALSE
-      "Building", "Barracks II", "City", FALSE
-      "Building", "Barracks III", "City", FALSE
+    { "type",         "name",      "range", "present"
+      "BuildingFlag", "Barracks",  "City",  TRUE
+      "UnitClass",    "Land",      "Local", TRUE
+      "UnitFlag",     "NonMil",    "Local", FALSE
+      "UnitFlag",     "NoVeteran", "Local", FALSE
     }
 
-[effect_barracks_1]
+[effect_barracks_regen]
 type    = "HP_Regen"
 value	= 100
 reqs	=
-    { "type", "name", "range", "present"
-      "Building", "Barracks", "City", TRUE
-      "UnitClass", "Land", "Local", TRUE
-      "Building", "Barracks II", "City", FALSE
-      "Building", "Barracks III", "City", FALSE
-    }
-
-[effect_barracks_ii]
-type    = "Veteran_Build"
-value	= 1
-reqs	=
-    { "type", "name", "range", "present"
-      "Building", "Barracks II", "City", TRUE
-      "UnitClass", "Land", "Local", TRUE
-      "UnitFlag", "NonMil", "Local", FALSE
-      "UnitFlag", "NoVeteran", "Local", FALSE
-      "Building", "Barracks III", "City", FALSE
-    }
-
-[effect_barracks_ii_1]
-type    = "HP_Regen"
-value	= 100
-reqs	=
-    { "type", "name", "range", "present"
-      "Building", "Barracks II", "City", TRUE
-      "UnitClass", "Land", "Local", TRUE
-      "Building", "Barracks III", "City", FALSE
-    }
-
-[effect_barracks_iii]
-type    = "Veteran_Build"
-value	= 1
-reqs	=
-    { "type", "name", "range", "present"
-      "Building", "Barracks III", "City", TRUE
-      "UnitClass", "Land", "Local", TRUE
-      "UnitFlag", "NonMil", "Local", FALSE
-      "UnitFlag", "NoVeteran", "Local", FALSE
-    }
-
-[effect_barracks_iii_1]
-type    = "HP_Regen"
-value	= 100
-reqs	=
-    { "type", "name", "range"
-      "Building", "Barracks III", "City"
-      "UnitClass", "Land", "Local"
+    { "type",         "name",     "range", "present"
+      "BuildingFlag", "Barracks", "City",  TRUE
+      "UnitClass",    "Land",     "Local", TRUE
     }
 
 [effect_cathedral]

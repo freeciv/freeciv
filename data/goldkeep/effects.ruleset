@@ -975,124 +975,44 @@ reqs	=
       "OutputType", "Luxury", "Local"
     }
 
-[effect_barracks]
+[effect_barracks_land]
 type    = "Veteran_Build"
 value	= 1
 reqs	=
-    { "type", "name", "range", "present"
-      "Building", "Barracks", "City", TRUE
-      "UnitClass", "Land", "Local", TRUE
-      "UnitFlag", "NonMil", "Local", FALSE
-      "UnitFlag", "NoVeteran", "Local", FALSE
+    { "type",         "name",      "range", "present"
+      "BuildingFlag", "Barracks",  "City",  TRUE
+      "UnitClass",    "Land",      "Local", TRUE
+      "UnitFlag",     "NonMil",    "Local", FALSE
+      "UnitFlag",     "NoVeteran", "Local", FALSE
     }
 
-[effect_barracks_bl]
+[effect_barracks_bland]
 type    = "Veteran_Build"
 value   = 1
 reqs    =
-    { "type", "name", "range", "present"
-      "Building", "Barracks", "City", TRUE
-      "UnitClass", "Big Land", "Local", TRUE
-      "UnitFlag", "NonMil", "Local", FALSE
-      "UnitFlag", "NoVeteran", "Local", FALSE
+    { "type",         "name",      "range", "present"
+      "BuildingFlag", "Barracks",  "City",  TRUE
+      "UnitClass",    "Big Land",  "Local", TRUE
+      "UnitFlag",     "NonMil",    "Local", FALSE
+      "UnitFlag",     "NoVeteran", "Local", FALSE
     }
 
-[effect_barracks_1]
+[effect_barracks_regen_land]
 type    = "HP_Regen"
 value	= 100
 reqs	=
-    { "type", "name", "range", "present"
-      "Building", "Barracks", "City", TRUE
-      "UnitClass", "Land", "Local", TRUE
+    { "type",         "name",     "range", "present"
+      "BuildingFlag", "Barracks", "City",  TRUE
+      "UnitClass",    "Land",     "Local", TRUE
     }
 
-[effect_barracks_bl_1]
+[effect_barracks_regen_bland]
 type    = "HP_Regen"
 value   = 100
 reqs    =
-    { "type", "name", "range", "present"
-      "Building", "Barracks", "City", TRUE
-      "UnitClass", "Big Land", "Local", TRUE
-    }
-
-[effect_barracks_ii]
-type    = "Veteran_Build"
-value	= 1
-reqs	=
-    { "type", "name", "range", "present"
-      "Building", "Barracks II", "City", TRUE
-      "UnitClass", "Land", "Local", TRUE
-      "UnitFlag", "NonMil", "Local", FALSE
-      "UnitFlag", "NoVeteran", "Local", FALSE
-    }
-
-[effect_barracks_ii_bl]
-type    = "Veteran_Build"
-value   = 1
-reqs    =
-    { "type", "name", "range", "present"
-      "Building", "Barracks II", "City", TRUE
-      "UnitClass", "Big Land", "Local", TRUE
-      "UnitFlag", "NonMil", "Local", FALSE
-      "UnitFlag", "NoVeteran", "Local", FALSE
-    }
-
-[effect_barracks_ii_1]
-type    = "HP_Regen"
-value	= 100
-reqs	=
-    { "type", "name", "range", "present"
-      "Building", "Barracks II", "City", TRUE
-      "UnitClass", "Land", "Local", TRUE
-    }
-
-[effect_barracks_ii_bl_1]
-type    = "HP_Regen"
-value   = 100
-reqs    =
-    { "type", "name", "range", "present"
-      "Building", "Barracks II", "City", TRUE
-      "UnitClass", "Big Land", "Local", TRUE
-    }
-
-[effect_barracks_iii]
-type    = "Veteran_Build"
-value	= 1
-reqs	=
-    { "type", "name", "range", "present"
-      "Building", "Barracks III", "City", TRUE
-      "UnitClass", "Land", "Local", TRUE
-      "UnitFlag", "NonMil", "Local", FALSE
-      "UnitFlag", "NoVeteran", "Local", FALSE
-    }
-
-[effect_barracks_iii_bl]
-type    = "Veteran_Build"
-value   = 1
-reqs    =
-    { "type", "name", "range", "present"
-      "Building", "Barracks III", "City", TRUE
-      "UnitClass", "Big Land", "Local", TRUE
-      "UnitFlag", "NonMil", "Local", FALSE
-      "UnitFlag", "NoVeteran", "Local", FALSE
-    }
-
-[effect_barracks_iii_1]
-type    = "HP_Regen"
-value	= 100
-reqs	=
-    { "type", "name", "range"
-      "Building", "Barracks III", "City"
-      "UnitClass", "Land", "Local"
-    }
-
-[effect_barracks_iii_bl_1]
-type    = "HP_Regen"
-value   = 100
-reqs    =
-    { "type", "name", "range"
-      "Building", "Barracks III", "City"
-      "UnitClass", "Big Land", "Local"
+    { "type",         "name",     "range", "present"
+      "BuildingFlag", "Barracks", "City",  TRUE
+      "UnitClass",    "Big Land", "Local", TRUE
     }
 
 [effect_cathedral]

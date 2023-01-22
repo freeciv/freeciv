@@ -562,31 +562,12 @@ reqs	=
       "OutputType", "Luxury", "Local"
     }
 
-[effect_barracks]
+[effect_barracks_veteran]
 type    = "Veteran_Build"
 value	= 1
 reqs	=
-    { "type", "name", "range", "present"
-      "Building", "Barracks", "City", TRUE
-      "Building", "Barracks II", "City", FALSE
-      "Building", "Barracks III", "City", FALSE
-    }
-
-[effect_barracks_ii]
-type    = "Veteran_Build"
-value	= 1
-reqs	=
-    { "type", "name", "range", "present"
-      "Building", "Barracks II", "City", TRUE
-      "Building", "Barracks III", "City", FALSE
-    }
-
-[effect_barracks_iii]
-type    = "Veteran_Build"
-value	= 1
-reqs	=
-    { "type", "name", "range"
-      "Building", "Barracks III", "City"
+    { "type",         "name",     "range", "present"
+      "BuildingFlag", "Barracks", "City",  TRUE
     }
 
 [effect_cathedral]

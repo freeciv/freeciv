@@ -25,9 +25,10 @@ format_version = 30
 ;                 and sensible.
 ; helptxt       = displayed in the help for building types with this flag
 ;                 (optional)
-;building_flags =
-;  { "name", "helptxt"
-;  }
+building_flags =
+  { "name", "helptxt"
+    "Barracks"
+  }
 
 ; /* <-- avoid gettext warnings
 ;
@@ -176,6 +177,7 @@ upkeep		= 1
 sabotage	= 100
 sound		= "b_barracks_i"
 sound_alt	= "b_generic"
+flags           = "Barracks"
 ; /* xgettext:no-c-format */
 helptext	= _("\
 With a Barracks, each new land unit built in a city will\
@@ -205,6 +207,7 @@ upkeep		= 1
 sabotage	= 100
 sound		= "b_barracks_ii"
 sound_alt	= "b_generic"
+flags           = "Barracks"
 ; /* xgettext:no-c-format */
 helptext	= _("\
 With a Barracks, each new land unit built in a city will\
@@ -232,6 +235,7 @@ upkeep		= 1
 sabotage	= 100
 sound		= "b_barracks_iii"
 sound_alt	= "b_generic"
+flags           = "Barracks"
 ; /* xgettext:no-c-format */
 helptext	= _("\
 With a Barracks, each new land unit built in a city will\
