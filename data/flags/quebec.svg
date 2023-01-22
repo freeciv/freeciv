@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN"
-"http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
 <!-- Created with Sodipodi ("http://www.sodipodi.com/") -->
+
 <svg
    version="1"
    x="0.00000000"
@@ -10,14 +9,33 @@
    height="4.03in"
    viewBox="0 0 543.861 362.571"
    id="svg548"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:xlink="http://www.w3.org/1999/xlink"
    sodipodi:version="0.32"
-   sodipodi:docname="/home/scarlet/sodipodi-flags/Regional/canada_quebec.svg"
-   sodipodi:docbase="/home/scarlet/sodipodi-flags/Regional/">
+   sodipodi:docname="quebec.svg"
+   inkscape:version="1.2.2 (b0a8486541, 2022-12-01)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
   <sodipodi:namedview
-     id="base" />
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="in"
+     showgrid="false"
+     inkscape:zoom="1.2200165"
+     inkscape:cx="298.76646"
+     inkscape:cy="204.50543"
+     inkscape:window-width="905"
+     inkscape:window-height="668"
+     inkscape:window-x="468"
+     inkscape:window-y="178"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg548" />
   <defs
      id="defs555" />
   <rect
