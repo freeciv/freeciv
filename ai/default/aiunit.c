@@ -849,7 +849,7 @@ static void dai_military_findjob(struct ai_type *ait,
 
   CHECK_UNIT(punit);
 
-  /* keep barbarians aggresive and primitive */
+  /* keep barbarians aggressive and primitive */
   if (is_barbarian(pplayer)) {
     if (can_unit_do_activity(punit, ACTIVITY_PILLAGE)
 	&& is_land_barbarian(pplayer)) {
