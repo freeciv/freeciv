@@ -3589,7 +3589,7 @@ static bool tileset_setup_unit_direction(struct tileset *t,
 
   if (act_name == NULL) {
     /* gcc-9 thinks this is possible. */
-    return NULL;
+    return FALSE;
   }
 
   /*
