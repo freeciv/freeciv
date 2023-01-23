@@ -17,6 +17,7 @@
 extern "C" {
 #endif /* __cplusplus */
 
+/* utility */
 #include "support.h" /* bool */
 
 /***********************************************************************
@@ -33,27 +34,30 @@ struct iterator {
 
 #define ITERATOR(p) ((struct iterator *)(p))
 
-/***********************************************************************
+/*******************************************************************//**
   Advances the iterator to point to the next item in the sequence.
 ***********************************************************************/
-static inline void iterator_next(struct iterator *it) {
+static inline void iterator_next(struct iterator *it)
+{
   it->next(it);
 }
 
-/***********************************************************************
+/*******************************************************************//**
   Returns the item currently pointed to by the iterator. Note that the
   iterator could point to an item whose value is NULL; to actually test
   whether the iterator is still valid (e.g. has not gone past the
   end of the sequence), use iterator_valid().
 ***********************************************************************/
-static inline void *iterator_get(const struct iterator *it) {
+static inline void *iterator_get(const struct iterator *it)
+{
   return it->get(it);
 }
 
-/***********************************************************************
+/*******************************************************************//**
   Returns TRUE if the iterator points to an item in the sequence.
 ***********************************************************************/
-static inline bool iterator_valid(const struct iterator *it) {
+static inline bool iterator_valid(const struct iterator *it)
+{
   return it->valid(it);
 }
 
