@@ -1,10 +1,165 @@
 ========================
-Welcome to Freeciv 2.6.7
+Welcome to Freeciv 2.6.8
 ========================
 
 The changes in the 2.6.x series are summarised below.
 For changes prior to 2.6, see NEWS. For more detailed changes,
 see the ChangeLog file.
+
+
+CHANGES FROM 2.6.7 to 2.6.8
+---------------------------
+
+   (from <https://www.freeciv.org/wiki/NEWS-2.6.8>, 2023-01-24)
+
+2.6.8 is a bugfix release in freeciv-2.6 series.
+
+Server / General
+
+    * Silenced some unused entry warnings when loading saved games
+      osdn#45526 osdn#46143
+    * Fixed memory corruption issue when number of continents change
+      due to land to ocean transformation osdn#45768
+    * Freeciv now uses new libcurl API, instead of one deprecated
+      in latest versions, to communicate with the metaserver and,
+      in case of modpack installer, to fetch files osdn#46345
+    * When starting from a saved game, dead players are no longer
+      counted towards ready/unready player counts in pre-game osdn#44621
+        + Dead players do not affect whether game can start or not
+          (no need to wait for them)
+        + Gtk- and Qt-clients' pre-game dialog "Start" button is never
+          sensitive when the client is attached to a dead player
+    * Fixed problems with the filename encoding when saving mapimg
+      on Windows osdn#45507
+    * Fixed bad memory access issue after player who had already
+      founded cities has been removed from the game osdn#46503
+
+Changes affecting players (supplied rulesets)
+
+    * Fixed illegal range definitions in supplied rulesets osdn#45262
+
+Changes affecting server operators
+
+    * Fixed loading base building orders from savegames older
+      than freeciv-2.3 osdn#45692
+    * Stopped endless spam on server console about iconv inability to
+      convert between encodings. Just tell it once when the issue is
+      first encountered osdn#46497
+
+Low-level changes
+
+    * Fixed crash when handling an error from deeply included data file
+      osdn#45418
+    * Fixed buffer overflow on creating savegames, e.g., on Windows osdn#45682
+    * Improved boundary checks in constructing text strings osdn#45719
+    *  Fixes to the directory creation
+        + Do not try to create what really isn't a directory
+          osdn#45830 osdn#46036
+    * Robustness improvements to low-level fallback functionalities used,
+      e.g., in Windows builds osdn#45905
+    * Fixed re-entrancy problem in getting current time, e.g.,
+      if both metaserver communication and regular game (main thread)
+      would want to write log at the same moment osdn#46228
+
+General
+
+    * Fixed memory leaks, bad memory access, and improved cleanup
+      on shutdown
+      osdn#45422 osdn#45630 osdn#45544 osdn#45771 osdn#45903 osdn#45547
+      osdn#46418
+    * Various internal changes which should only affect developers.
+      osdn#45629
+
+AI
+
+    * Make AI to select techs to research when pooled research
+      is not enabled, even if there's human player in the team osdn#45397
+    * Fixed AI diplomats targeting cities that have a id higher than 64k
+      osdn#45116
+    * Fixed a crash when hunter cannot attack its target.
+      Now it doesn't waste time hunting such targets at all osdn#46176
+    * Stop AI from erroneously thinking that a Growth_Food effect
+      with a negative value would give food osdn#46290
+
+Clients
+
+    * Fixed crash when ai_manual_turn_done setting is changed in pre-game,
+      or by global observer osdn#45310
+    * Do not show transports, that unit can't really load to,
+      in the transport selection dialogs osdn#45331
+    * Fixed client crash on unfortunate timing of menus updating
+      exact moment worker finish tile changing activity osdn#45781
+    * Fixed which version of the wall graphics are shown about
+      opponents' cities osdn#46092
+    * Fixed an issue causing client quit sound from playing osdn#46426
+    * Fixed client crashes when description of unit's activities were
+      constructed simultaneously for multiple units osdn#46559
+
+    * gtk
+        + Fixed <ctrl> + <shift> + key combinations to work on edit mode osdn#45802
+
+    * qt
+        + Fixed installation of cities icon on NightStalker theme osdn#45451
+        + Pop down possibly remaining older tile info before opening
+          a new one. This avoids popups that were left on screen until
+          client was closed osdn#44177
+        + Fixed Classic theme syntax osdn#44857
+        + Fixed issues, potetially even client crash, with prev/next
+          city buttons osdn#46404
+
+    * sdl/sdl2
+        + sdl2 only Fixed adding Gold clauses to diplomatic treaties
+           osdn#45032
+        + Fixed installing the fonts belonging to the theme osdn#45433
+        + sdl2 only: Fixed selection of buildings for which icon is
+          shown in the happiness dialog osdn#45577
+        + sdl2 only: Place luxury icon correctly on happiness dialog
+          osdn#45578
+        + sdl2 only: Fixed chatline functionality osdn#45702
+        + Fixed the Patrol Here functionality from the tile menu osdn#45925
+        + sdl2 only: Fixed renaming cities to take effect osdn#45986
+        + Fixed the Paradrop Here functionality from the tile menu osdn#45981
+        + Fixed revolution dialog crash when player cannot change to
+          any government osdn#46450
+        + Make controlled disconnect from the server on client quit
+          osdn#46478
+
+
+Tilesets, Art, etc
+
+    * Fixed unused entry error in alio's hills.spec osdn#45574
+
+Help / Documentation
+
+    * Corrected format of ruledit man page osdn#45533
+    * Miscellaneous changes to developer/install/ruleset docs. osdn#46146
+
+Translations
+
+    * Updated translations:
+        + Complete translations: French, Russian
+    * Fixed fetching translations of the names of the nations
+      from the core nationset, for the game to actually show
+      translated names osdn#45761
+
+Build/portability
+
+    * Mariadb configurator is now searched by more names
+        + mariadb-config osdn#45703
+        + mariadb_config osdn#46015
+    * Fixed compiler warnings with macos clang++ osdn#45998
+    * Fixed build failures when readline headers define system macros
+      because they have not been defined yet osdn#46225
+    * Made the code to comply with c2x (likely to come out as c23)
+      standard, as implemented in gcc-13 osdn#46340 osdn#46310 osdn#46372
+    * Fixed configure time mysql version check
+      (usually not needed - any version accepted) osdn#46449
+    * Fixed compiler warning seen on Void Linux / musl about
+      including "sys/signal.h" osdn#44997
+    * Fix clang compiler warnings from luasql osdn#44815
+    * Fixed Qt-client linking issue. It was seen with
+      msys2 clang64 toolchain, but could affect other toolchains
+      osdn#46575
 
 
 CHANGES FROM 2.6.6 to 2.6.7
