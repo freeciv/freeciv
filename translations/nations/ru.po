@@ -9,14 +9,14 @@
 #   Egor Vyscrebentov <evyscr@murom.net>, 2003-2008.
 #   Alexandr Menovchicov <orders@kypi.ru>, 2003-2006.
 #   Andrej Svininykh <svininykh@gmail.com>, 2009-2011.
-#   Konstantin Vedeneev <konved@gmail.com>, 2011-2022.
+#   Konstantin Vedeneev <konved@gmail.com>, 2011-2023.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2022-12-10 04:12+0200\n"
-"PO-Revision-Date: 2022-07-29 13:25+0500\n"
+"POT-Creation-Date: 2023-01-24 12:43+0500\n"
+"PO-Revision-Date: 2023-01-24 12:06+0500\n"
 "Last-Translator: Konstantin Vedeneev <konved@gmail.com>\n"
 "Language-Team: Russian <freeciv.ru@freelists.org>\n"
 "Language: ru\n"
@@ -26,7 +26,7 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Poedit-Language: Russian\n"
-"X-Generator: Lokalize 21.12.3\n"
+"X-Generator: Lokalize 22.12.1\n"
 
 #: data/nation/abkhaz.ruleset:3
 msgid "Abkhaz"
@@ -6373,12 +6373,13 @@ msgid ""
 "Hessians fought in the American Revolution as mercenaries on both sides. "
 "Currently Hesse is one of the states of the Federal Republic of Germany."
 msgstr ""
-"Гессы — раннесредневековое население Гессена, название которого (лат. "
-"Hassia) происходит от древнегерманского племени хаттов, предшественников "
-"гессов. Гессен в XIII веке стал ландграфством Священной Римской империи. В "
-"XVI веке страна раскололась на несколько мелких территорий. В период "
-"Американской революции многие гессенцы воевали наёмниками с обеих сторон. "
-"Ныне Гессен — одна из земель Федеративной Республики Германия."
+"Гессы — раннесредневековое население германской исторической провинции "
+"Гессен, название которой (Hessen, от лат. Hassia) происходит из названия "
+"древнегерманского племени хаттов, предшественников гессов. В XIII веке "
+"Гессен стал ландграфством Священной Римской империи. В XVI веке страна "
+"раскололась на несколько мелких территорий. В период Американской революции "
+"многие гессенцы воевали наёмниками с обеих сторон. Ныне Гессен — одна из "
+"земель Федеративной Республики Германия."
 
 #: data/nation/hessian.ruleset:27 data/nation/thuringian.ruleset:42
 #, c-format
@@ -10704,7 +10705,7 @@ msgid ""
 "The Rusyns are an ethnic group on the western periphery of the East Slavic "
 "nations. They live mainly in the Polish-Ukrainian-Slovak borderland and in "
 "the Vojvodina. In medieval times the Rusyn homeland was the site of the "
-"Duchy of Galicia-Volhynia and the Kingdom of Rus. In later times the lands "
+"Duchy of Galicia–Volhynia and the Kingdom of Rus. In later times the lands "
 "were under Polish and later Austrian rule. Rusyns formed two ephemeral "
 "states after World War I: the Lemko-Rusyn Republic and the Komancza Republic."
 msgstr ""
