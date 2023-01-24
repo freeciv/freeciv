@@ -9,14 +9,14 @@
 #   Egor Vyscrebentov <evyscr@murom.net>, 2003-2008.
 #   Alexandr Menovchicov <orders@kypi.ru>, 2003-2006.
 #   Andrej Svininykh <svininykh@gmail.com>, 2009-2011.
-#   Konstantin Vedeneev <konved@gmail.com>, 2011-2022.
+#   Konstantin Vedeneev <konved@gmail.com>, 2011-2023.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv Ruledit\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2022-09-26 01:12+0500\n"
-"PO-Revision-Date: 2022-09-26 00:40+0500\n"
+"POT-Creation-Date: 2023-01-24 12:35+0500\n"
+"PO-Revision-Date: 2022-12-10 18:17+0500\n"
 "Last-Translator: Konstantin Vedeneev <konved@gmail.com>\n"
 "Language-Team: Russian <freeciv.ru@freelists.org>\n"
 "Language: ru\n"
@@ -28,7 +28,7 @@ msgstr ""
 "X-Poedit-Language: Russian\n"
 "X-Generator: Lokalize 21.12.3\n"
 
-#: tools/ruledit/conversion_log.cpp:41 tools/ruledit/effect_edit.cpp:127
+#: tools/ruledit/conversion_log.cpp:41 tools/ruledit/effect_edit.cpp:133
 #: tools/ruledit/req_vec_fix.cpp:191 tools/ruledit/requirers_dlg.cpp:43
 #: tools/ruledit/req_edit.cpp:135
 msgid "Close"
@@ -58,35 +58,39 @@ msgstr "Уровень Защиты"
 msgid "Move Rate"
 msgstr "Очки Движения"
 
-#: tools/ruledit/effect_edit.cpp:77 tools/ruledit/req_edit.cpp:66
+#: tools/ruledit/effect_edit.cpp:78 tools/ruledit/req_edit.cpp:66
 msgid "Type:"
 msgstr "Тип:"
 
-#: tools/ruledit/effect_edit.cpp:91 tools/ruledit/req_edit.cpp:84
+#: tools/ruledit/effect_edit.cpp:92 tools/ruledit/req_edit.cpp:84
 msgid "Value:"
 msgstr "Значение:"
 
-#: tools/ruledit/effect_edit.cpp:115 tools/ruledit/tab_building.cpp:90
+#: tools/ruledit/effect_edit.cpp:115
+msgid "Comment"
+msgstr "Комментарий"
+
+#: tools/ruledit/effect_edit.cpp:121 tools/ruledit/tab_building.cpp:90
 #: tools/ruledit/tab_extras.cpp:84 tools/ruledit/tab_good.cpp:85
 #: tools/ruledit/tab_gov.cpp:84 tools/ruledit/tab_multiplier.cpp:84
 #: tools/ruledit/tab_unit.cpp:87
 msgid "Requirements"
 msgstr "Требования"
 
-#: tools/ruledit/effect_edit.cpp:119
+#: tools/ruledit/effect_edit.cpp:125
 msgid "Add Effect"
 msgstr "Добавить Эффект"
 
-#: tools/ruledit/effect_edit.cpp:123
+#: tools/ruledit/effect_edit.cpp:129
 msgid "Delete Effect"
 msgstr "Удалить Эффект"
 
-#: tools/ruledit/effect_edit.cpp:200
+#: tools/ruledit/effect_edit.cpp:206
 #, c-format
 msgid "Effect #%d: %s"
 msgstr "Эффект №%d: %s"
 
-#: tools/ruledit/effect_edit.cpp:303
+#: tools/ruledit/effect_edit.cpp:315
 #, c-format
 msgid "%s effect #%d"
 msgstr "%s эффект №%d"
@@ -169,72 +173,72 @@ msgstr "Требуется для %s"
 
 #. TRANS: 'Failed to load comments-x.y.txt' where x.y is
 #. * freeciv version
-#: tools/ruledit/ruledit.cpp:118
+#: tools/ruledit/ruledit.cpp:120
 #, c-format
 msgid "Failed to load %s."
 msgstr "Ошибка загрузки файла %s."
 
-#: tools/ruledit/ruledit.cpp:155
+#: tools/ruledit/ruledit.cpp:156
 msgid "Print a summary of the options"
 msgstr "Выдать список возможных параметров"
 
 #. TRANS: "debug" is exactly what user must type, do not translate.
-#: tools/ruledit/ruledit.cpp:159 tools/ruledit/ruledit.cpp:165
+#: tools/ruledit/ruledit.cpp:160 tools/ruledit/ruledit.cpp:166
 msgid "debug LEVEL"
 msgstr "debug УРОВЕНЬ"
 
-#: tools/ruledit/ruledit.cpp:160
+#: tools/ruledit/ruledit.cpp:161
 msgid "Set debug log level (one of f,e,w,n,v,d, or d:file1,min,max:...)"
 msgstr ""
 "Установить уровень отладочного протокола (один из символов f, e, w, n, v, d; "
 "или d:файл1,мин,макс:...)"
 
-#: tools/ruledit/ruledit.cpp:166
+#: tools/ruledit/ruledit.cpp:167
 msgid "Set debug log level (one of f,e,w,n,v)"
 msgstr ""
 "Установить уровень отладочного протокола (один из символов f, e, w, n, v)"
 
-#: tools/ruledit/ruledit.cpp:169
+#: tools/ruledit/ruledit.cpp:170
 msgid "Print the version number"
 msgstr "Вывести номер версии"
 
 #. TRANS: argument (don't translate) VALUE (translate)
-#: tools/ruledit/ruledit.cpp:172
+#: tools/ruledit/ruledit.cpp:173
 msgid "ruleset RULESET"
 msgstr "ruleset НАБОРПРАВИЛ"
 
-#: tools/ruledit/ruledit.cpp:173
+#: tools/ruledit/ruledit.cpp:174
 msgid "Ruleset to use as the starting point."
 msgstr "Набор правил, который будет начальным."
 
 #. TRANS: "Fatal" is exactly what user must type, do not translate.
-#: tools/ruledit/ruledit.cpp:177
+#: tools/ruledit/ruledit.cpp:178
 msgid "Fatal [SIGNAL]"
 msgstr "Fatal [СИГНАЛ]"
 
-#: tools/ruledit/ruledit.cpp:178
+#: tools/ruledit/ruledit.cpp:179
 msgid "Raise a signal on failed assertion"
 msgstr "Выдать сигнал СИГНАЛ при некорректном параметре"
 
-#: tools/ruledit/ruledit.cpp:192
+#: tools/ruledit/ruledit.cpp:193
 msgid "Can only edit one ruleset at a time.\n"
 msgstr "Одномоментно можно редактировать только один набор правил.\n"
 
-#: tools/ruledit/ruledit.cpp:199
+#: tools/ruledit/ruledit.cpp:200
 #, c-format
 msgid "Invalid debug level \"%s\" specified with --debug option.\n"
 msgstr "Неверный уровень отладки '%s' в параметре --debug.\n"
 
-#: tools/ruledit/ruledit.cpp:201 tools/ruledit/ruledit.cpp:214
+#: tools/ruledit/ruledit.cpp:202 tools/ruledit/ruledit.cpp:215
 msgid "Try using --help.\n"
 msgstr "Попробуйте использовать --help.\n"
 
-#: tools/ruledit/ruledit.cpp:212
+#: tools/ruledit/ruledit.cpp:213
 #, c-format
 msgid "Invalid signal number \"%s\".\n"
 msgstr "Неверный номер сигнала: \"%s\".\n"
 
-#: tools/ruledit/ruledit.cpp:221
+#: tools/ruledit/ruledit.cpp:222
 #, c-format
 msgid "Unrecognized option: \"%s\"\n"
 msgstr "Неизвестный параметр: \"%s\"\n"
@@ -479,19 +483,19 @@ msgstr "Удалить эту Форму правления"
 msgid "A government with that rule name already exists!"
 msgstr "Форма правления с этим названием правила уже существует!"
 
-#: tools/ruledit/tab_misc.cpp:73
+#: tools/ruledit/tab_misc.cpp:74
 msgid "Ruleset name"
 msgstr "Название набора правил"
 
-#: tools/ruledit/tab_misc.cpp:78
+#: tools/ruledit/tab_misc.cpp:79
 msgid "Ruleset version"
 msgstr "Версия набора правил"
 
-#: tools/ruledit/tab_misc.cpp:83
+#: tools/ruledit/tab_misc.cpp:84
 msgid "Save to directory"
 msgstr "Сохранить в каталог"
 
-#: tools/ruledit/tab_misc.cpp:105
+#: tools/ruledit/tab_misc.cpp:106
 #, c-format
 msgid ""
 "If you want to be able to load the ruleset directly to freeciv, place it as "
@@ -502,135 +506,139 @@ msgstr ""
 "поместите его в подкаталог по пути %s%s%s\n"
 "Используйте команду \"/rulesetdir <подкаталог>\" для загрузки."
 
-#: tools/ruledit/tab_misc.cpp:114
+#: tools/ruledit/tab_misc.cpp:115
 msgid "Version suffix to directory name"
 msgstr "Суффикс версии для наименования каталога"
 
-#: tools/ruledit/tab_misc.cpp:119
+#: tools/ruledit/tab_misc.cpp:120
 msgid "Save now"
 msgstr "Сохранить"
 
-#: tools/ruledit/tab_misc.cpp:123
+#: tools/ruledit/tab_misc.cpp:124
 msgid "Description from file"
 msgstr "Описание из файла"
 
-#: tools/ruledit/tab_misc.cpp:130
+#: tools/ruledit/tab_misc.cpp:131
 msgid "Description file"
 msgstr "Файл с описанием"
 
-#: tools/ruledit/tab_misc.cpp:136
+#: tools/ruledit/tab_misc.cpp:137
 msgid "Sanity check rules"
 msgstr "Проверка правил на корректность"
 
-#: tools/ruledit/tab_misc.cpp:140
+#: tools/ruledit/tab_misc.cpp:141
 msgid "Always active Effects"
 msgstr "Постоянно действующие Эффекты"
 
-#: tools/ruledit/tab_misc.cpp:143
+#: tools/ruledit/tab_misc.cpp:144
 msgid "All Effects"
 msgstr "Все Эффекты"
 
-#: tools/ruledit/tab_misc.cpp:150
+#: tools/ruledit/tab_misc.cpp:151
 msgid "?stat:Terrains"
 msgstr "Рельефы"
 
-#: tools/ruledit/tab_misc.cpp:154
+#: tools/ruledit/tab_misc.cpp:155
 msgid "?stat:Resources"
 msgstr "Ресурсы"
 
-#: tools/ruledit/tab_misc.cpp:158
+#: tools/ruledit/tab_misc.cpp:159
 msgid "?stat:Tech Classes"
 msgstr "Типы Технологий"
 
-#: tools/ruledit/tab_misc.cpp:162
+#: tools/ruledit/tab_misc.cpp:163
 msgid "?stat:Techs"
 msgstr "Открытия"
 
-#: tools/ruledit/tab_misc.cpp:166
+#: tools/ruledit/tab_misc.cpp:167
 msgid "?stat:Unit Classes"
 msgstr "Классы Соединений"
 
-#: tools/ruledit/tab_misc.cpp:170
+#: tools/ruledit/tab_misc.cpp:171
 msgid "?stat:Unit Types"
 msgstr "Соединения"
 
-#: tools/ruledit/tab_misc.cpp:174
+#: tools/ruledit/tab_misc.cpp:175
 msgid "?stat:Enablers"
 msgstr "Включатели"
 
-#: tools/ruledit/tab_misc.cpp:178
+#: tools/ruledit/tab_misc.cpp:179
 msgid "?stat:Buildings"
 msgstr "Здания"
 
-#: tools/ruledit/tab_misc.cpp:182
+#: tools/ruledit/tab_misc.cpp:183
 msgid "?stat:Nations"
 msgstr "Народы"
 
-#: tools/ruledit/tab_misc.cpp:186
+#: tools/ruledit/tab_misc.cpp:187
 msgid "?stat:Styles"
 msgstr "Стили"
 
-#: tools/ruledit/tab_misc.cpp:190
+#: tools/ruledit/tab_misc.cpp:191
 msgid "?stat:Specialists"
 msgstr "Специалисты"
 
-#: tools/ruledit/tab_misc.cpp:194
+#: tools/ruledit/tab_misc.cpp:195
 msgid "?stat:Governments"
 msgstr "Формы Правления"
 
-#: tools/ruledit/tab_misc.cpp:198
+#: tools/ruledit/tab_misc.cpp:199
 msgid "?stat:Disasters"
 msgstr "Бедствия"
 
-#: tools/ruledit/tab_misc.cpp:202
+#: tools/ruledit/tab_misc.cpp:203
+msgid "?stat:Counters"
+msgstr "Счётчики"
+
+#: tools/ruledit/tab_misc.cpp:207
 msgid "?stat:Achievements"
 msgstr "Достижения"
 
-#: tools/ruledit/tab_misc.cpp:206
+#: tools/ruledit/tab_misc.cpp:211
 msgid "?stat:Extras"
 msgstr "Сооружения"
 
-#: tools/ruledit/tab_misc.cpp:210
+#: tools/ruledit/tab_misc.cpp:215
 msgid "?stat:Bases"
 msgstr "Базы"
 
-#: tools/ruledit/tab_misc.cpp:214
+#: tools/ruledit/tab_misc.cpp:219
 msgid "?stat:Roads"
 msgstr "Дороги"
 
-#: tools/ruledit/tab_misc.cpp:218
+#: tools/ruledit/tab_misc.cpp:223
 msgid "?stat:Goods"
 msgstr "Товары"
 
-#: tools/ruledit/tab_misc.cpp:222
+#: tools/ruledit/tab_misc.cpp:227
 msgid "?stat:Multipliers"
 msgstr "Множители"
 
-#: tools/ruledit/tab_misc.cpp:230
+#: tools/ruledit/tab_misc.cpp:235
 msgid "Refresh Stats"
 msgstr "Обновить статистику"
 
-#: tools/ruledit/tab_misc.cpp:312
+#: tools/ruledit/tab_misc.cpp:317
 msgid "Ruleset saved"
 msgstr "Набор правил сохранён"
 
-#: tools/ruledit/tab_misc.cpp:440
+#: tools/ruledit/tab_misc.cpp:450
 msgid "Always active"
 msgstr "Постоянно действующий"
 
-#: tools/ruledit/tab_misc.cpp:461
+#: tools/ruledit/tab_misc.cpp:471
 msgid "Sanity Check"
 msgstr "Проверка корректности"
 
-#: tools/ruledit/tab_misc.cpp:468
+#: tools/ruledit/tab_misc.cpp:478
 msgid "Sanity check failed!"
 msgstr "Обнаружены некорректные правила!"
 
-#: tools/ruledit/tab_misc.cpp:470
+#: tools/ruledit/tab_misc.cpp:480
 msgid "Sanity check success"
 msgstr "Проверка корректности пройдена успешно"
 
-#: tools/ruledit/tab_misc.cpp:479
+#: tools/ruledit/tab_misc.cpp:489
 msgid "All effects"
 msgstr "Все эффекты"
 
@@ -732,29 +740,29 @@ msgstr "Удалить Требование"
 msgid "%s prevents"
 msgstr "%s не допускается"
 
-#: tools/ruledit/validity.c:50 tools/ruledit/validity.c:351
+#: tools/ruledit/validity.c:50 tools/ruledit/validity.c:371
 msgid "Effect"
 msgstr "Эффект"
 
-#: tools/ruledit/validity.c:122
+#: tools/ruledit/validity.c:132
 #, c-format
 msgid "%s action enabler"
 msgstr "Включатель Действия %s"
 
-#: tools/ruledit/validity.c:144
+#: tools/ruledit/validity.c:154
 msgid "Music Style"
 msgstr "Стиль музыки"
 
 #. TRANS: e.g. "Advance clause"
-#: tools/ruledit/validity.c:157
+#: tools/ruledit/validity.c:167
 #, c-format
 msgid "%s clause"
 msgstr "Статья %s"
 
-#: tools/ruledit/validity.c:282
+#: tools/ruledit/validity.c:302
 msgid "Conflicting extra"
 msgstr "Конфликтующее сооружение"
 
-#: tools/ruledit/validity.c:285
+#: tools/ruledit/validity.c:305
 msgid "Hidden extra"
 msgstr "Скрытое сооружение"
