@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv trunk\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2023-01-03 08:12+0100\n"
+"POT-Creation-Date: 2023-01-24 14:45+0100\n"
 "PO-Revision-Date: 2022-09-22 11:18+0200\n"
 "Last-Translator: Igx <igx31 hotmail.com>\n"
 "Language-Team: French <freeciv-l10n-fr@yahoogroupes.fr>\n"
@@ -705,30 +705,30 @@ msgstr "Supprimer prérequis"
 msgid "%s prevents"
 msgstr "%s empêche"
 
-#: tools/ruledit/validity.c:50 tools/ruledit/validity.c:351
+#: tools/ruledit/validity.c:50 tools/ruledit/validity.c:361
 msgid "Effect"
 msgstr "Effet"
 
-#: tools/ruledit/validity.c:122
+#: tools/ruledit/validity.c:132
 #, c-format
 msgid "%s action enabler"
 msgstr "Activateur d'action %s"
 
-#: tools/ruledit/validity.c:144
+#: tools/ruledit/validity.c:154
 msgid "Music Style"
 msgstr "Style de musique"
 
 #. TRANS: e.g. "Advance clause"
-#: tools/ruledit/validity.c:157
+#: tools/ruledit/validity.c:167
 #, c-format
 msgid "%s clause"
 msgstr "Clause %s"
 
-#: tools/ruledit/validity.c:282
+#: tools/ruledit/validity.c:292
 msgid "Conflicting extra"
 msgstr "Extra en conflit"
 
-#: tools/ruledit/validity.c:285
+#: tools/ruledit/validity.c:295
 msgid "Hidden extra"
 msgstr "Extra caché"
 
