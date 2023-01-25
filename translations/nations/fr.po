@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv trunk\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2023-01-03 18:59+0100\n"
-"PO-Revision-Date: 2023-01-03 20:22+0100\n"
+"POT-Creation-Date: 2023-01-24 14:45+0100\n"
+"PO-Revision-Date: 2023-01-25 15:15+0100\n"
 "Last-Translator: Igx <igx31 hotmail.com>\n"
 "Language-Team: French <freeciv-l10n-fr@yahoogroupes.fr>\n"
 "Language: fr\n"
@@ -305,19 +305,20 @@ msgstr "Abbé %s"
 #: data/nation/honduran.ruleset:30 data/nation/irish.ruleset:42
 #: data/nation/langobardic.ruleset:39 data/nation/latin.ruleset:46
 #: data/nation/leonese.ruleset:22 data/nation/liechtensteiner.ruleset:32
-#: data/nation/luxembourgish.ruleset:29 data/nation/maltese.ruleset:26
-#: data/nation/mazovian.ruleset:24 data/nation/milanese.ruleset:27
-#: data/nation/monegasque.ruleset:30 data/nation/norman.ruleset:25
-#: data/nation/northumbrian.ruleset:39 data/nation/palatinate.ruleset:30
-#: data/nation/panamanian.ruleset:30 data/nation/paraguayan.ruleset:38
-#: data/nation/peruvian.ruleset:27 data/nation/piedmontese.ruleset:33
-#: data/nation/quebecois.ruleset:21 data/nation/riograndense.ruleset:21
-#: data/nation/romansh.ruleset:29 data/nation/saintlucian.ruleset:24
-#: data/nation/salvadoran.ruleset:35 data/nation/sammarinese.ruleset:25
-#: data/nation/sardinian.ruleset:34 data/nation/savoyard.ruleset:32
-#: data/nation/silesian.ruleset:23 data/nation/slovenian.ruleset:20
-#: data/nation/teutonic.ruleset:29 data/nation/uruguayan.ruleset:24
-#: data/nation/venezuelan.ruleset:31 data/nation/yucatecan.ruleset:29
+#: data/nation/liege.ruleset:30 data/nation/luxembourgish.ruleset:29
+#: data/nation/maltese.ruleset:26 data/nation/mazovian.ruleset:24
+#: data/nation/milanese.ruleset:27 data/nation/monegasque.ruleset:30
+#: data/nation/norman.ruleset:25 data/nation/northumbrian.ruleset:39
+#: data/nation/palatinate.ruleset:30 data/nation/panamanian.ruleset:30
+#: data/nation/paraguayan.ruleset:38 data/nation/peruvian.ruleset:27
+#: data/nation/piedmontese.ruleset:33 data/nation/quebecois.ruleset:21
+#: data/nation/riograndense.ruleset:21 data/nation/romansh.ruleset:29
+#: data/nation/saintlucian.ruleset:24 data/nation/salvadoran.ruleset:35
+#: data/nation/sammarinese.ruleset:25 data/nation/sardinian.ruleset:34
+#: data/nation/savoyard.ruleset:32 data/nation/silesian.ruleset:23
+#: data/nation/slovenian.ruleset:20 data/nation/teutonic.ruleset:29
+#: data/nation/uruguayan.ruleset:24 data/nation/venezuelan.ruleset:31
+#: data/nation/yucatecan.ruleset:29
 #, c-format
 msgid "Mother Superior %s"
 msgstr "Mère supérieure %s"
@@ -752,16 +753,17 @@ msgstr ""
 #: data/nation/cossack.ruleset:29 data/nation/cuyavian.ruleset:27
 #: data/nation/greaterpolish.ruleset:20 data/nation/kashubian.ruleset:28
 #: data/nation/lankese.ruleset:21 data/nation/liechtensteiner.ruleset:30
-#: data/nation/lippe.ruleset:28 data/nation/mazovian.ruleset:23
-#: data/nation/mecklenburgian.ruleset:31 data/nation/mitanni.ruleset:33
-#: data/nation/moldovan.ruleset:23 data/nation/monegasque.ruleset:31
-#: data/nation/montenegrin.ruleset:27 data/nation/mordvin.ruleset:20
-#: data/nation/nepali.ruleset:29 data/nation/novgorodian.ruleset:43
-#: data/nation/romanian.ruleset:31 data/nation/rusyn.ruleset:31
-#: data/nation/ruthenian.ruleset:29 data/nation/silesian.ruleset:22
-#: data/nation/sinhalese.ruleset:25 data/nation/sorbian.ruleset:26
-#: data/nation/transylvanian.ruleset:27 data/nation/ukrainian.ruleset:37
-#: data/nation/urartian.ruleset:34 data/nation/westernpomeranian.ruleset:29
+#: data/nation/liege.ruleset:28 data/nation/lippe.ruleset:28
+#: data/nation/mazovian.ruleset:23 data/nation/mecklenburgian.ruleset:31
+#: data/nation/mitanni.ruleset:33 data/nation/moldovan.ruleset:23
+#: data/nation/monegasque.ruleset:31 data/nation/montenegrin.ruleset:27
+#: data/nation/mordvin.ruleset:20 data/nation/nepali.ruleset:29
+#: data/nation/novgorodian.ruleset:43 data/nation/romanian.ruleset:31
+#: data/nation/rusyn.ruleset:31 data/nation/ruthenian.ruleset:29
+#: data/nation/silesian.ruleset:22 data/nation/sinhalese.ruleset:25
+#: data/nation/sorbian.ruleset:26 data/nation/transylvanian.ruleset:27
+#: data/nation/ukrainian.ruleset:37 data/nation/urartian.ruleset:34
+#: data/nation/westernpomeranian.ruleset:29
 #, c-format
 msgid "Prince %s"
 msgstr "Prince %s"
@@ -2152,7 +2154,7 @@ msgstr ""
 "fédéral. Ceci est le résultat de combats (presque) pacifiques entre "
 "nationalistes flamands et wallons."
 
-#: data/nation/belgian.ruleset:24
+#: data/nation/belgian.ruleset:24 data/nation/liege.ruleset:29
 #, c-format
 msgid "Prime Minister %s"
 msgstr "Premier Ministre %s"
@@ -5346,10 +5348,10 @@ msgstr ""
 "culturelle dans les états modernes de Bavière, Thuringe et Bade-Wurtemberg."
 
 #: data/nation/franconian.ruleset:25 data/nation/hanoverian.ruleset:23
-#: data/nation/lorrain.ruleset:31 data/nation/montenegrin.ruleset:28
-#: data/nation/palatinate.ruleset:30 data/nation/rhenish.ruleset:35
-#: data/nation/tyrolian.ruleset:23 data/nation/walloon.ruleset:26
-#: data/nation/westphalian.ruleset:28
+#: data/nation/liege.ruleset:30 data/nation/lorrain.ruleset:31
+#: data/nation/montenegrin.ruleset:28 data/nation/palatinate.ruleset:30
+#: data/nation/rhenish.ruleset:35 data/nation/tyrolian.ruleset:23
+#: data/nation/walloon.ruleset:26 data/nation/westphalian.ruleset:28
 #, c-format
 msgid "Prince-Bishop %s"
 msgstr "Prince-évêque %s"
@@ -7844,6 +7846,40 @@ msgstr ""
 "La principauté du Liechtenstein est un pays alpin minuscule enclavé d'Europe "
 "de l'ouest, bordé par la Suisse à l'Ouest et par l'Autriche à l'Est. La "
 "principauté fut formée par la fusion de Vaduz et de Schellenberg en 1719."
+
+#: data/nation/liege.ruleset:3
+msgid "Liegean"
+msgstr "Liégeois"
+
+#: data/nation/liege.ruleset:4
+msgid "?plural:Liegeans"
+msgstr "Liégeois"
+
+#: data/nation/liege.ruleset:6
+msgid ""
+"Liege was constituted in ecclesiastic principalty in 985, when Bishop Notger "
+"was granted the control of several cities in current Belgium. As a federated "
+"state of the Holy Roman Empire, it was characterized with large civil "
+"liberties for which liegean struggled strongly for. It lasted until 1792, "
+"when the recently formed Republic of Liege voted the union with "
+"revolutionary France. Liege played later a major role in the Belgian "
+"independance."
+msgstr "Liège a été constituée en principauté écclésiastique en 985, quand on donna à l'évêque Notger le contrôle de plusieurs villes dans l'actuelle Belgique. En tant qu'état fédéral du Saint Empire Romain, il fut caractérisé par de grandes libertés civiques pour lesquelles les liégeois luttèrent farouchement. Il perdura jusqu'en 1792, quand la nouvellement formée République de Liège vota l'union avec la France révolutionnaire. Liège a joué plus tard un rôle majeur dans l'indépendance de la Belgique."
+
+#: data/nation/liege.ruleset:28
+#, c-format
+msgid "?female:Princess %s"
+msgstr "Princesse %s"
+
+#: data/nation/liege.ruleset:29
+#, c-format
+msgid "?female:Prime Ministress %s"
+msgstr "Première Ministre %s"
+
+#: data/nation/liege.ruleset:31
+#, c-format
+msgid "Regent %s"
+msgstr "Régent %s"
 
 #: data/nation/ligurian.ruleset:3
 msgid "Ligurian"
@@ -10751,7 +10787,14 @@ msgid ""
 "Duchy of Galicia–Volhynia and the Kingdom of Rus. In later times the lands "
 "were under Polish and later Austrian rule. Rusyns formed two ephemeral "
 "states after World War I: the Lemko-Rusyn Republic and the Komancza Republic."
-msgstr "Les Ruthènes sont un groupe ethnique sur la périphérie occidentale des nations slaves de l'est. Ils vivent principalement à la frontière polonaise-ukrainienne-slovaque et en Voïvodine. À l'époque médiévale, la patrie des Ruthènes était le site du duché de Galicie-Volhynie et le Royaume de Rus'. Ces terres furent ensuite sous contrôle polonais puis, plus tard, autrichien. Les ruthènes formèrent deux états éphémères après la Première Guerre Mondiale : La République Lemko-Ruthène et la République de Komańcza."
+msgstr ""
+"Les Ruthènes sont un groupe ethnique sur la périphérie occidentale des "
+"nations slaves de l'est. Ils vivent principalement à la frontière polonaise-"
+"ukrainienne-slovaque et en Voïvodine. À l'époque médiévale, la patrie des "
+"Ruthènes était le site du duché de Galicie-Volhynie et le Royaume de Rus'. "
+"Ces terres furent ensuite sous contrôle polonais puis, plus tard, "
+"autrichien. Les ruthènes formèrent deux états éphémères après la Première "
+"Guerre Mondiale : La République Lemko-Ruthène et la République de Komańcza."
 
 #: data/nation/ruthenian.ruleset:3
 msgid "Kievan Rus'"
@@ -12497,7 +12540,16 @@ msgid ""
 "by six nations: France, Spain, Mexico, the Republic of Texas, the "
 "Confederacy, and the USA, as expressed in the slogan \"six flags over "
 "Texas\"."
-msgstr "Le Texas, \"l'État à l'étoile solitaire\" est le deuxième état en taille et en population des États-Unis, connu pour sa culture cow-boy \"larger than life\" et son héritage mexicain. Après la fameuse bataille d'Alamo, les texans ont battu les mexicains à San Jacinto et ont déclaré leur indépendance. La République du Texas a duré entre 1836 et 1846, après quoi il devint le 28ème état des États-Unis. Historiquement, le Texas a été dirigé totalement ou en partie par six nations : la France, l'Espagne, le Mexique, la République du Texas, la Confédération et les USA, comme indiqué dans l'expression \"Six drapeaux sur le Texas\"."
+msgstr ""
+"Le Texas, \"l'État à l'étoile solitaire\" est le deuxième état en taille et "
+"en population des États-Unis, connu pour sa culture cow-boy \"larger than "
+"life\" et son héritage mexicain. Après la fameuse bataille d'Alamo, les "
+"texans ont battu les mexicains à San Jacinto et ont déclaré leur "
+"indépendance. La République du Texas a duré entre 1836 et 1846, après quoi "
+"il devint le 28ème état des États-Unis. Historiquement, le Texas a été "
+"dirigé totalement ou en partie par six nations : la France, l'Espagne, le "
+"Mexique, la République du Texas, la Confédération et les USA, comme indiqué "
+"dans l'expression \"Six drapeaux sur le Texas\"."
 
 #: data/nation/thracian.ruleset:3
 msgid "Thracian"
@@ -40163,10 +40215,6 @@ msgstr ""
 
 #~ msgid "?female:Empress %s"
 #~ msgstr "Impératrice %s"
-
-#, fuzzy
-#~ msgid "?female:Princess %s"
-#~ msgstr "Première Ministre"
 
 #~ msgid "?female:Popess %s"
 #~ msgstr "Papesse %s"
