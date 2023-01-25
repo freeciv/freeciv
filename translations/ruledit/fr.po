@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 3.0\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2023-01-03 08:08+0100\n"
+"POT-Creation-Date: 2023-01-23 08:10+0100\n"
 "PO-Revision-Date: 2022-09-22 11:21+0200\n"
 "Last-Translator: Igx <igx31 hotmail.com>\n"
 "Language-Team: French <freeciv-l10n-fr@yahoogroupes.fr>\n"
@@ -635,20 +635,20 @@ msgstr "%s empêche"
 msgid "Effect"
 msgstr "Effet"
 
-#: tools/ruledit/validity.c:122
+#: tools/ruledit/validity.c:132
 #, c-format
 msgid "%s action enabler"
 msgstr "Activateur d'action %s"
 
-#: tools/ruledit/validity.c:144
+#: tools/ruledit/validity.c:154
 msgid "Music Style"
 msgstr "Style de musique"
 
-#: tools/ruledit/validity.c:265
+#: tools/ruledit/validity.c:275
 msgid "Conflicting extra"
 msgstr "Extra en conflit"
 
-#: tools/ruledit/validity.c:268
+#: tools/ruledit/validity.c:278
 msgid "Hidden extra"
 msgstr "Extra caché"
 
