@@ -194,7 +194,6 @@ priv_headers = [
   'fcntl.h',
   'time.h',
   'libgen.h',
-  'lzma.h',
   'zstd.h',
   'memory.h',
   'netdb.h',
@@ -388,11 +387,15 @@ else
   readline_dep = []
 endif
 
-lzma_dep = c_compiler.find_library('lzma', dirs: cross_lib_path,
-                                   required:false)
+if c_compiler.has_header('lzma.h', args: header_arg)
+  priv_conf_data.set('HAVE_LZMA_H', 1)
 
-if lzma_dep.found()
-  pub_conf_data.set('FREECIV_HAVE_LIBLZMA', 1)
+  lzma_dep = c_compiler.find_library('lzma', dirs: cross_lib_path,
+                                     required:false)
+
+  if lzma_dep.found()
+     pub_conf_data.set('FREECIV_HAVE_LIBLZMA', 1)
+  endif
 endif
 
 zstd_dep = c_compiler.find_library('zstd', dirs: cross_lib_path,
