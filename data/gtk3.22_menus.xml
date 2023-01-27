@@ -199,6 +199,9 @@
               <object class="GtkCheckMenuItem" id="SHOW_FOCUS_UNIT" />
             </child>
             <child>
+              <object class="GtkCheckMenuItem" id="SHOW_STACK_SIZE" />
+            </child>
+            <child>
               <object class="GtkCheckMenuItem" id="SHOW_FOG_OF_WAR" />
             </child>
             <child>

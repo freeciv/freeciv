@@ -301,6 +301,13 @@ static void show_unit_solid_bg_callback(GSimpleAction *action,
 static void show_unit_shields_callback(GSimpleAction *action,
                                        GVariant *parameter,
                                        gpointer data);
+#endif /* MENUS_GTK3 */
+
+static void show_stack_size_callback(GSimpleAction *action,
+                                     GVariant *parameter,
+                                     gpointer data);
+
+#ifdef MENUS_GTK3
 static void show_focus_unit_callback(GSimpleAction *action,
                                      GVariant *parameter,
                                      gpointer data);
@@ -553,6 +560,10 @@ static struct menu_entry_info menu_entries[] =
   { "SHOW_CITY_FULL_BAR", N_("City Full Bar"),
     "show_city_full_bar", NULL, MGROUP_SAFE,
     show_city_full_bar_callback, FALSE },
+
+  { "SHOW_STACK_SIZE", N_("Unit Stack Size"),
+    "show_stack_size", "<ctrl>plus", MGROUP_SAFE,
+    show_stack_size_callback, FALSE },
 
   { "FULL_SCREEN", N_("_Fullscreen"),
     "full_screen", "<ctrl>F11", MGROUP_SAFE,
@@ -916,6 +927,7 @@ enum {
   VMENU_NAT_BORDERS,
   VMENU_NATIVE_TILES,
   VMENU_CITY_FULL_BAR,
+  VMENU_STACK_SIZE,
   VMENU_FULL_SCREEN
 };
 
@@ -1816,7 +1828,27 @@ static void show_unit_shields_callback(GSimpleAction *action,
     key_unit_shields_toggle();
   }
 }
+#endif /* MENUS_GTK3 */
 
+/************************************************************************//**
+  Item "SHOW_STACK_SIZE" callback.
+****************************************************************************/
+static void show_stack_size_callback(GSimpleAction *action,
+                                     GVariant *parameter,
+                                     gpointer data)
+{
+  struct menu_entry_info *info = (struct menu_entry_info *)data;
+
+  info->state ^= 1;
+
+  key_unit_stack_size_toggle();
+
+  g_menu_remove(view_menu, VMENU_STACK_SIZE);
+  menu_item_insert_unref(view_menu, VMENU_STACK_SIZE,
+                         create_toggle_menu_item_for_key("SHOW_STACK_SIZE"));
+}
+
+#ifdef MENUS_GTK3
 /************************************************************************//**
   Item "SHOW_FOCUS_UNIT" callback.
 ****************************************************************************/
@@ -2696,6 +2728,7 @@ const struct menu_entry_option_map meoms[] = {
   { "SHOW_NAT_BORDERS", &gui_options.draw_borders },
   { "SHOW_NATIVE_TILES", &gui_options.draw_native },
   { "SHOW_CITY_FULL_BAR", &gui_options.draw_full_citybar },
+  { "SHOW_STACK_SIZE", &gui_options.draw_unit_stack_size },
 
   { NULL, NULL }
 };
@@ -2837,6 +2870,7 @@ static GMenu *setup_menus(GtkApplication *app)
   menu_entry_init(view_menu, "SHOW_NAT_BORDERS");
   menu_entry_init(view_menu, "SHOW_NATIVE_TILES");
   menu_entry_init(view_menu, "SHOW_CITY_FULL_BAR");
+  menu_entry_init(view_menu, "SHOW_STACK_SIZE");
 
   menu_entry_init(view_menu, "FULL_SCREEN");
   menu_entry_init(view_menu, "CENTER_VIEW");
