@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: po-debconf://kdebase\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2022-08-04 22:40+0300\n"
+"POT-Creation-Date: 2023-01-24 01:56+0200\n"
 "PO-Revision-Date: 2013-09-09 09:59+0300\n"
 "Last-Translator: stan ioan-eugen <stan.ieugen@gmail.com>\n"
 "Language-Team: romanian <debian-l10n-romanian@lists.debian.org>\n"
@@ -31,30 +31,30 @@ msgstr ""
 msgid "Needed by %s"
 msgstr ""
 
-#: tools/ruledit/ruledit.cpp:135
+#: tools/ruledit/ruledit.cpp:134
 #, fuzzy
 msgid "Print a summary of the options"
 msgstr "  -h, --help\t\tAfişează sumarul opţiunilor\n"
 
-#: tools/ruledit/ruledit.cpp:137
+#: tools/ruledit/ruledit.cpp:136
 #, fuzzy
 msgid "Print the version number"
 msgstr "  -v, --version\t\tAfişează numărul versiunii\n"
 
 #. TRANS: argument (don't translate) VALUE (translate)
-#: tools/ruledit/ruledit.cpp:140
+#: tools/ruledit/ruledit.cpp:139
 msgid "ruleset RULESET"
 msgstr ""
 
-#: tools/ruledit/ruledit.cpp:141
+#: tools/ruledit/ruledit.cpp:140
 msgid "Ruleset to use as the starting point."
 msgstr ""
 
-#: tools/ruledit/ruledit.cpp:154
+#: tools/ruledit/ruledit.cpp:153
 msgid "Can only edit one ruleset at a time.\n"
 msgstr ""
 
-#: tools/ruledit/ruledit.cpp:161
+#: tools/ruledit/ruledit.cpp:160
 #, c-format
 msgid "Unrecognized option: \"%s\"\n"
 msgstr "Opţiune nerecunoscută: \"%s\"\n"

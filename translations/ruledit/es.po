@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2022-08-04 22:40+0300\n"
+"POT-Creation-Date: 2023-01-24 01:56+0200\n"
 "PO-Revision-Date: 2021-12-04 14:09+0100\n"
 "Last-Translator: Jordi Negrevernis <jorneg4@gmail.com>\n"
 "Language-Team: Español; Castellano <>\n"
@@ -37,28 +37,28 @@ msgstr "Cerrar"
 msgid "Needed by %s"
 msgstr "Necesitado por %s"
 
-#: tools/ruledit/ruledit.cpp:135
+#: tools/ruledit/ruledit.cpp:134
 msgid "Print a summary of the options"
 msgstr "Imprimir un resumen de las opciones"
 
-#: tools/ruledit/ruledit.cpp:137
+#: tools/ruledit/ruledit.cpp:136
 msgid "Print the version number"
 msgstr "Imprimir el número de versión"
 
 #. TRANS: argument (don't translate) VALUE (translate)
-#: tools/ruledit/ruledit.cpp:140
+#: tools/ruledit/ruledit.cpp:139
 msgid "ruleset RULESET"
 msgstr "ruleset RULESET"
 
-#: tools/ruledit/ruledit.cpp:141
+#: tools/ruledit/ruledit.cpp:140
 msgid "Ruleset to use as the starting point."
 msgstr "Conjunto de reglas para usar como punto de partida."
 
-#: tools/ruledit/ruledit.cpp:154
+#: tools/ruledit/ruledit.cpp:153
 msgid "Can only edit one ruleset at a time.\n"
 msgstr "Solo puedes editar un conjunto de reglas a la vez.\n"
 
-#: tools/ruledit/ruledit.cpp:161
+#: tools/ruledit/ruledit.cpp:160
 #, c-format
 msgid "Unrecognized option: \"%s\"\n"
 msgstr "Opción desconocida: \"%s\"\n"

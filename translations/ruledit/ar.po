@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ar\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2022-08-04 22:40+0300\n"
+"POT-Creation-Date: 2023-01-24 01:56+0200\n"
 "PO-Revision-Date: 2007-08-10 18:00+0300\n"
 "Last-Translator: Ahmad M. Zawawi <zeus_go64@yahoo.com>\n"
 "Language-Team: Arabic <freeciv-i18n@freeciv.org>\n"
@@ -29,30 +29,30 @@ msgstr ""
 msgid "Needed by %s"
 msgstr ""
 
-#: tools/ruledit/ruledit.cpp:135
+#: tools/ruledit/ruledit.cpp:134
 #, fuzzy
 msgid "Print a summary of the options"
 msgstr "  -h, --help\t\tطباعة ملخص عن الخيارات\n"
 
-#: tools/ruledit/ruledit.cpp:137
+#: tools/ruledit/ruledit.cpp:136
 #, fuzzy
 msgid "Print the version number"
 msgstr "  -v, --version\t\tطباعة رقم اصدارة البرنامج\n"
 
 #. TRANS: argument (don't translate) VALUE (translate)
-#: tools/ruledit/ruledit.cpp:140
+#: tools/ruledit/ruledit.cpp:139
 msgid "ruleset RULESET"
 msgstr ""
 
-#: tools/ruledit/ruledit.cpp:141
+#: tools/ruledit/ruledit.cpp:140
 msgid "Ruleset to use as the starting point."
 msgstr ""
 
-#: tools/ruledit/ruledit.cpp:154
+#: tools/ruledit/ruledit.cpp:153
 msgid "Can only edit one ruleset at a time.\n"
 msgstr ""
 
-#: tools/ruledit/ruledit.cpp:161
+#: tools/ruledit/ruledit.cpp:160
 #, c-format
 msgid "Unrecognized option: \"%s\"\n"
 msgstr "الخيار غير معترف به: \"%s\"\n"

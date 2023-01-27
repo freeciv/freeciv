@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: it\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2022-08-04 22:40+0300\n"
+"POT-Creation-Date: 2023-01-24 01:56+0200\n"
 "PO-Revision-Date: 2021-09-27 11:02+0200\n"
 "Last-Translator: Kristjan SCHMIDT <kristjan.schmidt@googlemail.com>\n"
 "Language-Team: Esperanto <eo@li.org>\n"
@@ -38,29 +38,29 @@ msgstr "Fermi"
 msgid "Needed by %s"
 msgstr "Bezonata de %s"
 
-#: tools/ruledit/ruledit.cpp:135
+#: tools/ruledit/ruledit.cpp:134
 #, fuzzy
 msgid "Print a summary of the options"
 msgstr "+ signifas ke vi povas ŝanĝi opcion"
 
-#: tools/ruledit/ruledit.cpp:137
+#: tools/ruledit/ruledit.cpp:136
 msgid "Print the version number"
 msgstr "Eligi la version numeron"
 
 #. TRANS: argument (don't translate) VALUE (translate)
-#: tools/ruledit/ruledit.cpp:140
+#: tools/ruledit/ruledit.cpp:139
 msgid "ruleset RULESET"
 msgstr "regularo RULESET"
 
-#: tools/ruledit/ruledit.cpp:141
+#: tools/ruledit/ruledit.cpp:140
 msgid "Ruleset to use as the starting point."
 msgstr ""
 
-#: tools/ruledit/ruledit.cpp:154
+#: tools/ruledit/ruledit.cpp:153
 msgid "Can only edit one ruleset at a time.\n"
 msgstr ""
 
-#: tools/ruledit/ruledit.cpp:161
+#: tools/ruledit/ruledit.cpp:160
 #, c-format
 msgid "Unrecognized option: \"%s\"\n"
 msgstr "Nekonata opcio: \"%s\"\n"
