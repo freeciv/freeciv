@@ -443,7 +443,9 @@ tactical_req_cb(const struct req_context *context,
     /* Not implemented. */
     break;
   }
-  fc_assert_ret_val(FALSE, TRI_NO);
+  fc_assert(FALSE);
+
+  return TRI_NO;
 }
 
 /**********************************************************************//**
