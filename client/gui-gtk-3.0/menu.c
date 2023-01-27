@@ -200,6 +200,8 @@ static void show_unit_solid_bg_callback(GtkCheckMenuItem *item,
                                         gpointer data);
 static void show_unit_shields_callback(GtkCheckMenuItem *item,
                                        gpointer data);
+static void show_stack_size_callback(GtkCheckMenuItem *item,
+                                     gpointer data);
 static void show_focus_unit_callback(GtkCheckMenuItem *item, gpointer data);
 static void show_fog_of_war_callback(GtkCheckMenuItem *item, gpointer data);
 static void full_screen_callback(GtkCheckMenuItem *item, gpointer data);
@@ -464,6 +466,9 @@ static struct menu_entry_info menu_entries[] =
     G_CALLBACK(show_unit_solid_bg_callback), MGROUP_SAFE },
   { "SHOW_UNIT_SHIELDS", N_("Unit shields"), 0, 0,
     G_CALLBACK(show_unit_shields_callback), MGROUP_SAFE },
+  { "SHOW_STACK_SIZE", N_("Unit Stack Size"),
+    GDK_KEY_plus, GDK_CONTROL_MASK,
+    G_CALLBACK(show_stack_size_callback), MGROUP_SAFE },
   { "SHOW_FOCUS_UNIT", N_("Focu_s Unit"), 0, 0,
     G_CALLBACK(show_focus_unit_callback), MGROUP_SAFE },
   { "SHOW_FOG_OF_WAR", N_("Fog of _War"), 0, 0,
@@ -1399,6 +1404,17 @@ static void show_unit_shields_callback(GtkCheckMenuItem *item,
 }
 
 /************************************************************************//**
+  Item "SHOW_STACK_SIZE" callback.
+****************************************************************************/
+static void show_stack_size_callback(GtkCheckMenuItem *item,
+                                     gpointer data)
+{
+  if (gui_options.draw_unit_stack_size ^ gtk_check_menu_item_get_active(item)) {
+    key_unit_stack_size_toggle();
+  }
+}
+
+/************************************************************************//**
   Item "SHOW_FOCUS_UNIT" callback.
 ****************************************************************************/
 static void show_focus_unit_callback(GtkCheckMenuItem *item, gpointer data)
@@ -2275,6 +2291,8 @@ static void view_menu_update_sensitivity(void)
                            gui_options.draw_units || gui_options.draw_focus_unit);
   menu_entry_set_sensitive("SHOW_UNIT_SHIELDS",
                            gui_options.draw_units || gui_options.draw_focus_unit);
+  menu_entry_set_sensitive("SHOW_STACK_SIZE",
+                           gui_options.draw_units || gui_options.draw_focus_unit);
   menu_entry_set_sensitive("SHOW_FOCUS_UNIT", !gui_options.draw_units);
 }
 
@@ -3104,6 +3122,8 @@ void real_menus_init(void)
                         gui_options.solid_color_behind_units);
   menu_entry_set_active("SHOW_UNIT_SHIELDS",
                         gui_options.draw_unit_shields);
+  menu_entry_set_active("SHOW_STACK_SIZE",
+                        gui_options.draw_unit_stack_size);
   menu_entry_set_active("SHOW_FOCUS_UNIT",
                         gui_options.draw_focus_unit);
   menu_entry_set_active("SHOW_FOG_OF_WAR",
