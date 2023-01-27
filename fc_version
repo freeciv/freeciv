@@ -9,13 +9,13 @@ MAJOR_VERSION="3"
 MINOR_VERSION="1"
 PATCH_VERSION="0"
 EMERGENCY_VERSION=""
-VERSION_LABEL="-alpha5+"
+VERSION_LABEL="-beta0"
 
 # Type is either "development" or "stable"
 # Date is relevant only for "stable" releases
 if test "$VERSION_LABEL" = "" ; then
   RELEASE_TYPE="stable"
-  #RELEASE_DATE="2022-12-29"
+  #RELEASE_DATE="2023-02-01"
 else
   RELEASE_TYPE="development"
 fi
@@ -50,9 +50,9 @@ fi
 # Update DEFAULT_FOLLOW_TAG to "stable", and also
 # windows/installer_msys2/Makefile --with-followtag to "windows"
 
-IS_DEVEL_VERSION=1
-IS_FREEZE_VERSION=1
-IS_BETA_VERSION=0
+IS_DEVEL_VERSION=0
+IS_FREEZE_VERSION=0
+IS_BETA_VERSION=1
 
 NEXT_STABLE_VERSION="3.1.0"
 
