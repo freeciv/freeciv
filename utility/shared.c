@@ -1826,6 +1826,29 @@ bool make_dir(const char *pathname)
 }
 
 /************************************************************************//**
+  If the directory part of the "filename" does not exist, recursively create
+  all directories until it does.
+****************************************************************************/
+bool make_dir_for_file(char *filename)
+{
+  int i;
+
+  for (i = strlen(filename) - 1 ; filename[i] != DIR_SEPARATOR_CHAR ; i--) {
+    /* Nothing */
+  }
+
+  filename[i] = '\0';
+  log_debug("Create directory \"%s\"", filename);
+
+  if (!make_dir(filename)) {
+    return FALSE;
+  }
+  filename[i] = DIR_SEPARATOR_CHAR;
+
+  return TRUE;
+}
+
+/************************************************************************//**
   Returns TRUE if the filename's path is absolute.
 ****************************************************************************/
 bool path_is_absolute(const char *filename)
