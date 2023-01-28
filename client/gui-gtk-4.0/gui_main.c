@@ -430,7 +430,38 @@ static gboolean key_press_map_canvas(guint keyval, GdkModifierType state)
     }
   }
 
-  if (!(state & GDK_CONTROL_MASK)) {
+  if (state & GDK_SHIFT_MASK) {
+    bool volchange = FALSE;
+
+    switch (keyval) {
+    case GDK_KEY_plus:
+    case GDK_KEY_KP_Add:
+      gui_options.sound_effects_volume += 10;
+      volchange = TRUE;
+      break;
+
+    case GDK_KEY_minus:
+    case GDK_KEY_KP_Subtract:
+      gui_options.sound_effects_volume -= 10;
+      volchange = TRUE;
+      break;
+
+    default:
+      break;
+    }
+
+    if (volchange) {
+      struct option *poption = optset_option_by_name(client_optset,
+                                                     "sound_effects_volume");
+
+      gui_options.sound_effects_volume = CLIP(0,
+                                              gui_options.sound_effects_volume,
+                                              100);
+      option_changed(poption);
+
+      return TRUE;
+    }
+  } else if (!(state & GDK_CONTROL_MASK)) {
     switch (keyval) {
     case GDK_KEY_plus:
     case GDK_KEY_KP_Add:
@@ -547,9 +578,7 @@ static gboolean toplevel_key_press_handler(GtkEventControllerKey *controller,
     return FALSE;
   }
 
-  switch (keyval) {
-
-  case GDK_KEY_apostrophe:
+  if (keyval == GDK_KEY_apostrophe) {
     /* Allow this even if not in main map view; chatline is present on
      * some other pages too */
 
@@ -571,12 +600,7 @@ static gboolean toplevel_key_press_handler(GtkEventControllerKey *controller,
     if (inputline_is_visible()) {
       inputline_grab_focus();
       return TRUE;
-    } else {
-      break;
     }
-
-  default:
-    break;
   }
 
   if (!gtk_widget_get_mapped(top_vbox)
