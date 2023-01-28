@@ -7,9 +7,9 @@
 # This script is licensed under Gnu General Public License version 2 or later.
 # See COPYING available from the same location you got this script.
 
-# Version 2.4.2 (16-Dec-22)
+# Version 2.4.3 (28-Jan-23)
 
-WINBUILD_VERSION="2.4.2"
+WINBUILD_VERSION="2.4.3"
 MIN_WINVER=0x0601 # Windows 7, Qt6-client and Qt6-ruledit builds override this
 CROSSER_FEATURE_LEVEL=2.5
 
@@ -274,12 +274,13 @@ fi
   exit 1
 fi
 
-if ! mkdir -p Output ; then
-  echo "Creating Output directory failed" >&2
+if ! mkdir -p autotools/Output ; then
+  echo "Creating autotools/Output directory failed" >&2
   exit 1
 fi
 
-if ! 7z a -r Output/freeciv-${VERREV}${NAMEP}.7z freeciv-${VERREV}${NAMEP}
+if ! 7z a -r autotools/Output/freeciv-${VERREV}${NAMEP}.7z \
+             freeciv-${VERREV}${NAMEP}
 then
   echo "7z failed" >&2
   exit 1
