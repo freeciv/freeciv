@@ -343,7 +343,8 @@ int terrain_extra_build_time(const struct terrain *pterrain,
                              const struct extra_type *tgt);
 int terrain_extra_removal_time(const struct terrain *pterrain,
                                enum unit_activity activity,
-                               const struct extra_type *tgt);
+                               const struct extra_type *tgt)
+  fc__attribute((nonnull (1, 3)));
 
 /* Functions to operate on a terrain class. */
 const char *terrain_class_name_translation(enum terrain_class tclass);

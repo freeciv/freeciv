@@ -529,7 +529,7 @@ int get_activity_rate_this_turn(const struct unit *punit)
 
 /**********************************************************************//**
   Return the estimated number of turns for the worker unit to start and
-  complete the activity at the given location.  This assumes no other
+  complete the activity at the given location. This assumes no other
   worker units are helping out, and doesn't take account of any work
   already done by this unit.
 **************************************************************************/
@@ -541,10 +541,14 @@ int get_turns_for_activity_at(const struct unit *punit,
   /* FIXME: This is just an approximation since we don't account for
    * get_activity_rate_this_turn. */
   int speed = get_activity_rate(punit);
-  int points_needed = tile_activity_time(activity, ptile, tgt);
+  int points_needed;
+
+  fc_assert(tgt != NULL || !is_targeted_activity(activity));
+
+  points_needed = tile_activity_time(activity, ptile, tgt);
 
   if (points_needed >= 0 && speed > 0) {
-    return (points_needed - 1) / speed + 1; /* round up */
+    return (points_needed - 1) / speed + 1; /* Round up */
   } else {
     return FC_INFINITY;
   }
@@ -1549,6 +1553,15 @@ bool is_tile_activity(enum unit_activity activity)
   return is_build_activity(activity)
     || is_clean_activity(activity)
     || is_terrain_change_activity(activity);
+}
+
+/**********************************************************************//**
+  Returns true if given activity requires target
+**************************************************************************/
+bool is_targeted_activity(enum unit_activity activity)
+{
+  return is_build_activity(activity)
+    || is_clean_activity(activity);
 }
 
 /**********************************************************************//**

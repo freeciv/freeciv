@@ -423,6 +423,8 @@ int tile_activity_time(enum unit_activity activity, const struct tile *ptile,
                                        .extra = tgt
                                      }, NULL, EFT_ACTIVITY_TIME);
 
+  fc_assert(tgt != NULL || !is_targeted_activity(activity));
+
   if (eff > 0) {
     /* Use effect provided value */
     return eff * ACTIVITY_FACTOR;

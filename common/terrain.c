@@ -742,7 +742,7 @@ int terrain_extra_build_time(const struct terrain *pterrain,
 }
 
 /**********************************************************************//**
-   Time to complete the extra removal activity on the given terrain.
+  Time to complete the extra removal activity on the given terrain.
 **************************************************************************/
 int terrain_extra_removal_time(const struct terrain *pterrain,
                                enum unit_activity activity,
@@ -750,38 +750,17 @@ int terrain_extra_removal_time(const struct terrain *pterrain,
 {
   int factor;
 
-  if (tgt != NULL && tgt->removal_time != 0) {
+  if (tgt->removal_time != 0) {
     /* Extra specific removal time */
     return tgt->removal_time;
   }
 
-  if (tgt == NULL) {
-    factor = 1;
-  } else {
-    factor = tgt->removal_time_factor;
-  }
+  factor = tgt->removal_time_factor;
 
   /* Terrain and activity specific removal time */
   switch (activity) {
   case ACTIVITY_CLEAN:
-    {
-      if (tgt == NULL) {
-        if (pterrain->_retire.clean_pollution_time > 0
-            && pterrain->_retire.clean_fallout_time > 0) {
-          return MIN(pterrain->_retire.clean_pollution_time,
-                     pterrain->_retire.clean_fallout_time)
-            * factor;
-        }
-
-        if (pterrain->_retire.clean_pollution_time > 0) {
-          return pterrain->_retire.clean_pollution_time * factor;
-        }
-
-        return pterrain->_retire.clean_fallout_time * factor;
-      }
-
-      return pterrain->extra_removal_times[extra_index(tgt)] * factor;
-    }
+    return pterrain->extra_removal_times[extra_index(tgt)] * factor;
   case ACTIVITY_POLLUTION:
     return pterrain->_retire.clean_pollution_time * factor;
   case ACTIVITY_FALLOUT:
@@ -790,6 +769,7 @@ int terrain_extra_removal_time(const struct terrain *pterrain,
     return pterrain->pillage_time * factor;
   default:
     fc_assert(FALSE);
+
     return 0;
   }
 }

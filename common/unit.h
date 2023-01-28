@@ -460,6 +460,7 @@ bool is_build_activity(enum unit_activity activity);
 bool is_clean_activity(enum unit_activity activity);
 bool is_terrain_change_activity(enum unit_activity activity);
 bool is_tile_activity(enum unit_activity activity);
+bool is_targeted_activity(enum unit_activity activity);
 
 struct unit *unit_virtual_create(struct player *pplayer, struct city *pcity,
                                  const struct unit_type *punittype,
