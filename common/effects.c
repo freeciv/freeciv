@@ -140,7 +140,7 @@ struct effect_list *get_effects(enum effect_type effect_type)
 /**********************************************************************//**
   Get a list of effects with this requirement source.
 
-  Note: currently only buildings and governments are supported.
+  Currently only buildings, advances, and governments are supported.
 **************************************************************************/
 struct effect_list *get_req_source_effects(const struct universal *psource)
 {
