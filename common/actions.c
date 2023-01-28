@@ -1758,35 +1758,6 @@ enum action_sub_target_kind action_get_sub_target_kind(
 }
 
 /**********************************************************************//**
-  Get the battle kind that can prevent an action.
-**************************************************************************/
-enum action_battle_kind action_get_battle_kind(const struct action *pact)
-{
-  switch (pact->result) {
-  case ACTRES_ATTACK:
-  case ACTRES_WIPE_UNITS:
-    return ABK_STANDARD;
-  case ACTRES_SPY_ATTACK:
-  case ACTRES_SPY_POISON:
-  case ACTRES_SPY_STEAL_GOLD:
-  case ACTRES_SPY_SABOTAGE_CITY:
-  case ACTRES_SPY_TARGETED_SABOTAGE_CITY:
-  case ACTRES_SPY_SABOTAGE_CITY_PRODUCTION:
-  case ACTRES_SPY_STEAL_TECH:
-  case ACTRES_SPY_TARGETED_STEAL_TECH:
-  case ACTRES_SPY_INCITE_CITY:
-  case ACTRES_SPY_BRIBE_UNIT:
-  case ACTRES_SPY_SABOTAGE_UNIT:
-  case ACTRES_STEAL_MAPS:
-  case ACTRES_SPY_NUKE:
-  case ACTRES_SPY_SPREAD_PLAGUE:
-    return ABK_DIPLOMATIC;
-  default:
-    return ABK_NONE;
-  }
-}
-
-/**********************************************************************//**
   Returns TRUE iff the specified action allows the player to provide
   details in addition to actor and target. Returns FALSE if the action
   doesn't support any additional details.
@@ -5529,7 +5500,7 @@ action_prob_battle_then_dice_roll(const struct player *act_player,
   struct act_prob dice_roll;
 
   battle = ACTPROB_CERTAIN;
-  switch (action_get_battle_kind(paction)) {
+  switch (actres_get_battle_kind(paction->result)) {
   case ABK_NONE:
     /* No pre action battle. */
     break;
@@ -5539,10 +5510,10 @@ action_prob_battle_then_dice_roll(const struct player *act_player,
     break;
   case ABK_STANDARD:
     /* Not supported here yet. Implement when users appear. */
-    fc_assert(action_get_battle_kind(paction) != ABK_STANDARD);
+    fc_assert(actres_get_battle_kind(paction->result) != ABK_STANDARD);
     break;
   case ABK_COUNT:
-    fc_assert(action_get_battle_kind(paction) != ABK_COUNT);
+    fc_assert(actres_get_battle_kind(paction->result) != ABK_COUNT);
     break;
   }
 

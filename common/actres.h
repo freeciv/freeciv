@@ -76,16 +76,30 @@ extern "C" {
 #define SPECENUM_VALUE2NAME N_("mandatory")
 #include "specenum_gen.h"
 
+/* A battle is against a defender that tries to stop the action where the
+ * defender is in danger. A dice roll without a defender risking anything,
+ * like the roll controlled by EFT_ACTION_ODDS_PCT, isn't a battle. */
+#define SPECENUM_NAME action_battle_kind
+#define SPECENUM_VALUE0 ABK_NONE
+#define SPECENUM_VALUE0NAME N_("no battle")
+#define SPECENUM_VALUE1 ABK_STANDARD
+#define SPECENUM_VALUE1NAME N_("battle")
+#define SPECENUM_VALUE2 ABK_DIPLOMATIC
+#define SPECENUM_VALUE2NAME N_("diplomatic battle")
+#define SPECENUM_COUNT ABK_COUNT
+#include "specenum_gen.h"
 
 
 struct actres {
   enum act_tgt_compl sub_tgt_compl;
+  enum action_battle_kind battle_kind;
 };
 
 void actres_init(void);
 void actres_free(void);
 
 enum act_tgt_compl actres_target_compl_calc(enum action_result result);
+enum action_battle_kind actres_get_battle_kind(enum action_result result);
 
 #ifdef __cplusplus
 }

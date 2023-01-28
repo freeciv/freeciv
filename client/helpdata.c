@@ -2481,14 +2481,14 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
                      utype_name_translation(utype));
       }
 
-      if (action_get_battle_kind(paction) != ABK_NONE) {
+      if (actres_get_battle_kind(paction->result) != ABK_NONE) {
         cat_snprintf(buf, bufsz,
                      /* TRANS: The %s is a kind of battle defined in
                       * actions.h. Example: "diplomatic battle". */
                      _("  %s can lead to a %s against a defender.\n"),
                      BULLET,
                      action_battle_kind_translated_name(
-                       action_get_battle_kind(paction)));
+                       actres_get_battle_kind(paction->result)));
       }
 
       {
