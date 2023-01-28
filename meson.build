@@ -2086,6 +2086,7 @@ flags = [
   'lippe',
   'lithuania',
   'lorraine',
+  'luik',
   'luna',
   'lusatia',
   'luwian',
