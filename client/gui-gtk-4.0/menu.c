@@ -188,32 +188,80 @@ static void report_messages_callback(GSimpleAction *action,
 static void report_demographic_callback(GSimpleAction *action,
                                         GVariant *parameter,
                                         gpointer data);
+static void help_overview_callback(GSimpleAction *action,
+                                   GVariant *parameter,
+                                   gpointer data);
+static void help_playing_callback(GSimpleAction *action,
+                                  GVariant *parameter,
+                                  gpointer data);
+static void help_policies_callback(GSimpleAction *action,
+                                   GVariant *parameter,
+                                   gpointer data);
 
 #ifdef MENUS_GTK3
-static void help_overview_callback(GtkMenuItem *item, gpointer data);
-static void help_playing_callback(GtkMenuItem *item, gpointer data);
-static void help_policies_callback(GtkMenuItem *item, gpointer data);
-static void help_terrain_callback(GtkMenuItem *item, gpointer data);
-static void help_economy_callback(GtkMenuItem *item, gpointer data);
-static void help_cities_callback(GtkMenuItem *item, gpointer data);
-static void help_improvements_callback(GtkMenuItem *item, gpointer data);
-static void help_wonders_callback(GtkMenuItem *item, gpointer data);
-static void help_units_callback(GtkMenuItem *item, gpointer data);
-static void help_combat_callback(GtkMenuItem *item, gpointer data);
-static void help_zoc_callback(GtkMenuItem *item, gpointer data);
-static void help_government_callback(GtkMenuItem *item, gpointer data);
-static void help_diplomacy_callback(GtkMenuItem *item, gpointer data);
-static void help_tech_callback(GtkMenuItem *item, gpointer data);
-static void help_space_race_callback(GtkMenuItem *item, gpointer data);
-static void help_ruleset_callback(GtkMenuItem *item, gpointer data);
-static void help_tileset_callback(GtkMenuItem *item, gpointer data);
-static void help_nations_callback(GtkMenuItem *item, gpointer data);
-static void help_connecting_callback(GtkMenuItem *item, gpointer data);
-static void help_controls_callback(GtkMenuItem *item, gpointer data);
-static void help_cma_callback(GtkMenuItem *item, gpointer data);
-static void help_chatline_callback(GtkMenuItem *item, gpointer data);
-static void help_worklist_editor_callback(GtkMenuItem *item, gpointer data);
-static void help_language_callback(GtkMenuItem *item, gpointer data);
+static void help_terrain_callback(GSimpleAction *action,
+                                  GVariant *parameter,
+                                  gpointer data);
+static void help_economy_callback(GSimpleAction *action,
+                                  GVariant *parameter,
+                                  gpointer data);
+static void help_cities_callback(GSimpleAction *action,
+                                 GVariant *parameter,
+                                 gpointer data);
+static void help_improvements_callback(GSimpleAction *action,
+                                       GVariant *parameter,
+                                       gpointer data);
+static void help_wonders_callback(GSimpleAction *action,
+                                  GVariant *parameter,
+                                  gpointer data);
+static void help_units_callback(GSimpleAction *action,
+                                GVariant *parameter,
+                                gpointer data);
+static void help_combat_callback(GSimpleAction *action,
+                                 GVariant *parameter,
+                                 gpointer data);
+static void help_zoc_callback(GSimpleAction *action,
+                              GVariant *parameter,
+                              gpointer data);
+static void help_government_callback(GSimpleAction *action,
+                                     GVariant *parameter,
+                                     gpointer data);
+static void help_diplomacy_callback(GSimpleAction *action,
+                                    GVariant *parameter,
+                                    gpointer data);
+static void help_tech_callback(GSimpleAction *action,
+                               GVariant *parameter,
+                               gpointer data);
+static void help_space_race_callback(GSimpleAction *action,
+                                     GVariant *parameter,
+                                     gpointer data);
+static void help_ruleset_callback(GSimpleAction *action,
+                                  GVariant *parameter,
+                                  gpointer data);
+static void help_tileset_callback(GSimpleAction *action,
+                                  GVariant *parameter,
+                                  gpointer data);
+static void help_nations_callback(GSimpleAction *action,
+                                  GVariant *parameter,
+                                  gpointer data);
+static void help_connecting_callback(GSimpleAction *action,
+                                     GVariant *parameter,
+                                     gpointer data);
+static void help_controls_callback(GSimpleAction *action,
+                                   GVariant *parameter,
+                                   gpointer data);
+static void help_cma_callback(GSimpleAction *action,
+                              GVariant *parameter,
+                              gpointer data);
+static void help_chatline_callback(GSimpleAction *action,
+                                   GVariant *parameter,
+                                   gpointer data);
+static void help_worklist_editor_callback(GSimpleAction *action,
+                                          GVariant *parameter,
+                                          gpointer data);
+static void help_language_callback(GSimpleAction *action,
+                                   GVariant *parameter,
+                                   gpointer data);
 #endif /* MENUS_GTK3 */
 
 static void help_copying_callback(GSimpleAction *action,
@@ -742,6 +790,16 @@ static struct menu_entry_info menu_entries[] =
     NULL, FALSE },
 
   /* Help menu */
+  { "HELP_OVERVIEW", N_("?help:Overview"),
+    "help_overview", NULL, MGROUP_SAFE,
+    NULL, FALSE },
+  { "HELP_PLAYING", N_("Strategy and Tactics"),
+    "help_playing", NULL, MGROUP_SAFE,
+    NULL, FALSE },
+  { "HELP_POLICIES", N_("Policies"),
+    "help_policies", NULL, MGROUP_SAFE,
+    NULL, FALSE },
+
   { "HELP_COPYING", N_("Copying"),
     "help_copying", NULL, MGROUP_SAFE,
     NULL, FALSE },
@@ -767,12 +825,6 @@ static struct menu_entry_info menu_entries[] =
   { "MAPIMG_SAVE_AS", N_("Save _Map Image As..."), 0, 0,
     G_CALLBACK(save_mapimg_as_callback), MGROUP_SAFE },
 
-  { "HELP_OVERVIEW", N_("?help:Overview"), 0, 0,
-    G_CALLBACK(help_overview_callback), MGROUP_SAFE },
-  { "HELP_PLAYING", N_("Strategy and Tactics"), 0, 0,
-    G_CALLBACK(help_playing_callback), MGROUP_SAFE },
-  { "HELP_POLICIES", N_("Policies"), 0, 0,
-    G_CALLBACK(help_policies_callback), MGROUP_SAFE },
   { "HELP_TERRAIN", N_("Terrain"), 0, 0,
     G_CALLBACK(help_terrain_callback), MGROUP_SAFE },
   { "HELP_ECONOMY", N_("Economy"), 0, 0,
@@ -997,6 +1049,10 @@ const GActionEntry acts[] = {
   { "report_demographics", report_demographic_callback },
   { "report_spaceship", report_spaceship_callback },
   { "report_achievements", report_achievements_callback },
+
+  { "help_overview", help_overview_callback },
+  { "help_playing", help_playing_callback },
+  { "help_policies", help_policies_callback },
 
   { "help_copying", help_copying_callback },
   { "help_about", help_about_callback }
@@ -1278,23 +1334,31 @@ static void report_achievements_callback(GSimpleAction *action,
 /************************************************************************//**
   Item "HELP_LANGUAGE" callback.
 ****************************************************************************/
-static void help_language_callback(GtkMenuItem *item, gpointer data)
+static void help_language_callback(GSimpleAction *action,
+                                   GVariant *parameter,
+                                   gpointer data)
 {
   popup_help_dialog_string(HELP_LANGUAGES_ITEM);
 }
+#endif /* MENUS_GTK3 */
 
 /************************************************************************//**
   Item "HELP_POLICIES" callback.
 ****************************************************************************/
-static void help_policies_callback(GtkMenuItem *item, gpointer data)
+static void help_policies_callback(GSimpleAction *action,
+                                   GVariant *parameter,
+                                   gpointer data)
 {
   popup_help_dialog_string(HELP_MULTIPLIER_ITEM);
 }
 
+#ifdef MENUS_GTK3
 /************************************************************************//**
   Item "HELP_CONNECTING" callback.
 ****************************************************************************/
-static void help_connecting_callback(GtkMenuItem *item, gpointer data)
+static void help_connecting_callback(GSimpleAction *action,
+                                     GVariant *parameter,
+                                     gpointer data)
 {
   popup_help_dialog_string(HELP_CONNECTING_ITEM);
 }
@@ -1302,7 +1366,9 @@ static void help_connecting_callback(GtkMenuItem *item, gpointer data)
 /************************************************************************//**
   Item "HELP_CONTROLS" callback.
 ****************************************************************************/
-static void help_controls_callback(GtkMenuItem *item, gpointer data)
+static void help_controls_callback(GSimpleAction *action,
+                                   GVariant *parameter,
+                                   gpointer data)
 {
   popup_help_dialog_string(HELP_CONTROLS_ITEM);
 }
@@ -1310,7 +1376,9 @@ static void help_controls_callback(GtkMenuItem *item, gpointer data)
 /************************************************************************//**
   Item "HELP_CHATLINE" callback.
 ****************************************************************************/
-static void help_chatline_callback(GtkMenuItem *item, gpointer data)
+static void help_chatline_callback(GSimpleAction *action,
+                                   GVariant *parameter,
+                                   gpointer data)
 {
   popup_help_dialog_string(HELP_CHATLINE_ITEM);
 }
@@ -1318,7 +1386,9 @@ static void help_chatline_callback(GtkMenuItem *item, gpointer data)
 /************************************************************************//**
   Item "HELP_WORKLIST_EDITOR" callback.
 ****************************************************************************/
-static void help_worklist_editor_callback(GtkMenuItem *item, gpointer data)
+static void help_worklist_editor_callback(GSimpleAction *action,
+                                          GVariant *parameter,
+                                          gpointer data)
 {
   popup_help_dialog_string(HELP_WORKLIST_EDITOR_ITEM);
 }
@@ -1326,15 +1396,20 @@ static void help_worklist_editor_callback(GtkMenuItem *item, gpointer data)
 /************************************************************************//**
   Item "HELP_CMA" callback.
 ****************************************************************************/
-static void help_cma_callback(GtkMenuItem *item, gpointer data)
+static void help_cma_callback(GSimpleAction *action,
+                              GVariant *parameter,
+                              gpointer data)
 {
   popup_help_dialog_string(HELP_CMA_ITEM);
 }
+#endif /* MENUS_GTK3 */
 
 /************************************************************************//**
   Item "HELP_OVERVIEW" callback.
 ****************************************************************************/
-static void help_overview_callback(GtkMenuItem *item, gpointer data)
+static void help_overview_callback(GSimpleAction *action,
+                                   GVariant *parameter,
+                                   gpointer data)
 {
   popup_help_dialog_string(HELP_OVERVIEW_ITEM);
 }
@@ -1342,15 +1417,20 @@ static void help_overview_callback(GtkMenuItem *item, gpointer data)
 /************************************************************************//**
   Item "HELP_PLAYING" callback.
 ****************************************************************************/
-static void help_playing_callback(GtkMenuItem *item, gpointer data)
+static void help_playing_callback(GSimpleAction *action,
+                                  GVariant *parameter,
+                                  gpointer data)
 {
   popup_help_dialog_string(HELP_PLAYING_ITEM);
 }
 
+#ifdef MENUS_GTK3
 /************************************************************************//**
   Item "HELP_RULESET" callback.
 ****************************************************************************/
-static void help_ruleset_callback(GtkMenuItem *item, gpointer data)
+static void help_ruleset_callback(GSimpleAction *action,
+                                  GVariant *parameter,
+                                  gpointer data)
 {
   popup_help_dialog_string(HELP_RULESET_ITEM);
 }
@@ -1358,7 +1438,9 @@ static void help_ruleset_callback(GtkMenuItem *item, gpointer data)
 /************************************************************************//**
   Item "HELP_TILESET" callback.
 ****************************************************************************/
-static void help_tileset_callback(GtkMenuItem *item, gpointer data)
+static void help_tileset_callback(GSimpleAction *action,
+                                  GVariant *parameter,
+                                  gpointer data)
 {
   popup_help_dialog_string(HELP_TILESET_ITEM);
 }
@@ -1366,7 +1448,9 @@ static void help_tileset_callback(GtkMenuItem *item, gpointer data)
 /************************************************************************//**
   Item "HELP_ECONOMY" callback.
 ****************************************************************************/
-static void help_economy_callback(GtkMenuItem *item, gpointer data)
+static void help_economy_callback(GSimpleAction *action,
+                                  GVariant *parameter,
+                                  gpointer data)
 {
   popup_help_dialog_string(HELP_ECONOMY_ITEM);
 }
@@ -1374,7 +1458,9 @@ static void help_economy_callback(GtkMenuItem *item, gpointer data)
 /************************************************************************//**
   Item "HELP_CITIES" callback.
 ****************************************************************************/
-static void help_cities_callback(GtkMenuItem *item, gpointer data)
+static void help_cities_callback(GSimpleAction *action,
+                                 GVariant *parameter,
+                                 gpointer data)
 {
   popup_help_dialog_string(HELP_CITIES_ITEM);
 }
@@ -1382,7 +1468,9 @@ static void help_cities_callback(GtkMenuItem *item, gpointer data)
 /************************************************************************//**
   Item "HELP_IMPROVEMENTS" callback.
 ****************************************************************************/
-static void help_improvements_callback(GtkMenuItem *item, gpointer data)
+static void help_improvements_callback(GSimpleAction *action,
+                                       GVariant *parameter,
+                                       gpointer data)
 {
   popup_help_dialog_string(HELP_IMPROVEMENTS_ITEM);
 }
@@ -1390,7 +1478,9 @@ static void help_improvements_callback(GtkMenuItem *item, gpointer data)
 /************************************************************************//**
   Item "HELP_UNITS" callback.
 ****************************************************************************/
-static void help_units_callback(GtkMenuItem *item, gpointer data)
+static void help_units_callback(GSimpleAction *action,
+                                GVariant *parameter,
+                                gpointer data)
 {
   popup_help_dialog_string(HELP_UNITS_ITEM);
 }
@@ -1398,7 +1488,9 @@ static void help_units_callback(GtkMenuItem *item, gpointer data)
 /************************************************************************//**
   Item "HELP_COMBAT" callback.
 ****************************************************************************/
-static void help_combat_callback(GtkMenuItem *item, gpointer data)
+static void help_combat_callback(GSimpleAction *action,
+                                 GVariant *parameter,
+                                 gpointer data)
 {
   popup_help_dialog_string(HELP_COMBAT_ITEM);
 }
@@ -1406,7 +1498,9 @@ static void help_combat_callback(GtkMenuItem *item, gpointer data)
 /************************************************************************//**
   Item "HELP_ZOC" callback.
 ****************************************************************************/
-static void help_zoc_callback(GtkMenuItem *item, gpointer data)
+static void help_zoc_callback(GSimpleAction *action,
+                              GVariant *parameter,
+                              gpointer data)
 {
   popup_help_dialog_string(HELP_ZOC_ITEM);
 }
@@ -1414,7 +1508,9 @@ static void help_zoc_callback(GtkMenuItem *item, gpointer data)
 /************************************************************************//**
   Item "HELP_TECH" callback.
 ****************************************************************************/
-static void help_tech_callback(GtkMenuItem *item, gpointer data)
+static void help_tech_callback(GSimpleAction *action,
+                               GVariant *parameter,
+                               gpointer data)
 {
   popup_help_dialog_string(HELP_TECHS_ITEM);
 }
@@ -1422,7 +1518,9 @@ static void help_tech_callback(GtkMenuItem *item, gpointer data)
 /************************************************************************//**
   Item "HELP_TERRAIN" callback.
 ****************************************************************************/
-static void help_terrain_callback(GtkMenuItem *item, gpointer data)
+static void help_terrain_callback(GSimpleAction *action,
+                                  GVariant *parameter,
+                                  gpointer data)
 {
   popup_help_dialog_string(HELP_TERRAIN_ITEM);
 }
@@ -1430,7 +1528,9 @@ static void help_terrain_callback(GtkMenuItem *item, gpointer data)
 /************************************************************************//**
   Item "HELP_WONDERS" callback.
 ****************************************************************************/
-static void help_wonders_callback(GtkMenuItem *item, gpointer data)
+static void help_wonders_callback(GSimpleAction *action,
+                                  GVariant *parameter,
+                                  gpointer data)
 {
   popup_help_dialog_string(HELP_WONDERS_ITEM);
 }
@@ -1438,7 +1538,9 @@ static void help_wonders_callback(GtkMenuItem *item, gpointer data)
 /************************************************************************//**
   Item "HELP_GOVERNMENT" callback.
 ****************************************************************************/
-static void help_government_callback(GtkMenuItem *item, gpointer data)
+static void help_government_callback(GSimpleAction *action,
+                                     GVariant *parameter,
+                                     gpointer data)
 {
   popup_help_dialog_string(HELP_GOVERNMENT_ITEM);
 }
@@ -1446,7 +1548,9 @@ static void help_government_callback(GtkMenuItem *item, gpointer data)
 /************************************************************************//**
   Item "HELP_DIPLOMACY" callback.
 ****************************************************************************/
-static void help_diplomacy_callback(GtkMenuItem *item, gpointer data)
+static void help_diplomacy_callback(GSimpleAction *action,
+                                    GVariant *parameter,
+                                    gpointer data)
 {
   popup_help_dialog_string(HELP_DIPLOMACY_ITEM);
 }
@@ -1454,7 +1558,9 @@ static void help_diplomacy_callback(GtkMenuItem *item, gpointer data)
 /************************************************************************//**
   Item "HELP_SPACE_RACE" callback.
 ****************************************************************************/
-static void help_space_race_callback(GtkMenuItem *item, gpointer data)
+static void help_space_race_callback(GSimpleAction *action,
+                                     GVariant *parameter,
+                                     gpointer data)
 {
   popup_help_dialog_string(HELP_SPACE_RACE_ITEM);
 }
@@ -1462,7 +1568,9 @@ static void help_space_race_callback(GtkMenuItem *item, gpointer data)
 /************************************************************************//**
   Item "HELP_NATIONS" callback.
 ****************************************************************************/
-static void help_nations_callback(GtkMenuItem *item, gpointer data)
+static void help_nations_callback(GSimpleAction *action,
+                                  GVariant *parameter,
+                                  gpointer data)
 {
   popup_help_dialog_string(HELP_NATIONS_ITEM);
 }
@@ -2982,6 +3090,10 @@ static GMenu *setup_menus(GtkApplication *app)
   submenu_append_unref(menubar, _("Battle Groups"), G_MENU_MODEL(topmenu));
 
   topmenu = g_menu_new();
+
+  menu_entry_init(topmenu, "HELP_OVERVIEW");
+  menu_entry_init(topmenu, "HELP_PLAYING");
+  menu_entry_init(topmenu, "HELP_POLICIES");
 
   menu_entry_init(topmenu, "HELP_COPYING");
   menu_entry_init(topmenu, "HELP_ABOUT");
