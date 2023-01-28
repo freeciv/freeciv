@@ -1265,14 +1265,68 @@ counters = "\n\
 ; */ <-- avoid gettext warnings\n\
 "
 
+[uflag_types]
+; This section has comments documenting user (custom) flag types
+
+utype = "\
+; Names for custom unit type flags. There can be up to 45 of these.\n\
+; name          = rule name; In some circumstances user may see this\n\
+;                 as part of some sentences, so try to make it descriptive\n\
+;                 and sensible.\n\
+; helptxt       = displayed in the help for unit types with this flag (optional)\n\
+"
+
+uclass = "\n\
+; Names for custom unit class flags. There can be up to 15 of these.\n\
+; name          = rule name; In some circumstances user may see this\n\
+;                 as part of some sentences, so try to make it descriptive\n\
+;                 and sensible.\n\
+; helptxt       = displayed in the help for unit types belonging to a class\n\
+;                 with this flag (optional)\n\
+"
+
+terrain = "\
+; Names for custom terrain flags. There can be up to 10 of these.\n\
+; name          = rule name; In some circumstances user may see this\n\
+;                 as part of some sentences, so try to make it descriptive\n\
+;                 and sensible.\n\
+; helptxt       = displayed in the help for terrains with this flag (optional)\n\
+"
+
+extra = "\n\
+; Names for custom extra flags. There can be up to 10 of these.\n\
+; name          = rule name; In some circumstances user may see this\n\
+;                 as part of some sentences, so try to make it descriptive\n\
+;                 and sensible.\n\
+; helptxt       = displayed in the help for extra types with this flag\n\
+;                 (optional)\n\
+"
+
+tech = "\
+; Names for custom tech flags. There can be up to 8 of these.\n\
+; name          = rule name; In some circumstances user may see this\n\
+;                 as part of some sentences, so try to make it descriptive\n\
+;                 and sensible.\n\
+; helptxt       = displayed in the help for advances with this flag (optional)\n\
+"
+
+building = "\
+; Names for custom building flags. There can be up to 8 of these.\n\
+; name          = rule name; In some circumstances user may see this\n\
+;                 as part of some sentences, so try to make it descriptive\n\
+;                 and sensible.\n\
+; helptxt       = displayed in the help for building types with this flag\n\
+;                 (optional)\n\
+"
+
 [sectiondoc]
 ; This section has comments documenting other sections
+
 nations_ruledit = "\n\
 ; This section contains meta information for freeciv-ruledit and freeciv-ruleup\n\
 ; to recreate the ruleset file in a form wanted.\n\
 ; These have no in-game effect whatsoever.\
 "
-
 
 [entrydoc]
 ; This section has comments documenting individual entries

@@ -55,6 +55,14 @@ void comment_nationgroups(struct section_file *sfile);
 void comment_nations(struct section_file *sfile);
 void comment_clauses(struct section_file *sfile);
 
+/* User (custom) flag types */
+void comment_uflags_utype(struct section_file *sfile);
+void comment_uflags_uclass(struct section_file *sfile);
+void comment_uflags_terrain(struct section_file *sfile);
+void comment_uflags_extra(struct section_file *sfile);
+void comment_uflags_tech(struct section_file *sfile);
+void comment_uflags_building(struct section_file *sfile);
+
 /* Other section comments */
 void comment_trade_settings(struct section_file *sfile);
 void comment_nations_ruledit(struct section_file *sfile);

@@ -44,6 +44,12 @@ static struct {
   char *ueffs;
   char *disasters;
   char *achievements;
+  char *uflags_utype;
+  char *uflags_uclass;
+  char *uflags_terrain;
+  char *uflags_extra;
+  char *uflags_tech;
+  char *uflags_building;
   char *trade_settings;
   char *goods;
   char *enablers;
@@ -153,6 +159,18 @@ bool comments_load(void)
                comment_file, "typedoc.disasters");
   comment_load(comments_storage.achievements,
                comment_file, "typedoc.achievements");
+  comment_load(comments_storage.uflags_utype,
+               comment_file, "uflag_types.utype");
+  comment_load(comments_storage.uflags_uclass,
+               comment_file, "uflag_types.uclass");
+  comment_load(comments_storage.uflags_terrain,
+               comment_file, "uflag_types.terrain");
+  comment_load(comments_storage.uflags_extra,
+               comment_file, "uflag_types.extra");
+  comment_load(comments_storage.uflags_tech,
+               comment_file, "uflag_types.tech");
+  comment_load(comments_storage.uflags_building,
+               comment_file, "uflag_types.building");
   comment_load(comments_storage.trade_settings,
                comment_file, "typedoc.trade_settings");
   comment_load(comments_storage.goods, comment_file, "typedoc.goods");
@@ -439,6 +457,54 @@ void comment_disasters(struct section_file *sfile)
 void comment_achievements(struct section_file *sfile)
 {
   comment_write(sfile, comments_storage.achievements, "Achievements");
+}
+
+/**********************************************************************//**
+  Write header for unit type user flags.
+**************************************************************************/
+void comment_uflags_utype(struct section_file *sfile)
+{
+  comment_entry_write(sfile, comments_storage.uflags_utype, "control");
+}
+
+/**********************************************************************//**
+  Write header for unit class user flags.
+**************************************************************************/
+void comment_uflags_uclass(struct section_file *sfile)
+{
+  comment_entry_write(sfile, comments_storage.uflags_uclass, "control");
+}
+
+/**********************************************************************//**
+  Write header for terrain user flags.
+**************************************************************************/
+void comment_uflags_terrain(struct section_file *sfile)
+{
+  comment_entry_write(sfile, comments_storage.uflags_terrain, "control");
+}
+
+/**********************************************************************//**
+  Write header for extra user flags.
+**************************************************************************/
+void comment_uflags_extra(struct section_file *sfile)
+{
+  comment_entry_write(sfile, comments_storage.uflags_extra, "control");
+}
+
+/**********************************************************************//**
+  Write header for tech user flags.
+**************************************************************************/
+void comment_uflags_tech(struct section_file *sfile)
+{
+  comment_entry_write(sfile, comments_storage.uflags_tech, "control");
+}
+
+/**********************************************************************//**
+  Write header for building user flags.
+**************************************************************************/
+void comment_uflags_building(struct section_file *sfile)
+{
+  comment_entry_write(sfile, comments_storage.uflags_building, "control");
 }
 
 /**********************************************************************//**

@@ -388,6 +388,7 @@ static bool save_buildings_ruleset(const char *filename, const char *name)
   struct section_file *sfile = create_ruleset_file(name, "building");
   int sect_idx;
   int i;
+  bool uflags_building = FALSE;
 
   if (sfile == NULL) {
     return FALSE;
@@ -398,6 +399,11 @@ static bool save_buildings_ruleset(const char *filename, const char *name)
     const char *helptxt = impr_flag_helptxt(i + IF_USER_FLAG_1);
 
     if (flagname != NULL) {
+      if (!uflags_building) {
+        comment_uflags_building(sfile);
+        uflags_building = TRUE;
+      }
+
       secfile_insert_str(sfile, flagname, "control.building_flags%d.name", i);
 
       /* Save the user flag help text even when it is undefined. That makes
@@ -2313,7 +2319,7 @@ static bool save_techs_ruleset(const char *filename, const char *name)
   int i;
   int sect_idx;
   struct advance *a_none = advance_by_number(A_NONE);
-
+  bool uflags_tech = FALSE;
 
   if (sfile == NULL) {
     return FALSE;
@@ -2324,6 +2330,11 @@ static bool save_techs_ruleset(const char *filename, const char *name)
     const char *helptxt = tech_flag_helptxt(i + TECH_USER_1);
 
     if (flagname != NULL) {
+      if (!uflags_tech) {
+        comment_uflags_tech(sfile);
+        uflags_tech = TRUE;
+      }
+
       secfile_insert_str(sfile, flagname, "control.flags%d.name", i);
 
       /* Save the user flag help text even when it is undefined. That makes
@@ -2413,6 +2424,8 @@ static bool save_terrain_ruleset(const char *filename, const char *name)
   struct section_file *sfile = create_ruleset_file(name, "terrain");
   int sect_idx;
   int i;
+  bool uflags_terr = FALSE;
+  bool uflags_extra = FALSE;
 
   if (sfile == NULL) {
     return FALSE;
@@ -2423,6 +2436,11 @@ static bool save_terrain_ruleset(const char *filename, const char *name)
     const char *helptxt = terrain_flag_helptxt(i + TER_USER_1);
 
     if (flagname != NULL) {
+      if (!uflags_terr) {
+        comment_uflags_terrain(sfile);
+        uflags_terr = TRUE;
+      }
+
       secfile_insert_str(sfile, flagname, "control.flags%d.name", i);
 
       /* Save the user flag help text even when it is undefined. That makes
@@ -2437,6 +2455,14 @@ static bool save_terrain_ruleset(const char *filename, const char *name)
     const char *helptxt = extra_flag_helptxt(i + EF_USER_FLAG_1);
 
     if (flagname != NULL) {
+      if (!uflags_extra) {
+        /* TODO: Uncomment this, once there's a way to stop
+         *       the comment getting written inside preceding
+         *       terrain flags table. */
+        /* comment_uflags_extra(sfile); */
+        uflags_extra = TRUE;
+      }
+
       secfile_insert_str(sfile, flagname, "control.extra_flags%d.name", i);
 
       /* Save the user flag help text even when it is undefined. That makes
@@ -3047,6 +3073,8 @@ static bool save_units_ruleset(const char *filename, const char *name)
   struct section_file *sfile = create_ruleset_file(name, "unit");
   int i;
   int sect_idx;
+  bool uflags_utype = FALSE;
+  bool uflags_uclass = FALSE;
 
   if (sfile == NULL) {
     return FALSE;
@@ -3057,6 +3085,11 @@ static bool save_units_ruleset(const char *filename, const char *name)
     const char *helptxt = unit_type_flag_helptxt(i + UTYF_USER_FLAG_1);
 
     if (flagname != NULL) {
+      if (!uflags_utype) {
+        comment_uflags_utype(sfile);
+        uflags_utype = TRUE;
+      }
+
       secfile_insert_str(sfile, flagname, "control.flags%d.name", i);
 
       /* Save the user flag help text even when it is undefined. That makes
@@ -3071,6 +3104,14 @@ static bool save_units_ruleset(const char *filename, const char *name)
     const char *helptxt = unit_class_flag_helptxt(i + UCF_USER_FLAG_1);
 
     if (flagname != NULL) {
+      if (!uflags_uclass) {
+        /* TODO: Uncomment this, once there's a way to stop
+         *       the comment getting written inside preceding
+         *       utype flags table. */
+        /* comment_uflags_uclass(sfile); */
+        uflags_uclass = TRUE;
+      }
+
       secfile_insert_str(sfile, flagname, "control.class_flags%d.name", i);
 
       /* Save the user flag help text even when it is undefined. That makes
