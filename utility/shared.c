@@ -135,6 +135,29 @@ enum fc_tristate fc_tristate_and(enum fc_tristate one, enum fc_tristate two)
 }
 
 /************************************************************************//**
+  If the directory part of the "filename" does not exist, recursively create
+  all directories until it does.
+****************************************************************************/
+bool make_dir_for_file(char *filename)
+{
+  int i;
+
+  for (i = strlen(filename) - 1 ; filename[i] != DIR_SEPARATOR_CHAR ; i--) {
+    /* Nothing */
+  }
+
+  filename[i] = '\0';
+  log_debug("Create directory \"%s\"", filename);
+
+  if (!make_dir(filename)) {
+    return FALSE;
+  }
+  filename[i] = DIR_SEPARATOR_CHAR;
+
+  return TRUE;
+}
+
+/************************************************************************//**
   An OR function for fc_tristate.
 ****************************************************************************/
 enum fc_tristate fc_tristate_or(enum fc_tristate one, enum fc_tristate two)

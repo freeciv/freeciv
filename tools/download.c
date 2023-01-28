@@ -306,7 +306,7 @@ static const char *download_modpack_recursive(const char *URL,
 #endif /* DIR_SEPARATOR_IS_DEFAULT */
 
     for (i = 0; dest_name[i] != '\0'; i++) {
-      if (dest_name[i] == '.' && dest_name[i+1] == '.') {
+      if (dest_name[i] == '.' && dest_name[i + 1] == '.') {
         if (mcb != NULL) {
           char buf[2048];
 
@@ -339,16 +339,10 @@ static const char *download_modpack_recursive(const char *URL,
       free(dest_name_copy);
 #endif /* DIR_SEPARATOR_IS_DEFAULT */
 
-      for (i = strlen(local_name) - 1 ; local_name[i] != DIR_SEPARATOR_CHAR ; i--) {
-        /* Nothing */
-      }
-      local_name[i] = '\0';
-      log_debug("Create directory \"%s\"", local_name);
-      if (!make_dir(local_name)) {
+      if (!make_dir_for_file(local_name)) {
         secfile_destroy(control);
         return _("Cannot create required directories");
       }
-      local_name[i] = DIR_SEPARATOR_CHAR;
 
       if (mcb != NULL) {
         char buf[2048];
