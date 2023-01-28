@@ -119,8 +119,8 @@ void get_flag_dimensions(struct sprite *flag, struct area_rect *rect,
   get_sprite_dimensions(flag, &(rect->w), &(rect->h));
 
   if (is_svg_flag_enabled()) {
-    rect->h = rect->h * svg_height / rect->w;
-    rect->w = svg_height;
+    rect->w = rect->w * svg_height / rect->h;
+    rect->h = svg_height;
   }
 }
 
