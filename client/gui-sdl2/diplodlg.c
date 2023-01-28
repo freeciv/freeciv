@@ -497,16 +497,26 @@ static struct advanced_dialog *popup_diplomatic_objects(struct player *pplayer0,
   height = 0;
 
   /* Pacts. */
-  if (pplayer0 == client.conn.playing && DS_ALLIANCE != type) {
-    buf = create_iconlabel_from_chars(NULL, pwindow->dst,
-                                       _("Pacts"), adj_font(12), WF_RESTORE_BACKGROUND);
-    buf->string_utf8->fgcol = *get_theme_color(COLOR_THEME_DIPLODLG_MEETING_HEADING_TEXT);
-    width = buf->size.w;
-    height = buf->size.h;
-    add_to_gui_list(ID_LABEL, buf);
-    count++;
+  if (pplayer0 == client_player() && DS_ALLIANCE != type) {
+    bool ceasefire = clause_enabled(CLAUSE_CEASEFIRE)
+      && type != DS_CEASEFIRE && type != DS_TEAM;
+    bool peace = clause_enabled(CLAUSE_PEACE)
+      && type != DS_PEACE && type != DS_TEAM;
+    bool alliance = clause_enabled(CLAUSE_ALLIANCE)
+      && pplayer_can_make_treaty(pplayer0, pplayer1, DS_ALLIANCE);
 
-    if (type != DS_CEASEFIRE && type != DS_TEAM) {
+    if (ceasefire || peace || alliance) {
+      buf = create_iconlabel_from_chars(NULL, pwindow->dst,
+                                        _("Pacts"), adj_font(12),
+                                        WF_RESTORE_BACKGROUND);
+      buf->string_utf8->fgcol = *get_theme_color(COLOR_THEME_DIPLODLG_MEETING_HEADING_TEXT);
+      width = buf->size.w;
+      height = buf->size.h;
+      add_to_gui_list(ID_LABEL, buf);
+      count++;
+    }
+
+    if (ceasefire) {
       fc_snprintf(cbuf, sizeof(cbuf), "  %s", Q_("?diplomatic_state:Cease-fire"));
       buf = create_iconlabel_from_chars(NULL, pwindow->dst,
         cbuf, adj_font(12), (WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
@@ -520,7 +530,7 @@ static struct advanced_dialog *popup_diplomatic_objects(struct player *pplayer0,
       count++;
     }
 
-    if (type != DS_PEACE && type != DS_TEAM) {
+    if (peace) {
       fc_snprintf(cbuf, sizeof(cbuf), "  %s", Q_("?diplomatic_state:Peace"));
 
       buf = create_iconlabel_from_chars(NULL, pwindow->dst,
@@ -536,7 +546,7 @@ static struct advanced_dialog *popup_diplomatic_objects(struct player *pplayer0,
       count++;
     }
 
-    if (pplayer_can_make_treaty(pplayer0, pplayer1, DS_ALLIANCE)) {
+    if (alliance) {
       fc_snprintf(cbuf, sizeof(cbuf), "  %s", Q_("?diplomatic_state:Alliance"));
 
       buf = create_iconlabel_from_chars(NULL, pwindow->dst,
@@ -554,61 +564,75 @@ static struct advanced_dialog *popup_diplomatic_objects(struct player *pplayer0,
   }
 
   /* ---------------------------- */
+  /* You can't give maps if you give shared vision */
   if (!gives_shared_vision(pplayer0, pplayer1)) {
-    buf = create_iconlabel_from_chars(NULL, pwindow->dst,
-                                       _("Give shared vision"), adj_font(12),
-                         (WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
-    buf->string_utf8->fgcol = *get_theme_color(COLOR_THEME_DIPLODLG_MEETING_TEXT);
-    width = MAX(width, buf->size.w);
-    height = MAX(height, buf->size.h);
-    buf->action = vision_callback;
-    buf->data.cont = cont;
-    set_wstate(buf, FC_WS_NORMAL);
-    add_to_gui_list(ID_LABEL, buf);
-    count++;
+    bool full_map, sea_map;
 
-    /* ---------------------------- */
-    /* you can't give maps if you give shared vision */
-    buf = create_iconlabel_from_chars(NULL, pwindow->dst,
-                                       _("Maps"), adj_font(12), WF_RESTORE_BACKGROUND);
-    buf->string_utf8->fgcol = *get_theme_color(COLOR_THEME_DIPLODLG_MEETING_HEADING_TEXT);
-    width = MAX(width, buf->size.w);
-    height = MAX(height, buf->size.h);
-    add_to_gui_list(ID_LABEL, buf);
-    count++;
+    if (clause_enabled(CLAUSE_VISION)) {
+      buf = create_iconlabel_from_chars(NULL, pwindow->dst,
+                                        _("Give shared vision"), adj_font(12),
+                                        (WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
+      buf->string_utf8->fgcol = *get_theme_color(COLOR_THEME_DIPLODLG_MEETING_TEXT);
+      width = MAX(width, buf->size.w);
+      height = MAX(height, buf->size.h);
+      buf->action = vision_callback;
+      buf->data.cont = cont;
+      set_wstate(buf, FC_WS_NORMAL);
+      add_to_gui_list(ID_LABEL, buf);
+      count++;
+    }
 
-    /* ----- */
-    fc_snprintf(cbuf, sizeof(cbuf), "  %s", _("World map"));
+    full_map = clause_enabled(CLAUSE_MAP);
+    sea_map = clause_enabled(CLAUSE_SEAMAP);
 
-    buf = create_iconlabel_from_chars(NULL, pwindow->dst,
-        cbuf, adj_font(12), (WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
-    buf->string_utf8->fgcol = *get_theme_color(COLOR_THEME_DIPLODLG_MEETING_TEXT);
-    width = MAX(width, buf->size.w);
-    height = MAX(height, buf->size.h);
-    buf->action = maps_callback;
-    buf->data.cont = cont;
-    set_wstate(buf, FC_WS_NORMAL);
-    add_to_gui_list(MAX_ID - 1, buf);
-    count++;
+    if (full_map || sea_map) {
+      buf = create_iconlabel_from_chars(NULL, pwindow->dst,
+                                        _("Maps"), adj_font(12),
+                                        WF_RESTORE_BACKGROUND);
+      buf->string_utf8->fgcol =
+        *get_theme_color(COLOR_THEME_DIPLODLG_MEETING_HEADING_TEXT);
+      width = MAX(width, buf->size.w);
+      height = MAX(height, buf->size.h);
+      add_to_gui_list(ID_LABEL, buf);
+      count++;
+    }
 
-    /* ----- */
-    fc_snprintf(cbuf, sizeof(cbuf), "  %s", _("Sea map"));
+    if (full_map) {
+      fc_snprintf(cbuf, sizeof(cbuf), "  %s", _("World map"));
 
-    buf = create_iconlabel_from_chars(NULL, pwindow->dst,
-                                      cbuf, adj_font(12),
-                                      (WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
-    buf->string_utf8->fgcol = *get_theme_color(COLOR_THEME_DIPLODLG_MEETING_TEXT);
-    width = MAX(width, buf->size.w);
-    height = MAX(height, buf->size.h);
-    buf->action = maps_callback;
-    buf->data.cont = cont;
-    set_wstate(buf, FC_WS_NORMAL);
-    add_to_gui_list(MAX_ID, buf);
-    count++;
+      buf = create_iconlabel_from_chars(NULL, pwindow->dst,
+                                        cbuf, adj_font(12),
+                                        (WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
+      buf->string_utf8->fgcol = *get_theme_color(COLOR_THEME_DIPLODLG_MEETING_TEXT);
+      width = MAX(width, buf->size.w);
+      height = MAX(height, buf->size.h);
+      buf->action = maps_callback;
+      buf->data.cont = cont;
+      set_wstate(buf, FC_WS_NORMAL);
+      add_to_gui_list(MAX_ID - 1, buf);
+      count++;
+    }
+
+    if (sea_map) {
+      fc_snprintf(cbuf, sizeof(cbuf), "  %s", _("Sea map"));
+
+      buf = create_iconlabel_from_chars(NULL, pwindow->dst,
+                                        cbuf, adj_font(12),
+                                        (WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
+      buf->string_utf8->fgcol = *get_theme_color(COLOR_THEME_DIPLODLG_MEETING_TEXT);
+      width = MAX(width, buf->size.w);
+      height = MAX(height, buf->size.h);
+      buf->action = maps_callback;
+      buf->data.cont = cont;
+      set_wstate(buf, FC_WS_NORMAL);
+      add_to_gui_list(MAX_ID, buf);
+      count++;
+    }
   }
 
   /* Don't take in account the embassy effects. */
-  if (!player_has_real_embassy(pplayer1, pplayer0)) {
+  if (clause_enabled(CLAUSE_EMBASSY)
+      && !player_has_real_embassy(pplayer1, pplayer0)) {
     buf = create_iconlabel_from_chars(NULL, pwindow->dst,
                                       _("Give embassy"), adj_font(12),
                                       (WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
@@ -623,7 +647,7 @@ static struct advanced_dialog *popup_diplomatic_objects(struct player *pplayer0,
   }
 
   /* ---------------------------- */
-  if (game.info.trading_gold && pplayer0->economic.gold > 0) {
+  if (clause_enabled(CLAUSE_GOLD) && pplayer0->economic.gold > 0) {
     cont->value = pplayer0->economic.gold;
 
     fc_snprintf(cbuf, sizeof(cbuf), _("Gold(max %d)"), pplayer0->economic.gold);
@@ -649,7 +673,7 @@ static struct advanced_dialog *popup_diplomatic_objects(struct player *pplayer0,
   /* ---------------------------- */
 
   /* Trading: advances */
-  if (game.info.trading_tech) {
+  if (clause_enabled(CLAUSE_ADVANCE)) {
     const struct research *presearch0 = research_get(pplayer0);
     const struct research *presearch1 = research_get(pplayer1);
     int flag = A_NONE;
@@ -720,12 +744,12 @@ static struct advanced_dialog *popup_diplomatic_objects(struct player *pplayer0,
   /* Trading: cities */
   /****************************************************************
   Creates a sorted list of pplayer0's cities, excluding the capital and
-  any cities not visible to pplayer1.  This means that you can only trade
+  any cities not visible to pplayer1. This means that you can only trade
   cities visible to requesting player.
 
                               - Kris Bubendorfer
   *****************************************************************/
-  if (game.info.trading_city) {
+  if (clause_enabled(CLAUSE_CITY)) {
     int i = 0, j = 0, n = city_list_size(pplayer0->cities);
     struct city **city_list_ptrs;
 
@@ -786,7 +810,7 @@ static struct advanced_dialog *popup_diplomatic_objects(struct player *pplayer0,
     count = area.h / height;
     scroll_w = create_vertical_scrollbar(dlg, 1, count, TRUE, TRUE);
     buf = pwindow;
-    /* hide not seen widgets */
+    /* Hide not seen widgets */
     do {
       buf = buf->prev;
       if (count) {
