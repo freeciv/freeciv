@@ -3742,14 +3742,6 @@ static struct unit_move_data *unit_move_data(struct unit *punit,
 {
   struct unit_move_data *pdata;
   struct player *powner = unit_owner(punit);
-  const v_radius_t radius_sq =
-        V_RADIUS(get_unit_vision_at(punit, pdesttile, V_MAIN),
-                 get_unit_vision_at(punit, pdesttile, V_INVIS),
-                 get_unit_vision_at(punit, pdesttile, V_SUBSURFACE));
-  struct vision *new_vision;
-#ifndef FREECIV_NDEBUG
-  bool success;
-#endif
 
   if (punit->server.moving) {
     /* Recursive moving (probably due to a script). */
@@ -3773,10 +3765,27 @@ static struct unit_move_data *unit_move_data(struct unit *punit,
   BV_CLR_ALL(pdata->can_see_move);
   pdata->old_vision = punit->server.vision;
 
+  return pdata;
+}
+
+/**********************************************************************//**
+  Move the unit using move_data.
+**************************************************************************/
+static void unit_move_by_data(struct unit_move_data *pdata,
+                              struct tile *psrctile, struct tile *pdesttile)
+{
+  struct vision *new_vision;
+  struct unit *punit = pdata->punit;
+  const v_radius_t radius_sq =
+    V_RADIUS(get_unit_vision_at(punit, pdesttile, V_MAIN),
+             get_unit_vision_at(punit, pdesttile, V_INVIS),
+             get_unit_vision_at(punit, pdesttile, V_SUBSURFACE));
+
   /* Remove unit from the source tile. */
   fc_assert(unit_tile(punit) == psrctile);
+
 #ifndef FREECIV_NDEBUG
-  success =
+  bool success =
 #endif
     unit_list_remove(psrctile->units, punit);
   fc_assert(success);
@@ -3802,12 +3811,10 @@ static struct unit_move_data *unit_move_data(struct unit *punit,
    * move */
 
   /* Enhance vision if unit steps into a fortress */
-  new_vision = vision_new(powner, pdesttile);
+  new_vision = vision_new(pdata->powner, pdesttile);
   punit->server.vision = new_vision;
   vision_change_sight(new_vision, radius_sq);
   ASSERT_VISION(new_vision);
-
-  return pdata;
 }
 
 /**********************************************************************//**
@@ -3959,7 +3966,11 @@ bool unit_move(struct unit *punit, struct tile *pdesttile, int move_cost,
       }
     } players_iterate_end;
   }
+
   unit_move_data_list_iterate(plist, pmove_data) {
+
+    unit_move_by_data(pmove_data, psrctile, pdesttile);
+
     if (adj && pmove_data == pdata) {
       /* If positions are adjacent, we have already handled 'punit'. See
        * above. */
