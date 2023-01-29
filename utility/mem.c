@@ -27,7 +27,7 @@
 /* utility */
 #include "fcintl.h"
 #include "log.h"
-#include "shared.h"		/* TRUE, FALSE */
+#include "shared.h"             /* TRUE, FALSE */
 
 #include "mem.h"
 
@@ -38,8 +38,8 @@
 static void handle_alloc_failure(size_t size, const char *called_as,
                                  int line, const char *file)
 {
-  log_fatal("Out of memory trying to %s %lu bytes at line %d of %s.",
-            called_as, (unsigned long) size, line, file);
+  log_fatal("Out of memory trying to %s " SIZE_T_PRINTF " bytes at line %d of %s.",
+            called_as, size, line, file);
 
   exit(EXIT_FAILURE);
 }
@@ -52,14 +52,14 @@ static void sanity_check_size(size_t size, const char *called_as,
                               int line, const char *file)
 {
   /* There used to be a sanity check here that would abort if more than
-   * 30 megabytes were allocated.  Unfortunately this didn't work because
+   * 30 megabytes were allocated. Unfortunately this didn't work because
    * savegame loading can potentially use a huge amount of memory for large
-   * games.  Another problem is it doesn't help much because there's nothing
+   * games. Another problem is it doesn't help much because there's nothing
    * preventing a large number of smaller allocations. */
 
   if (size == 0) {
-    log_verbose("Warning: %s with size %lu at line %d of %s",
-                called_as, (unsigned long) size, line, file);
+    log_verbose("Warning: %s with size " SIZE_T_PRINTF " at line %d of %s",
+                called_as, size, line, file);
   }
 }
 #endif /* FREECIV_DEBUG */
@@ -132,7 +132,7 @@ void *fc_real_realloc(void *ptr, size_t size,
 void *fc_real_calloc(size_t nelem, size_t elsize,
                      const char *called_as, int line, const char *file)
 {
-  size_t size = nelem * elsize; /* potential overflow */
+  size_t size = nelem * elsize; /* Potential overflow */
   void *ptr;
 
   ptr = fc_real_malloc(size, called_as, line, file);
