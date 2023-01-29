@@ -2086,15 +2086,20 @@ void mr_menu::menus_sensitive()
   } unit_list_iterate_end;
 
   unit_list_iterate(punits, punit) {
+    const struct unit_type *ntype;
+
     fc_assert((ptile == NULL) == (ptype == NULL));
-    if (ptile || ptype) {
-      if (unit_tile(punit) != ptile) {
-        units_all_same_tile = false;
-      }
-      if (unit_type_get(punit) == ptype) {
-        ptile = unit_tile(punit);
-        ptype = unit_type_get(punit);
-      }
+
+    ntype = unit_type_get(punit);
+
+    // 'ntype == ptype' is correct check even when ptype is still nullptr
+    if (ptile != nullptr && ntype == ptype && unit_tile(punit) != ptile) {
+      units_all_same_tile = false;
+    }
+
+    if (ptype == nullptr || ntype == ptype) {
+      ptile = unit_tile(punit);
+      ptype = ntype;
     }
   } unit_list_iterate_end;
 
