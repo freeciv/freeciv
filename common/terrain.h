@@ -231,12 +231,6 @@ struct terrain {
   struct terrain *transform_result;
 
   int transform_time;
-
-  struct {
-    int clean_pollution_time;
-    int clean_fallout_time;
-  } _retire;
-
   int pillage_time;
 
   /* Currently only clean times, but named for future */

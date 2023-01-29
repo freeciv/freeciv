@@ -155,10 +155,10 @@ ocean_resources = FALSE
 ;                        Default is 1.
 ; pillage_time         = time to pillage extra from the tile (0 = impossible)
 ;                        Nonzero values only affect extras with removal_time 0.
-; clean_pollution_time = time for 'clean pollution' activity (0 = impossible)
-;                        Nonzero values only affect extras with removal_time 0.
-; clean_fallout_time   = time for 'clean fallout' activity (0 = impossible)
-;                        Nonzero values only affect extras with removal_time 0.
+; extra_settings       = table of extra specific settings
+;   - "extra"            - Name of the extra
+;   - "removal_time"     - Time for cleaning activities (0 = impossible)
+;                          Nonzero values only affect extras with removal_time 0.
 ; animal               = unit type that can appear as animal on the terrain
 ; warmer_wetter_result = result of global warming for wet terrains; one of:
 ;                        "no"  -- no change; does not count for warming
@@ -248,8 +248,6 @@ transform_result     = "no"
 transform_time       = 0
 placing_time         = 0
 pillage_time         = 0
-clean_pollution_time = 0
-clean_fallout_time   = 0
 animal               = "None"
 warmer_wetter_result = "no"
 warmer_drier_result  = "no"
@@ -292,8 +290,11 @@ transform_result     = "Grassland"
 transform_time       = 36
 placing_time         = 0
 pillage_time         = 1
-clean_pollution_time = 3
-clean_fallout_time   = 3
+extra_settings       =
+    { "extra", "removal_time"
+      "Pollution", 3
+      "Fallout",   3
+    }
 animal               = "None"
 warmer_wetter_result = "Swamp"
 warmer_drier_result  = "no"
@@ -338,8 +339,11 @@ transform_result     = "Grassland"
 transform_time       = 36
 placing_time         = 0
 pillage_time         = 1
-clean_pollution_time = 3
-clean_fallout_time   = 3
+extra_settings       =
+    { "extra", "removal_time"
+      "Pollution", 3
+      "Fallout",   3
+    }
 animal               = "None"
 warmer_wetter_result = "no"
 warmer_drier_result  = "no"
@@ -385,8 +389,11 @@ transform_result     = "no"
 transform_time       = 0
 placing_time         = 0
 pillage_time         = 1
-clean_pollution_time = 3
-clean_fallout_time   = 3
+extra_settings       =
+    { "extra", "removal_time"
+      "Pollution", 3
+      "Fallout",   3
+    }
 animal               = "None"
 warmer_wetter_result = "no"
 warmer_drier_result  = "no"
@@ -432,8 +439,11 @@ transform_result     = "Lake"
 transform_time       = 24
 placing_time         = 4
 pillage_time         = 1
-clean_pollution_time = 3
-clean_fallout_time   = 3
+extra_settings       =
+    { "extra", "removal_time"
+      "Pollution", 3
+      "Fallout",   3
+    }
 animal               = "None"
 warmer_wetter_result = "Lake"
 warmer_drier_result  = "Tundra"
@@ -480,8 +490,11 @@ transform_result     = "Plains"
 transform_time       = 24
 placing_time         = 2
 pillage_time         = 1
-clean_pollution_time = 3
-clean_fallout_time   = 3
+extra_settings       =
+    { "extra", "removal_time"
+      "Pollution", 3
+      "Fallout",   3
+    }
 animal               = "None"
 warmer_wetter_result = "Swamp"
 warmer_drier_result  = "no"
@@ -537,8 +550,11 @@ transform_result     = "Hills"
 transform_time       = 24
 placing_time         = 4
 pillage_time         = 1
-clean_pollution_time = 3
-clean_fallout_time   = 3
+extra_settings       =
+    { "extra", "removal_time"
+      "Pollution", 3
+      "Fallout",   3
+    }
 animal               = "None"
 warmer_wetter_result = "Jungle"
 warmer_drier_result  = "no"
@@ -587,8 +603,11 @@ transform_result     = "Lake"
 transform_time       = 36
 placing_time         = 2
 pillage_time         = 1
-clean_pollution_time = 3
-clean_fallout_time   = 3
+extra_settings       =
+    { "extra", "removal_time"
+      "Pollution", 3
+      "Fallout",   3
+    }
 animal               = "None"
 warmer_wetter_result = "Swamp"
 warmer_drier_result  = "Swamp"
@@ -634,8 +653,11 @@ transform_result     = "Plains"
 transform_time       = 24
 placing_time         = 4
 pillage_time         = 1
-clean_pollution_time = 3
-clean_fallout_time   = 3
+extra_settings       =
+    { "extra", "removal_time"
+      "Pollution", 3
+      "Fallout",   3
+    }
 animal               = "None"
 warmer_wetter_result = "no"
 warmer_drier_result  = "no"
@@ -685,8 +707,11 @@ transform_result     = "Forest"
 transform_time       = 24
 placing_time         = 4
 pillage_time         = 1
-clean_pollution_time = 3
-clean_fallout_time   = 3
+extra_settings       =
+    { "extra", "removal_time"
+      "Pollution", 3
+      "Fallout",   3
+    }
 animal               = "None"
 warmer_wetter_result = "no"
 warmer_drier_result  = "no"
@@ -735,8 +760,11 @@ transform_result     = "Hills"
 transform_time       = 36
 placing_time         = 6
 pillage_time         = 1
-clean_pollution_time = 3
-clean_fallout_time   = 3
+extra_settings       =
+    { "extra", "removal_time"
+      "Pollution", 3
+      "Fallout",   3
+    }
 animal               = "None"
 warmer_wetter_result = "no"
 warmer_drier_result  = "no"
@@ -787,8 +815,11 @@ transform_result     = "Lake"
 transform_time       = 36
 placing_time         = 2
 pillage_time         = 1
-clean_pollution_time = 3
-clean_fallout_time   = 3
+extra_settings       =
+    { "extra", "removal_time"
+      "Pollution", 3
+      "Fallout",   3
+    }
 animal               = "None"
 warmer_wetter_result = "Swamp"
 warmer_drier_result  = "Desert"
@@ -835,8 +866,11 @@ transform_result     = "Grassland"
 transform_time       = 24
 placing_time         = 4
 pillage_time         = 1
-clean_pollution_time = 3
-clean_fallout_time   = 3
+extra_settings       =
+    { "extra", "removal_time"
+      "Pollution", 3
+      "Fallout",   3
+    }
 animal               = "None"
 warmer_wetter_result = "Desert"
 warmer_drier_result  = "no"
@@ -886,8 +920,11 @@ transform_result     = "Plains"
 transform_time       = 24
 placing_time         = 2
 pillage_time         = 1
-clean_pollution_time = 3
-clean_fallout_time   = 3
+extra_settings       =
+    { "extra", "removal_time"
+      "Pollution", 3
+      "Fallout",   3
+    }
 animal               = "None"
 warmer_wetter_result = "Swamp"
 warmer_drier_result  = "Swamp"

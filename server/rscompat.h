@@ -71,6 +71,16 @@ void rscompat_extra_adjust_3_2(struct extra_type *pextra);
 bool rscompat_setting_needs_special_handling(const char *name);
 void rscompat_settings_do_special_handling(struct section_file *file,
                 const char *section, void (*setdef)(struct setting *pset));
+bool rscompat_terrain_extra_rmtime_3_2(struct section_file *file,
+                                       const char *tsection,
+                                       struct terrain *pterrain);
+
+/* In ruleset.c, but should not be in public interface - make static again once
+ * rscompat.c no longer needs. */
+bool lookup_time(const struct section_file *secfile, int *turns,
+                 const char *sec_name, const char *property_name,
+                 const char *filename, const char *item_name,
+                 bool *ok);
 
 #ifdef __cplusplus
 }

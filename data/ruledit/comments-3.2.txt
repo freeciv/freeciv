@@ -631,10 +631,10 @@ terrains = "\
 ;                        Default is 1.\n\
 ; pillage_time         = time to pillage extra from the tile (0 = impossible)\n\
 ;                        Nonzero values only affect extras with removal_time 0.\n\
-; clean_pollution_time = time to clean pollution (0 = impossible)\n\
-;                        Nonzero values only affect extras with removal_time 0.\n\
-; clean_fallout_time   = time to clean fallout (0 = impossible)\n\
-;                        Nonzero values only affect extras with removal_time 0.\n\
+; extra_settings       = table of extra specific settings\n\
+;   - \"extra\"            - Name of the extra\n\
+;   - \"removal_time\"     - Time for cleaning activities (0 = impossible)\n\
+;                          Nonzero values only affect extras with removal_time 0.\n\
 ; animal               = unit type that can appear as animal on the terrain\n\
 ; warmer_wetter_result = result of global warming for wet terrains; one of:\n\
 ;                        \"no\"  -- no change; does not count for warming\n\

@@ -210,7 +210,7 @@ static bool insert_generated_text(char *outbuf, size_t outlen, const char *name)
   }
 
   if (0 == strcmp(name, "TerrainAlterations")) {
-    int clean_pollution_time = -1, clean_fallout_time = -1, pillage_time = -1;
+    int clean_time = -1, pillage_time = -1;
     bool terrain_independent_extras = FALSE;
 
     CATLSTR(outbuf, outlen,
@@ -269,24 +269,31 @@ static bool insert_generated_text(char *outbuf, size_t outlen, const char *name)
             (pterrain->transform_result == T_NONE) ? "-" : transform_time,
             transform_result);
 
-        if (clean_pollution_time != 0 && pterrain->_retire.clean_pollution_time != 0) {
-          if (clean_pollution_time < 0) {
-            clean_pollution_time = pterrain->_retire.clean_pollution_time;
-          } else {
-            if (clean_pollution_time != pterrain->_retire.clean_pollution_time) {
-              clean_pollution_time = 0; /* Give up */
+        if (clean_time != 0) {
+          extra_type_by_rmcause_iterate(ERM_CLEANPOLLUTION, pextra) {
+            int rmtime = pterrain->extra_removal_times[extra_index(pextra)];
+
+            if (rmtime != 0) {
+              if (clean_time < 0) {
+                clean_time = rmtime;
+              } else if (clean_time != rmtime) {
+                clean_time = 0; /* Give up */
+              }
             }
-          }
-        }
-        if (clean_fallout_time != 0 && pterrain->_retire.clean_fallout_time != 0) {
-          if (clean_fallout_time < 0) {
-            clean_fallout_time = pterrain->_retire.clean_fallout_time;
-          } else {
-            if (clean_fallout_time != pterrain->_retire.clean_fallout_time) {
-              clean_fallout_time = 0; /* Give up */
+          } extra_type_by_rmcause_iterate_end;
+          extra_type_by_rmcause_iterate(ERM_CLEANFALLOUT, pextra) {
+            int rmtime = pterrain->extra_removal_times[extra_index(pextra)];
+
+            if (rmtime != 0) {
+              if (clean_time < 0) {
+                clean_time = rmtime;
+              } else if (clean_time != rmtime) {
+                clean_time = 0; /* Give up */
+              }
             }
-          }
+          } extra_type_by_rmcause_iterate_end;
         }
+
         if (pillage_time != 0 && pterrain->pillage_time != 0) {
           if (pillage_time < 0) {
             pillage_time = pterrain->pillage_time;
@@ -321,31 +328,6 @@ static bool insert_generated_text(char *outbuf, size_t outlen, const char *name)
           }
         }
       } extra_type_by_rmcause_iterate_end;
-      if (factor < 0) {
-        /* No extra has terrain-dependent clean time; use extra's time */
-        if (time >= 0) {
-          clean_pollution_time = time;
-        } else {
-          clean_pollution_time = 0;
-        }
-      } else if (clean_pollution_time != 0) {
-        /* At least one extra's time depends on terrain */
-        fc_assert(clean_pollution_time > 0);
-        if (time > 0 && factor > 0 && time != clean_pollution_time * factor) {
-          clean_pollution_time = 0;
-        } else if (time >= 0) {
-          clean_pollution_time = time;
-        } else if (factor >= 0) {
-          clean_pollution_time = clean_pollution_time * factor;
-        } else {
-          fc_assert(FALSE);
-        }
-      }
-    }
-
-    {
-      int time = -1, factor = -1;
-
       extra_type_by_rmcause_iterate(ERM_CLEANFALLOUT, pextra) {
         if (pextra->removal_time == 0) {
           if (factor < 0) {
@@ -361,22 +343,24 @@ static bool insert_generated_text(char *outbuf, size_t outlen, const char *name)
           }
         }
       } extra_type_by_rmcause_iterate_end;
+
       if (factor < 0) {
         /* No extra has terrain-dependent clean time; use extra's time */
         if (time >= 0) {
-          clean_fallout_time = time;
+          clean_time = time;
         } else {
-          clean_fallout_time = 0;
+          clean_time = 0;
         }
-      } else if (clean_fallout_time != 0) {
+      } else if (clean_time != 0) {
         /* At least one extra's time depends on terrain */
-        fc_assert(clean_fallout_time > 0);
-        if (time > 0 && factor > 0 && time != clean_fallout_time * factor) {
-          clean_fallout_time = 0;
+        fc_assert(clean_time > 0);
+
+        if (time > 0 && factor > 0 && time != clean_time * factor) {
+          clean_time = 0;
         } else if (time >= 0) {
-          clean_fallout_time = time;
+          clean_time = time;
         } else if (factor >= 0) {
-          clean_fallout_time = clean_fallout_time * factor;
+          clean_time *= factor;
         } else {
           fc_assert(FALSE);
         }
@@ -441,7 +425,7 @@ static bool insert_generated_text(char *outbuf, size_t outlen, const char *name)
       } extra_type_by_cause_iterate_end;
     }
 
-    if (clean_pollution_time > 0 || clean_fallout_time > 0 || pillage_time > 0
+    if (clean_time > 0 || pillage_time > 0
         || terrain_independent_extras) {
       CATLSTR(outbuf, outlen, "\n");
       CATLSTR(outbuf, outlen,
@@ -454,15 +438,15 @@ static bool insert_generated_text(char *outbuf, size_t outlen, const char *name)
               _("Activity            Time\n"));
       CATLSTR(outbuf, outlen,
               "---------------------------");
-      if (clean_pollution_time > 0)
-	cat_snprintf(outbuf, outlen,
-		     _("\nClean pollution    %3d"), clean_pollution_time);
-      if (clean_fallout_time > 0)
-	cat_snprintf(outbuf, outlen,
-		     _("\nClean fallout      %3d"), clean_fallout_time);
-      if (pillage_time > 0)
-	cat_snprintf(outbuf, outlen,
-		     _("\nPillage            %3d"), pillage_time);
+      if (clean_time > 0) {
+        cat_snprintf(outbuf, outlen,
+                     _("\nClean              %3d"), clean_time);
+      }
+      if (pillage_time > 0) {
+        cat_snprintf(outbuf, outlen,
+                     _("\nPillage            %3d"), pillage_time);
+      }
+
       extra_type_by_cause_iterate(EC_ROAD, pextra) {
         if (pextra->buildable && pextra->build_time > 0) {
           const char *rname = extra_name_translation(pextra);
@@ -475,6 +459,7 @@ static bool insert_generated_text(char *outbuf, size_t outlen, const char *name)
                        pextra->build_time);
         }
       } extra_type_by_cause_iterate_end;
+
       extra_type_by_cause_iterate(EC_BASE, pextra) {
         if (pextra->buildable && pextra->build_time > 0) {
           const char *bname = extra_name_translation(pextra);
@@ -488,6 +473,7 @@ static bool insert_generated_text(char *outbuf, size_t outlen, const char *name)
         }
       } extra_type_by_cause_iterate_end;
     }
+
     return TRUE;
   } else if (0 == strcmp(name, "VeteranLevels")) {
     return insert_veteran_help(outbuf, outlen, game.veteran,
@@ -498,8 +484,8 @@ static bool insert_generated_text(char *outbuf, size_t outlen, const char *name)
 
     cat_snprintf(outbuf, outlen,
                  /* TRANS: First %s is version string, e.g.,
-                  * "Freeciv version 2.3.0-beta1 (beta version)" (translated).
-                  * Second %s is client_string, e.g., "gui-gtk-2.0". */
+                  * "Freeciv version 3.2.0-beta1 (beta version)" (translated).
+                  * Second %s is client_string, e.g., "gui-gtk-4.0". */
                  _("This is %s, %s client."), ver, client_string);
     insert_client_build_info(outbuf, outlen);
 
@@ -3848,26 +3834,12 @@ void helptext_extra(char *buf, size_t bufsz, struct player *pplayer,
     } else {
       terrain_type_iterate(pterrain) {
         int terr_clean_time = -1;
+        int rmtime = pterrain->extra_removal_times[extra_index(pextra)];
 
-        if (is_extra_removed_by(pextra, ERM_CLEANPOLLUTION)
-            && pterrain->_retire.clean_pollution_time != 0) {
-          terr_clean_time = pterrain->_retire.clean_pollution_time
-                            * pextra->removal_time_factor;
+        if (rmtime != 0) {
+          terr_clean_time = rmtime * pextra->removal_time_factor;
         }
-        if (is_extra_removed_by(pextra, ERM_CLEANFALLOUT)
-            && pterrain->_retire.clean_fallout_time != 0) {
-          int terr_clean_fall_time = pterrain->_retire.clean_fallout_time
-                                     * pextra->removal_time_factor;
 
-          if (terr_clean_time > 0
-              && terr_clean_time != terr_clean_fall_time) {
-            /* Pollution/fallout cleaning activities taking different time
-             * on same terrain. Give up. */
-            clean_time = -1;
-            break;
-          }
-          terr_clean_time = terr_clean_fall_time;
-        }
         if (clean_time < 0) {
           clean_time = terr_clean_time;
         } else if (clean_time != terr_clean_time) {
@@ -3877,6 +3849,7 @@ void helptext_extra(char *buf, size_t bufsz, struct player *pplayer,
         }
       } terrain_type_iterate_end;
     }
+
     if (clean_time < 0) {
       CATLSTR(buf, bufsz,
               _("Can be cleaned by units (time is terrain-dependent).\n"));

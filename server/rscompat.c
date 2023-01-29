@@ -546,6 +546,8 @@ int add_user_extra_flags_3_2(int start)
 {
   int i = 0;
 
+  /* TODO: Do we need "CleanAsPollution", or can we treat
+   *       it as the default while "CleanAsFallout" is special case? */
   set_user_extra_flag_name(EF_USER_FLAG_1 + start + i++,
                            "CleanAsPollution", NULL);
   set_user_extra_flag_name(EF_USER_FLAG_1 + start + i++,
@@ -572,12 +574,17 @@ void rscompat_extra_adjust_3_2(struct extra_type *pextra)
                                            "-980"));
   }
 
-  if (is_extra_removed_by(pextra, ERM_CLEANPOLLUTION)) {
+  /* Don't give these flags to extras that have been using
+   * removal time not tied to terrain, so it won't get
+   * overridden by "ActivityTime" effects we also add. */
+  if (is_extra_removed_by(pextra, ERM_CLEANPOLLUTION)
+      && pextra->removal_time == 0) {
     BV_SET(pextra->flags,
            extra_flag_id_by_name("CleanAsPollution", fc_strcasecmp));
   }
 
-  if (is_extra_removed_by(pextra, ERM_CLEANFALLOUT)) {
+  if (is_extra_removed_by(pextra, ERM_CLEANFALLOUT)
+      && pextra->removal_time == 0) {
     BV_SET(pextra->flags,
            extra_flag_id_by_name("CleanAsFallout", fc_strcasecmp));
   }
@@ -672,4 +679,44 @@ void rscompat_settings_do_special_handling(struct section_file *file,
 #undef SET_INT_SETTING
     }
   }
+}
+
+/**********************************************************************//**
+  Migrate pollution and fallout time to extra specific removal times.
+**************************************************************************/
+bool rscompat_terrain_extra_rmtime_3_2(struct section_file *file,
+                                       const char *tsection,
+                                       struct terrain *pterrain)
+{
+  int pol_time = 3; /* Old default */
+  int fal_time = 3; /* Old default */
+  const char *filename = secfile_name(file);
+  bool ok = TRUE;
+
+  lookup_time(file, &pol_time,
+              tsection, "clean_pollution_time", filename, NULL, &ok);
+  lookup_time(file, &fal_time,
+              tsection, "clean_fallout_time", filename, NULL, &ok);
+
+  if (pol_time == fal_time) {
+    extra_type_iterate(pextra) {
+      pterrain->extra_removal_times[extra_index(pextra)] = pol_time;
+    } extra_type_iterate_end;
+  } else {
+    struct effect *peffect;
+
+    extra_type_iterate(pextra) {
+      pterrain->extra_removal_times[extra_index(pextra)] = pol_time;
+    } extra_type_iterate_end;
+
+    peffect = effect_new(EFT_ACTIVITY_TIME, fal_time, NULL);
+    effect_req_append(peffect, req_from_str("ExtraFlag", "Local",
+                                            FALSE, TRUE, TRUE,
+                                            "CleanAsFallout"));
+    effect_req_append(peffect, req_from_str("Terrain", "Tile",
+                                            FALSE, TRUE, TRUE,
+                                            terrain_rule_name(pterrain)));
+  }
+
+  return ok;
 }

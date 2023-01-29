@@ -4334,12 +4334,12 @@ is_action_possible(const action_id wanted_action,
                                     actor->unit);
       }
 
-      if (pextra != NULL && pterrain->_retire.clean_pollution_time > 0
+      if (pextra != NULL && pterrain->extra_removal_times[extra_index(pextra)] > 0
           && can_remove_extra(pextra, actor->unit, target->tile)) {
         return TRI_YES;
       }
 
-      if (fextra != NULL && pterrain->_retire.clean_fallout_time > 0
+      if (fextra != NULL && pterrain->extra_removal_times[extra_index(fextra)] > 0
           && can_remove_extra(fextra, actor->unit, target->tile)) {
         return TRI_YES;
       }
@@ -4352,9 +4352,6 @@ is_action_possible(const action_id wanted_action,
       const struct extra_type *pextra;
 
       pterrain = tile_terrain(target->tile);
-      if (pterrain->_retire.clean_pollution_time == 0) {
-        return TRI_NO;
-      }
 
       if (target_extra != NULL) {
         pextra = target_extra;
@@ -4379,6 +4376,10 @@ is_action_possible(const action_id wanted_action,
         }
       }
 
+      if (pterrain->extra_removal_times[extra_index(pextra)] == 0) {
+        return TRI_NO;
+      }
+
       if (can_remove_extra(pextra, actor->unit, target->tile)) {
         return TRI_YES;
       }
@@ -4392,9 +4393,6 @@ is_action_possible(const action_id wanted_action,
       const struct extra_type *pextra;
 
       pterrain = tile_terrain(target->tile);
-      if (pterrain->_retire.clean_fallout_time == 0) {
-        return TRI_NO;
-      }
 
       if (target_extra != NULL) {
         pextra = target_extra;
@@ -4417,6 +4415,10 @@ is_action_possible(const action_id wanted_action,
           /* No available fallout extras */
           return TRI_NO;
         }
+      }
+
+      if (pterrain->extra_removal_times[extra_index(pextra)] == 0) {
+        return TRI_NO;
       }
 
       if (can_remove_extra(pextra, actor->unit, target->tile)) {

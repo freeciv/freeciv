@@ -1261,10 +1261,10 @@ static bool lookup_terrain(struct section_file *file,
   Returns FALSE if not found in secfile, but TRUE even if validation failed.
   Sets *ok to FALSE if validation failed, leaves it alone otherwise.
 **************************************************************************/
-static bool lookup_time(const struct section_file *secfile, int *turns,
-                        const char *sec_name, const char *property_name,
-                        const char *filename, const char *item_name,
-                        bool *ok)
+bool lookup_time(const struct section_file *secfile, int *turns,
+                 const char *sec_name, const char *property_name,
+                 const char *filename, const char *item_name,
+                 bool *ok)
 {
   /* Assumes that PACKET_UNIT_INFO.activity_count in packets.def is UINT16 */
   const int max_turns = 65535 / ACTIVITY_FACTOR;
@@ -3281,6 +3281,7 @@ static bool load_ruleset_terrain(struct section_file *file,
       const int i = terrain_index(pterrain);
       const char *tsection = &terrain_sections[i * MAX_SECTION_LABEL];
       const char *cstr;
+      const char *ename;
 
       sz_strlcpy(pterrain->graphic_str,
                  secfile_lookup_str(file, "%s.graphic", tsection));
@@ -3520,12 +3521,6 @@ static bool load_ruleset_terrain(struct section_file *file,
       pterrain->pillage_time = 1; /* Default */
       lookup_time(file, &pterrain->pillage_time,
                   tsection, "pillage_time", filename, NULL, &ok);
-      pterrain->_retire.clean_pollution_time = 3; /* Default */
-      lookup_time(file, &pterrain->_retire.clean_pollution_time,
-                  tsection, "clean_pollution_time", filename, NULL, &ok);
-      pterrain->_retire.clean_fallout_time = 3; /* Default */
-      lookup_time(file, &pterrain->_retire.clean_fallout_time,
-                  tsection, "clean_fallout_time", filename, NULL, &ok);
 
       if (!lookup_terrain(file, "warmer_wetter_result", filename, pterrain,
                           &pterrain->warmer_wetter_result, TRUE)
@@ -3539,24 +3534,61 @@ static bool load_ruleset_terrain(struct section_file *file,
         break;
       }
 
-      slist = secfile_lookup_str_vec(file, &nval, "%s.flags", tsection);
-      BV_CLR_ALL(pterrain->flags);
-      for (j = 0; j < nval; j++) {
-        const char *sval = slist[j];
-        enum terrain_flag_id flag
-          = terrain_flag_id_by_name(sval, fc_strcasecmp);
+      /* Set default removal times */
+      extra_type_iterate(pextra) {
+        pterrain->extra_removal_times[extra_index(pextra)] = 0;
+      } extra_type_iterate_end;
 
-        if (!terrain_flag_id_is_valid(flag)) {
-          ruleset_error(NULL, LOG_ERROR,
-                        "\"%s\" [%s] has unknown flag \"%s\".",
-                        filename, tsection, sval);
+      if (compat->compat_mode && compat->version < RSFORMAT_3_2) {
+        if (!rscompat_terrain_extra_rmtime_3_2(file, tsection, pterrain)) {
           ok = FALSE;
           break;
-        } else {
-          BV_SET(pterrain->flags, flag);
         }
       }
-      free(slist);
+
+      for (j = 0; (ename = secfile_lookup_str_default(file, NULL,
+                                                      "%s.extra_settings%d.extra",
+                                                      tsection, j)); j++) {
+        const struct extra_type *pextra = extra_type_by_rule_name(ename);
+
+        if (pextra != NULL) {
+          char time_sections[512];
+
+          fc_snprintf(time_sections, sizeof(time_sections),
+                      "%s.extra_settings%d", tsection, j);
+
+          lookup_time(file, &pterrain->extra_removal_times[extra_index(pextra)],
+                      time_sections, "removal_time", filename, NULL, &ok);
+        } else {
+          ruleset_error(NULL, LOG_ERROR,
+                        "\"%s\" [%s] has settings for unknown extra \"%s\".",
+                        filename, tsection, ename);
+          ok = FALSE;
+          break;
+        }
+      }
+
+      if (ok) {
+        slist = secfile_lookup_str_vec(file, &nval, "%s.flags", tsection);
+        BV_CLR_ALL(pterrain->flags);
+        for (j = 0; j < nval; j++) {
+          const char *sval = slist[j];
+          enum terrain_flag_id flag
+            = terrain_flag_id_by_name(sval, fc_strcasecmp);
+
+          if (!terrain_flag_id_is_valid(flag)) {
+            ruleset_error(NULL, LOG_ERROR,
+                          "\"%s\" [%s] has unknown flag \"%s\".",
+                          filename, tsection, sval);
+            ok = FALSE;
+            break;
+          } else {
+            BV_SET(pterrain->flags, flag);
+          }
+        }
+
+        free(slist);
+      }
 
       if (!ok) {
         break;
@@ -3697,22 +3729,6 @@ static bool load_ruleset_terrain(struct section_file *file,
         } else {
           pextra->rmcauses |= (1 << rmcause);
           extra_to_removed_by_list(pextra, rmcause);
-
-          terrain_type_iterate(pterr) {
-            int cleantime = 0;
-
-            if (rmcause == ERM_CLEANPOLLUTION) {
-              cleantime = pterr->_retire.clean_pollution_time;
-            } else if (rmcause == ERM_CLEANFALLOUT) {
-              cleantime = pterr->_retire.clean_fallout_time;
-            }
-
-            if (cleantime > 0
-                && (pterr->extra_removal_times[eidx] == 0
-                    || cleantime < pterr->extra_removal_times[eidx])) {
-              pterr->extra_removal_times[eidx] = cleantime;
-            }
-          } terrain_type_iterate_end;
         }
       }
 
@@ -8465,8 +8481,6 @@ static void send_ruleset_terrain(struct conn_list *dest)
     packet.placing_time = pterrain->placing_time;
     packet.pillage_time = pterrain->pillage_time;
     packet.transform_time = pterrain->transform_time;
-    packet.clean_pollution_time = pterrain->_retire.clean_pollution_time;
-    packet.clean_fallout_time = pterrain->_retire.clean_fallout_time;
 
     packet.extra_count = game.control.num_extra_types;
     for (i = 0; i < game.control.num_extra_types; i++) {

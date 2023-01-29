@@ -1576,7 +1576,7 @@ void help_widget::set_topic_goods(const help_item* topic,
 /**********************************************************************//**
   Retrieves the maximum values any terrain will ever have.
   Supported fields:
-    base_time, clean_fallout_time, clean_pollution_time, defense_bonus,
+    base_time, defense_bonus,
     irrigation_food_incr, irrigation_time, mining_shield_incr, mining_time,
     movement_cost, output, pillage_time, road_output_incr_pct, road_time,
     transform_time
@@ -1590,8 +1590,6 @@ struct terrain *help_widget::terrain_max_values()
   struct terrain *max = new struct terrain;
 
   max->base_time = 0;
-  max->_retire.clean_fallout_time = 0;
-  max->_retire.clean_pollution_time = 0;
   max->defense_bonus = 0;
   max->irrigation_food_incr = 0;
   max->irrigation_time = 0;
@@ -1619,8 +1617,6 @@ struct terrain *help_widget::terrain_max_values()
 #define SET_MAX(v) \
     max->v = max->v > terrain->v ? max->v : terrain->v
     SET_MAX(base_time);
-    SET_MAX(_retire.clean_fallout_time);
-    SET_MAX(_retire.clean_pollution_time);
     SET_MAX(defense_bonus);
     SET_MAX(irrigation_food_incr);
     SET_MAX(irrigation_time);

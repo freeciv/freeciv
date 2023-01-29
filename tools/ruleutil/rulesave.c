@@ -2623,10 +2623,20 @@ static bool save_terrain_ruleset(const char *filename, const char *name)
                        "%s.placing_time", path);
     secfile_insert_int(sfile, pterr->pillage_time,
                        "%s.pillage_time", path);
-    secfile_insert_int(sfile, pterr->_retire.clean_pollution_time,
-                       "%s.clean_pollution_time", path);
-    secfile_insert_int(sfile, pterr->_retire.clean_fallout_time,
-                       "%s.clean_fallout_time", path);
+
+    i = 0;
+    extra_type_iterate(pextra) {
+      int rmtime = pterr->extra_removal_times[extra_index(pextra)];
+
+      if (rmtime != 0) {
+        secfile_insert_str(sfile, extra_rule_name(pextra),
+                           "%s.extra_settings%d.extra",
+                           path, i);
+        secfile_insert_int(sfile, rmtime,
+                           "%s.extra_settings%d.removal_time",
+                           path, i++);
+      }
+    } extra_type_iterate_end;
 
     save_terrain_ref(sfile, pterr->warmer_wetter_result, pterr, path,
                      "warmer_wetter_result");
