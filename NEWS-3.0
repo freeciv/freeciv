@@ -1,5 +1,5 @@
 ========================
-Welcome to Freeciv 3.0.5
+Welcome to Freeciv 3.0.6
 ========================
 
 The changes in the 3.0.x series are summarised below.
@@ -7,7 +7,171 @@ For changes prior to 3.0, see NEWS. For more detailed changes,
 see the ChangeLog file.
 
 
-WHAT'S CHANGED SINCE 3.0.4
+CHANGES FROM 3.0.5 to 3.0.6
+---------------------------
+
+   (from <https://www.freeciv.org/wiki/NEWS-3.0.6>, 2023-01-29)
+
+3.0.6 is a bugfix release in freeciv-3.0 series. The focus has been
+in supporting current bleeding edge systems, to make freeciv compatible
+with latest releases of other components and tools.
+
+Server / General
+
+    * When the worklist item cannot be currently built, server now detects
+      more cases where it will be impossible to ever build it and purges
+      the worklist item instead of just postponing osdn#45563
+    * Silenced some unused entry warnings when loading saved games osdn#46144
+    * Freeciv now uses new libcurl API, instead of one deprecated in
+      latest versions, to communicate with the metaserver and,
+      in case of modpack installer, to fetch files osdn#46345
+    * When starting from a saved game, dead players are no longer
+      counted towards ready/unready player counts in pre-game osdn#44621
+         + Dead players do not affect whether game can start or not
+           (no need to wait for them)
+         + Gtk- and Qt-clients' pre-game dialog "Start" button is
+           never sensitive when the client is attached to a dead player
+    * Fixed problems with the filename encoding when saving mapimg
+      on Windows osdn#45507
+    * Fixed bad memory access issue after player who had already
+      founded cities has been removed from the game osdn#46503
+
+Changes affecting other rulesets / modders
+
+    * Fixes to Path Finding troubles when terrain move costs are high,
+      in terms of move fragment count osdn#46039 osdn#46136
+    * Improvements to ruleset loading code error handling osdn#46196
+    * Unit Vision Range is now always recalculated at turn change for
+      any changes in requirements to take effect osdn#46182
+    * Cities currently working a tile is now forced to stop doing that at
+      the moment the tile changes in a way that Tile_Workable effect
+      is no longer active osdn#44706
+
+Changes affecting server operators
+
+    * Stopped endless spam on server console about iconv inability to
+      convert between encodings. Just tell it once when the issue
+      is first encountered osdn#46497
+
+Low-level changes
+
+    * Fixed re-entrancy problem in getting current time, e.g.,
+      if both metaserver communication and regular game (main thread)
+      would want to write log at the same moment osdn#46228
+
+General
+
+    * Fixed memory leaks, bad memory access, and improved cleanup
+      on shutdown osdn#46418 osdn#46584
+    * Optimizations osdn#46120 osdn#46416 osdn#46487
+    * Various internal changes which should only affect developers.
+      osdn#45831 osdn#46177 osdn#46108 osdn#46149 osdn#46227 osdn#46301
+      osdn#43049 osdn#46421 osdn#46410
+
+AI
+
+    * Stop AI from erroneously thinking that a Growth_Food effect with
+      a negative value would give food osdn#46290
+    * Reduced number of cases where AI desire to kill specific target
+      would overflow, and thus make it to think that very desirable
+      target is not good at all osdn#46513
+
+Clients
+
+    * Improved the way client determines which server settings to save
+      as user-preferred ones osdn#43748
+         + Ruleset defaults are no longer saved as "non-default"
+         + Value explicitly set to same as the default gets saved
+    * Client now resends user's desired server settings after ruleset
+      has been changed, and server has resetted the settings for that
+      osdn#43747
+    * Fixed an issue causing client quit sound from playing osdn#46426
+    * Make sure editor gui closes immediately when server disables
+      edit mode osdn#46439
+    * Fixed client crashes when description of unit's activities were
+      constructed simultaneously for multiple units osdn#46559
+
+    * gtk
+         + Tooltip shown about nations on nation dialog and endgame
+           score list now describes client's player's relating to
+           that player osdn#45792
+         + Made help browser links for buildings' and wonders' requirements
+           to work regardless of the requirement type osdn#46433 osdn#46551
+         + Corrected keys to control Battle Groups osdn#46588
+
+    * qt
+         + Sorting of the Nations Dialog columns now happens by correct rules
+           (e.g., AI attitude sorted by friendliness, not alphabetically)
+           osdn#46289
+         + Fixed issues, potetially even client crash, with
+           prev/next city buttons osdn#46404
+
+    * sdl2
+         + Fixed issues stemming from button drawing being ambigious about
+           how it worked osdn#45689
+         + Fixed revolution dialog crash when player cannot change to
+           any government osdn#46450
+         + Make controlled disconnect from the server on client quit
+           osdn#46478
+
+Tools
+Ruledit
+
+    * experimental mode builds only:
+      Consider ruleset items listed in appearance_reqs or disappearance_reqs
+      of an extra, or first_reqs of a road, to be used by the ruleset.
+      They cannot be removed as long as those references stay. osdn#46443
+
+freeciv-manual
+
+    * Generated server options page no longer tells the ruleset used
+      when creating it; ruleset makes no diffence to the server options
+      osdn#46381
+
+
+Help / Documentation
+
+    * Miscellaneous improvements to in-game text and user documentation.
+      osdn#45936 osdn#46229 osdn#46045 osdn#45943
+    * Miscellaneous changes to developer/install/ruleset docs.
+      osdn#45309 osdn#46100 osdn#46451
+
+Translations
+
+    * Updated translations:
+         + Complete translations: French, Russian
+         + Incomplete translations:
+           Finnish (100% core, 93% nations, 100% ruledit)
+
+Build/portability
+
+    * Generating metainfo is now silent under automake's silent mode
+      osdn#46185
+    * Metainfo improvements
+         + content_rating added osdn#46375
+         + provided/binary added for the server metainfo osdn#46500
+    * Fixed some clang analyzer warnings
+      osdn#46204 osdn#46293 osdn#46292 osdn#46348 osdn#46349 osdn#46384
+      osdn#45687 osdn#46336 osdn#46488 osdn#46543 osdn#46545
+    * Fixed gcc-13 (current development version) compiler warnings osdn#46300
+    * Made the code to comply with c2x (likely to come out as c23) standard,
+      as implemented in gcc-13
+      osdn#46310 osdn#46306 osdn#46367 osdn#46372
+    * Fixed configure time mysql version check
+      (usually not needed - any version accepted) osdn#46449
+    * Crosser build improvements
+         + Build process now prints all errors to stderr osdn#46127
+         + Never consider warnings, seen with latest MinGW compilers,
+           from Qt headers as errors osdn#46428
+    * Fixed compiler warning seen on Void Linux / musl about
+      including "sys/signal.h" osdn#44997
+    * Fixed Qt-client linking issue. It was seen with msys2 clang64 toolchain,
+      but could affect other toolchains osdn#46575
+    * Flatpaks now have ipc permissions to improve x11 performance osdn#46565
+
+
+CHANGES FROM 3.0.4 to 3.0.5
+---------------------------
 
    (from <https://www.freeciv.org/wiki/NEWS-3.0.5>, 2022-12-16)
 
