@@ -68,18 +68,19 @@ static int compar_unit_ord_city(const struct unit *const *ua,
 /************************************************************************//**
   Sorts the unit list by punit->server.ord_map values.
 
-  Only used in server/savegame.c.
+  Only used in server/savegame/savegame[23].c.
 ****************************************************************************/
 void unit_list_sort_ord_map(struct unit_list *punitlist)
 {
   fc_assert_ret(is_server());
+
   unit_list_sort(punitlist, compar_unit_ord_map);
 }
 
 /************************************************************************//**
   Sorts the unit list by punit->server.ord_city values.
 
-  Only used in server/savegame.c.
+  Only used in server/savegame/savegame[23].c.
 ****************************************************************************/
 void unit_list_sort_ord_city(struct unit_list *punitlist)
 {
