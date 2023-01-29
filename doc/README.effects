@@ -126,7 +126,7 @@ MaxUnitsOnTile is about the number of units present on a tile.
 UnitState is "Transported", "Transporting", "OnNativeTile", "OnLivableTile",
  "InNativeExtra", "MovedThisTurn" or "HasHomeCity".
 Activity is "Idle", "Pollution", "Mine", "Irrigate", "Fortified",
- "Pillage", "Transform", "Fortifying", "Fallout",
+ "Pillage", "Transform", "Fortifying", "Fallout", "Clean",
  "Base", "Road", "Convert", "Cultivate", or "Plant".
 MinMoveFrags is the minimum move fragments the unit must have left.
 MinCalFrag is the minimum sub-year division the calendar must have reached,
