@@ -88,8 +88,9 @@ static void city_clear_worklist_callback(GSimpleAction *action, GVariant *parame
                                          gpointer data);
 static void update_total_buy_cost(void);
 
+static GMenu *create_select_menu(GActionGroup *group);
+
 #ifdef MENUS_GTK3
-static void create_select_menu(GtkWidget *item);
 static void create_change_menu(GtkWidget *item);
 static void create_last_menu(GtkWidget *item);
 static void create_first_menu(GtkWidget *item);
@@ -1157,11 +1158,10 @@ static GtkWidget *create_city_report_menu(void)
   gtk_menu_shell_append(GTK_MENU_SHELL(aux_menu), item);
   city_sell_command = item;
   create_sell_menu(item);
-
-  item = gtk_menu_item_new_with_mnemonic(_("_Select"));
-  gtk_menu_shell_append(GTK_MENU_SHELL(aux_menu), item);
-  create_select_menu(item);
 #endif /* MENUS_GTK3 */
+
+  submenu = create_select_menu(group);
+  submenu_append_unref(menu, _("_Select"), G_MENU_MODEL(submenu));
 
   submenu = create_display_menu(group);
   submenu_append_unref(menu, _("_Display"), G_MENU_MODEL(submenu));
@@ -1290,11 +1290,11 @@ static void create_city_report_dialog(bool make_modal)
   city_selection_changed_callback(city_selection);
 }
 
-#ifdef MENUS_GTK3
 /************************************************************************//**
   User has chosen to select all cities
 ****************************************************************************/
-static void city_select_all_callback(GtkMenuItem *item, gpointer data)
+static void city_select_all_callback(GSimpleAction *action, GVariant *parameter,
+                                     gpointer data)
 {
   gtk_tree_selection_select_all(city_selection);
 }
@@ -1302,7 +1302,8 @@ static void city_select_all_callback(GtkMenuItem *item, gpointer data)
 /************************************************************************//**
   User has chosen to unselect all cities
 ****************************************************************************/
-static void city_unselect_all_callback(GtkMenuItem *item, gpointer data)
+static void city_unselect_all_callback(GSimpleAction *action, GVariant *parameter,
+                                       gpointer data)
 {
   gtk_tree_selection_unselect_all(city_selection);
 }
@@ -1310,7 +1311,9 @@ static void city_unselect_all_callback(GtkMenuItem *item, gpointer data)
 /************************************************************************//**
   User has chosen to invert selection
 ****************************************************************************/
-static void city_invert_selection_callback(GtkMenuItem *item, gpointer data)
+static void city_invert_selection_callback(GSimpleAction *action,
+                                           GVariant *parameter,
+                                           gpointer data)
 {
   ITree it;
   GtkTreeModel *model = GTK_TREE_MODEL(city_model);
@@ -1324,6 +1327,7 @@ static void city_invert_selection_callback(GtkMenuItem *item, gpointer data)
   }
 }
 
+#ifdef MENUS_GTK3
 /************************************************************************//**
   User has chosen to select coastal cities
 ****************************************************************************/
@@ -1817,38 +1821,45 @@ static void recreate_sell_menu(void)
   gtk_widget_set_sensitive(city_sell_command,
                            gtk_widget_get_first_child(menu) != NULL);
 }
+#endif /* MENUS_GTK3 */
 
 /************************************************************************//**
   Creates select menu
 ****************************************************************************/
-static void create_select_menu(GtkWidget *item)
+static GMenu *create_select_menu(GActionGroup *group)
 {
-  GtkWidget *menu;
+  GMenu *select_menu;
+  GSimpleAction *act;
 
-  menu = gtk_menu_button_new();
+  select_menu = g_menu_new();
+
+#if 0
   gtk_menu_item_set_submenu(GTK_MENU_ITEM(item), menu);
   g_signal_connect(menu, "show", G_CALLBACK(popup_select_menu), NULL);
+#endif
 
-  item = gtk_menu_item_new_with_label(_("All Cities"));
-  gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-  g_signal_connect(item, "activate",
-		   G_CALLBACK(city_select_all_callback), NULL);
+  act = g_simple_action_new("select_all", NULL);
+  g_action_map_add_action(G_ACTION_MAP(group), G_ACTION(act));
+  g_signal_connect(act, "activate", G_CALLBACK(city_select_all_callback),
+                   NULL);
+  menu_item_append_unref(select_menu, g_menu_item_new(_("All Cities"),
+                                                      "win.select_all"));
 
-  item = gtk_menu_item_new_with_label(_("No Cities"));
-  gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-  g_signal_connect(item, "activate",
-  		   G_CALLBACK(city_unselect_all_callback), NULL);
+  act = g_simple_action_new("select_none", NULL);
+  g_action_map_add_action(G_ACTION_MAP(group), G_ACTION(act));
+  g_signal_connect(act, "activate", G_CALLBACK(city_unselect_all_callback),
+                   NULL);
+  menu_item_append_unref(select_menu, g_menu_item_new(_("No Cities"),
+                                                      "win.select_none"));
 
-  item = gtk_menu_item_new_with_label(_("Invert Selection"));
-  gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-  g_signal_connect(item, "activate",
-		   G_CALLBACK(city_invert_selection_callback), NULL);
+  act = g_simple_action_new("select_invert", NULL);
+  g_action_map_add_action(G_ACTION_MAP(group), G_ACTION(act));
+  g_signal_connect(act, "activate", G_CALLBACK(city_invert_selection_callback),
+                   NULL);
+  menu_item_append_unref(select_menu, g_menu_item_new(_("Invert Selection"),
+                                                      "win.select_invert"));
 
-
-  item = gtk_separator_menu_item_new();
-  gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-
-
+#if 0
   item = gtk_menu_item_new_with_label(_("Building Units"));
   gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
   g_signal_connect(item, "activate",
@@ -1935,8 +1946,12 @@ static void create_select_menu(GtkWidget *item)
   select_cma_item =
 	gtk_menu_item_new_with_label(_("Citizen Governor"));
   gtk_menu_shell_append(GTK_MENU_SHELL(menu), select_cma_item);
+#endif
+
+  return select_menu;
 }
 
+#ifdef MENUS_GTK3
 /************************************************************************//**
   Returns whether city is building given target
 ****************************************************************************/
