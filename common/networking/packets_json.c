@@ -160,8 +160,7 @@ void *get_packet_from_connection_json(struct connection *pc,
     utype.type = utype.itype;
   }
 
-  if (utype.type < 0
-      || utype.type >= PACKET_LAST
+  if (utype.type >= PACKET_LAST
       || (receive_handler = pc->phs.handlers->receive[utype.type]) == NULL) {
     log_verbose("Received unsupported packet type %d (%s). The connection "
                 "will be closed now.",
