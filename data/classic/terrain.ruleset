@@ -184,6 +184,8 @@ ocean_resources = FALSE
 ;                        (lua scripting)
 ;   - NoZoc            = Units on this terrain are not generating or subject
 ;                        to zoc
+;   - EnterBorders     = Borders on this terrain are not blocking peaceful
+;                        units from entering and moving.
 ;   - Frozen           = Frozen/polar terrain. For water tiles, Frozen terrain
 ;                        is generated near poles. Conversion between frozen
 ;                        and unfrozen terrain can be controlled with

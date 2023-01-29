@@ -826,7 +826,10 @@ static void notify_illegal_armistice_units(struct player *phost,
   struct unit *a_unit = NULL;
 
   unit_list_iterate(pguest->units, punit) {
-    if (tile_owner(unit_tile(punit)) == phost
+    struct tile *ptile = unit_tile(punit);
+
+    if (tile_owner(ptile) == phost
+        && !terrain_has_flag(tile_terrain(ptile), TER_ENTER_BORDERS)
         && !is_enter_borders_unit(punit)) {
       nunits++;
       a_unit = punit;
@@ -864,7 +867,10 @@ static void remove_illegal_armistice_units(struct player *plr1,
 {
   /* Remove illegal units */
   unit_list_iterate_safe(plr1->units, punit) {
-    if (tile_owner(unit_tile(punit)) == plr2
+    struct tile *ptile = unit_tile(punit);
+
+    if (tile_owner(ptile) == plr2
+        && !terrain_has_flag(tile_terrain(ptile), TER_ENTER_BORDERS)
         && !is_enter_borders_unit(punit)) {
       notify_player(plr1, unit_tile(punit), E_DIPLOMACY, ftc_server,
                     _("Your %s was disbanded in accordance with "
@@ -874,8 +880,12 @@ static void remove_illegal_armistice_units(struct player *plr1,
       wipe_unit(punit, ULR_ARMISTICE, NULL);
     }
   } unit_list_iterate_safe_end;
+
   unit_list_iterate_safe(plr2->units, punit) {
-    if (tile_owner(unit_tile(punit)) == plr1
+    struct tile *ptile = unit_tile(punit);
+
+    if (tile_owner(ptile) == plr1
+        && !terrain_has_flag(tile_terrain(ptile), TER_ENTER_BORDERS)
         && !is_enter_borders_unit(punit)) {
       notify_player(plr2, unit_tile(punit), E_DIPLOMACY, ftc_server,
                     _("Your %s was disbanded in accordance with "

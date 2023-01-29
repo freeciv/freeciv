@@ -271,6 +271,7 @@ bool player_can_invade_tile(const struct player *pplayer,
 
   return (!ptile_owner
           || ptile_owner == pplayer
+          || terrain_has_flag(tile_terrain(ptile), TER_ENTER_BORDERS)
           || !players_non_invade(pplayer, ptile_owner));
 }
 

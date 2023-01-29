@@ -132,19 +132,22 @@ struct resource_type {
 /* Units on this terrain are not generating or subject to zoc */
 #define SPECENUM_VALUE7 TER_NO_ZOC
 #define SPECENUM_VALUE7NAME N_("NoZoc")
+/* Borders on this terrain are not blocking unit movement */
+#define SPECENUM_VALUE8 TER_ENTER_BORDERS
+#define SPECENUM_VALUE8NAME N_("EnterBorders")
 /* Ice-covered terrain (affects minimap) */
-#define SPECENUM_VALUE8 TER_FROZEN
-#define SPECENUM_VALUE8NAME N_("Frozen")
-#define SPECENUM_VALUE9 TER_USER_1
-#define SPECENUM_VALUE10 TER_USER_2
-#define SPECENUM_VALUE11 TER_USER_3
-#define SPECENUM_VALUE12 TER_USER_4
-#define SPECENUM_VALUE13 TER_USER_5
-#define SPECENUM_VALUE14 TER_USER_6
-#define SPECENUM_VALUE15 TER_USER_7
-#define SPECENUM_VALUE16 TER_USER_8
-#define SPECENUM_VALUE17 TER_USER_9
-#define SPECENUM_VALUE18 TER_USER_LAST
+#define SPECENUM_VALUE9 TER_FROZEN
+#define SPECENUM_VALUE9NAME N_("Frozen")
+#define SPECENUM_VALUE10 TER_USER_1
+#define SPECENUM_VALUE11 TER_USER_2
+#define SPECENUM_VALUE12 TER_USER_3
+#define SPECENUM_VALUE13 TER_USER_4
+#define SPECENUM_VALUE14 TER_USER_5
+#define SPECENUM_VALUE15 TER_USER_6
+#define SPECENUM_VALUE16 TER_USER_7
+#define SPECENUM_VALUE17 TER_USER_8
+#define SPECENUM_VALUE18 TER_USER_9
+#define SPECENUM_VALUE19 TER_USER_LAST
 #define SPECENUM_NAMEOVERRIDE
 #define SPECENUM_BITVECTOR bv_terrain_flags
 #include "specenum_gen.h"

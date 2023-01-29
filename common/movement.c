@@ -602,7 +602,8 @@ bool unit_can_move_to_tile(const struct civ_map *nmap,
        peaceful city is also accepted.
    10) There is no non-allied unit blocking (zoc) [or igzoc is true].
    11) Triremes cannot move out of sight from land.
-   12) It is not the territory of a player we are at peace with.
+   12) It is not the territory of a player we are at peace with,
+       or it's terrain where borders don't count
    13) The unit is unable to disembark from current transporter.
    14) The unit is making a non-native move (e.g. lack of road)
 ****************************************************************************/
@@ -747,7 +748,8 @@ unit_move_to_tile_test(const struct civ_map *nmap,
        enter_enemy_city is false. When enter_enemy_city is true a non
        peaceful city is also accepted.
     6) Triremes cannot move out of sight from land.
-    7) It is not the territory of a player we are at peace with.
+    7) It is not the territory of a player we are at peace with,
+       or it's terrain where borders don't count
 ****************************************************************************/
 enum unit_move_result
 unit_teleport_to_tile_test(const struct civ_map *nmap,

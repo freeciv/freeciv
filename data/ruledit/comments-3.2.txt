@@ -667,6 +667,8 @@ terrains = "\
 ;                        (lua scripting)\n\
 ;   - NoZoc            = Units on this terrain are not generating or subject\n\
 ;                        to zoc\n\
+;   - EnterBorders     = Borders on this terrain are not blocking peaceful\n\
+;                        units from entering and moving.\n\
 ;   - NoFortify        = Units cannot fortify on this terrain\n\
 ;   - Frozen           = Frozen/polar terrain. For water tiles, Frozen terrain\n\
 ;                        is generated near poles. Conversion between frozen\n\
