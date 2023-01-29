@@ -1686,15 +1686,15 @@ static void adjust_improvement_wants_by_effects(struct ai_type *ait,
     requirement_vector_iterate(&peffect->reqs, preq) {
       /* Check if all the requirements for the currently evaluated effect
        * are met, except for having the building that we are evaluating. */
-      if (VUT_IMPROVEMENT == preq->source.kind
-	  && preq->source.value.building == pimprove) {
-	mypreq = preq;
+      if (universal_fulfills_requirement(preq, &source) == ITF_YES) {
+        mypreq = preq;
         present = preq->present;
         continue;
       }
+
       if (!is_req_active(&effect_ctxt, NULL, preq, RPT_POSSIBLE)) {
-	active = FALSE;
-	if (VUT_ADVANCE == preq->source.kind && preq->present) {
+        active = FALSE;
+        if (VUT_ADVANCE == preq->source.kind && preq->present) {
           /* This missing requirement is a missing tech requirement.
            * This will be for some additional effect
            * (For example, in the default ruleset, Mysticism increases
@@ -1774,8 +1774,7 @@ static void adjust_improvement_wants_by_effects(struct ai_type *ait,
       enum req_range range = REQ_RANGE_LOCAL;
 
       requirement_vector_iterate(&(enabler->target_reqs), preq) {
-        if (VUT_IMPROVEMENT == preq->source.kind
-            && preq->source.value.building == pimprove) {
+        if (universal_fulfills_requirement(preq, &source) == ITF_YES) {
           /* Pretend the building is there */
           if (preq->present) {
             range = preq->range; /* Assumption: Max one pr vector */
@@ -2161,8 +2160,25 @@ Impr_type_id dai_find_source_building(struct city *pcity,
           building = preq->source.value.building;
 
           if (!can_city_build_improvement_now(pcity, building)
-              || !is_improvement(building)) {          
+              || !is_improvement(building)) {
             building = NULL;
+            break;
+          }
+        } else if (VUT_IMPR_FLAG == preq->source.kind && preq->present) {
+          /* TODO: Ruleset cache for buildings with specific flag */
+          improvement_iterate(impr) {
+            if (improvement_has_flag(impr, preq->source.value.impr_flag)) {
+              if (can_city_build_improvement_now(pcity, impr)
+                  && is_improvement(impr)) {
+                if (building == NULL) {
+                  building = impr;
+                  break;
+                }
+              }
+            }
+          } improvement_iterate_end;
+
+          if (building == NULL) {
             break;
           }
         } else if (utype != NULL
