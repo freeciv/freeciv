@@ -47,11 +47,13 @@ if get_option('debug')
   pub_conf_data.set('FREECIV_DEBUG', 1)
   add_global_arguments(
      '-Werror',
-     '-Wshadow',
      language: ['c', 'cpp'])
+  add_global_arguments('-Wshadow', language: ['c'])
   if host_system == 'windows'
     # Qt headers have problems with dllimport attributes
     add_global_arguments('-Wno-error=attributes', language : 'cpp')
+  else
+    add_global_arguments('-Wshadow', language: ['cpp'])
   endif
 else
   add_global_arguments('-DQT_NO_DEBUG', language : 'cpp')
