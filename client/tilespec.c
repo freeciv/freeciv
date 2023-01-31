@@ -556,7 +556,7 @@ struct tileset {
   char** preferred_themes;
 };
 
-struct tileset *tileset;
+struct tileset *tileset = NULL;
 struct tileset *unscaled_tileset = NULL;
 
 int focus_unit_state = 0;
