@@ -740,7 +740,9 @@ void client_exit(int return_value)
   if (unscaled_tileset != NULL) {
     tileset_free(unscaled_tileset);
   }
-  tileset_free(tileset);
+  if (tileset != NULL) {
+    tileset_free(tileset);
+  }
 
   ui_exit();
 
