@@ -81,6 +81,11 @@ Before a nation can be included in the main distribution, the following
 files will also have to be edited. Unless you know what you're doing you
 shouldn't need to worry about this.
 
+meson.build
+
+  Add <nation> part of the <nation>.ruleset file name to the
+  'nations' list.
+
 data/nation/Makefile.am
 
   Another list of nation files - add your nation (<nationname>.ruleset)
@@ -200,6 +205,9 @@ include them in the diff -- this should be easier for you, and it
 provides a convenient place for us to grab the sprite name. See the
 section on How to Contribute in the Freeciv wiki for more instructions.
 
+meson.build
+
+  Add base flag file name to the 'flags' list.
 
 
 ----------------------------------------------------------------------
