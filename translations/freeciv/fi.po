@@ -1,5 +1,5 @@
 # Finnish translation for Freeciv
-# Copyright (C) 2002-2003 2005-2009 2011-2012, 2014-2018, 2020-2021
+# Copyright (C) 2002-2003 2005-2009 2011-2012, 2014-2018, 2020-2023
 # Sini Ruohomaa <sini.ruohomaa@iki.fi>,
 # Markus Linnakangas <markus.linnakangas@luukku.com>,
 # Pekka Pessi <nospam@pessi.fi>,
@@ -29,8 +29,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 2.6\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2023-01-24 01:54+0200\n"
-"PO-Revision-Date: 2022-07-09 04:48+0300\n"
+"POT-Creation-Date: 2023-01-31 21:45+0200\n"
+"PO-Revision-Date: 2023-01-31 21:50+0200\n"
 "Last-Translator: Sini Ruohomaa <sini.ruohomaa@iki.fi>\n"
 "Language-Team: None <freeciv-i18n@freelists.org>\n"
 "Language: fi\n"
@@ -9580,7 +9580,7 @@ msgstr "%s %s %s(H:%d P:%d L:%s TV:%d) VP:%d%%"
 #: client/gui-sdl2/dialogs.c:1922 client/gui-sdl2/dialogs.c:2047
 #, c-format
 msgid " CtW: Att:%d%% Def:%d%%"
-msgstr "Kert.: H:%d%% P:%d%%"
+msgstr " Voittom.: H:%d%% P:%d%%"
 
 #: client/gui-sdl/dialogs.c:1281 client/gui-sdl2/dialogs.c:1285
 #, c-format
@@ -16740,7 +16740,7 @@ msgstr "Yksikkö: %s | %s (%s, %s)"
 #: client/text.c:421
 #, c-format
 msgid "Chance to win: A:%d%% D:%d%%"
-msgstr "Kertoimet: A:%d%% D:%d%%"
+msgstr "Voittomahdollisuudet: A:%d%% D:%d%%"
 
 #. TRANS: A is attack power, D is defense power, FP is firepower,
 #. * HP is hitpoints (current and max).
@@ -37342,10 +37342,8 @@ msgid "Cannot fetch and parse modpack list"
 msgstr "Virhe muunnospakettiluettelon noutamisessa ja tulkinnassa"
 
 #: tools/download.c:424
-#, fuzzy
-#| msgid "Load modpack list from given URL"
 msgid "Invalid modpack list URL"
-msgstr "Lataa muunnospakettiluettelo annetusta osoitteesta"
+msgstr "Virheellinen muunnospakettiluettelon osoite"
 
 #: tools/download.c:430
 msgid "Modpack list has no capability string"
