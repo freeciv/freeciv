@@ -437,7 +437,7 @@ int client_main(int argc, char *argv[], bool postpone_tileset)
                   _("Print a summary of the options"));
 #ifdef FREECIV_DEBUG
       cmdhelp_add(help, "H", "Hackless",
-                  _("Do not request hack access to local, but not spawned, server"));
+                  _("Do not request hack access to local server"));
 #endif /* FREECIV_DEBUG */
       cmdhelp_add(help, "l",
                   /* TRANS: "log" is exactly what user must type, do not translate. */

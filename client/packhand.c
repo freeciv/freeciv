@@ -431,9 +431,9 @@ void handle_server_join_reply(bool you_can_join, const char *message,
             sizeof(client_info.distribution));
     send_packet_client_info(&client.conn, &client_info);
 
-    /* we could always use hack, verify we're local */
+    /* We could always use hack, verify we're local */
 #ifdef FREECIV_DEBUG
-    if (!hackless || is_server_running())
+    if (!hackless)
 #endif /* FREECIV_DEBUG */
     {
       send_client_wants_hack(challenge_file);
