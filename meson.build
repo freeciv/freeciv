@@ -173,7 +173,6 @@ endif
 
 pub_headers = [
   'locale.h',
-  'libintl.h',
   'inttypes.h',
   'stdint.h',
   'sys/types.h',
@@ -561,7 +560,16 @@ else
   jansson_dep = []
 endif
 
-if get_option('nls')
+nls_req = get_option('nls')
+
+if c_compiler.has_header('libintl.h', args: header_arg)
+  pub_conf_data.set('FREECIV_HAVE_LIBINTL_H', 1)
+  priv_conf_data.set('HAVE_LIBINTL_H', 1)
+elif nls_req
+  error('nls support requested, but libintl.h header not found')
+endif
+
+if nls_req
   pub_conf_data.set('FREECIV_ENABLE_NLS', 1)
   priv_conf_data.set('ENABLE_NLS', 1)
   gettext_dep = c_compiler.find_library('intl', dirs: cross_lib_path,
