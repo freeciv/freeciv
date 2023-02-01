@@ -293,8 +293,6 @@ static void show_native_tiles_callback(GSimpleAction *action,
 static void show_city_full_bar_callback(GSimpleAction *action,
                                         GVariant *parameter,
                                         gpointer data);
-
-#ifdef MENUS_GTK3
 static void show_city_names_callback(GSimpleAction *action,
                                      GVariant *parameter,
                                      gpointer data);
@@ -307,6 +305,8 @@ static void show_city_productions_callback(GSimpleAction *action,
 static void show_city_buy_cost_callback(GSimpleAction *action,
                                         GVariant *parameter,
                                         gpointer data);
+
+#ifdef MENUS_GTK3
 static void show_city_trade_routes_callback(GSimpleAction *action,
                                             GVariant *parameter,
                                             gpointer data);
@@ -359,10 +359,11 @@ static void show_stack_size_callback(GSimpleAction *action,
 static void show_focus_unit_callback(GSimpleAction *action,
                                      GVariant *parameter,
                                      gpointer data);
+#endif /* MENUS_GTK3 */
+
 static void show_fog_of_war_callback(GSimpleAction *action,
                                      GVariant *parameter,
                                      gpointer data);
-#endif /* MENUS_GTK3 */
 
 #ifdef MENUS_GTK3
 static void recalc_borders_callback(GtkMenuItem *item, gpointer data);
@@ -608,10 +609,26 @@ static struct menu_entry_info menu_entries[] =
   { "SHOW_CITY_FULL_BAR", N_("City Full Bar"),
     "show_city_full_bar", NULL, MGROUP_SAFE,
     show_city_full_bar_callback, FALSE },
+  { "SHOW_CITY_NAMES", N_("City _Names"),
+    "show_city_names", "<ctrl>n", MGROUP_SAFE,
+    show_city_names_callback, FALSE },
+  { "SHOW_CITY_GROWTH", N_("City G_rowth"),
+    "show_city_growth", "<ctrl>o", MGROUP_SAFE,
+    show_city_growth_callback, FALSE },
+  { "SHOW_CITY_PRODUCTIONS", N_("City _Production Levels"),
+    "show_city_productions", "<ctrl>p", MGROUP_SAFE,
+    show_city_productions_callback, FALSE },
+  { "SHOW_CITY_BUY_COST", N_("City Buy Cost"),
+    "show_city_buy_cost", NULL, MGROUP_SAFE,
+    show_city_buy_cost_callback, FALSE },
 
   { "SHOW_STACK_SIZE", N_("Unit Stack Size"),
     "show_stack_size", "<ctrl>plus", MGROUP_SAFE,
     show_stack_size_callback, FALSE },
+
+  { "SHOW_FOG_OF_WAR", N_("Fog of _War"),
+    "show_fow", NULL, MGROUP_SAFE,
+    show_fog_of_war_callback, FALSE },
 
   { "FULL_SCREEN", N_("_Fullscreen"),
     "full_screen", "<ctrl>F11", MGROUP_SAFE,
@@ -871,14 +888,6 @@ static struct menu_entry_info menu_entries[] =
   { "EDIT_MODE", N_("_Editing Mode"), GDK_KEY_e, GDK_CONTROL_MASK,
     G_CALLBACK(edit_mode_callback), MGROUP_SAFE },
 
-  { "SHOW_CITY_NAMES", N_("City _Names"), GDK_KEY_n, GDK_CONTROL_MASK,
-    G_CALLBACK(show_city_names_callback), MGROUP_SAFE },
-  { "SHOW_CITY_GROWTH", N_("City G_rowth"), GDK_KEY_o, GDK_CONTROL_MASK,
-    G_CALLBACK(show_city_growth_callback), MGROUP_SAFE },
-  { "SHOW_CITY_PRODUCTIONS", N_("City _Production Levels"), GDK_KEY_p, GDK_CONTROL_MASK,
-    G_CALLBACK(show_city_productions_callback), MGROUP_SAFE },
-  { "SHOW_CITY_BUY_COST", N_("City Buy Cost"), 0, 0,
-    G_CALLBACK(show_city_buy_cost_callback), MGROUP_SAFE },
   { "SHOW_CITY_TRADE_ROUTES", N_("City Tra_deroutes"), GDK_KEY_d, GDK_CONTROL_MASK,
     G_CALLBACK(show_city_trade_routes_callback), MGROUP_SAFE },
   { "SHOW_TERRAIN", N_("_Terrain"), 0, 0,
@@ -909,8 +918,6 @@ static struct menu_entry_info menu_entries[] =
     G_CALLBACK(show_unit_shields_callback), MGROUP_SAFE },
   { "SHOW_FOCUS_UNIT", N_("Focu_s Unit"), 0, 0,
     G_CALLBACK(show_focus_unit_callback), MGROUP_SAFE },
-  { "SHOW_FOG_OF_WAR", N_("Fog of _War"), 0, 0,
-    G_CALLBACK(show_fog_of_war_callback), MGROUP_SAFE },
 
   { "RECALC_BORDERS", N_("Recalculate _Borders"), 0, 0,
     G_CALLBACK(recalc_borders_callback), MGROUP_EDIT },
@@ -979,7 +986,12 @@ enum {
   VMENU_NAT_BORDERS,
   VMENU_NATIVE_TILES,
   VMENU_CITY_FULL_BAR,
+  VMENU_CITY_NAMES,
+  VMENU_CITY_GROWTH,
+  VMENU_CITY_PRODUCTIONS,
+  VMENU_CITY_BUY_COST,
   VMENU_STACK_SIZE,
+  VMENU_FOW,
   VMENU_FULL_SCREEN
 };
 
@@ -1721,7 +1733,6 @@ static void show_city_full_bar_callback(GSimpleAction *action,
                          create_toggle_menu_item_for_key("SHOW_CITY_FULL_BAR"));
 }
 
-#ifdef MENUS_GTK3
 /************************************************************************//**
   Item "SHOW_CITY_NAMES" callback.
 ****************************************************************************/
@@ -1729,10 +1740,19 @@ static void show_city_names_callback(GSimpleAction *action,
                                      GVariant *parameter,
                                      gpointer data)
 {
-  if (gui_options.draw_city_names ^ gtk_check_menu_item_get_active(item)) {
-    key_city_names_toggle();
-    view_menu_update_sensitivity();
-  }
+  struct menu_entry_info *info = (struct menu_entry_info *)data;
+
+  info->state ^= 1;
+
+  key_city_names_toggle();
+
+#ifdef MENUS_GTK3
+  view_menu_update_sensitivity();
+#endif /* MENUS_GTK3 */
+
+  g_menu_remove(view_menu, VMENU_CITY_NAMES);
+  menu_item_insert_unref(view_menu, VMENU_CITY_NAMES,
+                         create_toggle_menu_item_for_key("SHOW_CITY_NAMES"));
 }
 
 /************************************************************************//**
@@ -1742,9 +1762,15 @@ static void show_city_growth_callback(GSimpleAction *action,
                                       GVariant *parameter,
                                       gpointer data)
 {
-  if (gui_options.draw_city_growth ^ gtk_check_menu_item_get_active(item)) {
-    key_city_growth_toggle();
-  }
+  struct menu_entry_info *info = (struct menu_entry_info *)data;
+
+  info->state ^= 1;
+
+  key_city_growth_toggle();
+
+  g_menu_remove(view_menu, VMENU_CITY_GROWTH);
+  menu_item_insert_unref(view_menu, VMENU_CITY_GROWTH,
+                         create_toggle_menu_item_for_key("SHOW_CITY_GROWTH"));
 }
 
 /************************************************************************//**
@@ -1754,10 +1780,19 @@ static void show_city_productions_callback(GSimpleAction *action,
                                            GVariant *parameter,
                                            gpointer data)
 {
-  if (gui_options.draw_city_productions ^ gtk_check_menu_item_get_active(item)) {
-    key_city_productions_toggle();
-    view_menu_update_sensitivity();
-  }
+  struct menu_entry_info *info = (struct menu_entry_info *)data;
+
+  info->state ^= 1;
+
+  key_city_productions_toggle();
+
+#ifdef MENUS_GTK3
+  view_menu_update_sensitivity();
+#endif
+
+  g_menu_remove(view_menu, VMENU_CITY_PRODUCTIONS);
+  menu_item_insert_unref(view_menu, VMENU_CITY_PRODUCTIONS,
+                         create_toggle_menu_item_for_key("SHOW_CITY_PRODUCTIONS"));
 }
 
 /************************************************************************//**
@@ -1767,11 +1802,18 @@ static void show_city_buy_cost_callback(GSimpleAction *action,
                                         GVariant *parameter,
                                         gpointer data)
 {
-  if (gui_options.draw_city_buycost ^ gtk_check_menu_item_get_active(item)) {
-    key_city_buycost_toggle();
-  }
+  struct menu_entry_info *info = (struct menu_entry_info *)data;
+
+  info->state ^= 1;
+
+  key_city_buycost_toggle();
+
+  g_menu_remove(view_menu, VMENU_CITY_BUY_COST);
+  menu_item_insert_unref(view_menu, VMENU_CITY_BUY_COST,
+                         create_toggle_menu_item_for_key("SHOW_CITY_BUY_COST"));
 }
 
+#ifdef MENUS_GTK3
 /************************************************************************//**
   Item "SHOW_CITY_TRADE_ROUTES" callback.
 ****************************************************************************/
@@ -1969,6 +2011,7 @@ static void show_focus_unit_callback(GSimpleAction *action,
     view_menu_update_sensitivity();
   }
 }
+#endif /* MENUS_GTK3 */
 
 /************************************************************************//**
   Item "SHOW_FOG_OF_WAR" callback.
@@ -1976,12 +2019,20 @@ static void show_focus_unit_callback(GSimpleAction *action,
 static void show_fog_of_war_callback(GSimpleAction *action, GVariant *parameter,
                                      gpointer data)
 {
-  if (gui_options.draw_fog_of_war ^ gtk_check_menu_item_get_active(item)) {
-    key_fog_of_war_toggle();
-    view_menu_update_sensitivity();
-  }
-}
+  struct menu_entry_info *info = (struct menu_entry_info *)data;
+
+  info->state ^= 1;
+
+  key_fog_of_war_toggle();
+
+#ifdef MENUS_GTK3
+  view_menu_update_sensitivity();
 #endif /* MENUS_GTK3 */
+
+  g_menu_remove(view_menu, VMENU_FOW);
+  menu_item_insert_unref(view_menu, VMENU_FOW,
+                         create_toggle_menu_item_for_key("SHOW_FOG_OF_WAR"));
+}
 
 /************************************************************************//**
   Item "FULL_SCREEN" callback.
@@ -2836,7 +2887,12 @@ const struct menu_entry_option_map meoms[] = {
   { "SHOW_NAT_BORDERS", &gui_options.draw_borders },
   { "SHOW_NATIVE_TILES", &gui_options.draw_native },
   { "SHOW_CITY_FULL_BAR", &gui_options.draw_full_citybar },
+  { "SHOW_CITY_NAMES", &gui_options.draw_city_names },
+  { "SHOW_CITY_GROWTH", &gui_options.draw_city_growth },
+  { "SHOW_CITY_PRODUCTIONS", &gui_options.draw_city_productions },
+  { "SHOW_CITY_BUY_COST", &gui_options.draw_city_buycost },
   { "SHOW_STACK_SIZE", &gui_options.draw_unit_stack_size },
+  { "SHOW_FOG_OF_WAR", &gui_options.draw_fog_of_war },
 
   { NULL, NULL }
 };
@@ -2978,7 +3034,13 @@ static GMenu *setup_menus(GtkApplication *app)
   menu_entry_init(view_menu, "SHOW_NAT_BORDERS");
   menu_entry_init(view_menu, "SHOW_NATIVE_TILES");
   menu_entry_init(view_menu, "SHOW_CITY_FULL_BAR");
+  menu_entry_init(view_menu, "SHOW_CITY_NAMES");
+  menu_entry_init(view_menu, "SHOW_CITY_GROWTH");
+  menu_entry_init(view_menu, "SHOW_CITY_PRODUCTIONS");
+  menu_entry_init(view_menu, "SHOW_CITY_BUY_COST");
   menu_entry_init(view_menu, "SHOW_STACK_SIZE");
+
+  menu_entry_init(view_menu, "SHOW_FOG_OF_WAR");
 
   menu_entry_init(view_menu, "FULL_SCREEN");
   menu_entry_init(view_menu, "CENTER_VIEW");
