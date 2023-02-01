@@ -10,7 +10,7 @@ see the ChangeLog file.
 CHANGES FROM 3.0.5 to 3.0.6
 ---------------------------
 
-   (from <https://www.freeciv.org/wiki/NEWS-3.0.6>, 2023-01-29)
+   (from <https://www.freeciv.org/wiki/NEWS-3.0.6>, 2023-02-02)
 
 3.0.6 is a bugfix release in freeciv-3.0 series. The focus has been
 in supporting current bleeding edge systems, to make freeciv compatible
@@ -105,6 +105,8 @@ Clients
            osdn#46289
          + Fixed issues, potetially even client crash, with
            prev/next city buttons osdn#46404
+         + Fixed crash when gui-specific help requested by "-- --help"
+           commandline parameters osdn#46660
 
     * sdl2
          + Fixed issues stemming from button drawing being ambigious about
@@ -139,7 +141,7 @@ Help / Documentation
 Translations
 
     * Updated translations:
-         + Complete translations: French, Russian
+         + Complete translations: French, Polish, Russian
          + Incomplete translations:
            Finnish (100% core, 93% nations, 100% ruledit)
 
