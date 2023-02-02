@@ -167,7 +167,7 @@ void maybe_automatic_meta_message(const char *automatic)
 }
 
 /*********************************************************************//**
-  Set the metaserver patches string
+  Set the metaserver patches string.
 *************************************************************************/
 void set_meta_patches_string(const char *string)
 {
@@ -175,7 +175,7 @@ void set_meta_patches_string(const char *string)
 }
 
 /*********************************************************************//**
-  Set the metaserver message string
+  Set the metaserver message string.
 *************************************************************************/
 void set_meta_message_string(const char *string)
 {
@@ -183,7 +183,7 @@ void set_meta_message_string(const char *string)
 }
 
 /*********************************************************************//**
-  Set user defined metaserver message string
+  Set user defined metaserver message string.
 *************************************************************************/
 void set_user_meta_message_string(const char *string)
 {
@@ -193,7 +193,7 @@ void set_user_meta_message_string(const char *string)
   } else {
     /* Remove user meta message. We will use automatic messages instead */
     game.server.meta_info.user_message[0] = '\0';
-    set_meta_message_string(default_meta_message_string());    
+    set_meta_message_string(default_meta_message_string());
   }
 }
 
@@ -285,7 +285,7 @@ static bool send_to_metaserver(enum meta_flag flag)
     break;
   }
 
-  /* get hostname */
+  /* Get hostname */
   if (srvarg.identity_name[0] != '\0') {
     sz_strlcpy(host, srvarg.identity_name);
   } else if (fc_gethostname(host, sizeof(host)) != 0) {
@@ -323,11 +323,11 @@ static bool send_to_metaserver(enum meta_flag flag)
     netfile_add_form_str(post, "message",
                          get_meta_message_string());
 
-    /* NOTE: send info for ALL players or none at all. */
+    /* NOTE: Send info for ALL players or none at all. */
     if (normal_player_count() == 0) {
       netfile_add_form_int(post, "dropplrs", 1);
     } else {
-      players = 0; /* a counter for players_available */
+      players = 0; /* Counter for players_available */
       humans = 0;
 
       players_iterate(plr) {
@@ -351,18 +351,18 @@ static bool send_to_metaserver(enum meta_flag flag)
         netfile_add_form_str(post, "plt[]", type);
         netfile_add_form_str(post, "pll[]", player_name(plr));
         netfile_add_form_str(post, "pln[]",
-                             plr->nation != NO_NATION_SELECTED 
+                             plr->nation != NO_NATION_SELECTED
                              ? nation_plural_for_player(plr)
                              : "none");
         netfile_add_form_str(post, "plf[]",
-                             plr->nation != NO_NATION_SELECTED 
+                             plr->nation != NO_NATION_SELECTED
                              ? nation_of_player(plr)->flag_graphic_str
                              : "none");
         netfile_add_form_str(post, "plh[]",
                              pconn ? pconn->addr : "");
 
-        /* is this player available to take?
-         * TODO: there's some duplication here with 
+        /* Is this player available to take?
+         * TODO: There's some duplication here with
          * stdinhand.c:is_allowed_to_take() */
         if (is_barbarian(plr) && !strchr(game.server.allow_take, 'b')) {
           is_player_available = FALSE;
@@ -391,7 +391,7 @@ static bool send_to_metaserver(enum meta_flag flag)
         }
       } players_iterate_end;
 
-      /* send the number of available players. */
+      /* Send the number of available players. */
       netfile_add_form_int(post, "available", players);
       netfile_add_form_int(post, "humans", humans);
     }
@@ -408,7 +408,7 @@ static bool send_to_metaserver(enum meta_flag flag)
         meta_insert_setting(post, settings[i]);
       }
 
-      /* HACK: send the most determinant setting for the map size. */
+      /* HACK: Send the most determinant setting for the map size. */
       switch (wld.map.server.mapsize) {
       case MAPSIZE_FULLSIZE:
         meta_insert_setting(post, "size");
@@ -450,7 +450,7 @@ static bool send_to_metaserver(enum meta_flag flag)
 #endif /* FREECIV_META_ENABLED */
 
 /*********************************************************************//**
-  Stop sending updates to metaserver
+  Stop sending updates to metaserver.
 *************************************************************************/
 void server_close_meta(void)
 {
@@ -512,8 +512,8 @@ bool send_server_info_to_metaserver(enum meta_flag flag)
     }
   }
 
-  /* if we're bidding farewell, ignore all timers */
-  if (flag == META_GOODBYE) { 
+  /* If we're bidding farewell, ignore all timers */
+  if (flag == META_GOODBYE) {
     if (last_send_timer) {
       timer_destroy(last_send_timer);
       last_send_timer = NULL;
@@ -528,18 +528,19 @@ bool send_server_info_to_metaserver(enum meta_flag flag)
     return TRUE;
   }
 
-  /* don't allow the user to spam the metaserver with updates */
+  /* Don't allow the user to spam the metaserver with updates */
   if (last_send_timer && (timer_read_seconds(last_send_timer)
                                           < METASERVER_MIN_UPDATE_INTERVAL)) {
     if (flag == META_INFO) {
-      want_update = TRUE; /* we couldn't update now, but update a.s.a.p. */
+      want_update = TRUE; /* We couldn't update now, but update a.s.a.p. */
     }
+
     return FALSE;
   }
 
-  /* if we're asking for a refresh, only do so if 
+  /* If we're asking for a refresh, only do so if
    * we've exceeded the refresh interval */
-  if ((flag == META_REFRESH) && !want_update && last_send_timer 
+  if ((flag == META_REFRESH) && !want_update && last_send_timer
       && (timer_read_seconds(last_send_timer) < METASERVER_REFRESH_INTERVAL)) {
     return FALSE;
   }
