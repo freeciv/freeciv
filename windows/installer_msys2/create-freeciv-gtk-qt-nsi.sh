@@ -288,17 +288,19 @@ FunctionEnd
 
 EOF
 
-### uninstall section ###
+### Uninstall section ###
 
 cat <<EOF
-; special uninstall section.
+; Special uninstall section.
 Section "Uninstall"
 
-  ; remove files
+  ; Remove files
 EOF
 
 find $1 -type f |
 grep -v '/$' |
+sed 's|meson/install/||' |
+sed 's|autotools/install/||' |
 sed 's|[^/]*||' |
 tr '/' '\\' | while read -r name
 do
@@ -307,6 +309,8 @@ done
 
 find $1 -depth -type d |
 grep -v '/$' |
+sed 's|meson/install/||' |
+sed 's|autotools/install/||' |
 sed 's|[^/]*||' |
 tr '/' '\\' | while read -r name
 do
