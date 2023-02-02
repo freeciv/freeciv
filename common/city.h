@@ -214,17 +214,18 @@ void citylog_map_workers(enum log_level level, struct city *pcity);
   } city_map_iterate_end;						\
 }
 
-/* Does the same thing as city_tile_iterate_index, but keeps the city
+/* Does the same thing as city_tile_iterate_index(), but keeps the city
  * coordinates hidden. */
 #define city_tile_iterate(_radius_sq, _city_tile, _tile) {              \
-  city_map_iterate_outwards_radius_sq(CITY_MAP_CENTER_RADIUS_SQ,	\
-                                      _radius_sq, _x, _y)	        \
-  struct tile *_tile = city_map_to_tile(_city_tile, _radius_sq,         \
-                                        _x, _y);			\
+  const struct tile *_center##_tile = _city_tile;                       \
+  city_map_iterate_outwards_radius_sq(CITY_MAP_CENTER_RADIUS_SQ,        \
+                                      _radius_sq, _x, _y)               \
+  struct tile *_tile = city_map_to_tile(_center##_tile, _radius_sq,     \
+                                        _x, _y);                        \
   if (NULL != _tile) {
 
-#define city_tile_iterate_end					        \
-    }									\
+#define city_tile_iterate_end                                           \
+    }                                                                   \
   } city_map_iterate_outwards_radius_sq_end;
 
 /* Improvement status (for cities' lists of improvements)
