@@ -122,5 +122,6 @@ Feel free to use it as you wish.
 .IR freeciv-mp-cli (6)
 .IR freeciv-mp-gtk2 (6)
 .IR freeciv-mp-gtk3 (6)
+.IR freeciv-mp-gtk4 (6)
 .IR freeciv-mp-qt (6)
 and the Client Manual and the Server Manual on the Freeciv website.
