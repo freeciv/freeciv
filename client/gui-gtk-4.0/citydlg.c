@@ -231,8 +231,11 @@ static void city_dialog_map_create(struct city_dialog *pdialog,
 static void city_dialog_map_recenter(GtkWidget *map_canvas_sw);
 
 static struct city_dialog *get_city_dialog(struct city *pcity);
-static gboolean keyboard_handler(GtkWidget *widget, GdkEvent *event,
-                                 struct city_dialog *pdialog);
+static gboolean citydlg_keyboard_handler(GtkEventControllerKey *controller,
+                                         guint keyval,
+                                         guint keycode,
+                                         GdkModifierType state,
+                                         gpointer data);
 
 static GtkWidget *create_city_info_table(struct city_dialog *pdialog,
                                          GtkWidget **info_label);
@@ -626,16 +629,15 @@ void popdown_all_city_dialogs(void)
 /***********************************************************************//**
   Keyboard handler for city dialog
 ***************************************************************************/
-static gboolean keyboard_handler(GtkWidget *widget, GdkEvent *event,
-                                 struct city_dialog *pdialog)
+static gboolean citydlg_keyboard_handler(GtkEventControllerKey *controller,
+                                         guint keyval,
+                                         guint keycode,
+                                         GdkModifierType state,
+                                         gpointer data)
 {
-  GdkModifierType state;
+  struct city_dialog *pdialog = (struct city_dialog *)data;
 
-  state = gdk_event_get_modifier_state(event);
   if (state & GDK_CONTROL_MASK) {
-    guint keyval;
-
-    keyval = gdk_key_event_get_keyval(event);
     switch (keyval) {
     case GDK_KEY_Left:
       gtk_notebook_prev_page(GTK_NOTEBOOK(pdialog->notebook));
@@ -1569,25 +1571,25 @@ static struct city_dialog *create_city_dialog(struct city *pcity)
   pdialog->pcity = pcity;
   pdialog->sell_shell = NULL;
   pdialog->rename_shell = NULL;
-  pdialog->happiness.map_canvas.sw = NULL;      /* make sure NULL if spy */
-  pdialog->happiness.map_canvas.darea = NULL;   /* ditto */
-  pdialog->happiness.citizens = NULL;           /* ditto */
+  pdialog->happiness.map_canvas.sw = NULL;      /* Make sure NULL if spy */
+  pdialog->happiness.map_canvas.darea = NULL;   /* Ditto */
+  pdialog->happiness.citizens = NULL;           /* Ditto */
   pdialog->cma_editor = NULL;
   pdialog->map_canvas_store_unscaled
     = cairo_image_surface_create(CAIRO_FORMAT_ARGB32,
-            canvas_width, canvas_height);
+                                 canvas_width, canvas_height);
 
   pdialog->shell = gtk_dialog_new();
   gtk_window_set_title(GTK_WINDOW(pdialog->shell), city_name_get(pcity));
   setup_dialog(pdialog->shell, toplevel);
 
   g_signal_connect(pdialog->shell, "destroy",
-		   G_CALLBACK(city_destroy_callback), pdialog);
+                   G_CALLBACK(city_destroy_callback), pdialog);
   gtk_widget_set_name(pdialog->shell, "Freeciv");
 
   gtk_widget_realize(pdialog->shell);
 
-  /* keep the icon of the executable on Windows (see PR#36491) */
+  /* Keep the icon of the executable on Windows (see PR#36491) */
 #ifndef FREECIV_MSWINDOWS
   {
     gtk_window_set_icon_name(GTK_WINDOW(pdialog->shell), "citydlg");
@@ -1652,7 +1654,7 @@ static struct city_dialog *create_city_dialog(struct city *pcity)
   create_and_append_buildings_page(pdialog);
   create_and_append_worklist_page(pdialog);
 
-  /* only create these tabs if not a spy */
+  /* Only create these tabs if not a spy */
   if (!client_has_player() || city_owner(pcity) == client_player()) {
     create_and_append_happiness_page(pdialog);
   }
@@ -1668,7 +1670,7 @@ static struct city_dialog *create_city_dialog(struct city *pcity)
 
   /**** End of Notebook ****/
 
-  /* bottom buttons */
+  /* Bottom buttons */
 
   pdialog->show_units_command =
     gtk_dialog_add_button(GTK_DIALOG(pdialog->shell), _("_List present units..."), CDLGR_UNITS);
@@ -1693,10 +1695,10 @@ static struct city_dialog *create_city_dialog(struct city *pcity)
                                         _("_Close"), GTK_RESPONSE_CLOSE);
 
   gtk_dialog_set_default_response(GTK_DIALOG(pdialog->shell),
-	GTK_RESPONSE_CLOSE);
+                                  GTK_RESPONSE_CLOSE);
 
   g_signal_connect(close_command, "clicked",
-		   G_CALLBACK(close_callback), pdialog);
+                   G_CALLBACK(close_callback), pdialog);
 
   g_signal_connect(pdialog->prev_command, "clicked",
                    G_CALLBACK(switch_city_callback), pdialog);
@@ -1704,16 +1706,18 @@ static struct city_dialog *create_city_dialog(struct city *pcity)
   g_signal_connect(pdialog->next_command, "clicked",
                    G_CALLBACK(switch_city_callback), pdialog);
 
-  /* some other things we gotta do */
+  /* Some other things we gotta do */
 
-  g_signal_connect(pdialog->shell, "key_press_event",
-		   G_CALLBACK(keyboard_handler), pdialog);
+  controller = gtk_event_controller_key_new();
+  g_signal_connect(controller, "key-pressed",
+                   G_CALLBACK(citydlg_keyboard_handler), pdialog);
+  gtk_widget_add_controller(pdialog->shell, controller);
 
   dialog_list_prepend(dialog_list, pdialog);
 
   real_city_dialog_refresh(pdialog->pcity);
 
-  /* need to do this every time a new dialog is opened. */
+  /* Need to do this every time a new dialog is opened. */
   city_dialog_update_prev_next();
 
   gtk_widget_show(pdialog->shell);
