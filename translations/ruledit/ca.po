@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ca\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2022-12-10 04:12+0200\n"
+"POT-Creation-Date: 2023-01-29 08:24+0200\n"
 "PO-Revision-Date: 2022-10-04 10:56+0200\n"
 "Last-Translator: Joan Creus <joan.creusandreu at gmail dot com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -131,50 +131,50 @@ msgstr "Traient %s"
 msgid "Needed by %s"
 msgstr "El necessita %s"
 
-#: tools/ruledit/ruledit.cpp:118
+#: tools/ruledit/ruledit.cpp:120
 msgid "Failed to load comments.txt"
 msgstr "No s'ha pogut carregar comments.txt"
 
-#: tools/ruledit/ruledit.cpp:152
+#: tools/ruledit/ruledit.cpp:153
 msgid "Print a summary of the options"
 msgstr "Mostrar un resum de les opcions"
 
-#: tools/ruledit/ruledit.cpp:154
+#: tools/ruledit/ruledit.cpp:155
 msgid "Print the version number"
 msgstr "Mostrar la versió"
 
 #. TRANS: argument (don't translate) VALUE (translate)
-#: tools/ruledit/ruledit.cpp:157
+#: tools/ruledit/ruledit.cpp:158
 msgid "ruleset RULESET"
 msgstr "ruleset JOC_DE_REGLES"
 
-#: tools/ruledit/ruledit.cpp:158
+#: tools/ruledit/ruledit.cpp:159
 msgid "Ruleset to use as the starting point."
 msgstr "Joc de regles a utilitzar com a punt de partida."
 
 #. TRANS: "Fatal" is exactly what user must type, do not translate.
-#: tools/ruledit/ruledit.cpp:162
+#: tools/ruledit/ruledit.cpp:163
 msgid "Fatal [SIGNAL]"
 msgstr "Fatal [SENYAL]"
 
-#: tools/ruledit/ruledit.cpp:163
+#: tools/ruledit/ruledit.cpp:164
 msgid "Raise a signal on failed assertion"
 msgstr "Aixecar un senyal si falla una afirmació"
 
-#: tools/ruledit/ruledit.cpp:177
+#: tools/ruledit/ruledit.cpp:178
 msgid "Can only edit one ruleset at a time.\n"
 msgstr "Només es pot editar un joc de regles alhora.\n"
 
-#: tools/ruledit/ruledit.cpp:188
+#: tools/ruledit/ruledit.cpp:189
 #, c-format
 msgid "Invalid signal number \"%s\".\n"
 msgstr "Número de senyal no vàlid \"%s\".\n"
 
-#: tools/ruledit/ruledit.cpp:190
+#: tools/ruledit/ruledit.cpp:191
 msgid "Try using --help.\n"
 msgstr "Provar d'utilitzar --help.\n"
 
-#: tools/ruledit/ruledit.cpp:197
+#: tools/ruledit/ruledit.cpp:198
 #, c-format
 msgid "Unrecognized option: \"%s\"\n"
 msgstr "Opció no reconeguda: \"%s\"\n"
@@ -639,20 +639,20 @@ msgstr "%s evita"
 msgid "Effect"
 msgstr "Efecte"
 
-#: tools/ruledit/validity.c:122
+#: tools/ruledit/validity.c:132
 #, c-format
 msgid "%s action enabler"
 msgstr "%s facilitador d'accions"
 
-#: tools/ruledit/validity.c:144
+#: tools/ruledit/validity.c:154
 msgid "Music Style"
 msgstr "Estil Musical"
 
-#: tools/ruledit/validity.c:265
+#: tools/ruledit/validity.c:275
 msgid "Conflicting extra"
 msgstr "Extra en conflicte"
 
-#: tools/ruledit/validity.c:268
+#: tools/ruledit/validity.c:278
 msgid "Hidden extra"
 msgstr "Extra amagat"
 

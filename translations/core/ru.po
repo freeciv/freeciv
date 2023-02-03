@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2023-01-24 12:43+0500\n"
+"POT-Creation-Date: 2023-02-01 23:53+0200\n"
 "PO-Revision-Date: 2023-01-24 12:06+0500\n"
 "Last-Translator: Konstantin Vedeneev <konved@gmail.com>\n"
 "Language-Team: Russian <freeciv.ru@freelists.org>\n"
@@ -613,10 +613,10 @@ msgstr "никогда"
 #: client/citydlg_common.c:352 client/gui-gtk-2.0/citydlg.c:1583
 #: client/gui-gtk-2.0/helpdlg.c:1203 client/gui-gtk-2.0/helpdlg.c:1215
 #: client/gui-gtk-2.0/helpdlg.c:1226 client/gui-gtk-3.0/citydlg.c:1840
-#: client/gui-gtk-3.0/helpdlg.c:1316 client/gui-gtk-3.0/helpdlg.c:1328
-#: client/gui-gtk-3.0/helpdlg.c:1339 client/gui-gtk-3.22/citydlg.c:1874
-#: client/gui-gtk-3.22/helpdlg.c:1315 client/gui-gtk-3.22/helpdlg.c:1327
-#: client/gui-gtk-3.22/helpdlg.c:1338 client/gui-qt/citydlg.cpp:3037
+#: client/gui-gtk-3.0/helpdlg.c:1315 client/gui-gtk-3.0/helpdlg.c:1327
+#: client/gui-gtk-3.0/helpdlg.c:1338 client/gui-gtk-3.22/citydlg.c:1874
+#: client/gui-gtk-3.22/helpdlg.c:1314 client/gui-gtk-3.22/helpdlg.c:1326
+#: client/gui-gtk-3.22/helpdlg.c:1337 client/gui-qt/citydlg.cpp:3037
 #: client/gui-qt/helpdlg.cpp:1342 client/gui-qt/helpdlg.cpp:1366
 #: client/gui-qt/helpdlg.cpp:1389 client/helpdata.c:3367 client/text.c:904
 #: client/text.c:1382
@@ -1752,15 +1752,15 @@ msgstr "Обновляем старый адрес метасервера '%s'."
 msgid "Default metaserver has been set to value \"%s\"."
 msgstr "Метасервер по умолчанию был установлен в '%s'."
 
-#: client/client_main.c:854
+#: client/client_main.c:856
 msgid "Failed to start local server; aborting."
 msgstr "Невозможно запустить локальный сервер; остановка."
 
-#: client/client_main.c:861
+#: client/client_main.c:863
 msgid "There was an error while auto connecting; aborting."
 msgstr "Ошибка во время автоподключения; остановка."
 
-#: client/client_main.c:947
+#: client/client_main.c:949
 msgid "Game started."
 msgstr "Игра запущена."
 
@@ -4709,49 +4709,49 @@ msgstr "(Никогда)"
 msgid "Removed"
 msgstr "Удалено"
 
-#: client/gui-gtk-2.0/helpdlg.c:455 client/gui-gtk-3.0/helpdlg.c:507
-#: client/gui-gtk-3.22/helpdlg.c:507 client/gui-qt/helpdlg.cpp:130
+#: client/gui-gtk-2.0/helpdlg.c:455 client/gui-gtk-3.0/helpdlg.c:506
+#: client/gui-gtk-3.22/helpdlg.c:506 client/gui-qt/helpdlg.cpp:130
 msgid "Freeciv Help Browser"
 msgstr "Справочная служба Freeciv"
 
-#: client/gui-gtk-2.0/helpdlg.c:702 client/gui-gtk-3.0/helpdlg.c:770
-#: client/gui-gtk-3.22/helpdlg.c:769
+#: client/gui-gtk-2.0/helpdlg.c:702 client/gui-gtk-3.0/helpdlg.c:769
+#: client/gui-gtk-3.22/helpdlg.c:768
 msgid "Expand All"
 msgstr "Раскрыть все"
 
-#: client/gui-gtk-2.0/helpdlg.c:703 client/gui-gtk-3.0/helpdlg.c:771
-#: client/gui-gtk-3.22/helpdlg.c:770
+#: client/gui-gtk-2.0/helpdlg.c:703 client/gui-gtk-3.0/helpdlg.c:770
+#: client/gui-gtk-3.22/helpdlg.c:769
 msgid "Collapse All"
 msgstr "Свернуть все"
 
 #: client/gui-gtk-2.0/helpdlg.c:995 client/gui-gtk-2.0/helpdlg.c:1012
 #: client/gui-gtk-2.0/helpdlg.c:1047 client/gui-gtk-2.0/helpdlg.c:1059
 #: client/gui-gtk-2.0/helpdlg.c:1067 client/gui-gtk-2.0/helpdlg.c:1084
-#: client/gui-gtk-3.0/helpdlg.c:1089 client/gui-gtk-3.0/helpdlg.c:1106
-#: client/gui-gtk-3.0/helpdlg.c:1141 client/gui-gtk-3.0/helpdlg.c:1153
-#: client/gui-gtk-3.0/helpdlg.c:1161 client/gui-gtk-3.0/helpdlg.c:1179
-#: client/gui-gtk-3.22/helpdlg.c:1088 client/gui-gtk-3.22/helpdlg.c:1105
-#: client/gui-gtk-3.22/helpdlg.c:1140 client/gui-gtk-3.22/helpdlg.c:1152
-#: client/gui-gtk-3.22/helpdlg.c:1160 client/gui-gtk-3.22/helpdlg.c:1178
+#: client/gui-gtk-3.0/helpdlg.c:1088 client/gui-gtk-3.0/helpdlg.c:1105
+#: client/gui-gtk-3.0/helpdlg.c:1140 client/gui-gtk-3.0/helpdlg.c:1152
+#: client/gui-gtk-3.0/helpdlg.c:1160 client/gui-gtk-3.0/helpdlg.c:1178
+#: client/gui-gtk-3.22/helpdlg.c:1087 client/gui-gtk-3.22/helpdlg.c:1104
+#: client/gui-gtk-3.22/helpdlg.c:1139 client/gui-gtk-3.22/helpdlg.c:1151
+#: client/gui-gtk-3.22/helpdlg.c:1159 client/gui-gtk-3.22/helpdlg.c:1177
 #: client/gui-qt/helpdlg.cpp:1116 client/gui-qt/helpdlg.cpp:1132
 #: client/gui-qt/helpdlg.cpp:1173 client/gui-sdl2/helpdlg.c:1050
 msgid "Allows"
 msgstr "Позволяет"
 
-#: client/gui-gtk-2.0/helpdlg.c:1028 client/gui-gtk-3.0/helpdlg.c:1122
-#: client/gui-gtk-3.22/helpdlg.c:1121 client/gui-qt/helpdlg.cpp:1151
+#: client/gui-gtk-2.0/helpdlg.c:1028 client/gui-gtk-3.0/helpdlg.c:1121
+#: client/gui-gtk-3.22/helpdlg.c:1120 client/gui-qt/helpdlg.cpp:1151
 msgid "Obsoletes"
 msgstr "Упраздняет"
 
 #: client/gui-gtk-2.0/helpdlg.c:1071 client/gui-gtk-2.0/helpdlg.c:1088
-#: client/gui-gtk-3.0/helpdlg.c:1165 client/gui-gtk-3.0/helpdlg.c:1183
-#: client/gui-gtk-3.22/helpdlg.c:1164 client/gui-gtk-3.22/helpdlg.c:1182
+#: client/gui-gtk-3.0/helpdlg.c:1164 client/gui-gtk-3.0/helpdlg.c:1182
+#: client/gui-gtk-3.22/helpdlg.c:1163 client/gui-gtk-3.22/helpdlg.c:1181
 msgid "with"
 msgstr "при наличии"
 
 #: client/gui-gtk-2.0/helpdlg.c:1076 client/gui-gtk-2.0/helpdlg.c:1093
-#: client/gui-gtk-3.0/helpdlg.c:1171 client/gui-gtk-3.0/helpdlg.c:1189
-#: client/gui-gtk-3.22/helpdlg.c:1170 client/gui-gtk-3.22/helpdlg.c:1188
+#: client/gui-gtk-3.0/helpdlg.c:1170 client/gui-gtk-3.0/helpdlg.c:1188
+#: client/gui-gtk-3.22/helpdlg.c:1169 client/gui-gtk-3.22/helpdlg.c:1187
 msgid "?techhelp:"
 msgstr "?techhelp:"
 
@@ -4765,54 +4765,54 @@ msgstr "?techhelp:"
 #. TRANS: "Conflicts with: (none)" (extras)
 #. TRANS: missing value
 #: client/gui-gtk-2.0/helpdlg.c:1192 client/gui-gtk-2.0/helpdlg.c:1306
-#: client/gui-gtk-2.0/inteldlg.c:445 client/gui-gtk-3.0/helpdlg.c:1305
-#: client/gui-gtk-3.0/helpdlg.c:1417 client/gui-gtk-3.0/inteldlg.c:588
-#: client/gui-gtk-3.22/helpdlg.c:1304 client/gui-gtk-3.22/helpdlg.c:1416
+#: client/gui-gtk-2.0/inteldlg.c:445 client/gui-gtk-3.0/helpdlg.c:1304
+#: client/gui-gtk-3.0/helpdlg.c:1416 client/gui-gtk-3.0/inteldlg.c:588
+#: client/gui-gtk-3.22/helpdlg.c:1303 client/gui-gtk-3.22/helpdlg.c:1415
 #: client/gui-gtk-3.22/inteldlg.c:587 client/gui-qt/plrdlg.cpp:514
 #: client/gui-sdl2/inteldlg.c:341 common/requirements.c:3569
 #, c-format
 msgid "(none)"
 msgstr "(нет)"
 
-#: client/gui-gtk-2.0/helpdlg.c:1205 client/gui-gtk-3.0/helpdlg.c:1318
-#: client/gui-gtk-3.22/helpdlg.c:1317
+#: client/gui-gtk-2.0/helpdlg.c:1205 client/gui-gtk-3.0/helpdlg.c:1317
+#: client/gui-gtk-3.22/helpdlg.c:1316
 msgid "Irrig. Rslt/Time"
 msgstr "Орош. Рез-т/Ходы"
 
-#: client/gui-gtk-2.0/helpdlg.c:1217 client/gui-gtk-3.0/helpdlg.c:1330
-#: client/gui-gtk-3.22/helpdlg.c:1329
+#: client/gui-gtk-2.0/helpdlg.c:1217 client/gui-gtk-3.0/helpdlg.c:1329
+#: client/gui-gtk-3.22/helpdlg.c:1328
 msgid "Mine Rslt/Time"
 msgstr "Шахта Рез-т/Ходы"
 
-#: client/gui-gtk-2.0/helpdlg.c:1228 client/gui-gtk-3.0/helpdlg.c:1341
-#: client/gui-gtk-3.22/helpdlg.c:1340
+#: client/gui-gtk-2.0/helpdlg.c:1228 client/gui-gtk-3.0/helpdlg.c:1340
+#: client/gui-gtk-3.22/helpdlg.c:1339
 msgid "Trans. Rslt/Time"
 msgstr "Преоб. Рез-т/Ходы"
 
 #. TRANS: this and similar literal strings interpreted as (Qt) HTML
-#: client/gui-gtk-2.0/helpdlg.c:1236 client/gui-gtk-3.0/helpdlg.c:1349
-#: client/gui-gtk-3.22/helpdlg.c:1348 client/gui-qt/helpdlg.cpp:1410
+#: client/gui-gtk-2.0/helpdlg.c:1236 client/gui-gtk-3.0/helpdlg.c:1348
+#: client/gui-gtk-3.22/helpdlg.c:1347 client/gui-qt/helpdlg.cpp:1410
 msgid "Build as irrigation"
 msgstr "Строить как орошение"
 
-#: client/gui-gtk-2.0/helpdlg.c:1241 client/gui-gtk-3.0/helpdlg.c:1354
-#: client/gui-gtk-3.22/helpdlg.c:1353 client/gui-qt/helpdlg.cpp:1415
+#: client/gui-gtk-2.0/helpdlg.c:1241 client/gui-gtk-3.0/helpdlg.c:1353
+#: client/gui-gtk-3.22/helpdlg.c:1352 client/gui-qt/helpdlg.cpp:1415
 msgid "Build as mine"
 msgstr "Строить как шахту"
 
-#: client/gui-gtk-2.0/helpdlg.c:1244 client/gui-gtk-3.0/helpdlg.c:1357
-#: client/gui-gtk-3.22/helpdlg.c:1356 client/gui-qt/helpdlg.cpp:1418
+#: client/gui-gtk-2.0/helpdlg.c:1244 client/gui-gtk-3.0/helpdlg.c:1356
+#: client/gui-gtk-3.22/helpdlg.c:1355 client/gui-qt/helpdlg.cpp:1418
 msgid "Build as road"
 msgstr "Строить как дорогу"
 
-#: client/gui-gtk-2.0/helpdlg.c:1247 client/gui-gtk-3.0/helpdlg.c:1360
-#: client/gui-gtk-3.22/helpdlg.c:1359 client/gui-qt/helpdlg.cpp:1421
+#: client/gui-gtk-2.0/helpdlg.c:1247 client/gui-gtk-3.0/helpdlg.c:1359
+#: client/gui-gtk-3.22/helpdlg.c:1358 client/gui-qt/helpdlg.cpp:1421
 msgid "Build as base"
 msgstr "Строить как базу"
 
 #. TRANS: "MP" = movement points
-#: client/gui-gtk-2.0/helpdlg.c:1281 client/gui-gtk-3.0/helpdlg.c:1392
-#: client/gui-gtk-3.22/helpdlg.c:1391
+#: client/gui-gtk-2.0/helpdlg.c:1281 client/gui-gtk-3.0/helpdlg.c:1391
+#: client/gui-gtk-3.22/helpdlg.c:1390
 #, c-format
 msgid "%d MP"
 msgstr "%d о.д."
@@ -4824,22 +4824,22 @@ msgstr "%d о.д."
 #. TRANS: Build time depends on terrain.
 #. TRANS: Road bonus depends on terrain.
 #: client/gui-gtk-2.0/helpdlg.c:1284 client/gui-gtk-2.0/helpdlg.c:1315
-#: client/gui-gtk-3.0/helpdlg.c:1395 client/gui-gtk-3.0/helpdlg.c:1426
-#: client/gui-gtk-3.22/helpdlg.c:1394 client/gui-gtk-3.22/helpdlg.c:1425
+#: client/gui-gtk-3.0/helpdlg.c:1394 client/gui-gtk-3.0/helpdlg.c:1425
+#: client/gui-gtk-3.22/helpdlg.c:1393 client/gui-gtk-3.22/helpdlg.c:1424
 #, c-format
 msgid "Terrain specific"
 msgstr "В зависимости от рельефа"
 
 #. TRANS: (Resource extra) Conflicts with:
-#: client/gui-gtk-2.0/helpdlg.c:1294 client/gui-gtk-3.0/helpdlg.c:1405
-#: client/gui-gtk-3.22/helpdlg.c:1404
+#: client/gui-gtk-2.0/helpdlg.c:1294 client/gui-gtk-3.0/helpdlg.c:1404
+#: client/gui-gtk-3.22/helpdlg.c:1403
 msgid "Other Resources"
 msgstr "другими Ресурсами"
 
 #. TRANS: No output bonus from a road
 #: client/gui-gtk-2.0/helpdlg.c:1324 client/gui-gtk-2.0/helpdlg.c:1328
-#: client/gui-gtk-3.0/helpdlg.c:1435 client/gui-gtk-3.0/helpdlg.c:1439
-#: client/gui-gtk-3.22/helpdlg.c:1434 client/gui-gtk-3.22/helpdlg.c:1438
+#: client/gui-gtk-3.0/helpdlg.c:1434 client/gui-gtk-3.0/helpdlg.c:1438
+#: client/gui-gtk-3.22/helpdlg.c:1433 client/gui-gtk-3.22/helpdlg.c:1437
 msgid "?bonus:None"
 msgstr "Нет"
 
@@ -7041,7 +7041,7 @@ msgstr "Дополнительная информация доступна%sпр
 #: client/gui-gtk-3.22/dialogs.c:111 client/gui-gtk-3.22/dialogs.c:203
 #: client/gui-gtk-3.22/dialogs.c:212 client/gui-gtk-3.22/dialogs.c:217
 #: client/gui-gtk-3.22/dialogs.c:254 client/gui-gtk-3.22/editprop.c:4920
-#: client/gui-gtk-3.22/gamedlgs.c:326 client/gui-gtk-3.22/helpdlg.c:514
+#: client/gui-gtk-3.22/gamedlgs.c:326 client/gui-gtk-3.22/helpdlg.c:513
 #: client/gui-gtk-3.22/inteldlg.c:256 client/gui-gtk-3.22/inteldlg.c:387
 #: client/gui-gtk-3.22/luaconsole.c:242 client/gui-gtk-3.22/messagewin.c:379
 #: client/gui-gtk-3.22/plrdlg.c:439 client/gui-gtk-3.22/repodlgs.c:560
@@ -7261,11 +7261,11 @@ msgstr "(_F) Найти"
 msgid "Migrating options from gtk3 to gtk3.22 client"
 msgstr "Перенос параметров из gtk3-клиента в клиент gtk3.22"
 
-#: client/gui-gtk-3.22/helpdlg.c:510
+#: client/gui-gtk-3.22/helpdlg.c:509
 msgid "_Back"
 msgstr "(_B) Назад"
 
-#: client/gui-gtk-3.22/helpdlg.c:512
+#: client/gui-gtk-3.22/helpdlg.c:511
 msgid "_Forward"
 msgstr "(_F) Вперёд"
 
@@ -7706,7 +7706,7 @@ msgstr[2] "Вы действительно хотите расформирова
 #: client/gui-qt/dialogs.cpp:3092 client/gui-qt/pages.cpp:1735
 #: client/gui-qt/voteinfo_bar.cpp:39 client/gui-sdl2/action_dialog.c:2299
 #: client/gui-sdl2/action_dialog.c:2528 client/gui-sdl2/citydlg.c:1222
-#: client/gui-sdl2/cma_fe.c:353 client/gui-sdl2/diplodlg.c:1417
+#: client/gui-sdl2/cma_fe.c:353 client/gui-sdl2/diplodlg.c:1415
 #: client/gui-sdl2/plrdlg.c:248 client/gui-sdl2/repodlgs.c:266
 #: client/text.c:654
 msgid "Yes"
@@ -7715,7 +7715,7 @@ msgstr "Да"
 #: client/gui-qt/dialogs.cpp:3093 client/gui-qt/pages.cpp:1737
 #: client/gui-qt/voteinfo_bar.cpp:40 client/gui-sdl2/action_dialog.c:2310
 #: client/gui-sdl2/action_dialog.c:2538 client/gui-sdl2/citydlg.c:1211
-#: client/gui-sdl2/cma_fe.c:362 client/gui-sdl2/diplodlg.c:1406
+#: client/gui-sdl2/cma_fe.c:362 client/gui-sdl2/diplodlg.c:1404
 #: client/gui-sdl2/plrdlg.c:248 client/gui-sdl2/repodlgs.c:254
 #: client/gui-sdl2/repodlgs.c:1645
 msgid "No"
@@ -8792,7 +8792,7 @@ msgstr " (устарело)"
 msgid "Meet"
 msgstr "Встретить"
 
-#: client/gui-qt/plrdlg.cpp:774 client/gui-sdl2/diplodlg.c:1554
+#: client/gui-qt/plrdlg.cpp:774 client/gui-sdl2/diplodlg.c:1552
 msgid "Cancel Treaty"
 msgstr "Отменить Договор"
 
@@ -9640,20 +9640,20 @@ msgid "Diplomacy meeting"
 msgstr "Дипломатическая встреча"
 
 #. TRANS: "Polish incident !" FIXME!!!
-#: client/gui-sdl2/diplodlg.c:1376
+#: client/gui-sdl2/diplodlg.c:1374
 #, c-format
 msgid "%s incident !"
 msgstr "Дипломатический инцидент с народом %s!"
 
-#: client/gui-sdl2/diplodlg.c:1394
+#: client/gui-sdl2/diplodlg.c:1392
 msgid "Shall we declare WAR on them?"
 msgstr "Должны ли мы объявить им ВОЙНУ?"
 
-#: client/gui-sdl2/diplodlg.c:1512
+#: client/gui-sdl2/diplodlg.c:1510
 msgid "Foreign Minister"
 msgstr "Министр иностранных дел"
 
-#: client/gui-sdl2/diplodlg.c:1529
+#: client/gui-sdl2/diplodlg.c:1527
 #, c-format
 msgid ""
 "Sir!, the %s ambassador has arrived\n"
@@ -9662,7 +9662,7 @@ msgstr ""
 "Сир! Прибыл посол народа %s\n"
 "Каковы Ваши пожелания?"
 
-#: client/gui-sdl2/diplodlg.c:1533
+#: client/gui-sdl2/diplodlg.c:1531
 #, c-format
 msgid ""
 "Ma'am!, the %s ambassador has arrived\n"
@@ -9671,19 +9671,19 @@ msgstr ""
 "Мэм! Прибыл посол народа %s\n"
 "Каковы Ваши пожелания?"
 
-#: client/gui-sdl2/diplodlg.c:1552
+#: client/gui-sdl2/diplodlg.c:1550
 msgid "Declare WAR"
 msgstr "Объявить ВОЙНУ"
 
-#: client/gui-sdl2/diplodlg.c:1580
+#: client/gui-sdl2/diplodlg.c:1578
 msgid "Withdraw vision"
 msgstr "Отменить видение обстановки"
 
-#: client/gui-sdl2/diplodlg.c:1599
+#: client/gui-sdl2/diplodlg.c:1597
 msgid "Call Diplomatic Meeting"
 msgstr "Инициировать дипломатическую встречу"
 
-#: client/gui-sdl2/diplodlg.c:1615
+#: client/gui-sdl2/diplodlg.c:1613
 msgid "Send him back"
 msgstr "Отослать его назад"
 

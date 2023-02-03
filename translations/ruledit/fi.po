@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 3.0\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2022-12-10 04:12+0200\n"
+"POT-Creation-Date: 2023-01-29 08:24+0200\n"
 "PO-Revision-Date: 2022-10-12 21:51+0300\n"
 "Last-Translator: Marko Lindqvist <cazfi74@gmail.com>\n"
 "Language-Team: Finnish <laatu@lokalisointi.org>\n"
@@ -139,50 +139,50 @@ msgstr "%s poistetaan"
 msgid "Needed by %s"
 msgstr "%s tarvitsee"
 
-#: tools/ruledit/ruledit.cpp:118
+#: tools/ruledit/ruledit.cpp:120
 msgid "Failed to load comments.txt"
 msgstr "Kommenttitiedoston comments.txt lataaminen epäonnistui."
 
-#: tools/ruledit/ruledit.cpp:152
+#: tools/ruledit/ruledit.cpp:153
 msgid "Print a summary of the options"
 msgstr "Näytä yhteenveto valitsimista"
 
-#: tools/ruledit/ruledit.cpp:154
+#: tools/ruledit/ruledit.cpp:155
 msgid "Print the version number"
 msgstr "Näytä versionumero"
 
 #. TRANS: argument (don't translate) VALUE (translate)
-#: tools/ruledit/ruledit.cpp:157
+#: tools/ruledit/ruledit.cpp:158
 msgid "ruleset RULESET"
 msgstr "ruleset SÄÄNTÖKOKOELMA"
 
-#: tools/ruledit/ruledit.cpp:158
+#: tools/ruledit/ruledit.cpp:159
 msgid "Ruleset to use as the starting point."
 msgstr "Lähtökohtana käytettävä sääntökokoelma."
 
 #. TRANS: "Fatal" is exactly what user must type, do not translate.
-#: tools/ruledit/ruledit.cpp:162
+#: tools/ruledit/ruledit.cpp:163
 msgid "Fatal [SIGNAL]"
 msgstr "Fatal [SIGNAALI]"
 
-#: tools/ruledit/ruledit.cpp:163
+#: tools/ruledit/ruledit.cpp:164
 msgid "Raise a signal on failed assertion"
 msgstr "Lähetä signaali hylätystä oikeellisuustarkistuksesta"
 
-#: tools/ruledit/ruledit.cpp:177
+#: tools/ruledit/ruledit.cpp:178
 msgid "Can only edit one ruleset at a time.\n"
 msgstr "Voi yhtä sääntökokoelmaa voidaan muokata samanaikaisesti.\n"
 
-#: tools/ruledit/ruledit.cpp:188
+#: tools/ruledit/ruledit.cpp:189
 #, c-format
 msgid "Invalid signal number \"%s\".\n"
 msgstr "Signaalin numero \"%s\" ei kelpaa.\n"
 
-#: tools/ruledit/ruledit.cpp:190
+#: tools/ruledit/ruledit.cpp:191
 msgid "Try using --help.\n"
 msgstr "Kokeile parametriä --help.\n"
 
-#: tools/ruledit/ruledit.cpp:197
+#: tools/ruledit/ruledit.cpp:198
 #, c-format
 msgid "Unrecognized option: \"%s\"\n"
 msgstr "Tunnistamaton asetus: \"%s\"\n"
@@ -647,20 +647,20 @@ msgstr "%s estää"
 msgid "Effect"
 msgstr "Vaikutus"
 
-#: tools/ruledit/validity.c:122
+#: tools/ruledit/validity.c:132
 #, c-format
 msgid "%s action enabler"
 msgstr "Toiminnan %s mahdollistin"
 
-#: tools/ruledit/validity.c:144
+#: tools/ruledit/validity.c:154
 msgid "Music Style"
 msgstr "Musiikkityyli"
 
-#: tools/ruledit/validity.c:265
+#: tools/ruledit/validity.c:275
 msgid "Conflicting extra"
 msgstr "Konfliktaava ruutulisä"
 
-#: tools/ruledit/validity.c:268
+#: tools/ruledit/validity.c:278
 msgid "Hidden extra"
 msgstr "Kätketty ruutulisä"
 

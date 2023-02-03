@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 2.1.0\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2022-12-10 04:12+0200\n"
+"POT-Creation-Date: 2023-01-29 08:24+0200\n"
 "PO-Revision-Date: 2013-09-09 09:57+0300\n"
 "Last-Translator: Prekates Alexandros <aprekates@gmail.gr>\n"
 "Language-Team: Greek translation team <gr@li.org>\n"
@@ -122,51 +122,51 @@ msgstr ""
 msgid "Needed by %s"
 msgstr ""
 
-#: tools/ruledit/ruledit.cpp:118
+#: tools/ruledit/ruledit.cpp:120
 msgid "Failed to load comments.txt"
 msgstr ""
 
-#: tools/ruledit/ruledit.cpp:152
+#: tools/ruledit/ruledit.cpp:153
 msgid "Print a summary of the options"
 msgstr "Τύπωσε μια σύνοψη των επιλογών"
 
-#: tools/ruledit/ruledit.cpp:154
+#: tools/ruledit/ruledit.cpp:155
 #, fuzzy
 msgid "Print the version number"
 msgstr "  -v, --version\t\tΤύπωσε τον αριθμό έκδοσης\n"
 
 #. TRANS: argument (don't translate) VALUE (translate)
-#: tools/ruledit/ruledit.cpp:157
+#: tools/ruledit/ruledit.cpp:158
 msgid "ruleset RULESET"
 msgstr ""
 
-#: tools/ruledit/ruledit.cpp:158
+#: tools/ruledit/ruledit.cpp:159
 msgid "Ruleset to use as the starting point."
 msgstr ""
 
 #. TRANS: "Fatal" is exactly what user must type, do not translate.
-#: tools/ruledit/ruledit.cpp:162
+#: tools/ruledit/ruledit.cpp:163
 msgid "Fatal [SIGNAL]"
 msgstr ""
 
-#: tools/ruledit/ruledit.cpp:163
+#: tools/ruledit/ruledit.cpp:164
 msgid "Raise a signal on failed assertion"
 msgstr ""
 
-#: tools/ruledit/ruledit.cpp:177
+#: tools/ruledit/ruledit.cpp:178
 msgid "Can only edit one ruleset at a time.\n"
 msgstr ""
 
-#: tools/ruledit/ruledit.cpp:188
+#: tools/ruledit/ruledit.cpp:189
 #, c-format
 msgid "Invalid signal number \"%s\".\n"
 msgstr ""
 
-#: tools/ruledit/ruledit.cpp:190
+#: tools/ruledit/ruledit.cpp:191
 msgid "Try using --help.\n"
 msgstr ""
 
-#: tools/ruledit/ruledit.cpp:197
+#: tools/ruledit/ruledit.cpp:198
 #, c-format
 msgid "Unrecognized option: \"%s\"\n"
 msgstr ""
@@ -649,19 +649,19 @@ msgstr ""
 msgid "Effect"
 msgstr ""
 
-#: tools/ruledit/validity.c:122
+#: tools/ruledit/validity.c:132
 #, c-format
 msgid "%s action enabler"
 msgstr ""
 
-#: tools/ruledit/validity.c:144
+#: tools/ruledit/validity.c:154
 msgid "Music Style"
 msgstr ""
 
-#: tools/ruledit/validity.c:265
+#: tools/ruledit/validity.c:275
 msgid "Conflicting extra"
 msgstr ""
 
-#: tools/ruledit/validity.c:268
+#: tools/ruledit/validity.c:278
 msgid "Hidden extra"
 msgstr ""

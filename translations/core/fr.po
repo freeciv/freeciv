@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 3.0\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2023-01-25 14:57+0100\n"
+"POT-Creation-Date: 2023-02-01 23:53+0200\n"
 "PO-Revision-Date: 2023-01-03 20:06+0100\n"
 "Last-Translator: Igx <igx31 hotmail.com>\n"
 "Language-Team: French <freeciv-l10n-fr@yahoogroupes.fr>\n"
@@ -1716,15 +1716,15 @@ msgstr "Mise à jour de l'ancienne adresse du méta-serveur \"%s\"."
 msgid "Default metaserver has been set to value \"%s\"."
 msgstr "Le méta-serveur par défaut a positionné à la valeur \"%s\"."
 
-#: client/client_main.c:854
+#: client/client_main.c:856
 msgid "Failed to start local server; aborting."
 msgstr "Impossible de lancer le serveur local ; abandon."
 
-#: client/client_main.c:861
+#: client/client_main.c:863
 msgid "There was an error while auto connecting; aborting."
 msgstr "La connexion automatique a échoué ; abandon."
 
-#: client/client_main.c:947
+#: client/client_main.c:949
 msgid "Game started."
 msgstr "Partie commencée."
 

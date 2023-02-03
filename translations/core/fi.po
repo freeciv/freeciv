@@ -29,7 +29,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 3.0\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2023-01-29 08:23+0200\n"
+"POT-Creation-Date: 2023-02-01 23:53+0200\n"
 "PO-Revision-Date: 2023-01-31 21:48+0200\n"
 "Last-Translator: Sini Ruohomaa <sini.ruohomaa@iki.fi>\n"
 "Language-Team: None <freeciv-i18n@freelists.org>\n"
@@ -1720,15 +1720,15 @@ msgstr "Päivitän vanhan metapalvelimen osoitteen \"%s\"."
 msgid "Default metaserver has been set to value \"%s\"."
 msgstr "Oletusmetapalvelin on asetettu arvoon \"%s\"."
 
-#: client/client_main.c:854
+#: client/client_main.c:856
 msgid "Failed to start local server; aborting."
 msgstr "Paikallisen palvelimen käynnistäminen epäonnistui, lopetan."
 
-#: client/client_main.c:861
+#: client/client_main.c:863
 msgid "There was an error while auto connecting; aborting."
 msgstr "Automaattisen liittymisen aikana tapahtui virhe, lopetan."
 
-#: client/client_main.c:947
+#: client/client_main.c:949
 msgid "Game started."
 msgstr "Peli on käynnissä."
 
