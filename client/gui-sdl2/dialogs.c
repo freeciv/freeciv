@@ -1162,7 +1162,7 @@ void unit_select_dialog_popup(struct tile *ptile)
                   punittype->firepower,
                   (punit->hp * 100 / punittype->hp + 9) / 10);
 
-      /* calculate chance to win */
+      /* Calculate chance to win */
       if (sdl_get_chance_to_win(&att_chance, &def_chance, punit, focus)) {
         /* TRANS: "CtW" = "Chance to Win"; preserve leading space */
         cat_snprintf(cbuf, sizeof(cbuf), _(" CtW: Att:%d%% Def:%d%%"),
@@ -1952,8 +1952,9 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
                       punittype->firepower,
                       ((punit->hp * 100) / punittype->hp));
 
-          /* calculate chance to win */
-          if (sdl_get_chance_to_win(&att_chance, &def_chance, punit, focus_unit)) {
+          /* Calculate chance to win */
+          if (sdl_get_chance_to_win(&att_chance, &def_chance, punit,
+                                    focus_unit)) {
             /* TRANS: "CtW" = "Chance to Win"; preserve leading space */
             cat_snprintf(cbuf, sizeof(cbuf), _(" CtW: Att:%d%% Def:%d%%"),
                          att_chance, def_chance);
@@ -2059,7 +2060,7 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
           area.w = MAX(area.w, buf->size.w);
           units_h += buf->size.h;
           /* ---------------- */
-          /* separator */
+          /* Separator */
           buf = create_iconlabel(NULL, pwindow->dst, NULL, WF_FREE_THEME);
 
           add_to_gui_list(ID_SEPARATOR, buf);
@@ -2077,25 +2078,27 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
                       punittype->firepower,
                       ((punit->hp * 100) / punittype->hp));
 
-          /* calculate chance to win */
-            if (sdl_get_chance_to_win(&att_chance, &def_chance, punit, focus_unit)) {
-              /* TRANS: preserve leading space */
-              cat_snprintf(cbuf, sizeof(cbuf), _(" CtW: Att:%d%% Def:%d%%"),
-                           att_chance, def_chance);
-            }
-            create_active_iconlabel(buf, pwindow->dst, pstr, cbuf, NULL);
-            add_to_gui_list(ID_LABEL, buf);
-            area.w = MAX(area.w, buf->size.w);
-            units_h += buf->size.h;
-            /* ---------------- */
+          /* Calculate chance to win */
+          if (sdl_get_chance_to_win(&att_chance, &def_chance, punit,
+                                    focus_unit)) {
+            /* TRANS: "CtW" = "Chance to Win"; preserve leading space */
+            cat_snprintf(cbuf, sizeof(cbuf), _(" CtW: Att:%d%% Def:%d%%"),
+                         att_chance, def_chance);
+          }
+          create_active_iconlabel(buf, pwindow->dst, pstr, cbuf, NULL);
+          add_to_gui_list(ID_LABEL, buf);
+          area.w = MAX(area.w, buf->size.w);
+          units_h += buf->size.h;
+          /* ---------------- */
 
-            /* separator */
-            buf = create_iconlabel(NULL, pwindow->dst, NULL, WF_FREE_THEME);
+          /* Separator */
+          buf = create_iconlabel(NULL, pwindow->dst, NULL, WF_FREE_THEME);
 
-            add_to_gui_list(ID_SEPARATOR, buf);
-            area.h += buf->next->size.h;
+          add_to_gui_list(ID_SEPARATOR, buf);
+          area.h += buf->next->size.h;
         }
       }
+
       /* ---------------- */
       fc_snprintf(cbuf, sizeof(cbuf),
             _("Look up \"%s\" in the Help Browser"),
