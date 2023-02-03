@@ -53,6 +53,7 @@ documentation. It also accepts
 accepts the following parameters following \fB\-\-\fP:
 .B [ \-f|\-\-fullscreen ] \
 [ \-h|\-\-help ] \
+[ \-s|\-\-swrenderer ] \
 [ \-t|\-\-theme \fIstring\fP ]
 
 .SH DESCRIPTION
