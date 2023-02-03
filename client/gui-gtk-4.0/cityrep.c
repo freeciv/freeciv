@@ -1378,11 +1378,14 @@ static void city_select_same_island_callback(GtkMenuItem *item, gpointer data)
 {
   gtk_tree_selection_selected_foreach(city_selection,same_island_iterate,NULL);
 }
+#endif /* MENUS_GTK3 */
 
 /************************************************************************//**
   User has chosen to select cities with certain target in production
 ****************************************************************************/
-static void city_select_building_callback(GtkMenuItem *item, gpointer data)
+static void city_select_building_callback(GSimpleAction *action,
+                                          GVariant *parameter,
+                                          gpointer data)
 {
   enum production_class_type which = GPOINTER_TO_INT(data);
   ITree it;
@@ -1405,7 +1408,6 @@ static void city_select_building_callback(GtkMenuItem *item, gpointer data)
     }
   }
 }
-#endif /* MENUS_GTK3 */
 
 /************************************************************************//**
   Buy the production in one single city.
@@ -1859,30 +1861,28 @@ static GMenu *create_select_menu(GActionGroup *group)
   menu_item_append_unref(select_menu, g_menu_item_new(_("Invert Selection"),
                                                       "win.select_invert"));
 
+  act = g_simple_action_new("select_build_unit", NULL);
+  g_action_map_add_action(G_ACTION_MAP(group), G_ACTION(act));
+  g_signal_connect(act, "activate", G_CALLBACK(city_select_building_callback),
+                   GINT_TO_POINTER(PCT_UNIT));
+  menu_item_append_unref(select_menu, g_menu_item_new(_("Building Units"),
+                                                      "win.select_build_unit"));
+
+  act = g_simple_action_new("select_build_impr", NULL);
+  g_action_map_add_action(G_ACTION_MAP(group), G_ACTION(act));
+  g_signal_connect(act, "activate", G_CALLBACK(city_select_building_callback),
+                   GINT_TO_POINTER(PCT_NORMAL_IMPROVEMENT));
+  menu_item_append_unref(select_menu, g_menu_item_new(_("Building Improvements"),
+                                                      "win.select_build_impr"));
+
+  act = g_simple_action_new("select_build_wonder", NULL);
+  g_action_map_add_action(G_ACTION_MAP(group), G_ACTION(act));
+  g_signal_connect(act, "activate", G_CALLBACK(city_select_building_callback),
+                   GINT_TO_POINTER(PCT_WONDER));
+  menu_item_append_unref(select_menu, g_menu_item_new(_("Building Wonders"),
+                                                      "win.select_build_wonder"));
+
 #if 0
-  item = gtk_menu_item_new_with_label(_("Building Units"));
-  gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-  g_signal_connect(item, "activate",
-  		   G_CALLBACK(city_select_building_callback),
-		   GINT_TO_POINTER(PCT_UNIT));
-
-  item = gtk_menu_item_new_with_label( _("Building Improvements"));
-  gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-  g_signal_connect(item, "activate",
-  		   G_CALLBACK(city_select_building_callback),
-		   GINT_TO_POINTER(PCT_NORMAL_IMPROVEMENT));
-
-  item = gtk_menu_item_new_with_label(_("Building Wonders"));
-  gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-  g_signal_connect(item, "activate",
-  		   G_CALLBACK(city_select_building_callback),
-		   GINT_TO_POINTER(PCT_WONDER));
-
-
-  item = gtk_separator_menu_item_new();
-  gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-
-
   select_bunit_item =
 	gtk_menu_item_new_with_label(_("Building Unit"));
   gtk_menu_shell_append(GTK_MENU_SHELL(menu), select_bunit_item);
