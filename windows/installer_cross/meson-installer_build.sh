@@ -89,6 +89,17 @@ add_qt6_env() {
   cp ./helpers/installer-helper-qt.cmd $2/bin/installer-helper.cmd
 }
 
+add_qt5_env() {
+  add_glib_env $1 $2 &&
+  cp -R $1/qt5/plugins $2/ &&
+  cp $1/bin/Qt5Core.dll $2/ &&
+  cp $1/bin/Qt5Gui.dll $2/ &&
+  cp $1/bin/Qt5Widgets.dll $2/ &&
+  cp $1/bin/libpcre2-16-0.dll $2/ &&
+  mkdir -p $2/bin &&
+  cp ./helpers/installer-helper-qt.cmd $2/bin/installer-helper.cmd
+}
+
 add_sdl2_env() {
   cp $1/bin/SDL2_image.dll $2/ &&
   cp $1/bin/SDL2_ttf.dll $2/
@@ -117,6 +128,11 @@ case $GUI in
     FCMP="gtk4" ;;
   qt6)
     GUINAME="Qt6"
+    CLIENT="qt"
+    MPGUI="qt"
+    FCMP="qt" ;;
+  qt5)
+    GUINAME="Qt5"
     CLIENT="qt"
     MPGUI="qt"
     FCMP="qt" ;;
@@ -242,8 +258,15 @@ else
       fi
       ;;
     qt5)
-      echo "Qt5 installer build not supported!" >&2
-      exit 1
+      if ! cp freeciv-ruledit.cmd "$INSTDIR"
+      then
+        echo "Adding cmd-file failed!" >&2
+        exit 1
+      fi
+      if ! add_qt5_env "$DLLSPATH" "$INSTDIR" ; then
+        echo "Copying Qt5 environment failed!" >&2
+        exit 1
+      fi
       ;;
   esac
 
