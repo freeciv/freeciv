@@ -164,9 +164,10 @@ struct callback_list *callbacks = NULL;
 **************************************************************************/
 static void print_usage(void)
 {
-  /* add client-specific usage information here */
+  /* Add client-specific usage information here */
   fc_fprintf(stderr,
              _("  -f,  --fullscreen\tStart Client in Fullscreen mode\n"));
+  fc_fprintf(stderr, _("  -s,  --swrenderer\tUse SW renderer\n"));
   fc_fprintf(stderr, _("  -t,  --theme THEME\tUse GUI theme THEME\n"));
 
   /* TRANS: No full stop after the URL, could cause confusion. */
@@ -187,6 +188,8 @@ static void parse_options(int argc, char **argv)
       exit(EXIT_SUCCESS);
     } else if (is_option("--fullscreen", argv[i])) {
       gui_options.gui_sdl2_fullscreen = TRUE;
+    } else if (is_option("--swrenderer", argv[i])) {
+      SDL_Client_Flags |= CF_SWRENDERER;
     } else if ((option = get_option_malloc("--theme", argv, &i, argc, FALSE))) {
       sz_strlcpy(gui_options.gui_sdl2_default_theme_name, option);
       free(option);

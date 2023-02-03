@@ -597,7 +597,8 @@ bool set_video_mode(int width, int height, int flags_in)
     return FALSE;
   }
 
-  if (gui_options.gui_sdl2_swrenderer) {
+  if (gui_options.gui_sdl2_swrenderer
+      || (SDL_Client_Flags & CF_SWRENDERER)) {
     flags = SDL_RENDERER_SOFTWARE;
   } else {
     flags = 0;
