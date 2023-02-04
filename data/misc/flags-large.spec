@@ -178,6 +178,7 @@ sprites =
 		"f.finland", "flags/finland-large"
 		"f.flanders", "flags/flanders-large"
 		"f.florence", "flags/florence-large"
+		"f.florida", "flags/florida-large"
 		"f.formosan", "flags/formosan-large"
 		"f.france", "flags/france-large"
 		"f.france_old", "flags/france_old-large"
