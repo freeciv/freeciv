@@ -104,6 +104,7 @@ enum manuals {
 #define SUBITEM_BEGIN "<pre class='%s'>"
 #define SUBITEM_END "</pre>\n"
 #define TAIL "</body></html>"
+#define HLINE "<hr/>"
 #else  /* MANUAL_USE_HTML */
 #define FILE_EXT "mediawiki"
 #define HEADER " "
@@ -118,6 +119,7 @@ enum manuals {
 #define SUBITEM_BEGIN "<!-- %s -->\n"
 #define SUBITEM_END "\n"
 #define TAIL " "
+#define HLINE "----"
 #endif /* MANUAL_USE_HTML */
 
 void insert_client_build_info(char *outbuf, size_t outlen);
@@ -515,7 +517,6 @@ static bool manual_command(void)
 
       improvement_iterate(pimprove) {
         char buf[64000];
-        struct advance *obs_tech = NULL;
 
         if (!valid_improvement(pimprove)
          || is_great_wonder(pimprove) == (manuals == MANUAL_BUILDINGS)) {
@@ -531,32 +532,47 @@ static bool manual_command(void)
                 pimprove->build_cost,
                 pimprove->upkeep);
 
-        requirement_vector_iterate(&pimprove->reqs, req) {
-          char text[512], text2[512];
+        if (requirement_vector_size(&pimprove->reqs) == 0) {
+          char text[512];
 
-          fc_snprintf(text2, sizeof(text2),
-                      /* TRANS: improvement requires a feature to be absent. */
-                      req->present ? "%s" : _("no %s"),
-                      VUT_NONE != req->source.kind
-                      ? universal_name_translation(&req->source,
-                                                   text, sizeof(text))
-                      : Q_("?req:None"));
-          fprintf(doc, "%s<br/>", text2);
-        } requirement_vector_iterate_end;
+          strncpy(text, Q_("?req:None"), sizeof(text) - 1);
+          fprintf(doc, "%s<br/>", text);
+        } else {
+          requirement_vector_iterate(&pimprove->reqs, req) {
+            char text[512], text2[512];
 
-        requirement_vector_iterate(&pimprove->obsolete_by, pobs) {
-          if (pobs->source.kind == VUT_ADVANCE && pobs->present) {
-            obs_tech = pobs->source.value.advance;
-            break;
-          }
-        } requirement_vector_iterate_end;
+            fc_snprintf(text2, sizeof(text2),
+                        /* TRANS: Feature required to be absent. */
+                        req->present ? "%s" : _("no %s"),
+                        universal_name_translation(&req->source,
+                                                   text, sizeof(text)));
+            fprintf(doc, "%s<br/>", text2);
+          } requirement_vector_iterate_end;
+        }
 
-        fprintf(doc, "<em>%s</em></td>\n",
-                obs_tech != NULL
-                ? advance_name_translation(obs_tech)
-                : Q_("?tech:None"));
-        fprintf(doc, "<td>%s</td>\n</tr>\n\n", buf);
+        fprintf(doc, "\n%s\n", HLINE);
+
+        if (requirement_vector_size(&pimprove->obsolete_by) == 0) {
+          char text[512];
+
+          strncpy(text, Q_("?req:None"), sizeof(text) - 1);
+          fprintf(doc, "<em>%s</em><br/>", text);
+        } else {
+          requirement_vector_iterate(&pimprove->obsolete_by, pobs) {
+            char text[512], text2[512];
+
+            fc_snprintf(text2, sizeof(text2),
+                        /* TRANS: Feature required to be absent. */
+                        pobs->present ? "%s" : _("no %s"),
+                        universal_name_translation(&pobs->source,
+                                                   text, sizeof(text)));
+            fprintf(doc, "<em>%s</em><br/>", text2);
+          } requirement_vector_iterate_end;
+        }
+
+        fprintf(doc, "</td>\n<td>%s</td>\n</tr>\n\n", buf);
       } improvement_iterate_end;
+
       fprintf(doc, "</table>");
       break;
 
