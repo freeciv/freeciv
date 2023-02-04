@@ -1,0 +1,217 @@
+[nation_floridian]
+
+name   = _("Floridian")
+plural = _("?plural:Floridians")
+groups = "American"
+legend = _("Florida is the third most populous state of the USA\ 
+ and is well known for its tourism. It was repeatedly colonized by\
+ Spain and Great Britain before the \"Florida Patriots\" proclaimed\
+ the Republic of East Florida in 1812. Despite being suppressed\
+ by Spain the first time, in 1817 adventurers establied the\
+ Republic of the Floridas on Amelia Island which was incorporated\
+ by the USA with the rest of modern Florida in 1822. It joined the Confederacy\
+ in 1861 but rejoined the USA in 1868 and has since been the site of\
+ the Apollo 11 Space Launch, which let humans land on the moon\
+ for the first time in history.")
+
+leaders = {
+ "name",                                  "sex"                              
+ "Juan Ponce de León",                    "Male"
+ "John Houstoun McIntosh",                "Male"
+ "Gregor MacGregor",                      "Male"
+ "Louis-Michel Aury",                     "Male"
+ "Andrew Jackson",                        "Male"
+ "John Milton",                           "Male"
+ "Harry T. Moore",                        "Male"
+ "Hariette Moore",                        "Female"
+}
+
+ruler_titles = {
+ "government",     "male_title",      "female_title"
+ "Despotism",      _("Sheriff %s"),   _("?female:Sheriff %s")
+ "Fundamentalism", _("Reverend %s"),  _("?female:Reverend %s")
+ "Republic",       _("Governor %s"),  _("?female:Governor %s")
+}
+
+flag       = "florida"
+flag_alt   = "usa"
+style      = "European"
+
+init_techs = ""
+init_buildings = ""
+init_units = ""
+
+civilwar_nations = "american", "muskogee", "seminole"
+
+cities =
+ "Tallahassee",
+ "Jacksonville",
+ "Miami",
+ "Tampa",
+ "Orlando",
+ "St. Augustine",  ; Historic capital of Florida
+ "Pensacola",      ; Another historical capital of Florida
+ "St. Petersburg",
+ "Hialeah",
+ "Port St. Lucie (ocean)",
+ "Cape Coral (ocean)",
+ "Fort Lauderdale",
+ "Pembroke Pines",
+ "Hollywood",
+ "Gainesville",
+ "Miramar",
+ "Coral Springs",
+ "Lehigh Acres",
+ "Palm Bay (ocean)",
+ "Clearwater",
+ "West Palm Beach (ocean)",
+ "Brandon",
+ "Spring Hill",
+ "Miami Gardens",
+ "Pompano Beach (ocean)",
+ "Lakeland",
+ "Davie",
+ "Riverview",
+ "Sunrise",
+ "Boca Raton",
+ "Deltona",
+ "Naples",
+ "Alafaya",
+ "Town 'n' Country",
+ "Palm Coast (ocean)",
+ "Deerfield Beach (ocean)",
+ "Fort Myers",
+ "Pine Hills",
+ "Melbourne",
+ "Miami Beach (ocean)",
+ "Largo",
+ "Boynton Beach (ocean)",
+ "Homestead",
+ "Kendall",
+ "Kissimmee",
+ "The Villages",
+ "North Port (ocean)",
+ "Lauderhill",
+ "Doral",
+ "Tamarac",
+ "Daytona Beach (ocean)",
+ "Poinciana",
+ "Weston",
+ "Delray Beach (ocean)",
+ "Wesley Chapel",
+ "Port Charlotte (ocean)",
+ "Ocala",
+ "Port Orange (ocean)",
+ "The Hammocks",
+ "Wellington",
+ "Palm Harbor (ocean)",
+ "Jupiter",
+ "North Miami",
+ "Sanford",
+ "Palm Beach Gardens",
+ "Margate",
+ "Fountainebleau",
+ "St. Cloud",
+ "Coconut Creek",
+ "Bradenton",
+ "Tamiami",
+ "Westchester",
+ "Apopka",
+ "Horizon West",
+ "Sarasota",
+ "Kendale Lakes (river)",
+ "Pinellas Park",
+ "Bonita Springs",
+ "Country Club",
+ "Four Corners",
+ "Coral Gables",
+ "Winter Haven",
+ "University",
+ "Titusville",
+ "Ocoee",
+ "Fort Pierce",
+ "Winter Garden",
+ "Altamonte Springs (river)",
+ "Cutler Bay (ocean)",
+ "North Lauderdale",
+ "Oakland Park",
+ "Greenacres (grassland)",
+ "North Miami Beach (ocean)",
+ "Ormond Beach (ocean)",
+ "Lake Worth Beach (ocean)",
+ "Clermont",
+ "North Fort Myers",
+ "Hallandale Beach (ocean)",
+ "The Acreage",
+ "Meadow Woods (forest)",
+ "Aventura",
+ "Valrico",
+ "Ovideo",
+ "Plant City",
+ "Navarre",
+ "Royal Palm Beach (ocean)",
+ "Land O'Lakes (river)",
+ "Winter Springs (river)",
+ "Richmond West",
+ "Florida City",
+ "Riviera Beach (ocean)",
+ "Kendall West",
+ "DeLand",
+ "Princeton",
+ "South Miami Heights",
+ "Estero",
+ "Egypt Lake-Leto (river)",
+ "Dunedin",
+ "Buenaventura Lakes (river)",
+ "Lauderdale Lakes (river)",
+ "Carrollwood",
+ "Panama City",
+ "Fruit Cove",
+ "Merritt Island (ocean)",
+ "Golden Glades",
+ "Cooper City",
+ "Parkland",
+ "West Little River (river)",
+ "East Lake (river)",
+ "Dania Beach (ocean)",
+ "Lake Magdalene (river)",
+ "Lakeside (river)",
+ "Ferry Pass",
+ "East Lake-Orient Park",
+ "New Smyrna Beach (ocean)",
+ "Winter Park",
+ "Vero Beach South (ocean)",
+ "Fleming Island (ocean)",
+ "Lakewood Ranch",
+ "Golden Gate",
+ "Destin",
+ "Casselberry",
+ "Immokalee",
+ "Rockledge",
+ "Citrus Park",
+ "Crestview",
+ "Sun City Center",
+ "Key West",
+ "Leisure City",
+ "Palm Springs (river)",
+ "Temple Terrace",
+ "Ruskin",
+ "Haines City",
+ "Leesburg",
+ "Oak Ridge (forest)",
+ "Coral Terrace",
+ "West Melbourne",
+ "Ives Estates",
+ "Palm River",
+ "Clair Mel",
+ "Palm City",
+ "Keystone",
+ "Silver Springs Shores (ocean)",
+ "Bayonet Point",
+ "Tarpon Springs",
+ "Bloomingdale",
+ "South Bradenton",
+ "Northdale",
+ "Venice",
+ "Sebastian",
+ "Wright"

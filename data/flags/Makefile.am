@@ -169,6 +169,7 @@ flag_files =				\
 		finland.png		\
 		flanders.png		\
 		florence.png		\
+		florida.png		\
 		formosan.png		\
 		france_old.png		\
 		france.png		\
@@ -739,6 +740,7 @@ flag_files =				\
 		finland-large.png		\
 		flanders-large.png		\
 		florence-large.png		\
+		florida-large.png		\
 		formosan-large.png		\
 		france_old-large.png		\
 		france-large.png		\
@@ -1311,6 +1313,7 @@ shield_files =					\
 		finland-shield.png		\
 		flanders-shield.png		\
 		florence-shield.png		\
+		florida-shield.png		\
 		formosan-shield.png		\
 		france_old-shield.png		\
 		france-shield.png		\
@@ -1881,6 +1884,7 @@ shield_files =					\
 		finland-shield-large.png		\
 		flanders-shield-large.png		\
 		florence-shield-large.png		\
+		florida-shield-large.png		\
 		formosan-shield-large.png		\
 		france_old-shield-large.png		\
 		france-shield-large.png		\
@@ -2453,6 +2457,7 @@ svg_files = 				\
 		finland.svg		\
 		flanders.svg		\
 		florence.svg		\
+		florida.svg		\
 		formosan.svg		\
 		france_old.svg		\
 		france.svg		\
