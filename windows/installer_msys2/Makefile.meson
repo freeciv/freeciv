@@ -73,7 +73,7 @@ all-win32: gtk3.22-installer sdl2-installer gtk4-installer qt5-installer ruledit
 
 all-win64-10: gtk3.22-installer sdl2-installer gtk4-installer qt6-installer ruledit-installer-qt6
 
-all-win64+: gtk3.22-install sdl2-install gtk4-install
+all-win64+: gtk3.22-install sdl2-install gtk4-install qt6-install ruledit-install-qt6
 
 snapshot:
 	make -f $(MAKEFILE_NAME) VERSION_REVTYPE="git" EXTRA_CONFIG="-Dgitrev=true $(EXTRA_CONFIG)" all
@@ -110,6 +110,12 @@ gtk4-install:
 
 sdl2-install:
 	make -f $(MAKEFILE_NAME) GUI=sdl2 CLIENT=sdl2 FCMP=gtk4 install-freeciv-sdl2
+
+qt6-install:
+	make -f $(MAKEFILE_NAME) GUI=qt6 CLIENT=qt FCMP=qt install-freeciv-qt6
+
+ruledit-install-qt6:
+	make -f $(MAKEFILE_NAME) GUI=qt6 install-ruledit-qt6
 
 installer-common: install-freeciv-$(GUI) install-env-$(GUI)
 	# Extract Freeciv version
