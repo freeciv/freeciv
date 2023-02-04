@@ -6388,12 +6388,18 @@ static int secfile_lookup_int_default_min_max(struct section_file *file,
   Load ui_name of one action
 **************************************************************************/
 static bool load_action_ui_name(struct section_file *file, int act,
-                                const char *entry_name)
+                                const char *entry_name,
+                                const char *compat_name)
 {
   const char *text;
+  const char *def = action_ui_name_default(act);
 
-  text = secfile_lookup_str_default(file,
-                                    action_ui_name_default(act),
+  if (compat_name != NULL) {
+    def = secfile_lookup_str_default(file, def,
+                                     "actions.%s", compat_name);
+  }
+
+  text = secfile_lookup_str_default(file, def,
                                     "actions.%s", entry_name);
   sz_strlcpy(action_by_number(act)->ui_name, text);
 
@@ -7784,7 +7790,8 @@ static bool load_ruleset_actions(struct section_file *file,
           ok = FALSE;
         } else {
           load_action_ui_name(file, act_id,
-                              action_ui_name_ruleset_var_name(act_id));
+                              action_ui_name_ruleset_var_name(act_id),
+                              rscompat_action_ui_name_S3_2(compat, act_id));
         }
 
         if (!ok) {

@@ -765,14 +765,14 @@ static void hard_code_oblig_hard_reqs(void)
                           TRUE,
                           N_("All action enablers for %s must require"
                              " that the target is transporting a unit."),
-                          ACTRES_TRANSPORT_ALIGHT, ACTRES_NONE);
+                          ACTRES_TRANSPORT_DEBOARD, ACTRES_NONE);
   oblig_hard_req_register(req_from_values(VUT_UNITSTATE, REQ_RANGE_LOCAL,
                                           FALSE, FALSE, TRUE,
                                           USP_TRANSPORTED),
                           FALSE,
                           N_("All action enablers for %s must require"
                              " that the actor is transported."),
-                          ACTRES_TRANSPORT_ALIGHT,
+                          ACTRES_TRANSPORT_DEBOARD,
                           ACTRES_TRANSPORT_DISEMBARK,
                           ACTRES_NONE);
   oblig_hard_req_register(req_from_values(VUT_UNITSTATE, REQ_RANGE_LOCAL,
@@ -781,7 +781,7 @@ static void hard_code_oblig_hard_reqs(void)
                           FALSE,
                           N_("All action enablers for %s must require"
                              " that the actor is on a livable tile."),
-                          ACTRES_TRANSPORT_ALIGHT, ACTRES_NONE);
+                          ACTRES_TRANSPORT_DEBOARD, ACTRES_NONE);
 
   /* Why this is a hard requirement: sanity. */
   oblig_hard_req_register(req_from_values(VUT_UNITSTATE, REQ_RANGE_LOCAL,
@@ -1345,8 +1345,8 @@ static void hard_code_actions(void)
       unit_action_new(ACTION_IRRIGATE, ACTRES_IRRIGATE,
                       TRUE, FALSE,
                       MAK_STAYS, 0, 0, FALSE);
-  actions[ACTION_TRANSPORT_ALIGHT] =
-      unit_action_new(ACTION_TRANSPORT_ALIGHT, ACTRES_TRANSPORT_ALIGHT,
+  actions[ACTION_TRANSPORT_DEBOARD] =
+      unit_action_new(ACTION_TRANSPORT_DEBOARD, ACTRES_TRANSPORT_DEBOARD,
                       TRUE, FALSE,
                       MAK_STAYS, 0, 0, FALSE);
   actions[ACTION_TRANSPORT_BOARD] =
@@ -2266,7 +2266,7 @@ bool action_creates_extra(const struct action *paction,
   case ACTRES_CLEAN_FALLOUT:
   case ACTRES_FORTIFY:
   case ACTRES_CONVERT:
-  case ACTRES_TRANSPORT_ALIGHT:
+  case ACTRES_TRANSPORT_DEBOARD:
   case ACTRES_TRANSPORT_UNLOAD:
   case ACTRES_TRANSPORT_LOAD:
   case ACTRES_TRANSPORT_DISEMBARK:
@@ -2358,7 +2358,7 @@ bool action_removes_extra(const struct action *paction,
   case ACTRES_BASE:
   case ACTRES_MINE:
   case ACTRES_IRRIGATE:
-  case ACTRES_TRANSPORT_ALIGHT:
+  case ACTRES_TRANSPORT_DEBOARD:
   case ACTRES_TRANSPORT_UNLOAD:
   case ACTRES_TRANSPORT_LOAD:
   case ACTRES_TRANSPORT_DISEMBARK:
@@ -3367,7 +3367,7 @@ action_actor_utype_hard_reqs_ok_full(const struct action *paction,
 
   case ACTRES_TRANSPORT_BOARD:
   case ACTRES_TRANSPORT_EMBARK:
-  case ACTRES_TRANSPORT_ALIGHT:
+  case ACTRES_TRANSPORT_DEBOARD:
   case ACTRES_TRANSPORT_DISEMBARK:
     if (!ignore_third_party) {
       bool has_transporter = FALSE;
@@ -3659,7 +3659,7 @@ action_hard_reqs_actor(const struct action *paction,
   case ACTRES_BASE:
   case ACTRES_MINE:
   case ACTRES_IRRIGATE:
-  case ACTRES_TRANSPORT_ALIGHT:
+  case ACTRES_TRANSPORT_DEBOARD:
   case ACTRES_TRANSPORT_UNLOAD:
   case ACTRES_TRANSPORT_LOAD:
   case ACTRES_SPY_ATTACK:
@@ -4429,7 +4429,7 @@ is_action_possible(const action_id wanted_action,
     }
     break;
 
-  case ACTRES_TRANSPORT_ALIGHT:
+  case ACTRES_TRANSPORT_DEBOARD:
     if (!can_unit_unload(actor->unit, target->unit)) {
       /* Keep the old rules about Unreachable and disembarks. */
       return TRI_NO;
@@ -5788,7 +5788,7 @@ action_prob(const action_id wanted_action,
   case ACTRES_IRRIGATE:
     chance = ACTPROB_CERTAIN;
     break;
-  case ACTRES_TRANSPORT_ALIGHT:
+  case ACTRES_TRANSPORT_DEBOARD:
     chance = ACTPROB_CERTAIN;
     break;
   case ACTRES_TRANSPORT_BOARD:
@@ -7098,7 +7098,7 @@ int action_dice_roll_initial_odds(const struct action *paction)
   case ACTRES_BASE:
   case ACTRES_MINE:
   case ACTRES_IRRIGATE:
-  case ACTRES_TRANSPORT_ALIGHT:
+  case ACTRES_TRANSPORT_DEBOARD:
   case ACTRES_TRANSPORT_UNLOAD:
   case ACTRES_TRANSPORT_LOAD:
   case ACTRES_TRANSPORT_DISEMBARK:
@@ -7675,8 +7675,8 @@ const char *action_ui_name_ruleset_var_name(int act)
     return "ui_name_build_mine";
   case ACTION_IRRIGATE:
     return "ui_name_irrigate";
-  case ACTION_TRANSPORT_ALIGHT:
-    return "ui_name_transport_alight";
+  case ACTION_TRANSPORT_DEBOARD:
+    return "ui_name_transport_deboard";
   case ACTION_TRANSPORT_BOARD:
     return "ui_name_transport_board";
   case ACTION_TRANSPORT_BOARD2:
@@ -7995,7 +7995,7 @@ const char *action_ui_name_default(int act)
   case ACTION_IRRIGATE:
     /* TRANS: Build _Irrigation (100% chance of success). */
     return N_("Build %sIrrigation%s");
-  case ACTION_TRANSPORT_ALIGHT:
+  case ACTION_TRANSPORT_DEBOARD:
     /* TRANS: _Deboard (100% chance of success). */
     return N_("%sDeboard%s");
   case ACTION_TRANSPORT_BOARD:
@@ -8146,7 +8146,7 @@ const char *action_min_range_ruleset_var_name(int act)
   case ACTION_BASE:
   case ACTION_MINE:
   case ACTION_IRRIGATE:
-  case ACTION_TRANSPORT_ALIGHT:
+  case ACTION_TRANSPORT_DEBOARD:
   case ACTION_TRANSPORT_BOARD:
   case ACTION_TRANSPORT_BOARD2:
   case ACTION_TRANSPORT_BOARD3:
@@ -8263,7 +8263,7 @@ int action_min_range_default(enum action_result result)
   case ACTRES_BASE:
   case ACTRES_MINE:
   case ACTRES_IRRIGATE:
-  case ACTRES_TRANSPORT_ALIGHT:
+  case ACTRES_TRANSPORT_DEBOARD:
   case ACTRES_TRANSPORT_UNLOAD:
   case ACTRES_TRANSPORT_LOAD:
   case ACTRES_TRANSPORT_DISEMBARK:
@@ -8368,7 +8368,7 @@ const char *action_max_range_ruleset_var_name(int act)
   case ACTION_BASE:
   case ACTION_MINE:
   case ACTION_IRRIGATE:
-  case ACTION_TRANSPORT_ALIGHT:
+  case ACTION_TRANSPORT_DEBOARD:
   case ACTION_TRANSPORT_BOARD:
   case ACTION_TRANSPORT_BOARD2:
   case ACTION_TRANSPORT_BOARD3:
@@ -8491,7 +8491,7 @@ int action_max_range_default(enum action_result result)
   case ACTRES_BASE:
   case ACTRES_MINE:
   case ACTRES_IRRIGATE:
-  case ACTRES_TRANSPORT_ALIGHT:
+  case ACTRES_TRANSPORT_DEBOARD:
   case ACTRES_TRANSPORT_UNLOAD:
   case ACTRES_TRANSPORT_LOAD:
   case ACTRES_TRANSPORT_DISEMBARK:
@@ -8607,7 +8607,7 @@ const char *action_target_kind_ruleset_var_name(int act)
   case ACTION_BASE:
   case ACTION_MINE:
   case ACTION_IRRIGATE:
-  case ACTION_TRANSPORT_ALIGHT:
+  case ACTION_TRANSPORT_DEBOARD:
   case ACTION_TRANSPORT_BOARD:
   case ACTION_TRANSPORT_BOARD2:
   case ACTION_TRANSPORT_BOARD3:
@@ -8709,7 +8709,7 @@ action_target_kind_default(enum action_result result)
   case ACTRES_SPY_SABOTAGE_UNIT:
   case ACTRES_EXPEL_UNIT:
   case ACTRES_HEAL_UNIT:
-  case ACTRES_TRANSPORT_ALIGHT:
+  case ACTRES_TRANSPORT_DEBOARD:
   case ACTRES_TRANSPORT_UNLOAD:
   case ACTRES_TRANSPORT_LOAD:
   case ACTRES_TRANSPORT_BOARD:
@@ -8801,7 +8801,7 @@ bool action_result_legal_target_kind(enum action_result result,
   case ACTRES_SPY_SABOTAGE_UNIT:
   case ACTRES_EXPEL_UNIT:
   case ACTRES_HEAL_UNIT:
-  case ACTRES_TRANSPORT_ALIGHT:
+  case ACTRES_TRANSPORT_DEBOARD:
   case ACTRES_TRANSPORT_UNLOAD:
   case ACTRES_TRANSPORT_LOAD:
   case ACTRES_TRANSPORT_BOARD:
@@ -8907,7 +8907,7 @@ action_sub_target_kind_default(enum action_result result)
   case ACTRES_SPY_SABOTAGE_UNIT:
   case ACTRES_EXPEL_UNIT:
   case ACTRES_HEAL_UNIT:
-  case ACTRES_TRANSPORT_ALIGHT:
+  case ACTRES_TRANSPORT_DEBOARD:
   case ACTRES_TRANSPORT_UNLOAD:
   case ACTRES_TRANSPORT_LOAD:
   case ACTRES_TRANSPORT_BOARD:
@@ -9037,7 +9037,7 @@ const char *action_actor_consuming_always_ruleset_var_name(action_id act)
   case ACTION_BASE:
   case ACTION_MINE:
   case ACTION_IRRIGATE:
-  case ACTION_TRANSPORT_ALIGHT:
+  case ACTION_TRANSPORT_DEBOARD:
   case ACTION_TRANSPORT_BOARD:
   case ACTION_TRANSPORT_BOARD2:
   case ACTION_TRANSPORT_BOARD3:
@@ -9214,7 +9214,7 @@ const char *action_blocked_by_ruleset_var_name(const struct action *act)
   case ACTION_BASE:
   case ACTION_MINE:
   case ACTION_IRRIGATE:
-  case ACTION_TRANSPORT_ALIGHT:
+  case ACTION_TRANSPORT_DEBOARD:
   case ACTION_TRANSPORT_BOARD:
   case ACTION_TRANSPORT_BOARD2:
   case ACTION_TRANSPORT_BOARD3:
@@ -9356,7 +9356,7 @@ action_post_success_forced_ruleset_var_name(const struct action *act)
   case ACTION_BASE:
   case ACTION_MINE:
   case ACTION_IRRIGATE:
-  case ACTION_TRANSPORT_ALIGHT:
+  case ACTION_TRANSPORT_DEBOARD:
   case ACTION_TRANSPORT_BOARD:
   case ACTION_TRANSPORT_BOARD2:
   case ACTION_TRANSPORT_BOARD3:
@@ -9411,6 +9411,20 @@ action_post_success_forced_ruleset_var_name(const struct action *act)
 bool action_ever_possible(action_id action)
 {
   return action_enabler_list_size(action_enablers_for_action(action)) > 0;
+}
+
+/**********************************************************************//**
+  Specenum callback to update old enum names to current ones.
+**************************************************************************/
+const char *gen_action_name_update_cb(const char *old_name)
+{
+  if (is_ruleset_compat_mode()) {
+    if (!fc_strcasecmp("Transport Alight", old_name)) {
+      return "Transport Deboard";
+    }
+  }
+
+  return old_name;
 }
 
 const char *atk_helpnames[ATK_COUNT] =

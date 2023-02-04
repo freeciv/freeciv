@@ -29,6 +29,8 @@ extern "C" {
 #define SPECENUM_COUNT AAK_COUNT
 #include "specenum_gen.h"
 
+const char *gen_action_name_update_cb(const char *old_name);
+
 /* Values used in the network protocol. */
 /* Names used in file formats but not normally shown to users. */
 #define SPECENUM_NAME gen_action
@@ -174,9 +176,8 @@ extern "C" {
 #define SPECENUM_VALUE69NAME "Transport Board 2"
 #define SPECENUM_VALUE70 ACTION_TRANSPORT_BOARD3
 #define SPECENUM_VALUE70NAME "Transport Board_3"
-/* Deboard */
-#define SPECENUM_VALUE71 ACTION_TRANSPORT_ALIGHT
-#define SPECENUM_VALUE71NAME "Transport Alight"
+#define SPECENUM_VALUE71 ACTION_TRANSPORT_DEBOARD
+#define SPECENUM_VALUE71NAME "Transport Deboard"
 #define SPECENUM_VALUE72 ACTION_TRANSPORT_EMBARK
 #define SPECENUM_VALUE72NAME "Transport Embark"
 #define SPECENUM_VALUE73 ACTION_TRANSPORT_EMBARK2
@@ -267,6 +268,7 @@ extern "C" {
 #define SPECENUM_VALUE115NAME "User Action 4"
 #define SPECENUM_BITVECTOR bv_actions
 #define SPECENUM_COUNT ACTION_COUNT
+#define SPECENUM_NAME_UPDATER
 #include "specenum_gen.h"
 
 /* Fake action id used in searches to signal "any action at all". */

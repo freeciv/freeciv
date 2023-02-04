@@ -806,10 +806,10 @@ static bool do_heal_unit(struct player *act_player,
   Returns TRUE iff action could be done, FALSE if it couldn't. Even if
   this returns TRUE, unit may have died during the action.
 **************************************************************************/
-static bool do_unit_alight(struct player *act_player,
-                           struct unit *act_unit,
-                           struct unit *tgt_unit,
-                           const struct action *paction)
+static bool do_unit_deboard(struct player *act_player,
+                            struct unit *act_unit,
+                            struct unit *tgt_unit,
+                            const struct action *paction)
 {
   /* Unload the unit and send out info to clients. */
   unit_transport_unload_send(act_unit);
@@ -1166,7 +1166,7 @@ static struct player *need_war_player_hlp(const struct unit *actor,
   case ACTRES_BASE:
   case ACTRES_MINE:
   case ACTRES_IRRIGATE:
-  case ACTRES_TRANSPORT_ALIGHT:
+  case ACTRES_TRANSPORT_DEBOARD:
   case ACTRES_TRANSPORT_UNLOAD:
   case ACTRES_TRANSPORT_DISEMBARK:
   case ACTRES_TRANSPORT_BOARD:
@@ -3631,10 +3631,10 @@ bool unit_perform_action(struct player *pplayer,
                              do_heal_unit(pplayer, actor_unit, punit,
                                           paction));
     break;
-  case ACTRES_TRANSPORT_ALIGHT:
+  case ACTRES_TRANSPORT_DEBOARD:
     ACTION_PERFORM_UNIT_UNIT(action_type, actor_unit, punit,
-                             do_unit_alight(pplayer, actor_unit, punit,
-                                            paction));
+                             do_unit_deboard(pplayer, actor_unit, punit,
+                                             paction));
     break;
   case ACTRES_TRANSPORT_UNLOAD:
     ACTION_PERFORM_UNIT_UNIT(action_type, actor_unit, punit,

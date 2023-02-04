@@ -289,7 +289,7 @@ ui_name_build_mine = _("Build %sMine%s")
 ui_name_irrigate = _("Build %sIrrigation%s")
 
 ; /* TRANS: _Deboard (100% chance of success). */
-ui_name_transport_alight = _("%sDeboard%s")
+ui_name_transport_deboard = _("%sDeboard%s")
 
 ; /* TRANS: _Board (100% chance of success). */
 ui_name_transport_board = _("%sBoard%s")
@@ -722,8 +722,8 @@ target_reqs    =
       "TerrainAlter", "CanIrrigate", "Tile"
     }
 
-[actionenabler_alight]
-action        = "Transport Alight"
+[actionenabler_deboard]
+action        = "Transport Deboard"
 actor_reqs    =
     { "type",      "name",          "range"
       "UnitState", "OnLivableTile", "Local"
@@ -763,7 +763,7 @@ actor_reqs    =
     { "type",         "name",        "range", "present"
       "UnitState",    "Transported", "Local", TRUE
       "MinMoveFrags", "1",           "Local", TRUE
-      ; use "Transport Alight" from inside the city
+      ; Use "Transport Deboard" from inside the city
       "CityTile",     "Center",      "Tile",  FALSE
     }
 

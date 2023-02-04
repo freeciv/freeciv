@@ -2048,7 +2048,7 @@ void dai_incident(struct ai_type *ait, enum incident_type type,
     case ACTRES_BASE:
     case ACTRES_MINE:
     case ACTRES_IRRIGATE:
-    case ACTRES_TRANSPORT_ALIGHT:
+    case ACTRES_TRANSPORT_DEBOARD:
     case ACTRES_TRANSPORT_UNLOAD:
     case ACTRES_TRANSPORT_DISEMBARK:
     case ACTRES_TRANSPORT_BOARD:

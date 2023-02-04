@@ -2157,11 +2157,11 @@ void request_unit_unload(struct unit *pcargo)
   struct unit *ptrans = unit_transport_get(pcargo);
 
   if (can_client_issue_orders()
-      && ptrans
+      && ptrans != NULL
       && can_unit_unload(pcargo, ptrans)
       && can_unit_survive_at_tile(&(wld.map), pcargo, unit_tile(pcargo))) {
     if (unit_owner(pcargo) == client.conn.playing) {
-      request_do_action(ACTION_TRANSPORT_ALIGHT,
+      request_do_action(ACTION_TRANSPORT_DEBOARD,
                         pcargo->id, ptrans->id, 0, "");
     } else {
       request_do_action(ACTION_TRANSPORT_UNLOAD,

@@ -720,3 +720,18 @@ bool rscompat_terrain_extra_rmtime_3_2(struct section_file *file,
 
   return ok;
 }
+
+/**********************************************************************//**
+  Adjust freeciv-3.1 ruleset action ui_name to freeciv-3.2
+**************************************************************************/
+const char *rscompat_action_ui_name_S3_2(struct rscompat_info *compat,
+                                         int act_id)
+{
+  if (compat->compat_mode && compat->version < RSFORMAT_3_2) {
+    if (act_id == ACTION_TRANSPORT_DEBOARD) {
+      return "ui_name_transport_alight";
+    }
+  }
+
+  return NULL;
+}

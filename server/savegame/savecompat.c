@@ -1920,6 +1920,38 @@ static void compat_load_030200(struct loaddata *loading,
 
   log_debug("Upgrading data from savegame to version 3.2.0");
 
+  {
+    int action_count;
+
+    action_count = secfile_lookup_int_default(loading->file, 0,
+                                              "savefile.action_size");
+
+    if (action_count > 0) {
+      const char **modname;
+      const char **savemod;
+      int j;
+      const char *dur_name = "Transport Deboard";
+
+      modname = secfile_lookup_str_vec(loading->file, &loading->action.size,
+                                       "savefile.action_vector");
+
+      savemod = fc_calloc(action_count, sizeof(*savemod));
+
+      for (j = 0; j < action_count; j++) {
+        if (!fc_strcasecmp("Transport Alight", modname[j])) {
+          savemod[j] = dur_name;
+        } else {
+          savemod[j] = modname[j];
+        }
+      }
+
+      secfile_replace_str_vec(loading->file, savemod, action_count,
+                              "savefile.action_vector");
+
+      free(savemod);
+    }
+  }
+
   /* Server setting migration. */
   {
     if (secfile_lookup_int(loading->file, &set_count, "settings.set_count")) {
@@ -2747,6 +2779,39 @@ static void compat_load_dev(struct loaddata *loading)
         }
       }
     }
+
+    {
+      int action_count;
+
+      action_count = secfile_lookup_int_default(loading->file, 0,
+                                                "savefile.action_size");
+
+      if (action_count > 0) {
+        const char **modname;
+        const char **savemod;
+        int j;
+        const char *dur_name = "Transport Deboard";
+
+        modname = secfile_lookup_str_vec(loading->file, &loading->action.size,
+                                         "savefile.action_vector");
+
+        savemod = fc_calloc(action_count, sizeof(*savemod));
+
+        for (j = 0; j < action_count; j++) {
+          if (!fc_strcasecmp("Transport Alight", modname[j])) {
+            savemod[j] = dur_name;
+          } else {
+            savemod[j] = modname[j];
+          }
+        }
+
+        secfile_replace_str_vec(loading->file, savemod, action_count,
+                                "savefile.action_vector");
+
+        free(savemod);
+      }
+    }
+
   } /* Version < 3.1.93 */
 
 #endif /* FREECIV_DEV_SAVE_COMPAT_3_2 */

@@ -971,7 +971,7 @@ reqs	=
     { "type", "name", "range", "present"
       "Action", "Found City", "Local", FALSE
       "Action", "Transport Board", "Local", FALSE
-      "Action", "Transport Alight", "Local", FALSE
+      "Action", "Transport Deboard", "Local", FALSE
       "Action", "Transport Disembark", "Local", FALSE
       "Action", "Transport Disembark 2", "Local", FALSE
     }

@@ -1299,7 +1299,7 @@ static int action_target_neg_util(action_id act_id,
   case ACTRES_BASE:
   case ACTRES_MINE:
   case ACTRES_IRRIGATE:
-  case ACTRES_TRANSPORT_ALIGHT:
+  case ACTRES_TRANSPORT_DEBOARD:
   case ACTRES_TRANSPORT_BOARD:
   case ACTRES_TRANSPORT_UNLOAD:
   case ACTRES_TRANSPORT_LOAD:

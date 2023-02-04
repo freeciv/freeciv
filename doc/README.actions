@@ -622,8 +622,8 @@ Actions done by a unit against another unit
  * target must be visible for the actor.
  * A copy of "Heal Unit"
 
-"Transport Alight" - Exit target transport to same tile.
- * UI name can be set using ui_name_transport_alight
+"Transport Deboard" - Exit target transport to same tile.
+ * UI name can be set using ui_name_transport_deboard
  * actor must be on the same tile as the target
  * actor must be transported (!)
  * actor must be on a livable tile (!)
