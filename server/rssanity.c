@@ -335,7 +335,6 @@ static bool sanity_check_req_set(rs_conversion_logger logger,
      case VUT_TERRAINALTER: /* Local range only */
      case VUT_STYLE:
      case VUT_IMPR_GENUS:
-     case VUT_CITYSTATUS:
      case VUT_ORIGINAL_OWNER: /* City range -> only one original owner */
        /* There can be only one requirement of these types (with current
         * range limitations)
@@ -431,7 +430,11 @@ static bool sanity_check_req_set(rs_conversion_logger logger,
        /* Can have multiple requirements of these types */
      case VUT_MINLATITUDE:
      case VUT_MAXLATITUDE:
-       /* Can have multiple requirements at different ranges */
+       /* Can have multiple requirements at different ranges.
+       *  TODO: Compare to number of legal ranges? */
+       break;
+     case VUT_CITYSTATUS:
+       /* Could check "CITYS_LAST * number of ranges" ? */
        break;
      case VUT_COUNT:
        /* Should never be in requirement vector */

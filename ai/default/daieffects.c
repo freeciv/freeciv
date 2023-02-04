@@ -808,16 +808,17 @@ bool dai_can_requirement_be_met_in_city(const struct requirement *preq,
     return FALSE;
 
   case VUT_CITYSTATUS:
-    /* FIXME: update */
-    if (pcity == NULL || pcity->original == NULL) {
-      return preq->present;
+    if (pcity != NULL) {
+      if (preq->source.value.citystatus == CITYS_OWNED_BY_ORIGINAL
+          && pcity->original != NULL) {
+        if (preq->present) {
+          return city_owner(pcity) == pcity->original;
+        } else {
+          return city_owner(pcity) != pcity->original;
+        }
+      }
     }
-    if (preq->present) {
-      return city_owner(pcity) == pcity->original;
-    } else {
-      return city_owner(pcity) != pcity->original;
-    }
-
+    break;
   case VUT_TERRAIN:
   case VUT_TERRAINCLASS:
   case VUT_TERRAINALTER:
@@ -846,7 +847,6 @@ bool dai_can_requirement_be_met_in_city(const struct requirement *preq,
   case VUT_MINFOREIGNPCT:
     /* No way to add once lost. */
     return !preq->present;
-
 
   case VUT_NATION:
   case VUT_NATIONGROUP:
@@ -892,5 +892,6 @@ bool dai_can_requirement_be_met_in_city(const struct requirement *preq,
     /* No sensible implementation possible with data available. */
     break;
   }
+
   return TRUE;
 }
