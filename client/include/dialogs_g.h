@@ -20,8 +20,8 @@
 #include "actions.h"
 #include "fc_types.h"
 #include "featured_text.h"      /* struct text_tag_list */
-#include "nation.h"		/* Nation_type_id */
-#include "terrain.h"		/* enum tile_special_type */
+#include "nation.h"             /* Nation_type_id */
+#include "terrain.h"            /* enum tile_special_type */
 #include "unitlist.h"
 
 /* client */
@@ -79,7 +79,7 @@ GUI_FUNC_PROTO(void, popup_soundset_suggestion_dialog, void)
 GUI_FUNC_PROTO(void, popup_musicset_suggestion_dialog, void)
 GUI_FUNC_PROTO(bool, popup_theme_suggestion_dialog, const char *theme_name)
 GUI_FUNC_PROTO(void, show_tech_gained_dialog, Tech_type_id tech)
-GUI_FUNC_PROTO(void, show_tileset_error, const char *msg)
+GUI_FUNC_PROTO(void, show_tileset_error, const char *tset_name, const char *msg)
 GUI_FUNC_PROTO(bool, handmade_scenario_warning, void)
 
 GUI_FUNC_PROTO(void, popdown_all_game_dialogs, void)

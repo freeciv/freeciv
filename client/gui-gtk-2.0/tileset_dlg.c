@@ -40,8 +40,8 @@ static void tileset_suggestion_callback(GtkWidget *dlg, gint arg)
     /* User accepted tileset loading */
     sz_strlcpy(forced_tileset_name, game.control.preferred_tileset);
     if (!tilespec_reread(game.control.preferred_tileset, TRUE, 1.0f)) {
-      tileset_error(LOG_ERROR, _("Can't load requested tileset %s."),
-                    game.control.preferred_tileset);
+      tileset_error(LOG_ERROR, game.control.preferred_tileset,
+                    _("Can't load requested tileset."));
     }
   }
 }
