@@ -2249,7 +2249,7 @@ reqs	=
       "Gov", "Fundamentalism",  "Player"
     }
 
-[effect_enviromentalism]
+[effect_environmentalism]
 type    = "Pollu_Prod_Pct"
 value   = -50
 reqs    =
