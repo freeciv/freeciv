@@ -603,10 +603,15 @@ AC_PROG_CC
 AC_PROG_CPP
 AC_PROG_LN_S
 AC_DISABLE_SHARED
-AM_PROG_AR
+
+dnl AC_PROG_AR() added in autoconf-2.72
+m4_ifdef([AC_PROG_AR],
+   [AC_PROG_AR], [AM_PROG_AR])
+
 if test -z $AR; then
-	AC_MSG_ERROR([*** 'ar' missing.  Install binutils, fix your \$PATH, or set \$AR manually. ***])
+  AC_MSG_ERROR([*** 'ar' missing. Install binutils, fix your \$PATH, or set \$AR manually. ***])
 fi
+
 LT_INIT
 
 AM_PROG_CC_C_O
