@@ -1,5 +1,5 @@
 # Finnish translation of freeciv-ruledit
-# Copyright (C) 2016-2022
+# Copyright (C) 2016-2023
 # Marko Lindqvist <cazfi74@gmail.com>,
 # This translation is covered by the GNU General Public License Version 2.
 #
@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 3.2\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2023-01-06 11:53+0200\n"
-"PO-Revision-Date: 2023-01-06 11:54+0200\n"
+"POT-Creation-Date: 2023-02-04 05:39+0200\n"
+"PO-Revision-Date: 2023-02-04 05:47+0200\n"
 "Last-Translator: Marko Lindqvist <cazfi74@gmail.com>\n"
 "Language-Team: Finnish <laatu@lokalisointi.org>\n"
 "Language: fi\n"
@@ -43,6 +43,14 @@ msgstr "Ylläpito"
 #: tools/ruledit/edit_impr.cpp:71
 msgid "Genus"
 msgstr "Suku"
+
+#: tools/ruledit/edit_terrain.cpp:48
+msgid "Move Cost"
+msgstr "Liikkumisen hinta"
+
+#: tools/ruledit/edit_terrain.cpp:58
+msgid "Defense Bonus %"
+msgstr "Puolustusbonus %"
 
 #: tools/ruledit/edit_utype.cpp:58
 msgid "Attack Strength"
@@ -341,7 +349,7 @@ msgstr "Sulje ohjelma?"
 #: tools/ruledit/tab_building.cpp:67 tools/ruledit/tab_extras.cpp:65
 #: tools/ruledit/tab_good.cpp:66 tools/ruledit/tab_gov.cpp:65
 #: tools/ruledit/tab_multiplier.cpp:65 tools/ruledit/tab_tech.cpp:64
-#: tools/ruledit/tab_terrains.cpp:65 tools/ruledit/tab_unit.cpp:64
+#: tools/ruledit/tab_terrains.cpp:68 tools/ruledit/tab_unit.cpp:64
 msgid "Rule Name"
 msgstr "Sääntönimi"
 
@@ -358,8 +366,8 @@ msgstr "Sääntönimi"
 #: tools/ruledit/tab_multiplier.cpp:144 tools/ruledit/tab_multiplier.cpp:145
 #: tools/ruledit/tab_tech.cpp:67 tools/ruledit/tab_tech.cpp:77
 #: tools/ruledit/tab_tech.cpp:231 tools/ruledit/tab_tech.cpp:232
-#: tools/ruledit/tab_terrains.cpp:68 tools/ruledit/tab_terrains.cpp:78
-#: tools/ruledit/tab_terrains.cpp:144 tools/ruledit/tab_terrains.cpp:145
+#: tools/ruledit/tab_terrains.cpp:71 tools/ruledit/tab_terrains.cpp:81
+#: tools/ruledit/tab_terrains.cpp:151 tools/ruledit/tab_terrains.cpp:152
 #: tools/ruledit/tab_unit.cpp:67 tools/ruledit/tab_unit.cpp:77
 #: tools/ruledit/tab_unit.cpp:150 tools/ruledit/tab_unit.cpp:151
 msgid "None"
@@ -368,17 +376,18 @@ msgstr "Ei mikään"
 #: tools/ruledit/tab_building.cpp:75 tools/ruledit/tab_extras.cpp:73
 #: tools/ruledit/tab_good.cpp:74 tools/ruledit/tab_gov.cpp:73
 #: tools/ruledit/tab_multiplier.cpp:73 tools/ruledit/tab_tech.cpp:72
-#: tools/ruledit/tab_terrains.cpp:73 tools/ruledit/tab_unit.cpp:72
+#: tools/ruledit/tab_terrains.cpp:76 tools/ruledit/tab_unit.cpp:72
 msgid "Name"
 msgstr "Nimi"
 
-#: tools/ruledit/tab_building.cpp:86 tools/ruledit/tab_unit.cpp:83
+#: tools/ruledit/tab_building.cpp:86 tools/ruledit/tab_terrains.cpp:87
+#: tools/ruledit/tab_unit.cpp:83
 msgid "Edit Values"
 msgstr "Muokkaa arvoja"
 
 #: tools/ruledit/tab_building.cpp:94 tools/ruledit/tab_extras.cpp:88
 #: tools/ruledit/tab_good.cpp:89 tools/ruledit/tab_gov.cpp:88
-#: tools/ruledit/tab_tech.cpp:109 tools/ruledit/tab_terrains.cpp:84
+#: tools/ruledit/tab_tech.cpp:109 tools/ruledit/tab_terrains.cpp:91
 #: tools/ruledit/tab_unit.cpp:91
 msgid "Effects"
 msgstr "Vaikutukset"
@@ -687,15 +696,15 @@ msgstr "Ei koskaan"
 msgid "A tech with that rule name already exists!"
 msgstr "Teknologia samalla sääntönimellä on jo olemassa!"
 
-#: tools/ruledit/tab_terrains.cpp:88
+#: tools/ruledit/tab_terrains.cpp:95
 msgid "Add Terrain"
 msgstr "Lisää maastotyyppi"
 
-#: tools/ruledit/tab_terrains.cpp:93
+#: tools/ruledit/tab_terrains.cpp:100
 msgid "Remove this Terrain"
 msgstr "Poista tämä maastotyyppi"
 
-#: tools/ruledit/tab_terrains.cpp:179
+#: tools/ruledit/tab_terrains.cpp:186
 msgid "A terrain with that rule name already exists!"
 msgstr "Maastotyyppi samalla sääntönimellä on jo olemassa!"
 
@@ -737,30 +746,30 @@ msgstr "Poista vaatimus"
 msgid "%s prevents"
 msgstr "%s estää"
 
-#: tools/ruledit/validity.c:50 tools/ruledit/validity.c:361
+#: tools/ruledit/validity.c:50 tools/ruledit/validity.c:371
 msgid "Effect"
 msgstr "Vaikutus"
 
-#: tools/ruledit/validity.c:122
+#: tools/ruledit/validity.c:132
 #, c-format
 msgid "%s action enabler"
 msgstr "Toiminnan %s mahdollistin"
 
-#: tools/ruledit/validity.c:144
+#: tools/ruledit/validity.c:154
 msgid "Music Style"
 msgstr "Musiikkityyli"
 
 #. TRANS: e.g. "Advance clause"
-#: tools/ruledit/validity.c:157
+#: tools/ruledit/validity.c:167
 #, c-format
 msgid "%s clause"
 msgstr "%s sopimuskohta"
 
-#: tools/ruledit/validity.c:292
+#: tools/ruledit/validity.c:302
 msgid "Conflicting extra"
 msgstr "Konfliktaava ruutulisä"
 
-#: tools/ruledit/validity.c:295
+#: tools/ruledit/validity.c:305
 msgid "Hidden extra"
 msgstr "Kätketty ruutulisä"
 
