@@ -1509,7 +1509,7 @@ const char *get_spaceship_descr(struct player_spaceship *pship)
 }
 
 /************************************************************************//**
-  Get the text showing the timeout.  This is generally disaplyed on the info
+  Get the text showing the timeout.  This is generally displayed on the info
   panel.
 ****************************************************************************/
 const char *get_timeout_label_text(void)
