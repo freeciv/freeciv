@@ -17,7 +17,7 @@
 extern "C" {
 #endif /* __cplusplus */
 
-#include <time.h>	/* time_t */
+#include <time.h>       /* time_t */
 
 #ifdef FREECIV_HAVE_SYS_TYPES_H
 #include <sys/types.h>
@@ -47,18 +47,13 @@ extern "C" {
 /* common */
 #include "fc_types.h"
 
+/* common/networking */
+#include "conn_types.h"
+
 struct conn_pattern_list;
 struct genhash;
 struct packet_handlers;
 struct timer_list;
-
-/* Used in the network protocol. */
-#define MAX_LEN_PACKET   4096
-#define MAX_LEN_CAPSTR    512
-#define MAX_LEN_PASSWORD  512 /* do not change this under any circumstances */
-#define MAX_LEN_CONTENT  (MAX_LEN_PACKET - 20)
-
-#define MAX_LEN_BUFFER   (MAX_LEN_PACKET * 128)
 
 /****************************************************************************
   Command access levels for client-side use; at present, they are only
