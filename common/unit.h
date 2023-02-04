@@ -123,7 +123,7 @@ struct unit_order {
 /* Used in the network protocol */
 #define SPECENUM_NAME server_side_agent
 #define SPECENUM_VALUE0 SSA_NONE
-#define SPECENUM_VALUE0NAME N_("None")
+#define SPECENUM_VALUE0NAME N_("?serveragent:None")
 #define SPECENUM_VALUE1 SSA_AUTOSETTLER
 #define SPECENUM_VALUE1NAME N_("Autosettlers")
 #define SPECENUM_VALUE2 SSA_AUTOEXPLORE

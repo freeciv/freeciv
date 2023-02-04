@@ -1791,9 +1791,11 @@ const char *text_happiness_nationality(const struct city *pcity)
     }
 
     if (enemies == 0) {
+      /* TRANS: No enemy nationalities, as there's no enemies present. */
       astr_add(&str, _("None."));
     }
   } else {
+    /* TRANS: No nationalities present. */
     astr_add(&str, _("Disabled."));
   }
 

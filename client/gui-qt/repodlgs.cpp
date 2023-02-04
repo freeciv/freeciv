@@ -1161,14 +1161,15 @@ void real_science_report_dialog_update(void *unused)
   bool blk = false;
   QWidget *w;
   QString str;
+  struct player *plr = client_player();
 
-  if (NULL != client.conn.playing) {
-    struct research *research = research_get(client_player());
+  if (NULL != plr) {
+    struct research *research = research_get(plr);
 
     if (research->researching == A_UNSET) {
-      str = QString(_("none"));
+      str = QString(Q_("?tech:None"));
     } else if (research->client.researching_cost != 0) {
-      str = research_advance_name_translation(research,research->researching);
+      str = research_advance_name_translation(research, research->researching);
       percent = 100 *research->bulbs_researched / research->client.researching_cost;
       str = str + "\n (" + QString::number(percent) + "%)";
     }
