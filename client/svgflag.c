@@ -88,6 +88,7 @@ const char **ordered_gfx_fextensions(void)
     for (; i < count; i++) {
       ordered_extensions[i] = incoming[i];
     }
+    ordered_extensions[i] = NULL;
 
   } else {
     ordered_extensions = incoming;
