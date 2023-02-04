@@ -2137,8 +2137,8 @@ const char *secfile_lookup_str(const struct section_file *secfile,
 }
 
 /**************************************************************************
-  Lookup a string value in the secfile.  On failure, use the default
-  value.
+  Lookup a string value in the secfile. If there's no such key,
+  return def. Currently returns def also on failure.
 **************************************************************************/
 const char *secfile_lookup_str_default(const struct section_file *secfile,
                                        const char *def,
@@ -2162,6 +2162,8 @@ const char *secfile_lookup_str_default(const struct section_file *secfile,
   if (entry_str_get(pentry, &str)) {
     return str;
   }
+
+  SECFILE_LOG(secfile, NULL, "\"%s\" entry doesn't have a string.", fullpath);
 
   return def;
 }
