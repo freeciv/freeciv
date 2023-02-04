@@ -485,7 +485,7 @@ qfc_units_list::qfc_units_list()
 }
 
 /**********************************************************************//**
-  Adds givent unit to list
+  Adds given unit to list
 **************************************************************************/
 void qfc_units_list::add(qfc_delayed_unit_item* fui)
 {
