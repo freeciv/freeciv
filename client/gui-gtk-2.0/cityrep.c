@@ -61,8 +61,8 @@
 #define NEG_VAL(x)  ((x)<0 ? (x) : (-x))
 
 /* Some versions of gcc have problems with negative values here (PR#39722). */
-#define CMA_NONE	(10000)
-#define CMA_CUSTOM	(10001)
+#define CMA_NONE        (10000)
+#define CMA_CUSTOM      (10001)
 
 struct sell_data {
   int count;                    /* Number of cities. */
@@ -734,10 +734,10 @@ static void select_cma_callback(GtkWidget * w, gpointer data)
 }
 
 /****************************************************************
- Create the cma entries in the change menu and the select menu. The
- indices CMA_NONE and CMA_CUSTOM are special.
- CMA_NONE signifies a preset of "none" and CMA_CUSTOM a
- "custom" preset.
+  Create the cma entries in the change menu and the select menu.
+  The indices CMA_NONE and CMA_CUSTOM are special.
+  CMA_NONE signifies a preset of "none" and CMA_CUSTOM a
+  "custom" preset.
 *****************************************************************/
 static void append_cma_to_menu_item(GtkMenuItem *parent_item, bool change_cma)
 {
@@ -759,7 +759,7 @@ static void append_cma_to_menu_item(GtkMenuItem *parent_item, bool change_cma)
   gtk_menu_item_set_submenu(parent_item, menu);
 
   if (change_cma) {
-    w = gtk_menu_item_new_with_label(_("none"));
+    w = gtk_menu_item_new_with_label(Q_("?cma:none"));
     gtk_menu_shell_append(GTK_MENU_SHELL(menu), w);
     g_signal_connect(w, "activate", G_CALLBACK(select_cma_callback),
                      GINT_TO_POINTER(CMA_NONE));
@@ -773,69 +773,71 @@ static void append_cma_to_menu_item(GtkMenuItem *parent_item, bool change_cma)
       fc_assert(GPOINTER_TO_INT(GINT_TO_POINTER(i)) == i);
     }
   } else {
-    /* search for a "none" */
+    /* Search for a "none" */
     int found;
 
     found = 0;
     city_list_iterate(client.conn.playing->cities, pcity) {
       if (!cma_is_city_under_agent(pcity, NULL)) {
-	found = 1;
-	break;
+        found = 1;
+        break;
       }
     } city_list_iterate_end;
 
     if (found) {
-      w = gtk_menu_item_new_with_label(_("none"));
+      w = gtk_menu_item_new_with_label(Q_("?cma:none"));
       gtk_menu_shell_append(GTK_MENU_SHELL(menu), w);
       g_signal_connect(w, "activate", G_CALLBACK(select_cma_callback),
-		       GINT_TO_POINTER(CMA_NONE));
+                       GINT_TO_POINTER(CMA_NONE));
     }
 
-    /* 
+    /*
      * Search for a city that's under custom (not preset) agent. Might
      * take a lonnggg time.
      */
     found = 0;
     city_list_iterate(client.conn.playing->cities, pcity) {
       if (cma_is_city_under_agent(pcity, &parameter) &&
-	  cmafec_preset_get_index_of_parameter(&parameter) == -1) {
-	found = 1;
-	break;
+          cmafec_preset_get_index_of_parameter(&parameter) == -1) {
+        found = 1;
+        break;
       }
     } city_list_iterate_end;
 
     if (found) {
-      /* we found city that's under agent but not a preset */
-      w = gtk_menu_item_new_with_label(_("custom"));
+      /* We found city that's under agent but not a preset */
+      w = gtk_menu_item_new_with_label(Q_("?cma:custom"));
 
       gtk_menu_shell_append(GTK_MENU_SHELL(menu), w);
       g_signal_connect(w, "activate",
-	G_CALLBACK(select_cma_callback), GINT_TO_POINTER(CMA_CUSTOM));
+                       G_CALLBACK(select_cma_callback),
+                       GINT_TO_POINTER(CMA_CUSTOM));
     }
 
-    /* only fill in presets that are being used. */
+    /* Only fill in presets that are being used. */
     for (i = 0; i < cmafec_preset_num(); i++) {
       found = 0;
       city_list_iterate(client.conn.playing->cities, pcity) {
-	if (cma_is_city_under_agent(pcity, &parameter) &&
-	    cm_are_parameter_equal(&parameter,
-				   cmafec_preset_get_parameter(i))) {
-	  found = 1;
-	  break;
-	}
+        if (cma_is_city_under_agent(pcity, &parameter) &&
+            cm_are_parameter_equal(&parameter,
+                                   cmafec_preset_get_parameter(i))) {
+          found = 1;
+          break;
+        }
       } city_list_iterate_end;
-      if (found) {
-	w = gtk_menu_item_new_with_label(cmafec_preset_get_descr(i));
 
-      gtk_menu_shell_append(GTK_MENU_SHELL(menu), w);
-	g_signal_connect(w, "activate",
-	  G_CALLBACK(select_cma_callback), GINT_TO_POINTER(i));
+      if (found) {
+        w = gtk_menu_item_new_with_label(cmafec_preset_get_descr(i));
+
+        gtk_menu_shell_append(GTK_MENU_SHELL(menu), w);
+        g_signal_connect(w, "activate",
+                         G_CALLBACK(select_cma_callback), GINT_TO_POINTER(i));
       }
     }
   }
 
   g_object_set_data(G_OBJECT(menu), "freeciv_change_cma",
-		    GINT_TO_POINTER(change_cma));
+                    GINT_TO_POINTER(change_cma));
   gtk_widget_show_all(menu);
 }
 

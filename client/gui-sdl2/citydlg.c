@@ -2006,7 +2006,7 @@ static void redraw_info_city_dialog(struct widget *pCityWindow,
 
     alphablit(pSurf, NULL, pCityWindow->dst->surface, &dest, 255);
 
-    /* blit trade icon */
+    /* Blit trade icon */
     dest.x += pSurf->w + adj_size(3);
     dest.y += adj_size(4);
     alphablit(pIcons->pTrade, NULL, pCityWindow->dst->surface, &dest, 255);
@@ -2018,7 +2018,7 @@ static void redraw_info_city_dialog(struct widget *pCityWindow,
     FREESURFACE(pSurf);
   } trade_routes_iterate_end;
 
-  if (step) {
+  if (step > 0) {
     fc_snprintf(cBuf, sizeof(cBuf), _("Trade: +%d"), step);
 
     copy_chars_to_utf8_str(pstr, cBuf);
@@ -2031,7 +2031,7 @@ static void redraw_info_city_dialog(struct widget *pCityWindow,
 
     FREESURFACE(pSurf);
   } else {
-    fc_snprintf(cBuf, sizeof(cBuf), _("none"));
+    fc_snprintf(cBuf, sizeof(cBuf), Q_("?trade:None"));
 
     copy_chars_to_utf8_str(pstr, cBuf);
 
