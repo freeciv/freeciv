@@ -2037,7 +2037,7 @@ static void redraw_info_city_dialog(struct widget *city_window,
 
     alphablit(surf, NULL, city_window->dst->surface, &dest, 255);
 
-    /* blit trade icon */
+    /* Blit trade icon */
     dest.x += surf->w + adj_size(3);
     dest.y += adj_size(4);
     alphablit(icons->trade, NULL, city_window->dst->surface, &dest, 255);
@@ -2049,7 +2049,7 @@ static void redraw_info_city_dialog(struct widget *city_window,
     FREESURFACE(surf);
   } trade_routes_iterate_end;
 
-  if (step) {
+  if (step > 0) {
     fc_snprintf(cbuf, sizeof(cbuf), _("Trade: +%d"), step);
 
     copy_chars_to_utf8_str(pstr, cbuf);
@@ -2062,7 +2062,7 @@ static void redraw_info_city_dialog(struct widget *city_window,
 
     FREESURFACE(surf);
   } else {
-    fc_snprintf(cbuf, sizeof(cbuf), _("none"));
+    fc_snprintf(cbuf, sizeof(cbuf), Q_("?trade:None"));
 
     copy_chars_to_utf8_str(pstr, cbuf);
 
@@ -3730,7 +3730,7 @@ void real_city_dialog_popup(struct city *pcity)
   /* -------- */
 
   buf = create_themeicon(current_theme->r_arrow_icon, pwindow->dst,
-                          WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
+                         WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
   buf->info_label = create_utf8_from_char(_("Next city"), adj_font(12));
   buf->action = next_prev_city_dlg_callback;
   buf->size.x = area.x + adj_size(420) + adj_size(2);

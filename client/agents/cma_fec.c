@@ -223,7 +223,7 @@ const char *cmafec_get_short_descr_of_city(const struct city *pcity)
   struct cm_parameter parameter;
 
   if (!cma_is_city_under_agent(pcity, &parameter)) {
-    return _("none");
+    return Q_("?cma:none");
   } else {
     return cmafec_get_short_descr(&parameter);
   }
@@ -239,7 +239,7 @@ const char *cmafec_get_short_descr(const struct cm_parameter *const
   int idx = cmafec_preset_get_index_of_parameter(parameter);
 
   if (idx == -1) {
-    return _("custom");
+    return Q_("?cma:custom");
   } else {
     return cmafec_preset_get_descr(idx);
   }

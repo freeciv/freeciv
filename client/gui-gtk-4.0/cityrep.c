@@ -61,8 +61,8 @@
 #define NEG_VAL(x)  ((x)<0 ? (x) : (-x))
 
 /* Some versions of gcc have problems with negative values here (PR#39722). */
-#define CMA_NONE	(10000)
-#define CMA_CUSTOM	(10001)
+#define CMA_NONE        (10000)
+#define CMA_CUSTOM      (10001)
 
 struct sell_data {
   int count;                    /* Number of cities. */
@@ -780,7 +780,7 @@ static void append_cma_to_menu_item(GtkMenuItem *parent_item, bool change_cma)
   gtk_menu_item_set_submenu(parent_item, menu);
 
   if (change_cma) {
-    w = gtk_menu_item_new_with_label(_("none"));
+    w = gtk_menu_item_new_with_label(Q_("?cma:none"));
     gtk_menu_shell_append(GTK_MENU_SHELL(menu), w);
     g_signal_connect(w, "activate", G_CALLBACK(select_cma_callback),
                      GINT_TO_POINTER(CMA_NONE));
@@ -794,7 +794,7 @@ static void append_cma_to_menu_item(GtkMenuItem *parent_item, bool change_cma)
       fc_assert(GPOINTER_TO_INT(GINT_TO_POINTER(i)) == i);
     }
   } else {
-    /* search for a "none" */
+    /* Search for a "none" */
     int found;
 
     found = 0;
@@ -806,7 +806,7 @@ static void append_cma_to_menu_item(GtkMenuItem *parent_item, bool change_cma)
     } city_list_iterate_end;
 
     if (found) {
-      w = gtk_menu_item_new_with_label(_("none"));
+      w = gtk_menu_item_new_with_label(Q_("?cma:none"));
       gtk_menu_shell_append(GTK_MENU_SHELL(menu), w);
       g_signal_connect(w, "activate", G_CALLBACK(select_cma_callback),
                        GINT_TO_POINTER(CMA_NONE));
@@ -826,8 +826,8 @@ static void append_cma_to_menu_item(GtkMenuItem *parent_item, bool change_cma)
     } city_list_iterate_end;
 
     if (found) {
-      /* we found city that's under agent but not a preset */
-      w = gtk_menu_item_new_with_label(_("custom"));
+      /* We found city that's under agent but not a preset */
+      w = gtk_menu_item_new_with_label(Q_("?cma:custom"));
 
       gtk_menu_shell_append(GTK_MENU_SHELL(menu), w);
       g_signal_connect(w, "activate",
@@ -835,7 +835,7 @@ static void append_cma_to_menu_item(GtkMenuItem *parent_item, bool change_cma)
                        GINT_TO_POINTER(CMA_CUSTOM));
     }
 
-    /* only fill in presets that are being used. */
+    /* Only fill in presets that are being used. */
     for (i = 0; i < cmafec_preset_num(); i++) {
       found = 0;
       city_list_iterate(client.conn.playing->cities, pcity) {
