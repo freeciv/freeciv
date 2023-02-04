@@ -1558,15 +1558,25 @@ void show_tech_gained_dialog(Tech_type_id tech)
   Show tileset error dialog. It's blocking as client will
   shutdown as soon as this function returns.
 **************************************************************************/
-void show_tileset_error(const char *msg)
+void show_tileset_error(const char *tset_name, const char *msg)
 {
   if (is_gui_up()) {
     GtkWidget *dialog;
 
-    dialog = gtk_message_dialog_new(NULL, GTK_DIALOG_DESTROY_WITH_PARENT, GTK_MESSAGE_ERROR,
-                                    GTK_BUTTONS_CLOSE,
-                                    _("Tileset problem, it's probably incompatible with the ruleset:\n%s"),
-                                    msg);
+    if (tset_name != NULL) {
+      dialog = gtk_message_dialog_new(NULL, GTK_DIALOG_DESTROY_WITH_PARENT, GTK_MESSAGE_ERROR,
+                                      GTK_BUTTONS_CLOSE,
+                                      _("Tileset \"%s\" problem, "
+                                        "it's probably incompatible with the ruleset:\n%s"),
+                                      tset_name, msg);
+    } else {
+      dialog = gtk_message_dialog_new(NULL, GTK_DIALOG_DESTROY_WITH_PARENT, GTK_MESSAGE_ERROR,
+                                      GTK_BUTTONS_CLOSE,
+                                      _("Tileset problem, "
+                                        "it's probably incompatible with the ruleset:\n%s"),
+                                      msg);
+    }
+
     setup_dialog(dialog, toplevel);
 
     blocking_dialog(dialog);

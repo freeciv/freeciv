@@ -2212,7 +2212,8 @@ void handle_map_info(int xsize, int ysize, int topology_id)
   wld.map.ysize = ysize;
 
   if (tileset_map_topo_compatible(topology_id, tileset, &ts_topo) == TOPO_INCOMP_HARD) {
-    tileset_error(LOG_NORMAL, _("Map topology (%s) and tileset (%s) incompatible."),
+    tileset_error(LOG_NORMAL, tileset_name_get(tileset),
+                  _("Map topology (%s) and tileset (%s) incompatible."),
                   describe_topology(topology_id), describe_topology(ts_topo));
   }
 
