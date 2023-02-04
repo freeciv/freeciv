@@ -2208,7 +2208,8 @@ void handle_map_info(const struct packet_map_info *packet)
   wld.map.south_latitude = packet->south_latitude;
 
   if (tileset_map_topo_compatible(packet->topology_id, tileset, &ts_topo) == TOPO_INCOMP_HARD) {
-    tileset_error(LOG_NORMAL, _("Map topology (%s) and tileset (%s) incompatible."),
+    tileset_error(LOG_NORMAL, tileset_name_get(tileset),
+                  _("Map topology (%s) and tileset (%s) incompatible."),
                   describe_topology(packet->topology_id), describe_topology(ts_topo));
   }
 

@@ -3996,8 +3996,8 @@ void popup_tileset_suggestion_dialog(void)
     sz_strlcpy(forced_tileset_name, game.control.preferred_tileset);
     if (!tilespec_reread(game.control.preferred_tileset, true,
                          gui()->map_scale)) {
-      tileset_error(LOG_ERROR, _("Can't load requested tileset %s."),
-                    game.control.preferred_tileset);
+      tileset_error(LOG_ERROR, game.control.preferred_tileset,
+                    _("Can't load requested tileset."));
     }
   });
   ask->show();
@@ -4347,13 +4347,19 @@ void show_tech_gained_dialog(Tech_type_id tech)
 /***********************************************************************//**
   Show tileset error dialog.
 ***************************************************************************/
-void show_tileset_error(const char *msg)
+void show_tileset_error(const char *tset_name, const char *msg)
 {
   char buf[1024];
 
-  fc_snprintf(buf, sizeof(buf),
-              _("Tileset problem, it's probably incompatible with the"
-              " ruleset:\n%s"), msg);
+  if (tset_name != NULL) {
+    fc_snprintf(buf, sizeof(buf),
+                _("Tileset \"%s\" problem, it's probably incompatible with the"
+                  " ruleset:\n%s"), tset_name, msg);
+  } else {
+    fc_snprintf(buf, sizeof(buf),
+                _("Tileset problem, it's probably incompatible with the"
+                  " ruleset:\n%s"), msg);
+  }
 
   if (QCoreApplication::instance() != nullptr) {
     QMessageBox *ask = new QMessageBox(gui()->central_wdg);

@@ -213,7 +213,8 @@ extern struct tileset *unscaled_tileset;
 struct strvec;
 const struct strvec *get_tileset_list(const struct option *poption);
 
-void tileset_error(enum log_level level, const char *format, ...);
+void tileset_error(enum log_level level, const char *tset_name,
+                   const char *format, ...);
 
 void tileset_init(struct tileset *t);
 void tileset_free(struct tileset *tileset);

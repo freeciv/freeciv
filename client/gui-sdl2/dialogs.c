@@ -3637,7 +3637,7 @@ void show_tech_gained_dialog(Tech_type_id tech)
 /**********************************************************************//**
   Show tileset error dialog.
 **************************************************************************/
-void show_tileset_error(const char *msg)
+void show_tileset_error(const char *tset_name, const char *msg)
 {
   /* PORTME */
 }
