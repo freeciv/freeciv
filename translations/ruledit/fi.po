@@ -1,13 +1,13 @@
 # Finnish translation of freeciv-ruledit
-# Copyright (C) 2016-2022
+# Copyright (C) 2016-2023
 # Marko Lindqvist <cazfi74@gmail.com>,
 # This translation is covered by the GNU General Public License Version 2.
 #
 # NOTE: Ruledit strings are independent from pre-2.6 versions, no need to merge
 # from below.
 #
-# Merging translations upwards to e.g. master is fine, do not merge downwards
-# by default.
+# Merging translations upwards to e.g. master/main is fine, do not merge
+# downwards by default.
 #
 # Prioritizing stable branch S3_0 for translations (March 2021), merge
 # to master when feeling like it with:
@@ -19,8 +19,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 3.0\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2023-01-29 08:24+0200\n"
-"PO-Revision-Date: 2022-10-12 21:51+0300\n"
+"POT-Creation-Date: 2023-02-04 05:42+0200\n"
+"PO-Revision-Date: 2023-02-04 05:52+0200\n"
 "Last-Translator: Marko Lindqvist <cazfi74@gmail.com>\n"
 "Language-Team: Finnish <laatu@lokalisointi.org>\n"
 "Language: fi\n"
@@ -45,6 +45,14 @@ msgstr "Ylläpito"
 #: tools/ruledit/edit_impr.cpp:71
 msgid "Genus"
 msgstr "Suku"
+
+#: tools/ruledit/edit_terrain.cpp:48
+msgid "Move Cost"
+msgstr "Liikkumisen hinta"
+
+#: tools/ruledit/edit_terrain.cpp:58
+msgid "Defense Bonus %"
+msgstr "Liikkumisbonus %"
 
 #: tools/ruledit/edit_utype.cpp:49
 msgid "Requirement"
@@ -274,7 +282,7 @@ msgstr "Sulje ohjelma?"
 
 #: tools/ruledit/tab_building.cpp:66 tools/ruledit/tab_extras.cpp:64
 #: tools/ruledit/tab_good.cpp:65 tools/ruledit/tab_gov.cpp:64
-#: tools/ruledit/tab_tech.cpp:63 tools/ruledit/tab_terrains.cpp:64
+#: tools/ruledit/tab_tech.cpp:63 tools/ruledit/tab_terrains.cpp:67
 #: tools/ruledit/tab_unit.cpp:65
 msgid "Rule Name"
 msgstr "Sääntönimi"
@@ -290,8 +298,8 @@ msgstr "Sääntönimi"
 #: tools/ruledit/tab_gov.cpp:143 tools/ruledit/tab_gov.cpp:144
 #: tools/ruledit/tab_tech.cpp:66 tools/ruledit/tab_tech.cpp:76
 #: tools/ruledit/tab_tech.cpp:226 tools/ruledit/tab_tech.cpp:227
-#: tools/ruledit/tab_terrains.cpp:67 tools/ruledit/tab_terrains.cpp:77
-#: tools/ruledit/tab_terrains.cpp:139 tools/ruledit/tab_terrains.cpp:140
+#: tools/ruledit/tab_terrains.cpp:70 tools/ruledit/tab_terrains.cpp:80
+#: tools/ruledit/tab_terrains.cpp:146 tools/ruledit/tab_terrains.cpp:147
 #: tools/ruledit/tab_unit.cpp:68 tools/ruledit/tab_unit.cpp:78
 #: tools/ruledit/tab_unit.cpp:143 tools/ruledit/tab_unit.cpp:144
 msgid "None"
@@ -299,12 +307,13 @@ msgstr "Ei mikään"
 
 #: tools/ruledit/tab_building.cpp:74 tools/ruledit/tab_extras.cpp:72
 #: tools/ruledit/tab_good.cpp:73 tools/ruledit/tab_gov.cpp:72
-#: tools/ruledit/tab_tech.cpp:71 tools/ruledit/tab_terrains.cpp:72
+#: tools/ruledit/tab_tech.cpp:71 tools/ruledit/tab_terrains.cpp:75
 #: tools/ruledit/tab_unit.cpp:73
 msgid "Name"
 msgstr "Nimi"
 
-#: tools/ruledit/tab_building.cpp:85 tools/ruledit/tab_unit.cpp:84
+#: tools/ruledit/tab_building.cpp:85 tools/ruledit/tab_terrains.cpp:91
+#: tools/ruledit/tab_unit.cpp:84
 msgid "Edit Values"
 msgstr "Muokkaa arvoja"
 
@@ -585,15 +594,15 @@ msgstr "Ei koskaan"
 msgid "A tech with that rule name already exists!"
 msgstr "Teknologia samalla sääntönimellä on jo olemassa!"
 
-#: tools/ruledit/tab_terrains.cpp:83
+#: tools/ruledit/tab_terrains.cpp:86
 msgid "Add Terrain"
 msgstr "Lisää maastotyyppi"
 
-#: tools/ruledit/tab_terrains.cpp:88
+#: tools/ruledit/tab_terrains.cpp:95
 msgid "Remove this Terrain"
 msgstr "Poista tämä maastotyyppi"
 
-#: tools/ruledit/tab_terrains.cpp:174
+#: tools/ruledit/tab_terrains.cpp:181
 msgid "A terrain with that rule name already exists!"
 msgstr "Maastotyyppi samalla sääntönimellä on jo olemassa!"
 
