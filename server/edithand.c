@@ -961,7 +961,7 @@ void handle_edit_player_create(struct connection *pc, int tag)
   pplayer->server.got_first_city = FALSE;
 
   pplayer->economic.gold = 0;
-  pplayer->economic = player_limit_to_max_rates(pplayer);
+  player_limit_to_max_rates(pplayer);
 
   presearch = research_get(pplayer);
   init_tech(presearch, TRUE);
