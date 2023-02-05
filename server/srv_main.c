@@ -3353,7 +3353,7 @@ static void srv_ready(void)
 
     players_iterate(pplayer) {
       player_map_init(pplayer);
-      pplayer->economic = player_limit_to_max_rates(pplayer);
+      player_limit_to_max_rates(pplayer);
       pplayer->economic.gold = game.info.gold;
       pplayer->economic.infra_points = game.info.infrapoints;
     } players_iterate_end;
