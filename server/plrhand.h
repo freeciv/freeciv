@@ -43,7 +43,7 @@ void government_change(struct player *pplayer, struct government *gov,
 int revolution_length(struct government *gov, struct player *plr);
 void update_capital(struct player *pplayer);
 
-struct player_economic player_limit_to_max_rates(struct player *pplayer);
+void player_limit_to_max_rates(struct player *pplayer);
 
 void server_player_set_name(struct player *pplayer, const char *name);
 bool server_player_set_name_full(const struct connection *caller,

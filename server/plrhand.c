@@ -646,7 +646,7 @@ void check_player_max_rates(struct player *pplayer)
 {
   struct player_economic old_econ = pplayer->economic;
 
-  pplayer->economic = player_limit_to_max_rates(pplayer);
+  player_limit_to_max_rates(pplayer);
   if (old_econ.tax > pplayer->economic.tax) {
     notify_player(pplayer, NULL, E_NEW_GOVERNMENT, ftc_server,
                   _("Tax rate exceeded the max rate; adjusted."));
@@ -1465,7 +1465,7 @@ void server_player_init(struct player *pplayer, bool initmap,
    * to always have one server_player_init() call with
    * needs_team TRUE. */
   if (needs_team) {
-    pplayer->economic = player_limit_to_max_rates(pplayer);
+    player_limit_to_max_rates(pplayer);
   }
 
   adv_data_default(pplayer);
@@ -1871,50 +1871,49 @@ void server_remove_player(struct player *pplayer)
   Returns actual max rate used. This function should be called after team
   information are defined.
 **************************************************************************/
-struct player_economic player_limit_to_max_rates(struct player *pplayer)
+void player_limit_to_max_rates(struct player *pplayer)
 {
   int maxrate, surplus;
-  struct player_economic economic;
+  struct player_economic *economic;
 
   /* AI players allowed to cheat */
   if (is_ai(pplayer) && !has_handicap(pplayer, H_RATES)) {
-    return pplayer->economic;
+    return;
   }
 
-  economic = pplayer->economic;
+  economic = &(pplayer->economic);
 
   maxrate = get_player_maxrate(pplayer);
 
   surplus = 0;
-  if (economic.luxury > maxrate) {
-    surplus += economic.luxury - maxrate;
-    economic.luxury = maxrate;
+  if (economic->luxury > maxrate) {
+    surplus += economic->luxury - maxrate;
+    economic->luxury = maxrate;
   }
-  if (economic.tax > maxrate) {
-    surplus += economic.tax - maxrate;
-    economic.tax = maxrate;
+  if (economic->tax > maxrate) {
+    surplus += economic->tax - maxrate;
+    economic->tax = maxrate;
   }
-  if (economic.science > maxrate) {
-    surplus += economic.science - maxrate;
-    economic.science = maxrate;
+  if (economic->science > maxrate) {
+    surplus += economic->science - maxrate;
+    economic->science = maxrate;
   }
 
   fc_assert(surplus % 10 == 0);
+
   while (surplus > 0) {
-    if (economic.science < maxrate) {
-      economic.science += 10;
-    } else if (economic.tax < maxrate) {
-      economic.tax += 10;
-    } else if (economic.luxury < maxrate) {
-      economic.luxury += 10;
+    if (economic->science < maxrate) {
+      economic->science += 10;
+    } else if (economic->tax < maxrate) {
+      economic->tax += 10;
+    } else if (economic->luxury < maxrate) {
+      economic->luxury += 10;
     } else {
       fc_assert_msg(FALSE, "Failed to distribute the surplus. "
                     "maxrate = %d.", maxrate);
     }
     surplus -= 10;
   }
-
-  return economic;
 }
 
 /**********************************************************************//**
@@ -2692,9 +2691,9 @@ static struct player *split_player(struct player *pplayer)
   }
   research_update(old_research);
 
-  pplayer->economic = player_limit_to_max_rates(pplayer);
+  player_limit_to_max_rates(pplayer);
 
-  /* copy the maps */
+  /* Copy the maps */
 
   give_map_from_player_to_player(pplayer, cplayer);
 
@@ -2708,7 +2707,7 @@ static struct player *split_player(struct player *pplayer)
   CALL_PLR_AI_FUNC(split_by_civil_war, pplayer, pplayer, cplayer);
   CALL_PLR_AI_FUNC(created_by_civil_war, cplayer, pplayer, cplayer);
 
-  cplayer->economic = player_limit_to_max_rates(cplayer);
+  player_limit_to_max_rates(cplayer);
 
   return cplayer;
 }

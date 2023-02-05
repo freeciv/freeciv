@@ -5320,7 +5320,7 @@ static void sg_load_sanitycheck(struct loaddata *loading)
 
   /* Check max rates (rules may have changed since saving) */
   players_iterate(pplayer) {
-    pplayer->economic = player_limit_to_max_rates(pplayer);
+    player_limit_to_max_rates(pplayer);
   } players_iterate_end;
 
   if (0 == strlen(server.game_identifier)
