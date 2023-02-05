@@ -1415,8 +1415,8 @@ void log_civ_score_now(void)
       fprintf(score_log->fp, "%s%s\n", scorelog_magic, VERSION_STRING);
       fprintf(score_log->fp,
               "\n"
-              "# For a specification of the format of this see doc/README.scorelog or \n"
-              "# <https://raw.githubusercontent.com/freeciv/freeciv/master/doc/README.scorelog>.\n"
+              "# For a specification of the format of this see doc/README.scorelog or\n"
+              "# <https://raw.githubusercontent.com/freeciv/freeciv/S3_1/doc/README.scorelog>.\n"
               "\n");
 
       fprintf(score_log->fp, "id %s\n", server.game_identifier);
