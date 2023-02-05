@@ -300,8 +300,6 @@ static void show_city_productions_callback(GSimpleAction *action,
 static void show_city_buy_cost_callback(GSimpleAction *action,
                                         GVariant *parameter,
                                         gpointer data);
-
-#ifdef MENUS_GTK3
 static void show_city_trade_routes_callback(GSimpleAction *action,
                                             GVariant *parameter,
                                             gpointer data);
@@ -311,15 +309,17 @@ static void show_terrain_callback(GSimpleAction *action,
 static void show_coastline_callback(GSimpleAction *action,
                                     GVariant *parameter,
                                     gpointer data);
-static void show_road_rails_callback(GSimpleAction *action,
-                                     GVariant *parameter,
-                                     gpointer data);
+static void show_paths_callback(GSimpleAction *action,
+                                GVariant *parameter,
+                                gpointer data);
 static void show_irrigation_callback(GSimpleAction *action,
                                      GVariant *parameter,
                                      gpointer data);
-static void show_mine_callback(GSimpleAction *action,
-                               GVariant *parameter,
-                               gpointer data);
+static void show_mines_callback(GSimpleAction *action,
+                                GVariant *parameter,
+                                gpointer data);
+
+#ifdef MENUS_GTK3
 static void show_bases_callback(GSimpleAction *action,
                                 GVariant *parameter,
                                 gpointer data);
@@ -616,6 +616,24 @@ static struct menu_entry_info menu_entries[] =
   { "SHOW_CITY_BUY_COST", N_("City Buy Cost"),
     "show_city_buy_cost", NULL, MGROUP_SAFE,
     show_city_buy_cost_callback, FALSE },
+  { "SHOW_CITY_TRADE_ROUTES", N_("City Tra_deroutes"),
+    "show_trade_routes", "<ctrl>d", MGROUP_SAFE,
+    show_city_trade_routes_callback, FALSE },
+  { "SHOW_TERRAIN", N_("_Terrain"),
+    "show_terrain", NULL, MGROUP_SAFE,
+    show_terrain_callback, FALSE },
+  { "SHOW_COASTLINE", N_("C_oastline"),
+    "show_coastline", NULL, MGROUP_SAFE,
+    show_coastline_callback, FALSE },
+  { "SHOW_PATHS", N_("_Paths"),
+    "show_paths", NULL, MGROUP_SAFE,
+    show_paths_callback, FALSE },
+  { "SHOW_IRRIGATION", N_("_Irrigation"),
+    "show_irrigation", NULL, MGROUP_SAFE,
+    show_irrigation_callback, FALSE },
+  { "SHOW_MINES", N_("_Mines"),
+    "show_mines", NULL, MGROUP_SAFE,
+    show_mines_callback, FALSE },
 
   { "SHOW_STACK_SIZE", N_("Unit Stack Size"),
     "show_stack_size", "<ctrl>plus", MGROUP_SAFE,
@@ -889,18 +907,6 @@ static struct menu_entry_info menu_entries[] =
   { "EDIT_MODE", N_("_Editing Mode"), GDK_KEY_e, GDK_CONTROL_MASK,
     G_CALLBACK(edit_mode_callback), MGROUP_SAFE },
 
-  { "SHOW_CITY_TRADE_ROUTES", N_("City Tra_deroutes"), GDK_KEY_d, GDK_CONTROL_MASK,
-    G_CALLBACK(show_city_trade_routes_callback), MGROUP_SAFE },
-  { "SHOW_TERRAIN", N_("_Terrain"), 0, 0,
-    G_CALLBACK(show_terrain_callback), MGROUP_SAFE },
-  { "SHOW_COASTLINE", N_("C_oastline"), 0, 0,
-    G_CALLBACK(show_coastline_callback), MGROUP_SAFE },
-  { "SHOW_PATHS", N_("_Paths"), 0, 0,
-    G_CALLBACK(show_road_rails_callback), MGROUP_SAFE },
-  { "SHOW_IRRIGATION", N_("_Irrigation"), 0, 0,
-    G_CALLBACK(show_irrigation_callback), MGROUP_SAFE },
-  { "SHOW_MINES", N_("_Mines"), 0, 0,
-    G_CALLBACK(show_mine_callback), MGROUP_SAFE },
   { "SHOW_BASES", N_("_Bases"), 0, 0,
     G_CALLBACK(show_bases_callback), MGROUP_SAFE },
   { "SHOW_RESOURCES", N_("_Resources"), 0, 0,
@@ -991,6 +997,12 @@ enum {
   VMENU_CITY_GROWTH,
   VMENU_CITY_PRODUCTIONS,
   VMENU_CITY_BUY_COST,
+  VMENU_CITY_TRADE_ROUTES,
+  VMENU_TERRAIN,
+  VMENU_COASTLINE,
+  VMENU_PATHS,
+  VMENU_IRRIGATION,
+  VMENU_MINES,
   VMENU_STACK_SIZE,
   VMENU_FOW,
   VMENU_FULL_SCREEN
@@ -1627,6 +1639,66 @@ static void edit_mode_callback(GtkCheckMenuItem *item, gpointer data)
 }
 #endif /* MENUS_GTK3 */
 
+struct menu_entry_option_map {
+  const char *menu_entry;
+  bool *option;
+  int menu_pos;
+};
+
+const struct menu_entry_option_map meoms[] = {
+  { "SAVE_OPTIONS_ON_EXIT", &gui_options.save_options_on_exit, -1 },
+  { "FULL_SCREEN", &(GUI_GTK_OPTION(fullscreen)), -1 },
+  { "SHOW_CITY_OUTLINES", &gui_options.draw_city_outlines, VMENU_CITY_OUTLINES },
+  { "SHOW_CITY_OUTPUT", &gui_options.draw_city_output, VMENU_CITY_OUTPUT },
+  { "SHOW_MAP_GRID", &gui_options.draw_map_grid, VMENU_MAP_GRID },
+  { "SHOW_NAT_BORDERS", &gui_options.draw_borders, VMENU_NAT_BORDERS },
+  { "SHOW_NATIVE_TILES", &gui_options.draw_native, VMENU_NATIVE_TILES },
+  { "SHOW_CITY_FULL_BAR", &gui_options.draw_full_citybar, VMENU_CITY_FULL_BAR },
+  { "SHOW_CITY_NAMES", &gui_options.draw_city_names, VMENU_CITY_NAMES },
+  { "SHOW_CITY_GROWTH", &gui_options.draw_city_growth, VMENU_CITY_GROWTH },
+  { "SHOW_CITY_PRODUCTIONS", &gui_options.draw_city_productions,
+    VMENU_CITY_PRODUCTIONS },
+  { "SHOW_CITY_BUY_COST", &gui_options.draw_city_buycost, VMENU_CITY_BUY_COST },
+  { "SHOW_CITY_TRADE_ROUTES", &gui_options.draw_city_trade_routes,
+    VMENU_CITY_TRADE_ROUTES },
+  { "SHOW_TERRAIN", &gui_options.draw_terrain, VMENU_TERRAIN },
+  { "SHOW_COASTLINE", &gui_options.draw_coastline, VMENU_COASTLINE },
+  { "SHOW_PATHS", &gui_options.draw_roads_rails, VMENU_PATHS },
+  { "SHOW_IRRIGATION", &gui_options.draw_irrigation, VMENU_IRRIGATION },
+  { "SHOW_MINES", &gui_options.draw_mines, VMENU_MINES },
+
+  { "SHOW_STACK_SIZE", &gui_options.draw_unit_stack_size, VMENU_STACK_SIZE },
+  { "SHOW_FOG_OF_WAR", &gui_options.draw_fog_of_war, VMENU_FOW },
+
+  { NULL, NULL, -1 }
+};
+
+/************************************************************************//**
+  Common handling of view menu entry toggles.
+****************************************************************************/
+static void view_menu_item_toggle(struct menu_entry_info *info,
+                                  bool updt_sensitivity)
+{
+  int i;
+
+#ifdef MENUS_GTK3
+  if (updt_sensitivity) {
+    view_menu_update_sensitivity();
+  }
+#endif /* MENUS_GTK3 */
+
+  /* TODO: Make the information available directly from menu_entry_info,
+   *       se we don't need to do this search for it */
+  for (i = 0; meoms[i].menu_entry != NULL; i++) {
+    if (!strcmp(meoms[i].menu_entry, info->key)) {
+      g_menu_remove(view_menu, meoms[i].menu_pos);
+      menu_item_insert_unref(view_menu, meoms[i].menu_pos,
+                             create_toggle_menu_item_for_key(info->key));
+      return;
+    }
+  }
+}
+
 /************************************************************************//**
   Item "SHOW_CITY_OUTLINES" callback.
 ****************************************************************************/
@@ -1640,9 +1712,7 @@ static void show_city_outlines_callback(GSimpleAction *action,
 
   key_city_outlines_toggle();
 
-  g_menu_remove(view_menu, VMENU_CITY_OUTLINES);
-  menu_item_insert_unref(view_menu, VMENU_CITY_OUTLINES,
-                         create_toggle_menu_item_for_key("SHOW_CITY_OUTLINES"));
+  view_menu_item_toggle(info, FALSE);
 }
 
 /************************************************************************//**
@@ -1658,9 +1728,7 @@ static void show_city_output_callback(GSimpleAction *action,
 
   key_city_output_toggle();
 
-  g_menu_remove(view_menu, VMENU_CITY_OUTPUT);
-  menu_item_insert_unref(view_menu, VMENU_CITY_OUTPUT,
-                         create_toggle_menu_item_for_key("SHOW_CITY_OUTPUT"));
+  view_menu_item_toggle(info, FALSE);
 }
 
 /************************************************************************//**
@@ -1675,9 +1743,7 @@ static void show_map_grid_callback(GSimpleAction *action, GVariant *parameter,
 
   key_map_grid_toggle();
 
-  g_menu_remove(view_menu, VMENU_MAP_GRID);
-  menu_item_insert_unref(view_menu, VMENU_MAP_GRID,
-                         create_toggle_menu_item_for_key("SHOW_MAP_GRID"));
+  view_menu_item_toggle(info, FALSE);
 }
 
 /************************************************************************//**
@@ -1693,9 +1759,7 @@ static void show_national_borders_callback(GSimpleAction *action,
 
   key_map_borders_toggle();
 
-  g_menu_remove(view_menu, VMENU_NAT_BORDERS);
-  menu_item_insert_unref(view_menu, VMENU_NAT_BORDERS,
-                         create_toggle_menu_item_for_key("SHOW_NAT_BORDERS"));
+  view_menu_item_toggle(info, FALSE);
 }
 
 /************************************************************************//**
@@ -1711,9 +1775,7 @@ static void show_native_tiles_callback(GSimpleAction *action,
 
   key_map_native_toggle();
 
-  g_menu_remove(view_menu, VMENU_NATIVE_TILES);
-  menu_item_insert_unref(view_menu, VMENU_NATIVE_TILES,
-                         create_toggle_menu_item_for_key("SHOW_NATIVE_TILES"));
+  view_menu_item_toggle(info, FALSE);
 }
 
 /************************************************************************//**
@@ -1729,13 +1791,7 @@ static void show_city_full_bar_callback(GSimpleAction *action,
 
   key_city_full_bar_toggle();
 
-#ifdef MENUS_GTK3
-  view_menu_update_sensitivity();
-#endif /* MENUS_GTK3 */
-
-  g_menu_remove(view_menu, VMENU_CITY_FULL_BAR);
-  menu_item_insert_unref(view_menu, VMENU_CITY_FULL_BAR,
-                         create_toggle_menu_item_for_key("SHOW_CITY_FULL_BAR"));
+  view_menu_item_toggle(info, TRUE);
 }
 
 /************************************************************************//**
@@ -1751,13 +1807,7 @@ static void show_city_names_callback(GSimpleAction *action,
 
   key_city_names_toggle();
 
-#ifdef MENUS_GTK3
-  view_menu_update_sensitivity();
-#endif /* MENUS_GTK3 */
-
-  g_menu_remove(view_menu, VMENU_CITY_NAMES);
-  menu_item_insert_unref(view_menu, VMENU_CITY_NAMES,
-                         create_toggle_menu_item_for_key("SHOW_CITY_NAMES"));
+  view_menu_item_toggle(info, TRUE);
 }
 
 /************************************************************************//**
@@ -1773,9 +1823,7 @@ static void show_city_growth_callback(GSimpleAction *action,
 
   key_city_growth_toggle();
 
-  g_menu_remove(view_menu, VMENU_CITY_GROWTH);
-  menu_item_insert_unref(view_menu, VMENU_CITY_GROWTH,
-                         create_toggle_menu_item_for_key("SHOW_CITY_GROWTH"));
+  view_menu_item_toggle(info, FALSE);
 }
 
 /************************************************************************//**
@@ -1791,13 +1839,7 @@ static void show_city_productions_callback(GSimpleAction *action,
 
   key_city_productions_toggle();
 
-#ifdef MENUS_GTK3
-  view_menu_update_sensitivity();
-#endif
-
-  g_menu_remove(view_menu, VMENU_CITY_PRODUCTIONS);
-  menu_item_insert_unref(view_menu, VMENU_CITY_PRODUCTIONS,
-                         create_toggle_menu_item_for_key("SHOW_CITY_PRODUCTIONS"));
+  view_menu_item_toggle(info, TRUE);
 }
 
 /************************************************************************//**
@@ -1813,12 +1855,9 @@ static void show_city_buy_cost_callback(GSimpleAction *action,
 
   key_city_buycost_toggle();
 
-  g_menu_remove(view_menu, VMENU_CITY_BUY_COST);
-  menu_item_insert_unref(view_menu, VMENU_CITY_BUY_COST,
-                         create_toggle_menu_item_for_key("SHOW_CITY_BUY_COST"));
+  view_menu_item_toggle(info, FALSE);
 }
 
-#ifdef MENUS_GTK3
 /************************************************************************//**
   Item "SHOW_CITY_TRADE_ROUTES" callback.
 ****************************************************************************/
@@ -1826,9 +1865,13 @@ static void show_city_trade_routes_callback(GSimpleAction *action,
                                             GVariant *parameter,
                                             gpointer data)
 {
-  if (gui_options.draw_city_trade_routes ^ gtk_check_menu_item_get_active(item)) {
-    key_city_trade_routes_toggle();
-  }
+  struct menu_entry_info *info = (struct menu_entry_info *)data;
+
+  info->state ^= 1;
+
+  key_city_trade_routes_toggle();
+
+  view_menu_item_toggle(info, FALSE);
 }
 
 /************************************************************************//**
@@ -1838,10 +1881,13 @@ static void show_terrain_callback(GSimpleAction *action,
                                   GVariant *parameter,
                                   gpointer data)
 {
-  if (gui_options.draw_terrain ^ gtk_check_menu_item_get_active(item)) {
-    key_terrain_toggle();
-    view_menu_update_sensitivity();
-  }
+  struct menu_entry_info *info = (struct menu_entry_info *)data;
+
+  info->state ^= 1;
+
+  key_terrain_toggle();
+
+  view_menu_item_toggle(info, TRUE);
 }
 
 /************************************************************************//**
@@ -1851,21 +1897,29 @@ static void show_coastline_callback(GSimpleAction *action,
                                     GVariant *parameter,
                                     gpointer data)
 {
-  if (gui_options.draw_coastline ^ gtk_check_menu_item_get_active(item)) {
-    key_coastline_toggle();
-  }
+  struct menu_entry_info *info = (struct menu_entry_info *)data;
+
+  info->state ^= 1;
+
+  key_coastline_toggle();
+
+  view_menu_item_toggle(info, FALSE);
 }
 
 /************************************************************************//**
-  Item "SHOW_ROAD_RAILS" callback.
+  Item "SHOW_PATHS" callback.
 ****************************************************************************/
-static void show_road_rails_callback(GSimpleAction *action,
-                                     GVariant *parameter,
-                                     gpointer data)
+static void show_paths_callback(GSimpleAction *action,
+                                GVariant *parameter,
+                                gpointer data)
 {
-  if (gui_options.draw_roads_rails ^ gtk_check_menu_item_get_active(item)) {
-    key_roads_rails_toggle();
-  }
+  struct menu_entry_info *info = (struct menu_entry_info *)data;
+
+  info->state ^= 1;
+
+  key_roads_rails_toggle();
+
+  view_menu_item_toggle(info, FALSE);
 }
 
 /************************************************************************//**
@@ -1875,23 +1929,32 @@ static void show_irrigation_callback(GSimpleAction *action,
                                      GVariant *parameter,
                                      gpointer data)
 {
-  if (gui_options.draw_irrigation ^ gtk_check_menu_item_get_active(item)) {
-    key_irrigation_toggle();
-  }
+  struct menu_entry_info *info = (struct menu_entry_info *)data;
+
+  info->state ^= 1;
+
+  key_irrigation_toggle();
+
+  view_menu_item_toggle(info, FALSE);
 }
 
 /************************************************************************//**
-  Item "SHOW_MINE" callback.
+  Item "SHOW_MINES" callback.
 ****************************************************************************/
-static void show_mine_callback(GSimpleAction *action,
-                               GVariant *parameter,
-                               gpointer data)
+static void show_mines_callback(GSimpleAction *action,
+                                GVariant *parameter,
+                                gpointer data)
 {
-  if (gui_options.draw_mines ^ gtk_check_menu_item_get_active(item)) {
-    key_mines_toggle();
-  }
+  struct menu_entry_info *info = (struct menu_entry_info *)data;
+
+  info->state ^= 1;
+
+  key_mines_toggle();
+
+  view_menu_item_toggle(info, FALSE);
 }
 
+#ifdef MENUS_GTK3
 /************************************************************************//**
   Item "SHOW_BASES" callback.
 ****************************************************************************/
@@ -1998,9 +2061,7 @@ static void show_stack_size_callback(GSimpleAction *action,
 
   key_unit_stack_size_toggle();
 
-  g_menu_remove(view_menu, VMENU_STACK_SIZE);
-  menu_item_insert_unref(view_menu, VMENU_STACK_SIZE,
-                         create_toggle_menu_item_for_key("SHOW_STACK_SIZE"));
+  view_menu_item_toggle(info, FALSE);
 }
 
 #ifdef MENUS_GTK3
@@ -2030,13 +2091,7 @@ static void show_fog_of_war_callback(GSimpleAction *action, GVariant *parameter,
 
   key_fog_of_war_toggle();
 
-#ifdef MENUS_GTK3
-  view_menu_update_sensitivity();
-#endif /* MENUS_GTK3 */
-
-  g_menu_remove(view_menu, VMENU_FOW);
-  menu_item_insert_unref(view_menu, VMENU_FOW,
-                         create_toggle_menu_item_for_key("SHOW_FOG_OF_WAR"));
+  view_menu_item_toggle(info, TRUE);
 }
 
 /************************************************************************//**
@@ -2878,30 +2933,6 @@ static void menu_entry_init(GMenu *sub, const char *key)
   }
 }
 
-struct menu_entry_option_map {
-  const char *menu_entry;
-  bool *option;
-};
-
-const struct menu_entry_option_map meoms[] = {
-  { "SAVE_OPTIONS_ON_EXIT", &gui_options.save_options_on_exit },
-  { "FULL_SCREEN", &(GUI_GTK_OPTION(fullscreen)) },
-  { "SHOW_CITY_OUTLINES", &gui_options.draw_city_outlines },
-  { "SHOW_CITY_OUTPUT", &gui_options.draw_city_output },
-  { "SHOW_MAP_GRID", &gui_options.draw_map_grid },
-  { "SHOW_NAT_BORDERS", &gui_options.draw_borders },
-  { "SHOW_NATIVE_TILES", &gui_options.draw_native },
-  { "SHOW_CITY_FULL_BAR", &gui_options.draw_full_citybar },
-  { "SHOW_CITY_NAMES", &gui_options.draw_city_names },
-  { "SHOW_CITY_GROWTH", &gui_options.draw_city_growth },
-  { "SHOW_CITY_PRODUCTIONS", &gui_options.draw_city_productions },
-  { "SHOW_CITY_BUY_COST", &gui_options.draw_city_buycost },
-  { "SHOW_STACK_SIZE", &gui_options.draw_unit_stack_size },
-  { "SHOW_FOG_OF_WAR", &gui_options.draw_fog_of_war },
-
-  { NULL, NULL }
-};
-
 /************************************************************************//**
   Registers menu actions for the application.
 ****************************************************************************/
@@ -3043,6 +3074,13 @@ static GMenu *setup_menus(GtkApplication *app)
   menu_entry_init(view_menu, "SHOW_CITY_GROWTH");
   menu_entry_init(view_menu, "SHOW_CITY_PRODUCTIONS");
   menu_entry_init(view_menu, "SHOW_CITY_BUY_COST");
+  menu_entry_init(view_menu, "SHOW_CITY_TRADE_ROUTES");
+  menu_entry_init(view_menu, "SHOW_TERRAIN");
+  menu_entry_init(view_menu, "SHOW_COASTLINE");
+  menu_entry_init(view_menu, "SHOW_PATHS");
+  menu_entry_init(view_menu, "SHOW_IRRIGATION");
+  menu_entry_init(view_menu, "SHOW_MINES");
+
   menu_entry_init(view_menu, "SHOW_STACK_SIZE");
 
   menu_entry_init(view_menu, "SHOW_FOG_OF_WAR");
