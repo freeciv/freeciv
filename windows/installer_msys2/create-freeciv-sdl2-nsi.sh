@@ -2,6 +2,13 @@
 
 # ./create-freeciv-sdl2-nsi.sh <Freeciv files directory> <version> <win32|win64|win>
 
+ARCH_KEY_PART="$3"
+if test "$3" != "win32" && test "$3" != "win64" ; then
+  ARCH_INST_PART="-${ARCH_KEY_PART}"
+else
+  ARCH_INST_PART=""
+fi
+
 cat <<EOF
 ; Freeciv Windows installer script
 ; some parts adapted from Wesnoth installer script
@@ -14,16 +21,19 @@ SetCompressor /SOLID lzma
 !define GUI_ID sdl2
 !define GUI_NAME SDL2
 !define WIN_ARCH $3
-!define APPID "\${APPNAME}-\${VERSION}-\${GUI_ID}"
+!define ARCH_KEY_PART ${ARCH_KEY_PART}
+!define ARCH_INST_PART ${ARCH_INST_PART}
+
+!define APPID "\${APPNAME}-\${VERSION}\${ARCH_INST_PART}-\${GUI_ID}"
 
 !define MULTIUSER_EXECUTIONLEVEL Highest
 !define MULTIUSER_MUI
 !define MULTIUSER_INSTALLMODE_COMMANDLINE
-!define MULTIUSER_INSTALLMODE_DEFAULT_REGISTRY_KEY "Software\\\${APPNAME}\\\${VERSION}\\\${GUI_ID}"
+!define MULTIUSER_INSTALLMODE_DEFAULT_REGISTRY_KEY "Software\\\${APPNAME}\\\${VERSION}\\\${ARCH_KEY_PART}\\\${GUI_ID}"
 !define MULTIUSER_INSTALLMODE_DEFAULT_REGISTRY_VALUENAME ""
-!define MULTIUSER_INSTALLMODE_INSTDIR_REGISTRY_KEY "Software\\\${APPNAME}\\\${VERSION}\\\${GUI_ID}"
+!define MULTIUSER_INSTALLMODE_INSTDIR_REGISTRY_KEY "Software\\\${APPNAME}\\\${VERSION}\\\${ARCH_KEY_PART}\\\${GUI_ID}"
 !define MULTIUSER_INSTALLMODE_INSTDIR_REGISTRY_VALUENAME ""
-!define MULTIUSER_INSTALLMODE_INSTDIR "\${APPNAME}-\${VERSION}-\${GUI_ID}"
+!define MULTIUSER_INSTALLMODE_INSTDIR "\${APPNAME}-\${VERSION}\${ARCH_INST_PART}-\${GUI_ID}"
 
 !include "MultiUser.nsh"
 !include "MUI2.nsh"
@@ -49,9 +59,9 @@ Page custom DefaultLanguage DefaultLanguageLeave
 !insertmacro MULTIUSER_PAGE_INSTALLMODE
 !insertmacro MUI_PAGE_DIRECTORY
 
-;Start Menu Folder Page Configuration
+; Start Menu Folder Page Configuration
 !define MUI_STARTMENUPAGE_REGISTRY_ROOT "SHCTX" 
-!define MUI_STARTMENUPAGE_REGISTRY_KEY "Software\\\${APPNAME}\\\${VERSION}\\\${GUI_ID}" 
+!define MUI_STARTMENUPAGE_REGISTRY_KEY "Software\\\${APPNAME}\\\${VERSION}\\\${ARCH_KEY_PART}\\\${GUI_ID}"
 !define MUI_STARTMENUPAGE_REGISTRY_VALUENAME "Start Menu Folder"
 !define MUI_STARTMENUPAGE_DEFAULTFOLDER "\$(^Name)"
 
@@ -332,7 +342,8 @@ cat <<EOF
 
   ; remove registry keys
   DeleteRegKey "SHCTX" "Software\Microsoft\Windows\CurrentVersion\Uninstall\\\${APPID}"
-  DeleteRegKey /ifempty "SHCTX" SOFTWARE\\\${APPNAME}\\\${VERSION}\\\${GUI_ID}
+  DeleteRegKey /ifempty "SHCTX" SOFTWARE\\\${APPNAME}\\\${VERSION}\\\${ARCH_KEY_PART}\\\${GUI_ID}
+  DeleteRegKey /ifempty "SHCTX" SOFTWARE\\\${APPNAME}\\\${VERSION}\\\${ARCH_KEY_PART}
   DeleteRegKey /ifempty "SHCTX" SOFTWARE\\\${APPNAME}\\\${VERSION}
   DeleteRegKey /ifempty "SHCTX" SOFTWARE\\\${APPNAME}
 SectionEnd

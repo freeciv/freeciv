@@ -8,6 +8,13 @@ else
   MPGUI_ID="$3"
 fi
 
+ARCH_KEY_PART="$5"
+if test "$5" != "win32" && test "$5" != "win64" ; then
+  ARCH_INST_PART="-${ARCH_KEY_PART}"
+else
+  ARCH_INST_PART=""
+fi
+
 cat <<EOF
 ; Freeciv Windows installer script
 ; some parts adapted from Wesnoth installer script
@@ -21,16 +28,19 @@ SetCompressor /SOLID lzma
 !define MPGUI_ID $MPGUI_ID
 !define GUI_NAME $4
 !define WIN_ARCH $5
-!define APPID "\${APPNAME}-\${VERSION}-\${GUI_ID}"
+!define ARCH_KEY_PART ${ARCH_KEY_PART}
+!define ARCH_INST_PART ${ARCH_INST_PART}
+
+!define APPID "\${APPNAME}-\${VERSION}\${ARCH_INST_PART}-\${GUI_ID}"
 
 !define MULTIUSER_EXECUTIONLEVEL Highest
 !define MULTIUSER_MUI
 !define MULTIUSER_INSTALLMODE_COMMANDLINE
-!define MULTIUSER_INSTALLMODE_DEFAULT_REGISTRY_KEY "Software\\\${APPNAME}\\\${VERSION}\\\${GUI_ID}"
+!define MULTIUSER_INSTALLMODE_DEFAULT_REGISTRY_KEY "Software\\\${APPNAME}\\\${VERSION}\\\${ARCH_KEY_PART}\\\${GUI_ID}"
 !define MULTIUSER_INSTALLMODE_DEFAULT_REGISTRY_VALUENAME ""
-!define MULTIUSER_INSTALLMODE_INSTDIR_REGISTRY_KEY "Software\\\${APPNAME}\\\${VERSION}\\\${GUI_ID}"
+!define MULTIUSER_INSTALLMODE_INSTDIR_REGISTRY_KEY "Software\\\${APPNAME}\\\${VERSION}\\\${ARCH_KEY_PART}\\\${GUI_ID}"
 !define MULTIUSER_INSTALLMODE_INSTDIR_REGISTRY_VALUENAME ""
-!define MULTIUSER_INSTALLMODE_INSTDIR "\${APPNAME}-\${VERSION}-\${GUI_ID}"
+!define MULTIUSER_INSTALLMODE_INSTDIR "\${APPNAME}-\${VERSION}\${ARCH_INST_PART}-\${GUI_ID}"
 
 !include "MultiUser.nsh"
 !include "MUI2.nsh"
@@ -56,9 +66,9 @@ Page custom DefaultLanguage DefaultLanguageLeave
 !insertmacro MULTIUSER_PAGE_INSTALLMODE
 !insertmacro MUI_PAGE_DIRECTORY
 
-;Start Menu Folder Page Configuration
+; Start Menu Folder Page Configuration
 !define MUI_STARTMENUPAGE_REGISTRY_ROOT "SHCTX" 
-!define MUI_STARTMENUPAGE_REGISTRY_KEY "Software\\\${APPNAME}\\\${VERSION}\\\${GUI_ID}" 
+!define MUI_STARTMENUPAGE_REGISTRY_KEY "Software\\\${APPNAME}\\\${VERSION}\\\${ARCH_KEY_PART}\\\${GUI_ID}"
 !define MUI_STARTMENUPAGE_REGISTRY_VALUENAME "Start Menu Folder"
 !define MUI_STARTMENUPAGE_DEFAULTFOLDER "\$(^Name)"
 
@@ -109,7 +119,7 @@ EOF
 cat <<EOF
 
   ; Write the installation path into the registry
-  WriteRegStr "SHCTX" SOFTWARE\\\${APPNAME}\\\${VERSION}\\\${GUI_ID} "" "\$INSTDIR"
+  WriteRegStr "SHCTX" SOFTWARE\\\${APPNAME}\\\${VERSION}\\\${ARCH_KEY_PART}\\\${GUI_ID} "" "\$INSTDIR"
 
   !insertmacro MUI_STARTMENU_WRITE_BEGIN Application
   CreateDirectory "\$SMPROGRAMS\\\$STARTMENU_FOLDER"
@@ -321,7 +331,8 @@ cat <<EOF
 
   ; remove registry keys
   DeleteRegKey "SHCTX" "Software\Microsoft\Windows\CurrentVersion\Uninstall\\\${APPID}"
-  DeleteRegKey /ifempty "SHCTX" SOFTWARE\\\${APPNAME}\\\${VERSION}\\\${GUI_ID}
+  DeleteRegKey /ifempty "SHCTX" SOFTWARE\\\${APPNAME}\\\${VERSION}\\\${ARCH_KEY_PART}\\\${GUI_ID}
+  DeleteRegKey /ifempty "SHCTX" SOFTWARE\\\${APPNAME}\\\${VERSION}\\\${ARCH_KEY_PART}
   DeleteRegKey /ifempty "SHCTX" SOFTWARE\\\${APPNAME}\\\${VERSION}
   DeleteRegKey /ifempty "SHCTX" SOFTWARE\\\${APPNAME}
 SectionEnd
