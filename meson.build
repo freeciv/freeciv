@@ -599,8 +599,10 @@ if get_option('audio')
   audio_sdl2_dep = c_compiler.find_library('SDL2_mixer',
                                            dirs: cross_lib_path)
   audio_dep = [sdl2main_dep, audio_sdl2_dep]
+  audio_sdl_src = 'client/audio_sdl.c'
 else
   audio_dep = []
+  audio_sdl_src = []
 endif
 
 if get_option('json-protocol')
@@ -1696,7 +1698,6 @@ client_common = static_library('fc_client_common',
   'client/attribute.c',
   'client/audio.c',
   'client/audio_none.c',
-  'client/audio_sdl.c',
   'client/chatline_common.c',
   'client/citydlg_common.c',
   'client/cityrepdata.c',
@@ -1732,7 +1733,7 @@ client_common = static_library('fc_client_common',
   'client/update_queue.c',
   'client/voteinfo.c',
   'client/zoom.c',
-  sources: [pack_client,
+  sources: [audio_sdl_src, pack_client,
             tolua.process('client/luascript/tolua_client.pkg')],
   include_directories: client_inc,
   link_with: [common_lib],
