@@ -556,6 +556,27 @@ static void loaddata_destroy(struct loaddata *loading)
   free(loading);
 }
 
+
+/************************************************************************//**
+  Assign a new base building task to unit
+****************************************************************************/
+static void set_unit_activity_base(struct unit *punit,
+                                   Base_type_id base)
+{
+  set_unit_activity_targeted(punit, ACTIVITY_BASE,
+                             base_extra_get(base_by_number(base)));
+}
+
+/************************************************************************//**
+  Assign a new road building task to unit
+****************************************************************************/
+static void set_unit_activity_road(struct unit *punit,
+                                   Road_type_id road)
+{
+  set_unit_activity_targeted(punit, ACTIVITY_GEN_ROAD,
+                             road_extra_get(road_by_number(road)));
+}
+
 /* =======================================================================
  * Helper functions.
  * ======================================================================= */

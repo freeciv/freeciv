@@ -212,9 +212,6 @@ struct extra_type *resource_by_identifier(const char identifier);
 enum ai_level ai_level_convert(int old_level);
 enum barbarian_type barb_type_convert(int old_type);
 
-void set_unit_activity_base(struct unit *punit, Base_type_id base);
-void set_unit_activity_road(struct unit *punit, Road_type_id road);
-
 /* Old savegames might have padding up to this amount of trade routes */
 #define MAX_TRADE_ROUTES_OLD 5
 

@@ -2888,23 +2888,3 @@ enum barbarian_type barb_type_convert(int old_type)
 
   return barbarian_type_invalid();
 }
-
-/************************************************************************//**
-  Assign a new base building task to unit
-****************************************************************************/
-void set_unit_activity_base(struct unit *punit,
-                            Base_type_id base)
-{
-  set_unit_activity_targeted(punit, ACTIVITY_BASE,
-                             base_extra_get(base_by_number(base)));
-}
-
-/************************************************************************//**
-  Assign a new road building task to unit
-****************************************************************************/
-void set_unit_activity_road(struct unit *punit,
-                            Road_type_id road)
-{
-  set_unit_activity_targeted(punit, ACTIVITY_GEN_ROAD,
-                             road_extra_get(road_by_number(road)));
-}
