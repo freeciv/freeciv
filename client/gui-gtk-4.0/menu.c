@@ -207,8 +207,6 @@ static void help_improvements_callback(GSimpleAction *action,
 static void help_wonders_callback(GSimpleAction *action,
                                   GVariant *parameter,
                                   gpointer data);
-
-#ifdef MENUS_GTK3
 static void help_units_callback(GSimpleAction *action,
                                 GVariant *parameter,
                                 gpointer data);
@@ -239,6 +237,8 @@ static void help_tileset_callback(GSimpleAction *action,
 static void help_nations_callback(GSimpleAction *action,
                                   GVariant *parameter,
                                   gpointer data);
+
+#ifdef MENUS_GTK3
 static void help_connecting_callback(GSimpleAction *action,
                                      GVariant *parameter,
                                      gpointer data);
@@ -844,6 +844,36 @@ static struct menu_entry_info menu_entries[] =
   { "HELP_WONDERS", N_("Wonders of the World"),
     "help_wonders", NULL, MGROUP_SAFE,
     NULL, FALSE },
+  { "HELP_UNITS", N_("Units"),
+    "help_units", NULL, MGROUP_SAFE,
+    NULL, FALSE },
+  { "HELP_COMBAT", N_("Combat"),
+    "help_combat", NULL, MGROUP_SAFE,
+    NULL, FALSE },
+  { "HELP_ZOC", N_("Zones of Control"),
+    "help_zoc", NULL, MGROUP_SAFE,
+    NULL, FALSE },
+  { "HELP_GOVERNMENT", N_("Government"),
+    "help_government", NULL, MGROUP_SAFE,
+    NULL, FALSE },
+  { "HELP_DIPLOMACY", N_("Diplomacy"),
+    "help_diplomacy", NULL, MGROUP_SAFE,
+    NULL, FALSE },
+  { "HELP_TECH", N_("Technology"),
+    "help_tech", NULL, MGROUP_SAFE,
+    NULL, FALSE },
+  { "HELP_SPACE_RACE", N_("Space Race"),
+    "help_space_race", NULL, MGROUP_SAFE,
+    NULL, FALSE },
+  { "HELP_RULESET", N_("About Current Ruleset"),
+    "help_ruleset", NULL, MGROUP_SAFE,
+    NULL, FALSE },
+  { "HELP_TILESET", N_("About Current Tileset"),
+    "help_tileset", NULL, MGROUP_SAFE,
+    NULL, FALSE },
+  { "HELP_NATIONS", N_("About Nations"),
+    "help_nations", NULL, MGROUP_SAFE,
+    NULL, FALSE },
 
   { "HELP_LANGUAGES", N_("Languages"),
     "help_languages", NULL, MGROUP_SAFE,
@@ -873,26 +903,6 @@ static struct menu_entry_info menu_entries[] =
   { "MAPIMG_SAVE_AS", N_("Save _Map Image As..."), 0, 0,
     G_CALLBACK(save_mapimg_as_callback), MGROUP_SAFE },
 
-  { "HELP_UNITS", N_("Units"), 0, 0,
-    G_CALLBACK(help_units_callback), MGROUP_SAFE },
-  { "HELP_COMBAT", N_("Combat"), 0, 0,
-    G_CALLBACK(help_combat_callback), MGROUP_SAFE },
-  { "HELP_ZOC", N_("Zones of Control"), 0, 0,
-    G_CALLBACK(help_zoc_callback), MGROUP_SAFE },
-  { "HELP_GOVERNMENT", N_("Government"), 0, 0,
-    G_CALLBACK(help_government_callback), MGROUP_SAFE },
-  { "HELP_DIPLOMACY", N_("Diplomacy"), 0, 0,
-    G_CALLBACK(help_diplomacy_callback), MGROUP_SAFE },
-  { "HELP_TECH", N_("Technology"), 0, 0,
-    G_CALLBACK(help_tech_callback), MGROUP_SAFE },
-  { "HELP_SPACE_RACE", N_("Space Race"), 0, 0,
-    G_CALLBACK(help_space_race_callback), MGROUP_SAFE },
-  { "HELP_RULESET", N_("About Current Ruleset"), 0, 0,
-    G_CALLBACK(help_ruleset_callback), MGROUP_SAFE },
-  { "HELP_TILESET", N_("About Current Tileset"), 0, 0,
-    G_CALLBACK(help_tileset_callback), MGROUP_SAFE },
-  { "HELP_NATIONS", N_("About Nations"), 0, 0,
-    G_CALLBACK(help_nations_callback), MGROUP_SAFE },
   { "HELP_CONNECTING", N_("Connecting"), 0, 0,
     G_CALLBACK(help_connecting_callback), MGROUP_SAFE },
   { "HELP_CONTROLS", N_("Controls"), 0, 0,
@@ -1083,6 +1093,16 @@ const GActionEntry acts[] = {
   { "help_cities", help_cities_callback },
   { "help_improvements", help_improvements_callback },
   { "help_wonders", help_wonders_callback },
+  { "help_units", help_units_callback },
+  { "help_combat", help_combat_callback },
+  { "help_zoc", help_zoc_callback },
+  { "help_government", help_government_callback },
+  { "help_diplomacy", help_diplomacy_callback },
+  { "help_tech", help_tech_callback },
+  { "help_space_race", help_space_race_callback },
+  { "help_ruleset", help_ruleset_callback },
+  { "help_tileset", help_tileset_callback },
+  { "help_nations", help_nations_callback },
 
   { "help_languages", help_language_callback },
   { "help_copying", help_copying_callback },
@@ -1493,27 +1513,6 @@ static void help_wonders_callback(GSimpleAction *action,
   popup_help_dialog_string(HELP_WONDERS_ITEM);
 }
 
-#ifdef MENUS_GTK3
-/************************************************************************//**
-  Item "HELP_RULESET" callback.
-****************************************************************************/
-static void help_ruleset_callback(GSimpleAction *action,
-                                  GVariant *parameter,
-                                  gpointer data)
-{
-  popup_help_dialog_string(HELP_RULESET_ITEM);
-}
-
-/************************************************************************//**
-  Item "HELP_TILESET" callback.
-****************************************************************************/
-static void help_tileset_callback(GSimpleAction *action,
-                                  GVariant *parameter,
-                                  gpointer data)
-{
-  popup_help_dialog_string(HELP_TILESET_ITEM);
-}
-
 /************************************************************************//**
   Item "HELP_UNITS" callback.
 ****************************************************************************/
@@ -1545,16 +1544,6 @@ static void help_zoc_callback(GSimpleAction *action,
 }
 
 /************************************************************************//**
-  Item "HELP_TECH" callback.
-****************************************************************************/
-static void help_tech_callback(GSimpleAction *action,
-                               GVariant *parameter,
-                               gpointer data)
-{
-  popup_help_dialog_string(HELP_TECHS_ITEM);
-}
-
-/************************************************************************//**
   Item "HELP_GOVERNMENT" callback.
 ****************************************************************************/
 static void help_government_callback(GSimpleAction *action,
@@ -1575,6 +1564,16 @@ static void help_diplomacy_callback(GSimpleAction *action,
 }
 
 /************************************************************************//**
+  Item "HELP_TECH" callback.
+****************************************************************************/
+static void help_tech_callback(GSimpleAction *action,
+                               GVariant *parameter,
+                               gpointer data)
+{
+  popup_help_dialog_string(HELP_TECHS_ITEM);
+}
+
+/************************************************************************//**
   Item "HELP_SPACE_RACE" callback.
 ****************************************************************************/
 static void help_space_race_callback(GSimpleAction *action,
@@ -1582,6 +1581,26 @@ static void help_space_race_callback(GSimpleAction *action,
                                      gpointer data)
 {
   popup_help_dialog_string(HELP_SPACE_RACE_ITEM);
+}
+
+/************************************************************************//**
+  Item "HELP_RULESET" callback.
+****************************************************************************/
+static void help_ruleset_callback(GSimpleAction *action,
+                                  GVariant *parameter,
+                                  gpointer data)
+{
+  popup_help_dialog_string(HELP_RULESET_ITEM);
+}
+
+/************************************************************************//**
+  Item "HELP_TILESET" callback.
+****************************************************************************/
+static void help_tileset_callback(GSimpleAction *action,
+                                  GVariant *parameter,
+                                  gpointer data)
+{
+  popup_help_dialog_string(HELP_TILESET_ITEM);
 }
 
 /************************************************************************//**
@@ -1593,7 +1612,6 @@ static void help_nations_callback(GSimpleAction *action,
 {
   popup_help_dialog_string(HELP_NATIONS_ITEM);
 }
-#endif /* MENUS_GTK3 */
 
 /************************************************************************//**
   Item "HELP_LANGUAGE" callback.
@@ -3204,6 +3222,16 @@ static GMenu *setup_menus(GtkApplication *app)
   menu_entry_init(topmenu, "HELP_CITIES");
   menu_entry_init(topmenu, "HELP_IMPROVEMENTS");
   menu_entry_init(topmenu, "HELP_WONDERS");
+  menu_entry_init(topmenu, "HELP_UNITS");
+  menu_entry_init(topmenu, "HELP_COMBAT");
+  menu_entry_init(topmenu, "HELP_ZOC");
+  menu_entry_init(topmenu, "HELP_GOVERNMENT");
+  menu_entry_init(topmenu, "HELP_DIPLOMACY");
+  menu_entry_init(topmenu, "HELP_TECH");
+  menu_entry_init(topmenu, "HELP_SPACE_RACE");
+  menu_entry_init(topmenu, "HELP_RULESET");
+  menu_entry_init(topmenu, "HELP_TILESET");
+  menu_entry_init(topmenu, "HELP_NATIONS");
 
   menu_entry_init(topmenu, "HELP_LANGUAGES");
   menu_entry_init(topmenu, "HELP_COPYING");
