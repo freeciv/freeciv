@@ -15,13 +15,13 @@
 #define FC__WIDGET_BUTTON_H
 
 #define create_icon_button_from_chars(icon, pdest, char_string, ptsize, flags) \
-        create_icon_button(icon, pdest,                                         \
-                           create_utf8_from_char(char_string, ptsize),          \
+        create_icon_button(icon, pdest,                                        \
+                           create_utf8_from_char(char_string, ptsize),         \
                            flags)
 
 #define create_themeicon_button_from_chars(icon_theme, pdest, char_string, ptsize, flags) \
   create_themeicon_button(icon_theme, pdest,                           \
-                          create_utf8_from_char(char_string,            \
+                          create_utf8_from_char(char_string,           \
                                                 ptsize),               \
                           flags)
 
@@ -32,8 +32,5 @@ struct widget *create_icon_button(SDL_Surface *icon,
 struct widget *create_themeicon_button(SDL_Surface *icon_theme,
                                        struct gui_layer *pdest, utf8_str *pstr,
                                        Uint32 flags);
-
-int draw_tibutton(struct widget *button, Sint16 start_x, Sint16 start_y);
-int draw_ibutton(struct widget *button, Sint16 start_x, Sint16 start_y);
 
 #endif /* FC__WIDGET_BUTTON_H */
