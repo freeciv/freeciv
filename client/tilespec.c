@@ -5478,13 +5478,15 @@ int fill_sprite_array(struct tileset *t,
           int didx = t->cardinal_tileset_dirs[dir];
 
           extra_type_list_iterate(t->style_lists[ESTYLE_RIVER], priver) {
-            int idx = extra_index(priver);
+            if (is_extra_drawing_enabled(priver)) {
+              int idx = extra_index(priver);
 
-            if (BV_ISSET(textras_near[didx], idx)) {
-              if (t->sprites.extras[idx].u.road.ru.rivers.outlet[dir] != NULL) {
-                ADD_SPRITE_SIMPLE(t->sprites.extras[idx].u.road.ru.rivers.outlet[dir]);
+              if (BV_ISSET(textras_near[didx], idx)) {
+                if (t->sprites.extras[idx].u.road.ru.rivers.outlet[dir] != NULL) {
+                  ADD_SPRITE_SIMPLE(t->sprites.extras[idx].u.road.ru.rivers.outlet[dir]);
+                }
+                break;
               }
-              break;
             }
           } extra_type_list_iterate_end;
 	}
@@ -5495,32 +5497,34 @@ int fill_sprite_array(struct tileset *t,
 
       if (gui_options.draw_terrain && !solid_bg) {
         extra_type_list_iterate(t->style_lists[ESTYLE_RIVER], priver) {
-          int idx = extra_index(priver);
+          if (is_extra_drawing_enabled(priver)) {
+            int idx = extra_index(priver);
 
-          if (BV_ISSET(textras, idx)) {
-            int i;
+            if (BV_ISSET(textras, idx)) {
+              int i;
 
-            /* Draw rivers on top of irrigation. */
-            tileno = 0;
-            for (i = 0; i < t->num_cardinal_tileset_dirs; i++) {
-              enum direction8 cdir = t->cardinal_tileset_dirs[i];
+              /* Draw rivers on top of irrigation. */
+              tileno = 0;
+              for (i = 0; i < t->num_cardinal_tileset_dirs; i++) {
+                enum direction8 cdir = t->cardinal_tileset_dirs[i];
 
-              if (terrain_type_terrain_class(tterrain_near[cdir]) == TC_OCEAN) {
-                tileno |= 1 << i;
-              } else {
-                struct road_type *proad = extra_road_get(priver);
+                if (terrain_type_terrain_class(tterrain_near[cdir]) == TC_OCEAN) {
+                  tileno |= 1 << i;
+                } else {
+                  struct road_type *proad = extra_road_get(priver);
 
-                if (proad != NULL) {
-                  extra_type_list_iterate(proad->integrators, iextra) {
-                    if (BV_ISSET(textras_near[cdir], extra_index(iextra))) {
-                      tileno |= 1 << i;
-                    }
-                  } extra_type_list_iterate_end;
+                  if (proad != NULL) {
+                    extra_type_list_iterate(proad->integrators, iextra) {
+                      if (BV_ISSET(textras_near[cdir], extra_index(iextra))) {
+                        tileno |= 1 << i;
+                      }
+                    } extra_type_list_iterate_end;
+                  }
                 }
               }
-            }
 
-            ADD_SPRITE_SIMPLE(t->sprites.extras[idx].u.road.ru.rivers.spec[tileno]);
+              ADD_SPRITE_SIMPLE(t->sprites.extras[idx].u.road.ru.rivers.spec[tileno]);
+            }
           }
         } extra_type_list_iterate_end;
       }
