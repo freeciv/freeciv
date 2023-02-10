@@ -49,7 +49,7 @@ struct user_effect ueffects[EFT_USER_EFFECT_LAST + 1 - EFT_USER_EFFECT_1];
 
 /**************************************************************************
   The code creates a ruleset cache on ruleset load. This constant cache
-  is used to speed up effects queries.  After the cache is created it is
+  is used to speed up effects queries. After the cache is created it is
   not modified again (though it may later be freed).
 
   Since the cache is constant, the server only needs to send effects data to
@@ -61,24 +61,32 @@ struct user_effect ueffects[EFT_USER_EFFECT_LAST + 1 - EFT_USER_EFFECT_1];
   To know how much a target is being affected, simply use the convenience
   functions:
 
-  * get_player_bonus
-  * get_city_bonus
-  * get_city_tile_bonus
-  * get_tile_bonus
-  * get_building_bonus
+  * get_world_bonus()
+  * get_player_bonus()
+  * get_player_output_bonus()
+  * get_city_bonus()
+  * get_city_output_bonus()
+  * get_city_tile_output_bonus()
+  * get_city_specialist_output_bonus()
+  * get_tile_bonus()
+  * get_tile_output_bonus()
+  * get_building_bonus()
+  * get_unittype_bonus()
+  * get_unit_bonus()
+  * get_unit_vs_tile_bonus()
 
   These functions require as arguments the target and the effect type to be
   queried.
 
   Effect sources are unique and at a well known place in the
-  data structures.  This allows the above queries to be fast:
+  data structures. This allows the above queries to be fast:
     - Look up the possible sources for the effect (O(1) lookup)
     - For each source, find out if it is present (O(1) lookup per source).
   The first is commonly called the "ruleset cache" and is stored statically
-  in this file.  The second is the "sources cache" and is stored all over.
+  in this file. The second is the "sources cache" and is stored all over.
 
   Any type of effect range and "survives" is possible if we have a sources
-  cache for that combination.  For instance
+  cache for that combination. For instance
     - There is a sources cache of all existing buildings in a city; thus any
       building effect in a city can have city range.
     - There is a sources cache of all wonders in the world; thus any wonder
@@ -87,7 +95,7 @@ struct user_effect ueffects[EFT_USER_EFFECT_LAST + 1 - EFT_USER_EFFECT_1];
       wonder effect can have player range.
     - There is a sources cache of all wonders ever built; thus any wonder
       effect that survives can have world range.
-  However there is no sources cache for many of the possible sources.  For
+  However there is no sources cache for many of the possible sources. For
   instance non-unique buildings do not have a world-range sources cache, so
   you can't have a non-wonder building have a world-ranged effect.
 
@@ -96,9 +104,9 @@ struct user_effect ueffects[EFT_USER_EFFECT_LAST + 1 - EFT_USER_EFFECT_1];
     game.buildings[], pplayer->buildings[],
     pisland->buildings[], pcity->buildings[]
   which would store the number of buildings of that type present by game,
-  player, island (continent) or city.  This would allow non-surviving effects
-  to come from any building at any range.  However to allow surviving effects
-  a second set of arrays would be needed.  This should enable basic support
+  player, island (continent) or city. This would allow non-surviving effects
+  to come from any building at any range. However to allow surviving effects
+  a second set of arrays would be needed. This should enable basic support
   for small wonders and satellites.
 
   No matter which sources caches are present, we should always know where
