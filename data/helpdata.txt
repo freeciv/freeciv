@@ -1027,7 +1027,7 @@ another city.\
 Once built, a wonder is placed in the city that constructed it, and \
 cannot be sold or destroyed (unless the entire city is destroyed). \
 However, some wonders are made obsolete under certain, \
-ruleset dependant, circumstances, and lose their effect. \
+ruleset dependent, circumstances, and lose their effect. \
 Note the asymmetry under many rulesets: while you must personally \
 achieve the advance required by each wonder to build it, it will be \
 disabled when any player achieves the obsoleting advance.\
