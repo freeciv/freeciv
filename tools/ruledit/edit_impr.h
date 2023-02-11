@@ -21,6 +21,7 @@
 // Qt
 #include <QDialog>
 
+class QLineEdit;
 class QSpinBox;
 class QToolButton;
 
@@ -40,6 +41,8 @@ class edit_impr : public QDialog
     QSpinBox *bcost;
     QSpinBox *upkeep;
     QToolButton *genus_button;
+    QLineEdit *gfx_tag;
+    QLineEdit *gfx_tag_alt;
 
   protected:
     void closeEvent(QCloseEvent *cevent);
@@ -48,6 +51,8 @@ class edit_impr : public QDialog
     void set_bcost_value(int value);
     void set_upkeep_value(int value);
     void genus_menu(QAction *action);
+    void gfx_tag_given();
+    void gfx_tag_alt_given();
 };
 
 
