@@ -10,7 +10,7 @@
 # Version 2.4.2 (16-Dec-22)
 
 WINBUILD_VERSION="2.4.2"
-MIN_WINVER=0x0601 # Windows 7, Qt6-client and Qt6-ruledit builds override this
+MIN_WINVER=0x0603 # Windows 8.1, Qt6-client and Qt6-ruledit builds override this
 CROSSER_FEATURE_LEVEL=2.5
 
 if test "x$1" = x || test "x$1" = "x-h" || test "x$1" = "x--help" ; then
