@@ -201,7 +201,7 @@ enum dipl_reason {
   DIPL_ALLIANCE_PROBLEM_US, DIPL_ALLIANCE_PROBLEM_THEM
 };
 
-/* the following are for "pacts" */
+/* The following are for "pacts" */
 struct player_diplstate {
   enum diplstate_type type; /* this player's disposition towards other */
   enum diplstate_type max_state; /* maximum treaty level ever had */

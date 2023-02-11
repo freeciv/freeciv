@@ -503,7 +503,7 @@ static struct advanced_dialog *popup_diplomatic_objects(struct player *pplayer0,
     bool peace = clause_enabled(CLAUSE_PEACE)
       && type != DS_PEACE && type != DS_TEAM;
     bool alliance = clause_enabled(CLAUSE_ALLIANCE)
-      && pplayer_can_make_treaty(pplayer0, pplayer1, DS_ALLIANCE);
+      && pplayer_can_make_treaty(pplayer0, pplayer1, DS_ALLIANCE) == DIPL_OK;
 
     if (ceasefire || peace || alliance) {
       buf = create_iconlabel_from_chars(NULL, pwindow->dst,
@@ -1584,7 +1584,7 @@ void popup_diplomacy_dialog(struct player *pplayer)
         fc_snprintf(cbuf, sizeof(cbuf), _("Cancel Treaty"));
       }
 
-      /* cancel treaty */
+      /* Cancel treaty */
       buf = create_themeicon_button_from_chars(current_theme->units2_icon,
                                                pwindow->dst, cbuf,
                                                adj_font(12), 0);
