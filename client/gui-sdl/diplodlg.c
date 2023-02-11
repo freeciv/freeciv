@@ -529,9 +529,9 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
       count++;
     }
 
-    if (pplayer_can_make_treaty(pPlayer0, pPlayer1, DS_ALLIANCE)) {
+    if (pplayer_can_make_treaty(pPlayer0, pPlayer1, DS_ALLIANCE) == DIPL_OK) {
       fc_snprintf(cBuf, sizeof(cBuf), "  %s", Q_("?diplomatic_state:Alliance"));
-      
+
       pBuf = create_iconlabel_from_chars(NULL, pWindow->dst,
 	cBuf, adj_font(12), (WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
       pBuf->string16->fgcol = *get_theme_color(COLOR_THEME_DIPLODLG_MEETING_TEXT);
@@ -543,12 +543,12 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
       add_to_gui_list(MAX_ID, pBuf);
       count++;
     }
-    
+
   }
-  
+
   /* ---------------------------- */
   if (!gives_shared_vision(pPlayer0, pPlayer1)) {
-    
+
     pBuf = create_iconlabel_from_chars(NULL, pWindow->dst,
 	_("Give shared vision"), adj_font(12),
     		(WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
@@ -560,7 +560,7 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
     set_wstate(pBuf, FC_WS_NORMAL);
     add_to_gui_list(ID_LABEL, pBuf);
     count++;
-    
+
     /* ---------------------------- */
     /* you can't give maps if you give shared vision */
     pBuf = create_iconlabel_from_chars(NULL, pWindow->dst,
@@ -1548,7 +1548,7 @@ void popup_diplomacy_dialog(struct player *pPlayer)
         fc_snprintf(cBuf, sizeof(cBuf), _("Cancel Treaty"));
       }
 
-      /* cancel treaty */
+      /* Cancel treaty */
       pBuf = create_themeicon_button_from_chars(current_theme->UNITS2_Icon,
                                                 pWindow->dst, cBuf, adj_font(12), 0);
 
