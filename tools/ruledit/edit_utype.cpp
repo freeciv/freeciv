@@ -17,7 +17,9 @@
 
 // Qt
 #include <QGridLayout>
+#include <QLineEdit>
 #include <QMenu>
+#include <QSpinBox>
 #include <QToolButton>
 
 // common
@@ -66,7 +68,8 @@ edit_utype::edit_utype(ruledit_gui *ui_in, struct unit_type *utype_in) : QDialog
 
   bcost = new QSpinBox(this);
   bcost->setRange(0, 10000);
-  connect(bcost, SIGNAL(valueChanged(int)), this, SLOT(set_bcost_value(int)));
+  connect(bcost, SIGNAL
+          (valueChanged(int)), this, SLOT(set_bcost_value(int)));
 
   unit_layout->addWidget(label, row, 0);
   unit_layout->addWidget(bcost, row++, 1);
@@ -101,6 +104,24 @@ edit_utype::edit_utype(ruledit_gui *ui_in, struct unit_type *utype_in) : QDialog
   unit_layout->addWidget(label, row, 0);
   unit_layout->addWidget(move_rate, row++, 1);
 
+  label = new QLabel(QString::fromUtf8(R__("Graphics tag")));
+  label->setParent(this);
+
+  gfx_tag = new QLineEdit(this);
+  connect(gfx_tag, SIGNAL(returnPressed()), this, SLOT(gfx_tag_given()));
+
+  unit_layout->addWidget(label, row, 0);
+  unit_layout->addWidget(gfx_tag, row++, 1);
+
+  label = new QLabel(QString::fromUtf8(R__("Alt graphics tag")));
+  label->setParent(this);
+
+  gfx_tag_alt = new QLineEdit(this);
+  connect(gfx_tag_alt, SIGNAL(returnPressed()), this, SLOT(gfx_tag_alt_given()));
+
+  unit_layout->addWidget(label, row, 0);
+  unit_layout->addWidget(gfx_tag_alt, row++, 1);
+
   refresh();
 
   main_layout->addLayout(unit_layout);
@@ -113,6 +134,10 @@ edit_utype::edit_utype(ruledit_gui *ui_in, struct unit_type *utype_in) : QDialog
 **************************************************************************/
 void edit_utype::closeEvent(QCloseEvent *cevent)
 {
+  // Save values from text fields.
+  gfx_tag_given();
+  gfx_tag_alt_given();
+
   utype->ruledit_dlg = nullptr;
 }
 
@@ -126,6 +151,8 @@ void edit_utype::refresh()
   attack->setValue(utype->attack_strength);
   defense->setValue(utype->defense_strength);
   move_rate->setValue(utype->move_rate);
+  gfx_tag->setText(utype->graphic_str);
+  gfx_tag_alt->setText(utype->graphic_alt);
 }
 
 /**********************************************************************//**
@@ -176,4 +203,24 @@ void edit_utype::set_defense_value(int value)
 void edit_utype::set_move_rate(int value)
 {
   utype->move_rate = value;
+}
+
+/**********************************************************************//**
+  User entered new graphics tag.
+**************************************************************************/
+void edit_utype::gfx_tag_given()
+{
+  QByteArray tag_bytes = gfx_tag->text().toUtf8();
+
+  sz_strlcpy(utype->graphic_str, tag_bytes);
+}
+
+/**********************************************************************//**
+  User entered new alternative graphics tag.
+**************************************************************************/
+void edit_utype::gfx_tag_alt_given()
+{
+  QByteArray tag_bytes = gfx_tag_alt->text().toUtf8();
+
+  sz_strlcpy(utype->graphic_alt, tag_bytes);
 }

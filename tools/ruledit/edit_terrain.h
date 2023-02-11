@@ -21,6 +21,7 @@
 // Qt
 #include <QDialog>
 
+class QLineEdit;
 class QSpinBox;
 
 class ruledit_gui;
@@ -38,6 +39,8 @@ class edit_terrain : public QDialog
     struct terrain *ter;
     QSpinBox *mcost;
     QSpinBox *defense;
+    QLineEdit *gfx_tag;
+    QLineEdit *gfx_tag_alt;
 
   protected:
     void closeEvent(QCloseEvent *cevent);
@@ -45,6 +48,8 @@ class edit_terrain : public QDialog
   private slots:
     void set_mcost_value(int value);
     void set_defense_value(int value);
+    void gfx_tag_given();
+    void gfx_tag_alt_given();
 };
 
 #endif // FC__EDIT_TERRAIN_H
