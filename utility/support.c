@@ -505,17 +505,27 @@ int fc_stricoll(const char *str0, const char *str1)
 ****************************************************************************/
 FILE *fc_fopen(const char *filename, const char *opentype)
 {
-#ifdef FREECIV_MSWINDOWS
   FILE *result;
-  char *filename_in_local_encoding =
-    internal_to_local_string_malloc(filename);
 
-  result = fopen(filename_in_local_encoding, opentype);
-  free(filename_in_local_encoding);
-  return result;
+#ifdef FREECIV_MSWINDOWS
+  char *real_filename = internal_to_local_string_malloc(filename);
 #else  /* FREECIV_MSWINDOWS */
-  return fopen(filename, opentype);
+  const char *real_filename = filename;
 #endif /* FREECIV_MSWINDOWS */
+
+#ifdef HAVE_FOPEN_S
+  if (fopen_s(&result, real_filename, opentype) != 0) {
+    result = NULL;
+  }
+#else  /* HAVE_FOPEN_S */
+  result = fopen(real_filename, opentype);
+#endif /* HAVE_FOPEN_S */
+
+#ifdef FREECIV_MSWINDOWS
+  free(real_filename);
+#endif /* FREECIV_MSWINDOWS */
+
+  return result;
 }
 
 /************************************************************************//**

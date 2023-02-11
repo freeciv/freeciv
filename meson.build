@@ -305,6 +305,7 @@ priv_functions = [
   'clock_gettime',
   'connect',
   'fdopen',
+  'fopen_s',
   'fileno',
   'flock',
   'getentropy',
