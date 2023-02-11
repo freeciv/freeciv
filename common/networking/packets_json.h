@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ void *get_packet_from_connection_json(struct connection *pc,
   char *json_buffer = NULL;                                             \
   struct json_data_out dout;                                            \
   dio_output_init(&(dout.raw), buffer, sizeof(buffer));                 \
-  if (pc->json_mode) {                                                      \
+  if (pc->json_mode) {                                                  \
     dout.json = json_object();                                          \
     dio_put_uint16_raw(&(dout.raw), 0);                                 \
     pid_addr = plocation_field_new("pid");                              \
@@ -45,7 +45,7 @@ void *get_packet_from_connection_json(struct connection *pc,
 #define SEND_PACKET_END(packet_type) \
   {                                                                     \
     size_t size;                                                        \
-    if (pc->json_mode) {                                                    \
+    if (pc->json_mode) {                                                \
       json_buffer = json_dumps(dout.json, JSON_COMPACT | JSON_ENSURE_ASCII); \
       if (json_buffer) {                                                \
         dio_put_string_raw(&(dout.raw), json_buffer);                   \
@@ -67,29 +67,29 @@ void *get_packet_from_connection_json(struct connection *pc,
     return send_packet_data(pc, buffer, size, packet_type);             \
   }
 
-#define RECEIVE_PACKET_START(packet_type, result)       \
-  struct packet_type packet_buf, *result = &packet_buf; \
-  struct data_in din;                                   \
-  if (!pc->json_mode) { \
-      dio_input_init(&din, pc->buffer->data, \
-                 data_type_size(pc->packet_header.length)); \
-  { \
-    int size; \
-  \
-    dio_get_type_raw(&din, pc->packet_header.length, &size); \
-    dio_input_init(&din, pc->buffer->data, MIN(size, pc->buffer->ndata)); \
-  } \
-  dio_input_skip(&din, (data_type_size(pc->packet_header.length) \
-                        + data_type_size(pc->packet_header.type))); \
+#define RECEIVE_PACKET_START(packet_type, result)                           \
+  struct packet_type packet_buf, *result = &packet_buf;                     \
+  struct data_in din;                                                       \
+  if (!pc->json_mode) {                                                     \
+      dio_input_init(&din, pc->buffer->data,                                \
+                 data_type_size(pc->packet_header.length));                 \
+    {                                                                       \
+      int size;                                                             \
+                                                                            \
+      dio_get_type_raw(&din, pc->packet_header.length, &size);              \
+      dio_input_init(&din, pc->buffer->data, MIN(size, pc->buffer->ndata)); \
+    }                                                                       \
+    dio_input_skip(&din, (data_type_size(pc->packet_header.length)          \
+                   + data_type_size(pc->packet_header.type)));              \
   }
 
-#define RECEIVE_PACKET_END(result) \
-  if (pc->json_mode) { \
-    json_decref(pc->json_packet);        \
-    result = fc_malloc(sizeof(*result)); \
-    *result = packet_buf; \
-    return result; \
-  } else { \
+#define RECEIVE_PACKET_END(result)              \
+  if (pc->json_mode) {                          \
+    json_decref(pc->json_packet);               \
+    result = fc_malloc(sizeof(*result));        \
+    *result = packet_buf;                       \
+    return result;                              \
+  } else {                                      \
     if (!packet_check(&din, pc)) {              \
       return NULL;                              \
     }                                           \
@@ -99,9 +99,9 @@ void *get_packet_from_connection_json(struct connection *pc,
     return result;                              \
   }
 
-#define RECEIVE_PACKET_FIELD_ERROR(field, ...) \
+#define RECEIVE_PACKET_FIELD_ERROR(field, ...)           \
   log_packet("Error on field '" #field "'" __VA_ARGS__); \
-  return NULL
+  return NULL;
 
 /* Utilities to exchange strings and string vectors. */
 #define PACKET_STRVEC_SEPARATOR '\3'
@@ -123,4 +123,4 @@ void *get_packet_from_connection_json(struct connection *pc,
 }
 #endif /* __cplusplus */
 
-#endif  /* FC__PACKETS_JSON_H */
+#endif /* FC__PACKETS_JSON_H */

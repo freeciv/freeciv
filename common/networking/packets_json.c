@@ -84,11 +84,11 @@ void *get_packet_from_connection_json(struct connection *pc,
   json_t *pint;
 
   if (!pc->used) {
-    return NULL;		/* connection was closed, stop reading */
+    return NULL;                /* Connection was closed, stop reading */
   }
-  
+
   if (pc->buffer->ndata < data_type_size(pc->packet_header.length)) {
-    /* Not got enough for a length field yet */
+    /* Not enough for a length field yet */
     return NULL;
   }
 
@@ -99,7 +99,7 @@ void *get_packet_from_connection_json(struct connection *pc,
   whole_packet_len = len_read;
 
   if ((unsigned)whole_packet_len > pc->buffer->ndata) {
-    return NULL;		/* not all data has been read */
+    return NULL;                /* Not all data has been read */
   }
 
   /*
@@ -110,6 +110,7 @@ void *get_packet_from_connection_json(struct connection *pc,
     log_verbose("The packet stream is corrupt. The connection "
                 "will be closed now.");
     connection_close(pc, _("decoding error"));
+
     return NULL;
   }
 
@@ -120,7 +121,8 @@ void *get_packet_from_connection_json(struct connection *pc,
    */
   if (is_server() && pc->server.last_request_id_seen == 0) {
     /* Try to parse JSON packet. Note that json string has '\0' */
-    pc->json_packet = json_loadb((char*)pc->buffer->data + 2, whole_packet_len - 3, 0, &error);
+    pc->json_packet = json_loadb((char*)pc->buffer->data + 2,
+                                 whole_packet_len - 3, 0, &error);
 
     /* Set the connection mode */
     pc->json_mode = (pc->json_packet != NULL);
@@ -128,7 +130,8 @@ void *get_packet_from_connection_json(struct connection *pc,
 
   if (pc->json_mode) {
     /* Parse JSON packet. Note that json string has '\0' */
-    pc->json_packet = json_loadb((char*)pc->buffer->data + 2, whole_packet_len - 3, 0, &error);
+    pc->json_packet = json_loadb((char*)pc->buffer->data + 2,
+                                 whole_packet_len - 3, 0, &error);
 
     /* Log errors before we scrap the data */
     if (!pc->json_packet) {
@@ -140,7 +143,8 @@ void *get_packet_from_connection_json(struct connection *pc,
 
     /* Shift remaining data to the front */
     pc->buffer->ndata -= whole_packet_len;
-    memmove(pc->buffer->data, pc->buffer->data + whole_packet_len, pc->buffer->ndata);
+    memmove(pc->buffer->data, pc->buffer->data + whole_packet_len,
+            pc->buffer->ndata);
 
     if (!pc->json_packet) {
       return NULL;
@@ -153,8 +157,7 @@ void *get_packet_from_connection_json(struct connection *pc,
       return NULL;
     }
 
-    json_int_t packet_type = json_integer_value(pint);
-    utype.type = packet_type;
+    utype.type = json_integer_value(pint);
   } else {
     dio_get_type_raw(&din, pc->packet_header.type, &utype.itype);
     utype.type = utype.itype;
@@ -166,6 +169,7 @@ void *get_packet_from_connection_json(struct connection *pc,
                 "will be closed now.",
                 utype.type, packet_name(utype.type));
     connection_close(pc, _("unsupported packet type"));
+
     return NULL;
   }
 
@@ -179,7 +183,7 @@ void *get_packet_from_connection_json(struct connection *pc,
     pc->incoming_packet_notify(pc, utype.type, whole_packet_len);
   }
 
-#if PACKET_SIZE_STATISTICS 
+#if PACKET_SIZE_STATISTICS
   {
     static struct {
       int counter;
@@ -194,8 +198,8 @@ void *get_packet_from_connection_json(struct connection *pc,
       int i;
 
       for (i = 0; i < PACKET_LAST; i++) {
-	packets_stats[i].counter = 0;
-	packets_stats[i].size = 0;
+        packets_stats[i].counter = 0;
+        packets_stats[i].size = 0;
       }
     }
 
@@ -208,21 +212,24 @@ void *get_packet_from_connection_json(struct connection *pc,
 
       log_test("Received packets:");
       for (i = 0; i < PACKET_LAST; i++) {
-	if (packets_stats[i].counter == 0)
-	  continue;
-	sum += packets_stats[i].size;
+        if (packets_stats[i].counter == 0) {
+          continue;
+        }
+        sum += packets_stats[i].size;
         log_test("  [%-25.25s %3d]: %6d packets; %8d bytes total; "
                  "%5d bytes/packet average",
                  packet_name(i), i, packets_stats[i].counter,
                  packets_stats[i].size,
                  packets_stats[i].size / packets_stats[i].counter);
       }
+
       log_test("received %d bytes in %d packets;average size "
                "per packet %d bytes",
                sum, packet_counter, sum / packet_counter);
     }
   }
 #endif /* PACKET_SIZE_STATISTICS */
+
   data = receive_handler(pc);
   if (!data) {
     connection_close(pc, _("incompatible packet contents"));
