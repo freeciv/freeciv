@@ -2705,6 +2705,7 @@ static void sg_load_players(struct loaddata *loading)
       if (pplayers_allied(plr, aplayer)) {
         enum dipl_reason can_ally = pplayer_can_make_treaty(plr, aplayer,
                                                             DS_ALLIANCE);
+
         if (can_ally == DIPL_ALLIANCE_PROBLEM_US
             || can_ally == DIPL_ALLIANCE_PROBLEM_THEM) {
           log_sg("Illegal alliance structure detected: "
@@ -2728,7 +2729,7 @@ static void sg_load_players(struct loaddata *loading)
     } cities_iterate_end;
   }
 
-  /* Update all city information.  This must come after all cities are
+  /* Update all city information. This must come after all cities are
    * loaded (in player_load) but before player (dumb) cities are loaded
    * in player_load_vision(). */
   players_iterate(plr) {

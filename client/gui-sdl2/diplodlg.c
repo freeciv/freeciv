@@ -535,7 +535,7 @@ static struct ADVANCED_DLG *popup_diplomatic_objects(struct player *pPlayer0,
       count++;
     }
 
-    if (pplayer_can_make_treaty(pPlayer0, pPlayer1, DS_ALLIANCE)) {
+    if (pplayer_can_make_treaty(pPlayer0, pPlayer1, DS_ALLIANCE) == DIPL_OK) {
       fc_snprintf(cBuf, sizeof(cBuf), "  %s", Q_("?diplomatic_state:Alliance"));
 
       pBuf = create_iconlabel_from_chars(NULL, pWindow->dst,
@@ -1552,7 +1552,7 @@ void popup_diplomacy_dialog(struct player *pPlayer)
 	fc_snprintf(cBuf, sizeof(cBuf), _("Cancel Treaty"));
       }
 
-      /* cancel treaty */
+      /* Cancel treaty */
       pBuf = create_themeicon_button_from_chars(current_theme->UNITS2_Icon,
                                                 pWindow->dst, cBuf,
                                                 adj_font(12), 0);

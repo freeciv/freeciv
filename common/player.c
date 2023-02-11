@@ -84,10 +84,10 @@ enum diplstate_type cancel_pact_result(enum diplstate_type oldstate)
 }
 
 /***************************************************************
-  The senate may not allow you to break the treaty.  In this 
-  case you must first dissolve the senate then you can break 
-  it.  This is waived if you have statue of liberty since you 
-  could easily just dissolve and then recreate it. 
+  The senate may not allow you to break the treaty. In this
+  case you must first dissolve the senate then you can break
+  it. This is waived if you have statue of liberty since you
+  could easily just dissolve and then recreate it.
 ***************************************************************/
 enum dipl_reason pplayer_can_cancel_treaty(const struct player *p1, 
                                            const struct player *p2)
@@ -108,21 +108,22 @@ enum dipl_reason pplayer_can_cancel_treaty(const struct player *p1,
       && get_player_bonus(p1, EFT_NO_ANARCHY) <= 0) {
     return DIPL_SENATE_BLOCKING;
   }
+
   return DIPL_OK;
 }
 
 /***************************************************************
-  Returns true iff p1 can be in alliance with p2.
+  Returns TRUE iff p1 can be in alliance with p2.
 
-  Check that we are not at war with any of p2's allies. Note 
-  that for an alliance to be made, we need to check this both 
+  Check that we are not at war with any of p2's allies. Note
+  that for an alliance to be made, we need to check this both
   ways.
 
-  The reason for this is to avoid the dread 'love-love-hate' 
+  The reason for this is to avoid the dread 'love-love-hate'
   triad, in which p1 is allied to p2 is allied to p3 is at
   war with p1. These lead to strange situations.
 ***************************************************************/
-static bool is_valid_alliance(const struct player *p1, 
+static bool is_valid_alliance(const struct player *p1,
                               const struct player *p2)
 {
   players_iterate_alive(pplayer) {
@@ -130,7 +131,7 @@ static bool is_valid_alliance(const struct player *p1,
 
     if (pplayer != p1
         && pplayer != p2
-        && ds == DS_WAR /* do not count 'never met' as war here */
+        && ds == DS_WAR /* Do not count 'never met' as war here */
         && pplayers_allied(p2, pplayer)) {
       return FALSE;
     }
@@ -140,12 +141,13 @@ static bool is_valid_alliance(const struct player *p1,
 }
 
 /***************************************************************
-  Returns true iff p1 can make given treaty with p2.
+  Returns the reason p1 can't make given treaty with p2,
+  or DIPL_OK if they can.
 
   We cannot regress in a treaty chain. So we cannot suggest
   'Peace' if we are in 'Alliance'. Then you have to cancel.
 
-  For alliance there is only one condition: We are not at war 
+  For alliance there is only one condition: We are not at war
   with any of p2's allies.
 ***************************************************************/
 enum dipl_reason pplayer_can_make_treaty(const struct player *p1,
@@ -162,17 +164,17 @@ enum dipl_reason pplayer_can_make_treaty(const struct player *p1,
       || get_player_bonus(p2, EFT_NO_DIPLOMACY) > 0) {
     return DIPL_ERROR;
   }
-  if (treaty == DS_WAR 
-      || treaty == DS_NO_CONTACT 
-      || treaty == DS_ARMISTICE 
+  if (treaty == DS_WAR
+      || treaty == DS_NO_CONTACT
+      || treaty == DS_ARMISTICE
       || treaty == DS_TEAM
       || treaty == DS_LAST) {
-    return DIPL_ERROR; /* these are not negotiable treaties */
+    return DIPL_ERROR; /* These are not negotiable treaties */
   }
   if (treaty == DS_CEASEFIRE && existing != DS_WAR) {
-    return DIPL_ERROR; /* only available from war */
+    return DIPL_ERROR; /* Only available from war */
   }
-  if (treaty == DS_PEACE 
+  if (treaty == DS_PEACE
       && (existing != DS_WAR && existing != DS_CEASEFIRE)) {
     return DIPL_ERROR;
   }
@@ -185,15 +187,16 @@ enum dipl_reason pplayer_can_make_treaty(const struct player *p1,
       return DIPL_ALLIANCE_PROBLEM_THEM;
     }
   }
-  /* this check must be last: */
+  /* This check must be last: */
   if (treaty == existing) {
     return DIPL_ERROR;
   }
+
   return DIPL_OK;
 }
 
 /***************************************************************
-  Check if pplayer has an embassy with pplayer2.  We always have
+  Check if pplayer has an embassy with pplayer2. We always have
   an embassy with ourselves.
 ***************************************************************/
 bool player_has_embassy(const struct player *pplayer,
