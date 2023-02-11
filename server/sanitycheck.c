@@ -560,6 +560,7 @@ static void check_players(const char *file, const char *function, int line)
           && pplayers_allied(pplayer, pplayer2)) {
         enum dipl_reason allied_players_can_be_allied =
           pplayer_can_make_treaty(pplayer, pplayer2, DS_ALLIANCE);
+
         SANITY_CHECK(allied_players_can_be_allied
                      != DIPL_ALLIANCE_PROBLEM_US);
         SANITY_CHECK(allied_players_can_be_allied
