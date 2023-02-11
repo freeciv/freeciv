@@ -318,8 +318,6 @@ static void show_irrigation_callback(GSimpleAction *action,
 static void show_mines_callback(GSimpleAction *action,
                                 GVariant *parameter,
                                 gpointer data);
-
-#ifdef MENUS_GTK3
 static void show_bases_callback(GSimpleAction *action,
                                 GVariant *parameter,
                                 gpointer data);
@@ -344,18 +342,12 @@ static void show_unit_solid_bg_callback(GSimpleAction *action,
 static void show_unit_shields_callback(GSimpleAction *action,
                                        GVariant *parameter,
                                        gpointer data);
-#endif /* MENUS_GTK3 */
-
 static void show_stack_size_callback(GSimpleAction *action,
                                      GVariant *parameter,
                                      gpointer data);
-
-#ifdef MENUS_GTK3
 static void show_focus_unit_callback(GSimpleAction *action,
                                      GVariant *parameter,
                                      gpointer data);
-#endif /* MENUS_GTK3 */
-
 static void show_fog_of_war_callback(GSimpleAction *action,
                                      GVariant *parameter,
                                      gpointer data);
@@ -634,11 +626,36 @@ static struct menu_entry_info menu_entries[] =
   { "SHOW_MINES", N_("_Mines"),
     "show_mines", NULL, MGROUP_SAFE,
     show_mines_callback, FALSE },
-
+  { "SHOW_BASES", N_("_Bases"),
+    "show_bases", NULL, MGROUP_SAFE,
+    show_bases_callback, FALSE },
+  { "SHOW_RESOURCES", N_("_Resources"),
+    "show_resources", NULL, MGROUP_SAFE,
+    show_resources_callback, FALSE },
+  { "SHOW_HUTS", N_("_Huts"),
+    "show_huts", NULL, MGROUP_SAFE,
+    show_huts_callback, FALSE },
+  { "SHOW_POLLUTION", N_("Po_llution & Fallout"),
+    "show_pollution", NULL, MGROUP_SAFE,
+    show_pollution_callback, FALSE },
+  { "SHOW_CITIES", N_("Citi_es"),
+    "show_cities", NULL, MGROUP_SAFE,
+    show_cities_callback, FALSE },
+  { "SHOW_UNITS", N_("_Units"),
+    "show_units", NULL, MGROUP_SAFE,
+    show_units_callback, FALSE },
+  { "SHOW_UNIT_SOLID_BG", N_("Unit Solid Background"),
+    "show_unit_solid_bg", NULL, MGROUP_SAFE,
+    show_unit_solid_bg_callback, FALSE },
+  { "SHOW_UNIT_SHIELDS", N_("Unit shields"),
+    "show_unit_shields", NULL, MGROUP_SAFE,
+    show_unit_shields_callback, FALSE },
   { "SHOW_STACK_SIZE", N_("Unit Stack Size"),
     "show_stack_size", "<ctrl>plus", MGROUP_SAFE,
     show_stack_size_callback, FALSE },
-
+  { "SHOW_FOCUS_UNIT", N_("Focu_s Unit"),
+    "show_focus_unit", NULL, MGROUP_SAFE,
+    show_focus_unit_callback, FALSE },
   { "SHOW_FOG_OF_WAR", N_("Fog of _War"),
     "show_fow", NULL, MGROUP_SAFE,
     show_fog_of_war_callback, FALSE },
@@ -917,25 +934,6 @@ static struct menu_entry_info menu_entries[] =
   { "EDIT_MODE", N_("_Editing Mode"), GDK_KEY_e, GDK_CONTROL_MASK,
     G_CALLBACK(edit_mode_callback), MGROUP_SAFE },
 
-  { "SHOW_BASES", N_("_Bases"), 0, 0,
-    G_CALLBACK(show_bases_callback), MGROUP_SAFE },
-  { "SHOW_RESOURCES", N_("_Resources"), 0, 0,
-    G_CALLBACK(show_resources_callback), MGROUP_SAFE },
-  { "SHOW_HUTS", N_("_Huts"), 0, 0,
-    G_CALLBACK(show_huts_callback), MGROUP_SAFE },
-  { "SHOW_POLLUTION", N_("Po_llution & Fallout"), 0, 0,
-    G_CALLBACK(show_pollution_callback), MGROUP_SAFE },
-  { "SHOW_CITIES", N_("Citi_es"), 0, 0,
-    G_CALLBACK(show_cities_callback), MGROUP_SAFE },
-  { "SHOW_UNITS", N_("_Units"), 0, 0,
-    G_CALLBACK(show_units_callback), MGROUP_SAFE },
-  { "SHOW_UNIT_SOLID_BG", N_("Unit Solid Background"), 0, 0,
-    G_CALLBACK(show_unit_solid_bg_callback), MGROUP_SAFE },
-  { "SHOW_UNIT_SHIELDS", N_("Unit shields"), 0, 0,
-    G_CALLBACK(show_unit_shields_callback), MGROUP_SAFE },
-  { "SHOW_FOCUS_UNIT", N_("Focu_s Unit"), 0, 0,
-    G_CALLBACK(show_focus_unit_callback), MGROUP_SAFE },
-
   { "RECALC_BORDERS", N_("Recalculate _Borders"), 0, 0,
     G_CALLBACK(recalc_borders_callback), MGROUP_EDIT },
   { "TOGGLE_FOG", N_("Toggle Fog of _War"), GDK_KEY_w,
@@ -1013,7 +1011,16 @@ enum {
   VMENU_PATHS,
   VMENU_IRRIGATION,
   VMENU_MINES,
+  VMENU_BASES,
+  VMENU_RESOURCES,
+  VMENU_HUTS,
+  VMENU_POLLUTION,
+  VMENU_CITIES,
+  VMENU_UNITS,
+  VMENU_UNIT_SOLID_BG,
+  VMENU_UNIT_SHIELDS,
   VMENU_STACK_SIZE,
+  VMENU_FOCUS_UNIT,
   VMENU_FOW,
   VMENU_FULL_SCREEN
 };
@@ -1684,8 +1691,16 @@ const struct menu_entry_option_map meoms[] = {
   { "SHOW_PATHS", &gui_options.draw_roads_rails, VMENU_PATHS },
   { "SHOW_IRRIGATION", &gui_options.draw_irrigation, VMENU_IRRIGATION },
   { "SHOW_MINES", &gui_options.draw_mines, VMENU_MINES },
-
+  { "SHOW_BASES", &gui_options.draw_fortress_airbase, VMENU_BASES },
+  { "SHOW_RESOURCES", &gui_options.draw_specials, VMENU_RESOURCES },
+  { "SHOW_HUTS", &gui_options.draw_huts, VMENU_HUTS },
+  { "SHOW_POLLUTION", &gui_options.draw_pollution, VMENU_POLLUTION },
+  { "SHOW_CITIES", &gui_options.draw_cities, VMENU_CITIES },
+  { "SHOW_UNITS", &gui_options.draw_units, VMENU_UNITS },
+  { "SHOW_UNIT_SOLID_BG", &gui_options.solid_color_behind_units, VMENU_UNIT_SOLID_BG },
+  { "SHOW_UNIT_SHIELDS", &gui_options.draw_unit_shields , VMENU_UNIT_SHIELDS },
   { "SHOW_STACK_SIZE", &gui_options.draw_unit_stack_size, VMENU_STACK_SIZE },
+  { "SHOW_FOCUS_UNIT", &gui_options.draw_focus_unit, VMENU_FOCUS_UNIT },
   { "SHOW_FOG_OF_WAR", &gui_options.draw_fog_of_war, VMENU_FOW },
 
   { NULL, NULL, -1 }
@@ -1694,10 +1709,16 @@ const struct menu_entry_option_map meoms[] = {
 /************************************************************************//**
   Common handling of view menu entry toggles.
 ****************************************************************************/
-static void view_menu_item_toggle(struct menu_entry_info *info,
-                                  bool updt_sensitivity)
+static void view_menu_item_toggle(void (*cb)(void),
+                                  bool updt_sensitivity,
+                                  gpointer data)
 {
   int i;
+  struct menu_entry_info *info = (struct menu_entry_info *)data;
+
+  info->state ^= 1;
+
+  cb();
 
 #ifdef MENUS_GTK3
   if (updt_sensitivity) {
@@ -1724,13 +1745,7 @@ static void show_city_outlines_callback(GSimpleAction *action,
                                         GVariant *parameter,
                                         gpointer data)
 {
-  struct menu_entry_info *info = (struct menu_entry_info *)data;
-
-  info->state ^= 1;
-
-  key_city_outlines_toggle();
-
-  view_menu_item_toggle(info, FALSE);
+  view_menu_item_toggle(key_city_outlines_toggle, FALSE, data);
 }
 
 /************************************************************************//**
@@ -1740,13 +1755,7 @@ static void show_city_output_callback(GSimpleAction *action,
                                       GVariant *parameter,
                                       gpointer data)
 {
-  struct menu_entry_info *info = (struct menu_entry_info *)data;
-
-  info->state ^= 1;
-
-  key_city_output_toggle();
-
-  view_menu_item_toggle(info, FALSE);
+  view_menu_item_toggle(key_city_output_toggle, FALSE, data);
 }
 
 /************************************************************************//**
@@ -1755,13 +1764,7 @@ static void show_city_output_callback(GSimpleAction *action,
 static void show_map_grid_callback(GSimpleAction *action, GVariant *parameter,
                                    gpointer data)
 {
-  struct menu_entry_info *info = (struct menu_entry_info *)data;
-
-  info->state ^= 1;
-
-  key_map_grid_toggle();
-
-  view_menu_item_toggle(info, FALSE);
+  view_menu_item_toggle(key_map_grid_toggle, FALSE, data);
 }
 
 /************************************************************************//**
@@ -1771,13 +1774,7 @@ static void show_national_borders_callback(GSimpleAction *action,
                                            GVariant *parameter,
                                            gpointer data)
 {
-  struct menu_entry_info *info = (struct menu_entry_info *)data;
-
-  info->state ^= 1;
-
-  key_map_borders_toggle();
-
-  view_menu_item_toggle(info, FALSE);
+  view_menu_item_toggle(key_map_borders_toggle, FALSE, data);
 }
 
 /************************************************************************//**
@@ -1787,13 +1784,7 @@ static void show_native_tiles_callback(GSimpleAction *action,
                                        GVariant *parameter,
                                        gpointer data)
 {
-  struct menu_entry_info *info = (struct menu_entry_info *)data;
-
-  info->state ^= 1;
-
-  key_map_native_toggle();
-
-  view_menu_item_toggle(info, FALSE);
+  view_menu_item_toggle(key_map_native_toggle, FALSE, data);
 }
 
 /************************************************************************//**
@@ -1803,13 +1794,7 @@ static void show_city_full_bar_callback(GSimpleAction *action,
                                         GVariant *parameter,
                                         gpointer data)
 {
-  struct menu_entry_info *info = (struct menu_entry_info *)data;
-
-  info->state ^= 1;
-
-  key_city_full_bar_toggle();
-
-  view_menu_item_toggle(info, TRUE);
+  view_menu_item_toggle(key_city_full_bar_toggle, TRUE, data);
 }
 
 /************************************************************************//**
@@ -1819,13 +1804,7 @@ static void show_city_names_callback(GSimpleAction *action,
                                      GVariant *parameter,
                                      gpointer data)
 {
-  struct menu_entry_info *info = (struct menu_entry_info *)data;
-
-  info->state ^= 1;
-
-  key_city_names_toggle();
-
-  view_menu_item_toggle(info, TRUE);
+  view_menu_item_toggle(key_city_names_toggle, TRUE, data);
 }
 
 /************************************************************************//**
@@ -1835,13 +1814,7 @@ static void show_city_growth_callback(GSimpleAction *action,
                                       GVariant *parameter,
                                       gpointer data)
 {
-  struct menu_entry_info *info = (struct menu_entry_info *)data;
-
-  info->state ^= 1;
-
-  key_city_growth_toggle();
-
-  view_menu_item_toggle(info, FALSE);
+  view_menu_item_toggle(key_city_growth_toggle, FALSE, data);
 }
 
 /************************************************************************//**
@@ -1851,13 +1824,7 @@ static void show_city_productions_callback(GSimpleAction *action,
                                            GVariant *parameter,
                                            gpointer data)
 {
-  struct menu_entry_info *info = (struct menu_entry_info *)data;
-
-  info->state ^= 1;
-
-  key_city_productions_toggle();
-
-  view_menu_item_toggle(info, TRUE);
+  view_menu_item_toggle(key_city_productions_toggle, TRUE, data);
 }
 
 /************************************************************************//**
@@ -1867,13 +1834,7 @@ static void show_city_buy_cost_callback(GSimpleAction *action,
                                         GVariant *parameter,
                                         gpointer data)
 {
-  struct menu_entry_info *info = (struct menu_entry_info *)data;
-
-  info->state ^= 1;
-
-  key_city_buycost_toggle();
-
-  view_menu_item_toggle(info, FALSE);
+  view_menu_item_toggle(key_city_buycost_toggle, FALSE, data);
 }
 
 /************************************************************************//**
@@ -1883,13 +1844,7 @@ static void show_city_trade_routes_callback(GSimpleAction *action,
                                             GVariant *parameter,
                                             gpointer data)
 {
-  struct menu_entry_info *info = (struct menu_entry_info *)data;
-
-  info->state ^= 1;
-
-  key_city_trade_routes_toggle();
-
-  view_menu_item_toggle(info, FALSE);
+  view_menu_item_toggle(key_city_trade_routes_toggle, FALSE, data);
 }
 
 /************************************************************************//**
@@ -1899,13 +1854,7 @@ static void show_terrain_callback(GSimpleAction *action,
                                   GVariant *parameter,
                                   gpointer data)
 {
-  struct menu_entry_info *info = (struct menu_entry_info *)data;
-
-  info->state ^= 1;
-
-  key_terrain_toggle();
-
-  view_menu_item_toggle(info, TRUE);
+  view_menu_item_toggle(key_terrain_toggle, TRUE, data);
 }
 
 /************************************************************************//**
@@ -1915,13 +1864,7 @@ static void show_coastline_callback(GSimpleAction *action,
                                     GVariant *parameter,
                                     gpointer data)
 {
-  struct menu_entry_info *info = (struct menu_entry_info *)data;
-
-  info->state ^= 1;
-
-  key_coastline_toggle();
-
-  view_menu_item_toggle(info, FALSE);
+  view_menu_item_toggle(key_coastline_toggle, FALSE, data);
 }
 
 /************************************************************************//**
@@ -1931,13 +1874,7 @@ static void show_paths_callback(GSimpleAction *action,
                                 GVariant *parameter,
                                 gpointer data)
 {
-  struct menu_entry_info *info = (struct menu_entry_info *)data;
-
-  info->state ^= 1;
-
-  key_roads_rails_toggle();
-
-  view_menu_item_toggle(info, FALSE);
+  view_menu_item_toggle(key_roads_rails_toggle, FALSE, data);
 }
 
 /************************************************************************//**
@@ -1947,13 +1884,7 @@ static void show_irrigation_callback(GSimpleAction *action,
                                      GVariant *parameter,
                                      gpointer data)
 {
-  struct menu_entry_info *info = (struct menu_entry_info *)data;
-
-  info->state ^= 1;
-
-  key_irrigation_toggle();
-
-  view_menu_item_toggle(info, FALSE);
+  view_menu_item_toggle(key_irrigation_toggle, FALSE, data);
 }
 
 /************************************************************************//**
@@ -1963,25 +1894,16 @@ static void show_mines_callback(GSimpleAction *action,
                                 GVariant *parameter,
                                 gpointer data)
 {
-  struct menu_entry_info *info = (struct menu_entry_info *)data;
-
-  info->state ^= 1;
-
-  key_mines_toggle();
-
-  view_menu_item_toggle(info, FALSE);
+  view_menu_item_toggle(key_mines_toggle, FALSE, data);
 }
 
-#ifdef MENUS_GTK3
 /************************************************************************//**
   Item "SHOW_BASES" callback.
 ****************************************************************************/
 static void show_bases_callback(GSimpleAction *action, GVariant *parameter,
                                 gpointer data)
 {
-  if (gui_options.draw_fortress_airbase ^ gtk_check_menu_item_get_active(item)) {
-    key_bases_toggle();
-  }
+  view_menu_item_toggle(key_bases_toggle, FALSE, data);
 }
 
 /************************************************************************//**
@@ -1991,9 +1913,7 @@ static void show_resources_callback(GSimpleAction *action,
                                     GVariant *parameter,
                                     gpointer data)
 {
-  if (gui_options.draw_specials ^ gtk_check_menu_item_get_active(item)) {
-    key_resources_toggle();
-  }
+  view_menu_item_toggle(key_resources_toggle, FALSE, data);
 }
 
 /************************************************************************//**
@@ -2002,9 +1922,7 @@ static void show_resources_callback(GSimpleAction *action,
 static void show_huts_callback(GSimpleAction *action, GVariant *parameter,
                                gpointer data)
 {
-  if (gui_options.draw_huts ^ gtk_check_menu_item_get_active(item)) {
-    key_huts_toggle();
-  }
+  view_menu_item_toggle(key_huts_toggle, FALSE, data);
 }
 
 /************************************************************************//**
@@ -2013,9 +1931,7 @@ static void show_huts_callback(GSimpleAction *action, GVariant *parameter,
 static void show_pollution_callback(GSimpleAction *action, GVariant *parameter,
                                     gpointer data)
 {
-  if (gui_options.draw_pollution ^ gtk_check_menu_item_get_active(item)) {
-    key_pollution_toggle();
-  }
+  view_menu_item_toggle(key_pollution_toggle, FALSE, data);
 }
 
 /************************************************************************//**
@@ -2024,9 +1940,7 @@ static void show_pollution_callback(GSimpleAction *action, GVariant *parameter,
 static void show_cities_callback(GSimpleAction *action, GVariant *parameter,
                                  gpointer data)
 {
-  if (gui_options.draw_cities ^ gtk_check_menu_item_get_active(item)) {
-    key_cities_toggle();
-  }
+  view_menu_item_toggle(key_cities_toggle, FALSE, data);
 }
 
 /************************************************************************//**
@@ -2035,10 +1949,7 @@ static void show_cities_callback(GSimpleAction *action, GVariant *parameter,
 static void show_units_callback(GSimpleAction *action, GVariant *parameter,
                                 gpointer data)
 {
-  if (gui_options.draw_units ^ gtk_check_menu_item_get_active(item)) {
-    key_units_toggle();
-    view_menu_update_sensitivity();
-  }
+  view_menu_item_toggle(key_units_toggle, TRUE, data);
 }
 
 /************************************************************************//**
@@ -2048,9 +1959,7 @@ static void show_unit_solid_bg_callback(GSimpleAction *action,
                                         GVariant *parameter,
                                         gpointer data)
 {
-  if (gui_options.solid_color_behind_units ^ gtk_check_menu_item_get_active(item)) {
-    key_unit_solid_bg_toggle();
-  }
+  view_menu_item_toggle(key_unit_solid_bg_toggle, FALSE, data);
 }
 
 /************************************************************************//**
@@ -2060,11 +1969,8 @@ static void show_unit_shields_callback(GSimpleAction *action,
                                        GVariant *parameter,
                                        gpointer data)
 {
-  if (gui_options.draw_unit_shields ^ gtk_check_menu_item_get_active(item)) {
-    key_unit_shields_toggle();
-  }
+  view_menu_item_toggle(key_unit_shields_toggle, FALSE, data);
 }
-#endif /* MENUS_GTK3 */
 
 /************************************************************************//**
   Item "SHOW_STACK_SIZE" callback.
@@ -2073,16 +1979,9 @@ static void show_stack_size_callback(GSimpleAction *action,
                                      GVariant *parameter,
                                      gpointer data)
 {
-  struct menu_entry_info *info = (struct menu_entry_info *)data;
-
-  info->state ^= 1;
-
-  key_unit_stack_size_toggle();
-
-  view_menu_item_toggle(info, FALSE);
+  view_menu_item_toggle(key_unit_stack_size_toggle, FALSE, data);
 }
 
-#ifdef MENUS_GTK3
 /************************************************************************//**
   Item "SHOW_FOCUS_UNIT" callback.
 ****************************************************************************/
@@ -2090,12 +1989,8 @@ static void show_focus_unit_callback(GSimpleAction *action,
                                      GVariant *parameter,
                                      gpointer data)
 {
-  if (gui_options.draw_focus_unit ^ gtk_check_menu_item_get_active(item)) {
-    key_focus_unit_toggle();
-    view_menu_update_sensitivity();
-  }
+  view_menu_item_toggle(key_focus_unit_toggle, TRUE, data);
 }
-#endif /* MENUS_GTK3 */
 
 /************************************************************************//**
   Item "SHOW_FOG_OF_WAR" callback.
@@ -2103,13 +1998,7 @@ static void show_focus_unit_callback(GSimpleAction *action,
 static void show_fog_of_war_callback(GSimpleAction *action, GVariant *parameter,
                                      gpointer data)
 {
-  struct menu_entry_info *info = (struct menu_entry_info *)data;
-
-  info->state ^= 1;
-
-  key_fog_of_war_toggle();
-
-  view_menu_item_toggle(info, TRUE);
+  view_menu_item_toggle(key_fog_of_war_toggle, TRUE, data);
 }
 
 /************************************************************************//**
@@ -3098,8 +2987,16 @@ static GMenu *setup_menus(GtkApplication *app)
   menu_entry_init(view_menu, "SHOW_PATHS");
   menu_entry_init(view_menu, "SHOW_IRRIGATION");
   menu_entry_init(view_menu, "SHOW_MINES");
-
+  menu_entry_init(view_menu, "SHOW_BASES");
+  menu_entry_init(view_menu, "SHOW_RESOURCES");
+  menu_entry_init(view_menu, "SHOW_HUTS");
+  menu_entry_init(view_menu, "SHOW_POLLUTION");
+  menu_entry_init(view_menu, "SHOW_CITIES");
+  menu_entry_init(view_menu, "SHOW_UNITS");
+  menu_entry_init(view_menu, "SHOW_UNIT_SOLID_BG");
+  menu_entry_init(view_menu, "SHOW_UNIT_SHIELDS");
   menu_entry_init(view_menu, "SHOW_STACK_SIZE");
+  menu_entry_init(view_menu, "SHOW_FOCUS_UNIT");
 
   menu_entry_init(view_menu, "SHOW_FOG_OF_WAR");
 
