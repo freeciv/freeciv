@@ -1576,7 +1576,7 @@ AC_CHECK_FUNCS([bind connect fileno flock ftime gethostbyname gethostname])
 AC_CHECK_FUNCS([getpwuid inet_aton select snooze strcasestr])
 AC_CHECK_FUNCS([strerror strstr uname nanosleep usleep])
 AC_CHECK_FUNCS([getline _strcoll stricoll _stricoll strcasecoll])
-AC_CHECK_FUNCS([backtrace setenv putenv getcwd])
+AC_CHECK_FUNCS([backtrace setenv putenv getcwd fopen_s])
 
 dnl Possible random sources
 AC_CHECK_HEADERS([sys/random.h])

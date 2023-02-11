@@ -257,6 +257,9 @@
 /* fdopen() available */
 #mesondefine HAVE_FDOPEN
 
+/* fopen_s() available */
+#mesondefine HAVE_FOPEN_S
+
 /* fileno() available */
 #mesondefine HAVE_FILENO
 
