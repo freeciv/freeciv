@@ -594,7 +594,7 @@ struct section *secfile_section_new(struct section_file *secfile,
                                     const char *section_name);
 
 
-/* Independant section functions. */
+/* Independent section functions. */
 void section_destroy(struct section *psection);
 void section_clear_all(struct section *psection);
 
@@ -620,7 +620,7 @@ struct entry *section_entry_str_new(struct section *psection,
                                     const char *entry_name,
                                     const char *value, bool escaped);
 
-/* Independant entry functions. */
+/* Independent entry functions. */
 enum entry_type {
   ENTRY_BOOL,
   ENTRY_INT,
