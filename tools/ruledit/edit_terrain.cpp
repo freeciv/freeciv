@@ -17,6 +17,7 @@
 
 // Qt
 #include <QGridLayout>
+#include <QLineEdit>
 #include <QSpinBox>
 #include <QToolButton>
 
@@ -53,7 +54,7 @@ edit_terrain::edit_terrain(ruledit_gui *ui_in, struct terrain *ter_in) : QDialog
   connect(mcost, SIGNAL(valueChanged(int)), this, SLOT(set_mcost_value(int)));
 
   ter_layout->addWidget(label, row, 0);
-  ter_layout->addWidget(mcost, row++, 2);
+  ter_layout->addWidget(mcost, row++, 1);
 
   label = new QLabel(QString::fromUtf8(R__("Defense Bonus %")));
   label->setParent(this);
@@ -63,7 +64,25 @@ edit_terrain::edit_terrain(ruledit_gui *ui_in, struct terrain *ter_in) : QDialog
   connect(defense, SIGNAL(valueChanged(int)), this, SLOT(set_defense_value(int)));
 
   ter_layout->addWidget(label, row, 0);
-  ter_layout->addWidget(defense, row++, 2);
+  ter_layout->addWidget(defense, row++, 1);
+
+  label = new QLabel(QString::fromUtf8(R__("Graphics tag")));
+  label->setParent(this);
+
+  gfx_tag = new QLineEdit(this);
+  connect(gfx_tag, SIGNAL(returnPressed()), this, SLOT(gfx_tag_given()));
+
+  ter_layout->addWidget(label, row, 0);
+  ter_layout->addWidget(gfx_tag, row++, 1);
+
+  label = new QLabel(QString::fromUtf8(R__("Alt graphics tag")));
+  label->setParent(this);
+
+  gfx_tag_alt = new QLineEdit(this);
+  connect(gfx_tag_alt, SIGNAL(returnPressed()), this, SLOT(gfx_tag_alt_given()));
+
+  ter_layout->addWidget(label, row, 0);
+  ter_layout->addWidget(gfx_tag_alt, row++, 1);
 
   refresh();
 
@@ -77,6 +96,10 @@ edit_terrain::edit_terrain(ruledit_gui *ui_in, struct terrain *ter_in) : QDialog
 **************************************************************************/
 void edit_terrain::closeEvent(QCloseEvent *cevent)
 {
+  // Save values from text fields.
+  gfx_tag_given();
+  gfx_tag_alt_given();
+
   ter->ruledit_dlg = nullptr;
 }
 
@@ -87,6 +110,8 @@ void edit_terrain::refresh()
 {
   mcost->setValue(ter->movement_cost);
   defense->setValue(ter->defense_bonus);
+  gfx_tag->setText(ter->graphic_str);
+  gfx_tag_alt->setText(ter->graphic_alt);
 }
 
 /**************************************************************************
@@ -107,4 +132,24 @@ void edit_terrain::set_defense_value(int value)
   ter->defense_bonus = value;
 
   refresh();
+}
+
+/**************************************************************************
+  User entered new graphics tag.
+**************************************************************************/
+void edit_terrain::gfx_tag_given()
+{
+  QByteArray tag_bytes = gfx_tag->text().toUtf8();
+
+  sz_strlcpy(ter->graphic_str, tag_bytes);
+}
+
+/**************************************************************************
+  User entered new alternative graphics tag.
+**************************************************************************/
+void edit_terrain::gfx_tag_alt_given()
+{
+  QByteArray tag_bytes = gfx_tag_alt->text().toUtf8();
+
+  sz_strlcpy(ter->graphic_alt, tag_bytes);
 }

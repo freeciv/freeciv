@@ -17,6 +17,7 @@
 
 // Qt
 #include <QGridLayout>
+#include <QLineEdit>
 #include <QMenu>
 #include <QSpinBox>
 #include <QToolButton>
@@ -56,7 +57,7 @@ edit_impr::edit_impr(ruledit_gui *ui_in, struct impr_type *impr_in) : QDialog()
 
   row = 0;
   impr_layout->addWidget(label, row, 0);
-  impr_layout->addWidget(bcost, row++, 2);
+  impr_layout->addWidget(bcost, row++, 1);
 
   label = new QLabel(QString::fromUtf8(R__("Upkeep")));
   label->setParent(this);
@@ -66,7 +67,7 @@ edit_impr::edit_impr(ruledit_gui *ui_in, struct impr_type *impr_in) : QDialog()
   connect(upkeep, SIGNAL(valueChanged(int)), this, SLOT(set_upkeep_value(int)));
 
   impr_layout->addWidget(label, row, 0);
-  impr_layout->addWidget(upkeep, row++, 2);
+  impr_layout->addWidget(upkeep, row++, 1);
 
   label = new QLabel(QString::fromUtf8(R__("Genus")));
   label->setParent(this);
@@ -84,7 +85,25 @@ edit_impr::edit_impr(ruledit_gui *ui_in, struct impr_type *impr_in) : QDialog()
   genus_button->setMenu(menu);
 
   impr_layout->addWidget(label, row, 0);
-  impr_layout->addWidget(genus_button, row++, 2);
+  impr_layout->addWidget(genus_button, row++, 1);
+
+  label = new QLabel(QString::fromUtf8(R__("Graphics tag")));
+  label->setParent(this);
+
+  gfx_tag = new QLineEdit(this);
+  connect(gfx_tag, SIGNAL(returnPressed()), this, SLOT(gfx_tag_given()));
+
+  impr_layout->addWidget(label, row, 0);
+  impr_layout->addWidget(gfx_tag, row++, 1);
+
+  label = new QLabel(QString::fromUtf8(R__("Alt graphics tag")));
+  label->setParent(this);
+
+  gfx_tag_alt = new QLineEdit(this);
+  connect(gfx_tag_alt, SIGNAL(returnPressed()), this, SLOT(gfx_tag_alt_given()));
+
+  impr_layout->addWidget(label, row, 0);
+  impr_layout->addWidget(gfx_tag_alt, row++, 1);
 
   refresh();
 
@@ -98,6 +117,10 @@ edit_impr::edit_impr(ruledit_gui *ui_in, struct impr_type *impr_in) : QDialog()
 **************************************************************************/
 void edit_impr::closeEvent(QCloseEvent *cevent)
 {
+  // Save values from text fields.
+  gfx_tag_given();
+  gfx_tag_alt_given();
+
   impr->ruledit_dlg = nullptr;
 }
 
@@ -109,6 +132,8 @@ void edit_impr::refresh()
   bcost->setValue(impr->build_cost);
   upkeep->setValue(impr->upkeep);
   genus_button->setText(impr_genus_id_name(impr->genus));
+  gfx_tag->setText(impr->graphic_str);
+  gfx_tag_alt->setText(impr->graphic_alt);
 }
 
 /**************************************************************************
@@ -121,7 +146,7 @@ void edit_impr::set_bcost_value(int value)
   refresh();
 }
 
-/**********************************************************************//**
+/**************************************************************************
   Read upkeep value from spinbox
 **************************************************************************/
 void edit_impr::set_upkeep_value(int value)
@@ -131,7 +156,7 @@ void edit_impr::set_upkeep_value(int value)
   refresh();
 }
 
-/**********************************************************************//**
+/**************************************************************************
   User selected genus
 **************************************************************************/
 void edit_impr::genus_menu(QAction *action)
@@ -145,4 +170,24 @@ void edit_impr::genus_menu(QAction *action)
   impr->genus = genus;
 
   refresh();
+}
+
+/**************************************************************************
+  User entered new graphics tag.
+**************************************************************************/
+void edit_impr::gfx_tag_given()
+{
+  QByteArray tag_bytes = gfx_tag->text().toUtf8();
+
+  sz_strlcpy(impr->graphic_str, tag_bytes);
+}
+
+/**************************************************************************
+  User entered new alternative graphics tag.
+**************************************************************************/
+void edit_impr::gfx_tag_alt_given()
+{
+  QByteArray tag_bytes = gfx_tag_alt->text().toUtf8();
+
+  sz_strlcpy(impr->graphic_alt, tag_bytes);
 }

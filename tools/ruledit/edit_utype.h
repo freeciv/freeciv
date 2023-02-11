@@ -20,8 +20,9 @@
 
 // Qt
 #include <QDialog>
-#include <QSpinBox>
 
+class QLineEdit;
+class QSpinBox;
 class QToolButton;
 
 class ruledit_gui;
@@ -42,6 +43,8 @@ class edit_utype : public QDialog
     QSpinBox *attack;
     QSpinBox *defense;
     QSpinBox *move_rate;
+    QLineEdit *gfx_tag;
+    QLineEdit *gfx_tag_alt;
 
   protected:
     void closeEvent(QCloseEvent *cevent);
@@ -52,6 +55,8 @@ class edit_utype : public QDialog
     void set_attack_value(int value);
     void set_defense_value(int value);
     void set_move_rate(int value);
+    void gfx_tag_given();
+    void gfx_tag_alt_given();
 };
 
 #endif // FC__EDIT_UTYPE_H
