@@ -11,7 +11,7 @@
    GNU General Public License for more details.
 ***********************************************************************/
 
-/* Random number initialization, possibly system-dependant */
+/* Random number initialization, possibly system-dependent */
 
 #ifdef HAVE_CONFIG_H
 #include <fc_config.h>
