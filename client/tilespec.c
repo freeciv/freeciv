@@ -2238,7 +2238,7 @@ static struct tileset *tileset_read_toplevel(const char *tileset_name,
   sections = secfile_sections_by_name_prefix(file, TILE_SECTION_PREFIX);
   if (NULL == sections || 0 == section_list_size(sections)) {
     tileset_error(LOG_ERROR, tileset_name,
-                  _("No [%s] sections supported."),
+                  _("No [%s] sections present."),
                   TILE_SECTION_PREFIX);
     goto ON_ERROR;
   }
