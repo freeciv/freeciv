@@ -94,6 +94,7 @@ EXTRA_DIST =	autogen.sh 			\
 		flatpak/org.freeciv.gtk322.yml	\
 		flatpak/org.freeciv.gtk4.yml	\
 		flatpak/org.freeciv.mp.gtk3.yml	\
+		flatpak/org.freeciv.mp.gtk4.yml	\
 		flatpak/org.freeciv.qt.yml	\
 		flatpak/org.freeciv.sdl2.yml	\
 		platforms/macos/homebrew-appbundle.sh \

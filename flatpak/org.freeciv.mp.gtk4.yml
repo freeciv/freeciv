@@ -1,0 +1,23 @@
+app-id: org.freeciv.mp.gtk4
+runtime: org.gnome.Platform
+runtime-version: '42'
+sdk: org.gnome.Sdk
+command: freeciv-mp-gtk4
+rename-icon: freeciv-modpack
+modules:
+  - name: freeciv-mp-gtk4
+    buildsystem: simple
+    build-commands:
+      # On git clone, regenerate configure with autogen.sh
+      - if test -f ./.git && test -x ./autogen.sh ; then ./autogen.sh --no-configure-run ; fi
+      - mkdir build
+      - cd build && ../configure --prefix=/app --enable-fcmp=gtk4 --disable-client --disable-server --disable-freeciv-manual && make -j$(nproc) && make install
+    sources:
+      - type: dir
+        path: ..
+finish-args:
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --share=ipc
+  - --share=network
+  - --filesystem=~/.freeciv:create
