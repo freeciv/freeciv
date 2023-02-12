@@ -119,7 +119,7 @@ then
 fi
 
 PACKAGENAME="freeciv-${VERREV}-${SETUP}-${GUI}"
-MESON_INSTALL_DIR="$(pwd)/meson-install/${PACKAGENAME}"
+MESON_INSTALL_DIR="$(pwd)/meson/install/${PACKAGENAME}"
 
 if ! rm -Rf "${MESON_INSTALL_DIR}" ; then
   echo "Failed to clear out old install directory!" >&2
@@ -189,9 +189,9 @@ if ! mkdir -p meson/Output ; then
   exit 1
 fi
 
-( cd meson-install
+( cd meson/install
 
-  if ! 7z a -r ../meson/Output/${PACKAGENAME}.7z ${PACKAGENAME}
+  if ! 7z a -r ../Output/${PACKAGENAME}.7z ${PACKAGENAME}
   then
     echo "7z failed" >&2
     exit 1

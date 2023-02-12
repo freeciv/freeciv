@@ -171,7 +171,7 @@ if test "$INST_CROSS_MODE" != "release" ; then
   fi
 fi
 
-INSTDIR="meson-install/freeciv-${VERREV}-${SETUP}-${GUI}"
+INSTDIR="meson/install/freeciv-${VERREV}-${SETUP}-${GUI}"
 
 if ! mv $INSTDIR/bin/* $INSTDIR/ ||
    ! mv $INSTDIR/share/freeciv $INSTDIR/data ||
