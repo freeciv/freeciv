@@ -1,6 +1,11 @@
 Sources here are from lua-5.4.4
 (http://www.lua.org/ftp/lua-5.4.4.tar.gz)
 
+Upstream bug fixes from https://www.lua.org/bugs.html applied:
+2, 3, 4, 5, 6, 7, 8, 9
+
+Bug fix 1 is not relevant to freeciv.
+
 Not entire lua distribution directory hierarchy is included here, and
 some files needed for Freeciv usage have been added.
 Changes applied to included lua source files are included in freeciv_lua.patch
