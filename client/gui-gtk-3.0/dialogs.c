@@ -1553,7 +1553,7 @@ void show_tileset_error(const char *tset_name, const char *msg)
     if (tset_name != NULL) {
       dialog = gtk_message_dialog_new(NULL, GTK_DIALOG_DESTROY_WITH_PARENT,
                                       GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE,
-                                      _("Tileset \"%s\"problem, "
+                                      _("Tileset \"%s\" problem, "
                                         "it's probably incompatible with the ruleset:\n%s"),
                                       tset_name, msg);
     } else {
