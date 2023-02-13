@@ -237,25 +237,21 @@ static void help_tileset_callback(GSimpleAction *action,
 static void help_nations_callback(GSimpleAction *action,
                                   GVariant *parameter,
                                   gpointer data);
-
-#ifdef MENUS_GTK3
 static void help_connecting_callback(GSimpleAction *action,
                                      GVariant *parameter,
                                      gpointer data);
 static void help_controls_callback(GSimpleAction *action,
                                    GVariant *parameter,
                                    gpointer data);
-static void help_cma_callback(GSimpleAction *action,
-                              GVariant *parameter,
-                              gpointer data);
+static void help_governor_callback(GSimpleAction *action,
+                                   GVariant *parameter,
+                                   gpointer data);
 static void help_chatline_callback(GSimpleAction *action,
                                    GVariant *parameter,
                                    gpointer data);
 static void help_worklist_editor_callback(GSimpleAction *action,
                                           GVariant *parameter,
                                           gpointer data);
-#endif /* MENUS_GTK3 */
-
 static void help_language_callback(GSimpleAction *action,
                                    GVariant *parameter,
                                    gpointer data);
@@ -891,7 +887,21 @@ static struct menu_entry_info menu_entries[] =
   { "HELP_NATIONS", N_("About Nations"),
     "help_nations", NULL, MGROUP_SAFE,
     NULL, FALSE },
-
+  { "HELP_CONNECTING", N_("Connecting"),
+    "help_connecting", NULL, MGROUP_SAFE,
+    NULL, FALSE },
+  { "HELP_CONTROLS", N_("Controls"),
+    "help_controls", NULL, MGROUP_SAFE,
+    NULL, FALSE },
+  { "HELP_GOVERNOR", N_("Citizen Governor"),
+    "help_governor", NULL, MGROUP_SAFE,
+    NULL, FALSE },
+  { "HELP_CHATLINE", N_("Chatline"),
+    "help_chatline", NULL, MGROUP_SAFE,
+    NULL, FALSE },
+  { "HELP_WORKLIST_EDITOR", N_("Worklist Editor"),
+    "help_worklist_editor", NULL, MGROUP_SAFE,
+    NULL, FALSE },
   { "HELP_LANGUAGES", N_("Languages"),
     "help_languages", NULL, MGROUP_SAFE,
     NULL, FALSE },
@@ -919,17 +929,6 @@ static struct menu_entry_info menu_entries[] =
     G_CALLBACK(save_mapimg_callback), MGROUP_SAFE },
   { "MAPIMG_SAVE_AS", N_("Save _Map Image As..."), 0, 0,
     G_CALLBACK(save_mapimg_as_callback), MGROUP_SAFE },
-
-  { "HELP_CONNECTING", N_("Connecting"), 0, 0,
-    G_CALLBACK(help_connecting_callback), MGROUP_SAFE },
-  { "HELP_CONTROLS", N_("Controls"), 0, 0,
-    G_CALLBACK(help_controls_callback), MGROUP_SAFE },
-  { "HELP_CMA", N_("Citizen Governor"), 0, 0,
-    G_CALLBACK(help_cma_callback), MGROUP_SAFE },
-  { "HELP_CHATLINE", N_("Chatline"), 0, 0,
-    G_CALLBACK(help_chatline_callback), MGROUP_SAFE },
-  { "HELP_WORKLIST_EDITOR", N_("Worklist Editor"), 0, 0,
-    G_CALLBACK(help_worklist_editor_callback), MGROUP_SAFE },
 
   { "EDIT_MODE", N_("_Editing Mode"), GDK_KEY_e, GDK_CONTROL_MASK,
     G_CALLBACK(edit_mode_callback), MGROUP_SAFE },
@@ -1110,7 +1109,11 @@ const GActionEntry acts[] = {
   { "help_ruleset", help_ruleset_callback },
   { "help_tileset", help_tileset_callback },
   { "help_nations", help_nations_callback },
-
+  { "help_connecting", help_connecting_callback },
+  { "help_controls", help_controls_callback },
+  { "help_governor", help_governor_callback },
+  { "help_chatline", help_chatline_callback },
+  { "help_worklist_editor", help_worklist_editor_callback },
   { "help_languages", help_language_callback },
   { "help_copying", help_copying_callback },
   { "help_about", help_about_callback }
@@ -1388,58 +1391,6 @@ static void report_achievements_callback(GSimpleAction *action,
   send_report_request(REPORT_ACHIEVEMENTS);
 }
 
-#ifdef MENUS_GTK3
-/************************************************************************//**
-  Item "HELP_CONNECTING" callback.
-****************************************************************************/
-static void help_connecting_callback(GSimpleAction *action,
-                                     GVariant *parameter,
-                                     gpointer data)
-{
-  popup_help_dialog_string(HELP_CONNECTING_ITEM);
-}
-
-/************************************************************************//**
-  Item "HELP_CONTROLS" callback.
-****************************************************************************/
-static void help_controls_callback(GSimpleAction *action,
-                                   GVariant *parameter,
-                                   gpointer data)
-{
-  popup_help_dialog_string(HELP_CONTROLS_ITEM);
-}
-
-/************************************************************************//**
-  Item "HELP_CHATLINE" callback.
-****************************************************************************/
-static void help_chatline_callback(GSimpleAction *action,
-                                   GVariant *parameter,
-                                   gpointer data)
-{
-  popup_help_dialog_string(HELP_CHATLINE_ITEM);
-}
-
-/************************************************************************//**
-  Item "HELP_WORKLIST_EDITOR" callback.
-****************************************************************************/
-static void help_worklist_editor_callback(GSimpleAction *action,
-                                          GVariant *parameter,
-                                          gpointer data)
-{
-  popup_help_dialog_string(HELP_WORKLIST_EDITOR_ITEM);
-}
-
-/************************************************************************//**
-  Item "HELP_CMA" callback.
-****************************************************************************/
-static void help_cma_callback(GSimpleAction *action,
-                              GVariant *parameter,
-                              gpointer data)
-{
-  popup_help_dialog_string(HELP_CMA_ITEM);
-}
-#endif /* MENUS_GTK3 */
-
 /************************************************************************//**
   Item "HELP_OVERVIEW" callback.
 ****************************************************************************/
@@ -1618,6 +1569,56 @@ static void help_nations_callback(GSimpleAction *action,
                                   gpointer data)
 {
   popup_help_dialog_string(HELP_NATIONS_ITEM);
+}
+
+/************************************************************************//**
+  Item "HELP_CONNECTING" callback.
+****************************************************************************/
+static void help_connecting_callback(GSimpleAction *action,
+                                     GVariant *parameter,
+                                     gpointer data)
+{
+  popup_help_dialog_string(HELP_CONNECTING_ITEM);
+}
+
+/************************************************************************//**
+  Item "HELP_CONTROLS" callback.
+****************************************************************************/
+static void help_controls_callback(GSimpleAction *action,
+                                   GVariant *parameter,
+                                   gpointer data)
+{
+  popup_help_dialog_string(HELP_CONTROLS_ITEM);
+}
+
+/************************************************************************//**
+  Item "HELP_GOVERNOR" callback.
+****************************************************************************/
+static void help_governor_callback(GSimpleAction *action,
+                                   GVariant *parameter,
+                                   gpointer data)
+{
+  popup_help_dialog_string(HELP_CMA_ITEM);
+}
+
+/************************************************************************//**
+  Item "HELP_CHATLINE" callback.
+****************************************************************************/
+static void help_chatline_callback(GSimpleAction *action,
+                                   GVariant *parameter,
+                                   gpointer data)
+{
+  popup_help_dialog_string(HELP_CHATLINE_ITEM);
+}
+
+/************************************************************************//**
+  Item "HELP_WORKLIST_EDITOR" callback.
+****************************************************************************/
+static void help_worklist_editor_callback(GSimpleAction *action,
+                                          GVariant *parameter,
+                                          gpointer data)
+{
+  popup_help_dialog_string(HELP_WORKLIST_EDITOR_ITEM);
 }
 
 /************************************************************************//**
@@ -3129,7 +3130,11 @@ static GMenu *setup_menus(GtkApplication *app)
   menu_entry_init(topmenu, "HELP_RULESET");
   menu_entry_init(topmenu, "HELP_TILESET");
   menu_entry_init(topmenu, "HELP_NATIONS");
-
+  menu_entry_init(topmenu, "HELP_CONNECTING");
+  menu_entry_init(topmenu, "HELP_CONTROLS");
+  menu_entry_init(topmenu, "HELP_GOVERNOR");
+  menu_entry_init(topmenu, "HELP_CHATLINE");
+  menu_entry_init(topmenu, "HELP_WORKLIST_EDITOR");
   menu_entry_init(topmenu, "HELP_LANGUAGES");
   menu_entry_init(topmenu, "HELP_COPYING");
   menu_entry_init(topmenu, "HELP_ABOUT");
