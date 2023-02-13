@@ -105,13 +105,16 @@ static void connection_state_reset(void);
 **************************************************************************/
 static void start_new_game_callback(GtkWidget *w, gpointer data)
 {
-  if (is_server_running() || client_start_server()) {
-    /* saved settings are sent in client/options.c load_settable_options() */
+  if (!is_server_running()) {
+    client_start_server();
+
+    /* Saved settings are sent in client/options.c
+     * resend_desired_settable_options() */
   }
 }
 
 /**********************************************************************//**
-  Go to the scenario page, spawning a server,
+  Go to the scenario page, spawning a server.
 **************************************************************************/
 static void start_scenario_callback(GtkWidget *w, gpointer data)
 {

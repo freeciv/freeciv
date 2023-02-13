@@ -1087,8 +1087,11 @@ void fc_client::slot_meta_scan()
 **************************************************************************/
 void fc_client::start_new_game()
 {
-  if (is_server_running() || client_start_server()) {
-    // Saved settings are sent in client/options.c load_settable_options()
+  if (!is_server_running()) {
+    client_start_server();
+
+    // Saved settings are sent in client/options.c
+    // resend_desired_settable_options()
   }
 }
 
