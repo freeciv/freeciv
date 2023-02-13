@@ -247,7 +247,7 @@ void srv_init(void)
      loading additional ai modules from command line. */
   ai_init();
 
-  /* init server arguments... */
+  /* Init server arguments... */
 
   srvarg.metaserver_no_send = DEFAULT_META_SERVER_NO_SEND;
   sz_strlcpy(srvarg.metaserver_addr, DEFAULT_META_SERVER_ADDR);
@@ -283,10 +283,10 @@ void srv_init(void)
   srvarg.auth_allow_guests = FALSE;
   srvarg.auth_allow_newusers = FALSE;
 
-  /* mark as initialized */
+  /* Mark as initialized */
   has_been_srv_init = TRUE;
 
-  /* init character encodings. */
+  /* Init character encodings. */
   init_character_encodings(FC_DEFAULT_DATA_ENCODING, FALSE);
 #ifdef ENABLE_NLS
   bind_textdomain_codeset("freeciv-nations", get_internal_encoding());
@@ -296,9 +296,9 @@ void srv_init(void)
   game.callbacks.unit_deallocate = identity_number_release;
 
   /* Initialize global mutexes */
-  fc_init_mutex(&game.server.mutexes.city_list);
+  fc_mutex_init(&game.server.mutexes.city_list);
 
-  /* done */
+  /* Done */
   return;
 }
 
@@ -1918,7 +1918,7 @@ void fc__noreturn server_quit(void)
   CALL_FUNC_EACH_AI(module_close);
   timing_log_free();
   registry_module_close();
-  fc_destroy_mutex(&game.server.mutexes.city_list);
+  fc_mutex_destroy(&game.server.mutexes.city_list);
   libfreeciv_free();
   con_log_close();
   cmdline_option_values_free();

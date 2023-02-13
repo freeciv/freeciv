@@ -70,7 +70,7 @@ int send_chat_printf(const char *format, ...)
 **************************************************************************/
 void fc_allocate_ow_mutex(void)
 {
-  fc_allocate_mutex(&ow_mutex);
+  fc_mutex_allocate(&ow_mutex);
 }
 
 /**********************************************************************//**
@@ -78,7 +78,7 @@ void fc_allocate_ow_mutex(void)
 **************************************************************************/
 void fc_release_ow_mutex(void)
 {
-  fc_release_mutex(&ow_mutex);
+  fc_mutex_release(&ow_mutex);
 }
 
 /**********************************************************************//**
@@ -86,7 +86,7 @@ void fc_release_ow_mutex(void)
 **************************************************************************/
 void fc_init_ow_mutex(void)
 {
-  fc_init_mutex(&ow_mutex);
+  fc_mutex_init(&ow_mutex);
 }
 
 /**********************************************************************//**
@@ -94,7 +94,7 @@ void fc_init_ow_mutex(void)
 **************************************************************************/
 void fc_destroy_ow_mutex(void)
 {
-  fc_destroy_mutex(&ow_mutex);
+  fc_mutex_destroy(&ow_mutex);
 }
 
 /**********************************************************************//**

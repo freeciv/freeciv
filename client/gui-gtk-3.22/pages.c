@@ -786,11 +786,11 @@ static gboolean check_server_scan(gpointer data)
 
     type = server_scan_get_type(scan);
     srvrs = server_scan_get_list(scan);
-    fc_allocate_mutex(&srvrs->mutex);
+    fc_mutex_allocate(&srvrs->mutex);
     holding_srv_list_mutex = TRUE;
     update_server_list(type, srvrs->servers);
     holding_srv_list_mutex = FALSE;
-    fc_release_mutex(&srvrs->mutex);
+    fc_mutex_release(&srvrs->mutex);
   }
 
   if (stat == SCAN_STATUS_ERROR || stat == SCAN_STATUS_DONE) {
@@ -1138,15 +1138,16 @@ static void network_list_callback(GtkTreeSelection *select, gpointer data)
     path = gtk_tree_model_get_path(model, &it);
     if (!holding_srv_list_mutex) {
       /* We are not yet inside mutex protected block */
-      fc_allocate_mutex(&srvrs->mutex);
+      fc_mutex_allocate(&srvrs->mutex);
     }
     if (srvrs->servers && path) {
       gint pos = gtk_tree_path_get_indices(path)[0];
+
       pserver = server_list_get(srvrs->servers, pos);
     }
     if (!holding_srv_list_mutex) {
       /* We are not yet inside mutex protected block */
-      fc_release_mutex(&srvrs->mutex);
+      fc_mutex_release(&srvrs->mutex);
     }
     gtk_tree_path_free(path);
   }

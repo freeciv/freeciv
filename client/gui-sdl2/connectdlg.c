@@ -273,13 +273,13 @@ void popup_connection_dialog(bool lan_scan)
 
   /* Copy list */
   server_list = server_list_new();
-  fc_allocate_mutex(&srvrs->mutex);
+  fc_mutex_allocate(&srvrs->mutex);
   server_list_iterate(srvrs->servers, pserver) {
     server_list_append(server_list, pserver);
   } server_list_iterate_end;
-  fc_release_mutex(&srvrs->mutex);
+  fc_mutex_release(&srvrs->mutex);
 
-  /* clear label */
+  /* Clear label */
   popdown_window_group_dialog(new_widget, label_window);
 
   meswin_dialog_popup(TRUE);

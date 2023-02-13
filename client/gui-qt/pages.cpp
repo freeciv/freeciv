@@ -1046,11 +1046,11 @@ bool fc_client::check_server_scan(server_scan *scan_data)
 
     type = server_scan_get_type(scan);
     srvrs = server_scan_get_list(scan);
-    fc_allocate_mutex(&srvrs->mutex);
+    fc_mutex_allocate(&srvrs->mutex);
     holding_srv_list_mutex = true;
     update_server_list(type, srvrs->servers);
     holding_srv_list_mutex = false;
-    fc_release_mutex(&srvrs->mutex);
+    fc_mutex_release(&srvrs->mutex);
   }
 
   if (stat == SCAN_STATUS_ERROR || stat == SCAN_STATUS_DONE) {
@@ -1172,13 +1172,13 @@ void fc_client::slot_selection_changed(const QItemSelection &selected,
 
     srvrs = server_scan_get_list(meta_scan);
     if (!holding_srv_list_mutex) {
-      fc_allocate_mutex(&srvrs->mutex);
+      fc_mutex_allocate(&srvrs->mutex);
     }
     if (srvrs->servers) {
       pserver = server_list_get(srvrs->servers, index.row());
     }
     if (!holding_srv_list_mutex) {
-      fc_release_mutex(&srvrs->mutex);
+      fc_mutex_release(&srvrs->mutex);
     }
     if (!pserver || !pserver->players) {
       return;

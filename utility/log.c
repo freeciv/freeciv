@@ -238,8 +238,8 @@ out:
 
 /**********************************************************************//**
   Initialise the log module. Either 'filename' or 'callback' may be NULL.
-  If both are NULL, print to stderr. If both are non-NULL, both callback, 
-  and fprintf to file.  Pass -1 for fatal_assertions to don't raise any
+  If both are NULL, print to stderr. If both are non-NULL, both callback,
+  and fprintf to file. Pass -1 for fatal_assertions to don't raise any
   signal on failed assertion.
 **************************************************************************/
 void log_init(const char *filename, enum log_level initial_level,
@@ -259,17 +259,17 @@ void log_init(const char *filename, enum log_level initial_level,
   log_callback = callback;
   log_prefix = prefix;
   fc_fatal_assertions = fatal_assertions;
-  fc_init_mutex(&logfile_mutex);
+  fc_mutex_init(&logfile_mutex);
   log_verbose("log started");
   log_debug("LOG_DEBUG test");
 }
 
 /**********************************************************************//**
-   Deinitialize logging module.
+  Deinitialize logging module.
 **************************************************************************/
 void log_close(void)
 {
-  fc_destroy_mutex(&logfile_mutex);
+  fc_mutex_destroy(&logfile_mutex);
 }
 
 /**********************************************************************//**
@@ -425,22 +425,22 @@ void vdo_log(const char *file, const char *function, int line,
   Really print a log message.
   For repeat message, may wait and print instead "last message repeated ..."
   at some later time.
-  Calls log_callback if non-null, else prints to stderr.
+  Calls log_callback if not NULL, else prints to stderr.
 **************************************************************************/
 static void log_real(enum log_level level, bool print_from_where,
                      const char *where, const char *msg)
 {
   static char last_msg[MAX_LEN_LOG_LINE] = "";
-  static unsigned int repeated = 0; /* total times current message repeated */
-  static unsigned int next = 2; /* next total to print update */
-  static unsigned int prev = 0; /* total on last update */
-  /* only count as repeat if same level */
+  static unsigned int repeated = 0; /* Total times current message repeated */
+  static unsigned int next = 2; /* Next total to print update */
+  static unsigned int prev = 0; /* Total on last update */
+  /* Only count as repeat if same level */
   static enum log_level prev_level = -1;
   char buf[MAX_LEN_LOG_LINE];
   FILE *fs;
 
   if (log_filename) {
-    fc_allocate_mutex(&logfile_mutex);
+    fc_mutex_allocate(&logfile_mutex);
     if (!(fs = fc_fopen(log_filename, "a"))) {
       fc_fprintf(stderr,
                  _("Couldn't open logfile: %s for appending \"%s\".\n"), 
@@ -500,7 +500,7 @@ static void log_real(enum log_level level, bool print_from_where,
   fflush(fs);
   if (log_filename) {
     fclose(fs);
-    fc_release_mutex(&logfile_mutex);
+    fc_mutex_release(&logfile_mutex);
   }
 }
 
@@ -509,7 +509,7 @@ static void log_real(enum log_level level, bool print_from_where,
   by do_log_for().
   For repeat message, may wait and print instead
   "last message repeated ..." at some later time.
-  Calls log_callback if non-null, else prints to stderr.
+  Calls log_callback if not NULL, else prints to stderr.
 **************************************************************************/
 void do_log(const char *file, const char *function, int line,
             bool print_from_where, enum log_level level,

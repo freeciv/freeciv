@@ -76,7 +76,7 @@ void fc_thread_wait(fc_thread *thread)
 /*******************************************************************//**
   Initialize mutex
 ***********************************************************************/
-void fc_init_mutex(fc_mutex *mutex)
+void fc_mutex_init(fc_mutex *mutex)
 {
   mtx_init(mutex, mtx_plain|mtx_recursive);
 }
@@ -84,7 +84,7 @@ void fc_init_mutex(fc_mutex *mutex)
 /*******************************************************************//**
   Destroy mutex
 ***********************************************************************/
-void fc_destroy_mutex(fc_mutex *mutex)
+void fc_mutex_destroy(fc_mutex *mutex)
 {
   mtx_destroy(mutex);
 }
@@ -92,7 +92,7 @@ void fc_destroy_mutex(fc_mutex *mutex)
 /*******************************************************************//**
   Lock mutex
 ***********************************************************************/
-void fc_allocate_mutex(fc_mutex *mutex)
+void fc_mutex_allocate(fc_mutex *mutex)
 {
   mtx_lock(mutex);
 }
@@ -100,7 +100,7 @@ void fc_allocate_mutex(fc_mutex *mutex)
 /*******************************************************************//**
   Release mutex
 ***********************************************************************/
-void fc_release_mutex(fc_mutex *mutex)
+void fc_mutex_release(fc_mutex *mutex)
 {
   mtx_unlock(mutex);
 }
@@ -199,7 +199,7 @@ void fc_thread_wait(fc_thread *thread)
 /*******************************************************************//**
   Initialize mutex
 ***********************************************************************/
-void fc_init_mutex(fc_mutex *mutex)
+void fc_mutex_init(fc_mutex *mutex)
 {
   pthread_mutexattr_t attr;
 
@@ -214,7 +214,7 @@ void fc_init_mutex(fc_mutex *mutex)
 /*******************************************************************//**
   Destroy mutex
 ***********************************************************************/
-void fc_destroy_mutex(fc_mutex *mutex)
+void fc_mutex_destroy(fc_mutex *mutex)
 {
   pthread_mutex_destroy(mutex);
 }
@@ -222,7 +222,7 @@ void fc_destroy_mutex(fc_mutex *mutex)
 /*******************************************************************//**
   Lock mutex
 ***********************************************************************/
-void fc_allocate_mutex(fc_mutex *mutex)
+void fc_mutex_allocate(fc_mutex *mutex)
 {
   pthread_mutex_lock(mutex);
 }
@@ -230,7 +230,7 @@ void fc_allocate_mutex(fc_mutex *mutex)
 /*******************************************************************//**
   Release mutex
 ***********************************************************************/
-void fc_release_mutex(fc_mutex *mutex)
+void fc_mutex_release(fc_mutex *mutex)
 {
   pthread_mutex_unlock(mutex);
 }
@@ -329,7 +329,7 @@ void fc_thread_wait(fc_thread *thread)
 /*******************************************************************//**
   Initialize mutex
 ***********************************************************************/
-void fc_init_mutex(fc_mutex *mutex)
+void fc_mutex_init(fc_mutex *mutex)
 {
   *mutex = CreateMutex(NULL, FALSE, NULL);
 }
@@ -337,7 +337,7 @@ void fc_init_mutex(fc_mutex *mutex)
 /*******************************************************************//**
   Destroy mutex
 ***********************************************************************/
-void fc_destroy_mutex(fc_mutex *mutex)
+void fc_mutex_destroy(fc_mutex *mutex)
 {
   CloseHandle(*mutex);
 }
@@ -345,7 +345,7 @@ void fc_destroy_mutex(fc_mutex *mutex)
 /*******************************************************************//**
   Lock mutex
 ***********************************************************************/
-void fc_allocate_mutex(fc_mutex *mutex)
+void fc_mutex_allocate(fc_mutex *mutex)
 {
   WaitForSingleObject(*mutex, INFINITE);
 }
@@ -353,7 +353,7 @@ void fc_allocate_mutex(fc_mutex *mutex)
 /*******************************************************************//**
   Release mutex
 ***********************************************************************/
-void fc_release_mutex(fc_mutex *mutex)
+void fc_mutex_release(fc_mutex *mutex)
 {
   ReleaseMutex(*mutex);
 }

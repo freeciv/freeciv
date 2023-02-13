@@ -1520,13 +1520,13 @@ void create_city(struct player *pplayer, struct tile *ptile,
 
   adv_city_alloc(pcity);
 
-  tile_set_owner(ptile, pplayer, ptile); /* temporarily */
+  tile_set_owner(ptile, pplayer, ptile); /* Temporarily */
   city_choose_build_default(pcity);
   pcity->id = identity_number();
 
-  fc_allocate_mutex(&game.server.mutexes.city_list);
+  fc_mutex_allocate(&game.server.mutexes.city_list);
   idex_register_city(&wld, pcity);
-  fc_release_mutex(&game.server.mutexes.city_list);
+  fc_mutex_release(&game.server.mutexes.city_list);
 
   if (city_list_size(pplayer->cities) == 0) {
     /* Free initial buildings, or at least a palace if they were
@@ -1866,9 +1866,9 @@ void remove_city(struct city *pcity)
     } unit_list_iterate_end;
   } players_iterate_end;
 
-  fc_allocate_mutex(&game.server.mutexes.city_list);
+  fc_mutex_allocate(&game.server.mutexes.city_list);
   game_remove_city(&wld, pcity);
-  fc_release_mutex(&game.server.mutexes.city_list);
+  fc_mutex_release(&game.server.mutexes.city_list);
 
   /* Remove any extras that were only there because the city was there. */
   extra_type_iterate(pextra) {

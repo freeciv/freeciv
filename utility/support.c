@@ -163,7 +163,7 @@ static void icu_buffers_increase(void)
 static void fc_strAPI_init(void)
 {
   if (icu_buffer_uchars == 0) {
-    fc_init_mutex(&icu_buffer_mutex);
+    fc_mutex_init(&icu_buffer_mutex);
     icu_buffers_initial();
   }
 }
@@ -180,7 +180,7 @@ static void fc_strAPI_free(void)
     icu_buffer2 = NULL;
     icu_buffer_uchars = 0;
   }
-  fc_destroy_mutex(&icu_buffer_mutex);
+  fc_mutex_destroy(&icu_buffer_mutex);
 }
 
 /************************************************************************//**
@@ -205,7 +205,7 @@ int fc_strcasecmp(const char *str0, const char *str1)
     fc_strAPI_init();
   }
 
-  fc_allocate_mutex(&icu_buffer_mutex);
+  fc_mutex_allocate(&icu_buffer_mutex);
 
   while (!enough_mem) {
     UErrorCode err_code0 = U_ZERO_ERROR;
@@ -226,7 +226,7 @@ int fc_strcasecmp(const char *str0, const char *str1)
   ret = u_strCaseCompare(icu_buffer1, -1, icu_buffer2, -1,
                          0, &err_code);
 
-  fc_release_mutex(&icu_buffer_mutex);
+  fc_mutex_release(&icu_buffer_mutex);
 
   return ret;
 }
@@ -254,7 +254,7 @@ int fc_strncasecmp(const char *str0, const char *str1, size_t n)
     fc_strAPI_init();
   }
 
-  fc_allocate_mutex(&icu_buffer_mutex);
+  fc_mutex_allocate(&icu_buffer_mutex);
 
   while (!enough_mem) {
     UErrorCode err_code0 = U_ZERO_ERROR;
@@ -282,7 +282,7 @@ int fc_strncasecmp(const char *str0, const char *str1, size_t n)
   ret = u_strCaseCompare(icu_buffer1, len0, icu_buffer2, len1,
                          0, &err_code);
 
-  fc_release_mutex(&icu_buffer_mutex);
+  fc_mutex_release(&icu_buffer_mutex);
 
   return ret;
 }
@@ -802,7 +802,7 @@ size_t fc_strlcpy(char *dest, const char *src, size_t n)
     fc_strAPI_init();
   }
 
-  fc_allocate_mutex(&icu_buffer_mutex);
+  fc_mutex_allocate(&icu_buffer_mutex);
 
   while (!enough_mem) {
     u_strFromUTF8(icu_buffer1, icu_buffer_uchars, &slen, src, -1, &err_code);
@@ -819,7 +819,7 @@ size_t fc_strlcpy(char *dest, const char *src, size_t n)
 
   u_strToUTF8(dest, n - 1, &dlen, icu_buffer1, slen, &err_code);
 
-  fc_release_mutex(&icu_buffer_mutex);
+  fc_mutex_release(&icu_buffer_mutex);
 
   dest[n - 1] = '\0';
 
@@ -926,7 +926,7 @@ int fc_vsnprintf(char *str, size_t n, const char *format, va_list ap)
       exit(EXIT_FAILURE);
     }
 
-    fc_allocate_mutex(&vsnprintf_mutex);
+    fc_mutex_allocate(&vsnprintf_mutex);
 
     if (vsnprintf_buf == NULL) {
       vsnprintf_buf = malloc(VSNP_BUF_SIZE);
@@ -934,7 +934,8 @@ int fc_vsnprintf(char *str, size_t n, const char *format, va_list ap)
       if (vsnprintf_buf == NULL) {
         fprintf(stderr, "Could not allocate %i bytes for vsnprintf() "
                 "replacement.", VSNP_BUF_SIZE);
-        fc_release_mutex(&vsnprintf_mutex);
+        fc_mutex_release(&vsnprintf_mutex);
+
         exit(EXIT_FAILURE);
       }
     }
@@ -961,7 +962,7 @@ int fc_vsnprintf(char *str, size_t n, const char *format, va_list ap)
       str[n - 1] = '\0';
     }
 
-    fc_release_mutex(&vsnprintf_mutex);
+    fc_mutex_release(&vsnprintf_mutex);
 
     return len;
   }
@@ -1321,9 +1322,9 @@ struct tm *fc_localtime(const time_t *timep, struct tm *result)
 #ifdef HAVE_LOCALTIME_R
   return localtime_r(timep, result);
 #else  /* HAVE_LOCALTIME_R */
-  fc_allocate_mutex(&localtime_mutex);
+  fc_mutex_allocate(&localtime_mutex);
   memcpy(result, localtime(timep), sizeof(struct tm));
-  fc_release_mutex(&localtime_mutex);
+  fc_mutex_release(&localtime_mutex);
 
   return result;
 #endif /* HAVE_LOCALTIME_R */
@@ -1349,11 +1350,11 @@ void fc_support_init(void)
   fc_strAPI_init();
 
 #ifndef HAVE_WORKING_VSNPRINTF
-  fc_init_mutex(&vsnprintf_mutex);
+  fc_mutex_init(&vsnprintf_mutex);
 #endif /* HAVE_WORKING_VSNPRINTF */
 
 #ifndef HAVE_LOCALTIME_R
-  fc_init_mutex(&localtime_mutex);
+  fc_mutex_init(&localtime_mutex);
 #endif /* HAVE_LOCALTIME_R */
 
   support_initialized = TRUE;
@@ -1371,11 +1372,11 @@ void fc_support_free(void)
     free(vsnprintf_buf);
     vsnprintf_buf = NULL;
   }
-  fc_destroy_mutex(&vsnprintf_mutex);
+  fc_mutex_destroy(&vsnprintf_mutex);
 #endif /* HAVE_WORKING_VSNPRINTF */
 
 #ifndef HAVE_LOCALTIME_R
-  fc_destroy_mutex(&localtime_mutex);
+  fc_mutex_destroy(&localtime_mutex);
 #endif /* HAVE_LOCALTIME_R */
 
   fc_strAPI_free();

@@ -243,11 +243,11 @@ static bool meta_read_response(struct server_scan *scan)
     return FALSE;
   }
 
-  /* parse message body */
-  fc_allocate_mutex(&scan->srvrs.mutex);
+  /* Parse message body */
+  fc_mutex_allocate(&scan->srvrs.mutex);
   srvrs = parse_metaserver_data(f);
   scan->srvrs.servers = srvrs;
-  fc_release_mutex(&scan->srvrs.mutex);
+  fc_mutex_release(&scan->srvrs.mutex);
 
   /* 'f' (hence 'meta.mem.mem') was closed in parse_metaserver_data(). */
   scan->meta.mem.mem = NULL;
@@ -273,21 +273,21 @@ static void metaserver_scan(void *arg)
   struct server_scan *scan = arg;
 
   if (!begin_metaserver_scan(scan)) {
-    fc_allocate_mutex(&scan->meta.mutex);
+    fc_mutex_allocate(&scan->meta.mutex);
     scan->meta.status = SCAN_STATUS_ERROR;
   } else {
     if (!meta_read_response(scan)) {
-      fc_allocate_mutex(&scan->meta.mutex);
+      fc_mutex_allocate(&scan->meta.mutex);
       scan->meta.status = SCAN_STATUS_ERROR;
     } else {
-      fc_allocate_mutex(&scan->meta.mutex);
+      fc_mutex_allocate(&scan->meta.mutex);
       if (scan->meta.status == SCAN_STATUS_WAITING) {
         scan->meta.status = SCAN_STATUS_DONE;
       }
     }
   }
 
-  fc_release_mutex(&scan->meta.mutex);
+  fc_mutex_release(&scan->meta.mutex);
 }
 
 /**********************************************************************//**
@@ -577,9 +577,9 @@ static bool begin_lanserver_scan(struct server_scan *scan)
 
   fc_closesocket(send_sock);
 
-  fc_allocate_mutex(&scan->srvrs.mutex);
+  fc_mutex_allocate(&scan->srvrs.mutex);
   scan->srvrs.servers = server_list_new();
-  fc_release_mutex(&scan->srvrs.mutex);
+  fc_mutex_release(&scan->srvrs.mutex);
 
   return TRUE;
 }
@@ -677,7 +677,7 @@ get_lan_server_list(struct server_scan *scan)
     }
 
     /* UDP can send duplicate or delayed packets. */
-    fc_allocate_mutex(&scan->srvrs.mutex);
+    fc_mutex_allocate(&scan->srvrs.mutex);
     server_list_iterate(scan->srvrs.servers, aserver) {
       if (0 == fc_strcasecmp(aserver->host, servername)
           && aserver->port == port) {
@@ -687,7 +687,7 @@ get_lan_server_list(struct server_scan *scan)
     } server_list_iterate_end;
 
     if (duplicate) {
-      fc_release_mutex(&scan->srvrs.mutex);
+      fc_mutex_release(&scan->srvrs.mutex);
       continue;
     }
 
@@ -705,7 +705,7 @@ get_lan_server_list(struct server_scan *scan)
     found_new = TRUE;
 
     server_list_prepend(scan->srvrs.servers, pserver);
-    fc_release_mutex(&scan->srvrs.mutex);
+    fc_mutex_release(&scan->srvrs.mutex);
   }
 
   if (found_new) {
@@ -742,7 +742,7 @@ struct server_scan *server_scan_begin(enum server_scan_type type,
   scan->type = type;
   scan->error_func = error_func;
   scan->sock = -1;
-  fc_init_mutex(&scan->srvrs.mutex);
+  fc_mutex_init(&scan->srvrs.mutex);
 
   switch (type) {
   case SERVER_SCAN_GLOBAL:
@@ -750,7 +750,7 @@ struct server_scan *server_scan_begin(enum server_scan_type type,
 #ifdef FREECIV_META_ENABLED
       int thr_ret;
 
-      fc_init_mutex(&scan->meta.mutex);
+      fc_mutex_init(&scan->meta.mutex);
       scan->meta.status = SCAN_STATUS_WAITING;
       thr_ret = fc_thread_start(&scan->meta.thr, metaserver_scan, scan);
       if (thr_ret) {
@@ -815,9 +815,9 @@ enum server_scan_status server_scan_poll(struct server_scan *scan)
     {
       enum server_scan_status status;
 
-      fc_allocate_mutex(&scan->meta.mutex);
+      fc_mutex_allocate(&scan->meta.mutex);
       status = scan->meta.status;
-      fc_release_mutex(&scan->meta.mutex);
+      fc_mutex_release(&scan->meta.mutex);
 
       return status;
     }
@@ -859,13 +859,13 @@ void server_scan_finish(struct server_scan *scan)
   if (scan->type == SERVER_SCAN_GLOBAL) {
 #ifdef FREECIV_META_ENABLED
     /* Signal metaserver scan thread to stop */
-    fc_allocate_mutex(&scan->meta.mutex);
+    fc_mutex_allocate(&scan->meta.mutex);
     scan->meta.status = SCAN_STATUS_ABORT;
-    fc_release_mutex(&scan->meta.mutex);
+    fc_mutex_release(&scan->meta.mutex);
 
     /* Wait thread to stop */
     fc_thread_wait(&scan->meta.thr);
-    fc_destroy_mutex(&scan->meta.mutex);
+    fc_mutex_destroy(&scan->meta.mutex);
 
     /* This mainly duplicates code from below "else" block.
      * That's intentional, since they will be completely different in future versions.
@@ -876,10 +876,10 @@ void server_scan_finish(struct server_scan *scan)
     }
 
     if (scan->srvrs.servers) {
-      fc_allocate_mutex(&scan->srvrs.mutex);
+      fc_mutex_allocate(&scan->srvrs.mutex);
       delete_server_list(scan->srvrs.servers);
       scan->srvrs.servers = NULL;
-      fc_release_mutex(&scan->srvrs.mutex);
+      fc_mutex_release(&scan->srvrs.mutex);
     }
 
     if (scan->meta.mem.mem) {
@@ -899,7 +899,7 @@ void server_scan_finish(struct server_scan *scan)
     }
   }
 
-  fc_destroy_mutex(&scan->srvrs.mutex);
+  fc_mutex_destroy(&scan->srvrs.mutex);
 
   free(scan);
 }
