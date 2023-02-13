@@ -170,8 +170,8 @@ bool api_edit_unit_teleport(lua_State *L, Unit *punit, Tile *dest)
   LUASCRIPT_CHECK_ARG_NIL(L, dest, 3, Tile, FALSE);
 
   if (unit_teleport_to_tile_test(punit, ACTIVITY_IDLE,
-                                 unit_tile(punit), dest, TRUE,
-                                 FALSE, NULL, TRUE) != MR_OK) {
+                                 unit_tile(punit), dest, FALSE,
+                                 NULL, TRUE) != MR_OK) {
     /* Can't teleport to target. Return that unit is still alive. */
     return TRUE;
   }
