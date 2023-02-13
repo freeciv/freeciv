@@ -435,8 +435,10 @@ if c_compiler.has_header('lzma.h', args: header_arg)
                                      required:false)
 
   if lzma_dep.found()
-     pub_conf_data.set('FREECIV_HAVE_LIBLZMA', 1)
+    pub_conf_data.set('FREECIV_HAVE_LIBLZMA', 1)
   endif
+else
+  lzma_dep = []
 endif
 
 zstd_dep = c_compiler.find_library('zstd', dirs: cross_lib_path,
