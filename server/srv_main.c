@@ -1602,7 +1602,7 @@ static void end_turn(void)
 
         /* Activities at the target tile and its neighbors may now
          * be illegal because of present reqs. */
-        tile_change_side_effects(ptile);
+        tile_change_side_effects(ptile, FALSE);
       }
     } whole_map_iterate_end;
   } extra_type_by_rmcause_iterate_end;
@@ -1630,7 +1630,7 @@ static void end_turn(void)
 
         /* Activities at the target tile and its neighbors may now
          * be illegal because of !present reqs. */
-        tile_change_side_effects(ptile);
+        tile_change_side_effects(ptile, FALSE);
       }
     } whole_map_iterate_end;
   } extra_type_by_cause_iterate_end;

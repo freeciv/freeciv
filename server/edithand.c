@@ -144,6 +144,8 @@ static void check_edited_tile_terrains(void)
     assign_continent_numbers();
     send_all_known_tiles(NULL);
     need_continents_reassigned = FALSE;
+
+    /* FIXME: adv / ai phase handling like in check_terrain_change() */
   }
 
 #ifdef SANITY_CHECKING

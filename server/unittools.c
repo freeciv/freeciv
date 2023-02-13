@@ -1014,7 +1014,7 @@ static void update_unit_activity(struct unit *punit)
       } unit_list_iterate_end;
     }
 
-    tile_change_side_effects(ptile);
+    tile_change_side_effects(ptile, FALSE);
   }
 
   if (activity == ACTIVITY_FORTIFYING) {
