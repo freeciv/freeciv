@@ -3366,22 +3366,36 @@ action_actor_utype_hard_reqs_ok_full(const struct action *paction,
   case ACTRES_CONQUER_EXTRAS:
     if (!ignore_third_party) {
       bool has_target = FALSE;
+      struct unit_class *pclass = utype_class(actor_unittype);
 
-      extra_type_by_cause_iterate(EC_BASE, pextra) {
-        if (!territory_claiming_base(pextra->data.base)) {
-          /* Hard requirement */
-          continue;
-        }
+      /* Use cache when it has been initialized */
+      if (pclass->cache.native_bases != NULL) {
+        /* Extra being native one is a hard requirement */
+        extra_type_list_iterate(pclass->cache.native_bases, pextra) {
+          if (!territory_claiming_base(pextra->data.base)) {
+            /* Hard requirement */
+            continue;
+          }
 
-        if (!is_native_extra_to_uclass(pextra,
-                                       utype_class(actor_unittype))) {
-          /* Hard requirement */
-          continue;
-        }
+          has_target = TRUE;
+          break;
+        } extra_type_list_iterate_end;
+      } else {
+        extra_type_by_cause_iterate(EC_BASE, pextra) {
+          if (!territory_claiming_base(pextra->data.base)) {
+            /* Hard requirement */
+            continue;
+          }
 
-        has_target = TRUE;
-        break;
-      } extra_type_by_cause_iterate_end;
+          if (!is_native_extra_to_uclass(pextra, pclass)) {
+            /* Hard requirement */
+            continue;
+          }
+
+          has_target = TRUE;
+          break;
+        } extra_type_by_cause_iterate_end;
+      }
 
       if (!has_target) {
         /* Reason: no extras can be conquered by this unit. */
