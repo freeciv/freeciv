@@ -655,18 +655,24 @@ bool api_edit_change_terrain(lua_State *L, Tile *ptile, Terrain *pterr)
   old_terrain = tile_terrain(ptile);
 
   if (old_terrain == pterr
-      || (terrain_has_flag(pterr, TER_NO_CITIES) && tile_city(ptile) != NULL)) {
+      || (terrain_has_flag(pterr, TER_NO_CITIES)
+          && tile_city(ptile) != NULL)) {
     return FALSE;
   }
-  
+
   tile_change_terrain(ptile, pterr);
   fix_tile_on_terrain_change(ptile, old_terrain, FALSE);
   if (need_to_reassign_continents(old_terrain, pterr)) {
     assign_continent_numbers();
+
+    /* FIXME: adv / ai phase handling like in check_terrain_change() */
+
     send_all_known_tiles(NULL);
   }
 
   update_tile_knowledge(ptile);
+
+  tile_change_side_effects(ptile, TRUE);
 
   return TRUE;
 }
@@ -909,23 +915,23 @@ bool api_edit_trait_mod_set(lua_State *L, Player *pplayer,
   Create a new owned extra.
 **************************************************************************/
 void api_edit_create_owned_extra(lua_State *L, Tile *ptile,
-                                 const char *name,
-                                 Player *pplayer)
+                                 const char *name, Player *pplayer)
 {
   struct extra_type *pextra;
 
   LUASCRIPT_CHECK_STATE(L);
   LUASCRIPT_CHECK_ARG_NIL(L, ptile, 2, Tile);
 
-  if (!name) {
+  if (name == NULL) {
     return;
   }
 
   pextra = extra_type_by_rule_name(name);
 
-  if (pextra) {
+  if (pextra != NULL) {
     create_extra(ptile, pextra, pplayer);
     update_tile_knowledge(ptile);
+    tile_change_side_effects(ptile, TRUE);
   }
 }
 
@@ -964,7 +970,7 @@ void api_edit_remove_extra(lua_State *L, Tile *ptile, const char *name)
   LUASCRIPT_CHECK_STATE(L);
   LUASCRIPT_CHECK_ARG_NIL(L, ptile, 2, Tile);
 
-  if (!name) {
+  if (name == NULL) {
     return;
   }
 
@@ -973,6 +979,7 @@ void api_edit_remove_extra(lua_State *L, Tile *ptile, const char *name)
   if (pextra != NULL && tile_has_extra(ptile, pextra)) {
     tile_extra_rm_apply(ptile, pextra);
     update_tile_knowledge(ptile);
+    tile_change_side_effects(ptile, TRUE);
   }
 }
 
