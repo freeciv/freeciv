@@ -712,7 +712,7 @@ unit_move_to_tile_test(const struct civ_map *nmap,
 }
 
 /************************************************************************//**
-  Returns whether the unit can move from its current tile to the
+  Returns whether the unit can teleport from its current tile to the
   destination tile. An enumerated value is returned indication the error
   or success status.
 
@@ -733,7 +733,7 @@ unit_teleport_to_tile_test(const struct civ_map *nmap,
                            const struct unit *punit,
                            enum unit_activity activity,
                            const struct tile *src_tile,
-                           const struct tile *dst_tile, bool igzoc,
+                           const struct tile *dst_tile,
                            bool enter_transport, struct unit *embark_to,
                            bool enter_enemy_city)
 {

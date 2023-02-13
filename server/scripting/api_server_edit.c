@@ -240,8 +240,8 @@ bool api_edit_unit_teleport(lua_State *L, Unit *punit, Tile *dest,
   }
 
   if (unit_teleport_to_tile_test(&(wld.map), punit, ACTIVITY_IDLE,
-                                 unit_tile(punit), dest, TRUE,
-                                 FALSE, embark_to, TRUE) != MR_OK) {
+                                 unit_tile(punit), dest, FALSE,
+                                 embark_to, TRUE) != MR_OK) {
     /* Can't teleport to target. Return that unit is still alive. */
     return TRUE;
   }
