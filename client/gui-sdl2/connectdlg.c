@@ -268,7 +268,7 @@ void popup_connection_dialog(bool lan_scan)
   redraw_group(new_widget, label_window, TRUE);
   flush_dirty();
 
-  /* create server list */
+  /* Create server list */
   srvrs = sdl_create_server_list(lan_scan);
 
   /* Copy list */
@@ -308,8 +308,6 @@ void popup_connection_dialog(bool lan_scan)
   }
   meta_server->end_widget_list = pwindow;
 
-  area = pwindow->area;
-
   /* Cancel button */
   new_widget = create_themeicon_button_from_chars(current_theme->cancel_icon,
                                                   pwindow->dst, _("Cancel"),
@@ -318,7 +316,7 @@ void popup_connection_dialog(bool lan_scan)
   set_wstate(new_widget, FC_WS_NORMAL);
   add_to_gui_list(ID_BUTTON, new_widget);
 
-  /* servers */
+  /* Servers */
   server_list_iterate(server_list, server) {
 
     /* TRANS: "host.example.com Port 5556 Ver: 2.6.0 Running Players 3\n
@@ -327,7 +325,8 @@ void popup_connection_dialog(bool lan_scan)
                 server->host, server->port, server->version, _(server->state),
                 Q_("?header:Players"), server->nplayers, server->message);
 
-    new_widget = create_iconlabel_from_chars(NULL, pwindow->dst, cbuf, adj_font(10),
+    new_widget = create_iconlabel_from_chars(NULL, pwindow->dst, cbuf,
+                                             adj_font(10),
                      WF_FREE_STRING|WF_DRAW_TEXT_LABEL_WITH_SPACE|WF_RESTORE_BACKGROUND);
 
     new_widget->string_utf8->style |= SF_CENTER;
@@ -397,12 +396,12 @@ void popup_connection_dialog(bool lan_scan)
     w -= count;
   }
 
-  /* exit button */
+  /* Exit button */
   new_widget = pwindow->prev;
   new_widget->size.x = area.x + area.w - new_widget->size.w - adj_size(10);
   new_widget->size.y = area.y + area.h - new_widget->size.h - adj_size(10);
 
-  /* meta labels */
+  /* Meta labels */
   new_widget = new_widget->prev;
 
   new_widget->size.x = area.x + adj_size(10);
@@ -412,7 +411,8 @@ void popup_connection_dialog(bool lan_scan)
   new_widget = convert_iconlabel_to_themeiconlabel2(new_widget);
 
   new_widget = new_widget->prev;
-  while (new_widget) {
+
+  while (new_widget != NULL) {
     new_widget->size.w = w;
     new_widget->size.h = h;
     new_widget->size.x = new_widget->next->size.x;
@@ -433,7 +433,7 @@ void popup_connection_dialog(bool lan_scan)
   }
 
   /* -------------------- */
-  /* redraw */
+  /* Redraw */
 
   widget_redraw(pwindow);
 
