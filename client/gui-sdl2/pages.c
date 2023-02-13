@@ -59,8 +59,11 @@ static int start_new_game_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
     popdown_start_menu();
-    if (is_server_running() || client_start_server()) {
-      /* saved settings are sent in client/options.c load_settable_options() */
+    if (!is_server_running()) {
+      client_start_server();
+
+      /* Saved settings are sent in client/options.c
+       * resend_desired_settable_options() */
     }
   }
 
