@@ -276,7 +276,7 @@ void popup_connection_dialog(bool lan_scan)
   redraw_group(pNewWidget, pLabelWindow, TRUE);
   flush_dirty();
 
-  /* create server list */
+  /* Create server list */
   srvrs = sdl_create_server_list(lan_scan);
 
   /* Copy list */
@@ -316,8 +316,6 @@ void popup_connection_dialog(bool lan_scan)
   }
   pMeta_Server->pEndWidgetList = pWindow;
 
-  area = pWindow->area;
-
   /* Cancel button */
   pNewWidget = create_themeicon_button_from_chars(current_theme->CANCEL_Icon,
                                                   pWindow->dst, _("Cancel"),
@@ -326,7 +324,7 @@ void popup_connection_dialog(bool lan_scan)
   set_wstate(pNewWidget, FC_WS_NORMAL);
   add_to_gui_list(ID_BUTTON, pNewWidget);
 
-  /* servers */
+  /* Servers */
   server_list_iterate(pServer_list, pServer) {
 
     /* TRANS: "host.example.com Port 5556 Ver: 2.6.0 Running Players 3\n
@@ -335,7 +333,8 @@ void popup_connection_dialog(bool lan_scan)
                 pServer->host, pServer->port, pServer->version, _(pServer->state),
                 Q_("?header:Players"), pServer->nplayers, pServer->message);
 
-    pNewWidget = create_iconlabel_from_chars(NULL, pWindow->dst, cBuf, adj_font(10),
+    pNewWidget = create_iconlabel_from_chars(NULL, pWindow->dst, cBuf,
+                                             adj_font(10),
                      WF_FREE_STRING|WF_DRAW_TEXT_LABEL_WITH_SPACE|WF_RESTORE_BACKGROUND);
 
     pNewWidget->string_utf8->style |= SF_CENTER;
@@ -405,12 +404,12 @@ void popup_connection_dialog(bool lan_scan)
     w -= count;
   }
 
-  /* exit button */
+  /* Exit button */
   pNewWidget = pWindow->prev;
   pNewWidget->size.x = area.x + area.w - pNewWidget->size.w - adj_size(10);
   pNewWidget->size.y = area.y + area.h - pNewWidget->size.h - adj_size(10);
 
-  /* meta labels */
+  /* Meta labels */
   pNewWidget = pNewWidget->prev;
 
   pNewWidget->size.x = area.x + adj_size(10);
@@ -441,7 +440,7 @@ void popup_connection_dialog(bool lan_scan)
   }
 
   /* -------------------- */
-  /* redraw */
+  /* Redraw */
 
   widget_redraw(pWindow);
 
