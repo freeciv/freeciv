@@ -3446,7 +3446,8 @@ void helptext_extra(char *buf, size_t bufsz, struct player *pplayer,
               _("Build by issuing a \"road\" order.\n"));
     }
     if (is_extra_caused_by(pextra, EC_BASE)) {
-      fc_assert(pbase);
+      fc_assert(pbase != NULL);
+
       if (pbase->gui_type == BASE_GUI_OTHER) {
         cat_snprintf(buf, bufsz,
                 _("Build by issuing a \"build base\" order.\n"));
