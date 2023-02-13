@@ -1519,7 +1519,7 @@ static bool worklist_item_postpone_req_vec(struct universal *target,
         }
         break;
       case VUT_ORIGINAL_OWNER:
-        /* Original owner won't change of this specic city won't change.
+        /* Original owner of this specific city won't change.
          * Update this when supporting ranges other than REQ_RANGE_CITY. */
         purge = TRUE;
         break;
