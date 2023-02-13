@@ -3393,7 +3393,7 @@ action_actor_utype_hard_reqs_ok_full(const struct action *paction,
   case ACTRES_PARADROP:
   case ACTRES_PARADROP_CONQUER:
     if (actor_unittype->paratroopers_range <= 0) {
-      /* Reason: Can't pardrop 0 tiles. */
+      /* Reason: Can't paradrop 0 tiles. */
       return FALSE;
     }
     break;
