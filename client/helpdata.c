@@ -2940,21 +2940,16 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
           const char *targets[extra_count()];
           int j = 0;
 
-          extra_type_by_cause_iterate(EC_BASE, pextra) {
-            fc_assert_action(pextra->data.base, continue);
+          /* Extra being native one is a hard requirement */
+          extra_type_list_iterate(utype_class(utype)->cache.native_bases,
+                                  pextra) {
             if (!territory_claiming_base(pextra->data.base)) {
               /* Hard requirement */
               continue;
             }
 
-            if (!is_native_extra_to_uclass(pextra,
-                                           utype_class(utype))) {
-              /* Hard requirement */
-              continue;
-            }
-
             targets[j++] = extra_name_translation(pextra);
-          } extra_type_by_cause_iterate_end;
+          } extra_type_list_iterate_end;
 
           if (j > 0) {
             struct astring list = ASTRING_INIT;
@@ -3713,7 +3708,8 @@ void helptext_extra(char *buf, size_t bufsz, struct player *pplayer,
               _("Build by issuing a \"road\" order.\n"));
     }
     if (is_extra_caused_by(pextra, EC_BASE)) {
-      fc_assert(pbase);
+      fc_assert(pbase != NULL);
+
       if (pbase->gui_type == BASE_GUI_OTHER) {
         cat_snprintf(buf, bufsz,
                 _("Build by issuing a \"build base\" order.\n"));

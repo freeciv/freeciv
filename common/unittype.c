@@ -2574,6 +2574,7 @@ void unit_classes_init(void)
     unit_classes[i].item_number = i;
     unit_classes[i].cache.refuel_extras = NULL;
     unit_classes[i].cache.native_tile_extras = NULL;
+    unit_classes[i].cache.native_bases = NULL;
     unit_classes[i].cache.bonus_roads = NULL;
     unit_classes[i].cache.subset_movers = NULL;
     unit_classes[i].helptext = NULL;
@@ -2596,6 +2597,10 @@ void unit_classes_free(void)
     if (unit_classes[i].cache.native_tile_extras != NULL) {
       extra_type_list_destroy(unit_classes[i].cache.native_tile_extras);
       unit_classes[i].cache.native_tile_extras = NULL;
+    }
+    if (unit_classes[i].cache.native_bases != NULL) {
+      extra_type_list_destroy(unit_classes[i].cache.native_bases);
+      unit_classes[i].cache.native_bases = NULL;
     }
     if (unit_classes[i].cache.bonus_roads != NULL) {
       extra_type_list_destroy(unit_classes[i].cache.bonus_roads);
@@ -2794,6 +2799,7 @@ void set_unit_class_caches(struct unit_class *pclass)
 {
   pclass->cache.refuel_extras = extra_type_list_new();
   pclass->cache.native_tile_extras = extra_type_list_new();
+  pclass->cache.native_bases = extra_type_list_new();
   pclass->cache.bonus_roads = extra_type_list_new();
   pclass->cache.subset_movers = unit_class_list_new();
 
@@ -2806,6 +2812,9 @@ void set_unit_class_caches(struct unit_class *pclass)
       }
       if (extra_has_flag(pextra, EF_NATIVE_TILE)) {
         extra_type_list_append(pclass->cache.native_tile_extras, pextra);
+      }
+      if (is_extra_caused_by(pextra, EC_BASE)) {
+        extra_type_list_append(pclass->cache.native_bases, pextra);
       }
       if (proad != NULL && road_provides_move_bonus(proad)) {
         extra_type_list_append(pclass->cache.bonus_roads, pextra);
