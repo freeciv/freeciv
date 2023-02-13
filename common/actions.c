@@ -1848,7 +1848,7 @@ action_actor_utype_hard_reqs_ok(const action_id wanted_action,
 
   case ACTION_PARADROP:
     if (actor_unittype->paratroopers_range <= 0) {
-      /* Reason: Can't pardrop 0 tiles. */
+      /* Reason: Can't paradrop 0 tiles. */
       return FALSE;
     }
     break;
