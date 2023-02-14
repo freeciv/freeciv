@@ -827,7 +827,7 @@ adv_want adv_gov_action_immunity_want(struct government *gov)
     case ACTION_NUKE:
     case ACTION_DESTROY_CITY:
     case ACTION_EXPEL_UNIT:
-      /* Being a target of this is usually undesireable */
+      /* Being a target of this is usually undesirable */
       /* TODO: Individual and well balanced values. */
       bonus += 0.1;
       break;
