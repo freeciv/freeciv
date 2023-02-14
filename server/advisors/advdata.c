@@ -869,7 +869,7 @@ adv_want adv_gov_action_immunity_want(struct government *gov)
     case ACTRES_STRIKE_BUILDING:
     case ACTRES_STRIKE_PRODUCTION:
     case ACTRES_SPY_ATTACK:
-      /* Being a target of this is usually undesireable */
+      /* Being a target of this is usually undesirable */
       /* TODO: Individual and well balanced values. */
       bonus += 0.1;
       break;
