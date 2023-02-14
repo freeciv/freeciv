@@ -34,7 +34,7 @@ typedef struct
   GtkTreeIter it;
 } ITree;
 
-#define TREE_ITER_PTR(x)	(&(x).it)
+#define TREE_ITER_PTR(x)        (&(x).it)
 
 void itree_begin(GtkTreeModel *model, ITree *it);
 gboolean itree_end(ITree *it);
@@ -67,11 +67,11 @@ typedef void (*GUI_DIALOG_RESPONSE_FUN)(struct gui_dialog *, int, gpointer);
 
 struct gui_dialog
 {
-  /* public. */
+  /* Public. */
   GtkWidget *grid;
   GtkWidget *actions;
 
-  /* private. */
+  /* Private. */
   char *title;
   enum gui_dialog_type type;
   int id;
@@ -151,6 +151,15 @@ GtkWidget *widget_get_child(GtkWidget *wdg);
   GMenuItem *_item_var = item;                    \
   g_menu_append_item(menu, _item_var);            \
   g_object_unref(_item_var);                      \
+}
+
+#define submenu_insert_unref(menu, index, name,    \
+                             submenu)              \
+{                                                  \
+  GMenuModel *_submenu_var = submenu;              \
+  g_menu_insert_submenu(menu, index, name,         \
+                        _submenu_var);             \
+  g_object_unref(_submenu_var);                    \
 }
 
 #define submenu_append_unref(menu, name, submenu)  \

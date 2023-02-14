@@ -43,6 +43,7 @@
 #include "client_main.h"
 #include "climisc.h"
 #include "global_worklist.h"
+#include "mapctrl_common.h"    /* is_city_hilited() */
 #include "mapview_common.h"
 #include "options.h"
 
@@ -52,7 +53,6 @@
 #include "gui_main.h"
 #include "gui_stuff.h"
 #include "mapview.h"
-#include "mapctrl.h"    /* is_city_hilited() */
 #include "optiondlg.h"
 #include "repodlgs.h"
 
@@ -124,7 +124,6 @@ static GtkWidget *city_center_command;
 static GtkWidget *city_popup_command;
 static GtkWidget *city_buy_command;
 #ifdef MENUS_GTK3
-static GtkWidget *city_governor_command;
 static GtkWidget *city_sell_command;
 #endif /* MENUS_GTK3 */
 static GtkWidget *city_total_buy_cost_label;
@@ -700,12 +699,11 @@ static void select_impr_or_unit_callback(GSimpleAction *action,
   }
 }
 
-#ifdef MENUS_GTK3
 /************************************************************************//**
-  CMA callback.
+  Governors iterating callback.
 ****************************************************************************/
-static void cma_iterate(GtkTreeModel *model, GtkTreePath *path,
-                        GtkTreeIter *iter, gpointer data)
+static void governors_iterate(GtkTreeModel *model, GtkTreePath *path,
+                              GtkTreeIter *iter, gpointer data)
 {
   struct city *pcity = city_model_get(model, iter);
   int idx = GPOINTER_TO_INT(data);
@@ -721,19 +719,20 @@ static void cma_iterate(GtkTreeModel *model, GtkTreePath *path,
 }
 
 /************************************************************************//**
-  Called when one clicks on an CMA item to make a selection or to
+  Called when one clicks on an governor item to make a selection or to
   change a selection's preset.
 ****************************************************************************/
-static void select_cma_callback(GtkWidget * w, gpointer data)
+static void select_governor_callback(GSimpleAction *action,
+                                     GVariant *parameter,
+                                     gpointer data)
 {
   int idx = GPOINTER_TO_INT(data);
-  GObject *parent = G_OBJECT(gtk_widget_get_parent(w));
-  bool change_cma =
-      GPOINTER_TO_INT(g_object_get_data(parent, "freeciv_change_cma"));
-  struct cm_parameter parameter;
+  bool change_governor =
+    GPOINTER_TO_INT(g_object_get_data(G_OBJECT(action), "change_governor"));
+  struct cm_parameter cm;
 
   /* If this is not the change button but the select cities button. */
-  if (!change_cma) {
+  if (!change_governor) {
     ITree it;
     GtkTreeModel *model = GTK_TREE_MODEL(city_model);
 
@@ -746,7 +745,7 @@ static void select_cma_callback(GtkWidget * w, gpointer data)
       if (NULL == pcity) {
         continue;
       }
-      controlled = cma_is_city_under_agent(pcity, &parameter);
+      controlled = cma_is_city_under_agent(pcity, &cm);
       select = FALSE;
 
       if (idx == CMA_NONE) {
@@ -756,10 +755,10 @@ static void select_cma_callback(GtkWidget * w, gpointer data)
         }
       } else if (controlled) {
         if (idx == CMA_CUSTOM) {
-          if (cmafec_preset_get_index_of_parameter(&parameter) == -1) {
+          if (cmafec_preset_get_index_of_parameter(&cm) == -1) {
             select = TRUE;
           }
-        } else if (cm_are_parameter_equal(&parameter,
+        } else if (cm_are_parameter_equal(&cm,
                                           cmafec_preset_get_parameter(idx))) {
           select = TRUE;
         }
@@ -771,117 +770,157 @@ static void select_cma_callback(GtkWidget * w, gpointer data)
     }
   } else {
     gtk_tree_selection_selected_foreach(city_selection,
-                                        cma_iterate, GINT_TO_POINTER(idx));
+                                        governors_iterate,
+                                        GINT_TO_POINTER(idx));
   }
 }
 
 /************************************************************************//**
-  Create the cma entries in the change menu and the select menu. The
-  indices CMA_NONE and CMA_CUSTOM are special.
+  Create the governor entries in the change menu and the select menu.
+  The indices CMA_NONE and CMA_CUSTOM are special.
   CMA_NONE signifies a preset of "none" and CMA_CUSTOM a
   "custom" preset.
 ****************************************************************************/
-static void append_cma_to_menu_item(GtkMenuItem *parent_item, bool change_cma)
+static GMenu *create_governor_menu(GActionGroup *group,
+                                   bool change_governor)
 {
-  GtkWidget *menu;
+  GMenu *menu;
   int i;
-  struct cm_parameter parameter;
-  GtkWidget *w;
+  struct cm_parameter cm;
 
-  w = gtk_menu_item_get_submenu(parent_item);
-  if (w != NULL && gtk_widget_get_visible(w)) {
-    return;
-  }
+  menu = g_menu_new();
 
   if (!can_client_issue_orders()) {
-    gtk_menu_item_set_submenu(parent_item, NULL);
-    return;
+    return menu;
   }
-  menu = gtk_menu_button_new();
-  gtk_menu_item_set_submenu(parent_item, menu);
 
-  if (change_cma) {
-    w = gtk_menu_item_new_with_label(Q_("?cma:none"));
-    gtk_menu_shell_append(GTK_MENU_SHELL(menu), w);
-    g_signal_connect(w, "activate", G_CALLBACK(select_cma_callback),
+  if (change_governor) {
+    GSimpleAction *act;
+
+    act = g_simple_action_new("governor_none", NULL);
+    g_object_set_data(G_OBJECT(act), "change_governor",
+                      GINT_TO_POINTER(change_governor));
+    g_action_map_add_action(G_ACTION_MAP(group), G_ACTION(act));
+    g_signal_connect(act, "activate", G_CALLBACK(select_governor_callback),
                      GINT_TO_POINTER(CMA_NONE));
-    fc_assert(GPOINTER_TO_INT(GINT_TO_POINTER(CMA_NONE)) == CMA_NONE);
+    menu_item_append_unref(menu,
+                           g_menu_item_new(Q_("?cma:none"),
+                                           "win.governor_none"));
 
     for (i = 0; i < cmafec_preset_num(); i++) {
-      w = gtk_menu_item_new_with_label(cmafec_preset_get_descr(i));
-      gtk_menu_shell_append(GTK_MENU_SHELL(menu), w);
-      g_signal_connect(w, "activate", G_CALLBACK(select_cma_callback),
+      char buf[128];
+
+      fc_snprintf(buf, sizeof(buf), "governor_%d", i);
+      act = g_simple_action_new(buf, NULL);
+      g_object_set_data(G_OBJECT(act), "change_governor",
+                        GINT_TO_POINTER(change_governor));
+      g_action_map_add_action(G_ACTION_MAP(group), G_ACTION(act));
+      g_signal_connect(act, "activate", G_CALLBACK(select_governor_callback),
                        GINT_TO_POINTER(i));
-      fc_assert(GPOINTER_TO_INT(GINT_TO_POINTER(i)) == i);
+      fc_snprintf(buf, sizeof(buf), "win.governor_%d", i);
+      menu_item_append_unref(menu,
+                             g_menu_item_new(cmafec_preset_get_descr(i), buf));
     }
   } else {
     /* Search for a "none" */
-    int found;
+    bool found;
 
-    found = 0;
+    found = FALSE;
     city_list_iterate(client.conn.playing->cities, pcity) {
       if (!cma_is_city_under_agent(pcity, NULL)) {
-        found = 1;
+        found = TRUE;
         break;
       }
     } city_list_iterate_end;
 
     if (found) {
-      w = gtk_menu_item_new_with_label(Q_("?cma:none"));
-      gtk_menu_shell_append(GTK_MENU_SHELL(menu), w);
-      g_signal_connect(w, "activate", G_CALLBACK(select_cma_callback),
+      GSimpleAction *act;
+
+      act = g_simple_action_new("governor_none", NULL);
+      g_object_set_data(G_OBJECT(act), "change_governor",
+                        GINT_TO_POINTER(change_governor));
+      g_action_map_add_action(G_ACTION_MAP(group), G_ACTION(act));
+      g_signal_connect(act, "activate", G_CALLBACK(select_governor_callback),
                        GINT_TO_POINTER(CMA_NONE));
+      menu_item_append_unref(menu,
+                             g_menu_item_new(Q_("?cma:none"),
+                                             "win.governor_none"));
     }
 
     /*
      * Search for a city that's under custom (not preset) agent. Might
      * take a lonnggg time.
      */
-    found = 0;
+    found = FALSE;
     city_list_iterate(client.conn.playing->cities, pcity) {
-      if (cma_is_city_under_agent(pcity, &parameter)
-          && cmafec_preset_get_index_of_parameter(&parameter) == -1) {
-        found = 1;
+      if (cma_is_city_under_agent(pcity, &cm)
+          && cmafec_preset_get_index_of_parameter(&cm) == -1) {
+        found = TRUE;
         break;
       }
     } city_list_iterate_end;
 
     if (found) {
       /* We found city that's under agent but not a preset */
-      w = gtk_menu_item_new_with_label(Q_("?cma:custom"));
+      GSimpleAction *act;
 
-      gtk_menu_shell_append(GTK_MENU_SHELL(menu), w);
-      g_signal_connect(w, "activate",
-                       G_CALLBACK(select_cma_callback),
+      act = g_simple_action_new("governor_custom", NULL);
+      g_object_set_data(G_OBJECT(act), "change_governor",
+                        GINT_TO_POINTER(change_governor));
+      g_action_map_add_action(G_ACTION_MAP(group), G_ACTION(act));
+      g_signal_connect(act, "activate", G_CALLBACK(select_governor_callback),
                        GINT_TO_POINTER(CMA_CUSTOM));
+      menu_item_append_unref(menu,
+                             g_menu_item_new(Q_("?cma:custom"),
+                                             "win.covernor_custom"));
     }
 
     /* Only fill in presets that are being used. */
     for (i = 0; i < cmafec_preset_num(); i++) {
-      found = 0;
+      found = FALSE;
       city_list_iterate(client.conn.playing->cities, pcity) {
-        if (cma_is_city_under_agent(pcity, &parameter)
-            && cm_are_parameter_equal(&parameter,
+        if (cma_is_city_under_agent(pcity, &cm)
+            && cm_are_parameter_equal(&cm,
                                       cmafec_preset_get_parameter(i))) {
-          found = 1;
+          found = TRUE;
           break;
         }
       } city_list_iterate_end;
-      if (found) {
-        w = gtk_menu_item_new_with_label(cmafec_preset_get_descr(i));
 
-        gtk_menu_shell_append(GTK_MENU_SHELL(menu), w);
-        g_signal_connect(w, "activate",
-                         G_CALLBACK(select_cma_callback), GINT_TO_POINTER(i));
+      if (found) {
+        GSimpleAction *act;
+        char buf[128];
+
+        fc_snprintf(buf, sizeof(buf), "governor_%d", i);
+
+        act = g_simple_action_new(buf, NULL);
+        g_object_set_data(G_OBJECT(act), "change_governor",
+                          GINT_TO_POINTER(change_governor));
+        g_action_map_add_action(G_ACTION_MAP(group), G_ACTION(act));
+        g_signal_connect(act, "activate", G_CALLBACK(select_governor_callback),
+                         GINT_TO_POINTER(i));
+        fc_snprintf(buf, sizeof(buf), "win.governor_%d", i);
+        menu_item_append_unref(menu,
+                               g_menu_item_new(cmafec_preset_get_descr(i),
+                                               buf));
       }
     }
   }
 
-  g_object_set_data(G_OBJECT(menu), "freeciv_change_cma",
-                    GINT_TO_POINTER(change_cma));
-  gtk_widget_show(menu);
+  return menu;
 }
 
+/************************************************************************//**
+  Recreate governor menu
+****************************************************************************/
+static void update_governor_menu(void)
+{
+  g_menu_remove(cityrep_menu, 1);
+  submenu_insert_unref(cityrep_menu, 1, _("Gover_nor"),
+                       G_MENU_MODEL(create_governor_menu(cityrep_group, TRUE)));
+}
+
+#ifdef MENUS_GTK3
 /************************************************************************//**
   Helper function to append a worklist to the current work list of one city
   in the city report. This function is called over all selected rows in the
@@ -1167,12 +1206,10 @@ static GtkWidget *create_city_report_menu(void)
   g_object_set_data(G_OBJECT(item), "item_callback",
                     append_worklist_callback);
   g_signal_connect(menu, "show", G_CALLBACK(production_menu_shown), item);
-
-  item = gtk_menu_item_new_with_mnemonic(_("Gover_nor"));
-  city_governor_command = item;
-  gtk_menu_shell_append(GTK_MENU_SHELL(aux_menu), item);
-  append_cma_to_menu_item(GTK_MENU_ITEM(item), TRUE);
 #endif /* MENUS_GTK3 */
+
+  submenu_append_unref(cityrep_menu, _("Gover_nor"),
+                       G_MENU_MODEL(create_governor_menu(cityrep_group, TRUE)));
 
   /* Placeholder */
   submenu_append_unref(cityrep_menu, _("S_all"), G_MENU_MODEL(g_menu_new()));
@@ -1313,7 +1350,8 @@ static void create_city_report_dialog(bool make_modal)
 /************************************************************************//**
   User has chosen to select all cities
 ****************************************************************************/
-static void city_select_all_callback(GSimpleAction *action, GVariant *parameter,
+static void city_select_all_callback(GSimpleAction *action,
+                                     GVariant *parameter,
                                      gpointer data)
 {
   gtk_tree_selection_select_all(city_selection);
@@ -1322,7 +1360,8 @@ static void city_select_all_callback(GSimpleAction *action, GVariant *parameter,
 /************************************************************************//**
   User has chosen to unselect all cities
 ****************************************************************************/
-static void city_unselect_all_callback(GSimpleAction *action, GVariant *parameter,
+static void city_unselect_all_callback(GSimpleAction *action,
+                                       GVariant *parameter,
                                        gpointer data)
 {
   gtk_tree_selection_unselect_all(city_selection);
@@ -1556,17 +1595,13 @@ void real_city_report_dialog_update(void *unused)
   city_model_fill(city_model, city_selection, selected);
   g_hash_table_destroy(selected);
 
-#ifdef MENUS_GTK3
-  if (gtk_widget_get_sensitive(city_governor_command)) {
-    append_cma_to_menu_item(GTK_MENU_ITEM(city_governor_command), TRUE);
-  }
-#endif /* MENUS_GTK3 */
+  update_governor_menu();
 
   select_menu_cached = FALSE;
 }
 
 /************************************************************************//**
-  Update the text for a single city in the city report
+  Update the text for a single city in the city report.
 ****************************************************************************/
 void real_city_report_update_city(struct city *pcity)
 {
@@ -1826,8 +1861,8 @@ static void recreate_sell_menu(GActionGroup *group)
                               G_CALLBACK(select_impr_or_unit_callback),
                               n);
 
-  g_menu_remove(cityrep_menu, 1);
-  g_menu_insert_submenu(cityrep_menu, 1, _("S_ell"), G_MENU_MODEL(menu));
+  g_menu_remove(cityrep_menu, 2);
+  submenu_insert_unref(cityrep_menu, 2, _("S_ell"), G_MENU_MODEL(menu));
 }
 
 /************************************************************************//**
@@ -2087,8 +2122,9 @@ static void city_selection_changed_callback(GtkTreeSelection *selection)
   obs_may = n > 0;
   plr_may = obs_may && can_client_issue_orders();
 
+  update_governor_menu();
+
 #ifdef MENUS_GTK3
-  gtk_widget_set_sensitive(city_governor_command, plr_may);
   gtk_widget_set_sensitive(city_center_command, obs_may);
   gtk_widget_set_sensitive(city_popup_command, obs_may);
   gtk_widget_set_sensitive(city_buy_command, plr_may);
