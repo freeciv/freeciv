@@ -606,12 +606,15 @@ static bool rs_common_units(rs_conversion_logger logger)
   }
   if (num_role_units(L_START_EXPLORER) == 0) {
     ruleset_error(logger, LOG_ERROR, "No role Start Explorer units");
+    return FALSE;
   }
   if (num_role_units(L_FERRYBOAT) == 0) {
     ruleset_error(logger, LOG_ERROR, "No role Ferryboat units");
+    return FALSE;
   }
   if (num_role_units(L_FIRSTBUILD) == 0) {
     ruleset_error(logger, LOG_ERROR, "No role Firstbuild units");
+    return FALSE;
   }
 
   if (num_role_units(L_FERRYBOAT) > 0) {
