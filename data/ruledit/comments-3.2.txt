@@ -1484,10 +1484,10 @@ auto_attack = "\n\
 ; An auto attack may be triggered when another unit moves to an adjacent\n\
 ; tile and the autoattack server setting is enabled. The following details\n\
 ; are ruleset controlled.\n\
-;   attack_actions - the actions to try during an auto attack in the order\n\
-;                    they should be tried.\n\
 ;   if_attacker    - this requirement vector must be true before a unit even\n\
 ;                    considers to auto attack.\
+;   attack_actions - the actions to try during an auto attack in the order\n\
+;                    they should be tried.\n\
 "
 
 ui_names = "\n\

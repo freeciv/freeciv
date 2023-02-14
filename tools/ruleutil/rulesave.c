@@ -1123,11 +1123,11 @@ static bool save_actions_ruleset(const char *filename, const char *name)
 
     comment_auto_attack(sfile);
 
-    save_action_auto_actions(sfile, ACTION_AUTO_MOVED_ADJ,
-                             "auto_attack.attack_actions");
-
     save_reqs_vector(sfile, &auto_perf->reqs,
                      "auto_attack", "if_attacker");
+
+    save_action_auto_actions(sfile, ACTION_AUTO_MOVED_ADJ,
+                             "auto_attack.attack_actions");
   }
 
   comment_actions_dc_initial_odds(sfile);
