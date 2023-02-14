@@ -12,6 +12,7 @@
 MAKEFILE_NAME=Makefile.meson
 OUT_DIR=meson/Output
 INST_DIR=meson/install
+NSI_DIR=meson/nsi
 
 ifeq ($(MSYSTEM),MINGW64)
 WINARCH=win64
@@ -120,10 +121,12 @@ ruledit-install-qt6:
 installer-common: install-freeciv-$(GUI) install-env-$(GUI)
 	# Extract Freeciv version
 	$(eval FREECIV_VERSION := $(shell ../../fc_version))
-	./create-freeciv-$(GUI)-nsi.sh $(INST_DIR)/$(WINARCH)-$(GUI) $(OUT_DIR) $(FREECIV_VERSION) $(WINARCH) > Freeciv-meson-$(WINARCH)-$(FREECIV_VERSION)-$(GUI).nsi
+	# Create NSIS script
+	mkdir -p $(NSI_DIR)
+	./create-freeciv-$(GUI)-nsi.sh $(INST_DIR)/$(WINARCH)-$(GUI) $(OUT_DIR) $(FREECIV_VERSION) $(WINARCH) > $(NSI_DIR)/$(WINARCH)-$(FREECIV_VERSION)-$(GUI).nsi
 	# Create installer executable
 	mkdir -p $(OUT_DIR)
-	makensis Freeciv-meson-$(WINARCH)-$(FREECIV_VERSION)-$(GUI).nsi
+	makensis -NOCD $(NSI_DIR)/$(WINARCH)-$(FREECIV_VERSION)-$(GUI).nsi
 
 install-freeciv-common: clean-install-common
 	# Create build directory
@@ -354,10 +357,11 @@ installer-ruledit-common: install-ruledit-$(GUI)
 	# Extract Freeciv version
 	$(eval FREECIV_VERSION := $(shell ../../fc_version))
 	# Create NSIS script
-	./create-freeciv-ruledit-nsi.sh $(INST_DIR)/$(WINARCH)-ruledit-$(GUI) $(OUT_DIR) $(FREECIV_VERSION) $(WINARCH) > Freeciv-meson-$(WINARCH)-$(FREECIV_VERSION)-ruledit-$(GUI).nsi
+	mkdir -p $(NSI_DIR)
+	./create-freeciv-ruledit-nsi.sh $(INST_DIR)/$(WINARCH)-ruledit-$(GUI) $(OUT_DIR) $(FREECIV_VERSION) $(WINARCH) > $(NSI_DIR)/$(WINARCH)-$(FREECIV_VERSION)-ruledit-$(GUI).nsi
 	# Create installer executable
 	mkdir -p $(OUT_DIR)
-	makensis Freeciv-meson-$(WINARCH)-$(FREECIV_VERSION)-ruledit-$(GUI).nsi
+	makensis -NOCD $(NSI_DIR)/$(WINARCH)-$(FREECIV_VERSION)-ruledit-$(GUI).nsi
 
 RULEDIT_QT5_DLLS := \
 	libmd4c.dll \
@@ -404,11 +408,11 @@ clean-install-common:
 
 clean-installer-common:
 	rm -f $(OUT_DIR)/Freeciv-*-$(GUI)-setup.exe
-	rm -f Freeciv-meson-*-$(GUI).nsi
+	rm -f $(NSI_DIR)/*-$(GUI).nsi
 
 clean-ruledit-common:
 	rm -f $(OUT_DIR)/Freeciv-ruledit-*-setup.exe
-	rm -f Freeciv-meson-*-ruledit-$(GUI).nsi
+	rm -f $(NSI_DIR)/*-ruledit-$(GUI).nsi
 
 clean:
 	make -f $(MAKEFILE_NAME) GUI=gtk3.22 clean-build-common clean-install-common clean-installer-common

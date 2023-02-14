@@ -11,6 +11,7 @@
 MAKEFILE_NAME=Makefile.autotools
 OUT_DIR=autotools/Output
 INST_DIR=autotools/install
+NSI_DIR=autotools/nsi
 
 ifeq ($(MSYSTEM),MINGW64)
 WINARCH=win64
@@ -582,28 +583,31 @@ installer-common: install-freeciv-$(GUI) install-env-$(GUI)
 	# Extract Freeciv version
 	$(eval FREECIV_VERSION := $(shell ../../fc_version))
 	# Create NSIS script
-	./create-freeciv-$(GUI)-nsi.sh $(INST_DIR)/$(WINARCH)-$(GUI) $(OUT_DIR) $(FREECIV_VERSION) $(WINARCH) > Freeciv-$(WINARCH)-$(FREECIV_VERSION)-$(GUI).nsi
+	mkdir -p $(NSI_DIR)
+	./create-freeciv-$(GUI)-nsi.sh $(INST_DIR)/$(WINARCH)-$(GUI) $(OUT_DIR) $(FREECIV_VERSION) $(WINARCH) > $(NSI_DIR)/$(WINARCH)-$(FREECIV_VERSION)-$(GUI).nsi
 	# Create installer executable
 	mkdir -p $(OUT_DIR)
-	makensis Freeciv-$(WINARCH)-$(FREECIV_VERSION)-$(GUI).nsi
+	makensis -NOCD $(NSI_DIR)/$(WINARCH)-$(FREECIV_VERSION)-$(GUI).nsi
 
 installer-ruledit-qt5: clean-install-ruledit-qt5 install-ruledit-qt5 install-env-ruledit-qt5
 	# Extract Freeciv version
 	$(eval FREECIV_VERSION := $(shell ../../fc_version))
 	# Create NSIS script
-	./create-freeciv-ruledit-nsi.sh $(INST_DIR)/$(WINARCH)-ruledit-qt5 $(OUT_DIR) $(FREECIV_VERSION) $(WINARCH) > Freeciv-$(WINARCH)-$(FREECIV_VERSION)-ruledit-qt5.nsi
+	mkdir -p $(NSI_DIR)
+	./create-freeciv-ruledit-nsi.sh $(INST_DIR)/$(WINARCH)-ruledit-qt5 $(OUT_DIR) $(FREECIV_VERSION) $(WINARCH) > $(NSI_DIR)/$(WINARCH)-$(FREECIV_VERSION)-ruledit-qt5.nsi
 	# Create installer executable
 	mkdir -p $(OUT_DIR)
-	makensis Freeciv-$(WINARCH)-$(FREECIV_VERSION)-ruledit-qt5.nsi
+	makensis -NOCD $(NSI_DIR)/$(WINARCH)-$(FREECIV_VERSION)-ruledit-qt5.nsi
 
 installer-ruledit-qt6: clean-install-ruledit-qt6 install-ruledit-qt6 install-env-ruledit-qt6
 	# Extract Freeciv version
 	$(eval FREECIV_VERSION := $(shell ../../fc_version))
 	# Create NSIS script
-	./create-freeciv-ruledit-nsi.sh $(INST_DIR)/$(WINARCH)-ruledit-qt6 $(OUT_DIR) $(FREECIV_VERSION) $(WINARCH) > Freeciv-$(WINARCH)-$(FREECIV_VERSION)-ruledit-qt6.nsi
+	mkdir -p $(NSI_DIR)
+	./create-freeciv-ruledit-nsi.sh $(INST_DIR)/$(WINARCH)-ruledit-qt6 $(OUT_DIR) $(FREECIV_VERSION) $(WINARCH) > $(NSI_DIR)/$(WINARCH)-$(FREECIV_VERSION)-ruledit-qt6.nsi
 	# Create installer executable
 	mkdir -p $(OUT_DIR)
-	makensis Freeciv-$(WINARCH)-$(FREECIV_VERSION)-ruledit-qt6.nsi
+	makensis -NOCD $(NSI_DIR)/$(WINARCH)-$(FREECIV_VERSION)-ruledit-qt6.nsi
 
 wrap-gtk3.22: installer-common
 
@@ -644,15 +648,15 @@ clean-install-ruledit-qt6:
 
 clean-installer-common:
 	rm -f $(OUT_DIR)/Freeciv-*-$(GUI)-setup.exe
-	rm -f Freeciv-*-$(GUI).nsi
+	rm -f $(NSI_DIR)/*-$(GUI).nsi
 
 clean-installer-ruledit-qt5:
 	rm -f $(OUT_DIR)/Freeciv-ruledit-*-setup.exe
-	rm -f Freeciv-*-ruledit-qt5.nsi
+	rm -f $(NSI_DIR)/*-ruledit-qt5.nsi
 
 clean-installer-ruledit-qt6:
 	rm -f $(OUT_DIR)/Freeciv-ruledit-*-setup.exe
-	rm -f Freeciv-*-ruledit-qt6.nsi
+	rm -f $(NSI_DIR)*-ruledit-qt6.nsi
 
 clean:
 	make -f $(MAKEFILE_NAME) GUI=gtk3.22 CLIENT=gtk3.22 clean-build-common clean-install-common clean-installer-common
