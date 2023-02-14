@@ -151,8 +151,15 @@ struct advance *advance_requires(const struct advance *padvance,
 **************************************************************************/
 struct advance *valid_advance(struct advance *padvance)
 {
-  if (NULL == padvance
-      || A_NEVER == padvance->require[AR_ONE]
+  if (padvance == NULL) {
+    return NULL;
+  }
+
+  if (padvance->item_number == A_FUTURE) {
+    return padvance;
+  }
+
+  if (A_NEVER == padvance->require[AR_ONE]
       || A_NEVER == padvance->require[AR_TWO]) {
     return NULL;
   }
