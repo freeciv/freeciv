@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 3.1\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2023-02-04 05:39+0200\n"
-"PO-Revision-Date: 2023-02-04 05:47+0200\n"
+"POT-Creation-Date: 2023-02-14 22:00+0200\n"
+"PO-Revision-Date: 2023-02-14 22:03+0200\n"
 "Last-Translator: Marko Lindqvist <cazfi74@gmail.com>\n"
 "Language-Team: Finnish <laatu@lokalisointi.org>\n"
 "Language: fi\n"
@@ -32,39 +32,49 @@ msgstr ""
 msgid "Close"
 msgstr "Sulje"
 
-#: tools/ruledit/edit_impr.cpp:50 tools/ruledit/edit_utype.cpp:64
+#: tools/ruledit/edit_impr.cpp:51 tools/ruledit/edit_utype.cpp:66
 msgid "Build Cost"
 msgstr "Hinta"
 
-#: tools/ruledit/edit_impr.cpp:61
+#: tools/ruledit/edit_impr.cpp:62
 msgid "Upkeep"
 msgstr "Ylläpito"
 
-#: tools/ruledit/edit_impr.cpp:71
+#: tools/ruledit/edit_impr.cpp:72
 msgid "Genus"
 msgstr "Suku"
 
-#: tools/ruledit/edit_terrain.cpp:48
+#: tools/ruledit/edit_impr.cpp:90 tools/ruledit/edit_terrain.cpp:69
+#: tools/ruledit/edit_utype.cpp:107
+msgid "Graphics tag"
+msgstr "Kuvitustägi"
+
+#: tools/ruledit/edit_impr.cpp:99 tools/ruledit/edit_terrain.cpp:78
+#: tools/ruledit/edit_utype.cpp:116
+msgid "Alt graphics tag"
+msgstr "Varakuvitustägi"
+
+#: tools/ruledit/edit_terrain.cpp:49
 msgid "Move Cost"
 msgstr "Liikkumisen hinta"
 
-#: tools/ruledit/edit_terrain.cpp:58
+#: tools/ruledit/edit_terrain.cpp:59
 msgid "Defense Bonus %"
 msgstr "Puolustusbonus %"
 
-#: tools/ruledit/edit_utype.cpp:49
+#: tools/ruledit/edit_utype.cpp:51
 msgid "Requirement"
 msgstr "Vaadittava"
 
-#: tools/ruledit/edit_utype.cpp:74
+#: tools/ruledit/edit_utype.cpp:77
 msgid "Attack Strength"
 msgstr "Hyökkäysvoima"
 
-#: tools/ruledit/edit_utype.cpp:84
+#: tools/ruledit/edit_utype.cpp:87
 msgid "Defense Strength"
 msgstr "Puolustusvoima"
 
-#: tools/ruledit/edit_utype.cpp:94
+#: tools/ruledit/edit_utype.cpp:97
 msgid "Move Rate"
 msgstr "Liikkuvuus"
 
@@ -761,5 +771,3 @@ msgstr "Kätketty ruutulisä"
 #~ "Jos toiminnaksi vaihdetaan %1, myös mahdollistimien vaatimuksia "
 #~ "muutetaan. Tehdäänkö näin?"
 
-#~ msgid "Failed to load comments.txt"
-#~ msgstr "Kommenttitiedoston comments.txt lataaminen epäonnistui."
