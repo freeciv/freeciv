@@ -140,10 +140,14 @@ static void save_game_as_callback(GSimpleAction *action,
 
 #ifdef MENUS_GTK3
 static void reload_tileset_callback(GtkMenuItem *item, gpointer data);
-static void save_mapimg_callback(GtkMenuItem *item, gpointer data);
-static void save_mapimg_as_callback(GtkMenuItem *item, gpointer data);
 #endif /* MENUS_GTK3 */
 
+static void save_mapimg_callback(GSimpleAction *action,
+                                 GVariant *parameter,
+                                 gpointer data);
+static void save_mapimg_as_callback(GSimpleAction *action,
+                                    GVariant *parameter,
+                                    gpointer data);
 static void find_city_callback(GSimpleAction *action,
                                GVariant *parameter,
                                gpointer data);
@@ -546,6 +550,12 @@ static struct menu_entry_info menu_entries[] =
   { "GAME_SAVE_AS", N_("Save Game _As..."),
     "game_save_as", NULL, MGROUP_SAFE,
     NULL, FALSE },
+  { "MAPIMG_SAVE", N_("Save Map _Image"),
+    "save_mapimg", NULL, MGROUP_SAFE,
+    NULL, FALSE },
+  { "MAPIMG_SAVE_AS", N_("Save _Map Image As..."),
+    "save_mapimg_as", NULL, MGROUP_SAFE,
+    NULL, FALSE },
   { "LEAVE", N_("_Leave"),
     "leave", NULL, MGROUP_SAFE,
     NULL, FALSE },
@@ -913,22 +923,9 @@ static struct menu_entry_info menu_entries[] =
     NULL, FALSE },
 
 #ifdef MENUS_GTK3
-  { "MENU_GAME", N_("_Game"), 0, 0, NULL, MGROUP_SAFE },
-  { "MENU_OPTIONS", N_("_Options"), 0, 0, NULL, MGROUP_SAFE },
-  { "MENU_EDIT", N_("_Edit"), 0, 0, NULL, MGROUP_SAFE },
-  { "MENU_VIEW", N_("?verb:_View"), 0, 0, NULL, MGROUP_SAFE },
-  { "MENU_IMPROVEMENTS", N_("_Improvements"), 0, 0,
-    NULL, MGROUP_SAFE },
-  { "MENU_CIVILIZATION", N_("C_ivilization"), 0, 0,
-    NULL, MGROUP_SAFE },
-  { "MENU_HELP", N_("_Help"), 0, 0, NULL, MGROUP_SAFE },
   { "RELOAD_TILESET", N_("_Reload Tileset"),
     GDK_KEY_r, GDK_ALT_MASK | GDK_CONTROL_MASK,
     G_CALLBACK(reload_tileset_callback), MGROUP_SAFE },
-  { "MAPIMG_SAVE", N_("Save Map _Image"), 0, 0,
-    G_CALLBACK(save_mapimg_callback), MGROUP_SAFE },
-  { "MAPIMG_SAVE_AS", N_("Save _Map Image As..."), 0, 0,
-    G_CALLBACK(save_mapimg_as_callback), MGROUP_SAFE },
 
   { "EDIT_MODE", N_("_Editing Mode"), GDK_KEY_e, GDK_CONTROL_MASK,
     G_CALLBACK(edit_mode_callback), MGROUP_SAFE },
@@ -1034,6 +1031,8 @@ const GActionEntry acts[] = {
 
   { "game_save", save_game_callback },
   { "game_save_as", save_game_as_callback },
+  { "save_mapimg", save_mapimg_callback },
+  { "save_mapimg_as", save_mapimg_as_callback },
   { "leave", leave_callback },
   { "quit", quit_callback },
 
@@ -1227,11 +1226,11 @@ static void save_game_as_callback(GSimpleAction *action, GVariant *parameter,
   save_game_dialog_popup();
 }
 
-#ifdef MENUS_GTK3
 /************************************************************************//**
   Item "SAVE_MAPIMG" callback.
 ****************************************************************************/
-static void save_mapimg_callback(GtkMenuItem *item, gpointer data)
+static void save_mapimg_callback(GSimpleAction *action, GVariant *parameter,
+                                 gpointer data)
 {
   mapimg_client_save(NULL);
 }
@@ -1239,11 +1238,11 @@ static void save_mapimg_callback(GtkMenuItem *item, gpointer data)
 /************************************************************************//**
   Item "SAVE_MAPIMG_AS" callback.
 ****************************************************************************/
-static void save_mapimg_as_callback(GtkMenuItem *item, gpointer data)
+static void save_mapimg_as_callback(GSimpleAction *action, GVariant *parameter,
+                                    gpointer data)
 {
   save_mapimg_dialog_popup();
 }
-#endif /* MENUS_GTK3 */
 
 /************************************************************************//**
   This is the response callback for the dialog with the message:
@@ -2951,6 +2950,8 @@ static GMenu *setup_menus(GtkApplication *app)
 
   menu_entry_init(topmenu, "GAME_SAVE");
   menu_entry_init(topmenu, "GAME_SAVE_AS");
+  menu_entry_init(topmenu, "MAPIMG_SAVE");
+  menu_entry_init(topmenu, "MAPIMG_SAVE_AS");
   menu_entry_init(topmenu, "LEAVE");
   menu_entry_init(topmenu, "QUIT");
 
