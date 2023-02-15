@@ -1547,7 +1547,7 @@ static GtkActionGroup *get_safe_group(void)
        "<Control>n", NULL, G_CALLBACK(show_city_names_callback), FALSE},
       {"SHOW_CITY_GROWTH", NULL, _("City G_rowth"),
        "<Control>r", NULL, G_CALLBACK(show_city_growth_callback), FALSE},
-      {"SHOW_CITY_PRODUCTIONS", NULL, _("City _Production Levels"),
+      {"SHOW_CITY_PRODUCTIONS", NULL, _("City _Production"),
        "<Control>p", NULL,
        G_CALLBACK(show_city_productions_callback), FALSE},
       {"SHOW_CITY_BUY_COST", NULL, _("City Buy Cost"),
