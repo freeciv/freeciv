@@ -434,7 +434,7 @@ static struct menu_entry_info menu_entries[] =
     G_CALLBACK(show_city_names_callback), MGROUP_SAFE },
   { "SHOW_CITY_GROWTH", N_("City G_rowth"), GDK_KEY_o, GDK_CONTROL_MASK,
     G_CALLBACK(show_city_growth_callback), MGROUP_SAFE },
-  { "SHOW_CITY_PRODUCTIONS", N_("City _Production Levels"), GDK_KEY_p, GDK_CONTROL_MASK,
+  { "SHOW_CITY_PRODUCTIONS", N_("City _Production"), GDK_KEY_p, GDK_CONTROL_MASK,
     G_CALLBACK(show_city_productions_callback), MGROUP_SAFE },
   { "SHOW_CITY_BUY_COST", N_("City Buy Cost"), 0, 0,
     G_CALLBACK(show_city_buy_cost_callback), MGROUP_SAFE },
