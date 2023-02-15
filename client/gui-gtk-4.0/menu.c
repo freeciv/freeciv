@@ -598,7 +598,7 @@ static struct menu_entry_info menu_entries[] =
   { "SHOW_CITY_GROWTH", N_("City G_rowth"),
     "show_city_growth", "<ctrl>o", MGROUP_SAFE,
     show_city_growth_callback, FALSE },
-  { "SHOW_CITY_PRODUCTIONS", N_("City _Production Levels"),
+  { "SHOW_CITY_PRODUCTIONS", N_("City _Production"),
     "show_city_productions", "<ctrl>p", MGROUP_SAFE,
     show_city_productions_callback, FALSE },
   { "SHOW_CITY_BUY_COST", N_("City Buy Cost"),
