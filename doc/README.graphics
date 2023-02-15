@@ -177,8 +177,15 @@ options include:
 
   String lists (a comma-separated list of strings)
   ------------------------------------------------
-  files                 : A list of .spec files to scan for sprites.
+  files                 : A main list of .spec files to scan for sprites.
+                          These files are always looked at.
                           See "individual spec files", below.
+  files_svg             : List of .spec files to scan for sprites.
+                          This list is added to the main 'files' list
+                          when client svgflags feature is enabled.
+  files_pixel           : List of .spec files to scan for sprites.
+                          This list is added to the main 'files' list
+                          when client svgflags feature is disabled.
 
 
 ----------------------------------------------------------------------

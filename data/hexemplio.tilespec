@@ -151,7 +151,6 @@ files =
   "misc/events.spec",
   "misc/buildings-large.spec",
   "misc/wonders-large.spec",
-  "misc/flags-large.spec",
   "misc/shields-large.spec",
   "misc/cursors.spec",
   "misc/space.spec",
@@ -184,6 +183,13 @@ files =
   "hexemplio/water1.spec",
   "hexemplio/water2.spec",
   "hexemplio/water3.spec"
+
+files_svg =
+  "misc/flags.spec"
+
+files_pixel =
+  "misc/flags-large.spec"
+
 
 ; Include color definitions
 *include "misc/colors.tilespec"

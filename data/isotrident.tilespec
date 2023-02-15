@@ -169,6 +169,10 @@ files =
   "isotrident/cities.spec",
   "isotrident/morecities.spec"
 
+; No need for svgflags specific list, as misc/flags.spec always used
+;files_svg =
+;files_pixel =
+
 
 ; Include color definitions
 *include "misc/colors.tilespec"

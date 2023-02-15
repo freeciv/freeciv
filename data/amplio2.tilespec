@@ -156,7 +156,6 @@ files =
   "amplio2/extra_units.spec",
   "amplio2/animals.spec",
   "amplio2/veterancy.spec",
-  "misc/flags-large.spec",
   "misc/buildings-large.spec",
   "misc/wonders-large.spec",
   "misc/space.spec",
@@ -174,6 +173,12 @@ files =
   "misc/shields-large.spec",
   "misc/editor.spec",
   "misc/icons.spec"
+
+files_svg =
+  "misc/flags.spec"
+
+files_pixel =
+  "misc/flags-large.spec"
 
 
 ; Include color definitions

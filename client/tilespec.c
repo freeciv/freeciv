@@ -157,6 +157,13 @@ enum sprite_type {
   CELL_CORNER           /* Corner of tile */
 };
 
+enum spec_file_types {
+  SFILE_COMMON,
+  SFILE_SVG,
+  SFILE_PIXEL,
+  SFILE_LAST
+};
+
 struct drawing_data {
   bool init;
 
@@ -1862,8 +1869,8 @@ static struct tileset *tileset_read_toplevel(const char *tileset_name,
   char *fname;
   const char *c;
   int i;
-  size_t num_spec_files;
-  const char **spec_filenames;
+  size_t num_spec_files[SFILE_LAST];
+  const char **spec_filenames[SFILE_LAST];
   size_t num_layers;
   const char **layer_order;
   size_t num_preferred_themes;
@@ -1875,12 +1882,17 @@ static struct tileset *tileset_read_toplevel(const char *tileset_name,
   const char *extraname;
   const char *tstr;
   int topo;
+  bool svg;
+  enum spec_file_types slist_type;
+  const char *type_name;
 
   fname = tilespec_fullname(tileset_name);
-  if (!fname) {
+
+  if (fname == NULL) {
     if (verbose) {
       log_error("Can't find tileset \"%s\".", tileset_name);
     }
+
     return NULL;
   }
   log_verbose("tilespec file is \"%s\".", fname);
@@ -2520,22 +2532,53 @@ static struct tileset *tileset_read_toplevel(const char *tileset_name,
     }
   }
 
-  spec_filenames = secfile_lookup_str_vec(file, &num_spec_files,
-                                          "tilespec.files");
-  if (NULL == spec_filenames || 0 == num_spec_files) {
-    log_error("No tile graphics files specified in \"%s\"", fname);
+  svg = is_svg_flag_enabled();
+
+  spec_filenames[SFILE_COMMON] = secfile_lookup_str_vec(file,
+                                                        &(num_spec_files[SFILE_COMMON]),
+                                                        "tilespec.files");
+
+  if (svg) {
+    slist_type = SFILE_SVG;
+    type_name = "svg";
+
+    /* Avoid "unused entry" warning about the other list */
+    (void) secfile_entry_by_path(file, "tilespec.files_pixel");
+  } else {
+    slist_type = SFILE_PIXEL;
+    type_name = "pixel";
+
+    /* Avoid "unused entry" warning about the other list */
+    (void) secfile_entry_by_path(file, "tilespec.files_svg");
+  }
+
+  spec_filenames[slist_type] = secfile_lookup_str_vec(file,
+                                                      &(num_spec_files[slist_type]),
+                                                      "tilespec.files_%s", type_name);
+  if ((spec_filenames[SFILE_COMMON] == NULL || num_spec_files[SFILE_COMMON] == 0)
+      && (spec_filenames[slist_type] == NULL || num_spec_files[slist_type] == 0)) {
+    log_error("No tile graphics files specified in \"%s\" for %s mode.",
+              type_name, fname);
     goto ON_ERROR;
   }
 
   fc_assert(t->sprite_hash == NULL);
   t->sprite_hash = sprite_hash_new();
 
-  if (!tileset_scan_single_list(t, spec_filenames, num_spec_files,
+  if (!tileset_scan_single_list(t, spec_filenames[SFILE_COMMON],
+                                num_spec_files[SFILE_COMMON],
                                 verbose, duplicates_ok)) {
     goto ON_ERROR;
   }
 
-  free(spec_filenames);
+  if (!tileset_scan_single_list(t, spec_filenames[slist_type],
+                                num_spec_files[slist_type],
+                                verbose, duplicates_ok)) {
+    goto ON_ERROR;
+  }
+
+  free(spec_filenames[SFILE_COMMON]);
+  free(spec_filenames[slist_type]);
 
   t->color_system = color_system_read(file);
 

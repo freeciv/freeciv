@@ -157,7 +157,6 @@ files =
   "misc/specialists.spec",
   "amplio2/veterancy.spec",
   "cimpletoon/orient_units.spec",
-  "misc/flags-large.spec",
   "misc/buildings-large.spec",
   "misc/wonders-large.spec",
   "misc/space.spec",
@@ -197,6 +196,12 @@ files =
   "cimpletoon/units/tiger/xxx.spec",
   "cimpletoon/units/truck/xxx.spec",
   "cimpletoon/units/zeppelin/xxx.spec"
+
+files_svg =
+  "misc/flags.spec"
+
+files_pixel =
+  "misc/flags-large.spec"
 
 
 ; Include color definitions
