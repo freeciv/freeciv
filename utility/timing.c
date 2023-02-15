@@ -25,17 +25,17 @@
   support accumulating the time from multiple separate intervals.
 
   Notice the struct timer is an opaque type: modules outside timing.c
-  can only use it as a pointer (cf FILE type).  This is done for two
+  can only use it as a pointer (cf FILE type). This is done for two
   main reasons:
 
    1. General principle of data hiding and encapsulation
 
    2. Means we don't have to include fc_config.h and possibly system
-      specific header files in timing.h.  Such stuff is confined
+      specific header files in timing.h. Such stuff is confined
       inside timing.c.
 
   However there is a disadvantage: any code using a timer must do
-  memory allocation and deallocation for it.  Some of the functions
+  memory allocation and deallocation for it. Some of the functions
   below are intended to make this reasonably convenient; see function
   comments.
 ***********************************************************************/
@@ -67,11 +67,11 @@
 #ifdef CLOCKS_PER_SECOND
 #define CLOCKS_PER_SEC CLOCKS_PER_SECOND
 #else
-#define CLOCKS_PER_SEC 1000000  /* wild guess!! */
+#define CLOCKS_PER_SEC 1000000  /* Wild guess!! */
 #endif
 #endif
 
-#define N_USEC_PER_SEC 1000000L /* not 1000! :-) */
+#define N_USEC_PER_SEC 1000000L /* Not 1000! :-) */
 
 enum timer_state {
   TIMER_STARTED,
@@ -88,12 +88,12 @@ struct timer {
   char *name;
 #endif
 
-  /* this is accumulated time for previous timings: */
+  /* This is accumulated time for previous timings: */
   double sec;
-  long usec;            /* not always used, in which case zero,
+  long usec;            /* Not always used, in which case zero,
                            or if used may be negative, but >= -1000000 */
 
-  /* this is start of current timing, if state == TIMER_STARTED: */
+  /* This is start of current timing, if state == TIMER_STARTED: */
   union {
     clock_t c;
 #ifdef HAVE_GETTIMEOFDAY
@@ -171,7 +171,7 @@ struct timer *timer_new(enum timer_timetype type, enum timer_use use,
   This is intended to be useful to allocate a static t just once, eg:
   {
      static struct timer *t = NULL;
-     t = timer_renew(t, TIMER_CPU, TIMER_USE);
+     t = timer_renew(t, TIMER_CPU, TIMER_USE, "example");
      ... stuff ...
      log_verbose("That took %g seconds.", timer_read_seconds(t));
      ... never free t ...
@@ -237,7 +237,7 @@ static char *timer_name(struct timer *t)
 
 /*******************************************************************//**
   Return whether timer is in use.
-  t may be NULL, in which case returns 0
+  t may be NULL, in which case returns FALSE
 ***********************************************************************/
 bool timer_in_use(struct timer *t)
 {
@@ -259,7 +259,7 @@ void timer_clear(struct timer *t)
 
 /*******************************************************************//**
   Start timing, adding to previous accumulated time if timer has not
-  been cleared.  A warning is printed if the timer is already started.
+  been cleared. A warning is printed if the timer is already started.
 ***********************************************************************/
 void timer_start(struct timer *t)
 {
@@ -377,7 +377,7 @@ void timer_stop(struct timer *t)
 }
 
 /*******************************************************************//**
-  Read value from timer.  If the timer is not stopped, this stops the
+  Read value from timer. If the timer is not stopped, this stops the
   timer, reads it (and accumulates), and then restarts it.
   Returns 0.0 for unused timers.
 ***********************************************************************/
@@ -398,7 +398,7 @@ double timer_read_seconds(struct timer *t)
 
 /*******************************************************************//**
   Sleeps until the given number of microseconds have elapsed since the
-  timer was started.  Leaves the timer running.
+  timer was started. Leaves the timer running.
   Must be called with an active, running user timer.
   (If timer is broken or in wrong state, just sleep for entire interval.)
 ***********************************************************************/

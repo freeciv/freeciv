@@ -487,7 +487,7 @@ void cma_init(void)
   /* reset cache counters */
   memset(&stats, 0, sizeof(stats));
 
-  /* We used to just use timer_new here, but apparently cma_init can be
+  /* We used to just use timer_new() here, but apparently cma_init() can be
    * called multiple times per client invocation so that lead to memory
    * leaks. */
   stats.wall_timer = timer_renew(timer, TIMER_USER, TIMER_ACTIVE,

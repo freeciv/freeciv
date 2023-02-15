@@ -121,7 +121,10 @@ static struct ai_timer *ai_timer_get(const struct ai_type *ai)
   aitimer = aitimers + ai_type_number(ai);
 
   if (!aitimer->timer) {
-    aitimer->timer = timer_new(TIMER_CPU, TIMER_DEBUG);
+    char buf[512];
+
+    fc_snprintf(buf, sizeof(buf), "AI type timer %s", ai_type_name(ai));
+    aitimer->timer = timer_new(TIMER_CPU, TIMER_DEBUG, buf);
   }
 
   return aitimer;
@@ -142,7 +145,10 @@ static struct ai_timer *ai_timer_player_get(const struct player *pplayer)
                             + ai_type_number(pplayer->ai));
 
   if (!aitimer->timer) {
-    aitimer->timer = timer_new(TIMER_CPU, TIMER_DEBUG);
+    char buf[512];
+
+    fc_snprintf(buf, sizeof(buf), "AI plr timer for %s", pplayer_name(pplayer));
+    aitimer->timer = timer_new(TIMER_CPU, TIMER_DEBUG, buf);
   }
 
   return aitimer;

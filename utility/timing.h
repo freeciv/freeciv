@@ -61,7 +61,7 @@ enum timer_use {
 #define TIMER_DEBUG TIMER_IGNORE
 #endif
 
-struct timer;           /* opaque type; see comments in timing.c */
+struct timer;           /* Opaque type; see comments in timing.c */
 
 #define SPECLIST_TAG timer
 #define SPECLIST_TYPE struct timer
