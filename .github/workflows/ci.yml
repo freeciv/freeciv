@@ -129,8 +129,7 @@ jobs:
             libsdl2-gfx-dev \
             libsdl2-image-dev \
             libsdl2-ttf-dev \
-            libmysqlclient-dev \
-            unixodbc-dev
+            libmysqlclient-dev
       - name: build
         shell: bash
         run: ./scripts/ci-build.sh normal
@@ -228,8 +227,7 @@ jobs:
             libsdl2-gfx-dev \
             libsdl2-image-dev \
             libsdl2-ttf-dev \
-            libmysqlclient-dev \
-            unixodbc-dev
+            libmysqlclient-dev
       - name: build
         shell: bash
         run: ./scripts/ci-build.sh clang_debug
@@ -256,8 +254,7 @@ jobs:
             liblzma-dev \
             libicu-dev \
             libsqlite3-dev \
-            libmysqlclient-dev \
-            unixodbc-dev
+            libmysqlclient-dev
       - name: build
         shell: bash
         run: ./scripts/ci-build.sh tcc
