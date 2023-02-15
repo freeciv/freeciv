@@ -3490,7 +3490,7 @@ void city_rally_point_receive(const struct packet_city_rally_point *packet,
 {
   struct unit_order *checked_orders;
 
-  if (NULL != pcity) {
+  if (NULL == pcity) {
     /* Probably lost. */
     log_verbose("handle_city_rally_point() bad city number %d.",
                 packet->city_id);
