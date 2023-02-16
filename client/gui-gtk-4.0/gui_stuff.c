@@ -377,29 +377,20 @@ static gint gui_dialog_delete_tab_handler(struct gui_dialog* dlg)
 /**********************************************************************//**
   Allow the user to close a dialog using Escape or CTRL+W.
 **************************************************************************/
-static gboolean gui_dialog_key_press_handler(GtkWidget *w, GdkEvent *ev,
+static gboolean gui_dialog_key_press_handler(GtkEventControllerKey *controller,
+                                             guint keyval, guint keycode,
+                                             GdkModifierType state,
                                              gpointer data)
 {
-  GdkEventType type;
-  struct gui_dialog *dlg = data;
-  guint keyval;
-  GdkModifierType state;
-
-  type = gdk_event_get_event_type(ev);
-  if (type != GDK_KEY_PRESS) {
-    return FALSE;
-  }
-
-  keyval = gdk_key_event_get_keyval(ev);
-  state = gdk_event_get_modifier_state(ev);
+  struct gui_dialog *dlg = (struct gui_dialog *)data;
 
   if (keyval == GDK_KEY_Escape
       || ((state & GDK_CONTROL_MASK) && keyval == GDK_KEY_w)) {
-    /* emit response signal. */
+    /* Emit response signal. */
     gui_dialog_response(dlg, GTK_RESPONSE_DELETE_EVENT);
   }
 
-  /* propagate event further. */
+  /* Propagate event further. */
   return FALSE;
 }
 
@@ -494,6 +485,7 @@ void gui_dialog_new(struct gui_dialog **pdlg, GtkNotebook *notebook,
   struct gui_dialog *dlg;
   GtkWidget *action_area;
   static int dialog_id_counter;
+  GtkEventController *controller;
 
   dlg = fc_malloc(sizeof(*dlg));
   dialog_list = g_list_prepend(dialog_list, dlg);
@@ -569,7 +561,6 @@ void gui_dialog_new(struct gui_dialog **pdlg, GtkNotebook *notebook,
     {
       GtkWidget *hbox, *label, *button;
       gchar *buf;
-      GtkEventController *controller;
 
       hbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
 
@@ -627,8 +618,10 @@ void gui_dialog_new(struct gui_dialog **pdlg, GtkNotebook *notebook,
 
   g_signal_connect(dlg->grid, "destroy",
                    G_CALLBACK(gui_dialog_destroy_handler), dlg);
-  g_signal_connect(dlg->grid, "key_press_event",
-      G_CALLBACK(gui_dialog_key_press_handler), dlg);
+  controller = gtk_event_controller_key_new();
+  g_signal_connect(controller, "key-pressed",
+                   G_CALLBACK(gui_dialog_key_press_handler), dlg);
+  gtk_widget_add_controller(dlg->grid, controller);
 
   g_object_set_data(G_OBJECT(dlg->grid), "gui-dialog-data", dlg);
 }
