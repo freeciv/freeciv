@@ -17,7 +17,8 @@
 #include "explanation.h"
 #include "unit.h"
 
-#include "hand_gen.h"
+/* server */
+#include <hand_gen.h>       /* <> so looked from the build directory first. */
 
 bool unit_activity_handling(struct unit *punit,
                             enum unit_activity new_activity);
@@ -63,4 +64,4 @@ bool unit_server_side_agent_set(struct player *pplayer,
                                 struct unit *punit,
                                 enum server_side_agent agent);
 
-#endif  /* FC__UNITHAND_H */
+#endif /* FC__UNITHAND_H */

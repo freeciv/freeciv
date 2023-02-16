@@ -58,7 +58,7 @@
 #include "mapview_common.h"
 #include "music.h"
 #include "overview_common.h"
-#include "packhand_gen.h"
+#include <packhand_gen.h>       /* <> so looked from the build directory first. */
 #include "plrdlg_common.h"
 #include "repodlgs_common.h"
 #include "servers.h"

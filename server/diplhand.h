@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -13,9 +13,11 @@
 #ifndef FC__DIPLHAND_H
 #define FC__DIPLHAND_H
 
+/* common */
 #include "fc_types.h"
 
-#include "hand_gen.h"
+/* server */
+#include <hand_gen.h>       /* <> so looked from the build directory first. */
 
 struct Treaty;
 struct packet_diplomacy_info;
@@ -47,4 +49,4 @@ void set_diplstate_type(struct player_diplstate *state1,
                         struct player_diplstate *state2,
                         enum diplstate_type type);
 
-#endif  /* FC__DIPLHAND_H */
+#endif /* FC__DIPLHAND_H */

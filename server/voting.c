@@ -31,7 +31,7 @@
 /* server */
 #include "commands.h"
 #include "console.h"
-#include "hand_gen.h"
+#include <hand_gen.h>       /* <> so looked from the build directory first. */
 #include "notify.h"
 #include "settings.h"
 #include "stdinhand.h"
