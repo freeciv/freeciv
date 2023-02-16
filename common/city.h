@@ -510,15 +510,16 @@ extern struct output_type output_types[];
                                                                        \
   if (_city##_size > 0) {                                              \
     int _city##_numbers[_city##_size];                                 \
-    int _city##_index = 0;                                             \
+    int _city##_index;                                                 \
                                                                        \
+    _city##_size = 0;                                                  \
     city_list_iterate(_city##_cl, _city) {                             \
-      _city##_numbers[_city##_index++] = _city->id;                    \
+      _city##_numbers[_city##_size++] = _city->id;                     \
     } city_list_iterate_end;                                           \
                                                                        \
     for (_city##_index = 0;                                            \
-        _city##_index < _city##_size;                                  \
-        _city##_index++) {                                             \
+         _city##_index < _city##_size;                                 \
+         _city##_index++) {                                            \
       struct city *_city =                                             \
         game_city_by_number(_city##_numbers[_city##_index]);           \
                                                                        \
