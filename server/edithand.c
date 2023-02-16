@@ -41,7 +41,7 @@
 #include "cityturn.h"
 #include "connecthand.h"
 #include "gamehand.h"
-#include "hand_gen.h"
+#include <hand_gen.h>       /* <> so looked from the build directory first. */
 #include "maphand.h"
 #include "plrhand.h"
 #include "notify.h"

@@ -17,7 +17,7 @@
 #include "fc_types.h"
 
 /* server */
-#include "hand_gen.h"
+#include <hand_gen.h>       /* <> so looked from the build directory first. */
 
 struct Treaty;
 struct packet_diplomacy_info;
@@ -35,4 +35,4 @@ void set_diplstate_type(struct player_diplstate *state1,
 
 enum diplstate_type valid_dst_closest(struct player_diplstate *dst);
 
-#endif  /* FC__DIPLHAND_H */
+#endif /* FC__DIPLHAND_H */

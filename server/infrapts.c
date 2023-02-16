@@ -18,7 +18,7 @@
 #include "map.h"
 
 /* server */
-#include "hand_gen.h"
+#include <hand_gen.h>       /* <> so looked from the build directory first. */
 #include "maphand.h"
 #include "notify.h"
 #include "plrhand.h"

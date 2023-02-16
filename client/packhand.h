@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -17,20 +17,21 @@
 extern "C" {
 #endif /* __cplusplus */
 
-#include "fc_types.h"		/* struct connection, struct government */
-
-#include "events.h"		/* enum event_type */
+/* common */
+#include "events.h"             /* enum event_type */
+#include "fc_types.h"           /* struct connection, struct government */
 #include "map.h"
 
-#include "packhand_gen.h"
+/* client */
+#include <packhand_gen.h>       /* <> so looked from the build directory first. */
 
 void packhand_free(void);
 
 void notify_about_incoming_packet(struct connection *pc,
-				   int packet_type, int size);
+                                  int packet_type, int size);
 void notify_about_outgoing_packet(struct connection *pc,
-				  int packet_type, int size,
-				  int request_id);
+                                  int packet_type, int size,
+                                  int request_id);
 void set_reports_thaw_request(int request_id);
 
 void play_sound_for_event(enum event_type type);

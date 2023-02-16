@@ -13,14 +13,15 @@
 #ifndef FC__MAPHAND_H
 #define FC__MAPHAND_H
 
+/* common */
 #include "fc_types.h"
-
 #include "map.h"
 #include "packets.h"
 #include "terrain.h"
 #include "vision.h"
 
-#include "hand_gen.h"
+/* server */
+#include <hand_gen.h>       /* <> so looked from the build directory first. */
 
 struct section_file;
 struct conn_list;

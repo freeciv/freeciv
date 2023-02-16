@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -18,7 +18,7 @@
 #include "packets.h"
 
 /* server */
-#include "hand_gen.h"
+#include <hand_gen.h>       /* <> so looked from the build directory first. */
 
 struct player_spaceship;
 struct conn_list;
