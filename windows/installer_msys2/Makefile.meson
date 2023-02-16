@@ -41,6 +41,14 @@ ARCHDIR=clang64
 LIBGCCDLL=
 CRYPTOLIB_SUFFIX=-x64
 PREF_WIN_VER=0x0A00
+
+else ifeq ($(MSYSTEM),CLANG32)
+WINARCH=win32+
+ARCHDIR=clang32
+LIBGCCDLL=
+CRYPTOLIB_SUFFIX=
+PREF_WIN_VER=0x0A00
+
 else
 error "Unsupported MSYSTEM environment"
 endif
@@ -75,6 +83,8 @@ all-win32: gtk3.22-installer sdl2-installer gtk4-installer qt5-installer ruledit
 all-win64-10: gtk3.22-installer sdl2-installer gtk4-installer qt6-installer ruledit-installer-qt6
 
 all-win64+: gtk3.22-install sdl2-install gtk4-install qt6-install ruledit-install-qt6
+
+all-win32+: gtk3.22-install sdl2-install gtk4-install qt6-install ruledit-install-qt6
 
 snapshot:
 	make -f $(MAKEFILE_NAME) VERSION_REVTYPE="git" EXTRA_CONFIG="-Dgitrev=true $(EXTRA_CONFIG)" all
