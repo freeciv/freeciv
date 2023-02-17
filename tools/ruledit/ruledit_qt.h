@@ -124,6 +124,8 @@ signals:
   void req_vec_may_have_changed(const requirement_vector *vec);
 
   private:
+    void launch_now();
+
     QLabel *msg_dspl;
     QTabWidget *stack;
     QLineEdit *ruleset_select;
@@ -148,7 +150,7 @@ signals:
     struct effect_edit_list *effect_edits;
 
   private slots:
-    void launch_now();
+    void rulesetdir_given();
     void incoming_req_vec_change(const requirement_vector *vec);
 };
 
