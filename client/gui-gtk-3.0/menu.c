@@ -1026,7 +1026,7 @@ static void edit_mode_callback(GtkCheckMenuItem *item, gpointer data)
 {
   if (game.info.is_edit_mode ^ gtk_check_menu_item_get_active(item)) {
     key_editor_toggle();
-    /* Unreachbale techs in reqtree on/off */
+    /* Unreachable techs in reqtree on/off */
     science_report_dialog_popdown();
   }
 }
