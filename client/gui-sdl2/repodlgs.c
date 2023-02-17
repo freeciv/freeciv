@@ -1273,7 +1273,7 @@ static Uint16 report_scroll_mouse_motion_handler(SDL_MouseMotionEvent *motion_ev
       widget_redraw(motion->label_dst);
       widget_mark_dirty(motion->label_dst);
 
-      /* redraw scroolbar */
+      /* redraw scrollbar */
       if (get_wflags(motion->horiz_src) & WF_RESTORE_BACKGROUND) {
         refresh_widget_background(motion->horiz_src);
       }
