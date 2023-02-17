@@ -633,6 +633,10 @@ type = "Embassy"
 ;def                     = Initial value of the counter.
 ;type                    = Behavior of the counter:
 ;                          "Owned" - Increased each turn, zeroed when city changes owner
+;                          "Celebraring" - Increased each celebrates turn. In case city
+;                          does not celebrates, counter is zeroed
+;                          "Disorder" - Increased each turn city is in disorder state. In
+;                          case riots are eliminated, value is zeroed.
 ; */ <-- avoid gettext warnings
 
 [playercolors]
