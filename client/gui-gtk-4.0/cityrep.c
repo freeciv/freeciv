@@ -1212,7 +1212,7 @@ static GtkWidget *create_city_report_menu(void)
                        G_MENU_MODEL(create_governor_menu(cityrep_group, TRUE)));
 
   /* Placeholder */
-  submenu_append_unref(cityrep_menu, _("S_all"), G_MENU_MODEL(g_menu_new()));
+  submenu_append_unref(cityrep_menu, _("S_ell"), G_MENU_MODEL(g_menu_new()));
 
   submenu = create_select_menu(cityrep_group);
   submenu_append_unref(cityrep_menu, _("_Select"), G_MENU_MODEL(submenu));
