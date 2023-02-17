@@ -1511,6 +1511,7 @@ static struct city_dialog *create_city_dialog(struct city *pcity)
   GtkWidget *vbox, *hbox, *cbox, *ebox;
   int citizen_bar_width;
   int citizen_bar_height;
+  struct player *owner;
 
   if (!city_dialogs_have_been_initialised) {
     initialize_city_dialogs();
@@ -1524,10 +1525,13 @@ static struct city_dialog *create_city_dialog(struct city *pcity)
   pdialog->happiness.map_canvas.ebox = NULL;    /* ditto */
   pdialog->happiness.map_canvas.darea = NULL;   /* ditto */
   pdialog->happiness.citizens = NULL;           /* ditto */
+  pdialog->production.buy_command = NULL;
+  pdialog->production.production_label = NULL;
+  pdialog->production.production_bar = NULL;
   pdialog->cma_editor = NULL;
   pdialog->map_canvas_store_unscaled
     = cairo_image_surface_create(CAIRO_FORMAT_ARGB32,
-            canvas_width, canvas_height);
+                                 canvas_width, canvas_height);
 
   pdialog->shell = gtk_dialog_new();
   gtk_window_set_title(GTK_WINDOW(pdialog->shell), city_name_get(pcity));
@@ -1607,14 +1611,16 @@ static struct city_dialog *create_city_dialog(struct city *pcity)
   create_and_append_overview_page(pdialog);
   create_and_append_map_page(pdialog);
   create_and_append_buildings_page(pdialog);
-  create_and_append_worklist_page(pdialog);
 
-  /* only create these tabs if not a spy */
-  if (!client_has_player() || city_owner(pcity) == client_player()) {
+  owner = city_owner(pcity);
+
+  /* Only create these tabs if not a spy */
+  if (owner == client_player() || client_is_global_observer()) {
+    create_and_append_worklist_page(pdialog);
     create_and_append_happiness_page(pdialog);
   }
 
-  if (city_owner(pcity) == client_player()
+  if (owner == client_player()
       && !client_is_observer()) {
     create_and_append_cma_page(pdialog);
     create_and_append_settings_page(pdialog);
@@ -1642,8 +1648,8 @@ static struct city_dialog *create_city_dialog(struct city *pcity)
                                               _("_Next city"));
   gtk_dialog_add_action_widget(GTK_DIALOG(pdialog->shell),
                                pdialog->next_command, 2);
-  
-  if (city_owner(pcity) != client.conn.playing) {
+
+  if (owner != client_player()) {
     gtk_widget_set_sensitive(pdialog->prev_command, FALSE);
     gtk_widget_set_sensitive(pdialog->next_command, FALSE);
   }

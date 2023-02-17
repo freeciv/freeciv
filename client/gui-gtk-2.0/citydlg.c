@@ -1288,9 +1288,9 @@ static void create_and_append_settings_page(struct city_dialog *pdialog)
 static struct city_dialog *create_city_dialog(struct city *pcity)
 {
   struct city_dialog *pdialog;
-
   GtkWidget *close_command;
   GtkWidget *vbox, *hbox, *cbox, *ebox;
+  struct player *owner;
 
   if (!city_dialogs_have_been_initialised) {
     initialize_city_dialogs();
@@ -1304,9 +1304,12 @@ static struct city_dialog *create_city_dialog(struct city *pcity)
   pdialog->happiness.map_canvas.ebox = NULL;    /* ditto */
   pdialog->happiness.map_canvas.pixmap = NULL;  /* ditto */
   pdialog->happiness.citizens = NULL;           /* ditto */
+  pdialog->production.buy_command = NULL;
+  pdialog->production.production_label = NULL;
+  pdialog->production.production_bar = NULL;
   pdialog->cma_editor = NULL;
   pdialog->map_canvas_store = gdk_pixbuf_new(GDK_COLORSPACE_RGB, TRUE, 8,
-					     CITYMAP_WIDTH, CITYMAP_HEIGHT);
+                                             CITYMAP_WIDTH, CITYMAP_HEIGHT);
   pdialog->map_pixbuf_unscaled = NULL;
   pdialog->map_canvas_store_unscaled
     = gdk_pixmap_new(root_window, canvas_width, canvas_height, -1);
@@ -1373,14 +1376,16 @@ static struct city_dialog *create_city_dialog(struct city *pcity)
   gtk_box_pack_start(GTK_BOX(vbox), pdialog->notebook, TRUE, TRUE, 0);
 
   create_and_append_overview_page(pdialog);
-  create_and_append_worklist_page(pdialog);
 
-  /* only create these tabs if not a spy */
-  if (!client_has_player() || city_owner(pcity) == client_player()) {
+  owner = city_owner(pcity);
+
+  /* Only create these tabs if not a spy */
+  if (owner == client_player() || client_is_global_observer()) {
+    create_and_append_worklist_page(pdialog);
     create_and_append_happiness_page(pdialog);
   }
 
-  if (city_owner(pcity) == client_player()
+  if (owner == client_player()
       && !client_is_observer()) {
     create_and_append_cma_page(pdialog);
     create_and_append_settings_page(pdialog);
@@ -1412,14 +1417,14 @@ static struct city_dialog *create_city_dialog(struct city *pcity)
                                               _("_Next city"));
   gtk_dialog_add_action_widget(GTK_DIALOG(pdialog->shell),
                                pdialog->next_command, 2);
-  
-  if (city_owner(pcity) != client.conn.playing) {
+
+  if (owner != client_player()) {
     gtk_widget_set_sensitive(pdialog->prev_command, FALSE);
     gtk_widget_set_sensitive(pdialog->next_command, FALSE);
   }
 
   close_command = gtk_dialog_add_button(GTK_DIALOG(pdialog->shell),
-					GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE);
+                                        GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE);
 
   gtk_dialog_set_default_response(GTK_DIALOG(pdialog->shell),
 	GTK_RESPONSE_CLOSE);
@@ -1697,10 +1702,12 @@ static void city_dialog_update_building(struct city_dialog *pdialog)
   int cost = city_production_build_shield_cost(pcity);
 
   gtk_widget_set_sensitive(pdialog->overview.buy_command, sensitive);
-  gtk_widget_set_sensitive(pdialog->production.buy_command, sensitive);
+  if (pdialog->production.buy_command != NULL) {
+    gtk_widget_set_sensitive(pdialog->production.buy_command, sensitive);
+  }
 
   /* Make sure build slots info is up to date */
-  {
+  if (pdialog->production.production_label != NULL) {
     int build_slots = city_build_slots(pcity);
     /* Only display extra info if more than one slot is available */
     if (build_slots > 1) {
@@ -1734,12 +1741,14 @@ static void city_dialog_update_building(struct city_dialog *pdialog)
   gtk_progress_bar_set_fraction(
     GTK_PROGRESS_BAR(pdialog->overview.production_bar), pct);
 
-  fc_snprintf(buf2, sizeof(buf2), "%s%s: %s", descr,
-              worklist_is_empty(&pcity->worklist) ? "" : " (+)", buf);
-  gtk_progress_bar_set_text(
-    GTK_PROGRESS_BAR(pdialog->production.production_bar), buf2);
-  gtk_progress_bar_set_fraction(
-    GTK_PROGRESS_BAR(pdialog->production.production_bar), pct);
+  if (pdialog->production.production_bar != NULL) {
+    fc_snprintf(buf2, sizeof(buf2), "%s%s: %s", descr,
+                worklist_is_empty(&pcity->worklist) ? "" : " (+)", buf);
+    gtk_progress_bar_set_text(
+      GTK_PROGRESS_BAR(pdialog->production.production_bar), buf2);
+    gtk_progress_bar_set_fraction(
+      GTK_PROGRESS_BAR(pdialog->production.production_bar), pct);
+  }
 
   store = pdialog->overview.change_production_store;  
   gtk_combo_box_set_active(GTK_COMBO_BOX(pdialog->overview.production_combo),
