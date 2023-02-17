@@ -52,6 +52,7 @@
 
 
 static int get_bulbs_per_turn(int *pours, bool *pteam, int *ptheirs);
+static const char *format_duration(int duration);
 
 /************************************************************************//**
   Return a (static) string with a tile's food/prod/trade
@@ -1592,9 +1593,9 @@ const char *get_timeout_label_text(void)
   astr_clear(&str);
 
   if (is_waiting_turn_change() && game.tinfo.last_turn_change_time >= 1.5) {
-    double wt = get_seconds_to_new_turn();
+    int wt = get_seconds_to_new_turn();
 
-    if (wt < 0.01) {
+    if (wt <= 0) {
       astr_add(&str, "%s", Q_("?timeout:wait"));
     } else {
       astr_add(&str, "%s: %s", Q_("?timeout:eta"), format_duration(wt));
@@ -1618,7 +1619,7 @@ const char *get_timeout_label_text(void)
 
   Not re-entrant
 ****************************************************************************/
-const char *format_duration(int duration)
+static const char *format_duration(int duration)
 {
   static struct astring str = ASTRING_INIT;
 

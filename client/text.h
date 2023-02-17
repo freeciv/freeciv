@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 2004 - The Freeciv Project
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -49,7 +49,6 @@ bool get_units_disband_info(char *buf, size_t bufsz,
 			    struct unit_list *punits);
 const char *get_spaceship_descr(struct player_spaceship *pship);
 const char *get_timeout_label_text(void);
-const char *format_duration(int duration);
 const char *get_ping_time_text(const struct player *pplayer);
 const char *get_score_text(const struct player *pplayer);
 const char *get_report_title(const char *report_name);
