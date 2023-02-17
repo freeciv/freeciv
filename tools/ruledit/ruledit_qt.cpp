@@ -103,8 +103,6 @@ void ruledit_qt_display_requirers(const char *msg, void *data)
 void ruledit_gui::setup(QWidget *central_in)
 {
   QVBoxLayout *full_layout = new QVBoxLayout();
-  QVBoxLayout *preload_layout = new QVBoxLayout();
-  QWidget *preload_widget = new QWidget();
   QVBoxLayout *edit_layout = new QVBoxLayout();
   QWidget *edit_widget = new QWidget();
   QPushButton *ruleset_accept;
@@ -129,29 +127,30 @@ void ruledit_gui::setup(QWidget *central_in)
 
   main_layout = new QStackedLayout();
 
-  preload_layout->setSizeConstraint(QLayout::SetMaximumSize);
-  version_label = new QLabel(verbuf);
-  version_label->setAlignment(Qt::AlignHCenter);
-  version_label->setParent(central);
-  preload_layout->addWidget(version_label);
-  rs_label = new QLabel(QString::fromUtf8(R__("Give ruleset to use as starting point.")));
-  rs_label->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Fixed);
-  preload_layout->addWidget(rs_label);
-  ruleset_select = new QLineEdit(central);
-  if (reargs.ruleset) {
-    ruleset_select->setText(reargs.ruleset);
-  } else {
-    ruleset_select->setText(GAME_DEFAULT_RULESETDIR);
-  }
-  connect(ruleset_select, SIGNAL(returnPressed()),
-          this, SLOT(launch_now()));
-  preload_layout->addWidget(ruleset_select);
-  ruleset_accept = new QPushButton(QString::fromUtf8(R__("Start editing")));
-  connect(ruleset_accept, SIGNAL(pressed()), this, SLOT(launch_now()));
-  preload_layout->addWidget(ruleset_accept);
+  if (reargs.ruleset == nullptr) {
+    QVBoxLayout *preload_layout = new QVBoxLayout();
+    QWidget *preload_widget = new QWidget();
 
-  preload_widget->setLayout(preload_layout);
-  main_layout->addWidget(preload_widget);
+    preload_layout->setSizeConstraint(QLayout::SetMaximumSize);
+    version_label = new QLabel(verbuf);
+    version_label->setAlignment(Qt::AlignHCenter);
+    version_label->setParent(central);
+    preload_layout->addWidget(version_label);
+    rs_label = new QLabel(QString::fromUtf8(R__("Give ruleset to use as starting point.")));
+    rs_label->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Fixed);
+    preload_layout->addWidget(rs_label);
+    ruleset_select = new QLineEdit(central);
+    ruleset_select->setText(GAME_DEFAULT_RULESETDIR);
+    connect(ruleset_select, SIGNAL(returnPressed()),
+            this, SLOT(rulesetdir_given()));
+    preload_layout->addWidget(ruleset_select);
+    ruleset_accept = new QPushButton(QString::fromUtf8(R__("Start editing")));
+    connect(ruleset_accept, SIGNAL(pressed()), this, SLOT(rulesetdir_given()));
+    preload_layout->addWidget(ruleset_accept);
+
+    preload_widget->setLayout(preload_layout);
+    main_layout->addWidget(preload_widget);
+  }
 
   stack = new QTabWidget(central);
 
@@ -194,6 +193,11 @@ void ruledit_gui::setup(QWidget *central_in)
 
   req_edits = req_edit_list_new();
   this->req_vec_fixers = req_vec_fix_list_new();
+
+  if (reargs.ruleset != nullptr) {
+    sz_strlcpy(game.server.rulesetdir, reargs.ruleset);
+    launch_now();
+  }
 }
 
 /**************************************************************************
@@ -205,16 +209,26 @@ static void conversion_log_cb(const char *msg)
 }
 
 /**************************************************************************
-  User entered savedir
+  User entered rulesetdir to load.
+**************************************************************************/
+void ruledit_gui::rulesetdir_given()
+{
+   QByteArray rn_bytes;
+
+   rn_bytes = ruleset_select->text().toUtf8();
+   sz_strlcpy(game.server.rulesetdir, rn_bytes.data());
+
+  launch_now();
+}
+
+/**************************************************************************
+  Launch the main page.
+
+  game.server.rulesetdir must be correctly set beforehand.
 **************************************************************************/
 void ruledit_gui::launch_now()
 {
-  QByteArray rn_bytes;
-
   convlog = new conversion_log(QString::fromUtf8(R__("Old ruleset to a new format")));
-
-  rn_bytes = ruleset_select->text().toUtf8();
-  sz_strlcpy(game.server.rulesetdir, rn_bytes.data());
 
   if (load_rulesets(NULL, TRUE, conversion_log_cb, FALSE, TRUE)) {
     display_msg(R__("Ruleset loaded"));
