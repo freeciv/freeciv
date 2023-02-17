@@ -1264,6 +1264,10 @@ counters = "\n\
 ;def                     = Initial value of the counter.\n\
 ;type                    = Behavior of the counter:\n\
 ;                          \"Owned\" - Increased each turn, zeroed when city changes owner\n\
+;                          \"Celebraring\" - Increased each celebrates turn. In case city\n\
+;                          do not celebrates, counter is zeroed\n\
+;                          \"Disorder\" - Increased each turn city is in disorder state. In\n\
+;                          case riots are eliminated, value is zeroed.\n\
 ; */ <-- avoid gettext warnings\n\
 "
 
