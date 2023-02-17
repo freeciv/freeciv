@@ -77,6 +77,7 @@ void api_edit_remove_building(lua_State *L, City *pcity, Building_Type *impr);
 Player *api_edit_create_player(lua_State *L, const char *username,
                                Nation_Type *pnation, const char *ai);
 void api_edit_change_gold(lua_State *L, Player *pplayer, int amount);
+void api_edit_change_infrapoints(lua_State *L, Player *pplayer, int amount);
 Tech_Type *api_edit_give_technology(lua_State *L, Player *pplayer,
                                     Tech_Type *ptech, int cost, bool notify,
                                     const char *reason);

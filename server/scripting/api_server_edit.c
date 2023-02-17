@@ -741,6 +741,20 @@ void api_edit_change_gold(lua_State *L, Player *pplayer, int amount)
 }
 
 /**********************************************************************//**
+  Change pplayer's infrapoints by amount.
+**************************************************************************/
+void api_edit_change_infrapoints(lua_State *L, Player *pplayer, int amount)
+{
+  LUASCRIPT_CHECK_STATE(L);
+  LUASCRIPT_CHECK_ARG_NIL(L, pplayer, 2, Player);
+
+  pplayer->economic.infra_points
+    = MAX(0, pplayer->economic.infra_points + amount);
+
+  send_player_info_c(pplayer, NULL);
+}
+
+/**********************************************************************//**
   Give pplayer technology ptech. Quietly returns NULL if
   player already has this tech; otherwise returns the tech granted.
   Use NULL for ptech to grant a random tech.

@@ -160,6 +160,8 @@ module edit {
                     const char *ai);
   void api_edit_change_gold
     @ change_gold (lua_State *L, Player *pplayer, int amount);
+  void api_edit_change_infrapoints
+    @ change_infrapoints (lua_State *L, Player *pplayer, int amount);
   /* cost:
    *     0 or above - The exact cost % to apply
    *    -1          - Apply freecost
@@ -336,6 +338,10 @@ end
 
 function Player:change_gold(amount)
   edit.change_gold(self, amount)
+end
+
+function Player:change_infrapoints(amount)
+  edit.change_infrapoints(self, amount)
 end
 
 function Player:give_tech(tech, cost, notify, reason)
