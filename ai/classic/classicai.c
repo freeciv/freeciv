@@ -27,7 +27,6 @@
 #include "aiferry.h"
 #include "aihand.h"
 #include "aitools.h"
-#include "aiunit.h"
 #include "daicity.h"
 #include "daidata.h"
 #include "daidiplomacy.h"

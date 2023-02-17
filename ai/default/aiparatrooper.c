@@ -46,7 +46,6 @@
 #include "handicaps.h"
 
 /* ai/default */
-#include "aiunit.h"
 #include "aitools.h"
 #include "daicity.h"
 #include "daidata.h"

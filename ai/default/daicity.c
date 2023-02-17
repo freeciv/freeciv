@@ -54,7 +54,6 @@
 /* ai/default */
 #include "aihand.h"
 #include "aitools.h"
-#include "aiunit.h"
 #include "daidata.h"
 #include "daidiplomacy.h"
 #include "daidomestic.h"

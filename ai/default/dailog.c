@@ -27,10 +27,10 @@
 #include "notify.h"
 
 /* ai/default */
-#include "aiunit.h"
 #include "daicity.h"
 #include "daidata.h"
 #include "daiplayer.h"
+#include "daiunit.h"
 
 #include "dailog.h"
 

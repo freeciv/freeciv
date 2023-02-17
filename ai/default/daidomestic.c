@@ -55,7 +55,6 @@
 /* ai/default */
 #include "aitech.h"
 #include "aitools.h"
-#include "aiunit.h"
 #include "daicity.h"
 #include "daidata.h"
 #include "daimilitary.h"

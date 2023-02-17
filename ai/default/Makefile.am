@@ -32,8 +32,6 @@ libdefaultai_la_SOURCES = \
 		aitech.h	\
 		aitools.c	\
 		aitools.h	\
-		aiunit.c	\
-		aiunit.h	\
 		daiactions.c	\
 		daiactions.h	\
 		daicity.c	\
@@ -53,7 +51,9 @@ libdefaultai_la_SOURCES = \
 		daiplayer.c	\
 		daiplayer.h	\
 		daisettler.c	\
-		daisettler.h
+		daisettler.h	\
+		daiunit.c	\
+		daiunit.h
 
 
 libdefaultai_la_LIBADD = -lm

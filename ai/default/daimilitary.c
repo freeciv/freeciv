@@ -62,7 +62,6 @@
 #include "aiparatrooper.h"
 #include "aitech.h"
 #include "aitools.h"
-#include "aiunit.h"
 #include "daicity.h"
 #include "daidata.h"
 #include "daieffects.h"

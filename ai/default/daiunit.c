@@ -81,7 +81,7 @@
 #include "daimilitary.h"
 #include "daiplayer.h"
 
-#include "aiunit.h"
+#include "daiunit.h"
 
 
 #define LOGLEVEL_RECOVERY LOG_DEBUG

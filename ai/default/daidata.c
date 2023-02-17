@@ -34,12 +34,12 @@
 
 /* ai/default */
 #include "aiferry.h"
-#include "aiunit.h"
 #include "daicity.h"
 #include "daidiplomacy.h"
 #include "daieffects.h"
 #include "daiplayer.h"
 #include "daisettler.h"
+#include "daiunit.h"
 
 #include "daidata.h"
 

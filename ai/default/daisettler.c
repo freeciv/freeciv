@@ -57,7 +57,6 @@
 /* ai/default */
 #include "aiferry.h"
 #include "aitools.h"
-#include "aiunit.h"
 #include "daicity.h"
 #include "daidata.h"
 #include "dailog.h"

@@ -20,7 +20,7 @@
 #include "advchoice.h"
 
 /* ai/default */
-#include "aiunit.h"             /* enum ai_unit_task */
+#include "daiunit.h"            /* enum ai_unit_task */
 
 struct pf_path;
 struct pf_parameter;

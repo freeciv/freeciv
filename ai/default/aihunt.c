@@ -50,7 +50,6 @@
 
 /* ai/default */
 #include "aitools.h"
-#include "aiunit.h"
 #include "daicity.h"
 #include "daiplayer.h"
 
