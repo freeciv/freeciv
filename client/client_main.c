@@ -1111,7 +1111,7 @@ void set_seconds_to_turndone(double seconds)
 
     /* Maybe we should do an update_timeout_label here, but it doesn't
      * seem to be necessary. */
-    seconds_shown_to_turndone = ceil(seconds) + 0.1;
+    seconds_shown_to_turndone = ceil(seconds + 0.1);
   }
 }
 
@@ -1128,7 +1128,7 @@ bool is_waiting_turn_change(void)
 **************************************************************************/
 void start_turn_change_wait(void)
 {
-  seconds_shown_to_new_turn = ceil(game.tinfo.last_turn_change_time) + 0.1;
+  seconds_shown_to_new_turn = ceil(game.tinfo.last_turn_change_time + 0.1);
   between_turns = timer_renew(between_turns, TIMER_USER, TIMER_ACTIVE,
                               between_turns != NULL ? NULL : "between turns");
   timer_start(between_turns);
@@ -1160,7 +1160,7 @@ int get_seconds_to_turndone(void)
 }
 
 /**********************************************************************//**
-  Return the number of seconds until turn-done.  Don't call this unless
+  Return the number of seconds until turn-done. Don't call this unless
   current_turn_timeout() != 0.
 **************************************************************************/
 int get_seconds_to_new_turn(void)
@@ -1204,9 +1204,9 @@ double real_timer_callback(void)
 
   /* It is possible to have current_turn_timeout() > 0 but !turndone_timer,
    * in the first moments after the timeout is set. */
-  if (current_turn_timeout() > 0 && turndone_timer) {
+  if (current_turn_timeout() > 0 && turndone_timer != NULL) {
     double seconds = seconds_to_turndone - timer_read_seconds(turndone_timer);
-    int iseconds = ceil(seconds) + 0.1; /* Turn should end right on 0. */
+    int iseconds = ceil(seconds + 0.1); /* Turn should end right on 0. */
 
     if (iseconds < seconds_shown_to_turndone) {
       seconds_shown_to_turndone = iseconds;
@@ -1218,7 +1218,7 @@ double real_timer_callback(void)
   }
   if (waiting_turn_change) {
     double seconds = game.tinfo.last_turn_change_time - timer_read_seconds(between_turns);
-    int iseconds = ceil(seconds) + 0.1; /* Turn should end right on 0. */
+    int iseconds = ceil(seconds + 0.1); /* Turn should end right on 0. */
 
     if (iseconds < game.tinfo.last_turn_change_time) {
       seconds_shown_to_new_turn = iseconds;
