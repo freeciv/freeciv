@@ -62,7 +62,7 @@ do {						\
 static int (*baseclass_redraw)(struct widget *pwidget);
 
 /* =================================================== */
-/* ===================== VSCROOLBAR ================== */
+/* ===================== VSCROLLBAR ================== */
 /* =================================================== */
 
 /**************************************************************************
@@ -195,7 +195,7 @@ int draw_vert(struct widget *pVert, Sint16 x, Sint16 y)
 }
 
 /* =================================================== */
-/* ===================== HSCROOLBAR ================== */
+/* ===================== HSCROLLBAR ================== */
 /* =================================================== */
 
 /**************************************************************************
@@ -945,7 +945,7 @@ static void inside_scroll_up_loop(void *pData)
     redraw_group(pUp->pBeginWidgetLIST, pUp->pEndWidgetLIST, TRUE);
 
     if (pUp->pVscroll->pScrollBar) {
-      /* redraw scroolbar */
+      /* redraw scrollbar */
       if (get_wflags(pUp->pVscroll->pScrollBar) & WF_RESTORE_BACKGROUND) {
         refresh_widget_background(pUp->pVscroll->pScrollBar);
       }
