@@ -64,9 +64,11 @@ INSTSUB=${ARCHDIR}
 DLLPATH_PREFIX=/$(ARCHDIR)/bin/
 
 ifeq ($(CI),yes)
-TIFF=libtiff-5.dll
+CRYPTOVERSUF=3${CRYPTOLIB_SUFFIX}
+CERTPATH=/etc
 else
-TIFF=libtiff-6.dll
+CRYPTOVERSUF=1_1${CRYPTOLIB_SUFFIX}
+CERTPATH=
 endif
 
 #
@@ -267,9 +269,9 @@ SOUND_DLLS := \
 
 COMMON_DLLS := \
 	libstdc++-6.dll \
-	libcrypto-1_1${CRYPTOLIB_SUFFIX}.dll \
+	libcrypto-${CRYPTOVERSUF}.dll \
 	libpsl-5.dll \
-	libssl-1_1${CRYPTOLIB_SUFFIX}.dll \
+	libssl-${CRYPTOVERSUF}.dll \
 	libidn2-0.dll \
 	libnghttp2-14.dll \
 	libssh2-1.dll \
@@ -330,7 +332,7 @@ install-env-common:
 	# add DLLs
 	cp -R $(addprefix $(DLLPATH_PREFIX), $(COMMON_DLLS)) install-$(WINARCH)-$(GUI)/
 	mkdir -p install-$(WINARCH)-$(GUI)/ssl/certs
-	cp -R /$(ARCHDIR)/ssl/certs/ca-bundle.crt install-$(WINARCH)-$(GUI)/ssl/certs/
+	cp -R /$(ARCHDIR)$(CERTPATH)/ssl/certs/ca-bundle.crt install-$(WINARCH)-$(GUI)/ssl/certs/
 
 DEFAULT_FCMP_DLLS := \
 	libgdk-3-0.dll \
@@ -374,7 +376,7 @@ GTK4_FCMP_DLLS := \
 	liblzo2-2.dll \
 	libgraphite2.dll \
 	libdatrie-1.dll \
-	$(TIFF) \
+	libtiff-6.dll \
 	libjpeg-8.dll \
 	libLerc.dll \
 	libwebp-7.dll \
@@ -457,9 +459,9 @@ install-env-qt6: install-env-common
 
 RULEDIT_QT5_DLLS := \
         libstdc++-6.dll \
-	libcrypto-1_1${CRYPTOLIB_SUFFIX}.dll \
+	libcrypto-${CRYPTOVERSUF}.dll \
 	libpsl-5.dll \
-	libssl-1_1${CRYPTOLIB_SUFFIX}.dll \
+	libssl-${CRYPTOVERSUF}.dll \
 	libidn2-0.dll \
 	libnghttp2-14.dll \
 	libssh2-1.dll \
@@ -515,9 +517,9 @@ install-env-ruledit-qt5:
 
 RULEDIT_QT6_DLLS := \
         libstdc++-6.dll \
-	libcrypto-1_1${CRYPTOLIB_SUFFIX}.dll \
+	libcrypto-${CRYPTOVERSUF}.dll \
 	libpsl-5.dll \
-	libssl-1_1${CRYPTOLIB_SUFFIX}.dll \
+	libssl-${CRYPTOVERSUF}.dll \
 	libidn2-0.dll \
 	libnghttp2-14.dll \
 	libssh2-1.dll \
