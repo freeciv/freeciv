@@ -179,8 +179,8 @@ echo "Freeciv build successful!"
 ;;
 
 *)
-# Fetch S3_1 in the background for the ruleset upgrade test
-git fetch --no-tags --quiet https://github.com/freeciv/freeciv.git S3_1:S3_1 &
+# Fetch S3_2 in the background for the ruleset upgrade test
+git fetch --no-tags --quiet https://github.com/freeciv/freeciv.git S3_2:S3_2 &
 
 # Configure and build Freeciv
 mkdir build

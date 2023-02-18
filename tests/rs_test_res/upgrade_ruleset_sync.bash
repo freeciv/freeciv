@@ -1,10 +1,10 @@
 #!/bin/bash
 
-# the revision from the old branch to pick if no revision is specified
-DEFAULT_REVISION="7c0d610bf8"
+# The revision from the old branch to pick if no revision is specified
+DEFAULT_REVISION="4419acc641"
 
-# the branch of the previous version
-PREVIOUS_BRANCH="S3_1"
+# The branch of the previous version
+PREVIOUS_BRANCH="S3_2"
 
 set -e
 
