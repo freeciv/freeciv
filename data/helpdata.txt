@@ -1787,7 +1787,7 @@ Dialogs and Reports:\n\
      F5: open Economy Report\n\
      F6: open Research Report\n\
      F7: open World Wonders\n\
-     F8: open Top Five Cities\n\
+     F8: open Top Cities\n\
      F9: open Messages dialog\n\
     F11: open Demographics\n\
     F12: open Spaceship\n\
