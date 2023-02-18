@@ -733,10 +733,6 @@ struct requirement_vector *lookup_req_list(struct section_file *file,
       return NULL;
     }
 
-    if (compat->compat_mode) {
-      range = rscompat_req_range_3_2(compat, type, range);
-    }
-
     survives = FALSE;
     if ((pentry = secfile_entry_lookup(file, "%s.%s%d.survives",
                                         sec, sub, j))
@@ -761,10 +757,6 @@ struct requirement_vector *lookup_req_list(struct section_file *file,
       ruleset_error(NULL, LOG_ERROR,
                     "\"%s\": invalid boolean value for quiet for "
                     "'%s.%s%d'.", filename, sec, sub, j);
-    }
-
-    if (compat->compat_mode) {
-      rscompat_req_adjust_3_2(compat, &type, &name, &present, sec);
     }
 
     req = req_from_str(type, range, survives, present, quiet, name);
@@ -876,39 +868,6 @@ static bool lookup_tech(struct section_file *file,
   }
 
   return TRUE;
-}
-
-/**********************************************************************//**
-  Lookup a string prefix.entry in the file and return the corresponding
-  improvement pointer. Return B_NEVER for match "None" or
-  can't match.
-  If description is not NULL, it is used in the warning message
-  instead of prefix (eg pass unit->name instead of prefix="units2.u27")
-**************************************************************************/
-static bool lookup_building(struct section_file *file,
-                            const char *prefix, const char *entry,
-                            struct impr_type **result,
-                            const char *filename,
-                            const char *description)
-{
-  const char *sval;
-  bool ok = TRUE;
- 
-  sval = secfile_lookup_str_default(file, NULL, "%s.%s", prefix, entry);
-  if (!sval || strcmp(sval, "None") == 0) {
-    *result = B_NEVER;
-  } else {
-    *result = improvement_by_rule_name(sval);
-
-    if (B_NEVER == *result) {
-      ruleset_error(NULL, LOG_ERROR,
-                    "\"%s\" %s %s: couldn't match \"%s\".",
-                    filename, (description ? description : prefix), entry, sval);
-      ok = FALSE;
-    }
-  }
-
-  return ok;
 }
 
 /**********************************************************************//**
@@ -1261,10 +1220,10 @@ static bool lookup_terrain(struct section_file *file,
   Returns FALSE if not found in secfile, but TRUE even if validation failed.
   Sets *ok to FALSE if validation failed, leaves it alone otherwise.
 **************************************************************************/
-bool lookup_time(const struct section_file *secfile, int *turns,
-                 const char *sec_name, const char *property_name,
-                 const char *filename, const char *item_name,
-                 bool *ok)
+static bool lookup_time(const struct section_file *secfile, int *turns,
+                        const char *sec_name, const char *property_name,
+                        const char *filename, const char *item_name,
+                        bool *ok)
 {
   /* Assumes that PACKET_UNIT_INFO.activity_count in packets.def is UINT16 */
   const int max_turns = 65535 / ACTIVITY_FACTOR;
@@ -2197,91 +2156,17 @@ static bool load_ruleset_units(struct section_file *file,
       const int i = utype_index(u);
       const struct section *psection = section_list_get(sec, i);
       const char *sec_name = section_name(psection);
+      struct requirement_vector *reqs;
 
-      if (compat->compat_mode && compat->version < RSFORMAT_3_2) {
-        struct advance *adv_req;
-        struct impr_type *impr_req = NULL;
+      reqs = lookup_req_list(file, compat, sec_name, "reqs",
+                             utype_rule_name(u));
 
-        if (!lookup_tech(file, &adv_req, sec_name,
-                         "tech_req", filename,
-                         rule_name_get(&u->name))) {
-          ok = FALSE;
-          break;
-        }
-        if (adv_req == A_NEVER) {
-          ruleset_error(NULL, LOG_ERROR, "%s lacks valid tech_req.",
-                        rule_name_get(&u->name));
-          ok = FALSE;
-          break;
-        } else if (adv_req != advance_by_number(A_NONE)) {
-          requirement_vector_append(&u->build_reqs,
-                                    req_from_values(VUT_ADVANCE, REQ_RANGE_PLAYER,
-                                                    FALSE, TRUE, FALSE,
-                                                    advance_number(adv_req)));
-        }
-
-        /* Read the government build requirement from the old ruleset format
-         * and put it in unit_type's build_reqs requirement vector.
-         * The build_reqs requirement vector isn't ready to be exposed in the
-         * ruleset yet.
-         * Barbarians can build certain units as long as anyone in the world
-         * has the required tech. Regular players must have the required tech
-         * them self to build the same unit. One way to solve this is to make
-         * unit building an action enabler controlled action with a city (not
-         * unit) actor.
-         * Putting a requirement vector on unit types in the ruleset will
-         * force ruleset authors to change all their unit type build
-         * requirements to a requirement vector. Forcing them to convert their
-         * unit type requirements again in the next version (should building be
-         * switched to an action enabler with a city actor) is not good. */
-        if (NULL != section_entry_by_name(psection, "gov_req")) {
-          char tmp[200] = "\0";
-          struct government *need_government;
-
-          fc_strlcat(tmp, section_name(psection), sizeof(tmp));
-          fc_strlcat(tmp, ".gov_req", sizeof(tmp));
-          need_government = lookup_government(file, tmp, filename, NULL);
-          if (need_government == NULL) {
-            ok = FALSE;
-            break;
-          }
-          requirement_vector_append(&u->build_reqs, req_from_values(
-                                    VUT_GOVERNMENT, REQ_RANGE_PLAYER,
-                                    FALSE, TRUE, FALSE,
-                                    government_number(need_government)));
-        }
-
-        /* Read the building build requirement from the old ruleset format
-         * and put it in unit_type's build_reqs requirement vector.
-         * The build_reqs requirement vector isn't ready to be exposed in the
-         * ruleset yet.
-         * See the comment for gov_req above for why. */
-        if (!lookup_building(file, sec_name, "impr_req",
-                             &impr_req, filename,
-                             rule_name_get(&u->name))) {
-          ok = FALSE;
-          break;
-        }
-        if (impr_req) {
-          requirement_vector_append(&u->build_reqs, req_from_values(
-                                    VUT_IMPROVEMENT, REQ_RANGE_CITY,
-                                    FALSE, TRUE, FALSE,
-                                    improvement_number(impr_req)));
-        }
-      } else {
-        /* Freeciv-3.2 format */
-        struct requirement_vector *reqs;
-
-        reqs = lookup_req_list(file, compat, sec_name, "reqs",
-                               utype_rule_name(u));
-
-        if (reqs == NULL) {
-          ok = FALSE;
-          break;
-        }
-
-        requirement_vector_copy(&u->build_reqs, reqs);
+      if (reqs == NULL) {
+        ok = FALSE;
+        break;
       }
+
+      requirement_vector_copy(&u->build_reqs, reqs);
 
       if (!load_ruleset_veteran(file, sec_name, &u->veteran,
                                 msg, sizeof(msg))) {
@@ -2803,10 +2688,6 @@ static bool load_ruleset_buildings(struct section_file *file,
         break;
       }
 
-      if (compat->compat_mode) {
-        b->genus = rscompat_genus_3_2(compat, b->flags, b->genus);
-      }
-
       requirement_vector_copy(&b->reqs, reqs);
 
       {
@@ -2939,17 +2820,13 @@ static bool load_terrain_names(struct section_file *file,
     set_user_extra_flag_name(EF_USER_FLAG_1 + i, flag, helptxt);
   }
 
-  if (compat->compat_mode && compat->version < RSFORMAT_3_2) {
-    i += add_user_extra_flags_3_2(i);
-  }
-
   if (ok) {
     /* Blank the remaining extra user flag slots. */
     for (; i < MAX_NUM_USER_EXTRA_FLAGS; i++) {
       set_user_extra_flag_name(EF_USER_FLAG_1 + i, NULL, NULL);
     }
 
-    /* terrain names */
+    /* Terrain names */
 
     sec = secfile_sections_by_name_prefix(file, TERRAIN_SECTION_PREFIX);
     if (NULL == sec || 0 == (nval = section_list_size(sec))) {
@@ -3539,13 +3416,6 @@ static bool load_ruleset_terrain(struct section_file *file,
         pterrain->extra_removal_times[extra_index(pextra)] = 0;
       } extra_type_iterate_end;
 
-      if (compat->compat_mode && compat->version < RSFORMAT_3_2) {
-        if (!rscompat_terrain_extra_rmtime_3_2(file, tsection, pterrain)) {
-          ok = FALSE;
-          break;
-        }
-      }
-
       for (j = 0; (ename = secfile_lookup_str_default(file, NULL,
                                                       "%s.extra_settings%d.extra",
                                                       tsection, j)); j++) {
@@ -3986,10 +3856,6 @@ static bool load_ruleset_terrain(struct section_file *file,
       pextra->visibility_req = advance_number(vis_req);
 
       pextra->helptext = lookup_strvec(file, section, "helptext");
-
-      if (compat->compat_mode && compat->version < RSFORMAT_3_2) {
-        rscompat_extra_adjust_3_2(pextra);
-      }
     } extra_type_iterate_end;
   }
 
@@ -6072,8 +5938,6 @@ static bool load_ruleset_cities(struct section_file *file,
   }
 
   if (ok) {
-    bool def_ubuild_nat = RS_DEFAULT_UBUILD_NAT;
-
     /* civ1 & 2 didn't reveal tiles */
     game.server.vision_reveal_tiles =
       secfile_lookup_bool_default(file, GAME_DEFAULT_VISION_REVEAL_TILES,
@@ -6086,13 +5950,8 @@ static bool load_ruleset_cities(struct section_file *file,
     game.info.citizen_nationality =
       secfile_lookup_bool_default(file, RS_DEFAULT_NATIONALITY,
                                   "citizen.nationality");
-
-    if (compat->compat_mode && compat->version < RSFORMAT_3_2) {
-      /* Same as old hardcoded behavior */
-      def_ubuild_nat = TRUE;
-    }
     game.info.unit_builders_nationality =
-      secfile_lookup_bool_default(file, def_ubuild_nat,
+      secfile_lookup_bool_default(file, FALSE,
                                   "citizen.ubuilder_nationality");
     game.info.citizen_convert_speed =
       secfile_lookup_int_default(file, RS_DEFAULT_CONVERT_SPEED,
@@ -6388,16 +6247,10 @@ static int secfile_lookup_int_default_min_max(struct section_file *file,
   Load ui_name of one action
 **************************************************************************/
 static bool load_action_ui_name(struct section_file *file, int act,
-                                const char *entry_name,
-                                const char *compat_name)
+                                const char *entry_name)
 {
   const char *text;
   const char *def = action_ui_name_default(act);
-
-  if (compat_name != NULL) {
-    def = secfile_lookup_str_default(file, def,
-                                     "actions.%s", compat_name);
-  }
 
   text = secfile_lookup_str_default(file, def,
                                     "actions.%s", entry_name);
@@ -6890,22 +6743,12 @@ static bool load_ruleset_game(struct section_file *file, bool act,
                                            RS_MAX_BASE_TECH_COST,
                                            "research.base_tech_cost");
 
-    if (compat->compat_mode && compat->version < RSFORMAT_3_2) {
-      /* base_tech_cost used to be used for this too. */
-      game.info.min_tech_cost
-        = secfile_lookup_int_default_min_max(file,
-                                             game.info.base_tech_cost,
-                                             RS_MIN_MIN_TECH_COST,
-                                             RS_MAX_MIN_TECH_COST,
-                                             "research.min_tech_cost");
-    } else {
-      game.info.min_tech_cost
-        = secfile_lookup_int_default_min_max(file,
-                                             RS_DEFAULT_MIN_TECH_COST,
-                                             RS_MIN_MIN_TECH_COST,
-                                             RS_MAX_MIN_TECH_COST,
-                                             "research.min_tech_cost");
-    }
+    game.info.min_tech_cost
+      = secfile_lookup_int_default_min_max(file,
+                                           RS_DEFAULT_MIN_TECH_COST,
+                                           RS_MIN_MIN_TECH_COST,
+                                           RS_MAX_MIN_TECH_COST,
+                                           "research.min_tech_cost");
 
     food_ini = secfile_lookup_int_vec(file, &gni_tmp,
                                       "civstyle.granary_food_ini");
@@ -7504,18 +7347,12 @@ static bool load_ruleset_game(struct section_file *file, bool act,
 
   if (ok) {
     const char *str;
-    bool reveal_default = FALSE;
 
     game.info.min_trade_route_val
       = secfile_lookup_int_default(file, 0, "trade.min_trade_route_val");
 
-    if (compat->compat_mode && compat->version < RSFORMAT_3_2) {
-      /* Old hardcoded behavior was to reveal the trade partner. */
-      reveal_default = TRUE;
-    }
-
     game.info.reveal_trade_partner
-      = secfile_lookup_bool_default(file, reveal_default,
+      = secfile_lookup_bool_default(file, FALSE,
                                     "trade.reveal_trade_partner");
 
     str = secfile_lookup_str_default(file,
@@ -7790,8 +7627,7 @@ static bool load_ruleset_actions(struct section_file *file,
           ok = FALSE;
         } else {
           load_action_ui_name(file, act_id,
-                              action_ui_name_ruleset_var_name(act_id),
-                              rscompat_action_ui_name_S3_2(compat, act_id));
+                              action_ui_name_ruleset_var_name(act_id));
         }
 
         if (!ok) {
@@ -9407,22 +9243,8 @@ static bool load_rulesetdir(const char *rsdir, bool compat_mode,
   server.playable_nations = 0;
 
   gamefile = openload_ruleset_file("game", rsdir);
-
-  if (gamefile != NULL) {
-    /* Needed here to fill compat_info. RSFORMAT_3_2 specific arrangement. */
-    ok = load_game_names(gamefile, &compat_info);
-  } else {
-    ok = FALSE;
-  }
-
   techfile = openload_ruleset_file("techs", rsdir);
-
-  if (compat_info.version >= RSFORMAT_3_2) {
-    actionfile = openload_ruleset_file("actions", rsdir);
-  } else {
-    actionfile = NULL;
-  }
-
+  actionfile = openload_ruleset_file("actions", rsdir);
   buildfile = openload_ruleset_file("buildings", rsdir);
   govfile = openload_ruleset_file("governments", rsdir);
   unitfile = openload_ruleset_file("units", rsdir);
@@ -9447,15 +9269,16 @@ static bool load_rulesetdir(const char *rsdir, bool compat_mode,
       || cityfile   == NULL
       || nationfile == NULL
       || effectfile == NULL
-      || (actionfile == NULL && (!compat_info.compat_mode || compat_info.version >= RSFORMAT_3_2))
+      || actionfile == NULL
       || gamefile == NULL) {
     ok = FALSE;
   }
 
   if (ok) {
     /* Note: Keep load_game_names() first so that compat_info.version is
-     * correctly initialized. (Currently handled above already) */
-    ok = (actionfile == NULL || load_action_names(actionfile, &compat_info))
+     * correctly initialized. */
+    ok = load_game_names(gamefile, &compat_info)
+      && load_action_names(actionfile, &compat_info)
       && load_tech_names(techfile, &compat_info)
       && load_building_names(buildfile, &compat_info)
       && load_government_names(govfile, &compat_info)
@@ -9463,21 +9286,6 @@ static bool load_rulesetdir(const char *rsdir, bool compat_mode,
       && load_terrain_names(terrfile, &compat_info)
       && load_style_names(stylefile, &compat_info)
       && load_nation_names(nationfile, &compat_info);
-  }
-
-  if (ok) {
-    /* Can only happen here because 3.1 rulesets may not have a
-     * actions.ruleset. Remember to move it with the others in 3.3. */
-    if (compat_info.version < RSFORMAT_3_2) {
-      ok = load_ruleset_actions(gamefile, gamefile, &compat_info);
-    } else {
-      if (secfile_section_prefix_present(actionfile, ACTION_ENABLER_SECTION_PREFIX)) {
-        ok = load_ruleset_actions(actionfile, gamefile, &compat_info);
-      } else {
-        /* Actions not moved to actions.ruleset, or there's none */
-        ok = load_ruleset_actions(gamefile, gamefile, &compat_info);
-      }
-    }
   }
 
   if (ok) {
@@ -9513,6 +9321,9 @@ static bool load_rulesetdir(const char *rsdir, bool compat_mode,
     ok = load_ruleset_effects(effectfile, &compat_info);
   }
   if (ok) {
+    ok = load_ruleset_actions(actionfile, gamefile, &compat_info);
+  }
+  if (ok) {
     ok = load_ruleset_game(gamefile, act, &compat_info);
   }
 
@@ -9536,7 +9347,7 @@ static bool load_rulesetdir(const char *rsdir, bool compat_mode,
     /* Only load settings for a sane ruleset */
     ok = settings_ruleset(gamefile, "settings", act,
                           compat_info.compat_mode
-                          && compat_info.version < RSFORMAT_3_2);
+                          && compat_info.version < RSFORMAT_CURRENT);
 
     if (ok) {
       secfile_check_unused(gamefile);

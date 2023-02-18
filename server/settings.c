@@ -4386,17 +4386,9 @@ bool settings_ruleset(struct section_file *file, const char *section,
     log_verbose("no [%s] section for game settings in %s", section,
                 secfile_name(file));
   } else {
-    bool rscompat_special_handling = FALSE;
-
     for (j = 0; (name = secfile_lookup_str_default(file, NULL, "%s.set%d.name",
                                                    section, j)); j++) {
       char path[256];
-
-      if (compat && rscompat_setting_needs_special_handling(name)) {
-        /* Skip this setting for now; handle it later */
-        rscompat_special_handling = TRUE;
-        continue;
-      }
 
       fc_snprintf(path, sizeof(path), "%s.set%d", section, j);
 
@@ -4408,11 +4400,6 @@ bool settings_ruleset(struct section_file *file, const char *section,
         log_error("unknown unsettable setting in '%s': %s",
                   secfile_name(file), name);
       }
-    }
-
-    if (compat && rscompat_special_handling) {
-      rscompat_settings_do_special_handling(file, section,
-          setting_ruleset_setdef);
     }
   }
 
@@ -4576,29 +4563,6 @@ static bool setting_ruleset_one(struct section_file *file,
         log_error("Can't read value for setting '%s': %s",
                   name, secfile_error());
       } else if (val != *pset->bitwise.pvalue) {
-        /* RSFORMAT_3_1 */
-        if (compat && !fc_strcasecmp("topology", name)) {
-          struct setting *wrap = setting_by_name("wrap");
-
-          if (val & TF_OLD_WRAPX) {
-            if (val & TF_OLD_WRAPY) {
-              setting_bitwise_set(wrap, "WrapX|WrapY", NULL, NULL, 0);
-            } else {
-              setting_bitwise_set(wrap, "WrapX", NULL, NULL, 0);
-            }
-          } else if (val & TF_OLD_WRAPY) {
-            setting_bitwise_set(wrap, "WrapY", NULL, NULL, 0);
-          } else {
-            setting_bitwise_set(wrap, "", NULL, NULL, 0);
-          }
-
-          val &= ~(TF_OLD_WRAPX | TF_OLD_WRAPY);
-
-          log_normal(_("Ruleset: '%s' has been set to %s."),
-                     setting_name(wrap),
-                     setting_value_name(wrap, TRUE, buf, sizeof(buf)));
-        }
-
         if (NULL == pset->bitwise.validate
             || pset->bitwise.validate((unsigned) val, NULL,
                                       reject_msg, sizeof(reject_msg))) {

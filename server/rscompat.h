@@ -56,33 +56,7 @@ struct requirement_vector *lookup_req_list(struct section_file *file,
                                            const char *sub,
                                            const char *rfor);
 
-/* Functions specific to 3.1 -> 3.2 transition */
-enum impr_genus_id rscompat_genus_3_2(struct rscompat_info *compat,
-                                      const bv_impr_flags flags,
-                                      enum impr_genus_id old_genus);
-const char *rscompat_req_range_3_2(struct rscompat_info *compat,
-                                   const char *type,
-                                   const char *old_range);
-void rscompat_req_adjust_3_2(const struct rscompat_info *compat,
-                             const char **ptype, const char **pname,
-                             bool *ppresent, const char *sec_name);
-int add_user_extra_flags_3_2(int start);
-void rscompat_extra_adjust_3_2(struct extra_type *pextra);
-bool rscompat_setting_needs_special_handling(const char *name);
-void rscompat_settings_do_special_handling(struct section_file *file,
-                const char *section, void (*setdef)(struct setting *pset));
-bool rscompat_terrain_extra_rmtime_3_2(struct section_file *file,
-                                       const char *tsection,
-                                       struct terrain *pterrain);
-const char *rscompat_action_ui_name_S3_2(struct rscompat_info *compat,
-                                         int act_id);
-
-/* In ruleset.c, but should not be in public interface - make static again once
- * rscompat.c no longer needs. */
-bool lookup_time(const struct section_file *secfile, int *turns,
-                 const char *sec_name, const char *property_name,
-                 const char *filename, const char *item_name,
-                 bool *ok);
+/* Functions specific to 3.2 -> 3.3 transition */
 
 #ifdef __cplusplus
 }

@@ -34,6 +34,8 @@ extern "C" {
  */
 
 #define RSFORMAT_3_2  30
+#define RSFORMAT_3_3  40
+#define RSFORMAT_CURRENT RSFORMAT_3_3
 
 struct conn_list;
 
