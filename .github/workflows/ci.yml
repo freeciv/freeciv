@@ -89,6 +89,7 @@ jobs:
       - name: install dependencies
         run: |
           brew install \
+            pkg-config \
             meson \
             lua@5.4 \
             jpeg \
