@@ -4,6 +4,6 @@
 pkgdatadir = $(datadir)/$(PACKAGE)/ruledit
 
 pkgdata_DATA =          \
-	comments-3.2.txt
+	comments-3.3.txt
 
 EXTRA_DIST = $(pkgdata_DATA)

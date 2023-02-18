@@ -1112,7 +1112,7 @@ install_data(
   )
 
 install_data(
-  'data/ruledit/comments-3.2.txt',
+  'data/ruledit/comments-3.3.txt',
   install_dir : join_paths(get_option('datadir'), 'freeciv/ruledit')
   )
 
