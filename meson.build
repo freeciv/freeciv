@@ -1,6 +1,10 @@
 
 project('freeciv', ['c', 'cpp'], meson_version: '>= 0.57.0')
 
+if not get_option('abandoned_master')
+  error('Freeciv master branch has been abandoned. Use "main" instead.')
+endif
+
 c_compiler = meson.get_compiler('c')
 cxx_compiler = meson.get_compiler('cpp')
 

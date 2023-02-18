@@ -110,6 +110,13 @@ if test "x$fc_cv_malloc_zero_ok" = "xyes" ; then
   AC_DEFINE([MALLOC_ZERO_OK], [1], [It's ok to call malloc() for zero bytes])
 fi
 
+AC_ARG_ENABLE([abandoned-master],
+  AS_HELP_STRING([--enable-abandoned-master], [build abandoned master brach]),
+  [ if test "x${enableval}" != "xyes" ; then
+      AC_MSG_ERROR([Unsupported value ${enableval} for --enable-abandoned-master])
+    fi ],
+  [AC_MSG_ERROR([Freeciv master branch has been abandoned. Use 'main' instead])])
+
 dnl set default values
 fcdb_all=no
 fcdb_mysql=no

@@ -85,3 +85,8 @@ option('min-win-ver',
        type: 'string',
        value: '',
        description: 'Minimum Windows version to support')
+
+option('abandoned_master',
+       type: 'boolean',
+       value: false,
+       description: 'Still build abandoned master branch')
