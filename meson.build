@@ -66,7 +66,7 @@ priv_conf_data.set('SYSCONFDIR',
 
 # Release cycle phases
 # See fc_version about proper values for these.
-priv_conf_data.set('DATASUBDIR', 'dev')
+priv_conf_data.set('DATASUBDIR', 'test')
 priv_conf_data.set('IS_DEVEL_VERSION', 1)
 priv_conf_data.set('IS_FREEZE_VERSION', 0)
 priv_conf_data.set('IS_BETA_VERSION', 0)
