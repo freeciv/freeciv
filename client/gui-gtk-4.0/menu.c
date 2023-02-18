@@ -498,9 +498,11 @@ static void build_mine_callback(GSimpleAction *action,
 static void connect_road_callback(GtkMenuItem *item, gpointer data);
 static void connect_rail_callback(GtkMenuItem *item, gpointer data);
 static void connect_irrigation_callback(GtkMenuItem *item, gpointer data);
-static void diplomat_action_callback(GtkMenuItem *item, gpointer data);
 #endif /* MENUS_GTK3 */
 
+static void do_action_callback(GSimpleAction *action,
+                               GVariant *parameter,
+                               gpointer data);
 static void build_fortress_callback(GSimpleAction *action,
                                     GVariant *parameter,
                                     gpointer data);
@@ -703,6 +705,9 @@ static struct menu_entry_info menu_entries[] =
     NULL, FALSE },
   { "UNIT_DISBAND", N_("_Disband"),
     "disband", "<shift>d", MGROUP_UNIT,
+    NULL, FALSE },
+  { "DO_ACTION", N_("_Do..."),
+    "do_action", "d", MGROUP_UNIT,
     NULL, FALSE },
   { "UNIT_WAIT", N_("_Wait"),
     "wait", "w", MGROUP_UNIT,
@@ -977,8 +982,6 @@ static struct menu_entry_info menu_entries[] =
   { "CONNECT_IRRIGATION", N_("Connect With Irri_gation"),
     GDK_KEY_i, GDK_CONTROL_MASK,
     G_CALLBACK(connect_irrigation_callback), MGROUP_UNIT },
-  { "DIPLOMAT_ACTION", N_("_Do..."), GDK_KEY_d, 0,
-    G_CALLBACK(diplomat_action_callback), MGROUP_UNIT },
 
   { "MENU_GOVERNMENT", N_("_Government"), 0, 0,
     NULL, MGROUP_PLAYING },
@@ -1055,6 +1058,7 @@ const GActionEntry acts[] = {
   { "upgrade", unit_upgrade_callback },
   { "convert", unit_convert_callback },
   { "disband", unit_disband_callback },
+  { "do_action", do_action_callback },
   { "wait", unit_wait_callback },
   { "done", unit_done_callback },
 
@@ -2564,15 +2568,17 @@ static void pillage_callback(GSimpleAction *action,
   key_unit_pillage();
 }
 
-#ifdef MENUS_GTK3
 /************************************************************************//**
-  Action "DIPLOMAT_ACTION" callback.
+  Action "DO_ACTION" callback.
 ****************************************************************************/
-static void diplomat_action_callback(GtkMenuItem *action, gpointer data)
+static void do_action_callback(GSimpleAction *action,
+                               GVariant *parameter,
+                               gpointer data)
 {
   key_unit_action_select_tgt();
 }
 
+#ifdef MENUS_GTK3
 /************************************************************************//**
   Action "TAX_RATE" callback.
 ****************************************************************************/
@@ -3024,6 +3030,7 @@ static GMenu *setup_menus(GtkApplication *app)
   menu_entry_init(unit_menu, "UNIT_UPGRADE");
   menu_entry_init(unit_menu, "UNIT_CONVERT");
   menu_entry_init(unit_menu, "UNIT_DISBAND");
+  menu_entry_init(unit_menu, "DO_ACTION");
   menu_entry_init(unit_menu, "UNIT_WAIT");
   menu_entry_init(unit_menu, "UNIT_DONE");
 
@@ -3781,6 +3788,9 @@ void real_menus_update(void)
   }
 #endif /* MENUS_GTK3 */
 
+  menu_entry_set_sensitive(map, "DO_ACTION",
+                           units_can_do_action(punits, ACTION_ANY, TRUE));
+
   menu_entry_set_sensitive(map, "BUILD_ROAD",
                            (can_units_do_any_road(punits)
                             || can_units_do(punits,
@@ -3871,8 +3881,6 @@ void real_menus_update(void)
   }
   menu_entry_set_sensitive("CONNECT_IRRIGATION", conn_possible);
 
-  menu_entry_set_sensitive("DIPLOMAT_ACTION",
-                           units_can_do_action(punits, ACTION_ANY, TRUE));
 
   if (units_can_do_action(punits, ACTION_HELP_WONDER, TRUE)) {
     menus_rename("BUILD_CITY",
