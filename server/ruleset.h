@@ -17,7 +17,7 @@
 extern "C" {
 #endif /* __cplusplus */
 
-#define RULESET_CAPABILITIES_BASE "+Freeciv-ruleset-3.2-Devel-2022.Feb.02"
+#define RULESET_CAPABILITIES_BASE "+Freeciv-ruleset-3.3-Devel-2023.Feb.24"
 #ifdef FREECIV_WEB
 #define RULESET_CAPABILITIES RULESET_CAPABILITIES_BASE " +web-compatible"
 #else  /* FREECIV_WEB */
@@ -26,10 +26,10 @@ extern "C" {
 /*
  * Ruleset capabilities acceptable to this program:
  *
- * +Freeciv-3.2-ruleset
- *    - basic ruleset format for Freeciv versions 3.2.x; required
+ * +Freeciv-3.3-ruleset
+ *    - basic ruleset format for Freeciv versions 3.3.x; required
  *
- * +Freeciv-ruleset-Devel-YYYY.MMM.DD
+ * +Freeciv-ruleset-V.V-Devel-YYYY.MMM.DD
  *    - ruleset of the development version at the given date
  */
 
@@ -41,7 +41,7 @@ struct conn_list;
 
 typedef void (*rs_conversion_logger)(const char *msg);
 
-/* functions */
+/* Functions */
 bool load_rulesets(const char *restore, const char *alt, bool compat_mode,
                    rs_conversion_logger logger,
                    bool act, bool buffer_script, bool load_luadata);

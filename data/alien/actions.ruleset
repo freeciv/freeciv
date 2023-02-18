@@ -12,8 +12,8 @@
 ; than minor changes.
 [datafile]
 description = "Alien World actions data for Freeciv"
-options = "+Freeciv-ruleset-3.2-Devel-2022.Feb.02"
-format_version = 30
+options = "+Freeciv-ruleset-3.3-Devel-2023.Feb.24"
+format_version = 40
 
 [auto_attack]
 ; An auto attack may be triggered when another unit moves to an adjacent

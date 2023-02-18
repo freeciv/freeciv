@@ -3,8 +3,8 @@
 
 [datafile]
 description = "<modpack> governments data for Freeciv"
-options = "+Freeciv-ruleset-3.2-Devel-2022.Feb.02"
-format_version = 30
+options = "+Freeciv-ruleset-3.3-Devel-2023.Feb.24"
+format_version = 40
 
 [governments]
 during_revolution = "Anarchy"

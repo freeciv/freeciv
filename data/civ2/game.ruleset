@@ -11,8 +11,8 @@
 
 [datafile]
 description = "Civ2-style game rules for Freeciv"
-options = "+Freeciv-ruleset-3.2-Devel-2022.Feb.02"
-format_version = 30
+options = "+Freeciv-ruleset-3.3-Devel-2023.Feb.24"
+format_version = 40
 
 ; This section contains meta information for freeciv-ruledit to recreate the ruleset
 ; file in a form wanted. These have no in-game effect whatsoever
