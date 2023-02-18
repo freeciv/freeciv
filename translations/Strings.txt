@@ -16,9 +16,11 @@ _("?vertag:stable")
 _("?vertag:windows")
 _("?vertag:S3_1")
 _("?vertag:S3_2")
+_("?vertag:S3_3")
 _("?vertag:crosser")
 _("?vertag:windows-S3_1")
 _("?vertag:windows-S3_2")
+_("?vertag:windows-S3_3")
 
 
 Generated version header

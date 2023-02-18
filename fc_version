@@ -6,16 +6,16 @@
 # Version definition for Freeciv.
 
 MAJOR_VERSION="3"
-MINOR_VERSION="1"
-PATCH_VERSION="92"
-EMERGENCY_VERSION="6"
+MINOR_VERSION="2"
+PATCH_VERSION="90"
+EMERGENCY_VERSION=""
 VERSION_LABEL="-dev"
 
 # Type is either "development" or "stable"
 # Date is relevant only for "stable" releases
 if test "$VERSION_LABEL" = "" ; then
   RELEASE_TYPE="stable"
-  #RELEASE_DATE="2022-11-05"
+  #RELEASE_DATE="2023-02-24"
 else
   RELEASE_TYPE="development"
 fi
@@ -54,14 +54,14 @@ IS_DEVEL_VERSION=1
 IS_FREEZE_VERSION=0
 IS_BETA_VERSION=0
 
-NEXT_STABLE_VERSION="3.2.0"
+NEXT_STABLE_VERSION="3.3.0"
 
 # 0 to disable display of release month until we can make better estimate
 RELEASE_MONTH=0
 
-MAIN_VERSION=3.2
+MAIN_VERSION=3.3
 DATASUBDIR=dev
-DEFAULT_FOLLOW_TAG=S3_2
+DEFAULT_FOLLOW_TAG=S3_3
 
 # Freeciv network capstring: see documentation in common/capstr.c
 #
