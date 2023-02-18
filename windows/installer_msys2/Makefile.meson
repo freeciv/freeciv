@@ -65,9 +65,11 @@ ICUVER=72
 DLLPATH_PREFIX=/$(ARCHDIR)/bin/
 
 ifeq ($(CI),yes)
-TIFF=libtiff-5.dll
+CRYPTOVERSUF=3${CRYPTOLIB_SUFFIX}
+CERTPATH=/etc
 else
-TIFF=libtiff-6.dll
+CRYPTOVERSUF=1_1${CRYPTOLIB_SUFFIX}
+CERTPATH=
 endif
 
 #
@@ -217,8 +219,8 @@ COMMON_DLLS := \
 	libzstd.dll \
 	libexpat-1.dll \
 	libstdc++-6.dll \
-	libcrypto-1_1${CRYPTOLIB_SUFFIX}.dll \
-	libssl-1_1${CRYPTOLIB_SUFFIX}.dll \
+	libcrypto-${CRYPTOVERSUF}.dll \
+	libssl-${CRYPTOVERSUF}.dll \
 	libidn2-0.dll \
 	libnghttp2-14.dll \
 	libpsl-5.dll \
@@ -245,7 +247,7 @@ install-env-common:
 	# Add DLLs
 	cp -R $(addprefix $(DLLPATH_PREFIX), $(COMMON_DLLS)) $(INST_DIR)/$(WINARCH)-$(GUI)/
 	mkdir -p $(INST_DIR)/$(WINARCH)-$(GUI)/ssl/certs
-	cp -R /$(ARCHDIR)/ssl/certs/ca-bundle.crt $(INST_DIR)/$(WINARCH)-$(GUI)/ssl/certs/
+	cp -R /$(ARCHDIR)$(CERTPATH)/ssl/certs/ca-bundle.crt $(INST_DIR)/$(WINARCH)-$(GUI)/ssl/certs/
 
 FCMP_GTK3_DLLS := \
 	libgdk-3-0.dll \
@@ -280,7 +282,7 @@ FCMP_GTK4_DLLS := \
 	liblzo2-2.dll \
 	libthai-0.dll \
 	libdatrie-1.dll \
-	$(TIFF) \
+	libtiff-6.dll \
 	libjpeg-8.dll \
 	libjbig-0.dll \
 	libwebp-7.dll \
