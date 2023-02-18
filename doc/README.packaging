@@ -38,7 +38,9 @@ Updating from 3.0 to 3.1
 * Support for zstd compressed savegames added, requires libzstd and headers
 * Minimum Python requirement for code generation scripts is 3.4 now.
 * Configure option --with-appdatadir renamed as --with-metainfodir
-* Minimum gettexti requirement is 0.16
+* Minimum gettext requirement is 0.16
+* Native build now uses tolua built from an improved version included
+  with the freeciv. Use --enable-sys-tolua-cmd to use system one.
 
 ----------------------------------------------------------------------
 Compatibility of modified versions
