@@ -229,7 +229,7 @@ static int base_assess_defense_unit(struct city *pcity, struct unit *punit,
   int defense;
   int fp;
 
-  if (!is_special_unit(punit)) {
+  if (is_special_unit(punit)) {
     return 0;
   }
 
