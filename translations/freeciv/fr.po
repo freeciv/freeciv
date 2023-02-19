@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.6\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2023-01-24 01:54+0200\n"
+"POT-Creation-Date: 2023-02-19 02:00+0100\n"
 "PO-Revision-Date: 2022-08-18 04:07+0200\n"
 "Last-Translator: Igx <igx31 hotmail.com>\n"
 "Language-Team: French <freeciv-l10n-fr@yahoogroupes.fr>\n"
@@ -17655,7 +17655,7 @@ msgstr ""
 "Le jeu de tuiles \"%s\" ne supporte pas longs chemins aussi longs que %d. Le "
 "chemin n'est pas affiché tel qu'attendu."
 
-#: client/tilespec.c:5834
+#: client/tilespec.c:5838
 #, c-format
 msgid ""
 "Tileset \"%s\" doesn't support big cities size, such as %d. Size not "
@@ -17664,12 +17664,12 @@ msgstr ""
 "Le jeu de tuiles \"%s\" ne supporte pas les villes de taille aussi "
 "importantes que %d. La taille n'est pas affichée telle que prévue."
 
-#: client/tilespec.c:5980
+#: client/tilespec.c:5984
 #, c-format
 msgid "City style \"%s\": no city graphics."
 msgstr "Style de ville \"%s\" : pas de graphiques de villes."
 
-#: client/tilespec.c:5984
+#: client/tilespec.c:5988
 #, c-format
 msgid "City style \"%s\": no occupied graphics."
 msgstr "Style de ville \"%s\" : pas de graphique d'occupation."
@@ -18919,47 +18919,47 @@ msgstr "contenu de paquet incompatible"
 #. TRANS: These words should be adjectives which can fit in the sentence
 #. "The x are y towards us"
 #. "The Babylonians are respectful towards us"
-#: common/player.c:1242
+#: common/player.c:1245
 msgid "?attitude:Genocidal"
 msgstr "Tueur"
 
-#: common/player.c:1244
+#: common/player.c:1247
 msgid "?attitude:Belligerent"
 msgstr "Belliqueux"
 
-#: common/player.c:1246
+#: common/player.c:1249
 msgid "?attitude:Hostile"
 msgstr "Hostile"
 
-#: common/player.c:1248
+#: common/player.c:1251
 msgid "?attitude:Uncooperative"
 msgstr "Pas commode"
 
-#: common/player.c:1250
+#: common/player.c:1253
 msgid "?attitude:Uneasy"
 msgstr "Équivoque"
 
-#: common/player.c:1252
+#: common/player.c:1255
 msgid "?attitude:Neutral"
 msgstr "Neutre"
 
-#: common/player.c:1254
+#: common/player.c:1257
 msgid "?attitude:Respectful"
 msgstr "Respectueux"
 
-#: common/player.c:1256
+#: common/player.c:1259
 msgid "?attitude:Helpful"
 msgstr "Coopératif"
 
-#: common/player.c:1258
+#: common/player.c:1261
 msgid "?attitude:Enthusiastic"
 msgstr "Enthousiaste"
 
-#: common/player.c:1260
+#: common/player.c:1263
 msgid "?attitude:Admiring"
 msgstr "Admiratif"
 
-#: common/player.c:1263
+#: common/player.c:1266
 msgid "?attitude:Worshipful"
 msgstr "Idolâtre"
 
@@ -42736,17 +42736,17 @@ msgstr "%s a été ajouté en tant que joueur humain."
 msgid "%s had invalid nation; changing to %s."
 msgstr "%s avait une nation invalide ; prenons %s en replacement."
 
-#: server/savegame2.c:7554 server/savegame.c:4107
+#: server/savegame2.c:7555 server/savegame.c:4107
 #, c-format
 msgid "%s had invalid researching technology."
 msgstr "%s avait une technologie recherchée invalide."
 
-#: server/savegame2.c:7564 server/savegame.c:4118
+#: server/savegame2.c:7565 server/savegame.c:4118
 #, c-format
 msgid "%s had invalid technology goal."
 msgstr "%s avait un but technologique invalide."
 
-#: server/savegame2.c:7589
+#: server/savegame2.c:7590
 #, c-format
 msgid ""
 "%s has multiple units of type %s though it should be possible to have only "
