@@ -388,7 +388,7 @@ static int units_orders_city_dlg_callback(struct widget *button)
   if (PRESSED_EVENT(main_data.event)) {
     utf8_str *pstr;
     char cbuf[80];
-    struct widget *buf, *pwindow = pcity_dlg->end_city_widget_list;
+    struct widget *buf, *pwindow;
     struct unit *punit;
     const struct unit_type *putype;
     Uint16 i = 0, hh = 0;
@@ -396,7 +396,7 @@ static int units_orders_city_dlg_callback(struct widget *button)
 
     punit = player_unit_by_number(client_player(), MAX_ID - button->id);
 
-    if (!punit || !can_client_issue_orders()) {
+    if (punit == NULL || !can_client_issue_orders()) {
       return -1;
     }
 
@@ -404,6 +404,7 @@ static int units_orders_city_dlg_callback(struct widget *button)
       popdown_city_dialog(pcity_dlg->pcity);
       center_tile_mapcanvas(unit_tile(punit));
       unit_focus_set(punit);
+
       return -1;
     }
 
@@ -413,7 +414,7 @@ static int units_orders_city_dlg_callback(struct widget *button)
 
     putype = unit_type_get(punit);
 
-    /* window */
+    /* Window */
     fc_snprintf(cbuf, sizeof(cbuf), "%s:", _("Unit commands"));
     pstr = create_utf8_from_char(cbuf, adj_font(12));
     pstr->style |= TTF_STYLE_BOLD;
@@ -426,7 +427,7 @@ static int units_orders_city_dlg_callback(struct widget *button)
 
     area = pwindow->area;
 
-    /* unit description */
+    /* Unit description */
     fc_snprintf(cbuf, sizeof(cbuf), "%s", unit_description(punit));
     pstr = create_utf8_from_char(cbuf, adj_font(12));
     pstr->style |= (TTF_STYLE_BOLD|SF_CENTER);
@@ -552,7 +553,7 @@ static int units_orders_city_dlg_callback(struct widget *button)
     area.w += adj_size(10);
     hh += adj_size(4);
 
-    /* create window background */
+    /* Create window background */
     resize_window(pwindow, NULL, get_theme_color(COLOR_THEME_BACKGROUND),
                   (pwindow->size.w - pwindow->area.w) + area.w,
                   (pwindow->size.h - pwindow->area.h) + pwindow->prev->size.h +
@@ -564,21 +565,21 @@ static int units_orders_city_dlg_callback(struct widget *button)
                         button->size.x + adj_size(2),
                         pwindow->area.y + button->size.y + 1);
 
-    /* label */
+    /* Label */
     buf = pwindow->prev;
     buf->size.w = area.w;
     buf->size.x = area.x;
     buf->size.y = area.y + 1;
     buf = buf->prev;
 
-    /* first button */
+    /* First button */
     buf->size.w = area.w;
     buf->size.h = hh;
     buf->size.x = area.x;
     buf->size.y = buf->next->size.y + buf->next->size.h + adj_size(5);
     buf = buf->prev;
 
-    while (buf) {
+    while (buf != NULL) {
       buf->size.w = area.w;
       buf->size.h = hh;
       buf->size.x = buf->next->size.x;
@@ -590,7 +591,7 @@ static int units_orders_city_dlg_callback(struct widget *button)
     }
 
     /* ================================================== */
-    /* redraw */
+    /* Redraw */
     redraw_group(pcity_dlg->begin_city_menu_widget_list, pwindow, 0);
     widget_flush(pwindow);
   }
