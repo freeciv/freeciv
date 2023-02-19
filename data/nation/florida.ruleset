@@ -3,7 +3,7 @@
 name   = _("Floridian")
 plural = _("?plural:Floridians")
 groups = "American"
-legend = _("Florida is the third most populous state of the USA\ 
+legend = _("Florida is the third most populous state of the USA\
  and is well known for its tourism. It was repeatedly colonized by\
  Spain and Great Britain before the \"Florida Patriots\" proclaimed\
  the Republic of East Florida in 1812. Despite being suppressed\
@@ -15,7 +15,7 @@ legend = _("Florida is the third most populous state of the USA\
  for the first time in history.")
 
 leaders = {
- "name",                                  "sex"                              
+ "name",                                  "sex"
  "Juan Ponce de León",                    "Male"
  "John Houstoun McIntosh",                "Male"
  "Gregor MacGregor",                      "Male"
