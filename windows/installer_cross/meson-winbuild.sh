@@ -11,12 +11,12 @@ MESON_WINBUILD_VERSION="3.1.0-alpha"
 MIN_WINVER=0x0603 # Windows 8.1. Qt6-client and Qt6-ruledit builds override this
 CROSSER_FEATURE_LEVEL=2.5
 
-if test "x$1" = x || test "x$1" = "x-h" || test "x$1" = "x--help" ; then
+if test "$1" = "" || test "$1" = "-h" || test "$1" = "--help" ; then
   echo "Usage: $0 <crosser dir> <gui>"
   exit 1
 fi
 
-if test "x$1" = "x-v" || test "x$1" = "x--version" ; then
+if test "$1" = "-v" || test "$1" = "--version" ; then
   echo "meson-winbuild.sh version $MESON_WINBUILD_VERSION"
   exit
 fi
@@ -44,7 +44,7 @@ if ! test -f "$DLLSPATH/crosser.txt" ; then
 fi
 
 VERREV="$(../../fc_version)"
-if test "x$INST_CROSS_MODE" != "xrelease" ; then
+if test "$INST_CROSS_MODE" != "release" ; then
   if test -d ../../.git || test -f ../../.git ; then
     VERREV="$VERREV-$(cd ../.. && git rev-parse --short HEAD)"
   fi
