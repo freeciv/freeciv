@@ -108,7 +108,7 @@ add_common_env() {
   add_glib_env $1 $2
 }
 
-if test "x$1" = x || test "x$1" = "x-h" || test "x$1" = "x--help" || test "x$2" = "x" ; then
+if test "$1" = x || test "$1" = "-h" || test "$1" = "--help" || test "$2" = "" ; then
   echo "Usage: $0 <crosser dir> <gui>"
   exit 1
 fi
@@ -144,7 +144,7 @@ case $GUI in
     exit 1 ;;
 esac
 
-if test "x$CLIENT" = "x" ; then
+if test "$CLIENT" = "" ; then
   CLIENT="$GUI"
 fi
 
@@ -161,7 +161,7 @@ SETUP=$(grep "CrosserSetup=" $DLLSPATH/crosser.txt | sed -e 's/CrosserSetup="//'
 
 VERREV="$(../../fc_version)"
 
-if test "x$INST_CROSS_MODE" != "xrelease" ; then
+if test "$INST_CROSS_MODE" != "release" ; then
   if test -d ../../.git || test -f ../../.git ; then
     VERREV="$VERREV-$(cd ../.. && git rev-parse --short HEAD)"
     GITREVERT=true
@@ -209,7 +209,7 @@ if ! add_common_env $DLLSPATH $INSTDIR ; then
   exit 1
 fi
 
-if test "x$GUI" = "xruledit" ; then
+if test "$GUI" = "ruledit" ; then
   if ! cp freeciv-ruledit.cmd $INSTDIR/
   then
     echo "Adding cmd-file failed!" >&2
@@ -291,7 +291,7 @@ else
       fi ;;
   esac
 
-  if test "x$GUI" = "xsdl2" ; then
+  if test "$GUI" = "sdl2" ; then
     if ! ./create-freeciv-sdl2-nsi.sh \
            "$INSTDIR" "autotools/Output" "$VERREV" "$SETUP" \
            "helpers/uninstaller-helper-gtk3.sh" \
@@ -300,12 +300,12 @@ else
       exit 1
     fi
   else
-    if test "x$GUI" = "xqt5" || test "x$GUI" = "xqt6" ; then
+    if test "$GUI" = "qt5" || test "$GUI" = "qt6" ; then
       EXE_ID="qt"
     else
       EXE_ID="$GUI"
     fi
-    if test "x$GUI" = "xgtk3.22" || test "x$GUI" = "xgtk4" ; then
+    if test "$GUI" = "gtk3.22" || test "$GUI" = "gtk4" ; then
       UNINSTALLER="helpers/uninstaller-helper-gtk3.sh"
     else
       UNINSTALLER=""

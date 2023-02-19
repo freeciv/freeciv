@@ -13,12 +13,12 @@ WINBUILD_VERSION="2.4.3"
 MIN_WINVER=0x0603 # Windows 8.1, Qt6-client and Qt6-ruledit builds override this
 CROSSER_FEATURE_LEVEL=2.5
 
-if test "x$1" = x || test "x$1" = "x-h" || test "x$1" = "x--help" ; then
+if test "$1" = "" || test "$1" = "-h" || test "$1" = "--help" ; then
   echo "Usage: $0 <crosser dir> [gui]"
   exit 1
 fi
 
-if test "x$1" = "x-v" || test "x$1" = "x--version" ; then
+if test "$1" = "-v" || test "$1" = "--version" ; then
   echo "winbuild.sh version $WINBUILD_VERSION"
   exit
 fi
@@ -36,7 +36,7 @@ if ! test -f "$DLLSPATH/crosser.txt" ; then
 fi
 
 VERREV="$(../../fc_version)"
-if test "x$INST_CROSS_MODE" != "xrelease" ; then
+if test "$INST_CROSS_MODE" != "release" ; then
   if test -d ../../.git || test -f ../../.git ; then
     VERREV="$VERREV-$(cd ../.. && git rev-parse --short HEAD)"
   fi
@@ -62,7 +62,7 @@ SETUP=$(grep "CrosserSetup=" $DLLSPATH/crosser.txt | sed -e 's/CrosserSetup="//'
 # to Qt headers allow. Currently needed in all cases.
 CXXFLAGS="-Wno-error=attributes"
 
-if test "x$2" = "xruledit" ; then
+if test "$2" = "ruledit" ; then
   SINGLE_GUI=true
   GUIP="-ruledit"
   RULEDIT="yes"
@@ -70,11 +70,11 @@ if test "x$2" = "xruledit" ; then
   FCMP="no"
   SERVER="no"
   AIS="--enable-ai-static=stub"
-elif test "x$2" != "x" ; then
+elif test "$2" != "" ; then
   SINGLE_GUI=true
   GUIP="-$2"
   SERVER="yes"
-  if test "x$2" = "xqt5" || test "x$2" = "xqt6" ; then
+  if test "$2" = "qt5" || test "$2" = "qt6" ; then
     RULEDIT="yes"
     CLIENTS="qt"
   else
@@ -99,11 +99,11 @@ else
   RULEDIT="yes"
 fi
 
-if test "x$NAMEP" = "x" ; then
+if test "$NAMEP" = "" ; then
   NAMEP="$GUIP"
 fi
 
-if test "x$MAKE_PARAMS" = "x" ; then
+if test "$MAKE_PARAMS" = "" ; then
   MAKE_PARAMS="-j$(nproc)"
 fi
 
@@ -121,14 +121,14 @@ fi
 
 if test "$SETUP" = "win64" ; then
   TARGET=x86_64-w64-mingw32
-  if test "x$SINGLE_GUI" != "xtrue" ; then
+  if test "$SINGLE_GUI" != "true" ; then
     CLIENTS="sdl2,gtk3.22"
     FCMP="gtk3,cli"
   fi
   VERREV="win64-$VERREV"
 elif test "$SETUP" = "win32" ; then
   TARGET=i686-w64-mingw32
-  if test "x$SINGLE_GUI" != "xtrue" ; then
+  if test "$SINGLE_GUI" != "true" ; then
     CLIENTS="sdl2,gtk3.22"
     FCMP="gtk3,cli"
   fi
@@ -162,10 +162,10 @@ if test "$SINGLE_GUI" != "true" ; then
   fi
 fi
 
-if test "x$QTVER" = "xQt5" ; then
+if test "$QTVER" = "Qt5" ; then
   QTPARAMS="--with-qtver=Qt5 --with-qt5-includes=${DLLSPATH}/qt5/include --with-qt5-libs=${DLLSPATH}/lib"
   MOC_CROSSER="${DLLSPATH}/bin/moc"
-elif test "x$QTVER" = "xQt6"; then
+elif test "$QTVER" = "Qt6"; then
   QTPARAMS="--with-qtver=Qt6 --with-qt6-includes=${DLLSPATH}/qt6/include --with-qt6-libs=${DLLSPATH}/lib"
   MOC_CROSSER="${DLLSPATH}/linux/libexec/moc-qt6"
 fi
@@ -189,13 +189,13 @@ INSTALL_DIR="$(pwd)/freeciv-${VERREV}${NAMEP}"
 if ! (
 cd "${BUILD_DIR}"
 
-if test "x$INST_CROSS_MODE" = "xsnapshot" ; then
+if test "$INST_CROSS_MODE" = "snapshot" ; then
   GITREVP="--enable-gitrev"
 else
   GITREVP=""
 fi
 
-if test "x$MOCCMD" = "x" && test "x$MOC_CROSSER" != "x" ; then
+if test "$MOCCMD" = "" && test "$MOC_CROSSER" != "" ; then
   MOCPARAM="MOCCMD=${MOC_CROSSER}"
 fi
 

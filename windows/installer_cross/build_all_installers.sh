@@ -13,15 +13,15 @@
 #
 #***********************************************************************/
 
-if test "x$1" = x || test "x$1" = "x-h" || test "x$1" = "x--help" ; then
+if test "$1" = "" || test "$1" = "-h" || test "$1" = "--help" ; then
   USAGE_NEEDED=yes
 fi
 
-if test "x$2" != "xsnapshot" && test "x$2" != "xrelease" ; then
+if test "$2" != "snapshot" && test "$2" != "release" ; then
   USAGE_NEEDED=yes
 fi
 
-if test "x$USAGE_NEEDED" = "xyes" ; then
+if test "$USAGE_NEEDED" = "yes" ; then
   echo "Usage: $0 <crosser dir> <snapshot|release>"
   exit 1
 fi
@@ -63,7 +63,7 @@ else
   GTK322="Success"
 fi
 
-if test "x$CROSSER_QT5" != "xyes" ; then
+if test "$CROSSER_QT5" != "yes" ; then
   QT5="N/A"
 elif ! ./installer_build.sh $DLLSPATH qt5 ; then
   RET=1
@@ -72,7 +72,7 @@ else
   QT5="Success"
 fi
 
-if test "x$CROSSER_QT6" != "xyes" ; then
+if test "$CROSSER_QT6" != "yes" ; then
   QT6="N/A"
 elif ! ./installer_build.sh $DLLSPATH qt6 ; then
   RET=1
@@ -82,7 +82,7 @@ else
 fi
 
 # sdl2-client comes with gtk4 modpack installer
-if test "x$CROSSER_GTK4" != "xyes" ; then
+if test "$CROSSER_GTK4" != "yes" ; then
   SDL2="N/A"
 elif ! ./installer_build.sh $DLLSPATH sdl2 ; then
   RET=1
