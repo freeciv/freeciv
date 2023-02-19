@@ -594,7 +594,7 @@ if get_option('audio') or get_option('clients').contains('sdl2')
 endif
 
 if get_option('qtver') == 'qt5'
-  add_global_arguments('-DQT_DISABLE_DEPRECATED_BEFORE=0x050b00', language : 'cpp')
+  add_global_arguments('-DQT_DISABLE_DEPRECATED_BEFORE=0x050f00', language : 'cpp')
   priv_conf_data.set('FC_QT5_MODE', 1)
   qt_opts = []
 else
@@ -2937,7 +2937,7 @@ if not qt_dep.found()
   if get_option('qtver') == 'qt6'
     error('Qt6 >= 6.0 required for qt-client in Qt6 mode, but not found')
   else
-    error('Qt5 >= 5.11 required for qt-client in Qt5 mode, but not found')
+    error('Qt5 >= 5.15 required for qt-client in Qt5 mode, but not found')
   endif
 endif
 
@@ -3450,7 +3450,7 @@ if not qt_dep.found()
   if get_option('qtver') == 'qt6'
     error('Qt6 >= 6.0 required for qt-modpack-installer in Qt6 mode, but not found')
   else
-    error('Qt5 >= 5.11 required for qt-modpack-installer in Qt5 mode, but not found')
+    error('Qt5 >= 5.15 required for qt-modpack-installer in Qt5 mode, but not found')
   endif
 endif
 
@@ -3522,7 +3522,7 @@ if not qt_dep.found()
   if get_option('qtver') == 'qt6'
     error('Qt6 >= 6.0 required for ruledit in Qt6 mode, but not found')
   else
-    error('Qt5 >= 5.11 required for ruledit in Qt5 mode, but not found')
+    error('Qt5 >= 5.15 required for ruledit in Qt5 mode, but not found')
   endif
 endif
 

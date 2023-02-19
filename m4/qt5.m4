@@ -3,7 +3,7 @@
 AC_DEFUN([FC_QT5],
 [
   if test "x$fc_qt5_usable" = "x" ; then
-    FC_QT5_CPPFLAGS="-DQT_DISABLE_DEPRECATED_BEFORE=0x050b00"
+    FC_QT5_CPPFLAGS="-DQT_DISABLE_DEPRECATED_BEFORE=0x050f00"
     case $host_os in
     darwin*) FC_QT5_DARWIN;;
     *) FC_QT5_GENERIC;;
@@ -111,7 +111,7 @@ AC_DEFUN([FC_QT5_COMPILETEST],
   CPPFLAGS="$CPPFLAGS_SAVE"
 ])
 
-dnl Check if the included version of Qt is at least Qt5.11
+dnl Check if the included version of Qt is at least Qt5.15
 dnl Output: fc_qt5_min_ver=yes|no
 AC_DEFUN([FC_QT5_VERSION_CHECK],
 [
@@ -123,7 +123,7 @@ AC_DEFUN([FC_QT5_VERSION_CHECK],
   LIBS="${LIBS}${LIBSADD}"
   AC_COMPILE_IFELSE([AC_LANG_PROGRAM(
     [[#include <QtCore>]],[[
-      #if QT_VERSION < 0x050b00
+      #if QT_VERSION < 0x050f00
         fail
       #endif
     ]])],

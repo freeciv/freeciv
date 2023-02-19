@@ -72,8 +72,9 @@ fc_client::fc_client() : QMainWindow()
 #ifdef FC_QT5_MODE
   QTextCodec::setCodecForLocale(QTextCodec::codecForName("UTF-8"));
 #endif // FC_QT5_MODE
+
   /**
-   * Somehow freeciv-client-common asks to switch to page when all widgets
+   * Somehow client-common asks to switch to page when all widgets
    * haven't been created yet by Qt, even constructor finished job,
    * so we null all Qt objects, so while switching we will know if they
    * were created.

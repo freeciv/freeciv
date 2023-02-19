@@ -1968,9 +1968,9 @@ void scale_widget::mousePressEvent(QMouseEvent *event)
   if (event->button() == Qt::LeftButton) {
 #ifndef FC_QT5_MODE
     if (event->position().x() <= size) {
-#else  /* FC_QT5_MODE */
+#else  // FC_QT5_MODE
     if (event->localPos().x() <= size) {
-#endif /* FC_QT5_MODE */
+#endif // FC_QT5_MODE
       scale = scale / 1.2;
     } else {
       scale = scale * 1.2;

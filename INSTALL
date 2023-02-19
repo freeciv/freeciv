@@ -4,7 +4,7 @@ Installing Freeciv:
 
 This file describes how to compile and install Freeciv. Last time we
 made sure this file is up to date was 16-Jul-06.
-Last minor update was 24-Dec-22.
+Last minor update was 19-Feb-23.
 
 There may be a localized version of this file in the ./doc directory,
 named INSTALL.<locale> (e.g., INSTALL.de).
@@ -346,7 +346,7 @@ following order: pkg-config, Glib, Atk, Pango, Gdk-Pixbuf, Gtk.
    At least version 6.0 is required.
    If one configures with Qt5 compatibility switch --with-qtver=qt5,
    required libraries and headers are Qt5Core, Qt5Gui, and Qt5Widgets
-   and at least version 5.11 of Qt is required.
+   and at least version 5.15 of Qt is required.
 
 
 2. Generating Makefiles
