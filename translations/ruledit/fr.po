@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv trunk\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2023-01-24 14:45+0100\n"
-"PO-Revision-Date: 2023-01-03 19:03+0100\n"
+"POT-Creation-Date: 2023-02-19 00:48+0100\n"
+"PO-Revision-Date: 2023-02-19 03:17+0100\n"
 "Last-Translator: Igx <igx31 hotmail.com>\n"
 "Language-Team: French <freeciv-l10n-fr@yahoogroupes.fr>\n"
 "Language: fr\n"
@@ -23,27 +23,45 @@ msgstr ""
 msgid "Close"
 msgstr "Fermer"
 
-#: tools/ruledit/edit_impr.cpp:50 tools/ruledit/edit_utype.cpp:48
+#: tools/ruledit/edit_impr.cpp:51 tools/ruledit/edit_utype.cpp:50
 msgid "Build Cost"
 msgstr "Coût de construction"
 
-#: tools/ruledit/edit_impr.cpp:61
+#: tools/ruledit/edit_impr.cpp:62
 msgid "Upkeep"
 msgstr "Entretien"
 
-#: tools/ruledit/edit_impr.cpp:71
+#: tools/ruledit/edit_impr.cpp:72
 msgid "Genus"
 msgstr "Genre"
 
-#: tools/ruledit/edit_utype.cpp:58
+#: tools/ruledit/edit_impr.cpp:90 tools/ruledit/edit_terrain.cpp:69
+#: tools/ruledit/edit_utype.cpp:91
+msgid "Graphics tag"
+msgstr "Indicateur graphique"
+
+#: tools/ruledit/edit_impr.cpp:99 tools/ruledit/edit_terrain.cpp:78
+#: tools/ruledit/edit_utype.cpp:100
+msgid "Alt graphics tag"
+msgstr "Indicateur graphique secondaire"
+
+#: tools/ruledit/edit_terrain.cpp:49
+msgid "Move Cost"
+msgstr "Coût de déplacement"
+
+#: tools/ruledit/edit_terrain.cpp:59
+msgid "Defense Bonus %"
+msgstr "Bonus de défense %"
+
+#: tools/ruledit/edit_utype.cpp:61
 msgid "Attack Strength"
 msgstr "Force d'attaque"
 
-#: tools/ruledit/edit_utype.cpp:68
+#: tools/ruledit/edit_utype.cpp:71
 msgid "Defense Strength"
 msgstr "Force de défense"
 
-#: tools/ruledit/edit_utype.cpp:78
+#: tools/ruledit/edit_utype.cpp:81
 msgid "Move Rate"
 msgstr "Vitesse de déplacement"
 
@@ -233,15 +251,15 @@ msgstr "Numéro de signal invalide \"%s\".\n"
 msgid "Unrecognized option: \"%s\"\n"
 msgstr "Option non reconnue \"%s\"\n"
 
-#: tools/ruledit/ruledit_qt.cpp:127
+#: tools/ruledit/ruledit_qt.cpp:128
 msgid "built in Qt6 mode."
 msgstr "construit en mode Qt6."
 
-#: tools/ruledit/ruledit_qt.cpp:129
+#: tools/ruledit/ruledit_qt.cpp:130
 msgid "built in Qt5 mode."
 msgstr "construit en mode Qt5."
 
-#: tools/ruledit/ruledit_qt.cpp:136
+#: tools/ruledit/ruledit_qt.cpp:137
 #, c-format
 msgid ""
 "%s%s\n"
@@ -252,95 +270,102 @@ msgstr ""
 "commit : %s\n"
 "%s"
 
-#: tools/ruledit/ruledit_qt.cpp:147
+#: tools/ruledit/ruledit_qt.cpp:148
 msgid "Give ruleset to use as starting point."
 msgstr "Donner les règles du jeu à utiliser comme point de départ."
 
-#: tools/ruledit/ruledit_qt.cpp:159
+#: tools/ruledit/ruledit_qt.cpp:160
 msgid "Start editing"
 msgstr "Commencer l'édition"
 
-#: tools/ruledit/ruledit_qt.cpp:169
+#: tools/ruledit/ruledit_qt.cpp:170
 msgid "Misc"
 msgstr "Divers"
 
-#: tools/ruledit/ruledit_qt.cpp:171
+#: tools/ruledit/ruledit_qt.cpp:172
 msgid "Tech"
 msgstr "Technologies"
 
-#: tools/ruledit/ruledit_qt.cpp:173
+#: tools/ruledit/ruledit_qt.cpp:174
 msgid "Buildings"
 msgstr "Bâtiments"
 
-#: tools/ruledit/ruledit_qt.cpp:175
+#: tools/ruledit/ruledit_qt.cpp:176
 msgid "Units"
 msgstr "Unités"
 
-#: tools/ruledit/ruledit_qt.cpp:177
+#: tools/ruledit/ruledit_qt.cpp:178
 msgid "Goods"
 msgstr "Biens"
 
-#: tools/ruledit/ruledit_qt.cpp:179
+#: tools/ruledit/ruledit_qt.cpp:180
 msgid "Governments"
 msgstr "Gouvernements"
 
-#: tools/ruledit/ruledit_qt.cpp:181
+#: tools/ruledit/ruledit_qt.cpp:182
 msgid "Enablers"
 msgstr "Activateurs"
 
-#: tools/ruledit/ruledit_qt.cpp:183
+#: tools/ruledit/ruledit_qt.cpp:184
 msgid "Extras"
 msgstr "Extras"
 
-#: tools/ruledit/ruledit_qt.cpp:185
+#: tools/ruledit/ruledit_qt.cpp:186
 msgid "Terrains"
 msgstr "Terrains"
 
-#: tools/ruledit/ruledit_qt.cpp:187
+#: tools/ruledit/ruledit_qt.cpp:188
 msgid "Multipliers"
 msgstr "Multiplicateurs"
 
-#: tools/ruledit/ruledit_qt.cpp:189
+#: tools/ruledit/ruledit_qt.cpp:190
+msgid "Counters"
+msgstr "Compteurs"
+
+#: tools/ruledit/ruledit_qt.cpp:192
 msgid "Nations"
 msgstr "Nations"
 
-#: tools/ruledit/ruledit_qt.cpp:198
+#: tools/ruledit/ruledit_qt.cpp:201
 msgid "Welcome to freeciv-ruledit"
 msgstr "Bienvenue sur l'éditeur de règles de Freeciv"
 
-#: tools/ruledit/ruledit_qt.cpp:227
+#: tools/ruledit/ruledit_qt.cpp:230
 msgid "Old ruleset to a new format"
 msgstr "Anciennes règles du jeu vers un nouveau format"
 
-#: tools/ruledit/ruledit_qt.cpp:233
+#: tools/ruledit/ruledit_qt.cpp:236
 msgid "Ruleset loaded"
 msgstr "Règles du jeu chargées"
 
-#: tools/ruledit/ruledit_qt.cpp:255
+#: tools/ruledit/ruledit_qt.cpp:259
 msgid "Ruleset loading failed!"
 msgstr "Impossible de charger les règles du jeu !"
 
-#: tools/ruledit/ruledit_qt.cpp:433
+#: tools/ruledit/ruledit_qt.cpp:437
 msgid "Freeciv Ruleset Editor"
 msgstr "Éditeur de règles du jeu de Freeciv"
 
-#: tools/ruledit/ruledit_qt.cpp:466
+#: tools/ruledit/ruledit_qt.cpp:470
 msgid "Are you sure you want to quit?"
 msgstr "Êtes-vous sûr(e) que vous voulez quitter ?"
 
-#: tools/ruledit/ruledit_qt.cpp:470
+#: tools/ruledit/ruledit_qt.cpp:474
 msgid "Quit?"
 msgstr "Quitter ?"
 
-#: tools/ruledit/tab_building.cpp:67 tools/ruledit/tab_extras.cpp:65
-#: tools/ruledit/tab_good.cpp:66 tools/ruledit/tab_gov.cpp:65
-#: tools/ruledit/tab_multiplier.cpp:65 tools/ruledit/tab_tech.cpp:64
-#: tools/ruledit/tab_terrains.cpp:65 tools/ruledit/tab_unit.cpp:64
+#: tools/ruledit/tab_building.cpp:67 tools/ruledit/tab_counters.cpp:82
+#: tools/ruledit/tab_extras.cpp:65 tools/ruledit/tab_good.cpp:66
+#: tools/ruledit/tab_gov.cpp:65 tools/ruledit/tab_multiplier.cpp:65
+#: tools/ruledit/tab_tech.cpp:64 tools/ruledit/tab_terrains.cpp:68
+#: tools/ruledit/tab_unit.cpp:64
 msgid "Rule Name"
 msgstr "Nom dans les règles"
 
 #: tools/ruledit/tab_building.cpp:70 tools/ruledit/tab_building.cpp:80
 #: tools/ruledit/tab_building.cpp:153 tools/ruledit/tab_building.cpp:154
+#: tools/ruledit/tab_counters.cpp:85 tools/ruledit/tab_counters.cpp:93
+#: tools/ruledit/tab_counters.cpp:213 tools/ruledit/tab_counters.cpp:214
 #: tools/ruledit/tab_enablers.cpp:131 tools/ruledit/tab_enablers.cpp:241
 #: tools/ruledit/tab_extras.cpp:68 tools/ruledit/tab_extras.cpp:78
 #: tools/ruledit/tab_extras.cpp:148 tools/ruledit/tab_extras.cpp:149
@@ -352,28 +377,30 @@ msgstr "Nom dans les règles"
 #: tools/ruledit/tab_multiplier.cpp:144 tools/ruledit/tab_multiplier.cpp:145
 #: tools/ruledit/tab_tech.cpp:67 tools/ruledit/tab_tech.cpp:77
 #: tools/ruledit/tab_tech.cpp:231 tools/ruledit/tab_tech.cpp:232
-#: tools/ruledit/tab_terrains.cpp:68 tools/ruledit/tab_terrains.cpp:78
-#: tools/ruledit/tab_terrains.cpp:144 tools/ruledit/tab_terrains.cpp:145
+#: tools/ruledit/tab_terrains.cpp:71 tools/ruledit/tab_terrains.cpp:81
+#: tools/ruledit/tab_terrains.cpp:151 tools/ruledit/tab_terrains.cpp:152
 #: tools/ruledit/tab_unit.cpp:67 tools/ruledit/tab_unit.cpp:77
 #: tools/ruledit/tab_unit.cpp:150 tools/ruledit/tab_unit.cpp:151
 msgid "None"
 msgstr "Aucun"
 
-#: tools/ruledit/tab_building.cpp:75 tools/ruledit/tab_extras.cpp:73
-#: tools/ruledit/tab_good.cpp:74 tools/ruledit/tab_gov.cpp:73
-#: tools/ruledit/tab_multiplier.cpp:73 tools/ruledit/tab_tech.cpp:72
-#: tools/ruledit/tab_terrains.cpp:73 tools/ruledit/tab_unit.cpp:72
+#: tools/ruledit/tab_building.cpp:75 tools/ruledit/tab_counters.cpp:89
+#: tools/ruledit/tab_extras.cpp:73 tools/ruledit/tab_good.cpp:74
+#: tools/ruledit/tab_gov.cpp:73 tools/ruledit/tab_multiplier.cpp:73
+#: tools/ruledit/tab_tech.cpp:72 tools/ruledit/tab_terrains.cpp:76
+#: tools/ruledit/tab_unit.cpp:72
 msgid "Name"
 msgstr "Nom"
 
-#: tools/ruledit/tab_building.cpp:86 tools/ruledit/tab_unit.cpp:83
+#: tools/ruledit/tab_building.cpp:86 tools/ruledit/tab_terrains.cpp:87
+#: tools/ruledit/tab_unit.cpp:83
 msgid "Edit Values"
 msgstr "Éditer les valeurs"
 
-#: tools/ruledit/tab_building.cpp:94 tools/ruledit/tab_extras.cpp:88
-#: tools/ruledit/tab_good.cpp:89 tools/ruledit/tab_gov.cpp:88
-#: tools/ruledit/tab_tech.cpp:109 tools/ruledit/tab_terrains.cpp:84
-#: tools/ruledit/tab_unit.cpp:91
+#: tools/ruledit/tab_building.cpp:94 tools/ruledit/tab_counters.cpp:134
+#: tools/ruledit/tab_extras.cpp:88 tools/ruledit/tab_good.cpp:89
+#: tools/ruledit/tab_gov.cpp:88 tools/ruledit/tab_tech.cpp:109
+#: tools/ruledit/tab_terrains.cpp:91 tools/ruledit/tab_unit.cpp:91
 msgid "Effects"
 msgstr "Effets"
 
@@ -388,6 +415,30 @@ msgstr "Supprimer ce bâtiment"
 #: tools/ruledit/tab_building.cpp:188
 msgid "A building with that rule name already exists!"
 msgstr "Un bâtiment avec ce nom existe déjà dans les règles !"
+
+#: tools/ruledit/tab_counters.cpp:100
+msgid "Default Value"
+msgstr "Valeur par défaut"
+
+#: tools/ruledit/tab_counters.cpp:109
+msgid "Checkpoint"
+msgstr "Point de ralliement"
+
+#: tools/ruledit/tab_counters.cpp:121
+msgid "Behavior"
+msgstr "Comportement"
+
+#: tools/ruledit/tab_counters.cpp:138
+msgid "Add Counter"
+msgstr "Ajouter un compteur"
+
+#: tools/ruledit/tab_counters.cpp:141
+msgid "Remove this Counter"
+msgstr "Supprimer un compteur"
+
+#: tools/ruledit/tab_counters.cpp:274
+msgid "A counter with that rule name already exists!"
+msgstr "Un compteur avec ce nom existe déjà dans les règles !"
 
 #: tools/ruledit/tab_enablers.cpp:113
 msgid "Type"
@@ -681,15 +732,15 @@ msgstr "Jamais"
 msgid "A tech with that rule name already exists!"
 msgstr "Une technologie avec ce nom existe déjà dans les règles !"
 
-#: tools/ruledit/tab_terrains.cpp:88
+#: tools/ruledit/tab_terrains.cpp:95
 msgid "Add Terrain"
 msgstr "Ajouter un Terrain"
 
-#: tools/ruledit/tab_terrains.cpp:93
+#: tools/ruledit/tab_terrains.cpp:100
 msgid "Remove this Terrain"
 msgstr "Supprimer ce Terrain"
 
-#: tools/ruledit/tab_terrains.cpp:179
+#: tools/ruledit/tab_terrains.cpp:186
 msgid "A terrain with that rule name already exists!"
 msgstr "Un terrain avec ce nom existe déjà dans les règles !"
 
