@@ -332,7 +332,7 @@ bool client_start_server(void)
       enum log_level llvl = log_get_level();
 
       argv[argc++] = "--debug";
-      fc_snprintf(dbg_lvl_buf, sizeof(dbg_lvl_buf), "%d", llvl);
+      fc_snprintf(dbg_lvl_buf, sizeof(dbg_lvl_buf), "%s", log_level_name(llvl));
       argv[argc++] = dbg_lvl_buf;
       argv[argc++] = "--log";
       argv[argc++] = logfile;
@@ -462,7 +462,8 @@ bool client_start_server(void)
         internal_to_local_string_malloc(logfile);
     enum log_level llvl = log_get_level();
 
-    fc_snprintf(logcmdline, sizeof(logcmdline), " --debug %d --log %s", llvl,
+    fc_snprintf(logcmdline, sizeof(logcmdline), " --debug %s --log %s",
+                log_level_name(llvl),
                 logfile_in_local_encoding);
     free(logfile_in_local_encoding);
   }
