@@ -408,7 +408,6 @@ void rscompat_postprocess(struct rscompat_info *info)
     game.info.muuk_food_wipe = TRUE;
 
     /* Can't pay gold upkeep! */
-    auto_perf = action_auto_perf_slot_number(ACTION_AUTO_UPKEEP_GOLD);
 
     /* TODO: Should missing gold upkeep really be able to kill units with
      * the EvacuateFirst unit type flag? */
