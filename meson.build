@@ -176,8 +176,14 @@ if host_system == 'windows'
      get_option('clients').contains('qt') or \
      get_option('fcmp').contains('qt')
     if get_option('debug')
-      # Qt headers have malformed macro definition triggering this error
-      add_global_arguments('-Wno-c99-extensions', language : ['c', 'cpp'])
+      # Qt flags have malformed macro definition triggering this error
+      # Also C compiler affected as the macro is on its commandline too
+      if c_compiler.has_argument('-Wno-c99-extensions')
+        add_global_arguments('-Wno-c99-extensions', language : 'c')
+      endif
+      if cxx_compiler.has_argument('-Wno-c99-extensions')
+        add_global_arguments('-Wno-c99-extensions', language : 'cpp')
+      endif
     endif
     if min_win_ver == ''
       if get_option('qtver') == 'qt6'
