@@ -88,10 +88,12 @@ static void city_clear_worklist_callback(GSimpleAction *action, GVariant *parame
                                          gpointer data);
 static void update_total_buy_cost(void);
 
+static GMenu *create_production_menu(GActionGroup *group);
 static GMenu *create_select_menu(GActionGroup *group);
 
+static GMenu *create_change_menu(GActionGroup *group);
+
 #ifdef MENUS_GTK3
-static void create_change_menu(GtkWidget *item);
 static void create_last_menu(GtkWidget *item);
 static void create_first_menu(GtkWidget *item);
 static void create_next_menu(GtkWidget *item);
@@ -111,13 +113,13 @@ static GtkListStore *city_model;
 
 #ifdef MENUS_GTK3
 static void popup_select_menu(GtkMenuShell *menu, gpointer data);
-static void popup_change_menu(GtkMenuShell *menu, gpointer data);
 static void popup_last_menu(GtkMenuShell *menu, gpointer data);
 static void popup_first_menu(GtkMenuShell *menu, gpointer data);
 static void popup_next_menu(GtkMenuShell *menu, gpointer data);
 static void popup_next_to_last_menu(GtkMenuShell *menu, gpointer data);
 #endif /* MENUS_GTK3 */
 
+static void recreate_production_menu(GActionGroup *group);
 static void recreate_sell_menu(GActionGroup *group);
 
 static GtkWidget *city_center_command;
@@ -128,11 +130,10 @@ static GtkWidget *city_sell_command;
 #endif /* MENUS_GTK3 */
 static GtkWidget *city_total_buy_cost_label;
 
-#ifdef MENUS_GTK3
-static GtkWidget *change_improvements_item;
-static GtkWidget *change_units_item;
-static GtkWidget *change_wonders_item;
+static GMenu *prod_menu = NULL;
+static GMenu *change_menu;
 
+#ifdef MENUS_GTK3
 static GtkWidget *last_improvements_item;
 static GtkWidget *last_units_item;
 static GtkWidget *last_wonders_item;
@@ -1146,7 +1147,6 @@ static GtkWidget *create_city_report_menu(void)
   GtkWidget *vbox, *sep;
   GtkWidget *aux_menu;
   GMenu *submenu;
-  GSimpleAction *act;
 
   vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
   sep = gtk_separator_new(GTK_ORIENTATION_HORIZONTAL);
@@ -1157,25 +1157,7 @@ static GtkWidget *create_city_report_menu(void)
 
   cityrep_menu = g_menu_new();
 
-  submenu = g_menu_new();
-
-  act = g_simple_action_new("clear_worklist", NULL);
-  g_action_map_add_action(G_ACTION_MAP(cityrep_group), G_ACTION(act));
-  g_signal_connect(act, "activate", G_CALLBACK(city_clear_worklist_callback),
-                   NULL);
-  menu_item_append_unref(submenu, g_menu_item_new(_("Clear _Worklist"),
-                                                  "win.clear_worklist"));
-
-  submenu_append_unref(cityrep_menu, _("_Production"), G_MENU_MODEL(submenu));
-
 #ifdef MENUS_GTK3
-  menu = gtk_menu_button_new();
-  gtk_menu_item_set_submenu(GTK_MENU_ITEM(item), menu);
-
-  item = gtk_menu_item_new_with_mnemonic(_("Chan_ge"));
-  gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-  create_change_menu(item);
-
   item = gtk_menu_item_new_with_mnemonic(_("Add _First"));
   gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
   create_first_menu(item);
@@ -1208,6 +1190,10 @@ static GtkWidget *create_city_report_menu(void)
   g_signal_connect(menu, "show", G_CALLBACK(production_menu_shown), item);
 #endif /* MENUS_GTK3 */
 
+  /* Placeholder */
+  submenu_append_unref(cityrep_menu, _("_Production"),
+                       G_MENU_MODEL(g_menu_new()));
+
   submenu_append_unref(cityrep_menu, _("Gover_nor"),
                        G_MENU_MODEL(create_governor_menu(cityrep_group, TRUE)));
 
@@ -1220,7 +1206,8 @@ static GtkWidget *create_city_report_menu(void)
   submenu = create_display_menu(cityrep_group);
   submenu_append_unref(cityrep_menu, _("_Display"), G_MENU_MODEL(submenu));
 
-  /* Real sell menu */
+  /* Real menus */
+  recreate_production_menu(cityrep_group);
   recreate_sell_menu(cityrep_group);
 
   gtk_widget_insert_action_group(aux_menu, "win", cityrep_group);
@@ -1619,26 +1606,42 @@ void real_city_report_update_city(struct city *pcity)
   update_total_buy_cost();
 }
 
-#ifdef MENUS_GTK3
 /************************************************************************//**
   Create submenu for changing production target
 ****************************************************************************/
-static void create_change_menu(GtkWidget *item)
+static GMenu *create_change_menu(GActionGroup *group)
 {
-  GtkWidget *menu;
+  GMenu *menu = g_menu_new();
+  GMenu *submenu;
+  int n;
 
-  menu = gtk_menu_button_new();
-  gtk_menu_item_set_submenu(GTK_MENU_ITEM(item), menu);
-  g_signal_connect(menu, "show", G_CALLBACK(popup_change_menu), NULL);
+  n = gtk_tree_selection_count_selected_rows(city_selection);
 
-  change_units_item = gtk_menu_item_new_with_label(_("Units"));
-  gtk_menu_shell_append(GTK_MENU_SHELL(menu), change_units_item);
-  change_improvements_item = gtk_menu_item_new_with_label(_("Improvements"));
-  gtk_menu_shell_append(GTK_MENU_SHELL(menu), change_improvements_item);
-  change_wonders_item = gtk_menu_item_new_with_label(_("Wonders"));
-  gtk_menu_shell_append(GTK_MENU_SHELL(menu), change_wonders_item);
+  submenu = g_menu_new();
+  append_impr_or_unit_to_menu(submenu, group, "change_u",
+                              TRUE, FALSE, CO_CHANGE,
+                              can_city_build_now,
+                              G_CALLBACK(select_impr_or_unit_callback), n);
+  submenu_append_unref(menu, _("Units"), G_MENU_MODEL(submenu));
+
+  submenu = g_menu_new();
+  append_impr_or_unit_to_menu(submenu, group, "change_i",
+                              FALSE, FALSE, CO_CHANGE,
+                              can_city_build_now,
+                              G_CALLBACK(select_impr_or_unit_callback), n);
+  submenu_append_unref(menu, _("Improvements"), G_MENU_MODEL(submenu));
+
+  submenu = g_menu_new();
+  append_impr_or_unit_to_menu(submenu, group, "change_i",
+                              FALSE, TRUE, CO_CHANGE,
+                              can_city_build_now,
+                              G_CALLBACK(select_impr_or_unit_callback), n);
+  submenu_append_unref(menu, _("Wonders"), G_MENU_MODEL(submenu));
+
+  return menu;
 }
 
+#ifdef MENUS_GTK3
 /************************************************************************//**
   Creates the last menu.
 ****************************************************************************/
@@ -1719,29 +1722,6 @@ static void create_next_to_last_menu(GtkWidget *parent_item)
   item = gtk_menu_item_new_with_label(_("Wonders"));
   gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
   next_to_last_wonders_item = item;
-}
-
-/************************************************************************//**
-  Pops up menu where user can select build target.
-****************************************************************************/
-static void popup_change_menu(GtkMenuShell *menu, gpointer data)
-{
-  int n;
-
-  n = gtk_tree_selection_count_selected_rows(city_selection);
-
-  append_impr_or_unit_to_menu_item(GTK_MENU_ITEM(change_improvements_item),
-                                   FALSE, FALSE, CO_CHANGE,
-                                   can_city_build_now,
-                                   G_CALLBACK(select_impr_or_unit_callback), n);
-  append_impr_or_unit_to_menu_item(GTK_MENU_ITEM(change_units_item),
-                                   TRUE, FALSE, CO_CHANGE,
-                                   can_city_build_now,
-                                   G_CALLBACK(select_impr_or_unit_callback), n);
-  append_impr_or_unit_to_menu_item(GTK_MENU_ITEM(change_wonders_item),
-                                   FALSE, TRUE, CO_CHANGE,
-                                   can_city_build_now,
-                                   G_CALLBACK(select_impr_or_unit_callback), n);
 }
 
 /************************************************************************//**
@@ -1863,6 +1843,42 @@ static void recreate_sell_menu(GActionGroup *group)
 
   g_menu_remove(cityrep_menu, 2);
   submenu_insert_unref(cityrep_menu, 2, _("S_ell"), G_MENU_MODEL(menu));
+}
+
+/************************************************************************//**
+  Creates production menu
+****************************************************************************/
+static GMenu *create_production_menu(GActionGroup *group)
+{
+  GSimpleAction *act;
+
+  prod_menu = g_menu_new();
+
+  change_menu = create_change_menu(group);
+  submenu_append_unref(prod_menu, _("Chan_ge"), G_MENU_MODEL(change_menu));
+
+  act = g_simple_action_new("clear_worklist", NULL);
+  g_action_map_add_action(G_ACTION_MAP(group), G_ACTION(act));
+  g_signal_connect(act, "activate", G_CALLBACK(city_clear_worklist_callback),
+                   NULL);
+  menu_item_append_unref(prod_menu, g_menu_item_new(_("Clear _Worklist"),
+                                                    "win.clear_worklist"));
+
+  return prod_menu;
+}
+
+/************************************************************************//**
+  Recreates production menu
+****************************************************************************/
+static void recreate_production_menu(GActionGroup *group)
+{
+  if (prod_menu != NULL) {
+    g_menu_remove_all(change_menu);
+    g_menu_remove_all(prod_menu);
+  }
+  g_menu_remove(cityrep_menu, 0);
+  submenu_insert_unref(cityrep_menu, 0, _("_Production"),
+                       G_MENU_MODEL(create_production_menu(group)));
 }
 
 /************************************************************************//**
@@ -2115,12 +2131,14 @@ static void update_total_buy_cost(void)
 ****************************************************************************/
 static void city_selection_changed_callback(GtkTreeSelection *selection)
 {
+#ifdef MENUS_GTK3
   int n;
   bool obs_may, plr_may;
 
   n = gtk_tree_selection_count_selected_rows(selection);
   obs_may = n > 0;
   plr_may = obs_may && can_client_issue_orders();
+#endif /* MENUS_GTK3 */
 
   update_governor_menu();
 
@@ -2130,14 +2148,14 @@ static void city_selection_changed_callback(GtkTreeSelection *selection)
   gtk_widget_set_sensitive(city_buy_command, plr_may);
 #endif /* MENUS_GTK3 */
 
-  if (plr_may) {
-    recreate_sell_menu(cityrep_group);
-  } else {
+  recreate_production_menu(cityrep_group);
+  recreate_sell_menu(cityrep_group);
 
 #ifdef MENUS_GTK3
+  if (!plr_may) {
     gtk_widget_set_sensitive(city_sell_command, FALSE);
-#endif /* MENUS_GTK3 */
   }
+#endif /* MENUS_GTK3 */
 
   update_total_buy_cost();
 }
