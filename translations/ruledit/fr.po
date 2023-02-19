@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 3.0\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2023-01-29 08:24+0200\n"
-"PO-Revision-Date: 2022-09-22 11:21+0200\n"
+"POT-Creation-Date: 2023-02-19 00:12+0100\n"
+"PO-Revision-Date: 2023-02-19 03:22+0100\n"
 "Last-Translator: Igx <igx31 hotmail.com>\n"
 "Language-Team: French <freeciv-l10n-fr@yahoogroupes.fr>\n"
 "Language: fr\n"
@@ -22,31 +22,49 @@ msgstr ""
 msgid "Close"
 msgstr "Fermer"
 
-#: tools/ruledit/edit_impr.cpp:50 tools/ruledit/edit_utype.cpp:64
+#: tools/ruledit/edit_impr.cpp:51 tools/ruledit/edit_utype.cpp:66
 msgid "Build Cost"
 msgstr "Coût de construction"
 
-#: tools/ruledit/edit_impr.cpp:61
+#: tools/ruledit/edit_impr.cpp:62
 msgid "Upkeep"
 msgstr "Entretien"
 
-#: tools/ruledit/edit_impr.cpp:71
+#: tools/ruledit/edit_impr.cpp:72
 msgid "Genus"
 msgstr "Genre"
 
-#: tools/ruledit/edit_utype.cpp:49
+#: tools/ruledit/edit_impr.cpp:90 tools/ruledit/edit_terrain.cpp:69
+#: tools/ruledit/edit_utype.cpp:107
+msgid "Graphics tag"
+msgstr "Indicateur graphique"
+
+#: tools/ruledit/edit_impr.cpp:99 tools/ruledit/edit_terrain.cpp:78
+#: tools/ruledit/edit_utype.cpp:116
+msgid "Alt graphics tag"
+msgstr "Indicateur graphique secondaire"
+
+#: tools/ruledit/edit_terrain.cpp:49
+msgid "Move Cost"
+msgstr "Coût de déplacement"
+
+#: tools/ruledit/edit_terrain.cpp:59
+msgid "Defense Bonus %"
+msgstr "Bonus de défense %"
+
+#: tools/ruledit/edit_utype.cpp:51
 msgid "Requirement"
 msgstr "Prérequis"
 
-#: tools/ruledit/edit_utype.cpp:74
+#: tools/ruledit/edit_utype.cpp:77
 msgid "Attack Strength"
 msgstr "Force d'attaque"
 
-#: tools/ruledit/edit_utype.cpp:84
+#: tools/ruledit/edit_utype.cpp:87
 msgid "Defense Strength"
 msgstr "Force de défense"
 
-#: tools/ruledit/edit_utype.cpp:94
+#: tools/ruledit/edit_utype.cpp:97
 msgid "Move Rate"
 msgstr "Vitesse de déplacement"
 
@@ -262,7 +280,7 @@ msgstr "Quitter ?"
 
 #: tools/ruledit/tab_building.cpp:66 tools/ruledit/tab_extras.cpp:64
 #: tools/ruledit/tab_good.cpp:65 tools/ruledit/tab_gov.cpp:64
-#: tools/ruledit/tab_tech.cpp:63 tools/ruledit/tab_terrains.cpp:64
+#: tools/ruledit/tab_tech.cpp:63 tools/ruledit/tab_terrains.cpp:67
 #: tools/ruledit/tab_unit.cpp:65
 msgid "Rule Name"
 msgstr "Nom dans les règles"
@@ -278,8 +296,8 @@ msgstr "Nom dans les règles"
 #: tools/ruledit/tab_gov.cpp:143 tools/ruledit/tab_gov.cpp:144
 #: tools/ruledit/tab_tech.cpp:66 tools/ruledit/tab_tech.cpp:76
 #: tools/ruledit/tab_tech.cpp:226 tools/ruledit/tab_tech.cpp:227
-#: tools/ruledit/tab_terrains.cpp:67 tools/ruledit/tab_terrains.cpp:77
-#: tools/ruledit/tab_terrains.cpp:139 tools/ruledit/tab_terrains.cpp:140
+#: tools/ruledit/tab_terrains.cpp:70 tools/ruledit/tab_terrains.cpp:80
+#: tools/ruledit/tab_terrains.cpp:146 tools/ruledit/tab_terrains.cpp:147
 #: tools/ruledit/tab_unit.cpp:68 tools/ruledit/tab_unit.cpp:78
 #: tools/ruledit/tab_unit.cpp:143 tools/ruledit/tab_unit.cpp:144
 msgid "None"
@@ -287,12 +305,13 @@ msgstr "Aucun"
 
 #: tools/ruledit/tab_building.cpp:74 tools/ruledit/tab_extras.cpp:72
 #: tools/ruledit/tab_good.cpp:73 tools/ruledit/tab_gov.cpp:72
-#: tools/ruledit/tab_tech.cpp:71 tools/ruledit/tab_terrains.cpp:72
+#: tools/ruledit/tab_tech.cpp:71 tools/ruledit/tab_terrains.cpp:75
 #: tools/ruledit/tab_unit.cpp:73
 msgid "Name"
 msgstr "Nom"
 
-#: tools/ruledit/tab_building.cpp:85 tools/ruledit/tab_unit.cpp:84
+#: tools/ruledit/tab_building.cpp:85 tools/ruledit/tab_terrains.cpp:91
+#: tools/ruledit/tab_unit.cpp:84
 msgid "Edit Values"
 msgstr "Éditer les valeurs"
 
@@ -573,15 +592,15 @@ msgstr "Jamais"
 msgid "A tech with that rule name already exists!"
 msgstr "Une technologie avec ce nom existe déjà dans les règles !"
 
-#: tools/ruledit/tab_terrains.cpp:83
+#: tools/ruledit/tab_terrains.cpp:86
 msgid "Add Terrain"
 msgstr "Ajouter un Terrain"
 
-#: tools/ruledit/tab_terrains.cpp:88
+#: tools/ruledit/tab_terrains.cpp:95
 msgid "Remove this Terrain"
 msgstr "Supprimer ce Terrain"
 
-#: tools/ruledit/tab_terrains.cpp:174
+#: tools/ruledit/tab_terrains.cpp:181
 msgid "A terrain with that rule name already exists!"
 msgstr "Un terrain avec ce nom existe déjà dans les règles !"
 
