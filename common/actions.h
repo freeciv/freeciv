@@ -398,6 +398,7 @@ struct action_enabler
 #define action_has_result(_act_, _res_) ((_act_)->result == (_res_))
 
 #define enabler_get_action(_enabler_) action_by_number(_enabler_->action)
+#define enabler_get_action_id(_enabler_) (_enabler_->action)
 
 #define SPECLIST_TAG action_enabler
 #define SPECLIST_TYPE struct action_enabler
@@ -607,6 +608,8 @@ enum action_sub_target_kind action_get_sub_target_kind(
   action_get_sub_target_kind(action_by_number(act_id))
 
 int action_number(const struct action *action);
+
+#define action_id(_act_) (_act_->id)
 
 #define action_has_result_safe(paction, result)                           \
   (paction && action_has_result(paction, result))

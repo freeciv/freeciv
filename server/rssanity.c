@@ -1255,7 +1255,7 @@ bool sanity_check_ruleset_data(struct rscompat_info *compat)
         ok = FALSE;
       }
 
-      if (action_id_get_target_kind(enabler->action) == ATK_SELF) {
+      if (action_get_target_kind(enabler_get_action(enabler)) == ATK_SELF) {
         /* Special test for self targeted actions. */
 
         if (requirement_vector_size(&(enabler->target_reqs)) > 0) {

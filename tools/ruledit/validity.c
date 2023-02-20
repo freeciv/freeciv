@@ -130,7 +130,7 @@ static bool is_universal_needed(struct universal *uni, requirers_cb cb,
         char buf[1024];
 
         fc_snprintf(buf, sizeof(buf), R__("%s action enabler"),
-                    action_id_rule_name(enabler->action));
+                    action_rule_name(enabler_get_action(enabler)));
         cb(buf, data);
         needed = TRUE;
       }

@@ -2428,10 +2428,10 @@ void action_enabler_add(struct action_enabler *enabler)
   /* Sanity check: a non existing action enabler can't be added. */
   fc_assert_ret(enabler);
   /* Sanity check: a non existing action doesn't have enablers. */
-  fc_assert_ret(action_id_exists(enabler->action));
+  fc_assert_ret(action_id_exists(enabler_get_action_id(enabler)));
 
   action_enabler_list_append(
-        action_enablers_for_action(enabler->action),
+        action_enablers_for_action(enabler_get_action_id(enabler)),
         enabler);
 }
 
@@ -2445,10 +2445,10 @@ bool action_enabler_remove(struct action_enabler *enabler)
   /* Sanity check: a non existing action enabler can't be removed. */
   fc_assert_ret_val(enabler, FALSE);
   /* Sanity check: a non existing action doesn't have enablers. */
-  fc_assert_ret_val(action_id_exists(enabler->action), FALSE);
+  fc_assert_ret_val(action_id_exists(enabler_get_action_id(enabler)), FALSE);
 
   return action_enabler_list_remove(
-        action_enablers_for_action(enabler->action),
+        action_enablers_for_action(enabler_get_action_id(enabler)),
         enabler);
 }
 
@@ -2469,6 +2469,7 @@ action_enablers_for_action(action_id action)
   enabler or NULL if no hard obligatory reqs were missing. It is the
   responsibility of the caller to free the suggestion when it is done with
   it.
+
   @param enabler the action enabler to suggest a fix for.
   @param oblig   hard obligatory requirements to check
   @return a problem with fix suggestions or NULL if no obligatory hard
@@ -2486,8 +2487,8 @@ ae_suggest_repair_if_no_oblig(const struct action_enabler *enabler,
 
   /* Sanity check: a non existing action doesn't have any obligatory hard
    * requirements. */
-  fc_assert_ret_val(action_id_exists(enabler->action), NULL);
-  paction = action_by_number(enabler->action);
+  fc_assert_ret_val(action_id_exists(enabler_get_action_id(enabler)), NULL);
+  paction = enabler_get_action(enabler);
 
   /* No obligatory hard requirements. */
   fc_assert_ret_val(oblig, NULL);
@@ -2591,8 +2592,8 @@ action_enabler_suggest_repair_oblig(const struct action_enabler *enabler)
 
   /* Sanity check: a non existing action doesn't have any obligatory hard
    * requirements. */
-  fc_assert_ret_val(action_id_exists(enabler->action), NULL);
-  paction = action_by_number(enabler->action);
+  fc_assert_ret_val(action_id_exists(enabler_get_action_id(enabler)), NULL);
+  paction = enabler_get_action(enabler);
 
   if (paction->result != ACTRES_NONE) {
     /* A hard coded action result may mean obiligatory requirements. */
@@ -2682,7 +2683,7 @@ enabler_tile_tgt_local_diplrel_implies_claimed(
   struct requirement *claimed_req;
   struct requirement tile_is_claimed;
   struct requirement tile_is_unclaimed;
-  struct action *paction = action_by_number(enabler->action);
+  struct action *paction = enabler_get_action(enabler);
   struct astring astr;
 
   if (action_get_target_kind(paction) != ATK_TILE) {
@@ -2753,7 +2754,7 @@ enabler_first_self_contradiction(const struct action_enabler *enabler)
   struct requirement *local_diplrel;
   struct requirement *unclaimed_req;
   struct requirement tile_is_claimed;
-  struct action *paction = action_by_number(enabler->action);
+  struct action *paction = enabler_get_action(enabler);
   struct astring astr1;
   struct astring astr2;
 
@@ -2896,7 +2897,7 @@ action_enabler_suggest_improvement(const struct action_enabler *enabler)
     return out;
   }
 
-  paction = action_by_number(enabler->action);
+  paction = enabler_get_action(enabler);
 
   /* Look for improvement suggestions to the requirement vectors. */
   out = req_vec_suggest_improvement(&enabler->actor_reqs,
@@ -7332,7 +7333,7 @@ bool action_mp_full_makes_legal(const struct unit *actor,
 bool action_enabler_utype_possible_actor(const struct action_enabler *ae,
                                          const struct unit_type *act_utype)
 {
-  const struct action *paction = action_by_number(ae->action);
+  const struct action *paction = enabler_get_action(ae);
   struct universal actor_univ = { .kind = VUT_UTYPE,
                                   .value.utype = act_utype };
 
@@ -7358,7 +7359,7 @@ bool action_enabler_utype_possible_actor(const struct action_enabler *ae,
 **************************************************************************/
 bool action_enabler_possible_actor(const struct action_enabler *ae)
 {
-  const struct action *paction = action_by_number(ae->action);
+  const struct action *paction = enabler_get_action(ae);
 
   switch (action_get_actor_kind(paction)) {
   case AAK_UNIT:

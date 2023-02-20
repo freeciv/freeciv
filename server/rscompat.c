@@ -157,6 +157,7 @@ bool rscompat_check_cap_and_version(struct section_file *file,
 
 /**********************************************************************//**
   Add all hard obligatory requirements to an action enabler or disable it.
+
   @param ae the action enabler to add requirements to.
   @return TRUE iff adding obligatory hard reqs for the enabler's action
                needs to restart - say if an enabler was added or removed.
@@ -166,7 +167,7 @@ rscompat_enabler_add_obligatory_hard_reqs(struct action_enabler *ae)
 {
   struct req_vec_problem *problem;
 
-  struct action *paction = action_by_number(ae->action);
+  struct action *paction = enabler_get_action(ae);
   /* Some changes requires starting to process an action's enablers from
    * the beginning. */
   bool needs_restart = FALSE;
@@ -386,7 +387,7 @@ void rscompat_postprocess(struct rscompat_info *info)
     } action_iterate_end;
 
     action_enablers_iterate(ae) {
-      if (ae->action == ACTION_CLEAN_POLLUTION) {
+      if (enabler_get_action_id(ae) == ACTION_CLEAN_POLLUTION) {
         /* TODO: Stop making the copy to preserve enabler for
          * the original action. */
         struct action_enabler *copy = action_enabler_copy(ae);
@@ -399,7 +400,7 @@ void rscompat_postprocess(struct rscompat_info *info)
 
         action_enabler_add(copy);
       }
-      if (ae->action == ACTION_CLEAN_FALLOUT) {
+      if (enabler_get_action_id(ae) == ACTION_CLEAN_FALLOUT) {
         /* TODO: Stop making the copy to preserve enabler for
          * the original action. */
         struct action_enabler *copy = action_enabler_copy(ae);

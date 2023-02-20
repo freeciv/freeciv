@@ -7964,7 +7964,7 @@ static bool load_ruleset_actions(struct section_file *file,
           break;
         }
 
-        enabler->action = paction->id;
+        enabler->action = action_id(paction);
 
         actor_reqs = lookup_req_list(file, compat, sec_name, "actor_reqs", action_text);
         if (actor_reqs == NULL) {
@@ -8824,7 +8824,7 @@ static void send_ruleset_action_enablers(struct conn_list *dest)
   struct packet_ruleset_action_enabler packet;
 
   action_enablers_iterate(enabler) {
-    packet.enabled_action = enabler->action;
+    packet.enabled_action = enabler_get_action_id(enabler);
 
     counter = 0;
     requirement_vector_iterate(&enabler->actor_reqs, req) {
