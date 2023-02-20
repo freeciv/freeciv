@@ -305,19 +305,22 @@ void apply_cmresult_to_city(struct city *pcity,
 static void set_default_city_manager(struct cm_parameter *cmp,
                                      struct city *pcity)
 {
+  int csize = city_size_get(pcity);
+  int gsize = city_granary_size(csize);
+
   cmp->require_happy = FALSE;
   cmp->allow_disorder = FALSE;
   cmp->allow_specialists = TRUE;
 
   /* We used to look at pplayer->ai.xxx_priority to determine the values
-   * to be used here.  However that doesn't work at all because those values
-   * are on a different scale.  Later the ai may wish to adjust its
+   * to be used here. However that doesn't work at all because those values
+   * are on a different scale. Later the AI may wish to adjust its
    * priorities - this should be done via a separate set of variables. */
-  if (city_size_get(pcity) > 1) {
-    if (city_size_get(pcity) <= game.info.notradesize) {
+  if (csize > 1) {
+    if (csize <= game.info.notradesize) {
       cmp->factor[O_FOOD] = 15;
     } else {
-      if (city_granary_size(city_size_get(pcity)) == pcity->food_stock) {
+      if (gsize == pcity->food_stock) {
         /* We don't need more food if the granary is full. */
         cmp->factor[O_FOOD] = 0;
       } else {
@@ -328,6 +331,7 @@ static void set_default_city_manager(struct cm_parameter *cmp,
     /* Growing to size 2 is the highest priority. */
     cmp->factor[O_FOOD] = 20;
   }
+
   cmp->factor[O_SHIELD] = 5;
   cmp->factor[O_TRADE] = 0; /* Trade only provides gold/science. */
   cmp->factor[O_GOLD] = 2;
@@ -335,11 +339,12 @@ static void set_default_city_manager(struct cm_parameter *cmp,
   cmp->factor[O_SCIENCE] = 2;
   cmp->happy_factor = 0;
 
-  if (city_granary_size(city_size_get(pcity)) == pcity->food_stock) {
+  if (gsize == pcity->food_stock) {
     cmp->minimal_surplus[O_FOOD] = 0;
   } else {
     cmp->minimal_surplus[O_FOOD] = 1;
   }
+
   cmp->minimal_surplus[O_SHIELD] = 1;
   cmp->minimal_surplus[O_TRADE] = 0;
   cmp->minimal_surplus[O_GOLD] = -FC_INFINITY;
