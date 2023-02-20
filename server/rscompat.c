@@ -157,6 +157,7 @@ bool rscompat_check_cap_and_version(struct section_file *file,
 
 /**********************************************************************//**
   Add all hard obligatory requirements to an action enabler or disable it.
+
   @param ae the action enabler to add requirements to.
   @return TRUE iff adding obligatory hard reqs for the enabler's action
                needs to restart - say if an enabler was added or removed.
@@ -166,7 +167,7 @@ rscompat_enabler_add_obligatory_hard_reqs(struct action_enabler *ae)
 {
   struct req_vec_problem *problem;
 
-  struct action *paction = action_by_number(ae->action);
+  struct action *paction = enabler_get_action(ae);
   /* Some changes requires starting to process an action's enablers from
    * the beginning. */
   bool needs_restart = FALSE;

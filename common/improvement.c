@@ -510,9 +510,10 @@ static bool impr_protects_vs_actions(const struct city *pcity,
     return FALSE;
   }
 
-  action_enablers_iterate(act) {
-    if (!requirement_fulfilled_by_improvement(pimprove, &act->target_reqs)
-        && !is_action_possible_on_city(act->action, NULL, pcity)) {
+  action_enablers_iterate(enabler) {
+    if (!requirement_fulfilled_by_improvement(pimprove, &enabler->target_reqs)
+        && !is_action_possible_on_city(enabler_get_action_id(enabler),
+                                       NULL, pcity)) {
       return TRUE;
     }
   } action_enablers_iterate_end;
@@ -521,7 +522,7 @@ static bool impr_protects_vs_actions(const struct city *pcity,
 }
 
 /**********************************************************************//**
-  Returns TRUE iff improvement allows its owner to perform an action
+  Returns TRUE iff improvement allows its owner to perform an action.
 **************************************************************************/
 static bool impr_allows_actions(const struct city *pcity,
                                 const struct impr_type *pimprove)
@@ -531,12 +532,14 @@ static bool impr_allows_actions(const struct city *pcity,
     return FALSE;
   }
 
-  action_enablers_iterate(act) {
-    if (requirement_needs_improvement(pimprove, &act->actor_reqs)) {
-      switch (action_id_get_actor_kind(act->action)) {
+  action_enablers_iterate(enabler) {
+    if (requirement_needs_improvement(pimprove, &enabler->actor_reqs)) {
+      action_id act = enabler_get_action_id(enabler);
+
+      switch (action_id_get_actor_kind(act)) {
       case AAK_UNIT:
         unit_type_iterate(ut) {
-          if (!utype_can_do_action(ut, act->action)) {
+          if (!utype_can_do_action(ut, act)) {
             /* Not relevant */
             continue;
           }
@@ -553,7 +556,7 @@ static bool impr_allows_actions(const struct city *pcity,
         } unit_type_iterate_end;
         break;
       case AAK_COUNT:
-        fc_assert(action_id_get_actor_kind(act->action) != AAK_COUNT);
+        fc_assert(action_id_get_actor_kind(act) != AAK_COUNT);
         break;
       }
     }

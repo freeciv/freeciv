@@ -371,7 +371,7 @@ void tab_enabler::edit_type(QAction *action)
   if (selected != nullptr && paction != nullptr) {
     // Must remove and add back because enablers are stored by action.
     action_enabler_remove(selected);
-    selected->action = paction->id;
+    selected->action = action_id(paction);
     action_enabler_add(selected);
 
     // Show the changes.
@@ -409,9 +409,9 @@ void tab_enabler::edit_actor_reqs()
 fix_enabler_item::fix_enabler_item(struct action_enabler *enabler)
 {
   char buf[MAX_LEN_NAME * 2];
-  struct action *paction = action_by_number(enabler->action);
+  struct action *paction = enabler_get_action(enabler);
 
-  fc_assert_ret(paction);
+  fc_assert_ret(paction != NULL);
 
   /* Can't use QString::asprintf() as msys libintl.h defines asprintf()
    * as a macro */
@@ -498,6 +498,7 @@ void fix_enabler_item::apply_accepted_changes()
 {
   // The user has approved the solution
   current_enabler->action = local_copy->action;
+
   requirement_vector_copy(&current_enabler->actor_reqs,
                           &local_copy->actor_reqs);
   requirement_vector_copy(&current_enabler->target_reqs,
@@ -513,6 +514,7 @@ void fix_enabler_item::undo_accepted_changes()
 {
   // The user has rejected all solutions
   local_copy->action = current_enabler->action;
+
   requirement_vector_copy(&local_copy->actor_reqs,
                           &current_enabler->actor_reqs);
   requirement_vector_copy(&local_copy->target_reqs,
@@ -521,6 +523,7 @@ void fix_enabler_item::undo_accepted_changes()
 
 /********************************************************************//**
   Returns the number of requirement vectors in this item.
+
   @return the number of requirement vectors the item has.
 ************************************************************************/
 int fix_enabler_item::num_vectors()
@@ -532,6 +535,7 @@ int fix_enabler_item::num_vectors()
   Returns a function pointer to a function that names this item kind's
   requirement vector number number. Useful when there is more than one
   requirement vector.
+
   @return the requirement vector namer for ruleset items of this kind.
 ************************************************************************/
 requirement_vector_namer fix_enabler_item::vector_namer()
@@ -543,6 +547,7 @@ requirement_vector_namer fix_enabler_item::vector_namer()
   Returns a function pointer to a function that returns a writable
   pointer to the specified requirement vector in the specified parent
   item.
+
   @return a writable pointer to the requirement vector getter function.
 ************************************************************************/
 requirement_vector_by_number fix_enabler_item::vector_getter()
@@ -552,6 +557,7 @@ requirement_vector_by_number fix_enabler_item::vector_getter()
 
 /**********************************************************************//**
   Check if the specified vector belongs to this item
+
   @param vec the requirement vector that may belong to this item.
   @return true iff the vector belongs to this item.
 **************************************************************************/

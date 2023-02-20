@@ -417,17 +417,19 @@ static void unit_can_act_cache_set(struct unit_type *putype)
   /* See if the unit type can do an action controlled by generalized action
    * enablers */
   action_enablers_iterate(enabler) {
-    const struct action *paction = action_by_number(enabler->action);
-    if (action_id_get_actor_kind(enabler->action) == AAK_UNIT
+    const struct action *paction = enabler_get_action(enabler);
+    action_id act_id = action_id(paction);
+
+    if (action_get_actor_kind(paction) == AAK_UNIT
         && action_actor_utype_hard_reqs_ok(paction, putype)
         && requirement_fulfilled_by_unit_type(putype,
                                               &(enabler->actor_reqs))) {
       log_debug("act_cache: %s can %s",
                 utype_rule_name(putype),
-                action_id_rule_name(enabler->action));
-      BV_SET(unit_can_act_cache[enabler->action], utype_index(putype));
+                action_rule_name(paction));
+      BV_SET(unit_can_act_cache[act_id], utype_index(putype));
       BV_SET(unit_can_act_cache[ACTION_ANY], utype_index(putype));
-      if (action_is_hostile(enabler->action)) {
+      if (action_is_hostile(act_id)) {
         BV_SET(unit_can_act_cache[ACTION_HOSTILE], utype_index(putype));
       }
     }
@@ -690,16 +692,19 @@ static void unit_state_action_cache_set(struct unit_type *putype)
     action_enablers_iterate(enabler) {
       if (requirement_fulfilled_by_unit_type(putype,
                                              &(enabler->actor_reqs))
-          && action_id_get_actor_kind(enabler->action) == AAK_UNIT) {
+          && action_get_actor_kind(enabler_get_action(enabler)) == AAK_UNIT) {
         bool present = TRUE;
+
         do {
+          action_id act_id = enabler_get_action_id(enabler);
+
           /* OK if not mentioned */
           req.present = present;
           if (!is_req_in_vec(&req, &(enabler->actor_reqs))) {
-            BV_SET(ustate_act_cache[utype_index(putype)][enabler->action],
+            BV_SET(ustate_act_cache[utype_index(putype)][act_id],
                 requirement_unit_state_ereq(req.source.value.unit_state,
                                             !req.present));
-            if (action_is_hostile(enabler->action)) {
+            if (action_is_hostile(act_id)) {
               BV_SET(ustate_act_cache[utype_index(putype)][ACTION_HOSTILE],
                   requirement_unit_state_ereq(req.source.value.unit_state,
                                               !req.present));
@@ -765,22 +770,27 @@ static void local_dipl_rel_action_cache_set(struct unit_type *putype)
      * the cache when units can do an action given a certain diplomatic
      * relationship property value. */
     action_enablers_iterate(enabler) {
+      struct action *paction = enabler_get_action(enabler);
+
       if (requirement_fulfilled_by_unit_type(putype,
                                              &(enabler->actor_reqs))
-          && action_id_get_actor_kind(enabler->action) == AAK_UNIT
-          && ((action_id_get_target_kind(enabler->action) != ATK_TILE
-               && action_id_get_target_kind(enabler->action) != ATK_EXTRAS)
+          && action_get_actor_kind(paction) == AAK_UNIT
+          && ((action_get_target_kind(paction) != ATK_TILE
+               && action_get_target_kind(paction) != ATK_EXTRAS)
               /* No diplomatic relation to Nature */
               || !does_req_contradicts_reqs(&tile_is_claimed,
                                             &enabler->target_reqs))) {
         bool present = TRUE;
+
         do {
+          action_id act_id = enabler_get_action_id(enabler);
+
           req.present = present;
           if (!does_req_contradicts_reqs(&req, &(enabler->actor_reqs))) {
-            BV_SET(dipl_rel_action_cache[uidx][enabler->action],
+            BV_SET(dipl_rel_action_cache[uidx][act_id],
                 requirement_diplrel_ereq(req.source.value.diplrel,
                                          REQ_RANGE_LOCAL, req.present));
-            if (action_is_hostile(enabler->action)) {
+            if (action_is_hostile(act_id)) {
               BV_SET(dipl_rel_action_cache[uidx][ACTION_HOSTILE],
                      requirement_diplrel_ereq(req.source.value.diplrel,
                                               REQ_RANGE_LOCAL,
@@ -842,18 +852,21 @@ local_dipl_rel_tile_other_tgt_action_cache_set(struct unit_type *putype)
     action_enablers_iterate(enabler) {
       if (requirement_fulfilled_by_unit_type(putype,
                                              &(enabler->actor_reqs))
-          && action_id_get_actor_kind(enabler->action) == AAK_UNIT
+          && action_get_actor_kind(enabler_get_action(enabler)) == AAK_UNIT
           /* No diplomatic relation to Nature */
           && !does_req_contradicts_reqs(&tile_is_claimed,
                                         &enabler->target_reqs)) {
         bool present = TRUE;
+
         do {
+          action_id act_id = enabler_get_action_id(enabler);
+
           req.present = present;
           if (!does_req_contradicts_reqs(&req, &(enabler->target_reqs))) {
-            BV_SET(dipl_rel_tile_other_tgt_a_cache[uidx][enabler->action],
+            BV_SET(dipl_rel_tile_other_tgt_a_cache[uidx][act_id],
                 requirement_diplrel_ereq(req.source.value.diplrel,
                                          REQ_RANGE_LOCAL, req.present));
-            if (action_is_hostile(enabler->action)) {
+            if (action_is_hostile(act_id)) {
               BV_SET(dipl_rel_tile_other_tgt_a_cache[uidx][ACTION_HOSTILE],
                      requirement_diplrel_ereq(req.source.value.diplrel,
                                               REQ_RANGE_LOCAL,
@@ -911,17 +924,20 @@ static void tgt_citytile_act_cache_set(struct unit_type *putype)
     action_enablers_iterate(enabler) {
       if (requirement_fulfilled_by_unit_type(putype,
                                              &(enabler->target_reqs))
-          && action_id_get_actor_kind(enabler->action) == AAK_UNIT) {
+          && action_get_actor_kind(enabler_get_action(enabler)) == AAK_UNIT) {
         bool present = TRUE;
+
         do {
+          action_id act_id = enabler_get_action_id(enabler);
+
           /* OK if not mentioned */
           req.present = present;
           if (!is_req_in_vec(&req, &(enabler->target_reqs))) {
             BV_SET(
-                ctile_tgt_act_cache[utype_index(putype)][enabler->action],
+                ctile_tgt_act_cache[utype_index(putype)][act_id],
                 requirement_citytile_ereq(req.source.value.citytile,
                                           !req.present));
-            if (action_is_hostile(enabler->action)) {
+            if (action_is_hostile(act_id)) {
               BV_SET(
                   ctile_tgt_act_cache[utype_index(putype)][ACTION_HOSTILE],
                   requirement_citytile_ereq(req.source.value.citytile,

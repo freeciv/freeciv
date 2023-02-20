@@ -1217,7 +1217,7 @@ static bool save_actions_ruleset(const char *filename, const char *name)
 
     fc_snprintf(path, sizeof(path), "actionenabler_%d", sect_idx++);
 
-    secfile_insert_str(sfile, action_id_rule_name(pae->action),
+    secfile_insert_str(sfile, action_rule_name(enabler_get_action(pae)),
                        "%s.action", path);
 
     save_reqs_vector(sfile, &(pae->actor_reqs), path, "actor_reqs");
