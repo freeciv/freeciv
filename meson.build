@@ -492,8 +492,11 @@ if c_compiler.has_function('iconv', args: header_arg)
   priv_conf_data.set('HAVE_ICONV', 1)
   iconv_lib_dep = []
 elif c_compiler.has_header_symbol('iconv.h', 'iconv', args: header_arg)
-  priv_conf_data.set('HAVE_ICONV', 1)
-  iconv_lib_dep = c_compiler.find_library('iconv', dirs: cross_lib_path)
+  iconv_lib_dep = c_compiler.find_library('iconv', dirs: cross_lib_path,
+                                          required: false)
+  if iconv_lib_dep.found()
+    priv_conf_data.set('HAVE_ICONV', 1)
+  endif
 else
   iconv_lib_dep = []
 endif
