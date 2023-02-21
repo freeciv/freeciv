@@ -132,21 +132,20 @@ static SDL_Surface *create_vertical_surface(SDL_Surface *vert_theme,
 static int redraw_vert(struct widget *vert)
 {
   int ret;
-  SDL_Rect dest = vert->size;
-  SDL_Surface *vert_Surf;
+  SDL_Surface *vert_surf;
 
   ret = (*baseclass_redraw)(vert);
   if (ret != 0) {
     return ret;
   }
 
-  vert_Surf = create_vertical_surface(vert->theme,
+  vert_surf = create_vertical_surface(vert->theme,
                                       get_wstate(vert),
                                       vert->size.h);
-  ret =
-      blit_entire_src(vert_Surf, vert->dst->surface, dest.x, dest.y);
+  ret = blit_entire_src(vert_surf, vert->dst->surface,
+                        vert->size.x, vert->size.y);
 
-  FREESURFACE(vert_Surf);
+  FREESURFACE(vert_surf);
 
   return ret;
 }
@@ -265,7 +264,6 @@ static SDL_Surface *create_horizontal_surface(SDL_Surface *horiz_theme,
 static int redraw_horiz(struct widget *horiz)
 {
   int ret;
-  SDL_Rect dest = horiz->size;
   SDL_Surface *horiz_surf;
 
   ret = (*baseclass_redraw)(horiz);
@@ -276,7 +274,8 @@ static int redraw_horiz(struct widget *horiz)
   horiz_surf = create_horizontal_surface(horiz->theme,
                                          get_wstate(horiz),
                                          horiz->size.w);
-  ret = blit_entire_src(horiz_surf, horiz->dst->surface, dest.x, dest.y);
+  ret = blit_entire_src(horiz_surf, horiz->dst->surface,
+                        horiz->size.x, horiz->size.y);
 
   FREESURFACE(horiz_surf);
 
@@ -897,7 +896,7 @@ static void inside_scroll_down_loop(void *data)
     redraw_group(down->begin_widget_list, down->end_widget_list, TRUE);
 
     if (down->vscroll->pscroll_bar) {
-      /* redraw scrollbar */
+      /* Redraw scrollbar */
       if (get_wflags(down->vscroll->pscroll_bar) & WF_RESTORE_BACKGROUND) {
         refresh_widget_background(down->vscroll->pscroll_bar);
       }
@@ -940,7 +939,7 @@ static void inside_scroll_up_loop(void *data)
     redraw_group(up->begin_widget_list, up->end_widget_list, TRUE);
 
     if (up->vscroll->pscroll_bar) {
-      /* redraw scrollbar */
+      /* Redraw scrollbar */
       if (get_wflags(up->vscroll->pscroll_bar) & WF_RESTORE_BACKGROUND) {
         refresh_widget_background(up->vscroll->pscroll_bar);
       }
@@ -987,7 +986,7 @@ static Uint16 scroll_mouse_motion_handler(SDL_MouseMotionEvent *motion_event,
               && (motion->vscroll->pscroll_bar->size.y < (motion->vscroll->max - motion->vscroll->pscroll_bar->size.h)))) ) {
     int count;
 
-    /* draw bcgd */
+    /* Draw bcgd */
     widget_undraw(motion->vscroll->pscroll_bar);
     widget_mark_dirty(motion->vscroll->pscroll_bar);
 
@@ -1027,7 +1026,7 @@ static Uint16 scroll_mouse_motion_handler(SDL_MouseMotionEvent *motion_event,
       redraw_group(motion->begin_widget_list, motion->end_widget_list, TRUE);
     }
 
-    /* redraw slider */
+    /* Redraw slider */
     if (get_wflags(motion->vscroll->pscroll_bar) & WF_RESTORE_BACKGROUND) {
       refresh_widget_background(motion->vscroll->pscroll_bar);
     }
