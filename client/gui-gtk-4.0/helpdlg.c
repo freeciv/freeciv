@@ -476,7 +476,7 @@ static void help_box_clear(void)
 }
 
 /**********************************************************************//**
-  Completely destory help dialog.
+  Completely destroy help dialog.
 **************************************************************************/
 static void help_destroy_callback(GtkWidget *w, gpointer data)
 {
