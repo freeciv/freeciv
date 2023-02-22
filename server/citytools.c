@@ -956,7 +956,7 @@ static void raze_city(struct city *pcity)
      * transfer_city() (with 100% probability). */
     fc_assert(!is_small_wonder(pimprove));
     if (is_improvement(pimprove) && (fc_rand(100) < razechance)) {
-      /* FIXME: Should maybe have conquering unit instead of NULL as destoryer */
+      /* FIXME: Should maybe have conquering unit instead of NULL as destroyer */
       city_remains = building_removed(pcity, pimprove, "razed", NULL);
       if (!city_remains) {
         break;
