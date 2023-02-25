@@ -56,6 +56,11 @@ ninja install
 "os_x")
 # gcc is an alias for clang on OS X
 
+# Workaround for current github issue:
+# Remove failed qt6 installation attempt and reinstall
+rm -Rf /usr/local/Cellar/*/*.reinstall
+brew install qt@6
+
 export PATH="$(brew --prefix llvm)/bin:$(brew --prefix gettext)/bin:$(brew --prefix icu4c)/bin:$(brew --prefix qt@6)/bin:$(brew --prefix mysql-client)/bin:$PATH"
 export CPPFLAGS="-I$(brew --prefix gettext)/include -I$(brew --prefix icu4c)/include -I$(brew --prefix qt@6)/include -I$(brew --prefix readline)/include -I$(brew --prefix unixodbc)/include"
 export LDFLAGS="-L$(brew --prefix gettext)/lib -L$(brew --prefix icu4c)/lib -L$(brew --prefix qt@6)/lib -L$(brew --prefix readline)/lib -L$(brew --prefix unixodbc)/lib"
@@ -90,6 +95,11 @@ echo "Freeciv server autogame successful!"
 ;;
 
 "mac-meson")
+
+# Workaround for current github issue:
+# Remove failed qt6 installation attempt and reinstall
+rm -Rf /usr/local/Cellar/*/*.reinstall
+brew install qt@6
 
 export CPPFLAGS="-I$(brew --prefix readline)/include"
 export LDFLAGS="-L$(brew --prefix icu4c)/lib -L$(brew --prefix readline)/lib"
