@@ -29,7 +29,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 3.2\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2023-02-25 07:44+0200\n"
+"POT-Creation-Date: 2023-02-25 18:02+0200\n"
 "PO-Revision-Date: 2023-02-25 07:54+0200\n"
 "Last-Translator: Sini Ruohomaa <sini.ruohomaa@iki.fi>\n"
 "Language-Team: None <freeciv-i18n@freelists.org>\n"
@@ -1881,12 +1881,12 @@ msgstr ""
 msgid "Starting local server..."
 msgstr "Käynnistän paikallisen palvelimen..."
 
-#: client/connectdlg_common.c:282 client/connectdlg_common.c:555
+#: client/connectdlg_common.c:282 client/connectdlg_common.c:556
 msgid "Couldn't start the server."
 msgstr "Palvelimen käynnistys epäonnistui."
 
-#: client/connectdlg_common.c:284 client/connectdlg_common.c:557
-#: client/connectdlg_common.c:596
+#: client/connectdlg_common.c:284 client/connectdlg_common.c:558
+#: client/connectdlg_common.c:597
 msgid "You'll have to start one manually. Sorry..."
 msgstr "Sinun pitää käynnistää palvelin käsin. Pahoittelen."
 
@@ -1898,20 +1898,20 @@ msgstr "Freecivin talletushakemistoa ei löydy"
 msgid "You'll have to start server manually. Sorry..."
 msgstr "Sinun pitää käynnistää palvelin käsin. Pahoittelen."
 
-#: client/connectdlg_common.c:592
+#: client/connectdlg_common.c:593
 msgid "Couldn't connect to the server."
 msgstr "Palvelimeen yhdistäminen epäonnistui."
 
-#: client/connectdlg_common.c:594
+#: client/connectdlg_common.c:595
 msgid "We probably couldn't start it from here."
 msgstr "Sen käynnistäminen täältä käsin ei todennäköisesti onnistunut."
 
-#: client/connectdlg_common.c:716
+#: client/connectdlg_common.c:717
 msgid ""
 "Established control over the server. You have command access level 'hack'."
 msgstr "Palvelimen hallintatila asetettu. Sinulla on komentotaso 'hack'."
 
-#: client/connectdlg_common.c:722
+#: client/connectdlg_common.c:723
 msgid ""
 "Failed to obtain the required access level to take control of the server. "
 "Attempting to shut down server."

@@ -25,7 +25,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 3.2\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2022-12-25 04:26+0200\n"
+"POT-Creation-Date: 2023-02-23 06:15+0200\n"
 "PO-Revision-Date: 2022-12-27 17:34+0200\n"
 "Last-Translator: Markus Linnakangas <markus.linnakangas@luukku.com>\n"
 "Language-Team: None <freeciv-i18n@freelists.org>\n"
@@ -317,19 +317,20 @@ msgstr "Apotti %s"
 #: data/nation/honduran.ruleset:30 data/nation/irish.ruleset:42
 #: data/nation/langobardic.ruleset:39 data/nation/latin.ruleset:46
 #: data/nation/leonese.ruleset:22 data/nation/liechtensteiner.ruleset:32
-#: data/nation/luxembourgish.ruleset:29 data/nation/maltese.ruleset:26
-#: data/nation/mazovian.ruleset:24 data/nation/milanese.ruleset:27
-#: data/nation/monegasque.ruleset:30 data/nation/norman.ruleset:25
-#: data/nation/northumbrian.ruleset:39 data/nation/palatinate.ruleset:30
-#: data/nation/panamanian.ruleset:30 data/nation/paraguayan.ruleset:38
-#: data/nation/peruvian.ruleset:27 data/nation/piedmontese.ruleset:33
-#: data/nation/quebecois.ruleset:21 data/nation/riograndense.ruleset:21
-#: data/nation/romansh.ruleset:29 data/nation/saintlucian.ruleset:24
-#: data/nation/salvadoran.ruleset:35 data/nation/sammarinese.ruleset:25
-#: data/nation/sardinian.ruleset:34 data/nation/savoyard.ruleset:32
-#: data/nation/silesian.ruleset:23 data/nation/slovenian.ruleset:20
-#: data/nation/teutonic.ruleset:29 data/nation/uruguayan.ruleset:24
-#: data/nation/venezuelan.ruleset:31 data/nation/yucatecan.ruleset:29
+#: data/nation/liege.ruleset:30 data/nation/luxembourgish.ruleset:29
+#: data/nation/maltese.ruleset:26 data/nation/mazovian.ruleset:24
+#: data/nation/milanese.ruleset:27 data/nation/monegasque.ruleset:30
+#: data/nation/norman.ruleset:25 data/nation/northumbrian.ruleset:39
+#: data/nation/palatinate.ruleset:30 data/nation/panamanian.ruleset:30
+#: data/nation/paraguayan.ruleset:38 data/nation/peruvian.ruleset:27
+#: data/nation/piedmontese.ruleset:33 data/nation/quebecois.ruleset:21
+#: data/nation/riograndense.ruleset:21 data/nation/romansh.ruleset:29
+#: data/nation/saintlucian.ruleset:24 data/nation/salvadoran.ruleset:35
+#: data/nation/sammarinese.ruleset:25 data/nation/sardinian.ruleset:34
+#: data/nation/savoyard.ruleset:32 data/nation/silesian.ruleset:23
+#: data/nation/slovenian.ruleset:20 data/nation/teutonic.ruleset:29
+#: data/nation/uruguayan.ruleset:24 data/nation/venezuelan.ruleset:31
+#: data/nation/yucatecan.ruleset:29
 #, c-format
 msgid "Mother Superior %s"
 msgstr "Abbedissa %s"
@@ -773,16 +774,17 @@ msgstr ""
 #: data/nation/cossack.ruleset:29 data/nation/cuyavian.ruleset:27
 #: data/nation/greaterpolish.ruleset:20 data/nation/kashubian.ruleset:28
 #: data/nation/lankese.ruleset:21 data/nation/liechtensteiner.ruleset:30
-#: data/nation/lippe.ruleset:28 data/nation/mazovian.ruleset:23
-#: data/nation/mecklenburgian.ruleset:31 data/nation/mitanni.ruleset:33
-#: data/nation/moldovan.ruleset:23 data/nation/monegasque.ruleset:31
-#: data/nation/montenegrin.ruleset:27 data/nation/mordvin.ruleset:20
-#: data/nation/nepali.ruleset:29 data/nation/novgorodian.ruleset:43
-#: data/nation/romanian.ruleset:31 data/nation/rusyn.ruleset:31
-#: data/nation/ruthenian.ruleset:29 data/nation/silesian.ruleset:22
-#: data/nation/sinhalese.ruleset:25 data/nation/sorbian.ruleset:26
-#: data/nation/transylvanian.ruleset:27 data/nation/ukrainian.ruleset:37
-#: data/nation/urartian.ruleset:34 data/nation/westernpomeranian.ruleset:29
+#: data/nation/liege.ruleset:28 data/nation/lippe.ruleset:28
+#: data/nation/mazovian.ruleset:23 data/nation/mecklenburgian.ruleset:31
+#: data/nation/mitanni.ruleset:33 data/nation/moldovan.ruleset:23
+#: data/nation/monegasque.ruleset:31 data/nation/montenegrin.ruleset:27
+#: data/nation/mordvin.ruleset:20 data/nation/nepali.ruleset:29
+#: data/nation/novgorodian.ruleset:43 data/nation/romanian.ruleset:31
+#: data/nation/rusyn.ruleset:31 data/nation/ruthenian.ruleset:29
+#: data/nation/silesian.ruleset:22 data/nation/sinhalese.ruleset:25
+#: data/nation/sorbian.ruleset:26 data/nation/transylvanian.ruleset:27
+#: data/nation/ukrainian.ruleset:37 data/nation/urartian.ruleset:34
+#: data/nation/westernpomeranian.ruleset:29
 #, c-format
 msgid "Prince %s"
 msgstr "Ruhtinas %s"
@@ -2178,7 +2180,7 @@ msgstr ""
 "kansallismielisten ryhmittymien välisten (lähestulkoon) rauhanomaisen "
 "kiistelyn myötä."
 
-#: data/nation/belgian.ruleset:24
+#: data/nation/belgian.ruleset:24 data/nation/liege.ruleset:29
 #, c-format
 msgid "Prime Minister %s"
 msgstr "Pääministeri %s"
@@ -5231,10 +5233,10 @@ msgid ""
 msgstr ""
 
 #: data/nation/franconian.ruleset:25 data/nation/hanoverian.ruleset:23
-#: data/nation/lorrain.ruleset:31 data/nation/montenegrin.ruleset:28
-#: data/nation/palatinate.ruleset:30 data/nation/rhenish.ruleset:35
-#: data/nation/tyrolian.ruleset:23 data/nation/walloon.ruleset:26
-#: data/nation/westphalian.ruleset:28
+#: data/nation/liege.ruleset:30 data/nation/lorrain.ruleset:31
+#: data/nation/montenegrin.ruleset:28 data/nation/palatinate.ruleset:30
+#: data/nation/rhenish.ruleset:35 data/nation/tyrolian.ruleset:23
+#: data/nation/walloon.ruleset:26 data/nation/westphalian.ruleset:28
 #, c-format
 msgid "Prince-Bishop %s"
 msgstr "Ruhtinaspiispa %s"
@@ -7530,6 +7532,45 @@ msgstr ""
 "Alpeilla. Sen rajoja ympäröi lännessä Sveitsi ja idässä Itävalta. "
 "Ruhtinaskunta muodostettiin Vaduzin ja Schellenbergin yhdistämisen "
 "yhteydessä vuonna 1719."
+
+#: data/nation/liege.ruleset:3
+msgid "Liegean"
+msgstr ""
+
+#: data/nation/liege.ruleset:4
+#, fuzzy
+#| msgid "?plural:Liberians"
+msgid "?plural:Liegeans"
+msgstr "liberialaiset"
+
+#: data/nation/liege.ruleset:6
+msgid ""
+"Liege was constituted in ecclesiastic principalty in 985, when Bishop Notger "
+"was granted the control of several cities in current Belgium. As a federated "
+"state of the Holy Roman Empire, it was characterized with large civil "
+"liberties for which liegean struggled strongly for. It lasted until 1792, "
+"when the recently formed Republic of Liege voted the union with "
+"revolutionary France. Liege played later a major role in the Belgian "
+"independance."
+msgstr ""
+
+#: data/nation/liege.ruleset:28
+#, fuzzy, c-format
+#| msgid "?female:Tribune %s"
+msgid "?female:Princess %s"
+msgstr "Tribuuni %s"
+
+#: data/nation/liege.ruleset:29
+#, fuzzy, c-format
+#| msgid "?female:Prime Minister %s"
+msgid "?female:Prime Ministress %s"
+msgstr "Pääministeri %s"
+
+#: data/nation/liege.ruleset:31
+#, fuzzy, c-format
+#| msgid "Sergeant %s"
+msgid "Regent %s"
+msgstr "Kersantti %s"
 
 #: data/nation/ligurian.ruleset:3
 msgid "Ligurian"
@@ -10165,7 +10206,7 @@ msgid ""
 "The Rusyns are an ethnic group on the western periphery of the East Slavic "
 "nations. They live mainly in the Polish-Ukrainian-Slovak borderland and in "
 "the Vojvodina. In medieval times the Rusyn homeland was the site of the "
-"Duchy of Galicia-Volhynia and the Kingdom of Rus. In later times the lands "
+"Duchy of Galicia–Volhynia and the Kingdom of Rus. In later times the lands "
 "were under Polish and later Austrian rule. Rusyns formed two ephemeral "
 "states after World War I: the Lemko-Rusyn Republic and the Komancza Republic."
 msgstr ""
@@ -11757,7 +11798,16 @@ msgid ""
 "by six nations: France, Spain, Mexico, the Republic of Texas, the "
 "Confederacy, and the USA, as expressed in the slogan \"six flags over "
 "Texas\"."
-msgstr "Texas on Yhdysvaltojen toiseksi suurin ja toiseksi väkirikkain osavaltio. Se on kuuluisa \"elämää suuremmasta\" lehmipoika-asenteestaan ja meksikolaisista perinteistään. Kuuluisan Alamon taistelun jälkeen texasilaiset päihittivät meksikolaiset San Jacintossa ja julistautuivat itsenäisiksi. Texasin tasavalta oli olemassa vuodesta 1836 vuoteen 1846, minkä jälkeen siitä tuli Yhdysvaltain kahdeskymmeneskahdeksas osavaltio. Historian aikana Texasia on hallinnut osin tai kokonaan kuusi eri maata: Ranska, Espanja, Meksiko, Texasin tasavalta, Etelävaltiot ja Yhdysvallat, mistä tulee iskulause \"kuusi lippua Texasin yllä.\""
+msgstr ""
+"Texas on Yhdysvaltojen toiseksi suurin ja toiseksi väkirikkain osavaltio. Se "
+"on kuuluisa \"elämää suuremmasta\" lehmipoika-asenteestaan ja "
+"meksikolaisista perinteistään. Kuuluisan Alamon taistelun jälkeen "
+"texasilaiset päihittivät meksikolaiset San Jacintossa ja julistautuivat "
+"itsenäisiksi. Texasin tasavalta oli olemassa vuodesta 1836 vuoteen 1846, "
+"minkä jälkeen siitä tuli Yhdysvaltain kahdeskymmeneskahdeksas osavaltio. "
+"Historian aikana Texasia on hallinnut osin tai kokonaan kuusi eri maata: "
+"Ranska, Espanja, Meksiko, Texasin tasavalta, Etelävaltiot ja Yhdysvallat, "
+"mistä tulee iskulause \"kuusi lippua Texasin yllä.\""
 
 #: data/nation/thracian.ruleset:3
 msgid "Thracian"

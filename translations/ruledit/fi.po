@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 3.2\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2023-02-14 21:53+0200\n"
+"POT-Creation-Date: 2023-02-25 17:44+0200\n"
 "PO-Revision-Date: 2023-02-14 22:05+0200\n"
 "Last-Translator: Marko Lindqvist <cazfi74@gmail.com>\n"
 "Language-Team: Finnish <laatu@lokalisointi.org>\n"
@@ -257,15 +257,15 @@ msgstr "Signaalin numero \"%s\" ei kelpaa.\n"
 msgid "Unrecognized option: \"%s\"\n"
 msgstr "Tunnistamaton asetus: \"%s\"\n"
 
-#: tools/ruledit/ruledit_qt.cpp:128
+#: tools/ruledit/ruledit_qt.cpp:126
 msgid "built in Qt6 mode."
 msgstr "Tehty Qt6 moodissa."
 
-#: tools/ruledit/ruledit_qt.cpp:130
+#: tools/ruledit/ruledit_qt.cpp:128
 msgid "built in Qt5 mode."
 msgstr "Tehty Qt5 moodissa."
 
-#: tools/ruledit/ruledit_qt.cpp:137
+#: tools/ruledit/ruledit_qt.cpp:135
 #, c-format
 msgid ""
 "%s%s\n"
@@ -276,87 +276,87 @@ msgstr ""
 "revisiotunniste: %s\n"
 "%s"
 
-#: tools/ruledit/ruledit_qt.cpp:148
+#: tools/ruledit/ruledit_qt.cpp:150
 msgid "Give ruleset to use as starting point."
 msgstr "Anna sääntökokoelma lähtökohdaksi."
 
-#: tools/ruledit/ruledit_qt.cpp:160
+#: tools/ruledit/ruledit_qt.cpp:158
 msgid "Start editing"
 msgstr "Aloita muokkaus"
 
-#: tools/ruledit/ruledit_qt.cpp:170
+#: tools/ruledit/ruledit_qt.cpp:169
 msgid "Misc"
 msgstr "Sekalaiset"
 
-#: tools/ruledit/ruledit_qt.cpp:172
+#: tools/ruledit/ruledit_qt.cpp:171
 msgid "Tech"
 msgstr "Teknologiat"
 
-#: tools/ruledit/ruledit_qt.cpp:174
+#: tools/ruledit/ruledit_qt.cpp:173
 msgid "Buildings"
 msgstr "Rakennukset"
 
-#: tools/ruledit/ruledit_qt.cpp:176
+#: tools/ruledit/ruledit_qt.cpp:175
 msgid "Units"
 msgstr "Yksiköt"
 
-#: tools/ruledit/ruledit_qt.cpp:178
+#: tools/ruledit/ruledit_qt.cpp:177
 msgid "Goods"
 msgstr "Artikkelit"
 
-#: tools/ruledit/ruledit_qt.cpp:180
+#: tools/ruledit/ruledit_qt.cpp:179
 msgid "Governments"
 msgstr "Hallitusmuodot"
 
-#: tools/ruledit/ruledit_qt.cpp:182
+#: tools/ruledit/ruledit_qt.cpp:181
 msgid "Enablers"
 msgstr "Mahdollistimet"
 
-#: tools/ruledit/ruledit_qt.cpp:184
+#: tools/ruledit/ruledit_qt.cpp:183
 msgid "Extras"
 msgstr "Ruutulisät"
 
-#: tools/ruledit/ruledit_qt.cpp:186
+#: tools/ruledit/ruledit_qt.cpp:185
 msgid "Terrains"
 msgstr "Maastotyypit"
 
-#: tools/ruledit/ruledit_qt.cpp:188
+#: tools/ruledit/ruledit_qt.cpp:187
 msgid "Multipliers"
 msgstr "Kertoimet"
 
-#: tools/ruledit/ruledit_qt.cpp:190
+#: tools/ruledit/ruledit_qt.cpp:189
 msgid "Counters"
 msgstr "Laskurit"
 
-#: tools/ruledit/ruledit_qt.cpp:192
+#: tools/ruledit/ruledit_qt.cpp:191
 msgid "Nations"
 msgstr "Kansat"
 
-#: tools/ruledit/ruledit_qt.cpp:201
+#: tools/ruledit/ruledit_qt.cpp:200
 msgid "Welcome to freeciv-ruledit"
 msgstr "Tervetuloa käyttämään freeciv-ruleditiä"
 
-#: tools/ruledit/ruledit_qt.cpp:230
+#: tools/ruledit/ruledit_qt.cpp:247
 msgid "Old ruleset to a new format"
 msgstr "Vanha sääntökokoelma uuteen muotoon"
 
-#: tools/ruledit/ruledit_qt.cpp:236
+#: tools/ruledit/ruledit_qt.cpp:250
 msgid "Ruleset loaded"
 msgstr "Sääntökokoelma ladattu"
 
-#: tools/ruledit/ruledit_qt.cpp:259
+#: tools/ruledit/ruledit_qt.cpp:273
 msgid "Ruleset loading failed!"
 msgstr "Sääntökokoelman lataaminen epäonnistui!"
 
-#: tools/ruledit/ruledit_qt.cpp:437
+#: tools/ruledit/ruledit_qt.cpp:451
 msgid "Freeciv Ruleset Editor"
 msgstr "Freeciv-sääntökokoelmien muokkaustyökalu"
 
-#: tools/ruledit/ruledit_qt.cpp:470
+#: tools/ruledit/ruledit_qt.cpp:484
 msgid "Are you sure you want to quit?"
 msgstr "Oletko varma että haluat sulkea ohjelman?"
 
-#: tools/ruledit/ruledit_qt.cpp:474
+#: tools/ruledit/ruledit_qt.cpp:488
 msgid "Quit?"
 msgstr "Sulje ohjelma?"
 

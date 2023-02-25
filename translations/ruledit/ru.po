@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv Ruledit\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2023-01-24 12:35+0500\n"
+"POT-Creation-Date: 2023-02-25 17:44+0200\n"
 "PO-Revision-Date: 2022-12-10 18:17+0500\n"
 "Last-Translator: Konstantin Vedeneev <konved@gmail.com>\n"
 "Language-Team: Russian <freeciv.ru@freelists.org>\n"
@@ -34,27 +34,47 @@ msgstr ""
 msgid "Close"
 msgstr "Закрыть"
 
-#: tools/ruledit/edit_impr.cpp:50 tools/ruledit/edit_utype.cpp:48
+#: tools/ruledit/edit_impr.cpp:51 tools/ruledit/edit_utype.cpp:50
 msgid "Build Cost"
 msgstr "Стоимость Строительства"
 
-#: tools/ruledit/edit_impr.cpp:61
+#: tools/ruledit/edit_impr.cpp:62
 msgid "Upkeep"
 msgstr "Содержание"
 
-#: tools/ruledit/edit_impr.cpp:71
+#: tools/ruledit/edit_impr.cpp:72
 msgid "Genus"
 msgstr "Вид"
 
-#: tools/ruledit/edit_utype.cpp:58
+#: tools/ruledit/edit_impr.cpp:90 tools/ruledit/edit_terrain.cpp:69
+#: tools/ruledit/edit_utype.cpp:91
+msgid "Graphics tag"
+msgstr ""
+
+#: tools/ruledit/edit_impr.cpp:99 tools/ruledit/edit_terrain.cpp:78
+#: tools/ruledit/edit_utype.cpp:100
+msgid "Alt graphics tag"
+msgstr ""
+
+#: tools/ruledit/edit_terrain.cpp:49
+#, fuzzy
+#| msgid "Move Rate"
+msgid "Move Cost"
+msgstr "Очки Движения"
+
+#: tools/ruledit/edit_terrain.cpp:59
+msgid "Defense Bonus %"
+msgstr ""
+
+#: tools/ruledit/edit_utype.cpp:61
 msgid "Attack Strength"
 msgstr "Сила Атаки"
 
-#: tools/ruledit/edit_utype.cpp:68
+#: tools/ruledit/edit_utype.cpp:71
 msgid "Defense Strength"
 msgstr "Уровень Защиты"
 
-#: tools/ruledit/edit_utype.cpp:78
+#: tools/ruledit/edit_utype.cpp:81
 msgid "Move Rate"
 msgstr "Очки Движения"
 
@@ -243,15 +263,15 @@ msgstr "Неверный номер сигнала: \"%s\".\n"
 msgid "Unrecognized option: \"%s\"\n"
 msgstr "Неизвестный параметр: \"%s\"\n"
 
-#: tools/ruledit/ruledit_qt.cpp:127
+#: tools/ruledit/ruledit_qt.cpp:126
 msgid "built in Qt6 mode."
 msgstr "собран в режиме Qt6."
 
-#: tools/ruledit/ruledit_qt.cpp:129
+#: tools/ruledit/ruledit_qt.cpp:128
 msgid "built in Qt5 mode."
 msgstr "собран в режиме Qt5."
 
-#: tools/ruledit/ruledit_qt.cpp:136
+#: tools/ruledit/ruledit_qt.cpp:135
 #, c-format
 msgid ""
 "%s%s\n"
@@ -262,11 +282,11 @@ msgstr ""
 "commit: %s\n"
 "%s"
 
-#: tools/ruledit/ruledit_qt.cpp:147
+#: tools/ruledit/ruledit_qt.cpp:150
 msgid "Give ruleset to use as starting point."
 msgstr "Укажите набор правил, который будет начальным."
 
-#: tools/ruledit/ruledit_qt.cpp:159
+#: tools/ruledit/ruledit_qt.cpp:158
 msgid "Start editing"
 msgstr "Начать редактирование"
 
@@ -311,46 +331,55 @@ msgid "Multipliers"
 msgstr "Множители"
 
 #: tools/ruledit/ruledit_qt.cpp:189
+#, fuzzy
+#| msgid "?stat:Counters"
+msgid "Counters"
+msgstr "Счётчики"
+
+#: tools/ruledit/ruledit_qt.cpp:191
 msgid "Nations"
 msgstr "Народы"
 
-#: tools/ruledit/ruledit_qt.cpp:198
+#: tools/ruledit/ruledit_qt.cpp:200
 msgid "Welcome to freeciv-ruledit"
 msgstr "Добро пожаловать в редактор наборов правил Freeciv"
 
-#: tools/ruledit/ruledit_qt.cpp:227
+#: tools/ruledit/ruledit_qt.cpp:247
 msgid "Old ruleset to a new format"
 msgstr "Преобразование набора в новый формат"
 
-#: tools/ruledit/ruledit_qt.cpp:233
+#: tools/ruledit/ruledit_qt.cpp:250
 msgid "Ruleset loaded"
 msgstr "Набор правил загружен"
 
-#: tools/ruledit/ruledit_qt.cpp:255
+#: tools/ruledit/ruledit_qt.cpp:273
 msgid "Ruleset loading failed!"
 msgstr "Ошибка загрузки набора правил!"
 
-#: tools/ruledit/ruledit_qt.cpp:433
+#: tools/ruledit/ruledit_qt.cpp:451
 msgid "Freeciv Ruleset Editor"
 msgstr "Редактор наборов правил Freeciv"
 
-#: tools/ruledit/ruledit_qt.cpp:466
+#: tools/ruledit/ruledit_qt.cpp:484
 msgid "Are you sure you want to quit?"
 msgstr "Вы действительно хотите выйти?"
 
-#: tools/ruledit/ruledit_qt.cpp:470
+#: tools/ruledit/ruledit_qt.cpp:488
 msgid "Quit?"
 msgstr "Выйти?"
 
-#: tools/ruledit/tab_building.cpp:67 tools/ruledit/tab_extras.cpp:65
-#: tools/ruledit/tab_good.cpp:66 tools/ruledit/tab_gov.cpp:65
-#: tools/ruledit/tab_multiplier.cpp:65 tools/ruledit/tab_tech.cpp:64
-#: tools/ruledit/tab_terrains.cpp:65 tools/ruledit/tab_unit.cpp:64
+#: tools/ruledit/tab_building.cpp:67 tools/ruledit/tab_counters.cpp:82
+#: tools/ruledit/tab_extras.cpp:65 tools/ruledit/tab_good.cpp:66
+#: tools/ruledit/tab_gov.cpp:65 tools/ruledit/tab_multiplier.cpp:65
+#: tools/ruledit/tab_tech.cpp:64 tools/ruledit/tab_terrains.cpp:68
+#: tools/ruledit/tab_unit.cpp:64
 msgid "Rule Name"
 msgstr "Название Правила"
 
 #: tools/ruledit/tab_building.cpp:70 tools/ruledit/tab_building.cpp:80
 #: tools/ruledit/tab_building.cpp:153 tools/ruledit/tab_building.cpp:154
+#: tools/ruledit/tab_counters.cpp:85 tools/ruledit/tab_counters.cpp:93
+#: tools/ruledit/tab_counters.cpp:213 tools/ruledit/tab_counters.cpp:214
 #: tools/ruledit/tab_enablers.cpp:131 tools/ruledit/tab_enablers.cpp:241
 #: tools/ruledit/tab_extras.cpp:68 tools/ruledit/tab_extras.cpp:78
 #: tools/ruledit/tab_extras.cpp:148 tools/ruledit/tab_extras.cpp:149
@@ -362,28 +391,30 @@ msgstr "Название Правила"
 #: tools/ruledit/tab_multiplier.cpp:144 tools/ruledit/tab_multiplier.cpp:145
 #: tools/ruledit/tab_tech.cpp:67 tools/ruledit/tab_tech.cpp:77
 #: tools/ruledit/tab_tech.cpp:231 tools/ruledit/tab_tech.cpp:232
-#: tools/ruledit/tab_terrains.cpp:68 tools/ruledit/tab_terrains.cpp:78
-#: tools/ruledit/tab_terrains.cpp:144 tools/ruledit/tab_terrains.cpp:145
+#: tools/ruledit/tab_terrains.cpp:71 tools/ruledit/tab_terrains.cpp:81
+#: tools/ruledit/tab_terrains.cpp:151 tools/ruledit/tab_terrains.cpp:152
 #: tools/ruledit/tab_unit.cpp:67 tools/ruledit/tab_unit.cpp:77
 #: tools/ruledit/tab_unit.cpp:150 tools/ruledit/tab_unit.cpp:151
 msgid "None"
 msgstr "(Нет)"
 
-#: tools/ruledit/tab_building.cpp:75 tools/ruledit/tab_extras.cpp:73
-#: tools/ruledit/tab_good.cpp:74 tools/ruledit/tab_gov.cpp:73
-#: tools/ruledit/tab_multiplier.cpp:73 tools/ruledit/tab_tech.cpp:72
-#: tools/ruledit/tab_terrains.cpp:73 tools/ruledit/tab_unit.cpp:72
+#: tools/ruledit/tab_building.cpp:75 tools/ruledit/tab_counters.cpp:89
+#: tools/ruledit/tab_extras.cpp:73 tools/ruledit/tab_good.cpp:74
+#: tools/ruledit/tab_gov.cpp:73 tools/ruledit/tab_multiplier.cpp:73
+#: tools/ruledit/tab_tech.cpp:72 tools/ruledit/tab_terrains.cpp:76
+#: tools/ruledit/tab_unit.cpp:72
 msgid "Name"
 msgstr "Название"
 
-#: tools/ruledit/tab_building.cpp:86 tools/ruledit/tab_unit.cpp:83
+#: tools/ruledit/tab_building.cpp:86 tools/ruledit/tab_terrains.cpp:87
+#: tools/ruledit/tab_unit.cpp:83
 msgid "Edit Values"
 msgstr "Редактировать Значения"
 
-#: tools/ruledit/tab_building.cpp:94 tools/ruledit/tab_extras.cpp:88
-#: tools/ruledit/tab_good.cpp:89 tools/ruledit/tab_gov.cpp:88
-#: tools/ruledit/tab_tech.cpp:109 tools/ruledit/tab_terrains.cpp:84
-#: tools/ruledit/tab_unit.cpp:91
+#: tools/ruledit/tab_building.cpp:94 tools/ruledit/tab_counters.cpp:134
+#: tools/ruledit/tab_extras.cpp:88 tools/ruledit/tab_good.cpp:89
+#: tools/ruledit/tab_gov.cpp:88 tools/ruledit/tab_tech.cpp:109
+#: tools/ruledit/tab_terrains.cpp:91 tools/ruledit/tab_unit.cpp:91
 msgid "Effects"
 msgstr "Эффекты"
 
@@ -398,6 +429,36 @@ msgstr "Удалить это Здание"
 #: tools/ruledit/tab_building.cpp:188
 msgid "A building with that rule name already exists!"
 msgstr "Здание с этим названием правила уже существует!"
+
+#: tools/ruledit/tab_counters.cpp:100
+msgid "Default Value"
+msgstr ""
+
+#: tools/ruledit/tab_counters.cpp:109
+msgid "Checkpoint"
+msgstr ""
+
+#: tools/ruledit/tab_counters.cpp:121
+msgid "Behavior"
+msgstr ""
+
+#: tools/ruledit/tab_counters.cpp:138
+#, fuzzy
+#| msgid "Add Multiplier"
+msgid "Add Counter"
+msgstr "Добавить Множитель"
+
+#: tools/ruledit/tab_counters.cpp:141
+#, fuzzy
+#| msgid "Remove this tech"
+msgid "Remove this Counter"
+msgstr "Удалить эту технологию"
+
+#: tools/ruledit/tab_counters.cpp:274
+#, fuzzy
+#| msgid "A tech with that rule name already exists!"
+msgid "A counter with that rule name already exists!"
+msgstr "Технология с этим названием правила уже существует!"
 
 #: tools/ruledit/tab_enablers.cpp:113
 msgid "Type"
@@ -690,15 +751,15 @@ msgstr "Никогда"
 msgid "A tech with that rule name already exists!"
 msgstr "Технология с этим названием правила уже существует!"
 
-#: tools/ruledit/tab_terrains.cpp:88
+#: tools/ruledit/tab_terrains.cpp:95
 msgid "Add Terrain"
 msgstr "Добавить Рельеф"
 
-#: tools/ruledit/tab_terrains.cpp:93
+#: tools/ruledit/tab_terrains.cpp:100
 msgid "Remove this Terrain"
 msgstr "Удалить этот Рельеф"
 
-#: tools/ruledit/tab_terrains.cpp:179
+#: tools/ruledit/tab_terrains.cpp:186
 msgid "A terrain with that rule name already exists!"
 msgstr "Рельеф с этим названием правила уже существует!"
 
