@@ -895,6 +895,7 @@ set =
       "startunits", "c", FALSE
       "borders", "DISABLED", FALSE
       "citymindist", 1, FALSE
+      "gold", 0, FALSE
       "savepalace", "DISABLED", FALSE
       ; Ruleset has no trait ranges, so player choosing EVEN would have
       ; no effect anyway
