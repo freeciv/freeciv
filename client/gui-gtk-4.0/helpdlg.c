@@ -68,8 +68,7 @@ static GtkWidget *help_view;
 static GtkWidget *help_frame;
 static GtkTextBuffer *help_text;
 static GtkWidget *help_text_sw;
-static GtkWidget *help_vgrid;
-static int help_grid_row;
+static GtkWidget *help_vbox;
 static GtkWidget *help_tile;
 static GtkWidget *help_box;
 static GtkWidget *help_itable;
@@ -446,7 +445,7 @@ static void help_box_hide(void)
 
   gtk_widget_hide(help_tile); /* FIXME: twice? */
 
-  gtk_widget_hide(help_vgrid);
+  gtk_widget_hide(help_vbox);
   gtk_widget_hide(help_text_sw);
 
   gtk_widget_hide(help_tree_sw);
@@ -454,24 +453,23 @@ static void help_box_hide(void)
 }
 
 /**********************************************************************//**
-  Add widget to help grid.
+  Add widget to help box.
 **************************************************************************/
 static void help_box_add(GtkWidget *wdg)
 {
-  gtk_grid_attach(GTK_GRID(help_vgrid), wdg, 0, help_grid_row++, 1, 1);
+  gtk_box_append(GTK_BOX(help_vbox), wdg);
 }
 
 /**********************************************************************//**
-  Clear help grid.
+  Clear help box.
 **************************************************************************/
 static void help_box_clear(void)
 {
-  if (help_grid_row == 0) {
-    return;
-  }
+  GtkWidget *child = gtk_widget_get_first_child(help_vbox);
 
-  for (; help_grid_row > 0; help_grid_row--) {
-    gtk_grid_remove_row(GTK_GRID(help_vgrid), help_grid_row - 1);
+  while (child != NULL) {
+    gtk_box_remove(GTK_BOX(help_vbox), child);
+    child = gtk_widget_get_first_child(help_vbox);
   }
 }
 
@@ -737,16 +735,12 @@ static void create_help_dialog(void)
     gtk_widget_show(help_elabel[i]);
   }
 
-  help_vgrid = gtk_grid_new();
-  help_grid_row = 0;
-  gtk_grid_set_row_spacing(GTK_GRID(help_vgrid), 1);
-  gtk_orientable_set_orientation(GTK_ORIENTABLE(help_vgrid),
-                                 GTK_ORIENTATION_VERTICAL);
-  gtk_widget_set_margin_start(help_vgrid, 5);
-  gtk_widget_set_margin_end(help_vgrid, 5);
-  gtk_widget_set_margin_top(help_vgrid, 5);
-  gtk_widget_set_margin_bottom(help_vgrid, 5);
-  gtk_box_append(GTK_BOX(help_box), help_vgrid);
+  help_vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 1);
+  gtk_widget_set_margin_start(help_vbox, 5);
+  gtk_widget_set_margin_end(help_vbox, 5);
+  gtk_widget_set_margin_top(help_vbox, 5);
+  gtk_widget_set_margin_bottom(help_vbox, 5);
+  gtk_box_append(GTK_BOX(help_box), help_vbox);
 
   text = gtk_text_view_new();
   gtk_widget_set_hexpand(text, TRUE);
@@ -1253,7 +1247,7 @@ static void help_update_tech(const struct help_item *pitem, char *title)
       }
     } advance_iterate_end;
 
-    gtk_widget_show(help_vgrid);
+    gtk_widget_show(help_vbox);
   }
 }
 
@@ -1404,7 +1398,7 @@ static void help_update_terrain(const struct help_item *pitem,
       help_extras_of_act_for_terrain(pterrain, ACTIVITY_BASE,
                                      _("Build as base"));
     }
-    gtk_widget_show(help_vgrid);
+    gtk_widget_show(help_vbox);
   }
 
   helptext_terrain(buf, sizeof(buf), client.conn.playing,
