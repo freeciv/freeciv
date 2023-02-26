@@ -2668,11 +2668,16 @@ static void sg_save_counters(struct savedata *saving)
   int    i, j, count;
 
   count = counters_get_city_counters_count();
-  countnames = fc_calloc(count, sizeof(*countnames));
 
   secfile_insert_int(saving->file, count,
                      "savefile.city_counters_order_size");
 
+  if (0 == count) {
+
+    return;
+  }
+
+  countnames = fc_calloc(count, sizeof(*countnames));
   for (j = 0; j < count; j++) {
     countnames[j] = counter_rule_name(counter_by_index(j, CTGT_CITY));
   }
