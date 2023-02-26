@@ -1921,6 +1921,25 @@ static void compat_load_030200(struct loaddata *loading,
   log_debug("Upgrading data from savegame to version 3.2.0");
 
   {
+    const char *str = secfile_lookup_str_default(loading->file, NULL,
+                                                 "savefile.orig_version");
+
+    if (str == NULL) {
+      /* Make sure CURRENTLY running version does not
+       * end as orig_version when we resave. */
+      if (format_class == SAVEGAME_3) {
+        secfile_insert_str(loading->file, "old savegame3, or older",
+                           "savefile.orig_version");
+      } else {
+        fc_assert(format_class == SAVEGAME_2);
+
+        secfile_insert_str(loading->file, "savegame2, or older",
+                           "savefile.orig_version");
+      }
+    }
+  }
+
+  {
     int action_count;
 
     action_count = secfile_lookup_int_default(loading->file, 0,
@@ -2809,6 +2828,18 @@ static void compat_load_dev(struct loaddata *loading)
                                 "savefile.action_vector");
 
         free(savemod);
+      }
+    }
+
+    {
+      const char *str = secfile_lookup_str_default(loading->file, NULL,
+                                                   "savefile.orig_version");
+
+      if (str == NULL) {
+        /* Make sure CURRENTLY running version does not
+         * end as orig_version when we resave. */
+        secfile_insert_str(loading->file, "old savegame3, or older",
+                           "savefile.orig_version");
       }
     }
 

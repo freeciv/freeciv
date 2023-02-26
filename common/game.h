@@ -151,7 +151,7 @@ struct civ_game {
       int incite_unit_factor;
       int init_vis_radius_sq;
       int kick_time;
-      int killunhomed;    /* slowly killing unhomed units */
+      int killunhomed;    /* Slowly killing unhomed units */
       int maxconnectionsperhost;
       int max_players;
       char nationset[MAX_LEN_NAME];
@@ -195,17 +195,17 @@ struct civ_game {
       int tcptimeout;
       int techpenalty;
       bool turnblock;
-      int unitwaittime;   /* minimal time between two movements of a unit */
+      int unitwaittime;   /* Minimal time between two movements of a unit */
       int upgrade_veteran_loss;
       bool vision_reveal_tiles;
 
       bool debug[DEBUG_LAST];
-      int timeoutint;     /* increase timeout every N turns... */
+      int timeoutint;     /* Increase timeout every N turns... */
       int timeoutinc;     /* ... by this amount ... */
       int timeoutincmult; /* ... and multiply timeoutinc by this amount ... */
       int timeoutintinc;  /* ... and increase timeoutint by this amount */
       int timeoutcounter; /* timeoutcounter - timeoutint = turns to next inc. */
-      int timeoutaddenemymove; /* minimum timeout after an enemy move is seen */
+      int timeoutaddenemymove; /* Minimum timeout after an enemy move is seen */
 
       time_t last_ping;
       struct timer *phase_timer;   /* Time since seconds_to_phase_done was set. */
@@ -218,10 +218,11 @@ struct civ_game {
       float turn_change_time;
       char connectmsg[MAX_LEN_MSG];
       char save_name[MAX_LEN_NAME];
+      char orig_game_version[MAX_LEN_NAME];
       bool scorelog;
       enum scorelog_level scoreloglevel;
       char scorefile[MAX_LEN_PATH];
-      int scoreturn;    /* next make_history_report() */
+      int scoreturn;    /* Next make_history_report() */
       randseed seed_setting;
       randseed seed;
 
@@ -230,7 +231,7 @@ struct civ_game {
       bool nuclear_winter;
       int nuclear_winter_percent;
 
-      bool fogofwar_old; /* as the fog_of_war bit get changed by setting
+      bool fogofwar_old; /* As the fog_of_war bit get changed by setting
                           * the server we need to remember the old setting */
       bool last_updated_year; /* last_updated is still counted as year in this
                                * game. */
@@ -251,11 +252,11 @@ struct civ_game {
         bool info;
       } event_cache;
 
-      /* used by the map editor to control game_save. */
+      /* Used by the map editor to control game_save. */
       struct {
-        bool save_known; /* loading will just reveal the squares around
+        bool save_known; /* Loading will just reveal the squares around
                           * cities and units */
-        bool save_starts; /* start positions will be auto generated */
+        bool save_starts; /* Start positions will be auto generated */
         bool save_private_map; /* FoW map; will be created if not saved */
       } save_options;
 

@@ -1256,6 +1256,7 @@ static void sg_load_savefile(struct loaddata *loading)
   const char *terr_name;
   bool ruleset_datafile;
   bool current_ruleset_rejected;
+  const char *str;
 
   /* Check status and return if not OK (sg_success FALSE). */
   sg_check_ret();
@@ -1268,6 +1269,9 @@ static void sg_load_savefile(struct loaddata *loading)
    * warnings about unread secfile entries. */
   (void) secfile_entry_by_path(loading->file, "savefile.reason");
   (void) secfile_entry_by_path(loading->file, "savefile.revision");
+
+  str = secfile_lookup_str(loading->file, "savefile.orig_version");
+  sz_strlcpy(game.server.orig_game_version, str);
 
   if (game.scenario.datafile[0] != '\0') {
     ruleset_datafile = FALSE;
@@ -1699,6 +1703,11 @@ static void sg_save_savefile(struct savedata *saving)
 
   /* Save as accurate freeciv revision information as possible */
   secfile_insert_str(saving->file, freeciv_datafile_version(), "savefile.revision");
+
+  /* Freeciv version used in the very first launch of this game -
+   * or even saving in pregame. */
+  secfile_insert_str(saving->file, game.server.orig_game_version,
+                     "savefile.orig_version");
 
   /* Save rulesetdir at this point as this ruleset is required by this
    * savefile. */

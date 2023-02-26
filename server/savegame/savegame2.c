@@ -1185,6 +1185,7 @@ static void sg_load_savefile(struct loaddata *loading)
 {
   int i;
   const char *terr_name;
+  const char *str;
 
   /* Check status and return if not OK (sg_success FALSE). */
   sg_check_ret();
@@ -1197,6 +1198,9 @@ static void sg_load_savefile(struct loaddata *loading)
    * warnings about unread secfile entries. */
   (void) secfile_entry_by_path(loading->file, "savefile.reason");
   (void) secfile_entry_by_path(loading->file, "savefile.revision");
+
+  str = secfile_lookup_str(loading->file, "savefile.orig_version");
+  sz_strlcpy(game.server.orig_game_version, str);
 
   /* In case of savegame2.c saves, missing entry means savegame older than support
    * for saving last_updated by turn. So this must default to TRUE. */
