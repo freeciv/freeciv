@@ -3090,9 +3090,12 @@ static void srv_prepare(void)
     sz_strlcpy(game.server.rulesetdir, srvarg.ruleset);
   }
 
-  /* load a saved game */
+  /* Try to load a saved game */
   if ('\0' == srvarg.load_filename[0]
       || !load_command(NULL, srvarg.load_filename, FALSE, TRUE)) {
+    /* Savegame not loaded */
+    sz_strlcpy(game.server.orig_game_version, freeciv_datafile_version());
+
     /* Rulesets are loaded on game initialization, but may be changed later
      * if /load or /rulesetdir is done. */
     load_rulesets(NULL, NULL, FALSE, NULL, TRUE, FALSE, TRUE);
@@ -3555,6 +3558,7 @@ void fc__noreturn srv_main(void)
     fc_rand_uninit();
     server_game_init(FALSE);
     mapimg_reset();
+    sz_strlcpy(game.server.orig_game_version, freeciv_datafile_version());
     load_rulesets(NULL, NULL, FALSE, NULL, TRUE, FALSE, TRUE);
     game.info.is_new_game = TRUE;
   } while (TRUE);
