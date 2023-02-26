@@ -249,14 +249,8 @@ int api_methods_city_inspire_partisans(lua_State *L, City *self, Player *inspire
   } else {
     if (game.info.citizen_partisans_pct > 0) {
       if (is_server()) {
-        int own = citizens_nation_get(self, inspirer->slot);
-        int total = 0;
-
-        /* Not citizens_foreign_iterate() as city has already changed hands.
-         * old owner would be considered foreign and new owner not. */
-        citizens_iterate(self, pslot, nat) {
-          total += nat;
-        } citizens_iterate_end;
+        citizens own = citizens_nation_get(self, inspirer->slot);
+        citizens total = city_size_get(self);
 
         if ((own * 100 / total) >= game.info.citizen_partisans_pct) {
           inspired = TRUE;
