@@ -322,7 +322,7 @@ fi
 echo "+ running configure ... "
 echo
 if [ -z "$FC_NEWARGLINE" ]; then
-  echo "I am going to run ./configure with no arguments - if you wish "
+  echo "I am going to run $SRCDIR/configure with no arguments - if you wish "
   echo "to pass any to it, please specify them on the $0 command line."
 else
   echo "using: $FC_NEWARGLINE"
@@ -335,7 +335,7 @@ echo
   exit 1
 }
 
-# abort if we did --help
+# Abort if we did --help
 if [ "$FC_HELP" = "yes" ]; then
   exit 1
 fi

@@ -67,15 +67,15 @@ b) Get a Freeciv source tree (the doc/ directory this INSTALL.Cygwin is in,
    is a subdirectory of the source tree's root directory).
    Put it in a temporary place like /tmp.
 
-      ./configure --enable-client=<gui> [any other options e.g. --prefix=...]
+      ../src/configure --enable-client=<gui> [any other options e.g. --prefix=...]
    where <gui> is "gtk3.22", "qt", or list like "gtk3.22,qt". If you
    didn't install gettext-devel, you have to give also configure option
    --disable-nls to disable Native Language Support.
 
    If you are building directly from version control, and not from
-   tarball that has some files, including ./configure, pregenerated,
-   you need to run ./autogen.sh instead of ./configure. Use same options
-   as you would for directly running ./configure.
+   tarball that has some files, including configure, pregenerated,
+   you need to run ../src/autogen.sh instead of ../src/configure.
+   Use same options as you would for directly running configure.
 
    If you get messages of missing or outdated components, install them.
 

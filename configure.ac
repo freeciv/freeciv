@@ -6,6 +6,10 @@ AC_INIT([Freeciv], m4_esyscmd([./fc_version | tr -d '\n']),
         [freeciv], [https://www.freeciv.org/])
 AC_PREREQ(2.65)
 
+if test "x$(pwd)" = "x$(cd $srcdir && pwd)" ; then
+  AC_MSG_ERROR([Attempted to configure source directory. You have to use separate build dir])
+fi
+
 dnl Initialize with some random file to ensure the source is here.
 AC_CONFIG_SRCDIR([common/game.c])
 AC_CONFIG_AUX_DIR(bootstrap) # This can't be quoted or automake will fail

@@ -340,7 +340,7 @@ following order: pkg-config, Glib, Atk, Pango, Gdk-Pixbuf, Gtk.
 
    If configure does not find (correct) moc, you can give it with
    environment variable MOCCMD, e.g.,
-   ./configure MOCCMD="/home/freeciv/local-qt/bin/moc" --enable-client=qt
+   ../src/configure MOCCMD="/home/freeciv/local-qt/bin/moc" --enable-client=qt
 
  - Qt6Core, Qt6Gui, and Qt6Widgets libraries and headers.
    At least version 6.0 is required.
@@ -375,10 +375,11 @@ is configured to suit the features available on your machine.
 
 This configuration is done using the GNU "configure" script.
 
-To use "configure", "cd" into the top directory containing the Freeciv
-files, and type:
+To use "configure", "cd" to directory where you want the build
+to end, and run it from the top directory containing
+the Freeciv files:
 
- % ./configure
+ % ../src/configure
 
 This script will then attempt to determine the relevant features (and
 misfeatures!!) of your system.  It should print a page or two of
@@ -387,7 +388,7 @@ diagnostics about your machine, then stop gracefully.
 If you'd like help on the various options supported by the configure
 script, try the --help option, like this:
 
- % ./configure --help
+ % ../src/configure --help
 
 By default the configure script will choose the Gtk+ client if the
 required libraries are found. If you prefer to override this default,
@@ -396,12 +397,12 @@ you can give configure the "--enable-client=sdl2" option.
 If you want to change the compiler options, set the CFLAGS environment
 variable in your shell before running "configure".  For example:
 
- % CFLAGS="-O -g -pipe" ./configure   [for people using Bourne shell or bash]
+ % CFLAGS="-O -g -pipe" ../src//configure  [for people using Bourne shell or bash]
 
 or
 
  % setenv CFLAGS "-O -g -pipe"
- % ./configure                        [for people using C shell or tcsh]
+ % ../src/configure                        [for people using C shell or tcsh]
 
 If you're tracking down a "core dump", we suggest that you use
 a value of "-g" for CFLAGS.
@@ -410,7 +411,7 @@ When you install Freeciv (later), the game components will be copied into
 subdirectories of /usr/local by default.  If you would like to use some
 other installation prefix besides /usr/local, you should specify it now:
 
- % ./configure --prefix=/opt/freeciv
+ % ../src/configure --prefix=/opt/freeciv
 
 If for some reason using "configure" gives you trouble, follow these steps:
 
@@ -501,9 +502,9 @@ If you experience problems with gettext in either configuring or compiling
 Freeciv, there are a few work-arounds you can try:
 
 1. If you don't need Native Language Support, disable it using the
-   "--disable-nls" ./configure option:
+   "--disable-nls" configure option:
 
-      % ./configure --disable-nls
+      % ../src/configure --disable-nls
       % make
 
 2. You can try to install the latest version of GNU gettext.
@@ -535,7 +536,7 @@ without readline support.
 You can force configure to include readline or die trying by giving
 configure the --with-readline option:
 
- % ./configure --with-readline
+ % ../src/configure --with-readline
 
 Some linux distributions (and possibly other operating systems) have
 readline version 4 incorrectly installed, so that readline is not
@@ -552,16 +553,16 @@ Solaris (2.5 and up) has its own version of X in /usr/openwin, its own
 version of make in /usr/ccs/bin/make, and its own compiler (to be purchased
 separately) which, if you have it, is available in /opt/SUNWspro/bin.
 Solaris does not provide any of the stuff required for imlib, gdk and gtk,
-either, which is required to build the GTK+ client.  However, with some
+either, which is required to build the GTK+ client. However, with some
 patience, everything can be compiled without problems.
 
 Make sure your environment variables, especially $PATH and $LD_LIBRARY_PATH,
-and the ./configure options do not point to an inconsistent set of software,
+and the configure options do not point to an inconsistent set of software,
 and compiling will be fine.
 
-You can set up your $PATH and ./configure to use only GNU
-tools.  Furthermore, Freeciv is known to compile with MIT X, and with
-certain combinations of GNU and Sun tools.  The exact recipes depend on your
+You can set up your $PATH and configure to use only GNU
+tools. Furthermore, Freeciv is known to compile with MIT X, and with
+certain combinations of GNU and Sun tools. The exact recipes depend on your
 local installation.
 
 
