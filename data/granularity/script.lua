@@ -13,3 +13,10 @@
 -- ruleset. When freeciv loads a ruleset, it also loads script
 -- file called 'default.lua'. The one loaded if your ruleset
 -- does not provide an override is default/default.lua.
+
+-- Give infrapoints for the development of the newly founded city
+function city_built_callback(city)
+  city.owner:change_infrapoints(5)
+end
+
+signal.connect("city_built", "city_built_callback")
