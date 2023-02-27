@@ -493,13 +493,18 @@ static void build_irrigation_callback(GSimpleAction *action,
 static void build_mine_callback(GSimpleAction *action,
                                 GVariant *parameter,
                                 gpointer data);
-
-#ifdef MENUS_GTK3
-static void connect_road_callback(GtkMenuItem *item, gpointer data);
-static void connect_rail_callback(GtkMenuItem *item, gpointer data);
-static void connect_irrigation_callback(GtkMenuItem *item, gpointer data);
-#endif /* MENUS_GTK3 */
-
+static void connect_road_callback(GSimpleAction *action,
+                                  GVariant *parameter,
+                                  gpointer data);
+static void connect_rail_callback(GSimpleAction *action,
+                                  GVariant *parameter,
+                                  gpointer data);
+static void connect_maglev_callback(GSimpleAction *action,
+                                    GVariant *parameter,
+                                    gpointer data);
+static void connect_irrigation_callback(GSimpleAction *action,
+                                        GVariant *parameter,
+                                        gpointer data);
 static void do_action_callback(GSimpleAction *action,
                                GVariant *parameter,
                                gpointer data);
@@ -741,6 +746,18 @@ static struct menu_entry_info menu_entries[] =
   { "TRANSFORM_TERRAIN", N_("Transf_orm Terrain"),
     "transform_terrain", "o", MGROUP_UNIT,
     NULL, FALSE },
+  { "CONNECT_ROAD", N_("Connect With Roa_d"),
+    "connect_road", "<ctrl>r", MGROUP_UNIT,
+    NULL, FALSE },
+  { "CONNECT_RAIL", N_("Connect With Rai_l"),
+    "connect_rail", "<ctrl>l", MGROUP_UNIT,
+    NULL, FALSE },
+  { "CONNECT_MAGLEV", N_("Connect With _Maglev"),
+    "connect_maglev", "<ctrl>m", MGROUP_UNIT,
+    NULL, FALSE },
+  { "CONNECT_IRRIGATION", N_("Connect With Irri_gation"),
+    "connect_irrigation", "<ctrl>i", MGROUP_UNIT,
+    NULL, FALSE },
   { "CLEAN", N_("_Clean"),
     "clean", "p", MGROUP_UNIT,
     NULL, FALSE },
@@ -974,17 +991,6 @@ static struct menu_entry_info menu_entries[] =
     GDK_KEY_t, GDK_SHIFT_MASK,
     G_CALLBACK(unit_unload_transporter_callback), MGROUP_UNIT },
 
-    G_CALLBACK(build_mine_callback), MGROUP_UNIT },
-  { "CONNECT_ROAD", N_("Connect With Roa_d"), GDK_KEY_r, GDK_CONTROL_MASK,
-    G_CALLBACK(connect_road_callback), MGROUP_UNIT },
-  { "CONNECT_RAIL", N_("Connect With Rai_l"), GDK_KEY_l, GDK_CONTROL_MASK,
-    G_CALLBACK(connect_rail_callback), MGROUP_UNIT },
-  { "CONNECT_IRRIGATION", N_("Connect With Irri_gation"),
-    GDK_KEY_i, GDK_CONTROL_MASK,
-    G_CALLBACK(connect_irrigation_callback), MGROUP_UNIT },
-
-  { "MENU_GOVERNMENT", N_("_Government"), 0, 0,
-    NULL, MGROUP_PLAYING },
   { "TAX_RATE", N_("_Tax Rates..."), GDK_KEY_t, GDK_CONTROL_MASK,
     G_CALLBACK(tax_rate_callback), MGROUP_PLAYING },
 
@@ -1070,6 +1076,10 @@ const GActionEntry acts[] = {
   { "cultivate", cultivate_callback },
   { "plant", plant_callback },
   { "transform_terrain", transform_terrain_callback },
+  { "connect_road", connect_road_callback },
+  { "connect_rail", connect_rail_callback },
+  { "connect_maglev", connect_maglev_callback },
+  { "connect_irrigation", connect_irrigation_callback },
   { "clean", clean_callback },
 
   { "fortify", fortify_callback },
@@ -2461,11 +2471,12 @@ static void build_mine_callback(GSimpleAction *action,
   key_unit_mine();
 }
 
-#ifdef MENUS_GTK3
 /************************************************************************//**
   Action "CONNECT_ROAD" callback.
 ****************************************************************************/
-static void connect_road_callback(GtkMenuItem *action, gpointer data)
+static void connect_road_callback(GSimpleAction *action,
+                                  GVariant *parameter,
+                                  gpointer data)
 {
   struct road_type *proad = road_by_gui_type(ROAD_GUI_ROAD);
 
@@ -2481,7 +2492,9 @@ static void connect_road_callback(GtkMenuItem *action, gpointer data)
 /************************************************************************//**
   Action "CONNECT_RAIL" callback.
 ****************************************************************************/
-static void connect_rail_callback(GtkMenuItem *action, gpointer data)
+static void connect_rail_callback(GSimpleAction *action,
+                                  GVariant *parameter,
+                                  gpointer data)
 {
   struct road_type *prail = road_by_gui_type(ROAD_GUI_RAILROAD);
 
@@ -2495,9 +2508,29 @@ static void connect_rail_callback(GtkMenuItem *action, gpointer data)
 }
 
 /************************************************************************//**
+  Action "CONNECT_MAGLEV" callback.
+****************************************************************************/
+static void connect_maglev_callback(GSimpleAction *action,
+                                    GVariant *parameter,
+                                    gpointer data)
+{
+  struct road_type *pmaglev = road_by_gui_type(ROAD_GUI_MAGLEV);
+
+  if (pmaglev != NULL) {
+    struct extra_type *tgt;
+
+    tgt = road_extra_get(pmaglev);
+
+    key_unit_connect(ACTIVITY_GEN_ROAD, tgt);
+  }
+}
+
+/************************************************************************//**
   Action "CONNECT_IRRIGATION" callback.
 ****************************************************************************/
-static void connect_irrigation_callback(GtkMenuItem *action, gpointer data)
+static void connect_irrigation_callback(GSimpleAction *action,
+                                        GVariant *parameter,
+                                        gpointer data)
 {
   struct extra_type_list *extras = extra_type_list_by_cause(EC_IRRIGATION);
 
@@ -2509,7 +2542,6 @@ static void connect_irrigation_callback(GtkMenuItem *action, gpointer data)
     key_unit_connect(ACTIVITY_IRRIGATE, pextra);
   }
 }
-#endif /* MENUS_GTK3 */
 
 /************************************************************************//**
   Action "TRANSFORM_TERRAIN" callback.
@@ -3056,6 +3088,10 @@ static GMenu *setup_menus(GtkApplication *app)
   menu_entry_init(work_menu, "CULTIVATE");
   menu_entry_init(work_menu, "PLANT");
   menu_entry_init(work_menu, "TRANSFORM_TERRAIN");
+  menu_entry_init(work_menu, "CONNECT_ROAD");
+  menu_entry_init(work_menu, "CONNECT_RAIL");
+  menu_entry_init(work_menu, "CONNECT_MAGLEV");
+  menu_entry_init(work_menu, "CONNECT_IRRIGATION");
   menu_entry_init(work_menu, "CLEAN");
 
   submenu_append_unref(menubar, _("_Work"), G_MENU_MODEL(work_menu));
@@ -3334,6 +3370,9 @@ void real_menus_update(void)
   int tgt_kind_group;
   struct unit_list *punits;
   unsigned num_units;
+  struct road_type *proad;
+  struct extra_type_list *extras;
+  bool conn_possible;
 
   if (!menus_built) {
     return;
@@ -3618,9 +3657,6 @@ void real_menus_update(void)
   char acttext[128], irrtext[128], mintext[128], transtext[128];
   char cultext[128], plantext[128];
   struct terrain *pterrain;
-  bool conn_possible;
-  struct road_type *proad;
-  struct extra_type_list *extras;
 #endif /* MENUS_GTK3 */
 
   if (!menus_built || !can_client_change_view()) {
@@ -3843,6 +3879,7 @@ void real_menus_update(void)
   menu_entry_set_sensitive("UNIT_UNSENTRY",
                            units_have_activity_on_tile(punits,
                                                        ACTIVITY_SENTRY));
+#endif /* MENUS_GTK3 */
 
   proad = road_by_gui_type(ROAD_GUI_ROAD);
   if (proad != NULL) {
@@ -3854,7 +3891,7 @@ void real_menus_update(void)
   } else {
     conn_possible = FALSE;
   }
-  menu_entry_set_sensitive("CONNECT_ROAD", conn_possible);
+  menu_entry_set_sensitive(map, "CONNECT_ROAD", conn_possible);
 
   proad = road_by_gui_type(ROAD_GUI_RAILROAD);
   if (proad != NULL) {
@@ -3866,7 +3903,19 @@ void real_menus_update(void)
   } else {
     conn_possible = FALSE;
   }
-  menu_entry_set_sensitive("CONNECT_RAIL", conn_possible);
+  menu_entry_set_sensitive(map, "CONNECT_RAIL", conn_possible);
+
+  proad = road_by_gui_type(ROAD_GUI_MAGLEV);
+  if (proad != NULL) {
+    struct extra_type *tgt;
+
+    tgt = road_extra_get(proad);
+
+    conn_possible = can_units_do_connect(punits, ACTIVITY_GEN_ROAD, tgt);
+  } else {
+    conn_possible = FALSE;
+  }
+  menu_entry_set_sensitive(map, "CONNECT_MAGLEV", conn_possible);
 
   extras = extra_type_list_by_cause(EC_IRRIGATION);
 
@@ -3878,9 +3927,9 @@ void real_menus_update(void)
   } else {
     conn_possible = FALSE;
   }
-  menu_entry_set_sensitive("CONNECT_IRRIGATION", conn_possible);
+  menu_entry_set_sensitive(map, "CONNECT_IRRIGATION", conn_possible);
 
-
+#ifdef MENUS_GTK3
   if (units_can_do_action(punits, ACTION_HELP_WONDER, TRUE)) {
     menus_rename("BUILD_CITY",
                  action_get_ui_name_mnemonic(ACTION_HELP_WONDER, "_"));
