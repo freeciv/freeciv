@@ -15,9 +15,10 @@ leaders = {
  "Hissène Habré",       "male"
 }
 
-ruler_titles = { "government",     "male_title",       "female_title"
-                 "Despotism",      _("General %s"),    _("?female:General %s")
-	       }
+ruler_titles = {
+  "government", "male_title",    "female_title"
+  "Despotism",  _("General %s"), _("?female:General %s")
+}
 
 flag = "chad"
 flag_alt = "-"
@@ -27,7 +28,8 @@ init_techs = ""
 init_buildings = ""
 init_units = ""
 
-conflicts_with = "romanian" ;similar flag , "kanem-bornu"
+conflicts_with = "romanian",    ;similar flag
+                 "kanem-bornu"
 civilwar_nations = "central african", "kanem-bornu"
 
 cities =
