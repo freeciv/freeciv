@@ -57,6 +57,7 @@ endif
 MAGICKVER=7.Q16HDRI-10
 FFIVER=8
 ICUVER=72
+CRYPTOVERSUF=3${CRYPTOLIB_SUFFIX}
 
 INSTSUB=${ARCHDIR}
 
@@ -64,11 +65,9 @@ INSTSUB=${ARCHDIR}
 DLLPATH_PREFIX=/$(ARCHDIR)/bin/
 
 ifeq ($(CI),yes)
-CRYPTOVERSUF=3${CRYPTOLIB_SUFFIX}
-CERTPATH=/etc
+UNISTRING=libunistring-2.dll
 else
-CRYPTOVERSUF=1_1${CRYPTOLIB_SUFFIX}
-CERTPATH=
+UNISTRING=libunistring-5.dll
 endif
 
 #
@@ -332,7 +331,7 @@ install-env-common:
 	# add DLLs
 	cp -R $(addprefix $(DLLPATH_PREFIX), $(COMMON_DLLS)) install-$(WINARCH)-$(GUI)/
 	mkdir -p install-$(WINARCH)-$(GUI)/ssl/certs
-	cp -R /$(ARCHDIR)$(CERTPATH)/ssl/certs/ca-bundle.crt install-$(WINARCH)-$(GUI)/ssl/certs/
+	cp -R /$(ARCHDIR)/etc/ssl/certs/ca-bundle.crt install-$(WINARCH)-$(GUI)/ssl/certs/
 
 DEFAULT_FCMP_DLLS := \
 	libgdk-3-0.dll \
@@ -343,7 +342,7 @@ DEFAULT_FCMP_DLLS := \
 	libpangoft2-1.0-0.dll \
 	libthai-0.dll \
 	libdatrie-1.dll \
-	libunistring-2.dll \
+	$(UNISTRING) \
 	librsvg-2-2.dll
 
 install-env-default-fcmp: install-env-common
@@ -371,7 +370,7 @@ GTK4_FCMP_DLLS := \
 	libgraphene-1.0-0.dll \
 	libharfbuzz-0.dll \
 	libpangoft2-1.0-0.dll \
-	libunistring-2.dll \
+	$(UNISTRING) \
 	libthai-0.dll \
 	liblzo2-2.dll \
 	libgraphite2.dll \
@@ -381,7 +380,10 @@ GTK4_FCMP_DLLS := \
 	libLerc.dll \
 	libwebp-7.dll \
 	libdeflate.dll \
-	libjbig-0.dll
+	libjbig-0.dll \
+	libsharpyuv-0.dll \
+	libEGL.dll \
+	libGLESv2.dll
 
 install-env-gtk4-fcmp: install-env-common
 	cp -R $(addprefix $(DLLPATH_PREFIX), $(GTK4_FCMP_DLLS)) install-$(WINARCH)-$(GUI)/
@@ -419,7 +421,7 @@ QT5_DLLS := \
 	libgraphite2.dll \
 	libpcre2-8-0.dll \
 	libpcre2-16-0.dll \
-	libunistring-2.dll \
+	$(UNISTRING) \
 	libbrotlidec.dll \
 	libbrotlicommon.dll \
 	libdouble-conversion.dll \
@@ -441,7 +443,7 @@ QT6_DLLS := \
 	Qt6Core.dll \
 	Qt6Gui.dll \
 	Qt6Widgets.dll \
-	libunistring-2.dll \
+	$(UNISTRING) \
 	libpcre2-16-0.dll \
 	libharfbuzz-0.dll \
 	libgraphite2.dll \
@@ -458,7 +460,7 @@ install-env-qt6: install-env-common
 	find install-$(WINARCH)-$(GUI)/share/locale -type f -not -name "freeciv-*.mo" -delete
 
 RULEDIT_QT5_DLLS := \
-        libstdc++-6.dll \
+	libstdc++-6.dll \
 	libcrypto-${CRYPTOVERSUF}.dll \
 	libpsl-5.dll \
 	libssl-${CRYPTOVERSUF}.dll \
@@ -516,7 +518,7 @@ install-env-ruledit-qt5:
 	find install-$(WINARCH)-ruledit-qt5/share/locale -type f -not -name "freeciv-*.mo" -delete
 
 RULEDIT_QT6_DLLS := \
-        libstdc++-6.dll \
+	libstdc++-6.dll \
 	libcrypto-${CRYPTOVERSUF}.dll \
 	libpsl-5.dll \
 	libssl-${CRYPTOVERSUF}.dll \
