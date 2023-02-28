@@ -60,16 +60,15 @@ endif
 MAGICKVER=7.Q16HDRI-10
 FFIVER=8
 ICUVER=72
+CRYPTOVERSUF=3${CRYPTOLIB_SUFFIX}
 
 # msys2 has dlls in...
 DLLPATH_PREFIX=/$(ARCHDIR)/bin/
 
 ifeq ($(CI),yes)
-CRYPTOVERSUF=3${CRYPTOLIB_SUFFIX}
-CERTPATH=/etc
+UNISTRING=libunistring-2.dll
 else
-CRYPTOVERSUF=1_1${CRYPTOLIB_SUFFIX}
-CERTPATH=
+UNISTRING=libunistring-5.dll
 endif
 
 #
@@ -238,7 +237,7 @@ COMMON_DLLS := \
 	libltdl-7.dll \
 	libxml2-2.dll \
 	libraqm-0.dll \
-	libunistring-2.dll \
+	$(UNISTRING) \
 	exchndl.dll \
 	mgwhelp.dll \
 	$(SOUND_DLLS)
@@ -247,7 +246,7 @@ install-env-common:
 	# Add DLLs
 	cp -R $(addprefix $(DLLPATH_PREFIX), $(COMMON_DLLS)) $(INST_DIR)/$(WINARCH)-$(GUI)/
 	mkdir -p $(INST_DIR)/$(WINARCH)-$(GUI)/ssl/certs
-	cp -R /$(ARCHDIR)$(CERTPATH)/ssl/certs/ca-bundle.crt $(INST_DIR)/$(WINARCH)-$(GUI)/ssl/certs/
+	cp -R /$(ARCHDIR)/etc/ssl/certs/ca-bundle.crt $(INST_DIR)/$(WINARCH)-$(GUI)/ssl/certs/
 
 FCMP_GTK3_DLLS := \
 	libgdk-3-0.dll \
@@ -287,7 +286,10 @@ FCMP_GTK4_DLLS := \
 	libjbig-0.dll \
 	libwebp-7.dll \
 	libdeflate.dll \
-	libLerc.dll
+	libLerc.dll \
+	libsharpyuv-0.dll \
+	libEGL.dll \
+	libGLESv2.dll
 
 install-env-gtk4-fcmp: install-env-common
 	cp -R $(addprefix $(DLLPATH_PREFIX), $(FCMP_GTK4_DLLS)) $(INST_DIR)/$(WINARCH)-$(GUI)/
