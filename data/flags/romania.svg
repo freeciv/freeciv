@@ -1,28 +1,48 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN"
-"http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd"
-[
- <!ATTLIST svg
-  xmlns:xlink CDATA #FIXED "http://www.w3.org/1999/xlink">
-]>
 <!-- Created with Sodipodi ("http://www.sodipodi.com/") -->
+
 <!-- /Creative Commons Public Domain -->
+
 <!--
 
 -->
+
 <svg
    id="svg548"
    sodipodi:version="0.31.1win"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:xlink="http://www.w3.org/1999/xlink"
    width="999"
    height="666"
-   sodipodi:docname="romania_flag.svg">
+   sodipodi:docname="romania.svg"
+   version="1.1"
+   inkscape:version="1.2.2 (b0a8486541, 2022-12-01)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
   <defs
      id="defs550" />
   <sodipodi:namedview
-     id="base" />
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     showgrid="false"
+     inkscape:zoom="0.70870871"
+     inkscape:cx="495.26695"
+     inkscape:cy="335.82203"
+     inkscape:window-width="870"
+     inkscape:window-height="675"
+     inkscape:window-x="509"
+     inkscape:window-y="103"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg548" />
   <g
      id="g555"
      transform="scale(8.325)">
@@ -48,58 +68,59 @@
        x="80"
        y="0" />
   </g>
-
-  
-
-  <metadata>
-    <rdf:RDF 
-     xmlns="http://web.resource.org/cc/"
-     xmlns:dc="http://purl.org/dc/elements/1.1/"
-     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
-      <Work rdf:about="">
-        <dc:title> romania</dc:title>
-	<dc:description></dc:description>
+  <metadata
+     id="metadata8">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:description />
         <dc:subject>
           <rdf:Bag>
             <rdf:li>flags</rdf:li>
             <rdf:li>sign</rdf:li>
             <rdf:li>signs_and_symbols</rdf:li>
-            <rdf:li></rdf:li>
+            <rdf:li />
             <rdf:li>united_nations_member</rdf:li>
             <rdf:li>europe</rdf:li>
           </rdf:Bag>
         </dc:subject>
         <dc:publisher>
-           <Agent rdf:about="http://www.openclipart.org">
-             <dc:title> Daniel McRae</dc:title>
-           </Agent>
-         </dc:publisher>
-         <dc:creator>
-           <Agent rdf:about="">
-             <dc:title> Daniel McRae</dc:title>
-           </Agent>
+          <cc:Agent
+             rdf:about="http://www.openclipart.org">
+            <dc:title> Daniel McRae</dc:title>
+          </cc:Agent>
+        </dc:publisher>
+        <dc:creator>
+          <cc:Agent
+             rdf:about="">
+            <dc:title> Daniel McRae</dc:title>
+          </cc:Agent>
         </dc:creator>
-         <dc:rights>
-           <Agent rdf:about="">
-             <dc:title> Daniel McRae</dc:title>
-           </Agent>
+        <dc:rights>
+          <cc:Agent
+             rdf:about="">
+            <dc:title> Daniel McRae</dc:title>
+          </cc:Agent>
         </dc:rights>
-        <dc:date></dc:date>
+        <dc:date />
         <dc:format>image/svg+xml</dc:format>
-        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <license rdf:resource="http://web.resource.org/cc/PublicDomain">
-	  <dc:date></dc:date>
-	</license>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <cc:license
+           rdf:resource="http://web.resource.org/cc/PublicDomain">
+          <dc:date />
+        </cc:license>
         <dc:language>en</dc:language>
-      </Work>
-
-      <License rdf:about="http://web.resource.org/cc/PublicDomain">
-         <permits rdf:resource="http://web.resource.org/cc/Reproduction" />
-         <permits rdf:resource="http://web.resource.org/cc/Distribution" />
-         <permits rdf:resource="http://web.resource.org/cc/DerivativeWorks" />
-      </License>
-
-
+      </cc:Work>
+      <cc:License
+         rdf:about="http://web.resource.org/cc/PublicDomain">
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/Reproduction" />
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/Distribution" />
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/DerivativeWorks" />
+      </cc:License>
     </rdf:RDF>
   </metadata>
 </svg>
