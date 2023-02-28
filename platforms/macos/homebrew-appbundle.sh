@@ -11,38 +11,36 @@
 #  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 #  GNU General Public License for more details.
 
+export CXXFLAGS=-std=c++17
 export CPPFLAGS="-I$(brew --prefix readline)/include"
 export LDFLAGS="-L$(brew --prefix icu4c)/lib -L$(brew --prefix readline)/lib"
 export PKG_CONFIG_PATH="$(brew --prefix icu4c)/lib/pkgconfig"
 
 CONTENTSDIR="/Applications/Freeciv.app/Contents/"
 
-if ! mkdir -p "${CONTENTSDIR}" ; then
-  echo "Failed to create \"${CONTENTSDIR}" >&2
-  exit 1
-fi
+if ! [ -e "${CONTENTSDIR}" ] ; then
 
-if ! mkdir -p "${CONTENTSDIR}Resources" ; then
-  echo "Failed to create directory \"${CONTENTSDIR}Resources\"" >&2
-  exit 1
-fi
+	if ! mkdir -p "${CONTENTSDIR}" ; then
+	  echo "Failed to create \"${CONTENTSDIR}" >&2
+	  exit 1
+	fi
 
-if ! cp data/freeciv-client.icns "${CONTENTSDIR}Resources" ; then
-  echo "Failed to copy file \"freeciv-client.icns\"" >&2
-  exit 1
-fi
+	if ! mkdir -p "${CONTENTSDIR}Resources" ; then
+	  echo "Failed to create directory \"${CONTENTSDIR}Resources\"" >&2
+	  exit 1
+	fi
 
-if ! mkdir -p "${CONTENTSDIR}MacOS" ; then
-  echo "Failed to create directory \"${CONTENTSDIR}MacOS\"" >&2
-  exit 1
-fi
+	if ! cp data/freeciv-client.icns "${CONTENTSDIR}Resources" ; then
+	  echo "Failed to copy file \"freeciv-client.icns\"" >&2
+	  exit 1
+	fi
 
-if ! mkdir -p "${CONTENTSDIR}lib" ; then
-  echo "Failed to create directory \"${CONTENTSDIR}lib\"" >&2
-  exit 1
-fi
+	if ! mkdir -p "${CONTENTSDIR}MacOS" ; then
+	  echo "Failed to create directory \"${CONTENTSDIR}MacOS\"" >&2
+	  exit 1
+	fi
 
-if ! echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
+	if ! echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
 <!DOCTYPE plist SYSTEM \"file://localhost/System/Library/DTDs/PropertyList.dtd\"
 <plist version=\"0.9\">
 <dict>
@@ -56,11 +54,11 @@ if ! echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
 	<key>CFBundleIdentifier</key>
 	<string>freeciv</string>
 	<key>CFBundleVersion</key>
-	<string>3.1.0-alpha</string>
+	<string>VER</string>
 	<key>CFBundleShortVersionString</key>
-	<string>3.1.0-alpha</string>
+	<string>VER</string>
 	<key>CFBundleExecutable</key>
-	<string>../bin/freeciv-gtk3.22</string>
+	<string>../bin/freeciv-gtk4</string>
 	<key>CFBundleIconFile</key>
 	<string>freeciv-client.icns</string>
 	<key>CFBundleDevelopmentRegion</key>
@@ -73,18 +71,29 @@ if ! echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
 	<string>6.0</string>
 </dict>
 </plist>" > "${CONTENTSDIR}Info.plist" ; then
-  echo "Failed to create file \"${CONTENTSDIR}Info.plist\"" >&2
-  exit 1
+	  echo "Failed to create file \"${CONTENTSDIR}Info.plist\"" >&2
+	  exit 1
+	fi
+
+	VSTRING=`./fc_version`
+
+	# substitute VSTRING into Info.plist
+	sed -i '' -e "s/VER/${VSTRING}/g" "${CONTENTSDIR}Info.plist"
+
+	if ! echo -n "APPL????" > "${CONTENTSDIR}PkgInfo" ; then
+	  echo "Failed to create file \"${CONTENTSDIR}PkgInfo\"" >&2
+	  exit 1
+	fi
+
 fi
 
-if ! echo -n "APPL????" > "${CONTENTSDIR}PkgInfo" ; then
-  echo "Failed to create file \"${CONTENTSDIR}PkgInfo\"" >&2
-  exit 1
-fi
+if ! [ -e build ] ; then
 
-if ! mkdir build ; then
-  echo "Failed to create build directory" >&2
-  exit 1
+	if ! mkdir build ; then
+	  echo "Failed to create build directory" >&2
+	  exit 1
+	fi
+
 fi
 
 cd build || exit 1
@@ -92,8 +101,9 @@ cd build || exit 1
 if ! meson setup .. \
        -Druledit=false \
        -Dsyslua=true \
-       -Dclients=gtk3.22 \
-       -Dfcmp=gtk3 \
+       -Ddebug=false \
+       -Dclients=gtk4,qt \
+       -Dfcmp=qt \
        -Dprefix="$CONTENTSDIR" ||
    ! ninja ||
    ! ninja install
