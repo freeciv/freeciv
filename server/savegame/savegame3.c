@@ -4836,8 +4836,8 @@ static bool sg_load_player_city(struct loaddata *loading, struct player *plr,
                   "%s duplicates city (%d, %d)", citystr, nat_x, nat_y);
 
   /* Instead of dying, use 'citystr' string for damaged name. */
-  sz_strlcpy(pcity->name, secfile_lookup_str_default(loading->file, citystr,
-                                                     "%s.name", citystr));
+  city_name_set(pcity, secfile_lookup_str_default(loading->file, citystr,
+                                                  "%s.name", citystr));
 
   sg_warn_ret_val(secfile_lookup_int(loading->file, &pcity->id, "%s.id",
                                      citystr), FALSE, "%s", secfile_error());
