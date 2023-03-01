@@ -3,10 +3,10 @@
 AC_DEFUN([FC_QT6],
 [
   if test "x$fc_qt6_usable" = "x" ; then
-    FC_QT6_CPPFLAGS="-DQT_DISABLE_DEPRECATED_BEFORE=0x060000"
+    FC_QT6_CPPFLAGS="-DQT_DISABLE_DEPRECATED_BEFORE=$1"
     case $host_os in
     darwin*) FC_QT6_DARWIN;;
-    *) FC_QT6_GENERIC;;
+    *) FC_QT6_GENERIC([$1], [$2]);;
     esac
   fi
 ])
@@ -22,7 +22,7 @@ AC_DEFUN([FC_QT6_GENERIC],
               [FC_QT6_COMPILETEST([$withval])],
 [POTENTIAL_PATHS="/usr/include /usr/include/qt6 /usr/include/qt"
 
-  # search multiarch paths too (if the multiarch tuple can be found)
+  # Search multiarch paths too (if the multiarch tuple can be found)
   FC_MULTIARCH_TUPLE()
   AS_IF(test "x$MULTIARCH_TUPLE" != "x",
     POTENTIAL_PATHS="$POTENTIAL_PATHS /usr/include/$MULTIARCH_TUPLE/qt6")
@@ -45,7 +45,7 @@ AC_DEFUN([FC_QT6_GENERIC],
                 [FC_QT6_LINKTEST([$withval])],
 [POTENTIAL_PATHS="/usr/lib/qt6 /usr/lib/qt"
 
-    # search multiarch paths too (if the multiarch tuple can be found)
+    # Search multiarch paths too (if the multiarch tuple can be found)
     FC_MULTIARCH_TUPLE()
     AS_IF(test "x$MULTIARCH_TUPLE" != "x",
       POTENTIAL_PATHS="$POTENTIAL_PATHS /usr/lib/$MULTIARCH_TUPLE/qt6")
@@ -62,8 +62,8 @@ AC_DEFUN([FC_QT6_GENERIC],
 
   if test "x$qt6_libs" = "xyes" ; then
     AC_MSG_RESULT([found])
-    AC_MSG_CHECKING([for Qt6 >= 6.0])
-    FC_QT6_VERSION_CHECK
+    AC_MSG_CHECKING([for Qt6 >= $2])
+    FC_QT6_VERSION_CHECK([$1])
   fi
 
   AC_LANG_POP([C++])
@@ -103,7 +103,8 @@ AC_DEFUN([FC_QT6_COMPILETEST],
   CPPFLAGS="$CPPFLAGS_SAVE"
 ])
 
-dnl Check if the included version of Qt is at least Qt-6.0
+dnl Check if the included version of Qt is at least requested version
+dnl $1: Version number if the Qt macro form
 dnl Output: fc_qt6_min_ver=yes|no
 AC_DEFUN([FC_QT6_VERSION_CHECK],
 [
@@ -115,7 +116,7 @@ AC_DEFUN([FC_QT6_VERSION_CHECK],
   LIBS="${LIBS}${LIBSADD}"
   AC_COMPILE_IFELSE([AC_LANG_PROGRAM(
     [[#include <QtCore>]],[[
-      #if QT_VERSION < 0x060000
+      #if QT_VERSION < $1
         fail
       #endif
     ]])],
@@ -125,7 +126,6 @@ AC_DEFUN([FC_QT6_VERSION_CHECK],
   CPPFLAGS="${CPPFLAGS_SAVE}"
   CXXFLAGS="${CXXFLAGS_SAVE}"
 ])
-
 
 dnl Test Qt application linking with current flags
 AC_DEFUN([FC_QT6_LINKTEST],

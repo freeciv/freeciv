@@ -157,6 +157,8 @@ else
   crosser = false
 endif
 
+qtver = get_option('qtver')
+
 # From this, at least the _WIN32_WINNT must be set before
 # trying to find the functions.
 if host_system == 'windows'
@@ -186,7 +188,7 @@ if host_system == 'windows'
       endif
     endif
     if min_win_ver == ''
-      if get_option('qtver') == 'qt6'
+      if qtver == 'qt6' or qtver == 'qt6x'
         add_global_arguments('-D_WIN32_WINNT=0x0A00', language : ['c', 'cpp'])
       else
         add_global_arguments('-D_WIN32_WINNT=0x0603', language : ['c', 'cpp'])
@@ -596,10 +598,13 @@ if get_option('audio') or get_option('clients').contains('sdl2')
   endif
 endif
 
-if get_option('qtver') == 'qt5'
+if qtver == 'qt5'
   add_global_arguments('-DQT_DISABLE_DEPRECATED_BEFORE=0x050f00', language : 'cpp')
   priv_conf_data.set('FC_QT5_MODE', 1)
   qt_opts = []
+elif qtver == 'qt6x'
+  add_global_arguments('-DQT_DISABLE_DEPRECATED_BEFORE=0x060300', language : 'cpp')
+  qt_opts = 'cpp_std=c++17'
 else
   add_global_arguments('-DQT_DISABLE_DEPRECATED_BEFORE=0x060000', language : 'cpp')
   qt_opts = 'cpp_std=c++17'
@@ -2924,7 +2929,7 @@ custom_target('mi_gtk4',
 
 endif
 
-if get_option('qtver') == 'qt6'
+if qtver == 'qt6' or qtver == 'qt6x'
   qt_mod = import('qt6')
 
   qt_dep = dependency('Qt6', modules: ['Core', 'Gui', 'Widgets'], required: false)
@@ -2937,7 +2942,7 @@ endif
 if get_option('clients').contains('qt')
 
 if not qt_dep.found()
-  if get_option('qtver') == 'qt6'
+  if qtver == 'qt6' or qtver == 'qt6x'
     error('Qt6 >= 6.0 required for qt-client in Qt6 mode, but not found')
   else
     error('Qt5 >= 5.15 required for qt-client in Qt5 mode, but not found')
@@ -3450,7 +3455,7 @@ endif
 if get_option('fcmp').contains('qt')
 
 if not qt_dep.found()
-  if get_option('qtver') == 'qt6'
+  if qtver == 'qt6' or qtver == 'qt6x'
     error('Qt6 >= 6.0 required for qt-modpack-installer in Qt6 mode, but not found')
   else
     error('Qt5 >= 5.15 required for qt-modpack-installer in Qt5 mode, but not found')
@@ -3522,7 +3527,7 @@ executable('freeciv-ruleup',
 if get_option('ruledit')
 
 if not qt_dep.found()
-  if get_option('qtver') == 'qt6'
+  if qtver == 'qt6' or qtver == 'qt6x'
     error('Qt6 >= 6.0 required for ruledit in Qt6 mode, but not found')
   else
     error('Qt5 >= 5.15 required for ruledit in Qt5 mode, but not found')

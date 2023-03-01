@@ -752,11 +752,14 @@ AC_ARG_WITH([qtver],
 [case "${withval}" in
  qt5|Qt5) qt_ver="Qt5" ;;
  qt6|Qt6) qt_ver="Qt6" ;;
+ qt6x|Qt6x) qt_ver="Qt6x" ;;
  *) AC_MSG_ERROR([bad value ${enableval} for --with-qtver]) ;;
 esac], [qt_ver="$qt_default"])
 
 if test "x$qt_ver" = "xQt5" ; then
   AC_DEFINE([FC_QT5_MODE], [1], [this is Qt5 based build])
+elif test "x$qt_ver" = "xQt6x" ; then
+  AC_DEFINE([FC_QT6X_MODE], [1], [this is build based on current Qt6 version])
 fi
 
 FC_WORKING_CXX
