@@ -304,91 +304,6 @@ bool utype_can_freely_unload(const struct unit_type *pcargotype,
                   uclass_index(utype_class(ptranstype)));
 }
 
-/**********************************************************************//**
-  Returns TRUE iff the specified action is hostile.
-**************************************************************************/
-static bool action_is_hostile(action_id act_id)
-{
-  struct action *paction = action_by_number(act_id);
-
-  switch (paction->result) {
-  case ACTRES_SPY_INVESTIGATE_CITY:
-  case ACTRES_SPY_POISON:
-  case ACTRES_SPY_STEAL_GOLD:
-  case ACTRES_SPY_SABOTAGE_CITY:
-  case ACTRES_SPY_TARGETED_SABOTAGE_CITY:
-  case ACTRES_SPY_SABOTAGE_CITY_PRODUCTION:
-  case ACTRES_SPY_STEAL_TECH:
-  case ACTRES_SPY_TARGETED_STEAL_TECH:
-  case ACTRES_SPY_INCITE_CITY:
-  case ACTRES_SPY_BRIBE_UNIT:
-  case ACTRES_SPY_SABOTAGE_UNIT:
-  case ACTRES_CAPTURE_UNITS:
-  case ACTRES_STEAL_MAPS:
-  case ACTRES_BOMBARD:
-  case ACTRES_SPY_NUKE:
-  case ACTRES_NUKE:
-  case ACTRES_NUKE_UNITS:
-  case ACTRES_DESTROY_CITY:
-  case ACTRES_EXPEL_UNIT:
-  case ACTRES_STRIKE_BUILDING:
-  case ACTRES_STRIKE_PRODUCTION:
-  case ACTRES_ATTACK:
-  case ACTRES_WIPE_UNITS:
-  case ACTRES_CONQUER_CITY:
-  case ACTRES_PILLAGE:
-  case ACTRES_SPY_ATTACK:
-  case ACTRES_SPY_SPREAD_PLAGUE:
-  case ACTRES_CONQUER_EXTRAS:
-    return TRUE;
-  case ACTRES_ESTABLISH_EMBASSY:
-  case ACTRES_TRADE_ROUTE:
-  case ACTRES_MARKETPLACE:
-  case ACTRES_HELP_WONDER:
-  case ACTRES_FOUND_CITY:
-  case ACTRES_JOIN_CITY:
-  case ACTRES_DISBAND_UNIT_RECOVER:
-  case ACTRES_DISBAND_UNIT:
-  case ACTRES_HOME_CITY:
-  case ACTRES_HOMELESS:
-  case ACTRES_UPGRADE_UNIT:
-  case ACTRES_PARADROP:
-  case ACTRES_PARADROP_CONQUER: /* TODO: should this be hostile? */
-  case ACTRES_AIRLIFT:
-  case ACTRES_HEAL_UNIT:
-  case ACTRES_TRANSFORM_TERRAIN:
-  case ACTRES_CULTIVATE:
-  case ACTRES_PLANT:
-  case ACTRES_CLEAN:
-  case ACTRES_CLEAN_POLLUTION:
-  case ACTRES_CLEAN_FALLOUT:
-  case ACTRES_FORTIFY:
-  case ACTRES_ROAD:
-  case ACTRES_CONVERT:
-  case ACTRES_BASE:
-  case ACTRES_MINE:
-  case ACTRES_IRRIGATE:
-  case ACTRES_TRANSPORT_DEBOARD:
-  case ACTRES_TRANSPORT_UNLOAD:
-  case ACTRES_TRANSPORT_DISEMBARK:
-  case ACTRES_TRANSPORT_BOARD:
-  case ACTRES_TRANSPORT_LOAD:
-  case ACTRES_TRANSPORT_EMBARK:
-  case ACTRES_HUT_ENTER:
-  case ACTRES_HUT_FRIGHTEN:
-  case ACTRES_UNIT_MOVE:
-  case ACTRES_SPY_ESCAPE:
-    return FALSE;
-  case ACTRES_NONE:
-    /* Assume they are up to something. */
-    return TRUE;
-  }
-
-  /* Should not be reached. */
-  fc_assert(FALSE);
-  return FALSE;
-}
-
 /* Fake action id representing any hostile action. */
 #define ACTION_HOSTILE ACTION_COUNT + 1
 
@@ -429,7 +344,8 @@ static void unit_can_act_cache_set(struct unit_type *putype)
                 action_rule_name(paction));
       BV_SET(unit_can_act_cache[act_id], utype_index(putype));
       BV_SET(unit_can_act_cache[ACTION_ANY], utype_index(putype));
-      if (action_is_hostile(act_id)) {
+
+      if (actres_is_hostile(paction->result)) {
         BV_SET(unit_can_act_cache[ACTION_HOSTILE], utype_index(putype));
       }
     }
@@ -690,9 +606,11 @@ static void unit_state_action_cache_set(struct unit_type *putype)
      * No unit state except present and !present of the same property
      * implies or conflicts with another so the tests can be simple. */
     action_enablers_iterate(enabler) {
+      struct action *paction = enabler_get_action(enabler);
+
       if (requirement_fulfilled_by_unit_type(putype,
                                              &(enabler->actor_reqs))
-          && action_get_actor_kind(enabler_get_action(enabler)) == AAK_UNIT) {
+          && action_get_actor_kind(paction) == AAK_UNIT) {
         bool present = TRUE;
 
         do {
@@ -704,7 +622,7 @@ static void unit_state_action_cache_set(struct unit_type *putype)
             BV_SET(ustate_act_cache[utype_index(putype)][act_id],
                 requirement_unit_state_ereq(req.source.value.unit_state,
                                             !req.present));
-            if (action_is_hostile(act_id)) {
+            if (actres_is_hostile(paction->result)) {
               BV_SET(ustate_act_cache[utype_index(putype)][ACTION_HOSTILE],
                   requirement_unit_state_ereq(req.source.value.unit_state,
                                               !req.present));
@@ -790,7 +708,7 @@ static void local_dipl_rel_action_cache_set(struct unit_type *putype)
             BV_SET(dipl_rel_action_cache[uidx][act_id],
                 requirement_diplrel_ereq(req.source.value.diplrel,
                                          REQ_RANGE_LOCAL, req.present));
-            if (action_is_hostile(act_id)) {
+            if (actres_is_hostile(paction->result)) {
               BV_SET(dipl_rel_action_cache[uidx][ACTION_HOSTILE],
                      requirement_diplrel_ereq(req.source.value.diplrel,
                                               REQ_RANGE_LOCAL,
@@ -850,9 +768,11 @@ local_dipl_rel_tile_other_tgt_action_cache_set(struct unit_type *putype)
      * the cache when units can do an action given a certain diplomatic
      * relationship property value. */
     action_enablers_iterate(enabler) {
+      struct action *paction = enabler_get_action(enabler);
+
       if (requirement_fulfilled_by_unit_type(putype,
                                              &(enabler->actor_reqs))
-          && action_get_actor_kind(enabler_get_action(enabler)) == AAK_UNIT
+          && action_get_actor_kind(paction) == AAK_UNIT
           /* No diplomatic relation to Nature */
           && !does_req_contradicts_reqs(&tile_is_claimed,
                                         &enabler->target_reqs)) {
@@ -866,7 +786,7 @@ local_dipl_rel_tile_other_tgt_action_cache_set(struct unit_type *putype)
             BV_SET(dipl_rel_tile_other_tgt_a_cache[uidx][act_id],
                 requirement_diplrel_ereq(req.source.value.diplrel,
                                          REQ_RANGE_LOCAL, req.present));
-            if (action_is_hostile(act_id)) {
+            if (actres_is_hostile(paction->result)) {
               BV_SET(dipl_rel_tile_other_tgt_a_cache[uidx][ACTION_HOSTILE],
                      requirement_diplrel_ereq(req.source.value.diplrel,
                                               REQ_RANGE_LOCAL,
@@ -922,9 +842,11 @@ static void tgt_citytile_act_cache_set(struct unit_type *putype)
      * property implies or conflicts with another so the tests can be
      * simple. */
     action_enablers_iterate(enabler) {
+      struct action *paction = enabler_get_action(enabler);
+
       if (requirement_fulfilled_by_unit_type(putype,
                                              &(enabler->target_reqs))
-          && action_get_actor_kind(enabler_get_action(enabler)) == AAK_UNIT) {
+          && action_get_actor_kind(paction) == AAK_UNIT) {
         bool present = TRUE;
 
         do {
@@ -937,7 +859,7 @@ static void tgt_citytile_act_cache_set(struct unit_type *putype)
                 ctile_tgt_act_cache[utype_index(putype)][act_id],
                 requirement_citytile_ereq(req.source.value.citytile,
                                           !req.present));
-            if (action_is_hostile(act_id)) {
+            if (actres_is_hostile(paction->result)) {
               BV_SET(
                   ctile_tgt_act_cache[utype_index(putype)][ACTION_HOSTILE],
                   requirement_citytile_ereq(req.source.value.citytile,
