@@ -138,11 +138,14 @@ do {                                                        \
 {                                                           \
   struct city *c##_proute = c;                              \
   int _routes##_size = trade_route_list_size(c##_proute->routes); \
+                                                            \
   if (_routes##_size > 0) {                                 \
     struct trade_route *_routes##_saved[_routes##_size];    \
-    int _routes##_index = 0;                                \
+    int _routes##_index;                                    \
+                                                            \
+    _routes##_size = 0;                                     \
     trade_routes_iterate(c##_proute, _proute) {             \
-      _routes##_saved[_routes##_index++] = _proute;         \
+      _routes##_saved[_routes##_size++] = _proute;          \
     } trade_routes_iterate_end;                             \
     for (_routes##_index = 0;                               \
          _routes##_index < _routes##_size;                  \
@@ -233,4 +236,4 @@ bool city_receives_goods(const struct city *pcity,
 }
 #endif /* __cplusplus */
 
-#endif  /* FC__TRADEROUTES_H */
+#endif /* FC__TRADEROUTES_H */
