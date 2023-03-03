@@ -1058,11 +1058,15 @@ if test "x$crosser" != "xyes" && test "x$thread_impl_cpp" = "xnone" ; then
   FC_C_FLAGS([-pthread], [], [CFLAGS])
   FC_LD_FLAGS([-pthread], [], [LIBS])
   AC_LINK_IFELSE([AC_LANG_PROGRAM([[#include <pthread.h>]],
-    [[return pthread_create(NULL, NULL, NULL, NULL);]])],
+    [[void *(*srout)(void *);
+void *arg;
+return pthread_create(NULL, NULL, srout, arg);]])],
     [thread_impl_cpp=pthreads],
     [LIBS="$LIBS -lpthread"
      AC_LINK_IFELSE([AC_LANG_PROGRAM([[#include <pthread.h>]],
-       [[return pthread_create(NULL, NULL, NULL, NULL);]])],
+       [[void *(*srout)(void *);
+void *arg;
+return pthread_create(NULL, NULL, srout, arg);]])],
        [thread_impl_cpp=pthreads
         thr_libs_pthreads=" -lpthread"])
      LIBS="$LIBS_SAVE"
