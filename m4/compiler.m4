@@ -99,7 +99,7 @@ AC_DEFUN([FC_WORKING_CXX],
 [
 if test "x$qt_ver" = "xQt5" ; then
   AX_CXX_COMPILE_STDCXX([11], [], [optional])
-elif test "x$qt_ver" = "xQt6" ; then
+elif test "x$qt_ver" = "xQt6" || test "x$qt_ver" = "xQt6x" ; then
   AX_CXX_COMPILE_STDCXX([17], [], [optional])
 fi
 
