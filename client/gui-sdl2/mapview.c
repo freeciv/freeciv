@@ -296,7 +296,7 @@ void gui_flush(void)
 
 /**********************************************************************//**
   Set information for the indicator icons typically shown in the main
-  client window.  The parameters tell which sprite to use for the
+  client window. The parameters tell which sprite to use for the
   indicator.
 **************************************************************************/
 void set_indicator_icons(struct sprite *bulb, struct sprite *sol,
@@ -322,11 +322,11 @@ void set_indicator_icons(struct sprite *bulb, struct sprite *sol,
 
   if (NULL != client.conn.playing) {
     fc_snprintf(cbuf, sizeof(cbuf), "%s (%s)\n%s",
-                _("Revolution"), "Ctrl+Shift+R",
+                _("Revolution"), "Ctrl+Shift+G",
                 government_name_for_player(client.conn.playing));
   } else {
     fc_snprintf(cbuf, sizeof(cbuf), "%s (%s)\n%s",
-                _("Revolution"), "Ctrl+Shift+R",
+                _("Revolution"), "Ctrl+Shift+G",
                 Q_("?gov:None"));
   }
   copy_chars_to_utf8_str(buf->info_label, cbuf);
