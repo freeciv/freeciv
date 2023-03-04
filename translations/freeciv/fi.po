@@ -10,15 +10,15 @@
 # Timo Jyrinki <timo.jyrinki@iki.fi> & helpers.
 # This translation is covered by the GNU General Public License Version 2.
 #
-# Merging translations upwards to e.g. master is fine, do not merge downwards
+# Merging translations upwards to e.g. main is fine, do not merge downwards
 # by default.
 #
 # Prioritizing stable branch 2_6 for translations (July 2017), merge
-# to later branches or master when feeling like it with:
-#   msgmerge --compendium=fi.po.master fi.po.s2_6 freeciv.pot -o fi.po.newmaster
-# where fi.po.master is current master version, fi.po.s2_6 the improved branch
-# version, freeciv.pot an up-to-date POT for the master.
-# Then upload the resulting fi.po.newmaster to master.
+# to later branches or main when feeling like it with:
+#   msgmerge --compendium=fi.po.main fi.po.s2_6 freeciv.pot -o fi.po.newmain
+# where fi.po.main is current main version, fi.po.s2_6 the improved branch
+# version, freeciv.pot an up-to-date POT for the main.
+# Then upload the resulting fi.po.newmain to main.
 #
 # For nationality translations, see
 # http://www.kotus.fi/julkaisut/nimijulkaisut/paikannimijulkaisut/maat_paakaupungit_ja_kansalaisuudet
@@ -29,8 +29,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 2.6\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2023-01-31 21:45+0200\n"
-"PO-Revision-Date: 2023-01-31 21:50+0200\n"
+"POT-Creation-Date: 2023-03-04 06:23+0200\n"
+"PO-Revision-Date: 2023-03-04 06:25+0200\n"
 "Last-Translator: Sini Ruohomaa <sini.ruohomaa@iki.fi>\n"
 "Language-Team: None <freeciv-i18n@freelists.org>\n"
 "Language: fi\n"
@@ -17589,7 +17589,7 @@ msgstr ""
 "Kuvitus \"%s\" ei tue %d ruudun pituisia reittinuolia. Reittinuolia ei "
 "välttämättä voida näyttää tavalliseen tapaan."
 
-#: client/tilespec.c:5834
+#: client/tilespec.c:5838
 #, c-format
 msgid ""
 "Tileset \"%s\" doesn't support big cities size, such as %d. Size not "
@@ -17598,12 +17598,12 @@ msgstr ""
 "Kuvitus \"%s\" ei tue %d kokoisia kaupunkeja. Kaupungin kokoa ei voida "
 "näyttää tavalliseen tapaan."
 
-#: client/tilespec.c:5980
+#: client/tilespec.c:5984
 #, c-format
 msgid "City style \"%s\": no city graphics."
 msgstr "Kaupunkityylille \"%s\" ei löydy grafiikoita."
 
-#: client/tilespec.c:5984
+#: client/tilespec.c:5988
 #, c-format
 msgid "City style \"%s\": no occupied graphics."
 msgstr ""
@@ -18847,47 +18847,47 @@ msgstr "epäyhteensopiva paketin sisältö"
 #. TRANS: These words should be adjectives which can fit in the sentence
 #. "The x are y towards us"
 #. "The Babylonians are respectful towards us"
-#: common/player.c:1242
+#: common/player.c:1245
 msgid "?attitude:Genocidal"
 msgstr "Kansansurmahakuinen"
 
-#: common/player.c:1244
+#: common/player.c:1247
 msgid "?attitude:Belligerent"
 msgstr "Sotaisa"
 
-#: common/player.c:1246
+#: common/player.c:1249
 msgid "?attitude:Hostile"
 msgstr "Vihamielinen"
 
-#: common/player.c:1248
+#: common/player.c:1251
 msgid "?attitude:Uncooperative"
 msgstr "Yhteistyökyvytön"
 
-#: common/player.c:1250
+#: common/player.c:1253
 msgid "?attitude:Uneasy"
 msgstr "Rauhaton"
 
-#: common/player.c:1252
+#: common/player.c:1255
 msgid "?attitude:Neutral"
 msgstr "Neutraali"
 
-#: common/player.c:1254
+#: common/player.c:1257
 msgid "?attitude:Respectful"
 msgstr "Kunnioittava"
 
-#: common/player.c:1256
+#: common/player.c:1259
 msgid "?attitude:Helpful"
 msgstr "Avulias"
 
-#: common/player.c:1258
+#: common/player.c:1261
 msgid "?attitude:Enthusiastic"
 msgstr "Innokas"
 
-#: common/player.c:1260
+#: common/player.c:1263
 msgid "?attitude:Admiring"
 msgstr "Ihaileva"
 
-#: common/player.c:1263
+#: common/player.c:1266
 msgid "?attitude:Worshipful"
 msgstr "Palvova"
 
@@ -35974,12 +35974,7 @@ msgid ""
 "grew to become one of the largest in the history of Africa. The rulers of "
 "Songhai became known for their wealth as well as their devotion to the "
 "Muslim faith."
-msgstr ""
-"Songhait muodostivat valtakunnan 1000-luvulla jaa. Sen pääkaupunki oli Gao. "
-"Malin vallan heikentyessä parisataa vuotta myöhemmin Songhait muodostivat "
-"oman kuningaskuntansa, joka kasvoi yhdeksi Afrikan historian suurimmista. "
-"Songhain hallitsijat tunnettiin varakkuudetsaan, samoin kuin vahvasta "
-"omistautumisestaan islaminuskolle."
+msgstr "Songhait muodostivat valtakunnan 1000-luvulla jaa. Sen pääkaupunki oli Gao. Malin vallan heikentyessä parisataa vuotta myöhemmin Songhait muodostivat oman kuningaskuntansa, joka kasvoi yhdeksi Afrikan historian suurimmista. Songhain hallitsijat tunnettiin varakkuudestaan, samoin kuin vahvasta omistautumisestaan islaminuskolle."
 
 #: data/nation/sumerian.ruleset:5
 msgid "Sumerian"
@@ -42190,17 +42185,17 @@ msgstr "%s on lisätty tavalliseksi pelaajaksi."
 msgid "%s had invalid nation; changing to %s."
 msgstr "%s johtama kansakunta ei kelpaa; vaihdetaan tilalle %s."
 
-#: server/savegame2.c:7554 server/savegame.c:4107
+#: server/savegame2.c:7555 server/savegame.c:4107
 #, c-format
 msgid "%s had invalid researching technology."
 msgstr "Pelaajan %s tutkimuskohde oli virheellinen."
 
-#: server/savegame2.c:7564 server/savegame.c:4118
+#: server/savegame2.c:7565 server/savegame.c:4118
 #, c-format
 msgid "%s had invalid technology goal."
 msgstr "Pelaajan %s tutkimustavoite oli virheellinen."
 
-#: server/savegame2.c:7589
+#: server/savegame2.c:7590
 #, c-format
 msgid ""
 "%s has multiple units of type %s though it should be possible to have only "
