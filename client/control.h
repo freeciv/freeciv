@@ -25,6 +25,7 @@ extern "C" {
 enum cursor_hover_state {
   HOVER_NONE = 0,
   HOVER_GOTO,
+  HOVER_TELEPORT,
   HOVER_PARADROP,
   HOVER_CONNECT,
   HOVER_PATROL,
@@ -267,6 +268,7 @@ void key_unit_pillage(void);
 void key_unit_pollution(void);
 void key_unit_road(void);
 void key_unit_sentry(void);
+void key_unit_teleport(void);
 void key_unit_trade_route(void);
 void key_unit_transform(void);
 void key_unit_unload_all(void);
@@ -291,4 +293,4 @@ extern int num_units_below;
 }
 #endif /* __cplusplus */
 
-#endif  /* FC__CONTROL_H */
+#endif /* FC__CONTROL_H */

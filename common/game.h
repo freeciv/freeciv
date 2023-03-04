@@ -17,7 +17,7 @@
 extern "C" {
 #endif /* __cplusplus */
 
-#include <time.h>	/* time_t */
+#include <time.h>       /* time_t */
 
 #ifdef FREECIV_HAVE_SYS_TIME_H
 #include <sys/time.h>
@@ -29,7 +29,7 @@ extern "C" {
 #include "timing.h"
 
 /* common */
-#include "connection.h"	        /* struct conn_list */
+#include "connection.h"         /* struct conn_list */
 #include "fc_types.h"
 #include "packets.h"
 #include "traits.h"
@@ -901,6 +901,8 @@ static inline bool is_ruleset_compat_mode(void)
 #define RS_DEFAULT_USER_ACTION_TARGET_KIND       ATK_UNIT
 #define RS_DEFAULT_ACTION_MIN_RANGE              0
 #define RS_DEFAULT_ACTION_MAX_RANGE              1
+/* Can't move less than one step, or it's not move at all */
+#define RS_DEFAULT_MOVE_MIN_RANGE                1
 #define RS_DEFAULT_EXPLODE_NUCLEAR_MAX_RANGE     0
 
 #define RS_ACTION_NO_MAX_DISTANCE                "unlimited"
@@ -909,4 +911,4 @@ static inline bool is_ruleset_compat_mode(void)
 }
 #endif /* __cplusplus */
 
-#endif  /* FC__GAME_H */
+#endif /* FC__GAME_H */

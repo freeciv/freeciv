@@ -114,6 +114,11 @@ bool unit_can_move_to_tile(const struct civ_map *nmap,
                            bool igzoc,
                            bool enter_transport,
                            bool enter_enemy_city);
+bool unit_can_teleport_to_tile(const struct civ_map *nmap,
+                               const struct unit *punit,
+                               const struct tile *ptile,
+                               bool enter_transport,
+                               bool enter_enemy_city);
 enum unit_move_result
 unit_move_to_tile_test(const struct civ_map *nmap,
                        const struct unit *punit,

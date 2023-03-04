@@ -1309,6 +1309,7 @@ static int action_target_neg_util(action_id act_id,
   case ACTRES_HUT_ENTER:
   case ACTRES_HUT_FRIGHTEN:
   case ACTRES_UNIT_MOVE:
+  case ACTRES_TELEPORT:
   case ACTRES_HOMELESS:
     fc_assert_msg(action_id_get_target_kind(act_id) == ATK_CITY,
                   "Action not aimed at cities");

@@ -979,6 +979,9 @@ static void goto_fill_parameter_full(struct goto_map *goto_map,
     fc_assert_msg(hover_state != HOVER_GOTO_SEL_TGT,
                   "Path finding during target selection");
     break;
+  case HOVER_TELEPORT:
+    fc_assert_msg(hover_state != HOVER_TELEPORT, "Goto with HOVER_TELEPORT?");
+    break;
   case HOVER_NONE:
   case HOVER_PARADROP:
   case HOVER_ACT_SEL_TGT:

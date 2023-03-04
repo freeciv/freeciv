@@ -827,6 +827,22 @@ bool can_unit_deboard_or_be_unloaded(const struct unit *pcargo,
   a friendly city or on an airbase special, has enough movepoints left, and
   has not paradropped yet this turn.
 **************************************************************************/
+bool can_unit_teleport(const struct unit *punit)
+{
+  action_by_result_iterate(paction, act_id, ACTRES_TELEPORT) {
+    if (action_maybe_possible_actor_unit(act_id, punit)) {
+      return TRUE;
+    }
+  } action_by_result_iterate_end;
+
+  return FALSE;
+}
+
+/**********************************************************************//**
+  Return whether the unit can be paradropped - that is, if the unit is in
+  a friendly city or on an airbase special, has enough movepoints left, and
+  has not paradropped yet this turn.
+**************************************************************************/
 bool can_unit_paradrop(const struct unit *punit)
 {
   action_by_result_iterate(paction, act_id, ACTRES_PARADROP) {

@@ -147,6 +147,8 @@ static struct actres act_results[ACTRES_LAST] = {
   { ACT_TGT_COMPL_SIMPLE, ABK_NONE,          /* ACTRES_TRANSPORT_LOAD */
     FALSE },
   { ACT_TGT_COMPL_FLEXIBLE, ABK_NONE,        /* ACTRES_CLEAN */
+    FALSE },
+  { ACT_TGT_COMPL_SIMPLE, ABK_NONE,          /* ACTRES_TELEPORT */
     FALSE }
 };
 

@@ -683,6 +683,7 @@ void update_line(int canvas_x, int canvas_y)
                     goto_last_action, goto_last_order);
     break;
   case HOVER_NONE:
+  case HOVER_TELEPORT:
   case HOVER_PARADROP:
   case HOVER_ACT_SEL_TGT:
     break;
@@ -717,6 +718,7 @@ void overview_update_line(int overview_x, int overview_y)
                     goto_last_action, goto_last_order);
     break;
   case HOVER_NONE:
+  case HOVER_TELEPORT:
   case HOVER_PARADROP:
   case HOVER_ACT_SEL_TGT:
     break;
