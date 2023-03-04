@@ -31,8 +31,6 @@ bool qtg_is_view_supported(enum ts_type type)
   case TS_ISOMETRIC:
   case TS_OVERHEAD:
     return true;
-  case TS_3D:
-    return false;
   }
 
   return false;

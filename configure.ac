@@ -544,17 +544,6 @@ AC_ARG_WITH([zoom],
   [AS_HELP_STRING([--with-zoom], [expose experimental zoom levels support on gtk-clients to user])],
   [AC_DEFINE([EXP_ZOOM_LEVELS], [1], [Experimental zoom levels (other than 1.0 and 2.0)])])
 
-AC_ARG_WITH([3d],
-  [AS_HELP_STRING([--with-3d], [build WIP 3D support to gtk3.22-client])],
-  [AC_DEFINE([GTK3_3D_ENABLED], [1], [3D support built to gtk3.22-client])
-   enable_3d=true])
-
-gui_3d_libs=""
-if test x$enable_3d = xtrue ; then
-  AC_CHECK_LIB([GL], [glBegin], [gui_3d_libs="-lGL"],
-               [AC_MSG_ERROR([libGL needed for 3D support not found])])
-fi
-
 AC_ARG_ENABLE([gitrev],
   AS_HELP_STRING([--enable-gitrev], [get git revision to version information]),
 [case "${enableval}" in
@@ -1451,7 +1440,6 @@ if test "$RELEASE_TYPE" = "stable" ; then
   :
 fi
 
-AC_SUBST([gui_3d_libs])
 AC_SUBST([gui_gtk3_22_cflags])
 AC_SUBST([gui_gtk3_22_libs])
 AC_SUBST([gui_gtk3_22_ldflags])
