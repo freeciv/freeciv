@@ -3507,7 +3507,9 @@ static void sg_load_players_basic(struct loaddata *loading)
 
     /* Create player. */
     pplayer = server_create_player(player_slot_index(pslot), str,
-                                   prgbcolor, game.scenario.allow_ai_type_fallback);
+                                   prgbcolor,
+                                   !game.scenario.is_scenario
+                                   || game.scenario.allow_ai_type_fallback);
     sg_failure_ret(pplayer != NULL, "Invalid AI type: '%s'!", str);
 
     server_player_init(pplayer, FALSE, FALSE);
