@@ -1793,9 +1793,11 @@ Dialogs and Reports:\n\
     F12: open Spaceship\n\
 \n\
     Ctrl-F:       open Find City dialog\n\
-    Ctrl-L:       open Worklists dialog\n\
+    Shift-Ctrl-L: open Worklists dialog\n\
     Ctrl-T:       open Tax/Lux/Sci Rates dialog\n\
-    Shift-Ctrl-R: open Revolution dialog\n\
+    Shift-Ctrl-G: open Revolution dialog\n\
+    Shift-Ctrl-I: open Infrapoints dialog\n\
+    Shift-Ctrl-R: open Rally point dialog\n\
 \n\
 Shift-Return: Turn done\n\
 "), _("\
