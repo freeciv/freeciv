@@ -1417,6 +1417,24 @@ Actions done by a unit against a tile
 * A copy of "Unit Move"
 * See "Unit Move" for everything else.
 
+"Teleport" - telepor unit to the target tile.
+* UI name can be set using ui_name_teleport
+* any action listed in teleport_blocked_by must be impossible
+* the range of legal distance between actor unit and target tile
+  must be between teleport_min_range and teleport_max_range
+* the actor unit may not be transported (!)
+* the actor unit's type must be the target tile's terrain animal if the
+  player's nation is an animal barbarian.
+* the actor unit must be able to exist outside of a transport at the target
+  tile.
+* the actor unit doesn't have the "CoastStrict" unit type flag or the
+  target tile is on or adjacent to a tile that doesn't have the
+  "UnsafeCoast" terrain flag.
+* the actor unit can't be diplomatically forbidden from entering the target
+  tile.
+* the target tile can't contain any city or units not allied to the actor
+  unit and all its cargo.
+
 Actions done by a unit against all extras at a tile
 ===================================================
 "Conquer Extras" - Claim ownership of an extra.

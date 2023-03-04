@@ -126,6 +126,8 @@ bool non_ai_unit_focus;
 
 static void key_unit_gen_clean(enum unit_activity act, enum extra_rmcause rmcause);
 
+static void do_unit_teleport_to(struct unit *punit, struct tile *ptile);
+
 /*************************************************************************/
 
 static struct unit *quickselect(struct tile *ptile,
@@ -1271,6 +1273,10 @@ void control_mouse_cursor(struct tile *ptile)
       mouse_cursor_type = CURSOR_INVALID;
     }
     break;
+  case HOVER_TELEPORT:
+    /* FIXME: check for invalid tiles & teleport specific cursor type. */
+    mouse_cursor_type = CURSOR_PARADROP;
+    break;
   case HOVER_PARADROP:
     /* FIXME: check for invalid tiles. */
     mouse_cursor_type = CURSOR_PARADROP;
@@ -2237,6 +2243,44 @@ void request_unit_paradrop(struct unit_list *punits)
 }
 
 /**********************************************************************//**
+  Have the player select what tile to teleport to. Once selected a
+  teleport request will be sent to server.
+**************************************************************************/
+static void request_unit_teleport(struct unit_list *punits)
+{
+  bool can = FALSE;
+  struct tile *offender = NULL;
+
+  if (unit_list_size(punits) == 0) {
+    return;
+  }
+
+  unit_list_iterate(punits, punit) {
+    if (can_unit_teleport(punit)) {
+      can = TRUE;
+      break;
+    }
+    if (!offender) { /* Take first offender tile/unit */
+      offender = unit_tile(punit);
+    }
+  } unit_list_iterate_end;
+
+  if (can) {
+    create_event(unit_tile(unit_list_get(punits, 0)), E_BEGINNER_HELP,
+                 ftc_client,
+                 /* TRANS: teleport target tile. */
+                 _("Click on a tile to teleport to it."));
+
+    set_hover_state(punits, HOVER_TELEPORT, ACTIVITY_LAST, NULL,
+                    NO_TARGET, NO_TARGET, ACTION_NONE, ORDER_LAST);
+    update_unit_info_label(punits);
+  } else {
+    create_event(offender, E_BAD_COMMAND, ftc_client,
+                 _("Only teleporting units can do this."));
+  }
+}
+
+/**********************************************************************//**
   Either start new patrol route planning, or add waypoint to current one.
 **************************************************************************/
 void request_unit_patrol(void)
@@ -2841,6 +2885,11 @@ void do_map_click(struct tile *ptile, enum quickselect_type qtype)
     case HOVER_GOTO:
       do_unit_goto(ptile);
       break;
+    case HOVER_TELEPORT:
+      unit_list_iterate(punits, punit) {
+        do_unit_teleport_to(punit, ptile);
+      } unit_list_iterate_end;
+      break;
     case HOVER_PARADROP:
       unit_list_iterate(punits, punit) {
         do_unit_paradrop_to(punit, ptile);
@@ -3058,6 +3107,45 @@ void do_unit_goto(struct tile *ptile)
 }
 
 /**********************************************************************//**
+  Teleport to a location.
+**************************************************************************/
+static void do_unit_teleport_to(struct unit *punit, struct tile *ptile)
+{
+  struct action *teleport_action = NULL;
+
+  action_iterate(act_id) {
+    struct action *paction = action_by_number(act_id);
+
+    if (!action_has_result(paction, ACTRES_TELEPORT)) {
+      /* Not relevant. */
+      continue;
+    }
+
+    if (action_prob_possible(
+          action_prob_unit_vs_tgt(paction, punit,
+                                  tile_city(ptile), NULL,
+                                  ptile, NULL))) {
+      if (teleport_action == NULL) {
+        /* This is the first possible teleport action. */
+        teleport_action = paction;
+      } else {
+        /* More than one teleport action may be possible. The user must
+         * choose. Have the server record that an action decision is wanted
+         * for this unit so the dialog will be brought up. */
+        dsend_packet_unit_sscs_set(&client.conn, punit->id,
+                                   USSDT_QUEUE, tile_index(ptile));
+        return;
+      }
+    }
+  } action_iterate_end;
+
+  if (teleport_action != NULL) {
+    request_do_action(teleport_action->id, punit->id,
+                      tile_index(ptile), 0 , "");
+  }
+}
+
+/**********************************************************************//**
   Paradrop to a location.
 **************************************************************************/
 void do_unit_paradrop_to(struct unit *punit, struct tile *ptile)
@@ -3151,6 +3239,7 @@ void key_cancel_action(void)
       break;
     }
     fc__fallthrough; /* else fall through: */
+  case HOVER_TELEPORT:
   case HOVER_PARADROP:
   case HOVER_ACT_SEL_TGT:
     clear_hover_state();
@@ -3364,6 +3453,14 @@ void key_unit_paradrop(void)
 void key_unit_patrol(void)
 {
   request_unit_patrol();
+}
+
+/**********************************************************************//**
+  Handle user 'teleport' input
+**************************************************************************/
+void key_unit_teleport(void)
+{
+  request_unit_teleport(get_units_in_focus());
 }
 
 /**********************************************************************//**

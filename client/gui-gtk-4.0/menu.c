@@ -427,6 +427,9 @@ static void unit_explore_callback(GSimpleAction *action,
 static void unit_patrol_callback(GSimpleAction *action,
                                  GVariant *parameter,
                                  gpointer data);
+static void unit_teleport_callback(GSimpleAction *action,
+                                   GVariant *parameter,
+                                   gpointer data);
 static void unit_sentry_callback(GSimpleAction *action,
                                  GVariant *parameter,
                                  gpointer data);
@@ -695,6 +698,9 @@ static struct menu_entry_info menu_entries[] =
     NULL, FALSE },
   { "UNIT_PATROL", N_("_Patrol"),
     "patrol", "q", MGROUP_UNIT,
+    NULL, FALSE },
+  { "UNIT_TELEPORT", N_("_Teleport"),
+    "teleport", NULL, MGROUP_UNIT,
     NULL, FALSE },
   { "UNIT_SENTRY", N_("_Sentry"),
     "sentry", "s", MGROUP_UNIT,
@@ -1060,6 +1066,7 @@ const GActionEntry acts[] = {
   { "return", unit_return_callback },
   { "explore", unit_explore_callback },
   { "patrol", unit_patrol_callback },
+  { "teleport", unit_teleport_callback },
   { "sentry", unit_sentry_callback },
   { "board", unit_board_callback },
   { "deboard", unit_deboard_callback },
@@ -2273,6 +2280,15 @@ static void unit_patrol_callback(GSimpleAction *action, GVariant *parameter,
 }
 
 /************************************************************************//**
+  Item "UNIT_TELEPORT" callback.
+****************************************************************************/
+static void unit_teleport_callback(GSimpleAction *action, GVariant *parameter,
+                                   gpointer data)
+{
+  key_unit_teleport();
+}
+
+/************************************************************************//**
   Item "UNIT_SENTRY" callback.
 ****************************************************************************/
 static void unit_sentry_callback(GSimpleAction *action,
@@ -3062,6 +3078,7 @@ static GMenu *setup_menus(GtkApplication *app)
   menu_entry_init(unit_menu, "UNIT_RETURN");
   menu_entry_init(unit_menu, "UNIT_EXPLORE");
   menu_entry_init(unit_menu, "UNIT_PATROL");
+  menu_entry_init(unit_menu, "UNIT_TELEPORT");
   menu_entry_init(unit_menu, "UNIT_SENTRY");
   menu_entry_init(unit_menu, "UNIT_BOARD");
   menu_entry_init(unit_menu, "UNIT_DEBOARD");
@@ -3833,6 +3850,9 @@ void real_menus_update(void)
 
   menu_entry_set_sensitive(map, "DO_ACTION",
                            units_can_do_action(punits, ACTION_ANY, TRUE));
+
+  menu_entry_set_sensitive(map, "UNIT_TELEPORT",
+                           can_units_do(punits, can_unit_teleport));
 
   menu_entry_set_sensitive(map, "BUILD_ROAD",
                            (can_units_do_any_road(punits)

@@ -815,6 +815,7 @@ static void hard_code_oblig_hard_reqs(void)
                           N_("All action enablers for %s must require"
                              " that the actor isn't transported."),
                           ACTRES_UNIT_MOVE,
+                          ACTRES_TELEPORT,
                           ACTRES_NONE);
 
   /* Why this is a hard requirement: assumed by the Freeciv code. */
@@ -1461,6 +1462,10 @@ static void hard_code_actions(void)
       unit_action_new(ACTION_UNIT_MOVE3, ACTRES_UNIT_MOVE,
                       TRUE, TRUE,
                       MAK_REGULAR, 1, 1, FALSE);
+  actions[ACTION_TELEPORT] =
+      unit_action_new(ACTION_TELEPORT, ACTRES_TELEPORT,
+                      TRUE, TRUE,
+                      MAK_TELEPORT, 1, 1, FALSE);
   actions[ACTION_USER_ACTION1] =
       unit_action_new(ACTION_USER_ACTION1, ACTRES_NONE,
                       FALSE, TRUE,
@@ -2277,6 +2282,7 @@ bool action_creates_extra(const struct action *paction,
   case ACTRES_HUT_ENTER:
   case ACTRES_HUT_FRIGHTEN:
   case ACTRES_UNIT_MOVE:
+  case ACTRES_TELEPORT:
   case ACTRES_NONE:
     break;
   }
@@ -2367,6 +2373,7 @@ bool action_removes_extra(const struct action *paction,
   case ACTRES_SPY_ATTACK:
   case ACTRES_SPY_SPREAD_PLAGUE:
   case ACTRES_UNIT_MOVE:
+  case ACTRES_TELEPORT:
   case ACTRES_NONE:
     break;
   }
@@ -3486,6 +3493,7 @@ action_actor_utype_hard_reqs_ok_full(const struct action *paction,
   case ACTRES_IRRIGATE:
   case ACTRES_SPY_ATTACK:
   case ACTRES_UNIT_MOVE:
+  case ACTRES_TELEPORT:
   case ACTRES_NONE:
     /* No hard unit type requirements. */
     break;
@@ -3624,6 +3632,7 @@ action_hard_reqs_actor(const struct action *paction,
 
   case ACTRES_HOMELESS:
   case ACTRES_UNIT_MOVE:
+  case ACTRES_TELEPORT:
   case ACTRES_ESTABLISH_EMBASSY:
   case ACTRES_SPY_INVESTIGATE_CITY:
   case ACTRES_SPY_POISON:
@@ -4596,10 +4605,22 @@ is_action_possible(const action_id wanted_action,
     break;
 
   case ACTRES_UNIT_MOVE:
-    /* Reason: is moving to the tile. */
-    if (!unit_can_move_to_tile(&(wld.map), actor->unit, target->tile,
-                               FALSE, FALSE, FALSE)) {
-      return TRI_NO;
+  case ACTRES_TELEPORT:
+
+    if (paction->result == ACTRES_UNIT_MOVE) {
+      /* Reason: is moving to the tile. */
+      if (!unit_can_move_to_tile(&(wld.map), actor->unit, target->tile,
+                                 FALSE, FALSE, FALSE)) {
+        return TRI_NO;
+      }
+    } else {
+      fc_assert(paction->result == ACTRES_TELEPORT);
+
+      /* Reason: is teleporting to the tile. */
+      if (!unit_can_teleport_to_tile(&(wld.map), actor->unit, target->tile,
+                                     FALSE, FALSE)) {
+        return TRI_NO;
+      }
     }
 
     /* Reason: Don't override "Transport Embark" */
@@ -5828,6 +5849,7 @@ action_prob(const action_id wanted_action,
     chance = ACTPROB_NOT_IMPLEMENTED;
     break;
   case ACTRES_UNIT_MOVE:
+  case ACTRES_TELEPORT:
     chance = ACTPROB_CERTAIN;
     break;
   case ACTRES_NONE:
@@ -7123,6 +7145,7 @@ int action_dice_roll_initial_odds(const struct action *paction)
   case ACTRES_HUT_ENTER:
   case ACTRES_HUT_FRIGHTEN:
   case ACTRES_UNIT_MOVE:
+  case ACTRES_TELEPORT:
   case ACTRES_SPY_ESCAPE:
   case ACTRES_NONE:
     /* No additional dice roll. */
@@ -7746,6 +7769,8 @@ const char *action_ui_name_ruleset_var_name(int act)
     return "ui_name_unit_move_2";
   case ACTION_UNIT_MOVE3:
     return "ui_name_unit_move_3";
+  case ACTION_TELEPORT:
+    return "ui_name_teleport";
   case ACTION_SPY_ESCAPE:
     return "ui_name_escape";
   case ACTION_USER_ACTION1:
@@ -8060,6 +8085,9 @@ const char *action_ui_name_default(int act)
   case ACTION_UNIT_MOVE3:
     /* TRANS: Regular _Move (100% chance of success). */
     return N_("Regular %sMove%s");
+  case ACTION_TELEPORT:
+    /* TRANS: _Teleport (100% chance of success). */
+    return N_("%sTeleport%s");
   case ACTION_SPY_ESCAPE:
     /* TRANS: _Escape To Nearest City (100% chance of success). */
     return N_("%sEscape To Nearest City%s");
@@ -8206,6 +8234,8 @@ const char *action_min_range_ruleset_var_name(int act)
     return "nuke_city_min_range";
   case ACTION_NUKE_UNITS:
     return "nuke_units_min_range";
+  case ACTION_TELEPORT:
+    return "teleport_min_range";
   case ACTION_USER_ACTION1:
     return "user_action_1_min_range";
   case ACTION_USER_ACTION2:
@@ -8297,6 +8327,8 @@ int action_min_range_default(enum action_result result)
   case ACTRES_NUKE:
   case ACTRES_NUKE_UNITS:
     return RS_DEFAULT_ACTION_MIN_RANGE;
+  case ACTRES_TELEPORT:
+    return RS_DEFAULT_MOVE_MIN_RANGE;
   case ACTRES_NONE:
     return RS_DEFAULT_ACTION_MIN_RANGE;
   }
@@ -8437,7 +8469,9 @@ const char *action_max_range_ruleset_var_name(int act)
   case ACTION_NUKE_UNITS:
     return "nuke_units_max_range";
   case ACTION_AIRLIFT:
-      return "airlift_max_range";
+    return "airlift_max_range";
+  case ACTION_TELEPORT:
+    return "teleport_max_range";
   case ACTION_USER_ACTION1:
     return "user_action_1_max_range";
   case ACTION_USER_ACTION2:
@@ -8532,12 +8566,14 @@ int action_max_range_default(enum action_result result)
   case ACTRES_NUKE_UNITS:
     return RS_DEFAULT_ACTION_MAX_RANGE;
   case ACTRES_AIRLIFT:
+  case ACTRES_TELEPORT:
     return ACTION_DISTANCE_UNLIMITED;
   case ACTRES_NONE:
     return RS_DEFAULT_ACTION_MAX_RANGE;
   }
 
   fc_assert(action_result_is_valid(result) || result == ACTRES_NONE);
+
   return 0;
 }
 
@@ -8658,6 +8694,7 @@ const char *action_target_kind_ruleset_var_name(int act)
   case ACTION_UNIT_MOVE:
   case ACTION_UNIT_MOVE2:
   case ACTION_UNIT_MOVE3:
+  case ACTION_TELEPORT:
   case ACTION_SPY_ESCAPE:
     /* Target kind is not ruleset changeable */
     return NULL;
@@ -8756,6 +8793,7 @@ action_target_kind_default(enum action_result result)
   case ACTRES_HUT_ENTER:
   case ACTRES_HUT_FRIGHTEN:
   case ACTRES_UNIT_MOVE:
+  case ACTRES_TELEPORT:
     return ATK_TILE;
   case ACTRES_CONQUER_EXTRAS:
     return ATK_EXTRAS;
@@ -8846,6 +8884,7 @@ bool action_result_legal_target_kind(enum action_result result,
   case ACTRES_HUT_ENTER:
   case ACTRES_HUT_FRIGHTEN:
   case ACTRES_UNIT_MOVE:
+  case ACTRES_TELEPORT:
     return tgt_kind == ATK_TILE;
   case ACTRES_CONQUER_EXTRAS:
     return tgt_kind == ATK_EXTRAS;
@@ -8946,6 +8985,7 @@ action_sub_target_kind_default(enum action_result result)
   case ACTRES_HUT_ENTER:
   case ACTRES_HUT_FRIGHTEN:
   case ACTRES_UNIT_MOVE:
+  case ACTRES_TELEPORT:
   case ACTRES_SPY_ESCAPE:
     return ASTK_NONE;
   case ACTRES_PILLAGE:
@@ -9088,6 +9128,7 @@ const char *action_actor_consuming_always_ruleset_var_name(action_id act)
   case ACTION_UNIT_MOVE:
   case ACTION_UNIT_MOVE2:
   case ACTION_UNIT_MOVE3:
+  case ACTION_TELEPORT:
   case ACTION_SPY_ESCAPE:
     /* Actor consuming always is not ruleset changeable */
     return NULL;
@@ -9165,6 +9206,8 @@ const char *action_blocked_by_ruleset_var_name(const struct action *act)
     return "move_2_blocked_by";
   case ACTION_UNIT_MOVE3:
     return "move_3_blocked_by";
+  case ACTION_TELEPORT:
+    return "teleport_blocked_by";
   case ACTION_SPY_ESCAPE:
   case ACTION_SPY_POISON:
   case ACTION_SPY_POISON_ESC:
@@ -9404,12 +9447,13 @@ action_post_success_forced_ruleset_var_name(const struct action *act)
   case ACTION_UNIT_MOVE:
   case ACTION_UNIT_MOVE2:
   case ACTION_UNIT_MOVE3:
+  case ACTION_TELEPORT:
   case ACTION_SPY_ESCAPE:
   case ACTION_USER_ACTION1:
   case ACTION_USER_ACTION2:
   case ACTION_USER_ACTION3:
   case ACTION_USER_ACTION4:
-    /* not ruleset changeable */
+    /* Not ruleset changeable */
     return NULL;
   case ACTION_COUNT:
     fc_assert_ret_val(action_number(act) != ACTION_COUNT, NULL);

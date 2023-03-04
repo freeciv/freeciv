@@ -1176,6 +1176,7 @@ static struct player *need_war_player_hlp(const struct unit *actor,
   case ACTRES_HUT_ENTER:
   case ACTRES_HUT_FRIGHTEN:
   case ACTRES_UNIT_MOVE:
+  case ACTRES_TELEPORT:
   case ACTRES_SPY_ESCAPE:
   case ACTRES_NONE:
     /* No special help. */
@@ -1562,6 +1563,17 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
                                                unit_tile(punit),
                                                target_tile,
                                                FALSE, FALSE, NULL, FALSE);
+      } else {
+        action_custom = MR_OK;
+      }
+      break;
+    case ACTRES_TELEPORT:
+      if (target_tile != NULL) {
+        action_custom = unit_teleport_to_tile_test(&(wld.map), punit,
+                                                   punit->activity,
+                                                   unit_tile(punit),
+                                                   target_tile,
+                                                   FALSE, NULL, FALSE);
       } else {
         action_custom = MR_OK;
       }
@@ -3894,6 +3906,12 @@ bool unit_perform_action(struct player *pplayer,
     ACTION_PERFORM_UNIT_TILE(action_type, actor_unit, target_tile,
                              unit_do_regular_move(pplayer, actor_unit,
                                                   target_tile, paction));
+    break;
+  case ACTRES_TELEPORT:
+    ACTION_PERFORM_UNIT_TILE(action_type, actor_unit, target_tile,
+                             unit_move(actor_unit, target_tile, 0,
+                                       NULL, FALSE, FALSE, FALSE,
+                                       FALSE, FALSE));
     break;
   case ACTRES_TRANSFORM_TERRAIN:
     ACTION_PERFORM_UNIT_TILE(action_type, actor_unit, target_tile,

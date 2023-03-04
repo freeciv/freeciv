@@ -321,6 +321,9 @@ enum counter_target { CTGT_CITY };
 #define SPECENUM_VALUE63NAME "Unit Transport Load"
 #define SPECENUM_VALUE64 ACTRES_CLEAN
 #define SPECENUM_VALUE64NAME "Clean"
+/* TODO: Move close to "Move" */
+#define SPECENUM_VALUE65 ACTRES_TELEPORT
+#define SPECENUM_VALUE65NAME "Teleport"
 /* All consequences are handled as (ruleset) action data. */
 #define SPECENUM_COUNT ACTRES_LAST
 #include "specenum_gen.h"
