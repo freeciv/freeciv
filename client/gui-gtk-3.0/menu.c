@@ -302,7 +302,8 @@ static struct menu_entry_info menu_entries[] =
     G_CALLBACK(quit_callback), MGROUP_SAFE },
   { "FIND_CITY", N_("_Find City"), GDK_KEY_f, GDK_CONTROL_MASK,
     G_CALLBACK(find_city_callback), MGROUP_SAFE },
-  { "WORKLISTS", N_("Work_lists"), GDK_KEY_l, GDK_CONTROL_MASK,
+  { "WORKLISTS", N_("Work_lists"),
+    GDK_KEY_l, GDK_CONTROL_MASK | GDK_SHIFT_MASK,
     G_CALLBACK(worklists_callback), MGROUP_SAFE },
   { "CLIENT_LUA_SCRIPT", N_("Client _Lua Script"), 0, 0,
     G_CALLBACK(client_lua_script_callback), MGROUP_SAFE },
@@ -601,7 +602,7 @@ static struct menu_entry_info menu_entries[] =
   { "TAX_RATE", N_("_Tax Rates..."), GDK_KEY_t, GDK_CONTROL_MASK,
     G_CALLBACK(tax_rate_callback), MGROUP_PLAYING },
   { "START_REVOLUTION", N_("_Revolution..."),
-    GDK_KEY_r, GDK_SHIFT_MASK | GDK_CONTROL_MASK,
+    GDK_KEY_g, GDK_SHIFT_MASK | GDK_CONTROL_MASK,
     G_CALLBACK(government_callback), MGROUP_PLAYING },
   { NULL }
 };

@@ -1518,24 +1518,24 @@ void popup_unitinfo_window(void)
 
   research_button = pwidget;
 
-  /* revolution button */
+  /* Revolution button */
   pwidget = create_icon2(adj_surf(GET_SURF(client_government_sprite())),
                          units_info_window->dst,
                          WF_FREE_GFX | WF_WIDGET_HAS_INFO_LABEL
                          | WF_RESTORE_BACKGROUND | WF_FREE_THEME);
-  fc_snprintf(buf, sizeof(buf), "%s (%s)", _("Revolution"), "Ctrl+Shift+R");
+  fc_snprintf(buf, sizeof(buf), "%s (%s)", _("Revolution"), "Ctrl+Shift+G");
   pwidget->info_label = create_utf8_from_char(buf, adj_font(12));
   pwidget->action = revolution_callback;
-  pwidget->key = SDLK_r;
+  pwidget->key = SDLK_g;
   pwidget->mod = KMOD_CTRL | KMOD_SHIFT;
 
   add_to_gui_list(ID_REVOLUTION, pwidget);
 
   revolution_button = pwidget;
 
-  /* show/hide unit's window button */
+  /* Show/hide unit's window button */
 
-  /* make UNITS Icon */
+  /* Make UNITS Icon */
   icon_theme = create_surf(current_theme->map_icon->w,
                            current_theme->map_icon->h, SDL_SWSURFACE);
   alphablit(current_theme->map_icon, NULL, icon_theme, NULL, 255);
@@ -2529,7 +2529,7 @@ bool map_event_handler(SDL_Keysym key)
         }
         return FALSE;
 
-        /* show map grid - Ctrl+g */
+        /* Show map grid - Ctrl+g */
       case SDLK_g:
         if (LCTRL || RCTRL) {
           key_map_grid_toggle();
