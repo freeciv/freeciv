@@ -53,8 +53,7 @@
 #include "advdata.h"
 #include "advgoto.h"
 #include "advtools.h"
-#include "autosettlers.h"
-#include "infracache.h" /* adv_city */
+#include "infracache.h"
 
 /* ai */
 #include "handicaps.h"

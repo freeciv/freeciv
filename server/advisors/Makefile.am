@@ -29,7 +29,7 @@ libadvisors_la_SOURCES = \
 	advtools.h	\
 	autoexplorer.c	\
 	autoexplorer.h	\
-	autosettlers.c	\
-	autosettlers.h	\
+	autoworkers.c	\
+	autoworkers.h	\
 	infracache.c	\
 	infracache.h

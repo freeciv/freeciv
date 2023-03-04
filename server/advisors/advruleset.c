@@ -23,7 +23,7 @@
 #include "unittype.h"
 
 /* server/advisors */
-#include "autosettlers.h"
+#include "autoworkers.h"
 
 #include "advruleset.h"
 

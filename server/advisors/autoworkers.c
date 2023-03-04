@@ -59,12 +59,12 @@
 /* ai */
 #include "handicaps.h"
 
-#include "autosettlers.h"
+#include "autoworkers.h"
 
-/* This factor is multiplied on when calculating the want.  This is done
+/* This factor is multiplied on when calculating the want. This is done
  * to avoid rounding errors in comparisons when looking for the best
- * possible work.  However before returning the final want we have to
- * divide by it again.  This loses accuracy but is needed since the want
+ * possible work. However before returning the final want we have to
+ * divide by it again. This loses accuracy but is needed since the want
  * values are used for comparison by the AI in trying to calculate the
  * goodness of building worker units. */
 #define WORKER_FACTOR 1024

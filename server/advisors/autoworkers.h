@@ -10,12 +10,11 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef FC__AUTOSETTLERS_H
-#define FC__AUTOSETTLERS_H
+#ifndef FC__AUTOWORKERS_H
+#define FC__AUTOWORKERS_H
 
 /* common */
 #include "fc_types.h"
-#include "map.h"
 
 void auto_settlers_ruleset_init(void);
 
@@ -95,4 +94,4 @@ extern action_id as_actions_rmextra[MAX_NUM_ACTIONS];
   action_array_iterate_end                                                 \
 }
 
-#endif   /* FC__AUTOSETTLERS_H */
+#endif /* FC__AUTOWORKERS_H */

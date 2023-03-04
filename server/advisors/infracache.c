@@ -27,7 +27,7 @@
 
 /* server/advisors */
 #include "advbuilding.h"
-#include "autosettlers.h"
+#include "autoworkers.h"
 
 #include "infracache.h"
 

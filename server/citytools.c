@@ -80,7 +80,6 @@
 /* server/advisors */
 #include "advbuilding.h"
 #include "advgoto.h"
-#include "autosettlers.h"
 #include "infracache.h"
 
 /* server/scripting */

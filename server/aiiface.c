@@ -24,10 +24,8 @@
 
 /* common */
 #include "ai.h"
+#include "game.h"
 #include "player.h"
-
-/* server/advisors */
-#include "autosettlers.h"
 
 /* ai/classic */
 #include "classicai.h"

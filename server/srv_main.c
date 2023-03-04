@@ -123,7 +123,7 @@
 
 /* server/advisors */
 #include "advdata.h"
-#include "autosettlers.h"
+#include "autoworkers.h"
 #include "advbuilding.h"
 #include "advspace.h"
 #include "infracache.h"

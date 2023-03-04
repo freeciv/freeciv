@@ -45,8 +45,7 @@
 #include "advbuilding.h"
 #include "advchoice.h"
 #include "advdata.h"
-#include "autosettlers.h"
-#include "infracache.h" /* adv_city */
+#include "infracache.h"
 
 /* ai */
 #include "aitraits.h"

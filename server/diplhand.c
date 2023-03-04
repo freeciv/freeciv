@@ -47,9 +47,6 @@
 #include "techtools.h"
 #include "unittools.h"
 
-/* server/advisors */
-#include "autosettlers.h"
-
 /* server/scripting */
 #include "script_server.h"
 

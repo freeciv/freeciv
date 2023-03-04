@@ -59,7 +59,7 @@
 #include "advgoto.h"
 #include "advtools.h"
 #include "autoexplorer.h"
-#include "autosettlers.h"
+#include "autoworkers.h"
 
 /* ai */
 #include "difficulty.h"

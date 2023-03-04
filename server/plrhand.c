@@ -69,7 +69,6 @@
 
 /* server/advisors */
 #include "advdata.h"
-#include "autosettlers.h"
 
 /* server/scripting */
 #include "script_server.h"

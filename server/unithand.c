@@ -66,7 +66,7 @@
 
 /* server/advisors */
 #include "autoexplorer.h"
-#include "autosettlers.h"
+#include "autoworkers.h"
 
 /* server/scripting */
 #include "script_server.h"

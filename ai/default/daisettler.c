@@ -48,7 +48,7 @@
 #include "advdata.h"
 #include "advgoto.h"
 #include "advtools.h"
-#include "autosettlers.h"
+#include "autoworkers.h"
 #include "infracache.h"
 
 /* ai */

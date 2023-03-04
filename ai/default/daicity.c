@@ -26,6 +26,7 @@
 #include "actions.h"
 #include "game.h"
 #include "government.h"
+#include "map.h"
 #include "research.h"
 #include "specialist.h"
 
@@ -42,7 +43,7 @@
 /* server/advisors */
 #include "advdata.h"
 #include "advtools.h"
-#include "autosettlers.h"
+#include "autoworkers.h"
 #include "advbuilding.h"
 #include "infracache.h"
 

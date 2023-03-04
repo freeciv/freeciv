@@ -43,7 +43,6 @@
 #include "advdata.h"
 #include "advgoto.h"
 #include "advtools.h"
-#include "autosettlers.h"
 
 /* ai */
 #include "handicaps.h"

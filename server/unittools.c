@@ -77,7 +77,7 @@
 /* server/advisors */
 #include "advgoto.h"
 #include "autoexplorer.h"
-#include "autosettlers.h"
+#include "autoworkers.h"
 
 /* ai */
 #include "handicaps.h"

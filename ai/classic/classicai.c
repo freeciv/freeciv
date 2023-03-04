@@ -17,11 +17,11 @@
 
 /* common */
 #include "ai.h"
+#include "map.h"
 #include "player.h"
 
 /* server/advisors */
 #include "advdata.h"
-#include "autosettlers.h"
 
 /* ai/default */
 #include "aiferry.h"

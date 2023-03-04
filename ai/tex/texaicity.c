@@ -33,7 +33,7 @@
 /* server/advisors */
 #include "advbuilding.h"
 #include "advdata.h"
-#include "autosettlers.h"
+#include "autoworkers.h"
 #include "infracache.h"
 
 /* ai/default */

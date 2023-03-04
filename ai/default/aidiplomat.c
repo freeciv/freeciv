@@ -55,7 +55,6 @@
 #include "advbuilding.h"
 #include "advdata.h"
 #include "advgoto.h"
-#include "autosettlers.h"
 
 /* ai */
 #include "handicaps.h"

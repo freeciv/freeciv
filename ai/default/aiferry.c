@@ -31,7 +31,6 @@
 /* server/advisors */
 #include "advgoto.h"
 #include "autoexplorer.h"
-#include "autosettlers.h"
 
 /* server */
 #include "hand_gen.h"

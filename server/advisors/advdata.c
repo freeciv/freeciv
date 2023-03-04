@@ -49,7 +49,6 @@
 #include "advbuilding.h"
 #include "advcity.h"
 #include "advtools.h"
-#include "autosettlers.h"
 
 /* ai */
 #include "handicaps.h"
