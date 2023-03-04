@@ -270,12 +270,10 @@ static gboolean present_unit_callback(GtkGestureClick *gesture, int n_press,
                                       double x, double y, gpointer data);
 static gboolean middle_supported_unit_release(GtkGestureClick *gesture, int n_press,
                                               double x, double y, gpointer data);
-static gboolean right_supported_unit_release(GtkGestureClick *gesture, int n_press,
-                                             double x, double y, gpointer data);
 static gboolean middle_present_unit_release(GtkGestureClick *gesture, int n_press,
                                             double x, double y, gpointer data);
-static gboolean right_present_unit_release(GtkGestureClick *gesture, int n_press,
-                                           double x, double y, gpointer data);
+static gboolean right_unit_release(GtkGestureClick *gesture, int n_press,
+                                   double x, double y, gpointer data);
 
 static void close_citydlg_unit_popover(struct city_dialog *pdialog);
 
@@ -2258,7 +2256,7 @@ static void city_dialog_update_supported_units(struct city_dialog *pdialog)
       gtk_gesture_single_set_button(GTK_GESTURE_SINGLE(gesture), 3);
       controller = GTK_EVENT_CONTROLLER(gesture);
       g_signal_connect(controller, "released",
-                       G_CALLBACK(right_supported_unit_release),
+                       G_CALLBACK(right_unit_release),
                        GINT_TO_POINTER(punit->id));
       gtk_widget_add_controller(cmd, controller);
       pnode->right = controller;
@@ -2380,7 +2378,7 @@ static void city_dialog_update_present_units(struct city_dialog *pdialog)
       gtk_gesture_single_set_button(GTK_GESTURE_SINGLE(gesture), 3);
       controller = GTK_EVENT_CONTROLLER(gesture);
       g_signal_connect(controller, "released",
-                       G_CALLBACK(right_present_unit_release),
+                       G_CALLBACK(right_unit_release),
                        GINT_TO_POINTER(punit->id));
       gtk_widget_add_controller(cmd, controller);
       pnode->right = controller;
@@ -2674,7 +2672,8 @@ static gboolean present_unit_callback(GtkGestureClick *gesture, int n_press,
 }
 
 /***********************************************************************//**
-  If user middle-clicked on a unit, activate it and close dialog
+  If user middle-clicked on a unit, activate it and close dialog.
+  Dialog to close is that of city where unit currently is.
 ***************************************************************************/
 static gboolean middle_present_unit_release(GtkGestureClick *gesture,
                                             int n_press, double x, double y,
@@ -2697,24 +2696,8 @@ static gboolean middle_present_unit_release(GtkGestureClick *gesture,
 }
 
 /***********************************************************************//**
-  If user right-clicked on a unit, activate it
-***************************************************************************/
-static gboolean right_present_unit_release(GtkGestureClick *gesture, int n_press,
-                                           double x, double y, gpointer data)
-{
-  struct unit *punit =
-    player_unit_by_number(client_player(), (size_t) data);
-
-  if (NULL != punit
-      && can_client_issue_orders()) {
-    unit_focus_set(punit);
-  }
-
-  return TRUE;
-}
-
-/***********************************************************************//**
-  If user middle-clicked on a unit, activate it and close dialog
+  If user middle-clicked on a unit, activate it and close dialog.
+  Dialog to close is that of unit's home city.
 ***************************************************************************/
 static gboolean middle_supported_unit_release(GtkGestureClick *gesture, int n_press,
                                               double x, double y, gpointer data)
@@ -2738,8 +2721,8 @@ static gboolean middle_supported_unit_release(GtkGestureClick *gesture, int n_pr
 /***********************************************************************//**
   If user right-clicked on a unit, activate it
 ***************************************************************************/
-static gboolean right_supported_unit_release(GtkGestureClick *gesture, int n_press,
-                                             double x, double y, gpointer data)
+static gboolean right_unit_release(GtkGestureClick *gesture, int n_press,
+                                   double x, double y, gpointer data)
 {
   struct unit *punit =
     player_unit_by_number(client_player(), (size_t) data);
