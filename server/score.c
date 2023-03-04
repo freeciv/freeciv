@@ -310,12 +310,13 @@ void calc_civ_score(struct player *pplayer)
 
   presearch = research_get(pplayer);
   advance_index_iterate(A_FIRST, i) {
-    if (research_invention_state(presearch, i) == TECH_KNOWN) {
+    if (valid_advance_by_number(i) != NULL
+        && research_invention_state(presearch, i) == TECH_KNOWN) {
       pplayer->score.techs++;
     }
   } advance_index_iterate_end;
   pplayer->score.techs += research_get(pplayer)->future_tech * 5 / 2;
-  
+
   unit_list_iterate(pplayer->units, punit) {
     if (!is_special_unit(punit)) { /* TODO: Which units really should count? */
       pplayer->score.units++;
