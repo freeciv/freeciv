@@ -415,12 +415,12 @@ static void unit_done_callback(GSimpleAction *action,
 static void unit_goto_callback(GSimpleAction *action,
                                GVariant *parameter,
                                gpointer data);
-
-#ifdef MENUS_GTK3
-static void unit_goto_city_callback(GtkMenuItem *item, gpointer data);
-static void unit_return_callback(GtkMenuItem *item, gpointer data);
-#endif /* MENUS_GTK3 */
-
+static void unit_goto_city_callback(GSimpleAction *action,
+                                    GVariant *parameter,
+                                    gpointer data);
+static void unit_return_callback(GSimpleAction *action,
+                                 GVariant *parameter,
+                                 gpointer data);
 static void unit_explore_callback(GSimpleAction *action,
                                   GVariant *parameter,
                                   gpointer data);
@@ -683,6 +683,12 @@ static struct menu_entry_info menu_entries[] =
   /* Unit menu */
   { "UNIT_GOTO", N_("_Go to"),
     "goto", "g", MGROUP_UNIT,
+    NULL, FALSE },
+  { "UNIT_GOTO_CITY", N_("Go _to/Airlift to City..."),
+    "goto_city", "t", MGROUP_UNIT,
+    NULL, FALSE },
+  { "UNIT_RETURN", N_("_Return to Nearest City"),
+    "return", "<shift>g", MGROUP_UNIT,
     NULL, FALSE },
   { "UNIT_EXPLORE", N_("Auto E_xplore"),
     "explore", "x", MGROUP_UNIT,
@@ -980,11 +986,6 @@ static struct menu_entry_info menu_entries[] =
     G_CALLBACK(select_same_type_callback), MGROUP_UNIT },
   { "SELECT_DLG", N_("Unit Selection Dialog"), 0, 0,
     G_CALLBACK(select_dialog_callback), MGROUP_UNIT },
-  { "MENU_GOTO_AND", N_("Go to a_nd..."), 0, 0, NULL, MGROUP_UNIT },
-  { "UNIT_GOTO_CITY", N_("Go _to/Airlift to City..."), GDK_KEY_t, 0,
-    G_CALLBACK(unit_goto_city_callback), MGROUP_UNIT },
-  { "UNIT_RETURN", N_("_Return to Nearest City"), GDK_KEY_g, GDK_SHIFT_MASK,
-    G_CALLBACK(unit_return_callback), MGROUP_UNIT },
   { "UNIT_UNSENTRY", N_("Uns_entry All On Tile"), GDK_KEY_s, GDK_SHIFT_MASK,
     G_CALLBACK(unit_unsentry_callback), MGROUP_UNIT },
   { "UNIT_UNLOAD_TRANSPORTER", N_("U_nload All From Transporter"),
@@ -1055,6 +1056,8 @@ const GActionEntry acts[] = {
   { "center_view", center_view_callback },
 
   { "goto", unit_goto_callback },
+  { "goto_city", unit_goto_city_callback },
+  { "return", unit_return_callback },
   { "explore", unit_explore_callback },
   { "patrol", unit_patrol_callback },
   { "sentry", unit_sentry_callback },
@@ -2226,11 +2229,12 @@ static void unit_goto_and_callback(GSimpleAction *action,
   request_unit_goto(ORDER_PERFORM_ACTION, paction->id, sub_target);
 }
 
-#ifdef MENUS_GTK3
 /************************************************************************//**
   Item "UNIT_GOTO_CITY" callback.
 ****************************************************************************/
-static void unit_goto_city_callback(GtkMenuItem *item, gpointer data)
+static void unit_goto_city_callback(GSimpleAction *action,
+                                    GVariant *parameter,
+                                    gpointer data)
 {
   if (get_num_units_in_focus() > 0) {
     popup_goto_dialog();
@@ -2240,13 +2244,14 @@ static void unit_goto_city_callback(GtkMenuItem *item, gpointer data)
 /************************************************************************//**
   Item "UNIT_RETURN" callback.
 ****************************************************************************/
-static void unit_return_callback(GtkMenuItem *item, gpointer data)
+static void unit_return_callback(GSimpleAction *action,
+                                 GVariant *parameter,
+                                 gpointer data)
 {
   unit_list_iterate(get_units_in_focus(), punit) {
     request_unit_return(punit);
   } unit_list_iterate_end;
 }
-#endif /* MENUS_GTK3 */
 
 /************************************************************************//**
   Item "UNIT_EXPLORE" callback.
@@ -3053,6 +3058,8 @@ static GMenu *setup_menus(GtkApplication *app)
   submenu = g_menu_new();
   submenu_append_unref(unit_menu, N_("Go to a_nd..."), G_MENU_MODEL(submenu));
 
+  menu_entry_init(unit_menu, "UNIT_GOTO_CITY");
+  menu_entry_init(unit_menu, "UNIT_RETURN");
   menu_entry_init(unit_menu, "UNIT_EXPLORE");
   menu_entry_init(unit_menu, "UNIT_PATROL");
   menu_entry_init(unit_menu, "UNIT_SENTRY");
