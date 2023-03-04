@@ -453,17 +453,29 @@ static bool tile_type_equal(const struct cm_tile_type *a,
 }
 
 /************************************************************************//**
-  Return TRUE if tile a is better or equal to tile b in all categories.
+  Return positive value if tile a is better or equal to tile b in all categories,
+  negative value if tile b is better to tile a in all categories,
+  otherwise zero.
 
   Specialists are considered better than workers (all else being equal)
   since we have an unlimited number of them.
 ****************************************************************************/
-static bool tile_type_better(const struct cm_tile_type *a,
-                             const struct cm_tile_type *b)
+static int tile_type_better(const struct cm_tile_type *a,
+                            const struct cm_tile_type *b)
 {
+  int ret = 0;
+
   output_type_iterate(stat_index) {
     if (a->production[stat_index] < b->production[stat_index])  {
-      return FALSE;
+      if (ret > 0) {
+        return 0;
+      }
+      ret = -1;
+    } else if (b->production[stat_index] < a->production[stat_index])  {
+      if (ret < 0) {
+        return 0;
+      }
+      ret = 1;
     }
   } output_type_iterate_end;
 
@@ -471,13 +483,19 @@ static bool tile_type_better(const struct cm_tile_type *a,
     /* If A is a specialist and B isn't, and all of A's production is at
      * least as good as B's, then A is better because it doesn't tie up
      * the map tile. */
-    return TRUE;
+    if (ret < 0) {
+      return 0;
+    }
+    return 1;
   } else if (!a->is_specialist && b->is_specialist) {
     /* Vice versa. */
-    return FALSE;
+    if (ret > 0) {
+      return 0;
+    }
+    return -1;
   }
 
-  return TRUE;
+  return ret;
 }
 
 /************************************************************************//**
@@ -968,18 +986,20 @@ static void tile_type_lattice_add(struct tile_type_vector *lattice,
     /* This is a new tile type; add it to the lattice. */
     type = tile_type_dup(newtype);
 
-    /* link up to the types we dominate, and those that dominate us */
+    /* Link up to the types we dominate, and those that dominate us */
     tile_type_vector_iterate(lattice, other) {
-      if (tile_type_better(other, type)) {
+      int cmp = tile_type_better(other, type);
+
+      if (cmp > 0) {
         tile_type_vector_append(&type->better_types, other);
         tile_type_vector_append(&other->worse_types, type);
-      } else if (tile_type_better(type, other)) {
+      } else if (cmp < 0) {
         tile_type_vector_append(&other->better_types, type);
         tile_type_vector_append(&type->worse_types, other);
       }
     } tile_type_vector_iterate_end;
 
-    /* insert into the list */
+    /* Insert into the list */
     type->lattice_index = lattice->size;
     tile_type_vector_append(lattice, type);
   }
