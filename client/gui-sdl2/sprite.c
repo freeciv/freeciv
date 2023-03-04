@@ -39,14 +39,26 @@ static struct sprite *ctor_sprite(SDL_Surface *surf);
 
 /************************************************************************//**
   Return a NULL-terminated, permanently allocated array of possible
-  graphics types extensions.  Extensions listed first will be checked
+  graphics types extensions. Extensions listed first will be checked
   first.
 ****************************************************************************/
 const char **gfx_fileextensions(void)
 {
   static const char *ext[] = {
     "png",
+    "gif",
+    "jpeg",
     "xpm",
+    "qoi",
+    "tga",
+    "bmp",
+    "xcf",
+    "pcx",
+    "lbm",
+    "ppm",
+    "pgm",
+    "pbm",
+    "svg",
     NULL
   };
 
