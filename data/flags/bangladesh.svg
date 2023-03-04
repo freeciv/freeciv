@@ -1,19 +1,50 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN"
-"http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd"
-[
- <!ATTLIST svg
-  xmlns:xlink CDATA #FIXED "http://www.w3.org/1999/xlink">
-]>
-<!-- Created with Sodipodi ("http://www.sodipodi.com/") --><svg height="708.661" id="svg378" version="1" width="1062.99" x="0" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" y="0">
-  <metadata>
-    <rdf:RDF xmlns:cc="http://web.resource.org/cc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
-      <cc:Work rdf:about="">
-        <dc:title>Bangladesh</dc:title>
-        <dc:description></dc:description>
+<!-- Created with Sodipodi ("http://www.sodipodi.com/") -->
+
+<svg
+   height="708.661"
+   id="svg378"
+   version="1"
+   width="1062.99"
+   x="0"
+   y="0"
+   sodipodi:docname="bangladesh.svg"
+   inkscape:version="1.2.2 (b0a8486541, 2022-12-01)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <sodipodi:namedview
+     id="namedview8"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     showgrid="false"
+     inkscape:zoom="0.66604483"
+     inkscape:cx="535.99996"
+     inkscape:cy="349.0756"
+     inkscape:window-width="856"
+     inkscape:window-height="694"
+     inkscape:window-x="522"
+     inkscape:window-y="99"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg378" />
+  <metadata
+     id="metadata2">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:description />
         <dc:subject>
           <rdf:Bag>
-            <rdf:li></rdf:li>
+            <rdf:li />
             <rdf:li>asia</rdf:li>
             <rdf:li>united_nations_member</rdf:li>
             <rdf:li>flag</rdf:li>
@@ -21,7 +52,8 @@
           </rdf:Bag>
         </dc:subject>
         <dc:publisher>
-          <cc:Agent rdf:about="http://www.openclipart.org">
+          <cc:Agent
+             rdf:about="http://www.openclipart.org">
             <dc:title>Cezary Biele</dc:title>
           </cc:Agent>
         </dc:publisher>
@@ -35,20 +67,40 @@
             <dc:title>Cezary Biele</dc:title>
           </cc:Agent>
         </dc:rights>
-        <dc:date></dc:date>
+        <dc:date />
         <dc:format>image/svg+xml</dc:format>
-        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
-        <cc:license rdf:resource="http://web.resource.org/cc/PublicDomain"/>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <cc:license
+           rdf:resource="http://web.resource.org/cc/PublicDomain" />
         <dc:language>en</dc:language>
       </cc:Work>
-      <cc:License rdf:about="http://web.resource.org/cc/PublicDomain">
-        <cc:permits rdf:resource="http://web.resource.org/cc/Reproduction"/>
-        <cc:permits rdf:resource="http://web.resource.org/cc/Distribution"/>
-        <cc:permits rdf:resource="http://web.resource.org/cc/DerivativeWorks"/>
+      <cc:License
+         rdf:about="http://web.resource.org/cc/PublicDomain">
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/Reproduction" />
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/Distribution" />
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/DerivativeWorks" />
       </cc:License>
     </rdf:RDF>
   </metadata>
-  <defs id="defs380"/>
-  <rect height="708.661" id="rect149" style="font-size:12;fill:#0a5c12;fill-rule:evenodd;stroke-width:1pt;" width="1062.99" x="0" y="0"/>
-  <ellipse cx="470.772217" cy="360.698975" id="path307" rx="231.974670" ry="231.974670" style="font-size:12;fill:#fc000f;fill-rule:evenodd;stroke-width:1pt;" transform="matrix(0.997059,0,0,0.997059,-2.02682,-3.71508)"/>
+  <defs
+     id="defs380" />
+  <rect
+     height="708.661"
+     id="rect149"
+     style="font-size:12;fill:#0a5c12;fill-rule:evenodd;stroke-width:1pt;"
+     width="1062.99"
+     x="0"
+     y="0" />
+  <ellipse
+     cx="470.772217"
+     cy="360.698975"
+     id="path307"
+     rx="231.974670"
+     ry="231.974670"
+     style="font-size:12;fill:#fc000f;fill-rule:evenodd;stroke-width:1pt;"
+     transform="matrix(0.997059,0,0,0.997059,-2.02682,-3.71508)" />
 </svg>
