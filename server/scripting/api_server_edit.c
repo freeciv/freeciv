@@ -340,6 +340,8 @@ void api_edit_change_gold(lua_State *L, Player *pplayer, int amount)
   LUASCRIPT_CHECK_ARG_NIL(L, pplayer, 2, Player);
 
   pplayer->economic.gold = MAX(0, pplayer->economic.gold + amount);
+
+  send_player_info_c(pplayer, NULL);
 }
 
 /*****************************************************************************
