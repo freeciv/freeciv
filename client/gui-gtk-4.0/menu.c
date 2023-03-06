@@ -392,14 +392,26 @@ static void revolution_callback(GSimpleAction *action,
 
 #ifdef MENUS_GTK3
 static void tax_rate_callback(GtkMenuItem *item, gpointer data);
-static void select_single_callback(GtkMenuItem *item, gpointer data);
-static void select_all_on_tile_callback(GtkMenuItem *item, gpointer data);
-static void select_same_type_tile_callback(GtkMenuItem *item, gpointer data);
-static void select_same_type_cont_callback(GtkMenuItem *item, gpointer data);
-static void select_same_type_callback(GtkMenuItem *item, gpointer data);
-static void select_dialog_callback(GtkMenuItem *item, gpointer data);
 #endif /* MENUS_GTK3 */
 
+static void select_single_callback(GSimpleAction *action,
+                                   GVariant *parameter,
+                                   gpointer data);
+static void select_all_on_tile_callback(GSimpleAction *action,
+                                        GVariant *parameter,
+                                        gpointer data);
+static void select_same_type_tile_callback(GSimpleAction *action,
+                                           GVariant *parameter,
+                                           gpointer data);
+static void select_same_type_cont_callback(GSimpleAction *action,
+                                           GVariant *parameter,
+                                           gpointer data);
+static void select_same_type_callback(GSimpleAction *action,
+                                      GVariant *parameter,
+                                      gpointer data);
+static void select_dialog_callback(GSimpleAction *action,
+                                   GVariant *parameter,
+                                   gpointer data);
 static void rally_dialog_callback(GSimpleAction *action,
                                   GVariant *parameter,
                                   gpointer data);
@@ -681,6 +693,26 @@ static struct menu_entry_info menu_entries[] =
     full_screen_callback, FALSE },
   { "CENTER_VIEW", N_("_Center View"),
     "center_view", "c", MGROUP_PLAYER,
+    NULL, FALSE },
+
+  /* Select menu */
+  { "SELECT_SINGLE", N_("_Single Unit (Unselect Others)"),
+    "select_single", "z", MGROUP_UNIT,
+    NULL, FALSE },
+  { "SELECT_ALL_ON_TILE", N_("_All On Tile"),
+    "select_all_tile", "v", MGROUP_UNIT,
+    NULL, FALSE },
+  { "SELECT_SAME_TYPE_TILE", N_("Same Type on _Tile"),
+    "select_same_type_tile", "<shift>v", MGROUP_UNIT,
+    NULL, FALSE },
+  { "SELECT_SAME_TYPE_CONT", N_("Same Type on _Continent"),
+    "select_same_type_cont", "<shift>c", MGROUP_UNIT,
+    NULL, FALSE },
+  { "SELECT_SAME_TYPE", N_("Same Type _Everywhere"),
+    "select_same_type", "<shift>x", MGROUP_UNIT,
+    NULL, FALSE },
+  { "SELECT_DLG", N_("Unit Selection Dialog"),
+    "select_dlg", NULL, MGROUP_UNIT,
     NULL, FALSE },
 
   /* Unit menu */
@@ -978,20 +1010,7 @@ static struct menu_entry_info menu_entries[] =
   { "MENU_COMBAT", N_("_Combat"), 0, 0, NULL, MGROUP_UNIT },
   { "MENU_BUILD_BASE", N_("Build _Base"), 0, 0, NULL, MGROUP_UNIT },
   { "MENU_BUILD_PATH", N_("Build _Path"), 0, 0, NULL, MGROUP_UNIT },
-  { "SELECT_SINGLE", N_("_Single Unit (Unselect Others)"), GDK_KEY_z, 0,
-    G_CALLBACK(select_single_callback), MGROUP_UNIT },
-  { "SELECT_ALL_ON_TILE", N_("_All On Tile"), GDK_KEY_v, 0,
-    G_CALLBACK(select_all_on_tile_callback), MGROUP_UNIT },
-  { "SELECT_SAME_TYPE_TILE", N_("Same Type on _Tile"),
-    GDK_KEY_v, GDK_SHIFT_MASK,
-    G_CALLBACK(select_same_type_tile_callback), MGROUP_UNIT },
-  { "SELECT_SAME_TYPE_CONT", N_("Same Type on _Continent"),
-    GDK_KEY_c, GDK_SHIFT_MASK,
-    G_CALLBACK(select_same_type_cont_callback), MGROUP_UNIT },
-  { "SELECT_SAME_TYPE", N_("Same Type _Everywhere"), GDK_KEY_x, GDK_SHIFT_MASK,
-    G_CALLBACK(select_same_type_callback), MGROUP_UNIT },
-  { "SELECT_DLG", N_("Unit Selection Dialog"), 0, 0,
-    G_CALLBACK(select_dialog_callback), MGROUP_UNIT },
+
   { "UNIT_UNSENTRY", N_("Uns_entry All On Tile"), GDK_KEY_s, GDK_SHIFT_MASK,
     G_CALLBACK(unit_unsentry_callback), MGROUP_UNIT },
   { "UNIT_UNLOAD_TRANSPORTER", N_("U_nload All From Transporter"),
@@ -1060,6 +1079,13 @@ const GActionEntry acts[] = {
   { "lua_script", client_lua_script_callback },
 
   { "center_view", center_view_callback },
+
+  { "select_single", select_single_callback },
+  { "select_all_tile", select_all_on_tile_callback },
+  { "select_same_type_tile", select_same_type_tile_callback },
+  { "select_same_type_cont", select_same_type_cont_callback },
+  { "select_same_type", select_same_type_callback },
+  { "select_dlg", select_dialog_callback },
 
   { "goto", unit_goto_callback },
   { "goto_city", unit_goto_city_callback },
@@ -2087,11 +2113,11 @@ static void save_scenario_callback(GSimpleAction *action, GVariant *parameter,
   save_scenario_dialog_popup();
 }
 
-#ifdef MENUS_GTK3
 /************************************************************************//**
   Item "SELECT_SINGLE" callback.
 ****************************************************************************/
-static void select_single_callback(GtkMenuItem *item, gpointer data)
+static void select_single_callback(GSimpleAction *action, GVariant *parameter,
+                                   gpointer data)
 {
   request_unit_select(get_units_in_focus(), SELTYPE_SINGLE, SELLOC_TILE);
 }
@@ -2099,7 +2125,9 @@ static void select_single_callback(GtkMenuItem *item, gpointer data)
 /************************************************************************//**
   Item "SELECT_ALL_ON_TILE" callback.
 ****************************************************************************/
-static void select_all_on_tile_callback(GtkMenuItem *item, gpointer data)
+static void select_all_on_tile_callback(GSimpleAction *action,
+                                        GVariant *parameter,
+                                        gpointer data)
 {
   request_unit_select(get_units_in_focus(), SELTYPE_ALL, SELLOC_TILE);
 }
@@ -2107,7 +2135,9 @@ static void select_all_on_tile_callback(GtkMenuItem *item, gpointer data)
 /************************************************************************//**
   Item "SELECT_SAME_TYPE_TILE" callback.
 ****************************************************************************/
-static void select_same_type_tile_callback(GtkMenuItem *item, gpointer data)
+static void select_same_type_tile_callback(GSimpleAction *action,
+                                           GVariant *parameter,
+                                           gpointer data)
 {
   request_unit_select(get_units_in_focus(), SELTYPE_SAME, SELLOC_TILE);
 }
@@ -2115,7 +2145,9 @@ static void select_same_type_tile_callback(GtkMenuItem *item, gpointer data)
 /************************************************************************//**
   Item "SELECT_SAME_TYPE_CONT" callback.
 ****************************************************************************/
-static void select_same_type_cont_callback(GtkMenuItem *item, gpointer data)
+static void select_same_type_cont_callback(GSimpleAction *action,
+                                           GVariant *parameter,
+                                           gpointer data)
 {
   request_unit_select(get_units_in_focus(), SELTYPE_SAME, SELLOC_CONT);
 }
@@ -2123,7 +2155,9 @@ static void select_same_type_cont_callback(GtkMenuItem *item, gpointer data)
 /************************************************************************//**
   Item "SELECT_SAME_TYPE" callback.
 ****************************************************************************/
-static void select_same_type_callback(GtkMenuItem *item, gpointer data)
+static void select_same_type_callback(GSimpleAction *action,
+                                      GVariant *parameter,
+                                      gpointer data)
 {
   request_unit_select(get_units_in_focus(), SELTYPE_SAME, SELLOC_WORLD);
 }
@@ -2131,11 +2165,12 @@ static void select_same_type_callback(GtkMenuItem *item, gpointer data)
 /************************************************************************//**
   Open unit selection dialog.
 ****************************************************************************/
-static void select_dialog_callback(GtkMenuItem *item, gpointer data)
+static void select_dialog_callback(GSimpleAction *action,
+                                   GVariant *parameter,
+                                   gpointer data)
 {
   unit_select_dialog_popup(NULL);
 }
-#endif /* MENUS_GTK3 */
 
 /************************************************************************//**
   Open rally point dialog.
@@ -3065,6 +3100,17 @@ static GMenu *setup_menus(GtkApplication *app)
   menu_entry_init(view_menu, "CENTER_VIEW");
 
   submenu_append_unref(menubar, Q_("?verb:_View"), G_MENU_MODEL(view_menu));
+
+  topmenu = g_menu_new();
+
+  menu_entry_init(topmenu, "SELECT_SINGLE");
+  menu_entry_init(topmenu, "SELECT_ALL_ON_TILE");
+  menu_entry_init(topmenu, "SELECT_SAME_TYPE_TILE");
+  menu_entry_init(topmenu, "SELECT_SAME_TYPE_CONT");
+  menu_entry_init(topmenu, "SELECT_SAME_TYPE");
+  menu_entry_init(topmenu, "SELECT_DLG");
+
+  submenu_append_unref(menubar, _("_Select"), G_MENU_MODEL(topmenu));
 
   unit_menu = g_menu_new();
 
