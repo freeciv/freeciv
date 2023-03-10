@@ -43,10 +43,10 @@
 #mesondefine WORDS_BIGENDIAN
 
 /* Database backend available */
-#define HAVE_FCDB 1
+#mesondefine HAVE_FCDB
 
 /* Have Sqlite3 database backend */
-#define HAVE_FCDB_SQLITE3 1
+#mesondefine HAVE_FCDB_SQLITE3
 
 /* Build in Qt5 mode */
 #mesondefine FC_QT5_MODE
