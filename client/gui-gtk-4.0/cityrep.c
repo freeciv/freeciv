@@ -96,8 +96,6 @@ static GMenu *create_change_menu(GActionGroup *group, const char *mname,
                                  enum city_operation_type oper);
 
 #ifdef MENUS_GTK3
-static void create_last_menu(GtkWidget *item);
-static void create_next_menu(GtkWidget *item);
 static void create_next_to_last_menu(GtkWidget *item);
 #endif /* MENUS_GTK3 */
 
@@ -114,9 +112,6 @@ static GtkListStore *city_model;
 
 #ifdef MENUS_GTK3
 static void popup_select_menu(GtkMenuShell *menu, gpointer data);
-static void popup_last_menu(GtkMenuShell *menu, gpointer data);
-static void popup_next_menu(GtkMenuShell *menu, gpointer data);
-static void popup_next_to_last_menu(GtkMenuShell *menu, gpointer data);
 #endif /* MENUS_GTK3 */
 
 static void recreate_production_menu(GActionGroup *group);
@@ -133,20 +128,11 @@ static GtkWidget *city_total_buy_cost_label;
 static GMenu *prod_menu = NULL;
 static GMenu *change_menu;
 static GMenu *add_first_menu;
+static GMenu *add_last_menu;
+static GMenu *add_next_menu;
+static GMenu *add_2ndlast_menu;
 
 #ifdef MENUS_GTK3
-static GtkWidget *last_improvements_item;
-static GtkWidget *last_units_item;
-static GtkWidget *last_wonders_item;
-
-static GtkWidget *next_improvements_item;
-static GtkWidget *next_units_item;
-static GtkWidget *next_wonders_item;
-
-static GtkWidget *next_to_last_improvements_item;
-static GtkWidget *next_to_last_units_item;
-static GtkWidget *next_to_last_wonders_item;
-
 static GtkWidget *select_island_item;
 
 static GtkWidget *select_bunit_item;
@@ -1156,21 +1142,6 @@ static GtkWidget *create_city_report_menu(void)
   cityrep_menu = g_menu_new();
 
 #ifdef MENUS_GTK3
-  item = gtk_menu_item_new_with_mnemonic(_("Add _Next"));
-  gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-  create_next_menu(item);
-
-  item = gtk_menu_item_new_with_mnemonic(_("Add _2nd Last"));
-  gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-  create_next_to_last_menu(item);
-
-  item = gtk_menu_item_new_with_mnemonic(_("Add _Last"));
-  gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-  create_last_menu(item);
-
-  item = gtk_separator_menu_item_new();
-  gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-
   item = gtk_menu_item_new_with_label(_("Set Worklist"));
   gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
   g_object_set_data(G_OBJECT(item), "item_callback",
@@ -1647,148 +1618,6 @@ static GMenu *create_change_menu(GActionGroup *group, const char *mname,
   return menu;
 }
 
-#ifdef MENUS_GTK3
-/************************************************************************//**
-  Creates the last menu.
-****************************************************************************/
-static void create_last_menu(GtkWidget *item)
-{
-  GtkWidget *menu;
-
-  menu = gtk_menu_button_new();
-  gtk_menu_item_set_submenu(GTK_MENU_ITEM(item), menu);
-  g_signal_connect(menu, "show", G_CALLBACK(popup_last_menu), NULL);
-
-  last_units_item = gtk_menu_item_new_with_label(_("Units"));
-  gtk_menu_shell_append(GTK_MENU_SHELL(menu), last_units_item);
-  last_improvements_item = gtk_menu_item_new_with_label(_("Improvements"));
-  gtk_menu_shell_append(GTK_MENU_SHELL(menu), last_improvements_item);
-  last_wonders_item = gtk_menu_item_new_with_label(_("Wonders"));
-  gtk_menu_shell_append(GTK_MENU_SHELL(menu), last_wonders_item);
-}
-
-/************************************************************************//**
-  Creates the next menu.
-****************************************************************************/
-static void create_next_menu(GtkWidget *item)
-{
-  GtkWidget *menu;
-
-  menu = gtk_menu_button_new();
-  gtk_menu_item_set_submenu(GTK_MENU_ITEM(item), menu);
-  g_signal_connect(menu, "show", G_CALLBACK(popup_next_menu), NULL);
-
-  next_units_item = gtk_menu_item_new_with_label(_("Units"));
-  gtk_menu_shell_append(GTK_MENU_SHELL(menu), next_units_item);
-  next_improvements_item = gtk_menu_item_new_with_label(_("Improvements"));
-  gtk_menu_shell_append(GTK_MENU_SHELL(menu), next_improvements_item);
-  next_wonders_item = gtk_menu_item_new_with_label(_("Wonders"));
-  gtk_menu_shell_append(GTK_MENU_SHELL(menu), next_wonders_item);
-}
-
-/************************************************************************//**
-  Append the "next to last" submenu to the given menu item.
-****************************************************************************/
-static void create_next_to_last_menu(GtkWidget *parent_item)
-{
-  GtkWidget *menu, *item;
-
-  menu = gtk_menu_button_new();
-  gtk_menu_item_set_submenu(GTK_MENU_ITEM(parent_item), menu);
-  g_signal_connect(menu, "show",
-                   G_CALLBACK(popup_next_to_last_menu), NULL);
-
-  item = gtk_menu_item_new_with_label(_("Units"));
-  gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-  next_to_last_units_item = item;
-
-  item = gtk_menu_item_new_with_label(_("Improvements"));
-  gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-  next_to_last_improvements_item = item;
-
-  item = gtk_menu_item_new_with_label(_("Wonders"));
-  gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-  next_to_last_wonders_item = item;
-}
-
-/************************************************************************//**
-  Pops up the last menu.
-****************************************************************************/
-static void popup_last_menu(GtkMenuShell *menu, gpointer data)
-{
-  int n;
-
-  n = gtk_tree_selection_count_selected_rows(city_selection);
-
-  append_impr_or_unit_to_menu_item(GTK_MENU_ITEM(last_improvements_item),
-                                   FALSE, FALSE, CO_LAST,
-                                   can_city_build_now,
-                                   G_CALLBACK(select_impr_or_unit_callback), n);
-  append_impr_or_unit_to_menu_item(GTK_MENU_ITEM(last_units_item),
-                                   TRUE, FALSE, CO_LAST,
-                                   can_city_build_now,
-                                   G_CALLBACK(select_impr_or_unit_callback), n);
-  append_impr_or_unit_to_menu_item(GTK_MENU_ITEM(last_wonders_item),
-                                   FALSE, TRUE, CO_LAST,
-                                   can_city_build_now,
-                                   G_CALLBACK(select_impr_or_unit_callback), n);
-}
-
-/************************************************************************//**
-  Pops up the next menu.
-****************************************************************************/
-static void popup_next_menu(GtkMenuShell *menu, gpointer data)
-{
-  int n;
-
-  n = gtk_tree_selection_count_selected_rows(city_selection);
-
-  append_impr_or_unit_to_menu_item(GTK_MENU_ITEM(next_improvements_item),
-                                   FALSE, FALSE, CO_NEXT,
-                                   can_city_build_now,
-                                   G_CALLBACK(select_impr_or_unit_callback), n);
-  append_impr_or_unit_to_menu_item(GTK_MENU_ITEM(next_units_item),
-                                   TRUE, FALSE, CO_NEXT,
-                                   can_city_build_now,
-                                   G_CALLBACK(select_impr_or_unit_callback), n);
-  append_impr_or_unit_to_menu_item(GTK_MENU_ITEM(next_wonders_item),
-                                   FALSE, TRUE, CO_NEXT,
-                                   can_city_build_now,
-                                   G_CALLBACK(select_impr_or_unit_callback), n);
-}
-
-/************************************************************************//**
-  Re-create the submenus in the next-to-last production change menu.
-****************************************************************************/
-static void popup_next_to_last_menu(GtkMenuShell *menu, gpointer data)
-{
-  GtkWidget *item;
-  GCallback callback;
-  int n;
-
-  fc_assert_ret(city_selection != NULL);
-
-  n = gtk_tree_selection_count_selected_rows(city_selection);
-  callback = G_CALLBACK(select_impr_or_unit_callback);
-
-  item = next_to_last_improvements_item;
-  append_impr_or_unit_to_menu_item(GTK_MENU_ITEM(item),
-                                   FALSE, FALSE, CO_NEXT_TO_LAST,
-                                   can_city_build_now,
-                                   callback, n);
-  item = next_to_last_units_item;
-  append_impr_or_unit_to_menu_item(GTK_MENU_ITEM(item),
-                                   TRUE, FALSE, CO_NEXT_TO_LAST,
-                                   can_city_build_now,
-                                   callback, n);
-  item = next_to_last_wonders_item;
-  append_impr_or_unit_to_menu_item(GTK_MENU_ITEM(item),
-                                   FALSE, TRUE, CO_NEXT_TO_LAST,
-                                   can_city_build_now,
-                                   callback, n);
-}
-#endif /* MENUS_GTK3 */
-
 /************************************************************************//**
   Update the sell menu.
 ****************************************************************************/
@@ -1831,6 +1660,30 @@ static GMenu *create_production_menu(GActionGroup *group)
   submenu_append_unref(prod_menu, _("Add _First"),
                        G_MENU_MODEL(add_first_menu));
 
+  add_last_menu = g_menu_new();
+
+  /* TRANS: Menu name to be used like "Set Improvement last"
+   *        This is about adding item to the end of the worklist. */
+  add_last_menu = create_change_menu(group, "last", _("Set %s last"), CO_LAST);
+  submenu_append_unref(prod_menu, _("Add _Last"),
+                       G_MENU_MODEL(add_last_menu));
+
+  add_next_menu = g_menu_new();
+
+  /* TRANS: Menu name to be used like "Set Improvement next"
+   *        This is about adding item after current one on the worklist. */
+  add_next_menu = create_change_menu(group, "next", _("Set %s next"), CO_NEXT);
+  submenu_append_unref(prod_menu, _("Add _Next"),
+                       G_MENU_MODEL(add_next_menu));
+
+  add_2ndlast_menu = g_menu_new();
+
+  /* TRANS: Menu name to be used like "Set Improvement 2nd last"
+   *        This is about adding item as second last on the worklist. */
+  add_2ndlast_menu = create_change_menu(group, "2ndlast", _("Set %s 2nd last"), CO_NEXT_TO_LAST);
+  submenu_append_unref(prod_menu, _("Add _2nd Last"),
+                       G_MENU_MODEL(add_2ndlast_menu));
+
   act = g_simple_action_new("clear_worklist", NULL);
   g_action_map_add_action(G_ACTION_MAP(group), G_ACTION(act));
   g_signal_connect(act, "activate", G_CALLBACK(city_clear_worklist_callback),
@@ -1849,6 +1702,9 @@ static void recreate_production_menu(GActionGroup *group)
   if (prod_menu != NULL) {
     g_menu_remove_all(change_menu);
     g_menu_remove_all(add_first_menu);
+    g_menu_remove_all(add_last_menu);
+    g_menu_remove_all(add_next_menu);
+    g_menu_remove_all(add_2ndlast_menu);
     g_menu_remove_all(prod_menu);
   }
   g_menu_remove(cityrep_menu, 0);
