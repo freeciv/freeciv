@@ -2050,16 +2050,14 @@ static bool img_save(const struct img *pimg, const char *mapimgfile,
     return FALSE;
   }
 
-  if (!path_is_absolute(mapimgfile) && path != NULL) {
+  if (!path_is_absolute(mapimgfile) && path != NULL && path[0] != '\0') {
     if (!make_dir(path)) {
       MAPIMG_LOG(_("can't create directory"));
       return FALSE;
     }
 
     sz_strlcpy(tmpname, path);
-    if (tmpname[0] != '\0') {
-      sz_strlcat(tmpname, "/");
-    }
+    sz_strlcat(tmpname, "/");
   } else {
     tmpname[0] = '\0';
   }
