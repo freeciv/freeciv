@@ -522,6 +522,7 @@ sprites.
     Unit sprites depend on the unit's activity. If there's no sprite
     defined for the activity in question, "Idle" activity sprite is
     used instead. "Idle" sprite is a mandatory one.
+    See full list of legal activities in README.effects.
     If there's no "Idle" sprite, for backward compatibility reasons,
     current Freeciv version still looks for a tag with no activity at all
     to use instead.
