@@ -65,7 +65,7 @@
 #include "helpdlg.h"
 #include "inputdlg.h"
 #include "mapview.h"
-#include "repodlgs.h"
+#include "update_queue.h"
 #include "wldlg.h"
 
 #include "citydlg.h"

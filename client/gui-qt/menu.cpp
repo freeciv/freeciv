@@ -2514,7 +2514,7 @@ void mr_menu::menus_sensitive()
 **************************************************************************/
 void mr_menu::slot_show_research_tab()
 {
-  science_report_dialog_popup(true);
+  qtg_science_report_dialog_popup(true);
 }
 
 /**********************************************************************//**

@@ -18,10 +18,6 @@
 #include <fc_config.h>
 #endif
 
-extern "C" {
-#include "repodlgs_g.h"
-}
-
 // Qt
 #include <QLabel>
 #include <QPushButton>
@@ -29,6 +25,7 @@ extern "C" {
 
 // client
 #include "climisc.h"
+#include "repodlgs_g.h"
 
 // gui-qt
 #include "fonts.h"

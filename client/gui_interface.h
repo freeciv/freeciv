@@ -22,6 +22,7 @@ extern "C" {
 #include "diptreaty.h"
 #include "fc_types.h"
 #include "featured_text.h"
+#include "packets_gen.h"
 #include "tile.h"
 
 /* client/include */
@@ -162,6 +163,14 @@ struct gui_funcs {
 
   void (*request_action_confirmation)(const char *expl,
                                       struct act_confirmation_data *data);
+
+  void (*real_science_report_dialog_update)(void *unused);
+  void (*science_report_dialog_redraw)(void);
+  void (*science_report_dialog_popup)(bool raise);
+  void (*real_economy_report_dialog_update)(void *unused);
+  void (*real_units_report_dialog_update)(void *unused);
+  void (*endgame_report_dialog_start)(const struct packet_endgame_report *packet);
+  void (*endgame_report_dialog_player)(const struct packet_endgame_player *packet);
 };
 
 struct gui_funcs *get_gui_funcs(void);

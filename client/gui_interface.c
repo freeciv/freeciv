@@ -29,6 +29,7 @@
 #include "graphics_g.h"
 #include "gui_main_g.h"
 #include "mapview_g.h"
+#include "repodlgs_g.h"
 #include "themes_g.h"
 
 #include "gui_interface.h"
@@ -700,4 +701,60 @@ void request_action_confirmation(const char *expl,
                                  struct act_confirmation_data *data)
 {
   funcs.request_action_confirmation(expl, data);
+}
+
+/**********************************************************************//**
+  Call real_science_report_dialog_update callback
+**************************************************************************/
+void real_science_report_dialog_update(void *unused)
+{
+  funcs.real_science_report_dialog_update(unused);
+}
+
+/**********************************************************************//**
+  Call science_report_dialog_redraw callback
+**************************************************************************/
+void science_report_dialog_redraw(void)
+{
+  funcs.science_report_dialog_redraw();
+}
+
+/**********************************************************************//**
+  Call science_report_dialog_popup callback
+**************************************************************************/
+void science_report_dialog_popup(bool raise)
+{
+  funcs.science_report_dialog_popup(raise);
+}
+
+/**********************************************************************//**
+  Call real_economy_report_dialog_update callback
+**************************************************************************/
+void real_economy_report_dialog_update(void *unused)
+{
+  funcs.real_economy_report_dialog_update(unused);
+}
+
+/**********************************************************************//**
+  Call real_units_report_dialog_update callback
+**************************************************************************/
+void real_units_report_dialog_update(void *unused)
+{
+  funcs.real_units_report_dialog_update(unused);
+}
+
+/**********************************************************************//**
+  Call endgame_report_dialog_start callback
+**************************************************************************/
+void endgame_report_dialog_start(const struct packet_endgame_report *packet)
+{
+  funcs.endgame_report_dialog_start(packet);
+}
+
+/**********************************************************************//**
+  Call endgame_report_dialog_player callback
+**************************************************************************/
+void endgame_report_dialog_player(const struct packet_endgame_player *packet)
+{
+  funcs.endgame_report_dialog_player(packet);
 }

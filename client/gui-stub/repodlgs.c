@@ -23,23 +23,21 @@
 /* client */
 #include "repodlgs_common.h"
 
-#include "cityrep.h"
-
 #include "repodlgs.h"
 
 /**********************************************************************//**
   Update the science report.
 **************************************************************************/
-void real_science_report_dialog_update(void *unused)
+void gui_real_science_report_dialog_update(void *unused)
 {
   /* PORTME */
 }
 
 /**********************************************************************//**
-  Display the science report.  Optionally raise it.
+  Display the science report. Optionally raise it.
   Typically triggered by F6.
 **************************************************************************/
-void science_report_dialog_popup(bool raise)
+void gui_science_report_dialog_popup(bool raise)
 {
   /* PORTME */
 }
@@ -47,7 +45,7 @@ void science_report_dialog_popup(bool raise)
 /**********************************************************************//**
   Update the economy report.
 **************************************************************************/
-void real_economy_report_dialog_update(void *unused)
+void gui_real_economy_report_dialog_update(void *unused)
 {
   /* PORTME */
 }
@@ -64,7 +62,7 @@ void economy_report_dialog_popup(bool raise)
 /**********************************************************************//**
   Update the units report.
 **************************************************************************/
-void real_units_report_dialog_update(void *unused)
+void gui_real_units_report_dialog_update(void *unused)
 {
   /* PORTME */
 }
@@ -81,7 +79,7 @@ void units_report_dialog_popup(bool raise)
 /**********************************************************************//**
   Show a dialog with player statistics at endgame.
 **************************************************************************/
-void endgame_report_dialog_start(const struct packet_endgame_report *packet)
+void gui_endgame_report_dialog_start(const struct packet_endgame_report *packet)
 {
   /* PORTME */
 }
@@ -89,7 +87,7 @@ void endgame_report_dialog_start(const struct packet_endgame_report *packet)
 /**********************************************************************//**
   Received endgame report information about single player.
 **************************************************************************/
-void endgame_report_dialog_player(const struct packet_endgame_player *packet)
+void gui_endgame_report_dialog_player(const struct packet_endgame_player *packet)
 {
   /* PORTME */
 }
@@ -97,7 +95,7 @@ void endgame_report_dialog_player(const struct packet_endgame_player *packet)
 /**********************************************************************//**
   Resize and redraw the requirement tree.
 **************************************************************************/
-void science_report_dialog_redraw(void)
+void gui_science_report_dialog_redraw(void)
 {
   /* PORTME */
 }

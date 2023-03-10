@@ -1153,7 +1153,7 @@ void science_report::goal_tech_changed(int changed_index)
 /************************************************************************//**
   Update the science report.
 ****************************************************************************/
-void real_science_report_dialog_update(void *unused)
+void qtg_real_science_report_dialog_update(void *unused)
 {
   int i;
   int percent;
@@ -1654,7 +1654,7 @@ void endgame_report::update_report(const struct packet_endgame_player *packet)
   Display the science report. Optionally raise it.
   Typically triggered by F6.
 ****************************************************************************/
-void science_report_dialog_popup(bool raise)
+void qtg_science_report_dialog_popup(bool raise)
 {
   science_report *sci_rep;
   int i;
@@ -1681,7 +1681,7 @@ void science_report_dialog_popup(bool raise)
 /************************************************************************//**
   Update the economy report.
 ****************************************************************************/
-void real_economy_report_dialog_update(void *unused)
+void qtg_real_economy_report_dialog_update(void *unused)
 {
   int i;
   eco_report *eco_rep;
@@ -1728,7 +1728,7 @@ void economy_report_dialog_popup(bool raise)
 /************************************************************************//**
   Update the units report.
 ****************************************************************************/
-void real_units_report_dialog_update(void *unused)
+void qtg_real_units_report_dialog_update(void *unused)
 {
   if (units_reports::instance()->isVisible()) {
     units_reports::instance()->update_units();
@@ -1747,7 +1747,7 @@ void units_report_dialog_popup(bool raise)
 /************************************************************************//**
   Show a dialog with player statistics at endgame.
 ****************************************************************************/
-void endgame_report_dialog_start(const struct packet_endgame_report *packet)
+void qtg_endgame_report_dialog_start(const struct packet_endgame_report *packet)
 {
   endgame_report *end_rep;
 
@@ -1785,7 +1785,7 @@ void popup_endgame_report()
 /************************************************************************//**
   Received endgame report information about single player.
 ****************************************************************************/
-void endgame_report_dialog_player(const struct packet_endgame_player *packet)
+void qtg_endgame_report_dialog_player(const struct packet_endgame_player *packet)
 {
   int i;
   endgame_report *end_rep;
@@ -1803,7 +1803,7 @@ void endgame_report_dialog_player(const struct packet_endgame_player *packet)
 /************************************************************************//**
   Resize and redraw the requirement tree.
 ****************************************************************************/
-void science_report_dialog_redraw(void)
+void qtg_science_report_dialog_redraw()
 {
   int i;
   science_report *sci_rep;

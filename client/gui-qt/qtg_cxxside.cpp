@@ -122,4 +122,15 @@ void setup_gui_funcs()
   funcs->gui_recv_accept_treaty = qtg_recv_accept_treaty;
 
   funcs->request_action_confirmation = qtg_request_action_confirmation;
+
+  funcs->real_science_report_dialog_update
+    = qtg_real_science_report_dialog_update;
+  funcs->science_report_dialog_redraw = qtg_science_report_dialog_redraw;
+  funcs->science_report_dialog_popup = qtg_science_report_dialog_popup;
+  funcs->real_economy_report_dialog_update
+    = qtg_real_economy_report_dialog_update;
+  funcs->real_units_report_dialog_update
+    = qtg_real_units_report_dialog_update;
+  funcs->endgame_report_dialog_start = qtg_endgame_report_dialog_start;
+  funcs->endgame_report_dialog_player = qtg_endgame_report_dialog_player;
 }

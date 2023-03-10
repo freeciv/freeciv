@@ -156,4 +156,12 @@ void qtg_recv_accept_treaty(struct Treaty *ptreaty, struct player *they);
 void qtg_request_action_confirmation(const char *expl,
                                      struct act_confirmation_data *data);
 
+void qtg_real_science_report_dialog_update(void *unused);
+void qtg_science_report_dialog_redraw();
+void qtg_science_report_dialog_popup(bool raise);
+void qtg_real_economy_report_dialog_update(void *unused);
+void qtg_real_units_report_dialog_update(void *unused);
+void qtg_endgame_report_dialog_start(const struct packet_endgame_report *packet);
+void qtg_endgame_report_dialog_player(const struct packet_endgame_player *packet);
+
 #endif // FC__QTG_CXXSIDE_H

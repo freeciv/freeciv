@@ -3338,7 +3338,11 @@ def write_common_header(path: "str | Path | None", packets: PacketsDefinition):
 /* common */
 #include "actions.h"
 #include "city.h"
+#include "conn_types.h"
 #include "disaster.h"
+#include "events.h"
+#include "player.h"
+#include "tech.h"
 #include "unit.h"
 
 /* common/aicore */

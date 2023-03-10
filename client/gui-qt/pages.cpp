@@ -47,12 +47,12 @@
 #include "pages.h"
 #include "plrdlg.h"
 #include "qtg_cxxside.h"
+#include "repodlgs_g.h"
 #include "sidebar.h"
 #include "sprite.h"
 #include "voteinfo_bar.h"
 
 extern "C" {
-#include "repodlgs_g.h"
 #include "cityrep_g.h"
 const char *science_dialog_text(void);
 const char *get_bulb_tooltip(void);

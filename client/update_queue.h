@@ -61,6 +61,10 @@ void update_queue_connect_processing_finished_full(int request_id,
 
 bool update_queue_is_switching_page(void);
 
+void science_report_dialog_update(void);
+void economy_report_dialog_update(void);
+void units_report_dialog_update(void);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

@@ -58,9 +58,6 @@
 #include "hudwidget.h"
 #include "qtg_cxxside.h"
 
-extern "C" {
-  void real_science_report_dialog_update(void*);
-}
 extern void restart_notify_dialogs();
 extern void city_font_update();
 
@@ -432,7 +429,7 @@ static void apply_font(struct option *poption)
     update_city_descriptions();
     gui()->infotab->chtwdg->update_font();
     QApplication::setFont(*fc_font::instance()->get_font(fonts::default_font));
-    real_science_report_dialog_update(nullptr);
+    qtg_real_science_report_dialog_update(nullptr);
     fc_font::instance()->get_mapfont_size();
     gui()->update_fonts();
   }
