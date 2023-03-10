@@ -1361,16 +1361,16 @@ static void dai_unit_consider_bodyguard(struct ai_type *ait,
                                         struct unit_type *punittype,
                                         struct adv_choice *choice)
 {
-  struct unit *virtualunit;
-  struct player *pplayer = city_owner(pcity);
-  struct unit *aunit = NULL;
-  struct city *acity = NULL;
-
-  virtualunit = unit_virtual_create(pplayer, pcity, punittype,
-                                    city_production_unit_veteran_level(pcity, punittype));
-
   if (choice->want < DAI_WANT_MILITARY_EMERGENCY) {
-    const adv_want want = look_for_charge(ait, pplayer, virtualunit, &aunit, &acity);
+    struct player *pplayer = city_owner(pcity);
+    struct unit *aunit = NULL;
+    struct city *acity = NULL;
+    struct unit *virtualunit
+      = unit_virtual_create(pplayer, pcity, punittype,
+                            city_production_unit_veteran_level(pcity,
+                                                               punittype));
+    const adv_want want = look_for_charge(ait, pplayer, virtualunit,
+                                          &aunit, &acity);
 
     if (want > choice->want) {
       choice->want = want;
@@ -1378,9 +1378,9 @@ static void dai_unit_consider_bodyguard(struct ai_type *ait,
       choice->type = CT_DEFENDER;
       adv_choice_set_use(choice, "bodyguard");
     }
-  }
 
-  unit_virtual_destroy(virtualunit);
+    unit_virtual_destroy(virtualunit);
+  }
 }
 
 /*********************************************************************
