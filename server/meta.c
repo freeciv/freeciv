@@ -497,6 +497,7 @@ bool send_server_info_to_metaserver(enum meta_flag flag)
 
   static struct timer *last_send_timer = NULL;
   static bool want_update;
+  int since_previous;
 
   if (!server_is_open) {
     return FALSE;
@@ -527,24 +528,30 @@ bool send_server_info_to_metaserver(enum meta_flag flag)
     return TRUE;
   }
 
-  /* don't allow the user to spam the metaserver with updates */
-  if (last_send_timer && (timer_read_seconds(last_send_timer)
-                                          < METASERVER_MIN_UPDATE_INTERVAL)) {
-    if (flag == META_INFO) {
-      want_update = TRUE; /* we couldn't update now, but update a.s.a.p. */
+  if (last_send_timer != NULL) {
+    since_previous = timer_read_seconds(last_send_timer);
+
+    /* Don't allow the user to spam the metaserver with updates */
+    if (since_previous < METASERVER_MIN_UPDATE_INTERVAL) {
+      if (flag == META_INFO) {
+        want_update = TRUE; /* We couldn't update now, but update a.s.a.p. */
+      }
+      return FALSE;
     }
-    return FALSE;
+  } else {
+    since_previous = MAX(METASERVER_REFRESH_INTERVAL + 1,
+                         METASERVER_MIN_UPDATE_INTERVAL + 1);
   }
 
-  /* if we're asking for a refresh, only do so if 
+  /* If we're asking for a refresh, only do so if
    * we've exceeded the refresh interval */
-  if ((flag == META_REFRESH) && !want_update && last_send_timer 
-      && (timer_read_seconds(last_send_timer) < METASERVER_REFRESH_INTERVAL)) {
+  if ((flag == META_REFRESH) && !want_update
+      && since_previous < METASERVER_REFRESH_INTERVAL) {
     return FALSE;
   }
 
-  /* start a new timer if we haven't already */
-  if (!last_send_timer) {
+  /* Start a new timer if we haven't already */
+  if (last_send_timer == NULL) {
     last_send_timer = timer_new(TIMER_USER, TIMER_ACTIVE);
   }
 
