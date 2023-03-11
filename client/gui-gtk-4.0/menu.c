@@ -94,6 +94,7 @@ enum menu_entry_grouping { MGROUP_SAFE, MGROUP_EDIT, MGROUP_PLAYING,
                            MGROUP_UNIT, MGROUP_PLAYER, MGROUP_ALL };
 
 static GMenu *options_menu = NULL;
+static GMenu *edit_menu = NULL;
 static GMenu *view_menu = NULL;
 static GMenu *gov_menu = NULL;
 static GMenu *unit_menu = NULL;
@@ -265,11 +266,9 @@ static void help_copying_callback(GSimpleAction *action,
 static void help_about_callback(GSimpleAction *action,
                                 GVariant *parameter,
                                 gpointer data);
-
-#ifdef MENUS_GTK3
-static void edit_mode_callback(GtkCheckMenuItem *item, gpointer data);
-#endif /* MENUS_GTK3 */
-
+static void edit_mode_callback(GSimpleAction *action,
+                               GVariant *parameter,
+                               gpointer data);
 static void show_city_outlines_callback(GSimpleAction *action,
                                         GVariant *parameter,
                                         gpointer data);
@@ -598,6 +597,9 @@ static struct menu_entry_info menu_entries[] =
   { "INFRA_DLG", N_("Infra dialog"),
     "infra_dlg", "<ctrl><shift>f", MGROUP_SAFE,
     NULL, FALSE },
+  { "EDIT_MODE", N_("_Editing Mode"),
+    "edit_mode", "<ctrl>e", MGROUP_SAFE,
+    edit_mode_callback, FALSE },
   { "SCENARIO_SAVE", N_("Save Scenario"),
     "scenario_save", NULL, MGROUP_EDIT,
     NULL, FALSE },
@@ -992,9 +994,6 @@ static struct menu_entry_info menu_entries[] =
   { "RELOAD_TILESET", N_("_Reload Tileset"),
     GDK_KEY_r, GDK_ALT_MASK | GDK_CONTROL_MASK,
     G_CALLBACK(reload_tileset_callback), MGROUP_SAFE },
-
-  { "EDIT_MODE", N_("_Editing Mode"), GDK_KEY_e, GDK_CONTROL_MASK,
-    G_CALLBACK(edit_mode_callback), MGROUP_SAFE },
 
   { "RECALC_BORDERS", N_("Recalculate _Borders"), 0, 0,
     G_CALLBACK(recalc_borders_callback), MGROUP_EDIT },
@@ -1700,19 +1699,18 @@ static void help_about_callback(GSimpleAction *action,
   popup_help_dialog_string(HELP_ABOUT_ITEM);
 }
 
-#ifdef MENUS_GTK3
 /************************************************************************//**
   Item "EDIT_MODE" callback.
 ****************************************************************************/
-static void edit_mode_callback(GtkCheckMenuItem *item, gpointer data)
+static void edit_mode_callback(GSimpleAction *action,
+                               GVariant *parameter,
+                               gpointer data)
 {
-  if (game.info.is_edit_mode ^ gtk_check_menu_item_get_active(item)) {
-    key_editor_toggle();
-    /* Unreachable techs in reqtree on/off */
-    science_report_dialog_popdown();
-  }
+  key_editor_toggle();
+
+  /* Unreachable techs in reqtree on/off */
+  science_report_dialog_popdown();
 }
-#endif /* MENUS_GTK3 */
 
 struct menu_entry_option_map {
   const char *menu_entry;
@@ -1723,6 +1721,7 @@ struct menu_entry_option_map {
 const struct menu_entry_option_map meoms[] = {
   { "SAVE_OPTIONS_ON_EXIT", &gui_options.save_options_on_exit, -1 },
   { "FULL_SCREEN", &(GUI_GTK_OPTION(fullscreen)), -1 },
+  { "EDIT_MODE", &game.info.is_edit_mode, -1 },
   { "SHOW_CITY_OUTLINES", &gui_options.draw_city_outlines, VMENU_CITY_OUTLINES },
   { "SHOW_CITY_OUTPUT", &gui_options.draw_city_output, VMENU_CITY_OUTPUT },
   { "SHOW_MAP_GRID", &gui_options.draw_map_grid, VMENU_MAP_GRID },
@@ -3051,19 +3050,17 @@ static GMenu *setup_menus(GtkApplication *app)
 
   submenu_append_unref(menubar, _("_Game"), G_MENU_MODEL(topmenu));
 
-  topmenu = g_menu_new();
+  edit_menu = g_menu_new();
 
-  menu_entry_init(topmenu, "FIND_CITY");
-  menu_entry_init(topmenu, "WORKLISTS");
-  menu_entry_init(topmenu, "RALLY_DLG");
-  menu_entry_init(topmenu, "INFRA_DLG");
+  menu_entry_init(edit_menu, "FIND_CITY");
+  menu_entry_init(edit_menu, "WORKLISTS");
+  menu_entry_init(edit_menu, "RALLY_DLG");
+  menu_entry_init(edit_menu, "INFRA_DLG");
+  menu_entry_init(edit_menu, "EDIT_MODE");
+  menu_entry_init(edit_menu, "SCENARIO_SAVE");
+  menu_entry_init(edit_menu, "CLIENT_LUA_SCRIPT");
 
-  /* TODO: This entry not made visible for now, as it would never be sensitive
-   *       as long as client can't enter editor mode. */
-  /* menu_entry_init(topmenu, "SCENARIO_SAVE"); */
-  menu_entry_init(topmenu, "CLIENT_LUA_SCRIPT");
-
-  submenu_append_unref(menubar, _("_Edit"), G_MENU_MODEL(topmenu));
+  submenu_append_unref(menubar, _("_Edit"), G_MENU_MODEL(edit_menu));
 
   view_menu = g_menu_new();
 
@@ -3440,6 +3437,7 @@ void real_menus_update(void)
   int tgt_kind_group;
   struct unit_list *punits;
   unsigned num_units;
+  struct menu_entry_info *info;
   struct road_type *proad;
   struct extra_type_list *extras;
   bool conn_possible;
@@ -3782,13 +3780,18 @@ void real_menus_update(void)
   menu_entry_set_sensitive(map, "POLICIES", multiplier_count() > 0);
   menu_entry_set_sensitive(map, "REPORT_TOP_CITIES", game.info.top_cities_count > 0);
 
+  info = menu_entry_info_find("EDIT_MODE");
+  if (info->state != game.info.is_edit_mode) {
+    g_menu_remove(edit_menu, 4);
+    menu_item_insert_unref(edit_menu, 4,
+                           create_toggle_menu_item_for_key("EDIT_MODE"));
+
+    menu_entry_set_sensitive(map, "EDIT_MODE",
+                             can_conn_enable_editing(&client.conn));
+    editgui_refresh();
+  }
+
 #ifdef MENUS_GTK3
-
-  menu_entry_set_active("EDIT_MODE", game.info.is_edit_mode);
-  menu_entry_set_sensitive("EDIT_MODE",
-                           can_conn_enable_editing(&client.conn));
-  editgui_refresh();
-
   {
     char road_buf[500];
 
