@@ -116,7 +116,7 @@ struct text_tag;
 #define text_tag_list_iterate_end  LIST_ITERATE_END
 
 /* The different text_tag types.
- * Chaning the order doesn't break the network compatiblity. */
+ * Changing the order doesn't break the network compatibility. */
 enum text_tag_type {
   TTT_BOLD = 0,
   TTT_ITALIC,
@@ -127,7 +127,7 @@ enum text_tag_type {
 };
 
 /* The different text_tag link types.
- * Chaning the order doesn't break the network compatiblity. */
+ * Changing the order doesn't break the network compatibility. */
 enum text_link_type {
   TLT_CITY,
   TLT_TILE,
