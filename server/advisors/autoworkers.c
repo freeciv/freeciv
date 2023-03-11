@@ -74,19 +74,19 @@ struct settlermap {
   int eta; /* estimated number of turns until enroute arrives */
 };
 
-action_id as_actions_transform[MAX_NUM_ACTIONS];
-action_id as_actions_extra[MAX_NUM_ACTIONS];
-action_id as_actions_rmextra[MAX_NUM_ACTIONS];
+action_id aw_actions_transform[MAX_NUM_ACTIONS];
+action_id aw_actions_extra[MAX_NUM_ACTIONS];
+action_id aw_actions_rmextra[MAX_NUM_ACTIONS];
 
-static struct timer *as_timer = NULL;
+static struct timer *aw_timer = NULL;
 
 /**********************************************************************//**
-  Free resources allocated for autosettlers system
+  Free resources allocated for autoworkers system
 **************************************************************************/
 void adv_settlers_free(void)
 {
-  timer_destroy(as_timer);
-  as_timer = NULL;
+  timer_destroy(aw_timer);
+  aw_timer = NULL;
 }
 
 /**********************************************************************//**
@@ -97,34 +97,34 @@ void auto_settlers_ruleset_init(void)
   int i;
 
   i = 0;
-  action_array_add_all_by_result(as_actions_transform, &i,
+  action_array_add_all_by_result(aw_actions_transform, &i,
                                  ACTRES_CULTIVATE);
-  action_array_add_all_by_result(as_actions_transform, &i,
+  action_array_add_all_by_result(aw_actions_transform, &i,
                                  ACTRES_PLANT);
-  action_array_add_all_by_result(as_actions_transform, &i,
+  action_array_add_all_by_result(aw_actions_transform, &i,
                                  ACTRES_TRANSFORM_TERRAIN);
-  action_array_end(as_actions_transform, i);
+  action_array_end(aw_actions_transform, i);
 
   i = 0;
-  action_array_add_all_by_result(as_actions_extra, &i,
+  action_array_add_all_by_result(aw_actions_extra, &i,
                                  ACTRES_IRRIGATE);
-  action_array_add_all_by_result(as_actions_extra, &i,
+  action_array_add_all_by_result(aw_actions_extra, &i,
                                  ACTRES_MINE);
-  action_array_add_all_by_result(as_actions_extra, &i,
+  action_array_add_all_by_result(aw_actions_extra, &i,
                                  ACTRES_ROAD);
-  action_array_add_all_by_result(as_actions_extra, &i,
+  action_array_add_all_by_result(aw_actions_extra, &i,
                                  ACTRES_BASE);
-  action_array_end(as_actions_extra, i);
+  action_array_end(aw_actions_extra, i);
 
   i = 0;
-  action_array_add_all_by_result(as_actions_rmextra, &i,
+  action_array_add_all_by_result(aw_actions_rmextra, &i,
                                  ACTRES_CLEAN);
-  action_array_add_all_by_result(as_actions_rmextra, &i,
+  action_array_add_all_by_result(aw_actions_rmextra, &i,
                                  ACTRES_CLEAN_POLLUTION);
-  action_array_add_all_by_result(as_actions_rmextra, &i,
+  action_array_add_all_by_result(aw_actions_rmextra, &i,
                                  ACTRES_CLEAN_FALLOUT);
   /* We could have ACTRES_PILLAGE here, but currently we don't */
-  action_array_end(as_actions_rmextra, i);
+  action_array_end(aw_actions_rmextra, i);
 }
 
 /**********************************************************************//**
@@ -530,7 +530,7 @@ adv_want settler_evaluate_improvements(struct unit *punit,
           oldv = city_tile_value(pcity, ptile, 0, 0);
 
           /* Now, consider various activities... */
-          as_transform_action_iterate(act) {
+          aw_transform_action_iterate(act) {
             struct extra_type *target = NULL;
             enum extra_cause cause =
                 activity_to_extra_cause(action_id_get_activity(act));
@@ -576,7 +576,7 @@ adv_want settler_evaluate_improvements(struct unit *punit,
                                       best_tile, ptile);
 
             } /* endif: can the worker perform this action */
-          } as_transform_action_iterate_end;
+          } aw_transform_action_iterate_end;
 
           extra_type_iterate(pextra) {
             enum unit_activity act = ACTIVITY_LAST;
@@ -585,7 +585,7 @@ adv_want settler_evaluate_improvements(struct unit *punit,
             bool removing = tile_has_extra(ptile, pextra);
 
             if (removing) {
-              as_rmextra_action_iterate(try_act) {
+              aw_rmextra_action_iterate(try_act) {
                 struct action *taction = action_by_number(try_act);
                 if (is_extra_removed_by_action(pextra, taction)) {
                   /* We do not even evaluate actions we can't do.
@@ -602,9 +602,9 @@ adv_want settler_evaluate_improvements(struct unit *punit,
                     break;
                   }
                 }
-              } as_rmextra_action_iterate_end;
+              } aw_rmextra_action_iterate_end;
             } else {
-              as_extra_action_iterate(try_act) {
+              aw_extra_action_iterate(try_act) {
                 struct action *taction = action_by_number(try_act);
                 if (is_extra_caused_by_action(pextra, taction)) {
                   eval_act = action_id_get_activity(try_act);
@@ -619,7 +619,7 @@ adv_want settler_evaluate_improvements(struct unit *punit,
                     break;
                   }
                 }
-              } as_extra_action_iterate_end;
+              } aw_extra_action_iterate_end;
             }
 
             if (eval_act == ACTIVITY_LAST) {
@@ -744,7 +744,7 @@ adv_want settler_evaluate_improvements(struct unit *punit,
                     enum unit_activity eval_dep_act = ACTIVITY_LAST;
                     action_id eval_dep_action;
 
-                    as_extra_action_iterate(try_act) {
+                    aw_extra_action_iterate(try_act) {
                       struct action *taction = action_by_number(try_act);
 
                       if (is_extra_caused_by_action(pdep, taction)) {
@@ -752,7 +752,7 @@ adv_want settler_evaluate_improvements(struct unit *punit,
                         eval_dep_act = action_id_get_activity(try_act);
                         break;
                       }
-                    } as_extra_action_iterate_end;
+                    } aw_extra_action_iterate_end;
 
                     if (eval_dep_act != ACTIVITY_LAST) {
                       if (action_prob_possible(
@@ -1151,9 +1151,9 @@ void auto_settlers_player(struct player *pplayer)
 
   state = fc_calloc(MAP_INDEX_SIZE, sizeof(*state));
 
-  as_timer = timer_renew(as_timer, TIMER_CPU, TIMER_DEBUG,
-                         as_timer != NULL ? NULL : "autosettlers");
-  timer_start(as_timer);
+  aw_timer = timer_renew(aw_timer, TIMER_CPU, TIMER_DEBUG,
+                         aw_timer != NULL ? NULL : "autoworkers");
+  timer_start(aw_timer);
 
   if (is_ai(pplayer)) {
     /* Set up our city map. */
@@ -1228,12 +1228,12 @@ void auto_settlers_player(struct player *pplayer)
     CALL_PLR_AI_FUNC(settler_reset, pplayer, pplayer);
   }
 
-  if (timer_in_use(as_timer)) {
+  if (timer_in_use(aw_timer)) {
 
 #ifdef LOG_TIMERS
     log_verbose("%s autosettlers consumed %g milliseconds.",
                 nation_rule_name(nation_of_player(pplayer)),
-                1000.0 * timer_read_seconds(as_timer));
+                1000.0 * timer_read_seconds(aw_timer));
 #else
     log_verbose("%s autosettlers finished",
                 nation_rule_name(nation_of_player(pplayer)));

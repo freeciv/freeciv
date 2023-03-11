@@ -246,10 +246,10 @@ void initialize_infrastructure_cache(struct player *pplayer)
     int radius_sq = city_map_radius_sq_get(pcity);
 
     city_map_iterate(radius_sq, city_index, city_x, city_y) {
-      as_transform_action_iterate(act) {
+      aw_transform_action_iterate(act) {
         adv_city_worker_act_set(pcity, city_index, action_id_get_activity(act),
                                 -1);
-      } as_transform_action_iterate_end;
+      } aw_transform_action_iterate_end;
     } city_map_iterate_end;
 
     city_tile_iterate_index(radius_sq, pcenter, ptile, cindex) {
@@ -273,7 +273,8 @@ void initialize_infrastructure_cache(struct player *pplayer)
         } else {
           adv_city_worker_extra_set(pcity, cindex, pextra, 0);
         }
-        if (tile_has_extra(ptile, pextra) && is_extra_removed_by_worker_action(pextra)) {
+        if (tile_has_extra(ptile, pextra)
+            && is_extra_removed_by_worker_action(pextra)) {
           adv_city_worker_rmextra_set(pcity, cindex, pextra,
                                       adv_calc_rmextra(pcity, ptile, pextra));
         } else {

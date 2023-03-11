@@ -64,33 +64,33 @@ bool auto_settlers_speculate_can_act_at(const struct unit *punit,
                                         struct extra_type *target,
                                         const struct tile *ptile);
 
-extern action_id as_actions_transform[MAX_NUM_ACTIONS];
+extern action_id aw_actions_transform[MAX_NUM_ACTIONS];
 
-#define as_transform_action_iterate(_act_)                                \
+#define aw_transform_action_iterate(_act_)                                \
 {                                                                         \
-  action_array_iterate(as_actions_transform, _act_)
+  action_array_iterate(aw_actions_transform, _act_)
 
-#define as_transform_action_iterate_end                                   \
+#define aw_transform_action_iterate_end                                   \
   action_array_iterate_end                                                 \
 }
 
-extern action_id as_actions_extra[MAX_NUM_ACTIONS];
+extern action_id aw_actions_extra[MAX_NUM_ACTIONS];
 
-#define as_extra_action_iterate(_act_)                                    \
+#define aw_extra_action_iterate(_act_)                                    \
 {                                                                         \
-  action_array_iterate(as_actions_extra, _act_)
+  action_array_iterate(aw_actions_extra, _act_)
 
-#define as_extra_action_iterate_end                                       \
+#define aw_extra_action_iterate_end                                       \
   action_array_iterate_end                                                 \
 }
 
-extern action_id as_actions_rmextra[MAX_NUM_ACTIONS];
+extern action_id aw_actions_rmextra[MAX_NUM_ACTIONS];
 
-#define as_rmextra_action_iterate(_act_)                                  \
+#define aw_rmextra_action_iterate(_act_)                                  \
 {                                                                         \
-  action_array_iterate(as_actions_rmextra, _act_)
+  action_array_iterate(aw_actions_rmextra, _act_)
 
-#define as_rmextra_action_iterate_end                                     \
+#define aw_rmextra_action_iterate_end                                     \
   action_array_iterate_end                                                 \
 }
 

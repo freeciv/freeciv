@@ -174,7 +174,7 @@ static void texai_tile_worker_task_select(struct player *pplayer,
     potential_worst_worked = TRUE;
   }
 
-  as_transform_action_iterate(act) {
+  aw_transform_action_iterate(act) {
     bool consider = TRUE;
     bool possible = FALSE;
     enum extra_cause cause;
@@ -267,7 +267,7 @@ static void texai_tile_worker_task_select(struct player *pplayer,
         }
       }
     }
-  } as_transform_action_iterate_end;
+  } aw_transform_action_iterate_end;
 
   extra_type_iterate(tgt) {
     struct action *paction = NULL;
@@ -275,8 +275,9 @@ static void texai_tile_worker_task_select(struct player *pplayer,
 
     unit_list_iterate(units, punit) {
       if (removing) {
-        as_rmextra_action_iterate(try_act) {
+        aw_rmextra_action_iterate(try_act) {
           struct action *taction = action_by_number(try_act);
+
           if (is_extra_removed_by_action(tgt, taction)
               && action_prob_possible(
                 action_speculate_unit_on_tile(try_act,
@@ -287,10 +288,11 @@ static void texai_tile_worker_task_select(struct player *pplayer,
             paction = taction;
             break;
           }
-        } as_rmextra_action_iterate_end;
+        } aw_rmextra_action_iterate_end;
       } else {
-        as_extra_action_iterate(try_act) {
+        aw_extra_action_iterate(try_act) {
           struct action *taction = action_by_number(try_act);
+
           if (is_extra_caused_by_action(tgt, taction)
               && action_prob_possible(
                 action_speculate_unit_on_tile(try_act,
@@ -301,7 +303,7 @@ static void texai_tile_worker_task_select(struct player *pplayer,
             paction = taction;
             break;
           }
-        } as_extra_action_iterate_end;
+        } aw_extra_action_iterate_end;
       }
     } unit_list_iterate_end;
 
