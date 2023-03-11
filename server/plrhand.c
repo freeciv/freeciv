@@ -2792,27 +2792,27 @@ bool civil_war_triggered(struct player *pplayer)
 /**********************************************************************//**
   Capturing a nation's primary capital is a devastating blow. This function
   creates a new AI player, and randomly splits the original players
-  city list into two.  Of course this results in a real mix up of
+  city list into two. Of course this results in a real mix up of
   territory - but since when have civil wars ever been tidy, or civil.
 
-  Embassies:  All embassies with other players are lost.  Other players
+  Embassies:  All embassies with other players are lost. Other players
               retain their embassies with pplayer.
-   * Units:      Units inside cities are assigned to the new owner
-              of the city.  Units outside are transferred along
+   * Units:   Units inside cities are assigned to the new owner
+              of the city. Units outside are transferred along
               with the ownership of their supporting city.
               If the units are in a unit stack with non rebel units,
               then whichever units are nearest an allied city
-              are teleported to that city.  If the stack is a
+              are teleported to that city. If the stack is a
               transport at sea, then all rebel units on the
               transport are teleported to their nearest allied city.
 
-  Cities:     Are split randomly into 2.  This results in a real
+  Cities:     Are split randomly into 2. This results in a real
               mix up of teritory - but since when have civil wars
               ever been tidy, or for any matter civil?
    *
   One caveat, since the spliting of cities is random, you can
   conceive that this could result in either the original player
-  or the rebel getting 0 cities.  To prevent this, the hack below
+  or the rebel getting 0 cities. To prevent this, the hack below
   ensures that each side gets roughly half, which ones is still
   determined randomly.
                                    - Kris Bubendorfer
@@ -2823,6 +2823,7 @@ struct player *civil_war(struct player *pplayer)
   struct player *cplayer;
   struct city *capital;
   struct city_list *defector_candidates;
+  size_t plr_count;
 
   /* It is possible that this function gets called after pplayer
    * died. Player pointers are safe even after death. */
@@ -2830,13 +2831,22 @@ struct player *civil_war(struct player *pplayer)
     return NULL;
   }
 
-  if (normal_player_count() >= MAX_NUM_PLAYERS) {
+  plr_count = normal_player_count();
+  if (plr_count >= MAX_NUM_PLAYERS) {
     /* No space to make additional player */
     log_normal(_("Could not throw %s into civil war - too many players"),
                nation_plural_for_player(pplayer));
     return NULL;
   }
-  if (normal_player_count() >= server.playable_nations) {
+
+  if (plr_count >= game.server.max_players) {
+    /* No space to make additional player */
+    log_normal(_("Could not throw %s into civil war - maxplayers (%d) reached"),
+               nation_plural_for_player(pplayer), game.server.max_players);
+    return NULL;
+  }
+
+  if (plr_count >= server.playable_nations) {
     /* No nation for additional player */
     log_normal(_("Could not throw %s into civil war - no available nations"),
                nation_plural_for_player(pplayer));
@@ -2864,6 +2874,7 @@ struct player *civil_war(struct player *pplayer)
         break;
       }
     } unit_list_iterate_end;
+
     if (gameloss_present) {
       continue;
     }
@@ -2879,17 +2890,6 @@ struct player *civil_war(struct player *pplayer)
   }
 
   /* We're definitely going to create a new rebel player. */
-
-  if (normal_player_count() == game.server.max_players) {
-    /* 'maxplayers' must be increased to allow for a new player. */
-
-    /* This assert should never be called due to the first check above. */
-    fc_assert_ret_val(game.server.max_players < MAX_NUM_PLAYERS, NULL);
-
-    game.server.max_players++;
-    log_debug("Increased 'maxplayers' to allow the creation of a new player "
-              "due to civil war.");
-  }
 
   cplayer = split_player(pplayer);
 
