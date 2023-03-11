@@ -268,7 +268,7 @@ void progress_bar::paintEvent(QPaintEvent *event)
 
     i = text().indexOf('\n');
     s1 = text().left(i);
-    s2 = text().right(text().count() - i);
+    s2 = text().right(text().length() - i);
 
     if (2 * f_pixel_size >= 3 * pbh / 2) {
       tmp_font.setPixelSize(pbh / 3);

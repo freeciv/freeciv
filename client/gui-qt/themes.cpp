@@ -139,7 +139,7 @@ char **qtg_get_gui_specific_themes_directories(int *count)
 /*************************************************************************//**
   Return an array of names of usable themes in the given directory.
   Array size is stored in count.
-  The caller is responsible for freeing the array and the names
+  The caller is responsible for freeing the array and the names.
 *****************************************************************************/
 char **qtg_get_useable_themes_in_directory(const char *directory, int *count)
 {
@@ -179,7 +179,7 @@ char **qtg_get_useable_themes_in_directory(const char *directory, int *count)
     QByteArray tn_bytes;
 
     qba = theme_list[i].toLocal8Bit();
-    data = new char[theme_list[i].toLocal8Bit().count() + 1];
+    data = new char[theme_list[i].toLocal8Bit().length() + 1];
     tn_bytes = theme_list[i].toLocal8Bit();
     strcpy(data, tn_bytes.data());
     array[i] = data;

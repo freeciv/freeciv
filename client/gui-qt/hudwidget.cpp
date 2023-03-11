@@ -132,9 +132,10 @@ int hud_message_box::set_text_title(QString s1, QString s2, bool return_exec)
 
   if (s1.contains('\n')) {
     int i;
+
     i = s1.indexOf('\n');
     cs1 = s1.left(i);
-    cs2 = s1.right(s1.count() - i);
+    cs2 = s1.right(s1.length() - i);
     mult = 2;
     w2 = qMax(fm_text->horizontalAdvance(cs1),
               fm_text->horizontalAdvance(cs2));
@@ -406,9 +407,10 @@ void hud_input_box::set_text_title_definput(QString s1, QString s2,
   layout = new QVBoxLayout;
   if (s1.contains('\n')) {
     int i;
+
     i = s1.indexOf('\n');
     cs1 = s1.left(i);
-    cs2 = s1.right(s1.count() - i);
+    cs2 = s1.right(s1.length() - i);
     mult = 2;
     w2 = qMax(fm_text->horizontalAdvance(cs1),
               fm_text->horizontalAdvance(cs2));
@@ -688,13 +690,14 @@ void hud_units::update_actions(unit_list *punits)
     p.end();
     pix = pix2;
   }
-  /* Draw movement points */
+
+  // Draw movement points
   move_pt_text = move_points_text(punit->moves_left, false);
   if (move_pt_text.contains('/')) {
     fraction2 = move_pt_text.right(1);
-    move_pt_text.remove(move_pt_text.count() - 2, 2);
+    move_pt_text.remove(move_pt_text.length() - 2, 2);
     fraction1 = move_pt_text.right(1);
-    move_pt_text.remove(move_pt_text.count() - 1, 1);
+    move_pt_text.remove(move_pt_text.length() - 1, 1);
   }
   crop = QRect(5, 5, pix.width() - 5, pix.height() - 5);
   font.setCapitalization(QFont::Capitalize);

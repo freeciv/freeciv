@@ -572,7 +572,7 @@ QString apply_tags(QString str, const struct text_tag_list *tags,
 
   text_tag_list_iterate(tags, ptag) {
     if ((text_tag_stop_offset(ptag) == FT_OFFSET_UNSET)) {
-      stop = qba.count();
+      stop = qba.length();
     } else {
       stop = text_tag_stop_offset(ptag);
     }
@@ -652,12 +652,13 @@ QString apply_tags(QString str, const struct text_tag_list *tags,
     }
   } text_tag_list_iterate_end;
 
-  /* insert html starting from last items */
-  last_i = str.count();
+  // Insert html starting from last items
+  last_i = str.length();
   QMultiMap<int, QString>::const_iterator i = mm.constEnd();
   QMultiMap<int, QString>::const_iterator j = mm.constEnd();
+
   while (i != mm.constBegin()) {
-    --i;
+    i--;
     if (i.key() < last_i) {
       final_string = final_string.prepend(QString(qba.mid(i.key(),
                                                           last_i - i.key()))
@@ -676,7 +677,8 @@ QString apply_tags(QString str, const struct text_tag_list *tags,
       final_string = final_string.prepend(i.value());
     }
   }
-  if (last_i == str.count()) {
+
+  if (last_i == str.length()) {
     return str;
   }
 

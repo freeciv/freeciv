@@ -69,7 +69,7 @@ QString split_text(QString text, bool cut)
   sl = text.split("\n");
   foreach (const QString &s, sl) {
     st = s;
-    while (st.count() >= 80) {
+    while (st.length() >= 80) {
       str = st.left(80);
       i = str.lastIndexOf(' ');
       if (i == -1) {
@@ -85,8 +85,8 @@ QString split_text(QString text, bool cut)
       }
     }
     str = st;
-    if (str.left(str.count()) != "") {
-      result = result + str.left(str.count()) + '\n';
+    if (str.left(str.length()) != "") {
+      result = result + str.left(str.length()) + '\n';
     }
     j++;
     if (j >= 12 && cut) {
@@ -95,6 +95,7 @@ QString split_text(QString text, bool cut)
     }
   }
   result.remove(result.lastIndexOf('\n'), 1);
+
   return result;
 }
 
@@ -108,8 +109,8 @@ QString cut_helptext(QString text)
 
   /* Remove all lines from help which has '*' in first 3 chars */
   sl = text.split('\n');
-  foreach (const QString & s, sl) {
-    if (s.count() > 2) {
+  foreach (const QString &s, sl) {
+    if (s.length() > 2) {
       if (s.at(0) != '*' && s.at(1) != '*' && s.at(2) != '*') {
         ret_str = ret_str + s + '\n';
       }
