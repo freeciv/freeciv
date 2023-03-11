@@ -238,11 +238,11 @@ void popup_impr_info(Impr_type_id impr)
     current_help_dlg = HELP_IMPROVEMENT;
     created = TRUE;
 
-    /* create dialog */
+    /* Create dialog */
     help_dlg = fc_calloc(1, sizeof(struct advanced_dialog));
     store = fc_calloc(1, sizeof(struct units_buttons));
 
-    /* create window */
+    /* Create window */
     title = create_utf8_from_char(_("Help : Improvements"), adj_font(12));
     title->style |= TTF_STYLE_BOLD;
 
@@ -257,7 +257,7 @@ void popup_impr_info(Impr_type_id impr)
     area = pwindow->area;
     /* ------------------ */
 
-    /* close button */
+    /* Close button */
     close_button = create_themeicon(current_theme->small_cancel_icon, pwindow->dst,
                                     WF_WIDGET_HAS_INFO_LABEL
                                     | WF_RESTORE_BACKGROUND);
@@ -286,10 +286,10 @@ void popup_impr_info(Impr_type_id impr)
     impr_type_count = 0;
     improvement_iterate(pimprove) {
 
-      /* copy background surface */  
+      /* Copy background surface */
       background = copy_surface(background_tmpl);
 
-      /* blit improvement name */
+      /* Blit improvement name */
       copy_chars_to_utf8_str(pstr, improvement_name_translation(pimprove));
       impr_name = create_text_surf_smaller_than_w(pstr, adj_size(100 - 4));
       dst.x = adj_size(40) + (background->w - impr_name->w - adj_size(40)) / 2;
@@ -297,7 +297,7 @@ void popup_impr_info(Impr_type_id impr)
       alphablit(impr_name, NULL, background, &dst, 255);
       FREESURFACE(impr_name);
 
-      /* blit improvement icon */
+      /* Blit improvement icon */
       icon = resize_surface_box(get_building_surface(pimprove),
                                 adj_size(36), adj_size(36), 1, TRUE, TRUE);
       dst.x = adj_size(5);
@@ -337,7 +337,7 @@ void popup_impr_info(Impr_type_id impr)
 #if 0
    list_toggle_button->action = toggle_full_tree_mode_in_help_dlg_callback;
    if (store->show_tree) {
-      set_wstate(list_toggle_button, FC_WS_NORMAL);
+     set_wstate(list_toggle_button, FC_WS_NORMAL);
    }
 #endif
 
@@ -404,33 +404,35 @@ void popup_impr_info(Impr_type_id impr)
   widget_add_as_prev(requirement_label, dock);
   dock = requirement_label;
 
-  if (requirement_vector_size(&pimpr_type->reqs) == 0) {
+  /* FIXME: this should show ranges, negated reqs, and all the
+   * MAX_NUM_REQS reqs.
+   * Currently it's limited to 1 req. Remember MAX_NUM_REQS is a compile-time
+   * definition. */
+  requirement_vector_iterate(&pimpr_type->reqs, preq) {
+    if (!preq->present) {
+      continue;
+    }
+    requirement_label2 = create_iconlabel_from_chars(NULL, pwindow->dst,
+                             universal_name_translation(&preq->source, buffer, sizeof(buffer)),
+                                                     adj_font(12), WF_RESTORE_BACKGROUND);
+    if (preq->source.kind != VUT_ADVANCE) {
+      break; /* FIXME */
+    }
+    requirement_label2->id = MAX_ID - advance_number(preq->source.value.advance);
+    requirement_label2->string_utf8->fgcol
+      = *get_tech_color(advance_number(preq->source.value.advance));
+    requirement_label2->action = change_tech_callback;
+    set_wstate(requirement_label2, FC_WS_NORMAL);
+    break;
+  } requirement_vector_iterate_end;
+
+  if (requirement_label2 == NULL) {
     requirement_label2 = create_iconlabel_from_chars(NULL, pwindow->dst,
                                                      Q_("?req:None"),
                                                      adj_font(12), 0);
     requirement_label2->id = ID_LABEL;
-  } else {
-    /* FIXME: this should show ranges, negated reqs, and all the
-     * MAX_NUM_REQS reqs.
-     * Currently it's limited to 1 req. Remember MAX_NUM_REQS is a compile-time
-     * definition. */
-    requirement_vector_iterate(&pimpr_type->reqs, preq) {
-      if (!preq->present) {
-        continue;
-      }
-      requirement_label2 = create_iconlabel_from_chars(NULL, pwindow->dst,
-                             universal_name_translation(&preq->source, buffer, sizeof(buffer)),
-                             adj_font(12), WF_RESTORE_BACKGROUND);
-      if (preq->source.kind != VUT_ADVANCE) {
-        break; /* FIXME */
-      }
-      requirement_label2->id = MAX_ID - advance_number(preq->source.value.advance);
-      requirement_label2->string_utf8->fgcol = *get_tech_color(advance_number(preq->source.value.advance));
-      requirement_label2->action = change_tech_callback;
-      set_wstate(requirement_label2, FC_WS_NORMAL);
-      break;
-    } requirement_vector_iterate_end;
   }
+
   widget_add_as_prev(requirement_label2, dock);
   dock = requirement_label2;
   store->requirement_button = requirement_label2;
@@ -449,6 +451,7 @@ void popup_impr_info(Impr_type_id impr)
       break;
     }
   } requirement_vector_iterate_end;
+
   if (obsTech == NULL) {
     obsolete_by_label2 = create_iconlabel_from_chars(NULL, pwindow->dst,
                                                     _("Never"), adj_font(12), 0);
