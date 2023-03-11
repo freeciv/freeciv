@@ -1,20 +1,87 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg width="1026" height="684" id="Flag of Turkey" version="1.1" xmlns="http://www.w3.org/2000/svg" 
-      xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0,0 360,240">
-<g fill="rgb(227,10,23)">
-  <rect width="100%" height="100%" />
-  <circle cx="120" cy="120" r="60" fill="white" />
-  <circle cx="135" cy="120" r="48" />
-</g>
-<g id="star" fill="white" transform="translate(200.7,120) scale(30) rotate(-90)">
-  <g id="cone">
-    <polygon id="triangle" points="0,0 0,1 .5,1" transform="translate(0,-1) rotate(18)"/>
-    <use xlink:href="#triangle" transform="scale(-1,1)"/>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="1026"
+   height="684"
+   id="Flag of Turkey"
+   version="1.1"
+   viewBox="0,0 360,240"
+   sodipodi:docname="turkey.svg"
+   inkscape:version="1.2.2 (b0a8486541, 2022-12-01)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs26" />
+  <sodipodi:namedview
+     id="namedview24"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     showgrid="false"
+     inkscape:zoom="0.69005848"
+     inkscape:cx="524.59322"
+     inkscape:cy="344.17373"
+     inkscape:window-width="818"
+     inkscape:window-height="648"
+     inkscape:window-x="721"
+     inkscape:window-y="155"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="Flag of Turkey" />
+  <g
+     fill="rgb(227,10,23)"
+     id="g8">
+    <rect
+       width="100%"
+       height="100%"
+       id="rect2" />
+    <circle
+       cx="120"
+       cy="120"
+       r="60"
+       fill="white"
+       id="circle4" />
+    <circle
+       cx="135"
+       cy="120"
+       r="48"
+       id="circle6" />
   </g>
-  <use xlink:href="#cone" transform="rotate(72)"/>
-  <use xlink:href="#cone" transform="rotate(-72)"/>
-  <use xlink:href="#cone" transform="rotate(144)"/>
-  <use xlink:href="#cone" transform="rotate(-144)"/>
-</g>
+  <g
+     id="star"
+     fill="white"
+     transform="translate(200.7,120) scale(30) rotate(-90)">
+    <g
+       id="cone">
+      <polygon
+         id="triangle"
+         points="0,0 0,1 .5,1"
+         transform="translate(0,-1) rotate(18)" />
+      <use
+         xlink:href="#triangle"
+         transform="scale(-1,1)"
+         id="use11" />
+    </g>
+    <use
+       xlink:href="#cone"
+       transform="rotate(72)"
+       id="use14" />
+    <use
+       xlink:href="#cone"
+       transform="rotate(-72)"
+       id="use16" />
+    <use
+       xlink:href="#cone"
+       transform="rotate(144)"
+       id="use18" />
+    <use
+       xlink:href="#cone"
+       transform="rotate(-144)"
+       id="use20" />
+  </g>
 </svg>
