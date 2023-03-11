@@ -225,7 +225,7 @@ void popup_impr_info(Impr_type_id impr)
   SDL_Rect area;
   struct advance *obsTech = NULL;
 
-  if(current_help_dlg != HELP_IMPROVEMENT) {
+  if (current_help_dlg != HELP_IMPROVEMENT) {
     popdown_help_dialog();
   }
 
@@ -235,12 +235,12 @@ void popup_impr_info(Impr_type_id impr)
 
     current_help_dlg = HELP_IMPROVEMENT;
     created = TRUE;
-    
-    /* create dialog */
+
+    /* Create dialog */
     pHelpDlg = fc_calloc(1, sizeof(struct ADVANCED_DLG));
     pStore = fc_calloc(1, sizeof(struct UNITS_BUTTONS));
 
-    /* create window */
+    /* Create window */
     pTitle = create_str16_from_char(_("Help : Improvements"), adj_font(12));
     pTitle->style |= TTF_STYLE_BOLD;
 
@@ -249,13 +249,13 @@ void popup_impr_info(Impr_type_id impr)
     set_wstate(pWindow , FC_WS_NORMAL);
     pWindow->data.ptr = (void *)pStore;
     add_to_gui_list(ID_WINDOW, pWindow);
-    
+
     pHelpDlg->pEndWidgetList = pWindow;
 
     area = pWindow->area;
     /* ------------------ */
 
-    /* close button */
+    /* Close button */
     pCloseButton = create_themeicon(current_theme->Small_CANCEL_Icon, pWindow->dst,
                                     WF_WIDGET_HAS_INFO_LABEL
                                     | WF_RESTORE_BACKGROUND);
@@ -273,7 +273,7 @@ void popup_impr_info(Impr_type_id impr)
     pStr = create_string16(NULL, 0, adj_font(10));
     pStr->style |= (TTF_STYLE_BOLD | SF_CENTER);
 
-    /* background template for entries in scroll list */
+    /* Background template for entries in scroll list */
     pBackgroundTmpl = create_surf_alpha(adj_size(135), adj_size(40), SDL_SWSURFACE);
     SDL_FillRect(pBackgroundTmpl, NULL, map_rgba(pBackgroundTmpl->format, bg_color));
     putframe(pBackgroundTmpl,
@@ -282,11 +282,11 @@ void popup_impr_info(Impr_type_id impr)
 
     impr_type_count = 0;
     improvement_iterate(pImprove) {
-      
-      /* copy background surface */  
+
+      /* Copy background surface */
       pBackground = SDL_DisplayFormatAlpha(pBackgroundTmpl);
       
-      /* blit improvement name */
+      /* Blit improvement name */
       copy_chars_to_string16(pStr, improvement_name_translation(pImprove));
       pText = create_text_surf_smaller_that_w(pStr, adj_size(100 - 4));
       dst.x = adj_size(40) + (pBackground->w - pText->w - adj_size(40)) / 2;
@@ -294,7 +294,7 @@ void popup_impr_info(Impr_type_id impr)
       alphablit(pText, NULL, pBackground, &dst);
       FREESURFACE(pText);
 
-      /* blit improvement icon */
+      /* Blit improvement icon */
       pIcon = ResizeSurfaceBox(get_building_surface(pImprove),
                                adj_size(36), adj_size(36), 1, TRUE, TRUE);
       dst.x = adj_size(5);
@@ -326,7 +326,7 @@ void popup_impr_info(Impr_type_id impr)
       scrollbar_width = create_vertical_scrollbar(pHelpDlg, 1, 10, TRUE, TRUE);
     }
 
-    /* toggle techs list button */
+    /* Toggle techs list button */
     pListToggleButton = create_themeicon_button_from_chars(current_theme->UP_Icon,
                                                            pWindow->dst,
                                                            _("Improvements"),
@@ -334,7 +334,7 @@ void popup_impr_info(Impr_type_id impr)
 #if 0
    pListToggleButton->action = toggle_full_tree_mode_in_help_dlg_callback;
    if (pStore->show_tree) {
-      set_wstate(pListToggleButton, FC_WS_NORMAL);
+     set_wstate(pListToggleButton, FC_WS_NORMAL);
    }
 #endif
 
@@ -354,7 +354,7 @@ void popup_impr_info(Impr_type_id impr)
 
     area = pWindow->area;
 
-    /* delete any previous list entries */
+    /* Delete any previous list entries */
     if (pDock != pHelpDlg->pBeginWidgetList) {
       del_group_of_widgets_from_gui_list(pHelpDlg->pBeginWidgetList,
                                          pDock->prev);
@@ -381,7 +381,7 @@ void popup_impr_info(Impr_type_id impr)
     pCostLabel->ID = ID_LABEL;
     DownAdd(pCostLabel, pDock);
     pDock = pCostLabel;
-    
+
     if (!is_wonder(pImpr_type)) {
       sprintf(buffer, "%s %d", _("Upkeep:"), pImpr_type->upkeep);
       pUpkeepLabel = create_iconlabel_from_chars(NULL, pWindow->dst,
@@ -391,8 +391,8 @@ void popup_impr_info(Impr_type_id impr)
       pDock = pUpkeepLabel;
     }
   }
-  
-  /* requirement */
+
+  /* Requirement */
   pRequirementLabel = create_iconlabel_from_chars(NULL, pWindow->dst,
                                                   _("Requirement:"),
                                                   adj_font(12), 0);
@@ -400,38 +400,40 @@ void popup_impr_info(Impr_type_id impr)
   DownAdd(pRequirementLabel, pDock);
   pDock = pRequirementLabel;
 
-  if (requirement_vector_size(&pImpr_type->reqs) == 0) {
+  /* FIXME: this should show ranges, negated reqs, and all the
+   * MAX_NUM_REQS reqs.
+   * Currently it's limited to 1 req. Remember MAX_NUM_REQS is a compile-time
+   * definition. */
+  requirement_vector_iterate(&pImpr_type->reqs, preq) {
+    if (!preq->present) {
+      continue;
+    }
+    pRequirementLabel2 = create_iconlabel_from_chars(NULL, pWindow->dst,
+                           universal_name_translation(&preq->source, buffer, sizeof(buffer)),
+                                                     adj_font(12), WF_RESTORE_BACKGROUND);
+    if (preq->source.kind != VUT_ADVANCE) {
+      break; /* FIXME */
+    }
+    pRequirementLabel2->ID = MAX_ID - advance_number(preq->source.value.advance);
+    pRequirementLabel2->string16->fgcol
+      = *get_tech_color(advance_number(preq->source.value.advance));
+    pRequirementLabel2->action = change_tech_callback;
+    set_wstate(pRequirementLabel2, FC_WS_NORMAL);
+    break;
+  } requirement_vector_iterate_end;
+
+  if (pRequirementLabel2 == NULL) {
     pRequirementLabel2 = create_iconlabel_from_chars(NULL, pWindow->dst,
                                                      Q_("?req:None"),
                                                      adj_font(12), 0);
     pRequirementLabel2->ID = ID_LABEL;
-  } else {
-    /* FIXME: this should show ranges, negated reqs, and all the
-     * MAX_NUM_REQS reqs.
-     * Currently it's limited to 1 req. Remember MAX_NUM_REQS is a compile-time
-     * definition. */
-    requirement_vector_iterate(&pImpr_type->reqs, preq) {
-      if (!preq->present) {
-        continue;
-      }
-      pRequirementLabel2 = create_iconlabel_from_chars(NULL, pWindow->dst,
-                             universal_name_translation(&preq->source, buffer, sizeof(buffer)),
-                             adj_font(12), WF_RESTORE_BACKGROUND);
-      if (preq->source.kind != VUT_ADVANCE) {
-        break; /* FIXME */
-      }
-      pRequirementLabel2->ID = MAX_ID - advance_number(preq->source.value.advance);
-      pRequirementLabel2->string16->fgcol = *get_tech_color(advance_number(preq->source.value.advance));
-      pRequirementLabel2->action = change_tech_callback;
-      set_wstate(pRequirementLabel2, FC_WS_NORMAL);
-      break;
-    } requirement_vector_iterate_end;
   }
+
   DownAdd(pRequirementLabel2, pDock);
   pDock = pRequirementLabel2;
   pStore->pRequirementButton = pRequirementLabel2;
 
-  /* obsolete by */
+  /* Obsolete by */
   pObsoleteByLabel = create_iconlabel_from_chars(NULL, pWindow->dst,
                                                  _("Obsolete by:"),
                                                  adj_font(12), 0);
@@ -439,13 +441,13 @@ void popup_impr_info(Impr_type_id impr)
   DownAdd(pObsoleteByLabel, pDock);
   pDock = pObsoleteByLabel;
 
-
   requirement_vector_iterate(&pImpr_type->obsolete_by, pobs) {
     if (pobs->source.kind == VUT_ADVANCE) {
       obsTech = pobs->source.value.advance;
       break;
     }
   } requirement_vector_iterate_end;
+
   if (obsTech == NULL) {
     pObsoleteByLabel2 = create_iconlabel_from_chars(NULL, pWindow->dst,
                                                     _("Never"), adj_font(12), 0);
