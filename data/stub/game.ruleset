@@ -250,6 +250,12 @@ bombard_max_range = 1
 
 ; ui_name_xxx = _("%s%s")
 
+; Suppress automatic help text generation about what enables and/or
+; disables the following actions.
+;
+; Can make the help text less redundant when you document it your self.
+;quiet_actions = "Targeted Sabotage City", "Targeted Steal Tech"
+
 ; /* <-- avoid gettext warnings
 ;
 ; Action enablers:
@@ -269,12 +275,6 @@ bombard_max_range = 1
 ; No enabled actions
 ; [actionenabler_embassy]
 ; action = "Establish Embassy"
-
-; Suppress automatic help text generation about what enables and/or
-; disables the following actions.
-;
-; Can make the help text less redundant when you document it your self.
-;quiet_actions = "Targeted Sabotage City", "Targeted Steal Tech"
 
 [borders]
 ; Base border radius from city.
