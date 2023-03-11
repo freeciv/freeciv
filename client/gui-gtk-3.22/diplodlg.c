@@ -67,6 +67,12 @@ struct Diplomacy_notebook {
   GtkWidget *notebook;
 };
 
+struct city_deal {
+  int giver;
+  int receiver;
+  int id;
+};
+
 #define SPECLIST_TAG dialog
 #define SPECLIST_TYPE struct Diplomacy_dialog
 #include "speclist.h"
@@ -380,14 +386,18 @@ static void popup_add_menu(GtkMenuShell *parent, gpointer data)
         qsort(city_list_ptrs, i, sizeof(struct city *), city_name_compare);
 
         for (j = 0; j < i; j++) {
+          struct city_deal *deal = fc_malloc(sizeof(struct city_deal));
+
           item = gtk_menu_item_new_with_label(city_name_get(city_list_ptrs[j]));
+
+          deal->giver = player_number(pgiver);
+          deal->receiver = player_number(pother);
+          deal->id = city_list_ptrs[j]->id;
 
           gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
           g_signal_connect(item, "activate",
                            G_CALLBACK(diplomacy_dialog_city_callback),
-                           GINT_TO_POINTER((player_number(pgiver) << 24) |
-                                           (player_number(pother) << 16) |
-                                           city_list_ptrs[j]->id));
+                           (gpointer)deal);
         }
       }
 
@@ -1023,20 +1033,21 @@ static void diplomacy_dialog_tech_callback(GtkWidget *w, gpointer data)
   Callback for trading cities
 			      - Kris Bubendorfer
 ****************************************************************************/
-static void diplomacy_dialog_city_callback(GtkWidget * w, gpointer data)
+static void diplomacy_dialog_city_callback(GtkWidget *w, gpointer data)
 {
-  size_t choice = GPOINTER_TO_UINT(data);
-  int giver = (choice >> 24) & 0xff, dest = (choice >> 16) & 0xff, other;
-  int city = choice & 0xffff;
+  struct city_deal *deal_data = (struct city_deal *)data;
+  int other;
 
-  if (player_by_number(giver) == client.conn.playing) {
-    other = dest;
+  if (player_by_number(deal_data->giver) == client_player()) {
+    other = deal_data->receiver;
   } else {
-    other = giver;
+    other = deal_data->giver;
   }
 
-  dsend_packet_diplomacy_create_clause_req(&client.conn, other, giver,
-                                           CLAUSE_CITY, city);
+  dsend_packet_diplomacy_create_clause_req(&client.conn, other, deal_data->giver,
+                                           CLAUSE_CITY, deal_data->id);
+
+  free(deal_data);
 }
 
 /************************************************************************//**
