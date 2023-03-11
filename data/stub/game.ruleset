@@ -404,6 +404,28 @@ found_city_consuming_always = TRUE
 
 ; ui_name_xxx = _("%s%s")
 
+; Blank ruleset defined user actions.
+; See the section "Ruleset defined actions" in doc/README.actions
+; Example: set up "User Action 1"
+;ui_name_user_action_1                = _("%sDisrupt Supply Lines%s")
+;user_action_1_target_kind            = "Unit"
+;user_action_1_min_range              = 1
+;user_action_1_max_range              = 3
+;user_action_1_actor_consuming_always = FALSE
+
+; Some actions have a action dice roll before the action starts where it can
+; fail. The initial probability of success is 100% unless the action appears
+; in the following list. Then the initial probability comes from the setting
+; diplchance. The initial probability of success is modified by the
+; Action_Odds_Pct effect before the roll happens.
+;diplchance_initial_odds = "Sabotage City", "Sabotage City Escape"
+
+; Suppress automatic help text generation about what enables and/or
+; disables the following actions.
+;
+; Can make the help text less redundant when you document it your self.
+;quiet_actions = "Targeted Sabotage City", "Targeted Steal Tech", "Unit Move"
+
 ; /* <-- avoid gettext warnings
 ;
 ; Action enablers:
@@ -431,28 +453,6 @@ found_city_consuming_always = TRUE
 ;      "MinMoveFrags", "1",           "Local", TRUE
 ;      "UnitState",    "Transported", "Local", FALSE
 ;    }
-
-; Blank ruleset defined user actions.
-; See the section "Ruleset defined actions" in doc/README.actions
-; Example: set up "User Action 1"
-;ui_name_user_action_1                = _("%sDisrupt Supply Lines%s")
-;user_action_1_target_kind            = "Unit"
-;user_action_1_min_range              = 1
-;user_action_1_max_range              = 3
-;user_action_1_actor_consuming_always = FALSE
-
-; Some actions have a action dice roll before the action starts where it can
-; fail. The initial probability of success is 100% unless the action appears
-; in the following list. Then the initial probability comes from the setting
-; diplchance. The initial probability of success is modified by the
-; Action_Odds_Pct effect before the roll happens.
-;diplchance_initial_odds = "Sabotage City", "Sabotage City Escape"
-
-; Suppress automatic help text generation about what enables and/or
-; disables the following actions.
-;
-; Can make the help text less redundant when you document it your self.
-;quiet_actions = "Targeted Sabotage City", "Targeted Steal Tech", "Unit Move"
 
 [borders]
 ; Base border radius from city.
