@@ -8,11 +8,11 @@ else
   MPGUI_ID="$3"
 fi
 
-ARCH_KEY_PART="$5"
+ARCH_KEY_PART="msys2${5}"
 if test "$5" != "win32" && test "$5" != "win64" ; then
-  ARCH_INST_PART="-${ARCH_KEY_PART}"
+  ARCH_INST_PART="-msys2-${5}"
 else
-  ARCH_INST_PART=""
+  ARCH_INST_PART="-msys2"
 fi
 
 cat <<EOF

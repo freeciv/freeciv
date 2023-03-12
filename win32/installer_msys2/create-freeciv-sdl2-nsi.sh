@@ -2,11 +2,11 @@
 
 # ./create-freeciv-sdl2-nsi.sh <Freeciv files directory> <version> <win32|win64|win>
 
-ARCH_KEY_PART="$3"
+ARCH_KEY_PART="msys2${3}"
 if test "$3" != "win32" && test "$3" != "win64" ; then
-  ARCH_INST_PART="-${ARCH_KEY_PART}"
+  ARCH_INST_PART="-msys2-${3}"
 else
-  ARCH_INST_PART=""
+  ARCH_INST_PART="-msys2"
 fi
 
 cat <<EOF
