@@ -1,5 +1,5 @@
-# gettext.m4 serial 71 (gettext-0.20.2)
-dnl Copyright (C) 1995-2014, 2016, 2018-2022 Free Software Foundation, Inc.
+# gettext.m4 serial 72 (gettext-0.21.1)
+dnl Copyright (C) 1995-2014, 2016, 2018-2020 Free Software Foundation, Inc.
 dnl This file is free software; the Free Software Foundation
 dnl gives unlimited permission to copy and/or distribute it,
 dnl with or without modifications, as long as this notice is preserved.
@@ -55,22 +55,22 @@ dnl
 AC_DEFUN([AM_GNU_GETTEXT],
 [
   dnl Argument checking.
-  ifelse([$1], [], , [ifelse([$1], [external], , [ifelse([$1], [use-libtool], ,
+  m4_if([$1], [], , [m4_if([$1], [external], , [m4_if([$1], [use-libtool], ,
     [errprint([ERROR: invalid first argument to AM_GNU_GETTEXT
 ])])])])
-  ifelse(ifelse([$1], [], [old])[]ifelse([$1], [no-libtool], [old]), [old],
+  m4_if(m4_if([$1], [], [old])[]m4_if([$1], [no-libtool], [old]), [old],
     [errprint([ERROR: Use of AM_GNU_GETTEXT without [external] argument is no longer supported.
 ])])
-  ifelse([$2], [], , [ifelse([$2], [need-ngettext], , [ifelse([$2], [need-formatstring-macros], ,
+  m4_if([$2], [], , [m4_if([$2], [need-ngettext], , [m4_if([$2], [need-formatstring-macros], ,
     [errprint([ERROR: invalid second argument to AM_GNU_GETTEXT
 ])])])])
   define([gt_included_intl],
-    ifelse([$1], [external], [no], [yes]))
+    m4_if([$1], [external], [no], [yes]))
   gt_NEEDS_INIT
   AM_GNU_GETTEXT_NEED([$2])
 
   AC_REQUIRE([AM_PO_SUBDIRS])dnl
-  ifelse(gt_included_intl, yes, [
+  m4_if(gt_included_intl, yes, [
     AC_REQUIRE([AM_INTL_SUBDIR])dnl
   ])
 
@@ -88,7 +88,7 @@ AC_DEFUN([AM_GNU_GETTEXT],
   dnl - Invoke AM_ICONV_LINKFLAGS_BODY here, outside any 'if'.
   dnl - Control the expansions in more detail using AC_PROVIDE_IFELSE.
   dnl Since AC_PROVIDE_IFELSE is not documented, we avoid it.
-  ifelse(gt_included_intl, yes, , [
+  m4_if(gt_included_intl, yes, , [
     AC_REQUIRE([AM_ICONV_LINKFLAGS_BODY])
   ])
 
@@ -98,7 +98,7 @@ AC_DEFUN([AM_GNU_GETTEXT],
   dnl Set USE_NLS.
   AC_REQUIRE([AM_NLS])
 
-  ifelse(gt_included_intl, yes, [
+  m4_if(gt_included_intl, yes, [
     BUILD_INCLUDED_LIBINTL=no
     USE_INCLUDED_LIBINTL=no
   ])
@@ -118,7 +118,7 @@ AC_DEFUN([AM_GNU_GETTEXT],
   dnl If we use NLS figure out what method
   if test "$USE_NLS" = "yes"; then
     gt_use_preinstalled_gnugettext=no
-    ifelse(gt_included_intl, yes, [
+    m4_if(gt_included_intl, yes, [
       AC_MSG_CHECKING([whether included gettext is requested])
       AC_ARG_WITH([included-gettext],
         [  --with-included-gettext use the GNU gettext library included here],
@@ -174,7 +174,7 @@ return * gettext ("")$gt_expression_test_code + __GNU_GETTEXT_SYMBOL_EXPRESSION
 
         if { eval "gt_val=\$$gt_func_gnugettext_libc"; test "$gt_val" != "yes"; }; then
           dnl Sometimes libintl requires libiconv, so first search for libiconv.
-          ifelse(gt_included_intl, yes, , [
+          m4_if(gt_included_intl, yes, , [
             AM_ICONV_LINK
           ])
           dnl Search for libintl and define LIBINTL, LTLIBINTL and INCINTL
@@ -261,7 +261,7 @@ return * gettext ("")$gt_expression_test_code + __GNU_GETTEXT_SYMBOL_EXPRESSION
           INCINTL=
         fi
 
-    ifelse(gt_included_intl, yes, [
+    m4_if(gt_included_intl, yes, [
         if test "$gt_use_preinstalled_gnugettext" != "yes"; then
           dnl GNU gettext is not found in the C library.
           dnl Fall back on included GNU gettext library.
@@ -273,8 +273,8 @@ return * gettext ("")$gt_expression_test_code + __GNU_GETTEXT_SYMBOL_EXPRESSION
         dnl Mark actions used to generate GNU NLS library.
         BUILD_INCLUDED_LIBINTL=yes
         USE_INCLUDED_LIBINTL=yes
-        LIBINTL="ifelse([$3],[],\${top_builddir}/intl,[$3])/libintl.la $LIBICONV $LIBTHREAD"
-        LTLIBINTL="ifelse([$3],[],\${top_builddir}/intl,[$3])/libintl.la $LTLIBICONV $LTLIBTHREAD"
+        LIBINTL="m4_if([$3],[],\${top_builddir}/intl,[$3])/libintl.la $LIBICONV $LIBTHREAD"
+        LTLIBINTL="m4_if([$3],[],\${top_builddir}/intl,[$3])/libintl.la $LTLIBICONV $LTLIBTHREAD"
         LIBS=`echo " $LIBS " | sed -e 's/ -lintl / /' -e 's/^ //' -e 's/ $//'`
       fi
 
@@ -341,7 +341,7 @@ return * gettext ("")$gt_expression_test_code + __GNU_GETTEXT_SYMBOL_EXPRESSION
     POSUB=po
   fi
 
-  ifelse(gt_included_intl, yes, [
+  m4_if(gt_included_intl, yes, [
     dnl In GNU gettext we have to set BUILD_INCLUDED_LIBINTL to 'yes'
     dnl because some of the testsuite requires it.
     BUILD_INCLUDED_LIBINTL=yes
