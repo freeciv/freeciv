@@ -1325,7 +1325,6 @@ if test "x$thread_impl_real" = "xtinycthread" ; then
   thread_cond=true
 elif test "x$thread_impl_real" = "xc11" ; then
   AC_DEFINE([FREECIV_HAVE_C11_THREADS], [1], [Use C11 threads as thread implementation])
-  AC_MSG_RESULT([C11])
   AC_DEFINE([FREECIV_HAVE_THREAD_COND], [1], [Has thread condition variable implementation])
   thread_cond=true
   LIBS="${LIBS}${thr_libs_c11}"
