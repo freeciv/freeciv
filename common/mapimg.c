@@ -768,6 +768,7 @@ bool mapimg_define(const char *maparg, bool check)
   char *mapargs[NUM_MAX_MAPARGS], *mapopts[NUM_MAX_MAPOPTS];
   int nmapargs, nmapopts, i;
   bool ret = TRUE;
+  int count;
 
   MAPIMG_ASSERT_RET_VAL(mapimg_initialised(), FALSE);
 
@@ -777,19 +778,20 @@ bool mapimg_define(const char *maparg, bool check)
   }
 
   if (strlen(maparg) > MAX_LEN_MAPARG) {
-    /* too long map definition string */
+    /* Too long map definition string */
     MAPIMG_LOG(_("map definition string too long (max %d characters)"),
                MAX_LEN_MAPARG);
     return FALSE;
   }
 
-  if (mapimg_count() == MAX_NUM_MAPIMG) {
+  count = mapimg_count();
+  if (count == MAX_NUM_MAPIMG) {
     MAPIMG_LOG(_("maximum number of map definitions reached (%d)"),
                MAX_NUM_MAPIMG);
     return FALSE;
   }
 
-  for (i = 0; i < mapimg_count(); i++) {
+  for (i = 0; i < count; i++) {
     pmapdef = mapdef_list_get(mapimg.mapdef, i);
     if (0 == fc_strcasecmp(pmapdef->maparg, maparg)) {
       MAPIMG_LOG(_("duplicate of map image definition %d ('%s')"), i,
@@ -800,15 +802,16 @@ bool mapimg_define(const char *maparg, bool check)
 
   pmapdef = mapdef_new(FALSE);
 
-  /* get map options */
+  /* Get map options */
   nmapargs = get_tokens(maparg, mapargs, NUM_MAX_MAPARGS, ":");
 
   for (i = 0; i < nmapargs; i++) {
-    /* split map options into variable and value */
+    /* Split map options into variable and value */
     nmapopts = get_tokens(mapargs[i], mapopts, NUM_MAX_MAPOPTS, "=");
 
     if (nmapopts == 2) {
       enum mapdef_arg arg = mapdef_arg_by_name(mapopts[0], strcmp);
+
       if (mapdef_arg_is_valid(arg)) {
         /* If ret is FALSE an error message is set by mapimg_define_arg(). */
         ret = mapimg_define_arg(pmapdef, arg, mapopts[1], check);

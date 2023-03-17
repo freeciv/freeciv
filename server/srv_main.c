@@ -168,6 +168,8 @@ static struct player *mapimg_server_tile_unit(const struct tile *ptile,
 static int mapimg_server_plrcolor_count(void);
 static struct rgbcolor *mapimg_server_plrcolor_get(int i);
 
+static void save_all_map_images(void);
+
 static void handle_observer_ready(struct connection *pconn);
 
 /* command-line arguments to server */
@@ -2833,7 +2835,6 @@ static void announce_player(struct player *pplayer)
 **************************************************************************/
 static void srv_running(void)
 {
-  int i;
   bool is_new_turn = game.info.is_new_game;
   bool skip_mapimg = !game.info.is_new_game; /* Do not overwrite start-of-turn image */
   bool need_send_pending_events = !game.info.is_new_game;
@@ -2923,16 +2924,7 @@ static void srv_running(void)
 	save_counter++;
 
         if (!skip_mapimg) {
-          /* Save map image(s). */
-          for (i = 0; i < mapimg_count(); i++) {
-            struct mapdef *pmapdef = mapimg_isvalid(i);
-            if (pmapdef != NULL) {
-              mapimg_create(pmapdef, FALSE, game.server.save_name,
-                            srvarg.saves_pathname);
-            } else {
-              log_error("%s", mapimg_error());
-            }
-          }
+          save_all_map_images();
         } else {
           skip_mapimg = FALSE;
         }
@@ -3142,6 +3134,8 @@ static void srv_scores(void)
      * with no human players. */
     save_game_auto("Game over", AS_GAME_OVER);
   }
+
+  save_all_map_images();
 }
 
 /**********************************************************************//**
@@ -3811,4 +3805,25 @@ static int mapimg_server_plrcolor_count(void)
 static struct rgbcolor *mapimg_server_plrcolor_get(int i)
 {
   return playercolor_get(i);
+}
+
+/**********************************************************************//**
+  Save all defined map images.
+**************************************************************************/
+static void save_all_map_images(void)
+{
+  int count = mapimg_count();
+  int i;
+
+  /* Save map image(s). */
+  for (i = 0; i < count; i++) {
+    struct mapdef *pmapdef = mapimg_isvalid(i);
+
+    if (pmapdef != NULL) {
+      mapimg_create(pmapdef, FALSE, game.server.save_name,
+                    srvarg.saves_pathname);
+    } else {
+      log_error("%s", mapimg_error());
+    }
+  }
 }
