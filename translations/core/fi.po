@@ -46080,7 +46080,9 @@ msgstr ""
 #: server/plrhand.c:2844
 #, c-format
 msgid "Could not throw %s into civil war - maxplayers (%d) reached"
-msgstr "%s kansakunta ei voi vajota sisällissotaan - pelissä on jo asetuksen 'maxplayers' (%d) mukainen pelaajamäärä."
+msgstr ""
+"%s kansakunta ei voi vajota sisällissotaan - pelissä on jo asetuksen "
+"'maxplayers' (%d) mukainen pelaajamäärä."
 
 #: server/plrhand.c:2851
 #, c-format

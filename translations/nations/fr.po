@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv trunk\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2023-01-24 14:45+0100\n"
+"POT-Creation-Date: 2023-03-17 20:36+0200\n"
 "PO-Revision-Date: 2023-01-25 15:22+0100\n"
 "Last-Translator: Igx <igx31 hotmail.com>\n"
 "Language-Team: French <freeciv-l10n-fr@yahoogroupes.fr>\n"
@@ -371,22 +371,22 @@ msgstr "Sultane %s"
 
 #: data/nation/acehnese.ruleset:28 data/nation/alander.ruleset:30
 #: data/nation/californian.ruleset:37 data/nation/chiapanec.ruleset:35
-#: data/nation/filipino.ruleset:23 data/nation/greenlander.ruleset:27
-#: data/nation/kuna.ruleset:23 data/nation/miskito.ruleset:35
-#: data/nation/puertorican.ruleset:30 data/nation/quebecois.ruleset:22
-#: data/nation/siberian.ruleset:24 data/nation/vermont.ruleset:26
-#: data/nation/westindian.ruleset:25
+#: data/nation/filipino.ruleset:23 data/nation/florida.ruleset:33
+#: data/nation/greenlander.ruleset:27 data/nation/kuna.ruleset:23
+#: data/nation/miskito.ruleset:35 data/nation/puertorican.ruleset:30
+#: data/nation/quebecois.ruleset:22 data/nation/siberian.ruleset:24
+#: data/nation/vermont.ruleset:26 data/nation/westindian.ruleset:25
 #, c-format
 msgid "Governor %s"
 msgstr "Gouverneur %s"
 
 #: data/nation/acehnese.ruleset:28 data/nation/alander.ruleset:30
 #: data/nation/californian.ruleset:37 data/nation/chiapanec.ruleset:35
-#: data/nation/filipino.ruleset:23 data/nation/greenlander.ruleset:27
-#: data/nation/kuna.ruleset:23 data/nation/miskito.ruleset:35
-#: data/nation/puertorican.ruleset:30 data/nation/quebecois.ruleset:22
-#: data/nation/siberian.ruleset:24 data/nation/vermont.ruleset:26
-#: data/nation/westindian.ruleset:25
+#: data/nation/filipino.ruleset:23 data/nation/florida.ruleset:33
+#: data/nation/greenlander.ruleset:27 data/nation/kuna.ruleset:23
+#: data/nation/miskito.ruleset:35 data/nation/puertorican.ruleset:30
+#: data/nation/quebecois.ruleset:22 data/nation/siberian.ruleset:24
+#: data/nation/vermont.ruleset:26 data/nation/westindian.ruleset:25
 #, c-format
 msgid "?female:Governor %s"
 msgstr "Gouverneuse %s"
@@ -2515,7 +2515,7 @@ msgstr ""
 "britanniques lors de la guerre de 1899-1902."
 
 #: data/nation/boer.ruleset:28 data/nation/bolivian.ruleset:37
-#: data/nation/centralamerican.ruleset:27 data/nation/chadian.ruleset:17
+#: data/nation/centralamerican.ruleset:27 data/nation/chadian.ruleset:20
 #: data/nation/colombian.ruleset:28 data/nation/confederate.ruleset:35
 #: data/nation/costarican.ruleset:25 data/nation/dominicano.ruleset:26
 #: data/nation/ecuadorian.ruleset:33 data/nation/guatemalan.ruleset:31
@@ -2531,7 +2531,7 @@ msgid "General %s"
 msgstr "Général %s"
 
 #: data/nation/boer.ruleset:28 data/nation/bolivian.ruleset:37
-#: data/nation/centralamerican.ruleset:27 data/nation/chadian.ruleset:17
+#: data/nation/centralamerican.ruleset:27 data/nation/chadian.ruleset:20
 #: data/nation/colombian.ruleset:28 data/nation/confederate.ruleset:35
 #: data/nation/costarican.ruleset:25 data/nation/dominicano.ruleset:26
 #: data/nation/ecuadorian.ruleset:33 data/nation/guatemalan.ruleset:31
@@ -2546,19 +2546,21 @@ msgid "?female:General %s"
 msgstr "Générale %s"
 
 #: data/nation/boer.ruleset:29 data/nation/confederate.ruleset:36
-#: data/nation/guatemalan.ruleset:33 data/nation/guyanese.ruleset:26
-#: data/nation/liberian.ruleset:31 data/nation/miskito.ruleset:34
-#: data/nation/moluccan.ruleset:31 data/nation/surinamese.ruleset:29
-#: data/nation/texan.ruleset:32 data/nation/vermont.ruleset:27
+#: data/nation/florida.ruleset:32 data/nation/guatemalan.ruleset:33
+#: data/nation/guyanese.ruleset:26 data/nation/liberian.ruleset:31
+#: data/nation/miskito.ruleset:34 data/nation/moluccan.ruleset:31
+#: data/nation/surinamese.ruleset:29 data/nation/texan.ruleset:32
+#: data/nation/vermont.ruleset:27
 #, c-format
 msgid "Reverend %s"
 msgstr "Révérend %s"
 
 #: data/nation/boer.ruleset:29 data/nation/confederate.ruleset:36
-#: data/nation/guatemalan.ruleset:33 data/nation/guyanese.ruleset:26
-#: data/nation/liberian.ruleset:31 data/nation/miskito.ruleset:34
-#: data/nation/moluccan.ruleset:31 data/nation/surinamese.ruleset:29
-#: data/nation/texan.ruleset:32 data/nation/vermont.ruleset:27
+#: data/nation/florida.ruleset:32 data/nation/guatemalan.ruleset:33
+#: data/nation/guyanese.ruleset:26 data/nation/liberian.ruleset:31
+#: data/nation/miskito.ruleset:34 data/nation/moluccan.ruleset:31
+#: data/nation/surinamese.ruleset:29 data/nation/texan.ruleset:32
+#: data/nation/vermont.ruleset:27
 #, c-format
 msgid "?female:Reverend %s"
 msgstr "Révérende %s"
@@ -3171,14 +3173,14 @@ msgstr ""
 "siècle, cet état devint un centre mondial des industries du divertissement "
 "et de la technologie."
 
-#: data/nation/californian.ruleset:34 data/nation/texan.ruleset:31
-#: data/nation/vermont.ruleset:25
+#: data/nation/californian.ruleset:34 data/nation/florida.ruleset:31
+#: data/nation/texan.ruleset:31 data/nation/vermont.ruleset:25
 #, c-format
 msgid "Sheriff %s"
 msgstr "Shérif %s"
 
-#: data/nation/californian.ruleset:34 data/nation/texan.ruleset:31
-#: data/nation/vermont.ruleset:25
+#: data/nation/californian.ruleset:34 data/nation/florida.ruleset:31
+#: data/nation/texan.ruleset:31 data/nation/vermont.ruleset:25
 #, c-format
 msgid "?female:Sheriff %s"
 msgstr "Shériffe %s"
@@ -5294,6 +5296,31 @@ msgstr "Capitaine %s"
 #, c-format
 msgid "?female:Captain %s"
 msgstr "Capitaine %s"
+
+#: data/nation/florida.ruleset:3
+#, fuzzy
+#| msgid "Florentine"
+msgid "Floridian"
+msgstr "Florentin"
+
+#: data/nation/florida.ruleset:4
+#, fuzzy
+#| msgid "?plural:Frisians"
+msgid "?plural:Floridians"
+msgstr "Frisons"
+
+#: data/nation/florida.ruleset:6
+msgid ""
+"Florida is the third most populous state of the USA and is well known for "
+"its tourism. It was repeatedly colonized by Spain and Great Britain before "
+"the \"Florida Patriots\" proclaimed the Republic of East Florida in 1812. "
+"Despite being suppressed by Spain the first time, in 1817 adventurers "
+"establied the Republic of the Floridas on Amelia Island which was "
+"incorporated by the USA with the rest of modern Florida in 1822. It joined "
+"the Confederacy in 1861 but rejoined the USA in 1868 and has since been the "
+"site of the Apollo 11 Space Launch, which let humans land on the moon for "
+"the first time in history."
+msgstr ""
 
 #: data/nation/formosan.ruleset:3
 msgid "Formosan"
@@ -7864,7 +7891,14 @@ msgid ""
 "when the recently formed Republic of Liege voted the union with "
 "revolutionary France. Liege played later a major role in the Belgian "
 "independance."
-msgstr "Liège a été constituée en principauté écclésiastique en 985, quand on donna à l'évêque Notger le contrôle de plusieurs villes dans l'actuelle Belgique. En tant qu'état fédéral du Saint Empire Romain, il fut caractérisé par de grandes libertés civiques pour lesquelles les liégeois luttèrent farouchement. Il perdura jusqu'en 1792, quand la nouvellement formée République de Liège vota l'union avec la France révolutionnaire. Liège a joué plus tard un rôle majeur dans l'indépendance de la Belgique."
+msgstr ""
+"Liège a été constituée en principauté écclésiastique en 985, quand on donna "
+"à l'évêque Notger le contrôle de plusieurs villes dans l'actuelle Belgique. "
+"En tant qu'état fédéral du Saint Empire Romain, il fut caractérisé par de "
+"grandes libertés civiques pour lesquelles les liégeois luttèrent "
+"farouchement. Il perdura jusqu'en 1792, quand la nouvellement formée "
+"République de Liège vota l'union avec la France révolutionnaire. Liège a "
+"joué plus tard un rôle majeur dans l'indépendance de la Belgique."
 
 #: data/nation/liege.ruleset:28
 #, c-format

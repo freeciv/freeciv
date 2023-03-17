@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv (ruledit) S3_0\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2023-01-29 08:48+0200\n"
+"POT-Creation-Date: 2023-02-23 04:18+0200\n"
 "PO-Revision-Date: 2023-02-17 22:14+0100\n"
 "Last-Translator: Hubert Kowalewski <hubkow@users.sourceforge.net>\n"
 "Language-Team: hubkow@users.sourceforge.net\n"
@@ -21,31 +21,51 @@ msgstr ""
 msgid "Close"
 msgstr "Zamknij"
 
-#: tools/ruledit/edit_impr.cpp:50 tools/ruledit/edit_utype.cpp:64
+#: tools/ruledit/edit_impr.cpp:51 tools/ruledit/edit_utype.cpp:66
 msgid "Build Cost"
 msgstr "Koszt budowy"
 
-#: tools/ruledit/edit_impr.cpp:61
+#: tools/ruledit/edit_impr.cpp:62
 msgid "Upkeep"
 msgstr "Koszta"
 
-#: tools/ruledit/edit_impr.cpp:71
+#: tools/ruledit/edit_impr.cpp:72
 msgid "Genus"
 msgstr "Rodzaj"
 
-#: tools/ruledit/edit_utype.cpp:49
+#: tools/ruledit/edit_impr.cpp:90 tools/ruledit/edit_terrain.cpp:69
+#: tools/ruledit/edit_utype.cpp:107
+msgid "Graphics tag"
+msgstr ""
+
+#: tools/ruledit/edit_impr.cpp:99 tools/ruledit/edit_terrain.cpp:78
+#: tools/ruledit/edit_utype.cpp:116
+msgid "Alt graphics tag"
+msgstr ""
+
+#: tools/ruledit/edit_terrain.cpp:49
+#, fuzzy
+#| msgid "Move Rate"
+msgid "Move Cost"
+msgstr "Szybkość"
+
+#: tools/ruledit/edit_terrain.cpp:59
+msgid "Defense Bonus %"
+msgstr ""
+
+#: tools/ruledit/edit_utype.cpp:51
 msgid "Requirement"
 msgstr "Wymagania"
 
-#: tools/ruledit/edit_utype.cpp:74
+#: tools/ruledit/edit_utype.cpp:77
 msgid "Attack Strength"
 msgstr "Siła ataku"
 
-#: tools/ruledit/edit_utype.cpp:84
+#: tools/ruledit/edit_utype.cpp:87
 msgid "Defense Strength"
 msgstr "Siła obrony"
 
-#: tools/ruledit/edit_utype.cpp:94
+#: tools/ruledit/edit_utype.cpp:97
 msgid "Move Rate"
 msgstr "Szybkość"
 
@@ -208,15 +228,15 @@ msgstr "Spróbuj --help.\n"
 msgid "Unrecognized option: \"%s\"\n"
 msgstr "Nierozpoznana opcja: \"%s\"\n"
 
-#: tools/ruledit/ruledit_qt.cpp:127
+#: tools/ruledit/ruledit_qt.cpp:125
 msgid "built in Qt6 mode."
 msgstr "skompilowano w trybie Qt6."
 
-#: tools/ruledit/ruledit_qt.cpp:129
+#: tools/ruledit/ruledit_qt.cpp:127
 msgid "built in Qt5 mode."
 msgstr "skompilowano w trybie Qt5."
 
-#: tools/ruledit/ruledit_qt.cpp:136
+#: tools/ruledit/ruledit_qt.cpp:134
 #, c-format
 msgid ""
 "%s%s\n"
@@ -227,83 +247,83 @@ msgstr ""
 "łatka: %s\n"
 "%s"
 
-#: tools/ruledit/ruledit_qt.cpp:147
+#: tools/ruledit/ruledit_qt.cpp:149
 msgid "Give ruleset to use as starting point."
 msgstr "Podaj zestaw zasad będący punktem wyjścia."
 
-#: tools/ruledit/ruledit_qt.cpp:159
+#: tools/ruledit/ruledit_qt.cpp:157
 msgid "Start editing"
 msgstr "Rozpocznij edycję"
 
-#: tools/ruledit/ruledit_qt.cpp:169
+#: tools/ruledit/ruledit_qt.cpp:168
 msgid "Misc"
 msgstr "Różne"
 
-#: tools/ruledit/ruledit_qt.cpp:171
+#: tools/ruledit/ruledit_qt.cpp:170
 msgid "Tech"
 msgstr "Technologia"
 
-#: tools/ruledit/ruledit_qt.cpp:173
+#: tools/ruledit/ruledit_qt.cpp:172
 msgid "Buildings"
 msgstr "Budynki"
 
-#: tools/ruledit/ruledit_qt.cpp:175
+#: tools/ruledit/ruledit_qt.cpp:174
 msgid "Units"
 msgstr "Jednostki"
 
-#: tools/ruledit/ruledit_qt.cpp:177
+#: tools/ruledit/ruledit_qt.cpp:176
 msgid "Goods"
 msgstr "Dobra"
 
-#: tools/ruledit/ruledit_qt.cpp:179
+#: tools/ruledit/ruledit_qt.cpp:178
 msgid "Governments"
 msgstr "Ustroje"
 
-#: tools/ruledit/ruledit_qt.cpp:181
+#: tools/ruledit/ruledit_qt.cpp:180
 msgid "Enablers"
 msgstr "Aktywatory"
 
-#: tools/ruledit/ruledit_qt.cpp:183
+#: tools/ruledit/ruledit_qt.cpp:182
 msgid "Extras"
 msgstr "Usprawnienia"
 
-#: tools/ruledit/ruledit_qt.cpp:185
+#: tools/ruledit/ruledit_qt.cpp:184
 msgid "Terrains"
 msgstr "Tereny"
 
-#: tools/ruledit/ruledit_qt.cpp:187
+#: tools/ruledit/ruledit_qt.cpp:186
 msgid "Multipliers"
 msgstr "Mnożniki"
 
-#: tools/ruledit/ruledit_qt.cpp:189
+#: tools/ruledit/ruledit_qt.cpp:188
 msgid "Nations"
 msgstr "Narody"
 
-#: tools/ruledit/ruledit_qt.cpp:198
+#: tools/ruledit/ruledit_qt.cpp:197
 msgid "Welcome to freeciv-ruledit"
 msgstr "Witamy we freeciv-ruledit"
 
-#: tools/ruledit/ruledit_qt.cpp:227
+#: tools/ruledit/ruledit_qt.cpp:244
 msgid "Old ruleset to a new format"
 msgstr "Stary zestaw zasad na nowy format"
 
-#: tools/ruledit/ruledit_qt.cpp:233
+#: tools/ruledit/ruledit_qt.cpp:247
 msgid "Ruleset loaded"
 msgstr "Wczytano zestaw zasad"
 
-#: tools/ruledit/ruledit_qt.cpp:255
+#: tools/ruledit/ruledit_qt.cpp:269
 msgid "Ruleset loading failed!"
 msgstr "Nie udało się wczytać zestawu zasad!"
 
-#: tools/ruledit/ruledit_qt.cpp:433
+#: tools/ruledit/ruledit_qt.cpp:447
 msgid "Freeciv Ruleset Editor"
 msgstr "Edytor zestawu zasad Freeciv"
 
-#: tools/ruledit/ruledit_qt.cpp:466
+#: tools/ruledit/ruledit_qt.cpp:480
 msgid "Are you sure you want to quit?"
 msgstr "Na pewno chcesz zakończyć?"
 
-#: tools/ruledit/ruledit_qt.cpp:470
+#: tools/ruledit/ruledit_qt.cpp:484
 msgid "Quit?"
 msgstr "Zakończyć?"
 

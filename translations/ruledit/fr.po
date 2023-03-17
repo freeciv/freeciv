@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv trunk\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2023-02-19 02:04+0100\n"
+"POT-Creation-Date: 2023-02-23 04:18+0200\n"
 "PO-Revision-Date: 2023-02-19 03:20+0100\n"
 "Last-Translator: Igx <igx31 hotmail.com>\n"
 "Language-Team: French <freeciv-l10n-fr@yahoogroupes.fr>\n"
@@ -229,15 +229,15 @@ msgstr "Essayez d'utiliser --help.\n"
 msgid "Unrecognized option: \"%s\"\n"
 msgstr "Option non reconnue \"%s\"\n"
 
-#: tools/ruledit/ruledit_qt.cpp:127
+#: tools/ruledit/ruledit_qt.cpp:125
 msgid "built in Qt6 mode."
 msgstr "construit en mode Qt6."
 
-#: tools/ruledit/ruledit_qt.cpp:129
+#: tools/ruledit/ruledit_qt.cpp:127
 msgid "built in Qt5 mode."
 msgstr "construit en mode Qt5."
 
-#: tools/ruledit/ruledit_qt.cpp:136
+#: tools/ruledit/ruledit_qt.cpp:134
 #, c-format
 msgid ""
 "%s%s\n"
@@ -248,83 +248,83 @@ msgstr ""
 "commit : %s\n"
 "%s"
 
-#: tools/ruledit/ruledit_qt.cpp:147
+#: tools/ruledit/ruledit_qt.cpp:149
 msgid "Give ruleset to use as starting point."
 msgstr "Donner les règles du jeu à utiliser comme point de départ."
 
-#: tools/ruledit/ruledit_qt.cpp:159
+#: tools/ruledit/ruledit_qt.cpp:157
 msgid "Start editing"
 msgstr "Commencer l'édition"
 
-#: tools/ruledit/ruledit_qt.cpp:169
+#: tools/ruledit/ruledit_qt.cpp:168
 msgid "Misc"
 msgstr "Divers"
 
-#: tools/ruledit/ruledit_qt.cpp:171
+#: tools/ruledit/ruledit_qt.cpp:170
 msgid "Tech"
 msgstr "Technologies"
 
-#: tools/ruledit/ruledit_qt.cpp:173
+#: tools/ruledit/ruledit_qt.cpp:172
 msgid "Buildings"
 msgstr "Bâtiments"
 
-#: tools/ruledit/ruledit_qt.cpp:175
+#: tools/ruledit/ruledit_qt.cpp:174
 msgid "Units"
 msgstr "Unités"
 
-#: tools/ruledit/ruledit_qt.cpp:177
+#: tools/ruledit/ruledit_qt.cpp:176
 msgid "Goods"
 msgstr "Biens"
 
-#: tools/ruledit/ruledit_qt.cpp:179
+#: tools/ruledit/ruledit_qt.cpp:178
 msgid "Governments"
 msgstr "Gouvernements"
 
-#: tools/ruledit/ruledit_qt.cpp:181
+#: tools/ruledit/ruledit_qt.cpp:180
 msgid "Enablers"
 msgstr "Activateurs"
 
-#: tools/ruledit/ruledit_qt.cpp:183
+#: tools/ruledit/ruledit_qt.cpp:182
 msgid "Extras"
 msgstr "Extras"
 
-#: tools/ruledit/ruledit_qt.cpp:185
+#: tools/ruledit/ruledit_qt.cpp:184
 msgid "Terrains"
 msgstr "Terrains"
 
-#: tools/ruledit/ruledit_qt.cpp:187
+#: tools/ruledit/ruledit_qt.cpp:186
 msgid "Multipliers"
 msgstr "Multiplicateurs"
 
-#: tools/ruledit/ruledit_qt.cpp:189
+#: tools/ruledit/ruledit_qt.cpp:188
 msgid "Nations"
 msgstr "Nations"
 
-#: tools/ruledit/ruledit_qt.cpp:198
+#: tools/ruledit/ruledit_qt.cpp:197
 msgid "Welcome to freeciv-ruledit"
 msgstr "Bienvenue sur l'éditeur de règles de Freeciv"
 
-#: tools/ruledit/ruledit_qt.cpp:227
+#: tools/ruledit/ruledit_qt.cpp:244
 msgid "Old ruleset to a new format"
 msgstr "Anciennes règles du jeu vers un nouveau format"
 
-#: tools/ruledit/ruledit_qt.cpp:233
+#: tools/ruledit/ruledit_qt.cpp:247
 msgid "Ruleset loaded"
 msgstr "Règles du jeu chargées"
 
-#: tools/ruledit/ruledit_qt.cpp:255
+#: tools/ruledit/ruledit_qt.cpp:269
 msgid "Ruleset loading failed!"
 msgstr "Impossible de charger les règles du jeu !"
 
-#: tools/ruledit/ruledit_qt.cpp:433
+#: tools/ruledit/ruledit_qt.cpp:447
 msgid "Freeciv Ruleset Editor"
 msgstr "Éditeur de règles du jeu de Freeciv"
 
-#: tools/ruledit/ruledit_qt.cpp:466
+#: tools/ruledit/ruledit_qt.cpp:480
 msgid "Are you sure you want to quit?"
 msgstr "Êtes-vous sûr(e) que vous voulez quitter ?"
 
-#: tools/ruledit/ruledit_qt.cpp:470
+#: tools/ruledit/ruledit_qt.cpp:484
 msgid "Quit?"
 msgstr "Quitter ?"
 
