@@ -9,7 +9,7 @@ MAJOR_VERSION="3"
 MINOR_VERSION="1"
 PATCH_VERSION="0"
 EMERGENCY_VERSION=""
-VERSION_LABEL="-beta1"
+VERSION_LABEL="-beta1+"
 
 # Type is either "development" or "stable"
 # Date is relevant only for "stable" releases
@@ -18,7 +18,7 @@ if test "$VERSION_LABEL" = "" ; then
   #RELEASE_DATE="2023-03-17"
 else
   RELEASE_TYPE="development"
-  RELEASE_DATE="2023-03-17"
+  #RELEASE_DATE="2023-03-17"
 fi
 
 #
