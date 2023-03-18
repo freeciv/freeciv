@@ -98,7 +98,7 @@ const char **ordered_gfx_fextensions(void)
 }
 
 /**********************************************************************//**
-  Return gfx file extensions, in adjusted order.
+  Free resources allocated for the svgflag module.
 **************************************************************************/
 void free_svg_flag_API(void)
 {
