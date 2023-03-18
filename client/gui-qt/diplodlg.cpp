@@ -388,7 +388,8 @@ void diplo_wdg::show_menu(int player)
       while (adv_iter != adv_list.constEnd()) {
         id = adv_iter.value();
         some_action = adv_menu->addAction(adv_iter.key());
-        connect(some_action, &QAction::triggered, this, [=]() {
+        connect(some_action, &QAction::triggered, this,
+                CAPTURE_DEFAULT_THIS () {
           give_advance(id);
         });
         adv_iter++;
@@ -413,7 +414,8 @@ void diplo_wdg::show_menu(int player)
       while (city_iter != city_list.constEnd()) {
         id = city_iter.value();
         some_action = city_menu->addAction(city_iter.key());
-        connect(some_action, &QAction::triggered, this, [=]() {
+        connect(some_action, &QAction::triggered, this,
+                CAPTURE_DEFAULT_THIS () {
           give_city(id);
         });
         city_iter++;

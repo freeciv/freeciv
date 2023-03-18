@@ -26,6 +26,7 @@
 // gui-qt
 #include "cityrep.h"
 #include "fc_client.h"
+#include "gui_main.h"
 #include "hudwidget.h"
 
 /***********************************************************************//**
@@ -543,7 +544,8 @@ void city_widget::display_list_menu(const QPoint &)
   }
 
   list_menu->setAttribute(Qt::WA_DeleteOnClose);
-  connect(list_menu, &QMenu::triggered, this, [=](QAction *act) {
+  connect(list_menu, &QMenu::triggered, this,
+          CAPTURE_DEFAULT_THIS (QAction *act) {
     QVariant qvar, qvar2;
     enum menu_labels m_state;
     cid id;
@@ -1138,7 +1140,8 @@ void city_widget::display_header_menu(const QPoint &)
     actions.append(myAct);
   }
   hideshow_column->setAttribute(Qt::WA_DeleteOnClose);
-  connect(hideshow_column, &QMenu::triggered, this, [=](QAction *act) {
+  connect(hideshow_column, &QMenu::triggered, this,
+          CAPTURE_DEFAULT_THIS (QAction *act) {
     int col;
     struct city_report_spec *spec;
     if (!act) {

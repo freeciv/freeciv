@@ -7,6 +7,7 @@ if not get_option('ack_experimental')
 endif
 
 c_compiler = meson.get_compiler('c')
+cxx_compiler = meson.get_compiler('cpp')
 
 if c_compiler.has_argument('-Wno-nonnull-compare')
   add_global_arguments('-Wno-nonnull-compare', language : 'c')
@@ -614,6 +615,15 @@ endif
 
 if crosser
   pub_conf_data.set('FREECIV_CROSSER', 1)
+endif
+
+if cxx_compiler.compiles('''
+class me {
+void top(); };
+void me::top() { [=, this]() {}; };
+''',
+     name: 'C++20 capture this')
+  pub_conf_data.set('FREECIV_HAVE_CXX20_CAPTURE_THIS', 1)
 endif
 
 configure_file(input : 'gen_headers/meson_fc_config.h.in',

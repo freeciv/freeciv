@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -17,4 +17,10 @@
 void popup_quit_dialog();
 QApplication *current_app();
 
-#endif /* FC__GUI_MAIN_H */
+#ifdef FREECIV_HAVE_CXX20_CAPTURE_THIS
+#define CAPTURE_DEFAULT_THIS [=, this]
+#else  // FREECIV_HAVE_CXX20_CAPTURE_THIS
+#define CAPTURE_DEFAULT_THIS [=]
+#endif // FREECIV_HAVE_CXX20_CAPTURE_THIS
+
+#endif // FC__GUI_MAIN_H

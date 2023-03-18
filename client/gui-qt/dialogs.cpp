@@ -59,6 +59,7 @@
 // gui-qt
 #include "dialogs.h"
 #include "fc_client.h"
+#include "gui_main.h"
 #include "hudwidget.h"
 #include "qtg_cxxside.h"
 #include "sprite.h"
@@ -1470,7 +1471,8 @@ void choice_dialog::add_item(QString title, pfcn_void func, QVariant data1,
                                                            data1, data2);
    int action = buttons_list.count();
 
-   QObject::connect(button, &QPushButton::clicked, [=]() {
+   QObject::connect(button, &QPushButton::clicked,
+                    CAPTURE_DEFAULT_THIS () {
      execute_action(action);
    });
 
