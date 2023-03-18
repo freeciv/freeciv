@@ -33,6 +33,9 @@
 /* nullptr available at C++ */
 #mesondefine FREECIV_HAVE_CXX_NULLPTR
 
+/* C++20 capture this supported */
+#mesondefine FREECIV_HAVE_CXX20_CAPTURE_THIS
+
 /* Use pthreads as thread implementation */
 #mesondefine FREECIV_HAVE_PTHREAD
 

@@ -33,6 +33,7 @@ EXTRA_DIST =	autogen.sh 			\
 		m4/c11.m4			\
 		m4/c23.m4			\
 		m4/c++11.m4			\
+		m4/c++20.m4			\
 		m4/codeset.m4			\
 		m4/compiler.m4			\
 		m4/debug.m4			\

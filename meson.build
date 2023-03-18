@@ -744,6 +744,15 @@ if crosser
   pub_conf_data.set('FREECIV_CROSSER', 1)
 endif
 
+if cxx_compiler.compiles('''
+class me {
+void top(); };
+void me::top() { [=, this]() {}; };
+''',
+     name: 'C++20 capture this')
+  pub_conf_data.set('FREECIV_HAVE_CXX20_CAPTURE_THIS', 1)
+endif
+
 configure_file(input : 'gen_headers/meson_fc_config.h.in',
                output : 'fc_config.h',
                configuration: priv_conf_data)

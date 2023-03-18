@@ -1414,7 +1414,8 @@ void city_map::context_menu(QPoint point)
   }
 
   con_menu->setAttribute(Qt::WA_DeleteOnClose);
-  connect(con_menu, &QMenu::triggered, [=](QAction *act) {
+  connect(con_menu, &QMenu::triggered,
+          CAPTURE_DEFAULT_THIS (QAction *act) {
     bool target = false;
     struct packet_worker_task task;
 
@@ -2357,7 +2358,8 @@ void city_dialog::save_cma()
                                _("Name new preset"),
                                _("new preset"));
   ask->setAttribute(Qt::WA_DeleteOnClose);
-  connect(ask, &hud_message_box::accepted, this, [=]() {
+  connect(ask, &hud_message_box::accepted, this,
+          CAPTURE_DEFAULT_THIS () {
     struct cm_parameter param;
     QByteArray ask_bytes = ask->input_edit.text().toLocal8Bit();
     QString text = ask_bytes.data();
@@ -2604,7 +2606,8 @@ void city_dialog::cma_remove()
   ask->setStandardButtons(QMessageBox::Cancel | QMessageBox::Ok);
   ask->setDefaultButton(QMessageBox::Cancel);
   ask->setAttribute(Qt::WA_DeleteOnClose);
-  connect(ask, &hud_message_box::accepted, this, [=]() {
+  connect(ask, &hud_message_box::accepted, this,
+          CAPTURE_DEFAULT_THIS () {
     cmafec_preset_remove(i);
     update_cma_tab();
   });
@@ -2677,7 +2680,8 @@ void city_dialog::cma_context_menu(const QPoint &p)
 
   cma_menu->setAttribute(Qt::WA_DeleteOnClose);
   cma_del_item = cma_menu->addAction(_("Remove Governor"));
-  connect(cma_menu, &QMenu::triggered, this, [=](QAction *act) {
+  connect(cma_menu, &QMenu::triggered, this,
+          CAPTURE_DEFAULT_THIS (QAction *act) {
     if (act == cma_del_item) {
       cma_remove();
     }
@@ -2763,7 +2767,8 @@ void city_dialog::display_worklist_menu(const QPoint &p)
     city_set_queue(pcity, worklist);
   });
 
-  connect(insert_menu, &QMenu::triggered, this, [=](QAction *act) {
+  connect(insert_menu, &QMenu::triggered, this,
+          CAPTURE_DEFAULT_THIS (QAction *act) {
     QVariant id = act->data();
     struct city *pcity = game_city_by_number(city_id);
     const struct worklist *worklist;

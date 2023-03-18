@@ -25,4 +25,10 @@ QApplication *current_app();
 #define mevent_gpos(__ev__) (__ev__)->globalPos()
 #endif // FC_QT5_MODE
 
+#ifdef FREECIV_HAVE_CXX20_CAPTURE_THIS
+#define CAPTURE_DEFAULT_THIS [=, this]
+#else  // FREECIV_HAVE_CXX20_CAPTURE_THIS
+#define CAPTURE_DEFAULT_THIS [=]
+#endif // FREECIV_HAVE_CXX20_CAPTURE_THIS
+
 #endif // FC__GUI_MAIN_H

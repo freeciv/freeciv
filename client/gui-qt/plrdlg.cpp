@@ -27,6 +27,7 @@
 
 // gui-qt
 #include "fc_client.h"
+#include "gui_main.h"
 #include "plrdlg.h"
 
 /**********************************************************************//**
@@ -436,7 +437,8 @@ void plr_widget::display_header_menu(const QPoint &)
   }
 
   hideshow_column->setAttribute(Qt::WA_DeleteOnClose);
-  connect(hideshow_column, &QMenu::triggered, this, [=](QAction *act) {
+  connect(hideshow_column, &QMenu::triggered, this,
+          CAPTURE_DEFAULT_THIS (QAction *act) {
     int col;
     struct player_dlg_column *pcol;
 
@@ -954,7 +956,8 @@ void plr_report::toggle_ai_mode()
     }
 
     ai_menu->setAttribute(Qt::WA_DeleteOnClose);
-    connect(ai_menu, &QMenu::triggered, [=](QAction *act) {
+    connect(ai_menu, &QMenu::triggered,
+            CAPTURE_DEFAULT_THIS (QAction *act) {
       int lvl;
 
       if (act == toggle_ai_act) {

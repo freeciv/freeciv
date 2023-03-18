@@ -1495,7 +1495,8 @@ void choice_dialog::add_item(QString title, pfcn_void func, QVariant data1,
                                                            data1, data2);
    int action = buttons_list.count();
 
-   QObject::connect(button, &QPushButton::clicked, [=]() {
+   QObject::connect(button, &QPushButton::clicked,
+                    CAPTURE_DEFAULT_THIS () {
      execute_action(action);
    });
 
