@@ -3609,6 +3609,7 @@ install_data(
 install_data(
   'COPYING',
   'NEWS',
+  'NEWS-3.1',
   'INSTALL',
   'ChangeLog',
   'ChangeLog-1.0-S3_0',
