@@ -388,11 +388,9 @@ static void government_callback(GSimpleAction *action,
 static void revolution_callback(GSimpleAction *action,
                                 GVariant *parameter,
                                 gpointer data);
-
-#ifdef MENUS_GTK3
-static void tax_rate_callback(GtkMenuItem *item, gpointer data);
-#endif /* MENUS_GTK3 */
-
+static void tax_rate_callback(GSimpleAction *action,
+                              GVariant *parameter,
+                              gpointer data);
 static void select_single_callback(GSimpleAction *action,
                                    GVariant *parameter,
                                    gpointer data);
@@ -845,6 +843,9 @@ static struct menu_entry_info menu_entries[] =
     "report_research", "F6", MGROUP_PLAYER,
     NULL, FALSE },
 
+  { "TAX_RATES", N_("_Tax Rates..."),
+    "tax_rates", "<ctrl>t", MGROUP_PLAYING,
+    NULL, FALSE },
   { "POLICIES", N_("_Policies..."),
     "policies", "<shift><ctrl>p", MGROUP_PLAYER,
     NULL, FALSE },
@@ -1016,9 +1017,6 @@ static struct menu_entry_info menu_entries[] =
     GDK_KEY_t, GDK_SHIFT_MASK,
     G_CALLBACK(unit_unload_transporter_callback), MGROUP_UNIT },
 
-  { "TAX_RATE", N_("_Tax Rates..."), GDK_KEY_t, GDK_CONTROL_MASK,
-    G_CALLBACK(tax_rate_callback), MGROUP_PLAYING },
-
 #endif /* MENUS_GTK3 */
 
   { NULL }
@@ -1131,6 +1129,7 @@ const GActionEntry acts[] = {
   { "report_cities", report_cities_callback },
   { "report_economy", report_economy_callback },
   { "report_research", report_research_callback },
+  { "tax_rates", tax_rate_callback },
   { "policies", multiplier_callback },
   { "report_wow", report_wow_callback },
   { "report_top_cities", report_top_cities_callback },
@@ -2665,15 +2664,14 @@ static void do_action_callback(GSimpleAction *action,
   key_unit_action_select_tgt();
 }
 
-#ifdef MENUS_GTK3
 /************************************************************************//**
-  Action "TAX_RATE" callback.
+  Action "TAX_RATES" callback.
 ****************************************************************************/
-static void tax_rate_callback(GtkMenuItem *action, gpointer data)
+static void tax_rate_callback(GSimpleAction *action, GVariant *parameter,
+                              gpointer data)
 {
   popup_rates_dialog();
 }
-#endif /* MENUS_GTK3 */
 
 /************************************************************************//**
   Action "MULTIPLIERS" callback.
@@ -3185,6 +3183,7 @@ static GMenu *setup_menus(GtkApplication *app)
   menu_entry_init(gov_menu, "REPORT_CITIES");
   menu_entry_init(gov_menu, "REPORT_ECONOMY");
   menu_entry_init(gov_menu, "REPORT_RESEARCH");
+  menu_entry_init(gov_menu, "TAX_RATES");
   menu_entry_init(gov_menu, "POLICIES");
 
   /* Placeholder submenu (so that menu update has something to replace) */
@@ -3575,8 +3574,8 @@ void real_menus_update(void)
       menu_item_append_unref(submenu, g_menu_item_new(name, actname));
     }
   } governments_iterate_end;
-  g_menu_remove(gov_menu, 7);
-  g_menu_insert_submenu(gov_menu, 7, _("_Government"), G_MENU_MODEL(submenu));
+  g_menu_remove(gov_menu, 8);
+  g_menu_insert_submenu(gov_menu, 8, _("_Government"), G_MENU_MODEL(submenu));
 
   submenu = g_menu_new();
 
@@ -4006,6 +4005,10 @@ void real_menus_update(void)
   }
   menu_entry_set_sensitive(map, "CONNECT_IRRIGATION", conn_possible);
 
+  menu_entry_set_sensitive(map, "TAX_RATES",
+                           game.info.changable_tax
+                           && can_client_issue_orders());
+
 #ifdef MENUS_GTK3
   if (units_can_do_action(punits, ACTION_HELP_WONDER, TRUE)) {
     menus_rename("BUILD_CITY",
@@ -4306,10 +4309,6 @@ void real_menus_init(void)
 
   menu_entry_group_set_sensitive(MGROUP_SAFE, TRUE);
   menu_entry_group_set_sensitive(MGROUP_PLAYER, client_has_player());
-
-  menu_entry_set_sensitive("TAX_RATE",
-                           game.info.changable_tax
-                           && can_client_issue_orders());
 
   menu_entry_set_sensitive("SHOW_NATIONAL_BORDERS",
                            BORDERS_DISABLED != game.info.borders);
