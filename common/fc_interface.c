@@ -52,7 +52,8 @@ struct functions *fc_interface_funcs(void)
 
 /************************************************************************//**
   Initialize libfreeciv.
-  With check_fc_interface, also tests and initialize the functions.
+
+  @param check_fc_interface  Whether to lso test and initialize functions.
 ****************************************************************************/
 void libfreeciv_init(bool check_fc_interface)
 {
@@ -74,8 +75,6 @@ void libfreeciv_init(bool check_fc_interface)
     fc_assert_exit(fc_funcs->gui_color_free);
 
     fc_funcs_defined = TRUE;
-
-    setup_real_activities_array();
   }
 }
 

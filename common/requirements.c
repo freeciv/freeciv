@@ -244,7 +244,6 @@ struct universal universal_by_rule_name(const char *kind,
 static bool activity_is_valid_in_requirement(enum unit_activity act)
 {
   return unit_activity_is_valid(act)
-      && is_real_activity(act)
       && act != ACTIVITY_SENTRY
       && act != ACTIVITY_GOTO
       && act != ACTIVITY_EXPLORE;

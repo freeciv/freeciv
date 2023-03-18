@@ -47,7 +47,7 @@ bool worker_task_is_sane(struct worker_task *ptask)
     return FALSE;
   }
 
-  if (!is_real_activity(ptask->act)) {
+  if (ptask->act >= ACTIVITY_LAST) {
     return FALSE;
   }
 
