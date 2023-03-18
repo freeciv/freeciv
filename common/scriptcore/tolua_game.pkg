@@ -186,6 +186,8 @@ module Player {
     @ has_wonder (lua_State *L, Player *self, Building_Type *building);
   int api_methods_player_gold
     @ gold (lua_State *L, Player *self);
+  int api_methods_player_infrapoints
+    @ infrapoints (lua_State *L, Player *self);
   bool api_methods_player_knows_tech
     @ knows_tech (lua_State *L, Player *self, Tech_Type *ptech);
   bool api_method_player_can_research
