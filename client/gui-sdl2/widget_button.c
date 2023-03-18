@@ -87,7 +87,7 @@ static int redraw_ibutton(struct widget *pIButton)
     return 1;
   }
 
-  /* create Button graphic */
+  /* Create Button graphic */
   pButton = create_bcgnd_surf(pIButton->theme, get_wstate(pIButton),
                               pIButton->size.w, pIButton->size.h);
 
@@ -115,12 +115,12 @@ static int redraw_ibutton(struct widget *pIButton)
         if (get_wflags(pIButton) & WF_ICON_UNDER_TEXT) {
           y = 3 + (pIButton->size.h - (pIcon->h + 3) - pText->h) / 2;
           Iy = y + pText->h + 3;
-        } else { /* center */
+        } else { /* Center */
           Iy = (pIButton->size.h - pIcon->h) / 2;
           y = (pIButton->size.h - pText->h) / 2;
         }
       }
-    } else { /* no text */
+    } else { /* No text */
       Iy = (pIButton->size.h - pIcon->h) / 2;
       Ix = (pIButton->size.w - pIcon->w) / 2;
     }
@@ -154,24 +154,24 @@ static int redraw_ibutton(struct widget *pIButton)
               x = 5;
             }
           }
-          /* end WF_ICON_CENTER_RIGHT */
+          /* End WF_ICON_CENTER_RIGHT */
         } else {
           if (get_wflags(pIButton) & WF_ICON_CENTER) {
-            /* text is blit on icon */
+            /* Text is blit on icon */
             goto Alone;
-            /* end WF_ICON_CENTER */
-          } else { /* icon center left - default */
+            /* End WF_ICON_CENTER */
+          } else { /* Icon center left - default */
             if (pIButton->string_utf8->style & SF_CENTER) {
               x = 5 + pIcon->w + ((pIButton->size.w -
                                    (pIcon->w + 5) - pText->w) / 2);
             } else {
               if (pIButton->string_utf8->style & SF_CENTER_RIGHT) {
                 x = pIButton->size.w - pText->w - 5;
-              } else { /* text center left */
+              } else { /* Text center left */
                 x = 5 + pIcon->w + 3;
               }
             }
-          } /* end icon center left - default */
+          } /* End icon center left - default */
         }
         /* 888888888888888888 */
       } else {
@@ -206,7 +206,7 @@ static int redraw_ibutton(struct widget *pIButton)
 
   FREESURFACE(pText);
 
-  return 0;
+  return ret;
 }
 
 /**************************************************************************
