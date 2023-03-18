@@ -375,7 +375,8 @@ static int units_orders_dlg_callback(struct widget *pButton)
 **************************************************************************/
 static int units_orders_city_dlg_callback(struct widget *pButton)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (Main.event.button.button == SDL_BUTTON_LEFT
+      || Main.event.button.button == SDL_BUTTON_RIGHT) {
     SDL_String16 *pStr;
     char cBuf[80];
     struct widget *pBuf, *pWindow = pCityDlg->pEndCityWidgetList;
@@ -383,14 +384,14 @@ static int units_orders_city_dlg_callback(struct widget *pButton)
     struct unit_type *pUType;
     Uint16 i = 0, hh = 0;
     SDL_Rect area;
-  
+
     pUnit = player_unit_by_number(client_player(), MAX_ID - pButton->ID);
-    
-    if(!pUnit || !can_client_issue_orders()) {
+
+    if (!pUnit || !can_client_issue_orders()) {
       return -1;
     }
 
-    if(Main.event.button.button == SDL_BUTTON_RIGHT) {
+    if (Main.event.button.button == SDL_BUTTON_RIGHT) {
       popdown_city_dialog(pCityDlg->pCity);
       center_tile_mapcanvas(unit_tile(pUnit));
       unit_focus_set(pUnit);
@@ -400,22 +401,22 @@ static int units_orders_city_dlg_callback(struct widget *pButton)
     /* Disable city dlg */
     unsellect_widget_action();
     disable_city_dlg_widgets();
-  
+
     pUType = unit_type_get(pUnit);
-  
+
     /* window */
     fc_snprintf(cBuf, sizeof(cBuf), "%s:", _("Unit commands"));
     pStr = create_str16_from_char(cBuf, adj_font(12));
     pStr->style |= TTF_STYLE_BOLD;
     pWindow = create_window_skeleton(NULL, pStr, 0);
-    
+
     pWindow->action = units_orders_dlg_callback;
     set_wstate(pWindow, FC_WS_NORMAL);
     add_to_gui_list(ID_REVOLUTION_DLG_WINDOW, pWindow);
     pCityDlg->pEndCityMenuWidgetList = pWindow;
 
     area = pWindow->area;
-    
+
     /* unit description */
     fc_snprintf(cBuf, sizeof(cBuf), "%s", unit_description(pUnit));
     pStr = create_str16_from_char(cBuf, adj_font(12));
@@ -424,7 +425,7 @@ static int units_orders_city_dlg_callback(struct widget *pButton)
                             pWindow->dst, pStr, WF_FREE_THEME);
     area.w = MAX(area.w, pBuf->size.w);
     add_to_gui_list(ID_LABEL, pBuf);
-    
+
     /* Activate unit */
     pBuf =
         create_icon_button_from_chars(NULL, pWindow->dst,
@@ -436,10 +437,11 @@ static int units_orders_city_dlg_callback(struct widget *pButton)
     pBuf->data = pButton->data;
     set_wstate(pBuf, FC_WS_NORMAL);
     add_to_gui_list(pButton->ID, pBuf);
-    
+
     /* Activate unit, close dlg. */
     pBuf = create_icon_button_from_chars(NULL, pWindow->dst,
-                    _("Activate unit, close dialog"),  adj_font(12), 0);
+                                         _("Activate unit, close dialog"),
+                                         adj_font(12), 0);
     i++;
     area.w = MAX(area.w, pBuf->size.w);
     hh = MAX(hh, pBuf->size.h);
@@ -448,11 +450,11 @@ static int units_orders_city_dlg_callback(struct widget *pButton)
     set_wstate(pBuf, FC_WS_NORMAL);
     add_to_gui_list(pButton->ID, pBuf);
     /* ----- */
-    
+
     if (pCityDlg->page == ARMY_PAGE) {
       /* Sentry unit */
       pBuf = create_icon_button_from_chars(NULL, pWindow->dst,
-                                          _("Sentry unit"), adj_font(12), 0);
+                                           _("Sentry unit"), adj_font(12), 0);
       i++;
       area.w = MAX(area.w, pBuf->size.w);
       hh = MAX(hh, pBuf->size.h);
@@ -464,10 +466,10 @@ static int units_orders_city_dlg_callback(struct widget *pButton)
       }
       add_to_gui_list(pButton->ID, pBuf);
       /* ----- */
-      
+
       /* Fortify unit */
       pBuf = create_icon_button_from_chars(NULL, pWindow->dst,
-                                              _("Fortify unit"), adj_font(12), 0);
+                                           _("Fortify unit"), adj_font(12), 0);
       i++;
       area.w = MAX(area.w, pBuf->size.w);
       hh = MAX(hh, pBuf->size.h);
@@ -480,10 +482,10 @@ static int units_orders_city_dlg_callback(struct widget *pButton)
       add_to_gui_list(pButton->ID, pBuf);
     }
     /* ----- */
-    
+
     /* Disband unit */
     pBuf = create_icon_button_from_chars(NULL, pWindow->dst,
-                                    _("Disband unit"), adj_font(12), 0);
+                                         _("Disband unit"), adj_font(12), 0);
     i++;
     area.w = MAX(area.w, pBuf->size.w);
     hh = MAX(hh, pBuf->size.h);
@@ -492,12 +494,13 @@ static int units_orders_city_dlg_callback(struct widget *pButton)
     set_wstate(pBuf, FC_WS_NORMAL);
     add_to_gui_list(pButton->ID, pBuf);
     /* ----- */
-  
+
     if (pCityDlg->page == ARMY_PAGE) {
       if (pUnit->homecity != pCityDlg->pCity->id) {
         /* Make new Homecity */
         pBuf = create_icon_button_from_chars(NULL, pWindow->dst, 
-                                          _("Set Home City"), adj_font(12), 0);
+                                             _("Set Home City"),
+                                             adj_font(12), 0);
         i++;
         area.w = MAX(area.w, pBuf->size.w);
         hh = MAX(hh, pBuf->size.h);
@@ -507,11 +510,12 @@ static int units_orders_city_dlg_callback(struct widget *pButton)
         add_to_gui_list(pButton->ID, pBuf);
       }
       /* ----- */
-      
+
       if (can_upgrade_unittype(client.conn.playing, pUType)) {
         /* Upgrade unit */
         pBuf = create_icon_button_from_chars(NULL, pWindow->dst,
-                                              _("Upgrade unit"), adj_font(12), 0);
+                                             _("Upgrade unit"),
+                                             adj_font(12), 0);
         i++;
         area.w = MAX(area.w, pBuf->size.w);
         hh = MAX(hh, pBuf->size.h);
@@ -521,11 +525,11 @@ static int units_orders_city_dlg_callback(struct widget *pButton)
         add_to_gui_list(pButton->ID, pBuf);
       }
     }
-  
+
     /* ----- */
     /* Cancel */
     pBuf = create_icon_button_from_chars(NULL, pWindow->dst,
-                                                  _("Cancel"), adj_font(12), 0);
+                                         _("Cancel"), adj_font(12), 0);
     i++;
     area.w = MAX(area.w, pBuf->size.w);
     hh = MAX(hh, pBuf->size.h);
@@ -534,20 +538,20 @@ static int units_orders_city_dlg_callback(struct widget *pButton)
     set_wstate(pBuf, FC_WS_NORMAL);
     add_to_gui_list(pButton->ID, pBuf);
     pCityDlg->pBeginCityMenuWidgetList = pBuf;
-  
+
     /* ================================================== */
     unsellect_widget_action();
     /* ================================================== */
-  
+
     area.w += adj_size(10);
     hh += adj_size(4);
-  
+
     /* create window background */
     resize_window(pWindow, NULL, get_theme_color(COLOR_THEME_BACKGROUND),
                   (pWindow->size.w - pWindow->area.w) + area.w,
                   (pWindow->size.h - pWindow->area.h) + pWindow->prev->size.h +
-                  (i * hh) + adj_size(5)); 
-    
+                  (i * hh) + adj_size(5));
+
     area = pWindow->area;
 
     widget_set_position(pWindow,
@@ -560,14 +564,14 @@ static int units_orders_city_dlg_callback(struct widget *pButton)
     pBuf->size.x = area.x;
     pBuf->size.y = area.y + 1;
     pBuf = pBuf->prev;
-  
+
     /* first button */
     pBuf->size.w = area.w;
     pBuf->size.h = hh;
     pBuf->size.x = area.x;
     pBuf->size.y = pBuf->next->size.y + pBuf->next->size.h + adj_size(5);
     pBuf = pBuf->prev;
-  
+
     while (pBuf) {
       pBuf->size.w = area.w;
       pBuf->size.h = hh;
@@ -578,7 +582,7 @@ static int units_orders_city_dlg_callback(struct widget *pButton)
       }
       pBuf = pBuf->prev;
     }
-  
+
     /* ================================================== */
     /* redraw */
     redraw_group(pCityDlg->pBeginCityMenuWidgetList, pWindow, 0);
