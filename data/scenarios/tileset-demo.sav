@@ -1,6 +1,6 @@
 
 [scenario]
-game_version=3009408
+game_version=3010000
 is_scenario=TRUE
 name=_("Tileset Demo")
 authors=_("Daniel Markstedt")
@@ -15,7 +15,7 @@ ruleset_locked=TRUE
 options=" +version3"
 version=50
 reason="Scenario"
-revision="3.0.94.8-alpha3+"
+revision="3.1.0-beta1"
 rulesetdir="classic"
 improvement_size=68
 improvement_vector="Airport","Aqueduct","Bank","Barracks","Barracks II","Barracks III","Cathedral","City Walls","Coastal Defense","Colosseum","Courthouse","Factory","Granary","Harbour","Hydro Plant","Library","Marketplace","Mass Transit","Mfg. Plant","Nuclear Plant","Offshore Platform","Palace","Police Station","Port Facility","Power Plant","Recycling Center","Research Lab","SAM Battery","SDI Defense","Sewer System","Solar Plant","Space Component","Space Module","Space Structural","Stock Exchange","Super Highways","Supermarket","Temple","University","Apollo Program","A.Smith's Trading Co.","Colossus","Copernicus' Observatory","Cure For Cancer","Darwin's Voyage","Eiffel Tower","Great Library","Great Wall","Hanging Gardens","Hoover Dam","Isaac Newton's College","J.S. Bach's Cathedral","King Richard's Crusade","Leonardo's Workshop","Lighthouse","Magellan's Expedition","Manhattan Project","Marco Polo's Embassy","Michelangelo's Chapel","Oracle","Pyramids","SETI Program","Shakespeare's Theatre","Statue of Liberty","Sun Tzu's War Academy","United Nations","Women's Suffrage","Coinage"
@@ -35,7 +35,7 @@ diplstate_type_vector="Armistice","War","Cease-fire","Peace","Alliance","Never m
 city_options_size=3
 city_options_vector="Disband","Sci_Specialists","Tax_Specialists"
 action_size=106
-action_vector="Establish Embassy","Establish Embassy Stay","Investigate City","Investigate City Spend Unit","Poison City","Poison City Escape","Steal Gold","Steal Gold Escape","Sabotage City","Sabotage City Escape","Targeted Sabotage City","Targeted Sabotage City Escape","Sabotage City Production","Sabotage City Production Escape","Steal Tech","Steal Tech Escape Expected","Targeted Steal Tech","Targeted Steal Tech Escape Expected","Incite City","Incite City Escape","Establish Trade Route","Enter Marketplace","Help Wonder","Bribe Unit","Sabotage Unit","Sabotage Unit Escape","Capture Units","Found City","Join City","Steal Maps","Steal Maps Escape","Bombard","Bombard 2","Bombard 3","Suitcase Nuke","Suitcase Nuke Escape","Explode Nuclear","Nuke City","Nuke Units","Destroy City","Expel Unit","Disband Unit Recover","Disband Unit","Home City","Upgrade Unit","Paradrop Unit","Airlift Unit","Attack","Suicide Attack","Surgical Strike Building","Surgical Strike Production","Conquer City","Conquer City 2","Heal Unit","Transform Terrain","Cultivate","Plant","Pillage","Fortify","Build Road","Convert Unit","Build Base","Build Mine","Build Irrigation","Clean Pollution","Clean Fallout","Transport Alight","Transport Unload","Transport Disembark","Transport Disembark 2","Transport Board","Transport Embark","Spread Plague","Spy Attack","Conquer Extras","Conquer Extras 2","Enter Hut","Enter Hut 2","Frighten Hut","Frighten Hut 2","Unit Move","Heal Unit 2","Conquer City 3","Conquer City 4","Conquer Extras 3","Conquer Extras 4","Transport Disembark 3","Transport Disembark 4","Transport Embark 2","Transport Embark 3","Enter Hut 3","Enter Hut 4","Frighten Hut 3","Frighten Hut 4","Unit Move 2","Unit Move 3","Paradrop Unit Conquer","Paradrop Unit Frighten","Paradrop Unit Frighten Conquer","Paradrop Unit Enter","Paradrop Unit Enter Conquer","Unit Make Homeless","User Action 1","User Action 2","User Action 3","User Action 4"
+action_vector="Establish Embassy","Establish Embassy Stay","Investigate City","Investigate City Spend Unit","Poison City","Poison City Escape","Steal Gold","Steal Gold Escape","Sabotage City","Sabotage City Escape","Targeted Sabotage City","Targeted Sabotage City Escape","Sabotage City Production","Sabotage City Production Escape","Steal Tech","Steal Tech Escape Expected","Targeted Steal Tech","Targeted Steal Tech Escape Expected","Incite City","Incite City Escape","Establish Trade Route","Enter Marketplace","Help Wonder","Bribe Unit","Capture Units","Sabotage Unit","Sabotage Unit Escape","Found City","Join City","Steal Maps","Steal Maps Escape","Suitcase Nuke","Suitcase Nuke Escape","Explode Nuclear","Nuke City","Nuke Units","Destroy City","Expel Unit","Disband Unit Recover","Disband Unit","Home City","Unit Make Homeless","Upgrade Unit","Convert Unit","Airlift Unit","Attack","Suicide Attack","Surgical Strike Building","Surgical Strike Production","Conquer City","Conquer City 2","Conquer City 3","Conquer City 4","Bombard","Bombard 2","Bombard 3","Fortify","Cultivate","Plant","Transform Terrain","Build Road","Build Irrigation","Build Mine","Build Base","Pillage","Clean Pollution","Clean Fallout","Transport Board","Transport Alight","Transport Embark","Transport Embark 2","Transport Embark 3","Transport Disembark","Transport Disembark 2","Transport Disembark 3","Transport Disembark 4","Transport Unload","Spread Plague","Spy Attack","Conquer Extras","Conquer Extras 2","Conquer Extras 3","Conquer Extras 4","Enter Hut","Enter Hut 2","Enter Hut 3","Enter Hut 4","Frighten Hut","Frighten Hut 2","Frighten Hut 3","Frighten Hut 4","Heal Unit","Heal Unit 2","Paradrop Unit","Paradrop Unit Conquer","Paradrop Unit Frighten","Paradrop Unit Frighten Conquer","Paradrop Unit Enter","Paradrop Unit Enter Conquer","Unit Move","Unit Move 2","Unit Move 3","User Action 1","User Action 2","User Action 3","User Action 4"
 action_decision_size=3
 action_decision_vector="nothing","passive","active"
 server_side_agent_size=3
@@ -1270,9 +1270,9 @@ history=0
 hut_count=0
 border_vision=FALSE
 ncities=2
-c={"y","x","id","original","size","nspe0","nspe1","nspe2","traderoute0","route_direction0","route_good0","traderoute1","route_direction1","route_good1","traderoute2","route_direction2","route_good2","traderoute3","route_direction3","route_good3","traderoute4","route_direction4","route_good4","food_stock","shield_stock","history","airlift","was_happy","turn_plague","anarchy","rapture","steal","turn_founded","did_buy","did_sell","turn_last_built","name","currently_building_kind","currently_building_name","current_want","changed_from_kind","changed_from_name","before_change_shields","caravan_shields","disbanded_shields","last_turns_shield_surplus","style","city_radius_sq","improvements","wl_length","option0","option1","option2","ai.urgency","ai.building_turn","ai.building_wait","ai.founder_turn","ai.founder_want","ai.founder_boat","citizen0","rally_point_length","rally_point_persistent","rally_point_vigilant","rally_point_orders","rally_point_dirs","rally_point_activities","rally_point_action_vec","rally_point_tgt_vec","rally_point_sub_tgt_vec","cma_enabled","cma_minimal_surplus","cma_minimal_surplus,1","cma_minimal_surplus,2","cma_minimal_surplus,3","cma_minimal_surplus,4","cma_minimal_surplus,5","cma_factor","cma_factor,1","cma_factor,2","cma_factor,3","cma_factor,4","cma_factor,5","max_growth","require_happy","allow_disorder","allow_specialists","happy_factor"
-26,63,127,0,2,0,0,0,0,"Bidirectional","Goods",0,"Bidirectional","Goods",0,"Bidirectional","Goods",0,"Bidirectional","Goods",0,"Bidirectional","Goods",0,0,0,0,FALSE,-1,0,0,0,1,TRUE,FALSE,0,"Amid","UnitType","Warriors",0,"None","(none)",0,0,0,0,"PostModern",5,"00000000000000000000000000000000000000000000000000000000000000000000",0,FALSE,FALSE,FALSE,0,9,9,0,0,FALSE,2,0,FALSE,FALSE,"-","-","-",-1,-1,-1,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,FALSE,FALSE,FALSE,FALSE,0
-29,61,126,0,7,3,0,0,0,"Bidirectional","Goods",0,"Bidirectional","Goods",0,"Bidirectional","Goods",0,"Bidirectional","Goods",0,"Bidirectional","Goods",0,0,0,0,FALSE,-1,0,0,0,1,TRUE,FALSE,0,"Aram","UnitType","Warriors",0,"None","(none)",0,0,0,0,"PostModern",5,"00000000000000000000010000000000000000000000000000000000000000000000",0,FALSE,FALSE,FALSE,0,6,6,0,0,FALSE,7,0,FALSE,FALSE,"-","-","-",-1,-1,-1,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,FALSE,FALSE,FALSE,FALSE,0
+c={"y","x","id","original","size","nspe0","nspe1","nspe2","food_stock","shield_stock","history","airlift","was_happy","turn_plague","anarchy","rapture","steal","turn_founded","did_buy","did_sell","turn_last_built","name","currently_building_kind","currently_building_name","current_want","changed_from_kind","changed_from_name","before_change_shields","caravan_shields","disbanded_shields","last_turns_shield_surplus","style","city_radius_sq","improvements","wl_length","option0","option1","option2","ai.urgency","ai.building_turn","ai.building_wait","ai.founder_turn","ai.founder_want","ai.founder_boat","citizen0","rally_point_length","rally_point_persistent","rally_point_vigilant","rally_point_orders","rally_point_dirs","rally_point_activities","rally_point_action_vec","rally_point_tgt_vec","rally_point_sub_tgt_vec","cma_enabled","cma_minimal_surplus","cma_minimal_surplus,1","cma_minimal_surplus,2","cma_minimal_surplus,3","cma_minimal_surplus,4","cma_minimal_surplus,5","cma_factor","cma_factor,1","cma_factor,2","cma_factor,3","cma_factor,4","cma_factor,5","max_growth","require_happy","allow_disorder","allow_specialists","happy_factor"
+26,63,127,0,2,0,0,0,0,0,0,0,FALSE,-1,0,0,0,1,TRUE,FALSE,0,"Amid","UnitType","Warriors",0,"None","(none)",0,0,0,0,"PostModern",5,"00000000000000000000000000000000000000000000000000000000000000000000",0,FALSE,FALSE,FALSE,0,9,9,0,0,FALSE,2,0,FALSE,FALSE,"-","-","-",-1,-1,-1,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,FALSE,FALSE,FALSE,FALSE,0
+29,61,126,0,7,3,0,0,0,0,0,0,FALSE,-1,0,0,0,1,TRUE,FALSE,0,"Aram","UnitType","Warriors",0,"None","(none)",0,0,0,0,"PostModern",5,"00000000000000000000010000000000000000000000000000000000000000000000",0,FALSE,FALSE,FALSE,0,6,6,0,0,FALSE,7,0,FALSE,FALSE,"-","-","-",-1,-1,-1,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,FALSE,FALSE,FALSE,FALSE,0
 }
 nunits=24
 u={"id","x","y","facing","nationality","veteran","hp","homecity","type_by_name","activity","activity_count","activity_tgt","changed_from","changed_from_count","changed_from_tgt","done_moving","moves","fuel","born","battlegroup","go","goto_x","goto_y","server_side_agent","passenger","ferryboat","charge","bodyguard","ord_map","ord_city","moved","paradropped","transported_by","carrying","action_decision","action_decision_tile_x","action_decision_tile_y","stay","orders_length","orders_index","orders_repeat","orders_vigilant","orders_list","dir_list","activity_list","action_vec","tgt_vec","sub_tgt_vec"
@@ -2103,8 +2103,8 @@ adv.wonder_city=0
 ai.level="Easy"
 ai.barb_type="None"
 gold=50
-rates.tax=0
-rates.science=100
+rates.tax=40
+rates.science=60
 rates.luxury=0
 infrapts=0
 research.bulbs_last_turn=0
@@ -2929,8 +2929,8 @@ adv.wonder_city=0
 ai.level="Easy"
 ai.barb_type="None"
 gold=50
-rates.tax=0
-rates.science=100
+rates.tax=40
+rates.science=60
 rates.luxury=0
 infrapts=0
 research.bulbs_last_turn=0
@@ -2949,9 +2949,9 @@ history=0
 hut_count=0
 border_vision=FALSE
 ncities=2
-c={"y","x","id","original","size","nspe0","nspe1","nspe2","traderoute0","route_direction0","route_good0","traderoute1","route_direction1","route_good1","traderoute2","route_direction2","route_good2","traderoute3","route_direction3","route_good3","traderoute4","route_direction4","route_good4","food_stock","shield_stock","history","airlift","was_happy","turn_plague","anarchy","rapture","steal","turn_founded","did_buy","did_sell","turn_last_built","name","currently_building_kind","currently_building_name","current_want","changed_from_kind","changed_from_name","before_change_shields","caravan_shields","disbanded_shields","last_turns_shield_surplus","style","city_radius_sq","improvements","wl_length","option0","option1","option2","ai.urgency","ai.building_turn","ai.building_wait","ai.founder_turn","ai.founder_want","ai.founder_boat","citizen2","rally_point_length","rally_point_persistent","rally_point_vigilant","rally_point_orders","rally_point_dirs","rally_point_activities","rally_point_action_vec","rally_point_tgt_vec","rally_point_sub_tgt_vec","cma_enabled","cma_minimal_surplus","cma_minimal_surplus,1","cma_minimal_surplus,2","cma_minimal_surplus,3","cma_minimal_surplus,4","cma_minimal_surplus,5","cma_factor","cma_factor,1","cma_factor,2","cma_factor,3","cma_factor,4","cma_factor,5","max_growth","require_happy","allow_disorder","allow_specialists","happy_factor"
-33,67,129,2,6,1,0,4,0,"Bidirectional","Goods",0,"Bidirectional","Goods",0,"Bidirectional","Goods",0,"Bidirectional","Goods",0,"Bidirectional","Goods",0,0,0,0,FALSE,-1,0,0,0,1,TRUE,FALSE,0,"Carthago","UnitType","Warriors",0,"None","(none)",0,0,0,0,"Classical",5,"00000000000000000000000000000000000000000000000000000000000000000000",0,FALSE,FALSE,FALSE,0,8,7,0,0,FALSE,6,0,FALSE,FALSE,"-","-","-",-1,-1,-1,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,FALSE,FALSE,FALSE,FALSE,0
-30,66,128,2,3,0,0,0,0,"Bidirectional","Goods",0,"Bidirectional","Goods",0,"Bidirectional","Goods",0,"Bidirectional","Goods",0,"Bidirectional","Goods",0,0,0,0,FALSE,-1,0,0,0,1,TRUE,FALSE,0,"Leptis Magna","UnitType","Warriors",0,"None","(none)",0,0,0,0,"Classical",5,"00000000000000000000010000000000000000000000000000000000000000000000",0,FALSE,FALSE,FALSE,0,6,5,0,0,FALSE,3,0,FALSE,FALSE,"-","-","-",-1,-1,-1,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,FALSE,FALSE,FALSE,FALSE,0
+c={"y","x","id","original","size","nspe0","nspe1","nspe2","food_stock","shield_stock","history","airlift","was_happy","turn_plague","anarchy","rapture","steal","turn_founded","did_buy","did_sell","turn_last_built","name","currently_building_kind","currently_building_name","current_want","changed_from_kind","changed_from_name","before_change_shields","caravan_shields","disbanded_shields","last_turns_shield_surplus","style","city_radius_sq","improvements","wl_length","option0","option1","option2","ai.urgency","ai.building_turn","ai.building_wait","ai.founder_turn","ai.founder_want","ai.founder_boat","citizen2","rally_point_length","rally_point_persistent","rally_point_vigilant","rally_point_orders","rally_point_dirs","rally_point_activities","rally_point_action_vec","rally_point_tgt_vec","rally_point_sub_tgt_vec","cma_enabled","cma_minimal_surplus","cma_minimal_surplus,1","cma_minimal_surplus,2","cma_minimal_surplus,3","cma_minimal_surplus,4","cma_minimal_surplus,5","cma_factor","cma_factor,1","cma_factor,2","cma_factor,3","cma_factor,4","cma_factor,5","max_growth","require_happy","allow_disorder","allow_specialists","happy_factor"
+33,67,129,2,6,1,0,4,0,0,0,0,FALSE,-1,0,0,0,1,TRUE,FALSE,0,"Carthago","UnitType","Warriors",0,"None","(none)",0,0,0,0,"Classical",5,"00000000000000000000000000000000000000000000000000000000000000000000",0,FALSE,FALSE,FALSE,0,8,7,0,0,FALSE,6,0,FALSE,FALSE,"-","-","-",-1,-1,-1,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,FALSE,FALSE,FALSE,FALSE,0
+30,66,128,2,3,0,0,0,0,0,0,0,FALSE,-1,0,0,0,1,TRUE,FALSE,0,"Leptis Magna","UnitType","Warriors",0,"None","(none)",0,0,0,0,"Classical",5,"00000000000000000000010000000000000000000000000000000000000000000000",0,FALSE,FALSE,FALSE,0,6,5,0,0,FALSE,3,0,FALSE,FALSE,"-","-","-",-1,-1,-1,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,FALSE,FALSE,FALSE,FALSE,0
 }
 nunits=23
 u={"id","x","y","facing","nationality","veteran","hp","homecity","type_by_name","activity","activity_count","activity_tgt","changed_from","changed_from_count","changed_from_tgt","done_moving","moves","fuel","born","battlegroup","go","goto_x","goto_y","server_side_agent","passenger","ferryboat","charge","bodyguard","ord_map","ord_city","moved","paradropped","transported_by","carrying","action_decision","action_decision_tile_x","action_decision_tile_y","stay","orders_length","orders_index","orders_repeat","orders_vigilant","orders_list","dir_list","activity_list","action_vec","tgt_vec","sub_tgt_vec"
@@ -3777,8 +3777,8 @@ adv.wonder_city=0
 ai.level="Easy"
 ai.barb_type="None"
 gold=50
-rates.tax=0
-rates.science=100
+rates.tax=40
+rates.science=60
 rates.luxury=0
 infrapts=0
 research.bulbs_last_turn=0
@@ -3797,9 +3797,9 @@ history=0
 hut_count=0
 border_vision=FALSE
 ncities=2
-c={"y","x","id","original","size","nspe0","nspe1","nspe2","traderoute0","route_direction0","route_good0","traderoute1","route_direction1","route_good1","traderoute2","route_direction2","route_good2","traderoute3","route_direction3","route_good3","traderoute4","route_direction4","route_good4","food_stock","shield_stock","history","airlift","was_happy","turn_plague","anarchy","rapture","steal","turn_founded","did_buy","did_sell","turn_last_built","name","currently_building_kind","currently_building_name","current_want","changed_from_kind","changed_from_name","before_change_shields","caravan_shields","disbanded_shields","last_turns_shield_surplus","style","city_radius_sq","improvements","wl_length","option0","option1","option2","ai.urgency","ai.building_turn","ai.building_wait","ai.founder_turn","ai.founder_want","ai.founder_boat","citizen3","rally_point_length","rally_point_persistent","rally_point_vigilant","rally_point_orders","rally_point_dirs","rally_point_activities","rally_point_action_vec","rally_point_tgt_vec","rally_point_sub_tgt_vec","cma_enabled","cma_minimal_surplus","cma_minimal_surplus,1","cma_minimal_surplus,2","cma_minimal_surplus,3","cma_minimal_surplus,4","cma_minimal_surplus,5","cma_factor","cma_factor,1","cma_factor,2","cma_factor,3","cma_factor,4","cma_factor,5","max_growth","require_happy","allow_disorder","allow_specialists","happy_factor"
-34,61,131,3,1,0,0,0,0,"Bidirectional","Goods",0,"Bidirectional","Goods",0,"Bidirectional","Goods",0,"Bidirectional","Goods",0,"Bidirectional","Goods",0,0,0,0,FALSE,-1,0,0,0,1,TRUE,FALSE,0,"Wahpekute","UnitType","Warriors",0,"None","(none)",0,0,0,0,"Industrial",5,"00000000000000000000000000000000000000000000000000000000000000000000",0,FALSE,FALSE,FALSE,0,6,5,0,0,FALSE,1,0,FALSE,FALSE,"-","-","-",-1,-1,-1,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,FALSE,FALSE,FALSE,FALSE,0
-32,56,130,3,7,2,0,3,0,"Bidirectional","Goods",0,"Bidirectional","Goods",0,"Bidirectional","Goods",0,"Bidirectional","Goods",0,"Bidirectional","Goods",0,0,0,0,FALSE,-1,0,0,0,1,TRUE,FALSE,0,"Mdewakanton","UnitType","Warriors",0,"None","(none)",0,0,0,0,"Industrial",5,"00000000000000000000010000000000000000000000000000000000000000000000",0,FALSE,FALSE,FALSE,0,9,8,0,0,FALSE,7,0,FALSE,FALSE,"-","-","-",-1,-1,-1,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,FALSE,FALSE,FALSE,FALSE,0
+c={"y","x","id","original","size","nspe0","nspe1","nspe2","food_stock","shield_stock","history","airlift","was_happy","turn_plague","anarchy","rapture","steal","turn_founded","did_buy","did_sell","turn_last_built","name","currently_building_kind","currently_building_name","current_want","changed_from_kind","changed_from_name","before_change_shields","caravan_shields","disbanded_shields","last_turns_shield_surplus","style","city_radius_sq","improvements","wl_length","option0","option1","option2","ai.urgency","ai.building_turn","ai.building_wait","ai.founder_turn","ai.founder_want","ai.founder_boat","citizen3","rally_point_length","rally_point_persistent","rally_point_vigilant","rally_point_orders","rally_point_dirs","rally_point_activities","rally_point_action_vec","rally_point_tgt_vec","rally_point_sub_tgt_vec","cma_enabled","cma_minimal_surplus","cma_minimal_surplus,1","cma_minimal_surplus,2","cma_minimal_surplus,3","cma_minimal_surplus,4","cma_minimal_surplus,5","cma_factor","cma_factor,1","cma_factor,2","cma_factor,3","cma_factor,4","cma_factor,5","max_growth","require_happy","allow_disorder","allow_specialists","happy_factor"
+34,61,131,3,1,0,0,0,0,0,0,0,FALSE,-1,0,0,0,1,TRUE,FALSE,0,"Wahpekute","UnitType","Warriors",0,"None","(none)",0,0,0,0,"Industrial",5,"00000000000000000000000000000000000000000000000000000000000000000000",0,FALSE,FALSE,FALSE,0,6,5,0,0,FALSE,1,0,FALSE,FALSE,"-","-","-",-1,-1,-1,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,FALSE,FALSE,FALSE,FALSE,0
+32,56,130,3,7,2,0,3,0,0,0,0,FALSE,-1,0,0,0,1,TRUE,FALSE,0,"Mdewakanton","UnitType","Warriors",0,"None","(none)",0,0,0,0,"Industrial",5,"00000000000000000000010000000000000000000000000000000000000000000000",0,FALSE,FALSE,FALSE,0,9,8,0,0,FALSE,7,0,FALSE,FALSE,"-","-","-",-1,-1,-1,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,FALSE,FALSE,FALSE,FALSE,0
 }
 nunits=19
 u={"id","x","y","facing","nationality","veteran","hp","homecity","type_by_name","activity","activity_count","activity_tgt","changed_from","changed_from_count","changed_from_tgt","done_moving","moves","fuel","born","battlegroup","go","goto_x","goto_y","server_side_agent","passenger","ferryboat","charge","bodyguard","ord_map","ord_city","moved","paradropped","transported_by","carrying","action_decision","action_decision_tile_x","action_decision_tile_y","stay","orders_length","orders_index","orders_repeat","orders_vigilant","orders_list","dir_list","activity_list","action_vec","tgt_vec","sub_tgt_vec"
@@ -4621,8 +4621,8 @@ adv.wonder_city=0
 ai.level="Easy"
 ai.barb_type="None"
 gold=50
-rates.tax=0
-rates.science=100
+rates.tax=40
+rates.science=60
 rates.luxury=0
 infrapts=0
 research.bulbs_last_turn=0
