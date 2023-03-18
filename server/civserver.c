@@ -29,11 +29,6 @@
 #include <signal.h>
 #endif
 
-#ifdef GENERATING_MAC  /* mac header(s) */
-#include <Controls.h>
-#include <Dialogs.h>
-#endif
-
 #ifdef FREECIV_MSWINDOWS
 #include <windows.h>
 #endif
@@ -60,13 +55,9 @@
 #include "srv_main.h"
 #include "srv_signal.h"
 
-#ifdef GENERATING_MAC
-static void Mac_options(int argc);  /* don't need argv */
-#endif
-
 /**********************************************************************//**
  Entry point for Freeciv server. Basically, does two things:
-  1. Parses command-line arguments (possibly dialog, on mac).
+  1. Parses command-line arguments
   2. Calls the main server-loop routine.
 **************************************************************************/
 int main(int argc, char *argv[])
@@ -89,20 +80,17 @@ int main(int argc, char *argv[])
 
   setup_interrupt_handlers();
 
-  /* initialize server */
+  /* Initialize server */
   srv_init();
 
-  /* parse command-line arguments... */
+  /* Parse command-line arguments... */
 
-#ifdef GENERATING_MAC
-  Mac_options(argc);
-#endif
   srvarg.announce = ANNOUNCE_DEFAULT;
 
   game.server.meta_info.type[0] = '\0';
 
-  /* no  we don't use GNU's getopt or even the "standard" getopt */
-  /* yes we do have reasons ;)                                   */
+  /* No, we don't use GNU's getopt or even the "standard" getopt */
+  /* Yes, we do have reasons ;)                                  */
   /* FIXME: and that are? */
   inx = 1;
   while (inx < argc) {
@@ -392,118 +380,3 @@ int main(int argc, char *argv[])
   /* done */
   exit(EXIT_SUCCESS);
 }
-
-#ifdef GENERATING_MAC
-/**********************************************************************//**
-  Generate an option dialog if no options have been passed in
-**************************************************************************/
-static void Mac_options(int argc)
-{
-#define HARDCODED_OPT
-  /*temporary hack since GetNewDialog() doesn't want to work*/
-#ifdef HARDCODED_OPT
-  srvarg.log_filename = "log.out";
-  srvarg.loglevel = LOG_DEBUG;
-#else  /* HARDCODED_OPT */
-  if (argc == 0) {
-    OSErr err;
-    DialogPtr  optptr;
-    Ptr storage;
-    Handle ditl;
-    Handle dlog;
-    short the_type;
-    Handle the_handle;
-    Rect the_rect;
-    short the_item, old_item = 16;
-    int done = false;
-    Str255 the_string;
-
-    /* load/init the stuff for the dialog */
-    storage = NewPtr(sizeof(DialogRecord));
-    if (storage == 0) {
-      exit(EXIT_FAILURE);
-    }
-    ditl = Get1Resource('DITL',200);
-    if ((ditl == 0) || (ResError())) {
-      exit(EXIT_FAILURE);
-    }
-    dlog = Get1Resource('DLOG',200);
-    if ((dlog == 0) || (ResError())) {
-      exit(EXIT_FAILURE);
-    }
-    /* make the dialog */
-    optptr = GetNewDialog(200, storage, (WindowPtr)-1L);
-    /* setup the dialog */
-    err = SetDialogDefaultItem(optptr, 1);
-    if (err != 0) {
-      exit(EXIT_FAILURE);
-    }
-    /* insert default highlight draw code? */
-    err = SetDialogCancelItem(optptr, 2);
-    if (err != 0) {
-      exit(EXIT_FAILURE);
-    }
-    err = SetDialogTracksCursor(optptr, true);
-    if (err != 0) {
-      exit(EXIT_FAILURE);
-    }
-    GetDItem(optptr, 16/*normal radio button*/, &the_type, &the_handle, &the_rect);
-    SetCtlValue((ControlHandle)the_handle, true);
-
-    while (!done) /* loop */
-    {
-      ModalDialog(0L, &the_item);/* don't feed 0 where a upp is expected? */
-      	/* old book suggests using OL(NIL) as the first argument, but
-           It doesn't include anything about UPPs either, so... */
-      switch (the_item) {
-        case 1:
-          done = true;
-        break;
-        case 2:
-          exit(EXIT_SUCCESS);
-        break;
-        case 13:
-          GetDItem(optptr, 13, &the_type, &the_handle, &the_rect);
-          srvarg.metaserver_no_send = GetCtlValue((ControlHandle)the_handle);
-          SetCtlValue((ControlHandle)the_handle, !srvarg.metaserver_no_send);
-        break;
-        case 15:
-        case 16:
-        case 17:
-          GetDItem(optptr, old_item, &the_type, &the_handle, &the_rect);
-          SetCtlValue((ControlHandle)the_handle, false);
-          old_item = the_item;
-          GetDItem(optptr, the_item, &the_type, &the_handle, &the_rect);
-          SetCtlValue((ControlHandle)the_handle, true);
-        break;
-      }
-    }
-    /* now, load the dialog items into the correct variables interpritation */
-    GetDItem( optptr, 4, &the_type, &the_handle, &the_rect);
-    GetIText( the_handle, (unsigned char *)srvarg.load_filename);
-    GetDItem( optptr, 8, &the_type, &the_handle, &the_rect);
-    GetIText( the_handle, (unsigned char *)srvarg.log_filename);
-    GetDItem( optptr, 12, &the_type, &the_handle, &the_rect);
-    GetIText( the_handle, the_string);
-    sscanf(the_string, "%d", srvarg.port);
-    GetDItem( optptr, 10, &the_type, &the_handle, &the_rect);
-    GetIText( the_handle, (unsigned char *)srvarg.script_filename);
-    GetDItem(optptr, 15, &the_type, &the_handle, &the_rect);
-    if (GetControlValue((ControlHandle)the_handle)) {
-      srvarg.loglevel = LOG_FATAL;
-    }
-    GetDItem(optptr, 16, &the_type, &the_handle, &the_rect);
-    if (GetControlValue((ControlHandle)the_handle)) {
-      srvarg.loglevel = LOG_NORMAL;
-    }
-    GetDItem(optptr, 17, &the_type, &the_handle, &the_rect);
-    if (GetControlValue((ControlHandle)the_handle)) {
-      srvarg.loglevel = LOG_VERBOSE;
-    }
-    DisposeDialog(optptr);/*get rid of the dialog after sorting out the options*/
-    DisposePtr(storage);/*clean up the allocated memory*/
-  }
-#endif /* HARDCODED_OPT */
-#undef  HARDCODED_OPT
-}
-#endif /* GENERATING_MAC */

@@ -93,14 +93,9 @@
 
 static struct connection connections[MAX_NUM_CONNECTIONS];
 
-#ifdef GENERATING_MAC      /* mac network globals */
-TEndpointInfo serv_info;
-EndpointRef serv_ep;
-#else
 static int *listen_socks;
 static int listen_count;
 static int socklan;
-#endif
 
 #if defined(__VMS)
 #  if defined(_VAX_)

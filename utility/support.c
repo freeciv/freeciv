@@ -52,9 +52,6 @@
 #include <string.h>
 #include <sys/stat.h>
 
-#ifdef GENERATING_MAC
-#include <events.h>             /* for WaitNextEvent() */
-#endif
 #ifdef HAVE_FCNTL_H
 #include <fcntl.h>
 #endif
@@ -658,17 +655,6 @@ void fc_usleep(unsigned long usec)
 #ifdef HAVE_SNOOZE              /* BeOS */
   snooze(usec);
 #else  /* HAVE_SNOOZE */
-#ifdef GENERATING_MAC
-  EventRecord the_event;        /* dummy - always be a null event */
-
-  usec /= 16666;                /* microseconds to 1/60th seconds */
-  if (usec < 1) {
-    usec = 1;
-  }
-
-  /* Supposed to give other application processor time for the mac */
-  WaitNextEvent(0, &the_event, usec, 0L);
-#else  /* GENERATING_MAC */
 #ifdef FREECIV_MSWINDOWS
   Sleep(usec / 1000);
 #else  /* FREECIV_MSWINDOWS */
@@ -680,7 +666,6 @@ void fc_usleep(unsigned long usec)
    * need to have another select call. */
   fc_select(0, NULL, NULL, NULL, &tv);
 #endif /* FREECIV_MSWINDOWS */
-#endif /* GENERATING_MAC */
 #endif /* HAVE_SNOOZE */
 #endif /* HAVE_USLEEP */
 #endif /* HAVE_NANOSLEEP */
