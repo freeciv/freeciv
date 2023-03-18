@@ -87,7 +87,7 @@ static int redraw_ibutton(struct widget *icon_button)
     return 1;
   }
 
-  /* create Button graphic */
+  /* Create Button graphic */
   button = create_bcgnd_surf(icon_button->theme, get_wstate(icon_button),
                              icon_button->size.w, icon_button->size.h);
 
@@ -115,12 +115,12 @@ static int redraw_ibutton(struct widget *icon_button)
         if (get_wflags(icon_button) & WF_ICON_UNDER_TEXT) {
           y = 3 + (icon_button->size.h - (icon->h + 3) - text->h) / 2;
           iy = y + text->h + 3;
-        } else { /* center */
+        } else { /* Center */
           iy = (icon_button->size.h - icon->h) / 2;
           y = (icon_button->size.h - text->h) / 2;
         }
       }
-    } else { /* no text */
+    } else { /* No text */
       iy = (icon_button->size.h - icon->h) / 2;
       ix = (icon_button->size.w - icon->w) / 2;
     }
@@ -154,24 +154,24 @@ static int redraw_ibutton(struct widget *icon_button)
               x = 5;
             }
           }
-          /* end WF_ICON_CENTER_RIGHT */
+          /* End WF_ICON_CENTER_RIGHT */
         } else {
           if (get_wflags(icon_button) & WF_ICON_CENTER) {
-            /* text is blit on icon */
+            /* Text is blit on icon */
             goto alone;
-            /* end WF_ICON_CENTER */
-          } else { /* icon center left - default */
+            /* End WF_ICON_CENTER */
+          } else { /* Icon center left - default */
             if (icon_button->string_utf8->style & SF_CENTER) {
               x = 5 + icon->w + ((icon_button->size.w -
                                   (icon->w + 5) - text->w) / 2);
             } else {
               if (icon_button->string_utf8->style & SF_CENTER_RIGHT) {
                 x = icon_button->size.w - text->w - 5;
-              } else { /* text center left */
+              } else { /* Text center left */
                 x = 5 + icon->w + 3;
               }
             }
-          } /* end icon center left - default */
+          } /* End icon center left - default */
         }
         /* 888888888888888888 */
       } else {
@@ -207,7 +207,7 @@ static int redraw_ibutton(struct widget *icon_button)
 
   FREESURFACE(text);
 
-  return 0;
+  return ret;
 }
 
 /**********************************************************************//**
