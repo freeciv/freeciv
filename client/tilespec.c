@@ -2473,19 +2473,24 @@ static struct sprite *load_sprite(struct tileset *t, const char *tag_name,
   if (!ss->sprite) {
     /* If the sprite hasn't been loaded already, then load it. */
     fc_assert(ss->ref_count == 0);
+
     if (ss->file) {
       int w, h;
       struct sprite *s;
 
       if (scale) {
         s = load_gfx_file(ss->file);
-        get_sprite_dimensions(s, &w, &h);
-        ss->sprite = crop_sprite(s, 0, 0, w,
-                                 h, NULL, -1, -1, t->scale, smooth);
-        free_sprite(s);
+
+        if (s != NULL) {
+          get_sprite_dimensions(s, &w, &h);
+          ss->sprite = crop_sprite(s, 0, 0, w,
+                                   h, NULL, -1, -1, t->scale, smooth);
+          free_sprite(s);
+        }
       } else {
         ss->sprite = load_gfx_file(ss->file);
       }
+
       if (!ss->sprite) {
         tileset_error(LOG_FATAL, _("Couldn't load gfx file \"%s\" for sprite '%s'."),
                       ss->file, tag_name);
