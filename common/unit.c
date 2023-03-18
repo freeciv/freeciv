@@ -41,8 +41,6 @@
 
 #include "unit.h"
 
-Activity_type_id real_activities[ACTIVITY_LAST];
-
 const Activity_type_id tile_changing_activities[] =
     { ACTIVITY_PILLAGE, ACTIVITY_GEN_ROAD, ACTIVITY_IRRIGATE, ACTIVITY_MINE,
       ACTIVITY_BASE, ACTIVITY_CULTIVATE, ACTIVITY_PLANT, ACTIVITY_TRANSFORM,
@@ -602,31 +600,6 @@ bool activity_requires_target(enum unit_activity activity)
 bool can_unit_do_autosettlers(const struct unit *punit) 
 {
   return unit_type_get(punit)->adv.worker;
-}
-
-/**********************************************************************//**
-  Setup array of real activities
-**************************************************************************/
-void setup_real_activities_array(void)
-{
-  Activity_type_id act;
-  int i = 0;
-
-  for (act = 0; act < ACTIVITY_LAST; act++) {
-    if (is_real_activity(act)) {
-      real_activities[i++] = act;
-    }
-  }
-
-  real_activities[i] = ACTIVITY_LAST;
-}
-
-/**********************************************************************//**
-  Return if given activity really is in game.
-**************************************************************************/
-bool is_real_activity(enum unit_activity activity)
-{
-  return (activity < ACTIVITY_LAST);
 }
 
 /**********************************************************************//**

@@ -267,12 +267,6 @@ struct unit {
 #define CHECK_UNIT(punit) /* Do nothing */
 #endif /* FREECIV_DEBUG */
 
-void setup_real_activities_array(void);
-
-bool is_real_activity(enum unit_activity activity);
-
-extern Activity_type_id real_activities[ACTIVITY_LAST];
-
 #define activity_type_list_iterate(_act_list_, _act_)                        \
 {                                                                            \
   int _act_i_;                                                               \
@@ -286,10 +280,11 @@ extern Activity_type_id real_activities[ACTIVITY_LAST];
 /* Iterates over the types of unit activity. */
 #define activity_type_iterate(_act_)					    \
 {									    \
-  activity_type_list_iterate(real_activities, _act_)
+  Activity_type_id _act_;                                                   \
+  for (_act_ = 0; _act_ != ACTIVITY_LAST; _act_++) {                        \
 
 #define activity_type_iterate_end                                           \
-  activity_type_list_iterate_end                                            \
+  }                                                                         \
 }
 
 extern const Activity_type_id tile_changing_activities[];
