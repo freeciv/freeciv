@@ -501,6 +501,17 @@ int api_methods_player_gold(lua_State *L, Player *pplayer)
 }
 
 /**********************************************************************//**
+  Return amount of infrapoints Player has
+**************************************************************************/
+int api_methods_player_infrapoints(lua_State *L, Player *pplayer)
+{
+  LUASCRIPT_CHECK_STATE(L, 0);
+  LUASCRIPT_CHECK_SELF(L, pplayer, 0);
+
+  return pplayer->economic.infra_points;
+}
+
+/**********************************************************************//**
   Return TRUE if Player knows advance ptech.
 **************************************************************************/
 bool api_methods_player_knows_tech(lua_State *L, Player *pplayer,

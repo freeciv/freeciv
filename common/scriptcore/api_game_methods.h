@@ -85,6 +85,7 @@ int api_methods_player_number(lua_State *L, Player *pplayer);
 int api_methods_player_num_cities(lua_State *L, Player *pplayer);
 int api_methods_player_num_units(lua_State *L, Player *pplayer);
 int api_methods_player_gold(lua_State *L, Player *pplayer);
+int api_methods_player_infrapoints(lua_State *L, Player *pplayer);
 bool api_methods_player_knows_tech(lua_State *L, Player *pplayer,
                                    Tech_Type *ptech);
 bool api_method_player_can_research(lua_State *L, Player *pplayer,
