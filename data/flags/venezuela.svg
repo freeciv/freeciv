@@ -1,19 +1,95 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<svg width="900" height="600" viewBox="0 0 90 60"
-     xmlns="http://www.w3.org/2000/svg"
-     xmlns:xlink="http://www.w3.org/1999/xlink">
-	<defs>
-		<path id="star" fill="white" stroke="none" d="M 43.236654,26.427041 L 45,21 L 46.763366,26.427041 L 42.14684,23.072939 L 47.85318,23.072939 L 43.236654,26.427041 z" />
-	</defs>
-	<rect width="90" height="21" x="0" y="0" fill="#F7D117" />
-	<rect width="90" height="21" x="0" y="20" fill="#0033AB" />
-	<rect width="90" height="20" x="0" y="40" fill="#CF142B" />
-	<use xlink:href="#star" transform="matrix(0.984808,-0.173648,0.173648,0.984808,-6.609569,8.452255)" />
-	<use xlink:href="#star" transform="matrix(0.984808,0.173648,-0.173648,0.984808,7.976872,-7.176096)" />
-	<use xlink:href="#star" transform="matrix(0.866026,-0.5,0.5,0.866026,-14.97115,28.12697)" />
-	<use xlink:href="#star" transform="matrix(0.866026,0.5,-0.5,0.866026,27.02887,-16.8731)" />
-	<use xlink:href="#star" transform="matrix(0.642789,-0.766045,0.766045,0.642789,-16.09932,49.475)" />
-	<use xlink:href="#star" transform="matrix(0.642789,0.766045,-0.766045,0.642789,48.24848,-19.46914)" />
-	<use xlink:href="#star" transform="matrix(0.342022,-0.939694,0.939694,0.342022,-9.858029,69.92147)" />
-	<use xlink:href="#star" transform="matrix(0.342022,0.939694,-0.939694,0.342022,69.0763,-14.65111)" />
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="900"
+   height="600"
+   viewBox="0 0 90 60"
+   version="1.1"
+   id="svg27"
+   sodipodi:docname="venezuela.svg"
+   inkscape:version="1.2.2 (b0a8486541, 2022-12-01)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview29"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     showgrid="false"
+     inkscape:zoom="0.78666667"
+     inkscape:cx="437.92373"
+     inkscape:cy="294.27966"
+     inkscape:window-width="887"
+     inkscape:window-height="662"
+     inkscape:window-x="499"
+     inkscape:window-y="124"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg27" />
+  <defs
+     id="defs3">
+    <path
+       id="star"
+       fill="white"
+       stroke="none"
+       d="M 43.236654,26.427041 L 45,21 L 46.763366,26.427041 L 42.14684,23.072939 L 47.85318,23.072939 L 43.236654,26.427041 z" />
+  </defs>
+  <rect
+     width="90"
+     height="21"
+     x="0"
+     y="0"
+     fill="#F7D117"
+     id="rect5" />
+  <rect
+     width="90"
+     height="21"
+     x="0"
+     y="20"
+     fill="#0033AB"
+     id="rect7" />
+  <rect
+     width="90"
+     height="20"
+     x="0"
+     y="40"
+     fill="#CF142B"
+     id="rect9" />
+  <use
+     xlink:href="#star"
+     transform="matrix(0.984808,-0.173648,0.173648,0.984808,-6.609569,8.452255)"
+     id="use11" />
+  <use
+     xlink:href="#star"
+     transform="matrix(0.984808,0.173648,-0.173648,0.984808,7.976872,-7.176096)"
+     id="use13" />
+  <use
+     xlink:href="#star"
+     transform="matrix(0.866026,-0.5,0.5,0.866026,-14.97115,28.12697)"
+     id="use15" />
+  <use
+     xlink:href="#star"
+     transform="matrix(0.866026,0.5,-0.5,0.866026,27.02887,-16.8731)"
+     id="use17" />
+  <use
+     xlink:href="#star"
+     transform="matrix(0.642789,-0.766045,0.766045,0.642789,-16.09932,49.475)"
+     id="use19" />
+  <use
+     xlink:href="#star"
+     transform="matrix(0.642789,0.766045,-0.766045,0.642789,48.24848,-19.46914)"
+     id="use21" />
+  <use
+     xlink:href="#star"
+     transform="matrix(0.342022,-0.939694,0.939694,0.342022,-9.858029,69.92147)"
+     id="use23" />
+  <use
+     xlink:href="#star"
+     transform="matrix(0.342022,0.939694,-0.939694,0.342022,69.0763,-14.65111)"
+     id="use25" />
 </svg>
