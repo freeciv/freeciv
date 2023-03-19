@@ -32,6 +32,7 @@
 
 // client
 #include "client_main.h"
+#include "svgflag.h"
 
 // gui-qt
 #include "colors.h"
@@ -47,6 +48,8 @@ extern "C" {
 
 typedef advance *p_advance;
 typedef city *p_city;
+
+#define FLAG_HEIGHT_DIPLDLG 150
 
 /************************************************************************//**
   Constructor for diplomacy widget
@@ -67,7 +70,6 @@ diplo_wdg::diplo_wdg(struct Treaty *ptreaty,
   QLabel *label4;
   QPushButton *add_clause1;
   QPushButton *add_clause2;
-  QPixmap *pix = NULL;
   QPalette palette;
   struct sprite *sprite, *sprite2;
   char plr_buf[4 * MAX_LEN_NAME];
@@ -78,6 +80,7 @@ diplo_wdg::diplo_wdg(struct Treaty *ptreaty,
     get_color(tileset, COLOR_MAPVIEW_CITYTEXT_DARK)
   };
   int clause_column;
+  bool svg = is_svg_flag_enabled();
 
   if (they == initiator) {
     we = client_player();
@@ -132,8 +135,11 @@ diplo_wdg::diplo_wdg(struct Treaty *ptreaty,
   sprite = get_nation_flag_sprite(tileset,
                                   nation_of_player(we));
   if (sprite != NULL) {
-    pix = sprite->pm;
-    plr1_label->setPixmap(*pix);
+    if (svg) {
+      plr1_label->setPixmap(sprite->pm->scaledToHeight(FLAG_HEIGHT_DIPLDLG));
+    } else  {
+      plr1_label->setPixmap(*sprite->pm);
+    }
   } else {
     plr1_label->setText("FLAG MISSING");
   }
@@ -149,8 +155,11 @@ diplo_wdg::diplo_wdg(struct Treaty *ptreaty,
                                    nation_of_player(they));
   plr2_label = new QLabel;
   if (sprite2 != NULL) {
-    pix = sprite2->pm;
-    plr2_label->setPixmap(*pix);
+    if (svg) {
+      plr2_label->setPixmap(sprite2->pm->scaledToHeight(FLAG_HEIGHT_DIPLDLG));
+    } else {
+      plr2_label->setPixmap(*sprite2->pm);
+    }
   } else {
     plr2_label->setText("FLAG MISSING");
   }
