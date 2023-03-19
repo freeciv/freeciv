@@ -6,13 +6,13 @@
 # David <david.gaya@terra.es>, 2003.
 # Joan Creus <joan.creusandreu at gmail dot com>, 2007, 2008, 2009, 2010, 2011.
 # David <david.gaya@gmail.com>, 2007.
-# Joan Creus <joan.creusandreu at gmail dot com>, 2011, 2012, 2013, 2014, 2016, 2017.
+# Joan Creus <joan.creusandreu at gmail dot com>, 2011, 2012, 2013, 2014, 2016, 2017, 2021, 2022, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: ca\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2023-02-23 04:18+0200\n"
-"PO-Revision-Date: 2017-08-28 19:23+0100\n"
+"POT-Creation-Date: 2023-03-19 00:43+0100\n"
+"PO-Revision-Date: 2023-03-19 00:49+0100\n"
 "Last-Translator: Joan Creus <joan.creusandreu at gmail dot com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n>1;\n"
-"X-Generator: Lokalize 2.0\n"
+"X-Generator: Lokalize 21.12.3\n"
 
 #: tools/ruledit/conversion_log.cpp:41 tools/ruledit/effect_edit.cpp:127
 #: tools/ruledit/req_vec_fix.cpp:190 tools/ruledit/requirers_dlg.cpp:43
@@ -29,54 +29,50 @@ msgid "Close"
 msgstr "Tancar"
 
 #: tools/ruledit/edit_impr.cpp:51 tools/ruledit/edit_utype.cpp:66
-#, fuzzy
-#| msgid "Buildings"
 msgid "Build Cost"
-msgstr "Edificis"
+msgstr "Cost de Construcció"
 
 #: tools/ruledit/edit_impr.cpp:62
 msgid "Upkeep"
-msgstr ""
+msgstr "Manteniment"
 
 #: tools/ruledit/edit_impr.cpp:72
 msgid "Genus"
-msgstr ""
+msgstr "Genus"
 
 #: tools/ruledit/edit_impr.cpp:90 tools/ruledit/edit_terrain.cpp:69
 #: tools/ruledit/edit_utype.cpp:107
 msgid "Graphics tag"
-msgstr ""
+msgstr "Etiqueta de gràfics"
 
 #: tools/ruledit/edit_impr.cpp:99 tools/ruledit/edit_terrain.cpp:78
 #: tools/ruledit/edit_utype.cpp:116
 msgid "Alt graphics tag"
-msgstr ""
+msgstr "Etiqueta de gràfics alternatius"
 
 #: tools/ruledit/edit_terrain.cpp:49
 msgid "Move Cost"
-msgstr ""
+msgstr "Cost de Moviment"
 
 #: tools/ruledit/edit_terrain.cpp:59
 msgid "Defense Bonus %"
-msgstr ""
+msgstr "Bonificació Defensiva en %"
 
 #: tools/ruledit/edit_utype.cpp:51
-#, fuzzy
-#| msgid "Requirements"
 msgid "Requirement"
-msgstr "Requeriments"
+msgstr "Requeriment"
 
 #: tools/ruledit/edit_utype.cpp:77
 msgid "Attack Strength"
-msgstr ""
+msgstr "Força d'Atac"
 
 #: tools/ruledit/edit_utype.cpp:87
 msgid "Defense Strength"
-msgstr ""
+msgstr "Força Defensiva"
 
 #: tools/ruledit/edit_utype.cpp:97
 msgid "Move Rate"
-msgstr ""
+msgstr "Taxa de Moviment"
 
 #: tools/ruledit/effect_edit.cpp:77 tools/ruledit/req_edit.cpp:66
 msgid "Type:"
@@ -93,57 +89,50 @@ msgid "Requirements"
 msgstr "Requeriments"
 
 #: tools/ruledit/effect_edit.cpp:119
-#, fuzzy
-#| msgid "Effects"
 msgid "Add Effect"
-msgstr "Efectes"
+msgstr "Afegir Efecte"
 
 #: tools/ruledit/effect_edit.cpp:123
-#, fuzzy
-#| msgid "Effects"
 msgid "Delete Effect"
-msgstr "Efectes"
+msgstr "Esborrar Efecte"
 
 #: tools/ruledit/effect_edit.cpp:200
-#, fuzzy, c-format
-#| msgid "Effects"
+#, c-format
 msgid "Effect #%d: %s"
-msgstr "Efectes"
+msgstr "Efecte #%d: %s"
 
 #: tools/ruledit/effect_edit.cpp:303
 #, c-format
 msgid "%s effect #%d"
-msgstr ""
+msgstr "%s efecte #%d"
 
 #. TRANS: Trying to fix a requirement vector problem but can't find
 #. * any.
 #: tools/ruledit/req_vec_fix.cpp:79
 msgid "No problem found"
-msgstr ""
+msgstr "No s'ha trobat cap problema"
 
 #. TRANS: Trying to fix a requirement vector problem but
 #. * don't know how to solve it.
 #: tools/ruledit/req_vec_fix.cpp:92
 #, c-format
 msgid "Don't know how to fix %s: %s"
-msgstr ""
+msgstr "No sabem com arreglar %s: %s"
 
 #. TRANS: Apply the selected requirement vector problem fix.
 #: tools/ruledit/req_vec_fix.cpp:120
 msgid "Accept selected solution"
-msgstr ""
+msgstr "Acceptar solució seleccionada"
 
 #: tools/ruledit/req_vec_fix.cpp:158
-#, fuzzy
-#| msgid "Requirements"
 msgid "Requirement problem"
-msgstr "Requeriments"
+msgstr "Problema de requeriments"
 
 #. TRANS: Button text in the requirement vector fixer dialog. Cancels all
 #. * changes done since the last time all accepted changes were done.
 #: tools/ruledit/req_vec_fix.cpp:168
 msgid "Undo all"
-msgstr ""
+msgstr "Desfer-ho tot"
 
 #. TRANS: Tool tip text in the requirement vector fixer dialog. Cancels
 #. * all changes done since the last time all accepted changes were done.
@@ -152,12 +141,14 @@ msgid ""
 "Undo all accepted solutions since you started or since last time you ordered "
 "all accepted changes done."
 msgstr ""
+"Desfer totes les solucions acceptades des de l'inici o des de l'última "
+"vegada que hagis donat l'ordre de fer tots els canvis acceptats."
 
 #. TRANS: Perform all the changes to the ruleset item the user has
 #. * accepted. Button text in the requirement vector fixer dialog.
 #: tools/ruledit/req_vec_fix.cpp:179
 msgid "Do accepted changes"
-msgstr ""
+msgstr "Fer canvis acceptats"
 
 #. TRANS: Perform all the changes to the ruleset item the user has
 #. * accepted. Tool tip text in the requirement vector fixer dialog.
@@ -166,15 +157,18 @@ msgid ""
 "Perform all the changes you have accepted to the ruleset item. You can then "
 "fix the current issue by hand and come back here to find the next issue."
 msgstr ""
+"Executar tots els canvis que has acceptat a l'objecte del joc de regles. "
+"Llavors pots solucionar el problema actual a mà i tornar aquí per trobar el "
+"proper problema."
 
 #: tools/ruledit/req_vec_fix.cpp:278
 msgid "Unable to apply solution"
-msgstr ""
+msgstr "No es pot aplicar la solució"
 
 #. TRANS: requirement vector fix failed to apply
 #: tools/ruledit/req_vec_fix.cpp:282
 msgid "Failed to apply solution %1 for %2 to %3."
-msgstr ""
+msgstr "No s'ha pogut aplicar la solució %1 per a %2 a %3"
 
 #: tools/ruledit/requirers_dlg.cpp:57
 #, c-format
@@ -191,10 +185,9 @@ msgstr "El necessita %s"
 #. TRANS: 'Failed to load comments-x.y.txt' where x.y is
 #. * freeciv version
 #: tools/ruledit/ruledit.cpp:123
-#, fuzzy, c-format
-#| msgid "Failed to load comments.txt"
+#, c-format
 msgid "Failed to load %s."
-msgstr "No s'ha pogut carregar comments.txt"
+msgstr "No s'ha pogut carregar %s."
 
 #: tools/ruledit/ruledit.cpp:158
 msgid "Print a summary of the options"
@@ -216,11 +209,11 @@ msgstr "Joc de regles a utilitzar com a punt de partida."
 #. TRANS: "Fatal" is exactly what user must type, do not translate.
 #: tools/ruledit/ruledit.cpp:168
 msgid "Fatal [SIGNAL]"
-msgstr ""
+msgstr "Fatal [SENYAL]"
 
 #: tools/ruledit/ruledit.cpp:169
 msgid "Raise a signal on failed assertion"
-msgstr ""
+msgstr "Aixecar un senyal si falla una afirmació"
 
 #: tools/ruledit/ruledit.cpp:183
 msgid "Can only edit one ruleset at a time.\n"
@@ -229,11 +222,11 @@ msgstr "Només es pot editar un joc de regles alhora.\n"
 #: tools/ruledit/ruledit.cpp:194
 #, c-format
 msgid "Invalid signal number \"%s\".\n"
-msgstr ""
+msgstr "Número de senyal no vàlid \"%s\".\n"
 
 #: tools/ruledit/ruledit.cpp:196
 msgid "Try using --help.\n"
-msgstr ""
+msgstr "Provar d'utilitzar --help.\n"
 
 #: tools/ruledit/ruledit.cpp:203
 #, c-format
@@ -242,24 +235,22 @@ msgstr "Opció no reconeguda: \"%s\"\n"
 
 #: tools/ruledit/ruledit_qt.cpp:125
 msgid "built in Qt6 mode."
-msgstr ""
+msgstr "muntat en mode Qt6."
 
 #: tools/ruledit/ruledit_qt.cpp:127
 msgid "built in Qt5 mode."
-msgstr ""
+msgstr "muntat en mode Qt5."
 
 #: tools/ruledit/ruledit_qt.cpp:134
-#, fuzzy, c-format
-#| msgid ""
-#| "%s%s\n"
-#| "commit: %s"
+#, c-format
 msgid ""
 "%s%s\n"
 "commit: %s\n"
 "%s"
 msgstr ""
 "%s%s\n"
-"validar: %s"
+"validar: %s\n"
+"%s"
 
 #: tools/ruledit/ruledit_qt.cpp:149
 msgid "Give ruleset to use as starting point."
@@ -295,7 +286,7 @@ msgstr "Governs"
 
 #: tools/ruledit/ruledit_qt.cpp:180
 msgid "Enablers"
-msgstr ""
+msgstr "Facilitadors"
 
 #: tools/ruledit/ruledit_qt.cpp:182
 msgid "Extras"
@@ -307,7 +298,7 @@ msgstr "Terrenys"
 
 #: tools/ruledit/ruledit_qt.cpp:186
 msgid "Multipliers"
-msgstr ""
+msgstr "Multiplicadors"
 
 #: tools/ruledit/ruledit_qt.cpp:188
 msgid "Nations"
@@ -319,7 +310,7 @@ msgstr "Benvingut a freeciv-ruledit"
 
 #: tools/ruledit/ruledit_qt.cpp:244
 msgid "Old ruleset to a new format"
-msgstr ""
+msgstr "Joc de regles antic a format nou"
 
 #: tools/ruledit/ruledit_qt.cpp:247
 msgid "Ruleset loaded"
@@ -366,7 +357,7 @@ msgstr "Nom de Regla"
 #: tools/ruledit/tab_unit.cpp:69 tools/ruledit/tab_unit.cpp:79
 #: tools/ruledit/tab_unit.cpp:148 tools/ruledit/tab_unit.cpp:149
 msgid "None"
-msgstr ""
+msgstr "Cap"
 
 #: tools/ruledit/tab_building.cpp:75 tools/ruledit/tab_extras.cpp:73
 #: tools/ruledit/tab_good.cpp:74 tools/ruledit/tab_gov.cpp:73
@@ -378,7 +369,7 @@ msgstr "Nom"
 #: tools/ruledit/tab_building.cpp:86 tools/ruledit/tab_terrains.cpp:87
 #: tools/ruledit/tab_unit.cpp:85
 msgid "Edit Values"
-msgstr ""
+msgstr "Valors d'Edició"
 
 #: tools/ruledit/tab_building.cpp:94 tools/ruledit/tab_extras.cpp:88
 #: tools/ruledit/tab_good.cpp:89 tools/ruledit/tab_gov.cpp:88
@@ -400,85 +391,64 @@ msgid "A building with that rule name already exists!"
 msgstr "Ja existeix un edifici amb aquest nom de regla!"
 
 #: tools/ruledit/tab_enablers.cpp:113
-#, fuzzy
-#| msgid "Type:"
 msgid "Type"
-msgstr "Tipus:"
+msgstr "Tipus"
 
 #: tools/ruledit/tab_enablers.cpp:137
-#, fuzzy
-#| msgid "Requirements"
 msgid "Actor Requirements"
-msgstr "Requeriments"
+msgstr "Requeriments d'Actor"
 
 #: tools/ruledit/tab_enablers.cpp:144
-#, fuzzy
-#| msgid "Requirements"
 msgid "Target Requirements"
-msgstr "Requeriments"
+msgstr "Requeriments d'Objectiu"
 
 #: tools/ruledit/tab_enablers.cpp:151
-#, fuzzy
-#| msgid "Action Enabler"
 msgid "Add Enabler"
-msgstr "Habilitador d'Accions"
+msgstr "Afegir Facilitador"
 
 #: tools/ruledit/tab_enablers.cpp:156
-#, fuzzy
-#| msgid "Remove this tech"
 msgid "Remove this Enabler"
-msgstr "Treure aquesta tecnologia"
+msgstr "Treure aquest Facilitador"
 
 #: tools/ruledit/tab_enablers.cpp:165 tools/ruledit/tab_enablers.cpp:236
 #: tools/ruledit/tab_enablers.cpp:248
 msgid "Enabler Issues"
-msgstr ""
+msgstr "Problemes de Facilitador"
 
 #. TRANS: Fix an error in an action enabler.
 #: tools/ruledit/tab_enablers.cpp:227
-#, fuzzy
-#| msgid "Action Enabler"
 msgid "Repair Enabler"
-msgstr "Habilitador d'Accions"
+msgstr "Reparar Facilitador"
 
 #. TRANS: Fix a non error issue in an action enabler.
 #: tools/ruledit/tab_enablers.cpp:232
-#, fuzzy
-#| msgid "Action Enabler"
 msgid "Improve Enabler"
-msgstr "Habilitador d'Accions"
+msgstr "Millorar Facilitador"
 
 #: tools/ruledit/tab_enablers.cpp:389
 msgid "Enabler (target)"
-msgstr ""
+msgstr "Facilitador (objectiu)"
 
 #: tools/ruledit/tab_enablers.cpp:400
 msgid "Enabler (actor)"
-msgstr ""
+msgstr "Facilitador (actor)"
 
 #: tools/ruledit/tab_enablers.cpp:419
-#, fuzzy, c-format
-#| msgid "Action Enabler"
+#, c-format
 msgid "action enabler for %s"
-msgstr "Habilitador d'Accions"
+msgstr "facilitador d'accions per a %s"
 
 #: tools/ruledit/tab_extras.cpp:92
-#, fuzzy
-#| msgid "Extras"
 msgid "Add Extra"
-msgstr "Extres"
+msgstr "Afegir Extra"
 
 #: tools/ruledit/tab_extras.cpp:97
-#, fuzzy
-#| msgid "Remove this tech"
 msgid "Remove this Extra"
-msgstr "Treure aquesta tecnologia"
+msgstr "Treure aquest Extra"
 
 #: tools/ruledit/tab_extras.cpp:183
-#, fuzzy
-#| msgid "A tech with that rule name already exists!"
 msgid "An extra with that rule name already exists!"
-msgstr "Ja existeix una tecnologia amb aquest nom de regla!"
+msgstr "Ja existeix una extra amb aquest nom de regla!"
 
 #: tools/ruledit/tab_good.cpp:93
 msgid "Add Good"
@@ -493,22 +463,16 @@ msgid "A good with that rule name already exists!"
 msgstr "Ja existeix un bé amb aquest nom de regla!"
 
 #: tools/ruledit/tab_gov.cpp:92
-#, fuzzy
-#| msgid "Governments"
 msgid "Add Government"
-msgstr "Governs"
+msgstr "Afegir Govern"
 
 #: tools/ruledit/tab_gov.cpp:97
-#, fuzzy
-#| msgid "Remove this Good"
 msgid "Remove this Government"
-msgstr "Treure aquest Bé"
+msgstr "Treure aquest Govern"
 
 #: tools/ruledit/tab_gov.cpp:183
-#, fuzzy
-#| msgid "A good with that rule name already exists!"
 msgid "A government with that rule name already exists!"
-msgstr "Ja existeix un bé amb aquest nom de regla!"
+msgstr "Ja existeix un govern amb aquest nom de regla!"
 
 #: tools/ruledit/tab_misc.cpp:73
 msgid "Ruleset name"
@@ -529,10 +493,14 @@ msgid ""
 "a subdirectory under %s%s%s\n"
 "Use server command \"/rulesetdir <subdirectory>\" to load it to freeciv."
 msgstr ""
+"Si vols poder carregar el joc de regles directament a freeciv, posa'l com a "
+"subdirectori a sota de %s%s%s\n"
+"Utilitza la comanda del servidor \"/rulesetdir <subdirectori>\" per carregar-"
+"lo a freeciv."
 
 #: tools/ruledit/tab_misc.cpp:114
 msgid "Version suffix to directory name"
-msgstr ""
+msgstr "Sufix de versió al nom de directori"
 
 #: tools/ruledit/tab_misc.cpp:119
 msgid "Save now"
@@ -540,25 +508,23 @@ msgstr "Desar ara"
 
 #: tools/ruledit/tab_misc.cpp:123
 msgid "Description from file"
-msgstr ""
+msgstr "Descripció des de fitxer"
 
 #: tools/ruledit/tab_misc.cpp:130
 msgid "Description file"
-msgstr ""
+msgstr "Fitxer de descripció"
 
 #: tools/ruledit/tab_misc.cpp:136
 msgid "Sanity check rules"
-msgstr ""
+msgstr "Regles de comprovació de coherència"
 
 #: tools/ruledit/tab_misc.cpp:140
 msgid "Always active Effects"
 msgstr "Efectes sempre actius"
 
 #: tools/ruledit/tab_misc.cpp:143
-#, fuzzy
-#| msgid "Effects"
 msgid "All Effects"
-msgstr "Efectes"
+msgstr "Tots els Efectes"
 
 #: tools/ruledit/tab_misc.cpp:150
 msgid "?stat:Terrains"
@@ -585,10 +551,8 @@ msgid "?stat:Unit Types"
 msgstr "Tipus d'Unitats"
 
 #: tools/ruledit/tab_misc.cpp:174
-#, fuzzy
-#| msgid "?stat:Bases"
 msgid "?stat:Enablers"
-msgstr "Bases"
+msgstr "Facilitadors"
 
 #: tools/ruledit/tab_misc.cpp:178
 msgid "?stat:Buildings"
@@ -635,10 +599,8 @@ msgid "?stat:Goods"
 msgstr "Béns"
 
 #: tools/ruledit/tab_misc.cpp:222
-#, fuzzy
-#| msgid "?stat:Styles"
 msgid "?stat:Multipliers"
-msgstr "Estils"
+msgstr "Multiplicadors"
 
 #: tools/ruledit/tab_misc.cpp:230
 msgid "Refresh Stats"
@@ -654,39 +616,31 @@ msgstr "Sempre actiu"
 
 #: tools/ruledit/tab_misc.cpp:461
 msgid "Sanity Check"
-msgstr ""
+msgstr "Comprovació de coherència"
 
 #: tools/ruledit/tab_misc.cpp:468
 msgid "Sanity check failed!"
-msgstr ""
+msgstr "La comprovació de coherència ha fallat!"
 
 #: tools/ruledit/tab_misc.cpp:470
 msgid "Sanity check success"
-msgstr ""
+msgstr "La comprovació de coherència ha tingut èxit"
 
 #: tools/ruledit/tab_misc.cpp:479
-#, fuzzy
-#| msgid "Effects"
 msgid "All effects"
-msgstr "Efectes"
+msgstr "Tots els efectes"
 
 #: tools/ruledit/tab_multiplier.cpp:88
-#, fuzzy
-#| msgid "Add Building"
 msgid "Add Multiplier"
-msgstr "Afegir Edifici"
+msgstr "Afegir Multiplicador"
 
 #: tools/ruledit/tab_multiplier.cpp:93
-#, fuzzy
-#| msgid "Remove this Building"
 msgid "Remove this Multiplier"
-msgstr "Treure aquest Edifici"
+msgstr "Treure aquest Multiplicador"
 
 #: tools/ruledit/tab_multiplier.cpp:179
-#, fuzzy
-#| msgid "A building with that rule name already exists!"
 msgid "A multiplier with that rule name already exists!"
-msgstr "Ja existeix un edifici amb aquest nom de regla!"
+msgstr "Ja existeix un multiplicador amb aquest nom de regla!"
 
 #: tools/ruledit/tab_nation.cpp:50
 msgid "Use nationlist"
@@ -725,22 +679,16 @@ msgid "A tech with that rule name already exists!"
 msgstr "Ja existeix una tecnologia amb aquest nom de regla!"
 
 #: tools/ruledit/tab_terrains.cpp:95
-#, fuzzy
-#| msgid "Terrains"
 msgid "Add Terrain"
-msgstr "Terrenys"
+msgstr "Afegir Terreny"
 
 #: tools/ruledit/tab_terrains.cpp:100
-#, fuzzy
-#| msgid "Remove this tech"
 msgid "Remove this Terrain"
-msgstr "Treure aquesta tecnologia"
+msgstr "Treure aquest Terreny"
 
 #: tools/ruledit/tab_terrains.cpp:186
-#, fuzzy
-#| msgid "A tech with that rule name already exists!"
 msgid "A terrain with that rule name already exists!"
-msgstr "Ja existeix una tecnologia amb aquest nom de regla!"
+msgstr "Ja existeix un terreny amb aquest nom de regla!"
 
 #: tools/ruledit/tab_unit.cpp:93
 msgid "Add Unit"
@@ -760,14 +708,12 @@ msgstr "Rang:"
 
 #: tools/ruledit/req_edit.cpp:121 tools/ruledit/req_edit.cpp:311
 msgid "Allows"
-msgstr ""
+msgstr "Permet"
 
 #: tools/ruledit/req_edit.cpp:122 tools/ruledit/req_edit.cpp:313
 #: tools/ruledit/req_edit.cpp:361
-#, fuzzy
-#| msgid "Requirements"
 msgid "Prevents"
-msgstr "Requeriments"
+msgstr "Evita"
 
 #: tools/ruledit/req_edit.cpp:127
 msgid "Add Requirement"
@@ -780,17 +726,16 @@ msgstr "Esborrar Requeriment"
 #: tools/ruledit/req_edit.cpp:162
 #, c-format
 msgid "%s prevents"
-msgstr ""
+msgstr "%s evita"
 
 #: tools/ruledit/validity.c:50 tools/ruledit/validity.c:361
 msgid "Effect"
 msgstr "Efecte"
 
 #: tools/ruledit/validity.c:132
-#, fuzzy, c-format
-#| msgid "Action Enabler"
+#, c-format
 msgid "%s action enabler"
-msgstr "Habilitador d'Accions"
+msgstr "%s facilitador d'accions"
 
 #: tools/ruledit/validity.c:154
 msgid "Music Style"
@@ -800,15 +745,26 @@ msgstr "Estil Musical"
 #: tools/ruledit/validity.c:167
 #, c-format
 msgid "%s clause"
-msgstr ""
+msgstr "Clàusula %s"
 
 #: tools/ruledit/validity.c:292
 msgid "Conflicting extra"
-msgstr ""
+msgstr "Extra en conflicte"
 
 #: tools/ruledit/validity.c:295
 msgid "Hidden extra"
-msgstr ""
+msgstr "Extra amagat"
+
+#~ msgid "Failed to load comments.txt"
+#~ msgstr "No s'ha pogut carregar comments.txt"
+
+#, c-format
+#~ msgid ""
+#~ "%s%s\n"
+#~ "commit: %s"
+#~ msgstr ""
+#~ "%s%s\n"
+#~ "validar: %s"
 
 #~ msgid "Edit Unit"
 #~ msgstr "Editar Unitat"
