@@ -22,7 +22,7 @@
 #define GUI_GTK_OPTION_STR(optname) "gui_gtk4_" #optname
 #define GUI_GTK_DEFAULT_THEME_NAME FC_GTK4_DEFAULT_THEME_NAME
 
-/* network string charset conversion */
+/* Network string charset conversion */
 gchar *ntoh_str(const gchar *netstr);
 
 extern PangoFontDescription *city_names_style;
@@ -85,4 +85,6 @@ gboolean fc_lost_focus(GtkEventControllerFocus *controller,
 gboolean fc_gained_focus(GtkEventControllerFocus *controller,
                          gpointer data);
 
-#endif  /* FC__GUI_MAIN_H */
+void update_turn_done_tooltip(void);
+
+#endif /* FC__GUI_MAIN_H */

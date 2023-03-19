@@ -1090,8 +1090,8 @@ void qtg_update_timeout_label(void)
 
 /**********************************************************************//**
   If do_restore is false it should change the turn button style (to
-  draw the user's attention to it).  If called regularly from a timer
-  this will give a blinking turn done button.  If do_restore is true
+  draw the user's attention to it). If called regularly from a timer
+  this will give a blinking turn done button. If do_restore is true
   this should reset the turn done button to the default style.
 **************************************************************************/
 void update_turn_done_button(bool do_restore)
@@ -1100,7 +1100,6 @@ void update_turn_done_button(bool do_restore)
     return;
   }
   side_blink_endturn(do_restore);
-
 }
 
 

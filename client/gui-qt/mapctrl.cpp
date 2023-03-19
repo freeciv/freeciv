@@ -41,12 +41,13 @@
 #include "shortcuts.h"
 
 extern void side_disable_endturn(bool do_restore);
+extern void update_turn_done_tooltip(void);
 extern void qload_lua_script();
 extern void qreload_lua_script();
 extern "C" int city_buy_production(struct city *pcity);
 
 /**********************************************************************//**
-  Popup a dialog to ask for the name of a new city.  The given string
+  Popup a dialog to ask for the name of a new city. The given string
   should be used as a suggestion.
 **************************************************************************/
 void popup_newcity_dialog(struct unit *punit, const char *suggestname)
@@ -74,12 +75,14 @@ void popup_newcity_dialog(struct unit *punit, const char *suggestname)
 }
 
 /**********************************************************************//**
-  A turn done button should be provided for the player.  This function
+  A turn done button should be provided for the player. This function
   is called to toggle it between active/inactive.
 **************************************************************************/
 void set_turn_done_button_state(bool state)
 {
   side_disable_endturn(state);
+
+  update_turn_done_tooltip();
 }
 
 /**********************************************************************//**
