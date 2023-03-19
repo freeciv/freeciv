@@ -20,6 +20,11 @@ option('cacert-path',
        value: '',
        description: 'Custom path to CA cert bundle')
 
+option('followtag',
+       type: 'string',
+       value: '',
+       description: 'Custom followtag')
+
 option('json-protocol',
        type: 'boolean',
        value: false,

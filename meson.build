@@ -516,6 +516,11 @@ if get_option('cacert-path') != ''
                      '"' + get_option('cacert-path') + '"')
 endif
 
+if get_option('followtag') != ''
+  pub_conf_data.set('FOLLOWTAG',
+                    '"' + get_option('followtag') + '"')
+endif
+
 potential_size_t_formats = [ '%zu', '%ld', '%lld', '%I64d', '%I32d' ]
 
 foreach format : potential_size_t_formats
