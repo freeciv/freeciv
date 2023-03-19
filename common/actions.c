@@ -4161,6 +4161,9 @@ is_action_possible(const action_id wanted_action,
   case ACTRES_HEAL_UNIT:
     /* Reason: It is not the healthy who need a doctor, but the sick. */
     /* Info leak: the actor can see the target's HP. */
+    if (!can_see_tgt_unit) {
+      return TRI_MAYBE;
+    }
     if (!(target->unit->hp < target->unittype->hp)) {
       return TRI_NO;
     }
