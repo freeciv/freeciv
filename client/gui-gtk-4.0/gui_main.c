@@ -987,6 +987,25 @@ bool terminate_signal_processing(void)
 }
 
 /**********************************************************************//**
+  Update tooltip of the Turn Done button
+**************************************************************************/
+void update_turn_done_tooltip(void)
+{
+  struct option *opt = optset_option_by_name(server_optset, "fixedlength");
+
+  if (opt != NULL && option_bool_get(opt)) {
+    gtk_widget_set_tooltip_text(turn_done_button,
+                                _("Fixed length turns"));
+  } else {
+    char buf[256];
+
+    fc_snprintf(buf, sizeof(buf), "%s:\n%s",
+                _("Turn Done"), _("Shift+Return"));
+    gtk_widget_set_tooltip_text(turn_done_button, buf);
+  }
+}
+
+/**********************************************************************//**
   Do the heavy lifting for the widget setup.
 **************************************************************************/
 static void setup_widgets(void)
@@ -995,7 +1014,6 @@ static void setup_widgets(void)
   GtkWidget *frame, *table, *table2, *paned, *sw, *text;
   GtkWidget *button, *view, *vgrid, *vbox, *right_vbox = NULL;
   int i;
-  char buf[256];
   GtkWidget *notebook, *statusbar;
   GtkWidget *dtach_lowbox = NULL;
   struct sprite *spr;
@@ -1043,7 +1061,7 @@ static void setup_widgets(void)
   gtk_widget_set_margin_start(ingame_votebar, 2);
   gtk_widget_set_margin_top(ingame_votebar, 2);
 
-  /* *** everything in the top *** */
+  /* *** Everything in the top *** */
 
   page = gtk_scrolled_window_new();
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(page),
@@ -1098,7 +1116,7 @@ static void setup_widgets(void)
                           GTK_POS_LEFT, 1, 1);
   grid_col++;
 
-  /* overview canvas */
+  /* Overview canvas */
   ahbox = detached_widget_new();
   gtk_widget_set_hexpand(ahbox, FALSE);
   gtk_widget_set_vexpand(ahbox, FALSE);
@@ -1111,15 +1129,15 @@ static void setup_widgets(void)
   gtk_widget_set_margin_top(overview_scrolled_window, 1);
   gtk_widget_set_margin_bottom(overview_scrolled_window, 1);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW (overview_scrolled_window),
-                                    GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+                                 GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 
   overview_canvas = gtk_drawing_area_new();
   gtk_widget_set_halign(overview_canvas, GTK_ALIGN_CENTER);
   gtk_widget_set_valign(overview_canvas, GTK_ALIGN_CENTER);
   gtk_widget_set_size_request(overview_canvas, overview_canvas_store_width,
-		              overview_canvas_store_height);
+                              overview_canvas_store_height);
   gtk_widget_set_size_request(overview_scrolled_window, overview_canvas_store_width,
-		              overview_canvas_store_height);
+                              overview_canvas_store_height);
   gtk_widget_set_hexpand(overview_canvas, TRUE);
   gtk_widget_set_vexpand(overview_canvas, TRUE);
 
@@ -1189,7 +1207,7 @@ static void setup_widgets(void)
   gtk_grid_set_column_homogeneous(GTK_GRID(table), TRUE);
   gtk_box_append(GTK_BOX(avbox), table);
 
-  /* citizens for taxrates */
+  /* Citizens for taxrates */
   table2 = gtk_grid_new();
   gtk_grid_attach(GTK_GRID(table), table2, 0, 0, 10, 1);
   econ_widget = table2;
@@ -1208,7 +1226,7 @@ static void setup_widgets(void)
     gtk_grid_attach(GTK_GRID(table2), econ_label[i], i, 0, 1, 1);
   }
 
-  /* science, environmental, govt, timeout */
+  /* Science, environmental, govt, timeout */
   spr = client_research_sprite();
   if (spr != NULL) {
     bulb_label = picture_new_from_surface(spr->surface);
@@ -1272,17 +1290,14 @@ static void setup_widgets(void)
   gtk_frame_set_child(GTK_FRAME(frame), timeout_label);
 
 
-  /* turn done */
+  /* Turn done */
   turn_done_button = gtk_button_new_with_label(_("Turn Done"));
 
   gtk_grid_attach(GTK_GRID(table), turn_done_button, 0, 2, 10, 1);
 
   g_signal_connect(turn_done_button, "clicked",
                    G_CALLBACK(end_turn_callback), NULL);
-
-  fc_snprintf(buf, sizeof(buf), "%s:\n%s",
-              _("Turn Done"), _("Shift+Return"));
-  gtk_widget_set_tooltip_text(turn_done_button, buf);
+  update_turn_done_tooltip();
 
   /* Selected unit status */
 

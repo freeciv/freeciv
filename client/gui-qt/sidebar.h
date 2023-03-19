@@ -32,6 +32,7 @@ typedef void (*pfcn_bool)(bool);
 typedef void (*pfcn)(void);
 
 void side_blink_endturn(bool do_restore);
+void update_turn_done_tooltip();
 void side_center_unit();
 void side_disable_endturn(bool do_restore);
 void side_finish_turn(bool nothing);
@@ -52,7 +53,7 @@ public:
                  int type = SW_STD);
   ~fc_sidewidget();
   int get_priority();
-  QPixmap* get_pixmap();
+  QPixmap *get_pixmap();
   void paint(QPainter *painter, QPaintEvent *event);
   void resize_pixmap(int width, int height);
   void set_custom_labels(QString l);
