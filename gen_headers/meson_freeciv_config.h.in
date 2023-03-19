@@ -27,6 +27,9 @@
 /* Is this freeciv-web instead of regular build */
 #mesondefine FREECIV_WEB
 
+/* Version tag to follow */
+#mesondefine FOLLOWTAG
+
 /* nullptr available at C */
 #mesondefine FREECIV_HAVE_C23_NULLPTR
 
