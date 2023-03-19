@@ -358,7 +358,7 @@ void qtg_real_focus_units_changed(void)
 }
 
 /**********************************************************************//**
-  Enqueue a callback to be called during an idle moment.  The 'callback'
+  Enqueue a callback to be called during an idle moment. The 'callback'
   function should be called sometimes soon, and passed the 'data' pointer
   as its data.
 **************************************************************************/

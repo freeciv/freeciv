@@ -652,6 +652,24 @@ void side_center_unit()
   request_center_focus_unit();
 }
 
+/**********************************************************************//**
+  Update tooltip of the Turn Done button
+**************************************************************************/
+void update_turn_done_tooltip()
+{
+  struct option *opt = optset_option_by_name(server_optset, "fixedlength");
+
+  if (opt != NULL && option_bool_get(opt)) {
+    gui()->sw_endturn->setToolTip(_("Fixed length turns"));
+  } else {
+    char buf[256];
+
+    fc_snprintf(buf, sizeof(buf), "%s:\n%s",
+                _("Turn Done"), _("Shift+Return"));
+    gui()->sw_endturn->setToolTip(buf);
+  }
+}
+
 /***********************************************************************//**
   Disables end turn button if asked
 ***************************************************************************/
@@ -660,6 +678,7 @@ void side_disable_endturn(bool do_restore)
   if (gui()->current_page() != PAGE_GAME) {
     return;
   }
+
   gui()->sw_endturn->disabled = !do_restore;
   gui()->sw_endturn->update_final_pixmap();
 }
