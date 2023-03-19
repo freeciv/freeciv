@@ -758,7 +758,7 @@ const char *mapimg_error(void)
 }
 
 /************************************************************************//**
-  Define on map image.
+  Define a map image.
 ****************************************************************************/
 #define NUM_MAX_MAPARGS 10
 #define NUM_MAX_MAPOPTS 2
