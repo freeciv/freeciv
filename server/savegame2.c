@@ -3816,7 +3816,6 @@ static bool sg_load_player_unit(struct loaddata *loading,
                                 struct player *plr, struct unit *punit,
                                 const char *unitstr)
 {
-  int j;
   enum unit_activity activity;
   int nat_x, nat_y;
   enum tile_special_type target;
@@ -4262,10 +4261,11 @@ static bool sg_load_player_unit(struct loaddata *loading,
     punit->action_decision_tile = NULL;
   }
 
-  /* load the unit orders */
+  /* Load the unit orders */
   {
     int len = secfile_lookup_int_default(loading->file, 0,
                                          "%s.orders_length", unitstr);
+
     if (len > 0) {
       const char *orders_unitstr, *dir_unitstr, *act_unitstr;
       const char *tgt_unitstr;
@@ -4273,6 +4273,7 @@ static bool sg_load_player_unit(struct loaddata *loading,
       const char *road_unitstr = NULL;
       int road_idx = road_number(road_by_compat_special(ROCO_ROAD));
       int rail_idx = road_number(road_by_compat_special(ROCO_RAILROAD));
+      int j;
 
       punit->orders.list = fc_malloc(len * sizeof(*(punit->orders.list)));
       punit->orders.length = len;
@@ -4306,6 +4307,7 @@ static bool sg_load_player_unit(struct loaddata *loading,
       }
 
       punit->has_orders = TRUE;
+
       for (j = 0; j < len; j++) {
         struct unit_order *order = &punit->orders.list[j];
 

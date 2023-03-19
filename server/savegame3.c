@@ -373,6 +373,7 @@ static void sg_load_player_units(struct loaddata *loading,
                                  struct player *plr);
 static bool sg_load_player_unit(struct loaddata *loading,
                                 struct player *plr, struct unit *punit,
+                                int orders_max_length,
                                 const char *unitstr);
 static void sg_load_player_units_transport(struct loaddata *loading,
                                            struct player *plr);
@@ -5200,6 +5201,7 @@ static void sg_load_player_units(struct loaddata *loading,
                                  struct player *plr)
 {
   int nunits, i, plrno = player_number(plr);
+  size_t orders_max_length;
 
   /* Check status and return if not OK (sg_success FALSE). */
   sg_check_ret();
@@ -5210,6 +5212,16 @@ static void sg_load_player_units(struct loaddata *loading,
   if (!plr->is_alive && nunits > 0) {
     log_sg("'player%d.nunits' = %d for dead player!", plrno, nunits);
     nunits = 0; /* Some old savegames may be buggy. */
+  }
+
+  orders_max_length = 0;
+
+  for (i = 0; i < nunits; i++) {
+    int ol_length = secfile_lookup_int_default(loading->file, 0,
+                                               "player%d.u%d.orders_length",
+                                               plrno, i);
+
+    orders_max_length = MAX(orders_max_length, ol_length);
   }
 
   for (i = 0; i < nunits; i++) {
@@ -5228,7 +5240,7 @@ static void sg_load_player_units(struct loaddata *loading,
 
     /* Create a dummy unit. */
     punit = unit_virtual_create(plr, NULL, type, 0);
-    if (!sg_load_player_unit(loading, plr, punit, buf)) {
+    if (!sg_load_player_unit(loading, plr, punit, orders_max_length, buf)) {
       unit_virtual_destroy(punit);
       sg_failure_ret(FALSE, "Error loading unit %d of player %d.", i, plrno);
     }
@@ -5269,9 +5281,9 @@ static void sg_load_player_units(struct loaddata *loading,
 ****************************************************************************/
 static bool sg_load_player_unit(struct loaddata *loading,
                                 struct player *plr, struct unit *punit,
+                                int orders_max_length,
                                 const char *unitstr)
 {
-  int j;
   enum unit_activity activity;
   int nat_x, nat_y;
   struct extra_type *pextra = NULL;
@@ -5532,13 +5544,15 @@ static bool sg_load_player_unit(struct loaddata *loading,
 
   punit->stay = secfile_lookup_bool_default(loading->file, FALSE, "%s.stay", unitstr);
 
-  /* load the unit orders */
+  /* Load the unit orders */
   {
     int len = secfile_lookup_int_default(loading->file, 0,
                                          "%s.orders_length", unitstr);
+
     if (len > 0) {
       const char *orders_unitstr, *dir_unitstr, *act_unitstr;
       const char *action_unitstr;
+      int j;
 
       punit->orders.list = fc_malloc(len * sizeof(*(punit->orders.list)));
       punit->orders.length = len;
@@ -5566,6 +5580,7 @@ static bool sg_load_player_unit(struct loaddata *loading,
                                      "%s.action_list", unitstr);
 
       punit->has_orders = TRUE;
+
       for (j = 0; j < len; j++) {
         struct unit_order *order = &punit->orders.list[j];
         int order_sub_tgt;
@@ -5734,7 +5749,14 @@ static bool sg_load_player_unit(struct loaddata *loading,
           }
         }
       }
+
+      for (; j < orders_max_length; j++) {
+        (void) secfile_entry_lookup(loading->file,
+                                    "%s.sub_tgt_vec,%d", unitstr, j);
+      }
     } else {
+      int j;
+
       punit->has_orders = FALSE;
       punit->orders.list = NULL;
 
@@ -5745,6 +5767,11 @@ static bool sg_load_player_unit(struct loaddata *loading,
       (void) secfile_entry_lookup(loading->file, "%s.dir_list", unitstr);
       (void) secfile_entry_lookup(loading->file, "%s.activity_list", unitstr);
       (void) secfile_entry_lookup(loading->file, "%s.sub_tgt_vec", unitstr);
+
+      for (j = 1; j < orders_max_length; j++) {
+        (void) secfile_entry_lookup(loading->file,
+                                    "%s.sub_tgt_vec,%d", unitstr, j);
+      }
     }
   }
 
@@ -5813,12 +5840,13 @@ static void sg_save_player_units(struct savedata *saving,
 {
   int i = 0;
   int longest_order = 0;
+  int plrno = player_number(plr);
 
   /* Check status and return if not OK (sg_success FALSE). */
   sg_check_ret();
 
   secfile_insert_int(saving->file, unit_list_size(plr->units),
-                     "player%d.nunits", player_number(plr));
+                     "player%d.nunits", plrno);
 
   /* Find the longest unit order so different order length won't break
    * storing units in the tabular format. */
@@ -5836,7 +5864,7 @@ static void sg_save_player_units(struct savedata *saving,
     int nat_x, nat_y;
     int last_order, j;
 
-    fc_snprintf(buf, sizeof(buf), "player%d.u%d", player_number(plr), i);
+    fc_snprintf(buf, sizeof(buf), "player%d.u%d", plrno, i);
     dirbuf[0] = dir2char(punit->facing);
     secfile_insert_int(saving->file, punit->id, "%s.id", buf);
 
