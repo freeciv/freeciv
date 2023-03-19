@@ -2281,16 +2281,17 @@ static void compat_load_030200(struct loaddata *loading,
   {
     player_slots_iterate(pslot) {
       int plrno = player_slot_index(pslot);
-      int ncities;
-      int cnro;
-      int wlist_max_length = 0;
+      int ncities, nunits;
+      int cnro, unro;
+      size_t wlist_max_length = 0;
+      size_t olist_max_length = 0;
 
       if (secfile_section_lookup(loading->file, "player%d", plrno) == NULL) {
         continue;
       }
 
       ncities = secfile_lookup_int_default(loading->file, 0,
-                                               "player%d.ncities", plrno);
+                                           "player%d.ncities", plrno);
 
       for (cnro = 0; cnro < ncities; cnro++) {
         int wl_length = secfile_lookup_int_default(loading->file, 0,
@@ -2302,6 +2303,20 @@ static void compat_load_030200(struct loaddata *loading,
 
       secfile_insert_int(loading->file, wlist_max_length,
                          "player%d.wl_max_length", plrno);
+
+      nunits = secfile_lookup_int_default(loading->file, 0,
+                                          "player%d.nunits", plrno);
+
+      for (unro = 0; unro < nunits; unro++) {
+        int ol_length = secfile_lookup_int_default(loading->file, 0,
+                                                   "player%d.u%d.orders_length",
+                                                   plrno, unro);
+
+        olist_max_length = MAX(olist_max_length, ol_length);
+      }
+
+      secfile_insert_int(loading->file, olist_max_length,
+                         "player%d.orders_max_length", plrno);
 
       if (format_class == SAVEGAME_3) {
         secfile_insert_int(loading->file, MAX_TRADE_ROUTES_OLD,
@@ -2869,6 +2884,37 @@ static void compat_load_dev(struct loaddata *loading)
         secfile_insert_str(loading->file, "old savegame3, or older",
                            "savefile.orig_version");
       }
+    }
+
+    /* Add orders_max_length entries for players */
+    {
+      player_slots_iterate(pslot) {
+        int plrno = player_slot_index(pslot);
+
+        if (secfile_section_lookup(loading->file, "player%d", plrno) != NULL
+            && secfile_entry_lookup(loading->file,
+                                    "player%d.orders_max_length", plrno)
+            == NULL) {
+          size_t nunits;
+          int unro;
+          size_t olist_max_length = 0;
+
+          nunits = secfile_lookup_int_default(loading->file, 0,
+                                              "player%d.nunits", plrno);
+
+          for (unro = 0; unro < nunits; unro++) {
+            int ol_length
+              = secfile_lookup_int_default(loading->file, 0,
+                                           "player%d.u%d.orders_length",
+                                           plrno, unro);
+
+            olist_max_length = MAX(olist_max_length, ol_length);
+          }
+
+          secfile_insert_int(loading->file, olist_max_length,
+                             "player%d.orders_max_length", plrno);
+        }
+      } player_slots_iterate_end;
     }
 
   } /* Version < 3.2.91 */
