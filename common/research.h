@@ -76,7 +76,7 @@ struct research {
     bool root_reqs_known;
     bv_techs required_techs;
     int num_required_techs, bulbs_required, bulbs_researched_saved;
-  } inventions[A_LAST];
+  } inventions[A_ARRAY_SIZE];
 
   /* Tech goal (similar to worklists; when one tech is researched the next
    * tech toward the goal will be chosen).  May be A_NONE. */
