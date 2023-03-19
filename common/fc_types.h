@@ -597,7 +597,7 @@ const char *ai_level_name_update_cb(const char *old);
 #define SPECENUM_COUNT USP_COUNT
 #include "specenum_gen.h"
 
-/* Changing these values will break map_init_topology.
+/* Changing these values will break map_init_topology().
  * Changing the names will break file format compatibility. */
 #define SPECENUM_NAME topo_flag
 #define SPECENUM_BITWISE
@@ -618,6 +618,7 @@ const char *ai_level_name_update_cb(const char *old);
 #define SPECENUM_VALUE0NAME N_("WrapX")
 #define SPECENUM_VALUE1 WRAP_Y
 #define SPECENUM_VALUE1NAME N_("WrapY")
+#define WRAP_FLAG_BITS  2
 #include "specenum_gen.h"
 
 /* Used in the network protocol. */
@@ -734,6 +735,7 @@ typedef union {
   int latitude;
 
   enum topo_flag topo_property;
+  enum wrap_flag wrap_property;
   ssetv ssetval;
 } universals_u;
 
@@ -853,6 +855,8 @@ typedef union {
 #define SPECENUM_VALUE52NAME "OriginalOwner"
 #define SPECENUM_VALUE53 VUT_IMPR_FLAG
 #define SPECENUM_VALUE53NAME "BuildingFlag"
+#define SPECENUM_VALUE54 VUT_WRAP
+#define SPECENUM_VALUE54NAME "Wrap"
 
 /* Keep this last. */
 #define SPECENUM_COUNT VUT_COUNT

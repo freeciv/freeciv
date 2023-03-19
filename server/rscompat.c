@@ -535,6 +535,13 @@ void rscompat_req_adjust_3_2(const struct rscompat_info *compat,
         }
       }
     }
+
+    /* Former Topology values WrapX and WrapY now Wrap values. */
+    if (!fc_strcasecmp(universals_n_name(VUT_TOPO), *ptype)
+        && (!fc_strcasecmp("WrapX", *pname)
+            || !fc_strcasecmp("WrapY", *pname))) {
+      *ptype = universals_n_name(VUT_WRAP);
+    }
   }
 }
 

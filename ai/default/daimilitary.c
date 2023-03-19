@@ -426,6 +426,7 @@ tactical_req_cb(const struct req_context *context,
   case VUT_CITYTILE:
   case VUT_STYLE:
   case VUT_TOPO:
+  case VUT_WRAP:
   case VUT_SERVERSETTING:
   case VUT_NATION:
   case VUT_NATIONGROUP:
