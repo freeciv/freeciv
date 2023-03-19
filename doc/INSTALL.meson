@@ -113,6 +113,11 @@ cacert-path (string):
   This affects mostly downloading custom modpacks with modpack installer from
   an 'https' URL.
 
+followtag (string):
+  Custom followtag name. If this is empty, default follow tag is used.
+  That's the version tag that the client checks from the metaserver to
+  see if there's newer freeciv versions of the kind available.
+
 json-protocol (boolean):
   Build json-protocol support in. Json-protocol is an alternative to the default
   raw-protocol between freeciv server and client.
